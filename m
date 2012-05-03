@@ -1,41 +1,46 @@
 Received: from mail-we0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1SPp1m-0006hO-EC
+	(envelope-from <koen@dominion.thruhere.net>) id 1SPqXy-0002Ni-8d
 	for openembedded-core@lists.openembedded.org;
-	Thu, 03 May 2012 07:56:34 +0200
-Received: by wera1 with SMTP id a1so995150wer.6
+	Thu, 03 May 2012 09:33:54 +0200
+Received: by wera1 with SMTP id a1so1037929wer.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 02 May 2012 22:46:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=lf5187TCu+lFARJLGu7kNKvBm0bnyJMAn4jO26nlNJQ=;
-	b=mt35Us4JEsYj8m4kKkNYY9IYAYBrbFHQB8gWQSh35okMNAiLrCZgbWclF7jBocxLKs
-	/dmJY8GMk6yznS1z95LKcD3A3kbDX45RxbkxLrO1piX6vV1K5T8mXoC/aS6r49ak2Y0P
-	cXzMRWztkJI7fRXvjGjOQ90ywlUmQyIoXxp2NCEXL2KR7w44UwGQCWhz4jRJiFl/ynr2
-	gfqNTU3eK0z2HNiBptbfKbEbnWmFkWr85WQbdlqqRqh4ZfBB7Al4Uk50SvZuO175Ule6
-	zFevbQOCG+uVwf1xLwsZ7+C4gM0UGQMMMSP8oAnLqYsuzdtzkA+EbVvoQmChjNeYIS5s
-	3qiw==
-Received: by 10.180.91.10 with SMTP id ca10mr4997316wib.17.1336024009511;
-	Wed, 02 May 2012 22:46:49 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id ff9sm49281525wib.2.2012.05.02.22.46.46
+	Thu, 03 May 2012 00:24:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=subject:mime-version:content-type:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to:x-mailer
+	:x-gm-message-state;
+	bh=Ou01DGJ9cA7I8u3hwtc9LD5p0LZENcYlIPIZFd+l+YY=;
+	b=gM+5KdfskQFQVcBlyuTzSbIeTWojtCG1yuDkH5YwbldL5MMDWFtx4pIygeG+gXZobi
+	ZZhVyFxZB9pkr8tQ3YH0TH228/mAel4rbb8FwjlPGpKVZDwgq9UFtnDpQGimNSrDztAG
+	mN9i6gq+LkxcOA4APeOGy+nIV+5ZinQEDQAeDICrovahLdDs9eIHrmcrosDcRJTMU+J0
+	8w56cWEBDlIkUWC5YUXtPQiiWywGgPh5j/iLBSdel2LDW4juPc3/Im1ccL8qMrM1QIou
+	/avljU9QLgboKTqSHW95ndrUs+w0nkjw5M14THmHGoxVzjeCaY4gy5d+86etBeQt2CYc
+	BpBw==
+Received: by 10.180.81.37 with SMTP id w5mr449758wix.16.1336029849057;
+	Thu, 03 May 2012 00:24:09 -0700 (PDT)
+Received: from [172.20.1.36] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id fn2sm799709wib.0.2012.05.03.00.24.07
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 02 May 2012 22:46:48 -0700 (PDT)
-Date: Thu, 3 May 2012 07:46:49 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Patches and discussions about the oe-core layer
+	Thu, 03 May 2012 00:24:07 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1257)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <4FA1A928.20309@windriver.com>
+Date: Thu, 3 May 2012 09:22:45 +0200
+Message-Id: <0AD9669E-F619-404D-A636-368B89234428@dominion.thruhere.net>
+References: <1335968616-2436-1-git-send-email-jason.wessel@windriver.com>
+	<DE7E5733-CC28-46DD-A4BC-C1AA663F925B@dominion.thruhere.net>
+	<4FA145AD.4070606@windriver.com>
+	<965C6250-6D1E-438E-8207-1E1D9DAF398A@dominion.thruhere.net>
+	<4FA1A928.20309@windriver.com>
+To: Jason Wessel <jason.wessel@windriver.com>
+X-Mailer: Apple Mail (2.1257)
+X-Gm-Message-State: ALoCoQkAEkNNL/wkVaE4ZQiBmzEK+U81p4SNdFLGOteJkXUuu7/+tlmQK3UdPuUg77ebRsa21PjV
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Message-ID: <20120503054649.GD4658@jama.jama.net>
-References: <cover.1335967122.git.Martin.Jansa@gmail.com>
-	<eec6dc7f29ff7e5297e2827196cc81ffd9a76831.1335967122.git.Martin.Jansa@gmail.com>
-	<20120502140940.GB3682@jama.jama.net> <4FA1A25F.9030502@gmail.com>
-	<20120503053806.GC4658@jama.jama.net>
-	<CAMKF1so4ut2C8xKXqSV9KXG1pYN9bqqbDCXFYiyR0L+x_rHJbg@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAMKF1so4ut2C8xKXqSV9KXG1pYN9bqqbDCXFYiyR0L+x_rHJbg@mail.gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: [PATCH 1/2] site/arm-common: alignment values for guin32, guin64 and unsigned long
+Subject: Re: [PATCH] qemu-native: depend on unfs-server-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,125 +55,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 May 2012 05:56:34 -0000
-X-Groupsio-MsgNum: 21554
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="2Z2K0IlrPCVsbNpk"
-Content-Disposition: inline
-
---2Z2K0IlrPCVsbNpk
+X-List-Received-Date: Thu, 03 May 2012 07:33:54 -0000
 Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, May 02, 2012 at 10:44:05PM -0700, Khem Raj wrote:
-> On Wed, May 2, 2012 at 10:38 PM, Martin Jansa <martin.jansa@gmail.com> wr=
-ote:
-> > On Wed, May 02, 2012 at 02:08:47PM -0700, Khem Raj wrote:
-> >> -----BEGIN PGP SIGNED MESSAGE-----
-> >> Hash: SHA1
-> >>
-> >> On 05/02/2012 07:09 AM, Martin Jansa wrote:
-> >> > On Wed, May 02, 2012 at 03:59:45PM +0200, Martin Jansa wrote:
-> >> >> From: Tomas Frydrych <tomas@sleepfive.com>
-> >> >>
-> >> >> These are required to build recent versions of glib-2.0
-> >> >
-> >> > similar patch is needed also for other site files, just noticed it
-> >> > while building for qemux86-64
-> >>
-> >> would you also include rest of architectures too please ?
-> >
-> > I did for x86 and x86-64, for the rest I don't know the right values or
-> > care enough to find them somewhere.
+
+Op 2 mei 2012, om 23:37 heeft Jason Wessel het volgende geschreven:
+
+> On 05/02/2012 09:44 AM, Koen Kooi wrote:
+>> Op 2 mei 2012, om 16:33 heeft Jason Wessel het volgende geschreven:
+>>=20
+>>> On 05/02/2012 09:29 AM, Koen Kooi wrote:
+>>>> Op 2 mei 2012, om 16:23 heeft Jason Wessel het volgende geschreven:
+>>>>=20
+>>>>> The user mode NFS server does not get built by default when you =
+are
+>>>>> using a purely command line driven development environment without =
+SDK
+>>>>> tools.  In order to accommodate simple test configurations and =
+have
+>>>>> all the tools built for the minimal validation with qemu-native,
+>>>>> simply add the dependency to unfs-server-native.
+>>>> So all images I build for e.g. qemux86 now have an nfs-server? Can =
+we please move settings like that to the specific images?
+>>>>=20
+>>> This is part of the simulation environment.  Not all of the run qemu =
+functionality works correctly without this.
+>> I repeat:  Can we please move settings like that to the specific =
+images?
+>>=20
+>> I don't need nor want nfs servers in the images I build for qemu. And =
+they work just fine without it.
 >=20
-> will this upgrade break glib for architectures that have wrong values
-> for these vars ?
-> if answer is yes then I think we should do that before applying this
-> upgrade otherwise
-> it will be a regression
+> Are you advocating that you really want to make the system harder to =
+use where somethings just do not work out of the box for no obvious =
+reason?
 
-glib-2.32.1 will build there fine, but glib-2.32.2 will fail during
-do_configure, so yes someone should add those.
+I'm advocating doing it the right way, if you want to throw a hissy fit =
+over that, so be it.
 
-Cheers,
-
+>  I realize that for your particular use case everything works fine, or =
+you would be submitting patches to fix it.
 >=20
-> >
-> > Cheers,
-> >
-> >>
-> >> >
-> >> >>
-> >> >> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com> ---
-> >> >> meta/site/arm-common | =A0 =A03 +++ 1 files changed, 3 insertions(+=
-),
-> >> >> 0 deletions(-)
-> >> >>
-> >> >> diff --git a/meta/site/arm-common b/meta/site/arm-common index
-> >> >> c3ffe08..cad8027 100644 --- a/meta/site/arm-common +++
-> >> >> b/meta/site/arm-common @@ -76,6 +76,9 @@
-> >> >> glib_cv_sizeof_ptrdiff_t=3D${glib_cv_sizeof_ptrdiff_t=3D4}
-> >> >> glib_cv_sizeof_size_t=3D${glib_cv_sizeof_size_t=3D4}
-> >> >> glib_cv_sizeof_system_thread=3D${glib_cv_sizeof_system_thread=3D4}
-> >> >> glib_cv_sys_use_pid_niceness_surrogate=3D${glib_cv_sys_use_pid_nice=
-ness_surrogate=3Dyes}
-> >> >>
-> >> >>
-> >> +ac_cv_alignof_guint32=3D4
-> >> >> +ac_cv_alignof_guint64=3D8 +ac_cv_alignof_unsigned_long=3D4
-> >> >>
-> >> >> #gstreamer as_cv_unaligned_access=3D${as_cv_unaligned_access=3Dno} =
---
-> >> >> =A01.7.8.6
-> >> >>
-> >> >
-> >> >
-> >> >
-> >> > _______________________________________________ Openembedded-core
-> >> > mailing list Openembedded-core@lists.openembedded.org
-> >> > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-> >> -----BEGIN PGP SIGNATURE-----
-> >> Version: GnuPG v1.4.11 (GNU/Linux)
-> >> Comment: Using GnuPG with Mozilla - http://enigmail.mozdev.org/
-> >>
-> >> iEYEARECAAYFAk+hol8ACgkQuwUzVZGdMxQEkgCfZY5mVAR5RxST2olpH41m6V+d
-> >> iQwAnRBaSrzbM/RGWmb8cZJjXwMAg6KJ
-> >> =3DtUvc
-> >> -----END PGP SIGNATURE-----
-> >>
-> >> _______________________________________________
-> >> Openembedded-core mailing list
-> >> Openembedded-core@lists.openembedded.org
-> >> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-> >
-> > --
-> > Martin 'JaMa' Jansa =A0 =A0 jabber: Martin.Jansa@gmail.com
-> >
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-> >
+> The qemux86 appears to be a very generic BSP aimed at having an easy =
+to use simulation environment.  If you build a minimal image it would =
+seem that it should work for all the the runqemu boot methods out of the =
+box with no additional steps.
+
+So add the dependencies to run the images to the images themselves.
+
+> If your BSP has no simulator, you will not be building QEMU and in =
+theory, this is not an issue.
 >=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+> Example of what happens today:
+>=20
+> 1) . ../oe-init-build-env
+> 2) bitbake core-image-minimal
+> 3) runqemu-extract-sdk =
+tmp/deploy/images/core-image-minimal-qemux86.tar.bz2 nfs
+> 4) runqemu qemux86 nographic `pwd`/nfs
+> --- And now the error ---
+> Error: Unable to find rpc.mountd binary in =
+/opt/poky/scratch/build/tmp/sysroots/x86_64-linux/usr/sbin/
+> --------------------------------
+>=20
+>=20
+> If you are in absolute disagreement with this patch,
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+I am.
 
---2Z2K0IlrPCVsbNpk
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+> please suggest a way to accomplish the same thing with the same number =
+of steps or fewer.
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
+Move the IMAGE_DEPENDS to the images themselves.=
 
-iEYEARECAAYFAk+iG8kACgkQN1Ujt2V2gBwi2gCgs2YLkiI1PUKJQ0yKnSmUcL2b
-BhkAn2edl0EcHdoyj+bjb5jJnZfnWo15
-=iWAk
------END PGP SIGNATURE-----
 
---2Z2K0IlrPCVsbNpk--
