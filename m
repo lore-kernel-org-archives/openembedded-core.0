@@ -1,24 +1,24 @@
 Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SPlQf-0006gj-4n
+	(envelope-from <sgw@linux.intel.com>) id 1SPlQh-0006go-IW
 	for openembedded-core@lists.openembedded.org;
-	Thu, 03 May 2012 04:06:02 +0200
+	Thu, 03 May 2012 04:06:03 +0200
 Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 02 May 2012 18:56:09 -0700
+	by azsmga102.ch.intel.com with ESMTP; 02 May 2012 18:56:11 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="95772218"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="95772226"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.179])
-	by AZSMGA002.ch.intel.com with ESMTP; 02 May 2012 18:56:09 -0700
+	by AZSMGA002.ch.intel.com with ESMTP; 02 May 2012 18:56:10 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  2 May 2012 18:55:48 -0700
-Message-Id: <ee772a84fe5bed0e376674b479d1688c69deef06.1336008687.git.sgw@linux.intel.com>
+Date: Wed,  2 May 2012 18:55:52 -0700
+Message-Id: <b0bb9664c303af01fb0724f7d8635ea43f8e8cb9.1336008687.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <cover.1336008687.git.sgw@linux.intel.com>
 References: <cover.1336008687.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1336008687.git.sgw@linux.intel.com>
 References: <cover.1336008687.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 29/36] util-linux: Update to 2.21.1
+Subject: [CONSOLIDATED PULL 33/36] xauth: Update to 1.0.7
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,105 +33,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 May 2012 02:06:03 -0000
+X-List-Received-Date: Thu, 03 May 2012 02:06:04 -0000
 
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- .../{util-linux-2.21 => util-linux}/MCONFIG        |    0
- .../{util-linux-2.21 => util-linux}/defines.h      |    0
- .../fix_NL_TIME_FIRST_WEEKDAY.patch                |    0
- .../{util-linux-2.21 => util-linux}/make_include   |    0
- .../remove-lscpu.patch                             |    0
- .../remove_sigsetmark.patch                        |    0
- .../{util-linux-2.21 => util-linux}/swapargs.h     |    0
- .../uclibc-__progname-conflict.patch               |    0
- .../uclibc-compile.patch                           |    0
- .../util-linux-ng-2.16-mount_lock_path.patch       |    0
- .../util-linux-ng-replace-siginterrupt.patch       |    0
- .../{util-linux_2.21.bb => util-linux_2.21.1.bb}   |    6 +++---
- 12 files changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-core/util-linux/{util-linux-2.21 => util-linux}/MCONFIG (100%)
- rename meta/recipes-core/util-linux/{util-linux-2.21 => util-linux}/defines.h (100%)
- rename meta/recipes-core/util-linux/{util-linux-2.21 => util-linux}/fix_NL_TIME_FIRST_WEEKDAY.patch (100%)
- rename meta/recipes-core/util-linux/{util-linux-2.21 => util-linux}/make_include (100%)
- rename meta/recipes-core/util-linux/{util-linux-2.21 => util-linux}/remove-lscpu.patch (100%)
- rename meta/recipes-core/util-linux/{util-linux-2.21 => util-linux}/remove_sigsetmark.patch (100%)
- rename meta/recipes-core/util-linux/{util-linux-2.21 => util-linux}/swapargs.h (100%)
- rename meta/recipes-core/util-linux/{util-linux-2.21 => util-linux}/uclibc-__progname-conflict.patch (100%)
- rename meta/recipes-core/util-linux/{util-linux-2.21 => util-linux}/uclibc-compile.patch (100%)
- rename meta/recipes-core/util-linux/{util-linux-2.21 => util-linux}/util-linux-ng-2.16-mount_lock_path.patch (100%)
- rename meta/recipes-core/util-linux/{util-linux-2.21 => util-linux}/util-linux-ng-replace-siginterrupt.patch (100%)
- rename meta/recipes-core/util-linux/{util-linux_2.21.bb => util-linux_2.21.1.bb} (90%)
+ .../xorg-app/{xauth_1.0.6.bb => xauth_1.0.7.bb}    |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/xorg-app/{xauth_1.0.6.bb => xauth_1.0.7.bb} (69%)
 
-diff --git a/meta/recipes-core/util-linux/util-linux-2.21/MCONFIG b/meta/recipes-core/util-linux/util-linux/MCONFIG
-similarity index 100%
-rename from meta/recipes-core/util-linux/util-linux-2.21/MCONFIG
-rename to meta/recipes-core/util-linux/util-linux/MCONFIG
-diff --git a/meta/recipes-core/util-linux/util-linux-2.21/defines.h b/meta/recipes-core/util-linux/util-linux/defines.h
-similarity index 100%
-rename from meta/recipes-core/util-linux/util-linux-2.21/defines.h
-rename to meta/recipes-core/util-linux/util-linux/defines.h
-diff --git a/meta/recipes-core/util-linux/util-linux-2.21/fix_NL_TIME_FIRST_WEEKDAY.patch b/meta/recipes-core/util-linux/util-linux/fix_NL_TIME_FIRST_WEEKDAY.patch
-similarity index 100%
-rename from meta/recipes-core/util-linux/util-linux-2.21/fix_NL_TIME_FIRST_WEEKDAY.patch
-rename to meta/recipes-core/util-linux/util-linux/fix_NL_TIME_FIRST_WEEKDAY.patch
-diff --git a/meta/recipes-core/util-linux/util-linux-2.21/make_include b/meta/recipes-core/util-linux/util-linux/make_include
-similarity index 100%
-rename from meta/recipes-core/util-linux/util-linux-2.21/make_include
-rename to meta/recipes-core/util-linux/util-linux/make_include
-diff --git a/meta/recipes-core/util-linux/util-linux-2.21/remove-lscpu.patch b/meta/recipes-core/util-linux/util-linux/remove-lscpu.patch
-similarity index 100%
-rename from meta/recipes-core/util-linux/util-linux-2.21/remove-lscpu.patch
-rename to meta/recipes-core/util-linux/util-linux/remove-lscpu.patch
-diff --git a/meta/recipes-core/util-linux/util-linux-2.21/remove_sigsetmark.patch b/meta/recipes-core/util-linux/util-linux/remove_sigsetmark.patch
-similarity index 100%
-rename from meta/recipes-core/util-linux/util-linux-2.21/remove_sigsetmark.patch
-rename to meta/recipes-core/util-linux/util-linux/remove_sigsetmark.patch
-diff --git a/meta/recipes-core/util-linux/util-linux-2.21/swapargs.h b/meta/recipes-core/util-linux/util-linux/swapargs.h
-similarity index 100%
-rename from meta/recipes-core/util-linux/util-linux-2.21/swapargs.h
-rename to meta/recipes-core/util-linux/util-linux/swapargs.h
-diff --git a/meta/recipes-core/util-linux/util-linux-2.21/uclibc-__progname-conflict.patch b/meta/recipes-core/util-linux/util-linux/uclibc-__progname-conflict.patch
-similarity index 100%
-rename from meta/recipes-core/util-linux/util-linux-2.21/uclibc-__progname-conflict.patch
-rename to meta/recipes-core/util-linux/util-linux/uclibc-__progname-conflict.patch
-diff --git a/meta/recipes-core/util-linux/util-linux-2.21/uclibc-compile.patch b/meta/recipes-core/util-linux/util-linux/uclibc-compile.patch
-similarity index 100%
-rename from meta/recipes-core/util-linux/util-linux-2.21/uclibc-compile.patch
-rename to meta/recipes-core/util-linux/util-linux/uclibc-compile.patch
-diff --git a/meta/recipes-core/util-linux/util-linux-2.21/util-linux-ng-2.16-mount_lock_path.patch b/meta/recipes-core/util-linux/util-linux/util-linux-ng-2.16-mount_lock_path.patch
-similarity index 100%
-rename from meta/recipes-core/util-linux/util-linux-2.21/util-linux-ng-2.16-mount_lock_path.patch
-rename to meta/recipes-core/util-linux/util-linux/util-linux-ng-2.16-mount_lock_path.patch
-diff --git a/meta/recipes-core/util-linux/util-linux-2.21/util-linux-ng-replace-siginterrupt.patch b/meta/recipes-core/util-linux/util-linux/util-linux-ng-replace-siginterrupt.patch
-similarity index 100%
-rename from meta/recipes-core/util-linux/util-linux-2.21/util-linux-ng-replace-siginterrupt.patch
-rename to meta/recipes-core/util-linux/util-linux/util-linux-ng-replace-siginterrupt.patch
-diff --git a/meta/recipes-core/util-linux/util-linux_2.21.bb b/meta/recipes-core/util-linux/util-linux_2.21.1.bb
-similarity index 90%
-rename from meta/recipes-core/util-linux/util-linux_2.21.bb
-rename to meta/recipes-core/util-linux/util-linux_2.21.1.bb
-index c0c8bc6..12faba0 100644
---- a/meta/recipes-core/util-linux/util-linux_2.21.bb
-+++ b/meta/recipes-core/util-linux/util-linux_2.21.1.bb
-@@ -1,5 +1,5 @@
- MAJOR_VERSION = "2.21"
--PR = "r5"
-+PR = "r0"
- require util-linux.inc
+diff --git a/meta/recipes-graphics/xorg-app/xauth_1.0.6.bb b/meta/recipes-graphics/xorg-app/xauth_1.0.7.bb
+similarity index 69%
+rename from meta/recipes-graphics/xorg-app/xauth_1.0.6.bb
+rename to meta/recipes-graphics/xorg-app/xauth_1.0.7.bb
+index c43d0eb..9a5de54 100644
+--- a/meta/recipes-graphics/xorg-app/xauth_1.0.6.bb
++++ b/meta/recipes-graphics/xorg-app/xauth_1.0.7.bb
+@@ -9,5 +9,5 @@ DEPENDS += "libxau libxext libxmu"
+ PR = "${INC_PR}.0"
+ PE = "1"
  
- # note that `lscpu' is under GPLv3+
-@@ -11,8 +11,8 @@ SRC_URI += "file://util-linux-ng-replace-siginterrupt.patch \
-             file://fix_NL_TIME_FIRST_WEEKDAY.patch \
- "
- 
--SRC_URI[md5sum] = "3c7a26963f3921c1e775a80330321870"
--SRC_URI[sha256sum] = "2813ae6fe0449b60402e122c2baf97f26aa53e6e2dd05591c6cbcdf67ffdb6c6"
-+SRC_URI[md5sum] = "3d9ad37bf8c5a8e6d0e165b020cf9ba5"
-+SRC_URI[sha256sum] = "4bf9641fd58454106589be8a8d1cfd61e7694f0a6912d8095d17b1fb94b85abe"
- 
- # Only lscpu part is gplv3; rest of the code is not, 
- # so take out the lscpu parts while running non-gplv3 build.
+-SRC_URI[md5sum] = "105f5b00bb9293b3db36f7e500d4f950"
+-SRC_URI[sha256sum] = "a686406951f0ed6be45bc26182a1423e2cdffad2d492b33ff3fbf72f7bcb6b0b"
++SRC_URI[md5sum] = "cbcbd8f2156a53b609800bec4c6b6c0e"
++SRC_URI[sha256sum] = "84f78c08ebc6687e2e36c9ff1f5610988c6a03fc5bf51ef89aec4d155de3028d"
 -- 
 1.7.7.6
 
