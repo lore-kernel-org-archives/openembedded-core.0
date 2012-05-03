@@ -1,25 +1,25 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SQ285-0000iM-O5
+	(envelope-from <sgw@linux.intel.com>) id 1SQ294-0000ks-S4
 	for openembedded-core@lists.openembedded.org;
-	Thu, 03 May 2012 21:55:58 +0200
+	Thu, 03 May 2012 21:56:59 +0200
 Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 03 May 2012 12:46:08 -0700
+	by azsmga101.ch.intel.com with ESMTP; 03 May 2012 12:47:12 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="96099608"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="96099985"
 Received: from unknown (HELO [10.255.12.171]) ([10.255.12.171])
-	by AZSMGA002.ch.intel.com with ESMTP; 03 May 2012 12:46:08 -0700
-Message-ID: <4FA2E07F.9030202@linux.intel.com>
-Date: Thu, 03 May 2012 12:46:07 -0700
+	by AZSMGA002.ch.intel.com with ESMTP; 03 May 2012 12:47:11 -0700
+Message-ID: <4FA2E0BF.9080108@linux.intel.com>
+Date: Thu, 03 May 2012 12:47:11 -0700
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:12.0) Gecko/20120424 Thunderbird/12.0
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1335888041.git.kergoth@gmail.com>
-In-Reply-To: <cover.1335888041.git.kergoth@gmail.com>
-Subject: Re: [PATCH 0/6] A few misc. commits I had pending
+References: <cover.1335887732.git.kergoth@gmail.com>
+In-Reply-To: <cover.1335887732.git.kergoth@gmail.com>
+Subject: Re: [PATCH 0/8] External CSL toolchain improvements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,62 +34,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 May 2012 19:55:58 -0000
+X-List-Received-Date: Thu, 03 May 2012 19:56:59 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 05/01/2012 09:02 AM, Christopher Larson wrote:
-> Most of these are pretty simple and obvious fixes, but this also changes
-> base.bbclass to use isinstance instead of bb.event.getName(), and also shifts
-> the information used to display the build config summary at the start of the
-> build into bitbake.conf as variables, so it's possible to easily add to the
-> list of variables and content to be emitted there. As one example, I have
-> a change to csl-versions.inc which adds the external toolchain version string
-> to the summary.
+On 05/01/2012 08:58 AM, Christopher Larson wrote:
+> See the commit message summaries for details, but this syncs up my local
+> external-csl-toolchain recipe with upstream, which includes general cleanup
+> and use of base_libdir to fix issues with mips64, splits out
+> libstdc++-staticdev, adds CSL_VER_MAIN to target recipe signatures, and fixes
+> and uses precompiled locales rather than regenerating them.
+>
+> Most of this is straightforward, but I would appreciate review in particular
+> of the "libc-package: rework 'precompiled' locale handling". Thanks.
 >
 > The following changes since commit 26d822ad059dd4839cc6fee2a65714e73cc146e1:
 >
 >    nfs-utils: don't try to unload nfsd module (2012-05-01 14:28:47 +0100)
 >
 > are available in the git repository at:
->    git://github.com/kergoth/oe-core misc-fixes
+>    git://github.com/kergoth/oe-core external-csl-improvements
 >
-> Christopher Larson (6):
->        mesa: add missing flex-native/bison-native deps
->        distcc: use PACKAGECONFIG for x11 distro feature
->        libpcap: use PACKAGECONFIG for bluetooth distro feature
->        libsndfile1: use PACKAGECONFIG for alsa distro feature
->        bitbake.conf: shift build config summary control to here
->        base.bbclass: use isinstance for base_eventhandler
+> Christopher Larson (8):
+>        csl-versions.inc: capture version in signatures
+>        external-csl-toolchain: split out a libstdc++-staticdev package
+>        external-csl-toolchain: silence .a/.debug QA warnings
+>        external-csl-toolchain: cleanup, simplify, use base_libdir
+>        external-csl-toolchain: update SUPPORTED to match toolchain
+>        tclibc-eglibc: drop hardcoded locale-base-en-us/en-gb
+>        libc-package: rework ''precompiled' locale handling
+>        tcmode-external-csl: use the existing precompiled locale files
 >
->   meta/classes/base.bbclass                          |   56 ++++++++++++-------
->   meta/conf/bitbake.conf                             |    7 +++
->   meta/recipes-connectivity/libpcap/libpcap.inc      |    5 ++-
->   meta/recipes-devtools/distcc/distcc_2.18.3.bb      |   14 +++--
->   meta/recipes-graphics/mesa/mesa-common.inc         |    2 +-
->   .../libsndfile/libsndfile1_1.0.25.bb               |    5 ++-
->   6 files changed, 59 insertions(+), 30 deletions(-)
+>   meta/classes/libc-package.bbclass                  |   96 ++++----
+>   meta/conf/distro/include/csl-versions.inc          |    4 +
+>   meta/conf/distro/include/tclibc-eglibc.inc         |   12 +-
+>   meta/conf/distro/include/tcmode-external-csl.inc   |    4 +
+>   meta/recipes-core/meta/external-csl-toolchain.bb   |   68 +++---
+>   .../meta/external-csl-toolchain/SUPPORTED          |  257 +++++++++++++++++++-
+>   6 files changed, 346 insertions(+), 95 deletions(-)
 >
-> Christopher Larson (6):
->    mesa: add missing flex-native/bison-native deps
->    distcc: use PACKAGECONFIG for x11 distro feature
->    libpcap: use PACKAGECONFIG for bluetooth distro feature
->    libsndfile1: use PACKAGECONFIG for alsa distro feature
->    bitbake.conf: shift build config summary control to here
->    base.bbclass: use isinstance for base_eventhandler
+> Christopher Larson (8):
+>    csl-versions.inc: capture version in signatures
+>    external-csl-toolchain: split out a libstdc++-staticdev package
+>    external-csl-toolchain: silence .a/.debug QA warnings
+>    external-csl-toolchain: cleanup, simplify, use base_libdir
+>    external-csl-toolchain: update SUPPORTED to match toolchain
+>    tclibc-eglibc: drop hardcoded locale-base-en-us/en-gb
+>    libc-package: rework ''precompiled' locale handling
+>    tcmode-external-csl: use the existing precompiled locale files
 >
->   meta/classes/base.bbclass                          |   56 ++++++++++++-------
->   meta/conf/bitbake.conf                             |    7 +++
->   meta/recipes-connectivity/libpcap/libpcap.inc      |    5 ++-
->   meta/recipes-devtools/distcc/distcc_2.18.3.bb      |   14 +++--
->   meta/recipes-graphics/mesa/mesa-common.inc         |    2 +-
->   .../libsndfile/libsndfile1_1.0.25.bb               |    5 ++-
->   6 files changed, 59 insertions(+), 30 deletions(-)
+>   meta/classes/libc-package.bbclass                  |   96 ++++----
+>   meta/conf/distro/include/csl-versions.inc          |    4 +
+>   meta/conf/distro/include/tclibc-eglibc.inc         |   12 +-
+>   meta/conf/distro/include/tcmode-external-csl.inc   |    4 +
+>   meta/recipes-core/meta/external-csl-toolchain.bb   |   68 +++---
+>   .../meta/external-csl-toolchain/SUPPORTED          |  257 +++++++++++++++++++-
+>   6 files changed, 346 insertions(+), 95 deletions(-)
 >
 
 Merged into OE-Core
 
 Thanks
 	Sau!
+
 
 
