@@ -1,35 +1,32 @@
-Received: from mail-lb0-f175.google.com ([209.85.217.175])
+Received: from mail-ob0-f175.google.com ([209.85.214.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1SPjfL-0004kS-GW
+	(envelope-from <kergoth@gmail.com>) id 1SPkzC-00063c-8t
 	for openembedded-core@lists.openembedded.org;
-	Thu, 03 May 2012 02:13:03 +0200
-Received: by lbol5 with SMTP id l5so719048lbo.6
+	Thu, 03 May 2012 03:37:38 +0200
+Received: by obhx4 with SMTP id x4so1937942obh.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 02 May 2012 17:03:18 -0700 (PDT)
+	Wed, 02 May 2012 18:27:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type:content-transfer-encoding;
-	bh=bLGn9bqA4sL2nCDn2FYGG07qyaBWMxtvlu5BDzbOlWQ=;
-	b=blwfFOmT3zEx7EBMuiNhCofR4Oeo0ris6MK/P1M/teAkFaLz5wW1eHQp1qL+yYyvkw
-	5QZb2uBPbNwowtOP9eJb8zjMrnCOg0CYOsgCb/GeKkfBuLkgM221ZD146IWqHtRdN5C5
-	jtDdBtmbfaWVAoj2cW7CVMfyi5jRqmVm86jPITEwokeJpk7ksyyhYztxRPQzupONjymT
-	4Dflinp017l/2xSmABaMj/p4MgT5NUWcQ6QCyOFwRE3wYyE3pf2gT6nQbr3Aav9UVYGa
-	QJFCRmdw1THEarBFhR+02OShXY9IErkeRLiLg0F7RED82ZyH//imCE85nL+HWQma7wLO
-	Dt+Q==
-Received: by 10.152.145.228 with SMTP id sx4mr52981lab.45.1336003398321; Wed,
-	02 May 2012 17:03:18 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.152.129.134 with HTTP; Wed, 2 May 2012 17:02:48 -0700 (PDT)
-In-Reply-To: <1336000145.30113.41.camel@ted>
-References: <cover.1335991900.git.raj.khem@gmail.com>
-	<0c57b76bc47680ccf576d412a3dc7e726f1daba2.1335991900.git.raj.khem@gmail.com>
-	<1336000145.30113.41.camel@ted>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 2 May 2012 17:02:48 -0700
-Message-ID: <CAMKF1spDPH-biUGMXnKaP3_+PgdcjAPVf3tfT0=5cAhPZFxPAg@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/7] unfs-server: Do not use DESTDIR
+	h=from:to:subject:date:message-id:x-mailer;
+	bh=lep66r5epuvyEBM8dKx1DLBnWpzw5JObNaQNLsQzxdo=;
+	b=pFCfk2N6uE9O+/ZdiHG8wQZmP9bu/xFP27PtsqJ5PGG+eI6e4kXQkElUqx5hNQqU4U
+	GKayddrSGhiB/zu1HSZZ8QgB6IztCHKR1mrnV+BGvXS5vLWDBevNqA1LMgkzdwrpDqR7
+	rh+8Ydw8JWmu8WscKhjYZx+Mk+M0lkKxinH+IvO4oyujZMuS+l2Ab3pPzpKuEl6Ph3E6
+	6E3fUbtbH5hBNDl4yVLpNDp0aRz+OOgbledwYq0ozA2JDxqiTdNSS8ukd/JpULp7dSnC
+	6tnTrMgRA+tT4Aj/OiMos69fFJIJsrLvnRqB153JKZi2GNo0SiZzlzrM6YMWj3sIhyZM
+	KM1Q==
+Received: by 10.60.2.6 with SMTP id 6mr412641oeq.21.1336008472689;
+	Wed, 02 May 2012 18:27:52 -0700 (PDT)
+Received: from localhost.localdomain (nat-lmt.mentorg.com. [139.181.28.34])
+	by mx.google.com with ESMTPS id il8sm4005546obc.18.2012.05.02.18.27.50
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 02 May 2012 18:27:51 -0700 (PDT)
+From: Christopher Larson <kergoth@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  2 May 2012 20:28:34 -0500
+Message-Id: <1336008514-26806-1-git-send-email-kergoth@gmail.com>
+X-Mailer: git-send-email 1.7.7
+Subject: [PATCH] kernel.bbclass: move kernel-vmlinux up in PACKAGES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,53 +41,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 May 2012 00:13:03 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 03 May 2012 01:37:38 -0000
 
-On Wed, May 2, 2012 at 4:09 PM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Wed, 2012-05-02 at 13:53 -0700, Khem Raj wrote:
->> DESTDIR is makefile variable not available in
->> bitbake environment
->>
->> Signed-off-by: Khem Raj <raj.khem@gmail.com>
->> ---
->> =C2=A0.../unfs-server/unfs-server_2.1+2.2beta47.bb =C2=A0 =C2=A0 =C2=A0 =
-| =C2=A0 =C2=A04 ++--
->> =C2=A01 files changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/meta/recipes-devtools/unfs-server/unfs-server_2.1+2.2beta47=
-.bb b/meta/recipes-devtools/unfs-server/unfs-server_2.1+2.2beta47.bb
->> index d03c153..682891d 100644
->> --- a/meta/recipes-devtools/unfs-server/unfs-server_2.1+2.2beta47.bb
->> +++ b/meta/recipes-devtools/unfs-server/unfs-server_2.1+2.2beta47.bb
->> @@ -7,7 +7,7 @@ RDEPENDS_${PN} =3D "pseudo"
->> =C2=A0RDEPENDS_${PN}_virtclass-native =3D "pseudo-native"
->> =C2=A0RDEPENDS_${PN}_virtclass-nativesdk =3D "pseudo-nativesdk"
->> =C2=A0BASEPV =3D "2.2beta47"
->> -PR =3D "r1"
->> +PR =3D "r2"
->>
->> =C2=A0SRC_URI =3D "ftp://linux.mathematik.tu-darmstadt.de/pub/linux/olds=
-tuff/people/okir/nfs-server-${BASEPV}.tar.gz \
->> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://001-2.2b47-2.2b51.patch=
- \
->> @@ -53,7 +53,7 @@ EXTRA_OECONF =3D "--enable-ugid-dynamic \
->> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0--with-exp=
-orts-uid=3D0 \
->> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0--with-exp=
-orts-gid=3D0 \
->> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0--enable-m=
-ount-logging \
->> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0--with-devtab=
-=3D${DESTDIR}${base_prefix}/var/lib/nfs/devtab \
->> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0--with-devtab=
-=3D${base_prefix}/var/lib/nfs/devtab \
->
-> This is not correct, you want ${D} there I think. It is rather odd
-> though and we might be better patching the makefile for this.
+If KERNEL_IMAGETYPE is vmlinux, the expectation is most likely that there will
+be no kernel image package, but we still want a vmlinux package for debugging,
+so move kernel-vmlinux in front of kernel-image in PACKAGES.
 
-hmmm ok. Drop that one. It sort of seemed wrong to have ${D} in there
+Signed-off-by: Christopher Larson <kergoth@gmail.com>
+---
+ meta/classes/kernel.bbclass |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index 3519e7c..d81b33c 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -247,7 +247,7 @@ EXPORT_FUNCTIONS do_compile do_install do_configure
+ 
+ # kernel-base becomes kernel-${KERNEL_VERSION}
+ # kernel-image becomes kernel-image-${KERNEL_VERISON}
+-PACKAGES = "kernel kernel-base kernel-image kernel-dev kernel-vmlinux kernel-misc"
++PACKAGES = "kernel kernel-base kernel-vmlinux kernel-image kernel-dev kernel-misc"
+ FILES = ""
+ FILES_kernel-image = "/boot/${KERNEL_IMAGETYPE}*"
+ FILES_kernel-dev = "/boot/System.map* /boot/Module.symvers* /boot/config*"
+-- 
+1.7.7
+
 
 
