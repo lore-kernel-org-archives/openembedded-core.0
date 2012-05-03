@@ -1,25 +1,25 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SQ2Bt-0000q0-Iw
+	(envelope-from <sgw@linux.intel.com>) id 1SQ2TG-0001RM-Mw
 	for openembedded-core@lists.openembedded.org;
-	Thu, 03 May 2012 21:59:53 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 03 May 2012 12:50:06 -0700
+	Thu, 03 May 2012 22:17:50 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 03 May 2012 13:07:51 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="138597700"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="149066396"
 Received: from unknown (HELO [10.255.12.171]) ([10.255.12.171])
-	by azsmga001.ch.intel.com with ESMTP; 03 May 2012 12:50:06 -0700
-Message-ID: <4FA2E16D.2080009@linux.intel.com>
-Date: Thu, 03 May 2012 12:50:05 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 03 May 2012 13:07:51 -0700
+Message-ID: <4FA2E597.2030500@linux.intel.com>
+Date: Thu, 03 May 2012 13:07:51 -0700
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:12.0) Gecko/20120424 Thunderbird/12.0
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1335909595.git.nitin.a.kamble@intel.com>
-In-Reply-To: <cover.1335909595.git.nitin.a.kamble@intel.com>
-Subject: Re: [PATCH 0/6] Recipe upgrades
+References: <1335968668-3019-1-git-send-email-jason.wessel@windriver.com>
+In-Reply-To: <1335968668-3019-1-git-send-email-jason.wessel@windriver.com>
+Subject: Re: [PATCH] runqemu: Fix TAP='TUNSETGROUP: Invalid argument' by falling back to tunctl -u
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,64 +34,105 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 May 2012 19:59:53 -0000
+X-List-Received-Date: Thu, 03 May 2012 20:17:50 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 05/01/2012 03:00 PM, nitin.a.kamble@intel.com wrote:
-> From: Nitin A Kamble<nitin.a.kamble@intel.com>
+On 05/02/2012 07:24 AM, Jason Wessel wrote:
+> By default the runqemu script tries to set the group permissions on any
+> tap device it creates.  The TUNSETGROUP ioctl is not implemented on some
+> popular host enterprise linux distributions.
 >
-> The following changes since commit d89f7b9cab1946a3267e3b0402f168f946d480b2:
+> Internally the script will exit as follows:
 >
->    documentation/Makefile: Fixed figures publishing bug (2012-05-01 20:50:56 +0100)
+> ++ /opt/qemux86/bitbake_build/tmp/sysroots/x86_64-linux/usr/bin/tunctl -b -g 100
+> + TAP='TUNSETGROUP: Invalid argument'
+> + STATUS=1
+> + '[' 1 -ne 0 ']'
+> + echo 'tunctl failed:'
+> tunctl failed:
+> + echo TUNSETGROUP: Invalid argument
 >
-> are available in the git repository at:
->    git://git.pokylinux.org/poky-contrib nitin/upgrades
->    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=nitin/upgrades
+> This patch implements a fallback to using the userid as the owner of
+> the tap device which is supported by all 2.6 kernels, the default remains
+> to try and use the groupid first.
 >
-> Nitin A Kamble (6):
->    qt4: fix compilation issue
-This one got merged accidently and will cause some breakage until we get 
-the updated version of glib-2.0 in, but other fixes are required also.
-
->    makedepend: upgrade from 1.0.3 to 1.0.4
->    quilt: upgrade from 0.51 to 0.60
->    gdb: upgrade from 7.4 to 7.4.1
->    python: upgrade from 2.7.2 to 2.7.3
->    distro-tracking: update as per recent recipe upgrades
+> Signed-off-by: Jason Wessel<jason.wessel@windriver.com>
+> ---
+>   scripts/runqemu-ifup     |   20 +++++++++++++-------
+>   scripts/runqemu-internal |    5 +++--
+>   2 files changed, 16 insertions(+), 9 deletions(-)
 >
->   meta/conf/distro/include/default-versions.inc      |    4 +-
->   .../conf/distro/include/distro_tracking_fields.inc |   20 +++++-----
->   meta/recipes-devtools/gdb/gdb-common.inc           |    6 ++--
->   ...canadian_7.4.bb =>  gdb-cross-canadian_7.4.1.bb} |    2 +-
->   .../gdb/{gdb-cross_7.4.bb =>  gdb-cross_7.4.1.bb}   |    0
->   .../gdb/{gdb_7.4.bb =>  gdb_7.4.1.bb}               |    0
->   ...thon-native_2.7.2.bb =>  python-native_2.7.3.bb} |    6 +---
->   meta/recipes-devtools/python/python.inc            |    8 ++--
->   .../python/python/04-default-is-optimized.patch    |   30 +++++++++------
->   .../python/fix_for_using_different_libdir.patch    |   30 +++++++++-------
->   .../python/sys_platform_is_now_always_linux2.patch |   39 --------------------
->   .../python/{python_2.7.2.bb =>  python_2.7.3.bb}    |    3 +-
->   .../quilt/{quilt-0.51.inc =>  quilt-0.60.inc}       |    4 +-
->   .../{quilt-native_0.51.bb =>  quilt-native_0.60.bb} |    2 +-
->   .../quilt/{quilt_0.51.bb =>  quilt_0.60.bb}         |    2 +-
->   .../{makedepend_1.0.3.bb =>  makedepend_1.0.4.bb}   |    5 +--
->   meta/recipes-qt/qt4/qt-4.8.1.inc                   |    1 +
->   .../qt4/qt-4.8.1/fix_conflicting_types.patch       |   29 +++++++++++++++
->   meta/recipes-qt/qt4/qt4-x11-free.inc               |    2 +-
->   19 files changed, 94 insertions(+), 99 deletions(-)
->   rename meta/recipes-devtools/gdb/{gdb-cross-canadian_7.4.bb =>  gdb-cross-canadian_7.4.1.bb} (88%)
->   rename meta/recipes-devtools/gdb/{gdb-cross_7.4.bb =>  gdb-cross_7.4.1.bb} (100%)
->   rename meta/recipes-devtools/gdb/{gdb_7.4.bb =>  gdb_7.4.1.bb} (100%)
->   rename meta/recipes-devtools/python/{python-native_2.7.2.bb =>  python-native_2.7.3.bb} (92%)
->   delete mode 100644 meta/recipes-devtools/python/python/sys_platform_is_now_always_linux2.patch
->   rename meta/recipes-devtools/python/{python_2.7.2.bb =>  python_2.7.3.bb} (98%)
->   rename meta/recipes-devtools/quilt/{quilt-0.51.inc =>  quilt-0.60.inc} (84%)
->   rename meta/recipes-devtools/quilt/{quilt-native_0.51.bb =>  quilt-native_0.60.bb} (83%)
->   rename meta/recipes-devtools/quilt/{quilt_0.51.bb =>  quilt_0.60.bb} (98%)
->   rename meta/recipes-graphics/xorg-util/{makedepend_1.0.3.bb =>  makedepend_1.0.4.bb} (82%)
->   create mode 100644 meta/recipes-qt/qt4/qt-4.8.1/fix_conflicting_types.patch
+> diff --git a/scripts/runqemu-ifup b/scripts/runqemu-ifup
+> index f80538f..e4c3daf 100755
+> --- a/scripts/runqemu-ifup
+> +++ b/scripts/runqemu-ifup
+> @@ -34,7 +34,7 @@
+>   # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 >
+>   usage() {
+> -	echo "sudo $(basename $0)<gid>  <native-sysroot-basedir>"
+> +	echo "sudo $(basename $0)<uid>  <gid>  <native-sysroot-basedir>"
+>   }
+>
+>   if [ $EUID -ne 0 ]; then
+> @@ -42,13 +42,14 @@ if [ $EUID -ne 0 ]; then
+>   	exit 1
+>   fi
+>
+> -if [ $# -ne 2 ]; then
+> +if [ $# -ne 3 ]; then
+>   	usage
+>   	exit 1
+>   fi
+>
+> -GROUP="-g $1"
+> -NATIVE_SYSROOT_DIR=$2
+> +USERID="-u $1"
+> +GROUP="-g $2"
+> +NATIVE_SYSROOT_DIR=$3
+>
+>   TUNCTL=$NATIVE_SYSROOT_DIR/usr/bin/tunctl
+>   if [ ! -x "$TUNCTL" ]; then
+> @@ -59,9 +60,14 @@ fi
+>   TAP=`$TUNCTL -b $GROUP 2>&1`
+>   STATUS=$?
+>   if [ $STATUS -ne 0 ]; then
+> -	echo "tunctl failed:"
+> -	echo $TAP
+> -	exit 1
+> +# If tunctl -g fails, try using tunctl -u, for older host kernels
+> +# which do not support the TUNSETGROUP ioctl
+> +	TAP=`$TUNCTL -b $USERID 2>&1`
+> +	STATUS=$?
+> +	if [ $STATUS -ne 0 ]; then
+> +		echo "tunctl failed:"
+> +		exit 1
+> +	fi
+>   fi
+>
+>   IFCONFIG=`which ifconfig 2>  /dev/null`
+> diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
+> index 1831a09..fb0d806 100755
+> --- a/scripts/runqemu-internal
+> +++ b/scripts/runqemu-internal
+> @@ -173,13 +173,14 @@ if [ "$TAP" = "" ]; then
+>       fi
+>
+>       GROUPID=`id -g`
+> +    USERID=`id -u`
+>       echo "Setting up tap interface under sudo"
+>       # Redirect stderr since we could see a LD_PRELOAD warning here if pseudo is loaded
+>       # but inactive. This looks scary but is harmless
+> -    tap=`sudo $QEMUIFUP $GROUPID $OECORE_NATIVE_SYSROOT 2>  /dev/null`
+> +    tap=`sudo $QEMUIFUP $USERID $GROUPID $OECORE_NATIVE_SYSROOT 2>  /dev/null`
+>       if [ $? -ne 0 ]; then
+>           # Re-run standalone to see verbose errors
+> -        sudo $QEMUIFUP $GROUPID $OECORE_NATIVE_SYSROOT
+> +        sudo $QEMUIFUP $USERID $GROUPID $OECORE_NATIVE_SYSROOT
+>           return
+>       fi
+>       LOCKFILE="$LOCKDIR/$tap"
 
 Merged into OE-Core
 
