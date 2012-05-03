@@ -1,24 +1,24 @@
 Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1SQ0iM-0001oY-2w
+	(envelope-from <nitin.a.kamble@intel.com>) id 1SQ0iM-0001nM-6J
 	for openembedded-core@lists.openembedded.org;
-	Thu, 03 May 2012 20:25:18 +0200
+	Thu, 03 May 2012 20:25:19 +0200
 Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 03 May 2012 11:15:25 -0700
+	by azsmga101.ch.intel.com with ESMTP; 03 May 2012 11:15:26 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="96065356"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="96065358"
 Received: from nbuild0.sc.intel.com ([172.25.110.36])
 	by AZSMGA002.ch.intel.com with ESMTP; 03 May 2012 11:15:25 -0700
 From: nitin.a.kamble@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  3 May 2012 11:15:08 -0700
-Message-Id: <ebe69dfb01b285b30753e358f53ba5cf6d04e704.1336068854.git.nitin.a.kamble@intel.com>
+Date: Thu,  3 May 2012 11:15:10 -0700
+Message-Id: <076070a19711e36a785102ce3a12d9cd031b7bd1.1336068854.git.nitin.a.kamble@intel.com>
 X-Mailer: git-send-email 1.7.6.5
 In-Reply-To: <e19e8ab17e0497c8de235f92d3c8d5ffcff19d91.1336068854.git.nitin.a.kamble@intel.com>
 References: <e19e8ab17e0497c8de235f92d3c8d5ffcff19d91.1336068854.git.nitin.a.kamble@intel.com>
 In-Reply-To: <cover.1336068854.git.nitin.a.kamble@intel.com>
 References: <cover.1336068854.git.nitin.a.kamble@intel.com>
-Subject: [PATCH 14/28] libmpc: fix build with automake 1.12
+Subject: [PATCH 16/28] texinfo: fix build with automake 1.12
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,61 +39,62 @@ From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
 Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
 ---
- .../libmpc/libmpc_fix_for_automake-1.12.patch      |   26 ++++++++++++++++++++
- meta/recipes-support/libmpc/libmpc_0.8.2.bb        |    5 ++-
- 2 files changed, 29 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-support/libmpc/libmpc/libmpc_fix_for_automake-1.12.patch
+ .../texinfo_fix_for_automake-1.12.patch            |   24 ++++++++++++++++++++
+ meta/recipes-extended/texinfo/texinfo_4.13a.bb     |    3 +-
+ 2 files changed, 26 insertions(+), 1 deletions(-)
+ create mode 100644 meta/recipes-extended/texinfo/texinfo-4.13a/texinfo_fix_for_automake-1.12.patch
 
-diff --git a/meta/recipes-support/libmpc/libmpc/libmpc_fix_for_automake-1.12.patch b/meta/recipes-support/libmpc/libmpc/libmpc_fix_for_automake-1.12.patch
+diff --git a/meta/recipes-extended/texinfo/texinfo-4.13a/texinfo_fix_for_automake-1.12.patch b/meta/recipes-extended/texinfo/texinfo-4.13a/texinfo_fix_for_automake-1.12.patch
 new file mode 100644
-index 0000000..75fa28e
+index 0000000..e0684ff
 --- /dev/null
-+++ b/meta/recipes-support/libmpc/libmpc/libmpc_fix_for_automake-1.12.patch
-@@ -0,0 +1,26 @@
-+Upstream-Status: Pending
++++ b/meta/recipes-extended/texinfo/texinfo-4.13a/texinfo_fix_for_automake-1.12.patch
+@@ -0,0 +1,24 @@
++Upsteam-Status: pending
 +
-+this fix avoids this error with automake 1.12
++automake 1.12 has deprecated support for lzma-compressed distribution archives
++this patch fixes following issue with automake 1.12
 +
-+| automake: warnings are treated as errors
-+| /srv/home/nitin/builds/build-gcc47/tmp/sysroots/x86_64-linux/usr/share/automake-1.12/am/ltlibrary.am: warning: 'libmpc.la': linking libtool libraries using a non-POSIX
-+| /srv/home/nitin/builds/build-gcc47/tmp/sysroots/x86_64-linux/usr/share/automake-1.12/am/ltlibrary.am: archiver requires 'AM_PROG_AR' in 'configure.ac'
++| configure.ac:16: error: support for lzma-compressed distribution archives has been removed
 +
 +Signed-Off-By: Nitin A Kamble <nitin.a.kamble@intel.com>
-+2012/05/02
++2012/05/03
 +
-+Index: mpc-0.8.2/configure.ac
++
++Index: texinfo-4.13/configure.ac
 +===================================================================
-+--- mpc-0.8.2.orig/configure.ac
-++++ mpc-0.8.2/configure.ac
-+@@ -86,6 +86,10 @@ AC_PROG_EGREP
-+ AC_PROG_SED
-+ AC_LANG(C)
++--- texinfo-4.13.orig/configure.ac
+++++ texinfo-4.13/configure.ac
++@@ -13,7 +13,7 @@ AC_INIT([GNU Texinfo], [4.13], [bug-texi
 + 
-++# automake 1.12 seems to require this, but automake 1.11 doesn't recognize it
-++m4_pattern_allow([AM_PROG_AR])
-++AM_PROG_AR
-++
-+ dnl Check for GMP CFLAGS in gmp.h
-+ if test -z "$user_redefine_cc" ; then
-+    MPC_GMP_CC_CFLAGS
-diff --git a/meta/recipes-support/libmpc/libmpc_0.8.2.bb b/meta/recipes-support/libmpc/libmpc_0.8.2.bb
-index f991a8e..7a372ba 100644
---- a/meta/recipes-support/libmpc/libmpc_0.8.2.bb
-+++ b/meta/recipes-support/libmpc/libmpc_0.8.2.bb
-@@ -2,10 +2,11 @@ require libmpc.inc
++ dnl Must come before AM_INIT_AUTOMAKE.
++ AC_CONFIG_AUX_DIR([build-aux])
++-AM_INIT_AUTOMAKE([1.10.1 readme-alpha dist-lzma])
+++AM_INIT_AUTOMAKE([1.10.1 readme-alpha])
++ 
++ # Minimum Autoconf version required.
++ AC_PREREQ(2.59)
+diff --git a/meta/recipes-extended/texinfo/texinfo_4.13a.bb b/meta/recipes-extended/texinfo/texinfo_4.13a.bb
+index f9e566b..50892ce 100644
+--- a/meta/recipes-extended/texinfo/texinfo_4.13a.bb
++++ b/meta/recipes-extended/texinfo/texinfo_4.13a.bb
+@@ -6,7 +6,7 @@ HOMEPAGE = "http://www.gnu.org/software/texinfo/"
+ SECTION = "console/utils"
+ LICENSE = "GPLv3+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=adefda309052235aa5d1e99ce7557010"
+-PR = "r4"
++PR = "r5"
  
- DEPENDS = "gmp mpfr"
+ DEPENDS = "zlib ncurses texinfo-native"
+ DEPENDS_virtclass-native = "zlib-native ncurses-native"
+@@ -23,6 +23,7 @@ SRC_URI = "${GNU_MIRROR}/texinfo/texinfo-${PV}.tar.gz \
+            file://disable-native-tools.patch \
+            file://link-zip.patch \
+            file://gettext-macros.patch \
++           file://texinfo_fix_for_automake-1.12.patch \
+            ${TARGET_PATCH}"
  
--PR = "r0"
-+PR = "r1"
- LICENSE="LGPLv2.1"
- LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=7fbc338309ac38fefcd64b04bb903e34"
--SRC_URI = "http://www.multiprecision.org/mpc/download/mpc-${PV}.tar.gz"
-+SRC_URI = "http://www.multiprecision.org/mpc/download/mpc-${PV}.tar.gz \
-+           file://libmpc_fix_for_automake-1.12.patch"
- 
- SRC_URI[md5sum] = "e98267ebd5648a39f881d66797122fb6"
- SRC_URI[sha256sum] = "ae79f8d41d8a86456b68607e9ca398d00f8b7342d1d83bcf4428178ac45380c7"
+ SRC_URI[md5sum] = "71ba711519209b5fb583fed2b3d86fcb"
 -- 
 1.7.7
 
