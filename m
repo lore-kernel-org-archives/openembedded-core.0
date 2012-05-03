@@ -1,31 +1,36 @@
-Received: from mail.windriver.com ([147.11.1.11])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <jason.wessel@windriver.com>) id 1SPtsx-0007vp-HP
-	for openembedded-core@lists.openembedded.org;
-	Thu, 03 May 2012 13:07:47 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q43Avvg3017939
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 3 May 2012 03:57:58 -0700 (PDT)
-Received: from [172.25.32.41] (172.25.32.41) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Thu, 3 May 2012 03:57:57 -0700
-Message-ID: <4FA264B4.4080404@windriver.com>
-Date: Thu, 3 May 2012 05:57:56 -0500
-From: Jason Wessel <jason.wessel@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:11.0) Gecko/20120329 Thunderbird/11.0.1
-MIME-Version: 1.0
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1SPuIE-0008Rh-2G for openembedded-core@lists.openembedded.org;
+	Thu, 03 May 2012 13:33:54 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q43BO96p032118
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 3 May 2012 12:24:09 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 30415-09 for <openembedded-core@lists.openembedded.org>;
+	Thu,  3 May 2012 12:24:05 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q43BNwDN032112
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 3 May 2012 12:24:00 +0100
+Message-ID: <1336044241.30113.73.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
+Date: Thu, 03 May 2012 12:24:01 +0100
+In-Reply-To: <D8900CA0-6986-4242-8AF1-7A65CC86FDDA@dominion.thruhere.net>
 References: <1335968616-2436-1-git-send-email-jason.wessel@windriver.com>
 	<CAMKF1soELbeTS=ZnH3bhUbJkcaUz_sdkhRcykntqc=2jNBcUrg@mail.gmail.com>
 	<9295EE6F-5FFA-4FB4-B266-D8F45AAB2351@dominion.thruhere.net>
 	<1336034822.30113.47.camel@ted>
 	<D8900CA0-6986-4242-8AF1-7A65CC86FDDA@dominion.thruhere.net>
-In-Reply-To: <D8900CA0-6986-4242-8AF1-7A65CC86FDDA@dominion.thruhere.net>
-X-Enigmail-Version: 1.4.1
-Cc: Koen Kooi <koen@dominion.thruhere.net>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
 Subject: Re: [PATCH] qemu-native: depend on unfs-server-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -41,32 +46,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 May 2012 11:07:48 -0000
-Content-Type: text/plain; charset="ISO-8859-1"
+X-List-Received-Date: Thu, 03 May 2012 11:33:54 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 05/03/2012 05:39 AM, Koen Kooi wrote:
-> 
+On Thu, 2012-05-03 at 12:39 +0200, Koen Kooi wrote:
 > Op 3 mei 2012, om 10:47 heeft Richard Purdie het volgende geschreven:
 > 
->>
->> The point of these is to trigger them to build whenever a qemu image is
->> built. This makes a lot of sense in some use cases, it also does not
->> make sense in some other cases and it is not possible for the system to
->> mind read and tell the difference.
+> > On Thu, 2012-05-03 at 09:43 +0200, Koen Kooi wrote:
+> >> Op 3 mei 2012, om 09:32 heeft Khem Raj het volgende geschreven:
+> >> 
+> >>> On Wed, May 2, 2012 at 7:23 AM, Jason Wessel <jason.wessel@windriver.com> wrote:
+> >>>> The user mode NFS server does not get built by default when you are
+> >>>> using a purely command line driven development environment without SDK
+> >>>> tools.  In order to accommodate simple test configurations and have
+> >>>> all the tools built for the minimal validation with qemu-native,
+> >>>> simply add the dependency to unfs-server-native.
+> >>>> 
+> >>>> Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
+> >>>> ---
+> >>>> meta/conf/machine/include/qemu.inc |    2 +-
+> >>>> 1 files changed, 1 insertions(+), 1 deletions(-)
+> >>>> 
+> >>>> diff --git a/meta/conf/machine/include/qemu.inc b/meta/conf/machine/include/qemu.inc
+> >>>> index 421a149..742b629 100644
+> >>>> --- a/meta/conf/machine/include/qemu.inc
+> >>>> +++ b/meta/conf/machine/include/qemu.inc
+> >>>> @@ -14,4 +14,4 @@ RDEPENDS_kernel-base = ""
+> >>>> # Use a common kernel recipe for all QEMU machines
+> >>>> PREFERRED_PROVIDER_virtual/kernel ?= "linux-yocto"
+> >>>> 
+> >>>> -EXTRA_IMAGEDEPENDS += "qemu-native qemu-helper-native"
+> >>>> +EXTRA_IMAGEDEPENDS += "qemu-native qemu-helper-native unfs-server-native"
+> >>>> --
+> >>> 
+> >>> how about replacing  EXTRA_IMAGEDEPENDS with
+> >>> MACHINE_ESSENTIAL_EXTRA_RDEPENDS here ?
+> >> 
+> >> RDEPENDS end up in the image, IMAGEDEPENDS are needed to build the
+> >> image. Do I need qemu-native, helper-native and unfs to build the
+> >> image? No I don't. Would I need it if I decide to run the runqemu
+> >> scripts, yes. Do these extra dependencies cause pain? Yes, since it
+> >> requires installing tons of extra things on a headless buildserver
+> >> (mesa, sdl) to just build an image.
+> >> 
+> >> If I wanted to be an ass I would suggest moving qemu-native,
+> >> qemu-helper-native and unfs-server-native to the HOB, but I won't do
+> >> that.
+> >> 
+> >> So I'll stick with my original suggestion: move those dependencies to
+> >> the images you want to run on nfs for qemu, don't pollute the global
+> >> EXTRA_IMAGEDEPENDS with it.
+> > 
+> > If I wanted to be an ass here I'd just add them to the image class
+> > conditional on qemu. This would be a little pointless and needlessly
+> > complicate things though.
+> > 
+> > The point of these is to trigger them to build whenever a qemu image is
+> > built. This makes a lot of sense in some use cases, it also does not
+> > make sense in some other cases and it is not possible for the system to
+> > mind read and tell the difference.
 > 
-> What about having the runqemu* scripts call bitbake to build the -native helpers when they are missing? 
-> 
+> What about having the runqemu* scripts call bitbake to build the
+> -native helpers when they are missing? 
 
-Clearly this works from the usability angle of keeping a minimal number of steps, but there are two side effects because it is implemented as a "if helper binary exists ; then bitbake ...".  
+The whole point with the qemu emulated machines is that you build them
+and they work for new users easily and efficiently. I don't think
+calling bitbake to build them and force the user into another wait is a
+good usability model to be promoting.
 
-1) Everything you need to get started was not really there after completing the build
-2) If the qemu helpers are updated they will not get rebuilt when you run your typical rebuild
-    *** NOTE I realize that this probably does not happen too often, but it is a possibility
+I'm also slightly bemused that in previous discussions you've implied
+build time is less relevant then functionality yet here you're taking
+the opposite stance :).
 
-I would certainly not want bitbake to run each time you invoke runqemu to check if it is updated because that unnecessarily delays the start of the simulator.  It would seem to me the best approach is to use Richard's idea so as to allow folks to not build the helpers if someone really doesn't want them, as well as have runqemu auto build the helpers if they are not there so as to keep the use cases simple.
+Cheers,
 
-Respectfully,
-Jason.
+Richard
+
+
+
 
 
