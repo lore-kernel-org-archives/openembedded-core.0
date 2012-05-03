@@ -1,32 +1,20 @@
-Received: from mail-ob0-f175.google.com ([209.85.214.175])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1SPkzC-00063c-8t
+	(envelope-from <sgw@linux.intel.com>) id 1SPlPs-0006eX-Be
 	for openembedded-core@lists.openembedded.org;
-	Thu, 03 May 2012 03:37:38 +0200
-Received: by obhx4 with SMTP id x4so1937942obh.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 02 May 2012 18:27:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer;
-	bh=lep66r5epuvyEBM8dKx1DLBnWpzw5JObNaQNLsQzxdo=;
-	b=pFCfk2N6uE9O+/ZdiHG8wQZmP9bu/xFP27PtsqJ5PGG+eI6e4kXQkElUqx5hNQqU4U
-	GKayddrSGhiB/zu1HSZZ8QgB6IztCHKR1mrnV+BGvXS5vLWDBevNqA1LMgkzdwrpDqR7
-	rh+8Ydw8JWmu8WscKhjYZx+Mk+M0lkKxinH+IvO4oyujZMuS+l2Ab3pPzpKuEl6Ph3E6
-	6E3fUbtbH5hBNDl4yVLpNDp0aRz+OOgbledwYq0ozA2JDxqiTdNSS8ukd/JpULp7dSnC
-	6tnTrMgRA+tT4Aj/OiMos69fFJIJsrLvnRqB153JKZi2GNo0SiZzlzrM6YMWj3sIhyZM
-	KM1Q==
-Received: by 10.60.2.6 with SMTP id 6mr412641oeq.21.1336008472689;
-	Wed, 02 May 2012 18:27:52 -0700 (PDT)
-Received: from localhost.localdomain (nat-lmt.mentorg.com. [139.181.28.34])
-	by mx.google.com with ESMTPS id il8sm4005546obc.18.2012.05.02.18.27.50
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 02 May 2012 18:27:51 -0700 (PDT)
-From: Christopher Larson <kergoth@gmail.com>
+	Thu, 03 May 2012 04:05:12 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 02 May 2012 18:55:26 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="136400484"
+Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.179])
+	by orsmga001.jf.intel.com with ESMTP; 02 May 2012 18:55:25 -0700
+From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  2 May 2012 20:28:34 -0500
-Message-Id: <1336008514-26806-1-git-send-email-kergoth@gmail.com>
-X-Mailer: git-send-email 1.7.7
-Subject: [PATCH] kernel.bbclass: move kernel-vmlinux up in PACKAGES
+Date: Wed,  2 May 2012 18:55:25 -0700
+Message-Id: <1336010125-16381-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 1.7.7.6
+Subject: [PATCH] builder: Add Please Wait Dialog Box [1.3/1.2.1]
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,32 +29,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 May 2012 01:37:38 -0000
+X-List-Received-Date: Thu, 03 May 2012 02:05:12 -0000
 
-If KERNEL_IMAGETYPE is vmlinux, the expectation is most likely that there will
-be no kernel image package, but we still want a vmlinux package for debugging,
-so move kernel-vmlinux in front of kernel-image in PACKAGES.
+Add dialog box while bitbake starts hob to inform user
+to please wait for the hob screen to become visible.
 
-Signed-off-by: Christopher Larson <kergoth@gmail.com>
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/classes/kernel.bbclass |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+ meta/recipes-graphics/builder/builder_0.1.bb       |    7 +++-
+ .../builder/files/builder_hob_start.sh             |    2 +
+ .../builder/files/please_wait_dialog.py            |   28 ++++++++++++++++++++
+ 3 files changed, 35 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-graphics/builder/files/please_wait_dialog.py
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 3519e7c..d81b33c 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -247,7 +247,7 @@ EXPORT_FUNCTIONS do_compile do_install do_configure
+diff --git a/meta/recipes-graphics/builder/builder_0.1.bb b/meta/recipes-graphics/builder/builder_0.1.bb
+index af6ba51..cb5f440 100644
+--- a/meta/recipes-graphics/builder/builder_0.1.bb
++++ b/meta/recipes-graphics/builder/builder_0.1.bb
+@@ -1,11 +1,13 @@
+ SUMMARY = "New user to do specific job"
+ DESCRIPTION = "This recipe create a new user named ${PN}, who is used for specific jobs like building. The task can be auto started via mini X"
+ SECTION = "x11"
+-PR = "r2"
++PR = "r3"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://builder_hob_start.sh;endline=5;md5=84796c3c41785d86100fdabcbdade00e"
  
- # kernel-base becomes kernel-${KERNEL_VERSION}
- # kernel-image becomes kernel-image-${KERNEL_VERISON}
--PACKAGES = "kernel kernel-base kernel-image kernel-dev kernel-vmlinux kernel-misc"
-+PACKAGES = "kernel kernel-base kernel-vmlinux kernel-image kernel-dev kernel-misc"
- FILES = ""
- FILES_kernel-image = "/boot/${KERNEL_IMAGETYPE}*"
- FILES_kernel-dev = "/boot/System.map* /boot/Module.symvers* /boot/config*"
+-SRC_URI = "file://builder_hob_start.sh"
++SRC_URI = "file://builder_hob_start.sh \
++           file://please_wait_dialog.py \
++          "
+ 
+ S = "${WORKDIR}"
+ 
+@@ -23,5 +25,6 @@ do_install () {
+ 	install -p -m 755 builder_hob_start.sh ${D}/etc/mini_x/session.d/
+ 
+ 	chown  ${PN}.${PN} ${D}/etc/mini_x/session.d/builder_hob_start.sh
++        install -p -m 755 please_wait_dialog.py ${D}/etc/mini_x
+ }
+ 
+diff --git a/meta/recipes-graphics/builder/files/builder_hob_start.sh b/meta/recipes-graphics/builder/files/builder_hob_start.sh
+index 98b2adb..883535b 100644
+--- a/meta/recipes-graphics/builder/files/builder_hob_start.sh
++++ b/meta/recipes-graphics/builder/files/builder_hob_start.sh
+@@ -18,3 +18,5 @@ sed -i 's/^#PARALLEL_MAKE =/PARALLEL_MAKE =/g' conf/local.conf
+ hob &
+ 
+ matchbox-terminal&
++
++/etc/mini_x/please_wait_dialog.py &
+diff --git a/meta/recipes-graphics/builder/files/please_wait_dialog.py b/meta/recipes-graphics/builder/files/please_wait_dialog.py
+new file mode 100644
+index 0000000..fd2381b
+--- /dev/null
++++ b/meta/recipes-graphics/builder/files/please_wait_dialog.py
+@@ -0,0 +1,28 @@
++#!/usr/bin/env python
++import glib
++import gtk
++ 
++def destroy_window_cb(widget, event):
++    gtk.main_quit()
++ 
++def all_done_cb():
++    gtk.main_quit()
++ 
++def dialogue_ui():
++    window = gtk.Window()
++    window.set_title("Please wait...")
++    window.connect("delete-event", destroy_window_cb)
++    window.show()
++    window.set_border_width(12)
++ 
++    msg = "Please wait while BitBake initializes Hob"
++    label = gtk.Label(msg)
++    label.show()
++    window.add(label)
++ 
++    glib.timeout_add_seconds(10, all_done_cb)
++ 
++if __name__ == "__main__":
++    dialogue_ui()
++    gtk.main()
++
 -- 
-1.7.7
+1.7.7.6
 
 
 
