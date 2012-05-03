@@ -1,27 +1,36 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1SQ3Qj-00035m-NF
+	(envelope-from <raj.khem@gmail.com>) id 1SQ40A-0003ZO-IO
 	for openembedded-core@lists.openembedded.org;
-	Thu, 03 May 2012 23:19:17 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 03 May 2012 14:09:31 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="136751931"
-Received: from unknown (HELO envy.home) ([10.7.199.57])
-	by orsmga001.jf.intel.com with ESMTP; 03 May 2012 14:09:30 -0700
-Message-ID: <4FA2F3EC.4000607@linux.intel.com>
-Date: Thu, 03 May 2012 14:09:00 -0700
-From: Darren Hart <dvhart@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:12.0) Gecko/20120424 Thunderbird/12.0
+	Thu, 03 May 2012 23:55:54 +0200
+Received: by laai10 with SMTP id i10so906999laa.6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 03 May 2012 14:46:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=D2yyYdD1m1jG4SqPocenCqdEY1pbwJrs2s1tc6Q4vno=;
+	b=dlNpL8vYr/jZ5wlycrMs13UJNGti0dQ66SpnYCWCUeI/VszuPwN5AYdQl1NuFOfHh4
+	Mex5RaX7DKbql6b8gQQLMUJGYS4RUuXXqGxhtfzLvAANvQhiwLk793RVSAxnqZkPg+mI
+	1zQqKpd3Wl17rxbMo5xHq6cNnL+vXyt2ILc6zn6YIFkJeTFE/V4+6/F148BQStQwANRj
+	bV5VWPTuZ/QbsrW5aokc+nIDegesVOjVwmzRvu23/yEliPGQ600gxQGj6RfbZGD3kNcY
+	eTghoqKGYXNOzqzwTZ/0k96MMnS+7Jit+ZYTXUFEan1OBeJSlzhOWrI9zgBw1B92TNDe
+	5TSA==
+Received: by 10.112.103.8 with SMTP id fs8mr1839199lbb.29.1336081568506; Thu,
+	03 May 2012 14:46:08 -0700 (PDT)
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
+Received: by 10.152.129.134 with HTTP; Thu, 3 May 2012 14:45:38 -0700 (PDT)
+In-Reply-To: <4FA2F37C.4030107@linux.intel.com>
 References: <04705556464a6e41642962da40f0e17847ee3483.1328510188.git.raj.khem@gmail.com>
-	<71993993e48a2abeb09b5c6c86a1d8d2ebec7c25.1328510188.git.raj.khem@gmail.com>
-In-Reply-To: <71993993e48a2abeb09b5c6c86a1d8d2ebec7c25.1328510188.git.raj.khem@gmail.com>
-X-Enigmail-Version: 1.4.1
-Subject: Re: [PATCH 09/20] image.bbclass, kernel.bbclass: Use kmod-native instead of module-init-tools-cross
+	<55e8f3e04ef67a706dfc19ed730ae9612489c4e5.1328510188.git.raj.khem@gmail.com>
+	<4FA2F37C.4030107@linux.intel.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 3 May 2012 14:45:38 -0700
+Message-ID: <CAMKF1sqvN5+c5Yw1QJoNWWryP-BzCJw5VZqBkmUVc+GNvb8fuQ@mail.gmail.com>
+To: Darren Hart <dvhart@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 08/20] module-init-tools: Delete
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,79 +45,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 May 2012 21:19:17 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 03 May 2012 21:55:54 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Some comments regarding implementation are needed here. For example, why
-is HOST_PREFIX no longer necessary?
+On Thu, May 3, 2012 at 2:07 PM, Darren Hart <dvhart@linux.intel.com> wrote:
+> On 02/05/2012 10:40 PM, Khem Raj wrote:
+>> Since its provided by kmod
+>
+> Perhaps we should wait on deleting this until we've run with kmod as the
+> default for a while?
 
-On 02/05/2012 10:40 PM, Khem Raj wrote:
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
->  meta/classes/image.bbclass  |    2 +-
->  meta/classes/kernel.bbclass |    9 ++++-----
->  2 files changed, 5 insertions(+), 6 deletions(-)
-> 
-> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-> index 3034725..adb9b39 100644
-> --- a/meta/classes/image.bbclass
-> +++ b/meta/classes/image.bbclass
-> @@ -173,7 +173,7 @@ fakeroot do_rootfs () {
->  		KERNEL_VERSION=`cat ${STAGING_KERNEL_DIR}/kernel-abiversion`
->  
->  		mkdir -p ${IMAGE_ROOTFS}/lib/modules/$KERNEL_VERSION
-> -		${TARGET_PREFIX}depmod -a -b ${IMAGE_ROOTFS} -F ${STAGING_KERNEL_DIR}/System.map-$KERNEL_VERSION $KERNEL_VERSION
-> +		depmod -a -b ${IMAGE_ROOTFS} -F ${STAGING_KERNEL_DIR}/System.map-$KERNEL_VERSION $KERNEL_VERSION
->  	fi
->  
->  	${IMAGE_PREPROCESS_COMMAND}
-> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> index ec5d65e..be54f8e 100644
-> --- a/meta/classes/kernel.bbclass
-> +++ b/meta/classes/kernel.bbclass
-> @@ -1,7 +1,7 @@
->  inherit linux-kernel-base module_strip
->  
->  PROVIDES += "virtual/kernel"
-> -DEPENDS += "virtual/${TARGET_PREFIX}gcc virtual/${TARGET_PREFIX}depmod virtual/${TARGET_PREFIX}gcc${KERNEL_CCSUFFIX} update-modules"
-> +DEPENDS += "virtual/${TARGET_PREFIX}gcc kmod-native virtual/${TARGET_PREFIX}gcc${KERNEL_CCSUFFIX} update-modules"
->  
->  # we include gcc above, we dont need virtual/libc
->  INHIBIT_DEFAULT_DEPS = "1"
-> @@ -259,7 +259,7 @@ if [ ! -e "$D/lib/modules/${KERNEL_VERSION}" ]; then
->  	mkdir -p $D/lib/modules/${KERNEL_VERSION}
->  fi
->  if [ -n "$D" ]; then
-> -	${HOST_PREFIX}depmod -A -b $D -F ${STAGING_KERNEL_DIR}/System.map-${KERNEL_VERSION} ${KERNEL_VERSION}
-> +	depmod -a -b $D -F ${STAGING_KERNEL_DIR}/System.map-${KERNEL_VERSION} ${KERNEL_VERSION}
->  else
->  	depmod -a
->  fi
-> @@ -267,7 +267,7 @@ fi
->  
->  pkg_postinst_modules () {
->  if [ -n "$D" ]; then
-> -	${HOST_PREFIX}depmod -A -b $D -F ${STAGING_KERNEL_DIR}/System.map-${KERNEL_VERSION} ${KERNEL_VERSION}
-> +	depmod -a -b $D -F ${STAGING_KERNEL_DIR}/System.map-${KERNEL_VERSION} ${KERNEL_VERSION}
->  else
->  	depmod -a
->  	update-modules || true
-> @@ -339,9 +339,8 @@ python populate_packages_prepend () {
->  		if m:
->  			kernelver_stripped = m.group(1)
->  		path = d.getVar("PATH", 1)
-> -		host_prefix = d.getVar("HOST_PREFIX", 1) or ""
->  
-> -		cmd = "PATH=\"%s\" %sdepmod -n -a -r -b %s -F %s/boot/System.map-%s %s" % (path, host_prefix, dvar, dvar, kernelver, kernelver_stripped)
-> +		cmd = "PATH=\"%s\" depmod -n -a -b %s -F %s/boot/System.map-%s %s" % (path, dvar, dvar, kernelver, kernelver_stripped)
->  		f = os.popen(cmd, 'r')
->  
->  		deps = {}
+Fine with me.
 
--- 
-Darren Hart
-Intel Open Source Technology Center
-Yocto Project - Linux Kernel
+>
+> --
+> Darren Hart
+> Intel Open Source Technology Center
+> Yocto Project - Linux Kernel
 
 
