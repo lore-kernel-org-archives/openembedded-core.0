@@ -1,22 +1,14 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from ffm.saftware.de ([83.141.3.46])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1SQ17H-0007ue-Aa
+	(envelope-from <obi@opendreambox.org>) id 1SQ1xJ-0000Yv-Pw
 	for openembedded-core@lists.openembedded.org;
-	Thu, 03 May 2012 20:51:03 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 03 May 2012 11:41:15 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="136701498"
-Received: from nbuild0.sc.intel.com ([172.25.110.36])
-	by orsmga001.jf.intel.com with ESMTP; 03 May 2012 11:41:14 -0700
-From: nitin.a.kamble@intel.com
+	Thu, 03 May 2012 21:44:49 +0200
+From: Andreas Oberritter <obi@opendreambox.org>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  3 May 2012 11:41:11 -0700
-Message-Id: <be2a5b5f0be1666dbd65986d113a51d12afb389f.1336070422.git.nitin.a.kamble@intel.com>
-X-Mailer: git-send-email 1.7.6.5
-In-Reply-To: <cover.1336070422.git.nitin.a.kamble@intel.com>
-References: <cover.1336070422.git.nitin.a.kamble@intel.com>
-Subject: [PATCH 1/1] avahi: fix install issue
+Date: Thu,  3 May 2012 21:35:01 +0200
+Message-Id: <1336073701-22049-1-git-send-email-obi@opendreambox.org>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] busybox: remove unused patches for simple.script (udhcpc)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,80 +23,128 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 May 2012 18:51:03 -0000
+X-List-Received-Date: Thu, 03 May 2012 19:44:49 -0000
 
-From: Nitin A Kamble <nitin.a.kamble@intel.com>
+* OE-Core provides its own copy of simple.script.
 
-Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
+Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
 ---
- meta/recipes-connectivity/avahi/avahi.inc          |    6 ++-
- .../avahi/files/avahi_fix_install_issue.patch      |   32 ++++++++++++++++++++
- 2 files changed, 36 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-connectivity/avahi/files/avahi_fix_install_issue.patch
+ .../busybox-1.19.4/udhcpc-fix-nfsroot.patch        |   56 --------------------
+ .../busybox/busybox-1.19.4/udhcpscript.patch       |   24 ---------
+ meta/recipes-core/busybox/busybox_1.19.4.bb        |    4 +-
+ 3 files changed, 1 insertion(+), 83 deletions(-)
+ delete mode 100644 meta/recipes-core/busybox/busybox-1.19.4/udhcpc-fix-nfsroot.patch
+ delete mode 100644 meta/recipes-core/busybox/busybox-1.19.4/udhcpscript.patch
 
-diff --git a/meta/recipes-connectivity/avahi/avahi.inc b/meta/recipes-connectivity/avahi/avahi.inc
-index c064e03..c118758 100644
---- a/meta/recipes-connectivity/avahi/avahi.inc
-+++ b/meta/recipes-connectivity/avahi/avahi.inc
-@@ -14,14 +14,16 @@ SECTION = "network"
- # python scripts are under GPLv2+
- LICENSE = "GPLv2+ & LGPLv2.1+"
+diff --git a/meta/recipes-core/busybox/busybox-1.19.4/udhcpc-fix-nfsroot.patch b/meta/recipes-core/busybox/busybox-1.19.4/udhcpc-fix-nfsroot.patch
+deleted file mode 100644
+index d2eab8b..0000000
+--- a/meta/recipes-core/busybox/busybox-1.19.4/udhcpc-fix-nfsroot.patch
++++ /dev/null
+@@ -1,56 +0,0 @@
+-Upstream-Status: Pending
+-
+-# copy commit message from OE as the patch comment:
+-#    commit ec4da6df3ad5b8b03446d0dda9c50a2439ae325a
+-#    Author: Denys Dmytriyenko <denis@denix.org>
+-#    Date:   Wed Feb 4 11:43:18 2009 -0500
+-#
+-#    busybox: fix nfsroot issues with resetting IP and deleting routes
+-#
+-# above comment added by Kevin Tian <kevin.tian@intel.com>, 2010-07-06
+-Index: busybox-1.15.3/examples/udhcp/simple.script
+-===================================================================
+---- busybox-1.15.3.orig/examples/udhcp/simple.script	2010-06-27 12:17:14.116876946 +0200
+-+++ busybox-1.15.3/examples/udhcp/simple.script	2010-06-27 12:18:38.607868533 +0200
+-@@ -10,10 +10,17 @@
+- BROADCAST="broadcast +"
+- [ -n "$broadcast" ] && BROADCAST="broadcast $broadcast"
+- 
+-+# return 0 if root is mounted on a network filesystem
+-+root_is_nfs() {
+-+	grep -qe '^/dev/root.*\(nfs\|smbfs\|ncp\|coda\) .*' /proc/mounts
+-+}
+-+
+- case "$1" in
+- 	deconfig)
+-+		if ! root_is_nfs ; then
+- 		echo "Setting IP address 0.0.0.0 on $interface"
+--		ifconfig $interface 0.0.0.0
+-+			ifconfig $interface 0.0.0.0
+-+		fi
+- 		;;
+- 
+- 	renew|bound)
+-@@ -21,15 +28,17 @@
+- 		ifconfig $interface $ip $NETMASK $BROADCAST
+- 
+- 		if [ -n "$router" ] ; then
+--			echo "Deleting routers"
+--			while route del default gw 0.0.0.0 dev $interface 2>/dev/null ; do
+--				:
+--			done
+-+			if ! root_is_nfs ; then
+-+				echo "Deleting routers"
+-+				while route del default gw 0.0.0.0 dev $interface 2>/dev/null ; do
+-+					:
+-+				done
+-+			fi
+- 
+- 			metric=0
+- 			for i in $router ; do
+- 				echo "Adding router $i"
+--				route add default gw $i dev $interface metric $((metric++))
+-+				route add default gw $i dev $interface metric $((metric++)) 2>/dev/null
+- 			done
+- 		fi
+- 
+diff --git a/meta/recipes-core/busybox/busybox-1.19.4/udhcpscript.patch b/meta/recipes-core/busybox/busybox-1.19.4/udhcpscript.patch
+deleted file mode 100644
+index b82ea33..0000000
+--- a/meta/recipes-core/busybox/busybox-1.19.4/udhcpscript.patch
++++ /dev/null
+@@ -1,24 +0,0 @@
+-Upstream-Status: Pending
+-
+-# copy commit message from OE as the patch comment
+-#   commit c9bb6478a873d6de4c8a0e712435ac9a658a345d
+-#   Author: Holger Schurig <schurig@mn-solutions.de>
+-#   Date:   Wed Sep 29 08:29:58 2004 +0000
+-#
+-#   udhcpscript: fixes the "deleting routers" error message in case of no existing default routes
+-#
+-# Above comment added by Kevin Tian <kevin.tian@intel.com>, 2010-07-06
+-
+-Index: busybox-1.15.1/examples/udhcp/simple.script
+-===================================================================
+---- busybox-1.15.1.orig/examples/udhcp/simple.script	2009-09-12 17:55:36.000000000 +0200
+-+++ busybox-1.15.1/examples/udhcp/simple.script	2009-09-16 22:51:06.599693412 +0200
+-@@ -22,7 +22,7 @@ case "$1" in
+- 
+- 		if [ -n "$router" ] ; then
+- 			echo "Deleting routers"
+--			while route del default gw 0.0.0.0 dev $interface ; do
+-+			while route del default gw 0.0.0.0 dev $interface 2>/dev/null ; do
+- 				:
+- 			done
+- 
+diff --git a/meta/recipes-core/busybox/busybox_1.19.4.bb b/meta/recipes-core/busybox/busybox_1.19.4.bb
+index ad8297e..30dd333 100644
+--- a/meta/recipes-core/busybox/busybox_1.19.4.bb
++++ b/meta/recipes-core/busybox/busybox_1.19.4.bb
+@@ -1,9 +1,7 @@
+ require busybox.inc
+-PR = "r2"
++PR = "r3"
  
--INC_PR = "r3"
-+INC_PR = "r4"
- 
- DEPENDS = "expat libcap libdaemon dbus glib-2.0"
- 
- SRC_URI = "http://avahi.org/download/avahi-${PV}.tar.gz \
-           file://00avahi-autoipd \
-           file://99avahi-autoipd \
--          file://initscript.patch" 
-+          file://initscript.patch \
-+          file://avahi_fix_install_issue.patch \
-+          "
- 
- USERADD_PACKAGES = "avahi-daemon"
- USERADD_PARAM_avahi-daemon = "--system --home /var/run/avahi-daemon \
-diff --git a/meta/recipes-connectivity/avahi/files/avahi_fix_install_issue.patch b/meta/recipes-connectivity/avahi/files/avahi_fix_install_issue.patch
-new file mode 100644
-index 0000000..a9eb70e
---- /dev/null
-+++ b/meta/recipes-connectivity/avahi/files/avahi_fix_install_issue.patch
-@@ -0,0 +1,32 @@
-+Upsteam-Status: Pending
-+
-+Fixes this install issue
-+#| /bin/sh: line 0: cd: /srv/home/nitin/builds/build-gcc47/tmp/work/i586-poky-linux/avahi-0.6.31-r3.0/image//usr/bin: No such file or directory
-+
-+Signed-Off-By: Nitin A Kamble <nitin.a.kamble@intel.com>
-+2012/05/03
-+
-+Index: avahi-0.6.31/avahi-utils/Makefile.am
-+===================================================================
-+--- avahi-0.6.31.orig/avahi-utils/Makefile.am
-++++ avahi-0.6.31/avahi-utils/Makefile.am
-+@@ -54,6 +54,7 @@ avahi_set_host_name_CFLAGS = $(AM_CFLAGS
-+ avahi_set_host_name_LDADD = $(AM_LDADD) ../avahi-client/libavahi-client.la ../avahi-common/libavahi-common.la
-+ 
-+ install-exec-local:
-++	$(MKDIR_P) $(DESTDIR)/$(bindir) && \
-+ 	cd $(DESTDIR)/$(bindir) && \
-+ 		rm -f avahi-resolve-host-name avahi-resolve-address avahi-browse-domains avahi-publish-address avahi-publish-service && \
-+ 		$(LN_S) avahi-resolve avahi-resolve-host-name && \
-+Index: avahi-0.6.31/avahi-utils/Makefile.in
-+===================================================================
-+--- avahi-0.6.31.orig/avahi-utils/Makefile.in
-++++ avahi-0.6.31/avahi-utils/Makefile.in
-+@@ -906,6 +906,7 @@ uninstall-am: uninstall-binPROGRAMS
-+ 
-+ 
-+ @HAVE_DBUS_TRUE@install-exec-local:
-++@HAVE_DBUS_TRUE@	$(MKDIR_P) $(DESTDIR)/$(bindir) && \
-+ @HAVE_DBUS_TRUE@	cd $(DESTDIR)/$(bindir) && \
-+ @HAVE_DBUS_TRUE@		rm -f avahi-resolve-host-name avahi-resolve-address avahi-browse-domains avahi-publish-address avahi-publish-service && \
-+ @HAVE_DBUS_TRUE@		$(LN_S) avahi-resolve avahi-resolve-host-name && \
+ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
+-           file://udhcpscript.patch \
+-           file://udhcpc-fix-nfsroot.patch \
+            file://B921600.patch \
+            file://get_header_tar.patch \
+            file://busybox-appletlib-dependency.patch \
 -- 
-1.7.7
+1.7.9.5
 
 
 
