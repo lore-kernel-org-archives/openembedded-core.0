@@ -1,37 +1,23 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1SPuIE-0008Rh-2G for openembedded-core@lists.openembedded.org;
-	Thu, 03 May 2012 13:33:54 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q43BO96p032118
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 3 May 2012 12:24:09 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 30415-09 for <openembedded-core@lists.openembedded.org>;
-	Thu,  3 May 2012 12:24:05 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q43BNwDN032112
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 3 May 2012 12:24:00 +0100
-Message-ID: <1336044241.30113.73.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Thu, 03 May 2012 12:24:01 +0100
-In-Reply-To: <D8900CA0-6986-4242-8AF1-7A65CC86FDDA@dominion.thruhere.net>
-References: <1335968616-2436-1-git-send-email-jason.wessel@windriver.com>
-	<CAMKF1soELbeTS=ZnH3bhUbJkcaUz_sdkhRcykntqc=2jNBcUrg@mail.gmail.com>
-	<9295EE6F-5FFA-4FB4-B266-D8F45AAB2351@dominion.thruhere.net>
-	<1336034822.30113.47.camel@ted>
-	<D8900CA0-6986-4242-8AF1-7A65CC86FDDA@dominion.thruhere.net>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH] qemu-native: depend on unfs-server-native
+Received: from mail1.windriver.com ([147.11.146.13])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <jason.wessel@windriver.com>) id 1SPuLF-00005U-Et
+	for Openembedded-core@lists.openembedded.org;
+	Thu, 03 May 2012 13:37:03 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q43BRFMx020588
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <Openembedded-core@lists.openembedded.org>;
+	Thu, 3 May 2012 04:27:15 -0700 (PDT)
+Received: from localhost.localdomain (128.224.60.100) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.1.255.0; Thu, 3 May 2012 04:27:14 -0700
+From: Jason Wessel <jason.wessel@windriver.com>
+To: <Openembedded-core@lists.openembedded.org>
+Date: Thu, 3 May 2012 06:27:12 -0500
+Message-ID: <1336044432-28854-1-git-send-email-jason.wessel@windriver.com>
+X-Mailer: git-send-email 1.6.6.2
+MIME-Version: 1.0
+Subject: [PATCH] terminal.bbclass, oe-buildenv-internal: pass SCREENDIR environment variable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,84 +32,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 May 2012 11:33:54 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 03 May 2012 11:37:03 -0000
+Content-Type: text/plain
 
-On Thu, 2012-05-03 at 12:39 +0200, Koen Kooi wrote:
-> Op 3 mei 2012, om 10:47 heeft Richard Purdie het volgende geschreven:
-> 
-> > On Thu, 2012-05-03 at 09:43 +0200, Koen Kooi wrote:
-> >> Op 3 mei 2012, om 09:32 heeft Khem Raj het volgende geschreven:
-> >> 
-> >>> On Wed, May 2, 2012 at 7:23 AM, Jason Wessel <jason.wessel@windriver.com> wrote:
-> >>>> The user mode NFS server does not get built by default when you are
-> >>>> using a purely command line driven development environment without SDK
-> >>>> tools.  In order to accommodate simple test configurations and have
-> >>>> all the tools built for the minimal validation with qemu-native,
-> >>>> simply add the dependency to unfs-server-native.
-> >>>> 
-> >>>> Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
-> >>>> ---
-> >>>> meta/conf/machine/include/qemu.inc |    2 +-
-> >>>> 1 files changed, 1 insertions(+), 1 deletions(-)
-> >>>> 
-> >>>> diff --git a/meta/conf/machine/include/qemu.inc b/meta/conf/machine/include/qemu.inc
-> >>>> index 421a149..742b629 100644
-> >>>> --- a/meta/conf/machine/include/qemu.inc
-> >>>> +++ b/meta/conf/machine/include/qemu.inc
-> >>>> @@ -14,4 +14,4 @@ RDEPENDS_kernel-base = ""
-> >>>> # Use a common kernel recipe for all QEMU machines
-> >>>> PREFERRED_PROVIDER_virtual/kernel ?= "linux-yocto"
-> >>>> 
-> >>>> -EXTRA_IMAGEDEPENDS += "qemu-native qemu-helper-native"
-> >>>> +EXTRA_IMAGEDEPENDS += "qemu-native qemu-helper-native unfs-server-native"
-> >>>> --
-> >>> 
-> >>> how about replacing  EXTRA_IMAGEDEPENDS with
-> >>> MACHINE_ESSENTIAL_EXTRA_RDEPENDS here ?
-> >> 
-> >> RDEPENDS end up in the image, IMAGEDEPENDS are needed to build the
-> >> image. Do I need qemu-native, helper-native and unfs to build the
-> >> image? No I don't. Would I need it if I decide to run the runqemu
-> >> scripts, yes. Do these extra dependencies cause pain? Yes, since it
-> >> requires installing tons of extra things on a headless buildserver
-> >> (mesa, sdl) to just build an image.
-> >> 
-> >> If I wanted to be an ass I would suggest moving qemu-native,
-> >> qemu-helper-native and unfs-server-native to the HOB, but I won't do
-> >> that.
-> >> 
-> >> So I'll stick with my original suggestion: move those dependencies to
-> >> the images you want to run on nfs for qemu, don't pollute the global
-> >> EXTRA_IMAGEDEPENDS with it.
-> > 
-> > If I wanted to be an ass here I'd just add them to the image class
-> > conditional on qemu. This would be a little pointless and needlessly
-> > complicate things though.
-> > 
-> > The point of these is to trigger them to build whenever a qemu image is
-> > built. This makes a lot of sense in some use cases, it also does not
-> > make sense in some other cases and it is not possible for the system to
-> > mind read and tell the difference.
-> 
-> What about having the runqemu* scripts call bitbake to build the
-> -native helpers when they are missing? 
+Some versions of the screen utility provided from the host OS vendor
+write the socket directory to $HOME/.screen.  When using a shared home
+directory across many servers, one sets the SCREENDIR environment
+variable to avoid collisions in the shared home directory.  This
+results in problems launching a devshell where it is not entirely
+obvious what happened because the SCREENDIR environment variable
+got stripped from the environment prior to setting up the screen
+in detached mode.
 
-The whole point with the qemu emulated machines is that you build them
-and they work for new users easily and efficiently. I don't think
-calling bitbake to build them and force the user into another wait is a
-good usability model to be promoting.
+Example:
+   % bitbake -c devshell busybox
+   # ...Please connect in another terminal with "screen -r devshell"
 
-I'm also slightly bemused that in previous discussions you've implied
-build time is less relevant then functionality yet here you're taking
-the opposite stance :).
+   % screen -r devshell
+   There is no screen to be resumed matching devshell.
 
-Cheers,
+The temporary work around was to do something like:
+   sh -c "unset SCREENDIR; screen -r devshell"
 
-Richard
+This patch adds SCREENDIR to the white list to ensure screen
+works properly on systems where a developer needs to use
+the SCREENDIR with shared home directories.
+---
+ meta/classes/terminal.bbclass |    2 +-
+ scripts/oe-buildenv-internal  |    2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-
+diff --git a/meta/classes/terminal.bbclass b/meta/classes/terminal.bbclass
+index ca28bd2..3cfc84b 100644
+--- a/meta/classes/terminal.bbclass
++++ b/meta/classes/terminal.bbclass
+@@ -4,7 +4,7 @@ OE_TERMINAL[choices] = 'auto none \
+                         ${@" ".join(o.name \
+                                     for o in oe.terminal.prioritized())}'
+ 
+-OE_TERMINAL_EXPORTS = 'XAUTHORITY SHELL DBUS_SESSION_BUS_ADDRESS DISPLAY EXTRA_OEMAKE'
++OE_TERMINAL_EXPORTS = 'XAUTHORITY SHELL DBUS_SESSION_BUS_ADDRESS DISPLAY EXTRA_OEMAKE SCREENDIR'
+ OE_TERMINAL_EXPORTS[type] = 'list'
+ 
+ XAUTHORITY ?= "${HOME}/.Xauthority"
+diff --git a/scripts/oe-buildenv-internal b/scripts/oe-buildenv-internal
+index 14e728d..9de7b05 100755
+--- a/scripts/oe-buildenv-internal
++++ b/scripts/oe-buildenv-internal
+@@ -70,4 +70,4 @@ unset BITBAKEDIR
+ # Used by the runqemu script
+ export BUILDDIR
+ export PATH
+-export BB_ENV_EXTRAWHITE="MACHINE DISTRO TCMODE TCLIBC http_proxy ftp_proxy https_proxy all_proxy ALL_PROXY no_proxy SSH_AGENT_PID SSH_AUTH_SOCK BB_SRCREV_POLICY SDKMACHINE BB_NUMBER_THREADS PARALLEL_MAKE GIT_PROXY_COMMAND GIT_PROXY_IGNORE SOCKS5_PASSWD SOCKS5_USER"
++export BB_ENV_EXTRAWHITE="MACHINE DISTRO TCMODE TCLIBC http_proxy ftp_proxy https_proxy all_proxy ALL_PROXY no_proxy SSH_AGENT_PID SSH_AUTH_SOCK BB_SRCREV_POLICY SDKMACHINE BB_NUMBER_THREADS PARALLEL_MAKE GIT_PROXY_COMMAND GIT_PROXY_IGNORE SOCKS5_PASSWD SOCKS5_USER SCREENDIR"
+-- 
+1.6.6.2
 
 
 
