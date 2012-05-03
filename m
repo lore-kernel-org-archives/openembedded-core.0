@@ -1,24 +1,20 @@
 Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1SQ0iS-0001nM-Mu
+	(envelope-from <nitin.a.kamble@intel.com>) id 1SQ17B-0007uK-He
 	for openembedded-core@lists.openembedded.org;
-	Thu, 03 May 2012 20:25:25 +0200
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 03 May 2012 11:15:27 -0700
+	Thu, 03 May 2012 20:50:57 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 03 May 2012 11:41:10 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="96065375"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="138571385"
 Received: from nbuild0.sc.intel.com ([172.25.110.36])
-	by AZSMGA002.ch.intel.com with ESMTP; 03 May 2012 11:15:27 -0700
+	by azsmga001.ch.intel.com with ESMTP; 03 May 2012 11:41:10 -0700
 From: nitin.a.kamble@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  3 May 2012 11:15:21 -0700
-Message-Id: <dcb359ce013cc0aed7ef6f62bb8164366fd2d489.1336068854.git.nitin.a.kamble@intel.com>
+Date: Thu,  3 May 2012 11:41:09 -0700
+Message-Id: <cover.1336070422.git.nitin.a.kamble@intel.com>
 X-Mailer: git-send-email 1.7.6.5
-In-Reply-To: <e19e8ab17e0497c8de235f92d3c8d5ffcff19d91.1336068854.git.nitin.a.kamble@intel.com>
-References: <e19e8ab17e0497c8de235f92d3c8d5ffcff19d91.1336068854.git.nitin.a.kamble@intel.com>
-In-Reply-To: <cover.1336068854.git.nitin.a.kamble@intel.com>
-References: <cover.1336068854.git.nitin.a.kamble@intel.com>
-Subject: [PATCH 27/28] telepathy-glib: fix build
+Subject: [PATCH 0/1] fix for avahi breakage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,42 +29,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 May 2012 18:27:50 -0000
+X-List-Received-Date: Thu, 03 May 2012 18:50:57 -0000
 
 From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-avoid this issue:
-| rmdir: failed to remove `/srv/home/nitin/builds/build-gcc47/tmp/work/i586-poky-linux/telepathy-glib-0.18.1-r0/image/usr/bin': No such file or directory
-NOTE: package telepathy-glib-0.18.1-r0: task do_install: Failed
+The following changes since commit b36664cca05ac4538859c6dca00fbf84b0fee050:
 
-no PR bump as no change in the output
+  xf86-video-vmware: fix build issue (2012-05-03 11:12:34 -0700)
 
-Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
----
- .../telepathy/telepathy-glib_0.18.1.bb             |   12 +++++++++---
- 1 files changed, 9 insertions(+), 3 deletions(-)
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib nitin/upgrades2
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=nitin/upgrades2
 
-diff --git a/meta/recipes-connectivity/telepathy/telepathy-glib_0.18.1.bb b/meta/recipes-connectivity/telepathy/telepathy-glib_0.18.1.bb
-index 81da5f8..296b978 100644
---- a/meta/recipes-connectivity/telepathy/telepathy-glib_0.18.1.bb
-+++ b/meta/recipes-connectivity/telepathy/telepathy-glib_0.18.1.bb
-@@ -18,7 +18,13 @@ FILES_${PN} += "${datadir}/telepathy \
-                 ${datadir}/dbus-1"
- 
- do_install_append() {
--	rmdir ${D}${bindir}
--	rmdir ${D}${libexecdir}
--	rmdir ${D}${servicedir}
-+	if [ -d ${D}${bindir} ] ; then
-+		rmdir ${D}${bindir}
-+	fi
-+	if [ -d ${D}${libexecdir} ] ; then
-+		rmdir ${D}${libexecdir}
-+	fi
-+	if [ -d ${D}${servicedir} ] ; then
-+		rmdir ${D}${servicedir}
-+	fi
- }
+Nitin A Kamble (1):
+  avahi: fix install issue
+
+ meta/recipes-connectivity/avahi/avahi.inc          |    6 ++-
+ .../avahi/files/avahi_fix_install_issue.patch      |   32 ++++++++++++++++++++
+ 2 files changed, 36 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-connectivity/avahi/files/avahi_fix_install_issue.patch
+
 -- 
 1.7.7
 
