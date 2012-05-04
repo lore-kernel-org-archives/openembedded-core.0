@@ -1,26 +1,26 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SQRVk-0003lt-Qh
+	(envelope-from <sgw@linux.intel.com>) id 1SQRXQ-0003pX-Aj
 	for openembedded-core@lists.openembedded.org;
-	Sat, 05 May 2012 01:02:05 +0200
+	Sat, 05 May 2012 01:03:48 +0200
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 04 May 2012 15:52:12 -0700
+	by orsmga101.jf.intel.com with ESMTP; 04 May 2012 15:54:00 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="137180495"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="137180837"
 Received: from unknown (HELO [10.255.12.171]) ([10.255.12.171])
-	by orsmga001.jf.intel.com with ESMTP; 04 May 2012 15:52:12 -0700
-Message-ID: <4FA45D9B.8020409@linux.intel.com>
-Date: Fri, 04 May 2012 15:52:11 -0700
+	by orsmga001.jf.intel.com with ESMTP; 04 May 2012 15:54:00 -0700
+Message-ID: <4FA45E08.2030102@linux.intel.com>
+Date: Fri, 04 May 2012 15:54:00 -0700
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:12.0) Gecko/20120424 Thunderbird/12.0
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <0c57b76bc47680ccf576d412a3dc7e726f1daba2.1335991900.git.raj.khem@gmail.com>
-	<bf66597d441b73ad013875abb961f185cff2eaf7.1335991900.git.raj.khem@gmail.com>
-In-Reply-To: <bf66597d441b73ad013875abb961f185cff2eaf7.1335991900.git.raj.khem@gmail.com>
-Subject: Re: [PATCH 5/7] openssl: Fix build for mips64(el)
+References: <a0c837f8e419221a32b6709163579732f1758c84.1336166919.git.nitin.a.kamble@intel.com>
+	<2ac2c58e1ef661c5dcd5596a2e5342d5a47ef2fb.1336166919.git.nitin.a.kamble@intel.com>
+In-Reply-To: <2ac2c58e1ef661c5dcd5596a2e5342d5a47ef2fb.1336166919.git.nitin.a.kamble@intel.com>
+Subject: Re: [PATCH 26/40] avahi: fix install issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,72 +35,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 May 2012 23:02:05 -0000
+X-List-Received-Date: Fri, 04 May 2012 23:03:48 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 05/02/2012 01:53 PM, Khem Raj wrote:
-> Signed-off-by: Khem Raj<raj.khem@gmail.com>
+On 05/04/2012 02:30 PM, nitin.a.kamble@intel.com wrote:
+> From: Nitin A Kamble<nitin.a.kamble@intel.com>
+>
+> Signed-off-by: Nitin A Kamble<nitin.a.kamble@intel.com>
 > ---
->   .../openssl/openssl-1.0.0i/configure-targets.patch |   17 ++++++++---------
->   .../recipes-connectivity/openssl/openssl_1.0.0i.bb |    2 +-
->   2 files changed, 9 insertions(+), 10 deletions(-)
+>   meta/recipes-connectivity/avahi/avahi.inc          |    6 ++-
+>   .../avahi/files/avahi_fix_install_issue.patch      |   32 ++++++++++++++++++++
+>   2 files changed, 36 insertions(+), 2 deletions(-)
+>   create mode 100644 meta/recipes-connectivity/avahi/files/avahi_fix_install_issue.patch
 >
-> diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0i/configure-targets.patch b/meta/recipes-connectivity/openssl/openssl-1.0.0i/configure-targets.patch
-> index 6d23771..91b5502 100644
-> --- a/meta/recipes-connectivity/openssl/openssl-1.0.0i/configure-targets.patch
-> +++ b/meta/recipes-connectivity/openssl/openssl-1.0.0i/configure-targets.patch
-> @@ -1,13 +1,12 @@
-> -Upstream-Status: Inappropriate [embedded specific]
+> diff --git a/meta/recipes-connectivity/avahi/avahi.inc b/meta/recipes-connectivity/avahi/avahi.inc
+> index c064e03..c118758 100644
+> --- a/meta/recipes-connectivity/avahi/avahi.inc
+> +++ b/meta/recipes-connectivity/avahi/avahi.inc
+> @@ -14,14 +14,16 @@ SECTION = "network"
+>   # python scripts are under GPLv2+
+>   LICENSE = "GPLv2+&  LGPLv2.1+"
 >
-You removed the Upstream-Status:
-
-and no Signed-off-by
+> -INC_PR = "r3"
+> +INC_PR = "r4"
+>
+>   DEPENDS = "expat libcap libdaemon dbus glib-2.0"
+>
+>   SRC_URI = "http://avahi.org/download/avahi-${PV}.tar.gz \
+>             file://00avahi-autoipd \
+>             file://99avahi-autoipd \
+> -          file://initscript.patch"
+> +          file://initscript.patch \
+> +          file://avahi_fix_install_issue.patch \
+> +          "
+>
+>   USERADD_PACKAGES = "avahi-daemon"
+>   USERADD_PARAM_avahi-daemon = "--system --home /var/run/avahi-daemon \
+> diff --git a/meta/recipes-connectivity/avahi/files/avahi_fix_install_issue.patch b/meta/recipes-connectivity/avahi/files/avahi_fix_install_issue.patch
+> new file mode 100644
+> index 0000000..a9eb70e
+> --- /dev/null
+> +++ b/meta/recipes-connectivity/avahi/files/avahi_fix_install_issue.patch
+> @@ -0,0 +1,32 @@
+> +Upsteam-Status: Pending
+> +
+Miss-Spelled Upstream-Status
+(my checker found this)
 
 Sau!
 
->   The number of colons are important :)
->
->
-> -Index: openssl-1.0.0a/Configure
-> +Index: openssl-1.0.0h/Configure
->   ===================================================================
-> ---- openssl-1.0.0a.orig/Configure
-> -+++ openssl-1.0.0a/Configure
-> -@@ -380,6 +380,22 @@ my %table=(
-> +--- openssl-1.0.0h.orig/Configure	2012-04-23 09:16:09.521511921 -0700
-> ++++ openssl-1.0.0h/Configure	2012-04-23 09:17:41.829516389 -0700
-> +@@ -380,6 +380,22 @@
->    "linux-alpha-ccc","ccc:-fast -readonly_strings -DL_ENDIAN -DTERMIO::-D_REENTRANT:::SIXTY_FOUR_BIT_LONG RC4_CHUNK DES_INT DES_PTR DES_RISC1 DES_UNROLL:${alpha_asm}",
->    "linux-alpha+bwx-ccc","ccc:-fast -readonly_strings -DL_ENDIAN -DTERMIO::-D_REENTRANT:::SIXTY_FOUR_BIT_LONG RC4_CHAR RC4_CHUNK DES_INT DES_PTR DES_RISC1 DES_UNROLL:${alpha_asm}",
->
-> @@ -22,10 +21,10 @@ Index: openssl-1.0.0a/Configure
->   +"linux-avr32","$ENV{'CC'}:-DTERMIO -O3 -fomit-frame-pointer -Wall::-D_REENTRANT::-ldl:BN_LLONG DES_RISC1:${no_asm}:dlfcn:linux-shared:-fPIC::.so.\$(SHLIB_MAJOR).",
->   +
->   +#### Linux on MIPS/MIPS64
-> -+"linux-mips","$ENV{'CC'}:-DB_ENDIAN -DTERMIO -O3 -fomit-frame-pointer -Wall::-D_REENTRANT::-ldl:BN_LLONG RC2_CHAR RC4_INDEX DES_INT DES_UNROLL DES_RISC2::::::::::::dlfcn:linux-shared:-fPIC::.so.\$(SHLIB_MAJOR).\$(SHLIB_MINOR)",
-> -+"linux-mips64","$ENV{'CC'}:-DB_ENDIAN -DTERMIO -mabi=64 -O3 -fomit-frame-pointer -Wall::-D_REENTRANT::-ldl:SIXTY_FOUR_BIT_LONG RC2_CHAR RC4_INDEX DES_INT DES_UNROLL DES_RISC2::::::::::::dlfcn:linux-shared:-fPIC::.so.\$(SHLIB_MAJOR).\$(SHLIB_MINOR)",
-> -+"linux-mips64el","$ENV{'CC'}:-DL_ENDIAN -DTERMIO -mabi=64 -O3 -fomit-frame-pointer -Wall::-D_REENTRANT::-ldl:SIXTY_FOUR_BIT_LONG RC2_CHAR RC4_INDEX DES_INT DES_UNROLL DES_RISC2::::::::::::dlfcn:linux-shared:-fPIC::.so.\$(SHLIB_MAJOR).\$(SHLIB_MINOR)",
-> -+"linux-mipsel","$ENV{'CC'}:-DL_ENDIAN -DTERMIO -O3 -fomit-frame-pointer -Wall::-D_REENTRANT::-ldl:BN_LLONG RC2_CHAR RC4_INDEX DES_INT DES_UNROLL DES_RISC2::::::::::::dlfcn:linux-shared:-fPIC::.so.\$(SHLIB_MAJOR).\$(SHLIB_MINOR)",
-> ++"linux-mips","$ENV{'CC'}:-DB_ENDIAN -DTERMIO -O3 -fomit-frame-pointer -Wall::-D_REENTRANT::-ldl:BN_LLONG RC2_CHAR RC4_INDEX DES_INT DES_UNROLL DES_RISC2:${no_asm}:dlfcn:linux-shared:-fPIC::.so.\$(SHLIB_MAJOR).\$(SHLIB_MINOR)",
-> ++"linux-mips64","$ENV{'CC'}:-DB_ENDIAN -DTERMIO -mabi=64 -O3 -fomit-frame-pointer -Wall::-D_REENTRANT::-ldl:SIXTY_FOUR_BIT_LONG RC2_CHAR RC4_INDEX DES_INT DES_UNROLL DES_RISC2:${no_asm}:dlfcn:linux-shared:-fPIC::.so.\$(SHLIB_MAJOR).\$(SHLIB_MINOR)",
-> ++"linux-mips64el","$ENV{'CC'}:-DL_ENDIAN -DTERMIO -mabi=64 -O3 -fomit-frame-pointer -Wall::-D_REENTRANT::-ldl:SIXTY_FOUR_BIT_LONG RC2_CHAR RC4_INDEX DES_INT DES_UNROLL DES_RISC2:${no_asm}:dlfcn:linux-shared:-fPIC::.so.\$(SHLIB_MAJOR).\$(SHLIB_MINOR)",
-> ++"linux-mipsel","$ENV{'CC'}:-DL_ENDIAN -DTERMIO -O3 -fomit-frame-pointer -Wall::-D_REENTRANT::-ldl:BN_LLONG RC2_CHAR RC4_INDEX DES_INT DES_UNROLL DES_RISC2:${no_asm}:dlfcn:linux-shared:-fPIC::.so.\$(SHLIB_MAJOR).\$(SHLIB_MINOR)",
->   +
->    #### *BSD [do see comment about ${BSDthreads} above!]
->    "BSD-generic32","gcc:-DTERMIOS -O3 -fomit-frame-pointer -Wall::${BSDthreads}:::BN_LLONG RC2_CHAR RC4_INDEX DES_INT DES_UNROLL:${no_asm}:dlfcn:bsd-gcc-shared:-fPIC::.so.\$(SHLIB_MAJOR).\$(SHLIB_MINOR)",
-> diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.0i.bb b/meta/recipes-connectivity/openssl/openssl_1.0.0i.bb
-> index 68b092f..ca15a38 100644
-> --- a/meta/recipes-connectivity/openssl/openssl_1.0.0i.bb
-> +++ b/meta/recipes-connectivity/openssl/openssl_1.0.0i.bb
-> @@ -6,7 +6,7 @@ DEPENDS += "ocf-linux"
->
->   CFLAG += "-DHAVE_CRYPTODEV -DUSE_CRYPTODEV_DIGESTS"
->
-> -PR = "${INC_PR}.1"
-> +PR = "${INC_PR}.2"
->
->   LIC_FILES_CHKSUM = "file://LICENSE;md5=f9a8f968107345e0b75aa8c2ecaa7ec8"
->
+> +Fixes this install issue
+> +#| /bin/sh: line 0: cd: /srv/home/nitin/builds/build-gcc47/tmp/work/i586-poky-linux/avahi-0.6.31-r3.0/image//usr/bin: No such file or directory
+> +
+> +Signed-Off-By: Nitin A Kamble<nitin.a.kamble@intel.com>
+> +2012/05/03
+> +
+> +Index: avahi-0.6.31/avahi-utils/Makefile.am
+> +===================================================================
+> +--- avahi-0.6.31.orig/avahi-utils/Makefile.am
+> ++++ avahi-0.6.31/avahi-utils/Makefile.am
+> +@@ -54,6 +54,7 @@ avahi_set_host_name_CFLAGS = $(AM_CFLAGS
+> + avahi_set_host_name_LDADD = $(AM_LDADD) ../avahi-client/libavahi-client.la ../avahi-common/libavahi-common.la
+> +
+> + install-exec-local:
+> ++	$(MKDIR_P) $(DESTDIR)/$(bindir)&&  \
+> + 	cd $(DESTDIR)/$(bindir)&&  \
+> + 		rm -f avahi-resolve-host-name avahi-resolve-address avahi-browse-domains avahi-publish-address avahi-publish-service&&  \
+> + 		$(LN_S) avahi-resolve avahi-resolve-host-name&&  \
+> +Index: avahi-0.6.31/avahi-utils/Makefile.in
+> +===================================================================
+> +--- avahi-0.6.31.orig/avahi-utils/Makefile.in
+> ++++ avahi-0.6.31/avahi-utils/Makefile.in
+> +@@ -906,6 +906,7 @@ uninstall-am: uninstall-binPROGRAMS
+> +
+> +
+> + @HAVE_DBUS_TRUE@install-exec-local:
+> ++@HAVE_DBUS_TRUE@	$(MKDIR_P) $(DESTDIR)/$(bindir)&&  \
+> + @HAVE_DBUS_TRUE@	cd $(DESTDIR)/$(bindir)&&  \
+> + @HAVE_DBUS_TRUE@		rm -f avahi-resolve-host-name avahi-resolve-address avahi-browse-domains avahi-publish-address avahi-publish-service&&  \
+> + @HAVE_DBUS_TRUE@		$(LN_S) avahi-resolve avahi-resolve-host-name&&  \
 
 
