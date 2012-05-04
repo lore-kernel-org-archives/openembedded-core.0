@@ -1,14 +1,21 @@
-Received: from ffm.saftware.de ([83.141.3.46])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <obi@opendreambox.org>) id 1SQIQ0-0007XS-2T
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1SQIpW-0007pt-N6
 	for openembedded-core@lists.openembedded.org;
-	Fri, 04 May 2012 15:19:32 +0200
-From: Andreas Oberritter <obi@opendreambox.org>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  4 May 2012 15:09:44 +0200
-Message-Id: <1336136984-11129-1-git-send-email-obi@opendreambox.org>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] gcc-4.6: explicitly disable ppl
+	Fri, 04 May 2012 15:45:54 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 04 May 2012 06:36:06 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="137013283"
+Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.120.64])
+	by orsmga001.jf.intel.com with ESMTP; 04 May 2012 06:36:05 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org,
+	Scott Garman <scott.a.garman@intel.com>
+Date: Fri,  4 May 2012 14:36:00 +0100
+Message-Id: <cover.1336138307.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 1.7.5.4
+Subject: [PATCH 0/1] Buildhistory fix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -23,40 +30,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 May 2012 13:19:32 -0000
+X-List-Received-Date: Fri, 04 May 2012 13:45:54 -0000
 
-* Fixes the following error after a system library upgrade
-| .../mipsel-oe-linux/4.6.4/cc1: error while loading shared libraries: libppl.so.10: cannot open shared object file: No such file or directory
+This fix should also go into 1.2.1.
 
-Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
----
-* This patch is based on the denzil branch.
 
- meta/recipes-devtools/gcc/gcc-4.6.inc |    3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+The following change since commit 0be64cda0a20ca3aab75ee0cc360236d2dc40c95:
 
-diff --git a/meta/recipes-devtools/gcc/gcc-4.6.inc b/meta/recipes-devtools/gcc/gcc-4.6.inc
-index 020e21b..74843ae 100644
---- a/meta/recipes-devtools/gcc/gcc-4.6.inc
-+++ b/meta/recipes-devtools/gcc/gcc-4.6.inc
-@@ -1,6 +1,6 @@
- require gcc-common.inc
- 
--PR = "r25"
-+PR = "r26"
- 
- # Third digit in PV should be incremented after a minor release
- # happens from this branch on gcc e.g. currently its 4.6.0
-@@ -93,6 +93,7 @@ EXTRA_OECONF_BASE = " --enable-lto \
- 			--disable-libmudflap \
- 			--with-system-zlib \
- 			--with-linker-hash-style=${LINKER_HASH_STYLE} \
-+			--without-ppl \
- 			--enable-cheaders=c_global "
- 
- EXTRA_OECONF_INITIAL = "--disable-libmudflap \
+  gcc-package-target: add libexec for plugin (2012-05-03 15:38:07 +0100)
+
+is available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib paule/buildhistory-commit
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/buildhistory-commit
+
+Paul Eggleton (1):
+  buildhistory: fix multiple commit of images and packages at the same
+    time
+
+ meta/classes/buildhistory.bbclass |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
 -- 
-1.7.9.5
+1.7.5.4
 
 
 
