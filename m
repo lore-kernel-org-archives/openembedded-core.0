@@ -1,37 +1,48 @@
-Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
+Received: from mail-wi0-f177.google.com ([209.85.212.177])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1SQBsL-0001H0-AA
+	(envelope-from <koen@dominion.thruhere.net>) id 1SQBup-0001LS-SY
 	for openembedded-core@lists.openembedded.org;
-	Fri, 04 May 2012 08:20:21 +0200
-Received: by laai10 with SMTP id i10so1093599laa.6
+	Fri, 04 May 2012 08:22:55 +0200
+Received: by wibhj13 with SMTP id hj13so932698wib.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 03 May 2012 23:10:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type:content-transfer-encoding;
-	bh=rBm+7iwUCG5Ykd9kIPjQNm+G2IhWSadaCLqUdESS0wg=;
-	b=EOBgdZdXya0ext1FFLzlRai81IKauoHAEC7gMoTPm56lL3+jEFQ/l+KR8vVd5YGPuz
-	HSNvRFFNZpR6nbARAgGZLOCgcjMV4CzZq1hiXyj049DxyQ7jIsufe+l/tUaonPYOIQKr
-	8W9avV8ywZD1eQlpojH9mzxg2EJVnKu2MBmACqyQp2ozN0wwEnC2lfNkpQUGu3a+vkSy
-	kAi54wCWSfyO/eXwBquImc9xJiBRAh9WXyRV3xqd/kyFEpC9FF5yS+fPDVbbyXQ/mbVr
-	miL6A3PwFLKHtElcMTVr4mQHZkkIy7fSPcgxyUaeNsJ3gTE8/W5/83joe0bxy89U8xeN
-	tGVg==
-Received: by 10.152.111.198 with SMTP id ik6mr4477860lab.38.1336111834865;
-	Thu, 03 May 2012 23:10:34 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.152.129.134 with HTTP; Thu, 3 May 2012 23:10:04 -0700 (PDT)
-In-Reply-To: <CAMKF1so5LJRMx-fJPOasquEheq9Rk8PGPKFkbv4DSWZ=PJnLwQ@mail.gmail.com>
-References: <cover.1335991900.git.raj.khem@gmail.com>
-	<0c57b76bc47680ccf576d412a3dc7e726f1daba2.1335991900.git.raj.khem@gmail.com>
-	<e8d5425f8ca14a0c0b7378a9202fd4c72761ea12.1335991900.git.raj.khem@gmail.com>
-	<CAJG6M_NudM-_bL+Zp9CBkFGHqjnjRB1rQvNZz+FLnPA7aqrUYA@mail.gmail.com>
-	<CAMKF1so5LJRMx-fJPOasquEheq9Rk8PGPKFkbv4DSWZ=PJnLwQ@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 3 May 2012 23:10:04 -0700
-Message-ID: <CAMKF1sr+uGUpy9hFcak_pY2QbX542XRRfiZAzwbOD_wGXuH6iw@mail.gmail.com>
+	Thu, 03 May 2012 23:13:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=content-type:mime-version:subject:from:in-reply-to:date
+	:content-transfer-encoding:message-id:references:to:x-mailer
+	:x-gm-message-state;
+	bh=njiqjkzZWG07wP3tnXahdpLca/pBl+0aoieSINif1z8=;
+	b=gwrEqepN11RVkm2ZGwACboM9XaDDw2/WHGTXSJ5BP5W8AHlkXwoZCJVICJV8IJPevO
+	P2A4t6Cx2bLCDh4UuVp16EvcweyGhWhpMTlnzOKdyYdU/A3ZKKi21Jy7pZlfTZ6IG4DX
+	WUIz9C9MkSEfBgmeDAu2/ZD1tcqXvNcBQslghWfmu2aCnURCCjYNOEki+fLPTn/MG7zi
+	Vh8X4V5BaB1wzRAuoNxABbeuU/4gzoRU+mbFFw1ok8XxODXM/CTHSf3NJtK6IZhChIvm
+	2l1yHjxs2uXtuoAfMJPNaPOmbgELVmlaCGAlScD6a5MjWd19Rc2C8jhNz9KemJjTWAsc
+	ZUpA==
+Received: by 10.180.77.4 with SMTP id o4mr9719779wiw.17.1336111989648;
+	Thu, 03 May 2012 23:13:09 -0700 (PDT)
+Received: from [172.20.1.36] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id o2sm11586279wiv.11.2012.05.03.23.13.07
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 03 May 2012 23:13:08 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1257)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <1336045861.30113.83.camel@ted>
+Date: Fri, 4 May 2012 08:13:06 +0200
+Message-Id: <6C4B120A-3A7E-43F9-BA67-0A580B9D2911@dominion.thruhere.net>
+References: <1335968616-2436-1-git-send-email-jason.wessel@windriver.com>
+	<CAMKF1soELbeTS=ZnH3bhUbJkcaUz_sdkhRcykntqc=2jNBcUrg@mail.gmail.com>
+	<9295EE6F-5FFA-4FB4-B266-D8F45AAB2351@dominion.thruhere.net>
+	<1336034822.30113.47.camel@ted>
+	<D8900CA0-6986-4242-8AF1-7A65CC86FDDA@dominion.thruhere.net>
+	<1336044241.30113.73.camel@ted>
+	<481C530F-A851-4861-B261-9CBE17258D4B@dominion.thruhere.net>
+	<1336045861.30113.83.camel@ted>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 7/7] Enable PARALLEL_MAKE for testing
+X-Mailer: Apple Mail (2.1257)
+X-Gm-Message-State: ALoCoQlk8sdJuqL6ybxcvWrFO0imIdE5bRq/0yaebe27B6AzPHz2TDIzWnrhgsnvseO3gPFTo4BX
+Subject: Re: [PATCH] qemu-native: depend on unfs-server-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,340 +57,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 May 2012 06:20:21 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, May 3, 2012 at 10:54 PM, Khem Raj <raj.khem@gmail.com> wrote:
-> On Wed, May 2, 2012 at 9:53 PM, Yury Bushmelev <jay4mail@gmail.com> wrote=
-:
->> Please remove following recipes from this list:
->> meta/recipes-core/eggdbus/eggdbus_0.6.bb
->> .../net-tools/net-tools_1.60-23.bb
->>
->> I've seen failures on them with -j64 iirc.
->>
->
-> ok removed
+X-List-Received-Date: Fri, 04 May 2012 06:22:56 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 
 
-I have updated kraj/misc-updates branch to reflect this change
+Op 3 mei 2012, om 13:51 heeft Richard Purdie het volgende geschreven:
 
->
->> 2012/5/3 Khem Raj <raj.khem@gmail.com>
->>>
->>> From: Yuri Bushmelev <jay4mail@gmail.com>
->>>
->>> Signed-off-by: Yuri Bushmelev <jay4mail@gmail.com>
->>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
->>> ---
->>> =C2=A0meta/recipes-bsp/pciutils/pciutils_3.1.9.bb =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0| =C2=A0 =C2=A01 -
->>> =C2=A0meta/recipes-bsp/pcmciautils/pcmciautils.inc =C2=A0 =C2=A0 =C2=A0=
- | =C2=A0 =C2=A01 -
->>> =C2=A0meta/recipes-connectivity/iproute2/iproute2.inc =C2=A0 =C2=A0| =
-=C2=A0 =C2=A01 -
->>> =C2=A0.../nfs-utils/nfs-utils_1.2.3.bb =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A0 =C2=A01 -
->>> =C2=A0meta/recipes-core/eggdbus/eggdbus_0.6.bb =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 | =C2=A0 =C2=A01 -
->>> =C2=A0meta/recipes-devtools/autoconf/autoconf_2.68.bb =C2=A0 =C2=A0| =
-=C2=A0 =C2=A01 -
->>> =C2=A0meta/recipes-extended/groff/groff_1.20.1.bb =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0| =C2=A0 =C2=A01 -
->>> =C2=A0meta/recipes-extended/mailx/mailx_12.5.bb =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0| =C2=A0 =C2=A01 -
->>> =C2=A0.../net-tools/net-tools_1.60-23.bb =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A0 =C2=A01 -
->>> =C2=A0meta/recipes-extended/sat-solver/sat-solver_git.bb | =C2=A0 =C2=
-=A01 -
->>> =C2=A0.../fontconfig/fontconfig_2.8.0.bb =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A0 =C2=A01 -
->>> =C2=A0meta/recipes-graphics/libsdl/libsdl_1.2.15.bb =C2=A0 =C2=A0 =C2=
-=A0| =C2=A0 =C2=A01 -
->>> =C2=A0meta/recipes-graphics/xcb/libpthread-stubs_0.3.bb =C2=A0| =C2=A0 =
-=C2=A01 -
->>> =C2=A0meta/recipes-graphics/xcb/xcb-util.inc =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 | =C2=A0 =C2=A01 -
->>> =C2=A0meta/recipes-multimedia/pulseaudio/pulseaudio.inc =C2=A0| =C2=A0 =
-=C2=A01 -
->>> =C2=A0meta/recipes-multimedia/speex/speex_1.2rc1.bb =C2=A0 =C2=A0 =C2=
-=A0| =C2=A0 =C2=A01 -
->>> =C2=A0meta/recipes-support/icu/icu-3.6.inc =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 | =C2=A0 =C2=A01 -
->>> =C2=A0meta/recipes-support/libpcre/libpcre_8.21.bb =C2=A0 =C2=A0 =C2=A0=
- | =C2=A0 =C2=A01 -
->>> =C2=A018 files changed, 0 insertions(+), 18 deletions(-)
->>>
->>> diff --git a/meta/recipes-bsp/pciutils/pciutils_3.1.9.bb
->>> b/meta/recipes-bsp/pciutils/pciutils_3.1.9.bb
->>> index 2c969d9..83c040d 100644
->>> --- a/meta/recipes-bsp/pciutils/pciutils_3.1.9.bb
->>> +++ b/meta/recipes-bsp/pciutils/pciutils_3.1.9.bb
->>> @@ -21,7 +21,6 @@ SRC_URI =3D
->>> "${KERNELORG_MIRROR}/software/utils/pciutils/pciutils-${PV}.tar.bz2 \
->>> =C2=A0SRC_URI[md5sum] =3D "79cc1d0bff8603d3a550fa63802cd1db"
->>> =C2=A0SRC_URI[sha256sum] =3D
->>> "e4ce5d56ae4a9611d51ba0cc2ea45806f9539a18aceb4aa70b8ded50f6923c4f"
->>>
->>> -PARALLEL_MAKE =3D ""
->>>
->>> =C2=A0PCI_CONF_FLAG =3D "ZLIB=3Dyes DNS=3Dyes SHARED=3Dyes"
->>>
->>> diff --git a/meta/recipes-bsp/pcmciautils/pcmciautils.inc
->>> b/meta/recipes-bsp/pcmciautils/pcmciautils.inc
->>> index c0c1d0c..f303145 100644
->>> --- a/meta/recipes-bsp/pcmciautils/pcmciautils.inc
->>> +++ b/meta/recipes-bsp/pcmciautils/pcmciautils.inc
->>> @@ -23,7 +23,6 @@ LD =3D "${CC}"
->>> =C2=A0CFLAGS =3D+ "-I${S}/src"
->>> =C2=A0CFLAGS =3D+ "-DPCMCIAUTILS_VERSION=3D\'${PV}\'"
->>>
->>> -PARALLEL_MAKE =3D ""
->>> =C2=A0EXTRA_OEMAKE =3D "-e 'STRIP=3Decho' 'LIB_OBJS=3D-lc -lsysfs' 'LEX=
-=3Dflex'"
->>>
->>> =C2=A0do_install () {
->>> diff --git a/meta/recipes-connectivity/iproute2/iproute2.inc
->>> b/meta/recipes-connectivity/iproute2/iproute2.inc
->>> index 86847ef..ef5d3c6 100644
->>> --- a/meta/recipes-connectivity/iproute2/iproute2.inc
->>> +++ b/meta/recipes-connectivity/iproute2/iproute2.inc
->>> @@ -34,4 +34,3 @@ ALTERNATIVE_PATH =3D "${base_sbindir}/ip.iproute2"
->>> =C2=A0ALTERNATIVE_LINK =3D "${base_bindir}/ip"
->>> =C2=A0ALTERNATIVE_PRIORITY =3D "100"
->>>
->>> -PARALLEL_MAKE =3D ""
->>> diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.3.bb
->>> b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.3.bb
->>> index d047940..a45729d 100644
->>> --- a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.3.bb
->>> +++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.3.bb
->>> @@ -22,7 +22,6 @@ SRC_URI =3D
->>> "${SOURCEFORGE_MIRROR}/nfs/nfs-utils-${PV}.tar.bz2 \
->>> =C2=A0SRC_URI[md5sum] =3D "1131dc5f27c4f3905a6e7ee0d594fd4d"
->>> =C2=A0SRC_URI[sha256sum] =3D
->>> "5575ece941097cbfa67fbe0d220dfa11b73f5e6d991e7939c9339bd72259ff19"
->>>
->>> -PARALLEL_MAKE =3D ""
->>>
->>> =C2=A0# Only kernel-module-nfsd is required here (but can be built-in) =
-=C2=A0- the
->>> nfsd module will
->>> =C2=A0# pull in the remainder of the dependencies.
->>> diff --git a/meta/recipes-core/eggdbus/eggdbus_0.6.bb
->>> b/meta/recipes-core/eggdbus/eggdbus_0.6.bb
->>> index 75f56de..acca5f0 100644
->>> --- a/meta/recipes-core/eggdbus/eggdbus_0.6.bb
->>> +++ b/meta/recipes-core/eggdbus/eggdbus_0.6.bb
->>> @@ -28,4 +28,3 @@ EXTRA_OECONF =3D " --disable-man-pages
->>> --disable-gtk-doc-html "
->>>
->>> =C2=A0BBCLASSEXTEND =3D "native"
->>>
->>> -PARALLEL_MAKE =3D ""
->>> diff --git a/meta/recipes-devtools/autoconf/autoconf_2.68.bb
->>> b/meta/recipes-devtools/autoconf/autoconf_2.68.bb
->>> index 8d466e0..3f59aff 100644
->>> --- a/meta/recipes-devtools/autoconf/autoconf_2.68.bb
->>> +++ b/meta/recipes-devtools/autoconf/autoconf_2.68.bb
->>> @@ -2,7 +2,6 @@ require autoconf.inc
->>>
->>> =C2=A0PR =3D "r7"
->>>
->>> -PARALLEL_MAKE =3D ""
->>>
->>> =C2=A0LICENSE =3D "GPLv2 & GPLv3"
->>> =C2=A0LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D751419260aa954499f7aba=
-abaa882bbe \
->>> diff --git a/meta/recipes-extended/groff/groff_1.20.1.bb
->>> b/meta/recipes-extended/groff/groff_1.20.1.bb
->>> index 6cb72bf..de20303 100644
->>> --- a/meta/recipes-extended/groff/groff_1.20.1.bb
->>> +++ b/meta/recipes-extended/groff/groff_1.20.1.bb
->>> @@ -19,7 +19,6 @@ DEPENDS_virtclass-native =3D ""
->>> =C2=A0inherit autotools
->>>
->>> =C2=A0EXTRA_OECONF =3D "--without-x"
->>> -PARALLEL_MAKE =3D ""
->>>
->>> =C2=A0do_configure_prepend() {
->>> =C2=A0 =C2=A0 =C2=A0 =C2=A0if [ "${BUILD_SYS}" !=3D "${HOST_SYS}" ]; th=
-en
->>> diff --git a/meta/recipes-extended/mailx/mailx_12.5.bb
->>> b/meta/recipes-extended/mailx/mailx_12.5.bb
->>> index 2a08113..634d6da 100644
->>> --- a/meta/recipes-extended/mailx/mailx_12.5.bb
->>> +++ b/meta/recipes-extended/mailx/mailx_12.5.bb
->>> @@ -27,4 +27,3 @@ inherit autotools
->>>
->>> =C2=A0CFLAGS_append =3D " -D_BSD_SOURCE -DDEBIAN -I${S}/EXT"
->>>
->>> -PARALLEL_MAKE =3D ""
->>> diff --git a/meta/recipes-extended/net-tools/net-tools_1.60-23.bb
->>> b/meta/recipes-extended/net-tools/net-tools_1.60-23.bb
->>> index b9a05c6..69dfca9 100644
->>> --- a/meta/recipes-extended/net-tools/net-tools_1.60-23.bb
->>> +++ b/meta/recipes-extended/net-tools/net-tools_1.60-23.bb
->>> @@ -23,7 +23,6 @@ SRC_URI[patch.sha256sum] =3D
->>> "d678b3ea97d6c7ca548918994642bfc6b5511ab02f3a5881dfcc
->>> =C2=A0inherit gettext
->>>
->>> =C2=A0# The Makefile is lame, no parallel build
->>> -PARALLEL_MAKE =3D ""
->>>
->>> =C2=A0# Unlike other Debian packages, net-tools *.diff.gz contains anot=
-her
->>> series of
->>> =C2=A0# patches maintained by quilt. So manually apply them before appl=
-ying
->>> other local
->>> diff --git a/meta/recipes-extended/sat-solver/sat-solver_git.bb
->>> b/meta/recipes-extended/sat-solver/sat-solver_git.bb
->>> index 9d8422f..b796124 100644
->>> --- a/meta/recipes-extended/sat-solver/sat-solver_git.bb
->>> +++ b/meta/recipes-extended/sat-solver/sat-solver_git.bb
->>> @@ -10,7 +10,6 @@ SRCREV =3D "0a7378d5f482f477a01cf1690d76871ab8bdcc32"
->>> =C2=A0PV =3D "0.0-git${SRCPV}"
->>> =C2=A0PR =3D "r13"
->>>
->>> -PARALLEL_MAKE=3D""
->>>
->>> =C2=A0SRC_URI =3D "git://github.com/openSUSE/sat-solver.git;protocol=3D=
-git \
->>> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://sat-solver_rpm5.patch \
->>> diff --git a/meta/recipes-graphics/fontconfig/fontconfig_2.8.0.bb
->>> b/meta/recipes-graphics/fontconfig/fontconfig_2.8.0.bb
->>> index 55c04cc..51f31ac 100644
->>> --- a/meta/recipes-graphics/fontconfig/fontconfig_2.8.0.bb
->>> +++ b/meta/recipes-graphics/fontconfig/fontconfig_2.8.0.bb
->>> @@ -39,7 +39,6 @@ RREPLACES_fontconfig-utils =3D "libfontconfig-utils"
->>> =C2=A0RCONFLICTS_fontconfig-utils =3D "libfontconfig-utils"
->>> =C2=A0DEBIAN_NOAUTONAME_fontconfig-utils =3D "1"
->>>
->>> -PARALLEL_MAKE =3D ""
->>>
->>> =C2=A0inherit autotools pkgconfig
->>>
->>> diff --git a/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb
->>> b/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb
->>> index 8b39442..3fbd584 100644
->>> --- a/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb
->>> +++ b/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb
->>> @@ -49,7 +49,6 @@ EXTRA_OECONF =3D "--disable-static --disable-debug
->>> --enable-cdrom --enable-threads
->>> =C2=A0PACKAGECONFIG ??=3D "${@base_contains('DISTRO_FEATURES', 'alsa', =
-'alsa',
->>> '', d)}"
->>> =C2=A0PACKAGECONFIG[alsa] =3D "--enable-alsa,--disable-alsa,alsa-lib,"
->>>
->>> -PARALLEL_MAKE =3D ""
->>>
->>> =C2=A0EXTRA_AUTORECONF +=3D "--include=3Dacinclude --exclude=3Dautohead=
-er"
->>>
->>> diff --git a/meta/recipes-graphics/xcb/libpthread-stubs_0.3.bb
->>> b/meta/recipes-graphics/xcb/libpthread-stubs_0.3.bb
->>> index c121bb9..44d9b79 100644
->>> --- a/meta/recipes-graphics/xcb/libpthread-stubs_0.3.bb
->>> +++ b/meta/recipes-graphics/xcb/libpthread-stubs_0.3.bb
->>> @@ -8,7 +8,6 @@ LICENSE =3D "MIT"
->>> =C2=A0LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D6edc1fea03d959f0c2d743=
-fe5ca746ad"
->>> =C2=A0PR =3D "r0"
->>>
->>> -PARALLEL_MAKE =3D ""
->>> =C2=A0#DEPENDS =3D "xcb-proto xproto libxau libxslt-native"
->>> =C2=A0# DEPENDS +=3D "xsltproc-native gperf-native"
->>>
->>> diff --git a/meta/recipes-graphics/xcb/xcb-util.inc
->>> b/meta/recipes-graphics/xcb/xcb-util.inc
->>> index 7dad545..47e7198 100644
->>> --- a/meta/recipes-graphics/xcb/xcb-util.inc
->>> +++ b/meta/recipes-graphics/xcb/xcb-util.inc
->>> @@ -16,7 +16,6 @@ SECTION =3D "x11/libs"
->>> =C2=A0DEPENDS =3D "libxcb"
->>> =C2=A0DEPENDS +=3D "gperf-native"
->>>
->>> -PARALLEL_MAKE =3D ""
->>>
->>> =C2=A0SRC_URI =3D "http://xcb.freedesktop.org/dist/${BPN}-${PV}.tar.bz2=
-"
->>>
->>> diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
->>> b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
->>> index a653af5..d2fdbe3 100644
->>> --- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
->>> +++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
->>> @@ -34,7 +34,6 @@ EXTRA_OECONF =3D "\
->>> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0--with-access-gr=
-oup=3Daudio \
->>> =C2=A0"
->>>
->>> -PARALLEL_MAKE =3D ""
->>>
->>> =C2=A0export TARGET_PFPU =3D "${TARGET_FPU}"
->>>
->>> diff --git a/meta/recipes-multimedia/speex/speex_1.2rc1.bb
->>> b/meta/recipes-multimedia/speex/speex_1.2rc1.bb
->>> index 7370134..7da9645 100644
->>> --- a/meta/recipes-multimedia/speex/speex_1.2rc1.bb
->>> +++ b/meta/recipes-multimedia/speex/speex_1.2rc1.bb
->>> @@ -14,7 +14,6 @@ SRC_URI =3D
->>> "http://downloads.us.xiph.org/releases/speex/speex-1.2rc1.tar.gz"
->>> =C2=A0SRC_URI[md5sum] =3D "c4438b22c08e5811ff10e2b06ee9b9ae"
->>> =C2=A0SRC_URI[sha256sum] =3D
->>> "342f30dc57bd4a6dad41398365baaa690429660b10d866b7d508e8f1179cb7a6"
->>>
->>> -PARALLEL_MAKE =3D ""
->>>
->>> =C2=A0inherit autotools pkgconfig
->>>
->>> diff --git a/meta/recipes-support/icu/icu-3.6.inc
->>> b/meta/recipes-support/icu/icu-3.6.inc
->>> index e3f9dd2..d3264ae 100644
->>> --- a/meta/recipes-support/icu/icu-3.6.inc
->>> +++ b/meta/recipes-support/icu/icu-3.6.inc
->>> @@ -17,7 +17,6 @@ DEPENDS_virtclass-native =3D ""
->>>
->>> =C2=A0S =3D "${WORKDIR}/icu/source"
->>>
->>> -PARALLEL_MAKE =3D ""
->>> =C2=A0FULL_OPTIMIZATION_arm =3D "-Os"
->>>
->>> =C2=A0inherit autotools pkgconfig binconfig
->>> diff --git a/meta/recipes-support/libpcre/libpcre_8.21.bb
->>> b/meta/recipes-support/libpcre/libpcre_8.21.bb
->>> index f5fa4ef..9477c74 100644
->>> --- a/meta/recipes-support/libpcre/libpcre_8.21.bb
->>> +++ b/meta/recipes-support/libpcre/libpcre_8.21.bb
->>> @@ -22,7 +22,6 @@ DEPENDS =3D "bzip2 zlib readline"
->>>
->>> =C2=A0inherit autotools binconfig
->>>
->>> -PARALLEL_MAKE =3D ""
->>>
->>> =C2=A0CFLAGS_append =3D " -D_REENTRANT"
->>> =C2=A0CXXFLAGS_powerpc +=3D "-lstdc++"
->>> --
->>> 1.7.5.4
->>>
->>>
->>> _______________________________________________
->>> Openembedded-core mailing list
->>> Openembedded-core@lists.openembedded.org
->>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->>
->>
->>
->>
->> --
->> Yury Bushmelev
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->>
+> On Thu, 2012-05-03 at 13:39 +0200, Koen Kooi wrote:
+>> Op 3 mei 2012, om 13:24 heeft Richard Purdie het volgende geschreven:
+>>> The whole point with the qemu emulated machines is that you build them
+>>> and they work for new users easily and efficiently. I don't think
+>>> calling bitbake to build them and force the user into another wait is a
+>>> good usability model to be promoting.
+>> 
+>> OE-core should set the right example and teaching people that a global
+>> IMAGE_DEPENDS is OK is not the right example. Especially when it
+>> actually causes breakage, see below.
+>> If people insist that IMAGE_DEPENDS is the one and only way to provide
+>> the runqemu experience then at least put a big comment in the file
+>> saying why it's done and why people shouldn't be copy/pasting it into
+>> their layers.
+>> And an indiciation where the line is drawn would be nice as well, I
+>> can imagine that someone wants to add amazon EC2 support to runqemu
+>> and sends a patch to add the EC2 tools to IMAGE_DEPENDS.
+> 
+> I'm happy to see a comment. The line is quite clear, the documentation
+> associated with the qemu images, the quick start guide and other manuals
+> assume we build qemu-native and friends and for usability this is a
+> clear win. The manuals do not document EC2 and it is not something we
+> expect a new user to need to do easily. Running an extra "bitbake xxx"
+> or including an extra configuration file would be perfectly reasonable
+> for those usage scenarios.
+> 
+>>> I'm also slightly bemused that in previous discussions you've implied
+>>> build time is less relevant then functionality yet here you're taking
+>>> the opposite stance :).
+>> 
+>> I get build *failures* for the qemu machines because I don't have mesa
+>> and sdl installed on the autobuilder. But you are right, I do think
+>> build time is less relevant than functionality.
+> 
+> We should also consider setting up PACKAGECONFIG options in the qemu
+> recipe for these things so you can specify to build qemu-native without
+> sdl/gl easily. I appreciate that is going to be pretty nasty
+> implementation wise but I think it would help and in fact if someone
+> files the bug I'll mark it as a P1 for 1.3 since that does help
+> usability a lot.
+
+#2402 and it's already going the WONTFIX way
 
 
