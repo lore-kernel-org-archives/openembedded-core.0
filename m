@@ -1,40 +1,37 @@
-Received: from mail-wg0-f43.google.com ([74.125.82.43])
+Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1SQBrH-0001EQ-Mn
+	(envelope-from <raj.khem@gmail.com>) id 1SQBsL-0001H0-AA
 	for openembedded-core@lists.openembedded.org;
-	Fri, 04 May 2012 08:19:15 +0200
-Received: by wgbdr1 with SMTP id dr1so2068313wgb.24
+	Fri, 04 May 2012 08:20:21 +0200
+Received: by laai10 with SMTP id i10so1093599laa.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 03 May 2012 23:09:29 -0700 (PDT)
+	Thu, 03 May 2012 23:10:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=kR5+yF+x/6aV/2RjGGWQrRj+pfYmsH6jp4ny7uK+u54=;
-	b=mFy0hPxHuN5KcqHLZO5IQQZdN+ItKL9C9asqXyMvpKEmhY4D7BMO/uXcXZJRt43M9A
-	jhlPp4a6rkkzgmvB2KPzNwGL9TX+3Y1SMyIHcGeZ361rdPLMm2rG5VRVIC0TVpSsy5u0
-	m648TGM6GA1RWoKNXxXY5D8a5YtRzuSDPVBvTjxYsR9eTdEvrAnUuoVOQHGtjkjiS4Pj
-	WraGFU7iIkleiwaEomD7vmXhkzTAT/R3OeT6HjtpLnMpSXeLYPDOhV9eSu+8KK/weQXt
-	E6tQ0AcJ1JpDKo9wkHJRcWI6Sxwb8JpGRczN/ouLQRk5CAjCWf5dytm4ej9nscxRMwW4
-	npRg==
-Received: by 10.180.24.66 with SMTP id s2mr47124wif.7.1336111769443;
-	Thu, 03 May 2012 23:09:29 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id e8sm2418063wiy.3.2012.05.03.23.09.27
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 03 May 2012 23:09:28 -0700 (PDT)
-Date: Fri, 4 May 2012 08:09:31 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type:content-transfer-encoding;
+	bh=rBm+7iwUCG5Ykd9kIPjQNm+G2IhWSadaCLqUdESS0wg=;
+	b=EOBgdZdXya0ext1FFLzlRai81IKauoHAEC7gMoTPm56lL3+jEFQ/l+KR8vVd5YGPuz
+	HSNvRFFNZpR6nbARAgGZLOCgcjMV4CzZq1hiXyj049DxyQ7jIsufe+l/tUaonPYOIQKr
+	8W9avV8ywZD1eQlpojH9mzxg2EJVnKu2MBmACqyQp2ozN0wwEnC2lfNkpQUGu3a+vkSy
+	kAi54wCWSfyO/eXwBquImc9xJiBRAh9WXyRV3xqd/kyFEpC9FF5yS+fPDVbbyXQ/mbVr
+	miL6A3PwFLKHtElcMTVr4mQHZkkIy7fSPcgxyUaeNsJ3gTE8/W5/83joe0bxy89U8xeN
+	tGVg==
+Received: by 10.152.111.198 with SMTP id ik6mr4477860lab.38.1336111834865;
+	Thu, 03 May 2012 23:10:34 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.152.129.134 with HTTP; Thu, 3 May 2012 23:10:04 -0700 (PDT)
+In-Reply-To: <CAMKF1so5LJRMx-fJPOasquEheq9Rk8PGPKFkbv4DSWZ=PJnLwQ@mail.gmail.com>
+References: <cover.1335991900.git.raj.khem@gmail.com>
+	<0c57b76bc47680ccf576d412a3dc7e726f1daba2.1335991900.git.raj.khem@gmail.com>
+	<e8d5425f8ca14a0c0b7378a9202fd4c72761ea12.1335991900.git.raj.khem@gmail.com>
+	<CAJG6M_NudM-_bL+Zp9CBkFGHqjnjRB1rQvNZz+FLnPA7aqrUYA@mail.gmail.com>
+	<CAMKF1so5LJRMx-fJPOasquEheq9Rk8PGPKFkbv4DSWZ=PJnLwQ@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 3 May 2012 23:10:04 -0700
+Message-ID: <CAMKF1sr+uGUpy9hFcak_pY2QbX542XRRfiZAzwbOD_wGXuH6iw@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Message-ID: <20120504060931.GB3163@jama.jama.net>
-References: <cover.1335992192.git.raj.khem@gmail.com>
-	<907b74f1035fcd569920630c6fc68751cfb8ca14.1335992192.git.raj.khem@gmail.com>
-	<4FA327A2.5040705@linux.intel.com>
-	<20120504053258.GA3163@jama.jama.net>
-MIME-Version: 1.0
-In-Reply-To: <20120504053258.GA3163@jama.jama.net>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: [PATCH 1/3] kmod: Add recipes
+Subject: Re: [PATCH 7/7] Enable PARALLEL_MAKE for testing
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,278 +46,340 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 May 2012 06:19:15 -0000
-X-Groupsio-MsgNum: 21639
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="IrhDeMKUP4DT/M7F"
-Content-Disposition: inline
-
---IrhDeMKUP4DT/M7F
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Fri, 04 May 2012 06:20:21 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, May 04, 2012 at 07:32:58AM +0200, Martin Jansa wrote:
-> On Thu, May 03, 2012 at 05:49:38PM -0700, Saul Wold wrote:
-> > On 05/02/2012 01:58 PM, Khem Raj wrote:
-> > > kmod is replacement for module-init-tools
-> > >
-> > > Signed-off-by: Khem Raj<raj.khem@gmail.com>
-> > > ---
-> > >   meta/recipes-kernel/kmod/kmod-native_git.bb      |   14 +++++
-> > >   meta/recipes-kernel/kmod/kmod.inc                |   31 +++++++++++
-> > >   meta/recipes-kernel/kmod/kmod/depmod-search.conf |    6 ++
-> > >   meta/recipes-kernel/kmod/kmod_git.bb             |   62 +++++++++++=
-+++++++++++
-> > >   4 files changed, 113 insertions(+), 0 deletions(-)
-> > >   create mode 100644 meta/recipes-kernel/kmod/kmod-native_git.bb
-> > >   create mode 100644 meta/recipes-kernel/kmod/kmod.inc
-> > >   create mode 100644 meta/recipes-kernel/kmod/kmod/depmod-search.conf
-> > >   create mode 100644 meta/recipes-kernel/kmod/kmod_git.bb
-> > >
-> >=20
-> > I have been seeing build failures in the man section of kmod:
-> >=20
-> > | Making all in man
-> > |=20
-> > /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/b=
-uild/tmp/sysroots/x86_64-linux/usr/bin/xsltproc=20
-> > --nonet --param funcsynopsis.style "'ansi'" \
-> > |=20
-> > http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl=
-=20
-> > depmod.d.xml
-> > |=20
-> > /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/b=
-uild/tmp/sysroots/x86_64-linux/usr/bin/xsltproc=20
-> > --nonet --param funcsynopsis.style "'ansi'" \
-> > |=20
-> > http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl=
-=20
-> > modprobe.d.xml
-> > | I/O error : Attempt to load network entity=20
-> > http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl
-> > | warning: failed to load external entity=20
-> > "http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xs=
-l"
-> > | cannot parse=20
-> > http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl
-> > | make[2]: *** [depmod.d.5] Error 4
-> > | make[2]: *** Waiting for unfinished jobs....
-> > | I/O error : Attempt to load network entity=20
-> > http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl
-> > | warning: failed to load external entity=20
-> > "http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xs=
-l"
-> > | cannot parse=20
-> > http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl
-> > | make[2]: *** [modprobe.d.5] Error 4
-> > | make[1]: *** [all-recursive] Error 1
-> > | make: *** [all] Error 2
-> > | ERROR: oe_runmake failed
-> >=20
-> > Can you confirm this issue?
->=20
-> I can from meta-oe version of kmod
->=20
-> http://git.openembedded.org/meta-openembedded/commit/?id=3Df75e91c48cfc58=
-f91dc8f70f80a154d97d2d6c60
->=20
-> Not sure why khem haven't used this commit/patch.
-
-I've filled https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D2416 so
-maybe someone will fix it properly.
-
-Cheers,
-
->=20
-> Cheers,
->=20
-> >=20
-> > Sau!
-> >=20
-> > > diff --git a/meta/recipes-kernel/kmod/kmod-native_git.bb b/meta/recip=
-es-kernel/kmod/kmod-native_git.bb
-> > > new file mode 100644
-> > > index 0000000..96de8b8
-> > > --- /dev/null
-> > > +++ b/meta/recipes-kernel/kmod/kmod-native_git.bb
-> > > @@ -0,0 +1,14 @@
-> > > +# Copyright (C) 2012 Khem Raj<raj.khem@gmail.com>
-> > > +# Released under the MIT license (see COPYING.MIT for the terms)
-> > > +
-> > > +require kmod.inc
-> > > +inherit native
-> > > +
-> > > +PR =3D "${INC_PR}.0"
-> > > +
-> > > +do_install_append (){
-> > > +	for tool in depmod insmod lsmod modinfo modprobe rmmod
-> > > +	do
-> > > +		ln -s kmod ${D}${bindir}/$tool
-> > > +	done
-> > > +}
-> > > diff --git a/meta/recipes-kernel/kmod/kmod.inc b/meta/recipes-kernel/=
-kmod/kmod.inc
-> > > new file mode 100644
-> > > index 0000000..940a317
-> > > --- /dev/null
-> > > +++ b/meta/recipes-kernel/kmod/kmod.inc
-> > > @@ -0,0 +1,31 @@
-> > > +# Copyright (C) 2012 Khem Raj<raj.khem@gmail.com>
-> > > +# Released under the MIT license (see COPYING.MIT for the terms)
-> > > +
-> > > +DESCRIPTION =3D "kmod is a set of tools to handle common tasks with =
-Linux kernel modules like \
-> > > +               insert, remove, list, check properties, resolve depen=
-dencies and aliases."
-> > > +HOMEPAGE =3D "http://packages.profusion.mobi/kmod/"
-> > > +LICENSE =3D "GPL-2.0+&  LGPL-2.1+"
-> > > +LICENSE_libkmod =3D "LGPL-2.1+"
-> > > +SECTION =3D "base"
-> > > +PV =3D "7+git${SRCREV}"
-> > > +INC_PR =3D "r0"
-> > > +DEPENDS +=3D "gnome-doc-utils-native"
-> > > +LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D751419260aa954499f7abaaba=
-a882bbe \
-> > > +                    file://libkmod/COPYING;md5=3Da6f89e2100d9b6cdffc=
-ea4f398e37343 \
-> > > +                   "
-> > > +inherit autotools
-> > > +
-> > > +SRC_URI =3D "git://git.profusion.mobi/kmod.git;protocol=3Dgit;branch=
-=3Dmaster \
-> > > +           file://depmod-search.conf \
-> > > +          "
-> > > +
-> > > +SRCREV =3D "02629fa02e96763db7460a930239cc93649a52f8"
-> > > +
-> > > +S =3D "${WORKDIR}/git"
-> > > +
-> > > +EXTRA_AUTORECONF +=3D "--install --symlink"
-> > > +EXTRA_OECONF +=3D"--enable-debug --enable-logging --enable-tools"
-> > > +
-> > > +do_configure_prepend () {
-> > > +        gtkdocize --docdir ${S}/libkmod/docs || touch ${S}/libkmod/d=
-ocs/gtk-doc.make
-> > > +}
-> > > diff --git a/meta/recipes-kernel/kmod/kmod/depmod-search.conf b/meta/=
-recipes-kernel/kmod/kmod/depmod-search.conf
-> > > new file mode 100644
-> > > index 0000000..527c0bb
-> > > --- /dev/null
-> > > +++ b/meta/recipes-kernel/kmod/kmod/depmod-search.conf
-> > > @@ -0,0 +1,6 @@
-> > > +#
-> > > +# /etc/depmod.d/depmod.conf
-> > > +#
-> > > +
-> > > +search updates extramodules built-in
-> > > +
-> > > diff --git a/meta/recipes-kernel/kmod/kmod_git.bb b/meta/recipes-kern=
-el/kmod/kmod_git.bb
-> > > new file mode 100644
-> > > index 0000000..928fa88
-> > > --- /dev/null
-> > > +++ b/meta/recipes-kernel/kmod/kmod_git.bb
-> > > @@ -0,0 +1,62 @@
-> > > +# Copyright (C) 2012 Khem Raj<raj.khem@gmail.com>
-> > > +# Released under the MIT license (see COPYING.MIT for the terms)
-> > > +
-> > > +require kmod.inc
-> > > +
-> > > +PR =3D "${INC_PR}.0"
-> > > +
-> > > +PROVIDES_${PN} +=3D "module-init-tools-insmod-static module-init-too=
-ls-depmod module-init-tools"
-> > > +RPROVIDES_${PN} +=3D "module-init-tools-insmod-static module-init-to=
-ols-depmod module-init-tools"
-> > > +CONFLICTS_${PN} +=3D "module-init-tools-insmod-static module-init-to=
-ols-depmod module-init-tools"
-> > > +
-> > > +# autotools set prefix to /usr, however we want them in /bin and /sb=
-in
-> > > +bindir =3D "${base_bindir}"
-> > > +sbindir =3D "${base_sbindir}"
-> > > +# libdir =3D "${base_libdir}"
-> > > +
-> > > +SRC_URI +=3D " \
-> > > +            file://depmod-search.conf \
-> > > +           "
-> > > +
-> > > +do_install_append () {
-> > > +        install -dm755 ${D}${base_bindir}
-> > > +        install -dm755 ${D}${base_sbindir}
-> > > +        # add symlinks to kmod
-> > > +        ln -s ..${base_bindir}/kmod ${D}${base_bindir}/lsmod.kmod
-> > > +        for tool in {ins,rm,dep}mod mod{info,probe}; do
-> > > +                ln -s ..${base_bindir}/kmod ${D}${base_sbindir}/${to=
-ol}.kmod
-> > > +        done
-> > > +        # configuration directories
-> > > +        install -dm755 ${D}${base_libdir}/depmod.d
-> > > +        install -dm755 ${D}${base_libdir}/modprobe.d
-> > > +        install -dm755 ${D}${sysconfdir}/depmod.d
-> > > +        install -dm755 ${D}${sysconfdir}/modprobe.d
-> > > +
-> > > +        # install depmod.d file for search/ dir
-> > > +        install -Dm644 "${WORKDIR}/depmod-search.conf" "${D}${base_l=
-ibdir}/depmod.d/search.conf"
-> > > +}
-> > > +
-> > > +pkg_postinst_kmod() {
-> > > +        for f in sbin/insmod sbin/modprobe sbin/rmmod sbin/modinfo; =
-do
-> > > +                bn=3D`basename $f`
-> > > +                update-alternatives --install /$f $bn /$f.kmod 60
-> > > +        done
-> > > +        update-alternatives --install /bin/lsmod bin-lsmod /bin/lsmo=
-d.kmod 60
-> > > +        update-alternatives --install /sbin/lsmod lsmod /bin/lsmod.k=
-mod 60
-> > > +        update-alternatives --install /sbin/depmod depmod /sbin/depm=
-od.kmod 60
-> > > +}
-> > > +
-> > > +pkg_prerm_kmod() {
-> > > +        for f in sbin/insmod sbin/modprobe sbin/rmmod sbin/modinfo; =
-do
-> > > +                bn=3D`basename $f`
-> > > +                update-alternatives --remove $bn /$f.kmod
-> > > +        done
-> > > +        update-alternatives --remove bin-lsmod /bin/lsmod.kmod
-> > > +        update-alternatives --remove lsmod /bin/lsmod.kmod
-> > > +        update-alternatives --remove depmod /sbin/depmod.kmod
-> > > +}
-> > > +
-> > > +PACKAGES =3D+ "libkmod"
-> > > +
-> > > +FILES_libkmod =3D "${base_libdir}/libkmod*${SOLIBS}"
-> > > +FILES_${PN} +=3D "${base_libdir}/depmod.d ${base_libdir}/modprobe.d"
-> >=20
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->=20
-> --=20
-> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+On Thu, May 3, 2012 at 10:54 PM, Khem Raj <raj.khem@gmail.com> wrote:
+> On Wed, May 2, 2012 at 9:53 PM, Yury Bushmelev <jay4mail@gmail.com> wrote=
+:
+>> Please remove following recipes from this list:
+>> meta/recipes-core/eggdbus/eggdbus_0.6.bb
+>> .../net-tools/net-tools_1.60-23.bb
+>>
+>> I've seen failures on them with -j64 iirc.
+>>
+>
+> ok removed
 
 
+I have updated kraj/misc-updates branch to reflect this change
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+>
+>> 2012/5/3 Khem Raj <raj.khem@gmail.com>
+>>>
+>>> From: Yuri Bushmelev <jay4mail@gmail.com>
+>>>
+>>> Signed-off-by: Yuri Bushmelev <jay4mail@gmail.com>
+>>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>>> ---
+>>> =C2=A0meta/recipes-bsp/pciutils/pciutils_3.1.9.bb =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0| =C2=A0 =C2=A01 -
+>>> =C2=A0meta/recipes-bsp/pcmciautils/pcmciautils.inc =C2=A0 =C2=A0 =C2=A0=
+ | =C2=A0 =C2=A01 -
+>>> =C2=A0meta/recipes-connectivity/iproute2/iproute2.inc =C2=A0 =C2=A0| =
+=C2=A0 =C2=A01 -
+>>> =C2=A0.../nfs-utils/nfs-utils_1.2.3.bb =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A0 =C2=A01 -
+>>> =C2=A0meta/recipes-core/eggdbus/eggdbus_0.6.bb =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 | =C2=A0 =C2=A01 -
+>>> =C2=A0meta/recipes-devtools/autoconf/autoconf_2.68.bb =C2=A0 =C2=A0| =
+=C2=A0 =C2=A01 -
+>>> =C2=A0meta/recipes-extended/groff/groff_1.20.1.bb =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0| =C2=A0 =C2=A01 -
+>>> =C2=A0meta/recipes-extended/mailx/mailx_12.5.bb =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0| =C2=A0 =C2=A01 -
+>>> =C2=A0.../net-tools/net-tools_1.60-23.bb =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A0 =C2=A01 -
+>>> =C2=A0meta/recipes-extended/sat-solver/sat-solver_git.bb | =C2=A0 =C2=
+=A01 -
+>>> =C2=A0.../fontconfig/fontconfig_2.8.0.bb =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A0 =C2=A01 -
+>>> =C2=A0meta/recipes-graphics/libsdl/libsdl_1.2.15.bb =C2=A0 =C2=A0 =C2=
+=A0| =C2=A0 =C2=A01 -
+>>> =C2=A0meta/recipes-graphics/xcb/libpthread-stubs_0.3.bb =C2=A0| =C2=A0 =
+=C2=A01 -
+>>> =C2=A0meta/recipes-graphics/xcb/xcb-util.inc =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 | =C2=A0 =C2=A01 -
+>>> =C2=A0meta/recipes-multimedia/pulseaudio/pulseaudio.inc =C2=A0| =C2=A0 =
+=C2=A01 -
+>>> =C2=A0meta/recipes-multimedia/speex/speex_1.2rc1.bb =C2=A0 =C2=A0 =C2=
+=A0| =C2=A0 =C2=A01 -
+>>> =C2=A0meta/recipes-support/icu/icu-3.6.inc =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 | =C2=A0 =C2=A01 -
+>>> =C2=A0meta/recipes-support/libpcre/libpcre_8.21.bb =C2=A0 =C2=A0 =C2=A0=
+ | =C2=A0 =C2=A01 -
+>>> =C2=A018 files changed, 0 insertions(+), 18 deletions(-)
+>>>
+>>> diff --git a/meta/recipes-bsp/pciutils/pciutils_3.1.9.bb
+>>> b/meta/recipes-bsp/pciutils/pciutils_3.1.9.bb
+>>> index 2c969d9..83c040d 100644
+>>> --- a/meta/recipes-bsp/pciutils/pciutils_3.1.9.bb
+>>> +++ b/meta/recipes-bsp/pciutils/pciutils_3.1.9.bb
+>>> @@ -21,7 +21,6 @@ SRC_URI =3D
+>>> "${KERNELORG_MIRROR}/software/utils/pciutils/pciutils-${PV}.tar.bz2 \
+>>> =C2=A0SRC_URI[md5sum] =3D "79cc1d0bff8603d3a550fa63802cd1db"
+>>> =C2=A0SRC_URI[sha256sum] =3D
+>>> "e4ce5d56ae4a9611d51ba0cc2ea45806f9539a18aceb4aa70b8ded50f6923c4f"
+>>>
+>>> -PARALLEL_MAKE =3D ""
+>>>
+>>> =C2=A0PCI_CONF_FLAG =3D "ZLIB=3Dyes DNS=3Dyes SHARED=3Dyes"
+>>>
+>>> diff --git a/meta/recipes-bsp/pcmciautils/pcmciautils.inc
+>>> b/meta/recipes-bsp/pcmciautils/pcmciautils.inc
+>>> index c0c1d0c..f303145 100644
+>>> --- a/meta/recipes-bsp/pcmciautils/pcmciautils.inc
+>>> +++ b/meta/recipes-bsp/pcmciautils/pcmciautils.inc
+>>> @@ -23,7 +23,6 @@ LD =3D "${CC}"
+>>> =C2=A0CFLAGS =3D+ "-I${S}/src"
+>>> =C2=A0CFLAGS =3D+ "-DPCMCIAUTILS_VERSION=3D\'${PV}\'"
+>>>
+>>> -PARALLEL_MAKE =3D ""
+>>> =C2=A0EXTRA_OEMAKE =3D "-e 'STRIP=3Decho' 'LIB_OBJS=3D-lc -lsysfs' 'LEX=
+=3Dflex'"
+>>>
+>>> =C2=A0do_install () {
+>>> diff --git a/meta/recipes-connectivity/iproute2/iproute2.inc
+>>> b/meta/recipes-connectivity/iproute2/iproute2.inc
+>>> index 86847ef..ef5d3c6 100644
+>>> --- a/meta/recipes-connectivity/iproute2/iproute2.inc
+>>> +++ b/meta/recipes-connectivity/iproute2/iproute2.inc
+>>> @@ -34,4 +34,3 @@ ALTERNATIVE_PATH =3D "${base_sbindir}/ip.iproute2"
+>>> =C2=A0ALTERNATIVE_LINK =3D "${base_bindir}/ip"
+>>> =C2=A0ALTERNATIVE_PRIORITY =3D "100"
+>>>
+>>> -PARALLEL_MAKE =3D ""
+>>> diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.3.bb
+>>> b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.3.bb
+>>> index d047940..a45729d 100644
+>>> --- a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.3.bb
+>>> +++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.3.bb
+>>> @@ -22,7 +22,6 @@ SRC_URI =3D
+>>> "${SOURCEFORGE_MIRROR}/nfs/nfs-utils-${PV}.tar.bz2 \
+>>> =C2=A0SRC_URI[md5sum] =3D "1131dc5f27c4f3905a6e7ee0d594fd4d"
+>>> =C2=A0SRC_URI[sha256sum] =3D
+>>> "5575ece941097cbfa67fbe0d220dfa11b73f5e6d991e7939c9339bd72259ff19"
+>>>
+>>> -PARALLEL_MAKE =3D ""
+>>>
+>>> =C2=A0# Only kernel-module-nfsd is required here (but can be built-in) =
+=C2=A0- the
+>>> nfsd module will
+>>> =C2=A0# pull in the remainder of the dependencies.
+>>> diff --git a/meta/recipes-core/eggdbus/eggdbus_0.6.bb
+>>> b/meta/recipes-core/eggdbus/eggdbus_0.6.bb
+>>> index 75f56de..acca5f0 100644
+>>> --- a/meta/recipes-core/eggdbus/eggdbus_0.6.bb
+>>> +++ b/meta/recipes-core/eggdbus/eggdbus_0.6.bb
+>>> @@ -28,4 +28,3 @@ EXTRA_OECONF =3D " --disable-man-pages
+>>> --disable-gtk-doc-html "
+>>>
+>>> =C2=A0BBCLASSEXTEND =3D "native"
+>>>
+>>> -PARALLEL_MAKE =3D ""
+>>> diff --git a/meta/recipes-devtools/autoconf/autoconf_2.68.bb
+>>> b/meta/recipes-devtools/autoconf/autoconf_2.68.bb
+>>> index 8d466e0..3f59aff 100644
+>>> --- a/meta/recipes-devtools/autoconf/autoconf_2.68.bb
+>>> +++ b/meta/recipes-devtools/autoconf/autoconf_2.68.bb
+>>> @@ -2,7 +2,6 @@ require autoconf.inc
+>>>
+>>> =C2=A0PR =3D "r7"
+>>>
+>>> -PARALLEL_MAKE =3D ""
+>>>
+>>> =C2=A0LICENSE =3D "GPLv2 & GPLv3"
+>>> =C2=A0LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D751419260aa954499f7aba=
+abaa882bbe \
+>>> diff --git a/meta/recipes-extended/groff/groff_1.20.1.bb
+>>> b/meta/recipes-extended/groff/groff_1.20.1.bb
+>>> index 6cb72bf..de20303 100644
+>>> --- a/meta/recipes-extended/groff/groff_1.20.1.bb
+>>> +++ b/meta/recipes-extended/groff/groff_1.20.1.bb
+>>> @@ -19,7 +19,6 @@ DEPENDS_virtclass-native =3D ""
+>>> =C2=A0inherit autotools
+>>>
+>>> =C2=A0EXTRA_OECONF =3D "--without-x"
+>>> -PARALLEL_MAKE =3D ""
+>>>
+>>> =C2=A0do_configure_prepend() {
+>>> =C2=A0 =C2=A0 =C2=A0 =C2=A0if [ "${BUILD_SYS}" !=3D "${HOST_SYS}" ]; th=
+en
+>>> diff --git a/meta/recipes-extended/mailx/mailx_12.5.bb
+>>> b/meta/recipes-extended/mailx/mailx_12.5.bb
+>>> index 2a08113..634d6da 100644
+>>> --- a/meta/recipes-extended/mailx/mailx_12.5.bb
+>>> +++ b/meta/recipes-extended/mailx/mailx_12.5.bb
+>>> @@ -27,4 +27,3 @@ inherit autotools
+>>>
+>>> =C2=A0CFLAGS_append =3D " -D_BSD_SOURCE -DDEBIAN -I${S}/EXT"
+>>>
+>>> -PARALLEL_MAKE =3D ""
+>>> diff --git a/meta/recipes-extended/net-tools/net-tools_1.60-23.bb
+>>> b/meta/recipes-extended/net-tools/net-tools_1.60-23.bb
+>>> index b9a05c6..69dfca9 100644
+>>> --- a/meta/recipes-extended/net-tools/net-tools_1.60-23.bb
+>>> +++ b/meta/recipes-extended/net-tools/net-tools_1.60-23.bb
+>>> @@ -23,7 +23,6 @@ SRC_URI[patch.sha256sum] =3D
+>>> "d678b3ea97d6c7ca548918994642bfc6b5511ab02f3a5881dfcc
+>>> =C2=A0inherit gettext
+>>>
+>>> =C2=A0# The Makefile is lame, no parallel build
+>>> -PARALLEL_MAKE =3D ""
+>>>
+>>> =C2=A0# Unlike other Debian packages, net-tools *.diff.gz contains anot=
+her
+>>> series of
+>>> =C2=A0# patches maintained by quilt. So manually apply them before appl=
+ying
+>>> other local
+>>> diff --git a/meta/recipes-extended/sat-solver/sat-solver_git.bb
+>>> b/meta/recipes-extended/sat-solver/sat-solver_git.bb
+>>> index 9d8422f..b796124 100644
+>>> --- a/meta/recipes-extended/sat-solver/sat-solver_git.bb
+>>> +++ b/meta/recipes-extended/sat-solver/sat-solver_git.bb
+>>> @@ -10,7 +10,6 @@ SRCREV =3D "0a7378d5f482f477a01cf1690d76871ab8bdcc32"
+>>> =C2=A0PV =3D "0.0-git${SRCPV}"
+>>> =C2=A0PR =3D "r13"
+>>>
+>>> -PARALLEL_MAKE=3D""
+>>>
+>>> =C2=A0SRC_URI =3D "git://github.com/openSUSE/sat-solver.git;protocol=3D=
+git \
+>>> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://sat-solver_rpm5.patch \
+>>> diff --git a/meta/recipes-graphics/fontconfig/fontconfig_2.8.0.bb
+>>> b/meta/recipes-graphics/fontconfig/fontconfig_2.8.0.bb
+>>> index 55c04cc..51f31ac 100644
+>>> --- a/meta/recipes-graphics/fontconfig/fontconfig_2.8.0.bb
+>>> +++ b/meta/recipes-graphics/fontconfig/fontconfig_2.8.0.bb
+>>> @@ -39,7 +39,6 @@ RREPLACES_fontconfig-utils =3D "libfontconfig-utils"
+>>> =C2=A0RCONFLICTS_fontconfig-utils =3D "libfontconfig-utils"
+>>> =C2=A0DEBIAN_NOAUTONAME_fontconfig-utils =3D "1"
+>>>
+>>> -PARALLEL_MAKE =3D ""
+>>>
+>>> =C2=A0inherit autotools pkgconfig
+>>>
+>>> diff --git a/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb
+>>> b/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb
+>>> index 8b39442..3fbd584 100644
+>>> --- a/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb
+>>> +++ b/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb
+>>> @@ -49,7 +49,6 @@ EXTRA_OECONF =3D "--disable-static --disable-debug
+>>> --enable-cdrom --enable-threads
+>>> =C2=A0PACKAGECONFIG ??=3D "${@base_contains('DISTRO_FEATURES', 'alsa', =
+'alsa',
+>>> '', d)}"
+>>> =C2=A0PACKAGECONFIG[alsa] =3D "--enable-alsa,--disable-alsa,alsa-lib,"
+>>>
+>>> -PARALLEL_MAKE =3D ""
+>>>
+>>> =C2=A0EXTRA_AUTORECONF +=3D "--include=3Dacinclude --exclude=3Dautohead=
+er"
+>>>
+>>> diff --git a/meta/recipes-graphics/xcb/libpthread-stubs_0.3.bb
+>>> b/meta/recipes-graphics/xcb/libpthread-stubs_0.3.bb
+>>> index c121bb9..44d9b79 100644
+>>> --- a/meta/recipes-graphics/xcb/libpthread-stubs_0.3.bb
+>>> +++ b/meta/recipes-graphics/xcb/libpthread-stubs_0.3.bb
+>>> @@ -8,7 +8,6 @@ LICENSE =3D "MIT"
+>>> =C2=A0LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D6edc1fea03d959f0c2d743=
+fe5ca746ad"
+>>> =C2=A0PR =3D "r0"
+>>>
+>>> -PARALLEL_MAKE =3D ""
+>>> =C2=A0#DEPENDS =3D "xcb-proto xproto libxau libxslt-native"
+>>> =C2=A0# DEPENDS +=3D "xsltproc-native gperf-native"
+>>>
+>>> diff --git a/meta/recipes-graphics/xcb/xcb-util.inc
+>>> b/meta/recipes-graphics/xcb/xcb-util.inc
+>>> index 7dad545..47e7198 100644
+>>> --- a/meta/recipes-graphics/xcb/xcb-util.inc
+>>> +++ b/meta/recipes-graphics/xcb/xcb-util.inc
+>>> @@ -16,7 +16,6 @@ SECTION =3D "x11/libs"
+>>> =C2=A0DEPENDS =3D "libxcb"
+>>> =C2=A0DEPENDS +=3D "gperf-native"
+>>>
+>>> -PARALLEL_MAKE =3D ""
+>>>
+>>> =C2=A0SRC_URI =3D "http://xcb.freedesktop.org/dist/${BPN}-${PV}.tar.bz2=
+"
+>>>
+>>> diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+>>> b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+>>> index a653af5..d2fdbe3 100644
+>>> --- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+>>> +++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+>>> @@ -34,7 +34,6 @@ EXTRA_OECONF =3D "\
+>>> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0--with-access-gr=
+oup=3Daudio \
+>>> =C2=A0"
+>>>
+>>> -PARALLEL_MAKE =3D ""
+>>>
+>>> =C2=A0export TARGET_PFPU =3D "${TARGET_FPU}"
+>>>
+>>> diff --git a/meta/recipes-multimedia/speex/speex_1.2rc1.bb
+>>> b/meta/recipes-multimedia/speex/speex_1.2rc1.bb
+>>> index 7370134..7da9645 100644
+>>> --- a/meta/recipes-multimedia/speex/speex_1.2rc1.bb
+>>> +++ b/meta/recipes-multimedia/speex/speex_1.2rc1.bb
+>>> @@ -14,7 +14,6 @@ SRC_URI =3D
+>>> "http://downloads.us.xiph.org/releases/speex/speex-1.2rc1.tar.gz"
+>>> =C2=A0SRC_URI[md5sum] =3D "c4438b22c08e5811ff10e2b06ee9b9ae"
+>>> =C2=A0SRC_URI[sha256sum] =3D
+>>> "342f30dc57bd4a6dad41398365baaa690429660b10d866b7d508e8f1179cb7a6"
+>>>
+>>> -PARALLEL_MAKE =3D ""
+>>>
+>>> =C2=A0inherit autotools pkgconfig
+>>>
+>>> diff --git a/meta/recipes-support/icu/icu-3.6.inc
+>>> b/meta/recipes-support/icu/icu-3.6.inc
+>>> index e3f9dd2..d3264ae 100644
+>>> --- a/meta/recipes-support/icu/icu-3.6.inc
+>>> +++ b/meta/recipes-support/icu/icu-3.6.inc
+>>> @@ -17,7 +17,6 @@ DEPENDS_virtclass-native =3D ""
+>>>
+>>> =C2=A0S =3D "${WORKDIR}/icu/source"
+>>>
+>>> -PARALLEL_MAKE =3D ""
+>>> =C2=A0FULL_OPTIMIZATION_arm =3D "-Os"
+>>>
+>>> =C2=A0inherit autotools pkgconfig binconfig
+>>> diff --git a/meta/recipes-support/libpcre/libpcre_8.21.bb
+>>> b/meta/recipes-support/libpcre/libpcre_8.21.bb
+>>> index f5fa4ef..9477c74 100644
+>>> --- a/meta/recipes-support/libpcre/libpcre_8.21.bb
+>>> +++ b/meta/recipes-support/libpcre/libpcre_8.21.bb
+>>> @@ -22,7 +22,6 @@ DEPENDS =3D "bzip2 zlib readline"
+>>>
+>>> =C2=A0inherit autotools binconfig
+>>>
+>>> -PARALLEL_MAKE =3D ""
+>>>
+>>> =C2=A0CFLAGS_append =3D " -D_REENTRANT"
+>>> =C2=A0CXXFLAGS_powerpc +=3D "-lstdc++"
+>>> --
+>>> 1.7.5.4
+>>>
+>>>
+>>> _______________________________________________
+>>> Openembedded-core mailing list
+>>> Openembedded-core@lists.openembedded.org
+>>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>>
+>>
+>>
+>>
+>> --
+>> Yury Bushmelev
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>>
 
---IrhDeMKUP4DT/M7F
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
-
-iEYEARECAAYFAk+jcpsACgkQN1Ujt2V2gBz4/gCgjoLGUJwUrfYaEuMgI6P+wftf
-uPYAoJ+fFiTi/xAcqnxUy/SJwsWjtx88
-=fHna
------END PGP SIGNATURE-----
-
---IrhDeMKUP4DT/M7F--
