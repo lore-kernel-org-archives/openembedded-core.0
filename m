@@ -1,24 +1,24 @@
 Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1SQQF8-0000V8-OQ
+	(envelope-from <nitin.a.kamble@intel.com>) id 1SQQF9-0000Y5-Fd
 	for openembedded-core@lists.openembedded.org;
 	Fri, 04 May 2012 23:40:51 +0200
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
 	by fmsmga102.fm.intel.com with ESMTP; 04 May 2012 14:30:48 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="149486052"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="149486055"
 Received: from nbuild0.sc.intel.com ([172.25.110.36])
 	by fmsmga001.fm.intel.com with ESMTP; 04 May 2012 14:30:48 -0700
 From: nitin.a.kamble@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  4 May 2012 14:30:43 -0700
-Message-Id: <f0c74417589256813c55ab6d1f602366c3e43d1a.1336166919.git.nitin.a.kamble@intel.com>
+Date: Fri,  4 May 2012 14:30:45 -0700
+Message-Id: <a1f67e8b86c9a532228fbd4d2dcc1eb302a1c1bf.1336166919.git.nitin.a.kamble@intel.com>
 X-Mailer: git-send-email 1.7.6.5
 In-Reply-To: <a0c837f8e419221a32b6709163579732f1758c84.1336166919.git.nitin.a.kamble@intel.com>
 References: <a0c837f8e419221a32b6709163579732f1758c84.1336166919.git.nitin.a.kamble@intel.com>
 In-Reply-To: <cover.1336166919.git.nitin.a.kamble@intel.com>
 References: <cover.1336166919.git.nitin.a.kamble@intel.com>
-Subject: [PATCH 37/40] grep-2.5.1a: fix build with automake 1.12
+Subject: [PATCH 39/40] findutils-4.2.31: fix build with automake 1.12
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,102 +33,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 May 2012 21:40:51 -0000
+X-List-Received-Date: Fri, 04 May 2012 21:40:52 -0000
 
 From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
 Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
 ---
- .../grep-2.5.1a/grep_fix_for_automake-1.12.patch   |   52 ++++++++++++++++++++
- meta/recipes-extended/grep/grep_2.5.1a.bb          |    7 ++-
- 2 files changed, 57 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-extended/grep/grep-2.5.1a/grep_fix_for_automake-1.12.patch
+ .../findutils_fix_for_automake-1.12.patch          |   23 ++++++++++++++++++++
+ .../recipes-extended/findutils/findutils_4.2.31.bb |    6 +++-
+ 2 files changed, 27 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-extended/findutils/findutils-4.2.31/findutils_fix_for_automake-1.12.patch
 
-diff --git a/meta/recipes-extended/grep/grep-2.5.1a/grep_fix_for_automake-1.12.patch b/meta/recipes-extended/grep/grep-2.5.1a/grep_fix_for_automake-1.12.patch
+diff --git a/meta/recipes-extended/findutils/findutils-4.2.31/findutils_fix_for_automake-1.12.patch b/meta/recipes-extended/findutils/findutils-4.2.31/findutils_fix_for_automake-1.12.patch
 new file mode 100644
-index 0000000..3ccce5f
+index 0000000..2d0ddb4
 --- /dev/null
-+++ b/meta/recipes-extended/grep/grep-2.5.1a/grep_fix_for_automake-1.12.patch
-@@ -0,0 +1,52 @@
++++ b/meta/recipes-extended/findutils/findutils-4.2.31/findutils_fix_for_automake-1.12.patch
+@@ -0,0 +1,23 @@
 +Upstream-Status: Pending
 +
 +automake 1.12 has depricated automatic de-ANSI-fication support
 +
 +this patch avoids these kinds of errors:
 +
-+| configure.in:33: error: automatic de-ANSI-fication support has been removed
-+| /srv/home/nitin/builds/build-gcc47/tmp/sysroots/x86_64-linux/usr/share/aclocal-1.12/protos.m4:12: AM_C_PROTOTYPES is expanded from...
-+| configure.in:33: the top level
-+| autom4te: m4 failed with exit status: 1
-+...
-+| lib/Makefile.am:2: error: automatic de-ANSI-fication support has been removed
-+| src/Makefile.am:2: error: automatic de-ANSI-fication support has been removed
-+| autoreconf: automake failed with exit status: 1
++| configure.in:75: error: automatic de-ANSI-fication support has been removed
 +
 +Signed-Off-By: Nitin A Kamble <nitin.a.kamble@intel.com>
 +2012/05/04
 +
-+Index: grep-2.5.1a/configure.in
++Index: findutils-4.2.31/configure.in
 +===================================================================
-+--- grep-2.5.1a.orig/configure.in
-++++ grep-2.5.1a/configure.in
-+@@ -30,7 +30,6 @@ AC_PROG_RANLIB
++--- findutils-4.2.31.orig/configure.in
+++++ findutils-4.2.31/configure.in
++@@ -72,7 +72,6 @@ dnl gl_EARLY calls AC_GNU_SOURCE anyway.
 + 
-+ dnl Checks for typedefs, structures, and compiler characteristics.
-+ AC_SYS_LARGEFILE
++ 
++ AC_ISC_POSIX
 +-AM_C_PROTOTYPES
-+ AC_TYPE_SIZE_T
-+ AC_CHECK_TYPE(ssize_t, int)
-+ AC_C_CONST
-+Index: grep-2.5.1a/lib/Makefile.am
-+===================================================================
-+--- grep-2.5.1a.orig/lib/Makefile.am
-++++ grep-2.5.1a/lib/Makefile.am
-+@@ -1,5 +1,5 @@
-+ #
-+-AUTOMAKE_OPTIONS = ../src/ansi2knr
-++AUTOMAKE_OPTIONS = 
 + 
-+ SUBDIRS = posix
-+ 
-+Index: grep-2.5.1a/src/Makefile.am
-+===================================================================
-+--- grep-2.5.1a.orig/src/Makefile.am
-++++ grep-2.5.1a/src/Makefile.am
-+@@ -1,5 +1,5 @@
-+ ## Process this file with automake to create Makefile.in
-+-AUTOMAKE_OPTIONS = ansi2knr no-dependencies
-++AUTOMAKE_OPTIONS = no-dependencies
-+ 
-+ LN = ln
-+ 
-diff --git a/meta/recipes-extended/grep/grep_2.5.1a.bb b/meta/recipes-extended/grep/grep_2.5.1a.bb
-index 64064fc..5aecf17 100644
---- a/meta/recipes-extended/grep/grep_2.5.1a.bb
-+++ b/meta/recipes-extended/grep/grep_2.5.1a.bb
-@@ -5,10 +5,12 @@ SECTION = "console/utils"
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3"
++ AC_PROG_INSTALL
++ AC_PROG_RANLIB
+diff --git a/meta/recipes-extended/findutils/findutils_4.2.31.bb b/meta/recipes-extended/findutils/findutils_4.2.31.bb
+index 0c37836..37da0ce 100644
+--- a/meta/recipes-extended/findutils/findutils_4.2.31.bb
++++ b/meta/recipes-extended/findutils/findutils_4.2.31.bb
+@@ -8,10 +8,12 @@ SECTION = "console/utils"
  
--PR = "r1"
-+PR = "r2"
+ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552"
+-PR = "r2"
++PR = "r3"
  
- SRC_URI = "${GNU_MIRROR}/grep/grep-${PV}.tar.bz2 \
--           file://uclibc-fix.patch"
-+           file://uclibc-fix.patch \
-+           file://grep_fix_for_automake-1.12.patch \
+ SRC_URI = "${GNU_MIRROR}/findutils/findutils-${PV}.tar.gz \
+-           file://gnulib-extension.patch"
++           file://gnulib-extension.patch \
++           file://findutils_fix_for_automake-1.12.patch \
 +           "
  
- SRC_URI[md5sum] = "52202fe462770fa6be1bb667bd6cf30c"
- SRC_URI[sha256sum] = "38c8a2bb9223d1fb1b10bdd607cf44830afc92fd451ac4cd07619bf92bdd3132"
-@@ -17,6 +19,7 @@ inherit autotools gettext
- 
- EXTRA_OECONF = "--disable-perl-regexp --disable-ncurses"
- 
-+CFLAGS += "-D PROTOTYPES"
- do_configure_prepend () {
- 	rm -f ${S}/m4/init.m4
- }
+ SRC_URI[md5sum] = "a0e31a0f18a49709bf5a449867c8049a"
+ SRC_URI[sha256sum] = "e0d34b8faca0b3cca0703f6c6b498afbe72f0ba16c35980c10ec9ef7724d6204"
 -- 
 1.7.7
 
