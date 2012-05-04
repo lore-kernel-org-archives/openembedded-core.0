@@ -1,24 +1,24 @@
 Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1SQQF0-0000Y5-3n
+	(envelope-from <nitin.a.kamble@intel.com>) id 1SQQF0-0000V8-5I
 	for openembedded-core@lists.openembedded.org;
 	Fri, 04 May 2012 23:40:42 +0200
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
 	by fmsmga102.fm.intel.com with ESMTP; 04 May 2012 14:30:47 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="149486027"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="149486028"
 Received: from nbuild0.sc.intel.com ([172.25.110.36])
 	by fmsmga001.fm.intel.com with ESMTP; 04 May 2012 14:30:47 -0700
 From: nitin.a.kamble@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  4 May 2012 14:30:21 -0700
-Message-Id: <24195210d0df0645b73bd3e75833117934c663e2.1336166919.git.nitin.a.kamble@intel.com>
+Date: Fri,  4 May 2012 14:30:22 -0700
+Message-Id: <d79e89e22e289b68d2794cc8a8bf8493efadc917.1336166919.git.nitin.a.kamble@intel.com>
 X-Mailer: git-send-email 1.7.6.5
 In-Reply-To: <a0c837f8e419221a32b6709163579732f1758c84.1336166919.git.nitin.a.kamble@intel.com>
 References: <a0c837f8e419221a32b6709163579732f1758c84.1336166919.git.nitin.a.kamble@intel.com>
 In-Reply-To: <cover.1336166919.git.nitin.a.kamble@intel.com>
 References: <cover.1336166919.git.nitin.a.kamble@intel.com>
-Subject: [PATCH 15/40] glew: fix build with automake 1.12
+Subject: [PATCH 16/40] findutils: fix build with automake 1.12
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,59 +39,59 @@ From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
 Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
 ---
- .../glew/files/glew_fix_for_automake-1.12.patch    |   25 ++++++++++++++++++++
- meta/recipes-graphics/glew/glew_1.7.0.bb           |    3 +-
- 2 files changed, 27 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-graphics/glew/files/glew_fix_for_automake-1.12.patch
+ .../findutils_fix_for_automake-1.12.patch          |   22 ++++++++++++++++++++
+ meta/recipes-extended/findutils/findutils_4.4.2.bb |    6 +++-
+ 2 files changed, 26 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-extended/findutils/findutils-4.4.2/findutils_fix_for_automake-1.12.patch
 
-diff --git a/meta/recipes-graphics/glew/files/glew_fix_for_automake-1.12.patch b/meta/recipes-graphics/glew/files/glew_fix_for_automake-1.12.patch
+diff --git a/meta/recipes-extended/findutils/findutils-4.4.2/findutils_fix_for_automake-1.12.patch b/meta/recipes-extended/findutils/findutils-4.4.2/findutils_fix_for_automake-1.12.patch
 new file mode 100644
-index 0000000..0707efb
+index 0000000..d4a7e95
 --- /dev/null
-+++ b/meta/recipes-graphics/glew/files/glew_fix_for_automake-1.12.patch
-@@ -0,0 +1,25 @@
++++ b/meta/recipes-extended/findutils/findutils-4.4.2/findutils_fix_for_automake-1.12.patch
+@@ -0,0 +1,22 @@
 +Upstream-Status: Pending
 +
 +This patch fixes following issue with automake 1.12
 +
-+| automake: warnings are treated as errors
-+| /srv/home/nitin/builds/build-gcc47/tmp/sysroots/x86_64-linux/usr/share/automake-1.12/am/ltlibrary.am: warning: 'libGLEW.la': linking libtool libraries using a non-POSIX
-+| /srv/home/nitin/builds/build-gcc47/tmp/sysroots/x86_64-linux/usr/share/automake-1.12/am/ltlibrary.am: archiver requires 'AM_PROG_AR' in 'configure.ac'
++| configure.ac:80: error: automatic de-ANSI-fication support has been removed
 +
 +Signed-Off-By: Nitin A Kamble <nitin.a.kamble@intel.com>
 +2012/05/03
 +
-+Index: glew-1.7.0/configure.ac
++Index: findutils-4.4.2/configure.ac
 +===================================================================
-+--- glew-1.7.0.orig/configure.ac
-++++ glew-1.7.0/configure.ac
-+@@ -14,6 +14,9 @@ LT_INIT
-+ AC_PROG_CC
++--- findutils-4.4.2.orig/configure.ac
+++++ findutils-4.4.2/configure.ac
++@@ -77,8 +77,6 @@ AC_PROG_CPP
++ dnl for gnulib
++ gl_EARLY
++ 
++-AM_C_PROTOTYPES
++-
 + AC_PROG_INSTALL
-+ AC_PROG_LN_S
-++# automake 1.12 seems to require this, but automake 1.11 doesn't recognize it
-++m4_pattern_allow([AM_PROG_AR])
-++AM_PROG_AR
-+ 
-+ # Checks for libraries.
-+ 
-diff --git a/meta/recipes-graphics/glew/glew_1.7.0.bb b/meta/recipes-graphics/glew/glew_1.7.0.bb
-index e65663d..cdb778c 100644
---- a/meta/recipes-graphics/glew/glew_1.7.0.bb
-+++ b/meta/recipes-graphics/glew/glew_1.7.0.bb
-@@ -7,10 +7,11 @@ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=2ac251558de685c6b9478d89be3149c2"
++ AC_PROG_RANLIB
++ dnl AC_PROG_LIBTOOL
+diff --git a/meta/recipes-extended/findutils/findutils_4.4.2.bb b/meta/recipes-extended/findutils/findutils_4.4.2.bb
+index d80511c..127eb4b 100644
+--- a/meta/recipes-extended/findutils/findutils_4.4.2.bb
++++ b/meta/recipes-extended/findutils/findutils_4.4.2.bb
+@@ -1,11 +1,13 @@
+ require findutils.inc
  
- DEPENDS = "virtual/libx11 virtual/libgl libxext libxi libxmu"
+-PR = "r3"
++PR = "r4"
  
--PR = "r0"
-+PR = "r1"
+ SRC_URI += "file://01-27017.patch \
+             file://02-28824.patch \
+             file://03-28872.patch \
+-            file://findutils_fix_for_x32.patch "
++            file://findutils_fix_for_x32.patch \
++            file://findutils_fix_for_automake-1.12.patch \
++            "
  
- SRC_URI = "${SOURCEFORGE_MIRROR}/project/glew/glew/${PV}/glew-${PV}.tgz \
-            file://autotools.patch \
-+           file://glew_fix_for_automake-1.12.patch \
-           "
- 
- SRC_URI[md5sum] = "fb7a8bb79187ac98a90b57f0f27a3e84"
+ SRC_URI[md5sum] = "351cc4adb07d54877fa15f75fb77d39f"
+ SRC_URI[sha256sum] = "434f32d171cbc0a5e72cfc5372c6fc4cb0e681f8dce566a0de5b6fccd702b62a"
 -- 
 1.7.7
 
