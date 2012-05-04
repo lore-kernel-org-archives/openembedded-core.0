@@ -1,50 +1,35 @@
 Received: from mail-we0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1SQCVK-0004IS-SN
+	(envelope-from <koen@dominion.thruhere.net>) id 1SQDUc-0005cq-Hm
 	for openembedded-core@lists.openembedded.org;
-	Fri, 04 May 2012 09:00:39 +0200
-Received: by wera1 with SMTP id a1so1770557wer.6
+	Fri, 04 May 2012 10:03:58 +0200
+Received: by wera1 with SMTP id a1so1798043wer.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 03 May 2012 23:50:52 -0700 (PDT)
+	Fri, 04 May 2012 00:54:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date
-	:content-transfer-encoding:message-id:references:to:x-mailer
-	:x-gm-message-state;
-	bh=FLj6RgdgN5u4RHLGtphuuQOdErwFiJpZ6ubsVTaGSWk=;
-	b=WRZQoNB642idV2mh3LiO1L27L0z1C1cN6DD/O7uHV0wBiNdX2BXAQyLABtAnP53UpS
-	NOb51YCgJxEsMT37vELpHq40V0Cnu8obMb+Oj9fcH8JEK7fulmLyyVYg4LegAirP42LJ
-	+8uqx8I93fvkV5hdVcGyy0CY7CD87RiIRWm3O/O8TmXF4MlLxBx3HVulgA3IG7s6g3dB
-	F3/hSET2pFdCpruYLu4pJw4fYYWv8q8xzY/ZB68gIPTlgoZail1sNWQOJhhRfux5+pJ5
-	SZroCqg0W0yIMRk0cZHdcauxpMTpnEl6HXTkxG1WYt/xXt8mdoWeLigHQMkopY96GsUd
-	eaXQ==
-Received: by 10.216.213.10 with SMTP id z10mr2693191weo.65.1336114252455;
-	Thu, 03 May 2012 23:50:52 -0700 (PDT)
-Received: from [172.20.1.36] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id j3sm11974302wiw.1.2012.05.03.23.50.50
+	h=from:to:cc:subject:date:message-id:x-mailer:x-gm-message-state;
+	bh=py907sghrXULCd9n0kvCvpViysodiTgyGK6y/NpWis4=;
+	b=fNXasEe/3GVGNEK+3K87ka+ACEciTVw6mTi5z+pA6XzABTKYx1Qoc34beUdHnwey5h
+	TVFJaJ+wuR9Eg0uBbDRHMaK9fU17shEOssn8wTzS9r3kfU5stFLfemzSpsyktER35qQS
+	XwK5jvPEMB1NwhqysJDO6Sc5eWhxGUk8V5GrDQBOvKNEdT4XJejtuJNLsLOPPee4Jbp6
+	1B5ohZElkXGWv5cBDCcgut5exWQxhM9qztLh9f8ydWe6k1hWi79WS0q90BhV5kQISHMD
+	1JhlxMUFd4TCA1kg42RqMuyANn5ccpMbYUTbdR18cJxcusQjNK+AfynSc9Yrc2uJ6ATF
+	yz0w==
+Received: by 10.180.86.197 with SMTP id r5mr10344549wiz.21.1336118052089;
+	Fri, 04 May 2012 00:54:12 -0700 (PDT)
+Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl. [84.80.112.235])
+	by mx.google.com with ESMTPS id h8sm12478764wix.4.2012.05.04.00.54.10
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 03 May 2012 23:50:51 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1257)
+	Fri, 04 May 2012 00:54:11 -0700 (PDT)
 From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <20120504063229.GC3163@jama.jama.net>
-Date: Fri, 4 May 2012 08:50:48 +0200
-Message-Id: <E3DFAE02-4553-46F1-977C-3BB4E008BFC0@dominion.thruhere.net>
-References: <1335968616-2436-1-git-send-email-jason.wessel@windriver.com>
-	<CAMKF1soELbeTS=ZnH3bhUbJkcaUz_sdkhRcykntqc=2jNBcUrg@mail.gmail.com>
-	<9295EE6F-5FFA-4FB4-B266-D8F45AAB2351@dominion.thruhere.net>
-	<1336034822.30113.47.camel@ted>
-	<D8900CA0-6986-4242-8AF1-7A65CC86FDDA@dominion.thruhere.net>
-	<1336044241.30113.73.camel@ted>
-	<481C530F-A851-4861-B261-9CBE17258D4B@dominion.thruhere.net>
-	<1336045861.30113.83.camel@ted>
-	<6C4B120A-3A7E-43F9-BA67-0A580B9D2911@dominion.thruhere.net>
-	<20120504063229.GC3163@jama.jama.net>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1257)
-X-Gm-Message-State: ALoCoQnY2AuGyQpqBtI6mlvPXHNT6q8/JJF6bdsjja5aGkkq2mAucvokf65nMZGlQElFqvuDL/p2
-Subject: Re: [PATCH] qemu-native: depend on unfs-server-native
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  4 May 2012 09:54:06 +0200
+Message-Id: <1336118046-20901-1-git-send-email-koen@dominion.thruhere.net>
+X-Mailer: git-send-email 1.7.10
+X-Gm-Message-State: ALoCoQkiw1TOY6+cZpQJ+HwNTd5S0W08PPtzDOnscvnlgJkS8gFaE84NLz1sO/ijTlWnzPQIHjkU
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: [PATCH] connman: enable TI shared transport plugin when wifi or bluetooth are requested
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -59,62 +44,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 May 2012 07:00:40 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 04 May 2012 08:03:58 -0000
 
+This plugin manages the firmware loading for the TI wl12xx series of bluetooth/wifi/fm chips.
 
-Op 4 mei 2012, om 08:32 heeft Martin Jansa het volgende geschreven:
+The double --enable-tist when both bluetooth and wireless are enabled is ugly, but harmless
 
-> On Fri, May 04, 2012 at 08:13:06AM +0200, Koen Kooi wrote:
->> 
->> Op 3 mei 2012, om 13:51 heeft Richard Purdie het volgende geschreven:
->> 
->>> On Thu, 2012-05-03 at 13:39 +0200, Koen Kooi wrote:
->>>> Op 3 mei 2012, om 13:24 heeft Richard Purdie het volgende geschreven:
->>>>> The whole point with the qemu emulated machines is that you build them
->>>>> and they work for new users easily and efficiently. I don't think
->>>>> calling bitbake to build them and force the user into another wait is a
->>>>> good usability model to be promoting.
->>>> 
->>>> OE-core should set the right example and teaching people that a global
->>>> IMAGE_DEPENDS is OK is not the right example. Especially when it
->>>> actually causes breakage, see below.
->>>> If people insist that IMAGE_DEPENDS is the one and only way to provide
->>>> the runqemu experience then at least put a big comment in the file
->>>> saying why it's done and why people shouldn't be copy/pasting it into
->>>> their layers.
->>>> And an indiciation where the line is drawn would be nice as well, I
->>>> can imagine that someone wants to add amazon EC2 support to runqemu
->>>> and sends a patch to add the EC2 tools to IMAGE_DEPENDS.
->>> 
->>> I'm happy to see a comment. The line is quite clear, the documentation
->>> associated with the qemu images, the quick start guide and other manuals
->>> assume we build qemu-native and friends and for usability this is a
->>> clear win. The manuals do not document EC2 and it is not something we
->>> expect a new user to need to do easily. Running an extra "bitbake xxx"
->>> or including an extra configuration file would be perfectly reasonable
->>> for those usage scenarios.
->>> 
->>>>> I'm also slightly bemused that in previous discussions you've implied
->>>>> build time is less relevant then functionality yet here you're taking
->>>>> the opposite stance :).
->>>> 
->>>> I get build *failures* for the qemu machines because I don't have mesa
->>>> and sdl installed on the autobuilder. But you are right, I do think
->>>> build time is less relevant than functionality.
->>> 
->>> We should also consider setting up PACKAGECONFIG options in the qemu
->>> recipe for these things so you can specify to build qemu-native without
->>> sdl/gl easily. I appreciate that is going to be pretty nasty
->>> implementation wise but I think it would help and in fact if someone
->>> files the bug I'll mark it as a P1 for 1.3 since that does help
->>> usability a lot.
->> 
->> #2402 and it's already going the WONTFIX way
-> 
-> #2407 ?
+The background on the plugin: https://bugs.meego.com/show_bug.cgi?id=8418
 
--ENOCOFFEE, sorry
+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+---
+
+If accepted into master I'd like to have this in the 'denzil' branch as well.
+
+ meta/recipes-connectivity/connman/connman.inc     |    4 ++--
+ meta/recipes-connectivity/connman/connman_0.79.bb |    2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipes-connectivity/connman/connman.inc
+index bfe6620..8b27cfb 100644
+--- a/meta/recipes-connectivity/connman/connman.inc
++++ b/meta/recipes-connectivity/connman/connman.inc
+@@ -28,8 +28,8 @@ EXTRA_OECONF += "\
+     --enable-threads \
+     --enable-loopback \
+     --enable-ethernet \
+-    ${@base_contains('DISTRO_FEATURES', 'wifi','--enable-wifi', '--disable-wifi', d)} \
+-    ${@base_contains('DISTRO_FEATURES', 'bluetooth','--enable-bluetooth', '--disable-bluetooth', d)} \
++    ${@base_contains('DISTRO_FEATURES', 'wifi','--enable-wifi --enable-tist', '--disable-wifi', d)} \
++    ${@base_contains('DISTRO_FEATURES', 'bluetooth','--enable-bluetooth --enable-tist', '--disable-bluetooth', d)} \
+     --enable-dnsproxy \
+     --enable-ofono \
+     --enable-tools \
+diff --git a/meta/recipes-connectivity/connman/connman_0.79.bb b/meta/recipes-connectivity/connman/connman_0.79.bb
+index 4c57dab..d7f22b9 100644
+--- a/meta/recipes-connectivity/connman/connman_0.79.bb
++++ b/meta/recipes-connectivity/connman/connman_0.79.bb
+@@ -11,4 +11,4 @@ SRC_URI  = "git://git.kernel.org/pub/scm/network/connman/connman.git \
+             file://test-set-ipv6-method-api-fix.patch \
+             file://connman"
+ S = "${WORKDIR}/git"
+-PR = "r3"
++PR = "r4"
+-- 
+1.7.10
+
 
 
