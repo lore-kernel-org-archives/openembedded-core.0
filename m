@@ -1,24 +1,24 @@
 Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1SQQF1-0000V8-6N
+	(envelope-from <nitin.a.kamble@intel.com>) id 1SQQF1-0000Rd-3N
 	for openembedded-core@lists.openembedded.org;
 	Fri, 04 May 2012 23:40:43 +0200
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
 	by fmsmga102.fm.intel.com with ESMTP; 04 May 2012 14:30:47 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="149486032"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="149486029"
 Received: from nbuild0.sc.intel.com ([172.25.110.36])
 	by fmsmga001.fm.intel.com with ESMTP; 04 May 2012 14:30:47 -0700
 From: nitin.a.kamble@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  4 May 2012 14:30:26 -0700
-Message-Id: <7c03c6bfad5800545bb14fc3bd9bdab1d0e75b52.1336166919.git.nitin.a.kamble@intel.com>
+Date: Fri,  4 May 2012 14:30:23 -0700
+Message-Id: <bbf59a430637c8a32ad1dcb139e2f613234ab820.1336166919.git.nitin.a.kamble@intel.com>
 X-Mailer: git-send-email 1.7.6.5
 In-Reply-To: <a0c837f8e419221a32b6709163579732f1758c84.1336166919.git.nitin.a.kamble@intel.com>
 References: <a0c837f8e419221a32b6709163579732f1758c84.1336166919.git.nitin.a.kamble@intel.com>
 In-Reply-To: <cover.1336166919.git.nitin.a.kamble@intel.com>
 References: <cover.1336166919.git.nitin.a.kamble@intel.com>
-Subject: [PATCH 20/40] lighttpd: fix build with automake 1.12
+Subject: [PATCH 17/40] gawk: fix build with automake 1.12
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,75 +39,57 @@ From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
 Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
 ---
- .../files/lighttpd_fix_for_automake-1.12.patch     |   37 ++++++++++++++++++++
- meta/recipes-extended/lighttpd/lighttpd_1.4.30.bb  |    5 ++-
- 2 files changed, 40 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-extended/lighttpd/files/lighttpd_fix_for_automake-1.12.patch
+ .../gawk/gawk/gawk_fix_for_automake-1.12.patch     |   23 ++++++++++++++++++++
+ meta/recipes-extended/gawk/gawk_4.0.0.bb           |    5 ++-
+ 2 files changed, 26 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-extended/gawk/gawk/gawk_fix_for_automake-1.12.patch
 
-diff --git a/meta/recipes-extended/lighttpd/files/lighttpd_fix_for_automake-1.12.patch b/meta/recipes-extended/lighttpd/files/lighttpd_fix_for_automake-1.12.patch
+diff --git a/meta/recipes-extended/gawk/gawk/gawk_fix_for_automake-1.12.patch b/meta/recipes-extended/gawk/gawk/gawk_fix_for_automake-1.12.patch
 new file mode 100644
-index 0000000..42451b8
+index 0000000..a2458a8
 --- /dev/null
-+++ b/meta/recipes-extended/lighttpd/files/lighttpd_fix_for_automake-1.12.patch
-@@ -0,0 +1,37 @@
++++ b/meta/recipes-extended/gawk/gawk/gawk_fix_for_automake-1.12.patch
+@@ -0,0 +1,23 @@
 +Upstream-Status: Pending
 +
 +This patch fixes following issue with automake 1.12
 +
-+| configure.ac:42: error: automatic de-ANSI-fication support has been removed
-+...
-+| automake: warnings are treated as errors
-+| /srv/home/nitin/builds/build-gcc47/tmp/sysroots/x86_64-linux/usr/share/automake-1.12/am/ltlibrary.am: warning: 'liblightcomp.la': linking libtool libraries using a non-POSIX
-+| /srv/home/nitin/builds/build-gcc47/tmp/sysroots/x86_64-linux/usr/share/automake-1.12/am/ltlibrary.am: archiver requires 'AM_PROG_AR' in 'configure.ac'
++| configure.ac:120: error: automatic de-ANSI-fication support has been removed
 +
 +Signed-Off-By: Nitin A Kamble <nitin.a.kamble@intel.com>
 +2012/05/03
 +
-+Index: lighttpd-1.4.30/configure.ac
++Index: gawk-4.0.0/configure.ac
 +===================================================================
-+--- lighttpd-1.4.30.orig/configure.ac
-++++ lighttpd-1.4.30/configure.ac
-+@@ -24,6 +24,11 @@ dnl AC_PROG_CXX
-+ AC_PROG_LN_S
-+ AC_PROG_MAKE_SET
++--- gawk-4.0.0.orig/configure.ac
+++++ gawk-4.0.0/configure.ac
++@@ -116,9 +116,6 @@ dnl Set the programming language for che
++ dnl this only needs to be set once, since everything is in C.
++ AC_LANG([C])
 + 
-++# automake 1.12 seems to require this, but automake 1.11 doesn't recognize it
-++m4_pattern_allow([AM_PROG_AR])
-++AM_PROG_AR
-++
-++
-+ dnl check environment
-+ AC_AIX
-+ AC_ISC_POSIX
-+@@ -39,7 +44,6 @@ AM_CONDITIONAL(NO_RDYNAMIC, test x$NO_RD
-+ AC_EXEEXT
-+ 
-+ dnl more automake stuff
++-dnl check for C compiler for automake. Needed for dfa.h.
 +-AM_C_PROTOTYPES
-+ 
-+ dnl libtool
-+ AC_DISABLE_STATIC
-diff --git a/meta/recipes-extended/lighttpd/lighttpd_1.4.30.bb b/meta/recipes-extended/lighttpd/lighttpd_1.4.30.bb
-index 3ae3867..161c0d9 100644
---- a/meta/recipes-extended/lighttpd/lighttpd_1.4.30.bb
-+++ b/meta/recipes-extended/lighttpd/lighttpd_1.4.30.bb
-@@ -16,13 +16,14 @@ RDEPENDS_${PN} += " \
-                lighttpd-module-staticfile \
- "
++-
++ dnl Cygwin doesn't like to get libs with full paths
++ dnl since that overrides linking against DLLs.
++ case `(uname) 2> /dev/null` in
+diff --git a/meta/recipes-extended/gawk/gawk_4.0.0.bb b/meta/recipes-extended/gawk/gawk_4.0.0.bb
+index 977feb9..3587e85 100644
+--- a/meta/recipes-extended/gawk/gawk_4.0.0.bb
++++ b/meta/recipes-extended/gawk/gawk_4.0.0.bb
+@@ -11,9 +11,10 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
  
--PR = "r0"
-+PR = "r1"
+ RDEPENDS_gawk += "gawk-common"
+ RDEPENDS_pgawk += "gawk-common"
+-PR = "r1"
++PR = "r2"
  
- SRC_URI = "http://download.lighttpd.net/lighttpd/releases-1.4.x/lighttpd-${PV}.tar.bz2 \
-         file://index.html.lighttpd \
-         file://lighttpd.conf \
-         file://lighttpd \
--"
-+        file://lighttpd_fix_for_automake-1.12.patch \
-+        "
+-SRC_URI = "${GNU_MIRROR}/gawk/gawk-${PV}.tar.gz"
++SRC_URI = "${GNU_MIRROR}/gawk/gawk-${PV}.tar.gz \
++           file://gawk_fix_for_automake-1.12.patch"
  
- SRC_URI[md5sum] = "63f9df52dcae0ab5689a95c99c54e48a"
- SRC_URI[sha256sum] = "0d795597e4666dbf6ffe44b4a42f388ddb44736ddfab0b1ac091e5bb35212c2d"
+ SRC_URI[md5sum] = "51e417b71287629940051e6f652c6492"
+ SRC_URI[sha256sum] = "c3a7cf7d976e05c6a1d8a9b3f14fa55d4304707408ddafb1396212653ea00be5"
 -- 
 1.7.7
 
