@@ -1,43 +1,43 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1SQF2B-00008t-8s for openembedded-core@lists.openembedded.org;
-	Fri, 04 May 2012 11:42:43 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q449Wu2O013169
+Received: from mail-wg0-f43.google.com ([74.125.82.43])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <koen@dominion.thruhere.net>) id 1SQFFS-0000Q3-KB
+	for openembedded-core@lists.openembedded.org;
+	Fri, 04 May 2012 11:56:26 +0200
+Received: by wgbdr1 with SMTP id dr1so2208304wgb.24
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 4 May 2012 10:32:56 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 09855-06 for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 May 2012 10:32:51 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q449WlcO013163
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 4 May 2012 10:32:48 +0100
-Message-ID: <1336123970.23777.3.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Fri, 04 May 2012 02:46:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=content-type:mime-version:subject:from:in-reply-to:date
+	:content-transfer-encoding:message-id:references:to:x-mailer
+	:x-gm-message-state;
+	bh=p6MmeqvcgW6S5BBojJXI3p2P5qKfhmSG+Y1WN9PdmpQ=;
+	b=ZFTvXj1ZdQqsQ6oevBadyRnUOzs+9cqfMDrfDYVk3IyRe4fqK2B5Lhe3SG4lGcLhKN
+	xGeyiqtczj1rJd/P+WDQT7i7m4JDpRH0Xyge801SX0EGL5/5owIcexAVGv40RCR8xU69
+	30pVneBGRFzRwJZ6AcFA9aV1OXn+OkAa4JXWfE9q/vm+Lk22Ph/LvBZ2KpaaDJDJne+b
+	/pO6X7Hu4TfLrJGGmJiUIUYf9PXEZaOR1vnX6IejYxzrEXwOw+Qc91QLf9/JNdcaTeuQ
+	ApnH6MlOiJiKyQxDs4MNdMq92ty57h3s0G8WgQZWg75yxjz1IK49fNMPx+NJCul28c8z
+	+FAg==
+Received: by 10.216.144.228 with SMTP id n78mr2892523wej.100.1336124800069;
+	Fri, 04 May 2012 02:46:40 -0700 (PDT)
+Received: from [172.20.1.36] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id o2sm13278569wiv.11.2012.05.04.02.46.38
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 04 May 2012 02:46:39 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1257)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <E4CB1C49-5AAE-4A6D-9218-83F2ED109A08@gmail.com>
+Date: Fri, 4 May 2012 11:46:30 +0200
+Message-Id: <0E974700-0AC5-4D2D-8CED-9B50FFC36854@dominion.thruhere.net>
+References: <2FE2EDAA-66BE-4D28-AE9E-344308BF0DB3@gmail.com>
+	<20120504080242.GD3163@jama.jama.net>
+	<E4CB1C49-5AAE-4A6D-9218-83F2ED109A08@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Fri, 04 May 2012 10:32:50 +0100
-In-Reply-To: <E3DFAE02-4553-46F1-977C-3BB4E008BFC0@dominion.thruhere.net>
-References: <1335968616-2436-1-git-send-email-jason.wessel@windriver.com>
-	<CAMKF1soELbeTS=ZnH3bhUbJkcaUz_sdkhRcykntqc=2jNBcUrg@mail.gmail.com>
-	<9295EE6F-5FFA-4FB4-B266-D8F45AAB2351@dominion.thruhere.net>
-	<1336034822.30113.47.camel@ted>
-	<D8900CA0-6986-4242-8AF1-7A65CC86FDDA@dominion.thruhere.net>
-	<1336044241.30113.73.camel@ted>
-	<481C530F-A851-4861-B261-9CBE17258D4B@dominion.thruhere.net>
-	<1336045861.30113.83.camel@ted>
-	<6C4B120A-3A7E-43F9-BA67-0A580B9D2911@dominion.thruhere.net>
-	<20120504063229.GC3163@jama.jama.net>
-	<E3DFAE02-4553-46F1-977C-3BB4E008BFC0@dominion.thruhere.net>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH] qemu-native: depend on unfs-server-native
+X-Mailer: Apple Mail (2.1257)
+X-Gm-Message-State: ALoCoQmLusO0ciTbVrMmE1bzJwi9XrqcDJNlzR+rboFMkviRMqqdfyaiqUnRDZBCzgoS3lnb0TIw
+Subject: Re: How to fix warning: set SYSTEMD_PACKAGES as <existing-package>-systemd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -52,70 +52,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 May 2012 09:42:43 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 04 May 2012 09:56:26 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 2012-05-04 at 08:50 +0200, Koen Kooi wrote:
-> Op 4 mei 2012, om 08:32 heeft Martin Jansa het volgende geschreven:
-> 
-> > On Fri, May 04, 2012 at 08:13:06AM +0200, Koen Kooi wrote:
-> >> 
-> >> Op 3 mei 2012, om 13:51 heeft Richard Purdie het volgende geschreven:
-> >> 
-> >>> On Thu, 2012-05-03 at 13:39 +0200, Koen Kooi wrote:
-> >>>> Op 3 mei 2012, om 13:24 heeft Richard Purdie het volgende geschreven:
-> >>>>> The whole point with the qemu emulated machines is that you build them
-> >>>>> and they work for new users easily and efficiently. I don't think
-> >>>>> calling bitbake to build them and force the user into another wait is a
-> >>>>> good usability model to be promoting.
-> >>>> 
-> >>>> OE-core should set the right example and teaching people that a global
-> >>>> IMAGE_DEPENDS is OK is not the right example. Especially when it
-> >>>> actually causes breakage, see below.
-> >>>> If people insist that IMAGE_DEPENDS is the one and only way to provide
-> >>>> the runqemu experience then at least put a big comment in the file
-> >>>> saying why it's done and why people shouldn't be copy/pasting it into
-> >>>> their layers.
-> >>>> And an indiciation where the line is drawn would be nice as well, I
-> >>>> can imagine that someone wants to add amazon EC2 support to runqemu
-> >>>> and sends a patch to add the EC2 tools to IMAGE_DEPENDS.
-> >>> 
-> >>> I'm happy to see a comment. The line is quite clear, the documentation
-> >>> associated with the qemu images, the quick start guide and other manuals
-> >>> assume we build qemu-native and friends and for usability this is a
-> >>> clear win. The manuals do not document EC2 and it is not something we
-> >>> expect a new user to need to do easily. Running an extra "bitbake xxx"
-> >>> or including an extra configuration file would be perfectly reasonable
-> >>> for those usage scenarios.
-> >>> 
-> >>>>> I'm also slightly bemused that in previous discussions you've implied
-> >>>>> build time is less relevant then functionality yet here you're taking
-> >>>>> the opposite stance :).
-> >>>> 
-> >>>> I get build *failures* for the qemu machines because I don't have mesa
-> >>>> and sdl installed on the autobuilder. But you are right, I do think
-> >>>> build time is less relevant than functionality.
-> >>> 
-> >>> We should also consider setting up PACKAGECONFIG options in the qemu
-> >>> recipe for these things so you can specify to build qemu-native without
-> >>> sdl/gl easily. I appreciate that is going to be pretty nasty
-> >>> implementation wise but I think it would help and in fact if someone
-> >>> files the bug I'll mark it as a P1 for 1.3 since that does help
-> >>> usability a lot.
-> >> 
-> >> #2402 and it's already going the WONTFIX way
-> > 
-> > #2407 ?
-> 
-> -ENOCOFFEE, sorry
 
-I was wondering what remake had to do with this :). I've replied to the
-bug, I don't think WONTFIX is appropriate in this case.
+Op 4 mei 2012, om 11:19 heeft Elvis Dowson het volgende geschreven:
 
-Cheers,
+> Hi,
+>       I've submitted a patch to fix the warning for =
+networkmanager_0.9.2.0.bb.
+>=20
+> However, I still get the warning for lighttpd_1.4.30.bb
+>=20
+> even after adding the following line:
+>=20
+> SYSTEMD_PACKAGES =3D "${PN}-systemd"
+>=20
+> or both these two lines in the recipe:
+>=20
+> SYSTEMD_PACKAGES =3D "${PN}-systemd"
+> SYSTEMD_SERVICE =3D "lighttpd.service"
+>=20
+> WARNING: =
+/tool/yocto/poky/meta/recipes-extended/lighttpd/lighttpd_1.4.30.bb: it =
+is recommended to set SYSTEMD_PACKAGES as <existing-package>-systemd
 
-Richard
-
+When doing things like that you need to bump PR and fixup all dependents =
+like tasks and images to ensure upgrade paths.=
 
 
