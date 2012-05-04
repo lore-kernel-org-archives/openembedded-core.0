@@ -1,24 +1,24 @@
 Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1SQQF1-0000YR-7T
+	(envelope-from <nitin.a.kamble@intel.com>) id 1SQQF1-0000Y5-8h
 	for openembedded-core@lists.openembedded.org;
 	Fri, 04 May 2012 23:40:43 +0200
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
 	by fmsmga102.fm.intel.com with ESMTP; 04 May 2012 14:30:47 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="149486031"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="149486033"
 Received: from nbuild0.sc.intel.com ([172.25.110.36])
 	by fmsmga001.fm.intel.com with ESMTP; 04 May 2012 14:30:47 -0700
 From: nitin.a.kamble@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  4 May 2012 14:30:25 -0700
-Message-Id: <1153e14c603db1facfabb4fac9e5fe0a48841a3c.1336166919.git.nitin.a.kamble@intel.com>
+Date: Fri,  4 May 2012 14:30:27 -0700
+Message-Id: <085123c80c3691e0bfcb347445d13fdc3b105b95.1336166919.git.nitin.a.kamble@intel.com>
 X-Mailer: git-send-email 1.7.6.5
 In-Reply-To: <a0c837f8e419221a32b6709163579732f1758c84.1336166919.git.nitin.a.kamble@intel.com>
 References: <a0c837f8e419221a32b6709163579732f1758c84.1336166919.git.nitin.a.kamble@intel.com>
 In-Reply-To: <cover.1336166919.git.nitin.a.kamble@intel.com>
 References: <cover.1336166919.git.nitin.a.kamble@intel.com>
-Subject: [PATCH 19/40] minicom: fix build with automake 1.12
+Subject: [PATCH 21/40] tar: fix build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,55 +37,35 @@ X-List-Received-Date: Fri, 04 May 2012 21:40:43 -0000
 
 From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
+Avoid this error:
+| rmdir: failed to remove `/srv/home/nitin/builds/build-gcc47/tmp/work/i586-poky-linux/tar-1.26-r1/image/usr/sbin/': No such file or directory
+NOTE: package tar-1.26-r1: task do_install: Failed
+
+no PR bump as no change in the output.
+
 Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
 ---
- .../minicom_fix_for_automake-1.12.patch            |   21 ++++++++++++++++++++
- meta/recipes-extended/minicom/minicom_2.6.1.bb     |    3 ++
- 2 files changed, 24 insertions(+), 0 deletions(-)
- create mode 100644 meta/recipes-extended/minicom/minicom-2.6.1/minicom_fix_for_automake-1.12.patch
+ meta/recipes-extended/tar/tar.inc |    8 ++++++--
+ 1 files changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-extended/minicom/minicom-2.6.1/minicom_fix_for_automake-1.12.patch b/meta/recipes-extended/minicom/minicom-2.6.1/minicom_fix_for_automake-1.12.patch
-new file mode 100644
-index 0000000..aba6298
---- /dev/null
-+++ b/meta/recipes-extended/minicom/minicom-2.6.1/minicom_fix_for_automake-1.12.patch
-@@ -0,0 +1,21 @@
-+Upstream-Status: Pending
-+
-+This patch fixes following issue with automake 1.12
-+
-+| configure.in:193: error: automatic de-ANSI-fication support has been removed
-+
-+Signed-Off-By: Nitin A Kamble <nitin.a.kamble@intel.com>
-+2012/05/03
-+
-+Index: minicom-2.6.1/configure.in
-+===================================================================
-+--- minicom-2.6.1.orig/configure.in
-++++ minicom-2.6.1/configure.in
-+@@ -190,7 +190,6 @@ AC_CHECK_HEADERS(stdarg.h varargs.h term
-+ 
-+ dnl Checks for typedefs, structures, and compiler characteristics.
-+ AC_C_CONST
-+-AM_C_PROTOTYPES
-+ AC_TYPE_UID_T
-+ AC_TYPE_MODE_T
-+ AC_TYPE_PID_T
-diff --git a/meta/recipes-extended/minicom/minicom_2.6.1.bb b/meta/recipes-extended/minicom/minicom_2.6.1.bb
-index 3a9f934..b54853d 100644
---- a/meta/recipes-extended/minicom/minicom_2.6.1.bb
-+++ b/meta/recipes-extended/minicom/minicom_2.6.1.bb
-@@ -6,8 +6,11 @@ LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=420477abc567404debca0a2a1cb6b645 \
-                     file://src/minicom.h;beginline=1;endline=12;md5=a58838cb709f0db517f4e42730c49e81"
- 
-+PR = "r1"
-+
- SRC_URI = "http://alioth.debian.org/frs/download.php/3700/minicom-${PV}.tar.gz \
- 	file://rename-conflicting-functions.patch \
-+	file://minicom_fix_for_automake-1.12.patch \
- 	"
- #	file://gcc4-scope.patch
+diff --git a/meta/recipes-extended/tar/tar.inc b/meta/recipes-extended/tar/tar.inc
+index 0533b82..5c2325a 100644
+--- a/meta/recipes-extended/tar/tar.inc
++++ b/meta/recipes-extended/tar/tar.inc
+@@ -18,8 +18,12 @@ do_install () {
+ do_install_extra () {
+     install -d ${D}${base_bindir}
+     mv ${D}${bindir}/tar ${D}${base_bindir}/tar.${PN}
+-    rmdir ${D}${bindir}/
+-    rmdir ${D}${sbindir}/
++    if [ -d ${D}${bindir}/ ] ; then 
++        rmdir ${D}${bindir}/
++    fi
++    if [ -d ${D}${sbindir}/ ] ; then 
++        rmdir ${D}${sbindir}/
++    fi
+     mv ${D}${libexecdir}/rmt ${D}${libexecdir}/rmt.${PN}
+ }
  
 -- 
 1.7.7
