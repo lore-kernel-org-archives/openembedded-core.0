@@ -1,24 +1,24 @@
 Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1SQQEz-0000S7-HD
+	(envelope-from <nitin.a.kamble@intel.com>) id 1SQQF0-0000Y5-3n
 	for openembedded-core@lists.openembedded.org;
-	Fri, 04 May 2012 23:40:41 +0200
+	Fri, 04 May 2012 23:40:42 +0200
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
 	by fmsmga102.fm.intel.com with ESMTP; 04 May 2012 14:30:47 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="149486026"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="149486027"
 Received: from nbuild0.sc.intel.com ([172.25.110.36])
 	by fmsmga001.fm.intel.com with ESMTP; 04 May 2012 14:30:47 -0700
 From: nitin.a.kamble@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  4 May 2012 14:30:20 -0700
-Message-Id: <206314d381607e2a41b4d530eb0371941b14640d.1336166919.git.nitin.a.kamble@intel.com>
+Date: Fri,  4 May 2012 14:30:21 -0700
+Message-Id: <24195210d0df0645b73bd3e75833117934c663e2.1336166919.git.nitin.a.kamble@intel.com>
 X-Mailer: git-send-email 1.7.6.5
 In-Reply-To: <a0c837f8e419221a32b6709163579732f1758c84.1336166919.git.nitin.a.kamble@intel.com>
 References: <a0c837f8e419221a32b6709163579732f1758c84.1336166919.git.nitin.a.kamble@intel.com>
 In-Reply-To: <cover.1336166919.git.nitin.a.kamble@intel.com>
 References: <cover.1336166919.git.nitin.a.kamble@intel.com>
-Subject: [PATCH 14/40] libidn: fix build with automake 1.12
+Subject: [PATCH 15/40] glew: fix build with automake 1.12
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,62 +39,59 @@ From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
 Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
 ---
- .../libidn/libidn_fix_for_automake-1.12.patch      |   26 ++++++++++++++++++++
- meta/recipes-extended/libidn/libidn_1.24.bb        |    5 ++-
- 2 files changed, 29 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-extended/libidn/libidn/libidn_fix_for_automake-1.12.patch
+ .../glew/files/glew_fix_for_automake-1.12.patch    |   25 ++++++++++++++++++++
+ meta/recipes-graphics/glew/glew_1.7.0.bb           |    3 +-
+ 2 files changed, 27 insertions(+), 1 deletions(-)
+ create mode 100644 meta/recipes-graphics/glew/files/glew_fix_for_automake-1.12.patch
 
-diff --git a/meta/recipes-extended/libidn/libidn/libidn_fix_for_automake-1.12.patch b/meta/recipes-extended/libidn/libidn/libidn_fix_for_automake-1.12.patch
+diff --git a/meta/recipes-graphics/glew/files/glew_fix_for_automake-1.12.patch b/meta/recipes-graphics/glew/files/glew_fix_for_automake-1.12.patch
 new file mode 100644
-index 0000000..20afd25
+index 0000000..0707efb
 --- /dev/null
-+++ b/meta/recipes-extended/libidn/libidn/libidn_fix_for_automake-1.12.patch
-@@ -0,0 +1,26 @@
++++ b/meta/recipes-graphics/glew/files/glew_fix_for_automake-1.12.patch
+@@ -0,0 +1,25 @@
 +Upstream-Status: Pending
 +
 +This patch fixes following issue with automake 1.12
 +
 +| automake: warnings are treated as errors
-+| /srv/home/nitin/builds/build-gcc47/tmp/sysroots/x86_64-linux/usr/share/automake-1.12/am/ltlibrary.am: warning: 'libidn.la': linking libtool libraries using a non-POSIX
++| /srv/home/nitin/builds/build-gcc47/tmp/sysroots/x86_64-linux/usr/share/automake-1.12/am/ltlibrary.am: warning: 'libGLEW.la': linking libtool libraries using a non-POSIX
 +| /srv/home/nitin/builds/build-gcc47/tmp/sysroots/x86_64-linux/usr/share/automake-1.12/am/ltlibrary.am: archiver requires 'AM_PROG_AR' in 'configure.ac'
 +
 +Signed-Off-By: Nitin A Kamble <nitin.a.kamble@intel.com>
 +2012/05/03
 +
-+Index: libidn-1.24/configure.ac
++Index: glew-1.7.0/configure.ac
 +===================================================================
-+--- libidn-1.24.orig/configure.ac
-++++ libidn-1.24/configure.ac
-+@@ -34,6 +34,10 @@ AC_SUBST(LT_CURRENT, 17)
-+ AC_SUBST(LT_REVISION, 7)
-+ AC_SUBST(LT_AGE, 6)
-+ 
++--- glew-1.7.0.orig/configure.ac
+++++ glew-1.7.0/configure.ac
++@@ -14,6 +14,9 @@ LT_INIT
++ AC_PROG_CC
++ AC_PROG_INSTALL
++ AC_PROG_LN_S
 ++# automake 1.12 seems to require this, but automake 1.11 doesn't recognize it
 ++m4_pattern_allow([AM_PROG_AR])
 ++AM_PROG_AR
-++
-+ AC_PROG_CC
-+ gl_EARLY
-+ lgl_EARLY
-diff --git a/meta/recipes-extended/libidn/libidn_1.24.bb b/meta/recipes-extended/libidn/libidn_1.24.bb
-index 018f118..c6ecea7 100644
---- a/meta/recipes-extended/libidn/libidn_1.24.bb
-+++ b/meta/recipes-extended/libidn/libidn_1.24.bb
-@@ -10,11 +10,12 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=9c9d9d207a3468a696a03368913d360b \
-                     file://COPYINGv3;md5=d32239bcb673463ab874e80d47fae504 \
-                     file://lib/idna.h;endline=21;md5=7364f6a250728ffe16170f5e3ab37512 \
-                     file://src/idn.c;endline=20;md5=7d7235e7951ac87d9dfac42e1b69d9cb"
++ 
++ # Checks for libraries.
++ 
+diff --git a/meta/recipes-graphics/glew/glew_1.7.0.bb b/meta/recipes-graphics/glew/glew_1.7.0.bb
+index e65663d..cdb778c 100644
+--- a/meta/recipes-graphics/glew/glew_1.7.0.bb
++++ b/meta/recipes-graphics/glew/glew_1.7.0.bb
+@@ -7,10 +7,11 @@ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=2ac251558de685c6b9478d89be3149c2"
+ 
+ DEPENDS = "virtual/libx11 virtual/libgl libxext libxi libxmu"
+ 
 -PR = "r0"
 +PR = "r1"
  
- inherit pkgconfig autotools gettext
+ SRC_URI = "${SOURCEFORGE_MIRROR}/project/glew/glew/${PV}/glew-${PV}.tgz \
+            file://autotools.patch \
++           file://glew_fix_for_automake-1.12.patch \
+           "
  
--SRC_URI = "${GNU_MIRROR}/libidn/${BPN}-${PV}.tar.gz"
-+SRC_URI = "${GNU_MIRROR}/libidn/${BPN}-${PV}.tar.gz \
-+           file://libidn_fix_for_automake-1.12.patch "
- 
- SRC_URI[md5sum] = "764d7258eeb273941680499fab2c7367"
- SRC_URI[sha256sum] = "da1708c6063ecb7951a0908e67df3eacdfe128b18edaa6cf6867d7b73b5f35ff"
+ SRC_URI[md5sum] = "fb7a8bb79187ac98a90b57f0f27a3e84"
 -- 
 1.7.7
 
