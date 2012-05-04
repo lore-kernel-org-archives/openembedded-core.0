@@ -1,37 +1,28 @@
-Received: from mail-wg0-f41.google.com ([74.125.82.41])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1SQDcp-0005ph-0a
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1SQDl4-00069I-PY
 	for openembedded-core@lists.openembedded.org;
-	Fri, 04 May 2012 10:12:27 +0200
-Received: by wgbds1 with SMTP id ds1so953545wgb.0
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 04 May 2012 01:02:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=kBq8rYoYJ1IbQgU0HybzRJO0W8KOVQtcjOqxMt2oX5g=;
-	b=lsjFF+xIYu7Vej5gtVTTlRulszsq4RF7Sbvmh/LyDR2zOKHbjC4XFYtPFtmwiHaKHR
-	FqABeTJ7rHxOYGOUzD+nPQWOjissslL9uTmpf0EciDOQVAR2Z6tPTxowiReODgKDPkjr
-	9RlewcGcX0g5HAVtAZKe36smbw+UTMgW+nNWA3wva/X9Q1IhZMKx26Xb88HksgksdxEg
-	daZiYPDSLuh268hl/Lh6W858Gdt0fsegJ8S/1n4hT4/MdOzapJbg2OYpDkTYD7ozVgOC
-	ZZbDzVM8UnnytSAYkCQUyLeaiNGVFCzKfPYaA5Du77RaZVyyopW/qwHsNLPcDMJgshZZ
-	8maw==
-Received: by 10.180.78.164 with SMTP id c4mr10534018wix.10.1336118560693;
-	Fri, 04 May 2012 01:02:40 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id ff2sm12514033wib.9.2012.05.04.01.02.39
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 04 May 2012 01:02:39 -0700 (PDT)
-Date: Fri, 4 May 2012 10:02:42 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20120504080242.GD3163@jama.jama.net>
-References: <2FE2EDAA-66BE-4D28-AE9E-344308BF0DB3@gmail.com>
+	Fri, 04 May 2012 10:20:58 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 04 May 2012 01:11:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="138800831"
+Received: from unknown (HELO helios.localnet) ([10.252.120.49])
+	by azsmga001.ch.intel.com with ESMTP; 04 May 2012 01:11:10 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 04 May 2012 09:11:09 +0100
+Message-ID: <1367450.rzi5djsU21@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.8.2 (Linux/3.0.0-19-generic-pae; KDE/4.8.2; i686; ; )
+In-Reply-To: <CAMKF1sr+uGUpy9hFcak_pY2QbX542XRRfiZAzwbOD_wGXuH6iw@mail.gmail.com>
+References: <cover.1335991900.git.raj.khem@gmail.com>
+	<CAMKF1so5LJRMx-fJPOasquEheq9Rk8PGPKFkbv4DSWZ=PJnLwQ@mail.gmail.com>
+	<CAMKF1sr+uGUpy9hFcak_pY2QbX542XRRfiZAzwbOD_wGXuH6iw@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <2FE2EDAA-66BE-4D28-AE9E-344308BF0DB3@gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: How to fix warning: set SYSTEMD_PACKAGES as <existing-package>-systemd
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 7/7] Enable PARALLEL_MAKE for testing
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,50 +37,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 May 2012 08:12:27 -0000
-X-Groupsio-MsgNum: 21646
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="fOHHtNG4YXGJ0yqR"
-Content-Disposition: inline
+X-List-Received-Date: Fri, 04 May 2012 08:20:59 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
---fOHHtNG4YXGJ0yqR
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Thursday 03 May 2012 23:10:04 Khem Raj wrote:
+> On Thu, May 3, 2012 at 10:54 PM, Khem Raj <raj.khem@gmail.com> wrote:
+> > On Wed, May 2, 2012 at 9:53 PM, Yury Bushmelev <jay4mail@gmail.com> wrote:
+> >> Please remove following recipes from this list:
+> >> meta/recipes-core/eggdbus/eggdbus_0.6.bb
+> >> .../net-tools/net-tools_1.60-23.bb
+> >> 
+> >> I've seen failures on them with -j64 iirc.
+> > 
+> > ok removed
+> 
+> I have updated kraj/misc-updates branch to reflect this change
 
-On Fri, May 04, 2012 at 09:54:35AM +0200, Elvis Dowson wrote:
-> Hi,
->       I get the following warnings when I try to do bitbake core-image-mi=
-nimal
->=20
-> WARNING: /tool/yocto/meta-openembedded/meta-oe/recipes-connectivity/netwo=
-rkmanager/networkmanager_0.9.2.0.bb: it is recommended to set SYSTEMD_PACKA=
-GES as <existing-package>-systemd
->=20
-> WARNING: /tool/yocto/poky/meta/recipes-extended/lighttpd/lighttpd_1.4.30.=
-bb: it is recommended to set SYSTEMD_PACKAGES as <existing-package>-systemd
->=20
-> What is the appropriate change to make these two warnings go away?
-
-Check this thread
-http://www.mail-archive.com/openembedded-devel@lists.openembedded.org/msg24=
-963.html
+Could you please also update the commit message? i.e. this is no longer "for 
+testing"; details of how you tested it, etc.
 
 Cheers,
+Paul
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+-- 
 
---fOHHtNG4YXGJ0yqR
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+Paul Eggleton
+Intel Open Source Technology Centre
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
 
-iEYEARECAAYFAk+jjSIACgkQN1Ujt2V2gBw0jwCeIJ4fVgGhURxnDgef8o2NFSGQ
-M+4An3KdCbxbYcBIJDVp1C4D6uy5ayKE
-=idnT
------END PGP SIGNATURE-----
-
---fOHHtNG4YXGJ0yqR--
