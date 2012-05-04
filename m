@@ -1,27 +1,26 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from vms173011pub.verizon.net ([206.46.173.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SQMNY-0004Cc-Nl
+	(envelope-from <denis@denix.org>) id 1SQMXd-0004PJ-IN
 	for openembedded-core@lists.openembedded.org;
-	Fri, 04 May 2012 19:33:16 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 04 May 2012 10:23:29 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="140178649"
-Received: from unknown (HELO [10.255.12.171]) ([10.255.12.171])
-	by orsmga002.jf.intel.com with ESMTP; 04 May 2012 10:23:28 -0700
-Message-ID: <4FA41090.9060301@linux.intel.com>
-Date: Fri, 04 May 2012 10:23:28 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:12.0) Gecko/20120424 Thunderbird/12.0
-MIME-Version: 1.0
+	Fri, 04 May 2012 19:43:41 +0200
+Received: from gandalf.denix.org ([unknown] [108.48.117.33])
+	by vms173011.mailsrvcs.net
+	(Sun Java(tm) System Messaging Server 7u2-7.02 32bit (built Apr 16
+	2009)) with ESMTPA id <0M3I00BK7E41WQQ1@vms173011.mailsrvcs.net> for
+	openembedded-core@lists.openembedded.org;
+	Fri, 04 May 2012 12:33:43 -0500 (CDT)
+Received: by gandalf.denix.org (Postfix, from userid 1000)	id 03D3320099; Fri,
+	04 May 2012 13:33:37 -0400 (EDT)
+Date: Fri, 04 May 2012 13:33:37 -0400
+From: Denys Dmytriyenko <denis@denix.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1336138307.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1336138307.git.paul.eggleton@linux.intel.com>
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	Scott Garman <scott.a.garman@intel.com>
-Subject: Re: [PATCH 0/1] Buildhistory fix
+Message-id: <20120504173337.GA14692@denix.org>
+References: <D54EB56C-3187-439B-BF54-4C4ACD76C8CC@gmail.com>
+MIME-version: 1.0
+In-reply-to: <D54EB56C-3187-439B-BF54-4C4ACD76C8CC@gmail.com>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Subject: Re: [meta-openembedded] [PATCH] networkmanager: silence systemd bbclass WARNING.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,32 +35,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 May 2012 17:33:17 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 04 May 2012 17:43:41 -0000
+Content-type: text/plain; charset=us-ascii
+Content-disposition: inline
 
-On 05/04/2012 06:36 AM, Paul Eggleton wrote:
-> This fix should also go into 1.2.1.
->
->
-> The following change since commit 0be64cda0a20ca3aab75ee0cc360236d2dc40c95:
->
->    gcc-package-target: add libexec for plugin (2012-05-03 15:38:07 +0100)
->
-> is available in the git repository at:
->    git://git.openembedded.org/openembedded-core-contrib paule/buildhistory-commit
->    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/buildhistory-commit
->
-> Paul Eggleton (1):
->    buildhistory: fix multiple commit of images and packages at the same
->      time
->
->   meta/classes/buildhistory.bbclass |    2 +-
->   1 files changed, 1 insertions(+), 1 deletions(-)
->
-Merged into OE-Core
+On Fri, May 04, 2012 at 11:15:33AM +0200, Elvis Dowson wrote:
+> This patch fixes WARNING: /tool/yocto/meta-openembedded/meta-oe/
 
-Thanks
-	Sau!
+This is not the right mailing list for patches addressed to meta-oe. As I 
+recall, I told you to submit to openembedded-devel, but not here. Sorry if it 
+got you confused...
+
+
+> recipes-connectivity/networkmanager/networkmanager_0.9.2.0.bb:
+> it is recommended to set SYSTEMD_PACKAGES as <existing-package>-systemd
+> 
+> Signed-off-by: Elvis Dowson <elvis.dowson@gmail.com>
+> ---
+> .../networkmanager/networkmanager_0.9.2.0.bb       |    2 +-
+> 1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/meta-oe/recipes-connectivity/networkmanager/networkmanager_0.9.2.0.bb b/meta-oe/recipes-connectivity/networkmanager/networkmanager_0.9.2.0.bb
+> index 474d98a..478d61e 100644
+> --- a/meta-oe/recipes-connectivity/networkmanager/networkmanager_0.9.2.0.bb
+> +++ b/meta-oe/recipes-connectivity/networkmanager/networkmanager_0.9.2.0.bb
+> @@ -54,7 +54,7 @@ do_install_append () {
+> 	install -d ${D}/etc/NetworkManager/VPN
+> }
+> 
+> -SYSTEMD_PACKAGES = "${PN}"
+> +SYSTEMD_PACKAGES = "${PN}-systemd"
+
+That might be an overkill. I'm personally not yet very familiar with all the 
+systemd specifics and not clear when to create ${PN}-systemd subpackage and 
+when to just silence the warning...
+
+-- 
+Denys
+
+
+> SYSTEMD_SERVICE = "NetworkManager.service"
+> 
+> PACKAGES =+ "libnmutil libnmglib libnmglib-vpn ${PN}-tests" 
+> -- 
+> 1.7.9.5
+> 
+> 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
