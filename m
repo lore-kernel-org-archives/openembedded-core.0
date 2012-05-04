@@ -1,32 +1,14 @@
-Received: from mail-lb0-f175.google.com ([209.85.217.175])
+Received: from ffm.saftware.de ([83.141.3.46])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1SQQjv-0002or-8h
+	(envelope-from <obi@opendreambox.org>) id 1SQQyb-0002zC-5B
 	for openembedded-core@lists.openembedded.org;
-	Sat, 05 May 2012 00:12:39 +0200
-Received: by lbol5 with SMTP id l5so2230120lbo.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 04 May 2012 15:02:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type; bh=/9Zt1SDAU+whSXHtlhAnbn13yP58hNd7ty+U2HLRdzE=;
-	b=mcZCOYKRpJRjCDLCG0elIOKzdFr+uFN2OKjvb1Yk39NmiuprDHswEcCVarpnpkaQxC
-	5Yh07XSTVS+Jhge+zyErZcA88lmZL5zWpNthrwavJG4Bf47MYXhM/tViCahTnl45ZtdG
-	fpYlcpbl2WUCwHHUW/JbHXReWGaCxJAwXXFUMOLa9umWeP2t/GpHX+B82qLv1ySMoKsA
-	jeC3RAig6bejJAfJbpr3cg+aDdS6e/8Iat59GT9sQwRDiQpl2tCyB0TV2iAV5BOa+3C5
-	vs/WDsk9NORPDe0px/uK5wxQHSbFM4aS7FwocbVXh+t93Y9vA5QXrhi9h6q/IIEomRhy
-	Mipg==
-Received: by 10.152.145.228 with SMTP id sx4mr7204614lab.45.1336168971978;
-	Fri, 04 May 2012 15:02:51 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.152.129.134 with HTTP; Fri, 4 May 2012 15:02:21 -0700 (PDT)
-In-Reply-To: <cover.1336166919.git.nitin.a.kamble@intel.com>
-References: <cover.1336166919.git.nitin.a.kamble@intel.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 4 May 2012 15:02:21 -0700
-Message-ID: <CAMKF1sqAf-6oH=d2mG8v0+XPtU_rmu-7vCcA1sSdo1zFvS37_Q@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 00/40] mostly automake 1.12 related fixes
+	Sat, 05 May 2012 00:27:49 +0200
+From: Andreas Oberritter <obi@opendreambox.org>
+To: openembedded-core@lists.openembedded.org
+Date: Sat,  5 May 2012 00:17:57 +0200
+Message-Id: <1336169877-29276-1-git-send-email-obi@opendreambox.org>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] gcc-4.6: disable cloog, change syntax to disable ppl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,20 +23,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 May 2012 22:12:39 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 04 May 2012 22:27:49 -0000
 
-On Fri, May 4, 2012 at 2:30 PM,  <nitin.a.kamble@intel.com> wrote:
->
-> With the automake upgrade to 1.12 many recipes started failing due to
-> use of deprecated features. This commit series addresses many of those
-> recipes.
+* Backported from 523df15bcc21e1749771cca757613f3520243b8e
+  as suggested by Khem.
 
-Nitin
+* Original commit message:
 
-These patches should also go to respective upstreams too I guess
+  If build system has those libraries installed
+  gcc configure will pick them up. We want
+  consistent builds so we disable them since we
+  do not (yet) support them
 
-Thanks
--Khem
+Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
+---
+ meta/recipes-devtools/gcc/gcc-4.6.inc |    5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/meta/recipes-devtools/gcc/gcc-4.6.inc b/meta/recipes-devtools/gcc/gcc-4.6.inc
+index 74843ae..0f56670 100644
+--- a/meta/recipes-devtools/gcc/gcc-4.6.inc
++++ b/meta/recipes-devtools/gcc/gcc-4.6.inc
+@@ -1,6 +1,6 @@
+ require gcc-common.inc
+ 
+-PR = "r26"
++PR = "r27"
+ 
+ # Third digit in PV should be incremented after a minor release
+ # happens from this branch on gcc e.g. currently its 4.6.0
+@@ -93,7 +93,8 @@ EXTRA_OECONF_BASE = " --enable-lto \
+ 			--disable-libmudflap \
+ 			--with-system-zlib \
+ 			--with-linker-hash-style=${LINKER_HASH_STYLE} \
+-			--without-ppl \
++			--with-ppl=no \
++			--with-cloog=no \
+ 			--enable-cheaders=c_global "
+ 
+ EXTRA_OECONF_INITIAL = "--disable-libmudflap \
+-- 
+1.7.9.5
+
 
 
