@@ -1,33 +1,44 @@
-Received: from mail-lb0-f175.google.com ([209.85.217.175])
+Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1SQN5g-0005CI-G6
+	(envelope-from <scott.a.garman@intel.com>) id 1SQN5w-0005Dg-Am
 	for openembedded-core@lists.openembedded.org;
-	Fri, 04 May 2012 20:18:52 +0200
-Received: by lbol5 with SMTP id l5so2087563lbo.6
+	Fri, 04 May 2012 20:19:08 +0200
+Received: from mail-pb0-f52.google.com ([209.85.160.52])
+	by mga03.intel.com with ESMTP/TLS/RC4-SHA; 04 May 2012 11:09:19 -0700
+Received: by pbbro8 with SMTP id ro8so12758828pbb.25
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 04 May 2012 11:09:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type:content-transfer-encoding;
-	bh=bvM6jSiqd4RIHRzxXbRZcERw/mIxvvQHbdoPEIiGOZQ=;
-	b=bq4s3juRGnIy8KiHwL/TMc2KeCD57vGdG/+9hk2aXuY80TkZJbUUV8mfLIxtmf3sKt
-	JGNLuj9kGJXRNjnus2mYus22Zf3dZVmhd+Xm6S3BgfjzuL7TGu8QNHhnyaV8p90HjeyT
-	XJhwTlSsKag9FOnA01GxW6mYw8dkgea54HDt1CdgYv2Psn3io5y0uvIWKgfG+CtdH8Xr
-	Cb2KFnG5lv7M1doZ2O5aFAY43bCdKtSvn5NpTAm9S+92VbFQqyKOkqmZJ9f1pMNMs7yX
-	q2b3BkVvyLpMii+m4jJypWJj99xftKMD5UY3NFqbG+tlf8AYEIoqicsIdBKpIy5b+gHw
-	lTrA==
-Received: by 10.112.86.101 with SMTP id o5mr3390773lbz.1.1336154945503; Fri,
-	04 May 2012 11:09:05 -0700 (PDT)
+	Fri, 04 May 2012 11:09:19 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=message-id:date:from:user-agent:mime-version:to:cc:subject
+	:references:in-reply-to:content-type:content-transfer-encoding
+	:x-gm-message-state;
+	bh=zLLH50UAXjIAYfh3FcYmL1eTZg5jobw2ffrvNyhU8v8=;
+	b=MrkxsYnXnVM4dsSxYUboB4bbf8XN2z4sc9u/yWQyBbxJAi+ETKs1jW9yudKB8DCC4n
+	F8r3W2fU0HmAVl6eT/uozAhdjAmWIvnTnwTOhIEiewNnb2skXSAgI2Ksw78B8FKwWKAD
+	wLvAELZpH/L/+ZlVeENuEyDvZgaAg5pdv43yAWqsS0JBBYqVl79XkpvBTH+gnPph+eSJ
+	t69WmmbQlOk6JPhkkphw55BXb56r+c+oHIsSH6d9SlCp05iqcQbqkUDSWJ4w+xqhgs1Z
+	Zl2HfNC96ZTJZ2QnQprV4Ti0rlP/YK3rBQRDD2ANpzvXGAOl+vwKMQdpA/wLBF5cwLlX
+	/tKw==
+Received: by 10.68.204.103 with SMTP id kx7mr20383469pbc.147.1336154959258;
+	Fri, 04 May 2012 11:09:19 -0700 (PDT)
+Received: from [192.168.1.12] (c-76-105-137-48.hsd1.or.comcast.net.
+	[76.105.137.48])
+	by mx.google.com with ESMTPS id vn10sm9274292pbc.43.2012.05.04.11.09.17
+	(version=SSLv3 cipher=OTHER); Fri, 04 May 2012 11:09:17 -0700 (PDT)
+Message-ID: <4FA41B53.3060509@intel.com>
+Date: Fri, 04 May 2012 11:09:23 -0700
+From: Scott Garman <scott.a.garman@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:11.0) Gecko/20120329 Thunderbird/11.0.1
 MIME-Version: 1.0
-Received: by 10.152.129.134 with HTTP; Fri, 4 May 2012 11:08:35 -0700 (PDT)
-In-Reply-To: <1336136984-11129-1-git-send-email-obi@opendreambox.org>
-References: <1336136984-11129-1-git-send-email-obi@opendreambox.org>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 4 May 2012 11:08:35 -0700
-Message-ID: <CAMKF1squHkCYjzuZWxUqsEmbGbgUKbnP2EHbtdF=G-8h4bVjYA@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gcc-4.6: explicitly disable ppl
+To: Darren Hart <dvhart@linux.intel.com>
+References: <cover.1335931960.git.dvhart@linux.intel.com>
+	<2f13a4e16b00b7d02e822efb9ce6170ec0582821.1335931960.git.dvhart@linux.intel.com>
+In-Reply-To: <2f13a4e16b00b7d02e822efb9ce6170ec0582821.1335931960.git.dvhart@linux.intel.com>
+X-Gm-Message-State: ALoCoQmELriCk7l/P3PDLwzHr3rOiyEK+vhPh9P7S+gy1fYK8GJMLY+PktCyWsQOK16nJT1/L5iD
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] [1.2.1] initrdscripts: Update install.sh to work with mmc devices
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,75 +53,170 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 May 2012 18:18:52 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 04 May 2012 18:19:09 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, May 4, 2012 at 6:09 AM, Andreas Oberritter <obi@opendreambox.org> w=
-rote:
-> * Fixes the following error after a system library upgrade
-> | .../mipsel-oe-linux/4.6.4/cc1: error while loading shared libraries: li=
-bppl.so.10: cannot open shared object file: No such file or directory
+On 05/01/2012 09:14 PM, Darren Hart wrote:
+> Fixes [YOCTO #2385]
 >
-> Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
+> The installer only searches for hd[ab] sd[ab]. Some newer BSPs have mmcblk
+> devices that should be used as the install target. These devices also have a
+> partition prefix (mmcblk0p1 instead of mmcblk01). As they are detected
+> asynchronously, it is necessary to add the rootwait kernel parameter to avoid
+> a race condition trying to mount the root device.
+>
+> As BSPs like the FRI2 and the sys940x have mmc devices and will have a 1.2
+> release, we should push this to 1.2.1. The changes are perfectly contained and
+> easily verified.
+>
+> Test for an mmcblk device and add the p partition prefix if necessary. Add the
+> rootwait kernel parameter when an mmcblk device is detected.  Replace the series
+> of explicit umount commands with a single umount using a wildcard. This will
+> find all the partitions and will not try to unmount non-existant devices. Avoid
+> copy and paste errors by replacing /dev/${device}${pX} references with the
+> previously assigned rootfs, bootfs, and swap variables.
+>
+> These changes have been tested on the FRI2 Sato image which installed to
+> /dev/mmcblk0 as well as the N450 Sato image which installed to /dev/sda. Both
+> were successful.
+>
+> Please apply to master as well as the 1.2.1 branch.
+
+I modified this commit log to remove [1.2.1] from the title as well as 
+your sentence at the end referring to 1.2.1. In the future, all that's 
+necessary is to mention 1.2.1 in the cover letter, not the actual commits.
+
+Merged to denzil-next, thanks!
+
+http://git.openembedded.org/openembedded-core-contrib/log/?h=sgarman/denzil-next
+
+Scott
+
+>
+> Signed-off-by: Darren Hart<dvhart@linux.intel.com>
+> CC: Scott Garman<scott.a.garman@intel.com>
 > ---
-> * This patch is based on the denzil branch.
+>   .../initrdscripts/files/init-install.sh            |   45 ++++++++++---------
+>   .../initrdscripts/initramfs-live-install_1.0.bb    |    2 +-
+>   2 files changed, 25 insertions(+), 22 deletions(-)
 >
-> =C2=A0meta/recipes-devtools/gcc/gcc-4.6.inc | =C2=A0 =C2=A03 ++-
-> =C2=A01 file changed, 2 insertions(+), 1 deletion(-)
+> diff --git a/meta/recipes-core/initrdscripts/files/init-install.sh b/meta/recipes-core/initrdscripts/files/init-install.sh
+> index 90978dd..01ff829 100644
+> --- a/meta/recipes-core/initrdscripts/files/init-install.sh
+> +++ b/meta/recipes-core/initrdscripts/files/init-install.sh
+> @@ -16,7 +16,7 @@ swap_ratio=5
+>   found="no"
 >
-> diff --git a/meta/recipes-devtools/gcc/gcc-4.6.inc b/meta/recipes-devtool=
-s/gcc/gcc-4.6.inc
-> index 020e21b..74843ae 100644
-> --- a/meta/recipes-devtools/gcc/gcc-4.6.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-4.6.inc
-> @@ -1,6 +1,6 @@
-> =C2=A0require gcc-common.inc
+>   echo "Searching for a hard drive..."
+> -for device in 'hda' 'hdb' 'sda' 'sdb'
+> +for device in 'hda' 'hdb' 'sda' 'sdb' 'mmcblk0' 'mmcblk1'
+>     do
+>     if [ -e /sys/block/${device}/removable ]; then
+>         if [ "$(cat /sys/block/${device}/removable)" = "0" ]; then
+> @@ -62,13 +62,7 @@ rm -f /etc/udev/scripts/mount*
+>   #
+>   # Unmount anything the automounter had mounted
+>   #
+> -umount /dev/${device} 2>  /dev/null || /bin/true
+> -umount /dev/${device}1 2>  /dev/null || /bin/true
+> -umount /dev/${device}2 2>  /dev/null || /bin/true
+> -umount /dev/${device}3 2>  /dev/null || /bin/true
+> -umount /dev/${device}4 2>  /dev/null || /bin/true
+> -umount /dev/${device}5 2>  /dev/null || /bin/true
+> -umount /dev/${device}6 2>  /dev/null || /bin/true
+> +umount /dev/${device}* 2>  /dev/null || /bin/true
 >
-> -PR =3D "r25"
-> +PR =3D "r26"
+>   if [ ! -b /dev/sda ] ; then
+>       mknod /dev/sda b 8 0
+> @@ -94,14 +88,23 @@ rootfs_start=$((boot_size + 1))
+>   rootfs_end=$((rootfs_start+rootfs_size))
+>   swap_start=$((rootfs_end+1))
 >
-> =C2=A0# Third digit in PV should be incremented after a minor release
-> =C2=A0# happens from this branch on gcc e.g. currently its 4.6.0
-> @@ -93,6 +93,7 @@ EXTRA_OECONF_BASE =3D " --enable-lto \
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0--disable-libmudflap \
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0--with-system-zlib \
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0--with-linker-hash-style=3D${LINKER_HASH_STYLE} \
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 --without-ppl \
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0--enable-cheaders=3Dc_global "
+> -bootfs=/dev/${device}1
+> -rootfs=/dev/${device}2
+> -swap=/dev/${device}3
+> +# MMC devices are special in a couple of ways
+> +# 1) they use a partition prefix character 'p'
+> +# 2) they are detected asynchronously (need rootwait)
+> +rootwait=""
+> +part_prefix=""
+> +if [ ! "${device#mmcblk}" = "${device}" ]; then
+> +	part_prefix="p"
+> +	rootwait="rootwait"
+> +fi
+> +bootfs=/dev/${device}${part_prefix}1
+> +rootfs=/dev/${device}${part_prefix}2
+> +swap=/dev/${device}${part_prefix}3
 >
-> =C2=A0EXTRA_OECONF_INITIAL =3D "--disable-libmudflap \
-> --
-> 1.7.9.5
+>   echo "*****************"
+> -echo "Boot partition size:   $boot_size MB (/dev/${device}1)"
+> -echo "Rootfs partition size: $rootfs_size MB (/dev/${device}2)"
+> -echo "Swap partition size:   $swap_size MB (/dev/${device}3)"
+> +echo "Boot partition size:   $boot_size MB ($bootfs)"
+> +echo "Rootfs partition size: $rootfs_size MB ($rootfs)"
+> +echo "Swap partition size:   $swap_size MB ($swap)"
+>   echo "*****************"
+>   echo "Deleting partition table on /dev/${device} ..."
+>   dd if=/dev/zero of=/dev/${device} bs=512 count=2
+> @@ -109,24 +112,24 @@ dd if=/dev/zero of=/dev/${device} bs=512 count=2
+>   echo "Creating new partition table on /dev/${device} ..."
+>   parted /dev/${device} mklabel msdos
 >
+> -echo "Creating boot partition on /dev/${device}1"
+> +echo "Creating boot partition on $bootfs"
+>   parted /dev/${device} mkpart primary 1 $boot_size
+>
+> -echo "Creating rootfs partition on /dev/${device}2"
+> +echo "Creating rootfs partition on $rootfs"
+>   parted /dev/${device} mkpart primary $rootfs_start $rootfs_end
+>
+> -echo "Creating swap partition on /dev/${device}3"
+> +echo "Creating swap partition on $swap"
+>   parted /dev/${device} mkpart primary $swap_start $disk_size
+>
+>   parted /dev/${device} print
+>
+> -echo "Formatting /dev/${device}1 to ext2..."
+> +echo "Formatting $bootfs to ext2..."
+>   mkfs.ext3 $bootfs
+>
+> -echo "Formatting /dev/${device}2 to ext3..."
+> +echo "Formatting $rootfs to ext3..."
+>   mkfs.ext3 $rootfs
+>
+> -echo "Formatting swap partition...(/dev/${device}3)"
+> +echo "Formatting swap partition...($swap)"
+>   mkswap $swap
+>
+>   mkdir /ssd
+> @@ -150,7 +153,7 @@ fi
+>
+>   if [ -f /ssd/etc/grub.d/40_custom ] ; then
+>       echo "Preparing custom grub2 menu..."
+> -    sed -i "s@__ROOTFS__@$rootfs@g" /ssd/etc/grub.d/40_custom
+> +    sed -i "s@__ROOTFS__@$rootfs $rootwait@g" /ssd/etc/grub.d/40_custom
+>       sed -i "s/__VIDEO_MODE__/$3/g" /ssd/etc/grub.d/40_custom
+>       sed -i "s/__VGA_MODE__/$4/g" /ssd/etc/grub.d/40_custom
+>       mount $bootfs /bootmnt
+> diff --git a/meta/recipes-core/initrdscripts/initramfs-live-install_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-live-install_1.0.bb
+> index 793a4b7..ac73ef8 100644
+> --- a/meta/recipes-core/initrdscripts/initramfs-live-install_1.0.bb
+> +++ b/meta/recipes-core/initrdscripts/initramfs-live-install_1.0.bb
+> @@ -3,7 +3,7 @@ LICENSE = "MIT"
+>   LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+>   SRC_URI = "file://init-install.sh"
+>
+> -PR = "r6"
+> +PR = "r7"
+>
+>   RDEPENDS_${PN} = "grub parted e2fsprogs-mke2fs"
 >
 
-You will also need to disable cloog
-infact you should backport
 
-commit 523df15bcc21e1749771cca757613f3520243b8e
-Author: Khem Raj <raj.khem@gmail.com>
-Date:   Thu Mar 22 16:08:03 2012 -0700
-
-    gcc-4.7: Disable cloog and ppl
-
-    If build system has those libraries installed
-    gcc configure will pick them up. We want
-    consistent builds so we disable them since we
-    do not (yet) support them
-
-    Signed-off-by: Khem Raj <raj.khem@gmail.com>
-
-
-
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+-- 
+Scott Garman
+Embedded Linux Engineer - Yocto Project
+Intel Open Source Technology Center
 
 
