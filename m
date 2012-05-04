@@ -1,14 +1,14 @@
 Received: from ffm.saftware.de ([83.141.3.46])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <obi@opendreambox.org>) id 1SQIPw-0007XC-JU
+	(envelope-from <obi@opendreambox.org>) id 1SQIQ0-0007XS-2T
 	for openembedded-core@lists.openembedded.org;
-	Fri, 04 May 2012 15:19:28 +0200
+	Fri, 04 May 2012 15:19:32 +0200
 From: Andreas Oberritter <obi@opendreambox.org>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  4 May 2012 15:09:38 +0200
-Message-Id: <1336136978-11081-1-git-send-email-obi@opendreambox.org>
+Date: Fri,  4 May 2012 15:09:44 +0200
+Message-Id: <1336136984-11129-1-git-send-email-obi@opendreambox.org>
 X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] busybox: port improvements to simple.script from Debian (udhcpc)
+Subject: [PATCH] gcc-4.6: explicitly disable ppl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -23,84 +23,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 May 2012 13:19:28 -0000
+X-List-Received-Date: Fri, 04 May 2012 13:19:32 -0000
 
-* Support resolvconf
-* Avoid bashism $((metric++))
-* Use 'domain' instead of 'search' for domain parameter
+* Fixes the following error after a system library upgrade
+| .../mipsel-oe-linux/4.6.4/cc1: error while loading shared libraries: libppl.so.10: cannot open shared object file: No such file or directory
 
 Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
 ---
 * This patch is based on the denzil branch.
-* This patch requires "busybox: remove unused patches for simple.script (udhcpc)",
-  because of the PR bump.
 
- meta/recipes-core/busybox/busybox_1.19.4.bb   |    2 +-
- meta/recipes-core/busybox/files/simple.script |   27 ++++++++++++++++++-------
- 2 files changed, 21 insertions(+), 8 deletions(-)
+ meta/recipes-devtools/gcc/gcc-4.6.inc |    3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/busybox/busybox_1.19.4.bb b/meta/recipes-core/busybox/busybox_1.19.4.bb
-index 30dd333..0b1e787 100644
---- a/meta/recipes-core/busybox/busybox_1.19.4.bb
-+++ b/meta/recipes-core/busybox/busybox_1.19.4.bb
-@@ -1,5 +1,5 @@
- require busybox.inc
--PR = "r3"
-+PR = "r4"
+diff --git a/meta/recipes-devtools/gcc/gcc-4.6.inc b/meta/recipes-devtools/gcc/gcc-4.6.inc
+index 020e21b..74843ae 100644
+--- a/meta/recipes-devtools/gcc/gcc-4.6.inc
++++ b/meta/recipes-devtools/gcc/gcc-4.6.inc
+@@ -1,6 +1,6 @@
+ require gcc-common.inc
  
- SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
-            file://B921600.patch \
-diff --git a/meta/recipes-core/busybox/files/simple.script b/meta/recipes-core/busybox/files/simple.script
-index 5cc21b9..27368f0 100644
---- a/meta/recipes-core/busybox/files/simple.script
-+++ b/meta/recipes-core/busybox/files/simple.script
-@@ -20,6 +20,9 @@ fi
+-PR = "r25"
++PR = "r26"
  
- case "$1" in
- 	deconfig)
-+		if [ -x /sbin/resolvconf ]; then
-+			/sbin/resolvconf -d "${interface}.udhcpc"
-+		fi
- 		if ! root_is_nfs ; then
-                         if [ $have_bin_ip -eq 1 ]; then
-                                 ip addr flush dev $interface
-@@ -53,19 +56,29 @@ case "$1" in
- 			metric=0
- 			for i in $router ; do
-                                 if [ $have_bin_ip -eq 1 ]; then
--                                        ip route add default via $i metric $((metric++))
-+                                        ip route add default via $i metric $metric
-                                 else
--                                        route add default gw $i dev $interface metric $((metric++)) 2>/dev/null
-+                                        route add default gw $i dev $interface metric $metric 2>/dev/null
-                                 fi
-+                                metric=$(($metric + 1))
- 			done
- 		fi
+ # Third digit in PV should be incremented after a minor release
+ # happens from this branch on gcc e.g. currently its 4.6.0
+@@ -93,6 +93,7 @@ EXTRA_OECONF_BASE = " --enable-lto \
+ 			--disable-libmudflap \
+ 			--with-system-zlib \
+ 			--with-linker-hash-style=${LINKER_HASH_STYLE} \
++			--without-ppl \
+ 			--enable-cheaders=c_global "
  
--		echo -n > $RESOLV_CONF
--		[ -n "$domain" ] && echo search $domain >> $RESOLV_CONF
--		for i in $dns ; do
--			echo adding dns $i
--			echo nameserver $i >> $RESOLV_CONF
-+		# Update resolver configuration file
-+		R=""
-+		[ -n "$domain" ] && R="domain $domain
-+"
-+		for i in $dns; do
-+			echo "$0: Adding DNS $i"
-+			R="${R}nameserver $i
-+"
- 		done
-+
-+		if [ -x /sbin/resolvconf ]; then
-+			echo -n "$R" | /sbin/resolvconf -a "${interface}.udhcpc"
-+		else
-+			echo -n "$R" > "$RESOLV_CONF"
-+		fi
- 		;;
- esac
- 
+ EXTRA_OECONF_INITIAL = "--disable-libmudflap \
 -- 
 1.7.9.5
 
