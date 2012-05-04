@@ -1,22 +1,25 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SQLRu-00033H-1V
+	(envelope-from <sgw@linux.intel.com>) id 1SQMM5-00043k-BL
 	for openembedded-core@lists.openembedded.org;
-	Fri, 04 May 2012 18:33:42 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 04 May 2012 09:23:53 -0700
+	Fri, 04 May 2012 19:31:45 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 04 May 2012 10:21:38 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="138956414"
-Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.171])
-	by azsmga001.ch.intel.com with ESMTP; 04 May 2012 09:23:53 -0700
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="140177952"
+Received: from unknown (HELO [10.255.12.171]) ([10.255.12.171])
+	by orsmga002.jf.intel.com with ESMTP; 04 May 2012 10:21:38 -0700
+Message-ID: <4FA41021.7090301@linux.intel.com>
+Date: Fri, 04 May 2012 10:21:37 -0700
 From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  4 May 2012 09:23:52 -0700
-Message-Id: <1336148632-5828-2-git-send-email-sgw@linux.intel.com>
-X-Mailer: git-send-email 1.7.7.6
-In-Reply-To: <1336148632-5828-1-git-send-email-sgw@linux.intel.com>
-References: <1336148632-5828-1-git-send-email-sgw@linux.intel.com>
-Subject: [PATCH 2/2][EDISON 1.1.2] grub: Add SRC_URI Checksums for sanity
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:12.0) Gecko/20120424 Thunderbird/12.0
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <1336073701-22049-1-git-send-email-obi@opendreambox.org>
+In-Reply-To: <1336073701-22049-1-git-send-email-obi@opendreambox.org>
+Subject: Re: [PATCH] busybox: remove unused patches for simple.script (udhcpc)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,29 +34,133 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 May 2012 16:33:42 -0000
+X-List-Received-Date: Fri, 04 May 2012 17:31:45 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- meta/recipes-bsp/grub/grub_1.99.bb |    3 +++
- 1 files changed, 3 insertions(+), 0 deletions(-)
+On 05/03/2012 12:35 PM, Andreas Oberritter wrote:
+> * OE-Core provides its own copy of simple.script.
+>
+> Signed-off-by: Andreas Oberritter<obi@opendreambox.org>
+> ---
+>   .../busybox-1.19.4/udhcpc-fix-nfsroot.patch        |   56 --------------------
+>   .../busybox/busybox-1.19.4/udhcpscript.patch       |   24 ---------
+>   meta/recipes-core/busybox/busybox_1.19.4.bb        |    4 +-
+>   3 files changed, 1 insertion(+), 83 deletions(-)
+>   delete mode 100644 meta/recipes-core/busybox/busybox-1.19.4/udhcpc-fix-nfsroot.patch
+>   delete mode 100644 meta/recipes-core/busybox/busybox-1.19.4/udhcpscript.patch
+>
+> diff --git a/meta/recipes-core/busybox/busybox-1.19.4/udhcpc-fix-nfsroot.patch b/meta/recipes-core/busybox/busybox-1.19.4/udhcpc-fix-nfsroot.patch
+> deleted file mode 100644
+> index d2eab8b..0000000
+> --- a/meta/recipes-core/busybox/busybox-1.19.4/udhcpc-fix-nfsroot.patch
+> +++ /dev/null
+> @@ -1,56 +0,0 @@
+> -Upstream-Status: Pending
+> -
+> -# copy commit message from OE as the patch comment:
+> -#    commit ec4da6df3ad5b8b03446d0dda9c50a2439ae325a
+> -#    Author: Denys Dmytriyenko<denis@denix.org>
+> -#    Date:   Wed Feb 4 11:43:18 2009 -0500
+> -#
+> -#    busybox: fix nfsroot issues with resetting IP and deleting routes
+> -#
+> -# above comment added by Kevin Tian<kevin.tian@intel.com>, 2010-07-06
+> -Index: busybox-1.15.3/examples/udhcp/simple.script
+> -===================================================================
+> ---- busybox-1.15.3.orig/examples/udhcp/simple.script	2010-06-27 12:17:14.116876946 +0200
+> -+++ busybox-1.15.3/examples/udhcp/simple.script	2010-06-27 12:18:38.607868533 +0200
+> -@@ -10,10 +10,17 @@
+> - BROADCAST="broadcast +"
+> - [ -n "$broadcast" ]&&  BROADCAST="broadcast $broadcast"
+> -
+> -+# return 0 if root is mounted on a network filesystem
+> -+root_is_nfs() {
+> -+	grep -qe '^/dev/root.*\(nfs\|smbfs\|ncp\|coda\) .*' /proc/mounts
+> -+}
+> -+
+> - case "$1" in
+> - 	deconfig)
+> -+		if ! root_is_nfs ; then
+> - 		echo "Setting IP address 0.0.0.0 on $interface"
+> --		ifconfig $interface 0.0.0.0
+> -+			ifconfig $interface 0.0.0.0
+> -+		fi
+> - 		;;
+> -
+> - 	renew|bound)
+> -@@ -21,15 +28,17 @@
+> - 		ifconfig $interface $ip $NETMASK $BROADCAST
+> -
+> - 		if [ -n "$router" ] ; then
+> --			echo "Deleting routers"
+> --			while route del default gw 0.0.0.0 dev $interface 2>/dev/null ; do
+> --				:
+> --			done
+> -+			if ! root_is_nfs ; then
+> -+				echo "Deleting routers"
+> -+				while route del default gw 0.0.0.0 dev $interface 2>/dev/null ; do
+> -+					:
+> -+				done
+> -+			fi
+> -
+> - 			metric=0
+> - 			for i in $router ; do
+> - 				echo "Adding router $i"
+> --				route add default gw $i dev $interface metric $((metric++))
+> -+				route add default gw $i dev $interface metric $((metric++)) 2>/dev/null
+> - 			done
+> - 		fi
+> -
+> diff --git a/meta/recipes-core/busybox/busybox-1.19.4/udhcpscript.patch b/meta/recipes-core/busybox/busybox-1.19.4/udhcpscript.patch
+> deleted file mode 100644
+> index b82ea33..0000000
+> --- a/meta/recipes-core/busybox/busybox-1.19.4/udhcpscript.patch
+> +++ /dev/null
+> @@ -1,24 +0,0 @@
+> -Upstream-Status: Pending
+> -
+> -# copy commit message from OE as the patch comment
+> -#   commit c9bb6478a873d6de4c8a0e712435ac9a658a345d
+> -#   Author: Holger Schurig<schurig@mn-solutions.de>
+> -#   Date:   Wed Sep 29 08:29:58 2004 +0000
+> -#
+> -#   udhcpscript: fixes the "deleting routers" error message in case of no existing default routes
+> -#
+> -# Above comment added by Kevin Tian<kevin.tian@intel.com>, 2010-07-06
+> -
+> -Index: busybox-1.15.1/examples/udhcp/simple.script
+> -===================================================================
+> ---- busybox-1.15.1.orig/examples/udhcp/simple.script	2009-09-12 17:55:36.000000000 +0200
+> -+++ busybox-1.15.1/examples/udhcp/simple.script	2009-09-16 22:51:06.599693412 +0200
+> -@@ -22,7 +22,7 @@ case "$1" in
+> -
+> - 		if [ -n "$router" ] ; then
+> - 			echo "Deleting routers"
+> --			while route del default gw 0.0.0.0 dev $interface ; do
+> -+			while route del default gw 0.0.0.0 dev $interface 2>/dev/null ; do
+> - 				:
+> - 			done
+> -
+> diff --git a/meta/recipes-core/busybox/busybox_1.19.4.bb b/meta/recipes-core/busybox/busybox_1.19.4.bb
+> index ad8297e..30dd333 100644
+> --- a/meta/recipes-core/busybox/busybox_1.19.4.bb
+> +++ b/meta/recipes-core/busybox/busybox_1.19.4.bb
+> @@ -1,9 +1,7 @@
+>   require busybox.inc
+> -PR = "r2"
+> +PR = "r3"
+>
+>   SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
+> -           file://udhcpscript.patch \
+> -           file://udhcpc-fix-nfsroot.patch \
+>              file://B921600.patch \
+>              file://get_header_tar.patch \
+>              file://busybox-appletlib-dependency.patch \
 
-diff --git a/meta/recipes-bsp/grub/grub_1.99.bb b/meta/recipes-bsp/grub/grub_1.99.bb
-index ba41e8f..0c8648e 100644
---- a/meta/recipes-bsp/grub/grub_1.99.bb
-+++ b/meta/recipes-bsp/grub/grub_1.99.bb
-@@ -19,6 +19,9 @@ SRC_URI = "ftp://ftp.gnu.org/gnu/grub/grub-${PV}.tar.gz \
-           file://grub-install.in.patch;apply=yes \
-           file://40_custom"
- 
-+SRC_URI[md5sum] = "ca9f2a2d571b57fc5c53212d1d22e2b5"
-+SRC_URI[sha256sum] = "b91f420f2c51f6155e088e34ff99bea09cc1fb89585cf7c0179644e57abd28ff"
-+
- inherit autotools
- inherit gettext
- 
--- 
-1.7.7.6
+Merged into OE-Core
 
+Thanks
+	Sau!
 
 
