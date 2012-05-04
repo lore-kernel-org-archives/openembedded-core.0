@@ -1,24 +1,24 @@
 Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1SQQF6-0000V8-Lv
+	(envelope-from <nitin.a.kamble@intel.com>) id 1SQQF7-0000YR-FL
 	for openembedded-core@lists.openembedded.org;
 	Fri, 04 May 2012 23:40:49 +0200
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
 	by fmsmga102.fm.intel.com with ESMTP; 04 May 2012 14:30:48 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="149486045"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="149486047"
 Received: from nbuild0.sc.intel.com ([172.25.110.36])
 	by fmsmga001.fm.intel.com with ESMTP; 04 May 2012 14:30:48 -0700
 From: nitin.a.kamble@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  4 May 2012 14:30:38 -0700
-Message-Id: <1592ee02c6c314659c485af919ef8a9f501830a7.1336166919.git.nitin.a.kamble@intel.com>
+Date: Fri,  4 May 2012 14:30:39 -0700
+Message-Id: <79266614cf0bee982bf92eb4a8d9f688e7fea9ef.1336166919.git.nitin.a.kamble@intel.com>
 X-Mailer: git-send-email 1.7.6.5
 In-Reply-To: <a0c837f8e419221a32b6709163579732f1758c84.1336166919.git.nitin.a.kamble@intel.com>
 References: <a0c837f8e419221a32b6709163579732f1758c84.1336166919.git.nitin.a.kamble@intel.com>
 In-Reply-To: <cover.1336166919.git.nitin.a.kamble@intel.com>
 References: <cover.1336166919.git.nitin.a.kamble@intel.com>
-Subject: [PATCH 32/40] evolution-data-server: fix with automake work in progress
+Subject: [PATCH 33/40] gmp-4.2.1: fix build with automake 1.12
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,111 +39,84 @@ From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
 Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
 ---
- ...olution-data-server_fix_for_automake-1.12.patch |   73 ++++++++++++++++++++
- meta/recipes-sato/eds/evolution-data-server_git.bb |    3 +-
- 2 files changed, 75 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-sato/eds/evolution-data-server/evolution-data-server_fix_for_automake-1.12.patch
+ .../gmp/gmp-4.2.1/gmp_fix_for_automake-1.12.patch  |   48 ++++++++++++++++++++
+ meta/recipes-support/gmp/gmp_4.2.1.bb              |    6 ++-
+ 2 files changed, 52 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-support/gmp/gmp-4.2.1/gmp_fix_for_automake-1.12.patch
 
-diff --git a/meta/recipes-sato/eds/evolution-data-server/evolution-data-server_fix_for_automake-1.12.patch b/meta/recipes-sato/eds/evolution-data-server/evolution-data-server_fix_for_automake-1.12.patch
+diff --git a/meta/recipes-support/gmp/gmp-4.2.1/gmp_fix_for_automake-1.12.patch b/meta/recipes-support/gmp/gmp-4.2.1/gmp_fix_for_automake-1.12.patch
 new file mode 100644
-index 0000000..affe0df
+index 0000000..fbd8a39
 --- /dev/null
-+++ b/meta/recipes-sato/eds/evolution-data-server/evolution-data-server_fix_for_automake-1.12.patch
-@@ -0,0 +1,73 @@
++++ b/meta/recipes-support/gmp/gmp-4.2.1/gmp_fix_for_automake-1.12.patch
+@@ -0,0 +1,48 @@
 +Upstream-Status: Pending
 +
-+This patch fixes following kind of issues with automake 1.12
++automake 1.12 has depricated automatic de-ANSI-fication support
 +
-+| automake: warnings are treated as errors
-+| Makefile.am:15: warning: '%'-style pattern rules are a GNU make extension
-+...
-+| Makefile.am:21: warning: pkgconfig_DATA:-$(API_VERSION: non-POSIX variable name
-+...
-+| /srv/home/nitin/builds/build-gcc47/tmp/sysroots/x86_64-linux/usr/share/automake-1.12/am/ltlibrary.am: warning: 'libebookbackendfile.la': linking libtool libraries using a non-POSIX
-+| /srv/home/nitin/builds/build-gcc47/tmp/sysroots/x86_64-linux/usr/share/automake-1.12/am/ltlibrary.am: archiver requires 'AM_PROG_AR' in 'configure.ac'
-+...
-+| addressbook/libebook/Makefile.am:55: warning: '%'-style pattern rules are a GNU make extension
-+...
-+| addressbook/libebook/Makefile.am:65: warning: '%'-style pattern rules are a GNU make extension
-+| addressbook/libebook/Makefile.am:66: warning: subst -,_,$*: non-POSIX variable name
-+| addressbook/libebook/Makefile.am:66: (probably a GNU make extension)
-+| addressbook/libebook/Makefile.am:72: warning: pkgconfig_DATA:-$(API_VERSION: non-POSIX variable name
++this patch avoids these kinds of errors:
 +
++| configure.in:2240: error: automatic de-ANSI-fication support has been removed
++| Makefile.am:28: error: automatic de-ANSI-fication support has been removed
 +
 +Signed-Off-By: Nitin A Kamble <nitin.a.kamble@intel.com>
-+2012/05/03
++2012/05/02
 +
-+Index: git/Makefile.am
++Index: gmp-4.2.1/configure.in
 +===================================================================
-+--- git.orig/Makefile.am
-++++ git/Makefile.am
-+@@ -12,7 +12,7 @@ DIST_SUBDIRS = libedataserver libebacken
-+ changelogs =			\
-+ 	ChangeLog
++--- gmp-4.2.1.orig/configure.in
+++++ gmp-4.2.1/configure.in
++@@ -67,7 +67,7 @@ dnl
++ dnl  Note that there's a copy of these options in the top-level Makefile.am,
++ dnl  so update there too if changing anything.
++ dnl
++-AM_INIT_AUTOMAKE([1.8 gnu no-dependencies $(top_builddir)/ansi2knr])
+++AM_INIT_AUTOMAKE([1.8 gnu no-dependencies])
++ AM_CONFIG_HEADER(config.h:config.in)
++ AM_MAINTAINER_MODE
 + 
-+-%-$(API_VERSION).pc: %.pc
-++.pc.-$(API_VERSION).pc:
-+ 	 cp $< $@
++@@ -2022,9 +2022,6 @@ fi
++ echo "      MPN_PATH=\"$path\""
 + 
-+ pkgconfigdir = $(libdir)/pkgconfig
-+Index: git/configure.ac
++ 
++-# Automake ansi2knr support.
++-AM_C_PROTOTYPES
++-
++ GMP_PROG_AR
++ GMP_PROG_NM
++ 
++Index: gmp-4.2.1/Makefile.am
 +===================================================================
-+--- git.orig/configure.ac
-++++ git/configure.ac
-+@@ -25,6 +25,10 @@ AC_CONFIG_MACRO_DIR([m4])
-+ AC_CONFIG_SRCDIR(README)
-+ AC_CONFIG_HEADERS(config.h)
++--- gmp-4.2.1.orig/Makefile.am
+++++ gmp-4.2.1/Makefile.am
++@@ -27,7 +27,7 @@
++ # Makefiles in subdirectories, but here we must omit it so automake gives
++ # the actual ansi2knr build rule, not "cd $(top_builddir) && make ansi2knr".
++ #
++-AUTOMAKE_OPTIONS = 1.8 gnu no-dependencies ansi2knr
+++AUTOMAKE_OPTIONS = 1.8 gnu no-dependencies
 + 
-++# automake 1.12 seems to require this, but automake 1.11 doesn't recognize it
-++m4_pattern_allow([AM_PROG_AR])
-++AM_PROG_AR
-++
-+ dnl This is for the autoconf tests only - it set's the language we use
-+ AC_LANG(C)
 + 
-+Index: git/addressbook/libebook/Makefile.am
-+===================================================================
-+--- git.orig/addressbook/libebook/Makefile.am
-++++ git/addressbook/libebook/Makefile.am
-+@@ -52,7 +52,7 @@ libebookinclude_HEADERS =				\
-+ 	e-name-western.h				\
-+ 	e-vcard.h
-+ 
-+-%-$(API_VERSION).pc: %.pc
-++.pc.-$(API_VERSION).pc:
-+ 	 cp $< $@
-+ 
-+ e-name-western-tables.h: e-name-western-tables.h.in
-+@@ -62,7 +62,7 @@ pkgconfigdir = $(libdir)/pkgconfig
-+ pkgconfig_DATA = libebook-$(API_VERSION).pc
-+ 
-+ DBUS_GENERATED_H = e-data-book-factory-bindings.h e-data-book-bindings.h e-data-book-view-bindings.h
-+-%-bindings.h: $(top_srcdir)/addressbook/libedata-book/%.xml
-++./%-bindings.h: $(top_srcdir)/addressbook/libedata-book/%.xml
-+ 	@DBUS_BINDING_TOOL@ --mode=glib-client --output=$@ --prefix=$(subst -,_,$*) $^
-+ 
-+ BUILT_SOURCES = $(DBUS_GENERATED_H) $(MARSHAL_GENERATED)
-diff --git a/meta/recipes-sato/eds/evolution-data-server_git.bb b/meta/recipes-sato/eds/evolution-data-server_git.bb
-index b2aa08c..211f6e9 100644
---- a/meta/recipes-sato/eds/evolution-data-server_git.bb
-+++ b/meta/recipes-sato/eds/evolution-data-server_git.bb
-@@ -12,7 +12,7 @@ DEPENDS = "intltool-native glib-2.0 gtk+ gconf dbus db gnome-common virtual/libi
++ # Libtool -version-info for libgmp.la and libmp.la.  See "Versioning" in the
+diff --git a/meta/recipes-support/gmp/gmp_4.2.1.bb b/meta/recipes-support/gmp/gmp_4.2.1.bb
+index 280b1ab..49ee59b 100644
+--- a/meta/recipes-support/gmp/gmp_4.2.1.bb
++++ b/meta/recipes-support/gmp/gmp_4.2.1.bb
+@@ -6,10 +6,12 @@ LICENSE = "LGPLv2.1+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=892f569a555ba9c07a568a7c0c4fa63a \
+                     file://COPYING.LIB;md5=fbc093901857fcd118f065f900982c24 \
+                     file://gmp-h.in;startline=6;endline=21;md5=5e25ffd16996faba8c1cd27b04b16099"
+-PR = "r1"
++PR = "r2"
  
- SRCREV = "7337d11aed576e7caaa12b4e881ad8d33668799f"
- PV = "2.30+git${SRCPV}"
--PR = "r0"
-+PR = "r1"
+ SRC_URI = "${GNU_MIRROR}/gmp/${BP}.tar.bz2 \
+-           file://disable-stdc.patch"
++           file://disable-stdc.patch \
++           file://gmp_fix_for_automake-1.12.patch \
++           "
  
- SRC_URI = "git://git.gnome.org/evolution-data-server;protocol=git \
-            file://oh-contact.patch;striplevel=0 \
-@@ -21,6 +21,7 @@ SRC_URI = "git://git.gnome.org/evolution-data-server;protocol=git \
-            file://new-contact-fix.patch \
-            file://old-gdk-api.patch \
-            file://depbuildfix.patch \
-+           file://evolution-data-server_fix_for_automake-1.12.patch \
-            file://iconv-detect.h"
- 
- S = "${WORKDIR}/git"
+ SRC_URI[md5sum] = "091c56e0e1cca6b09b17b69d47ef18e3"
+ SRC_URI[sha256sum] = "d07ffcb37eecec35c5ec72516d10b35fdf6e6fef1fcf1dcd37e30b8cbf8bf941"
 -- 
 1.7.7
 
