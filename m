@@ -1,31 +1,25 @@
-Received: from mail-gh0-f175.google.com ([209.85.160.175]
-	helo=mail-gy0-f175.google.com)
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <cazfi74@gmail.com>) id 1SQRcq-0003xv-55
+	(envelope-from <sgw@linux.intel.com>) id 1SQRmU-00046b-6k
 	for openembedded-core@lists.openembedded.org;
-	Sat, 05 May 2012 01:09:24 +0200
-Received: by ghbz2 with SMTP id z2so3396572ghb.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 04 May 2012 15:59:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:date:message-id:subject:from:to:content-type;
-	bh=s/EPSFYYlTQq5NmaR+bDL+oVm/R6QLLW8oxOziGQVus=;
-	b=uisJjeOARDyE3pjuycIi2dE/9UbVSJo81KXLnX1AH0NlG6mL9vLSQiXm6jPwuTiLXK
-	4U1v2YaEvvbhtmZF4N1Mhjt6ifBBYmQqfiLV4IT2z/ZgpuvnP1mx7LXuw8KP2dDnRxzx
-	esU1ldz4USh9koptlCRv+BRwKrAAu7+dPMWswdRED6jqNtRchdA7kC0sARH2SutLGD7s
-	5DAk1QcasnCsHcjKh2B/V2RPRbPIbs14uCAvrYK+LXDYQSIiQo+Bq0dO0VDOwoX1xdoJ
-	Ltic4YOeIi9YHo7ucUsMa9uZGGF3utIigY5+w62DXHt/dtVzeT/9cb4mo0R5X1JaGAd9
-	/YLQ==
+	Sat, 05 May 2012 01:19:22 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 04 May 2012 16:09:34 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="149510012"
+Received: from unknown (HELO [10.255.12.171]) ([10.255.12.171])
+	by fmsmga001.fm.intel.com with ESMTP; 04 May 2012 16:09:33 -0700
+Message-ID: <4FA461AD.6040009@linux.intel.com>
+Date: Fri, 04 May 2012 16:09:33 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:12.0) Gecko/20120424 Thunderbird/12.0
 MIME-Version: 1.0
-Received: by 10.50.94.200 with SMTP id de8mr4033323igb.21.1336172376082; Fri,
-	04 May 2012 15:59:36 -0700 (PDT)
-Received: by 10.64.59.130 with HTTP; Fri, 4 May 2012 15:59:36 -0700 (PDT)
-Date: Sat, 5 May 2012 01:59:36 +0300
-Message-ID: <CAF6bG8dwwV-WymFvuZ9FXLb3wziR0mj9PfzP4qA31i79r_81wg@mail.gmail.com>
-From: Marko Lindqvist <cazfi74@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: [PATCH] dpkg: update to upstream version 1.16.3
+References: <cover.1336166919.git.nitin.a.kamble@intel.com>
+In-Reply-To: <cover.1336166919.git.nitin.a.kamble@intel.com>
+Subject: Re: [PATCH 00/40] mostly automake 1.12 related fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,492 +34,195 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 May 2012 23:09:24 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 04 May 2012 23:19:22 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Marko Lindqvist <cazfi74@gmail.com>
-Date: Sat, 5 May 2012 00:02:06 +0300
-Subject: [PATCH] dpkg: update to upstream version 1.16.3
+On 05/04/2012 02:30 PM, nitin.a.kamble@intel.com wrote:
+> From: Nitin A Kamble<nitin.a.kamble@intel.com>
+>
+> With the automake upgrade to 1.12 many recipes started failing due to
+> use of deprecated features. This commit series addresses many of those
+> recipes.
+>
 
-Update dpkg recipe to get latest upstream version (1.16.3) as
-1.15.8.7 is no longer available.
-* check_version.patch : updated to apply cleanly
-* dpkg-dev-avoid-fflush.patch : removed as already part of upstream
-* ignore_extra_fields.patch : updated to apply cleanly
-* perllibdir.patch : removed as unnecessary after upstream changes
-* preinst.patch : updated to apply cleanly
+Please check the following patches for correct Upstream-Status:
 
-Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
----
- .../recipes-devtools/dpkg/dpkg/check_version.patch |   26 +--
- .../dpkg/dpkg/dpkg-deb-avoid-fflush.patch          |  198 --------------------
- .../dpkg/dpkg/ignore_extra_fields.patch            |   39 ++--
- meta/recipes-devtools/dpkg/dpkg/perllibdir.patch   |   22 ---
- meta/recipes-devtools/dpkg/dpkg/preinst.patch      |   45 +++--
- meta/recipes-devtools/dpkg/dpkg_1.15.8.7.bb        |   15 --
- meta/recipes-devtools/dpkg/dpkg_1.16.3.bb          |   13 ++
- 7 files changed, 75 insertions(+), 283 deletions(-)
- delete mode 100644 meta/recipes-devtools/dpkg/dpkg/dpkg-deb-avoid-fflush.patch
- delete mode 100644 meta/recipes-devtools/dpkg/dpkg/perllibdir.patch
- delete mode 100644 meta/recipes-devtools/dpkg/dpkg_1.15.8.7.bb
- create mode 100644 meta/recipes-devtools/dpkg/dpkg_1.16.3.bb
+avahi
+texinfo
+guile
 
-diff --git a/meta/recipes-devtools/dpkg/dpkg/check_version.patch
-b/meta/recipes-devtools/dpkg/dpkg/check_version.patch
-index 524e715..385e4c6 100644
---- a/meta/recipes-devtools/dpkg/dpkg/check_version.patch
-+++ b/meta/recipes-devtools/dpkg/dpkg/check_version.patch
-@@ -4,20 +4,24 @@ Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
-
- Upstream-Status: Inappropriate [embedded specific]
-
--diff -ruN dpkg-1.15.8.5-orig/lib/dpkg/parsehelp.c
-dpkg-1.15.8.5/lib/dpkg/parsehelp.c
----- dpkg-1.15.8.5-orig/lib/dpkg/parsehelp.c	2010-10-08 12:27:15.058572774 +0800
--+++ dpkg-1.15.8.5/lib/dpkg/parsehelp.c	2010-10-09 11:18:15.484190771 +0800
--@@ -268,11 +268,11 @@
--
--   /* XXX: Would be faster to use something like cisversion and cisrevision. */
--   for (ptr = rversion->version; *ptr; ptr++) {
-+Updated to apply over dpkg-1.16.3
-+
-+Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
-+
-+diff -Nurd dpkg-1.16.3/lib/dpkg/parsehelp.c dpkg-1.16.3/lib/dpkg/parsehelp.c
-+--- dpkg-1.16.3/lib/dpkg/parsehelp.c	2012-04-27 05:49:02.000000000 +0300
-++++ dpkg-1.16.3/lib/dpkg/parsehelp.c	2012-05-04 13:46:27.000000000 +0300
-+@@ -253,11 +253,11 @@
-+   if (*ptr && !cisdigit(*ptr++))
-+     return dpkg_put_warn(err, _("version number does not start with digit"));
-+   for (; *ptr; ptr++) {
- -    if (!cisdigit(*ptr) && !cisalpha(*ptr) && strchr(".-+~:", *ptr) == NULL)
- +    if (!cisdigit(*ptr) && !cisalpha(*ptr) && strchr(".-+~:_", *ptr) == NULL)
--       return _("invalid character in version number");
-+       return dpkg_put_warn(err, _("invalid character in version number"));
-    }
-    for (ptr = rversion->revision; *ptr; ptr++) {
---    if (!cisdigit(*ptr) && !cisalpha(*ptr) && strchr(".-+~", *ptr) == NULL)
--+    if (!cisdigit(*ptr) && !cisalpha(*ptr) && strchr(".-+~_", *ptr) == NULL)
--       return _("invalid character in revision number");
-+-    if (!cisdigit(*ptr) && !cisalpha(*ptr) && strchr(".+~", *ptr) == NULL)
-++    if (!cisdigit(*ptr) && !cisalpha(*ptr) && strchr(".+~_", *ptr) == NULL)
-+       return dpkg_put_warn(err, _("invalid character in revision number"));
-    }
-
-diff --git a/meta/recipes-devtools/dpkg/dpkg/dpkg-deb-avoid-fflush.patch
-b/meta/recipes-devtools/dpkg/dpkg/dpkg-deb-avoid-fflush.patch
-deleted file mode 100644
-index a5d6b61..0000000
---- a/meta/recipes-devtools/dpkg/dpkg/dpkg-deb-avoid-fflush.patch
-+++ /dev/null
-@@ -1,198 +0,0 @@
--From 78eaf928d30d0b16e05d8d63c55a3632a135ed9a Mon Sep 17 00:00:00 2001
--From: Guillem Jover <guillem@debian.org>
--Date: Thu, 4 Nov 2010 00:51:13 +0100
--Subject: [PATCH] dpkg-deb: Use fd instead of stream based buffered I/O
--
--Behaviour of fflush() on input streams is undefined per POSIX, avoid
--mixing stream and file descriptor based I/O, and only use the latter
--instead.
--
--Upstream-Status: Backport of revision
-2d420ee1d05033d237462a0075facfe406b08043 (in 1.16.x)
--
-----
-- dpkg-deb/extract.c |   83 ++++++++++++++++++++++++++++++++++++++-------------
-- 1 files changed, 62 insertions(+), 21 deletions(-)
--
--diff --git a/dpkg-deb/extract.c b/dpkg-deb/extract.c
--index 22aea98..0f5ac88 100644
----- a/dpkg-deb/extract.c
--+++ b/dpkg-deb/extract.c
--@@ -31,6 +31,7 @@
-- #include <ctype.h>
-- #include <string.h>
-- #include <dirent.h>
--+#include <fcntl.h>
-- #include <unistd.h>
-- #include <ar.h>
-- #include <stdbool.h>
--@@ -61,13 +62,41 @@ static void movecontrolfiles(const char *thing) {
-- }
--
-- static void DPKG_ATTR_NORET
---readfail(FILE *a, const char *filename, const char *what)
--+read_fail(int rc, const char *filename, const char *what)
-- {
---  if (ferror(a)) {
---    ohshite(_("error reading %s from file %.255s"), what, filename);
---  } else {
--+  if (rc == 0)
--     ohshit(_("unexpected end of file in %s in %.255s"),what,filename);
--+  else
--+    ohshite(_("error reading %s from file %.255s"), what, filename);
--+}
--+
--+static ssize_t
--+read_line(int fd, char *buf, size_t min_size, size_t max_size)
--+{
--+  ssize_t line_size = 0;
--+  size_t n = min_size;
--+
--+  while (line_size < (ssize_t)max_size) {
--+    ssize_t r;
--+    char *nl;
--+
--+    r = read(fd, buf + line_size, n);
--+    if (r <= 0)
--+      return r;
--+
--+    nl = strchr(buf + line_size, '\n');
--+    line_size += r;
--+
--+    if (nl != NULL) {
--+      nl[1] = '\0';
--+      return line_size;
--+    }
--+
--+    n = 1;
--   }
--+
--+  buf[line_size] = '\0';
--+  return line_size;
-- }
--
-- static size_t
--@@ -115,19 +144,26 @@ void extracthalf(const char *debar, const char
-*directory,
--   char versionbuf[40];
--   float versionnum;
--   size_t ctrllennum, memberlen= 0;
--+  ssize_t r;
--   int dummy;
--   pid_t c1=0,c2,c3;
--   int p1[2], p2[2];
---  FILE *ar;
--+  int arfd;
--   struct stat stab;
--   char nlc;
--   int adminmember;
--   bool oldformat, header_done;
--   struct compressor *decompressor = &compressor_gzip;
--
---  ar= fopen(debar,"r"); if (!ar) ohshite(_("failed to read archive
-`%.255s'"),debar);
---  if (fstat(fileno(ar),&stab)) ohshite(_("failed to fstat archive"));
---  if (!fgets(versionbuf,sizeof(versionbuf),ar))
-readfail(ar,debar,_("version number"));
--+  arfd = open(debar, O_RDONLY);
--+  if (arfd < 0)
--+    ohshite(_("failed to read archive `%.255s'"), debar);
--+  if (fstat(arfd, &stab))
--+    ohshite(_("failed to fstat archive"));
--+
--+  r = read_line(arfd, versionbuf, strlen(DPKG_AR_MAGIC), sizeof(versionbuf));
--+  if (r < 0)
--+    read_fail(r, debar, _("archive magic version number"));
--
--   if (!strcmp(versionbuf, DPKG_AR_MAGIC)) {
--     oldformat = false;
--@@ -137,8 +173,9 @@ void extracthalf(const char *debar, const char *directory,
--     for (;;) {
--       struct ar_hdr arh;
--
---      if (fread(&arh,1,sizeof(arh),ar) != sizeof(arh))
---        readfail(ar,debar,_("between members"));
--+      r = read(arfd, &arh, sizeof(arh));
--+      if (r != sizeof(arh))
--+        read_fail(r, debar, _("archive member header"));
--
--       dpkg_ar_normalize_name(&arh);
--
--@@ -153,8 +190,9 @@ void extracthalf(const char *debar, const char *directory,
--         if (strncmp(arh.ar_name, DEBMAGIC, sizeof(arh.ar_name)) != 0)
--           ohshit(_("file `%.250s' is not a debian binary archive
-(try dpkg-split?)"),debar);
--         infobuf= m_malloc(memberlen+1);
---        if (fread(infobuf,1, memberlen + (memberlen&1), ar) !=
-memberlen + (memberlen&1))
---          readfail(ar,debar,_("header info member"));
--+        r = read(arfd, infobuf, memberlen + (memberlen & 1));
--+        if ((size_t)r != (memberlen + (memberlen & 1)))
--+          read_fail(r, debar, _("archive information header member"));
--         infobuf[memberlen] = '\0';
--         cur= strchr(infobuf,'\n');
--         if (!cur) ohshit(_("archive has no newlines in header"));
--@@ -174,7 +212,8 @@ void extracthalf(const char *debar, const char *directory,
--           /* Members with `_' are noncritical, and if we don't understand them
--            * we skip them.
--            */
---	stream_null_copy(ar, memberlen + (memberlen&1),_("skipped member
-data from %s"), debar);
--+        fd_null_copy(arfd, memberlen + (memberlen & 1),
--+                     _("skipped archive member data from %s"), debar);
--       } else {
-- 	if (strncmp(arh.ar_name, ADMINMEMBER, sizeof(arh.ar_name)) == 0)
-- 	  adminmember = 1;
--@@ -198,7 +237,8 @@ void extracthalf(const char *debar, const char *directory,
--           ctrllennum= memberlen;
--         }
--         if (!adminmember != !admininfo) {
---	  stream_null_copy(ar, memberlen + (memberlen&1),_("skipped member
-data from %s"), debar);
--+          fd_null_copy(arfd, memberlen + (memberlen & 1),
--+                       _("skipped archive member data from %s"), debar);
--         } else {
--           break; /* Yes ! - found it. */
--         }
--@@ -221,8 +261,10 @@ void extracthalf(const char *debar, const char *directory,
--     l = strlen(versionbuf);
--     if (l && versionbuf[l - 1] == '\n')
--       versionbuf[l - 1] = '\0';
---    if (!fgets(ctrllenbuf,sizeof(ctrllenbuf),ar))
---      readfail(ar, debar, _("control information length"));
--+
--+    r = read_line(arfd, ctrllenbuf, 1, sizeof(ctrllenbuf));
--+    if (r < 0)
--+      read_fail(r, debar, _("archive control member size"));
--     if (sscanf(ctrllenbuf,"%zi%c%d",&ctrllennum,&nlc,&dummy) !=2 ||
-nlc != '\n')
--       ohshit(_("archive has malformatted control length `%s'"), ctrllenbuf);
--
--@@ -230,7 +272,8 @@ void extracthalf(const char *debar, const char *directory,
--       memberlen = ctrllennum;
--     } else {
--       memberlen = stab.st_size - ctrllennum - strlen(ctrllenbuf) - l;
---      stream_null_copy(ar, ctrllennum, _("skipped control area from
-%s"), debar);
--+      fd_null_copy(arfd, ctrllennum,
--+                   _("skipped archive control member data from %s"), debar);
--     }
--
--     if (admininfo >= 2) {
--@@ -252,13 +295,11 @@ void extracthalf(const char *debar, const char
-*directory,
--
--   }
--
---  safe_fflush(ar);
---
--   m_pipe(p1);
--   c1 = subproc_fork();
--   if (!c1) {
--     close(p1[0]);
---    stream_fd_copy(ar, p1[1], memberlen, _("failed to write to pipe
-in copy"));
--+    fd_fd_copy(arfd, p1[1], memberlen, _("failed to write to pipe in copy"));
--     if (close(p1[1]))
--       ohshite(_("failed to close pipe in copy"));
--     exit(0);
--@@ -275,7 +316,7 @@ void extracthalf(const char *debar, const char *directory,
--     decompress_filter(decompressor, 0, 1, _("data"));
--   }
--   close(p1[0]);
---  fclose(ar);
--+  close(arfd);
--   if (taroption) close(p2[1]);
--
--   if (taroption && directory) {
----
--1.7.7.6
--
-diff --git a/meta/recipes-devtools/dpkg/dpkg/ignore_extra_fields.patch
-b/meta/recipes-devtools/dpkg/dpkg/ignore_extra_fields.patch
-index 0ff09e7..2dbb5a2 100644
---- a/meta/recipes-devtools/dpkg/dpkg/ignore_extra_fields.patch
-+++ b/meta/recipes-devtools/dpkg/dpkg/ignore_extra_fields.patch
-@@ -1,22 +1,25 @@
- Upstream-Status: Inappropriate [workaround]
-
--diff -ruN dpkg-1.15.8.5-orig/dpkg-deb/build.c dpkg-1.15.8.5/dpkg-deb/build.c
----- dpkg-1.15.8.5-orig/dpkg-deb/build.c	2010-10-08 12:27:15.042083703 +0800
--+++ dpkg-1.15.8.5/dpkg-deb/build.c	2010-10-08 12:31:53.822534277 +0800
--@@ -275,14 +275,14 @@
--               controlfile, checkedinfo->otherpriority);
--       warns++;
--     }
---    for (field= checkedinfo->available.arbs; field; field= field->next) {
--+    /*for (field= checkedinfo->available.arbs; field; field= field->next) {
--       if (known_arbitrary_field(field))
--         continue;
-+Updated to apply over dpkg-1.16.3
-+
-+Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
-+
-+diff -Nurd dpkg-1.16.3/dpkg-deb/build.c dpkg-1.16.3/dpkg-deb/build.c
-+--- dpkg-1.16.3/dpkg-deb/build.c	2012-04-27 05:49:02.000000000 +0300
-++++ dpkg-1.16.3/dpkg-deb/build.c	2012-05-04 13:28:39.000000000 +0300
-+@@ -340,6 +340,7 @@
-+   if (pkg->priority == pri_other)
-+     warning(_("'%s' contains user-defined Priority value '%s'"),
-+             controlfile, pkg->otherpriority);
-++#if 0
-+   for (field = pkg->available.arbs; field; field = field->next) {
-+     if (known_arbitrary_field(field))
-+       continue;
-+@@ -347,6 +348,7 @@
-+     warning(_("'%s' contains user-defined field '%s'"), controlfile,
-+             field->name);
-+   }
-++#endif
-
--       warning(_("'%s' contains user-defined field '%s'"),
--               controlfile, field->name);
--       warns++;
---    }
--+    }*/
-+   free(controlfile);
-
--     if (subdir) {
--       versionstring=
-versiondescribe(&checkedinfo->available.version,vdew_never);
-diff --git a/meta/recipes-devtools/dpkg/dpkg/perllibdir.patch
-b/meta/recipes-devtools/dpkg/dpkg/perllibdir.patch
-deleted file mode 100644
-index 45973f0..0000000
---- a/meta/recipes-devtools/dpkg/dpkg/perllibdir.patch
-+++ /dev/null
-@@ -1,22 +0,0 @@
--We want to be able to set PERL_LIBDIR from the environment. This
--hardcoded assignment prevents us from doing so and obtains an
--incorrect value.
--
--Upstream-Status: Inappropriate [in this form at least]
--
--RP 14/11/2011
--
--Index: dpkg-1.15.8.7/m4/dpkg-progs.m4
--===================================================================
----- dpkg-1.15.8.7.orig/m4/dpkg-progs.m4	2011-11-14 17:32:21.252053239 +0000
--+++ dpkg-1.15.8.7/m4/dpkg-progs.m4	2011-11-14 17:32:55.180052455 +0000
--@@ -9,9 +9,6 @@
-- [AC_ARG_VAR([PERL], [Perl interpreter])dnl
-- AC_PATH_PROG([PERL], [perl], [/usr/bin/perl])dnl
-- AC_ARG_VAR([PERL_LIBDIR], [Perl library directory])dnl
---PERL_LIBDIR=$($PERL -MConfig -e 'my $r = $Config{vendorlibexp};
---                                 $r =~ s/$Config{vendorprefixexp}/\$(prefix)/;
---                                 print $r')dnl
-- ])# DPKG_PROG_PERL
--
-- # DPKG_PROG_PO4A
-diff --git a/meta/recipes-devtools/dpkg/dpkg/preinst.patch
-b/meta/recipes-devtools/dpkg/dpkg/preinst.patch
-index 06d2aac..557b423 100644
---- a/meta/recipes-devtools/dpkg/dpkg/preinst.patch
-+++ b/meta/recipes-devtools/dpkg/dpkg/preinst.patch
-@@ -6,41 +6,48 @@ Upstream-Status: Inappropriate [OE Specific]
-
- RP 2011/12/07
-
--Index: dpkg-1.15.8.7/src/help.c
--===================================================================
----- dpkg-1.15.8.7.orig/src/help.c	2010-12-20 01:25:36.000000000 +0000
--+++ dpkg-1.15.8.7/src/help.c	2011-12-07 14:51:02.783461487 +0000
--@@ -181,30 +181,9 @@
--    * FIXME: none of the stuff here will work if admindir isn't inside
--    * instdir as expected.
--    */
---  size_t instdirl;
-+Updated to apply over dpkg-1.16.3
-+
-+Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
-+
-+diff -Nurd dpkg-1.16.3/src/help.c dpkg-1.16.3/src/help.c
-+--- dpkg-1.16.3/src/help.c	2012-04-27 05:49:03.000000000 +0300
-++++ dpkg-1.16.3/src/help.c	2012-05-04 13:55:44.000000000 +0300
-+@@ -204,35 +204,10 @@
-+ static const char *
-+ preexecscript(struct command *cmd)
-+ {
-+-  const char *admindir = dpkg_db_get_dir();
-+-  size_t instdirl = strlen(instdir);
-+-
-+   if (*instdir) {
-+-    if (strncmp(admindir, instdir, instdirl) != 0)
-+-      ohshit(_("admindir must be inside instdir for dpkg to work properly"));
-+-    if (setenv("DPKG_ADMINDIR", admindir + instdirl, 1) < 0)
-+-      ohshite(_("unable to setenv for subprocesses"));
- -
---  if (*instdir) {
- -    if (chroot(instdir)) ohshite(_("failed to chroot to `%.250s'"),instdir);
- -    if (chdir("/"))
- -      ohshite(_("failed to chdir to `%.255s'"), "/");
- -  }
---  if (f_debug & dbg_scripts) {
-+-  if (debug_has_flag(dbg_scripts)) {
- -    struct varbuf args = VARBUF_INIT;
- -    const char **argv = cmd->argv;
- -
- -    while (*++argv) {
---      varbufaddc(&args, ' ');
---      varbufaddstr(&args, *argv);
-+-      varbuf_add_char(&args, ' ');
-+-      varbuf_add_str(&args, *argv);
- -    }
---    varbufaddc(&args, '\0');
-+-    varbuf_end_str(&args);
- -    debug(dbg_scripts, "fork/exec %s (%s )", cmd->filename, args.buf);
- -    varbuf_destroy(&args);
---  }
---  instdirl= strlen(instdir);
-++    setenv("D", instdir, 1);
-+   }
- -  if (!instdirl)
- -    return cmd->filename;
- -  assert(strlen(cmd->filename) >= instdirl);
- -  return cmd->filename + instdirl;
--+  if (*instdir)
--+    setenv("D", instdir, 1);
- +  return cmd->filename;
-- }
-+ }
-
-  void
-diff --git a/meta/recipes-devtools/dpkg/dpkg_1.15.8.7.bb
-b/meta/recipes-devtools/dpkg/dpkg_1.15.8.7.bb
-deleted file mode 100644
-index 1e7ef25..0000000
---- a/meta/recipes-devtools/dpkg/dpkg_1.15.8.7.bb
-+++ /dev/null
-@@ -1,15 +0,0 @@
--require dpkg.inc
--LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
--
--SRC_URI += "file://noman.patch \
--            file://check_snprintf.patch \
--            file://check_version.patch \
--            file://perllibdir.patch \
--            file://preinst.patch \
--            file://dpkg-deb-avoid-fflush.patch"
--
--SRC_URI[md5sum] = "d1731d4147c1ea3b537a4d094519a6dc"
--SRC_URI[sha256sum] =
-"1ec1376471b04717a4497e5d7a27cd545248c92116898ce0c53ced8ea94267b5"
--
--PR = "${INC_PR}.4"
--
-diff --git a/meta/recipes-devtools/dpkg/dpkg_1.16.3.bb
-b/meta/recipes-devtools/dpkg/dpkg_1.16.3.bb
-new file mode 100644
-index 0000000..6af7f2d
---- /dev/null
-+++ b/meta/recipes-devtools/dpkg/dpkg_1.16.3.bb
-@@ -0,0 +1,13 @@
-+require dpkg.inc
-+LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
-+
-+SRC_URI += "file://noman.patch \
-+            file://check_snprintf.patch \
-+            file://check_version.patch \
-+            file://preinst.patch"
-+
-+SRC_URI[md5sum] = "20189e2926ada3dda4f77ef2e36999af"
-+SRC_URI[sha256sum] =
-"8048890ca92a3ca317a4fdd557f8e9b2b3ce560743e8e70813496f9a7096d8d8"
-+
-+PR = "${INC_PR}.1"
-+
--- 
-1.7.10
+>
+> The following changes since commit 7f11bbb9bbc55001928bec799a39a32e9fa85659:
+>
+>    bitbake: Fixup bitbake-selftest (2012-05-04 17:41:47 +0100)
+>
+> are available in the git repository at:
+>    git://git.pokylinux.org/poky-contrib nitin/automake-1.12_related_fixes
+>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=nitin/automake-1.12_related_fixes
+>
+> Nitin A Kamble (40):
+>    guile: upgrade from 2.0.3 to 2.0.5
+>    gmp: fix build with automake 1.12
+>    mpfr: fix build with automake 1.12
+>    popt: fix build with automake 1.12
+>    rpm: fix build with automake 1.12
+>    libxml2: fix build with automake 1.12
+>    shadow shadow-native: fix build with automake 1.12
+>    jpeg: fix build with automake 1.12
+>    libtasn1: fix build with automake 1.12
+>    systemtap: fix build with automake 1.12
+>    libmpc: fix build with automake 1.12
+>    libcheck: fix build with automake 1.12
+>    texinfo: fix build with automake 1.12
+>    libidn: fix build with automake 1.12
+>    glew: fix build with automake 1.12
+>    findutils: fix build with automake 1.12
+>    gawk: fix build with automake 1.12
+>    lrzsz: fix build with automake 1.12
+>    minicom: fix build with automake 1.12
+>    lighttpd: fix build with automake 1.12
+>    tar: fix build
+>    libgcrypt: fix build
+>    gpgme: fix build
+>    telepathy-glib: fix build
+>    xf86-video-vmware: fix build issue
+>    avahi: fix install issue
+>    pango: fix dependencies to avoid build issue
+>    gnutls: fix build with automake 1.12
+>    libfm: fix build with automake 1.12
+>    libfm: fix a build issue
+>    libcroco: fix build with automake 1.12
+>    evolution-data-server: fix with automake work in progress
+>    gmp-4.2.1: fix build with automake 1.12
+>    coreutils-native-6.9: fix build with automake 1.12
+>    grub-0.97: fix build with automake 1.12
+>    diffutils-2.8.1: fix build with automake 1.12
+>    grep-2.5.1a: fix build with automake 1.12
+>    gawk-3.1.5: fix build with automake 1.12
+>    findutils-4.2.31: fix build with automake 1.12
+>    make-3.81: fix build with automake 1.12
+>
+>   .../grub-0.97/grub_fix_for_automake-1.12.patch     |   48 +++++++++++++
+>   meta/recipes-bsp/grub/grub_0.97.bb                 |    6 +-
+>   .../lrzsz_fix_for_automake-1.12.patch              |   49 +++++++++++++
+>   meta/recipes-bsp/lrzsz/lrzsz_0.12.20.bb            |    6 +-
+>   meta/recipes-connectivity/avahi/avahi.inc          |    6 +-
+>   .../avahi/files/avahi_fix_install_issue.patch      |   32 +++++++++
+>   .../telepathy/telepathy-glib_0.18.1.bb             |   12 +++-
+>   .../coreutils_fix_for_automake-1.12.patch          |   32 +++++++++
+>   meta/recipes-core/coreutils/coreutils_6.9.bb       |    6 +-
+>   .../jpeg/jpeg-8c/jpeg_fix_for_automake-1.12.patch  |   41 +++++++++++
+>   meta/recipes-core/jpeg/jpeg_8c.bb                  |    6 +-
+>   .../libxml2/libxml2_fix_for_automake_1.12.patch    |   23 ++++++
+>   meta/recipes-core/libxml/libxml2_2.7.8.bb          |    5 +-
+>   ...01-Fix-the-SRFI-60-copy-bit-documentation.patch |   33 ---------
+>   ..._GNU_SOURCE-to-fix-the-GNU-kFreeBSD-build.patch |   25 -------
+>   ...-modules-are-removed-gc-test-as-unresolve.patch |   34 +++++++++
+>   ...h-rather-than-gc-gc_version.h-in-pthread-.patch |   26 -------
+>   ...with-owner-not-retained-threads-test-as-u.patch |   29 ++++++++
+>   .../guile/files/guile_2.0.5_fix_sed_error.patch    |   24 +++++++
+>   .../guile/{guile_2.0.3.bb =>  guile_2.0.5.bb}       |   16 +++--
+>   .../make-3.81/make_fix_for_automake-1.12.patch     |   43 ++++++++++++
+>   meta/recipes-devtools/make/make_3.81.bb            |    4 +-
+>   .../rpm/rpm/rpm_fix_for_automake-1.12.patch        |   21 ++++++
+>   meta/recipes-devtools/rpm/rpm_5.4.0.bb             |    3 +-
+>   .../diffutils_fix_for_automake-1.12.patch          |   27 +++++++
+>   meta/recipes-extended/diffutils/diffutils_2.8.1.bb |    6 +-
+>   .../findutils_fix_for_automake-1.12.patch          |   23 ++++++
+>   .../findutils_fix_for_automake-1.12.patch          |   22 ++++++
+>   .../recipes-extended/findutils/findutils_4.2.31.bb |    6 +-
+>   meta/recipes-extended/findutils/findutils_4.4.2.bb |    6 +-
+>   .../gawk-3.1.5/gawk_fix_for_automake-1.12.patch    |   41 +++++++++++
+>   .../gawk/gawk/gawk_fix_for_automake-1.12.patch     |   23 ++++++
+>   meta/recipes-extended/gawk/gawk_3.1.5.bb           |    2 +
+>   meta/recipes-extended/gawk/gawk_4.0.0.bb           |    5 +-
+>   .../grep-2.5.1a/grep_fix_for_automake-1.12.patch   |   52 ++++++++++++++
+>   meta/recipes-extended/grep/grep_2.5.1a.bb          |    7 ++-
+>   .../libidn/libidn_fix_for_automake-1.12.patch      |   26 +++++++
+>   meta/recipes-extended/libidn/libidn_1.24.bb        |    5 +-
+>   .../files/lighttpd_fix_for_automake-1.12.patch     |   37 ++++++++++
+>   meta/recipes-extended/lighttpd/lighttpd_1.4.30.bb  |    5 +-
+>   .../minicom_fix_for_automake-1.12.patch            |   21 ++++++
+>   meta/recipes-extended/minicom/minicom_2.6.1.bb     |    3 +
+>   .../files/shadow_fix_for_automake-1.12.patch       |   23 ++++++
+>   .../shadow/shadow-native_4.1.4.3.bb                |    6 +-
+>   meta/recipes-extended/shadow/shadow_4.1.4.3.bb     |    6 +-
+>   meta/recipes-extended/tar/tar.inc                  |    8 ++-
+>   .../texinfo_fix_for_automake-1.12.patch            |   24 +++++++
+>   meta/recipes-extended/texinfo/texinfo_4.13a.bb     |    3 +-
+>   .../glew/files/glew_fix_for_automake-1.12.patch    |   25 +++++++
+>   meta/recipes-graphics/glew/glew_1.7.0.bb           |    3 +-
+>   meta/recipes-graphics/pango/pango.inc              |    2 +-
+>   meta/recipes-graphics/pango/pango_1.28.4.bb        |    2 +-
+>   .../xorg-driver/xf86-video-vmware_12.0.1.bb        |    4 +-
+>   .../systemtap_fix_for_automake_1.12.patch          |   23 ++++++
+>   meta/recipes-kernel/systemtap/systemtap_git.bb     |    2 +-
+>   meta/recipes-kernel/systemtap/systemtap_git.inc    |    1 +
+>   ...olution-data-server_fix_for_automake-1.12.patch |   73 ++++++++++++++++++++
+>   meta/recipes-sato/eds/evolution-data-server_git.bb |    3 +-
+>   .../gmp/gmp-4.2.1/gmp_fix_for_automake-1.12.patch  |   48 +++++++++++++
+>   .../gmp/gmp/gmp_fix_for_automake-1.12.patch        |   48 +++++++++++++
+>   meta/recipes-support/gmp/gmp_4.2.1.bb              |    6 +-
+>   meta/recipes-support/gmp/gmp_5.0.4.bb              |    6 +-
+>   .../gnutls_fix_for_automake-1.12.patch             |   53 ++++++++++++++
+>   meta/recipes-support/gnutls/gnutls_2.12.18.bb      |    3 +-
+>   .../libtasn1/libtasn1_fix_for_automake_1.12.patch  |   28 ++++++++
+>   meta/recipes-support/gnutls/libtasn1_2.12.bb       |    6 +-
+>   meta/recipes-support/gpgme/gpgme_1.3.1.bb          |    4 +-
+>   .../libcheck/libcheck_fix_for_automake-1.12.patch  |   26 +++++++
+>   meta/recipes-support/libcheck/libcheck_0.9.8.bb    |    6 +-
+>   .../files/libcroco_fix_for_automake-1.12.patch     |   22 ++++++
+>   meta/recipes-support/libcroco/libcroco_0.6.3.bb    |    5 +-
+>   .../libfm-0.1.17/libfm_fix_for_automake-1.12.patch |   48 +++++++++++++
+>   meta/recipes-support/libfm/libfm_0.1.17.bb         |   14 +++-
+>   meta/recipes-support/libgcrypt/libgcrypt.inc       |    4 +-
+>   .../libmpc/libmpc_fix_for_automake-1.12.patch      |   26 +++++++
+>   meta/recipes-support/libmpc/libmpc_0.8.2.bb        |    5 +-
+>   .../mpfr-3.1.0/mpfr_fix_for_automake-1.12.patch    |   35 +++++++++
+>   meta/recipes-support/mpfr/mpfr_3.1.0.bb            |    7 +-
+>   .../popt/popt/popt_fix_for_automake-1.12.patch     |   21 ++++++
+>   meta/recipes-support/popt/popt_1.16.bb             |    3 +-
+>   80 files changed, 1321 insertions(+), 158 deletions(-)
+>   create mode 100644 meta/recipes-bsp/grub/grub-0.97/grub_fix_for_automake-1.12.patch
+>   create mode 100644 meta/recipes-bsp/lrzsz/lrzsz-0.12.20/lrzsz_fix_for_automake-1.12.patch
+>   create mode 100644 meta/recipes-connectivity/avahi/files/avahi_fix_install_issue.patch
+>   create mode 100644 meta/recipes-core/coreutils/coreutils-6.9/coreutils_fix_for_automake-1.12.patch
+>   create mode 100644 meta/recipes-core/jpeg/jpeg-8c/jpeg_fix_for_automake-1.12.patch
+>   create mode 100644 meta/recipes-core/libxml/libxml2/libxml2_fix_for_automake_1.12.patch
+>   delete mode 100644 meta/recipes-devtools/guile/files/debian/0001-Fix-the-SRFI-60-copy-bit-documentation.patch
+>   delete mode 100644 meta/recipes-devtools/guile/files/debian/0002-Define-_GNU_SOURCE-to-fix-the-GNU-kFreeBSD-build.patch
+>   create mode 100644 meta/recipes-devtools/guile/files/debian/0002-Mark-Unused-modules-are-removed-gc-test-as-unresolve.patch
+>   delete mode 100644 meta/recipes-devtools/guile/files/debian/0003-Include-gc.h-rather-than-gc-gc_version.h-in-pthread-.patch
+>   create mode 100644 meta/recipes-devtools/guile/files/debian/0003-Mark-mutex-with-owner-not-retained-threads-test-as-u.patch
+>   create mode 100644 meta/recipes-devtools/guile/files/guile_2.0.5_fix_sed_error.patch
+>   rename meta/recipes-devtools/guile/{guile_2.0.3.bb =>  guile_2.0.5.bb} (84%)
+>   create mode 100644 meta/recipes-devtools/make/make-3.81/make_fix_for_automake-1.12.patch
+>   create mode 100644 meta/recipes-devtools/rpm/rpm/rpm_fix_for_automake-1.12.patch
+>   create mode 100644 meta/recipes-extended/diffutils/diffutils-2.8.1/diffutils_fix_for_automake-1.12.patch
+>   create mode 100644 meta/recipes-extended/findutils/findutils-4.2.31/findutils_fix_for_automake-1.12.patch
+>   create mode 100644 meta/recipes-extended/findutils/findutils-4.4.2/findutils_fix_for_automake-1.12.patch
+>   create mode 100644 meta/recipes-extended/gawk/gawk-3.1.5/gawk_fix_for_automake-1.12.patch
+>   create mode 100644 meta/recipes-extended/gawk/gawk/gawk_fix_for_automake-1.12.patch
+>   create mode 100644 meta/recipes-extended/grep/grep-2.5.1a/grep_fix_for_automake-1.12.patch
+>   create mode 100644 meta/recipes-extended/libidn/libidn/libidn_fix_for_automake-1.12.patch
+>   create mode 100644 meta/recipes-extended/lighttpd/files/lighttpd_fix_for_automake-1.12.patch
+>   create mode 100644 meta/recipes-extended/minicom/minicom-2.6.1/minicom_fix_for_automake-1.12.patch
+>   create mode 100644 meta/recipes-extended/shadow/files/shadow_fix_for_automake-1.12.patch
+>   create mode 100644 meta/recipes-extended/texinfo/texinfo-4.13a/texinfo_fix_for_automake-1.12.patch
+>   create mode 100644 meta/recipes-graphics/glew/files/glew_fix_for_automake-1.12.patch
+>   create mode 100644 meta/recipes-kernel/systemtap/systemtap/systemtap_fix_for_automake_1.12.patch
+>   create mode 100644 meta/recipes-sato/eds/evolution-data-server/evolution-data-server_fix_for_automake-1.12.patch
+>   create mode 100644 meta/recipes-support/gmp/gmp-4.2.1/gmp_fix_for_automake-1.12.patch
+>   create mode 100644 meta/recipes-support/gmp/gmp/gmp_fix_for_automake-1.12.patch
+>   create mode 100644 meta/recipes-support/gnutls/gnutls-2.12.18/gnutls_fix_for_automake-1.12.patch
+>   create mode 100644 meta/recipes-support/gnutls/libtasn1/libtasn1_fix_for_automake_1.12.patch
+>   create mode 100644 meta/recipes-support/libcheck/libcheck/libcheck_fix_for_automake-1.12.patch
+>   create mode 100644 meta/recipes-support/libcroco/files/libcroco_fix_for_automake-1.12.patch
+>   create mode 100644 meta/recipes-support/libfm/libfm-0.1.17/libfm_fix_for_automake-1.12.patch
+>   create mode 100644 meta/recipes-support/libmpc/libmpc/libmpc_fix_for_automake-1.12.patch
+>   create mode 100644 meta/recipes-support/mpfr/mpfr-3.1.0/mpfr_fix_for_automake-1.12.patch
+>   create mode 100644 meta/recipes-support/popt/popt/popt_fix_for_automake-1.12.patch
+>
 
 
