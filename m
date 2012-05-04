@@ -1,24 +1,33 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1SQQF8-0000Rd-AT
+	(envelope-from <raj.khem@gmail.com>) id 1SQQhW-0002lL-Bt
 	for openembedded-core@lists.openembedded.org;
-	Fri, 04 May 2012 23:40:50 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 04 May 2012 14:30:48 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="149486048"
-Received: from nbuild0.sc.intel.com ([172.25.110.36])
-	by fmsmga001.fm.intel.com with ESMTP; 04 May 2012 14:30:48 -0700
-From: nitin.a.kamble@intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  4 May 2012 14:30:40 -0700
-Message-Id: <b2483ef35c98079ac7e247d691f92db6f39286e3.1336166919.git.nitin.a.kamble@intel.com>
-X-Mailer: git-send-email 1.7.6.5
-In-Reply-To: <a0c837f8e419221a32b6709163579732f1758c84.1336166919.git.nitin.a.kamble@intel.com>
-References: <a0c837f8e419221a32b6709163579732f1758c84.1336166919.git.nitin.a.kamble@intel.com>
-In-Reply-To: <cover.1336166919.git.nitin.a.kamble@intel.com>
-References: <cover.1336166919.git.nitin.a.kamble@intel.com>
-Subject: [PATCH 34/40] coreutils-native-6.9: fix build with automake 1.12
+	Sat, 05 May 2012 00:10:10 +0200
+Received: by laai10 with SMTP id i10so1666460laa.6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 04 May 2012 15:00:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:content-transfer-encoding;
+	bh=t14NDmFIy9cYuxEmx816BszUJRmTeXkzBrwixWw5InM=;
+	b=YidT993jzU5U8m4wnu8i9tc1N857nvtLh+sJr2QFpLPmuBJ3o9UMaCUXphX5p5K+X7
+	1P6FnXet2mbOng1FWMv2IINph8v3Vc8rY5LKbQ2oSc7sy0TTzmJo/hyMsxoEon5bO6AG
+	GJ1N7kBlxqUPo5C8tVStcKmX2keAP65shsSVaPT72k8rMpRHgAns1IxzqUvlHzlHxlxj
+	vbzBqb/DkrTo9jx8oa767qkRcMOf/70aI47d4SlBBGwbsDuqVC8m4+/55naObQOE8dTB
+	Rf6YqMMO7Llhb9MeNvVY8jyp23ZazgnBiPVL4Yr+CZnjSObZJpyaUYI3V07egy+HvYEy
+	nuBA==
+Received: by 10.112.86.101 with SMTP id o5mr3691498lbz.1.1336168823152; Fri,
+	04 May 2012 15:00:23 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.152.129.134 with HTTP; Fri, 4 May 2012 14:59:52 -0700 (PDT)
+In-Reply-To: <CAF6bG8djbQrRN5RoSPTdTha50qqEOp=CTxFk-AzWcprTvzO9+A@mail.gmail.com>
+References: <CAF6bG8djbQrRN5RoSPTdTha50qqEOp=CTxFk-AzWcprTvzO9+A@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 4 May 2012 14:59:52 -0700
+Message-ID: <CAMKF1sr3__=2kd6UneGYb4-QyO7+J3-ATtkJUbbjA7NsGFsFjg@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Getting nonexistent files from debian.org not erroring but saving html-page as destination file, Was: [Patch] Update dpkg to one available
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,81 +42,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 May 2012 21:42:53 -0000
+X-List-Received-Date: Fri, 04 May 2012 22:10:10 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-From: Nitin A Kamble <nitin.a.kamble@intel.com>
+On Fri, May 4, 2012 at 12:49 PM, Marko Lindqvist <cazfi74@gmail.com> wrote:
+> On 4 May 2012 19:06, Saul Wold <sgw@linux.intel.com> wrote:
+>> On 05/04/2012 04:29 AM, Marko Lindqvist wrote:
+>>>
+>>> =C2=A0I'm trying to make my first openembedded-core build. That failed =
+due
+>>> to dpkg-1.15.8.5 being not available for download any more.
+>>>
+>> This should be still available on our MIRROR.
+>
 
-Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
----
- .../coreutils_fix_for_automake-1.12.patch          |   32 ++++++++++++++++++++
- meta/recipes-core/coreutils/coreutils_6.9.bb       |    6 ++-
- 2 files changed, 36 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-core/coreutils/coreutils-6.9/coreutils_fix_for_automake-1.12.patch
+Saul
 
-diff --git a/meta/recipes-core/coreutils/coreutils-6.9/coreutils_fix_for_automake-1.12.patch b/meta/recipes-core/coreutils/coreutils-6.9/coreutils_fix_for_automake-1.12.patch
-new file mode 100644
-index 0000000..02730db
---- /dev/null
-+++ b/meta/recipes-core/coreutils/coreutils-6.9/coreutils_fix_for_automake-1.12.patch
-@@ -0,0 +1,32 @@
-+Upstream-Status: Pending
-+
-+automake 1.12 has depricated automatic de-ANSI-fication support
-+
-+this patch avoids these kinds of errors:
-+
-+| configure.ac:40: error: automatic de-ANSI-fication support has been removed
-+| /srv/home/nitin/builds/build-gcc47/tmp/sysroots/x86_64-linux/usr/share/aclocal-1.12/protos.m4:12: AM_C_PROTOTYPES is expanded from...
-+| /srv/home/nitin/builds/build-gcc47/tmp/work/x86_64-linux/coreutils-native-6.9-r2/coreutils-6.9/m4/jm-macros.m4:138: gl_CHECK_ALL_TYPES is expanded from...
-+| /srv/home/nitin/builds/build-gcc47/tmp/work/x86_64-linux/coreutils-native-6.9-r2/coreutils-6.9/m4/jm-macros.m4:24: coreutils_MACROS is expanded from...
-+| configure.ac:40: the top level
-+| autom4te: m4 failed with exit status: 1
-+
-+Signed-Off-By: Nitin A Kamble <nitin.a.kamble@intel.com>
-+2012/05/04
-+
-+Index: coreutils-6.9/m4/jm-macros.m4
-+===================================================================
-+--- coreutils-6.9.orig/m4/jm-macros.m4
-++++ coreutils-6.9/m4/jm-macros.m4
-+@@ -142,11 +142,6 @@ AC_DEFUN([gl_CHECK_ALL_TYPES],
-+   dnl whether functions and headers are available, whether they work, etc.
-+   AC_REQUIRE([AC_SYS_LARGEFILE])
-+ 
-+-  dnl This test must precede tests of compiler characteristics like
-+-  dnl that for the inline keyword, since it may change the degree to
-+-  dnl which the compiler supports such features.
-+-  AC_REQUIRE([AM_C_PROTOTYPES])
-+-
-+   dnl Checks for typedefs, structures, and compiler characteristics.
-+   AC_REQUIRE([AC_C_BIGENDIAN])
-+   AC_REQUIRE([AC_C_VOLATILE])
-diff --git a/meta/recipes-core/coreutils/coreutils_6.9.bb b/meta/recipes-core/coreutils/coreutils_6.9.bb
-index 8a47a60..bbde63c 100644
---- a/meta/recipes-core/coreutils/coreutils_6.9.bb
-+++ b/meta/recipes-core/coreutils/coreutils_6.9.bb
-@@ -8,7 +8,7 @@ BUGTRACKER = "http://debbugs.gnu.org/coreutils"
- LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
-                     file://src/ls.c;startline=4;endline=16;md5=482a96d4f25010a4e13f8743e0c3685e"
--PR = "r2"
-+PR = "r3"
- DEPENDS = "coreutils-native-${PV}"
- DEPENDS_virtclass-native = "gettext-native"
- 
-@@ -22,7 +22,9 @@ SRC_URI_BASE = "${GNU_MIRROR}/coreutils/${BP}.tar.bz2 \
-            file://coreutils-i18n.patch \
-            file://coreutils-overflow.patch \
-            file://coreutils-fix-install.patch \
--           file://man-touch.patch"
-+           file://man-touch.patch \
-+           file://coreutils_fix_for_automake-1.12.patch \
-+           "
- 
- SRC_URI = "${SRC_URI_BASE} file://fix_for_manpage_building.patch"
- SRC_URI_virtclass-native = "${SRC_URI_BASE}"
--- 
-1.7.7
+actually with OE-Core I also hit similar problem and we need this patch
 
+http://git.openembedded.org/openembedded-core-contrib/commit/?h=3Dkraj/misc=
+&id=3D044dd59a6288064d7325a93684660443340c2460
 
 
