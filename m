@@ -1,39 +1,36 @@
 Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1SQSgh-00056z-7i
+	(envelope-from <raj.khem@gmail.com>) id 1SQSip-0005AT-5n
 	for openembedded-core@lists.openembedded.org;
-	Sat, 05 May 2012 02:17:27 +0200
-Received: by lags15 with SMTP id s15so1246lag.6
+	Sat, 05 May 2012 02:19:39 +0200
+Received: by lags15 with SMTP id s15so1957lag.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 04 May 2012 17:07:40 -0700 (PDT)
+	Fri, 04 May 2012 17:09:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
 	:cc:content-type:content-transfer-encoding;
-	bh=vftyQ3I03XJLRq5URlSe0Ab9Nu0yXDEctuVELF0ySJw=;
-	b=cvvVBa453xeBeehSNCC+YXbUAIaugCyDLxS+9XvmLCPuxiv53EGVZuznYelOk3AlRt
-	2Omik1ineG5lmVfgaJLaJEsUAL/Sw34taJfDp7QMNm7LVKbGdULgrnDd1dSLt2zdbbhx
-	I1I2qjyHardL2mjZ/UgDDDJY+pfzvgmCjUzWBd7VjKB6Mwt49um1wO5Ziu+W7bvG3qNk
-	jaIGr16vN44kuQa+KjuARwMSrswQMXMZ+JdhYidXd9tIeM/o2L3Pu35A7GtAabt1bDvw
-	L/I0h1dYX3Vh7NwjDdmOO+nEdQ/r75MGz1wgf7jdriHtXdKYsvI7UKbOZQeXqQvn3Z0o
-	PRJg==
-Received: by 10.112.100.170 with SMTP id ez10mr3891234lbb.15.1336176459810;
-	Fri, 04 May 2012 17:07:39 -0700 (PDT)
+	bh=bshhP5PYmGk/UfmKncZRBC+naP4hc1bWouTjAwOUSN8=;
+	b=WqXnYTeZ5EfSknusQhBI+VP7dNbHey0o7VAZE7eM2T6rHD7U36T1cM0JBBvhYmAbRE
+	0JHAdQCPsosZ9O5LCnKc1gIsLWLF40MI4bWT+rnj4MYrD4Czl7URAPKldXhTjj7IhH0r
+	dziZ4naW31XI/ddGOE71gLg9sqDE9TL6E9LN5+rLuv+CA2pCm5F5arUcRdNwXlnj1qIk
+	RIuqibVUzMzYQJHgyaGQhsxDBtn4Lcb8jK9vd2dEjfj5/vQvmOLS10dy704RGEz3o+Kg
+	bfmbPOiIRZMr0g79Y+bfDtvAD5TSCdOJHZEAARDSBZc0qeBqCuxdk76ZvsXhD2pWdx20
+	XBQw==
+Received: by 10.112.86.101 with SMTP id o5mr3816878lbz.1.1336176591730; Fri,
+	04 May 2012 17:09:51 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.152.129.134 with HTTP; Fri, 4 May 2012 17:07:09 -0700 (PDT)
-In-Reply-To: <4FA4622C.1070809@linux.intel.com>
-References: <cover.1335992192.git.raj.khem@gmail.com>
-	<907b74f1035fcd569920630c6fc68751cfb8ca14.1335992192.git.raj.khem@gmail.com>
-	<4FA327A2.5040705@linux.intel.com>
-	<20120504053258.GA3163@jama.jama.net>
-	<20120504060931.GB3163@jama.jama.net>
-	<4FA4622C.1070809@linux.intel.com>
+Received: by 10.152.129.134 with HTTP; Fri, 4 May 2012 17:09:21 -0700 (PDT)
+In-Reply-To: <4FA457D8.4020102@linux.intel.com>
+References: <CAF6bG8djbQrRN5RoSPTdTha50qqEOp=CTxFk-AzWcprTvzO9+A@mail.gmail.com>
+	<CAMKF1sr3__=2kd6UneGYb4-QyO7+J3-ATtkJUbbjA7NsGFsFjg@mail.gmail.com>
+	<4FA457D8.4020102@linux.intel.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 4 May 2012 17:07:09 -0700
-Message-ID: <CAMKF1spgKsayatg88ZgQuQ+b57YnCCQzUyRy8Yg-8sop++ODLQ@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
+Date: Fri, 4 May 2012 17:09:21 -0700
+Message-ID: <CAMKF1sr=sZeYDom2xk0-hNeG75kzq2TwtV5r5sMHJhEhX9GQUw@mail.gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Cc: Martin Jansa <martin.jansa@gmail.com>
-Subject: Re: [PATCH 1/3] kmod: Add recipes
+Subject: Re: Getting nonexistent files from debian.org not erroring but saving html-page as destination file, Was: [Patch] Update dpkg to one available
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,109 +45,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 05 May 2012 00:17:27 -0000
+X-List-Received-Date: Sat, 05 May 2012 00:19:39 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, May 4, 2012 at 4:11 PM, Saul Wold <sgw@linux.intel.com> wrote:
-> On 05/03/2012 11:09 PM, Martin Jansa wrote:
+On Fri, May 4, 2012 at 3:27 PM, Saul Wold <sgw@linux.intel.com> wrote:
+> On 05/04/2012 02:59 PM, Khem Raj wrote:
 >>
->> On Fri, May 04, 2012 at 07:32:58AM +0200, Martin Jansa wrote:
+>> On Fri, May 4, 2012 at 12:49 PM, Marko Lindqvist<cazfi74@gmail.com>
+>> =C2=A0wrote:
 >>>
->>> On Thu, May 03, 2012 at 05:49:38PM -0700, Saul Wold wrote:
+>>> On 4 May 2012 19:06, Saul Wold<sgw@linux.intel.com> =C2=A0wrote:
 >>>>
->>>> On 05/02/2012 01:58 PM, Khem Raj wrote:
+>>>> On 05/04/2012 04:29 AM, Marko Lindqvist wrote:
 >>>>>
->>>>> kmod is replacement for module-init-tools
 >>>>>
->>>>> Signed-off-by: Khem Raj<raj.khem@gmail.com>
->>>>> ---
->>>>> =C2=A0 meta/recipes-kernel/kmod/kmod-native_git.bb =C2=A0 =C2=A0 =C2=
-=A0| =C2=A0 14 +++++
->>>>> =C2=A0 meta/recipes-kernel/kmod/kmod.inc =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0| =C2=A0 31 +++++++++++
->>>>> =C2=A0 meta/recipes-kernel/kmod/kmod/depmod-search.conf | =C2=A0 =C2=
-=A06 ++
->>>>> =C2=A0 meta/recipes-kernel/kmod/kmod_git.bb =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 | =C2=A0 62
->>>>> ++++++++++++++++++++++
->>>>> =C2=A0 4 files changed, 113 insertions(+), 0 deletions(-)
->>>>> =C2=A0 create mode 100644 meta/recipes-kernel/kmod/kmod-native_git.bb
->>>>> =C2=A0 create mode 100644 meta/recipes-kernel/kmod/kmod.inc
->>>>> =C2=A0 create mode 100644 meta/recipes-kernel/kmod/kmod/depmod-search=
-.conf
->>>>> =C2=A0 create mode 100644 meta/recipes-kernel/kmod/kmod_git.bb
+>>>>> =C2=A0I'm trying to make my first openembedded-core build. That faile=
+d due
+>>>>> to dpkg-1.15.8.5 being not available for download any more.
 >>>>>
->>>>
->>>> I have been seeing build failures in the man section of kmod:
->>>>
->>>> | Making all in man
->>>> |
->>>>
->>>> /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/=
-build/tmp/sysroots/x86_64-linux/usr/bin/xsltproc
->>>> --nonet --param funcsynopsis.style "'ansi'" \
->>>> |
->>>> http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xs=
-l
->>>> depmod.d.xml
->>>> |
->>>>
->>>> /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-world/build/=
-build/tmp/sysroots/x86_64-linux/usr/bin/xsltproc
->>>> --nonet --param funcsynopsis.style "'ansi'" \
->>>> |
->>>> http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xs=
-l
->>>> modprobe.d.xml
->>>> | I/O error : Attempt to load network entity
->>>> http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xs=
-l
->>>> | warning: failed to load external entity
->>>>
->>>> "http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.x=
-sl"
->>>> | cannot parse
->>>> http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xs=
-l
->>>> | make[2]: *** [depmod.d.5] Error 4
->>>> | make[2]: *** Waiting for unfinished jobs....
->>>> | I/O error : Attempt to load network entity
->>>> http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xs=
-l
->>>> | warning: failed to load external entity
->>>>
->>>> "http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.x=
-sl"
->>>> | cannot parse
->>>> http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xs=
-l
->>>> | make[2]: *** [modprobe.d.5] Error 4
->>>> | make[1]: *** [all-recursive] Error 1
->>>> | make: *** [all] Error 2
->>>> | ERROR: oe_runmake failed
->>>>
->>>> Can you confirm this issue?
+>>>> This should be still available on our MIRROR.
 >>>
 >>>
->>> I can from meta-oe version of kmod
->>>
->>>
->>> http://git.openembedded.org/meta-openembedded/commit/?id=3Df75e91c48cfc=
-58f91dc8f70f80a154d97d2d6c60
->>>
->>> Not sure why khem haven't used this commit/patch.
+>>
+>> Saul
+>>
+>> actually with OE-Core I also hit similar problem and we need this patch
 >>
 >>
->> I've filled https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D2416 so
->> maybe someone will fix it properly.
+>> http://git.openembedded.org/openembedded-core-contrib/commit/?h=3Dkraj/m=
+isc&id=3D044dd59a6288064d7325a93684660443340c2460
 >>
+>>
+> Khem,
 >
-> There also seems to be an issue with kmod-native, should this be a generi=
-c
-> patch?
+> thanks, submit this as a proper patch against 1.2.1 and we will get it fi=
+xed
+> up.
 
-yes it should be applied to native recipe as well. I have done it and
-pushed the to the tree
+I submitted it to misc-updates patchset for master for now.
+
+>
+> We have seen this before and I thought we had a bug filed, to check mirro=
+rs
+> when the checksum fails.
+>
+> I will file a bug.
+
+yes I have seen this and infact yesterday I was looking at the fetcher
+code it only does
+checksums on first mirror fetch and ignores subsequent mirror hits.
+
+>
+> Sau!
 
 
