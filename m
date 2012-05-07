@@ -1,35 +1,31 @@
-Received: from mail-we0-f175.google.com ([74.125.82.175])
+Received: from masterfoo.zenlinux.com ([207.192.74.254])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1SRVON-0007P7-7d
+	(envelope-from <scott.a.garman@intel.com>) id 1SRWtU-00078u-OT
 	for openembedded-core@lists.openembedded.org;
-	Mon, 07 May 2012 23:22:51 +0200
-Received: by werb13 with SMTP id b13so1089647wer.6
+	Tue, 08 May 2012 00:59:04 +0200
+Received: from localhost (c-76-105-137-48.hsd1.or.comcast.net [76.105.137.48])
+	(using TLSv1 with cipher DHE-RSA-AES128-SHA (128/128 bits))
+	(No client certificate requested)
+	by masterfoo.zenlinux.com (Postfix) with ESMTP id AC8F12FF67
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 07 May 2012 14:13:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	bh=eqXYNaPSdFFP5e7ARgKy7QXBVYKrxRkDl6ApcNKs7Qw=;
-	b=qEd3WWch9GveIErKpGzGBoIXzj+LhbL5F50fi7LNPWsO50zuiR4Ic4uI8rv5wP+CYO
-	DMJteL8G+MOXsC5horOA2NQ+Grr9+K9TJHXADvwbUSG8tPhvXG1v1VxuO/VuQy5AEaAh
-	kplkwbYJPFyB185wC/1fZCKDWLKOfrgwTH/fBtiCbqC8y4g+uCbybWfLSb0Wv06WoxId
-	e9DDZp8sc5oG/8olgs/v5w7caw2RDwI0kUUW8p0dtD8AZje/vmswjNMYBDNYD5ss8EBl
-	2qziGWFjGKLPBWsl5B1zM6bKuGXcWtOE3xOZQfMosRWDtLX+fUnQS60LZd783fmoKwWB
-	8Trg==
-Received: by 10.180.97.4 with SMTP id dw4mr38334168wib.18.1336425180597;
-	Mon, 07 May 2012 14:13:00 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id ca3sm24346601wib.6.2012.05.07.14.12.59
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 07 May 2012 14:12:59 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
+	Mon,  7 May 2012 18:49:09 -0400 (EDT)
+From: Scott Garman <scott.a.garman@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  7 May 2012 23:12:44 +0200
-Message-Id: <1336425164-5991-2-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.7.8.6
-In-Reply-To: <1336425164-5991-1-git-send-email-Martin.Jansa@gmail.com>
-References: <CA+chaQem7Wiba2MLqkANC-retpk7WBre7gUpAtJsXF+b5P43aw@mail.gmail.com>
-	<1336425164-5991-1-git-send-email-Martin.Jansa@gmail.com>
-Subject: [PATCH 2/2] kmod: fix upgrade path from module-init-tools
+Date: Mon,  7 May 2012 15:49:13 -0700
+Message-Id: <e830f48a51cb64ed1100cd577d26b8f3145b776e.1336430865.git.scott.a.garman@intel.com>
+X-Mailer: git-send-email 1.7.5.4
+In-Reply-To: <cover.1336430865.git.scott.a.garman@intel.com>
+References: <cover.1336430865.git.scott.a.garman@intel.com>
+In-Reply-To: <cover.1336430865.git.scott.a.garman@intel.com>
+References: <cover.1336430865.git.scott.a.garman@intel.com>
+X-MasterFoo-MailScanner-Information: Please contact the ISP for more
+	information
+X-MailScanner-ID: AC8F12FF67.46D01
+X-MasterFoo-MailScanner: Found to be clean
+X-MasterFoo-MailScanner-SpamCheck: not spam
+X-MasterFoo-MailScanner-From: scott.a.garman@intel.com
+X-Spam-Status: No
+Subject: [PATCH 1/3] openssh: upgrade to 6.0p1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,64 +40,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 May 2012 21:22:51 -0000
+X-List-Received-Date: Mon, 07 May 2012 22:59:05 -0000
 
-* PROVIDES does not need _${PN}
-* CONFLICTS should be RCONFLICTS
-* opkg needs RREPLACES to automatically remove older module-init-tools
-  instead of just reporting it conflicts with kmod
+LICENSE checksum changed due to a trivial difference in the credits
+list.
 
-SHR root@gjama ~ $ opkg install kmod
-Installing kmod (7+git02629fa02e96763db7460a930239cc93649a52f8-r0.0) to root...
-Downloading http://jama.dyndns-home.com/org.openembedded.shr-core//armv4t/kmod_7+git02629fa02e96763db7460a930239cc93649a52f8-r0.0_armv4t.ipk.
-Removing package module-init-tools-depmod from root...
-update-alternatives: removing //sbin/depmod as no more alternatives exist for it
-Removing package module-init-tools from root...
-update-alternatives: Linking //sbin/insmod to ../bin/busybox
-update-alternatives: Linking //sbin/modprobe to ../bin/busybox
-update-alternatives: Linking //sbin/rmmod to ../bin/busybox
-update-alternatives: removing //sbin/modinfo as no more alternatives exist for it
-update-alternatives: removing //bin/lsmod as no more alternatives exist for it
-update-alternatives: Linking //sbin/lsmod to ../bin/busybox
-Configuring kmod.
-update-alternatives: Linking //sbin/insmod to /sbin/insmod.kmod
-update-alternatives: Linking //sbin/modprobe to /sbin/modprobe.kmod
-update-alternatives: Linking //sbin/rmmod to /sbin/rmmod.kmod
-update-alternatives: Linking //sbin/modinfo to /sbin/modinfo.kmod
-update-alternatives: Linking //bin/lsmod to /bin/lsmod.kmod
-update-alternatives: Linking //sbin/lsmod to /bin/lsmod.kmod
-update-alternatives: Linking //sbin/depmod to /sbin/depmod.kmod
-
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+Signed-off-by: Scott Garman <scott.a.garman@intel.com>
 ---
- meta/recipes-kernel/kmod/kmod_git.bb |   10 +++++++---
- 1 files changed, 7 insertions(+), 3 deletions(-)
+ .../openssh/{openssh-5.9p1 => openssh-6.0p1}/init  |    0
+ .../{openssh-5.9p1 => openssh-6.0p1}/nostrip.patch |    0
+ .../{openssh-5.9p1 => openssh-6.0p1}/ssh_config    |    0
+ .../openssh/{openssh-5.9p1 => openssh-6.0p1}/sshd  |    0
+ .../{openssh-5.9p1 => openssh-6.0p1}/sshd_config   |    0
+ .../openssh/{openssh_5.9p1.bb => openssh_6.0p1.bb} |    8 ++++----
+ 6 files changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-connectivity/openssh/{openssh-5.9p1 => openssh-6.0p1}/init (100%)
+ rename meta/recipes-connectivity/openssh/{openssh-5.9p1 => openssh-6.0p1}/nostrip.patch (100%)
+ rename meta/recipes-connectivity/openssh/{openssh-5.9p1 => openssh-6.0p1}/ssh_config (100%)
+ rename meta/recipes-connectivity/openssh/{openssh-5.9p1 => openssh-6.0p1}/sshd (100%)
+ rename meta/recipes-connectivity/openssh/{openssh-5.9p1 => openssh-6.0p1}/sshd_config (100%)
+ rename meta/recipes-connectivity/openssh/{openssh_5.9p1.bb => openssh_6.0p1.bb} (94%)
 
-diff --git a/meta/recipes-kernel/kmod/kmod_git.bb b/meta/recipes-kernel/kmod/kmod_git.bb
-index 8178f1c..28b5a68 100644
---- a/meta/recipes-kernel/kmod/kmod_git.bb
-+++ b/meta/recipes-kernel/kmod/kmod_git.bb
-@@ -3,11 +3,15 @@
+diff --git a/meta/recipes-connectivity/openssh/openssh-5.9p1/init b/meta/recipes-connectivity/openssh/openssh-6.0p1/init
+similarity index 100%
+rename from meta/recipes-connectivity/openssh/openssh-5.9p1/init
+rename to meta/recipes-connectivity/openssh/openssh-6.0p1/init
+diff --git a/meta/recipes-connectivity/openssh/openssh-5.9p1/nostrip.patch b/meta/recipes-connectivity/openssh/openssh-6.0p1/nostrip.patch
+similarity index 100%
+rename from meta/recipes-connectivity/openssh/openssh-5.9p1/nostrip.patch
+rename to meta/recipes-connectivity/openssh/openssh-6.0p1/nostrip.patch
+diff --git a/meta/recipes-connectivity/openssh/openssh-5.9p1/ssh_config b/meta/recipes-connectivity/openssh/openssh-6.0p1/ssh_config
+similarity index 100%
+rename from meta/recipes-connectivity/openssh/openssh-5.9p1/ssh_config
+rename to meta/recipes-connectivity/openssh/openssh-6.0p1/ssh_config
+diff --git a/meta/recipes-connectivity/openssh/openssh-5.9p1/sshd b/meta/recipes-connectivity/openssh/openssh-6.0p1/sshd
+similarity index 100%
+rename from meta/recipes-connectivity/openssh/openssh-5.9p1/sshd
+rename to meta/recipes-connectivity/openssh/openssh-6.0p1/sshd
+diff --git a/meta/recipes-connectivity/openssh/openssh-5.9p1/sshd_config b/meta/recipes-connectivity/openssh/openssh-6.0p1/sshd_config
+similarity index 100%
+rename from meta/recipes-connectivity/openssh/openssh-5.9p1/sshd_config
+rename to meta/recipes-connectivity/openssh/openssh-6.0p1/sshd_config
+diff --git a/meta/recipes-connectivity/openssh/openssh_5.9p1.bb b/meta/recipes-connectivity/openssh/openssh_6.0p1.bb
+similarity index 94%
+rename from meta/recipes-connectivity/openssh/openssh_5.9p1.bb
+rename to meta/recipes-connectivity/openssh/openssh_6.0p1.bb
+index 749f89e..dba08a1 100644
+--- a/meta/recipes-connectivity/openssh/openssh_5.9p1.bb
++++ b/meta/recipes-connectivity/openssh/openssh_6.0p1.bb
+@@ -5,9 +5,9 @@ and for executing commands on a remote machine."
+ HOMEPAGE = "http://openssh.org"
+ SECTION = "console/network"
+ LICENSE = "BSD"
+-LIC_FILES_CHKSUM = "file://LICENCE;md5=bae9a689be41581503bcf95d8fb42c4e"
++LIC_FILES_CHKSUM = "file://LICENCE;md5=e326045657e842541d3f35aada442507"
  
- require kmod.inc
+-PR = "r3"
++PR = "r0"
  
--PR = "${INC_PR}.0"
-+PR = "${INC_PR}.1"
+ DEPENDS = "zlib openssl"
+ DEPENDS += "${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
+@@ -26,8 +26,8 @@ SRC_URI = "ftp://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar.
+            ${@base_contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)}"
  
--PROVIDES_${PN} += "module-init-tools-insmod-static module-init-tools-depmod module-init-tools"
-+PROVIDES += "module-init-tools-insmod-static module-init-tools-depmod module-init-tools"
- RPROVIDES_${PN} += "module-init-tools-insmod-static module-init-tools-depmod module-init-tools"
--CONFLICTS_${PN} += "module-init-tools-insmod-static module-init-tools-depmod module-init-tools"
-+RCONFLICTS_${PN} += "module-init-tools-insmod-static module-init-tools-depmod module-init-tools"
-+RREPLACES_${PN} += "module-init-tools-insmod-static module-init-tools-depmod module-init-tools"
-+
-+# to force user to remove old module-init-tools and replace them with kmod variants
-+RCONFLICTS_libkmod2 += "module-init-tools-insmod-static module-init-tools-depmod module-init-tools"
+ PAM_SRC_URI = "file://sshd"
+-SRC_URI[md5sum] = "afe17eee7e98d3b8550cc349834a85d0"
+-SRC_URI[sha256sum] = "8d3e8b6b6ff04b525a6dfa6fdeb6a99043ccf6c3310cc32eba84c939b07777d5"
++SRC_URI[md5sum] = "3c9347aa67862881c5da3f3b1c08da7b"
++SRC_URI[sha256sum] = "589d48e952d6c017e667873486b5df63222f9133d417d0002bd6429d9bd882de"
  
- # autotools set prefix to /usr, however we want them in /bin and /sbin
- bindir = "${base_bindir}"
+ inherit useradd update-rc.d
+ 
 -- 
-1.7.8.6
+1.7.5.4
 
 
 
