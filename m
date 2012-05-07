@@ -1,24 +1,50 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@windriver.com>) id 1SRPIs-0000BI-Hh
+	(envelope-from <scott.a.garman@intel.com>) id 1SRQJa-0001ZO-5x
 	for openembedded-core@lists.openembedded.org;
-	Mon, 07 May 2012 16:52:47 +0200
-Received: from yow-bashfiel-l1.wrs.com (yow-bashfiel-d3.wrs.com
-	[128.224.147.67])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q47Egpt5022301;
-	Mon, 7 May 2012 07:42:52 -0700 (PDT)
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: richard.purdie@linuxfoundation.org
-Date: Mon,  7 May 2012 10:42:46 -0400
-Message-Id: <8edcd68611811afb6ecacc7c7fbbeb393ce36679.1336400779.git.bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <cover.1336400779.git.bruce.ashfield@windriver.com>
-References: <cover.1336400779.git.bruce.ashfield@windriver.com>
-In-Reply-To: <cover.1336400779.git.bruce.ashfield@windriver.com>
-References: <cover.1336400779.git.bruce.ashfield@windriver.com>
-Cc: dvhart@linux.intel.com, openembedded-core@lists.openembedded.org,
-	saul.wold@intel.com
-Subject: [PATCH 1/1] linux-yocto/3.2: configuration and pch merge
+	Mon, 07 May 2012 17:57:34 +0200
+Received: from mail-pb0-f52.google.com ([209.85.160.52])
+	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 07 May 2012 08:47:42 -0700
+Received: by pbbro8 with SMTP id ro8so23195251pbb.25
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 07 May 2012 08:47:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=message-id:date:from:user-agent:mime-version:to:subject:references
+	:in-reply-to:content-type:content-transfer-encoding
+	:x-gm-message-state;
+	bh=knclVIVT64Ks0T/ED55IBFF6YKSTDQoMujI+I3rKxS4=;
+	b=h3r/rNFRzoGiuXVSrBJqAnpu6LpNrsg+5isY9p0baB3Gk0kWcRuVYiuDE9jjDwyAwf
+	vUmgCgd+2oKycfuEx+drdfgeU47HhnTzScl6l74s7Fy+LHWc5GDtv38Y9QTiNzJ0P/4A
+	wUmyEz6eQD1WHAhsPX8d/3fFVHbqv1A8KPInJudKesXInBmOt35Zzv66+glEeJOBhuEn
+	bkDPOTJo2yj0bS/41iPucfhOu520OtjWd9qvN1wax/HbG3uBvWxsflXM2sgwUaKBBlYB
+	NTV2cPTNf0z2pi0t4pA7DDO/EyMytjL6oTGY/oP3OCR4W5TIp3UD/zlaL5Job5FQzMhQ
+	YOtQ==
+Received: by 10.68.225.170 with SMTP id rl10mr6847306pbc.76.1336405661674;
+	Mon, 07 May 2012 08:47:41 -0700 (PDT)
+Received: from [192.168.1.12] (c-76-105-137-48.hsd1.or.comcast.net.
+	[76.105.137.48])
+	by mx.google.com with ESMTPS id og6sm18647775pbb.42.2012.05.07.08.47.39
+	(version=SSLv3 cipher=OTHER); Mon, 07 May 2012 08:47:40 -0700 (PDT)
+Message-ID: <4FA7EEA7.5070209@intel.com>
+Date: Mon, 07 May 2012 08:47:51 -0700
+From: Scott Garman <scott.a.garman@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:11.0) Gecko/20120329 Thunderbird/11.0.1
+MIME-Version: 1.0
+To: openembedded-core@lists.openembedded.org
+References: <cover.1336138307.git.paul.eggleton@linux.intel.com>
+	<372b4f451158c03f0d62bf406db1a16a883faa80.1336138307.git.paul.eggleton@linux.intel.com>
+	<020C25C7-7981-4351-9AC3-F666A813A35A@dominion.thruhere.net>
+	<3787476.jCWbAWHvna@helios>
+	<EE194B64-5A8F-40B6-B59E-222D3754F7E2@dominion.thruhere.net>
+	<1336144438.23777.22.camel@ted>
+	<5FC2CA51-59D7-43CA-8FDB-13B7E97D08E6@dominion.thruhere.net>
+	<4FA44961.4090409@intel.com>
+	<A366210D-D188-4B36-8074-F51C538194C6@dominion.thruhere.net>
+In-Reply-To: <A366210D-D188-4B36-8074-F51C538194C6@dominion.thruhere.net>
+X-Gm-Message-State: ALoCoQlNQiuI7G6xz3alM8/QZWzeuJOpWGkNQxS9FI4WzO8exSyEk5BEbF9g1BFOluq2oHumGVnj
+Subject: Re: [PATCH 1/1] buildhistory: fix multiple commit of images and packages at the same time
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,98 +59,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 May 2012 14:52:47 -0000
+X-List-Received-Date: Mon, 07 May 2012 15:57:34 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Updating the 3.2 SRCREVs to import the following meta/config
-changes:
+On 05/04/2012 11:55 PM, Koen Kooi wrote:
+>
+> Op 4 mei 2012, om 23:25 heeft Scott Garman het volgende geschreven:
+>
+>> On 05/04/2012 08:16 AM, Koen Kooi wrote:
+>>>>>> On Friday 04 May 2012 15:50:16 Koen Kooi wrote:
+>>>>>>> Looks good to me. If this goes in, can it go on the
+>>>>>>> denzil shortlist as well?
+>>>>>>
+>>>>>> I hope so, hence I've CC'd Scott Garman who is pulling
+>>>>>> together a branch for 1.2.1.
+>>>>>
+>>>>> oe-core or poky? I only care about oe-core.
+>>>>
+>>>> Both. Nothing goes into poky these days unless it comes from
+>>>> one of the appropriate trees.
+>>>
+>>> That's not what I was asking. I was asking it scott is doing a
+>>> poky or oe-core effort. From Scotts emails it seems like a poky
+>>> effort.
+>>
+>> Hi Koen,
+>>
+>> I apologize for having made some confusing comments earlier about
+>> rebasing a denzil-next branch on my poky-contrib repo from being
+>> based on oe-core to poky. Since then, Richard has given me access
+>> to the oe-core-contrib repo, and I am now maintaining two
+>> denzil-next branches.
+>>
+>> This one is based on oe-core:
+>>
+>> http://git.openembedded.org/openembedded-core-contrib/log/?h=sgarman/denzil-next
+>
+>>
+> When is that going to get merged into denzil? I'm in serious need of
+> that connman tests fix, so I have been using
+> http://cgit.openembedded.org/openembedded-core/log/?h=denzil-next
+> locally.
 
-   6b3d4e0 meta: add mei feature
-   519abac meta: add usb/uhci-hcd feature
-   a67c5a3 meta/crownbay: use usb features
-   0855066 meta: add usb/ohci-hcd feature
-   15f1a99 meta: add usb/ehci-hcd feature
-   8fa6408 meta: add usb/xhci-hcd feature
-   c724a55 meta: add usb/base feature
-   b55b3a1 sys940x: Cleanup sys940x.scc
-   93f2e97 sys940x: Use PHYSICAL_START of 0x200000 to boot
-   aaa034b sys940x: Add common standard and preempt-rt features
-   e2b1286 sys940x: Add efi-ext to standard and preempt-rt configs
-   d188c21 sys940x: Move emgd-1.10 data to the standard scc file
-   72d9369 fri2: Cleanup fri2-$KTYPE.scc files re efi-ext.scc
-   dbcb120 fri2: Use emgd-1.10 feature and branch
+The commit just got into master, so I'm hoping to pull it into my 
+denzil-next-testing branch and run some build tests overnight tonight, 
+then merge it if all goes well tomorrow.
 
-And the following driver fix:
+As for the denzil-next branch on the main oe-core repository: I asked 
+Richard about this and I believe he may end up deleting it, as I don't 
+have the ability to push to that branch. The authoritative oe-core 
+branch for denzil-next will be
 
-   f39a0a9 pch_gbe: Do not abort probe on bad MAC
+http://git.openembedded.org/openembedded-core-contrib/log/?h=sgarman/denzil-next
 
-Signed-off-by: Darren Hart <dvhart@linux.intel.com>
-Signed-off-by: Tom Zanussi <tom.zanussi@intel.com>
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
----
- meta/recipes-kernel/linux/linux-yocto-rt_3.2.bb   |    6 +++---
- meta/recipes-kernel/linux/linux-yocto-tiny_3.2.bb |    4 ++--
- meta/recipes-kernel/linux/linux-yocto_3.2.bb      |   14 +++++++-------
- 3 files changed, 12 insertions(+), 12 deletions(-)
+until we're ready to do the release.
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.2.bb b/meta/recipes-kernel/linux/linux-yocto-rt_3.2.bb
-index 05674ef..7e01efb 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_3.2.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.2.bb
-@@ -14,9 +14,9 @@ KBRANCH_qemuppc = "standard/preempt-rt/qemu-ppc32"
- LINUX_VERSION ?= "3.2.11"
- LINUX_KERNEL_TYPE = "preempt-rt"
- 
--SRCREV_machine ?= "32ecb53e9ff759bbd297a10712b62a6575daaf86"
--SRCREV_machine_qemuppc ?= "0d5625bb868cc2471d5dd49eb7abe7eb5fe1044b"
--SRCREV_meta ?= "b14a08f5c7b469a5077c10942f4e1aec171faa9d"
-+SRCREV_machine ?= "3ebf4d172cf4a41d2abf09e4036f0850e08064e7"
-+SRCREV_machine_qemuppc ?= "7cebfe717987f4ffa9ae90558c28f45049847c1c"
-+SRCREV_meta ?= "6b3d4e09aa2531e9649f3f03827b7efbccfcec03"
- 
- PR = "r1"
- PV = "${LINUX_VERSION}+git${SRCPV}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_3.2.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_3.2.bb
-index 4957e33..27de229 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_3.2.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_3.2.bb
-@@ -11,8 +11,8 @@ KCONFIG_MODE = "--allnoconfig"
- 
- LINUX_VERSION ?= "3.2.11"
- 
--SRCREV_machine ?= "ec236058dc254183dbfb3744bf21f110c37af30b"
--SRCREV_meta ?= "b14a08f5c7b469a5077c10942f4e1aec171faa9d"
-+SRCREV_machine ?= "61960ba8e910d54b5525d5e9b6a7469bc399c246"
-+SRCREV_meta ?= "6b3d4e09aa2531e9649f3f03827b7efbccfcec03"
- 
- PR = "r0"
- PV = "${LINUX_VERSION}+git${SRCPV}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto_3.2.bb b/meta/recipes-kernel/linux/linux-yocto_3.2.bb
-index d81f6b5..51119bb 100644
---- a/meta/recipes-kernel/linux/linux-yocto_3.2.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_3.2.bb
-@@ -17,13 +17,13 @@ KBRANCH_qemuarm  = "standard/default/arm-versatile-926ejs"
- 
- LINUX_VERSION ?= "3.2.11"
- 
--SRCREV_machine_qemuarm ?= "dfbba772cbee84125ac1558c904a7dc181445f5f"
--SRCREV_machine_qemumips ?= "0e0c67635b74199d534f75500e5c1654a1219bc6"
--SRCREV_machine_qemuppc ?= "92de4e2f3c6b397c8b363e079cc4d5e9bcadf877"
--SRCREV_machine_qemux86 ?= "8ada1bb97415fe959a57a08504be4eb8a656ed30"
--SRCREV_machine_qemux86-64 ?= "4ca7e2c5d42e755e1b4c3e1478128f047a8ed2a8"
--SRCREV_machine ?= "01e948c2bdf7f5ad9f2b30047a8d3493a1a2880a"
--SRCREV_meta ?= "b14a08f5c7b469a5077c10942f4e1aec171faa9d"
-+SRCREV_machine_qemuarm ?= "ba47a1cc9bb6ad576b2ac7adb3036bcfa569fe2e"
-+SRCREV_machine_qemumips ?= "3b2fd654392a2f33aed12748548c04e9b169591b"
-+SRCREV_machine_qemuppc ?= "cf3e188cf2a18c48a0e6f9ca54c36e6ac39512ec"
-+SRCREV_machine_qemux86 ?= "46f1007ad22b6790224c66a8dc4e80fdbd21eea1"
-+SRCREV_machine_qemux86-64 ?= "00e5ec2393bada6723bd9a07ded3d001c02fa727"
-+SRCREV_machine ?= "f4f8ba730e7783e09413872414d0a17c142c816d"
-+SRCREV_meta ?= "6b3d4e09aa2531e9649f3f03827b7efbccfcec03"
- 
- PR = "r1"
- PV = "${LINUX_VERSION}+git${SRCPV}"
+Scott
+
 -- 
-1.7.5.4
-
+Scott Garman
+Embedded Linux Engineer - Yocto Project
+Intel Open Source Technology Center
 
 
