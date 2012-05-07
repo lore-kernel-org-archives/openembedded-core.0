@@ -1,28 +1,52 @@
-Received: from smtp-relay2.palm.com ([64.28.152.243])
+Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <prvs=4675b060b=rich.pixley@palm.com>)
-	id 1SRR7t-00038C-8J for openembedded-core@lists.openembedded.org;
-	Mon, 07 May 2012 18:49:33 +0200
-X-IronPort-AV: E=Sophos;i="4.75,544,1330934400"; d="scan'208";a="13359709"
-Received: from unknown (HELO ushqusdns4.palm.com) ([148.92.223.164])
-	by smtp-relay2.palm.com with ESMTP; 07 May 2012 09:38:37 -0700
-Received: from fuji.noir.com ([10.100.2.6])
-	by ushqusdns4.palm.com (8.14.4/8.14.4) with ESMTP id q47GcaWp013789;
-	Mon, 7 May 2012 09:38:36 -0700
-Message-ID: <4FA7FA8C.6090603@palm.com>
-Date: Mon, 07 May 2012 09:38:36 -0700
-From: Rich Pixley <rich.pixley@palm.com>
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7;
-	rv:12.0) Gecko/20120428 Thunderbird/12.0.1
+	(envelope-from <scott.a.garman@intel.com>) id 1SRRRp-0003sI-4f
+	for openembedded-core@lists.openembedded.org;
+	Mon, 07 May 2012 19:10:16 +0200
+Received: from mail-pb0-f52.google.com ([209.85.160.52])
+	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 07 May 2012 10:00:15 -0700
+Received: by pbbro8 with SMTP id ro8so23413695pbb.25
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 07 May 2012 10:00:15 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=message-id:date:from:user-agent:mime-version:to:subject:references
+	:in-reply-to:content-type:content-transfer-encoding
+	:x-gm-message-state;
+	bh=+Mhwbicv1R4r6EX2Nk1Oh0GPLcXxQqyXzT6gMJq7IJU=;
+	b=KFsKqAgnfAbx8t4tu0no/fAI4lM2ArJnjQvzKi2u3LWkD0YeowIn8+87mx5q8i+RK5
+	jdFyRmgR4Go4N5LK47Mk3gworXC26ztRH8l99R9dotFvF2vFzqlldJr2t3Se0FW/A3Kx
+	6MUcurUyOG86L3EBdD3JoYmYZz1Sf06h8AQaYVvPsaaso1YUNVUZt5Fl+0FEUkf/IRbs
+	AIq0NqvPk8R3Lovyn6XaDvwyYlF+Ox7h9rzaA7Pv5gX+SWZ2KSjpcnprDZUqZN+K2VsY
+	r5ZDtOFF9KIHb1PzKXSSqrwPHC6dZf8bDeb+IZtaTgZmRwzTXO3nsDLMpQzkvkk5A1mi
+	dH0g==
+Received: by 10.68.220.134 with SMTP id pw6mr46861520pbc.149.1336410015017;
+	Mon, 07 May 2012 10:00:15 -0700 (PDT)
+Received: from [192.168.1.12] (c-76-105-137-48.hsd1.or.comcast.net.
+	[76.105.137.48])
+	by mx.google.com with ESMTPS id os7sm13194669pbb.67.2012.05.07.10.00.13
+	(version=SSLv3 cipher=OTHER); Mon, 07 May 2012 10:00:13 -0700 (PDT)
+Message-ID: <4FA7FFA9.1090001@intel.com>
+Date: Mon, 07 May 2012 10:00:25 -0700
+From: Scott Garman <scott.a.garman@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:11.0) Gecko/20120329 Thunderbird/11.0.1
 MIME-Version: 1.0
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-References: <4FA17B2A.5060903@palm.com> <4FA17FA7.9030805@windriver.com>
-	<4FA187F4.9040003@palm.com> <4FA18DA7.6010205@windriver.com>
-	<4FA18EC8.5040504@palm.com> <4FA18F9D.5090805@windriver.com>
-	<1335999994.30113.39.camel@ted> <4FA6B6AC.60301@palm.com>
-In-Reply-To: <4FA6B6AC.60301@palm.com>
-Subject: Re: SetScene tasks hang forever?
+To: openembedded-core@lists.openembedded.org
+References: <cover.1336138307.git.paul.eggleton@linux.intel.com>
+	<372b4f451158c03f0d62bf406db1a16a883faa80.1336138307.git.paul.eggleton@linux.intel.com>
+	<020C25C7-7981-4351-9AC3-F666A813A35A@dominion.thruhere.net>
+	<3787476.jCWbAWHvna@helios>
+	<EE194B64-5A8F-40B6-B59E-222D3754F7E2@dominion.thruhere.net>
+	<1336144438.23777.22.camel@ted>
+	<5FC2CA51-59D7-43CA-8FDB-13B7E97D08E6@dominion.thruhere.net>
+	<4FA44961.4090409@intel.com>
+	<A366210D-D188-4B36-8074-F51C538194C6@dominion.thruhere.net>
+	<4FA7EEA7.5070209@intel.com>
+	<DE0A7E5C-90AF-4379-B962-DC7B6FBD1E64@dominion.thruhere.net>
+In-Reply-To: <DE0A7E5C-90AF-4379-B962-DC7B6FBD1E64@dominion.thruhere.net>
+X-Gm-Message-State: ALoCoQnjEh9v1vVEMkoAeXKYBFhgm5mFzvp3sRk9saCZYutaHBVzitmo7nqoq6YmDyZgg/FUQmC3
+Subject: Re: [PATCH 1/1] buildhistory: fix multiple commit of images and packages at the same time
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,157 +61,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 May 2012 16:49:33 -0000
+X-List-Received-Date: Mon, 07 May 2012 17:10:47 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 5/6/12 10:36 , Rich Pixley wrote:
-> On 5/2/12 16:06 , Richard Purdie wrote:
->> On Wed, 2012-05-02 at 14:48 -0500, Mark Hatle wrote:
->>> On 5/2/12 2:45 PM, Rich Pixley wrote:
->>>> On 5/2/12 12:40 , Mark Hatle wrote:
->>>>> On 5/2/12 2:16 PM, Rich Pixley wrote:
->>>>>> On 5/2/12 11:40 , Mark Hatle wrote:
->>>>>>> On 5/2/12 1:21 PM, Rich Pixley wrote:
->>>>>>>> I'm seeing a lot of builds apparently hanging forever, (the ones that
->>>>>>>> work seem to work within seconds - the ones that hang seem to hang for
->>>>>>>> at least 10's of minutes), with:
+On 05/07/2012 09:03 AM, Koen Kooi wrote:
+>
+> Op 7 mei 2012, om 17:47 heeft Scott Garman het volgende geschreven:
+>
+>> On 05/04/2012 11:55 PM, Koen Kooi wrote:
+>>>
+>>> Op 4 mei 2012, om 23:25 heeft Scott Garman het volgende geschreven:
+>>>
+>>>> On 05/04/2012 08:16 AM, Koen Kooi wrote:
+>>>>>>>> On Friday 04 May 2012 15:50:16 Koen Kooi wrote:
+>>>>>>>>> Looks good to me. If this goes in, can it go on the
+>>>>>>>>> denzil shortlist as well?
 >>>>>>>>
->>>>>>>> rich@dolphin>        nice tail -f Log
->>>>>>>> MACHINE           = "qemux86"
->>>>>>>> DISTRO            = ""
->>>>>>>> DISTRO_VERSION    = "oe-core.0"
->>>>>>>> TUNE_FEATURES     = "m32 i586"
->>>>>>>> TARGET_FPU        = ""
->>>>>>>> meta              = "master:35b5fb2dd2131d4c7dc6635c14c6e08ea6926457"
->>>>>>>>
->>>>>>>> NOTE: Resolving any missing task queue dependencies
->>>>>>>> NOTE: Preparing runqueue
->>>>>>>> NOTE: Executing SetScene Tasks
->>>>>>>>
->>>>>>>> If I run top, I see one processor pinned at 98 - 99% utilization running
->>>>>>>> python, but no other clues.
->>>>>>>>
->>>>>>>> Can anyone point me to doc, explain what's going on here, or point me in
->>>>>>>> the right direction to debug this?
->>>>>>> The only time I've seen "hang-like" behavior the system actually opened a
->>>>>>> devshell and was awaiting input.   But based on your log, it doesn't look like
->>>>>>> that is the case.
+>>>>>>>> I hope so, hence I've CC'd Scott Garman who is pulling
+>>>>>>>> together a branch for 1.2.1.
 >>>>>>>
->>>>>>> Run bitbake with -DDD option, you will get considerably more debug information
->>>>>>> and it might help point out what it thinks it is doing.
->>>>>> NOTE: Executing SetScene Tasks
->>>>>> DEBUG: Stamp for underlying task
->>>>>> 12(virtual:native:/home/rich/projects/webos/openembedded-core/meta/recipes-devtools/opkg/opkg_svn.bb,
->>>>>> do_populate_sysroot) is current, so skipping setscene variant
->>>>>> DEBUG: Stamp for underlying task
->>>>>> 16(virtual:native:/home/rich/projects/webos/openembedded-core/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb,
->>>>>> do_populate_sysroot) is current, so skipping setscene variant
->>>>>> DEBUG: Stamp for underlying task
->>>>>> 20(virtual:native:/home/rich/projects/webos/openembedded-core/meta/recipes-devtools/makedevs/makedevs_1.0.0.bb,
->>>>>> do_populate_sysroot) is current, so skipping setscene variant
->>>>>> DEBUG: Stamp for underlying task
->>>>>> 24(/home/rich/projects/webos/openembedded-core/meta/recipes-core/eglibc/ldconfig-native_2.12.1.bb,
->>>>>> do_populate_sysroot) is current, so skipping setscene variant
->>>>>> DEBUG: Stamp for underlying task
->>>>>> 32(virtual:native:/home/rich/projects/webos/openembedded-core/meta/recipes-devtools/genext2fs/genext2fs_1.4.1.bb,
->>>>>> do_populate_sysroot) is current, so skipping setscene variant
->>>>>> DEBUG: Stamp for underlying task
->>>>>> 36(virtual:native:/home/rich/projects/webos/openembedded-core/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.1.bb,
->>>>>> do_populate_sysroot) is current, so skipping setscene variant
->>>>>> DEBUG: Stamp for underlying task
->>>>>> 40(virtual:native:/home/rich/projects/webos/openembedded-core/meta/recipes-devtools/qemu/qemu_0.15.1.bb,
->>>>>> do_populate_sysroot) is current, so skipping setscene variant
->>>>>> DEBUG: Stamp for underlying task
->>>>>> 44(/home/rich/projects/webos/openembedded-core/meta/recipes-devtools/qemu/qemu-helper-native_1.0.bb,
->>>>>> do_populate_sysroot) is current, so skipping setscene variant
+>>>>>>> oe-core or poky? I only care about oe-core.
 >>>>>>
->>>>>> And then the spinning hang.
->>>>> Sorry, I don't know how to continue debugging what might be wrong.  The only
->>>>> other thing I can suggest is check that your filesystem is "real", not a
->>>>> netapp/nfs/network emulated filesystem....
+>>>>>> Both. Nothing goes into poky these days unless it comes from
+>>>>>> one of the appropriate trees.
 >>>>>
->>>>> And if you were continuing a previous build, start a new build directory and
->>>>> retry it.
->>>> Local file system.  I'm building a second time expecting a null build
->>>> pass.  I was able to get a null build pass in the same directory yesterday.
+>>>>> That's not what I was asking. I was asking it scott is doing a
+>>>>> poky or oe-core effort. From Scotts emails it seems like a poky
+>>>>> effort.
 >>>>
->>>> Removing my build directory and starting over has been working, but
->>>> costs me a few hours each time, and this happens frequently enough that
->>>> I get no other work done.  :(.
->>> Ya, that is certainly not acceptable.  If you could file a bug on the
->>> bugzilla.yoctoproject.org someone might be able to help you diagnose this
->>> further and hopefully figure out a fix.
->> What would really help is a way to reproduce this...
+>>>> Hi Koen,
+>>>>
+>>>> I apologize for having made some confusing comments earlier about
+>>>> rebasing a denzil-next branch on my poky-contrib repo from being
+>>>> based on oe-core to poky. Since then, Richard has given me access
+>>>> to the oe-core-contrib repo, and I am now maintaining two
+>>>> denzil-next branches.
+>>>>
+>>>> This one is based on oe-core:
+>>>>
+>>>> http://git.openembedded.org/openembedded-core-contrib/log/?h=sgarman/denzil-next
+>>>
+>>>>
+>>> When is that going to get merged into denzil? I'm in serious need of
+>>> that connman tests fix, so I have been using
+>>> http://cgit.openembedded.org/openembedded-core/log/?h=denzil-next
+>>> locally.
 >>
->> Does it reproduce with a certain set of metadata/sstate perhaps?
->>
->> What is odd about the above logs is that it appears bitbake never
->> executes any task. Its possible something might have crashed somewhere I
->> guess and not realise part of the system had died. Or it could be some
->> kind of circular dependency loop where X needs Y to build and Y needs X
->> so nothing happens. We are supposed to spot and error if that would have
->> happened.
->>
->> Does strace give an idea of which bits of bitbake are alive/looping? I'd
->> probably resort to a few print()/bb.error() in the code at this point to
->> find out what is alive, what is dead and where its looping...
-> I have more info now.
+>> The commit just got into master, so I'm hoping to pull it into my denzil-next-testing branch and run some build tests overnight tonight, then merge it if all goes well tomorrow.
 >
-> What I suspected was looping, (since it took longer than the ~1hr I was
-> willing to wait), isn't actual looping.  Given enough time, the builds
-> do complete and I have comparable results on 5 different servers, (all
-> ubuntu-12.04 amd64 and all on btrfs).
->
-> My initial, full builds of core-image-minimal do build, and they build
-> in ~60min, (~30min if I hand seed the downloads directory).  I'm using
-> no mirrors other than the defaults.  My second build in an already built
-> directory, (expected to do nothing), takes anywhere from 7 - 10.5hrs to
-> complete and successfully do nothing, depending on the server.
->
-> During this time, top shows a single cpu pinned at 98 - 100%
-> utilization, and strace shows literally millions of access and stat
-> calls on stamp files, mkdir on the stamps directory, etc.  Statistical
-> analysis of just the do_fetch access calls shows a distribution that
-> seems to mimic the topological tree.  That is, the most called access is
-> for quilt-native and the components higher up the tree get fewer stats.
->
-> Oh, and the setscene stamps are all nonexistent.  I presume that's expected.
->
-> First, I can't imagine why there would need to be more than one mkdir on
-> the stamps directory within a single instantiation of bitbake.  I can
-> imagine that it was easier to attempt to mkdir it than to check first,
-> but once it has been mkdir'd, (or checked), there's no need to do it
-> another million times, is there?
->
-> Second, I can't imagine why there would need to be all the redundant
-> stamp checking.  That info is cached internally, isn't it?
->
-> And third, the fact that it seems to be checking the entire subtree what
-> appear to be multiple times at every node suggests to me that the
-> checking algorithm is broken.  Back of the envelope... perhaps 300
-> components, maybe 10 tasks per component ~= 3e3 tasks.  Figure a
-> geometric explosion of checks for an inefficient algorithm and we're up
-> to around 10e6 checks.  I haven't counted an entire run, but based on
-> the time it takes to run, I'd say I'm seeing one, maybe two orders of
-> magnitude more checks than that.  I've seen a few million node
-> traversals in about 15min and a node traversal appears to involve
-> several accesses and at least one stat.
->
-> I'm not familiar with the current bitbake internals so my next thought
-> would be to replace the calls to access, stat, and mkdir on the stamp
-> files with caching, counting calls.  Build a dictionary of each file
-> called, if it's new, do the kernel call and cache the result in the
-> dictionary.  If it's already in the dictionary, then inc a counter for
-> it and return the cached value.  This should a) improve the speed of the
-> current algorithm, b) improve the speed of the eventual replacement
-> algorithm, and c) give us some useful statistical data in the mean time.
->
-> I'm also going to try reformating one of the systems and compare how
-> long a build on ext4 takes.
-A build on ext4 produces comparable results for me.  ~30min initial 
-build, ~7hrs for a second (do-nothing) build.
+> Merge it into the oe-core 'denzil' branch, right?
 
---rich
+No. I do not have commit access to the oe-core repository, just the 
+oe-core-contrib repo, where my sgarman/denzil-next branch lives.
+
+Richard is on holiday until tomorrow, can you hold on until then and 
+maybe he can help clear up the remaining confusion?
+
+Scott
+
+-- 
+Scott Garman
+Embedded Linux Engineer - Yocto Project
+Intel Open Source Technology Center
 
 
