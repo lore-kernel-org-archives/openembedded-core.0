@@ -1,25 +1,42 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <josh@linux.intel.com>) id 1SRXTb-000071-KP
+	(envelope-from <scott.a.garman@intel.com>) id 1SRXwA-00012i-6M
 	for openembedded-core@lists.openembedded.org;
-	Tue, 08 May 2012 01:36:23 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 07 May 2012 16:25:26 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="137986634"
-Received: from unknown (HELO [10.7.198.150]) ([10.7.198.150])
-	by orsmga001.jf.intel.com with ESMTP; 07 May 2012 16:25:26 -0700
-Message-ID: <4FA859E5.4080609@linux.intel.com>
-Date: Mon, 07 May 2012 16:25:25 -0700
-From: Joshua Lock <josh@linux.intel.com>
+	Tue, 08 May 2012 02:05:54 +0200
+Received: from mail-pb0-f52.google.com ([209.85.160.52])
+	by mga03.intel.com with ESMTP/TLS/RC4-SHA; 07 May 2012 16:56:01 -0700
+Received: by pbbro8 with SMTP id ro8so24477491pbb.25
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 07 May 2012 16:56:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=message-id:date:from:user-agent:mime-version:to:subject:references
+	:in-reply-to:content-type:content-transfer-encoding
+	:x-gm-message-state;
+	bh=SvbOwVcS5880nE+LaXQSO25StGD1AKlixfAICuaEFwg=;
+	b=Xt75Kpd+DIehNojJcmJVHx/9gPUpujLbYz4LrBzm+ArMQbXcj0Jzbnt79DNYhhEdQU
+	ifpCy4aS87iZX7RRaAOPDnA0OavcN+NBxgVHLdtPnA5Ut7cNWGKlRYiEzHhyLUtwiEBW
+	vcXnpOTYhLxpS/JxB78gyWaZWeG7z8jjIerUMUjaaf3V+GWGZY8IYjxTRo0C2fIeiqDc
+	wn0BOFFMiaP17WlLECvQHjLWHYH/jVUq48U1kdz62kikyu/AQDmWSNEDzEyfEJqlC9HN
+	OU7rMqfJUkX13cqLtZvL5vsCXO0Lic52Fe6N3luDc69J+6l2uNz1IDHnJWKiPtWnB+c3
+	JtSw==
+Received: by 10.68.234.197 with SMTP id ug5mr1416736pbc.163.1336434960900;
+	Mon, 07 May 2012 16:56:00 -0700 (PDT)
+Received: from [192.168.1.12] (c-76-105-137-48.hsd1.or.comcast.net.
+	[76.105.137.48])
+	by mx.google.com with ESMTPS id wi8sm334727pbc.11.2012.05.07.16.55.58
+	(version=SSLv3 cipher=OTHER); Mon, 07 May 2012 16:55:59 -0700 (PDT)
+Message-ID: <4FA8611B.8060609@intel.com>
+Date: Mon, 07 May 2012 16:56:11 -0700
+From: Scott Garman <scott.a.garman@intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
+	rv:11.0) Gecko/20120329 Thunderbird/11.0.1
 MIME-Version: 1.0
 To: openembedded-core@lists.openembedded.org
 References: <1336065154-8513-1-git-send-email-rep.dot.nop@gmail.com>
-	<1336065154-8513-2-git-send-email-rep.dot.nop@gmail.com>
-In-Reply-To: <1336065154-8513-2-git-send-email-rep.dot.nop@gmail.com>
-Subject: Re: [PATCH 2/6] runqemu: use modern, single-char name of test(1)
+In-Reply-To: <1336065154-8513-1-git-send-email-rep.dot.nop@gmail.com>
+X-Gm-Message-State: ALoCoQnt0fv8l41MlwJZv5oSRAFD3BtoCVfQ3ObH4wcByIU45LVvYJCAgfbH9eV2Buq2dKSpKsuY
+Subject: Re: [PATCH 1/6] runqemu: Use OE_TMPDIR
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,53 +51,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 May 2012 23:36:23 -0000
+X-List-Received-Date: Tue, 08 May 2012 00:05:54 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 03/05/12 10:12, Bernhard Reutner-Fischer wrote:
-> @@ -313,11 +313,11 @@ findimage() {
->       # recently created one is the one we most likely want to boot.
->       filenames=`ls -t $where/*-image*$machine.$extension 2>/dev/null | xargs`
->       for name in $filenames; do
-> -        if [[ "$name" =~ core-image-sato-sdk ||
-> -              "$name" =~ core-image-sato     ||
-> -              "$name" =~ core-image-lsb      ||
-> -              "$name" =~ core-image-basic    ||
-> -              "$name" =~ core-image-minimal ]]; then
-> +        if [ "$name" =~ core-image-sato-sdk -o \
-> +              "$name" =~ core-image-sato     -o \
-> +              "$name" =~ core-image-lsb      -o \
-> +              "$name" =~ core-image-basic    -o \
-> +              "$name" =~ core-image-minimal ]; then
->               ROOTFS=$name
->               return
->           fi	
+On 05/03/2012 10:12 AM, Bernhard Reutner-Fischer wrote:
+> The error message erroneously talked about TMPDIR.
+> Just use OE_TMPDIR everywhere to make the name of the variable obvious.
+>
+> Signed-off-by: Bernhard Reutner-Fischer<rep.dot.nop@gmail.com>
 
-This change broke findimage() for me on both bash and dash. Reproducer 
-is 'runqemu qemux86'.
+Bernhard,
 
-Under bash I get:
+This change wasn't well-tested and has broken the runqemu script for 
+both bash and dash. :(
 
-/srv/yocto/poky/scripts/runqemu: line 303: [: too many arguments
+ From what I can tell, the =~ regex operator is a bashism. It's also one 
+that helps a lot with the code readability. So now that we're faced with 
+re-writing the script to avoid using that operator, I'm having second 
+thoughts about whether the runqemu script really needs to be 
+shell-agnostic. The alternative of invoking grep or other commands to 
+process the name patterns does not appeal to me.
 
-Undoing this change fixes things for me. Note: this change doesn't 
-revert cleanly.
+I can understand why we're trying to ensure our build system doesn't 
+require /bin/sh to be bash, but I think support scripts like runqemu 
+might be a special case.
 
-I've filed this as Yocto #2433:
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=2433
+What do other people in the community think of this? The runqemu script 
+isn't trivial, and it has to run in a lot of different contexts. Should 
+we put the time in to make it shell-agnostic, or allow it to require bash?
 
-As an aside, when trying (unsuccessfully) to figure out a fix for this I 
-ran across Ubuntu's page on dash[1] which indicates changing || for -o 
-isn't right. Anyone have a strong opinion on that?
+Scott
 
-Cheers,
-Joshua
-
-1. https://wiki.ubuntu.com/DashAsBinSh
 -- 
-Joshua Lock
-         Yocto Project
-         Intel Open Source Technology Centre
+Scott Garman
+Embedded Linux Engineer - Yocto Project
+Intel Open Source Technology Center
 
 
