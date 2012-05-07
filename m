@@ -1,28 +1,33 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail-ey0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1SRQqM-0002YE-JW
+	(envelope-from <raj.khem@gmail.com>) id 1SRQyV-0002t4-C1
 	for openembedded-core@lists.openembedded.org;
-	Mon, 07 May 2012 18:31:26 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q47GLYrd016167
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Mon, 07 May 2012 18:39:51 +0200
+Received: by eaae1 with SMTP id e1so1269003eaa.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 7 May 2012 09:21:34 -0700 (PDT)
-Received: from Macintosh-5.local (172.25.36.229) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Mon, 7 May 2012 09:21:34 -0700
-Message-ID: <4FA7F687.6060407@windriver.com>
-Date: Mon, 7 May 2012 11:21:27 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
-	rv:12.0) Gecko/20120428 Thunderbird/12.0.1
+	Mon, 07 May 2012 09:30:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type:content-transfer-encoding;
+	bh=ZiGeDDUA4ftQN666VfZh0utN8PkPTmGwvewCEuRfupU=;
+	b=hVe98NZFad493AAPgHw6X783BZvMQjjqAxNEMIyrRLNLiAAsG/YnkVfkJrpqG+2vqh
+	ua/ESJsoEn6xmr/tv5Bpp4VIa31jCE/qmrZp2y+DOZ0PNhJCXI5ZhTViyBVB37jHtSYr
+	NWh7gVYQi0X06DPd5Jf+LzID8RxJhifPKYknJkMen9rPBlzagAlv0PHiSkwA21Pqi2wk
+	ia/Jnnr2lKpGT/XFQdSMFsw+ZYkpiLzJuJ2k6z94yFoR/CYcZfVZhBlF89LGgb4r2YJj
+	ToTFMHzCfge1gVey+tennYewBZBo7AZyjIbMl7nql57gI+blnfOikl1mRdu1XgSNI25e
+	WKhg==
+Received: by 10.14.149.129 with SMTP id x1mr2639503eej.108.1336408200954; Mon,
+	07 May 2012 09:30:00 -0700 (PDT)
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1336140272.23777.5.camel@ted>
-	<40D28335-BD42-43A4-9414-3E760205A0C7@dominion.thruhere.net>
-In-Reply-To: <40D28335-BD42-43A4-9414-3E760205A0C7@dominion.thruhere.net>
-Subject: Re: sed: Explicitly disable acl for deterministic builds
+Received: by 10.14.2.132 with HTTP; Mon, 7 May 2012 09:29:30 -0700 (PDT)
+In-Reply-To: <20120507083033.GA3184@jama.jama.net>
+References: <20120507083033.GA3184@jama.jama.net>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 7 May 2012 09:29:30 -0700
+Message-ID: <CAMKF1spnOnOVXe5uuXD7SGYJXQqetcB9KPROh8YDSsz4sX6nXA@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: dropping libgdbus from oe-core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,34 +42,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 May 2012 16:31:27 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 07 May 2012 16:39:51 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On 5/4/12 9:15 AM, Koen Kooi wrote:
+On Mon, May 7, 2012 at 1:30 AM, Martin Jansa <martin.jansa@gmail.com> wrote=
+:
+> Nothing in oe-core depends on it and gdbus was merged to glib in 2010 so
+> nothing new will probably depend on it
 >
-> Op 4 mei 2012, om 16:04 heeft Richard Purdie het volgende geschreven:
+
+seems good I think, send a patch for removal.
+
+> Cheers,
 >
->>
->> Signed-off-by: Richard Purdie<richard.purdie@linuxfoundation.org>
->> ---
->> diff --git a/meta/recipes-extended/sed/sed_4.2.1.bb b/meta/recipes-extended/sed/sed_4.2.1.bb
->> index 9fbb6e7..92f59e4 100644
->> --- a/meta/recipes-extended/sed/sed_4.2.1.bb
->> +++ b/meta/recipes-extended/sed/sed_4.2.1.bb
->> @@ -13,6 +13,8 @@ SRC_URI[sha256sum] = "8773541ce097fdc4c5b9e7da12a82dffbb30cd91f7bc169f52f05f93b7
->>
->> inherit autotools update-alternatives gettext
->>
->> +EXTRA_OECONF = "--disable-acl"
-
-I'm wondering if ACLs should be a distro flag....
-
-> Missing PR bump
+> --
+> Martin 'JaMa' Jansa =C2=A0 =C2=A0 jabber: Martin.Jansa@gmail.com
+>
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-
+>
 
 
