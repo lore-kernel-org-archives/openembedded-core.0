@@ -1,50 +1,27 @@
-Received: from mail-wi0-f177.google.com ([209.85.212.177])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1SRQZL-0002AT-O3
+	(envelope-from <sgw@linux.intel.com>) id 1SRQjI-0002J2-2t
 	for openembedded-core@lists.openembedded.org;
-	Mon, 07 May 2012 18:13:51 +0200
-Received: by wibhj13 with SMTP id hj13so3201200wib.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 07 May 2012 09:04:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date
-	:content-transfer-encoding:message-id:references:to:x-mailer
-	:x-gm-message-state;
-	bh=fLn8wuvzEIj1iEom2g2gMm5+uyADyZ6tXA14GduzNgI=;
-	b=L3qq3n1fUX/85ZQsxxj87bf5dRTHBVQdrJ0vV8cNltf0bokrGPg2mlj4pbX1fhf3wY
-	FiAcOBoS+rQGllFp65cwKmqpsxCST1v9BDXkrECndh8ngLMLXvW1QWjmzSPv0wzWct7o
-	92oH5B1Y2UiAynvl5SjDmxvhKb6CSHkbKfTRbC3aCdCYGwN/Gp6fITt8VcdB6SGTXzKw
-	pivp/bvPjWORIQtQs14KeBhvDVkqM2skpGShyxv0iez59572DjrSfDaNIDT2LYLUD/Er
-	W8IrCM0b1Xh9Bs7+YE/doxExYcssirPGou4iE+f305ts2aJ4g0kzzaTOhrK9vmtXi2do
-	fLlw==
-Received: by 10.180.105.194 with SMTP id go2mr36450039wib.22.1336406641340;
-	Mon, 07 May 2012 09:04:01 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id e8sm22567398wiy.3.2012.05.07.09.03.58
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 07 May 2012 09:03:59 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1257)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <4FA7EEA7.5070209@intel.com>
-Date: Mon, 7 May 2012 18:03:57 +0200
-Message-Id: <DE0A7E5C-90AF-4379-B962-DC7B6FBD1E64@dominion.thruhere.net>
-References: <cover.1336138307.git.paul.eggleton@linux.intel.com>
-	<372b4f451158c03f0d62bf406db1a16a883faa80.1336138307.git.paul.eggleton@linux.intel.com>
-	<020C25C7-7981-4351-9AC3-F666A813A35A@dominion.thruhere.net>
-	<3787476.jCWbAWHvna@helios>
-	<EE194B64-5A8F-40B6-B59E-222D3754F7E2@dominion.thruhere.net>
-	<1336144438.23777.22.camel@ted>
-	<5FC2CA51-59D7-43CA-8FDB-13B7E97D08E6@dominion.thruhere.net>
-	<4FA44961.4090409@intel.com>
-	<A366210D-D188-4B36-8074-F51C538194C6@dominion.thruhere.net>
-	<4FA7EEA7.5070209@intel.com>
+	Mon, 07 May 2012 18:24:08 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 07 May 2012 09:14:16 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="137849984"
+Received: from unknown (HELO [10.255.12.143]) ([10.255.12.143])
+	by orsmga001.jf.intel.com with ESMTP; 07 May 2012 09:14:16 -0700
+Message-ID: <4FA7F4D7.20603@linux.intel.com>
+Date: Mon, 07 May 2012 09:14:15 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:12.0) Gecko/20120424 Thunderbird/12.0
+MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1257)
-X-Gm-Message-State: ALoCoQnGJ0huUx5I6FfWwt5TTdmMCjvdMUF4MCu2FSJw0rPLRCy7bHfczsaAmXf7eATODz35gLsZ
-Subject: Re: [PATCH 1/1] buildhistory: fix multiple commit of images and packages at the same time
+References: <cover.1335992192.git.raj.khem@gmail.com>
+	<907b74f1035fcd569920630c6fc68751cfb8ca14.1335992192.git.raj.khem@gmail.com>
+In-Reply-To: <907b74f1035fcd569920630c6fc68751cfb8ca14.1335992192.git.raj.khem@gmail.com>
+Cc: Martin Jansa <martin.jansa@gmail.com>
+Subject: Re: [PATCH 1/3] kmod: Add recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -59,58 +36,167 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 May 2012 16:13:51 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 07 May 2012 16:24:08 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
+
+On 05/02/2012 01:58 PM, Khem Raj wrote:
+> kmod is replacement for module-init-tools
+>
+> Signed-off-by: Khem Raj<raj.khem@gmail.com>
+> ---
+>   meta/recipes-kernel/kmod/kmod-native_git.bb      |   14 +++++
+>   meta/recipes-kernel/kmod/kmod.inc                |   31 +++++++++++
+>   meta/recipes-kernel/kmod/kmod/depmod-search.conf |    6 ++
+>   meta/recipes-kernel/kmod/kmod_git.bb             |   62 ++++++++++++++++++++++
+>   4 files changed, 113 insertions(+), 0 deletions(-)
+>   create mode 100644 meta/recipes-kernel/kmod/kmod-native_git.bb
+>   create mode 100644 meta/recipes-kernel/kmod/kmod.inc
+>   create mode 100644 meta/recipes-kernel/kmod/kmod/depmod-search.conf
+>   create mode 100644 meta/recipes-kernel/kmod/kmod_git.bb
+>
+> diff --git a/meta/recipes-kernel/kmod/kmod-native_git.bb b/meta/recipes-kernel/kmod/kmod-native_git.bb
+> new file mode 100644
+> index 0000000..96de8b8
+> --- /dev/null
+> +++ b/meta/recipes-kernel/kmod/kmod-native_git.bb
+> @@ -0,0 +1,14 @@
+> +# Copyright (C) 2012 Khem Raj<raj.khem@gmail.com>
+> +# Released under the MIT license (see COPYING.MIT for the terms)
+> +
+> +require kmod.inc
+> +inherit native
+> +
+> +PR = "${INC_PR}.0"
+> +
+> +do_install_append (){
+> +	for tool in depmod insmod lsmod modinfo modprobe rmmod
+> +	do
+> +		ln -s kmod ${D}${bindir}/$tool
+> +	done
+> +}
+> diff --git a/meta/recipes-kernel/kmod/kmod.inc b/meta/recipes-kernel/kmod/kmod.inc
+> new file mode 100644
+> index 0000000..940a317
+> --- /dev/null
+> +++ b/meta/recipes-kernel/kmod/kmod.inc
+> @@ -0,0 +1,31 @@
+> +# Copyright (C) 2012 Khem Raj<raj.khem@gmail.com>
+> +# Released under the MIT license (see COPYING.MIT for the terms)
+> +
+> +DESCRIPTION = "kmod is a set of tools to handle common tasks with Linux kernel modules like \
+> +               insert, remove, list, check properties, resolve dependencies and aliases."
+> +HOMEPAGE = "http://packages.profusion.mobi/kmod/"
+> +LICENSE = "GPL-2.0+&  LGPL-2.1+"
+> +LICENSE_libkmod = "LGPL-2.1+"
+> +SECTION = "base"
+> +PV = "7+git${SRCREV}"
+> +INC_PR = "r0"
+> +DEPENDS += "gnome-doc-utils-native"
+> +LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
+> +                    file://libkmod/COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343 \
+> +                   "
+> +inherit autotools
+> +
+> +SRC_URI = "git://git.profusion.mobi/kmod.git;protocol=git;branch=master \
+> +           file://depmod-search.conf \
+> +          "
+> +
+> +SRCREV = "02629fa02e96763db7460a930239cc93649a52f8"
+> +
+> +S = "${WORKDIR}/git"
+> +
+> +EXTRA_AUTORECONF += "--install --symlink"
+> +EXTRA_OECONF +="--enable-debug --enable-logging --enable-tools"
+> +
+> +do_configure_prepend () {
+> +        gtkdocize --docdir ${S}/libkmod/docs || touch ${S}/libkmod/docs/gtk-doc.make
+> +}
+> diff --git a/meta/recipes-kernel/kmod/kmod/depmod-search.conf b/meta/recipes-kernel/kmod/kmod/depmod-search.conf
+> new file mode 100644
+> index 0000000..527c0bb
+> --- /dev/null
+> +++ b/meta/recipes-kernel/kmod/kmod/depmod-search.conf
+> @@ -0,0 +1,6 @@
+> +#
+> +# /etc/depmod.d/depmod.conf
+> +#
+> +
+> +search updates extramodules built-in
+> +
+> diff --git a/meta/recipes-kernel/kmod/kmod_git.bb b/meta/recipes-kernel/kmod/kmod_git.bb
+> new file mode 100644
+> index 0000000..928fa88
+> --- /dev/null
+> +++ b/meta/recipes-kernel/kmod/kmod_git.bb
+> @@ -0,0 +1,62 @@
+> +# Copyright (C) 2012 Khem Raj<raj.khem@gmail.com>
+> +# Released under the MIT license (see COPYING.MIT for the terms)
+> +
+> +require kmod.inc
+> +
+> +PR = "${INC_PR}.0"
+> +
+> +PROVIDES_${PN} += "module-init-tools-insmod-static module-init-tools-depmod module-init-tools"
+> +RPROVIDES_${PN} += "module-init-tools-insmod-static module-init-tools-depmod module-init-tools"
+> +CONFLICTS_${PN} += "module-init-tools-insmod-static module-init-tools-depmod module-init-tools"
+> +
+> +# autotools set prefix to /usr, however we want them in /bin and /sbin
+> +bindir = "${base_bindir}"
+> +sbindir = "${base_sbindir}"
+> +# libdir = "${base_libdir}"
+> +
+> +SRC_URI += " \
+> +            file://depmod-search.conf \
+> +           "
+> +
+> +do_install_append () {
+> +        install -dm755 ${D}${base_bindir}
+> +        install -dm755 ${D}${base_sbindir}
+> +        # add symlinks to kmod
+> +        ln -s ..${base_bindir}/kmod ${D}${base_bindir}/lsmod.kmod
+> +        for tool in {ins,rm,dep}mod mod{info,probe}; do
+> +                ln -s ..${base_bindir}/kmod ${D}${base_sbindir}/${tool}.kmod
+> +        done
+> +        # configuration directories
+> +        install -dm755 ${D}${base_libdir}/depmod.d
+> +        install -dm755 ${D}${base_libdir}/modprobe.d
+> +        install -dm755 ${D}${sysconfdir}/depmod.d
+> +        install -dm755 ${D}${sysconfdir}/modprobe.d
+> +
+> +        # install depmod.d file for search/ dir
+> +        install -Dm644 "${WORKDIR}/depmod-search.conf" "${D}${base_libdir}/depmod.d/search.conf"
+> +}
+> +
+> +pkg_postinst_kmod() {
+> +        for f in sbin/insmod sbin/modprobe sbin/rmmod sbin/modinfo; do
+> +                bn=`basename $f`
+> +                update-alternatives --install /$f $bn /$f.kmod 60
+> +        done
+> +        update-alternatives --install /bin/lsmod bin-lsmod /bin/lsmod.kmod 60
+> +        update-alternatives --install /sbin/lsmod lsmod /bin/lsmod.kmod 60
+> +        update-alternatives --install /sbin/depmod depmod /sbin/depmod.kmod 60
+> +}
+> +
+> +pkg_prerm_kmod() {
+> +        for f in sbin/insmod sbin/modprobe sbin/rmmod sbin/modinfo; do
+> +                bn=`basename $f`
+> +                update-alternatives --remove $bn /$f.kmod
+> +        done
+> +        update-alternatives --remove bin-lsmod /bin/lsmod.kmod
+> +        update-alternatives --remove lsmod /bin/lsmod.kmod
+> +        update-alternatives --remove depmod /sbin/depmod.kmod
+> +}
+> +
+> +PACKAGES =+ "libkmod"
+> +
+> +FILES_libkmod = "${base_libdir}/libkmod*${SOLIBS}"
+> +FILES_${PN} += "${base_libdir}/depmod.d ${base_libdir}/modprobe.d"
 
 
-Op 7 mei 2012, om 17:47 heeft Scott Garman het volgende geschreven:
+Merged into OE-Core with Martin's patch
 
-> On 05/04/2012 11:55 PM, Koen Kooi wrote:
->>=20
->> Op 4 mei 2012, om 23:25 heeft Scott Garman het volgende geschreven:
->>=20
->>> On 05/04/2012 08:16 AM, Koen Kooi wrote:
->>>>>>> On Friday 04 May 2012 15:50:16 Koen Kooi wrote:
->>>>>>>> Looks good to me. If this goes in, can it go on the
->>>>>>>> denzil shortlist as well?
->>>>>>>=20
->>>>>>> I hope so, hence I've CC'd Scott Garman who is pulling
->>>>>>> together a branch for 1.2.1.
->>>>>>=20
->>>>>> oe-core or poky? I only care about oe-core.
->>>>>=20
->>>>> Both. Nothing goes into poky these days unless it comes from
->>>>> one of the appropriate trees.
->>>>=20
->>>> That's not what I was asking. I was asking it scott is doing a
->>>> poky or oe-core effort. =46rom Scotts emails it seems like a poky
->>>> effort.
->>>=20
->>> Hi Koen,
->>>=20
->>> I apologize for having made some confusing comments earlier about
->>> rebasing a denzil-next branch on my poky-contrib repo from being
->>> based on oe-core to poky. Since then, Richard has given me access
->>> to the oe-core-contrib repo, and I am now maintaining two
->>> denzil-next branches.
->>>=20
->>> This one is based on oe-core:
->>>=20
->>> =
-http://git.openembedded.org/openembedded-core-contrib/log/?h=3Dsgarman/den=
-zil-next
->>=20
->>>=20
->> When is that going to get merged into denzil? I'm in serious need of
->> that connman tests fix, so I have been using
->> http://cgit.openembedded.org/openembedded-core/log/?h=3Ddenzil-next
->> locally.
->=20
-> The commit just got into master, so I'm hoping to pull it into my =
-denzil-next-testing branch and run some build tests overnight tonight, =
-then merge it if all goes well tomorrow.
-
-Merge it into the oe-core 'denzil' branch, right?=
+Thanks
+	Sau!
 
 
