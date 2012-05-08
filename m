@@ -1,44 +1,20 @@
-Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1SRlhr-0000vz-Ua
+	(envelope-from <edwin.zhai@intel.com>) id 1SRlkD-0002k9-6O
 	for openembedded-core@lists.openembedded.org;
-	Tue, 08 May 2012 16:48:05 +0200
-Received: from mail-pb0-f52.google.com ([209.85.160.52])
-	by mga03.intel.com with ESMTP/TLS/RC4-SHA; 08 May 2012 07:38:10 -0700
-Received: by pbbro8 with SMTP id ro8so27083939pbb.25
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 08 May 2012 07:38:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:subject:references
-	:in-reply-to:content-type:content-transfer-encoding
-	:x-gm-message-state;
-	bh=T4Oadc9PajDYKXGujFRpO0scAJE5ph1gTaFid5jE+T8=;
-	b=IBLIr5cq5EjNc3LaARCOG8ny1MXFymqbHbZ56+Y0aY+SwLiQIiEubdcTHcCOs4AeZH
-	WZXhNUxrVUS69yErY2Rai7FxLdyVU/S9BOAOhev5ds1wYDakt4BLyVUbEONdyBOoHEjX
-	/wKyyD8StOVkqkT26m6cugpWvrTIY98UB7l305Lq7ilvekCbrpwpRVF7Wle3OBd1iVeK
-	seYf300r/OAbMkzDsvXtRiXzN4m+KYnctaXEM6bzIZx1yMssHHtQHlVH8fTEBCn7NeUT
-	tFw5DWyWbLp45mJrQ73hMdI/oatuJbFHriElGf2YU699Cj+MutPf836UjTb+EZlXBLSH
-	7pcw==
-Received: by 10.68.219.195 with SMTP id pq3mr3080459pbc.54.1336487889966;
-	Tue, 08 May 2012 07:38:09 -0700 (PDT)
-Received: from [192.168.1.12] (c-76-105-137-48.hsd1.or.comcast.net.
-	[76.105.137.48])
-	by mx.google.com with ESMTPS id po10sm2059140pbb.56.2012.05.08.07.38.07
-	(version=SSLv3 cipher=OTHER); Tue, 08 May 2012 07:38:08 -0700 (PDT)
-Message-ID: <4FA92FDE.1010102@intel.com>
-Date: Tue, 08 May 2012 07:38:22 -0700
-From: Scott Garman <scott.a.garman@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:11.0) Gecko/20120329 Thunderbird/11.0.1
-MIME-Version: 1.0
+	Tue, 08 May 2012 16:50:30 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 08 May 2012 07:40:36 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="163439113"
+Received: from yocto-build3.sh.intel.com ([10.239.48.5])
+	by fmsmga002.fm.intel.com with ESMTP; 08 May 2012 07:40:36 -0700
+From: edwin.zhai@intel.com
 To: openembedded-core@lists.openembedded.org
-References: <cover.1335330662.git.scott.a.garman@intel.com>
-	<2141be5ebcb7b14e348ad7e8a516a19333388eeb.1335330662.git.scott.a.garman@intel.com>
-	<4FA8C5DE.5070404@opendreambox.org>
-In-Reply-To: <4FA8C5DE.5070404@opendreambox.org>
-X-Gm-Message-State: ALoCoQmHb08tuA+sPiMce7mQXVKG25x/wIqB5Ws3lgKBmq4VyDgQxEkamY+bOL77giJZTZGjCAK/
-Subject: Re: [PATCH 2/2] openssl: upgrade to 1.0.0i
+Date: Tue,  8 May 2012 22:43:48 +0800
+Message-Id: <cover.1336487657.git.edwin.zhai@intel.com>
+X-Mailer: git-send-email 1.7.1
+Subject: [PATCH 0/1][V2] Fix pango modules load failure in multilib environment, Edwin, May8, 2012
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -53,41 +29,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 May 2012 14:48:06 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 08 May 2012 14:50:30 -0000
 
-On 05/08/2012 12:06 AM, Andreas Oberritter wrote:
-> Hello Scott,
->
-> On 25.04.2012 07:13, Scott Garman wrote:
->> --- a/meta/recipes-connectivity/openssl/openssl.inc
->> +++ b/meta/recipes-connectivity/openssl/openssl.inc
->> @@ -4,8 +4,7 @@ HOMEPAGE = "http://www.openssl.org/"
->>   BUGTRACKER = "http://www.openssl.org/news/vulnerabilities.html"
->>   SECTION = "libs/network"
->>
->> -# Big Jump for OpenSSL 1.0 support with meta-oe
->> -INC_PR = "r15"
->> +INC_PR = "r0"
->>
->>   # "openssl | SSLeay" dual license
->>   LICENSE = "openssl"
->
-> this hunk broke the upgrade path of out-of-tree users of openssl.inc,
-> e.g. users of openssl 0.9.8 in their own layer.
->
-> Please reset INC_PR to r15. You should have reset only PR (if it wasn't
-> already "${INC_PR}.0"), not INC_PR.
+From: Zhai Edwin <edwin.zhai@intel.com>
 
-Ouch. Sorry about that. I will submit a patch in the next few minutes to 
-correct this and will keep this in mind in the future.
+All,
+This is the new version based on RP's comments:
+* Use MLPREFIX rather than ${baselib} dir to separate config/util
+* Pass MLPREFIX as configure option so that pango can use it directly.
 
-Scott
+This patch doesn't change anying in non-multilib environment. Pls. help to pull.
 
--- 
-Scott Garman
-Embedded Linux Engineer - Yocto Project
-Intel Open Source Technology Center
+Thanks,
+Edwin
+
+The following changes since commit 2c3d4f5beee8f57a74244495511b9294df1085ea:
+
+  documentation/bsp-guide/bsp.xml: spelling corrected. (2012-04-18 16:42:15 +0100)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib gzhai/fix2
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=gzhai/fix2
+
+Zhai Edwin (1):
+  pango: Fix modules load failure in multilib environment
+
+ .../pango/pango-1.28.4/multilib-fix-clean.patch    |   40 ++++++++++++++++++++
+ meta/recipes-graphics/pango/pango.inc              |   13 +++++-
+ meta/recipes-graphics/pango/pango_1.28.4.bb        |    7 ++-
+ 3 files changed, 55 insertions(+), 5 deletions(-)
+ create mode 100644 meta/recipes-graphics/pango/pango-1.28.4/multilib-fix-clean.patch
+
 
 
