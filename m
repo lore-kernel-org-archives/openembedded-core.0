@@ -1,21 +1,35 @@
-Received: from smtp2-g21.free.fr ([212.27.42.2])
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <eric@eukrea.com>) id 1SRoP9-0005b9-TK
+	(envelope-from <martin.jansa@gmail.com>) id 1SRou1-00016R-Hg
 	for openembedded-core@lists.openembedded.org;
-	Tue, 08 May 2012 19:40:56 +0200
-Received: from localhost.localdomain (unknown [82.240.38.71])
-	by smtp2-g21.free.fr (Postfix) with ESMTP id 6E1D64B018F
+	Tue, 08 May 2012 20:12:49 +0200
+Received: by eekc1 with SMTP id c1so1667438eek.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 May 2012 19:31:02 +0200 (CEST)
-From: =?UTF-8?q?Eric=20B=C3=A9nard?= <eric@eukrea.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  8 May 2012 19:30:43 +0200
-Message-Id: <1336498243-14896-1-git-send-email-eric@eukrea.com>
-X-Mailer: git-send-email 1.7.0.4
-In-Reply-To: <1336497947-28128-1-git-send-email-eric@eukrea.com>
-References: <1336497947-28128-1-git-send-email-eric@eukrea.com>
+	Tue, 08 May 2012 11:02:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:subject:message-id:mime-version:content-type
+	:content-disposition:user-agent;
+	bh=B4Btx1UKPTw6w5SjBo4BIU+pE5saWle/tCGQCxlbvmk=;
+	b=rdESjyKKfIXE1lVZLGmWYeV+LvNeAEElASqUNc/MdD0A+AZVjK0MBU6yARTJzn9B1F
+	1jlp4DfhiFlcH0obr/b9Vy5MY6b7j4qKl7ZfRedMXjS4qH5f/nmd+EoMM3BrYdkN87sg
+	LQbyK6/VV+cVQSdOBbxxTb6QSLO37Zy97dVaurhoAlK5Clclyj9G/e4cOKlmt0JOVcCu
+	g2mQhHrNrPl0c6ZUjerUSN46wrODFYY6Ytuu3K2xYDCfaawn3IchWIKiVE3Vaxd/X98e
+	T6PtLJOtx8J0gofYQ0DmulCKhTh3MxwZxNY7Lnkn45xZllsxIg3yb/LrrC9pVR9/2eNk
+	8dEw==
+Received: by 10.14.27.131 with SMTP id e3mr2309829eea.10.1336500176793;
+	Tue, 08 May 2012 11:02:56 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id m42sm87814eef.0.2012.05.08.11.02.55
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 08 May 2012 11:02:55 -0700 (PDT)
+Date: Tue, 8 May 2012 20:02:56 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Message-ID: <20120508180256.GB3138@jama.jama.net>
 MIME-Version: 1.0
-Subject: [PATCH v2] zlib: upgrade to 1.2.7
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Subject: CONFLICTS as keyword or just misspelled RCONFLICTS?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -30,58 +44,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 May 2012 17:40:56 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 08 May 2012 18:12:49 -0000
+X-Groupsio-MsgNum: 21840
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="b5gNqxB1S1yM7hjW"
+Content-Disposition: inline
+
+--b5gNqxB1S1yM7hjW
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-1.2.6 is no more fetchable and 1.2.7 fix some bugs, full changelog is
-available here : http://zlib.net/ChangeLog.txt
+It's used in few recipes (lately used in kmod recipe), but no .bbclass and =
+no match in bitbake
 
-Signed-off-by: Eric B=C3=A9nard <eric@eukrea.com>
----
-v2 : remove PR=3Dr1
+OE @ ~/openembedded-core $ git grep CONFLICTS | grep -v RCONFLICTS | grep -=
+v TUNE_CONFLICTS | grep -v TUNECONFLICTS
+meta/recipes-connectivity/openssh/openssh_6.0p1.bb:CONFLICTS_${PN} =3D "dro=
+pbear"
+meta/recipes-core/gettext/gettext_0.18.1.1.bb:CONFLICTS_${PN} =3D "proxy-li=
+bintl"
+meta/recipes-graphics/xorg-proto/compositeproto_0.4.2.bb:CONFLICTS =3D "com=
+positeext"
+meta/recipes-graphics/xorg-proto/damageproto_1.2.1.bb:CONFLICTS =3D "damage=
+ext"
+meta/recipes-graphics/xorg-proto/fixesproto_5.0.bb:CONFLICTS =3D "fixesext"
+meta/recipes-graphics/xorg-proto/randrproto_1.3.2.bb:CONFLICTS =3D "randrex=
+t"
+meta/recipes-graphics/xorg-proto/recordproto_1.14.1.bb:CONFLICTS =3D "recor=
+dext"
+meta/recipes-graphics/xorg-proto/renderproto_0.11.1.bb:CONFLICTS =3D "rende=
+rext"
+meta/recipes-graphics/xorg-proto/resourceproto_1.2.0.bb:CONFLICTS =3D "reso=
+urceext"
+meta/recipes-graphics/xorg-proto/xf86dgaproto_2.1.bb:CONFLICTS =3D "xxf86dg=
+aext"
+meta/recipes-graphics/xorg-proto/xf86vidmodeproto_2.3.1.bb:CONFLICTS =3D "x=
+xf86vmext"
+meta/recipes-sato/matchbox-desktop-sato/matchbox-desktop-sato_git.bb:CONFLI=
+CTS =3D "matchbox-common"
+meta/recipes-support/db/db_5.1.19.bb:CONFLICTS =3D "db3"
 
- .../remove.ldconfig.call.patch                     |    0
- .../zlib/{zlib_1.2.6.bb =3D> zlib_1.2.7.bb}          |    6 ++----
- 2 files changed, 2 insertions(+), 4 deletions(-)
- rename meta/recipes-core/zlib/{zlib-1.2.6 =3D> zlib-1.2.7}/remove.ldconf=
-ig.call.patch (100%)
- rename meta/recipes-core/zlib/{zlib_1.2.6.bb =3D> zlib_1.2.7.bb} (80%)
+BTW: IIRC TUNE_CONFLICTS/TUNECONFLICTS inconsistency was discussed on ML al=
+ready=20
+(I could not find that thread, but still it's used in meta/conf/machine/inc=
+lude/arm
 
-diff --git a/meta/recipes-core/zlib/zlib-1.2.6/remove.ldconfig.call.patch=
- b/meta/recipes-core/zlib/zlib-1.2.7/remove.ldconfig.call.patch
-similarity index 100%
-rename from meta/recipes-core/zlib/zlib-1.2.6/remove.ldconfig.call.patch
-rename to meta/recipes-core/zlib/zlib-1.2.7/remove.ldconfig.call.patch
-diff --git a/meta/recipes-core/zlib/zlib_1.2.6.bb b/meta/recipes-core/zli=
-b/zlib_1.2.7.bb
-similarity index 80%
-rename from meta/recipes-core/zlib/zlib_1.2.6.bb
-rename to meta/recipes-core/zlib/zlib_1.2.7.bb
-index 54f8abf..803fec3 100644
---- a/meta/recipes-core/zlib/zlib_1.2.6.bb
-+++ b/meta/recipes-core/zlib/zlib_1.2.7.bb
-@@ -6,13 +6,11 @@ SECTION =3D "libs"
- LICENSE =3D "Zlib"
- LIC_FILES_CHKSUM =3D "file://zlib.h;beginline=3D4;endline=3D23;md5=3D94d=
-1b5a40dadd127f3351471727e66a9"
-=20
--PR =3D "r1"
--
- SRC_URI =3D "http://www.zlib.net/${BPN}-${PV}.tar.bz2 \
-            file://remove.ldconfig.call.patch \
-            "
--SRC_URI[md5sum] =3D "dc2cfa0d2313ca77224b4d932b2911e9"
--SRC_URI[sha256sum] =3D "fa3e3e4881fa5810b8903f2c7e0dcd5a0a673535f0438021=
-c4bbb5db1b918c8e"
-+SRC_URI[md5sum] =3D "2ab442d169156f34c379c968f3f482dd"
-+SRC_URI[sha256sum] =3D "49e2e9658dfb036900da6ea0267a737fa3c4eee6666776d3=
-78c79d52e9334934"
-=20
- do_configure (){
- 	./configure --prefix=3D${prefix} --shared --libdir=3D${libdir}
---=20
-1.7.0.4
+Cheers,
 
+--b5gNqxB1S1yM7hjW
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
 
+iEYEARECAAYFAk+pX9AACgkQN1Ujt2V2gBwTIgCgrba5EI3SqFcDldGPaSIs+wZl
+MogAnjsuCgQihXdRk0er9+yj4+J3k4zL
+=/XIP
+-----END PGP SIGNATURE-----
+
+--b5gNqxB1S1yM7hjW--
