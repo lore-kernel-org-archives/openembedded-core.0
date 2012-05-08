@@ -1,24 +1,27 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from masterfoo.zenlinux.com ([207.192.74.254])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <edwin.zhai@intel.com>) id 1SRlkE-0002k9-Jv
+	(envelope-from <scott.a.garman@intel.com>) id 1SRlmC-0004Z9-RN
 	for openembedded-core@lists.openembedded.org;
-	Tue, 08 May 2012 16:50:30 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 08 May 2012 07:40:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="163439117"
-Received: from yocto-build3.sh.intel.com ([10.239.48.5])
-	by fmsmga002.fm.intel.com with ESMTP; 08 May 2012 07:40:36 -0700
-From: edwin.zhai@intel.com
+	Tue, 08 May 2012 16:52:32 +0200
+Received: from localhost (c-76-105-137-48.hsd1.or.comcast.net [76.105.137.48])
+	(using TLSv1 with cipher DHE-RSA-AES128-SHA (128/128 bits))
+	(No client certificate requested)
+	by masterfoo.zenlinux.com (Postfix) with ESMTP id 26D0130405
+	for <openembedded-core@lists.openembedded.org>;
+	Tue,  8 May 2012 10:42:36 -0400 (EDT)
+From: Scott Garman <scott.a.garman@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  8 May 2012 22:43:49 +0800
-Message-Id: <53bfc4a4c70630c2d546e49fcb93eb2ad7315d27.1336487657.git.edwin.zhai@intel.com>
-X-Mailer: git-send-email 1.7.1
-In-Reply-To: <cover.1336487657.git.edwin.zhai@intel.com>
-References: <cover.1336487657.git.edwin.zhai@intel.com>
-In-Reply-To: <cover.1336487657.git.edwin.zhai@intel.com>
-References: <cover.1336487657.git.edwin.zhai@intel.com>
-Subject: [PATCH 1/1] pango: Fix modules load failure in multilib environment
+Date: Tue,  8 May 2012 07:42:44 -0700
+Message-Id: <cover.1336488076.git.scott.a.garman@intel.com>
+X-Mailer: git-send-email 1.7.5.4
+X-MasterFoo-MailScanner-Information: Please contact the ISP for more
+	information
+X-MailScanner-ID: 26D0130405.4AF5D
+X-MasterFoo-MailScanner: Found to be clean
+X-MasterFoo-MailScanner-SpamCheck: not spam
+X-MasterFoo-MailScanner-From: scott.a.garman@intel.com
+X-Spam-Status: No
+Subject: [PATCH 0/1] openssl INC_PR fix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,129 +36,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 May 2012 14:50:30 -0000
+X-List-Received-Date: Tue, 08 May 2012 14:52:33 -0000
 
-From: Zhai Edwin <edwin.zhai@intel.com>
+Hello,
 
-Multi-libs of Pango need different modules, thus different config files and
-utils. This patch separate config file and utils with different MLPREFIX to
-avoid conflict.
+Andreas pointed out that I broke openssl in out of tree scenarios
+by resetting INC_PR during my last recipe upgrade, so this restores
+it to its previous, working value.
 
-[YOCTO #2356] got fixed.
+Scott
 
-Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
----
- .../pango/pango-1.28.4/multilib-fix-clean.patch    |   40 ++++++++++++++++++++
- meta/recipes-graphics/pango/pango.inc              |   13 +++++-
- meta/recipes-graphics/pango/pango_1.28.4.bb        |    7 ++-
- 3 files changed, 55 insertions(+), 5 deletions(-)
- create mode 100644 meta/recipes-graphics/pango/pango-1.28.4/multilib-fix-clean.patch
+The following changes since commit 616552506708d6dbb35a716be5bdff345edf2be0:
 
-diff --git a/meta/recipes-graphics/pango/pango-1.28.4/multilib-fix-clean.patch b/meta/recipes-graphics/pango/pango-1.28.4/multilib-fix-clean.patch
-new file mode 100644
-index 0000000..addda5f
---- /dev/null
-+++ b/meta/recipes-graphics/pango/pango-1.28.4/multilib-fix-clean.patch
-@@ -0,0 +1,40 @@
-+Index: pango-1.28.4/configure.in
-+===================================================================
-+--- pango-1.28.4.orig/configure.in	2011-04-05 04:29:16.000000000 +0800
-++++ pango-1.28.4/configure.in	2012-05-08 21:32:17.000000000 +0800
-+@@ -205,6 +205,11 @@
-+ 
-+ AC_SUBST(PANGO_DEBUG_FLAGS)
-+ 
-++AC_ARG_WITH(mlprefix,
-++            AC_HELP_STRING([--with-mlprefix=<ARG>], [multilib prefix]),
-++            mlprefix_str=$withval, mlprefix_str="")
-++AC_DEFINE_UNQUOTED([MLPREFIX], ["$mlprefix_str"], [multilib prefix.])
-++
-+ AC_ARG_ENABLE(rebuilds,
-+               [AC_HELP_STRING([--disable-rebuilds],
-+                               [disable all source autogeneration rules])],,
-+Index: pango-1.28.4/pango/modules.c
-+===================================================================
-+--- pango-1.28.4.orig/pango/modules.c	2010-09-22 03:37:01.000000000 +0800
-++++ pango-1.28.4/pango/modules.c	2012-05-08 21:21:02.000000000 +0800
-+@@ -529,7 +529,8 @@
-+ 
-+   if (!file_str)
-+     file_str = g_build_filename (pango_get_sysconf_subdirectory (),
-+-				 "pango.modules",
-++/* For multilib case, keep multiple config file for different libs */
-++				 MLPREFIX "pango.modules",
-+ 				 NULL);
-+ 
-+   files = pango_split_file_list (file_str);
-+@@ -640,7 +641,8 @@
-+       if (!no_module_warning)
-+ 	{
-+ 	  gchar *filename = g_build_filename (pango_get_sysconf_subdirectory (),
-+-					      "pango.modules",
-++/* For multilib case, keep multiple config file for different libs */
-++					      MLPREFIX "pango.modules",
-+ 					      NULL);
-+ 	  g_critical ("No modules found:\n"
-+ 		      "No builtin or dynamically loaded modules were found.\n"
-diff --git a/meta/recipes-graphics/pango/pango.inc b/meta/recipes-graphics/pango/pango.inc
-index a2d5dc3..d59a4d1 100644
---- a/meta/recipes-graphics/pango/pango.inc
-+++ b/meta/recipes-graphics/pango/pango.inc
-@@ -32,9 +32,11 @@ EXTRA_AUTORECONF = ""
- # seems to go wrong with default cflags
- FULL_OPTIMIZATION_arm = "-O2"
- 
-+# keep multiple util/config with MLPREFIX in multilib environment
- EXTRA_OECONF = "--disable-glibtest \
- 		--enable-explicit-deps=no \
--	        --disable-debug"
-+	        --disable-debug \
-+	        --with-mlprefix=${MLPREFIX}"
- 
- LEAD_SONAME = "libpango-1.0*"
- LIBV = "1.6.0"
-@@ -49,12 +51,19 @@ if ! [ -e $D${sysconfdir}/pango ] ; then
- fi
- }
- 
-+do_install_append () {
-+	if [ "${MLPREFIX}" != "" ]; then
-+		mv ${D}/${bindir}/pango-querymodules ${D}/${bindir}/${MLPREFIX}pango-querymodules 
-+	fi
-+}
-+
-+
- python populate_packages_prepend () {
- 	prologue = d.getVar("postinst_prologue", True)
- 
- 	modules_root = d.expand('${libdir}/pango/${LIBV}/modules')
- 
--	do_split_packages(d, modules_root, '^pango-(.*)\.so$', 'pango-module-%s', 'Pango module %s', prologue + 'pango-querymodules > /etc/pango/pango.modules')
-+	do_split_packages(d, modules_root, '^pango-(.*)\.so$', 'pango-module-%s', 'Pango module %s', prologue + '${bindir}/${MLPREFIX}pango-querymodules > /etc/pango/${MLPREFIX}pango.modules')
- }
- 
- FILES_${PN} = "${sysconfdir}/pango/* ${bindir}/* ${libdir}/libpango*${SOLIBS}"
-diff --git a/meta/recipes-graphics/pango/pango_1.28.4.bb b/meta/recipes-graphics/pango/pango_1.28.4.bb
-index 8d71de0..7055158 100644
---- a/meta/recipes-graphics/pango/pango_1.28.4.bb
-+++ b/meta/recipes-graphics/pango/pango_1.28.4.bb
-@@ -2,10 +2,11 @@ require pango.inc
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=3bf50002aefd002f49e7bb854063f7e7"
- 
--PR = "r7"
-+PR = "r8"
- 
--SRC_URI += "file://no-tests.patch"
--SRC_URI += "file://noconst.patch"
-+SRC_URI += "file://no-tests.patch \
-+            file://noconst.patch \
-+            file://multilib-fix-clean.patch"
- 
- SRC_URI[archive.md5sum] = "3f3989700f04e9117d30544a9078b3a0"
- SRC_URI[archive.sha256sum] = "7eb035bcc10dd01569a214d5e2bc3437de95d9ac1cfa9f50035a687c45f05a9f"
+  xcb-util-image: Add missing dependency on xcb-util (2012-05-08 14:44:38 +0100)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib sgarman/openssl-fix
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=sgarman/openssl-fix
+
+Scott Garman (1):
+  openssl: fix incorrect INC_PR
+
+ meta/recipes-connectivity/openssl/openssl.inc |    3 ++-
+ 1 files changed, 2 insertions(+), 1 deletions(-)
+
 -- 
-1.7.1
+1.7.5.4
 
 
 
