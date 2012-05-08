@@ -1,27 +1,25 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Peter.Seebach@windriver.com>) id 1SRqCP-0004ep-50
+	(envelope-from <sgw@linux.intel.com>) id 1SRsi1-0001Da-VQ
 	for openembedded-core@lists.openembedded.org;
-	Tue, 08 May 2012 21:35:53 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q48JQ0xD007963
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 8 May 2012 12:26:00 -0700 (PDT)
-Received: from wrlaptop (172.25.40.226) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Tue, 8 May 2012 12:25:59 -0700
-Date: Tue, 8 May 2012 14:25:58 -0500
-From: Peter Seebach <peter.seebach@windriver.com>
+	Wed, 09 May 2012 00:16:42 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 08 May 2012 15:06:48 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="141611440"
+Received: from unknown (HELO [10.255.12.218]) ([10.255.12.218])
+	by orsmga002.jf.intel.com with ESMTP; 08 May 2012 15:06:48 -0700
+Message-ID: <4FA998F8.8060306@linux.intel.com>
+Date: Tue, 08 May 2012 15:06:48 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:12.0) Gecko/20120424 Thunderbird/12.0
+MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Message-ID: <20120508142558.5837dc31@wrlaptop>
-In-Reply-To: <4FA971F0.8020406@windriver.com>
-References: <20120508180256.GB3138@jama.jama.net>
-	<4FA971F0.8020406@windriver.com>
-X-Mailer: Claws Mail 3.7.8 (GTK+ 2.24.4; x86_64-pc-linux-gnu)
-MIME-Version: 1.0
-Subject: Re: CONFLICTS as keyword or just misspelled RCONFLICTS?
+References: <cover.1336015963.git.raj.khem@gmail.com>
+In-Reply-To: <cover.1336015963.git.raj.khem@gmail.com>
+Subject: Re: [PATCH 0/3] Enable xserver-xorg for all qemumachines
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,28 +34,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 May 2012 19:35:53 -0000
-Content-Type: text/plain; charset="US-ASCII"
+X-List-Received-Date: Tue, 08 May 2012 22:16:42 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Tue, 8 May 2012 14:20:16 -0500
-Mark Hatle <mark.hatle@windriver.com> wrote:
+On 05/02/2012 08:35 PM, Khem Raj wrote:
+> Currently we use kdrive for all qemu machines except x86 and x86_64
+> this patchset enables it for other qemu machines too
+>
+> I did not delete the kdrive recipes intentionally since I saw that
+> there were some images which were using kdrive as xserver
+>
+> I have successfully sato image in qemumips qemuarm and qemuppc
+>
+Khem,
 
-> > BTW: IIRC TUNE_CONFLICTS/TUNECONFLICTS inconsistency was discussed
-> > on ML already (I could not find that thread, but still it's used in
-> > meta/conf/machine/include/arm  
-> 
-> Ya, patches to fix these, and actually check them were sent to the
-> list, but I don't believe they have been merged yet.
+Not sure what I am doing differently, but I am not getting the xserver 
+to start on at least ppc and mips (two that I tried just now).
 
-I hadn't noticed TUNE_CONFLICTS, just TUNECONFLICT and TUNECONFLICTS.
+Are you build a Yocto sato image or oe-core sato image?
 
-As of this writing, I have two outstanding patches to do with that; I
-think the consistency patch is in, but we're still waiting on
-approval/more changes decisions on the sanity check implementation.
+I get the following on a ppc:
 
--s
--- 
-Listen, get this.  Nobody with a good compiler needs to be justified.
+Fatal server error:
+no screens found
+xinit: giving up
+xinit: unable to connect to X server: No such file or directory
+xinit: server error
+
+
+Sau!
+
+
+> The following changes since commit 35b5fb2dd2131d4c7dc6635c14c6e08ea6926457:
+>
+>    eglibc-package: remove /var (2012-05-01 12:36:18 +0100)
+>
+> are available in the git repository at:
+>    git://git.openembedded.org/openembedded-core-contrib kraj/qemu-xserver-xorg
+>    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=kraj/qemu-xserver-xorg
+>
+> Khem Raj (3):
+>    qemumachines: Enable xserver-xorg as default xserver
+>    xserver-xf86-config: Add xorg.conf for arm,mips,ppc,sh qemu machines
+>    qemux86-64,qemux86: Override XSERVER variable
+>
+>   meta/conf/machine/include/qemu.inc                 |    9 ++-
+>   meta/conf/machine/qemux86-64.conf                  |    2 +-
+>   meta/conf/machine/qemux86.conf                     |    2 +-
+>   .../xserver-xf86-config/qemuarm/xorg.conf          |   69 ++++++++++++++++++++
+>   .../xserver-xf86-config/qemumips/xorg.conf         |   69 ++++++++++++++++++++
+>   .../xserver-xf86-config/qemumips64/xorg.conf       |   69 ++++++++++++++++++++
+>   .../xserver-xf86-config/qemuppc/xorg.conf          |   69 ++++++++++++++++++++
+>   .../xserver-xf86-config/qemush4/xorg.conf          |   69 ++++++++++++++++++++
+>   .../xorg-xserver/xserver-xf86-config_0.1.bb        |    2 +-
+>   9 files changed, 356 insertions(+), 4 deletions(-)
+>   create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemuarm/xorg.conf
+>   create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemumips/xorg.conf
+>   create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemumips64/xorg.conf
+>   create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemuppc/xorg.conf
+>   create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemush4/xorg.conf
+>
 
 
