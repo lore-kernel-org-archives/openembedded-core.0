@@ -1,19 +1,23 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@windriver.com>) id 1SRlr7-0001Mq-8p
+	(envelope-from <bruce.ashfield@windriver.com>) id 1SRlr7-0001NF-FZ
 	for openembedded-core@lists.openembedded.org;
 	Tue, 08 May 2012 16:57:44 +0200
 Received: from yow-bashfiel-l1.corp.ad.wrs.com
 	(yow-bashfiel-l1.corp.ad.wrs.com [128.224.145.171])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q48ElenM017426;
-	Tue, 8 May 2012 07:47:40 -0700 (PDT)
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q48ElenO017426;
+	Tue, 8 May 2012 07:47:42 -0700 (PDT)
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 To: richard.purdie@linuxfoundation.org
-Date: Tue,  8 May 2012 10:47:35 -0400
-Message-Id: <cover.1336487836.git.bruce.ashfield@windriver.com>
+Date: Tue,  8 May 2012 10:47:37 -0400
+Message-Id: <18a93648e7927a33bcaa3a7210fdee4ff5669b3b.1336487836.git.bruce.ashfield@windriver.com>
 X-Mailer: git-send-email 1.7.5.4
+In-Reply-To: <cover.1336487836.git.bruce.ashfield@windriver.com>
+References: <cover.1336487836.git.bruce.ashfield@windriver.com>
+In-Reply-To: <cover.1336487836.git.bruce.ashfield@windriver.com>
+References: <cover.1336487836.git.bruce.ashfield@windriver.com>
 Cc: openembedded-core@lists.openembedded.org, saul.wold@intel.com
-Subject: [PATCH 0/2] linux-yocto: streamlined repository support + fixes
+Subject: [PATCH 2/2] kern-tools: integrate minor fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -30,62 +34,44 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 08 May 2012 14:58:08 -0000
 
-Richard/Saul,
+Updating the SRCREV to pick up two minor fixes:
 
-This pull requests represents some changes that I've been running here
-for the past 1.5 months. It is a re-working of the tools and recipes to
-allow more repository types to support the kern tools (branching and
-fragments). 
+1/2:
+    kgit-init: correct spelling of createme
 
-It's one largish patch that consolidates recipe updates, tool changes
-and streamlining of the patching phase.
+    kgit-init copies the kern-tools scripts and intends to copy createme.
 
-This is step one, there are several more to follow after this merges
-into the tree. Namely:
-  
-  - updated documents on what an inheriting recipe needs to do
-  - movement of the linux-yocto-custom recipe from meta-kernel-dev
-    to somewhere more visible
-  - updates to meta-kernel-dev to fix those recipes
-  - removal of the 2.6.37 recipe and introduction of the 3.4 kernel
-    recipe
-  - additional streamlining of the tools (more code deleted!).
+    The typo is in the usage() of updateme as well.
 
-I've converted the linux-yocto* recipes (except for 2.6.37, since I'll be
-removing it shortly) and have built 3.0, 3.2 and -dev kernels for all the
-boards I can. It's ready to go, but can also use a run through a 
-nightly build before it merged (the changes were a bit tricky with a lot
-of existing use cases to ensure were not broken).
+    Signed-off-by: Michel Thebeau <michel.thebeau@windriver.com>
 
-FYI: I stacked this on top of my last pull request, let me know if this
-needs to be rebased.
+2/2:
+    kconf_check: fix bad quoting around missing_required.cfg
 
-Cheers,
+    missing_required.cfg won't have it's path truncated (if applicable), since
+    the quoting it wrong.
 
-Bruce
+    Signed-off-by: Andrea Adami <andrea.adami@gmail.com>
+    Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 
-The following changes since commit e116928e3a1af803b9c6fa06236902ad730f7bf8:
-
-  linux-yocto/3.0: mm/msync: tweak tmpfs patch for syscall msync (2012-05-08 10:18:56 -0400)
-
-are available in the git repository at:
-  git://git.pokylinux.org/poky-contrib zedd/kernel-dev
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel-dev
-
-Bruce Ashfield (2):
-  linux-yocto: streamline support for multiple upstream repo types
-  kern-tools: integrate minor fixes
-
- meta/classes/kernel-yocto.bbclass                  |  115 ++++++++++----------
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+---
  .../kern-tools/kern-tools-native_git.bb            |    2 +-
- meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb    |    1 +
- meta/recipes-kernel/linux/linux-yocto-rt_3.2.bb    |    2 +
- meta/recipes-kernel/linux/linux-yocto.inc          |    7 +-
- meta/recipes-kernel/linux/linux-yocto_2.6.37.bb    |    2 +
- meta/recipes-kernel/linux/linux-yocto_3.0.bb       |   23 +++--
- meta/recipes-kernel/linux/linux-yocto_3.2.bb       |    2 +
- 8 files changed, 86 insertions(+), 68 deletions(-)
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
+diff --git a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
+index 1af22f6..b6fab39 100644
+--- a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
++++ b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
+@@ -4,7 +4,7 @@ LIC_FILES_CHKSUM = "file://git/tools/kgit;beginline=5;endline=9;md5=e2bf4415f3d8
+ 
+ DEPENDS = "git-native guilt-native"
+ 
+-SRCREV = "369e67046a1b72b6447c208babd4d2065265a95e"
++SRCREV = "9bb704df0a86578b8ae1f4c85e45089bef28e026"
+ PR = "r12"
+ PV = "0.1+git${SRCPV}"
+ 
 -- 
 1.7.5.4
 
