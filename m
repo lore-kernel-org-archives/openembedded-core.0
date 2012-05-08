@@ -1,29 +1,37 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mail-ey0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1SRmNT-0007IC-DR
+	(envelope-from <raj.khem@gmail.com>) id 1SRn39-0007yg-AY
 	for openembedded-core@lists.openembedded.org;
-	Tue, 08 May 2012 17:31:03 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 08 May 2012 08:21:10 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="163457186"
-Received: from unknown (HELO envy.home) ([10.255.13.12])
-	by fmsmga002.fm.intel.com with ESMTP; 08 May 2012 08:21:10 -0700
-Message-ID: <4FA939C8.3040403@linux.intel.com>
-Date: Tue, 08 May 2012 08:20:40 -0700
-From: Darren Hart <dvhart@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:12.0) Gecko/20120424 Thunderbird/12.0
+	Tue, 08 May 2012 18:14:07 +0200
+Received: by eaae1 with SMTP id e1so1602963eaa.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 08 May 2012 09:04:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type; bh=atf9Zke8LHorPBHmP7mdETX9ATgqhC3iDpZdTHB0nmk=;
+	b=TlYQ5Vx9eUFMnlZyIpXKcOsRTGei0a+FmBMMJxwfa4UaBQaC600b+3/fMdHjbHdTTU
+	x32pLH0hEnrBPsTdr5byirGJRyFaKlnPFNzSO1WVZxqIjVHGI5gzODM4Tn4QG2Wb9AFY
+	/jSHIRH9kgS2BkrAcCx7WXDW8KjhBjyMC6tCUyXZVeU4PWctkqByUkkXgxYbbsFkAEXp
+	xiDC0JpQ7fh2ZZVFrEtEl5JM3tdTOzpCS5kaIq9X/fVI79WnCdQ90IwNHYO1Tf5meFUQ
+	/6/OQ9yHeYTTl5jStrR+Vq1cjWSWmgUzSFFgEmv9Dm0yCuoTiaREbNXxA+to0uCB7avC
+	XkvQ==
+Received: by 10.14.149.129 with SMTP id x1mr3344620eej.108.1336493055785; Tue,
+	08 May 2012 09:04:15 -0700 (PDT)
 MIME-Version: 1.0
+Received: by 10.14.2.132 with HTTP; Tue, 8 May 2012 09:03:45 -0700 (PDT)
+In-Reply-To: <CAMKF1sq_bMMFiGSJBBbnV0zckoAmkgnsj5jHeBw0M+jWbFYu4Q@mail.gmail.com>
+References: <e6ccd54276855728be4e18f3fab28136736963a1.1336015963.git.raj.khem@gmail.com>
+	<fb85f4acd897466f053198dd9606143b90c14c66.1336015963.git.raj.khem@gmail.com>
+	<1336055718.30113.125.camel@ted>
+	<CAMKF1sqiSO9kz3-0fKV+XDpB8+v2+pph_rZgRb6xof3OSHjTWg@mail.gmail.com>
+	<CABcZANm5muqfeq6hDnA-qUsMX+hof=BvdXA6THAnBvLCjUK5zA@mail.gmail.com>
+	<CAMKF1sq_bMMFiGSJBBbnV0zckoAmkgnsj5jHeBw0M+jWbFYu4Q@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 8 May 2012 09:03:45 -0700
+Message-ID: <CAMKF1spoXGCg1+TuKrP+ucbLyYtwJL+AcNko0rZOcCMrYNTefg@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <1335693807-17609-1-git-send-email-wd@denx.de>
-	<1336052928-30764-1-git-send-email-wd@denx.de>
-	<D777AF9B-4859-43C3-946D-EF5172E0806B@dominion.thruhere.net>
-	<1336055317.30113.124.camel@ted>
-In-Reply-To: <1336055317.30113.124.camel@ted>
-X-Enigmail-Version: 1.4.1
-Subject: Re: [PATCH] Add KERNEL_EXTRA_ARGS parameter
+Subject: Re: [PATCH 3/3] qemux86-64, qemux86: Override XSERVER variable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,77 +46,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 May 2012 15:31:03 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 08 May 2012 16:14:07 -0000
+Content-Type: text/plain; charset=UTF-8
 
+On Thu, May 3, 2012 at 10:03 AM, Khem Raj <raj.khem@gmail.com> wrote:
+> On Thu, May 3, 2012 at 9:47 AM, Chris Larson <clarson@kergoth.com> wrote:
+>> ??= may be of use here (though I haven't looked at the files in
+>> particular, it seems appropriate)
+>
+> I tried that and it started to build kdrive for qemuarm
 
+I have now made it to use ??= which simplified  the patches I have updated
+the pull request
 
-On 05/03/2012 07:28 AM, Richard Purdie wrote:
-> On Thu, 2012-05-03 at 16:02 +0200, Koen Kooi wrote:
->> Op 3 mei 2012, om 15:48 heeft Wolfgang Denk het volgende geschreven:
->>
->>> With recent kernel versions, some ARM configurations need may fail to
->>> build with errors like this:
->>>
->>> 	multiple load addresses: 0x80008000 0x80008000
->>> 	This is incompatible with uImages
->>> 	Specify LOADADDR on the commandline to build an uImage
->>>
->>> We cannot pass this information in EXTRA_OEMAKE, as
->>> "meta/classes/kernel.bbclass" explicitly ignores all EXTRA_OEMAKE
->>> settings.  So add KERNEL_EXTRA_ARGS parameter so affected boards
->>> can add for example
->>>
->>> 	KERNEL_EXTRA_ARGS = "LOADADDR=0x80008000"
->>
->> Isn't KERNEL_EXTRA_OEMAKE clearer in this case? I see kernel args
->> being what ends up in /proc/cmdline.
-> 
-> In many ways I wish we could use EXTRA_OEMAKE and try and keep the API
-> simpler. Looking at the code, I think it actually can work even with the
-> existing code in some circumstances.
-> 
-> Whilst kernel.bbclass does zero out the contents, it does this simply to
-> get rid of the default value (the -e MAKEARGS= bit).
-> 
-> The following recipe will therefore work:
-> 
-> """
-> <some recipe code>
-> 
-> inherit kernel
-> 
-> EXTRA_OEMAKE += 'LOADADDR=0x80008000'
-> """
-> 
-> but the problem is likely this can't be set from machine.conf.
-> 
-> I was wondering about changing the system so that in bitbake.conf we
-> set:
-> 
-> OEMAKEDEFAULT = "-e MAKEFLAGS="
-> EXTRA_OEMAKE = "${OEMAKEDEFAULT}"
-> 
-> and then kernel.bbclass can zero out OEMAKEDEFAULT. The trouble is you
-> want to set:
-> 
-> EXTRA_OEMAKE_append_xxxx = " LOADADDR=0x80008000"
-> 
-> and I'm not coming up with a good value of xxxx other than
-> pn-linux-xxxx :/. We could consider an extra override for the kernel
-> case I guess.
-> 
-> I would prefer not to add mode global variables unless we can possibly
-> help it...
+http://git.openembedded.org/openembedded-core-contrib kraj/qemu-xserver-xorg
 
-I like the idea of reusing EXTRA_OEMAKE. Unfortunately, by the time we
-have to add _append_pn-linux-yocto it seems like the benefit is lost and
-I prefer Koen's KERNEL_EXTRA_OEMAKE suggestion.
-
---
-Darren Hart
-Intel Open Source Technology Center
-Yocto Project - Linux Kernel
+Please consider.
 
 
