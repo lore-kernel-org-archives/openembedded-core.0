@@ -1,35 +1,29 @@
-Received: from mail-pb0-f47.google.com ([209.85.160.47])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1SRtRc-0005mt-5o
+	(envelope-from <sgw@linux.intel.com>) id 1SRuKZ-0000J7-Ev
 	for openembedded-core@lists.openembedded.org;
-	Wed, 09 May 2012 01:03:48 +0200
-Received: by pbbrq2 with SMTP id rq2so7319871pbb.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 08 May 2012 15:53:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references;
-	bh=t8Xk7mihHOGb9EANLyUn99kOlI7AH//MIVYNGeDqwhg=;
-	b=X7ioPZsb4tOHHay8P/JF+XxO31uw5VW5uimcZOElTpEEvF+CW1VPBzgo6yHbKCmuw2
-	NfcKG1jBk9TrvoWa93A5ofu0zMaQ3q/23m3Wk/xb8VM9x0ohk2F2jZr+iD8MiGL3lqtp
-	IF0/6oftaDHsAB8x5CPcuOsR4Ke3hkpZgBBxY6mbMQtbzBZAkK9CgzGBzP+i1ZwBWeYo
-	gFXEQlos+jWwsNe8aK/IEz9EuZjs7c8ZBAtOjPY94/qxHpq5bSfcwjO8wgXEosFxtbFK
-	iTTSJu/RcVAL3kMYVPBOOGHSboUQ6yk1OH23gRDzdJv+B32GFhu3Sxu4/K7U67k/xmWQ
-	XjxA==
-Received: by 10.68.237.198 with SMTP id ve6mr2205908pbc.116.1336517635204;
-	Tue, 08 May 2012 15:53:55 -0700 (PDT)
-Received: from localhost.localdomain (oldbuilder.nslu2-linux.org.
-	[140.211.169.168])
-	by mx.google.com with ESMTPS id ka5sm3770829pbb.37.2012.05.08.15.53.53
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 08 May 2012 15:53:54 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  8 May 2012 15:53:38 -0700
-Message-Id: <a74c229046eacab9ea8b8189ddc763e18fcc05e9.1336517492.git.raj.khem@gmail.com>
-X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <cover.1336517492.git.raj.khem@gmail.com>
-References: <cover.1336517492.git.raj.khem@gmail.com>
-Subject: [PATCH 1/3] kmod: fix upgrade path from module-init-tools
+	Wed, 09 May 2012 02:00:35 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 08 May 2012 16:50:08 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="138414233"
+Received: from unknown (HELO [10.255.12.218]) ([10.255.12.218])
+	by orsmga001.jf.intel.com with ESMTP; 08 May 2012 16:50:08 -0700
+Message-ID: <4FA9B12F.4040209@linux.intel.com>
+Date: Tue, 08 May 2012 16:50:07 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:12.0) Gecko/20120424 Thunderbird/12.0
+MIME-Version: 1.0
+To: Khem Raj <raj.khem@gmail.com>
+References: <cover.1336015963.git.raj.khem@gmail.com>
+	<4FA998F8.8060306@linux.intel.com>
+	<CAMKF1srhrwcEks0rGssCXQdyEFa9wYX6zVp14qAKns7wLHeJVA@mail.gmail.com>
+	<CAMKF1sr_KgMb+5fsrWhjvGh-BmKHyjMF4+25yBR0szeijLF9aQ@mail.gmail.com>
+In-Reply-To: <CAMKF1sr_KgMb+5fsrWhjvGh-BmKHyjMF4+25yBR0szeijLF9aQ@mail.gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/3] Enable xserver-xorg for all qemumachines
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,67 +38,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 May 2012 23:03:48 -0000
+X-List-Received-Date: Wed, 09 May 2012 00:00:35 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Martin Jansa <martin.jansa@gmail.com>
+On 05/08/2012 03:18 PM, Khem Raj wrote:
+> On Tue, May 8, 2012 at 3:09 PM, Khem Raj<raj.khem@gmail.com>  wrote:
+>> On Tue, May 8, 2012 at 3:06 PM, Saul Wold<sgw@linux.intel.com>  wrote:
+>>>>
+>>> Khem,
+>>>
+>>> Not sure what I am doing differently, but I am not getting the xserver to
+>>> start on at least ppc and mips (two that I tried just now).
+>>>
+>>> Are you build a Yocto sato image or oe-core sato image?
+>>>
+>>> I get the following on a ppc:
+>>>
+>>> Fatal server error:
+>>> no screens found
+>>> xinit: giving up
+>>> xinit: unable to connect to X server: No such file or directory
+>>> xinit: server error
+>>>
+>>
+>> hmmm I have booted core-image-sato but I have bare OE-Core
+>> Do you have
+>>
+>>
+>> http://git.openembedded.org/openembedded-core-contrib/commit/?h=kraj/qemu-xserver-xorg&id=8a60dabb7902b7be42d06cb735e96248e2e67dba
+>>
+>> is some layer on top changing it in some way ?
+>
+> hmmm another think I have is this patch
+> http://git.openembedded.org/openembedded-core-contrib/commit/?h=kraj/misc&id=955dee621361e01627ebfde152f25873070cf301
+>
+> which deletes kdrive recipes. I did not propose it for inclusion yet
+> but I wonder if there is any mix and match happening when these
+> recipes are not deleted.
+> You can cherry-pick it and see if that helps.
+>
+So I found that task-core-x11.bb also sets XSERVER
 
-* PROVIDES does not need _${PN}
-* CONFLICTS should be RCONFLICTS
-* opkg needs RREPLACES to automatically remove older module-init-tools
-  instead of just reporting it conflicts with kmod
+XSERVER ?= "xserver-kdrive-fbdev"
 
-SHR root@gjama ~ $ opkg install kmod
-Installing kmod (7+git02629fa02e96763db7460a930239cc93649a52f8-r0.0) to root...
-Downloading http://jama.dyndns-home.com/org.openembedded.shr-core//armv4t/kmod_7+git02629fa02e96763db7460a930239cc93649a52f8-r0.0_armv4t.ipk.
-Removing package module-init-tools-depmod from root...
-update-alternatives: removing //sbin/depmod as no more alternatives exist for it
-Removing package module-init-tools from root...
-update-alternatives: Linking //sbin/insmod to ../bin/busybox
-update-alternatives: Linking //sbin/modprobe to ../bin/busybox
-update-alternatives: Linking //sbin/rmmod to ../bin/busybox
-update-alternatives: removing //sbin/modinfo as no more alternatives exist for it
-update-alternatives: removing //bin/lsmod as no more alternatives exist for it
-update-alternatives: Linking //sbin/lsmod to ../bin/busybox
-Configuring kmod.
-update-alternatives: Linking //sbin/insmod to /sbin/insmod.kmod
-update-alternatives: Linking //sbin/modprobe to /sbin/modprobe.kmod
-update-alternatives: Linking //sbin/rmmod to /sbin/rmmod.kmod
-update-alternatives: Linking //sbin/modinfo to /sbin/modinfo.kmod
-update-alternatives: Linking //bin/lsmod to /bin/lsmod.kmod
-update-alternatives: Linking //sbin/lsmod to /bin/lsmod.kmod
-update-alternatives: Linking //sbin/depmod to /sbin/depmod.kmod
+And this was being picked up it seems when I did the build.
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-kernel/kmod/kmod_git.bb |   10 +++++++---
- 1 files changed, 7 insertions(+), 3 deletions(-)
+I commented that line out and it worked correctly.
 
-diff --git a/meta/recipes-kernel/kmod/kmod_git.bb b/meta/recipes-kernel/kmod/kmod_git.bb
-index 1ab9f44..4c860f0 100644
---- a/meta/recipes-kernel/kmod/kmod_git.bb
-+++ b/meta/recipes-kernel/kmod/kmod_git.bb
-@@ -3,11 +3,15 @@
- 
- require kmod.inc
- 
--PR = "${INC_PR}.0"
-+PR = "${INC_PR}.1"
- 
--PROVIDES_${PN} += "module-init-tools-insmod-static module-init-tools-depmod module-init-tools"
-+PROVIDES += "module-init-tools-insmod-static module-init-tools-depmod module-init-tools"
- RPROVIDES_${PN} += "module-init-tools-insmod-static module-init-tools-depmod module-init-tools"
--CONFLICTS_${PN} += "module-init-tools-insmod-static module-init-tools-depmod module-init-tools"
-+RCONFLICTS_${PN} += "module-init-tools-insmod-static module-init-tools-depmod module-init-tools"
-+RREPLACES_${PN} += "module-init-tools-insmod-static module-init-tools-depmod module-init-tools"
-+
-+# to force user to remove old module-init-tools and replace them with kmod variants
-+RCONFLICTS_libkmod2 += "module-init-tools-insmod-static module-init-tools-depmod module-init-tools"
- 
- # autotools set prefix to /usr, however we want them in /bin and /sbin
- bindir = "${base_bindir}"
--- 
-1.7.5.4
+That seems wrong, since I thought the ??= should not allow the ?= to 
+override, or do I have it backwards?
 
+Sau!
+
+
+
+
+>
 
 
