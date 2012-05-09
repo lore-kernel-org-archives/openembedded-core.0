@@ -1,39 +1,36 @@
 Received: from mail-bk0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1SS3Z6-0004Ln-UI
+	(envelope-from <martin.jansa@gmail.com>) id 1SS4kR-0006Lj-EH
 	for openembedded-core@lists.openembedded.org;
-	Wed, 09 May 2012 11:52:12 +0200
-Received: by bkcjm2 with SMTP id jm2so63724bkc.6
+	Wed, 09 May 2012 13:08:02 +0200
+Received: by bkcjm2 with SMTP id jm2so122977bkc.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 09 May 2012 02:42:20 -0700 (PDT)
+	Wed, 09 May 2012 03:58:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=date:from:to:subject:message-id:references:mime-version
 	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=Zu18u+/D5qtzjhIyPHCbX3Xx2PuJO5/mHlrE18THC/I=;
-	b=kkkbruFl39o+jMF9JlGsecrKBOv6owVOB9mPc6UmLzZau/fAeRR+uFHTqw+9NUNw3n
-	HRmOe3x++OSuHW/T6NEM2plIWSb52TW5bPhwVOt5N3SpLCzKEw1xGtBAwwH1oxLaOf2E
-	dWwUQZS80GZutWiOahVuGFnRzTC2jt6/guxcbZuExADmC/3nhWnlILfa8suzUNh0DhCQ
-	Y8r1VVXy1yBy1ATBdihc3EV0sXyFcagO/NWo/tIo51CZg8AgNUSAHWsZZPODBjJRNm+n
-	/mUZNSKpo8CxsdlE61uCMAvqEDwfl2x9DfoCuSjHbZAQhzZM0np0I5jbkTbCE/fkZRkj
-	7YQQ==
-Received: by 10.205.127.140 with SMTP id ha12mr7992931bkc.105.1336556540326;
-	Wed, 09 May 2012 02:42:20 -0700 (PDT)
+	bh=ImObui6zRGRg5pjln+2zjHTKyzP3lwAfW/Bj0y1ZVwE=;
+	b=kwD5VcaOgnsIypUrIMoYHE5axVQT74LT5OZAyBmCth3sFzmUpCoTXbnQ4dUYGyN6ZE
+	kqN6e5s6Ok57iT84Vj3aHdKHlaDr9Ry1kDgnFxN79IGmeh+BZAT0vvvDIx2JgsCjpXLb
+	cAayzbW3/XNz8SX0m9HU3z87wEnGAlFX0sPoS9oO4M9mqjGGRCc+BYxGDsxAAM4X29WO
+	HnO6AgBznAmppfUP7FhJvWW1DjU767ddQ1tAD2hyF7/y3g9yzpiIfykd0OBQHD9qOT3w
+	0I+q5lDSM9MF7cwMHPrJWzxApZc/xxuItp7TM2veWMI/dL0hstaYtXLLnGcXuZPjfWmg
+	f/qg==
+Received: by 10.204.152.203 with SMTP id h11mr8060708bkw.122.1336561083228;
+	Wed, 09 May 2012 03:58:03 -0700 (PDT)
 Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id zx16sm3642406bkb.13.2012.05.09.02.42.18
+	by mx.google.com with ESMTPS id n19sm4173102bkv.14.2012.05.09.03.58.01
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 09 May 2012 02:42:19 -0700 (PDT)
-Date: Wed, 9 May 2012 11:42:20 +0200
+	Wed, 09 May 2012 03:58:02 -0700 (PDT)
+Date: Wed, 9 May 2012 12:58:03 +0200
 From: Martin Jansa <martin.jansa@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20120509094220.GA12898@jama.jama.net>
-References: <a74c229046eacab9ea8b8189ddc763e18fcc05e9.1336517492.git.raj.khem@gmail.com>
-	<339076a9cf1ef906416bd850e5825c3bb8521983.1336517492.git.raj.khem@gmail.com>
-	<73C72AB1-C5B4-40D1-BAA3-C349F4957C42@dominion.thruhere.net>
+To: openembedded-core@lists.openembedded.org
+Message-ID: <20120509105803.GC12898@jama.jama.net>
+References: <20120508151411.C836310218@opal>
 MIME-Version: 1.0
-In-Reply-To: <73C72AB1-C5B4-40D1-BAA3-C349F4957C42@dominion.thruhere.net>
+In-Reply-To: <20120508151411.C836310218@opal>
 User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: [PATCH 2/3] kmod: Update to .8 release
+Subject: Re: [oe-commits] Bruce Ashfield : kern-tools: integrate minor fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,60 +45,94 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 May 2012 09:52:13 -0000
-X-Groupsio-MsgNum: 21890
+X-List-Received-Date: Wed, 09 May 2012 11:08:11 -0000
+X-Groupsio-MsgNum: 21891
 Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="sm4nu43k4a2Rpi4c"
+	protocol="application/pgp-signature"; boundary="5G06lTa6Jq83wMTw"
 Content-Disposition: inline
 
---sm4nu43k4a2Rpi4c
+--5G06lTa6Jq83wMTw
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, May 09, 2012 at 07:31:52AM +0200, Koen Kooi wrote:
+On Tue, May 08, 2012 at 03:14:10PM +0000, git@git.openembedded.org wrote:
+> Module: openembedded-core.git
+> Branch: master
+> Commit: 043871d7e5d2d19c2ff43e54d2ff180c09e8903e
+> URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcommit=
+;h=3D043871d7e5d2d19c2ff43e54d2ff180c09e8903e
 >=20
-> Op 9 mei 2012, om 00:53 heeft Khem Raj het volgende geschreven:
+> Author: Bruce Ashfield <bruce.ashfield@windriver.com>
+> Date:   Mon Apr 30 00:02:17 2012 -0400
 >=20
-> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > ---
-> > meta/recipes-kernel/kmod/kmod.inc |    4 ++--
-> > 1 files changed, 2 insertions(+), 2 deletions(-)
-> >=20
-> > diff --git a/meta/recipes-kernel/kmod/kmod.inc b/meta/recipes-kernel/km=
-od/kmod.inc
-> > index 681e52b..70d376e 100644
-> > --- a/meta/recipes-kernel/kmod/kmod.inc
-> > +++ b/meta/recipes-kernel/kmod/kmod.inc
-> > @@ -7,7 +7,7 @@ HOMEPAGE =3D "http://packages.profusion.mobi/kmod/"
-> > LICENSE =3D "GPL-2.0+ & LGPL-2.1+"
-> > LICENSE_libkmod =3D "LGPL-2.1+"
-> > SECTION =3D "base"
-> > -PV =3D "7+git${SRCREV}"
-> > +PV =3D "8+git${SRCREV}"
+> kern-tools: integrate minor fixes
 >=20
-> Drop the +git$SRCREV, it's a release.
+> Updating the SRCREV to pick up two minor fixes:
+>=20
+> 1/2:
+>     kgit-init: correct spelling of createme
+>=20
+>     kgit-init copies the kern-tools scripts and intends to copy createme.
+>=20
+>     The typo is in the usage() of updateme as well.
+>=20
+>     Signed-off-by: Michel Thebeau <michel.thebeau@windriver.com>
+>=20
+> 2/2:
+>     kconf_check: fix bad quoting around missing_required.cfg
+>=20
+>     missing_required.cfg won't have it's path truncated (if applicable), =
+since
+>     the quoting it wrong.
+>=20
+>     Signed-off-by: Andrea Adami <andrea.adami@gmail.com>
+>     Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+>=20
+> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 
-Agreed, this should be=20
-8+git${SRCPV}
-or no +git at all.
+No idea if this is new issue or just old issue now revealed by those
+fixes, but linux-yocto-3.2 now fails to build for qemux86-64 (at=20
+least here).
 
-But other than that, this patchset looks good:
-Tested-by: Martin Jansa <Martin.Jansa@gmail.com>
+NOTE: package linux-yocto-3.2.11+git10+6b3d4e09aa2531e9649f3f03827b7efbccfc=
+ec03_7+00e5ec2393bada6723bd9a07ded3d001c02fa727-r1: task do_patch: Started
+ERROR: Function failed: do_patch (see /OE/shr-core/tmp-eglibc/work/qemux86_=
+64-oe-linux/linux-yocto/linux-yocto-3.2.11+git10+6b3d4e09aa2531e9649f3f0382=
+7b7efbccfcec03_7+00e5ec2393bada6723bd9a07ded3d001c02fa727-r1/temp/log.do_pa=
+tch.32134 for further information)
+ERROR: Logfile of failure stored in: /OE/shr-core/tmp-eglibc/work/qemux86_6=
+4-oe-linux/linux-yocto/linux-yocto-3.2.11+git10+6b3d4e09aa2531e9649f3f03827=
+b7efbccfcec03_7+00e5ec2393bada6723bd9a07ded3d001c02fa727-r1/temp/log.do_pat=
+ch.32134
+Log data follows:
+| ERROR: Function failed: do_patch (see /OE/shr-core/tmp-eglibc/work/qemux8=
+6_64-oe-linux/linux-yocto/linux-yocto-3.2.11+git10+6b3d4e09aa2531e9649f3f03=
+827b7efbccfcec03_7+00e5ec2393bada6723bd9a07ded3d001c02fa727-r1/temp/log.do_=
+patch.32134 for further information)
+| WARNING: addon feature "features/netfilter" was not found
+| WARNING: addon feature "features/taskstats" was not found
+| WARNING: addon feature "cfg/sound" was not found
+| ERROR: required features were not found. aborting
+| ERROR. Could not update standard/default/common-pc-64/base
+NOTE: package linux-yocto-3.2.11+git10+6b3d4e09aa2531e9649f3f03827b7efbccfc=
+ec03_7+00e5ec2393bada6723bd9a07ded3d001c02fa727-r1: task do_patch: Failed
+
+Cheers,
 
 --=20
 Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---sm4nu43k4a2Rpi4c
+--5G06lTa6Jq83wMTw
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: Digital signature
 
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v2.0.19 (GNU/Linux)
 
-iEYEARECAAYFAk+qO/wACgkQN1Ujt2V2gBymCgCcCx2sQrRpwBoqX5/zQhRzK8No
-+6AAoLqhR9r0PLbiplBZ7AXIJoAHxSr+
-=AdHJ
+iEYEARECAAYFAk+qTbsACgkQN1Ujt2V2gBw6oACePuy7GzCgXROfehed+Q06Fpm8
+bewAoJDFWjBuzQ/+nYV2X5DYr+9RkRIe
+=3Mhk
 -----END PGP SIGNATURE-----
 
---sm4nu43k4a2Rpi4c--
+--5G06lTa6Jq83wMTw--
