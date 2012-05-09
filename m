@@ -1,36 +1,37 @@
 Received: from mail-pz0-f47.google.com ([209.85.210.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@gmail.com>) id 1SS6ib-0002KF-30
+	(envelope-from <bruce.ashfield@gmail.com>) id 1SS6mo-0002OY-9z
 	for openembedded-core@lists.openembedded.org;
-	Wed, 09 May 2012 15:14:13 +0200
-Received: by dalh21 with SMTP id h21so259908dal.6
+	Wed, 09 May 2012 15:18:34 +0200
+Received: by dalh21 with SMTP id h21so264279dal.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 09 May 2012 06:04:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	Wed, 09 May 2012 06:08:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
 	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type:content-transfer-encoding;
-	bh=gIOzHr+ew1TKEyK8v9RUqkrZTlIhUlU7ekz+FKyTrjw=;
-	b=jP33Izc6JnvFP3hf/nKUgj9EIExLFl/dHtddGmZ0T6y/M+62NDpbcNFJrIs7K/8X2H
-	X1q/BoRM6xb/8D3hKZoQg2xr44Hyqm49bfOW7e/hF2/tgd+1jbCItesar55eQNK6JdaH
-	oh2A1i6K2gOUWNYzAkUz9hQ3FrsR+jFAcZcnQvU0DJLvnMek/JPsTsVpRxZpOM/kz6vt
-	fnINN5za5t4QgGQYDNZBAqpScynglO2qnNZZ3CeYzojNcIi7z0ztcegFyOGkIMGiJp64
-	PK+eSlxaZWiLlegsULPKwvezKM7hTqoPH6aWh8FoLGGtgD135y9Gd7VVSf+rZr2oMN8t
-	MaGw==
+	:cc:content-type;
+	bh=TPHbRVWLiSG5olfx04rMOUNUXujogjxayV/Q4i5igbk=;
+	b=uioD0sDSn4FdyQL5oONKYD0iJ7T3NlNkelenx/2xGHOdyhpn6Xi4yzFBei/aDMf3Fn
+	VWwpqklrtU/IXtWw6kjZX5wz9LqSACqKL2FfIZcri9c2Me4cD5n5b3eOGujnaNK1+q+S
+	hv3hfa5I68yD82f28vwycWq8tGAbdC0v4GZTZZ2WIUCChx6oOzLZ0BKWIG9uT2lrt7WH
+	jYOQVQvuFio2kmWbNPpnOvfhRlS48HO+/JjtRBKvkqzqR65ZIdCfZIjIcoMyxDY85jNm
+	nUnwqFY4ifyzMwYhsbOdJWXbP6qd0APvqVE2I4/QlpZ/RjSJlJulzedhKuwMbpLMWSDB
+	ZhAw==
 MIME-Version: 1.0
-Received: by 10.68.241.37 with SMTP id wf5mr8781721pbc.104.1336568659392; Wed,
-	09 May 2012 06:04:19 -0700 (PDT)
-Received: by 10.68.197.4 with HTTP; Wed, 9 May 2012 06:04:19 -0700 (PDT)
-In-Reply-To: <20120509125548.GE12898@jama.jama.net>
-References: <20120508151411.C836310218@opal>
-	<20120509105803.GC12898@jama.jama.net>
-	<CADkTA4MdYMfAiPbkkmNCHx+xc1Nyy5PR5ZyDJq3mfz9QXpP3Hg@mail.gmail.com>
-	<20120509125548.GE12898@jama.jama.net>
-Date: Wed, 9 May 2012 09:04:19 -0400
-Message-ID: <CADkTA4O=UxyQ8+KOWXNaXHU2dVBvds=aTeo7jcjyRNWaAPug6Q@mail.gmail.com>
+Received: by 10.68.191.230 with SMTP id hb6mr8908444pbc.167.1336568920678;
+	Wed, 09 May 2012 06:08:40 -0700 (PDT)
+Received: by 10.68.197.4 with HTTP; Wed, 9 May 2012 06:08:40 -0700 (PDT)
+In-Reply-To: <CADkTA4NF0VtWXRg6--vXVfPabtOemx8j4N0Aa2C_+v8a1b8jhA@mail.gmail.com>
+References: <cover.1336504721.git.bruce.ashfield@windriver.com>
+	<1336546278.30349.26.camel@ted>
+	<CADkTA4NF0VtWXRg6--vXVfPabtOemx8j4N0Aa2C_+v8a1b8jhA@mail.gmail.com>
+Date: Wed, 9 May 2012 09:08:40 -0400
+Message-ID: <CADkTA4OZ+EnnW=4LWnUo5vkw1MQ6f+kpsySHBqpuMNcHEWo9EQ@mail.gmail.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [oe-commits] Bruce Ashfield : kern-tools: integrate minor fixes
+Cc: saul.wold@intel.com
+Subject: Re: [PATCH 0/1] kernel-yocto: export GUILT_BASE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,138 +46,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 May 2012 13:14:13 -0000
+X-List-Received-Date: Wed, 09 May 2012 13:18:34 -0000
 Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, May 9, 2012 at 8:55 AM, Martin Jansa <martin.jansa@gmail.com> wrote=
-:
-> On Wed, May 09, 2012 at 08:43:50AM -0400, Bruce Ashfield wrote:
->> On Wed, May 9, 2012 at 6:58 AM, Martin Jansa <martin.jansa@gmail.com> wr=
-ote:
->> > On Tue, May 08, 2012 at 03:14:10PM +0000, git@git.openembedded.org wro=
-te:
->> >> Module: openembedded-core.git
->> >> Branch: master
->> >> Commit: 043871d7e5d2d19c2ff43e54d2ff180c09e8903e
->> >> URL: =A0 =A0http://git.openembedded.org/?p=3Dopenembedded-core.git&a=
-=3Dcommit;h=3D043871d7e5d2d19c2ff43e54d2ff180c09e8903e
->> >>
->> >> Author: Bruce Ashfield <bruce.ashfield@windriver.com>
->> >> Date: =A0 Mon Apr 30 00:02:17 2012 -0400
->> >>
->> >> kern-tools: integrate minor fixes
->> >>
->> >> Updating the SRCREV to pick up two minor fixes:
->> >>
->> >> 1/2:
->> >> =A0 =A0 kgit-init: correct spelling of createme
->> >>
->> >> =A0 =A0 kgit-init copies the kern-tools scripts and intends to copy c=
-reateme.
->> >>
->> >> =A0 =A0 The typo is in the usage() of updateme as well.
->> >>
->> >> =A0 =A0 Signed-off-by: Michel Thebeau <michel.thebeau@windriver.com>
->> >>
->> >> 2/2:
->> >> =A0 =A0 kconf_check: fix bad quoting around missing_required.cfg
->> >>
->> >> =A0 =A0 missing_required.cfg won't have it's path truncated (if appli=
-cable), since
->> >> =A0 =A0 the quoting it wrong.
->> >>
->> >> =A0 =A0 Signed-off-by: Andrea Adami <andrea.adami@gmail.com>
->> >> =A0 =A0 Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
->> >>
->> >> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
->> >
->> > No idea if this is new issue or just old issue now revealed by those
->> > fixes, but linux-yocto-3.2 now fails to build for qemux86-64 (at
->> > least here).
+On Wed, May 9, 2012 at 8:42 AM, Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
+> On Wed, May 9, 2012 at 2:51 AM, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+>> On Tue, 2012-05-08 at 15:23 -0400, Bruce Ashfield wrote:
+>>> Richard/Saul,
+>>>
+>>> As Frans Meulenbroeks noted this morning, guilt wasn't functional
+>>> in the devshell. The fix was simple enough, and by ensuring that
+>>> GUILT_BASE is exported, it works without any extra steps now.
+>>>
+>>> I wasn't sure if there a better way to call 'up' to the base
+>>> method, so I repeated the call to oe_terminal in the do_devshell()
+>>> in kernel-yocto.bbclass.
+>>>
+>>> If there's another approach, let me know and I'll respin the patch.
 >>
->> It's an old issue, but the second patch I sent last night is the fix.
+>> Can't you just set:
+>>
+>> GUILT_BASE = "meta"
 >
-> This one?
-> http://patchwork.openembedded.org/patch/27337/
+> Will that export to the subshell ? I didn't try it .. since I didn't
+> think it would.
+> I'll give that a go here :)
 
-Yep. I built several hundred (no exaggeration) qemu* builds with the series=
- in
-place, and of course, my meta SRCREV always matches the head of the
-meta branch, so that never triggered.
+With just that set in kernel-yocto.bbclass, and I launch devshell, I get this:
 
-A clean build works here for all boards with that in place.
+% guilt applied
+Patches directory doesn't exist, try guilt-init
 
-If that doesn't fix it for you .. I'll definitely want to hear.
+So unless I misunderstood what you are suggesting, I still need that explicit
+export.
+
+Cheers,
 
 Bruce
 
+
 >
-> Thanks
+> Bruce
 >
 >>
->> Bruce
+>> ?
 >>
->> >
->> > NOTE: package linux-yocto-3.2.11+git10+6b3d4e09aa2531e9649f3f03827b7ef=
-bccfcec03_7+00e5ec2393bada6723bd9a07ded3d001c02fa727-r1: task do_patch: Sta=
-rted
->> > ERROR: Function failed: do_patch (see /OE/shr-core/tmp-eglibc/work/qem=
-ux86_64-oe-linux/linux-yocto/linux-yocto-3.2.11+git10+6b3d4e09aa2531e9649f3=
-f03827b7efbccfcec03_7+00e5ec2393bada6723bd9a07ded3d001c02fa727-r1/temp/log.=
-do_patch.32134 for further information)
->> > ERROR: Logfile of failure stored in: /OE/shr-core/tmp-eglibc/work/qemu=
-x86_64-oe-linux/linux-yocto/linux-yocto-3.2.11+git10+6b3d4e09aa2531e9649f3f=
-03827b7efbccfcec03_7+00e5ec2393bada6723bd9a07ded3d001c02fa727-r1/temp/log.d=
-o_patch.32134
->> > Log data follows:
->> > | ERROR: Function failed: do_patch (see /OE/shr-core/tmp-eglibc/work/q=
-emux86_64-oe-linux/linux-yocto/linux-yocto-3.2.11+git10+6b3d4e09aa2531e9649=
-f3f03827b7efbccfcec03_7+00e5ec2393bada6723bd9a07ded3d001c02fa727-r1/temp/lo=
-g.do_patch.32134 for further information)
->> > | WARNING: addon feature "features/netfilter" was not found
->> > | WARNING: addon feature "features/taskstats" was not found
->> > | WARNING: addon feature "cfg/sound" was not found
->> > | ERROR: required features were not found. aborting
->> > | ERROR. Could not update standard/default/common-pc-64/base
->> > NOTE: package linux-yocto-3.2.11+git10+6b3d4e09aa2531e9649f3f03827b7ef=
-bccfcec03_7+00e5ec2393bada6723bd9a07ded3d001c02fa727-r1: task do_patch: Fai=
-led
->> >
->> > Cheers,
->> >
->> > --
->> > Martin 'JaMa' Jansa =A0 =A0 jabber: Martin.Jansa@gmail.com
->> >
->> > _______________________________________________
->> > Openembedded-core mailing list
->> > Openembedded-core@lists.openembedded.org
->> > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->> >
+>> Cheers,
 >>
+>> Richard
 >>
->>
->> --
->> "Thou shalt not follow the NULL pointer, for chaos and madness await
->> thee at its end"
 >>
 >> _______________________________________________
 >> Openembedded-core mailing list
 >> Openembedded-core@lists.openembedded.org
 >> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 >
+>
+>
 > --
-> Martin 'JaMa' Jansa =A0 =A0 jabber: Martin.Jansa@gmail.com
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+> "Thou shalt not follow the NULL pointer, for chaos and madness await
+> thee at its end"
 
 
 
---=20
+-- 
 "Thou shalt not follow the NULL pointer, for chaos and madness await
 thee at its end"
 
