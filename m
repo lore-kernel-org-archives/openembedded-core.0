@@ -1,38 +1,33 @@
-Received: from mail-pb0-f47.google.com ([209.85.160.47])
+Received: from mail-yw0-f47.google.com ([209.85.213.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1SRv9z-0000rz-9z
+	(envelope-from <cazfi74@gmail.com>) id 1SRvOs-0001iP-7r
 	for openembedded-core@lists.openembedded.org;
-	Wed, 09 May 2012 02:53:43 +0200
-Received: by mail-pb0-f47.google.com with SMTP id rq2so7395440pbb.6
+	Wed, 09 May 2012 03:09:06 +0200
+Received: by yhjj56 with SMTP id j56so1287997yhj.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 08 May 2012 17:43:53 -0700 (PDT)
+	Tue, 08 May 2012 17:59:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
-	:in-reply-to:references;
-	bh=2/QRLNhUa3xU7aL4M6OgDcsdyzb9em40DLVQe9rBH6Y=;
-	b=s+TO1949HQ8HntXVVkxSemfS5F5bX3Re29XNdWsQN+XZtt+Wc3Chqj8WhSu1YGe/Ea
-	I1FgOK0NnBPjbGOInBZxu9Sgqe0G2Ic4JcQ6DAfyCQ7GvoAcliTis+ZuAQ7mFhTjiPe+
-	y1STz/pNxnUIy/2wTGYddRHKBJGAl/r9WEFBs68mNShfPDdBN1tgq097YcOI7XNPsSt9
-	uZSczKBc1Zm2EuHTrFwZKFqdZynZzvaCar0vArUzKKsHc1SutYcz5m3ZC8QxjfMtGmzM
-	vTIbBMzEl7W9okRK35WcU1k/YzIJ57Hh5Bkdh7pu4+Wa4YpzAHhyusFoMwD/vjXtsbFC
-	8sWQ==
-Received: by 10.68.197.35 with SMTP id ir3mr3037936pbc.87.1336524233068;
-	Tue, 08 May 2012 17:43:53 -0700 (PDT)
-Received: from localhost.localdomain (oldbuilder.nslu2-linux.org.
-	[140.211.169.168])
-	by mx.google.com with ESMTPS id pq1sm4069862pbc.7.2012.05.08.17.43.51
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 08 May 2012 17:43:52 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  8 May 2012 17:43:36 -0700
-Message-Id: <9ebe1b84f4b1497ed0469d13b3e768b85d4020da.1336524034.git.raj.khem@gmail.com>
-X-Mailer: git-send-email 1.7.5.4
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type; bh=I/May0Inue9CwZXLL0IppWYsppP5yaPu7qeDEvqjO7I=;
+	b=PAROhY0dKONYtuYpsraUE6E7PSJaAGwca7GsFKDUtAXfGR/+uJbqJCB4P4zwy/fSfe
+	NT5vgUOCWbhKI8tqQ8Sa7QcEJ9tLpVib3keKsfoHvkdpqlZvH5mlsSyLB49I988w2Ls/
+	+1LilC/JwjKprC54/gRm2Tk/j5gouf8Hu1PyMNga4LvBsD2mTtPcG5gGtJ2r3oLcGPDM
+	gZnhNKOUf/k+t/H+DUVEg1EUXfrQ87mhrYfN+xrFZ3mUhaA0rMqYL2cWeCd6Efa4jgGv
+	hBtVCKfJghymGe1maAcCWdmNfk9380QcCS7vtFhqZ3tpXt23saH1K4FKCDQDRRXXA81T
+	lXsw==
+MIME-Version: 1.0
+Received: by 10.50.94.234 with SMTP id df10mr12165536igb.31.1336525153438;
+	Tue, 08 May 2012 17:59:13 -0700 (PDT)
+Received: by 10.64.59.130 with HTTP; Tue, 8 May 2012 17:59:13 -0700 (PDT)
 In-Reply-To: <fa8d138dc96a622f36b8783457c375186a84e411.1336524034.git.raj.khem@gmail.com>
-References: <fa8d138dc96a622f36b8783457c375186a84e411.1336524034.git.raj.khem@gmail.com>
-In-Reply-To: <cover.1336524034.git.raj.khem@gmail.com>
 References: <cover.1336524034.git.raj.khem@gmail.com>
-Subject: [PATCH 2/2] classes/mirrors.bbclass: Point snapshot.debian.org mirror to working location
+	<fa8d138dc96a622f36b8783457c375186a84e411.1336524034.git.raj.khem@gmail.com>
+Date: Wed, 9 May 2012 03:59:13 +0300
+Message-ID: <CAF6bG8f21=Pcxjt3-pPemiBiF0TqPT2e8snxry_7VQWGa5BcNw@mail.gmail.com>
+From: Marko Lindqvist <cazfi74@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] uclibc.inc: uclibc rtld does support GNU_HASH
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,31 +42,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 May 2012 00:53:43 -0000
+X-List-Received-Date: Wed, 09 May 2012 01:09:06 -0000
+Content-Type: text/plain; charset=UTF-8
 
-If you point to snapshot.debian.net/archive/pool then it will fetch
-you a html page which will end up in corrupt download. The locations
-have changed for archives and here we point the mirror to right
-location.
+On 9 May 2012 03:43, Khem Raj <raj.khem@gmail.com> wrote:
+> -RPROVIDES_uclibc += "libsegfault"
+> +
+> +RPROVIDES_uclibc += "libsegfault rtld(GNU_HASH)"
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/classes/mirrors.bbclass |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+ You should know that I'm just figuring out what to do with
+"rtld(GNU_HASH)" that already exist for eglibc. When building
+deb-packets based image, that results in:
+"reference to 'rtld': error in version: version number does not start
+with digit"
 
-diff --git a/meta/classes/mirrors.bbclass b/meta/classes/mirrors.bbclass
-index bf23e05..86ccd7a 100644
---- a/meta/classes/mirrors.bbclass
-+++ b/meta/classes/mirrors.bbclass
-@@ -1,5 +1,5 @@
- MIRRORS += "\
--${DEBIAN_MIRROR}/main	http://snapshot.debian.net/archive/pool \n \
-+${DEBIAN_MIRROR}/main	http://snapshot.debian.org/archive/debian-archive/20120328T092752Z/debian/pool/ \n \
- ${DEBIAN_MIRROR}	ftp://ftp.de.debian.org/debian/pool \n \
- ${DEBIAN_MIRROR}	ftp://ftp.au.debian.org/debian/pool \n \
- ${DEBIAN_MIRROR}	ftp://ftp.cl.debian.org/debian/pool \n \
--- 
-1.7.5.4
+ I've confirmed that error message is caused by this by simply
+removing "(GNU_HASH)" -> eglibc build success
 
+
+ - ML
 
 
