@@ -1,43 +1,44 @@
-Received: from mail-wi0-f171.google.com ([209.85.212.171])
+Received: from mail-we0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1SS8X6-00088Y-Mw
+	(envelope-from <koen@dominion.thruhere.net>) id 1SS8Y3-0008BI-WF
 	for openembedded-core@lists.openembedded.org;
-	Wed, 09 May 2012 17:10:28 +0200
-Received: by wibhj13 with SMTP id hj13so1720493wib.6
+	Wed, 09 May 2012 17:11:28 +0200
+Received: by werb13 with SMTP id b13so291755wer.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 09 May 2012 08:00:35 -0700 (PDT)
+	Wed, 09 May 2012 08:01:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=content-type:mime-version:subject:from:in-reply-to:date
 	:content-transfer-encoding:message-id:references:to:x-mailer
 	:x-gm-message-state;
-	bh=fnw/GPo61GDfUeJl+sINrYvZsyxVbeZvZ0LXjAtmOq4=;
-	b=XUnCIf4A3gggvrAIXgh+VTmXvGd1uukkGI3sGvI9KnThx7eSaCsQOxueb+YBOCoYsl
-	ytw3KRKCAIbNB1W21HmHJ3/PQA9rgs/Xnkl7JjTBsmxGfpjvVvRyec9nev7ePZXFpo4C
-	r8Bgz5q0BZDRi+wbdlxnZyKTD4MOAnreGKMySapbsSPR0y60X0JjPo+lxx5FRw0gTq66
-	VDP9JidOwCerfzTlKWQ20g/u6oghHDd5Lut1DVz/Y6MNZNdpRgG34ftC3cOTGVHrFdkC
-	LmaFYLGgStBJR8kMMrMH5OtM/hh7wgVcGer6/NvkVZAfK+Kclb1Xj+rXCcpKCS6+cD/9
-	GxkQ==
-Received: by 10.216.134.27 with SMTP id r27mr190137wei.107.1336575635826;
-	Wed, 09 May 2012 08:00:35 -0700 (PDT)
+	bh=B497ppdzkWlHAptW3xOAYx6qz4+rJcmaNwEG5VRHzHc=;
+	b=T8XHo99slEsvRVME3V7Yo30O8VLVaxO0Edk721Ypm76uq6SOQE80PEoM8TnvHRS9EW
+	nOVLafR1t2/EBNSQYFkRCSCn01MUwAZyt1gzQJ58vDKRTLB6J/4rY4MpCqFIr7m4f8pN
+	hHOqclpx9epKXHuW/FmoBgFJ5B/RRmeyBuFtSiFhLU4d5qowIqcWjfcKptVkX16byqZn
+	KomN/PA1Fuk6c5azh/d4FsSCZZncXazBBiJs3bakzzAQIvdOe+I4wftsTf1IgYOQMTS+
+	VgmAAttSIxI/IJkf074lvSmefSatr7X146HPIR09odHek2dXC0L1F3wHiNLkiu1rMbkF
+	KBdg==
+Received: by 10.180.83.72 with SMTP id o8mr1150144wiy.5.1336575695288;
+	Wed, 09 May 2012 08:01:35 -0700 (PDT)
 Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
 	[84.80.112.235])
-	by mx.google.com with ESMTPS id k6sm36894541wiy.7.2012.05.09.08.00.34
+	by mx.google.com with ESMTPS id k6sm36894541wiy.7.2012.05.09.08.01.33
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 09 May 2012 08:00:34 -0700 (PDT)
+	Wed, 09 May 2012 08:01:34 -0700 (PDT)
 Mime-Version: 1.0 (Apple Message framework v1257)
 From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <4FAA8321.707@windriver.com>
-Date: Wed, 9 May 2012 17:00:33 +0200
-Message-Id: <3FD5DEF0-E53F-407C-B5D4-B1B4181C4E3A@dominion.thruhere.net>
-References: <1336571192-15711-1-git-send-email-jason.wessel@windriver.com>
-	<1336573316.5602.68.camel@phil-desktop>
-	<4FAA8321.707@windriver.com>
+In-Reply-To: <4FAA84B3.1080108@windriver.com>
+Date: Wed, 9 May 2012 17:01:33 +0200
+Message-Id: <6122E5DC-EFF1-4592-AB36-22E9D68DF2BF@dominion.thruhere.net>
+References: <cover.1336547713.git.liezhi.yang@windriver.com>
+	<03d9cdca29477f34348a0f97138504441c5804fa.1336547713.git.liezhi.yang@windriver.com>
+	<23E51582-C3C4-4673-B646-F29E74FEB428@dominion.thruhere.net>
+	<4FAA84B3.1080108@windriver.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 X-Mailer: Apple Mail (2.1257)
-X-Gm-Message-State: ALoCoQkyIQuK/B3QoC7yzanepICyBZ4kXYtqY681Q2qrN8jK81JuY3MlSIRxfvSGVK20jI1E4PLG
-Subject: Re: [PATCH] .gitignore: add /bitbake to the ignore list for external distributions
+X-Gm-Message-State: ALoCoQmKqQUhnzKBWCu2oNIhj2jwYB33QBcA0FchaNEOpPIk5YPmby9/hknUMdc3I352ML8lZQZ3
+Subject: Re: [PATCH 2/2] rootfs_rpm.bbclass: don't remove rpmlib when INC_RPM_IMAGE_GEN=1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -52,37 +53,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 May 2012 15:10:28 -0000
+X-List-Received-Date: Wed, 09 May 2012 15:11:28 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
 
-Op 9 mei 2012, om 16:45 heeft Jason Wessel het volgende geschreven:
+Op 9 mei 2012, om 16:52 heeft Mark Hatle het volgende geschreven:
 
-> On 05/09/2012 09:21 AM, Phil Blundell wrote:
->> On Wed, 2012-05-09 at 08:46 -0500, Jason Wessel wrote:
->>> External distributions based on the oe-core will typically include
->>> bitbake in the top level directory.  The idea is to make it easy
->>> for external distributions to easily assemble a distribution
->>> with a pristine version of oe-core, add avoid the git untracked =
-messages:
+> On 5/9/12 3:50 AM, Koen Kooi wrote:
 >>=20
->> Presumably any non-trivial external distribution is going to include
->> other metadata as well, in which case they're going to have to
->> edit .gitignore for themselves anyway.  So it doesn't really seem as
->> though having bitbake be mentioned there in oe-core buys much.
+>> Op 9 mei 2012, om 10:20 heeft Robert Yang het volgende geschreven:
 >>=20
->> On the other hand, actually moving bitbake inside the oe-core =
-repository
->> seems like an idea which might have some merit.  It's not obvious =
-that
->> having it in its own tree really achieves anything other than making
->> release engineering slightly more difficult.
+>>> Don't remove rpmlib when INC_RPM_IMAGE_GEN=3D1, otherwise the
+>>> list_installed_packages would get nothing in the second build.
+>>=20
+>> What happens when I do a build, enable INC_RPM_IMAGE_GEN and do =
+another build?
 >=20
->=20
-> It appeared to me that the bitbake was maintained by an entirely =
-different group of people
+> The intention is that only the packages that have been =
+changed/upgraded will be installed.  Instead of the whole image being =
+generated from scratch each time.
 
-Yes, Chris Larson and Richard Purdie. Those names sound familiar :)=
+That's what INC_RPM_IMAGE_GEN does, yes. What I'm asking is how this =
+patch addresses the sequence I outlined above.=
 
 
