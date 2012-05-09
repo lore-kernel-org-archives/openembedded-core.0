@@ -1,20 +1,21 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@windriver.com>) id 1SRxx9-00046u-WE
+	(envelope-from <sgw@linux.intel.com>) id 1SRzcw-0005zp-W9
 	for openembedded-core@lists.openembedded.org;
-	Wed, 09 May 2012 05:52:40 +0200
-Received: from localhost.localdomain (yow-bashfiel-d2.wrs.com
-	[128.224.146.167])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q493ggew021932;
-	Tue, 8 May 2012 20:42:42 -0700 (PDT)
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: richard.purdie@linuxfoundation.org
-Date: Tue,  8 May 2012 23:48:43 -0400
-Message-Id: <cover.1336535085.git.bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 1.7.0.4
-Cc: openembedded-core@lists.openembedded.org, dvhart@linux.intel.com,
-	poky@yoctoproject.org, saul.wold@intel.com
-Subject: [PATCH 0/1] kern-tools: fix meta-intel builds
+	Wed, 09 May 2012 07:39:55 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 08 May 2012 22:29:59 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="141721007"
+Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.218])
+	by orsmga002.jf.intel.com with ESMTP; 08 May 2012 22:29:58 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  8 May 2012 22:29:45 -0700
+Message-Id: <cover.1336516205.git.sgw@linux.intel.com>
+X-Mailer: git-send-email 1.7.7.6
+MIME-Version: 1.0
+Subject: [CONSOLIDATED PULL 00/12] Subset of Pending Changes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,40 +30,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 May 2012 03:52:40 -0000
+X-List-Received-Date: Wed, 09 May 2012 05:39:55 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Richard/Saul,
+Richard,
 
-This fixes a problem reported by Tom and Darren when the latest tools
-updates were used against meta intel. Some optional code that supported
-merge meta and BSP branches wasn't handling the case where a BSP layer
-might not be tracking the HEAD of the meta branch, and hence blowing up
-its test to see if the meta branch needs to be thawed. 
+I have looked these over and there have been some comments on
+past version of Seebs' Sanity.bbclass but nothing on the current
+version, but please review it.
 
-The fix was simple. Adjust the threshold for declaring the meta content
-global.
+Other changes have been built and run.
 
-cc: Tom Zanussi <tom.zanussi@intel.com>
-cc: Darren Hart <dvhart@linux.intel.com>
+Sau!
 
-Cheers,
 
-Bruce
 
-The following changes since commit 8afd5747802c4eb0e8296e440bd7366393595f8e:
-  Bruce Ashfield (1):
-        kernel-yocto: export GUILT_BASE
+The following changes since commit 043871d7e5d2d19c2ff43e54d2ff180c09e8903e:
+
+  kern-tools: integrate minor fixes (2012-05-08 16:06:15 +0100)
 
 are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib sgw/stage
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
 
-  git://git.pokylinux.org/poky-contrib zedd/kern-tools
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kern-tools
+Eric Bénard (1):
+  zlib: upgrade to 1.2.7
 
-Bruce Ashfield (1):
-  kern-tools: checkpoint restoration for reset branches
+Khem Raj (4):
+  libatomics-ops: Make it build for SH4
+  qemu-git: Move to tip of git
+  openssl: Fix build for mips64(el)
+  classes/mirrors.bbclass: Point snapshot.debian.org mirror to working
+    location
 
- .../kern-tools/kern-tools-native_git.bb            |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+Nitin A Kamble (1):
+  guile: upgrade from 2.0.3 to 2.0.5
+
+Otavio Salvador (1):
+  qt4-graphics-system: set graphic system in profile instead of X11
+    session
+
+Peter Seebach (2):
+  sanity.bbclass: Implement initial toolchain sanity checks
+  sanity.bbclass: Check for bogus values in BBCLASSEXTEND
+
+Saul Wold (2):
+  libpcap: Move pcap-config to -dev package
+  h264_qpel_mmx.patch: fix Upstream-Status tag
+
+Ting Liu (1):
+  image_types.bbclass: redefine EXTRA_IMAGECMD_jffs2 to leverage
+    siteinfo
+
+ meta/classes/image_types.bbclass                   |    7 ++-
+ meta/classes/mirrors.bbclass                       |    2 +-
+ meta/classes/sanity.bbclass                        |   86 ++++++++++++++++++++
+ meta/conf/documentation.conf                       |    6 ++
+ meta/recipes-connectivity/libpcap/libpcap.inc      |    7 ++-
+ .../openssl/openssl-1.0.0i/configure-targets.patch |   16 ++--
+ .../recipes-connectivity/openssl/openssl_1.0.0i.bb |    2 +-
+ .../remove.ldconfig.call.patch                     |    0
+ .../zlib/{zlib_1.2.6.bb => zlib_1.2.7.bb}          |    6 +-
+ ...01-Fix-the-SRFI-60-copy-bit-documentation.patch |   33 --------
+ ..._GNU_SOURCE-to-fix-the-GNU-kFreeBSD-build.patch |   25 ------
+ ...-modules-are-removed-gc-test-as-unresolve.patch |   38 +++++++++
+ ...h-rather-than-gc-gc_version.h-in-pthread-.patch |   26 ------
+ ...with-owner-not-retained-threads-test-as-u.patch |   33 ++++++++
+ .../guile/files/guile_2.0.5_fix_sed_error.patch    |   24 ++++++
+ .../guile/files/opensuse/guile-64bit.patch         |    3 +-
+ .../files/opensuse/guile-turn-off-gc-test.patch    |    3 +-
+ .../guile/{guile_2.0.3.bb => guile_2.0.5.bb}       |   16 ++--
+ .../recipes-devtools/qemu/qemu-git/powerpc_rom.bin |  Bin 0 -> 4096 bytes
+ meta/recipes-devtools/qemu/qemu_git.bb             |   18 +---
+ .../gst-ffmpeg-0.10.13/h264_qpel_mmx.patch         |    2 +-
+ .../libatomics-ops/gentoo/sh4-atomic-ops.patch     |   70 ++++++++++++++++
+ .../pulseaudio/libatomics-ops_1.2.bb               |    6 +-
+ .../qt4-graphics-system/qt4-graphics-system_1.0.bb |   12 +--
+ 24 files changed, 309 insertions(+), 132 deletions(-)
+ rename meta/recipes-core/zlib/{zlib-1.2.6 => zlib-1.2.7}/remove.ldconfig.call.patch (100%)
+ rename meta/recipes-core/zlib/{zlib_1.2.6.bb => zlib_1.2.7.bb} (80%)
+ delete mode 100644 meta/recipes-devtools/guile/files/debian/0001-Fix-the-SRFI-60-copy-bit-documentation.patch
+ delete mode 100644 meta/recipes-devtools/guile/files/debian/0002-Define-_GNU_SOURCE-to-fix-the-GNU-kFreeBSD-build.patch
+ create mode 100644 meta/recipes-devtools/guile/files/debian/0002-Mark-Unused-modules-are-removed-gc-test-as-unresolve.patch
+ delete mode 100644 meta/recipes-devtools/guile/files/debian/0003-Include-gc.h-rather-than-gc-gc_version.h-in-pthread-.patch
+ create mode 100644 meta/recipes-devtools/guile/files/debian/0003-Mark-mutex-with-owner-not-retained-threads-test-as-u.patch
+ create mode 100644 meta/recipes-devtools/guile/files/guile_2.0.5_fix_sed_error.patch
+ rename meta/recipes-devtools/guile/{guile_2.0.3.bb => guile_2.0.5.bb} (84%)
+ create mode 100644 meta/recipes-devtools/qemu/qemu-git/powerpc_rom.bin
+ create mode 100644 meta/recipes-multimedia/pulseaudio/libatomics-ops/gentoo/sh4-atomic-ops.patch
+
+-- 
+1.7.7.6
 
 
 
