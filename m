@@ -1,33 +1,40 @@
-Received: from mail-yw0-f47.google.com ([209.85.213.47])
+Received: from mga10.intel.com ([192.55.52.92] helo=fmsmga102.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <cazfi74@gmail.com>) id 1SRvOs-0001iP-7r
+	(envelope-from <scott.a.garman@intel.com>) id 1SRviu-0001u2-Fd
 	for openembedded-core@lists.openembedded.org;
-	Wed, 09 May 2012 03:09:06 +0200
-Received: by yhjj56 with SMTP id j56so1287997yhj.6
+	Wed, 09 May 2012 03:29:48 +0200
+Received: from mail-pb0-f52.google.com ([209.85.160.52])
+	by mga11.intel.com with ESMTP/TLS/RC4-SHA; 08 May 2012 18:19:54 -0700
+Received: by pbbro8 with SMTP id ro8so29155882pbb.25
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 08 May 2012 17:59:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type; bh=I/May0Inue9CwZXLL0IppWYsppP5yaPu7qeDEvqjO7I=;
-	b=PAROhY0dKONYtuYpsraUE6E7PSJaAGwca7GsFKDUtAXfGR/+uJbqJCB4P4zwy/fSfe
-	NT5vgUOCWbhKI8tqQ8Sa7QcEJ9tLpVib3keKsfoHvkdpqlZvH5mlsSyLB49I988w2Ls/
-	+1LilC/JwjKprC54/gRm2Tk/j5gouf8Hu1PyMNga4LvBsD2mTtPcG5gGtJ2r3oLcGPDM
-	gZnhNKOUf/k+t/H+DUVEg1EUXfrQ87mhrYfN+xrFZ3mUhaA0rMqYL2cWeCd6Efa4jgGv
-	hBtVCKfJghymGe1maAcCWdmNfk9380QcCS7vtFhqZ3tpXt23saH1K4FKCDQDRRXXA81T
-	lXsw==
+	Tue, 08 May 2012 18:19:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=message-id:date:from:user-agent:mime-version:to:subject
+	:content-type:content-transfer-encoding:x-gm-message-state;
+	bh=dxwYY+nwQr/44MB4QDm89vNWMgCtkfNgisIB8E8cZCE=;
+	b=eQPtb4eUlT+dOArxv4SXO7hzySSJL75JxQJUqzQJ6fOJS2ZMJIuVO9uPaXvPVkDqm5
+	wpWR+YHuuVGNWdzW+PvyllRD6e7VjJAaBDm4KQrAXIfCQ5E3EXLzs1Jzz8cbOQT5ZeHw
+	QNO0s2/++2jRVuaT9AddbGZ2jfgy3YQk7M+lPcto8sqGv6LgpiJO6tcOfW+FoEr6gsEk
+	eNmEWEV1vR6QpKSDqSrB2L6CXzWiYiTK2snfXWVpPlUNCzNQNOOnYAj6m8AWn1sRd8Rh
+	IyfWtQD2l0cVunCr2Fw/JZSPhIypUE5RTZKrWaasRr7w2sRk7h7c8oTbovqASJY8EMhi
+	uwRg==
+Received: by 10.68.191.201 with SMTP id ha9mr3372252pbc.75.1336526394519;
+	Tue, 08 May 2012 18:19:54 -0700 (PDT)
+Received: from [192.168.1.12] (c-76-105-137-48.hsd1.or.comcast.net.
+	[76.105.137.48])
+	by mx.google.com with ESMTPS id pv5sm60192pbb.14.2012.05.08.18.19.52
+	(version=SSLv3 cipher=OTHER); Tue, 08 May 2012 18:19:53 -0700 (PDT)
+Message-ID: <4FA9C638.2000502@intel.com>
+Date: Tue, 08 May 2012 18:19:52 -0700
+From: Scott Garman <scott.a.garman@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:11.0) Gecko/20120329 Thunderbird/11.0.1
 MIME-Version: 1.0
-Received: by 10.50.94.234 with SMTP id df10mr12165536igb.31.1336525153438;
-	Tue, 08 May 2012 17:59:13 -0700 (PDT)
-Received: by 10.64.59.130 with HTTP; Tue, 8 May 2012 17:59:13 -0700 (PDT)
-In-Reply-To: <fa8d138dc96a622f36b8783457c375186a84e411.1336524034.git.raj.khem@gmail.com>
-References: <cover.1336524034.git.raj.khem@gmail.com>
-	<fa8d138dc96a622f36b8783457c375186a84e411.1336524034.git.raj.khem@gmail.com>
-Date: Wed, 9 May 2012 03:59:13 +0300
-Message-ID: <CAF6bG8f21=Pcxjt3-pPemiBiF0TqPT2e8snxry_7VQWGa5BcNw@mail.gmail.com>
-From: Marko Lindqvist <cazfi74@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] uclibc.inc: uclibc rtld does support GNU_HASH
+X-Gm-Message-State: ALoCoQk5jNlOr2Q3bfoT2cjEeTebGQbDrIrPK8RekPZbPUpziWYeTcB53k4L61HFcUCb1lI8neiP
+Subject: RFC: Who wants/cares about SLiRP networking for QEMU?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,24 +49,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 May 2012 01:09:06 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 09 May 2012 01:29:48 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 9 May 2012 03:43, Khem Raj <raj.khem@gmail.com> wrote:
-> -RPROVIDES_uclibc += "libsegfault"
-> +
-> +RPROVIDES_uclibc += "libsegfault rtld(GNU_HASH)"
+This is an inquiry to see if there's much interest in adding an 
+alternate networking capability for our QEMU setups. Currently, we use 
+tun/tap devices, which need root privileges to be created. Hence, our 
+runqemu script requires sudo access.
 
- You should know that I'm just figuring out what to do with
-"rtld(GNU_HASH)" that already exist for eglibc. When building
-deb-packets based image, that results in:
-"reference to 'rtld': error in version: version number does not start
-with digit"
+I'm curious to know who would like to see us use an alternate mechanism 
+(most likely SLiRP) to get around the need for sudo access. Is this much 
+of a problem for anyone, or would the team's resources be better spent 
+on other bugfixes?
 
- I've confirmed that error message is caused by this by simply
-removing "(GNU_HASH)" -> eglibc build success
+Secondly, does anyone have any war stories about using SLiRP for this 
+purpose? Is there a better way we should consider doing this?
 
+Thanks,
 
- - ML
+Scott
+
+-- 
+Scott Garman
+Embedded Linux Engineer - Yocto Project
+Intel Open Source Technology Center
 
 
