@@ -1,26 +1,26 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from sanddollar.geekisp.com ([216.168.135.167])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1SS9Y8-0003Sp-LI
+	(envelope-from <philip@balister.org>) id 1SS9ct-0003bN-BS
 	for openembedded-core@lists.openembedded.org;
-	Wed, 09 May 2012 18:15:37 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q49G5dPD024820
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 9 May 2012 09:05:39 -0700 (PDT)
-Received: from localhost.localdomain (172.25.34.61) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Wed, 9 May 2012 09:05:38 -0700
-From: Mark Hatle <mark.hatle@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 9 May 2012 11:08:42 -0500
-Message-ID: <2fda0d691f53c8613a1510e16bcb81b999d12331.1336579481.git.mark.hatle@windriver.com>
-X-Mailer: git-send-email 1.7.3.4
-In-Reply-To: <cover.1336579481.git.mark.hatle@windriver.com>
-References: <cover.1336579481.git.mark.hatle@windriver.com>
+	Wed, 09 May 2012 18:20:31 +0200
+Received: (qmail 24742 invoked by uid 1003); 9 May 2012 16:10:37 -0000
+Received: from unknown (HELO ?192.168.1.102?)
+	(philip@opensdr.com@71.171.22.246)
+	by mail.geekisp.com with (DHE-RSA-AES256-SHA encrypted) SMTP;
+	9 May 2012 16:10:37 -0000
+Message-ID: <4FAA96FC.30707@balister.org>
+Date: Wed, 09 May 2012 12:10:36 -0400
+From: Philip Balister <philip@balister.org>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.2.24) Gecko/20111108 Fedora/3.1.16-1.fc14 Thunderbird/3.1.16
 MIME-Version: 1.0
-X-Originating-IP: [172.25.34.61]
-Subject: [PATCH 1/2] blacklist: fix typo in name
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <1336571192-15711-1-git-send-email-jason.wessel@windriver.com>	<056CEBF9-AB73-43AB-ABFF-C511347BB8B3@dominion.thruhere.net>
+	<CAF6bG8eTT0OPwLdJR1C=Acb+fx0oD4GLmRTwt5qX8Kq5m8Ckpg@mail.gmail.com>
+In-Reply-To: <CAF6bG8eTT0OPwLdJR1C=Acb+fx0oD4GLmRTwt5qX8Kq5m8Ckpg@mail.gmail.com>
+X-Enigmail-Version: 1.1.2
+Subject: Re: [PATCH] .gitignore: add /bitbake to the ignore list for external distributions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,47 +35,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 May 2012 16:15:37 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 09 May 2012 16:20:31 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+On 05/09/2012 10:07 AM, Marko Lindqvist wrote:
+> On 9 May 2012 16:58, Koen Kooi <koen@dominion.thruhere.net> wrote:
+>>
+>> Op 9 mei 2012, om 15:46 heeft Jason Wessel het volgende geschreven:
+>>
+>>> External distributions based on the oe-core will typically include
+>>> bitbake in the top level directory.
+>>
+>> Really?
+> 
+>  Don't know about distributions, but when I first tried
+> 
+>> . openembedded-core/oe-init-build-env
+>> bitbake core-image-minimal
+> 
+>  it complained that bitbake was not there, so it seems to be some sort
+> of default of openembedded-core.
 
-Import directly from meta-openembedded commit: 	a63c374cdc785ade69d2998978d08280e671dc1f
+Seriously, putting bitbake inside the oe-core checkout is silly.
 
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
----
- meta/classes/blacklist.bbclass |   20 ++++++++++++++++++++
- 1 files changed, 20 insertions(+), 0 deletions(-)
- create mode 100644 meta/classes/blacklist.bbclass
+I guess I need to send my patch to oe-core I use to stop the locatoin
+being hardcoded by the script that comes with oe-core.
 
-diff --git a/meta/classes/blacklist.bbclass b/meta/classes/blacklist.bbclass
-new file mode 100644
-index 0000000..7bf4a73
---- /dev/null
-+++ b/meta/classes/blacklist.bbclass
-@@ -0,0 +1,20 @@
-+# anonymous support class from angstrom
-+# 
-+# Features:
-+#
-+# * blacklist handling, set ANGSTROM_BLACKLIST_pn-blah = "message"
-+#
-+
-+python () {
-+    import bb
-+
-+    blacklist = bb.data.getVar("ANGSTROM_BLACKLIST", d, 1)
-+    pkgnm = bb.data.getVar("PN", d, 1)
-+    distro = bb.data.getVar("DISTRO", d, 1)
-+
-+    if blacklist:
-+	bb.note("%s DOES NOT support %s because %s" % (distro,pkgnm, blacklist))
-+        raise bb.parse.SkipPackage("%s DOES NOT support %s because %s" % (distro,pkgnm, blacklist))
-+
-+}
-+
--- 
-1.7.3.4
-
+Philip
 
 
