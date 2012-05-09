@@ -1,38 +1,38 @@
-Received: from mail-pz0-f47.google.com ([209.85.210.47])
+Received: from mail-ey0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1SRuul-0000dS-5t
+	(envelope-from <raj.khem@gmail.com>) id 1SRv0l-0000lN-8h
 	for openembedded-core@lists.openembedded.org;
-	Wed, 09 May 2012 02:37:59 +0200
-Received: by dalh21 with SMTP id h21so8590354dal.6
+	Wed, 09 May 2012 02:44:11 +0200
+Received: by eaae1 with SMTP id e1so1715286eaa.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 08 May 2012 17:28:06 -0700 (PDT)
+	Tue, 08 May 2012 17:34:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
-	:in-reply-to:references;
-	bh=ejNF7Z/P9bue+D6IOtx+slVelmTwJYU0bn56o4g9+6M=;
-	b=dcBZI/8ZDxyEeoANgg7LswYOdWQax1j6aQ6UpK+JC8CserTklkEk0gy3jto/m3X7KK
-	Xz6p5aeNxqbYC9QK4WUbYnYq1ZuIa/uFJl2CAwKbmmDrZWSW6JQfSW1k/V3mM39kMtkJ
-	5hzYMP7BWFNseR7NDnsPvsG6kVZhkAzhiu7fCsmaCS5wWiezWYTXOoJXFzavO/yhO/Hz
-	J/pUS2M+GLGeN9LPC9qhy+NFFXfwpKS8OWJjvUNWfPkjIwQZeoRoEZvQjs/ksX/6P+oV
-	A5CdtOkn6ROyTZKskORIq8dP3CMAi9Ko3eNNsbF/FjWcA/2VfqiQqQtnFx6KRC55+Ur5
-	UHtQ==
-Received: by 10.68.222.197 with SMTP id qo5mr2984000pbc.72.1336523286363;
-	Tue, 08 May 2012 17:28:06 -0700 (PDT)
-Received: from localhost.localdomain (oldbuilder.nslu2-linux.org.
-	[140.211.169.168])
-	by mx.google.com with ESMTPS id qk5sm4002909pbc.45.2012.05.08.17.28.04
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 08 May 2012 17:28:05 -0700 (PDT)
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:content-transfer-encoding;
+	bh=WHKNpzOA0hCWwNVCHQUrOLKTWfte7t7QK/hafeBzw14=;
+	b=t5AEe8GopQ+HsPoRM2b/CwsQQmMnjeTQxUnxsnhQZ3rcHKyHXRAXUND7NAbR+75IjH
+	vtmaP2Nz4B5AlbK4WI/ltcd2PlKGU3NHO+sm/08+RTdYfDRhVPVhdE6RauHTr5CaeTS3
+	WhbQXnCvNcK0zZX9CtLBIAir6e9ZgmSG5J0FEXhQPkg30SuLwCLXqNLc29+MfKN0DYPf
+	PEIgdqpaBYX1sU/z9CrPpIsnh7Sr7O/qCpjYwb9xBdR7j2AhuxxIqZOLud1idPOH7/aN
+	aIriLS79a+Os9/swIHoNxvZv3lxui5IFxIQVmeitXg1ixT0E5UE8gVfBRZVxLIpvUZxM
+	IPcg==
+Received: by 10.14.149.129 with SMTP id x1mr3594284eej.108.1336523658937; Tue,
+	08 May 2012 17:34:18 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.14.2.132 with HTTP; Tue, 8 May 2012 17:33:48 -0700 (PDT)
+In-Reply-To: <4FA9B12F.4040209@linux.intel.com>
+References: <cover.1336015963.git.raj.khem@gmail.com>
+	<4FA998F8.8060306@linux.intel.com>
+	<CAMKF1srhrwcEks0rGssCXQdyEFa9wYX6zVp14qAKns7wLHeJVA@mail.gmail.com>
+	<CAMKF1sr_KgMb+5fsrWhjvGh-BmKHyjMF4+25yBR0szeijLF9aQ@mail.gmail.com>
+	<4FA9B12F.4040209@linux.intel.com>
 From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  8 May 2012 17:27:48 -0700
-Message-Id: <096c4f3ac2f83fc08064afcec5a05824bb96b94e.1336522880.git.raj.khem@gmail.com>
-X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <2c51f2017955dff27ab68c1f4165309567864ee5.1336522880.git.raj.khem@gmail.com>
-References: <2c51f2017955dff27ab68c1f4165309567864ee5.1336522880.git.raj.khem@gmail.com>
-In-Reply-To: <cover.1336522880.git.raj.khem@gmail.com>
-References: <cover.1336522880.git.raj.khem@gmail.com>
-Subject: [PATCH 3/3] xserver-xorg: Fix build on powerpc
+Date: Tue, 8 May 2012 17:33:48 -0700
+Message-ID: <CAMKF1soByHB7DSKgSsH-ivFGt9MD-9stBQsjpDSa68yNJndr5w@mail.gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/3] Enable xserver-xorg for all qemumachines
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,76 +47,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 May 2012 00:37:59 -0000
+X-List-Received-Date: Wed, 09 May 2012 00:44:11 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- .../xorg-xserver/xserver-xorg-1.11.2.inc           |    9 +++--
- .../xserver-xorg-1.11.2/gcc-47-warning.patch       |   33 ++++++++++++++++++++
- 2 files changed, 38 insertions(+), 4 deletions(-)
- create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2/gcc-47-warning.patch
+On Tue, May 8, 2012 at 4:50 PM, Saul Wold <sgw@linux.intel.com> wrote:
+> On 05/08/2012 03:18 PM, Khem Raj wrote:
+>>
+>> On Tue, May 8, 2012 at 3:09 PM, Khem Raj<raj.khem@gmail.com> =C2=A0wrote=
+:
+>>>
+>>> On Tue, May 8, 2012 at 3:06 PM, Saul Wold<sgw@linux.intel.com> =C2=A0wr=
+ote:
+>>>>>
+>>>>>
+>>>> Khem,
+>>>>
+>>>> Not sure what I am doing differently, but I am not getting the xserver
+>>>> to
+>>>> start on at least ppc and mips (two that I tried just now).
+>>>>
+>>>> Are you build a Yocto sato image or oe-core sato image?
+>>>>
+>>>> I get the following on a ppc:
+>>>>
+>>>> Fatal server error:
+>>>> no screens found
+>>>> xinit: giving up
+>>>> xinit: unable to connect to X server: No such file or directory
+>>>> xinit: server error
+>>>>
+>>>
+>>> hmmm I have booted core-image-sato but I have bare OE-Core
+>>> Do you have
+>>>
+>>>
+>>>
+>>> http://git.openembedded.org/openembedded-core-contrib/commit/?h=3Dkraj/=
+qemu-xserver-xorg&id=3D8a60dabb7902b7be42d06cb735e96248e2e67dba
+>>>
+>>> is some layer on top changing it in some way ?
+>>
+>>
+>> hmmm another think I have is this patch
+>>
+>> http://git.openembedded.org/openembedded-core-contrib/commit/?h=3Dkraj/m=
+isc&id=3D955dee621361e01627ebfde152f25873070cf301
+>>
+>> which deletes kdrive recipes. I did not propose it for inclusion yet
+>> but I wonder if there is any mix and match happening when these
+>> recipes are not deleted.
+>> You can cherry-pick it and see if that helps.
+>>
+> So I found that task-core-x11.bb also sets XSERVER
+>
+> XSERVER ?=3D "xserver-kdrive-fbdev"
+>
+> And this was being picked up it seems when I did the build.
+>
+> I commented that line out and it worked correctly.
+>
+> That seems wrong, since I thought the ??=3D should not allow the ?=3D to
+> override, or do I have it backwards?
 
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2.inc
-index f5fa629..6a86af4 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2.inc
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2.inc
-@@ -1,10 +1,11 @@
--SRC_URI += "file://crosscompile.patch"
--
- # Misc build failure for master HEAD
--SRC_URI += "file://fix_open_max_preprocessor_error.patch"
-+SRC_URI += "file://crosscompile.patch \
-+            file://fix_open_max_preprocessor_error.patch \
-+            file://gcc-47-warning.patch \
-+           "
- 
- SRC_URI[md5sum] = "8796fff441e5435ee36a72579008af24"
- SRC_URI[sha256sum] = "fa415decf02027ca278b06254ccfbcceba2a83c2741405257ebf749da4a73cf2"
- 
--PR = "r1"
-+PR = "r2"
- 
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2/gcc-47-warning.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2/gcc-47-warning.patch
-new file mode 100644
-index 0000000..ed4eaac
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2/gcc-47-warning.patch
-@@ -0,0 +1,33 @@
-+This patch fixes errors on powerpc like below
-+
-+| lnx_video.c: In function 'unmapVidMem':
-+| lnx_video.c:472:24: error: cast from pointer to integer of different size [-Werror=pointer-to-int-cast]
-+
-+Its in 1.12 branch 
-+
-+http://cgit.freedesktop.org/xorg/xserver/commit/?h=server-1.12-branch&id=eb3377ffb8a7baa26c9831e56ed782d48b28fa71
-+
-+Upstream-Status: Backport
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+
-+Index: xorg-server-1.11.2/hw/xfree86/os-support/linux/lnx_video.c
-+===================================================================
-+--- xorg-server-1.11.2.orig/hw/xfree86/os-support/linux/lnx_video.c	2012-05-01 06:32:34.186489019 -0700
-++++ xorg-server-1.11.2/hw/xfree86/os-support/linux/lnx_video.c	2012-05-01 06:49:14.926537452 -0700
-+@@ -469,11 +469,11 @@
-+ static void
-+ unmapVidMem(int ScreenNum, pointer Base, unsigned long Size)
-+ {
-+-    memType alignOff = (memType)Base 
-+-	- ((memType)Base & ~(getpagesize() - 1));
-++    uintptr_t alignOff = (uintptr_t)Base 
-++	- ((uintptr_t)Base & ~(getpagesize() - 1));
-+ 
-+-    DebugF("alignment offset: %lx\n",alignOff);
-+-    munmap((caddr_t)((memType)Base - alignOff), (Size + alignOff));
-++    DebugF("alignment offset: %lx\n",(unsigned long)alignOff);
-++    munmap((void*)((uintptr_t)Base - alignOff), (Size + alignOff));
-+ }
-+ 
-+ 
--- 
-1.7.5.4
 
+I think that was the real problem why my ??=3D was not working thanks
+for finding it out. I have gone ahead and posted a v2 of this patch
+series which should now
+work out better.
+
+>
+> Sau!
+>
+>
+>
+>
+>>
+>
 
 
