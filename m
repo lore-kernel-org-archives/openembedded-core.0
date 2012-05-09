@@ -1,36 +1,35 @@
-Received: from mail-bk0-f47.google.com ([209.85.214.47])
+Received: from mail-pz0-f47.google.com ([209.85.210.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1SS4kR-0006Lj-EH
+	(envelope-from <bruce.ashfield@gmail.com>) id 1SS6Nq-0000Le-FZ
 	for openembedded-core@lists.openembedded.org;
-	Wed, 09 May 2012 13:08:02 +0200
-Received: by bkcjm2 with SMTP id jm2so122977bkc.6
+	Wed, 09 May 2012 14:52:46 +0200
+Received: by dalh21 with SMTP id h21so239381dal.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 09 May 2012 03:58:03 -0700 (PDT)
+	Wed, 09 May 2012 05:42:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=ImObui6zRGRg5pjln+2zjHTKyzP3lwAfW/Bj0y1ZVwE=;
-	b=kwD5VcaOgnsIypUrIMoYHE5axVQT74LT5OZAyBmCth3sFzmUpCoTXbnQ4dUYGyN6ZE
-	kqN6e5s6Ok57iT84Vj3aHdKHlaDr9Ry1kDgnFxN79IGmeh+BZAT0vvvDIx2JgsCjpXLb
-	cAayzbW3/XNz8SX0m9HU3z87wEnGAlFX0sPoS9oO4M9mqjGGRCc+BYxGDsxAAM4X29WO
-	HnO6AgBznAmppfUP7FhJvWW1DjU767ddQ1tAD2hyF7/y3g9yzpiIfykd0OBQHD9qOT3w
-	0I+q5lDSM9MF7cwMHPrJWzxApZc/xxuItp7TM2veWMI/dL0hstaYtXLLnGcXuZPjfWmg
-	f/qg==
-Received: by 10.204.152.203 with SMTP id h11mr8060708bkw.122.1336561083228;
-	Wed, 09 May 2012 03:58:03 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id n19sm4173102bkv.14.2012.05.09.03.58.01
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 09 May 2012 03:58:02 -0700 (PDT)
-Date: Wed, 9 May 2012 12:58:03 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20120509105803.GC12898@jama.jama.net>
-References: <20120508151411.C836310218@opal>
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=o+osJlqkg/x76NFj05qgDAGJeYTguEWLn0CDLarOY2U=;
+	b=FPcXm7OI+zVtQVf46rVWa7W/ubDOiKzy3CUzeaUWvnNs4Jo+Om+to1iOTAg+ZxtUKx
+	MBNP579T7z4OwUStjf4oyoUrDhFe4YT0jCja/80ctPgi1rURJC+sNOpmk/OSgh5Eq+lU
+	xJa/dYn8tUKeHzy2Ig4Ecn3KlkWcY+3NA/2Vtn/ed8uDjH3ZJ0i+/tkS5pfUGBoKOcik
+	4+T+7o4YfySTUafvdpFSpKOzW0xogTzv44pZI737PU/MI9vlyvp01c9piV6Q7fxMIXTj
+	JGH8dj7QGeV/qF7470mc6TvWdWRLo1s6u6ZswjivkDiNwvcwIRD/IzepDmBPehzkVE8Y
+	u9Tg==
 MIME-Version: 1.0
-In-Reply-To: <20120508151411.C836310218@opal>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: [oe-commits] Bruce Ashfield : kern-tools: integrate minor fixes
+Received: by 10.68.191.137 with SMTP id gy9mr8633259pbc.83.1336567372603; Wed,
+	09 May 2012 05:42:52 -0700 (PDT)
+Received: by 10.68.197.4 with HTTP; Wed, 9 May 2012 05:42:52 -0700 (PDT)
+In-Reply-To: <1336546278.30349.26.camel@ted>
+References: <cover.1336504721.git.bruce.ashfield@windriver.com>
+	<1336546278.30349.26.camel@ted>
+Date: Wed, 9 May 2012 08:42:52 -0400
+Message-ID: <CADkTA4NF0VtWXRg6--vXVfPabtOemx8j4N0Aa2C_+v8a1b8jhA@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Cc: saul.wold@intel.com
+Subject: Re: [PATCH 0/1] kernel-yocto: export GUILT_BASE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,94 +44,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 May 2012 11:08:11 -0000
-X-Groupsio-MsgNum: 21891
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="5G06lTa6Jq83wMTw"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 09 May 2012 12:52:46 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
---5G06lTa6Jq83wMTw
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Wed, May 9, 2012 at 2:51 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Tue, 2012-05-08 at 15:23 -0400, Bruce Ashfield wrote:
+>> Richard/Saul,
+>>
+>> As Frans Meulenbroeks noted this morning, guilt wasn't functional
+>> in the devshell. The fix was simple enough, and by ensuring that
+>> GUILT_BASE is exported, it works without any extra steps now.
+>>
+>> I wasn't sure if there a better way to call 'up' to the base
+>> method, so I repeated the call to oe_terminal in the do_devshell()
+>> in kernel-yocto.bbclass.
+>>
+>> If there's another approach, let me know and I'll respin the patch.
+>
+> Can't you just set:
+>
+> GUILT_BASE = "meta"
 
-On Tue, May 08, 2012 at 03:14:10PM +0000, git@git.openembedded.org wrote:
-> Module: openembedded-core.git
-> Branch: master
-> Commit: 043871d7e5d2d19c2ff43e54d2ff180c09e8903e
-> URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcommit=
-;h=3D043871d7e5d2d19c2ff43e54d2ff180c09e8903e
->=20
-> Author: Bruce Ashfield <bruce.ashfield@windriver.com>
-> Date:   Mon Apr 30 00:02:17 2012 -0400
->=20
-> kern-tools: integrate minor fixes
->=20
-> Updating the SRCREV to pick up two minor fixes:
->=20
-> 1/2:
->     kgit-init: correct spelling of createme
->=20
->     kgit-init copies the kern-tools scripts and intends to copy createme.
->=20
->     The typo is in the usage() of updateme as well.
->=20
->     Signed-off-by: Michel Thebeau <michel.thebeau@windriver.com>
->=20
-> 2/2:
->     kconf_check: fix bad quoting around missing_required.cfg
->=20
->     missing_required.cfg won't have it's path truncated (if applicable), =
-since
->     the quoting it wrong.
->=20
->     Signed-off-by: Andrea Adami <andrea.adami@gmail.com>
->     Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
->=20
-> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+Will that export to the subshell ? I didn't try it .. since I didn't
+think it would.
+I'll give that a go here :)
 
-No idea if this is new issue or just old issue now revealed by those
-fixes, but linux-yocto-3.2 now fails to build for qemux86-64 (at=20
-least here).
+Bruce
 
-NOTE: package linux-yocto-3.2.11+git10+6b3d4e09aa2531e9649f3f03827b7efbccfc=
-ec03_7+00e5ec2393bada6723bd9a07ded3d001c02fa727-r1: task do_patch: Started
-ERROR: Function failed: do_patch (see /OE/shr-core/tmp-eglibc/work/qemux86_=
-64-oe-linux/linux-yocto/linux-yocto-3.2.11+git10+6b3d4e09aa2531e9649f3f0382=
-7b7efbccfcec03_7+00e5ec2393bada6723bd9a07ded3d001c02fa727-r1/temp/log.do_pa=
-tch.32134 for further information)
-ERROR: Logfile of failure stored in: /OE/shr-core/tmp-eglibc/work/qemux86_6=
-4-oe-linux/linux-yocto/linux-yocto-3.2.11+git10+6b3d4e09aa2531e9649f3f03827=
-b7efbccfcec03_7+00e5ec2393bada6723bd9a07ded3d001c02fa727-r1/temp/log.do_pat=
-ch.32134
-Log data follows:
-| ERROR: Function failed: do_patch (see /OE/shr-core/tmp-eglibc/work/qemux8=
-6_64-oe-linux/linux-yocto/linux-yocto-3.2.11+git10+6b3d4e09aa2531e9649f3f03=
-827b7efbccfcec03_7+00e5ec2393bada6723bd9a07ded3d001c02fa727-r1/temp/log.do_=
-patch.32134 for further information)
-| WARNING: addon feature "features/netfilter" was not found
-| WARNING: addon feature "features/taskstats" was not found
-| WARNING: addon feature "cfg/sound" was not found
-| ERROR: required features were not found. aborting
-| ERROR. Could not update standard/default/common-pc-64/base
-NOTE: package linux-yocto-3.2.11+git10+6b3d4e09aa2531e9649f3f03827b7efbccfc=
-ec03_7+00e5ec2393bada6723bd9a07ded3d001c02fa727-r1: task do_patch: Failed
+>
+> ?
+>
+> Cheers,
+>
+> Richard
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
-Cheers,
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---5G06lTa6Jq83wMTw
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+-- 
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
 
-iEYEARECAAYFAk+qTbsACgkQN1Ujt2V2gBw6oACePuy7GzCgXROfehed+Q06Fpm8
-bewAoJDFWjBuzQ/+nYV2X5DYr+9RkRIe
-=3Mhk
------END PGP SIGNATURE-----
-
---5G06lTa6Jq83wMTw--
