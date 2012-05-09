@@ -1,40 +1,28 @@
-Received: from mga10.intel.com ([192.55.52.92] helo=fmsmga102.fm.intel.com)
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1SRviu-0001u2-Fd
+	(envelope-from <jason.wessel@windriver.com>) id 1SRvqs-0001zS-Me
 	for openembedded-core@lists.openembedded.org;
-	Wed, 09 May 2012 03:29:48 +0200
-Received: from mail-pb0-f52.google.com ([209.85.160.52])
-	by mga11.intel.com with ESMTP/TLS/RC4-SHA; 08 May 2012 18:19:54 -0700
-Received: by pbbro8 with SMTP id ro8so29155882pbb.25
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 08 May 2012 18:19:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:subject
-	:content-type:content-transfer-encoding:x-gm-message-state;
-	bh=dxwYY+nwQr/44MB4QDm89vNWMgCtkfNgisIB8E8cZCE=;
-	b=eQPtb4eUlT+dOArxv4SXO7hzySSJL75JxQJUqzQJ6fOJS2ZMJIuVO9uPaXvPVkDqm5
-	wpWR+YHuuVGNWdzW+PvyllRD6e7VjJAaBDm4KQrAXIfCQ5E3EXLzs1Jzz8cbOQT5ZeHw
-	QNO0s2/++2jRVuaT9AddbGZ2jfgy3YQk7M+lPcto8sqGv6LgpiJO6tcOfW+FoEr6gsEk
-	eNmEWEV1vR6QpKSDqSrB2L6CXzWiYiTK2snfXWVpPlUNCzNQNOOnYAj6m8AWn1sRd8Rh
-	IyfWtQD2l0cVunCr2Fw/JZSPhIypUE5RTZKrWaasRr7w2sRk7h7c8oTbovqASJY8EMhi
-	uwRg==
-Received: by 10.68.191.201 with SMTP id ha9mr3372252pbc.75.1336526394519;
-	Tue, 08 May 2012 18:19:54 -0700 (PDT)
-Received: from [192.168.1.12] (c-76-105-137-48.hsd1.or.comcast.net.
-	[76.105.137.48])
-	by mx.google.com with ESMTPS id pv5sm60192pbb.14.2012.05.08.18.19.52
-	(version=SSLv3 cipher=OTHER); Tue, 08 May 2012 18:19:53 -0700 (PDT)
-Message-ID: <4FA9C638.2000502@intel.com>
-Date: Tue, 08 May 2012 18:19:52 -0700
-From: Scott Garman <scott.a.garman@intel.com>
+	Wed, 09 May 2012 03:38:03 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q491S8rF012937
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 8 May 2012 18:28:08 -0700 (PDT)
+Received: from [172.25.32.41] (172.25.32.41) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Tue, 8 May 2012 18:28:08 -0700
+Message-ID: <4FA9C827.3050304@windriver.com>
+Date: Tue, 8 May 2012 20:28:07 -0500
+From: Jason Wessel <jason.wessel@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:11.0) Gecko/20120329 Thunderbird/11.0.1
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Gm-Message-State: ALoCoQk5jNlOr2Q3bfoT2cjEeTebGQbDrIrPK8RekPZbPUpziWYeTcB53k4L61HFcUCb1lI8neiP
-Subject: RFC: Who wants/cares about SLiRP networking for QEMU?
+References: <4FA9C638.2000502@intel.com>
+In-Reply-To: <4FA9C638.2000502@intel.com>
+X-Enigmail-Version: 1.4.1
+Cc: Scott Garman <scott.a.garman@intel.com>
+Subject: Re: RFC: Who wants/cares about SLiRP networking for QEMU?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,30 +37,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 May 2012 01:29:48 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Wed, 09 May 2012 01:38:03 -0000
+Content-Type: text/plain; charset="ISO-8859-1"
 Content-Transfer-Encoding: 7bit
 
-This is an inquiry to see if there's much interest in adding an 
-alternate networking capability for our QEMU setups. Currently, we use 
-tun/tap devices, which need root privileges to be created. Hence, our 
-runqemu script requires sudo access.
+On 05/08/2012 08:19 PM, Scott Garman wrote:
+> This is an inquiry to see if there's much interest in adding an 
+> alternate networking capability for our QEMU setups. Currently, we use 
+> tun/tap devices, which need root privileges to be created. Hence, our 
+> runqemu script requires sudo access.
+>
+> I'm curious to know who would like to see us use an alternate mechanism 
+> (most likely SLiRP) to get around the need for sudo access. Is this much 
+> of a problem for anyone, or would the team's resources be better spent 
+> on other bugfixes?
+>
+> Secondly, does anyone have any war stories about using SLiRP for this 
+> purpose? Is there a better way we should consider doing this?
 
-I'm curious to know who would like to see us use an alternate mechanism 
-(most likely SLiRP) to get around the need for sudo access. Is this much 
-of a problem for anyone, or would the team's resources be better spent 
-on other bugfixes?
+We have QEMU + UserMode NFS + SLiRP for years in Wind River Linux products.   In that period I have sent upstream most of the patches dealing with problems.  There remain a few patches to the User Mode NFS service which are not currently in the Yocto project.  I also have a patch that is not in the QEMU mainline that deals with syn packets where QEMU violates the RFC that was never merged upstream for some reason.  I imagine that you will probably want all those patches if that is going to be your mode of operation.
 
-Secondly, does anyone have any war stories about using SLiRP for this 
-purpose? Is there a better way we should consider doing this?
+You will also want to create a mechanism to easily add port redirections.  Typically we have always used what we call an simulator "instance" number so we know the ports are at generally fixed locations and for each instance number all the port redirections are incremented by 100.
 
-Thanks,
-
-Scott
-
--- 
-Scott Garman
-Embedded Linux Engineer - Yocto Project
-Intel Open Source Technology Center
+Cheers,
+Jason.
 
 
