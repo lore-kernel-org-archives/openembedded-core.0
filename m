@@ -1,38 +1,25 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1SSGWM-0002o2-8i for openembedded-core@lists.openembedded.org;
-	Thu, 10 May 2012 01:42:14 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q49NWLTU029043
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 May 2012 00:32:21 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 25795-03 for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 May 2012 00:32:14 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q49NWAx8028991
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 May 2012 00:32:11 +0100
-Message-ID: <1336606329.2494.105.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Received: from mga03.intel.com ([143.182.124.21])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <sgw@linux.intel.com>) id 1SSGWq-0002sG-90
+	for openembedded-core@lists.openembedded.org;
+	Thu, 10 May 2012 01:42:44 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 09 May 2012 16:32:50 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="141125103"
+Received: from unknown (HELO [10.255.12.218]) ([10.255.12.218])
+	by azsmga001.ch.intel.com with ESMTP; 09 May 2012 16:32:49 -0700
+Message-ID: <4FAAFEA1.8060907@linux.intel.com>
+Date: Wed, 09 May 2012 16:32:49 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:12.0) Gecko/20120424 Thunderbird/12.0
+MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Thu, 10 May 2012 00:32:09 +0100
-In-Reply-To: <4FAAFBB5.10004@palm.com>
-References: <4FA17B2A.5060903@palm.com> <4FA17FA7.9030805@windriver.com>
-	<4FA187F4.9040003@palm.com> <4FA18DA7.6010205@windriver.com>
-	<4FA18EC8.5040504@palm.com> <4FA18F9D.5090805@windriver.com>
-	<1335999994.30113.39.camel@ted> <4FA6B6AC.60301@palm.com>
-	<1336480442.25084.74.camel@ted> <4FAAAEB6.2060703@palm.com>
-	<1336595524.2494.77.camel@ted> <4FAAFBB5.10004@palm.com>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: SetScene tasks hang forever?
+References: <1335920401-23586-1-git-send-email-otavio@ossystems.com.br>
+In-Reply-To: <1335920401-23586-1-git-send-email-otavio@ossystems.com.br>
+Subject: Re: [PATCH] qt4-graphics-system: set graphic system in profile instead of X11 session
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,29 +34,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 May 2012 23:42:14 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 09 May 2012 23:42:44 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2012-05-09 at 16:20 -0700, Rich Pixley wrote:
-> My rebuild completed in 5 seconds.
-> 
-> Thank you very much!
-> 
-> I'd rather not fork bitbake locally.  Can I expect this patch to show up 
-> in git://git.openembedded.org/bitbake sometime soon?
+On 05/01/2012 06:00 PM, Otavio Salvador wrote:
+> To allow the use of Qt applications started manually to use the
+> configured graphics system the setting needs to be available in user
+> environment. This moves the setting to /etc/profile.d ensuring it is
+> set and available. This allow the removal of x11-common as dependency.
+>
+> Signed-off-by: Otavio Salvador<otavio@ossystems.com.br>
+> ---
+>   .../qt4-graphics-system/qt4-graphics-system_1.0.bb |   12 +++++-------
+>   1 files changed, 5 insertions(+), 7 deletions(-)
+>
+> diff --git a/meta/recipes-qt/qt4-graphics-system/qt4-graphics-system_1.0.bb b/meta/recipes-qt/qt4-graphics-system/qt4-graphics-system_1.0.bb
+> index bae0340..e816a90 100644
+> --- a/meta/recipes-qt/qt4-graphics-system/qt4-graphics-system_1.0.bb
+> +++ b/meta/recipes-qt/qt4-graphics-system/qt4-graphics-system_1.0.bb
+> @@ -3,10 +3,9 @@ SECTION = "x11/base"
+>   LICENSE = "MIT-X"
+>   LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+>
+> -QT_GRAPHICS_SYSTEM ?= "raster"
+> +PR = "r1"
+>
+> -# xserver-common, x11-common
+> -VIRTUAL-RUNTIME_xserver_common ?= "x11-common"
+> +QT_GRAPHICS_SYSTEM ?= "raster"
+>
+>   def _get_extra_rdepends(d):
+>       gs = d.getVar('QT_GRAPHICS_SYSTEM', True)
+> @@ -16,12 +15,11 @@ def _get_extra_rdepends(d):
+>       return ""
+>
+>   do_install () {
+> -	install -d ${D}/${sysconfdir}/X11/Xsession.d/
+> -	cfg_file=${D}/${sysconfdir}/X11/Xsession.d/85xqt-graphicssystem
+> +	install -d ${D}/${sysconfdir}/profile.d/
+> +	cfg_file=${D}/${sysconfdir}/profile.d/qt-graphicssystem
+>   	echo "export QT_GRAPHICSSYSTEM=${QT_GRAPHICS_SYSTEM}">  $cfg_file
+> -	chmod +x $cfg_file
+>   }
+>
+> -RDEPENDS_${PN} = "${VIRTUAL-RUNTIME_xserver_common} ${@_get_extra_rdepends(d)}"
+> +RDEPENDS_${PN} = "${@_get_extra_rdepends(d)}"
+>
+>   PACKAGE_ARCH = "${MACHINE_ARCH}"
 
-Yes, I just wanted to confirm we were fixing the right problem...
+Merged into OE-Core
 
-I'll post it to the bitbake list and merge in a day or two assuming no
-negative feedback.
-
-I still wonder if that stamp mode is useful but that is a different
-discussion.
-
-Cheers,
-
-Richard
-
+Thanks
+	Sau!
 
 
