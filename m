@@ -1,25 +1,38 @@
-Received: from mga03.intel.com ([143.182.124.21])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SSGWJ-0002no-Mj
-	for openembedded-core@lists.openembedded.org;
-	Thu, 10 May 2012 01:42:11 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 09 May 2012 16:32:17 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="141124901"
-Received: from unknown (HELO [10.255.12.218]) ([10.255.12.218])
-	by azsmga001.ch.intel.com with ESMTP; 09 May 2012 16:32:17 -0700
-Message-ID: <4FAAFE81.8010600@linux.intel.com>
-Date: Wed, 09 May 2012 16:32:17 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:12.0) Gecko/20120424 Thunderbird/12.0
-MIME-Version: 1.0
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1SSGWM-0002o2-8i for openembedded-core@lists.openembedded.org;
+	Thu, 10 May 2012 01:42:14 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q49NWLTU029043
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 10 May 2012 00:32:21 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 25795-03 for <openembedded-core@lists.openembedded.org>;
+	Thu, 10 May 2012 00:32:14 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q49NWAx8028991
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 10 May 2012 00:32:11 +0100
+Message-ID: <1336606329.2494.105.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1335922726.git.peter.seebach@windriver.com>
-In-Reply-To: <cover.1335922726.git.peter.seebach@windriver.com>
-Subject: Re: v4 or so [PATCH 0/3] sanity.bbclass and friends: toolchain sanity
+Date: Thu, 10 May 2012 00:32:09 +0100
+In-Reply-To: <4FAAFBB5.10004@palm.com>
+References: <4FA17B2A.5060903@palm.com> <4FA17FA7.9030805@windriver.com>
+	<4FA187F4.9040003@palm.com> <4FA18DA7.6010205@windriver.com>
+	<4FA18EC8.5040504@palm.com> <4FA18F9D.5090805@windriver.com>
+	<1335999994.30113.39.camel@ted> <4FA6B6AC.60301@palm.com>
+	<1336480442.25084.74.camel@ted> <4FAAAEB6.2060703@palm.com>
+	<1336595524.2494.77.camel@ted> <4FAAFBB5.10004@palm.com>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: SetScene tasks hang forever?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,61 +47,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 May 2012 23:42:11 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Wed, 09 May 2012 23:42:14 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 05/01/2012 06:45 PM, Peter Seebach wrote:
-> And yes, I'm aware that "toolchain sanity checks" is sort of a
-> self-defeating concept.
->
-> Okay, cleanups:
-> * Now checking MULTILIB_VARIANTS, not MULTILIBS.  Simpler and less indented.
-> * Added a third commit to do the BBCLASSEXTEND checks since those seem like
->    a good idea, and it's less work to do it than to create a todo item.
-> * Did you know that, despite a lot of this being Python, you can't use
->    triple-quote strings in documentation.conf?  I didn't, and apparently
->    that "fix" went in untested.  (Also the addition of duplicate but indented
->    copies of two later lines, which didn't parse.  Looks like I got a bit
->    careless with my cut and paste there.)
->
-> The following changes since commit 35b5fb2dd2131d4c7dc6635c14c6e08ea6926457:
->    Saul Wold (1):
->          eglibc-package: remove /var
->
-> are available in the git repository at:
->
->    git://git.yoctoproject.org/poky-contrib seebs/toolchains
->    http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=seebs/toolchains
->
-> Peter Seebach (3):
->    conf/machine: Clean up configuration values.
->    sanity.bbclass: Implement initial toolchain sanity checks
-These 2 have been merged into OE-Core
+On Wed, 2012-05-09 at 16:20 -0700, Rich Pixley wrote:
+> My rebuild completed in 5 seconds.
+> 
+> Thank you very much!
+> 
+> I'd rather not fork bitbake locally.  Can I expect this patch to show up 
+> in git://git.openembedded.org/bitbake sometime soon?
 
->    sanity.bbclass: Check for bogus values in BBCLASSEXTEND
->
-RP commented on this one.
+Yes, I just wanted to confirm we were fixing the right problem...
 
-Thanks
-	Sau!
+I'll post it to the bitbake list and merge in a day or two assuming no
+negative feedback.
 
+I still wonder if that stamp mode is useful but that is a different
+discussion.
 
->   meta/classes/sanity.bbclass                      |   86 ++++++++++++++++++++++
->   meta/conf/documentation.conf                     |    9 ++
->   meta/conf/machine/include/README                 |    4 +
->   meta/conf/machine/include/arm/arch-armv5-dsp.inc |    1 +
->   meta/conf/machine/include/arm/arch-armv7a.inc    |    2 +-
->   meta/conf/machine/include/ia32/arch-ia32.inc     |    2 +-
->   meta/conf/machine/include/mips/arch-mips.inc     |    6 +-
->   meta/conf/machine/include/tune-c3.inc            |    2 +-
->   8 files changed, 106 insertions(+), 6 deletions(-)
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+Cheers,
+
+Richard
+
 
 
