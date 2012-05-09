@@ -1,37 +1,23 @@
-Received: from mail-pz0-f47.google.com ([209.85.210.47])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@gmail.com>) id 1SS6mo-0002OY-9z
-	for openembedded-core@lists.openembedded.org;
-	Wed, 09 May 2012 15:18:34 +0200
-Received: by dalh21 with SMTP id h21so264279dal.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 09 May 2012 06:08:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=TPHbRVWLiSG5olfx04rMOUNUXujogjxayV/Q4i5igbk=;
-	b=uioD0sDSn4FdyQL5oONKYD0iJ7T3NlNkelenx/2xGHOdyhpn6Xi4yzFBei/aDMf3Fn
-	VWwpqklrtU/IXtWw6kjZX5wz9LqSACqKL2FfIZcri9c2Me4cD5n5b3eOGujnaNK1+q+S
-	hv3hfa5I68yD82f28vwycWq8tGAbdC0v4GZTZZ2WIUCChx6oOzLZ0BKWIG9uT2lrt7WH
-	jYOQVQvuFio2kmWbNPpnOvfhRlS48HO+/JjtRBKvkqzqR65ZIdCfZIjIcoMyxDY85jNm
-	nUnwqFY4ifyzMwYhsbOdJWXbP6qd0APvqVE2I4/QlpZ/RjSJlJulzedhKuwMbpLMWSDB
-	ZhAw==
+	(envelope-from <jason.wessel@windriver.com>) id 1SS7NV-0006TB-N0
+	for Openembedded-core@lists.openembedded.org;
+	Wed, 09 May 2012 15:56:30 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q49DkZDX022496
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <Openembedded-core@lists.openembedded.org>;
+	Wed, 9 May 2012 06:46:35 -0700 (PDT)
+Received: from ord-jrw.wrs.com (172.25.32.41) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Wed, 9 May 2012 06:46:35 -0700
+From: Jason Wessel <jason.wessel@windriver.com>
+To: <Openembedded-core@lists.openembedded.org>
+Date: Wed, 9 May 2012 08:46:32 -0500
+Message-ID: <1336571192-15711-1-git-send-email-jason.wessel@windriver.com>
+X-Mailer: git-send-email 1.7.10
 MIME-Version: 1.0
-Received: by 10.68.191.230 with SMTP id hb6mr8908444pbc.167.1336568920678;
-	Wed, 09 May 2012 06:08:40 -0700 (PDT)
-Received: by 10.68.197.4 with HTTP; Wed, 9 May 2012 06:08:40 -0700 (PDT)
-In-Reply-To: <CADkTA4NF0VtWXRg6--vXVfPabtOemx8j4N0Aa2C_+v8a1b8jhA@mail.gmail.com>
-References: <cover.1336504721.git.bruce.ashfield@windriver.com>
-	<1336546278.30349.26.camel@ted>
-	<CADkTA4NF0VtWXRg6--vXVfPabtOemx8j4N0Aa2C_+v8a1b8jhA@mail.gmail.com>
-Date: Wed, 9 May 2012 09:08:40 -0400
-Message-ID: <CADkTA4OZ+EnnW=4LWnUo5vkw1MQ6f+kpsySHBqpuMNcHEWo9EQ@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Cc: saul.wold@intel.com
-Subject: Re: [PATCH 0/1] kernel-yocto: export GUILT_BASE
+Subject: [PATCH] .gitignore: add /bitbake to the ignore list for external distributions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,72 +32,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 May 2012 13:18:34 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Wed, 09 May 2012 13:56:30 -0000
+Content-Type: text/plain
 
-On Wed, May 9, 2012 at 8:42 AM, Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
-> On Wed, May 9, 2012 at 2:51 AM, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
->> On Tue, 2012-05-08 at 15:23 -0400, Bruce Ashfield wrote:
->>> Richard/Saul,
->>>
->>> As Frans Meulenbroeks noted this morning, guilt wasn't functional
->>> in the devshell. The fix was simple enough, and by ensuring that
->>> GUILT_BASE is exported, it works without any extra steps now.
->>>
->>> I wasn't sure if there a better way to call 'up' to the base
->>> method, so I repeated the call to oe_terminal in the do_devshell()
->>> in kernel-yocto.bbclass.
->>>
->>> If there's another approach, let me know and I'll respin the patch.
->>
->> Can't you just set:
->>
->> GUILT_BASE = "meta"
->
-> Will that export to the subshell ? I didn't try it .. since I didn't
-> think it would.
-> I'll give that a go here :)
+External distributions based on the oe-core will typically include
+bitbake in the top level directory.  The idea is to make it easy
+for external distributions to easily assemble a distribution
+with a pristine version of oe-core, add avoid the git untracked messages:
 
-With just that set in kernel-yocto.bbclass, and I launch devshell, I get this:
+ # Untracked files:
+ #   (use "git add <file>..." to include in what will be committed)
+ #
+ #       bitbake/
 
-% guilt applied
-Patches directory doesn't exist, try guilt-init
+Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
+---
+ .gitignore |    1 +
+ 1 file changed, 1 insertion(+)
 
-So unless I misunderstood what you are suggesting, I still need that explicit
-export.
-
-Cheers,
-
-Bruce
-
-
->
-> Bruce
->
->>
->> ?
->>
->> Cheers,
->>
->> Richard
->>
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
->
->
-> --
-> "Thou shalt not follow the NULL pointer, for chaos and madness await
-> thee at its end"
-
-
-
+diff --git a/.gitignore b/.gitignore
+index 04e36c5..366151c 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -1,3 +1,4 @@
++/bitbake
+ *.pyc
+ *.pyo
+ build*/conf/local.conf
 -- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+1.7.10
+
 
 
