@@ -1,45 +1,38 @@
-Received: from mail-wi0-f177.google.com ([209.85.212.177])
+Received: from mail-pb0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1SS9uK-0003p9-2K
+	(envelope-from <bruce.ashfield@gmail.com>) id 1SSA7P-00042T-Qv
 	for openembedded-core@lists.openembedded.org;
-	Wed, 09 May 2012 18:38:32 +0200
-Received: by wibhj13 with SMTP id hj13so496883wib.6
+	Wed, 09 May 2012 18:52:04 +0200
+Received: by pbbrq2 with SMTP id rq2so645772pbb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 09 May 2012 09:28:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date
-	:content-transfer-encoding:message-id:references:to:x-mailer
-	:x-gm-message-state;
-	bh=U0hxgwLPvvNsJljxFqMf6g29H9TvSynVYctQ7RioJp0=;
-	b=kxfo6qOciYu7qXzOi5L2vXti8YiObze1pkpQhWH+DVdF5e4jFYPPY7f+DJxDjtzomt
-	odYB2iy6mQDleleTTTmJY4DUWeTTaeoApk7USGrpCqQMvI9bduk6fb9Xgb3c/xoof9PD
-	6H0/FT+lmJTuvt9FyfH6B1QDfACoo967E8Urx7dVnE+ffCEeIU9hBD+kCmVURtj9lR5y
-	Z4jYP3/YTb/nDUcCzH44KBArLgtLsd1UMZnABCCI1Bj8Ex9SY39LLhkSgK5esMNNOxf8
-	qX0EdoQxG/hmnfVKhHGuiIVESGCjNUyXxn64mf2C5EHRdc2hZs5flu9QjuLcqiX35VUe
-	H+4A==
-Received: by 10.216.135.103 with SMTP id t81mr359751wei.113.1336580918936;
-	Wed, 09 May 2012 09:28:38 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id j3sm11040072wiw.1.2012.05.09.09.28.36
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 09 May 2012 09:28:36 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1257)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <CAMKF1sqUUaG3ka7XKNAgFduBNTv2JtAa5imFSVpawJbdVPqAog@mail.gmail.com>
-Date: Wed, 9 May 2012 18:28:35 +0200
-Message-Id: <B090A023-EA9E-4750-BB53-D9AC631E3277@dominion.thruhere.net>
-References: <a74c229046eacab9ea8b8189ddc763e18fcc05e9.1336517492.git.raj.khem@gmail.com>
-	<339076a9cf1ef906416bd850e5825c3bb8521983.1336517492.git.raj.khem@gmail.com>
-	<73C72AB1-C5B4-40D1-BAA3-C349F4957C42@dominion.thruhere.net>
-	<20120509094220.GA12898@jama.jama.net>
-	<CAMKF1sqUUaG3ka7XKNAgFduBNTv2JtAa5imFSVpawJbdVPqAog@mail.gmail.com>
+	Wed, 09 May 2012 09:42:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type:content-transfer-encoding;
+	bh=TkXg30gB9r7WZFYcWZC2nKNR8QxQoNyH+DYPPL2qQK4=;
+	b=Kp6oMRPmrB3UmdN+ETAjXsLwOBJrREoQpSbzqK1lrvjttRfLiMl4mFkaBOF+oIeLAC
+	A28gh9/X9eCGLWSwFgj6XU0uIYSSqLfy+i+ZlNzVA0qpIQBQrOfVepUtekX6MV7Vxm96
+	xT01izIyjPFyFgXy/sAyC+S4wcC6y1QHUNSEjZvak7c+0LatOw4KXfKwShIWFV8NZkNn
+	47tAxjq2nlHf2915zygjkQjN7Qibz1ug+ukdTqs8Kz2/5/hCo8PMXZIMnP0BJwtfqHDS
+	IchJZEuFvsVaj8H5NgnTF9KWdTCGqIIvi5NhoVrg32mX+D/93TYDVjtP/IEUkqyc3zQw
+	4v7w==
+MIME-Version: 1.0
+Received: by 10.68.191.137 with SMTP id gy9mr10854055pbc.83.1336581730055;
+	Wed, 09 May 2012 09:42:10 -0700 (PDT)
+Received: by 10.68.197.4 with HTTP; Wed, 9 May 2012 09:42:10 -0700 (PDT)
+In-Reply-To: <CADkTA4OFZN+mH8e1ub+jcbhnvpqQf7nkU+D=sBiHj6oUoA3Pfw@mail.gmail.com>
+References: <cover.1336535085.git.bruce.ashfield@windriver.com>
+	<893d8018c655f70ada731eaf5f03b178f4dfe2b3.1336535085.git.bruce.ashfield@windriver.com>
+	<4FAA8FEF.9050702@linux.intel.com>
+	<CADkTA4PQbCqC6SrTA-v7vZ70ruqSSzxKObFudvMiYaXpCLMT1g@mail.gmail.com>
+	<1336579353.5602.98.camel@phil-desktop>
+	<CADkTA4OFZN+mH8e1ub+jcbhnvpqQf7nkU+D=sBiHj6oUoA3Pfw@mail.gmail.com>
+Date: Wed, 9 May 2012 12:42:10 -0400
+Message-ID: <CADkTA4NG8Ncge_7miPc38tzConX0FxJN-By+RmzO01Y3j4F3Cg@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1257)
-X-Gm-Message-State: ALoCoQk0PnGx1NabM6kP3HR/4/Z0/FJvBLcs0FbQAf8cyj2l/7MGKzJqxkHZQuMQtjSTD2STJk5E
-Subject: Re: [PATCH 2/3] kmod: Update to .8 release
+Subject: Re: [PATCH 1/1] kern-tools: checkpoint restoration for reset branches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -54,42 +47,106 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 May 2012 16:38:32 -0000
-Content-Type: text/plain; charset=us-ascii
+X-List-Received-Date: Wed, 09 May 2012 16:52:04 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
+On Wed, May 9, 2012 at 12:11 PM, Bruce Ashfield
+<bruce.ashfield@gmail.com> wrote:
+> On Wed, May 9, 2012 at 12:02 PM, Phil Blundell <philb@gnu.org> wrote:
+>> On Wed, 2012-05-09 at 11:48 -0400, Bruce Ashfield wrote:
+>>> On Wed, May 9, 2012 at 11:40 AM, Darren Hart <dvhart@linux.intel.com> w=
+rote:
+>>> >
+>>> >
+>>> > On 05/08/2012 08:48 PM, Bruce Ashfield wrote:
+>>> >> Updating the SRCREV to pickup the following fix:
+>>> >>
+>>> >> =A0 =A0 createme: fix checkpoint restoration for reset branches
+>>> >>
+>>> >> =A0 =A0 The meta branch can optionally be merged out to BSP branches=
+. This removes
+>>> >> =A0 =A0 the need to restore the checkpoint when working with the tre=
+e. =A0The way
+>>> >> =A0 =A0 it detects the merge is by checking to see how many branches=
+ contain the
+>>> >> =A0 =A0 meta data. If there's more than one, the branch was was merg=
+ed out.
+>>> >>
+>>> >> =A0 =A0 Unless you are a BSP that isn't tracking the latest meta, an=
+d you get
+>>> >> =A0 =A0 meta and meta-orig created. That's two branches and the code=
+ opts to not
+>>> >> =A0 =A0 restore the checkpoint, which leads to configuration errors.
+>>> >>
+>>> >> =A0 =A0 The fix is simple. We allow for 2 or less branches with meta=
+, and will
+>>> >> =A0 =A0 still restore the checkpoint. Three and up, we won't.
+>>> >>
+>>> >
+>>> > Uhm... am I the only one for whom this language is really confusing?
+>>> > "merged out" ?
+>>> > "restore the checkpoint" ?
+>>>
+>>> I could be more verbose, but it's like reading a kernel -mm commit. I
+>>> don't grok everything they write, but they aren't writing it for me as =
+a
+>>> -mm newbie.
+>>
+>> So, who exactly is the target audience for the above text? =A0I'm not su=
+re
+>> that "really confusing" does it justice: from my point of view (though
+>> admittedly I am very far from being an eleet k3rn3l h4x0r) it just looks
+>> like gibberish. =A0If it's going into oe-core then I would have hoped th=
+at
+>> the checkin comment would be intelligible to oe-core users at large, not
+>> just those who are schooled in the mysterious ways of some particular
+>> subgroup.
+>
+> It's a quote from the kern-tools commit log. I could just put: 'fixes stu=
+ff',
+> but that's not good either. Writing a novel isn't good either.
+>
+> I'm not sure why everyone is having such an issue with this, there's many
+> other examples of commits like this, and everyone sits in a glass house
+> in this regard.
+>
+> I can re-work it of course, I wrote it very late at night to fix a
 
-Op 9 mei 2012, om 17:42 heeft Khem Raj het volgende geschreven:
+I rewrote the SRCREV update commit into something more legible. It's on
+the same branch as the original pull request.
 
-> On Wed, May 9, 2012 at 2:42 AM, Martin Jansa <martin.jansa@gmail.com> =
-wrote:
->> On Wed, May 09, 2012 at 07:31:52AM +0200, Koen Kooi wrote:
->>>=20
->>> Op 9 mei 2012, om 00:53 heeft Khem Raj het volgende geschreven:
->>>=20
->>>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
->>>> ---
->>>> meta/recipes-kernel/kmod/kmod.inc |    4 ++--
->>>> 1 files changed, 2 insertions(+), 2 deletions(-)
->>>>=20
->>>> diff --git a/meta/recipes-kernel/kmod/kmod.inc =
-b/meta/recipes-kernel/kmod/kmod.inc
->>>> index 681e52b..70d376e 100644
->>>> --- a/meta/recipes-kernel/kmod/kmod.inc
->>>> +++ b/meta/recipes-kernel/kmod/kmod.inc
->>>> @@ -7,7 +7,7 @@ HOMEPAGE =3D "http://packages.profusion.mobi/kmod/"
->>>> LICENSE =3D "GPL-2.0+ & LGPL-2.1+"
->>>> LICENSE_libkmod =3D "LGPL-2.1+"
->>>> SECTION =3D "base"
->>>> -PV =3D "7+git${SRCREV}"
->>>> +PV =3D "8+git${SRCREV}"
->>>=20
->>> Drop the +git$SRCREV, it's a release.
->=20
-> it does have 2 commits on top of .8 so  I have changed SRCREV to SRCPV
-> and updated the pull tree.
+Cheers,
 
-Please drop the SRCPV, it's version '8', not =
-8+giter8735827548237582758293=
+Bruce
+
+> fairly blocking
+> bug, so everyone cutting a little bit of slack would be appreciated.
+>
+> Cheers,
+>
+> Bruce
+>
+>>
+>> p.
+>>
+>>
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+>
+>
+> --
+> "Thou shalt not follow the NULL pointer, for chaos and madness await
+> thee at its end"
+
+
+
+--=20
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
 
