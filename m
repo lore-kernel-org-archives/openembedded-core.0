@@ -1,24 +1,24 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SRzcz-0005zp-Fl
+	(envelope-from <sgw@linux.intel.com>) id 1SRzd0-00065a-EZ
 	for openembedded-core@lists.openembedded.org;
-	Wed, 09 May 2012 07:39:57 +0200
+	Wed, 09 May 2012 07:39:58 +0200
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
 	by orsmga101.jf.intel.com with ESMTP; 08 May 2012 22:30:00 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="141721016"
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="141721025"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.218])
-	by orsmga002.jf.intel.com with ESMTP; 08 May 2012 22:29:59 -0700
+	by orsmga002.jf.intel.com with ESMTP; 08 May 2012 22:30:00 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  8 May 2012 22:29:48 -0700
-Message-Id: <47928d1621b59e26da6b9906276378aef8e950ee.1336516205.git.sgw@linux.intel.com>
+Date: Tue,  8 May 2012 22:29:50 -0700
+Message-Id: <e0a2e7b8debfecf2e178cec796cae7b3c74897d4.1336516205.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <cover.1336516205.git.sgw@linux.intel.com>
 References: <cover.1336516205.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1336516205.git.sgw@linux.intel.com>
 References: <cover.1336516205.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 03/12] qt4-graphics-system: set graphic system in profile instead of X11 session
+Subject: [CONSOLIDATED PULL 05/12] sanity.bbclass: Check for bogus values in BBCLASSEXTEND
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,53 +33,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 May 2012 05:39:57 -0000
+X-List-Received-Date: Wed, 09 May 2012 05:39:59 -0000
 
-From: Otavio Salvador <otavio@ossystems.com.br>
+From: Peter Seebach <peter.seebach@windriver.com>
 
-To allow the use of Qt applications started manually to use the
-configured graphics system the setting needs to be available in user
-environment. This moves the setting to /etc/profile.d ensuring it is
-set and available. This allow the removal of x11-common as dependency.
+Suggestion that came out of my sanity-checks of multilibs; verify
+that stuff in BBCLASSEXTEND is valid.
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+Signed-off-by: Peter Seebach <peter.seebach@windriver.com>
 ---
- .../qt4-graphics-system/qt4-graphics-system_1.0.bb |   12 +++++-------
- 1 files changed, 5 insertions(+), 7 deletions(-)
+ meta/classes/sanity.bbclass |   13 +++++++++++++
+ 1 files changed, 13 insertions(+), 0 deletions(-)
 
-diff --git a/meta/recipes-qt/qt4-graphics-system/qt4-graphics-system_1.0.bb b/meta/recipes-qt/qt4-graphics-system/qt4-graphics-system_1.0.bb
-index bae0340..e816a90 100644
---- a/meta/recipes-qt/qt4-graphics-system/qt4-graphics-system_1.0.bb
-+++ b/meta/recipes-qt/qt4-graphics-system/qt4-graphics-system_1.0.bb
-@@ -3,10 +3,9 @@ SECTION = "x11/base"
- LICENSE = "MIT-X"
- LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+index 635049e..9f3f1d5 100644
+--- a/meta/classes/sanity.bbclass
++++ b/meta/classes/sanity.bbclass
+@@ -81,6 +81,15 @@ def check_toolchain(data):
  
--QT_GRAPHICS_SYSTEM ?= "raster"
-+PR = "r1"
- 
--# xserver-common, x11-common
--VIRTUAL-RUNTIME_xserver_common ?= "x11-common"
-+QT_GRAPHICS_SYSTEM ?= "raster"
- 
- def _get_extra_rdepends(d):
-     gs = d.getVar('QT_GRAPHICS_SYSTEM', True)
-@@ -16,12 +15,11 @@ def _get_extra_rdepends(d):
      return ""
  
- do_install () {
--	install -d ${D}/${sysconfdir}/X11/Xsession.d/
--	cfg_file=${D}/${sysconfdir}/X11/Xsession.d/85xqt-graphicssystem
-+	install -d ${D}/${sysconfdir}/profile.d/
-+	cfg_file=${D}/${sysconfdir}/profile.d/qt-graphicssystem
- 	echo "export QT_GRAPHICSSYSTEM=${QT_GRAPHICS_SYSTEM}" > $cfg_file
--	chmod +x $cfg_file
- }
++def check_bbclassextend(data):
++    allowed = ('native', 'nativesdk', 'multilib', 'cross')
++    extends = (data.getVar("BBCLASSEXTEND", True) or "").split()
++    errors = []
++    for pair in [x.split(':') for x in extends]:
++        if pair[0] not in allowed:
++            errors.append('BBCLASSEXTEND has invalid value: %s' % pair[0])
++    return '\n'.join(errors)
++
+ def check_conf_exists(fn, data):
+     bbpath = []
+     fn = data.expand(fn)
+@@ -401,6 +410,10 @@ def check_sanity(e):
+     if toolchain_msg != "":
+         messages = messages + toolchain_msg + '\n'
  
--RDEPENDS_${PN} = "${VIRTUAL-RUNTIME_xserver_common} ${@_get_extra_rdepends(d)}"
-+RDEPENDS_${PN} = "${@_get_extra_rdepends(d)}"
- 
- PACKAGE_ARCH = "${MACHINE_ARCH}"
++    bbclassextend_msg = check_bbclassextend(e.data)
++    if bbclassextend_msg != "":
++        messages = messages + bbclassextend_msg + '\n'
++
+     # Check if DISPLAY is set if IMAGETEST is set
+     if not data.getVar( 'DISPLAY', e.data, True ) and data.getVar( 'IMAGETEST', e.data, True ) == 'qemu':
+         messages = messages + 'qemuimagetest needs a X desktop to start qemu, please set DISPLAY correctly (e.g. DISPLAY=:1.0)\n'
 -- 
 1.7.7.6
 
