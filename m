@@ -1,33 +1,28 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1SS948-0002Ua-JB
+	(envelope-from <dvhart@linux.intel.com>) id 1SS9AF-0002ZX-Nh
 	for openembedded-core@lists.openembedded.org;
-	Wed, 09 May 2012 17:44:37 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q49FYh8G024355
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 9 May 2012 08:34:43 -0700 (PDT)
-Received: from msp-dhcp19.wrs.com (172.25.34.19) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Wed, 9 May 2012 08:34:42 -0700
-Message-ID: <4FAA8E91.7050708@windriver.com>
-Date: Wed, 9 May 2012 10:34:41 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
-	rv:12.0) Gecko/20120428 Thunderbird/12.0.1
+	Wed, 09 May 2012 17:50:55 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 09 May 2012 08:41:01 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="138691921"
+Received: from unknown (HELO envy.home) ([10.255.13.57])
+	by orsmga001.jf.intel.com with ESMTP; 09 May 2012 08:41:01 -0700
+Message-ID: <4FAA8FEF.9050702@linux.intel.com>
+Date: Wed, 09 May 2012 08:40:31 -0700
+From: Darren Hart <dvhart@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:12.0) Gecko/20120424 Thunderbird/12.0
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1336547713.git.liezhi.yang@windriver.com>
-	<03d9cdca29477f34348a0f97138504441c5804fa.1336547713.git.liezhi.yang@windriver.com>
-	<23E51582-C3C4-4673-B646-F29E74FEB428@dominion.thruhere.net>
-	<4FAA84B3.1080108@windriver.com>
-	<6122E5DC-EFF1-4592-AB36-22E9D68DF2BF@dominion.thruhere.net>
-	<4FAA8A03.50309@windriver.com>
-	<033DD718-AA9D-4F09-9E06-13C14DBBB7AC@dominion.thruhere.net>
-In-Reply-To: <033DD718-AA9D-4F09-9E06-13C14DBBB7AC@dominion.thruhere.net>
-Subject: Re: [PATCH 2/2] rootfs_rpm.bbclass: don't remove rpmlib when INC_RPM_IMAGE_GEN=1
+To: Bruce Ashfield <bruce.ashfield@windriver.com>
+References: <cover.1336535085.git.bruce.ashfield@windriver.com>
+	<893d8018c655f70ada731eaf5f03b178f4dfe2b3.1336535085.git.bruce.ashfield@windriver.com>
+In-Reply-To: <893d8018c655f70ada731eaf5f03b178f4dfe2b3.1336535085.git.bruce.ashfield@windriver.com>
+X-Enigmail-Version: 1.4.1
+Cc: openembedded-core@lists.openembedded.org, poky@yoctoproject.org,
+	saul.wold@intel.com
+Subject: Re: [PATCH 1/1] kern-tools: checkpoint restoration for reset branches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,68 +37,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 May 2012 15:44:37 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Wed, 09 May 2012 15:50:56 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 
-On 5/9/12 10:24 AM, Koen Kooi wrote:
->
-> Op 9 mei 2012, om 17:15 heeft Mark Hatle het volgende geschreven:
->
->> On 5/9/12 10:01 AM, Koen Kooi wrote:
->>>
->>> Op 9 mei 2012, om 16:52 heeft Mark Hatle het volgende geschreven:
->>>
->>>> On 5/9/12 3:50 AM, Koen Kooi wrote:
->>>>>
->>>>> Op 9 mei 2012, om 10:20 heeft Robert Yang het volgende geschreven:
->>>>>
->>>>>> Don't remove rpmlib when INC_RPM_IMAGE_GEN=1, otherwise the
->>>>>> list_installed_packages would get nothing in the second build.
->>>>>
->>>>> What happens when I do a build, enable INC_RPM_IMAGE_GEN and do another build?
->>>>
->>>> The intention is that only the packages that have been changed/upgraded will be installed.  Instead of the whole image being generated from scratch each time.
->>>
->>> That's what INC_RPM_IMAGE_GEN does, yes. What I'm asking is how this patch addresses the sequence I outlined above.
->>
->> Explain what you mean by "build".
->>
->> Using the following:
->>
->> . ./oe-init-build-env build-test
->> <setup local.conf w/ rpm packaging and INC_RPM_IMAGE_GEN>
->> bitbake core-image-core
->> --- time passes, git pull pulls in changes ---
->> bitbake core-image-core
->>
->> The second "build", only the changed packages will be added to the image.
->>
->> You you are using different build directories, then it doesn't re-use anything.  The purpose of this is incremental software development within a single build directory.
->
-> You are still missing my point. The patch is broken if you change INC_RPM_IMAGE_GEN
 
-I am absolutely missing your point.
 
-I don't see what is wrong in the following, but I haven't tried it:
+On 05/08/2012 08:48 PM, Bruce Ashfield wrote:
+> Updating the SRCREV to pickup the following fix:
+> 
+>     createme: fix checkpoint restoration for reset branches
+> 
+>     The meta branch can optionally be merged out to BSP branches. This removes
+>     the need to restore the checkpoint when working with the tree.  The way
+>     it detects the merge is by checking to see how many branches contain the
+>     meta data. If there's more than one, the branch was was merged out.
+> 
+>     Unless you are a BSP that isn't tracking the latest meta, and you get
+>     meta and meta-orig created. That's two branches and the code opts to not
+>     restore the checkpoint, which leads to configuration errors.
+> 
+>     The fix is simple. We allow for 2 or less branches with meta, and will
+>     still restore the checkpoint. Three and up, we won't.
+> 
 
-> -	rm -rf ${IMAGE_ROOTFS}${rpmlibdir}
-> -	rm -rf ${IMAGE_ROOTFS}${opkglibdir}
-> +	# Don't remove the rpmlib when INC_RPM_IMAGE_GEN=1
-> +	if [ "${INC_RPM_IMAGE_GEN}" != "1" ]; then
-> +		rm -rf ${IMAGE_ROOTFS}${rpmlibdir}
-> +		rm -rf ${IMAGE_ROOTFS}${opkglibdir}
-> +	fi
+Uhm... am I the only one for whom this language is really confusing?
+"merged out" ?
+"restore the checkpoint" ?
+Why does a BSP using a different meta SRCREV get two meta branches?
 
-If the INC_RPM_IMAGE_GEN is not set to '1'.  (Specifically '1' as opposed to 
-just checking if it's set.) then it'll remove the existing image packaging database.
+The fix of incrementing the allowed count of meta branches honestly
+feels like a bandaid. Why do we create two in the first place?
 
---Mark
+Regardless, this is a blocker for working with meta-intel, so we need
+this in. But it does seem to me that a more direct solution may be
+needed. Bruce, can you help fill me in re. the above?
 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+--
+Darren
 
+> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+> ---
+>  .../kern-tools/kern-tools-native_git.bb            |    2 +-
+>  1 files changed, 1 insertions(+), 1 deletions(-)
+> 
+> diff --git a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
+> index b6fab39..b5e203e 100644
+> --- a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
+> +++ b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
+> @@ -4,7 +4,7 @@ LIC_FILES_CHKSUM = "file://git/tools/kgit;beginline=5;endline=9;md5=e2bf4415f3d8
+>  
+>  DEPENDS = "git-native guilt-native"
+>  
+> -SRCREV = "9bb704df0a86578b8ae1f4c85e45089bef28e026"
+> +SRCREV = "de3649840e8e3ca25bc79d2444f04a1b158a1769"
+>  PR = "r12"
+>  PV = "0.1+git${SRCPV}"
+>  
+
+-- 
+Darren Hart
+Intel Open Source Technology Center
+Yocto Project - Linux Kernel
 
 
