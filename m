@@ -1,29 +1,33 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail-pb0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SRuKZ-0000J7-Ev
+	(envelope-from <raj.khem@gmail.com>) id 1SRuuY-0000aM-BY
 	for openembedded-core@lists.openembedded.org;
-	Wed, 09 May 2012 02:00:35 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 08 May 2012 16:50:08 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="138414233"
-Received: from unknown (HELO [10.255.12.218]) ([10.255.12.218])
-	by orsmga001.jf.intel.com with ESMTP; 08 May 2012 16:50:08 -0700
-Message-ID: <4FA9B12F.4040209@linux.intel.com>
-Date: Tue, 08 May 2012 16:50:07 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:12.0) Gecko/20120424 Thunderbird/12.0
-MIME-Version: 1.0
-To: Khem Raj <raj.khem@gmail.com>
-References: <cover.1336015963.git.raj.khem@gmail.com>
-	<4FA998F8.8060306@linux.intel.com>
-	<CAMKF1srhrwcEks0rGssCXQdyEFa9wYX6zVp14qAKns7wLHeJVA@mail.gmail.com>
-	<CAMKF1sr_KgMb+5fsrWhjvGh-BmKHyjMF4+25yBR0szeijLF9aQ@mail.gmail.com>
-In-Reply-To: <CAMKF1sr_KgMb+5fsrWhjvGh-BmKHyjMF4+25yBR0szeijLF9aQ@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/3] Enable xserver-xorg for all qemumachines
+	Wed, 09 May 2012 02:37:46 +0200
+Received: by pbbrq2 with SMTP id rq2so7381180pbb.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 08 May 2012 17:27:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=5vdMVF+tFNb0+WrASupEKbPZITGRToVOYJHnIgTGNV0=;
+	b=FJZP8/EgQ7xMcXbAUT+/20hSoAeGizBZEYJ66fYuSUIHtExDdEN4Kjs8speZyhv6gq
+	GkqvfbVcDKCVEnkk4JRpH4eCPzy/2xrOsGfxWaNDFQXisTsXrX2VxADS5Yr6H6ZnZcKL
+	jGIZTRfbxkUo8FKgu+uvMo6PIhGGmDPnpC903rVEur2O8BWTLtrw4s+BuuX62gs6icRp
+	Dr3GyPKJ1AXvu/S2+sWLZbc8+gf/9r7UImEW2F9ZnbnoGTpGi0BaZDqSh3XiVPzt+aH6
+	sZpcKTiZzqHwU9eHUpcHh/YDKAGzvC0elJoD0BIewkTDEzl8qt6CAsuP8cCXnZ0QaPv+
+	OYww==
+Received: by 10.68.226.129 with SMTP id rs1mr3129455pbc.29.1336523273171;
+	Tue, 08 May 2012 17:27:53 -0700 (PDT)
+Received: from localhost.localdomain (oldbuilder.nslu2-linux.org.
+	[140.211.169.168])
+	by mx.google.com with ESMTPS id pl7sm3995496pbb.59.2012.05.08.17.27.51
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 08 May 2012 17:27:52 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  8 May 2012 17:27:36 -0700
+Message-Id: <cover.1336522880.git.raj.khem@gmail.com>
+X-Mailer: git-send-email 1.7.5.4
+Subject: [PATCH V2 0/3] Enable xserver-xorg for all qemumachines
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,62 +42,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 May 2012 00:00:35 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 09 May 2012 00:37:46 -0000
 
-On 05/08/2012 03:18 PM, Khem Raj wrote:
-> On Tue, May 8, 2012 at 3:09 PM, Khem Raj<raj.khem@gmail.com>  wrote:
->> On Tue, May 8, 2012 at 3:06 PM, Saul Wold<sgw@linux.intel.com>  wrote:
->>>>
->>> Khem,
->>>
->>> Not sure what I am doing differently, but I am not getting the xserver to
->>> start on at least ppc and mips (two that I tried just now).
->>>
->>> Are you build a Yocto sato image or oe-core sato image?
->>>
->>> I get the following on a ppc:
->>>
->>> Fatal server error:
->>> no screens found
->>> xinit: giving up
->>> xinit: unable to connect to X server: No such file or directory
->>> xinit: server error
->>>
->>
->> hmmm I have booted core-image-sato but I have bare OE-Core
->> Do you have
->>
->>
->> http://git.openembedded.org/openembedded-core-contrib/commit/?h=kraj/qemu-xserver-xorg&id=8a60dabb7902b7be42d06cb735e96248e2e67dba
->>
->> is some layer on top changing it in some way ?
->
-> hmmm another think I have is this patch
-> http://git.openembedded.org/openembedded-core-contrib/commit/?h=kraj/misc&id=955dee621361e01627ebfde152f25873070cf301
->
-> which deletes kdrive recipes. I did not propose it for inclusion yet
-> but I wonder if there is any mix and match happening when these
-> recipes are not deleted.
-> You can cherry-pick it and see if that helps.
->
-So I found that task-core-x11.bb also sets XSERVER
+XSERVER has a weak definition like below
 
-XSERVER ?= "xserver-kdrive-fbdev"
+meta/recipes-sato/tasks/task-core-x11-mini.bb:XSERVER ?= "xserver-kdrive-fbdev"
+meta/recipes-sato/tasks/task-core-x11.bb:XSERVER ?= "xserver-kdrive-fbdev"
 
-And this was being picked up it seems when I did the build.
+which means when we user ??= in qemu.inc it does not work since the
+above definitions kick in before ??=
 
-I commented that line out and it worked correctly.
+so for now we re-arrage inclusion of qemu.inc in x86 and x86-64
+case so that the XSERVER definition from respective machine file
+is preferred and for all other qemu machines the definition from
+qemu.inc is used. Non qemu machines will still use kdrive
+as they used to.
 
-That seems wrong, since I thought the ??= should not allow the ?= to 
-override, or do I have it backwards?
+The following changes since commit 043871d7e5d2d19c2ff43e54d2ff180c09e8903e:
 
-Sau!
+  kern-tools: integrate minor fixes (2012-05-08 16:06:15 +0100)
 
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib kraj/qemu-xserver-xorg
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=kraj/qemu-xserver-xorg
 
+Khem Raj (3):
+  qemumachines: Enable xserver-xorg as default xserver
+  xserver-xf86-config: Add xorg.conf for arm,mips,ppc,sh qemu machines
+  xserver-xorg: Fix build on powerpc
 
+ meta/conf/machine/include/qemu.inc                 |    9 ++-
+ meta/conf/machine/qemux86-64.conf                  |    3 +-
+ meta/conf/machine/qemux86.conf                     |    3 +-
+ .../xserver-xf86-config/qemuarm/xorg.conf          |   69 ++++++++++++++++++++
+ .../xserver-xf86-config/qemumips/xorg.conf         |   69 ++++++++++++++++++++
+ .../xserver-xf86-config/qemumips64/xorg.conf       |   69 ++++++++++++++++++++
+ .../xserver-xf86-config/qemuppc/xorg.conf          |   69 ++++++++++++++++++++
+ .../xserver-xf86-config/qemush4/xorg.conf          |   69 ++++++++++++++++++++
+ .../xorg-xserver/xserver-xf86-config_0.1.bb        |    2 +-
+ .../xorg-xserver/xserver-xorg-1.11.2.inc           |    9 ++-
+ .../xserver-xorg-1.11.2/gcc-47-warning.patch       |   33 +++++++++
+ 11 files changed, 396 insertions(+), 8 deletions(-)
+ create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemuarm/xorg.conf
+ create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemumips/xorg.conf
+ create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemumips64/xorg.conf
+ create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemuppc/xorg.conf
+ create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemush4/xorg.conf
+ create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2/gcc-47-warning.patch
 
->
+-- 
+1.7.5.4
+
 
 
