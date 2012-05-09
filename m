@@ -1,24 +1,29 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from smtp-relay2.palm.com ([64.28.152.243])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SSFrU-0002jF-OF
-	for openembedded-core@lists.openembedded.org;
-	Thu, 10 May 2012 01:00:00 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 09 May 2012 15:50:05 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="142077330"
-Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.218])
-	by orsmga002.jf.intel.com with ESMTP; 09 May 2012 15:50:05 -0700
-From: Saul Wold <sgw@linux.intel.com>
+	(envelope-from <prvs=469f43418=rich.pixley@palm.com>)
+	id 1SSG5M-0003It-Ms for openembedded-core@lists.openembedded.org;
+	Thu, 10 May 2012 01:14:20 +0200
+X-IronPort-AV: E=Sophos;i="4.75,560,1330934400"; d="scan'208";a="13414832"
+Received: from unknown (HELO ushqusdns4.palm.com) ([148.92.223.164])
+	by smtp-relay2.palm.com with ESMTP; 09 May 2012 16:04:26 -0700
+Received: from fuji-land.noir.com ([10.100.2.2])
+	by ushqusdns4.palm.com (8.14.4/8.14.4) with ESMTP id q49N4Pxs027314;
+	Wed, 9 May 2012 16:04:25 -0700
+Message-ID: <4FAAF7F9.4030000@palm.com>
+Date: Wed, 09 May 2012 16:04:25 -0700
+From: Rich Pixley <rich.pixley@palm.com>
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7;
+	rv:12.0) Gecko/20120428 Thunderbird/12.0.1
+MIME-Version: 1.0
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  9 May 2012 15:50:03 -0700
-Message-Id: <64cd1b752462115994f6ddf2c1eb570f920c4de4.1336603412.git.sgw@linux.intel.com>
-X-Mailer: git-send-email 1.7.7.6
-In-Reply-To: <cover.1336603412.git.sgw@linux.intel.com>
-References: <cover.1336603412.git.sgw@linux.intel.com>
-In-Reply-To: <cover.1336603412.git.sgw@linux.intel.com>
-References: <cover.1336603412.git.sgw@linux.intel.com>
-Subject: [PATCH 1/1] eglibc: Add patch to fix /var installation location
+References: <4FA17B2A.5060903@palm.com> <4FA17FA7.9030805@windriver.com>
+	<4FA187F4.9040003@palm.com> <4FA18DA7.6010205@windriver.com>
+	<4FA18EC8.5040504@palm.com> <4FA18F9D.5090805@windriver.com>
+	<1335999994.30113.39.camel@ted> <4FA6B6AC.60301@palm.com>
+	<1336480442.25084.74.camel@ted> <4FAAAEB6.2060703@palm.com>
+	<1336593138.2494.72.camel@ted>
+In-Reply-To: <1336593138.2494.72.camel@ted>
+Subject: Re: SetScene tasks hang forever?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,74 +38,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 May 2012 23:00:01 -0000
+X-List-Received-Date: Wed, 09 May 2012 23:14:20 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-This address the packaging issues since it's installed in the wrong place
-ERROR: For recipe eglibc-nativesdk, the following files/directories were installed but not shipped in any package:
-ERROR:   /var
-ERROR:   /var/db
-ERROR:   /var/db/Makefile
+On 5/9/12 12:52 , Richard Purdie wrote:
+> On Wed, 2012-05-09 at 10:51 -0700, Rich Pixley wrote:
+>> On 5/8/12 05:34 , Richard Purdie wrote:
+>>> On Sun, 2012-05-06 at 10:36 -0700, Rich Pixley wrote:
+>>>> Any other ideas?
+>>> Well, this clearly doesn't happen with master or in any combination of
+>>> the layers most users are using. The logical conclusion would be that
+>>> there is something in your layer that is somehow triggering this.
+>> No private layer involved.
+>>
+>> I do have a makefile which encapsulates the environment stuff, but
+>> that's it.
+>>> Of course since that layer is secret and you can't show us it, we have a
+>>> bit of a problem. Can you reproduce the bug against public code?
+>> Done.  (Our layer is becoming open, we're committed to it, but it's a
+>> long process internally).
+>>> Are you by any chance setting BB_STAMP_POLICY somewhere?
+>> Yes.  BB_STAMP_POLICY = "full".
+>>
+>> I'll attach a copy of my local.conf and bblayers.conf.
+> I'm 95% sure its BB_STAMP_POLICY = "full" causing the problems. The idea
+> is really that sstate and other recent developments obsolete the "full"
+> stamp code. I'm not sure it actually gets on with the setscene stamps
+> the sstate code generates, as I suspect you're discovering.
+>
+> We could try and fix the "full" policy, or we could just remove it.
+> Looking at the code for the function that deals with this in
+> runqueue.py, I can see where problems could occur.
+>
+> So I guess I'm asking if we should fix that or can we remove it?
+Um... I'm not sure.
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- ....patch => use-localstatedir-for-vardbdir.patch} |    6 ++++--
- meta/recipes-core/eglibc/eglibc_2.15.bb            |    4 ++--
- 2 files changed, 6 insertions(+), 4 deletions(-)
- rename meta/recipes-core/eglibc/eglibc-2.15/{add-prefix-to-var.patch => use-localstatedir-for-vardbdir.patch} (74%)
+In the past, that was required to get everything built in an incremental 
+fashion.  That is, if A depended on B depended on C and C changed, 
+BB_STAMP_POLICY = "full" was the only way to get A to be rebuilt 
+automatically.
 
-diff --git a/meta/recipes-core/eglibc/eglibc-2.15/add-prefix-to-var.patch b/meta/recipes-core/eglibc/eglibc-2.15/use-localstatedir-for-vardbdir.patch
-similarity index 74%
-rename from meta/recipes-core/eglibc/eglibc-2.15/add-prefix-to-var.patch
-rename to meta/recipes-core/eglibc/eglibc-2.15/use-localstatedir-for-vardbdir.patch
-index 4c83aa2..8392c18 100644
---- a/meta/recipes-core/eglibc/eglibc-2.15/add-prefix-to-var.patch
-+++ b/meta/recipes-core/eglibc/eglibc-2.15/use-localstatedir-for-vardbdir.patch
-@@ -1,9 +1,11 @@
- 
-+localstatedir is set to be the /var directory, so use
-+it for the base of the vardbdir so it's properly relocatable.
-+
- Upstream-Status: Pending
- 
- Signed-off-by: Saul Wold <sgw@linux.intel.com>
- 
--
- Index: libc/Makeconfig
- ===================================================================
- --- libc.orig/Makeconfig
-@@ -13,7 +15,7 @@ Index: libc/Makeconfig
-  # Directory for the database files and Makefile for nss_db.
-  ifndef vardbdir
- -vardbdir = /var/db
--+vardbdir = $(prefix)/var/db
-++vardbdir = $(localstatedir)/db
-  endif
-  inst_vardbdir = $(install_root)$(vardbdir)
-  
-diff --git a/meta/recipes-core/eglibc/eglibc_2.15.bb b/meta/recipes-core/eglibc/eglibc_2.15.bb
-index e61816d..65ce9d3 100644
---- a/meta/recipes-core/eglibc/eglibc_2.15.bb
-+++ b/meta/recipes-core/eglibc/eglibc_2.15.bb
-@@ -3,7 +3,7 @@ require eglibc.inc
- SRCREV = "17386"
- 
- DEPENDS += "gperf-native"
--PR = "r8"
-+PR = "r9"
- PR_append = "+svnr${SRCPV}"
- 
- EGLIBC_BRANCH="eglibc-2_15"
-@@ -23,7 +23,7 @@ SRC_URI = "svn://www.eglibc.org/svn/branches/;module=${EGLIBC_BRANCH};proto=http
-            file://ppc-sqrt_finite.patch \
-            file://GLRO_dl_debug_mask.patch \
-            file://initgroups_keys.patch \
--           file://add-prefix-to-var.patch \
-+           file://use-localstatedir-for-vardbdir.patch \
-           "
- LIC_FILES_CHKSUM = "file://LICENSES;md5=98a1128c4b58120182cbea3b1752d8b9 \
-       file://COPYING;md5=393a5ca445f6965873eca0259a17f833 \
--- 
-1.7.7.6
+Are you saying that this happens automatically now even without the 
+BB_STAMP_POLICY = "full" setting?  Or that some other setting is more 
+appropriate and perhaps has semantics I don't know?  Or that the current 
+default is no incremental rebuilds?  Or... ?
 
+--rich
 
 
