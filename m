@@ -1,30 +1,23 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <jason.wessel@windriver.com>) id 1SS7pc-0007HI-Bv
+	(envelope-from <philb@gnu.org>) id 1SS7vf-0007Mj-30
 	for openembedded-core@lists.openembedded.org;
-	Wed, 09 May 2012 16:25:32 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q49EFclE023046
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 9 May 2012 07:15:38 -0700 (PDT)
-Received: from [172.25.32.41] (172.25.32.41) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Wed, 9 May 2012 07:15:38 -0700
-Message-ID: <4FAA7C09.7000404@windriver.com>
-Date: Wed, 9 May 2012 09:15:37 -0500
-From: Jason Wessel <jason.wessel@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:11.0) Gecko/20120329 Thunderbird/11.0.1
-MIME-Version: 1.0
+	Wed, 09 May 2012 16:31:47 +0200
+Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
+	helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1SS7m8-00059u-Du
+	for openembedded-core@lists.openembedded.org;
+	Wed, 09 May 2012 16:21:56 +0200
+From: Phil Blundell <philb@gnu.org>
 To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>, Koen Kooi
-	<koen@dominion.thruhere.net>
+	<openembedded-core@lists.openembedded.org>
+Date: Wed, 09 May 2012 15:21:55 +0100
+In-Reply-To: <1336571192-15711-1-git-send-email-jason.wessel@windriver.com>
 References: <1336571192-15711-1-git-send-email-jason.wessel@windriver.com>
-	<056CEBF9-AB73-43AB-ABFF-C511347BB8B3@dominion.thruhere.net>
-In-Reply-To: <056CEBF9-AB73-43AB-ABFF-C511347BB8B3@dominion.thruhere.net>
-X-Enigmail-Version: 1.4.1
-X-MIME-Autoconverted: from 8bit to quoted-printable by mail1.windriver.com id
-	q49EFclE023046
+X-Mailer: Evolution 3.0.2- 
+Message-ID: <1336573316.5602.68.camel@phil-desktop>
+Mime-Version: 1.0
 Subject: Re: [PATCH] .gitignore: add /bitbake to the ignore list for external distributions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -40,57 +33,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 May 2012 14:25:32 -0000
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 09 May 2012 14:31:47 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 05/09/2012 08:58 AM, Koen Kooi wrote:
->=20
-> Op 9 mei 2012, om 15:46 heeft Jason Wessel het volgende geschreven:
->=20
->> External distributions based on the oe-core will typically include
->> bitbake in the top level directory.
->=20
-> Really?
->=20
+On Wed, 2012-05-09 at 08:46 -0500, Jason Wessel wrote:
+> External distributions based on the oe-core will typically include
+> bitbake in the top level directory.  The idea is to make it easy
+> for external distributions to easily assemble a distribution
+> with a pristine version of oe-core, add avoid the git untracked messages:
 
+Presumably any non-trivial external distribution is going to include
+other metadata as well, in which case they're going to have to
+edit .gitignore for themselves anyway.  So it doesn't really seem as
+though having bitbake be mentioned there in oe-core buys much.
 
-Certainly I cannot speak for everyone, but I would like to "attempt" esta=
-blish some kind of standard and this forum is probably the best place to =
-discuss it.  We would like to be able to assemble pristine git controlled=
- pieces that comprise what you find in the Yocto Project.  I believe that=
- Richard Purdie and Jeff Polk discussed this in a different forum and I w=
-as trying to "clean up" the assembly so to speak.=20
+On the other hand, actually moving bitbake inside the oe-core repository
+seems like an idea which might have some merit.  It's not obvious that
+having it in its own tree really achieves anything other than making
+release engineering slightly more difficult.
 
-
->>
->> diff --git a/.gitignore b/.gitignore
->> index 04e36c5..366151c 100644
->> --- a/.gitignore
->> +++ b/.gitignore
->> @@ -1,3 +1,4 @@
->> +/bitbake
->=20
-> Provided we want bitbake in here, shouldn't it be 'bitbake' to match th=
-e rest of the file?
+p.
 
 
-According to the git documentation, "man gitignore", you want the slash f=
-or the following reason:
-
---- excerpt from man page ---
-       =B7   If the pattern does not contain a slash /, git treats it as =
-a shell
-           glob pattern and checks for a match against the pathname relat=
-ive
-           to the location of the .gitignore file (relative to the toplev=
-el of
-           the work tree if not from a .gitignore file).
------------------------------
-
-In theory there should not be a reason we need to use a pattern match.
-
-Cheers,
-Jason.
 
 
