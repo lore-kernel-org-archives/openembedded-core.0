@@ -1,43 +1,39 @@
-Received: from mail-we0-f175.google.com ([74.125.82.175])
+Received: from mail-bk0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1SS2kb-000403-HV
+	(envelope-from <martin.jansa@gmail.com>) id 1SS3Z6-0004Ln-UI
 	for openembedded-core@lists.openembedded.org;
-	Wed, 09 May 2012 11:00:01 +0200
-Received: by werb13 with SMTP id b13so21264wer.6
+	Wed, 09 May 2012 11:52:12 +0200
+Received: by bkcjm2 with SMTP id jm2so63724bkc.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 09 May 2012 01:50:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=subject:mime-version:content-type:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to:x-mailer
-	:x-gm-message-state;
-	bh=+7CViPe7KLv+yqsb4V6JKLfJeCIgPnUrj2dxiRHEcio=;
-	b=A+a+AYfrG62UTFKjfVrrOS7C2T7cFnQteXyrOyDxTgpmP1baInuUne+KmaVbeigUQa
-	BSlb/Lj+oUl28JZlUoEvgczzWbKhxy+75nJBd5SNB6P7zoamIr6ZagJFL7EiZUPFaYgm
-	Rp2H0bu+SopJch03FEjGhX81NlWN0wm6Pl26uar8nl+oBXqm9RTpx6hp3rNPz+Ig9IpN
-	JeE6l5mptWRVBIbe1j8R5pB9dajULvozc9z9aD3ATuOWzAoHcDUegzzXNzXcW8xaajzw
-	WJJpvReR9gyO8vs3JKvEFxSTLgPN0KHSsNRWkzk6chkuM0zMPXvxKOFK/lmGBB4YV9Ea
-	dixA==
-Received: by 10.180.98.137 with SMTP id ei9mr7781067wib.0.1336553408237;
-	Wed, 09 May 2012 01:50:08 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id 6sm35184635wiz.1.2012.05.09.01.50.06
+	Wed, 09 May 2012 02:42:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=Zu18u+/D5qtzjhIyPHCbX3Xx2PuJO5/mHlrE18THC/I=;
+	b=kkkbruFl39o+jMF9JlGsecrKBOv6owVOB9mPc6UmLzZau/fAeRR+uFHTqw+9NUNw3n
+	HRmOe3x++OSuHW/T6NEM2plIWSb52TW5bPhwVOt5N3SpLCzKEw1xGtBAwwH1oxLaOf2E
+	dWwUQZS80GZutWiOahVuGFnRzTC2jt6/guxcbZuExADmC/3nhWnlILfa8suzUNh0DhCQ
+	Y8r1VVXy1yBy1ATBdihc3EV0sXyFcagO/NWo/tIo51CZg8AgNUSAHWsZZPODBjJRNm+n
+	/mUZNSKpo8CxsdlE61uCMAvqEDwfl2x9DfoCuSjHbZAQhzZM0np0I5jbkTbCE/fkZRkj
+	7YQQ==
+Received: by 10.205.127.140 with SMTP id ha12mr7992931bkc.105.1336556540326;
+	Wed, 09 May 2012 02:42:20 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id zx16sm3642406bkb.13.2012.05.09.02.42.18
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 09 May 2012 01:50:07 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1257)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <03d9cdca29477f34348a0f97138504441c5804fa.1336547713.git.liezhi.yang@windriver.com>
-Date: Wed, 9 May 2012 10:50:03 +0200
-Message-Id: <23E51582-C3C4-4673-B646-F29E74FEB428@dominion.thruhere.net>
-References: <cover.1336547713.git.liezhi.yang@windriver.com>
-	<03d9cdca29477f34348a0f97138504441c5804fa.1336547713.git.liezhi.yang@windriver.com>
+	Wed, 09 May 2012 02:42:19 -0700 (PDT)
+Date: Wed, 9 May 2012 11:42:20 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1257)
-X-Gm-Message-State: ALoCoQmiyUzhVU7Gl4Fb2yRRh9ihugKoybsFm0eG3UxI+v8XZgSL5bhPEiOjzBx1YCq/rzs+zcEo
-Cc: Zhenfeng.Zhao@windriver.com
-Subject: Re: [PATCH 2/2] rootfs_rpm.bbclass: don't remove rpmlib when INC_RPM_IMAGE_GEN=1
+Message-ID: <20120509094220.GA12898@jama.jama.net>
+References: <a74c229046eacab9ea8b8189ddc763e18fcc05e9.1336517492.git.raj.khem@gmail.com>
+	<339076a9cf1ef906416bd850e5825c3bb8521983.1336517492.git.raj.khem@gmail.com>
+	<73C72AB1-C5B4-40D1-BAA3-C349F4957C42@dominion.thruhere.net>
+MIME-Version: 1.0
+In-Reply-To: <73C72AB1-C5B4-40D1-BAA3-C349F4957C42@dominion.thruhere.net>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Subject: Re: [PATCH 2/3] kmod: Update to .8 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -52,17 +48,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 May 2012 09:00:01 -0000
+X-List-Received-Date: Wed, 09 May 2012 09:52:13 -0000
+X-Groupsio-MsgNum: 21890
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="sm4nu43k4a2Rpi4c"
+Content-Disposition: inline
+
+--sm4nu43k4a2Rpi4c
 Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
+On Wed, May 09, 2012 at 07:31:52AM +0200, Koen Kooi wrote:
+>=20
+> Op 9 mei 2012, om 00:53 heeft Khem Raj het volgende geschreven:
+>=20
+> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > ---
+> > meta/recipes-kernel/kmod/kmod.inc |    4 ++--
+> > 1 files changed, 2 insertions(+), 2 deletions(-)
+> >=20
+> > diff --git a/meta/recipes-kernel/kmod/kmod.inc b/meta/recipes-kernel/km=
+od/kmod.inc
+> > index 681e52b..70d376e 100644
+> > --- a/meta/recipes-kernel/kmod/kmod.inc
+> > +++ b/meta/recipes-kernel/kmod/kmod.inc
+> > @@ -7,7 +7,7 @@ HOMEPAGE =3D "http://packages.profusion.mobi/kmod/"
+> > LICENSE =3D "GPL-2.0+ & LGPL-2.1+"
+> > LICENSE_libkmod =3D "LGPL-2.1+"
+> > SECTION =3D "base"
+> > -PV =3D "7+git${SRCREV}"
+> > +PV =3D "8+git${SRCREV}"
+>=20
+> Drop the +git$SRCREV, it's a release.
 
-Op 9 mei 2012, om 10:20 heeft Robert Yang het volgende geschreven:
+Agreed, this should be=20
+8+git${SRCPV}
+or no +git at all.
 
-> Don't remove rpmlib when INC_RPM_IMAGE_GEN=3D1, otherwise the
-> list_installed_packages would get nothing in the second build.
+But other than that, this patchset looks good:
+Tested-by: Martin Jansa <Martin.Jansa@gmail.com>
 
-What happens when I do a build, enable INC_RPM_IMAGE_GEN and do another =
-build?=
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--sm4nu43k4a2Rpi4c
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
+
+iEYEARECAAYFAk+qO/wACgkQN1Ujt2V2gBymCgCcCx2sQrRpwBoqX5/zQhRzK8No
++6AAoLqhR9r0PLbiplBZ7AXIJoAHxSr+
+=AdHJ
+-----END PGP SIGNATURE-----
+
+--sm4nu43k4a2Rpi4c--
