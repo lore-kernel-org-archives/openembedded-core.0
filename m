@@ -1,24 +1,26 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1SSDA0-0002vr-Ir
+	(envelope-from <mark.hatle@windriver.com>) id 1SSDA1-0002vs-DS
 	for openembedded-core@lists.openembedded.org;
-	Wed, 09 May 2012 22:06:56 +0200
+	Wed, 09 May 2012 22:06:57 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q49Jv2jf028117
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q49Jv3fG005229
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 9 May 2012 12:57:02 -0700 (PDT)
+	Wed, 9 May 2012 12:57:03 -0700 (PDT)
 Received: from localhost.localdomain (172.25.34.61) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Wed, 9 May 2012 12:57:02 -0700
+	Wed, 9 May 2012 12:57:03 -0700
 From: Mark Hatle <mark.hatle@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 9 May 2012 15:00:05 -0500
-Message-ID: <cover.1336593352.git.mark.hatle@windriver.com>
+Date: Wed, 9 May 2012 15:00:06 -0500
+Message-ID: <2fda0d691f53c8613a1510e16bcb81b999d12331.1336593352.git.mark.hatle@windriver.com>
 X-Mailer: git-send-email 1.7.3.4
+In-Reply-To: <cover.1336593352.git.mark.hatle@windriver.com>
+References: <cover.1336593352.git.mark.hatle@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [172.25.34.61]
-Subject: [PATCH 0/2] v2 Import the blacklist functionality from meta-oe
+Subject: [PATCH 1/2] blacklist: fix typo in name
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,35 +38,42 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 X-List-Received-Date: Wed, 09 May 2012 20:06:57 -0000
 Content-Type: text/plain
 
-Refactor from v1.  Include the original functionality from meta-oe, it
-has been changed based on comments both on the list and off.  And I believe
-greatly simplified.
+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
 
-It is expected that distributions who need the old functionality may
-continue to use the old blacklist.bbclass in their layers.
+Import directly from meta-openembedded commit: 	a63c374cdc785ade69d2998978d08280e671dc1f
 
-One additional note, I had people ask why I need this functionality.  The
-issue is that we intend to use OE-Core release almost exactly as-is.  But
-we have to sent reasonable support boundries for our customers.  This will
-allow us to declare certain items as unsupported, and if the end user
-wishes to clear the blacklist they can.
-
-The following changes since commit 043871d7e5d2d19c2ff43e54d2ff180c09e8903e:
-
-  kern-tools: integrate minor fixes (2012-05-08 16:06:15 +0100)
-
-are available in the git repository at:
-  git://git.pokylinux.org/poky-contrib mhatle/blacklist
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=mhatle/blacklist
-
-Mark Hatle (2):
-  blacklist: fix typo in name
-  blacklist.bbclass: Refactor, use PNBLACKLIST[pn]
-
+Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+---
  meta/classes/blacklist.bbclass |   20 ++++++++++++++++++++
  1 files changed, 20 insertions(+), 0 deletions(-)
  create mode 100644 meta/classes/blacklist.bbclass
 
+diff --git a/meta/classes/blacklist.bbclass b/meta/classes/blacklist.bbclass
+new file mode 100644
+index 0000000..7bf4a73
+--- /dev/null
++++ b/meta/classes/blacklist.bbclass
+@@ -0,0 +1,20 @@
++# anonymous support class from angstrom
++# 
++# Features:
++#
++# * blacklist handling, set ANGSTROM_BLACKLIST_pn-blah = "message"
++#
++
++python () {
++    import bb
++
++    blacklist = bb.data.getVar("ANGSTROM_BLACKLIST", d, 1)
++    pkgnm = bb.data.getVar("PN", d, 1)
++    distro = bb.data.getVar("DISTRO", d, 1)
++
++    if blacklist:
++	bb.note("%s DOES NOT support %s because %s" % (distro,pkgnm, blacklist))
++        raise bb.parse.SkipPackage("%s DOES NOT support %s because %s" % (distro,pkgnm, blacklist))
++
++}
++
 -- 
 1.7.3.4
 
