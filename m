@@ -1,38 +1,35 @@
-Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
+Received: from mail.dream-property.net ([82.149.226.172])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <cazfi74@gmail.com>) id 1SSbJ1-0003GW-O4
+	(envelope-from <obi@opendreambox.org>) id 1SSbK7-0003Ij-JJ
 	for openembedded-core@lists.openembedded.org;
-	Thu, 10 May 2012 23:53:51 +0200
-Received: by lags15 with SMTP id s15so1496610lag.6
+	Thu, 10 May 2012 23:54:59 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by mail.dream-property.net (Postfix) with ESMTP id 0D707315BFF3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 May 2012 14:43:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	bh=f5bnACfcreTxFrjjvmwqH5qouDTsYOvMmzJiWnao+qM=;
-	b=JO26o2aruMJmLWMTUwb3dPPVp+R0XsbYiHTK7M9F1mY4mfa6e4gtN5WqCtsAsCSc+z
-	LZkTDTZCm8DvO/yzVUP/knJWzsohMc0FHDJI/yiRvZX/C6xcgxzWU4vsfNJs6wHHUW6k
-	nqHDTcR0uQp0E53Hp97CgS8bMSdVVz8pwNLIOjA9FR/1DNR5ct3xbcnkKibjNbQ853yo
-	zt/TwkbwJ0NhFT37vhI0NCR5jP+h4kRpRJY/7Ah5lqLjOSFzG5mmGzCjlN0f0Fw8dWon
-	ImUeZ6G/LbcOOKleONW0WvzzS8OxEPptsNI7zaxMcNZHx+dEUMRs7qemjo+ihO1xqQul
-	A+WA==
-Received: by 10.152.146.163 with SMTP id td3mr5913979lab.25.1336686236996;
-	Thu, 10 May 2012 14:43:56 -0700 (PDT)
-Received: from alpha.cazfi.net (a91-153-5-101.elisa-laajakaista.fi.
-	[91.153.5.101])
-	by mx.google.com with ESMTPS id mg19sm7243611lab.8.2012.05.10.14.43.55
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 10 May 2012 14:43:56 -0700 (PDT)
-Received: from cazfi by alpha.cazfi.net with local (Exim 4.77)
-	(envelope-from <cazfi74@gmail.com>)
-	id 1SSb9N-0005bB-Q3; Fri, 11 May 2012 00:43:54 +0300
-From: Marko Lindqvist <cazfi74@gmail.com>
+	Thu, 10 May 2012 23:45:07 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
+Received: from mail.dream-property.net ([127.0.0.1])
+	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id VAny2w+DMvGy
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 10 May 2012 23:45:00 +0200 (CEST)
+Received: from [172.22.22.61] (drms-590c4e8a.pool.mediaWays.net [89.12.78.138])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mail.dream-property.net (Postfix) with ESMTPSA id D6C12315BFF2
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 10 May 2012 23:44:59 +0200 (CEST)
+Message-ID: <4FAC36DA.8080201@opendreambox.org>
+Date: Thu, 10 May 2012 23:44:58 +0200
+From: Andreas Oberritter <obi@opendreambox.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
+MIME-Version: 1.0
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 11 May 2012 00:43:51 +0300
-Message-Id: <1336686231-28111-1-git-send-email-cazfi74@gmail.com>
-X-Mailer: git-send-email 1.7.10
-In-Reply-To: <CAMKF1srWO69M=MOa4_ar8oO55fkaofzSHj_UAsRaVL+-dzEXNw@mail.gmail.com>
-References: <CAMKF1srWO69M=MOa4_ar8oO55fkaofzSHj_UAsRaVL+-dzEXNw@mail.gmail.com>
-Subject: [PATCH] expat: update to upstream version 2.1.0
+References: <1336680237-31671-1-git-send-email-obi@opendreambox.org>
+	<CAMKF1spfSiBy0F-cP7Q2NYT2dg2CFqvfXxuxR_=-F2o8gdBwGw@mail.gmail.com>
+In-Reply-To: <CAMKF1spfSiBy0F-cP7Q2NYT2dg2CFqvfXxuxR_=-F2o8gdBwGw@mail.gmail.com>
+Subject: Re: [PATCH] e2fsprogs: fix packaging error for libext2fs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,74 +44,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 May 2012 21:53:51 -0000
+X-List-Received-Date: Thu, 10 May 2012 21:54:59 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
----
- .../expat/{expat-2.0.1 => expat-2.1.0}/autotools.patch    |   13 ++++++++-----
- meta/recipes-core/expat/expat_2.0.1.bb                    |    6 ------
- meta/recipes-core/expat/expat_2.1.0.bb                    |    6 ++++++
- 3 files changed, 14 insertions(+), 11 deletions(-)
- rename meta/recipes-core/expat/{expat-2.0.1 => expat-2.1.0}/autotools.patch (53%)
- delete mode 100644 meta/recipes-core/expat/expat_2.0.1.bb
- create mode 100644 meta/recipes-core/expat/expat_2.1.0.bb
+On 10.05.2012 22:30, Khem Raj wrote:
+> On Thu, May 10, 2012 at 1:03 PM, Andreas Oberritter
+> <obi@opendreambox.org> wrote:
+>>
+>> -FILES_libext2fs = "${libdir}/e2initrd_helper ${libdir}/libext2fs.so.*"
+>> +FILES_libext2fs = "${libdir}/e2initrd_helper ${base_libdir}/libext2fs.so.*"
+> 
+> its probably not a good idea to mix files from libdir and base_libdir
+> in a single
+> package. Since lately we have been accommodating /usr to be mounted
+> independently.
 
-diff --git a/meta/recipes-core/expat/expat-2.0.1/autotools.patch b/meta/recipes-core/expat/expat-2.1.0/autotools.patch
-similarity index 53%
-rename from meta/recipes-core/expat/expat-2.0.1/autotools.patch
-rename to meta/recipes-core/expat/expat-2.1.0/autotools.patch
-index c0ac10b..0e59969 100644
---- a/meta/recipes-core/expat/expat-2.0.1/autotools.patch
-+++ b/meta/recipes-core/expat/expat-2.1.0/autotools.patch
-@@ -6,14 +6,17 @@ Workaround specific to our build system.
- Signed-off-by: Kevin Tian <kevin.tian@intel.com>
- Signed-off-by: Scott Garman <scott.a.garman@intel.com>
- 
--diff -bur expat-2.0.0~orig/configure.in expat-2.0.0/configure.in
----- expat-2.0.0~orig/configure.in	2006-01-10 19:10:46.000000000 -0600
--+++ expat-2.0.0/configure.in	2006-02-10 19:12:24.000000000 -0600
--@@ -50,9 +50,6 @@
-+Updated to apply over expat 2.1.0
-+
-+Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
-+
-+diff -Nurd expat-2.1.0/configure.in expat-2.1.0/configure.in
-+--- expat-2.1.0/configure.in	2012-03-04 01:45:53.000000000 +0200
-++++ expat-2.1.0/configure.in	2012-05-10 21:04:44.000000000 +0300
-+@@ -51,8 +51,6 @@
-  
-  AC_CONFIG_HEADER(expat_config.h)
-  
---sinclude(conftools/libtool.m4)
- -sinclude(conftools/ac_c_bigendian_cross.m4)
- -
-  AC_LIBTOOL_WIN32_DLL
-diff --git a/meta/recipes-core/expat/expat_2.0.1.bb b/meta/recipes-core/expat/expat_2.0.1.bb
-deleted file mode 100644
-index 30b5684..0000000
---- a/meta/recipes-core/expat/expat_2.0.1.bb
-+++ /dev/null
-@@ -1,6 +0,0 @@
--require expat.inc
--LIC_FILES_CHKSUM = "file://COPYING;md5=1b71f681713d1256e1c23b0890920874"
--PR = "r1"
--
--SRC_URI[md5sum] = "ee8b492592568805593f81f8cdf2a04c"
--SRC_URI[sha256sum] = "847660b4df86e707c9150e33cd8c25bc5cd828f708c7418e765e3e983a2e5e93"
-diff --git a/meta/recipes-core/expat/expat_2.1.0.bb b/meta/recipes-core/expat/expat_2.1.0.bb
-new file mode 100644
-index 0000000..1ce1844
---- /dev/null
-+++ b/meta/recipes-core/expat/expat_2.1.0.bb
-@@ -0,0 +1,6 @@
-+require expat.inc
-+LIC_FILES_CHKSUM = "file://COPYING;md5=1b71f681713d1256e1c23b0890920874"
-+PR = "r0"
-+
-+SRC_URI[md5sum] = "dd7dab7a5fea97d2a6a43f511449b7cd"
-+SRC_URI[sha256sum] = "823705472f816df21c8f6aa026dd162b280806838bb55b3432b0fb1fcca7eb86"
--- 
-1.7.10
+I have no idea what e2initrd_helper does, but this can still be
+addressed in a later patch.
 
+Currently, libext2fs.so.* gets packaged into the "e2fsprogs" package,
+which is worse than your concerns, because it drags many unneeded
+dependencies into the image.
+
+FWIW, e2initrd_helper doesn't seem to be required during a usual boot
+process, as nobody seems to have missed it. At least no automatic
+dependencies on the libext2fs package were generated before this patch.
+
+Regards,
+Andreas
 
 
