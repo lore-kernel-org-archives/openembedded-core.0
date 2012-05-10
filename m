@@ -1,27 +1,26 @@
 Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1SSbsS-00045l-FW
+	(envelope-from <mark.hatle@windriver.com>) id 1SScev-0004sR-3u
 	for openembedded-core@lists.openembedded.org;
-	Fri, 11 May 2012 00:30:28 +0200
+	Fri, 11 May 2012 01:20:33 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q4AMKX0d020413
+	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q4ANAcUC020860
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 May 2012 15:20:33 -0700 (PDT)
-Received: from msp-dhcp22.wrs.com (172.25.34.22) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Thu, 10 May 2012 15:20:32 -0700
-Message-ID: <4FAC3F2F.9000006@windriver.com>
-Date: Thu, 10 May 2012 17:20:31 -0500
+	Thu, 10 May 2012 16:10:38 -0700 (PDT)
+Received: from localhost.localdomain (172.25.34.61) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
+	Thu, 10 May 2012 16:10:37 -0700
 From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
-	rv:12.0) Gecko/20120428 Thunderbird/12.0.1
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 10 May 2012 18:13:38 -0500
+Message-ID: <8c6c132129d83dca4e5b88a642126901c32a78de.1336691544.git.mark.hatle@windriver.com>
+X-Mailer: git-send-email 1.7.3.4
+In-Reply-To: <cover.1336691544.git.mark.hatle@windriver.com>
+References: <cover.1336691544.git.mark.hatle@windriver.com>
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>, "Wessel, Jason"
-	<jason.wessel@windriver.com>
-Subject: setscene and perl -- pathological case
+X-Originating-IP: [172.25.34.61]
+Subject: [PATCH 1/1] sstate.bbclass: Improve sstate_installpkg performance
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,61 +35,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 May 2012 22:30:29 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 10 May 2012 23:20:33 -0000
+Content-Type: text/plain
 
-We've discovered that perl seems to be a pretty bad pathological case for setscene.
+In a pathological case, lots of files to process, the sstate_installpkg
+performance was very poor.  It interated over each file and ran 3
+individual sed commands per file.  Changing this to keep iterating
+but running only a single command took about 1/3 time time.
 
-Easy way to see what I mean:
+However, when looking at the corresponding sstate_hardcode_path
+function, it was clear we could optimize this further.
 
-bitbake perl
-bitbake -c clean perl
-time bitbake perl
+Using the same encoding logic to specify only the minimumal sed
+operation necessary, and using xargs to avoid the os.system call the
+install step was able to be performed in 13% of the original time.
 
-The system isn't doing anything but running the setscene elements to bring perl 
-from the sstate-cache into the sysroot and related directories.. but it takes a 
-very long time to do this:
+Example timing numbers for perl:
 
-real    3m7.430s
-user    0m36.316s
-sys     2m46.742s
+3m7s original code
+1m20s single sed, but interating
+0m26s using xargs and limited sed
 
-That is on my 8 core w/ 12 GB of ram system..  (standard SATA disks)
+Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+---
+ meta/classes/sstate.bbclass |   28 +++++++++++++++++++++-------
+ 1 files changed, 21 insertions(+), 7 deletions(-)
 
-Digging into this, I found that the majority of the time is spent in 
-meta/classes/sstate.bbclass: sstate_installpkg
+diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+index a8c98e5..ad7d121 100644
+--- a/meta/classes/sstate.bbclass
++++ b/meta/classes/sstate.bbclass
+@@ -174,18 +174,29 @@ def sstate_installpkg(ss, d):
+     bb.build.exec_func('sstate_unpack_package', d)
+ 
+     # Fixup hardcoded paths
++    #
++    # Note: The logic below must match the reverse logic in
++    # sstate_hardcode_path(d)
++
+     fixmefn =  sstateinst + "fixmepath"
+     if os.path.isfile(fixmefn):
+         staging = d.getVar('STAGING_DIR', True)
+         staging_target = d.getVar('STAGING_DIR_TARGET', True)
+         staging_host = d.getVar('STAGING_DIR_HOST', True)
+-        fixmefd = open(fixmefn, "r")
+-        fixmefiles = fixmefd.readlines()
+-        fixmefd.close()
+-        for file in fixmefiles:
+-            os.system("sed -i -e s:FIXMESTAGINGDIRTARGET:%s:g %s" % (staging_target, sstateinst + file))
+-            os.system("sed -i -e s:FIXMESTAGINGDIRHOST:%s:g %s" % (staging_host, sstateinst + file))
+-            os.system("sed -i -e s:FIXMESTAGINGDIR:%s:g %s" % (staging, sstateinst + file))
++
++	if bb.data.inherits_class('native', d) or bb.data.inherits_class('nativesdk', d) or bb.data.inherits_class('crosssdk', d) or bb.data.inherits_class('cross-canadian', d):
++		sstate_sed_cmd = "sed -i -e 's:FIXMESTAGINGDIR:%s:g'" % (staging)
++	elif bb.data.inherits_class('cross', d):
++		sstate_sed_cmd = "sed -i -e 's:FIXMESTAGINGDIRTARGET:%s:g; s:FIXMESTAGINGDIR:%s:g'" % (staging_target, staging)
++	else:
++		sstate_sed_cmd = "sed -i -e 's:FIXMESTAGINGDIRHOST:%s:g'" % (staging_host)
++
++	# Add sstateinst to each filename in fixmepath, use xargs to efficiently call sed
++	sstate_hardcode_cmd = "sed -e 's:^:%s:g' %s | xargs %s" % (sstateinst, fixmefn, sstate_sed_cmd)
++
++	print "Replacing fixme paths in sstate package: %s" % (sstate_hardcode_cmd)
++	os.system(sstate_hardcode_cmd)
++
+         # Need to remove this or we'd copy it into the target directory and may 
+         # conflict with another writer
+         os.remove(fixmefn)
+@@ -300,6 +311,9 @@ python sstate_cleanall() {
+ def sstate_hardcode_path(d):
+ 	# Need to remove hardcoded paths and fix these when we install the
+ 	# staging packages.
++	#
++	# Note: the logic in this function needs to match the reverse logic
++	# in sstate_installpkg(ss, d)
+ 
+ 	staging = d.getVar('STAGING_DIR', True)
+ 	staging_target = d.getVar('STAGING_DIR_TARGET', True)
+-- 
+1.7.3.4
 
-If you look for the three os.system("sed ...  calls, almost all of the 3 minutes 
-is there.  Perl has so many text files with embedded paths that a significant 
-amount of time is spent preparing these files and fixing paths.
-
-I did a test and changed the three sed cases into a single sed operation:
-
--            os.system("sed -i -e s:FIXMESTAGINGDIRTARGET:%s:g %s" % 
-(staging_target, sstateinst + file))
--            os.system("sed -i -e s:FIXMESTAGINGDIRHOST:%s:g %s" % 
-(staging_host, sstateinst + file))
--            os.system("sed -i -e s:FIXMESTAGINGDIR:%s:g %s" % (staging, 
-sstateinst + file))
-+            os.system("sed -i -e s:FIXMESTAGINGDIRTARGET:%s:g -e 
-s:FIXMESTAGINGDIRHOST:%s:g -e s:FIXMESTAGINGDIR:%s:g %s " % (staging_target, 
-staging_host, staging, sstateinst + file))
-
-The result:
-
-real    1m20.979s
-user    0m19.400s
-sys     1m4.115s
-
-This is a very significant performance improvement.  I'm not sure if it's 
-possible to speed this up even more, but it would be nice if we could get things 
-under a minute.
-
-Does anyone see a way we could do this quicker or in a better way to boost 
-performance?  (One possibility is figure out how to thread the file processing 
-and use available processors...)
-
---Mark
 
 
