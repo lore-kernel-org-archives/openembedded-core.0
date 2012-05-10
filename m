@@ -1,33 +1,35 @@
 Received: from mail-ob0-f175.google.com ([209.85.214.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1SSJRG-0000Is-B7
+	(envelope-from <kergoth@gmail.com>) id 1SSJRH-0000It-9s
 	for openembedded-core@lists.openembedded.org;
-	Thu, 10 May 2012 04:49:10 +0200
-Received: by obhx4 with SMTP id x4so1287749obh.6
+	Thu, 10 May 2012 04:49:11 +0200
+Received: by obhx4 with SMTP id x4so1287774obh.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 09 May 2012 19:39:16 -0700 (PDT)
+	Wed, 09 May 2012 19:39:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=9KjU1frlZFn3gd1Z76ccd5xv92z87wttqwO39F4D9wE=;
-	b=gRb4vZAcYx/8DuZDRfd/KMOH3s66QaZLTkSTryDZD7qwpyk84Op6I3kyvl6VI8DBJs
-	tDm2PZb5K09kls92VneOEtv9pvfP/9NiHO1kCWcd0FcvjHVBXR2iSDfZuxL3fRaQ2MWo
-	kYcUagcE5I40Zy1UjlFmtIlHyGxiMNySV+/8yBW/u2/BM6xGeZ7uqRjT4Mhn11skCeeu
-	g8Gy0RExkieUmaTnjM9V3C4FJviywOUtJzYytcV02Ns6vCbmqh+XD8cZeBRSpAOJnjMi
-	Cc7YIZSKKOTYcu4MLSWzkgFeLDACid7Z2PQYQGo6MCZjma10FWyXHEJI8zxSJp3kduOa
-	b/KA==
-Received: by 10.182.179.4 with SMTP id dc4mr3512892obc.53.1336617556288;
-	Wed, 09 May 2012 19:39:16 -0700 (PDT)
+	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
+	bh=wgvM5p7d+DUflDw+gSd4nSVmFeiBcK+e0u1RywigIDU=;
+	b=kjFwPm70bK2QplJ4zS9IOeQOIs5ZPR9WDkbTenrrIDVMmseU8wIYgDGFchopK/hL68
+	9LyJzRQSNy9qbehM558lgGUekslMJbd8gdoHMJZv9eIdEs1LeNa+5wdRTFhwy4BaMRRD
+	k/T3RnexANpynH2cwum9oN/FOVzc+S3HZ8Nev1cW8hKooaCjoYAFTpqmCTKsoloZcSAq
+	DmmbSEJvezRqyWigTtMiZxMKq5YdstaYOW+bivohe84LuqYXLDFUo9BxYx8ehf57X8jI
+	KcGRRt6eoTVJa7xPB1AJHDPVnGEybQ3ZRZU9wK5tEI7uJazKlK2H11JQzOnnbx7SlMbA
+	ZVcw==
+Received: by 10.182.141.9 with SMTP id rk9mr3491723obb.50.1336617557455;
+	Wed, 09 May 2012 19:39:17 -0700 (PDT)
 Received: from localhost.localdomain (nat-lmt.mentorg.com. [139.181.28.34])
-	by mx.google.com with ESMTPS id tx2sm4759872obb.8.2012.05.09.19.39.15
+	by mx.google.com with ESMTPS id tx2sm4759872obb.8.2012.05.09.19.39.16
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 09 May 2012 19:39:15 -0700 (PDT)
+	Wed, 09 May 2012 19:39:17 -0700 (PDT)
 From: Christopher Larson <kergoth@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  9 May 2012 21:40:14 -0500
-Message-Id: <1336617615-25713-1-git-send-email-kergoth@gmail.com>
+Date: Wed,  9 May 2012 21:40:15 -0500
+Message-Id: <1336617615-25713-2-git-send-email-kergoth@gmail.com>
 X-Mailer: git-send-email 1.7.7
+In-Reply-To: <1336617615-25713-1-git-send-email-kergoth@gmail.com>
+References: <1336617615-25713-1-git-send-email-kergoth@gmail.com>
 Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCH 1/2] typecheck.bbclass: update per current variable typing code
+Subject: [PATCH 2/2] archiver.bbclass: leverage variable typing support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,27 +44,190 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 May 2012 02:49:10 -0000
+X-List-Received-Date: Thu, 10 May 2012 02:49:11 -0000
 
 From: Christopher Larson <chris_larson@mentor.com>
 
+This makes use of variable typing to avoid reinventing the wheel in that way
+and adds default values for a couple of said variables. It also changes
+PATCHES_ARCHIVE_WITH_SERIES to use ?= rather than =.
+
+Further, doing this fixes a single bug that occurs in many places:
+
+    if d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True).upper() not in 'SRPM':
+
+This is performing a substring search. It should have done "== 'SRPM'"", or if
+there *were* multiple options for that case (there aren't), it would do "not
+in ['SRPM']" or similar.
+
 Signed-off-by: Christopher Larson <chris_larson@mentor.com>
 ---
- meta/classes/typecheck.bbclass |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+ meta/classes/archiver.bbclass    |   45 +++++++++++++++++--------------------
+ meta/classes/package_rpm.bbclass |   12 +++++-----
+ 2 files changed, 27 insertions(+), 30 deletions(-)
 
-diff --git a/meta/classes/typecheck.bbclass b/meta/classes/typecheck.bbclass
-index 646cd4e..353532d 100644
---- a/meta/classes/typecheck.bbclass
-+++ b/meta/classes/typecheck.bbclass
-@@ -7,6 +7,6 @@ python check_types() {
-     if isinstance(e, bb.event.ConfigParsed):
-         for key in e.data.keys():
-             if e.data.getVarFlag(key, "type"):
--                oe.types.value(key, e.data)
-+                oe.data.typed_value(key, e.data)
+diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
+index 59b58f4..844dbf8 100644
+--- a/meta/classes/archiver.bbclass
++++ b/meta/classes/archiver.bbclass
+@@ -2,10 +2,19 @@
+ # It also output building environment to xxx.dump.data and create xxx.diff.gz to record 
+ # all content in ${S} to a diff file. 
+ 
+-ARCHIVE_EXCLUDE_FROM ?= ".pc autom4te.cache"
+-ARCHIVE_TYPE ?= "TAR SRPM"
+ DISTRO ?= "poky"
+-PATCHES_ARCHIVE_WITH_SERIES = 'TRUE'
++ARCHIVE_EXCLUDE_FROM ?= ".pc autom4te.cache"
++
++PATCHES_ARCHIVE_WITH_SERIES ?= "true"
++PATCHES_ARCHIVE_WITH_SERIES[type] = "boolean"
++
++SOURCE_ARCHIVE_PACKAGE_TYPE ?= "tar"
++SOURCE_ARCHIVE_PACKAGE_TYPE[type] = "choice"
++SOURCE_ARCHIVE_PACKAGE_TYPE[choices] = "tar srpm"
++
++SOURCE_ARCHIVE_LOG_WITH_SCRIPTS ?= "logs_with_scripts"
++SOURCE_ARCHIVE_LOG_WITH_SCRIPTS[type] = "choice"
++SOURCE_ARCHIVE_LOG_WITH_SCRIPTS[choices] = "none logs logs_with_scripts"
+ 
+ def get_bb_inc(d):
+ 	'''create a directory "script-logs" including .bb and .inc file in ${WORKDIR}'''
+@@ -253,14 +262,6 @@ def move_tarball_deploy(d,tarball_list):
+ 				os.remove(os.path.join(tar_sources,source))
+ 			shutil.move(os.path.join(work_dir,source),tar_sources)
+ 
+-def check_archiving_type(d):
+-	'''check the type for archiving package('tar' or 'srpm')'''
+-	try:
+-		if d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True).upper() not in d.getVar('ARCHIVE_TYPE', True).split():
+-			raise AttributeError	
+-	except AttributeError:
+-			bb.fatal("\"SOURCE_ARCHIVE_PACKAGE_TYPE\" is \'tar\' or \'srpm\', no other types") 
+-
+ def store_package(d,package_name):
+ 	'''store tarbablls name to file "tar-package"'''
+ 	try:
+@@ -287,24 +288,21 @@ def archive_sources_patches(d,stage_name):
+ 	'''archive sources and patches to tarball. stage_name will append strings ${stage_name} to ${PR} as middle name. for example, zlib-1.4.6-prepatch(stage_name).tar.gz '''
+ 	import shutil
+ 
+-	check_archiving_type(d)	
+ 	if not_tarball(d):
+ 		return
+ 	
+ 	source_tar_name = archive_sources(d,stage_name)
+ 	if stage_name == "prepatch":
+-		if d.getVar('PATCHES_ARCHIVE_WITH_SERIES',True).upper() == 'TRUE':
++		if oe.data.typed_value('PATCHES_ARCHIVE_WITH_SERIES', d):
+ 			patch_tar_name = select_archive_patches(d,"all")
+-		elif d.getVar('PATCHES_ARCHIVE_WITH_SERIES',True).upper() == 'FALSE':
+-			patch_tar_name = select_archive_patches(d,"applying")
+ 		else:
+-			bb.fatal("Please define 'PATCHES_ARCHIVE_WITH_SERIES' is strings 'True' or 'False' ")
++			patch_tar_name = select_archive_patches(d,"applying")
+ 	else:
+ 		patch_tar_name = ''
+ 	
+-	if d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True).upper() not in 'SRPM':
++	if oe.data.typed_value('SOURCE_ARCHIVE_PACKAGE_TYPE', d) == 'tar':
+ 		move_tarball_deploy(d,[source_tar_name,patch_tar_name])
+-	else:
++	else: # srpm
+ 		tarpackage = os.path.join(d.getVar('WORKDIR', True),'tar-package')
+ 		if os.path.exists(tarpackage):
+ 			os.remove(tarpackage)
+@@ -317,7 +315,7 @@ def archive_scripts_logs(d):
+ 
+ 	work_dir = d.getVar('WORKDIR', True)
+ 	temp_dir = os.path.join(work_dir,'temp')
+-	source_archive_log_with_scripts = d.getVar('SOURCE_ARCHIVE_LOG_WITH_SCRIPTS', True)
++	source_archive_log_with_scripts = oe.data.typed_value('SOURCE_ARCHIVE_LOG_WITH_SCRIPTS', d)
+ 	if source_archive_log_with_scripts == 'logs_with_scripts':
+ 		logdir = get_bb_inc(d)
+ 		tarlog = archive_logs(d,logdir,True)
+@@ -326,10 +324,9 @@ def archive_scripts_logs(d):
+ 			tarlog = archive_logs(d,temp_dir,False)
+ 	else:
+ 		return
+-		
+-	if d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True).upper() not in 'SRPM':
+-		move_tarball_deploy(d,[tarlog])
+ 
++	if oe.data.typed_value('SOURCE_ARCHIVE_PACKAGE_TYPE', d) == 'tar':
++		move_tarball_deploy(d,[tarlog])
+ 	else:
+ 		store_package(d,tarlog)
+ 
+@@ -427,14 +424,14 @@ python do_archive_linux_yocto(){
+ 	s = d.getVar('S', True)
+ 	if 'linux-yocto' in s:
+ 		source_tar_name = archive_sources(d,'')
+-	if d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True).upper() not in 'SRPM':
++	if oe.data.typed_value('SOURCE_ARCHIVE_PACKAGE_TYPE', d) == 'tar':
+ 		move_tarball_deploy(d,[source_tar_name,''])
  }
- addhandler check_types
+ do_kernel_checkout[postfuncs] += "do_archive_linux_yocto "
+ 
+ # remove tarball for sources, patches and logs after creating srpm.
+ python do_remove_tarball(){
+-	if d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True).upper() == 'SRPM':
++	if oe.data.typed_value('SOURCE_ARCHIVE_PACKAGE_TYPE', d) == 'srpm':
+ 		work_dir = d.getVar('WORKDIR', True)
+ 		try:
+ 			for file in os.listdir(os.getcwd()):
+diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
+index 623069e..8033a37 100644
+--- a/meta/classes/package_rpm.bbclass
++++ b/meta/classes/package_rpm.bbclass
+@@ -505,19 +505,19 @@ python write_specfile () {
+ 
+ 	# append information for logs and patches to %prep
+ 	def add_prep(d,spec_files_bottom):
+-		if d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True) and d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True).upper() == 'SRPM':
++		if oe.data.typed_value('SOURCE_ARCHIVE_PACKAGE_TYPE', d) == 'srpm':
+ 			spec_files_bottom.append('%%prep -n %s' % d.getVar('PN', True) )
+ 			spec_files_bottom.append('%s' % "echo \"include logs and patches, Please check them in SOURCES\"")
+ 			spec_files_bottom.append('')
+ 
+ 	# get the name of tarball for sources, patches and logs
+ 	def get_tarballs(d):
+-		if d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True) and d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True).upper() == 'SRPM':
++		if oe.data.typed_value('SOURCE_ARCHIVE_PACKAGE_TYPE', d) == 'srpm':
+ 			return get_package(d)
+     
+ 	# append the name of tarball to key word 'SOURCE' in xxx.spec.
+ 	def tail_source(d,source_list=[],patch_list=None):
+-		if d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True) and d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True).upper() == 'SRPM':
++		if oe.data.typed_value('SOURCE_ARCHIVE_PACKAGE_TYPE', d) == 'srpm':
+ 			source_number = 0
+ 			patch_number = 0
+ 			for source in source_list:
+@@ -956,7 +956,7 @@ python do_package_rpm () {
+ 	import os
+ 	
+ 	def creat_srpm_dir(d):
+-		if d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True) and d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True).upper() == 'SRPM':
++		if oe.data.typed_value('SOURCE_ARCHIVE_PACKAGE_TYPE', d) == 'srpm':
+ 			clean_licenses = get_licenses(d)
+ 			pkgwritesrpmdir = bb.data.expand('${PKGWRITEDIRSRPM}/${PACKAGE_ARCH_EXTEND}', d)
+ 			pkgwritesrpmdir = pkgwritesrpmdir + '/' + clean_licenses
+@@ -1083,13 +1083,13 @@ python do_package_rpm () {
+ 	cmd = cmd + " --define 'debug_package %{nil}'"
+ 	cmd = cmd + " --define '_rpmfc_magic_path " + magicfile + "'"
+ 	cmd = cmd + " --define '_tmppath " + workdir + "'"
+-	if d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True) and d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True).upper() == 'SRPM':
++	if oe.data.typed_value('SOURCE_ARCHIVE_PACKAGE_TYPE', d) == 'srpm':
+ 		cmdsrpm = cmd + " --define '_sourcedir " + workdir + "' --define '_srcrpmdir " + creat_srpm_dir(d) + "'"
+ 		cmdsrpm = 'fakeroot ' + cmdsrpm + " -bs " + outspecfile
+ 	cmd = cmd + " -bb " + outspecfile
+ 
+     # Build the source rpm package !
+-	if d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True) and d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True).upper() == 'SRPM':
++	if oe.data.typed_value('SOURCE_ARCHIVE_PACKAGE_TYPE', d) == 'srpm':
+ 		d.setVar('SBUILDSPEC', cmdsrpm + "\n")
+ 		d.setVarFlag('SBUILDSPEC', 'func', '1')
+ 		bb.build.exec_func('SBUILDSPEC', d)
 -- 
 1.7.7
 
