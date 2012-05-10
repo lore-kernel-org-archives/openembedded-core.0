@@ -1,36 +1,25 @@
-Received: from mail-wg0-f43.google.com ([74.125.82.43])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1SSH1X-0003rK-4C
+	(envelope-from <sgw@linux.intel.com>) id 1SSH7f-0003vs-LX
 	for openembedded-core@lists.openembedded.org;
-	Thu, 10 May 2012 02:14:27 +0200
-Received: by wgbdr1 with SMTP id dr1so764893wgb.24
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 09 May 2012 17:04:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date
-	:x-google-sender-auth:message-id:subject:to:content-type
-	:content-transfer-encoding;
-	bh=cSDeyHsJr+/4+Lhstl3kutWB8RMuW0/FAx0AWTpn7b0=;
-	b=gHxrC9cWdE9c7JlZE7v+nE3ndqwB1IX8wwKoxHj9hDvbRTTRG8cIFvb4pQnOOLa2mJ
-	TtX6GLu5o62JcJdO2DEVYU5cG6Nu/OJuzbc1le70izKnaDaYjnyx8kQwxh1aXinISzgh
-	Z4Yms7viLcyj0QqKrobegNvN46ulMUt0LQSDFgtykHWYjf2hJzMkh/Z5vp1RbnRaWQNa
-	VqO4OIHW4vZ4Hh+PJdg5ZnKP9D+A4x9hmIUcEvDmX6FJ0/999FnaiOuaFtshww7pE4x7
-	iEXhTIyAaY/KeLSxhmIrKRfBGNgLIXK5JZ9GSS0aD9JI8UhtjuzOmvVlNZEIR1wY30vR
-	2yEQ==
-Received: by 10.216.195.10 with SMTP id o10mr166743wen.11.1336608273866; Wed,
-	09 May 2012 17:04:33 -0700 (PDT)
+	Thu, 10 May 2012 02:20:47 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 09 May 2012 17:10:52 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="141141861"
+Received: from unknown (HELO [10.255.12.218]) ([10.255.12.218])
+	by azsmga001.ch.intel.com with ESMTP; 09 May 2012 17:10:45 -0700
+Message-ID: <4FAB0784.2080703@linux.intel.com>
+Date: Wed, 09 May 2012 17:10:44 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:12.0) Gecko/20120424 Thunderbird/12.0
 MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.216.181.16 with HTTP; Wed, 9 May 2012 17:03:07 -0700 (PDT)
-In-Reply-To: <1336607861.2494.113.camel@ted>
-References: <1336607861.2494.113.camel@ted>
-From: Chris Larson <clarson@kergoth.com>
-Date: Wed, 9 May 2012 17:03:07 -0700
-X-Google-Sender-Auth: fdsqjG1hmAsjmqwE9OOa-KTnnPs
-Message-ID: <CABcZANkdKjrx6hdYGLbjsxO-yfFQxZXXcTOuTfa-Xqh2c0VmgA@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: bitbake/runqueue: Fix 'full' stamp checking to be more efficient and cache results
+References: <CAF6bG8eVQcJHEH8RHsAGV2CP6ZjH1+sZUyvBTFLvB6cv--ZUhw@mail.gmail.com>
+In-Reply-To: <CAF6bG8eVQcJHEH8RHsAGV2CP6ZjH1+sZUyvBTFLvB6cv--ZUhw@mail.gmail.com>
+Subject: Re: [PATCH] package_deb.bbclass: don't handle advanced dependency marker
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,35 +34,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 May 2012 00:14:27 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 10 May 2012 00:20:47 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, May 9, 2012 at 4:57 PM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> diff --git a/bitbake/lib/bb/runqueue.py b/bitbake/lib/bb/runqueue.py
-> index b870caf..48433be 100644
-> --- a/bitbake/lib/bb/runqueue.py
-> +++ b/bitbake/lib/bb/runqueue.py
-> @@ -875,7 +875,7 @@ class RunQueue:
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.msg.fatal("RunQueue", "check=
-_stamps fatal internal error")
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0 return current
+On 05/09/2012 04:50 PM, Marko Lindqvist wrote:
+> From: Marko Lindqvist<cazfi74@gmail.com>
+> Date: Thu, 10 May 2012 02:41:06 +0300
+> Subject: [PATCH] package_deb.bbclass: don't handle advanced dependency marker
+>   as version number
 >
-> - =C2=A0 =C2=A0def check_stamp_task(self, task, taskname =3D None, recurs=
-e =3D False):
-> + =C2=A0 =C2=A0def check_stamp_task(self, task, taskname =3D None, recurs=
-e =3D False, cache =3D {}):
+> Strip advanced dependency markers away from Provides before writing
+> them to control file. Left in place they would mean package version
+> number in control file format.
+>
+> Signed-off-by: Marko Lindqvist<cazfi74@gmail.com>
+> ---
+>   meta/classes/package_deb.bbclass |   19 ++++++++++++++++++-
+>   1 file changed, 18 insertions(+), 1 deletion(-)
+>
+> diff --git a/meta/classes/package_deb.bbclass b/meta/classes/package_deb.bbclass
+> index dc0f963..c51bf3c 100644
+> --- a/meta/classes/package_deb.bbclass
+> +++ b/meta/classes/package_deb.bbclass
+> @@ -206,6 +206,23 @@ python do_package_deb () {
+>       import re, copy
+>       import textwrap
+>
+> +    def deb_explode_dep_ver(varname):
+> +        # Remove markers from string so they won't get handled as
+> version numbers
+> +        depstr = localdata.getVar(varname, True) or ""
+> +        start = depstr.find("(")
+> +        while start != -1:
+> +            # We are not searching ")" from full string in case it's
+> malformed in a way
+> +            # that first ")" is before first "("
+> +            endstr = depstr[start:len(depstr)]
+> +            end = endstr.find(")")
+> +            if (end == len(endstr) - 1) or (end == -1):
+> +                tmpstr = depstr[0:start]
+> +            else:
+> +                tmpstr = depstr[0:start] + depstr[start+end+1:len(depstr)]
+> +            depstr = tmpstr
+> +            start = depstr.find("(")
+> +        return bb.utils.explode_dep_versions(depstr)
+> +
+>       workdir = d.getVar('WORKDIR', True)
+>       if not workdir:
+>           bb.error("WORKDIR not defined, unable to package")
+> @@ -341,7 +358,7 @@ python do_package_deb () {
+>                   if '*' in dep:
+>                           del rrecommends[dep]
+>           rsuggests =
+> bb.utils.explode_dep_versions(localdata.getVar("RSUGGESTS", True) or
+> "")
+> -        rprovides =
+> bb.utils.explode_dep_versions(localdata.getVar("RPROVIDES", True) or
+> "")
+> +        rprovides = deb_explode_dep_ver("RPROVIDES")
+>           rreplaces =
+> bb.utils.explode_dep_versions(localdata.getVar("RREPLACES", True) or
+> "")
+>           rconflicts =
+> bb.utils.explode_dep_versions(localdata.getVar("RCONFLICTS", True) or
+> "")
+>           if rdepends:
 
-When people do this, it's typically a bug, but I presume you're doing
-it intentionally here? Use of mutable default values is often
-problematic due to their being shared across all calls to that
-function, but that's okay for a cache. Maybe you intended this, given
-it's a cache, but I wanted to ensure it was a conscious choice. Also,
-this adds yet another global cache with no form of invalidation /
-clear at all, it'll continue to grow through the lifetime of the
-process.
---=20
-Christopher Larson
+Marko,
+
+I am not sure what's wrong with this patch or the others you sent 
+recently but none of them are applying cleanly with "git am" what are 
+you using to format the patch and mail it?
+
+Please use git format-patch and git send-email or the scripts 
+create-pull-request/send-pull-request.
+
+Thanks
+	Sau!
 
 
