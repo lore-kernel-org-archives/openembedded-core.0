@@ -1,35 +1,33 @@
-Received: from mail.dream-property.net ([82.149.226.172])
+Received: from mail-yw0-f47.google.com ([209.85.213.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <obi@opendreambox.org>) id 1SSbK7-0003Ij-JJ
+	(envelope-from <cazfi74@gmail.com>) id 1SSbOB-0003ML-7O
 	for openembedded-core@lists.openembedded.org;
-	Thu, 10 May 2012 23:54:59 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by mail.dream-property.net (Postfix) with ESMTP id 0D707315BFF3
+	Thu, 10 May 2012 23:59:11 +0200
+Received: by yhjj56 with SMTP id j56so2153839yhj.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 May 2012 23:45:07 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
-Received: from mail.dream-property.net ([127.0.0.1])
-	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id VAny2w+DMvGy
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 May 2012 23:45:00 +0200 (CEST)
-Received: from [172.22.22.61] (drms-590c4e8a.pool.mediaWays.net [89.12.78.138])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mail.dream-property.net (Postfix) with ESMTPSA id D6C12315BFF2
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 May 2012 23:44:59 +0200 (CEST)
-Message-ID: <4FAC36DA.8080201@opendreambox.org>
-Date: Thu, 10 May 2012 23:44:58 +0200
-From: Andreas Oberritter <obi@opendreambox.org>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
+	Thu, 10 May 2012 14:49:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type; bh=biJJ+BYQVIEQw3QUtaVFDbF8PSGqs4QXPwuJLiOgxn8=;
+	b=Zj95SJDzesGBdXAuVwCYLWCLFh+vdP3V/fjyK3h38wKolf6fpW6efaQuNGP0hgXLvN
+	Q422VYY9qivyPfORtj43hiLpOfPTuyW7QCEYI5Z1OUuGRbgL5AlnrOy+riezfS+DwNM3
+	dD+ltjYuQhUDb0iDs2oNdMCmYQ5XkGSQgiZSZeoF/kGjTeiR7+3m3Tfki42g7QkCNazV
+	MecnaA9458UvWmZJKL2MZA61jUW4goP8ZrAp7w4/BOUsEMbJOJIWk4lVUJiDsaACxui/
+	LzxZiqt7/ueDYgGcQ+STUryjdu2BMaysmeZmGPzRVDHSuT8h4Va3MsA/iRbLBf4iaDUn
+	wJ2A==
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <1336680237-31671-1-git-send-email-obi@opendreambox.org>
-	<CAMKF1spfSiBy0F-cP7Q2NYT2dg2CFqvfXxuxR_=-F2o8gdBwGw@mail.gmail.com>
-In-Reply-To: <CAMKF1spfSiBy0F-cP7Q2NYT2dg2CFqvfXxuxR_=-F2o8gdBwGw@mail.gmail.com>
-Subject: Re: [PATCH] e2fsprogs: fix packaging error for libext2fs
+Received: by 10.42.150.8 with SMTP id y8mr3123595icv.10.1336686556184; Thu, 10
+	May 2012 14:49:16 -0700 (PDT)
+Received: by 10.64.59.130 with HTTP; Thu, 10 May 2012 14:49:16 -0700 (PDT)
+In-Reply-To: <4FAC3559.6080609@intel.com>
+References: <1336684128-29514-1-git-send-email-cazfi74@gmail.com>
+	<4FAC3559.6080609@intel.com>
+Date: Fri, 11 May 2012 00:49:16 +0300
+Message-ID: <CAF6bG8f21DjmQjGKmb1z4JQ8fvdguR6zGaPoGgsPW_HVDz516Q@mail.gmail.com>
+From: Marko Lindqvist <cazfi74@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] expat: update to upstream version 2.1.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,34 +42,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 May 2012 21:54:59 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 10 May 2012 21:59:11 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 10.05.2012 22:30, Khem Raj wrote:
-> On Thu, May 10, 2012 at 1:03 PM, Andreas Oberritter
-> <obi@opendreambox.org> wrote:
->>
->> -FILES_libext2fs = "${libdir}/e2initrd_helper ${libdir}/libext2fs.so.*"
->> +FILES_libext2fs = "${libdir}/e2initrd_helper ${base_libdir}/libext2fs.so.*"
-> 
-> its probably not a good idea to mix files from libdir and base_libdir
-> in a single
-> package. Since lately we have been accommodating /usr to be mounted
-> independently.
+On 11 May 2012 00:38, Scott Garman <scott.a.garman@intel.com> wrote:
+>
+> Hi Marko,
+>
+> As the maintainer of the expat recipe, I appreciate your submission. However
+> I'm a bit wary of removing the autotools patch
 
-I have no idea what e2initrd_helper does, but this can still be
-addressed in a later patch.
+ Not removed, but adjusted to apply over expat-2.1.0.
 
-Currently, libext2fs.so.* gets packaged into the "e2fsprogs" package,
-which is worse than your concerns, because it drags many unneeded
-dependencies into the image.
+ However, part of the old patch was removal of libtool.m4 include from
+configure.in, but new version leaves libtool handling to configure.in
+as is.
 
-FWIW, e2initrd_helper doesn't seem to be required during a usual boot
-process, as nobody seems to have missed it. At least no automatic
-dependencies on the libext2fs package were generated before this patch.
+ So...
 
-Regards,
-Andreas
+ - have you build tested this
+> change for all of our QEMU architectures? I think it may still be needed.
+
+ I'll do that during next couple of days.
+
+
+ - ML
 
 
