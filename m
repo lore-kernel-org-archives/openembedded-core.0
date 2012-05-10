@@ -1,27 +1,35 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail-yw0-f47.google.com ([209.85.213.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <josh@linux.intel.com>) id 1SSHya-0005Br-5r
+	(envelope-from <cazfi74@gmail.com>) id 1SSIVW-0004pA-Hf
 	for openembedded-core@lists.openembedded.org;
-	Thu, 10 May 2012 03:15:28 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 09 May 2012 18:05:33 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="138878050"
-Received: from unknown (HELO [10.255.13.30]) ([10.255.13.30])
-	by orsmga001.jf.intel.com with ESMTP; 09 May 2012 18:05:33 -0700
-Message-ID: <4FAB145D.4080001@linux.intel.com>
-Date: Wed, 09 May 2012 18:05:33 -0700
-From: Joshua Lock <josh@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
+	Thu, 10 May 2012 03:49:30 +0200
+Received: by yhjj56 with SMTP id j56so1068814yhj.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 09 May 2012 18:39:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type:content-transfer-encoding;
+	bh=c32XX8FNKHgV4/dvhrbCin4GhYClsXddvGIbYxO1TbU=;
+	b=yQXhyZ++sgMGH6ZOANeoKjk+qV3QiDggwgzpwVaGLFIP0GqVArP27g8SF7gpAdB7OO
+	Xv2lB2z8htKYzEB/RG8873jKpi4TFTnlhliqauzyDHzIQcDrAeb1Y3EtECSD8prxDHLB
+	oigKUX6ovcUB6mwjpzTzthS7IcEwIyfj+KVD8ER0dgcr68/O6P2qvUB0MIJEh/e7yDyO
+	m09UERN+Ga9LBPQpYQKWoPLKmD+EiHuD+PcKizZHC2Cm+C5F54t6R4oYEBTSBrJ9eeZI
+	0UbbD9d+k4VvSKQk4WzTcBElXX6NfuRbuGvjIe5hVtc/XQkg+eJZV0PaTeg7akWkUp5e
+	z+2g==
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
+Received: by 10.50.47.196 with SMTP id f4mr1272278ign.21.1336613976331; Wed,
+	09 May 2012 18:39:36 -0700 (PDT)
+Received: by 10.64.59.130 with HTTP; Wed, 9 May 2012 18:39:36 -0700 (PDT)
+In-Reply-To: <4FAB0784.2080703@linux.intel.com>
+References: <CAF6bG8eVQcJHEH8RHsAGV2CP6ZjH1+sZUyvBTFLvB6cv--ZUhw@mail.gmail.com>
+	<4FAB0784.2080703@linux.intel.com>
+Date: Thu, 10 May 2012 04:39:36 +0300
+Message-ID: <CAF6bG8c9mxVDMer=gB4N48UYz6DxDNq=_6GWHqQQnCMtGPRyQg@mail.gmail.com>
+From: Marko Lindqvist <cazfi74@gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1336608479.git.josh@linux.intel.com>
-	<CABcZANkTB3_QkBcMycY9Z+pZndz7JmOUAksvsQSSiwhHE7vZnQ@mail.gmail.com>
-In-Reply-To: <CABcZANkTB3_QkBcMycY9Z+pZndz7JmOUAksvsQSSiwhHE7vZnQ@mail.gmail.com>
-Cc: Chris Larson <clarson@kergoth.com>
-Subject: Re: [RFC PATCH 0/3] Shared state for all !
+Subject: Re: [PATCH] package_deb.bbclass: don't handle advanced dependency marker
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,53 +44,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 May 2012 01:15:28 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 10 May 2012 01:49:30 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-
-
-On 09/05/12 17:50, Chris Larson wrote:
-> On Wed, May 9, 2012 at 5:22 PM, Joshua Lock<josh@linux.intel.com>  wrote:
->> In Yocto #2041[2]  Mark reported an issue with reusing shared state as a
->> different user on the same machine.
->>
->> Since the whole purpose of shared state is that it be shared I decided to dig
->> into this issue. I wanted to at least be able to use the shared-state cache of
->> a different user without error, even if all of the objects aren't actually used
->> (i.e. native, at least on the Edison branch I did most of the testing with).
->>
->> This is an RFC mainly because it changes the permissions of created directories,
->> sstate files and siginfo files from what they have traditionally been.
->>
->> There is more of the rhyme an reason in the patch commit headers and comments
->> but tl;dr bb.mkdirhier directories will be 0777 (rwxrwxrwx) with this patch, as
->> will all of the contents of sstate-cache (siginfo and tgz) files.
->>
->> This is actually what one would expect from reading the Python API docs for
->> os.makedirs "The default mode is 0777 (octal)."[1] but not what actually happens
->> on most modern Linux systems thanks to umask.
->>
->> Please review the following changes for suitability for inclusion. If you have
->> any objections or suggestions for improvement, please respond to the patches. If
->> you agree with the changes, please provide your Acked-by.
+On 10 May 2012 03:10, Saul Wold <sgw@linux.intel.com> wrote:
 >
-> 777 seems questionable to me, personally. Generally collaboration
-> happens amongst folks within a group, and chmod g+s makes that easier.
-> I'd expect 775 to be a more sane value, myself.
+> Marko,
+>
+> I am not sure what's wrong with this patch or the others you sent recentl=
+y
+> but none of them are applying cleanly with "git am" what are you using to
+> format the patch and mail it?
+>
+> Please use git format-patch and git send-email or the scripts
+> create-pull-request/send-pull-request.
+>
+> Thanks
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0Sau!
 
-Do you mean for bb.mkdirhier calls, the tgz files, the siginfo files or 
-everything?
+ Mailer problems. I reworked my setup somewhat, but sending patches
+round the world back to myself still results in corruption somewhere.
+As there's slight hope that remaining problem is in patch's way back
+home, and not in sending, I'll test resending this one to list.
 
-I went with 777 for mkdirhier as that's the default of os.makedirs 
-before umask is involved. I would likely have picked rw-rw-r-- (664) if 
-I weren't trying to request comments.
 
-Cheers,
-Joshua
--- 
-Joshua Lock
-         Yocto Project
-         Intel Open Source Technology Centre
+ - ML
 
 
