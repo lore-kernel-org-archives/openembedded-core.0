@@ -1,34 +1,34 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1SSRbf-0007iF-Lr for openembedded-core@lists.openembedded.org;
-	Thu, 10 May 2012 13:32:28 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q4ABMYcB009219
+Received: from mail-pb0-f47.google.com ([209.85.160.47])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <andrei@gherzan.ro>) id 1SSUP4-0005dh-L7
+	for openembedded-core@lists.openembedded.org;
+	Thu, 10 May 2012 16:31:38 +0200
+Received: by pbbrq2 with SMTP id rq2so1776446pbb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 May 2012 12:22:34 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 09172-01 for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 May 2012 12:22:29 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q4ABMPtT009213
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 May 2012 12:22:26 +0100
-Message-ID: <1336648944.2494.128.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Thu, 10 May 2012 12:22:24 +0100
-In-Reply-To: <4048abda9d53e155e0802663af9c78f542499e8e.1336608479.git.josh@linux.intel.com>
-References: <cover.1336608479.git.josh@linux.intel.com>
-	<4048abda9d53e155e0802663af9c78f542499e8e.1336608479.git.josh@linux.intel.com>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [RFC PATCH 2/3] lib/bb/siggen.py: create permissive files and directories
+	Thu, 10 May 2012 07:21:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer:x-gm-message-state;
+	bh=M4r2VjXQEMIUnPbDmYIPG7nX79plal9HaLtTJpeTFww=;
+	b=J/RI/nS5FNY5L11Mzu/baiRsy0kyR+6GsuyIpSyyr18Qzb0Z0kwX/IuL38QhauQxQ1
+	1hHTjW7N4MQnsql0PwyMKbJPVVF02IC0uF0PIUAu//6d72mqAYS2R0YMCUz3ptqqS3bY
+	iqQdsYY+sucAenmWMDriSOvNiK2CIa2uNcR0EWVCVe+YGY34JhteQthvTqmhmOKREt9z
+	Bw2S8ZywKJGlzVm7Mc84iEGkR37Ttf51tX3HyxPkCfcIGiLT73V7WiKRE5cqM1deiigt
+	XvH39g+mTq8FOxg5G207bzyFQMXTWuAtDNBnv7vMmBa+lUoXVhYJhfF5o3YW/kpI84ix
+	pUMw==
+Received: by 10.68.227.33 with SMTP id rx1mr20500909pbc.102.1336659703412;
+	Thu, 10 May 2012 07:21:43 -0700 (PDT)
+Received: from otp-agherzan-l1.corp.ad.wrs.com ([89.121.200.106])
+	by mx.google.com with ESMTPS id oi3sm4387816pbb.0.2012.05.10.07.21.41
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 10 May 2012 07:21:42 -0700 (PDT)
+From: Andrei Gherzan <andrei@gherzan.ro>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 10 May 2012 17:21:30 +0300
+Message-Id: <1336659690-27308-1-git-send-email-andrei@gherzan.ro>
+X-Mailer: git-send-email 1.7.9.5
+X-Gm-Message-State: ALoCoQmrrGI3lTzfYccYE3pBTev4UwHxEN7tjTVY36fpmuaSgij84ICA5hrhIfGoxnxhzaRfvqfx
+Subject: [PATCH] fotowall: Add #include ui_wizard.h to ExportWizard.cpp
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,45 +43,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 May 2012 11:32:28 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 10 May 2012 14:31:38 -0000
 
-On Wed, 2012-05-09 at 17:22 -0700, Joshua Lock wrote:
-> Create signature files, and the directories which contain them, with
-> rwx for everyone so that they are easily shared with different users
-> of the same machine.
-> 
-> Signed-off-by: Joshua Lock <josh@linux.intel.com>
-> ---
->  bitbake/lib/bb/siggen.py |    7 ++++++-
->  1 files changed, 6 insertions(+), 1 deletions(-)
-> 
-> diff --git a/bitbake/lib/bb/siggen.py b/bitbake/lib/bb/siggen.py
-> index 8c79b17..bd6d59b 100644
-> --- a/bitbake/lib/bb/siggen.py
-> +++ b/bitbake/lib/bb/siggen.py
-> @@ -201,7 +201,12 @@ class SignatureGeneratorBasic(SignatureGenerator):
->              for dep in data['runtaskdeps']:
->                  data['runtaskhashes'][dep] = self.taskhash[dep]
->  
-> -        p = pickle.Pickler(file(sigfile, "wb"), -1)
-> +        # Create file with permissive (0777) read/write for easier sharing
-> +        f = os.fdopen(os.open(sigfile, os.O_RDWR|os.O_CREAT), "wb")
-> +        # os.open() and os.fdopen() are affected by the users umask so brute force
-> +        # the permissions with a call to chmod
-> +        os.chmod(sigfile, 0777)
-> +        p = pickle.Pickler(f, -1)
->          p.dump(data)
+App/ExportWizard.cpp depends on wizard.h which depends on ui_wizard. The last one
+should be already generated before compiling ExportWizard.cpp.
 
-Why not just run the chmod after the original pickle code? Its not as if
-you avoid a race this way :/.
+[YOCTO #2297]
 
-Cheers,
+Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
+---
+ .../ExportWizard-depends-on-ui_wizard.patch        |   12 ++++++++++++
+ meta/recipes-qt/qt-apps/fotowall_0.9.bb            |    6 ++++--
+ 2 files changed, 16 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-qt/qt-apps/fotowall/ExportWizard-depends-on-ui_wizard.patch
 
-Richard
-
-
+diff --git a/meta/recipes-qt/qt-apps/fotowall/ExportWizard-depends-on-ui_wizard.patch b/meta/recipes-qt/qt-apps/fotowall/ExportWizard-depends-on-ui_wizard.patch
+new file mode 100644
+index 0000000..3ad5774
+--- /dev/null
++++ b/meta/recipes-qt/qt-apps/fotowall/ExportWizard-depends-on-ui_wizard.patch
+@@ -0,0 +1,12 @@
++Index: Fotowall-0.9/App/ExportWizard.cpp
++===================================================================
++--- Fotowall-0.9.orig/App/ExportWizard.cpp	2009-11-30 13:21:31.000000000 +0200
+++++ Fotowall-0.9/App/ExportWizard.cpp	2012-05-10 17:12:06.765230830 +0300
++@@ -23,6 +23,7 @@
++ #include "imageloaderqt.h"
++ #include "posterazorcore.h"
++ #include "wizard.h"
+++#include "ui_wizard.h"
++ 
++ #include <QDesktopServices>
++ #include <QDesktopWidget>
+diff --git a/meta/recipes-qt/qt-apps/fotowall_0.9.bb b/meta/recipes-qt/qt-apps/fotowall_0.9.bb
+index 52dd727..3cb79a3 100644
+--- a/meta/recipes-qt/qt-apps/fotowall_0.9.bb
++++ b/meta/recipes-qt/qt-apps/fotowall_0.9.bb
+@@ -7,12 +7,14 @@ LIC_FILES_CHKSUM = "file://GPL_V2;md5=79808397c3355f163c012616125c9e26 \
+                     file://main.cpp;beginline=6;endline=11;md5=b569acc2bf8974a3082b58fc53b9d8dc"
+ SECTION = "x11/apps"
+ 
+-PR = "r2"
++PR = "r3"
+ 
+ DEPENDS = "qt4-x11-free"
+ RRECOMMENDS_${PN} += "qt4-plugin-imageformat-gif qt4-plugin-imageformat-jpeg qt4-plugin-imageformat-tiff"
+ 
+-SRC_URI = "http://qt-apps.org/CONTENT/content-files/71316-Fotowall-0.9.tar.bz2"
++SRC_URI = "http://qt-apps.org/CONTENT/content-files/71316-Fotowall-0.9.tar.bz2 \
++           file://ExportWizard-depends-on-ui_wizard.patch \
++           "
+ 
+ SRC_URI[md5sum] = "142ef697332e0777c6d22c5bc96cc438"
+ SRC_URI[sha256sum] = "e4d0c005d2cb1d7c09438bfc3098eadebc08946e4fbc0655b7fc8b046de3810d"
+-- 
+1.7.9.5
 
 
 
