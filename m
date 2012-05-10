@@ -1,24 +1,33 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-ey0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1SSceu-0004rj-Vj
+	(envelope-from <raj.khem@gmail.com>) id 1SSchD-0004xI-N1
 	for openembedded-core@lists.openembedded.org;
-	Fri, 11 May 2012 01:20:33 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q4ANAboO002120
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Fri, 11 May 2012 01:22:56 +0200
+Received: by eaal1 with SMTP id l1so714628eaa.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 May 2012 16:10:37 -0700 (PDT)
-Received: from localhost.localdomain (172.25.34.61) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Thu, 10 May 2012 16:10:36 -0700
-From: Mark Hatle <mark.hatle@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 10 May 2012 18:13:37 -0500
-Message-ID: <cover.1336691544.git.mark.hatle@windriver.com>
-X-Mailer: git-send-email 1.7.3.4
+	Thu, 10 May 2012 16:13:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:content-transfer-encoding;
+	bh=KDjkD+3jIY0CglUP7z0PXyQW63+QdHfZIVC9GRBJPds=;
+	b=FfWxp+YXyysWHoIYG7a7Ls5060WXE4FlSIzkukB0Y15lyGszuR5bd2M4VvS+v/zeB2
+	AveJYdO9Hirc4pwUDP8TtbihgFy28NXY5OvYR4OJJUtXtEZgx9CVT0baqee7cdbfqMx+
+	1XchuI07QwPKi8kqxAzd18UJHOJm8dWac9vm6bE4PZbklxvd35yOESg37Pk6yWGc4J5V
+	aoUnVV0nkxM73xoKc2JOa6iwKo9mrFWm5d9j2OujJaTSgfaYJPzQk/fYNUJafHyCT6sx
+	8hrwiMhucAmqI1qNAqvVgliEsvCbcu2XCataS00UV4Rmap7vjCVAF/D6H0JS99PC9rNj
+	tVzA==
+Received: by 10.213.121.130 with SMTP id h2mr1839677ebr.122.1336691581144;
+	Thu, 10 May 2012 16:13:01 -0700 (PDT)
 MIME-Version: 1.0
-X-Originating-IP: [172.25.34.61]
-Subject: [PATCH 0/1] Performance improvement in install_sstatepkg
+Received: by 10.14.2.132 with HTTP; Thu, 10 May 2012 16:12:30 -0700 (PDT)
+In-Reply-To: <4FAC3F2F.9000006@windriver.com>
+References: <4FAC3F2F.9000006@windriver.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 10 May 2012 16:12:30 -0700
+Message-ID: <CAMKF1sq_g2xz6GKdh3BGaD5Cuq_BhdEUVPLVuoF5tVdC=jUCCA@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: setscene and perl -- pathological case
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,34 +42,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 May 2012 23:20:33 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 10 May 2012 23:22:56 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Significant performance improvement when large numbers of files are involved
-with install_sstatepkg.
+On Thu, May 10, 2012 at 3:20 PM, Mark Hatle <mark.hatle@windriver.com> wrot=
+e:
+>
+> This is a very significant performance improvement. =C2=A0I'm not sure if=
+ it's
+> possible to speed this up even more, but it would be nice if we could get
+> things under a minute.
 
-To reproduce the problem:
-
-bitbake perl
-bitbake -c clean perl
-time bitbake perl
-
-The following changes since commit 910452727fc277c1caec7612b36c37b58d845350:
-
-  eglibc: Add patch to fix /var installation location (2012-05-09 21:42:37 +0100)
-
-are available in the git repository at:
-  git://git.pokylinux.org/poky-contrib mhatle/sstate
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=mhatle/sstate
-
-Mark Hatle (1):
-  sstate.bbclass: Improve sstate_installpkg performance
-
- meta/classes/sstate.bbclass |   28 +++++++++++++++++++++-------
- 1 files changed, 21 insertions(+), 7 deletions(-)
-
--- 
-1.7.3.4
-
+good job. in theory you could pythonise it even further using re module
 
 
