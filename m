@@ -1,33 +1,32 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
+Received: from mail-yw0-f47.google.com ([209.85.213.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1SSchD-0004xI-N1
+	(envelope-from <cazfi74@gmail.com>) id 1SSd0B-000598-KV
 	for openembedded-core@lists.openembedded.org;
-	Fri, 11 May 2012 01:22:56 +0200
-Received: by eaal1 with SMTP id l1so714628eaa.6
+	Fri, 11 May 2012 01:42:31 +0200
+Received: by yhjj56 with SMTP id j56so2243900yhj.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 May 2012 16:13:01 -0700 (PDT)
+	Thu, 10 May 2012 16:32:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:content-transfer-encoding;
-	bh=KDjkD+3jIY0CglUP7z0PXyQW63+QdHfZIVC9GRBJPds=;
-	b=FfWxp+YXyysWHoIYG7a7Ls5060WXE4FlSIzkukB0Y15lyGszuR5bd2M4VvS+v/zeB2
-	AveJYdO9Hirc4pwUDP8TtbihgFy28NXY5OvYR4OJJUtXtEZgx9CVT0baqee7cdbfqMx+
-	1XchuI07QwPKi8kqxAzd18UJHOJm8dWac9vm6bE4PZbklxvd35yOESg37Pk6yWGc4J5V
-	aoUnVV0nkxM73xoKc2JOa6iwKo9mrFWm5d9j2OujJaTSgfaYJPzQk/fYNUJafHyCT6sx
-	8hrwiMhucAmqI1qNAqvVgliEsvCbcu2XCataS00UV4Rmap7vjCVAF/D6H0JS99PC9rNj
-	tVzA==
-Received: by 10.213.121.130 with SMTP id h2mr1839677ebr.122.1336691581144;
-	Thu, 10 May 2012 16:13:01 -0700 (PDT)
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type; bh=EyJFm4JjAQyQMjqioLXIwKYVgAlOMAuAEmITHU6xZRk=;
+	b=yeh31ZRVZuf8KHM7WcUlnOgc2vvYshlUgMlaayieoPyAQLbVzuXsY2W842T6mjt4Yv
+	uX8OAQonrGsBiX1joHo3GwKgyRQpu26pCantZwvHajs1PSAba995NNG314B1XbIgBKE0
+	AxiRk4yxCtlnnE+JL6tKeHTrbRIF+k9Vbj9EEE8oyerAJ395LK8k9/IVDSfgStBEY8AP
+	/I7S185G0xQ67Wv85lmhrABTTZldCM2yatUOb5I620MmWNf9Cy0j64FBrW3ZhRNlPbUe
+	P9Zfgj6tKlzU7ITdCcFBNTNkDBl+AzK4+1q9T5z9L24AEfocjVn3nQ5axHpLEDYd4ZYy
+	zDNA==
 MIME-Version: 1.0
-Received: by 10.14.2.132 with HTTP; Thu, 10 May 2012 16:12:30 -0700 (PDT)
-In-Reply-To: <4FAC3F2F.9000006@windriver.com>
-References: <4FAC3F2F.9000006@windriver.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 10 May 2012 16:12:30 -0700
-Message-ID: <CAMKF1sq_g2xz6GKdh3BGaD5Cuq_BhdEUVPLVuoF5tVdC=jUCCA@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: setscene and perl -- pathological case
+Received: by 10.50.47.196 with SMTP id f4mr484104ign.21.1336692756193; Thu, 10
+	May 2012 16:32:36 -0700 (PDT)
+Received: by 10.64.59.130 with HTTP; Thu, 10 May 2012 16:32:36 -0700 (PDT)
+In-Reply-To: <1336686231-28111-1-git-send-email-cazfi74@gmail.com>
+References: <CAMKF1srWO69M=MOa4_ar8oO55fkaofzSHj_UAsRaVL+-dzEXNw@mail.gmail.com>
+	<1336686231-28111-1-git-send-email-cazfi74@gmail.com>
+Date: Fri, 11 May 2012 02:32:36 +0300
+Message-ID: <CAF6bG8eW08AQnLmPuo7Lq0COGRXLRndatgUgw9m_KQO8RmfcKQ@mail.gmail.com>
+From: Marko Lindqvist <cazfi74@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] expat: update to upstream version 2.1.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,18 +41,13 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 May 2012 23:22:56 -0000
+X-List-Received-Date: Thu, 10 May 2012 23:42:31 -0000
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, May 10, 2012 at 3:20 PM, Mark Hatle <mark.hatle@windriver.com> wrot=
-e:
->
-> This is a very significant performance improvement. =C2=A0I'm not sure if=
- it's
-> possible to speed this up even more, but it would be nice if we could get
-> things under a minute.
+ I see new version ended as new patch to patchwork even though I set
+In-Reply-To header. How does this work correctly?
 
-good job. in theory you could pythonise it even further using re module
+
+ - ML
 
 
