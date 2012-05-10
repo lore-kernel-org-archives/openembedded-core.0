@@ -1,32 +1,39 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail-qc0-f175.google.com ([209.85.216.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Liezhi.Yang@windriver.com>) id 1SSJ2b-0005Uh-VD
+	(envelope-from <kergoth@gmail.com>) id 1SSJ4L-0006Km-4i
 	for openembedded-core@lists.openembedded.org;
-	Thu, 10 May 2012 04:23:42 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q4A2Dl2k002645
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 10 May 2012 04:25:49 +0200
+Received: by qcso7 with SMTP id o7so839618qcs.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 9 May 2012 19:13:47 -0700 (PDT)
-Received: from [128.224.163.142] (128.224.163.142) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Wed, 9 May 2012 19:13:46 -0700
-Message-ID: <4FAB2459.6070205@windriver.com>
-Date: Thu, 10 May 2012 10:13:45 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:11.0) Gecko/20120329 Thunderbird/11.0.1
+	Wed, 09 May 2012 19:15:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date
+	:x-google-sender-auth:message-id:subject:to:cc:content-type
+	:content-transfer-encoding;
+	bh=X8ZtwIfIFxbFdybE7Vn4iBNLubYQZ4JVut6ivKHanVk=;
+	b=DeVfCizj9oWLoXqlB94tycZf10tiabm75Xca47oGyV/IWB0FGqCBQKy2OYag8NthhG
+	3lLKkWNSpBxpToHzpBnZqjaeGDahm92/wBR11Yiu0H14O8YRKFdf5mplr9eMB/cMCNuh
+	ufRbhLRRmBPOJ6rCzkSsc0OfhXKfm5nrqRCBMKUTHLqRDHNnXDZ2D2udoiB0+ztKMe/s
+	adKCCpdc/rHvLWeYTk29t9A3Vei5uZJGqFTuuRkoagAPT282xGp06TcgbSV7c7DBDLnu
+	ovQxMA7VXbQuq7FJFhvHAQLu9UISmd3d0rxVD/W54FMEXlZ0e/e0sWTTSXfkxA9G2D2y
+	Sx2Q==
+Received: by 10.224.97.199 with SMTP id m7mr8988500qan.38.1336616135235; Wed,
+	09 May 2012 19:15:35 -0700 (PDT)
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1336547713.git.liezhi.yang@windriver.com>
-	<03d9cdca29477f34348a0f97138504441c5804fa.1336547713.git.liezhi.yang@windriver.com>
-	<23E51582-C3C4-4673-B646-F29E74FEB428@dominion.thruhere.net>
-	<4FAA84B3.1080108@windriver.com>
-	<6122E5DC-EFF1-4592-AB36-22E9D68DF2BF@dominion.thruhere.net>
-	<4FAA8A03.50309@windriver.com>
-	<033DD718-AA9D-4F09-9E06-13C14DBBB7AC@dominion.thruhere.net>
-In-Reply-To: <033DD718-AA9D-4F09-9E06-13C14DBBB7AC@dominion.thruhere.net>
-Subject: Re: [PATCH 2/2] rootfs_rpm.bbclass: don't remove rpmlib when INC_RPM_IMAGE_GEN=1
+Sender: kergoth@gmail.com
+Received: by 10.229.214.81 with HTTP; Wed, 9 May 2012 19:15:14 -0700 (PDT)
+In-Reply-To: <4FAB145D.4080001@linux.intel.com>
+References: <cover.1336608479.git.josh@linux.intel.com>
+	<CABcZANkTB3_QkBcMycY9Z+pZndz7JmOUAksvsQSSiwhHE7vZnQ@mail.gmail.com>
+	<4FAB145D.4080001@linux.intel.com>
+From: Chris Larson <clarson@kergoth.com>
+Date: Wed, 9 May 2012 19:15:14 -0700
+X-Google-Sender-Auth: rijFceODnWK_de9zEvepNpDoCXE
+Message-ID: <CABcZANkk1HSS1SeJK-qpALZukc4L8sDKozf-A08NRTDOw+dGKg@mail.gmail.com>
+To: Joshua Lock <josh@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC PATCH 0/3] Shared state for all !
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,69 +48,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 May 2012 02:23:42 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 10 May 2012 02:25:54 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-
-
-On 05/09/2012 11:24 PM, Koen Kooi wrote:
+On Wed, May 9, 2012 at 6:05 PM, Joshua Lock <josh@linux.intel.com> wrote:
 >
-> Op 9 mei 2012, om 17:15 heeft Mark Hatle het volgende geschreven:
 >
->> On 5/9/12 10:01 AM, Koen Kooi wrote:
+> On 09/05/12 17:50, Chris Larson wrote:
+>>
+>> On Wed, May 9, 2012 at 5:22 PM, Joshua Lock<josh@linux.intel.com> =C2=A0=
+wrote:
 >>>
->>> Op 9 mei 2012, om 16:52 heeft Mark Hatle het volgende geschreven:
+>>> In Yocto #2041[2] =C2=A0Mark reported an issue with reusing shared stat=
+e as a
+>>> different user on the same machine.
 >>>
->>>> On 5/9/12 3:50 AM, Koen Kooi wrote:
->>>>>
->>>>> Op 9 mei 2012, om 10:20 heeft Robert Yang het volgende geschreven:
->>>>>
->>>>>> Don't remove rpmlib when INC_RPM_IMAGE_GEN=1, otherwise the
->>>>>> list_installed_packages would get nothing in the second build.
->>>>>
->>>>> What happens when I do a build, enable INC_RPM_IMAGE_GEN and do another build?
->>>>
->>>> The intention is that only the packages that have been changed/upgraded will be installed.  Instead of the whole image being generated from scratch each time.
+>>> Since the whole purpose of shared state is that it be shared I decided =
+to
+>>> dig
+>>> into this issue. I wanted to at least be able to use the shared-state
+>>> cache of
+>>> a different user without error, even if all of the objects aren't
+>>> actually used
+>>> (i.e. native, at least on the Edison branch I did most of the testing
+>>> with).
 >>>
->>> That's what INC_RPM_IMAGE_GEN does, yes. What I'm asking is how this patch addresses the sequence I outlined above.
+>>> This is an RFC mainly because it changes the permissions of created
+>>> directories,
+>>> sstate files and siginfo files from what they have traditionally been.
+>>>
+>>> There is more of the rhyme an reason in the patch commit headers and
+>>> comments
+>>> but tl;dr bb.mkdirhier directories will be 0777 (rwxrwxrwx) with this
+>>> patch, as
+>>> will all of the contents of sstate-cache (siginfo and tgz) files.
+>>>
+>>> This is actually what one would expect from reading the Python API docs
+>>> for
+>>> os.makedirs "The default mode is 0777 (octal)."[1] but not what actuall=
+y
+>>> happens
+>>> on most modern Linux systems thanks to umask.
+>>>
+>>> Please review the following changes for suitability for inclusion. If y=
+ou
+>>> have
+>>> any objections or suggestions for improvement, please respond to the
+>>> patches. If
+>>> you agree with the changes, please provide your Acked-by.
 >>
->> Explain what you mean by "build".
 >>
->> Using the following:
->>
->> . ./oe-init-build-env build-test
->> <setup local.conf w/ rpm packaging and INC_RPM_IMAGE_GEN>
->> bitbake core-image-core
->> --- time passes, git pull pulls in changes ---
->> bitbake core-image-core
->>
->> The second "build", only the changed packages will be added to the image.
->>
->> You you are using different build directories, then it doesn't re-use anything.  The purpose of this is incremental software development within a single build directory.
+>> 777 seems questionable to me, personally. Generally collaboration
+>> happens amongst folks within a group, and chmod g+s makes that easier.
+>> I'd expect 775 to be a more sane value, myself.
 >
-> You are still missing my point. The patch is broken if you change INC_RPM_IMAGE_GEN
-
-Only the core-image-minimal has this problem, other images won't remove the
-database, the core-image-minimal removes the database to save disk space (
-only saves quite a little), and I don't know whether there is a better solution
-for the core-image-minimal, maybe move the database to ${T} rather than remove
-it, and move it back to the rootfs directory at the early stage of do_rootfs, 
-but I don't know whether this is worth or not since this is just used for
-saving the time at the development stage, as it had told:
-
-# Incremental rpm image generation, the rootfs would be totally removed
-# and re-created in the second generation by default, but with
-# INC_RPM_IMAGE_GEN = "1", the rpm based rootfs would be kept, and will
-# do update(remove/add some pkgs) on it.  NOTE: This is not suggested
-# when you want to create a productive rootfs
-
-// Robert
-
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 >
+> Do you mean for bb.mkdirhier calls, the tgz files, the siginfo files or
+> everything?
+>
+> I went with 777 for mkdirhier as that's the default of os.makedirs before
+> umask is involved. I would likely have picked rw-rw-r-- (664) if I weren'=
+t
+> trying to request comments.
+
+Gotcha.
+
+I'm concerned about the behavior change and potential implications of
+changing the default behavior of mkdirhier. I'm inclined to say that
+when you don't pass mode, let it use the current behavior of obeying
+the umask. If we're not going to do that, and want to change the
+default behavior, then I think 777 is the wrong/questionable default.
+Beyond that, 777 is certainly the wrong mode to be using for the
+shared state package in sstate.bbclass.
+--=20
+Christopher Larson
 
 
