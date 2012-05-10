@@ -1,32 +1,37 @@
 Received: from mail-ee0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1SSayW-0002jv-Nq
+	(envelope-from <raj.khem@gmail.com>) id 1SSazI-0002mQ-7W
 	for openembedded-core@lists.openembedded.org;
-	Thu, 10 May 2012 23:32:40 +0200
-Received: by eekd49 with SMTP id d49so530264eek.6
+	Thu, 10 May 2012 23:33:28 +0200
+Received: by eekd49 with SMTP id d49so530424eek.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 May 2012 14:22:46 -0700 (PDT)
+	Thu, 10 May 2012 14:23:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type; bh=T7XUk/cSzG4CoyLAXkSlweD+vyU77tpupS/JEyICT3U=;
-	b=CE7F7IsqQ5i+z7u6IE9HPJxAJU4vtgc6vsHLVY7lcQovOWQzHhp1z2d+MNElgmwQeA
-	udc3XKOFZTOkhYcSB5eiUmaggP/giOZU7aHLqoJ33NvQPTBpqDX5+ydCV3kJ8da2RnKs
-	8BnT+Ee9rwkkETYoTRrURQVQz0iIaJcsYFoGP+bItAoHiP3zJ/SuZvFHPt7Xe2v2ke0H
-	UrUptEmVqflunY2/cXALaoQOyS15lHTGIxeMsXuwVVGpq+50cpGf/8L7wSoAaHDJLZ6G
-	PsAwxrPLhimKUSZfeEuMAtDl5cCrXjZp26jap1BxFxsxNli9td5o8mS1qCnapaVzzxDu
-	khWA==
-Received: by 10.14.47.136 with SMTP id t8mr1230925eeb.84.1336684966399; Thu,
-	10 May 2012 14:22:46 -0700 (PDT)
+	:content-type:content-transfer-encoding;
+	bh=hMHLPIPE8POD9pju32yz7B3HSNHaJPyc6RBRhFxXdAU=;
+	b=l5nmGNVwB4rbsLlIaT0/L8VszWyubOuZ5z2REwdEvEo/iGd1VuHkaHIpbNjjueMiN9
+	F7gZfJ8JreaKagI6qJEH1/+MnnewieNDNzn6dvfTSYDwmw6eK8sR373vrhxfNdts5Ow9
+	2wtGwsh4qqlX6GdR2zAQ71Dqxiw5YXoWEU70ajKVkAysH7PQDL7TUhQwpV+OjLO5cAz5
+	RcsvS1rrH3qEikcH1z08bMYauSFlS7U8FJNq+OpK+8JW0KMEAnmDJBs/KydISHjLgfP0
+	7CH6a2tCLx/q0cRjVZH/0iVGc480+MRsDoK3D9wTHtpNNkYfL9X1+IM3GjFEUHbRyQum
+	OeyA==
+Received: by 10.14.47.131 with SMTP id t3mr1193422eeb.118.1336685013997; Thu,
+	10 May 2012 14:23:33 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.14.2.132 with HTTP; Thu, 10 May 2012 14:22:16 -0700 (PDT)
-In-Reply-To: <1336683976-11846-1-git-send-email-andrei@gherzan.ro>
-References: <1336683976-11846-1-git-send-email-andrei@gherzan.ro>
+Received: by 10.14.2.132 with HTTP; Thu, 10 May 2012 14:23:03 -0700 (PDT)
+In-Reply-To: <4FAC2E33.7020204@windriver.com>
+References: <1336680237-31671-1-git-send-email-obi@opendreambox.org>
+	<CAMKF1spfSiBy0F-cP7Q2NYT2dg2CFqvfXxuxR_=-F2o8gdBwGw@mail.gmail.com>
+	<4FAC27A1.70902@windriver.com>
+	<CAMKF1sp3RJsrUC5befeKBn+sDQNw2wpUvO2Co+O9eSAhJ5BiLA@mail.gmail.com>
+	<4FAC2E33.7020204@windriver.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 10 May 2012 14:22:16 -0700
-Message-ID: <CAMKF1spf5qF8DYySoT5Q2aSte5-LCVX9Yd8bLd3Jkwqe4m3Gaw@mail.gmail.com>
+Date: Thu, 10 May 2012 14:23:03 -0700
+Message-ID: <CAMKF1sr3buc=P3HxcNOv23P0pzRZpRJLP3Bbn_PsE-GuttkiBQ@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V3] fotowall: Add #include ui_wizard.h to ExportWizard.cpp
+Subject: Re: [PATCH] e2fsprogs: fix packaging error for libext2fs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,15 +46,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 May 2012 21:32:40 -0000
+X-List-Received-Date: Thu, 10 May 2012 21:33:28 -0000
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, May 10, 2012 at 2:06 PM, Andrei Gherzan <andrei@gherzan.ro> wrote:
+On Thu, May 10, 2012 at 2:08 PM, Mark Hatle <mark.hatle@windriver.com> wrot=
+e:
 >
-> +App/ExportWizard.cpp depends on wizard.h which depends on ui_wizard. The last one
-> +should be already generated before compiling ExportWizard.cpp.
-> +
+> package install/image creation expects the full filesystem to be mounted.
+> =C2=A0It's only during boot that partial mounts may exist.
+>
+> I don't know what the e2initrd_helper does.. if it's required for booting=
+,
+> then it's needed in /... (or if libext2fs can't run w/o it.)
 
-then shouldnt wizard.h  be including ui_wizard.h and not the .cpp file ?
+yes I was meaning the runtime here not image creation time.
 
 
