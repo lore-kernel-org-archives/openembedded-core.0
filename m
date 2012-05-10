@@ -1,30 +1,34 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1SSOpO-0004iP-0d for openembedded-core@lists.openembedded.org;
-	Thu, 10 May 2012 10:34:26 +0200
+	id 1SSRYf-0007fF-Ob for openembedded-core@lists.openembedded.org;
+	Thu, 10 May 2012 13:29:21 +0200
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q4A8OXL4008169
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q4ABJS9I009190
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 May 2012 09:24:33 +0100
+	Thu, 10 May 2012 12:19:28 +0100
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 25763-09 for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 May 2012 09:24:28 +0100 (BST)
+	id 09048-01 for <openembedded-core@lists.openembedded.org>;
+	Thu, 10 May 2012 12:19:24 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q4A8OMbS008162
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q4ABJJKn009184
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 May 2012 09:24:23 +0100
-Message-ID: <1336638262.2494.123.camel@ted>
+	Thu, 10 May 2012 12:19:21 +0100
+Message-ID: <1336648759.2494.127.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Thu, 10 May 2012 09:24:22 +0100
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Thu, 10 May 2012 12:19:19 +0100
+In-Reply-To: <85fc58ba361854e47f2cd078ab62b8f28ca95324.1336608479.git.josh@linux.intel.com>
+References: <cover.1336608479.git.josh@linux.intel.com>
+	<85fc58ba361854e47f2cd078ab62b8f28ca95324.1336608479.git.josh@linux.intel.com>
 X-Mailer: Evolution 3.2.2- 
 Mime-Version: 1.0
 X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: [PATCH] package.bbclass: Drop EXPORT_FUNCTIONS use against mapping_rename_hook
+Subject: Re: [RFC PATCH 1/3] lib/bb/utils.py: add optional mode parameter to bb.utils.mkdirhier()
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,79 +43,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 May 2012 08:34:26 -0000
+X-List-Received-Date: Thu, 10 May 2012 11:29:21 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-The usage of this function renaming and it being called using
-bb.build.exec_func() causes needless indirection loops, confusing log
-files and seems generally pointless.
+On Wed, 2012-05-09 at 17:22 -0700, Joshua Lock wrote:
+> The optional parameter should be an octal file mode representing the
+> desired permissions of the created directory. If mode isn;t specified
+> use 0777. This is the default of os.makedirs() yet is not often what
+> the created directory ends up with due to umask affecting the call.
+> 
+> The use of chmod() in this patch ensures that whatever octal is
+> passed are the permissions the directory will have after creation.
+> This is a behaviour change...
+> 
+> Signed-off-by: Joshua Lock <josh@linux.intel.com>
+> ---
+>  bitbake/lib/bb/utils.py |    7 +++++--
+>  1 files changed, 5 insertions(+), 2 deletions(-)
+> 
+> diff --git a/bitbake/lib/bb/utils.py b/bitbake/lib/bb/utils.py
+> index 7a73419..33206fe 100644
+> --- a/bitbake/lib/bb/utils.py
+> +++ b/bitbake/lib/bb/utils.py
+> @@ -531,13 +531,16 @@ def prune_suffix(var, suffixes, d):
+>              return var.replace(suffix, "")
+>      return var
+>  
+> -def mkdirhier(directory):
+> +def mkdirhier(directory, mode=0777):
+>      """Create a directory like 'mkdir -p', but does not complain if
+>      directory already exists like os.makedirs
+>      """
+>  
+>      try:
+> -        os.makedirs(directory)
+> +        os.makedirs(directory, mode)
+> +        # We can't rely on makedirs having set the mode correctly as it is
+> +        # affected by umask
+> +        os.chmod(directory, mode)
+>      except OSError as e:
+>          if e.errno != errno.EEXIST:
+>              raise e
 
-This simplification makes the process much simpler and faster. I can't
-come up with a good reason why the export_functions functionality is
-needed for this function.
+I'm afraid there are a few holes here. mkdirhier can create parents and
+your chmod doesn't change these. I also agree with the comments, I think
+this needs to remain unchanged behaviour wise, respecting the umask and
+only set a mode if its specified.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index 44e551f..3d0f406 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -1788,7 +1788,7 @@ addtask package_write before do_build after do_package
- # Helper functions for the package writing classes
- #
- 
--python package_mapping_rename_hook () {
-+def mapping_rename_hook(d):
- 	"""
- 	Rewrite variables to account for package renaming in things
- 	like debian.bbclass or manual PKG variable name changes
-@@ -1799,6 +1799,4 @@ python package_mapping_rename_hook () {
- 	runtime_mapping_rename("RPROVIDES", d)
- 	runtime_mapping_rename("RREPLACES", d)
- 	runtime_mapping_rename("RCONFLICTS", d)
--}
- 
--EXPORT_FUNCTIONS mapping_rename_hook
-diff --git a/meta/classes/package_deb.bbclass b/meta/classes/package_deb.bbclass
-index dc0f963..4096fa2 100644
---- a/meta/classes/package_deb.bbclass
-+++ b/meta/classes/package_deb.bbclass
-@@ -330,7 +330,7 @@ python do_package_deb () {
-             raise bb.build.FuncFailed("Missing field for deb generation: %s" % value)
-         # more fields
- 
--        bb.build.exec_func("mapping_rename_hook", localdata)
-+        mapping_rename_hook(localdata)
- 
-         rdepends = bb.utils.explode_dep_versions(localdata.getVar("RDEPENDS", True) or "")
-         for dep in rdepends:
-diff --git a/meta/classes/package_ipk.bbclass b/meta/classes/package_ipk.bbclass
-index 0e4fea8..73ec0ee 100644
---- a/meta/classes/package_ipk.bbclass
-+++ b/meta/classes/package_ipk.bbclass
-@@ -367,7 +367,7 @@ python do_package_ipk () {
- 			raise bb.build.FuncFailed("Missing field for ipk generation: %s" % value)
- 		# more fields
- 
--		bb.build.exec_func("mapping_rename_hook", localdata)
-+		mapping_rename_hook(localdata)
- 
- 		rdepends = bb.utils.explode_dep_versions(localdata.getVar("RDEPENDS", True) or "")
- 		rrecommends = bb.utils.explode_dep_versions(localdata.getVar("RRECOMMENDS", True) or "")
-diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
-index cf66a51..d7376cd 100644
---- a/meta/classes/package_rpm.bbclass
-+++ b/meta/classes/package_rpm.bbclass
-@@ -719,7 +719,7 @@ python write_specfile () {
- 		translate_vers('RCONFLICTS', localdata)
- 
- 		# Map the dependencies into their final form
--		bb.build.exec_func("mapping_rename_hook", localdata)
-+		mapping_rename_hook(localdata)
- 
- 		splitrdepends    = strip_multilib(localdata.getVar('RDEPENDS', True), d) or ""
- 		splitrrecommends = strip_multilib(localdata.getVar('RRECOMMENDS', True), d) or ""
+Cheers,
+
+Richard
 
 
 
