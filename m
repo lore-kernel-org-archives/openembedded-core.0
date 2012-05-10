@@ -1,34 +1,30 @@
-Received: from mail-wi0-f177.google.com ([209.85.212.177])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrei@gherzan.ro>) id 1SSaih-0002Wa-9A
+	(envelope-from <mark.hatle@windriver.com>) id 1SSakJ-0002ZO-U2
 	for openembedded-core@lists.openembedded.org;
-	Thu, 10 May 2012 23:16:19 +0200
-Received: by wibhm14 with SMTP id hm14so618297wib.6
+	Thu, 10 May 2012 23:18:00 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q4AL84p0019554
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 May 2012 14:06:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer:x-gm-message-state;
-	bh=RLeFwfp8bfzaWuLUPQFmomIScqLutTL+bCrP2juHkN0=;
-	b=lL0Fr5CXYbBLZiyYc52yw/o8bQCMUhwgKQGF6fl1ZVzbMkZuvNOSqrkKKQzEwWsU4a
-	FdNccGU7mWm+mjWysULgmGUH5V4MDSsFgKliG8gbFd9UnLjI1FnCms8VtGtpKqqWNpA3
-	jN9vIc4NRE7yOKMBWjaowbIitup3sYjH/9fPTUeWHfmCpkjJq4/jLrnwsysc0p4OJ9Hp
-	m9rIOkU1WGxOmsGBjcgxwaUknEyKEnSBHb/nBNGQg7pGxIqowdzyFHLktNy07Dpb+gjy
-	tqVEJwSlk4b3zg8RLTJPPr5YhjXGgduiEO6162fBEZ8HpHBrLdYSf9vgIWKQjxwDV+r7
-	keyg==
-Received: by 10.180.109.229 with SMTP id hv5mr2508597wib.0.1336683984884;
-	Thu, 10 May 2012 14:06:24 -0700 (PDT)
-Received: from localhost.localdomain ([79.117.103.30])
-	by mx.google.com with ESMTPS id ex2sm9149013wib.8.2012.05.10.14.06.23
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 10 May 2012 14:06:24 -0700 (PDT)
-From: Andrei Gherzan <andrei@gherzan.ro>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 11 May 2012 00:06:16 +0300
-Message-Id: <1336683976-11846-1-git-send-email-andrei@gherzan.ro>
-X-Mailer: git-send-email 1.7.9.5
-X-Gm-Message-State: ALoCoQlAkwsS8x691eAkAcReBtaDznc/vE+FjefYEDHZmHRhLtvBtMPwvkmYq60xn7y5jCl2s8kw
-Subject: [PATCH V3] fotowall: Add #include ui_wizard.h to ExportWizard.cpp
+	Thu, 10 May 2012 14:08:04 -0700 (PDT)
+Received: from msp-dhcp22.wrs.com (172.25.34.22) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Thu, 10 May 2012 14:08:04 -0700
+Message-ID: <4FAC2E33.7020204@windriver.com>
+Date: Thu, 10 May 2012 16:08:03 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
+	rv:12.0) Gecko/20120428 Thunderbird/12.0.1
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <1336680237-31671-1-git-send-email-obi@opendreambox.org>
+	<CAMKF1spfSiBy0F-cP7Q2NYT2dg2CFqvfXxuxR_=-F2o8gdBwGw@mail.gmail.com>
+	<4FAC27A1.70902@windriver.com>
+	<CAMKF1sp3RJsrUC5befeKBn+sDQNw2wpUvO2Co+O9eSAhJ5BiLA@mail.gmail.com>
+In-Reply-To: <CAMKF1sp3RJsrUC5befeKBn+sDQNw2wpUvO2Co+O9eSAhJ5BiLA@mail.gmail.com>
+Subject: Re: [PATCH] e2fsprogs: fix packaging error for libext2fs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,67 +39,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 May 2012 21:16:19 -0000
+X-List-Received-Date: Thu, 10 May 2012 21:18:00 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-App/ExportWizard.cpp depends on wizard.h which depends on ui_wizard. The last one
-should be already generated before compiling ExportWizard.cpp.
+On 5/10/12 3:48 PM, Khem Raj wrote:
+> On Thu, May 10, 2012 at 1:40 PM, Mark Hatle<mark.hatle@windriver.com>  wrote:
+>> On 5/10/12 3:30 PM, Khem Raj wrote:
+>>>
+>>> On Thu, May 10, 2012 at 1:03 PM, Andreas Oberritter
+>>> <obi@opendreambox.org>    wrote:
+>>>>
+>>>>
+>>>> -FILES_libext2fs = "${libdir}/e2initrd_helper ${libdir}/libext2fs.so.*"
+>>>> +FILES_libext2fs = "${libdir}/e2initrd_helper
+>>>> ${base_libdir}/libext2fs.so.*"
+>>>
+>>>
+>>> its probably not a good idea to mix files from libdir and base_libdir
+>>> in a single
+>>> package. Since lately we have been accommodating /usr to be mounted
+>>> independently.
+>>
+>>
+>> I am assuming the e2initrd_helper is an libexec component...  Will
+>
+> but its being installed into ${libdir}/e2initrd_helper I dont think
+> libdir will exist initially.
 
-[YOCTO #2297]
+package install/image creation expects the full filesystem to be mounted.  It's 
+only during boot that partial mounts may exist.
 
-Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
----
- .../ExportWizard-depends-on-ui_wizard.patch        |   18 ++++++++++++++++++
- meta/recipes-qt/qt-apps/fotowall_0.9.bb            |    6 ++++--
- 2 files changed, 22 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-qt/qt-apps/fotowall/ExportWizard-depends-on-ui_wizard.patch
+I don't know what the e2initrd_helper does.. if it's required for booting, then 
+it's needed in /... (or if libext2fs can't run w/o it.)
 
-diff --git a/meta/recipes-qt/qt-apps/fotowall/ExportWizard-depends-on-ui_wizard.patch b/meta/recipes-qt/qt-apps/fotowall/ExportWizard-depends-on-ui_wizard.patch
-new file mode 100644
-index 0000000..d8b2b23
---- /dev/null
-+++ b/meta/recipes-qt/qt-apps/fotowall/ExportWizard-depends-on-ui_wizard.patch
-@@ -0,0 +1,18 @@
-+App/ExportWizard.cpp depends on wizard.h which depends on ui_wizard. The last one
-+should be already generated before compiling ExportWizard.cpp.
-+
-+Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
-+Upstream-Status: Pending
-+
-+Index: Fotowall-0.9/App/ExportWizard.cpp
-+===================================================================
-+--- Fotowall-0.9.orig/App/ExportWizard.cpp	2009-11-30 13:21:31.000000000 +0200
-++++ Fotowall-0.9/App/ExportWizard.cpp	2012-05-10 17:12:06.765230830 +0300
-+@@ -23,6 +23,7 @@
-+ #include "imageloaderqt.h"
-+ #include "posterazorcore.h"
-+ #include "wizard.h"
-++#include "ui_wizard.h"
-+ 
-+ #include <QDesktopServices>
-+ #include <QDesktopWidget>
-diff --git a/meta/recipes-qt/qt-apps/fotowall_0.9.bb b/meta/recipes-qt/qt-apps/fotowall_0.9.bb
-index 52dd727..3cb79a3 100644
---- a/meta/recipes-qt/qt-apps/fotowall_0.9.bb
-+++ b/meta/recipes-qt/qt-apps/fotowall_0.9.bb
-@@ -7,12 +7,14 @@ LIC_FILES_CHKSUM = "file://GPL_V2;md5=79808397c3355f163c012616125c9e26 \
-                     file://main.cpp;beginline=6;endline=11;md5=b569acc2bf8974a3082b58fc53b9d8dc"
- SECTION = "x11/apps"
- 
--PR = "r2"
-+PR = "r3"
- 
- DEPENDS = "qt4-x11-free"
- RRECOMMENDS_${PN} += "qt4-plugin-imageformat-gif qt4-plugin-imageformat-jpeg qt4-plugin-imageformat-tiff"
- 
--SRC_URI = "http://qt-apps.org/CONTENT/content-files/71316-Fotowall-0.9.tar.bz2"
-+SRC_URI = "http://qt-apps.org/CONTENT/content-files/71316-Fotowall-0.9.tar.bz2 \
-+           file://ExportWizard-depends-on-ui_wizard.patch \
-+           "
- 
- SRC_URI[md5sum] = "142ef697332e0777c6d22c5bc96cc438"
- SRC_URI[sha256sum] = "e4d0c005d2cb1d7c09438bfc3098eadebc08946e4fbc0655b7fc8b046de3810d"
--- 
-1.7.9.5
+--Mark
+
+>> libext2fs.so.* still work (during initial boot) w/o the libexec component?
+>>   (I am assuming it will...)
+>>
+>> So this looks correct to me.  The split packages can have mixed base and
+>> prefixed components... it's the filesystem that we hope will work without
+>> the /usr being mounted.  But if the library requires an item in /usr, then
+>> we may have to move that item to /lib as well....
+>>
+>> --Mark
+>>
+>>
+>>> _______________________________________________
+>>> Openembedded-core mailing list
+>>> Openembedded-core@lists.openembedded.org
+>>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>>
+>>
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
 
