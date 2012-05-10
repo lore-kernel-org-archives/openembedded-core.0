@@ -1,36 +1,32 @@
-Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <cazfi74@gmail.com>) id 1SSIXo-0004sQ-O4
+	(envelope-from <Liezhi.Yang@windriver.com>) id 1SSJ2b-0005Uh-VD
 	for openembedded-core@lists.openembedded.org;
-	Thu, 10 May 2012 03:51:52 +0200
-Received: by lags15 with SMTP id s15so725161lag.6
+	Thu, 10 May 2012 04:23:42 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q4A2Dl2k002645
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 09 May 2012 18:41:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=S8g2gbrjC+yHlKWnDnHO9ePEZzY2wb9jCVZefYWCL94=;
-	b=0zngU3qS5vltp/inqUoQhTV+h7hRsevFe5hg9vHG/rSC0uGxeiZui56gLkwzzHboz0
-	Zr9ss19v93wIZ+rSvSfqNwXRp2mX18bpTQTdB7cVMAmfAnYKsZZUtsyuuMbCXWntpgTH
-	FmaMQR6bpR8D1umZN84w1/c8I+Mqu3ELppxZQcUOH/ScXBD70UxT42gr/PDubl0KLP2b
-	IlEzZSJBaEzrgt4KAaeabpd1tLem4G/+T8LqyNMjfs416i4WiFlPMYqnmCwKANNzUY2B
-	mjdzSKCjcWlxNhzAtg2I+7IzyCM7IkOeaUlTD2y3aAGWLnZVC+r0SE+Rjb1eCX+y+ONo
-	GJ7g==
-Received: by 10.152.147.33 with SMTP id th1mr2344853lab.9.1336614119222;
-	Wed, 09 May 2012 18:41:59 -0700 (PDT)
-Received: from alpha.cazfi.net (a91-153-5-101.elisa-laajakaista.fi.
-	[91.153.5.101])
-	by mx.google.com with ESMTPS id ox7sm5461387lbb.17.2012.05.09.18.41.57
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 09 May 2012 18:41:58 -0700 (PDT)
-Received: from cazfi by alpha.cazfi.net with local (Exim 4.77)
-	(envelope-from <cazfi74@gmail.com>)
-	id 1SSIOC-0000Tw-UU; Thu, 10 May 2012 04:41:56 +0300
-From: Marko Lindqvist <cazfi74@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 10 May 2012 04:41:44 +0300
-Message-Id: <1336614104-1825-1-git-send-email-cazfi74@gmail.com>
-X-Mailer: git-send-email 1.7.10
-Subject: [PATCH] package_deb.bbclass: don't handle advanced dependency marker as version number
+	Wed, 9 May 2012 19:13:47 -0700 (PDT)
+Received: from [128.224.163.142] (128.224.163.142) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Wed, 9 May 2012 19:13:46 -0700
+Message-ID: <4FAB2459.6070205@windriver.com>
+Date: Thu, 10 May 2012 10:13:45 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:11.0) Gecko/20120329 Thunderbird/11.0.1
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1336547713.git.liezhi.yang@windriver.com>
+	<03d9cdca29477f34348a0f97138504441c5804fa.1336547713.git.liezhi.yang@windriver.com>
+	<23E51582-C3C4-4673-B646-F29E74FEB428@dominion.thruhere.net>
+	<4FAA84B3.1080108@windriver.com>
+	<6122E5DC-EFF1-4592-AB36-22E9D68DF2BF@dominion.thruhere.net>
+	<4FAA8A03.50309@windriver.com>
+	<033DD718-AA9D-4F09-9E06-13C14DBBB7AC@dominion.thruhere.net>
+In-Reply-To: <033DD718-AA9D-4F09-9E06-13C14DBBB7AC@dominion.thruhere.net>
+Subject: Re: [PATCH 2/2] rootfs_rpm.bbclass: don't remove rpmlib when INC_RPM_IMAGE_GEN=1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,56 +41,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 May 2012 01:51:52 -0000
+X-List-Received-Date: Thu, 10 May 2012 02:23:42 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Strip advanced dependency markers away from Provides before writing
-them to control file. Left in place they would mean package version
-number in control file format.
 
-Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
----
- meta/classes/package_deb.bbclass |   19 ++++++++++++++++++-
- 1 file changed, 18 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes/package_deb.bbclass b/meta/classes/package_deb.bbclass
-index dc0f963..c51bf3c 100644
---- a/meta/classes/package_deb.bbclass
-+++ b/meta/classes/package_deb.bbclass
-@@ -206,6 +206,23 @@ python do_package_deb () {
-     import re, copy
-     import textwrap
- 
-+    def deb_explode_dep_ver(varname):
-+        # Remove markers from string so they won't get handled as version numbers
-+        depstr = localdata.getVar(varname, True) or ""
-+        start = depstr.find("(")
-+        while start != -1:
-+            # We are not searching ")" from full string in case it's malformed in a way
-+            # that first ")" is before first "("
-+            endstr = depstr[start:len(depstr)]
-+            end = endstr.find(")")
-+            if (end == len(endstr) - 1) or (end == -1):
-+                tmpstr = depstr[0:start]
-+            else:
-+                tmpstr = depstr[0:start] + depstr[start+end+1:len(depstr)]
-+            depstr = tmpstr
-+            start = depstr.find("(")
-+        return bb.utils.explode_dep_versions(depstr)
-+
-     workdir = d.getVar('WORKDIR', True)
-     if not workdir:
-         bb.error("WORKDIR not defined, unable to package")
-@@ -341,7 +358,7 @@ python do_package_deb () {
-                 if '*' in dep:
-                         del rrecommends[dep]
-         rsuggests = bb.utils.explode_dep_versions(localdata.getVar("RSUGGESTS", True) or "")
--        rprovides = bb.utils.explode_dep_versions(localdata.getVar("RPROVIDES", True) or "")
-+        rprovides = deb_explode_dep_ver("RPROVIDES")
-         rreplaces = bb.utils.explode_dep_versions(localdata.getVar("RREPLACES", True) or "")
-         rconflicts = bb.utils.explode_dep_versions(localdata.getVar("RCONFLICTS", True) or "")
-         if rdepends:
--- 
-1.7.10
+On 05/09/2012 11:24 PM, Koen Kooi wrote:
+>
+> Op 9 mei 2012, om 17:15 heeft Mark Hatle het volgende geschreven:
+>
+>> On 5/9/12 10:01 AM, Koen Kooi wrote:
+>>>
+>>> Op 9 mei 2012, om 16:52 heeft Mark Hatle het volgende geschreven:
+>>>
+>>>> On 5/9/12 3:50 AM, Koen Kooi wrote:
+>>>>>
+>>>>> Op 9 mei 2012, om 10:20 heeft Robert Yang het volgende geschreven:
+>>>>>
+>>>>>> Don't remove rpmlib when INC_RPM_IMAGE_GEN=1, otherwise the
+>>>>>> list_installed_packages would get nothing in the second build.
+>>>>>
+>>>>> What happens when I do a build, enable INC_RPM_IMAGE_GEN and do another build?
+>>>>
+>>>> The intention is that only the packages that have been changed/upgraded will be installed.  Instead of the whole image being generated from scratch each time.
+>>>
+>>> That's what INC_RPM_IMAGE_GEN does, yes. What I'm asking is how this patch addresses the sequence I outlined above.
+>>
+>> Explain what you mean by "build".
+>>
+>> Using the following:
+>>
+>> . ./oe-init-build-env build-test
+>> <setup local.conf w/ rpm packaging and INC_RPM_IMAGE_GEN>
+>> bitbake core-image-core
+>> --- time passes, git pull pulls in changes ---
+>> bitbake core-image-core
+>>
+>> The second "build", only the changed packages will be added to the image.
+>>
+>> You you are using different build directories, then it doesn't re-use anything.  The purpose of this is incremental software development within a single build directory.
+>
+> You are still missing my point. The patch is broken if you change INC_RPM_IMAGE_GEN
 
+Only the core-image-minimal has this problem, other images won't remove the
+database, the core-image-minimal removes the database to save disk space (
+only saves quite a little), and I don't know whether there is a better solution
+for the core-image-minimal, maybe move the database to ${T} rather than remove
+it, and move it back to the rootfs directory at the early stage of do_rootfs, 
+but I don't know whether this is worth or not since this is just used for
+saving the time at the development stage, as it had told:
+
+# Incremental rpm image generation, the rootfs would be totally removed
+# and re-created in the second generation by default, but with
+# INC_RPM_IMAGE_GEN = "1", the rpm based rootfs would be kept, and will
+# do update(remove/add some pkgs) on it.  NOTE: This is not suggested
+# when you want to create a productive rootfs
+
+// Robert
+
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
 
