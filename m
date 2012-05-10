@@ -1,30 +1,36 @@
-Received: from smtp-relay2.palm.com ([64.28.152.243])
+Received: from mail-wg0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <prvs=47094b4ea=rich.pixley@palm.com>)
-	id 1SSH08-0003p7-LR for openembedded-core@lists.openembedded.org;
-	Thu, 10 May 2012 02:13:00 +0200
-X-IronPort-AV: E=Sophos;i="4.75,560,1330934400"; d="scan'208";a="13415666"
-Received: from unknown (HELO ushqusdns4.palm.com) ([148.92.223.164])
-	by smtp-relay2.palm.com with ESMTP; 09 May 2012 17:03:06 -0700
-Received: from fuji-land.noir.com ([10.100.2.2])
-	by ushqusdns4.palm.com (8.14.4/8.14.4) with ESMTP id q4A036S0019461;
-	Wed, 9 May 2012 17:03:06 -0700
-Message-ID: <4FAB05BA.1000803@palm.com>
-Date: Wed, 09 May 2012 17:03:06 -0700
-From: Rich Pixley <rich.pixley@palm.com>
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7;
-	rv:12.0) Gecko/20120428 Thunderbird/12.0.1
+	(envelope-from <kergoth@gmail.com>) id 1SSH1X-0003rK-4C
+	for openembedded-core@lists.openembedded.org;
+	Thu, 10 May 2012 02:14:27 +0200
+Received: by wgbdr1 with SMTP id dr1so764893wgb.24
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 09 May 2012 17:04:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date
+	:x-google-sender-auth:message-id:subject:to:content-type
+	:content-transfer-encoding;
+	bh=cSDeyHsJr+/4+Lhstl3kutWB8RMuW0/FAx0AWTpn7b0=;
+	b=gHxrC9cWdE9c7JlZE7v+nE3ndqwB1IX8wwKoxHj9hDvbRTTRG8cIFvb4pQnOOLa2mJ
+	TtX6GLu5o62JcJdO2DEVYU5cG6Nu/OJuzbc1le70izKnaDaYjnyx8kQwxh1aXinISzgh
+	Z4Yms7viLcyj0QqKrobegNvN46ulMUt0LQSDFgtykHWYjf2hJzMkh/Z5vp1RbnRaWQNa
+	VqO4OIHW4vZ4Hh+PJdg5ZnKP9D+A4x9hmIUcEvDmX6FJ0/999FnaiOuaFtshww7pE4x7
+	iEXhTIyAaY/KeLSxhmIrKRfBGNgLIXK5JZ9GSS0aD9JI8UhtjuzOmvVlNZEIR1wY30vR
+	2yEQ==
+Received: by 10.216.195.10 with SMTP id o10mr166743wen.11.1336608273866; Wed,
+	09 May 2012 17:04:33 -0700 (PDT)
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <4FA17B2A.5060903@palm.com> <4FA17FA7.9030805@windriver.com>
-	<4FA187F4.9040003@palm.com> <4FA18DA7.6010205@windriver.com>
-	<4FA18EC8.5040504@palm.com> <4FA18F9D.5090805@windriver.com>
-	<1335999994.30113.39.camel@ted> <4FA6B6AC.60301@palm.com>
-	<1336480442.25084.74.camel@ted> <4FAAAEB6.2060703@palm.com>
-	<1336593138.2494.72.camel@ted> <4FAAF7F9.4030000@palm.com>
-	<1336605997.2494.103.camel@ted>
-In-Reply-To: <1336605997.2494.103.camel@ted>
-Subject: Re: SetScene tasks hang forever?
+Sender: kergoth@gmail.com
+Received: by 10.216.181.16 with HTTP; Wed, 9 May 2012 17:03:07 -0700 (PDT)
+In-Reply-To: <1336607861.2494.113.camel@ted>
+References: <1336607861.2494.113.camel@ted>
+From: Chris Larson <clarson@kergoth.com>
+Date: Wed, 9 May 2012 17:03:07 -0700
+X-Google-Sender-Auth: fdsqjG1hmAsjmqwE9OOa-KTnnPs
+Message-ID: <CABcZANkdKjrx6hdYGLbjsxO-yfFQxZXXcTOuTfa-Xqh2c0VmgA@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: bitbake/runqueue: Fix 'full' stamp checking to be more efficient and cache results
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,28 +45,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 May 2012 00:13:00 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 10 May 2012 00:14:27 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On 5/9/12 16:26 , Richard Purdie wrote:
-> The settings that are now recommended are:
+On Wed, May 9, 2012 at 4:57 PM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> diff --git a/bitbake/lib/bb/runqueue.py b/bitbake/lib/bb/runqueue.py
+> index b870caf..48433be 100644
+> --- a/bitbake/lib/bb/runqueue.py
+> +++ b/bitbake/lib/bb/runqueue.py
+> @@ -875,7 +875,7 @@ class RunQueue:
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.msg.fatal("RunQueue", "check=
+_stamps fatal internal error")
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 return current
 >
-> BB_SIGNATURE_HANDLER ?= 'OEBasicHash'
-> OELAYOUT_ABI = "8"
->
-> This requires a rebuild since the stamp file format changes, hence the
-> ABI number increase. Currently, poky and angstrom use these settings
-> amongst others but its not default in OE-Core. I'll likely propose a
-> change to make it the default soon though.
->
-> This would then make BB_STAMP_POLICY = "full" obsolete and yet
-> incremental builds will work correctly and likely rebuild less things
-> (only really what potentially changed).
-Thank you for the explanation.
+> - =C2=A0 =C2=A0def check_stamp_task(self, task, taskname =3D None, recurs=
+e =3D False):
+> + =C2=A0 =C2=A0def check_stamp_task(self, task, taskname =3D None, recurs=
+e =3D False, cache =3D {}):
 
-I'll switch us immediately.
-
---rich
+When people do this, it's typically a bug, but I presume you're doing
+it intentionally here? Use of mutable default values is often
+problematic due to their being shared across all calls to that
+function, but that's okay for a cache. Maybe you intended this, given
+it's a cache, but I wanted to ensure it was a conscious choice. Also,
+this adds yet another global cache with no form of invalidation /
+clear at all, it'll continue to grow through the lifetime of the
+process.
+--=20
+Christopher Larson
 
 
