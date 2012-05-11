@@ -1,24 +1,24 @@
 Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SStgx-00033M-Ik
+	(envelope-from <sgw@linux.intel.com>) id 1SStgy-00033L-5E
 	for openembedded-core@lists.openembedded.org;
 	Fri, 11 May 2012 19:31:48 +0200
 Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 11 May 2012 10:21:50 -0700
+	by azsmga101.ch.intel.com with ESMTP; 11 May 2012 10:21:51 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="99043273"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="99043275"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.250])
 	by AZSMGA002.ch.intel.com with ESMTP; 11 May 2012 10:21:50 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 11 May 2012 10:21:46 -0700
-Message-Id: <cbe76114918fe3d29b053847dc4038037646a600.1336756650.git.sgw@linux.intel.com>
+Date: Fri, 11 May 2012 10:21:47 -0700
+Message-Id: <1a9bce1db3c1612f70ab868d7886808a79b915e1.1336756650.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <cover.1336756650.git.sgw@linux.intel.com>
 References: <cover.1336756650.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1336756650.git.sgw@linux.intel.com>
 References: <cover.1336756650.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 2/4] xserver-xf86-config: Add xorg.conf for arm, mips, ppc, sh qemu machines
+Subject: [CONSOLIDATED PULL 3/4] xserver-xorg: Fix build on powerpc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,407 +39,70 @@ From: Khem Raj <raj.khem@gmail.com>
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../xserver-xf86-config/qemuarm/xorg.conf          |   69 ++++++++++++++++++++
- .../xserver-xf86-config/qemumips/xorg.conf         |   69 ++++++++++++++++++++
- .../xserver-xf86-config/qemumips64/xorg.conf       |   69 ++++++++++++++++++++
- .../xserver-xf86-config/qemuppc/xorg.conf          |   69 ++++++++++++++++++++
- .../xserver-xf86-config/qemush4/xorg.conf          |   69 ++++++++++++++++++++
- .../xorg-xserver/xserver-xf86-config_0.1.bb        |    2 +-
- 6 files changed, 346 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemuarm/xorg.conf
- create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemumips/xorg.conf
- create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemumips64/xorg.conf
- create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemuppc/xorg.conf
- create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemush4/xorg.conf
+ .../xorg-xserver/xserver-xorg-1.11.2.inc           |    9 +++--
+ .../xserver-xorg-1.11.2/gcc-47-warning.patch       |   33 ++++++++++++++++++++
+ 2 files changed, 38 insertions(+), 4 deletions(-)
+ create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2/gcc-47-warning.patch
 
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemuarm/xorg.conf b/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemuarm/xorg.conf
-new file mode 100644
-index 0000000..629ae21
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemuarm/xorg.conf
-@@ -0,0 +1,69 @@
-+
-+Section "Files"
-+EndSection
-+
-+Section "InputDevice"
-+    Identifier    "Generic Keyboard"
-+    Driver        "evdev"
-+    Option        "CoreKeyboard"
-+    Option        "Device"      "/dev/input/by-path/platform-i8042-serio-0-event-kbd"
-+    Option        "XkbRules"    "xorg"
-+    Option        "XkbModel"    "evdev"
-+    Option        "XkbLayout"    "us"
-+EndSection
-+
-+Section "InputDevice"
-+    Identifier    "Configured Mouse"
-+    Driver        "mouse"
-+    Option        "CorePointer"
-+    Option        "Device"        "/dev/input/mice"
-+    Option        "Protocol"        "ImPS/2"
-+    Option        "ZAxisMapping"        "4 5"
-+    Option        "Emulate3Buttons"    "true"
-+EndSection
-+
-+Section "InputDevice"
-+    Identifier    "Qemu Tablet"
-+    Driver        "evdev"
-+    Option        "CorePointer"
-+    Option        "Device"        "/dev/input/touchscreen0"
-+    Option        "USB"           "on"
-+EndSection
-+
-+Section "Device"
-+    Identifier    "Graphics Controller"
-+    Driver        "fbdev"
-+EndSection
-+
-+Section "Monitor"
-+    Identifier    "Generic Monitor"
-+    Option        "DPMS"
-+    # 1024x600 59.85 Hz (CVT) hsync: 37.35 kHz; pclk: 49.00 MHz
-+    Modeline "1024x600_60.00"   49.00  1024 1072 1168 1312  600 603 613 624 -hsync +vsync
-+    # 640x480 @ 60Hz (Industry standard) hsync: 31.5kHz
-+    ModeLine "640x480"    25.2  640  656  752  800    480  490  492  525 -hsync -vsync
-+    # 640x480 @ 72Hz (VESA) hsync: 37.9kHz
-+    ModeLine "640x480"    31.5  640  664  704  832    480  489  491  520 -hsync -vsync
-+    # 640x480 @ 75Hz (VESA) hsync: 37.5kHz
-+    ModeLine "640x480"    31.5  640  656  720  840    480  481  484  500 -hsync -vsync
-+    # 640x480 @ 85Hz (VESA) hsync: 43.3kHz
-+    ModeLine "640x480"    36.0  640  696  752  832    480  481  484  509 -hsync -vsync
-+EndSection
-+
-+Section "Screen"
-+    Identifier    "Default Screen"
-+    Device        "Graphics Controller"
-+    Monitor        "Generic Monitor"
-+    SubSection "Display"
-+        Modes     "640x480"
-+    EndSubSection
-+EndSection
-+
-+Section "ServerLayout"
-+    Identifier    "Default Layout"
-+    Screen        "Default Screen"
-+    InputDevice    "Generic Keyboard"
-+    # InputDevice    "Configured Mouse"
-+    InputDevice    "QEMU Tablet"
-+    Option         "AllowEmptyInput" "no"
-+EndSection
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemumips/xorg.conf b/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemumips/xorg.conf
-new file mode 100644
-index 0000000..629ae21
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemumips/xorg.conf
-@@ -0,0 +1,69 @@
-+
-+Section "Files"
-+EndSection
-+
-+Section "InputDevice"
-+    Identifier    "Generic Keyboard"
-+    Driver        "evdev"
-+    Option        "CoreKeyboard"
-+    Option        "Device"      "/dev/input/by-path/platform-i8042-serio-0-event-kbd"
-+    Option        "XkbRules"    "xorg"
-+    Option        "XkbModel"    "evdev"
-+    Option        "XkbLayout"    "us"
-+EndSection
-+
-+Section "InputDevice"
-+    Identifier    "Configured Mouse"
-+    Driver        "mouse"
-+    Option        "CorePointer"
-+    Option        "Device"        "/dev/input/mice"
-+    Option        "Protocol"        "ImPS/2"
-+    Option        "ZAxisMapping"        "4 5"
-+    Option        "Emulate3Buttons"    "true"
-+EndSection
-+
-+Section "InputDevice"
-+    Identifier    "Qemu Tablet"
-+    Driver        "evdev"
-+    Option        "CorePointer"
-+    Option        "Device"        "/dev/input/touchscreen0"
-+    Option        "USB"           "on"
-+EndSection
-+
-+Section "Device"
-+    Identifier    "Graphics Controller"
-+    Driver        "fbdev"
-+EndSection
-+
-+Section "Monitor"
-+    Identifier    "Generic Monitor"
-+    Option        "DPMS"
-+    # 1024x600 59.85 Hz (CVT) hsync: 37.35 kHz; pclk: 49.00 MHz
-+    Modeline "1024x600_60.00"   49.00  1024 1072 1168 1312  600 603 613 624 -hsync +vsync
-+    # 640x480 @ 60Hz (Industry standard) hsync: 31.5kHz
-+    ModeLine "640x480"    25.2  640  656  752  800    480  490  492  525 -hsync -vsync
-+    # 640x480 @ 72Hz (VESA) hsync: 37.9kHz
-+    ModeLine "640x480"    31.5  640  664  704  832    480  489  491  520 -hsync -vsync
-+    # 640x480 @ 75Hz (VESA) hsync: 37.5kHz
-+    ModeLine "640x480"    31.5  640  656  720  840    480  481  484  500 -hsync -vsync
-+    # 640x480 @ 85Hz (VESA) hsync: 43.3kHz
-+    ModeLine "640x480"    36.0  640  696  752  832    480  481  484  509 -hsync -vsync
-+EndSection
-+
-+Section "Screen"
-+    Identifier    "Default Screen"
-+    Device        "Graphics Controller"
-+    Monitor        "Generic Monitor"
-+    SubSection "Display"
-+        Modes     "640x480"
-+    EndSubSection
-+EndSection
-+
-+Section "ServerLayout"
-+    Identifier    "Default Layout"
-+    Screen        "Default Screen"
-+    InputDevice    "Generic Keyboard"
-+    # InputDevice    "Configured Mouse"
-+    InputDevice    "QEMU Tablet"
-+    Option         "AllowEmptyInput" "no"
-+EndSection
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemumips64/xorg.conf b/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemumips64/xorg.conf
-new file mode 100644
-index 0000000..629ae21
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemumips64/xorg.conf
-@@ -0,0 +1,69 @@
-+
-+Section "Files"
-+EndSection
-+
-+Section "InputDevice"
-+    Identifier    "Generic Keyboard"
-+    Driver        "evdev"
-+    Option        "CoreKeyboard"
-+    Option        "Device"      "/dev/input/by-path/platform-i8042-serio-0-event-kbd"
-+    Option        "XkbRules"    "xorg"
-+    Option        "XkbModel"    "evdev"
-+    Option        "XkbLayout"    "us"
-+EndSection
-+
-+Section "InputDevice"
-+    Identifier    "Configured Mouse"
-+    Driver        "mouse"
-+    Option        "CorePointer"
-+    Option        "Device"        "/dev/input/mice"
-+    Option        "Protocol"        "ImPS/2"
-+    Option        "ZAxisMapping"        "4 5"
-+    Option        "Emulate3Buttons"    "true"
-+EndSection
-+
-+Section "InputDevice"
-+    Identifier    "Qemu Tablet"
-+    Driver        "evdev"
-+    Option        "CorePointer"
-+    Option        "Device"        "/dev/input/touchscreen0"
-+    Option        "USB"           "on"
-+EndSection
-+
-+Section "Device"
-+    Identifier    "Graphics Controller"
-+    Driver        "fbdev"
-+EndSection
-+
-+Section "Monitor"
-+    Identifier    "Generic Monitor"
-+    Option        "DPMS"
-+    # 1024x600 59.85 Hz (CVT) hsync: 37.35 kHz; pclk: 49.00 MHz
-+    Modeline "1024x600_60.00"   49.00  1024 1072 1168 1312  600 603 613 624 -hsync +vsync
-+    # 640x480 @ 60Hz (Industry standard) hsync: 31.5kHz
-+    ModeLine "640x480"    25.2  640  656  752  800    480  490  492  525 -hsync -vsync
-+    # 640x480 @ 72Hz (VESA) hsync: 37.9kHz
-+    ModeLine "640x480"    31.5  640  664  704  832    480  489  491  520 -hsync -vsync
-+    # 640x480 @ 75Hz (VESA) hsync: 37.5kHz
-+    ModeLine "640x480"    31.5  640  656  720  840    480  481  484  500 -hsync -vsync
-+    # 640x480 @ 85Hz (VESA) hsync: 43.3kHz
-+    ModeLine "640x480"    36.0  640  696  752  832    480  481  484  509 -hsync -vsync
-+EndSection
-+
-+Section "Screen"
-+    Identifier    "Default Screen"
-+    Device        "Graphics Controller"
-+    Monitor        "Generic Monitor"
-+    SubSection "Display"
-+        Modes     "640x480"
-+    EndSubSection
-+EndSection
-+
-+Section "ServerLayout"
-+    Identifier    "Default Layout"
-+    Screen        "Default Screen"
-+    InputDevice    "Generic Keyboard"
-+    # InputDevice    "Configured Mouse"
-+    InputDevice    "QEMU Tablet"
-+    Option         "AllowEmptyInput" "no"
-+EndSection
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemuppc/xorg.conf b/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemuppc/xorg.conf
-new file mode 100644
-index 0000000..629ae21
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemuppc/xorg.conf
-@@ -0,0 +1,69 @@
-+
-+Section "Files"
-+EndSection
-+
-+Section "InputDevice"
-+    Identifier    "Generic Keyboard"
-+    Driver        "evdev"
-+    Option        "CoreKeyboard"
-+    Option        "Device"      "/dev/input/by-path/platform-i8042-serio-0-event-kbd"
-+    Option        "XkbRules"    "xorg"
-+    Option        "XkbModel"    "evdev"
-+    Option        "XkbLayout"    "us"
-+EndSection
-+
-+Section "InputDevice"
-+    Identifier    "Configured Mouse"
-+    Driver        "mouse"
-+    Option        "CorePointer"
-+    Option        "Device"        "/dev/input/mice"
-+    Option        "Protocol"        "ImPS/2"
-+    Option        "ZAxisMapping"        "4 5"
-+    Option        "Emulate3Buttons"    "true"
-+EndSection
-+
-+Section "InputDevice"
-+    Identifier    "Qemu Tablet"
-+    Driver        "evdev"
-+    Option        "CorePointer"
-+    Option        "Device"        "/dev/input/touchscreen0"
-+    Option        "USB"           "on"
-+EndSection
-+
-+Section "Device"
-+    Identifier    "Graphics Controller"
-+    Driver        "fbdev"
-+EndSection
-+
-+Section "Monitor"
-+    Identifier    "Generic Monitor"
-+    Option        "DPMS"
-+    # 1024x600 59.85 Hz (CVT) hsync: 37.35 kHz; pclk: 49.00 MHz
-+    Modeline "1024x600_60.00"   49.00  1024 1072 1168 1312  600 603 613 624 -hsync +vsync
-+    # 640x480 @ 60Hz (Industry standard) hsync: 31.5kHz
-+    ModeLine "640x480"    25.2  640  656  752  800    480  490  492  525 -hsync -vsync
-+    # 640x480 @ 72Hz (VESA) hsync: 37.9kHz
-+    ModeLine "640x480"    31.5  640  664  704  832    480  489  491  520 -hsync -vsync
-+    # 640x480 @ 75Hz (VESA) hsync: 37.5kHz
-+    ModeLine "640x480"    31.5  640  656  720  840    480  481  484  500 -hsync -vsync
-+    # 640x480 @ 85Hz (VESA) hsync: 43.3kHz
-+    ModeLine "640x480"    36.0  640  696  752  832    480  481  484  509 -hsync -vsync
-+EndSection
-+
-+Section "Screen"
-+    Identifier    "Default Screen"
-+    Device        "Graphics Controller"
-+    Monitor        "Generic Monitor"
-+    SubSection "Display"
-+        Modes     "640x480"
-+    EndSubSection
-+EndSection
-+
-+Section "ServerLayout"
-+    Identifier    "Default Layout"
-+    Screen        "Default Screen"
-+    InputDevice    "Generic Keyboard"
-+    # InputDevice    "Configured Mouse"
-+    InputDevice    "QEMU Tablet"
-+    Option         "AllowEmptyInput" "no"
-+EndSection
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemush4/xorg.conf b/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemush4/xorg.conf
-new file mode 100644
-index 0000000..629ae21
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemush4/xorg.conf
-@@ -0,0 +1,69 @@
-+
-+Section "Files"
-+EndSection
-+
-+Section "InputDevice"
-+    Identifier    "Generic Keyboard"
-+    Driver        "evdev"
-+    Option        "CoreKeyboard"
-+    Option        "Device"      "/dev/input/by-path/platform-i8042-serio-0-event-kbd"
-+    Option        "XkbRules"    "xorg"
-+    Option        "XkbModel"    "evdev"
-+    Option        "XkbLayout"    "us"
-+EndSection
-+
-+Section "InputDevice"
-+    Identifier    "Configured Mouse"
-+    Driver        "mouse"
-+    Option        "CorePointer"
-+    Option        "Device"        "/dev/input/mice"
-+    Option        "Protocol"        "ImPS/2"
-+    Option        "ZAxisMapping"        "4 5"
-+    Option        "Emulate3Buttons"    "true"
-+EndSection
-+
-+Section "InputDevice"
-+    Identifier    "Qemu Tablet"
-+    Driver        "evdev"
-+    Option        "CorePointer"
-+    Option        "Device"        "/dev/input/touchscreen0"
-+    Option        "USB"           "on"
-+EndSection
-+
-+Section "Device"
-+    Identifier    "Graphics Controller"
-+    Driver        "fbdev"
-+EndSection
-+
-+Section "Monitor"
-+    Identifier    "Generic Monitor"
-+    Option        "DPMS"
-+    # 1024x600 59.85 Hz (CVT) hsync: 37.35 kHz; pclk: 49.00 MHz
-+    Modeline "1024x600_60.00"   49.00  1024 1072 1168 1312  600 603 613 624 -hsync +vsync
-+    # 640x480 @ 60Hz (Industry standard) hsync: 31.5kHz
-+    ModeLine "640x480"    25.2  640  656  752  800    480  490  492  525 -hsync -vsync
-+    # 640x480 @ 72Hz (VESA) hsync: 37.9kHz
-+    ModeLine "640x480"    31.5  640  664  704  832    480  489  491  520 -hsync -vsync
-+    # 640x480 @ 75Hz (VESA) hsync: 37.5kHz
-+    ModeLine "640x480"    31.5  640  656  720  840    480  481  484  500 -hsync -vsync
-+    # 640x480 @ 85Hz (VESA) hsync: 43.3kHz
-+    ModeLine "640x480"    36.0  640  696  752  832    480  481  484  509 -hsync -vsync
-+EndSection
-+
-+Section "Screen"
-+    Identifier    "Default Screen"
-+    Device        "Graphics Controller"
-+    Monitor        "Generic Monitor"
-+    SubSection "Display"
-+        Modes     "640x480"
-+    EndSubSection
-+EndSection
-+
-+Section "ServerLayout"
-+    Identifier    "Default Layout"
-+    Screen        "Default Screen"
-+    InputDevice    "Generic Keyboard"
-+    # InputDevice    "Configured Mouse"
-+    InputDevice    "QEMU Tablet"
-+    Option         "AllowEmptyInput" "no"
-+EndSection
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xf86-config_0.1.bb b/meta/recipes-graphics/xorg-xserver/xserver-xf86-config_0.1.bb
-index 970b4bd..3c29f8b 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xf86-config_0.1.bb
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xf86-config_0.1.bb
-@@ -3,7 +3,7 @@ HOMEPAGE = "http://www.x.org"
- SECTION = "x11/base"
- LICENSE = "MIT-X"
- LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
--PR = "r10"
-+PR = "r11"
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2.inc
+index f5fa629..6a86af4 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2.inc
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2.inc
+@@ -1,10 +1,11 @@
+-SRC_URI += "file://crosscompile.patch"
+-
+ # Misc build failure for master HEAD
+-SRC_URI += "file://fix_open_max_preprocessor_error.patch"
++SRC_URI += "file://crosscompile.patch \
++            file://fix_open_max_preprocessor_error.patch \
++            file://gcc-47-warning.patch \
++           "
  
- SRC_URI = "file://xorg.conf"
+ SRC_URI[md5sum] = "8796fff441e5435ee36a72579008af24"
+ SRC_URI[sha256sum] = "fa415decf02027ca278b06254ccfbcceba2a83c2741405257ebf749da4a73cf2"
  
+-PR = "r1"
++PR = "r2"
+ 
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2/gcc-47-warning.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2/gcc-47-warning.patch
+new file mode 100644
+index 0000000..ed4eaac
+--- /dev/null
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2/gcc-47-warning.patch
+@@ -0,0 +1,33 @@
++This patch fixes errors on powerpc like below
++
++| lnx_video.c: In function 'unmapVidMem':
++| lnx_video.c:472:24: error: cast from pointer to integer of different size [-Werror=pointer-to-int-cast]
++
++Its in 1.12 branch 
++
++http://cgit.freedesktop.org/xorg/xserver/commit/?h=server-1.12-branch&id=eb3377ffb8a7baa26c9831e56ed782d48b28fa71
++
++Upstream-Status: Backport
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++
++Index: xorg-server-1.11.2/hw/xfree86/os-support/linux/lnx_video.c
++===================================================================
++--- xorg-server-1.11.2.orig/hw/xfree86/os-support/linux/lnx_video.c	2012-05-01 06:32:34.186489019 -0700
+++++ xorg-server-1.11.2/hw/xfree86/os-support/linux/lnx_video.c	2012-05-01 06:49:14.926537452 -0700
++@@ -469,11 +469,11 @@
++ static void
++ unmapVidMem(int ScreenNum, pointer Base, unsigned long Size)
++ {
++-    memType alignOff = (memType)Base 
++-	- ((memType)Base & ~(getpagesize() - 1));
+++    uintptr_t alignOff = (uintptr_t)Base 
+++	- ((uintptr_t)Base & ~(getpagesize() - 1));
++ 
++-    DebugF("alignment offset: %lx\n",alignOff);
++-    munmap((caddr_t)((memType)Base - alignOff), (Size + alignOff));
+++    DebugF("alignment offset: %lx\n",(unsigned long)alignOff);
+++    munmap((void*)((uintptr_t)Base - alignOff), (Size + alignOff));
++ }
++ 
++ 
 -- 
 1.7.7.6
 
