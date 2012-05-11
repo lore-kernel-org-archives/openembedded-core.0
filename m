@@ -1,34 +1,24 @@
-Received: from mail-yw0-f47.google.com ([209.85.213.47])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <cazfi74@gmail.com>) id 1SStSV-0002nm-Um
+	(envelope-from <mark.hatle@windriver.com>) id 1SStaI-0002uK-VO
 	for openembedded-core@lists.openembedded.org;
-	Fri, 11 May 2012 19:16:52 +0200
-Received: by yhjj56 with SMTP id j56so3020682yhj.6
+	Fri, 11 May 2012 19:24:55 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q4BHEwbl004644
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 May 2012 10:06:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type:content-transfer-encoding;
-	bh=PQeUJT4wNp5oiAirxR8qsRzIuqWWlck5WSkOoW11Ga8=;
-	b=q4RCy0XuFBTzFfHrhqBhrQmQlWXtbRHp+K6PDl7kOh/qAn6B5izJBpJUv99n/brIUJ
-	fbSmydxgxSJNarUwRIGrXykVIye6iG/KIP8JOgSlbzWvMMTvvUcLk0U9AeoRTP/4e9hG
-	0vcLkLhz+djlGNiom3zekVrNBBFL83Jm9gLkdqX7A3xRPnd5/c5ZIWRF+dvwRi5y7X4c
-	3ILlBCxeznInN+2KQCJ6156paZI2F0japbZ9jznXxuflnB3rJ6TrQrKcW4mE92OT3HlI
-	It4WJQcPeXcLXzgXqJyLbenHRcaGWruUVwlmJxMRIsmblsXxbBGsCP6PEsSwbY+cfkaz
-	mrEw==
+	Fri, 11 May 2012 10:14:58 -0700 (PDT)
+Received: from localhost.localdomain (172.25.34.61) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
+	Fri, 11 May 2012 10:14:57 -0700
+From: Mark Hatle <mark.hatle@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 11 May 2012 12:17:53 -0500
+Message-ID: <cover.1336756602.git.mark.hatle@windriver.com>
+X-Mailer: git-send-email 1.7.3.4
 MIME-Version: 1.0
-Received: by 10.50.104.133 with SMTP id ge5mr2106805igb.21.1336756015665; Fri,
-	11 May 2012 10:06:55 -0700 (PDT)
-Received: by 10.64.59.130 with HTTP; Fri, 11 May 2012 10:06:55 -0700 (PDT)
-In-Reply-To: <4FAD45F2.9030908@linux.intel.com>
-References: <CAF6bG8dwwV-WymFvuZ9FXLb3wziR0mj9PfzP4qA31i79r_81wg@mail.gmail.com>
-	<4FAD45F2.9030908@linux.intel.com>
-Date: Fri, 11 May 2012 20:06:55 +0300
-Message-ID: <CAF6bG8e18hOJBGUwwgyetuxwViXfMOS5tYOj06sSghaam+nV9A@mail.gmail.com>
-From: Marko Lindqvist <cazfi74@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] dpkg: update to upstream version 1.16.3
+X-Originating-IP: [172.25.34.61]
+Subject: [PATCH 0/1] Further optimizations to the sstate.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,33 +33,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 May 2012 17:16:52 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 11 May 2012 17:24:55 -0000
+Content-Type: text/plain
 
-On 11 May 2012 20:01, Saul Wold <sgw@linux.intel.com> wrote:
-> On 05/04/2012 03:59 PM, Marko Lindqvist wrote:
->>
->> From: Marko Lindqvist<cazfi74@gmail.com>
->> Date: Sat, 5 May 2012 00:02:06 +0300
->> Subject: [PATCH] dpkg: update to upstream version 1.16.3
->>
->
-> Marko,
->
-> Are you going to resend this and the apt patch in an uncorrupted format?
->
-> Thanks
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0Sau!
+A few minor changes to the generation of the fixmepaths file in
+the sstate cache file generation can lead to significant performance
+improvements in recipes that generate large file sets.
 
- Working on them.
- Either one is causes image build problems. I've now managed to fetch
-old dpkg and apt versions from mirror, and image build with them (+
-patch not to consider advanced dependency marker as version number)
-success. So the problems I'm encountering with new dpkg+apt do not
-exist with old ones.
+The following changes since commit 9cd30beba77497288eeb2545920bc23f2a77cf16:
 
+  .gitignore: add /bitbake to the ignore list for external distributions (2012-05-11 17:59:53 +0100)
 
- - ML
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib mhatle/sstate
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=mhatle/sstate
+
+Mark Hatle (1):
+  sstate.bbclass: Optimize the generation and install path fixups
+
+ meta/classes/sstate.bbclass |    7 ++++++-
+ 1 files changed, 6 insertions(+), 1 deletions(-)
+
+-- 
+1.7.3.4
+
 
 
