@@ -1,41 +1,35 @@
-Received: from mail-wg0-f41.google.com ([74.125.82.41])
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1SSuE2-00046u-Np
+	(envelope-from <raj.khem@gmail.com>) id 1SSvNn-0002FP-Hy
 	for openembedded-core@lists.openembedded.org;
-	Fri, 11 May 2012 20:05:58 +0200
-Received: by wgbds1 with SMTP id ds1so1685133wgb.0
+	Fri, 11 May 2012 21:20:07 +0200
+Received: by eekd49 with SMTP id d49so823352eek.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 May 2012 10:56:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date
-	:content-transfer-encoding:message-id:references:to:x-mailer
-	:x-gm-message-state;
-	bh=wI03x8dIADbStO3+u2Cb+NAKFNCs0RkzRlhckfAMDdo=;
-	b=ZD4R2zDA2QLIUmdSRFMPOT++XthPhl9bHf9Tk6mEcnMm+Q8fnMDFEol0KkjSAbmv8r
-	ZdFXQK9oGGgZE/FVSdGCZe0aSothkudha07Xb5fVYuGHOdh0CYUmbWqwLJyVqasSqhFz
-	C6/HJIMNi4A3QghtPRRrp12Q65UomXdOMGBXhNJ00JqYCVxv2ZXO+nCkWfEuBrZuWnfI
-	mLYBpFHJypyYIvS7yKUjjMjArr1yoYkab9tdH/zz6IjbD7+XUvN2wTv5JA0udUs9Xwti
-	E/ueXbFOVUz1oXDT3EtEgrSfpsN0laxTqeKxVTXdkrJH+QJOyU0USnAFhBYoJ1cmjE99
-	vVqw==
-Received: by 10.216.131.97 with SMTP id l75mr2085813wei.21.1336758963142;
-	Fri, 11 May 2012 10:56:03 -0700 (PDT)
-Received: from [172.20.1.36] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id ff2sm19422399wib.9.2012.05.11.10.56.01
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 11 May 2012 10:56:02 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1257)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <cover.1336756650.git.sgw@linux.intel.com>
-Date: Fri, 11 May 2012 19:56:00 +0200
-Message-Id: <95CC9A64-5505-45A9-B63C-C6985A1A2A73@dominion.thruhere.net>
-References: <cover.1336756650.git.sgw@linux.intel.com>
-To: Patches and discussions about the oe-core layer
+	Fri, 11 May 2012 12:10:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:content-transfer-encoding;
+	bh=CenJVoevn2N2u9zPaq5llzotKhndl/cgGBxz9ezH5AY=;
+	b=h4O7GM2ee6a7QFUm852Ky4fWM5pMYcXfKNTG0k+B79jCIbZtMj8KsUN03U5/WowQvl
+	wtJF/6JscUU6m7YV/YX2cqBRMnG4toXmz4x0YZaMvCEXsYfKd8ZI2ROjOCmj5qJ6YkjJ
+	LXQ1uXckGTHnSLo9STktcQX8wMYUiMPPxWk4v/aWs7t5hNSV4+g8ASX6TJVu/bXNBjq2
+	18rZ14/RzsN5IbVfZNTLt5RSUnDWIVA/z0k5tfb8cmkGzal4Rl6XS5HROk88v5NJU0jK
+	rJ+0gEw+1MHhICVR4pKWIl0a65sKmmjwhHHqMgl/nchyyLRrH1SLxnoUYR48fj4x/ehR
+	3rBA==
+Received: by 10.213.20.200 with SMTP id g8mr2755087ebb.103.1336763411489; Fri,
+	11 May 2012 12:10:11 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.14.2.132 with HTTP; Fri, 11 May 2012 12:09:41 -0700 (PDT)
+In-Reply-To: <4FAD4E28.5030206@linux.intel.com>
+References: <cover.1336524034.git.raj.khem@gmail.com>
+	<4FAD4E28.5030206@linux.intel.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 11 May 2012 12:09:41 -0700
+Message-ID: <CAMKF1sriuhZq6vP9XYvFbS=WEfyBeXJDQP56mSJK7HgmjbeQSw@mail.gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1257)
-X-Gm-Message-State: ALoCoQmaO8L5EC7gQ7sLKOVTtWL0z2JGaRFKAQ1xadrJvqXhev4psvA35F7xSeHBWWNqthsp9w6+
-Subject: Re: [CONSOLIDATED PULL 0/4] QEMU Transition to xserver_xorg
+Subject: Re: [PATCH 0/2] Let uclibc provide rtld(GNU_HASH)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,23 +44,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 May 2012 18:05:58 -0000
-Content-Type: text/plain; charset=us-ascii
+X-List-Received-Date: Fri, 11 May 2012 19:20:07 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
+On Fri, May 11, 2012 at 10:36 AM, Saul Wold <sgw@linux.intel.com> wrote:
+> On 05/08/2012 05:43 PM, Khem Raj wrote:
+>>
+>> We have seen reports where rtld(GNU_HASH) is found missing
+>> on uclibc based images infact uclibc rtld does provide GNU_HASH
+>> support as default so we add that to PROVIDES
+>>
+>> snapshot mirror url is changed. Currently the url will fetch
+>> html files which will end in corrupted downloads so we
+>> update the url location in mirrors class.
+>>
+>> The following changes since commit
+>> 043871d7e5d2d19c2ff43e54d2ff180c09e8903e:
+>>
+>> =C2=A0 kern-tools: integrate minor fixes (2012-05-08 16:06:15 +0100)
+>>
+>> are available in the git repository at:
+>> =C2=A0 git://git.openembedded.org/openembedded-core-contrib kraj/misc-fi=
+xes
+>>
+>> http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=
+=3Dkraj/misc-fixes
+>>
+>> Khem Raj (2):
+>> =C2=A0 uclibc.inc: uclibc rtld does support GNU_HASH
+>> =C2=A0 classes/mirrors.bbclass: Point snapshot.debian.org mirror to work=
+ing
+>> =C2=A0 =C2=A0 location
+>>
+>> =C2=A0meta/classes/mirrors.bbclass =C2=A0 =C2=A0 =C2=A0 =C2=A0| =C2=A0 =
+=C2=A02 +-
+>> =C2=A0meta/recipes-core/uclibc/uclibc.inc | =C2=A0 =C2=A03 ++-
+>> =C2=A02 files changed, 3 insertions(+), 2 deletions(-)
+>>
+>
+> Merged into OE-Core
 
-Op 11 mei 2012, om 19:21 heeft Saul Wold het volgende geschreven:
-
-> Richard,
->=20
-> This has been run thought the AB and I have ran QEMU locally with=20
-> the new xserver change.
->=20
-> There were a few issues noted and Khen and I have cleaned then up=20
-> at this time.
-
-Not really an oe-core bug, but worth spelling out: meta-intel has a =
-greedy override for xf86-config, so if you machine has none it will end =
-up with with the meta-intel xorg.conf=
+FWIW both these fixes are needed on denzil too.
 
 
