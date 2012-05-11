@@ -1,23 +1,25 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Xiaofeng.Yan@windriver.com>) id 1SSkG8-00039y-CL
+	(envelope-from <Xiaofeng.Yan@windriver.com>) id 1SSkGA-0003A8-0K
 	for openembedded-core@lists.openembedded.org;
-	Fri, 11 May 2012 09:27:28 +0200
+	Fri, 11 May 2012 09:27:30 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q4B7HVAY019559
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q4B7HYIH019564
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 May 2012 00:17:32 -0700 (PDT)
+	Fri, 11 May 2012 00:17:34 -0700 (PDT)
 Received: from localhost (128.224.162.28) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Fri, 11 May 2012 00:17:31 -0700
-Message-ID: <cover.1336719792.git.xiaofeng.yan@windriver.com>
-Old-Date: Fri, 11 May 2012 15:03:12 +0800
-Date: Fri, 11 May 2012 15:23:09 +0800
+	Fri, 11 May 2012 00:17:34 -0700
+Message-ID: <e95088b41a40a278dbab25a06f14d9f15d2abcb0.1336719792.git.xiaofeng.yan@windriver.com>
+In-Reply-To: <cover.1336719792.git.xiaofeng.yan@windriver.com>
+References: <cover.1336719792.git.xiaofeng.yan@windriver.com>
+Old-Date: Fri, 11 May 2012 14:18:16 +0800
+Date: Fri, 11 May 2012 15:23:12 +0800
 To: <openembedded-core@lists.openembedded.org>
 From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/2]gdk-pixbuf: Add --with-x11 when building lsb image
+Subject: [PATCH 1/2] task-core-lsb: Add libgdk-pixbuf-xlib to core-image-lsb
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,35 +34,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 May 2012 07:27:28 -0000
+X-List-Received-Date: Fri, 11 May 2012 07:27:30 -0000
 Content-Type: text/plain
 
 From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
 
-This is V3 for fixing bug 2284. I made some modification according to Richard's suggestion.
+LSB Test Suite complains "No library libgdk_pixbuf_xlib-2.0.so.0" \
+which are created by gdk-pixbuf_2.24.1.bb.
+So add this library to core-image-lsb for passing lsb test.
 
-The following was Richard's suggestion:
-We should be using the linuxstdbase override and also make it
-conditional on x11 being in DISTRO_FEATURES.
-Split xlib to a single pakcage.
-
-
-Pull URL: git://git.pokylinux.org/poky-contrib.git
-  Branch: xiaofeng/2284
-  Browse: http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=xiaofeng/2284
-
-Thanks,
-    Xiaofeng Yan <xiaofeng.yan@windriver.com>
+Signed-off-by: Xiaofeng Yan <xiaofeng.yan@windriver.com>
 ---
+ meta/recipes-extended/tasks/task-core-lsb.bb |    7 +++----
+ 1 files changed, 3 insertions(+), 4 deletions(-)
 
-
-Xiaofeng Yan (2):
-  task-core-lsb: Add libgdk-pixbuf-xlib to core-image-lsb
-  gdk-pixbuf: Add --with-x11 when building lsb image
-
- meta/recipes-extended/tasks/task-core-lsb.bb       |    7 +++----
- meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.24.1.bb |   11 +++++++++--
- 2 files changed, 12 insertions(+), 6 deletions(-)
+diff --git a/meta/recipes-extended/tasks/task-core-lsb.bb b/meta/recipes-extended/tasks/task-core-lsb.bb
+index 2767196..350bc7d 100644
+--- a/meta/recipes-extended/tasks/task-core-lsb.bb
++++ b/meta/recipes-extended/tasks/task-core-lsb.bb
+@@ -3,7 +3,7 @@
+ #
+ 
+ DESCRIPTION = "Create Small Image Tasks"
+-PR = "r7"
++PR = "r8"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58 \
+                     file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+@@ -169,15 +169,14 @@ RDEPENDS_task-core-lsb-graphic-add = "\
+     gdk-pixbuf-loader-ico \
+     gdk-pixbuf-loader-bmp \
+     gdk-pixbuf-loader-ani \
+-    liberation-fonts \
++	gdk-pixbuf-xlib \
++	liberation-fonts \
+     gtk+ \
+     atk \
+     libasound \
+     ${@base_contains("DISTRO_FEATURES", "opengl", "libqtopengl4", "", d)} \
+ "
+ 
+-#    mesa-dri 
+-
+ RDEPENDS_task-core-lsb-runtime-add = "\
+     ldd \
+     pam-plugin-wheel \
+-- 
+1.7.0.4
 
 
 
