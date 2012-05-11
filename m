@@ -1,25 +1,37 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mail-we0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SShIO-0000mC-0x
+	(envelope-from <martin.jansa@gmail.com>) id 1SSiqE-0005m3-8s
 	for openembedded-core@lists.openembedded.org;
-	Fri, 11 May 2012 06:17:36 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 10 May 2012 21:07:39 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="164773043"
-Received: from unknown (HELO [10.255.12.250]) ([10.255.12.250])
-	by fmsmga002.fm.intel.com with ESMTP; 10 May 2012 21:07:39 -0700
-Message-ID: <4FAC908B.2040300@linux.intel.com>
-Date: Thu, 10 May 2012 21:07:39 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
-MIME-Version: 1.0
+	Fri, 11 May 2012 07:56:38 +0200
+Received: by werg55 with SMTP id g55so177905wer.6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 10 May 2012 22:46:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=UK3RqIWHeYlU91+lQm2ClhbssEZCQ5ZLinIkYq4b0EA=;
+	b=JEft+0yTzG7LJPZ1f9w52c9CzEOVXzvLJ/lVWO2eMRelO3U7S7dkVN9QLlQjWdofKV
+	gYhjbE03fDC0lAtrUgNihyeLcLFTlQ3W9n2gucoaHTGOFd208Mn7FPBiR7Bkdq97tcQC
+	N33ciHmhyB0LxY54hPK9RFQZFkET81w4tFAMuuiUL0cyC+ZRi3/DuA/tmZXJCk12QczA
+	TeZlz4um6j2WvIb4z4b0jSQNpM3bczFq5gzFlgSgvEmIfsyEL4kFdVMxN+4DtZNIu6b5
+	UaMpgMdIqa/rZT1sW5+nCplIpH1xMSNvyC63f5UNeRP8HjPV3F1pbkSC5hjx74/+OKER
+	inAg==
+Received: by 10.180.99.72 with SMTP id eo8mr4218703wib.10.1336715203445;
+	Thu, 10 May 2012 22:46:43 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id fo7sm8182005wib.9.2012.05.10.22.46.40
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 10 May 2012 22:46:42 -0700 (PDT)
+Date: Fri, 11 May 2012 07:46:40 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1336015963.git.raj.khem@gmail.com>
-In-Reply-To: <cover.1336015963.git.raj.khem@gmail.com>
-Subject: Re: [PATCH 0/3] Enable xserver-xorg for all qemumachines
+Message-ID: <20120511054640.GB3166@jama.jama.net>
+References: <4FAC3F2F.9000006@windriver.com>
+MIME-Version: 1.0
+In-Reply-To: <4FAC3F2F.9000006@windriver.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Subject: Re: setscene and perl -- pathological case
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,66 +46,99 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 May 2012 04:17:36 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 11 May 2012 05:56:38 -0000
+X-Groupsio-MsgNum: 22048
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="H1spWtNR+x+ondvy"
+Content-Disposition: inline
 
-On 05/02/2012 08:35 PM, Khem Raj wrote:
-> Currently we use kdrive for all qemu machines except x86 and x86_64
-> this patchset enables it for other qemu machines too
->
-> I did not delete the kdrive recipes intentionally since I saw that
-> there were some images which were using kdrive as xserver
->
-> I have successfully sato image in qemumips qemuarm and qemuppc
->
+--H1spWtNR+x+ondvy
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Khem,
+On Thu, May 10, 2012 at 05:20:31PM -0500, Mark Hatle wrote:
+> We've discovered that perl seems to be a pretty bad pathological case for=
+ setscene.
+>=20
+> Easy way to see what I mean:
+>=20
+> bitbake perl
+> bitbake -c clean perl
+> time bitbake perl
+>=20
+> The system isn't doing anything but running the setscene elements to brin=
+g perl=20
+> from the sstate-cache into the sysroot and related directories.. but it t=
+akes a=20
+> very long time to do this:
+>=20
+> real    3m7.430s
+> user    0m36.316s
+> sys     2m46.742s
+>=20
+> That is on my 8 core w/ 12 GB of ram system..  (standard SATA disks)
+>=20
+> Digging into this, I found that the majority of the time is spent in=20
+> meta/classes/sstate.bbclass: sstate_installpkg
+>=20
+> If you look for the three os.system("sed ...  calls, almost all of the 3 =
+minutes=20
+> is there.  Perl has so many text files with embedded paths that a signifi=
+cant=20
+> amount of time is spent preparing these files and fixing paths.
+>=20
+> I did a test and changed the three sed cases into a single sed operation:
+>=20
+> -            os.system("sed -i -e s:FIXMESTAGINGDIRTARGET:%s:g %s" %=20
+> (staging_target, sstateinst + file))
+> -            os.system("sed -i -e s:FIXMESTAGINGDIRHOST:%s:g %s" %=20
+> (staging_host, sstateinst + file))
+> -            os.system("sed -i -e s:FIXMESTAGINGDIR:%s:g %s" % (staging,=
+=20
+> sstateinst + file))
+> +            os.system("sed -i -e s:FIXMESTAGINGDIRTARGET:%s:g -e=20
+> s:FIXMESTAGINGDIRHOST:%s:g -e s:FIXMESTAGINGDIR:%s:g %s " % (staging_targ=
+et,=20
+> staging_host, staging, sstateinst + file))
+>=20
+> The result:
+>=20
+> real    1m20.979s
+> user    0m19.400s
+> sys     1m4.115s
+>=20
+> This is a very significant performance improvement.  I'm not sure if it's=
+=20
+> possible to speed this up even more, but it would be nice if we could get=
+ things=20
+> under a minute.
+>=20
+> Does anyone see a way we could do this quicker or in a better way to boos=
+t=20
+> performance?  (One possibility is figure out how to thread the file proce=
+ssing=20
+> and use available processors...)
 
-Not sure if you saw this error:
+I guess it does process for all files in fixmepath file, so try to run
+sed on all of them (or chunks) together with xargs like in:
+http://git.openembedded.org/openembedded-core/commit/meta/classes/sstate.bb=
+class?id=3D94c52d68fc2ce258bcc5b0978ac73413480a1a93
 
-ERROR: Multiple .bb files are due to be built which each provide 
-virtual/libgl 
-(/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-mips/build/meta/recipes-graphics/mesa/mesa-dri_7.11.bb 
-/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-mips/build/meta/recipes-graphics/mesa/mesa-xlib_7.11.bb).
-  This usually means one provides something the other doesn't and should.
+Cheers,
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-I think this might be related to your change, I need to confirm it still.
+--H1spWtNR+x+ondvy
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
-Builds are completeing but the error exists on all non-x86* qemu machines
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
 
-Thanks
+iEYEARECAAYFAk+sp8AACgkQN1Ujt2V2gBxv9ACgkCIkThQXmrTpYkVfpvMBK/Wt
+TDQAn065LgO0MpdJjIPJ884w1nT84X/k
+=QaDX
+-----END PGP SIGNATURE-----
 
-Sau!
-
-> The following changes since commit 35b5fb2dd2131d4c7dc6635c14c6e08ea6926457:
->
->    eglibc-package: remove /var (2012-05-01 12:36:18 +0100)
->
-> are available in the git repository at:
->    git://git.openembedded.org/openembedded-core-contrib kraj/qemu-xserver-xorg
->    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=kraj/qemu-xserver-xorg
->
-> Khem Raj (3):
->    qemumachines: Enable xserver-xorg as default xserver
->    xserver-xf86-config: Add xorg.conf for arm,mips,ppc,sh qemu machines
->    qemux86-64,qemux86: Override XSERVER variable
->
->   meta/conf/machine/include/qemu.inc                 |    9 ++-
->   meta/conf/machine/qemux86-64.conf                  |    2 +-
->   meta/conf/machine/qemux86.conf                     |    2 +-
->   .../xserver-xf86-config/qemuarm/xorg.conf          |   69 ++++++++++++++++++++
->   .../xserver-xf86-config/qemumips/xorg.conf         |   69 ++++++++++++++++++++
->   .../xserver-xf86-config/qemumips64/xorg.conf       |   69 ++++++++++++++++++++
->   .../xserver-xf86-config/qemuppc/xorg.conf          |   69 ++++++++++++++++++++
->   .../xserver-xf86-config/qemush4/xorg.conf          |   69 ++++++++++++++++++++
->   .../xorg-xserver/xserver-xf86-config_0.1.bb        |    2 +-
->   9 files changed, 356 insertions(+), 4 deletions(-)
->   create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemuarm/xorg.conf
->   create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemumips/xorg.conf
->   create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemumips64/xorg.conf
->   create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemuppc/xorg.conf
->   create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemush4/xorg.conf
->
-
-
+--H1spWtNR+x+ondvy--
