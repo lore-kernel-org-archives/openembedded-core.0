@@ -1,24 +1,25 @@
 Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SStgy-00033M-OY
+	(envelope-from <sgw@linux.intel.com>) id 1SStsx-0003Is-4J
 	for openembedded-core@lists.openembedded.org;
-	Fri, 11 May 2012 19:31:48 +0200
+	Fri, 11 May 2012 19:44:11 +0200
 Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 11 May 2012 10:21:51 -0700
+	by azsmga101.ch.intel.com with ESMTP; 11 May 2012 10:34:14 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="99043277"
-Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.250])
-	by AZSMGA002.ch.intel.com with ESMTP; 11 May 2012 10:21:51 -0700
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="99047635"
+Received: from unknown (HELO [10.255.12.250]) ([10.255.12.250])
+	by AZSMGA002.ch.intel.com with ESMTP; 11 May 2012 10:34:14 -0700
+Message-ID: <4FAD4D96.6020809@linux.intel.com>
+Date: Fri, 11 May 2012 10:34:14 -0700
 From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 11 May 2012 10:21:48 -0700
-Message-Id: <b975d620a125ac0faa5af46cca33243f1d5d473d.1336756650.git.sgw@linux.intel.com>
-X-Mailer: git-send-email 1.7.7.6
-In-Reply-To: <cover.1336756650.git.sgw@linux.intel.com>
-References: <cover.1336756650.git.sgw@linux.intel.com>
-In-Reply-To: <cover.1336756650.git.sgw@linux.intel.com>
-References: <cover.1336756650.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 4/4] qemu.inc: Remove mesa-xlib as PREFERRED_PROVIDER
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1336579481.git.mark.hatle@windriver.com>
+In-Reply-To: <cover.1336579481.git.mark.hatle@windriver.com>
+Subject: Re: [PATCH 0/2] Import the blacklist functionality from meta-oe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,33 +34,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 May 2012 17:31:49 -0000
+X-List-Received-Date: Fri, 11 May 2012 17:44:11 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The xserver-xorg uses and depends on mesa-dri, so we should
-use the default PREFERRED_PROVIDER of libgl as mesa-dri.
+On 05/09/2012 09:08 AM, Mark Hatle wrote:
+> This imports the blacklist class from meta-oe, and then a subseqent patch
+> revises it to use the OE variable and change the message generation.
+>
+> Once accepted into oe-core, a patch for meta-oe will be generated to remove
+> it from there.
+>
+> The following changes since commit 043871d7e5d2d19c2ff43e54d2ff180c09e8903e:
+>
+>    kern-tools: integrate minor fixes (2012-05-08 16:06:15 +0100)
+>
+> are available in the git repository at:
+>    git://git.pokylinux.org/poky-contrib mhatle/blacklist
+>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=mhatle/blacklist
+>
+> Mark Hatle (2):
+>    blacklist: fix typo in name
+>    blacklist.bbclass: Rename to OE_BLACKLIST and minor cleanup
+>
+>   meta/classes/blacklist.bbclass |   23 +++++++++++++++++++++++
+>   1 files changed, 23 insertions(+), 0 deletions(-)
+>   create mode 100644 meta/classes/blacklist.bbclass
+>
 
-This resolves the following:
-ERROR: Multiple .bb files are due to be built which each provide virtual/libgl (/intel/poky/distro/meta/recipes-graphics/mesa/mesa-dri_7.11.bb /intel/poky/distro/meta/recipes-graphics/mesa/mesa-xlib_7.11.bb).
- This usually means one provides something the other doesn't and should.
+This was merged with the Updated PNBLACKLIST Name
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- meta/conf/machine/include/qemu.inc |    1 -
- 1 files changed, 0 insertions(+), 1 deletions(-)
+Thanks
 
-diff --git a/meta/conf/machine/include/qemu.inc b/meta/conf/machine/include/qemu.inc
-index e384879..5d59a7f 100644
---- a/meta/conf/machine/include/qemu.inc
-+++ b/meta/conf/machine/include/qemu.inc
-@@ -1,6 +1,5 @@
- PCMCIA_MANAGER = "pcmciautils"
- PREFERRED_PROVIDER_virtual/xserver ?= "xserver-xorg"
--PREFERRED_PROVIDER_virtual/libgl ?= "mesa-xlib"
- 
- XSERVER ?= "xserver-xorg \
-             mesa-dri-driver-swrast \
--- 
-1.7.7.6
-
+Sau!
 
 
