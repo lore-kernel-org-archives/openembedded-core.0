@@ -1,20 +1,20 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <josh@linux.intel.com>) id 1ST0qo-00035U-1L
+	(envelope-from <josh@linux.intel.com>) id 1ST1C0-0004qj-Ap
 	for openembedded-core@lists.openembedded.org;
-	Sat, 12 May 2012 03:10:26 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 11 May 2012 18:00:27 -0700
+	Sat, 12 May 2012 03:32:20 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 11 May 2012 18:22:23 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="142102079"
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="142988709"
 Received: from unknown (HELO shamshir.amr.corp.intel.com) ([10.255.13.40])
-	by azsmga001.ch.intel.com with ESMTP; 11 May 2012 18:00:27 -0700
+	by orsmga002.jf.intel.com with ESMTP; 11 May 2012 18:22:23 -0700
 From: Joshua Lock <josh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 11 May 2012 18:00:26 -0700
-Message-Id: <1336784426-22337-1-git-send-email-josh@linux.intel.com>
+Date: Fri, 11 May 2012 18:22:20 -0700
+Message-Id: <1336785740-15018-1-git-send-email-josh@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
-Subject: [PATCH] sanity.bbclass: check user can read and write to SSTATE_DIR
+Subject: [PATCH] meta/classes/sstate.bbclass: ensure sstate files have group R/W
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,54 +29,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 12 May 2012 01:10:26 -0000
+X-List-Received-Date: Sat, 12 May 2012 01:32:20 -0000
 
-The user needs read and write permissions to SSTATE_DIR, check
-whether they have sufficient permissions and if not recommend
-use of SSTATE_MIRRORS.
+In order to make sharing sstate files easier chmod them with 0664 permissions	so that they are readable and writable by the user and any other members of 	their group.
 
 Signed-off-by: Joshua Lock <josh@linux.intel.com>
 ---
- meta/classes/sanity.bbclass |   17 ++++++++++++++---
- 1 files changed, 14 insertions(+), 3 deletions(-)
+ meta/classes/sstate.bbclass |    1 +
+ 1 files changed, 1 insertions(+), 0 deletions(-)
 
-diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-index 05545f4..ff3c413 100644
---- a/meta/classes/sanity.bbclass
-+++ b/meta/classes/sanity.bbclass
-@@ -96,10 +96,16 @@ def check_conf_exists(fn, data):
- def check_sanity_sstate_dir_change(sstate_dir, data):
-     # Sanity checks to be done when the value of SSTATE_DIR changes
+diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+index ad7d121..ffd55fd 100644
+--- a/meta/classes/sstate.bbclass
++++ b/meta/classes/sstate.bbclass
+@@ -468,6 +468,7 @@ sstate_create_package () {
+ 	else
+ 		tar -cz --file=$TFILE --files-from=/dev/null
+ 	fi
++	chmod 0664 $TFILE 
+ 	mv $TFILE ${SSTATE_PKG}
  
--    # Check that SSTATE_DIR isn't on a filesystem with limited filename length (eg. eCryptFS)
-     testmsg = ""
-     if sstate_dir != "":
--        testmsg = check_create_long_filename(sstate_dir, "SSTATE_DIR")
-+        # Check that the user can read and write to SSTATE_DIR
-+        sstatemsg = check_can_read_write_directory(sstate_dir) or None
-+        if sstatemsg:
-+            sstatemsg = sstatemsg + ". You could try using it as an SSTATE_MIRRORS instead of SSTATE_CACHE.\n"
-+            testmsg = testmsg + sstatemsg
-+        # Check that SSTATE_DIR isn't on a filesystem with limited filename length (eg. eCryptFS)
-+        testmsg = testmsg + check_create_long_filename(sstate_dir, "SSTATE_DIR")
-+
-     return testmsg
- 
- def check_sanity_tmpdir_change(tmpdir, data):
-@@ -150,7 +156,12 @@ def check_create_long_filename(filepath, pathname):
-         if errno == 36: # ENAMETOOLONG
-             return "Failed to create a file with a long name in %s. Please use a filesystem that does not unreasonably limit filename length.\n" % pathname
-         else:
--            return "Failed to create a file in %s: %s" % (pathname, strerror)
-+            return "Failed to create a file in %s: %s\n" % (pathname, strerror)
-+    return ""
-+
-+def check_can_read_write_directory(directory):
-+    if not os.access(directory, os.R_OK|os.W_OK):
-+       return "Insufficient permissions for %s" % directory
-     return ""
- 
- def check_connectivity(d):
+ 	cd ${WORKDIR}
 -- 
 1.7.7.6
 
