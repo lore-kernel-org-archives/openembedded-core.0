@@ -1,30 +1,32 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1ST9So-0006Yg-Bv for openembedded-core@lists.openembedded.org;
-	Sat, 12 May 2012 12:22:14 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q4CACJCI032559
+Received: from mail-we0-f175.google.com ([74.125.82.175])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <martin.jansa@gmail.com>) id 1STAxs-0007nQ-QW
+	for openembedded-core@lists.openembedded.org;
+	Sat, 12 May 2012 13:58:24 +0200
+Received: by werg55 with SMTP id g55so1010474wer.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 12 May 2012 11:12:19 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 32489-01 for <openembedded-core@lists.openembedded.org>;
-	Sat, 12 May 2012 11:12:15 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q4CAC9w2032553
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 12 May 2012 11:12:10 +0100
-Message-ID: <1336817528.2494.251.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Sat, 12 May 2012 11:12:08 +0100
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: [PATCH] gdk-pixbuf: Drop unneeded RPROVIDES
+	Sat, 12 May 2012 04:48:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=ZxxI+gV5LfxAaVlEKX1+yEVoAnipTF/Q/Cq59b5Kx/w=;
+	b=vx3GdiSrd4QmHzsUNw7lHRP48ok1XNuvslaAXbnH8kbb1yjXzs0fmzPEjRbD2S/0M9
+	jDGhsQmkgE3Kg+twSkvPwiLgQffwgLcbHmfKbk+0TFjDlocaWH9oijW64sxgKVtZuUoJ
+	wlQDQ35umzbx8ocIEFr1qGG0ltIwke8SyCas5uqmtuAO5TKknD6zGpOQyhEQ6kku2PFO
+	M/fJShM1z7mDZlUwtidhSApKqvgMI1TykIiGayfCzrU+0CgvKd2F34lANe3yC5RYeLc0
+	9zEb0LH8IWhF0tEtMnI0Km7mAvOv5824d2R9oUdLDlEnM4oI1DyyWoBH+B5whGnOhCCs
+	rYEg==
+Received: by 10.180.75.241 with SMTP id f17mr3762885wiw.11.1336823308295;
+	Sat, 12 May 2012 04:48:28 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id f19sm28928324wiw.11.2012.05.12.04.48.26
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Sat, 12 May 2012 04:48:27 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 12 May 2012 13:48:19 +0200
+Message-Id: <1336823299-13967-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.7.8.6
+Subject: [PATCH] xserver-xorg-lite: disable xmlto like full xserver-xorg does
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,34 +41,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 12 May 2012 10:22:14 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 12 May 2012 11:58:25 -0000
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+* xmlto-native is unusable (see YOCTO #2416)
+
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
-diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.24.1.bb b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.24.1.bb
-index a88700b..d57817e 100644
---- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.24.1.bb
-+++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.24.1.bb
-@@ -19,7 +19,7 @@ SRC_URI = "http://ftp.acc.umu.se/pub/GNOME/sources/gdk-pixbuf/2.24/gdk-pixbuf-${
- SRC_URI[md5sum] = "72f39b34b20f68148c1609bd27415412"
- SRC_URI[sha256sum] = "da7a3f00db360913716368e19e336402755cafa93769f3cfa28a969303e4bee1"
- 
--PR = "r1"
-+PR = "r2"
- 
- inherit autotools pkgconfig gettext
- 
-@@ -37,7 +37,6 @@ X11DEPENDS_linuxstdbase = "${@base_contains('DISTRO_FEATURES', 'x11', '--with-x1
- PACKAGES =+ "${PN}-xlib"
- 
- FILES_${PN}-xlib = "${libdir}/*pixbuf_xlib*${SOLIBS}"
--RPROVIDES_${PN}-xlib = "${PN}-xlib"
- 
- FILES_${PN} = "${bindir}/gdk-pixbuf-query-loaders \
- 	${libdir}/lib*.so.*"
+ .../xorg-xserver/xserver-xorg-lite.inc             |    1 +
+ .../xorg-xserver/xserver-xorg-lite_1.11.2.bb       |    2 ++
+ 2 files changed, 3 insertions(+), 0 deletions(-)
 
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg-lite.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg-lite.inc
+index 57615f5..02db5bf 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xorg-lite.inc
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg-lite.inc
+@@ -4,4 +4,5 @@ EXTRA_OECONF += "\
+                  --disable-dri \
+                  --disable-glx \
+                  --disable-dga \
++                 --without-xmlto \
+ "
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg-lite_1.11.2.bb b/meta/recipes-graphics/xorg-xserver/xserver-xorg-lite_1.11.2.bb
+index ec29b21..b7daf89 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xorg-lite_1.11.2.bb
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg-lite_1.11.2.bb
+@@ -1,4 +1,6 @@
+ require xserver-xorg-lite.inc
+ require xserver-xorg-${PV}.inc
+ 
++PR = "r1"
++
+ FILESEXTRAPATHS_append := "${THISDIR}/xserver-xorg:${THISDIR}/xserver-xorg-${PV}:"
+-- 
+1.7.8.6
 
 
 
