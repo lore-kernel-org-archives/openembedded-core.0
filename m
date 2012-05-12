@@ -1,20 +1,35 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail-ob0-f175.google.com ([209.85.214.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <josh@linux.intel.com>) id 1ST1C0-0004qj-Ap
+	(envelope-from <cazfi74@gmail.com>) id 1ST1jg-0005TJ-MG
 	for openembedded-core@lists.openembedded.org;
-	Sat, 12 May 2012 03:32:20 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 11 May 2012 18:22:23 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="142988709"
-Received: from unknown (HELO shamshir.amr.corp.intel.com) ([10.255.13.40])
-	by orsmga002.jf.intel.com with ESMTP; 11 May 2012 18:22:23 -0700
-From: Joshua Lock <josh@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 11 May 2012 18:22:20 -0700
-Message-Id: <1336785740-15018-1-git-send-email-josh@linux.intel.com>
-X-Mailer: git-send-email 1.7.7.6
-Subject: [PATCH] meta/classes/sstate.bbclass: ensure sstate files have group R/W
+	Sat, 12 May 2012 04:07:08 +0200
+Received: by obhx4 with SMTP id x4so4450743obh.6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 11 May 2012 18:57:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type:content-transfer-encoding;
+	bh=Ays6S41GKblWEmTLilkte2XX0Z0f4pfZmT1hKyVPvMo=;
+	b=NvguiPlTi8D2IRL38+ucPqrn/XUFBOYYzud2U3+H7AvtOF7+NnXh8dJfA0GEZendQU
+	2S4VCxE8Z6YU9gY7G1nunOx4fyJ3o3JjdEN6YhNfNSB5BUvz6Ueo8TEQ7S1lLSeXgxUk
+	dNF5fukOquLNIGRJWd9ts0/Bs46t39Y32YFCj8c2brCvAs1z9VfaK4Z2HYMbC8toylCp
+	5zbfKnGApB28jH9o5cyKx9bk66SLoxYV4pisgErG3LHr5+zdWbxFDr/UeEtQXcTIbo52
+	dd5WQ9uHl0cMhqPtnbYBZ/DuzaCQ0vMRA8AJjBC3OhpJ2yxOeLrcH+RWfswVLAmEE1j0
+	PI6w==
+MIME-Version: 1.0
+Received: by 10.50.104.133 with SMTP id ge5mr84298igb.21.1336787831697; Fri,
+	11 May 2012 18:57:11 -0700 (PDT)
+Received: by 10.64.59.130 with HTTP; Fri, 11 May 2012 18:57:11 -0700 (PDT)
+In-Reply-To: <CAF6bG8e18hOJBGUwwgyetuxwViXfMOS5tYOj06sSghaam+nV9A@mail.gmail.com>
+References: <CAF6bG8dwwV-WymFvuZ9FXLb3wziR0mj9PfzP4qA31i79r_81wg@mail.gmail.com>
+	<4FAD45F2.9030908@linux.intel.com>
+	<CAF6bG8e18hOJBGUwwgyetuxwViXfMOS5tYOj06sSghaam+nV9A@mail.gmail.com>
+Date: Sat, 12 May 2012 04:57:11 +0300
+Message-ID: <CAF6bG8dX21Q44Zq05Wtih7T1jCGcEtEj5o9NrD5TPtorOk=DnA@mail.gmail.com>
+From: Marko Lindqvist <cazfi74@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] dpkg: update to upstream version 1.16.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,29 +44,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 12 May 2012 01:32:20 -0000
+X-List-Received-Date: Sat, 12 May 2012 02:07:08 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-In order to make sharing sstate files easier chmod them with 0664 permissions	so that they are readable and writable by the user and any other members of 	their group.
+On 11 May 2012 20:06, Marko Lindqvist <cazfi74@gmail.com> wrote:
+> On 11 May 2012 20:01, Saul Wold <sgw@linux.intel.com> wrote:
+>> On 05/04/2012 03:59 PM, Marko Lindqvist wrote:
+>>>
+>>> From: Marko Lindqvist<cazfi74@gmail.com>
+>>> Date: Sat, 5 May 2012 00:02:06 +0300
+>>> Subject: [PATCH] dpkg: update to upstream version 1.16.3
+>>>
+>>
+>> Marko,
+>>
+>> Are you going to resend this and the apt patch in an uncorrupted format?
+>>
+>> Thanks
+>> =C2=A0 =C2=A0 =C2=A0 =C2=A0Sau!
+>
+> =C2=A0Working on them.
+> =C2=A0Either one is causes image build problems. I've now managed to fetc=
+h
+> old dpkg and apt versions from mirror, and image build with them (+
+> patch not to consider advanced dependency marker as version number)
+> success. So the problems I'm encountering with new dpkg+apt do not
+> exist with old ones.
 
-Signed-off-by: Joshua Lock <josh@linux.intel.com>
----
- meta/classes/sstate.bbclass |    1 +
- 1 files changed, 1 insertions(+), 0 deletions(-)
+ Reverting dpkg update (but leaving apt update in place) works. I'll
+resend apt patch soon.
 
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index ad7d121..ffd55fd 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -468,6 +468,7 @@ sstate_create_package () {
- 	else
- 		tar -cz --file=$TFILE --files-from=/dev/null
- 	fi
-+	chmod 0664 $TFILE 
- 	mv $TFILE ${SSTATE_PKG}
- 
- 	cd ${WORKDIR}
--- 
-1.7.7.6
+ I'm not entirely sure if problems I'm seeing in image building are
+caused by bugs in new dpkg, or bugs that dpkg update just uncovers in
+packaged components.
 
+
+ - ML
 
 
