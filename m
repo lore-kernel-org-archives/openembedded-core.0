@@ -1,35 +1,20 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1SSvhv-0004GH-Mo
+	(envelope-from <josh@linux.intel.com>) id 1ST0qo-00035U-1L
 	for openembedded-core@lists.openembedded.org;
-	Fri, 11 May 2012 21:40:55 +0200
-Received: by eekd49 with SMTP id d49so826832eek.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 May 2012 12:31:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:content-transfer-encoding;
-	bh=RqwXIBxSeHh64NyMu5boxiRFq3LH43pcLtssE9o7gsQ=;
-	b=wECHWe+4M6AMWFwh/HVDeZaVVt2XJnnWMG98/oemcFMFwQ9/13eLQcfihA4cRrSgYr
-	GjB+7q40d2d347IQtxCYICwXlN6edqp6rc4Spple4emhfgXxKZROMTctmMZu5jHOrhJs
-	NFGLzgCjmepb51gS47zLGvWXawiwabLOZhyePrauHG5MehsnXW9LSsEKPkYbuEj3nBcQ
-	IA8RTSu6TEWsr9TLtwLtcJybu+aS6V6Un1CIwlihKqhknh0/kGIIowKj4YEG85WjAVP0
-	pSKD+hv1jOuXdoQhj1OV7vryHPd2iZd0IVX6hughbeJHBmGQjAC28kx9312077D+CYEB
-	ivvQ==
-Received: by 10.14.47.136 with SMTP id t8mr2217480eeb.84.1336764659663; Fri,
-	11 May 2012 12:30:59 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.14.2.132 with HTTP; Fri, 11 May 2012 12:30:29 -0700 (PDT)
-In-Reply-To: <4FAC908B.2040300@linux.intel.com>
-References: <cover.1336015963.git.raj.khem@gmail.com>
-	<4FAC908B.2040300@linux.intel.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 11 May 2012 12:30:29 -0700
-Message-ID: <CAMKF1srKLK6mu2F+nTzb4sQ2jgxUj5=q2QE_C-o7HYnT7dQN9g@mail.gmail.com>
-To: Saul Wold <sgw@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/3] Enable xserver-xorg for all qemumachines
+	Sat, 12 May 2012 03:10:26 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 11 May 2012 18:00:27 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="142102079"
+Received: from unknown (HELO shamshir.amr.corp.intel.com) ([10.255.13.40])
+	by azsmga001.ch.intel.com with ESMTP; 11 May 2012 18:00:27 -0700
+From: Joshua Lock <josh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 11 May 2012 18:00:26 -0700
+Message-Id: <1336784426-22337-1-git-send-email-josh@linux.intel.com>
+X-Mailer: git-send-email 1.7.7.6
+Subject: [PATCH] sanity.bbclass: check user can read and write to SSTATE_DIR
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,27 +29,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 May 2012 19:40:55 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Sat, 12 May 2012 01:10:26 -0000
 
-On Thu, May 10, 2012 at 9:07 PM, Saul Wold <sgw@linux.intel.com> wrote:
->
->
-> ERROR: Multiple .bb files are due to be built which each provide
-> virtual/libgl
-> (/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-mips/build/met=
-a/recipes-graphics/mesa/mesa-dri_7.11.bb
-> /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-mips/build/meta=
-/recipes-graphics/mesa/mesa-xlib_7.11.bb).
-> =C2=A0This usually means one provides something the other doesn't and sho=
-uld.
->
-> I think this might be related to your change, I need to confirm it still.
->
-> Builds are completeing but the error exists on all non-x86* qemu machines
+The user needs read and write permissions to SSTATE_DIR, check
+whether they have sufficient permissions and if not recommend
+use of SSTATE_MIRRORS.
 
-interesting I do not see this error on bare oe-core. Do you have some layer
-which could be doing something to virtual/libgl provide
+Signed-off-by: Joshua Lock <josh@linux.intel.com>
+---
+ meta/classes/sanity.bbclass |   17 ++++++++++++++---
+ 1 files changed, 14 insertions(+), 3 deletions(-)
+
+diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+index 05545f4..ff3c413 100644
+--- a/meta/classes/sanity.bbclass
++++ b/meta/classes/sanity.bbclass
+@@ -96,10 +96,16 @@ def check_conf_exists(fn, data):
+ def check_sanity_sstate_dir_change(sstate_dir, data):
+     # Sanity checks to be done when the value of SSTATE_DIR changes
+ 
+-    # Check that SSTATE_DIR isn't on a filesystem with limited filename length (eg. eCryptFS)
+     testmsg = ""
+     if sstate_dir != "":
+-        testmsg = check_create_long_filename(sstate_dir, "SSTATE_DIR")
++        # Check that the user can read and write to SSTATE_DIR
++        sstatemsg = check_can_read_write_directory(sstate_dir) or None
++        if sstatemsg:
++            sstatemsg = sstatemsg + ". You could try using it as an SSTATE_MIRRORS instead of SSTATE_CACHE.\n"
++            testmsg = testmsg + sstatemsg
++        # Check that SSTATE_DIR isn't on a filesystem with limited filename length (eg. eCryptFS)
++        testmsg = testmsg + check_create_long_filename(sstate_dir, "SSTATE_DIR")
++
+     return testmsg
+ 
+ def check_sanity_tmpdir_change(tmpdir, data):
+@@ -150,7 +156,12 @@ def check_create_long_filename(filepath, pathname):
+         if errno == 36: # ENAMETOOLONG
+             return "Failed to create a file with a long name in %s. Please use a filesystem that does not unreasonably limit filename length.\n" % pathname
+         else:
+-            return "Failed to create a file in %s: %s" % (pathname, strerror)
++            return "Failed to create a file in %s: %s\n" % (pathname, strerror)
++    return ""
++
++def check_can_read_write_directory(directory):
++    if not os.access(directory, os.R_OK|os.W_OK):
++       return "Insufficient permissions for %s" % directory
+     return ""
+ 
+ def check_connectivity(d):
+-- 
+1.7.7.6
+
 
 
