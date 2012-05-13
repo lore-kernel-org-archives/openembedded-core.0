@@ -1,32 +1,39 @@
-Received: from mail-ob0-f175.google.com ([209.85.214.175])
+Received: from mail-gg0-f175.google.com ([209.85.161.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <cazfi74@gmail.com>) id 1STdsb-0006WY-0e
+	(envelope-from <andrei@gherzan.ro>) id 1STehd-0002vA-1u
 	for openembedded-core@lists.openembedded.org;
-	Sun, 13 May 2012 20:50:53 +0200
-Received: by obhx4 with SMTP id x4so6967474obh.6
+	Sun, 13 May 2012 21:43:40 +0200
+Received: by ggnp4 with SMTP id p4so171029ggn.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 13 May 2012 11:40:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type:content-transfer-encoding;
-	bh=zwe4ucUKW76DuZvqmSUOYV0YkGwrGZIRqx9rhGc7IfY=;
-	b=c+c0ulGSZj51U8HrTtQPG66H6VdWZVEMJXhtAlSNDd0/T3BliQEErn4iqma+Sxm9Lq
-	xaSlhvbqX9RCwtuzCfF8RCfPOJphEADjqb27y1fYPXzkueG50xf9+lgR/NXSriBzKis3
-	aEXolqJb7Gw7yx2CJQZqB2bkECFWI3keLacHYvqPL788ZTPpMTMVZmjsIxPutdCuWxhK
-	bkFk88nT/V3IAVys/TLVdSAw7/1xHs9Cwzd0brFkoi4IhH2eu7lWOpeXd0DACAEmpNSB
-	2Pr/QADMVIoB75n7kK8NJuoJeel2GEPItZMMA/3WloD90jjHpF3c7bfPVO7ZuzdcI5eM
-	WokA==
+	Sun, 13 May 2012 12:33:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:x-originating-ip:in-reply-to:references:from:date
+	:message-id:subject:to:content-type:x-gm-message-state;
+	bh=rUNNFpYJ3aMGvnjkbXszB6SziDFjRdCdbXTQEilJRgk=;
+	b=H4ADCA7vQ3KwrvcEF4jUVtWkyKGreFRvsmZbjLmksSDwc2f95dQs9/59Q44DXeunSP
+	P+UJQgnL8l54MoO1dbO4pf5alJ9uMyA+F3gIuRu+qdw27PADPuxd27lAgIA9AA8WJIAO
+	XMvLd61/R4iWWSRc20ra/y1iyYmlvxlFoUaen+PrMyb4yopQVBkRFrQI/w604vOc9+V+
+	J3vFPucZIRjiCuJz/OGIojrd+aohHmB/NKl/8/6qkKvXeoWfo+8p3NluyRONbDdauuUk
+	AoNuk1IOgU+9F44M/zCQRy2hb3HCcy8enraVbs3VdB9dsj2oNzUsjOZM2VIW1SPd2BZg
+	VN3g==
+Received: by 10.50.88.225 with SMTP id bj1mr2903337igb.42.1336937618379; Sun,
+	13 May 2012 12:33:38 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.50.100.226 with SMTP id fb2mr1230950igb.31.1336934454419; Sun,
-	13 May 2012 11:40:54 -0700 (PDT)
-Received: by 10.64.59.130 with HTTP; Sun, 13 May 2012 11:40:54 -0700 (PDT)
-In-Reply-To: <1336934223-12734-1-git-send-email-cazfi74@gmail.com>
-References: <1336934223-12734-1-git-send-email-cazfi74@gmail.com>
-Date: Sun, 13 May 2012 21:40:54 +0300
-Message-ID: <CAF6bG8d3YOgwT3eUbxSKVmEbyMRVqK1LXk8wKBhKrQo+4Bv9dA@mail.gmail.com>
-From: Marko Lindqvist <cazfi74@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] jpeg: update to upstream version 8d
+Received: by 10.64.25.18 with HTTP; Sun, 13 May 2012 12:33:18 -0700 (PDT)
+X-Originating-IP: [92.86.21.113]
+In-Reply-To: <CAMKF1srjgfuoKU+yqf81tbWkUjicaVpSe_ouV+PVRn3fd1tK_g@mail.gmail.com>
+References: <1336683976-11846-1-git-send-email-andrei@gherzan.ro>
+	<CAMKF1spf5qF8DYySoT5Q2aSte5-LCVX9Yd8bLd3Jkwqe4m3Gaw@mail.gmail.com>
+	<CAK18fxECsUVusXdYuS_gBwcXQaSTVaM2mc0Tpr7wfDikWHB9eQ@mail.gmail.com>
+	<CAMKF1srjgfuoKU+yqf81tbWkUjicaVpSe_ouV+PVRn3fd1tK_g@mail.gmail.com>
+From: Andrei Gherzan <andrei@gherzan.ro>
+Date: Sun, 13 May 2012 22:33:18 +0300
+Message-ID: <CAK18fxFFbkb-gPYDLRthOOTTMEe_Z3Mth6QdfyRsjKSzdraWxQ@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Gm-Message-State: ALoCoQltZYZKQWitXA91xFed0QD4kZ0NGg1kfqiYOaYM7MFB75nE0TUAhLGmFmtIwPgTjAZgKUjW
+Subject: Re: [PATCH V3] fotowall: Add #include ui_wizard.h to ExportWizard.cpp
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,20 +48,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 13 May 2012 18:50:53 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Sun, 13 May 2012 19:43:40 -0000
+Content-Type: multipart/alternative; boundary=e89a8f234417d4920e04bff00b2f
+
+--e89a8f234417d4920e04bff00b2f
+Content-Type: text/plain; charset=ISO-8859-1
+
+On Fri, May 11, 2012 at 12:31 AM, Khem Raj <raj.khem@gmail.com> wrote:
+
+> On Thu, May 10, 2012 at 2:26 PM, Andrei Gherzan <andrei@gherzan.ro> wrote:
+> > And it does. But this is needed for qmake in Makefile generation. Didn't
+> > find a better fix but this works as expected.
+>
+> I see. So it seems makefile generator does not grok recursive includes ?
+> is that documented or a bug in the generator
+>
+>
+Didn't check this but i will. Thanks.
+@g
+
+_______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+
+--e89a8f234417d4920e04bff00b2f
+Content-Type: text/html; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
-On 13 May 2012 21:37, Marko Lindqvist <cazfi74@gmail.com> wrote:
-> * Have README as license file instead of several source files that just
-> =C2=A0refer to it
+<div class=3D"gmail_quote">On Fri, May 11, 2012 at 12:31 AM, Khem Raj <span=
+ dir=3D"ltr">&lt;<a href=3D"mailto:raj.khem@gmail.com" target=3D"_blank">ra=
+j.khem@gmail.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote"=
+ style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
 
- This could have been separate patch before update one - old version
-(8c) had license information same way as new one, and recipe listed
-files that just contained "For conditions of distribution and use, see
-the accompanying README file." as license files.
+On Thu, May 10, 2012 at 2:26 PM, Andrei Gherzan &lt;<a href=3D"mailto:andre=
+i@gherzan.ro">andrei@gherzan.ro</a>&gt; wrote:<br>
+&gt; And it does. But this is needed for qmake in Makefile generation. Didn=
+&#39;t<br>
+&gt; find a better fix but this works as expected.<br>
+<br>
+I see. So it seems makefile generator does not grok recursive includes ?<br=
+>
+is that documented or a bug in the generator<br>
+<br></blockquote><div>=A0</div><div>Didn&#39;t check this but i will. Thank=
+s.</div><div>@g</div><div><br></div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
+re@lists.openembedded.org</a><br>
+<a href=3D"http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded=
+-core" target=3D"_blank">http://lists.linuxtogo.org/cgi-bin/mailman/listinf=
+o/openembedded-core</a><br>
+</blockquote></div><br>
 
-
- - ML
-
-
+--e89a8f234417d4920e04bff00b2f--
