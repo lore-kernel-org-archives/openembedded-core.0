@@ -1,32 +1,34 @@
-Received: from mail-wi0-f177.google.com ([209.85.212.177])
+Received: from mail-wg0-f65.google.com ([74.125.82.65])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ive.found@gmail.com>) id 1STZ14-0000zb-OM
+	(envelope-from <ive.found@gmail.com>) id 1STZ1E-0000zt-Kt
 	for openembedded-core@lists.openembedded.org;
-	Sun, 13 May 2012 15:39:18 +0200
-Received: by wibhm14 with SMTP id hm14so2351337wib.6
+	Sun, 13 May 2012 15:39:28 +0200
+Received: by wgbdt11 with SMTP id dt11so509308wgb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 13 May 2012 06:29:21 -0700 (PDT)
+	Sun, 13 May 2012 06:29:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer;
-	bh=UyZr3SaBfYLabVDI1Hqx/zaSiUFqYIPgMlXTvIV4X7w=;
-	b=W2tuwVlBjmK5FNQq7vJPg++eIAGtduemSwHo5YQbLl1m6znsKZ1mjR9Vf0SYkhQpz0
-	wE0F2bVKg2n4jd6VEe4c2xn8F5UTJ7neyvleCMenjtIatdfJr0vdKUGj2k4tYeL1YXu4
-	EFmaqbxtcNw1EHaxJppAg75qu6ZrIkrJK+4oLKE+YcelBVdvbU65ACJM37BhZZrw1CPW
-	PYsgCptiSLI3uM5SAJc6/a4GsDfKY1qojQLZWmvxVGaIrP6yozBZwwwOA0vfylP3YVP1
-	9kemtcKSY0kHqy7Sa2lh8ebYnMU8oJQmxa/+dRIj5tVnzlC7RU0n+u3zB9ln0q4I9rb1
-	uNHw==
-Received: by 10.216.135.105 with SMTP id t83mr2970827wei.105.1336915761261;
-	Sun, 13 May 2012 06:29:21 -0700 (PDT)
+	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
+	bh=A6xNa7EiGg1++uz/TehxRrNsBGICrmhKCqXKiI+7l0A=;
+	b=l74NLPe/VxeSt5TcS901sgVxzWIjAzDQs99RvVNkCmHbVyawQhrlhu70EBv+CXmCNZ
+	9RMKgk2+2n9f7Wg7/O8raGHXOQFsuHloqxMFxvVr5qZPncWp4T+Rim7L5Fe9Jm+xUK+s
+	V6Woe32kLVfuUmdhVYjt48lblsTsAZO2sS2hWdtiDpSqWhV1eeMtglMe9JJDngbhbnCV
+	g+D5yhKv+RrqnD23PDaNuMTRdOQze1bR5VjriL2Ry1jkZYAxOcygmrTBHrEo+bOt9l7E
+	JjHO7RY1ND9WAj1yLV57N/1xMZMEhz1yoaiGGpYxA/poMot2S8/hzfliyolrBvSSMVZ4
+	BKew==
+Received: by 10.216.132.94 with SMTP id n72mr2933505wei.60.1336915770948;
+	Sun, 13 May 2012 06:29:30 -0700 (PDT)
 Received: from blackbox.local ([178.123.196.33])
-	by mx.google.com with ESMTPS id b3sm27447282wib.4.2012.05.13.06.29.20
+	by mx.google.com with ESMTPS id b3sm27447282wib.4.2012.05.13.06.29.30
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sun, 13 May 2012 06:29:20 -0700 (PDT)
+	Sun, 13 May 2012 06:29:30 -0700 (PDT)
 From: Leonid Borisenko <ive.found@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 13 May 2012 16:28:40 +0300
-Message-Id: <1336915722-8155-1-git-send-email-ive.found@gmail.com>
+Date: Sun, 13 May 2012 16:28:41 +0300
+Message-Id: <1336915722-8155-2-git-send-email-ive.found@gmail.com>
 X-Mailer: git-send-email 1.7.10
-Subject: [PATCH 0/3] Support additional user-defined package metadata
+In-Reply-To: <1336915722-8155-1-git-send-email-ive.found@gmail.com>
+References: <1336915722-8155-1-git-send-email-ive.found@gmail.com>
+Subject: [PATCH 1/2] package.bbclass: add getter of additional metadata
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,53 +43,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 13 May 2012 13:39:18 -0000
+X-List-Received-Date: Sun, 13 May 2012 13:39:28 -0000
 
-I'm an owner of Kindle Touch. It's basically a computer with ARM
-Cortex-A8 based CPU and Linux. There is a [small] community of
-enthuasists developing homebrew modifications for stock software. For
-distributing of these modifications .ipk package format had been chosen
-with OE as build infrastructure.
+Two variables are searched for value of additional package metadata:
 
-There are already several firmware versions for device and some more are
-expected. Every firmware can introduce unpredictable changes, so
-modifications for previous firmware versions could stop working.
+  * PACKAGE_ADD_METADATA_<PKGTYPE>
+  * PACKAGE_ADD_METADATA
 
-Custom metadata field with supported firmware version(s) could be
-included into package control file for preventing of installing packaged
-modifications onto unsupported firmware.
+First found variable with defined value wins.
 
-But OE currently doesn't allow to define additional package metadata in
-recipes. Patch fixes it.
+<PKGTYPE> is a parameter of getter and expected to be a distinct name
+of specific package type. For example: 'DEB' or 'RPM'.
 
-There is already RPMSPEC_PREAMBLE variable used in package_rpm.bbclass.
-I think, it is still useful for defining custom macros in header of spec
-file (while additional user-defined metadata is placed somewhere between
-common tags).
+Variable can contain multiple [one-line] metadata fields, separated by
+literal sequence '\n'. Separator can be redefined through variable flag
+'separator'. Getter returns found value with separator replaced with
+newline character.
 
-I didn't found any way to define newline character inside variable value
-and it is needed to allow multiple [one-line] metadata fields/tags. So
-I've used ability of OE to split list-typed variables (and re-joined
-splitted value with real newline character).
+As side-effect, searched variables acquired flags 'type' (equals to
+'list') and 'separator'.
 
-The following changes since commit cab85fd0b481cdbf36477348de75352be3f38ca2:
+Signed-off-by: Leonid Borisenko <ive.found@gmail.com>
+---
+ meta/classes/package.bbclass |   11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-  gdk-pixbuf: Drop unneeded RPROVIDES (2012-05-12 11:23:27 +0100)
-
-up to 052d78ed7f986e76afb1ce6ef02e94ba1bbc9719:
-
-  package_{ipk, deb, rpm}.bbclass: support additional user-defined metadata (2012-05-13 14:51:26 +0300)
-
-----------------------------------------------------------------
-Leonid Borisenko (2):
-      package.bbclass: add getter of additional metadata
-      package_{ipk, deb, rpm}.bbclass: support additional user-defined metadata
-
- meta/classes/package.bbclass     |   11 +++++++++++
- meta/classes/package_deb.bbclass |    5 +++++
- meta/classes/package_ipk.bbclass |    5 +++++
- meta/classes/package_rpm.bbclass |    7 +++++++
- 4 files changed, 28 insertions(+)
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index 99836e9..a40476c 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -326,6 +326,17 @@ def get_package_mapping (pkg, d):
+ 
+ 	return pkg
+ 
++def get_package_additional_metadata (pkg_type, d):
++	base_key = "PACKAGE_ADD_METADATA"
++	for key in ("%s_%s" % (base_key, pkg_type.upper()), base_key):
++		if d.getVar(key) is None:
++			continue
++		d.setVarFlag(key, "type", "list")
++		if d.getVarFlag(key, "separator") is None:
++			d.setVarFlag(key, "separator", "\\n")
++		metadata_fields = [field.strip() for field in oe.data.typed_value(key, d)]
++		return "\n".join(metadata_fields).strip()
++
+ def runtime_mapping_rename (varname, d):
+ 	#bb.note("%s before: %s" % (varname, d.getVar(varname, True)))	
+ 
+-- 
+1.7.10
 
 
 
