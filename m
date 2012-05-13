@@ -1,34 +1,34 @@
 Received: from mail-wg0-f65.google.com ([74.125.82.65])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ive.found@gmail.com>) id 1STZ1E-0000zt-Kt
+	(envelope-from <ive.found@gmail.com>) id 1STZ1F-0000zt-II
 	for openembedded-core@lists.openembedded.org;
-	Sun, 13 May 2012 15:39:28 +0200
-Received: by wgbdt11 with SMTP id dt11so509308wgb.0
+	Sun, 13 May 2012 15:39:29 +0200
+Received: by mail-wg0-f65.google.com with SMTP id dt11so509308wgb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 13 May 2012 06:29:31 -0700 (PDT)
+	Sun, 13 May 2012 06:29:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	bh=A6xNa7EiGg1++uz/TehxRrNsBGICrmhKCqXKiI+7l0A=;
-	b=l74NLPe/VxeSt5TcS901sgVxzWIjAzDQs99RvVNkCmHbVyawQhrlhu70EBv+CXmCNZ
-	9RMKgk2+2n9f7Wg7/O8raGHXOQFsuHloqxMFxvVr5qZPncWp4T+Rim7L5Fe9Jm+xUK+s
-	V6Woe32kLVfuUmdhVYjt48lblsTsAZO2sS2hWdtiDpSqWhV1eeMtglMe9JJDngbhbnCV
-	g+D5yhKv+RrqnD23PDaNuMTRdOQze1bR5VjriL2Ry1jkZYAxOcygmrTBHrEo+bOt9l7E
-	JjHO7RY1ND9WAj1yLV57N/1xMZMEhz1yoaiGGpYxA/poMot2S8/hzfliyolrBvSSMVZ4
-	BKew==
-Received: by 10.216.132.94 with SMTP id n72mr2933505wei.60.1336915770948;
-	Sun, 13 May 2012 06:29:30 -0700 (PDT)
+	bh=gqR4JXInmg+hmNcTbU8gHTie9QWTFhM8vMPAjto26q0=;
+	b=dw1eYvwmgybzMno1fw4FjY+wOOPqc2HCAw5tuIC9CcHY+gJVocnehIYdJAc72XocLe
+	zBMpjXSIR1HE5XW0xWF9fVutDajbxojqnoGzhV4X2ojNLPq2UBQixguw6Eb8Djx3neh8
+	xuejN0aLlOF0xu4bnZArZwGUpMyQpsReXqAeRudqbA0K+xDDt4Z6OiG28DnbHLsKYjyP
+	zp6rLsxB8ztMBdayLCYHG0FGcJJy6KGEr5h9yFyFXLwIx/VQq0X/FtRCeK+lm7LjPKq4
+	Hx0937e697dk6OLFzRdJ678T8eCSuUzl0CEUmGJ2LUFt8CYXs/JGb05ooNnFbETkS5OC
+	996w==
+Received: by 10.180.24.103 with SMTP id t7mr11626830wif.16.1336915774118;
+	Sun, 13 May 2012 06:29:34 -0700 (PDT)
 Received: from blackbox.local ([178.123.196.33])
-	by mx.google.com with ESMTPS id b3sm27447282wib.4.2012.05.13.06.29.30
+	by mx.google.com with ESMTPS id b3sm27447282wib.4.2012.05.13.06.29.33
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sun, 13 May 2012 06:29:30 -0700 (PDT)
+	Sun, 13 May 2012 06:29:33 -0700 (PDT)
 From: Leonid Borisenko <ive.found@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 13 May 2012 16:28:41 +0300
-Message-Id: <1336915722-8155-2-git-send-email-ive.found@gmail.com>
+Date: Sun, 13 May 2012 16:28:42 +0300
+Message-Id: <1336915722-8155-3-git-send-email-ive.found@gmail.com>
 X-Mailer: git-send-email 1.7.10
 In-Reply-To: <1336915722-8155-1-git-send-email-ive.found@gmail.com>
 References: <1336915722-8155-1-git-send-email-ive.found@gmail.com>
-Subject: [PATCH 1/2] package.bbclass: add getter of additional metadata
+Subject: [PATCH 2/2] package_{ipk, deb, rpm}.bbclass: support additional user-defined metadata
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,52 +43,108 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 13 May 2012 13:39:28 -0000
+X-List-Received-Date: Sun, 13 May 2012 13:39:29 -0000
 
-Two variables are searched for value of additional package metadata:
+Additional metadata from user-defined variable is written into
+control/spec file of binary package.
 
+Three variables are searched for adiitional package metadata:
+
+  * PACKAGE_ADD_METADATA_<PKGTYPE>_<PN>
   * PACKAGE_ADD_METADATA_<PKGTYPE>
   * PACKAGE_ADD_METADATA
 
 First found variable with defined value wins.
 
-<PKGTYPE> is a parameter of getter and expected to be a distinct name
-of specific package type. For example: 'DEB' or 'RPM'.
+<PN> is a package name. <PKGTYPE> is a distinct name of specific
+package type:
 
-Variable can contain multiple [one-line] metadata fields, separated by
+  * IPK for .ipk packages
+  * DEB for .deb packages
+  * RPM for .rpm packages
+
+Variable can contain multiple [one-line] metadata fields separated by
 literal sequence '\n'. Separator can be redefined through variable flag
-'separator'. Getter returns found value with separator replaced with
+'separator'. In package control/spec file separator is replaced by
 newline character.
-
-As side-effect, searched variables acquired flags 'type' (equals to
-'list') and 'separator'.
 
 Signed-off-by: Leonid Borisenko <ive.found@gmail.com>
 ---
- meta/classes/package.bbclass |   11 +++++++++++
- 1 file changed, 11 insertions(+)
+ meta/classes/package_deb.bbclass |    5 +++++
+ meta/classes/package_ipk.bbclass |    5 +++++
+ meta/classes/package_rpm.bbclass |    7 +++++++
+ 3 files changed, 17 insertions(+)
 
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index 99836e9..a40476c 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -326,6 +326,17 @@ def get_package_mapping (pkg, d):
+diff --git a/meta/classes/package_deb.bbclass b/meta/classes/package_deb.bbclass
+index 4096fa2..7a45cec 100644
+--- a/meta/classes/package_deb.bbclass
++++ b/meta/classes/package_deb.bbclass
+@@ -330,6 +330,11 @@ python do_package_deb () {
+             raise bb.build.FuncFailed("Missing field for deb generation: %s" % value)
+         # more fields
  
- 	return pkg
- 
-+def get_package_additional_metadata (pkg_type, d):
-+	base_key = "PACKAGE_ADD_METADATA"
-+	for key in ("%s_%s" % (base_key, pkg_type.upper()), base_key):
-+		if d.getVar(key) is None:
-+			continue
-+		d.setVarFlag(key, "type", "list")
-+		if d.getVarFlag(key, "separator") is None:
-+			d.setVarFlag(key, "separator", "\\n")
-+		metadata_fields = [field.strip() for field in oe.data.typed_value(key, d)]
-+		return "\n".join(metadata_fields).strip()
++        custom_fields_chunk = get_package_additional_metadata("deb", localdata)
++        if custom_fields_chunk is not None:
++            ctrlfile.write(unicode(custom_fields_chunk))
++            ctrlfile.write("\n")
 +
- def runtime_mapping_rename (varname, d):
- 	#bb.note("%s before: %s" % (varname, d.getVar(varname, True)))	
+         mapping_rename_hook(localdata)
+ 
+         rdepends = bb.utils.explode_dep_versions(localdata.getVar("RDEPENDS", True) or "")
+diff --git a/meta/classes/package_ipk.bbclass b/meta/classes/package_ipk.bbclass
+index 73ec0ee..e3a8262 100644
+--- a/meta/classes/package_ipk.bbclass
++++ b/meta/classes/package_ipk.bbclass
+@@ -367,6 +367,11 @@ python do_package_ipk () {
+ 			raise bb.build.FuncFailed("Missing field for ipk generation: %s" % value)
+ 		# more fields
+ 
++		custom_fields_chunk = get_package_additional_metadata("ipk", localdata)
++		if custom_fields_chunk is not None:
++			ctrlfile.write(custom_fields_chunk)
++			ctrlfile.write("\n")
++
+ 		mapping_rename_hook(localdata)
+ 
+ 		rdepends = bb.utils.explode_dep_versions(localdata.getVar("RDEPENDS", True) or "")
+diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
+index 2da7a8b..799e5aa 100644
+--- a/meta/classes/package_rpm.bbclass
++++ b/meta/classes/package_rpm.bbclass
+@@ -638,6 +638,7 @@ python write_specfile () {
+ 	srcmaintainer  = d.getVar('MAINTAINER', True)
+ 	srchomepage    = d.getVar('HOMEPAGE', True)
+ 	srcdescription = d.getVar('DESCRIPTION', True) or "."
++	srccustomtagschunk = get_package_additional_metadata("rpm", d)
+ 
+ 	srcdepends     = strip_multilib(d.getVar('DEPENDS', True), d)
+ 	srcrdepends    = []
+@@ -691,6 +692,7 @@ python write_specfile () {
+ 		splitlicense = (localdata.getVar('LICENSE', True) or "")
+ 		splitsection = (localdata.getVar('SECTION', True) or "")
+ 		splitdescription = (localdata.getVar('DESCRIPTION', True) or ".")
++		splitcustomtagschunk = get_package_additional_metadata("rpm", localdata)
+ 
+ 		translate_vers('RDEPENDS', localdata)
+ 		translate_vers('RRECOMMENDS', localdata)
+@@ -759,6 +761,9 @@ python write_specfile () {
+ 			spec_preamble_bottom.append('License: %s' % splitlicense)
+ 		spec_preamble_bottom.append('Group: %s' % splitsection)
+ 
++		if srccustomtagschunk != splitcustomtagschunk:
++			spec_preamble_bottom.append(splitcustomtagschunk)
++
+ 		# Replaces == Obsoletes && Provides
+ 		if splitrreplaces and splitrreplaces.strip() != "":
+ 			for dep in splitrreplaces.split(','):
+@@ -849,6 +854,8 @@ python write_specfile () {
+ 	spec_preamble_top.append('Group: %s' % srcsection)
+ 	spec_preamble_top.append('Packager: %s' % srcmaintainer)
+ 	spec_preamble_top.append('URL: %s' % srchomepage)
++	if srccustomtagschunk:
++		spec_preamble_top.append(srccustomtagschunk)
+ 	source_list = get_tarballs(d)
+ 	tail_source(d,source_list,None)
  
 -- 
 1.7.10
