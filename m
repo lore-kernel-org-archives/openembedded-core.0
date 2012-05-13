@@ -1,34 +1,36 @@
-Received: from mail-wg0-f43.google.com ([74.125.82.43])
+Received: from mail-ob0-f175.google.com ([209.85.214.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1STBR3-0000EN-SM
+	(envelope-from <cazfi74@gmail.com>) id 1STMyb-0008Mu-HU
 	for openembedded-core@lists.openembedded.org;
-	Sat, 12 May 2012 14:28:33 +0200
-Received: by wgbdr1 with SMTP id dr1so3006324wgb.24
+	Sun, 13 May 2012 02:47:57 +0200
+Received: by obhx4 with SMTP id x4so5893230obh.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 12 May 2012 05:18:37 -0700 (PDT)
+	Sat, 12 May 2012 17:37:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	bh=EHdNRwpphB9gP6VZDF14Y9CWkl7IBH7LSxZFkkLRrj4=;
-	b=q9KsCI1weth8Al83HWmmrsWbgikqO/b9QoKdWz+JN8sfjkbL+Le+S/JjvXsogx5LWY
-	QKL7Uxeq6DHcY2QU1s9kSYt2JTv5g6TDK2xmdwt+1mbdiAvBdo98XNz7wpHOilXw8MtX
-	w2WdizY5DRrsW4Dj1O7pce/MRdJxjqVkOiDj1I/AdhgKrHv9102gNXnFM18gBAgLUHeq
-	8HSWXudHIPXaV0G3tbkJTIqpcqsI4BVXUVkv9j3Az9crjVx9gm7H1fmlOpBHiq8lc7fL
-	GJq9bOzdW1rH4zMHhng4StJ9cxoALMjsaev+Y7dPIcBEgWuPrPbvNp2guEnTo+8+6JMQ
-	i85Q==
-Received: by 10.180.87.35 with SMTP id u3mr3937519wiz.11.1336825117668;
-	Sat, 12 May 2012 05:18:37 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id gd4sm29219481wib.6.2012.05.12.05.18.36
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sat, 12 May 2012 05:18:36 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 12 May 2012 14:18:33 +0200
-Message-Id: <1336825113-11352-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.7.8.6
-In-Reply-To: <1239C828-67B1-41AF-8C84-5BD25CC36AED@dominion.thruhere.net>
-References: <1239C828-67B1-41AF-8C84-5BD25CC36AED@dominion.thruhere.net>
-Subject: [PATCHv3] xserver-xorg-lite: disable xmlto like full xserver-xorg does
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type:content-transfer-encoding;
+	bh=fEI5IMKFWTpMAVIpzSUpNAeS+vqGtYUqCJqYWhkYy+I=;
+	b=Ss15hs04ljqiCa5VFCDRvEGoIh1Aq69QKZmXy2Hp6rPrshcpuRcYqY8yQzVVVJ9eRJ
+	FdiXpn/MtwrP38iQPwE3zD002VkoiwAkJ9ShE4Dlf+k5U35vBkI3kpY8UVNQO5PNNdIt
+	r1ZxN3bqADiO9fpTs5iVNapSW3S4snUZ/IRL/mL0/PFSWjNua1FfOTHD77TmG4IMyWtH
+	H23Qnn0fnjRva3E/WlHs309IECp/JMmqN42ub8jx/76tCvhffn1HCNzsYPum0rcrqWKO
+	UoHTnWj8shE/RA7frhoaD4Ksia2224Ma0Q1hHH0KA2zOvKDJso3lzOpIkTGZQ46zfG/n
+	1s1A==
+MIME-Version: 1.0
+Received: by 10.50.94.234 with SMTP id df10mr1610220igb.31.1336869479618; Sat,
+	12 May 2012 17:37:59 -0700 (PDT)
+Received: by 10.64.59.130 with HTTP; Sat, 12 May 2012 17:37:59 -0700 (PDT)
+In-Reply-To: <CAF6bG8dX21Q44Zq05Wtih7T1jCGcEtEj5o9NrD5TPtorOk=DnA@mail.gmail.com>
+References: <CAF6bG8dwwV-WymFvuZ9FXLb3wziR0mj9PfzP4qA31i79r_81wg@mail.gmail.com>
+	<4FAD45F2.9030908@linux.intel.com>
+	<CAF6bG8e18hOJBGUwwgyetuxwViXfMOS5tYOj06sSghaam+nV9A@mail.gmail.com>
+	<CAF6bG8dX21Q44Zq05Wtih7T1jCGcEtEj5o9NrD5TPtorOk=DnA@mail.gmail.com>
+Date: Sun, 13 May 2012 03:37:59 +0300
+Message-ID: <CAF6bG8dv+YKDxFX5y-tH8ZqsynCYQ67+pTQ7oiR=dBHUHN0N=A@mail.gmail.com>
+From: Marko Lindqvist <cazfi74@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] dpkg: update to upstream version 1.16.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,75 +45,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 12 May 2012 12:28:34 -0000
+X-List-Received-Date: Sun, 13 May 2012 00:47:57 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-* xmlto-native is unusable (see YOCTO #2416
-  xmlto/xsltproc stylesheets cannot be found even when they are installed in sysroot)
+On 12 May 2012 04:57, Marko Lindqvist <cazfi74@gmail.com> wrote:
+>
+> =C2=A0I'm not entirely sure if problems I'm seeing in image building are
+> caused by bugs in new dpkg, or bugs that dpkg update just uncovers in
+> packaged components.
 
-* fails like this:
-| make[2]: Entering directory `/OE/shr-core/tmp-eglibc/work/armv5te-oe-linux-gnueabi/xserver-xorg-lite/xserver-xorg-lite-2_1.11.2-r2/xorg-server-1.11.2/doc'
-| /OE/shr-core/tmp-eglibc/sysroots/x86_64-linux/usr/bin/xmlto   xhtml-nochunks Xserver-spec.xml
-| /OE/shr-core/tmp-eglibc/sysroots/x86_64-linux/usr/bin/xmlto   xhtml-nochunks Xinput.xml
-| xmlto: /OE/shr-core/tmp-eglibc/work/armv5te-oe-linux-gnueabi/xserver-xorg-lite/xserver-xorg-lite-2_1.11.2-r2/xorg-server-1.11.2/doc/Xinput.xml does not validate (status 3)
-| xmlto: Fix document syntax or use --skip-validation option
-| /OE/shr-core/tmp-eglibc/work/armv5te-oe-linux-gnueabi/xserver-xorg-lite/xserver-xorg-lite-2_1.11.2-r2/xorg-server-1.11.2/doc/Xinput.xml:3: warning: failed to load external entity "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd"
-|                    "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd">
-|                                                                             ^
-| /OE/shr-core/tmp-eglibc/work/armv5te-oe-linux-gnueabi/xserver-xorg-lite/xserver-xorg-lite-2_1.11.2-r2/xorg-server-1.11.2/doc/Xinput.xml:40: parser error : Entity 'ldquo' not defined
-| btaining a copy of this software and associated documentation files (the &ldquo;
-|                                                                                ^
-| /OE/shr-core/tmp-eglibc/work/armv5te-oe-linux-gnueabi/xserver-xorg-lite/xserver-xorg-lite-2_1.11.2-r2/xorg-server-1.11.2/doc/Xinput.xml:40: parser error : Entity 'rdquo' not defined
-|  of this software and associated documentation files (the &ldquo;Software&rdquo;
-|                                                                                ^
-| /OE/shr-core/tmp-eglibc/work/armv5te-oe-linux-gnueabi/xserver-xorg-lite/xserver-xorg-lite-2_1.11.2-r2/xorg-server-1.11.2/doc/Xinput.xml:42: parser error : Entity 'ldquo' not defined
-| btaining a copy of this software and associated documentation files (the &ldquo;
-|                                                                                ^
-| /OE/shr-core/tmp-eglibc/work/armv5te-oe-linux-gnueabi/xserver-xorg-lite/xserver-xorg-lite-2_1.11.2-r2/xorg-server-1.11.2/doc/Xinput.xml:42: parser error : Entity 'rdquo' not defined
-|  of this software and associated documentation files (the &ldquo;Software&rdquo;
-|                                                                                ^
-| warning: failed to load external entity "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd"
-| validity error : Could not load the external subset "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd"
-| Document /OE/shr-core/tmp-eglibc/work/armv5te-oe-linux-gnueabi/xserver-xorg-lite/xserver-xorg-lite-2_1.11.2-r2/xorg-server-1.11.2/doc/Xinput.xml does not validate
-| xmlto: /OE/shr-core/tmp-eglibc/work/armv5te-oe-linux-gnueabi/xserver-xorg-lite/xserver-xorg-lite-2_1.11.2-r2/xorg-server-1.11.2/doc/Xserver-spec.xml does not validate (status 3)
-| xmlto: Fix document syntax or use --skip-validation option
-| make[2]: *** [Xinput.html] Error 13
-| make[2]: *** Waiting for unfinished jobs....
-| /OE/shr-core/tmp-eglibc/work/armv5te-oe-linux-gnueabi/xserver-xorg-lite/xserver-xorg-lite-2_1.11.2-r2/xorg-server-1.11.2/doc/Xserver-spec.xml:4: warning: failed to load external entity "/xserver/doc/xml/xserver.ent"
-|  <!ENTITY % defs SYSTEM "/xserver/doc/xml/xserver.ent"> %defs;
-|                                                               ^
-| Entity: line 1:
-|  %defs;
-|        ^
+ Problem is in dpkg. I'll run some more tests on new version before
+sending updated patch (away most of tomorrow, so probably Monday)
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- .../xorg-xserver/xserver-xorg-1.11.2.inc           |    2 +-
- .../xorg-xserver/xserver-xorg-lite.inc             |    1 +
- 2 files changed, 2 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2.inc
-index 6a86af4..fc41568 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2.inc
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2.inc
-@@ -7,5 +7,5 @@ SRC_URI += "file://crosscompile.patch \
- SRC_URI[md5sum] = "8796fff441e5435ee36a72579008af24"
- SRC_URI[sha256sum] = "fa415decf02027ca278b06254ccfbcceba2a83c2741405257ebf749da4a73cf2"
- 
--PR = "r2"
-+PR = "r3"
- 
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg-lite.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg-lite.inc
-index 57615f5..02db5bf 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xorg-lite.inc
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg-lite.inc
-@@ -4,4 +4,5 @@ EXTRA_OECONF += "\
-                  --disable-dri \
-                  --disable-glx \
-                  --disable-dga \
-+                 --without-xmlto \
- "
--- 
-1.7.8.6
-
+ - ML
 
 
