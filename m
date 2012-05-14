@@ -1,32 +1,27 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1SU343-0005gb-VF
+	(envelope-from <jason.wessel@windriver.com>) id 1SU3Ju-0006Ft-9m
 	for openembedded-core@lists.openembedded.org;
-	Mon, 14 May 2012 23:44:24 +0200
-Received: by eekd49 with SMTP id d49so1498247eek.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 May 2012 14:34:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type:content-transfer-encoding;
-	bh=4dft1s1kCNjROWDQMvd8cechQ+EJTNhLYSyCyxOXsU0=;
-	b=KkAURJ/BRRse8ikjzwD2fQy3tWEehRbcRGCJDUugjptvHho8NN88eNGQsHVLihywM/
-	i0iN5Al8s1H2uREl1c9jxcjGYWR+Tf3HdpULdOjx70HzLxMGtpvwHoaVYYI4GEErdUGL
-	7QNxy8T0/oWJtfoCBhcTGYSZa7bllqY7UbsaltthwBAVZh8VgKEEUjIGnHSjJtjYm8H9
-	6keDVXT+v3lxD9spH1saPMQwcSuYR1JzgUx86YPPvqfl+3mo2+Gfcdkgdld2lh523+Hp
-	HPAwuOc2UC9CVLXTxUjJAP1HVwUkU+NGabGpRzkK7Z+1a01mv2Ji6zfWb/HBqYHYxBSG
-	E8QQ==
-Received: by 10.213.115.193 with SMTP id j1mr1794768ebq.141.1337031264785;
-	Mon, 14 May 2012 14:34:24 -0700 (PDT)
+	Tue, 15 May 2012 00:00:46 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q4ELojCC006827
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 14 May 2012 14:50:45 -0700 (PDT)
+Received: from [172.25.32.41] (172.25.32.41) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Mon, 14 May 2012 14:50:44 -0700
+Message-ID: <4FB17E33.5000408@windriver.com>
+Date: Mon, 14 May 2012 16:50:43 -0500
+From: Jason Wessel <jason.wessel@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:11.0) Gecko/20120329 Thunderbird/11.0.1
 MIME-Version: 1.0
-Received: by 10.14.2.132 with HTTP; Mon, 14 May 2012 14:33:54 -0700 (PDT)
-In-Reply-To: <1336962502-7271-1-git-send-email-jason.wessel@windriver.com>
-References: <1336962502-7271-1-git-send-email-jason.wessel@windriver.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 14 May 2012 14:33:54 -0700
-Message-ID: <CAMKF1spai-R74dMQZ00FooWwXmyLEdsN0HaPn_SArNPT1=Pa8g@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
+References: <1336962502-7271-1-git-send-email-jason.wessel@windriver.com>
+	<CAMKF1spai-R74dMQZ00FooWwXmyLEdsN0HaPn_SArNPT1=Pa8g@mail.gmail.com>
+In-Reply-To: <CAMKF1spai-R74dMQZ00FooWwXmyLEdsN0HaPn_SArNPT1=Pa8g@mail.gmail.com>
+X-Enigmail-Version: 1.4.1
 Subject: Re: [PATCH 0/2] RFC - CCACHE_DIR to not impact sstate
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -42,18 +37,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 May 2012 21:44:24 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 14 May 2012 22:00:46 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Sun, May 13, 2012 at 7:28 PM, Jason Wessel
-<jason.wessel@windriver.com> wrote:
-> I am not exactly sure how to fix this, so I thought I might ask in the
-> form of a working patch. =C2=A0The problem is that I want to use an
-> external CCACHE_DIR on some build servers, but use the defaults on
-> others. =C2=A0Ultimately the sstate sums should be the same in either cas=
-e,
+On 05/14/2012 04:33 PM, Khem Raj wrote:
+> On Sun, May 13, 2012 at 7:28 PM, Jason Wessel
+> <jason.wessel@windriver.com> wrote:
+>> I am not exactly sure how to fix this, so I thought I might ask in the
+>> form of a working patch.  The problem is that I want to use an
+>> external CCACHE_DIR on some build servers, but use the defaults on
+>> others.  Ultimately the sstate sums should be the same in either case,
+> hmmm so how do you ensure that both ccache stashes are exactly same ?
 
-hmmm so how do you ensure that both ccache stashes are exactly same ?
+Why do they need to be the same?  
+
+The end result of the compiler is the same with ccache, and that is all that matters in this case, meaning you get the same .o with "ccache gcc".  I might have several ccache directories with different sizes on different systems (it takes ~3.4 gigs for a full ccache).
+
+CCACHE_DIR=/tmp/place1 ccache target-gcc ....
+CCACHE_DIR=/tmp/place2 ccache target-gcc ....
+
+Regardless of the state of the CCACHE_DIR the .o will be the same.
+
+Jason.
 
 
