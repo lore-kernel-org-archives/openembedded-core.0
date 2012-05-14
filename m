@@ -1,23 +1,33 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <jason.wessel@windriver.com>) id 1SU2mx-0007Zb-Uf
+	(envelope-from <raj.khem@gmail.com>) id 1SU343-0005gb-VF
 	for openembedded-core@lists.openembedded.org;
-	Mon, 14 May 2012 23:26:56 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q4ELGh2U002974
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Mon, 14 May 2012 23:44:24 +0200
+Received: by eekd49 with SMTP id d49so1498247eek.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 May 2012 14:16:43 -0700 (PDT)
-Received: from ord-lpggp2.wrs.com (172.25.32.36) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Mon, 14 May 2012 14:16:43 -0700
-From: Jason Wessel <jason.wessel@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 14 May 2012 16:17:40 -0500
-Message-ID: <1337030260-52609-1-git-send-email-jason.wessel@windriver.com>
-X-Mailer: git-send-email 1.7.1
+	Mon, 14 May 2012 14:34:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type:content-transfer-encoding;
+	bh=4dft1s1kCNjROWDQMvd8cechQ+EJTNhLYSyCyxOXsU0=;
+	b=KkAURJ/BRRse8ikjzwD2fQy3tWEehRbcRGCJDUugjptvHho8NN88eNGQsHVLihywM/
+	i0iN5Al8s1H2uREl1c9jxcjGYWR+Tf3HdpULdOjx70HzLxMGtpvwHoaVYYI4GEErdUGL
+	7QNxy8T0/oWJtfoCBhcTGYSZa7bllqY7UbsaltthwBAVZh8VgKEEUjIGnHSjJtjYm8H9
+	6keDVXT+v3lxD9spH1saPMQwcSuYR1JzgUx86YPPvqfl+3mo2+Gfcdkgdld2lh523+Hp
+	HPAwuOc2UC9CVLXTxUjJAP1HVwUkU+NGabGpRzkK7Z+1a01mv2Ji6zfWb/HBqYHYxBSG
+	E8QQ==
+Received: by 10.213.115.193 with SMTP id j1mr1794768ebq.141.1337031264785;
+	Mon, 14 May 2012 14:34:24 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH v2 1/1] bitbake.conf: Add CCACHE_DIR to BB_HASHBASE_WHITELIST
+Received: by 10.14.2.132 with HTTP; Mon, 14 May 2012 14:33:54 -0700 (PDT)
+In-Reply-To: <1336962502-7271-1-git-send-email-jason.wessel@windriver.com>
+References: <1336962502-7271-1-git-send-email-jason.wessel@windriver.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 14 May 2012 14:33:54 -0700
+Message-ID: <CAMKF1spai-R74dMQZ00FooWwXmyLEdsN0HaPn_SArNPT1=Pa8g@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/2] RFC - CCACHE_DIR to not impact sstate
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,36 +42,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 May 2012 21:27:00 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 14 May 2012 21:44:24 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-The location of the ccache should not affect the sum in the sstate
-files.
+On Sun, May 13, 2012 at 7:28 PM, Jason Wessel
+<jason.wessel@windriver.com> wrote:
+> I am not exactly sure how to fix this, so I thought I might ask in the
+> form of a working patch. =C2=A0The problem is that I want to use an
+> external CCACHE_DIR on some build servers, but use the defaults on
+> others. =C2=A0Ultimately the sstate sums should be the same in either cas=
+e,
 
-The end user should be free to use an external ccache via defining
-CCACHE_DIR to a new value in local.conf or using the default per
-package local ccache in the temp directory.
-
-Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
----
- meta/conf/bitbake.conf |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
-
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index dc68690..7073018 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -746,7 +746,7 @@ BB_CONSOLELOG ?= "${TMPDIR}/cooker.log.${DATETIME}"
- 
- # Setup our default hash policy
- BB_SIGNATURE_HANDLER ?= "OEBasic"
--BB_HASHBASE_WHITELIST ?= "TMPDIR FILE PATH PWD BB_TASKHASH BBPATH DL_DIR SSTATE_DIR THISDIR FILESEXTRAPATHS FILE_DIRNAME HOME LOGNAME SHELL TERM USER FILESPATH STAGING_DIR_HOST STAGING_DIR_TARGET COREBASE PRSERV_HOST PRSERV_PORT PRSERV_DUMPDIR PRSERV_DUMPFILE PRSERV_LOCKDOWN PARALLEL_MAKE"
-+BB_HASHBASE_WHITELIST ?= "TMPDIR FILE PATH PWD BB_TASKHASH BBPATH DL_DIR SSTATE_DIR THISDIR FILESEXTRAPATHS FILE_DIRNAME HOME LOGNAME SHELL TERM USER FILESPATH STAGING_DIR_HOST STAGING_DIR_TARGET COREBASE PRSERV_HOST PRSERV_PORT PRSERV_DUMPDIR PRSERV_DUMPFILE PRSERV_LOCKDOWN PARALLEL_MAKE CCACHE_DIR"
- BB_HASHCONFIG_WHITELIST ?= "${BB_HASHBASE_WHITELIST} DATE TIME SESSION_MANAGER DBUS_SESSION_BUS_ADDRESS SSH_AGENT_PID XDG_SESSION_COOKIE SSH_AUTH_SOCK XAUTHORITY"
- 
- MLPREFIX ??= ""
--- 
-1.7.1
-
+hmmm so how do you ensure that both ccache stashes are exactly same ?
 
 
