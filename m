@@ -1,25 +1,33 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail-ob0-f175.google.com ([209.85.214.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <jason.wessel@windriver.com>) id 1STxyn-0005VZ-C8
+	(envelope-from <kergoth@gmail.com>) id 1STyXA-00045O-6Y
 	for openembedded-core@lists.openembedded.org;
-	Mon, 14 May 2012 18:18:37 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q4EG8bRT009029
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Mon, 14 May 2012 18:54:08 +0200
+Received: by obhx4 with SMTP id x4so8446149obh.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 May 2012 09:08:38 -0700 (PDT)
-Received: from ord-lpggp2.wrs.com (172.25.32.36) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Mon, 14 May 2012 09:08:37 -0700
-From: Jason Wessel <jason.wessel@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 14 May 2012 11:09:30 -0500
-Message-ID: <1337011770-24297-3-git-send-email-jason.wessel@windriver.com>
-X-Mailer: git-send-email 1.7.1
-In-Reply-To: <1337011770-24297-1-git-send-email-jason.wessel@windriver.com>
-References: <1337011770-24297-1-git-send-email-jason.wessel@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 2/2] bitbake.conf: Add CCACHE_DIR to BB_HASHBASE_WHITELIST
+	Mon, 14 May 2012 09:44:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=vfiU01T8EQjSjl9h+2Ps5qlTwqbH/SaopXutq0xXAE8=;
+	b=b7JJhJrDLO/AT0TIMiNFYsBx9dftuaPfObgDQNi5PoiAq5/2x2/ouaDGUenIB3Dz0m
+	Jy9yTR60fP2QOrNpRwAbxO9SQZd9iQ3TbfrDIni0Rme0eE0yGrqFkkNV+Zd0I00XhvgJ
+	ySRgNVPXsG1jy/m3t1qoIohhvdELf+g2ihiFYx22rac4v19tsVP51ur0PaPNKVHCxRhD
+	/97MxkIyitMlN9E2h/NplsVmm6u0bzJOVFvKA9FOgGaxfTPb9nRKuHhYM7tgyY+pSUfZ
+	kp+iXY3ZAvPfaXFRezzPnX05VMnxA9xbFDLmPbN9krf3WMbtabxZ61kaaw2Rf/meoqvk
+	gvjA==
+Received: by 10.182.152.72 with SMTP id uw8mr12681045obb.73.1337013848460;
+	Mon, 14 May 2012 09:44:08 -0700 (PDT)
+Received: from localhost.localdomain (nat-lmt.mentorg.com. [139.181.28.34])
+	by mx.google.com with ESMTPS id vs8sm8863380obb.14.2012.05.14.09.44.06
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 14 May 2012 09:44:07 -0700 (PDT)
+From: Christopher Larson <kergoth@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 14 May 2012 11:45:01 -0500
+Message-Id: <cover.1337013858.git.chris_larson@mentor.com>
+X-Mailer: git-send-email 1.7.7
+Cc: Christopher Larson <chris_larson@mentor.com>
+Subject: [PATCH 0/3] Minor tcmode-external-csl fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,36 +42,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 May 2012 16:18:38 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 14 May 2012 16:54:08 -0000
 
-The location of the ccache should not affect the sum in the sstate
-files.
+From: Christopher Larson <chris_larson@mentor.com>
 
-The end user should be free to use an external ccache via defining
-CCACHE_DIR to a new value in local.conf or the default per package
-local ccache in the temp directory.
+The following changes since commit 36d1717e2ad4ca1620ee9f01b524b5ff2f499b26:
 
-Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
----
- meta/conf/bitbake.conf |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+  classes/rootfs_*: fix splitting package dependency strings (2012-05-13 20:07:24 +0100)
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 12bca0e..8fe3c2c 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -655,7 +655,7 @@ CPU_FEATURES_arm ?= "vfp"
- 
- # Setup our default hash policy
- BB_SIGNATURE_HANDLER ?= "OEBasic"
--BB_HASHBASE_WHITELIST ?= "TMPDIR FILE PATH PWD BB_TASKHASH BBPATH DL_DIR SSTATE_DIR THISDIR FILESEXTRAPATHS FILE_DIRNAME HOME LOGNAME SHELL TERM USER FILESPATH STAGING_DIR_HOST STAGING_DIR_TARGET COREBASE PRSERV_HOST PRSERV_PORT PRSERV_DUMPDIR PRSERV_DUMPFILE PRSERV_LOCKDOWN PARALLEL_MAKE"
-+BB_HASHBASE_WHITELIST ?= "TMPDIR FILE PATH PWD BB_TASKHASH BBPATH DL_DIR SSTATE_DIR THISDIR FILESEXTRAPATHS FILE_DIRNAME HOME LOGNAME SHELL TERM USER FILESPATH STAGING_DIR_HOST STAGING_DIR_TARGET COREBASE PRSERV_HOST PRSERV_PORT PRSERV_DUMPDIR PRSERV_DUMPFILE PRSERV_LOCKDOWN PARALLEL_MAKE CCACHE_DIR"
- BB_HASHCONFIG_WHITELIST ?= "${BB_HASHBASE_WHITELIST} DATE TIME SESSION_MANAGER DBUS_SESSION_BUS_ADDRESS SSH_AGENT_PID XDG_SESSION_COOKIE SSH_AUTH_SOCK XAUTHORITY"
- 
- ##################################################################
+are available in the git repository at:
+  https://github.com/kergoth/oe-core external-csl-minor-fixes
+
+Christopher Larson (3):
+      tcmode-external-csl: drop unnecessary cppflags/ldflags
+      tcmode-external-csl: avoid hardcoding a list of ia32 archs
+      tcmode-external-csl: handle TUNE_PKGARCH=core2
+
+ meta/conf/distro/include/tcmode-external-csl.inc |   10 +++++-----
+ 1 files changed, 5 insertions(+), 5 deletions(-)
+
 -- 
-1.7.1
+1.7.7
 
 
 
