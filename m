@@ -1,31 +1,26 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Xiaofeng.Yan@windriver.com>) id 1STqHL-0005VL-Te
+	(envelope-from <Liezhi.Yang@windriver.com>) id 1STqZf-0005ll-Vt
 	for openembedded-core@lists.openembedded.org;
-	Mon, 14 May 2012 10:05:16 +0200
+	Mon, 14 May 2012 10:24:17 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q4E7tGXU029514
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q4E8ECdf007462
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 May 2012 00:55:16 -0700 (PDT)
-Received: from [128.224.162.223] (128.224.162.223) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Mon, 14 May 2012 00:55:15 -0700
-Message-ID: <4FB0BA45.5060008@windriver.com>
-Date: Mon, 14 May 2012 15:54:45 +0800
-From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:11.0) Gecko/20120329 Thunderbird/11.0.1
-MIME-Version: 1.0
+	Mon, 14 May 2012 01:14:12 -0700 (PDT)
+Received: from usp-ub10.corp.ad.wrs.com (128.224.163.69) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.1.255.0; Mon, 14 May 2012 01:14:12 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-References: <cover.1336727342.git.xiaofeng.yan@windriver.com>
-	<cc7ee9609296b3a90147287817a0043da45b0c64.1336727342.git.xiaofeng.yan@windriver.com>
-	<CABcZANkNAkmLA72kaa=Dv0YExnji__tOJ16moRhDGRmfi0NaVw@mail.gmail.com>
-In-Reply-To: <CABcZANkNAkmLA72kaa=Dv0YExnji__tOJ16moRhDGRmfi0NaVw@mail.gmail.com>
-X-Originating-IP: [128.224.162.223]
-X-MIME-Autoconverted: from 8bit to quoted-printable by mail1.windriver.com id
-	q4E7tGXU029514
-Subject: Re: [PATCH 1/1] archiver.bbclass: Add default set
+Date: Mon, 14 May 2012 16:11:33 +0800
+Message-ID: <f71725a25e0c29c71d8ed007f660733564a261f6.1336983006.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.1
+In-Reply-To: <cover.1336983006.git.liezhi.yang@windriver.com>
+References: <cover.1336983006.git.liezhi.yang@windriver.com>
+MIME-Version: 1.0
+Cc: Zhenfeng.Zhao@windriver.com
+Subject: [PATCH 1/2] package_rpm.bbclass: Fix incremental rpm image generation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,32 +35,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 May 2012 08:05:16 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 14 May 2012 08:24:18 -0000
+Content-Type: text/plain
 
-On 2012=E5=B9=B405=E6=9C=8811=E6=97=A5 22:14, Chris Larson wrote:
-> On Fri, May 11, 2012 at 3:13 AM,<xiaofeng.yan@windriver.com>  wrote:
->> diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbc=
-lass
->> index 59b58f4..a720db2 100644
->> --- a/meta/classes/archiver.bbclass
->> +++ b/meta/classes/archiver.bbclass
->> @@ -6,6 +6,10 @@ ARCHIVE_EXCLUDE_FROM ?=3D ".pc autom4te.cache"
->>   ARCHIVE_TYPE ?=3D "TAR SRPM"
->>   DISTRO ?=3D "poky"
->>   PATCHES_ARCHIVE_WITH_SERIES =3D 'TRUE'
->> +SOURCE_ARCHIVE_LOG_WITH_SCRIPTS ?=3D 'logs_with_scripts'
->> +SOURCE_ARCHIVE_PACKAGE_TYPE ?=3D 'tar'
->> +export SOURCE_ARCHIVE_LOG_WITH_SCRIPTS
->> +export SOURCE_ARCHIVE_PACKAGE_TYPE
-> I don't think you understand what 'export' does or why it exists.
-> Please fix that, and remove these lines. Thanks.
-Hi Chris Larson,
-      Thanks for your review. I am testing this according to your=20
-suggestion and put it to OE-core after test.
+Fix the incremental rpm image generation, it didn't work since the code
+has been changed.
 
-Thanks
-Yan
+The btmanifest should have a ".manifest" suffix, so that it can be moved
+to ${T} by rootfs_rpm.bbclass:
+mv ${IMAGE_ROOTFS}/install/*.manifest ${T}/
+
+Note: The locale pkgs would always be re-installed.
+
+[YOCTO #2440]
+
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ meta/classes/package_rpm.bbclass |   20 ++++++++------------
+ 1 files changed, 8 insertions(+), 12 deletions(-)
+
+diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
+index 2da7a8b..daa9db4 100644
+--- a/meta/classes/package_rpm.bbclass
++++ b/meta/classes/package_rpm.bbclass
+@@ -158,28 +158,24 @@ rpm_common_comand () {
+ rpm_update_pkg () {
+ 
+     manifest=$1
+-    btmanifest=$manifest.bt
++    btmanifest=$manifest.bt.manifest
++    pre_btmanifest=${T}/${btmanifest##/*/}
+     local target_rootfs="${INSTALL_ROOTFS_RPM}"
+ 
+     # Save the rpm's build time for incremental image generation, and the file
+     # would be moved to ${T}
+-    rm -f $btmanifest
+     for i in `cat $manifest`; do
+         # Use "rpm" rather than "${RPM}" here, since we don't need the
+         # '--dbpath' option
+-        echo "$i `rpm -qp --qf '%{BUILDTIME}\n' $i`" >> $btmanifest
+-    done
++        echo "$i `rpm -qp --qf '%{BUILDTIME}\n' $i`"
++    done | sort -u > $btmanifest
+ 
+     # Only install the different pkgs if incremental image generation is set
+-    if [ "${INC_RPM_IMAGE_GEN}" = "1" -a -f ${T}/total_solution_bt.manifest -a \
++    if [ "${INC_RPM_IMAGE_GEN}" = "1" -a -f "$pre_btmanifest" -a \
+         "${IMAGE_PKGTYPE}" = "rpm" ]; then
+-        cur_list="$btmanifest"
+-        pre_list="${T}/total_solution_bt.manifest"
+-        sort -u $cur_list -o $cur_list
+-        sort -u $pre_list -o $pre_list
+-        comm -1 -3 $cur_list $pre_list | sed 's#.*/\(.*\)\.rpm .*#\1#' > \
++        comm -1 -3 $btmanifest $pre_btmanifest | sed 's#.*/\(.*\)\.rpm .*#\1#' > \
+             ${target_rootfs}/install/remove.manifest
+-        comm -2 -3 $cur_list $pre_list | awk '{print $1}' > \
++        comm -2 -3 $btmanifest $pre_btmanifest | awk '{print $1}' > \
+             ${target_rootfs}/install/incremental.manifest
+ 
+         # Attempt to remove unwanted pkgs, the scripts(pre, post, etc.) has not
+@@ -462,7 +458,7 @@ EOF
+ 	# probably a feature. The only way to convince rpm to actually run the preinstall scripts 
+ 	# for base-passwd and shadow first before installing packages that depend on these packages 
+ 	# is to do two image installs, installing one set of packages, then the other.
+-	if [ "${INC_RPM_IMAGE_GEN}" = "1" -a -f ${T}/total_solution_bt.manifest ]; then
++	if [ "${INC_RPM_IMAGE_GEN}" = "1" -a -f "$pre_btmanifest" ]; then
+ 		echo "Skipping pre install due to exisitng image"
+ 	else
+ 		echo "# Initial Install manifest" > ${target_rootfs}/install/initial_install.manifest
+-- 
+1.7.1
+
 
 
