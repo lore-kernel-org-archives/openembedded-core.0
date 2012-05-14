@@ -1,37 +1,38 @@
-Received: from mail-we0-f175.google.com ([74.125.82.175])
+Received: from mail-vb0-f47.google.com ([209.85.212.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1STzLN-0005tc-CZ
+	(envelope-from <otavio.salvador@gmail.com>) id 1SU0Br-0004dt-VP
 	for openembedded-core@lists.openembedded.org;
-	Mon, 14 May 2012 19:46:01 +0200
-Received: by werg55 with SMTP id g55so2295299wer.6
+	Mon, 14 May 2012 20:40:17 +0200
+Received: by vbbfr13 with SMTP id fr13so5585933vbb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 May 2012 10:36:02 -0700 (PDT)
+	Mon, 14 May 2012 11:30:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date
-	:x-google-sender-auth:message-id:subject:to:content-type
-	:content-transfer-encoding;
-	bh=IBPvd79MLHIsoUWaDlXBkUDRsZHEt+F2r34wh37iq9Q=;
-	b=XLO/sqgYCGJvjZWQF1rUYyYH3bCSCmYY5gm444R12SD8T+yUnFtUjT7XttO+cYjs4a
-	bQUXeBcww+vl/IYkjSCm+VxK3dEkW2x5tlZWSSAwYFdbavufcjY2MvSfXplnJgJuKrWz
-	VWSopLCEFNeDBcuFPiohdOD7+S3xVhTzf74F62ONrBcFs7eS011/iIkhZnmUrDCSCFKd
-	++/7yc36HhRx41/WNOyyV3IIiBW5ujqiZWx3UGxu0J1iddiGE2tn2JZVRjf60XpI7rvw
-	WUPJNIEqKrEMl3M/FUxRvxqXFcqUDdr0xrM4VZ7stpAAgr4bY235Gxh0QW5Ai8+myJTN
-	p6Rw==
-Received: by 10.180.109.197 with SMTP id hu5mr21934379wib.8.1337016962401;
-	Mon, 14 May 2012 10:36:02 -0700 (PDT)
-MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.216.181.16 with HTTP; Mon, 14 May 2012 10:35:42 -0700 (PDT)
-In-Reply-To: <CAF6bG8dzui=doFHHDoWGYXt45utcPwjY81QQRKrCbgHEpaMBQQ@mail.gmail.com>
-References: <1337011770-24297-1-git-send-email-jason.wessel@windriver.com>
-	<CAF6bG8dzui=doFHHDoWGYXt45utcPwjY81QQRKrCbgHEpaMBQQ@mail.gmail.com>
-From: Chris Larson <clarson@kergoth.com>
-Date: Mon, 14 May 2012 10:35:42 -0700
-X-Google-Sender-Auth: E2iM4LlIVYAcVuKZW7rXw-ZlFE4
-Message-ID: <CABcZANkgp87rv_1HbHVSVjQZsYMpPmzGJ_kat1BDyvHhcHfMYQ@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/2] bitbake.conf: gracefully work with ccache environment variables
+	h=sender:from:to:subject:date:message-id:x-mailer:in-reply-to
+	:references:in-reply-to:references;
+	bh=dYCLbqAnEqjyjAzQ9WcbDocXjSQYQE08FpVdX8MygM4=;
+	b=u3URJTARwVKgMgJN/JO3WHMVQiOeMc+Yo27dqChBVBBxoq2ANJz4VDaktAUR9Fslza
+	YkD3rNAynn5CA14HXTFRZlSwlbnYM+Yliiv1RYiuOHna2g6ZWDh4BtluS8dVafdCpZIB
+	ZrlMG7cWuiM9ugJoDWdhXytcituEFKRhREySR5mlig36tEVcXk4KYeVxN8zkA4SMYmub
+	N/NicbbBIH/YYPxGwEDkKbCpGrTAmDJOUXZK0RSL3wu1hKzgFOqEVAlXIX1DQVQXO9x5
+	VN+Vqt0ZojVe2LuAM5jWbY82a9yMiuU8PDPBw7qJ8z07DkQoB+jv55K89IFuLk/tONMh
+	jqMA==
+Received: by 10.220.39.197 with SMTP id h5mr1283311vce.51.1337020215576;
+	Mon, 14 May 2012 11:30:15 -0700 (PDT)
+Received: from localhost.localdomain ([186.218.100.214])
+	by mx.google.com with ESMTPS id v16sm22617048vdi.21.2012.05.14.11.30.14
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 14 May 2012 11:30:15 -0700 (PDT)
+Sender: Otavio Salvador <otavio.salvador@gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 14 May 2012 15:30:06 -0300
+Message-Id: <082e4970f3fa5b102b9ef716e300d017f70601cd.1337020062.git.otavio@ossystems.com.br>
+X-Mailer: git-send-email 1.7.2.5
+In-Reply-To: <f1b02094a00615abfdee28e820c70e50c2ca9471.1337003246.git.otavio@ossystems.com.br>
+References: <f1b02094a00615abfdee28e820c70e50c2ca9471.1337003246.git.otavio@ossystems.com.br>
+In-Reply-To: <cover.1337020062.git.otavio@ossystems.com.br>
+References: <cover.1337020062.git.otavio@ossystems.com.br>
+Subject: [PATCH 1/1] kmod: fix installation path of pkgconfig files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,28 +47,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 May 2012 17:46:01 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 14 May 2012 18:40:17 -0000
 
-On Mon, May 14, 2012 at 10:18 AM, Marko Lindqvist <cazfi74@gmail.com> wrote=
-:
->> I'll send a patch just to add CCACHE_DIR to the BB_HASHBASE_WHITELIST.
->
-> =C2=A0External cache makes sense for anything being built by system
-> compiler. Caching results of anything produced by OE-built compilers
-> to user's normal cache is problematic. Rebuild of the compiler itself
-> will invalidate any such cached files, but caching them in first place
-> may push more valid results out from the cache. So you are proposing
-> that user has to opt-out from that behavior (by unsetting his normal
-> CCACHE_DIR before running bitbake) and no longer opt-in (by adding
-> CCACHE_DIR to whitelist)
+The pkgconfig files need to be installed in ${libdir} instead of
+${base_libdir}.
 
-Whether you like or don't like ccache is irrelevant. I personally
-don't use it, but regardless, obviously CCACHE_DIR doesn't belong in
-the shared state checksums, and CCACHE is the var you use to opt in vs
-out of ccache usage.
---=20
-Christopher Larson
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
+ meta/recipes-kernel/kmod/kmod_git.bb |    6 +++++-
+ 1 files changed, 5 insertions(+), 1 deletions(-)
+
+diff --git a/meta/recipes-kernel/kmod/kmod_git.bb b/meta/recipes-kernel/kmod/kmod_git.bb
+index d9c4d8b..a4a284e 100644
+--- a/meta/recipes-kernel/kmod/kmod_git.bb
++++ b/meta/recipes-kernel/kmod/kmod_git.bb
+@@ -3,7 +3,7 @@
+ 
+ require kmod.inc
+ 
+-PR = "${INC_PR}.1"
++PR = "${INC_PR}.2"
+ 
+ PROVIDES += "module-init-tools-insmod-static module-init-tools-depmod module-init-tools"
+ RPROVIDES_${PN} += "module-init-tools-insmod-static module-init-tools-depmod module-init-tools"
+@@ -34,6 +34,10 @@ do_install_append () {
+ 
+         # install depmod.d file for search/ dir
+         install -Dm644 "${WORKDIR}/depmod-search.conf" "${D}${base_libdir}/depmod.d/search.conf"
++
++        # fix pkgconfig installation path
++        install -dm755 ${D}${libdir}
++        mv ${D}${base_libdir}/pkgconfig ${D}${libdir}
+ }
+ 
+ pkg_postinst_kmod() {
+-- 
+1.7.2.5
+
 
 
