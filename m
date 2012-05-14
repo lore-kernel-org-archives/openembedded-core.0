@@ -1,31 +1,28 @@
 Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <jason.wessel@windriver.com>) id 1SU3qU-0005t8-Vy
+	(envelope-from <mark.hatle@windriver.com>) id 1SU40R-00052r-1w
 	for openembedded-core@lists.openembedded.org;
-	Tue, 15 May 2012 00:34:27 +0200
+	Tue, 15 May 2012 00:44:43 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q4EMOQu0014546
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 14 May 2012 15:24:26 -0700 (PDT)
-Received: from [172.25.32.41] (172.25.32.41) by ALA-HCA.corp.ad.wrs.com
+	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q4EMYhej014675
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 14 May 2012 15:34:43 -0700 (PDT)
+Received: from msp-dhcp25.wrs.com (172.25.34.25) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Mon, 14 May 2012 15:24:25 -0700
-Message-ID: <4FB18618.60604@windriver.com>
-Date: Mon, 14 May 2012 17:24:24 -0500
-From: Jason Wessel <jason.wessel@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:11.0) Gecko/20120329 Thunderbird/11.0.1
+	Mon, 14 May 2012 15:34:42 -0700
+Message-ID: <4FB18881.80702@windriver.com>
+Date: Mon, 14 May 2012 17:34:41 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
+	rv:12.0) Gecko/20120428 Thunderbird/12.0.1
 MIME-Version: 1.0
-To: Marko Lindqvist <cazfi74@gmail.com>
-References: <1337011770-24297-1-git-send-email-jason.wessel@windriver.com>
-	<CAF6bG8dzui=doFHHDoWGYXt45utcPwjY81QQRKrCbgHEpaMBQQ@mail.gmail.com>
-	<4FB17205.3000207@windriver.com>
-	<CAF6bG8dfHW9S4onZTEeWqHFT_sqpbpjJTSYZpOXZA+BsKQOq3Q@mail.gmail.com>
-In-Reply-To: <CAF6bG8dfHW9S4onZTEeWqHFT_sqpbpjJTSYZpOXZA+BsKQOq3Q@mail.gmail.com>
-X-Enigmail-Version: 1.4.1
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/2] bitbake.conf: gracefully work with ccache environment variables
+To: <openembedded-core@lists.openembedded.org>
+References: <1336065154-8513-1-git-send-email-rep.dot.nop@gmail.com>
+	<4FA8611B.8060609@intel.com> <20120508020738.46574fa5@wrlaptop>
+In-Reply-To: <20120508020738.46574fa5@wrlaptop>
+Subject: Re: [PATCH 1/6] runqemu: Use OE_TMPDIR
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,81 +37,101 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 May 2012 22:34:27 -0000
-Content-Type: text/plain; charset="ISO-8859-1"
+X-List-Received-Date: Mon, 14 May 2012 22:44:43 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 05/14/2012 05:00 PM, Marko Lindqvist wrote:
-> As you can see from my answer to last part I quote, I'm not against
-> your patch, so don't read first parts of this email with that mindset.
-> They are more generic discussion about ccache caches.
-
-
-No worries.
-
-> 
-> On 14 May 2012 23:58, Jason Wessel <jason.wessel@windriver.com> wrote:
+On 5/8/12 2:07 AM, Peter Seebach wrote:
+> On Mon, 7 May 2012 16:56:11 -0700
+> Scott Garman<scott.a.garman@intel.com>  wrote:
+>
+>>    From what I can tell, the =~ regex operator is a bashism. It's also
+>> one that helps a lot with the code readability. So now that we're
+>> faced with re-writing the script to avoid using that operator, I'm
+>> having second thoughts about whether the runqemu script really needs
+>> to be shell-agnostic. The alternative of invoking grep or other
+>> commands to process the name patterns does not appeal to me.
 >>
->> This is only an issue if the compiler has changed.  In my case it is
->> not changing, or at least it should be the same each time.
-> 
->  Several years back ccache detected if compiler is the same by binary
-> size and timestamp, so compiler rebuild (with new timestamp) resulted
-> contents of the cache getting invalidated. They talked about changing
-> it to check md5sum of the compiler binary instead, but I haven't
-> followed if that's implemented already.
-
-
-I am not exactly sure if ccache is invaliding based on the compiler or
-not.  It is entirely possible the cache is completely invalid for that
-case.  For my local use case this is not an issue because the compiler
-is _always_ use the same pre-built version.
-
-A modern ccache does have some extra configuration for doing "wild"
-things like relative locations (from ccache docs see CCACHE_BASEDIR)
-where you can literally share the cache across multiple build
-directories.  I have no idea if this feature actually works though.  I
-tend to only use basic features of the ccache and build in the same
-set of directories every time.
-
+>> I can understand why we're trying to ensure our build system doesn't
+>> require /bin/sh to be bash, but I think support scripts like runqemu
+>> might be a special case.
 >>
->> Right now with the external ccache my kernel compiles alone go from >
->> 6 min down to < 30 seconds, so there is a definite desire on my side
->> to have this work.
-> 
->  Yes, I just wanted to make sure it works best way possible in every
-> possible use-case.
-> 
->  Optimal results would come from using external (what I refer here as
-> my "normal" cache) cache for anything outside OpenEmbedded scope, and
-> for initial cross-compiler builds of OpenEmbedded (as that is done
-> with external compiler that will remain the same even when one does
-> complete rebuild), and second ("internal") cache for the rest of
-> OpenEmbedded build. Contents of latter gets invalid when one does full
-> rebuild, so it can be removed before one.
->  I don't know, but assume that it would be a bit hard to select
-> correct one from two caches in OpenEmbedded builds (external one for
-> some builds, internal for others) so optimal realistic setup is that
-> user's normal external cache is not used at all inside OpenEmbedded.
-> Now, if user wants to override cache location (and thus create what
-> one may consider "external" cache) he should be allowed to do so, but
-> thing here is that the cache one uses normally does not get polluted
-> accidentally.
+>> What do other people in the community think of this? The runqemu
+>> script isn't trivial, and it has to run in a lot of different
+>> contexts. Should we put the time in to make it shell-agnostic, or
+>> allow it to require bash?
+>
+> Hmm.  I am honestly not a big fan of the =~, simply because I almost
+> never remember it, and I can never think whether it's like perl's ~=
+> or Lua's ~=.  (One is "matches", the other is "is not".)
+
+It's actually worse then =~ is a bashism, it's a specific version of bash.  I'm 
+using bash as my shell, and it simply doesn't work my system.
+
+The following works for me:
+
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -300,14 +300,16 @@ findimage() {
+      # recently created one is the one we most likely want to boot.
+      filenames=`ls -t $where/*-image*$machine.$extension 2>/dev/null | xargs`
+      for name in $filenames; do
+-        if [ "$name" =~ core-image-sato-sdk -o \
+-              "$name" =~ core-image-sato     -o \
+-              "$name" =~ core-image-lsb      -o \
+-              "$name" =~ core-image-basic    -o \
+-              "$name" =~ core-image-minimal ]; then
++       case $name in
++          *core-image-sato-sdk* | \
++          *core-image-sato* | \
++          *core-image-lsb* | \
++          *core-image-basic* | \
++          *core-image-minimal*)
+              ROOTFS=$name
+              return
+-        fi
++           ;;
++       esac
+      done
+
+      echo "Couldn't find a $machine rootfs image in $where."
 
 
-It appears that the default way the ccache is setup, it is already
-doing the right thing, meaning the defaults for bitbake are fine.
+> I tend to write stuff like this as
+>
+> case $name in
+> *pat1* | *pat2* | ... )
+>    # code goes here
+>    ;;
+> esac
+>
+> because that's the natural shell idiom.  It can't do full regex
+> processing, but we really don't need that here; we just want an
+> unanchored pattern match.  (And I'm not even sure we *want* a
+> fully-unanchored match.)  I think the bash [[ ]] thing is one of the
+> kshisms, but "bash or ksh" is not much better.  :P
+>
+>  From a maintenance standpoint, I like the case construct better
+> than [[]].  My interest in reading the bash man page to figure out what
+> some unfamiliar bit of punctuation means this week has declined over
+> the years.
 
-For me, there are two basic cases.
+I agree, besides the =~ doesn't work at all of me..
 
- 1) create a "project" directory make a ccache dir in there and then
-    set CCACHE_DIR in the local.conf
- 2) Use an external shared directory for the ccache with a deeper
-    than the default hash and size
+[mhatle@msp-mhatle-lx2 build-ia32-4]$ bash --version
+GNU bash, version 4.1.7(1)-release (x86_64-redhat-linux-gnu)
+Copyright (C) 2009 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
 
-Both these configurations greatly speed up the incremental rebuilds
-and build from scratch cases.
+This is free software; you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
 
-Jason.
+that is on FC-13.  (ya, I know it's old.. but it's intentional we support older 
+machines.)
+
+--Mark
+
+> -s
+
 
 
