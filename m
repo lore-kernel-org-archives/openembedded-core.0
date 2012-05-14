@@ -1,21 +1,21 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Sen.Zhang@windriver.com>) id 1STtAE-0005YC-IL
+	(envelope-from <Sen.Zhang@windriver.com>) id 1STtJJ-0007w2-P0
 	for openembedded-core@lists.openembedded.org;
-	Mon, 14 May 2012 13:10:06 +0200
+	Mon, 14 May 2012 13:19:30 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q4E9bohp000942
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q4E7X4nW001401
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 May 2012 02:37:51 -0700 (PDT)
-Received: from jesse-workmachine.corp.ad.wrs.com (128.224.162.230) by
+	Mon, 14 May 2012 00:33:04 -0700 (PDT)
+Received: from usp-fedora16-x86.corp.ad.wrs.com (128.224.162.25) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.1.255.0; Mon, 14 May 2012 02:37:50 -0700
+	14.1.255.0; Mon, 14 May 2012 00:33:03 -0700
 From: Jesse Zhang <sen.zhang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 14 May 2012 17:35:59 +0800
-Message-ID: <1336988159-18432-1-git-send-email-sen.zhang@windriver.com>
-X-Mailer: git-send-email 1.7.7
+Date: Mon, 14 May 2012 15:26:23 +0800
+Message-ID: <1336980383-11201-1-git-send-email-sen.zhang@windriver.com>
+X-Mailer: git-send-email 1.7.7.6
 MIME-Version: 1.0
 Cc: Zhenfeng.Zhao@windriver.com
 Subject: [PATCH] wpa-supplicant: don't reset ${S}
@@ -33,7 +33,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 May 2012 11:10:06 -0000
+X-List-Received-Date: Mon, 14 May 2012 11:19:30 -0000
 Content-Type: text/plain
 
 If ${S} is set to the subdir wpa_supplicant, patches with changes in
@@ -42,9 +42,6 @@ the normal way.
 
 Signed-off-by: Jesse Zhang <sen.zhang@windriver.com>
 ---
-
-[Resending. The last copy didn't appear after two hours. Sorry for the
-inconvenience.]
 
 I was adding a patch to wpa-supplicant using bbappend in our layer, but it was
 impossible since ${S} was overridden and set to a subdir in the unpacked
