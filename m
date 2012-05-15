@@ -1,29 +1,38 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail-pb0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1SU4dj-0005z5-UY
+	(envelope-from <darren@apps.dvhart.com>) id 1SU5VC-0006wF-9f
 	for openembedded-core@lists.openembedded.org;
-	Tue, 15 May 2012 01:25:20 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q4ENFKl2015086
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 15 May 2012 02:20:34 +0200
+Received: by pbbrq2 with SMTP id rq2so5997243pbb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 May 2012 16:15:20 -0700 (PDT)
-Received: from msp-dhcp25.wrs.com (172.25.34.25) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Mon, 14 May 2012 16:15:19 -0700
-Message-ID: <4FB19206.60603@windriver.com>
-Date: Mon, 14 May 2012 18:15:18 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
-	rv:12.0) Gecko/20120428 Thunderbird/12.0.1
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1336065154-8513-1-git-send-email-rep.dot.nop@gmail.com>
-	<4FA8611B.8060609@intel.com>
-	<CAF6bG8dN1ZF_khQQirs1OysQP1BUiESrTqT3ucn9YexKN1WvXw@mail.gmail.com>
-In-Reply-To: <CAF6bG8dN1ZF_khQQirs1OysQP1BUiESrTqT3ucn9YexKN1WvXw@mail.gmail.com>
-Subject: Re: [PATCH 1/6] runqemu: Use OE_TMPDIR
+	Mon, 14 May 2012 17:10:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=sender:from:to:cc:subject:date:message-id:x-mailer
+	:x-gm-message-state;
+	bh=PG+kEQOH90oHspyid1CxuDBsIzqQsmHOxU67+LMfTG8=;
+	b=emMJSx7jld8SW5GNWBcQQrMCw4MaoslnO7JJutC7LG+pvb0VsgI7JmSTFyT0N+Jnir
+	/IvZ+WWLn5eAbwsIJ/99+K49biCJQTL7CMQ5h4QStn3LUuZh/TBRz+z1H3srSGjeUKW8
+	h2x2+njM5/r6g5Jnt8icVM3Qrql9ODrFXRtNcAlcXnLpSJ4CqFn6NUcnu6II4yGSqpl4
+	KPQYrHg9S8iXJG27w/wmCj5wKUGjNNkbLwTIi2n1vtUQcxDbVqb+38nBWYN6v6W2os/f
+	drwThHjJmyUS5XMsPc8/yOI4jkGbfc0ogTE6/GXLJhHtOGa5dMvGYjDNROvvG/3wgfmC
+	cilA==
+Received: by 10.68.227.227 with SMTP id sd3mr27343224pbc.53.1337040633894;
+	Mon, 14 May 2012 17:10:33 -0700 (PDT)
+Received: from localhost (static-50-53-99-101.bvtn.or.frontiernet.net.
+	[50.53.99.101])
+	by mx.google.com with ESMTPS id rv5sm9056351pbc.56.2012.05.14.17.10.33
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 14 May 2012 17:10:33 -0700 (PDT)
+Sender: Darren Hart <darren@apps.dvhart.com>
+From: Darren Hart <dvhart@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 14 May 2012 17:10:25 -0700
+Message-Id: <cover.1337040537.git.dvhart@linux.intel.com>
+X-Mailer: git-send-email 1.7.5.4
+X-Gm-Message-State: ALoCoQnxbnOfTMmzbdJp3wkSjj5EDzZ2Z0a0JHh1owreANZMGS8e0ftAvU8uzheobli+g79Z0rUf
+Cc: Darren Hart <dvhart@linux.intel.com>
+Subject: [PATCH 0/1] ofono: Add python-pygobject to ofono-tests package DEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,40 +47,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 May 2012 23:25:20 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 15 May 2012 00:20:34 -0000
 
-On 5/14/12 5:51 PM, Marko Lindqvist wrote:
-> On 8 May 2012 02:56, Scott Garman<scott.a.garman@intel.com>  wrote:
->>
->> I can understand why we're trying to ensure our build system doesn't require
->> /bin/sh to be bash, but I think support scripts like runqemu might be a
->> special case.
->>
->> What do other people in the community think of this? The runqemu script
->> isn't trivial, and it has to run in a lot of different contexts. Should we
->> put the time in to make it shell-agnostic, or allow it to require bash?
->
->   1) Do not require /bin/sh to be bash
->   2) It's ok, and for "right tool for the job" -reasons often prefered,
-> to require that development machine has also bash installed.
->
->   So I'm happy with how runqemu currently has #!/bin/bash shebang. It
-> requires bash to be present, but not necessarily as /bin/sh
+The following changes since commit 36d1717e2ad4ca1620ee9f01b524b5ff2f499b26:
 
-I don't mind it using bash as long as it has bash-isms.  Note, the recent =~ 
-stuff didn't work on my machine, even with bash.
+  classes/rootfs_*: fix splitting package dependency strings (2012-05-13 20:07:24 +0100)
 
---Mark
+are available in the git repository at:
+  git://git.yoctoproject.org/user-contrib/dvhart/oe-core dvhart/misc
+  http://git.yoctoproject.org/cgit.cgi/user-contrib/dvhart/oe-core/log/?h=dvhart/misc
 
->
->   - ML
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+Darren Hart (1):
+  ofono: Add python-pygobject to ofono-tests package DEPENDS
+
+ meta/recipes-connectivity/ofono/ofono.inc |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+-- 
+1.7.5.4
 
 
 
