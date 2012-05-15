@@ -1,32 +1,26 @@
-Received: from mail-yw0-f47.google.com ([209.85.213.47])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <cazfi74@gmail.com>) id 1SUHiY-0004lZ-DG
-	for openembedded-core@lists.openembedded.org;
-	Tue, 15 May 2012 15:23:10 +0200
-Received: by yhjj56 with SMTP id j56so5550670yhj.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 May 2012 06:13:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type; bh=Bu54NL4PHeSX1umwxpoF+JpqYjzuOG21p2x63zI20hg=;
-	b=Jwmm1sMU0wBmL8WhYiI2RSjjLGeuw/b22+M6Y4LlKSIlt28OKT6PxfEsS5QMcFQQ+0
-	/6PkJLCxe931/0XAt+o9Uft0dlroNC/BwXoq5m1Fu4IbUBk/gDrD4/6TswWJ+vR3Fdqv
-	z6ZexAn8yOpvS9e6LZdfjGS34snVXourl4CzrBqbFAWYNv3tGDGloJOSzuvTvSzfCrNb
-	wd9vixZ3xNMYB6geO/dMch6Eo2EFCWHHeo6XYAy/fzVuvmU3CgDeHCOCBwN1YNZde7Nq
-	t2oOxIDNtn5qY8HP9bGVakDjXiEkLRbzUyczPyaIQRuHh7S6dC5vvigkX0rlkR5i3kIk
-	SxRA==
-MIME-Version: 1.0
-Received: by 10.50.100.226 with SMTP id fb2mr5456575igb.31.1337087589668; Tue,
-	15 May 2012 06:13:09 -0700 (PDT)
-Received: by 10.64.59.130 with HTTP; Tue, 15 May 2012 06:13:09 -0700 (PDT)
-In-Reply-To: <20120515130625.GD3166@jama.jama.net>
+	(envelope-from <paul.eggleton@linux.intel.com>)
+	id 1SUIDt-0008EG-Uh; Tue, 15 May 2012 15:55:34 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 15 May 2012 06:45:32 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="153182159"
+Received: from unknown (HELO helios.localnet) ([10.252.120.119])
+	by fmsmga001.fm.intel.com with ESMTP; 15 May 2012 06:45:31 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Giuseppe Condorelli <giuseppe.condorelli@gmail.com>
+Date: Tue, 15 May 2012 14:45:30 +0100
+Message-ID: <7192456.4O7Cf6LSyd@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.8.2 (Linux/3.0.0-19-generic-pae; KDE/4.8.2; i686; ; )
+In-Reply-To: <CAOHjBZv+ox9dJh+g1rjFqqnYvcQvLuRboV8ANZssKXTv0NSO7Q@mail.gmail.com>
 References: <CAOHjBZto_R5S777po-K8mXG-Z9XLYNVzE05-kq_TOCeo4YgyoQ@mail.gmail.com>
-	<20120515130625.GD3166@jama.jama.net>
-Date: Tue, 15 May 2012 16:13:09 +0300
-Message-ID: <CAF6bG8fj59QFg7QqZjOoGBCPwg-D=Ba-wLsGU38X8+n83tZUZQ@mail.gmail.com>
-From: Marko Lindqvist <cazfi74@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
+	<4FB25A88.3000100@mlbassoc.com>
+	<CAOHjBZv+ox9dJh+g1rjFqqnYvcQvLuRboV8ANZssKXTv0NSO7Q@mail.gmail.com>
+MIME-Version: 1.0
+Cc: openembedded-devel@lists.openembedded.org,
+	openembedded-core@lists.openembedded.org
 Subject: Re: [oe] Packages broken URL
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -42,28 +36,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 May 2012 13:23:10 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 15 May 2012 13:55:34 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On 15 May 2012 16:06, Martin Jansa <martin.jansa@gmail.com> wrote:
-> On Tue, May 15, 2012 at 03:02:37PM +0200, Giuseppe Condorelli wrote:
->> Hi All,
+On Tuesday 15 May 2012 15:36:37 Giuseppe Condorelli wrote:
+>On Tuesday 15 May 2012 07:30:48 Gary Thomas wrote:
+>> On 2012-05-15 07:19, Giuseppe Condorelli wrote:
+>> > For example building git-1.7.7 fails fetching the source.
 >>
->> there are a number of packages having a broken SRC_URI, for example git.
->> Has someone met this issue?
->> For sure we can correct those links adding a dedicated .bbappend file for
->> each failing package but
->> I think we could also update the main package fixing the errors.
+>> Works fine for me:
+>> ...
 >
-> This should go to oe-core ML:
-> openembedded-core@lists.openembedded.org
->
-> And yes it should be fixed in original recipe.
+> That's right, but why the git.inc contains a undownloadable url?
 
- Is there some way to disable automatic MIRROR usage that one could
-use to find out all source fetching problems?
+This should probably be fixed by moving the SRC_URI from the .bb to the .inc, 
+yes.
 
+> This can create a mistake in my opinion.
 
- - ML
+Only if you create your own recipe that uses git.inc but doesn't set its own 
+SRC_URI; the current 1.7.7 recipe does set one.
+
+Cheers,
+Paul
+
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
