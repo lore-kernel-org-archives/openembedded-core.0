@@ -1,36 +1,24 @@
-Received: from mail-wi0-f171.google.com ([209.85.212.171])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1SUMfG-0002xb-M9
+	(envelope-from <Peter.Seebach@windriver.com>) id 1SUN9U-0003eu-5L
 	for openembedded-core@lists.openembedded.org;
-	Tue, 15 May 2012 20:40:06 +0200
-Received: by wibhm14 with SMTP id hm14so4212679wib.6
+	Tue, 15 May 2012 21:11:20 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q4FJ1JfR027542
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 May 2012 11:30:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date
-	:x-google-sender-auth:message-id:subject:to:content-type
-	:content-transfer-encoding;
-	bh=aWUv718iopKxw/gr1RqeldoMJPobQqVnhEjSlVzgNN4=;
-	b=Brv4Y/dYNHc+JQiunZtYq8aH/P9r+94jfFHgDy5XgpLbKzZoD++H19K3A4IoBfsTLb
-	wQi/ZzN8Vxg57Sp/Gzcaaq1ceqY1dUHEHsXClxzopDQF1rj2OEjCXiYVast5i+Sncg2x
-	WAIMZ82NtoXtZgmFORPJAv4I8o0WwiJ3VQ9inXz5YxQPBV7JcOOAeGvYu3PXd3mEKl+b
-	Sx++GJ1EoysKXnC1U0C9UFZmel077OhA3QgACDNbG26BIQBMzfy1u9nyXRWGC5jpxDow
-	LIYolKXtNZGtmifr2hhT7lrYNTNf06fK55ypiYr1uI7y3aOSle9AEW2Bx8YNAnfI05ig
-	In3Q==
-Received: by 10.216.54.206 with SMTP id i56mr22932wec.28.1337106606288; Tue,
-	15 May 2012 11:30:06 -0700 (PDT)
+	Tue, 15 May 2012 12:01:19 -0700 (PDT)
+Received: from wrlaptop (172.25.40.226) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Tue, 15 May 2012 12:01:18 -0700
+Date: Tue, 15 May 2012 14:01:10 -0500
+From: Peter Seebach <peter.seebach@windriver.com>
+To: "openembedded-core@"
+	<lists.openembedded.org.openembedded-core@lists.openembedded.org>
+Message-ID: <20120515140110.2ba5a1be@wrlaptop>
+X-Mailer: Claws Mail 3.7.8 (GTK+ 2.24.4; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.216.181.16 with HTTP; Tue, 15 May 2012 11:29:45 -0700 (PDT)
-In-Reply-To: <cover.1337105658.git.peter.seebach@windriver.com>
-References: <cover.1337105658.git.peter.seebach@windriver.com>
-From: Chris Larson <clarson@kergoth.com>
-Date: Tue, 15 May 2012 11:29:45 -0700
-X-Google-Sender-Auth: Wkqhzyb0NwfSVqDxTXTQDsNr1oo
-Message-ID: <CABcZANnW5LRmadpRqwWpJd-_n=t6vMV-shJJdX4CUaokZ95Emg@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/2] tcmode-external-csl: Allow overriding some key values
+Subject: RFC: FOO_subtract, the logical antidote to FOO_append.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,24 +33,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 May 2012 18:40:06 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 15 May 2012 19:11:20 -0000
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
 
-On Tue, May 15, 2012 at 11:16 AM, Peter Seebach
-<peter.seebach@windriver.com> wrote:
-> This tiny little set of ?=3D changes lets me use a different CS binary
-> toolchain than the one being supported by the external-csl feature by
-> default, allowing us to share more code.
->
-> Also I improved an error message. =C2=A0(Side note: =C2=A0Sorry if it's s=
-pammy
-> to have a separate patch for it, but I couldn't convince myself that thes=
-e
-> two changes were doing the same thing.)
+There's a few cases where something is a huge list of space-separated
+things, and it is desireable to remove one.  The example currently
+afflicting me is DISTRO_FEATURES_LIBC_DEFAULT; I want to end up with
+the distro features including all but one of the words in it.
 
-Looks good, thanks.
---=20
-Christopher Larson
+It seems to me that a counterpart to _append would make sense.  Here
+is my basic idea:
+
+FOO_subtract = "..."
+
+means that, when you expand FOO:
+
+1. Fully expand it.
+2. Fully expand FOO_subtract.
+3. Remove any words in FOO_subtract from FOO.
+4. Yield the result.
+
+The rationale is that the semantics of things where we're using _append
+seem to be consistently of the form "this is a space-separated set",
+and being able to remove things from a set would be Super Handy.
+
+So I'm proposing the semantics for consideration, and if people like
+them, I will go try to implement it in my Copious Free Time.
+
+-s
+-- 
+Listen, get this.  Nobody with a good compiler needs to be justified.
 
 
