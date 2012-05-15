@@ -1,25 +1,28 @@
-Received: from mail.kernelconcepts.de ([212.60.202.196])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <florian.boor@kernelconcepts.de>)
-	id 1SUPXT-0000Fw-DD; Tue, 15 May 2012 23:44:15 +0200
-Received: from [77.9.74.237] (helo=[192.168.1.184])
-	by mail.kernelconcepts.de with esmtpsa
-	(TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32) (Exim 4.72)
-	(envelope-from <florian.boor@kernelconcepts.de>)
-	id 1SUQBd-0001pu-Gt; Wed, 16 May 2012 00:25:45 +0200
-Message-ID: <4FB2CBD7.8070700@kernelconcepts.de>
-Date: Tue, 15 May 2012 23:34:15 +0200
-From: Florian Boor <florian.boor@kernelconcepts.de>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
+	(envelope-from <Peter.Seebach@windriver.com>) id 1SUQ0I-0002e3-U0
+	for openembedded-core@lists.openembedded.org;
+	Wed, 16 May 2012 00:14:03 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q4FM412d003754
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 15 May 2012 15:04:01 -0700 (PDT)
+Received: from wrlaptop (172.25.40.226) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Tue, 15 May 2012 15:04:00 -0700
+Date: Tue, 15 May 2012 17:03:51 -0500
+From: Peter Seebach <peter.seebach@windriver.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Message-ID: <20120515170351.22a3467d@wrlaptop>
+In-Reply-To: <20120515195914.GO29324@mx.loc>
+References: <1336065154-8513-1-git-send-email-rep.dot.nop@gmail.com>
+	<1336065154-8513-2-git-send-email-rep.dot.nop@gmail.com>
+	<4FA859E5.4080609@linux.intel.com> <20120515195914.GO29324@mx.loc>
+X-Mailer: Claws Mail 3.7.8 (GTK+ 2.24.4; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-To: openembedded-devel@lists.openembedded.org
-References: <4FAC361D.60609@balister.org>
-In-Reply-To: <4FAC361D.60609@balister.org>
-X-Enigmail-Version: 1.5pre
-Cc: openembedded-members@lists.openembedded.org,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [oe] Fwd: Linuxtag 2012
+Subject: Re: [PATCH 2/6] runqemu: use modern, single-char name of test(1)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,38 +37,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 May 2012 21:44:15 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Tue, 15 May 2012 22:14:03 -0000
+Content-Type: text/plain; charset="US-ASCII"
 Content-Transfer-Encoding: 7bit
 
-Hi all,
+On Tue, 15 May 2012 21:59:15 +0200
+Bernhard Reutner-Fischer <rep.dot.nop@gmail.com> wrote:
 
-Am 10.05.2012 23:41, schrieb Philip Balister:
-> I encourage anyone involved in OpenEmbedded who can get to Linuxtag for
-> even a day to help it. It is a really fun time, and Berlin is a really
-> nice place to visit.
+> Really that whole name hardcoding is plain stupid and over-engineered.
+> If the darn image exists then, heck, just use it.
 
-unluckily there was not much of feedback so far :-(
-We have a deadline for ordering exhibitor passes ending tomorrow 6pm. It makes
-sense to have a two or three of us with these in order to be able to enter the
-buildings before the visitors.
+This may not be a bad idea, but it's a larger change than I wanted to
+make, which is why I didn't change the effect as a whole in the
+proposed patch.
 
-> We encourage people to bring devices that are made with OpenEmbedded and
-> related technology to show off at the stand.
-
-I want to emphasize this one more time. It is very unlikely that I will be able
-to make it there and if I do not get a few people together who will man the
-booth I will have to cancel our presence there :-(.
-
-Greetings
-
-Florian
-
+-s
 -- 
-The dream of yesterday                  Florian Boor
-is the hope of today                    Tel: +49 271-771091-15
-and the reality of tomorrow.            Fax: +49 271-771091-19
-[Robert Hutchings Goddard, 1904]        florian.boor@kernelconcepts.de
-                                        http://www.kernelconcepts.de/en
+Listen, get this.  Nobody with a good compiler needs to be justified.
 
 
