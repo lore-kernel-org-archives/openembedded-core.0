@@ -1,36 +1,34 @@
 Received: from mail-ey0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1SUOwV-0007VA-BT
+	(envelope-from <raj.khem@gmail.com>) id 1SUOyw-0000CN-H9
 	for openembedded-core@lists.openembedded.org;
-	Tue, 15 May 2012 23:06:09 +0200
-Received: by eaal1 with SMTP id l1so5125eaa.6
+	Tue, 15 May 2012 23:08:34 +0200
+Received: by eaal1 with SMTP id l1so5582eaa.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 May 2012 13:56:03 -0700 (PDT)
+	Tue, 15 May 2012 13:58:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type; bh=jN0V57Fd9qrs5QA5H7t5kjYY2hFKYLcXwe1ITvVYDe8=;
-	b=NQNBZ8O9Ahw8nOQMDzPfW/8r7OxbOT012bC14R58AbC6FM//Dm2c05Y0VExuMGpHp+
-	gWM21Iy8cyhTn09eWV00wcvysUQdUQPBgecQYPSxUMdXGXKykzsFETtjTUQNc5z9AsYb
-	0ub2gCo7nr04WfDOCrWFTPykcTfuMlG4ScD50qDwD2zQg0vCpyPS50fN3gSYxHWdR30T
-	kjQUB4EIXdzMlujsvBgMrfWUldQTvKRJNybZrT+tWXHP/zGd6ljyjb5Z9e4IlAJrRvcJ
-	Mk/VI5uZYxi7uxWyvwe2BbCe6JoPhYWVgp869HpMVjIKvwYQP49PFJGiIoos0JfF8LY/
-	QBVg==
-Received: by 10.213.20.200 with SMTP id g8mr852447ebb.103.1337115363077; Tue,
-	15 May 2012 13:56:03 -0700 (PDT)
+	:content-type; bh=58G34mXJZtm0L+MZHbpw9kLFcuMmC3JnTjJ9SOgaM3U=;
+	b=k3PokTl/eaLB97EgwbVfYHnEGOEzP8PPusA0FzCz/63IBXrrgQRVXnjLQCCYgytFyl
+	jKyKpOkdUiuTcc0ptb42HWXRC3XkDcZwBcuHx9xmgM/Sm5gzfoVd/6ldKVfHOmE5UdtK
+	GPTVY+CJlIUtPGOEdPmwMhfzJHwihbIUFAdaGsdpyRn3eXT8Xh62deIvMEi5WyGkrH2Z
+	y7K1gBpff7H70ZbU5dDQ+yHQelIKm7R6Z/8QXjQfjyPMmW0v949dFjrZTADnNTSRo1Th
+	NDIS/JsVYPTo2rQHWTORvigga3KZPDjjkzOdhvmFZBwawY98PDbrWtupwGou2ilUQYIE
+	V/Uw==
+Received: by 10.213.20.200 with SMTP id g8mr853545ebb.103.1337115514271; Tue,
+	15 May 2012 13:58:34 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.14.2.132 with HTTP; Tue, 15 May 2012 13:55:32 -0700 (PDT)
-In-Reply-To: <1337104514.2711.45.camel@ted>
-References: <cover.1337003246.git.otavio@ossystems.com.br>
-	<f1b02094a00615abfdee28e820c70e50c2ca9471.1337003246.git.otavio@ossystems.com.br>
-	<FD8F6943-F6C7-4588-B5F6-BAA1BE723FF9@dominion.thruhere.net>
-	<CAP9ODKqS16XxB0pSXdf7RONbRCagQL=9B=ia44vjDDFwneOY4w@mail.gmail.com>
-	<1337104514.2711.45.camel@ted>
+Received: by 10.14.2.132 with HTTP; Tue, 15 May 2012 13:58:04 -0700 (PDT)
+In-Reply-To: <20120515195914.GO29324@mx.loc>
+References: <1336065154-8513-1-git-send-email-rep.dot.nop@gmail.com>
+	<1336065154-8513-2-git-send-email-rep.dot.nop@gmail.com>
+	<4FA859E5.4080609@linux.intel.com> <20120515195914.GO29324@mx.loc>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 15 May 2012 13:55:32 -0700
-Message-ID: <CAMKF1spONAWa-N3=OK9fF9-+yuvKizoxfWEO_xQwZVZUUvZ17Q@mail.gmail.com>
+Date: Tue, 15 May 2012 13:58:04 -0700
+Message-ID: <CAMKF1srqMwmv5aT+mm1zs3q8JoWVocJt5XEwWEnx5TVd=ngQaA@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] kmod: fix installation path of pkgconfig files
+Subject: Re: [PATCH 2/6] runqemu: use modern, single-char name of test(1)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,18 +43,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 May 2012 21:06:17 -0000
+X-List-Received-Date: Tue, 15 May 2012 21:08:34 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Tue, May 15, 2012 at 10:55 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
+On Tue, May 15, 2012 at 12:59 PM, Bernhard Reutner-Fischer
+<rep.dot.nop@gmail.com> wrote:
 >
-> I've heard requests from people that / be bootable with /usr being
-> mounted later. For something like kmod, there is therefore a case for
-> putting the library in base_libdir, not libdir. Not doing so sounds like
-> a bit of a cop-out from the maintainers.
+> Any sane way out of that mess?
 
-I think this should not be made so mandatory in OE-Core IMO since none of modern
-systems would do something like that.
+there is a patch to fix it differently on ml.
 
 
