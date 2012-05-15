@@ -1,27 +1,36 @@
-Received: from mga01.intel.com ([192.55.52.88])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>)
-	id 1SUIDt-0008EG-Uh; Tue, 15 May 2012 15:55:34 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 15 May 2012 06:45:32 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="153182159"
-Received: from unknown (HELO helios.localnet) ([10.252.120.119])
-	by fmsmga001.fm.intel.com with ESMTP; 15 May 2012 06:45:31 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Giuseppe Condorelli <giuseppe.condorelli@gmail.com>
-Date: Tue, 15 May 2012 14:45:30 +0100
-Message-ID: <7192456.4O7Cf6LSyd@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.8.2 (Linux/3.0.0-19-generic-pae; KDE/4.8.2; i686; ; )
-In-Reply-To: <CAOHjBZv+ox9dJh+g1rjFqqnYvcQvLuRboV8ANZssKXTv0NSO7Q@mail.gmail.com>
-References: <CAOHjBZto_R5S777po-K8mXG-Z9XLYNVzE05-kq_TOCeo4YgyoQ@mail.gmail.com>
-	<4FB25A88.3000100@mlbassoc.com>
-	<CAOHjBZv+ox9dJh+g1rjFqqnYvcQvLuRboV8ANZssKXTv0NSO7Q@mail.gmail.com>
-MIME-Version: 1.0
-Cc: openembedded-devel@lists.openembedded.org,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [oe] Packages broken URL
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1SUM7e-0007TH-Sa for openembedded-core@lists.openembedded.org;
+	Tue, 15 May 2012 20:05:23 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q4FHtOKm009690
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 15 May 2012 18:55:24 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 08389-10 for <openembedded-core@lists.openembedded.org>;
+	Tue, 15 May 2012 18:55:19 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q4FHtGDS009684
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 15 May 2012 18:55:18 +0100
+Message-ID: <1337104514.2711.45.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Tue, 15 May 2012 18:55:14 +0100
+In-Reply-To: <CAP9ODKqS16XxB0pSXdf7RONbRCagQL=9B=ia44vjDDFwneOY4w@mail.gmail.com>
+References: <cover.1337003246.git.otavio@ossystems.com.br>
+	<f1b02094a00615abfdee28e820c70e50c2ca9471.1337003246.git.otavio@ossystems.com.br>
+	<FD8F6943-F6C7-4588-B5F6-BAA1BE723FF9@dominion.thruhere.net>
+	<CAP9ODKqS16XxB0pSXdf7RONbRCagQL=9B=ia44vjDDFwneOY4w@mail.gmail.com>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH 1/1] kmod: fix installation path of pkgconfig files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,34 +45,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 May 2012 13:55:34 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 15 May 2012 18:05:23 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Tuesday 15 May 2012 15:36:37 Giuseppe Condorelli wrote:
->On Tuesday 15 May 2012 07:30:48 Gary Thomas wrote:
->> On 2012-05-15 07:19, Giuseppe Condorelli wrote:
->> > For example building git-1.7.7 fails fetching the source.
->>
->> Works fine for me:
->> ...
->
-> That's right, but why the git.inc contains a undownloadable url?
+On Mon, 2012-05-14 at 12:24 -0300, Otavio Salvador wrote:
+> On Mon, May 14, 2012 at 11:06 AM, Koen Kooi <koen@dominion.thruhere.net> wrote:
+> >
+> > Op 14 mei 2012, om 15:47 heeft Otavio Salvador het volgende geschreven:
+> >
+> >> The pkgconfig files need to be installed in ${libdir} instead of
+> >> ${base_libdir}.
+> >
+> > Thanks for the patch, I was working on something similar :) I talked
+> with the kmod and udev people and they asked why we want kmod libs
+> in /lib instead of /usr/lib. I didn't have an answer to that, does
+> anyone else have a decent one? If not, let's not mess with $prefix and
+> remove all the do_install changes.
+> 
+> OE-Core try to allow the use of /usr in a separated partition so it
+> seems it is a requirement for it to work in initrdless systems.
 
-This should probably be fixed by moving the SRC_URI from the .bb to the .inc, 
-yes.
-
-> This can create a mistake in my opinion.
-
-Only if you create your own recipe that uses git.inc but doesn't set its own 
-SRC_URI; the current 1.7.7 recipe does set one.
+I've heard requests from people that / be bootable with /usr being
+mounted later. For something like kmod, there is therefore a case for
+putting the library in base_libdir, not libdir. Not doing so sounds like
+a bit of a cop-out from the maintainers.
 
 Cheers,
-Paul
 
--- 
+Richard
 
-Paul Eggleton
-Intel Open Source Technology Centre
+
 
 
