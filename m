@@ -1,43 +1,35 @@
-Received: from mail-wi0-f169.google.com ([209.85.212.169])
+Received: from mail-gg0-f175.google.com ([209.85.161.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rep.dot.nop@gmail.com>) id 1SUO3Z-0001mx-Q0
+	(envelope-from <otavio.salvador@gmail.com>) id 1SUOgk-000412-Hp
 	for openembedded-core@lists.openembedded.org;
-	Tue, 15 May 2012 22:09:17 +0200
-Received: by wibhn14 with SMTP id hn14so4572362wib.0
+	Tue, 15 May 2012 22:49:51 +0200
+Received: by ggnp4 with SMTP id p4so28517ggn.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 May 2012 12:59:17 -0700 (PDT)
+	Tue, 15 May 2012 13:39:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=nZmx6FHYC2UHXdnhqIwLtayTTzrGxmXigKb+C37XfnI=;
-	b=FsbTVDKvQk2aflmVFsVEX+abmuQdZNhzNiF01G2Rega8Vv6ej5adcl5FHfe/91k906
-	rRaelztAZ3Mfb9pR4VRVKUgHcLVN0X4GRAcAqdp48mLlEAH2yfdPXuMuX0i/k77YIYrV
-	ExVgb9Oc3C6EnHIbgAEmp8Kyks9De8U5psJmxzTNOKi9vv0eXXzLU/XA3+UO2NNfFkjc
-	/IwhIGKiirmwur9vT2l4CXG05tdkVB0RZvmOkkS5Z4TU11mKFsM8Kfzvg17F3os/dEAJ
-	H1GdZw/lQ2z+CJwtYNj4PsGelwrbIChOLS2yeRwhsmWRfNWR5tQrNVcUkezM4GhvlkcL
-	vZ4w==
-Received: by 10.216.135.223 with SMTP id u73mr102157wei.117.1337111957448;
-	Tue, 15 May 2012 12:59:17 -0700 (PDT)
-Received: from s42.loc (85-127-86-115.dynamic.xdsl-line.inode.at.
-	[85.127.86.115])
-	by mx.google.com with ESMTPS id j3sm624570wiw.1.2012.05.15.12.59.15
+	h=sender:from:to:subject:date:message-id:x-mailer:in-reply-to
+	:references; bh=OBVhTYER6+BbUyx/9jaPvM69OTOBpDD0pNeOyKD2Apo=;
+	b=Vkm9GKus1L2Qcwy+ohDHIR7frflAfWxKBzz5i8G3436qhShZMC/5BpBeMW732AjTE7
+	bSgdXdJgQNRbnXUi+Ow/fuDHXKuqs1Dyr+ssl5lawuQyemibgzUGTm3+3hEWMkMu43LL
+	acHw5CdncbSc2YNjTFPDPr5ASpnxVTCBQjSEi4z+1S0PEOtthClisPzXtIwKgEKXgGge
+	chfcbWlBssEbHwTF8OxLR81PFjv/2VzVYfAdYBcHwc70Y9h1LxggMpzic9eQYdOrWxWz
+	S442xhCmNLCrWjQANftMhbQEwyNEAfzQTk6/asEMVtYawF7dNi6gw7MxHRASAbMzRQDS
+	pHPQ==
+Received: by 10.236.73.99 with SMTP id u63mr406216yhd.102.1337114385534;
+	Tue, 15 May 2012 13:39:45 -0700 (PDT)
+Received: from localhost.localdomain ([186.218.100.214])
+	by mx.google.com with ESMTPS id t36sm561200anh.1.2012.05.15.13.39.44
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 15 May 2012 12:59:16 -0700 (PDT)
-Received: from cow by s42.loc with local (Exim 4.77)
-	(envelope-from <rep.dot.nop@gmail.com>)
-	id 1SUNtr-0006en-3h; Tue, 15 May 2012 21:59:15 +0200
-Date: Tue, 15 May 2012 21:59:15 +0200
-From: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20120515195914.GO29324@mx.loc>
-References: <1336065154-8513-1-git-send-email-rep.dot.nop@gmail.com>
-	<1336065154-8513-2-git-send-email-rep.dot.nop@gmail.com>
-	<4FA859E5.4080609@linux.intel.com>
-MIME-Version: 1.0
-In-Reply-To: <4FA859E5.4080609@linux.intel.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: [PATCH 2/6] runqemu: use modern, single-char name of test(1)
+	Tue, 15 May 2012 13:39:44 -0700 (PDT)
+Sender: Otavio Salvador <otavio.salvador@gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 15 May 2012 17:39:31 -0300
+Message-Id: <1a12675b146fbaf56ff3e9505885c5f9f4ecbd26.1337114347.git.otavio@ossystems.com.br>
+X-Mailer: git-send-email 1.7.2.5
+In-Reply-To: <cover.1337114347.git.otavio@ossystems.com.br>
+References: <cover.1337114347.git.otavio@ossystems.com.br>
+Subject: [PATCH 1/1] kmod: fix installation path of pkgconfig files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -52,63 +44,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 May 2012 20:09:17 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Tue, 15 May 2012 20:49:51 -0000
 
-On Mon, May 07, 2012 at 04:25:25PM -0700, Joshua Lock wrote:
->On 03/05/12 10:12, Bernhard Reutner-Fischer wrote:
->>@@ -313,11 +313,11 @@ findimage() {
->>      # recently created one is the one we most likely want to boot.
->>      filenames=`ls -t $where/*-image*$machine.$extension 2>/dev/null | xargs`
->>      for name in $filenames; do
->>-        if [[ "$name" =~ core-image-sato-sdk ||
->>-              "$name" =~ core-image-sato     ||
->>-              "$name" =~ core-image-lsb      ||
->>-              "$name" =~ core-image-basic    ||
->>-              "$name" =~ core-image-minimal ]]; then
->>+        if [ "$name" =~ core-image-sato-sdk -o \
->>+              "$name" =~ core-image-sato     -o \
->>+              "$name" =~ core-image-lsb      -o \
->>+              "$name" =~ core-image-basic    -o \
->>+              "$name" =~ core-image-minimal ]; then
->>              ROOTFS=$name
->>              return
->>          fi	
->
->This change broke findimage() for me on both bash and dash.
->Reproducer is 'runqemu qemux86'.
->
->Under bash I get:
->
->/srv/yocto/poky/scripts/runqemu: line 303: [: too many arguments
->
->Undoing this change fixes things for me. Note: this change doesn't
->revert cleanly.
->
->I've filed this as Yocto #2433:
->https://bugzilla.yoctoproject.org/show_bug.cgi?id=2433
->
->As an aside, when trying (unsuccessfully) to figure out a fix for
->this I ran across Ubuntu's page on dash[1] which indicates changing
->|| for -o isn't right. Anyone have a strong opinion on that?
+The pkgconfig files need to be installed in ${libdir} instead of
+${base_libdir}.
 
-just a weak. That whole style is utterly broken.
-case "$name" in
-core-image-sato-sdk*|blah)
-esac
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
+ meta/recipes-kernel/kmod/kmod_git.bb |   10 ++++++++--
+ 1 files changed, 8 insertions(+), 2 deletions(-)
 
-Really that whole name hardcoding is plain stupid and over-engineered.
-If the darn image exists then, heck, just use it.
+diff --git a/meta/recipes-kernel/kmod/kmod_git.bb b/meta/recipes-kernel/kmod/kmod_git.bb
+index d9c4d8b..11dfe57 100644
+--- a/meta/recipes-kernel/kmod/kmod_git.bb
++++ b/meta/recipes-kernel/kmod/kmod_git.bb
+@@ -3,7 +3,7 @@
+ 
+ require kmod.inc
+ 
+-PR = "${INC_PR}.1"
++PR = "${INC_PR}.2"
+ 
+ PROVIDES += "module-init-tools-insmod-static module-init-tools-depmod module-init-tools"
+ RPROVIDES_${PN} += "module-init-tools-insmod-static module-init-tools-depmod module-init-tools"
+@@ -16,7 +16,8 @@ RCONFLICTS_libkmod2 += "module-init-tools-insmod-static module-init-tools-depmod
+ # autotools set prefix to /usr, however we want them in /bin and /sbin
+ bindir = "${base_bindir}"
+ sbindir = "${base_sbindir}"
+-libdir = "${base_libdir}"
++
++EXTRA_OECONF += "--libdir=${base_libdir}"
+ 
+ do_install_append () {
+         install -dm755 ${D}${base_bindir}
+@@ -34,6 +35,10 @@ do_install_append () {
+ 
+         # install depmod.d file for search/ dir
+         install -Dm644 "${WORKDIR}/depmod-search.conf" "${D}${base_libdir}/depmod.d/search.conf"
++
++        # fix pkgconfig installation path
++        install -dm755 ${D}${libdir}
++        mv ${D}${base_libdir}/pkgconfig ${D}${libdir}
+ }
+ 
+ pkg_postinst_kmod() {
+@@ -59,4 +64,5 @@ pkg_prerm_kmod() {
+ PACKAGES =+ "libkmod"
+ 
+ FILES_libkmod = "${base_libdir}/libkmod*${SOLIBS} ${libdir}/libkmod*${SOLIBS}"
++FILES_${PN}-dev += "${base_libdir}/libkmod*${SOLIBSDEV} ${base_libdir}/*.la"
+ FILES_${PN} += "${base_libdir}/depmod.d ${base_libdir}/modprobe.d"
+-- 
+1.7.2.5
 
-But that's politics i fear -- not even sure if that intel-guy ment to
-imply that, though. Somehow doubt it |-/
-
-Any sane way out of that mess?
->
->Cheers,
->Joshua
->
->1. https://wiki.ubuntu.com/DashAsBinSh
 
 
