@@ -1,40 +1,43 @@
-Received: from mail-wg0-f43.google.com ([74.125.82.43])
+Received: from mail-wi0-f169.google.com ([209.85.212.169])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rep.dot.nop@gmail.com>) id 1SUNuw-00089C-2d
-	for openembedded-core@openembedded.org; Tue, 15 May 2012 22:00:22 +0200
-Received: by wgbdr1 with SMTP id dr1so5059303wgb.12
-	for <openembedded-core@openembedded.org>;
-	Tue, 15 May 2012 12:50:21 -0700 (PDT)
+	(envelope-from <rep.dot.nop@gmail.com>) id 1SUO3Z-0001mx-Q0
+	for openembedded-core@lists.openembedded.org;
+	Tue, 15 May 2012 22:09:17 +0200
+Received: by wibhn14 with SMTP id hn14so4572362wib.0
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 15 May 2012 12:59:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
+	h=date:from:to:subject:message-id:references:mime-version
 	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=s1G5m7ueZg1kTu2aJ1tnTkrrRbmLr9qc8auN+IMee8s=;
-	b=QTQRJ76MkvcHL1ExEk25gJqCT9FbfF7fAb7TKx+eX8tPYFf5RTpC/pU8j0mILqYBhY
-	noZQzLatD9TVZJEzF73DouvplkbllTjvM/r1L26TU6bqIQggp4fkWam/Erbh32acZOIR
-	u+Pt81Acm3SOHRqIvwTYNcqt+x0crzb4fywJIDqgPAkgU3gS7joarP/8/QdQtSXij3Tl
-	yyHNF1fkQAXVXJ4g7Z6D3ANPE+KKZWReTpNx2UP6M3Y65EzPEMPY10ilF1sVPaIFcb2Y
-	m/tExD7l5ZFNtZ7A9Jc4TN89d9nVddrhPyip2eZDUlpC6JLqOJoWmZLdvXsf4VctH2s2
-	v46g==
-Received: by 10.180.24.103 with SMTP id t7mr33462878wif.16.1337111421709;
-	Tue, 15 May 2012 12:50:21 -0700 (PDT)
+	bh=nZmx6FHYC2UHXdnhqIwLtayTTzrGxmXigKb+C37XfnI=;
+	b=FsbTVDKvQk2aflmVFsVEX+abmuQdZNhzNiF01G2Rega8Vv6ej5adcl5FHfe/91k906
+	rRaelztAZ3Mfb9pR4VRVKUgHcLVN0X4GRAcAqdp48mLlEAH2yfdPXuMuX0i/k77YIYrV
+	ExVgb9Oc3C6EnHIbgAEmp8Kyks9De8U5psJmxzTNOKi9vv0eXXzLU/XA3+UO2NNfFkjc
+	/IwhIGKiirmwur9vT2l4CXG05tdkVB0RZvmOkkS5Z4TU11mKFsM8Kfzvg17F3os/dEAJ
+	H1GdZw/lQ2z+CJwtYNj4PsGelwrbIChOLS2yeRwhsmWRfNWR5tQrNVcUkezM4GhvlkcL
+	vZ4w==
+Received: by 10.216.135.223 with SMTP id u73mr102157wei.117.1337111957448;
+	Tue, 15 May 2012 12:59:17 -0700 (PDT)
 Received: from s42.loc (85-127-86-115.dynamic.xdsl-line.inode.at.
 	[85.127.86.115])
-	by mx.google.com with ESMTPS id fn2sm558350wib.0.2012.05.15.12.50.20
+	by mx.google.com with ESMTPS id j3sm624570wiw.1.2012.05.15.12.59.15
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 15 May 2012 12:50:21 -0700 (PDT)
+	Tue, 15 May 2012 12:59:16 -0700 (PDT)
 Received: from cow by s42.loc with local (Exim 4.77)
 	(envelope-from <rep.dot.nop@gmail.com>)
-	id 1SUNlE-0006dH-2G; Tue, 15 May 2012 21:50:20 +0200
-Date: Tue, 15 May 2012 21:50:20 +0200
+	id 1SUNtr-0006en-3h; Tue, 15 May 2012 21:59:15 +0200
+Date: Tue, 15 May 2012 21:59:15 +0200
 From: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
-To: Phil Blundell <philb@gnu.org>
-Message-ID: <20120515195019.GN29324@mx.loc>
-References: <1336065314-8588-1-git-send-email-rep.dot.nop@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Message-ID: <20120515195914.GO29324@mx.loc>
+References: <1336065154-8513-1-git-send-email-rep.dot.nop@gmail.com>
+	<1336065154-8513-2-git-send-email-rep.dot.nop@gmail.com>
+	<4FA859E5.4080609@linux.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <1336065314-8588-1-git-send-email-rep.dot.nop@gmail.com>
+In-Reply-To: <4FA859E5.4080609@linux.intel.com>
 User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@openembedded.org
-Subject: Ping [was Re: [meta-micro][PATCH 1/2] busybox: mdev was removed]
+Subject: Re: [PATCH 2/6] runqemu: use modern, single-char name of test(1)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,39 +52,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 May 2012 20:00:22 -0000
+X-List-Received-Date: Tue, 15 May 2012 20:09:17 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Ping ** 2 (or 3, really. Whole thread)
+On Mon, May 07, 2012 at 04:25:25PM -0700, Joshua Lock wrote:
+>On 03/05/12 10:12, Bernhard Reutner-Fischer wrote:
+>>@@ -313,11 +313,11 @@ findimage() {
+>>      # recently created one is the one we most likely want to boot.
+>>      filenames=`ls -t $where/*-image*$machine.$extension 2>/dev/null | xargs`
+>>      for name in $filenames; do
+>>-        if [[ "$name" =~ core-image-sato-sdk ||
+>>-              "$name" =~ core-image-sato     ||
+>>-              "$name" =~ core-image-lsb      ||
+>>-              "$name" =~ core-image-basic    ||
+>>-              "$name" =~ core-image-minimal ]]; then
+>>+        if [ "$name" =~ core-image-sato-sdk -o \
+>>+              "$name" =~ core-image-sato     -o \
+>>+              "$name" =~ core-image-lsb      -o \
+>>+              "$name" =~ core-image-basic    -o \
+>>+              "$name" =~ core-image-minimal ]; then
+>>              ROOTFS=$name
+>>              return
+>>          fi	
+>
+>This change broke findimage() for me on both bash and dash.
+>Reproducer is 'runqemu qemux86'.
+>
+>Under bash I get:
+>
+>/srv/yocto/poky/scripts/runqemu: line 303: [: too many arguments
+>
+>Undoing this change fixes things for me. Note: this change doesn't
+>revert cleanly.
+>
+>I've filed this as Yocto #2433:
+>https://bugzilla.yoctoproject.org/show_bug.cgi?id=2433
+>
+>As an aside, when trying (unsuccessfully) to figure out a fix for
+>this I ran across Ubuntu's page on dash[1] which indicates changing
+>|| for -o isn't right. Anyone have a strong opinion on that?
 
-On Thu, May 03, 2012 at 07:15:13PM +0200, Bernhard Reutner-Fischer wrote:
->bea936913fcf684c23d36f740050dea118d5caad removed mdev, so rm now unused
->file, too.
+just a weak. That whole style is utterly broken.
+case "$name" in
+core-image-sato-sdk*|blah)
+esac
+
+Really that whole name hardcoding is plain stupid and over-engineered.
+If the darn image exists then, heck, just use it.
+
+But that's politics i fear -- not even sure if that intel-guy ment to
+imply that, though. Somehow doubt it |-/
+
+Any sane way out of that mess?
 >
->Signed-off-by: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
->---
-> recipes/busybox/files/mdev |    9 ---------
-> 1 file changed, 9 deletions(-)
-> delete mode 100644 recipes/busybox/files/mdev
+>Cheers,
+>Joshua
 >
->diff --git a/recipes/busybox/files/mdev b/recipes/busybox/files/mdev
->deleted file mode 100644
->index 14ba837..0000000
->--- a/recipes/busybox/files/mdev
->+++ /dev/null
->@@ -1,9 +0,0 @@
->-#!/bin/sh
->-
->-mount proc /proc -t proc
->-mount sys /sys -t sysfs
->-mount -t tmpfs tmpfs /dev  -o size=64k,mode=0755
->-mkdir /dev/pts /dev/shm
->-mount -t devpts devpts /dev/pts
->-echo "/sbin/mdev" > /proc/sys/kernel/hotplug
->-mdev -s
->-- 
->1.7.10
->
+>1. https://wiki.ubuntu.com/DashAsBinSh
 
 
