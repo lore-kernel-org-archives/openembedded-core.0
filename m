@@ -1,24 +1,31 @@
-Received: from mail.windriver.com ([147.11.1.11])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Peter.Seebach@windriver.com>) id 1SUN9U-0003eu-5L
-	for openembedded-core@lists.openembedded.org;
-	Tue, 15 May 2012 21:11:20 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q4FJ1JfR027542
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 May 2012 12:01:19 -0700 (PDT)
-Received: from wrlaptop (172.25.40.226) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Tue, 15 May 2012 12:01:18 -0700
-Date: Tue, 15 May 2012 14:01:10 -0500
-From: Peter Seebach <peter.seebach@windriver.com>
-To: "openembedded-core@"
-	<lists.openembedded.org.openembedded-core@lists.openembedded.org>
-Message-ID: <20120515140110.2ba5a1be@wrlaptop>
-X-Mailer: Claws Mail 3.7.8 (GTK+ 2.24.4; x86_64-pc-linux-gnu)
-MIME-Version: 1.0
-Subject: RFC: FOO_subtract, the logical antidote to FOO_append.
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1SUNH4-0003po-EU for openembedded-core@lists.openembedded.org;
+	Tue, 15 May 2012 21:19:10 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q4FJ973M010322;
+	Tue, 15 May 2012 20:09:07 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 09639-05; Tue, 15 May 2012 20:09:03 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q4FJ90sW010316
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Tue, 15 May 2012 20:09:01 +0100
+Message-ID: <1337108939.2711.50.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Tue, 15 May 2012 20:08:59 +0100
+In-Reply-To: <0FC92111-6DEE-404F-9D70-EAC30E680319@dominion.thruhere.net>
+References: <0FC92111-6DEE-404F-9D70-EAC30E680319@dominion.thruhere.net>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: "Garman, Scott A" <scott.a.garman@intel.com>
+Subject: Re: When is the denzil branch going to get updated?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,36 +40,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 May 2012 19:11:20 -0000
-Content-Type: text/plain; charset="US-ASCII"
+X-List-Received-Date: Tue, 15 May 2012 19:19:10 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-There's a few cases where something is a huge list of space-separated
-things, and it is desireable to remove one.  The example currently
-afflicting me is DISTRO_FEATURES_LIBC_DEFAULT; I want to end up with
-the distro features including all but one of the words in it.
+On Tue, 2012-05-15 at 10:29 +0200, Koen Kooi wrote:
+> Hi,
+> 
+> I'm still not clear on who is in charge of what, so let's ask a different question:
+> 
+> 	When is the 'denzil' branch in the master openembedded-core repo getting updated?
 
-It seems to me that a counterpart to _append would make sense.  Here
-is my basic idea:
+I'm in Romania this week so its probably not going to happen until next
+week. I'd still like to find time for a post release vacation too :/.
 
-FOO_subtract = "..."
+> And related to that:
+> 
+> 	Where is the review for backports from master to denzil taking place?
 
-means that, when you expand FOO:
+Good question. I guess what should happen here is when its ready, Scott
+will sent a pull request onto the mailing list, or at least a pointer to
+a ranch to review if there are too many patches?
 
-1. Fully expand it.
-2. Fully expand FOO_subtract.
-3. Remove any words in FOO_subtract from FOO.
-4. Yield the result.
+Cheers,
 
-The rationale is that the semantics of things where we're using _append
-seem to be consistently of the form "this is a space-separated set",
-and being able to remove things from a set would be Super Handy.
+Richard
 
-So I'm proposing the semantics for consideration, and if people like
-them, I will go try to implement it in my Copious Free Time.
-
--s
--- 
-Listen, get this.  Nobody with a good compiler needs to be justified.
 
 
