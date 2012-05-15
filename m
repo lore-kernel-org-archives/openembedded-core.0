@@ -1,35 +1,35 @@
-Received: from mail-wg0-f43.google.com ([74.125.82.43])
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1SUEGu-0004fW-L2
-	for openembedded-core@lists.openembedded.org;
-	Tue, 15 May 2012 11:42:24 +0200
-Received: by wgbdr1 with SMTP id dr1so4965652wgb.24
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 May 2012 02:32:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer:x-gm-message-state;
-	bh=HMz3F2YbdEGez4x0GhR7AaV3aI53X485WJqNfWPFuWc=;
-	b=Vryfdeuf2CBfyqbw9b4KyjBufB3exad3F8mqWwlQYjzRiGidhTafTFGo6/2cACBEvZ
-	Sc+xaJxv3h7le9K01Pk5AD4vLgXbGfJz1sjxl4pdntCoUoVy7a/i74SpliwkLNPVPUSB
-	VwuiB82OGBExmlpieIsTcG09DTcGjqqp04aucL3PdrhJBRLKhxfmTDfKWTBC4qR81yzW
-	Fq0P5JRn4mtmdK4IGdJ/2iudk1ONQhH9ucx9bu90y+RBdsVHWg1UiVL4HmNMmHiJjb/n
-	RDOeXVBYVUexpOyKwBNrpMrz1RnNs7upjGoywguUOhKX6Vll3RRQ8ZAXR2jN3OScdDuU
-	tYyA==
-Received: by 10.216.136.131 with SMTP id w3mr7375496wei.15.1337074344876;
-	Tue, 15 May 2012 02:32:24 -0700 (PDT)
-Received: from localhost (ip545070eb.adsl-surfen.hetnet.nl. [84.80.112.235])
-	by mx.google.com with ESMTPS id b3sm41268524wib.4.2012.05.15.02.32.23
+	(envelope-from <martin.jansa@gmail.com>)
+	id 1SUHc2-0004bL-Im; Tue, 15 May 2012 15:16:26 +0200
+Received: by eekd49 with SMTP id d49so1683967eek.6
+	for <multiple recipients>; Tue, 15 May 2012 06:06:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=4GXrkpyt1AwH43de8CIaKshESo12zo7kuW3u2hG/8XI=;
+	b=YSyTNh1RwcebtkGrC0nRsqOgDqb+CXKkGpS23U2eR8qwQ9m+Rq7s2DQd5zezQL/+By
+	x1/vCXsXmJcP2iuzQ1vbiq3ZwoYIVCyhBCqciXw5t3OztfVfoNrdsSV1zDPOFcmEFgvr
+	+nERYEmJ+gowqXJSK1SJwJonN7SMwaZGuaIt/Bjhy9R2jfWmJUYQEnedFod504wG1YJa
+	MzMjXkzSni7S6DzBdqKEZukc+JpYJ2ixpv72Cf+jzsVTw5UNAMlp+A+KYg+fHkXixVWF
+	ugOIP5PbpnAKp7LnJJTdolKx4unpzIDE7iDmRt0o7pMDns0FJKHWSbszW952wi407iJi
+	aDNw==
+Received: by 10.14.22.6 with SMTP id s6mr445144ees.53.1337087186411;
+	Tue, 15 May 2012 06:06:26 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id d18sm106520554eeb.7.2012.05.15.06.06.24
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 15 May 2012 02:32:24 -0700 (PDT)
-From: Koen Kooi <koen@dominion.thruhere.net>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 15 May 2012 11:32:21 +0200
-Message-Id: <1337074341-12708-1-git-send-email-koen@dominion.thruhere.net>
-X-Mailer: git-send-email 1.7.10
-X-Gm-Message-State: ALoCoQko2HMwTiam+dkGPCw7UCMAVZw29qpmDtdSFbHxrmiJPhC+qIFsIFKOzzQDJwn7yDrhUrwy
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: [PATCH] Revert "kmod: Use base_libdir for installing libkmod"
+	Tue, 15 May 2012 06:06:25 -0700 (PDT)
+Date: Tue, 15 May 2012 15:06:25 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-devel@lists.openembedded.org
+Message-ID: <20120515130625.GD3166@jama.jama.net>
+References: <CAOHjBZto_R5S777po-K8mXG-Z9XLYNVzE05-kq_TOCeo4YgyoQ@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CAOHjBZto_R5S777po-K8mXG-Z9XLYNVzE05-kq_TOCeo4YgyoQ@mail.gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [oe] Packages broken URL
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,39 +44,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 May 2012 09:42:24 -0000
+X-List-Received-Date: Tue, 15 May 2012 13:16:26 -0000
+X-Groupsio-MsgNum: 22152
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="7DO5AaGCk89r4vaK"
+Content-Disposition: inline
 
-The commit breaks pkgconfig and after discussing it with the kmod and udev maintainers the conclusion was reached that putting the libraries in /lib instead of /usr/lib is not supported.
+--7DO5AaGCk89r4vaK
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-This reverts commit 6b74f2461735272bd950a4f060dab6e778a36f92.
----
- meta/recipes-kernel/kmod/kmod_git.bb |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+On Tue, May 15, 2012 at 03:02:37PM +0200, Giuseppe Condorelli wrote:
+> Hi All,
+>=20
+> there are a number of packages having a broken SRC_URI, for example git.
+> Has someone met this issue?
+> For sure we can correct those links adding a dedicated .bbappend file for
+> each failing package but
+> I think we could also update the main package fixing the errors.
 
-diff --git a/meta/recipes-kernel/kmod/kmod_git.bb b/meta/recipes-kernel/kmod/kmod_git.bb
-index d9c4d8b..fd38d87 100644
---- a/meta/recipes-kernel/kmod/kmod_git.bb
-+++ b/meta/recipes-kernel/kmod/kmod_git.bb
-@@ -3,7 +3,7 @@
- 
- require kmod.inc
- 
--PR = "${INC_PR}.1"
-+PR = "${INC_PR}.2"
- 
- PROVIDES += "module-init-tools-insmod-static module-init-tools-depmod module-init-tools"
- RPROVIDES_${PN} += "module-init-tools-insmod-static module-init-tools-depmod module-init-tools"
-@@ -16,7 +16,7 @@ RCONFLICTS_libkmod2 += "module-init-tools-insmod-static module-init-tools-depmod
- # autotools set prefix to /usr, however we want them in /bin and /sbin
- bindir = "${base_bindir}"
- sbindir = "${base_sbindir}"
--libdir = "${base_libdir}"
-+# libdir = "${base_libdir}"
- 
- do_install_append () {
-         install -dm755 ${D}${base_bindir}
--- 
-1.7.10
+This should go to oe-core ML:
+openembedded-core@lists.openembedded.org
 
+And yes it should be fixed in original recipe.
 
+Cheers,
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--7DO5AaGCk89r4vaK
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
+
+iEYEARECAAYFAk+yVNEACgkQN1Ujt2V2gBw9pACgoTmEhrafYXhcddnzkrQ3qqK+
+oIMAoKwRLezPuCZ9GyMUd3hmK5iD2Qs1
+=BXoO
+-----END PGP SIGNATURE-----
+
+--7DO5AaGCk89r4vaK--
