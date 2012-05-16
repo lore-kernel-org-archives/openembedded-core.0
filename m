@@ -1,14 +1,28 @@
-Received: from ffm.saftware.de ([83.141.3.46])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <obi@opendreambox.org>) id 1SUhfL-0008HX-Mw
+	(envelope-from <Peter.Seebach@windriver.com>) id 1SUhif-0008Pq-LC
 	for openembedded-core@lists.openembedded.org;
-	Wed, 16 May 2012 19:05:35 +0200
-From: Andreas Oberritter <obi@opendreambox.org>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 16 May 2012 18:55:31 +0200
-Message-Id: <1337187331-4945-1-git-send-email-obi@opendreambox.org>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] avahi-systemd: drop postrm, use prerm instead
+	Wed, 16 May 2012 19:09:02 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q4GGwwjg018193
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 16 May 2012 09:58:59 -0700 (PDT)
+Received: from wrlaptop (172.25.40.226) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Wed, 16 May 2012 09:58:58 -0700
+Date: Wed, 16 May 2012 11:58:48 -0500
+From: Peter Seebach <peter.seebach@windriver.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Message-ID: <20120516115848.4348b984@wrlaptop>
+In-Reply-To: <4FB32EA1.3060601@linux.intel.com>
+References: <20120515140110.2ba5a1be@wrlaptop>
+	<CAKSdS8K64oTpq4asBcL9k4BgCe6BOEAwX3exQyq4GoTHtAxW9w@mail.gmail.com>
+	<4FB32EA1.3060601@linux.intel.com>
+X-Mailer: Claws Mail 3.7.8 (GTK+ 2.24.4; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
+Subject: Re: RFC: FOO_subtract, the logical antidote to FOO_append.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -23,51 +37,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 May 2012 17:05:35 -0000
+X-List-Received-Date: Wed, 16 May 2012 17:09:02 -0000
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
 
-* Calling "systemctl disable" from postrm is too late and
-  causes the following error:
+On Wed, 16 May 2012 07:35:45 +0300
+Saul Wold <sgw@linux.intel.com> wrote:
 
-| Failed to issue method call: No such file or directory
+> My understanding is that a _subtract is fraught with danger, there
+> all sorts of ordering implications.
 
-* Fix indentation of prerm for resulting shell snippet.
-* Messing with $D is not needed in *rm scripts.
+Yes.
 
-Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
----
- meta/recipes-connectivity/avahi/avahi.inc |   11 +++--------
- 1 file changed, 3 insertions(+), 8 deletions(-)
+But consider, if you will, the specific case of
+DISTRO_FEATURES_LIBC_DEFAULT, and a libc which is just like eglibc
+except that it lacks RPC.
 
-diff --git a/meta/recipes-connectivity/avahi/avahi.inc b/meta/recipes-connectivity/avahi/avahi.inc
-index 61ca25f..f84a81d 100644
---- a/meta/recipes-connectivity/avahi/avahi.inc
-+++ b/meta/recipes-connectivity/avahi/avahi.inc
-@@ -14,7 +14,7 @@ SECTION = "network"
- # python scripts are under GPLv2+
- LICENSE = "GPLv2+ & LGPLv2.1+"
- 
--INC_PR = "r2"
-+INC_PR = "r3"
- 
- DEPENDS = "expat libcap libdaemon dbus glib-2.0"
- 
-@@ -163,12 +163,7 @@ pkg_postinst_avahi-systemd() {
- 	systemctl enable avahi-daemon.service
- }
- 
--pkg_postrm_avahi-systemd() {
--	# can't do this offline
--	if [ "x$D" != "x" ]; then
--		exit 1
--	fi
--
--	systemctl disable avahi-daemon.service
-+pkg_prerm_avahi-systemd() {
-+systemctl disable avahi-daemon.service
- }
- 
+Anything I do that isn't processed at the tail end of everything,
+around the point where _appends are processed, will be unable to
+cleanly obtain "the value that would have been set by default if
+nothing else happened", and then remove a word from it.  I can't set a
+value in advance, because if I do the ?= won't fire and none of those
+words will get set.  I can't necessarily set a value later.
+
+Overrides won't work either, because overrides also destroy the
+existing values.
+
+It seems to me that for a subtraction to work, it *must* be the very
+last thing done.
+
+Basically, the purpose of suggesting this as a formal behavior defined
+to be The Very Last Thing is to minimize the complexity of the ordering
+implications.  You get exactly what you would have gotten otherwise,
+with these words removed.
+
+-s
 -- 
-1.7.9.5
-
+Listen, get this.  Nobody with a good compiler needs to be justified.
 
 
