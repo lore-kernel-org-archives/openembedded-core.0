@@ -1,28 +1,33 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail-ob0-f175.google.com ([209.85.214.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Peter.Seebach@windriver.com>) id 1SUQ0I-0002e3-U0
+	(envelope-from <kergoth@gmail.com>) id 1SUT8p-0007Lr-WC
 	for openembedded-core@lists.openembedded.org;
-	Wed, 16 May 2012 00:14:03 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q4FM412d003754
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 16 May 2012 03:35:04 +0200
+Received: by obhx4 with SMTP id x4so339857obh.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 May 2012 15:04:01 -0700 (PDT)
-Received: from wrlaptop (172.25.40.226) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Tue, 15 May 2012 15:04:00 -0700
-Date: Tue, 15 May 2012 17:03:51 -0500
-From: Peter Seebach <peter.seebach@windriver.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20120515170351.22a3467d@wrlaptop>
-In-Reply-To: <20120515195914.GO29324@mx.loc>
-References: <1336065154-8513-1-git-send-email-rep.dot.nop@gmail.com>
-	<1336065154-8513-2-git-send-email-rep.dot.nop@gmail.com>
-	<4FA859E5.4080609@linux.intel.com> <20120515195914.GO29324@mx.loc>
-X-Mailer: Claws Mail 3.7.8 (GTK+ 2.24.4; x86_64-pc-linux-gnu)
-MIME-Version: 1.0
-Subject: Re: [PATCH 2/6] runqemu: use modern, single-char name of test(1)
+	Tue, 15 May 2012 18:25:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=faqAKkcnozJhsYVgBycRQE/DZsSeF0soTVPDoJHO3r8=;
+	b=moL8TGMuX7WZD+cj5x+IADgjUYrTwkcxUCk+onlaHD3PR3EOfvuICXccX85aEQ7Nv/
+	qWwoqqzu8ri+VEmAWRubznI3bu1kfYoesqnr7Km4tw1y/WkL8ph2KHEN3w5YcTcIxNbD
+	AUcbldezCNUYBTOvl3lGYCveA3aCDUQ+TozXqPKQuDeu20QEhKkVtdOPCjZDminpGssd
+	4/HVX/K5AMWssa8FRpQKkyTM6PhA9wsC9WgGX1L7+K+mHNdfVM3MZaLFhX2gDm6aKw/b
+	RZJSmG71LB2InMnPn9obCNbc5SpRFTXgCRUX3+OMtT3un2qMWwp6yU3rF94rmamji2JR
+	eXTA==
+Received: by 10.182.167.104 with SMTP id zn8mr951595obb.62.1337131502673;
+	Tue, 15 May 2012 18:25:02 -0700 (PDT)
+Received: from localhost.localdomain (nat-lmt.mentorg.com. [139.181.28.34])
+	by mx.google.com with ESMTPS id a6sm767488oeg.7.2012.05.15.18.25.00
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 15 May 2012 18:25:01 -0700 (PDT)
+From: Christopher Larson <kergoth@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 15 May 2012 20:25:23 -0500
+Message-Id: <1337131523-8176-1-git-send-email-kergoth@gmail.com>
+X-Mailer: git-send-email 1.7.7
+Cc: Christopher Larson <chris_larson@mentor.com>
+Subject: [PATCH] kernel.bbclass: add deploy link to KERNEL_IMAGETYPE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,22 +42,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 May 2012 22:14:03 -0000
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 16 May 2012 01:35:04 -0000
 
-On Tue, 15 May 2012 21:59:15 +0200
-Bernhard Reutner-Fischer <rep.dot.nop@gmail.com> wrote:
+From: Christopher Larson <chris_larson@mentor.com>
 
-> Really that whole name hardcoding is plain stupid and over-engineered.
-> If the darn image exists then, heck, just use it.
+It's common to provide a non-machine-suffixed link in DEPLOY_DIR_IMAGE, so
+let's be consistent and do so here as well.
 
-This may not be a bad idea, but it's a larger change than I wanted to
-make, which is why I didn't change the effect as a whole in the
-proposed patch.
+Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+---
+ meta/classes/kernel.bbclass |    1 +
+ 1 files changed, 1 insertions(+), 0 deletions(-)
 
--s
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index a85f130..90af597 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -538,6 +538,7 @@ kernel_do_deploy() {
+ 	cd ${DEPLOYDIR}
+ 	rm -f ${KERNEL_IMAGE_SYMLINK_NAME}.bin
+ 	ln -sf ${KERNEL_IMAGE_BASE_NAME}.bin ${KERNEL_IMAGE_SYMLINK_NAME}.bin
++	ln -sf ${KERNEL_IMAGE_BASE_NAME}.bin ${KERNEL_IMAGETYPE}
+ 
+ 	cp ${COREBASE}/meta/files/deploydir_readme.txt ${DEPLOYDIR}/README_-_DO_NOT_DELETE_FILES_IN_THIS_DIRECTORY.txt
+ }
 -- 
-Listen, get this.  Nobody with a good compiler needs to be justified.
+1.7.7
+
 
 
