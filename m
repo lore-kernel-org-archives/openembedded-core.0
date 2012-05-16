@@ -1,25 +1,25 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SUiju-00051y-SK
+	(envelope-from <sgw@linux.intel.com>) id 1SUijv-000521-71
 	for openembedded-core@lists.openembedded.org;
 	Wed, 16 May 2012 20:14:23 +0200
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 16 May 2012 11:03:43 -0700
+	by azsmga102.ch.intel.com with ESMTP; 16 May 2012 11:04:20 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="144012599"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="144012905"
 Received: from unknown (HELO [10.255.13.103]) ([10.255.13.103])
-	by azsmga001.ch.intel.com with ESMTP; 16 May 2012 11:03:42 -0700
-Message-ID: <4FB3EBFE.40403@linux.intel.com>
-Date: Wed, 16 May 2012 21:03:42 +0300
+	by azsmga001.ch.intel.com with ESMTP; 16 May 2012 11:04:19 -0700
+Message-ID: <4FB3EC22.3030006@linux.intel.com>
+Date: Wed, 16 May 2012 21:04:18 +0300
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1337105658.git.peter.seebach@windriver.com>
-In-Reply-To: <cover.1337105658.git.peter.seebach@windriver.com>
-Subject: Re: [PATCH 0/2] tcmode-external-csl: Allow overriding some key values
+References: <cover.1336756602.git.mark.hatle@windriver.com>
+In-Reply-To: <cover.1336756602.git.mark.hatle@windriver.com>
+Subject: Re: [PATCH 0/1] Further optimizations to the sstate.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,37 +38,26 @@ X-List-Received-Date: Wed, 16 May 2012 18:14:23 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 05/15/2012 09:16 PM, Peter Seebach wrote:
-> This tiny little set of ?= changes lets me use a different CS binary
-> toolchain than the one being supported by the external-csl feature by
-> default, allowing us to share more code.
+On 05/11/2012 08:17 PM, Mark Hatle wrote:
+> A few minor changes to the generation of the fixmepaths file in
+> the sstate cache file generation can lead to significant performance
+> improvements in recipes that generate large file sets.
 >
-> Also I improved an error message.  (Side note:  Sorry if it's spammy
-> to have a separate patch for it, but I couldn't convince myself that these
-> two changes were doing the same thing.)
+> The following changes since commit 9cd30beba77497288eeb2545920bc23f2a77cf16:
 >
-> The following changes since commit 01dea384924293d0f99723073277bf6b1f4c7976:
->    Christopher Larson (1):
->          tcmode-external-csl: handle TUNE_PKGARCH=core2
+>    .gitignore: add /bitbake to the ignore list for external distributions (2012-05-11 17:59:53 +0100)
 >
 > are available in the git repository at:
+>    git://git.pokylinux.org/poky-contrib mhatle/sstate
+>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=mhatle/sstate
 >
->    git://git.yoctoproject.org/poky-contrib seebs/toolchain
->    http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=seebs/toolchain
+> Mark Hatle (1):
+>    sstate.bbclass: Optimize the generation and install path fixups
 >
-> Peter Seebach (2):
->    tcmode-external-csl.inc: Allow for overrides
->    tcmode-external-csl.inc: specify the path you couldn't find
+>   meta/classes/sstate.bbclass |    7 ++++++-
+>   1 files changed, 6 insertions(+), 1 deletions(-)
 >
->   meta/conf/distro/include/tcmode-external-csl.inc |   20 ++++++++++----------
->   1 files changed, 10 insertions(+), 10 deletions(-)
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+
 Merged into OE-Core
 
 Thanks
