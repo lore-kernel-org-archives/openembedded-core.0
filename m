@@ -1,23 +1,29 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ddalex@adamian-desktop>) id 1SUfK5-0001RO-ED
-	for Openembedded-core@lists.openembedded.org;
-	Wed, 16 May 2012 16:35:29 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 16 May 2012 07:24:22 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="143915673"
-Received: from adamian-desktop.rb.intel.com (HELO adamian-desktop)
-	([10.237.104.73])
-	by azsmga001.ch.intel.com with ESMTP; 16 May 2012 07:24:21 -0700
-Received: by adamian-desktop (Postfix, from userid 1000)
-	id 46A62840454; Wed, 16 May 2012 17:27:03 +0300 (EEST)
-From: Alexandru DAMIAN <alexandru.damian@intel.com>
-To: Openembedded-core@lists.openembedded.org
-Date: Wed, 16 May 2012 17:27:01 +0300
-Message-Id: <1337178421-22908-1-git-send-email-alexandru.damian@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] xf86-video-vmware: update package to 12.0.2
+	(envelope-from <mark.hatle@windriver.com>) id 1SUg0m-0002i2-Hc
+	for openembedded-core@lists.openembedded.org;
+	Wed, 16 May 2012 17:19:36 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q4GF6sRJ025418
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 16 May 2012 08:09:34 -0700 (PDT)
+Received: from msp-dhcp26.wrs.com (172.25.34.26) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Wed, 16 May 2012 08:07:56 -0700
+Message-ID: <4FB3C2CC.7010204@windriver.com>
+Date: Wed, 16 May 2012 10:07:56 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
+	rv:12.0) Gecko/20120428 Thunderbird/12.0.1
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <20120515140110.2ba5a1be@wrlaptop>
+	<CAKSdS8K64oTpq4asBcL9k4BgCe6BOEAwX3exQyq4GoTHtAxW9w@mail.gmail.com>
+	<4FB32EA1.3060601@linux.intel.com>
+In-Reply-To: <4FB32EA1.3060601@linux.intel.com>
+Subject: Re: RFC: FOO_subtract, the logical antidote to FOO_append.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,39 +38,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 May 2012 14:35:29 -0000
+X-List-Received-Date: Wed, 16 May 2012 15:19:37 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-This patch updates the package version for the vmware xorg driver
-to 12.0.2, following upstream. No other changes made beside updating
-the checksums.
----
- ...mware_12.0.1.bb => xf86-video-vmware_12.0.2.bb} |    6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-graphics/xorg-driver/{xf86-video-vmware_12.0.1.bb => xf86-video-vmware_12.0.2.bb} (74%)
+On 5/15/12 11:35 PM, Saul Wold wrote:
+> On 05/15/2012 11:46 PM, Manuel Bessler wrote:
+>> Just a few minutes ago I was wondering if such a feature did exist...
+>>
+>> I ran into a situation where I wanted to remove something from a .bbappend
+>> that is added to a variable using VARIABLE_append = "this and that"
+>>
+> My understanding is that a _subtract is fraught with danger, there all
+> sorts of ordering implications.
+>
+> For what you are trying to do in a .bbappend, can be done by using
+> oe_filter_out() from utils.bbclass, it has to be done in anonymous code.
+>
+> VARIABLE := "${@oe_filter_out('xxx', '${VARIABLE}', d)}"
+>
+> This might be what you want.
 
-diff --git a/meta/recipes-graphics/xorg-driver/xf86-video-vmware_12.0.1.bb b/meta/recipes-graphics/xorg-driver/xf86-video-vmware_12.0.2.bb
-similarity index 74%
-rename from meta/recipes-graphics/xorg-driver/xf86-video-vmware_12.0.1.bb
-rename to meta/recipes-graphics/xorg-driver/xf86-video-vmware_12.0.2.bb
-index a5655fc..71f0339 100644
---- a/meta/recipes-graphics/xorg-driver/xf86-video-vmware_12.0.1.bb
-+++ b/meta/recipes-graphics/xorg-driver/xf86-video-vmware_12.0.2.bb
-@@ -9,10 +9,10 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=5fcd7d437a959a15fbee8707747c6b53"
- DEPENDS += "virtual/libx11 libxvmc drm glproto \
- 	    virtual/libgl xineramaproto libpciaccess"
- 
--PR = "${INC_PR}.1"
-+PR = "${INC_PR}.0"
- 
--SRC_URI[md5sum] = "08101a9b09774ec2f432db5118928c53"
--SRC_URI[sha256sum] = "ded644af1f74ca0ebdc759e3db715519c476b341c1783c3d92c93a76591ed496"
-+SRC_URI[md5sum] = "0743ec7c479603fba60d118858fd5783"
-+SRC_URI[sha256sum] = "c827875fd94805ec9b925fe09aaa973e7e3f9096c7ef311d449c3f134ae75147"
- 
- COMPATIBLE_HOST = '(i.86.*-linux|x86_64.*-linux)'
- 
--- 
-1.7.9.5
+There are two issues I believe Peter is having.. the first is trying to figure 
+out how to filter stuff out of _append.  I'm sure sure the above will be able to 
+do that.
+
+But the real problem we keep struggling with is .conf load order.. you try to 
+set some nice value in local.conf, and some later configuration file adds to it, 
+or simply overwrites it.  He'd like a way to strip out things like that.
+
+I suspect the real answer though is fix the various configuration settings to 
+better allow them to be overridden, but I'm not sure exactly how.
+
+--Mark
+
+> Sau!
+>
+>>
+>> Manuel
+>> On Tue, May 15, 2012 at 3:01 PM, Peter Seebach
+>> <peter.seebach@windriver.com>   wrote:
+>>> There's a few cases where something is a huge list of space-separated
+>>> things, and it is desireable to remove one.  The example currently
+>>> afflicting me is DISTRO_FEATURES_LIBC_DEFAULT; I want to end up with
+>>> the distro features including all but one of the words in it.
+>>>
+>>> It seems to me that a counterpart to _append would make sense.  Here
+>>> is my basic idea:
+>>>
+>>> FOO_subtract = "..."
+>>>
+>>> means that, when you expand FOO:
+>>>
+>>> 1. Fully expand it.
+>>> 2. Fully expand FOO_subtract.
+>>> 3. Remove any words in FOO_subtract from FOO.
+>>> 4. Yield the result.
+>>>
+>>> The rationale is that the semantics of things where we're using _append
+>>> seem to be consistently of the form "this is a space-separated set",
+>>> and being able to remove things from a set would be Super Handy.
+>>>
+>>> So I'm proposing the semantics for consideration, and if people like
+>>> them, I will go try to implement it in my Copious Free Time.
+>>>
+>>> -s
+>>> --
+>>> Listen, get this.  Nobody with a good compiler needs to be justified.
+>>>
+>>> _______________________________________________
+>>> Openembedded-core mailing list
+>>> Openembedded-core@lists.openembedded.org
+>>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>>
+>>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
 
