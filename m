@@ -1,33 +1,33 @@
 Received: from mail-ob0-f175.google.com ([209.85.214.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1SUT9o-0007OX-SC
+	(envelope-from <kergoth@gmail.com>) id 1SUTBL-0007R4-7A
 	for openembedded-core@lists.openembedded.org;
-	Wed, 16 May 2012 03:36:05 +0200
-Received: by obhx4 with SMTP id x4so340844obh.6
+	Wed, 16 May 2012 03:37:39 +0200
+Received: by obhx4 with SMTP id x4so342561obh.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 May 2012 18:26:03 -0700 (PDT)
+	Tue, 15 May 2012 18:27:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=7QKtk4wtph4lVivCLGkh4Yyc0rArCpcwyWED1cLEIMY=;
-	b=D6dhZ+GwP1LATliJuALbCnwlCnC03VmwT7s8+ssaDikJTOvBINLMY8BapGJTeIWu1A
-	xqdyGU42pLDq/Jr7blOmVlGUI6QsC5bLNQNq/Z8VHyHWecMQ+SKyBKS4uuy588VtW8kc
-	L45O2gNDvEfgY/fF42o91GyaSLJZdF78k44f9MQmPiw7UX6yVPtF3rDUEyOGBJlWNnuO
-	RnxC1Th8zFgoMgBJS17HgbTjKjdkteys39J9PQG+xJo6ue+FTNYEZo+USCMw3qEeHpmv
-	XmoDE9N1kfMyp1KxkBQ2eWl5NL8xq850kcR7p48jzj5N39TtuQiWcM9VLAnlEXriXn+1
-	3zuA==
-Received: by 10.182.111.7 with SMTP id ie7mr1081699obb.14.1337131563707;
-	Tue, 15 May 2012 18:26:03 -0700 (PDT)
+	bh=2/msy1gLuJM3+BKZyg3/vrY1vqIwRhXs7S3kRUOIkcM=;
+	b=DbSYHkyCZOlBeT+77EQyZITX7rfgXSfUcguF0yVJJr96UhNpDv1IUd/3bLi5OSwFWa
+	/OZNsjSN8Stoted3lEc5ChEEcG7eaEZnbNw5NSTylo28WhVrXSr3EuMQsyy4NxeCm369
+	UlcRe50rwu4Bn2QSGCcAaO9xGQYzP9iUTO3kpxWz4vp9wncKFlMNHTBVYHMpL8XOhU4s
+	06t2lNIEwO8DKskVgTlpqJnm/Zne1l0o2/m98ZHiNhOA7imyGQHzLMq2Fx2HxKAIcKW/
+	FDanGPoVUwlV9LoX+9Vu7hkEkkSdToHY8BqeeDHeS+lVt3rNcwLFV1hZA/QMnez7gviX
+	z8nA==
+Received: by 10.60.19.196 with SMTP id h4mr957288oee.56.1337131658103;
+	Tue, 15 May 2012 18:27:38 -0700 (PDT)
 Received: from localhost.localdomain (nat-lmt.mentorg.com. [139.181.28.34])
-	by mx.google.com with ESMTPS id r8sm770835oer.6.2012.05.15.18.26.02
+	by mx.google.com with ESMTPS id g9sm766554oeh.10.2012.05.15.18.27.36
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 15 May 2012 18:26:02 -0700 (PDT)
+	Tue, 15 May 2012 18:27:37 -0700 (PDT)
 From: Christopher Larson <kergoth@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 15 May 2012 20:26:25 -0500
-Message-Id: <1337131585-8741-1-git-send-email-kergoth@gmail.com>
+Date: Tue, 15 May 2012 20:28:00 -0500
+Message-Id: <1337131680-9197-1-git-send-email-kergoth@gmail.com>
 X-Mailer: git-send-email 1.7.7
 Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCH] oe.types: give the regex type more sane semantics
+Subject: [PATCH] bitbake.conf: add EXTERNAL_TOOLCHAIN to BB_HASHBASE_WHITELIST
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,80 +42,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 May 2012 01:36:05 -0000
+X-List-Received-Date: Wed, 16 May 2012 01:37:39 -0000
 
 From: Christopher Larson <chris_larson@mentor.com>
 
-Currently, if a variable is unset or has an empty value, the regex type
-will return a match object which always matches. Not all variable types
-will necessarily have the same behavior for handling defaults. I believe
-that returning a match object which matches nothing when a variable is
-unset is superior to returning one which matches anything, and the user
-can always explicitly request anything via '.*', if that's what they
-want.
-
-This constructs a null pattern object which will never match, and uses
-it when encountering an unset or empty variable (currently, these two
-things are one and the same, as maketype is handling the default. we may
-well want to shift that logic into the individual types, giving them
-more control over default behavior, but currently the behavior is at
-least relatively consistent -- no difference between unset and empty
-variables).
-
 Signed-off-by: Christopher Larson <chris_larson@mentor.com>
 ---
- meta/lib/oe/types.py |   31 +++++++++++++++++++++++++++++++
- 1 files changed, 31 insertions(+), 0 deletions(-)
+ meta/conf/bitbake.conf |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-diff --git a/meta/lib/oe/types.py b/meta/lib/oe/types.py
-index ea31cf4..ea53df9 100644
---- a/meta/lib/oe/types.py
-+++ b/meta/lib/oe/types.py
-@@ -40,6 +40,31 @@ def choice(value, choices):
-                          (value, choices))
-     return value
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index dc68690..c920a18 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -746,7 +746,7 @@ BB_CONSOLELOG ?= "${TMPDIR}/cooker.log.${DATETIME}"
  
-+class NoMatch(object):
-+    """Stub python regex pattern object which never matches anything"""
-+    def findall(self, string, flags=0):
-+        return None
-+
-+    def finditer(self, string, flags=0):
-+        return None
-+
-+    def match(self, flags=0):
-+        return None
-+
-+    def search(self, string, flags=0):
-+        return None
-+
-+    def split(self, string, maxsplit=0):
-+        return None
-+
-+    def sub(pattern, repl, string, count=0):
-+        return None
-+
-+    def subn(pattern, repl, string, count=0):
-+        return None
-+
-+NoMatch = NoMatch()
-+
- def regex(value, regexflags=None):
-     """OpenEmbedded 'regex' type
+ # Setup our default hash policy
+ BB_SIGNATURE_HANDLER ?= "OEBasic"
+-BB_HASHBASE_WHITELIST ?= "TMPDIR FILE PATH PWD BB_TASKHASH BBPATH DL_DIR SSTATE_DIR THISDIR FILESEXTRAPATHS FILE_DIRNAME HOME LOGNAME SHELL TERM USER FILESPATH STAGING_DIR_HOST STAGING_DIR_TARGET COREBASE PRSERV_HOST PRSERV_PORT PRSERV_DUMPDIR PRSERV_DUMPFILE PRSERV_LOCKDOWN PARALLEL_MAKE"
++BB_HASHBASE_WHITELIST ?= "TMPDIR FILE PATH PWD BB_TASKHASH BBPATH DL_DIR SSTATE_DIR THISDIR FILESEXTRAPATHS FILE_DIRNAME HOME LOGNAME SHELL TERM USER FILESPATH STAGING_DIR_HOST STAGING_DIR_TARGET COREBASE PRSERV_HOST PRSERV_PORT PRSERV_DUMPDIR PRSERV_DUMPFILE PRSERV_LOCKDOWN PARALLEL_MAKE EXTERNAL_TOOLCHAIN"
+ BB_HASHCONFIG_WHITELIST ?= "${BB_HASHBASE_WHITELIST} DATE TIME SESSION_MANAGER DBUS_SESSION_BUS_ADDRESS SSH_AGENT_PID XDG_SESSION_COOKIE SSH_AUTH_SOCK XAUTHORITY"
  
-@@ -59,6 +84,12 @@ def regex(value, regexflags=None):
-             except AttributeError:
-                 raise ValueError("Invalid regex flag '%s'" % flag)
- 
-+    if not value:
-+        # Let's ensure that the default behavior for an undefined or empty
-+        # variable is to match nothing. If the user explicitly wants to match
-+        # anything, they can match '.*' instead.
-+        return NoMatch
-+
-     try:
-         return re.compile(value, flagval)
-     except re.error, exc:
+ MLPREFIX ??= ""
 -- 
 1.7.7
 
