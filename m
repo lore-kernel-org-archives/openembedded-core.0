@@ -1,22 +1,24 @@
 Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1SUiqY-0007Vg-PE
+	(envelope-from <nitin.a.kamble@intel.com>) id 1SUiqZ-0007Vh-4k
 	for openembedded-core@lists.openembedded.org;
-	Wed, 16 May 2012 20:21:14 +0200
+	Wed, 16 May 2012 20:21:15 +0200
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
 	by fmsmga102.fm.intel.com with ESMTP; 16 May 2012 11:11:12 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="167218692"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="167218693"
 Received: from nbuild0.sc.intel.com ([172.25.110.36])
 	by fmsmga002.fm.intel.com with ESMTP; 16 May 2012 11:11:12 -0700
 From: nitin.a.kamble@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 16 May 2012 11:11:11 -0700
-Message-Id: <95a4d7c127f39cac6fc7d60e8b4081ae774cd745.1337191798.git.nitin.a.kamble@intel.com>
+Date: Wed, 16 May 2012 11:11:12 -0700
+Message-Id: <d5ffec3f9f188123a6afd282109f33417994b8d9.1337191798.git.nitin.a.kamble@intel.com>
 X-Mailer: git-send-email 1.7.6.5
+In-Reply-To: <95a4d7c127f39cac6fc7d60e8b4081ae774cd745.1337191798.git.nitin.a.kamble@intel.com>
+References: <95a4d7c127f39cac6fc7d60e8b4081ae774cd745.1337191798.git.nitin.a.kamble@intel.com>
 In-Reply-To: <cover.1337191798.git.nitin.a.kamble@intel.com>
 References: <cover.1337191798.git.nitin.a.kamble@intel.com>
-Subject: [PATCH 1/2] eglibc: package mtrace separately
+Subject: [PATCH 2/2] gcc: fix DEPENDS to avoid a build issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,97 +37,54 @@ X-List-Received-Date: Wed, 16 May 2012 18:21:15 -0000
 
 From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-eglibc-mtrace: add dependency into task-core-tools-debug
+this commits avoids this issue:
 
-now eglibc-mtrace gets included in an sdk image and not in a non-sdk image.
-
-This fixes bug: [YOCTO# 2374]
+| 4.7.0+svnr186651-r1/gcc-4_7-branch/libgcc/. -I/home/nitin/builds/build0/tmp/work-shared/gcc-4.7.0+svnr186651-r1/gc
+c-4_7-branch/libgcc/../gcc -I/home/nitin/builds/build0/tmp/work-shared/gcc-4.7.0+svnr186651-r1/gcc-4_7-branch/libgcc
+/../include -I/home/nitin/builds/build0/tmp/work-shared/gcc-4.7.0+svnr186651-r1/gcc-4_7-branch/libgcc/config/libbid
+-DENABLE_DECIMAL_BID_FORMAT -DHAVE_CC_TLS  -DUSE_TLS -o _fixdfdi_s.o -MT _fixdfdi_s.o -MD -MP -MF _fixdfdi_s.dep -DS
+HARED -DL_fixdfdi -c /home/nitin/builds/build0/tmp/work-shared/gcc-4.7.0+svnr186651-r1/gcc-4_7-branch/libgcc/libgcc2
+.c
+| /home/nitin/builds/build0/tmp/work-shared/gcc-4.7.0+svnr186651-r1/gcc-4_7-branch/libgcc/unwind-dw2.c:42:21: fatal
+error: sys/sdt.h: No such file or directory
+| compilation terminated.
+| make[2]: *** [unwind-dw2.o] Error 1
+| make[2]: *** Waiting for unfinished jobs....
+| make[2]: Leaving directory `/home/nitin/builds/build0/tmp/work/i586-poky-linux/gcc-4.7.0+svnr186651-r1/gcc-4_7-branch/build.i586-poky-linux.i586-poky-linux/i586-poky-linux/libgcc'
+| make[1]: *** [all-target-libgcc] Error 2
+| make[1]: Leaving directory `/home/nitin/builds/build0/tmp/work/i586-poky-linux/gcc-4.7.0+svnr186651-r1/gcc-4_7-branch/build.i586-poky-linux.i586-poky-linux'
+| make: *** [all] Error 2
+| ERROR: oe_runmake failed
+NOTE: package gcc-4.7.0+svnr186651-r1: task do_compile: Failed
+ERROR: Task 8 (/home/nitin/prj/poky.git/meta/recipes-devtools/gcc/gcc_4.7.bb, do_compile) failed with exit code '1'
+NOTE: Tasks Summary: Attempted 808 tasks of which 801 didn't need to be rerun and 1 failed.
 
 Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
 ---
- meta/recipes-core/eglibc/eglibc-package.inc      |    7 ++++++-
- meta/recipes-core/eglibc/eglibc_2.13.bb          |    2 +-
- meta/recipes-core/eglibc/eglibc_2.15.bb          |    2 +-
- meta/recipes-core/tasks/task-core-tools-debug.bb |    1 +
- 4 files changed, 9 insertions(+), 3 deletions(-)
+ meta/recipes-devtools/gcc/gcc-4.7.inc |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-core/eglibc/eglibc-package.inc b/meta/recipes-core/eglibc/eglibc-package.inc
-index 7d97567..fd136bd 100644
---- a/meta/recipes-core/eglibc/eglibc-package.inc
-+++ b/meta/recipes-core/eglibc/eglibc-package.inc
-@@ -20,11 +20,12 @@ USE_LDCONFIG ?= "1"
- PKGSUFFIX = ""
- PKGSUFFIX_virtclass-nativesdk = "-nativesdk"
+diff --git a/meta/recipes-devtools/gcc/gcc-4.7.inc b/meta/recipes-devtools/gcc/gcc-4.7.inc
+index 8adeb8d..9c73235 100644
+--- a/meta/recipes-devtools/gcc/gcc-4.7.inc
++++ b/meta/recipes-devtools/gcc/gcc-4.7.inc
+@@ -1,6 +1,6 @@
+ require gcc-common.inc
  
--PACKAGES = "${PN}-dbg ${PN} catchsegv${PKGSUFFIX} sln${PKGSUFFIX} nscd${PKGSUFFIX} ldd${PKGSUFFIX} ${PN}-utils eglibc-extra-nss${PKGSUFFIX} eglibc-thread-db${PKGSUFFIX} ${PN}-pic ${PN}-dev ${PN}-staticdev ${PN}-doc libcidn${PKGSUFFIX} libmemusage${PKGSUFFIX} libsegfault${PKGSUFFIX} ${PN}-pcprofile libsotruss${PKGSUFFIX}"
-+PACKAGES = "${PN}-dbg ${PN} catchsegv${PKGSUFFIX} sln${PKGSUFFIX} nscd${PKGSUFFIX} ldd${PKGSUFFIX} ${PN}-mtrace ${PN}-utils eglibc-extra-nss${PKGSUFFIX} eglibc-thread-db${PKGSUFFIX} ${PN}-pic ${PN}-dev ${PN}-staticdev ${PN}-doc libcidn${PKGSUFFIX} libmemusage${PKGSUFFIX} libsegfault${PKGSUFFIX} ${PN}-pcprofile libsotruss${PKGSUFFIX}"
+-PR = "r1"
++PR = "r2"
  
- # The ld.so in this eglibc supports the GNU_HASH
- RPROVIDES_${PN} = "glibc${PKGSUFFIX} rtld(GNU_HASH)"
- RPROVIDES_${PN}-utils = "glibc${PKGSUFFIX}-utils"
-+RPROVIDES_${PN}-mtrace = "glibc${PKGSUFFIX}-mtrace"
- RPROVIDES_${PN}-pic = "glibc${PKGSUFFIX}-pic"
- RPROVIDES_${PN}-dev = "glibc${PKGSUFFIX}-dev"
- RPROVIDES_${PN}-staticdev = "glibc${PKGSUFFIX}-staticdev"
-@@ -48,11 +49,13 @@ FILES_${PN}-dev_append += "${bindir}/rpcgen ${libdir}/*_nonshared.a \
- 	${base_libdir}/*_nonshared.a ${base_libdir}/*.o ${datadir}/aclocal"
- FILES_${PN}-staticdev_append += "${libdir}/*.a ${base_libdir}/*.a"
- FILES_nscd${PKGSUFFIX} = "${sbindir}/nscd*"
-+FILES_${PN}-mtrace = "${bindir}/mtrace"
- FILES_${PN}-utils = "${bindir}/* ${sbindir}/*"
- FILES_${PN}-dbg += "${libexecdir}/*/.debug ${libdir}/audit/.debug"
- FILES_catchsegv${PKGSUFFIX} = "${bindir}/catchsegv"
- RDEPENDS_catchsegv${PKGSUFFIX} = "libsegfault"
- RDEPENDS_${PN}-utils += "bash"
-+RDEPENDS_${PN}-mtrace += "perl"
- FILES_${PN}-pcprofile = "${base_libdir}/libpcprofile.so"
- FILES_eglibc-thread-db${PKGSUFFIX} = "${base_libdir}/libthread_db.so.* ${base_libdir}/libthread_db-*.so"
- RPROVIDES_${PN}-dev += "libc-dev"
-@@ -68,6 +71,8 @@ SUMMARY_ldd = "print shared library dependencies"
- DESCRIPTION_ldd = "/usr/bin/ldd prints shared library dependencies for each program or shared library specified on the command line."
- SUMMARY_${PN}-utils = "Miscellaneous utilities provided by eglibc"
- DESCRIPTION_${PN}-utils = "Miscellaneous utilities including getconf, iconf, locale, gencat, tzselect, zic, rpcinfo, ..."
-+SUMMARY_${PN}-mtrace = "mtrace utility provided by eglibc"
-+DESCRIPTION_${PN}-mtrace = "mtrace utility provided by eglibc"
- DESCRIPTION_libsotruss = "Library to support sotruss which traces calls through PLTs"
+ # Third digit in PV should be incremented after a minor release
+ # happens from this branch on gcc e.g. currently its 4.7.0
+@@ -22,7 +22,7 @@ SRCREV = "186651"
+ BRANCH = "gcc-4_7-branch"
+ FILESPATH = "${@base_set_filespath([ '${FILE_DIRNAME}/gcc-4.7' ], d)}"
  
- inherit libc-common multilib_header
-diff --git a/meta/recipes-core/eglibc/eglibc_2.13.bb b/meta/recipes-core/eglibc/eglibc_2.13.bb
-index d8a41dc..73cd0aa 100644
---- a/meta/recipes-core/eglibc/eglibc_2.13.bb
-+++ b/meta/recipes-core/eglibc/eglibc_2.13.bb
-@@ -3,7 +3,7 @@ require eglibc.inc
- SRCREV = "15508"
+-DEPENDS =+ "mpfr gmp libmpc"
++DEPENDS =+ "mpfr gmp libmpc systemtap"
+ NATIVEDEPS = "mpfr-native gmp-native libmpc-native zlib-native"
  
- DEPENDS += "gperf-native"
--PR = "r26"
-+PR = "r27"
- PR_append = "+svnr${SRCPV}"
- 
- EGLIBC_BRANCH="eglibc-2_13"
-diff --git a/meta/recipes-core/eglibc/eglibc_2.15.bb b/meta/recipes-core/eglibc/eglibc_2.15.bb
-index 340ec99..bb60b57 100644
---- a/meta/recipes-core/eglibc/eglibc_2.15.bb
-+++ b/meta/recipes-core/eglibc/eglibc_2.15.bb
-@@ -3,7 +3,7 @@ require eglibc.inc
- SRCREV = "17386"
- 
- DEPENDS += "gperf-native"
--PR = "r10"
-+PR = "r11"
- PR_append = "+svnr${SRCPV}"
- 
- EGLIBC_BRANCH="eglibc-2_15"
-diff --git a/meta/recipes-core/tasks/task-core-tools-debug.bb b/meta/recipes-core/tasks/task-core-tools-debug.bb
-index 3c92f3f..64b976a 100644
---- a/meta/recipes-core/tasks/task-core-tools-debug.bb
-+++ b/meta/recipes-core/tasks/task-core-tools-debug.bb
-@@ -23,4 +23,5 @@ RDEPENDS_${PN} = "\
-     tcf-agent \
-     rsync \
-     strace \
-+    eglibc-mtrace \
-     "
+ LICENSE="GPL-3.0-with-GCC-exception & GPLv3"
 -- 
 1.7.7
 
