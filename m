@@ -1,37 +1,34 @@
-Received: from mail-we0-f175.google.com ([74.125.82.175])
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1SUjkA-0001CD-N5
+	(envelope-from <raj.khem@gmail.com>) id 1SUjnt-0004bm-1S
 	for openembedded-core@lists.openembedded.org;
-	Wed, 16 May 2012 21:18:42 +0200
-Received: by werg55 with SMTP id g55so751677wer.6
+	Wed, 16 May 2012 21:22:35 +0200
+Received: by eekd49 with SMTP id d49so315903eek.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 May 2012 12:08:41 -0700 (PDT)
+	Wed, 16 May 2012 12:12:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=vCEZ4cN/08NDpHEfHgntGyhrcsyRDQ0QzeGmrVdJqu8=;
-	b=mq29Y0H1aTWDE/eHzn7MtbhhYdj6Eo8e/iYF+3HYz1WK+tVToQ43Y4yDITrOjPjnHP
-	VUunpaaBR7U9oP9v1bgcpy+FRW7tsN3UmXatYtnOEbQw8P6On5r10NNZuw8pdWI7W0gX
-	ROzXu4n3JWn1CVjvjbsbg6WCUpuSJ8AtHpmFAbfr0VPKdTjZ1dzRIcaMUjoYMo7Sr8zB
-	mNuwnIi51urL2HEbPZAAsAcjWZ3YHyjbgqngcJyArwxfH1IUwfZoITpBiRq56EGZQfev
-	CicvMWrrsgF2/WEE7i21UB3EbwrhMIs9PLRMsTn39YyLD7a71icDBUjDt2P0Ex0Bh+7m
-	b/1Q==
-Received: by 10.180.82.136 with SMTP id i8mr10679353wiy.19.1337195320914;
-	Wed, 16 May 2012 12:08:40 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id et10sm39799055wib.2.2012.05.16.12.08.39
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 16 May 2012 12:08:40 -0700 (PDT)
-Date: Wed, 16 May 2012 21:08:41 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type; bh=TlDzNEmeipyf2erGvhBEG4gecRz4gXLn+B408p/gfC4=;
+	b=yJfndmveZx9gFdG5X3vfWW1oSj24ZMooY0vFhwsQE7vHqe37nYwGlRBnEPmq1vUZhf
+	bLBFfVuSJVt3Y67ylgtkNPvI8CUzkectJ5EUmsdkwXZyxiT67pmTXVktD3dtKFm6ptjl
+	jPRbtRDHxsmHkka2Jh03j58Hc8PHRk0SlvyoURCm4RI9gUR+1mhlVJHbx0tpzKRNPUum
+	QQ8FuyHjS4nFPk1lk7qrkbAiWH1wqEx8sJCuYw26LtVjLPNQ7FwOoDNWxiim07oBwFX7
+	r+Cpfx0t/fSvVmkYXjw22gJ49AT3dsV4Lp0NQOhuoKxgFiG+OTK6q+BW8RtxASrZOs/l
+	XBKw==
+MIME-Version: 1.0
+Received: by 10.14.99.129 with SMTP id x1mr889044eef.108.1337195551239; Wed,
+	16 May 2012 12:12:31 -0700 (PDT)
+Received: by 10.14.2.132 with HTTP; Wed, 16 May 2012 12:12:31 -0700 (PDT)
+In-Reply-To: <4FB3F766.3080400@linux.intel.com>
+References: <95a4d7c127f39cac6fc7d60e8b4081ae774cd745.1337191798.git.nitin.a.kamble@intel.com>
+	<d5ffec3f9f188123a6afd282109f33417994b8d9.1337191798.git.nitin.a.kamble@intel.com>
+	<4FB3F766.3080400@linux.intel.com>
+Date: Wed, 16 May 2012 12:12:31 -0700
+Message-ID: <CAMKF1sr0rWGPS7unDbndrmaJ97jSLn_6hFtTPXcvygq1e4qi8g@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Message-ID: <20120516190841.GG3154@jama.jama.net>
-References: <1337195136-12258-1-git-send-email-gary@mlbassoc.com>
-MIME-Version: 1.0
-In-Reply-To: <1337195136-12258-1-git-send-email-gary@mlbassoc.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: [PATCH] Fix X server on PowerPC when built with GCC 4.7.x
+Subject: Re: [PATCH 2/2] gcc: fix DEPENDS to avoid a build issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,324 +43,177 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 May 2012 19:18:42 -0000
-X-Groupsio-MsgNum: 22241
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="yQbNiKLmgenwUfTN"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 16 May 2012 19:22:36 -0000
+Content-Type: multipart/alternative; boundary=bcaec53968c8d3ae7d04c02c1995
 
---yQbNiKLmgenwUfTN
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+--bcaec53968c8d3ae7d04c02c1995
+Content-Type: text/plain; charset=UTF-8
 
-On Wed, May 16, 2012 at 01:05:36PM -0600, Gary Thomas wrote:
-> Incorporate patch from upstream:
->   http://cgit.freedesktop.org/xorg/xserver/patch/Xext/xace.c?id=3D6dae7f3=
-792611aace1df0cca63bf50c50d93de43
->   Subject: xace: Invalid reference to out-of-scope data.
->=20
-> Signed-off-by: Gary Thomas <gary@mlbassoc.com>
+On Wednesday, May 16, 2012, Saul Wold <sgw@linux.intel.com> wrote:
+> On 05/16/2012 09:11 PM, nitin.a.kamble@intel.com wrote:
+>>
+>> From: Nitin A Kamble<nitin.a.kamble@intel.com>
+>>
+>> this commits avoids this issue:
+>>
+>> | 4.7.0+svnr186651-r1/gcc-4_7-branch/libgcc/.
+-I/home/nitin/builds/build0/tmp/work-shared/gcc-4.7.0+svnr186651-r1/gc
+>> c-4_7-branch/libgcc/../gcc
+-I/home/nitin/builds/build0/tmp/work-shared/gcc-4.7.0+svnr186651-r1/gcc-4_7-branch/libgcc
+>> /../include
+-I/home/nitin/builds/build0/tmp/work-shared/gcc-4.7.0+svnr186651-r1/gcc-4_7-branch/libgcc/config/libbid
+>> -DENABLE_DECIMAL_BID_FORMAT -DHAVE_CC_TLS  -DUSE_TLS -o _fixdfdi_s.o -MT
+_fixdfdi_s.o -MD -MP -MF _fixdfdi_s.dep -DS
+>> HARED -DL_fixdfdi -c
+/home/nitin/builds/build0/tmp/work-shared/gcc-4.7.0+svnr186651-r1/gcc-4_7-branch/libgcc/libgcc2
+>> .c
+>> |
+/home/nitin/builds/build0/tmp/work-shared/gcc-4.7.0+svnr186651-r1/gcc-4_7-branch/libgcc/unwind-dw2.c:42:21:
+fatal
+>> error: sys/sdt.h: No such file or directory
+>> | compilation terminated.
+>> | make[2]: *** [unwind-dw2.o] Error 1
+>> | make[2]: *** Waiting for unfinished jobs....
+>> | make[2]: Leaving directory
+`/home/nitin/builds/build0/tmp/work/i586-poky-linux/gcc-4.7.0+svnr186651-r1/gcc-4_7-branch/build.i586-poky-linux.i586-poky-linux/i586-poky-linux/libgcc'
+>> | make[1]: *** [all-target-libgcc] Error 2
+>> | make[1]: Leaving directory
+`/home/nitin/builds/build0/tmp/work/i586-poky-linux/gcc-4.7.0+svnr186651-r1/gcc-4_7-branch/build.i586-poky-linux.i586-poky-linux'
+>> | make: *** [all] Error 2
+>> | ERROR: oe_runmake failed
+>> NOTE: package gcc-4.7.0+svnr186651-r1: task do_compile: Failed
+>> ERROR: Task 8 (/home/nitin/prj/poky.git/meta/recipes-devtools/gcc/
+gcc_4.7.bb, do_compile) failed with exit code '1'
+>> NOTE: Tasks Summary: Attempted 808 tasks of which 801 didn't need to be
+rerun and 1 failed.
+>>
+>> Signed-off-by: Nitin A Kamble<nitin.a.kamble@intel.com>
+>> ---
+>>  meta/recipes-devtools/gcc/gcc-4.7.inc |    4 ++--
+>>  1 files changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/meta/recipes-devtools/gcc/gcc-4.7.inc
+b/meta/recipes-devtools/gcc/gcc-4.7.inc
+>> index 8adeb8d..9c73235 100644
+>> --- a/meta/recipes-devtools/gcc/gcc-4.7.inc
+>> +++ b/meta/recipes-devtools/gcc/gcc-4.7.inc
+>> @@ -1,6 +1,6 @@
+>>  require gcc-common.inc
+>>
+>> -PR = "r1"
+>> +PR = "r2"
+>>
+>>  # Third digit in PV should be incremented after a minor release
+>>  # happens from this branch on gcc e.g. currently its 4.7.0
+>> @@ -22,7 +22,7 @@ SRCREV = "186651"
+>>  BRANCH = "gcc-4_7-branch"
+>>  FILESPATH = "${@base_set_filespath([ '${FILE_DIRNAME}/gcc-4.7' ], d)}"
+>>
+>> -DEPENDS =+ "mpfr gmp libmpc"
+>> +DEPENDS =+ "mpfr gmp libmpc systemtap"
+>
+> Nitin,
+>
+> I am not sure this is the right way to do this, first it's bringing in
+another dependency into gcc, it also will cause a mips failure as systemtap
+does not build with mips.
+>
+> It might be better to modify the configuration to ensure that system tap
+is always disabled.  This will ensure a deterministic build.
+>
 
-still the same wrong commit message, see:
-http://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Yes disabling systemtap  is the right thing to do here
 
-> ---
->  .../fix-bogus-stack-variables.patch                |  231 ++++++++++++++=
-++++++
->  .../xorg-xserver/xserver-kdrive_1.7.99.2.bb        |    3 +-
->  2 files changed, 233 insertions(+), 1 deletions(-)
->  create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-kdrive-1.7=
-=2E99.2/fix-bogus-stack-variables.patch
->=20
-> diff --git a/meta/recipes-graphics/xorg-xserver/xserver-kdrive-1.7.99.2/f=
-ix-bogus-stack-variables.patch b/meta/recipes-graphics/xorg-xserver/xserver=
--kdrive-1.7.99.2/fix-bogus-stack-variables.patch
-> new file mode 100644
-> index 0000000..d900fc3
-> --- /dev/null
-> +++ b/meta/recipes-graphics/xorg-xserver/xserver-kdrive-1.7.99.2/fix-bogu=
-s-stack-variables.patch
-> @@ -0,0 +1,233 @@
-> +From 6dae7f3792611aace1df0cca63bf50c50d93de43 Mon Sep 17 00:00:00 2001
-> +From: Chris Wilson <chris@chris-wilson.co.uk>
-> +Date: Tue, 10 Aug 2010 18:30:20 +0000
-> +Subject: xace: Invalid reference to out-of-scope data.
-> +
-> +The callback data passed by reference to the hook was allocated on stack
-> +within the scope of the case statement. The compiler is free to reuse
-> +any of that stack space whilst making the function call so we may end up
-> +passing garbage into the callback.
-> +
-> +References:
-> +
-> +  Bug 18451 - Xorg server 1.5.2 SEGV during XFixesGetCursorImage()
-> +  https://bugs.freedesktop.org/show_bug.cgi?id=3D18451
-> +
-> +v2: Drop the unrelated hunk that snuck in when ammending the commit
-> +message.
-> +
-> +Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
-> +Reviewed-by: Alan Coopersmith <alan.coopersmith@oracle.com>
-> +Signed-off-by: Keith Packard <keithp@keithp.com>
-> +
-> +Upstream-Status: backport
-> +---
-> +(limited to 'Xext/xace.c')
-> +
-> +diff --git a/Xext/xace.c b/Xext/xace.c
-> +index e10d837..c757cad 100644
-> +--- a/Xext/xace.c
-> ++++ b/Xext/xace.c
-> +@@ -87,7 +87,18 @@ void XaceHookAuditEnd(ClientPtr ptr, int result)
-> +  */
-> + int XaceHook(int hook, ...)
-> + {
-> +-    pointer calldata;	/* data passed to callback */
-> ++    union {
-> ++	XaceResourceAccessRec res;
-> ++	XaceDeviceAccessRec dev;
-> ++	XaceSendAccessRec send;
-> ++	XaceReceiveAccessRec recv;
-> ++	XaceClientAccessRec client;
-> ++	XaceExtAccessRec ext;
-> ++	XaceServerAccessRec server;
-> ++	XaceScreenAccessRec screen;
-> ++	XaceAuthAvailRec auth;
-> ++	XaceKeyAvailRec key;
-> ++    } u;
-> +     int *prv =3D NULL;	/* points to return value from callback */
-> +     va_list ap;		/* argument list */
-> +     va_start(ap, hook);
-> +@@ -99,117 +110,86 @@ int XaceHook(int hook, ...)
-> +      */
-> +     switch (hook)
-> +     {
-> +-	case XACE_RESOURCE_ACCESS: {
-> +-	    XaceResourceAccessRec rec;
-> +-	    rec.client =3D va_arg(ap, ClientPtr);
-> +-	    rec.id =3D va_arg(ap, XID);
-> +-	    rec.rtype =3D va_arg(ap, RESTYPE);
-> +-	    rec.res =3D va_arg(ap, pointer);
-> +-	    rec.ptype =3D va_arg(ap, RESTYPE);
-> +-	    rec.parent =3D va_arg(ap, pointer);
-> +-	    rec.access_mode =3D va_arg(ap, Mask);
-> +-	    rec.status =3D Success; /* default allow */
-> +-	    calldata =3D &rec;
-> +-	    prv =3D &rec.status;
-> ++	case XACE_RESOURCE_ACCESS:
-> ++	    u.res.client =3D va_arg(ap, ClientPtr);
-> ++	    u.res.id =3D va_arg(ap, XID);
-> ++	    u.res.rtype =3D va_arg(ap, RESTYPE);
-> ++	    u.res.res =3D va_arg(ap, pointer);
-> ++	    u.res.ptype =3D va_arg(ap, RESTYPE);
-> ++	    u.res.parent =3D va_arg(ap, pointer);
-> ++	    u.res.access_mode =3D va_arg(ap, Mask);
-> ++	    u.res.status =3D Success; /* default allow */
-> ++	    prv =3D &u.res.status;
-> + 	    break;
-> +-	}
-> +-	case XACE_DEVICE_ACCESS: {
-> +-	    XaceDeviceAccessRec rec;
-> +-	    rec.client =3D va_arg(ap, ClientPtr);
-> +-	    rec.dev =3D va_arg(ap, DeviceIntPtr);
-> +-	    rec.access_mode =3D va_arg(ap, Mask);
-> +-	    rec.status =3D Success; /* default allow */
-> +-	    calldata =3D &rec;
-> +-	    prv =3D &rec.status;
-> ++	case XACE_DEVICE_ACCESS:
-> ++	    u.dev.client =3D va_arg(ap, ClientPtr);
-> ++	    u.dev.dev =3D va_arg(ap, DeviceIntPtr);
-> ++	    u.dev.access_mode =3D va_arg(ap, Mask);
-> ++	    u.dev.status =3D Success; /* default allow */
-> ++	    prv =3D &u.dev.status;
-> + 	    break;
-> +-	}
-> +-	case XACE_SEND_ACCESS: {
-> +-	    XaceSendAccessRec rec;
-> +-	    rec.client =3D va_arg(ap, ClientPtr);
-> +-	    rec.dev =3D va_arg(ap, DeviceIntPtr);
-> +-	    rec.pWin =3D va_arg(ap, WindowPtr);
-> +-	    rec.events =3D va_arg(ap, xEventPtr);
-> +-	    rec.count =3D va_arg(ap, int);
-> +-	    rec.status =3D Success; /* default allow */
-> +-	    calldata =3D &rec;
-> +-	    prv =3D &rec.status;
-> ++	case XACE_SEND_ACCESS:
-> ++	    u.send.client =3D va_arg(ap, ClientPtr);
-> ++	    u.send.dev =3D va_arg(ap, DeviceIntPtr);
-> ++	    u.send.pWin =3D va_arg(ap, WindowPtr);
-> ++	    u.send.events =3D va_arg(ap, xEventPtr);
-> ++	    u.send.count =3D va_arg(ap, int);
-> ++	    u.send.status =3D Success; /* default allow */
-> ++	    prv =3D &u.send.status;
-> + 	    break;
-> +-	}
-> +-	case XACE_RECEIVE_ACCESS: {
-> +-	    XaceReceiveAccessRec rec;
-> +-	    rec.client =3D va_arg(ap, ClientPtr);
-> +-	    rec.pWin =3D va_arg(ap, WindowPtr);
-> +-	    rec.events =3D va_arg(ap, xEventPtr);
-> +-	    rec.count =3D va_arg(ap, int);
-> +-	    rec.status =3D Success; /* default allow */
-> +-	    calldata =3D &rec;
-> +-	    prv =3D &rec.status;
-> ++	case XACE_RECEIVE_ACCESS:
-> ++	    u.recv.client =3D va_arg(ap, ClientPtr);
-> ++	    u.recv.pWin =3D va_arg(ap, WindowPtr);
-> ++	    u.recv.events =3D va_arg(ap, xEventPtr);
-> ++	    u.recv.count =3D va_arg(ap, int);
-> ++	    u.recv.status =3D Success; /* default allow */
-> ++	    prv =3D &u.recv.status;
-> + 	    break;
-> +-	}
-> +-	case XACE_CLIENT_ACCESS: {
-> +-	    XaceClientAccessRec rec;
-> +-	    rec.client =3D va_arg(ap, ClientPtr);
-> +-	    rec.target =3D va_arg(ap, ClientPtr);
-> +-	    rec.access_mode =3D va_arg(ap, Mask);
-> +-	    rec.status =3D Success; /* default allow */
-> +-	    calldata =3D &rec;
-> +-	    prv =3D &rec.status;
-> ++	case XACE_CLIENT_ACCESS:
-> ++	    u.client.client =3D va_arg(ap, ClientPtr);
-> ++	    u.client.target =3D va_arg(ap, ClientPtr);
-> ++	    u.client.access_mode =3D va_arg(ap, Mask);
-> ++	    u.client.status =3D Success; /* default allow */
-> ++	    prv =3D &u.client.status;
-> + 	    break;
-> +-	}
-> +-	case XACE_EXT_ACCESS: {
-> +-	    XaceExtAccessRec rec;
-> +-	    rec.client =3D va_arg(ap, ClientPtr);
-> +-	    rec.ext =3D va_arg(ap, ExtensionEntry*);
-> +-	    rec.access_mode =3D DixGetAttrAccess;
-> +-	    rec.status =3D Success; /* default allow */
-> +-	    calldata =3D &rec;
-> +-	    prv =3D &rec.status;
-> ++	case XACE_EXT_ACCESS:
-> ++	    u.ext.client =3D va_arg(ap, ClientPtr);
-> ++	    u.ext.ext =3D va_arg(ap, ExtensionEntry*);
-> ++	    u.ext.access_mode =3D DixGetAttrAccess;
-> ++	    u.ext.status =3D Success; /* default allow */
-> ++	    prv =3D &u.ext.status;
-> + 	    break;
-> +-	}
-> +-	case XACE_SERVER_ACCESS: {
-> +-	    XaceServerAccessRec rec;
-> +-	    rec.client =3D va_arg(ap, ClientPtr);
-> +-	    rec.access_mode =3D va_arg(ap, Mask);
-> +-	    rec.status =3D Success; /* default allow */
-> +-	    calldata =3D &rec;
-> +-	    prv =3D &rec.status;
-> ++	case XACE_SERVER_ACCESS:
-> ++	    u.server.client =3D va_arg(ap, ClientPtr);
-> ++	    u.server.access_mode =3D va_arg(ap, Mask);
-> ++	    u.server.status =3D Success; /* default allow */
-> ++	    prv =3D &u.server.status;
-> + 	    break;
-> +-	}
-> + 	case XACE_SCREEN_ACCESS:
-> +-	case XACE_SCREENSAVER_ACCESS: {
-> +-	    XaceScreenAccessRec rec;
-> +-	    rec.client =3D va_arg(ap, ClientPtr);
-> +-	    rec.screen =3D va_arg(ap, ScreenPtr);
-> +-	    rec.access_mode =3D va_arg(ap, Mask);
-> +-	    rec.status =3D Success; /* default allow */
-> +-	    calldata =3D &rec;
-> +-	    prv =3D &rec.status;
-> ++	case XACE_SCREENSAVER_ACCESS:
-> ++	    u.screen.client =3D va_arg(ap, ClientPtr);
-> ++	    u.screen.screen =3D va_arg(ap, ScreenPtr);
-> ++	    u.screen.access_mode =3D va_arg(ap, Mask);
-> ++	    u.screen.status =3D Success; /* default allow */
-> ++	    prv =3D &u.screen.status;
-> + 	    break;
-> +-	}
-> +-	case XACE_AUTH_AVAIL: {
-> +-	    XaceAuthAvailRec rec;
-> +-	    rec.client =3D va_arg(ap, ClientPtr);
-> +-	    rec.authId =3D va_arg(ap, XID);
-> +-	    calldata =3D &rec;
-> ++	case XACE_AUTH_AVAIL:
-> ++	    u.auth.client =3D va_arg(ap, ClientPtr);
-> ++	    u.auth.authId =3D va_arg(ap, XID);
-> + 	    break;
-> +-	}
-> +-	case XACE_KEY_AVAIL: {
-> +-	    XaceKeyAvailRec rec;
-> +-	    rec.event =3D va_arg(ap, xEventPtr);
-> +-	    rec.keybd =3D va_arg(ap, DeviceIntPtr);
-> +-	    rec.count =3D va_arg(ap, int);
-> +-	    calldata =3D &rec;
-> ++	case XACE_KEY_AVAIL:
-> ++	    u.key.event =3D va_arg(ap, xEventPtr);
-> ++	    u.key.keybd =3D va_arg(ap, DeviceIntPtr);
-> ++	    u.key.count =3D va_arg(ap, int);
-> + 	    break;
-> +-	}
-> +-	default: {
-> ++	default:
-> + 	    va_end(ap);
-> + 	    return 0;	/* unimplemented hook number */
-> +-	}
-> +     }
-> +     va_end(ap);
-> + =20
-> +     /* call callbacks and return result, if any. */
-> +-    CallCallbacks(&XaceHooks[hook], calldata);
-> ++    CallCallbacks(&XaceHooks[hook], &u);
-> +     return prv ? *prv : Success;
-> + }
-> +=20
-> +--
-> +cgit v0.9.0.2-2-gbebe
-> diff --git a/meta/recipes-graphics/xorg-xserver/xserver-kdrive_1.7.99.2.b=
-b b/meta/recipes-graphics/xorg-xserver/xserver-kdrive_1.7.99.2.bb
-> index 360a0f3..d90dc25 100644
-> --- a/meta/recipes-graphics/xorg-xserver/xserver-kdrive_1.7.99.2.bb
-> +++ b/meta/recipes-graphics/xorg-xserver/xserver-kdrive_1.7.99.2.bb
-> @@ -7,7 +7,7 @@ RDEPENDS_${PN} +=3D "xkeyboard-config"
->  EXTRA_OECONF +=3D "--disable-glx"
-> =20
->  PE =3D "1"
-> -PR =3D "r29"
-> +PR =3D "r30"
-> =20
->  SRC_URI =3D "${XORG_MIRROR}/individual/xserver/xorg-server-${PV}.tar.bz2=
- \
->  	file://extra-kmodes.patch \
-> @@ -20,6 +20,7 @@ SRC_URI =3D "${XORG_MIRROR}/individual/xserver/xorg-ser=
-ver-${PV}.tar.bz2 \
->  	file://fix-newer-xorg-headers.patch \
->  	file://crosscompile.patch \
->  	file://error-address-work-around.patch \
-> +        file://fix-bogus-stack-variables.patch \
->  	file://nodolt.patch"
->  #	file://kdrive-evdev.patch
->  #	file://kdrive-use-evdev.patch
-> --=20
-> 1.7.7.6
->=20
->=20
+
+> Sau!
+>>
+>>  NATIVEDEPS = "mpfr-native gmp-native libmpc-native zlib-native"
+>>
+>>  LICENSE="GPL-3.0-with-GCC-exception&  GPLv3"
+>
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+--bcaec53968c8d3ae7d04c02c1995
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
---yQbNiKLmgenwUfTN
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+<br><br>On Wednesday, May 16, 2012, Saul Wold &lt;<a href=3D"mailto:sgw@lin=
+ux.intel.com">sgw@linux.intel.com</a>&gt; wrote:<br>&gt; On 05/16/2012 09:1=
+1 PM, <a href=3D"mailto:nitin.a.kamble@intel.com">nitin.a.kamble@intel.com<=
+/a> wrote:<br>
+&gt;&gt;<br>&gt;&gt; From: Nitin A Kamble&lt;<a href=3D"mailto:nitin.a.kamb=
+le@intel.com">nitin.a.kamble@intel.com</a>&gt;<br>&gt;&gt;<br>&gt;&gt; this=
+ commits avoids this issue:<br>&gt;&gt;<br>&gt;&gt; | 4.7.0+svnr186651-r1/g=
+cc-4_7-branch/libgcc/. -I/home/nitin/builds/build0/tmp/work-shared/gcc-4.7.=
+0+svnr186651-r1/gc<br>
+&gt;&gt; c-4_7-branch/libgcc/../gcc -I/home/nitin/builds/build0/tmp/work-sh=
+ared/gcc-4.7.0+svnr186651-r1/gcc-4_7-branch/libgcc<br>&gt;&gt; /../include =
+-I/home/nitin/builds/build0/tmp/work-shared/gcc-4.7.0+svnr186651-r1/gcc-4_7=
+-branch/libgcc/config/libbid<br>
+&gt;&gt; -DENABLE_DECIMAL_BID_FORMAT -DHAVE_CC_TLS =C2=A0-DUSE_TLS -o _fixd=
+fdi_s.o -MT _fixdfdi_s.o -MD -MP -MF _fixdfdi_s.dep -DS<br>&gt;&gt; HARED -=
+DL_fixdfdi -c /home/nitin/builds/build0/tmp/work-shared/gcc-4.7.0+svnr18665=
+1-r1/gcc-4_7-branch/libgcc/libgcc2<br>
+&gt;&gt; .c<br>&gt;&gt; | /home/nitin/builds/build0/tmp/work-shared/gcc-4.7=
+.0+svnr186651-r1/gcc-4_7-branch/libgcc/unwind-dw2.c:42:21: fatal<br>&gt;&gt=
+; error: sys/sdt.h: No such file or directory<br>&gt;&gt; | compilation ter=
+minated.<br>
+&gt;&gt; | make[2]: *** [unwind-dw2.o] Error 1<br>&gt;&gt; | make[2]: *** W=
+aiting for unfinished jobs....<br>&gt;&gt; | make[2]: Leaving directory `/h=
+ome/nitin/builds/build0/tmp/work/i586-poky-linux/gcc-4.7.0+svnr186651-r1/gc=
+c-4_7-branch/build.i586-poky-linux.i586-poky-linux/i586-poky-linux/libgcc&#=
+39;<br>
+&gt;&gt; | make[1]: *** [all-target-libgcc] Error 2<br>&gt;&gt; | make[1]: =
+Leaving directory `/home/nitin/builds/build0/tmp/work/i586-poky-linux/gcc-4=
+.7.0+svnr186651-r1/gcc-4_7-branch/build.i586-poky-linux.i586-poky-linux&#39=
+;<br>
+&gt;&gt; | make: *** [all] Error 2<br>&gt;&gt; | ERROR: oe_runmake failed<b=
+r>&gt;&gt; NOTE: package gcc-4.7.0+svnr186651-r1: task do_compile: Failed<b=
+r>&gt;&gt; ERROR: Task 8 (/home/nitin/prj/poky.git/meta/recipes-devtools/gc=
+c/<a href=3D"http://gcc_4.7.bb">gcc_4.7.bb</a>, do_compile) failed with exi=
+t code &#39;1&#39;<br>
+&gt;&gt; NOTE: Tasks Summary: Attempted 808 tasks of which 801 didn&#39;t n=
+eed to be rerun and 1 failed.<br>&gt;&gt;<br>&gt;&gt; Signed-off-by: Nitin =
+A Kamble&lt;<a href=3D"mailto:nitin.a.kamble@intel.com">nitin.a.kamble@inte=
+l.com</a>&gt;<br>
+&gt;&gt; ---<br>&gt;&gt; =C2=A0meta/recipes-devtools/gcc/gcc-4.7.inc | =C2=
+=A0 =C2=A04 ++--<br>&gt;&gt; =C2=A01 files changed, 2 insertions(+), 2 dele=
+tions(-)<br>&gt;&gt;<br>&gt;&gt; diff --git a/meta/recipes-devtools/gcc/gcc=
+-4.7.inc b/meta/recipes-devtools/gcc/gcc-4.7.inc<br>
+&gt;&gt; index 8adeb8d..9c73235 100644<br>&gt;&gt; --- a/meta/recipes-devto=
+ols/gcc/gcc-4.7.inc<br>&gt;&gt; +++ b/meta/recipes-devtools/gcc/gcc-4.7.inc=
+<br>&gt;&gt; @@ -1,6 +1,6 @@<br>&gt;&gt; =C2=A0require gcc-common.inc<br>&g=
+t;&gt;<br>
+&gt;&gt; -PR =3D &quot;r1&quot;<br>&gt;&gt; +PR =3D &quot;r2&quot;<br>&gt;&=
+gt;<br>&gt;&gt; =C2=A0# Third digit in PV should be incremented after a min=
+or release<br>&gt;&gt; =C2=A0# happens from this branch on gcc e.g. current=
+ly its 4.7.0<br>
+&gt;&gt; @@ -22,7 +22,7 @@ SRCREV =3D &quot;186651&quot;<br>&gt;&gt; =C2=A0=
+BRANCH =3D &quot;gcc-4_7-branch&quot;<br>&gt;&gt; =C2=A0FILESPATH =3D &quot=
+;${@base_set_filespath([ &#39;${FILE_DIRNAME}/gcc-4.7&#39; ], d)}&quot;<br>=
+&gt;&gt;<br>
+&gt;&gt; -DEPENDS =3D+ &quot;mpfr gmp libmpc&quot;<br>&gt;&gt; +DEPENDS =3D=
++ &quot;mpfr gmp libmpc systemtap&quot;<br>&gt;<br>&gt; Nitin,<br>&gt;<br>&=
+gt; I am not sure this is the right way to do this, first it&#39;s bringing=
+ in another dependency into gcc, it also will cause a mips failure as syste=
+mtap does not build with mips.<br>
+&gt;<br>&gt; It might be better to modify the configuration to ensure that =
+system tap is always disabled. =C2=A0This will ensure a deterministic build=
+.<br>&gt;<br><br>Yes disabling systemtap =C2=A0is the right thing to do her=
+e<br><br>
+<br>&gt; Sau!<br>&gt;&gt;<br>&gt;&gt; =C2=A0NATIVEDEPS =3D &quot;mpfr-nativ=
+e gmp-native libmpc-native zlib-native&quot;<br>&gt;&gt;<br>&gt;&gt; =C2=A0=
+LICENSE=3D&quot;GPL-3.0-with-GCC-exception&amp; =C2=A0GPLv3&quot;<br>&gt;<b=
+r>&gt; _______________________________________________<br>
+&gt; Openembedded-core mailing list<br>&gt; <a href=3D"mailto:Openembedded-=
+core@lists.openembedded.org">Openembedded-core@lists.openembedded.org</a><b=
+r>&gt; <a href=3D"http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/opene=
+mbedded-core">http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembed=
+ded-core</a><br>
+&gt;
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
-
-iEYEARECAAYFAk+z+zkACgkQN1Ujt2V2gBxEjQCeIFwjfMWCooyy3/Mu3nPJpbRD
-U8UAoLT22PecdXb8mhJmZvZXm/RJ90J2
-=K6/h
------END PGP SIGNATURE-----
-
---yQbNiKLmgenwUfTN--
+--bcaec53968c8d3ae7d04c02c1995--
