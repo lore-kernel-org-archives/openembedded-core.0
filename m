@@ -1,32 +1,34 @@
-Received: from mail-wi0-f169.google.com ([209.85.212.169])
+Received: from mail-wi0-f171.google.com ([209.85.212.171])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1SUkVj-0005IT-Dh
+	(envelope-from <martin.jansa@gmail.com>) id 1SUkYo-0001uA-JY
 	for openembedded-core@lists.openembedded.org;
-	Wed, 16 May 2012 22:07:52 +0200
-Received: by wibhn14 with SMTP id hn14so5517826wib.0
+	Wed, 16 May 2012 22:11:02 +0200
+Received: by wibhm14 with SMTP id hm14so5264034wib.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 May 2012 12:57:50 -0700 (PDT)
+	Wed, 16 May 2012 13:01:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=hGmHr461Q2QrE55bqNqyz+vtCmiglQyn1hwlZdB/z/E=;
-	b=h/Rtk1pRUodKY6go1pMwv1ZDMfI2ZiNikAfKKuDQoSJyALBffhe5cqkUU9tuEvtzW/
-	jwc2cUtNojg6Nzu3Vj62IbY4L/wOhBmG+olZyB93yfBW0JWcp5bHwqlDeji+AMqO5bRO
-	DMRV0zqb4j0CLLmczf9B7XzHAeaWhXevFDcvQY2t/Bhc7Uj7mtqhLcIUdGQwyoOlPYYY
-	6J9Ds2MZ97grDaqc/lFdnVMOn9JsAS1uCMNhOsFkfF1mRltM83CrZ8ODj3KYFXmybRiA
-	F8C5BmEtThntSavMOf2dFQUOiVgca0xKbM490k3fcu7iIMb5mpYeWW2PiGduy4NqZajU
-	pItg==
-Received: by 10.180.93.38 with SMTP id cr6mr11091355wib.16.1337198269737;
-	Wed, 16 May 2012 12:57:49 -0700 (PDT)
+	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
+	bh=4+TWbdCf/4p8BD34NBtFyysAO0otRLn26nEZEdYJzEk=;
+	b=EjPkSmJUVZ+Phl+vtsDti/CG4dH+e1GlycJ5v997odB3W40NoJYIJnK6jtHYB0/1Wl
+	5vdLyx5yJAIvIbait5KSdBnnVtD34AZY39t/K41OeKw5viuFhPgSlZJbVeV8cEvpd6uc
+	3ECrPnUo9sMIyDPfeT0EDmkOt1hZyWLZz9tH/89PhbRCDawG1USI/8+oCA+gW8aSczvr
+	Cd4RwVQ4nasCEkFclhCHgJn2TKQCOSV5gvC83gof81q0N/RmR0BCJ39pF93dFKm3fykf
+	MqnH5jPillrabRnZa2G9I5ObbyoiTm1tT0XiZuzVv/7c8vo/qjCkgw1LGmsTqgHYTL/L
+	Fi3w==
+Received: by 10.180.91.225 with SMTP id ch1mr11241201wib.18.1337198461070;
+	Wed, 16 May 2012 13:01:01 -0700 (PDT)
 Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id eb8sm15659211wib.11.2012.05.16.12.57.48
+	by mx.google.com with ESMTPS id f19sm12339549wiw.11.2012.05.16.13.00.57
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 16 May 2012 12:57:49 -0700 (PDT)
+	Wed, 16 May 2012 13:01:00 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 16 May 2012 21:57:45 +0200
-Message-Id: <1337198265-2910-1-git-send-email-Martin.Jansa@gmail.com>
+Date: Wed, 16 May 2012 22:00:54 +0200
+Message-Id: <1337198454-31671-1-git-send-email-Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 1.7.8.6
-Subject: [RFC] glib-2.0: upgrade to 2.32.3
+In-Reply-To: <1337198265-2910-1-git-send-email-Martin.Jansa@gmail.com>
+References: <1337198265-2910-1-git-send-email-Martin.Jansa@gmail.com>
+Subject: [RFCv2] glib-2.0: upgrade to 2.32.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,16 +43,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 May 2012 20:07:53 -0000
+X-List-Received-Date: Wed, 16 May 2012 20:11:03 -0000
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
  meta/recipes-core/glib-2.0/glib-2.0/nolibelf.patch |   56 ++++++++++----------
- meta/recipes-core/glib-2.0/glib-2.0_2.32.2.bb      |   53 ------------------
- meta/recipes-core/glib-2.0/glib-2.0_2.32.3.bb      |   55 +++++++++++++++++++
- 3 files changed, 83 insertions(+), 81 deletions(-)
- delete mode 100644 meta/recipes-core/glib-2.0/glib-2.0_2.32.2.bb
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0_2.32.3.bb
+ .../{glib-2.0_2.32.2.bb => glib-2.0_2.32.3.bb}     |    6 ++-
+ 2 files changed, 32 insertions(+), 30 deletions(-)
+ rename meta/recipes-core/glib-2.0/{glib-2.0_2.32.2.bb => glib-2.0_2.32.3.bb} (91%)
 
 diff --git a/meta/recipes-core/glib-2.0/glib-2.0/nolibelf.patch b/meta/recipes-core/glib-2.0/glib-2.0/nolibelf.patch
 index e9b3b26..0149767 100644
@@ -122,126 +122,30 @@ index e9b3b26..0149767 100644
 +-- 
 +1.7.8.6
 +
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.32.2.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.32.2.bb
-deleted file mode 100644
-index b9b3356..0000000
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.32.2.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.32.3.bb
+similarity index 91%
+rename from meta/recipes-core/glib-2.0/glib-2.0_2.32.2.bb
+rename to meta/recipes-core/glib-2.0/glib-2.0_2.32.3.bb
+index b9b3356..72db2ef 100644
 --- a/meta/recipes-core/glib-2.0/glib-2.0_2.32.2.bb
-+++ /dev/null
-@@ -1,53 +0,0 @@
--require glib.inc
--
--PE = "1"
--PR = "r1"
--
--DEPENDS += "libffi python-argparse-native zlib"
--DEPENDS_virtclass-native += "libffi-native python-argparse-native"
--DEPENDS_virtclass-nativesdk += "libffi-nativesdk python-argparse-native zlib-nativesdk"
--
--SHRT_VER = "${@d.getVar('PV',1).split('.')[0]}.${@d.getVar('PV',1).split('.')[1]}"
--
--SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
--           file://configure-libtool.patch \
--           file://60_wait-longer-for-threads-to-die.patch \
--           file://glib-2.0_fix_for_x32.patch \
--           file://nodbus.patch \
--           file://nolibelf.patch \
--          "
++++ b/meta/recipes-core/glib-2.0/glib-2.0_2.32.3.bb
+@@ -16,12 +16,14 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
+            file://nodbus.patch \
+            file://nolibelf.patch \
+           "
 -SRC_URI[md5sum] = "5bfdb6197afb90e4dbc7b1bb98f0eae0"
 -SRC_URI[sha256sum] = "b1764abf00bac96e0e93e29fb9715ce75f3583579acac40648e18771d43d6136"
--
--SRC_URI_append_virtclass-native = " file://glib-gettextize-dir.patch"
--BBCLASSEXTEND = "native nativesdk"
--
--PERLPATH = "${bindir}/env perl"
--PERLPATH_virtclass-native = "/usr/bin/env perl"
--PERLPATH_virtclass-nativesdk = "/usr/bin/env perl"
--
--do_configure_prepend() {
--  # missing ${topdir}/gtk-doc.make and --disable-gtk-doc* is not enough, because it calls gtkdocize (not provided by gtk-doc-native)
--  sed -i '/^docs/d' ${S}/configure.ac
--  sed -i 's/SUBDIRS = . m4macros glib gmodule gthread gobject gio tests po docs/SUBDIRS = . m4macros glib gmodule gthread gobject gio tests po/g' ${S}/Makefile.am
--  sed -i -e "s:TEST_PROGS += gdbus-serialization::g"  ${S}/gio/tests/Makefile.am
--}
--
--do_install_append() {
--  # remove some unpackaged files
--  rm -f ${D}${libdir}/gdbus-2.0/codegen/*.pyc
--  rm -f ${D}${libdir}/gdbus-2.0/codegen/*.pyo
--  # and empty dirs
--  rmdir ${D}${libdir}/gio/modules/
--  rmdir ${D}${libdir}/gio/
--
--  # Some distros have both /bin/perl and /usr/bin/perl, but we set perl location
--  # for target as /usr/bin/perl, so fix it to /usr/bin/perl.
--  if [ -f ${D}${bindir}/glib-mkenums ]; then
--    sed -i -e '1s,#!.*perl,#! ${PERLPATH},' ${D}${bindir}/glib-mkenums
--  fi
--}
--
--PACKAGES += "${PN}-codegen"
--FILES_${PN}-codegen = "${libdir}/gdbus-2.0/codegen/*.py"
--FILES_${PN} += "${datadir}/glib-2.0/gettext/mkinstalldirs ${datadir}/glib-2.0/gettext/po/Makefile.in.in"
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.32.3.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.32.3.bb
-new file mode 100644
-index 0000000..72db2ef
---- /dev/null
-+++ b/meta/recipes-core/glib-2.0/glib-2.0_2.32.3.bb
-@@ -0,0 +1,55 @@
-+require glib.inc
-+
-+PE = "1"
-+PR = "r1"
-+
-+DEPENDS += "libffi python-argparse-native zlib"
-+DEPENDS_virtclass-native += "libffi-native python-argparse-native"
-+DEPENDS_virtclass-nativesdk += "libffi-nativesdk python-argparse-native zlib-nativesdk"
-+
-+SHRT_VER = "${@d.getVar('PV',1).split('.')[0]}.${@d.getVar('PV',1).split('.')[1]}"
-+
-+SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
-+           file://configure-libtool.patch \
-+           file://60_wait-longer-for-threads-to-die.patch \
-+           file://glib-2.0_fix_for_x32.patch \
-+           file://nodbus.patch \
-+           file://nolibelf.patch \
-+          "
 +SRC_URI[md5sum] = "9bd3ac535c24b6c162be13b2c43c5adc"
 +SRC_URI[sha256sum] = "b65ceb462807e4a2f91c95e4293ce6bbefca308cb44a1407bcfdd9e40363ff4d"
-+
-+SRC_URI_append_virtclass-native = " file://glib-gettextize-dir.patch"
-+BBCLASSEXTEND = "native nativesdk"
-+
+ 
+ SRC_URI_append_virtclass-native = " file://glib-gettextize-dir.patch"
+ BBCLASSEXTEND = "native nativesdk"
+ 
 +EXTRA_OECONF = "--disable-libelf"
 +
-+PERLPATH = "${bindir}/env perl"
-+PERLPATH_virtclass-native = "/usr/bin/env perl"
-+PERLPATH_virtclass-nativesdk = "/usr/bin/env perl"
-+
-+do_configure_prepend() {
-+  # missing ${topdir}/gtk-doc.make and --disable-gtk-doc* is not enough, because it calls gtkdocize (not provided by gtk-doc-native)
-+  sed -i '/^docs/d' ${S}/configure.ac
-+  sed -i 's/SUBDIRS = . m4macros glib gmodule gthread gobject gio tests po docs/SUBDIRS = . m4macros glib gmodule gthread gobject gio tests po/g' ${S}/Makefile.am
-+  sed -i -e "s:TEST_PROGS += gdbus-serialization::g"  ${S}/gio/tests/Makefile.am
-+}
-+
-+do_install_append() {
-+  # remove some unpackaged files
-+  rm -f ${D}${libdir}/gdbus-2.0/codegen/*.pyc
-+  rm -f ${D}${libdir}/gdbus-2.0/codegen/*.pyo
-+  # and empty dirs
-+  rmdir ${D}${libdir}/gio/modules/
-+  rmdir ${D}${libdir}/gio/
-+
-+  # Some distros have both /bin/perl and /usr/bin/perl, but we set perl location
-+  # for target as /usr/bin/perl, so fix it to /usr/bin/perl.
-+  if [ -f ${D}${bindir}/glib-mkenums ]; then
-+    sed -i -e '1s,#!.*perl,#! ${PERLPATH},' ${D}${bindir}/glib-mkenums
-+  fi
-+}
-+
-+PACKAGES += "${PN}-codegen"
-+FILES_${PN}-codegen = "${libdir}/gdbus-2.0/codegen/*.py"
-+FILES_${PN} += "${datadir}/glib-2.0/gettext/mkinstalldirs ${datadir}/glib-2.0/gettext/po/Makefile.in.in"
+ PERLPATH = "${bindir}/env perl"
+ PERLPATH_virtclass-native = "/usr/bin/env perl"
+ PERLPATH_virtclass-nativesdk = "/usr/bin/env perl"
 -- 
 1.7.8.6
 
