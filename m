@@ -1,33 +1,26 @@
-Received: from mail-ob0-f175.google.com ([209.85.214.175])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1SUTBg-0007R4-H1
+	(envelope-from <sgw@linux.intel.com>) id 1SUW7R-0001Jv-Pt
 	for openembedded-core@lists.openembedded.org;
-	Wed, 16 May 2012 03:38:00 +0200
-Received: by mail-ob0-f175.google.com with SMTP id x4so342561obh.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 May 2012 18:28:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=/1zEHgHHiTz5vl+G75X0xD6hheo4eSzbX3NVlckhSw8=;
-	b=QAjxj6eW7GsTwfMycKoQ4h/Csdjr9tpCnWCv2fWMftT/4e0qDnVVAUnFK+in//9kMb
-	lY2b1gKHBsPT/DCikF8noAYlp7XEx+woKGSODbU6/rR9sHFVdZ38Fx8ixct4EFRX83bS
-	TROx3+GTmKWytPw54oxCnLEbci88ICJViWQbj1sXpIObzYs+mY6kxzJlWRQoQvNTZuhB
-	HU8Jdjw44LRZHsDsjl9qhzYfd6aLDZQNz0D2eDjXR2okIpQ8SZot23QURUW1+mEi7Pbp
-	5QEyv3kg7M0963QxKDb929SLPC91Q9S7TMk7t+6g91fQ1dDt/tIwgHONGH8QQkfVTJKT
-	tCyg==
-Received: by 10.182.31.47 with SMTP id x15mr917708obh.76.1337131681780;
-	Tue, 15 May 2012 18:28:01 -0700 (PDT)
-Received: from localhost.localdomain (nat-lmt.mentorg.com. [139.181.28.34])
-	by mx.google.com with ESMTPS id rj10sm935676obc.22.2012.05.15.18.28.00
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 15 May 2012 18:28:01 -0700 (PDT)
-From: Christopher Larson <kergoth@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 15 May 2012 20:28:24 -0500
-Message-Id: <1337131704-9285-1-git-send-email-kergoth@gmail.com>
-X-Mailer: git-send-email 1.7.7
-Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCH] csl-versions: fix bb.process.CmdError reference
+	Wed, 16 May 2012 06:45:50 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 15 May 2012 21:35:47 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="141125324"
+Received: from unknown (HELO [10.255.13.38]) ([10.255.13.38])
+	by orsmga001.jf.intel.com with ESMTP; 15 May 2012 21:35:46 -0700
+Message-ID: <4FB32EA1.3060601@linux.intel.com>
+Date: Wed, 16 May 2012 07:35:45 +0300
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <20120515140110.2ba5a1be@wrlaptop>
+	<CAKSdS8K64oTpq4asBcL9k4BgCe6BOEAwX3exQyq4GoTHtAxW9w@mail.gmail.com>
+In-Reply-To: <CAKSdS8K64oTpq4asBcL9k4BgCe6BOEAwX3exQyq4GoTHtAxW9w@mail.gmail.com>
+Subject: Re: RFC: FOO_subtract, the logical antidote to FOO_append.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,30 +35,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 May 2012 01:38:00 -0000
+X-List-Received-Date: Wed, 16 May 2012 04:45:50 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Christopher Larson <chris_larson@mentor.com>
+On 05/15/2012 11:46 PM, Manuel Bessler wrote:
+> Just a few minutes ago I was wondering if such a feature did exist...
+>
+> I ran into a situation where I wanted to remove something from a .bbappend
+> that is added to a variable using VARIABLE_append = "this and that"
+>
+My understanding is that a _subtract is fraught with danger, there all 
+sorts of ordering implications.
 
-Signed-off-by: Christopher Larson <chris_larson@mentor.com>
----
- meta/conf/distro/include/csl-versions.inc |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+For what you are trying to do in a .bbappend, can be done by using 
+oe_filter_out() from utils.bbclass, it has to be done in anonymous code.
 
-diff --git a/meta/conf/distro/include/csl-versions.inc b/meta/conf/distro/include/csl-versions.inc
-index ec7a6ba..0790b8a 100644
---- a/meta/conf/distro/include/csl-versions.inc
-+++ b/meta/conf/distro/include/csl-versions.inc
-@@ -83,7 +83,7 @@ def csl_get_kernel_version(d):
- def csl_get_gdb_version(d):
- 	try:
- 		stdout, stderr = csl_run(d, 'gdb', '-v')
--	except CmdError:
-+	except bb.process.CmdError:
- 		return 'UNKNOWN'
- 	else:
- 		first_line = stdout.splitlines()[0]
--- 
-1.7.7
+VARIABLE := "${@oe_filter_out('xxx', '${VARIABLE}', d)}"
 
+This might be what you want.
+
+Sau!
+
+>
+> Manuel
+> On Tue, May 15, 2012 at 3:01 PM, Peter Seebach
+> <peter.seebach@windriver.com>  wrote:
+>> There's a few cases where something is a huge list of space-separated
+>> things, and it is desireable to remove one.  The example currently
+>> afflicting me is DISTRO_FEATURES_LIBC_DEFAULT; I want to end up with
+>> the distro features including all but one of the words in it.
+>>
+>> It seems to me that a counterpart to _append would make sense.  Here
+>> is my basic idea:
+>>
+>> FOO_subtract = "..."
+>>
+>> means that, when you expand FOO:
+>>
+>> 1. Fully expand it.
+>> 2. Fully expand FOO_subtract.
+>> 3. Remove any words in FOO_subtract from FOO.
+>> 4. Yield the result.
+>>
+>> The rationale is that the semantics of things where we're using _append
+>> seem to be consistently of the form "this is a space-separated set",
+>> and being able to remove things from a set would be Super Handy.
+>>
+>> So I'm proposing the semantics for consideration, and if people like
+>> them, I will go try to implement it in my Copious Free Time.
+>>
+>> -s
+>> --
+>> Listen, get this.  Nobody with a good compiler needs to be justified.
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+>
 
 
