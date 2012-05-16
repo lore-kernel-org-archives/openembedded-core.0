@@ -1,25 +1,26 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SUifd-0004qm-NV
+	(envelope-from <sgw@linux.intel.com>) id 1SUigw-0004tY-C3
 	for openembedded-core@lists.openembedded.org;
-	Wed, 16 May 2012 20:09:57 +0200
+	Wed, 16 May 2012 20:11:18 +0200
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 16 May 2012 10:59:55 -0700
+	by orsmga102.jf.intel.com with ESMTP; 16 May 2012 11:01:15 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="141372557"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="141373046"
 Received: from unknown (HELO [10.255.13.103]) ([10.255.13.103])
-	by orsmga001.jf.intel.com with ESMTP; 16 May 2012 10:59:54 -0700
-Message-ID: <4FB3EB19.7000206@linux.intel.com>
-Date: Wed, 16 May 2012 20:59:53 +0300
+	by orsmga001.jf.intel.com with ESMTP; 16 May 2012 11:01:14 -0700
+Message-ID: <4FB3EB6A.6040101@linux.intel.com>
+Date: Wed, 16 May 2012 21:01:14 +0300
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <1336683976-11846-1-git-send-email-andrei@gherzan.ro>
-In-Reply-To: <1336683976-11846-1-git-send-email-andrei@gherzan.ro>
-Subject: Re: [PATCH V3] fotowall: Add #include ui_wizard.h to ExportWizard.cpp
+References: <CAMKF1srWO69M=MOa4_ar8oO55fkaofzSHj_UAsRaVL+-dzEXNw@mail.gmail.com>
+	<1336686231-28111-1-git-send-email-cazfi74@gmail.com>
+In-Reply-To: <1336686231-28111-1-git-send-email-cazfi74@gmail.com>
+Subject: Re: [PATCH] expat: update to upstream version 2.1.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,68 +35,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 May 2012 18:09:58 -0000
+X-List-Received-Date: Wed, 16 May 2012 18:11:18 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 05/11/2012 12:06 AM, Andrei Gherzan wrote:
-> App/ExportWizard.cpp depends on wizard.h which depends on ui_wizard. The last one
-> should be already generated before compiling ExportWizard.cpp.
->
-> [YOCTO #2297]
->
-> Signed-off-by: Andrei Gherzan<andrei@gherzan.ro>
+On 05/11/2012 12:43 AM, Marko Lindqvist wrote:
+> Signed-off-by: Marko Lindqvist<cazfi74@gmail.com>
 > ---
->   .../ExportWizard-depends-on-ui_wizard.patch        |   18 ++++++++++++++++++
->   meta/recipes-qt/qt-apps/fotowall_0.9.bb            |    6 ++++--
->   2 files changed, 22 insertions(+), 2 deletions(-)
->   create mode 100644 meta/recipes-qt/qt-apps/fotowall/ExportWizard-depends-on-ui_wizard.patch
+>   .../expat/{expat-2.0.1 =>  expat-2.1.0}/autotools.patch    |   13 ++++++++-----
+>   meta/recipes-core/expat/expat_2.0.1.bb                    |    6 ------
+>   meta/recipes-core/expat/expat_2.1.0.bb                    |    6 ++++++
+>   3 files changed, 14 insertions(+), 11 deletions(-)
+>   rename meta/recipes-core/expat/{expat-2.0.1 =>  expat-2.1.0}/autotools.patch (53%)
+>   delete mode 100644 meta/recipes-core/expat/expat_2.0.1.bb
+>   create mode 100644 meta/recipes-core/expat/expat_2.1.0.bb
 >
-> diff --git a/meta/recipes-qt/qt-apps/fotowall/ExportWizard-depends-on-ui_wizard.patch b/meta/recipes-qt/qt-apps/fotowall/ExportWizard-depends-on-ui_wizard.patch
+> diff --git a/meta/recipes-core/expat/expat-2.0.1/autotools.patch b/meta/recipes-core/expat/expat-2.1.0/autotools.patch
+> similarity index 53%
+> rename from meta/recipes-core/expat/expat-2.0.1/autotools.patch
+> rename to meta/recipes-core/expat/expat-2.1.0/autotools.patch
+> index c0ac10b..0e59969 100644
+> --- a/meta/recipes-core/expat/expat-2.0.1/autotools.patch
+> +++ b/meta/recipes-core/expat/expat-2.1.0/autotools.patch
+> @@ -6,14 +6,17 @@ Workaround specific to our build system.
+>   Signed-off-by: Kevin Tian<kevin.tian@intel.com>
+>   Signed-off-by: Scott Garman<scott.a.garman@intel.com>
+>
+> -diff -bur expat-2.0.0~orig/configure.in expat-2.0.0/configure.in
+> ---- expat-2.0.0~orig/configure.in	2006-01-10 19:10:46.000000000 -0600
+> -+++ expat-2.0.0/configure.in	2006-02-10 19:12:24.000000000 -0600
+> -@@ -50,9 +50,6 @@
+> +Updated to apply over expat 2.1.0
+> +
+> +Signed-off-by: Marko Lindqvist<cazfi74@gmail.com>
+> +
+> +diff -Nurd expat-2.1.0/configure.in expat-2.1.0/configure.in
+> +--- expat-2.1.0/configure.in	2012-03-04 01:45:53.000000000 +0200
+> ++++ expat-2.1.0/configure.in	2012-05-10 21:04:44.000000000 +0300
+> +@@ -51,8 +51,6 @@
+>
+>    AC_CONFIG_HEADER(expat_config.h)
+>
+> --sinclude(conftools/libtool.m4)
+>   -sinclude(conftools/ac_c_bigendian_cross.m4)
+>   -
+>    AC_LIBTOOL_WIN32_DLL
+> diff --git a/meta/recipes-core/expat/expat_2.0.1.bb b/meta/recipes-core/expat/expat_2.0.1.bb
+> deleted file mode 100644
+> index 30b5684..0000000
+> --- a/meta/recipes-core/expat/expat_2.0.1.bb
+> +++ /dev/null
+> @@ -1,6 +0,0 @@
+> -require expat.inc
+> -LIC_FILES_CHKSUM = "file://COPYING;md5=1b71f681713d1256e1c23b0890920874"
+> -PR = "r1"
+> -
+> -SRC_URI[md5sum] = "ee8b492592568805593f81f8cdf2a04c"
+> -SRC_URI[sha256sum] = "847660b4df86e707c9150e33cd8c25bc5cd828f708c7418e765e3e983a2e5e93"
+> diff --git a/meta/recipes-core/expat/expat_2.1.0.bb b/meta/recipes-core/expat/expat_2.1.0.bb
 > new file mode 100644
-> index 0000000..d8b2b23
+> index 0000000..1ce1844
 > --- /dev/null
-> +++ b/meta/recipes-qt/qt-apps/fotowall/ExportWizard-depends-on-ui_wizard.patch
-> @@ -0,0 +1,18 @@
-> +App/ExportWizard.cpp depends on wizard.h which depends on ui_wizard. The last one
-> +should be already generated before compiling ExportWizard.cpp.
+> +++ b/meta/recipes-core/expat/expat_2.1.0.bb
+> @@ -0,0 +1,6 @@
+> +require expat.inc
+> +LIC_FILES_CHKSUM = "file://COPYING;md5=1b71f681713d1256e1c23b0890920874"
+> +PR = "r0"
 > +
-> +Signed-off-by: Andrei Gherzan<andrei@gherzan.ro>
-> +Upstream-Status: Pending
-> +
-> +Index: Fotowall-0.9/App/ExportWizard.cpp
-> +===================================================================
-> +--- Fotowall-0.9.orig/App/ExportWizard.cpp	2009-11-30 13:21:31.000000000 +0200
-> ++++ Fotowall-0.9/App/ExportWizard.cpp	2012-05-10 17:12:06.765230830 +0300
-> +@@ -23,6 +23,7 @@
-> + #include "imageloaderqt.h"
-> + #include "posterazorcore.h"
-> + #include "wizard.h"
-> ++#include "ui_wizard.h"
-> +
-> + #include<QDesktopServices>
-> + #include<QDesktopWidget>
-> diff --git a/meta/recipes-qt/qt-apps/fotowall_0.9.bb b/meta/recipes-qt/qt-apps/fotowall_0.9.bb
-> index 52dd727..3cb79a3 100644
-> --- a/meta/recipes-qt/qt-apps/fotowall_0.9.bb
-> +++ b/meta/recipes-qt/qt-apps/fotowall_0.9.bb
-> @@ -7,12 +7,14 @@ LIC_FILES_CHKSUM = "file://GPL_V2;md5=79808397c3355f163c012616125c9e26 \
->                       file://main.cpp;beginline=6;endline=11;md5=b569acc2bf8974a3082b58fc53b9d8dc"
->   SECTION = "x11/apps"
->
-> -PR = "r2"
-> +PR = "r3"
->
->   DEPENDS = "qt4-x11-free"
->   RRECOMMENDS_${PN} += "qt4-plugin-imageformat-gif qt4-plugin-imageformat-jpeg qt4-plugin-imageformat-tiff"
->
-> -SRC_URI = "http://qt-apps.org/CONTENT/content-files/71316-Fotowall-0.9.tar.bz2"
-> +SRC_URI = "http://qt-apps.org/CONTENT/content-files/71316-Fotowall-0.9.tar.bz2 \
-> +           file://ExportWizard-depends-on-ui_wizard.patch \
-> +           "
->
->   SRC_URI[md5sum] = "142ef697332e0777c6d22c5bc96cc438"
->   SRC_URI[sha256sum] = "e4d0c005d2cb1d7c09438bfc3098eadebc08946e4fbc0655b7fc8b046de3810d"
+> +SRC_URI[md5sum] = "dd7dab7a5fea97d2a6a43f511449b7cd"
+> +SRC_URI[sha256sum] = "823705472f816df21c8f6aa026dd162b280806838bb55b3432b0fb1fcca7eb86"
 
 Merged into OE-Core
 
