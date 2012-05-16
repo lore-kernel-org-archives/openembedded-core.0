@@ -1,26 +1,29 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SUW7R-0001Jv-Pt
+	(envelope-from <Sen.Zhang@windriver.com>) id 1SUYLe-0005k4-5r
 	for openembedded-core@lists.openembedded.org;
-	Wed, 16 May 2012 06:45:50 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 15 May 2012 21:35:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="141125324"
-Received: from unknown (HELO [10.255.13.38]) ([10.255.13.38])
-	by orsmga001.jf.intel.com with ESMTP; 15 May 2012 21:35:46 -0700
-Message-ID: <4FB32EA1.3060601@linux.intel.com>
-Date: Wed, 16 May 2012 07:35:45 +0300
-From: Saul Wold <sgw@linux.intel.com>
+	Wed, 16 May 2012 09:08:38 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q4G6wZGw012885
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 15 May 2012 23:58:36 -0700 (PDT)
+Received: from [128.224.162.230] (128.224.162.230) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
+	Tue, 15 May 2012 23:58:35 -0700
+Message-ID: <4FB34FA9.7010009@windriver.com>
+Date: Wed, 16 May 2012 14:56:41 +0800
+From: Jesse Zhang <sen.zhang@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
+	rv:8.0) Gecko/20111110 Thunderbird/8.0
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <20120515140110.2ba5a1be@wrlaptop>
-	<CAKSdS8K64oTpq4asBcL9k4BgCe6BOEAwX3exQyq4GoTHtAxW9w@mail.gmail.com>
-In-Reply-To: <CAKSdS8K64oTpq4asBcL9k4BgCe6BOEAwX3exQyq4GoTHtAxW9w@mail.gmail.com>
-Subject: Re: RFC: FOO_subtract, the logical antidote to FOO_append.
+References: <1336980383-11201-1-git-send-email-sen.zhang@windriver.com>
+In-Reply-To: <1336980383-11201-1-git-send-email-sen.zhang@windriver.com>
+X-Originating-IP: [128.224.162.230]
+Cc: Zhenfeng.Zhao@windriver.com
+Subject: Re: [PATCH] wpa-supplicant: don't reset ${S}
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,70 +38,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 May 2012 04:45:50 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Wed, 16 May 2012 07:08:38 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 05/15/2012 11:46 PM, Manuel Bessler wrote:
-> Just a few minutes ago I was wondering if such a feature did exist...
->
-> I ran into a situation where I wanted to remove something from a .bbappend
-> that is added to a variable using VARIABLE_append = "this and that"
->
-My understanding is that a _subtract is fraught with danger, there all 
-sorts of ordering implications.
+Please ignore this one.
 
-For what you are trying to do in a .bbappend, can be done by using 
-oe_filter_out() from utils.bbclass, it has to be done in anonymous code.
+I found I could just use the "patchdir" parameter.
 
-VARIABLE := "${@oe_filter_out('xxx', '${VARIABLE}', d)}"
+jesse
 
-This might be what you want.
-
-Sau!
-
->
-> Manuel
-> On Tue, May 15, 2012 at 3:01 PM, Peter Seebach
-> <peter.seebach@windriver.com>  wrote:
->> There's a few cases where something is a huge list of space-separated
->> things, and it is desireable to remove one.  The example currently
->> afflicting me is DISTRO_FEATURES_LIBC_DEFAULT; I want to end up with
->> the distro features including all but one of the words in it.
->>
->> It seems to me that a counterpart to _append would make sense.  Here
->> is my basic idea:
->>
->> FOO_subtract = "..."
->>
->> means that, when you expand FOO:
->>
->> 1. Fully expand it.
->> 2. Fully expand FOO_subtract.
->> 3. Remove any words in FOO_subtract from FOO.
->> 4. Yield the result.
->>
->> The rationale is that the semantics of things where we're using _append
->> seem to be consistently of the form "this is a space-separated set",
->> and being able to remove things from a set would be Super Handy.
->>
->> So I'm proposing the semantics for consideration, and if people like
->> them, I will go try to implement it in my Copious Free Time.
->>
->> -s
->> --
->> Listen, get this.  Nobody with a good compiler needs to be justified.
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
->
+On 05/14/2012 03:26 PM, Jesse Zhang wrote:
+> If ${S} is set to the subdir wpa_supplicant, patches with changes in
+> other subdirs can't be applied. Fix ${S} so patches can be applied in
+> the normal way.
+> 
+> Signed-off-by: Jesse Zhang <sen.zhang@windriver.com>
+> ---
+> 
+> I was adding a patch to wpa-supplicant using bbappend in our layer, but it was
+> impossible since ${S} was overridden and set to a subdir in the unpacked
+> source.
+> 
+> Jesse
+> 
+>  .../wpa-supplicant/wpa-supplicant-0.7.inc          |   15 +++++++++------
+>  1 files changed, 9 insertions(+), 6 deletions(-)
+> 
+> diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.inc b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.inc
+> index aabb3df..1db4acf 100644
+> --- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.inc
+> +++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.inc
+> @@ -3,9 +3,9 @@ HOMEPAGE = "http://hostap.epitest.fi/wpa_supplicant/"
+>  BUGTRACKER = "http://hostap.epitest.fi/bugz/"
+>  SECTION = "network"
+>  LICENSE = "GPLv2 | BSD"
+> -LIC_FILES_CHKSUM = "file://../COPYING;md5=c54ce9345727175ff66d17b67ff51f58 \
+> -                    file://../README;md5=54cfc88015d3ce83f7156e63c6bb1738 \
+> -                    file://wpa_supplicant.c;beginline=1;endline=17;md5=acdc5a4b0d6345f21f136eace747260e"
+> +LIC_FILES_CHKSUM = "file://COPYING;md5=c54ce9345727175ff66d17b67ff51f58 \
+> +                    file://README;md5=54cfc88015d3ce83f7156e63c6bb1738 \
+> +                    file://wpa_supplicant/wpa_supplicant.c;beginline=1;endline=17;md5=acdc5a4b0d6345f21f136eace747260e"
+>  DEPENDS = "gnutls dbus libnl"
+>  RRECOMMENDS_${PN} = "wpa-supplicant-passphrase wpa-supplicant-cli"
+>  
+> @@ -16,7 +16,7 @@ SRC_URI = "http://hostap.epitest.fi/releases/wpa_supplicant-${PV}.tar.gz \
+>             file://wpa_supplicant.conf-sane \
+>             file://99_wpa_supplicant"
+>  
+> -S = "${WORKDIR}/wpa_supplicant-${PV}/wpa_supplicant"
+> +S = "${WORKDIR}/wpa_supplicant-${PV}/"
+>  
+>  PACKAGES_prepend = "wpa-supplicant-passphrase wpa-supplicant-cli "
+>  FILES_wpa-supplicant-passphrase = "${sbindir}/wpa_passphrase"
+> @@ -24,16 +24,19 @@ FILES_wpa-supplicant-cli = "${sbindir}/wpa_cli"
+>  FILES_${PN} += "${datadir}/dbus-1/system-services/*"
+>  
+>  do_configure () {
+> +	cd wpa_supplicant
+>  	install -m 0755 ${WORKDIR}/defconfig-gnutls .config
+>  }
+>  
+>  export EXTRA_CFLAGS = "${CFLAGS}"
+>  do_compile () {
+> +	cd wpa_supplicant
+>  	unset CFLAGS CPPFLAGS CXXFLAGS
+>  	oe_runmake
+>  }
+>  
+>  do_install () {
+> +	cd wpa_supplicant
+>  	install -d ${D}${sbindir}
+>  	install -m 755 wpa_supplicant ${D}${sbindir}
+>  	install -m 755 wpa_cli        ${D}${sbindir}
+> @@ -56,9 +59,9 @@ do_install () {
+>  	ln -sf ../if-pre-up.d/wpa-supplicant if-post-down.d/wpa-supplicant
+>  
+>  	install -d ${D}/${sysconfdir}/dbus-1/system.d
+> -	install -m 644 ${S}/dbus/dbus-wpa_supplicant.conf ${D}/${sysconfdir}/dbus-1/system.d
+> +	install -m 644 ${S}/wpa_supplicant/dbus/dbus-wpa_supplicant.conf ${D}/${sysconfdir}/dbus-1/system.d
+>  	install -d ${D}/${datadir}/dbus-1/system-services
+> -	install -m 644 ${S}/dbus/*.service ${D}/${datadir}/dbus-1/system-services
+> +	install -m 644 ${S}/wpa_supplicant/dbus/*.service ${D}/${datadir}/dbus-1/system-services
+>  	sed -i -e s:${base_sbindir}:${sbindir}:g ${D}/${datadir}/dbus-1/system-services/*.service
+>  
+>  	install -d ${D}/etc/default/volatiles
 
 
