@@ -1,32 +1,37 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1SUk76-0002Gz-Sr
+	(envelope-from <nitin.a.kamble@intel.com>) id 1SUkK4-0005D0-0C
 	for openembedded-core@lists.openembedded.org;
-	Wed, 16 May 2012 21:42:24 +0200
-Received: by eaal1 with SMTP id l1so313875eaa.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 May 2012 12:32:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type; bh=4NjBJrcMUk4QW5xU90bDdlLIXWkbFnX18qGVTIGVi1o=;
-	b=0uT51wCiPjqT5gjvmLeO7oAvxntvZbF1onbq2GVMvON+XLEg9IQMZK+DTbHzqtPcfm
-	QX0Kk60RY9Y2eQNxVgqQ8U3IhKt6FK3D0fluaxJZYA7gWzk8jwkdPJkYlo8C+uEuCPRq
-	tj/NWz7BhwtawWLjbRp1EcNTWI4/ONDj+xzd0jIHNNV/5CjafDf0zzisihkEUK2YxnMV
-	dyaiRslj4+IbU9V49OUF+0sxDxsyrctKKEJzn5puCfMa2QQ6dFrGlStJYVtU6AT6wyVQ
-	5T9rc5rrWDKAk7mCggw26vjUJJZkS2Clo6R6JcuNzBEBwDLPQgfyT1st71MP2n8EaXT+
-	q7Mg==
+	Wed, 16 May 2012 21:55:48 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 16 May 2012 12:45:28 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="144049712"
+Received: from orsmsx604.amr.corp.intel.com ([10.22.226.87])
+	by azsmga001.ch.intel.com with ESMTP; 16 May 2012 12:45:27 -0700
+Received: from orsmsx103.amr.corp.intel.com (10.22.225.130) by
+	orsmsx604.amr.corp.intel.com (10.22.226.87) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Wed, 16 May 2012 12:45:27 -0700
+Received: from orsmsx106.amr.corp.intel.com ([169.254.5.157]) by
+	ORSMSX103.amr.corp.intel.com ([169.254.2.163]) with mapi id
+	14.01.0355.002; Wed, 16 May 2012 12:45:27 -0700
+From: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
+To: Saul Wold <sgw@linux.intel.com>, Patches and discussions about the oe-core
+	layer <openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH 1/2] eglibc: package mtrace separately
+Thread-Index: AQHNM49SQPS8HxInCE+coUlLF1wQ+JbNMvYA//+epEA=
+Date: Wed, 16 May 2012 19:45:26 +0000
+Message-ID: <ADD6A3980E8C39419A432FF422031B4C030EAE98@ORSMSX106.amr.corp.intel.com>
+References: <cover.1337191798.git.nitin.a.kamble@intel.com>
+	<95a4d7c127f39cac6fc7d60e8b4081ae774cd745.1337191798.git.nitin.a.kamble@intel.com>
+	<4FB3F2F0.10201@linux.intel.com>
+In-Reply-To: <4FB3F2F0.10201@linux.intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.22.254.139]
 MIME-Version: 1.0
-Received: by 10.14.99.129 with SMTP id x1mr899277eef.108.1337196742909; Wed,
-	16 May 2012 12:32:22 -0700 (PDT)
-Received: by 10.14.2.132 with HTTP; Wed, 16 May 2012 12:32:22 -0700 (PDT)
-In-Reply-To: <CAOHjBZtuA4+7oxi=KghEYdw51Sds7gU3kv9PFTR-iF8KG6SvpQ@mail.gmail.com>
-References: <CAOHjBZtuA4+7oxi=KghEYdw51Sds7gU3kv9PFTR-iF8KG6SvpQ@mail.gmail.com>
-Date: Wed, 16 May 2012 12:32:22 -0700
-Message-ID: <CAMKF1sq8g6X5YB2Yw6v9nV522JMd3m3sCCvA4konJanaiB2sbg@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [Error] do_package error on libgcc
+Subject: Re: [PATCH 1/2] eglibc: package mtrace separately
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,242 +46,144 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 May 2012 19:42:25 -0000
-Content-Type: multipart/alternative; boundary=bcaec53968c8db1fcc04c02c6023
-
---bcaec53968c8db1fcc04c02c6023
-Content-Type: text/plain; charset=UTF-8
-
-On Wednesday, May 16, 2012, Giuseppe Condorelli <
-giuseppe.condorelli@gmail.com> wrote:
-> Hi All,
->
-> I'm catching an error during my personal core-image build at do_package
-stage of libgcc.
-> The libgcc version (4.6.3) I'm using comes from an own layer as well as
-the compiler.
-> In past days I was able to successfully complete the personal core-image
-build working against stable oe-core tar file. but now I've migrated to the
-OE-Core developping git branch
-> and I'm falling in this error.
-
-Why do you have your own compiler recipes ?
-Build process has changed slightly after denzil
-So you might have to match your recipes up to oe-core
-
-
-> Comparing the log.do_package output with the one I obtained in the past
-days I'm understanding the runstrip is not invoked  by
-split_and_strip_files routine
-> and I'm not sure this is the cause of my error.
-> I'm using bitbake version 1.15.2, for sure I used a previous version in
-past days when worked with stable oe-core sources.
->
-> Please can you look at the error?
-> Many thanks,
-> Giuseppe
->
->
-==============================================================================================================
-> NOTE: Running task 370 of 1299 (ID: 746,
-/oelinux/condorg/openembedded-core/meta-stlinux/recipes-devtools/gcc/
-libgcc_4.6.3.bb, do_package)
->
-> NOTE: package libgcc-4.6.3-r0: task do_package: Started
->
-> ERROR: Error executing a python function in
-/oelinux/condorg/openembedded-core/meta-stlinux/recipes-devtools/gcc/
-libgcc_4.6.3.bb:
->
-> OSError: [Errno 2] No such file or directory
->
-> ERROR: The stack trace of python calls that resulted in this
-exception/failure was:
->
-> ERROR: File "do_package_qa", line 69, in <module>
->
-> ERROR:
->
-> ERROR: File "do_package_qa", line 58, in do_package_qa
->
-> ERROR:
->
-> ERROR: File "insane.bbclass", line 19, in package_qa_walk
->
-> ERROR:
->
-> ERROR: File "insane.bbclass", line 17, in
-package_qa_check_unsafe_references_in_binaries
->
-> ERROR:
->
-> ERROR: File
-"/oelinux/condorg/openembedded-core/bitbake-1.15.2/lib/bb/process.py", line
-63, in __init__
->
-> ERROR: subprocess.Popen.__init__(self, *args, **options)
->
-> ERROR:
->
-> ERROR: File "/usr/lib64/python2.7/subprocess.py", line 672, in __init__
->
-> ERROR: errread, errwrite)
->
-> ERROR:
->
-> ERROR: File "/usr/lib64/python2.7/subprocess.py", line 1201, in
-_execute_child
->
-> ERROR: raise child_exception
->
-> ERROR:
->
-> ERROR: The code that was being executed was:
->
-> ERROR: 0065: bb.fatal("QA run found fatal errors. Please consider fixing
-them.")
->
-> ERROR: 0066: bb.note("DONE with PACKAGE QA")
->
-> ERROR: 0067:
->
-> ERROR: 0068:
->
-> ERROR: *** 0069:do_package_qa(d)
->
-> ERROR: 0070:
->
-> ERROR: (file: 'do_package_qa', lineno: 69, function: <module>)
->
-> ERROR: 0054: errorchecks.append(g[testmatrix[e]])
->
-> ERROR: 0055:
->
-> ERROR: 0056: bb.note("Checking Package: %s" % package)
->
-> ERROR: 0057: path = "%s/%s" % (pkgdest, package)
->
-> ERROR: *** 0058: if not package_qa_walk(path, warnchecks, errorchecks,
-skip, package, d):
->
-> ERROR: 0059: walk_sane = False
->
-> ERROR: 0060: if not package_qa_check_rdepends(package, pkgdest, skip, d):
->
-> ERROR: 0061: rdepends_sane = False
->
-> ERROR: 0062:
->
-> ERROR: (file: 'do_package_qa', lineno: 58, function: do_package_qa)
->
-> ERROR: Function failed: do_package_qa
->
-> ERROR: Logfile of failure stored in:
-/oelinux/condorg/openembedded-core/stlinux-3.0-build/tmp-uclibc/work/sh4-oe-linux-uclibc/libgcc-4.6.3-r0/temp/log.do_package.983
->
-> NOTE: package libgcc-4.6.3-r0: task do_package: Failed
->
-> ERROR: Task 746
-(/oelinux/condorg/openembedded-core/meta-stlinux/recipes-devtools/gcc/
-libgcc_4.6.3.bb, do_package) failed with exit code '1'
->
-> NOTE: Tasks Summary: Attempted 370 tasks of which 357 didn't need to be
-rerun and 1 failed.
->
-> Summary: 1 task failed:
->
-> /oelinux/condorg/openembedded-core/meta-stlinux/recipes-devtools/gcc/
-libgcc_4.6.3.bb, do_package
->
-> Summary: There were 38 ERROR messages shown, returning a non-zero exit
-code.
-
---bcaec53968c8db1fcc04c02c6023
-Content-Type: text/html; charset=UTF-8
+X-List-Received-Date: Wed, 16 May 2012 19:55:48 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-<br><br>On Wednesday, May 16, 2012, Giuseppe Condorelli &lt;<a href=3D"mail=
-to:giuseppe.condorelli@gmail.com">giuseppe.condorelli@gmail.com</a>&gt; wro=
-te:<br>&gt; Hi All,<br>&gt; =C2=A0<br>&gt; I&#39;m catching an error during=
- my personal core-image build at do_package stage of libgcc.<br>
-&gt; The libgcc version (4.6.3)=C2=A0I&#39;m using comes from an own layer =
-as well as the compiler.<br>&gt; In past days I was able to successfully co=
-mplete the personal core-image build working=C2=A0against stable oe-core ta=
-r file. but now I&#39;ve migrated to the OE-Core=C2=A0developping git branc=
-h<br>
-&gt; and I&#39;m falling in this error.<br><br>Why do you have your own com=
-piler recipes ?<br>Build process has changed slightly after denzil<br>So yo=
-u might have to match your recipes up to oe-core<br><br><br>&gt; Comparing =
-the log.do_package output with the one I obtained in the past days I&#39;m =
-understanding the runstrip is not invoked=C2=A0 by split_and_strip_files ro=
-utine<br>
-&gt; and I&#39;m not sure this is the cause of my error.<br>&gt; I&#39;m us=
-ing bitbake version 1.15.2, for sure I used a previous version in past days=
- when worked with stable oe-core sources.<br>&gt; =C2=A0<br>&gt; Please can=
- you look at the error?<br>
-&gt; Many thanks,<br>&gt; Giuseppe<br>&gt; =C2=A0<br>&gt; =3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D<br>&gt; NOTE: Running task 370 of 1299 (ID: 746, /oelinux/c=
-ondorg/openembedded-core/meta-stlinux/recipes-devtools/gcc/<a href=3D"http:=
-//libgcc_4.6.3.bb">libgcc_4.6.3.bb</a>, do_package)<br>
-&gt;<br>&gt; NOTE: package libgcc-4.6.3-r0: task do_package: Started<br>&gt=
-;<br>&gt; ERROR: Error executing a python function in /oelinux/condorg/open=
-embedded-core/meta-stlinux/recipes-devtools/gcc/<a href=3D"http://libgcc_4.=
-6.3.bb">libgcc_4.6.3.bb</a>:<br>
-&gt;<br>&gt; OSError: [Errno 2] No such file or directory<br>&gt;<br>&gt; E=
-RROR: The stack trace of python calls that resulted in this exception/failu=
-re was:<br>&gt;<br>&gt; ERROR: File &quot;do_package_qa&quot;, line 69, in =
-&lt;module&gt;<br>
-&gt;<br>&gt; ERROR:<br>&gt;<br>&gt; ERROR: File &quot;do_package_qa&quot;, =
-line 58, in do_package_qa<br>&gt;<br>&gt; ERROR:<br>&gt;<br>&gt; ERROR: Fil=
-e &quot;insane.bbclass&quot;, line 19, in package_qa_walk<br>&gt;<br>&gt; E=
-RROR:<br>
-&gt;<br>&gt; ERROR: File &quot;insane.bbclass&quot;, line 17, in package_qa=
-_check_unsafe_references_in_binaries<br>&gt;<br>&gt; ERROR:<br>&gt;<br>&gt;=
- ERROR: File &quot;/oelinux/condorg/openembedded-core/bitbake-1.15.2/lib/bb=
-/process.py&quot;, line 63, in __init__<br>
-&gt;<br>&gt; ERROR: subprocess.Popen.__init__(self, *args, **options)<br>&g=
-t;<br>&gt; ERROR:<br>&gt;<br>&gt; ERROR: File &quot;/usr/lib64/python2.7/su=
-bprocess.py&quot;, line 672, in __init__<br>&gt;<br>&gt; ERROR: errread, er=
-rwrite)<br>
-&gt;<br>&gt; ERROR:<br>&gt;<br>&gt; ERROR: File &quot;/usr/lib64/python2.7/=
-subprocess.py&quot;, line 1201, in _execute_child<br>&gt;<br>&gt; ERROR: ra=
-ise child_exception<br>&gt;<br>&gt; ERROR:<br>&gt;<br>&gt; ERROR: The code =
-that was being executed was:<br>
-&gt;<br>&gt; ERROR: 0065: bb.fatal(&quot;QA run found fatal errors. Please =
-consider fixing them.&quot;)<br>&gt;<br>&gt; ERROR: 0066: bb.note(&quot;DON=
-E with PACKAGE QA&quot;)<br>&gt;<br>&gt; ERROR: 0067:<br>&gt;<br>&gt; ERROR=
-: 0068:<br>
-&gt;<br>&gt; ERROR: *** 0069:do_package_qa(d)<br>&gt;<br>&gt; ERROR: 0070:<=
-br>&gt;<br>&gt; ERROR: (file: &#39;do_package_qa&#39;, lineno: 69, function=
-: &lt;module&gt;)<br>&gt;<br>&gt; ERROR: 0054: errorchecks.append(g[testmat=
-rix[e]])<br>
-&gt;<br>&gt; ERROR: 0055:<br>&gt;<br>&gt; ERROR: 0056: bb.note(&quot;Checki=
-ng Package: %s&quot; % package)<br>&gt;<br>&gt; ERROR: 0057: path =3D &quot=
-;%s/%s&quot; % (pkgdest, package)<br>&gt;<br>&gt; ERROR: *** 0058: if not p=
-ackage_qa_walk(path, warnchecks, errorchecks, skip, package, d):<br>
-&gt;<br>&gt; ERROR: 0059: walk_sane =3D False<br>&gt;<br>&gt; ERROR: 0060: =
-if not package_qa_check_rdepends(package, pkgdest, skip, d):<br>&gt;<br>&gt=
-; ERROR: 0061: rdepends_sane =3D False<br>&gt;<br>&gt; ERROR: 0062:<br>&gt;=
-<br>
-&gt; ERROR: (file: &#39;do_package_qa&#39;, lineno: 58, function: do_packag=
-e_qa)<br>&gt;<br>&gt; ERROR: Function failed: do_package_qa<br>&gt;<br>&gt;=
- ERROR: Logfile of failure stored in: /oelinux/condorg/openembedded-core/st=
-linux-3.0-build/tmp-uclibc/work/sh4-oe-linux-uclibc/libgcc-4.6.3-r0/temp/lo=
-g.do_package.983<br>
-&gt;<br>&gt; NOTE: package libgcc-4.6.3-r0: task do_package: Failed<br>&gt;=
-<br>&gt; ERROR: Task 746 (/oelinux/condorg/openembedded-core/meta-stlinux/r=
-ecipes-devtools/gcc/<a href=3D"http://libgcc_4.6.3.bb">libgcc_4.6.3.bb</a>,=
- do_package) failed with exit code &#39;1&#39;<br>
-&gt;<br>&gt; NOTE: Tasks Summary: Attempted 370 tasks of which 357 didn&#39=
-;t need to be rerun and 1 failed.<br>&gt;<br>&gt; Summary: 1 task failed:<b=
-r>&gt;<br>&gt; /oelinux/condorg/openembedded-core/meta-stlinux/recipes-devt=
-ools/gcc/<a href=3D"http://libgcc_4.6.3.bb">libgcc_4.6.3.bb</a>, do_package=
-<br>
-&gt;<br>&gt; Summary: There were 38 ERROR messages shown, returning a non-z=
-ero exit code.
 
---bcaec53968c8db1fcc04c02c6023--
+
+> -----Original Message-----
+> From: Saul Wold [mailto:sgw@linux.intel.com]
+> Sent: Wednesday, May 16, 2012 11:33 AM
+> To: Patches and discussions about the oe-core layer
+> Cc: Kamble, Nitin A
+> Subject: Re: [OE-core] [PATCH 1/2] eglibc: package mtrace separately
+>=20
+> On 05/16/2012 09:11 PM, nitin.a.kamble@intel.com wrote:
+> > From: Nitin A Kamble<nitin.a.kamble@intel.com>
+> >
+> > eglibc-mtrace: add dependency into task-core-tools-debug
+> >
+> > now eglibc-mtrace gets included in an sdk image and not in a non-sdk
+> image.
+> >
+> > This fixes bug: [YOCTO# 2374]
+> >
+> > Signed-off-by: Nitin A Kamble<nitin.a.kamble@intel.com>
+> > ---
+> >   meta/recipes-core/eglibc/eglibc-package.inc      |    7 ++++++-
+> >   meta/recipes-core/eglibc/eglibc_2.13.bb          |    2 +-
+> >   meta/recipes-core/eglibc/eglibc_2.15.bb          |    2 +-
+> >   meta/recipes-core/tasks/task-core-tools-debug.bb |    1 +
+> >   4 files changed, 9 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/meta/recipes-core/eglibc/eglibc-package.inc
+> > b/meta/recipes-core/eglibc/eglibc-package.inc
+> > index 7d97567..fd136bd 100644
+> > --- a/meta/recipes-core/eglibc/eglibc-package.inc
+> > +++ b/meta/recipes-core/eglibc/eglibc-package.inc
+> > @@ -20,11 +20,12 @@ USE_LDCONFIG ?=3D "1"
+> >   PKGSUFFIX =3D ""
+> >   PKGSUFFIX_virtclass-nativesdk =3D "-nativesdk"
+> >
+> > -PACKAGES =3D "${PN}-dbg ${PN} catchsegv${PKGSUFFIX} sln${PKGSUFFIX}
+> nscd${PKGSUFFIX} ldd${PKGSUFFIX} ${PN}-utils eglibc-extra-
+> nss${PKGSUFFIX} eglibc-thread-db${PKGSUFFIX} ${PN}-pic ${PN}-dev ${PN}-
+> staticdev ${PN}-doc libcidn${PKGSUFFIX} libmemusage${PKGSUFFIX}
+> libsegfault${PKGSUFFIX} ${PN}-pcprofile libsotruss${PKGSUFFIX}"
+> > +PACKAGES =3D "${PN}-dbg ${PN} catchsegv${PKGSUFFIX} sln${PKGSUFFIX}
+> nscd${PKGSUFFIX} ldd${PKGSUFFIX} ${PN}-mtrace ${PN}-utils eglibc-extra-
+> nss${PKGSUFFIX} eglibc-thread-db${PKGSUFFIX} ${PN}-pic ${PN}-dev ${PN}-
+> staticdev ${PN}-doc libcidn${PKGSUFFIX} libmemusage${PKGSUFFIX}
+> libsegfault${PKGSUFFIX} ${PN}-pcprofile libsotruss${PKGSUFFIX}"
+> >
+> >   # The ld.so in this eglibc supports the GNU_HASH
+> >   RPROVIDES_${PN} =3D "glibc${PKGSUFFIX} rtld(GNU_HASH)"
+> >   RPROVIDES_${PN}-utils =3D "glibc${PKGSUFFIX}-utils"
+> > +RPROVIDES_${PN}-mtrace =3D "glibc${PKGSUFFIX}-mtrace"
+> >   RPROVIDES_${PN}-pic =3D "glibc${PKGSUFFIX}-pic"
+> >   RPROVIDES_${PN}-dev =3D "glibc${PKGSUFFIX}-dev"
+> >   RPROVIDES_${PN}-staticdev =3D "glibc${PKGSUFFIX}-staticdev"
+> > @@ -48,11 +49,13 @@ FILES_${PN}-dev_append +=3D "${bindir}/rpcgen
+> ${libdir}/*_nonshared.a \
+> >   	${base_libdir}/*_nonshared.a ${base_libdir}/*.o
+> ${datadir}/aclocal"
+> >   FILES_${PN}-staticdev_append +=3D "${libdir}/*.a ${base_libdir}/*.a"
+> >   FILES_nscd${PKGSUFFIX} =3D "${sbindir}/nscd*"
+> > +FILES_${PN}-mtrace =3D "${bindir}/mtrace"
+> >   FILES_${PN}-utils =3D "${bindir}/* ${sbindir}/*"
+> >   FILES_${PN}-dbg +=3D "${libexecdir}/*/.debug ${libdir}/audit/.debug"
+> >   FILES_catchsegv${PKGSUFFIX} =3D "${bindir}/catchsegv"
+> >   RDEPENDS_catchsegv${PKGSUFFIX} =3D "libsegfault"
+> >   RDEPENDS_${PN}-utils +=3D "bash"
+> > +RDEPENDS_${PN}-mtrace +=3D "perl"
+> >   FILES_${PN}-pcprofile =3D "${base_libdir}/libpcprofile.so"
+> >   FILES_eglibc-thread-db${PKGSUFFIX} =3D
+> "${base_libdir}/libthread_db.so.* ${base_libdir}/libthread_db-*.so"
+> >   RPROVIDES_${PN}-dev +=3D "libc-dev"
+> > @@ -68,6 +71,8 @@ SUMMARY_ldd =3D "print shared library dependencies"
+> >   DESCRIPTION_ldd =3D "/usr/bin/ldd prints shared library dependencies
+> for each program or shared library specified on the command line."
+> >   SUMMARY_${PN}-utils =3D "Miscellaneous utilities provided by eglibc"
+> >   DESCRIPTION_${PN}-utils =3D "Miscellaneous utilities including
+> getconf, iconf, locale, gencat, tzselect, zic, rpcinfo, ..."
+> > +SUMMARY_${PN}-mtrace =3D "mtrace utility provided by eglibc"
+> > +DESCRIPTION_${PN}-mtrace =3D "mtrace utility provided by eglibc"
+> >   DESCRIPTION_libsotruss =3D "Library to support sotruss which traces
+> calls through PLTs"
+> >
+> >   inherit libc-common multilib_header
+> > diff --git a/meta/recipes-core/eglibc/eglibc_2.13.bb
+> > b/meta/recipes-core/eglibc/eglibc_2.13.bb
+> > index d8a41dc..73cd0aa 100644
+> > --- a/meta/recipes-core/eglibc/eglibc_2.13.bb
+> > +++ b/meta/recipes-core/eglibc/eglibc_2.13.bb
+> > @@ -3,7 +3,7 @@ require eglibc.inc
+> >   SRCREV =3D "15508"
+> >
+> >   DEPENDS +=3D "gperf-native"
+> > -PR =3D "r26"
+> > +PR =3D "r27"
+> >   PR_append =3D "+svnr${SRCPV}"
+> >
+> >   EGLIBC_BRANCH=3D"eglibc-2_13"
+> > diff --git a/meta/recipes-core/eglibc/eglibc_2.15.bb
+> > b/meta/recipes-core/eglibc/eglibc_2.15.bb
+> > index 340ec99..bb60b57 100644
+> > --- a/meta/recipes-core/eglibc/eglibc_2.15.bb
+> > +++ b/meta/recipes-core/eglibc/eglibc_2.15.bb
+> > @@ -3,7 +3,7 @@ require eglibc.inc
+> >   SRCREV =3D "17386"
+> >
+> >   DEPENDS +=3D "gperf-native"
+> > -PR =3D "r10"
+> > +PR =3D "r11"
+> >   PR_append =3D "+svnr${SRCPV}"
+> >
+> >   EGLIBC_BRANCH=3D"eglibc-2_15"
+> > diff --git a/meta/recipes-core/tasks/task-core-tools-debug.bb
+> > b/meta/recipes-core/tasks/task-core-tools-debug.bb
+> > index 3c92f3f..64b976a 100644
+> > --- a/meta/recipes-core/tasks/task-core-tools-debug.bb
+> > +++ b/meta/recipes-core/tasks/task-core-tools-debug.bb
+> > @@ -23,4 +23,5 @@ RDEPENDS_${PN} =3D "\
+> >       tcf-agent \
+> >       rsync \
+> >       strace \
+> > +    eglibc-mtrace \
+> >       "
+> Nitin,
+>=20
+> What's going to happen when someone builds with uclibc?  This won't
+> work and an unmet dependency will occur.  I thought we talked about how
+> to do something.
+>=20
+> Sau!
+
+Saul,
+ Forgot to add the uclibc changes I am adding those now.
+Nitin
+
+
+
