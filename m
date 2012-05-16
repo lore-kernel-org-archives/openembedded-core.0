@@ -1,28 +1,41 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail-wg0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Peter.Seebach@windriver.com>) id 1SUhif-0008Pq-LC
+	(envelope-from <koen@dominion.thruhere.net>) id 1SUi16-0000EH-Cp
 	for openembedded-core@lists.openembedded.org;
-	Wed, 16 May 2012 19:09:02 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q4GGwwjg018193
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 16 May 2012 19:28:04 +0200
+Received: by wgbdr1 with SMTP id dr1so874315wgb.24
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 May 2012 09:58:59 -0700 (PDT)
-Received: from wrlaptop (172.25.40.226) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Wed, 16 May 2012 09:58:58 -0700
-Date: Wed, 16 May 2012 11:58:48 -0500
-From: Peter Seebach <peter.seebach@windriver.com>
+	Wed, 16 May 2012 10:18:02 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=content-type:mime-version:subject:from:in-reply-to:date
+	:content-transfer-encoding:message-id:references:to:x-mailer
+	:x-gm-message-state;
+	bh=ixbivDq5krr1hiMhvb2erLnxdIT6u3C8w+85jNMCZys=;
+	b=ccFtN4tDquCP19nibBR2QJ6FkflW748w2ixHbUWL1XKWIBync63B4Vy9Swrhzri47U
+	E2dxff2lesoO5C0sR5TJRzm3Pf680xX0oft6s3IxmZFH1FHMcXrNFTiTuYHXun2SCJM0
+	ApiTCew2usXeJm3fm9FgZe0OztufOU/EOrZIgP3MEQfysFsuu14fIvpu78db3g8YojGe
+	58pYganMw7+J9/ppxCO9sQskCiKGsZuXQ/FrVp6YxSRNKhK/bzHdLacVJul85t4w0uXy
+	eK37A0rPfjMrAERS8KUxBtjhK5gqhLgap0HGtrw/JWwd3zQkDTwVNN3BOpBmQpCQwu5a
+	wfZw==
+Received: by 10.216.208.151 with SMTP id q23mr2584848weo.20.1337188682526;
+	Wed, 16 May 2012 10:18:02 -0700 (PDT)
+Received: from [172.20.1.36] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id j3sm10937400wiw.1.2012.05.16.10.18.00
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 16 May 2012 10:18:01 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1278)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <1337187331-4945-1-git-send-email-obi@opendreambox.org>
+Date: Wed, 16 May 2012 19:17:44 +0200
+Message-Id: <89109968-DC24-477E-9E9D-2F255D1EB93B@dominion.thruhere.net>
+References: <1337187331-4945-1-git-send-email-obi@opendreambox.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Message-ID: <20120516115848.4348b984@wrlaptop>
-In-Reply-To: <4FB32EA1.3060601@linux.intel.com>
-References: <20120515140110.2ba5a1be@wrlaptop>
-	<CAKSdS8K64oTpq4asBcL9k4BgCe6BOEAwX3exQyq4GoTHtAxW9w@mail.gmail.com>
-	<4FB32EA1.3060601@linux.intel.com>
-X-Mailer: Claws Mail 3.7.8 (GTK+ 2.24.4; x86_64-pc-linux-gnu)
-MIME-Version: 1.0
-Subject: Re: RFC: FOO_subtract, the logical antidote to FOO_append.
+X-Mailer: Apple Mail (2.1278)
+X-Gm-Message-State: ALoCoQlS7tLWoMPTCm/drVIccXmHqhdQy0J1DBC7Vq4sbs053l5lnmbll7reTkJU7oh5AJ+bfVQJ
+Subject: Re: [PATCH] avahi-systemd: drop postrm, use prerm instead
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,42 +50,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 May 2012 17:09:02 -0000
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 16 May 2012 17:28:04 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 16 May 2012 07:35:45 +0300
-Saul Wold <sgw@linux.intel.com> wrote:
 
-> My understanding is that a _subtract is fraught with danger, there
-> all sorts of ordering implications.
+Op 16 mei 2012, om 18:55 heeft Andreas Oberritter het volgende =
+geschreven:
 
-Yes.
+> * Calling "systemctl disable" from postrm is too late and
+>  causes the following error:
+>=20
+> | Failed to issue method call: No such file or directory
+>=20
+> * Fix indentation of prerm for resulting shell snippet.
+> * Messing with $D is not needed in *rm scripts.
 
-But consider, if you will, the specific case of
-DISTRO_FEATURES_LIBC_DEFAULT, and a libc which is just like eglibc
-except that it lacks RPC.
-
-Anything I do that isn't processed at the tail end of everything,
-around the point where _appends are processed, will be unable to
-cleanly obtain "the value that would have been set by default if
-nothing else happened", and then remove a word from it.  I can't set a
-value in advance, because if I do the ?= won't fire and none of those
-words will get set.  I can't necessarily set a value later.
-
-Overrides won't work either, because overrides also destroy the
-existing values.
-
-It seems to me that for a subtraction to work, it *must* be the very
-last thing done.
-
-Basically, the purpose of suggesting this as a formal behavior defined
-to be The Very Last Thing is to minimize the complexity of the ordering
-implications.  You get exactly what you would have gotten otherwise,
-with these words removed.
-
--s
--- 
-Listen, get this.  Nobody with a good compiler needs to be justified.
+It very much is, you can offline remove scripts just like you can =
+install them.=
 
 
