@@ -1,27 +1,27 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from hermes.mlbassoc.com ([64.234.241.98] helo=mail.chez-thomas.org)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SUcAZ-0000Xx-3q
+	(envelope-from <gary@mlbassoc.com>) id 1SUcuB-00089C-RK
 	for openembedded-core@lists.openembedded.org;
-	Wed, 16 May 2012 13:13:27 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 16 May 2012 04:02:59 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="141226257"
-Received: from unknown (HELO [10.237.104.52]) ([10.237.104.52])
-	by orsmga001.jf.intel.com with ESMTP; 16 May 2012 04:02:58 -0700
-Message-ID: <4FB38961.2000702@linux.intel.com>
-Date: Wed, 16 May 2012 14:02:57 +0300
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	Wed, 16 May 2012 14:00:36 +0200
+Received: by mail.chez-thomas.org (Postfix, from userid 1998)
+	id B6CF0F811F0; Wed, 16 May 2012 05:50:35 -0600 (MDT)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	hermes.chez-thomas.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=ham version=3.3.2
+Received: from hermes.chez-thomas.org (localhost.localdomain [127.0.0.1])
+	by mail.chez-thomas.org (Postfix) with ESMTP id 174BFF811E1;
+	Wed, 16 May 2012 05:50:35 -0600 (MDT)
+Message-ID: <4FB3948B.9090609@mlbassoc.com>
+Date: Wed, 16 May 2012 05:50:35 -0600
+From: Gary Thomas <gary@mlbassoc.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
 	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1337162056.git.xiaofeng.yan@windriver.com>
-	<a918712a769df875f9e59f7a5aa233b7316705c2.1337162056.git.xiaofeng.yan@windriver.com>
-In-Reply-To: <a918712a769df875f9e59f7a5aa233b7316705c2.1337162056.git.xiaofeng.yan@windriver.com>
-Cc: Zhenfeng.Zhao@windriver.com
-Subject: Re: [PATCH 1/1] ncurses: Disable parallel make
+Subject: X server failing on PowerPC
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,43 +36,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 May 2012 11:13:27 -0000
+X-List-Received-Date: Wed, 16 May 2012 12:00:36 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 05/16/2012 01:10 PM, xiaofeng.yan@windriver.com wrote:
-> From: Xiaofeng Yan<xiaofeng.yan@windriver.com>
->
-> Ncurses failure non-gplv3 build by race issue. So disable parallel \
-> make when building this package.
->
-This is not the best approach as you disable PARALLEL_MAKE for both 
-non-gplv3 and gplv3 versions.  Further, we want to get rid of 
-PARALLLEL_MAKE setting as much as possible, so this patch is not helping 
-that.
+When built from a recent OE-core using GCC 4.7.x, the X server
+fails on PowerPC targets.  Filed as Poky/Yocto bug #2460, it boils down
+to a sequence of code like this:
 
-Did you try running on a large many core machine?  It might help if you 
-have some other builds going also to stress the machine.
+    void *ptr;
+    switch(XX) {
+       case a:
+          define_some_structure A;
+          ptr = &A;
+          break;
+       case b:
+          define_some_structure B;
+          ptr = &B;
+          break;
+    }
+    call_some_function(ptr);
 
-Sau!
+I didn't explore how this messes up, just that it does when compiled
+on PowerPC with GCC 4.7.x.  Note that it works fine on ARM (and I assume
+x86 as well)
 
-> Signed-off-by: Xiaofeng Yan<xiaofeng.yan@windriver.com>
-> ---
->   meta/recipes-core/ncurses/ncurses.inc |    2 ++
->   1 files changed, 2 insertions(+), 0 deletions(-)
->
-> diff --git a/meta/recipes-core/ncurses/ncurses.inc b/meta/recipes-core/ncurses/ncurses.inc
-> index ae99e2c..b115e46 100644
-> --- a/meta/recipes-core/ncurses/ncurses.inc
-> +++ b/meta/recipes-core/ncurses/ncurses.inc
-> @@ -29,6 +29,8 @@ BUILD_CPPFLAGS += "-D_GNU_SOURCE"
->   # natives don't generally look in base_libdir
->   base_libdir_virtclass-native = "${libdir}"
->
-> +PARALLEL_MAKE = ""
-> +
->   # Helper function for do_configure to allow multiple configurations
->   # $1 the directory to run configure in
->   # $@ the arguments to pass to configure
+Is this even legal C?  even if it works [has worked] for 20+ years?
+
+Should I propose my patch? I'm only interested in xserver-kdrive_1.7.99.2,
+but I think this probably affects all X server instances.
+
+-- 
+------------------------------------------------------------
+Gary Thomas                 |  Consulting for the
+MLB Associates              |    Embedded world
+------------------------------------------------------------
 
 
