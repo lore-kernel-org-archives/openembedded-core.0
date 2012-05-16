@@ -1,43 +1,37 @@
-Received: from mail-wi0-f169.google.com ([209.85.212.169])
+Received: from mail-vb0-f47.google.com ([209.85.212.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1SUlNw-0002xf-5h
+	(envelope-from <otavio.salvador@gmail.com>) id 1SUlT4-0003ZY-Ge
 	for openembedded-core@lists.openembedded.org;
-	Wed, 16 May 2012 23:03:56 +0200
-Received: by wibhn14 with SMTP id hn14so5554745wib.0
+	Wed, 16 May 2012 23:09:10 +0200
+Received: by vbbfr13 with SMTP id fr13so1195554vbb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 May 2012 13:53:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=references:in-reply-to:mime-version:content-transfer-encoding
-	:content-type:message-id:cc:x-mailer:from:subject:date:to
-	:x-gm-message-state;
-	bh=UXmYuXxMiw618ZAXsVimYgoW6nNJmm/rZVcK/XLiYUo=;
-	b=cddmmy/th6D7jufggT7kHWM9gx+wJUUuYEWHouHJ2VjMmk8FydsYRlBVp8qS3naWwV
-	dr750SONzpAS+VoAHq2EQQkwd0JMwuHdhs3lfZXz/j4CtlKllMJ9QPym2K8S6DjyHIYP
-	eVjjRymDj68QmMTWM2EX7XLpFfIkKjGnzTS50H+WRVvu59g4Iw8SaRjaV2snUCJqzbW0
-	s7fhhIByDePZv4NoIvUsf+ftxjngux5xevnPl4ivc3agSXKnttd4XbsTmX3T11XI0T+P
-	hrdZlVAyWLWAOmKJxe5MrQyWLLv4iTlUxPdjoIH80wHKt0kUxRDViZBeHqZB8fcMX6de
-	r2rA==
-Received: by 10.180.74.193 with SMTP id w1mr11616539wiv.4.1337201624495;
-	Wed, 16 May 2012 13:53:44 -0700 (PDT)
-Received: from [172.20.1.66] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id j4sm37708362wiz.1.2012.05.16.13.53.41
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 16 May 2012 13:53:41 -0700 (PDT)
+	Wed, 16 May 2012 13:59:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type
+	:content-transfer-encoding;
+	bh=BtAsxQN840rHX60Rzr+GBTE3VWIvWs6fTzhtCb1NPMc=;
+	b=urZHwoctH2xtXyOXqdCdPruSBBBEONzS6+W+wuFtxdKRXGJ1gzpH5tqTbKN7JakYq6
+	IWdhpKLZLMFY4q0J243FdEKooZfNjctMok8a4mrqj7d48gbHJYgFTlJhHRHWqycFiE11
+	SCU48nzH7jyY71WME4uJ1oH47JPBNrJVigzFBiJFkWMzLMXcbR7n4Dj3/PV2VYkpYlFo
+	c80HtbYrdbLpdvmpkAbvmFyva3xxEKO3V6BGtoiDBAa63/o7Uj82+zViQUDSaNd2ZwZt
+	GDJPCZWKiGxw4CGhfC9mQanKm+PqnN/ray0HWHEQP0V/AbaQkBmqkeh2fZNFWgbY/d4s
+	Gw4Q==
+MIME-Version: 1.0
+Received: by 10.52.34.73 with SMTP id x9mr2938419vdi.27.1337201948354; Wed, 16
+	May 2012 13:59:08 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.220.152.82 with HTTP; Wed, 16 May 2012 13:59:08 -0700 (PDT)
+In-Reply-To: <A0753188-2AE3-44F8-A33B-07C97112D8A4@dominion.thruhere.net>
 References: <1337197900-23107-1-git-send-email-daiane.angolini@freescale.com>
-In-Reply-To: <1337197900-23107-1-git-send-email-daiane.angolini@freescale.com>
-Mime-Version: 1.0 (1.0)
-Message-Id: <A0753188-2AE3-44F8-A33B-07C97112D8A4@dominion.thruhere.net>
-X-Mailer: iPad Mail (9B206)
-From: Koen Kooi <koen@dominion.thruhere.net>
-Date: Wed, 16 May 2012 22:55:08 +0200
+	<A0753188-2AE3-44F8-A33B-07C97112D8A4@dominion.thruhere.net>
+Date: Wed, 16 May 2012 17:59:08 -0300
+X-Google-Sender-Auth: KeGjKUSUkV7hTgATVN7AK3HOaZc
+Message-ID: <CAP9ODKoavGcE6mtQsbn---sE3_Z7ow9oFSAxKGxwRGmBHe5D5w@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Gm-Message-State: ALoCoQksiKQezw8xzktBf5/zFxTyxZeYwmbEyAbIBIQOYqHHxuxBpCPe4KFnpwxFHLAQ94Sbjbp/
-Cc: Daiane Angolini <daiane.angolini@freescale.com>,
-	"<openembedded-core@lists.openembedded.org>"
-	<openembedded-core@lists.openembedded.org>
+Cc: Daiane Angolini <daiane.angolini@freescale.com>
 Subject: Re: [PATCH] evtest: Add evtest 1.30 support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -53,60 +47,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 May 2012 21:03:57 -0000
+X-List-Received-Date: Wed, 16 May 2012 21:09:10 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
 
+On Wed, May 16, 2012 at 5:55 PM, Koen Kooi <koen@dominion.thruhere.net> wro=
+te:
+> Op 16 mei 2012 om 21:51 heeft Daiane Angolini <daiane.angolini@freescale.=
+com> het volgende geschreven:
+>> Port recipe from Meta-OE at 4bf0e7e02544e9ffa54aa0ead966c411d7dbd0be
+>> and update to version 1.30 using FreeDesktop GIT as source.
+>
+> Why bloat oe-core? Nothing is using it oe-core
 
+Have it in oe-core allow for inclusion of it with other test utilities
+and easier to use for Yocto people. Why do you object in have it
+there?
 
-Op 16 mei 2012 om 21:51 heeft Daiane Angolini <daiane.angolini@freescale.com=
-> het volgende geschreven:
-
-> Port recipe from Meta-OE at 4bf0e7e02544e9ffa54aa0ead966c411d7dbd0be
-> and update to version 1.30 using FreeDesktop GIT as source.
-
-Why bloat oe-core? Nothing is using it oe-core
-
-
->=20
-> Signed-off-by: Daiane Angolini <daiane.angolini@freescale.com>
-> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-> ---
-> meta/recipes-support/evtest/evtest_1.30.bb |   14 ++++++++++++++
-> 1 files changed, 14 insertions(+), 0 deletions(-)
-> create mode 100644 meta/recipes-support/evtest/evtest_1.30.bb
->=20
-> diff --git a/meta/recipes-support/evtest/evtest_1.30.bb b/meta/recipes-sup=
-port/evtest/evtest_1.30.bb
-> new file mode 100644
-> index 0000000..222d839
-> --- /dev/null
-> +++ b/meta/recipes-support/evtest/evtest_1.30.bb
-> @@ -0,0 +1,14 @@
-> +DESCRIPTION =3D "Simple tool for input event debugging."
-> +HOMEPAGE =3D "http://people.freedesktop.org/~whot/evtest/"
-> +AUTHOR =3D "Vojtech Pavlik <vojtech@suse.cz>"
-> +SECTION =3D "console/utils"
-> +DEPENDS =3D "libxml2"
-> +LICENSE =3D "GPLv2"
-> +LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D751419260aa954499f7abaabaa882b=
-be"
-> +
-> +SRCREV =3D "e7dd232287764c0533ea89247ff907f350a12016"
-> +SRC_URI =3D "git://anongit.freedesktop.org/evtest;protocol=3Dgit"
-> +S =3D "${WORKDIR}/git"
-> +
-> +inherit autotools
-> +
-> --=20
-> 1.7.5.4
->=20
->=20
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+--=20
+Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
+.S. Systems
+E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
+Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
+tems.com.br
 
 
