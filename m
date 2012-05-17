@@ -1,20 +1,24 @@
 Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <lianhao.lu@intel.com>) id 1SUx94-0006NU-GH
+	(envelope-from <lianhao.lu@intel.com>) id 1SUx95-0006NU-SF
 	for openembedded-core@lists.openembedded.org;
-	Thu, 17 May 2012 11:37:18 +0200
+	Thu, 17 May 2012 11:37:20 +0200
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 17 May 2012 02:27:15 -0700
+	by fmsmga102.fm.intel.com with ESMTP; 17 May 2012 02:27:19 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="167517742"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="167517748"
 Received: from llu-piketon.sh.intel.com (HELO localhost) ([10.239.36.120])
-	by fmsmga002.fm.intel.com with ESMTP; 17 May 2012 02:27:14 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 17 May 2012 02:27:18 -0700
 From: Lianhao Lu <lianhao.lu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 17 May 2012 17:25:05 +0800
-Message-Id: <cover.1337246557.git.lianhao.lu@intel.com>
+Date: Thu, 17 May 2012 17:25:07 +0800
+Message-Id: <97eed2b1a205de3e92d1a84471c34457b6482025.1337246557.git.lianhao.lu@intel.com>
 X-Mailer: git-send-email 1.7.0.4
-Subject: [PATCH 0/3] Misc fixes for multilib
+In-Reply-To: <932f6592281b43603354b0b41ff4e292548190c7.1337246557.git.lianhao.lu@intel.com>
+References: <932f6592281b43603354b0b41ff4e292548190c7.1337246557.git.lianhao.lu@intel.com>
+In-Reply-To: <cover.1337246557.git.lianhao.lu@intel.com>
+References: <cover.1337246557.git.lianhao.lu@intel.com>
+Subject: [PATCH 2/3] multilib.conf: Added multilib support for kmod.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,33 +33,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 May 2012 09:37:18 -0000
+X-List-Received-Date: Thu, 17 May 2012 09:37:20 -0000
 
-This patch set added a package QA function to detect the potential incorrected
-package dependencies for multilib packages.
+Signed-off-by: Lianhao Lu <lianhao.lu@intel.com>
+---
+ meta/conf/multilib.conf |    1 +
+ 1 files changed, 1 insertions(+), 0 deletions(-)
 
-It also fixed the locale related package name in multilib case reported by the
-new package QA function.
-
-The following changes since commit 2cf6e7cf81c0b864b5d51be60094a6eb3e584383:
-  Andrei Gherzan (1):
-        fotowall: Add #include ui_wizard.h to ExportWizard.cpp
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib llu/multilib2
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=llu/multilib2
-
-Lianhao Lu (3):
-  (libc-)package.bbclass: Added MLPREFIX to locale packages.
-  multilib.conf: Added multilib support for kmod.
-  multilib.bbclass: Added multilib specific package QA.
-
- meta/classes/libc-package.bbclass |    4 ++--
- meta/classes/multilib.bbclass     |   31 +++++++++++++++++++++++++++++++
- meta/classes/package.bbclass      |    5 +++--
- meta/conf/multilib.conf           |    1 +
- 4 files changed, 37 insertions(+), 4 deletions(-)
+diff --git a/meta/conf/multilib.conf b/meta/conf/multilib.conf
+index f60a890..9fc5a90 100644
+--- a/meta/conf/multilib.conf
++++ b/meta/conf/multilib.conf
+@@ -470,6 +470,7 @@ BBCLASSEXTEND_append_pn-mktemp = " ${MULTILIBS}"
+ BBCLASSEXTEND_append_pn-mobile-broadband-provider-info = " ${MULTILIBS}"
+ BBCLASSEXTEND_append_pn-module-init-tools-cross = " ${MULTILIBS}"
+ BBCLASSEXTEND_append_pn-module-init-tools = " ${MULTILIBS}"
++BBCLASSEXTEND_append_pn-kmod = " ${MULTILIBS}"
+ BBCLASSEXTEND_append_pn-modutils-initscripts = " ${MULTILIBS}"
+ BBCLASSEXTEND_append_pn-mpeg2dec = " ${MULTILIBS}"
+ BBCLASSEXTEND_append_pn-mpfr = " ${MULTILIBS}"
+-- 
+1.7.0.4
 
 
 
