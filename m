@@ -1,32 +1,27 @@
-Received: from mail-pb0-f47.google.com ([209.85.160.47])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>)
-	id 1SUyZt-00013T-Vz; Thu, 17 May 2012 13:09:06 +0200
-Received: by pbbrq2 with SMTP id rq2so2141080pbb.6
-	for <multiple recipients>; Thu, 17 May 2012 03:59:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:date:x-google-sender-auth:message-id:subject
-	:from:to:content-type:content-transfer-encoding;
-	bh=xOjJZrAMCWs3TBx3aC5gIeR8t41SntwxoEp1d1v/0xE=;
-	b=Nkf84z1UCGbNPYMbH/v14HB5EhF0+dflpikEo39rlhejDKkuymVwcG71SE0ChyLH1w
-	6cwtUaqt6HvCGkXFyiOWqkYo36wlb6bYI03Jab9BJeveBb6c1x8Bxc25Sz9gjQMMFE1o
-	MlHyzWXEgytAbzcM4serXH+RFAjW+KRx4c1sNZM+ohDDw0qKYV5ylUzJu5tMQIzEuXUX
-	f767L6kswptfu1tCWKr+c/7Dwg8oNEme7Bdc1+edyo/1gkheVXUbPT8jG7KWu+GhLrGq
-	R1jpuJ1aQxaHNXk8kpyuAkc+v7eCCgUNFbhsXeZLLnxIMM/1P7PMJp/eIAxGgixucVN4
-	EQjg==
+	(envelope-from <paul.eggleton@linux.intel.com>)
+	id 1SUyl6-0002VJ-BZ; Thu, 17 May 2012 13:20:40 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 17 May 2012 04:10:36 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="141641230"
+Received: from unknown (HELO helios.localnet) ([10.252.120.140])
+	by orsmga001.jf.intel.com with ESMTP; 17 May 2012 04:10:35 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-members@lists.openembedded.org
+Date: Thu, 17 May 2012 12:10:32 +0100
+Message-ID: <4850168.kQOm2JOBR6@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.8.2 (Linux/3.2.0-24-generic-pae; KDE/4.8.2; i686; ; )
+In-Reply-To: <20120517011824.GA12505@mi.fu-berlin.de>
+References: <4FAC361D.60609@balister.org> <4FB2CBD7.8070700@kernelconcepts.de>
+	<20120517011824.GA12505@mi.fu-berlin.de>
 MIME-Version: 1.0
-Received: by 10.68.223.129 with SMTP id qu1mr26202768pbc.165.1337252342291;
-	Thu, 17 May 2012 03:59:02 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.68.25.42 with HTTP; Thu, 17 May 2012 03:59:02 -0700 (PDT)
-Date: Thu, 17 May 2012 07:59:02 -0300
-X-Google-Sender-Auth: DGm8oC7Jp4UeYRpsz6TMUovepnI
-Message-ID: <CAP9ODKq0aRL6--FcK6o5gaBbk5hE8-Pr8B4S0+V9yN5uKZk+aw@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>, 
-	OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>
-Subject: [ANNOUNCE] Meta-Broweser layer
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>,
+	openembedded-devel@lists.openembedded.org
+Subject: Re: [oe] Fwd: Linuxtag 2012
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,34 +36,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 May 2012 11:09:07 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 17 May 2012 11:20:40 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Hello,
+On Thursday 17 May 2012 03:18:26 Henning Heinold wrote:
+> my second son was born today, so I can not make any promise for the
+> linuxtag. So I think it is really better to cancel the whole booth. That is
+> really sad, but maybee next time we should ask a lot earlier if we can
+> really man the booth.
 
-Our friends at Eukrea has started working at a Chromium specific layer
-and to share work in web browser packaging we opted to merge both
-layers to host different web browser packages. After this the layer
-has been renamed to /meta-browser/.
+Congratulations Henning!
 
-The meta-browser layer can be used by any project that needs to use
-Firefox and/or Chromium; other browsers can be add to the layer if
-need and it is open for contributions of any interested people.
+Unfortunately I'm unavailable during Linuxtag as well :(
 
-The layer can be download from
-https://github.com/OSSystems/meta-browser so please update your system
-to use from now on.
+Cheers,
+Paul
 
-We will REMOVE meta-mozilla and meta-chromium next week.
+-- 
 
-Thanks in advance :-)
-
---=20
-Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
-.S. Systems
-E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
-Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
-tems.com.br
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
