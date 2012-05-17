@@ -1,31 +1,35 @@
-Received: from mail1.windriver.com ([147.11.146.13])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1SV64E-0006t7-Ae
-	for openembedded-core@lists.openembedded.org;
-	Thu, 17 May 2012 21:08:54 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q4HIwoAE007598
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1SV6m5-0002Cl-EH for openembedded-core@lists.openembedded.org;
+	Thu, 17 May 2012 21:54:13 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q4HJiAr9030929
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 May 2012 11:58:51 -0700 (PDT)
-Received: from msp-dhcp29.wrs.com (172.25.34.29) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Thu, 17 May 2012 11:58:50 -0700
-Message-ID: <4FB54A6A.4060800@windriver.com>
-Date: Thu, 17 May 2012 13:58:50 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
-	rv:12.0) Gecko/20120428 Thunderbird/12.0.1
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1337278931.git.mark.hatle@windriver.com>
-	<6152dc105c0eecec81a65b329a3a5a0820eeed26.1337278931.git.mark.hatle@windriver.com>
-	<CAMKF1sofgso3eS-AuwFMHh+DBhqgThi6PVDvepeyyaqQW_r7JA@mail.gmail.com>
-	<4FB54847.5020102@windriver.com>
-	<CAMKF1srxfiTgKUKxpZCcQo-SZQtomOHTouUkV3CNWuYdVtWKdg@mail.gmail.com>
-In-Reply-To: <CAMKF1srxfiTgKUKxpZCcQo-SZQtomOHTouUkV3CNWuYdVtWKdg@mail.gmail.com>
-Subject: Re: [PATCH 1/4] rpm: Upgrade RPM to 5.4.8 (db to 5.3.15)
+	Thu, 17 May 2012 20:44:10 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 30705-03 for <openembedded-core@lists.openembedded.org>;
+	Thu, 17 May 2012 20:44:06 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q4HJi1N8030923
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 17 May 2012 20:44:03 +0100
+Message-ID: <1337283840.7473.3.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Thu, 17 May 2012 20:44:00 +0100
+In-Reply-To: <CAMKF1spuwjLQ3hT8J6oNcFWowynBdKfX6=-NNKD7R=oRGWMknA@mail.gmail.com>
+References: <cover.1337246557.git.lianhao.lu@intel.com>
+	<932f6592281b43603354b0b41ff4e292548190c7.1337246557.git.lianhao.lu@intel.com>
+	<CAMKF1spuwjLQ3hT8J6oNcFWowynBdKfX6=-NNKD7R=oRGWMknA@mail.gmail.com>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH 1/3] (libc-)package.bbclass: Added MLPREFIX to locale packages.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,24 +44,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 May 2012 19:08:54 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+X-List-Received-Date: Thu, 17 May 2012 19:54:14 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 5/17/12 1:52 PM, Khem Raj wrote:
-> On Thu, May 17, 2012 at 11:49 AM, Mark Hatle<mark.hatle@windriver.com>  wrote:
->>
->> One thing I did forget to note in this message.  If you are NOT using
->> OEBasicHash,
->
-> since this is not default in OE-Core may be forces PR bumps for the affected
-> recipes along with this series would make sense.
->
+On Thu, 2012-05-17 at 11:12 -0700, Khem Raj wrote:
+> On Thu, May 17, 2012 at 2:25 AM, Lianhao Lu <lianhao.lu@intel.com> wrote:
+> > Added multilib prefix to the locale related package names/dependencies.
+> >
+> > Signed-off-by: Lianhao Lu <lianhao.lu@intel.com>
+> 
+> Does mlprefix already has a leading '-' ?
+> otherwise I think adding a - would make is more readable.
 
-Seemed silly to be to bump a PR w/o a change.. but I'll do and do that.
+mlprefix adds this. Trying to do this the other way makes things too
+difficult and potentially inconsistent.
 
-Update soon...
+Cheers,
 
---Mark
+Richard
+
 
 
