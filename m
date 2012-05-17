@@ -1,22 +1,24 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1SV9wc-0008I9-Bh
+	(envelope-from <mark.hatle@windriver.com>) id 1SVAWH-0000kO-Rf
 	for openembedded-core@lists.openembedded.org;
-	Fri, 18 May 2012 01:17:18 +0200
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 17 May 2012 16:07:14 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="101403797"
-Received: from nbuild0.sc.intel.com ([172.25.110.36])
-	by AZSMGA002.ch.intel.com with ESMTP; 17 May 2012 16:07:14 -0700
-From: nitin.a.kamble@intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 17 May 2012 16:07:13 -0700
-Message-Id: <bce112d0eb42badfca77109b40cf2c86ca3efa48.1337295951.git.nitin.a.kamble@intel.com>
-X-Mailer: git-send-email 1.7.6.5
-In-Reply-To: <cover.1337295951.git.nitin.a.kamble@intel.com>
-References: <cover.1337295951.git.nitin.a.kamble@intel.com>
-Subject: [PATCH 1/1] eglibc: package mtrace separately
+	Fri, 18 May 2012 01:54:10 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q4HNi5GC011522
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 17 May 2012 16:44:05 -0700 (PDT)
+Received: from localhost.localdomain (172.25.34.61) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
+	Thu, 17 May 2012 16:44:05 -0700
+From: Mark Hatle <mark.hatle@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 17 May 2012 18:46:40 -0500
+Message-ID: <cover.1337298293.git.mark.hatle@windriver.com>
+X-Mailer: git-send-email 1.7.3.4
+MIME-Version: 1.0
+X-Originating-IP: [172.25.34.61]
+Subject: [PATCH 0/5 v2] Uprev RPM to 5.4.9
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,119 +33,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 May 2012 23:17:18 -0000
+X-List-Received-Date: Thu, 17 May 2012 23:54:10 -0000
+Content-Type: text/plain
 
-From: Nitin A Kamble <nitin.a.kamble@intel.com>
+Berkley DB also gets upreved, and a new package ossp-uuid gets added to
+the system.
 
-add libc-mtrace as dependency for task-core-tools-debug
+This was -heavily- tested with and without zypper on IA, and PPC.
 
-now eglibc-mtrace gets included in an sdk image and not in a non-sdk image.
+In addition a minor performance enhancement with a query operation was added.
 
-make uclibc recipe lie about providing libc-mtrace to satisfy the dependency
+The uprev also adds the capability of using PACKAGECONFIG settings to tailor
+the behavior of RPM.
 
-This fixes bug: [YOCTO# 2374]
+V2 changes:
 
-Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
----
- meta/recipes-core/eglibc/eglibc-package.inc      |    7 ++++++-
- meta/recipes-core/eglibc/eglibc_2.13.bb          |    2 +-
- meta/recipes-core/eglibc/eglibc_2.15.bb          |    2 +-
- meta/recipes-core/tasks/task-core-tools-debug.bb |    1 +
- meta/recipes-core/uclibc/uclibc.inc              |    2 +-
- 5 files changed, 10 insertions(+), 4 deletions(-)
+Fix a problem with libuuid.so from util-linux would sometimes be linked into
+the binary.
 
-diff --git a/meta/recipes-core/eglibc/eglibc-package.inc b/meta/recipes-core/eglibc/eglibc-package.inc
-index 7d97567..ce37155 100644
---- a/meta/recipes-core/eglibc/eglibc-package.inc
-+++ b/meta/recipes-core/eglibc/eglibc-package.inc
-@@ -20,11 +20,12 @@ USE_LDCONFIG ?= "1"
- PKGSUFFIX = ""
- PKGSUFFIX_virtclass-nativesdk = "-nativesdk"
- 
--PACKAGES = "${PN}-dbg ${PN} catchsegv${PKGSUFFIX} sln${PKGSUFFIX} nscd${PKGSUFFIX} ldd${PKGSUFFIX} ${PN}-utils eglibc-extra-nss${PKGSUFFIX} eglibc-thread-db${PKGSUFFIX} ${PN}-pic ${PN}-dev ${PN}-staticdev ${PN}-doc libcidn${PKGSUFFIX} libmemusage${PKGSUFFIX} libsegfault${PKGSUFFIX} ${PN}-pcprofile libsotruss${PKGSUFFIX}"
-+PACKAGES = "${PN}-dbg ${PN} catchsegv${PKGSUFFIX} sln${PKGSUFFIX} nscd${PKGSUFFIX} ldd${PKGSUFFIX} ${PN}-mtrace ${PN}-utils eglibc-extra-nss${PKGSUFFIX} eglibc-thread-db${PKGSUFFIX} ${PN}-pic ${PN}-dev ${PN}-staticdev ${PN}-doc libcidn${PKGSUFFIX} libmemusage${PKGSUFFIX} libsegfault${PKGSUFFIX} ${PN}-pcprofile libsotruss${PKGSUFFIX}"
- 
- # The ld.so in this eglibc supports the GNU_HASH
- RPROVIDES_${PN} = "glibc${PKGSUFFIX} rtld(GNU_HASH)"
- RPROVIDES_${PN}-utils = "glibc${PKGSUFFIX}-utils"
-+RPROVIDES_${PN}-mtrace = "glibc${PKGSUFFIX}-mtrace libc-mtrace"
- RPROVIDES_${PN}-pic = "glibc${PKGSUFFIX}-pic"
- RPROVIDES_${PN}-dev = "glibc${PKGSUFFIX}-dev"
- RPROVIDES_${PN}-staticdev = "glibc${PKGSUFFIX}-staticdev"
-@@ -48,11 +49,13 @@ FILES_${PN}-dev_append += "${bindir}/rpcgen ${libdir}/*_nonshared.a \
- 	${base_libdir}/*_nonshared.a ${base_libdir}/*.o ${datadir}/aclocal"
- FILES_${PN}-staticdev_append += "${libdir}/*.a ${base_libdir}/*.a"
- FILES_nscd${PKGSUFFIX} = "${sbindir}/nscd*"
-+FILES_${PN}-mtrace = "${bindir}/mtrace"
- FILES_${PN}-utils = "${bindir}/* ${sbindir}/*"
- FILES_${PN}-dbg += "${libexecdir}/*/.debug ${libdir}/audit/.debug"
- FILES_catchsegv${PKGSUFFIX} = "${bindir}/catchsegv"
- RDEPENDS_catchsegv${PKGSUFFIX} = "libsegfault"
- RDEPENDS_${PN}-utils += "bash"
-+RDEPENDS_${PN}-mtrace += "perl"
- FILES_${PN}-pcprofile = "${base_libdir}/libpcprofile.so"
- FILES_eglibc-thread-db${PKGSUFFIX} = "${base_libdir}/libthread_db.so.* ${base_libdir}/libthread_db-*.so"
- RPROVIDES_${PN}-dev += "libc-dev"
-@@ -68,6 +71,8 @@ SUMMARY_ldd = "print shared library dependencies"
- DESCRIPTION_ldd = "/usr/bin/ldd prints shared library dependencies for each program or shared library specified on the command line."
- SUMMARY_${PN}-utils = "Miscellaneous utilities provided by eglibc"
- DESCRIPTION_${PN}-utils = "Miscellaneous utilities including getconf, iconf, locale, gencat, tzselect, zic, rpcinfo, ..."
-+SUMMARY_${PN}-mtrace = "mtrace utility provided by eglibc"
-+DESCRIPTION_${PN}-mtrace = "mtrace utility provided by eglibc"
- DESCRIPTION_libsotruss = "Library to support sotruss which traces calls through PLTs"
- 
- inherit libc-common multilib_header
-diff --git a/meta/recipes-core/eglibc/eglibc_2.13.bb b/meta/recipes-core/eglibc/eglibc_2.13.bb
-index d8a41dc..73cd0aa 100644
---- a/meta/recipes-core/eglibc/eglibc_2.13.bb
-+++ b/meta/recipes-core/eglibc/eglibc_2.13.bb
-@@ -3,7 +3,7 @@ require eglibc.inc
- SRCREV = "15508"
- 
- DEPENDS += "gperf-native"
--PR = "r26"
-+PR = "r27"
- PR_append = "+svnr${SRCPV}"
- 
- EGLIBC_BRANCH="eglibc-2_13"
-diff --git a/meta/recipes-core/eglibc/eglibc_2.15.bb b/meta/recipes-core/eglibc/eglibc_2.15.bb
-index 340ec99..bb60b57 100644
---- a/meta/recipes-core/eglibc/eglibc_2.15.bb
-+++ b/meta/recipes-core/eglibc/eglibc_2.15.bb
-@@ -3,7 +3,7 @@ require eglibc.inc
- SRCREV = "17386"
- 
- DEPENDS += "gperf-native"
--PR = "r10"
-+PR = "r11"
- PR_append = "+svnr${SRCPV}"
- 
- EGLIBC_BRANCH="eglibc-2_15"
-diff --git a/meta/recipes-core/tasks/task-core-tools-debug.bb b/meta/recipes-core/tasks/task-core-tools-debug.bb
-index 3c92f3f..3970f14 100644
---- a/meta/recipes-core/tasks/task-core-tools-debug.bb
-+++ b/meta/recipes-core/tasks/task-core-tools-debug.bb
-@@ -23,4 +23,5 @@ RDEPENDS_${PN} = "\
-     tcf-agent \
-     rsync \
-     strace \
-+    libc-mtrace \
-     "
-diff --git a/meta/recipes-core/uclibc/uclibc.inc b/meta/recipes-core/uclibc/uclibc.inc
-index 55ab0c9..afc0ed5 100644
---- a/meta/recipes-core/uclibc/uclibc.inc
-+++ b/meta/recipes-core/uclibc/uclibc.inc
-@@ -89,7 +89,7 @@ RPROVIDES_${PN}-dev += "libc-dev virtual-libc-dev"
- # going to work. So we pretend that we have it to make bitbake not pull other recipes
- # to satisfy this dependency for the images/tasks
- 
--RPROVIDES_uclibc += "libsegfault rtld(GNU_HASH)"
-+RPROVIDES_uclibc += "libsegfault rtld(GNU_HASH) libc-mtrace"
- 
- SRC_URI = "\
-         http://www.uclibc.org/downloads/uClibc-${PV}.tar.bz2;name=uClibc-${PV} \
+Also force libzypp, sat-solver and zypper to refresh via a PR bump.
+
+The following changes since commit 7163ebd92a799b8f000b2b6f303b20de468b5f90:
+
+  Revert "kmod: Use base_libdir for installing libkmod" (2012-05-17 21:12:33 +0100)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib mhatle/rpm
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=mhatle/rpm
+
+Mark Hatle (5):
+  rpm: Upgrade RPM to 5.4.8  (db to 5.3.15)
+  rpm: Upgrade RPM to 5.4.9
+  ossp-uuid: Add oss-uuid package and RPM 5.4.9 integration
+  package_rpm: Add capability to directly query packageorigin
+  rpm: Bump PR numbers on componnets that require RPM
+
+ meta/classes/package_rpm.bbclass                   |   18 +-
+ meta/classes/rootfs_rpm.bbclass                    |   22 +-
+ .../ossp-uuid/0001-Change-library-name.patch       |  112 +++++
+ ...erve-m-option-status-in-v-option-handling.patch |   55 +++
+ .../ossp-uuid/0003-Fix-whatis-entries.patch        |   51 +++
+ .../ossp-uuid/0004-fix-data-uuid-from-string.patch |   36 ++
+ .../ossp-uuid/ossp-uuid/uuid-libtool.patch         |   24 +
+ .../ossp-uuid/ossp-uuid/uuid-nostrip.patch         |   16 +
+ meta/recipes-devtools/ossp-uuid/ossp-uuid_1.6.2.bb |   58 +++
+ .../rpm/rpm/fix_for_automake_1.11.2.patch          |   54 ---
+ .../rpm/rpm/fprint-pointer-fix.patch               |   35 --
+ .../rpm/rpm/remove-compiled-tests.patch            |  443 --------------------
+ meta/recipes-devtools/rpm/rpm/rpm-autoconf.patch   |   22 -
+ meta/recipes-devtools/rpm/rpm/rpm-autogen.patch    |   41 +--
+ meta/recipes-devtools/rpm/rpm/rpm-db-reduce.patch  |   16 +-
+ .../recipes-devtools/rpm/rpm/rpm-log-auto-rm.patch |   12 +-
+ meta/recipes-devtools/rpm/rpm/rpm-lua.patch        |   29 ++
+ .../rpm/rpm/rpm-no-perl-urpm.patch                 |   43 ++
+ meta/recipes-devtools/rpm/rpm/rpm-nofsync.patch    |   36 --
+ meta/recipes-devtools/rpm/rpm/rpm-ossp-uuid.patch  |   20 +
+ .../rpm/rpm/rpm-packageorigin.patch                |   23 +
+ .../rpm/rpm/rpm-scriptletexechelper.patch          |   33 +-
+ meta/recipes-devtools/rpm/rpm/rpmdeps-oecore.patch |   26 +-
+ .../rpm/{rpm_5.4.0.bb => rpm_5.4.9.bb}             |  159 ++++----
+ .../libzypp/libzypp/libzypp-rpm549.patch           |   28 ++
+ meta/recipes-extended/libzypp/libzypp_git.bb       |    3 +-
+ meta/recipes-extended/sat-solver/sat-solver_git.bb |    2 +-
+ meta/recipes-extended/zypper/zypper_git.bb         |    2 +-
+ .../db/{db_5.1.19.bb => db_5.3.15.bb}              |    8 +-
+ 29 files changed, 653 insertions(+), 774 deletions(-)
+ create mode 100644 meta/recipes-devtools/ossp-uuid/ossp-uuid/0001-Change-library-name.patch
+ create mode 100644 meta/recipes-devtools/ossp-uuid/ossp-uuid/0002-uuid-preserve-m-option-status-in-v-option-handling.patch
+ create mode 100644 meta/recipes-devtools/ossp-uuid/ossp-uuid/0003-Fix-whatis-entries.patch
+ create mode 100644 meta/recipes-devtools/ossp-uuid/ossp-uuid/0004-fix-data-uuid-from-string.patch
+ create mode 100644 meta/recipes-devtools/ossp-uuid/ossp-uuid/uuid-libtool.patch
+ create mode 100644 meta/recipes-devtools/ossp-uuid/ossp-uuid/uuid-nostrip.patch
+ create mode 100644 meta/recipes-devtools/ossp-uuid/ossp-uuid_1.6.2.bb
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/fix_for_automake_1.11.2.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/fprint-pointer-fix.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/remove-compiled-tests.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-autoconf.patch
+ create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-lua.patch
+ create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-no-perl-urpm.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-nofsync.patch
+ create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-ossp-uuid.patch
+ create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-packageorigin.patch
+ rename meta/recipes-devtools/rpm/{rpm_5.4.0.bb => rpm_5.4.9.bb} (76%)
+ create mode 100644 meta/recipes-extended/libzypp/libzypp/libzypp-rpm549.patch
+ rename meta/recipes-support/db/{db_5.1.19.bb => db_5.3.15.bb} (93%)
+
 -- 
-1.7.7
+1.7.3.4
 
 
 
