@@ -1,41 +1,34 @@
-Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <elizabeth.flanagan@intel.com>) id 1SV7mP-0005jO-Gi
-	for openembedded-core@lists.openembedded.org;
-	Thu, 17 May 2012 22:58:37 +0200
-Received: from mail-lb0-f180.google.com ([209.85.217.180])
-	by mga03.intel.com with ESMTP/TLS/RC4-SHA; 17 May 2012 13:48:32 -0700
-Received: by lbbgh12 with SMTP id gh12so1476077lbb.25
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 May 2012 13:48:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type:x-gm-message-state;
-	bh=SLkcJSVartxfxzqdZJQ+/N/n/42foJnqL23VZ0VS3QA=;
-	b=h+AMJBMrH6OE/EDj58kt2ZRXcWy5JmpRrXz5mtPAU/7uTY1lDflrSHc/vfbuxhxzI8
-	60+qrj71Dyldn8E4W41pZlV9H6Wzr94B9jixQ7wzpiqYbk6ZmBUVViCU/TEngRkw9pK0
-	miEDQQQHBDlJEzzVahL77Y+D5UAiFHTDCPLpF4mSzZNV44uxzpEqN0CAlLPSSsZSSUDl
-	AcB3o3rEHpDwKAvgbCvxUQbq+pN9ifiELwxV+rnHo5NyIP210wUtyi9e+GtVDh5oVVic
-	E2vCEmzi8nTIx7GWSBxt9QK7Z0t1iLPTYkyxIiv2SQbm/XJ/iekLWB7aND6U2ATX8vXA
-	0agQ==
-MIME-Version: 1.0
-Received: by 10.152.145.169 with SMTP id sv9mr8455292lab.12.1337287710371;
-	Thu, 17 May 2012 13:48:30 -0700 (PDT)
-Received: by 10.112.107.137 with HTTP; Thu, 17 May 2012 13:48:30 -0700 (PDT)
-In-Reply-To: <CAK18fxH5H5En0H+k7VccgGUCPApwcL7Xs+RV=1=pvRu_wRYXVQ@mail.gmail.com>
-References: <CAK18fxECi+PxHhW8pAm2URRE1ZF=h2_gEPXMvvioTQnhKGWYHw@mail.gmail.com>
-	<CADkTA4MXvMJt=JhDKdjDR9o3nkYVWmfnEmRnC1cheju6Tbh0Sw@mail.gmail.com>
-	<4FB50005.7000807@gherzan.ro>
-	<CAPhnLPDzZfuRBKxR3Ru+2nvozRy4evhmtFUf2d-NmqNwY4RjZw@mail.gmail.com>
-	<CAK18fxH5H5En0H+k7VccgGUCPApwcL7Xs+RV=1=pvRu_wRYXVQ@mail.gmail.com>
-Date: Thu, 17 May 2012 13:48:30 -0700
-Message-ID: <CAPhnLPBSsP3acUN1uZvPDVCq6PzXF8mGGsFyvgdbfz6EuZ_RSA@mail.gmail.com>
-From: "Flanagan, Elizabeth" <elizabeth.flanagan@intel.com>
-To: Patches and discussions about the oe-core layer
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1SV80K-0006H6-VX for openembedded-core@lists.openembedded.org;
+	Thu, 17 May 2012 23:13:01 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q4HL2urV031525;
+	Thu, 17 May 2012 22:02:56 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 30705-07; Thu, 17 May 2012 22:02:47 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q4HL2hsg031513
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Thu, 17 May 2012 22:02:45 +0100
+Message-ID: <1337288563.7473.24.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Koen Kooi <koen@dominion.thruhere.net>
+Date: Thu, 17 May 2012 22:02:43 +0100
+In-Reply-To: <0FEE2025-8E84-4CBB-8568-483A55233BD7@dominion.thruhere.net>
+References: <1337074341-12708-1-git-send-email-koen@dominion.thruhere.net>
+	<CAMKF1srxyZkjFe+aypM_X+Wgyd-8b1X664Y8jWQuPF=xijeg+w@mail.gmail.com>
+	<1337286572.7473.10.camel@ted>
+	<0FEE2025-8E84-4CBB-8568-483A55233BD7@dominion.thruhere.net>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Gm-Message-State: ALoCoQkElruzczfcV6QmGTF9GnLqv35EJgDop/XEgAg3ckrd1S1qawMgbE9bqhLFfu2dbOp6wjQi
-Subject: Re: Linux-yocto 3.0 crashes at do_patch...
+Subject: Re: [PATCH] Revert "kmod: Use base_libdir for installing libkmod"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,69 +43,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 May 2012 20:58:37 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Thu, 17 May 2012 21:13:01 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Thu, May 17, 2012 at 7:59 AM, Andrei Gherzan <andrei@gherzan.ro> wrote:
-> Today i just gave another try.... same result.
+On Thu, 2012-05-17 at 22:44 +0200, Koen Kooi wrote:
+> Op 17 mei 2012 om 22:29 heeft Richard Purdie <richard.purdie@linuxfoundation.org> het volgende geschreven:
+> 
+> > On Tue, 2012-05-15 at 13:54 -0700, Khem Raj wrote:
+> >> On Tue, May 15, 2012 at 2:32 AM, Koen Kooi <koen@dominion.thruhere.net> wrote:
+> >>> The commit breaks pkgconfig and after discussing it with the kmod and udev maintainers the conclusion was reached that putting the libraries in /lib instead of /usr/lib is not supported.
+> >>> 
+> >>> This reverts commit 6b74f2461735272bd950a4f060dab6e778a36f92.
+> >> 
+> >> while this is what I had initially it doesn't go well with kmod living in
+> >> /sbin and accessing libraries from /usr due to our QA checks although
+> >> I am all for simplifying it where we don't make this check at all.
+> > 
+> > I've had requests for it along with a commitment to fix it and patches.
+> > If we decide we don't want this, fine and that will be the case if
+> > patches are not forthcoming to fix the QA issues. I don't think we've
+> > reached that point at this with that yet.
+> > 
+> > I've decided to accept this patch and "unbreak" meta-oe/udev at the
+> > expense of screwing up OE-Core. I am however still deeply unhappy people
+> > are trying to bypass OE-Core this way and then "blackmail" OE-Core using
+> > breaking meta-oe as a reason. The whole systemd thing has been badly
+> > handled and needs to get fixed properly.
+> 
+> What does systemd have to do with this?
 
-Responding here as well as the yocto list:
+Why does meta-oe has its own udev recipe? Is systemd related to that at
+all?
 
-A few people have been having this issue and after some discussion we
-think we have a root cause. Let me first explain what happened.
+>  This is about a broken commit breaking udev 182 for over a week.
 
-The autobuilder infrastructure shares a common DL_DIR in order to
-optimize the builds and provide the source mirror. This DL_DIR is
-rsynced to the publicaly available source mirror on a regular basis.
-During our infrastructure upgrade the autobuilder attempted to pull
-the tar archive for linux-yocto-3.0
-(http://downloads.yoctoproject.org/mirror/sources/git2_git.yoctoproject.org.linux-yocto-3.0.tar.gz)
-but due to network issues related to our recent infrastructure upgrade
-the file ended up as a 0 byte file. This file was rsynced the the
-source mirror. A few days ago this was mentioned as an issue. Michael
-Halstead corrected the network issue and I manually removed the file.
-The autobuilder repulled the archive correctly and repopulated the
-source mirror with it.
+OE-Core worked fine and the commit fixes QA warnings which are now back.
 
-Things should have been ok at this point. However, we were still
-getting reports of people sporadically running into a 0 byte file. Not
-all the time, but some of the time. Michael Halstead and I just tailed
-out the apache logs with Tom Zanussi wgetting the problematic file,
-watching for failures. No failures were seen in the error logs however
-Tom was still getting sporadic 0 byte files. Which means that his
-request wasn't even hitting the server. I was not able to replicate
-this. The only difference we could see is that I generally do not go
-through a proxy whereas Tom was.
+> If you have issues with systemd, send patches to meta-oe to fix it. Or
+> at least bug reports that are more than the insinuations above. 
 
-Our theory at this point is that all of the people who are hitting
-this issue are going through a proxy and that their proxy setup has
-cached that 0 byte file and refuses to regenerate it. There isn't a
-lot we can do from our end about that other than suggest the following
-work around. If you run into odd fetch issues with *just* the
-linux-yocto-3.0 tar archive, clear out your DL_DIR of
-git2_git.yoctoproject.org.linux-yocto-3.0.tar.gz and set the
-following:
+I looked in the README and followed that to other README files but
+couldn't find any indication about what to do with bugs other than write
+patches which I obviously don't have.
 
-PREMIRRORS ?= "\
-bzr://.*/.*   http://autobuilder.yoctoproject.org/sources/ \n \
-cvs://.*/.*   http://autobuilder.yoctoproject.org/sources/ \n \
-git://.*/.*   http://autobuilder.yoctoproject.org/sources/ \n \
-hg://.*/.*    http://autobuilder.yoctoproject.org/sources/ \n \
-osc://.*/.*   http://autobuilder.yoctoproject.org/sources/ \n \
-p4://.*/.*    http://autobuilder.yoctoproject.org/sources/ \n \
-svk://.*/.*   http://autobuilder.yoctoproject.org/sources/ \n \
-svn://.*/.*   http://autobuilder.yoctoproject.org/sources/ \n"
+When will you be sending the patch to fix the QA warning your revert has
+introduced? Yes this is a rhetorical question since I've seen your view
+on this problem previously.
 
-MIRRORS =+ "\
-ftp://.*/.*      http://autobuilder.yoctoproject.org/sources/ \n \
-http://.*/.*     http://autobuilder.yoctoproject.org/sources/ \n \
-https://.*/.*    http://autobuilder.yoctoproject.org/sources/ \n"
+Cheers,
 
-This will force the fetch to go to the autobuilder host of sources and
-should work around any proxy caching issues. Then call your local IT
-folks and ask them to clear out your proxy cache. If you run into any
-fetch issues not related to this file, please let me know.
+Richard
 
--b
+
 
 
