@@ -1,29 +1,36 @@
-Received: from vms173007pub.verizon.net ([206.46.173.7])
+Received: from mail-ey0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <denis@denix.org>) id 1SUqSK-0004kq-IN
+	(envelope-from <raj.khem@gmail.com>) id 1SUrE9-00013C-Sn
 	for openembedded-core@lists.openembedded.org;
-	Thu, 17 May 2012 04:28:44 +0200
-Received: from gandalf.denix.org ([unknown] [108.48.117.33])
-	by vms173007.mailsrvcs.net
-	(Sun Java(tm) System Messaging Server 7u2-7.02 32bit (built Apr 16
-	2009))
-	with ESMTPA id <0M4500E1HAE73B30@vms173007.mailsrvcs.net>; Wed,
-	16 May 2012 21:18:17 -0500 (CDT)
-Received: by gandalf.denix.org (Postfix, from userid 1000)	id 439E2201AE; Wed,
-	16 May 2012 22:18:06 -0400 (EDT)
-Date: Wed, 16 May 2012 22:18:06 -0400
-From: Denys Dmytriyenko <denis@denix.org>
-To: openembedded-members@lists.openembedded.org
-Message-id: <20120517021806.GG6829@denix.org>
-References: <4FAC361D.60609@balister.org> <4FB2CBD7.8070700@kernelconcepts.de>
-	<20120517011824.GA12505@mi.fu-berlin.de>
-MIME-version: 1.0
-In-reply-to: <20120517011824.GA12505@mi.fu-berlin.de>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Cc: openembedded-devel@lists.openembedded.org,
-	Patches and discussions about the oe-core layer
+	Thu, 17 May 2012 05:18:09 +0200
+Received: by eaal1 with SMTP id l1so372181eaa.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 16 May 2012 20:08:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=7uEpBOW/bFGlU0a1Lt9XIMwPOWsNrqzdZXELNRkO+zw=;
+	b=VuSq4+0YEnksWbVCmBEu87r9YLY8vex5jcz8ShomU2OGgQlTp6FBS6LN6Qm5CPTWs1
+	aavGRdpnALKeealcjsMWrVp0vEF2CZQEzYOdxJEMkDLBMCMMfU7wnbWlYFBwCHmmOza5
+	2Lg2TxRduEQwOMphiL05pFruyOD06oKULhg8Glf36mfx+KlJvAjV62LhOof80jjoxGhR
+	1ahe3j2Wj1tvKYw9X3r0mAVeR+QzxasLRKT9ykb+7v98QEm+fEszk5Pj0QhMQg0FGt87
+	EDfVQ/8mlzUvvCW+AFqeZKheapmIsY5/8+Q8+o9JR4gfPohitLbb1hGTNSPgs8P8zJ3y
+	dCUQ==
+Received: by 10.213.105.78 with SMTP id s14mr682771ebo.84.1337224087976; Wed,
+	16 May 2012 20:08:07 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.14.2.132 with HTTP; Wed, 16 May 2012 20:07:37 -0700 (PDT)
+In-Reply-To: <4FB45BEF.6070204@windriver.com>
+References: <cover.1337162056.git.xiaofeng.yan@windriver.com>
+	<a918712a769df875f9e59f7a5aa233b7316705c2.1337162056.git.xiaofeng.yan@windriver.com>
+	<4FB38961.2000702@linux.intel.com> <4FB45BEF.6070204@windriver.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 16 May 2012 20:07:37 -0700
+Message-ID: <CAMKF1soknCpo6=G=UORak1sN9r5053_U7D=nVkM4xO5nC31wfw@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [oe] Fwd: Linuxtag 2012
+Cc: Zhenfeng.Zhao@windriver.com
+Subject: Re: [PATCH 1/1] ncurses: Disable parallel make
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,44 +45,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 May 2012 02:28:44 -0000
-Content-type: text/plain; charset=us-ascii
-Content-disposition: inline
+X-List-Received-Date: Thu, 17 May 2012 03:18:10 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Thu, May 17, 2012 at 03:18:26AM +0200, Henning Heinold wrote:
-> On Tue, May 15, 2012 at 11:34:15PM +0200, Florian Boor wrote:
-> > Hi all,
-> > 
-> > Am 10.05.2012 23:41, schrieb Philip Balister:
-> > > I encourage anyone involved in OpenEmbedded who can get to Linuxtag for
-> > > even a day to help it. It is a really fun time, and Berlin is a really
-> > > nice place to visit.
-> > 
-> > unluckily there was not much of feedback so far :-(
-> > We have a deadline for ordering exhibitor passes ending tomorrow 6pm. It makes
-> > sense to have a two or three of us with these in order to be able to enter the
-> > buildings before the visitors.
-> > 
-> > > We encourage people to bring devices that are made with OpenEmbedded and
-> > > related technology to show off at the stand.
-> > 
-> > I want to emphasize this one more time. It is very unlikely that I will be able
-> > to make it there and if I do not get a few people together who will man the
-> > booth I will have to cancel our presence there :-(.
-> > 
-> > Greetings
-> > 
-> > Florian
-> 
-> Hi,
-> 
-> my second son was born today, so I can not make any promise for the linuxtag.
+On Wed, May 16, 2012 at 7:01 PM, Xiaofeng Yan
+<xiaofeng.yan@windriver.com> wrote:
+> Thanks for your reply. The most cores I have are eight. I also set
+> PARALLEL_MAKE=j1000 and 10000. I think I need try to find new way for fixing
+> bugs.
+>
 
-Congratulations!
-
-PS. I'm also cannot go to Linuxtag for several different reasons...
-
--- 
-Denys
+I think disabling parallel make should be last resort. So yes any
+other solution is a good thing to try.
 
 
