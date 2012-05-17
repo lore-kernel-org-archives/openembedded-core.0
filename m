@@ -1,39 +1,43 @@
-Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
+Received: from mail-wg0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <elizabeth.flanagan@intel.com>) id 1SV2JA-0005oP-GW
+	(envelope-from <koen@dominion.thruhere.net>) id 1SV2Jc-0005r5-R9
 	for openembedded-core@lists.openembedded.org;
-	Thu, 17 May 2012 17:08:05 +0200
-Received: from mail-lb0-f180.google.com ([209.85.217.180])
-	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 17 May 2012 07:56:55 -0700
-Received: by lbbgh12 with SMTP id gh12so1255484lbb.25
+	Thu, 17 May 2012 17:08:32 +0200
+Received: by wgbdr1 with SMTP id dr1so1679739wgb.24
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 May 2012 07:56:53 -0700 (PDT)
+	Thu, 17 May 2012 07:58:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type:content-transfer-encoding:x-gm-message-state;
-	bh=lalK14CU0Yqpa18n07kW+3dEwf7xKLvE1vDm5VuW+H4=;
-	b=cCLNoHyo2UOfqmIZ/TXvgG2ibF3xsuQ07FyaEkaqjoky0zP03qpBbqZ2E1cRIu02Yp
-	c78Eri7A/F5YvVaXpQcib/bXS5HcSXyTLy4CTXYOsri+2FigOGrbBdQkSzF7/fSpFqo2
-	E+0TKBtNSscJcfnOsx4jRiUmsMInGlLVYomAS0vadnJKa7cNsb2L+pCTb35TT07UpG7m
-	cIHS8dQ6rIcNpB31BA1W+ioDKDpIurFE/DKkyovPRTmr14h2nf82u7vyK8YUnujJl7Gu
-	FPKcebJbsEeOC8Tm7S9V5YigHUPAPM3fuOpwrKe0hMGu8Tc1B+JrLlB5repJB0VygrYM
-	Tm7g==
-MIME-Version: 1.0
-Received: by 10.112.83.228 with SMTP id t4mr3224471lby.74.1337266613704; Thu,
-	17 May 2012 07:56:53 -0700 (PDT)
-Received: by 10.112.107.137 with HTTP; Thu, 17 May 2012 07:56:53 -0700 (PDT)
-In-Reply-To: <4FB50005.7000807@gherzan.ro>
-References: <CAK18fxECi+PxHhW8pAm2URRE1ZF=h2_gEPXMvvioTQnhKGWYHw@mail.gmail.com>
-	<CADkTA4MXvMJt=JhDKdjDR9o3nkYVWmfnEmRnC1cheju6Tbh0Sw@mail.gmail.com>
-	<4FB50005.7000807@gherzan.ro>
-Date: Thu, 17 May 2012 07:56:53 -0700
-Message-ID: <CAPhnLPDzZfuRBKxR3Ru+2nvozRy4evhmtFUf2d-NmqNwY4RjZw@mail.gmail.com>
-From: "Flanagan, Elizabeth" <elizabeth.flanagan@intel.com>
+	h=subject:mime-version:content-type:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to:x-mailer
+	:x-gm-message-state;
+	bh=KnjoFUqBHfzyrZ0I3CCBUE3w7vUK50S+op8UIR7rzAA=;
+	b=LxJRnNIVSIIYLoLC5J1ghrg/YkDUU+AouZJqj1c9MQZcldpCLE+pqoTHVJfwKA0GNS
+	3xUvw+jz+pkyGq6aqJU3+CpRp+kRaMQxBMlFiwFR6vCzJiyMM1vJ+pnV1LqiN/USepwc
+	EnIYf7YPZ2e0w6tJDaANHu59grEOR2Rfi7B+Wb4MwDG7Vv7gLDmpWkmBVBu5sd5JyZmY
+	oHjQ33ZYncEwc8arybj5S/RTbwijfz1hvvVsEskwiHbT94wI2qB0TdSlKXMuQ2yOrKa9
+	C0yMn9HnWLtFHSWW5sAnCgauG+Df2fjclnQT+35DXgvNOTuJttM2Esgwbr3wdEb533Wb
+	A+og==
+Received: by 10.180.78.164 with SMTP id c4mr51388257wix.10.1337266710399;
+	Thu, 17 May 2012 07:58:30 -0700 (PDT)
+Received: from [172.20.1.36] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id fn2sm21769561wib.0.2012.05.17.07.58.27
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 17 May 2012 07:58:28 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1278)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <4FB50F47.6060207@linux.intel.com>
+Date: Thu, 17 May 2012 16:58:23 +0200
+Message-Id: <4A22156E-2396-413C-A621-E947330B22D1@dominion.thruhere.net>
+References: <1337131523-8176-1-git-send-email-kergoth@gmail.com>
+	<4FB50F47.6060207@linux.intel.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Gm-Message-State: ALoCoQkzagl4s7ITVV7q3xv0xFlQaxzGUKCCTRXLhTQYlBTv7R6oPFAxRnL54ExsNsEbnOKOclom
-Subject: Re: Linux-yocto 3.0 crashes at do_patch...
+X-Mailer: Apple Mail (2.1278)
+X-Gm-Message-State: ALoCoQkWGVDSdw5cGXbHFHo2o/hA+M5LNjpHVEGWxcDNvnGmUWNCJC/Iu7McIJ+6Jsg+eCVcQ03B
+Cc: Christopher Larson <chris_larson@mentor.com>
+Subject: Re: [PATCH] kernel.bbclass: add deploy link to KERNEL_IMAGETYPE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,332 +52,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 May 2012 15:08:05 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Thu, 17 May 2012 15:08:32 -0000
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, May 17, 2012 at 6:41 AM, Andrei Gherzan <andrei@gherzan.ro> wrote:
-> On 05/17/2012 04:38 PM, Bruce Ashfield wrote:
->>
->> On Thu, May 17, 2012 at 6:09 AM, Andrei Gherzan<andrei@gherzan.ro> =A0wr=
-ote:
->>>
->>> Today i ran into an issue that Florin Sarbu signaled sometime last week=
-.
->>> It
->>> seems like do_patch crashes while compiling linux 3.0:
->>>
->>> ERROR: Logfile of failure stored in:
->>>
->>> /media/HDD-WRS/yocto/2012-05-10-discovery-vea9/tmp/work/vexpressa9-poky=
--linux-gnueabi/linux-yocto-3.0.24+git1+34e0d2b4b4e9778b31f9ea99ca43f0dc71a7=
-ee23_1+6b4bf6173b0bd2d1619a8218bac66ebc4681dd35-r4/temp/log.do_patch.10864
->>> Log data follows:
->>> | Branch meta-temp set up to track remote branch meta from origin.
->>> | git reset --mixed 620917de59eeb934b9f8cf35cc2d95c1ac8ed0fc
->>> | Deleted branch meta-temp (was 620917d).
->>> |
->>>
->>> /media/HDD-WRS/yocto/2012-05-10-discovery-vea9/tmp/sysroots/i686-linux/=
-usr/bin/updateme:
->>> line 434: yocto/standard/beagleboard-standard.scc: No such file or
->>> directory
->>> |
->>>
->>> /media/HDD-WRS/yocto/2012-05-10-discovery-vea9/tmp/sysroots/i686-linux/=
-usr/bin/updateme:
->>> line 436: yocto/standard/beagleboard-standard.scc: No such file or
->>> directory
->>> |
->>>
->>> /media/HDD-WRS/yocto/2012-05-10-discovery-vea9/tmp/sysroots/i686-linux/=
-usr/bin/updateme:
->>> line 437: yocto/standard/beagleboard-standard.scc: No such file or
->>> directory
->>> |
->>>
->>> /media/HDD-WRS/yocto/2012-05-10-discovery-vea9/tmp/sysroots/i686-linux/=
-usr/bin/updateme:
->>> line 438: yocto/standard/beagleboard-standard.scc: No such file or
->>> directory
->>> |
->>>
->>> /media/HDD-WRS/yocto/2012-05-10-discovery-vea9/tmp/sysroots/i686-linux/=
-usr/bin/updateme:
->>> line 441: yocto/standard/beagleboard-standard.scc: No such file or
->>> directory
->>> | readlink: missing operand
->>> | Try `readlink --help' for more information.
->>> |
->>>
->>> /media/HDD-WRS/yocto/2012-05-10-discovery-vea9/tmp/sysroots/i686-linux/=
-usr/bin/scc:
->>> line 399: yocto/standard/beagleboard-standard: No such file or director=
-y
->>> |
->>>
->>> /media/HDD-WRS/yocto/2012-05-10-discovery-vea9/tmp/sysroots/i686-linux/=
-usr/bin/scc:
->>> line 399: yocto/standard/beagleboard-standard: No such file or director=
-y
->>> |
->>>
->>> /media/HDD-WRS/yocto/2012-05-10-discovery-vea9/tmp/sysroots/i686-linux/=
-usr/bin/scc:
->>> line 399: yocto/standard/beagleboard-standard: No such file or director=
-y
->>> |
->>>
->>> /media/HDD-WRS/yocto/2012-05-10-discovery-vea9/tmp/sysroots/i686-linux/=
-usr/bin/scc:
->>> line 399: yocto/standard/beagleboard-standard: No such file or director=
-y
->>> |
->>>
->>> /media/HDD-WRS/yocto/2012-05-10-discovery-vea9/tmp/sysroots/i686-linux/=
-usr/bin/scc:
->>> line 399: yocto/standard/beagleboard-standard: No such file or director=
-y
->>> |
->>>
->>> /media/HDD-WRS/yocto/2012-05-10-discovery-vea9/tmp/sysroots/i686-linux/=
-usr/bin/scc:
->>> line 399: yocto/standard/beagleboard-standard: No such file or director=
-y
->>> |
->>>
->>> /media/HDD-WRS/yocto/2012-05-10-discovery-vea9/tmp/sysroots/i686-linux/=
-usr/bin/scc:
->>> line 399: yocto/standard/beagleboard-standard: No such file or director=
-y
->>> |
->>>
->>> /media/HDD-WRS/yocto/2012-05-10-discovery-vea9/tmp/sysroots/i686-linux/=
-usr/bin/scc:
->>> line 399: yocto/standard/beagleboard-standard: No such file or director=
-y
->>> |
->>>
->>> /media/HDD-WRS/yocto/2012-05-10-discovery-vea9/tmp/sysroots/i686-linux/=
-usr/bin/scc:
->>> line 399: yocto/standard/beagleboard-standard: No such file or director=
-y
->>> |
->>>
->>> /media/HDD-WRS/yocto/2012-05-10-discovery-vea9/tmp/sysroots/i686-linux/=
-usr/bin/scc:
->>> line 399: yocto/standard/beagleboard-standard: No such file or director=
-y
->>> |
->>>
->>> /media/HDD-WRS/yocto/2012-05-10-discovery-vea9/tmp/sysroots/i686-linux/=
-usr/bin/scc:
->>> line 399: yocto/standard/beagleboard-standard: No such file or director=
-y
->>> |
->>>
->>> /media/HDD-WRS/yocto/2012-05-10-discovery-vea9/tmp/sysroots/i686-linux/=
-usr/bin/scc:
->>> line 399: yocto/standard/beagleboard-standard: No such file or director=
-y
->>> |
->>>
->>> /media/HDD-WRS/yocto/2012-05-10-discovery-vea9/tmp/sysroots/i686-linux/=
-usr/bin/scc:
->>> line 399: yocto/standard/beagleboard-standard: No such file or director=
-y
->>> |
->>>
->>> /media/HDD-WRS/yocto/2012-05-10-discovery-vea9/tmp/sysroots/i686-linux/=
-usr/bin/scc:
->>> line 399: yocto/standard/beagleboard-standard: No such file or director=
-y
->>> |
->>>
->>> /media/HDD-WRS/yocto/2012-05-10-discovery-vea9/tmp/sysroots/i686-linux/=
-usr/bin/scc:
->>> line 399: yocto/standard/beagleboard-standard: No such file or director=
-y
->>> |
->>>
->>> /media/HDD-WRS/yocto/2012-05-10-discovery-vea9/tmp/sysroots/i686-linux/=
-usr/bin/scc:
->>> line 399: yocto/standard/beagleboard-standard: No such file or director=
-y
->>> |
->>>
->>> /media/HDD-WRS/yocto/2012-05-10-discovery-vea9/tmp/sysroots/i686-linux/=
-usr/bin/scc:
->>> line 399: yocto/standard/beagleboard-standard: No such file or director=
-y
->>> |
->>>
->>> /media/HDD-WRS/yocto/2012-05-10-discovery-vea9/tmp/sysroots/i686-linux/=
-usr/bin/scc:
->>> line 399: yocto/standard/beagleboard-standard: No such file or director=
-y
->>> |
->>>
->>> /media/HDD-WRS/yocto/2012-05-10-discovery-vea9/tmp/sysroots/i686-linux/=
-usr/bin/scc:
->>> line 399: yocto/standard/beagleboard-standard: No such file or director=
-y
->>> | /media/HDD-WRS/yocto/2012-05-10-discovery-vea9/tmERROR: Function
->>> failed:
->>> do_patch (see
->>>
->>> /media/HDD-WRS/yocto/2012-05-10-discovery-vea9/tmp/work/vexpressa9-poky=
--linux-gnueabi/linux-yocto-3.0.24+git1+34e0d2b4b4e9778b31f9ea99ca43f0dc71a7=
-ee23_1+6b4bf6173b0bd2d1619a8218bac66ebc4681dd35-r4/temp/log.do_patch.10864
->>> for further information)
->>> | p/sysroots/i686-linux/usr/bin/scc: line 399:
->>> yocto/standard/beagleboard-standard: No such file or directory
->>> |
->>>
->>> /media/HDD-WRS/yocto/2012-05-10-discovery-vea9/tmp/sysroots/i686-linux/=
-usr/bin/scc:
->>> line 399: yocto/standard/beagleboard-standard: No such file or director=
-y
->>> |
->>>
->>> /media/HDD-WRS/yocto/2012-05-10-discovery-vea9/tmp/sysroots/i686-linux/=
-usr/bin/scc:
->>> line 399: yocto/standard/beagleboard-standard: No such file or director=
-y
->>> |
->>>
->>> /media/HDD-WRS/yocto/2012-05-10-discovery-vea9/tmp/sysroots/i686-linux/=
-usr/bin/scc:
->>> line 399: yocto/standard/beagleboard-standard: No such file or director=
-y
->>> |
->>>
->>> /media/HDD-WRS/yocto/2012-05-10-discovery-vea9/tmp/sysroots/i686-linux/=
-usr/bin/scc:
->>> line 399: yocto/standard/beagleboard-standard: No such file or director=
-y
->>> |
->>>
->>> /media/HDD-WRS/yocto/2012-05-10-discovery-vea9/tmp/sysroots/i686-linux/=
-usr/bin/scc:
->>> line 399: yocto/standard/beagleboard-standard: No such file or director=
-y
->>> |
->>>
->>> /media/HDD-WRS/yocto/2012-05-10-discovery-vea9/tmp/sysroots/i686-linux/=
-usr/bin/scc:
->>> line 399: yocto/standard/beagleboard-standard: No such file or director=
-y
->>> |
->>>
->>> /media/HDD-WRS/yocto/2012-05-10-discovery-vea9/tmp/sysroots/i686-linux/=
-usr/bin/scc:
->>> line 399: yocto/standard/beagleboard-standard: No such file or director=
-y
->>> |
->>>
->>> /media/HDD-WRS/yocto/2012-05-10-discovery-vea9/tmp/sysroots/i686-linux/=
-usr/bin/scc:
->>> line 399: yocto/standard/beagleboard-standard: No such file or director=
-y
->>> |
->>>
->>> /media/HDD-WRS/yocto/2012-05-10-discovery-vea9/tmp/sysroots/i686-linux/=
-usr/bin/scc:
->>> line 399: yocto/standard/beagleboard-standard: No such file or director=
-y
->>> |
->>>
->>> /media/HDD-WRS/yocto/2012-05-10-discovery-vea9/tmp/sysroots/i686-linux/=
-usr/bin/scc:
->>> line 399: yocto/standard/beagleboard-standard: No such file or director=
-y
->>> |
->>>
->>> /media/HDD-WRS/yocto/2012-05-10-discovery-vea9/tmp/sysroots/i686-linux/=
-usr/bin/scc:
->>> line 399: yocto/standard/beagleboard-standard: No such file or director=
-y
->>> |
->>>
->>> /media/HDD-WRS/yocto/2012-05-10-discovery-vea9/tmp/sysroots/i686-linux/=
-usr/bin/scc:
->>> line 399: yocto/standard/beagleboard-standard: No such file or director=
-y
->>> |
->>>
->>> /media/HDD-WRS/yocto/2012-05-10-discovery-vea9/tmp/sysroots/i686-linux/=
-usr/bin/scc:
->>> line 399: yocto/standard/beagleboard-standard: No such file or director=
-y
->>> |
->>>
->>> /media/HDD-WRS/yocto/2012-05-10-discovery-vea9/tmp/sysroots/i686-linux/=
-usr/bin/scc:
->>> line 399: yocto/standard/beagleboard-standard: No such file or director=
-y
->>> |
->>>
->>> /media/HDD-WRS/yocto/2012-05-10-discovery-vea9/tmp/sysroots/i686-linux/=
-usr/bin/scc:
->>> line 399: yocto/standard/beagleboard-standard: No such file or director=
-y
->>> | ERROR. Could not find an excutable target for yocto/standard/base
->>> | ERROR. Could not locate meta series for yocto/standard/beagleboard
->>> | ERROR. Could not modify yocto/standard/base
->>> NOTE: package
->>>
->>> linux-yocto-3.0.24+git1+34e0d2b4b4e9778b31f9ea99ca43f0dc71a7ee23_1+6b4b=
-f6173b0bd2d1619a8218bac66ebc4681dd35-r4:
->>> task do_patch: Failed
->>>
->>> I didn't have time to understand were is the source of this problem but=
- i
->>> suspect that is a sever-sided issue as this was reproducible yesterday
->>> even
->>> if i didn't change anything in layers.
->>
->> I should remember to read all the way to the bottom :) I just
->> configured and built the beagle
->> board here, out of master. But my kernel is already fetched and
->> complete, so I didn't
->> run into any issues.
->>
->> We've got other reports of the servers pushing out a zero byte file
->> for the kernel tree
->> (again), so that very well could be what is happening here as well.
->>
->
-> That's my opinion as well. I think what we got from server is corrupted.
 
-I've seen reports of this but haven't been able to replicate it. I'll
-look at the server today and see if there is something going on from
-that end, however:
+Op 17 mei 2012, om 16:46 heeft Darren Hart het volgende geschreven:
 
-518M May 15 23:21 git2_git.yoctoproject.org.linux-yocto-3.0.git.tar.gz
-620M May 16 00:13 git2_git.yoctoproject.org.linux-yocto-3.0.tar.gz
+> On 05/15/2012 06:25 PM, Christopher Larson wrote:
+>> From: Christopher Larson <chris_larson@mentor.com>
+>>=20
+>> It's common to provide a non-machine-suffixed link in =
+DEPLOY_DIR_IMAGE, so
+>> let's be consistent and do so here as well.
+>=20
+> This of course means that building two machines in the same build dir
+> will result in overwriting the latest non-machine-suffixed link
+> (provided they are the same image type)
 
-So at least as of yesterday, the tarballs exist and were not 0 byte
+Actually it doesn't. At least not on angstrom, shr and slugos:
 
--b
+koen@dominion:/OE/tentacle/sources/meta-angstrom$ git grep =
+DEPLOY_DIR_IMAGE
+conf/distro/include/angstrom.inc:DEPLOY_DIR_IMAGE =3D =
+"${DEPLOY_DIR}/images/${MACHINE}"
 
-> Anyway i'm was talking about a vexpressa9 machine based on beagleboard
-> kernel.
-> Hope somebody will find the fast fix for this. We need it asap.
->
->
-> @g
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-
-
-
---=20
-Elizabeth Flanagan
-Yocto Project
-Build and Release
+The above was mentioned a few weeks ago, but it looks like no one but =
+the distros above and Chris care about proper multimachine builds.=
 
 
