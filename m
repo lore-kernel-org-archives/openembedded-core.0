@@ -1,24 +1,24 @@
 Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SV44q-0006KA-Uj
+	(envelope-from <sgw@linux.intel.com>) id 1SV44r-0006KA-QS
 	for openembedded-core@lists.openembedded.org;
-	Thu, 17 May 2012 19:01:25 +0200
+	Thu, 17 May 2012 19:01:26 +0200
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 17 May 2012 09:51:22 -0700
+	by azsmga102.ch.intel.com with ESMTP; 17 May 2012 09:51:24 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="144478100"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="144478115"
 Received: from unknown (HELO swold-mobl.amr.corp.intel.com) ([10.255.13.96])
-	by azsmga001.ch.intel.com with ESMTP; 17 May 2012 09:51:21 -0700
+	by azsmga001.ch.intel.com with ESMTP; 17 May 2012 09:51:23 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 17 May 2012 19:51:06 +0300
-Message-Id: <c1c8d2f3cffc540380c0a5fcdda48d64cbec333a.1337273095.git.sgw@linux.intel.com>
+Date: Thu, 17 May 2012 19:51:08 +0300
+Message-Id: <1af318fbb61d72412d40a22eb2cc38e0650a4f8a.1337273095.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <cover.1337273095.git.sgw@linux.intel.com>
 References: <cover.1337273095.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1337273095.git.sgw@linux.intel.com>
 References: <cover.1337273095.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 04/12] kernel.bbclass: add deploy link to KERNEL_IMAGETYPE
+Subject: [CONSOLIDATED PULL 06/12] meta/classes/sstate.bbclass: ensure sstate files have group R/W
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,30 +33,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 May 2012 17:01:25 -0000
+X-List-Received-Date: Thu, 17 May 2012 17:01:26 -0000
 
-From: Christopher Larson <chris_larson@mentor.com>
+From: Joshua Lock <josh@linux.intel.com>
 
-It's common to provide a non-machine-suffixed link in DEPLOY_DIR_IMAGE, so
-let's be consistent and do so here as well.
+In order to make sharing sstate files easier chmod them with 0664 permissions	so that they are readable and writable by the user and any other members of 	their group.
 
-Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+Signed-off-by: Joshua Lock <josh@linux.intel.com>
 ---
- meta/classes/kernel.bbclass |    1 +
+ meta/classes/sstate.bbclass |    1 +
  1 files changed, 1 insertions(+), 0 deletions(-)
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index a85f130..90af597 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -538,6 +538,7 @@ kernel_do_deploy() {
- 	cd ${DEPLOYDIR}
- 	rm -f ${KERNEL_IMAGE_SYMLINK_NAME}.bin
- 	ln -sf ${KERNEL_IMAGE_BASE_NAME}.bin ${KERNEL_IMAGE_SYMLINK_NAME}.bin
-+	ln -sf ${KERNEL_IMAGE_BASE_NAME}.bin ${KERNEL_IMAGETYPE}
+diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+index 3fc615d..ccef4a9 100644
+--- a/meta/classes/sstate.bbclass
++++ b/meta/classes/sstate.bbclass
+@@ -473,6 +473,7 @@ sstate_create_package () {
+ 	else
+ 		tar -cz --file=$TFILE --files-from=/dev/null
+ 	fi
++	chmod 0664 $TFILE 
+ 	mv $TFILE ${SSTATE_PKG}
  
- 	cp ${COREBASE}/meta/files/deploydir_readme.txt ${DEPLOYDIR}/README_-_DO_NOT_DELETE_FILES_IN_THIS_DIRECTORY.txt
- }
+ 	cd ${WORKDIR}
 -- 
 1.7.7.6
 
