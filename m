@@ -1,26 +1,33 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-ey0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1SV5V3-0005if-CZ
+	(envelope-from <raj.khem@gmail.com>) id 1SV5ap-0005xo-NN
 	for openembedded-core@lists.openembedded.org;
-	Thu, 17 May 2012 20:32:33 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q4HIMUD0018560
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 17 May 2012 20:38:31 +0200
+Received: by eaal1 with SMTP id l1so585302eaa.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 May 2012 11:22:30 -0700 (PDT)
-Received: from localhost.localdomain (172.25.34.61) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Thu, 17 May 2012 11:22:29 -0700
-From: Mark Hatle <mark.hatle@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 17 May 2012 13:25:06 -0500
-Message-ID: <277534765cf879504f3d5203e058bf2e1aa4f8f9.1337278931.git.mark.hatle@windriver.com>
-X-Mailer: git-send-email 1.7.3.4
-In-Reply-To: <cover.1337278931.git.mark.hatle@windriver.com>
-References: <cover.1337278931.git.mark.hatle@windriver.com>
+	Thu, 17 May 2012 11:28:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type; bh=MffmVKPUwYz43RJM34gMUDJV4CMAArh9OHP/aheeR5A=;
+	b=sznU2t8iCO0uzooJ8Sfxd3UzJKu/Ic/pSjajupWK41s18BWkgVYV/bAfTpngPrnIkF
+	VoXSTSj/Zqm/+WXDSbHIPPEQSMjz/T0cSzPBNFfeDITXup52VLSUWOSHUpKqydRG3Nzv
+	GKWoim29Cg/s/7zX6pTVCNSl5XYpQ94c4ZDPE98K3RPELdqfCy2giy+Ia5+G0SL8vwVg
+	DfdL9y+q/SrMRlp8jQZ3O+KU7s51l4voN14JlxBmTwJ94MeOSruGwSvHbdlcUgcRAEnM
+	km9Vu76IrBvuxd9F3wHqjBeUpT65CrX/7Zdt+bdf9dk8fRIJinOG6tynNKiPuynTzPB4
+	alcA==
+Received: by 10.14.53.67 with SMTP id f43mr1761770eec.3.1337279309111; Thu, 17
+	May 2012 11:28:29 -0700 (PDT)
 MIME-Version: 1.0
-X-Originating-IP: [172.25.34.61]
-Subject: [PATCH 4/4] package_rpm: Add capability to directly query packageorigin
+Received: by 10.14.2.132 with HTTP; Thu, 17 May 2012 11:27:58 -0700 (PDT)
+In-Reply-To: <6152dc105c0eecec81a65b329a3a5a0820eeed26.1337278931.git.mark.hatle@windriver.com>
+References: <cover.1337278931.git.mark.hatle@windriver.com>
+	<6152dc105c0eecec81a65b329a3a5a0820eeed26.1337278931.git.mark.hatle@windriver.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 17 May 2012 11:27:58 -0700
+Message-ID: <CAMKF1sofgso3eS-AuwFMHh+DBhqgThi6PVDvepeyyaqQW_r7JA@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/4] rpm: Upgrade RPM to 5.4.8 (db to 5.3.15)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,130 +42,13 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 May 2012 18:32:33 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 17 May 2012 18:38:31 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Add functionality to RPM to directly query the packageorigin (path) from
-the resolver database, instead of having to do this via an indirect method.
+On Thu, May 17, 2012 at 11:25 AM, Mark Hatle <mark.hatle@windriver.com> wrote:
+> RPM 5.4.8 requires db 5.3.x, so both are upgraded together.
 
-This results in a minor performance improvement.
-
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
----
- meta/classes/package_rpm.bbclass                   |   18 +++++++-------
- .../rpm/rpm/rpm-packageorigin.patch                |   23 ++++++++++++++++++++
- meta/recipes-devtools/rpm/rpm_5.4.9.bb             |    3 +-
- 3 files changed, 34 insertions(+), 10 deletions(-)
- create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-packageorigin.patch
-
-diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
-index 2da7a8b..962e5b1 100644
---- a/meta/classes/package_rpm.bbclass
-+++ b/meta/classes/package_rpm.bbclass
-@@ -130,12 +130,12 @@ resolve_package_rpm () {
- 	shift
- 	local pkg_name=""
- 	for solve in `cat ${conffile}`; do
--		pkg_name=$(${RPM} -D "_dbpath $solve" -D "__dbi_txn create nofsync" -q --yaml $@ | grep -i 'Packageorigin' | cut -d : -f 2)
--		if [ -n "$pkg_name" ]; then
-+		pkg_name=$(${RPM} -D "_dbpath $solve" -D "__dbi_txn create nofsync" -q --qf "%{packageorigin}\n" "$@" | grep -v "is not installed" || true)
-+		if [ -n "$pkg_name" -a "$pkg_name" != "(none)" ]; then
-+			echo $pkg_name
- 			break;
- 		fi
- 	done
--	echo $pkg_name
- }
- 
- # rpm common command and options
-@@ -405,9 +405,9 @@ package_install_internal_rpm () {
- 
- 	# Now that we have a solution, pull out a list of what to install...
- 	echo "Manifest: ${target_rootfs}/install/install.manifest"
--	${RPM} -D "_dbpath ${target_rootfs}/install" -qa --yaml \
-+	${RPM} -D "_dbpath ${target_rootfs}/install" -qa --qf "%{packageorigin}\n" \
- 		-D "__dbi_txn create nofsync private" \
--		| grep -i 'Packageorigin' | cut -d : -f 2 > ${target_rootfs}/install/install_solution.manifest
-+		> ${target_rootfs}/install/install_solution.manifest
- 
- 	touch ${target_rootfs}/install/install_multilib_solution.manifest
- 
-@@ -425,9 +425,9 @@ package_install_internal_rpm () {
- 
- 		# Now that we have a solution, pull out a list of what to install...
- 		echo "Manifest: ${target_rootfs}/install/install_multilib.manifest"
--		${RPM} -D "_dbpath ${target_rootfs}/install" -qa --yaml \
-+		${RPM} -D "_dbpath ${target_rootfs}/install" -qa --qf "%{packageorigin}\n" \
- 			-D "__dbi_txn create nofsync private" \
--			| grep -i 'Packageorigin' | cut -d : -f 2 > ${target_rootfs}/install/install_multilib_solution.manifest
-+			> ${target_rootfs}/install/install_multilib_solution.manifest
- 
- 	fi
- 
-@@ -482,9 +482,9 @@ EOF
- 			-U --justdb --noscripts --notriggers --noparentdirs --nolinktos --ignoresize \
- 			${target_rootfs}/install/initial_install.manifest
- 
--		${RPM} -D "_dbpath ${target_rootfs}/initial" -qa --yaml \
-+		${RPM} -D "_dbpath ${target_rootfs}/initial" -qa --qf "%{packageorigin}\n" \
- 			-D "__dbi_txn create nofsync private" \
--			| grep -i 'Packageorigin' | cut -d : -f 2 > ${target_rootfs}/install/initial_solution.manifest
-+			> ${target_rootfs}/install/initial_solution.manifest
- 
- 		rpm_update_pkg ${target_rootfs}/install/initial_solution.manifest
- 		
-diff --git a/meta/recipes-devtools/rpm/rpm/rpm-packageorigin.patch b/meta/recipes-devtools/rpm/rpm/rpm-packageorigin.patch
-new file mode 100644
-index 0000000..3c6dad4
---- /dev/null
-+++ b/meta/recipes-devtools/rpm/rpm/rpm-packageorigin.patch
-@@ -0,0 +1,23 @@
-+Add the ability to query the packageorigin
-+
-+Written by jbj at rpm5.org
-+
-+Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
-+
-+Index: rpm-5.4.8/rpmdb/hdrfmt.c
-+===================================================================
-+--- rpm-5.4.8.orig/rpmdb/hdrfmt.c
-++++ rpm-5.4.8/rpmdb/hdrfmt.c
-+@@ -2403,8 +2403,10 @@ static int pkgoriginTag(Header h, HE_t 
-+     int rc = 1;
-+ 
-+     he->tag = RPMTAG_PACKAGEORIGIN;
-+-    if (!headerGet(h, he, HEADERGET_NOEXTENSION)
-+-     && (origin = headerGetOrigin(h)) != NULL)
-++    /* XXX two sources for tag data: what search precedence? */
-++    if (headerGet(h, he, HEADERGET_NOEXTENSION))
-++	rc = 0;
-++    else if ((origin = headerGetOrigin(h)) != NULL)
-+     {
-+ 	he->t = RPM_STRING_TYPE;
-+ 	he->p.str = xstrdup(origin);
-diff --git a/meta/recipes-devtools/rpm/rpm_5.4.9.bb b/meta/recipes-devtools/rpm/rpm_5.4.9.bb
-index da28965..c747ae4 100644
---- a/meta/recipes-devtools/rpm/rpm_5.4.9.bb
-+++ b/meta/recipes-devtools/rpm/rpm_5.4.9.bb
-@@ -43,7 +43,7 @@ LICENSE = "LGPLv2.1"
- LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=2d5025d4aa3495befef8f17206a5b0a1"
- 
- DEPENDS = "libpcre attr acl popt ossp-uuid file"
--PR = "r39"
-+PR = "r40"
- 
- # rpm2cpio is a shell script, which is part of the rpm src.rpm.  It is needed
- # in order to extract the distribution SRPM into a format we can extract...
-@@ -67,6 +67,7 @@ SRC_URI = "http://www.rpm5.org/files/rpm/rpm-5.4/rpm-5.4.9-0.20120508.src.rpm;ex
- 	   file://rpm-resolvedep.patch \
- 	   file://rpm-no-perl-urpm.patch \
- 	   file://rpm-lua.patch \
-+	   file://rpm-packageorigin.patch \
- 	  "
- 
- SRC_URI[md5sum] = "60d56ace884340c1b3fcac6a1d58e768"
--- 
-1.7.3.4
-
+is it also fine to upgrade this on existing devices ? or do databases have to be
+updated too ?
 
 
