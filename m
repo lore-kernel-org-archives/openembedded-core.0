@@ -1,26 +1,26 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1SVAWI-0000kQ-Ha
+	(envelope-from <mark.hatle@windriver.com>) id 1SVAWI-0000kP-Gj
 	for openembedded-core@lists.openembedded.org;
 	Fri, 18 May 2012 01:54:11 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q4HNi76E011525
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q4HNi6hM026225
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 May 2012 16:44:07 -0700 (PDT)
+	Thu, 17 May 2012 16:44:06 -0700 (PDT)
 Received: from localhost.localdomain (172.25.34.61) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Thu, 17 May 2012 16:44:06 -0700
+	Thu, 17 May 2012 16:44:05 -0700
 From: Mark Hatle <mark.hatle@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 17 May 2012 18:46:42 -0500
-Message-ID: <b1344828733f30f121039cf6f40e071efacd6fcc.1337298293.git.mark.hatle@windriver.com>
+Date: Thu, 17 May 2012 18:46:41 -0500
+Message-ID: <b53873a5aa0e713681763dda92ef5131cc74cc5b.1337298293.git.mark.hatle@windriver.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1337298293.git.mark.hatle@windriver.com>
 References: <cover.1337298293.git.mark.hatle@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [172.25.34.61]
-Subject: [PATCH 2/5 v2] rpm: Upgrade RPM to 5.4.9
+Subject: [PATCH 1/5 v2] rpm: Upgrade RPM to 5.4.8 (db to 5.3.15)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,548 +38,970 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 X-List-Received-Date: Thu, 17 May 2012 23:54:11 -0000
 Content-Type: text/plain
 
-Beside upreving RPM, add necessary integration pathces to libzypp.
-
-Also change the configuration of RPM to support PACKAGECONFIG flags.
-RPM is highly configurable, the default configuration is good for
-minimal OE-Core use.
+RPM 5.4.8 requires db 5.3.x, so both are upgraded together.
 
 Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
 ---
- meta/recipes-devtools/rpm/rpm/rpm-lua.patch        |   29 +++++
- .../rpm/rpm/rpm-scriptletexechelper.patch          |   33 +++---
- meta/recipes-devtools/rpm/rpm/rpmdeps-oecore.patch |   26 ++---
- .../rpm/{rpm_5.4.8.bb => rpm_5.4.9.bb}             |  124 +++++++++-----------
- .../libzypp/libzypp/libzypp-rpm549.patch           |   28 +++++
- meta/recipes-extended/libzypp/libzypp_git.bb       |    3 +-
- 6 files changed, 142 insertions(+), 101 deletions(-)
- create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-lua.patch
- rename meta/recipes-devtools/rpm/{rpm_5.4.8.bb => rpm_5.4.9.bb} (82%)
- create mode 100644 meta/recipes-extended/libzypp/libzypp/libzypp-rpm549.patch
+ meta/classes/rootfs_rpm.bbclass                    |   22 +-
+ .../rpm/rpm/fix_for_automake_1.11.2.patch          |   54 ---
+ .../rpm/rpm/fprint-pointer-fix.patch               |   35 --
+ .../rpm/rpm/remove-compiled-tests.patch            |  443 --------------------
+ meta/recipes-devtools/rpm/rpm/rpm-autoconf.patch   |   22 -
+ meta/recipes-devtools/rpm/rpm/rpm-autogen.patch    |   41 +--
+ meta/recipes-devtools/rpm/rpm/rpm-db-reduce.patch  |   16 +-
+ .../recipes-devtools/rpm/rpm/rpm-log-auto-rm.patch |   12 +-
+ .../rpm/rpm/rpm-no-perl-urpm.patch                 |   43 ++
+ meta/recipes-devtools/rpm/rpm/rpm-nofsync.patch    |   36 --
+ .../rpm/{rpm_5.4.0.bb => rpm_5.4.8.bb}             |   43 ++-
+ .../db/{db_5.1.19.bb => db_5.3.15.bb}              |    8 +-
+ 12 files changed, 106 insertions(+), 669 deletions(-)
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/fix_for_automake_1.11.2.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/fprint-pointer-fix.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/remove-compiled-tests.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-autoconf.patch
+ create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-no-perl-urpm.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-nofsync.patch
+ rename meta/recipes-devtools/rpm/{rpm_5.4.0.bb => rpm_5.4.8.bb} (91%)
+ rename meta/recipes-support/db/{db_5.1.19.bb => db_5.3.15.bb} (93%)
 
-diff --git a/meta/recipes-devtools/rpm/rpm/rpm-lua.patch b/meta/recipes-devtools/rpm/rpm/rpm-lua.patch
-new file mode 100644
-index 0000000..980e1b1
---- /dev/null
-+++ b/meta/recipes-devtools/rpm/rpm/rpm-lua.patch
-@@ -0,0 +1,29 @@
-+Add support for cross compiling lua
-+
-+Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
-+
-+diff -ur rpm-5.4.9.orig/configure.ac rpm-5.4.9/configure.ac
-+--- rpm-5.4.9.orig/configure.ac	2012-05-16 12:16:36.589813548 -0500
-++++ rpm-5.4.9/configure.ac	2012-05-16 12:26:01.070813518 -0500
-+@@ -120,6 +120,9 @@
-+ 
-+ AC_PATH_PROG(AS, as, as)
-+ 
-++CC_FOR_BUILD=${CC_FOR_BUILD-\$(CC)}
-++AC_SUBST(CC_FOR_BUILD)
-++
-+ dnl # GCC specifics
-+ AC_PROG_GCC_TRADITIONAL
-+ AC_ARG_ENABLE(build-pic,
-+diff -ur rpm-5.4.9.orig/lua/Makefile.am rpm-5.4.9/lua/Makefile.am
-+--- rpm-5.4.9.orig/lua/Makefile.am	2012-04-07 19:15:25.000000000 -0500
-++++ rpm-5.4.9/lua/Makefile.am	2012-05-16 12:26:19.556856688 -0500
-+@@ -40,7 +40,7 @@
-+ 
-+ # --- bin2c doesn't need anything but a compiler
-+ bin2c$(EXEEXT):  bin2c.c
-+-	$(CC) -o $@ $<
-++	$(CC_FOR_BUILD) -o $@ $<
-+ 
-+ liblua_la_SOURCES =
-+ liblua_la_CFLAGS = @WITH_LUA_SUBDIR_DEF@
-diff --git a/meta/recipes-devtools/rpm/rpm/rpm-scriptletexechelper.patch b/meta/recipes-devtools/rpm/rpm/rpm-scriptletexechelper.patch
-index e4db0e4..8a9e712 100644
---- a/meta/recipes-devtools/rpm/rpm/rpm-scriptletexechelper.patch
-+++ b/meta/recipes-devtools/rpm/rpm/rpm-scriptletexechelper.patch
-@@ -12,10 +12,11 @@ Upstream-Status: Pending
+diff --git a/meta/classes/rootfs_rpm.bbclass b/meta/classes/rootfs_rpm.bbclass
+index 9039b21..703fa15 100644
+--- a/meta/classes/rootfs_rpm.bbclass
++++ b/meta/classes/rootfs_rpm.bbclass
+@@ -66,24 +66,26 @@ fakeroot rootfs_rpm_do_rootfs () {
+ 	touch ${INSTALL_ROOTFS_RPM}${rpmlibdir}/log/log.0000000001
+ 	cat > ${INSTALL_ROOTFS_RPM}${rpmlibdir}/DB_CONFIG << EOF
+ # ================ Environment
+-set_data_dir            .
+-set_create_dir          .
+-set_lg_dir              ./log
+-set_tmp_dir             ./tmp
++set_data_dir .
++set_create_dir .
++set_lg_dir ./log
++set_tmp_dir ./tmp
++set_flags db_log_autoremove on
+ 
+ # -- thread_count must be >= 8
+-set_thread_count        64
++set_thread_count 64
+ 
+ # ================ Logging
+ 
+ # ================ Memory Pool
+-set_mp_mmapsize         268435456
++set_cachesize 0 1048576 0
++set_mp_mmapsize 268435456
+ 
+ # ================ Locking
+-set_lk_max_locks        16384
+-set_lk_max_lockers      16384
+-set_lk_max_objects      16384
+-mutex_set_max           163840
++set_lk_max_locks 16384
++set_lk_max_lockers 16384
++set_lk_max_objects 16384
++mutex_set_max 163840
+ 
+ # ================ Replication
+ EOF
+diff --git a/meta/recipes-devtools/rpm/rpm/fix_for_automake_1.11.2.patch b/meta/recipes-devtools/rpm/rpm/fix_for_automake_1.11.2.patch
+deleted file mode 100644
+index bb0f7eb..0000000
+--- a/meta/recipes-devtools/rpm/rpm/fix_for_automake_1.11.2.patch
++++ /dev/null
+@@ -1,54 +0,0 @@
+-Upstream-Status: Pending
+-
+-automake version 1.11.2 has made use of dir variables more strict.
+-the use of pkglibdir with SCRIPTS & DATA vars results in automake
+-errors.
+-  This commits uses pkgdatadir & pkgbindir vars instead of pkglibdir
+-to avoid the strict check errors.
+-
+-  This change also works with automake-1.11.1
+-
+-Errors fixed:
+-Makefile.am:103: error: `pkglibdir' is not a legitimate directory for `DATA'
+-scripts/Makefile.am:47: error: `pkglibdir' is not a legitimate directory for `SCRIPTS'
+-
+-Signed-Off-By: Nitin A Kamble <nitin.a.kamble@intel.com>
+-2011/12/27
+-
+-Index: rpm-5.4.0/Makefile.am
+-===================================================================
+---- rpm-5.4.0.orig/Makefile.am
+-+++ rpm-5.4.0/Makefile.am
+-@@ -103,13 +103,13 @@ if WITH_PATH_VERSIONED
+- 	done
+- endif
+- 
+--pkglibdir =		@USRLIBRPM@
+--pkglib_DATA = rpmpopt macros/macros macros/macros.rpmbuild cpuinfo.yaml
+-+pkgdatadir =		@USRLIBRPM@
+-+pkgdata_DATA = rpmpopt macros/macros macros/macros.rpmbuild cpuinfo.yaml
+- 
+--pkgbindir =	$(pkglibdir)/bin
+-+pkgbindir =	$(pkgdatadir)/bin
+- pkgbin_SCRIPTS = install-sh mkinstalldirs
+- 
+--pkgcfgdir =	$(pkglibdir)/macros.d
+-+pkgcfgdir =	$(pkgdatadir)/macros.d
+- pkgcfg_DATA = \
+- 	macros/cmake macros/java macros/libtool macros/mandriva macros/mono \
+- 	macros/perl macros/pkgconfig macros/php macros/python macros/ruby \
+-Index: rpm-5.4.0/scripts/Makefile.am
+-===================================================================
+---- rpm-5.4.0.orig/scripts/Makefile.am
+-+++ rpm-5.4.0/scripts/Makefile.am
+-@@ -45,8 +45,8 @@ all:
+- 
+- bin_SCRIPTS = gendiff
+- 
+--pkglibdir =		@USRLIBRPM@
+--pkglib_SCRIPTS = \
+-+pkgbindir =		@USRLIBRPM@
+-+pkgbin_SCRIPTS = \
+- 	brp-compress brp-python-bytecompile brp-java-gcjcompile \
+- 	brp-strip brp-strip-comment-note brp-nobuildrootpath \
+- 	brp-strip-shared brp-strip-static-archive brp-sparc64-linux \
+diff --git a/meta/recipes-devtools/rpm/rpm/fprint-pointer-fix.patch b/meta/recipes-devtools/rpm/rpm/fprint-pointer-fix.patch
+deleted file mode 100644
+index 87a92eb..0000000
+--- a/meta/recipes-devtools/rpm/rpm/fprint-pointer-fix.patch
++++ /dev/null
+@@ -1,35 +0,0 @@
+-Upstream-Status: Submitted
+-
+-From: Qing He <qing.he@intel.com>
+-Subject: [PATCH] rpm 5.4.0: Fix pointer mishandling
+-
+-In fpLookupSubdir, data returned by hash should be of type
+-"struct rpmffi_s **" instead of "struct rpmffi_s *" to avoid
+-segfault.
+-
+-Signed-off-by: Qing He <qing.he@intel.com>
+-
+-diff --git a/rpmdb/fprint.c b/rpmdb/fprint.c
+-index 0e76148..82b8f45 100644
+---- a/rpmdb/fprint.c
+-+++ b/rpmdb/fprint.c
+-@@ -333,7 +333,7 @@ restart:
+-     *te = '\0';
+- 
+-     while (te < se) {
+--	struct rpmffi_s * recs;
+-+	struct rpmffi_s ** recs;
+- 	int numRecs;
+- 	int i;
+- 
+-@@ -346,8 +346,8 @@ restart:
+- 	    const char * link;
+- 	    int fx;
+- 
+--	    fx = recs[i].fileno;
+--	    fi =  recs[i].p->fi;
+-+	    fx = recs[i]->fileno;
+-+	    fi =  recs[i]->p->fi;
+- 	    flink = fi->flinks[fx];
+- 	    if (!(flink && *flink != '\0'))
+- 		continue;
+diff --git a/meta/recipes-devtools/rpm/rpm/remove-compiled-tests.patch b/meta/recipes-devtools/rpm/rpm/remove-compiled-tests.patch
+deleted file mode 100644
+index 3663692..0000000
+--- a/meta/recipes-devtools/rpm/rpm/remove-compiled-tests.patch
++++ /dev/null
+@@ -1,443 +0,0 @@
+-
+-Upstream-Status: Inappropriate [configuration]
+-
+-Index: rpm-5.1.9/configure.ac
+-===================================================================
+---- rpm-5.1.9.orig/configure.ac	2009-04-18 17:47:02.000000000 +0100
+-+++ rpm-5.1.9/configure.ac	2010-07-06 14:47:28.985462456 +0100
+-@@ -643,38 +643,22 @@
+- dnl look for libc features
+- PROVIDES_ERRNO=no
+- AC_MSG_CHECKING(if <netdb.h> defines h_errno)
+--AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <netdb.h>]], [[printf("%d",h_errno)]])],[PROVIDES_ERRNO=yes],[])
+--AC_MSG_RESULT($PROVIDES_ERRNO)
+--if test $PROVIDES_ERRNO = yes; then
+--	AC_DEFINE(HAVE_HERRNO, 1, [ Define as 1 if <netdb.h> defines h_errno])
+--fi
+-+AC_DEFINE(HAVE_HERRNO, 1, [ Define as 1 if <netdb.h> defines h_errno])
+- 
+- dnl If a system doesn't have S_IFSOCK, define it as 0 which will
+- dnl make S_ISSOCK always return false (nice, eh?)
+- AC_MSG_CHECKING(if <sys/stat.h> defines S_IFSOCK)
+--AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <sys/stat.h>]], [[printf("%d", S_IFSOCK)]])],[HAS_S_IFSOCK=yes],[HAS_S_IFSOCK=no])
+--AC_MSG_RESULT($HAS_S_IFSOCK)
+--if test $HAS_S_IFSOCK = yes; then
+--	AC_DEFINE(HAVE_S_IFSOCK, 1, [Define as 1 if <sys/stat.h> defines S_IFSOCK])
+--fi
+-+AC_DEFINE(HAVE_S_IFSOCK, 1, [Define as 1 if <sys/stat.h> defines S_IFSOCK])
+- 
+- dnl Some Unix's are missing S_ISLNK, S_ISSOCK
+- AC_MSG_CHECKING(if <sys/stat.h> defines S_ISLNK)
+--AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <sys/stat.h>]], [[printf("%d", S_ISLNK(0755))]])],[HAS_S_ISLNK=yes],[HAS_S_ISLNK=no])
+--AC_MSG_RESULT($HAS_S_ISLNK)
+--if test $HAS_S_ISLNK = yes; then
+--	AC_DEFINE(HAVE_S_ISLNK, 1, [Define as 1 if <sys/stat.h> defines S_ISLNK])
+--fi
+-+AC_DEFINE(HAVE_S_ISLNK, 1, [Define as 1 if <sys/stat.h> defines S_ISLNK])
+- 
+- AC_MSG_CHECKING(if <sys/stat.h> defines S_ISSOCK)
+--AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <sys/stat.h>]], [[printf("%d", S_ISSOCK(0755))]])],[HAS_S_ISSOCK=yes],[HAS_S_ISSOCK=no])
+--AC_MSG_RESULT($HAS_S_ISSOCK)
+--if test $HAS_S_ISSOCK = yes; then
+--	AC_DEFINE(HAVE_S_ISSOCK, 1, [Define as 1 if <sys/stat.h> defines S_ISSOCK])
+--fi
+-+AC_DEFINE(HAVE_S_ISSOCK, 1, [Define as 1 if <sys/stat.h> defines S_ISSOCK])
+- 
+- AC_MSG_CHECKING(if timezone is defined)
+--AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <time.h>]], [[printf("%ld", timezone)]])],[HAS_TIMEZONE=yes],[HAS_TIMEZONE=no])
+-+$HAS_TIMEZONE=yes
+- AC_MSG_RESULT($HAS_TIMEZONE)
+- 
+- dnl check for missing typedefs
+-@@ -726,53 +710,12 @@
+-         AC_MSG_RESULT(yes)
+-         AC_CHECK_HEADERS([libelf.h gelf.h])
+-         if test ".$ac_cv_header_libelf_h" = .no; then
+--            dnl # <libelf.h> on Solaris is incompatible with LFS. If we couldn't
+--            dnl # include <libelf.h>, see if we can when _FILE_OFFSET_BITS is
+--            dnl # set for non-LFS. Same applies for <gelf.h>, since it probably
+--            dnl # includes <libelf.h>
+--            AC_MSG_CHECKING([if libelf.h conflicts with _LARGEFILE_SOURCE])
+--            AC_COMPILE_IFELSE([
+--                AC_LANG_PROGRAM([[
+--#undef _LARGEFILE64_SOURCE
+--#undef _LARGEFILE_SOURCE
+--#if !defined(_LP64)
+--# undef _FILE_OFFSET_BITS
+--# define _FILE_OFFSET_BITS 32
+--#endif
+--#include <libelf.h>
+--                ]], [[
+--                    Elf_Data foo;
+--                ]])
+--            ], [
+--                AC_DEFINE(HAVE_LIBELF_H, 1, [Define to 1 if you have libelf.h])
+--                ac_cv_header_libelf_h=yes
+--                AC_DEFINE(LIBELF_H_LFS_CONFLICT, 1, [Define to 1 if libelf.h is incompatible with LFS API])
+--                AC_MSG_RESULT(yes)
+--            ], [
+--                AC_MSG_RESULT(no)
+--            ])
+-+            AC_DEFINE(HAVE_LIBELF_H, 1, [Define to 1 if you have libelf.h])
+-+            ac_cv_header_libelf_h=yes
+-         fi
+-         if test ".$ac_cv_header_gelf_h" = .no; then
+--            AC_MSG_CHECKING([if gelf.h conflicts with _LARGEFILE_SOURCE])
+--            AC_COMPILE_IFELSE([
+--                AC_LANG_PROGRAM([[
+--#undef _LARGEFILE64_SOURCE
+--#undef _LARGEFILE_SOURCE
+--#if !defined(_LP64)
+--# undef _FILE_OFFSET_BITS
+--# define _FILE_OFFSET_BITS 32
+--#endif
+--#include <gelf.h>
+--                ]], [[
+--                    Elf32_Verdef foo;
+--                ]])
+--            ], [
+--                AC_DEFINE(HAVE_GELF_H, 1, [Define to 1 if you have gelf.h])
+--                ac_cv_header_gelf_h=yes
+--                AC_MSG_RESULT(yes)
+--            ], [
+--                AC_MSG_RESULT(no)
+--          ])
+-+            AC_DEFINE(HAVE_GELF_H, 1, [Define to 1 if you have gelf.h])
+-+            ac_cv_header_gelf_h=yes
+-         fi
+-         if test ".$ac_cv_header_gelf_h" = .yes; then
+-             AC_CHECK_LIB([elf], [elf_version], [
+-@@ -854,78 +797,9 @@
+-                   python_version=""
+-                   ;;
+-         esac
+--	for python_ver in $python_version ; do
+--             if test "$python_ver" != "2.x" ; then
+--                  AC_MSG_CHECKING([for Python ${python_ver} API])
+--                  save_CFLAGS="${CFLAGS}"
+--                  for i in "$prefix" "/usr/local" "/usr"; do
+--                  CFLAGS="${save_CFLAGS} -I$i/include/python${python_ver}"
+--                  AC_RUN_IFELSE([AC_LANG_SOURCE(
+--                  [[#include "Python.h"
+--                     main() { exit(strncmp("${python_ver}", PY_VERSION, 3)); } ]])
+--                  ], [
+--                     PYTHON_VERSION="${python_ver}"
+--                     AC_MSG_RESULT(yes)
+--                     PYTHON_PREFIX="${i}"
+--                     break
+--                  ], [ 
+--                  ], [
+--                     dnl if we're cross compiling, assume the user has a clue
+--                     if test "$withval" = "$python_ver"; then
+--                         PYTHON_VERSION="${python_ver}"
+--                         AC_MSG_RESULT(yes)
+--                         break
+--                     fi
+--                  ])
+--                  done
+--                  CFLAGS="${save_CFLAGS}"
+--                  if test ".$PYTHON_VERSION" == "."; then
+--                     dnl check Mac OS X framework
+--                     save_CFLAGS="${CFLAGS}"
+--                     for f in "~" "" "/System" "/Network"; do
+--                     CFLAGS="${save_CFLAGS} -I$f/Library/Frameworks/Python.framework/Versions/${python_ver}/include/python${python_ver}"
+--                     AC_RUN_IFELSE([AC_LANG_SOURCE(
+--                     [[#include "Python.h"
+--                        main() { exit(strncmp("${python_ver}", PY_VERSION, 3)); } ]])
+--                     ], [
+--                        PYTHON_VERSION="${python_ver}"
+--                        AC_MSG_RESULT([yes (using Python.framework)])
+--                        PYTHON_PREFIX="$f/Library/Frameworks/Python.framework/Versions/${python_ver}"
+--                        break
+--                     ], [
+--                     ])
+--                     done
+--                     CFLAGS="${save_CFLAGS}"
+--                  fi
+--                  if test ".$PYTHON_VERSION" == "."; then
+--                     AC_MSG_RESULT(no)
+--                  fi
+--             else
+--                  AC_MSG_CHECKING([for Python 2.x API])
+--                  AC_RUN_IFELSE([AC_LANG_SOURCE(
+--                  [[#include <python/Python.h>
+--                     main() { exit(strncmp("2.", PY_VERSION, 2)); } ]])
+--                  ], [
+--                     PYTHON_VERSION=""
+--                     AC_MSG_RESULT(yes)
+--                  ], [ 
+--                     AC_MSG_RESULT(no)
+--                  ], [
+--                     dnl if we're cross compiling, assume the user has a clue
+--                     if test "$withval" = "$python_ver"; then
+--                         PYTHON_VERSION="${python_ver}"
+--                         AC_MSG_RESULT(yes)
+--                     else
+--                         AC_MSG_RESULT(no)
+--                     fi
+--                  ])
+--             fi
+--             if test ".$PYTHON_VERSION" != "."; then
+--                  WITH_PYTHON_SUBDIR=python
+--                  WITH_PYTHON_SUBPACKAGE=1
+--                  break
+--             fi
+--	done
+-+	PYTHON_VERSION="${python_ver}"
+-+	WITH_PYTHON_SUBDIR=python
+-+	WITH_PYTHON_SUBPACKAGE=1
+-     fi
+-     AC_ARG_WITH(python-inc-dir, AS_HELP_STRING([--with-python-inc-dir=DIR], [directory with Python include files]),
+- 	    [WITH_PYTHON_INCDIR="$withval"], [WITH_PYTHON_INCDIR="`(python -c 'from distutils.sysconfig import get_python_inc; print get_python_inc()') 2>/dev/null`"])
+-@@ -1157,15 +1031,8 @@
+- 	  AC_SUBST(WITH_PCRE_LIBS)
+-       else
+- 	dnl # make sure PCRE POSIX API can be really _USED_ by RPM
+--	LIBS_SAVED="$LIBS"
+- 	LIBS="-lpcreposix $LIBS"
+--	AC_LINK_IFELSE([
+--          AC_LANG_PROGRAM([#include <pcreposix.h>], [(void)regcomp(0, 0, 0)])
+--	], [
+--          AC_DEFINE(WITH_PCRE_POSIX, 1, [Define as 1 if PCRE's POSIX API is available])
+--	], [
+--          LIBS="$LIBS_SAVED"
+--	])
+-+        AC_DEFINE(WITH_PCRE_POSIX, 1, [Define as 1 if PCRE's POSIX API is available])
+-       fi
+-       dnl # enable PCRE native API support for embedded Lua
+-       if test ".$WITH_LUA" = .yes; then
+-@@ -1234,30 +1101,7 @@
+- 
+- dnl # figure out what root's primary group is
+- AC_MSG_CHECKING([root's primary group])
+--AC_RUN_IFELSE([AC_LANG_SOURCE([[#include <stdio.h>
+--#include <sys/types.h>
+--#include <pwd.h>
+--#include <grp.h>
+--int main()
+--{
+--	struct passwd *root = NULL;
+--	struct group *roots_group = NULL;
+--	FILE * tempfile = NULL;
+--	root = getpwuid( (uid_t) 0 );
+--	if (root != NULL) {
+--		roots_group = getgrgid(root->pw_gid);
+--		if (roots_group != NULL) {
+--			tempfile = fopen("conftest_rootg", "w");
+--			if (tempfile != NULL) {
+--				fprintf(tempfile, "%s\n", roots_group->gr_name);
+--				fclose(tempfile);
+--				exit(0);
+--			}
+--		}
+--	}
+--	exit(1);
+--}]])],[ROOT_GROUP=`cat conftest_rootg`; rm -f conftest_rootg],[ROOT_GROUP="root"],[ROOT_GROUP="root"
+--])
+-+$ROOT_GROUP="root"
+- AC_MSG_RESULT([$ROOT_GROUP])
+- AC_SUBST(ROOT_GROUP)
+- 
+-Index: rpm-5.1.9/pcre/configure.ac
+-===================================================================
+---- rpm-5.1.9.orig/pcre/configure.ac	2009-01-14 20:19:31.000000000 +0000
+-+++ rpm-5.1.9/pcre/configure.ac	2010-07-06 14:51:50.769586089 +0100
+-@@ -278,34 +278,6 @@
+- # The files below are C++ header files.
+- pcre_have_type_traits="0"
+- pcre_have_bits_type_traits="0"
+--if test "x$enable_cpp" = "xyes" -a -n "$CXX"
+--then
+--AC_LANG_PUSH(C++)
+--
+--# Older versions of pcre defined pcrecpp::no_arg, but in new versions
+--# it's called pcrecpp::RE::no_arg.  For backwards ABI compatibility,
+--# we want to make one an alias for the other.  Different systems do
+--# this in different ways.  Some systems, for instance, can do it via
+--# a linker flag: -alias (for os x 10.5) or -i (for os x <=10.4).
+--OLD_LDFLAGS="$LDFLAGS"
+--for flag in "-alias,__ZN7pcrecpp2RE6no_argE,__ZN7pcrecpp6no_argE" \
+--            "-i__ZN7pcrecpp6no_argE:__ZN7pcrecpp2RE6no_argE"; do
+--  AC_MSG_CHECKING([for alias support in the linker])
+--  LDFLAGS="$OLD_LDFLAGS -Wl,$flag"
+--  # We try to run the linker with this new ld flag.  If the link fails,
+--  # we give up and remove the new flag from LDFLAGS.
+--  AC_LINK_IFELSE(AC_LANG_PROGRAM([namespace pcrecpp {
+--                                    class RE { static int no_arg; };
+--                                    int RE::no_arg;
+--                                  }],
+--                                 []),
+--                 [AC_MSG_RESULT([yes]);
+--                  EXTRA_LIBPCRECPP_LDFLAGS="$EXTRA_LIBPCRECPP_LDFLAGS -Wl,$flag";
+--                  break;],
+--                 AC_MSG_RESULT([no]))
+--done
+--LDFLAGS="$OLD_LDFLAGS"
+--
+- # We could be more clever here, given we're doing AC_SUBST with this
+- # (eg set a var to be the name of the include file we want). But we're not
+- # so it's easy to change back to 'regular' autoconf vars if we needed to.
+-@@ -316,7 +288,6 @@
+- AC_CHECK_HEADERS(type_traits.h, [pcre_have_type_traits="1"],
+-                                 [pcre_have_type_traits="0"])
+- 
+--AC_LANG_POP
+- fi
+- # Using AC_SUBST eliminates the need to include config.h in a public .h file
+- AC_SUBST(pcre_have_type_traits)
+-Index: rpm-5.1.9/db/dist/configure.ac
+-===================================================================
+---- rpm-5.1.9.orig/db/dist/configure.ac	2008-06-15 08:16:21.000000000 +0100
+-+++ rpm-5.1.9/db/dist/configure.ac	2010-07-06 15:36:39.262461127 +0100
+-@@ -602,24 +602,6 @@
+- aux*)	AC_LIBOBJ([getopt]);;
+- esac
+- 
+--# Linux has a broken O_DIRECT flag, but you can't detect it at configure time.
+--# Linux and SGI require buffer alignment we may not match, otherwise writes
+--# will fail.  Default to not using the O_DIRECT flag.
+--if test "$db_cv_o_direct" = "yes"; then
+--	AC_CACHE_CHECK([for open/O_DIRECT], db_cv_open_o_direct, [
+--	AC_TRY_LINK([
+--	#include <sys/types.h>
+--	#include <fcntl.h>], [
+--		open("a", O_RDONLY | O_DIRECT, 0);
+--	], [db_cv_open_o_direct=yes], [db_cv_open_o_direct=no])])
+--	if test \
+--	    "$db_cv_o_direct" = "yes" -a "$db_cv_open_o_direct" = "yes"; then
+--		AC_DEFINE(HAVE_O_DIRECT)
+--		AH_TEMPLATE(HAVE_O_DIRECT,
+--		    [Define to 1 if you have the O_DIRECT flag.])
+--	fi
+--fi
+--
+- # Check for largefile support.
+- AC_SYS_LARGEFILE
+- 
+-Index: rpm-5.1.9/xz/configure.ac
+-===================================================================
+---- rpm-5.1.9.orig/xz/configure.ac	2009-02-16 17:07:46.000000000 +0000
+-+++ rpm-5.1.9/xz/configure.ac	2010-07-06 15:41:22.632467951 +0100
+-@@ -457,26 +457,9 @@
+- #endif
+- ])
+- 
+--# Even if we have byteswap.h, we may lack the specific macros/functions.
+--if test x$ac_cv_header_byteswap_h = xyes ; then
+--	m4_foreach([FUNC], [bswap_16,bswap_32,bswap_64], [
+--		AC_MSG_CHECKING([if FUNC is available])
+--		AC_LINK_IFELSE([AC_LANG_SOURCE([
+--#include <byteswap.h>
+--int
+--main(void)
+--{
+--	FUNC[](42);
+--	return 0;
+--}
+--		])], [
+--			AC_DEFINE(HAVE_[]m4_toupper(FUNC), [1],
+--					[Define to 1 if] FUNC [is available.])
+--			AC_MSG_RESULT([yes])
+--		], [AC_MSG_RESULT([no])])
+--
+--	])dnl
+--fi
+-+AC_DEFINE(HAVE_BSWAP_16, 1)
+-+AC_DEFINE(HAVE_BSWAP_32, 1)
+-+AC_DEFINE(HAVE_BSWAP_64, 1)
+- 
+- 
+- ###############################################################################
+-@@ -527,90 +510,16 @@
+- # xz command line tool uses this to automatically limit its memory usage.
+- # - sysconf() gives all the needed info on GNU+Linux and Solaris.
+- # - BSDs use sysctl().
+--AC_MSG_CHECKING([how to detect the amount of physical memory])
+--AC_COMPILE_IFELSE([AC_LANG_SOURCE([[
+--#include <unistd.h>
+--int
+--main()
+--{
+--	long i;
+--	i = sysconf(_SC_PAGESIZE);
+--	i = sysconf(_SC_PHYS_PAGES);
+--	return 0;
+--}
+--]])], [
+--	AC_DEFINE([HAVE_PHYSMEM_SYSCONF], [1],
+-+AC_DEFINE([HAVE_PHYSMEM_SYSCONF], [1],
+- 		[Define to 1 if the amount of physical memory can be detected
+- 		with sysconf(_SC_PAGESIZE) and sysconf(_SC_PHYS_PAGES).])
+--	AC_MSG_RESULT([sysconf])
+--], [
+--AC_COMPILE_IFELSE([AC_LANG_SOURCE([[
+--#include <sys/types.h>
+--#ifdef HAVE_SYS_PARAM_H
+--#	include <sys/param.h>
+--#endif
+--#include <sys/sysctl.h>
+--int
+--main()
+--{
+--	int name[2] = { CTL_HW, HW_PHYSMEM };
+--	unsigned long mem;
+--	size_t mem_ptr_size = sizeof(mem);
+--	sysctl(name, 2, &mem, &mem_ptr_size, NULL, NULL);
+--	return 0;
+--}
+--]])], [
+--	AC_DEFINE([HAVE_PHYSMEM_SYSCTL], [1],
+--		[Define to 1 if the amount of physical memory can be detected
+--		with sysctl().])
+--	AC_MSG_RESULT([sysctl])
+--], [
+--	AC_MSG_RESULT([unknown])
+--])])
+- 
+- # Check how to find out the number of available CPU cores in the system.
+- # sysconf(_SC_NPROCESSORS_ONLN) works on most systems, except that BSDs
+- # use sysctl().
+--AC_MSG_CHECKING([how to detect the number of available CPU cores])
+--AC_COMPILE_IFELSE([AC_LANG_SOURCE([[
+--#include <unistd.h>
+--int
+--main()
+--{
+--	long i;
+--	i = sysconf(_SC_NPROCESSORS_ONLN);
+--	return 0;
+--}
+--]])], [
+--	AC_DEFINE([HAVE_NCPU_SYSCONF], [1],
+-+AC_DEFINE([HAVE_NCPU_SYSCONF], [1],
+- 		[Define to 1 if the number of available CPU cores can be
+- 		detected with sysconf(_SC_NPROCESSORS_ONLN).])
+--	AC_MSG_RESULT([sysconf])
+--], [
+--AC_COMPILE_IFELSE([AC_LANG_SOURCE([[
+--#include <sys/types.h>
+--#ifdef HAVE_SYS_PARAM_H
+--#	include <sys/param.h>
+--#endif
+--#include <sys/sysctl.h>
+--int
+--main()
+--{
+--	int name[2] = { CTL_HW, HW_NCPU };
+--	int cpus;
+--	size_t cpus_size = sizeof(cpus);
+--	sysctl(name, 2, &cpus, &cpus_size, NULL, NULL);
+--	return 0;
+--}
+--]])], [
+--	AC_DEFINE([HAVE_NCPU_SYSCTL], [1],
+--		[Define to 1 if the number of available CPU cores can be
+--		detected with sysctl().])
+--	AC_MSG_RESULT([sysctl])
+--], [
+--	AC_MSG_RESULT([unknown])
+--])])
+--
+- 
+- ###############################################################################
+- # If using GCC, set some additional CFLAGS:
+diff --git a/meta/recipes-devtools/rpm/rpm/rpm-autoconf.patch b/meta/recipes-devtools/rpm/rpm/rpm-autoconf.patch
+deleted file mode 100644
+index 5e93517..0000000
+--- a/meta/recipes-devtools/rpm/rpm/rpm-autoconf.patch
++++ /dev/null
+@@ -1,22 +0,0 @@
+-Using the version of autoconf in poky results in:
+-
+-configure.ac:11: error: m4_divert_push: cannot change diversion to `GROW' inside m4_expand
+-
+-without this patch.
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+-
+-diff -ur rpm-5.1.10.orig/configure.ac rpm-5.1.10/configure.ac
+---- rpm-5.1.10.orig/configure.ac	2010-08-20 17:12:16.000000000 -0500
+-+++ rpm-5.1.10/configure.ac	2010-09-03 11:34:44.722097327 -0500
+-@@ -8,7 +8,7 @@
+- 
+- AC_PREREQ(2.60)
+- AC_DEFUN([PACKAGE_BUGREPORT_DEFAULT], [rpm-devel@rpm5.org])
+--AC_INIT(rpm, [5.1.10], [PACKAGE_BUGREPORT_DEFAULT])
+-+AC_INIT(rpm, [5.1.10])
+- PACKAGE_TIMESTAMP="2008" dnl # YYYY[-MM[-DD[ HH[:MM]]]]
+- AC_MSG_TITLE([RPM Package Manager (RPM)], [$PACKAGE_VERSION])
+- 
+diff --git a/meta/recipes-devtools/rpm/rpm/rpm-autogen.patch b/meta/recipes-devtools/rpm/rpm/rpm-autogen.patch
+index 5fe6ded..5129833 100644
+--- a/meta/recipes-devtools/rpm/rpm/rpm-autogen.patch
++++ b/meta/recipes-devtools/rpm/rpm/rpm-autogen.patch
+@@ -6,42 +6,11 @@ Upstream-Status: Pending
  
  Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
  
--diff -ur rpm-5.4.0.orig/lib/psm.c rpm-5.4.0/lib/psm.c
----- rpm-5.4.0.orig/lib/psm.c	2010-12-29 07:42:11.000000000 -0600
--+++ rpm-5.4.0/lib/psm.c	2011-11-08 13:38:48.132791154 -0600
--@@ -792,6 +792,10 @@
-+Index: rpm-5.4.9/lib/psm.c
-+===================================================================
-+--- rpm-5.4.9.orig/lib/psm.c
-++++ rpm-5.4.9/lib/psm.c
-+@@ -801,6 +801,10 @@ static rpmRC runScript(rpmpsm psm, Heade
-      int xx;
-      int i;
-  
-@@ -26,23 +27,23 @@ diff -ur rpm-5.4.0.orig/lib/psm.c rpm-5.4.0/lib/psm.c
-      if (psm->sstates != NULL && ix >= 0 && ix < RPMSCRIPT_MAX)
-  	ssp = psm->sstates + ix;
-      if (ssp != NULL)
--@@ -858,14 +862,29 @@
-+@@ -867,14 +871,29 @@ assert(he->p.str != NULL);
-  		(F_ISSET(psm, UNORDERED) ? "a" : ""));
-  
-      if (Phe->p.argv == NULL) {
---	argv = alloca(5 * sizeof(*argv));
-+-	argv = (const char **) alloca(5 * sizeof(*argv));
- -	argv[0] = "/bin/sh";
- -	argc = 1;
--+	argv = alloca(7 * sizeof(*argv));
-++	argv = (const char **) alloca(7 * sizeof(*argv));
- +	argc = 0;
- +    } else {
--+	argv = alloca((Phe->c + 6) * sizeof(*argv));
-++	argv = (const char **) alloca((Phe->c + 6) * sizeof(*argv));
- +	argc = 0;
- +    }
- +
- +#ifdef RPM_VENDOR_POKY
- +    if (scriptletWrapper && *scriptletWrapper) {
--+        argv[argc++] = scriptletWrapper;
-++	argv[argc++] = scriptletWrapper;
- +	argv[argc] = rpmtsRootDir(ts);
- +	if (!argv[argc] || !*argv[argc])
- +	   argv[argc] = "/";
-@@ -51,10 +52,10 @@ diff -ur rpm-5.4.0.orig/lib/psm.c rpm-5.4.0/lib/psm.c
- +#endif
- +
- +    if (Phe->p.argv == NULL) {
--+        argv[argc++] = "/bin/sh";
-++	argv[argc++] = "/bin/sh";
-  	ldconfig_done = 0;
-      } else {
---	argv = alloca((Phe->c + 4) * sizeof(*argv));
-+-	argv = (const char **) alloca((Phe->c + 4) * sizeof(*argv));
- -	memcpy(argv, Phe->p.argv, Phe->c * sizeof(*argv));
- -	argc = Phe->c;
- +	memcpy((argv + argc), Phe->p.argv, Phe->c * sizeof(*argv));
-@@ -62,7 +63,7 @@ diff -ur rpm-5.4.0.orig/lib/psm.c rpm-5.4.0/lib/psm.c
-  	ldconfig_done = (ldconfig_path && !strcmp(argv[0], ldconfig_path)
-  		? 1 : 0);
-      }
--@@ -916,7 +935,12 @@
-+@@ -925,7 +944,12 @@ assert(he->p.str != NULL);
-  	    goto exit;
-  
-  	if (rpmIsDebug() &&
-@@ -76,7 +77,7 @@ diff -ur rpm-5.4.0.orig/lib/psm.c rpm-5.4.0/lib/psm.c
-  	{
-  	    static const char set_x[] = "set -x\n";
-  	    nw = Fwrite(set_x, sizeof(set_x[0]), sizeof(set_x)-1, fd);
--@@ -1051,12 +1075,22 @@
-+@@ -1060,12 +1084,22 @@ assert(he->p.str != NULL);
-  
-  	{   const char * rootDir = rpmtsRootDir(ts);
-  	    if (!rpmtsChrootDone(ts) && rootDir != NULL &&
-@@ -99,7 +100,7 @@ diff -ur rpm-5.4.0.orig/lib/psm.c rpm-5.4.0/lib/psm.c
-  	    xx = Chdir("/");
-  	    rpmlog(RPMLOG_DEBUG, D_("%s: %s(%s)\texecv(%s) pid %d\n"),
-  			psm->stepName, sln, NVRA,
--@@ -2961,6 +2995,13 @@
-+@@ -2977,6 +3011,13 @@ assert(psm->te != NULL);
-      case PSM_SCRIPT:	/* Run current package scriptlets. */
-  	/* XXX running %verifyscript/%sanitycheck doesn't have psm->te */
-      {	rpmtxn _parent = (psm && psm->te ? psm->te->txn : NULL);
-@@ -113,7 +114,7 @@ diff -ur rpm-5.4.0.orig/lib/psm.c rpm-5.4.0/lib/psm.c
-  	xx = rpmtxnBegin(rpmtsGetRdb(ts), _parent, NULL);
-  	rc = runInstScript(psm);
-  	if (rc)
--@@ -2968,11 +3009,24 @@
-+@@ -2984,11 +3025,24 @@ assert(psm->te != NULL);
-  	else
-  	     xx = rpmtxnCommit(rpmtsGetRdb(ts)->db_txn);
-  	rpmtsGetRdb(ts)->db_txn = NULL;
-@@ -138,7 +139,7 @@ diff -ur rpm-5.4.0.orig/lib/psm.c rpm-5.4.0/lib/psm.c
-  	break;
-      case PSM_IMMED_TRIGGERS:
-  	/* Run triggers in this package other package(s) set off. */
--@@ -2982,7 +3036,18 @@
-+@@ -2998,7 +3052,18 @@ assert(psm->te != NULL);
-  	    F_SET(psm, GOTTRIGGERS);
-  	}
-  	if (psm->triggers != NULL)
-diff --git a/meta/recipes-devtools/rpm/rpm/rpmdeps-oecore.patch b/meta/recipes-devtools/rpm/rpm/rpmdeps-oecore.patch
-index 1667901..f29866b 100644
---- a/meta/recipes-devtools/rpm/rpm/rpmdeps-oecore.patch
-+++ b/meta/recipes-devtools/rpm/rpm/rpmdeps-oecore.patch
-@@ -16,20 +16,20 @@ RP 2012/2/7
-  2 files changed, 152 insertions(+), 1 deletions(-)
-  create mode 100644 tools/rpmdeps-oecore.c
- 
--diff --git a/tools/Makefile.am b/tools/Makefile.am
--index f520843..2eba9bf 100644
----- a/tools/Makefile.am
--+++ b/tools/Makefile.am
-+Index: rpm-5.4.9/tools/Makefile.am
-+===================================================================
-+--- rpm-5.4.9.orig/tools/Makefile.am
-++++ rpm-5.4.9/tools/Makefile.am
- @@ -58,7 +58,7 @@ pkgbin_PROGRAMS =	\
-  	@WITH_AUGEAS_AUGTOOL@ chroot cp @WITH_CUDF_CUDFTOOL@ find mtree \
-  	@WITH_SEMANAGE_SEMODULE@ wget \
-  	rpmcache rpmdigest rpmrepo rpmspecdump \
- -	rpmcmp rpmdeps sqlite3 @WITH_KEYUTILS_RPMKEY@ @WITH_LIBELF_DEBUGEDIT@
- +	rpmcmp rpmdeps rpmdeps-oecore sqlite3 @WITH_KEYUTILS_RPMKEY@ @WITH_LIBELF_DEBUGEDIT@
-- dist_man_MANS =		rpmgrep.1
+-diff -ur rpm-5.4.0.orig/autogen.sh rpm-5.4.0/autogen.sh
+---- rpm-5.4.0.orig/autogen.sh	2010-11-02 11:55:53.000000000 -0500
+-+++ rpm-5.4.0/autogen.sh	2011-01-06 00:15:05.158946295 -0600
+-@@ -34,12 +34,6 @@
+-     eval $_libtoolize $_libtoolize_args
+- }
 - 
-- augtool_SOURCES =	augtool.c
--@@ -155,6 +155,10 @@ rpmdeps_SOURCES =	rpmdeps.c
-+ if WITH_DB
-+ pkgbin_PROGRAMS +=	dbconvert
-+ endif
-+@@ -168,6 +168,10 @@ rpmdeps_SOURCES =	rpmdeps.c
-  rpmdeps_LDFLAGS =	@LDFLAGS_STATIC@ $(LDFLAGS)
-  rpmdeps_LDADD =		$(RPM_LDADD_COMMON)
-  
-@@ -40,11 +40,10 @@ index f520843..2eba9bf 100644
-  rpmdigest_SOURCES =	rpmdigest.c
-  rpmdigest_LDFLAGS =	@LDFLAGS_STATIC@ $(LDFLAGS)
-  rpmdigest_LDADD =	$(RPMIO_LDADD_COMMON)
--diff --git a/tools/rpmdeps-oecore.c b/tools/rpmdeps-oecore.c
--new file mode 100644
--index 0000000..e646da9
-+Index: rpm-5.4.9/tools/rpmdeps-oecore.c
+--#   requirements sanity check
+--[ "`automake   --version | head -1`" != "$AMV" ] && echo "$USAGE" # && exit 1
+--[ "`autoconf   --version | head -1`" != "$ACV" ] && echo "$USAGE" # && exit 1
+--[ "`libtoolize --version | head -1`" != "$LTV" ] && echo "$USAGE" # && exit 1
+--[ "`gettextize --version | head -1 | sed -e 's;^.*/\\(gettextize\\);\\1;'`" != "$GTT" ] && echo "$USAGE" # && exit 1
+--
+- for dir in bash beecrypt file neon pcre popt rc syck xar xz; do
+- 
+-   if [ -d $dir ]; then
+-diff -ur rpm-5.4.0.orig/neon/autogen.sh rpm-5.4.0/neon/autogen.sh
+---- rpm-5.4.0.orig/neon/autogen.sh	2010-10-30 19:11:33.000000000 -0500
+-+++ rpm-5.4.0/neon/autogen.sh	2011-01-06 00:15:17.863962139 -0600
+-@@ -34,12 +34,6 @@
+-     eval $_libtoolize $_libtoolize_args
+- }
+- 
+--#   requirements sanity check
+--[ "`automake   --version | head -1`" != "$AMV" ] && echo "$USAGE" # && exit 1
+--[ "`autoconf   --version | head -1`" != "$ACV" ] && echo "$USAGE" # && exit 1
+--[ "`libtoolize --version | head -1`" != "$LTV" ] && echo "$USAGE" # && exit 1
+--[ "`gettextize --version | head -1 | sed -e 's;^.*/\\(gettextize\\);\\1;'`" != "$GTT" ] && echo "$USAGE" # && exit 1
+--
+- echo "---> generate files via GNU libtool (libtoolize)"
+- libtoolize --quiet --copy --force --install
+- echo "---> generate files via GNU autoconf (aclocal, autoheader)"
+-diff -ur rpm-5.4.0.orig/syck/autogen.sh rpm-5.4.0/syck/autogen.sh
+---- rpm-5.4.0.orig/syck/autogen.sh	2010-11-02 11:55:56.000000000 -0500
+-+++ rpm-5.4.0/syck/autogen.sh	2011-01-06 00:15:27.103949601 -0600
+-@@ -34,12 +34,6 @@
++Index: rpm-5.4.8/syck/autogen.sh
 +===================================================================
- --- /dev/null
--+++ b/tools/rpmdeps-oecore.c
-++++ rpm-5.4.9/tools/rpmdeps-oecore.c
- @@ -0,0 +1,147 @@
- +#include "system.h"
- +const char *__progname;
-@@ -193,6 +192,3 @@ index 0000000..e646da9
- +    optCon = rpmcliFini(optCon);
- +    return ec;
- +}
---- 
--1.7.4.1
++--- rpm-5.4.8.orig/syck/autogen.sh
+++++ rpm-5.4.8/syck/autogen.sh
++@@ -34,12 +34,6 @@ libtoolize () {
+      eval $_libtoolize $_libtoolize_args
+  }
+  
+diff --git a/meta/recipes-devtools/rpm/rpm/rpm-db-reduce.patch b/meta/recipes-devtools/rpm/rpm/rpm-db-reduce.patch
+index e063e86..d9b4e33 100644
+--- a/meta/recipes-devtools/rpm/rpm/rpm-db-reduce.patch
++++ b/meta/recipes-devtools/rpm/rpm/rpm-db-reduce.patch
+@@ -4,16 +4,16 @@ Change cache size to reduce the usage of disk space from 62MB to 26MB.
+ 
+ Signed-off-by: Mei Lei <lei.mei@intel.com>
+ 
+-diff --git a/rpmdb/DB_CONFIG.in b/rpmdb/DB_CONFIG.in
+-index e0b4689..b64e3a9 100644
+---- a/rpmdb/DB_CONFIG.in
+-+++ b/rpmdb/DB_CONFIG.in
+-@@ -29,7 +29,7 @@ set_thread_count	64
++Index: rpm-5.4.8/rpmdb/DB_CONFIG.in
++===================================================================
++--- rpm-5.4.8.orig/rpmdb/DB_CONFIG.in
+++++ rpm-5.4.8/rpmdb/DB_CONFIG.in
++@@ -29,7 +29,7 @@ set_thread_count 64
+  
+  # ================ Memory Pool
+  #XXX initializing dbenv with set_cachesize has unimplemented prerequsites
+--#set_cachesize		0 1048576 0 
+-+set_cachesize		0 1048576 0 
+- set_mp_mmapsize		268435456
++-#set_cachesize 0 1048576 0 
+++set_cachesize 0 1048576 0 
++ set_mp_mmapsize 268435456
+  
+  # ================ Locking
+diff --git a/meta/recipes-devtools/rpm/rpm/rpm-log-auto-rm.patch b/meta/recipes-devtools/rpm/rpm/rpm-log-auto-rm.patch
+index babafb3..4f484c4 100644
+--- a/meta/recipes-devtools/rpm/rpm/rpm-log-auto-rm.patch
++++ b/meta/recipes-devtools/rpm/rpm/rpm-log-auto-rm.patch
+@@ -5,11 +5,11 @@ diff --git a/rpmdb/DB_CONFIG.in b/rpmdb/DB_CONFIG.in
+ index 8b94c94..e0b4689 100644
+ --- a/rpmdb/DB_CONFIG.in
+ +++ b/rpmdb/DB_CONFIG.in
+-@@ -4,6 +4,7 @@ set_data_dir		.
+- set_create_dir		.
+- set_lg_dir		./log
+- set_tmp_dir		./tmp
+-+set_flags 		db_log_autoremove on
++@@ -4,6 +4,7 @@
++ set_create_dir .
++ set_lg_dir ./log
++ set_tmp_dir ./tmp
+++set_flags db_log_autoremove on
+  
+  # -- thread_count must be >= 8
+- set_thread_count	64
++ set_thread_count 64
+diff --git a/meta/recipes-devtools/rpm/rpm/rpm-no-perl-urpm.patch b/meta/recipes-devtools/rpm/rpm/rpm-no-perl-urpm.patch
+new file mode 100644
+index 0000000..90fee35
+--- /dev/null
++++ b/meta/recipes-devtools/rpm/rpm/rpm-no-perl-urpm.patch
+@@ -0,0 +1,43 @@
++Disable perl-URPM support
++
++This causes a configure failure when perl-URPM is not used.
++
++| configure.ac:1159: required file `perl-URPM/Makefile.PL.in' not found
++| configure.ac:1159: required file `perl-URPM/Makefile.in' not found
++
++Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
++
++--- rpm-5.4.8/configure.ac.orig	2012-04-24 09:10:01.856749153 -0500
+++++ rpm-5.4.8/configure.ac	2012-04-24 09:10:35.198731504 -0500
++@@ -1149,30 +1149,10 @@
++ AC_SUBST(WITH_PERL_SUBPACKAGE)
++ AC_SUBST(WITH_PERL_LIBS)
++ 
++-dnl # optional Perl-URPM language bindings
+++dnl # disable Perl-URPM language bindings
++ WITH_PERL_URPM_SUBDIR=""
++ WITH_PERL_URPM_SUBPACKAGE=0
++ WITH_PERL_URPM_LIBS=""
++-if test ".$WITH_PTHREADS" = .yes; then
++-    WITH_PERL_URPM_LIBS="$LIBS"
++-fi
++-AC_ARG_WITH(perl-urpm, AS_HELP_STRING([--with-perl-urpm], [build with Perl URPM language bindings]), [
++-    if test ".$withval" != .no; then
++-	PERL_URPM_INSTALLDIRS=""
++-	   if test "$withval" == "vendor"; then
++-		    PERL_URPM_INSTALLDIRS="'INSTALLDIRS'	=> 'vendor',"
++-	    fi
++-	    if test "$withval" == "site"; then
++-		    PERL_URPM_INSTALLDIRS="'INSTALLDIRS'     => 'site',"
++-	    fi
++-	    AC_DEFINE_UNQUOTED([PERL_URPM_INSTALLDIRS], [$PERL_URPM_INSTALLDIRS], [Perl install directory (vendor/site)])
++-	    AC_SUBST(PERL_URPM_INSTALLDIRS)
++-        WITH_PERL_URPM_SUBDIR=perl-URPM
++-        WITH_PERL_URPM_SUBPACKAGE=1
++-        AC_CONFIG_FILES([perl-URPM/Makefile.PL])
++-        AC_CONFIG_FILES([perl-URPM/Makefile])
++-    fi
++-])
++ AC_SUBST(WITH_PERL_URPM_SUBDIR)
++ AC_SUBST(WITH_PERL_URPM_SUBPACKAGE)
++ AC_SUBST(WITH_PERL_URPM_LIBS)
+diff --git a/meta/recipes-devtools/rpm/rpm/rpm-nofsync.patch b/meta/recipes-devtools/rpm/rpm/rpm-nofsync.patch
+deleted file mode 100644
+index f6e5828..0000000
+--- a/meta/recipes-devtools/rpm/rpm/rpm-nofsync.patch
++++ /dev/null
+@@ -1,36 +0,0 @@
+-Backport from RPM 5.4.1 CVS, disabled fsync.
 -
-diff --git a/meta/recipes-devtools/rpm/rpm_5.4.8.bb b/meta/recipes-devtools/rpm/rpm_5.4.9.bb
-similarity index 82%
-rename from meta/recipes-devtools/rpm/rpm_5.4.8.bb
-rename to meta/recipes-devtools/rpm/rpm_5.4.9.bb
-index a7458b6..3c22f22 100644
---- a/meta/recipes-devtools/rpm/rpm_5.4.8.bb
-+++ b/meta/recipes-devtools/rpm/rpm_5.4.9.bb
-@@ -42,14 +42,12 @@ HOMEPAGE = "http://rpm5.org/"
+-Upstream-Status: Backport
+-
+-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+-
+-diff -ur rpm-5.4.0.orig/CHANGES rpm-5.4.0/CHANGES
+---- rpm-5.4.0.orig/CHANGES	2010-12-29 07:51:38.000000000 -0600
+-+++ rpm-5.4.0/CHANGES	2011-02-15 20:54:27.021926840 -0600
+-@@ -1,4 +1,5 @@
+- 5.4.0 -> 5.4.1:
+-+    - jbj: remove fsync(2) after file install, its intolerably slow.
+- 
+- 5.3.7 -> 5.4.0:
+-     - jbj: remove markReplacedFiles.
+-diff -ur rpm-5.4.0.orig/lib/fsm.c rpm-5.4.0/lib/fsm.c
+---- rpm-5.4.0.orig/lib/fsm.c	2009-12-10 12:52:18.000000000 -0600
+-+++ rpm-5.4.0/lib/fsm.c	2011-02-15 20:55:04.372938221 -0600
+-@@ -1017,7 +1017,17 @@
+- 	    (void) fsmNext(fsm, IOSM_NOTIFY);
+-     }
+- 
+-+#ifdef DYING
+-+/* Measurements from installing kernel-source package:
+-+ * +fsync
+-+ *     total:               1      0.000000 MB    640.854524 secs
+-+ * +fdatasync
+-+ *     total:               1      0.000000 MB    419.983200 secs
+-+ * w/o fsync/fdsatasync:
+-+ *     total:               1      0.000000 MB     12.492918 secs
+-+ */
+-     xx = fsync(Fileno(fsm->wfd));
+-+#endif
+- 
+-     if (st->st_size > 0 && (fsm->fdigest || fsm->digest)) {
+- 	void * digest = NULL;
+diff --git a/meta/recipes-devtools/rpm/rpm_5.4.0.bb b/meta/recipes-devtools/rpm/rpm_5.4.8.bb
+similarity index 91%
+rename from meta/recipes-devtools/rpm/rpm_5.4.0.bb
+rename to meta/recipes-devtools/rpm/rpm_5.4.8.bb
+index 5ee6b47..a7458b6 100644
+--- a/meta/recipes-devtools/rpm/rpm_5.4.0.bb
++++ b/meta/recipes-devtools/rpm/rpm_5.4.8.bb
+@@ -42,14 +42,14 @@ HOMEPAGE = "http://rpm5.org/"
  LICENSE = "LGPLv2.1"
  LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=2d5025d4aa3495befef8f17206a5b0a1"
  
--DEPENDS = "beecrypt bzip2 zlib db openssl elfutils expat libpcre attr acl popt ${extrarpmdeps}"
--extrarpmdeps = "python perl file"
--extrarpmdeps_virtclass-native = "python-native file-native"
--PR = "r37"
-+DEPENDS = "libpcre attr acl popt file"
-+PR = "r38"
+-DEPENDS = "bzip2 zlib db openssl elfutils expat libpcre attr acl popt ${extrarpmdeps}"
++DEPENDS = "beecrypt bzip2 zlib db openssl elfutils expat libpcre attr acl popt ${extrarpmdeps}"
+ extrarpmdeps = "python perl file"
+ extrarpmdeps_virtclass-native = "python-native file-native"
+-PR = "r36"
++PR = "r37"
  
  # rpm2cpio is a shell script, which is part of the rpm src.rpm.  It is needed
  # in order to extract the distribution SRPM into a format we can extract...
--SRC_URI = "http://www.rpm5.org/files/rpm/rpm-5.4/rpm-5.4.8-0.20120401.src.rpm;extract=rpm-5.4.8.tar.gz \
-+SRC_URI = "http://www.rpm5.org/files/rpm/rpm-5.4/rpm-5.4.9-0.20120508.src.rpm;extract=rpm-5.4.9.tar.gz \
+-SRC_URI = "http://www.rpm5.org/files/rpm/rpm-5.4/rpm-5.4.0-0.20101229.src.rpm;extract=rpm-5.4.0.tar.gz \
++SRC_URI = "http://www.rpm5.org/files/rpm/rpm-5.4/rpm-5.4.8-0.20120401.src.rpm;extract=rpm-5.4.8.tar.gz \
  	   file://rpm-log-auto-rm.patch \
  	   file://rpm-db-reduce.patch \
  	   file://perfile_rpmdeps.sh \
-@@ -68,10 +66,11 @@ SRC_URI = "http://www.rpm5.org/files/rpm/rpm-5.4/rpm-5.4.8-0.20120401.src.rpm;ex
+@@ -58,26 +58,20 @@ SRC_URI = "http://www.rpm5.org/files/rpm/rpm-5.4/rpm-5.4.0-0.20101229.src.rpm;ex
+ 	   file://header-include-fix.patch \
+ 	   file://rpm-platform.patch \
+ 	   file://rpm-showrc.patch \
+-	   file://rpm-nofsync.patch \
+ 	   file://rpm-solvedb.patch \
+ 	   file://rpm-tools-mtree-LDFLAGS.patch \
+-	   file://fprint-pointer-fix.patch \
+ 	   file://rpm-fileclass.patch \
+ 	   file://rpm-canonarch.patch \
+ 	   file://rpm-no-loopmsg.patch \
+ 	   file://rpm-scriptletexechelper.patch \
+-	   file://fix_for_automake_1.11.2.patch \
+ 	   file://pythondeps.sh \
  	   file://rpmdeps-oecore.patch \
  	   file://rpm-resolvedep.patch \
- 	   file://rpm-no-perl-urpm.patch \
-+	   file://rpm-lua.patch \
++	   file://rpm-no-perl-urpm.patch \
  	  "
  
--SRC_URI[md5sum] = "424b60bf2e0a624a218440d943861644"
--SRC_URI[sha256sum] = "56eb5033d4de98c217475fb34d466d551f8912959389e7854a806e2bd9e13380"
-+SRC_URI[md5sum] = "60d56ace884340c1b3fcac6a1d58e768"
-+SRC_URI[sha256sum] = "bac7cc5bd9d0e8262fdc0099349924608da8f680f5cb243751f696552239dde8"
+-#	   file://rpm-autoconf.patch \
+-#	   file://remove-compiled-tests.patch;apply=no \
+-#	  "
+-
+-SRC_URI[md5sum] = "19c1a7f68d7765eeb7615c9c4e54e380"
+-SRC_URI[sha256sum] = "887e76218308b570c33c8c2fb10b5298b3afd5d602860d281befc85357b3b923"
++SRC_URI[md5sum] = "424b60bf2e0a624a218440d943861644"
++SRC_URI[sha256sum] = "56eb5033d4de98c217475fb34d466d551f8912959389e7854a806e2bd9e13380"
  
  inherit autotools gettext
  
-@@ -81,63 +80,74 @@ acpaths = "-I ${S}/db/dist/aclocal -I ${S}/db/dist/aclocal_java"
- rpm_macros = "%{_usrlibrpm}/macros:%{_usrlibrpm}/poky/macros:%{_usrlibrpm}/poky/%{_target}/macros:%{_etcrpm}/macros.*:%{_etcrpm}/macros:%{_etcrpm}/%{_target}/macros:~/.oerpmmacros"
- rpm_macros_virtclass-native = "%{_usrlibrpm}/macros:%{_usrlibrpm}/poky/macros:%{_usrlibrpm}/poky/%{_target}/macros:~/.oerpmmacros"
- 
--# Configure values taken from rpm.spec
--WITH_BZIP2 = "--with-bzip2"
-+# sqlite lua tcl augeas nss gcrypt neon xz xar keyutils perl selinux
- 
--WITH_XZ = "--with-xz=none"
-+# Note: perl and sqlite w/o db specified does not currently work.
-+#       tcl, augeas, nss, gcrypt, xar and keyutils support is untested.
-+PACKAGECONFIG_virtclass-native ??= "db bzip2 zlib beecrypt openssl libelf python"
-+PACKAGECONFIG ??= "db bzip2 zlib beecrypt openssl libelf python"
- 
--WITH_Z = "--with-zlib $WITH_BZIP2 $WITH_XZ"
-+PACKAGECONFIG[bzip2] = "--with-bzip2,--without-bzip2,bzip2,"
-+PACKAGECONFIG[xz] = "--with-xz,--without-xz,xz,"
-+PACKAGECONFIG[zlib] = "--with-zlib,--without-zlib,zlib,"
-+PACKAGECONFIG[xar] = "--with-xar,--without-xar,xar,"
- 
--WITH_PYTHON = "	--with-python=${PYTHON_BASEVERSION} \
-+WITH_PYTHON = " --with-python=${PYTHON_BASEVERSION} \
- 		--with-python-inc-dir=${STAGING_INCDIR}/python${PYTHON_BASEVERSION} \
- 		--with-python-lib-dir=${libdir}/python${PYTHON_BASEVERSION} \
--		--without-pythonembed \
--	      "
-+		--without-pythonembed"
-+PACKAGECONFIG[python] = "${WITH_PYTHON},--without-python,python,"
- 
- # Perl modules are not built, but they could be enabled fairly easily
+@@ -104,13 +98,13 @@ WITH_PYTHON = "	--with-python=${PYTHON_BASEVERSION} \
  # the perl module creation and installation would need to be patched.
  # (currently has host perl contamination issues)
--#WITH_PERL = "	--with-perl --without-perlembed"
--WITH_PERL = "	--without-perl --without-perl-urpm"
-+WITH_PERL = "--with-perl --without-perlembed --without-perl-urpm"
-+WITHOUT_PERL = "--without-perl --without-perl-urpm"
-+PACKAGECONFIG[perl] = "${WITH_PERL},${WITHOUT_PERL},perl,"
+ #WITH_PERL = "	--with-perl --without-perlembed"
+-WITH_PERL = "	--without-perl"
++WITH_PERL = "	--without-perl --without-perl-urpm"
  
--WITH_PERL_virtclass-native = " --without-perl --without-perl-urpm"
-+# The --with-dbsql will only tell RPM to check for support, db
-+# may or may not be built w/ the dbsql support.
-+WITH_DB = "--with-db --with-dbsql --without-db-tools-integrated"
-+PACKAGECONFIG[db] = "${WITH_DB},--without-db,db,"
+-WITH_PERL_virtclass-native = " --without-perl"
++WITH_PERL_virtclass-native = " --without-perl --without-perl-urpm"
  
--WITH_DB = "--with-db --with-dbsql --without-db-tools-integrated --without-sqlite"
-+PACKAGECONFIG[sqlite] = "--with-sqlite,--without-sqlite,sqlite3,"
+ WITH_DB = "--with-db --with-dbsql --without-db-tools-integrated --without-sqlite"
  
--WITH_CRYPTO = "--with-beecrypt --with-openssl --without-nss --without-gcrypt"
-+PACKAGECONFIG[beecrypt] = "--with-beecrypt,--without-beecrypt,beecrypt,"
-+PACKAGECONFIG[openssl] = "--with-openssl,--without-openssl,openssl,"
-+PACKAGECONFIG[nss] = "--with-nss,--without-nss,nss,"
-+PACKAGECONFIG[gcrypt] = "--with-gcrypt,--without-gcrypt,gcrypt,"
-+PACKAGECONFIG[keyutils] = "--with-keyutils,--without-keyutils,keyutils,"
-+PACKAGECONFIG[libelf] = "--with-libelf,--without-libelf,elfutils,"
+-WITH_CRYPTO = "--with-beecrypt=internal --with-openssl --without-nss --without-gcrypt"
++WITH_CRYPTO = "--with-beecrypt --with-openssl --without-nss --without-gcrypt"
  
--WITH_KEYUTILS = "--without-keyutils"
--WITH_LIBELF = "--with-libelf"
--WITH_SELINUX = "--without-selinux --without-sepol --without-semanage"
--#WITH_NEON = "--with-neon=internal --without-libproxy --with-expat --without-gssapi"
--WITH_NEON = "--without-neon --without-libproxy --without-expat --without-gssapi"
-+WITH_SELINUX = "--with-selinux --with-sepol --with-semanage"
-+WITHOUT_SELINUX = "--without-selinux --without-sepol --without-semanage"
-+PACKAGECONFIG[selinux] = "${WITH_SELINUX},${WITHOUT_SELINUX},selinux,"
+ WITH_KEYUTILS = "--without-keyutils"
+ WITH_LIBELF = "--with-libelf"
+@@ -409,6 +403,25 @@ do_install_append() {
+ 	rm -f ${D}/${libdir}/rpm/dbconvert.sh
  
--EXTRA_OECONF = "--verbose \
-+WITH_NEON = "--with-neon --with-libproxy --with-expat --without-gssapi"
-+WITHOUT_NEON = "--without-neon --without-libproxy --without-expat --without-gssapi"
-+PACKAGECONFIG[neon] = "${WITH_NEON},${WITHOUT_NEON},neon,"
+ 	rm -f ${D}/${libdir}/rpm/libsqldb.*
 +
-+PACKAGECONFIG[lua] = "--with-lua,--without-lua,"
-+PACKAGECONFIG[tcl] = "--with-tcl,--without-tcl,tcl,"
++	# We don't want, nor need the Mandriva multiarch items
++	rm -f ${D}/${bindir}/multiarch-dispatch
++	rm -f ${D}/${bindir}/multiarch-platform
++	rm -f ${D}/${libdir}/rpm/check-multiarch-files
++	rm -f ${D}/${libdir}/rpm/mkmultiarch
++	rm -f ${D}/${includedir}/multiarch-dispatch.h
 +
-+PACAKGECONFIG[augeas] = "--with-augeas,--without-augeas,augeas,"
++	rm -f ${D}/${libdir}/rpm/gstreamer.sh
++	rm -f ${D}/${libdir}/rpm/gem_helper.rb
++	rm -f ${D}/${libdir}/rpm/rubygems.rb
++	rm -f ${D}/${libdir}/rpm/kmod-deps.sh
++	rm -f ${D}/${libdir}/rpm/pythoneggs.py
++	rm -f ${D}/${libdir}/rpm/macros.d/kernel
++	rm -f ${D}/${libdir}/rpm/macros.d/gstreamer
++	rm -f ${D}/${libdir}/rpm/bin/mgo
++	rm -f ${D}/${libdir}/rpm/bin/dbconvert
++	rm -f ${D}/${libdir}/rpm/bin/pom2spec
 +
-+EXTRA_OECONF += "--verbose \
- 		--sysconfdir=/etc \
--		${WITH_DB} \
--		${WITH_Z} \
- 		--with-file \
- 		--with-path-magic=%{_usrlibrpm}/../../share/misc/magic.mgc \
--		--without-lua \
--		--without-tcl \
- 		--with-syck=internal \
- 		--without-readline \
--		--without-augeas \
--		${WITH_CRYPTO} \
- 		--without-libtasn1 \
- 		--without-pakchois \
- 		--without-gnutls \
--		${WITH_NEON} \
- 		--with-pcre \
- 		--enable-utf8 \
- 		--without-uuid \
- 		--with-attr \
- 		--with-acl \
--		--without-xar \
- 		--with-popt=external \
--		${WITH_KEYUTILS} \
- 		--with-pthreads \
--		${WITH_LIBELF} \
- 		--without-cudf \
- 		--without-ficl \
- 		--without-aterm \
-@@ -146,14 +156,11 @@ EXTRA_OECONF = "--verbose \
- 		--without-rc \
- 		--without-js \
- 		--without-gpsee \
--		${WITH_PYTHON} \
--		${WITH_PERL} \
- 		--without-ruby \
- 		--without-squirrel \
- 		--with-build-extlibdep \
- 		--with-build-maxextlibdep \
- 		--without-valgrind \
--                --without-xz \
- 		--disable-openmp \
- 		--enable-build-pic \
- 		--enable-build-versionscript \
-@@ -165,7 +172,7 @@ EXTRA_OECONF = "--verbose \
- 		--with-bugreport=http://bugzilla.yoctoproject.org \
- 		--program-prefix="
- 
--CFLAGS_append = " -DRPM_VENDOR_WINDRIVER -DRPM_VENDOR_POKY"
-+CFLAGS_append = " -DRPM_VENDOR_WINDRIVER -DRPM_VENDOR_POKY -DRPM_VENDOR_OE"
- 
- PACKAGES = "${PN}-dbg ${PN} ${PN}-doc ${PN}-libs ${PN}-dev ${PN}-staticdev ${PN}-common ${PN}-build python-rpm-dbg python-rpm-staticdev python-rpm perl-module-rpm perl-module-rpm-dev ${PN}-locale"
- 
-@@ -173,7 +180,7 @@ SOLIBS = "5.4.so"
- 
- # Based on %files section in the rpm.spec
- 
--FILES_${PN} = "${bindir}/rpm \
-+FILES_${PN} =  "${bindir}/rpm \
- 		${bindir}/rpmconstant \
- 		${libdir}/rpm/rpm.* \
- 		${libdir}/rpm/tgpg \
-@@ -191,15 +198,10 @@ FILES_${PN} = "${bindir}/rpm \
- 		${libdir}/rpm/bin/rpmspecdump \
- 		${libdir}/rpm/bin/wget \
- 		/var/lib/rpm \
-+		/var/cache/rpm \
-+		/var/volatile/cache/rpm \
- 		"
- 
--#		${libdir}/rpm/magic
--#		${libdir}/rpm/magic.mgc
--#		${libdir}/rpm/magic.mime
--#		${libdir}/rpm/magic.mime.mgc
--#		${libdir}/rpm/bin/db_*
--#		${libdir}/rpm/bin/grep
--
- FILES_${PN}-dbg += "${libdir}/rpm/.debug \
- 		${libdir}/rpm/bin/.debug \
- 		"
-@@ -218,12 +220,6 @@ FILES_${PN}-libs = "${libdir}/librpm-*.so \
- 		${libdir}/librpmbuild-*.so \
- 		"
- 
--###%{_rpmhome}/lib/libxar.so.*
--###%{_rpmhome}/lib/libjs.so.*
--###%{_rpmhome}/lib/librpmjsm.so.*
--###%{_rpmhome}/lib/rpmjsm.so
--
--
- FILES_${PN}-build = "${prefix}/src/rpm \
- 		${bindir}/rpmbuild \
- 		${libdir}/rpm/brp-* \
-@@ -269,8 +265,6 @@ FILES_${PN}-build = "${prefix}/src/rpm \
- 		${libdir}/rpm/bin/rpmlua \
- 		${libdir}/rpm/bin/rpmluac \
- 		${libdir}/rpm/bin/sqlite3 \
--		${libdir}/rpm/lib/liblua.a \
--		${libdir}/rpm/lib/liblua.la \
- 		${libdir}/rpm/macros.d/cmake \
- 		${libdir}/rpm/macros.d/java \
- 		${libdir}/rpm/macros.d/libtool \
-@@ -291,9 +285,6 @@ FILES_${PN}-build = "${prefix}/src/rpm \
- 		"
- RDEPENDS_${PN}-build = "file"
- 
--#%rpmattr       %{_rpmhome}/gem_helper.rb
--#%rpmattr       %{_rpmhome}/symclash.*
--
- FILES_python-rpm-dbg = "${libdir}/python*/rpm/.debug/_*"
- FILES_python-rpm-staticdev = "${libdir}/python*/rpm/*.a"
- FILES_python-rpm = "${libdir}/python*/rpm"
-@@ -317,6 +308,7 @@ FILES_${PN}-dev = "${includedir}/rpm \
- 		${libdir}/librpmmisc.so \
- 		${libdir}/librpmbuild.la \
- 		${libdir}/librpmbuild.so \
-+		${libdir}/rpm/lib/liblua.la \
- 		${libdir}/pkgconfig/rpm.pc \
- 		"
- 
-@@ -327,25 +319,17 @@ FILES_${PN}-staticdev = " \
- 		${libdir}/librpmio.a \
- 		${libdir}/librpmmisc.a \
- 		${libdir}/librpmbuild.a \
-+		${libdir}/rpm/lib/liblua.a \
- 		"
- 
--###%{_rpmhome}/lib/libxar.a
--###%{_rpmhome}/lib/libxar.la
--###%{_rpmhome}/lib/libxar.so
--###%{_rpmhome}/lib/libjs.a
--###%{_rpmhome}/lib/libjs.la
--###%{_rpmhome}/lib/libjs.so
--###%{_rpmhome}/lib/librpmjsm.a
--###%{_rpmhome}/lib/librpmjsm.la
--###%{_rpmhome}/lib/librpmjsm.so
--
- do_configure() {
- 	# Disable tests!
--	echo "all:" > tests/Makefile.am
-+	#echo "all:" > tests/Makefile.am
- 
- 	./autogen.sh
- 
- 	export varprefix=${localstatedir}
-+	export CC_FOR_BUILD="${BUILD_CC}"
- 	oe_runconf
- }
- 
-@@ -422,6 +406,8 @@ do_install_append() {
- 	rm -f ${D}/${libdir}/rpm/bin/dbconvert
- 	rm -f ${D}/${libdir}/rpm/bin/pom2spec
- 
-+	rm -rf ${D}/var/lib/wdj ${D}/var/cache/wdj
-+	rm -f ${D}/usr/lib/rpm/bin/api-sanity-checker.pl
  }
  
  do_install_append_virtclass-native() {
-diff --git a/meta/recipes-extended/libzypp/libzypp/libzypp-rpm549.patch b/meta/recipes-extended/libzypp/libzypp/libzypp-rpm549.patch
-new file mode 100644
-index 0000000..8268a2d
---- /dev/null
-+++ b/meta/recipes-extended/libzypp/libzypp/libzypp-rpm549.patch
-@@ -0,0 +1,28 @@
-+commit 6c47ad415246cc3a3edac2e1637106d330574c85
-+Author: Mark Hatle <mark.hatle@windriver.com>
-+Date:   Fri May 11 19:05:09 2012 -0500
-+
-+    RpmHeader.cc: RPM 5.4.9 integration
-+    
-+    _RPMVSF_xxx - NODIGEST, NOSIGNATURES, NOHEADER, and NOPAYLOAD
-+    are now obsolete and no longer supported.
-+    
-+    Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
-+
-+diff --git a/zypp/target/rpm/RpmHeader.cc b/zypp/target/rpm/RpmHeader.cc
-+index 1224ecd..c96dae6 100644
-+--- a/zypp/target/rpm/RpmHeader.cc
-++++ b/zypp/target/rpm/RpmHeader.cc
-+@@ -230,10 +230,12 @@ RpmHeader::constPtr RpmHeader::readPackage( const Pathname & path_r,
-+   librpmDb::globalInit();
-+   rpmts ts = ::rpmtsCreate();
-+   unsigned vsflag = RPMVSF_DEFAULT;
-++#if !defined(_RPM_5)
-+   if ( verification_r & NODIGEST )
-+     vsflag |= _RPMVSF_NODIGESTS;
-+   if ( verification_r & NOSIGNATURE )
-+     vsflag |= _RPMVSF_NOSIGNATURES;
-++#endif
-+   ::rpmtsSetVSFlags( ts, rpmVSFlags(vsflag) );
-+ 
-+   Header nh = 0;
-diff --git a/meta/recipes-extended/libzypp/libzypp_git.bb b/meta/recipes-extended/libzypp/libzypp_git.bb
-index 3c3a9f0..c5761d5 100644
---- a/meta/recipes-extended/libzypp/libzypp_git.bb
-+++ b/meta/recipes-extended/libzypp/libzypp_git.bb
-@@ -11,7 +11,7 @@ DEPENDS  = "rpm boost curl libxml2 zlib sat-solver expat openssl udev libproxy"
- S = "${WORKDIR}/git"
- SRCREV = "15b6c52260bbc52b3d8e585e271b67e10cc7c433"
- PV = "0.0-git${SRCPV}"
--PR = "r20"
-+PR = "r21"
+diff --git a/meta/recipes-support/db/db_5.1.19.bb b/meta/recipes-support/db/db_5.3.15.bb
+similarity index 93%
+rename from meta/recipes-support/db/db_5.1.19.bb
+rename to meta/recipes-support/db/db_5.3.15.bb
+index 7e84646..9d2bbe5 100644
+--- a/meta/recipes-support/db/db_5.1.19.bb
++++ b/meta/recipes-support/db/db_5.3.15.bb
+@@ -14,15 +14,15 @@ HOMEPAGE = "http://www.oracle.com/technology/products/berkeley-db/db/index.html"
+ LICENSE = "Sleepycat"
+ VIRTUAL_NAME ?= "virtual/db"
+ CONFLICTS = "db3"
+-PR = "r4"
++PR = "r5"
  
- SRC_URI = "git://github.com/openSUSE/libzypp.git;protocol=git \
-            file://no-doc.patch \
-@@ -23,6 +23,7 @@ SRC_URI = "git://github.com/openSUSE/libzypp.git;protocol=git \
- 	   file://fix_for_compile_wth_gcc-4.6.0.patch \
- 	   file://hardcode-lib-fix.patch \
- 	   file://close.patch \
-+	   file://libzypp-rpm549.patch \
-           "
+ SRC_URI = "http://download.oracle.com/berkeley-db/db-${PV}.tar.gz"
+ SRC_URI += "file://arm-thumb-mutex_db5.patch;patchdir=.."
  
- SRC_URI_append_mips = " file://mips-workaround-gcc-tribool-error.patch"
+-SRC_URI[md5sum] = "76fcbfeebfcd09ba0b4d96bfdf8d884d"
+-SRC_URI[sha256sum] = "0194d4ca9266ba1a1c0bfbc233b18bfd05f63163453c81ebcdfdc7112d5ac850"
++SRC_URI[md5sum] = "5493fb5f7cc3915887c836b096f18773"
++SRC_URI[sha256sum] = "4f4f7d548984dde3584fcda0e4f96901cb8bafb08033a7781aec64ef2ea1f579"
+ 
+-LIC_FILES_CHKSUM = "file://../LICENSE;md5=86f9294f39f38ef9e89690bcd2320e7a"
++LIC_FILES_CHKSUM = "file://../LICENSE;md5=12cc3ff983ed4ecc6cc091370ee4dbc3"
+ 
+ inherit autotools
+ 
 -- 
 1.7.3.4
 
