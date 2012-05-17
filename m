@@ -1,39 +1,42 @@
-Received: from mail-yw0-f47.google.com ([209.85.213.47])
+Received: from mail-vc0-f175.google.com ([209.85.220.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrei@gherzan.ro>) id 1SUvfZ-00055Y-Cn
+	(envelope-from <otavio.salvador@gmail.com>) id 1SUvhg-0005Zd-6e
 	for openembedded-core@lists.openembedded.org;
-	Thu, 17 May 2012 10:02:45 +0200
-Received: by yhjj56 with SMTP id j56so1728720yhj.6
+	Thu, 17 May 2012 10:04:56 +0200
+Received: by vcbfl15 with SMTP id fl15so137780vcb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 May 2012 00:52:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:x-originating-ip:in-reply-to:references:date
-	:message-id:subject:from:to:content-type:x-gm-message-state;
-	bh=teXq5sSO+5+TdfBoj6WAbwKij9NOH9Ygj/zhFIvctrA=;
-	b=LyJ5314SxmVTiu8LfDHzfEg7xWYFVZC9rkMNNntw3mi7WEQJNB3F9ydLP6rGjob297
-	JhcbXb2YhpLs9EOHWsaLNWSiLFHn8xfthxwe+ZrQsoBuslsy2zx4roIm4O4C6g/arfN3
-	UXDqSSxyOMXIXRffC30uJ3xVFJdI/E10+v7BaDYyLcQ73sE/2P/9AQUspHGVvjIXEqKE
-	lMoC/HQEYUX3MgWXa2ZQoiBuZ4uV7ZRD5AB4K0miXyFQ3L7zZ7DKXj1agnaw7gOHDzra
-	nbgZo2LbcTmkXYApw2jXIhIavfEuROm/zr/GkNGJ+/6U5Dj690hGgUbMChlfjOW51oJL
-	irGg==
+	Thu, 17 May 2012 00:54:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:content-type
+	:content-transfer-encoding;
+	bh=arf/Y3FB1+OgSzIi2VIcTKi2nFPOINJ5ugFmtFJrEkU=;
+	b=eLH5tsboVd0ruZ/aFZfd+tDskp/vMNu2tlmTvx5XNDSYKsgEBiiuvxgqb9JRevZSGX
+	XmdxTahVlDGTZJtYm/f4jaojze0w+caGOr8GONyga8u6pjxFG8PFUGwVcD0ZFr0rXTid
+	KrpHwy2KhiYKY4LCDfte0mRhVptHZH2h8+TX0TdXVuDNyCXI41wNz7ph9PwTcS/3zRb9
+	tQHbdDLNqg5xphAOuCWtJ4IEpKmuENMT/qLcVq0dcbpcJGT6QCs5mmmYne3WhYbMw4mn
+	3qW6pwiO4VhDv9421jjyRZtZXGp5KGfLjUX/Kx0Js7oWNCh/ICOFssRevRtRTjPYk8qX
+	HzLw==
 MIME-Version: 1.0
-Received: by 10.50.163.37 with SMTP id yf5mr4420694igb.40.1337241162224; Thu,
-	17 May 2012 00:52:42 -0700 (PDT)
-Received: by 10.64.25.18 with HTTP; Thu, 17 May 2012 00:52:42 -0700 (PDT)
-X-Originating-IP: [109.166.131.71]
-Received: by 10.64.25.18 with HTTP; Thu, 17 May 2012 00:52:42 -0700 (PDT)
-In-Reply-To: <3971F75E-21A4-4BB6-92BE-888FFC716BD1@dominion.thruhere.net>
-References: <cover.1337114347.git.otavio@ossystems.com.br>
-	<1a12675b146fbaf56ff3e9505885c5f9f4ecbd26.1337114347.git.otavio@ossystems.com.br>
-	<3971F75E-21A4-4BB6-92BE-888FFC716BD1@dominion.thruhere.net>
-Date: Thu, 17 May 2012 10:52:42 +0300
-Message-ID: <CAK18fxG4fV-aR8DTNzx8k2XzgVadHHMJeFQRuB3sK08bFtc_JQ@mail.gmail.com>
-From: Andrei Gherzan <andrei@gherzan.ro>
+Received: by 10.52.34.73 with SMTP id x9mr3657952vdi.27.1337241293201; Thu, 17
+	May 2012 00:54:53 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.220.152.82 with HTTP; Thu, 17 May 2012 00:54:53 -0700 (PDT)
+In-Reply-To: <CC134498-24AC-40B5-BDF8-1097E74A7FE9@dominion.thruhere.net>
+References: <1337197900-23107-1-git-send-email-daiane.angolini@freescale.com>
+	<A0753188-2AE3-44F8-A33B-07C97112D8A4@dominion.thruhere.net>
+	<CAP9ODKoavGcE6mtQsbn---sE3_Z7ow9oFSAxKGxwRGmBHe5D5w@mail.gmail.com>
+	<CAMKF1so4jRESbLbG867ehEBRgJjh=nJcoLPsFjNtvC+tnCg=Og@mail.gmail.com>
+	<CAP9ODKq51+a9UbXP9wdgRnP4_LtX+wPt=ujCL7iZptBQNhq92A@mail.gmail.com>
+	<CAMKF1sq+aa+kEJ62g2CE_FQKLd-8_wVTks4CB5tQn43-4y8ZZw@mail.gmail.com>
+	<CC134498-24AC-40B5-BDF8-1097E74A7FE9@dominion.thruhere.net>
+Date: Thu, 17 May 2012 04:54:53 -0300
+X-Google-Sender-Auth: XUp-frC-RnypIApjzTWlfwdHS6U
+Message-ID: <CAP9ODKoVCM1qQTki8-4euKecaPj3H+Wj78JHeVTF2UnPg7Cy_w@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Gm-Message-State: ALoCoQkJc1zXFb1NTGpnQjoUIGyUuFt6IrM9oeWsSywBPlVOxka/GExrU3JI8Tt+o3msKghL0LuJ
-Subject: Re: [PATCH 1/1] kmod: fix installation path of pkgconfig files
+Subject: Re: [PATCH] evtest: Add evtest 1.30 support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,63 +51,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 May 2012 08:02:45 -0000
-Content-Type: multipart/alternative; boundary=e89a8f646a8b7415e004c036b842
-
---e89a8f646a8b7415e004c036b842
+X-List-Received-Date: Thu, 17 May 2012 08:04:56 -0000
 Content-Type: text/plain; charset=ISO-8859-1
-
-Yes. I need this too. Hope it will make it soon.
-On May 17, 2012 10:49 AM, "Koen Kooi" <koen@dominion.thruhere.net> wrote:
-
->
-> Op 15 mei 2012, om 22:39 heeft Otavio Salvador het volgende geschreven:
->
-> > The pkgconfig files need to be installed in ${libdir} instead of
-> > ${base_libdir}.
-> >
-> > Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
->
-> Acked-by: Koen Kooi <koen@dominion.thruhere.net>
->
-> Udev have been broken for a week now, can this please to in ASAP?
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
-
---e89a8f646a8b7415e004c036b842
-Content-Type: text/html; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
-<p>Yes. I need this too. Hope it will make it soon.</p>
-<div class=3D"gmail_quote">On May 17, 2012 10:49 AM, &quot;Koen Kooi&quot; =
-&lt;<a href=3D"mailto:koen@dominion.thruhere.net">koen@dominion.thruhere.ne=
-t</a>&gt; wrote:<br type=3D"attribution"><blockquote class=3D"gmail_quote" =
-style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
-<br>
-Op 15 mei 2012, om 22:39 heeft Otavio Salvador het volgende geschreven:<br>
-<br>
-&gt; The pkgconfig files need to be installed in ${libdir} instead of<br>
-&gt; ${base_libdir}.<br>
-&gt;<br>
-&gt; Signed-off-by: Otavio Salvador &lt;<a href=3D"mailto:otavio@ossystems.=
-com.br">otavio@ossystems.com.br</a>&gt;<br>
-<br>
-Acked-by: Koen Kooi &lt;<a href=3D"mailto:koen@dominion.thruhere.net">koen@=
-dominion.thruhere.net</a>&gt;<br>
-<br>
-Udev have been broken for a week now, can this please to in ASAP?<br>
-<br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.openembedded.org</a><br>
-<a href=3D"http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded=
--core" target=3D"_blank">http://lists.linuxtogo.org/cgi-bin/mailman/listinf=
-o/openembedded-core</a><br>
-</blockquote></div>
+On Thu, May 17, 2012 at 4:44 AM, Koen Kooi <koen@dominion.thruhere.net> wro=
+te:
+> Let's make a deal: new recipes will only be accepted into oe-core after s=
+ato has been removed from the oe-core layer.
 
---e89a8f646a8b7415e004c036b842--
+LOL; No! I'd like to have it in oe-core before the end of World in
+December 21th ;)
+
+--=20
+Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
+.S. Systems
+E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
+Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
+tems.com.br
+
+
