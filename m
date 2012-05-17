@@ -1,42 +1,20 @@
-Received: from mail-vc0-f175.google.com ([209.85.220.175])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1SUvhg-0005Zd-6e
+	(envelope-from <radu.moisan@intel.com>) id 1SUvpI-00063o-8P
 	for openembedded-core@lists.openembedded.org;
-	Thu, 17 May 2012 10:04:56 +0200
-Received: by vcbfl15 with SMTP id fl15so137780vcb.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 May 2012 00:54:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:content-type
-	:content-transfer-encoding;
-	bh=arf/Y3FB1+OgSzIi2VIcTKi2nFPOINJ5ugFmtFJrEkU=;
-	b=eLH5tsboVd0ruZ/aFZfd+tDskp/vMNu2tlmTvx5XNDSYKsgEBiiuvxgqb9JRevZSGX
-	XmdxTahVlDGTZJtYm/f4jaojze0w+caGOr8GONyga8u6pjxFG8PFUGwVcD0ZFr0rXTid
-	KrpHwy2KhiYKY4LCDfte0mRhVptHZH2h8+TX0TdXVuDNyCXI41wNz7ph9PwTcS/3zRb9
-	tQHbdDLNqg5xphAOuCWtJ4IEpKmuENMT/qLcVq0dcbpcJGT6QCs5mmmYne3WhYbMw4mn
-	3qW6pwiO4VhDv9421jjyRZtZXGp5KGfLjUX/Kx0Js7oWNCh/ICOFssRevRtRTjPYk8qX
-	HzLw==
-MIME-Version: 1.0
-Received: by 10.52.34.73 with SMTP id x9mr3657952vdi.27.1337241293201; Thu, 17
-	May 2012 00:54:53 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.220.152.82 with HTTP; Thu, 17 May 2012 00:54:53 -0700 (PDT)
-In-Reply-To: <CC134498-24AC-40B5-BDF8-1097E74A7FE9@dominion.thruhere.net>
-References: <1337197900-23107-1-git-send-email-daiane.angolini@freescale.com>
-	<A0753188-2AE3-44F8-A33B-07C97112D8A4@dominion.thruhere.net>
-	<CAP9ODKoavGcE6mtQsbn---sE3_Z7ow9oFSAxKGxwRGmBHe5D5w@mail.gmail.com>
-	<CAMKF1so4jRESbLbG867ehEBRgJjh=nJcoLPsFjNtvC+tnCg=Og@mail.gmail.com>
-	<CAP9ODKq51+a9UbXP9wdgRnP4_LtX+wPt=ujCL7iZptBQNhq92A@mail.gmail.com>
-	<CAMKF1sq+aa+kEJ62g2CE_FQKLd-8_wVTks4CB5tQn43-4y8ZZw@mail.gmail.com>
-	<CC134498-24AC-40B5-BDF8-1097E74A7FE9@dominion.thruhere.net>
-Date: Thu, 17 May 2012 04:54:53 -0300
-X-Google-Sender-Auth: XUp-frC-RnypIApjzTWlfwdHS6U
-Message-ID: <CAP9ODKoVCM1qQTki8-4euKecaPj3H+Wj78JHeVTF2UnPg7Cy_w@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] evtest: Add evtest 1.30 support
+	Thu, 17 May 2012 10:12:48 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 17 May 2012 01:01:40 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="101104186"
+Received: from dell-desktop (HELO localhost.localdomain) ([10.237.104.69])
+	by AZSMGA002.ch.intel.com with ESMTP; 17 May 2012 01:01:38 -0700
+From: Radu Moisan <radu.moisan@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 17 May 2012 11:07:18 +0300
+Message-Id: <1337242038-8854-1-git-send-email-radu.moisan@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] man-pages: Update to 3.41
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -51,23 +29,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 May 2012 08:04:56 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 17 May 2012 08:12:48 -0000
 
-On Thu, May 17, 2012 at 4:44 AM, Koen Kooi <koen@dominion.thruhere.net> wro=
-te:
-> Let's make a deal: new recipes will only be accepted into oe-core after s=
-ato has been removed from the oe-core layer.
+---
+ build/conf/sanity_info                             |    3 +++
+ build/pseudodone                                   |    1 +
+ .../{man-pages_3.36.bb => man-pages_3.41.bb}       |    4 ++--
+ 3 files changed, 6 insertions(+), 2 deletions(-)
+ create mode 100644 build/bitbake.lock
+ create mode 100644 build/conf/sanity_info
+ create mode 100644 build/pseudodone
+ rename meta/recipes-extended/man-pages/{man-pages_3.36.bb => man-pages_3.41.bb} (80%)
 
-LOL; No! I'd like to have it in oe-core before the end of World in
-December 21th ;)
+diff --git a/build/bitbake.lock b/build/bitbake.lock
+new file mode 100644
+index 0000000..e69de29
+diff --git a/build/conf/sanity_info b/build/conf/sanity_info
+new file mode 100644
+index 0000000..3744c0d
+--- /dev/null
++++ b/build/conf/sanity_info
+@@ -0,0 +1,3 @@
++SANITY_VERSION 1
++TMPDIR /home/radu/Documents/Development/yocto/poky/build/tmp
++SSTATE_DIR /home/radu/Documents/Development/yocto/poky/build/sstate-cache
+diff --git a/build/pseudodone b/build/pseudodone
+new file mode 100644
+index 0000000..a9331dd
+--- /dev/null
++++ b/build/pseudodone
+@@ -0,0 +1 @@
++/home/radu/Documents/Development/yocto/poky/build/tmp/sysroots/x86_64-linux/usr/bin
+diff --git a/meta/recipes-extended/man-pages/man-pages_3.36.bb b/meta/recipes-extended/man-pages/man-pages_3.41.bb
+similarity index 80%
+rename from meta/recipes-extended/man-pages/man-pages_3.36.bb
+rename to meta/recipes-extended/man-pages/man-pages_3.41.bb
+index 6025a87..cc1c224 100644
+--- a/meta/recipes-extended/man-pages/man-pages_3.36.bb
++++ b/meta/recipes-extended/man-pages/man-pages_3.41.bb
+@@ -8,8 +8,8 @@ PR = "r1"
+ LIC_FILES_CHKSUM = "file://README;md5=0422377a748010b2b738342e24f141c1"
+ SRC_URI = "${KERNELORG_MIRROR}/linux/docs/man-pages/Archive/${BPN}-${PV}.tar.gz"
+ 
+-SRC_URI[md5sum] = "cfe991b1ce9e0ea5355f29ff9fcac125"
+-SRC_URI[sha256sum] = "c0575e31f73cd9dc2761c274217e06e7130fdfee510170957a9d72d012a5437c"
++SRC_URI[md5sum] = "ee8412e72dc79f3c62573add29954b26"
++SRC_URI[sha256sum] = "13f08bf1bb7429cd7208acd41250f36fb6b2e12ab9f86f7e8fa8c67af142d81d"
+ 
+ RDEPENDS_${PN} = "man"
+ 
+-- 
+1.7.9.5
 
---=20
-Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
-.S. Systems
-E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
-Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
-tems.com.br
 
 
