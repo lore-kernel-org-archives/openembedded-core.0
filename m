@@ -1,44 +1,31 @@
-Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
+Received: from outpost1.zedat.fu-berlin.de ([130.133.4.66])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1SUn0F-000575-SF
-	for openembedded-core@lists.openembedded.org;
-	Thu, 17 May 2012 00:47:32 +0200
-Received: from mail-pb0-f52.google.com ([209.85.160.52])
-	by mga03.intel.com with ESMTP/TLS/RC4-MD5; 16 May 2012 15:37:28 -0700
-Received: by pbbro8 with SMTP id ro8so1738058pbb.25
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 May 2012 15:37:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:subject:references
-	:in-reply-to:content-type:content-transfer-encoding
-	:x-gm-message-state;
-	bh=iCutpCyKDxHhLtVKGPgs/cJ81YxHqxp1Ac6Jqji41uk=;
-	b=n4g7DZTJYHhRDuvDbPXDSfffLI3aB0sFSED9ymEUvf3m6JNA7qHRTRM2uCGdmfr0oA
-	qhKrOH8Xl8GH3UrWa6tcbPDaDlM8qFzezfFnbouboWamQCQ7TKoUY4Xt0Wj67RGHYJFr
-	ZNy72ajlShRdXWtdHgu4116IJkkcM2sDZCXnofttbMLUY0uJIplmVy2LdpZ8R2Y3HI1o
-	RtrbLz6JAadhDJIfKvg4+uIhI3JP8pS1eU4OHxvWlUChPMwB/h3pD5pmO+x5KcbD4zWd
-	SbBl6p33jR5J976nQo5GredryE/XWkj+E9RSIYg0fa6XnbM38bAXTkEK9s6dDciA4aX7
-	198w==
-Received: by 10.68.134.8 with SMTP id pg8mr20620762pbb.152.1337207847523;
-	Wed, 16 May 2012 15:37:27 -0700 (PDT)
-Received: from [192.168.1.12] (c-76-105-137-48.hsd1.or.comcast.net.
-	[76.105.137.48])
-	by mx.google.com with ESMTPS id mr6sm6842438pbb.29.2012.05.16.15.37.24
-	(version=SSLv3 cipher=OTHER); Wed, 16 May 2012 15:37:25 -0700 (PDT)
-Message-ID: <4FB42C29.9060203@intel.com>
-Date: Wed, 16 May 2012 15:37:29 -0700
-From: Scott Garman <scott.a.garman@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
+	(envelope-from <heinold@mi.fu-berlin.de>)
+	id 1SUpW1-0002A2-GM; Thu, 17 May 2012 03:28:29 +0200
+Received: from relay1.zedat.fu-berlin.de ([130.133.4.67])
+	by outpost1.zedat.fu-berlin.de (Exim 4.69) with esmtp
+	(envelope-from <heinold@mi.fu-berlin.de>)
+	id <1SUpML-0004Ek-LK>; Thu, 17 May 2012 03:18:29 +0200
+Received: from andorra.imp.fu-berlin.de ([160.45.42.84])
+	by relay1.zedat.fu-berlin.de (Exim 4.69) with esmtp
+	(envelope-from <heinold@mi.fu-berlin.de>)
+	id <1SUpML-0007Pn-Io>; Thu, 17 May 2012 03:18:29 +0200
+Received: from heinold by internal andorra.imp.fu-berlin.de with local (Exim
+	4.72) id 1SUpMI-0003jS-G4; Thu, 17 May 2012 03:18:26 +0200
+Date: Thu, 17 May 2012 03:18:26 +0200
+From: Henning Heinold <heinold@inf.fu-berlin.de>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Message-ID: <20120517011824.GA12505@mi.fu-berlin.de>
+References: <4FAC361D.60609@balister.org> <4FB2CBD7.8070700@kernelconcepts.de>
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <cover.1336524034.git.raj.khem@gmail.com>
-	<4FAD4E28.5030206@linux.intel.com>
-	<CAMKF1sriuhZq6vP9XYvFbS=WEfyBeXJDQP56mSJK7HgmjbeQSw@mail.gmail.com>
-In-Reply-To: <CAMKF1sriuhZq6vP9XYvFbS=WEfyBeXJDQP56mSJK7HgmjbeQSw@mail.gmail.com>
-X-Gm-Message-State: ALoCoQnhmUlJ17wLu074HJoHhhq1sY+0DLL37ln2qEsWELy/oVxBSiVuCHb70fFyPHiRJPJfOOOO
-Subject: Re: [PATCH 0/2] Let uclibc provide rtld(GNU_HASH)
+In-Reply-To: <4FB2CBD7.8070700@kernelconcepts.de>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Sender: Henning Heinold <heinold@mi.fu-berlin.de>
+X-Originating-IP: 160.45.42.84
+Cc: openembedded-members@lists.openembedded.org,
+	openembedded-devel@lists.openembedded.org
+Subject: Re: [oe] Fwd: Linuxtag 2012
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -53,57 +40,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 May 2012 22:47:32 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 17 May 2012 01:28:29 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 05/11/2012 12:09 PM, Khem Raj wrote:
-> On Fri, May 11, 2012 at 10:36 AM, Saul Wold<sgw@linux.intel.com>  wrote:
->> On 05/08/2012 05:43 PM, Khem Raj wrote:
->>>
->>> We have seen reports where rtld(GNU_HASH) is found missing
->>> on uclibc based images infact uclibc rtld does provide GNU_HASH
->>> support as default so we add that to PROVIDES
->>>
->>> snapshot mirror url is changed. Currently the url will fetch
->>> html files which will end in corrupted downloads so we
->>> update the url location in mirrors class.
->>>
->>> The following changes since commit
->>> 043871d7e5d2d19c2ff43e54d2ff180c09e8903e:
->>>
->>>    kern-tools: integrate minor fixes (2012-05-08 16:06:15 +0100)
->>>
->>> are available in the git repository at:
->>>    git://git.openembedded.org/openembedded-core-contrib kraj/misc-fixes
->>>
->>> http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=kraj/misc-fixes
->>>
->>> Khem Raj (2):
->>>    uclibc.inc: uclibc rtld does support GNU_HASH
->>>    classes/mirrors.bbclass: Point snapshot.debian.org mirror to working
->>>      location
->>>
->>>   meta/classes/mirrors.bbclass        |    2 +-
->>>   meta/recipes-core/uclibc/uclibc.inc |    3 ++-
->>>   2 files changed, 3 insertions(+), 2 deletions(-)
->>>
->>
->> Merged into OE-Core
->
-> FWIW both these fixes are needed on denzil too.
+On Tue, May 15, 2012 at 11:34:15PM +0200, Florian Boor wrote:
+> Hi all,
+> 
+> Am 10.05.2012 23:41, schrieb Philip Balister:
+> > I encourage anyone involved in OpenEmbedded who can get to Linuxtag for
+> > even a day to help it. It is a really fun time, and Berlin is a really
+> > nice place to visit.
+> 
+> unluckily there was not much of feedback so far :-(
+> We have a deadline for ordering exhibitor passes ending tomorrow 6pm. It makes
+> sense to have a two or three of us with these in order to be able to enter the
+> buildings before the visitors.
+> 
+> > We encourage people to bring devices that are made with OpenEmbedded and
+> > related technology to show off at the stand.
+> 
+> I want to emphasize this one more time. It is very unlikely that I will be able
+> to make it there and if I do not get a few people together who will man the
+> booth I will have to cancel our presence there :-(.
+> 
+> Greetings
+> 
+> Florian
 
-Merged to sgarman/denzil-next:
+Hi,
 
-http://git.openembedded.org/openembedded-core-contrib/log/?h=sgarman/denzil-next
+my second son was born today, so I can not make any promise for the linuxtag.
+So I think it is really better to cancel the whole booth. That is really sad, but maybee
+next time we should ask a lot earlier if we can really man the booth.
 
-Thanks,
-
-Scott
-
--- 
-Scott Garman
-Embedded Linux Engineer - Yocto Project
-Intel Open Source Technology Center
+Bye Henning
 
 
