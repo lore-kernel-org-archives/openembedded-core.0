@@ -1,24 +1,41 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mail-wg0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SV44z-0006OM-6a
+	(envelope-from <koen@dominion.thruhere.net>) id 1SV4Ll-00075o-2p
 	for openembedded-core@lists.openembedded.org;
-	Thu, 17 May 2012 19:01:33 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 17 May 2012 09:51:31 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="144478151"
-Received: from unknown (HELO swold-mobl.amr.corp.intel.com) ([10.255.13.96])
-	by azsmga001.ch.intel.com with ESMTP; 17 May 2012 09:51:30 -0700
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 17 May 2012 19:51:14 +0300
-Message-Id: <25d9e571490c77ca67d4f7224e37ba0349deb0c1.1337273095.git.sgw@linux.intel.com>
-X-Mailer: git-send-email 1.7.7.6
+	Thu, 17 May 2012 19:18:53 +0200
+Received: by wgbdr1 with SMTP id dr1so1792083wgb.24
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 17 May 2012 10:08:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=content-type:mime-version:subject:from:in-reply-to:date
+	:content-transfer-encoding:message-id:references:to:x-mailer
+	:x-gm-message-state;
+	bh=060E03XAHukS1M8z7Xc0eomDiQk3K8Z/eOlb4VjF9Mo=;
+	b=DlmJNzUa8KL0JYKaEiMGmIMLZs1JCPRJ19NW0sqllL8V9r6daswnbKE70yDLJLfjro
+	IKz9Sdreq/kB8bv5uI/Rk+lHmpRKVsVN6DijKtw3Rn795LEfoZ7w3WDHaNfFSKOM9vAd
+	QZZi0/w83/vp7oNgyTUalKc6+AkrHOK4NSdDTelIiJrLXl5Ti/2c/2xslxfH/CgRU3T+
+	P9xJJv5VJ5GqIDlWEln/2KVifkpnfrSrbPX6NteWr6ex9KdkF/kaKnJrQ2CKlGG47lAz
+	HczFuzEdlGT9U+j3aX7v13RbU8TLVFRVsxPEa1h+dF+QsZBfA8Awvrl+gMR2moLW1cJj
+	j3VA==
+Received: by 10.180.84.193 with SMTP id b1mr40124935wiz.11.1337274530361;
+	Thu, 17 May 2012 10:08:50 -0700 (PDT)
+Received: from [172.20.1.36] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id r2sm22806841wif.7.2012.05.17.10.08.47
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 17 May 2012 10:08:48 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1278)
+From: Koen Kooi <koen@dominion.thruhere.net>
 In-Reply-To: <cover.1337273095.git.sgw@linux.intel.com>
+Date: Thu, 17 May 2012 19:08:35 +0200
+Message-Id: <8D610C53-D313-4323-A84A-0A2D4BA2CF8E@dominion.thruhere.net>
 References: <cover.1337273095.git.sgw@linux.intel.com>
-In-Reply-To: <cover.1337273095.git.sgw@linux.intel.com>
-References: <cover.1337273095.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 12/12] xserver-xorg-lite: disable xmlto like full xserver-xorg does
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1278)
+X-Gm-Message-State: ALoCoQm8+CweMJVmBlJHultC98nhDhqJ0hJ7QBAyAYI3SavUCs83qr4bqb8BIFuJBK7H1U+Y5Odf
+Subject: Re: [CONSOLIDATED PULL 00/12] Updated and Fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,77 +50,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 May 2012 17:01:33 -0000
+X-List-Received-Date: Thu, 17 May 2012 17:18:53 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-From: Martin Jansa <martin.jansa@gmail.com>
 
-* xmlto-native is unusable (see YOCTO #2416
-  xmlto/xsltproc stylesheets cannot be found even when they are installed in sysroot)
+Op 17 mei 2012, om 18:51 heeft Saul Wold het volgende geschreven:
 
-* fails like this:
-| make[2]: Entering directory `/OE/shr-core/tmp-eglibc/work/armv5te-oe-linux-gnueabi/xserver-xorg-lite/xserver-xorg-lite-2_1.11.2-r2/xorg-server-1.11.2/doc'
-| /OE/shr-core/tmp-eglibc/sysroots/x86_64-linux/usr/bin/xmlto   xhtml-nochunks Xserver-spec.xml
-| /OE/shr-core/tmp-eglibc/sysroots/x86_64-linux/usr/bin/xmlto   xhtml-nochunks Xinput.xml
-| xmlto: /OE/shr-core/tmp-eglibc/work/armv5te-oe-linux-gnueabi/xserver-xorg-lite/xserver-xorg-lite-2_1.11.2-r2/xorg-server-1.11.2/doc/Xinput.xml does not validate (status 3)
-| xmlto: Fix document syntax or use --skip-validation option
-| /OE/shr-core/tmp-eglibc/work/armv5te-oe-linux-gnueabi/xserver-xorg-lite/xserver-xorg-lite-2_1.11.2-r2/xorg-server-1.11.2/doc/Xinput.xml:3: warning: failed to load external entity "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd"
-|                    "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd">
-|                                                                             ^
-| /OE/shr-core/tmp-eglibc/work/armv5te-oe-linux-gnueabi/xserver-xorg-lite/xserver-xorg-lite-2_1.11.2-r2/xorg-server-1.11.2/doc/Xinput.xml:40: parser error : Entity 'ldquo' not defined
-| btaining a copy of this software and associated documentation files (the &ldquo;
-|                                                                                ^
-| /OE/shr-core/tmp-eglibc/work/armv5te-oe-linux-gnueabi/xserver-xorg-lite/xserver-xorg-lite-2_1.11.2-r2/xorg-server-1.11.2/doc/Xinput.xml:40: parser error : Entity 'rdquo' not defined
-|  of this software and associated documentation files (the &ldquo;Software&rdquo;
-|                                                                                ^
-| /OE/shr-core/tmp-eglibc/work/armv5te-oe-linux-gnueabi/xserver-xorg-lite/xserver-xorg-lite-2_1.11.2-r2/xorg-server-1.11.2/doc/Xinput.xml:42: parser error : Entity 'ldquo' not defined
-| btaining a copy of this software and associated documentation files (the &ldquo;
-|                                                                                ^
-| /OE/shr-core/tmp-eglibc/work/armv5te-oe-linux-gnueabi/xserver-xorg-lite/xserver-xorg-lite-2_1.11.2-r2/xorg-server-1.11.2/doc/Xinput.xml:42: parser error : Entity 'rdquo' not defined
-|  of this software and associated documentation files (the &ldquo;Software&rdquo;
-|                                                                                ^
-| warning: failed to load external entity "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd"
-| validity error : Could not load the external subset "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd"
-| Document /OE/shr-core/tmp-eglibc/work/armv5te-oe-linux-gnueabi/xserver-xorg-lite/xserver-xorg-lite-2_1.11.2-r2/xorg-server-1.11.2/doc/Xinput.xml does not validate
-| xmlto: /OE/shr-core/tmp-eglibc/work/armv5te-oe-linux-gnueabi/xserver-xorg-lite/xserver-xorg-lite-2_1.11.2-r2/xorg-server-1.11.2/doc/Xserver-spec.xml does not validate (status 3)
-| xmlto: Fix document syntax or use --skip-validation option
-| make[2]: *** [Xinput.html] Error 13
-| make[2]: *** Waiting for unfinished jobs....
-| /OE/shr-core/tmp-eglibc/work/armv5te-oe-linux-gnueabi/xserver-xorg-lite/xserver-xorg-lite-2_1.11.2-r2/xorg-server-1.11.2/doc/Xserver-spec.xml:4: warning: failed to load external entity "/xserver/doc/xml/xserver.ent"
-|  <!ENTITY % defs SYSTEM "/xserver/doc/xml/xserver.ent"> %defs;
-|                                                               ^
-| Entity: line 1:
-|  %defs;
-|        ^
+> Richard,
+>=20
+> Pull in the backlog of changes from this week.  Bigest change
+> that need looking at are Chris's.
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- .../xorg-xserver/xserver-xorg-1.11.2.inc           |    2 +-
- .../xorg-xserver/xserver-xorg-lite.inc             |    1 +
- 2 files changed, 2 insertions(+), 1 deletions(-)
-
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2.inc
-index 6a86af4..fc41568 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2.inc
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2.inc
-@@ -7,5 +7,5 @@ SRC_URI += "file://crosscompile.patch \
- SRC_URI[md5sum] = "8796fff441e5435ee36a72579008af24"
- SRC_URI[sha256sum] = "fa415decf02027ca278b06254ccfbcceba2a83c2741405257ebf749da4a73cf2"
- 
--PR = "r2"
-+PR = "r3"
- 
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg-lite.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg-lite.inc
-index 57615f5..02db5bf 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xorg-lite.inc
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg-lite.inc
-@@ -4,4 +4,5 @@ EXTRA_OECONF += "\
-                  --disable-dri \
-                  --disable-glx \
-                  --disable-dga \
-+                 --without-xmlto \
- "
--- 
-1.7.7.6
-
+Where's the kmod fix? Does udev 182 need to remain unbuildable for =
+another week?=
 
 
