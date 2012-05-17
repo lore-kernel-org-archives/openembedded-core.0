@@ -1,24 +1,24 @@
 Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SV44w-0006LK-O8
+	(envelope-from <sgw@linux.intel.com>) id 1SV44z-0006OL-6G
 	for openembedded-core@lists.openembedded.org;
-	Thu, 17 May 2012 19:01:31 +0200
+	Thu, 17 May 2012 19:01:33 +0200
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 17 May 2012 09:51:29 -0700
+	by azsmga102.ch.intel.com with ESMTP; 17 May 2012 09:51:30 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="144478140"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="144478146"
 Received: from unknown (HELO swold-mobl.amr.corp.intel.com) ([10.255.13.96])
-	by azsmga001.ch.intel.com with ESMTP; 17 May 2012 09:51:28 -0700
+	by azsmga001.ch.intel.com with ESMTP; 17 May 2012 09:51:29 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 17 May 2012 19:51:12 +0300
-Message-Id: <0df81457bb3514bedafdad0d1f43811ce0fcee8d.1337273095.git.sgw@linux.intel.com>
+Date: Thu, 17 May 2012 19:51:13 +0300
+Message-Id: <61c3455a1095bbb411c1ea2b1a60d9d189150c73.1337273095.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <cover.1337273095.git.sgw@linux.intel.com>
 References: <cover.1337273095.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1337273095.git.sgw@linux.intel.com>
 References: <cover.1337273095.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 10/12] xf86-video-vmware: update package to 12.0.2
+Subject: [CONSOLIDATED PULL 11/12] sanity.bbclass: check user can read and write to SSTATE_DIR
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,39 +33,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 May 2012 17:01:32 -0000
+X-List-Received-Date: Thu, 17 May 2012 17:01:33 -0000
 
-From: Alexandru DAMIAN <alexandru.damian@intel.com>
+From: Joshua Lock <josh@linux.intel.com>
 
-This patch updates the package version for the vmware xorg driver
-to 12.0.2, following upstream. No other changes made beside updating
-the checksums.
+The user needs read and write permissions to SSTATE_DIR, check
+whether they have sufficient permissions and if not recommend
+use of SSTATE_MIRRORS.
+
+Signed-off-by: Joshua Lock <josh@linux.intel.com>
 ---
- ...mware_12.0.1.bb => xf86-video-vmware_12.0.2.bb} |    6 +++---
- 1 files changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-graphics/xorg-driver/{xf86-video-vmware_12.0.1.bb => xf86-video-vmware_12.0.2.bb} (74%)
+ meta/classes/sanity.bbclass |   17 ++++++++++++++---
+ 1 files changed, 14 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-graphics/xorg-driver/xf86-video-vmware_12.0.1.bb b/meta/recipes-graphics/xorg-driver/xf86-video-vmware_12.0.2.bb
-similarity index 74%
-rename from meta/recipes-graphics/xorg-driver/xf86-video-vmware_12.0.1.bb
-rename to meta/recipes-graphics/xorg-driver/xf86-video-vmware_12.0.2.bb
-index a5655fc..71f0339 100644
---- a/meta/recipes-graphics/xorg-driver/xf86-video-vmware_12.0.1.bb
-+++ b/meta/recipes-graphics/xorg-driver/xf86-video-vmware_12.0.2.bb
-@@ -9,10 +9,10 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=5fcd7d437a959a15fbee8707747c6b53"
- DEPENDS += "virtual/libx11 libxvmc drm glproto \
- 	    virtual/libgl xineramaproto libpciaccess"
+diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+index 05545f4..ff3c413 100644
+--- a/meta/classes/sanity.bbclass
++++ b/meta/classes/sanity.bbclass
+@@ -96,10 +96,16 @@ def check_conf_exists(fn, data):
+ def check_sanity_sstate_dir_change(sstate_dir, data):
+     # Sanity checks to be done when the value of SSTATE_DIR changes
  
--PR = "${INC_PR}.1"
-+PR = "${INC_PR}.0"
+-    # Check that SSTATE_DIR isn't on a filesystem with limited filename length (eg. eCryptFS)
+     testmsg = ""
+     if sstate_dir != "":
+-        testmsg = check_create_long_filename(sstate_dir, "SSTATE_DIR")
++        # Check that the user can read and write to SSTATE_DIR
++        sstatemsg = check_can_read_write_directory(sstate_dir) or None
++        if sstatemsg:
++            sstatemsg = sstatemsg + ". You could try using it as an SSTATE_MIRRORS instead of SSTATE_CACHE.\n"
++            testmsg = testmsg + sstatemsg
++        # Check that SSTATE_DIR isn't on a filesystem with limited filename length (eg. eCryptFS)
++        testmsg = testmsg + check_create_long_filename(sstate_dir, "SSTATE_DIR")
++
+     return testmsg
  
--SRC_URI[md5sum] = "08101a9b09774ec2f432db5118928c53"
--SRC_URI[sha256sum] = "ded644af1f74ca0ebdc759e3db715519c476b341c1783c3d92c93a76591ed496"
-+SRC_URI[md5sum] = "0743ec7c479603fba60d118858fd5783"
-+SRC_URI[sha256sum] = "c827875fd94805ec9b925fe09aaa973e7e3f9096c7ef311d449c3f134ae75147"
+ def check_sanity_tmpdir_change(tmpdir, data):
+@@ -150,7 +156,12 @@ def check_create_long_filename(filepath, pathname):
+         if errno == 36: # ENAMETOOLONG
+             return "Failed to create a file with a long name in %s. Please use a filesystem that does not unreasonably limit filename length.\n" % pathname
+         else:
+-            return "Failed to create a file in %s: %s" % (pathname, strerror)
++            return "Failed to create a file in %s: %s\n" % (pathname, strerror)
++    return ""
++
++def check_can_read_write_directory(directory):
++    if not os.access(directory, os.R_OK|os.W_OK):
++       return "Insufficient permissions for %s" % directory
+     return ""
  
- COMPATIBLE_HOST = '(i.86.*-linux|x86_64.*-linux)'
- 
+ def check_connectivity(d):
 -- 
 1.7.7.6
 
