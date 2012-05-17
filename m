@@ -1,27 +1,26 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1SV9Ej-0007Rc-6z
+	(envelope-from <philb@gnu.org>) id 1SV9Gi-0007US-OE
 	for openembedded-core@lists.openembedded.org;
-	Fri, 18 May 2012 00:31:57 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 17 May 2012 15:21:53 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="167821152"
-Received: from unknown (HELO helios.localnet) ([10.252.120.128])
-	by fmsmga002.fm.intel.com with ESMTP; 17 May 2012 15:21:52 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Date: Thu, 17 May 2012 23:21:51 +0100
-Message-ID: <2622747.VEgA05EEDD@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.8.2 (Linux/3.2.0-24-generic-pae; KDE/4.8.2; i686; ; )
-In-Reply-To: <CAP9ODKoV-pZTPrn5HrLR5b4soceeN+81e3HWYQ_OxdbVfDiQvg@mail.gmail.com>
-References: <1337074341-12708-1-git-send-email-koen@dominion.thruhere.net>
-	<30398737.cYKCjogiDH@helios>
-	<CAP9ODKoV-pZTPrn5HrLR5b4soceeN+81e3HWYQ_OxdbVfDiQvg@mail.gmail.com>
-MIME-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
+	Fri, 18 May 2012 00:34:00 +0200
+Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
+	helo=[192.168.114.6])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1SV971-0002aW-Uy
+	for openembedded-core@lists.openembedded.org;
+	Fri, 18 May 2012 00:24:00 +0200
+Message-ID: <1337293371.3181.190.camel@x121e.pbcl.net>
+From: Phil Blundell <philb@gnu.org>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
+Date: Thu, 17 May 2012 23:22:51 +0100
+In-Reply-To: <CAP9ODKqc5eubLWKrbPowvunHaUX0Fhbk-XLFgH=b+pr8m+tGcQ@mail.gmail.com>
+References: <1337074341-12708-1-git-send-email-koen@dominion.thruhere.net>
+	<1337288563.7473.24.camel@ted> <20120517211637.GD23562@bill-the-cat>
+	<2398024.EpgDMcMvMx@helios>
+	<CAP9ODKqc5eubLWKrbPowvunHaUX0Fhbk-XLFgH=b+pr8m+tGcQ@mail.gmail.com>
+X-Mailer: Evolution 3.2.2-1 
+Mime-Version: 1.0
 Subject: Re: [PATCH] Revert "kmod: Use base_libdir for installing libkmod"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -37,57 +36,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 May 2012 22:31:57 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Thu, 17 May 2012 22:34:00 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Thursday 17 May 2012 19:11:20 Otavio Salvador wrote:
-> On Thu, May 17, 2012 at 7:01 PM, Paul Eggleton
-> <paul.eggleton@linux.intel.com> wrote:
-> > On Thursday 17 May 2012 18:51:05 Otavio Salvador wrote:
-> >> It is important to state that if OE-Core breaks Meta-OE this is
-> >> crticial. It is not Yocto that people use and many active contributors
-> >> use Meta-OE so it is important and critical to that people. Seems more
-> >> health to the project to give the deserved value to Meta-OE instead of
-> >> badmouth it...
-> > 
-> > The sooner people can start using it without fear of it doing unexpected
-> > things, the sooner people will be able to have more confidence in it and
-> > stop making negative comments about it. As it stands the way a lot of
-> > people treat meta-oe is a source of recipes to be copied elsewhere
-> > because they feel they cannot use the layer as a whole. I think that's a
-> > big shame.
-> 
-> Agreed; the nice thing about Free Software is that we can do something
-> about it; do negative comments help nothing.
-> 
-> Most people on Yocto do not contribute actively to Meta-OE. As
-> example, you did 12 commits in total to it...
+On Thu, 2012-05-17 at 18:51 -0300, Otavio Salvador wrote:
+> It is important to state that if OE-Core breaks Meta-OE this is
+> crticial. It is not Yocto that people use and many active contributors
+> use Meta-OE so it is important and critical to that people. Seems more
+> health to the project to give the deserved value to Meta-OE instead of
+> badmouth it...
 
-No, we don't, but that's probably because we have our hands full maintaining 
-BitBake and OE-Core (with the help of others in the community, of course). Not 
-to mention that when we do enable it on top of OE-Core / Poky without wanting 
-to use systemd, it makes a whole raft of changes that usually cause breakage 
-of some kind because that configuration is rarely tested. This just makes using 
-and contributing to meta-oe harder.
+No doubt meta-oe's welfare is indeed critical to those who use it, but
+there is a substantial population of oe-core users who don't.
 
-We really do recognise that there has to be a source of recipes outside OE-
-Core, and meta-oe is the current place for a lot of those. However there is 
-just so much work to be done on BitBake and OE-Core that venturing into meta-
-oe as well is something a lot of us don't have time for in our daily work, 
-especially with its current state. I do use meta-oe when I'm building stuff at 
-home but there I more or less have my hands full maintaining meta-handheld, 
-meta-opie and a bunch of other things.
+Without wishing to badmouth meta-oe too much, I do get the impression
+that its relationship with oe-core is based more on taking than on
+giving, and also that meta-oe seems a bit unclear about what exactly its
+own mission is.  On the one hand it seems to try to be a sort of
+unofficial mod for oe-core which adds newer/older/different versions of
+some recipes and adjusts features in others.  On the other hand it seems
+to be a repository for recipes which are of general interest but not
+quite "core" enough to be in oe-core.  And on the third hand, there
+seems to be a view (as Tom alluded to in this thread) that meta-oe
+should serve as some sort of staging area for changes which are
+ultimately intended for oe-core but perhaps not quite stable enough yet.
+As Paul mentioned, the combination of these three things is somewhat
+toxic. 
 
-I hope during the current development cycle that I will have time to 
-contribute to meta-oe further. I can't make any promises though.
+Personally I would like to see the meta-oe folks make a bit more of an
+effort to contribute worthwhile improvements back to oe-core (and/or put
+them in other layers, as seems to be happening with the systemd bits)
+rather than just keeping them as part of the meta-oe monolith
+indefinitely.  And, in parallel with that, I think it would make sense
+to split meta-oe into three or maybe more separate layers: one which is
+purely a collection of "extra" recipes, one which contains all the
+policy changes that meta-oe wishes to make compared to what's in
+oe-core, and one which is a sort of "oe-core-next", containing changes
+which are theoretically candidates for merging into oe-core but for
+whatever reason are not quite ready to submit.
 
-Cheers,
-Paul
+p.
 
--- 
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
 
