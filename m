@@ -1,20 +1,24 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SVOAb-0000XG-0L
+	(envelope-from <sgw@linux.intel.com>) id 1SVOAc-0000XG-2c
 	for openembedded-core@lists.openembedded.org;
-	Fri, 18 May 2012 16:28:41 +0200
+	Fri, 18 May 2012 16:28:42 +0200
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 18 May 2012 07:18:22 -0700
+	by orsmga102.jf.intel.com with ESMTP; 18 May 2012 07:18:23 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="145583533"
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="145583537"
 Received: from unknown (HELO swold-mobl.amr.corp.intel.com) ([10.255.13.139])
-	by orsmga002.jf.intel.com with ESMTP; 18 May 2012 07:18:21 -0700
+	by orsmga002.jf.intel.com with ESMTP; 18 May 2012 07:18:22 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 18 May 2012 17:18:10 +0300
-Message-Id: <cover.1337350637.git.sgw@linux.intel.com>
+Date: Fri, 18 May 2012 17:18:11 +0300
+Message-Id: <01342f4cd53229c1134f361f1a02bf97ffeb85df.1337350637.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
-Subject: [CONSOLIDATED PULL 0/9] Kernel & Multi-lib updates
+In-Reply-To: <cover.1337350637.git.sgw@linux.intel.com>
+References: <cover.1337350637.git.sgw@linux.intel.com>
+In-Reply-To: <cover.1337350637.git.sgw@linux.intel.com>
+References: <cover.1337350637.git.sgw@linux.intel.com>
+Subject: [CONSOLIDATED PULL 1/9] (libc-)package.bbclass: Added MLPREFIX to locale packages.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,58 +33,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 May 2012 14:28:41 -0000
+X-List-Received-Date: Fri, 18 May 2012 14:28:42 -0000
 
-Richard:
+From: Lianhao Lu <lianhao.lu@intel.com>
 
-Here are some fixes including the PPC xserver issue
+Added multilib prefix to the locale related package names/dependencies.
 
-Sau!
+Signed-off-by: Lianhao Lu <lianhao.lu@intel.com>
+---
+ meta/classes/libc-package.bbclass |    4 ++--
+ meta/classes/package.bbclass      |    5 +++--
+ 2 files changed, 5 insertions(+), 4 deletions(-)
 
-
-The following changes since commit 7163ebd92a799b8f000b2b6f303b20de468b5f90:
-
-  Revert "kmod: Use base_libdir for installing libkmod" (2012-05-17 21:12:33 +0100)
-
-are available in the git repository at:
-  git://git.openembedded.org/openembedded-core-contrib sgw/stage
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
-
-Bruce Ashfield (3):
-  linux-yocto: intel BSP config changes
-  kern-tools: update LICENSE field to GPLv2
-  linux-yocto: policy cleanups
-
-Gary Thomas (1):
-  xserver-kdrive: Fix X server on PowerPC when built with GCC 4.7.x
-
-Jiajun Xu (1):
-  test-reexec: Add script to address issues when task re-execution
-
-Lianhao Lu (3):
-  (libc-)package.bbclass: Added MLPREFIX to locale packages.
-  multilib.conf: Added multilib support for kmod.
-  multilib.bbclass: Added multilib specific package QA.
-
-Mark Hatle (1):
-  sstate.bbclass: Make sure we don't have an empty fixmepath file
-
- meta/classes/libc-package.bbclass                  |    4 +-
- meta/classes/multilib.bbclass                      |   31 +++
- meta/classes/package.bbclass                       |    5 +-
- meta/classes/sstate.bbclass                        |   17 +-
- meta/conf/multilib.conf                            |    1 +
- .../fix-bogus-stack-variables.patch                |  233 ++++++++++++++++++++
- .../xorg-xserver/xserver-kdrive_1.7.99.2.bb        |    3 +-
- .../kern-tools/kern-tools-native_git.bb            |    2 +-
- meta/recipes-kernel/linux/linux-yocto-rt_3.2.bb    |    2 +-
- meta/recipes-kernel/linux/linux-yocto-tiny_3.2.bb  |    2 +-
- meta/recipes-kernel/linux/linux-yocto_3.2.bb       |    2 +-
- scripts/test-reexec                                |  123 ++++++++++
- 12 files changed, 411 insertions(+), 14 deletions(-)
- create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-kdrive-1.7.99.2/fix-bogus-stack-variables.patch
- create mode 100755 scripts/test-reexec
-
+diff --git a/meta/classes/libc-package.bbclass b/meta/classes/libc-package.bbclass
+index 57b6fd9..10f5f87 100644
+--- a/meta/classes/libc-package.bbclass
++++ b/meta/classes/libc-package.bbclass
+@@ -308,10 +308,10 @@ python package_do_split_gconvs () {
+ 		pkgname = d.getVar('MLPREFIX') + 'locale-base-' + legitimize_package_name(name)
+ 		d.setVar('ALLOW_EMPTY_%s' % pkgname, '1')
+ 		d.setVar('PACKAGES', '%s %s' % (pkgname, d.getVar('PACKAGES', True)))
+-		rprovides = ' virtual-locale-%s' % legitimize_package_name(name)
++		rprovides = ' %svirtual-locale-%s' % (mlprefix, legitimize_package_name(name))
+ 		m = re.match("(.*)_(.*)", name)
+ 		if m:
+-			rprovides += ' virtual-locale-%s' % m.group(1)
++			rprovides += ' %svirtual-locale-%s' % (mlprefix, m.group(1))
+ 		d.setVar('RPROVIDES_%s' % pkgname, rprovides)
+ 
+ 		if use_bin == "compile":
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index 99836e9..6fba5b6 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -400,13 +400,14 @@ python package_do_split_locales() {
+ 	summary = d.getVar('SUMMARY', True) or pn
+ 	description = d.getVar('DESCRIPTION', True) or "" 
+         locale_section = d.getVar('LOCALE_SECTION', True)
++	mlprefix = d.getVar('MLPREFIX', True) or ""
+ 	for l in sorted(locales):
+ 		ln = legitimize_package_name(l)
+ 		pkg = pn + '-locale-' + ln
+ 		packages.append(pkg)
+ 		d.setVar('FILES_' + pkg, os.path.join(datadir, 'locale', l))
+-		d.setVar('RDEPENDS_' + pkg, '%s virtual-locale-%s' % (pn, ln))
+-		d.setVar('RPROVIDES_' + pkg, '%s-locale %s-translation' % (pn, ln))
++		d.setVar('RDEPENDS_' + pkg, '%s %svirtual-locale-%s' % (pn, mlprefix, ln))
++		d.setVar('RPROVIDES_' + pkg, '%s-locale %s%s-translation' % (pn, mlprefix, ln))
+ 		d.setVar('SUMMARY_' + pkg, '%s - %s translations' % (summary, l))
+ 		d.setVar('DESCRIPTION_' + pkg, '%s  This package contains language translation files for the %s locale.' % (description, l))
+ 		if locale_section:
 -- 
 1.7.7.6
 
