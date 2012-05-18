@@ -1,32 +1,30 @@
-Received: from mail-we0-f175.google.com ([74.125.82.175])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ive.found@gmail.com>) id 1SVSA8-0006bu-Ha
+	(envelope-from <dvhart@linux.intel.com>) id 1SVVEL-0006yC-Ej
 	for openembedded-core@lists.openembedded.org;
-	Fri, 18 May 2012 20:44:28 +0200
-Received: by werg55 with SMTP id g55so2207164wer.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 May 2012 11:34:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type:content-transfer-encoding;
-	bh=evgpfc7H4smAXG4yhmmA7ppLE/2DiiSvRhqBF+pP8Cc=;
-	b=oO1SqfGU3Sq6YxhsM1V79YXlSGq0v+VcBxE7Lqk7hOolq5zMZHdQY8ud82tnusLcJe
-	I1B6UkoAf+GOgDaFbVV0TzbyNRMlPVmynfEBqUSudOxdPjJgShRUV7e4v0WyoWY/hJKE
-	F4vkFEs7ZDntheeGBQoW9d4oKodgUoNl1iaiR2X9C0WxYZXeHxo2S3hfSpnM3Pws2GrM
-	7kigZzp3oHDGH/e4kVgcsvTwhVt65AlOXfUR4+Upg2hv6MkYFGCu6Q4dxBMdwwVzCv0F
-	/sb+/bqJYliKA147qZPqzHzMSpjJbx/2ag0uIb4H2so3MIw2y4oprEoQ/qvVDa3wORrk
-	ZYOA==
+	Sat, 19 May 2012 00:01:01 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 18 May 2012 14:50:56 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="168284144"
+Received: from unknown (HELO envy.home) ([10.255.13.126])
+	by fmsmga002.fm.intel.com with ESMTP; 18 May 2012 14:50:53 -0700
+Message-ID: <4FB6C40D.7080504@linux.intel.com>
+Date: Fri, 18 May 2012 14:50:05 -0700
+From: Darren Hart <dvhart@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
 MIME-Version: 1.0
-Received: by 10.180.104.231 with SMTP id gh7mr4037344wib.10.1337366064610;
-	Fri, 18 May 2012 11:34:24 -0700 (PDT)
-Received: by 10.223.71.194 with HTTP; Fri, 18 May 2012 11:34:24 -0700 (PDT)
-In-Reply-To: <1336915722-8155-1-git-send-email-ive.found@gmail.com>
-References: <1336915722-8155-1-git-send-email-ive.found@gmail.com>
-Date: Fri, 18 May 2012 21:34:24 +0300
-Message-ID: <CABnTX72_vh_1a4c7yqgS6sRiT1sW6Bg7guQQ1pxV=cPi+f_cUA@mail.gmail.com>
-From: Ive Found <ive.found@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/3] Support additional user-defined package metadata
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <1337131523-8176-1-git-send-email-kergoth@gmail.com>
+	<4FB50F47.6060207@linux.intel.com>
+	<4A22156E-2396-413C-A621-E947330B22D1@dominion.thruhere.net>
+In-Reply-To: <4A22156E-2396-413C-A621-E947330B22D1@dominion.thruhere.net>
+X-Enigmail-Version: 1.4.1
+Cc: Koen Kooi <koen@dominion.thruhere.net>,
+	Christopher Larson <chris_larson@mentor.com>
+Subject: Re: [PATCH] kernel.bbclass: add deploy link to KERNEL_IMAGETYPE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,66 +39,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 May 2012 18:44:28 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 18 May 2012 22:01:01 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-Ping. Any comments?
 
-Btw, '[PATCH 0/3]' in subject is my accidental mistake. It shoud be
-'[PATCH 0/2]'.
 
-On Sun, May 13, 2012 at 4:28 PM, Leonid Borisenko <ive.found@gmail.com> wro=
-te:
->
-> I'm an owner of Kindle Touch. It's basically a computer with ARM
-> Cortex-A8 based CPU and Linux. There is a [small] community of
-> enthuasists developing homebrew modifications for stock software. For
-> distributing of these modifications .ipk package format had been chosen
-> with OE as build infrastructure.
->
-> There are already several firmware versions for device and some more are
-> expected. Every firmware can introduce unpredictable changes, so
-> modifications for previous firmware versions could stop working.
->
-> Custom metadata field with supported firmware version(s) could be
-> included into package control file for preventing of installing packaged
-> modifications onto unsupported firmware.
->
-> But OE currently doesn't allow to define additional package metadata in
-> recipes. Patch fixes it.
->
-> There is already RPMSPEC_PREAMBLE variable used in package_rpm.bbclass.
-> I think, it is still useful for defining custom macros in header of spec
-> file (while additional user-defined metadata is placed somewhere between
-> common tags).
->
-> I didn't found any way to define newline character inside variable value
-> and it is needed to allow multiple [one-line] metadata fields/tags. So
-> I've used ability of OE to split list-typed variables (and re-joined
-> splitted value with real newline character).
->
-> The following changes since commit cab85fd0b481cdbf36477348de75352be3f38c=
-a2:
->
-> =C2=A0gdk-pixbuf: Drop unneeded RPROVIDES (2012-05-12 11:23:27 +0100)
->
-> up to 052d78ed7f986e76afb1ce6ef02e94ba1bbc9719:
->
-> =C2=A0package_{ipk, deb, rpm}.bbclass: support additional user-defined me=
-tadata (2012-05-13 14:51:26 +0300)
->
-> ----------------------------------------------------------------
-> Leonid Borisenko (2):
-> =C2=A0 =C2=A0 =C2=A0package.bbclass: add getter of additional metadata
-> =C2=A0 =C2=A0 =C2=A0package_{ipk, deb, rpm}.bbclass: support additional u=
-ser-defined metadata
->
-> =C2=A0meta/classes/package.bbclass =C2=A0 =C2=A0 | =C2=A0 11 +++++++++++
-> =C2=A0meta/classes/package_deb.bbclass | =C2=A0 =C2=A05 +++++
-> =C2=A0meta/classes/package_ipk.bbclass | =C2=A0 =C2=A05 +++++
-> =C2=A0meta/classes/package_rpm.bbclass | =C2=A0 =C2=A07 +++++++
-> =C2=A04 files changed, 28 insertions(+)
->
+On 05/17/2012 07:58 AM, Koen Kooi wrote:
+> 
+> Op 17 mei 2012, om 16:46 heeft Darren Hart het volgende geschreven:
+> 
+>> On 05/15/2012 06:25 PM, Christopher Larson wrote:
+>>> From: Christopher Larson <chris_larson@mentor.com>
+>>> 
+>>> It's common to provide a non-machine-suffixed link in
+>>> DEPLOY_DIR_IMAGE, so let's be consistent and do so here as well.
+>> 
+>> This of course means that building two machines in the same build
+>> dir will result in overwriting the latest non-machine-suffixed
+>> link (provided they are the same image type)
+> 
+> Actually it doesn't. At least not on angstrom, shr and slugos:
+> 
+> koen@dominion:/OE/tentacle/sources/meta-angstrom$ git grep
+> DEPLOY_DIR_IMAGE conf/distro/include/angstrom.inc:DEPLOY_DIR_IMAGE =
+> "${DEPLOY_DIR}/images/${MACHINE}"
+
+That seems like a good idea to me. It would make more sense to me for
+that to be the default. Having a DISTRO define BUILD policy seems a bit
+backwards.
+
+Would anyone object to including ${MACHINE} in the deploy dir by default?
+
+> 
+> The above was mentioned a few weeks ago, but it looks like no one but
+> the distros above and Chris care about proper multimachine builds. 
+
+Awe, you were doing so well up until there.
+
+--
+Darren Hart
+Intel Open Source Technology Center
+Yocto Project - Linux Kernel
 
 
