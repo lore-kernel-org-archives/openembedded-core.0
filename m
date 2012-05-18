@@ -1,45 +1,35 @@
-Received: from mail-wi0-f177.google.com ([209.85.212.177])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@beagleboard.org>) id 1SVIWc-0002MQ-Pq
-	for openembedded-core@lists.openembedded.org;
-	Fri, 18 May 2012 10:27:02 +0200
-Received: by wibhm14 with SMTP id hm14so2344213wib.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 May 2012 01:16:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date
-	:content-transfer-encoding:message-id:references:to:x-mailer
-	:x-gm-message-state;
-	bh=rgyEbyfAvS5BXy1gN8CUwkhCH4jnx9n0y1+80me6IzE=;
-	b=C6pVwJjVL02lDEi3CYdywxcDYZQM4IxIv8XfMloE3BhjkeW7xAJNCzrYFo2mcJscUc
-	1UDE0IN6sdH0qBuWRzt8Nr6KnNsO/yn1EAwl8DlKf1m/7mkZ9EhmAxmdtpMYBSiLY5jT
-	hDh4l/hfUBrZZws0bCWgie3modaTqk7bAuJXlKtXnXf88XTgBMwvNGuIvT7XuAQWw9rZ
-	oSluK3D/mmvxorXLEXOcPzJmIiaBPCxbrdVzs/9Jhclf+pwf1Vp2yWcStoWFAFmot350
-	zjklY4HiHNGQTQjBPIeLrlYnVmPV68C9lI/dtlDablT7tVhddMTHeEiTDKkXcPagoVek
-	b14g==
-Received: by 10.180.83.72 with SMTP id o8mr25937551wiy.5.1337329019437;
-	Fri, 18 May 2012 01:16:59 -0700 (PDT)
-Received: from [172.20.1.36] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id f19sm30640714wiw.11.2012.05.18.01.16.58
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 18 May 2012 01:16:58 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1278)
-From: Koen Kooi <koen@beagleboard.org>
-In-Reply-To: <709603A3-A890-440E-B127-69D7CF71480F@dominion.thruhere.net>
-Date: Fri, 18 May 2012 10:16:56 +0200
-Message-Id: <27EF0BCE-2D52-46C9-B90A-C146A24B4BD7@beagleboard.org>
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1SVKam-0006rv-NE for openembedded-core@lists.openembedded.org;
+	Fri, 18 May 2012 12:39:28 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q4IATNqY004280;
+	Fri, 18 May 2012 11:29:23 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 02892-01; Fri, 18 May 2012 11:29:18 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q4IATDEP004274
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Fri, 18 May 2012 11:29:15 +0100
+Message-ID: <1337336951.28145.0.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Koen Kooi <koen@dominion.thruhere.net>
+Date: Fri, 18 May 2012 11:29:11 +0100
+In-Reply-To: <73807C59-D904-44D4-89D6-50B9C268B911@dominion.thruhere.net>
 References: <1337074341-12708-1-git-send-email-koen@dominion.thruhere.net>
 	<CAMKF1srxyZkjFe+aypM_X+Wgyd-8b1X664Y8jWQuPF=xijeg+w@mail.gmail.com>
 	<1337286572.7473.10.camel@ted>
 	<0FEE2025-8E84-4CBB-8568-483A55233BD7@dominion.thruhere.net>
 	<1337288563.7473.24.camel@ted>
-	<709603A3-A890-440E-B127-69D7CF71480F@dominion.thruhere.net>
-To: Patches and discussions about the oe-core layer
+	<73807C59-D904-44D4-89D6-50B9C268B911@dominion.thruhere.net>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1278)
-X-Gm-Message-State: ALoCoQk26+DEBVGc8Df3kjyc6PAfNHEmE5c6QoGF+yjWwZnqkSTCQO7LK75JH2HjW1AOYiDmyKWT
 Subject: Re: [PATCH] Revert "kmod: Use base_libdir for installing libkmod"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -55,59 +45,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 May 2012 08:27:02 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 18 May 2012 10:39:29 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+
+On Fri, 2012-05-18 at 09:52 +0200, Koen Kooi wrote:
+> Op 17 mei 2012, om 23:02 heeft Richard Purdie het vo
+> Those QA checks are a joke. I can fix the QA warnings by moving all
+> kmod binaries to $bindir or $sbindir since binaries in /usr/bin
+> and /usr/bin are exempt from the checks. That would break the
+> split /usr case as well.  These checks are global as well when they
+> only should apply to recipes needed to get /usr mounted.
+> 
+> That's why I consider the current checks misguided and harmfull. As
+> seen from the breakage it allows people to break pkgconfig, which
+> didn't get picked up by QA checks. And then it turns out that you an
+> fix the QA warnings in such a way that it breaks the intent of the
+> warnings.
+
+So we need to improve the QA checks, no argument here.
+
+> But this is all a false dillemma, you could have merged Otavio's patch
+> (which I Ack'ed) which supports split /usr and puts the pkgconfig in
+> the right place.
+
+I likely still will but I was worried when he replied saying it still needed more
+testing. I took your reply to the consolidated pull request to refer to
+your patch.
+
+Cheers,
+
+Richard
 
 
-Op 18 mei 2012, om 08:19 heeft Koen Kooi het volgende geschreven:
 
->=20
-> Op 17 mei 2012, om 23:02 heeft Richard Purdie het volgende geschreven:
->=20
->> On Thu, 2012-05-17 at 22:44 +0200, Koen Kooi wrote:
->>> Op 17 mei 2012 om 22:29 heeft Richard Purdie =
-<richard.purdie@linuxfoundation.org> het volgende geschreven:
->>>=20
->>>> On Tue, 2012-05-15 at 13:54 -0700, Khem Raj wrote:
->>>>> On Tue, May 15, 2012 at 2:32 AM, Koen Kooi =
-<koen@dominion.thruhere.net> wrote:
->>>>>> The commit breaks pkgconfig and after discussing it with the kmod =
-and udev maintainers the conclusion was reached that putting the =
-libraries in /lib instead of /usr/lib is not supported.
->>>>>>=20
->>>>>> This reverts commit 6b74f2461735272bd950a4f060dab6e778a36f92.
->>>>>=20
->>>>> while this is what I had initially it doesn't go well with kmod =
-living in
->>>>> /sbin and accessing libraries from /usr due to our QA checks =
-although
->>>>> I am all for simplifying it where we don't make this check at all.
->>>>=20
->>>> I've had requests for it along with a commitment to fix it and =
-patches.
->>>> If we decide we don't want this, fine and that will be the case if
->>>> patches are not forthcoming to fix the QA issues. I don't think =
-we've
->>>> reached that point at this with that yet.
->>>>=20
->>>> I've decided to accept this patch and "unbreak" meta-oe/udev at the
->>>> expense of screwing up OE-Core. I am however still deeply unhappy =
-people
->>>> are trying to bypass OE-Core this way and then "blackmail" OE-Core =
-using
->>>> breaking meta-oe as a reason. The whole systemd thing has been =
-badly
->>>> handled and needs to get fixed properly.
->>>=20
->>> What does systemd have to do with this?
->>=20
->> Why does meta-oe has its own udev recipe?
->=20
-> Because it's too much trouble to get the updated recipe into oe-core
 
-And I admit that is not necessarily a bad thing. I would go as far as =
-saying that for recipes like udev it's a good thing. OE-core has seen =
-too many upgrades for the sake of upgrades that were only build tested.=
 
 
