@@ -1,46 +1,36 @@
-Received: from mail-wi0-f171.google.com ([209.85.212.171])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1SVGgk-0002Xk-03
-	for openembedded-core@lists.openembedded.org;
-	Fri, 18 May 2012 08:29:22 +0200
-Received: by wibhm14 with SMTP id hm14so6459313wib.6
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1SVGn7-0005fa-4k for openembedded-core@lists.openembedded.org;
+	Fri, 18 May 2012 08:35:57 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q4I6Ps2Q001972
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 May 2012 23:19:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=subject:mime-version:content-type:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to:x-mailer
-	:x-gm-message-state;
-	bh=XUd2ltGDXIqyY+CTWI2eYqLj+MC5vGlXm5ubG/WDIcI=;
-	b=EVtQe0i0hzMfK+7nTOgWQZtGj6nTJ2dhOLJQFNm3wWNoj1/zvMPu0FuFq55BX6rOHM
-	dyf2p5emniuRJFR0t0KsOngaHUcK34RSqxfElpX8/vmQ7AqGG5+WP/Rj9BKFSgiP2qX+
-	6QTHUNv89lk+rmvm4ItcL+yWL5fN89t5L+iZQeaPU06RLW/BQkgLhSna/ftthj/6gQ9e
-	4v2kUBpBMP5zDIkyN/f87YyBYOkyKlbTeztnpEVYPLsUBeZiiSmWngBqxLbtC3zcg3hJ
-	zIja+6e1wwOpOD/F0IhJAQHpYzGU5ZsljDZ7TzHwdXNSfgFdHAx2gfjT2DkeMlo5sZZ2
-	690A==
-Received: by 10.180.80.97 with SMTP id q1mr25203072wix.13.1337321958739;
-	Thu, 17 May 2012 23:19:18 -0700 (PDT)
-Received: from [172.20.1.36] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id ga8sm29621020wib.5.2012.05.17.23.19.16
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 17 May 2012 23:19:17 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1278)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1337288563.7473.24.camel@ted>
-Date: Fri, 18 May 2012 08:19:15 +0200
-Message-Id: <709603A3-A890-440E-B127-69D7CF71480F@dominion.thruhere.net>
-References: <1337074341-12708-1-git-send-email-koen@dominion.thruhere.net>
-	<CAMKF1srxyZkjFe+aypM_X+Wgyd-8b1X664Y8jWQuPF=xijeg+w@mail.gmail.com>
-	<1337286572.7473.10.camel@ted>
-	<0FEE2025-8E84-4CBB-8568-483A55233BD7@dominion.thruhere.net>
-	<1337288563.7473.24.camel@ted>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-X-Mailer: Apple Mail (2.1278)
-X-Gm-Message-State: ALoCoQlJOt6xV6G0BhuKRqui5xciN5yXy+78Mwuy1VnZkauweuZZrQkuZHtCLpi2YnMb1QTCs9Jb
-Cc: Patches and discussions about the oe-core layer
+	Fri, 18 May 2012 07:25:54 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 32471-06 for <openembedded-core@lists.openembedded.org>;
+	Fri, 18 May 2012 07:25:50 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q4I6PiKe001966
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 18 May 2012 07:25:47 +0100
+Message-ID: <1337322343.7473.31.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] Revert "kmod: Use base_libdir for installing libkmod"
+Date: Fri, 18 May 2012 07:25:43 +0100
+In-Reply-To: <CABcZANnXuL8O6Kh0vKh4Puy0NSzt8r7ee5vr=_OkaWQGV6=C3g@mail.gmail.com>
+References: <20120515140110.2ba5a1be@wrlaptop>
+	<CAKSdS8K64oTpq4asBcL9k4BgCe6BOEAwX3exQyq4GoTHtAxW9w@mail.gmail.com>
+	<4FB32EA1.3060601@linux.intel.com> <20120516115848.4348b984@wrlaptop>
+	<CABcZANnXuL8O6Kh0vKh4Puy0NSzt8r7ee5vr=_OkaWQGV6=C3g@mail.gmail.com>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: RFC: FOO_subtract, the logical antidote to FOO_append.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -55,62 +45,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 May 2012 06:29:23 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 18 May 2012 06:35:57 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
+On Thu, 2012-05-17 at 21:18 -0700, Chris Larson wrote:
+> On Wed, May 16, 2012 at 9:58 AM, Peter Seebach
+> <peter.seebach@windriver.com> wrote:
+> > On Wed, 16 May 2012 07:35:45 +0300
+> > Saul Wold <sgw@linux.intel.com> wrote:
+> >
+> >> My understanding is that a _subtract is fraught with danger, there
+> >> all sorts of ordering implications.
+> >
+> > Yes.
+> >
+> > But consider, if you will, the specific case of
+> > DISTRO_FEATURES_LIBC_DEFAULT, and a libc which is just like eglibc
+> > except that it lacks RPC.
+> >
+> > Anything I do that isn't processed at the tail end of everything,
+> > around the point where _appends are processed, will be unable to
+> > cleanly obtain "the value that would have been set by default if
+> > nothing else happened", and then remove a word from it.  I can't set a
+> > value in advance, because if I do the ?= won't fire and none of those
+> > words will get set.  I can't necessarily set a value later.
+> >
+> > Overrides won't work either, because overrides also destroy the
+> > existing values.
+> >
+> > It seems to me that for a subtraction to work, it *must* be the very
+> > last thing done.
+> >
+> > Basically, the purpose of suggesting this as a formal behavior defined
+> > to be The Very Last Thing is to minimize the complexity of the ordering
+> > implications.  You get exactly what you would have gotten otherwise,
+> > with these words removed.
+> 
+> I agree. I think this is the only sane option for implementing this
+> given bitbake's current behavior. Clearly a -= would be extremely
+> problematic, and would have clear complications with variable
+> expansion, as we discussed on IRC. I'd be interested in seeing a
+> prototype implementation of this, to experiment with it and see how
+> viable it is.
 
-Op 17 mei 2012, om 23:02 heeft Richard Purdie het volgende geschreven:
+The _subtract or _remove format of this might be a viable way of adding
+this functionality. "-=" is the one I'd prefer to avoid as it will end
+up confusing people which is why we've all effectively been against it
+but the _xxxx syntax does match the behaviour/ordering of _append and
+_prepend and hence could be added with less confusion.
 
-> On Thu, 2012-05-17 at 22:44 +0200, Koen Kooi wrote:
->> Op 17 mei 2012 om 22:29 heeft Richard Purdie =
-<richard.purdie@linuxfoundation.org> het volgende geschreven:
->>=20
->>> On Tue, 2012-05-15 at 13:54 -0700, Khem Raj wrote:
->>>> On Tue, May 15, 2012 at 2:32 AM, Koen Kooi =
-<koen@dominion.thruhere.net> wrote:
->>>>> The commit breaks pkgconfig and after discussing it with the kmod =
-and udev maintainers the conclusion was reached that putting the =
-libraries in /lib instead of /usr/lib is not supported.
->>>>>=20
->>>>> This reverts commit 6b74f2461735272bd950a4f060dab6e778a36f92.
->>>>=20
->>>> while this is what I had initially it doesn't go well with kmod =
-living in
->>>> /sbin and accessing libraries from /usr due to our QA checks =
-although
->>>> I am all for simplifying it where we don't make this check at all.
->>>=20
->>> I've had requests for it along with a commitment to fix it and =
-patches.
->>> If we decide we don't want this, fine and that will be the case if
->>> patches are not forthcoming to fix the QA issues. I don't think =
-we've
->>> reached that point at this with that yet.
->>>=20
->>> I've decided to accept this patch and "unbreak" meta-oe/udev at the
->>> expense of screwing up OE-Core. I am however still deeply unhappy =
-people
->>> are trying to bypass OE-Core this way and then "blackmail" OE-Core =
-using
->>> breaking meta-oe as a reason. The whole systemd thing has been badly
->>> handled and needs to get fixed properly.
->>=20
->> What does systemd have to do with this?
->=20
-> Why does meta-oe has its own udev recipe?
+So yes, I think this could be the best way to address some of these
+cases. It has always bugged me that its near impossible to counteract an
+_append other than with an override.
 
-Because it's too much trouble to get the updated recipe into oe-core
+I also agree we should audit the system and change to ??= where it makes
+sense which will reduce the need for this.
 
-> Is systemd related to that at all?
+Cheers,
 
-No
+Richard
 
->> This is about a broken commit breaking udev 182 for over a week.
->=20
-> OE-Core worked fine
-
-So you say that moving the pkgconfig files from /usr/lib to /lib was =
-fine. Good to know.=
 
 
