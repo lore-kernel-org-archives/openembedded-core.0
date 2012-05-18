@@ -1,38 +1,25 @@
-Received: from mail-we0-f175.google.com ([74.125.82.175])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1SVEnr-0005wE-Fp
+	(envelope-from <sgw@linux.intel.com>) id 1SVG3z-00078M-7A
 	for openembedded-core@lists.openembedded.org;
-	Fri, 18 May 2012 06:28:35 +0200
-Received: by werg55 with SMTP id g55so1728432wer.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 May 2012 21:18:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date
-	:x-google-sender-auth:message-id:subject:to:content-type
-	:content-transfer-encoding;
-	bh=mgpLlG2a/wS9aZvtiIiiwNGwrIU5wVusPYFEVqOXKgQ=;
-	b=Aw4ZNRrmTV+Irs3z7+FtzJESH+I8SNr/g3JJNsMM2vuvaX2sjT77WM7fx92ZGF5pJg
-	T4WQwu4XKOg+GGD6z70MFTWgR160R+nj+kPmHZiH7t/Hi+CWqNr0YVzbughzrSbXzZGn
-	/HoGHKx7ko6GP9jnPTzor3qGATwsIO+rgpOLLbC+GEcPdy6LVDK8Hj8nwlTM+gm6nAyu
-	3J15rKLLNI8bwDbfafdV/w1zqPw2RCYm1fhcLj76k2EQevnJ4sc82VvX11Gc9PQn16uh
-	QEI/h5V/xAW9eUWjolo86cLSZtMfwkDc2d0ejUshetsjRHbAxOeHfgdGnv9EJwjp14HW
-	Dxww==
-Received: by 10.216.140.102 with SMTP id d80mr6229368wej.80.1337314712134;
-	Thu, 17 May 2012 21:18:32 -0700 (PDT)
+	Fri, 18 May 2012 07:49:19 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 17 May 2012 22:39:14 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="144720999"
+Received: from unknown (HELO [10.255.13.133]) ([10.255.13.133])
+	by azsmga001.ch.intel.com with ESMTP; 17 May 2012 22:39:13 -0700
+Message-ID: <4FB5E075.60402@linux.intel.com>
+Date: Fri, 18 May 2012 08:39:01 +0300
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
 MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.216.181.16 with HTTP; Thu, 17 May 2012 21:18:11 -0700 (PDT)
-In-Reply-To: <20120516115848.4348b984@wrlaptop>
-References: <20120515140110.2ba5a1be@wrlaptop>
-	<CAKSdS8K64oTpq4asBcL9k4BgCe6BOEAwX3exQyq4GoTHtAxW9w@mail.gmail.com>
-	<4FB32EA1.3060601@linux.intel.com> <20120516115848.4348b984@wrlaptop>
-From: Chris Larson <clarson@kergoth.com>
-Date: Thu, 17 May 2012 21:18:11 -0700
-X-Google-Sender-Auth: il44Aeu928il0IJucXa5C8XHmbI
-Message-ID: <CABcZANnXuL8O6Kh0vKh4Puy0NSzt8r7ee5vr=_OkaWQGV6=C3g@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: RFC: FOO_subtract, the logical antidote to FOO_append.
+References: <1336784426-22337-1-git-send-email-josh@linux.intel.com>
+In-Reply-To: <1336784426-22337-1-git-send-email-josh@linux.intel.com>
+Subject: Re: [PATCH] sanity.bbclass: check user can read and write to SSTATE_DIR
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,50 +34,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 May 2012 04:28:35 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 18 May 2012 05:49:19 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, May 16, 2012 at 9:58 AM, Peter Seebach
-<peter.seebach@windriver.com> wrote:
-> On Wed, 16 May 2012 07:35:45 +0300
-> Saul Wold <sgw@linux.intel.com> wrote:
+On 05/12/2012 04:00 AM, Joshua Lock wrote:
+> The user needs read and write permissions to SSTATE_DIR, check
+> whether they have sufficient permissions and if not recommend
+> use of SSTATE_MIRRORS.
 >
->> My understanding is that a _subtract is fraught with danger, there
->> all sorts of ordering implications.
+> Signed-off-by: Joshua Lock<josh@linux.intel.com>
+> ---
+>   meta/classes/sanity.bbclass |   17 ++++++++++++++---
+>   1 files changed, 14 insertions(+), 3 deletions(-)
 >
-> Yes.
+> diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+> index 05545f4..ff3c413 100644
+> --- a/meta/classes/sanity.bbclass
+> +++ b/meta/classes/sanity.bbclass
+> @@ -96,10 +96,16 @@ def check_conf_exists(fn, data):
+>   def check_sanity_sstate_dir_change(sstate_dir, data):
+>       # Sanity checks to be done when the value of SSTATE_DIR changes
 >
-> But consider, if you will, the specific case of
-> DISTRO_FEATURES_LIBC_DEFAULT, and a libc which is just like eglibc
-> except that it lacks RPC.
+> -    # Check that SSTATE_DIR isn't on a filesystem with limited filename length (eg. eCryptFS)
+>       testmsg = ""
+>       if sstate_dir != "":
+> -        testmsg = check_create_long_filename(sstate_dir, "SSTATE_DIR")
+> +        # Check that the user can read and write to SSTATE_DIR
+> +        sstatemsg = check_can_read_write_directory(sstate_dir) or None
+> +        if sstatemsg:
+> +            sstatemsg = sstatemsg + ". You could try using it as an SSTATE_MIRRORS instead of SSTATE_CACHE.\n"
+> +            testmsg = testmsg + sstatemsg
+> +        # Check that SSTATE_DIR isn't on a filesystem with limited filename length (eg. eCryptFS)
+> +        testmsg = testmsg + check_create_long_filename(sstate_dir, "SSTATE_DIR")
+> +
+>       return testmsg
 >
-> Anything I do that isn't processed at the tail end of everything,
-> around the point where _appends are processed, will be unable to
-> cleanly obtain "the value that would have been set by default if
-> nothing else happened", and then remove a word from it. =C2=A0I can't set=
- a
-> value in advance, because if I do the ?=3D won't fire and none of those
-> words will get set. =C2=A0I can't necessarily set a value later.
+>   def check_sanity_tmpdir_change(tmpdir, data):
+> @@ -150,7 +156,12 @@ def check_create_long_filename(filepath, pathname):
+>           if errno == 36: # ENAMETOOLONG
+>               return "Failed to create a file with a long name in %s. Please use a filesystem that does not unreasonably limit filename length.\n" % pathname
+>           else:
+> -            return "Failed to create a file in %s: %s" % (pathname, strerror)
+> +            return "Failed to create a file in %s: %s\n" % (pathname, strerror)
+> +    return ""
+> +
+> +def check_can_read_write_directory(directory):
+> +    if not os.access(directory, os.R_OK|os.W_OK):
+> +       return "Insufficient permissions for %s" % directory
+>       return ""
 >
-> Overrides won't work either, because overrides also destroy the
-> existing values.
->
-> It seems to me that for a subtraction to work, it *must* be the very
-> last thing done.
->
-> Basically, the purpose of suggesting this as a formal behavior defined
-> to be The Very Last Thing is to minimize the complexity of the ordering
-> implications. =C2=A0You get exactly what you would have gotten otherwise,
-> with these words removed.
+>   def check_connectivity(d):
 
-I agree. I think this is the only sane option for implementing this
-given bitbake's current behavior. Clearly a -=3D would be extremely
-problematic, and would have clear complications with variable
-expansion, as we discussed on IRC. I'd be interested in seeing a
-prototype implementation of this, to experiment with it and see how
-viable it is.
---=20
-Christopher Larson
+
+Merged into OE-Core along with the state.bbclass change
+
+Thanks
+	Sau!
+
 
 
