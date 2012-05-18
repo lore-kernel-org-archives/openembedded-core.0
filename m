@@ -1,33 +1,34 @@
-Received: from mail.cvg.de ([62.153.82.30])
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1SVP7A-00071r-Lc
+	(envelope-from <raj.khem@gmail.com>) id 1SVPYq-0004a0-8X
 	for openembedded-core@lists.openembedded.org;
-	Fri, 18 May 2012 17:29:12 +0200
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id q4IFJ7LD032738
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	Fri, 18 May 2012 17:57:49 +0200
+Received: by eekd49 with SMTP id d49so847469eek.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 May 2012 17:19:08 +0200
-Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
-	4.76) (envelope-from <ensc@sigma-chemnitz.de>) id 1SVOxP-0002WV-Is
-	for openembedded-core@lists.openembedded.org;
-	Fri, 18 May 2012 17:19:07 +0200
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 18 May 2012 17:19:07 +0200
-Message-ID: <lyfwaxfrf8.fsf@ensc-virt.intern.sigma-chemnitz.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/23.3 (gnu/linux)
+	Fri, 18 May 2012 08:47:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type; bh=NKwWoNc0kvXZ0Gf99+6+Bg4x7RgIY7F4lWjUlD5C44g=;
+	b=MdHfiBFy1VXBp71TVE9pa+ygmL8wprkBL9sARAGhyiIF6eOpJK/MomMoLQeDzuFfd3
+	2K7MGqZQE3MvmO2ZSDEl+b308kVA4p+xMasDHcx3cgSLSQW4uiQ84adOK9RoMDuKcCy5
+	/fOIZzTkhEtq16aeJDChVHkzvjvNd4+PO0OyQ5iZl5Vs8BlXZEmJi3vHEdR2ZMjq3xYP
+	jUXYxTRJ8aSVyTK7KqGcMw18GCA6pMb1Lb+BeTEP6ADzsTYDDDP8EwOahBZW4/Ih++tA
+	rNHnsVZOPmfU4eJksEOU0c/lacwH0BvhxFxWLWuIy33TQlw2pFArciJFddJLy8L0ElTL
+	7VFQ==
+Received: by 10.14.97.137 with SMTP id t9mr2265935eef.73.1337356064539; Fri,
+	18 May 2012 08:47:44 -0700 (PDT)
 MIME-Version: 1.0
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-X-DSPAM-Result: Innocent
-X-DSPAM-Probability: 0
-X-DSPAM-Confidence: 0.99
-X-Spam-Score: -5.3
-X-Spam-Level: -----
-X-Spam-Tests: AWL,BAYES_00,SPF_NEUTRAL,T_RP_MATCHES_RCVD,DSPAM_INNOCENT
-X-Scanned-By: MIMEDefang 2.73
-Subject: gold and -flto option
+Received: by 10.14.2.132 with HTTP; Fri, 18 May 2012 08:47:14 -0700 (PDT)
+In-Reply-To: <4FB5FD66.2010409@linux.intel.com>
+References: <cover.1337295951.git.nitin.a.kamble@intel.com>
+	<bce112d0eb42badfca77109b40cf2c86ca3efa48.1337295951.git.nitin.a.kamble@intel.com>
+	<4FB5FD66.2010409@linux.intel.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 18 May 2012 08:47:14 -0700
+Message-ID: <CAMKF1sq64=eq3C9QS15uN5Ryi301wOfx7swSTTV=_MNubmhw1Q@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] eglibc: package mtrace separately
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,38 +43,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 May 2012 15:29:12 -0000
-Content-Type: text/plain; charset=us-ascii
+X-List-Received-Date: Fri, 18 May 2012 15:57:49 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Hi,
+On Fri, May 18, 2012 at 12:42 AM, Saul Wold <sgw@linux.intel.com> wrote:
+>
+> A better way to do this is all in the task bb file using an override
+> MTRACE = ""
+> MTRACE_libc-eglibc = "eglibc-mtrace"
 
-after enabling gold linker (ld-is-gold DISTRO_FEATURE), the '-flto
--fuse-linker-plugin' build options do not work anymore as with the old
-bfd linker.  I am using the toolchain layer of oe-meta.
-
-Is this expected or just some issue with our gcc?
-
-
-Enrico
-
----- with ld-is-gold ----
-$ arm-linux-gnueabi-gcc -flto -fuse-linker-plugin /tmp/x.c
-.../4.7.1/arm-linux-gnueabi-ld: -plugin: unknown option
-.../4.7.1/arm-linux-gnueabi-ld: use the --help option for usage information
-
-$ arm-linux-gnueabi-gcc --version
-arm-linux-gnueabi-gcc (GCC) 4.7.1 20120421 (prerelease)
-...
-
-$ arm-linux-gnueabi-ld --version
-GNU gold (GNU Binutils 2.22) 1.11
-
-
----- without ld-is-gold ----
-$ arm-linux-gnueabi-gcc -flto -fuse-linker-plugin /tmp/x.c
-$
-
-$ arm-linux-gnueabi-ld --version
-GNU ld (GNU Binutils) 2.22
+this would be needed if other libc (uclibc) was not providing it but
+Nitin's patch already changed uclibc to provide dummy mtrace but thinking
+of it using the above might be a better thing to do instead of adding
+a dummy provide in uclibc
 
 
