@@ -1,34 +1,59 @@
-Received: from mail-wg0-f43.google.com ([74.125.82.43])
+Received: from mail.cvg.de ([62.153.82.30])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrei@gherzan.ro>) id 1SW9uC-0006SU-HJ
+	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1SWAZW-0008W1-7x
 	for openembedded-core@lists.openembedded.org;
-	Sun, 20 May 2012 19:26:56 +0200
-Received: by wgbdr1 with SMTP id dr1so3727745wgb.24
+	Sun, 20 May 2012 20:09:38 +0200
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id q4KHxUWP007934
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 20 May 2012 10:16:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer:x-gm-message-state;
-	bh=NJ8PBaN+cT5CfpPn+UMtMYIAaktOR5OWVfKDFttAX3w=;
-	b=H/bJ5QlH/p4JYpSOWu9dia8fWaG5d/zLQho+bQmhCgHiX7pTeIHEKFueH0tp03j9Ui
-	fe7YFcha2CW5n8k/oU8JIZtK94mj7zkDd1RSD1B5Vmgcg1TrWWq0wGxDlB1Wq62Z+WMO
-	mxjzFUg8Rz0F8LmZG4p8APSEhn8AsXdqIYpIxP5JN9V8kVfALOV1NxwXhYcUVjmivX2m
-	OlD7BUKmL8tYAevfr+EdTA2i1ykxoxRaPusWn3t5HP4NcNe4dxGNjs5zqECzizf+0CGg
-	xQkEC1XlWhnCq3i5rltpCftMR4NFPmlD+DKhDTT12qcVlG2Z/gHyrbXilZ2stl3dIWuH
-	6FtA==
-Received: by 10.180.104.231 with SMTP id gh7mr18041801wib.10.1337534209802;
-	Sun, 20 May 2012 10:16:49 -0700 (PDT)
-Received: from localhost.localdomain ([79.117.116.178])
-	by mx.google.com with ESMTPS id f19sm30003112wiw.11.2012.05.20.10.16.48
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sun, 20 May 2012 10:16:49 -0700 (PDT)
-From: Andrei Gherzan <andrei@gherzan.ro>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 20 May 2012 20:16:35 +0300
-Message-Id: <1337534195-5184-1-git-send-email-andrei@gherzan.ro>
-X-Mailer: git-send-email 1.7.9.5
-X-Gm-Message-State: ALoCoQkWRdul15GuEnXKkXEEO8CMAqmjgYG/iv+9KrnqKILGYMFUQfNn3w73ncAplErcoMFS8H+Q
-Subject: [PATCH] bb/fetch2/__init__.py: Don't try to compute checksums for directories
+	Sun, 20 May 2012 19:59:30 +0200
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.76) (envelope-from <ensc@sigma-chemnitz.de>) id 1SWAPh-0007aY-4P
+	for openembedded-core@lists.openembedded.org;
+	Sun, 20 May 2012 19:59:29 +0200
+Resent-To: openembedded-core@lists.openembedded.org
+Resent-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Resent-Date: Sun, 20 May 2012 19:59:29 +0200
+Resent-Message-ID: <lyk406rawu.fsf@ensc-virt.intern.sigma-chemnitz.de>
+Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
+	by mailbox.sigma-chemnitz.de (Cyrus v2.3.16-2.sigma) with LMTPA;
+	Sun, 20 May 2012 19:54:42 +0200
+X-Sieve: CMU Sieve 2.3
+X-Envelope-From: ensc@sigma-chemnitz.de
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id q4KHsd5a007423
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Sun, 20 May 2012 19:54:40 +0200
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.76) (envelope-from <ensc@sigma-chemnitz.de>)
+	id 1SWAL0-0002Yv-8R; Sun, 20 May 2012 19:54:38 +0200
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To: openembedded-devel@lists.openembedded.org
+Date: Sun, 20 May 2012 19:54:37 +0200
+Message-Id: <1337536477-7047-1-git-send-email-enrico.scholz@sigma-chemnitz.de>
+X-Mailer: git-send-email 1.7.7.6
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-DSPAM-Result: Innocent
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 0.99
+X-DSPAM-Confidence: 0.995
+X-Spam-Score: -6.3
+X-Spam-Score: -5.3
+X-Spam-Level: ------
+X-Spam-Level: -----
+X-Spam-Tests: AWL, BAYES_00, RCVD_IN_DNSWL_MED, SPF_NEUTRAL, T_RP_MATCHES_RCVD,
+	DSPAM_INNOCENT
+X-Spam-Tests: AWL,BAYES_00,SPF_NEUTRAL,T_RP_MATCHES_RCVD,DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.73
+X-Scanned-By: MIMEDefang 2.73
+Resent-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Cc: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Subject: [PATCH] libtool: fixed parallel build related race
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,36 +68,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 20 May 2012 17:26:57 -0000
+X-List-Received-Date: Sun, 20 May 2012 18:09:38 -0000
 
-In this way we avoid failing the build while trying to fetch local
-directories.
+While building libtool, the libtool script itself will be regenerated
+because OE modifies a dependency[1]. With -jX, this operation (-->
+removal, creation of non-x file, 'chmod a+x') can happen at a time when
+the script is going to be executed.  This can cause errors like:
 
-[YOCTO #2475]
+| arm-linux-gnueabi-libtool: compile:  ccache arm-linux-gnueabi-gcc ...
+| ...
+| /bin/sh ./config.status libtool
+| ...
+| arm-linux-gnueabi-libtool: compile:  ccache arm-linux-gnueabi-gcc ...
+| /bin/sh: ./arm-linux-gnueabi-libtool: Permission denied
+| make[2]: *** [libltdl/libltdl_libltdl_la-lt__alloc.lo] Error 126
 
-Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
+I am not sure whether the custom do_compile_prepend() is still needed.
+For now only the issue above will be fixed by executing ./config.status
+yet again.
+
+[1] see 648290d5bf4d6ff50d3643bb7ad902dfc23aa702
+
+Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
 ---
- bitbake/lib/bb/fetch2/__init__.py |    5 +++++
- 1 file changed, 5 insertions(+)
+ meta/recipes-devtools/libtool/libtool-2.4.2.inc |    3 ++-
+ 1 files changed, 2 insertions(+), 1 deletions(-)
 
-diff --git a/bitbake/lib/bb/fetch2/__init__.py b/bitbake/lib/bb/fetch2/__init__.py
-index 9864595..e3ac4d2 100644
---- a/bitbake/lib/bb/fetch2/__init__.py
-+++ b/bitbake/lib/bb/fetch2/__init__.py
-@@ -671,6 +671,11 @@ class FetchMethod(object):
-         """
-         Is localpath something that can be represented by a checksum?
-         """
-+
-+        # We cannot compute checksums for directories
-+        if os.path.isdir(urldata.localpath) == True:
-+            return False
-+
-         return True
+diff --git a/meta/recipes-devtools/libtool/libtool-2.4.2.inc b/meta/recipes-devtools/libtool/libtool-2.4.2.inc
+index 084062a..c1ef7c4 100644
+--- a/meta/recipes-devtools/libtool/libtool-2.4.2.inc
++++ b/meta/recipes-devtools/libtool/libtool-2.4.2.inc
+@@ -8,7 +8,7 @@ LICENSE = "GPLv2 & LGPLv2.1"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
+     file://libltdl/COPYING.LIB;md5=e3eda01d9815f8d24aae2dbd89b68b06"
  
-     def recommends_checksum(self, urldata):
+-INC_PR = "r2"
++INC_PR = "r3"
+ 
+ SRC_URI = "${GNU_MIRROR}/libtool/libtool-${PV}.tar.gz \
+            file://trailingslash.patch \
+@@ -27,6 +27,7 @@ do_compile_prepend () {
+ 	# Sometimes this file doesn't get rebuilt, force the issue
+ 	rm -f ${S}/libltdl/config/ltmain.sh
+ 	make libltdl/config/ltmain.sh
++	./config.status
+ }
+ 
+ inherit autotools
 -- 
-1.7.9.5
+1.7.7.6
 
 
 
