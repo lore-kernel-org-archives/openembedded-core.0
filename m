@@ -1,35 +1,14 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1SWVHE-0004dO-4V for openembedded-core@lists.openembedded.org;
-	Mon, 21 May 2012 18:16:08 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q4LG61kI026712
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 May 2012 17:06:01 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 25816-09 for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 May 2012 17:05:56 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q4LG5pmZ026704
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 May 2012 17:05:52 +0100
-Message-ID: <1337616350.22747.19.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Mon, 21 May 2012 17:05:50 +0100
-In-Reply-To: <CABcZAN=0JDHip7=E99Dh_mNUgkmtny5z0HbyEq0uh2_+-ehsUg@mail.gmail.com>
-References: <cover.1337581961.git.sgw@linux.intel.com>
-	<4FBA63A2.9090005@windriver.com>
-	<CABcZAN=0JDHip7=E99Dh_mNUgkmtny5z0HbyEq0uh2_+-ehsUg@mail.gmail.com>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [RFC v1 0/1] Reorder ${PN} and ${PN}-dev
+Received: from ffm.saftware.de ([83.141.3.46])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <obi@opendreambox.org>) id 1SWVnJ-0005ZO-Ey
+	for openembedded-core@lists.openembedded.org;
+	Mon, 21 May 2012 18:49:17 +0200
+From: Andreas Oberritter <obi@opendreambox.org>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 21 May 2012 18:39:07 +0200
+Message-Id: <1337618347-30900-1-git-send-email-obi@opendreambox.org>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] netbase: merge init script updates from upstream
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,42 +23,164 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 May 2012 16:16:08 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 21 May 2012 16:49:17 -0000
 
-On Mon, 2012-05-21 at 08:54 -0700, Chris Larson wrote:
-> On Mon, May 21, 2012 at 8:47 AM, Mark Hatle <mark.hatle@windriver.com> wrote:
-> > On 5/21/12 1:42 AM, Saul Wold wrote:
-> >>
-> >> This RFC is the first pass at reordering the above 2 items in
-> >> the PACKAGES list. This is in part an out cropping of the bug
-> >> #2367 (https://bugzilla.yoctoproject.org/show_bug.cgi?id=2367),
-> >> which show the miss packaged pcap-config file.
-> >
-> >
-> > I've often wondered why the order is the way it is.  If I were to do this
-> > from scratch, I'd move the ${PN} item to last in the default order.  Have
-> > you considered this more radical approach, that would then allow all of the
-> > default splits to occur before the ${PN} processing.  (It might also allow
-> > the ${PN} to simply be a "/*" instead of more complex rules.)
-> 
-> This would be quite nice, if we could pull it off without breaking
-> anything horribly.
+* Read /proc/mounts only once.
+* Support many more network filesystem types.
+* Remaining differences to netbase 4.47:
+  - Uses the mountvirtfs keyword instead of mountkernfs
+  - Doesn't use lsb functions
+  - Doesn't print a warning if /etc/network/options exists
+  - Doesn't use --exclude parameter for ifup, because
+    busybox doesn't support it.
 
--dev is likely the nastiest to move, the other two defaults aafter PN
-are -locale and -doc, neither of which should present as much of a
-challenge so we can probably move those. Its not likely to gain much
-either though as we don't split the files in those directories like we
-do with -dev files.
+Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
+---
+ meta/recipes-core/netbase/netbase-4.47/init |  101 ++++++++++++++++++---------
+ meta/recipes-core/netbase/netbase_4.47.bb   |    2 +-
+ 2 files changed, 70 insertions(+), 33 deletions(-)
 
-I'm not sure a '*' matching for PN is the most desirable default though,
-in some ways I like the fact we have to specifically think about the
-exceptions to the default rules...
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-core/netbase/netbase-4.47/init b/meta/recipes-core/netbase/netbase-4.47/init
+index 8a67e1c..bace9df 100644
+--- a/meta/recipes-core/netbase/netbase-4.47/init
++++ b/meta/recipes-core/netbase/netbase-4.47/init
+@@ -1,52 +1,89 @@
+-#!/bin/sh
+-#
++#!/bin/sh -e
+ ### BEGIN INIT INFO
+ # Provides:          networking
+-# Required-Start:    $local_fs mountvirtfs
++# Required-Start:    mountvirtfs $local_fs
+ # Required-Stop:     $local_fs
++# Should-Start:      ifupdown
++# Should-Stop:       ifupdown
+ # Default-Start:     S
+ # Default-Stop:      0 6
+-# Short-Description: Raise network interfaces and configure them
++# Short-Description: Raise network interfaces.
+ ### END INIT INFO
+ 
+-PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
++PATH="/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin"
+ 
+-if ! [ -x /sbin/ifup ]; then
+-    exit 0
+-fi
++[ -x /sbin/ifup ] || exit 0
++
++check_network_file_systems() {
++    [ -e /proc/mounts ] || return 0
++
++    if [ -e /etc/iscsi/iscsi.initramfs ]; then
++	echo "not deconfiguring network interfaces: iSCSI root is mounted."
++	exit 0
++    fi
++
++    exec 9<&0 < /proc/mounts
++    while read DEV MTPT FSTYPE REST; do
++	case $DEV in
++	/dev/nbd*|/dev/nd[a-z]*|/dev/etherd/e*)
++	    echo "not deconfiguring network interfaces: network devices still mounted."
++	    exit 0
++	    ;;
++	esac
++	case $FSTYPE in
++	nfs|nfs4|smbfs|ncp|ncpfs|cifs|coda|ocfs2|gfs|pvfs|pvfs2|fuse.httpfs|fuse.curlftpfs)
++	    echo "not deconfiguring network interfaces: network file systems still mounted."
++	    exit 0
++	    ;;
++	esac
++    done
++    exec 0<&9 9<&-
++}
++
++check_network_swap() {
++    [ -e /proc/swaps ] || return 0
++
++    exec 9<&0 < /proc/swaps
++    while read DEV MTPT FSTYPE REST; do
++	case $DEV in
++	/dev/nbd*|/dev/nd[a-z]*|/dev/etherd/e*)
++	    echo "not deconfiguring network interfaces: network swap still mounted."
++	    exit 0
++	    ;;
++	esac
++    done
++    exec 0<&9 9<&-
++}
+ 
+ case "$1" in
+-    start)
+-        echo -n "Configuring network interfaces... "
+-        ifup -a
++start)
++	echo -n "Configuring network interfaces... "
++	ifup -a
+ 	echo "done."
+ 	;;
+-    stop)
+-        if sed -n 's/^[^ ]* \([^ ]*\) \([^ ]*\) .*$/\1 \2/p' /proc/mounts | 
+-          grep -q "^/ nfs$"; then
+-            echo "NOT deconfiguring network interfaces: / is an NFS mount"
+-        elif sed -n 's/^[^ ]* \([^ ]*\) \([^ ]*\) .*$/\1 \2/p' /proc/mounts |  
+-          grep -q "^/ smbfs$"; then
+-            echo "NOT deconfiguring network interfaces: / is an SMB mount"
+-	elif sed -n 's/^[^ ]* \([^ ]*\) \([^ ]*\) .*$/\2/p' /proc/mounts | 
+-          grep -qE '^(nfs|smbfs|ncp|coda)$'; then
+-            echo "NOT deconfiguring network interfaces: network shares still mounted."
+-        else
+-            echo -n "Deconfiguring network interfaces... "
+-            ifdown -a
+-	    echo "done."
+-        fi
++
++stop)
++	check_network_file_systems
++	check_network_swap
++
++	echo -n "Deconfiguring network interfaces... "
++	ifdown -a
++	echo "done."
+ 	;;
+-    force-reload|restart)
+-        echo -n "Reconfiguring network interfaces... "
+-        ifdown -a
+-        ifup -a
++
++force-reload|restart)
++	echo "Running $0 $1 is deprecated because it may not enable again some interfaces"
++	echo "Reconfiguring network interfaces... "
++	ifdown -a || true
++	ifup -a
+ 	echo "done."
+ 	;;
+-    *)
+-	echo "Usage: /etc/init.d/networking {start|stop|restart|force-reload}"
++
++*)
++	echo "Usage: /etc/init.d/networking {start|stop}"
+ 	exit 1
+ 	;;
+ esac
+ 
+ exit 0
++
+diff --git a/meta/recipes-core/netbase/netbase_4.47.bb b/meta/recipes-core/netbase/netbase_4.47.bb
+index a1462f8..f84e9a4 100644
+--- a/meta/recipes-core/netbase/netbase_4.47.bb
++++ b/meta/recipes-core/netbase/netbase_4.47.bb
+@@ -4,7 +4,7 @@ HOMEPAGE = "http://packages.debian.org/netbase"
+ SECTION = "base"
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://debian/copyright;md5=3dd6192d306f582dee7687da3d8748ab"
+-PR = "r1"
++PR = "r2"
+ 
+ inherit update-rc.d
+ 
+-- 
+1.7.9.5
 
 
 
