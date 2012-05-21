@@ -1,35 +1,38 @@
 Received: from mail-pz0-f47.google.com ([209.85.210.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1SWWJV-0006kD-6e
+	(envelope-from <raj.khem@gmail.com>) id 1SWWJW-0006kD-M0
 	for openembedded-core@lists.openembedded.org;
-	Mon, 21 May 2012 19:22:33 +0200
+	Mon, 21 May 2012 19:22:35 +0200
 Received: by mail-pz0-f47.google.com with SMTP id h21so6181608dal.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 May 2012 10:12:27 -0700 (PDT)
+	Mon, 21 May 2012 10:12:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references;
-	bh=IdJc5dK+zVZ0akBfKzvIBefw80OKqc4OpQmZB9/9upQ=;
-	b=ZQPBonFl66p9KuTDqTq5/pEvCyTBYMR4/LsFnk/zGQsbTpNOdg5Y9YGEvdxO84gxbZ
-	Y+q/cN7SSrLZCYD0YgxBl71XU5am7Sw7UyHstx0yT/jglno3KqFRGcNIR6prnIZgmzAH
-	uUriYBlUOIwOaD5+pax5/uDo6Lb9MCHVL0+SJjdQX4cAmChU9bWLcd0YXAPeM2qF7dAI
-	vI65i0GxwQTxBadTEulzIxnPP238g0aGiLxD5PlLw1E3+RThvGIxdqAWSLA/a28GgD4C
-	5kOilDZXAPIpjP/XnC4FxgQ2D1ApzMjuk0vXr3SM97YHVAG6GxLe7W+I8HsL75sXmu9+
-	gu/Q==
-Received: by 10.68.200.68 with SMTP id jq4mr26266450pbc.42.1337620347324;
-	Mon, 21 May 2012 10:12:27 -0700 (PDT)
+	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
+	:in-reply-to:references;
+	bh=y2Py86V8sY6ERWqD0DMku5qYedTDPQ20rs/enk+9g2I=;
+	b=DNfZpim3N/Tv8JtB/cupmWyQVxo9GBTyNrjXyCdou4lYEjURAodJl/t/W9jbNrL83C
+	kU40pRfNnq7TScZxf1hlxh3GYh8Yf9J1w9V9JA6NNQkdoS4EdpUQn7CVWtjQwtviHJ89
+	QUrfWitpFlAB5yBsMMGjr02UV4AStyuYUqlK/Gp/5vdCz4fYCyh64kzmYFqC1kglwp86
+	fnidFTaJVZirlA3hXtxRJR43MsU8+iT4uNDNjz6EhHqFoWL8j2BZZldJriRF9jxtTf73
+	nh6oc4mCaou80q15JoqKpOLENRW4dv7Y7i3qlkjgkqIlg8+pOOSufk5QtPkSn51Zo6MS
+	Sc7g==
+Received: by 10.68.223.167 with SMTP id qv7mr70134223pbc.127.1337620348799;
+	Mon, 21 May 2012 10:12:28 -0700 (PDT)
 Received: from localhost.localdomain (oldbuilder.nslu2-linux.org.
 	[140.211.169.168])
-	by mx.google.com with ESMTPS id ou2sm2547652pbb.53.2012.05.21.10.12.25
+	by mx.google.com with ESMTPS id ou2sm2547652pbb.53.2012.05.21.10.12.27
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 21 May 2012 10:12:26 -0700 (PDT)
+	Mon, 21 May 2012 10:12:28 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 21 May 2012 10:11:52 -0700
-Message-Id: <8ac9f59bcdf94101768690b5888346dc4315f050.1337620159.git.raj.khem@gmail.com>
+Date: Mon, 21 May 2012 10:11:53 -0700
+Message-Id: <e100473499b3a5e77b579fcc67e79ec0d262ed78.1337620159.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 1.7.5.4
+In-Reply-To: <8ac9f59bcdf94101768690b5888346dc4315f050.1337620159.git.raj.khem@gmail.com>
+References: <8ac9f59bcdf94101768690b5888346dc4315f050.1337620159.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1337620159.git.raj.khem@gmail.com>
 References: <cover.1337620159.git.raj.khem@gmail.com>
-Subject: [PATCH 1/3] gcc-4.7: Add knowledge about arm hf dynamic loader
+Subject: [PATCH 2/3] eglibc: Add ARM hf dynamic linker support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,81 +47,420 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 May 2012 17:22:33 -0000
+X-List-Received-Date: Mon, 21 May 2012 17:22:35 -0000
+
+The work is done in glibc upstream we backport
+the relevant patches
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-devtools/gcc/gcc-4.7.inc              |    1 +
- .../gcc/gcc-4.7/arm-hard-float-loader.patch        |   48 ++++++++++++++++++++
- 2 files changed, 49 insertions(+), 0 deletions(-)
- create mode 100644 meta/recipes-devtools/gcc/gcc-4.7/arm-hard-float-loader.patch
+ .../eglibc/eglibc-2.15/add_HAVE_ARM_PCS_VFP.patch  |   28 ++
+ .../eglibc/eglibc-2.15/ldso_arm_hf_support.patch   |  338 ++++++++++++++++++++
+ meta/recipes-core/eglibc/eglibc_2.15.bb            |    4 +-
+ 3 files changed, 369 insertions(+), 1 deletions(-)
+ create mode 100644 meta/recipes-core/eglibc/eglibc-2.15/add_HAVE_ARM_PCS_VFP.patch
+ create mode 100644 meta/recipes-core/eglibc/eglibc-2.15/ldso_arm_hf_support.patch
 
-diff --git a/meta/recipes-devtools/gcc/gcc-4.7.inc b/meta/recipes-devtools/gcc/gcc-4.7.inc
-index efd166c..0321776 100644
---- a/meta/recipes-devtools/gcc/gcc-4.7.inc
-+++ b/meta/recipes-devtools/gcc/gcc-4.7.inc
-@@ -65,6 +65,7 @@ SRC_URI = "svn://gcc.gnu.org/svn/gcc/branches;module=${BRANCH};proto=http \
- 	   file://libgcc-sjlj-check.patch \
- 	   file://cpp-honor-sysroot.patch \
- 	   file://mips64-default-n64.patch \
-+	   file://arm-hard-float-loader.patch \
- 	  "
- 
- S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/${BRANCH}"
-diff --git a/meta/recipes-devtools/gcc/gcc-4.7/arm-hard-float-loader.patch b/meta/recipes-devtools/gcc/gcc-4.7/arm-hard-float-loader.patch
+diff --git a/meta/recipes-core/eglibc/eglibc-2.15/add_HAVE_ARM_PCS_VFP.patch b/meta/recipes-core/eglibc/eglibc-2.15/add_HAVE_ARM_PCS_VFP.patch
 new file mode 100644
-index 0000000..dfa0d19
+index 0000000..0f95c2f
 --- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc-4.7/arm-hard-float-loader.patch
-@@ -0,0 +1,48 @@
-+This patch is still being discussed by probably is almost
-+final version. We add the OE notion of multilib on top
++++ b/meta/recipes-core/eglibc/eglibc-2.15/add_HAVE_ARM_PCS_VFP.patch
+@@ -0,0 +1,28 @@
++From: Carlos O'Donell <carlos_odonell@mentor.com>
++Date: Mon, 7 May 2012 20:04:41 +0000 (-0400)
++Subject: ARM: Define HAVE_ARM_PCS_VFP in config.h.
++X-Git-Url: http://sourceware.org/git/?p=glibc.git;a=commitdiff_plain;h=6a43ec980c5a0500149ef37d4854eac0e270da6f;hp=05c2c9618f583ea4acd69b3fe5ae2a2922dd2ddc
 +
-+Upstream-Status: Backport [ adapted ]
++ARM: Define HAVE_ARM_PCS_VFP in config.h.
 +
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
++If the compiler and flags would select the hard-float ABI
++then the ARM configure fragment will set HAVE_ARM_PCS_VFP.
++This is later used by the ARM shlib-versions to select
++the appropriately named dynamic linker.
++---
 +
-+Index: gcc-4_7-branch/gcc/config/arm/linux-eabi.h
++Upstream-Status: Backport
++-Khem
++
++Index: libc/config.h.in
 +===================================================================
-+--- gcc-4_7-branch.orig/gcc/config/arm/linux-eabi.h	2012-04-30 15:28:31.891863845 -0700
-++++ gcc-4_7-branch/gcc/config/arm/linux-eabi.h	2012-04-30 15:37:11.531888994 -0700
-+@@ -32,7 +32,8 @@
-+   while (false)
++--- libc.orig/config.h.in	2012-01-04 22:06:28.000000000 -0800
+++++ libc/config.h.in	2012-05-08 11:25:56.581079069 -0700
++@@ -233,4 +233,7 @@
 + 
-+ /* We default to a soft-float ABI so that binaries can run on all
-+-   target hardware.  */
-++   target hardware.  If you override this to use the hard-float ABI then
-++   change the setting of GLIBC_DYNAMIC_LINKER_DEFAULT as well.  */
-+ #undef  TARGET_DEFAULT_FLOAT_ABI
-+ #define TARGET_DEFAULT_FLOAT_ABI ARM_FLOAT_ABI_SOFT
++ #define HAVE_REGEX 1
 + 
-+@@ -59,10 +60,23 @@
-+ #undef  SUBTARGET_EXTRA_LINK_SPEC
-+ #define SUBTARGET_EXTRA_LINK_SPEC " -m " TARGET_LINKER_EMULATION
-+ 
-+-/* Use ld-linux.so.3 so that it will be possible to run "classic"
-+-   GNU/Linux binaries on an EABI system.  */
-++/* GNU/Linux on ARM currently supports three dynamic linkers:
-++   - ld-linux.so.2 - for the legacy ABI
-++   - ld-linux.so.3 - for the EABI-derived soft-float ABI
-++   - ld-linux-armhf.so.3 - for the EABI-derived hard-float ABI.
-++   All the dynamic linkers live in /lib.
-++   We default to soft-float, but this can be overridden by changing both
-++   GLIBC_DYNAMIC_LINKER_DEFAULT and TARGET_DEFAULT_FLOAT_ABI.  */
+++/* The ARM hard-float ABI is being used.  */
+++#undef HAVE_ARM_PCS_VFP
 ++
-+ #undef  GLIBC_DYNAMIC_LINKER
-+-#define GLIBC_DYNAMIC_LINKER SYSTEMLIBS_DIR "ld-linux.so.3"
-++#define GLIBC_DYNAMIC_LINKER_SOFT_FLOAT SYSTEMLIBS_DIR "ld-linux.so.3"
-++#define GLIBC_DYNAMIC_LINKER_HARD_FLOAT SYSTEMLIBS_DIR "ld-linux-armhf.so.3"
-++#define GLIBC_DYNAMIC_LINKER_DEFAULT GLIBC_DYNAMIC_LINKER_SOFT_FLOAT
++ #endif
+diff --git a/meta/recipes-core/eglibc/eglibc-2.15/ldso_arm_hf_support.patch b/meta/recipes-core/eglibc/eglibc-2.15/ldso_arm_hf_support.patch
+new file mode 100644
+index 0000000..7a53da6
+--- /dev/null
++++ b/meta/recipes-core/eglibc/eglibc-2.15/ldso_arm_hf_support.patch
+@@ -0,0 +1,338 @@
++From d3b36017d43af570ca7f79e711749dd4ade76979 Mon Sep 17 00:00:00 2001
++From: Carlos O'Donell <carlos_odonell@mentor.com>
++Date: Mon, 7 May 2012 22:14:44 -0400
++Subject: [PATCH] ARM: Use /lib/ld-linux-armhf.so.3 for the hard-float ABI.
++
++The hard-float ABI will now use /lib/ld-linux-armhf.so.3.
++We detect the use of the hard-float ABI and select the
++appropriate dynamic linker name. You must have a new or
++patched compiler which also uses the new dynamic loader
++name when the hard-float ABI is selected.
++---
++ ChangeLog.arm              |    8 ++
++ sysdeps/arm/configure      |  184 ++++++++++++++++++++++++++++++++++++++++++++
++ sysdeps/arm/configure.in   |   17 ++++
++ sysdeps/arm/shlib-versions |    8 ++-
++ 4 files changed, 216 insertions(+), 1 deletions(-)
++ mode change 100644 => 100755 sysdeps/arm/configure
++
++Upstream-Status: Backport
++-Khem
++
++Index: libc/ports/sysdeps/arm/configure.in
++===================================================================
++--- libc.orig/ports/sysdeps/arm/configure.in	2012-05-08 11:42:59.161128560 -0700
+++++ libc/ports/sysdeps/arm/configure.in	2012-05-08 11:43:29.373130066 -0700
++@@ -18,3 +18,20 @@
++ if test $libc_cv_asm_cfi_directive_sections != yes; then
++   AC_MSG_ERROR([need .cfi_sections in this configuration])
++ fi
 ++
-++ #define GLIBC_DYNAMIC_LINKER \
-++    "%{mfloat-abi=hard:" GLIBC_DYNAMIC_LINKER_HARD_FLOAT "} \
-++     %{mfloat-abi=soft*:" GLIBC_DYNAMIC_LINKER_SOFT_FLOAT "} \
-++     %{!mfloat-abi=*:" GLIBC_DYNAMIC_LINKER_DEFAULT "}"
+++# We check to see if the compiler and flags are
+++# selecting the hard-float ABI and if they are then
+++# we set libc_cv_arm_pcs_vfp to yes which causes
+++# HAVE_ARM_PCS_VFP to be defined in config.h and
+++# in include/libc-symbols.h and thus available to
+++# shlib-versions to select the appropriate name for
+++# the dynamic linker via %ifdef.
+++AC_CACHE_CHECK([whether the compiler is using the ARM hard-float ABI],
+++  [libc_cv_arm_pcs_vfp],
+++  [AC_EGREP_CPP(yes,[#ifdef __ARM_PCS_VFP
+++                      yes
+++                     #endif
+++  ], libc_cv_arm_pcs_vfp=yes, libc_cv_arm_pcs_vfp=no)])
+++if test $libc_cv_arm_pcs_vfp = yes; then
+++  AC_DEFINE(HAVE_ARM_PCS_VFP)
+++fi
++Index: libc/ports/sysdeps/arm/shlib-versions
++===================================================================
++--- libc.orig/ports/sysdeps/arm/shlib-versions	2012-05-08 11:42:59.145128546 -0700
+++++ libc/ports/sysdeps/arm/shlib-versions	2012-05-08 11:43:29.409130022 -0700
++@@ -1,4 +1,10 @@
++ arm.*-.*-linux-gnueabi.*	DEFAULT			GLIBC_2.4
 + 
-+ /* At this point, bpabi.h will have clobbered LINK_SPEC.  We want to
-+    use the GNU/Linux version, not the generic BPABI version.  */
++-arm.*-.*-linux-gnueabi.*	ld=ld-linux.so.3
+++%ifdef HAVE_ARM_PCS_VFP
+++# The EABI-derived hard-float ABI uses a new dynamic linker.
+++arm.*-.*-linux-gnueabi.*       ld=ld-linux-armhf.so.3
+++%else
+++# The EABI-derived soft-float ABI continues to use ld-linux.so.3.
+++arm.*-.*-linux-gnueabi.*       ld=ld-linux.so.3
+++%endif
++ arm.*-.*-linux.*	ld=ld-linux.so.2
++Index: libc/ports/sysdeps/arm/configure
++===================================================================
++--- libc.orig/ports/sysdeps/arm/configure	2012-05-08 11:43:46.437130836 -0700
+++++ libc/ports/sysdeps/arm/configure	2012-05-08 11:49:10.393145653 -0700
++@@ -1,3 +1,100 @@
+++# as_fn_set_status STATUS
+++# -----------------------
+++# Set $? to STATUS, without forking.
+++as_fn_set_status ()
+++{
+++  return $1
+++} # as_fn_set_status
+++
+++# as_fn_exit STATUS
+++# -----------------
+++# Exit the shell with STATUS, even in a "trap 0" or "set -e" context.
+++as_fn_exit ()
+++{
+++  set +e
+++  as_fn_set_status $1
+++  exit $1
+++} # as_fn_exit
+++# as_fn_arith ARG...
+++# ------------------
+++# Perform arithmetic evaluation on the ARGs, and store the result in the
+++# global $as_val. Take advantage of shells that can avoid forks. The arguments
+++# must be portable across $(()) and expr.
+++if (eval "test \$(( 1 + 1 )) = 2") 2>/dev/null; then :
+++  eval 'as_fn_arith ()
+++  {
+++    as_val=$(( $* ))
+++  }'
+++else
+++  as_fn_arith ()
+++  {
+++    as_val=`expr "$@" || test $? -eq 1`
+++  }
+++fi # as_fn_arith
+++
+++if expr a : '\(a\)' >/dev/null 2>&1 &&
+++   test "X`expr 00001 : '.*\(...\)'`" = X001; then
+++  as_expr=expr
+++else
+++  as_expr=false
+++fi
+++
+++if (basename -- /) >/dev/null 2>&1 && test "X`basename -- / 2>&1`" = "X/"; then
+++  as_basename=basename
+++else
+++  as_basename=false
+++fi
+++
+++as_me=`$as_basename -- "$0" ||
+++$as_expr X/"$0" : '.*/\([^/][^/]*\)/*$' \| \
+++	 X"$0" : 'X\(//\)$' \| \
+++	 X"$0" : 'X\(/\)' \| . 2>/dev/null ||
+++$as_echo X/"$0" |
+++    sed '/^.*\/\([^/][^/]*\)\/*$/{
+++	    s//\1/
+++	    q
+++	  }
+++	  /^X\/\(\/\/\)$/{
+++	    s//\1/
+++	    q
+++	  }
+++	  /^X\/\(\/\).*/{
+++	    s//\1/
+++	    q
+++	  }
+++	  s/.*/./; q'`
+++
+++
+++  as_lineno_1=$LINENO as_lineno_1a=$LINENO
+++  as_lineno_2=$LINENO as_lineno_2a=$LINENO
+++  eval 'test "x$as_lineno_1'$as_run'" != "x$as_lineno_2'$as_run'" &&
+++  test "x`expr $as_lineno_1'$as_run' + 1`" = "x$as_lineno_2'$as_run'"' || {
+++  # Blame Lee E. McMahon (1931-1989) for sed's syntax.  :-)
+++  sed -n '
+++    p
+++    /[$]LINENO/=
+++  ' <$as_myself |
+++    sed '
+++      s/[$]LINENO.*/&-/
+++      t lineno
+++      b
+++      :lineno
+++      N
+++      :loop
+++      s/[$]LINENO\([^'$as_cr_alnum'_].*\n\)\(.*\)/\2\1\2/
+++      t loop
+++      s/-\n.*//
+++    ' >$as_me.lineno &&
+++  chmod +x "$as_me.lineno" ||
+++    { $as_echo "$as_me: error: cannot create $as_me.lineno; rerun with a POSIX shell" >&2; as_fn_exit 1; }
+++
+++  # Don't try to exec as it changes $[0], causing all sort of problems
+++  # (the dirname of $[0] is not the place where we might find the
+++  # original and so on.  Autoconf is especially sensitive to this).
+++  . "./$as_me.lineno"
+++  # Exit status is that of the last command.
+++  exit
+++}
++ # This file is generated from configure.in by Autoconf.  DO NOT EDIT!
++  # Local configure fragment for sysdeps/arm.
++ 
++@@ -31,3 +128,170 @@
++ $as_echo "$as_me: error: need .cfi_sections in this configuration" >&2;}
++    { (exit 1); exit 1; }; }
++ fi
+++
+++# We check to see if the compiler and flags are
+++# selecting the hard-float ABI and if they are then
+++# we set libc_cv_arm_pcs_vfp to yes which causes
+++# HAVE_ARM_PCS_VFP to be defined in config.h and
+++# in include/libc-symbols.h and thus available to
+++# shlib-versions to select the appropriate name for
+++# the dynamic linker via %ifdef.
+++
+++
+++{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for grep that handles long lines and -e" >&5
+++$as_echo_n "checking for grep that handles long lines and -e... " >&6; }
+++if ${ac_cv_path_GREP+:} false; then :
+++  $as_echo_n "(cached) " >&6
+++else
+++  if test -z "$GREP"; then
+++  ac_path_GREP_found=false
+++  # Loop through the user's path and test for each of PROGNAME-LIST
+++  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+++for as_dir in $PATH$PATH_SEPARATOR/usr/xpg4/bin
+++do
+++  IFS=$as_save_IFS
+++  test -z "$as_dir" && as_dir=.
+++    for ac_prog in grep ggrep; do
+++    for ac_exec_ext in '' $ac_executable_extensions; do
+++      ac_path_GREP="$as_dir/$ac_prog$ac_exec_ext"
+++      { test -f "$ac_path_GREP" && $as_test_x "$ac_path_GREP"; } || continue
+++# Check for GNU ac_path_GREP and select it if it is found.
+++  # Check for GNU $ac_path_GREP
+++case `"$ac_path_GREP" --version 2>&1` in
+++*GNU*)
+++  ac_cv_path_GREP="$ac_path_GREP" ac_path_GREP_found=:;;
+++*)
+++  ac_count=0
+++  $as_echo_n 0123456789 >"conftest.in"
+++  while :
+++  do
+++    cat "conftest.in" "conftest.in" >"conftest.tmp"
+++    mv "conftest.tmp" "conftest.in"
+++    cp "conftest.in" "conftest.nl"
+++    $as_echo 'GREP' >> "conftest.nl"
+++    "$ac_path_GREP" -e 'GREP$' -e '-(cannot match)-' < "conftest.nl" >"conftest.out" 2>/dev/null || break
+++    diff "conftest.out" "conftest.nl" >/dev/null 2>&1 || break
+++    as_fn_arith $ac_count + 1 && ac_count=$as_val
+++    if test $ac_count -gt ${ac_path_GREP_max-0}; then
+++      # Best one so far, save it but keep looking for a better one
+++      ac_cv_path_GREP="$ac_path_GREP"
+++      ac_path_GREP_max=$ac_count
+++    fi
+++    # 10*(2^10) chars as input seems more than enough
+++    test $ac_count -gt 10 && break
+++  done
+++  rm -f conftest.in conftest.tmp conftest.nl conftest.out;;
+++esac
+++
+++      $ac_path_GREP_found && break 3
+++    done
+++  done
+++  done
+++IFS=$as_save_IFS
+++  if test -z "$ac_cv_path_GREP"; then
+++    as_fn_error $? "no acceptable grep could be found in $PATH$PATH_SEPARATOR/usr/xpg4/bin" "$LINENO" 5
+++  fi
+++else
+++  ac_cv_path_GREP=$GREP
+++fi
+++
+++fi
+++{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_path_GREP" >&5
+++$as_echo "$ac_cv_path_GREP" >&6; }
+++ GREP="$ac_cv_path_GREP"
+++
+++
+++{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for egrep" >&5
+++$as_echo_n "checking for egrep... " >&6; }
+++if ${ac_cv_path_EGREP+:} false; then :
+++  $as_echo_n "(cached) " >&6
+++else
+++  if echo a | $GREP -E '(a|b)' >/dev/null 2>&1
+++   then ac_cv_path_EGREP="$GREP -E"
+++   else
+++     if test -z "$EGREP"; then
+++  ac_path_EGREP_found=false
+++  # Loop through the user's path and test for each of PROGNAME-LIST
+++  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+++for as_dir in $PATH$PATH_SEPARATOR/usr/xpg4/bin
+++do
+++  IFS=$as_save_IFS
+++  test -z "$as_dir" && as_dir=.
+++    for ac_prog in egrep; do
+++    for ac_exec_ext in '' $ac_executable_extensions; do
+++      ac_path_EGREP="$as_dir/$ac_prog$ac_exec_ext"
+++      { test -f "$ac_path_EGREP" && $as_test_x "$ac_path_EGREP"; } || continue
+++# Check for GNU ac_path_EGREP and select it if it is found.
+++  # Check for GNU $ac_path_EGREP
+++case `"$ac_path_EGREP" --version 2>&1` in
+++*GNU*)
+++  ac_cv_path_EGREP="$ac_path_EGREP" ac_path_EGREP_found=:;;
+++*)
+++  ac_count=0
+++  $as_echo_n 0123456789 >"conftest.in"
+++  while :
+++  do
+++    cat "conftest.in" "conftest.in" >"conftest.tmp"
+++    mv "conftest.tmp" "conftest.in"
+++    cp "conftest.in" "conftest.nl"
+++    $as_echo 'EGREP' >> "conftest.nl"
+++    "$ac_path_EGREP" 'EGREP$' < "conftest.nl" >"conftest.out" 2>/dev/null || break
+++    diff "conftest.out" "conftest.nl" >/dev/null 2>&1 || break
+++    as_fn_arith $ac_count + 1 && ac_count=$as_val
+++    if test $ac_count -gt ${ac_path_EGREP_max-0}; then
+++      # Best one so far, save it but keep looking for a better one
+++      ac_cv_path_EGREP="$ac_path_EGREP"
+++      ac_path_EGREP_max=$ac_count
+++    fi
+++    # 10*(2^10) chars as input seems more than enough
+++    test $ac_count -gt 10 && break
+++  done
+++  rm -f conftest.in conftest.tmp conftest.nl conftest.out;;
+++esac
+++
+++      $ac_path_EGREP_found && break 3
+++    done
+++  done
+++  done
+++IFS=$as_save_IFS
+++  if test -z "$ac_cv_path_EGREP"; then
+++    as_fn_error $? "no acceptable egrep could be found in $PATH$PATH_SEPARATOR/usr/xpg4/bin" "$LINENO" 5
+++  fi
+++else
+++  ac_cv_path_EGREP=$EGREP
+++fi
+++
+++   fi
+++fi
+++{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_path_EGREP" >&5
+++$as_echo "$ac_cv_path_EGREP" >&6; }
+++ EGREP="$ac_cv_path_EGREP"
+++
+++
+++{ $as_echo "$as_me:${as_lineno-$LINENO}: checking whether the compiler is using the ARM hard-float ABI" >&5
+++$as_echo_n "checking whether the compiler is using the ARM hard-float ABI... " >&6; }
+++if ${libc_cv_arm_pcs_vfp+:} false; then :
+++  $as_echo_n "(cached) " >&6
+++else
+++  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+++/* end confdefs.h.  */
+++#ifdef __ARM_PCS_VFP
+++                      yes
+++                     #endif
+++
+++_ACEOF
+++if (eval "$ac_cpp conftest.$ac_ext") 2>&5 |
+++  $EGREP "yes" >/dev/null 2>&1; then :
+++  libc_cv_arm_pcs_vfp=yes
+++else
+++  libc_cv_arm_pcs_vfp=no
+++fi
+++rm -f conftest*
+++
+++fi
+++{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $libc_cv_arm_pcs_vfp" >&5
+++$as_echo "$libc_cv_arm_pcs_vfp" >&6; }
+++if test $libc_cv_arm_pcs_vfp = yes; then
+++  $as_echo "#define HAVE_ARM_PCS_VFP 1" >>confdefs.h
+++
+++fi
+diff --git a/meta/recipes-core/eglibc/eglibc_2.15.bb b/meta/recipes-core/eglibc/eglibc_2.15.bb
+index fa92670..6dd846f 100644
+--- a/meta/recipes-core/eglibc/eglibc_2.15.bb
++++ b/meta/recipes-core/eglibc/eglibc_2.15.bb
+@@ -3,7 +3,7 @@ require eglibc.inc
+ SRCREV = "17386"
+ 
+ DEPENDS += "gperf-native"
+-PR = "r10"
++PR = "r11"
+ PR_append = "+svnr${SRCPV}"
+ 
+ EGLIBC_BRANCH="eglibc-2_15"
+@@ -25,6 +25,8 @@ SRC_URI = "svn://www.eglibc.org/svn/branches/;module=${EGLIBC_BRANCH};proto=http
+            file://initgroups_keys.patch \
+            file://use-localstatedir-for-vardbdir.patch \
+            file://eglibc_fix_findidx_parameters.patch \
++           file://add_HAVE_ARM_PCS_VFP.patch \
++           file://ldso_arm_hf_support.patch \
+           "
+ LIC_FILES_CHKSUM = "file://LICENSES;md5=98a1128c4b58120182cbea3b1752d8b9 \
+       file://COPYING;md5=393a5ca445f6965873eca0259a17f833 \
 -- 
 1.7.5.4
 
