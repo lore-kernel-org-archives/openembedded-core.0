@@ -1,38 +1,38 @@
-Received: from mail-pz0-f47.google.com ([209.85.210.47])
+Received: from mail-pb0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1SWJZq-0005c2-1l
+	(envelope-from <raj.khem@gmail.com>) id 1SWJZr-0005eM-7g
 	for openembedded-core@lists.openembedded.org;
-	Mon, 21 May 2012 05:46:34 +0200
-Received: by mail-pz0-f47.google.com with SMTP id h21so5415613dal.6
+	Mon, 21 May 2012 05:46:35 +0200
+Received: by pbbrq2 with SMTP id rq2so5531122pbb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 20 May 2012 20:36:29 -0700 (PDT)
+	Sun, 20 May 2012 20:36:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
 	:in-reply-to:references;
-	bh=AuZPAFa1x5Ex+2WcAB3zLwZXUCrpl9EaXJyJBoekPTk=;
-	b=uT4O5zlAXH7zEQQgZPyTByyRS1KYHxzt4hQdNR7G4XEdb1S4htQrYbBiWY+gMb+Ah8
-	q4hVnJ1NCXlHzoQL7AO8usGk8pazcv061Nid5309n2CqugrbMyxqpMXZ1JvLAcAkFK9r
-	mqsW8dB0HEhQtgkEdBAbfjC7zcGgNrN+TUjfKeajHIbQ8MhRljuKPCDM03HdiwS/igcK
-	EYOquuXdMUe6xcMesnZBHi6EbYyUFmTVVUu/nZQpZSKvNOZIv6PiRPCzJbt8gG6LZRm6
-	9AgX1/XH6Bn3JgHf22tWhCck830YsrQTnNREz/F8wq8bHXmmHEQx6Ok6CsN8dma/xhsc
-	Wj4A==
-Received: by 10.68.225.230 with SMTP id rn6mr6889047pbc.70.1337571388991;
-	Sun, 20 May 2012 20:36:28 -0700 (PDT)
+	bh=N2X7/cslWF97qia9D/Qsheb8SlLvMWpAn86j/ZPbyBw=;
+	b=hyi2pTw1MZxDi1Pdp9oQ6ajp50/4YEU+28KaLc3PBD0K21tnOC18lPC+g7FSYn3jhg
+	y3D0quxeo6uAcrqj/J0W96o1rbEq2GKzbYN7Rhrycdqihiw5yrSGGz5m1Bm2mH3QJ3Xk
+	0HwNdS2uHQHv99chjlK0MDw9UVVkXRk/He68xnz9dVyw98GmLvcSIH3WqQNcJToJOnHO
+	OABgh8AibaeMCdrygTNqZYsX7YpJn9uvqzpWrEwWou66LxhZGFoU7LcEnpw741/7boLR
+	wgXg5n9jJIEFI1Qaqa2nIanTZZBXX8sZOgmx0Ir+nvjwkdyvVz0fkowVHcz6QLppFYnH
+	aBrQ==
+Received: by 10.68.132.201 with SMTP id ow9mr63491810pbb.160.1337571387549;
+	Sun, 20 May 2012 20:36:27 -0700 (PDT)
 Received: from localhost.localdomain (oldbuilder.nslu2-linux.org.
 	[140.211.169.168])
-	by mx.google.com with ESMTPS id rv5sm21589703pbc.56.2012.05.20.20.36.27
+	by mx.google.com with ESMTPS id rv5sm21589703pbc.56.2012.05.20.20.36.26
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sun, 20 May 2012 20:36:28 -0700 (PDT)
+	Sun, 20 May 2012 20:36:26 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 20 May 2012 20:35:38 -0700
-Message-Id: <253f1f3aebd1a90c55efcc6d1f585204e7f3c371.1337570904.git.raj.khem@gmail.com>
+Date: Sun, 20 May 2012 20:35:37 -0700
+Message-Id: <2e315d2d0de215811e8caa80b1f13fd0e9fa53e8.1337570904.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 1.7.5.4
 In-Reply-To: <77dc886107e1b9cdaf6803141dc97c3ebfc22910.1337570904.git.raj.khem@gmail.com>
 References: <77dc886107e1b9cdaf6803141dc97c3ebfc22910.1337570904.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1337570904.git.raj.khem@gmail.com>
 References: <cover.1337570904.git.raj.khem@gmail.com>
-Subject: [PATCH 03/14] gcc-4.6, gcc-4.7: Add support for building mips64 cross compiler
+Subject: [PATCH 02/14] site: Add mips64 eglibc and uclibc site files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,123 +47,399 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 May 2012 03:46:34 -0000
-
-Defaults to n64 ABI
+X-List-Received-Date: Mon, 21 May 2012 03:46:35 -0000
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-devtools/gcc/gcc-4.6.inc              |    1 +
- .../gcc/gcc-4.6/mips64-default-n64.patch           |   32 ++++++++++++++++++++
- meta/recipes-devtools/gcc/gcc-4.7.inc              |    1 +
- .../gcc/gcc-4.7/mips64-default-n64.patch           |   19 ++++++++++++
- meta/recipes-devtools/gcc/gcc-configure-common.inc |    4 ++
- 5 files changed, 57 insertions(+), 0 deletions(-)
- create mode 100644 meta/recipes-devtools/gcc/gcc-4.6/mips64-default-n64.patch
- create mode 100644 meta/recipes-devtools/gcc/gcc-4.7/mips64-default-n64.patch
+ meta/site/mips64-linux          |   82 +++++++++++++++++++++++++++++
+ meta/site/mips64-linux-uclibc   |   83 ++++++++++++++++++++++++++++++
+ meta/site/mips64el-linux        |   82 +++++++++++++++++++++++++++++
+ meta/site/mips64el-linux-uclibc |  108 +++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 355 insertions(+), 0 deletions(-)
+ create mode 100644 meta/site/mips64-linux
+ create mode 100644 meta/site/mips64-linux-uclibc
+ create mode 100644 meta/site/mips64el-linux
+ create mode 100644 meta/site/mips64el-linux-uclibc
 
-diff --git a/meta/recipes-devtools/gcc/gcc-4.6.inc b/meta/recipes-devtools/gcc/gcc-4.6.inc
-index 65bc65d..7a70a38 100644
---- a/meta/recipes-devtools/gcc/gcc-4.6.inc
-+++ b/meta/recipes-devtools/gcc/gcc-4.6.inc
-@@ -74,6 +74,7 @@ SRC_URI = "svn://gcc.gnu.org/svn/gcc/branches;module=${BRANCH};proto=http \
- 	   file://GPLUSPLUS_INCLUDE_DIR_with_sysroot.patch \
- 	   file://fortran-cross-compile-hack.patch \
- 	   file://cpp-honour-sysroot.patch \
-+	   file://mips64-default-n64.patch \
- 	  "
- 
- SRC_URI_append_sh3  = " file://sh3-installfix-fixheaders.patch "
-diff --git a/meta/recipes-devtools/gcc/gcc-4.6/mips64-default-n64.patch b/meta/recipes-devtools/gcc/gcc-4.6/mips64-default-n64.patch
+diff --git a/meta/site/mips64-linux b/meta/site/mips64-linux
 new file mode 100644
-index 0000000..bf930ec
+index 0000000..4449c96
 --- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc-4.6/mips64-default-n64.patch
-@@ -0,0 +1,32 @@
-+MIPS64 defaults to n32 ABI, this patch makes it
-+so that it defaults to N64 ABI
++++ b/meta/site/mips64-linux
+@@ -0,0 +1,82 @@
++# general
++ac_cv_func_setvbuf_reversed=${ac_cv_func_setvbuf_reversed=no}
 +
-+Upstream-Status: Inappropriate [OE config specific]
++# bash
++ac_cv_c_long_double=${ac_cv_c_long_double=no}
++bash_cv_func_sigsetjmp=${bash_cv_func_sigsetjmp=present}
 +
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+Index: gcc-4_6-branch/gcc/config.gcc
-+===================================================================
-+--- gcc-4_6-branch.orig/gcc/config.gcc	2012-04-22 19:12:12.431061229 -0700
-++++ gcc-4_6-branch/gcc/config.gcc	2012-04-22 19:13:36.307065289 -0700
-+@@ -1882,7 +1882,7 @@
-+ mips64*-*-linux* | mipsisa64*-*-linux*)
-+ 	tm_file="dbxelf.h elfos.h gnu-user.h linux.h glibc-stdint.h ${tm_file} mips/linux.h mips/linux64.h"
-+ 	tmake_file="${tmake_file} mips/t-linux64 mips/t-libgcc-mips16"
-+-	tm_defines="${tm_defines} MIPS_ABI_DEFAULT=ABI_N32"
-++	tm_defines="${tm_defines} MIPS_ABI_DEFAULT=ABI_64"
-+ 	case ${target} in
-+ 		mips64el-st-linux-gnu)
-+ 			tm_file="${tm_file} mips/st.h"
-+Index: gcc-4_6-branch/gcc/config/mips/linux64.h
-+===================================================================
-+--- gcc-4_6-branch.orig/gcc/config/mips/linux64.h	2012-04-22 19:10:59.743057711 -0700
-++++ gcc-4_6-branch/gcc/config/mips/linux64.h	2012-04-22 19:11:56.919060479 -0700
-+@@ -26,7 +26,7 @@
-+   BASE_DRIVER_SELF_SPECS, \
-+   LINUX_DRIVER_SELF_SPECS \
-+   " %{!EB:%{!EL:%(endian_spec)}}" \
-+-  " %{!mabi=*: -mabi=n32}"
-++  " %{!mabi=*: -mabi=64}"
-+ 
-+ #undef LIB_SPEC
-+ #define LIB_SPEC "\
-diff --git a/meta/recipes-devtools/gcc/gcc-4.7.inc b/meta/recipes-devtools/gcc/gcc-4.7.inc
-index 8adeb8d..efd166c 100644
---- a/meta/recipes-devtools/gcc/gcc-4.7.inc
-+++ b/meta/recipes-devtools/gcc/gcc-4.7.inc
-@@ -64,6 +64,7 @@ SRC_URI = "svn://gcc.gnu.org/svn/gcc/branches;module=${BRANCH};proto=http \
- 	   file://fortran-cross-compile-hack.patch \
- 	   file://libgcc-sjlj-check.patch \
- 	   file://cpp-honor-sysroot.patch \
-+	   file://mips64-default-n64.patch \
- 	  "
- 
- S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/${BRANCH}"
-diff --git a/meta/recipes-devtools/gcc/gcc-4.7/mips64-default-n64.patch b/meta/recipes-devtools/gcc/gcc-4.7/mips64-default-n64.patch
++# openssh
++ac_cv_have_accrights_in_msghdr=${ac_cv_have_accrights_in_msghdr=no}
++ac_cv_have_broken_snprintf=${ac_cv_have_broken_snprintf=no}
++ac_cv_have_control_in_msghdr=${ac_cv_have_control_in_msghdr=yes}
++ac_cv_have_openpty_ctty_bug=${ac_cv_have_openpty_ctty_bug=no}
++ac_cv_have_space_d_name_in_struct_dirent=${ac_cv_have_space_d_name_in_struct_dirent=yes}
++
++# fget
++compat_cv_func_snprintf_works=${compat_cv_func_snprintf_works=yes}
++
++# glib
++glib_cv___va_copy=${glib_cv___va_copy=yes}
++glib_cv_has__inline=${glib_cv_has__inline=yes}
++glib_cv_has__inline__=${glib_cv_has__inline__=yes}
++glib_cv_hasinline=${glib_cv_hasinline=yes}
++glib_cv_long_long_format=${glib_cv_long_long_format=ll}
++glib_cv_rtldglobal_broken=${glib_cv_rtldglobal_broken=no}
++glib_cv_sane_realloc=${glib_cv_sane_realloc=yes}
++glib_cv_sizeof_gmutex=${glib_cv_sizeof_gmutex=24}
++glib_cv_sizeof_system_thread=${glib_cv_sizeof_system_thread=4}
++glib_cv_stack_grows=${glib_cv_stack_grows=no}
++glib_cv_uscore=${glib_cv_uscore=no}
++
++# glib-2.0
++glib_cv_stack_grows=${glib_cv_stack_grows=no}
++utils_cv_sys_open_max=${utils_cv_sys_open_max=1015}
++glib_cv_use_pid_surrogate=${glib_cv_use_pid_surrogate=yes}
++ac_cv_alignof_guint32=4
++ac_cv_alignof_guint64=8
++ac_cv_alignof_unsigned_long=8
++
++# libpcap
++ac_cv_linux_vers=${ac_cv_linux_vers=2}
++
++# startup-notification
++lf_cv_sane_realloc=${lf_cv_sane_realloc=yes}
++
++# libidl
++libIDL_cv_long_long_format=${libIDL_cv_long_long_format=ll}
++
++# ncftp
++wi_cv_struct_timeval_tv_sec=${wi_cv_struct_timeval_tv_sec=long}
++wi_cv_struct_timeval_tv_usec=${wi_cv_struct_timeval_tv_usec=long}
++
++# db
++db_cv_align_t=${db_cv_align_t='unsigned long long'}
++db_cv_alignp_t=${db_cv_alignp_t='unsigned long'}
++db_cv_fcntl_f_setfd=${db_cv_fcntl_f_setfd=yes}
++db_cv_sprintf_count=${db_cv_sprintf_count=yes}
++
++# rrdtool
++rd_cv_ieee_works=${rd_cv_ieee_works=yes}
++# ac_cv_path_PERL=${ac_cv_path_PERL=no}
++
++# gettext
++am_cv_func_working_getline=${am_cv_func_working_getline=yes}
++
++# samba
++samba_cv_HAVE_GETTIMEOFDAY_TZ=${samba_cv_HAVE_GETTIMEOFDAY_TZ=yes}
++
++# vim
++ac_cv_sizeof_int=${ac_cv_sizeof_int=4}
++
++# intercom
++ac_cv_func_fnmatch_works=${ac_cv_func_fnmatch_works=yes}
++
++# lmbench
++ac_cv_uint=${ac_cv_unit=yes}
++
++# D-BUS
++ac_cv_func_posix_getpwnam_r=${ac_cv_func_posix_getpwnam_r=yes}
++
++# eds-dbus
++ac_cv_libiconv_utf8=${ac_cv_libiconv_utf8=yes}
++
+diff --git a/meta/site/mips64-linux-uclibc b/meta/site/mips64-linux-uclibc
 new file mode 100644
-index 0000000..a42569e
+index 0000000..cbba552
 --- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc-4.7/mips64-default-n64.patch
-@@ -0,0 +1,19 @@
-+MIPS64 defaults to n32 ABI, this patch makes it
-+so that it defaults to N64 ABI
++++ b/meta/site/mips64-linux-uclibc
+@@ -0,0 +1,83 @@
++# general
++ac_cv_func_setvbuf_reversed=${ac_cv_func_setvbuf_reversed=no}
 +
-+Upstream-Status: Inappropriate [OE config specific]
++# bash
++ac_cv_c_long_double=${ac_cv_c_long_double=no}
++bash_cv_func_sigsetjmp=${bash_cv_func_sigsetjmp=present}
 +
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+Index: gcc-4_7-branch/gcc/config.gcc
-+===================================================================
-+--- gcc-4_7-branch.orig/gcc/config.gcc	2012-04-22 19:30:21.000000000 -0700
-++++ gcc-4_7-branch/gcc/config.gcc	2012-04-22 21:09:57.783403173 -0700
-+@@ -1750,7 +1750,7 @@
-+ mips64*-*-linux* | mipsisa64*-*-linux*)
-+ 	tm_file="dbxelf.h elfos.h gnu-user.h linux.h glibc-stdint.h ${tm_file} mips/gnu-user.h mips/gnu-user64.h mips/linux64.h"
-+ 	tmake_file="${tmake_file} mips/t-linux64"
-+-	tm_defines="${tm_defines} MIPS_ABI_DEFAULT=ABI_N32"
-++	tm_defines="${tm_defines} MIPS_ABI_DEFAULT=ABI_64"
-+ 	case ${target} in
-+ 		mips64el-st-linux-gnu)
-+ 			tm_file="${tm_file} mips/st.h"
-diff --git a/meta/recipes-devtools/gcc/gcc-configure-common.inc b/meta/recipes-devtools/gcc/gcc-configure-common.inc
-index a812b98..4d11ef4 100644
---- a/meta/recipes-devtools/gcc/gcc-configure-common.inc
-+++ b/meta/recipes-devtools/gcc/gcc-configure-common.inc
-@@ -49,6 +49,10 @@ EXTRA_OECONF = "${@['--enable-clocale=generic', ''][d.getVar('USE_NLS', True) !=
- # Build uclibc compilers without cxa_atexit support
- EXTRA_OECONF_append_linux               = " --enable-__cxa_atexit"
- EXTRA_OECONF_append_libc-uclibc        = " --enable-__cxa_atexit"
++# openssh
++ac_cv_have_accrights_in_msghdr=${ac_cv_have_accrights_in_msghdr=no}
++ac_cv_have_broken_snprintf=${ac_cv_have_broken_snprintf=no}
++ac_cv_have_control_in_msghdr=${ac_cv_have_control_in_msghdr=yes}
++ac_cv_have_openpty_ctty_bug=${ac_cv_have_openpty_ctty_bug=no}
++ac_cv_have_space_d_name_in_struct_dirent=${ac_cv_have_space_d_name_in_struct_dirent=yes}
 +
-+EXTRA_OECONF_append_mips64    = " --with-abi=64 --with-arch-64=mips64 --with-tune-64=mips64"
-+EXTRA_OECONF_append_mips64el    = " --with-abi=64 --with-arch-64=mips64 --with-tune-64=mips64"
++# fget
++compat_cv_func_snprintf_works=${compat_cv_func_snprintf_works=yes}
 +
- EXTRA_OECONF_FPU = "${@get_gcc_fpu_setting(bb, d)}"
- CPPFLAGS = ""
- 
++# glib
++glib_cv___va_copy=${glib_cv___va_copy=yes}
++glib_cv_has__inline=${glib_cv_has__inline=yes}
++glib_cv_has__inline__=${glib_cv_has__inline__=yes}
++glib_cv_hasinline=${glib_cv_hasinline=yes}
++glib_cv_long_long_format=${glib_cv_long_long_format=ll}
++glib_cv_rtldglobal_broken=${glib_cv_rtldglobal_broken=no}
++glib_cv_sane_realloc=${glib_cv_sane_realloc=yes}
++glib_cv_sizeof_gmutex=${glib_cv_sizeof_gmutex=24}
++glib_cv_sizeof_system_thread=${glib_cv_sizeof_system_thread=4}
++glib_cv_stack_grows=${glib_cv_stack_grows=no}
++glib_cv_uscore=${glib_cv_uscore=no}
++
++# glib-2.0
++glib_cv_stack_grows=${glib_cv_stack_grows=no}
++utils_cv_sys_open_max=${utils_cv_sys_open_max=1015}
++glib_cv_use_pid_surrogate=${glib_cv_use_pid_surrogate=yes}
++ac_cv_alignof_guint32=4
++ac_cv_alignof_guint64=8
++ac_cv_alignof_unsigned_long=8
++
++# libpcap
++ac_cv_linux_vers=${ac_cv_linux_vers=2}
++
++# startup-notification
++lf_cv_sane_realloc=${lf_cv_sane_realloc=yes}
++
++# libidl
++libIDL_cv_long_long_format=${libIDL_cv_long_long_format=ll}
++
++# ncftp
++wi_cv_struct_timeval_tv_sec=${wi_cv_struct_timeval_tv_sec=long}
++wi_cv_struct_timeval_tv_usec=${wi_cv_struct_timeval_tv_usec=long}
++wi_cv_unix_domain_sockets=${wi_cv_unix_domain_sockets=yes}
++
++# db
++db_cv_align_t=${db_cv_align_t='unsigned long long'}
++db_cv_alignp_t=${db_cv_alignp_t='unsigned long'}
++db_cv_fcntl_f_setfd=${db_cv_fcntl_f_setfd=yes}
++db_cv_sprintf_count=${db_cv_sprintf_count=yes}
++
++# rrdtool
++rd_cv_ieee_works=${rd_cv_ieee_works=yes}
++# ac_cv_path_PERL=${ac_cv_path_PERL=no}
++
++# gettext
++am_cv_func_working_getline=${am_cv_func_working_getline=yes}
++
++# samba
++samba_cv_HAVE_GETTIMEOFDAY_TZ=${samba_cv_HAVE_GETTIMEOFDAY_TZ=yes}
++
++# vim
++ac_cv_sizeof_int=${ac_cv_sizeof_int=4}
++
++# intercom
++ac_cv_func_fnmatch_works=${ac_cv_func_fnmatch_works=yes}
++
++# lmbench
++ac_cv_uint=${ac_cv_unit=yes}
++
++# D-BUS
++ac_cv_func_posix_getpwnam_r=${ac_cv_func_posix_getpwnam_r=yes}
++
++# eds-dbus
++ac_cv_libiconv_utf8=${ac_cv_libiconv_utf8=yes}
++
+diff --git a/meta/site/mips64el-linux b/meta/site/mips64el-linux
+new file mode 100644
+index 0000000..8b61eb0
+--- /dev/null
++++ b/meta/site/mips64el-linux
+@@ -0,0 +1,82 @@
++# general
++ac_cv_func_setvbuf_reversed=${ac_cv_func_setvbuf_reversed=no}
++
++# bash
++ac_cv_c_long_double=${ac_cv_c_long_double=no}
++bash_cv_func_sigsetjmp=${bash_cv_func_sigsetjmp=present}
++
++# openssh
++ac_cv_have_accrights_in_msghdr=${ac_cv_have_accrights_in_msghdr=no}
++ac_cv_have_broken_snprintf=${ac_cv_have_broken_snprintf=no}
++ac_cv_have_control_in_msghdr=${ac_cv_have_control_in_msghdr=yes}
++ac_cv_have_openpty_ctty_bug=${ac_cv_have_openpty_ctty_bug=no}
++ac_cv_have_space_d_name_in_struct_dirent=${ac_cv_have_space_d_name_in_struct_dirent=yes}
++
++# fget
++compat_cv_func_snprintf_works=${compat_cv_func_snprintf_works=yes}
++
++# glib
++glib_cv___va_copy=${glib_cv___va_copy=yes}
++glib_cv_has__inline=${glib_cv_has__inline=yes}
++glib_cv_has__inline__=${glib_cv_has__inline__=yes}
++glib_cv_hasinline=${glib_cv_hasinline=yes}
++glib_cv_long_long_format=${glib_cv_long_long_format=ll}
++glib_cv_rtldglobal_broken=${glib_cv_rtldglobal_broken=no}
++glib_cv_sane_realloc=${glib_cv_sane_realloc=yes}
++glib_cv_sizeof_gmutex=${glib_cv_sizeof_gmutex=24}
++glib_cv_sizeof_system_thread=${glib_cv_sizeof_system_thread=4}
++glib_cv_stack_grows=${glib_cv_stack_grows=no}
++glib_cv_uscore=${glib_cv_uscore=no}
++
++# glib-2.0
++glib_cv_stack_grows=${glib_cv_stack_grows=no}
++utils_cv_sys_open_max=${utils_cv_sys_open_max=1015}
++glib_cv_use_pid_surrogate=${glib_cv_use_pid_surrogate=yes}
++ac_cv_alignof_guint32=4
++ac_cv_alignof_guint64=8
++ac_cv_alignof_unsigned_long=8
++
++# libpcap
++ac_cv_linux_vers=${ac_cv_linux_vers=2}
++
++# startup-notification
++lf_cv_sane_realloc=${lf_cv_sane_realloc=yes}
++
++# libidl
++libIDL_cv_long_long_format=${libIDL_cv_long_long_format=ll}
++
++# ncftp
++wi_cv_struct_timeval_tv_sec=${wi_cv_struct_timeval_tv_sec=long}
++wi_cv_struct_timeval_tv_usec=${wi_cv_struct_timeval_tv_usec=long}
++wi_cv_unix_domain_sockets=${wi_cv_unix_domain_sockets=yes}
++
++# db
++db_cv_align_t=${db_cv_align_t='unsigned long long'}
++db_cv_alignp_t=${db_cv_alignp_t='unsigned long'}
++db_cv_fcntl_f_setfd=${db_cv_fcntl_f_setfd=yes}
++db_cv_sprintf_count=${db_cv_sprintf_count=yes}
++
++# rrdtool
++rd_cv_ieee_works=${rd_cv_ieee_works=yes}
++# ac_cv_path_PERL=${ac_cv_path_PERL=no}
++
++# gettext
++am_cv_func_working_getline=${am_cv_func_working_getline=yes}
++
++# samba
++samba_cv_HAVE_GETTIMEOFDAY_TZ=${samba_cv_HAVE_GETTIMEOFDAY_TZ=yes}
++
++# vim
++ac_cv_sizeof_int=${ac_cv_sizeof_int=4}
++
++# intercom
++ac_cv_func_fnmatch_works=${ac_cv_func_fnmatch_works=yes}
++
++#lmbench
++ac_cv_uint=${ac_cv_unit=yes}
++
++# D-BUS
++ac_cv_func_posix_getpwnam_r=${ac_cv_func_posix_getpwnam_r=yes}
++
++# eds-dbus
++ac_cv_libiconv_utf8=${ac_cv_libiconv_utf8=yes}
+diff --git a/meta/site/mips64el-linux-uclibc b/meta/site/mips64el-linux-uclibc
+new file mode 100644
+index 0000000..6a0499d
+--- /dev/null
++++ b/meta/site/mips64el-linux-uclibc
+@@ -0,0 +1,108 @@
++# general
++ac_cv_func_setvbuf_reversed=${ac_cv_func_setvbuf_reversed=no}
++
++# bash
++ac_cv_c_long_double=${ac_cv_c_long_double=no}
++bash_cv_func_sigsetjmp=${bash_cv_func_sigsetjmp=present}
++
++# openssh
++ac_cv_have_accrights_in_msghdr=${ac_cv_have_accrights_in_msghdr=no}
++ac_cv_have_broken_snprintf=${ac_cv_have_broken_snprintf=no}
++ac_cv_have_control_in_msghdr=${ac_cv_have_control_in_msghdr=yes}
++ac_cv_have_openpty_ctty_bug=${ac_cv_have_openpty_ctty_bug=no}
++ac_cv_have_space_d_name_in_struct_dirent=${ac_cv_have_space_d_name_in_struct_dirent=yes}
++
++# fget
++compat_cv_func_snprintf_works=${compat_cv_func_snprintf_works=yes}
++
++# glib
++glib_cv___va_copy=${glib_cv___va_copy=yes}
++glib_cv_has__inline=${glib_cv_has__inline=yes}
++glib_cv_has__inline__=${glib_cv_has__inline__=yes}
++glib_cv_hasinline=${glib_cv_hasinline=yes}
++glib_cv_long_long_format=${glib_cv_long_long_format=ll}
++glib_cv_rtldglobal_broken=${glib_cv_rtldglobal_broken=no}
++glib_cv_sane_realloc=${glib_cv_sane_realloc=yes}
++glib_cv_sizeof_gmutex=${glib_cv_sizeof_gmutex=24}
++glib_cv_sizeof_system_thread=${glib_cv_sizeof_system_thread=4}
++glib_cv_stack_grows=${glib_cv_stack_grows=no}
++glib_cv_uscore=${glib_cv_uscore=no}
++
++# glib-2.0
++glib_cv_stack_grows=${glib_cv_stack_grows=no}
++utils_cv_sys_open_max=${utils_cv_sys_open_max=1015}
++glib_cv_use_pid_surrogate=${glib_cv_use_pid_surrogate=yes}
++ac_cv_alignof_guint32=4
++ac_cv_alignof_guint64=8
++ac_cv_alignof_unsigned_long=8
++
++# libpcap
++ac_cv_linux_vers=${ac_cv_linux_vers=2}
++
++# startup-notification
++lf_cv_sane_realloc=${lf_cv_sane_realloc=yes}
++
++# libidl
++libIDL_cv_long_long_format=${libIDL_cv_long_long_format=ll}
++
++# ncftp
++wi_cv_struct_timeval_tv_sec=${wi_cv_struct_timeval_tv_sec=long}
++wi_cv_struct_timeval_tv_usec=${wi_cv_struct_timeval_tv_usec=long}
++wi_cv_unix_domain_sockets=${wi_cv_unix_domain_sockets=yes}
++
++# gettext
++am_cv_func_working_getline=${am_cv_func_working_getline=yes}
++
++# samba
++# from samba 3.0.14a on 5/29/2005
++ac_cv_func_memcmp_working=${ac_cv_func_memcmp_working=yes}
++ac_cv_have_asprintf_decl=${ac_cv_have_asprintf_decl=yes}
++ac_cv_have_setresgid_decl=${ac_cv_have_setresgid_decl=yes}
++ac_cv_have_setresuid_decl=${ac_cv_have_setresuid_decl=yes}
++ac_cv_have_vasprintf_decl=${ac_cv_have_vasprintf_decl=yes}
++fu_cv_sys_stat_statvfs64=${fu_cv_sys_stat_statvfs64=yes}
++samba_cv_FTRUNCATE_NEEDS_ROOT=${samba_cv_FTRUNCATE_NEEDS_ROOT=no}
++samba_cv_HAVE_BROKEN_FCNTL64_LOCKS=${samba_cv_HAVE_BROKEN_FCNTL64_LOCKS=no}
++samba_cv_HAVE_BROKEN_GETGROUPS=${samba_cv_HAVE_BROKEN_GETGROUPS=no}
++samba_cv_HAVE_BROKEN_READDIR=${samba_cv_HAVE_BROKEN_READDIR=no}
++samba_cv_HAVE_C99_VSNPRINTF=${samba_cv_HAVE_C99_VSNPRINTF=yes}
++samba_cv_HAVE_DEV64_T=${samba_cv_HAVE_DEV64_T=no}
++samba_cv_HAVE_DEVICE_MAJOR_FN=${samba_cv_HAVE_DEVICE_MAJOR_FN=yes}
++samba_cv_HAVE_DEVICE_MINOR_FN=${samba_cv_HAVE_DEVICE_MINOR_FN=yes}
++samba_cv_HAVE_EXPLICIT_LARGEFILE_SUPPORT=${samba_cv_HAVE_EXPLICIT_LARGEFILE_SUPPORT=yes}
++samba_cv_HAVE_FCNTL_LOCK=${samba_cv_HAVE_FCNTL_LOCK=yes}
++samba_cv_HAVE_FTRUNCATE_EXTEND=${samba_cv_HAVE_FTRUNCATE_EXTEND=yes}
++samba_cv_HAVE_GETTIMEOFDAY_TZ=${samba_cv_HAVE_GETTIMEOFDAY_TZ=yes}
++samba_cv_HAVE_INO64_T=${samba_cv_HAVE_INO64_T=no}
++samba_cv_HAVE_KERNEL_CHANGE_NOTIFY=${samba_cv_HAVE_KERNEL_CHANGE_NOTIFY=yes}
++samba_cv_HAVE_KERNEL_OPLOCKS_LINUX=${samba_cv_HAVE_KERNEL_OPLOCKS_LINUX=yes}
++samba_cv_HAVE_KERNEL_SHARE_MODES=${samba_cv_HAVE_KERNEL_SHARE_MODES=yes}
++samba_cv_HAVE_MAKEDEV=${samba_cv_HAVE_MAKEDEV=yes}
++samba_cv_HAVE_MMAP=${samba_cv_HAVE_MMAP=yes}
++samba_cv_HAVE_OFF64_T=${samba_cv_HAVE_OFF64_T=no}
++samba_cv_HAVE_QUOTACTL_4A=${samba_cv_HAVE_QUOTACTL_4A=yes}
++samba_cv_HAVE_ROOT=${samba_cv_HAVE_ROOT=no}
++samba_cv_HAVE_SECURE_MKSTEMP=${samba_cv_HAVE_SECURE_MKSTEMP=yes}
++samba_cv_HAVE_SENDFILE64=${samba_cv_HAVE_SENDFILE64=yes}
++samba_cv_HAVE_STRUCT_DIRENT64=${samba_cv_HAVE_STRUCT_DIRENT64=yes}
++samba_cv_HAVE_STRUCT_FLOCK64=${samba_cv_HAVE_STRUCT_FLOCK64=yes}
++samba_cv_HAVE_TRUNCATED_SALT=${samba_cv_HAVE_TRUNCATED_SALT=no}
++samba_cv_HAVE_UNSIGNED_CHAR=${samba_cv_HAVE_UNSIGNED_CHAR=no}
++samba_cv_HAVE_WORKING_AF_LOCAL=${samba_cv_HAVE_WORKING_AF_LOCAL=no}
++samba_cv_HAVE_Werror=${samba_cv_HAVE_Werror=yes}
++samba_cv_REALPATH_TAKES_NULL=${samba_cv_REALPATH_TAKES_NULL=no}
++samba_cv_REPLACE_INET_NTOA=${samba_cv_REPLACE_INET_NTOA=no}
++samba_cv_SIZEOF_INO_T=${samba_cv_SIZEOF_INO_T=yes}
++samba_cv_SIZEOF_OFF_T=${samba_cv_SIZEOF_OFF_T=yes}
++samba_cv_SYSCONF_SC_NGROUPS_MAX=${samba_cv_SYSCONF_SC_NGROUPS_MAX=yes}
++samba_cv_SYSCONF_SC_NPROC_ONLN=${samba_cv_SYSCONF_SC_NPROC_ONLN=no}
++samba_cv_SYSQUOTA_FOUND=${samba_cv_SYSQUOTA_FOUND=yes}
++samba_cv_SYSQUOTA_WORKS=${samba_cv_SYSQUOTA_WORKS=yes}
++samba_cv_USE_SETRESUID=${samba_cv_USE_SETRESUID=yes}
++samba_cv_have_longlong=${samba_cv_have_longlong=yes}
++samba_cv_have_setresgid=${samba_cv_have_setresgid=yes}
++samba_cv_have_setresuid=${samba_cv_have_setresuid=yes}
++samba_cv_sysquotas_file=${samba_cv_sysquotas_file=lib/sysquotas_4A.c}
++# This cached value needs a local patch to pick it up, upstream 3.0.14a
++# doesn't cache it.
++samba_cv_LINUX_LFS_SUPPORT=${samba_cv_LINUX_LFS_SUPPORT=yes}
 -- 
 1.7.5.4
 
