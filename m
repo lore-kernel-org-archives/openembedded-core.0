@@ -1,25 +1,39 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail.cvg.de ([62.153.82.30])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Xiaofeng.Yan@windriver.com>) id 1SWOUw-0003Jl-Lo
+	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1SWOuU-0005Wa-5m
 	for openembedded-core@lists.openembedded.org;
-	Mon, 21 May 2012 11:01:51 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q4L8pgEB018299
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 May 2012 01:51:42 -0700 (PDT)
-Received: from localhost.localdomain (128.224.162.28) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.1.255.0; Mon, 21 May 2012 01:51:41 -0700
-From: <xiaofeng.yan@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 21 May 2012 16:51:34 +0800
-Message-ID: <b28547c58f3190c9b47994a40714bc03b8226912.1337589526.git.xiaofeng.yan@windriver.com>
-X-Mailer: git-send-email 1.7.0.4
-In-Reply-To: <cover.1337589526.git.xiaofeng.yan@windriver.com>
-References: <cover.1337589526.git.xiaofeng.yan@windriver.com>
+	Mon, 21 May 2012 11:28:14 +0200
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id q4L9I5j3012058
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Mon, 21 May 2012 11:18:05 +0200
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.76) (envelope-from <ensc@sigma-chemnitz.de>)
+	id 1SWOkq-0005DZ-3f; Mon, 21 May 2012 11:18:16 +0200
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To: Andreas Oberritter <obi@opendreambox.org>
+References: <1337187331-4945-1-git-send-email-obi@opendreambox.org>
+	<89109968-DC24-477E-9E9D-2F255D1EB93B@dominion.thruhere.net>
+	<4FB3F434.2040703@opendreambox.org>
+	<lymx55fs0d.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	<4FBA00DC.4000709@opendreambox.org>
+Date: Mon, 21 May 2012 11:18:16 +0200
+In-Reply-To: <4FBA00DC.4000709@opendreambox.org> (Andreas Oberritter's message
+	of "Mon, 21 May 2012 10:46:20 +0200")
+Message-ID: <lyliklevtz.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/23.3 (gnu/linux)
 MIME-Version: 1.0
-Subject: [PATCH 1/1] ncurses: Avoid occasional builling failure when having parallel processable task
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 0.99
+X-Spam-Score: -5.3
+X-Spam-Level: -----
+X-Spam-Tests: AWL,BAYES_00,SPF_NEUTRAL,T_RP_MATCHES_RCVD,DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.73
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] avahi-systemd: drop postrm, use prerm instead
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,102 +48,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 May 2012 09:01:51 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 21 May 2012 09:28:14 -0000
+Content-Type: text/plain; charset=us-ascii
 
-From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
+Andreas Oberritter <obi@opendreambox.org> writes:
 
-ncurses failure non-gplv3 build (race issue) like the following \
-error information:
+>>> What's the use case for removing packages offline
+>> 
+>> I am developing very much with NFS root filesystems (--> the temporary
+>> image directory which is kept by IMAGE_KEEPROOTFS=1).  Packaging operations
+>> like install, remove or upgrade are common actions to test recipes and
+>> applications.
+>
+> Just to make sure we're talking about the same thing: Do you run
+> opkg-cl on the build machine to remove or upgrade packages inside the
+> target's NFS root?
 
-| tic: error while loading shared libraries: /srv/home/pokybuild \
-/yocto-autobuilder/yocto-slave/nightly-non-gpl3/build/build/tmp/\
-work/x86_64-linux/ncurses-native-5.9-r8.1/ncurses-5.9/narrowc/lib\
-/libtinfo.so.5: file too short
-| ? tic could not build /srv/home/pokybuild/yocto-autobuilder/\
-yocto-slave/nightly-non-gpl3/build/build/tmp/work/x86_64-linux/\
-ncurses-native-5.9-r8.1/image/srv/home/pokybuild/yocto-autobuilder\
-/yocto-slave/nightly-non-gpl3/build/build/tmp/sysroots/x86_64-linux\
-/usr/share/terminfo
-| make[1]: *** [install.data] Error 1
+yes; I am working on the build machine. The NFS filesystem is mounted
+read-only on the target.
 
-This is a race issue which is caused by
-install.libs and install.data:
 
-1) install.data needs run tic
-2) tic needs libtinfo.so
-3) install.libs would regenerate libtinfo.so
-4) but install.data doesn't depend on install.libs, and they can run
-   parallelly
-
-So there would be errors in a very critical condition: tic is begining
-to run at the same time when install.libs is generating libtinfo.so, and
-this libtinfo.so is not integrity, then there would be the  above error.
-
-Let task install.libs run before install.data for fixing this bug.
-
-[YOCTO #2298]
-
-Signed-off-by: Xiaofeng Yan <xiaofeng.yan@windriver.com>
----
- meta/recipes-core/ncurses/ncurses.inc |   23 ++++++++++++++++++-----
- 1 files changed, 18 insertions(+), 5 deletions(-)
-
-diff --git a/meta/recipes-core/ncurses/ncurses.inc b/meta/recipes-core/ncurses/ncurses.inc
-index ae99e2c..b031119 100644
---- a/meta/recipes-core/ncurses/ncurses.inc
-+++ b/meta/recipes-core/ncurses/ncurses.inc
-@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://ncurses/base/version.c;beginline=1;endline=27;md5=cbc
- SECTION = "libs"
- DEPENDS = "ncurses-native"
- DEPENDS_virtclass-native = ""
--INC_PR = "r8"
-+INC_PR = "r9"
- 
- inherit autotools binconfig multilib_header
- 
-@@ -107,10 +107,15 @@ do_test() {
-         diff curses-narrowc.h curses-widec.h
- }
- 
-+# Split original _install_opts to two parts.
-+# One is the options to install contents, the other is the parameters \
-+# when running command "make install"
- _install_opts = "\
-+  install.libs install.includes install.man \
-+"
-+_install_cfgs = "\
-   DESTDIR='${D}' \
-   PKG_CONFIG_LIBDIR='${libdir}/pkgconfig' \
--  install.libs install.includes install.man \
- "
- 
- python do_install () {
-@@ -122,11 +127,19 @@ shell_do_install() {
-         # Order of installation is important; widec installs a 'curses.h'
-         # header with more definitions and must be installed last hence.
-         # Compatibility of these headers will be checked in 'do_test()'.
--        oe_runmake -C narrowc ${_install_opts} \
--                install.data install.progs
-+        oe_runmake -C narrowc ${_install_cfgs} ${_install_opts} \
-+                install.progs
-+
-+        # The install.data should run after install.libs, otherwise
-+        # there would be a race issue in a very critical conditon, since
-+        # tic will be run by install.data, and tic needs libtinfo.so
-+        # which would be regenerated by install.libs.
-+        oe_runmake -C narrowc ${_install_cfgs} \
-+                install.data
-+
- 
-         ! ${ENABLE_WIDEC} || \
--            oe_runmake -C widec ${_install_opts}
-+            oe_runmake -C widec ${_install_cfgs} ${_install_opts}
- 
-         cd narrowc
- 
--- 
-1.7.0.4
-
+Enrico
 
 
