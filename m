@@ -1,38 +1,38 @@
-Received: from mail.dream-property.net ([82.149.226.172])
+Received: from mail-pb0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <obi@opendreambox.org>) id 1SWPhE-0006Rh-SH
+	(envelope-from <otavio.salvador@gmail.com>) id 1SWQJh-0006qS-GJ
 	for openembedded-core@lists.openembedded.org;
-	Mon, 21 May 2012 12:18:36 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by mail.dream-property.net (Postfix) with ESMTP id C4FDA315C63D;
-	Mon, 21 May 2012 12:08:30 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
-Received: from mail.dream-property.net ([127.0.0.1])
-	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id BMAcQXbsA2tX; Mon, 21 May 2012 12:08:23 +0200 (CEST)
-Received: from [172.22.22.61] (drms-590ed1c8.pool.mediaWays.net
-	[89.14.209.200])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mail.dream-property.net (Postfix) with ESMTPSA id 9AAF3315C63A;
-	Mon, 21 May 2012 12:08:23 +0200 (CEST)
-Message-ID: <4FBA1416.3050102@opendreambox.org>
-Date: Mon, 21 May 2012 12:08:22 +0200
-From: Andreas Oberritter <obi@opendreambox.org>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
+	Mon, 21 May 2012 12:58:21 +0200
+Received: by pbbrq2 with SMTP id rq2so5903377pbb.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 21 May 2012 03:48:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:content-type
+	:content-transfer-encoding;
+	bh=OpV87OebLQ1JbZFTB8VmXq6MPTRyi72Zm2e5NT9Y2OQ=;
+	b=NGiDhiiUaTzFzjEkq0H7ccwZY7CwdKVj/Ik3o0FP1IBVlD79eLerCfWBq4ZKA6gw9s
+	Bat0d0TV2VzGaOWKVgyXepq4kzCGYqdgpq6eoEOUJx766j3C8QYuCLxAMNck7Qzmvu0q
+	JdZjpfu5NfZB5zgwwAUXgVgxe68Mjtoi+OZL9Glwn6H/aHtAeBJz5kcXy1vMd6HJNHQW
+	GrHA8jYyfCccFS7g2rsPiehYqgG0a/DdRddGg4M+d/B6ldvq0h8etHpGFy+TtxFp3Fzl
+	rIYLozn6c8jlgKVrvhT3pIrCj8ncDB53OLHWUO6TWnGtLQ3myCSZMxcCZDCMHaVs7dsT
+	31Dg==
 MIME-Version: 1.0
-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-References: <1337187331-4945-1-git-send-email-obi@opendreambox.org>
-	<89109968-DC24-477E-9E9D-2F255D1EB93B@dominion.thruhere.net>
-	<4FB3F434.2040703@opendreambox.org>
-	<lymx55fs0d.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<4FBA00DC.4000709@opendreambox.org>
-	<lyliklevtz.fsf@ensc-virt.intern.sigma-chemnitz.de>
-In-Reply-To: <lyliklevtz.fsf@ensc-virt.intern.sigma-chemnitz.de>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] avahi-systemd: drop postrm, use prerm instead
+Received: by 10.68.132.101 with SMTP id ot5mr3220156pbb.91.1337597290587; Mon,
+	21 May 2012 03:48:10 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.68.25.42 with HTTP; Mon, 21 May 2012 03:48:10 -0700 (PDT)
+In-Reply-To: <20120521065305.GB3166@jama.jama.net>
+References: <cover.1337581961.git.sgw@linux.intel.com>
+	<cd6ae3da72e2e0052b409d73bb9533f63070e4e9.1337581961.git.sgw@linux.intel.com>
+	<20120521065305.GB3166@jama.jama.net>
+Date: Mon, 21 May 2012 07:48:10 -0300
+X-Google-Sender-Auth: Uh9-SLDtC8nguhPAjMVtbNr31pc
+Message-ID: <CAP9ODKqF=gnm9O7wA+7qDmXpesBO3qNS8QtnGVQmM=srL=4Qfg@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC v1 1/1] Reorder and -dev
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,35 +47,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 May 2012 10:18:37 -0000
+X-List-Received-Date: Mon, 21 May 2012 10:58:21 -0000
 Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 
-On 21.05.2012 11:18, Enrico Scholz wrote:
-> Andreas Oberritter <obi@opendreambox.org> writes:
-> 
->>>> What's the use case for removing packages offline
->>>
->>> I am developing very much with NFS root filesystems (--> the temporary
->>> image directory which is kept by IMAGE_KEEPROOTFS=1).  Packaging operations
->>> like install, remove or upgrade are common actions to test recipes and
->>> applications.
->>
->> Just to make sure we're talking about the same thing: Do you run
->> opkg-cl on the build machine to remove or upgrade packages inside the
->> target's NFS root?
-> 
-> yes; I am working on the build machine. The NFS filesystem is mounted
-> read-only on the target.
+On Mon, May 21, 2012 at 3:53 AM, Martin Jansa <martin.jansa@gmail.com> wrot=
+e:
+> the rest looks ok, but I'm pretty scared from such changes, does your
+> buildhistory diffs show just *-config file moves or something else too?
 
-How do you handle prerm and postrm scripts that fail because $D is set?
-How do you handle the majority of scripts that don't care about $D at
-all? I think your use case is unsupported and always will be.
+It would be nice if some images could be build before and after the
+patch and check before proposing this for merging.
 
-In contrast, packages having failing postinst scripts will re-run their
-scripts on the target on first boot.
+> When you're at it, does it make sense to move also ${PN}-doc
+> ${PN}-locale before ${PN} in PACKAGES? Both have well defined FILES
+> patterns, so ${PN} last can be used as catch all.
 
-Regards,
-Andreas
+It'd be awesome; but let's do it step by step or the time to fix all
+possible mess of it might be tooooo long ;-)
+
+--=20
+Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
+.S. Systems
+E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
+Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
+tems.com.br
 
 
