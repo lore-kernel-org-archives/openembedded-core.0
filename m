@@ -1,30 +1,26 @@
-Received: from mail-gg0-f175.google.com ([209.85.161.175])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <giuseppe.condorelli@gmail.com>) id 1SWMxB-0001pi-7v
+	(envelope-from <Liezhi.Yang@windriver.com>) id 1SWNCQ-00021m-Im
 	for openembedded-core@lists.openembedded.org;
-	Mon, 21 May 2012 09:22:53 +0200
-Received: by ggnp4 with SMTP id p4so4079203ggn.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 May 2012 00:12:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:date:message-id:subject:from:to:content-type;
-	bh=KAucQ/0ADpZ+NlVIEgR4DY+1rok50PYoTx7AeDepYfY=;
-	b=PlkTDELxtMz6HkOodUMw1w2f9AiipagQZ1ebn4SyTIsSOcT8CmsL/oLaGDFivSj3t+
-	K18PzOEOVB1/CieLDeBI/qmqCG5UFRZKIygDJtI+00YXe9zEJSjjYdjcsOUAhWVLnE1U
-	HwdYxnaEdM4NgofwsaHtG0QKNc+sY078hX7KQ6G6oBzq7nnyhpoCZMXiQ8Bwnb2Z/xvs
-	yqnghfdtw+4aiZwzZoV0FYyoY6JF4pXO86vRNe27OmynkM6MsS6c3Shgux7V6xtG/EYs
-	5SygCzdHCOz3WYWu49tvdOVmAaw0S01k5o9d8mV9h5+6li+SrNzPoHNrGJC6rrkhACEX
-	3U/Q==
+	Mon, 21 May 2012 09:38:39 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q4L7SSGs017478
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 21 May 2012 00:28:28 -0700 (PDT)
+Received: from [128.224.163.142] (128.224.163.142) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Mon, 21 May 2012 00:28:27 -0700
+Message-ID: <4FB9EE99.80309@windriver.com>
+Date: Mon, 21 May 2012 15:28:25 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
 MIME-Version: 1.0
-Received: by 10.50.76.163 with SMTP id l3mr788770igw.55.1337584365284; Mon, 21
-	May 2012 00:12:45 -0700 (PDT)
-Received: by 10.231.241.3 with HTTP; Mon, 21 May 2012 00:12:45 -0700 (PDT)
-Date: Mon, 21 May 2012 09:12:45 +0200
-Message-ID: <CAOHjBZvpd8TN04-BixZYRBM9OkYqmxhw37czLdN1wO4Ex0ZqrQ@mail.gmail.com>
-From: Giuseppe Condorelli <giuseppe.condorelli@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: About RPMs installation
+References: <CAOHjBZvpd8TN04-BixZYRBM9OkYqmxhw37czLdN1wO4Ex0ZqrQ@mail.gmail.com>
+In-Reply-To: <CAOHjBZvpd8TN04-BixZYRBM9OkYqmxhw37czLdN1wO4Ex0ZqrQ@mail.gmail.com>
+Subject: Re: About RPMs installation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,32 +35,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 May 2012 07:22:53 -0000
-Content-Type: multipart/alternative; boundary=e89a8f23533df32e3804c086a03f
+X-List-Received-Date: Mon, 21 May 2012 07:38:39 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
---e89a8f23533df32e3804c086a03f
-Content-Type: text/plain; charset=ISO-8859-1
 
-Hi All,
+I'm not very clear about your questions, but the easiest way should be:
 
-can I have an help about rpms installation, once they were built by oc-core?
-I produced both .tgz and rpms, I'm wondering how to install them (maybe
-using chroot, but I'm newbe
-about it).
-Please, have you suggestions?
+1) boot your image
+2) copy your RPMs to the image via scp
+3) rpm -Uvh /pat/to/rpm_file.rpm
 
-Thanks,
-Giuseppe
+// Robert
 
---e89a8f23533df32e3804c086a03f
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+On 05/21/2012 03:12 PM, Giuseppe Condorelli wrote:
+> Hi All,
+>
+> can I have an help about rpms installation, once they were built by oc-core?
+> I produced both .tgz and rpms, I'm wondering how to install them (maybe
+> using chroot, but I'm newbe
+> about it).
+> Please, have you suggestions?
+>
+> Thanks,
+> Giuseppe
+>
+>
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
-<div>Hi All,</div><div>=A0</div><div>can I have an help about rpms installa=
-tion, once they were built by oc-core?</div><div>I produced both .tgz and r=
-pms, I&#39;m wondering how to install them (maybe using chroot, but I&#39;m=
- newbe</div>
-<div>about it).</div><div>Please, have you suggestions?</div><div>=A0</div>=
-<div>Thanks,</div><div>Giuseppe</div>
 
---e89a8f23533df32e3804c086a03f--
