@@ -1,28 +1,37 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail-wi0-f171.google.com ([209.85.212.171])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1SWV37-0004A4-9B
+	(envelope-from <kergoth@gmail.com>) id 1SWV6T-0004Dj-Ep
 	for openembedded-core@lists.openembedded.org;
-	Mon, 21 May 2012 18:01:33 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q4LFpPgd025320
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Mon, 21 May 2012 18:05:01 +0200
+Received: by wibhm14 with SMTP id hm14so2229485wib.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 May 2012 08:51:25 -0700 (PDT)
-Received: from msp-dhcp32.wrs.com (172.25.34.32) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Mon, 21 May 2012 08:51:23 -0700
-Message-ID: <4FBA6479.1040105@windriver.com>
-Date: Mon, 21 May 2012 10:51:21 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
-	rv:12.0) Gecko/20120428 Thunderbird/12.0.1
+	Mon, 21 May 2012 08:54:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date
+	:x-google-sender-auth:message-id:subject:to:content-type
+	:content-transfer-encoding;
+	bh=25V/LTEmTZGeLjtmU+fNWspGIfvBjdcNAwPCv+XumLs=;
+	b=h0PhBxgUpHgvNVscqu/74T9RJx0YHVt9hi0jgQgHbcSA+/7j9zKaJnBqWfyGY9lyfb
+	ErHXbHdQikLk+BMrn4aDc9EN/Wc+I/0IEVrnubIij1aFfzrL2Mwod8lMsFBuzB/pOjJP
+	Nw5ttaXIEcv1U+ME0WbpyJvKzpxr5iUyX1fWiCWjtdK6Apv3+WV1OaaJOOIQhWhTbtHH
+	qQBAJKVVcynII1D4oZKCXt5JnvjDFnXnYHc2SDLr7xuw5/ESfe3fVBu1iBNv2kvIV740
+	rGnYB2LAw2y3+3TxsBu4o0ilymC4y7rtaI3c1K3NFEb0zxRJ42SFuQ+0+/sSsVZxdgqy
+	SDHQ==
+Received: by 10.180.24.39 with SMTP id r7mr26299516wif.9.1337615693929; Mon,
+	21 May 2012 08:54:53 -0700 (PDT)
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1337570904.git.raj.khem@gmail.com>
-	<1337588501.11345.605.camel@ted>
-In-Reply-To: <1337588501.11345.605.camel@ted>
-Subject: Re: [RFC][PATCH 00/14] mips64 support and sh4 support
+Sender: kergoth@gmail.com
+Received: by 10.216.181.16 with HTTP; Mon, 21 May 2012 08:54:33 -0700 (PDT)
+In-Reply-To: <4FBA63A2.9090005@windriver.com>
+References: <cover.1337581961.git.sgw@linux.intel.com>
+	<4FBA63A2.9090005@windriver.com>
+From: Chris Larson <clarson@kergoth.com>
+Date: Mon, 21 May 2012 08:54:33 -0700
+X-Google-Sender-Auth: -hBV12aH3NySVnMr7X76hcadNw4
+Message-ID: <CABcZAN=0JDHip7=E99Dh_mNUgkmtny5z0HbyEq0uh2_+-ehsUg@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC v1 0/1] Reorder ${PN} and ${PN}-dev
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,58 +46,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 May 2012 16:01:33 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 21 May 2012 16:05:01 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On 5/21/12 3:21 AM, Richard Purdie wrote:
-> On Sun, 2012-05-20 at 20:35 -0700, Khem Raj wrote:
->> This patchset adds required bits into metadata for having
->> mips64/n64 support. I have tested the core-image-sato and core-image-minimal
->> builds and boots on qemumips64 and runs gcc regression testsuite.
->> It needs linux-yocto-dev kernel for now which can be obtained from
->> poky-extra repo. Additionally systemd-image on angstrom-next builds and boots
->> fine on qemumips64 as well.
-
-> We need to figure out what it means to add new qemu machines like this
-> to OE-Core. I'm not against it however I can't offer the Yocto Project's
-> resources to test them at this point as we're haven't budgeted for it.
->
-> The above patches make sense regardless so I've merged them except the
-> final two machine files. I'd like to hold off adding those until the
-> system builds and runs with our default kernel and qemu recipes.
-> Hopefully this lets you develop without having a huge queue of patches.
->
-> In the meantime we need to figure out the resource concern for testing.
-> Is there a commercial interest in these new machines from anyone who
-> could perhaps help with the resource issue?
-
- From a commercial interest standpoint, I don't know if there is any with SH4. 
-For the company I work for, SH has been so minor that we likely wouldn't 
-consider it significant enough to spend effort on.
-
-However, MIPS64 is completely different.  There are numerous MIPS64 processors 
-and such, and I strongly advocate OE (and Yocto Project) support for MIPS64.
-
-One thing to note, it should be possible to use the MIPS64 QEMU to replace the 
-"qemumips" configuration already in OE-core.  Then the qemumips64 can be used to 
-validation, mips (o32), mips64 (n64) and eventually mips64 (n32) binaries once 
-they are available.  This would also be a good target to validation complex 
-multilib sets on.
-
---Mark
-
-> Cheers,
->
-> Richard
+On Mon, May 21, 2012 at 8:47 AM, Mark Hatle <mark.hatle@windriver.com> wrot=
+e:
+> On 5/21/12 1:42 AM, Saul Wold wrote:
+>>
+>> This RFC is the first pass at reordering the above 2 items in
+>> the PACKAGES list. This is in part an out cropping of the bug
+>> #2367 (https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D2367),
+>> which show the miss packaged pcap-config file.
 >
 >
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+> I've often wondered why the order is the way it is. =C2=A0If I were to do=
+ this
+> from scratch, I'd move the ${PN} item to last in the default order. =C2=
+=A0Have
+> you considered this more radical approach, that would then allow all of t=
+he
+> default splits to occur before the ${PN} processing. =C2=A0(It might also=
+ allow
+> the ${PN} to simply be a "/*" instead of more complex rules.)
 
+This would be quite nice, if we could pull it off without breaking
+anything horribly.
+--=20
+Christopher Larson
 
 
