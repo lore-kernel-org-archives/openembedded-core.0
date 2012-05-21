@@ -1,25 +1,34 @@
-Received: from starfish.geekisp.com ([216.168.135.166])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philip@balister.org>) id 1SWSUH-0001ct-SG
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <rpurdie@rpsys.net>) id 1SWSm0-0003bB-9N
 	for openembedded-core@lists.openembedded.org;
-	Mon, 21 May 2012 15:17:26 +0200
-Received: (qmail 12497 invoked by uid 1003); 21 May 2012 13:07:06 -0000
-Received: from unknown (HELO ?192.168.0.15?)
-	(philip@opensdr.com@75.136.226.183)
-	by mail.geekisp.com with (DHE-RSA-AES256-SHA encrypted) SMTP;
-	21 May 2012 13:07:06 -0000
-Message-ID: <4FBA3E04.50403@balister.org>
-Date: Mon, 21 May 2012 09:07:16 -0400
-From: Philip Balister <philip@balister.org>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.24) Gecko/20111108 Fedora/3.1.16-1.fc14 Thunderbird/3.1.16
-MIME-Version: 1.0
+	Mon, 21 May 2012 15:35:44 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q4LDPb0q025415
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 21 May 2012 14:25:37 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 23836-07 for <openembedded-core@lists.openembedded.org>;
+	Mon, 21 May 2012 14:25:33 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q4LDPSjV025409
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 21 May 2012 14:25:29 +0100
+Message-ID: <1337606728.22747.2.camel@ted>
+From: Richard Purdie <rpurdie@rpsys.net>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
+Date: Mon, 21 May 2012 14:25:28 +0100
+In-Reply-To: <4FBA3E04.50403@balister.org>
 References: <1336581863-23833-1-git-send-email-philip@balister.org>
 	<CAF6bG8eNvdXghPDFh7omfan5mYY56SLJyPLM_oqWRD=-xsBPrw@mail.gmail.com>
-In-Reply-To: <CAF6bG8eNvdXghPDFh7omfan5mYY56SLJyPLM_oqWRD=-xsBPrw@mail.gmail.com>
-X-Enigmail-Version: 1.1.2
+	<4FBA3E04.50403@balister.org>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
 Subject: Re: Add option to oe-buildenv-internal script to change bitbake location.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -35,28 +44,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 May 2012 13:17:26 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Mon, 21 May 2012 13:35:44 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 05/09/2012 01:03 PM, Marko Lindqvist wrote:
-> On 9 May 2012 19:44, Philip Balister <philip@balister.org> wrote:
->> Having bitbake inside the oe-core is annoying to some people. This commit
->> adds a second option to the oe-init-build-env script.
->>
->> Run like this:
->>
->> . ./oe-init-build-env ../build ../bitbake
->>
->> for example. Without the second option, the old behavior is preserved.
->>
->> Signed-off-by: Philip Balister <philip@balister.org>
+On Mon, 2012-05-21 at 09:07 -0400, Philip Balister wrote:
+> On 05/09/2012 01:03 PM, Marko Lindqvist wrote:
+> > On 9 May 2012 19:44, Philip Balister <philip@balister.org> wrote:
+> >> Having bitbake inside the oe-core is annoying to some people. This commit
+> >> adds a second option to the oe-init-build-env script.
+> >>
+> >> Run like this:
+> >>
+> >> . ./oe-init-build-env ../build ../bitbake
+> >>
+> >> for example. Without the second option, the old behavior is preserved.
+> >>
+> >> Signed-off-by: Philip Balister <philip@balister.org>
+> > 
+> >  Maybe you should update comment in oe-init-build-env describing
+> > typical use to contain this parameter.
 > 
->  Maybe you should update comment in oe-init-build-env describing
-> typical use to contain this parameter.
+> Richard, do you want me to se-send this with Marko's suggestions added?
 
-Richard, do you want me to se-send this with Marko's suggestions added?
+I'm happy to have a follow up patch, I did merge the original. It broke
+various assumptions being made by for example the autobuilder scripts so
+I had to add some other changes already.
 
-Philip
+Cheers,
+
+Richard
+
 
 
