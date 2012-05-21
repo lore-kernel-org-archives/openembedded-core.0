@@ -1,14 +1,33 @@
-Received: from ffm.saftware.de ([83.141.3.46])
+Received: from mail-pz0-f47.google.com ([209.85.210.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <obi@opendreambox.org>) id 1SWVnJ-0005ZO-Ey
+	(envelope-from <raj.khem@gmail.com>) id 1SWWJO-0006kD-L0
 	for openembedded-core@lists.openembedded.org;
-	Mon, 21 May 2012 18:49:17 +0200
-From: Andreas Oberritter <obi@opendreambox.org>
+	Mon, 21 May 2012 19:22:26 +0200
+Received: by dalh21 with SMTP id h21so6181608dal.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 21 May 2012 10:12:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=Cz4dR+gOPzgdnEoPZc+sxdK0Hm/1aMj4I2atrNP2m0w=;
+	b=K67f24aFAKnSOdGHBrv24ciHEioEq9EzrDSCe/pWR+xt7dHRsjmEk4yFv/TaI6rbYZ
+	tSh7PAnvagWC0LMpIq7sKrhCPzMsIl2Teb/LUeOKDOd883sou93k1hW9lAtabq3+anwe
+	PzPHKnHa6PkBeheKw0mtXCnTPTqS9XAujtutP0oF+tt3pY9ppc/Bu60Nc20wks6t8+2Z
+	TQJbhCEBbTlcep3kK/oVMj4tM+OViid3EwHzKTBCYwCaNMsjHBOUGHnuA1+cxwtPcnx1
+	7fcJv+uu4qgX3RF1+cpES1SueFrlO5D3qXhg5H9iD3501IsD3odG+ZYV8UHG2w5ZhZA6
+	wgaw==
+Received: by 10.68.221.39 with SMTP id qb7mr70650997pbc.120.1337620337986;
+	Mon, 21 May 2012 10:12:17 -0700 (PDT)
+Received: from localhost.localdomain (oldbuilder.nslu2-linux.org.
+	[140.211.169.168])
+	by mx.google.com with ESMTPS id tj4sm9694206pbc.33.2012.05.21.10.12.16
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 21 May 2012 10:12:17 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 21 May 2012 18:39:07 +0200
-Message-Id: <1337618347-30900-1-git-send-email-obi@opendreambox.org>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] netbase: merge init script updates from upstream
+Date: Mon, 21 May 2012 10:11:44 -0700
+Message-Id: <cover.1337620159.git.raj.khem@gmail.com>
+X-Mailer: git-send-email 1.7.5.4
+Subject: [PATCH 0/3] ARM hf support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -23,164 +42,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 May 2012 16:49:17 -0000
+X-List-Received-Date: Mon, 21 May 2012 17:22:27 -0000
 
-* Read /proc/mounts only once.
-* Support many more network filesystem types.
-* Remaining differences to netbase 4.47:
-  - Uses the mountvirtfs keyword instead of mountkernfs
-  - Doesn't use lsb functions
-  - Doesn't print a warning if /etc/network/options exists
-  - Doesn't use --exclude parameter for ifup, because
-    busybox doesn't support it.
+This patchset adds the newly added hard float convention for naming the 
+dynamic linker. We have a tune feature to denote hf calling convention
+already therefore this patch uses that feature to decide on configuring
+the toolchain to be soft float or hard-float call conventions by default.
 
-Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
----
- meta/recipes-core/netbase/netbase-4.47/init |  101 ++++++++++++++++++---------
- meta/recipes-core/netbase/netbase_4.47.bb   |    2 +-
- 2 files changed, 70 insertions(+), 33 deletions(-)
 
-diff --git a/meta/recipes-core/netbase/netbase-4.47/init b/meta/recipes-core/netbase/netbase-4.47/init
-index 8a67e1c..bace9df 100644
---- a/meta/recipes-core/netbase/netbase-4.47/init
-+++ b/meta/recipes-core/netbase/netbase-4.47/init
-@@ -1,52 +1,89 @@
--#!/bin/sh
--#
-+#!/bin/sh -e
- ### BEGIN INIT INFO
- # Provides:          networking
--# Required-Start:    $local_fs mountvirtfs
-+# Required-Start:    mountvirtfs $local_fs
- # Required-Stop:     $local_fs
-+# Should-Start:      ifupdown
-+# Should-Stop:       ifupdown
- # Default-Start:     S
- # Default-Stop:      0 6
--# Short-Description: Raise network interfaces and configure them
-+# Short-Description: Raise network interfaces.
- ### END INIT INFO
- 
--PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
-+PATH="/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin"
- 
--if ! [ -x /sbin/ifup ]; then
--    exit 0
--fi
-+[ -x /sbin/ifup ] || exit 0
-+
-+check_network_file_systems() {
-+    [ -e /proc/mounts ] || return 0
-+
-+    if [ -e /etc/iscsi/iscsi.initramfs ]; then
-+	echo "not deconfiguring network interfaces: iSCSI root is mounted."
-+	exit 0
-+    fi
-+
-+    exec 9<&0 < /proc/mounts
-+    while read DEV MTPT FSTYPE REST; do
-+	case $DEV in
-+	/dev/nbd*|/dev/nd[a-z]*|/dev/etherd/e*)
-+	    echo "not deconfiguring network interfaces: network devices still mounted."
-+	    exit 0
-+	    ;;
-+	esac
-+	case $FSTYPE in
-+	nfs|nfs4|smbfs|ncp|ncpfs|cifs|coda|ocfs2|gfs|pvfs|pvfs2|fuse.httpfs|fuse.curlftpfs)
-+	    echo "not deconfiguring network interfaces: network file systems still mounted."
-+	    exit 0
-+	    ;;
-+	esac
-+    done
-+    exec 0<&9 9<&-
-+}
-+
-+check_network_swap() {
-+    [ -e /proc/swaps ] || return 0
-+
-+    exec 9<&0 < /proc/swaps
-+    while read DEV MTPT FSTYPE REST; do
-+	case $DEV in
-+	/dev/nbd*|/dev/nd[a-z]*|/dev/etherd/e*)
-+	    echo "not deconfiguring network interfaces: network swap still mounted."
-+	    exit 0
-+	    ;;
-+	esac
-+    done
-+    exec 0<&9 9<&-
-+}
- 
- case "$1" in
--    start)
--        echo -n "Configuring network interfaces... "
--        ifup -a
-+start)
-+	echo -n "Configuring network interfaces... "
-+	ifup -a
- 	echo "done."
- 	;;
--    stop)
--        if sed -n 's/^[^ ]* \([^ ]*\) \([^ ]*\) .*$/\1 \2/p' /proc/mounts | 
--          grep -q "^/ nfs$"; then
--            echo "NOT deconfiguring network interfaces: / is an NFS mount"
--        elif sed -n 's/^[^ ]* \([^ ]*\) \([^ ]*\) .*$/\1 \2/p' /proc/mounts |  
--          grep -q "^/ smbfs$"; then
--            echo "NOT deconfiguring network interfaces: / is an SMB mount"
--	elif sed -n 's/^[^ ]* \([^ ]*\) \([^ ]*\) .*$/\2/p' /proc/mounts | 
--          grep -qE '^(nfs|smbfs|ncp|coda)$'; then
--            echo "NOT deconfiguring network interfaces: network shares still mounted."
--        else
--            echo -n "Deconfiguring network interfaces... "
--            ifdown -a
--	    echo "done."
--        fi
-+
-+stop)
-+	check_network_file_systems
-+	check_network_swap
-+
-+	echo -n "Deconfiguring network interfaces... "
-+	ifdown -a
-+	echo "done."
- 	;;
--    force-reload|restart)
--        echo -n "Reconfiguring network interfaces... "
--        ifdown -a
--        ifup -a
-+
-+force-reload|restart)
-+	echo "Running $0 $1 is deprecated because it may not enable again some interfaces"
-+	echo "Reconfiguring network interfaces... "
-+	ifdown -a || true
-+	ifup -a
- 	echo "done."
- 	;;
--    *)
--	echo "Usage: /etc/init.d/networking {start|stop|restart|force-reload}"
-+
-+*)
-+	echo "Usage: /etc/init.d/networking {start|stop}"
- 	exit 1
- 	;;
- esac
- 
- exit 0
-+
-diff --git a/meta/recipes-core/netbase/netbase_4.47.bb b/meta/recipes-core/netbase/netbase_4.47.bb
-index a1462f8..f84e9a4 100644
---- a/meta/recipes-core/netbase/netbase_4.47.bb
-+++ b/meta/recipes-core/netbase/netbase_4.47.bb
-@@ -4,7 +4,7 @@ HOMEPAGE = "http://packages.debian.org/netbase"
- SECTION = "base"
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://debian/copyright;md5=3dd6192d306f582dee7687da3d8748ab"
--PR = "r1"
-+PR = "r2"
- 
- inherit update-rc.d
- 
+The following changes since commit e6333825c3482a559a0c0499e17f8f48d3042ddf:
+
+  tune-mips64.inc: Add new tune file for mips64 big-endian (2012-05-20 20:24:37 -0700)
+
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib kraj/armhf
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=kraj/armhf
+
+Khem Raj (3):
+  gcc-4.7: Add knowledge about arm hf dynamic loader
+  eglibc: Add ARM hf dynamic linker support
+  gcc: Grok for callconvention-hard to enable hard float
+
+ .../eglibc/eglibc-2.15/add_HAVE_ARM_PCS_VFP.patch  |   28 ++
+ .../eglibc/eglibc-2.15/ldso_arm_hf_support.patch   |  338 ++++++++++++++++++++
+ meta/recipes-core/eglibc/eglibc_2.15.bb            |    4 +-
+ meta/recipes-devtools/gcc/gcc-4.7.inc              |    1 +
+ .../gcc/gcc-4.7/arm-hard-float-loader.patch        |   48 +++
+ meta/recipes-devtools/gcc/gcc-common.inc           |    2 +
+ 6 files changed, 420 insertions(+), 1 deletions(-)
+ create mode 100644 meta/recipes-core/eglibc/eglibc-2.15/add_HAVE_ARM_PCS_VFP.patch
+ create mode 100644 meta/recipes-core/eglibc/eglibc-2.15/ldso_arm_hf_support.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.7/arm-hard-float-loader.patch
+
 -- 
-1.7.9.5
+1.7.5.4
 
 
 
