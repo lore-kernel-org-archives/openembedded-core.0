@@ -1,35 +1,26 @@
-Received: from mail-pz0-f47.google.com ([209.85.210.47])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1SWbsx-0002c0-F0
+	(envelope-from <edwin.zhai@intel.com>) id 1SWe7y-0006Ey-NL
 	for openembedded-core@lists.openembedded.org;
-	Tue, 22 May 2012 01:19:31 +0200
-Received: by dalh21 with SMTP id h21so6529193dal.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 May 2012 16:09:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references;
-	bh=TeF+SWGHNpHUfLGz2gUIPXZNMdtknqXN4HetIclpg9g=;
-	b=Mq4ShDqCiLGPTOTE4luo2Y2xV/0XDUtDw5GA98zbmF/uAEzluvEYewjBASuzuGuwMU
-	4avLeEWAL2xESz2SW13eoilsI9AkMqbfy1+Bep0h6bF5QujKc2oWSSrmigSZwJXYd4Kg
-	OAX4/wA88Sg3tNIxP9zUDTK7gbW0ESDi5r/fM5Buhld8Q+/TDvY6iwwejwJ9WeSPdb7g
-	3bIB0w+yiFLR4oshjz38uVFkQCfDTjTDoQDKk6JubYq8hs7uQkaEkfwVMjsSdPoQIsc6
-	0oyfTFVPXbKL3YCuYY/xGNTyc4mUAGr8jody68rYFLdLH3V6UIn29q8hdXnBG2+/YQuI
-	sywg==
-Received: by 10.68.132.199 with SMTP id ow7mr45584690pbb.144.1337641762860;
-	Mon, 21 May 2012 16:09:22 -0700 (PDT)
-Received: from localhost.localdomain (ip68-110-79-242.ph.ph.cox.net.
-	[68.110.79.242]) by mx.google.com with ESMTPS id
-	po10sm12643702pbb.21.2012.05.21.16.09.21
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 21 May 2012 16:09:21 -0700 (PDT)
-From: Christopher Larson <kergoth@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 21 May 2012 16:09:12 -0700
-Message-Id: <1337641752-1521-3-git-send-email-kergoth@gmail.com>
-X-Mailer: git-send-email 1.7.10.2
-In-Reply-To: <1337641752-1521-1-git-send-email-kergoth@gmail.com>
-References: <1337641752-1521-1-git-send-email-kergoth@gmail.com>
-Subject: [PATCH 3/3] external-sourcery-toolchain: ignore GNU_HASH issues with its packages
+	Tue, 22 May 2012 03:43:10 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 21 May 2012 18:33:01 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="146691930"
+Received: from edwin-gen.sh.intel.com (HELO edwin-gen) ([10.239.36.17])
+	by orsmga002.jf.intel.com with SMTP; 21 May 2012 18:32:59 -0700
+Received: by edwin-gen (sSMTP sendmail emulation);
+	Tue, 22 May 2012 09:33:46 +0800
+Date: Tue, 22 May 2012 09:33:46 +0800
+From: "Zhai, Edwin" <edwin.zhai@intel.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Message-ID: <20120522013346.GI1450@edwin-gen>
+References: <cover.1337003838.git.edwin.zhai@intel.com>
+MIME-Version: 1.0
+In-Reply-To: <cover.1337003838.git.edwin.zhai@intel.com>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Subject: Re: [PATCH 0/1] qemu: Add option to disable GL acceleration, Edwin, May14, 2012
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,32 +35,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 May 2012 23:19:31 -0000
+X-List-Received-Date: Tue, 22 May 2012 01:43:10 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Signed-off-by: Christopher Larson <kergoth@gmail.com>
----
- meta/recipes-core/meta/external-sourcery-toolchain.bb |    6 ++++++
- 1 file changed, 6 insertions(+)
+Ping...
 
-diff --git a/meta/recipes-core/meta/external-sourcery-toolchain.bb b/meta/recipes-core/meta/external-sourcery-toolchain.bb
-index a14e958..b8cb6d9 100644
---- a/meta/recipes-core/meta/external-sourcery-toolchain.bb
-+++ b/meta/recipes-core/meta/external-sourcery-toolchain.bb
-@@ -92,6 +92,12 @@ PACKAGES =+ "libgcc libgcc-dev libstdc++ libstdc++-dev libstdc++-staticdev linux
- # This test should be fixed to ignore .a files in .debug dirs
- INSANE_SKIP_${PN}-dbg = "staticdev"
- 
-+# We don't care about GNU_HASH in prebuilt binaries
-+INSANE_SKIP_${PN}-utils += "ldflags"
-+INSANE_SKIP_libstdc++ += "ldflags"
-+INSANE_SKIP_libgcc += "ldflags"
-+INSANE_SKIP_gdbserver += "ldflags"
-+
- PKG_${PN} = "eglibc"
- PKG_${PN}-dev = "eglibc-dev"
- PKG_${PN}-staticdev = "eglibc-staticdev"
+On Mon, May 14, 2012 at 10:00:58PM +0800, edwin.zhai@intel.com wrote:
+> From: Zhai Edwin <edwin.zhai@intel.com>
+> 
+> All,
+> This patch add an PACKAGECONFIG in qemu to disable GL acceleration:
+> * By default configure try best to enable GL acceleration and fail when missing
+>   host dependency(libSDL and libGL).
+> * End user can also choose to turn off GL capability, thus remove the host
+>   dependence(libSDL&libGL) in building.
+> 
+> [YOCTO #2407] got fixed.
+> 
+> Pls. help to review and pull
+> 
+> 
+> The following changes since commit 54f38111868775c85bfe921592d8443a61952c62:
+> 
+>   pango: Fix modules load failure in multilib environment (2012-05-14 21:50:55 +0800)
+> 
+> are available in the git repository at:
+>   git://git.pokylinux.org/poky-contrib gzhai/fix2
+>   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=gzhai/fix2
+> 
+> Zhai Edwin (1):
+>   qemu: Add an option to remove host sdl/gl checking
+> 
+>  .../qemu/qemu-0.15.1/opengl-disable-option.patch   |  172 ++++++++++++++++++++
+>  meta/recipes-devtools/qemu/qemu.inc                |   23 +---
+>  meta/recipes-devtools/qemu/qemu_0.15.1.bb          |    1 +
+>  3 files changed, 176 insertions(+), 20 deletions(-)
+>  create mode 100644 meta/recipes-devtools/qemu/qemu-0.15.1/opengl-disable-option.patch
+> 
+> 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+
 -- 
-1.7.10.2
-
+best rgds,
+edwin
 
 
