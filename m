@@ -1,25 +1,33 @@
-Received: from mga09.intel.com ([134.134.136.24])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1SWoiq-0008P6-0s
-	for openembedded-core@lists.openembedded.org;
-	Tue, 22 May 2012 15:01:56 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 22 May 2012 05:51:46 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="146911218"
-Received: from unknown (HELO helios.localnet) ([10.252.120.151])
-	by orsmga002.jf.intel.com with ESMTP; 22 May 2012 05:51:45 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Andreas Oberritter <obi@opendreambox.org>
-Date: Tue, 22 May 2012 13:51:42 +0100
-Message-ID: <2080721.YZu0iU2L4T@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.8.2 (Linux/3.2.0-24-generic-pae; KDE/4.8.2; i686; ; )
-In-Reply-To: <1337686647-1027-1-git-send-email-obi@opendreambox.org>
-References: <1337686647-1027-1-git-send-email-obi@opendreambox.org>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/2] qt4(-embedded).inc: create variables to ease overriding
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1SWp4r-0000Fw-7Z for openembedded-core@lists.openembedded.org;
+	Tue, 22 May 2012 15:24:41 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q4MDEWVd001607;
+	Tue, 22 May 2012 14:14:32 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 31894-07; Tue, 22 May 2012 14:14:28 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q4MDEMqW001600
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Tue, 22 May 2012 14:14:24 +0100
+Message-ID: <1337692461.10942.1.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Tue, 22 May 2012 14:14:21 +0100
+In-Reply-To: <23F3463C-1206-424C-B269-6D87EA479D57@dominion.thruhere.net>
+References: <cover.1337681343.git.liezhi.yang@windriver.com>
+	<dc94c1bb359b466c779a11fd8559851a8c6ea5d2.1337681343.git.liezhi.yang@windriver.com>
+	<23F3463C-1206-424C-B269-6D87EA479D57@dominion.thruhere.net>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: Zhenfeng.Zhao@windriver.com
+Subject: Re: [PATCH 1/1] tune-core2.inc: PACKAGE_EXTRA_ARCHS causes wrong packages install into image
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,97 +42,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 May 2012 13:01:56 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 22 May 2012 13:24:41 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Tuesday 22 May 2012 13:37:25 Andreas Oberritter wrote:
-> * No functional change besides ordering of configure arguments.
+On Tue, 2012-05-22 at 12:30 +0200, Koen Kooi wrote:
+> Op 22 mei 2012, om 12:15 heeft Robert Yang het volgende geschreven:
 > 
-> Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
-> ---
-> * This doesn't cover all possible flags, but only those that I need
->   to customize in my layer. Other flags may be added later if need
->   arises.
+> > There is a bug if we:
+> > 1) bitbake diffutils with MACHINE=crownbay
+> > 2) bitbake diffutils with MACHINE=qemux86
+> > 3) bitbake core-image-sato with MACHINE=crownbay
+> > 
+> > Then the diffutils.i586 would be installed to the crownbay's image, this
+> > is because diffutils.i586 is newer than diffutils.core2, both of
+> > deploy/rpm/i586 and deploy/rpm/core2 are in the dbpath, so rpm will
+> > select the newer one (diffutils.i586). This caused by:
+> > 
+> > PACKAGE_EXTRA_ARCHS_tune-core2 = "${PACKAGE_EXTRA_ARCHS_tune-x86} i386 i486 i586 i686 core2"
+> > 
+> > The PACKAGE_EXTRA_ARCHS will cause the deploy/rpm/i586 in the crownbay's
+> > dbpath, so any pkg which is needed by the image of both crownbay and
+> > qemux86, if the i586 one is newer than the core2, it would be installed
+> > into crownbay's image.
 > 
->  meta/recipes-qt/qt4/qt4-embedded.inc |   12 +++++++++---
->  meta/recipes-qt/qt4/qt4.inc          |   17 ++++++++++++++---
->  2 files changed, 23 insertions(+), 6 deletions(-)
-> 
-> diff --git a/meta/recipes-qt/qt4/qt4-embedded.inc
-> b/meta/recipes-qt/qt4/qt4-embedded.inc index 8c15352..158ee17 100644
-> --- a/meta/recipes-qt/qt4/qt4-embedded.inc
-> +++ b/meta/recipes-qt/qt4/qt4-embedded.inc
-> @@ -9,12 +9,18 @@ QT_BASE_LIB  ?= "libqt-embedded"
->  # Set necessary variables in the profile
->  SRC_URI += "file://qte.sh"
-> 
-> +QT_DECORATION_FLAGS ?= ""
-> +QT_GFX_DRIVER_FLAGS ?= "-plugin-gfx-transformed -plugin-gfx-qvfb
-> -plugin-gfx-vnc -plugin-gfx-directfb" +QT_KBD_DRIVER_FLAGS ?= "-qt-kbd-tty"
-> +QT_MOUSE_DRIVER_FLAGS ?= "-plugin-mouse-tslib -qt-mouse-pc -qt-mouse-qvfb
-> -qt-mouse-linuxinput" +
->  QT_CONFIG_FLAGS += " \
->      -embedded ${QT_ARCH} \
->      -qtlibinfix ${QT_LIBINFIX} \
-> -    -plugin-gfx-transformed -plugin-gfx-qvfb -plugin-gfx-vnc
-> -plugin-gfx-directfb \ -    -plugin-mouse-tslib -qt-mouse-pc -qt-mouse-qvfb
-> -qt-mouse-linuxinput \ -    -qt-kbd-tty \
-> +    ${QT_DECORATION_FLAGS} \
-> +    ${QT_GFX_DRIVER_FLAGS} \
-> +    ${QT_KBD_DRIVER_FLAGS} \
-> +    ${QT_MOUSE_DRIVER_FLAGS} \
->      -DQT_KEYPAD_NAVIGATION \
->      "
-> 
-> diff --git a/meta/recipes-qt/qt4/qt4.inc b/meta/recipes-qt/qt4/qt4.inc
-> index 468a46f..c70b335 100644
-> --- a/meta/recipes-qt/qt4/qt4.inc
-> +++ b/meta/recipes-qt/qt4/qt4.inc
-> @@ -10,17 +10,28 @@ QT_ENDIAN = "${@qt_endian(d)}"
->  QT_DISTRO_FLAGS ?= "-no-accessibility -no-sm"
->  QT_DISTRO_FLAGS_linuxstdbase = "-sm"
-> 
-> +QT_GLIB_FLAGS ?= "-glib"
-> +QT_IMAGEFORMAT_FLAGS ?= "-system-libjpeg -system-libpng -system-libtiff
-> -system-zlib" +QT_PHONON_FLAGS ?= "-phonon"
-> +QT_QDBUS_FLAGS ?= "-qdbus"
-> +QT_QT3SUPPORT_FLAGS ?= "-qt3support"
->  QT_SQL_DRIVER_FLAGS ?= "-no-sql-ibase -no-sql-mysql -no-sql-psql
-> -no-sql-odbc -plugin-sql-sqlite" +QT_WEBKIT_FLAGS ?= "-webkit"
-> 
->  QT_GLFLAGS ?= ""
-> 
->  QT_CONFIG_FLAGS += "-release -no-cups -reduce-relocations \
->                      -shared -no-nas-sound -no-nis \
-> -                    -system-libjpeg -system-libpng -system-libtiff
-> -system-zlib \ -                    -no-pch -qdbus -stl -glib -phonon
-> -webkit \
-> -                    -xmlpatterns -no-rpath -qt3support -silent \
-> +                    -no-pch -stl \
-> +                    -xmlpatterns -no-rpath -silent \
->                      ${@base_contains('DISTRO_FEATURES', 'pulseaudio',
-> '--enable-pulseaudio', '--disable-pulseaudio', d)} \ +                   
-> ${QT_GLIB_FLAGS} \
-> +                    ${QT_IMAGEFORMAT_FLAGS} \
-> +                    ${QT_PHONON_FLAGS} \
-> +                    ${QT_QDBUS_FLAGS} \
-> +                    ${QT_QT3SUPPORT_FLAGS} \
->                      ${QT_SQL_DRIVER_FLAGS} \
-> +                    ${QT_WEBKIT_FLAGS} \
->                      ${QT_DISTRO_FLAGS} \
->                      ${QT_GLFLAGS}"
+> This is a bug in RPM not respecting the arch priorities. Changing PACKAGE_EXTRA_ARCHS is the wrong way to 'fix' that.
 
-I think when we start getting to this level, especially because some of these 
-options imply extra DEPENDS, we should try to use PACKAGECONFIG rather than 
-specific variables.
+Agreed, the core2 package should have higher priority compared to the
+i586 package and be the one that "wins" and gets installed. This is a
+bug in the rpm package/rootfs backend that needs to get fixed.
 
 Cheers,
-Paul
 
--- 
+Richard
 
-Paul Eggleton
-Intel Open Source Technology Centre
+
 
 
