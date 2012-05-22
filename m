@@ -1,14 +1,23 @@
-Received: from ffm.saftware.de ([83.141.3.46])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <obi@opendreambox.org>) id 1SWssN-00079Y-AQ
-	for openembedded-core@lists.openembedded.org;
-	Tue, 22 May 2012 19:28:03 +0200
-From: Andreas Oberritter <obi@opendreambox.org>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 22 May 2012 19:17:50 +0200
-Message-Id: <1337707070-2036-1-git-send-email-obi@opendreambox.org>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] wpa-supplicant: fix packaging error since last commit
+	(envelope-from <jason.wessel@windriver.com>) id 1SWtco-00077O-03
+	for Openembedded-core@lists.openembedded.org;
+	Tue, 22 May 2012 20:16:02 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q4MI5qgq016658
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <Openembedded-core@lists.openembedded.org>;
+	Tue, 22 May 2012 11:05:52 -0700 (PDT)
+Received: from ord-lpggp2.wrs.com (172.25.32.37) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Tue, 22 May 2012 11:05:52 -0700
+From: Jason Wessel <jason.wessel@windriver.com>
+To: <Openembedded-core@lists.openembedded.org>
+Date: Tue, 22 May 2012 13:06:35 -0500
+Message-ID: <1337709995-13798-1-git-send-email-jason.wessel@windriver.com>
+X-Mailer: git-send-email 1.7.1
+MIME-Version: 1.0
+Subject: [PATCH] recipes-devtools/qemu/qemu.inc: Add jpeg as a dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -23,44 +32,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 May 2012 17:28:03 -0000
+X-List-Received-Date: Tue, 22 May 2012 18:16:02 -0000
+Content-Type: text/plain
 
-* wpa-passphrase has its own package, but commit
-  4a4c568e25a08e9f222d723f9819582c9f895c58 broke it.
+If you use a shared state cache and build a large file system,
+followed by a small one, the qemu will be built with jpeg support.
 
-Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
+Building ultra small file systems leaves out jpeg as a dependency
+for the host tool, and when using a sstate cache you end up with
+the following error using runqemu:
+
+qemu: error while loading shared libraries: libjpeg.so.8: cannot open shared object file: No such file or directory
+
+The work around is to execute:
+   bitbake jpeg-native
+
+Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
 ---
- .../wpa-supplicant/wpa-supplicant-0.7.inc          |    2 +-
- .../wpa-supplicant/wpa-supplicant_0.7.3.bb         |    2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-devtools/qemu/qemu.inc |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.inc b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.inc
-index aabb3df..b489893 100644
---- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.inc
-+++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.inc
-@@ -19,7 +19,7 @@ SRC_URI = "http://hostap.epitest.fi/releases/wpa_supplicant-${PV}.tar.gz \
- S = "${WORKDIR}/wpa_supplicant-${PV}/wpa_supplicant"
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 93325c3..bd9e5bf 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -1,7 +1,7 @@
+ DESCRIPTION = "open source processor emulator"
+ HOMEPAGE = "http://qemu.org"
+ LICENSE = "GPLv2 & LGPLv2.1"
+-DEPENDS = "glib-2.0 zlib alsa-lib virtual/libx11"
++DEPENDS = "glib-2.0 zlib alsa-lib virtual/libx11 jpeg"
  
- PACKAGES_prepend = "wpa-supplicant-passphrase wpa-supplicant-cli "
--FILES_wpa-supplicant-passphrase = "${sbindir}/wpa_passphrase"
-+FILES_wpa-supplicant-passphrase = "${bindir}/wpa_passphrase"
- FILES_wpa-supplicant-cli = "${sbindir}/wpa_cli"
- FILES_${PN} += "${datadir}/dbus-1/system-services/*"
- 
-diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.7.3.bb b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.7.3.bb
-index dc2eb6c..1e0086a 100644
---- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.7.3.bb
-+++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.7.3.bb
-@@ -1,6 +1,6 @@
- require wpa-supplicant-0.7.inc
- 
--PR = "r9"
-+PR = "r10"
- 
- SRC_URI[md5sum] = "f516f191384a9a546e3f5145c08addda"
- SRC_URI[sha256sum] = "d0cd50caa85346ccc376dcda5ed3c258eef19a93b3cade39d25760118ad59443"
+ # QEMU_TARGETS is overridable variable
+ QEMU_TARGETS ?= "arm i386 mips mipsel mips64 mips64el ppc sh4 x86_64"
 -- 
-1.7.9.5
+1.7.1
 
 
 
