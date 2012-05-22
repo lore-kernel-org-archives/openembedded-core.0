@@ -1,26 +1,42 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1SWut3-0001ju-WF
+	(envelope-from <koen@dominion.thruhere.net>) id 1SWvah-0002lx-Ub
 	for openembedded-core@lists.openembedded.org;
-	Tue, 22 May 2012 21:36:54 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q4MJQik6026935
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 22 May 2012 22:21:59 +0200
+Received: by eekd49 with SMTP id d49so2132597eek.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 May 2012 12:26:44 -0700 (PDT)
-Received: from localhost.localdomain (172.25.34.61) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Tue, 22 May 2012 12:26:44 -0700
-From: Mark Hatle <mark.hatle@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 22 May 2012 14:30:15 -0500
-Message-ID: <3a7cbde0116d961c444a80ecb7e2624e6cc61acd.1337714416.git.mark.hatle@windriver.com>
-X-Mailer: git-send-email 1.7.3.4
-In-Reply-To: <cover.1337714416.git.mark.hatle@windriver.com>
+	Tue, 22 May 2012 13:11:51 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=content-type:mime-version:subject:from:in-reply-to:date
+	:content-transfer-encoding:message-id:references:to:x-mailer
+	:x-gm-message-state;
+	bh=Q8UYZZE4LMCaDYtSH4XKPdK+YxCzOCWJyeXttfZsebw=;
+	b=Ebp4rcvyPegl0F1eG/ErXX+l9qWM/48cKd/cs2u/xxSZUuO+EaG6mrGT2PhLioAxTy
+	X7UB6cNLIeTlJo8isRTRDzPLKS1GemFmKieHFBPl5KpCIzdKFCIy6A6Fu8IB4aBtnPRt
+	8mCzCA/um1cVPEvJaGnSl2mdNDu4/sda3Ut93nMZE1EUEalzCGQuR88NxtiU6esbYvJc
+	u7X7tYhP6RNJcXBe6z+2bZpGgI4M6asNsv7ZzRCQEhOEtUIK8vMdxpFy0NHb5swwcPVm
+	n6ZyOq7/nvtdZl/9NsEuzjgWV4YVBZfRWR6JvvsA6ovdfXE0l3Ogdtha+0z9a8QLqRYJ
+	52HA==
+Received: by 10.213.20.72 with SMTP id e8mr153016ebb.85.1337717510437;
+	Tue, 22 May 2012 13:11:50 -0700 (PDT)
+Received: from [172.20.1.36] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id s47sm90560732eef.4.2012.05.22.13.11.48
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 22 May 2012 13:11:49 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1278)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <abbc4037f2e4206a877be42be6ca5c132dbfef01.1337714416.git.mark.hatle@windriver.com>
+Date: Tue, 22 May 2012 22:11:47 +0200
+Message-Id: <6CD637A1-63A6-44D7-B744-1C03442FCA03@dominion.thruhere.net>
 References: <cover.1337714416.git.mark.hatle@windriver.com>
-MIME-Version: 1.0
-X-Originating-IP: [172.25.34.61]
-Subject: [PATCH 30/30] shadow-utils-native: remove unnecessary alternatives
+	<abbc4037f2e4206a877be42be6ca5c132dbfef01.1337714416.git.mark.hatle@windriver.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1278)
+X-Gm-Message-State: ALoCoQl72KP6f+5kWKfH+JdpBWfE0RPi6KlzcR7Ik2ae2AOOtYi42QZlzzxv86BGPNr/oOtMmutG
+Subject: Re: [PATCH 01/30] update-alternatives.bbclass: Refactor the implementation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,46 +51,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 May 2012 19:36:56 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 22 May 2012 20:22:00 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
----
- .../shadow/shadow-native_4.1.4.3.bb                |   21 --------------------
- 1 files changed, 0 insertions(+), 21 deletions(-)
 
-diff --git a/meta/recipes-extended/shadow/shadow-native_4.1.4.3.bb b/meta/recipes-extended/shadow/shadow-native_4.1.4.3.bb
-index 38bb922..5d9907b 100644
---- a/meta/recipes-extended/shadow/shadow-native_4.1.4.3.bb
-+++ b/meta/recipes-extended/shadow/shadow-native_4.1.4.3.bb
-@@ -43,25 +43,4 @@ do_install_append() {
- 	# Now we don't have a mail system. Disable mail creation for now.
- 	sed -i 's:/bin/bash:/bin/sh:g' ${D}${sysconfdir}/default/useradd
- 	sed -i '/^CREATE_MAIL_SPOOL/ s:^:#:' ${D}${sysconfdir}/default/useradd
--
--	install -d ${D}${sbindir} ${D}${base_sbindir} ${D}${base_bindir} 
--	for i in passwd chfn newgrp chsh ; do
--		mv ${D}${bindir}/$i ${D}${bindir}/$i.${PN}
--	done
--
--	mv ${D}${sbindir}/chpasswd ${D}${sbindir}/chpasswd.${PN}
--}
--
--pkg_postinst_${PN} () {
--	update-alternatives --install ${bindir}/passwd passwd passwd.${PN} 200
--	update-alternatives --install ${sbindir}/chpasswd chpasswd chpasswd.${PN} 200
--	update-alternatives --install ${bindir}/chfn chfn chfn.${PN} 200
--	update-alternatives --install ${bindir}/newgrp newgrp newgrp.${PN} 200
--	update-alternatives --install ${bindir}/chsh chsh chsh.${PN} 200
--}
--
--pkg_prerm_${PN} () {
--	for i in passwd chpasswd chfn newgrp chsh ; do
--		update-alternatives --remove $i $i.${PN}
--	done
- }
--- 
-1.7.3.4
+Op 22 mei 2012, om 21:30 heeft Mark Hatle het volgende geschreven:
 
+> Refactor in order to:
+>  * Deprecate the old interfaces, but keep them for compatibility
+>  * Provide a new, interface -- capable of working with split packages
+>  * Each update-alternative will not set proper "per-file" provides
+
+'now' or 'not'?
 
 
