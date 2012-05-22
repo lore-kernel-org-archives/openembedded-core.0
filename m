@@ -1,43 +1,14 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from ffm.saftware.de ([83.141.3.46])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1SWmWS-0005do-D2
+	(envelope-from <obi@opendreambox.org>) id 1SWnZ1-0006nS-W8
 	for openembedded-core@lists.openembedded.org;
-	Tue, 22 May 2012 12:41:00 +0200
-Received: by eekd49 with SMTP id d49so1903719eek.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 May 2012 03:30:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=subject:mime-version:content-type:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to:x-mailer
-	:x-gm-message-state;
-	bh=kkabCpy35iYYFxFOsjnX95wRQvk003tg+Q3ygy3qylE=;
-	b=QmXMeA6SYOSVAt4f86vkfRb6RHwAyB93BMQzLsAP2SkRaEivshFvyb2hjPLxMNPr+0
-	9d+qro6/1dxT3A0kcwFs/KemY9KaNbZlAiYc/LtfT/qFMGSgVne4wz2nqgGHoqMWHz80
-	zhjETp4rTepfHDRfcH86XJ4lL3dFpYBiRxAfkoXX0S3rP7E//23rNUr82FrVYXJN7J0l
-	cMD2J7UayyWAX4XpAc+xaAPoR/4UrldYkZNz4DGwfLkLsXdhHO2OB3obX/wiHKc+Dcmy
-	I/vbFP5SpS60bUigty0j1mHUhpw5KlMQyIYNo1jF33KoXzZ0hK60md8430X+Vi1E/O5e
-	dhjg==
-Received: by 10.213.8.73 with SMTP id g9mr1796835ebg.87.1337682651793;
-	Tue, 22 May 2012 03:30:51 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id u7sm96698617eeb.7.2012.05.22.03.30.50
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 22 May 2012 03:30:50 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1278)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <dc94c1bb359b466c779a11fd8559851a8c6ea5d2.1337681343.git.liezhi.yang@windriver.com>
-Date: Tue, 22 May 2012 12:30:49 +0200
-Message-Id: <23F3463C-1206-424C-B269-6D87EA479D57@dominion.thruhere.net>
-References: <cover.1337681343.git.liezhi.yang@windriver.com>
-	<dc94c1bb359b466c779a11fd8559851a8c6ea5d2.1337681343.git.liezhi.yang@windriver.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1278)
-X-Gm-Message-State: ALoCoQnsymF0s9r3H0n4gB5/NrbqN5cvjyC9WrrPh/uFGjWo1CgRlw4w/sb3UKHVm7IrO5rhZNPd
-Cc: Zhenfeng.Zhao@windriver.com
-Subject: Re: [PATCH 1/1] tune-core2.inc: PACKAGE_EXTRA_ARCHS causes wrong packages install into image
+	Tue, 22 May 2012 13:47:44 +0200
+From: Andreas Oberritter <obi@opendreambox.org>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 22 May 2012 13:37:25 +0200
+Message-Id: <1337686647-1027-1-git-send-email-obi@opendreambox.org>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH 1/2] qt4(-embedded).inc: create variables to ease overriding
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -52,35 +23,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 May 2012 10:41:00 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 22 May 2012 11:47:44 -0000
 
+* No functional change besides ordering of configure arguments.
 
-Op 22 mei 2012, om 12:15 heeft Robert Yang het volgende geschreven:
+Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
+---
+* This doesn't cover all possible flags, but only those that I need
+  to customize in my layer. Other flags may be added later if need
+  arises.
 
-> There is a bug if we:
-> 1) bitbake diffutils with MACHINE=3Dcrownbay
-> 2) bitbake diffutils with MACHINE=3Dqemux86
-> 3) bitbake core-image-sato with MACHINE=3Dcrownbay
->=20
-> Then the diffutils.i586 would be installed to the crownbay's image, =
-this
-> is because diffutils.i586 is newer than diffutils.core2, both of
-> deploy/rpm/i586 and deploy/rpm/core2 are in the dbpath, so rpm will
-> select the newer one (diffutils.i586). This caused by:
->=20
-> PACKAGE_EXTRA_ARCHS_tune-core2 =3D "${PACKAGE_EXTRA_ARCHS_tune-x86} =
-i386 i486 i586 i686 core2"
->=20
-> The PACKAGE_EXTRA_ARCHS will cause the deploy/rpm/i586 in the =
-crownbay's
-> dbpath, so any pkg which is needed by the image of both crownbay and
-> qemux86, if the i586 one is newer than the core2, it would be =
-installed
-> into crownbay's image.
+ meta/recipes-qt/qt4/qt4-embedded.inc |   12 +++++++++---
+ meta/recipes-qt/qt4/qt4.inc          |   17 ++++++++++++++---
+ 2 files changed, 23 insertions(+), 6 deletions(-)
 
-This is a bug in RPM not respecting the arch priorities. Changing =
-PACKAGE_EXTRA_ARCHS is the wrong way to 'fix' that.=
+diff --git a/meta/recipes-qt/qt4/qt4-embedded.inc b/meta/recipes-qt/qt4/qt4-embedded.inc
+index 8c15352..158ee17 100644
+--- a/meta/recipes-qt/qt4/qt4-embedded.inc
++++ b/meta/recipes-qt/qt4/qt4-embedded.inc
+@@ -9,12 +9,18 @@ QT_BASE_LIB  ?= "libqt-embedded"
+ # Set necessary variables in the profile
+ SRC_URI += "file://qte.sh"
+ 
++QT_DECORATION_FLAGS ?= ""
++QT_GFX_DRIVER_FLAGS ?= "-plugin-gfx-transformed -plugin-gfx-qvfb -plugin-gfx-vnc -plugin-gfx-directfb"
++QT_KBD_DRIVER_FLAGS ?= "-qt-kbd-tty"
++QT_MOUSE_DRIVER_FLAGS ?= "-plugin-mouse-tslib -qt-mouse-pc -qt-mouse-qvfb -qt-mouse-linuxinput"
++
+ QT_CONFIG_FLAGS += " \
+     -embedded ${QT_ARCH} \
+     -qtlibinfix ${QT_LIBINFIX} \
+-    -plugin-gfx-transformed -plugin-gfx-qvfb -plugin-gfx-vnc -plugin-gfx-directfb \
+-    -plugin-mouse-tslib -qt-mouse-pc -qt-mouse-qvfb -qt-mouse-linuxinput \
+-    -qt-kbd-tty \
++    ${QT_DECORATION_FLAGS} \
++    ${QT_GFX_DRIVER_FLAGS} \
++    ${QT_KBD_DRIVER_FLAGS} \
++    ${QT_MOUSE_DRIVER_FLAGS} \
+     -DQT_KEYPAD_NAVIGATION \
+     "
+ 
+diff --git a/meta/recipes-qt/qt4/qt4.inc b/meta/recipes-qt/qt4/qt4.inc
+index 468a46f..c70b335 100644
+--- a/meta/recipes-qt/qt4/qt4.inc
++++ b/meta/recipes-qt/qt4/qt4.inc
+@@ -10,17 +10,28 @@ QT_ENDIAN = "${@qt_endian(d)}"
+ QT_DISTRO_FLAGS ?= "-no-accessibility -no-sm"
+ QT_DISTRO_FLAGS_linuxstdbase = "-sm"
+ 
++QT_GLIB_FLAGS ?= "-glib"
++QT_IMAGEFORMAT_FLAGS ?= "-system-libjpeg -system-libpng -system-libtiff -system-zlib"
++QT_PHONON_FLAGS ?= "-phonon"
++QT_QDBUS_FLAGS ?= "-qdbus"
++QT_QT3SUPPORT_FLAGS ?= "-qt3support"
+ QT_SQL_DRIVER_FLAGS ?= "-no-sql-ibase -no-sql-mysql -no-sql-psql -no-sql-odbc -plugin-sql-sqlite"
++QT_WEBKIT_FLAGS ?= "-webkit"
+ 
+ QT_GLFLAGS ?= ""
+ 
+ QT_CONFIG_FLAGS += "-release -no-cups -reduce-relocations \
+                     -shared -no-nas-sound -no-nis \
+-                    -system-libjpeg -system-libpng -system-libtiff -system-zlib \
+-                    -no-pch -qdbus -stl -glib -phonon -webkit \
+-                    -xmlpatterns -no-rpath -qt3support -silent \
++                    -no-pch -stl \
++                    -xmlpatterns -no-rpath -silent \
+                     ${@base_contains('DISTRO_FEATURES', 'pulseaudio', '--enable-pulseaudio', '--disable-pulseaudio', d)} \
++                    ${QT_GLIB_FLAGS} \
++                    ${QT_IMAGEFORMAT_FLAGS} \
++                    ${QT_PHONON_FLAGS} \
++                    ${QT_QDBUS_FLAGS} \
++                    ${QT_QT3SUPPORT_FLAGS} \
+                     ${QT_SQL_DRIVER_FLAGS} \
++                    ${QT_WEBKIT_FLAGS} \
+                     ${QT_DISTRO_FLAGS} \
+                     ${QT_GLFLAGS}"
+ 
+-- 
+1.7.9.5
+
 
 
