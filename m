@@ -1,29 +1,20 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1SWvns-0002vv-TV
+	(envelope-from <sgw@linux.intel.com>) id 1SWxfc-0000yI-OY
 	for openembedded-core@lists.openembedded.org;
-	Tue, 22 May 2012 22:35:37 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q4MKPQOC004448
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 May 2012 13:25:26 -0700 (PDT)
-Received: from msp-dhcp32.wrs.com (172.25.34.32) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Tue, 22 May 2012 13:25:25 -0700
-Message-ID: <4FBBF633.1010306@windriver.com>
-Date: Tue, 22 May 2012 15:25:23 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
-	rv:12.0) Gecko/20120428 Thunderbird/12.0.1
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1337714416.git.mark.hatle@windriver.com>
-	<abbc4037f2e4206a877be42be6ca5c132dbfef01.1337714416.git.mark.hatle@windriver.com>
-	<6CD637A1-63A6-44D7-B744-1C03442FCA03@dominion.thruhere.net>
-In-Reply-To: <6CD637A1-63A6-44D7-B744-1C03442FCA03@dominion.thruhere.net>
-Subject: Re: [PATCH 01/30] update-alternatives.bbclass: Refactor the implementation
+	Wed, 23 May 2012 00:35:13 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 22 May 2012 15:25:02 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="147151458"
+Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.24])
+	by orsmga002.jf.intel.com with ESMTP; 22 May 2012 15:25:02 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 22 May 2012 15:25:01 -0700
+Message-Id: <1337725501-18003-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 1.7.7.6
+Subject: [PATCH] qemu: disable vnc-jpeg compression
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,31 +29,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 May 2012 20:35:37 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 22 May 2012 22:35:13 -0000
 
-On 5/22/12 3:11 PM, Koen Kooi wrote:
->
-> Op 22 mei 2012, om 21:30 heeft Mark Hatle het volgende geschreven:
->
->> Refactor in order to:
->>   * Deprecate the old interfaces, but keep them for compatibility
->>   * Provide a new, interface -- capable of working with split packages
->>   * Each update-alternative will not set proper "per-file" provides
->
-> 'now' or 'not'?
+This is disabled by default to ensure a deterministic build, qemu
+configure would sometimes detect the libjpeg and then enable this.
+Since mostly qemu is used locally disable by default.
 
-One typo.. ;)  yes it should be 'now'.
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+---
+ meta/recipes-devtools/qemu/qemu_0.15.1.bb |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-I'll fix it in the repository and branch.
-
---Mark
-
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+diff --git a/meta/recipes-devtools/qemu/qemu_0.15.1.bb b/meta/recipes-devtools/qemu/qemu_0.15.1.bb
+index bdffcf4..986fa19 100644
+--- a/meta/recipes-devtools/qemu/qemu_0.15.1.bb
++++ b/meta/recipes-devtools/qemu/qemu_0.15.1.bb
+@@ -3,7 +3,7 @@ require qemu.inc
+ LIC_FILES_CHKSUM = "file://COPYING;md5=441c28d2cf86e15a37fa47e15a72fbac \
+                     file://COPYING.LIB;endline=24;md5=c04def7ae38850e7d3ef548588159913"
+ 
+-PR = "r6"
++PR = "r7"
+ 
+ FILESPATH = "${FILE_DIRNAME}/qemu-${PV}"
+ FILESDIR = "${WORKDIR}"
+-- 
+1.7.7.6
 
 
 
