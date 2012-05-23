@@ -1,23 +1,39 @@
-Received: from mail1.windriver.com ([147.11.146.13])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <jason.wessel@windriver.com>) id 1SX3t9-0008Tl-N3
-	for Openembedded-core@lists.openembedded.org;
-	Wed, 23 May 2012 07:13:36 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q4N53OTc024597
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <Openembedded-core@lists.openembedded.org>;
-	Tue, 22 May 2012 22:03:24 -0700 (PDT)
-Received: from localhost.localdomain (128.224.60.100) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.1.255.0; Tue, 22 May 2012 22:03:23 -0700
-From: Jason Wessel <jason.wessel@windriver.com>
-To: <Openembedded-core@lists.openembedded.org>
-Date: Wed, 23 May 2012 00:03:21 -0500
-Message-ID: <1337749401-27198-1-git-send-email-jason.wessel@windriver.com>
-X-Mailer: git-send-email 1.6.6.2
+Received: from mail-out.m-online.net ([212.18.0.9])
+	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <wd@denx.de>)
+	id 1SX4rw-0003ax-UL for openembedded-core@lists.openembedded.org;
+	Wed, 23 May 2012 08:16:24 +0200
+Received: from frontend1.mail.m-online.net (unknown [192.168.8.180])
+	by mail-out.m-online.net (Postfix) with ESMTP id 3Vy3BY4Cjfz4KMYx;
+	Wed, 23 May 2012 08:06:13 +0200 (CEST)
+Received: from localhost (dynscan1.mnet-online.de [192.168.8.164])
+	by mail.m-online.net (Postfix) with ESMTP id 3Vy3BY32Ctz4KK4C;
+	Wed, 23 May 2012 08:06:13 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at mnet-online.de
+Received: from smtp-auth.mnet-online.de ([192.168.8.180])
+	by localhost (dynscan1.mail.m-online.net [192.168.8.164]) (amavisd-new,
+	port 10024)
+	with ESMTP id 3fTGUCjADiUl; Wed, 23 May 2012 08:06:13 +0200 (CEST)
+Received: from diddl.denx.de (host-80-81-18-216.customer.m-online.net
+	[80.81.18.216]) by smtp-auth.mnet-online.de (Postfix) with ESMTPA;
+	Wed, 23 May 2012 08:06:12 +0200 (CEST)
+Received: from gemini.denx.de (unknown [10.0.0.2])
+	by diddl.denx.de (Postfix) with ESMTP id 5FBFF1A85E4;
+	Wed, 23 May 2012 08:06:12 +0200 (CEST)
+Received: from gemini.denx.de (localhost [127.0.0.1])
+	by gemini.denx.de (Postfix) with ESMTP id 50C71207171;
+	Wed, 23 May 2012 08:06:12 +0200 (CEST)
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>, 
+	Jason Wessel <jason.wessel@windriver.com>
+From: Wolfgang Denk <wd@denx.de>
 MIME-Version: 1.0
-Subject: [PATCH] perl: Allow perl to cross build and native build in a directory named "t"
+In-reply-to: <1337749401-27198-1-git-send-email-jason.wessel@windriver.com>
+References: <1337749401-27198-1-git-send-email-jason.wessel@windriver.com>
+Comments: In-reply-to Jason Wessel <jason.wessel@windriver.com>
+	message dated "Wed, 23 May 2012 00:03:21 -0500."
+Date: Wed, 23 May 2012 08:06:12 +0200
+Message-Id: <20120523060612.50C71207171@gemini.denx.de>
+Subject: Re: [PATCH] perl: Allow perl to cross build and native build in a directory named "t"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,97 +48,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 May 2012 05:13:36 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 23 May 2012 06:16:25 -0000
+Content-type: text/plain; charset=UTF-8
+Content-transfer-encoding: 8bit
 
-If any directory in leading up to your tmp directory has the name "t"
-perl will fail to build with a very cryptic error shown below:
+Dear Jason Wessel,
 
-pod/buildtoc: no pods at pod/buildtoc line 305.
-make[1]: *** [pod/perltoc.pod] Error 255
+In message <1337749401-27198-1-git-send-email-jason.wessel@windriver.com> you wrote:
+> If any directory in leading up to your tmp directory has the name "t"
+> perl will fail to build with a very cryptic error shown below:
+> 
+> pod/buildtoc: no pods at pod/buildtoc line 305.
+> make[1]: *** [pod/perltoc.pod] Error 255
 
-This is a result of the perl file checking making an assumption
-that it is only looking at files and directories with in the perl
-source directory.  This assumption fails with the way bitbake
-sets up perl to properly cross compile.
 
-Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
----
- .../perl/perl-5.14.2/perl-build-in-t-dir.patch     |   35 ++++++++++++++++++++
- meta/recipes-devtools/perl/perl-native_5.14.2.bb   |    3 +-
- meta/recipes-devtools/perl/perl_5.14.2.bb          |    1 +
- 3 files changed, 38 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-devtools/perl/perl-5.14.2/perl-build-in-t-dir.patch
+This error message is missing in the patch itself:
 
-diff --git a/meta/recipes-devtools/perl/perl-5.14.2/perl-build-in-t-dir.patch b/meta/recipes-devtools/perl/perl-5.14.2/perl-build-in-t-dir.patch
-new file mode 100644
-index 0000000..cd36ec5
---- /dev/null
-+++ b/meta/recipes-devtools/perl/perl-5.14.2/perl-build-in-t-dir.patch
-@@ -0,0 +1,35 @@
-+Upstream-Status:Pending
-+
-+Perl cannot cross build in a path containing a directory that
-+has the name of "t".
-+
-+You get an error like:
-+
-+
-+Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
-+---
-+ pod/buildtoc |    4 +++-
-+ 1 file changed, 3 insertions(+), 1 deletion(-)
-+
-+--- a/pod/buildtoc
-++++ b/pod/buildtoc
-+@@ -274,8 +274,10 @@ if ($Build{toc}) {
-+   find \&getpods => abs_from_top('lib/');
-+ 
-+   sub getpods {
-++    my $Top = $FindBin::Bin;
-+     if (/\.p(od|m)$/) {
-+       my $file = $File::Find::name;
-++      $file =~ s!^$Top!!;
-+       return if $file =~ qr!/lib/Pod/Functions.pm\z!; # Used only by pod itself
-+       return if $file =~ m!(?:^|/)t/!;
-+       return if $file =~ m!lib/Attribute/Handlers/demo/!;
-+@@ -283,7 +285,7 @@ if ($Build{toc}) {
-+       return if $file =~ m!lib/Math/BigInt/t/!;
-+       return if $file =~ m!/Devel/PPPort/[Hh]arness|lib/Devel/Harness!i;
-+       return if $file =~ m!XS/(?:APItest|Typemap)!;
-+-      my $pod = $file;
-++      my $pod = $file = $File::Find::name;
-+       return if $pod =~ s/pm$/pod/ && -e $pod;
-+       unless (open my $f, '<', $_) {
-+ 	warn "$0: bogus <$file>: $!";
-diff --git a/meta/recipes-devtools/perl/perl-native_5.14.2.bb b/meta/recipes-devtools/perl/perl-native_5.14.2.bb
-index c904c37..429a029 100644
---- a/meta/recipes-devtools/perl/perl-native_5.14.2.bb
-+++ b/meta/recipes-devtools/perl/perl-native_5.14.2.bb
-@@ -14,7 +14,8 @@ SRC_URI = "http://www.cpan.org/src/5.0/perl-${PV}.tar.gz \
-            file://perl-configpm-switch.patch \
-            file://native-nopacklist.patch \
-            file://native-perlinc.patch \
--           file://MM_Unix.pm.patch"
-+           file://MM_Unix.pm.patch \
-+           file://perl-build-in-t-dir.patch"
- 
- SRC_URI[md5sum] = "3306fbaf976dcebdcd49b2ac0be00eb9"
- SRC_URI[sha256sum] = "6488359573bd7d41761bf935f66f827dc220fb3df961ef9b775d51fbd66548d3"
-diff --git a/meta/recipes-devtools/perl/perl_5.14.2.bb b/meta/recipes-devtools/perl/perl_5.14.2.bb
-index 809fc72..2149b30 100644
---- a/meta/recipes-devtools/perl/perl_5.14.2.bb
-+++ b/meta/recipes-devtools/perl/perl_5.14.2.bb
-@@ -65,6 +65,7 @@ SRC_URI = "http://www.cpan.org/src/5.0/perl-${PV}.tar.gz \
-         file://perl-enable-gdbm.patch \
-         file://cross-generate_uudmap.patch \
- 	file://fix_bad_rpath.patch \
-+	file://perl-build-in-t-dir.patch \
- 	\
-         file://config.sh \
-         file://config.sh-32 \
+
+> --- /dev/null
+> +++ b/meta/recipes-devtools/perl/perl-5.14.2/perl-build-in-t-dir.patch
+> @@ -0,0 +1,35 @@
+> +Upstream-Status:Pending
+> +
+> +Perl cannot cross build in a path containing a directory that
+> +has the name of "t".
+> +
+> +You get an error like:
+> +
+> +
+> +Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
+
+... i. e. here.
+
+Best regards,
+
+Wolfgang Denk
+
 -- 
-1.6.6.2
-
+DENX Software Engineering GmbH,     MD: Wolfgang Denk & Detlev Zundel
+HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
+Phone: (+49)-8142-66989-10 Fax: (+49)-8142-66989-80 Email: wd@denx.de
+"More software projects have gone awry for lack of calendar time than
+for all other causes combined."
+                         - Fred Brooks, Jr., _The Mythical Man Month_
 
 
