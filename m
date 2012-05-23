@@ -1,26 +1,25 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Liezhi.Yang@windriver.com>) id 1SXCMh-0004r9-HC
+	(envelope-from <sgw@linux.intel.com>) id 1SXCSd-0004y4-Hk
 	for openembedded-core@lists.openembedded.org;
-	Wed, 23 May 2012 16:16:39 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q4NE6Sfk003083
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 May 2012 07:06:28 -0700 (PDT)
-Received: from usp-ub10.corp.ad.wrs.com (128.224.163.69) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.1.255.0; Wed, 23 May 2012 07:06:27 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 23 May 2012 22:06:31 +0800
-Message-ID: <498f3269be7224ba866195a0d61db2d3bfb07ebc.1337781684.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.1
-In-Reply-To: <cover.1337781684.git.liezhi.yang@windriver.com>
-References: <cover.1337781684.git.liezhi.yang@windriver.com>
+	Wed, 23 May 2012 16:22:47 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 23 May 2012 07:12:16 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="103331130"
+Received: from unknown (HELO [10.255.12.24]) ([10.255.12.24])
+	by AZSMGA002.ch.intel.com with ESMTP; 23 May 2012 07:12:15 -0700
+Message-ID: <4FBCF03F.6030305@linux.intel.com>
+Date: Wed, 23 May 2012 07:12:15 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
 MIME-Version: 1.0
-Cc: Zhenfeng.Zhao@windriver.com
-Subject: [PATCH 1/1] rpm 5.4.0: respect to the arch when choose the alternatives
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <1337761207-14688-1-git-send-email-radu.moisan@intel.com>
+In-Reply-To: <1337761207-14688-1-git-send-email-radu.moisan@intel.com>
+Subject: Re: [PATCH] curl: Update to version 7.25.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,136 +34,133 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 May 2012 14:16:39 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 23 May 2012 14:22:48 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-There is a bug if we:
-1) bitbake diffutils with MACHINE=crownbay
-2) bitbake diffutils with MACHINE=qemux86
-3) bitbake core-image-sato with MACHINE=crownbay
 
-Then the diffutils.i586 would be installed to the crownbay's image, this
-is because diffutils.i586 is newer than diffutils.core2, and rpm doesn't
-respect to the arch priorities:
+Radu,
 
-We have put the archs in order in _solve_dbpath:
+You should explain why you are removing a patch, I see from the Curl 
+archives they picked up a similar patch.  I also note that this patch 
+slips in the following:
+-+AC_SUBST(GNUTLS_REQUIRED)
 
-crownbay/solvedb:core2/solvedb:i586/solvedb:all/solvedb
+Not sure if you missed that, it might still be needed.
 
-Fix rpm to respect to the order, for example, if it finds a pkg in both
-core2/ and i586/, and the core2/ comes first, it should not use the one
-in i586/ even if it's build time is newer.
+Sau!
 
-Note: Don't worry about the _free(*ptr), it can check whether ptr is
-NULL or not.
-
-This is for the denzil branch, and the master branch also needs it.
-
-[YOCTO #2360]
-
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- .../rpm/rpm/rpm-respect-arch.patch                 |   67 ++++++++++++++++++++
- meta/recipes-devtools/rpm/rpm_5.4.0.bb             |    3 +-
- 2 files changed, 69 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-respect-arch.patch
-
-diff --git a/meta/recipes-devtools/rpm/rpm/rpm-respect-arch.patch b/meta/recipes-devtools/rpm/rpm/rpm-respect-arch.patch
-new file mode 100644
-index 0000000..9b63b37
---- /dev/null
-+++ b/meta/recipes-devtools/rpm/rpm/rpm-respect-arch.patch
-@@ -0,0 +1,67 @@
-+rpmts.c: respect to the arch priorities
-+
-+Let rpm respect to the priorities when choose alternatives rpm, the arch
-+which comes first is preferred.
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-+---
-+ lib/rpmts.c |   14 ++++++++++++++
-+ 1 files changed, 14 insertions(+), 0 deletions(-)
-+
-+diff --git a/lib/rpmts.c b/lib/rpmts.c
-+index 3fbbc9e..40ec08e 100644
-+--- a/lib/rpmts.c
-++++ b/lib/rpmts.c
-+@@ -353,6 +353,7 @@ int rpmtsSolve(rpmts ts, rpmds ds, /*@unused@*/ const void * data)
-+     Header h = NULL;
-+     size_t bhnamelen = 0;
-+     time_t bhtime = 0;
-++    const char *bharch = NULL;
-+     rpmTag rpmtag;
-+     const char * keyp;
-+     size_t keylen = 0;
-+@@ -409,6 +410,7 @@ fprintf(stderr, "--> %s(%p,%p,%p)\n", __FUNCTION__, ts, ds, data);
-+ 	while ((h = rpmmiNext(mi)) != NULL) {
-+ 	    size_t hnamelen;
-+ 	    time_t htime;
-++	    const char *harch = NULL;
-+ 
-+ 	    if (rpmtag == RPMTAG_PROVIDENAME && !rpmdsAnyMatchesDep(h, ds, 1))
-+ 		continue;
-+@@ -431,12 +433,23 @@ fprintf(stderr, "--> %s(%p,%p,%p)\n", __FUNCTION__, ts, ds, data);
-+ 	    if (htime <= bhtime)
-+ 		continue;
-+ 
-++	    /* XXX Respect to the arch priorities */
-++	    he->tag = RPMTAG_ARCH;
-++	    xx = headerGet(h, he, 0);
-++	    harch = ((xx && he->p.str) ? xstrdup(he->p.str) : NULL);
-++	    he->p.ptr = _free(he->p.ptr);
-++	    if (bharch && (strcmp(bharch, harch) != 0))
-++		continue;
-++
-+ 	    /* Save new "best" candidate. */
-+ 	    (void)headerFree(bh);
-+ 	    bh = NULL;
-+ 	    bh = headerLink(h);
-+ 	    bhtime = htime;
-+ 	    bhnamelen = hnamelen;
-++	    bharch = _free(bharch);
-++	    bharch = xstrdup(harch);
-++	    harch = _free(harch);
-+ 	}
-+ 	mi = rpmmiFree(mi);
-+ 
-+@@ -449,6 +462,7 @@ fprintf(stderr, "--> %s(%p,%p,%p)\n", __FUNCTION__, ts, ds, data);
-+       } while (1);
-+ 
-+     }
-++    bharch = _free(bharch);
-+ 
-+     /* Is there a suggested resolution? */
-+     if (bh == NULL)
-+-- 
-+1.7.1
-+
-diff --git a/meta/recipes-devtools/rpm/rpm_5.4.0.bb b/meta/recipes-devtools/rpm/rpm_5.4.0.bb
-index 5ee6b47..d79d199 100644
---- a/meta/recipes-devtools/rpm/rpm_5.4.0.bb
-+++ b/meta/recipes-devtools/rpm/rpm_5.4.0.bb
-@@ -45,7 +45,7 @@ LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=2d5025d4aa3495befef8f17206a5b0a1"
- DEPENDS = "bzip2 zlib db openssl elfutils expat libpcre attr acl popt ${extrarpmdeps}"
- extrarpmdeps = "python perl file"
- extrarpmdeps_virtclass-native = "python-native file-native"
--PR = "r36"
-+PR = "r37"
- 
- # rpm2cpio is a shell script, which is part of the rpm src.rpm.  It is needed
- # in order to extract the distribution SRPM into a format we can extract...
-@@ -70,6 +70,7 @@ SRC_URI = "http://www.rpm5.org/files/rpm/rpm-5.4/rpm-5.4.0-0.20101229.src.rpm;ex
- 	   file://pythondeps.sh \
- 	   file://rpmdeps-oecore.patch \
- 	   file://rpm-resolvedep.patch \
-+	   file://rpm-respect-arch.patch \
- 	  "
- 
- #	   file://rpm-autoconf.patch \
--- 
-1.7.1
-
+On 05/23/2012 01:20 AM, Radu Moisan wrote:
+> Signed-off-by: Radu Moisan<radu.moisan@intel.com>
+> ---
+>   meta/recipes-support/curl/curl/noldlibpath.patch   |   76 --------------------
+>   .../curl/{curl_7.24.0.bb =>  curl_7.25.0.bb}        |    5 +-
+>   2 files changed, 2 insertions(+), 79 deletions(-)
+>   delete mode 100644 meta/recipes-support/curl/curl/noldlibpath.patch
+>   rename meta/recipes-support/curl/{curl_7.24.0.bb =>  curl_7.25.0.bb} (90%)
+>
+> diff --git a/meta/recipes-support/curl/curl/noldlibpath.patch b/meta/recipes-support/curl/curl/noldlibpath.patch
+> deleted file mode 100644
+> index f4c72a1..0000000
+> --- a/meta/recipes-support/curl/curl/noldlibpath.patch
+> +++ /dev/null
+> @@ -1,76 +0,0 @@
+> -Upstream-Status: Inappropriate [embedded specific]
+> -
+> -Manipulating LD_LIBRARY_PATH can totally break builds when cross compiling.
+> -Since we never run compiled binaries for the target, we should *never* need
+> -to change LD_LIBRARY_PATH.
+> -
+> -RP 9/6/2010
+> -
+> -Index: curl-7.20.0/configure.ac
+> -===================================================================
+> ---- curl-7.20.0.orig/configure.ac	2010-06-09 11:06:30.000000000 +0100
+> -+++ curl-7.20.0/configure.ac	2010-06-09 11:04:25.000000000 +0100
+> -@@ -1461,9 +1461,10 @@
+> -        dnl linker doesn't search through, we need to add it to LD_LIBRARY_PATH
+> -        dnl to prevent further configure tests to fail due to this
+> -
+> --       LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$LIB_OPENSSL"
+> --       export LD_LIBRARY_PATH
+> --       AC_MSG_NOTICE([Added $LIB_OPENSSL to LD_LIBRARY_PATH])
+> -+       #LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$LIB_OPENSSL"
+> -+       #export LD_LIBRARY_PATH
+> -+       #AC_MSG_NOTICE([Added $LIB_OPENSSL to LD_LIBRARY_PATH])
+> -+       :
+> -     fi
+> -   fi
+> -
+> -@@ -1684,9 +1686,10 @@
+> -           dnl LD_LIBRARY_PATH to prevent further configure tests to fail
+> -           dnl due to this
+> -
+> --          LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$gtlslib"
+> --          export LD_LIBRARY_PATH
+> --          AC_MSG_NOTICE([Added $gtlslib to LD_LIBRARY_PATH])
+> -+          #LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$gtlslib"
+> -+          #export LD_LIBRARY_PATH
+> -+          #AC_MSG_NOTICE([Added $gtlslib to LD_LIBRARY_PATH])
+> -+          :
+> -         fi
+> -       fi
+> -
+> -@@ -1696,6 +1699,8 @@
+> -
+> - fi dnl OPENSSL != 1
+> -
+> -+AC_SUBST(GNUTLS_REQUIRED)
+> -+
+> - dnl ----------------------------------------------------
+> - dnl NSS. Only check if GnuTLS and OpenSSL are not enabled
+> - dnl ----------------------------------------------------
+> -@@ -1781,9 +1786,10 @@
+> -         dnl LD_LIBRARY_PATH to prevent further configure tests to fail
+> -         dnl due to this
+> -
+> --        LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$nssprefix/lib$libsuff"
+> --        export LD_LIBRARY_PATH
+> --        AC_MSG_NOTICE([Added $nssprefix/lib$libsuff to LD_LIBRARY_PATH])
+> -+        #LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$nssprefix/lib$libsuff"
+> -+        #export LD_LIBRARY_PATH
+> -+        #AC_MSG_NOTICE([Added $nssprefix/lib$libsuff to LD_LIBRARY_PATH])
+> -+        :
+> -       fi
+> -
+> -     fi
+> -@@ -1881,9 +1887,9 @@
+> -        dnl libssh2_version is a post 1.0 addition
+> -        AC_CHECK_FUNCS( libssh2_version )
+> -
+> --       LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$DIR_SSH2"
+> --       export LD_LIBRARY_PATH
+> --       AC_MSG_NOTICE([Added $DIR_SSH2 to LD_LIBRARY_PATH])
+> -+       #LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$DIR_SSH2"
+> -+       #export LD_LIBRARY_PATH
+> -+       #AC_MSG_NOTICE([Added $DIR_SSH2 to LD_LIBRARY_PATH])
+> -     fi
+> -   else
+> -     dnl no libssh2, revert back to clean variables
+> diff --git a/meta/recipes-support/curl/curl_7.24.0.bb b/meta/recipes-support/curl/curl_7.25.0.bb
+> similarity index 90%
+> rename from meta/recipes-support/curl/curl_7.24.0.bb
+> rename to meta/recipes-support/curl/curl_7.25.0.bb
+> index 12e95c9..033f1bc 100644
+> --- a/meta/recipes-support/curl/curl_7.24.0.bb
+> +++ b/meta/recipes-support/curl/curl_7.25.0.bb
+> @@ -11,11 +11,10 @@ DEPENDS_virtclass-nativesdk = "zlib-nativesdk"
+>   PR = "r0"
+>
+>   SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
+> -           file://noldlibpath.patch \
+>              file://pkgconfig_fix.patch"
+>
+> -SRC_URI[md5sum] = "f912221d75eb8d8fe08900eaf011b023"
+> -SRC_URI[sha256sum] = "ebdb111088ff8b0e05b1d1b075e9f1608285e8105cc51e21caacf33d01812c16"
+> +SRC_URI[md5sum] = "f0303d47d9d3e6e4f08c2863c6504823"
+> +SRC_URI[sha256sum] = "cfb29139dfeb2449bf8a89963c3aed7d87f034013f05564cc0330b435c90b491"
+>
+>   inherit autotools pkgconfig binconfig
+>
 
 
