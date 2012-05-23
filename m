@@ -1,35 +1,20 @@
-Received: from mail-we0-f175.google.com ([74.125.82.175])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <s.stirtzel@googlemail.com>) id 1SXBOC-0002nv-Ls
+	(envelope-from <laurentiu.palcu@intel.com>) id 1SXBWJ-0002y6-Sx
 	for openembedded-core@lists.openembedded.org;
-	Wed, 23 May 2012 15:14:08 +0200
-Received: by werg55 with SMTP id g55so5003261wer.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 May 2012 06:03:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type:content-transfer-encoding;
-	bh=nsM6/+P2avgz/oRQggO0etHiRpaxUeJ5ZjZ+PMK+D0o=;
-	b=XBzMOixDbACu1wmTGV99W0X06RQqHKOKcnr5mvTYBD4OOb3fA8Q65AxeSmkAdwXRWH
-	/DHss6yO6ZQ4udOI5OESSabUyqQ1cntnNhYMOeXIKs8W+SpJZvexl//mRbiyxaZcRFAK
-	KqfrRWwn2Rifldl+URNa16914elWa4nSihVQfIAWa2ZmiEhyJKVWPMDrb0bQ1YJV1oTp
-	BfHOd7y0XUJX3FMXk0A0BNvmq1fTurhkc5cmiKy4vKFzLn9AWzmTmD24GJXxEvJM+ML+
-	jxP3BMQCyrEc4702aD2JaZy3uDZ6gC5uKcnsgmmiQXmNWvkL27Y1it7aczeVQcbRwfjU
-	oACw==
-MIME-Version: 1.0
-Received: by 10.180.106.7 with SMTP id gq7mr46119393wib.4.1337778238862; Wed,
-	23 May 2012 06:03:58 -0700 (PDT)
-Received: by 10.223.74.16 with HTTP; Wed, 23 May 2012 06:03:58 -0700 (PDT)
-In-Reply-To: <1FEF30F9-919D-4565-8381-29FF7C2D0B87@dominion.thruhere.net>
-References: <1337777200-8672-1-git-send-email-s.stirtzel@googlemail.com>
-	<1FEF30F9-919D-4565-8381-29FF7C2D0B87@dominion.thruhere.net>
-Date: Wed, 23 May 2012 15:03:58 +0200
-Message-ID: <CAGiJk9d8nyD9gDHFox_b4tpnzS=5M1squi03mkbyCW7N3OLabQ@mail.gmail.com>
-From: Samuel Stirtzel <s.stirtzel@googlemail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] valgrind: Enable valgrind for armv7
+	Wed, 23 May 2012 15:22:32 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 23 May 2012 06:11:16 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="147416683"
+Received: from lpalcu-linux (HELO localhost.localdomain) ([10.237.105.41])
+	by orsmga002.jf.intel.com with ESMTP; 23 May 2012 06:11:15 -0700
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 23 May 2012 16:10:52 +0300
+Message-Id: <cover.1337777033.git.laurentiu.palcu@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH 00/19] Package updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,85 +29,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 May 2012 13:14:08 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 23 May 2012 13:22:32 -0000
 
-2012/5/23 Koen Kooi <koen@dominion.thruhere.net>:
->
-> Op 23 mei 2012, om 14:46 heeft Samuel Stirtzel het volgende geschreven:
->
->> Valgrind supports the armv7 architecture, this patch allows armv7 users =
-to build and use Valgrind
->>
->> This patch was run-tested on a Gumstix Overo (armv7a cortex-a8)
->> * The test consisted of running valgrinds memcheck (memory leakage detec=
-tion),
->> * and callgrind (profiling) on a Qt 4 application
->>
->> Signed-off-by: Samuel Stirtzel <s.stirtzel@googlemail.com>
->> ---
->> meta/recipes-devtools/valgrind/valgrind_3.7.0.bb | =C2=A0 =C2=A03 +++
->> 1 files changed, 3 insertions(+), 0 deletions(-)
->>
->> diff --git a/meta/recipes-devtools/valgrind/valgrind_3.7.0.bb b/meta/rec=
-ipes-devtools/valgrind/valgrind_3.7.0.bb
->> index d7c7b24..0998f72 100644
->> --- a/meta/recipes-devtools/valgrind/valgrind_3.7.0.bb
->> +++ b/meta/recipes-devtools/valgrind/valgrind_3.7.0.bb
->> @@ -23,13 +23,16 @@ SRC_URI[md5sum] =3D "a855fda56edf05614f099dca316d177=
-5"
->> SRC_URI[sha256sum] =3D "5d62c0330f1481fe2c593249192fa68ff454c19c34343978=
-cc9ce91aa324cbf6"
->>
->> COMPATIBLE_HOST =3D '(i.86|x86_64|powerpc|powerpc64).*-linux'
->> +COMPATIBLE_HOST_armv7a =3D 'arm.*-linux'
->>
->> inherit autotools
->>
->> EXTRA_OECONF =3D "--enable-tls"
->> +EXTRA_OECONF_armv7a =3D "--enable-tls -host=3Darmv7-none-linux-gnueabi"
->
-> we should already be passing --host through autotools.bbclass. Does the c=
-onfigure have a special check? I've seen a few projects that insist on the =
--none- TARGET_VENDOR for no good reason :(
+The updates in this patchset are mainly related to graphics functionality area.
 
-At some extend yes, the configuration checks the host, the default
-string passed is "arm" but the configure.in checks for:
+The following changes since commit 33c4bf2096effc850720009564e3d1adbda24452:
 
-case "${host_cpu}" in
-...
-     armv7*)
-	AC_MSG_RESULT([ok (${host_cpu})])
-	ARCH_MAX=3D"arm"
+  fetch2: Also exclude urls containing wildcards from checksumming for now (2012-05-22 12:18:53 +0100)
 
+are available in the git repository at:
 
-So if we use the default from autotools it won't work.
-I've seen the arch in some examples on the net, do you prefer -host=3Darmv7=
-?
+  git://git.yoctoproject.org/poky-contrib lpalcu/updates
+  http://git.yoctoproject.org/cgit.cgi//log/?h=lpalcu/updates
 
->
->> EXTRA_OEMAKE =3D "-w"
->> PARALLEL_MAKE =3D ""
->>
->> FILES_${PN}-dbg +=3D "${libdir}/${PN}/*/.debug/*"
->> RRECOMMENDS_${PN}_powerpc +=3D "${TCLIBC}-dbg"
->> RRECOMMENDS_${PN}_powerpc64 +=3D "${TCLIBC}-dbg"
->> +RRECOMMENDS_${PN}_armv7a +=3D "libc6-dbg"
->
->
-> ${TCLIBC}-dbg ?
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+Laurentiu Palcu (19):
+  mdadm: upgrade to 3.2.5
+  libdrm: upgrade to 2.4.34
+  xproto: upgrade to 7.0.23
+  kbproto: upgrade to 1.0.6
+  fontsproto: upgrade to 2.1.2
+  xextproto: upgrade to 7.2.1
+  xcmiscproto: upgrade to 1.2.2
+  scrnsaverproto: upgrade to 1.2.2
+  recordproto: upgrade to 1.14.2
+  xcb-proto: upgrade to 1.7.1
+  libxt: upgrade to 1.1.3
+  xtrans: upgrade to 1.2.7
+  fontconfig: upgrade to 2.9.0
+  libpciaccess: upgrade to 0.13.1
+  xf86-input-mouse: upgrade to 1.7.2
+  xf86-video-vesa: upgrade to 2.3.1
+  xf86-video-intel: upgrade to 2.19.0
+  xf86-input-synaptics: upgrade to 1.6.1
+  Update to distro_tracking_fields.inc
 
+ .../conf/distro/include/distro_tracking_fields.inc |  180 ++++++++++----------
+ .../mdadm/{mdadm_3.2.3.bb => mdadm_3.2.5.bb}       |    4 +-
+ .../drm/{libdrm_2.4.31.bb => libdrm_2.4.34.bb}     |    4 +-
+ .../97_fontconfig                                  |    0
+ .../fix-pkgconfig.patch                            |    4 +-
+ ...-native_2.8.0.bb => fontconfig-native_2.9.0.bb} |    0
+ .../{fontconfig_2.8.0.bb => fontconfig_2.9.0.bb}   |   12 +-
+ .../xcb/{xcb-proto_1.7.bb => xcb-proto_1.7.1.bb}   |    4 +-
+ ...ut-mouse_1.7.1.bb => xf86-input-mouse_1.7.2.bb} |    4 +-
+ ...tics_1.5.0.bb => xf86-input-synaptics_1.6.1.bb} |    6 +-
+ ...-intel_2.18.0.bb => xf86-video-intel_2.19.0.bb} |    4 +-
+ ...ideo-vesa_2.3.0.bb => xf86-video-vesa_2.3.1.bb} |    6 +-
+ .../fix_deletion_of_last_handle.patch              |   51 ------
+ ...ciaccess_0.12.902.bb => libpciaccess_0.13.1.bb} |    6 +-
+ .../xorg-lib/{libxt_1.1.2.bb => libxt_1.1.3.bb}    |    4 +-
+ .../xorg-lib/{xtrans_1.2.6.bb => xtrans_1.2.7.bb}  |    4 +-
+ .../{fontsproto_2.1.1.bb => fontsproto_2.1.2.bb}   |    4 +-
+ .../{kbproto_1.0.5.bb => kbproto_1.0.6.bb}         |    6 +-
+ ...recordproto_1.14.1.bb => recordproto_1.14.2.bb} |    4 +-
+ ...saverproto_1.2.1.bb => scrnsaverproto_1.2.2.bb} |    5 +-
+ .../{xcmiscproto_1.2.1.bb => xcmiscproto_1.2.2.bb} |    4 +-
+ .../{xextproto_7.2.0.bb => xextproto_7.2.1.bb}     |    4 +-
+ .../{xproto_7.0.22.bb => xproto_7.0.23.bb}         |    6 +-
+ 23 files changed, 133 insertions(+), 193 deletions(-)
+ rename meta/recipes-extended/mdadm/{mdadm_3.2.3.bb => mdadm_3.2.5.bb} (85%)
+ rename meta/recipes-graphics/drm/{libdrm_2.4.31.bb => libdrm_2.4.34.bb} (62%)
+ rename meta/recipes-graphics/fontconfig/{fontconfig-2.8.0 => fontconfig-2.9.0}/97_fontconfig (100%)
+ rename meta/recipes-graphics/fontconfig/{fontconfig-2.8.0 => fontconfig-2.9.0}/fix-pkgconfig.patch (84%)
+ rename meta/recipes-graphics/fontconfig/{fontconfig-native_2.8.0.bb => fontconfig-native_2.9.0.bb} (100%)
+ rename meta/recipes-graphics/fontconfig/{fontconfig_2.8.0.bb => fontconfig_2.9.0.bb} (84%)
+ rename meta/recipes-graphics/xcb/{xcb-proto_1.7.bb => xcb-proto_1.7.1.bb} (61%)
+ rename meta/recipes-graphics/xorg-driver/{xf86-input-mouse_1.7.1.bb => xf86-input-mouse_1.7.2.bb} (76%)
+ rename meta/recipes-graphics/xorg-driver/{xf86-input-synaptics_1.5.0.bb => xf86-input-synaptics_1.6.1.bb} (79%)
+ rename meta/recipes-graphics/xorg-driver/{xf86-video-intel_2.18.0.bb => xf86-video-intel_2.19.0.bb} (84%)
+ rename meta/recipes-graphics/xorg-driver/{xf86-video-vesa_2.3.0.bb => xf86-video-vesa_2.3.1.bb} (74%)
+ delete mode 100644 meta/recipes-graphics/xorg-lib/libpciaccess-0.12.902/fix_deletion_of_last_handle.patch
+ rename meta/recipes-graphics/xorg-lib/{libpciaccess_0.12.902.bb => libpciaccess_0.13.1.bb} (64%)
+ rename meta/recipes-graphics/xorg-lib/{libxt_1.1.2.bb => libxt_1.1.3.bb} (91%)
+ rename meta/recipes-graphics/xorg-lib/{xtrans_1.2.6.bb => xtrans_1.2.7.bb} (82%)
+ rename meta/recipes-graphics/xorg-proto/{fontsproto_2.1.1.bb => fontsproto_2.1.2.bb} (77%)
+ rename meta/recipes-graphics/xorg-proto/{kbproto_1.0.5.bb => kbproto_1.0.6.bb} (68%)
+ rename meta/recipes-graphics/xorg-proto/{recordproto_1.14.1.bb => recordproto_1.14.2.bb} (76%)
+ rename meta/recipes-graphics/xorg-proto/{scrnsaverproto_1.2.1.bb => scrnsaverproto_1.2.2.bb} (80%)
+ rename meta/recipes-graphics/xorg-proto/{xcmiscproto_1.2.1.bb => xcmiscproto_1.2.2.bb} (73%)
+ rename meta/recipes-graphics/xorg-proto/{xextproto_7.2.0.bb => xextproto_7.2.1.bb} (82%)
+ rename meta/recipes-graphics/xorg-proto/{xproto_7.0.22.bb => xproto_7.0.23.bb} (72%)
 
+-- 
+1.7.9.5
 
---=20
-Regards
-Samuel
 
 
