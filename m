@@ -1,41 +1,37 @@
-Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1SXJmQ-0007wH-Sp
+	(envelope-from <nitin.a.kamble@intel.com>) id 1SXJsp-000837-7Z
 	for openembedded-core@lists.openembedded.org;
-	Thu, 24 May 2012 00:11:43 +0200
-Received: from mail-pz0-f52.google.com ([209.85.210.52])
-	by mga01.intel.com with ESMTP/TLS/RC4-MD5; 23 May 2012 15:00:53 -0700
-Received: by dano14 with SMTP id o14so10446304dan.25
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 May 2012 15:00:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:cc:subject
-	:content-type:content-transfer-encoding:x-gm-message-state;
-	bh=enL3Fkk6CUHFIKfjsYC57FU649k2yDqTLKgBhleAOfw=;
-	b=ZjmosWEKOlSruDrxIXD0ELiE1SZcGkwWyD87NPWIgXGt6tKOFV577WeLYKhLWdcdLF
-	mRKEdB70Zm08xgnOgtc6iRs93otWCxLHYOayTjR6rS6Pw3fasF5roPOlAfZqqyTygVU4
-	wxliP9BgNZdxgfZTDS8rFpuxMitTUM7nm6X7jubt7DVAiWTGRna23VaZmWOlJ/L2UPkR
-	eB2sW1F/r3YKTrTuAEBygX7P2vKAD0zrhvwz83Exy0ep/S6oA+IFngt/gJH2dWeaBNPP
-	+0YdZlo6ULSmH8KgtK4RLon+EUoE32HFlL67h8pG9RgTmjMgrA+AXq8dSYDjVifueI1I
-	/UzQ==
-Received: by 10.68.234.129 with SMTP id ue1mr10549223pbc.140.1337810453264;
-	Wed, 23 May 2012 15:00:53 -0700 (PDT)
-Received: from [192.168.1.105] (c-76-105-137-48.hsd1.or.comcast.net.
-	[76.105.137.48])
-	by mx.google.com with ESMTPS id x1sm3106639pbp.50.2012.05.23.15.00.50
-	(version=SSLv3 cipher=OTHER); Wed, 23 May 2012 15:00:51 -0700 (PDT)
-Message-ID: <4FBD5E10.3070403@intel.com>
-Date: Wed, 23 May 2012 15:00:48 -0700
-From: Scott Garman <scott.a.garman@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
-MIME-Version: 1.0
+	Thu, 24 May 2012 00:18:19 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 23 May 2012 15:08:01 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="156381758"
+Received: from orsmsx606.amr.corp.intel.com ([10.22.226.128])
+	by fmsmga001.fm.intel.com with ESMTP; 23 May 2012 15:08:01 -0700
+Received: from orsmsx153.amr.corp.intel.com (10.22.226.247) by
+	orsmsx606.amr.corp.intel.com (10.22.226.128) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Wed, 23 May 2012 15:08:00 -0700
+Received: from orsmsx106.amr.corp.intel.com ([169.254.5.157]) by
+	ORSMSX153.amr.corp.intel.com ([169.254.13.207]) with mapi id
+	14.01.0355.002; Wed, 23 May 2012 15:08:00 -0700
+From: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Gm-Message-State: ALoCoQlcJ2BifDbHDZhWiN3EYosKZzv6mhaMcFcvMa5nyHtmrJmPCKEvIGZA4GmEycZEJAwqtPJR
-Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>, poky@yoctoproject.org
-Subject: RFC: Merging commits from into the main denzil branch
+Thread-Topic: [OE-core] [PATCH 1/9] tar: fix build
+Thread-Index: AQHNOHfFmMjGfkgzek+agPTQCts56pbXppYAgAAzNYCAABW0sA==
+Date: Wed, 23 May 2012 22:08:00 +0000
+Message-ID: <ADD6A3980E8C39419A432FF422031B4C030EEED2@ORSMSX106.amr.corp.intel.com>
+References: <cover.1337731469.git.nitin.a.kamble@intel.com>
+	<9fcc40151424883e9f660dfdd3a3eb52213701c1.1337731469.git.nitin.a.kamble@intel.com>
+	<4FBCBFA6.8020307@mlbassoc.com> <1337780891.8248.73.camel@ted>
+In-Reply-To: <1337780891.8248.73.camel@ted>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.22.254.139]
+MIME-Version: 1.0
+Subject: Re: [PATCH 1/9] tar: fix build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,64 +46,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 May 2012 22:11:43 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 23 May 2012 22:18:19 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Hello all,
 
-As most of you know, I've been pulling commits into a pair of 
-sgarman/denzil-next branches which are intended to eventually become the 
-next Denzil point-release, 1.2.1.
 
-oe-core based branch:
-http://git.openembedded.org/openembedded-core-contrib/log/?h=sgarman/denzil-next
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org
+> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
+> Richard Purdie
+> Sent: Wednesday, May 23, 2012 6:48 AM
+> To: Patches and discussions about the oe-core layer
+> Subject: Re: [OE-core] [PATCH 1/9] tar: fix build
+>=20
+> On Wed, 2012-05-23 at 04:44 -0600, Gary Thomas wrote:
+> > On 2012-05-22 18:05, nitin.a.kamble@intel.com wrote:
+> > > From: Nitin A Kamble<nitin.a.kamble@intel.com>
+> > >
+> > > Avoid this error:
+> > > | rmdir: failed to remove
+> > > | `/srv/home/nitin/builds/build-gcc47/tmp/work/i586-poky-linux/tar-
+> 1
+> > > | .26-r1/image/usr/sbin/': No such file or directory
+> > > NOTE: package tar-1.26-r1: task do_install: Failed
+> > >
+> > > no PR bump as no change in the output.
+> > >
+> > > Signed-off-by: Nitin A Kamble<nitin.a.kamble@intel.com>
+> > > ---
+> > >   meta/recipes-extended/tar/tar.inc |    8 ++++++--
+> > >   1 files changed, 6 insertions(+), 2 deletions(-)
+> > >
+> > > diff --git a/meta/recipes-extended/tar/tar.inc
+> > > b/meta/recipes-extended/tar/tar.inc
+> > > index 0533b82..5c2325a 100644
+> > > --- a/meta/recipes-extended/tar/tar.inc
+> > > +++ b/meta/recipes-extended/tar/tar.inc
+> > > @@ -18,8 +18,12 @@ do_install () {
+> > >   do_install_extra () {
+> > >       install -d ${D}${base_bindir}
+> > >       mv ${D}${bindir}/tar ${D}${base_bindir}/tar.${PN}
+> > > -    rmdir ${D}${bindir}/
+> > > -    rmdir ${D}${sbindir}/
+> > > +    if [ -d ${D}${bindir}/ ] ; then
+> > > +        rmdir ${D}${bindir}/
+> > > +    fi
+> > > +    if [ -d ${D}${sbindir}/ ] ; then
+> > > +        rmdir ${D}${sbindir}/
+> > > +    fi
+> > >       mv ${D}${libexecdir}/rmt ${D}${libexecdir}/rmt.${PN}
+> > >   }
+> > >
+> >
+> > Why not just use
+> >    rm -fr ${D}${bindir}
+> > etc?  No need for all the extra testing...
+>=20
+> I've mentioned this once before however I'll do so again. I think these
+> empty directories were a bug in automake. It looks like automake has
+> fixed that problem and no longer generates them. I think the correct
+> thing to do is simply remove the rmdir.
+>=20
+> The reason we used rmdir instead of rm is we wanted to know if these
+> suddenly started containing files, not silently delete them.
+>=20
+> Cheers,
+>=20
+> Richard
+>=20
 
-poky based branch:
-http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=sgarman/denzil-next
+Hi Richard,
+  I was trying to make the commits compatible with both automake 1.11 & aut=
+omake 1.12. Now after discussions with Saul, I understand that these commit=
+s will go after automake 1.12 update goes in. In that case we can remove th=
+ese rmdir statements.
 
-So far I haven't merged or requested to merge any of these commits into 
-the main denzil branches of oe-core and poky, for two main reasons:
+Thanks,
+Nitin
 
-1. I've only performed the most basic build testing of these branches on 
-a desktop system, building core-image-minimal and core-image-sato for 
-our 5 qemu machines.
-
-2. To date, we haven't had a clear process on how to transition from the 
-maintainer's personal branch into the official repo branch. I'd like to 
-develop a clear and documented process on doing this that involves 
-community feedback on the commits.
-
-Just this week I've been able to start using the Yocto autobuilder to do 
-more comprehensive testing of my denzil-next branch, so issue #1 is 
-finally resolved, and I've got a green build to raise my confidence level:
-
-http://autobuilder.yoctoproject.org:8010/builders/nightly/builds/462
-
-So now to address issue #2. The goal is to incorporate community 
-feedback, so I'm looking to get ACKs or NAKs for these commits before 
-they go into the main denzil branch.
-
-My proposal is to send denzil pull requests to the appropriate mailing 
-lists, and Richard can merge them into the main repo denzil branches 
-once they've received review by the community.
-
-My goal is to send these pull requests about once per week, once I've 
-managed to get a green build out of the Yocto autobuilder for my contrib 
-branch.
-
-What do folks think about this? Now's your opportunity to offer feedback 
-and influence this process.
-
-Thanks!
-
-Scott
-
-Yocto 1.2.1 release maintainer
-
--- 
-Scott Garman
-Embedded Linux Engineer - Yocto Project
-Intel Open Source Technology Center
 
 
