@@ -1,20 +1,22 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1SWzD9-0006Lg-BA
+	(envelope-from <nitin.a.kamble@intel.com>) id 1SWzDA-0006Li-LA
 	for openembedded-core@lists.openembedded.org;
 	Wed, 23 May 2012 02:13:56 +0200
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 22 May 2012 17:03:45 -0700
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 22 May 2012 17:03:46 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="103095119"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="146507152"
 Received: from nbuild0.sc.intel.com ([172.25.110.36])
-	by AZSMGA002.ch.intel.com with ESMTP; 22 May 2012 17:03:44 -0700
+	by azsmga001.ch.intel.com with ESMTP; 22 May 2012 17:03:46 -0700
 From: nitin.a.kamble@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 22 May 2012 17:03:43 -0700
-Message-Id: <cover.1337731367.git.nitin.a.kamble@intel.com>
+Date: Tue, 22 May 2012 17:03:16 -0700
+Message-Id: <1f3e6932358a90ba8402191fb495729c873634cb.1337731367.git.nitin.a.kamble@intel.com>
 X-Mailer: git-send-email 1.7.6.5
-Subject: [PATCH 00/30] automake 1.12 related fixes
+In-Reply-To: <cover.1337731367.git.nitin.a.kamble@intel.com>
+References: <cover.1337731367.git.nitin.a.kamble@intel.com>
+Subject: [PATCH 01/30] gmp: fix build with automake 1.12
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,140 +35,86 @@ X-List-Received-Date: Wed, 23 May 2012 00:13:56 -0000
 
 From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-The following changes since commit 39a9267dee0a0ee4d87ed51d4a0272549c462b02:
-
-  Hob: add '--select a machine--' and '--select a base image--' to GUI (2012-05-22 14:56:17 +0100)
-
-are available in the git repository at:
-  git://git.pokylinux.org/poky-contrib nitin/automake-1.12-related-fixes
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=nitin/automake-1.12-related-fixes
-
-Nitin A Kamble (30):
-  gmp: fix build with automake 1.12
-  mpfr: fix build with automake 1.12
-  popt: fix build with automake 1.12
-  rpm: fix build with automake 1.12
-  libxml2: fix build with automake 1.12
-  shadow shadow-native: fix build with automake 1.12
-  jpeg: fix build with automake 1.12
-  libtasn1: fix build with automake 1.12
-  systemtap: fix build with automake 1.12
-  libmpc: fix build with automake 1.12
-  libcheck: fix build with automake 1.12
-  texinfo: fix build with automake 1.12
-  libidn: fix build with automake 1.12
-  glew: fix build with automake 1.12
-  findutils: fix build with automake 1.12
-  gawk: fix build with automake 1.12
-  lrzsz: fix build with automake 1.12
-  minicom: fix build with automake 1.12
-  lighttpd: fix build with automake 1.12
-  gnutls: fix build with automake 1.12
-  libfm: fix build with automake 1.12
-  libcroco: fix build with automake 1.12
-  gmp-4.2.1: fix build with automake 1.12
-  coreutils-native-6.9: fix build with automake 1.12
-  grub-0.97: fix build with automake 1.12
-  diffutils-2.8.1: fix build with automake 1.12
-  grep-2.5.1a: fix build with automake 1.12
-  gawk-3.1.5: fix build with automake 1.12
-  findutils-4.2.31: fix build with automake 1.12
-  make-3.81: fix build with automake 1.12
-
- .../grub-0.97/grub_fix_for_automake-1.12.patch     |   48 ++++++++++++++++++
- meta/recipes-bsp/grub/grub_0.97.bb                 |    6 ++-
- .../lrzsz_fix_for_automake-1.12.patch              |   49 ++++++++++++++++++
- meta/recipes-bsp/lrzsz/lrzsz_0.12.20.bb            |    6 ++-
- .../coreutils_fix_for_automake-1.12.patch          |   32 ++++++++++++
- meta/recipes-core/coreutils/coreutils_6.9.bb       |    6 ++-
- .../jpeg/jpeg-8c/jpeg_fix_for_automake-1.12.patch  |   41 +++++++++++++++
- meta/recipes-core/jpeg/jpeg_8c.bb                  |    6 ++-
- .../libxml2/libxml2_fix_for_automake_1.12.patch    |   23 +++++++++
- meta/recipes-core/libxml/libxml2_2.7.8.bb          |    5 +-
- .../make-3.81/make_fix_for_automake-1.12.patch     |   43 ++++++++++++++++
- meta/recipes-devtools/make/make_3.81.bb            |    4 +-
- .../rpm/rpm/rpm_fix_for_automake-1.12.patch        |   21 ++++++++
- meta/recipes-devtools/rpm/rpm_5.4.0.bb             |    3 +-
- .../diffutils_fix_for_automake-1.12.patch          |   27 ++++++++++
- meta/recipes-extended/diffutils/diffutils_2.8.1.bb |    6 ++-
- .../findutils_fix_for_automake-1.12.patch          |   23 +++++++++
- .../findutils_fix_for_automake-1.12.patch          |   22 ++++++++
- .../recipes-extended/findutils/findutils_4.2.31.bb |    6 ++-
- meta/recipes-extended/findutils/findutils_4.4.2.bb |    6 ++-
- .../gawk-3.1.5/gawk_fix_for_automake-1.12.patch    |   41 +++++++++++++++
- .../gawk/gawk/gawk_fix_for_automake-1.12.patch     |   23 +++++++++
- meta/recipes-extended/gawk/gawk_3.1.5.bb           |    2 +
- meta/recipes-extended/gawk/gawk_4.0.0.bb           |    5 +-
- .../grep-2.5.1a/grep_fix_for_automake-1.12.patch   |   52 +++++++++++++++++++
- meta/recipes-extended/grep/grep_2.5.1a.bb          |    7 ++-
- .../libidn/libidn_fix_for_automake-1.12.patch      |   26 ++++++++++
- meta/recipes-extended/libidn/libidn_1.24.bb        |    5 +-
- .../files/lighttpd_fix_for_automake-1.12.patch     |   37 ++++++++++++++
- meta/recipes-extended/lighttpd/lighttpd_1.4.30.bb  |    5 +-
- .../minicom_fix_for_automake-1.12.patch            |   21 ++++++++
- meta/recipes-extended/minicom/minicom_2.6.1.bb     |    3 +
- .../files/shadow_fix_for_automake-1.12.patch       |   23 +++++++++
- .../shadow/shadow-native_4.1.4.3.bb                |    6 ++-
- meta/recipes-extended/shadow/shadow_4.1.4.3.bb     |    6 ++-
- .../texinfo_fix_for_automake-1.12.patch            |   24 +++++++++
- meta/recipes-extended/texinfo/texinfo_4.13a.bb     |    3 +-
- .../glew/files/glew_fix_for_automake-1.12.patch    |   25 +++++++++
- meta/recipes-graphics/glew/glew_1.7.0.bb           |    3 +-
- .../systemtap_fix_for_automake_1.12.patch          |   23 +++++++++
- meta/recipes-kernel/systemtap/systemtap_git.bb     |    2 +-
- meta/recipes-kernel/systemtap/systemtap_git.inc    |    1 +
- .../gmp/gmp-4.2.1/gmp_fix_for_automake-1.12.patch  |   48 ++++++++++++++++++
- .../gmp/gmp/gmp_fix_for_automake-1.12.patch        |   48 ++++++++++++++++++
- meta/recipes-support/gmp/gmp_4.2.1.bb              |    6 ++-
+Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
+---
+ .../gmp/gmp/gmp_fix_for_automake-1.12.patch        |   48 ++++++++++++++++++++
  meta/recipes-support/gmp/gmp_5.0.4.bb              |    6 ++-
- .../gnutls_fix_for_automake-1.12.patch             |   53 ++++++++++++++++++++
- meta/recipes-support/gnutls/gnutls_2.12.19.bb      |    3 +-
- .../libtasn1/libtasn1_fix_for_automake_1.12.patch  |   28 ++++++++++
- meta/recipes-support/gnutls/libtasn1_2.12.bb       |    6 ++-
- .../libcheck/libcheck_fix_for_automake-1.12.patch  |   26 ++++++++++
- meta/recipes-support/libcheck/libcheck_0.9.8.bb    |    6 ++-
- .../files/libcroco_fix_for_automake-1.12.patch     |   22 ++++++++
- meta/recipes-support/libcroco/libcroco_0.6.3.bb    |    5 +-
- .../libfm-0.1.17/libfm_fix_for_automake-1.12.patch |   48 ++++++++++++++++++
- meta/recipes-support/libfm/libfm_0.1.17.bb         |    6 ++-
- .../libmpc/libmpc_fix_for_automake-1.12.patch      |   26 ++++++++++
- meta/recipes-support/libmpc/libmpc_0.8.2.bb        |    5 +-
- .../mpfr-3.1.0/mpfr_fix_for_automake-1.12.patch    |   35 +++++++++++++
- meta/recipes-support/mpfr/mpfr_3.1.0.bb            |    7 ++-
- .../popt/popt/popt_fix_for_automake-1.12.patch     |   21 ++++++++
- meta/recipes-support/popt/popt_1.16.bb             |    3 +-
- 62 files changed, 1082 insertions(+), 52 deletions(-)
- create mode 100644 meta/recipes-bsp/grub/grub-0.97/grub_fix_for_automake-1.12.patch
- create mode 100644 meta/recipes-bsp/lrzsz/lrzsz-0.12.20/lrzsz_fix_for_automake-1.12.patch
- create mode 100644 meta/recipes-core/coreutils/coreutils-6.9/coreutils_fix_for_automake-1.12.patch
- create mode 100644 meta/recipes-core/jpeg/jpeg-8c/jpeg_fix_for_automake-1.12.patch
- create mode 100644 meta/recipes-core/libxml/libxml2/libxml2_fix_for_automake_1.12.patch
- create mode 100644 meta/recipes-devtools/make/make-3.81/make_fix_for_automake-1.12.patch
- create mode 100644 meta/recipes-devtools/rpm/rpm/rpm_fix_for_automake-1.12.patch
- create mode 100644 meta/recipes-extended/diffutils/diffutils-2.8.1/diffutils_fix_for_automake-1.12.patch
- create mode 100644 meta/recipes-extended/findutils/findutils-4.2.31/findutils_fix_for_automake-1.12.patch
- create mode 100644 meta/recipes-extended/findutils/findutils-4.4.2/findutils_fix_for_automake-1.12.patch
- create mode 100644 meta/recipes-extended/gawk/gawk-3.1.5/gawk_fix_for_automake-1.12.patch
- create mode 100644 meta/recipes-extended/gawk/gawk/gawk_fix_for_automake-1.12.patch
- create mode 100644 meta/recipes-extended/grep/grep-2.5.1a/grep_fix_for_automake-1.12.patch
- create mode 100644 meta/recipes-extended/libidn/libidn/libidn_fix_for_automake-1.12.patch
- create mode 100644 meta/recipes-extended/lighttpd/files/lighttpd_fix_for_automake-1.12.patch
- create mode 100644 meta/recipes-extended/minicom/minicom-2.6.1/minicom_fix_for_automake-1.12.patch
- create mode 100644 meta/recipes-extended/shadow/files/shadow_fix_for_automake-1.12.patch
- create mode 100644 meta/recipes-extended/texinfo/texinfo-4.13a/texinfo_fix_for_automake-1.12.patch
- create mode 100644 meta/recipes-graphics/glew/files/glew_fix_for_automake-1.12.patch
- create mode 100644 meta/recipes-kernel/systemtap/systemtap/systemtap_fix_for_automake_1.12.patch
- create mode 100644 meta/recipes-support/gmp/gmp-4.2.1/gmp_fix_for_automake-1.12.patch
+ 2 files changed, 52 insertions(+), 2 deletions(-)
  create mode 100644 meta/recipes-support/gmp/gmp/gmp_fix_for_automake-1.12.patch
- create mode 100644 meta/recipes-support/gnutls/gnutls-2.12.18/gnutls_fix_for_automake-1.12.patch
- create mode 100644 meta/recipes-support/gnutls/libtasn1/libtasn1_fix_for_automake_1.12.patch
- create mode 100644 meta/recipes-support/libcheck/libcheck/libcheck_fix_for_automake-1.12.patch
- create mode 100644 meta/recipes-support/libcroco/files/libcroco_fix_for_automake-1.12.patch
- create mode 100644 meta/recipes-support/libfm/libfm-0.1.17/libfm_fix_for_automake-1.12.patch
- create mode 100644 meta/recipes-support/libmpc/libmpc/libmpc_fix_for_automake-1.12.patch
- create mode 100644 meta/recipes-support/mpfr/mpfr-3.1.0/mpfr_fix_for_automake-1.12.patch
- create mode 100644 meta/recipes-support/popt/popt/popt_fix_for_automake-1.12.patch
 
+diff --git a/meta/recipes-support/gmp/gmp/gmp_fix_for_automake-1.12.patch b/meta/recipes-support/gmp/gmp/gmp_fix_for_automake-1.12.patch
+new file mode 100644
+index 0000000..8ff1bcf
+--- /dev/null
++++ b/meta/recipes-support/gmp/gmp/gmp_fix_for_automake-1.12.patch
+@@ -0,0 +1,48 @@
++Upstream-Status: Pending
++
++automake 1.12 has depricated automatic de-ANSI-fication support
++
++this patch avoids these kinds of errors:
++
++| configure.in:2240: error: automatic de-ANSI-fication support has been removed
++| Makefile.am:28: error: automatic de-ANSI-fication support has been removed
++
++Signed-Off-By: Nitin A Kamble <nitin.a.kamble@intel.com>
++2012/05/02
++
++Index: gmp-5.0.4/configure.in
++===================================================================
++--- gmp-5.0.4.orig/configure.in
+++++ gmp-5.0.4/configure.in
++@@ -59,7 +59,7 @@ dnl
++ dnl  Note that there's a copy of these options in the top-level Makefile.am,
++ dnl  so update there too if changing anything.
++ dnl
++-AM_INIT_AUTOMAKE([1.8 gnu no-dependencies $(top_builddir)/ansi2knr])
+++AM_INIT_AUTOMAKE([1.8 gnu no-dependencies])
++ AM_CONFIG_HEADER(config.h:config.in)
++ AM_MAINTAINER_MODE
++ 
++@@ -2236,9 +2236,6 @@ fi
++ echo "      MPN_PATH=\"$path\""
++ 
++ 
++-# Automake ansi2knr support.
++-AM_C_PROTOTYPES
++-
++ CL_AS_NOEXECSTACK
++ 
++ GMP_PROG_AR
++Index: gmp-5.0.4/Makefile.am
++===================================================================
++--- gmp-5.0.4.orig/Makefile.am
+++++ gmp-5.0.4/Makefile.am
++@@ -25,7 +25,7 @@
++ # Makefiles in subdirectories, but here we must omit it so automake gives
++ # the actual ansi2knr build rule, not "cd $(top_builddir) && make ansi2knr".
++ #
++-AUTOMAKE_OPTIONS = 1.8 gnu no-dependencies ansi2knr
+++AUTOMAKE_OPTIONS = 1.8 gnu no-dependencies
++ 
++ 
++ # Libtool -version-info for libgmp.la and libmp.la.  See "Versioning" in the
+diff --git a/meta/recipes-support/gmp/gmp_5.0.4.bb b/meta/recipes-support/gmp/gmp_5.0.4.bb
+index 9adcc3f..cb2ca5b 100644
+--- a/meta/recipes-support/gmp/gmp_5.0.4.bb
++++ b/meta/recipes-support/gmp/gmp_5.0.4.bb
+@@ -2,10 +2,12 @@ require gmp.inc
+ LICENSE="LGPLv3&GPLv3"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
+ 		    file://version.c;endline=18;md5=d8c56b52b9092346b9f93b4da65ef790"
+-PR = "r0"
++PR = "r1"
+ 
+ SRC_URI_append += "file://use-includedir.patch \
+-                   file://gmp_fix_for_x32.patch"
++                   file://gmp_fix_for_x32.patch \
++                   file://gmp_fix_for_automake-1.12.patch \
++                   "
+ 
+ export CC_FOR_BUILD = "${BUILD_CC}"
+ 
 -- 
 1.7.7
 
