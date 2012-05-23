@@ -1,28 +1,27 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SXCoo-0005GC-GG
+	(envelope-from <laurentiu.palcu@intel.com>) id 1SXFud-000159-8u
 	for openembedded-core@lists.openembedded.org;
-	Wed, 23 May 2012 16:45:42 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 23 May 2012 07:35:31 -0700
+	Wed, 23 May 2012 20:03:55 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 23 May 2012 10:52:23 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="146777620"
-Received: from unknown (HELO [10.255.12.24]) ([10.255.12.24])
-	by azsmga001.ch.intel.com with ESMTP; 23 May 2012 07:35:31 -0700
-Message-ID: <4FBCF5B3.3070705@linux.intel.com>
-Date: Wed, 23 May 2012 07:35:31 -0700
-From: Saul Wold <sgw@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="156256329"
+Received: from unknown (HELO [10.252.120.171]) ([10.252.120.171])
+	by fmsmga001.fm.intel.com with ESMTP; 23 May 2012 10:52:22 -0700
+Message-ID: <4FBD23D5.6050103@intel.com>
+Date: Wed, 23 May 2012 20:52:21 +0300
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <1337771338-12407-1-git-send-email-valentin.popa@intel.com>
-	<4FBCF0B9.40503@linux.intel.com>
-	<0F0EDA1B-C376-4EFC-86D7-6A779A92FAD8@dominion.thruhere.net>
-In-Reply-To: <0F0EDA1B-C376-4EFC-86D7-6A779A92FAD8@dominion.thruhere.net>
+References: <cover.1337777033.git.laurentiu.palcu@intel.com>
+	<3B64436D-65E8-4090-99D7-91B3D4FFC42D@dominion.thruhere.net>
+In-Reply-To: <3B64436D-65E8-4090-99D7-91B3D4FFC42D@dominion.thruhere.net>
 Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: Re: [PATCH] xz: updated to version 5.1.1alpha
+Subject: Re: [PATCH 00/19] Package updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,47 +36,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 May 2012 14:45:42 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Wed, 23 May 2012 18:03:55 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 
-On 05/23/2012 07:26 AM, Koen Kooi wrote:
->
-> Op 23 mei 2012, om 16:14 heeft Saul Wold het volgende geschreven:
->
->> On 05/23/2012 04:08 AM, Valentin Popa wrote:
->>> From: valentin<valentin@valentin-linux.(none)>
->>>
->>> The licenses are the same, only some white
->>> spaces added/removed.
->>>
->>> Signed-off-by: valentin<valentin.popa@intel.com>
->>> ---
->>>   .../xz/{xz_5.0.3.bb =>   xz_5.1.1alpha.bb}           |   10 +++++-----
->>>   1 file changed, 5 insertions(+), 5 deletions(-)
->>>   rename meta/recipes-extended/xz/{xz_5.0.3.bb =>   xz_5.1.1alpha.bb} (72%)
->>>
->> Why update to an "Alpha" Version, clearly we want to wait for the released version.
->
-> xz is not getting updated a lot and this release should bring parallel xz support. I asked about this a few weeks ago here, but didn't get much response: http://lists.linuxtogo.org/pipermail/openembedded-core/2012-March/018706.html
->
 
-Your right about it looking pretty stable
+On 05/23/2012 05:05 PM, Koen Kooi wrote:
+> 
+> Op 23 mei 2012, om 15:10 heeft Laurentiu Palcu het volgende geschreven:
+> 
+>> The updates in this patchset are mainly related to graphics functionality area.
+> 
+> How were those tested?
+Basic functionality tests on x86 only. For some reason, one could be
+that I'm quite new to this project :), I missed testing on other
+architectures... Once I fix the commit issue below and repeat my tests
+for mips/ppc/arm, I'll resend.
 
-Does anyone know Lasse Collin, to query him or their mailing list about 
-when the next release will happen?
-
-Sau!
-
-
-> regards,
->
-> Koen
+> 
+>> The following changes since commit 33c4bf2096effc850720009564e3d1adbda24452:
+>>
+>>  fetch2: Also exclude urls containing wildcards from checksumming for now (2012-05-22 12:18:53 +0100)
+> 
+> That commit doesn't exist in oe-core
+It looks like I based my patches against poky/master. :( Sorry for that.
+I will fetch oe-core/master, rebase and resend.
+> 
+>> are available in the git repository at:
+>>
+>>  git://git.yoctoproject.org/poky-contrib lpalcu/updates
+>>  http://git.yoctoproject.org/cgit.cgi//log/?h=lpalcu/updates
+> 
+> And that branch fails to merge into oe-core
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
->
 
 
