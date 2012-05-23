@@ -1,24 +1,24 @@
 Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1SWzDJ-0006Ll-6G
+	(envelope-from <nitin.a.kamble@intel.com>) id 1SWzDK-0006Ll-Az
 	for openembedded-core@lists.openembedded.org;
-	Wed, 23 May 2012 02:14:05 +0200
+	Wed, 23 May 2012 02:14:07 +0200
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
 	by azsmga101.ch.intel.com with ESMTP; 22 May 2012 17:03:49 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="146507179"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="146507185"
 Received: from nbuild0.sc.intel.com ([172.25.110.36])
-	by azsmga001.ch.intel.com with ESMTP; 22 May 2012 17:03:48 -0700
+	by azsmga001.ch.intel.com with ESMTP; 22 May 2012 17:03:49 -0700
 From: nitin.a.kamble@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 22 May 2012 17:03:38 -0700
-Message-Id: <63fd19d0a4bc58ff36f58c0731fb096fcc8b06d5.1337731367.git.nitin.a.kamble@intel.com>
+Date: Tue, 22 May 2012 17:03:42 -0700
+Message-Id: <0652c360ce866c8627ded89751664942e8150477.1337731367.git.nitin.a.kamble@intel.com>
 X-Mailer: git-send-email 1.7.6.5
 In-Reply-To: <1f3e6932358a90ba8402191fb495729c873634cb.1337731367.git.nitin.a.kamble@intel.com>
 References: <1f3e6932358a90ba8402191fb495729c873634cb.1337731367.git.nitin.a.kamble@intel.com>
 In-Reply-To: <cover.1337731367.git.nitin.a.kamble@intel.com>
 References: <cover.1337731367.git.nitin.a.kamble@intel.com>
-Subject: [PATCH 23/30] gmp-4.2.1: fix build with automake 1.12
+Subject: [PATCH 27/30] grep-2.5.1a: fix build with automake 1.12
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,90 +33,102 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 May 2012 00:14:06 -0000
+X-List-Received-Date: Wed, 23 May 2012 00:14:10 -0000
 
 From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
 Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
 ---
- .../gmp/gmp-4.2.1/gmp_fix_for_automake-1.12.patch  |   48 ++++++++++++++++++++
- meta/recipes-support/gmp/gmp_4.2.1.bb              |    6 ++-
- 2 files changed, 52 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-support/gmp/gmp-4.2.1/gmp_fix_for_automake-1.12.patch
+ .../grep-2.5.1a/grep_fix_for_automake-1.12.patch   |   52 ++++++++++++++++++++
+ meta/recipes-extended/grep/grep_2.5.1a.bb          |    7 ++-
+ 2 files changed, 57 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-extended/grep/grep-2.5.1a/grep_fix_for_automake-1.12.patch
 
-diff --git a/meta/recipes-support/gmp/gmp-4.2.1/gmp_fix_for_automake-1.12.patch b/meta/recipes-support/gmp/gmp-4.2.1/gmp_fix_for_automake-1.12.patch
+diff --git a/meta/recipes-extended/grep/grep-2.5.1a/grep_fix_for_automake-1.12.patch b/meta/recipes-extended/grep/grep-2.5.1a/grep_fix_for_automake-1.12.patch
 new file mode 100644
-index 0000000..fbd8a39
+index 0000000..3ccce5f
 --- /dev/null
-+++ b/meta/recipes-support/gmp/gmp-4.2.1/gmp_fix_for_automake-1.12.patch
-@@ -0,0 +1,48 @@
++++ b/meta/recipes-extended/grep/grep-2.5.1a/grep_fix_for_automake-1.12.patch
+@@ -0,0 +1,52 @@
 +Upstream-Status: Pending
 +
 +automake 1.12 has depricated automatic de-ANSI-fication support
 +
 +this patch avoids these kinds of errors:
 +
-+| configure.in:2240: error: automatic de-ANSI-fication support has been removed
-+| Makefile.am:28: error: automatic de-ANSI-fication support has been removed
++| configure.in:33: error: automatic de-ANSI-fication support has been removed
++| /srv/home/nitin/builds/build-gcc47/tmp/sysroots/x86_64-linux/usr/share/aclocal-1.12/protos.m4:12: AM_C_PROTOTYPES is expanded from...
++| configure.in:33: the top level
++| autom4te: m4 failed with exit status: 1
++...
++| lib/Makefile.am:2: error: automatic de-ANSI-fication support has been removed
++| src/Makefile.am:2: error: automatic de-ANSI-fication support has been removed
++| autoreconf: automake failed with exit status: 1
 +
 +Signed-Off-By: Nitin A Kamble <nitin.a.kamble@intel.com>
-+2012/05/02
++2012/05/04
 +
-+Index: gmp-4.2.1/configure.in
++Index: grep-2.5.1a/configure.in
 +===================================================================
-+--- gmp-4.2.1.orig/configure.in
-++++ gmp-4.2.1/configure.in
-+@@ -67,7 +67,7 @@ dnl
-+ dnl  Note that there's a copy of these options in the top-level Makefile.am,
-+ dnl  so update there too if changing anything.
-+ dnl
-+-AM_INIT_AUTOMAKE([1.8 gnu no-dependencies $(top_builddir)/ansi2knr])
-++AM_INIT_AUTOMAKE([1.8 gnu no-dependencies])
-+ AM_CONFIG_HEADER(config.h:config.in)
-+ AM_MAINTAINER_MODE
++--- grep-2.5.1a.orig/configure.in
+++++ grep-2.5.1a/configure.in
++@@ -30,7 +30,6 @@ AC_PROG_RANLIB
 + 
-+@@ -2022,9 +2022,6 @@ fi
-+ echo "      MPN_PATH=\"$path\""
-+ 
-+ 
-+-# Automake ansi2knr support.
++ dnl Checks for typedefs, structures, and compiler characteristics.
++ AC_SYS_LARGEFILE
 +-AM_C_PROTOTYPES
-+-
-+ GMP_PROG_AR
-+ GMP_PROG_NM
-+ 
-+Index: gmp-4.2.1/Makefile.am
++ AC_TYPE_SIZE_T
++ AC_CHECK_TYPE(ssize_t, int)
++ AC_C_CONST
++Index: grep-2.5.1a/lib/Makefile.am
 +===================================================================
-+--- gmp-4.2.1.orig/Makefile.am
-++++ gmp-4.2.1/Makefile.am
-+@@ -27,7 +27,7 @@
-+ # Makefiles in subdirectories, but here we must omit it so automake gives
-+ # the actual ansi2knr build rule, not "cd $(top_builddir) && make ansi2knr".
++--- grep-2.5.1a.orig/lib/Makefile.am
+++++ grep-2.5.1a/lib/Makefile.am
++@@ -1,5 +1,5 @@
 + #
-+-AUTOMAKE_OPTIONS = 1.8 gnu no-dependencies ansi2knr
-++AUTOMAKE_OPTIONS = 1.8 gnu no-dependencies
++-AUTOMAKE_OPTIONS = ../src/ansi2knr
+++AUTOMAKE_OPTIONS = 
 + 
++ SUBDIRS = posix
 + 
-+ # Libtool -version-info for libgmp.la and libmp.la.  See "Versioning" in the
-diff --git a/meta/recipes-support/gmp/gmp_4.2.1.bb b/meta/recipes-support/gmp/gmp_4.2.1.bb
-index 280b1ab..49ee59b 100644
---- a/meta/recipes-support/gmp/gmp_4.2.1.bb
-+++ b/meta/recipes-support/gmp/gmp_4.2.1.bb
-@@ -6,10 +6,12 @@ LICENSE = "LGPLv2.1+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=892f569a555ba9c07a568a7c0c4fa63a \
-                     file://COPYING.LIB;md5=fbc093901857fcd118f065f900982c24 \
-                     file://gmp-h.in;startline=6;endline=21;md5=5e25ffd16996faba8c1cd27b04b16099"
++Index: grep-2.5.1a/src/Makefile.am
++===================================================================
++--- grep-2.5.1a.orig/src/Makefile.am
+++++ grep-2.5.1a/src/Makefile.am
++@@ -1,5 +1,5 @@
++ ## Process this file with automake to create Makefile.in
++-AUTOMAKE_OPTIONS = ansi2knr no-dependencies
+++AUTOMAKE_OPTIONS = no-dependencies
++ 
++ LN = ln
++ 
+diff --git a/meta/recipes-extended/grep/grep_2.5.1a.bb b/meta/recipes-extended/grep/grep_2.5.1a.bb
+index 64064fc..5aecf17 100644
+--- a/meta/recipes-extended/grep/grep_2.5.1a.bb
++++ b/meta/recipes-extended/grep/grep_2.5.1a.bb
+@@ -5,10 +5,12 @@ SECTION = "console/utils"
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3"
+ 
 -PR = "r1"
 +PR = "r2"
  
- SRC_URI = "${GNU_MIRROR}/gmp/${BP}.tar.bz2 \
--           file://disable-stdc.patch"
-+           file://disable-stdc.patch \
-+           file://gmp_fix_for_automake-1.12.patch \
+ SRC_URI = "${GNU_MIRROR}/grep/grep-${PV}.tar.bz2 \
+-           file://uclibc-fix.patch"
++           file://uclibc-fix.patch \
++           file://grep_fix_for_automake-1.12.patch \
 +           "
  
- SRC_URI[md5sum] = "091c56e0e1cca6b09b17b69d47ef18e3"
- SRC_URI[sha256sum] = "d07ffcb37eecec35c5ec72516d10b35fdf6e6fef1fcf1dcd37e30b8cbf8bf941"
+ SRC_URI[md5sum] = "52202fe462770fa6be1bb667bd6cf30c"
+ SRC_URI[sha256sum] = "38c8a2bb9223d1fb1b10bdd607cf44830afc92fd451ac4cd07619bf92bdd3132"
+@@ -17,6 +19,7 @@ inherit autotools gettext
+ 
+ EXTRA_OECONF = "--disable-perl-regexp --disable-ncurses"
+ 
++CFLAGS += "-D PROTOTYPES"
+ do_configure_prepend () {
+ 	rm -f ${S}/m4/init.m4
+ }
 -- 
 1.7.7
 
