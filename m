@@ -1,24 +1,24 @@
 Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1SWzDE-0006Lx-T2
+	(envelope-from <nitin.a.kamble@intel.com>) id 1SWzDF-0006Lj-4c
 	for openembedded-core@lists.openembedded.org;
 	Wed, 23 May 2012 02:14:01 +0200
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
 	by azsmga101.ch.intel.com with ESMTP; 22 May 2012 17:03:48 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="146507168"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="146507170"
 Received: from nbuild0.sc.intel.com ([172.25.110.36])
-	by azsmga001.ch.intel.com with ESMTP; 22 May 2012 17:03:47 -0700
+	by azsmga001.ch.intel.com with ESMTP; 22 May 2012 17:03:48 -0700
 From: nitin.a.kamble@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 22 May 2012 17:03:29 -0700
-Message-Id: <ebcd32fea5fc2d9590c80a8ad759346044de3c46.1337731367.git.nitin.a.kamble@intel.com>
+Date: Tue, 22 May 2012 17:03:31 -0700
+Message-Id: <0358ab810159629235d831096e857fa56354d530.1337731367.git.nitin.a.kamble@intel.com>
 X-Mailer: git-send-email 1.7.6.5
 In-Reply-To: <1f3e6932358a90ba8402191fb495729c873634cb.1337731367.git.nitin.a.kamble@intel.com>
 References: <1f3e6932358a90ba8402191fb495729c873634cb.1337731367.git.nitin.a.kamble@intel.com>
 In-Reply-To: <cover.1337731367.git.nitin.a.kamble@intel.com>
 References: <cover.1337731367.git.nitin.a.kamble@intel.com>
-Subject: [PATCH 14/30] glew: fix build with automake 1.12
+Subject: [PATCH 16/30] gawk: fix build with automake 1.12
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,59 +39,57 @@ From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
 Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
 ---
- .../glew/files/glew_fix_for_automake-1.12.patch    |   25 ++++++++++++++++++++
- meta/recipes-graphics/glew/glew_1.7.0.bb           |    3 +-
- 2 files changed, 27 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-graphics/glew/files/glew_fix_for_automake-1.12.patch
+ .../gawk/gawk/gawk_fix_for_automake-1.12.patch     |   23 ++++++++++++++++++++
+ meta/recipes-extended/gawk/gawk_4.0.0.bb           |    5 ++-
+ 2 files changed, 26 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-extended/gawk/gawk/gawk_fix_for_automake-1.12.patch
 
-diff --git a/meta/recipes-graphics/glew/files/glew_fix_for_automake-1.12.patch b/meta/recipes-graphics/glew/files/glew_fix_for_automake-1.12.patch
+diff --git a/meta/recipes-extended/gawk/gawk/gawk_fix_for_automake-1.12.patch b/meta/recipes-extended/gawk/gawk/gawk_fix_for_automake-1.12.patch
 new file mode 100644
-index 0000000..0707efb
+index 0000000..a2458a8
 --- /dev/null
-+++ b/meta/recipes-graphics/glew/files/glew_fix_for_automake-1.12.patch
-@@ -0,0 +1,25 @@
++++ b/meta/recipes-extended/gawk/gawk/gawk_fix_for_automake-1.12.patch
+@@ -0,0 +1,23 @@
 +Upstream-Status: Pending
 +
 +This patch fixes following issue with automake 1.12
 +
-+| automake: warnings are treated as errors
-+| /srv/home/nitin/builds/build-gcc47/tmp/sysroots/x86_64-linux/usr/share/automake-1.12/am/ltlibrary.am: warning: 'libGLEW.la': linking libtool libraries using a non-POSIX
-+| /srv/home/nitin/builds/build-gcc47/tmp/sysroots/x86_64-linux/usr/share/automake-1.12/am/ltlibrary.am: archiver requires 'AM_PROG_AR' in 'configure.ac'
++| configure.ac:120: error: automatic de-ANSI-fication support has been removed
 +
 +Signed-Off-By: Nitin A Kamble <nitin.a.kamble@intel.com>
 +2012/05/03
 +
-+Index: glew-1.7.0/configure.ac
++Index: gawk-4.0.0/configure.ac
 +===================================================================
-+--- glew-1.7.0.orig/configure.ac
-++++ glew-1.7.0/configure.ac
-+@@ -14,6 +14,9 @@ LT_INIT
-+ AC_PROG_CC
-+ AC_PROG_INSTALL
-+ AC_PROG_LN_S
-++# automake 1.12 seems to require this, but automake 1.11 doesn't recognize it
-++m4_pattern_allow([AM_PROG_AR])
-++AM_PROG_AR
++--- gawk-4.0.0.orig/configure.ac
+++++ gawk-4.0.0/configure.ac
++@@ -116,9 +116,6 @@ dnl Set the programming language for che
++ dnl this only needs to be set once, since everything is in C.
++ AC_LANG([C])
 + 
-+ # Checks for libraries.
-+ 
-diff --git a/meta/recipes-graphics/glew/glew_1.7.0.bb b/meta/recipes-graphics/glew/glew_1.7.0.bb
-index e65663d..cdb778c 100644
---- a/meta/recipes-graphics/glew/glew_1.7.0.bb
-+++ b/meta/recipes-graphics/glew/glew_1.7.0.bb
-@@ -7,10 +7,11 @@ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=2ac251558de685c6b9478d89be3149c2"
++-dnl check for C compiler for automake. Needed for dfa.h.
++-AM_C_PROTOTYPES
++-
++ dnl Cygwin doesn't like to get libs with full paths
++ dnl since that overrides linking against DLLs.
++ case `(uname) 2> /dev/null` in
+diff --git a/meta/recipes-extended/gawk/gawk_4.0.0.bb b/meta/recipes-extended/gawk/gawk_4.0.0.bb
+index 977feb9..3587e85 100644
+--- a/meta/recipes-extended/gawk/gawk_4.0.0.bb
++++ b/meta/recipes-extended/gawk/gawk_4.0.0.bb
+@@ -11,9 +11,10 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
  
- DEPENDS = "virtual/libx11 virtual/libgl libxext libxi libxmu"
+ RDEPENDS_gawk += "gawk-common"
+ RDEPENDS_pgawk += "gawk-common"
+-PR = "r1"
++PR = "r2"
  
--PR = "r0"
-+PR = "r1"
+-SRC_URI = "${GNU_MIRROR}/gawk/gawk-${PV}.tar.gz"
++SRC_URI = "${GNU_MIRROR}/gawk/gawk-${PV}.tar.gz \
++           file://gawk_fix_for_automake-1.12.patch"
  
- SRC_URI = "${SOURCEFORGE_MIRROR}/project/glew/glew/${PV}/glew-${PV}.tgz \
-            file://autotools.patch \
-+           file://glew_fix_for_automake-1.12.patch \
-           "
- 
- SRC_URI[md5sum] = "fb7a8bb79187ac98a90b57f0f27a3e84"
+ SRC_URI[md5sum] = "51e417b71287629940051e6f652c6492"
+ SRC_URI[sha256sum] = "c3a7cf7d976e05c6a1d8a9b3f14fa55d4304707408ddafb1396212653ea00be5"
 -- 
 1.7.7
 
