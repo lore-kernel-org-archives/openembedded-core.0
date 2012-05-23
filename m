@@ -1,20 +1,24 @@
 Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SXKXw-0004SN-Qk
+	(envelope-from <sgw@linux.intel.com>) id 1SXKXy-0004SO-0r
 	for openembedded-core@lists.openembedded.org;
-	Thu, 24 May 2012 01:00:49 +0200
+	Thu, 24 May 2012 01:00:50 +0200
 Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 23 May 2012 15:50:36 -0700
+	by azsmga102.ch.intel.com with ESMTP; 23 May 2012 15:50:37 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="103525776"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="103525783"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.24])
 	by AZSMGA002.ch.intel.com with ESMTP; 23 May 2012 15:50:36 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 23 May 2012 15:46:11 -0700
-Message-Id: <cover.1337805812.git.sgw@linux.intel.com>
+Date: Wed, 23 May 2012 15:46:12 -0700
+Message-Id: <792213c1edf490b34e7d02f0ca3938fe06921b1f.1337805812.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
-Subject: [Consolidated Pull 0/5] Xorg & Qemu Updates
+In-Reply-To: <cover.1337805812.git.sgw@linux.intel.com>
+References: <cover.1337805812.git.sgw@linux.intel.com>
+In-Reply-To: <cover.1337805812.git.sgw@linux.intel.com>
+References: <cover.1337805812.git.sgw@linux.intel.com>
+Subject: [Consolidated Pull 1/5] qemumachines: Enable xserver-xorg as default xserver
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,58 +33,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 May 2012 23:00:49 -0000
+X-List-Received-Date: Wed, 23 May 2012 23:00:50 -0000
 
-Richard,
+From: Khem Raj <raj.khem@gmail.com>
 
-I am pulling together tested subsets that have been lingering
-in the queue.  I have built / rebuilt these qemu updates to use
-xorg-xserver.  I have verified that X starts on mips/ppc/x86 and
-they correctly report X Server 1.11.2, which is the xorg-xserver
-version.
+For qemux86 and qemux86-64 include qemu.inc after defining XSERVER
 
+XSERVER variable is also weakly defined in task-core-x11.bb
+which means we can not use ??= otherwise when building any qemu image
+that uses task-core-x11.bb will get the wrong definition
 
-Sau!
+So we define the XSERVER common set for qemu in qemu.inc
+and as we know x86 and x86-64 qemu overrides the default
+we include qemu.inc after that definition which means that
+qemux86 and qemux86-64 get their own definitions and other
+qemus get the definitions from qemu.inc. other non-qemu machine
+will get their defintion from task which points to kdrive
+as of now.
 
-The following changes since commit e6333825c3482a559a0c0499e17f8f48d3042ddf:
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/conf/machine/include/qemu.inc |    9 ++++++++-
+ meta/conf/machine/qemux86-64.conf  |    3 ++-
+ meta/conf/machine/qemux86.conf     |    3 ++-
+ 3 files changed, 12 insertions(+), 3 deletions(-)
 
-  tune-mips64.inc: Add new tune file for mips64 big-endian (2012-05-20 20:24:37 -0700)
-
-are available in the git repository at:
-  git://git.openembedded.org/openembedded-core-contrib sgw/xorg
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/xorg
-
-Khem Raj (2):
-  qemumachines: Enable xserver-xorg as default xserver
-  xserver-xf86-config: Add xorg.conf for arm,mips,ppc,sh qemu machines
-
-Saul Wold (2):
-  qemu.inc: Remove mesa-xlib as PREFERRED_PROVIDER
-  qemu: disable vnc-jpeg compression
-
-Zhai Edwin (1):
-  qemu: Add an option to remove host sdl/gl checking
-
- meta/conf/machine/include/qemu.inc                 |   10 +-
- meta/conf/machine/qemux86-64.conf                  |    3 +-
- meta/conf/machine/qemux86.conf                     |    3 +-
- .../qemu/qemu-0.15.1/opengl-disable-option.patch   |  172 ++++++++++++++++++++
- meta/recipes-devtools/qemu/qemu.inc                |   25 +---
- meta/recipes-devtools/qemu/qemu_0.15.1.bb          |    3 +-
- .../xserver-xf86-config/qemuarm/xorg.conf          |   69 ++++++++
- .../xserver-xf86-config/qemumips/xorg.conf         |   69 ++++++++
- .../xserver-xf86-config/qemumips64/xorg.conf       |   69 ++++++++
- .../xserver-xf86-config/qemuppc/xorg.conf          |   69 ++++++++
- .../xserver-xf86-config/qemush4/xorg.conf          |   69 ++++++++
- .../xorg-xserver/xserver-xf86-config_0.1.bb        |    2 +-
- 12 files changed, 536 insertions(+), 27 deletions(-)
- create mode 100644 meta/recipes-devtools/qemu/qemu-0.15.1/opengl-disable-option.patch
- create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemuarm/xorg.conf
- create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemumips/xorg.conf
- create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemumips64/xorg.conf
- create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemuppc/xorg.conf
- create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemush4/xorg.conf
-
+diff --git a/meta/conf/machine/include/qemu.inc b/meta/conf/machine/include/qemu.inc
+index 421a149..e384879 100644
+--- a/meta/conf/machine/include/qemu.inc
++++ b/meta/conf/machine/include/qemu.inc
+@@ -1,7 +1,14 @@
+ PCMCIA_MANAGER = "pcmciautils"
+-PREFERRED_PROVIDER_virtual/xserver ?= "xserver-kdrive"
++PREFERRED_PROVIDER_virtual/xserver ?= "xserver-xorg"
+ PREFERRED_PROVIDER_virtual/libgl ?= "mesa-xlib"
+ 
++XSERVER ?= "xserver-xorg \
++            mesa-dri-driver-swrast \
++            xf86-input-evdev \
++            xf86-input-mouse \
++            xf86-video-fbdev \
++            xf86-input-keyboard"
++
+ MACHINE_FEATURES = "apm alsa pcmcia bluetooth irda usbgadget screen"
+ 
+ IMAGE_FSTYPES += "tar.bz2 ext3"
+diff --git a/meta/conf/machine/qemux86-64.conf b/meta/conf/machine/qemux86-64.conf
+index 129fe9f..2e361a5 100644
+--- a/meta/conf/machine/qemux86-64.conf
++++ b/meta/conf/machine/qemux86-64.conf
+@@ -6,7 +6,6 @@ PREFERRED_PROVIDER_virtual/xserver ?= "xserver-xorg"
+ PREFERRED_PROVIDER_virtual/libgl ?= "mesa-dri"
+ 
+ require conf/machine/include/tune-x86_64.inc
+-require conf/machine/include/qemu.inc
+ 
+ MACHINE_FEATURES += "x86"
+ 
+@@ -23,6 +22,8 @@ XSERVER ?= "xserver-xorg \
+            xf86-video-vmware \
+            qemugl"
+ 
++require conf/machine/include/qemu.inc
++
+ GLIBC_ADDONS = "nptl"
+ GLIBC_EXTRA_OECONF = "--with-tls"
+ 
+diff --git a/meta/conf/machine/qemux86.conf b/meta/conf/machine/qemux86.conf
+index 246d5a0..ad840c0 100644
+--- a/meta/conf/machine/qemux86.conf
++++ b/meta/conf/machine/qemux86.conf
+@@ -6,7 +6,6 @@ PREFERRED_PROVIDER_virtual/xserver ?= "xserver-xorg"
+ PREFERRED_PROVIDER_virtual/libgl ?= "mesa-dri"
+ 
+ require conf/machine/include/tune-i586.inc
+-require conf/machine/include/qemu.inc
+ 
+ MACHINE_FEATURES += "x86"
+ 
+@@ -23,6 +22,8 @@ XSERVER ?= "xserver-xorg \
+            xf86-video-vmware \
+            qemugl"
+ 
++require conf/machine/include/qemu.inc
++
+ GLIBC_ADDONS = "nptl"
+ GLIBC_EXTRA_OECONF = "--with-tls"
+ 
 -- 
 1.7.7.6
 
