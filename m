@@ -1,29 +1,20 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <jason.wessel@windriver.com>) id 1SWypy-0005cz-B7
+	(envelope-from <nitin.a.kamble@intel.com>) id 1SWzD9-0006Lg-BA
 	for openembedded-core@lists.openembedded.org;
-	Wed, 23 May 2012 01:49:58 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q4MNdlGq021056
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 22 May 2012 16:39:47 -0700 (PDT)
-Received: from [172.25.32.41] (172.25.32.41) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Tue, 22 May 2012 16:39:46 -0700
-Message-ID: <4FBC23C1.2030703@windriver.com>
-Date: Tue, 22 May 2012 18:39:45 -0500
-From: Jason Wessel <jason.wessel@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:11.0) Gecko/20120329 Thunderbird/11.0.1
-MIME-Version: 1.0
-To: Saul Wold <sgw@linux.intel.com>
-References: <1337709995-13798-1-git-send-email-jason.wessel@windriver.com>
-	<4FBBDF18.9030500@linux.intel.com>
-In-Reply-To: <4FBBDF18.9030500@linux.intel.com>
-X-Enigmail-Version: 1.4.1
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] recipes-devtools/qemu/qemu.inc: Add jpeg as a dependency
+	Wed, 23 May 2012 02:13:56 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 22 May 2012 17:03:45 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="103095119"
+Received: from nbuild0.sc.intel.com ([172.25.110.36])
+	by AZSMGA002.ch.intel.com with ESMTP; 22 May 2012 17:03:44 -0700
+From: nitin.a.kamble@intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 22 May 2012 17:03:43 -0700
+Message-Id: <cover.1337731367.git.nitin.a.kamble@intel.com>
+X-Mailer: git-send-email 1.7.6.5
+Subject: [PATCH 00/30] automake 1.12 related fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,26 +29,146 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 May 2012 23:49:58 -0000
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 23 May 2012 00:13:56 -0000
 
-On 05/22/2012 01:46 PM, Saul Wold wrote:
-> On 05/22/2012 11:06 AM, Jason Wessel wrote:
->> If you use a shared state cache and build a large file system,
->> followed by a small one, the qemu will be built with jpeg support.
->>
-> Is jpeg optional for qemu?  Do you know why it's included in the first 
-> place?  Can it be disabled via a --disable in the configure stage?
-> 
+From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
+The following changes since commit 39a9267dee0a0ee4d87ed51d4a0272549c462b02:
 
-Yes to both.  
+  Hob: add '--select a machine--' and '--select a base image--' to GUI (2012-05-22 14:56:17 +0100)
 
-Looks like you have already patched it a different way.  I guess
-if someone needs the libjpeg they'll bbappend away.
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib nitin/automake-1.12-related-fixes
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=nitin/automake-1.12-related-fixes
 
-Thanks,
-Jason.
+Nitin A Kamble (30):
+  gmp: fix build with automake 1.12
+  mpfr: fix build with automake 1.12
+  popt: fix build with automake 1.12
+  rpm: fix build with automake 1.12
+  libxml2: fix build with automake 1.12
+  shadow shadow-native: fix build with automake 1.12
+  jpeg: fix build with automake 1.12
+  libtasn1: fix build with automake 1.12
+  systemtap: fix build with automake 1.12
+  libmpc: fix build with automake 1.12
+  libcheck: fix build with automake 1.12
+  texinfo: fix build with automake 1.12
+  libidn: fix build with automake 1.12
+  glew: fix build with automake 1.12
+  findutils: fix build with automake 1.12
+  gawk: fix build with automake 1.12
+  lrzsz: fix build with automake 1.12
+  minicom: fix build with automake 1.12
+  lighttpd: fix build with automake 1.12
+  gnutls: fix build with automake 1.12
+  libfm: fix build with automake 1.12
+  libcroco: fix build with automake 1.12
+  gmp-4.2.1: fix build with automake 1.12
+  coreutils-native-6.9: fix build with automake 1.12
+  grub-0.97: fix build with automake 1.12
+  diffutils-2.8.1: fix build with automake 1.12
+  grep-2.5.1a: fix build with automake 1.12
+  gawk-3.1.5: fix build with automake 1.12
+  findutils-4.2.31: fix build with automake 1.12
+  make-3.81: fix build with automake 1.12
+
+ .../grub-0.97/grub_fix_for_automake-1.12.patch     |   48 ++++++++++++++++++
+ meta/recipes-bsp/grub/grub_0.97.bb                 |    6 ++-
+ .../lrzsz_fix_for_automake-1.12.patch              |   49 ++++++++++++++++++
+ meta/recipes-bsp/lrzsz/lrzsz_0.12.20.bb            |    6 ++-
+ .../coreutils_fix_for_automake-1.12.patch          |   32 ++++++++++++
+ meta/recipes-core/coreutils/coreutils_6.9.bb       |    6 ++-
+ .../jpeg/jpeg-8c/jpeg_fix_for_automake-1.12.patch  |   41 +++++++++++++++
+ meta/recipes-core/jpeg/jpeg_8c.bb                  |    6 ++-
+ .../libxml2/libxml2_fix_for_automake_1.12.patch    |   23 +++++++++
+ meta/recipes-core/libxml/libxml2_2.7.8.bb          |    5 +-
+ .../make-3.81/make_fix_for_automake-1.12.patch     |   43 ++++++++++++++++
+ meta/recipes-devtools/make/make_3.81.bb            |    4 +-
+ .../rpm/rpm/rpm_fix_for_automake-1.12.patch        |   21 ++++++++
+ meta/recipes-devtools/rpm/rpm_5.4.0.bb             |    3 +-
+ .../diffutils_fix_for_automake-1.12.patch          |   27 ++++++++++
+ meta/recipes-extended/diffutils/diffutils_2.8.1.bb |    6 ++-
+ .../findutils_fix_for_automake-1.12.patch          |   23 +++++++++
+ .../findutils_fix_for_automake-1.12.patch          |   22 ++++++++
+ .../recipes-extended/findutils/findutils_4.2.31.bb |    6 ++-
+ meta/recipes-extended/findutils/findutils_4.4.2.bb |    6 ++-
+ .../gawk-3.1.5/gawk_fix_for_automake-1.12.patch    |   41 +++++++++++++++
+ .../gawk/gawk/gawk_fix_for_automake-1.12.patch     |   23 +++++++++
+ meta/recipes-extended/gawk/gawk_3.1.5.bb           |    2 +
+ meta/recipes-extended/gawk/gawk_4.0.0.bb           |    5 +-
+ .../grep-2.5.1a/grep_fix_for_automake-1.12.patch   |   52 +++++++++++++++++++
+ meta/recipes-extended/grep/grep_2.5.1a.bb          |    7 ++-
+ .../libidn/libidn_fix_for_automake-1.12.patch      |   26 ++++++++++
+ meta/recipes-extended/libidn/libidn_1.24.bb        |    5 +-
+ .../files/lighttpd_fix_for_automake-1.12.patch     |   37 ++++++++++++++
+ meta/recipes-extended/lighttpd/lighttpd_1.4.30.bb  |    5 +-
+ .../minicom_fix_for_automake-1.12.patch            |   21 ++++++++
+ meta/recipes-extended/minicom/minicom_2.6.1.bb     |    3 +
+ .../files/shadow_fix_for_automake-1.12.patch       |   23 +++++++++
+ .../shadow/shadow-native_4.1.4.3.bb                |    6 ++-
+ meta/recipes-extended/shadow/shadow_4.1.4.3.bb     |    6 ++-
+ .../texinfo_fix_for_automake-1.12.patch            |   24 +++++++++
+ meta/recipes-extended/texinfo/texinfo_4.13a.bb     |    3 +-
+ .../glew/files/glew_fix_for_automake-1.12.patch    |   25 +++++++++
+ meta/recipes-graphics/glew/glew_1.7.0.bb           |    3 +-
+ .../systemtap_fix_for_automake_1.12.patch          |   23 +++++++++
+ meta/recipes-kernel/systemtap/systemtap_git.bb     |    2 +-
+ meta/recipes-kernel/systemtap/systemtap_git.inc    |    1 +
+ .../gmp/gmp-4.2.1/gmp_fix_for_automake-1.12.patch  |   48 ++++++++++++++++++
+ .../gmp/gmp/gmp_fix_for_automake-1.12.patch        |   48 ++++++++++++++++++
+ meta/recipes-support/gmp/gmp_4.2.1.bb              |    6 ++-
+ meta/recipes-support/gmp/gmp_5.0.4.bb              |    6 ++-
+ .../gnutls_fix_for_automake-1.12.patch             |   53 ++++++++++++++++++++
+ meta/recipes-support/gnutls/gnutls_2.12.19.bb      |    3 +-
+ .../libtasn1/libtasn1_fix_for_automake_1.12.patch  |   28 ++++++++++
+ meta/recipes-support/gnutls/libtasn1_2.12.bb       |    6 ++-
+ .../libcheck/libcheck_fix_for_automake-1.12.patch  |   26 ++++++++++
+ meta/recipes-support/libcheck/libcheck_0.9.8.bb    |    6 ++-
+ .../files/libcroco_fix_for_automake-1.12.patch     |   22 ++++++++
+ meta/recipes-support/libcroco/libcroco_0.6.3.bb    |    5 +-
+ .../libfm-0.1.17/libfm_fix_for_automake-1.12.patch |   48 ++++++++++++++++++
+ meta/recipes-support/libfm/libfm_0.1.17.bb         |    6 ++-
+ .../libmpc/libmpc_fix_for_automake-1.12.patch      |   26 ++++++++++
+ meta/recipes-support/libmpc/libmpc_0.8.2.bb        |    5 +-
+ .../mpfr-3.1.0/mpfr_fix_for_automake-1.12.patch    |   35 +++++++++++++
+ meta/recipes-support/mpfr/mpfr_3.1.0.bb            |    7 ++-
+ .../popt/popt/popt_fix_for_automake-1.12.patch     |   21 ++++++++
+ meta/recipes-support/popt/popt_1.16.bb             |    3 +-
+ 62 files changed, 1082 insertions(+), 52 deletions(-)
+ create mode 100644 meta/recipes-bsp/grub/grub-0.97/grub_fix_for_automake-1.12.patch
+ create mode 100644 meta/recipes-bsp/lrzsz/lrzsz-0.12.20/lrzsz_fix_for_automake-1.12.patch
+ create mode 100644 meta/recipes-core/coreutils/coreutils-6.9/coreutils_fix_for_automake-1.12.patch
+ create mode 100644 meta/recipes-core/jpeg/jpeg-8c/jpeg_fix_for_automake-1.12.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/libxml2_fix_for_automake_1.12.patch
+ create mode 100644 meta/recipes-devtools/make/make-3.81/make_fix_for_automake-1.12.patch
+ create mode 100644 meta/recipes-devtools/rpm/rpm/rpm_fix_for_automake-1.12.patch
+ create mode 100644 meta/recipes-extended/diffutils/diffutils-2.8.1/diffutils_fix_for_automake-1.12.patch
+ create mode 100644 meta/recipes-extended/findutils/findutils-4.2.31/findutils_fix_for_automake-1.12.patch
+ create mode 100644 meta/recipes-extended/findutils/findutils-4.4.2/findutils_fix_for_automake-1.12.patch
+ create mode 100644 meta/recipes-extended/gawk/gawk-3.1.5/gawk_fix_for_automake-1.12.patch
+ create mode 100644 meta/recipes-extended/gawk/gawk/gawk_fix_for_automake-1.12.patch
+ create mode 100644 meta/recipes-extended/grep/grep-2.5.1a/grep_fix_for_automake-1.12.patch
+ create mode 100644 meta/recipes-extended/libidn/libidn/libidn_fix_for_automake-1.12.patch
+ create mode 100644 meta/recipes-extended/lighttpd/files/lighttpd_fix_for_automake-1.12.patch
+ create mode 100644 meta/recipes-extended/minicom/minicom-2.6.1/minicom_fix_for_automake-1.12.patch
+ create mode 100644 meta/recipes-extended/shadow/files/shadow_fix_for_automake-1.12.patch
+ create mode 100644 meta/recipes-extended/texinfo/texinfo-4.13a/texinfo_fix_for_automake-1.12.patch
+ create mode 100644 meta/recipes-graphics/glew/files/glew_fix_for_automake-1.12.patch
+ create mode 100644 meta/recipes-kernel/systemtap/systemtap/systemtap_fix_for_automake_1.12.patch
+ create mode 100644 meta/recipes-support/gmp/gmp-4.2.1/gmp_fix_for_automake-1.12.patch
+ create mode 100644 meta/recipes-support/gmp/gmp/gmp_fix_for_automake-1.12.patch
+ create mode 100644 meta/recipes-support/gnutls/gnutls-2.12.18/gnutls_fix_for_automake-1.12.patch
+ create mode 100644 meta/recipes-support/gnutls/libtasn1/libtasn1_fix_for_automake_1.12.patch
+ create mode 100644 meta/recipes-support/libcheck/libcheck/libcheck_fix_for_automake-1.12.patch
+ create mode 100644 meta/recipes-support/libcroco/files/libcroco_fix_for_automake-1.12.patch
+ create mode 100644 meta/recipes-support/libfm/libfm-0.1.17/libfm_fix_for_automake-1.12.patch
+ create mode 100644 meta/recipes-support/libmpc/libmpc/libmpc_fix_for_automake-1.12.patch
+ create mode 100644 meta/recipes-support/mpfr/mpfr-3.1.0/mpfr_fix_for_automake-1.12.patch
+ create mode 100644 meta/recipes-support/popt/popt/popt_fix_for_automake-1.12.patch
+
+-- 
+1.7.7
+
 
 
