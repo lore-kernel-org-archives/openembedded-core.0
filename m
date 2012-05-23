@@ -1,41 +1,24 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1SXCM7-0004on-97
+	(envelope-from <Liezhi.Yang@windriver.com>) id 1SXCMg-0004r8-6K
 	for openembedded-core@lists.openembedded.org;
-	Wed, 23 May 2012 16:16:03 +0200
-Received: by eekd49 with SMTP id d49so2473730eek.6
+	Wed, 23 May 2012 16:16:38 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q4NE6RbV009644
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 May 2012 07:05:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date
-	:content-transfer-encoding:message-id:references:to:x-mailer
-	:x-gm-message-state;
-	bh=kzsm5kvx+FF1k1A0Nq0XRuxgHcI7pt/5Uta2naAN9DY=;
-	b=VuVZPOEqaiOE8sUtjSQ2CpkvbKvyuGTxbgGTAB3n5EU0JKy6Bjk7+t7IGQwKf8BXgd
-	0pjXdjz0kXMywi3EqUC8MivFCKdjrMl3wPOK/oVIV6rzoe6T+ohTUBTfE6q1BE+bNRHB
-	inQUs9X+i7GllZM1J9C9xD8yN/coS38tqn+QneXNlEcSHNe4M3bLMcyog9XBliCIu09W
-	dqkOFedndiD2bNxggN9SQVDDN+VIytnokz0auI+MMhRzjmAock7jNaUYANK24WM7QYfw
-	908gPpXRTdldr0sjTldApVAvmup8GB8S0qW2HKttbIOYDxJq78rAWXHK0fNlcffsLgHK
-	Nlug==
-Received: by 10.213.33.75 with SMTP id g11mr1304925ebd.146.1337781953189;
-	Wed, 23 May 2012 07:05:53 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id n52sm123629778eeh.9.2012.05.23.07.05.51
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 23 May 2012 07:05:52 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1278)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <cover.1337777033.git.laurentiu.palcu@intel.com>
-Date: Wed, 23 May 2012 16:05:50 +0200
-Message-Id: <3B64436D-65E8-4090-99D7-91B3D4FFC42D@dominion.thruhere.net>
-References: <cover.1337777033.git.laurentiu.palcu@intel.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1278)
-X-Gm-Message-State: ALoCoQnkfiHX8y2z2/AOKuRjWSV5PyB/H/YC3as4XSLHaTLdxeFcTm8eCpQtNy6kVsGrWjo7dy+a
-Subject: Re: [PATCH 00/19] Package updates
+	Wed, 23 May 2012 07:06:27 -0700 (PDT)
+Received: from usp-ub10.corp.ad.wrs.com (128.224.163.69) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.1.255.0; Wed, 23 May 2012 07:06:26 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 23 May 2012 22:06:30 +0800
+Message-ID: <cover.1337781684.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.1
+MIME-Version: 1.0
+Cc: Zhenfeng.Zhao@windriver.com
+Subject: [PATCH 0/1] V2 rpm 5.4.0: respect to the arch when choose the alternatives
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,31 +33,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 May 2012 14:16:03 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 23 May 2012 14:16:38 -0000
+Content-Type: text/plain
 
+Changes of V2:
 
-Op 23 mei 2012, om 15:10 heeft Laurentiu Palcu het volgende geschreven:
+Fix the rpm rather than the PACKAGE_EXTRA_ARCHS
 
-> The updates in this patchset are mainly related to graphics =
-functionality area.
+// Robert
 
-How were those tested?
+The following changes since commit 3bf8069100e54153d13319dc32ca089327b6a139:
 
-> The following changes since commit =
-33c4bf2096effc850720009564e3d1adbda24452:
->=20
->  fetch2: Also exclude urls containing wildcards from checksumming for =
-now (2012-05-22 12:18:53 +0100)
+  documentation/yocto-project-qs/yocto-project-qs.xml: added quotes (2012-05-01 21:00:36 +0100)
 
-That commit doesn't exist in oe-core
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib robert/121_rpm_arch
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=robert/121_rpm_arch
 
-> are available in the git repository at:
->=20
->  git://git.yoctoproject.org/poky-contrib lpalcu/updates
->  http://git.yoctoproject.org/cgit.cgi//log/?h=3Dlpalcu/updates
+Robert Yang (1):
+  rpm 5.4.0: respect to the arch when choose the alternatives
 
-And that branch fails to merge into oe-core=
+ .../rpm/rpm/rpm-respect-arch.patch                 |   67 ++++++++++++++++++++
+ meta/recipes-devtools/rpm/rpm_5.4.0.bb             |    3 +-
+ 2 files changed, 69 insertions(+), 1 deletions(-)
+ create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-respect-arch.patch
+
 
 
