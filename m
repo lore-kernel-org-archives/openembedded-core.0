@@ -1,24 +1,24 @@
 Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1SWzDC-0006Ll-O3
+	(envelope-from <nitin.a.kamble@intel.com>) id 1SWzDD-0006Lj-Do
 	for openembedded-core@lists.openembedded.org;
-	Wed, 23 May 2012 02:13:58 +0200
+	Wed, 23 May 2012 02:13:59 +0200
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
 	by azsmga101.ch.intel.com with ESMTP; 22 May 2012 17:03:47 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="146507158"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="146507159"
 Received: from nbuild0.sc.intel.com ([172.25.110.36])
-	by azsmga001.ch.intel.com with ESMTP; 22 May 2012 17:03:46 -0700
+	by azsmga001.ch.intel.com with ESMTP; 22 May 2012 17:03:47 -0700
 From: nitin.a.kamble@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 22 May 2012 17:03:21 -0700
-Message-Id: <b31c130bdd467810fe42c98b974d734ae61f4ca4.1337731367.git.nitin.a.kamble@intel.com>
+Date: Tue, 22 May 2012 17:03:22 -0700
+Message-Id: <b2e66d5a1f680906edc4d113f98777d7a253f985.1337731367.git.nitin.a.kamble@intel.com>
 X-Mailer: git-send-email 1.7.6.5
 In-Reply-To: <1f3e6932358a90ba8402191fb495729c873634cb.1337731367.git.nitin.a.kamble@intel.com>
 References: <1f3e6932358a90ba8402191fb495729c873634cb.1337731367.git.nitin.a.kamble@intel.com>
 In-Reply-To: <cover.1337731367.git.nitin.a.kamble@intel.com>
 References: <cover.1337731367.git.nitin.a.kamble@intel.com>
-Subject: [PATCH 06/30] shadow shadow-native: fix build with automake 1.12
+Subject: [PATCH 07/30] jpeg: fix build with automake 1.12
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,89 +39,78 @@ From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
 Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
 ---
- .../files/shadow_fix_for_automake-1.12.patch       |   23 ++++++++++++++++++++
- .../shadow/shadow-native_4.1.4.3.bb                |    6 +++-
- meta/recipes-extended/shadow/shadow_4.1.4.3.bb     |    6 +++-
- 3 files changed, 31 insertions(+), 4 deletions(-)
- create mode 100644 meta/recipes-extended/shadow/files/shadow_fix_for_automake-1.12.patch
+ .../jpeg/jpeg-8c/jpeg_fix_for_automake-1.12.patch  |   41 ++++++++++++++++++++
+ meta/recipes-core/jpeg/jpeg_8c.bb                  |    6 ++-
+ 2 files changed, 45 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-core/jpeg/jpeg-8c/jpeg_fix_for_automake-1.12.patch
 
-diff --git a/meta/recipes-extended/shadow/files/shadow_fix_for_automake-1.12.patch b/meta/recipes-extended/shadow/files/shadow_fix_for_automake-1.12.patch
+diff --git a/meta/recipes-core/jpeg/jpeg-8c/jpeg_fix_for_automake-1.12.patch b/meta/recipes-core/jpeg/jpeg-8c/jpeg_fix_for_automake-1.12.patch
 new file mode 100644
-index 0000000..6a27ed3
+index 0000000..e8a2f75
 --- /dev/null
-+++ b/meta/recipes-extended/shadow/files/shadow_fix_for_automake-1.12.patch
-@@ -0,0 +1,23 @@
-+Upstream-Status: pending
++++ b/meta/recipes-core/jpeg/jpeg-8c/jpeg_fix_for_automake-1.12.patch
+@@ -0,0 +1,41 @@
++Upstream-Status: Pending
 +
-+Automake 1.12 has deprecated automatic de-ANSI-fication support
++automake 1.12 has deprecated  automatic de-ANSI-fication support
 +
-+This patch avoids this issue with automake 1.12:
++this patch avoids this error with automake 1.12
 +
-+| configure.in:22: error: automatic de-ANSI-fication support has been removed
++| configure.ac:32: error: automatic de-ANSI-fication support has been removed
++...
++| automake: warnings are treated as errors
++| /srv/home/nitin/builds/build-gcc47/tmp/sysroots/x86_64-linux/usr/share/automake-1.12/am/ltlibrary.am: warning: 'libjpeg.la': linking libtool libraries using a non-POSIX
++| /srv/home/nitin/builds/build-gcc47/tmp/sysroots/x86_64-linux/usr/share/automake-1.12/am/ltlibrary.am: archiver requires 'AM_PROG_AR' in 'configure.ac'
++
 +
 +Signed-Off-By: Nitin A Kamble <nitin.a.kamble@intel.com>
 +2012/05/02
 +
-+Index: shadow-4.1.4.3/configure.in
++Index: jpeg-8c/configure.ac
 +===================================================================
-+--- shadow-4.1.4.3.orig/configure.in
-++++ shadow-4.1.4.3/configure.in
-+@@ -19,7 +19,6 @@ AC_PROG_CC
-+ AC_ISC_POSIX
-+ AC_PROG_LN_S
-+ AC_PROG_YACC
-+-AM_C_PROTOTYPES
-+ AM_PROG_LIBTOOL
++--- jpeg-8c.orig/configure.ac
+++++ jpeg-8c/configure.ac
++@@ -28,9 +28,6 @@ AM_INIT_AUTOMAKE([-Wall -Werror no-dist
++ # with --disable-silent-rules or use "make V=1".
++ AM_SILENT_RULES([yes])
 + 
-+ dnl Checks for libraries.
-diff --git a/meta/recipes-extended/shadow/shadow-native_4.1.4.3.bb b/meta/recipes-extended/shadow/shadow-native_4.1.4.3.bb
-index 38bb922..61fccba 100644
---- a/meta/recipes-extended/shadow/shadow-native_4.1.4.3.bb
-+++ b/meta/recipes-extended/shadow/shadow-native_4.1.4.3.bb
-@@ -7,7 +7,7 @@ LICENSE = "BSD | Artistic-1.0"
- LIC_FILES_CHKSUM = "file://COPYING;md5=08c553a87d4e51bbed50b20e0adcaede \
-                     file://src/passwd.c;firstline=8;endline=30;md5=2899a045e90511d0e043b85a7db7e2fe"
++-# This is required when using the de-ANSI-fication feature.
++-AM_C_PROTOTYPES
++-
++ # Add configure option --enable-maintainer-mode which enables
++ # dependency checking and generation useful to package maintainers.
++ # This is made an option to avoid confusing end users.
++@@ -44,6 +41,10 @@ AC_PROG_INSTALL
++ AC_PROG_MAKE_SET
++ AC_PROG_LN_S
++ 
+++# automake 1.12 seems to require this, but automake 1.11 doesn't recognize it
+++m4_pattern_allow([AM_PROG_AR])
+++AM_PROG_AR
+++
++ # Check if LD supports linker scripts,
++ # and define automake conditional HAVE_LD_VERSION_SCRIPT if so.
++ AC_ARG_ENABLE([ld-version-script],
+diff --git a/meta/recipes-core/jpeg/jpeg_8c.bb b/meta/recipes-core/jpeg/jpeg_8c.bb
+index 6aeaeaa..c276a51 100644
+--- a/meta/recipes-core/jpeg/jpeg_8c.bb
++++ b/meta/recipes-core/jpeg/jpeg_8c.bb
+@@ -13,11 +13,13 @@ SECTION = "libs"
+ DEPENDS = "libtool-cross"
+ DEPENDS_virtclass-native = "libtool-native"
  
--PR = "r4"
-+PR = "r5"
+-PR = "r3"
++PR = "r4"
  
- SRC_URI = "http://pkg-shadow.alioth.debian.org/releases/${BPN}-${PV}.tar.bz2 \
-            file://shadow.automake-1.11.patch \
-@@ -15,7 +15,9 @@ SRC_URI = "http://pkg-shadow.alioth.debian.org/releases/${BPN}-${PV}.tar.bz2 \
-            file://shadow-4.1.4.2-env-reset-keep-locale.patch \
-            file://add_root_cmd_options.patch \
-            file://disable-syslog.patch \
--           file://useradd.patch"
-+           file://useradd.patch \
-+           file://shadow_fix_for_automake-1.12.patch \
-+           "
+ SRC_URI = "http://www.ijg.org/files/jpegsrc.v${PV}.tar.gz \
+ 	   file://debian-libjpeg7_7-1.diff \
+-           file://fix_for_automake_1.11.2.patch"
++           file://fix_for_automake_1.11.2.patch \
++           file://jpeg_fix_for_automake-1.12.patch \
++          "
  
- SRC_URI[md5sum] = "b8608d8294ac88974f27b20f991c0e79"
- SRC_URI[sha256sum] = "633f5bb4ea0c88c55f3642c97f9d25cbef74f82e0b4cf8d54e7ad6f9f9caa778" 
-diff --git a/meta/recipes-extended/shadow/shadow_4.1.4.3.bb b/meta/recipes-extended/shadow/shadow_4.1.4.3.bb
-index 60fb78b..098b0b0 100644
---- a/meta/recipes-extended/shadow/shadow_4.1.4.3.bb
-+++ b/meta/recipes-extended/shadow/shadow_4.1.4.3.bb
-@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=08c553a87d4e51bbed50b20e0adcaede \
- 
- DEPENDS = "${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
- RDEPENDS_${PN} = "shadow-securetty ${@base_contains('DISTRO_FEATURES', 'pam', '${PAM_PLUGINS}', '', d)}"
--PR = "r9"
-+PR = "r10"
- 
- SRC_URI = "http://pkg-shadow.alioth.debian.org/releases/${BPN}-${PV}.tar.bz2 \
-            file://login_defs_pam.sed \
-@@ -19,7 +19,9 @@ SRC_URI = "http://pkg-shadow.alioth.debian.org/releases/${BPN}-${PV}.tar.bz2 \
-            file://shadow-4.1.4.2-env-reset-keep-locale.patch \
-            file://shadow-4.1.4.2-groupmod-pam-check.patch \
-            file://shadow-4.1.4.2-su_no_sanitize_env.patch \
--           file://shadow-update-pam-conf.patch"
-+           file://shadow-update-pam-conf.patch \
-+           file://shadow_fix_for_automake-1.12.patch \
-+           "
- 
- SRC_URI[md5sum] = "b8608d8294ac88974f27b20f991c0e79"
- SRC_URI[sha256sum] = "633f5bb4ea0c88c55f3642c97f9d25cbef74f82e0b4cf8d54e7ad6f9f9caa778"
+ SRC_URI[md5sum] = "a2c10c04f396a9ce72894beb18b4e1f9"
+ SRC_URI[sha256sum] = "edfc0b3e004b2fe58ffeeec89f96e3a3c28972c46725ec127d01edf8a1cc7c9a"
 -- 
 1.7.7
 
