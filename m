@@ -1,35 +1,26 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1SXC57-0004Ce-CO for openembedded-core@lists.openembedded.org;
-	Wed, 23 May 2012 15:58:29 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q4NDmKHl013047
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 May 2012 14:48:20 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 12644-04 for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 May 2012 14:48:16 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q4NDmDtD013041
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 May 2012 14:48:15 +0100
-Message-ID: <1337780891.8248.73.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Received: from mga01.intel.com ([192.55.52.88])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <sgw@linux.intel.com>) id 1SXCJN-0004lG-UN
+	for openembedded-core@lists.openembedded.org;
+	Wed, 23 May 2012 16:13:14 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 23 May 2012 07:03:01 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="170377679"
+Received: from unknown (HELO [10.255.12.24]) ([10.255.12.24])
+	by fmsmga002.fm.intel.com with ESMTP; 23 May 2012 07:03:01 -0700
+Message-ID: <4FBCEE15.5050008@linux.intel.com>
+Date: Wed, 23 May 2012 07:03:01 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
+MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Wed, 23 May 2012 14:48:11 +0100
-In-Reply-To: <4FBCBFA6.8020307@mlbassoc.com>
-References: <cover.1337731469.git.nitin.a.kamble@intel.com>
-	<9fcc40151424883e9f660dfdd3a3eb52213701c1.1337731469.git.nitin.a.kamble@intel.com>
-	<4FBCBFA6.8020307@mlbassoc.com>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 1/9] tar: fix build
+References: <1337696160-26734-1-git-send-email-sledz@dresearch-fe.de>
+	<4FBC8DC0.706@dresearch-fe.de>
+In-Reply-To: <4FBC8DC0.706@dresearch-fe.de>
+Subject: Re: [PATCH] dropbear: fix include dependent PR generation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,62 +35,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 May 2012 13:58:29 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 23 May 2012 14:13:14 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2012-05-23 at 04:44 -0600, Gary Thomas wrote:
-> On 2012-05-22 18:05, nitin.a.kamble@intel.com wrote:
-> > From: Nitin A Kamble<nitin.a.kamble@intel.com>
-> >
-> > Avoid this error:
-> > | rmdir: failed to remove `/srv/home/nitin/builds/build-gcc47/tmp/work/i586-poky-linux/tar-1.26-r1/image/usr/sbin/': No such file or directory
-> > NOTE: package tar-1.26-r1: task do_install: Failed
-> >
-> > no PR bump as no change in the output.
-> >
-> > Signed-off-by: Nitin A Kamble<nitin.a.kamble@intel.com>
-> > ---
-> >   meta/recipes-extended/tar/tar.inc |    8 ++++++--
-> >   1 files changed, 6 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/meta/recipes-extended/tar/tar.inc b/meta/recipes-extended/tar/tar.inc
-> > index 0533b82..5c2325a 100644
-> > --- a/meta/recipes-extended/tar/tar.inc
-> > +++ b/meta/recipes-extended/tar/tar.inc
-> > @@ -18,8 +18,12 @@ do_install () {
-> >   do_install_extra () {
-> >       install -d ${D}${base_bindir}
-> >       mv ${D}${bindir}/tar ${D}${base_bindir}/tar.${PN}
-> > -    rmdir ${D}${bindir}/
-> > -    rmdir ${D}${sbindir}/
-> > +    if [ -d ${D}${bindir}/ ] ; then
-> > +        rmdir ${D}${bindir}/
-> > +    fi
-> > +    if [ -d ${D}${sbindir}/ ] ; then
-> > +        rmdir ${D}${sbindir}/
-> > +    fi
-> >       mv ${D}${libexecdir}/rmt ${D}${libexecdir}/rmt.${PN}
-> >   }
-> >
-> 
-> Why not just use
->    rm -fr ${D}${bindir}
-> etc?  No need for all the extra testing...
+On 05/23/2012 12:12 AM, Steffen Sledz wrote:
+> On 22.05.2012 16:16, Steffen Sledz wrote:
+>> Signed-off-by: Steffen Sledz<sledz@dresearch-fe.de>
+>> ---
+>>   meta/recipes-core/dropbear/dropbear.inc        |    2 ++
+>>   meta/recipes-core/dropbear/dropbear_2012.55.bb |    2 +-
+>>   2 files changed, 3 insertions(+), 1 deletions(-)
+>>
+>> diff --git a/meta/recipes-core/dropbear/dropbear.inc b/meta/recipes-core/dropbear/dropbear.inc
+>> index 2d6aeb2..2de442c 100644
+>> --- a/meta/recipes-core/dropbear/dropbear.inc
+>> +++ b/meta/recipes-core/dropbear/dropbear.inc
+>> @@ -2,6 +2,8 @@ DESCRIPTION = "Dropbear is a lightweight SSH and SCP implementation"
+>>   HOMEPAGE = "http://matt.ucc.asn.au/dropbear/dropbear.html"
+>>   SECTION = "console/network"
+>>
+>> +INC_PR = "r0"
+>> +
+>>   # some files are from other projects and have others license terms:
+>>   #   public domain, OpenSSH 3.5p1, OpenSSH3.6.1p2, PuTTY
+>>   LICENSE = "MIT"
+>> diff --git a/meta/recipes-core/dropbear/dropbear_2012.55.bb b/meta/recipes-core/dropbear/dropbear_2012.55.bb
+>> index 4f0ef80..8323a33 100644
+>> --- a/meta/recipes-core/dropbear/dropbear_2012.55.bb
+>> +++ b/meta/recipes-core/dropbear/dropbear_2012.55.bb
+>> @@ -3,4 +3,4 @@ require dropbear.inc
+>>   SRC_URI[md5sum] = "44836e5a0419ba12557f9ea46880077e"
+>>   SRC_URI[sha256sum] = "808df243c61bb60f2f18fa64bca628cbba0918b2a14139f10e6d59d4ac5a17ce"
+>>
+>> -PR = "r0"
+>> +PR = "${INC_PR}.0"
+>
+> Did this message made it to the ML?
+>
+I guess not, please resend as a proper patch.
 
-I've mentioned this once before however I'll do so again. I think these
-empty directories were a bug in automake. It looks like automake has
-fixed that problem and no longer generates them. I think the correct
-thing to do is simply remove the rmdir.
+Thanks
 
-The reason we used rmdir instead of rm is we wanted to know if these
-suddenly started containing files, not silently delete them.
-
-Cheers,
-
-Richard
-
-
-
+Sau!
+> I could not find it in Patchwork OpenEmbedded Core?. :(
+>
+> Steffen
+>
 
 
