@@ -1,20 +1,29 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from hermes.mlbassoc.com ([64.234.241.98] helo=mail.chez-thomas.org)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <radu.moisan@intel.com>) id 1SX6rm-000505-2V
+	(envelope-from <gary@mlbassoc.com>) id 1SX9Dc-0000g8-6X
 	for openembedded-core@lists.openembedded.org;
-	Wed, 23 May 2012 10:24:22 +0200
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 23 May 2012 01:14:10 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="103233357"
-Received: from dell-desktop (HELO localhost.localdomain) ([10.237.104.69])
-	by AZSMGA002.ch.intel.com with ESMTP; 23 May 2012 01:14:09 -0700
-From: Radu Moisan <radu.moisan@intel.com>
+	Wed, 23 May 2012 12:55:04 +0200
+Received: by mail.chez-thomas.org (Postfix, from userid 1998)
+	id 790EEF811FD; Wed, 23 May 2012 04:44:55 -0600 (MDT)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	hermes.chez-thomas.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.3 required=4.0 tests=ALL_TRUSTED,BAYES_00,
+	FUZZY_AMBIEN autolearn=no version=3.3.2
+Received: from hermes.chez-thomas.org (localhost.localdomain [127.0.0.1])
+	by mail.chez-thomas.org (Postfix) with ESMTP id D5E64F811F7;
+	Wed, 23 May 2012 04:44:54 -0600 (MDT)
+Message-ID: <4FBCBFA6.8020307@mlbassoc.com>
+Date: Wed, 23 May 2012 04:44:54 -0600
+From: Gary Thomas <gary@mlbassoc.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
+MIME-Version: 1.0
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 23 May 2012 11:20:07 +0300
-Message-Id: <1337761207-14688-1-git-send-email-radu.moisan@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] curl: Update to version 7.25.0
+References: <cover.1337731469.git.nitin.a.kamble@intel.com>
+	<9fcc40151424883e9f660dfdd3a3eb52213701c1.1337731469.git.nitin.a.kamble@intel.com>
+In-Reply-To: <9fcc40151424883e9f660dfdd3a3eb52213701c1.1337731469.git.nitin.a.kamble@intel.com>
+Subject: Re: [PATCH 1/9] tar: fix build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,121 +38,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 May 2012 08:24:22 -0000
+X-List-Received-Date: Wed, 23 May 2012 10:55:04 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Radu Moisan <radu.moisan@intel.com>
----
- meta/recipes-support/curl/curl/noldlibpath.patch   |   76 --------------------
- .../curl/{curl_7.24.0.bb => curl_7.25.0.bb}        |    5 +-
- 2 files changed, 2 insertions(+), 79 deletions(-)
- delete mode 100644 meta/recipes-support/curl/curl/noldlibpath.patch
- rename meta/recipes-support/curl/{curl_7.24.0.bb => curl_7.25.0.bb} (90%)
+On 2012-05-22 18:05, nitin.a.kamble@intel.com wrote:
+> From: Nitin A Kamble<nitin.a.kamble@intel.com>
+>
+> Avoid this error:
+> | rmdir: failed to remove `/srv/home/nitin/builds/build-gcc47/tmp/work/i586-poky-linux/tar-1.26-r1/image/usr/sbin/': No such file or directory
+> NOTE: package tar-1.26-r1: task do_install: Failed
+>
+> no PR bump as no change in the output.
+>
+> Signed-off-by: Nitin A Kamble<nitin.a.kamble@intel.com>
+> ---
+>   meta/recipes-extended/tar/tar.inc |    8 ++++++--
+>   1 files changed, 6 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta/recipes-extended/tar/tar.inc b/meta/recipes-extended/tar/tar.inc
+> index 0533b82..5c2325a 100644
+> --- a/meta/recipes-extended/tar/tar.inc
+> +++ b/meta/recipes-extended/tar/tar.inc
+> @@ -18,8 +18,12 @@ do_install () {
+>   do_install_extra () {
+>       install -d ${D}${base_bindir}
+>       mv ${D}${bindir}/tar ${D}${base_bindir}/tar.${PN}
+> -    rmdir ${D}${bindir}/
+> -    rmdir ${D}${sbindir}/
+> +    if [ -d ${D}${bindir}/ ] ; then
+> +        rmdir ${D}${bindir}/
+> +    fi
+> +    if [ -d ${D}${sbindir}/ ] ; then
+> +        rmdir ${D}${sbindir}/
+> +    fi
+>       mv ${D}${libexecdir}/rmt ${D}${libexecdir}/rmt.${PN}
+>   }
+>
 
-diff --git a/meta/recipes-support/curl/curl/noldlibpath.patch b/meta/recipes-support/curl/curl/noldlibpath.patch
-deleted file mode 100644
-index f4c72a1..0000000
---- a/meta/recipes-support/curl/curl/noldlibpath.patch
-+++ /dev/null
-@@ -1,76 +0,0 @@
--Upstream-Status: Inappropriate [embedded specific]
--
--Manipulating LD_LIBRARY_PATH can totally break builds when cross compiling.
--Since we never run compiled binaries for the target, we should *never* need
--to change LD_LIBRARY_PATH.
--
--RP 9/6/2010
--
--Index: curl-7.20.0/configure.ac
--===================================================================
----- curl-7.20.0.orig/configure.ac	2010-06-09 11:06:30.000000000 +0100
--+++ curl-7.20.0/configure.ac	2010-06-09 11:04:25.000000000 +0100
--@@ -1461,9 +1461,10 @@
--        dnl linker doesn't search through, we need to add it to LD_LIBRARY_PATH
--        dnl to prevent further configure tests to fail due to this
-- 
---       LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$LIB_OPENSSL"
---       export LD_LIBRARY_PATH
---       AC_MSG_NOTICE([Added $LIB_OPENSSL to LD_LIBRARY_PATH])
--+       #LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$LIB_OPENSSL"
--+       #export LD_LIBRARY_PATH
--+       #AC_MSG_NOTICE([Added $LIB_OPENSSL to LD_LIBRARY_PATH])
--+       :
--     fi
--   fi
-- 
--@@ -1684,9 +1686,10 @@
--           dnl LD_LIBRARY_PATH to prevent further configure tests to fail
--           dnl due to this
-- 
---          LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$gtlslib"
---          export LD_LIBRARY_PATH
---          AC_MSG_NOTICE([Added $gtlslib to LD_LIBRARY_PATH])
--+          #LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$gtlslib"
--+          #export LD_LIBRARY_PATH
--+          #AC_MSG_NOTICE([Added $gtlslib to LD_LIBRARY_PATH])
--+          :
--         fi
--       fi
-- 
--@@ -1696,6 +1699,8 @@
-- 
-- fi dnl OPENSSL != 1
-- 
--+AC_SUBST(GNUTLS_REQUIRED)
--+
-- dnl ----------------------------------------------------
-- dnl NSS. Only check if GnuTLS and OpenSSL are not enabled
-- dnl ----------------------------------------------------
--@@ -1781,9 +1786,10 @@
--         dnl LD_LIBRARY_PATH to prevent further configure tests to fail
--         dnl due to this
-- 
---        LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$nssprefix/lib$libsuff"
---        export LD_LIBRARY_PATH
---        AC_MSG_NOTICE([Added $nssprefix/lib$libsuff to LD_LIBRARY_PATH])
--+        #LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$nssprefix/lib$libsuff"
--+        #export LD_LIBRARY_PATH
--+        #AC_MSG_NOTICE([Added $nssprefix/lib$libsuff to LD_LIBRARY_PATH])
--+        :
--       fi
-- 
--     fi
--@@ -1881,9 +1887,9 @@
--        dnl libssh2_version is a post 1.0 addition
--        AC_CHECK_FUNCS( libssh2_version )
-- 
---       LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$DIR_SSH2"
---       export LD_LIBRARY_PATH
---       AC_MSG_NOTICE([Added $DIR_SSH2 to LD_LIBRARY_PATH])
--+       #LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$DIR_SSH2"
--+       #export LD_LIBRARY_PATH
--+       #AC_MSG_NOTICE([Added $DIR_SSH2 to LD_LIBRARY_PATH])
--     fi
--   else
--     dnl no libssh2, revert back to clean variables
-diff --git a/meta/recipes-support/curl/curl_7.24.0.bb b/meta/recipes-support/curl/curl_7.25.0.bb
-similarity index 90%
-rename from meta/recipes-support/curl/curl_7.24.0.bb
-rename to meta/recipes-support/curl/curl_7.25.0.bb
-index 12e95c9..033f1bc 100644
---- a/meta/recipes-support/curl/curl_7.24.0.bb
-+++ b/meta/recipes-support/curl/curl_7.25.0.bb
-@@ -11,11 +11,10 @@ DEPENDS_virtclass-nativesdk = "zlib-nativesdk"
- PR = "r0"
- 
- SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
--           file://noldlibpath.patch \
-            file://pkgconfig_fix.patch"
- 
--SRC_URI[md5sum] = "f912221d75eb8d8fe08900eaf011b023"
--SRC_URI[sha256sum] = "ebdb111088ff8b0e05b1d1b075e9f1608285e8105cc51e21caacf33d01812c16"
-+SRC_URI[md5sum] = "f0303d47d9d3e6e4f08c2863c6504823"
-+SRC_URI[sha256sum] = "cfb29139dfeb2449bf8a89963c3aed7d87f034013f05564cc0330b435c90b491"
- 
- inherit autotools pkgconfig binconfig
- 
+Why not just use
+   rm -fr ${D}${bindir}
+etc?  No need for all the extra testing...
+
 -- 
-1.7.9.5
-
+------------------------------------------------------------
+Gary Thomas                 |  Consulting for the
+MLB Associates              |    Embedded world
+------------------------------------------------------------
 
 
