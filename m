@@ -1,39 +1,41 @@
-Received: from mail-out.m-online.net ([212.18.0.9])
-	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <wd@denx.de>)
-	id 1SX4rw-0003ax-UL for openembedded-core@lists.openembedded.org;
-	Wed, 23 May 2012 08:16:24 +0200
-Received: from frontend1.mail.m-online.net (unknown [192.168.8.180])
-	by mail-out.m-online.net (Postfix) with ESMTP id 3Vy3BY4Cjfz4KMYx;
-	Wed, 23 May 2012 08:06:13 +0200 (CEST)
-Received: from localhost (dynscan1.mnet-online.de [192.168.8.164])
-	by mail.m-online.net (Postfix) with ESMTP id 3Vy3BY32Ctz4KK4C;
-	Wed, 23 May 2012 08:06:13 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from smtp-auth.mnet-online.de ([192.168.8.180])
-	by localhost (dynscan1.mail.m-online.net [192.168.8.164]) (amavisd-new,
-	port 10024)
-	with ESMTP id 3fTGUCjADiUl; Wed, 23 May 2012 08:06:13 +0200 (CEST)
-Received: from diddl.denx.de (host-80-81-18-216.customer.m-online.net
-	[80.81.18.216]) by smtp-auth.mnet-online.de (Postfix) with ESMTPA;
-	Wed, 23 May 2012 08:06:12 +0200 (CEST)
-Received: from gemini.denx.de (unknown [10.0.0.2])
-	by diddl.denx.de (Postfix) with ESMTP id 5FBFF1A85E4;
-	Wed, 23 May 2012 08:06:12 +0200 (CEST)
-Received: from gemini.denx.de (localhost [127.0.0.1])
-	by gemini.denx.de (Postfix) with ESMTP id 50C71207171;
-	Wed, 23 May 2012 08:06:12 +0200 (CEST)
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>, 
-	Jason Wessel <jason.wessel@windriver.com>
-From: Wolfgang Denk <wd@denx.de>
+Received: from mail-bk0-f47.google.com ([209.85.214.47])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <sledz@dresearch-fe.de>) id 1SX5tc-0004ob-Jh
+	for openembedded-core@lists.openembedded.org;
+	Wed, 23 May 2012 09:22:12 +0200
+Received: by bkcjm2 with SMTP id jm2so6059316bkc.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 23 May 2012 00:12:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=message-id:date:from:user-agent:mime-version:to:subject:references
+	:in-reply-to:x-enigmail-version:content-type
+	:content-transfer-encoding:x-gm-message-state;
+	bh=oCoWNwKwRp22u7mtVdz2LiLOguPQL11NHuzzk1krvgM=;
+	b=Bz2Wmxw70k1u4agpnSTAWlpj8S2wJlXHR4oauGANySmtK0qIdNwSo3fg+bzb1HPYlT
+	JMLdZM8s2vgJKwY2mzCdSfUwNEujA60Q6WxZpICAG/eS7jd0bStLAePPrIzKygFedB4e
+	yIht1qil44J8u19cPxd7TyRiLZjHVvSEMEOvmkpIJuNd76Ayd/AIjzoIFOyrfJgD/O/Q
+	mbPysVl2J8Tsd43ODzL5CyiJCx+4qd4bLH5WOJv3IJCy2srAgbzgW5wwTExhYJRS0pUn
+	8YDX/wcXKLhqdS0IkOE5sGUVlHN0Hef9lZE821odhhkpXtYAXVWvM4z7EEihSMYW0Pd0
+	Fseg==
+Received: by 10.205.116.203 with SMTP id fj11mr11073783bkc.108.1337757122836; 
+	Wed, 23 May 2012 00:12:02 -0700 (PDT)
+Received: from fensuse.internal.dresearch-fe.de
+	(pd95cb174.dip0.t-ipconnect.de. [217.92.177.116])
+	by mx.google.com with ESMTPS id gm18sm35216491bkc.7.2012.05.23.00.12.01
+	(version=SSLv3 cipher=OTHER); Wed, 23 May 2012 00:12:01 -0700 (PDT)
+Message-ID: <4FBC8DC0.706@dresearch-fe.de>
+Date: Wed, 23 May 2012 09:12:00 +0200
+From: Steffen Sledz <sledz@dresearch-fe.de>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:12.0) Gecko/20120427 Thunderbird/12.0.1
 MIME-Version: 1.0
-In-reply-to: <1337749401-27198-1-git-send-email-jason.wessel@windriver.com>
-References: <1337749401-27198-1-git-send-email-jason.wessel@windriver.com>
-Comments: In-reply-to Jason Wessel <jason.wessel@windriver.com>
-	message dated "Wed, 23 May 2012 00:03:21 -0500."
-Date: Wed, 23 May 2012 08:06:12 +0200
-Message-Id: <20120523060612.50C71207171@gemini.denx.de>
-Subject: Re: [PATCH] perl: Allow perl to cross build and native build in a directory named "t"
+To: openembedded-core@lists.openembedded.org
+References: <1337696160-26734-1-git-send-email-sledz@dresearch-fe.de>
+In-Reply-To: <1337696160-26734-1-git-send-email-sledz@dresearch-fe.de>
+X-Enigmail-Version: 1.4.1
+X-Gm-Message-State: ALoCoQk2J72TDVn1ocwGCfc9uGyl7tAsj5oqcu60Vfe3dqgozfEwUEe2nM1Y8S3K0ozUrZebWe2r
+Subject: Re: [PATCH] dropbear: fix include dependent PR generation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,48 +50,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 May 2012 06:16:25 -0000
-Content-type: text/plain; charset=UTF-8
-Content-transfer-encoding: 8bit
+X-List-Received-Date: Wed, 23 May 2012 07:22:12 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Dear Jason Wessel,
-
-In message <1337749401-27198-1-git-send-email-jason.wessel@windriver.com> you wrote:
-> If any directory in leading up to your tmp directory has the name "t"
-> perl will fail to build with a very cryptic error shown below:
+On 22.05.2012 16:16, Steffen Sledz wrote:
+> Signed-off-by: Steffen Sledz <sledz@dresearch-fe.de>
+> ---
+>  meta/recipes-core/dropbear/dropbear.inc        |    2 ++
+>  meta/recipes-core/dropbear/dropbear_2012.55.bb |    2 +-
+>  2 files changed, 3 insertions(+), 1 deletions(-)
 > 
-> pod/buildtoc: no pods at pod/buildtoc line 305.
-> make[1]: *** [pod/perltoc.pod] Error 255
-
-
-This error message is missing in the patch itself:
-
-
-> --- /dev/null
-> +++ b/meta/recipes-devtools/perl/perl-5.14.2/perl-build-in-t-dir.patch
-> @@ -0,0 +1,35 @@
-> +Upstream-Status:Pending
+> diff --git a/meta/recipes-core/dropbear/dropbear.inc b/meta/recipes-core/dropbear/dropbear.inc
+> index 2d6aeb2..2de442c 100644
+> --- a/meta/recipes-core/dropbear/dropbear.inc
+> +++ b/meta/recipes-core/dropbear/dropbear.inc
+> @@ -2,6 +2,8 @@ DESCRIPTION = "Dropbear is a lightweight SSH and SCP implementation"
+>  HOMEPAGE = "http://matt.ucc.asn.au/dropbear/dropbear.html"
+>  SECTION = "console/network"
+>  
+> +INC_PR = "r0"
 > +
-> +Perl cannot cross build in a path containing a directory that
-> +has the name of "t".
-> +
-> +You get an error like:
-> +
-> +
-> +Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
+>  # some files are from other projects and have others license terms:
+>  #   public domain, OpenSSH 3.5p1, OpenSSH3.6.1p2, PuTTY
+>  LICENSE = "MIT"
+> diff --git a/meta/recipes-core/dropbear/dropbear_2012.55.bb b/meta/recipes-core/dropbear/dropbear_2012.55.bb
+> index 4f0ef80..8323a33 100644
+> --- a/meta/recipes-core/dropbear/dropbear_2012.55.bb
+> +++ b/meta/recipes-core/dropbear/dropbear_2012.55.bb
+> @@ -3,4 +3,4 @@ require dropbear.inc
+>  SRC_URI[md5sum] = "44836e5a0419ba12557f9ea46880077e"
+>  SRC_URI[sha256sum] = "808df243c61bb60f2f18fa64bca628cbba0918b2a14139f10e6d59d4ac5a17ce"
+>  
+> -PR = "r0"
+> +PR = "${INC_PR}.0"
 
-... i. e. here.
+Did this message made it to the ML?
 
-Best regards,
+I could not find it in Patchwork OpenEmbedded Core?. :(
 
-Wolfgang Denk
+Steffen
 
 -- 
-DENX Software Engineering GmbH,     MD: Wolfgang Denk & Detlev Zundel
-HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
-Phone: (+49)-8142-66989-10 Fax: (+49)-8142-66989-80 Email: wd@denx.de
-"More software projects have gone awry for lack of calendar time than
-for all other causes combined."
-                         - Fred Brooks, Jr., _The Mythical Man Month_
+DResearch Fahrzeugelektronik GmbH
+Otto-Schmirgal-Str. 3, 10319 Berlin, Germany
+Tel: +49 30 515932-237 mailto:sledz@dresearch-fe.de
+Fax: +49 30 515932-299
+Geschäftsführer: Dr. Michael Weber, Werner Mögle;
+Amtsgericht Berlin Charlottenburg; HRB 130120 B;
+Ust.-IDNr. DE273952058
 
 
