@@ -1,26 +1,41 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SXJ3Z-0000uw-8W
+	(envelope-from <scott.a.garman@intel.com>) id 1SXJmQ-0007wH-Sp
 	for openembedded-core@lists.openembedded.org;
-	Wed, 23 May 2012 23:25:22 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 23 May 2012 14:15:08 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="146949385"
-Received: from unknown (HELO [10.255.12.24]) ([10.255.12.24])
-	by azsmga001.ch.intel.com with ESMTP; 23 May 2012 14:15:07 -0700
-Message-ID: <4FBD535B.40209@linux.intel.com>
-Date: Wed, 23 May 2012 14:15:07 -0700
-From: Saul Wold <sgw@linux.intel.com>
+	Thu, 24 May 2012 00:11:43 +0200
+Received: from mail-pz0-f52.google.com ([209.85.210.52])
+	by mga01.intel.com with ESMTP/TLS/RC4-MD5; 23 May 2012 15:00:53 -0700
+Received: by dano14 with SMTP id o14so10446304dan.25
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 23 May 2012 15:00:53 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=message-id:date:from:user-agent:mime-version:to:cc:subject
+	:content-type:content-transfer-encoding:x-gm-message-state;
+	bh=enL3Fkk6CUHFIKfjsYC57FU649k2yDqTLKgBhleAOfw=;
+	b=ZjmosWEKOlSruDrxIXD0ELiE1SZcGkwWyD87NPWIgXGt6tKOFV577WeLYKhLWdcdLF
+	mRKEdB70Zm08xgnOgtc6iRs93otWCxLHYOayTjR6rS6Pw3fasF5roPOlAfZqqyTygVU4
+	wxliP9BgNZdxgfZTDS8rFpuxMitTUM7nm6X7jubt7DVAiWTGRna23VaZmWOlJ/L2UPkR
+	eB2sW1F/r3YKTrTuAEBygX7P2vKAD0zrhvwz83Exy0ep/S6oA+IFngt/gJH2dWeaBNPP
+	+0YdZlo6ULSmH8KgtK4RLon+EUoE32HFlL67h8pG9RgTmjMgrA+AXq8dSYDjVifueI1I
+	/UzQ==
+Received: by 10.68.234.129 with SMTP id ue1mr10549223pbc.140.1337810453264;
+	Wed, 23 May 2012 15:00:53 -0700 (PDT)
+Received: from [192.168.1.105] (c-76-105-137-48.hsd1.or.comcast.net.
+	[76.105.137.48])
+	by mx.google.com with ESMTPS id x1sm3106639pbp.50.2012.05.23.15.00.50
+	(version=SSLv3 cipher=OTHER); Wed, 23 May 2012 15:00:51 -0700 (PDT)
+Message-ID: <4FBD5E10.3070403@intel.com>
+Date: Wed, 23 May 2012 15:00:48 -0700
+From: Scott Garman <scott.a.garman@intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1337777033.git.laurentiu.palcu@intel.com>
-	<b8194bd7313e27ef774e706f1d62871d955874e0.1337777033.git.laurentiu.palcu@intel.com>
-In-Reply-To: <b8194bd7313e27ef774e706f1d62871d955874e0.1337777033.git.laurentiu.palcu@intel.com>
-Subject: Re: [PATCH 13/19] fontconfig: upgrade to 2.9.0
+X-Gm-Message-State: ALoCoQlcJ2BifDbHDZhWiN3EYosKZzv6mhaMcFcvMa5nyHtmrJmPCKEvIGZA4GmEycZEJAwqtPJR
+Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>, poky@yoctoproject.org
+Subject: RFC: Merging commits from into the main denzil branch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,110 +50,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 May 2012 21:25:22 -0000
+X-List-Received-Date: Wed, 23 May 2012 22:11:43 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 05/23/2012 06:11 AM, Laurentiu Palcu wrote:
-> Other changes:
-> 	- licence checksums because the licence headers changed slightly
-> 	- rebased the fix-pkgconfig.patch to apply on 2.9.0
-> 	- removed all sed instructions in do_configure_append() that were
-> 	  changing fc-arch/Makefile. In the new version the fc-arch/ directory
-> 	  has been removed in order to make the package cross-compiling safe
->
-Seems you missed updating the SRC_URI Checksums for this one.
+Hello all,
 
-Thanks
-	Sau!
+As most of you know, I've been pulling commits into a pair of 
+sgarman/denzil-next branches which are intended to eventually become the 
+next Denzil point-release, 1.2.1.
 
-> Signed-off-by: Laurentiu Palcu<laurentiu.palcu@intel.com>
-> ---
->   .../97_fontconfig                                  |    0
->   .../fix-pkgconfig.patch                            |    4 ++--
->   ...-native_2.8.0.bb =>  fontconfig-native_2.9.0.bb} |    0
->   .../{fontconfig_2.8.0.bb =>  fontconfig_2.9.0.bb}   |   12 ++++--------
->   4 files changed, 6 insertions(+), 10 deletions(-)
->   rename meta/recipes-graphics/fontconfig/{fontconfig-2.8.0 =>  fontconfig-2.9.0}/97_fontconfig (100%)
->   rename meta/recipes-graphics/fontconfig/{fontconfig-2.8.0 =>  fontconfig-2.9.0}/fix-pkgconfig.patch (84%)
->   rename meta/recipes-graphics/fontconfig/{fontconfig-native_2.8.0.bb =>  fontconfig-native_2.9.0.bb} (100%)
->   rename meta/recipes-graphics/fontconfig/{fontconfig_2.8.0.bb =>  fontconfig_2.9.0.bb} (84%)
->
-> diff --git a/meta/recipes-graphics/fontconfig/fontconfig-2.8.0/97_fontconfig b/meta/recipes-graphics/fontconfig/fontconfig-2.9.0/97_fontconfig
-> similarity index 100%
-> rename from meta/recipes-graphics/fontconfig/fontconfig-2.8.0/97_fontconfig
-> rename to meta/recipes-graphics/fontconfig/fontconfig-2.9.0/97_fontconfig
-> diff --git a/meta/recipes-graphics/fontconfig/fontconfig-2.8.0/fix-pkgconfig.patch b/meta/recipes-graphics/fontconfig/fontconfig-2.9.0/fix-pkgconfig.patch
-> similarity index 84%
-> rename from meta/recipes-graphics/fontconfig/fontconfig-2.8.0/fix-pkgconfig.patch
-> rename to meta/recipes-graphics/fontconfig/fontconfig-2.9.0/fix-pkgconfig.patch
-> index 30415fc..6be04a1 100644
-> --- a/meta/recipes-graphics/fontconfig/fontconfig-2.8.0/fix-pkgconfig.patch
-> +++ b/meta/recipes-graphics/fontconfig/fontconfig-2.9.0/fix-pkgconfig.patch
-> @@ -4,8 +4,8 @@ Upstream-Status: Inappropriate [configuration]
->    fontconfig.pc.in |    2 +-
->    1 file changed, 1 insertion(+), 1 deletion(-)
->
-> ---- fontconfig-2.8.0.orig/fontconfig.pc.in
-> -+++ fontconfig-2.8.0/fontconfig.pc.in
-> +--- fontconfig-2.9.0.orig/fontconfig.pc.in
-> ++++ fontconfig-2.9.0/fontconfig.pc.in
->   @@ -7,5 +7,5 @@
->    Description: Font configuration and customization library
->    Version: @VERSION@
-> diff --git a/meta/recipes-graphics/fontconfig/fontconfig-native_2.8.0.bb b/meta/recipes-graphics/fontconfig/fontconfig-native_2.9.0.bb
-> similarity index 100%
-> rename from meta/recipes-graphics/fontconfig/fontconfig-native_2.8.0.bb
-> rename to meta/recipes-graphics/fontconfig/fontconfig-native_2.9.0.bb
-> diff --git a/meta/recipes-graphics/fontconfig/fontconfig_2.8.0.bb b/meta/recipes-graphics/fontconfig/fontconfig_2.9.0.bb
-> similarity index 84%
-> rename from meta/recipes-graphics/fontconfig/fontconfig_2.8.0.bb
-> rename to meta/recipes-graphics/fontconfig/fontconfig_2.9.0.bb
-> index 55c04cc..b3d5bab 100644
-> --- a/meta/recipes-graphics/fontconfig/fontconfig_2.8.0.bb
-> +++ b/meta/recipes-graphics/fontconfig/fontconfig_2.9.0.bb
-> @@ -12,15 +12,15 @@ HOMEPAGE = "http://www.fontconfig.org"
->   BUGTRACKER = "https://bugs.freedesktop.org/enter_bug.cgi?product=fontconfig"
->
->   LICENSE = "MIT-style&  MIT&  PD"
-> -LIC_FILES_CHKSUM = "file://COPYING;md5=f3ad4145dea6ca7efa2f1bee8165a7a1 \
-> -                    file://src/fcfreetype.c;endline=45;md5=bc3dd139e2f7245a02fde5545b203a6f \
-> -                    file://src/fccache.c;beginline=1020;endline=1035;md5=0326cfeb4a7333dd4dd25fbbc4b9f27f"
-> +LIC_FILES_CHKSUM = "file://COPYING;md5=dc5b39c592e47a22dbec44855988d2a0 \
-> +                    file://src/fcfreetype.c;endline=45;md5=5d9513e3196a1fbfdfa94051c09dfc84 \
-> +                    file://src/fccache.c;beginline=1077;endline=1092;md5=0326cfeb4a7333dd4dd25fbbc4b9f27f"
->
->   SECTION = "libs"
->
->   DEPENDS = "expat freetype zlib"
->
-> -PR = "r4"
-> +PR = "r0"
->
->   SRC_URI = "http://fontconfig.org/release/fontconfig-${PV}.tar.gz \
->              file://fix-pkgconfig.patch \
-> @@ -66,22 +66,18 @@ do_configure_append () {
->   	sed -i 's|LDFLAGS =.*|LDFLAGS =|' fc-case/Makefile
->   	sed -i 's|LDFLAGS =.*|LDFLAGS =|' fc-glyphname/Makefile
->   	sed -i 's|LDFLAGS =.*|LDFLAGS =|' fc-lang/Makefile
-> -	sed -i 's|LDFLAGS =.*|LDFLAGS =|' fc-arch/Makefile
->
->   	sed -i 's|CFLAGS =.*|CFLAGS =${BUILD_CFLAGS}|' fc-case/Makefile
->   	sed -i 's|CFLAGS =.*|CFLAGS =${BUILD_CFLAGS}|' fc-glyphname/Makefile
->   	sed -i 's|CFLAGS =.*|CFLAGS =${BUILD_CFLAGS}|' fc-lang/Makefile
-> -	sed -i 's|CFLAGS =.*|CFLAGS =${BUILD_CFLAGS}|' fc-arch/Makefile
->
->   	sed -i 's|CPPFLAGS =.*|CPPFLAGS =${BUILD_CPPFLAGS}|' fc-case/Makefile
->   	sed -i 's|CPPFLAGS =.*|CPPFLAGS =${BUILD_CPPFLAGS}|' fc-glyphname/Makefile
->   	sed -i 's|CPPFLAGS =.*|CPPFLAGS =${BUILD_CPPFLAGS}|' fc-lang/Makefile
-> -	sed -i 's|CPPFLAGS =.*|CPPFLAGS =${BUILD_CPPFLAGS}|' fc-arch/Makefile
->
->   	sed -i 's|CXXFLAGS =.*|CFLAGS =${BUILD_CXXFLAGS}|' fc-case/Makefile
->   	sed -i 's|CXXFLAGS =.*|CFLAGS =${BUILD_CXXFLAGS}|' fc-glyphname/Makefile
->   	sed -i 's|CXXFLAGS =.*|CFLAGS =${BUILD_CXXFLAGS}|' fc-lang/Makefile
-> -	sed -i 's|CXXFLAGS =.*|CFLAGS =${BUILD_CXXFLAGS}|' fc-arch/Makefile
->
->   }
->
+oe-core based branch:
+http://git.openembedded.org/openembedded-core-contrib/log/?h=sgarman/denzil-next
+
+poky based branch:
+http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=sgarman/denzil-next
+
+So far I haven't merged or requested to merge any of these commits into 
+the main denzil branches of oe-core and poky, for two main reasons:
+
+1. I've only performed the most basic build testing of these branches on 
+a desktop system, building core-image-minimal and core-image-sato for 
+our 5 qemu machines.
+
+2. To date, we haven't had a clear process on how to transition from the 
+maintainer's personal branch into the official repo branch. I'd like to 
+develop a clear and documented process on doing this that involves 
+community feedback on the commits.
+
+Just this week I've been able to start using the Yocto autobuilder to do 
+more comprehensive testing of my denzil-next branch, so issue #1 is 
+finally resolved, and I've got a green build to raise my confidence level:
+
+http://autobuilder.yoctoproject.org:8010/builders/nightly/builds/462
+
+So now to address issue #2. The goal is to incorporate community 
+feedback, so I'm looking to get ACKs or NAKs for these commits before 
+they go into the main denzil branch.
+
+My proposal is to send denzil pull requests to the appropriate mailing 
+lists, and Richard can merge them into the main repo denzil branches 
+once they've received review by the community.
+
+My goal is to send these pull requests about once per week, once I've 
+managed to get a green build out of the Yocto autobuilder for my contrib 
+branch.
+
+What do folks think about this? Now's your opportunity to offer feedback 
+and influence this process.
+
+Thanks!
+
+Scott
+
+Yocto 1.2.1 release maintainer
+
+-- 
+Scott Garman
+Embedded Linux Engineer - Yocto Project
+Intel Open Source Technology Center
 
 
