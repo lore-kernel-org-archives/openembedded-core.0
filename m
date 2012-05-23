@@ -1,22 +1,23 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1SWzs6-0008FV-Fp
-	for openembedded-core@lists.openembedded.org;
-	Wed, 23 May 2012 02:56:14 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 22 May 2012 17:46:04 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="170047205"
-Received: from nbuild0.sc.intel.com ([172.25.110.36])
-	by fmsmga002.fm.intel.com with ESMTP; 22 May 2012 17:46:04 -0700
-From: nitin.a.kamble@intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 22 May 2012 17:46:03 -0700
-Message-Id: <c645537a50d1159ab3198bf9f49b8ade76500d67.1337733905.git.nitin.a.kamble@intel.com>
-X-Mailer: git-send-email 1.7.6.5
-In-Reply-To: <cover.1337733905.git.nitin.a.kamble@intel.com>
-References: <cover.1337733905.git.nitin.a.kamble@intel.com>
-Subject: [PATCH 1/1] eglibc: package mtrace separately
+	(envelope-from <jason.wessel@windriver.com>) id 1SX3t9-0008Tl-N3
+	for Openembedded-core@lists.openembedded.org;
+	Wed, 23 May 2012 07:13:36 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q4N53OTc024597
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <Openembedded-core@lists.openembedded.org>;
+	Tue, 22 May 2012 22:03:24 -0700 (PDT)
+Received: from localhost.localdomain (128.224.60.100) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.1.255.0; Tue, 22 May 2012 22:03:23 -0700
+From: Jason Wessel <jason.wessel@windriver.com>
+To: <Openembedded-core@lists.openembedded.org>
+Date: Wed, 23 May 2012 00:03:21 -0500
+Message-ID: <1337749401-27198-1-git-send-email-jason.wessel@windriver.com>
+X-Mailer: git-send-email 1.6.6.2
+MIME-Version: 1.0
+Subject: [PATCH] perl: Allow perl to cross build and native build in a directory named "t"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,114 +32,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 May 2012 00:56:14 -0000
+X-List-Received-Date: Wed, 23 May 2012 05:13:36 -0000
+Content-Type: text/plain
 
-From: Nitin A Kamble <nitin.a.kamble@intel.com>
+If any directory in leading up to your tmp directory has the name "t"
+perl will fail to build with a very cryptic error shown below:
 
-add libc-mtrace as dependency for task-core-tools-debug
+pod/buildtoc: no pods at pod/buildtoc line 305.
+make[1]: *** [pod/perltoc.pod] Error 255
 
-now eglibc-mtrace gets included in an sdk image and not in a non-sdk image.
+This is a result of the perl file checking making an assumption
+that it is only looking at files and directories with in the perl
+source directory.  This assumption fails with the way bitbake
+sets up perl to properly cross compile.
 
-This does not affect builds with uclibc.
-
-This fixes bug: [YOCTO# 2374]
-
-Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
+Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
 ---
- meta/recipes-core/eglibc/eglibc-package.inc      |    7 ++++++-
- meta/recipes-core/eglibc/eglibc_2.13.bb          |    2 +-
- meta/recipes-core/eglibc/eglibc_2.15.bb          |    2 +-
- meta/recipes-core/tasks/task-core-tools-debug.bb |    4 ++++
- 4 files changed, 12 insertions(+), 3 deletions(-)
+ .../perl/perl-5.14.2/perl-build-in-t-dir.patch     |   35 ++++++++++++++++++++
+ meta/recipes-devtools/perl/perl-native_5.14.2.bb   |    3 +-
+ meta/recipes-devtools/perl/perl_5.14.2.bb          |    1 +
+ 3 files changed, 38 insertions(+), 1 deletions(-)
+ create mode 100644 meta/recipes-devtools/perl/perl-5.14.2/perl-build-in-t-dir.patch
 
-diff --git a/meta/recipes-core/eglibc/eglibc-package.inc b/meta/recipes-core/eglibc/eglibc-package.inc
-index 7d97567..ce37155 100644
---- a/meta/recipes-core/eglibc/eglibc-package.inc
-+++ b/meta/recipes-core/eglibc/eglibc-package.inc
-@@ -20,11 +20,12 @@ USE_LDCONFIG ?= "1"
- PKGSUFFIX = ""
- PKGSUFFIX_virtclass-nativesdk = "-nativesdk"
- 
--PACKAGES = "${PN}-dbg ${PN} catchsegv${PKGSUFFIX} sln${PKGSUFFIX} nscd${PKGSUFFIX} ldd${PKGSUFFIX} ${PN}-utils eglibc-extra-nss${PKGSUFFIX} eglibc-thread-db${PKGSUFFIX} ${PN}-pic ${PN}-dev ${PN}-staticdev ${PN}-doc libcidn${PKGSUFFIX} libmemusage${PKGSUFFIX} libsegfault${PKGSUFFIX} ${PN}-pcprofile libsotruss${PKGSUFFIX}"
-+PACKAGES = "${PN}-dbg ${PN} catchsegv${PKGSUFFIX} sln${PKGSUFFIX} nscd${PKGSUFFIX} ldd${PKGSUFFIX} ${PN}-mtrace ${PN}-utils eglibc-extra-nss${PKGSUFFIX} eglibc-thread-db${PKGSUFFIX} ${PN}-pic ${PN}-dev ${PN}-staticdev ${PN}-doc libcidn${PKGSUFFIX} libmemusage${PKGSUFFIX} libsegfault${PKGSUFFIX} ${PN}-pcprofile libsotruss${PKGSUFFIX}"
- 
- # The ld.so in this eglibc supports the GNU_HASH
- RPROVIDES_${PN} = "glibc${PKGSUFFIX} rtld(GNU_HASH)"
- RPROVIDES_${PN}-utils = "glibc${PKGSUFFIX}-utils"
-+RPROVIDES_${PN}-mtrace = "glibc${PKGSUFFIX}-mtrace libc-mtrace"
- RPROVIDES_${PN}-pic = "glibc${PKGSUFFIX}-pic"
- RPROVIDES_${PN}-dev = "glibc${PKGSUFFIX}-dev"
- RPROVIDES_${PN}-staticdev = "glibc${PKGSUFFIX}-staticdev"
-@@ -48,11 +49,13 @@ FILES_${PN}-dev_append += "${bindir}/rpcgen ${libdir}/*_nonshared.a \
- 	${base_libdir}/*_nonshared.a ${base_libdir}/*.o ${datadir}/aclocal"
- FILES_${PN}-staticdev_append += "${libdir}/*.a ${base_libdir}/*.a"
- FILES_nscd${PKGSUFFIX} = "${sbindir}/nscd*"
-+FILES_${PN}-mtrace = "${bindir}/mtrace"
- FILES_${PN}-utils = "${bindir}/* ${sbindir}/*"
- FILES_${PN}-dbg += "${libexecdir}/*/.debug ${libdir}/audit/.debug"
- FILES_catchsegv${PKGSUFFIX} = "${bindir}/catchsegv"
- RDEPENDS_catchsegv${PKGSUFFIX} = "libsegfault"
- RDEPENDS_${PN}-utils += "bash"
-+RDEPENDS_${PN}-mtrace += "perl"
- FILES_${PN}-pcprofile = "${base_libdir}/libpcprofile.so"
- FILES_eglibc-thread-db${PKGSUFFIX} = "${base_libdir}/libthread_db.so.* ${base_libdir}/libthread_db-*.so"
- RPROVIDES_${PN}-dev += "libc-dev"
-@@ -68,6 +71,8 @@ SUMMARY_ldd = "print shared library dependencies"
- DESCRIPTION_ldd = "/usr/bin/ldd prints shared library dependencies for each program or shared library specified on the command line."
- SUMMARY_${PN}-utils = "Miscellaneous utilities provided by eglibc"
- DESCRIPTION_${PN}-utils = "Miscellaneous utilities including getconf, iconf, locale, gencat, tzselect, zic, rpcinfo, ..."
-+SUMMARY_${PN}-mtrace = "mtrace utility provided by eglibc"
-+DESCRIPTION_${PN}-mtrace = "mtrace utility provided by eglibc"
- DESCRIPTION_libsotruss = "Library to support sotruss which traces calls through PLTs"
- 
- inherit libc-common multilib_header
-diff --git a/meta/recipes-core/eglibc/eglibc_2.13.bb b/meta/recipes-core/eglibc/eglibc_2.13.bb
-index d8a41dc..73cd0aa 100644
---- a/meta/recipes-core/eglibc/eglibc_2.13.bb
-+++ b/meta/recipes-core/eglibc/eglibc_2.13.bb
-@@ -3,7 +3,7 @@ require eglibc.inc
- SRCREV = "15508"
- 
- DEPENDS += "gperf-native"
--PR = "r26"
-+PR = "r27"
- PR_append = "+svnr${SRCPV}"
- 
- EGLIBC_BRANCH="eglibc-2_13"
-diff --git a/meta/recipes-core/eglibc/eglibc_2.15.bb b/meta/recipes-core/eglibc/eglibc_2.15.bb
-index fa92670..2de59f7 100644
---- a/meta/recipes-core/eglibc/eglibc_2.15.bb
-+++ b/meta/recipes-core/eglibc/eglibc_2.15.bb
-@@ -3,7 +3,7 @@ require eglibc.inc
- SRCREV = "17386"
- 
- DEPENDS += "gperf-native"
--PR = "r10"
-+PR = "r11"
- PR_append = "+svnr${SRCPV}"
- 
- EGLIBC_BRANCH="eglibc-2_15"
-diff --git a/meta/recipes-core/tasks/task-core-tools-debug.bb b/meta/recipes-core/tasks/task-core-tools-debug.bb
-index 3c92f3f..1dddbb8 100644
---- a/meta/recipes-core/tasks/task-core-tools-debug.bb
-+++ b/meta/recipes-core/tasks/task-core-tools-debug.bb
-@@ -17,10 +17,14 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
- 
- ALLOW_EMPTY = "1"
- 
-+MTRACE = ""
-+MTRACE_libc-glibc = "libc-mtrace"
+diff --git a/meta/recipes-devtools/perl/perl-5.14.2/perl-build-in-t-dir.patch b/meta/recipes-devtools/perl/perl-5.14.2/perl-build-in-t-dir.patch
+new file mode 100644
+index 0000000..cd36ec5
+--- /dev/null
++++ b/meta/recipes-devtools/perl/perl-5.14.2/perl-build-in-t-dir.patch
+@@ -0,0 +1,35 @@
++Upstream-Status:Pending
 +
- RDEPENDS_${PN} = "\
-     gdb \
-     gdbserver \
-     tcf-agent \
-     rsync \
-     strace \
-+    ${MTRACE} \
-     "
++Perl cannot cross build in a path containing a directory that
++has the name of "t".
++
++You get an error like:
++
++
++Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
++---
++ pod/buildtoc |    4 +++-
++ 1 file changed, 3 insertions(+), 1 deletion(-)
++
++--- a/pod/buildtoc
+++++ b/pod/buildtoc
++@@ -274,8 +274,10 @@ if ($Build{toc}) {
++   find \&getpods => abs_from_top('lib/');
++ 
++   sub getpods {
+++    my $Top = $FindBin::Bin;
++     if (/\.p(od|m)$/) {
++       my $file = $File::Find::name;
+++      $file =~ s!^$Top!!;
++       return if $file =~ qr!/lib/Pod/Functions.pm\z!; # Used only by pod itself
++       return if $file =~ m!(?:^|/)t/!;
++       return if $file =~ m!lib/Attribute/Handlers/demo/!;
++@@ -283,7 +285,7 @@ if ($Build{toc}) {
++       return if $file =~ m!lib/Math/BigInt/t/!;
++       return if $file =~ m!/Devel/PPPort/[Hh]arness|lib/Devel/Harness!i;
++       return if $file =~ m!XS/(?:APItest|Typemap)!;
++-      my $pod = $file;
+++      my $pod = $file = $File::Find::name;
++       return if $pod =~ s/pm$/pod/ && -e $pod;
++       unless (open my $f, '<', $_) {
++ 	warn "$0: bogus <$file>: $!";
+diff --git a/meta/recipes-devtools/perl/perl-native_5.14.2.bb b/meta/recipes-devtools/perl/perl-native_5.14.2.bb
+index c904c37..429a029 100644
+--- a/meta/recipes-devtools/perl/perl-native_5.14.2.bb
++++ b/meta/recipes-devtools/perl/perl-native_5.14.2.bb
+@@ -14,7 +14,8 @@ SRC_URI = "http://www.cpan.org/src/5.0/perl-${PV}.tar.gz \
+            file://perl-configpm-switch.patch \
+            file://native-nopacklist.patch \
+            file://native-perlinc.patch \
+-           file://MM_Unix.pm.patch"
++           file://MM_Unix.pm.patch \
++           file://perl-build-in-t-dir.patch"
+ 
+ SRC_URI[md5sum] = "3306fbaf976dcebdcd49b2ac0be00eb9"
+ SRC_URI[sha256sum] = "6488359573bd7d41761bf935f66f827dc220fb3df961ef9b775d51fbd66548d3"
+diff --git a/meta/recipes-devtools/perl/perl_5.14.2.bb b/meta/recipes-devtools/perl/perl_5.14.2.bb
+index 809fc72..2149b30 100644
+--- a/meta/recipes-devtools/perl/perl_5.14.2.bb
++++ b/meta/recipes-devtools/perl/perl_5.14.2.bb
+@@ -65,6 +65,7 @@ SRC_URI = "http://www.cpan.org/src/5.0/perl-${PV}.tar.gz \
+         file://perl-enable-gdbm.patch \
+         file://cross-generate_uudmap.patch \
+ 	file://fix_bad_rpath.patch \
++	file://perl-build-in-t-dir.patch \
+ 	\
+         file://config.sh \
+         file://config.sh-32 \
 -- 
-1.7.7
+1.6.6.2
 
 
 
