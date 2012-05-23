@@ -1,26 +1,42 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SXCfH-000576-5m
+	(envelope-from <koen@dominion.thruhere.net>) id 1SXCgQ-00059d-0A
 	for openembedded-core@lists.openembedded.org;
-	Wed, 23 May 2012 16:35:51 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 23 May 2012 07:25:39 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="147441785"
-Received: from unknown (HELO [10.255.12.24]) ([10.255.12.24])
-	by orsmga002.jf.intel.com with ESMTP; 23 May 2012 07:25:39 -0700
-Message-ID: <4FBCF363.1050609@linux.intel.com>
-Date: Wed, 23 May 2012 07:25:39 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
-MIME-Version: 1.0
+	Wed, 23 May 2012 16:37:02 +0200
+Received: by eekd49 with SMTP id d49so2488486eek.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 23 May 2012 07:26:52 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=content-type:mime-version:subject:from:in-reply-to:date
+	:content-transfer-encoding:message-id:references:to:x-mailer
+	:x-gm-message-state;
+	bh=1EUa204HbNiJ+lMeEEK+WgVRqNvCpyEUjNbYKVHQzGI=;
+	b=g+U6xz1hKa9/+Lt8pYHQBKYYQiqiHiUWEbQYKJ1zy2lDla4/Eo6hJTIJkgSY6SfM/R
+	hsw0IDoCAzExpT5y89llIAHhwYMhMm+9vqw8ZcUA1vzTgHnOrEZ3A+DCYrLjJqqAyN1r
+	3b0ldJRVMB6C6UZqj6fC9GyjUBY4cJ+tyPQBwL3E7iG2GAbnWk//2o1q+XLJKYtlcxpn
+	DvRmXbSfLBE6BG166ZXF0cGEm3XosV1T5FoWxEFEyQlZDmYVls7uVtGJisRowHnPwQsQ
+	aFV6VTl4Q5PwUxda1cIjlMhJMEKarJFmBF7l5NkCrjOQjet6yJpR4J1yohe2kPsR8bCU
+	m4Yw==
+Received: by 10.213.22.212 with SMTP id o20mr1330404ebb.67.1337783211901;
+	Wed, 23 May 2012 07:26:51 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id v7sm123894780eem.6.2012.05.23.07.26.49
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 23 May 2012 07:26:49 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1278)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <4FBCF0B9.40503@linux.intel.com>
+Date: Wed, 23 May 2012 16:26:48 +0200
+Message-Id: <0F0EDA1B-C376-4EFC-86D7-6A779A92FAD8@dominion.thruhere.net>
+References: <1337771338-12407-1-git-send-email-valentin.popa@intel.com>
+	<4FBCF0B9.40503@linux.intel.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1337777033.git.laurentiu.palcu@intel.com>
-	<b8194bd7313e27ef774e706f1d62871d955874e0.1337777033.git.laurentiu.palcu@intel.com>
-In-Reply-To: <b8194bd7313e27ef774e706f1d62871d955874e0.1337777033.git.laurentiu.palcu@intel.com>
-Subject: Re: [PATCH 13/19] fontconfig: upgrade to 2.9.0
+X-Mailer: Apple Mail (2.1278)
+X-Gm-Message-State: ALoCoQmKXy2b12siDB2xEIe/LWknsf/kh2zQj4Krb8czl5NP9z27HKx0YvyMSKfyaHKXdp7/nXTw
+Subject: Re: [PATCH] xz: updated to version 5.1.1alpha
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,112 +51,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 May 2012 14:35:51 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 23 May 2012 14:37:02 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-On 05/23/2012 06:11 AM, Laurentiu Palcu wrote:
-> Other changes:
-> 	- licence checksums because the licence headers changed slightly
 
-Please be as specific as possible here, what changed slightly?  Was it 
-the years updated or ???  We like to know.
+Op 23 mei 2012, om 16:14 heeft Saul Wold het volgende geschreven:
 
-Thanks
-	Sau!
+> On 05/23/2012 04:08 AM, Valentin Popa wrote:
+>> From: valentin<valentin@valentin-linux.(none)>
+>>=20
+>> The licenses are the same, only some white
+>> spaces added/removed.
+>>=20
+>> Signed-off-by: valentin<valentin.popa@intel.com>
+>> ---
+>>  .../xz/{xz_5.0.3.bb =3D>  xz_5.1.1alpha.bb}           |   10 =
++++++-----
+>>  1 file changed, 5 insertions(+), 5 deletions(-)
+>>  rename meta/recipes-extended/xz/{xz_5.0.3.bb =3D>  xz_5.1.1alpha.bb} =
+(72%)
+>>=20
+> Why update to an "Alpha" Version, clearly we want to wait for the =
+released version.
 
-> 	- rebased the fix-pkgconfig.patch to apply on 2.9.0
-> 	- removed all sed instructions in do_configure_append() that were
-> 	  changing fc-arch/Makefile. In the new version the fc-arch/ directory
-> 	  has been removed in order to make the package cross-compiling safe
->
-> Signed-off-by: Laurentiu Palcu<laurentiu.palcu@intel.com>
-> ---
->   .../97_fontconfig                                  |    0
->   .../fix-pkgconfig.patch                            |    4 ++--
->   ...-native_2.8.0.bb =>  fontconfig-native_2.9.0.bb} |    0
->   .../{fontconfig_2.8.0.bb =>  fontconfig_2.9.0.bb}   |   12 ++++--------
->   4 files changed, 6 insertions(+), 10 deletions(-)
->   rename meta/recipes-graphics/fontconfig/{fontconfig-2.8.0 =>  fontconfig-2.9.0}/97_fontconfig (100%)
->   rename meta/recipes-graphics/fontconfig/{fontconfig-2.8.0 =>  fontconfig-2.9.0}/fix-pkgconfig.patch (84%)
->   rename meta/recipes-graphics/fontconfig/{fontconfig-native_2.8.0.bb =>  fontconfig-native_2.9.0.bb} (100%)
->   rename meta/recipes-graphics/fontconfig/{fontconfig_2.8.0.bb =>  fontconfig_2.9.0.bb} (84%)
->
-> diff --git a/meta/recipes-graphics/fontconfig/fontconfig-2.8.0/97_fontconfig b/meta/recipes-graphics/fontconfig/fontconfig-2.9.0/97_fontconfig
-> similarity index 100%
-> rename from meta/recipes-graphics/fontconfig/fontconfig-2.8.0/97_fontconfig
-> rename to meta/recipes-graphics/fontconfig/fontconfig-2.9.0/97_fontconfig
-> diff --git a/meta/recipes-graphics/fontconfig/fontconfig-2.8.0/fix-pkgconfig.patch b/meta/recipes-graphics/fontconfig/fontconfig-2.9.0/fix-pkgconfig.patch
-> similarity index 84%
-> rename from meta/recipes-graphics/fontconfig/fontconfig-2.8.0/fix-pkgconfig.patch
-> rename to meta/recipes-graphics/fontconfig/fontconfig-2.9.0/fix-pkgconfig.patch
-> index 30415fc..6be04a1 100644
-> --- a/meta/recipes-graphics/fontconfig/fontconfig-2.8.0/fix-pkgconfig.patch
-> +++ b/meta/recipes-graphics/fontconfig/fontconfig-2.9.0/fix-pkgconfig.patch
-> @@ -4,8 +4,8 @@ Upstream-Status: Inappropriate [configuration]
->    fontconfig.pc.in |    2 +-
->    1 file changed, 1 insertion(+), 1 deletion(-)
->
-> ---- fontconfig-2.8.0.orig/fontconfig.pc.in
-> -+++ fontconfig-2.8.0/fontconfig.pc.in
-> +--- fontconfig-2.9.0.orig/fontconfig.pc.in
-> ++++ fontconfig-2.9.0/fontconfig.pc.in
->   @@ -7,5 +7,5 @@
->    Description: Font configuration and customization library
->    Version: @VERSION@
-> diff --git a/meta/recipes-graphics/fontconfig/fontconfig-native_2.8.0.bb b/meta/recipes-graphics/fontconfig/fontconfig-native_2.9.0.bb
-> similarity index 100%
-> rename from meta/recipes-graphics/fontconfig/fontconfig-native_2.8.0.bb
-> rename to meta/recipes-graphics/fontconfig/fontconfig-native_2.9.0.bb
-> diff --git a/meta/recipes-graphics/fontconfig/fontconfig_2.8.0.bb b/meta/recipes-graphics/fontconfig/fontconfig_2.9.0.bb
-> similarity index 84%
-> rename from meta/recipes-graphics/fontconfig/fontconfig_2.8.0.bb
-> rename to meta/recipes-graphics/fontconfig/fontconfig_2.9.0.bb
-> index 55c04cc..b3d5bab 100644
-> --- a/meta/recipes-graphics/fontconfig/fontconfig_2.8.0.bb
-> +++ b/meta/recipes-graphics/fontconfig/fontconfig_2.9.0.bb
-> @@ -12,15 +12,15 @@ HOMEPAGE = "http://www.fontconfig.org"
->   BUGTRACKER = "https://bugs.freedesktop.org/enter_bug.cgi?product=fontconfig"
->
->   LICENSE = "MIT-style&  MIT&  PD"
-> -LIC_FILES_CHKSUM = "file://COPYING;md5=f3ad4145dea6ca7efa2f1bee8165a7a1 \
-> -                    file://src/fcfreetype.c;endline=45;md5=bc3dd139e2f7245a02fde5545b203a6f \
-> -                    file://src/fccache.c;beginline=1020;endline=1035;md5=0326cfeb4a7333dd4dd25fbbc4b9f27f"
-> +LIC_FILES_CHKSUM = "file://COPYING;md5=dc5b39c592e47a22dbec44855988d2a0 \
-> +                    file://src/fcfreetype.c;endline=45;md5=5d9513e3196a1fbfdfa94051c09dfc84 \
-> +                    file://src/fccache.c;beginline=1077;endline=1092;md5=0326cfeb4a7333dd4dd25fbbc4b9f27f"
->
->   SECTION = "libs"
->
->   DEPENDS = "expat freetype zlib"
->
-> -PR = "r4"
-> +PR = "r0"
->
->   SRC_URI = "http://fontconfig.org/release/fontconfig-${PV}.tar.gz \
->              file://fix-pkgconfig.patch \
-> @@ -66,22 +66,18 @@ do_configure_append () {
->   	sed -i 's|LDFLAGS =.*|LDFLAGS =|' fc-case/Makefile
->   	sed -i 's|LDFLAGS =.*|LDFLAGS =|' fc-glyphname/Makefile
->   	sed -i 's|LDFLAGS =.*|LDFLAGS =|' fc-lang/Makefile
-> -	sed -i 's|LDFLAGS =.*|LDFLAGS =|' fc-arch/Makefile
->
->   	sed -i 's|CFLAGS =.*|CFLAGS =${BUILD_CFLAGS}|' fc-case/Makefile
->   	sed -i 's|CFLAGS =.*|CFLAGS =${BUILD_CFLAGS}|' fc-glyphname/Makefile
->   	sed -i 's|CFLAGS =.*|CFLAGS =${BUILD_CFLAGS}|' fc-lang/Makefile
-> -	sed -i 's|CFLAGS =.*|CFLAGS =${BUILD_CFLAGS}|' fc-arch/Makefile
->
->   	sed -i 's|CPPFLAGS =.*|CPPFLAGS =${BUILD_CPPFLAGS}|' fc-case/Makefile
->   	sed -i 's|CPPFLAGS =.*|CPPFLAGS =${BUILD_CPPFLAGS}|' fc-glyphname/Makefile
->   	sed -i 's|CPPFLAGS =.*|CPPFLAGS =${BUILD_CPPFLAGS}|' fc-lang/Makefile
-> -	sed -i 's|CPPFLAGS =.*|CPPFLAGS =${BUILD_CPPFLAGS}|' fc-arch/Makefile
->
->   	sed -i 's|CXXFLAGS =.*|CFLAGS =${BUILD_CXXFLAGS}|' fc-case/Makefile
->   	sed -i 's|CXXFLAGS =.*|CFLAGS =${BUILD_CXXFLAGS}|' fc-glyphname/Makefile
->   	sed -i 's|CXXFLAGS =.*|CFLAGS =${BUILD_CXXFLAGS}|' fc-lang/Makefile
-> -	sed -i 's|CXXFLAGS =.*|CFLAGS =${BUILD_CXXFLAGS}|' fc-arch/Makefile
->
->   }
->
+xz is not getting updated a lot and this release should bring parallel =
+xz support. I asked about this a few weeks ago here, but didn't get much =
+response: =
+http://lists.linuxtogo.org/pipermail/openembedded-core/2012-March/018706.h=
+tml
+
+regards,
+
+Koen=
 
 
