@@ -1,22 +1,25 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bogdan.a.marinescu@intel.com>) id 1SXeBW-0006ut-FK
+	(envelope-from <josh@linux.intel.com>) id 1SXee2-00037a-34
 	for openembedded-core@lists.openembedded.org;
-	Thu, 24 May 2012 21:58:58 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 24 May 2012 12:47:44 -0700
+	Thu, 24 May 2012 22:28:26 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 24 May 2012 13:18:13 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="144349726"
-Received: from bogdanm (HELO localhost.localdomain) ([10.237.104.85])
-	by orsmga001.jf.intel.com with ESMTP; 24 May 2012 12:47:43 -0700
-From: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 24 May 2012 22:49:20 +0300
-Message-Id: <1337888960-24439-3-git-send-email-bogdan.a.marinescu@intel.com>
-X-Mailer: git-send-email 1.7.4.1
-In-Reply-To: <1337888960-24439-1-git-send-email-bogdan.a.marinescu@intel.com>
-References: <1337888960-24439-1-git-send-email-bogdan.a.marinescu@intel.com>
-Subject: [PATCH 3/3] Updated distro-tracking-fields.inc
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="148096843"
+Received: from rchatre-mobl2.amr.corp.intel.com (HELO [10.7.198.147])
+	([10.7.198.147])
+	by orsmga002.jf.intel.com with ESMTP; 24 May 2012 13:18:13 -0700
+Message-ID: <4FBE9783.1080107@linux.intel.com>
+Date: Thu, 24 May 2012 13:18:11 -0700
+From: Joshua Lock <josh@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Cc: McClintock Matthew-B29882 <B29882@freescale.com>
+Subject: [2011-1 PULL REQUEST] Fixes for the 2011-1 branch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,37 +34,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 May 2012 19:58:58 -0000
+X-List-Received-Date: Thu, 24 May 2012 20:28:26 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Updated metadata for lttng-tools.
+Hi all,
 
-Signed-off-by: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
----
- .../conf/distro/include/distro_tracking_fields.inc |    8 ++++----
- 1 files changed, 4 insertions(+), 4 deletions(-)
+I've been working on closing bugs filed against Poky Edison/OE-Core 
+2011-1 and would like to request a merge of the changes I have.
 
-diff --git a/meta/conf/distro/include/distro_tracking_fields.inc b/meta/conf/distro/include/distro_tracking_fields.inc
-index 5afe38f..c6772de 100644
---- a/meta/conf/distro/include/distro_tracking_fields.inc
-+++ b/meta/conf/distro/include/distro_tracking_fields.inc
-@@ -3069,11 +3069,11 @@ RECIPE_LAST_UPDATE_pn-lttng-viewer = "Apr 20, 2011"
- RECIPE_MAINTAINER_pn-lttng-viewer = "Dexuan Cui <dexuan.cui@intel.com>"
- 
- RECIPE_STATUS_pn-lttng-tools = "green"
--RECIPE_LATEST_VERSION_pn-lttng-tools = "unknown"
-+RECIPE_LATEST_VERSION_pn-lttng-tools = "2.0.1"
- RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-lttng-tools = "unknown"
--RECIPE_LATEST_RELEASE_DATE_pn-lttng-tools = "unknown"
--RECIPE_LAST_UPDATE_pn-lttng-tools = "Jan 17, 2012"
--RECIPE_MAINTAINER_pn-lttng-tools = "Dexuan Cui <dexuan.cui@intel.com>"
-+RECIPE_LATEST_RELEASE_DATE_pn-lttng-tools = "April 19, 2012"
-+RECIPE_LAST_UPDATE_pn-lttng-tools = "May 24, 2012"
-+RECIPE_MAINTAINER_pn-lttng-tools = "Bogdan Marinescu <bogdan.a.marinescu@intel.com>"
- DISTRO_PN_ALIAS_pn-lttng-tools = ""
- 
- RECIPE_MAINTAINER_pn-systemtap-uprobes = "Tom Zanussi <tom.zanussi@intel.com>"
+Rather than clutter the list with patches for such an old branch I'm 
+just including links to the git repository and a summary of changes here.
+
+Hope that's OK.
+
+http://git.openembedded.org/openembedded-core-contrib/log/?h=josh/edison
+
+Changes include:
+* Back-ported several useradd and sstate patches to fix dependency 
+ordering, etc. when building images from shared state
+* A patch for syslinux to fix building on hosts with newer 3.x kernels
+* Zlib patch to ensure the pc file is shipped in the -dev package
+* Various license fixes
+* Fix for ipk SDK builds
+
+Cheers,
+Joshua
 -- 
-1.7.4.1
-
+Joshua Lock
+         Yocto Project
+         Intel Open Source Technology Centre
 
 
