@@ -1,22 +1,22 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bogdan.a.marinescu@intel.com>) id 1SXeBV-0006ut-OP
+	(envelope-from <bogdan.a.marinescu@intel.com>) id 1SXeBW-0006ut-FK
 	for openembedded-core@lists.openembedded.org;
-	Thu, 24 May 2012 21:58:57 +0200
+	Thu, 24 May 2012 21:58:58 +0200
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 24 May 2012 12:47:41 -0700
+	by orsmga102.jf.intel.com with ESMTP; 24 May 2012 12:47:44 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="144349714"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="144349726"
 Received: from bogdanm (HELO localhost.localdomain) ([10.237.104.85])
-	by orsmga001.jf.intel.com with ESMTP; 24 May 2012 12:47:40 -0700
+	by orsmga001.jf.intel.com with ESMTP; 24 May 2012 12:47:43 -0700
 From: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 24 May 2012 22:49:19 +0300
-Message-Id: <1337888960-24439-2-git-send-email-bogdan.a.marinescu@intel.com>
+Date: Thu, 24 May 2012 22:49:20 +0300
+Message-Id: <1337888960-24439-3-git-send-email-bogdan.a.marinescu@intel.com>
 X-Mailer: git-send-email 1.7.4.1
 In-Reply-To: <1337888960-24439-1-git-send-email-bogdan.a.marinescu@intel.com>
 References: <1337888960-24439-1-git-send-email-bogdan.a.marinescu@intel.com>
-Subject: [PATCH 2/3] lttng-tools: updated to 2.0.1
+Subject: [PATCH 3/3] Updated distro-tracking-fields.inc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,91 +33,33 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 24 May 2012 19:58:58 -0000
 
-Removed patch for ARM compilation, as it seems that the upstream fixed
-the ARM compilation problem in a slightly different way (tested by compiling
-lttng-tools for MACHINE=qemuarm)
+Updated metadata for lttng-tools.
 
 Signed-off-by: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
 ---
- ...tools-fix-compiling-error-for-powerpc-arm.patch |   27 --------------------
- ...tng-tools_2.0-pre16.bb => lttng-tools_2.0.1.bb} |   12 +++++---
- 2 files changed, 7 insertions(+), 32 deletions(-)
- delete mode 100644 meta/recipes-kernel/lttng-2.0/lttng-tools/lttng-tools-fix-compiling-error-for-powerpc-arm.patch
- rename meta/recipes-kernel/lttng-2.0/{lttng-tools_2.0-pre16.bb => lttng-tools_2.0.1.bb} (70%)
+ .../conf/distro/include/distro_tracking_fields.inc |    8 ++++----
+ 1 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-kernel/lttng-2.0/lttng-tools/lttng-tools-fix-compiling-error-for-powerpc-arm.patch b/meta/recipes-kernel/lttng-2.0/lttng-tools/lttng-tools-fix-compiling-error-for-powerpc-arm.patch
-deleted file mode 100644
-index 73253d1..0000000
---- a/meta/recipes-kernel/lttng-2.0/lttng-tools/lttng-tools-fix-compiling-error-for-powerpc-arm.patch
-+++ /dev/null
-@@ -1,27 +0,0 @@
--Upstream-Status: Pending
--
--Fix compiling error on powerpc and arm
--
--For powerpc and arm, some MAP_ are defined asm/mman.h,
--so including it in header.
--
--Signed-off-by: Zumeng Chen <zumeng.chen@windriver.com>
-----
-- common/runas.c |    1 +
-- 1 files changed, 1 insertions(+), 0 deletions(-)
--
--diff --git a/common/runas.c b/common/runas.c
--index f612ccc..62a2791 100644
----- a/common/runas.c
--+++ b/common/runas.c
--@@ -29,6 +29,7 @@
-- #include <fcntl.h>
-- #include <sched.h>
-- #include <sys/mman.h>
--+#include <asm/mman.h>
--
-- #include <lttngerr.h>
--
---- 
--1.7.5.4
--
-diff --git a/meta/recipes-kernel/lttng-2.0/lttng-tools_2.0-pre16.bb b/meta/recipes-kernel/lttng-2.0/lttng-tools_2.0.1.bb
-similarity index 70%
-rename from meta/recipes-kernel/lttng-2.0/lttng-tools_2.0-pre16.bb
-rename to meta/recipes-kernel/lttng-2.0/lttng-tools_2.0.1.bb
-index d3a6a30..e7f1016 100644
---- a/meta/recipes-kernel/lttng-2.0/lttng-tools_2.0-pre16.bb
-+++ b/meta/recipes-kernel/lttng-2.0/lttng-tools_2.0.1.bb
-@@ -5,18 +5,17 @@ to extract program execution details from the Linux operating system \
- and interpret them."
+diff --git a/meta/conf/distro/include/distro_tracking_fields.inc b/meta/conf/distro/include/distro_tracking_fields.inc
+index 5afe38f..c6772de 100644
+--- a/meta/conf/distro/include/distro_tracking_fields.inc
++++ b/meta/conf/distro/include/distro_tracking_fields.inc
+@@ -3069,11 +3069,11 @@ RECIPE_LAST_UPDATE_pn-lttng-viewer = "Apr 20, 2011"
+ RECIPE_MAINTAINER_pn-lttng-viewer = "Dexuan Cui <dexuan.cui@intel.com>"
  
- LICENSE = "GPLv2 & LGPLv2.1"
--LIC_FILES_CHKSUM = "file://COPYING;md5=ab682a4729389c3f11913d758affe98e \
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=61273c2e3f60dd38a74b01beb5f51fbd \
-                     file://gpl-2.0.txt;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
-                     file://lgpl-2.1.txt;md5=0f0d71500e6a57fd24d825f33242b9ca"
+ RECIPE_STATUS_pn-lttng-tools = "green"
+-RECIPE_LATEST_VERSION_pn-lttng-tools = "unknown"
++RECIPE_LATEST_VERSION_pn-lttng-tools = "2.0.1"
+ RECIPE_TIME_BETWEEN_LAST_TWO_RELEASES_pn-lttng-tools = "unknown"
+-RECIPE_LATEST_RELEASE_DATE_pn-lttng-tools = "unknown"
+-RECIPE_LAST_UPDATE_pn-lttng-tools = "Jan 17, 2012"
+-RECIPE_MAINTAINER_pn-lttng-tools = "Dexuan Cui <dexuan.cui@intel.com>"
++RECIPE_LATEST_RELEASE_DATE_pn-lttng-tools = "April 19, 2012"
++RECIPE_LAST_UPDATE_pn-lttng-tools = "May 24, 2012"
++RECIPE_MAINTAINER_pn-lttng-tools = "Bogdan Marinescu <bogdan.a.marinescu@intel.com>"
+ DISTRO_PN_ALIAS_pn-lttng-tools = ""
  
- DEPENDS = "liburcu popt lttng2-ust"
- 
--SRCREV = "9beed4cb465347c778e4f982c330cef78f2628b7"
--PV = "v2.0.pre16+git${SRCREV}"
-+SRCREV = "8c3919ea2dc77fdd47fb1c90e41490a20bb4d478"
-+PV = "v2.0.1+git${SRCREV}"
- PR = "r0"
- 
--SRC_URI = "git://git.lttng.org/lttng-tools.git;protocol=git\
--           file://lttng-tools-fix-compiling-error-for-powerpc-arm.patch"
-+SRC_URI = "git://git.lttng.org/lttng-tools.git;protocol=git"
- 
- S = "${WORKDIR}/git"
- 
-@@ -24,6 +23,9 @@ inherit autotools
- 
- export KERNELDIR="${STAGING_KERNEL_DIR}"
- 
-+FILES_${PN} += "${libdir}/lttng/libexec/*"
-+FILES_${PN}-dbg += "${libdir}/lttng/libexec/.debug"
-+
- # Due to liburcu not building for MIPS currently this recipe needs to
- # be limited also.
- # So here let us first suppport x86/arm/powerpc platforms now.
+ RECIPE_MAINTAINER_pn-systemtap-uprobes = "Tom Zanussi <tom.zanussi@intel.com>"
 -- 
 1.7.4.1
 
