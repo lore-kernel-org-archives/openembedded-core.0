@@ -1,24 +1,24 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1SXfuU-0002yZ-GW
+	(envelope-from <scott.a.garman@intel.com>) id 1SXfuV-0002x9-Se
 	for openembedded-core@lists.openembedded.org;
-	Thu, 24 May 2012 23:49:31 +0200
+	Thu, 24 May 2012 23:49:32 +0200
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
 	by orsmga102.jf.intel.com with ESMTP; 24 May 2012 14:38:49 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="148125507"
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="148125512"
 Received: from sgarman-ws.jf.intel.com ([10.7.199.160])
 	by orsmga002.jf.intel.com with ESMTP; 24 May 2012 14:38:48 -0700
 From: Scott Garman <scott.a.garman@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 24 May 2012 14:38:18 -0700
-Message-Id: <580d734ddc928aaaac9acaa248427b01731074f2.1337892418.git.scott.a.garman@intel.com>
+Date: Thu, 24 May 2012 14:38:23 -0700
+Message-Id: <6689c52eb13430593d6afe48dba3973467cd2404.1337892418.git.scott.a.garman@intel.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1337892418.git.scott.a.garman@intel.com>
 References: <cover.1337892418.git.scott.a.garman@intel.com>
 In-Reply-To: <cover.1337892418.git.scott.a.garman@intel.com>
 References: <cover.1337892418.git.scott.a.garman@intel.com>
-Subject: [PATCH 07/32] libgcc: Package additional *crt*.o files for PPC
+Subject: [PATCH 12/32] libproxy: fix compilation with gcc 4.7
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,33 +33,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 May 2012 21:49:31 -0000
+X-List-Received-Date: Thu, 24 May 2012 21:49:35 -0000
 
-From: Saul Wold <sgw@linux.intel.com>
+From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-WARNING: For recipe libgcc, the following files/directories were installed but not shipped in any package:
-WARNING:   /usr/lib/powerpc-poky-linux/4.6.4/ecrti.o
-WARNING:   /usr/lib/powerpc-poky-linux/4.6.4/ncrti.o
-WARNING:   /usr/lib/powerpc-poky-linux/4.6.4/ecrtn.o
-WARNING:   /usr/lib/powerpc-poky-linux/4.6.4/ncrtn.o
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
+Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-devtools/gcc/libgcc_4.6.bb |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../libproxy/libproxy_fix_for_gcc4.7.patch         |   30 ++++++++++++++++++++
+ meta/recipes-support/libproxy/libproxy_0.4.7.bb    |    3 +-
+ 2 files changed, 32 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-support/libproxy/libproxy/libproxy_fix_for_gcc4.7.patch
 
-diff --git a/meta/recipes-devtools/gcc/libgcc_4.6.bb b/meta/recipes-devtools/gcc/libgcc_4.6.bb
-index 6e557d5..9a8b20d 100644
---- a/meta/recipes-devtools/gcc/libgcc_4.6.bb
-+++ b/meta/recipes-devtools/gcc/libgcc_4.6.bb
-@@ -16,7 +16,7 @@ PACKAGES = "\
- FILES_${PN} = "${base_libdir}/libgcc*.so.*"
- FILES_${PN}-dev = " \
-   ${base_libdir}/libgcc*.so \
--  ${libdir}/${TARGET_SYS}/${BINV}/crt* \
-+  ${libdir}/${TARGET_SYS}/${BINV}/*crt* \
-   ${libdir}/${TARGET_SYS}/${BINV}/libgcc*"
- FILES_libgcov${PKGSUFFIX}-dev = " \
-   ${libdir}/${TARGET_SYS}/${BINV}/libgcov.a"
+diff --git a/meta/recipes-support/libproxy/libproxy/libproxy_fix_for_gcc4.7.patch b/meta/recipes-support/libproxy/libproxy/libproxy_fix_for_gcc4.7.patch
+new file mode 100644
+index 0000000..a772f09
+--- /dev/null
++++ b/meta/recipes-support/libproxy/libproxy/libproxy_fix_for_gcc4.7.patch
+@@ -0,0 +1,30 @@
++Upstream-Status: Pending
++
++Signed-Off-By: Nitin A Kamble <nitin.a.kamble@intel.com>
++2012/04/20
++Fixes this issue with gcc 4.7
++
++| cd /srv/home/nitin/builds/bERROR: Function failed: do_compile (see /srv/home/nitin/builds/build-gcc47/tmp/work/x86_64-poky-linux/libproxy-0.4.7-r3/temp/log.do_compile.7514 for further information)
++| uild-gcc47/tmp/work/x86_64-poky-linux/libproxy-0.4.7-r3/libproxy-0.4.7/libproxy && /srv/home/nitin/builds/build-gcc47/tmp/sysroots/x86_64-linux/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++   -Dlibproxy_EXPORTS -D_POSIX_C_SOURCE=1 -DLIBEXECDIR=\"/usr/libexec\" -DMM_MODULE_BUILTIN=config_sysconfig -fvisibility=hidden    -m64  --sysroot=/srv/home/nitin/builds/build-gcc47/tmp/sysroots/qemux86-64  -O2 -pipe -g -feliminate-unused-debug-types -fpermissive -fvisibility-inlines-hidden -fpermissive -O2 -g -fPIC -I/srv/home/nitin/builds/build-gcc47/tmp/work/x86_64-poky-linux/libproxy-0.4.7-r3/libproxy-0.4.7 -I/srv/home/nitin/builds/build-gcc47/tmp/sysroots/qemux86-64/usr/include/glib-2.0 -I/srv/home/nitin/builds/build-gcc47/tmp/sysroots/qemux86-64/usr/lib/glib-2.0/include    -o CMakeFiles/libproxy.dir/modules/config_sysconfig.cpp.o -c /srv/home/nitin/builds/build-gcc47/tmp/work/x86_64-poky-linux/libproxy-0.4.7-r3/libproxy-0.4.7/libproxy/modules/config_sysconfig.cpp
++| /srv/home/nitin/builds/build-gcc47/tmp/work/x86_64-poky-linux/libproxy-0.4.7-r3/libproxy-0.4.7/libproxy/modules/config_sysconfig.cpp: In function 'bool should_use_sysconfig()':
++| /srv/home/nitin/builds/build-gcc47/tmp/work/x86_64-poky-linux/libproxy-0.4.7-r3/libproxy-0.4.7/libproxy/modules/config_sysconfig.cpp:107:18: error: 'getuid' was not declared in this scope
++| make[2]: *** [libproxy/CMakeFiles/libproxy.dir/modules/config_sysconfig.cpp.o] Error 1
++| make[2]: Leaving directory `/srv/home/nitin/builds/build-gcc47/tmp/work/x86_64-poky-linux/libproxy-0.4.7-r3/libproxy-0.4.7'
++| make[1]: *** [libproxy/CMakeFiles/libproxy.dir/all] Error 2
++| make[1]: Leaving directory `/srv/home/nitin/builds/build-gcc47/tmp/work/x86_64-poky-linux/libproxy-0.4.7-r3/libproxy-0.4.7'
++| make: *** [all] Error 2
++| ERROR: oe_runmake failed
++NOTE: package libproxy-0.4.7-r3: task do_compile: Failed
++
++Index: libproxy-0.4.7/libproxy/modules/config_sysconfig.cpp
++===================================================================
++--- libproxy-0.4.7.orig/libproxy/modules/config_sysconfig.cpp
+++++ libproxy-0.4.7/libproxy/modules/config_sysconfig.cpp
++@@ -21,6 +21,7 @@
++ #include <cstdlib>
++ #include <map>
++ #include <fstream>
+++#include <unistd.h>
++ 
++ #include "../extension_config.hpp"
++ using namespace libproxy;
+diff --git a/meta/recipes-support/libproxy/libproxy_0.4.7.bb b/meta/recipes-support/libproxy/libproxy_0.4.7.bb
+index 6d99861..e3721a8 100644
+--- a/meta/recipes-support/libproxy/libproxy_0.4.7.bb
++++ b/meta/recipes-support/libproxy/libproxy_0.4.7.bb
+@@ -8,10 +8,11 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=7d7044444a7b1b116e8783edcdb44ff4 \
+ 
+ DEPENDS = "gconf"
+ 
+-PR = "r3"
++PR = "r4"
+ 
+ SRC_URI = "http://libproxy.googlecode.com/files/libproxy-${PV}.tar.gz \
+            file://g++-namepace.patch \
++           file://libproxy_fix_for_gcc4.7.patch \
+           "
+ 
+ SRC_URI[md5sum] = "509e03a488a61cd62bfbaf3ab6a2a7a5"
 -- 
 1.7.9.5
 
