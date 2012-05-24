@@ -1,24 +1,24 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SXQ2h-00056b-Gm
+	(envelope-from <sgw@linux.intel.com>) id 1SXQ2h-00056c-Fw
 	for openembedded-core@lists.openembedded.org;
 	Thu, 24 May 2012 06:52:55 +0200
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
 	by orsmga101.jf.intel.com with ESMTP; 23 May 2012 21:42:42 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="144034680"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="144034677"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.24])
-	by orsmga001.jf.intel.com with ESMTP; 23 May 2012 21:42:42 -0700
+	by orsmga001.jf.intel.com with ESMTP; 23 May 2012 21:42:41 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 23 May 2012 21:42:18 -0700
-Message-Id: <de1983730f1ece43d8a8bb712a8baa460291f6bc.1337834073.git.sgw@linux.intel.com>
+Date: Wed, 23 May 2012 21:42:16 -0700
+Message-Id: <88d3eef1399e4c14c607dd6cc4ca6c0fccb7c4df.1337834073.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <cover.1337834073.git.sgw@linux.intel.com>
 References: <cover.1337834073.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1337834073.git.sgw@linux.intel.com>
 References: <cover.1337834073.git.sgw@linux.intel.com>
-Subject: [Consolidated Pull 15/28] libtool: fixed parallel build related race
+Subject: [Consolidated Pull 13/28] eglibc: package mtrace separately
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,53 +35,96 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 24 May 2012 04:52:56 -0000
 
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-While building libtool, the libtool script itself will be regenerated
-because OE modifies a dependency[1]. With -jX, this operation (-->
-removal, creation of non-x file, 'chmod a+x') can happen at a time when
-the script is going to be executed.  This can cause errors like:
+add libc-mtrace as dependency for task-core-tools-debug
 
-| arm-linux-gnueabi-libtool: compile:  ccache arm-linux-gnueabi-gcc ...
-| ...
-| /bin/sh ./config.status libtool
-| ...
-| arm-linux-gnueabi-libtool: compile:  ccache arm-linux-gnueabi-gcc ...
-| /bin/sh: ./arm-linux-gnueabi-libtool: Permission denied
-| make[2]: *** [libltdl/libltdl_libltdl_la-lt__alloc.lo] Error 126
+now eglibc-mtrace gets included in an sdk image and not in a non-sdk image.
 
-I am not sure whether the custom do_compile_prepend() is still needed.
-For now only the issue above will be fixed by executing ./config.status
-yet again.
+This does not affect builds with uclibc.
 
-[1] see 648290d5bf4d6ff50d3643bb7ad902dfc23aa702
+This fixes bug: [YOCTO# 2374]
 
-Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
 ---
- meta/recipes-devtools/libtool/libtool-2.4.2.inc |    3 ++-
- 1 files changed, 2 insertions(+), 1 deletions(-)
+ meta/recipes-core/eglibc/eglibc-package.inc      |    7 ++++++-
+ meta/recipes-core/eglibc/eglibc_2.13.bb          |    2 +-
+ meta/recipes-core/tasks/task-core-tools-debug.bb |    4 ++++
+ 3 files changed, 11 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/libtool/libtool-2.4.2.inc b/meta/recipes-devtools/libtool/libtool-2.4.2.inc
-index 084062a..c1ef7c4 100644
---- a/meta/recipes-devtools/libtool/libtool-2.4.2.inc
-+++ b/meta/recipes-devtools/libtool/libtool-2.4.2.inc
-@@ -8,7 +8,7 @@ LICENSE = "GPLv2 & LGPLv2.1"
- LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
-     file://libltdl/COPYING.LIB;md5=e3eda01d9815f8d24aae2dbd89b68b06"
+diff --git a/meta/recipes-core/eglibc/eglibc-package.inc b/meta/recipes-core/eglibc/eglibc-package.inc
+index 7d97567..ce37155 100644
+--- a/meta/recipes-core/eglibc/eglibc-package.inc
++++ b/meta/recipes-core/eglibc/eglibc-package.inc
+@@ -20,11 +20,12 @@ USE_LDCONFIG ?= "1"
+ PKGSUFFIX = ""
+ PKGSUFFIX_virtclass-nativesdk = "-nativesdk"
  
--INC_PR = "r2"
-+INC_PR = "r3"
+-PACKAGES = "${PN}-dbg ${PN} catchsegv${PKGSUFFIX} sln${PKGSUFFIX} nscd${PKGSUFFIX} ldd${PKGSUFFIX} ${PN}-utils eglibc-extra-nss${PKGSUFFIX} eglibc-thread-db${PKGSUFFIX} ${PN}-pic ${PN}-dev ${PN}-staticdev ${PN}-doc libcidn${PKGSUFFIX} libmemusage${PKGSUFFIX} libsegfault${PKGSUFFIX} ${PN}-pcprofile libsotruss${PKGSUFFIX}"
++PACKAGES = "${PN}-dbg ${PN} catchsegv${PKGSUFFIX} sln${PKGSUFFIX} nscd${PKGSUFFIX} ldd${PKGSUFFIX} ${PN}-mtrace ${PN}-utils eglibc-extra-nss${PKGSUFFIX} eglibc-thread-db${PKGSUFFIX} ${PN}-pic ${PN}-dev ${PN}-staticdev ${PN}-doc libcidn${PKGSUFFIX} libmemusage${PKGSUFFIX} libsegfault${PKGSUFFIX} ${PN}-pcprofile libsotruss${PKGSUFFIX}"
  
- SRC_URI = "${GNU_MIRROR}/libtool/libtool-${PV}.tar.gz \
-            file://trailingslash.patch \
-@@ -27,6 +27,7 @@ do_compile_prepend () {
- 	# Sometimes this file doesn't get rebuilt, force the issue
- 	rm -f ${S}/libltdl/config/ltmain.sh
- 	make libltdl/config/ltmain.sh
-+	./config.status
- }
+ # The ld.so in this eglibc supports the GNU_HASH
+ RPROVIDES_${PN} = "glibc${PKGSUFFIX} rtld(GNU_HASH)"
+ RPROVIDES_${PN}-utils = "glibc${PKGSUFFIX}-utils"
++RPROVIDES_${PN}-mtrace = "glibc${PKGSUFFIX}-mtrace libc-mtrace"
+ RPROVIDES_${PN}-pic = "glibc${PKGSUFFIX}-pic"
+ RPROVIDES_${PN}-dev = "glibc${PKGSUFFIX}-dev"
+ RPROVIDES_${PN}-staticdev = "glibc${PKGSUFFIX}-staticdev"
+@@ -48,11 +49,13 @@ FILES_${PN}-dev_append += "${bindir}/rpcgen ${libdir}/*_nonshared.a \
+ 	${base_libdir}/*_nonshared.a ${base_libdir}/*.o ${datadir}/aclocal"
+ FILES_${PN}-staticdev_append += "${libdir}/*.a ${base_libdir}/*.a"
+ FILES_nscd${PKGSUFFIX} = "${sbindir}/nscd*"
++FILES_${PN}-mtrace = "${bindir}/mtrace"
+ FILES_${PN}-utils = "${bindir}/* ${sbindir}/*"
+ FILES_${PN}-dbg += "${libexecdir}/*/.debug ${libdir}/audit/.debug"
+ FILES_catchsegv${PKGSUFFIX} = "${bindir}/catchsegv"
+ RDEPENDS_catchsegv${PKGSUFFIX} = "libsegfault"
+ RDEPENDS_${PN}-utils += "bash"
++RDEPENDS_${PN}-mtrace += "perl"
+ FILES_${PN}-pcprofile = "${base_libdir}/libpcprofile.so"
+ FILES_eglibc-thread-db${PKGSUFFIX} = "${base_libdir}/libthread_db.so.* ${base_libdir}/libthread_db-*.so"
+ RPROVIDES_${PN}-dev += "libc-dev"
+@@ -68,6 +71,8 @@ SUMMARY_ldd = "print shared library dependencies"
+ DESCRIPTION_ldd = "/usr/bin/ldd prints shared library dependencies for each program or shared library specified on the command line."
+ SUMMARY_${PN}-utils = "Miscellaneous utilities provided by eglibc"
+ DESCRIPTION_${PN}-utils = "Miscellaneous utilities including getconf, iconf, locale, gencat, tzselect, zic, rpcinfo, ..."
++SUMMARY_${PN}-mtrace = "mtrace utility provided by eglibc"
++DESCRIPTION_${PN}-mtrace = "mtrace utility provided by eglibc"
+ DESCRIPTION_libsotruss = "Library to support sotruss which traces calls through PLTs"
  
- inherit autotools
+ inherit libc-common multilib_header
+diff --git a/meta/recipes-core/eglibc/eglibc_2.13.bb b/meta/recipes-core/eglibc/eglibc_2.13.bb
+index d8a41dc..73cd0aa 100644
+--- a/meta/recipes-core/eglibc/eglibc_2.13.bb
++++ b/meta/recipes-core/eglibc/eglibc_2.13.bb
+@@ -3,7 +3,7 @@ require eglibc.inc
+ SRCREV = "15508"
+ 
+ DEPENDS += "gperf-native"
+-PR = "r26"
++PR = "r27"
+ PR_append = "+svnr${SRCPV}"
+ 
+ EGLIBC_BRANCH="eglibc-2_13"
+diff --git a/meta/recipes-core/tasks/task-core-tools-debug.bb b/meta/recipes-core/tasks/task-core-tools-debug.bb
+index 3c92f3f..1dddbb8 100644
+--- a/meta/recipes-core/tasks/task-core-tools-debug.bb
++++ b/meta/recipes-core/tasks/task-core-tools-debug.bb
+@@ -17,10 +17,14 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
+ 
+ ALLOW_EMPTY = "1"
+ 
++MTRACE = ""
++MTRACE_libc-glibc = "libc-mtrace"
++
+ RDEPENDS_${PN} = "\
+     gdb \
+     gdbserver \
+     tcf-agent \
+     rsync \
+     strace \
++    ${MTRACE} \
+     "
 -- 
 1.7.7.6
 
