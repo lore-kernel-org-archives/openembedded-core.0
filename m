@@ -1,32 +1,24 @@
-Received: from mail-qc0-f175.google.com ([209.85.216.175])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <jefro.net@gmail.com>) id 1SXfIL-0008Qu-J1
+	(envelope-from <scott.a.garman@intel.com>) id 1SXfuN-0002x9-Ck
 	for openembedded-core@lists.openembedded.org;
-	Thu, 24 May 2012 23:10:05 +0200
-Received: by qcso7 with SMTP id o7so203309qcs.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 May 2012 13:59:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:date:x-google-sender-auth:message-id:subject
-	:from:to:content-type;
-	bh=n5L9GHHSdXAZtS+2xNhdp+IIKegFF7xit/WRupJGRwE=;
-	b=Cry0rYAnLuJmmrcskSaq45upvXrW98Ze1TxxIh6Pf/jlUulJoII10xii8rqn4ObcZM
-	UuHAr0cv4jiqsVq0zz5ArHJFTOwzQaJRtaPoTPVIuKuvSY4oPyOdoupyYqTE9T7ihj2e
-	jQVwl6zHBOWKsqUikXqICzrEkQHxNuBKKuLPefXPtXGXzbLHHYaXlXP3LMwnuq6yFm10
-	NWHIIYU+l7zoTrxku1zH4FE9V5+6mPGwartMdQRb6tlSkysIkHqPg3P7S8Sv81btaFxd
-	eKEOHFTs2jWwTIVpqbZs3mZVGyDs7KIiXIFUyC9KF5P3h/MOC2x+wJPatJl/xH3r2V54
-	+gMg==
-MIME-Version: 1.0
-Received: by 10.50.181.225 with SMTP id dz1mr873494igc.2.1337893193214; Thu,
-	24 May 2012 13:59:53 -0700 (PDT)
-Sender: jefro.net@gmail.com
-Received: by 10.64.13.164 with HTTP; Thu, 24 May 2012 13:59:53 -0700 (PDT)
-Date: Thu, 24 May 2012 13:59:53 -0700
-X-Google-Sender-Auth: kpGnBypwZZ9JNf8keyMF0dOPEoc
-Message-ID: <CA+YB3raQ6YiihBYSWRC_TpAfDCsZdBkd98je91eh=R9GcNwrpA@mail.gmail.com>
-From: Jeff Osier-Mixon <jefro@jefro.net>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: OSCON, LinuxCon
+	Thu, 24 May 2012 23:49:24 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 24 May 2012 14:38:48 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="148125504"
+Received: from sgarman-ws.jf.intel.com ([10.7.199.160])
+	by orsmga002.jf.intel.com with ESMTP; 24 May 2012 14:38:48 -0700
+From: Scott Garman <scott.a.garman@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 24 May 2012 14:38:16 -0700
+Message-Id: <544fe63b6a861129ea15f4cd37952e513ab0013e.1337892418.git.scott.a.garman@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1337892418.git.scott.a.garman@intel.com>
+References: <cover.1337892418.git.scott.a.garman@intel.com>
+In-Reply-To: <cover.1337892418.git.scott.a.garman@intel.com>
+References: <cover.1337892418.git.scott.a.garman@intel.com>
+Subject: [PATCH 05/32] bdwgc: Set ARM_INSTRUCTION_SET to "arm"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,21 +33,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 May 2012 21:10:05 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Thu, 24 May 2012 21:49:24 -0000
 
-Hi all - as the summer conference season approaches, I am trying to
-collect any presentations people are planning to give about
-OpenEmbedded and/or the Yocto Project. If you are planning to give a
-talk, please let me know. Note that the CFP for LinuxCon San Diego
-(August) ends on June 1.
+From: Ken Werner <ken.werner@linaro.org>
 
-Saul Wold is giving a Yocto Project talk at LinuxCon Japan in June.
-Also, I'm giving a Yocto Project talk at OSCON and have a 20% off code
-if anyone needs one.
+The bdwgc recipe uses a version of libatomic that fails when building in Thumb
+mode. This has been fixed upstream already. The
+pulseaudio/libatomics-ops_1.2.bb has the same issue and sets the
+ARM_INSTRUCTION_SET to "arm" (probably until a new version gets pulled in).
+This patch applies the same workaround to the bdwgc/bdwgc_20110107.bb recipe.
 
+Signed-off-by: Ken Werner <ken.werner@linaro.org>
+---
+ meta/recipes-support/bdwgc/bdwgc_20110107.bb |    2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/meta/recipes-support/bdwgc/bdwgc_20110107.bb b/meta/recipes-support/bdwgc/bdwgc_20110107.bb
+index 327e59b..bc7b613 100644
+--- a/meta/recipes-support/bdwgc/bdwgc_20110107.bb
++++ b/meta/recipes-support/bdwgc/bdwgc_20110107.bb
+@@ -33,5 +33,7 @@ PR = "r1"
+ 
+ S = "${WORKDIR}/bdwgc"
+ 
++ARM_INSTRUCTION_SET = "arm"
++
+ inherit autotools
+ BBCLASSEXTEND = "native nativesdk"
 -- 
-Jeff Osier-Mixon http://jefro.net/blog
-Yocto Project Community Manager @Intel http://yoctoproject.org
+1.7.9.5
+
 
 
