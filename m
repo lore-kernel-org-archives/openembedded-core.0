@@ -1,24 +1,24 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1SXfuW-0002zm-0V
+	(envelope-from <scott.a.garman@intel.com>) id 1SXfuY-0002x9-Q0
 	for openembedded-core@lists.openembedded.org;
-	Thu, 24 May 2012 23:49:33 +0200
+	Thu, 24 May 2012 23:49:35 +0200
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
 	by orsmga102.jf.intel.com with ESMTP; 24 May 2012 14:38:49 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="148125514"
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="148125516"
 Received: from sgarman-ws.jf.intel.com ([10.7.199.160])
-	by orsmga002.jf.intel.com with ESMTP; 24 May 2012 14:38:48 -0700
+	by orsmga002.jf.intel.com with ESMTP; 24 May 2012 14:38:49 -0700
 From: Scott Garman <scott.a.garman@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 24 May 2012 14:38:25 -0700
-Message-Id: <663b4be025283a30adb823760ce9d9a056106bcf.1337892418.git.scott.a.garman@intel.com>
+Date: Thu, 24 May 2012 14:38:27 -0700
+Message-Id: <8eb3e52d39147f8cb98ec95857be17db0444098e.1337892418.git.scott.a.garman@intel.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1337892418.git.scott.a.garman@intel.com>
 References: <cover.1337892418.git.scott.a.garman@intel.com>
 In-Reply-To: <cover.1337892418.git.scott.a.garman@intel.com>
 References: <cover.1337892418.git.scott.a.garman@intel.com>
-Subject: [PATCH 14/32] {kernel, module}.bbclass: don't run depmod for module packages during do_rootfs
+Subject: [PATCH 16/32] python: Add patch to search for db.h in inc_dirs and remove warning
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,63 +35,88 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 24 May 2012 21:49:35 -0000
 
-From: Andreas Oberritter <obi@opendreambox.org>
+From: Andrei Gherzan <andrei@gherzan.ro>
 
-* depmod already gets executed by pkg_postinst_kernel-image.
+python should search for db.h in inc_dirs and not in a hardcoded path.
+If db.h is found but HASHVERSION is not 2 we avoid a warning by not.
+adding this module to missing variable.
 
-* If you build a module using module.bbclass, pkg_postinst returns 1 in
-  do_rootfs, causing pkg_postinst to run again on first boot. To improve
-  this situation, I copied pkg_postinst from kernel.bbclass to module.bbclass.
-  This was rejected by Koen, because he doesn't like the code from
-  kernel.bblcass, which uses ${STAGING_DIR_KERNEL}. Richard then suggested
-  that calling depmod during do_rootfs wasn't necessary at all, because
-  it already gets done by kernel-image.
+[YOCTO #1937]
 
-Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
+Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes/kernel.bbclass |    4 +---
- meta/classes/module.bbclass |    7 +++----
- 2 files changed, 4 insertions(+), 7 deletions(-)
+ ...search_db_h_in_inc_dirs_and_avoid_warning.patch |   40 ++++++++++++++++++++
+ meta/recipes-devtools/python/python_2.7.2.bb       |    3 +-
+ 2 files changed, 42 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/python/python/search_db_h_in_inc_dirs_and_avoid_warning.patch
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 3519e7c..c21ab96 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -276,9 +276,7 @@ fi
- }
+diff --git a/meta/recipes-devtools/python/python/search_db_h_in_inc_dirs_and_avoid_warning.patch b/meta/recipes-devtools/python/python/search_db_h_in_inc_dirs_and_avoid_warning.patch
+new file mode 100644
+index 0000000..0c1f174
+--- /dev/null
++++ b/meta/recipes-devtools/python/python/search_db_h_in_inc_dirs_and_avoid_warning.patch
+@@ -0,0 +1,40 @@
++python should search for db.h in inc_dirs and not in a hardcoded path.
++If db.h is found but HASHVERSION is not 2 we avoid a warning by not 
++adding this module to missing variable.
++
++Upstream-Status: Inappropriate [distribution]
++
++Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
++
++Index: Python-2.7.2/setup.py
++===================================================================
++--- Python-2.7.2.orig/setup.py	2012-04-05 22:27:22.437199989 +0300
+++++ Python-2.7.2/setup.py	2012-04-05 22:26:38.000000000 +0300
++@@ -1141,12 +1141,12 @@
++         # the more recent berkeleydb's db.h file first in the include path
++         # when attempting to compile and it will fail.
++         f = "/usr/include/db.h"
++-
+++        if len(inc_dirs) != 0:
+++            f = os.path.join(inc_dirs[0], "db.h")
++         if sys.platform == 'darwin':
++             if is_macosx_sdk_path(f):
++                 sysroot = macosx_sdk_root()
++                 f = os.path.join(sysroot, f[1:])
++-
++         if os.path.exists(f) and not db_incs:
++             data = open(f).read()
++             m = re.search(r"#s*define\s+HASHVERSION\s+2\s*", data)
++@@ -1161,8 +1161,10 @@
++                                           libraries=libraries))
++                 else:
++                     exts.append(Extension('bsddb185', ['bsddbmodule.c']))
++-            else:
++-                missing.append('bsddb185')
+++            # If a newer version is detected don't report an useless
+++            # warning
+++            #else:
+++            #    missing.append('bsddb185')
++         else:
++             missing.append('bsddb185')
++ 
+diff --git a/meta/recipes-devtools/python/python_2.7.2.bb b/meta/recipes-devtools/python/python_2.7.2.bb
+index bfe3ee0..d25b882 100644
+--- a/meta/recipes-devtools/python/python_2.7.2.bb
++++ b/meta/recipes-devtools/python/python_2.7.2.bb
+@@ -1,6 +1,6 @@
+ require python.inc
+ DEPENDS = "python-native bzip2 db gdbm openssl readline sqlite3 zlib"
+-PR = "${INC_PR}.16"
++PR = "${INC_PR}.17"
  
- pkg_postinst_modules () {
--if [ -n "$D" ]; then
--	${HOST_PREFIX}depmod -A -b $D -F ${STAGING_KERNEL_DIR}/System.map-${KERNEL_VERSION} ${KERNEL_VERSION}
--else
-+if [ -z "$D" ]; then
- 	depmod -a
- 	update-modules || true
- fi
-diff --git a/meta/classes/module.bbclass b/meta/classes/module.bbclass
-index 53c16b7..91628e4 100644
---- a/meta/classes/module.bbclass
-+++ b/meta/classes/module.bbclass
-@@ -37,15 +37,14 @@ module_do_install() {
- }
+ DISTRO_SRC_URI ?= "file://sitecustomize.py"
+ DISTRO_SRC_URI_linuxstdbase = ""
+@@ -23,6 +23,7 @@ SRC_URI += "\
+   file://fix_for_using_different_libdir.patch \
+   file://setuptweaks.patch \
+   file://check-if-target-is-64b-not-host.patch \
++  file://search_db_h_in_inc_dirs_and_avoid_warning.patch \
+ "
  
- pkg_postinst_append () {
--	if [ -n "$D" ]; then
--		exit 1
--	fi
-+if [ -z "$D" ]; then
- 	depmod -a
- 	update-modules || true
-+fi
- }
- 
- pkg_postrm_append () {
--	update-modules || true
-+update-modules || true
- }
- 
- EXPORT_FUNCTIONS do_compile do_install
+ S = "${WORKDIR}/Python-${PV}"
 -- 
 1.7.9.5
 
