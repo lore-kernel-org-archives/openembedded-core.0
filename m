@@ -1,24 +1,24 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1SXfua-0002x9-6W
+	(envelope-from <scott.a.garman@intel.com>) id 1SXfua-0002yZ-5P
 	for openembedded-core@lists.openembedded.org;
 	Thu, 24 May 2012 23:49:36 +0200
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
 	by orsmga102.jf.intel.com with ESMTP; 24 May 2012 14:38:49 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="148125520"
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="148125517"
 Received: from sgarman-ws.jf.intel.com ([10.7.199.160])
 	by orsmga002.jf.intel.com with ESMTP; 24 May 2012 14:38:49 -0700
 From: Scott Garman <scott.a.garman@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 24 May 2012 14:38:31 -0700
-Message-Id: <542dc1c8d84682785aade77b16a9fe20a69d7e0a.1337892418.git.scott.a.garman@intel.com>
+Date: Thu, 24 May 2012 14:38:28 -0700
+Message-Id: <6e2235a4d769b16ebf68d6bbed56d8bcc0e0c83f.1337892418.git.scott.a.garman@intel.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1337892418.git.scott.a.garman@intel.com>
 References: <cover.1337892418.git.scott.a.garman@intel.com>
 In-Reply-To: <cover.1337892418.git.scott.a.garman@intel.com>
 References: <cover.1337892418.git.scott.a.garman@intel.com>
-Subject: [PATCH 20/32] uclibc SDK not including libpthread_nonshared.a
+Subject: [PATCH 17/32] libpng: upgrade to 1.2.49
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,42 +35,49 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 24 May 2012 21:49:37 -0000
 
-From: Mark Norman <mpnorman@gmail.com>
+License hasn't changed, just updated the md5 checksums due to trivial
+date changes within the text (and the position of the license text
+within png.h).
 
-Modified the uclibc PACKAGES list order to ensure the uclibc-dev package is
-processed before uclibc-staticdev to allow *_nonshared.a libraries to be
-packaged in the uclibc-dev package.  The *_nonshared.a libraries are required
-by the SDK.
+Addresses CVE-2011-3045
+
+Fixes [YOCTO #2352]
+
+Signed-off-by: Scott Garman <scott.a.garman@intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-core/uclibc/uclibc.inc |    8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ .../libpng/{libpng_1.2.46.bb => libpng_1.2.49.bb}  |   10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+ rename meta/recipes-multimedia/libpng/{libpng_1.2.46.bb => libpng_1.2.49.bb} (60%)
 
-diff --git a/meta/recipes-core/uclibc/uclibc.inc b/meta/recipes-core/uclibc/uclibc.inc
-index 893d8fd..f5b6bf7 100644
---- a/meta/recipes-core/uclibc/uclibc.inc
-+++ b/meta/recipes-core/uclibc/uclibc.inc
-@@ -13,7 +13,7 @@ SECTION = "libs"
- LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=a6f89e2100d9b6cdffcea4f398e37343 \
- 		    file://COPYING.LIB.boilerplate;md5=aaddeadcddeb918297e0e4afc52ce46f \
- file://${S}/test/regex/testregex.c;startline=1;endline=31;md5=234efb227d0a40677f895e4a1e26e960"
--INC_PR = "r6"
-+INC_PR = "r7"
+diff --git a/meta/recipes-multimedia/libpng/libpng_1.2.46.bb b/meta/recipes-multimedia/libpng/libpng_1.2.49.bb
+similarity index 60%
+rename from meta/recipes-multimedia/libpng/libpng_1.2.46.bb
+rename to meta/recipes-multimedia/libpng/libpng_1.2.49.bb
+index 142f2b9..c24e691 100644
+--- a/meta/recipes-multimedia/libpng/libpng_1.2.46.bb
++++ b/meta/recipes-multimedia/libpng/libpng_1.2.49.bb
+@@ -3,15 +3,15 @@ DESCRIPTION = "PNG Library"
+ HOMEPAGE = "http://www.libpng.org/"
+ SECTION = "libs"
+ LICENSE = "Libpng"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=21b4b6e3523afa9f03f00b43b991dad0 \
+-                    file://png.h;startline=172;endline=261;md5=996460063a9bf2de35b2d61d2776dabc"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=20110633230abd47fe8680afa75f1492 \
++                    file://png.h;startline=308;endline=422;md5=edd1c552386a8c3773d90e278ae30891"
+ DEPENDS = "zlib"
+-PR = "r4"
++PR = "r0"
  
- require uclibc-config.inc
- STAGINGCC = "gcc-cross-intermediate"
-@@ -48,9 +48,9 @@ RDEPENDS_${PN}-dev = "linux-libc-headers-dev"
+ SRC_URI = "${SOURCEFORGE_MIRROR}/project/libpng/libpng12/${PV}/libpng-${PV}.tar.bz2"
  
- INHIBIT_DEFAULT_DEPS = "1"
+-SRC_URI[md5sum] = "e8b43dc78ef95b3949af7f961d76874b"
+-SRC_URI[sha256sum] = "a5e796e1802b2e221498bda09ff9850bc7ec9068b6788948cc2c42af213914d8"
++SRC_URI[md5sum] = "d5106b70b4f8b464a7da66bffe4565fb"
++SRC_URI[sha256sum] = "fbf8faa70ebca2ed2ee6df6f2249f4722517b581af5b6c3c71bbdaf925d5954e"
  
--PACKAGES =+ "ldd uclibc-utils-dbg uclibc-utils uclibc-gconv uclibc-thread-db uclibc-argp uclibc-backtrace"
--PACKAGES =+ "uclibc-libcrypt uclibc-libintl uclibc-libnsl uclibc-libresolv uclibc-libm"
--PACKAGES =+ "uclibc-libdl uclibc-libutil uclibc-libpthread uclibc-librt"
-+# Ensure the uclibc-dev package is processed before uclibc-staticdev to allow
-+# *_nonshared.a libraries to be packaged in the uclibc-dev package.
-+PACKAGES = "${PN}-dbg ${PN}-dev ${PN}-staticdev ${PN} ${PN}-doc ldd uclibc-utils-dbg uclibc-utils uclibc-gconv uclibc-thread-db uclibc-argp uclibc-backtrace uclibc-libcrypt uclibc-libintl uclibc-libnsl uclibc-libresolv uclibc-libm uclibc-libdl uclibc-libutil uclibc-libpthread uclibc-librt"
+ inherit autotools binconfig pkgconfig
  
- FILES_uclibc-libcrypt = "${base_libdir}/libcrypt*.so.* ${base_libdir}/libcrypt-*.so"
- FILES_uclibc-libintl = "${base_libdir}/libintl*.so.* ${base_libdir}/libintl-*.so"
 -- 
 1.7.9.5
 
