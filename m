@@ -1,24 +1,24 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SXQ2f-00056b-VP
+	(envelope-from <sgw@linux.intel.com>) id 1SXQ2h-00056a-G0
 	for openembedded-core@lists.openembedded.org;
-	Thu, 24 May 2012 06:52:54 +0200
+	Thu, 24 May 2012 06:52:55 +0200
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 23 May 2012 21:42:41 -0700
+	by orsmga101.jf.intel.com with ESMTP; 23 May 2012 21:42:42 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="144034676"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="144034679"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.24])
-	by orsmga001.jf.intel.com with ESMTP; 23 May 2012 21:42:41 -0700
+	by orsmga001.jf.intel.com with ESMTP; 23 May 2012 21:42:42 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 23 May 2012 21:42:15 -0700
-Message-Id: <7f6f80e44680998a32e855ed48b02f9ec2718ca7.1337834073.git.sgw@linux.intel.com>
+Date: Wed, 23 May 2012 21:42:17 -0700
+Message-Id: <28942804a08a959caee7e841e7b97e6b70df1853.1337834073.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <cover.1337834073.git.sgw@linux.intel.com>
 References: <cover.1337834073.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1337834073.git.sgw@linux.intel.com>
 References: <cover.1337834073.git.sgw@linux.intel.com>
-Subject: [Consolidated Pull 12/28] rpm 5.4.0: respect to the arch when choose the alternatives
+Subject: [Consolidated Pull 14/28] ncurses: Avoid occasional builling failure when having parallel processable task
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,135 +33,99 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 May 2012 04:52:55 -0000
+X-List-Received-Date: Thu, 24 May 2012 04:52:56 -0000
 
-From: Robert Yang <liezhi.yang@windriver.com>
+From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
 
-There is a bug if we:
-1) bitbake diffutils with MACHINE=crownbay
-2) bitbake diffutils with MACHINE=qemux86
-3) bitbake core-image-sato with MACHINE=crownbay
+ncurses failure non-gplv3 build (race issue) like the following \
+error information:
 
-Then the diffutils.i586 would be installed to the crownbay's image, this
-is because diffutils.i586 is newer than diffutils.core2, and rpm doesn't
-respect to the arch priorities:
+| tic: error while loading shared libraries: /srv/home/pokybuild \
+/yocto-autobuilder/yocto-slave/nightly-non-gpl3/build/build/tmp/\
+work/x86_64-linux/ncurses-native-5.9-r8.1/ncurses-5.9/narrowc/lib\
+/libtinfo.so.5: file too short
+| ? tic could not build /srv/home/pokybuild/yocto-autobuilder/\
+yocto-slave/nightly-non-gpl3/build/build/tmp/work/x86_64-linux/\
+ncurses-native-5.9-r8.1/image/srv/home/pokybuild/yocto-autobuilder\
+/yocto-slave/nightly-non-gpl3/build/build/tmp/sysroots/x86_64-linux\
+/usr/share/terminfo
+| make[1]: *** [install.data] Error 1
 
-We have put the archs in order in _solve_dbpath:
+This is a race issue which is caused by
+install.libs and install.data:
 
-crownbay/solvedb:core2/solvedb:i586/solvedb:all/solvedb
+1) install.data needs run tic
+2) tic needs libtinfo.so
+3) install.libs would regenerate libtinfo.so
+4) but install.data doesn't depend on install.libs, and they can run
+   parallelly
 
-Fix rpm to respect to the order, for example, if it finds a pkg in both
-core2/ and i586/, and the core2/ comes first, it should not use the one
-in i586/ even if it's build time is newer.
+So there would be errors in a very critical condition: tic is begining
+to run at the same time when install.libs is generating libtinfo.so, and
+this libtinfo.so is not integrity, then there would be the  above error.
 
-Note: Don't worry about the _free(*ptr), it can check whether ptr is
-NULL or not.
+Let task install.libs run before install.data for fixing this bug.
 
-This is for the denzil branch, and the master branch also needs it.
+[YOCTO #2298]
 
-[YOCTO #2360]
-
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+Signed-off-by: Xiaofeng Yan <xiaofeng.yan@windriver.com>
 ---
- .../rpm/rpm/rpm-respect-arch.patch                 |   67 ++++++++++++++++++++
- meta/recipes-devtools/rpm/rpm_5.4.0.bb             |    3 +-
- 2 files changed, 69 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-respect-arch.patch
+ meta/recipes-core/ncurses/ncurses.inc |   23 ++++++++++++++++++-----
+ 1 files changed, 18 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-devtools/rpm/rpm/rpm-respect-arch.patch b/meta/recipes-devtools/rpm/rpm/rpm-respect-arch.patch
-new file mode 100644
-index 0000000..9b63b37
---- /dev/null
-+++ b/meta/recipes-devtools/rpm/rpm/rpm-respect-arch.patch
-@@ -0,0 +1,67 @@
-+rpmts.c: respect to the arch priorities
-+
-+Let rpm respect to the priorities when choose alternatives rpm, the arch
-+which comes first is preferred.
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-+---
-+ lib/rpmts.c |   14 ++++++++++++++
-+ 1 files changed, 14 insertions(+), 0 deletions(-)
-+
-+diff --git a/lib/rpmts.c b/lib/rpmts.c
-+index 3fbbc9e..40ec08e 100644
-+--- a/lib/rpmts.c
-++++ b/lib/rpmts.c
-+@@ -353,6 +353,7 @@ int rpmtsSolve(rpmts ts, rpmds ds, /*@unused@*/ const void * data)
-+     Header h = NULL;
-+     size_t bhnamelen = 0;
-+     time_t bhtime = 0;
-++    const char *bharch = NULL;
-+     rpmTag rpmtag;
-+     const char * keyp;
-+     size_t keylen = 0;
-+@@ -409,6 +410,7 @@ fprintf(stderr, "--> %s(%p,%p,%p)\n", __FUNCTION__, ts, ds, data);
-+ 	while ((h = rpmmiNext(mi)) != NULL) {
-+ 	    size_t hnamelen;
-+ 	    time_t htime;
-++	    const char *harch = NULL;
-+ 
-+ 	    if (rpmtag == RPMTAG_PROVIDENAME && !rpmdsAnyMatchesDep(h, ds, 1))
-+ 		continue;
-+@@ -431,12 +433,23 @@ fprintf(stderr, "--> %s(%p,%p,%p)\n", __FUNCTION__, ts, ds, data);
-+ 	    if (htime <= bhtime)
-+ 		continue;
-+ 
-++	    /* XXX Respect to the arch priorities */
-++	    he->tag = RPMTAG_ARCH;
-++	    xx = headerGet(h, he, 0);
-++	    harch = ((xx && he->p.str) ? xstrdup(he->p.str) : NULL);
-++	    he->p.ptr = _free(he->p.ptr);
-++	    if (bharch && (strcmp(bharch, harch) != 0))
-++		continue;
-++
-+ 	    /* Save new "best" candidate. */
-+ 	    (void)headerFree(bh);
-+ 	    bh = NULL;
-+ 	    bh = headerLink(h);
-+ 	    bhtime = htime;
-+ 	    bhnamelen = hnamelen;
-++	    bharch = _free(bharch);
-++	    bharch = xstrdup(harch);
-++	    harch = _free(harch);
-+ 	}
-+ 	mi = rpmmiFree(mi);
-+ 
-+@@ -449,6 +462,7 @@ fprintf(stderr, "--> %s(%p,%p,%p)\n", __FUNCTION__, ts, ds, data);
-+       } while (1);
-+ 
-+     }
-++    bharch = _free(bharch);
-+ 
-+     /* Is there a suggested resolution? */
-+     if (bh == NULL)
-+-- 
-+1.7.1
-+
-diff --git a/meta/recipes-devtools/rpm/rpm_5.4.0.bb b/meta/recipes-devtools/rpm/rpm_5.4.0.bb
-index 5ee6b47..d79d199 100644
---- a/meta/recipes-devtools/rpm/rpm_5.4.0.bb
-+++ b/meta/recipes-devtools/rpm/rpm_5.4.0.bb
-@@ -45,7 +45,7 @@ LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=2d5025d4aa3495befef8f17206a5b0a1"
- DEPENDS = "bzip2 zlib db openssl elfutils expat libpcre attr acl popt ${extrarpmdeps}"
- extrarpmdeps = "python perl file"
- extrarpmdeps_virtclass-native = "python-native file-native"
--PR = "r36"
-+PR = "r37"
+diff --git a/meta/recipes-core/ncurses/ncurses.inc b/meta/recipes-core/ncurses/ncurses.inc
+index ae99e2c..b031119 100644
+--- a/meta/recipes-core/ncurses/ncurses.inc
++++ b/meta/recipes-core/ncurses/ncurses.inc
+@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://ncurses/base/version.c;beginline=1;endline=27;md5=cbc
+ SECTION = "libs"
+ DEPENDS = "ncurses-native"
+ DEPENDS_virtclass-native = ""
+-INC_PR = "r8"
++INC_PR = "r9"
  
- # rpm2cpio is a shell script, which is part of the rpm src.rpm.  It is needed
- # in order to extract the distribution SRPM into a format we can extract...
-@@ -70,6 +70,7 @@ SRC_URI = "http://www.rpm5.org/files/rpm/rpm-5.4/rpm-5.4.0-0.20101229.src.rpm;ex
- 	   file://pythondeps.sh \
- 	   file://rpmdeps-oecore.patch \
- 	   file://rpm-resolvedep.patch \
-+	   file://rpm-respect-arch.patch \
- 	  "
+ inherit autotools binconfig multilib_header
  
- #	   file://rpm-autoconf.patch \
+@@ -107,10 +107,15 @@ do_test() {
+         diff curses-narrowc.h curses-widec.h
+ }
+ 
++# Split original _install_opts to two parts.
++# One is the options to install contents, the other is the parameters \
++# when running command "make install"
+ _install_opts = "\
++  install.libs install.includes install.man \
++"
++_install_cfgs = "\
+   DESTDIR='${D}' \
+   PKG_CONFIG_LIBDIR='${libdir}/pkgconfig' \
+-  install.libs install.includes install.man \
+ "
+ 
+ python do_install () {
+@@ -122,11 +127,19 @@ shell_do_install() {
+         # Order of installation is important; widec installs a 'curses.h'
+         # header with more definitions and must be installed last hence.
+         # Compatibility of these headers will be checked in 'do_test()'.
+-        oe_runmake -C narrowc ${_install_opts} \
+-                install.data install.progs
++        oe_runmake -C narrowc ${_install_cfgs} ${_install_opts} \
++                install.progs
++
++        # The install.data should run after install.libs, otherwise
++        # there would be a race issue in a very critical conditon, since
++        # tic will be run by install.data, and tic needs libtinfo.so
++        # which would be regenerated by install.libs.
++        oe_runmake -C narrowc ${_install_cfgs} \
++                install.data
++
+ 
+         ! ${ENABLE_WIDEC} || \
+-            oe_runmake -C widec ${_install_opts}
++            oe_runmake -C widec ${_install_cfgs} ${_install_opts}
+ 
+         cd narrowc
+ 
 -- 
 1.7.7.6
 
