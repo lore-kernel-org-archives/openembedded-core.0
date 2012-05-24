@@ -1,25 +1,32 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail-wi0-f177.google.com ([209.85.212.177])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mihaix.lindner@linux.intel.com>) id 1SXYVA-0004yb-JK
+	(envelope-from <martin.jansa@gmail.com>) id 1SXYsx-0005gE-VY
 	for openembedded-core@lists.openembedded.org;
-	Thu, 24 May 2012 15:54:52 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 24 May 2012 06:43:35 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="147924250"
-Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
-	by orsmga002.jf.intel.com with ESMTP; 24 May 2012 06:43:35 -0700
-Received: from [10.237.105.40] (unknown [10.237.105.40])
-	by linux.intel.com (Postfix) with ESMTP id 0F7A22C8001
+	Thu, 24 May 2012 16:19:28 +0200
+Received: by wibhm14 with SMTP id hm14so5397651wib.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 May 2012 06:43:04 -0700 (PDT)
-MIME-Version: 1.0
-Date: Sun, 20 May 2012 13:17:32 -0000
-From: Mihai Lindner <mihaix.lindner@linux.intel.com>
-X-Patchwork-Id: 28005
-Message-Id: <6b907017a92c4178980b18fbe2fef47cbd2b1a34.1337519599.git.mihaix.lindner@linux.intel.com>
+	Thu, 24 May 2012 07:09:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=wzQcF7H4ehwwYKPCSSG6arIq3rZjaiRibSgcSpP+2ck=;
+	b=zKz2sHMdWsdPCGX5SbsHCHw5cKwCmLbKqMnMjfm3hvN4TPkIJ8+Fsi/LbaWAL43y6m
+	Y46r1Dx6+KT0sJIQ9PmsqjRzQTzPd8O3Po5zgTq/jjMlKO23BYhX3zQZ7z2FzbOjr4zy
+	+FgcwHae1Eo2r7nEdF8/4mGi950AZzctUaey59b2zbrnTHlzQ7d+gOrJxzgQWS12F+I3
+	tmZZ5YDfaM4xOGus62GNjA721marQcPuBRZMTtpDSQ0bpBQHjTidRjLV0j2q5hemFG31
+	/cNa4hQK2HZoedxF9B/TSwMcmXNO/a21q7+AFkJNHg9Y2olpTBl05So1IVfc2/VievrO
+	PYfA==
+Received: by 10.180.86.194 with SMTP id r2mr55090389wiz.15.1337868556758;
+	Thu, 24 May 2012 07:09:16 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id m1sm47656723wic.6.2012.05.24.07.09.14
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 24 May 2012 07:09:15 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [1/1] sudo: fixed wrong `chmod` path
+Date: Thu, 24 May 2012 16:09:11 +0200
+Message-Id: <1337868551-6674-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.7.8.6
+Subject: [PATCH] wpa-supplicant: add wpa_supplicant.conf to CONFFILES and don't install it twice
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,42 +41,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 May 2012 13:54:52 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 24 May 2012 14:19:28 -0000
 
-Placed $D between braces ${D} to be correctly expanded to the
-workdir path, instead of a path relative to host rootfs.
-Currently, bitbake sudo fails on host systems where sudo is not
-installed.
+* first we install ${WORKDIR}/wpa_supplicant.conf-sane
+  install -m 600 ${WORKDIR}/wpa_supplicant.conf-sane ${D}${sysconfdir}/wpa_supplicant.conf
+  and a bit later in do_install we were overwritting it with ${WORKDIR}/wpa_supplicant.conf
+  install -m 644 ${WORKDIR}/wpa_supplicant.conf ${D}${sysconfdir}
+* notice that this patch also changes .conf permissions from 644 back to 600
 
-Signed-off-by: Mihai Lindner <mihaix.lindner@linux.intel.com>
-
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
-meta/recipes-extended/sudo/sudo_1.8.4p4.bb |    6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ .../wpa-supplicant/wpa-supplicant-0.7.inc          |    2 +-
+ .../wpa-supplicant/wpa-supplicant_0.7.3.bb         |    2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-extended/sudo/sudo_1.8.4p4.bb b/meta/recipes-extended/sudo/sudo_1.8.4p4.bb
-index 2315322..20c4a14 100644
---- a/meta/recipes-extended/sudo/sudo_1.8.4p4.bb
-+++ b/meta/recipes-extended/sudo/sudo_1.8.4p4.bb
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.inc b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.inc
+index b489893..efd1a66 100644
+--- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.inc
++++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.inc
+@@ -22,6 +22,7 @@ PACKAGES_prepend = "wpa-supplicant-passphrase wpa-supplicant-cli "
+ FILES_wpa-supplicant-passphrase = "${bindir}/wpa_passphrase"
+ FILES_wpa-supplicant-cli = "${sbindir}/wpa_cli"
+ FILES_${PN} += "${datadir}/dbus-1/system-services/*"
++CONFFILES_${PN} += "${sysconfdir}/wpa_supplicant.conf"
+ 
+ do_configure () {
+ 	install -m 0755 ${WORKDIR}/defconfig-gnutls .config
+@@ -50,7 +51,6 @@ do_install () {
+ 	install -d ${D}${sysconfdir}/network/if-pre-up.d/
+ 	install -d ${D}${sysconfdir}/network/if-post-down.d/
+ 	install -d ${D}${sysconfdir}/network/if-down.d/
+-	install -m 644 ${WORKDIR}/wpa_supplicant.conf ${D}${sysconfdir}
+ 	install -m 755 ${WORKDIR}/wpa-supplicant.sh ${D}${sysconfdir}/network/if-pre-up.d/wpa-supplicant
+ 	cd ${D}${sysconfdir}/network/ && \
+ 	ln -sf ../if-pre-up.d/wpa-supplicant if-post-down.d/wpa-supplicant
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.7.3.bb b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.7.3.bb
+index 1e0086a..7bbb8c0 100644
+--- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.7.3.bb
++++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.7.3.bb
 @@ -1,6 +1,6 @@
- require sudo.inc
+ require wpa-supplicant-0.7.inc
  
--PR = "r0"
-+PR = "r1"
+-PR = "r10"
++PR = "r11"
  
- SRC_URI = "http://ftp.sudo.ws/sudo/dist/sudo-${PV}.tar.gz \
-            file://libtool.patch \
-@@ -24,6 +24,6 @@ do_install_append () {
- 		fi
- 	done
- 
--	chmod 4111 $D/usr/bin/sudo
--	chmod 0440 $D/etc/sudoers
-+	chmod 4111 ${D}/usr/bin/sudo
-+	chmod 0440 ${D}/etc/sudoers
- }
+ SRC_URI[md5sum] = "f516f191384a9a546e3f5145c08addda"
+ SRC_URI[sha256sum] = "d0cd50caa85346ccc376dcda5ed3c258eef19a93b3cade39d25760118ad59443"
+-- 
+1.7.8.6
 
 
 
