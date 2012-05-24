@@ -1,25 +1,33 @@
-Received: from mga14.intel.com ([143.182.124.37])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <radu.moisan@intel.com>) id 1SXS71-0006He-5o
-	for openembedded-core@lists.openembedded.org;
-	Thu, 24 May 2012 09:05:31 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 23 May 2012 23:55:19 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="147146278"
-Received: from dell-desktop (HELO [10.237.104.69]) ([10.237.104.69])
-	by azsmga001.ch.intel.com with ESMTP; 23 May 2012 23:55:18 -0700
-Message-ID: <4FBDDCC0.10904@intel.com>
-Date: Thu, 24 May 2012 10:01:20 +0300
-From: Radu Moisan <radu.moisan@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
-MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <1337761207-14688-1-git-send-email-radu.moisan@intel.com>
-	<4FBCF03F.6030305@linux.intel.com> <4FBDD619.2040509@intel.com>
-In-Reply-To: <4FBDD619.2040509@intel.com>
-Subject: Re: [PATCH] curl: Update to version 7.25.0
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1SXSpT-0007ps-3R for openembedded-core@lists.openembedded.org;
+	Thu, 24 May 2012 09:51:27 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q4O7fDhE021256
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 24 May 2012 08:41:13 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 20594-03 for <openembedded-core@lists.openembedded.org>;
+	Thu, 24 May 2012 08:41:09 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q4O7f3Ha021249
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 24 May 2012 08:41:04 +0100
+Message-ID: <1337845261.8248.100.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Thu, 24 May 2012 08:41:01 +0100
+In-Reply-To: <cover.1337834073.git.sgw@linux.intel.com>
+References: <cover.1337834073.git.sgw@linux.intel.com>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [Consolidated Pull 00/28] Fixes from various corners with [1.2.1] fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,165 +42,107 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 May 2012 07:05:31 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Thu, 24 May 2012 07:51:28 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-considering this context, can someone provide more information about 
-AC_SUBST(GNUTLS_REQUIRED). I'm digging into this issue to check whether 
-we still need this or not, but additional info would be appreciated.
+On Wed, 2012-05-23 at 21:42 -0700, Saul Wold wrote:
+> Richard,
+> 
+> I have been building and running images from the following changes
+> (not the mips64 or sh4 yet).
+> 
+> A number of the changes below (from Robert, Nitin and Xiaofeng) are candiates
+> for 1.2.1.
+> 
+> The package_deb.bbclass change needs more review, I believe that Joshua also
+> proposed a fix, but caused other breakage, this seems to resolve the problem, 
+> but I am not sure about it.
+> 
+> Paul's change to add checksum does add some warnings, which I assume he or
+> someone will fix shortly, they seem to be from older recipes.
+> 
+> Thanks
+> 	Sau!
+> 
+> The following changes since commit e6333825c3482a559a0c0499e17f8f48d3042ddf:
+> 
+>   tune-mips64.inc: Add new tune file for mips64 big-endian (2012-05-20 20:24:37 -0700)
+> 
+> are available in the git repository at:
+>   git://git.openembedded.org/openembedded-core-contrib sgw/fix
+>   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/fix
+> 
+> Andreas Oberritter (6):
+>   ppp: avoid host contamination
+>   libnss-mdns: fix postinst scripts
+>   wpa-supplicant: fix packaging error since last commit
+>   netbase: merge init script updates from upstream
+>   distutils.bbclass: don't delete .pyo files
+>   python: bump PR of packages after update of distutils.bbclass
+> 
+> Christopher Larson (3):
+>   tcmode-external-csl: preferred external-csl-toolchain's gdbserver
+>   Rename 'external-csl' to 'external-sourcery'
+>   external-sourcery-toolchain: ignore GNU_HASH issues with its packages
+> 
+> Enrico Scholz (1):
+>   libtool: fixed parallel build related race
+> 
+> Joshua Lock (7):
+>   Revert "sanity.bbclass: check user can read and write to SSTATE_DIR"
+>   sanity.bbclass: copy the data store and finalise before running
+>     checks
+>   sanity.bbclass: data.getVar(VAR, obj, exp) -> obj.getVar(VAR, exp)
+>   sanity.bbclass: add newline to check_create_long_filename failure
+>     message
+>   sanity.bbclass: add extra information when SSTATE_CACHE unusable
+>   sanity.bbclass: catch an extra exception in
+>     check_create_long_filename
+>   sanity.bbclass: check sanity at BuildStarted rather than ConfigParsed
+> 
+> Khem Raj (5):
+>   qemumips64.conf: Add machine configuration for mips64(eb)
+>   qemush4.conf: Add machine configuration for qemush4
 
-Radu
+I've already replied to these, they're holding for now until the kernel
+and qemu pieces are sorted out and we have an idea of what we're going
+to test in OE-Core.
 
-On 05/24/2012 09:32 AM, Radu Moisan wrote:
-> sorry I should have put a comment about that. that patch is already in 
-> upstream, that's why I removed it.
->
-> Radu
->
-> On 05/23/2012 05:12 PM, Saul Wold wrote:
->>
->> Radu,
->>
->> You should explain why you are removing a patch, I see from the Curl 
->> archives they picked up a similar patch.  I also note that this patch 
->> slips in the following:
->> -+AC_SUBST(GNUTLS_REQUIRED)
->>
->> Not sure if you missed that, it might still be needed.
->>
->> Sau!
->>
->> On 05/23/2012 01:20 AM, Radu Moisan wrote:
->>> Signed-off-by: Radu Moisan<radu.moisan@intel.com>
->>> ---
->>>   meta/recipes-support/curl/curl/noldlibpath.patch   |   76 
->>> --------------------
->>>   .../curl/{curl_7.24.0.bb =>  curl_7.25.0.bb}        |    5 +-
->>>   2 files changed, 2 insertions(+), 79 deletions(-)
->>>   delete mode 100644 meta/recipes-support/curl/curl/noldlibpath.patch
->>>   rename meta/recipes-support/curl/{curl_7.24.0.bb =>  
->>> curl_7.25.0.bb} (90%)
->>>
->>> diff --git a/meta/recipes-support/curl/curl/noldlibpath.patch 
->>> b/meta/recipes-support/curl/curl/noldlibpath.patch
->>> deleted file mode 100644
->>> index f4c72a1..0000000
->>> --- a/meta/recipes-support/curl/curl/noldlibpath.patch
->>> +++ /dev/null
->>> @@ -1,76 +0,0 @@
->>> -Upstream-Status: Inappropriate [embedded specific]
->>> -
->>> -Manipulating LD_LIBRARY_PATH can totally break builds when cross 
->>> compiling.
->>> -Since we never run compiled binaries for the target, we should 
->>> *never* need
->>> -to change LD_LIBRARY_PATH.
->>> -
->>> -RP 9/6/2010
->>> -
->>> -Index: curl-7.20.0/configure.ac
->>> -===================================================================
->>> ---- curl-7.20.0.orig/configure.ac    2010-06-09 11:06:30.000000000 
->>> +0100
->>> -+++ curl-7.20.0/configure.ac    2010-06-09 11:04:25.000000000 +0100
->>> -@@ -1461,9 +1461,10 @@
->>> -        dnl linker doesn't search through, we need to add it to 
->>> LD_LIBRARY_PATH
->>> -        dnl to prevent further configure tests to fail due to this
->>> -
->>> --       LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$LIB_OPENSSL"
->>> --       export LD_LIBRARY_PATH
->>> --       AC_MSG_NOTICE([Added $LIB_OPENSSL to LD_LIBRARY_PATH])
->>> -+       #LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$LIB_OPENSSL"
->>> -+       #export LD_LIBRARY_PATH
->>> -+       #AC_MSG_NOTICE([Added $LIB_OPENSSL to LD_LIBRARY_PATH])
->>> -+       :
->>> -     fi
->>> -   fi
->>> -
->>> -@@ -1684,9 +1686,10 @@
->>> -           dnl LD_LIBRARY_PATH to prevent further configure tests 
->>> to fail
->>> -           dnl due to this
->>> -
->>> --          LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$gtlslib"
->>> --          export LD_LIBRARY_PATH
->>> --          AC_MSG_NOTICE([Added $gtlslib to LD_LIBRARY_PATH])
->>> -+          #LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$gtlslib"
->>> -+          #export LD_LIBRARY_PATH
->>> -+          #AC_MSG_NOTICE([Added $gtlslib to LD_LIBRARY_PATH])
->>> -+          :
->>> -         fi
->>> -       fi
->>> -
->>> -@@ -1696,6 +1699,8 @@
->>> -
->>> - fi dnl OPENSSL != 1
->>> -
->>> -+AC_SUBST(GNUTLS_REQUIRED)
->>> -+
->>> - dnl ----------------------------------------------------
->>> - dnl NSS. Only check if GnuTLS and OpenSSL are not enabled
->>> - dnl ----------------------------------------------------
->>> -@@ -1781,9 +1786,10 @@
->>> -         dnl LD_LIBRARY_PATH to prevent further configure tests to 
->>> fail
->>> -         dnl due to this
->>> -
->>> --        LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$nssprefix/lib$libsuff"
->>> --        export LD_LIBRARY_PATH
->>> --        AC_MSG_NOTICE([Added $nssprefix/lib$libsuff to 
->>> LD_LIBRARY_PATH])
->>> -+        #LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$nssprefix/lib$libsuff"
->>> -+        #export LD_LIBRARY_PATH
->>> -+        #AC_MSG_NOTICE([Added $nssprefix/lib$libsuff to 
->>> LD_LIBRARY_PATH])
->>> -+        :
->>> -       fi
->>> -
->>> -     fi
->>> -@@ -1881,9 +1887,9 @@
->>> -        dnl libssh2_version is a post 1.0 addition
->>> -        AC_CHECK_FUNCS( libssh2_version )
->>> -
->>> --       LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$DIR_SSH2"
->>> --       export LD_LIBRARY_PATH
->>> --       AC_MSG_NOTICE([Added $DIR_SSH2 to LD_LIBRARY_PATH])
->>> -+       #LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$DIR_SSH2"
->>> -+       #export LD_LIBRARY_PATH
->>> -+       #AC_MSG_NOTICE([Added $DIR_SSH2 to LD_LIBRARY_PATH])
->>> -     fi
->>> -   else
->>> -     dnl no libssh2, revert back to clean variables
->>> diff --git a/meta/recipes-support/curl/curl_7.24.0.bb 
->>> b/meta/recipes-support/curl/curl_7.25.0.bb
->>> similarity index 90%
->>> rename from meta/recipes-support/curl/curl_7.24.0.bb
->>> rename to meta/recipes-support/curl/curl_7.25.0.bb
->>> index 12e95c9..033f1bc 100644
->>> --- a/meta/recipes-support/curl/curl_7.24.0.bb
->>> +++ b/meta/recipes-support/curl/curl_7.25.0.bb
->>> @@ -11,11 +11,10 @@ DEPENDS_virtclass-nativesdk = "zlib-nativesdk"
->>>   PR = "r0"
->>>
->>>   SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
->>> -           file://noldlibpath.patch \
->>>              file://pkgconfig_fix.patch"
->>>
->>> -SRC_URI[md5sum] = "f912221d75eb8d8fe08900eaf011b023"
->>> -SRC_URI[sha256sum] = 
->>> "ebdb111088ff8b0e05b1d1b075e9f1608285e8105cc51e21caacf33d01812c16"
->>> +SRC_URI[md5sum] = "f0303d47d9d3e6e4f08c2863c6504823"
->>> +SRC_URI[sha256sum] = 
->>> "cfb29139dfeb2449bf8a89963c3aed7d87f034013f05564cc0330b435c90b491"
->>>
->>>   inherit autotools pkgconfig binconfig
->>>
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>   gcc-4.7: Add knowledge about arm hf dynamic loader
+>   eglibc: Add ARM hf dynamic linker support
+>   gcc: Grok for callconvention-hard to enable hard float
+> 
+> Marko Lindqvist (1):
+>   package_deb.bbclass: don't handle advanced dependency marker as
+>     version number
+
+
+This change still makes me nervous, I think we need to find something
+better. I need to reply with an idea I have on this one...
+
+> Nitin A Kamble (1):
+>   eglibc: package mtrace separately
+> 
+> Paul Eggleton (1):
+>   classes/base: add checksum file list at parse time
+> 
+> Robert Yang (2):
+>   package_rpm.bbclass: Fix incremental rpm image generation
+>   rpm 5.4.0: respect to the arch when choose the alternatives
+> 
+> Xiaofeng Yan (1):
+>   ncurses: Avoid occasional builling failure when having parallel
+>     processable task
+
+Other than the ones I've commented on above, I've merged these. I did so
+reluctantly in some cases as I think we're just working around issues
+rather than fixing them properly but I'm out of bandwidth to dive into
+them and help improve the fixes :(
+
+Cheers,
+
+Richard
+
 
 
