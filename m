@@ -1,26 +1,20 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SXP8h-0004S8-Ib
+	(envelope-from <sgw@linux.intel.com>) id 1SXPN5-0000bW-D9
 	for openembedded-core@lists.openembedded.org;
-	Thu, 24 May 2012 05:55:06 +0200
+	Thu, 24 May 2012 06:09:55 +0200
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 23 May 2012 20:44:51 -0700
+	by orsmga101.jf.intel.com with ESMTP; 23 May 2012 20:59:44 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="147722776"
-Received: from unknown (HELO [10.255.12.24]) ([10.255.12.24])
-	by orsmga002.jf.intel.com with ESMTP; 23 May 2012 20:44:51 -0700
-Message-ID: <4FBDAEB3.2040608@linux.intel.com>
-Date: Wed, 23 May 2012 20:44:51 -0700
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="147726308"
+Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.24])
+	by orsmga002.jf.intel.com with ESMTP; 23 May 2012 20:59:43 -0700
 From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
-MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1337805812.git.sgw@linux.intel.com>
-	<5ddf365f3f772918a18a67dac1a5b8cc3e2758a6.1337805812.git.sgw@linux.intel.com>
-In-Reply-To: <5ddf365f3f772918a18a67dac1a5b8cc3e2758a6.1337805812.git.sgw@linux.intel.com>
-Subject: Re: [Consolidated Pull 4/5] qemu: Add an option to remove host sdl/gl checking
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 23 May 2012 20:59:40 -0700
+Message-Id: <cover.1337831668.git.sgw@linux.intel.com>
+X-Mailer: git-send-email 1.7.7.6
+Subject: [RFC v2 0/2] Package Reodering
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,263 +29,94 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 May 2012 03:55:08 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 24 May 2012 04:09:55 -0000
 
-On 05/23/2012 03:46 PM, Saul Wold wrote:
-> From: Zhai Edwin<edwin.zhai@intel.com>
->
-> Add an PACKAGECONFIG in qemu to disable GL acceleration:
-> * By default configure try best to enable GL acceleration and fail when missing
->    host dependency(libSDL and libGL).
-> * End user can also choose to turn off GL capability, thus remove the host
->    dependence in building.
->
-> [YOCTO #2407] got fixed.
->
-I think I found a problem with this when building for the target, so I 
-pulled it from the branch.
+This is still very much a work in progress, it may likely
+require a PR bump of the all the recipes.
+
+I will follow this email with a zip file of a buildhistory 
+diff.
+
+There are 3 packages that I noted moved some files in a way
+I did not expect, and I am not sure about:
+
+libtool: moved *.m4 files to libtool-dev, I think libtool needs those and 
+it's incorrect.
+
+libgpg and libgcrypt moved some /usr/bin/ binaries into the ${PN} package
+for ${PN}-dev, which I think is correct.
+The following changes since commit e6333825c3482a559a0c0499e17f8f48d3042ddf:
+
+Please review, I thought I might need a new class, the package_core_solibs, 
+but I ended up only using it twice.
+
+Thought comments, clearly a work in progress, but getting closer.
 
 Sau!
-> Signed-off-by: Zhai Edwin<edwin.zhai@intel.com>
-> ---
->   .../qemu/qemu-0.15.1/opengl-disable-option.patch   |  172 ++++++++++++++++++++
->   meta/recipes-devtools/qemu/qemu.inc                |   23 +---
->   meta/recipes-devtools/qemu/qemu_0.15.1.bb          |    1 +
->   3 files changed, 176 insertions(+), 20 deletions(-)
->   create mode 100644 meta/recipes-devtools/qemu/qemu-0.15.1/opengl-disable-option.patch
->
-> diff --git a/meta/recipes-devtools/qemu/qemu-0.15.1/opengl-disable-option.patch b/meta/recipes-devtools/qemu/qemu-0.15.1/opengl-disable-option.patch
-> new file mode 100644
-> index 0000000..d0c5f23
-> --- /dev/null
-> +++ b/meta/recipes-devtools/qemu/qemu-0.15.1/opengl-disable-option.patch
-> @@ -0,0 +1,172 @@
-> +Add an option gl-accel to disable GL acceleration:
-> +* When enabled, configure try best to enable GL acceleration and fail when
-> +  missing host dependency(libSDL and libGL), which is the default.
-> +* When disabled, end user choose to turn off GL capability, thus remove the
-> +  host dependence in building.
-> +
-> +Upstream-Status: Inappropriate [other] - depends on GL patch
-> +
-> +Signed-off-by: Zhai Edwin<edwin.zhai@intel.com>
-> +
-> +Index: qemu-0.15.1/Makefile.target
-> +===================================================================
-> +--- qemu-0.15.1.orig/Makefile.target	2012-05-14 21:23:36.000000000 +0800
-> ++++ qemu-0.15.1/Makefile.target	2012-05-14 21:26:19.000000000 +0800
-> +@@ -79,15 +79,20 @@
-> + libobj-y += cpuid.o
-> + endif
-> + libobj-$(CONFIG_NEED_MMU) += mmu.o
-> ++
-> + ifndef CONFIG_LINUX_USER
-> ++ifdef CONFIG_GL_ACCEL
-> + libobj-$(TARGET_I386) += helper_opengl.o opengl_exec.o
-> + libobj-$(TARGET_X86_64) += helper_opengl.o opengl_exec.o
-> + else
-> +-ifdef CONFIG_SDL
-> + libobj-$(TARGET_I386) += dummygl.o
-> + libobj-$(TARGET_X86_64) += dummygl.o
-> +-endif
-> ++endif #CONFIG_GL_ACCEL
-> ++else
-> ++libobj-$(TARGET_I386) += dummygl.o
-> ++libobj-$(TARGET_X86_64) += dummygl.o
-> + endif #CONFIG_LINUX_USER
-> ++
-> + libobj-$(TARGET_ARM) += dummygl.o
-> + libobj-$(TARGET_MIPS) += dummygl.o
-> + libobj-$(TARGET_MIPS64) += dummygl.o
-> +@@ -262,8 +267,10 @@
-> + obj-i386-$(CONFIG_SPICE) += qxl.o qxl-logger.o qxl-render.o
-> +
-> + ifeq ($(TARGET_BASE_ARCH), i386)
-> ++ifdef CONFIG_GL_ACCEL
-> + QEMU_CFLAGS += -DTARGET_OPENGL_OK
-> + endif
-> ++endif
-> +
-> + # shared objects
-> + obj-ppc-y = ppc.o
-> +@@ -409,8 +416,6 @@
-> +
-> + monitor.o: hmp-commands.h qmp-commands.h
-> +
-> +-LIBS += -lGL -lGLU
-> +-
-> + $(obj-y) $(obj-$(TARGET_BASE_ARCH)-y): $(GENERATED_HEADERS)
-> +
-> + obj-y += $(addprefix ../, $(common-obj-y))
-> +Index: qemu-0.15.1/configure
-> +===================================================================
-> +--- qemu-0.15.1.orig/configure	2012-05-14 21:23:34.000000000 +0800
-> ++++ qemu-0.15.1/configure	2012-05-14 21:23:36.000000000 +0800
-> +@@ -179,6 +179,7 @@
-> + smartcard_nss=""
-> + usb_redir=""
-> + opengl=""
-> ++gl_accel="yes"
-> + guest_agent="yes"
-> +
-> + # parse CC options first
-> +@@ -739,6 +740,10 @@
-> +   ;;
-> +   --enable-opengl) opengl="yes"
-> +   ;;
-> ++  --disable-gl-accel) gl_accel="no"
-> ++  ;;
-> ++  --enable-gl-accel) gl_accel="yes"
-> ++  ;;
-> +   --*dir)
-> +   ;;
-> +   --disable-rbd) rbd="no"
-> +@@ -2016,6 +2021,39 @@
-> +   fi
-> + fi
-> +
-> ++#####################################################
-> ++# GL acceleration probe depending on gl, glu and sdl
-> ++if test "$gl_accel" != "no" ; then
-> ++  if test "$sdl" = "no" ; then
-> ++    gl_accel=no
-> ++    echo "libSDL and header no found to build opengl acceleration for qemu-native.
-> ++    Ubuntu package names are: libsdl1.2-dev.
-> ++    Fedora package names are: SDL-devel."
-> ++    exit 1;
-> ++  fi
-> ++
-> ++  gl_accel_libs="-lGL -lGLU"
-> ++  cat>  $TMPC<<  EOF
-> ++#include<X11/Xlib.h>
-> ++#include<GL/gl.h>
-> ++#include<GL/glx.h>
-> ++#include<GL/glu.h>
-> ++int main(void) { GL_VERSION; return 0; }
-> ++EOF
-> ++  if compile_prog "" "-lGL -lGLU" ; then
-> ++    gl_accel=yes
-> ++    libs_softmmu="$gl_accel_libs $libs_softmmu"
-> ++  else
-> ++    feature_not_found "gl_accel"
-> ++    gl_accel=no
-> ++    gl_accel_libs=
-> ++    echo "libGL.so and libGLU.so not found to build opengl acceleration for qemu-native.
-> ++    Ubuntu package names are: libgl1-mesa-dev, libglu1-mesa-dev and libsdl1.2-dev.
-> ++    Fedora package names are: mesa-libGL mesa-libGLU SDL-devel."
-> ++    exit 1;
-> ++  fi
-> ++fi
-> ++
-> + #
-> + # Check for xxxat() functions when we are building linux-user
-> + # emulator.  This is done because older glibc versions don't
-> +@@ -2717,6 +2755,7 @@
-> + echo "nss used          $smartcard_nss"
-> + echo "usb net redir     $usb_redir"
-> + echo "OpenGL support    $opengl"
-> ++echo "GL acceleration support    $gl_accel"
-> + echo "build guest agent $guest_agent"
-> +
-> + if test $sdl_too_old = "yes"; then
-> +@@ -3020,6 +3059,10 @@
-> +   echo "CONFIG_OPENGL=y">>  $config_host_mak
-> + fi
-> +
-> ++if test "$gl_accel" = "yes" ; then
-> ++  echo "CONFIG_GL_ACCEL=y">>  $config_host_mak
-> ++fi
-> ++
-> + # XXX: suppress that
-> + if [ "$bsd" = "yes" ] ; then
-> +   echo "CONFIG_BSD=y">>  $config_host_mak
-> +Index: qemu-0.15.1/qemu-char.c
-> +===================================================================
-> +--- qemu-0.15.1.orig/qemu-char.c	2012-05-14 21:23:35.000000000 +0800
-> ++++ qemu-0.15.1/qemu-char.c	2012-05-14 21:23:36.000000000 +0800
-> +@@ -2387,7 +2387,6 @@
-> +     return d->outbuf_size;
-> + }
-> +
-> +-#define TARGET_OPENGL_OK
-> + #if defined(TARGET_OPENGL_OK)
-> + static uint8_t buffer[32];
-> + static int buffer_len;
-> +@@ -2447,7 +2446,7 @@
-> +     return chr;
-> + }
-> + #else
-> +-#define qemu_chr_open_opengl() 0
-> ++#define qemu_chr_open_opengl NULL
-> + #endif
-> +
-> + QemuOpts *qemu_chr_parse_compat(const char *label, const char *filename)
-> +Index: qemu-0.15.1/vl.c
-> +===================================================================
-> +--- qemu-0.15.1.orig/vl.c	2012-05-14 21:23:35.000000000 +0800
-> ++++ qemu-0.15.1/vl.c	2012-05-14 21:23:36.000000000 +0800
-> +@@ -2067,7 +2067,6 @@
-> +     return popt;
-> + }
-> +
-> +-#define TARGET_OPENGL_OK
-> + int main(int argc, char **argv, char **envp)
-> + {
-> +     const char *gdbstub_dev = NULL;
-> diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-> index 93325c3..75ff962 100644
-> --- a/meta/recipes-devtools/qemu/qemu.inc
-> +++ b/meta/recipes-devtools/qemu/qemu.inc
-> @@ -19,26 +19,6 @@ EXTRA_OECONF += "--target-list=${@get_qemu_target_list(d)} --disable-werror --di
->
->   inherit autotools
->
-> -# For our gl powered QEMU you need libGL and SDL headers
-> -do_configure_prepend_virtclass-native() {
-> -    libgl='no'
-> -    libsdl='no'
-> -
-> -    test -e /usr/lib/libGL.so -a -e /usr/lib/libGLU.so&&  libgl='yes'
-> -    test -e /usr/lib64/libGL.so -a -e /usr/lib64/libGLU.so&&  libgl='yes'
-> -    test -e /usr/lib/*-linux-gnu/libGL.so -a -e /usr/lib/*-linux-gnu/libGLU.so&&  libgl='yes'
-> -
-> -    test -e /usr/lib/pkgconfig/sdl.pc -o -e /usr/lib64/pkgconfig/sdl.pc -o -e /usr/include/SDL/SDL.h&&  libsdl='yes'
-> -
-> -
-> -    if [ "$libsdl" != 'yes' -o "$libgl" != 'yes' ]; then
-> -       echo "You need libGL.so and libGLU.so to exist in your library path and the development headers for SDL installed to build qemu-native.
-> -       Ubuntu package names are: libgl1-mesa-dev, libglu1-mesa-dev and libsdl1.2-dev.
-> -       Fedora package names are: mesa-libGL mesa-libGLU SDL-devel."
-> -       exit 1;
-> -    fi
-> -}
-> -
->   do_configure() {
->       # Handle distros such as CentOS 5 32-bit that do not have kvm support
->       KVMOPTS="--disable-kvm"
-> @@ -57,6 +37,9 @@ do_install () {
->   	install -m 0755 ${WORKDIR}/powerpc_rom.bin ${D}${datadir}/qemu
->   }
->
-> +PACKAGECONFIG ??= "gl"
-> +PACKAGECONFIG[gl] = "--enable-gl-accel,--disable-gl-accel,,"
-> +
->   DEPENDS_virtclass-native = "zlib-native alsa-lib-native glib-2.0-native"
->   DEPENDS_virtclass-nativesdk = "zlib-nativesdk libsdl-nativesdk glib-2.0-nativesdk \
->                                  ${@base_contains('DISTRO_FEATURES', 'x11', 'qemugl-nativesdk', '', d)}"
-> diff --git a/meta/recipes-devtools/qemu/qemu_0.15.1.bb b/meta/recipes-devtools/qemu/qemu_0.15.1.bb
-> index e90f339..bdffcf4 100644
-> --- a/meta/recipes-devtools/qemu/qemu_0.15.1.bb
-> +++ b/meta/recipes-devtools/qemu/qemu_0.15.1.bb
-> @@ -31,6 +31,7 @@ QEMUGLPATCHES = "\
->       file://qemugl-fix.patch \
->       file://opengl-sdl-fix.patch \
->       file://opengl-args-copy-fix.patch \
-> +    file://opengl-disable-option.patch \
->       "
->
->   SRC_URI_append_virtclass-native = "\
+
+
+  tune-mips64.inc: Add new tune file for mips64 big-endian (2012-05-20 20:24:37 -0700)
+
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib sgw/pkg-reorder
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/pkg-reorder
+
+Saul Wold (2):
+  pm-utils: Clean up file ordering
+  Reorder  and -dev
+
+ meta/classes/binconfig.bbclass                     |    2 ++
+ meta/classes/lib_package.bbclass                   |    6 ++----
+ meta/classes/package_core_solibs.bbclass           |   11 +++++++++++
+ meta/conf/bitbake.conf                             |    6 ++++--
+ meta/recipes-bsp/pm-utils/pm-utils_1.4.1.bb        |   11 +++++++----
+ meta/recipes-connectivity/libpcap/libpcap.inc      |    2 +-
+ meta/recipes-core/eglibc/eglibc-package.inc        |    2 +-
+ meta/recipes-core/eglibc/eglibc_2.15.bb            |    2 +-
+ meta/recipes-core/gettext/gettext_0.16.1.bb        |    3 ++-
+ meta/recipes-core/gettext/gettext_0.18.1.1.bb      |    4 +++-
+ meta/recipes-core/libxml/libxml2.inc               |    2 +-
+ meta/recipes-core/ncurses/ncurses.inc              |    2 +-
+ meta/recipes-devtools/elfutils/elfutils_0.148.bb   |    7 ++-----
+ meta/recipes-extended/cups/cups14.inc              |    1 +
+ meta/recipes-extended/cups/cups_1.4.6.bb           |    2 +-
+ meta/recipes-extended/groff/groff_1.20.1.bb        |    4 +++-
+ meta/recipes-extended/procps/procps.inc            |    4 +---
+ meta/recipes-extended/slang/slang_2.2.4.bb         |    4 ++--
+ meta/recipes-gnome/gnome/gnome-keyring_2.32.1.bb   |   14 ++++++++++----
+ meta/recipes-gnome/gthumb/gthumb_2.12.4.bb         |   12 ++++++++----
+ meta/recipes-graphics/directfb/directfb_1.4.15.bb  |    2 +-
+ meta/recipes-graphics/freetype/freetype_2.4.8.bb   |    5 +----
+ meta/recipes-graphics/libsdl/libsdl_1.2.15.bb      |    2 +-
+ meta/recipes-multimedia/alsa/alsa-lib_1.0.25.bb    |    6 ++++--
+ meta/recipes-multimedia/libpng/libpng_1.2.49.bb    |    4 +---
+ meta/recipes-sato/gtk-engines/gtk-sato-engine.inc  |    2 +-
+ .../gtk-engines/gtk-sato-engine_git.bb             |    2 +-
+ meta/recipes-support/apr/apr-util_1.4.1.bb         |    2 +-
+ meta/recipes-support/apr/apr_1.4.6.bb              |    2 +-
+ meta/recipes-support/curl/curl_7.24.0.bb           |    2 +-
+ meta/recipes-support/db/db_5.1.19.bb               |    1 +
+ meta/recipes-support/gnutls/gnutls.inc             |    5 ++---
+ meta/recipes-support/gnutls/libtasn1_2.12.bb       |    2 +-
+ meta/recipes-support/gpgme/gpgme_1.3.1.bb          |    5 ++---
+ meta/recipes-support/icu/icu-3.6.inc               |    2 ++
+ meta/recipes-support/icu/icu_3.6.bb                |    2 +-
+ meta/recipes-support/libassuan/libassuan_2.0.3.bb  |    1 +
+ meta/recipes-support/libgcrypt/libgcrypt.inc       |    4 ----
+ .../libgpg-error/libgpg-error_1.10.bb              |    6 +-----
+ meta/recipes-support/libksba/libksba_1.2.0.bb      |    1 +
+ meta/recipes-support/libpcre/libpcre_8.21.bb       |    5 +----
+ meta/recipes-support/libproxy/libproxy_0.4.7.bb    |    3 ++-
+ meta/recipes-support/libusb/libusb-compat_0.1.3.bb |    4 +---
+ meta/recipes-support/libxslt/libxslt_1.1.26.bb     |    2 +-
+ meta/recipes-support/neon/neon_0.29.6.bb           |    2 +-
+ meta/recipes-support/pth/pth_2.0.7.bb              |    5 +----
+ meta/recipes-support/taglib/taglib_1.6.3.bb        |    3 +--
+ 47 files changed, 97 insertions(+), 86 deletions(-)
+ create mode 100644 meta/classes/package_core_solibs.bbclass
+
+-- 
+1.7.7.6
+
 
 
