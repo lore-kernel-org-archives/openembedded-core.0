@@ -1,24 +1,24 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SXQ2h-00056c-Fw
+	(envelope-from <sgw@linux.intel.com>) id 1SXQ2i-00056a-Jl
 	for openembedded-core@lists.openembedded.org;
-	Thu, 24 May 2012 06:52:55 +0200
+	Thu, 24 May 2012 06:52:56 +0200
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 23 May 2012 21:42:42 -0700
+	by orsmga101.jf.intel.com with ESMTP; 23 May 2012 21:42:43 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="144034677"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="144034682"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.24])
-	by orsmga001.jf.intel.com with ESMTP; 23 May 2012 21:42:41 -0700
+	by orsmga001.jf.intel.com with ESMTP; 23 May 2012 21:42:43 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 23 May 2012 21:42:16 -0700
-Message-Id: <88d3eef1399e4c14c607dd6cc4ca6c0fccb7c4df.1337834073.git.sgw@linux.intel.com>
+Date: Wed, 23 May 2012 21:42:20 -0700
+Message-Id: <6d06737a62b4a9b1acc04916f62138561c3cd32f.1337834073.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <cover.1337834073.git.sgw@linux.intel.com>
 References: <cover.1337834073.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1337834073.git.sgw@linux.intel.com>
 References: <cover.1337834073.git.sgw@linux.intel.com>
-Subject: [Consolidated Pull 13/28] eglibc: package mtrace separately
+Subject: [Consolidated Pull 17/28] libnss-mdns: fix postinst scripts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,96 +35,52 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 24 May 2012 04:52:56 -0000
 
-From: Nitin A Kamble <nitin.a.kamble@intel.com>
+From: Andreas Oberritter <obi@opendreambox.org>
 
-add libc-mtrace as dependency for task-core-tools-debug
+* On upgrade, postinst ocassionally returned 1, so use a
+  conditional instead of &&.
+* Use sed patterns in order to make it work more generally.
 
-now eglibc-mtrace gets included in an sdk image and not in a non-sdk image.
-
-This does not affect builds with uclibc.
-
-This fixes bug: [YOCTO# 2374]
-
-Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
+Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
 ---
- meta/recipes-core/eglibc/eglibc-package.inc      |    7 ++++++-
- meta/recipes-core/eglibc/eglibc_2.13.bb          |    2 +-
- meta/recipes-core/tasks/task-core-tools-debug.bb |    4 ++++
- 3 files changed, 11 insertions(+), 2 deletions(-)
+ .../libnss-mdns/libnss-mdns_0.10.bb                |   15 +++++++--------
+ 1 files changed, 7 insertions(+), 8 deletions(-)
 
-diff --git a/meta/recipes-core/eglibc/eglibc-package.inc b/meta/recipes-core/eglibc/eglibc-package.inc
-index 7d97567..ce37155 100644
---- a/meta/recipes-core/eglibc/eglibc-package.inc
-+++ b/meta/recipes-core/eglibc/eglibc-package.inc
-@@ -20,11 +20,12 @@ USE_LDCONFIG ?= "1"
- PKGSUFFIX = ""
- PKGSUFFIX_virtclass-nativesdk = "-nativesdk"
+diff --git a/meta/recipes-connectivity/libnss-mdns/libnss-mdns_0.10.bb b/meta/recipes-connectivity/libnss-mdns/libnss-mdns_0.10.bb
+index 8770714..a1f2f9a 100644
+--- a/meta/recipes-connectivity/libnss-mdns/libnss-mdns_0.10.bb
++++ b/meta/recipes-connectivity/libnss-mdns/libnss-mdns_0.10.bb
+@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=2d5025d4aa3495befef8f17206a5b0a1"
  
--PACKAGES = "${PN}-dbg ${PN} catchsegv${PKGSUFFIX} sln${PKGSUFFIX} nscd${PKGSUFFIX} ldd${PKGSUFFIX} ${PN}-utils eglibc-extra-nss${PKGSUFFIX} eglibc-thread-db${PKGSUFFIX} ${PN}-pic ${PN}-dev ${PN}-staticdev ${PN}-doc libcidn${PKGSUFFIX} libmemusage${PKGSUFFIX} libsegfault${PKGSUFFIX} ${PN}-pcprofile libsotruss${PKGSUFFIX}"
-+PACKAGES = "${PN}-dbg ${PN} catchsegv${PKGSUFFIX} sln${PKGSUFFIX} nscd${PKGSUFFIX} ldd${PKGSUFFIX} ${PN}-mtrace ${PN}-utils eglibc-extra-nss${PKGSUFFIX} eglibc-thread-db${PKGSUFFIX} ${PN}-pic ${PN}-dev ${PN}-staticdev ${PN}-doc libcidn${PKGSUFFIX} libmemusage${PKGSUFFIX} libsegfault${PKGSUFFIX} ${PN}-pcprofile libsotruss${PKGSUFFIX}"
+ DEPENDS = "avahi"
+ RDEPENDS_${PN} = "avahi-daemon"
+-PR = "r4"
++PR = "r5"
  
- # The ld.so in this eglibc supports the GNU_HASH
- RPROVIDES_${PN} = "glibc${PKGSUFFIX} rtld(GNU_HASH)"
- RPROVIDES_${PN}-utils = "glibc${PKGSUFFIX}-utils"
-+RPROVIDES_${PN}-mtrace = "glibc${PKGSUFFIX}-mtrace libc-mtrace"
- RPROVIDES_${PN}-pic = "glibc${PKGSUFFIX}-pic"
- RPROVIDES_${PN}-dev = "glibc${PKGSUFFIX}-dev"
- RPROVIDES_${PN}-staticdev = "glibc${PKGSUFFIX}-staticdev"
-@@ -48,11 +49,13 @@ FILES_${PN}-dev_append += "${bindir}/rpcgen ${libdir}/*_nonshared.a \
- 	${base_libdir}/*_nonshared.a ${base_libdir}/*.o ${datadir}/aclocal"
- FILES_${PN}-staticdev_append += "${libdir}/*.a ${base_libdir}/*.a"
- FILES_nscd${PKGSUFFIX} = "${sbindir}/nscd*"
-+FILES_${PN}-mtrace = "${bindir}/mtrace"
- FILES_${PN}-utils = "${bindir}/* ${sbindir}/*"
- FILES_${PN}-dbg += "${libexecdir}/*/.debug ${libdir}/audit/.debug"
- FILES_catchsegv${PKGSUFFIX} = "${bindir}/catchsegv"
- RDEPENDS_catchsegv${PKGSUFFIX} = "libsegfault"
- RDEPENDS_${PN}-utils += "bash"
-+RDEPENDS_${PN}-mtrace += "perl"
- FILES_${PN}-pcprofile = "${base_libdir}/libpcprofile.so"
- FILES_eglibc-thread-db${PKGSUFFIX} = "${base_libdir}/libthread_db.so.* ${base_libdir}/libthread_db-*.so"
- RPROVIDES_${PN}-dev += "libc-dev"
-@@ -68,6 +71,8 @@ SUMMARY_ldd = "print shared library dependencies"
- DESCRIPTION_ldd = "/usr/bin/ldd prints shared library dependencies for each program or shared library specified on the command line."
- SUMMARY_${PN}-utils = "Miscellaneous utilities provided by eglibc"
- DESCRIPTION_${PN}-utils = "Miscellaneous utilities including getconf, iconf, locale, gencat, tzselect, zic, rpcinfo, ..."
-+SUMMARY_${PN}-mtrace = "mtrace utility provided by eglibc"
-+DESCRIPTION_${PN}-mtrace = "mtrace utility provided by eglibc"
- DESCRIPTION_libsotruss = "Library to support sotruss which traces calls through PLTs"
+ SRC_URI = "http://0pointer.de/lennart/projects/nss-mdns/nss-mdns-${PV}.tar.gz"
  
- inherit libc-common multilib_header
-diff --git a/meta/recipes-core/eglibc/eglibc_2.13.bb b/meta/recipes-core/eglibc/eglibc_2.13.bb
-index d8a41dc..73cd0aa 100644
---- a/meta/recipes-core/eglibc/eglibc_2.13.bb
-+++ b/meta/recipes-core/eglibc/eglibc_2.13.bb
-@@ -3,7 +3,7 @@ require eglibc.inc
- SRCREV = "15508"
+@@ -23,15 +23,14 @@ DEBIANNAME_${PN} = "libnss-mdns"
  
- DEPENDS += "gperf-native"
--PR = "r26"
-+PR = "r27"
- PR_append = "+svnr${SRCPV}"
+ EXTRA_OECONF = "--libdir=${base_libdir} --disable-lynx --enable-avahi"
  
- EGLIBC_BRANCH="eglibc-2_13"
-diff --git a/meta/recipes-core/tasks/task-core-tools-debug.bb b/meta/recipes-core/tasks/task-core-tools-debug.bb
-index 3c92f3f..1dddbb8 100644
---- a/meta/recipes-core/tasks/task-core-tools-debug.bb
-+++ b/meta/recipes-core/tasks/task-core-tools-debug.bb
-@@ -17,10 +17,14 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
+-# TODO: pattern based configuration update
+ pkg_postinst_${PN} () {
+-	cat $D/etc/nsswitch.conf | grep "hosts:\s*files dns$" > /dev/null && {
+-		sed -i 's/hosts:\s*files dns/& mdns4/' $D/etc/nsswitch.conf
+-	}
++if ! grep -q '^hosts:.*\<mdns4\>' $D/etc/nsswitch.conf; then
++	sed -e 's/^hosts:.*/& mdns4/' -i $D/etc/nsswitch.conf
++fi
+ }
  
- ALLOW_EMPTY = "1"
- 
-+MTRACE = ""
-+MTRACE_libc-glibc = "libc-mtrace"
-+
- RDEPENDS_${PN} = "\
-     gdb \
-     gdbserver \
-     tcf-agent \
-     rsync \
-     strace \
-+    ${MTRACE} \
-     "
+ pkg_prerm_${PN} () {
+-	cat /etc/nsswitch.conf | grep "hosts:\s*files dns mdns4$" > /dev/null && {
+-		sed -i 's/\(hosts:\s*files dns\) mdns4*/\1/' /etc/nsswitch.conf
+-	}
++if grep -q '^hosts:.*\<mdns4\>' /etc/nsswitch.conf; then
++	sed -e '/^hosts:/s/\s\<mdns4\>//' -i /etc/nsswitch.conf
++fi
+ }
 -- 
 1.7.7.6
 
