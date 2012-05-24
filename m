@@ -1,24 +1,24 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1SXfuS-0002x9-SE
+	(envelope-from <scott.a.garman@intel.com>) id 1SXfuS-0002yZ-PM
 	for openembedded-core@lists.openembedded.org;
 	Thu, 24 May 2012 23:49:29 +0200
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 24 May 2012 14:38:49 -0700
+	by orsmga102.jf.intel.com with ESMTP; 24 May 2012 14:38:48 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="148125509"
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="148125502"
 Received: from sgarman-ws.jf.intel.com ([10.7.199.160])
 	by orsmga002.jf.intel.com with ESMTP; 24 May 2012 14:38:48 -0700
 From: Scott Garman <scott.a.garman@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 24 May 2012 14:38:20 -0700
-Message-Id: <cf49cf3958b24fdb89d57abbf1f1b30c07a06030.1337892418.git.scott.a.garman@intel.com>
+Date: Thu, 24 May 2012 14:38:14 -0700
+Message-Id: <260dfd9ccbf7d1e0ed60256aaf80fed5bf0c24e2.1337892418.git.scott.a.garman@intel.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1337892418.git.scott.a.garman@intel.com>
 References: <cover.1337892418.git.scott.a.garman@intel.com>
 In-Reply-To: <cover.1337892418.git.scott.a.garman@intel.com>
 References: <cover.1337892418.git.scott.a.garman@intel.com>
-Subject: [PATCH 09/32] gcc: Add plugins package for ARM, fix /usr/incude packaging
+Subject: [PATCH 03/32] python: use PKGSUFFIX for libpython2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,50 +35,50 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 24 May 2012 21:49:31 -0000
 
-From: Saul Wold <sgw@linux.intel.com>
+From: Andreas Oberritter <obi@opendreambox.org>
 
-WARNING: For recipe gcc, the following files/directories were installed but not shipped in any package:
-WARNING:   /usr/include
-WARNING:   /usr/lib/gcc/arm-poky-linux-gnueabi/4.6.4/plugin/libgcc
-WARNING:   /usr/lib/gcc/arm-poky-linux-gnueabi/4.6.4/plugin/libgcc/config
-WARNING:   /usr/lib/gcc/arm-poky-linux-gnueabi/4.6.4/plugin/libgcc/config/arm
-WARNING:   /usr/lib/gcc/arm-poky-linux-gnueabi/4.6.4/plugin/libgcc/config/arm/bpabi-lib.h
+* python-nativesdk shouldn't provide libpython2, but
+  libpython2-nativesdk.
+
+Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
+
+[PR Bump - sgw]
+
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/recipes-devtools/gcc/gcc-package-target.inc |    8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ meta/recipes-devtools/python/python_2.7.2.bb |    9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-devtools/gcc/gcc-package-target.inc b/meta/recipes-devtools/gcc/gcc-package-target.inc
-index 3076670..a499c88 100644
---- a/meta/recipes-devtools/gcc/gcc-package-target.inc
-+++ b/meta/recipes-devtools/gcc/gcc-package-target.inc
-@@ -1,5 +1,5 @@
- PACKAGES = "\
--  ${PN} ${PN}-symlinks \
-+  ${PN} ${PN}-plugins ${PN}-symlinks \
-   g++ g++-symlinks \
-   cpp cpp-symlinks \
-   g77 g77-symlinks \
-@@ -40,6 +40,11 @@ FILES_${PN}-symlinks = "\
-   ${bindir}/gccbug \
- "
+diff --git a/meta/recipes-devtools/python/python_2.7.2.bb b/meta/recipes-devtools/python/python_2.7.2.bb
+index e067ba5..9ba561b 100644
+--- a/meta/recipes-devtools/python/python_2.7.2.bb
++++ b/meta/recipes-devtools/python/python_2.7.2.bb
+@@ -1,6 +1,6 @@
+ require python.inc
+ DEPENDS = "python-native bzip2 db gdbm openssl readline sqlite3 zlib"
+-PR = "${INC_PR}.14"
++PR = "${INC_PR}.15"
  
-+FILES_${PN}-plugins = "\
-+  ${gcclibdir}/${TARGET_SYS}/${BINV}/plugin \
-+"
-+ALLOW_EMPTY_${PN}-plugins = "1"
+ DISTRO_SRC_URI ?= "file://sitecustomize.py"
+ DISTRO_SRC_URI_linuxstdbase = ""
+@@ -145,8 +145,8 @@ RRECOMMENDS_${PN}-core = "${PN}-readline"
+ RRECOMMENDS_${PN}-crypt = "openssl"
+ 
+ # package libpython2
+-PACKAGES =+ "lib${BPN}2"
+-FILES_lib${BPN}2 = "${libdir}/libpython*.so.*"
++PACKAGES =+ "lib${BPN}2${PKGSUFFIX}"
++FILES_lib${BPN}2${PKGSUFFIX} = "${libdir}/libpython*.so.*"
+ 
+ # catch debug extensions (isn't that already in python-core-dbg?)
+ FILES_${PN}-dbg += "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/.debug"
+@@ -160,3 +160,6 @@ PACKAGES += "${PN}-man"
+ FILES_${PN}-man = "${datadir}/man"
+ 
+ BBCLASSEXTEND = "nativesdk"
 +
- FILES_g77 = "\
-   ${bindir}/${TARGET_PREFIX}g77 \
-   ${libexecdir}/gcc/${TARGET_SYS}/${BINV}/f771 \
-@@ -88,6 +93,7 @@ do_install () {
- 	rm -r ${D}${libdir}/gcc/${TARGET_SYS}/${BINV}/install-tools
- 	rm -r ${D}${libexecdir}/gcc/${TARGET_SYS}/${BINV}/install-tools
- 	rm -rf ${D}${libexecdir}/gcc/${TARGET_SYS}/${BINV}/*.la
-+	rmdir ${D}${includedir}
- 
- 	# Hack around specs file assumptions
- 	test -f ${D}${libdir}/gcc/${TARGET_SYS}/${BINV}/specs && sed -i -e '/^*cross_compile:$/ { n; s/1/0/; }' ${D}${libdir}/gcc/${TARGET_SYS}/${BINV}/specs
++PKGSUFFIX = ""
++PKGSUFFIX_virtclass-nativesdk = "-nativesdk"
 -- 
 1.7.9.5
 
