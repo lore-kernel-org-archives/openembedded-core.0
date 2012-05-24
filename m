@@ -1,24 +1,24 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SXQ2i-00056b-HF
+	(envelope-from <sgw@linux.intel.com>) id 1SXQ2j-00056b-AE
 	for openembedded-core@lists.openembedded.org;
-	Thu, 24 May 2012 06:52:56 +0200
+	Thu, 24 May 2012 06:52:57 +0200
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
 	by orsmga101.jf.intel.com with ESMTP; 23 May 2012 21:42:43 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="144034681"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="144034684"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.24])
-	by orsmga001.jf.intel.com with ESMTP; 23 May 2012 21:42:42 -0700
+	by orsmga001.jf.intel.com with ESMTP; 23 May 2012 21:42:43 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 23 May 2012 21:42:19 -0700
-Message-Id: <7a3ae79a08bc1c8eb6942b74b789db34ecbe7a68.1337834073.git.sgw@linux.intel.com>
+Date: Wed, 23 May 2012 21:42:22 -0700
+Message-Id: <a822f07fdd8bba77ad8c0b3cbb41e32f69363c53.1337834073.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <cover.1337834073.git.sgw@linux.intel.com>
 References: <cover.1337834073.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1337834073.git.sgw@linux.intel.com>
 References: <cover.1337834073.git.sgw@linux.intel.com>
-Subject: [Consolidated Pull 16/28] ppp: avoid host contamination
+Subject: [Consolidated Pull 19/28] netbase: merge init script updates from upstream
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,63 +33,164 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 May 2012 04:52:56 -0000
+X-List-Received-Date: Thu, 24 May 2012 04:52:57 -0000
 
 From: Andreas Oberritter <obi@opendreambox.org>
 
-* Import patch from OE-Classic commit f7c547ede1bfc94c24f6315a23ff48a4c5b9ffaf.
-* Fixes linking with libpcap (ppp filter).
+* Read /proc/mounts only once.
+* Support many more network filesystem types.
+* Remaining differences to netbase 4.47:
+  - Uses the mountvirtfs keyword instead of mountkernfs
+  - Doesn't use lsb functions
+  - Doesn't print a warning if /etc/network/options exists
+  - Doesn't use --exclude parameter for ifup, because
+    busybox doesn't support it.
 
 Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
 ---
- .../makefile-remove-hard-usr-reference.patch       |   16 ++++++++++++++++
- meta/recipes-connectivity/ppp/ppp_2.4.5.bb         |    2 +-
- 2 files changed, 17 insertions(+), 1 deletions(-)
+ meta/recipes-core/netbase/netbase-4.47/init |  101 ++++++++++++++++++---------
+ meta/recipes-core/netbase/netbase_4.47.bb   |    2 +-
+ 2 files changed, 70 insertions(+), 33 deletions(-)
 
-diff --git a/meta/recipes-connectivity/ppp/ppp-2.4.5/makefile-remove-hard-usr-reference.patch b/meta/recipes-connectivity/ppp/ppp-2.4.5/makefile-remove-hard-usr-reference.patch
-index 8cc354a..d59717e 100644
---- a/meta/recipes-connectivity/ppp/ppp-2.4.5/makefile-remove-hard-usr-reference.patch
-+++ b/meta/recipes-connectivity/ppp/ppp-2.4.5/makefile-remove-hard-usr-reference.patch
-@@ -1,6 +1,9 @@
- The patch comes from OpenEmbedded.
- Rebased for ppp-2.4.5. Dongxiao Xu <dongxiao.xu@intel.com>
+diff --git a/meta/recipes-core/netbase/netbase-4.47/init b/meta/recipes-core/netbase/netbase-4.47/init
+index 8a67e1c..bace9df 100644
+--- a/meta/recipes-core/netbase/netbase-4.47/init
++++ b/meta/recipes-core/netbase/netbase-4.47/init
+@@ -1,52 +1,89 @@
+-#!/bin/sh
+-#
++#!/bin/sh -e
+ ### BEGIN INIT INFO
+ # Provides:          networking
+-# Required-Start:    $local_fs mountvirtfs
++# Required-Start:    mountvirtfs $local_fs
+ # Required-Stop:     $local_fs
++# Should-Start:      ifupdown
++# Should-Stop:       ifupdown
+ # Default-Start:     S
+ # Default-Stop:      0 6
+-# Short-Description: Raise network interfaces and configure them
++# Short-Description: Raise network interfaces.
+ ### END INIT INFO
  
-+Updated from OE-Classic to include the pcap hunk.
-+Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
+-PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
++PATH="/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin"
+ 
+-if ! [ -x /sbin/ifup ]; then
+-    exit 0
+-fi
++[ -x /sbin/ifup ] || exit 0
 +
- Upstream-Status: Inappropriate [configuration]
++check_network_file_systems() {
++    [ -e /proc/mounts ] || return 0
++
++    if [ -e /etc/iscsi/iscsi.initramfs ]; then
++	echo "not deconfiguring network interfaces: iSCSI root is mounted."
++	exit 0
++    fi
++
++    exec 9<&0 < /proc/mounts
++    while read DEV MTPT FSTYPE REST; do
++	case $DEV in
++	/dev/nbd*|/dev/nd[a-z]*|/dev/etherd/e*)
++	    echo "not deconfiguring network interfaces: network devices still mounted."
++	    exit 0
++	    ;;
++	esac
++	case $FSTYPE in
++	nfs|nfs4|smbfs|ncp|ncpfs|cifs|coda|ocfs2|gfs|pvfs|pvfs2|fuse.httpfs|fuse.curlftpfs)
++	    echo "not deconfiguring network interfaces: network file systems still mounted."
++	    exit 0
++	    ;;
++	esac
++    done
++    exec 0<&9 9<&-
++}
++
++check_network_swap() {
++    [ -e /proc/swaps ] || return 0
++
++    exec 9<&0 < /proc/swaps
++    while read DEV MTPT FSTYPE REST; do
++	case $DEV in
++	/dev/nbd*|/dev/nd[a-z]*|/dev/etherd/e*)
++	    echo "not deconfiguring network interfaces: network swap still mounted."
++	    exit 0
++	    ;;
++	esac
++    done
++    exec 0<&9 9<&-
++}
  
- diff -urN ppp-2.4.5-orig/pppd/Makefile.linux ppp-2.4.5/pppd/Makefile.linux
-@@ -19,3 +22,16 @@ diff -urN ppp-2.4.5-orig/pppd/Makefile.linux ppp-2.4.5/pppd/Makefile.linux
-  
-  ifdef NEEDDES
-  ifndef USE_CRYPT
-+@@ -169,10 +169,10 @@
-+ endif
-+ 
-+ ifdef FILTER
-+-ifneq ($(wildcard /usr/include/pcap-bpf.h),)
-++#ifneq ($(wildcard /usr/include/pcap-bpf.h),)
-+ LIBS    += -lpcap
-+ CFLAGS  += -DPPP_FILTER
-+-endif
-++#endif
-+ endif
-+ 
-+ ifdef HAVE_INET6
-diff --git a/meta/recipes-connectivity/ppp/ppp_2.4.5.bb b/meta/recipes-connectivity/ppp/ppp_2.4.5.bb
-index ed815d3..587871a 100644
---- a/meta/recipes-connectivity/ppp/ppp_2.4.5.bb
-+++ b/meta/recipes-connectivity/ppp/ppp_2.4.5.bb
-@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://pppd/ccp.c;beginline=1;endline=29;md5=e2c43fe6e81ff77
-                     file://pppd/plugins/passprompt.c;beginline=1;endline=10;md5=3bcbcdbf0e369c9a3e0b8c8275b065d8 \
-                     file://pppd/tdb.c;beginline=1;endline=27;md5=4ca3a9991b011038d085d6675ae7c4e6 \
-                     file://chat/chat.c;beginline=1;endline=15;md5=0d374b8545ee5c62d7aff1acbd38add2"
--PR = "r4"
-+PR = "r5"
+ case "$1" in
+-    start)
+-        echo -n "Configuring network interfaces... "
+-        ifup -a
++start)
++	echo -n "Configuring network interfaces... "
++	ifup -a
+ 	echo "done."
+ 	;;
+-    stop)
+-        if sed -n 's/^[^ ]* \([^ ]*\) \([^ ]*\) .*$/\1 \2/p' /proc/mounts | 
+-          grep -q "^/ nfs$"; then
+-            echo "NOT deconfiguring network interfaces: / is an NFS mount"
+-        elif sed -n 's/^[^ ]* \([^ ]*\) \([^ ]*\) .*$/\1 \2/p' /proc/mounts |  
+-          grep -q "^/ smbfs$"; then
+-            echo "NOT deconfiguring network interfaces: / is an SMB mount"
+-	elif sed -n 's/^[^ ]* \([^ ]*\) \([^ ]*\) .*$/\2/p' /proc/mounts | 
+-          grep -qE '^(nfs|smbfs|ncp|coda)$'; then
+-            echo "NOT deconfiguring network interfaces: network shares still mounted."
+-        else
+-            echo -n "Deconfiguring network interfaces... "
+-            ifdown -a
+-	    echo "done."
+-        fi
++
++stop)
++	check_network_file_systems
++	check_network_swap
++
++	echo -n "Deconfiguring network interfaces... "
++	ifdown -a
++	echo "done."
+ 	;;
+-    force-reload|restart)
+-        echo -n "Reconfiguring network interfaces... "
+-        ifdown -a
+-        ifup -a
++
++force-reload|restart)
++	echo "Running $0 $1 is deprecated because it may not enable again some interfaces"
++	echo "Reconfiguring network interfaces... "
++	ifdown -a || true
++	ifup -a
+ 	echo "done."
+ 	;;
+-    *)
+-	echo "Usage: /etc/init.d/networking {start|stop|restart|force-reload}"
++
++*)
++	echo "Usage: /etc/init.d/networking {start|stop}"
+ 	exit 1
+ 	;;
+ esac
  
- SRC_URI = "http://ppp.samba.org/ftp/ppp/ppp-${PV}.tar.gz \
-            file://makefile.patch \
+ exit 0
++
+diff --git a/meta/recipes-core/netbase/netbase_4.47.bb b/meta/recipes-core/netbase/netbase_4.47.bb
+index 1c85997..634560a 100644
+--- a/meta/recipes-core/netbase/netbase_4.47.bb
++++ b/meta/recipes-core/netbase/netbase_4.47.bb
+@@ -4,7 +4,7 @@ HOMEPAGE = "http://packages.debian.org/netbase"
+ SECTION = "base"
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://debian/copyright;md5=3dd6192d306f582dee7687da3d8748ab"
+-PR = "r2"
++PR = "r3"
+ 
+ inherit update-rc.d
+ 
 -- 
 1.7.7.6
 
