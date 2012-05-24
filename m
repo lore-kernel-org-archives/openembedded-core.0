@@ -1,44 +1,42 @@
-Received: from mail-bk0-f47.google.com ([209.85.214.47])
+Received: from mail-ey0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sledz@dresearch-fe.de>) id 1SXW2G-0005YR-FB
+	(envelope-from <koen@dominion.thruhere.net>) id 1SXWLD-0005hk-ME
 	for openembedded-core@lists.openembedded.org;
-	Thu, 24 May 2012 13:16:52 +0200
-Received: by bkcjm2 with SMTP id jm2so7284845bkc.6
+	Thu, 24 May 2012 13:36:27 +0200
+Received: by eaal1 with SMTP id l1so2821462eaa.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 May 2012 04:06:41 -0700 (PDT)
+	Thu, 24 May 2012 04:26:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:cc:subject
-	:references:in-reply-to:x-enigmail-version:content-type
-	:content-transfer-encoding:x-gm-message-state;
-	bh=37F1FGHJcKttEpu4ZBjhSXYiQ3l0V4YM5K+o6uQKTec=;
-	b=Kq0vuOC0ZQEpS2GJQDEmJKPuyxvwtQwN+DdmQtiqnCrPjE8O0qDReXqzwbKFsPbT1m
-	37jAUmhE93YZtuysKZDNBuqh3895xAI3SYXZ6yI0knVPbdBMYl5ro/ZfPyAr7bZC6M7z
-	+QzuwX+vyKOoMRW1nycCnyCmMh1rnYRu/UjMLb7+qpWoF9PvYkVRjSrU6+xZfAJeoUg0
-	1hsAw3I8nDwfAII8ERrZirdV2amL+xFdWGCKxDmaxvaNOCZVeHgKTnyhP6TuNWt55+Rc
-	vXdAkGMiQSqcdqq82SGkEZN+aqJ5SbWSLBvOSOrne3bYjcWSrxnRb2ZXidFh+4PupfDR
-	PPUQ==
-Received: by 10.204.150.2 with SMTP id w2mr13783148bkv.101.1337857601400;
-	Thu, 24 May 2012 04:06:41 -0700 (PDT)
-Received: from fensuse.internal.dresearch-fe.de
-	(pd95cb174.dip0.t-ipconnect.de. [217.92.177.116])
-	by mx.google.com with ESMTPS id h18sm2213190bkh.8.2012.05.24.04.06.39
-	(version=SSLv3 cipher=OTHER); Thu, 24 May 2012 04:06:40 -0700 (PDT)
-Message-ID: <4FBE163E.2090008@dresearch-fe.de>
-Date: Thu, 24 May 2012 13:06:38 +0200
-From: Steffen Sledz <sledz@dresearch-fe.de>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:12.0) Gecko/20120427 Thunderbird/12.0.1
-MIME-Version: 1.0
-To: Saul Wold <sgw@linux.intel.com>
-References: <1337696160-26734-1-git-send-email-sledz@dresearch-fe.de>
-	<4FBC8DC0.706@dresearch-fe.de> <4FBCEE15.5050008@linux.intel.com>
-In-Reply-To: <4FBCEE15.5050008@linux.intel.com>
-X-Enigmail-Version: 1.4.1
-X-Gm-Message-State: ALoCoQnwCUL7w60gwMvVVWzxfeM5ph+Luhgo443de5nGeMAPtDWMFShQS3A07VijnOclCWvm9O+p
+	h=subject:mime-version:content-type:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to:x-mailer
+	:x-gm-message-state;
+	bh=eyVisKBXh9LQPjjKlREW5niPQqUf9ls5bjjnVFexy7U=;
+	b=cOuZvFvlhNrIeUSaHF3WpqiYalKSJ3/6xOPqrZDXFOAQ6Jofvw05FpXI47H6yRRi/q
+	2I8q881WuWvMlh+qFNeoz6HHo96KPdx4hwmpIepgRTRf4qvyPT6QNeoK4RPzbxNwIDQN
+	elzPOlPM6tm4AfvXyrxOtw0EL5LBiUyYn3YO4TEkLdoiAj14B5Cg/6rJbTwGObiTAjEM
+	uJrFjgzUqsxlLVxviXUMdRQsKexAyu8rWNGYgJgGKViwhSfuMJM48btMAMgUBlk093uf
+	jLp/7qBZm2o/fu40OZ6MBw8aOuthGzjaACThRR5ftm0UllOxdKiUmfQMl5l0/pDhd5PZ
+	y0FA==
+Received: by 10.213.16.142 with SMTP id o14mr2109267eba.119.1337858776518;
+	Thu, 24 May 2012 04:26:16 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id z5sm138082870eem.3.2012.05.24.04.26.14
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 24 May 2012 04:26:15 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1278)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <4FBD5E10.3070403@intel.com>
+Date: Thu, 24 May 2012 13:26:13 +0200
+Message-Id: <223B4521-59A6-42A5-9F1F-71B67C12B8E9@dominion.thruhere.net>
+References: <4FBD5E10.3070403@intel.com>
+To: Scott Garman <scott.a.garman@intel.com>
+X-Mailer: Apple Mail (2.1278)
+X-Gm-Message-State: ALoCoQlaAVF/uVe6G3KvcoR9pF6QWjmqfzEk0I2nQzkFqQrWC2KXQ7ZqNBHSArzK3pChaqQ3spEh
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] dropbear: fix include dependent PR generation
+Subject: Re: [yocto] RFC: Merging commits from into the main denzil branch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -53,58 +51,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 May 2012 11:16:52 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 24 May 2012 11:36:27 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-On 23.05.2012 16:03, Saul Wold wrote:
-> On 05/23/2012 12:12 AM, Steffen Sledz wrote:
->> On 22.05.2012 16:16, Steffen Sledz wrote:
->>> Signed-off-by: Steffen Sledz<sledz@dresearch-fe.de>
->>> ---
->>>   meta/recipes-core/dropbear/dropbear.inc        |    2 ++
->>>   meta/recipes-core/dropbear/dropbear_2012.55.bb |    2 +-
->>>   2 files changed, 3 insertions(+), 1 deletions(-)
->>>
->>> diff --git a/meta/recipes-core/dropbear/dropbear.inc b/meta/recipes-core/dropbear/dropbear.inc
->>> index 2d6aeb2..2de442c 100644
->>> --- a/meta/recipes-core/dropbear/dropbear.inc
->>> +++ b/meta/recipes-core/dropbear/dropbear.inc
->>> @@ -2,6 +2,8 @@ DESCRIPTION = "Dropbear is a lightweight SSH and SCP implementation"
->>>   HOMEPAGE = "http://matt.ucc.asn.au/dropbear/dropbear.html"
->>>   SECTION = "console/network"
->>>
->>> +INC_PR = "r0"
->>> +
->>>   # some files are from other projects and have others license terms:
->>>   #   public domain, OpenSSH 3.5p1, OpenSSH3.6.1p2, PuTTY
->>>   LICENSE = "MIT"
->>> diff --git a/meta/recipes-core/dropbear/dropbear_2012.55.bb b/meta/recipes-core/dropbear/dropbear_2012.55.bb
->>> index 4f0ef80..8323a33 100644
->>> --- a/meta/recipes-core/dropbear/dropbear_2012.55.bb
->>> +++ b/meta/recipes-core/dropbear/dropbear_2012.55.bb
->>> @@ -3,4 +3,4 @@ require dropbear.inc
->>>   SRC_URI[md5sum] = "44836e5a0419ba12557f9ea46880077e"
->>>   SRC_URI[sha256sum] = "808df243c61bb60f2f18fa64bca628cbba0918b2a14139f10e6d59d4ac5a17ce"
->>>
->>> -PR = "r0"
->>> +PR = "${INC_PR}.0"
->>
->> Did this message made it to the ML?
->>
-> I guess not, please resend as a proper patch.
+Op 24 mei 2012, om 00:00 heeft Scott Garman het volgende geschreven:
 
-I've resent the original message. Patchwork catched it this time. :)
+> Hello all,
+>=20
+> As most of you know, I've been pulling commits into a pair of =
+sgarman/denzil-next branches which are intended to eventually become the =
+next Denzil point-release, 1.2.1.
+>=20
+> oe-core based branch:
+> =
+http://git.openembedded.org/openembedded-core-contrib/log/?h=3Dsgarman/den=
+zil-next
 
-Steffen
+Would it be possible to do that in the main repo? That saves people from =
+needing to add and fetch yet another repo.
 
--- 
-DResearch Fahrzeugelektronik GmbH
-Otto-Schmirgal-Str. 3, 10319 Berlin, Germany
-Tel: +49 30 515932-237 mailto:sledz@dresearch-fe.de
-Fax: +49 30 515932-299
-Geschäftsführer: Dr. Michael Weber, Werner Mögle;
-Amtsgericht Berlin Charlottenburg; HRB 130120 B;
-Ust.-IDNr. DE273952058
+> poky based branch:
+> =
+http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=3Dsgarman/de=
+nzil-next
+>=20
+> So far I haven't merged or requested to merge any of these commits =
+into the main denzil branches of oe-core and poky, for two main reasons:
+>=20
+> 1. I've only performed the most basic build testing of these branches =
+on a desktop system, building core-image-minimal and core-image-sato for =
+our 5 qemu machines.
+>=20
+> 2. To date, we haven't had a clear process on how to transition from =
+the maintainer's personal branch into the official repo branch. I'd like =
+to develop a clear and documented process on doing this that involves =
+community feedback on the commits.
+>=20
+> Just this week I've been able to start using the Yocto autobuilder to =
+do more comprehensive testing of my denzil-next branch, so issue #1 is =
+finally resolved, and I've got a green build to raise my confidence =
+level:
+>=20
+> http://autobuilder.yoctoproject.org:8010/builders/nightly/builds/462
+>=20
+> So now to address issue #2. The goal is to incorporate community =
+feedback, so I'm looking to get ACKs or NAKs for these commits before =
+they go into the main denzil branch.
+>=20
+> My proposal is to send denzil pull requests to the appropriate mailing =
+lists, and Richard can merge them into the main repo denzil branches =
+once they've received review by the community.
+>=20
+> My goal is to send these pull requests about once per week, once I've =
+managed to get a green build out of the Yocto autobuilder for my contrib =
+branch.
+>=20
+> What do folks think about this? Now's your opportunity to offer =
+feedback and influence this process.
+
+You're missing a process for people to propose commits for the denzil =
+branch. How about this:
+
+	If you want to propose a commit from master cherry-pick it into =
+a local denzil branch and then send if for review to the oe-core list =
+with the [for-denzil] subject prefix. Scott will take care of putting it =
+in the pull requests based on the feedback the patch gets.
+
+What would be nice to have is a (soft) requirement to add the testing =
+data in the commit e.g. "Runtime tested on beaglebone/angstrom". Not =
+sure how to automate it, but pull-requests should include a buidhistory =
+diff when possible.
+
+regards,
+
+Koen=
 
 
