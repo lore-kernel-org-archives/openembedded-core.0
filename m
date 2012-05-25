@@ -1,41 +1,25 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1SXvT2-0007q9-Kq
+Received: from smtplq-out14.aruba.it ([62.149.158.34] helo=smtplq02.aruba.it)
+	by linuxtogo.org with smtp (Exim 4.72)
+	(envelope-from <stefano@supergenesis.it>) id 1SXw7d-0004ec-Mu
 	for openembedded-core@lists.openembedded.org;
-	Fri, 25 May 2012 16:26:12 +0200
-Received: by eekd49 with SMTP id d49so318005eek.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 May 2012 07:16:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date
-	:content-transfer-encoding:message-id:references:to:x-mailer
-	:x-gm-message-state;
-	bh=zl2/Ip/y85ehW6gvBKkvyt8kueV8HoXso4NYLaFIu/E=;
-	b=XsqTu7fG+Dm7s1tYr+nCNtmT2Od+sLPAU6qwLbOUGhsf+GR2FJAW5kWIypQ5uSmPw4
-	LNl40eeYfeYPLgTP/ZgVhnkA39+nS3AikbNo++Opa+t7T4DrLVCOna7zdZbBo85m+9hP
-	NYgir0DWaAF292g7ujUPDiikTAwSlawYNFOnk2CfB16vL8yRZMmbgh2KSKyy6jgx4lat
-	VqWQ4EIQNOABtirDSPwUL8rOmPmoZEcjMm3b13YrLm4jIWHwLM9thMnJqVy2+Rqs7Fmh
-	jeDMPCeyVwkNCYAkfubcuIv7LpWIdQhgmcAdtBwukQntjOp+4Sxne4T0xokPXQayhG9V
-	igjA==
-Received: by 10.14.53.76 with SMTP id f52mr675674eec.79.1337955360067;
-	Fri, 25 May 2012 07:16:00 -0700 (PDT)
-Received: from [172.20.1.36] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id z5sm7781884eem.3.2012.05.25.07.15.58
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 25 May 2012 07:15:59 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1278)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <cover.1337892418.git.scott.a.garman@intel.com>
-Date: Fri, 25 May 2012 16:15:56 +0200
-Message-Id: <16430873-3E99-4D47-A114-B12D987F08E3@dominion.thruhere.net>
-References: <cover.1337892418.git.scott.a.garman@intel.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1278)
-X-Gm-Message-State: ALoCoQkAO0khDMWti6hhMSBFm6njHobGboq+CCulmCHvGVwyJnWeT749bsZyAt+yx/oLxn0yKZKp
-Subject: Re: [PATCH 00/32] denzil pull request
+	Fri, 25 May 2012 17:08:09 +0200
+Received: (qmail 9449 invoked by uid 89); 25 May 2012 14:51:17 -0000
+Received: from unknown (HELO smtp1.aruba.it) (62.149.158.221)
+	by smtplq02.aruba.it with SMTP; 25 May 2012 14:51:17 -0000
+Received: (qmail 18486 invoked by uid 89); 25 May 2012 14:51:17 -0000
+Received: from unknown (HELO ?192.168.0.20?)
+	(stefano@supergenesis.it@151.65.14.50)
+	by smtp1.ad.aruba.it with SMTP; 25 May 2012 14:51:17 -0000
+Message-ID: <4FBF9C60.5030000@supergenesis.it>
+Date: Fri, 25 May 2012 16:51:12 +0200
+From: Stefano <stefano@supergenesis.it>
+User-Agent: Mozilla/5.0 (Windows NT 5.1;
+	rv:12.0) Gecko/20120428 Thunderbird/12.0.1
+MIME-Version: 1.0
+To: openembedded-core@lists.openembedded.org
+X-Spam-Rating: smtp1.ad.aruba.it 1.6.2 0/1000/N
+X-Spam-Rating: smtplq02.aruba.it 1.6.2 0/1000/N
+Subject: qt embedded enable plugin-gfx-powervr
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,40 +34,135 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 May 2012 14:26:12 -0000
-Content-Type: text/plain; charset=us-ascii
+X-List-Received-Date: Fri, 25 May 2012 15:08:09 -0000
+Content-Type: multipart/alternative;
+	boundary="------------070301050906070507080808"
+
+--------------070301050906070507080808
+Content-Type: text/plain; charset=ISO-8859-15; format=flowed
 Content-Transfer-Encoding: quoted-printable
 
+I see the latest version of qt embedded does not include the=20
+plugin-gfx-powervr. The latest qt4-embedded.inc is configured:
 
-Op 24 mei 2012, om 23:38 heeft Scott Garman het volgende geschreven:
+QT_CONFIG_FLAGS +=3D " \
+   -embedded ${QT_ARCH} \
+   -qtlibinfix ${QT_LIBINFIX} \
+   -plugin-gfx-transformed -plugin-gfx-qvfb -plugin-gfx-vnc
+   -plugin-gfx-directfb \
+   -plugin-mouse-tslib -qt-mouse-pc -qt-mouse-qvfb -qt-mouse-linuxinput \=
 
-> Hello,
->=20
-> This is the first pull request for the oe-core denzil branch, based on
-> a set of commits I've been testing from my sgarman/denzil-next branch.
->=20
-> These commits have passed an array of build and runtime tests,
-> including the following nightly build:
->=20
-> http://autobuilder.yoctoproject.org:8010/builders/nightly/builds/462
->=20
-> a non-gplv3 build:
->=20
-> =
-http://autobuilder.yoctoproject.org:8010/builders/nightly-non-gpl3/builds/=
-70
->=20
-> and a tiny build:
->=20
-> =
-http://autobuilder.yoctoproject.org:8010/builders/nightly-tiny/builds/47
->=20
-> Please give this pull request a few days to receive feedback and ACKs
-> from the community.
+   -qt-kbd-tty \
+   -DQT_KEYPAD_NAVIGATION \
+   "
 
-I've been running most of these for a few weeks now, the more recent =
-changes build ok for me as well:
+but without -plugin-gfx-powervr. This is because powervr need =20
+-DQT_NO_QWS_CURSOR and  -DQT_WS_CLIENTBLIT?
+I'm trying to modify the recipes to include powervr pluging, i have add=20
+-plugin-gfx-powervr -DQT_NO_QWS_CURSOR -DQT_WS_CLIENTBLIT. But this=20
+operation need two patches=20
+https://github.com/prabindh/qt-configs/tree/master/qt4.8
 
-Acked-by: Koen Kooi <koen@dominion.thruhere.net>=
+Somebody know a good solution to get the possibility to compile this=20
+plugin?
+Thank's for your time.
+
+--=20
+/Cordiali Saluti/
+*Stefano Stucchi
+*
+*Genesis srl*
+Via L. Manara 3/A
+25126 Brescia
+
+Tel: (+39) 030 5030499
+www.supergenesis.it
+
+Il contenuto di questo messaggio =E8 confidenziale e riservato.
+Pu=F2 contenere informazioni la cui riservatezza =E8 tutelata legalmente.=
+
+Ne sono vietati la riproduzione, la diffusione e l'uso.
+
+This message is for the addressee only. It may contain informations=20
+protected by law. Reproduction, transmission, or use of this message is=20
+prohibited.
 
 
+--------------070301050906070507080808
+Content-Type: text/html; charset=ISO-8859-15
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+  <head>
+
+    <meta http-equiv=3D"content-type" content=3D"text/html; charset=3DISO=
+-8859-15">
+  </head>
+  <body bgcolor=3D"#FFFFFF" text=3D"#000000">
+    I see the latest version of qt <span id=3D"result_box"
+      class=3D"short_text" lang=3D"en"><span class=3D"hps">embedded does =
+not</span>
+      <span class=3D"hps">include </span></span><span id=3D"result_box"
+      class=3D"short_text" lang=3D"en"><span class=3D"hps">the </span></s=
+pan>plugin-gfx-powervr.
+    The latest qt4-embedded.inc is configured:<br>
+    <br>
+    QT_CONFIG_FLAGS +=3D " \<br>
+    =A0
+    -embedded ${QT_ARCH} \<br>
+    =A0 -qtlibinfix ${QT_LIBINFIX} \<br>
+    =A0 -plugin-gfx-transformed -plugin-gfx-qvfb -plugin-gfx-vnc<br>
+    =A0 -plugin-gfx-directfb \<br>
+    =A0 -plugin-mouse-tslib -qt-mouse-pc -qt-mouse-qvfb
+    -qt-mouse-linuxinput \<br>
+    =A0 -qt-kbd-tty \<br>
+    =A0 -DQT_KEYPAD_NAVIGATION \<br>
+    =A0 "<br>
+    <br>
+    but without -plugin-gfx-powervr. This is because powervr need=A0
+    -DQT_NO_QWS_CURSOR and =A0-DQT_WS_CLIENTBLIT?<br>
+    I'm trying to modify the recipes to include powervr pluging, i have
+    add -plugin-gfx-powervr -DQT_NO_QWS_CURSOR -DQT_WS_CLIENTBLIT. But
+    this operation need two patches
+    <a class=3D"moz-txt-link-freetext" href=3D"https://github.com/prabind=
+h/qt-configs/tree/master/qt4.8">https://github.com/prabindh/qt-configs/tr=
+ee/master/qt4.8</a><br>
+    <br>
+    Somebody know a good solution to get the <span id=3D"result_box"
+      class=3D"short_text" lang=3D"en"><span class=3D"hps">possibility to=
+
+        compile this plugin? <br>
+        Thank's for your time.<br>
+      </span></span><br>
+    <div class=3D"moz-signature">-- <br>
+      <font face=3D"Helvetica, Arial, sans-serif"><small><i>Cordiali
+            Saluti</i></small></font><br>
+      <font face=3D"Arial"><b><small>Stefano Stucchi<br>
+          </small></b><br>
+      </font><b><font face=3D"Windsor"><big><big>Genesis <small><small>sr=
+l</small></small></big></big></font></b><br>
+      <font face=3D"Arial">Via L. Manara 3/A<br>
+        25126 Brescia<br>
+        <br>
+        Tel: (+39) 030 5030499<br>
+        <a class=3D"moz-txt-link-abbreviated"
+          href=3D"http://www.supergenesis.it">www.supergenesis.it</a></fo=
+nt><br>
+      <br>
+      <small><font face=3D"Arial">Il contenuto di questo messaggio =E8
+          confidenziale e riservato.<br>
+          Pu=F2 contenere informazioni la cui riservatezza =E8 tutelata
+          legalmente.<br>
+          Ne sono vietati la riproduzione, la diffusione e l'uso.<br>
+          <br>
+        </font></small><small><font face=3D"Arial">This message is for th=
+e
+          addressee only. It may contain informations protected by law.
+          Reproduction, transmission, or use of this message is
+          prohibited.<br>
+        </font></small><br>
+    </div>
+  </body>
+</html>
+
+--------------070301050906070507080808--
