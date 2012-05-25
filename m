@@ -1,34 +1,41 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1SXvMo-0007gD-8Q for openembedded-core@lists.openembedded.org;
-	Fri, 25 May 2012 16:19:46 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q4PE9Yu3002525;
-	Fri, 25 May 2012 15:09:34 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 01522-06; Fri, 25 May 2012 15:09:30 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q4PE9RVK002519
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Fri, 25 May 2012 15:09:28 +0100
-Message-ID: <1337954965.20169.30.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <koen@dominion.thruhere.net>) id 1SXvT2-0007q9-Kq
+	for openembedded-core@lists.openembedded.org;
+	Fri, 25 May 2012 16:26:12 +0200
+Received: by eekd49 with SMTP id d49so318005eek.6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 25 May 2012 07:16:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=content-type:mime-version:subject:from:in-reply-to:date
+	:content-transfer-encoding:message-id:references:to:x-mailer
+	:x-gm-message-state;
+	bh=zl2/Ip/y85ehW6gvBKkvyt8kueV8HoXso4NYLaFIu/E=;
+	b=XsqTu7fG+Dm7s1tYr+nCNtmT2Od+sLPAU6qwLbOUGhsf+GR2FJAW5kWIypQ5uSmPw4
+	LNl40eeYfeYPLgTP/ZgVhnkA39+nS3AikbNo++Opa+t7T4DrLVCOna7zdZbBo85m+9hP
+	NYgir0DWaAF292g7ujUPDiikTAwSlawYNFOnk2CfB16vL8yRZMmbgh2KSKyy6jgx4lat
+	VqWQ4EIQNOABtirDSPwUL8rOmPmoZEcjMm3b13YrLm4jIWHwLM9thMnJqVy2+Rqs7Fmh
+	jeDMPCeyVwkNCYAkfubcuIv7LpWIdQhgmcAdtBwukQntjOp+4Sxne4T0xokPXQayhG9V
+	igjA==
+Received: by 10.14.53.76 with SMTP id f52mr675674eec.79.1337955360067;
+	Fri, 25 May 2012 07:16:00 -0700 (PDT)
+Received: from [172.20.1.36] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id z5sm7781884eem.3.2012.05.25.07.15.58
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 25 May 2012 07:15:59 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1278)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <cover.1337892418.git.scott.a.garman@intel.com>
+Date: Fri, 25 May 2012 16:15:56 +0200
+Message-Id: <16430873-3E99-4D47-A114-B12D987F08E3@dominion.thruhere.net>
+References: <cover.1337892418.git.scott.a.garman@intel.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Fri, 25 May 2012 15:09:25 +0100
-In-Reply-To: <20120525113057.GD3138@jama.jama.net>
-References: <cover.1337933617.git.liezhi.yang@windriver.com>
-	<fad645aa59e8cc5634500b35bc607e0b61dc997f.1337933617.git.liezhi.yang@windriver.com>
-	<6CC0CB11-A526-457C-AC54-2D7C67E38DE2@dominion.thruhere.net>
-	<20120525113057.GD3138@jama.jama.net>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: Zhenfeng.Zhao@windriver.com
-Subject: Re: [PATCH 1/1] opkg 0.1.8: respect to the arch when choose the alternatives
+X-Mailer: Apple Mail (2.1278)
+X-Gm-Message-State: ALoCoQkAO0khDMWti6hhMSBFm6njHobGboq+CCulmCHvGVwyJnWeT749bsZyAt+yx/oLxn0yKZKp
+Subject: Re: [PATCH 00/32] denzil pull request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,71 +50,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 May 2012 14:19:46 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-
-On Fri, 2012-05-25 at 13:30 +0200, Martin Jansa wrote:
-> On Fri, May 25, 2012 at 01:19:55PM +0200, Koen Kooi wrote:
-> > 
-> > Op 25 mei 2012, om 12:02 heeft Robert Yang het volgende geschreven:
-> > 
-> > > There is a bug if we:
-> > > 1) bitbake core-image-sato-sdk MACHINE=qemux86
-> > > 2) bitbake core-image-sato with MACHINE=crownbay
-> > > 
-> > > Then several pkgs in deploy/ipk/i586 would be installed to crownbay's
-> > > image even if there is one in deploy/ipk/core2 and we have set the
-> > > core2's priority higher than i586, when the version in deploy/ipk/i586 is
-> > > higher. This doesn't work for us, for example, what the crownbay need is
-> > > xserver-xorg-1.9.3, but it installs xserver-xorg-1.11.2.
-> > > 
-> > > This is caused by opkg's selecting mechanism, if there are more than one
-> > > candidates which have the same pkg name in the candidate list, for
-> > > example, the same pkg with different versions, then it will use the last
-> > > one which is the highest version in the list, this doesn't work for us,
-> > > it should respect to the arch priorities in such a case.
-> > 
-> > This is a serious break with the current opkg behaviour and I don't think it's an improvement. Needing different versions for non machine specific packages indicates a more serious bug elsewhere.
-> 
-> It's not the same use-case as those 2 above, but what I don't like on
-> current opkg behaviour is that it doesn't "reinstall" the package with
-> the same version when it gets available in arch with higher priority.
-> 
-> e.g. I have armv7a device which has feed urls for armv4t and armv7a
-> (armv7a of course with higher priority).
-> 
-> foo-1.0 in both feeds armv4t armv7a 
-> 
-> opkg update && opkg install foo -> foo-1.0_armv7a
-> 
-> distro builder publish foo-1.0-r1 sofar only in armv4t feed
-> 
-> opkg update && opkg upgrade -> foo-1.0_armv7a is upgraded to foo-1.0-r1_armv4t)
-> 
-> distro builder publish foo-1.0-r1 also to armv7a feed
-> 
-> opkg update && opkg upgrade -> nothing, but "upgrading" to foo-1.0-r1_armv7a) would be better
-> 
-> 
-> On my distro builder I'm trying to prevent this scenario by rsyncing
-> feeds only after build for *all* supported machines is completed, but
-> that's still not really atomic operation. (And later I've also started
-> to filter feeds which gets available on target image).
-
-There is certainly cause to consider what opkg is doing here and whether
-it makes sense. Preferring latest version over machine specific feeds is
-not perhaps the behaviour we desire or expect. I agree if something
-appears in a more optimised architecture, it should consider updating to
-it too...
-
-Has anyone talked to opkg upstream about the problems?
-
-Cheers,
-
-Richard
+X-List-Received-Date: Fri, 25 May 2012 14:26:12 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
 
+Op 24 mei 2012, om 23:38 heeft Scott Garman het volgende geschreven:
 
+> Hello,
+>=20
+> This is the first pull request for the oe-core denzil branch, based on
+> a set of commits I've been testing from my sgarman/denzil-next branch.
+>=20
+> These commits have passed an array of build and runtime tests,
+> including the following nightly build:
+>=20
+> http://autobuilder.yoctoproject.org:8010/builders/nightly/builds/462
+>=20
+> a non-gplv3 build:
+>=20
+> =
+http://autobuilder.yoctoproject.org:8010/builders/nightly-non-gpl3/builds/=
+70
+>=20
+> and a tiny build:
+>=20
+> =
+http://autobuilder.yoctoproject.org:8010/builders/nightly-tiny/builds/47
+>=20
+> Please give this pull request a few days to receive feedback and ACKs
+> from the community.
+
+I've been running most of these for a few weeks now, the more recent =
+changes build ok for me as well:
+
+Acked-by: Koen Kooi <koen@dominion.thruhere.net>=
 
 
