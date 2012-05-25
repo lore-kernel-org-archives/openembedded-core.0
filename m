@@ -1,41 +1,38 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
+Received: from mail-wg0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1SXsik-0003gl-Et
+	(envelope-from <martin.jansa@gmail.com>) id 1SXstG-0000AP-O9
 	for openembedded-core@lists.openembedded.org;
-	Fri, 25 May 2012 13:30:14 +0200
-Received: by eaal1 with SMTP id l1so250426eaa.6
+	Fri, 25 May 2012 13:41:06 +0200
+Received: by wgbdr1 with SMTP id dr1so688308wgb.24
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 May 2012 04:20:02 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=subject:mime-version:content-type:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to:x-mailer
-	:x-gm-message-state;
-	bh=J4PTFuwVZ72cg5hVCn8JG9jJviZD8GvrKNUqOXrIacs=;
-	b=AQBwcfdh9II+WLvAFF57XB2PiPCGKD1hVmkio+mHokIIinm/gaHjUzcCRwZK80lcX+
-	siGI1OeaEW3ADkwZlQ9W9M0SqblBhh747jYPYvNAAti4mMI1RhrlarOU1RZnOub2Z6un
-	jbbQ3jtgxyEJDrQBVaPF3bQgchEP4boxd0bpj+3X1zBDz2ByKT8VsCT+Oa7KaGC+zFTl
-	1jz3LaO6CzZot5mKcpahh1lj1XZTowxnbkPIZ9Y1QZTjsU0+oggm5QWBZXXQlFFCxtPQ
-	FYwgY3lRxqk9EU0codqnkyvLoduf3f3sIPQHclmI9XCDHbM0LENMGeGdxguqGkPK+akO
-	GvuA==
-Received: by 10.14.101.2 with SMTP id a2mr613400eeg.9.1337944802099;
-	Fri, 25 May 2012 04:20:02 -0700 (PDT)
-Received: from [172.20.1.36] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id z5sm6136584eem.3.2012.05.25.04.20.00
+	Fri, 25 May 2012 04:30:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=g7MxTgTYah+oyrMJIOygCGMoNK5yQTn1NJXIpf1th4Y=;
+	b=DU1hxtrcxSm+W/T6URR6dRxv7jJraaKrn6XkgN9cQnYjTJGaz9B7YgY6xlMO80bxwL
+	w8JDWb1WEKbMVPL1hDIXWdV/aSIMjRrTgpjiTPBbZCCWLiCjM61+6AkXPDvBHI2lQmBz
+	gtjk4o25/ouYpruNL6sNkIwuoc/MVBr5MASN4DqyGcerYp6HV0cvsrM6t6MybXgQM5hW
+	Cji0lmbeMN9gE+PcXEvaMKc78NtE0beP5Jpt4pdwz3S9mEInbXIvSUNLJeYJ5WjcYyva
+	z013md58tR3ztqVU2IHOJk0YdOlP119X+KH9CgnT57DqdhJSN8pV6Bb2zBp11pKJ/0ez
+	m1WQ==
+Received: by 10.216.196.91 with SMTP id q69mr1633400wen.185.1337945454426;
+	Fri, 25 May 2012 04:30:54 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id n11sm19316427wiv.9.2012.05.25.04.30.52
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 25 May 2012 04:20:01 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1278)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <fad645aa59e8cc5634500b35bc607e0b61dc997f.1337933617.git.liezhi.yang@windriver.com>
-Date: Fri, 25 May 2012 13:19:55 +0200
-Message-Id: <6CC0CB11-A526-457C-AC54-2D7C67E38DE2@dominion.thruhere.net>
-References: <cover.1337933617.git.liezhi.yang@windriver.com>
-	<fad645aa59e8cc5634500b35bc607e0b61dc997f.1337933617.git.liezhi.yang@windriver.com>
+	Fri, 25 May 2012 04:30:53 -0700 (PDT)
+Date: Fri, 25 May 2012 13:30:57 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1278)
-X-Gm-Message-State: ALoCoQk4GsUMFEv6OPi+t6W+Co4CQrqIuwYG7Lo4J+zgDeqlPYA7RDSkMeH7TLj0e8nuwOPwSCYe
+Message-ID: <20120525113057.GD3138@jama.jama.net>
+References: <cover.1337933617.git.liezhi.yang@windriver.com>
+	<fad645aa59e8cc5634500b35bc607e0b61dc997f.1337933617.git.liezhi.yang@windriver.com>
+	<6CC0CB11-A526-457C-AC54-2D7C67E38DE2@dominion.thruhere.net>
+MIME-Version: 1.0
+In-Reply-To: <6CC0CB11-A526-457C-AC54-2D7C67E38DE2@dominion.thruhere.net>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Cc: Zhenfeng.Zhao@windriver.com
 Subject: Re: [PATCH 1/1] opkg 0.1.8: respect to the arch when choose the alternatives
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -52,36 +49,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 May 2012 11:30:14 -0000
+X-List-Received-Date: Fri, 25 May 2012 11:41:06 -0000
+X-Groupsio-MsgNum: 22805
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="DrWhICOqskFTAXiy"
+Content-Disposition: inline
+
+--DrWhICOqskFTAXiy
 Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-
-Op 25 mei 2012, om 12:02 heeft Robert Yang het volgende geschreven:
-
-> There is a bug if we:
-> 1) bitbake core-image-sato-sdk MACHINE=3Dqemux86
-> 2) bitbake core-image-sato with MACHINE=3Dcrownbay
+On Fri, May 25, 2012 at 01:19:55PM +0200, Koen Kooi wrote:
 >=20
-> Then several pkgs in deploy/ipk/i586 would be installed to crownbay's
-> image even if there is one in deploy/ipk/core2 and we have set the
-> core2's priority higher than i586, when the version in deploy/ipk/i586 =
-is
-> higher. This doesn't work for us, for example, what the crownbay need =
-is
-> xserver-xorg-1.9.3, but it installs xserver-xorg-1.11.2.
+> Op 25 mei 2012, om 12:02 heeft Robert Yang het volgende geschreven:
 >=20
-> This is caused by opkg's selecting mechanism, if there are more than =
-one
-> candidates which have the same pkg name in the candidate list, for
-> example, the same pkg with different versions, then it will use the =
-last
-> one which is the highest version in the list, this doesn't work for =
-us,
-> it should respect to the arch priorities in such a case.
+> > There is a bug if we:
+> > 1) bitbake core-image-sato-sdk MACHINE=3Dqemux86
+> > 2) bitbake core-image-sato with MACHINE=3Dcrownbay
+> >=20
+> > Then several pkgs in deploy/ipk/i586 would be installed to crownbay's
+> > image even if there is one in deploy/ipk/core2 and we have set the
+> > core2's priority higher than i586, when the version in deploy/ipk/i586 =
+is
+> > higher. This doesn't work for us, for example, what the crownbay need is
+> > xserver-xorg-1.9.3, but it installs xserver-xorg-1.11.2.
+> >=20
+> > This is caused by opkg's selecting mechanism, if there are more than one
+> > candidates which have the same pkg name in the candidate list, for
+> > example, the same pkg with different versions, then it will use the last
+> > one which is the highest version in the list, this doesn't work for us,
+> > it should respect to the arch priorities in such a case.
+>=20
+> This is a serious break with the current opkg behaviour and I don't think=
+ it's an improvement. Needing different versions for non machine specific p=
+ackages indicates a more serious bug elsewhere.
 
-This is a serious break with the current opkg behaviour and I don't =
-think it's an improvement. Needing different versions for non machine =
-specific packages indicates a more serious bug elsewhere.=
+It's not the same use-case as those 2 above, but what I don't like on
+current opkg behaviour is that it doesn't "reinstall" the package with
+the same version when it gets available in arch with higher priority.
+
+e.g. I have armv7a device which has feed urls for armv4t and armv7a
+(armv7a of course with higher priority).
+
+foo-1.0 in both feeds armv4t armv7a=20
+
+opkg update && opkg install foo -> foo-1.0_armv7a
+
+distro builder publish foo-1.0-r1 sofar only in armv4t feed
+
+opkg update && opkg upgrade -> foo-1.0_armv7a is upgraded to foo-1.0-r1_arm=
+v4t)
+
+distro builder publish foo-1.0-r1 also to armv7a feed
+
+opkg update && opkg upgrade -> nothing, but "upgrading" to foo-1.0-r1_armv7=
+a) would be better
 
 
+On my distro builder I'm trying to prevent this scenario by rsyncing
+feeds only after build for *all* supported machines is completed, but
+that's still not really atomic operation. (And later I've also started
+to filter feeds which gets available on target image).
+
+Cheers,
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--DrWhICOqskFTAXiy
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
+
+iEYEARECAAYFAk+/bXEACgkQN1Ujt2V2gBznwwCgrQMXkgl0buSeKlhpjJ9SqCgv
+c2MAn3N+GmF3pLEIBR5ExOPEnIFcu4Xa
+=XkXj
+-----END PGP SIGNATURE-----
+
+--DrWhICOqskFTAXiy--
