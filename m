@@ -1,24 +1,24 @@
 Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SXoOS-00085Q-P2
+	(envelope-from <sgw@linux.intel.com>) id 1SXoOS-000867-Q1
 	for openembedded-core@lists.openembedded.org;
 	Fri, 25 May 2012 08:53:01 +0200
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
 	by fmsmga102.fm.intel.com with ESMTP; 24 May 2012 23:42:31 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="157115432"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="157115435"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.24])
 	by fmsmga001.fm.intel.com with ESMTP; 24 May 2012 23:42:30 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 24 May 2012 23:42:02 -0700
-Message-Id: <83e5456cb18a40472822e83387cfe247b74f5343.1337927956.git.sgw@linux.intel.com>
+Date: Thu, 24 May 2012 23:42:03 -0700
+Message-Id: <64ea2ecf0248ba2609a79b9c6d6911e6c77de40a.1337927956.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <cover.1337927956.git.sgw@linux.intel.com>
 References: <cover.1337927956.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1337927956.git.sgw@linux.intel.com>
 References: <cover.1337927956.git.sgw@linux.intel.com>
-Subject: [Consolidated Pull 23/45] findutils: fix build with automake 1.12
+Subject: [Consolidated Pull 24/45] lrzsz: fix build with automake 1.12
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,59 +39,87 @@ From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
 Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
 ---
- .../findutils_fix_for_automake-1.12.patch          |   22 ++++++++++++++++++++
- meta/recipes-extended/findutils/findutils_4.4.2.bb |    6 +++-
- 2 files changed, 26 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-extended/findutils/findutils-4.4.2/findutils_fix_for_automake-1.12.patch
+ .../lrzsz_fix_for_automake-1.12.patch              |   49 ++++++++++++++++++++
+ meta/recipes-bsp/lrzsz/lrzsz_0.12.20.bb            |    6 ++-
+ 2 files changed, 53 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-bsp/lrzsz/lrzsz-0.12.20/lrzsz_fix_for_automake-1.12.patch
 
-diff --git a/meta/recipes-extended/findutils/findutils-4.4.2/findutils_fix_for_automake-1.12.patch b/meta/recipes-extended/findutils/findutils-4.4.2/findutils_fix_for_automake-1.12.patch
+diff --git a/meta/recipes-bsp/lrzsz/lrzsz-0.12.20/lrzsz_fix_for_automake-1.12.patch b/meta/recipes-bsp/lrzsz/lrzsz-0.12.20/lrzsz_fix_for_automake-1.12.patch
 new file mode 100644
-index 0000000..d4a7e95
+index 0000000..b4529f4
 --- /dev/null
-+++ b/meta/recipes-extended/findutils/findutils-4.4.2/findutils_fix_for_automake-1.12.patch
-@@ -0,0 +1,22 @@
++++ b/meta/recipes-bsp/lrzsz/lrzsz-0.12.20/lrzsz_fix_for_automake-1.12.patch
+@@ -0,0 +1,49 @@
 +Upstream-Status: Pending
 +
 +This patch fixes following issue with automake 1.12
 +
-+| configure.ac:80: error: automatic de-ANSI-fication support has been removed
++| configure.in:95: error: automatic de-ANSI-fication support has been removed
++...
++| lib/Makefile.am:3: error: automatic de-ANSI-fication support has been removed
++| lib/Makefile.am: installing './depcomp'
++| src/Makefile.am:11: error: automatic de-ANSI-fication support has been removed
++
 +
 +Signed-Off-By: Nitin A Kamble <nitin.a.kamble@intel.com>
 +2012/05/03
 +
-+Index: findutils-4.4.2/configure.ac
++Index: lrzsz-0.12.20/configure.in
 +===================================================================
-+--- findutils-4.4.2.orig/configure.ac
-++++ findutils-4.4.2/configure.ac
-+@@ -77,8 +77,6 @@ AC_PROG_CPP
-+ dnl for gnulib
-+ gl_EARLY
-+ 
++--- lrzsz-0.12.20.orig/configure.in
+++++ lrzsz-0.12.20/configure.in
++@@ -92,7 +92,6 @@ AC_PROG_RANLIB
++ AC_ISC_POSIX
++ AC_AIX
++ AC_MINIX
 +-AM_C_PROTOTYPES
-+-
-+ AC_PROG_INSTALL
-+ AC_PROG_RANLIB
-+ dnl AC_PROG_LIBTOOL
-diff --git a/meta/recipes-extended/findutils/findutils_4.4.2.bb b/meta/recipes-extended/findutils/findutils_4.4.2.bb
-index d80511c..127eb4b 100644
---- a/meta/recipes-extended/findutils/findutils_4.4.2.bb
-+++ b/meta/recipes-extended/findutils/findutils_4.4.2.bb
-@@ -1,11 +1,13 @@
- require findutils.inc
++ AC_C_CONST
++ AC_C_INLINE
++ 
++Index: lrzsz-0.12.20/lib/Makefile.am
++===================================================================
++--- lrzsz-0.12.20.orig/lib/Makefile.am
+++++ lrzsz-0.12.20/lib/Makefile.am
++@@ -1,6 +1,5 @@
++ noinst_LIBRARIES=libzmodem.a
++ CFLAGS=@CFLAGS@
++-AUTOMAKE_OPTIONS=ansi2knr
++ 
++ EXTRA_DIST = alloca.c ansi2knr.1 ansi2knr.c \
++ 	getopt.c getopt1.c mkdir.c mktime.c \
++Index: lrzsz-0.12.20/src/Makefile.am
++===================================================================
++--- lrzsz-0.12.20.orig/src/Makefile.am
+++++ lrzsz-0.12.20/src/Makefile.am
++@@ -8,7 +8,6 @@ CFLAGS=@CFLAGS@
++ DISTCLEAN_FILES=lrzszbug
++ 
++ LDADD = ../lib/libzmodem.a @LIBINTL@
++-AUTOMAKE_OPTIONS=ansi2knr
++ EXTRA_DIST = ansi2knr.1 ansi2knr.c lrzszbug.in
++ INCLUDES = -I.. -I$(srcdir) -I$(top_srcdir)/src -I../intl -I$(top_srcdir)/lib
++ #DEFS = -DLOCALEDIR=\"$(localedir)\" -DOS=\"@host_os@\" -DCPU=\"@host_cpu@\"
+diff --git a/meta/recipes-bsp/lrzsz/lrzsz_0.12.20.bb b/meta/recipes-bsp/lrzsz/lrzsz_0.12.20.bb
+index 7f86157..e76f36a 100644
+--- a/meta/recipes-bsp/lrzsz/lrzsz_0.12.20.bb
++++ b/meta/recipes-bsp/lrzsz/lrzsz_0.12.20.bb
+@@ -10,12 +10,14 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3 \
+ 			file://src/lrz.c;beginline=1;endline=10;md5=5276956373ff7d8758837f6399a1045f"
+ SECTION = "console/network"
+ DEPENDS = ""
+-PR = "r4"
++PR = "r5"
  
--PR = "r3"
-+PR = "r4"
+ SRC_URI = "http://www.ohse.de/uwe/releases/lrzsz-${PV}.tar.gz \
+ 	   file://autotools.patch \
+ 	   file://makefile.patch \
+-	   file://gettext.patch"
++	   file://gettext.patch \
++	   file://lrzsz_fix_for_automake-1.12.patch \
++           "
  
- SRC_URI += "file://01-27017.patch \
-             file://02-28824.patch \
-             file://03-28872.patch \
--            file://findutils_fix_for_x32.patch "
-+            file://findutils_fix_for_x32.patch \
-+            file://findutils_fix_for_automake-1.12.patch \
-+            "
- 
- SRC_URI[md5sum] = "351cc4adb07d54877fa15f75fb77d39f"
- SRC_URI[sha256sum] = "434f32d171cbc0a5e72cfc5372c6fc4cb0e681f8dce566a0de5b6fccd702b62a"
+ SRC_URI[md5sum] = "b5ce6a74abc9b9eb2af94dffdfd372a4"
+ SRC_URI[sha256sum] = "c28b36b14bddb014d9e9c97c52459852f97bd405f89113f30bee45ed92728ff1"
 -- 
 1.7.7.6
 
