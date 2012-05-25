@@ -1,24 +1,24 @@
 Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SXoPE-00006T-En
+	(envelope-from <sgw@linux.intel.com>) id 1SXoPD-0000Cj-Iu
 	for openembedded-core@lists.openembedded.org;
 	Fri, 25 May 2012 08:53:48 +0200
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
 	by fmsmga102.fm.intel.com with ESMTP; 24 May 2012 23:43:30 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="157115451"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="157115449"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.24])
-	by fmsmga001.fm.intel.com with ESMTP; 24 May 2012 23:42:32 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 24 May 2012 23:42:31 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 24 May 2012 23:42:10 -0700
-Message-Id: <36f49b74a359a6122f44af5a438358abb0af8696.1337927956.git.sgw@linux.intel.com>
+Date: Thu, 24 May 2012 23:42:09 -0700
+Message-Id: <54f21d83972a16985de048e9f8dfe11e8764c798.1337927956.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <cover.1337927956.git.sgw@linux.intel.com>
 References: <cover.1337927956.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1337927956.git.sgw@linux.intel.com>
 References: <cover.1337927956.git.sgw@linux.intel.com>
-Subject: [Consolidated Pull 31/45] grub-0.97: fix build with automake 1.12
+Subject: [Consolidated Pull 30/45] coreutils-native-6.9: fix build with automake 1.12
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,85 +39,73 @@ From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
 Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
 ---
- .../grub-0.97/grub_fix_for_automake-1.12.patch     |   48 ++++++++++++++++++++
- meta/recipes-bsp/grub/grub_0.97.bb                 |    6 ++-
- 2 files changed, 52 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-bsp/grub/grub-0.97/grub_fix_for_automake-1.12.patch
+ .../coreutils_fix_for_automake-1.12.patch          |   32 ++++++++++++++++++++
+ meta/recipes-core/coreutils/coreutils_6.9.bb       |    6 ++-
+ 2 files changed, 36 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-core/coreutils/coreutils-6.9/coreutils_fix_for_automake-1.12.patch
 
-diff --git a/meta/recipes-bsp/grub/grub-0.97/grub_fix_for_automake-1.12.patch b/meta/recipes-bsp/grub/grub-0.97/grub_fix_for_automake-1.12.patch
+diff --git a/meta/recipes-core/coreutils/coreutils-6.9/coreutils_fix_for_automake-1.12.patch b/meta/recipes-core/coreutils/coreutils-6.9/coreutils_fix_for_automake-1.12.patch
 new file mode 100644
-index 0000000..97ee0ad
+index 0000000..02730db
 --- /dev/null
-+++ b/meta/recipes-bsp/grub/grub-0.97/grub_fix_for_automake-1.12.patch
-@@ -0,0 +1,48 @@
++++ b/meta/recipes-core/coreutils/coreutils-6.9/coreutils_fix_for_automake-1.12.patch
+@@ -0,0 +1,32 @@
 +Upstream-Status: Pending
 +
 +automake 1.12 has depricated automatic de-ANSI-fication support
 +
 +this patch avoids these kinds of errors:
 +
-+| stage1/Makefile.am:2: error: 'pkglibdir' is not a legitimate directory for 'DATA'
-+| stage2/Makefile.am:35: error: 'pkglibdir' is not a legitimate directory for 'DATA'
-+| stage2/Makefile.am:46: error: 'pkglibdir' is not a legitimate directory for 'DATA'
-+| autoreconf: automake failed with exit status: 1
-+| ERROR: autoreconf execution failed.
++| configure.ac:40: error: automatic de-ANSI-fication support has been removed
++| /srv/home/nitin/builds/build-gcc47/tmp/sysroots/x86_64-linux/usr/share/aclocal-1.12/protos.m4:12: AM_C_PROTOTYPES is expanded from...
++| /srv/home/nitin/builds/build-gcc47/tmp/work/x86_64-linux/coreutils-native-6.9-r2/coreutils-6.9/m4/jm-macros.m4:138: gl_CHECK_ALL_TYPES is expanded from...
++| /srv/home/nitin/builds/build-gcc47/tmp/work/x86_64-linux/coreutils-native-6.9-r2/coreutils-6.9/m4/jm-macros.m4:24: coreutils_MACROS is expanded from...
++| configure.ac:40: the top level
++| autom4te: m4 failed with exit status: 1
 +
 +Signed-Off-By: Nitin A Kamble <nitin.a.kamble@intel.com>
 +2012/05/04
 +
-+Index: grub-0.97/stage1/Makefile.am
++Index: coreutils-6.9/m4/jm-macros.m4
 +===================================================================
-+--- grub-0.97.orig/stage1/Makefile.am
-++++ grub-0.97/stage1/Makefile.am
-+@@ -1,5 +1,5 @@
-+ pkglibdir = $(libdir)/$(PACKAGE)/$(host_cpu)-$(host_vendor)
-+-nodist_pkglib_DATA = stage1
-++nodist_pkgdata_DATA = stage1
++--- coreutils-6.9.orig/m4/jm-macros.m4
+++++ coreutils-6.9/m4/jm-macros.m4
++@@ -142,11 +142,6 @@ AC_DEFUN([gl_CHECK_ALL_TYPES],
++   dnl whether functions and headers are available, whether they work, etc.
++   AC_REQUIRE([AC_SYS_LARGEFILE])
 + 
-+ CLEANFILES = $(nodist_pkglib_DATA)
-+ 
-+Index: grub-0.97/stage2/Makefile.am
-+===================================================================
-+--- grub-0.97.orig/stage2/Makefile.am
-++++ grub-0.97/stage2/Makefile.am
-+@@ -32,7 +32,7 @@ pkglibdir = $(libdir)/$(PACKAGE)/$(host_
-+ EXTRA_PROGRAMS = nbloader.exec pxeloader.exec diskless.exec
-+ 
-+ if DISKLESS_SUPPORT
-+-pkglib_DATA = stage2 stage2_eltorito e2fs_stage1_5 fat_stage1_5 \
-++pkgdata_DATA = stage2 stage2_eltorito e2fs_stage1_5 fat_stage1_5 \
-+ 	ffs_stage1_5 iso9660_stage1_5 jfs_stage1_5 minix_stage1_5 \
-+ 	reiserfs_stage1_5 ufs2_stage1_5 vstafs_stage1_5 xfs_stage1_5 \
-+ 	nbgrub pxegrub
-+@@ -43,7 +43,7 @@ noinst_PROGRAMS = pre_stage2.exec start.
-+ 	reiserfs_stage1_5.exec ufs2_stage1_5.exec vstafs_stage1_5.exec \
-+ 	xfs_stage1_5.exec nbloader.exec pxeloader.exec diskless.exec
-+ else
-+-pkglib_DATA = stage2 stage2_eltorito e2fs_stage1_5 fat_stage1_5 \
-++pkgdata_DATA = stage2 stage2_eltorito e2fs_stage1_5 fat_stage1_5 \
-+ 	ffs_stage1_5 iso9660_stage1_5 jfs_stage1_5 minix_stage1_5 \
-+ 	reiserfs_stage1_5 ufs2_stage1_5 vstafs_stage1_5 xfs_stage1_5
-+ noinst_DATA = pre_stage2 start start_eltorito
-diff --git a/meta/recipes-bsp/grub/grub_0.97.bb b/meta/recipes-bsp/grub/grub_0.97.bb
-index af489fe..1cde30d 100644
---- a/meta/recipes-bsp/grub/grub_0.97.bb
-+++ b/meta/recipes-bsp/grub/grub_0.97.bb
-@@ -10,11 +10,13 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=c93c0550bd3173f4504b2cbd8991e50b \
-                     file://grub/main.c;beginline=3;endline=9;md5=22a5f28d2130fff9f2a17ed54be90ed6"
++-  dnl This test must precede tests of compiler characteristics like
++-  dnl that for the inline keyword, since it may change the degree to
++-  dnl which the compiler supports such features.
++-  AC_REQUIRE([AM_C_PROTOTYPES])
++-
++   dnl Checks for typedefs, structures, and compiler characteristics.
++   AC_REQUIRE([AC_C_BIGENDIAN])
++   AC_REQUIRE([AC_C_VOLATILE])
+diff --git a/meta/recipes-core/coreutils/coreutils_6.9.bb b/meta/recipes-core/coreutils/coreutils_6.9.bb
+index 8a47a60..bbde63c 100644
+--- a/meta/recipes-core/coreutils/coreutils_6.9.bb
++++ b/meta/recipes-core/coreutils/coreutils_6.9.bb
+@@ -8,7 +8,7 @@ BUGTRACKER = "http://debbugs.gnu.org/coreutils"
+ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
+                     file://src/ls.c;startline=4;endline=16;md5=482a96d4f25010a4e13f8743e0c3685e"
+-PR = "r2"
++PR = "r3"
+ DEPENDS = "coreutils-native-${PV}"
+ DEPENDS_virtclass-native = "gettext-native"
  
- RDEPENDS_${PN} = "diffutils"
--PR = "r4"
-+PR = "r5"
+@@ -22,7 +22,9 @@ SRC_URI_BASE = "${GNU_MIRROR}/coreutils/${BP}.tar.bz2 \
+            file://coreutils-i18n.patch \
+            file://coreutils-overflow.patch \
+            file://coreutils-fix-install.patch \
+-           file://man-touch.patch"
++           file://man-touch.patch \
++           file://coreutils_fix_for_automake-1.12.patch \
++           "
  
- SRC_URI = "ftp://alpha.gnu.org/gnu/grub/grub-${PV}.tar.gz; \
-             file://no-reorder-functions.patch \
--            file://autohell.patch "
-+            file://autohell.patch \
-+            file://grub_fix_for_automake-1.12.patch \
-+            "
- 
- SRC_URI[md5sum] = "cd3f3eb54446be6003156158d51f4884"
- SRC_URI[sha256sum] = "4e1d15d12dbd3e9208111d6b806ad5a9857ca8850c47877d36575b904559260b"
+ SRC_URI = "${SRC_URI_BASE} file://fix_for_manpage_building.patch"
+ SRC_URI_virtclass-native = "${SRC_URI_BASE}"
 -- 
 1.7.7.6
 
