@@ -1,24 +1,34 @@
-Received: from mga03.intel.com ([143.182.124.21])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <radu.moisan@intel.com>) id 1SXv9x-0007WS-Fa
-	for openembedded-core@lists.openembedded.org;
-	Fri, 25 May 2012 16:06:29 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 25 May 2012 06:56:16 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="147787250"
-Received: from dell-desktop (HELO localhost.localdomain) ([10.237.104.69])
-	by azsmga001.ch.intel.com with ESMTP; 25 May 2012 06:56:15 -0700
-From: Radu Moisan <radu.moisan@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 25 May 2012 17:02:10 +0300
-Message-Id: <e7dbc212a3e4ba1bccc827194fe2ed7a5cbf0889.1337952883.git.radu.moisan@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1337952883.git.radu.moisan@intel.com>
-References: <cover.1337952883.git.radu.moisan@intel.com>
-In-Reply-To: <cover.1337952883.git.radu.moisan@intel.com>
-References: <cover.1337952883.git.radu.moisan@intel.com>
-Subject: [PATCH 1/1 v2] mtd-utils: Update to version 1.5.0
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1SXvMo-0007gD-8Q for openembedded-core@lists.openembedded.org;
+	Fri, 25 May 2012 16:19:46 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q4PE9Yu3002525;
+	Fri, 25 May 2012 15:09:34 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 01522-06; Fri, 25 May 2012 15:09:30 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q4PE9RVK002519
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Fri, 25 May 2012 15:09:28 +0100
+Message-ID: <1337954965.20169.30.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Fri, 25 May 2012 15:09:25 +0100
+In-Reply-To: <20120525113057.GD3138@jama.jama.net>
+References: <cover.1337933617.git.liezhi.yang@windriver.com>
+	<fad645aa59e8cc5634500b35bc607e0b61dc997f.1337933617.git.liezhi.yang@windriver.com>
+	<6CC0CB11-A526-457C-AC54-2D7C67E38DE2@dominion.thruhere.net>
+	<20120525113057.GD3138@jama.jama.net>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: Zhenfeng.Zhao@windriver.com
+Subject: Re: [PATCH 1/1] opkg 0.1.8: respect to the arch when choose the alternatives
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,44 +43,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 May 2012 14:06:29 -0000
+X-List-Received-Date: Fri, 25 May 2012 14:19:46 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Radu Moisan <radu.moisan@intel.com>
----
- .../add-exclusion-to-mkfs-jffs2-git-2.patch        |    0
- .../mtd/{mtd-utils_1.4.9.bb => mtd-utils_1.5.0.bb} |    4 ++--
- 2 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/mtd/{mtd-utils-1.4.9 => mtd-utils-1.5.0}/add-exclusion-to-mkfs-jffs2-git-2.patch (100%)
- rename meta/recipes-devtools/mtd/{mtd-utils_1.4.9.bb => mtd-utils_1.5.0.bb} (94%)
+On Fri, 2012-05-25 at 13:30 +0200, Martin Jansa wrote:
+> On Fri, May 25, 2012 at 01:19:55PM +0200, Koen Kooi wrote:
+> > 
+> > Op 25 mei 2012, om 12:02 heeft Robert Yang het volgende geschreven:
+> > 
+> > > There is a bug if we:
+> > > 1) bitbake core-image-sato-sdk MACHINE=qemux86
+> > > 2) bitbake core-image-sato with MACHINE=crownbay
+> > > 
+> > > Then several pkgs in deploy/ipk/i586 would be installed to crownbay's
+> > > image even if there is one in deploy/ipk/core2 and we have set the
+> > > core2's priority higher than i586, when the version in deploy/ipk/i586 is
+> > > higher. This doesn't work for us, for example, what the crownbay need is
+> > > xserver-xorg-1.9.3, but it installs xserver-xorg-1.11.2.
+> > > 
+> > > This is caused by opkg's selecting mechanism, if there are more than one
+> > > candidates which have the same pkg name in the candidate list, for
+> > > example, the same pkg with different versions, then it will use the last
+> > > one which is the highest version in the list, this doesn't work for us,
+> > > it should respect to the arch priorities in such a case.
+> > 
+> > This is a serious break with the current opkg behaviour and I don't think it's an improvement. Needing different versions for non machine specific packages indicates a more serious bug elsewhere.
+> 
+> It's not the same use-case as those 2 above, but what I don't like on
+> current opkg behaviour is that it doesn't "reinstall" the package with
+> the same version when it gets available in arch with higher priority.
+> 
+> e.g. I have armv7a device which has feed urls for armv4t and armv7a
+> (armv7a of course with higher priority).
+> 
+> foo-1.0 in both feeds armv4t armv7a 
+> 
+> opkg update && opkg install foo -> foo-1.0_armv7a
+> 
+> distro builder publish foo-1.0-r1 sofar only in armv4t feed
+> 
+> opkg update && opkg upgrade -> foo-1.0_armv7a is upgraded to foo-1.0-r1_armv4t)
+> 
+> distro builder publish foo-1.0-r1 also to armv7a feed
+> 
+> opkg update && opkg upgrade -> nothing, but "upgrading" to foo-1.0-r1_armv7a) would be better
+> 
+> 
+> On my distro builder I'm trying to prevent this scenario by rsyncing
+> feeds only after build for *all* supported machines is completed, but
+> that's still not really atomic operation. (And later I've also started
+> to filter feeds which gets available on target image).
 
-diff --git a/meta/recipes-devtools/mtd/mtd-utils-1.4.9/add-exclusion-to-mkfs-jffs2-git-2.patch b/meta/recipes-devtools/mtd/mtd-utils-1.5.0/add-exclusion-to-mkfs-jffs2-git-2.patch
-similarity index 100%
-rename from meta/recipes-devtools/mtd/mtd-utils-1.4.9/add-exclusion-to-mkfs-jffs2-git-2.patch
-rename to meta/recipes-devtools/mtd/mtd-utils-1.5.0/add-exclusion-to-mkfs-jffs2-git-2.patch
-diff --git a/meta/recipes-devtools/mtd/mtd-utils_1.4.9.bb b/meta/recipes-devtools/mtd/mtd-utils_1.5.0.bb
-similarity index 94%
-rename from meta/recipes-devtools/mtd/mtd-utils_1.4.9.bb
-rename to meta/recipes-devtools/mtd/mtd-utils_1.5.0.bb
-index 4228b51..daa3554 100644
---- a/meta/recipes-devtools/mtd/mtd-utils_1.4.9.bb
-+++ b/meta/recipes-devtools/mtd/mtd-utils_1.5.0.bb
-@@ -6,12 +6,12 @@ LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3 \
-                     file://include/common.h;beginline=1;endline=17;md5=ba05b07912a44ea2bf81ce409380049c"
- 
--SRC_URI = "git://git.infradead.org/mtd-utils.git;protocol=git;tag=995cfe51b0a3cf32f381c140bf72b21bf91cef1b \
-+SRC_URI = "git://git.infradead.org/mtd-utils.git;protocol=git;tag=ca39eb1d98e736109c64ff9c1aa2a6ecca222d8f \
- 		file://add-exclusion-to-mkfs-jffs2-git-2.patch"
- 
- S = "${WORKDIR}/git/"
- 
--PR = "r1"
-+PR = "r0"
- 
- EXTRA_OEMAKE = "'CC=${CC}' 'RANLIB=${RANLIB}' 'AR=${AR}' 'CFLAGS=${CFLAGS} -I${S}/include -DWITHOUT_XATTR' 'BUILDDIR=${S}'"
- 
--- 
-1.7.9.5
+There is certainly cause to consider what opkg is doing here and whether
+it makes sense. Preferring latest version over machine specific feeds is
+not perhaps the behaviour we desire or expect. I agree if something
+appears in a more optimised architecture, it should consider updating to
+it too...
+
+Has anyone talked to opkg upstream about the problems?
+
+Cheers,
+
+Richard
+
+
 
 
 
