@@ -1,24 +1,24 @@
 Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SXoOG-00085R-5z
+	(envelope-from <sgw@linux.intel.com>) id 1SXoOG-00085f-2h
 	for openembedded-core@lists.openembedded.org;
 	Fri, 25 May 2012 08:52:48 +0200
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 24 May 2012 23:42:29 -0700
+	by fmsmga102.fm.intel.com with ESMTP; 24 May 2012 23:42:28 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="157115425"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="157115423"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.24])
-	by fmsmga001.fm.intel.com with ESMTP; 24 May 2012 23:42:29 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 24 May 2012 23:42:28 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 24 May 2012 23:41:55 -0700
-Message-Id: <a0563d6899e34f66e8244e4a3c409e4b06e96fb0.1337927956.git.sgw@linux.intel.com>
+Date: Thu, 24 May 2012 23:41:53 -0700
+Message-Id: <e15b7740f6aa564e144eb04bd6c249d0da03afeb.1337927956.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <cover.1337927956.git.sgw@linux.intel.com>
 References: <cover.1337927956.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1337927956.git.sgw@linux.intel.com>
 References: <cover.1337927956.git.sgw@linux.intel.com>
-Subject: [Consolidated Pull 16/45] libtasn1: fix build with automake 1.12
+Subject: [Consolidated Pull 14/45] libxml2: fix build with automake 1.12
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,63 +39,56 @@ From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
 Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
 ---
- .../libtasn1/libtasn1_fix_for_automake_1.12.patch  |   28 ++++++++++++++++++++
- meta/recipes-support/gnutls/libtasn1_2.12.bb       |    6 +++-
- 2 files changed, 32 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-support/gnutls/libtasn1/libtasn1_fix_for_automake_1.12.patch
+ .../libxml2/libxml2_fix_for_automake_1.12.patch    |   23 ++++++++++++++++++++
+ meta/recipes-core/libxml/libxml2_2.7.8.bb          |    5 ++-
+ 2 files changed, 26 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-core/libxml/libxml2/libxml2_fix_for_automake_1.12.patch
 
-diff --git a/meta/recipes-support/gnutls/libtasn1/libtasn1_fix_for_automake_1.12.patch b/meta/recipes-support/gnutls/libtasn1/libtasn1_fix_for_automake_1.12.patch
+diff --git a/meta/recipes-core/libxml/libxml2/libxml2_fix_for_automake_1.12.patch b/meta/recipes-core/libxml/libxml2/libxml2_fix_for_automake_1.12.patch
 new file mode 100644
-index 0000000..5540bef
+index 0000000..5c25882
 --- /dev/null
-+++ b/meta/recipes-support/gnutls/libtasn1/libtasn1_fix_for_automake_1.12.patch
-@@ -0,0 +1,28 @@
++++ b/meta/recipes-core/libxml/libxml2/libxml2_fix_for_automake_1.12.patch
+@@ -0,0 +1,23 @@
 +Upstream-Status: Pending
 +
-+This patch avoids following issues with automake 1.12:
++automake 1.12 has decpricated automatic de-ANSI-fication support
 +
-+| automake: warnings are treated as errors
-+| /srv/home/nitin/builds/build-gcc47/tmp/sysroots/x86_64-linux/usr/share/automake-1.12/am/ltlibrary.am: warning: 'libtasn1.la': linking libtool libraries using a non-POSIX
-+| /srv/home/nitin/builds/build-gcc47/tmp/sysroots/x86_64-linux/usr/share/automake-1.12/am/ltlibrary.am: archiver requires 'AM_PROG_AR' in 'configure.ac'
++this patch fixes this build issue:
 +
-+Signed-Off-By: Nitin A Kamble <nitin.a.kamble@intel.com>
++| configure.in:67: error: automatic de-ANSI-fication support has been removed
++Signed-Off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
 +2012/05/02
 +
-+
-+Index: libtasn1-2.11/configure.ac
++Index: libxml2-2.7.8/configure.in
 +===================================================================
-+--- libtasn1-2.11.orig/configure.ac
-++++ libtasn1-2.11/configure.ac
-+@@ -38,6 +38,11 @@ lgl_EARLY
-+ AC_PROG_YACC
-+ AC_PROG_LN_S
++--- libxml2-2.7.8.orig/configure.in
+++++ libxml2-2.7.8/configure.in
++@@ -63,8 +63,6 @@ AC_PATH_PROG(WGET, wget, /usr/bin/wget)
++ AC_PATH_PROG(XMLLINT, xmllint, /usr/bin/xmllint)
++ AC_PATH_PROG(XSLTPROC, xsltproc, /usr/bin/xsltproc)
 + 
-++# automake 1.12 seems to require this, but automake 1.11 doesn't recognize it
-++m4_pattern_allow([AM_PROG_AR])
-++AM_PROG_AR
-++
-++
-+ dnl Checks for programs.
-+ AC_PROG_INSTALL
-+ AM_MISSING_PROG(HELP2MAN, help2man, $missing_dir)
-diff --git a/meta/recipes-support/gnutls/libtasn1_2.12.bb b/meta/recipes-support/gnutls/libtasn1_2.12.bb
-index aae409e..d0b4191 100644
---- a/meta/recipes-support/gnutls/libtasn1_2.12.bb
-+++ b/meta/recipes-support/gnutls/libtasn1_2.12.bb
-@@ -8,9 +8,11 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
-                     file://COPYING.LIB;md5=4fbd65380cdd255951079008b364516c \
-                     file://README;endline=8;md5=c3803a3e8ca5ab5eb1e5912faa405351"
++-dnl Make sure we have an ANSI compiler
++-AM_C_PROTOTYPES
++ test "x$U" != "x" && AC_MSG_ERROR(Compiler not ANSI compliant)
++ 
++ AC_LIBTOOL_WIN32_DLL
+diff --git a/meta/recipes-core/libxml/libxml2_2.7.8.bb b/meta/recipes-core/libxml/libxml2_2.7.8.bb
+index 1de73da..9111120 100644
+--- a/meta/recipes-core/libxml/libxml2_2.7.8.bb
++++ b/meta/recipes-core/libxml/libxml2_2.7.8.bb
+@@ -1,8 +1,9 @@
+ require libxml2.inc
  
--PR = "r0"
-+PR = "r1"
+-PR = "r7"
++PR = "r8"
  
--SRC_URI = "${GNU_MIRROR}/libtasn1/libtasn1-${PV}.tar.gz"
-+SRC_URI = "${GNU_MIRROR}/libtasn1/libtasn1-${PV}.tar.gz \
-+           file://libtasn1_fix_for_automake_1.12.patch \
-+           "
+-SRC_URI += "file://fix_version_info.patch"
++SRC_URI += "file://fix_version_info.patch \
++            file://libxml2_fix_for_automake_1.12.patch"
  
- SRC_URI[md5sum] = "4eba39fb962d6cf5a370267eae8ff52b"
- SRC_URI[sha256sum] = "0e257a8a01c80e464f73262e13c226e04a15165c2ad087a340f53902281a1c5d"
+ SRC_URI[md5sum] = "8127a65e8c3b08856093099b52599c86"
+ SRC_URI[sha256sum] = "cda23bc9ebd26474ca8f3d67e7d1c4a1f1e7106364b690d822e009fdc3c417ec"
 -- 
 1.7.7.6
 
