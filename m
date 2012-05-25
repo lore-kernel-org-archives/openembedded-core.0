@@ -1,24 +1,24 @@
 Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SXoOS-00085f-KE
+	(envelope-from <sgw@linux.intel.com>) id 1SXoOS-00085R-RW
 	for openembedded-core@lists.openembedded.org;
 	Fri, 25 May 2012 08:53:01 +0200
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
 	by fmsmga102.fm.intel.com with ESMTP; 24 May 2012 23:42:31 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="157115431"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="157115438"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.24])
 	by fmsmga001.fm.intel.com with ESMTP; 24 May 2012 23:42:30 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 24 May 2012 23:42:01 -0700
-Message-Id: <e1009ec995c863ef12d4786d3fee1bbf4c96962e.1337927956.git.sgw@linux.intel.com>
+Date: Thu, 24 May 2012 23:42:04 -0700
+Message-Id: <7358ba74cd09c3ec1affafd498aea03a00564c52.1337927956.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <cover.1337927956.git.sgw@linux.intel.com>
 References: <cover.1337927956.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1337927956.git.sgw@linux.intel.com>
 References: <cover.1337927956.git.sgw@linux.intel.com>
-Subject: [Consolidated Pull 22/45] glew: fix build with automake 1.12
+Subject: [Consolidated Pull 25/45] minicom: fix build with automake 1.12
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,59 +39,54 @@ From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
 Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
 ---
- .../glew/files/glew_fix_for_automake-1.12.patch    |   25 ++++++++++++++++++++
- meta/recipes-graphics/glew/glew_1.7.0.bb           |    3 +-
- 2 files changed, 27 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-graphics/glew/files/glew_fix_for_automake-1.12.patch
+ .../minicom_fix_for_automake-1.12.patch            |   21 ++++++++++++++++++++
+ meta/recipes-extended/minicom/minicom_2.6.1.bb     |    3 ++
+ 2 files changed, 24 insertions(+), 0 deletions(-)
+ create mode 100644 meta/recipes-extended/minicom/minicom-2.6.1/minicom_fix_for_automake-1.12.patch
 
-diff --git a/meta/recipes-graphics/glew/files/glew_fix_for_automake-1.12.patch b/meta/recipes-graphics/glew/files/glew_fix_for_automake-1.12.patch
+diff --git a/meta/recipes-extended/minicom/minicom-2.6.1/minicom_fix_for_automake-1.12.patch b/meta/recipes-extended/minicom/minicom-2.6.1/minicom_fix_for_automake-1.12.patch
 new file mode 100644
-index 0000000..0707efb
+index 0000000..aba6298
 --- /dev/null
-+++ b/meta/recipes-graphics/glew/files/glew_fix_for_automake-1.12.patch
-@@ -0,0 +1,25 @@
++++ b/meta/recipes-extended/minicom/minicom-2.6.1/minicom_fix_for_automake-1.12.patch
+@@ -0,0 +1,21 @@
 +Upstream-Status: Pending
 +
 +This patch fixes following issue with automake 1.12
 +
-+| automake: warnings are treated as errors
-+| /srv/home/nitin/builds/build-gcc47/tmp/sysroots/x86_64-linux/usr/share/automake-1.12/am/ltlibrary.am: warning: 'libGLEW.la': linking libtool libraries using a non-POSIX
-+| /srv/home/nitin/builds/build-gcc47/tmp/sysroots/x86_64-linux/usr/share/automake-1.12/am/ltlibrary.am: archiver requires 'AM_PROG_AR' in 'configure.ac'
++| configure.in:193: error: automatic de-ANSI-fication support has been removed
 +
 +Signed-Off-By: Nitin A Kamble <nitin.a.kamble@intel.com>
 +2012/05/03
 +
-+Index: glew-1.7.0/configure.ac
++Index: minicom-2.6.1/configure.in
 +===================================================================
-+--- glew-1.7.0.orig/configure.ac
-++++ glew-1.7.0/configure.ac
-+@@ -14,6 +14,9 @@ LT_INIT
-+ AC_PROG_CC
-+ AC_PROG_INSTALL
-+ AC_PROG_LN_S
-++# automake 1.12 seems to require this, but automake 1.11 doesn't recognize it
-++m4_pattern_allow([AM_PROG_AR])
-++AM_PROG_AR
++--- minicom-2.6.1.orig/configure.in
+++++ minicom-2.6.1/configure.in
++@@ -190,7 +190,6 @@ AC_CHECK_HEADERS(stdarg.h varargs.h term
 + 
-+ # Checks for libraries.
-+ 
-diff --git a/meta/recipes-graphics/glew/glew_1.7.0.bb b/meta/recipes-graphics/glew/glew_1.7.0.bb
-index e65663d..cdb778c 100644
---- a/meta/recipes-graphics/glew/glew_1.7.0.bb
-+++ b/meta/recipes-graphics/glew/glew_1.7.0.bb
-@@ -7,10 +7,11 @@ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=2ac251558de685c6b9478d89be3149c2"
++ dnl Checks for typedefs, structures, and compiler characteristics.
++ AC_C_CONST
++-AM_C_PROTOTYPES
++ AC_TYPE_UID_T
++ AC_TYPE_MODE_T
++ AC_TYPE_PID_T
+diff --git a/meta/recipes-extended/minicom/minicom_2.6.1.bb b/meta/recipes-extended/minicom/minicom_2.6.1.bb
+index 3a9f934..b54853d 100644
+--- a/meta/recipes-extended/minicom/minicom_2.6.1.bb
++++ b/meta/recipes-extended/minicom/minicom_2.6.1.bb
+@@ -6,8 +6,11 @@ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=420477abc567404debca0a2a1cb6b645 \
+                     file://src/minicom.h;beginline=1;endline=12;md5=a58838cb709f0db517f4e42730c49e81"
  
- DEPENDS = "virtual/libx11 virtual/libgl libxext libxi libxmu"
- 
--PR = "r0"
 +PR = "r1"
++
+ SRC_URI = "http://alioth.debian.org/frs/download.php/3700/minicom-${PV}.tar.gz \
+ 	file://rename-conflicting-functions.patch \
++	file://minicom_fix_for_automake-1.12.patch \
+ 	"
+ #	file://gcc4-scope.patch
  
- SRC_URI = "${SOURCEFORGE_MIRROR}/project/glew/glew/${PV}/glew-${PV}.tgz \
-            file://autotools.patch \
-+           file://glew_fix_for_automake-1.12.patch \
-           "
- 
- SRC_URI[md5sum] = "fb7a8bb79187ac98a90b57f0f27a3e84"
 -- 
 1.7.7.6
 
