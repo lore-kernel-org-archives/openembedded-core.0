@@ -1,24 +1,24 @@
 Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SXoP9-00006T-72
+	(envelope-from <sgw@linux.intel.com>) id 1SXoPB-00006T-1s
 	for openembedded-core@lists.openembedded.org;
-	Fri, 25 May 2012 08:53:43 +0200
+	Fri, 25 May 2012 08:53:46 +0200
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
 	by fmsmga102.fm.intel.com with ESMTP; 24 May 2012 23:43:30 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="157115443"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="157115444"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.24])
 	by fmsmga001.fm.intel.com with ESMTP; 24 May 2012 23:42:31 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 24 May 2012 23:42:06 -0700
-Message-Id: <66d092984e57a76f497423aff15ffba004b1acb5.1337927956.git.sgw@linux.intel.com>
+Date: Thu, 24 May 2012 23:42:07 -0700
+Message-Id: <d02e8d93dc57f2e6d3570fc1391cf8de3fd2260e.1337927956.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <cover.1337927956.git.sgw@linux.intel.com>
 References: <cover.1337927956.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1337927956.git.sgw@linux.intel.com>
 References: <cover.1337927956.git.sgw@linux.intel.com>
-Subject: [Consolidated Pull 27/45] libfm: fix build with automake 1.12
+Subject: [Consolidated Pull 28/45] libcroco: fix build with automake 1.12
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,89 +33,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 May 2012 06:53:44 -0000
+X-List-Received-Date: Fri, 25 May 2012 06:53:46 -0000
 
 From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
 Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
 ---
- .../libfm-0.1.17/libfm_fix_for_automake-1.12.patch |   48 ++++++++++++++++++++
- meta/recipes-support/libfm/libfm_0.1.17.bb         |    6 ++-
- 2 files changed, 52 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-support/libfm/libfm-0.1.17/libfm_fix_for_automake-1.12.patch
+ .../files/libcroco_fix_for_automake-1.12.patch     |   22 ++++++++++++++++++++
+ meta/recipes-support/libcroco/libcroco_0.6.3.bb    |    5 ++-
+ 2 files changed, 25 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-support/libcroco/files/libcroco_fix_for_automake-1.12.patch
 
-diff --git a/meta/recipes-support/libfm/libfm-0.1.17/libfm_fix_for_automake-1.12.patch b/meta/recipes-support/libfm/libfm-0.1.17/libfm_fix_for_automake-1.12.patch
+diff --git a/meta/recipes-support/libcroco/files/libcroco_fix_for_automake-1.12.patch b/meta/recipes-support/libcroco/files/libcroco_fix_for_automake-1.12.patch
 new file mode 100644
-index 0000000..3efb4dd
+index 0000000..9dcf7b0
 --- /dev/null
-+++ b/meta/recipes-support/libfm/libfm-0.1.17/libfm_fix_for_automake-1.12.patch
-@@ -0,0 +1,48 @@
++++ b/meta/recipes-support/libcroco/files/libcroco_fix_for_automake-1.12.patch
+@@ -0,0 +1,22 @@
 +Upstream-Status: Pending
 +
 +This patch fixes following kind of issues with automake 1.12
-+| automake: warnings are treated as errors
-+| data/ui/Makefile.am:21: warning: '%'-style pattern rules are a GNU make extension
-+...
-+| /srv/home/nitin/builds/build-gcc47/tmp/sysroots/x86_64-linux/usr/share/automake-1.12/am/ltlibrary.am: warning: 'libfm-gtk.la': linking libtool libraries using a non-POSIX
-+| /srv/home/nitin/builds/build-gcc47/tmp/sysroots/x86_64-linux/usr/share/automake-1.12/am/ltlibrary.am: archiver requires 'AM_PROG_AR' in 'configure.ac'
-+...
-+| src/Makefile.am:21: warning: compiling 'glib-compat.c' with per-target flags requires 'AM_PROG_CC_C_O' in 'configure.ac'
++
++| configure.in:51: error: automatic de-ANSI-fication support has been removed
 +
 +Signed-Off-By: Nitin A Kamble <nitin.a.kamble@intel.com>
 +2012/05/03
 +
-+Index: libfm-0.1.17/configure.ac
++Index: libcroco-0.6.3/configure.in
 +===================================================================
-+--- libfm-0.1.17.orig/configure.ac
-++++ libfm-0.1.17/configure.ac
-+@@ -4,11 +4,17 @@
-+ AC_PREREQ([2.63])
-+ AC_INIT([libfm], [0.1.17], [http://pcmanfm.sorceforge.net/])
-+ AM_INIT_AUTOMAKE([-Wall -Werror foreign])
-++
-++# automake 1.12 seems to require this, but automake 1.11 doesn't recognize it
-++m4_pattern_allow([AM_PROG_AR])
-++AM_PROG_AR
-++
-+ AC_CONFIG_MACRO_DIR(m4)
-+ AC_CONFIG_HEADERS([config.h])
++--- libcroco-0.6.3.orig/configure.in
+++++ libcroco-0.6.3/configure.in
++@@ -47,8 +47,6 @@ AC_PROG_CC
++ AC_PROG_INSTALL
++ AC_PROG_CPP
 + 
-+ # Checks for programs.
-+ AC_PROG_CC
-++AM_PROG_CC_C_O
-+ AM_PROG_LIBTOOL
++-dnl Make sure we have an ANSI compiler
++-AM_C_PROTOTYPES
++ test "x$U" != "x" && AC_MSG_ERROR(Compiler not ANSI compliant)
 + 
-+ # Checks for libraries.
-+Index: libfm-0.1.17/data/ui/Makefile.am
-+===================================================================
-+--- libfm-0.1.17.orig/data/ui/Makefile.am
-++++ libfm-0.1.17/data/ui/Makefile.am
-+@@ -18,6 +18,6 @@ EXTRA_DIST = \
-+ 	$(NULL)
-+ 
-+ # Purge GtkBuilder UI files
-+-%.ui: %.glade
-++.glade.ui:
-+ 	cp $< $@
-+ 	$(top_builddir)/src/xml-purge $@
-diff --git a/meta/recipes-support/libfm/libfm_0.1.17.bb b/meta/recipes-support/libfm/libfm_0.1.17.bb
-index e3fd2de..1bd8850 100644
---- a/meta/recipes-support/libfm/libfm_0.1.17.bb
-+++ b/meta/recipes-support/libfm/libfm_0.1.17.bb
-@@ -10,9 +10,11 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
- SECTION = "x11/libs"
- DEPENDS = "glib-2.0 pango gtk+ menu-cache intltool-native"
++ dnl Checks for libraries.
+diff --git a/meta/recipes-support/libcroco/libcroco_0.6.3.bb b/meta/recipes-support/libcroco/libcroco_0.6.3.bb
+index 74c2cbb..d9ff8de 100644
+--- a/meta/recipes-support/libcroco/libcroco_0.6.3.bb
++++ b/meta/recipes-support/libcroco/libcroco_0.6.3.bb
+@@ -9,11 +9,12 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=55ca817ccb7d5b5b66355690e9abc605 \
  
--PR = "r3"
-+PR = "r4"
+ SECTION = "x11/utils"
+ DEPENDS = "glib-2.0 libxml2 zlib"
+-PR = "r2"
++PR = "r3"
  
--SRC_URI = "${SOURCEFORGE_MIRROR}/pcmanfm/libfm-${PV}.tar.gz"
-+SRC_URI = "${SOURCEFORGE_MIRROR}/pcmanfm/libfm-${PV}.tar.gz \
-+           file://libfm_fix_for_automake-1.12.patch \
-+           "
+ inherit autotools pkgconfig gnome
  
- SRC_URI[md5sum] = "a97e03d973e6ac727f28d0934d6c9ad5"
- SRC_URI[sha256sum] = "1740681cff4cd4c5a2eaa9805d8898269cfb6a49a0bda0acb242def15bc7131b"
+-SRC_URI_append = " file://croco.patch;apply=yes "
++SRC_URI_append = " file://croco.patch;apply=yes \
++                  file://libcroco_fix_for_automake-1.12.patch "
+ 
+ SRC_URI[archive.md5sum] = "e1e93eeff4367c896f3959af34ba20eb"
+ SRC_URI[archive.sha256sum] = "746192d979263c74094d41e5ff0e19900b3d81eb2bd42c27c1c320dd94008034"
 -- 
 1.7.7.6
 
