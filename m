@@ -1,26 +1,34 @@
-Received: from mail.windriver.com ([147.11.1.11])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Liezhi.Yang@windriver.com>) id 1SXrVk-0000rS-A3
-	for openembedded-core@lists.openembedded.org;
-	Fri, 25 May 2012 12:12:44 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q4PA2Ucq018789
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1SXrlS-00027y-02 for openembedded-core@lists.openembedded.org;
+	Fri, 25 May 2012 12:28:58 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q4PAIkGw032636
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 May 2012 03:02:30 -0700 (PDT)
-Received: from usp-ub10.corp.ad.wrs.com (128.224.163.69) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.1.255.0; Fri, 25 May 2012 03:02:30 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 25 May 2012 18:02:38 +0800
-Message-ID: <fad645aa59e8cc5634500b35bc607e0b61dc997f.1337933617.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.1
-In-Reply-To: <cover.1337933617.git.liezhi.yang@windriver.com>
-References: <cover.1337933617.git.liezhi.yang@windriver.com>
-MIME-Version: 1.0
-Cc: Zhenfeng.Zhao@windriver.com
-Subject: [PATCH 1/1] opkg 0.1.8: respect to the arch when choose the alternatives
+	Fri, 25 May 2012 11:18:46 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 31927-06 for <openembedded-core@lists.openembedded.org>;
+	Fri, 25 May 2012 11:18:42 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q4PAIaiA032630
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 25 May 2012 11:18:37 +0100
+Message-ID: <1337941116.20169.22.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Fri, 25 May 2012 11:18:36 +0100
+In-Reply-To: <932f606a11243d307984d7b1034f0f9ce1e01683.1337927956.git.sgw@linux.intel.com>
+References: <cover.1337927956.git.sgw@linux.intel.com>
+	<932f606a11243d307984d7b1034f0f9ce1e01683.1337927956.git.sgw@linux.intel.com>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [Consolidated Pull 38/45] pango: fix dependencies to avoid build issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,116 +43,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 May 2012 10:12:44 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 25 May 2012 10:29:00 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-There is a bug if we:
-1) bitbake core-image-sato-sdk MACHINE=qemux86
-2) bitbake core-image-sato with MACHINE=crownbay
+On Thu, 2012-05-24 at 23:42 -0700, Saul Wold wrote:
+> From: Nitin A Kamble <nitin.a.kamble@intel.com>
+> 
+> this commit avoids this build issue:
+> 
+> | /srv/home/nitin/builds/build-gcc47/tmp/sysroots/x86_64-linux/usr/libexec/i586-poky-linux/gcc/i586-poky-linux/4.7.1/ld: cannot find -lelf
+> | collect2: error: ld returned 1 exit status
+> ...
+> | make: *** [all] Error 2
+> | ERROR: oe_runmake failed
+> NOTE: package pango-1.28.4-r7: task do_compile: Failed
+> 
+> Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
+> ---
+>  meta/recipes-graphics/pango/pango.inc |    2 +-
+>  1 files changed, 1 insertions(+), 1 deletions(-)
 
-Then several pkgs in deploy/ipk/i586 would be installed to crownbay's
-image even if there is one in deploy/ipk/core2 and we have set the
-core2's priority higher than i586, when the version in deploy/ipk/i586 is
-higher. This doesn't work for us, for example, what the crownbay need is
-xserver-xorg-1.9.3, but it installs xserver-xorg-1.11.2.
+Why does pango suddenly need libelf? This doesn't make sense...
 
-This is caused by opkg's selecting mechanism, if there are more than one
-candidates which have the same pkg name in the candidate list, for
-example, the same pkg with different versions, then it will use the last
-one which is the highest version in the list, this doesn't work for us,
-it should respect to the arch priorities in such a case.
+Cheers,
 
-This is for both denzil and master branch.
-
-[YOCTO #2360]
-
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- .../opkg/opkg/respect-to-arch.patch                |   47 ++++++++++++++++++++
- meta/recipes-devtools/opkg/opkg_0.1.8.bb           |    1 +
- meta/recipes-devtools/opkg/opkg_svn.bb             |    1 +
- 3 files changed, 49 insertions(+), 0 deletions(-)
- create mode 100644 meta/recipes-devtools/opkg/opkg/respect-to-arch.patch
-
-diff --git a/meta/recipes-devtools/opkg/opkg/respect-to-arch.patch b/meta/recipes-devtools/opkg/opkg/respect-to-arch.patch
-new file mode 100644
-index 0000000..6f4537f
---- /dev/null
-+++ b/meta/recipes-devtools/opkg/opkg/respect-to-arch.patch
-@@ -0,0 +1,47 @@
-+pkg_hash.c: respect to the arch priorities when good_pkg_by_name
-+
-+If there are more than one candidates which have the same pkg name in
-+the candidate list, for example, the same pkg with different versions,
-+then it will use the last one which is the highest version in the list,
-+it should respect to the arch priorities in such a case.
-+
-+Upstream Status: Pending
-+
-+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-+---
-+ libopkg/pkg_hash.c |   18 +++++++++++++++---
-+ 1 files changed, 15 insertions(+), 3 deletions(-)
-+
-+diff --git a/libopkg/pkg_hash.c b/libopkg/pkg_hash.c
-+index a99cf6b..cc048c8 100644
-+--- a/libopkg/pkg_hash.c
-++++ b/libopkg/pkg_hash.c
-+@@ -376,10 +376,22 @@ pkg_hash_fetch_best_installation_candidate(abstract_pkg_t *apkg,
-+           if (constraint_fcn(matching, cdata)) {
-+              opkg_msg(DEBUG, "Candidate: %s %s.\n",
-+ 			     matching->name, matching->version) ;
-+-             good_pkg_by_name = matching;
-++             /* Respect to the arch priorities when given alternatives */
-++             if (good_pkg_by_name) {
-++                 if (matching->arch_priority >= good_pkg_by_name->arch_priority) {
-++                     good_pkg_by_name = matching;
-++                     opkg_msg(DEBUG, "%s %s wins by priority.\n",
-++                         matching->name, matching->version) ;
-++                 } else
-++                     opkg_msg(DEBUG, "%s %s wins by priority.\n",
-++                         good_pkg_by_name->name, good_pkg_by_name->version) ;
-++             } else
-++                 good_pkg_by_name = matching;
-+ 	     /* It has been provided by hand, so it is what user want */
-+-             if (matching->provided_by_hand == 1)
-+-                break;
-++             if (matching->provided_by_hand == 1) {
-++                 good_pkg_by_name = matching;
-++                 break;
-++             }
-+           }
-+      }
-+ 
-+-- 
-+1.7.1
-+
-diff --git a/meta/recipes-devtools/opkg/opkg_0.1.8.bb b/meta/recipes-devtools/opkg/opkg_0.1.8.bb
-index c206b37..5161824 100644
---- a/meta/recipes-devtools/opkg/opkg_0.1.8.bb
-+++ b/meta/recipes-devtools/opkg/opkg_0.1.8.bb
-@@ -3,6 +3,7 @@ require opkg.inc
- SRC_URI = "http://opkg.googlecode.com/files/opkg-${PV}.tar.gz \
-            file://add_vercmp.patch \
-            file://headerfix.patch \
-+           file://respect-to-arch.patch \
-           "
- 
- PR = "${INC_PR}.0"
-diff --git a/meta/recipes-devtools/opkg/opkg_svn.bb b/meta/recipes-devtools/opkg/opkg_svn.bb
-index c07d393..c3ed973 100644
---- a/meta/recipes-devtools/opkg/opkg_svn.bb
-+++ b/meta/recipes-devtools/opkg/opkg_svn.bb
-@@ -6,6 +6,7 @@ SRC_URI = "svn://opkg.googlecode.com/svn;module=trunk;proto=http \
-            file://fix_installorder.patch \
-            file://offline_postinstall.patch\
-            file://track_parents.patch \
-+           file://respect-to-arch.patch \
- "
- 
- S = "${WORKDIR}/trunk"
--- 
-1.7.1
+Richard
 
 
 
