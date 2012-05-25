@@ -1,40 +1,20 @@
-Received: from mail-wg0-f43.google.com ([74.125.82.43])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1SXstG-0000AP-O9
+	(envelope-from <radu.moisan@intel.com>) id 1SXv4m-0007Q1-IJ
 	for openembedded-core@lists.openembedded.org;
-	Fri, 25 May 2012 13:41:06 +0200
-Received: by wgbdr1 with SMTP id dr1so688308wgb.24
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 May 2012 04:30:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=g7MxTgTYah+oyrMJIOygCGMoNK5yQTn1NJXIpf1th4Y=;
-	b=DU1hxtrcxSm+W/T6URR6dRxv7jJraaKrn6XkgN9cQnYjTJGaz9B7YgY6xlMO80bxwL
-	w8JDWb1WEKbMVPL1hDIXWdV/aSIMjRrTgpjiTPBbZCCWLiCjM61+6AkXPDvBHI2lQmBz
-	gtjk4o25/ouYpruNL6sNkIwuoc/MVBr5MASN4DqyGcerYp6HV0cvsrM6t6MybXgQM5hW
-	Cji0lmbeMN9gE+PcXEvaMKc78NtE0beP5Jpt4pdwz3S9mEInbXIvSUNLJeYJ5WjcYyva
-	z013md58tR3ztqVU2IHOJk0YdOlP119X+KH9CgnT57DqdhJSN8pV6Bb2zBp11pKJ/0ez
-	m1WQ==
-Received: by 10.216.196.91 with SMTP id q69mr1633400wen.185.1337945454426;
-	Fri, 25 May 2012 04:30:54 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id n11sm19316427wiv.9.2012.05.25.04.30.52
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 25 May 2012 04:30:53 -0700 (PDT)
-Date: Fri, 25 May 2012 13:30:57 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20120525113057.GD3138@jama.jama.net>
-References: <cover.1337933617.git.liezhi.yang@windriver.com>
-	<fad645aa59e8cc5634500b35bc607e0b61dc997f.1337933617.git.liezhi.yang@windriver.com>
-	<6CC0CB11-A526-457C-AC54-2D7C67E38DE2@dominion.thruhere.net>
-MIME-Version: 1.0
-In-Reply-To: <6CC0CB11-A526-457C-AC54-2D7C67E38DE2@dominion.thruhere.net>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: Zhenfeng.Zhao@windriver.com
-Subject: Re: [PATCH 1/1] opkg 0.1.8: respect to the arch when choose the alternatives
+	Fri, 25 May 2012 16:01:08 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 25 May 2012 06:50:55 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="157231633"
+Received: from dell-desktop (HELO localhost.localdomain) ([10.237.104.69])
+	by fmsmga001.fm.intel.com with ESMTP; 25 May 2012 06:50:54 -0700
+From: Radu Moisan <radu.moisan@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 25 May 2012 16:56:50 +0300
+Message-Id: <1337954210-2560-1-git-send-email-radu.moisan@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH v2] man-pages: update to version 3.41
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,84 +29,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 May 2012 11:41:06 -0000
-X-Groupsio-MsgNum: 22805
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="DrWhICOqskFTAXiy"
-Content-Disposition: inline
+X-List-Received-Date: Fri, 25 May 2012 14:01:08 -0000
 
---DrWhICOqskFTAXiy
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Radu Moisan <radu.moisan@intel.com>
+---
+ .../{man-pages_3.36.bb => man-pages_3.41.bb}       |    8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-extended/man-pages/{man-pages_3.36.bb => man-pages_3.41.bb} (68%)
 
-On Fri, May 25, 2012 at 01:19:55PM +0200, Koen Kooi wrote:
->=20
-> Op 25 mei 2012, om 12:02 heeft Robert Yang het volgende geschreven:
->=20
-> > There is a bug if we:
-> > 1) bitbake core-image-sato-sdk MACHINE=3Dqemux86
-> > 2) bitbake core-image-sato with MACHINE=3Dcrownbay
-> >=20
-> > Then several pkgs in deploy/ipk/i586 would be installed to crownbay's
-> > image even if there is one in deploy/ipk/core2 and we have set the
-> > core2's priority higher than i586, when the version in deploy/ipk/i586 =
-is
-> > higher. This doesn't work for us, for example, what the crownbay need is
-> > xserver-xorg-1.9.3, but it installs xserver-xorg-1.11.2.
-> >=20
-> > This is caused by opkg's selecting mechanism, if there are more than one
-> > candidates which have the same pkg name in the candidate list, for
-> > example, the same pkg with different versions, then it will use the last
-> > one which is the highest version in the list, this doesn't work for us,
-> > it should respect to the arch priorities in such a case.
->=20
-> This is a serious break with the current opkg behaviour and I don't think=
- it's an improvement. Needing different versions for non machine specific p=
-ackages indicates a more serious bug elsewhere.
-
-It's not the same use-case as those 2 above, but what I don't like on
-current opkg behaviour is that it doesn't "reinstall" the package with
-the same version when it gets available in arch with higher priority.
-
-e.g. I have armv7a device which has feed urls for armv4t and armv7a
-(armv7a of course with higher priority).
-
-foo-1.0 in both feeds armv4t armv7a=20
-
-opkg update && opkg install foo -> foo-1.0_armv7a
-
-distro builder publish foo-1.0-r1 sofar only in armv4t feed
-
-opkg update && opkg upgrade -> foo-1.0_armv7a is upgraded to foo-1.0-r1_arm=
-v4t)
-
-distro builder publish foo-1.0-r1 also to armv7a feed
-
-opkg update && opkg upgrade -> nothing, but "upgrading" to foo-1.0-r1_armv7=
-a) would be better
+diff --git a/meta/recipes-extended/man-pages/man-pages_3.36.bb b/meta/recipes-extended/man-pages/man-pages_3.41.bb
+similarity index 68%
+rename from meta/recipes-extended/man-pages/man-pages_3.36.bb
+rename to meta/recipes-extended/man-pages/man-pages_3.41.bb
+index 6025a87..cf0523c 100644
+--- a/meta/recipes-extended/man-pages/man-pages_3.36.bb
++++ b/meta/recipes-extended/man-pages/man-pages_3.41.bb
+@@ -3,13 +3,13 @@ DESCRIPTION = "The Linux man-pages project documents the Linux kernel and C libr
+ SECTION = "console/utils"
+ HOMEPAGE = "http://www.kernel.org/pub/linux/docs/man-pages"
+ LICENSE = "GPLv2+"
+-PR = "r1"
++PR = "r0"
+ 
+ LIC_FILES_CHKSUM = "file://README;md5=0422377a748010b2b738342e24f141c1"
+-SRC_URI = "${KERNELORG_MIRROR}/linux/docs/man-pages/Archive/${BPN}-${PV}.tar.gz"
++SRC_URI = "${KERNELORG_MIRROR}/linux/docs/${BPN}/Archive/${BP}.tar.gz"
+ 
+-SRC_URI[md5sum] = "cfe991b1ce9e0ea5355f29ff9fcac125"
+-SRC_URI[sha256sum] = "c0575e31f73cd9dc2761c274217e06e7130fdfee510170957a9d72d012a5437c"
++SRC_URI[md5sum] = "ee8412e72dc79f3c62573add29954b26"
++SRC_URI[sha256sum] = "13f08bf1bb7429cd7208acd41250f36fb6b2e12ab9f86f7e8fa8c67af142d81d"
+ 
+ RDEPENDS_${PN} = "man"
+ 
+-- 
+1.7.9.5
 
 
-On my distro builder I'm trying to prevent this scenario by rsyncing
-feeds only after build for *all* supported machines is completed, but
-that's still not really atomic operation. (And later I've also started
-to filter feeds which gets available on target image).
 
-Cheers,
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---DrWhICOqskFTAXiy
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
-
-iEYEARECAAYFAk+/bXEACgkQN1Ujt2V2gBznwwCgrQMXkgl0buSeKlhpjJ9SqCgv
-c2MAn3N+GmF3pLEIBR5ExOPEnIFcu4Xa
-=XkXj
------END PGP SIGNATURE-----
-
---DrWhICOqskFTAXiy--
