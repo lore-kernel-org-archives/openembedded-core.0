@@ -1,38 +1,38 @@
 Received: from mail-bk0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1SXqOW-00047D-Vg
+	(envelope-from <martin.jansa@gmail.com>) id 1SXqPC-00049t-OE
 	for openembedded-core@lists.openembedded.org;
-	Fri, 25 May 2012 11:01:13 +0200
-Received: by bkcjm2 with SMTP id jm2so553941bkc.6
+	Fri, 25 May 2012 11:01:54 +0200
+Received: by bkcjm2 with SMTP id jm2so554330bkc.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 May 2012 01:51:00 -0700 (PDT)
+	Fri, 25 May 2012 01:51:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:subject:message-id:references:mime-version
+	h=date:from:to:cc:subject:message-id:references:mime-version
 	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=JZ2O14rTNz07Nvi0CYYv9670kHQV9W9biiTPxNXWSM0=;
-	b=ESSHsUYQASiBrhUZekZqYNSVhpBDtYFSUOCioymzfQHC4BNNvQu9CYQPp45cGqJQVm
-	tAMXErJ7o0Lj2paL46i43stZ71W3Ft9LahogFOAgv/8qDDm8GSrEbrdMlgakTMGsY+0v
-	ekVAfaY6tGeGAZ8MMYWgxEpVBMJIIR9suUAQAN5LgMdnI4P2kiMeCr4esrATKqgeG76M
-	Uv4OVyzs6SbOqvYyRkweAyU6bIHxwGCj9ZJAYGUfQJXFa6QQmno9zMudSm49rX+lgW6A
-	cRuimP/5KC/+GOvRkMcyH02yA/lo3SDZem0VZUd2+BNWOULxlex/7eP1vZ/wN+IalR5Y
-	3RRg==
-Received: by 10.204.151.82 with SMTP id b18mr1050387bkw.132.1337935860628;
-	Fri, 25 May 2012 01:51:00 -0700 (PDT)
+	bh=fyJiDvjtsIQXpyMbZCtWofn6NEwjZ2KSdr0sTPWWAzE=;
+	b=N+qI9JCXcFo0nMN4d3JLDZ0RreXYQsICefhK//EB8WaSXSpGxsq2JErTgOPONWBPLY
+	hziEv/JGzueNGjujAIlNBXOzodV8qrKPily5LaryY8Hc31jCo0b1/mqWGCz5Tf+gyosR
+	rWAIyGh1xuYlmVma9H0qmHU4buyhdTNm9a4Ijs/eZckp9yT1Wn6B2ZwEbExQlI1SlFIe
+	Jwtv4UrUosn07pfhZ/HKbbIXhS2p+Cg/kCuKHKU+L/JGuAsJUWltsfqZbPnDgHJBm+tq
+	8RZWm+einSfK3bupUsmf5b5TVXjucWRZ4R7K4ov5VkiWXgeg0tRY3+0EaoPMpTxEWl2l
+	oG5w==
+Received: by 10.205.118.9 with SMTP id fo9mr1097065bkc.58.1337935902734;
+	Fri, 25 May 2012 01:51:42 -0700 (PDT)
 Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id ig1sm5501045bkc.4.2012.05.25.01.50.59
+	by mx.google.com with ESMTPS id n19sm5486038bkv.14.2012.05.25.01.51.40
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 25 May 2012 01:50:59 -0700 (PDT)
-Date: Fri, 25 May 2012 10:51:03 +0200
+	Fri, 25 May 2012 01:51:41 -0700 (PDT)
+Date: Fri, 25 May 2012 10:51:45 +0200
 From: Martin Jansa <martin.jansa@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Message-ID: <20120525085103.GB3138@jama.jama.net>
-References: <cover.1337868781.git.radu.moisan@intel.com>
-	<eb1e7a0ded7e26ab8f79017f20ce139de82810b0.1337868781.git.radu.moisan@intel.com>
+Message-ID: <20120525085145.GC3138@jama.jama.net>
+References: <1337932878.20169.5.camel@ted>
 MIME-Version: 1.0
-In-Reply-To: <eb1e7a0ded7e26ab8f79017f20ce139de82810b0.1337868781.git.radu.moisan@intel.com>
+In-Reply-To: <1337932878.20169.5.camel@ted>
 User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: [PATCH 2/3] mtd-utils: Update to version 1.5.0
+Cc: openembedded-core <openembedded-core@openembedded.org>
+Subject: Re: [PATCH] glib-2.0: Clean up OECONF flags into one variable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,85 +47,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 May 2012 09:01:13 -0000
-X-Groupsio-MsgNum: 22792
+X-List-Received-Date: Fri, 25 May 2012 09:01:54 -0000
+X-Groupsio-MsgNum: 22793
 Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="rJwd6BRFiFCcLxzm"
+	protocol="application/pgp-signature"; boundary="jousvV0MzM2p6OtC"
 Content-Disposition: inline
 
---rJwd6BRFiFCcLxzm
+--jousvV0MzM2p6OtC
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, May 25, 2012 at 11:50:56AM +0300, Radu Moisan wrote:
-> Signed-off-by: Radu Moisan <radu.moisan@intel.com>
-> ---
->  .../add-exclusion-to-mkfs-jffs2-git-2.patch        |    0
->  .../mtd/{mtd-utils_1.4.9.bb =3D> mtd-utils_1.5.0.bb} |    2 +-
->  2 files changed, 1 insertion(+), 1 deletion(-)
->  rename meta/recipes-devtools/mtd/{mtd-utils-1.4.9 =3D> mtd-utils-1.5.0}/=
-add-exclusion-to-mkfs-jffs2-git-2.patch (100%)
->  rename meta/recipes-devtools/mtd/{mtd-utils_1.4.9.bb =3D> mtd-utils_1.5.=
-0.bb} (98%)
+On Fri, May 25, 2012 at 09:01:18AM +0100, Richard Purdie wrote:
+> Without this change, libelf was "floating" for linuxstdbase for example,
+> leading to build failures. This patch moves all the common options
+> into a common variable.
 >=20
-> diff --git a/meta/recipes-devtools/mtd/mtd-utils-1.4.9/add-exclusion-to-m=
-kfs-jffs2-git-2.patch b/meta/recipes-devtools/mtd/mtd-utils-1.5.0/add-exclu=
-sion-to-mkfs-jffs2-git-2.patch
-> similarity index 100%
-> rename from meta/recipes-devtools/mtd/mtd-utils-1.4.9/add-exclusion-to-mk=
-fs-jffs2-git-2.patch
-> rename to meta/recipes-devtools/mtd/mtd-utils-1.5.0/add-exclusion-to-mkfs=
--jffs2-git-2.patch
-> diff --git a/meta/recipes-devtools/mtd/mtd-utils_1.4.9.bb b/meta/recipes-=
-devtools/mtd/mtd-utils_1.5.0.bb
-> similarity index 98%
-> rename from meta/recipes-devtools/mtd/mtd-utils_1.4.9.bb
-> rename to meta/recipes-devtools/mtd/mtd-utils_1.5.0.bb
-> index 4228b51..be71efe 100644
-> --- a/meta/recipes-devtools/mtd/mtd-utils_1.4.9.bb
-> +++ b/meta/recipes-devtools/mtd/mtd-utils_1.5.0.bb
-> @@ -11,7 +11,7 @@ SRC_URI =3D "git://git.infradead.org/mtd-utils.git;prot=
-ocol=3Dgit;tag=3D995cfe51b0a3cf
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+> diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.32.3.bb b/meta/recipes=
+-core/glib-2.0/glib-2.0_2.32.3.bb
+> index c453941..64441ee 100644
+> --- a/meta/recipes-core/glib-2.0/glib-2.0_2.32.3.bb
+> +++ b/meta/recipes-core/glib-2.0/glib-2.0_2.32.3.bb
+> @@ -21,8 +21,6 @@ SRC_URI[sha256sum] =3D "b65ceb462807e4a2f91c95e4293ce6b=
+befca308cb44a1407bcfdd9e403
+>  SRC_URI_append_virtclass-native =3D " file://glib-gettextize-dir.patch"
+>  BBCLASSEXTEND =3D "native nativesdk"
 > =20
->  S =3D "${WORKDIR}/git/"
+> -EXTRA_OECONF =3D "--disable-libelf"
+> -
+>  PERLPATH =3D "${bindir}/env perl"
+>  PERLPATH_virtclass-native =3D "/usr/bin/env perl"
+>  PERLPATH_virtclass-nativesdk =3D "/usr/bin/env perl"
+> diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib=
+-2.0/glib.inc
+> index 33f7613..1dbd538 100644
+> --- a/meta/recipes-core/glib-2.0/glib.inc
+> +++ b/meta/recipes-core/glib-2.0/glib.inc
+> @@ -25,9 +25,11 @@ inherit autotools pkgconfig gettext
 > =20
-> -PR =3D "r1"
-> +PR =3D "r0"
+>  S =3D "${WORKDIR}/glib-${PV}"
 > =20
->  EXTRA_OEMAKE =3D "'CC=3D${CC}' 'RANLIB=3D${RANLIB}' 'AR=3D${AR}' 'CFLAGS=
-=3D${CFLAGS} -I${S}/include -DWITHOUT_XATTR' 'BUILDDIR=3D${S}'"
+> -EXTRA_OECONF =3D "--disable-debug --enable-included-printf=3Dno --disabl=
+e-dtrace --disable-fam"
+> -EXTRA_OECONF_virtclass-native =3D "--disable-dtrace --disable-systemtap =
+--disable-fam"
+> -EXTRA_OECONF_linuxstdbase =3D "--enable-included-printf=3Dno --disable-d=
+trace --disable-fam"
+> +CORECONF =3D "--disable-dtrace --disable-fam --disable-libelf --disable-=
+systemtap"
+> +
+> +EXTRA_OECONF =3D "--disable-debug --enable-included-printf=3Dno ${CORECO=
+NF}"
+> +EXTRA_OECONF_virtclass-native =3D "${CORECONF}"
+> +EXTRA_OECONF_linuxstdbase =3D "--enable-included-printf=3Dno ${CORECONF}"
+> =20
+>  FILES_${PN} =3D "${libdir}/lib*${SOLIBS} ${sysconfdir}/bash_completion.d=
+ ${datadir}/glib-2.0/schemas"
+>  FILES_${PN}-dev +=3D "${libdir}/glib-2.0/include \
 
-does it really update version?
-SRC_URI =3D "git://git.infradead.org/mtd-utils.git;protocol=3Dgit;tag=3D995=
-cfe51b0a3cf32f381c140bf72b21bf91cef1b
-wasn't changed, so I guess the sources are the same.
+Ah sorry for that EXTRA_OECONF in .bb, looks much better, please add PR
+bump.
 
 Cheers,
-
-> =20
-> --=20
-> 1.7.9.5
->=20
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 --=20
 Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---rJwd6BRFiFCcLxzm
+--jousvV0MzM2p6OtC
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: Digital signature
 
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v2.0.19 (GNU/Linux)
 
-iEYEARECAAYFAk+/R/cACgkQN1Ujt2V2gBw3SwCfdCkQ6NvwEkYadg1QhU3grY6i
-3HwAoI9aYW5Q1XTnOhxygO+ttyXoGxCJ
-=wWog
+iEYEARECAAYFAk+/SCEACgkQN1Ujt2V2gBx8RgCguTajLVavLO0hfPOTzqljud2C
+01MAnjavErJv/EtVq5EVcNOFHkhnlDVT
+=+fEj
 -----END PGP SIGNATURE-----
 
---rJwd6BRFiFCcLxzm--
+--jousvV0MzM2p6OtC--
