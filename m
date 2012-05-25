@@ -1,24 +1,24 @@
 Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SXoOC-00085R-Rp
+	(envelope-from <sgw@linux.intel.com>) id 1SXoOD-00085Q-Hd
 	for openembedded-core@lists.openembedded.org;
-	Fri, 25 May 2012 08:52:45 +0200
+	Fri, 25 May 2012 08:52:46 +0200
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
 	by fmsmga102.fm.intel.com with ESMTP; 24 May 2012 23:42:27 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="157115408"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="157115410"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.24])
-	by fmsmga001.fm.intel.com with ESMTP; 24 May 2012 23:42:26 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 24 May 2012 23:42:27 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 24 May 2012 23:41:44 -0700
-Message-Id: <237a04a6dd0046482529828ae59030167d532d28.1337927956.git.sgw@linux.intel.com>
+Date: Thu, 24 May 2012 23:41:45 -0700
+Message-Id: <c46f499e54563c5f480d57ee1a81439e6f39a741.1337927956.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <cover.1337927956.git.sgw@linux.intel.com>
 References: <cover.1337927956.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1337927956.git.sgw@linux.intel.com>
 References: <cover.1337927956.git.sgw@linux.intel.com>
-Subject: [Consolidated Pull 05/45] dropbear: fix include dependent PR generation
+Subject: [Consolidated Pull 06/45] wpa-supplicant: add wpa_supplicant.conf to CONFFILES and don't install it twice
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,37 +35,52 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 25 May 2012 06:52:46 -0000
 
-From: Steffen Sledz <builder@dresearch-fe.de>
+From: Martin Jansa <martin.jansa@gmail.com>
 
-Signed-off-by: Steffen Sledz <sledz@dresearch-fe.de>
+* first we install ${WORKDIR}/wpa_supplicant.conf-sane
+  install -m 600 ${WORKDIR}/wpa_supplicant.conf-sane ${D}${sysconfdir}/wpa_supplicant.conf
+  and a bit later in do_install we were overwritting it with ${WORKDIR}/wpa_supplicant.conf
+  install -m 644 ${WORKDIR}/wpa_supplicant.conf ${D}${sysconfdir}
+* notice that this patch also changes .conf permissions from 644 back to 600
+
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/recipes-core/dropbear/dropbear.inc        |    2 ++
- meta/recipes-core/dropbear/dropbear_2012.55.bb |    2 +-
- 2 files changed, 3 insertions(+), 1 deletions(-)
+ .../wpa-supplicant/wpa-supplicant-0.7.inc          |    2 +-
+ .../wpa-supplicant/wpa-supplicant_0.7.3.bb         |    2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-core/dropbear/dropbear.inc b/meta/recipes-core/dropbear/dropbear.inc
-index 2d6aeb2..2de442c 100644
---- a/meta/recipes-core/dropbear/dropbear.inc
-+++ b/meta/recipes-core/dropbear/dropbear.inc
-@@ -2,6 +2,8 @@ DESCRIPTION = "Dropbear is a lightweight SSH and SCP implementation"
- HOMEPAGE = "http://matt.ucc.asn.au/dropbear/dropbear.html"
- SECTION = "console/network"
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.inc b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.inc
+index b489893..efd1a66 100644
+--- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.inc
++++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.inc
+@@ -22,6 +22,7 @@ PACKAGES_prepend = "wpa-supplicant-passphrase wpa-supplicant-cli "
+ FILES_wpa-supplicant-passphrase = "${bindir}/wpa_passphrase"
+ FILES_wpa-supplicant-cli = "${sbindir}/wpa_cli"
+ FILES_${PN} += "${datadir}/dbus-1/system-services/*"
++CONFFILES_${PN} += "${sysconfdir}/wpa_supplicant.conf"
  
-+INC_PR = "r0"
-+
- # some files are from other projects and have others license terms:
- #   public domain, OpenSSH 3.5p1, OpenSSH3.6.1p2, PuTTY
- LICENSE = "MIT"
-diff --git a/meta/recipes-core/dropbear/dropbear_2012.55.bb b/meta/recipes-core/dropbear/dropbear_2012.55.bb
-index 4f0ef80..8323a33 100644
---- a/meta/recipes-core/dropbear/dropbear_2012.55.bb
-+++ b/meta/recipes-core/dropbear/dropbear_2012.55.bb
-@@ -3,4 +3,4 @@ require dropbear.inc
- SRC_URI[md5sum] = "44836e5a0419ba12557f9ea46880077e"
- SRC_URI[sha256sum] = "808df243c61bb60f2f18fa64bca628cbba0918b2a14139f10e6d59d4ac5a17ce"
+ do_configure () {
+ 	install -m 0755 ${WORKDIR}/defconfig-gnutls .config
+@@ -50,7 +51,6 @@ do_install () {
+ 	install -d ${D}${sysconfdir}/network/if-pre-up.d/
+ 	install -d ${D}${sysconfdir}/network/if-post-down.d/
+ 	install -d ${D}${sysconfdir}/network/if-down.d/
+-	install -m 644 ${WORKDIR}/wpa_supplicant.conf ${D}${sysconfdir}
+ 	install -m 755 ${WORKDIR}/wpa-supplicant.sh ${D}${sysconfdir}/network/if-pre-up.d/wpa-supplicant
+ 	cd ${D}${sysconfdir}/network/ && \
+ 	ln -sf ../if-pre-up.d/wpa-supplicant if-post-down.d/wpa-supplicant
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.7.3.bb b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.7.3.bb
+index 1e0086a..7bbb8c0 100644
+--- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.7.3.bb
++++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.7.3.bb
+@@ -1,6 +1,6 @@
+ require wpa-supplicant-0.7.inc
  
--PR = "r0"
-+PR = "${INC_PR}.0"
+-PR = "r10"
++PR = "r11"
+ 
+ SRC_URI[md5sum] = "f516f191384a9a546e3f5145c08addda"
+ SRC_URI[sha256sum] = "d0cd50caa85346ccc376dcda5ed3c258eef19a93b3cade39d25760118ad59443"
 -- 
 1.7.7.6
 
