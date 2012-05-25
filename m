@@ -1,25 +1,26 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SXxhn-0004gb-U4
+	(envelope-from <sgw@linux.intel.com>) id 1SXxiW-0004jH-Nz
 	for openembedded-core@lists.openembedded.org;
-	Fri, 25 May 2012 18:49:36 +0200
+	Fri, 25 May 2012 18:50:22 +0200
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 25 May 2012 09:38:59 -0700
+	by orsmga101.jf.intel.com with ESMTP; 25 May 2012 09:39:59 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="148462897"
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="148463388"
 Received: from unknown (HELO [10.255.12.24]) ([10.255.12.24])
-	by orsmga002.jf.intel.com with ESMTP; 25 May 2012 09:38:59 -0700
-Message-ID: <4FBFB5A2.6020002@linux.intel.com>
-Date: Fri, 25 May 2012 09:38:58 -0700
+	by orsmga002.jf.intel.com with ESMTP; 25 May 2012 09:39:59 -0700
+Message-ID: <4FBFB5DF.7020806@linux.intel.com>
+Date: Fri, 25 May 2012 09:39:59 -0700
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1337850757.git.jiajun.xu@intel.com>
-In-Reply-To: <cover.1337850757.git.jiajun.xu@intel.com>
-Subject: Re: [PATCH 0/2] ltp: Upgrade LTP to 20120401
+References: <1337868551-6674-1-git-send-email-Martin.Jansa@gmail.com>
+In-Reply-To: <1337868551-6674-1-git-send-email-Martin.Jansa@gmail.com>
+Cc: Martin Jansa <martin.jansa@gmail.com>
+Subject: Re: [PATCH] wpa-supplicant: add wpa_supplicant.conf to CONFFILES and don't install it twice
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,41 +35,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 May 2012 16:49:36 -0000
+X-List-Received-Date: Fri, 25 May 2012 16:50:22 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 05/24/2012 02:15 AM, Jiajun Xu wrote:
-> Upgrade LTP to 20120401 and remove the patch for getcontext and profil,
-> since LTP has fixed the build issue.
+On 05/24/2012 07:09 AM, Martin Jansa wrote:
+> * first we install ${WORKDIR}/wpa_supplicant.conf-sane
+>    install -m 600 ${WORKDIR}/wpa_supplicant.conf-sane ${D}${sysconfdir}/wpa_supplicant.conf
+>    and a bit later in do_install we were overwritting it with ${WORKDIR}/wpa_supplicant.conf
+>    install -m 644 ${WORKDIR}/wpa_supplicant.conf ${D}${sysconfdir}
+> * notice that this patch also changes .conf permissions from 644 back to 600
 >
+> Signed-off-by: Martin Jansa<Martin.Jansa@gmail.com>
+> ---
+>   .../wpa-supplicant/wpa-supplicant-0.7.inc          |    2 +-
+>   .../wpa-supplicant/wpa-supplicant_0.7.3.bb         |    2 +-
+>   2 files changed, 2 insertions(+), 2 deletions(-)
 >
-> The following changes since commit e6333825c3482a559a0c0499e17f8f48d3042ddf:
+> diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.inc b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.inc
+> index b489893..efd1a66 100644
+> --- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.inc
+> +++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.inc
+> @@ -22,6 +22,7 @@ PACKAGES_prepend = "wpa-supplicant-passphrase wpa-supplicant-cli "
+>   FILES_wpa-supplicant-passphrase = "${bindir}/wpa_passphrase"
+>   FILES_wpa-supplicant-cli = "${sbindir}/wpa_cli"
+>   FILES_${PN} += "${datadir}/dbus-1/system-services/*"
+> +CONFFILES_${PN} += "${sysconfdir}/wpa_supplicant.conf"
 >
->    tune-mips64.inc: Add new tune file for mips64 big-endian (2012-05-20 20:24:37 -0700)
+>   do_configure () {
+>   	install -m 0755 ${WORKDIR}/defconfig-gnutls .config
+> @@ -50,7 +51,6 @@ do_install () {
+>   	install -d ${D}${sysconfdir}/network/if-pre-up.d/
+>   	install -d ${D}${sysconfdir}/network/if-post-down.d/
+>   	install -d ${D}${sysconfdir}/network/if-down.d/
+> -	install -m 644 ${WORKDIR}/wpa_supplicant.conf ${D}${sysconfdir}
+>   	install -m 755 ${WORKDIR}/wpa-supplicant.sh ${D}${sysconfdir}/network/if-pre-up.d/wpa-supplicant
+>   	cd ${D}${sysconfdir}/network/&&  \
+>   	ln -sf ../if-pre-up.d/wpa-supplicant if-post-down.d/wpa-supplicant
+> diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.7.3.bb b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.7.3.bb
+> index 1e0086a..7bbb8c0 100644
+> --- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.7.3.bb
+> +++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.7.3.bb
+> @@ -1,6 +1,6 @@
+>   require wpa-supplicant-0.7.inc
 >
-> are available in the git repository at:
->    git://git.pokylinux.org/poky-contrib jxu49/oe-contrib
->    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=jxu49/oe-contrib
+> -PR = "r10"
+> +PR = "r11"
 >
-> Jiajun Xu (2):
->    ltp: Upgrade LTP to version 20120401
->    distro_tracking_fields: update information for ltp
->
->   .../conf/distro/include/distro_tracking_fields.inc |    8 +-
->   .../ltp/ltp/uclibc-getcontext.patch                |   78 --------------------
->   .../ltp/{ltp_20120104.bb =>  ltp_20120401.bb}       |    7 +-
->   3 files changed, 7 insertions(+), 86 deletions(-)
->   delete mode 100644 meta/recipes-extended/ltp/ltp/uclibc-getcontext.patch
->   rename meta/recipes-extended/ltp/{ltp_20120104.bb =>  ltp_20120401.bb} (95%)
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
->
+>   SRC_URI[md5sum] = "f516f191384a9a546e3f5145c08addda"
+>   SRC_URI[sha256sum] = "d0cd50caa85346ccc376dcda5ed3c258eef19a93b3cade39d25760118ad59443"
+
 Merged into OE-Core
 
 Thanks
