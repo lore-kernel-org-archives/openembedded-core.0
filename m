@@ -1,24 +1,24 @@
 Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SXoPL-00006T-Os
+	(envelope-from <sgw@linux.intel.com>) id 1SXoPL-0000Cj-St
 	for openembedded-core@lists.openembedded.org;
-	Fri, 25 May 2012 08:53:55 +0200
+	Fri, 25 May 2012 08:53:56 +0200
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
 	by fmsmga102.fm.intel.com with ESMTP; 24 May 2012 23:43:30 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="157115473"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="157115475"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.24])
 	by fmsmga001.fm.intel.com with ESMTP; 24 May 2012 23:42:34 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 24 May 2012 23:42:22 -0700
-Message-Id: <90be1a08429c1186cd5b8eb55e306f4111b0937d.1337927956.git.sgw@linux.intel.com>
+Date: Thu, 24 May 2012 23:42:23 -0700
+Message-Id: <4a121131a397828f76a5540e6bbf86e0e0f61428.1337927956.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <cover.1337927956.git.sgw@linux.intel.com>
 References: <cover.1337927956.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1337927956.git.sgw@linux.intel.com>
 References: <cover.1337927956.git.sgw@linux.intel.com>
-Subject: [Consolidated Pull 43/45] wpa-supplicant: don't let postinst fail when dbus-1 reload fails
+Subject: [Consolidated Pull 44/45] binutils: Drop old/stale/broken csl recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,43 +35,59 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 25 May 2012 06:53:58 -0000
 
-From: Martin Jansa <martin.jansa@gmail.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-* e.g. when upgrading in chroot
-  Configuring wpa-supplicant.
-  Reloading system message bus config: Failed to open connection to system message bus: Failed to connect to socket /var/run/dbus/system_bus_socket: Connection refused
-  but that shouldn't be fatal
+The patches this recipe refers to don't exist so nobody can have
+been using this so lets just remove it.
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../wpa-supplicant/wpa-supplicant-0.7.inc          |    2 +-
- .../wpa-supplicant/wpa-supplicant_0.7.3.bb         |    2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ .../binutils/binutils-cross_csl-arm-2008q1.bb      |    3 --
+ .../binutils/binutils_csl-arm-2008q1.bb            |   25 --------------------
+ 2 files changed, 0 insertions(+), 28 deletions(-)
+ delete mode 100644 meta/recipes-devtools/binutils/binutils-cross_csl-arm-2008q1.bb
+ delete mode 100644 meta/recipes-devtools/binutils/binutils_csl-arm-2008q1.bb
 
-diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.inc b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.inc
-index efd1a66..6c84202 100644
---- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.inc
-+++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.inc
-@@ -74,6 +74,6 @@ pkg_postinst_wpa-supplicant () {
- 	DBUSPID=`pidof dbus-daemon`
- 
- 	if [ "x$DBUSPID" != "x" ]; then
--		/etc/init.d/dbus-1 reload
-+		/etc/init.d/dbus-1 reload || true
- 	fi
- }
-diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.7.3.bb b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.7.3.bb
-index 7bbb8c0..6f6378b 100644
---- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.7.3.bb
-+++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.7.3.bb
-@@ -1,6 +1,6 @@
- require wpa-supplicant-0.7.inc
- 
--PR = "r11"
-+PR = "r12"
- 
- SRC_URI[md5sum] = "f516f191384a9a546e3f5145c08addda"
- SRC_URI[sha256sum] = "d0cd50caa85346ccc376dcda5ed3c258eef19a93b3cade39d25760118ad59443"
+diff --git a/meta/recipes-devtools/binutils/binutils-cross_csl-arm-2008q1.bb b/meta/recipes-devtools/binutils/binutils-cross_csl-arm-2008q1.bb
+deleted file mode 100644
+index 8ab1e7f..0000000
+--- a/meta/recipes-devtools/binutils/binutils-cross_csl-arm-2008q1.bb
++++ /dev/null
+@@ -1,3 +0,0 @@
+-require binutils_csl-arm-2008q1.bb
+-require binutils-cross.inc
+-PR = "r1"
+diff --git a/meta/recipes-devtools/binutils/binutils_csl-arm-2008q1.bb b/meta/recipes-devtools/binutils/binutils_csl-arm-2008q1.bb
+deleted file mode 100644
+index 182b01f..0000000
+--- a/meta/recipes-devtools/binutils/binutils_csl-arm-2008q1.bb
++++ /dev/null
+@@ -1,25 +0,0 @@
+-require binutils.inc
+-
+-DEFAULT_PREFERENCE = "-1"
+-
+-SRC_URI = "\
+-     http://www.codesourcery.com/gnu_toolchains/arm/portal/package2553/public/arm-none-eabi/arm-2008q1-126-arm-none-eabi.src.tar.bz2 \
+-     file://binutils-2.16.91.0.6-objcopy-rename-errorcode.patch \
+-     file://binutils-uclibc-100-uclibc-conf.patch \
+-     file://110-arm-eabi-conf.patch \
+-     file://binutils-uclibc-300-001_ld_makefile_patch.patch \
+-     file://binutils-uclibc-300-006_better_file_error.patch \
+-     file://binutils-uclibc-300-012_check_ldrunpath_length.patch \
+-     file://docs_hack2.patch \
+-     "
+-
+-PV = "2.18+csl-arm-2008q1-126"
+-
+-S = "${WORKDIR}/binutils-stable"
+-
+-do_unpack2() {
+-	cd ${WORKDIR}
+-	tar -xvjf ./arm-2008q1-126-arm-none-eabi/binutils-2008q1-126.tar.bz2
+-}
+-
+-addtask unpack2 after do_unpack before do_patch
 -- 
 1.7.7.6
 
