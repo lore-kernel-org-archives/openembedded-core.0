@@ -1,22 +1,32 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail-we0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <laurentiu.palcu@intel.com>) id 1SYsyD-000762-NO
+	(envelope-from <ive.found@gmail.com>) id 1SYtn7-00084x-Ee
 	for openembedded-core@lists.openembedded.org;
-	Mon, 28 May 2012 07:58:22 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 27 May 2012 22:48:03 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="149128209"
-Received: from lpalcu-laptop.sh.intel.com ([10.239.196.129])
-	by orsmga002.jf.intel.com with ESMTP; 27 May 2012 22:48:03 -0700
-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+	Mon, 28 May 2012 08:50:57 +0200
+Received: by werg55 with SMTP id g55so1820075wer.6
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 27 May 2012 23:40:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type:content-transfer-encoding;
+	bh=ZzBTbt1W8DNaxGkYKd12RwYmNJTXl1nXiF+DnJ4Ep9s=;
+	b=ZA0EyJ+D88iEyX01ysqPmsmli1SoJCB8ufNCN2NxnikmOeWzmYsJzWxbsB9zQPhAk+
+	JOHo446voAMJz4Kq6LhK3YNCS6NtC4eCwb1Rw5CKdERHTL13UoOWelpwxjFIn9b/0SbU
+	pGMLoV0aZUmEcApQq38LR5UdLt+mDT4jefa5oHVKNXaXgYRC5xXcgJX4nyabPX23zI+s
+	h3EMnGriO8hfKwIRoX56JcWhb1RlrtzwaYW9zkZ8ZTTra1tV8TNOsR3bubsJUYkvwLin
+	71bkdc6tuHvCXetaeUvrs00zBuHkpvnFIrB0KUL8Pyh2f5BJGbc1coLBe8C54ngC0bNI
+	QVkg==
+Received: by 10.216.219.101 with SMTP id l79mr3467605wep.219.1338187241726;
+	Sun, 27 May 2012 23:40:41 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.223.89.131 with HTTP; Sun, 27 May 2012 23:40:21 -0700 (PDT)
+In-Reply-To: <1336915722-8155-1-git-send-email-ive.found@gmail.com>
+References: <1336915722-8155-1-git-send-email-ive.found@gmail.com>
+From: Ive Found <ive.found@gmail.com>
+Date: Mon, 28 May 2012 09:40:21 +0300
+Message-ID: <CABnTX71kzsDK0s+u=gnD2T-HB4E9ASHc4L8zcXabr8g1q+s3Jg@mail.gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 28 May 2012 08:48:00 +0300
-Message-Id: <1338184080-18892-4-git-send-email-laurentiu.palcu@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <1338184080-18892-1-git-send-email-laurentiu.palcu@intel.com>
-References: <1338184080-18892-1-git-send-email-laurentiu.palcu@intel.com>
-Subject: [PATCH 3/3] libpciaccess: upgrade to 0.13.1
+Subject: [PING v2] [PATCH 0/2] Support additional user-defined package metadata
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,102 +41,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 May 2012 05:58:22 -0000
+X-List-Received-Date: Mon, 28 May 2012 06:50:57 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Removed also the fix_deletion_of_last_handle.patch because the new
-version includes it.
+Ping again. Any comments?
 
-Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
----
- .../fix_deletion_of_last_handle.patch              |   51 --------------------
- ...ciaccess_0.12.902.bb => libpciaccess_0.13.1.bb} |    6 +--
- 2 files changed, 2 insertions(+), 55 deletions(-)
- delete mode 100644 meta/recipes-graphics/xorg-lib/libpciaccess-0.12.902/fix_deletion_of_last_handle.patch
- rename meta/recipes-graphics/xorg-lib/{libpciaccess_0.12.902.bb => libpciaccess_0.13.1.bb} (64%)
-
-diff --git a/meta/recipes-graphics/xorg-lib/libpciaccess-0.12.902/fix_deletion_of_last_handle.patch b/meta/recipes-graphics/xorg-lib/libpciaccess-0.12.902/fix_deletion_of_last_handle.patch
-deleted file mode 100644
-index 1933f45..0000000
---- a/meta/recipes-graphics/xorg-lib/libpciaccess-0.12.902/fix_deletion_of_last_handle.patch
-+++ /dev/null
-@@ -1,51 +0,0 @@
--Upstream-Status: Backport
--
--The below patch is from
--http://cgit.freedesktop.org/xorg/lib/libpciaccess/commit/?id=a798395a1bfd9d06d40e2d8d14377a156c94429a
--It would appear in the next .tar.bz2 release.
--
--------------------------------
--
--commit a798395a1bfd9d06d40e2d8d14377a156c94429a
--Author: Daniel Drake <dsd@laptop.org>
--Date:   Fri Nov 25 12:28:48 2011 -0600
--
--    delete_io_handle: fix deletion of last handle
--    
--    When num_ios goes from 1 to 0, a realloc(ios, 0); call is made.
--    This is equivalent to free(ios) and NULL is returned.
--    
--    However, the previous logic in the code incorrectly discards this NULL
--    return value. When we next call new_io_handle(), realloc(ios, X) is
--    called with "ios" pointing to freed memory. This causes glibc to abort.
--    
--    Correct this logic to detect the 1-to-0 case and handle it correctly.
--    Other cases are unchanged; there is still value in checking the
--    return value from realloc() as it also returns NULL on error.
--    
--    Signed-off-by: Daniel Drake <dsd@laptop.org>
--    Reviewed-by: Alan Coopersmith <alan.coopersmith@oracle.com>
--
--diff --git a/src/common_io.c b/src/common_io.c
--index f1319f8..5b35e07 100644
----- a/src/common_io.c
--+++ b/src/common_io.c
--@@ -64,10 +64,15 @@ delete_io_handle(struct pci_io_handle *handle)
--         }
--     }
-- 
---    new = realloc(ios, sizeof(struct pci_io_handle) * (num_ios - 1));
---    if (new)
---        ios = new;
--     num_ios--;
--+    if (num_ios) {
--+        new = realloc(ios, sizeof(struct pci_io_handle) * num_ios);
--+        if (new)
--+            ios = new;
--+    } else {
--+        free(ios);
--+        ios = NULL;
--+    }
-- }
-- 
-- _pci_hidden void
-diff --git a/meta/recipes-graphics/xorg-lib/libpciaccess_0.12.902.bb b/meta/recipes-graphics/xorg-lib/libpciaccess_0.13.1.bb
-similarity index 64%
-rename from meta/recipes-graphics/xorg-lib/libpciaccess_0.12.902.bb
-rename to meta/recipes-graphics/xorg-lib/libpciaccess_0.13.1.bb
-index 37d291f..178e220 100644
---- a/meta/recipes-graphics/xorg-lib/libpciaccess_0.12.902.bb
-+++ b/meta/recipes-graphics/xorg-lib/libpciaccess_0.13.1.bb
-@@ -5,8 +5,6 @@ PCI bus and devices in a platform-independent way."
- 
- require xorg-lib-common.inc
- 
--SRC_URI += "file://fix_deletion_of_last_handle.patch"
--
- LICENSE = "MIT & MIT-style"
- LIC_FILES_CHKSUM = "file://COPYING;md5=de01cb89a769dc657d4c321c209ce4fc"
- 
-@@ -14,5 +12,5 @@ PR = "r0"
- 
- DEPENDS += "xproto virtual/libx11"
- 
--SRC_URI[md5sum] = "f1db198398a8a1143822acc230843e8c"
--SRC_URI[sha256sum] = "0861d5bf68b598baa307e5c9b06dfd38ae03096b46e36b236106517bcd14b63a"
-+SRC_URI[md5sum] = "399a419ac6a54f0fc07c69c9bdf452dc"
-+SRC_URI[sha256sum] = "27ab68f645691a4ca258dcc9d131040586e134f9233ce079794496f6264da084"
--- 
-1.7.9.5
-
+On Sun, May 13, 2012 at 4:28 PM, Leonid Borisenko <ive.found@gmail.com> wro=
+te:
+> I'm an owner of Kindle Touch. It's basically a computer with ARM
+> Cortex-A8 based CPU and Linux. There is a [small] community of
+> enthuasists developing homebrew modifications for stock software. For
+> distributing of these modifications .ipk package format had been chosen
+> with OE as build infrastructure.
+>
+> There are already several firmware versions for device and some more are
+> expected. Every firmware can introduce unpredictable changes, so
+> modifications for previous firmware versions could stop working.
+>
+> Custom metadata field with supported firmware version(s) could be
+> included into package control file for preventing of installing packaged
+> modifications onto unsupported firmware.
+>
+> But OE currently doesn't allow to define additional package metadata in
+> recipes. Patch fixes it.
+>
+> There is already RPMSPEC_PREAMBLE variable used in package_rpm.bbclass.
+> I think, it is still useful for defining custom macros in header of spec
+> file (while additional user-defined metadata is placed somewhere between
+> common tags).
+>
+> I didn't found any way to define newline character inside variable value
+> and it is needed to allow multiple [one-line] metadata fields/tags. So
+> I've used ability of OE to split list-typed variables (and re-joined
+> splitted value with real newline character).
+>
+> The following changes since commit cab85fd0b481cdbf36477348de75352be3f38c=
+a2:
+>
+> =C2=A0gdk-pixbuf: Drop unneeded RPROVIDES (2012-05-12 11:23:27 +0100)
+>
+> up to 052d78ed7f986e76afb1ce6ef02e94ba1bbc9719:
+>
+> =C2=A0package_{ipk, deb, rpm}.bbclass: support additional user-defined me=
+tadata (2012-05-13 14:51:26 +0300)
+>
+> ----------------------------------------------------------------
+> Leonid Borisenko (2):
+> =C2=A0 =C2=A0 =C2=A0package.bbclass: add getter of additional metadata
+> =C2=A0 =C2=A0 =C2=A0package_{ipk, deb, rpm}.bbclass: support additional u=
+ser-defined metadata
+>
+> =C2=A0meta/classes/package.bbclass =C2=A0 =C2=A0 | =C2=A0 11 +++++++++++
+> =C2=A0meta/classes/package_deb.bbclass | =C2=A0 =C2=A05 +++++
+> =C2=A0meta/classes/package_ipk.bbclass | =C2=A0 =C2=A05 +++++
+> =C2=A0meta/classes/package_rpm.bbclass | =C2=A0 =C2=A07 +++++++
+> =C2=A04 files changed, 28 insertions(+)
+>
 
 
