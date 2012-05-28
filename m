@@ -1,26 +1,20 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1SYyu7-0005yP-LY
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1SYzfY-0006na-Df
 	for openembedded-core@lists.openembedded.org;
-	Mon, 28 May 2012 14:18:31 +0200
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 28 May 2012 05:07:56 -0700
+	Mon, 28 May 2012 15:07:32 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 28 May 2012 05:57:15 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="105034860"
-Received: from unknown (HELO helios.localnet) ([10.252.120.22])
-	by AZSMGA002.ch.intel.com with ESMTP; 28 May 2012 05:07:55 -0700
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="149243387"
+Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.120.22])
+	by orsmga002.jf.intel.com with ESMTP; 28 May 2012 05:57:14 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Radu Moisan <radu.moisan@intel.com>
-Date: Mon, 28 May 2012 13:07:54 +0100
-Message-ID: <3631583.djcpO0BeBb@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.8.2 (Linux/3.2.0-24-generic-pae; KDE/4.8.2; i686; ; )
-In-Reply-To: <4FC35FBA.2060200@gherzan.ro>
-References: <CAJTo0La2e0ncRy6ugDa8Yx3uTcuYGXKBbZ8f5CTg9d7kJGis+w@mail.gmail.com>
-	<4FC35FAD.7090505@intel.com> <4FC35FBA.2060200@gherzan.ro>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/3] Package Updates
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 28 May 2012 13:57:10 +0100
+Message-Id: <cover.1338209763.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH 0/2] A couple of buildhistory-diff fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,25 +29,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 May 2012 12:18:31 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Mon, 28 May 2012 13:07:32 -0000
 
-On Monday 28 May 2012 14:21:30 Andrei Gherzan wrote:
-> On 05/28/2012 02:21 PM, Radu Moisan wrote:
-> > I suppose, then, I should add another recipe and support both.
-> > However, can someone point out how can I make one of them default.
-> 
-> DEFAULT_PREFERENCE
+The following changes since commit 363424cdc78cafa278008f973c2b4288297ebf8c:
 
-i.e. set DEFAULT_PREFERENCE = "-1" in the newer recipe.
+  image.bbclass: Ensure ${S} is cleaned at the start of rootfs generation (2012-05-25 11:28:00 +0100)
 
-Cheers,
-Paul
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib paule/buildhistory-fixes6
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/buildhistory-fixes6
+
+Paul Eggleton (2):
+  buildhistory_analysis: fix error when version specifier missing
+  scripts/buildhistory-diff: add GitPython version check
+
+ meta/lib/oe/buildhistory_analysis.py |    2 +-
+ scripts/buildhistory-diff            |    8 ++++++--
+ 2 files changed, 7 insertions(+), 3 deletions(-)
 
 -- 
+1.7.9.5
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
 
