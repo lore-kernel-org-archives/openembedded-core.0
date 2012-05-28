@@ -1,25 +1,40 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga10.intel.com ([192.55.52.92] helo=fmsmga102.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1SZ08a-0007ev-6O
+	(envelope-from <ross.burton@intel.com>) id 1SZ0D3-0007nH-TK
 	for openembedded-core@lists.openembedded.org;
-	Mon, 28 May 2012 15:37:32 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 28 May 2012 06:27:15 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="171988950"
-Received: from unknown (HELO helios.localnet) ([10.252.120.22])
-	by fmsmga002.fm.intel.com with ESMTP; 28 May 2012 06:26:14 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Giuseppe Condorelli <giuseppe.condorelli@gmail.com>
-Date: Mon, 28 May 2012 14:26:13 +0100
-Message-ID: <5252895.1gMWNIkXN5@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.8.2 (Linux/3.2.0-24-generic-pae; KDE/4.8.2; i686; ; )
-In-Reply-To: <CAOHjBZsyWoca=JkLy==aqwYGwLeYYrNgR6PwwWMyNVjP0LSv5g@mail.gmail.com>
-References: <CAOHjBZsyWoca=JkLy==aqwYGwLeYYrNgR6PwwWMyNVjP0LSv5g@mail.gmail.com>
+	Mon, 28 May 2012 15:42:10 +0200
+Received: from mail-qc0-f180.google.com ([209.85.216.180])
+	by mga11.intel.com with ESMTP/TLS/RC4-MD5; 28 May 2012 06:30:48 -0700
+Received: by qcmv28 with SMTP id v28so1433772qcm.25
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 28 May 2012 06:30:47 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type:x-gm-message-state;
+	bh=9c1DFxWGPfUJL+yALhv+x2C9kNE5AiDHE98CarEJpqw=;
+	b=btrG96rB8qqrdoqBVwkbpK5M9Otc9XF41aFPfxr7h80WP+ag/4tcExSPaRUAxUsbIK
+	Tw4n22aceipEnXYuNX4TpYDd9H9hM3OAwmDJPW0G+C+IJsYMzirTuX3xoj7DjaiAVJ6c
+	vP/Bm9G4UsYxkZ5j7bBZxJiQBJkkXWEqWw8aFONjbK2NeR/uD5P3x4E7snhy3dchweeh
+	AFQSKRz1VXhMCtHvUuReJzRfpt94pv3TPno8Vo+PYAoBY3I937lSaQdujcFz4eSMQr9B
+	2qOFSQ+biCuineaZdpTB0lgfJokgW2TXZMdVPa7DR6Qz2fb/qURbOrqxlgo4k+fvjc0m
+	eZiA==
+Received: by 10.224.220.148 with SMTP id hy20mr8312855qab.17.1338211847529;
+	Mon, 28 May 2012 06:30:47 -0700 (PDT)
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: How to query installed rpm packages
+Received: by 10.229.162.12 with HTTP; Mon, 28 May 2012 06:30:27 -0700 (PDT)
+In-Reply-To: <CAK18fxFpx-X-V465UJN7ziqmN6Fj6bz6YkckjhztTkqX5q2KwA@mail.gmail.com>
+References: <CAJTo0La2e0ncRy6ugDa8Yx3uTcuYGXKBbZ8f5CTg9d7kJGis+w@mail.gmail.com>
+	<4FC35FAD.7090505@intel.com> <4FC35FBA.2060200@gherzan.ro>
+	<4FC37C81.6080200@intel.com>
+	<CAK18fxFpx-X-V465UJN7ziqmN6Fj6bz6YkckjhztTkqX5q2KwA@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 28 May 2012 14:30:27 +0100
+Message-ID: <CAJTo0LZ5WuTMA=yuLm65PX-sp2Rx_L8UAg4JL1j5JcHvLC=o9A@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Gm-Message-State: ALoCoQkdkpEiJ/I2DLozXRpZ1Dg8Z0ZEDVZqtm3G8q4GCnirQ1X8iFFhgYwxaMbvEDyaZ4K9Y7ij
+Subject: Re: [PATCH 0/3] Package Updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,36 +49,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 May 2012 13:37:32 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Mon, 28 May 2012 13:42:10 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Monday 28 May 2012 15:14:32 Giuseppe Condorelli wrote:
-> I need to query, via rpm command, the packages installed building an own
-> image recipe.
-> I know the populate_rootfs step for images uses rpm to install the packages
-> (if we set PACKAGE_CLASSES).
-> To do this it sets a dbpath and a root path for installing the packages.
-> I need to know how to query them (rpm -qa ....) given that dbpath is set to
-> /var/lib/rpm but I think it actually doesn't override
-> the real /var/lib/rpm database (also I'm not building as superuser).
+On 28 May 2012 14:26, Andrei Gherzan <andrei@gherzan.ro> wrote:
+> There is an internal test suite for dbus. You can enable building those
+> tests in configure:
+> "--enable-tests"
 
-Have a look at list_installed_packages() in classes/rootfs_rpm.bbclass; that 
-does exactly this. You can call this from your own shell function which you 
-can add to ROOTFS_POSTPROCESS_COMMAND.
+Is there a good reason why these shouldn't be always ran when building dbus?
 
-Note that if all you want is a listing of the installed packages in a file that 
-gets written every time an image is built, you can get that using buildhistory 
-without any extra work:
-
-https://wiki.yoctoproject.org/wiki/Buildhistory
-
-Cheers,
-Paul
-
---
-
-Paul Eggleton
-Intel Open Source Technology Centre
+Ross
 
 
