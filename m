@@ -1,36 +1,28 @@
-Received: from mail-yx0-f175.google.com ([209.85.213.175])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <giuseppe.condorelli@gmail.com>) id 1SZMxs-0004Zq-3t
+	(envelope-from <radu.moisan@intel.com>) id 1SZN6k-00056c-SA
 	for openembedded-core@lists.openembedded.org;
-	Tue, 29 May 2012 16:00:00 +0200
-Received: by yenl13 with SMTP id l13so2074875yen.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 May 2012 06:49:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=5xCKLpAKvMdM6DUMB6awXnFlyfudBR5HAc1bg1USoSM=;
-	b=USpER/XVZGiCJiIbLgzCAM/oAbMMk6d6uA/0JZhRwzkUBLGsQtmEwA6z/G2SIAQRT4
-	Dh7AFtETvxu6QlAGvKkiHYUMjICMtQX0sR0dMgbkf9YYy/rfMB83XCItkHkRQ6cGkxYo
-	o7zv1GJX6yaknmEvgcmnTSdUXliNGi/pQWMUmDibhU1fzYndRroAY+Vv/4k85IqWDL1L
-	jP5ZqIDntAgkVhXq1C82/gopMyUy2r0rjuZkr4c9VBaPONwRaO69lHPDm7F0kFY9LB3U
-	d5lWK5+Ebf282xHKNloRFck+B76Bp8iV8Ga4D5fnl6XhULi9kYBhutTdj652LKe0RYiu
-	1Wfg==
+	Tue, 29 May 2012 16:09:11 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 29 May 2012 06:58:52 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; 
+	d="scan'208,217";a="105407930"
+Received: from dell-desktop (HELO [10.237.104.210]) ([10.237.104.210])
+	by AZSMGA002.ch.intel.com with ESMTP; 29 May 2012 06:58:51 -0700
+Message-ID: <4FC4D788.70507@intel.com>
+Date: Tue, 29 May 2012 17:04:56 +0300
+From: Radu Moisan <radu.moisan@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
 MIME-Version: 1.0
-Received: by 10.43.44.193 with SMTP id uh1mr6673630icb.3.1338299382206; Tue,
-	29 May 2012 06:49:42 -0700 (PDT)
-Received: by 10.231.238.69 with HTTP; Tue, 29 May 2012 06:49:42 -0700 (PDT)
-In-Reply-To: <11156699.ieWXhGW3v3@helios>
-References: <CAOHjBZsyWoca=JkLy==aqwYGwLeYYrNgR6PwwWMyNVjP0LSv5g@mail.gmail.com>
-	<3418839.G4f3PdLdKK@helios>
-	<CAOHjBZu6_vfPkPnVj9E48nc=1jEO9dqMG8hkrtLkLesbWZ8g6w@mail.gmail.com>
-	<11156699.ieWXhGW3v3@helios>
-Date: Tue, 29 May 2012 15:49:42 +0200
-Message-ID: <CAOHjBZvsH6mQVtHPb8V4tOuKTpjPhCX2yy065yRqR5eQW9=Y-A@mail.gmail.com>
-From: Giuseppe Condorelli <giuseppe.condorelli@gmail.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: How to query installed rpm packages
+To: openembedded-core@lists.openembedded.org
+References: <CAJTo0La2e0ncRy6ugDa8Yx3uTcuYGXKBbZ8f5CTg9d7kJGis+w@mail.gmail.com>	<4FC35FAD.7090505@intel.com>
+	<4FC35FBA.2060200@gherzan.ro>	<4FC37C81.6080200@intel.com>	<CAK18fxFpx-X-V465UJN7ziqmN6Fj6bz6YkckjhztTkqX5q2KwA@mail.gmail.com>	<CAJTo0LZ5WuTMA=yuLm65PX-sp2Rx_L8UAg4JL1j5JcHvLC=o9A@mail.gmail.com>	<1338212677.20169.75.camel@ted>
+	<CAK18fxFNrZPCZK2Ny6vr2qz6oHDFvtAA4Jw9SjjAb0djcxN7SQ@mail.gmail.com>
+	<4FC4BCC8.7090503@balister.org>
+In-Reply-To: <4FC4BCC8.7090503@balister.org>
+Subject: Re: [PATCH 0/3] Package Updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,168 +37,128 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 May 2012 14:00:00 -0000
-Content-Type: multipart/alternative; boundary=bcaec51a76dc4792c004c12d1b02
+X-List-Received-Date: Tue, 29 May 2012 14:09:11 -0000
+Content-Type: multipart/alternative;
+	boundary="------------020608050507050503080007"
 
---bcaec51a76dc4792c004c12d1b02
-Content-Type: text/plain; charset=ISO-8859-1
-
-2012/5/29 Paul Eggleton <paul.eggleton@linux.intel.com>
-
-> On Tuesday 29 May 2012 15:20:14 Giuseppe Condorelli wrote:
-> > What I'm not understanding is how I can invoke my shell function. Do you
-> > mean I have to invoke it as append function of populate_rootfs one?
->
-> If you aren't including packaging data in the resulting image (i.e.
-> IMAGE_FEATURES does not contain "package-management"), you need to do your
-> rpm
-> calls from a function called via ROOTFS_POSTPROCESS_COMMAND because
-> afterwards
-> the data will be removed and rpm will not be usable.
->
-> > What I really need is a way to query the rpm database
-> > out from the build system, as we normally do with host packages.
-> > I tried to have a standalone run of  the rpm command the
-> > list_installed_packages invokes but (obviously) I got a long series of
-> > errors.
->
-> Below is what I meant - you could put this into some bbclass that you could
-> add using INHERIT += "someclass.bbclass" in local.conf:
->
-> ------------- snip --------------
-> ROOTFS_POSTPROCESS_COMMAND += "do_some_packaging_stuff ; "
->
-> do_some_packaging_stuff() {
->        list_installed_packages > /path/to/output/file
-> }
-> ------------- snip --------------
->
-> Substitute list_installed_packages for a similar rpm query command to the
-> one
-> list_installed_packages uses.
->
-Yes!!!! Very very simple solution (that obviously I didn't though... :| ).
+--------------020608050507050503080007
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
->
-> Out of interest, what information are you querying from the packaging
-> system?
->
-What I'm trying to obtain is a way to install and to query rpm packages out
-from build system.
-I mean, I would like to have the rpms built via bitbake/oe-core repository
-and than to install them
-into a specific root path without the build system support. Also, after
-having installed them (or part of
-them) I need to query the rpm database in case of debug.
-So I started asking my questions to understand if (internally) there was a
-way for querying (and it was!).
-This for backword compatibility with what I'm currently managing (a
-distribution totally rpm based) and
-what I'm thinking to implement in next future (a distribution oe based).
-For a while I would like both scenarios
-will exist in parallel.
-If you have other suggestions, or if you think my way to proceed is going
-to a black scenario, please don't
-hesitate to correct me.
 
+On 05/29/2012 03:10 PM, Philip Balister wrote:
+> On 05/28/2012 09:58 AM, Andrei Gherzan wrote:
+>> On Mon, May 28, 2012 at 4:44 PM, Richard Purdie<
+>> richard.purdie@linuxfoundation.org>  wrote:
+>>
+>>> On Mon, 2012-05-28 at 14:30 +0100, Burton, Ross wrote:
+>>>> On 28 May 2012 14:26, Andrei Gherzan<andrei@gherzan.ro>  wrote:
+>>>>> There is an internal test suite for dbus. You can enable building those
+>>>>> tests in configure:
+>>>>> "--enable-tests"
+>>>> Is there a good reason why these shouldn't be always ran when building
+>>> dbus?
+>>>
+>>> Well, we're cross compiling so it depends how they're written and
+>>> whether they can run in a cross environment. We've also taken steps to
+>>> reduce our build time so if these need something like perl or python,
+>>> adding those into the dependency chain is problematic.
+>>>
+>>>
+>> The fact that these tests are not compiled by default it's good. As a
+>> normal user of dbus i don't need those. But while doing an update a compile
+>> with tests i think it's necessary.
+> Can you build the tests and package them separately? Then they could be
+> installed as part of a test image.
 >
-> Cheers,
-> Paul
+> Philip
 >
-Cheers,
-Giuseppe
+That would certainly be an option, but I really don't know where to 
+start from :)
+Meanwhile, I tried to further debug my scenario with 
+--enable-modular-tests and I tried to manually resolve the missing *.h 
+files (by copying them from dbus-glib to dbus include folder) just to 
+see where is goes. I found out, somehow expected, that further undefined 
+reference errors were thrown (to functions from dbus-glib). Thus now I'm 
+looking to point somehow dbus tests to link against dbus-glib. Does 
+anyone have a clue where should I look?
 
->
-> --
->
-> Paul Eggleton
-> Intel Open Source Technology Centre
->
+Radu
 
---bcaec51a76dc4792c004c12d1b02
+--------------020608050507050503080007
 Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 
-<div class=3D"gmail_quote">2012/5/29 Paul Eggleton <span dir=3D"ltr">&lt;<a=
- href=3D"mailto:paul.eggleton@linux.intel.com" target=3D"_blank">paul.eggle=
-ton@linux.intel.com</a>&gt;</span><br><blockquote style=3D"margin:0px 0px 0=
-px 0.8ex;padding-left:1ex;border-left-color:rgb(204,204,204);border-left-wi=
-dth:1px;border-left-style:solid" class=3D"gmail_quote">
-<div class=3D"im">On Tuesday 29 May 2012 15:20:14 Giuseppe Condorelli wrote=
-:<br>
-&gt; What I&#39;m not understanding is how I can invoke my shell function. =
-Do you<br>
-&gt; mean I have to invoke it as append function of populate_rootfs one?<br=
->
-<br>
-</div>If you aren&#39;t including packaging data in the resulting image (i.=
-e.<br>
-IMAGE_FEATURES does not contain &quot;package-management&quot;), you need t=
-o do your rpm<br>
-calls from a function called via ROOTFS_POSTPROCESS_COMMAND because afterwa=
-rds<br>
-the data will be removed and rpm will not be usable.<br>
-<div class=3D"im"><br>
-&gt; What I really need is a way to query the rpm database<br>
-&gt; out from the build system, as we normally do with host packages.<br>
-&gt; I tried to have a standalone run of =A0the rpm command the<br>
-&gt; list_installed_packages invokes but (obviously) I got a long series of=
-<br>
-&gt; errors.<br>
-<br>
-</div>Below is what I meant - you could put this into some bbclass that you=
- could<br>
-add using INHERIT +=3D &quot;someclass.bbclass&quot; in local.conf:<br>
-<br>
-------------- snip --------------<br>
-ROOTFS_POSTPROCESS_COMMAND +=3D &quot;do_some_packaging_stuff ; &quot;<br>
-<br>
-do_some_packaging_stuff() {<br>
- =A0 =A0 =A0 =A0list_installed_packages &gt; /path/to/output/file<br>
-}<br>
-------------- snip --------------<br>
-<br>
-Substitute list_installed_packages for a similar rpm query command to the o=
-ne<br>
-list_installed_packages uses.<br></blockquote><div>Yes!!!! Very very simple=
- solution (that obviously I didn&#39;t though... :| ).<br>=A0</div><blockqu=
-ote style=3D"margin:0px 0px 0px 0.8ex;padding-left:1ex;border-left-color:rg=
-b(204,204,204);border-left-width:1px;border-left-style:solid" class=3D"gmai=
-l_quote">
+<html>
+  <head>
+    <meta content="text/html; charset=ISO-8859-1"
+      http-equiv="Content-Type">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    <br>
+    <br>
+    On 05/29/2012 03:10 PM, Philip Balister wrote:
+    <blockquote cite="mid:4FC4BCC8.7090503@balister.org" type="cite">
+      <pre wrap="">On 05/28/2012 09:58 AM, Andrei Gherzan wrote:
+</pre>
+      <blockquote type="cite">
+        <pre wrap="">On Mon, May 28, 2012 at 4:44 PM, Richard Purdie &lt;
+<a class="moz-txt-link-abbreviated" href="mailto:richard.purdie@linuxfoundation.org">richard.purdie@linuxfoundation.org</a>&gt; wrote:
 
-<br>
-Out of interest, what information are you querying from the packaging syste=
-m?<br></blockquote><div>What I&#39;m trying to obtain is a way to install a=
-nd to query rpm packages out from build system.</div><div>I mean, I would l=
-ike to have the rpms built via bitbake/oe-core repository and than to insta=
-ll them</div>
-<div>into a specific root path without the build system support. Also, afte=
-r having installed them (or part of</div><div>them) I need to query the rpm=
- database in case of debug.</div><div>So I started asking my questions to u=
-nderstand if (internally) there was a way for querying (and it was!).</div>
-<div>This for backword compatibility with what=A0I&#39;m currently managing=
- (a distribution totally rpm based) and</div><div>what=A0I&#39;m thinking t=
-o implement in next future (a distribution oe based). For a while I would l=
-ike both scenarios</div>
-<div>will exist in parallel.</div><div>If you have other suggestions, or if=
- you think my way to proceed is going to a black scenario, please don&#39;t=
-</div><div>hesitate to correct me.</div><blockquote style=3D"margin:0px 0px=
- 0px 0.8ex;padding-left:1ex;border-left-color:rgb(204,204,204);border-left-=
-width:1px;border-left-style:solid" class=3D"gmail_quote">
+</pre>
+        <blockquote type="cite">
+          <pre wrap="">On Mon, 2012-05-28 at 14:30 +0100, Burton, Ross wrote:
+</pre>
+          <blockquote type="cite">
+            <pre wrap="">On 28 May 2012 14:26, Andrei Gherzan <a class="moz-txt-link-rfc2396E" href="mailto:andrei@gherzan.ro">&lt;andrei@gherzan.ro&gt;</a> wrote:
+</pre>
+            <blockquote type="cite">
+              <pre wrap="">There is an internal test suite for dbus. You can enable building those
+tests in configure:
+"--enable-tests"
+</pre>
+            </blockquote>
+            <pre wrap="">
+Is there a good reason why these shouldn't be always ran when building
+</pre>
+          </blockquote>
+          <pre wrap="">dbus?
 
-<br>
-Cheers,<br>
-Paul<br></blockquote><div>Cheers,</div><div>Giuseppe=A0</div><blockquote st=
-yle=3D"margin:0px 0px 0px 0.8ex;padding-left:1ex;border-left-color:rgb(204,=
-204,204);border-left-width:1px;border-left-style:solid" class=3D"gmail_quot=
-e">
+Well, we're cross compiling so it depends how they're written and
+whether they can run in a cross environment. We've also taken steps to
+reduce our build time so if these need something like perl or python,
+adding those into the dependency chain is problematic.
 
-<div class=3D"HOEnZb"><div class=3D"h5"><br>
---<br>
-<br>
-Paul Eggleton<br>
-Intel Open Source Technology Centre<br>
-</div></div></blockquote></div><br>
 
---bcaec51a76dc4792c004c12d1b02--
+</pre>
+        </blockquote>
+        <pre wrap="">The fact that these tests are not compiled by default it's good. As a
+normal user of dbus i don't need those. But while doing an update a compile
+with tests i think it's necessary.
+</pre>
+      </blockquote>
+      <pre wrap="">
+Can you build the tests and package them separately? Then they could be
+installed as part of a test image.
+
+Philip
+
+</pre>
+    </blockquote>
+    That would certainly be an option, but I really don't know where to
+    start from :)<br>
+    Meanwhile, I tried to further debug my scenario with
+    --enable-modular-tests and I tried to manually resolve the missing
+    *.h files (by copying them from dbus-glib to dbus include folder)
+    just to see where is goes. I found out, somehow expected, that
+    further <small><font face="DejaVu Sans Mono">undefined reference</font></small>
+    errors were thrown (to functions from dbus-glib). Thus now I'm
+    looking to point somehow dbus tests to link against dbus-glib. Does
+    anyone have a clue where should I look?<br>
+    <br>
+    Radu<br>
+  </body>
+</html>
+
+--------------020608050507050503080007--
