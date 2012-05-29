@@ -1,33 +1,41 @@
-Received: from mail-yx0-f175.google.com ([209.85.213.175])
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <aalonso00@gmail.com>) id 1SZTbP-0004GG-L8
+	(envelope-from <koen@dominion.thruhere.net>) id 1SZTcn-0004JF-EF
 	for openembedded-core@lists.openembedded.org;
-	Tue, 29 May 2012 23:05:15 +0200
-Received: by yenl13 with SMTP id l13so2548235yen.6
+	Tue, 29 May 2012 23:06:41 +0200
+Received: by eekd49 with SMTP id d49so1519070eek.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 May 2012 13:54:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type:content-transfer-encoding;
-	bh=awmGFu1GkxmyCh5766DS/Y1qj6WIOD5vjE8u6S/+q4c=;
-	b=K+1ZPbLPGdiYp0QsP38ya6zNmaj8dWJTEeFHwrPA0Ef/a1CWY6WBsjfw12Bxq0h+ou
-	wxyJfp3h2iDV4icak7td5jexwAKH+1pCYfFu7n5quIKEyTz2jbVpnCeWYDmO7ZoqoK7x
-	B2O/hNkLHI4e+KlQ+17nfGypnMoYMyZknBItB5PVHeo2xuhWy8jZScY6HkQr7RDK+IBl
-	SI8iM1WWPnuW9qDHMFC5qyTum/wjm+8K24SAotZBesItH0ykqWUhUn/1VHjBghpj+jQn
-	or4KukI4cI5TaOzFt9sfOGY1ev5gMkZSL3gGK7PrWFSW114fEzK0aVqep/aUO4NauPNo
-	3RzQ==
-MIME-Version: 1.0
-Received: by 10.50.6.197 with SMTP id d5mr8305223iga.44.1338324896976; Tue, 29
-	May 2012 13:54:56 -0700 (PDT)
-Received: by 10.64.0.77 with HTTP; Tue, 29 May 2012 13:54:56 -0700 (PDT)
-In-Reply-To: <10E43685-CA73-4A70-8890-E8CC780CD034@gmail.com>
-References: <10E43685-CA73-4A70-8890-E8CC780CD034@gmail.com>
-Date: Tue, 29 May 2012 15:54:56 -0500
-Message-ID: <CAAB-1yxMsokKyO-EDfsboGW6Zdp3TakzRqQj6mWUTLAXq25dVA@mail.gmail.com>
-From: Adrian Alonso <aalonso00@gmail.com>
-To: Elvis Dowson <elvis.dowson@gmail.com>
-Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: meta-xilinx: Which version of the linux kernel?
+	Tue, 29 May 2012 13:56:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=content-type:mime-version:subject:from:in-reply-to:date
+	:content-transfer-encoding:message-id:references:to:x-mailer
+	:x-gm-message-state;
+	bh=Wh/XnbAyR8BLgCYrXZPfyyn7tGZQmaz3xTJ5d38jzSU=;
+	b=oOMfnYj9krykAgLan3HkY1MqpXV6gLbmHjouXouPrMhlS0F4FVLLk75AH6CD3Z4MeU
+	9sKxn9+l2H9m3+W5yM4PIUEuQZ9Zo3mr6fYJSuX6pbGb7IARssD+NgdiCyBKpB+P8XBI
+	1jyyxK6QnZw3nrT1rLI+Mzk1M5C9Uzt5goFxqRt/3dGIk+vvqe4Eb7oESLCl6nxQLDoJ
+	s6d9XKNotajnX6q73NynfVuIZLfvfGxswhaoGSGnQUqGtp0n7txCqxQr3QxWn4nPqiFr
+	h/9PbUGqfMqj1Noi5eYwLbR2iDm0vdEbMiHeYRhfY7aTJuz5bRBozgv5UrzlZTYV63aw
+	qdZA==
+Received: by 10.14.53.80 with SMTP id f56mr4826659eec.167.1338324983590;
+	Tue, 29 May 2012 13:56:23 -0700 (PDT)
+Received: from [172.20.1.36] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id z5sm52996471eem.3.2012.05.29.13.56.22
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 29 May 2012 13:56:22 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1278)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <cover.1338323483.git.ross.burton@intel.com>
+Date: Tue, 29 May 2012 22:56:18 +0200
+Message-Id: <41C46607-08A4-46F1-8572-3320B7FD2615@dominion.thruhere.net>
+References: <cover.1338323483.git.ross.burton@intel.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1278)
+X-Gm-Message-State: ALoCoQl02zWZ8aJMdrfnXMSd25xv4Y/FeqV66ZS8tnvU2fylgx7K9EaTNeAIx3EYKB7UyiJYqfvM
+Subject: Re: [PATCH 0/4] Upgrade connman to 1.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,75 +50,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 May 2012 21:05:15 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Tue, 29 May 2012 21:06:41 -0000
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
 
-The kernel version used at the time that I verify that everything was
-working out off box
-was 2.6.37, set in recipe
+Op 29 mei 2012, om 22:43 heeft Ross Burton het volgende geschreven:
 
-PV =3D "2.6.37+git-${SRCPV}"
+> Below is a patch set upgrading connman to 1.0, and cleaning up the =
+packaging somewhat.
+>=20
+> It Works For Me, but my current available hardware is limited to =
+qemux86 and
+> a headless Atom machine.  In particular the non-root-X permission =
+changes
+> look to be correct (where they were previously obviously wrong) but I
+> haven't verified that they work.=20
 
-I will recheck that later, since now there is newer kernel versions availab=
-le
-from git.xilinx.com
+IIRC the sed was done to get around the 'atconsole' restriction, is that =
+not needed anymore? E.g. can I ssh in as root and run the connman tests =
+and when I log in to gdm as a simple user will connman-gnome work?
 
-Regards
+regards,
 
-On Tue, May 29, 2012 at 3:45 PM, Elvis Dowson <elvis.dowson@gmail.com> wrot=
-e:
-> Hi Adrian,
-> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0Could you please tell me which ver=
-sion of the linux kernel, the meta-xilinx layer was tested against, using I=
-SE 12.1?
->
-> At the moment I get an error because no version number is specified for t=
-he kernel recipe, so I think I have to rename it to something like say linu=
-x-xilinx-3.2.bb or linux-xilinx-2.6.38.bb.
->
-> Here is an output of the errors that I get when trying to bitbake meta-to=
-olchain:
->
-> $ bitbake meta-toolchain
-> Pseudo is not present but is required, building this first before the mai=
-n build
-> NOTE: Error expanding variable pkg_postinst_kernel-base =A0 =A0 =A0 =A0 =
-=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=
- =A0 =A0 =A0 =A0| ETA: =A0--:--:--
-> NOTE: Error during finalise of /tool/yocto/meta-xilinx/recipes-kernel/lin=
-ux/linux-xilinx_git.bb
-> ERROR: Failure expanding variable KERNEL_PRIORITY, expression was ${@int(=
-d.getVar('PV',1).split('-')[0].split('+')[0].split('.')[0]) * 10000 + =A0 =
-=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0int(d.getVar('PV',1).split('-')[=
-0].split('+')[0].split('.')[1]) * 100 + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=
- =A0 =A0 =A0int(d.getVar('PV',1).split('-')[0].split('+')[0].split('.')[-1]=
-)} which triggered exception ValueError: invalid literal for int() with bas=
-e 10: 'git'
-> ERROR: Command execution failed: Traceback (most recent call last):
-> =A0File "/tool/yocto/poky/bitbake/lib/bb/command.py", line 84, in runAsyn=
-cCommand
-> =A0 =A0self.cooker.updateCache()
-> =A0File "/tool/yocto/poky/bitbake/lib/bb/cooker.py", line 1202, in update=
-Cache
-> =A0 =A0if not self.parser.parse_next():
-> =A0File "/tool/yocto/poky/bitbake/lib/bb/cooker.py", line 1671, in parse_=
-next
-> =A0 =A0self.virtuals +=3D len(result)
-> UnboundLocalError: local variable 'result' referenced before assignment
->
->
-> Best regards,
->
-> Elvis Dowson
-
-
-
---=20
-Saludos
-Adrian Alonso
-http://aalonso.wordpress.com
+Koen=
 
 
