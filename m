@@ -1,27 +1,30 @@
-Received: from starfish.geekisp.com ([216.168.135.166])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philip@balister.org>) id 1SZLQB-0002BU-H7
-	for openembedded-core@lists.openembedded.org;
-	Tue, 29 May 2012 14:21:07 +0200
-Received: (qmail 19669 invoked by uid 1003); 29 May 2012 12:10:24 -0000
-Received: from unknown (HELO ?192.168.1.108?)
-	(philip@opensdr.com@96.240.167.139)
-	by mail.geekisp.com with (DHE-RSA-AES256-SHA encrypted) SMTP;
-	29 May 2012 12:10:23 -0000
-Message-ID: <4FC4BCC8.7090503@balister.org>
-Date: Tue, 29 May 2012 08:10:48 -0400
-From: Philip Balister <philip@balister.org>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.2.24) Gecko/20111108 Fedora/3.1.16-1.fc14 Thunderbird/3.1.16
-MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <CAJTo0La2e0ncRy6ugDa8Yx3uTcuYGXKBbZ8f5CTg9d7kJGis+w@mail.gmail.com>	<4FC35FAD.7090505@intel.com>
-	<4FC35FBA.2060200@gherzan.ro>	<4FC37C81.6080200@intel.com>	<CAK18fxFpx-X-V465UJN7ziqmN6Fj6bz6YkckjhztTkqX5q2KwA@mail.gmail.com>	<CAJTo0LZ5WuTMA=yuLm65PX-sp2Rx_L8UAg4JL1j5JcHvLC=o9A@mail.gmail.com>	<1338212677.20169.75.camel@ted>
-	<CAK18fxFNrZPCZK2Ny6vr2qz6oHDFvtAA4Jw9SjjAb0djcxN7SQ@mail.gmail.com>
-In-Reply-To: <CAK18fxFNrZPCZK2Ny6vr2qz6oHDFvtAA4Jw9SjjAb0djcxN7SQ@mail.gmail.com>
-X-Enigmail-Version: 1.1.2
-Subject: Re: [PATCH 0/3] Package Updates
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1SZLhl-00033I-6t for openembedded-core@lists.openembedded.org;
+	Tue, 29 May 2012 14:39:17 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q4TCT1BH012801
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 29 May 2012 13:29:01 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 12185-03 for <openembedded-core@lists.openembedded.org>;
+	Tue, 29 May 2012 13:28:57 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q4TCSnev012795
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 29 May 2012 13:28:51 +0100
+Message-ID: <1338294528.20169.102.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Tue, 29 May 2012 13:28:48 +0100
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: [PATCH] scripts/cp-noerror: Add a special copy function to fix autotools issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,36 +39,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 May 2012 12:21:07 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Tue, 29 May 2012 12:39:17 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 05/28/2012 09:58 AM, Andrei Gherzan wrote:
-> On Mon, May 28, 2012 at 4:44 PM, Richard Purdie <
-> richard.purdie@linuxfoundation.org> wrote:
-> 
->> On Mon, 2012-05-28 at 14:30 +0100, Burton, Ross wrote:
->>> On 28 May 2012 14:26, Andrei Gherzan <andrei@gherzan.ro> wrote:
->>>> There is an internal test suite for dbus. You can enable building those
->>>> tests in configure:
->>>> "--enable-tests"
->>>
->>> Is there a good reason why these shouldn't be always ran when building
->> dbus?
->>
->> Well, we're cross compiling so it depends how they're written and
->> whether they can run in a cross environment. We've also taken steps to
->> reduce our build time so if these need something like perl or python,
->> adding those into the dependency chain is problematic.
->>
->>
-> The fact that these tests are not compiled by default it's good. As a
-> normal user of dbus i don't need those. But while doing an update a compile
-> with tests i think it's necessary.
+Currently we copy the aclocal directory to the build so that autotools
+doesn't see .m4 files disappear when its processing them. This can happen
+if for example, package X is being rebuilt at the same time as Y and it
+gets uninstalled from sstate (assuming there are no dependencies between
+X and Y). This code making the copy was added to avoid races but introduces
+a race of its own, namely that the files can disappear during the copy.
 
-Can you build the tests and package them separately? Then they could be
-installed as part of a test image.
+This patch adds a cp-noerror script which silently ignores such errors
+and gives the behaviour we need in this case. It hence fixes issues which
+crop up for users and the autobuilder occasionally.
 
-Philip
+[YOCTO #2485]
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+diff --git a/meta/classes/autotools.bbclass b/meta/classes/autotools.bbclass
+index 941c06d..9b36f3c 100644
+--- a/meta/classes/autotools.bbclass
++++ b/meta/classes/autotools.bbclass
+@@ -124,10 +124,9 @@ autotools_do_configure() {
+ 			# uninstalling data from the sysroot. See Yocto #861 for details.
+ 			# We avoid this by taking a copy here and then files cannot disappear.
+ 			if [ -d ${STAGING_DATADIR}/aclocal ]; then
+-				mkdir -p ${B}/aclocal-copy/
+ 				# for scratch build this directory can be empty
+ 				# so avoid cp's no files to copy error
+-				cp -r ${STAGING_DATADIR}/aclocal/. ${B}/aclocal-copy/
++				cp-noerror ${STAGING_DATADIR}/aclocal ${B}/aclocal-copy/
+ 				acpaths="$acpaths -I ${B}/aclocal-copy/"
+ 			fi
+ 			# autoreconf is too shy to overwrite aclocal.m4 if it doesn't look
+diff --git a/scripts/cp-noerror b/scripts/cp-noerror
+new file mode 100755
+index 0000000..fdb3d2d
+--- a/dev/null
++++ b/scripts/cp-noerror
+@@ -0,0 +1,15 @@
++#!/usr/bin/env python
++#
++# Allow copying of $1 to $2 but if files in $1 disappear during the copy operation,
++# don't error.
++#
++
++import sys
++import shutil
++
++try:
++    shutil.copytree(sys.argv[1], sys.argv[2])
++except shutil.Error:
++   pass
++
++
+
+
 
 
