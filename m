@@ -1,38 +1,35 @@
-Received: from mail-wg0-f43.google.com ([74.125.82.43])
+Received: from mail-wi0-f177.google.com ([209.85.212.177])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1SZQPw-0001pb-Uw
+	(envelope-from <elvis.dowson@gmail.com>) id 1SZRBh-0006Sn-Ue
 	for openembedded-core@lists.openembedded.org;
-	Tue, 29 May 2012 19:41:13 +0200
-Received: by wgbdr1 with SMTP id dr1so3780405wgb.24
+	Tue, 29 May 2012 20:30:34 +0200
+Received: by wibhm14 with SMTP id hm14so2675807wib.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 May 2012 10:30:55 -0700 (PDT)
+	Tue, 29 May 2012 11:20:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date
-	:x-google-sender-auth:message-id:subject:to:cc:content-type
-	:content-transfer-encoding;
-	bh=NcJIRm9XjEL/AV6FUX2+4OsBML3UnBdS6HrYsoDifwU=;
-	b=QHIDAq5eMr5ZRnxQLUO5fJe0hbjKj8yIgO/apPXVkvtk3xej/iG8XKr+GffQGwT0eG
-	vfKSJ8MLDXoX2nOvgbKXOPyey/3Z9BbBIk+M395G7nT31D7fqDK83BG97PPHLgBAVNac
-	I55nis2qaWa/1cERC7utmaPA1ZwXxH3cNgUgJ74DyrbguewAEFDQVCjrN/8gWwX/SNlG
-	3hBCjzpWR8C+aYpSsdbopAP7bhJ9BYN1nQRupXcveZeccJjfsY6kmu/b0NY20FH0bpky
-	pXzX+2H8XHimCJlBn1F9KSEZ5MilzwyoPQEK5iK64Jqbo1FuejIrMEYJAg6IS76lNH2T
-	k71A==
-Received: by 10.216.209.159 with SMTP id s31mr25169weo.86.1338312655405; Tue,
-	29 May 2012 10:30:55 -0700 (PDT)
-MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.216.181.16 with HTTP; Tue, 29 May 2012 10:30:34 -0700 (PDT)
-In-Reply-To: <17015f5456a8216f84817ef9183b83779537347d.1338302685.git.liezhi.yang@windriver.com>
-References: <cover.1338302685.git.liezhi.yang@windriver.com>
-	<17015f5456a8216f84817ef9183b83779537347d.1338302685.git.liezhi.yang@windriver.com>
-From: Chris Larson <clarson@kergoth.com>
-Date: Tue, 29 May 2012 10:30:34 -0700
-X-Google-Sender-Auth: i5R0zDUM4pWA16GHbD6w-OAo1Ss
-Message-ID: <CABcZANmqC4JZgJ6bMq+JNfQAoirngBxY_bSch+Ae=s4o48pqqQ@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Cc: Zhenfeng.Zhao@windriver.com
-Subject: Re: [PATCH 4/4] scripts: replace os.popen with subprocess.Popen
+	h=from:content-type:subject:date:message-id:to:mime-version:x-mailer;
+	bh=QCH9HYxve/krCtK+KneJa6LABFcPX3KBfXYJM/d8mhs=;
+	b=JaMNQfE1OAwjNF3ZXPTFy2qJcYH2JIC5Gh/mSoktChesQ3hEyFE+86cPpOg6aB/HW2
+	Hz/DvbLC4wVzjdR2QT2OsXJTTiGXUoL6wKWAcoglry2mgKwAUd1yz1ruQulfy73LN6fg
+	AvOKJysIw1EXsop5rETani4XPaY6x8nO+jdhUPWZ/5IZtfHBlQNaTqRnTalCRgQKTb/V
+	lWc/iU2WaDnP1VLYUePPgOALRW0W6pYRKY1VafKCpMfyv0ZyUWFyUdfJUZOYxtc07e3e
+	8GlkhkXywMxoenfJCOPewZJe+lhQF8+sUZW3Mi/PXmXR4auuyg888C1QDUwdFO6QuQGE
+	2GAw==
+Received: by 10.216.214.82 with SMTP id b60mr8276452wep.38.1338315616423;
+	Tue, 29 May 2012 11:20:16 -0700 (PDT)
+Received: from [192.168.1.36] (247.Red-83-60-170.dynamicIP.rima-tde.net.
+	[83.60.170.247])
+	by mx.google.com with ESMTPS id e20sm29759610wiv.7.2012.05.29.11.20.14
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 29 May 2012 11:20:15 -0700 (PDT)
+From: Elvis Dowson <elvis.dowson@gmail.com>
+Date: Tue, 29 May 2012 20:20:15 +0200
+Message-Id: <E071AE73-05A7-4D16-9442-952E65ECA96C@gmail.com>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>, 
+	Adrian Alonso <aalonso00@gmail.com>
+Mime-Version: 1.0 (Apple Message framework v1278)
+X-Mailer: Apple Mail (2.1278)
+Subject: meta-xilinx: ERROR: Failure expanding variable TUNE_PKGARCH ppc440
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,54 +44,196 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 May 2012 17:41:13 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 29 May 2012 18:30:34 -0000
+Content-Type: multipart/alternative;
+	boundary="Apple-Mail=_98F94CA7-CCF3-48CC-9473-1E2FDD74E4D7"
+
+--Apple-Mail=_98F94CA7-CCF3-48CC-9473-1E2FDD74E4D7
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
-On Tue, May 29, 2012 at 7:53 AM, Robert Yang <liezhi.yang@windriver.com> wr=
-ote:
-> Replace os.popen with subprocess.Popen since the older function would
-> fail (more or less) silently if the executed program cannot be found
->
-> More info:
-> http://docs.python.org/library/subprocess.html#subprocess-replacements
->
-> [YOCTO #2454]
->
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> ---
-> =C2=A0scripts/contrib/python/generate-manifest-2.7.py | =C2=A0 =C2=A03 ++=
--
-> =C2=A01 files changed, 2 insertions(+), 1 deletions(-)
->
-> diff --git a/scripts/contrib/python/generate-manifest-2.7.py b/scripts/co=
-ntrib/python/generate-manifest-2.7.py
-> index 7b43137..d139ab1 100755
-> --- a/scripts/contrib/python/generate-manifest-2.7.py
-> +++ b/scripts/contrib/python/generate-manifest-2.7.py
-> @@ -13,6 +13,7 @@
-> =C2=A0import os
-> =C2=A0import sys
-> =C2=A0import time
-> +import subprocess
->
-> =C2=A0VERSION =3D "2.7.2"
->
-> @@ -149,7 +150,7 @@ class MakefileMaker:
-> =C2=A0if __name__ =3D=3D "__main__":
->
-> =C2=A0 =C2=A0 if len( sys.argv ) > 1:
-> - =C2=A0 =C2=A0 =C2=A0 =C2=A0os.popen( "rm -f ./%s" % sys.argv[1] )
-> + =C2=A0 =C2=A0 =C2=A0 =C2=A0subprocess.Popen("rm -f ./%s" % sys.argv[1],=
- shell=3DTrue, stdout=3Dsubprocess.PIPE).stdout
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0 outfile =3D file( sys.argv[1], "w" )
-> =C2=A0 =C2=A0 else:
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0 outfile =3D sys.stdout
+Hi,
+      I've added the meta-xilinx layer, and modified my =
+build/conf/local.conf file as follows:
 
-This seems like a candidate for subprocess.call, not subprocess.Popen,
-as the output isn't used. Better yet, just use os.unlink() and ignore
-exceptions from it.
---=20
-Christopher Larson
+# Set the target machine details
+MACHINE ?=3D "virtex5"
+# Set Xilinx Platform Studio hardware project path
+XILINX_BSP_PATH ?=3D "/project/xilinx-ml507"
+# Set target board
+XILINX_BOARD ?=3D "ml507"
 
+and when I try to build the meta-toolchain
 
+$ cd /tool/yocto/poky
+$ source oe-init-build-env build
+$ bitbake meta-toolchain
+
+I get the following errors:
+
+ERROR: Execution of event handler 'check_sanity_eventhandler' failed
+Traceback (most recent call last):
+  File "/tool/yocto/poky/bitbake/lib/bb/utils.py", line 397, in =
+better_eval(source=3D<code object <module> at 0x344b6b0, file =
+"MACHINE_ARCH", line 1>, locals=3D{'d': <bb.data_smart.DataSmart object =
+at 0x1450050>}):
+     def better_eval(source, locals):
+    >    return eval(source, _context, locals)
+    =20
+  File "MACHINE_ARCH", line 1, in <module>
+  File "/tool/yocto/poky/bitbake/lib/bb/data_smart.py", line 282, in =
+DataSmart.getVar(var=3D'TUNE_PKGARCH', expand=3DTrue, =
+noweakdefault=3DFalse):
+             if expand and value:
+    >            return self.expand(value, var)
+             return value
+  File "/tool/yocto/poky/bitbake/lib/bb/data_smart.py", line 151, in =
+DataSmart.expand(s=3D'${@bb.utils.contains("TUNE_FEATURES", "ppc440", =
+"ppc440", "${PPCPKGARCH}", d)}', varname=3D'TUNE_PKGARCH'):
+         def expand(self, s, varname =3D None):
+    >        return self.expandWithRefs(s, varname).value
+    =20
+  File "/tool/yocto/poky/bitbake/lib/bb/data_smart.py", line 141, in =
+DataSmart.expandWithRefs(s=3D'${@bb.utils.contains("TUNE_FEATURES", =
+"ppc440", "ppc440", "${PPCPKGARCH}", d)}', varname=3D'TUNE_PKGARCH'):
+                 except Exception as exc:
+    >                raise ExpansionError(varname, s, exc)
+    =20
+ExpansionError: Failure expanding variable TUNE_PKGARCH, expression was =
+${@bb.utils.contains("TUNE_FEATURES", "ppc440", "ppc440", =
+"${PPCPKGARCH}", d)} which triggered exception SyntaxError: EOL while =
+scanning string literal (TUNE_PKGARCH, line 1)
+
+ERROR: Failure expanding variable TUNE_PKGARCH, expression was =
+${@bb.utils.contains("TUNE_FEATURES", "ppc440", "ppc440", =
+"${PPCPKGARCH}", d)} which triggered exception SyntaxError: EOL while =
+scanning string literal (TUNE_PKGARCH, line 1)
+ERROR: Command execution failed: Exited with 1
+
+Summary: There were 3 ERROR messages shown, returning a non-zero exit =
+code.
+
+Has support for the PowerPC440 processor (present in the Virtex-5 FPGA) =
+been removed from the newer gcc-versions?
+
+Best regards,
+
+Elvis Dowson=
+
+--Apple-Mail=_98F94CA7-CCF3-48CC-9473-1E2FDD74E4D7
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html;
+	charset=us-ascii
+
+<html><head></head><body style=3D"word-wrap: break-word; =
+-webkit-nbsp-mode: space; -webkit-line-break: after-white-space; "><font =
+class=3D"Apple-style-span" face=3D"Arial">Hi,</font><div><font =
+class=3D"Apple-style-span" face=3D"Arial">&nbsp; &nbsp; &nbsp; I've =
+added the meta-xilinx layer, and modified my&nbsp;<span =
+style=3D"font-size: 9pt; ">build/conf/local.conf </span>file as =
+follows:</font></div><div><font class=3D"Apple-style-span" =
+face=3D"Arial"><br></font></div><div><div><font class=3D"Apple-style-span"=
+ face=3D"Monaco" size=3D"2"># Set the target machine =
+details</font></div><div><font class=3D"Apple-style-span" face=3D"Monaco" =
+size=3D"2">MACHINE ?=3D "virtex5"</font></div><div><font =
+class=3D"Apple-style-span" face=3D"Monaco" size=3D"2"># Set Xilinx =
+Platform Studio hardware project path</font></div><div><font =
+class=3D"Apple-style-span" face=3D"Monaco" size=3D"2">XILINX_BSP_PATH ?=3D=
+ "/project/xilinx-ml507"</font></div><div><font class=3D"Apple-style-span"=
+ face=3D"Monaco" size=3D"2"># Set target board</font></div><div><font =
+class=3D"Apple-style-span" face=3D"Monaco" size=3D"2">XILINX_BOARD ?=3D =
+"ml507"</font></div></div><div><font class=3D"Apple-style-span" =
+face=3D"Arial"><br></font></div><div><font class=3D"Apple-style-span" =
+face=3D"Arial">and when I try to build the =
+meta-toolchain</font></div><div><font class=3D"Apple-style-span" =
+face=3D"Arial"><br></font></div><div><font class=3D"Apple-style-span" =
+face=3D"Monaco" size=3D"2">$&nbsp;cd /tool/yocto/poky</font></div><div =
+style=3D"margin-top: 0px; margin-right: 0px; margin-bottom: 0px; =
+margin-left: 0px; font: normal normal normal 12px/normal 'Lucida =
+Grande'; "><font class=3D"Apple-style-span" face=3D"Monaco" size=3D"2">$ =
+source oe-init-build-env build</font></div><div><font =
+class=3D"Apple-style-span" face=3D"Monaco" size=3D"2">$ bitbake =
+meta-toolchain</font></div><div><font class=3D"Apple-style-span" =
+face=3D"Arial"><br></font></div><div><font class=3D"Apple-style-span" =
+face=3D"Arial">I get the following errors:</font></div><div><font =
+class=3D"Apple-style-span" face=3D"Arial"><br></font></div><div><div><font=
+ class=3D"Apple-style-span" face=3D"Monaco" size=3D"2">ERROR: Execution =
+of event handler 'check_sanity_eventhandler' =
+failed</font></div><div><font class=3D"Apple-style-span" face=3D"Monaco" =
+size=3D"2">Traceback (most recent call last):</font></div><div><font =
+class=3D"Apple-style-span" face=3D"Monaco" size=3D"2">&nbsp; File =
+"/tool/yocto/poky/bitbake/lib/bb/utils.py", line 397, in =
+better_eval(source=3D&lt;code object &lt;module&gt; at 0x344b6b0, file =
+"MACHINE_ARCH", line 1&gt;, locals=3D{'d': &lt;bb.data_smart.DataSmart =
+object at 0x1450050&gt;}):</font></div><div><font =
+class=3D"Apple-style-span" face=3D"Monaco" size=3D"2">&nbsp; &nbsp; =
+&nbsp;def better_eval(source, locals):</font></div><div><font =
+class=3D"Apple-style-span" face=3D"Monaco" size=3D"2">&nbsp; &nbsp; &gt; =
+&nbsp; &nbsp;return eval(source, _context, =
+locals)</font></div><div><font class=3D"Apple-style-span" face=3D"Monaco" =
+size=3D"2">&nbsp; &nbsp; &nbsp;</font></div><div><font =
+class=3D"Apple-style-span" face=3D"Monaco" size=3D"2">&nbsp; File =
+"MACHINE_ARCH", line 1, in &lt;module&gt;</font></div><div><font =
+class=3D"Apple-style-span" face=3D"Monaco" size=3D"2">&nbsp; File =
+"/tool/yocto/poky/bitbake/lib/bb/data_smart.py", line 282, in =
+DataSmart.getVar(var=3D'TUNE_PKGARCH', expand=3DTrue, =
+noweakdefault=3DFalse):</font></div><div><font class=3D"Apple-style-span" =
+face=3D"Monaco" size=3D"2">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp;if expand and value:</font></div><div><font =
+class=3D"Apple-style-span" face=3D"Monaco" size=3D"2">&nbsp; &nbsp; &gt; =
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;return self.expand(value, =
+var)</font></div><div><font class=3D"Apple-style-span" face=3D"Monaco" =
+size=3D"2">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;return =
+value</font></div><div><font class=3D"Apple-style-span" face=3D"Monaco" =
+size=3D"2">&nbsp; File "/tool/yocto/poky/bitbake/lib/bb/data_smart.py", =
+line 151, in DataSmart.expand(s=3D'${@bb.utils.contains("TUNE_FEATURES", =
+"ppc440", "ppc440", "${PPCPKGARCH}", d)}', =
+varname=3D'TUNE_PKGARCH'):</font></div><div><font =
+class=3D"Apple-style-span" face=3D"Monaco" size=3D"2">&nbsp; &nbsp; =
+&nbsp; &nbsp; &nbsp;def expand(self, s, varname =3D =
+None):</font></div><div><font class=3D"Apple-style-span" face=3D"Monaco" =
+size=3D"2">&nbsp; &nbsp; &gt; &nbsp; &nbsp; &nbsp; &nbsp;return =
+self.expandWithRefs(s, varname).value</font></div><div><font =
+class=3D"Apple-style-span" face=3D"Monaco" size=3D"2">&nbsp; &nbsp; =
+&nbsp;</font></div><div><font class=3D"Apple-style-span" face=3D"Monaco" =
+size=3D"2">&nbsp; File "/tool/yocto/poky/bitbake/lib/bb/data_smart.py", =
+line 141, in =
+DataSmart.expandWithRefs(s=3D'${@bb.utils.contains("TUNE_FEATURES", =
+"ppc440", "ppc440", "${PPCPKGARCH}", d)}', =
+varname=3D'TUNE_PKGARCH'):</font></div><div><font =
+class=3D"Apple-style-span" face=3D"Monaco" size=3D"2">&nbsp; &nbsp; =
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;except Exception as =
+exc:</font></div><div><font class=3D"Apple-style-span" face=3D"Monaco" =
+size=3D"2">&nbsp; &nbsp; &gt; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =
+&nbsp; &nbsp;raise ExpansionError(varname, s, =
+exc)</font></div><div><font class=3D"Apple-style-span" face=3D"Monaco" =
+size=3D"2">&nbsp; &nbsp; &nbsp;</font></div><div><font =
+class=3D"Apple-style-span" face=3D"Monaco" size=3D"2">ExpansionError: =
+Failure expanding variable TUNE_PKGARCH, expression was =
+${@bb.utils.contains("TUNE_FEATURES", "ppc440", "ppc440", =
+"${PPCPKGARCH}", d)} which triggered exception SyntaxError: EOL while =
+scanning string literal (TUNE_PKGARCH, line 1)</font></div><div><font =
+class=3D"Apple-style-span" face=3D"Monaco" =
+size=3D"2"><br></font></div><div><font class=3D"Apple-style-span" =
+face=3D"Monaco" size=3D"2">ERROR: Failure expanding variable =
+TUNE_PKGARCH, expression was ${@bb.utils.contains("TUNE_FEATURES", =
+"ppc440", "ppc440", "${PPCPKGARCH}", d)} which triggered exception =
+SyntaxError: EOL while scanning string literal (TUNE_PKGARCH, line =
+1)</font></div><div><font class=3D"Apple-style-span" face=3D"Monaco" =
+size=3D"2">ERROR: Command execution failed: Exited with =
+1</font></div><div><font class=3D"Apple-style-span" face=3D"Monaco" =
+size=3D"2"><br></font></div><div><font class=3D"Apple-style-span" =
+face=3D"Monaco" size=3D"2">Summary: There were 3 ERROR messages shown, =
+returning a non-zero exit code.</font></div></div><div><font =
+class=3D"Apple-style-span" face=3D"Arial"><br></font></div><div><font =
+class=3D"Apple-style-span" face=3D"Arial">Has support for the PowerPC440 =
+processor (present in the Virtex-5 FPGA) been removed from the newer =
+gcc-versions?</font></div><div><font class=3D"Apple-style-span" =
+face=3D"Arial"><br></font></div><div><font class=3D"Apple-style-span" =
+face=3D"Arial">Best regards,</font></div><div><font =
+class=3D"Apple-style-span" face=3D"Arial"><br></font></div><div><font =
+class=3D"Apple-style-span" face=3D"Arial">Elvis =
+Dowson</font></div></body></html>=
+
+--Apple-Mail=_98F94CA7-CCF3-48CC-9473-1E2FDD74E4D7--
