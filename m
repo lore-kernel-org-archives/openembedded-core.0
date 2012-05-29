@@ -1,30 +1,36 @@
-Received: from mail-yx0-f175.google.com ([209.85.213.175])
+Received: from mail.cvg.de ([62.153.82.30])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <giuseppe.condorelli@gmail.com>) id 1SZMjP-0004Nt-3Q
+	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1SZMpH-0004T2-Js
 	for openembedded-core@lists.openembedded.org;
-	Tue, 29 May 2012 15:45:03 +0200
-Received: by yenl13 with SMTP id l13so2056840yen.6
+	Tue, 29 May 2012 15:51:07 +0200
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id q4TDemLo011406
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 May 2012 06:34:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:date:message-id:subject:from:to:content-type;
-	bh=1TxFSkaKiRU+uXwtu1EPouRzsH2oUNUlxhaoA5nAYng=;
-	b=HuMEGvR8zADZ26KvCYrsRjPlKsDRKLkDizvcbQ8wOaWERAvFa6JDuvoYhSTYmxoyF6
-	nJMWrVZjNouz1UTkSaVS0qwpwfzar5fyX25AziC6HCJWovzKoyLaItUntTqHFcPUMuu2
-	6jGbp1EzRpqzmUZWLLUPO4uyzXaeWIUYrU7q+BIYb3ZU9JHD+hpnrILEpsatWAULyaRh
-	THQ14vY9i0hkK9S8IILqQPjgZ1kwk/WnquSlW607nYqu/Ge3Md3gsD+Okyk5abN39UXC
-	v6rcOp+en/3B1puzN655KTdJz0YZf/XFQ4aIZHMJw4tv/J1enbHOlA0qqLgiHtpj+oZU
-	ESIw==
+	Tue, 29 May 2012 15:40:50 +0200
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.76) (envelope-from <ensc@sigma-chemnitz.de>) id 1SZMfI-00023o-R2
+	for openembedded-core@lists.openembedded.org;
+	Tue, 29 May 2012 15:40:48 +0200
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To: openembedded-core@lists.openembedded.org
+References: <1338294584.20169.103.camel@ted>
+Date: Tue, 29 May 2012 15:40:48 +0200
+In-Reply-To: <1338294584.20169.103.camel@ted> (Richard Purdie's message of
+	"Tue, 29 May 2012 13:29:44 +0100")
+Message-ID: <lyr4u3rtpb.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/23.3 (gnu/linux)
 MIME-Version: 1.0
-Received: by 10.50.202.100 with SMTP id kh4mr7252948igc.43.1338298485023; Tue,
-	29 May 2012 06:34:45 -0700 (PDT)
-Received: by 10.231.238.69 with HTTP; Tue, 29 May 2012 06:34:45 -0700 (PDT)
-Date: Tue, 29 May 2012 15:34:45 +0200
-Message-ID: <CAOHjBZsu5p39dMujfjoHuz_twU1ZrJ+HZTsbnEEb9X=J=7bnFw@mail.gmail.com>
-From: Giuseppe Condorelli <giuseppe.condorelli@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: core-image-minimal do_rootfs issue (?)
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 0.99
+X-Spam-Score: -5.3
+X-Spam-Level: -----
+X-Spam-Tests: AWL,BAYES_00,SPF_NEUTRAL,T_RP_MATCHES_RCVD,DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.73
+Subject: Re: [PATCH] ccache: Separate out into its own class
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,87 +45,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 May 2012 13:45:03 -0000
-Content-Type: multipart/alternative; boundary=f46d04478855cda22004c12ce52c
+X-List-Received-Date: Tue, 29 May 2012 13:51:07 -0000
+Content-Type: text/plain; charset=us-ascii
 
---f46d04478855cda22004c12ce52c
-Content-Type: text/plain; charset=ISO-8859-1
+Richard Purdie
+<richard.purdie-hQyY1W1yCW8ekmWlsbkhG0B+6BGkLq7r@public.gmane.org>
+writes:
 
-Hi All,
+> Currently, ccache is used if it is present. When building from scratch
+> it gives no performance improvement
 
-building the default core-image-minimal image I obtain no error and all
-seems to end right.
-But if I look at the generated .../tmp/log.do_rootfs file I can see an
-error that souds strange to me.
--------
-Building feeds for
-[stlinux]..
-./
+Here, I have a 10% cache hit ratio in a scratch build:
 
-./lib/
+cache hit (direct)                  2841
+cache hit (preprocessed)            1370
+cache miss                         39957
+called for link                     3369
+called for preprocessing            3207
+multiple source files                  8
+compile failed                      2531
+preprocessor error                   432
+couldn't find the compiler           111
+bad compiler arguments               468
+unsupported source language          532
+autoconf compile/link               6613
+unsupported compiler option          132
+no input file                       2919
+files in cache                     94205
+cache size                           2.0 Gbytes
+max cache size                       3.0 Gbytes
 
-./lib/librt-0.9.32.so
 
-./lib/libusb-1.0.so.0
 
-./lib/libtinfo.so.5
+Enrico
 
-./lib/libtinfo.so.5.9
 
-./lib/ld-uClibc.so.lds
-
-./lib/libc.so.0
-
-./lib/libgcc_s.so.1
-
-./lib/libusb-0.1.so.4.4.4
-[snip]
-
-Error: min I/O unit was not specified (use -h for help)
--------
-I can understand it is a warning that highlight no devices are created in
-that rootfs.
-Are we sure the build ends right after this error/warning?
-This is the last debug info the log.do_rootfs provides and at the end the
-build ends with no errors.
-Is it true?
-
-Best Regards,
-Giuseppe
-
---f46d04478855cda22004c12ce52c
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: base64
-
-PGRpdj5IaSBBbGwsPC9kaXY+PGRpdj6gPC9kaXY+PGRpdj5idWlsZGluZyB0aGUgZGVmYXVsdCBj
-b3JlLWltYWdlLW1pbmltYWwgaW1hZ2UgSSBvYnRhaW4gbm8gZXJyb3IgYW5kIGFsbCBzZWVtcyB0
-byBlbmQgcmlnaHQuPC9kaXY+PGRpdj5CdXQgaWYgSSBsb29rIGF0IHRoZSBnZW5lcmF0ZWQgLi4u
-L3RtcC9sb2cuZG9fcm9vdGZzIGZpbGUgSSBjYW4gc2VlIGFuIGVycm9yIHRoYXQgc291ZHMgc3Ry
-YW5nZSB0byBtZS48L2Rpdj4KPGRpdj4tLS0tLS0tPC9kaXY+PGRpdj5CdWlsZGluZyBmZWVkcyBm
-b3IgW3N0bGludXhdLi6goKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCg
-oKCgoKCgIDxicj4uL6CgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCg
-oKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgIDxicj4uL2xpYi+goKCgoKCgoKCgoKCg
-oKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCg
-oKCgIDxicj4KLi9saWIvPGEgaHJlZj0iaHR0cDovL2xpYnJ0LTAuOS4zMi5zbyI+bGlicnQtMC45
-LjMyLnNvPC9hPqCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCg
-oKCgoKCgoKCgoKAgPGJyPi4vbGliL2xpYnVzYi0xLjAuc28uMKCgoKCgoKCgoKCgoKCgoKCgoKCg
-oKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKAgPGJyPi4vbGliL2xpYnRpbmZv
-LnNvLjWgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCg
-oKCgoKCgoKAgPGJyPgouL2xpYi9saWJ0aW5mby5zby41LjmgoKCgoKCgoKCgoKCgoKCgoKCgoKCg
-oKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgIDxicj4uL2xpYi9sZC11Q2xpYmMu
-c28ubGRzoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCg
-oKCgoKCgIDxicj4uL2xpYi9saWJjLnNvLjCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCg
-oKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgIDxicj4KLi9saWIvbGliZ2NjX3Muc28u
-MaCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCg
-oKCgoCA8YnI+Li9saWIvbGlidXNiLTAuMS5zby40LjQuNDxicj48L2Rpdj48ZGl2PltzbmlwXTwv
-ZGl2PjxkaXY+oDwvZGl2PjxkaXY+RXJyb3I6IG1pbiBJL08gdW5pdCB3YXMgbm90IHNwZWNpZmll
-ZCAodXNlIC1oIGZvciBoZWxwKTwvZGl2PjxkaXY+LS0tLS0tLTwvZGl2Pgo8ZGl2PkkgY2FuIHVu
-ZGVyc3RhbmQgaXQgaXMgYSB3YXJuaW5nIHRoYXQgaGlnaGxpZ2h0IG5vIGRldmljZXMgYXJlIGNy
-ZWF0ZWSgaW4gdGhhdCByb290ZnMuPC9kaXY+PGRpdj5BcmWgd2Ugc3VyZSB0aGUgYnVpbGQgZW5k
-cyByaWdodCBhZnRlciB0aGlzIGVycm9yL3dhcm5pbmc/oDwvZGl2PjxkaXY+VGhpcyBpcyB0aGUg
-bGFzdCBkZWJ1ZyBpbmZvIHRoZSBsb2cuZG9fcm9vdGZzIHByb3ZpZGVzIGFuZCBhdCB0aGUgZW5k
-IHRoZSBidWlsZKBlbmRzIHdpdGggbm8gZXJyb3JzLjwvZGl2Pgo8ZGl2PklzIGl0IHRydWU/PC9k
-aXY+PGRpdj6gPC9kaXY+PGRpdj5CZXN0IFJlZ2FyZHMsPC9kaXY+PGRpdj5HaXVzZXBwZTwvZGl2
-PjxkaXY+oDwvZGl2Pgo=
-
---f46d04478855cda22004c12ce52c--
