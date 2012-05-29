@@ -1,24 +1,30 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <edwin.zhai@intel.com>) id 1SZHxK-0003w5-Aa
+	(envelope-from <radu.moisan@intel.com>) id 1SZIiZ-0004pQ-8U
 	for openembedded-core@lists.openembedded.org;
-	Tue, 29 May 2012 10:39:06 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 29 May 2012 01:28:47 -0700
+	Tue, 29 May 2012 11:27:56 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 29 May 2012 02:17:25 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="172198586"
-Received: from yocto-build3.sh.intel.com ([10.239.48.5])
-	by fmsmga002.fm.intel.com with ESMTP; 29 May 2012 01:27:47 -0700
-From: edwin.zhai@intel.com
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; 
+	d="scan'208,217";a="149636203"
+Received: from dell-desktop (HELO [10.237.104.210]) ([10.237.104.210])
+	by orsmga002.jf.intel.com with ESMTP; 29 May 2012 02:17:24 -0700
+Message-ID: <4FC49590.6030601@intel.com>
+Date: Tue, 29 May 2012 12:23:28 +0300
+From: Radu Moisan <radu.moisan@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
+MIME-Version: 1.0
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 29 May 2012 16:30:33 +0800
-Message-Id: <fb9427fa241a1f36e0bba8bf66bf7fb8604ef77a.1338280083.git.edwin.zhai@intel.com>
-X-Mailer: git-send-email 1.7.1
-In-Reply-To: <cover.1338280083.git.edwin.zhai@intel.com>
-References: <cover.1338280083.git.edwin.zhai@intel.com>
-In-Reply-To: <cover.1338280083.git.edwin.zhai@intel.com>
-References: <cover.1338280083.git.edwin.zhai@intel.com>
-Subject: [PATCH 1/1] qemu: Add an option to remove host sdl/gl checking
+References: <CAJTo0La2e0ncRy6ugDa8Yx3uTcuYGXKBbZ8f5CTg9d7kJGis+w@mail.gmail.com>
+	<4FC35FAD.7090505@intel.com> <4FC35FBA.2060200@gherzan.ro>
+	<4FC37C81.6080200@intel.com>
+	<CAK18fxFpx-X-V465UJN7ziqmN6Fj6bz6YkckjhztTkqX5q2KwA@mail.gmail.com>
+	<CAJTo0LZ5WuTMA=yuLm65PX-sp2Rx_L8UAg4JL1j5JcHvLC=o9A@mail.gmail.com>
+	<1338212677.20169.75.camel@ted> <4FC488CF.2030803@intel.com>
+In-Reply-To: <4FC488CF.2030803@intel.com>
+Subject: Re: dbus test suite
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,330 +39,377 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 May 2012 08:39:06 -0000
+X-List-Received-Date: Tue, 29 May 2012 09:27:56 -0000
+Content-Type: multipart/alternative;
+	boundary="------------050908010809020408020205"
 
-From: Zhai Edwin <edwin.zhai@intel.com>
-
-Add an PACKAGECONFIG in qemu to disable GL acceleration:
-* By default configure try best to enable GL acceleration and fail when missing
-  host dependency(libSDL and libGL).
-* End user can also choose to turn off GL capability, thus remove the host
-  dependence in building.
-
-[YOCTO #2407] got fixed.
-
-Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
----
- .../qemu/qemu-0.15.1/dummy-gl-config.patch         |   31 +++++
- .../qemu/qemu-0.15.1/glflags.patch                 |   40 ++++--
- .../qemu/qemu-0.15.1/opengl-disable-option.patch   |  137 ++++++++++++++++++++
- meta/recipes-devtools/qemu/qemu.inc                |   23 +---
- meta/recipes-devtools/qemu/qemu_0.15.1.bb          |    4 +-
- 5 files changed, 203 insertions(+), 32 deletions(-)
- create mode 100644 meta/recipes-devtools/qemu/qemu-0.15.1/dummy-gl-config.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu-0.15.1/opengl-disable-option.patch
-
-diff --git a/meta/recipes-devtools/qemu/qemu-0.15.1/dummy-gl-config.patch b/meta/recipes-devtools/qemu/qemu-0.15.1/dummy-gl-config.patch
-new file mode 100644
-index 0000000..8aa30ae
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu-0.15.1/dummy-gl-config.patch
-@@ -0,0 +1,31 @@
-+Add a dummy option for GL acceleration to pass the configure when there is no
-+GL acceleration patch. The parsing function will be filled by following
-+opengl-disable-option.patch.
-+
-+Upstream-Status: Inappropriate [other] - depends on GL patch
-+
-+Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
-+
-+Index: qemu-0.15.1/configure
-+===================================================================
-+--- qemu-0.15.1.orig/configure	2012-05-14 21:23:34.000000000 +0800
-++++ qemu-0.15.1/configure	2012-05-14 21:23:36.000000000 +0800
-+@@ -179,6 +179,7 @@
-+ smartcard_nss=""
-+ usb_redir=""
-+ opengl=""
-++gl_accel="yes"
-+ guest_agent="yes"
-+ 
-+ # parse CC options first
-+@@ -739,6 +740,10 @@
-+   ;;
-+   --enable-opengl) opengl="yes"
-+   ;;
-++  --disable-gl-accel) gl_accel="no"
-++  ;;
-++  --enable-gl-accel) gl_accel="yes"
-++  ;;
-+   --*dir)
-+   ;;
-+   --disable-rbd) rbd="no"
-diff --git a/meta/recipes-devtools/qemu/qemu-0.15.1/glflags.patch b/meta/recipes-devtools/qemu/qemu-0.15.1/glflags.patch
-index 0ad5551..638d262 100644
---- a/meta/recipes-devtools/qemu/qemu-0.15.1/glflags.patch
-+++ b/meta/recipes-devtools/qemu/qemu-0.15.1/glflags.patch
-@@ -1,15 +1,33 @@
-+Considering relocation, qemu-nativesdk is independent of host library except
-+libGL. Normal method like 'cat > $TMPC' doesn't work, so we check the library
-+directly.
-+
- Upstream-Status: Inappropriate [configuration]
- 
--Index: qemu-0.14.0/Makefile.target
-+Index: qemu-0.15.1/configure
- ===================================================================
----- qemu-0.14.0.orig/Makefile.target	2011-04-04 12:12:19.142871742 +0100
--+++ qemu-0.14.0/Makefile.target	2011-04-04 12:12:21.772871742 +0100
--@@ -362,7 +362,7 @@
-- 
-- monitor.o: hmp-commands.h qmp-commands.h
-- 
---LIBS += -lGL -lGLU
--+LIBS += -lGL
-- 
-- $(obj-y) $(obj-$(TARGET_BASE_ARCH)-y): $(GENERATED_HEADERS)
-+--- qemu-0.15.1.orig/configure	2012-05-25 18:26:05.000000000 +0800
-++++ qemu-0.15.1/configure	2012-05-29 09:43:27.000000000 +0800
-+@@ -2032,15 +2032,13 @@
-+     exit 1;
-+   fi
-  
-+-  gl_accel_libs="-lGL -lGLU"
-+-  cat > $TMPC << EOF
-+-#include <X11/Xlib.h>
-+-#include <GL/gl.h>
-+-#include <GL/glx.h>
-+-#include <GL/glu.h>
-+-int main(void) { GL_VERSION; return 0; }
-+-EOF
-+-  if compile_prog "" "-lGL -lGLU" ; then
-++  gl_accel_libs="-lGL"
-++  libgl='no'
-++  test -e /usr/lib/libGL.so && libgl='yes'
-++  test -e /usr/lib64/libGL.so && libgl='yes'
-++  test -e /usr/lib/*-linux-gnu/libGL.so && libgl='yes'
-++
-++  if test "$libgl" = "yes" ; then
-+     gl_accel=yes
-+     libs_softmmu="$gl_accel_libs $libs_softmmu"
-+   else
-diff --git a/meta/recipes-devtools/qemu/qemu-0.15.1/opengl-disable-option.patch b/meta/recipes-devtools/qemu/qemu-0.15.1/opengl-disable-option.patch
-new file mode 100644
-index 0000000..8dc272a
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu-0.15.1/opengl-disable-option.patch
-@@ -0,0 +1,137 @@
-+Add an option gl-accel to disable GL acceleration:
-+* When enabled, configure try best to enable GL acceleration and fail when
-+  missing host dependency(libSDL and libGL), which is the default.
-+* When disabled, end user choose to turn off GL capability, thus remove the
-+  host dependence in building.
-+
-+Upstream-Status: Inappropriate [other] - depends on GL patch
-+
-+Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
-+
-+Index: qemu-0.15.1/Makefile.target
-+===================================================================
-+--- qemu-0.15.1.orig/Makefile.target	2012-05-29 11:20:04.000000000 +0800
-++++ qemu-0.15.1/Makefile.target	2012-05-29 11:20:04.000000000 +0800
-+@@ -80,13 +80,16 @@
-+ endif
-+ libobj-$(CONFIG_NEED_MMU) += mmu.o
-+ ifndef CONFIG_LINUX_USER
-++ifdef CONFIG_GL_ACCEL
-+ libobj-$(TARGET_I386) += helper_opengl.o opengl_exec.o
-+ libobj-$(TARGET_X86_64) += helper_opengl.o opengl_exec.o
-+ else
-+-ifdef CONFIG_SDL
-+ libobj-$(TARGET_I386) += dummygl.o
-+ libobj-$(TARGET_X86_64) += dummygl.o
-+-endif
-++endif #CONFIG_GL_ACCEL
-++else
-++libobj-$(TARGET_I386) += dummygl.o
-++libobj-$(TARGET_X86_64) += dummygl.o
-+ endif #CONFIG_LINUX_USER
-+ libobj-$(TARGET_ARM) += dummygl.o
-+ libobj-$(TARGET_MIPS) += dummygl.o
-+@@ -262,8 +265,10 @@
-+ obj-i386-$(CONFIG_SPICE) += qxl.o qxl-logger.o qxl-render.o
-+ 
-+ ifeq ($(TARGET_BASE_ARCH), i386)
-++ifdef CONFIG_GL_ACCEL
-+ QEMU_CFLAGS += -DTARGET_OPENGL_OK
-+ endif
-++endif
-+ 
-+ # shared objects
-+ obj-ppc-y = ppc.o
-+@@ -409,8 +414,6 @@
-+ 
-+ monitor.o: hmp-commands.h qmp-commands.h
-+ 
-+-LIBS += -lGL -lGLU
-+-
-+ $(obj-y) $(obj-$(TARGET_BASE_ARCH)-y): $(GENERATED_HEADERS)
-+ 
-+ obj-y += $(addprefix ../, $(common-obj-y))
-+Index: qemu-0.15.1/configure
-+===================================================================
-+--- qemu-0.15.1.orig/configure	2012-05-29 11:20:03.000000000 +0800
-++++ qemu-0.15.1/configure	2012-05-29 11:20:04.000000000 +0800
-+@@ -2021,6 +2021,39 @@
-+   fi
-+ fi
-+ 
-++#####################################################
-++# GL acceleration probe depending on gl, glu and sdl
-++if test "$gl_accel" != "no" ; then
-++  if test "$sdl" = "no" ; then
-++    gl_accel=no
-++    echo "libSDL and header no found to build opengl acceleration for qemu-native.
-++    Ubuntu package names are: libsdl1.2-dev.
-++    Fedora package names are: SDL-devel."
-++    exit 1;
-++  fi
-++
-++  gl_accel_libs="-lGL -lGLU"
-++  cat > $TMPC << EOF
-++#include <X11/Xlib.h>
-++#include <GL/gl.h>
-++#include <GL/glx.h>
-++#include <GL/glu.h>
-++int main(void) { GL_VERSION; return 0; }
-++EOF
-++  if compile_prog "" "-lGL -lGLU" ; then
-++    gl_accel=yes
-++    libs_softmmu="$gl_accel_libs $libs_softmmu"
-++  else
-++    feature_not_found "gl_accel"
-++    gl_accel=no
-++    gl_accel_libs=
-++    echo "libGL.so and libGLU.so not found to build opengl acceleration for qemu-native.
-++    Ubuntu package names are: libgl1-mesa-dev, libglu1-mesa-dev and libsdl1.2-dev.
-++    Fedora package names are: mesa-libGL mesa-libGLU SDL-devel."
-++    exit 1;
-++  fi
-++fi
-++
-+ #
-+ # Check for xxxat() functions when we are building linux-user
-+ # emulator.  This is done because older glibc versions don't
-+@@ -2722,6 +2755,7 @@
-+ echo "nss used          $smartcard_nss"
-+ echo "usb net redir     $usb_redir"
-+ echo "OpenGL support    $opengl"
-++echo "GL acceleration support    $gl_accel"
-+ echo "build guest agent $guest_agent"
-+ 
-+ if test $sdl_too_old = "yes"; then
-+@@ -3025,6 +3059,10 @@
-+   echo "CONFIG_OPENGL=y" >> $config_host_mak
-+ fi
-+ 
-++if test "$gl_accel" = "yes" ; then
-++  echo "CONFIG_GL_ACCEL=y" >> $config_host_mak
-++fi
-++
-+ # XXX: suppress that
-+ if [ "$bsd" = "yes" ] ; then
-+   echo "CONFIG_BSD=y" >> $config_host_mak
-+Index: qemu-0.15.1/qemu-char.c
-+===================================================================
-+--- qemu-0.15.1.orig/qemu-char.c	2012-05-29 11:20:03.000000000 +0800
-++++ qemu-0.15.1/qemu-char.c	2012-05-29 11:20:04.000000000 +0800
-+@@ -2387,7 +2387,6 @@
-+     return d->outbuf_size;
-+ }
-+ 
-+-#define TARGET_OPENGL_OK
-+ #if defined(TARGET_OPENGL_OK)
-+ static uint8_t buffer[32];
-+ static int buffer_len;
-+@@ -2447,7 +2446,7 @@
-+     return chr;
-+ }
-+ #else
-+-#define qemu_chr_open_opengl() 0
-++#define qemu_chr_open_opengl NULL
-+ #endif
-+ 
-+ QemuOpts *qemu_chr_parse_compat(const char *label, const char *filename)
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 93325c3..75ff962 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -19,26 +19,6 @@ EXTRA_OECONF += "--target-list=${@get_qemu_target_list(d)} --disable-werror --di
- 
- inherit autotools
- 
--# For our gl powered QEMU you need libGL and SDL headers
--do_configure_prepend_virtclass-native() {
--    libgl='no'
--    libsdl='no'
--
--    test -e /usr/lib/libGL.so -a -e /usr/lib/libGLU.so && libgl='yes'
--    test -e /usr/lib64/libGL.so -a -e /usr/lib64/libGLU.so && libgl='yes'
--    test -e /usr/lib/*-linux-gnu/libGL.so -a -e /usr/lib/*-linux-gnu/libGLU.so && libgl='yes'
--
--    test -e /usr/lib/pkgconfig/sdl.pc -o -e /usr/lib64/pkgconfig/sdl.pc -o -e /usr/include/SDL/SDL.h && libsdl='yes'
--
--
--    if [ "$libsdl" != 'yes' -o "$libgl" != 'yes' ]; then
--       echo "You need libGL.so and libGLU.so to exist in your library path and the development headers for SDL installed to build qemu-native.
--       Ubuntu package names are: libgl1-mesa-dev, libglu1-mesa-dev and libsdl1.2-dev.
--       Fedora package names are: mesa-libGL mesa-libGLU SDL-devel."
--       exit 1;
--    fi
--}
--
- do_configure() {
-     # Handle distros such as CentOS 5 32-bit that do not have kvm support
-     KVMOPTS="--disable-kvm"
-@@ -57,6 +37,9 @@ do_install () {
- 	install -m 0755 ${WORKDIR}/powerpc_rom.bin ${D}${datadir}/qemu
- }
- 
-+PACKAGECONFIG ??= "gl"
-+PACKAGECONFIG[gl] = "--enable-gl-accel,--disable-gl-accel,,"
-+
- DEPENDS_virtclass-native = "zlib-native alsa-lib-native glib-2.0-native"
- DEPENDS_virtclass-nativesdk = "zlib-nativesdk libsdl-nativesdk glib-2.0-nativesdk \
-                                ${@base_contains('DISTRO_FEATURES', 'x11', 'qemugl-nativesdk', '', d)}"
-diff --git a/meta/recipes-devtools/qemu/qemu_0.15.1.bb b/meta/recipes-devtools/qemu/qemu_0.15.1.bb
-index e90f339..f28ec4c 100644
---- a/meta/recipes-devtools/qemu/qemu_0.15.1.bb
-+++ b/meta/recipes-devtools/qemu/qemu_0.15.1.bb
-@@ -3,7 +3,7 @@ require qemu.inc
- LIC_FILES_CHKSUM = "file://COPYING;md5=441c28d2cf86e15a37fa47e15a72fbac \
-                     file://COPYING.LIB;endline=24;md5=c04def7ae38850e7d3ef548588159913"
- 
--PR = "r6"
-+PR = "r7"
- 
- FILESPATH = "${FILE_DIRNAME}/qemu-${PV}"
- FILESDIR = "${WORKDIR}"
-@@ -19,6 +19,7 @@ SRC_URI = "\
-     file://larger_default_ram_size.patch \
-     file://arm-bgr.patch \
-     file://a4d1f142542935b90d2eb30f3aead4edcf455fe6.patch \
-+    file://dummy-gl-config.patch \
-     "
- 
- # Only use the GL passthrough patches for native/nativesdk versions
-@@ -31,6 +32,7 @@ QEMUGLPATCHES = "\
-     file://qemugl-fix.patch \
-     file://opengl-sdl-fix.patch \
-     file://opengl-args-copy-fix.patch \
-+    file://opengl-disable-option.patch \
-     "
- 
- SRC_URI_append_virtclass-native = "\
--- 
-1.7.1
+--------------050908010809020408020205
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
 
+On 05/29/2012 11:29 AM, Radu Moisan wrote:
+>
+>
+> On 05/28/2012 04:44 PM, Richard Purdie wrote:
+>> On Mon, 2012-05-28 at 14:30 +0100, Burton, Ross wrote:
+>>> On 28 May 2012 14:26, Andrei Gherzan<andrei@gherzan.ro>  wrote:
+>>>> There is an internal test suite for dbus. You can enable building those
+>>>> tests in configure:
+>>>> "--enable-tests"
+>>> Is there a good reason why these shouldn't be always ran when building dbus?
+>> Well, we're cross compiling so it depends how they're written and
+>> whether they can run in a cross environment. We've also taken steps to
+>> reduce our build time so if these need something like perl or python,
+>> adding those into the dependency chain is problematic.
+>>
+>> I'm open to ideas here but so far they've not been useful so are likely
+>> disabled.
+>>
+>> Cheers,
+>>
+>> Richard
+>>
+> How do I add something in the dependency chain? With --enable-test 
+> dbus fails at do_configure complaining about
+>
+> | configure: Full test coverage was requested with --enable-tests=yes
+> | configure: This has many dependencies (GLib, dbus-glib, Python)
+> | checking for i586-poky-linux-pkg-config... no
+> | checking for pkg-config... 
+> /home/radu/Documents/Development/yocto/build/tmp/sysroots/x86_64-linux/usr/bin/pkg-config
+> | checking pkg-config is at least version 0.9.0... yes
+> | checking for GLIB... yes
+> | checking for DBUS_GLIB... yes
+> | configure: Full test coverage (--enable-tests=yes) requires Python, 
+> dbus-python, pygobject
+> | checking for a Python interpreter with version >= 2.6... python
+> | checking for python... 
+> /home/radu/Documents/Development/yocto/build/tmp/sysroots/x86_64-linux/usr/bin/python
+> | checking for python version... 2.7
+> | checking for python platform... linux2
+> | checking for python script directory... 
+> ${libdir}/python2.7/site-packages
+> | checking for python extension module directory... 
+> ${libdir}/python2.7/site-packages
+> | checking for Python modules for full test coverage... Traceback 
+> (most recent call last):
+> |   File "<string>", line 1, in <module>
+> | ImportError: No module named dbus
+> | no
+> | configure: error: cannot import dbus, gobject, dbus.mainloop.glib 
+> Python modules
+> | ERROR: oe_runconf failed
+> NOTE: package dbus-1.4.20-r3.0: task do_configure: Failed
+> ERROR: Task 6 
+> (/home/radu/Documents/Development/yocto/poky/meta/recipes-core/dbus/dbus_1.4.20.bb, 
+> do_configure) failed with exit code '1'
+> NOTE: Tasks Summary: Attempted 1119 tasks of which 1118 didn't need to 
+> be rerun and 1 failed.
+>
+> Summary: 1 task failed:
+>   
+> /home/radu/Documents/Development/yocto/poky/meta/recipes-core/dbus/dbus_1.4.20.bb, 
+> do_configure
+> Summary: There was 1 ERROR message shown, returning a non-zero exit code.
+>
+>
+> Radu
+>
+Leaving --enable-tests aside for a moment, I'm trying to build dbus with 
+--enable-embedded-tests which is less but still good instead of nothing. 
+However, the build fails at do_compile complaining about 
+dbus/dbus-glib-lowlevel.h missing, although it's there. So I think some 
+variable in Makefile is not pointing correctly, but I cannot find which.
+
+| i586-poky-linux-libtool: link: i586-poky-linux-ar cru 
+.libs/libdbus-testutils.a .libs/test-utils.o
+| i586-poky-linux-libtool: link: i586-poky-linux-ranlib 
+.libs/libdbus-testutils.a
+| i586-poky-linux-libtool: link: ( cd ".libs" && rm -f 
+"libdbus-testutils.la" && ln -s "../libdbus-testutils.la" 
+"libdbus-testutils.la" )
+| dbus-daemon.c:32:37: fatal error: dbus/dbus-glib-lowlevel.h: No such 
+file or directory
+| compilation terminated.
+| i586-poky-linux-libtool: link: ccache i586-poky-linux-gcc -m32 
+-march=i586 
+--sysroot=/home/radu/Documents/Development/yocto/build/tmp/sysroots/qemux86 
+-Wall -Wchar-subscripts -Wmissing-declarations -Wmissing-prototypes 
+-Wnested-externs -Wpointer-arith -Wcast-align -Wno-address -Wfloat-equal 
+-Wdeclaration-after-statement -Wno-unused -Wno-sign-compare 
+-Wno-pointer-sign -Wno-deprecated-declarations -fno-common 
+-fno-strict-aliasing -O2 -pipe -g -feliminate-unused-debug-types -Wl,-O1 
+-Wl,--hash-style=gnu -Wl,--as-needed -o test-segfault test-segfault.o
+| make[3]: *** [test_dbus_daemon-dbus-daemon.o] Error 1
+| make[3]: *** Waiting for unfinished jobs....
+| i586-poky-linux-libtool: link: ccache i586-poky-linux-gcc -m32 
+-march=i586 
+--sysroot=/home/radu/Documents/Development/yocto/build/tmp/sysroots/qemux86 
+-Wall -Wchar-subsERROR: Function failed: do_compile (see 
+/home/radu/Documents/Development/yocto/build/tmp/work/i586-poky-linux/dbus-1.4.20-r3.0/temp/log.do_compile.10606 
+for further information)
+| cripts -Wmissing-declarations -Wmissing-prototypes -Wnested-externs 
+-Wpointer-arith -Wcast-align -Wno-address -Wfloat-equal 
+-Wdeclaration-after-statement -Wno-unused -Wno-sign-compare 
+-Wno-pointer-sign -Wno-deprecated-declarations -fno-common 
+-fno-strict-aliasing -O2 -pipe -g -feliminate-unused-debug-types -Wl,-O1 
+-Wl,--hash-style=gnu -Wl,--as-needed -o test-exit test-exit.o
+| i586-poky-linux-libtool: link: ccache i586-poky-linux-gcc -m32 
+-march=i586 
+--sysroot=/home/radu/Documents/Development/yocto/build/tmp/sysroots/qemux86 
+-Wall -Wchar-subscripts -Wmissing-declarations -Wmissing-prototypes 
+-Wnested-externs -Wpointer-arith -Wcast-align -Wno-address -Wfloat-equal 
+-Wdeclaration-after-statement -Wno-unused -Wno-sign-compare 
+-Wno-pointer-sign -Wno-deprecated-declarations -fno-common 
+-fno-strict-aliasing -O2 -pipe -g -feliminate-unused-debug-types -Wl,-O1 
+-Wl,--hash-style=gnu -Wl,--as-needed -o test-sleep-forever 
+test-sleep-forever.o
+| loopback.c:32:37: fatal error: dbus/dbus-glib-lowlevel.h: No such file 
+or directory
+| compilation terminated.
+| make[3]: *** [test_loopback-loopback.o] Error 1
+| i586-poky-linux-libtool: link: ccache i586-poky-linux-gcc -m32 
+-march=i586 
+--sysroot=/home/radu/Documents/Development/yocto/build/tmp/sysroots/qemux86 
+-Wall -Wchar-subscripts -Wmissing-declarations -Wmissing-prototypes 
+-Wnested-externs -Wpointer-arith -Wcast-align -Wno-address -Wfloat-equal 
+-Wdeclaration-after-statement -Wno-unused -Wno-sign-compare 
+-Wno-pointer-sign -Wno-deprecated-declarations -fno-common 
+-fno-strict-aliasing -O2 -pipe -g -feliminate-unused-debug-types -Wl,-O1 
+-Wl,--hash-style=gnu -Wl,--as-needed -o spawn-test spawn-test.o  
+../dbus/.libs/libdbus-internal.a -lpthread -lrt
+| corrupt.c:33:37: fatal error: dbus/dbus-glib-lowlevel.h: No such file 
+or directory
+| compilation terminated.
+| make[3]: *** [test_corrupt-corrupt.o] Error 1
+| make[3]: Leaving directory 
+`/home/radu/Documents/Development/yocto/build/tmp/work/i586-poky-linux/dbus-1.4.20-r3.0/dbus-1.4.20/test'
+| make[2]: *** [all-recursive] Error 1
+| make[2]: Leaving directory 
+`/home/radu/Documents/Development/yocto/build/tmp/work/i586-poky-linux/dbus-1.4.20-r3.0/dbus-1.4.20/test'
+| make[1]: *** [all-recursive] Error 1
+| make[1]: Leaving directory 
+`/home/radu/Documents/Development/yocto/build/tmp/work/i586-poky-linux/dbus-1.4.20-r3.0/dbus-1.4.20'
+| make: *** [all] Error 2
+| ERROR: oe_runmake failed
+NOTE: package dbus-1.4.20-r3.0: task do_compile: Failed
+ERROR: Task 7 
+(/home/radu/Documents/Development/yocto/poky/meta/recipes-core/dbus/dbus_1.4.20.bb, 
+do_compile) failed with exit code '1'
+NOTE: Tasks Summary: Attempted 1120 tasks of which 1119 didn't need to 
+be rerun and 1 failed.
+
+Summary: 1 task failed:
+   
+/home/radu/Documents/Development/yocto/poky/meta/recipes-core/dbus/dbus_1.4.20.bb, 
+do_compile
+Summary: There was 1 ERROR message shown, returning a non-zero exit code.
+
+Radu
+
+--------------050908010809020408020205
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
+
+<html>
+  <head>
+    <meta content="text/html; charset=ISO-8859-1"
+      http-equiv="Content-Type">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    <br>
+    <br>
+    On 05/29/2012 11:29 AM, Radu Moisan wrote:
+    <blockquote cite="mid:4FC488CF.2030803@intel.com" type="cite">
+      <meta http-equiv="Content-Type" content="text/html;
+        charset=ISO-8859-1">
+      <br>
+      <br>
+      On 05/28/2012 04:44 PM, Richard Purdie wrote:
+      <blockquote cite="mid:1338212677.20169.75.camel@ted" type="cite">
+        <pre wrap="">On Mon, 2012-05-28 at 14:30 +0100, Burton, Ross wrote:
+</pre>
+        <blockquote type="cite">
+          <pre wrap="">On 28 May 2012 14:26, Andrei Gherzan <a moz-do-not-send="true" class="moz-txt-link-rfc2396E" href="mailto:andrei@gherzan.ro">&lt;andrei@gherzan.ro&gt;</a> wrote:
+</pre>
+          <blockquote type="cite">
+            <pre wrap="">There is an internal test suite for dbus. You can enable building those
+tests in configure:
+"--enable-tests"
+</pre>
+          </blockquote>
+          <pre wrap="">Is there a good reason why these shouldn't be always ran when building dbus?
+</pre>
+        </blockquote>
+        <pre wrap="">Well, we're cross compiling so it depends how they're written and
+whether they can run in a cross environment. We've also taken steps to
+reduce our build time so if these need something like perl or python,
+adding those into the dependency chain is problematic.
+
+I'm open to ideas here but so far they've not been useful so are likely
+disabled.
+
+Cheers,
+
+Richard
+
+</pre>
+      </blockquote>
+      How do I add something in the dependency chain? With --enable-test
+      dbus fails at do_configure complaining about<br>
+      <br>
+      <small><font face="Droid Sans Mono">| configure: Full test
+          coverage was requested with --enable-tests=yes<br>
+          | configure: This has many dependencies (GLib, dbus-glib,
+          Python)<br>
+          | checking for i586-poky-linux-pkg-config... no<br>
+          | checking for pkg-config...
+/home/radu/Documents/Development/yocto/build/tmp/sysroots/x86_64-linux/usr/bin/pkg-config<br>
+          | checking pkg-config is at least version 0.9.0... yes<br>
+          | checking for GLIB... yes<br>
+          | checking for DBUS_GLIB... yes<br>
+          | configure: Full test coverage (--enable-tests=yes) requires
+          Python, dbus-python, pygobject<br>
+          | checking for a Python interpreter with version &gt;= 2.6...
+          python<br>
+          | checking for python...
+/home/radu/Documents/Development/yocto/build/tmp/sysroots/x86_64-linux/usr/bin/python<br>
+          | checking for python version... 2.7<br>
+          | checking for python platform... linux2<br>
+          | checking for python script directory...
+          ${libdir}/python2.7/site-packages<br>
+          | checking for python extension module directory...
+          ${libdir}/python2.7/site-packages<br>
+          | checking for Python modules for full test coverage...
+          Traceback (most recent call last):<br>
+          |&nbsp;&nbsp; File "&lt;string&gt;", line 1, in &lt;module&gt;<br>
+          | ImportError: No module named dbus<br>
+          | no<br>
+          | configure: error: cannot import dbus, gobject,
+          dbus.mainloop.glib Python modules<br>
+          | ERROR: oe_runconf failed<br>
+          NOTE: package dbus-1.4.20-r3.0: task do_configure: Failed<br>
+          ERROR: Task 6
+          (/home/radu/Documents/Development/yocto/poky/meta/recipes-core/dbus/dbus_1.4.20.bb,
+
+          do_configure) failed with exit code '1'<br>
+          NOTE: Tasks Summary: Attempted 1119 tasks of which 1118 didn't
+          need to be rerun and 1 failed.<br>
+          <br>
+          Summary: 1 task failed:<br>
+          &nbsp;
+          /home/radu/Documents/Development/yocto/poky/meta/recipes-core/dbus/dbus_1.4.20.bb,
+
+          do_configure<br>
+          Summary: There was 1 ERROR message shown, returning a non-zero
+          exit code.</font></small><br>
+      <br>
+      <br>
+      Radu<br>
+      <br>
+    </blockquote>
+    Leaving --enable-tests aside for a moment, I'm trying to build dbus
+    with --enable-embedded-tests which is less but still good instead of
+    nothing. However, the build fails at do_compile complaining about
+    dbus/dbus-glib-lowlevel.h missing, although it's there. So I think
+    some variable in Makefile is not pointing correctly, but I cannot
+    find which.<br>
+    <br>
+    <small><font face="Droid Sans Mono">| i586-poky-linux-libtool: link:
+        i586-poky-linux-ar cru .libs/libdbus-testutils.a
+        .libs/test-utils.o<br>
+        | i586-poky-linux-libtool: link: i586-poky-linux-ranlib
+        .libs/libdbus-testutils.a<br>
+        | i586-poky-linux-libtool: link: ( cd ".libs" &amp;&amp; rm -f
+        "libdbus-testutils.la" &amp;&amp; ln -s
+        "../libdbus-testutils.la" "libdbus-testutils.la" )<br>
+        | dbus-daemon.c:32:37: fatal error: dbus/dbus-glib-lowlevel.h:
+        No such file or directory<br>
+        | compilation terminated.<br>
+        | i586-poky-linux-libtool: link: ccache i586-poky-linux-gcc -m32
+        -march=i586
+        --sysroot=/home/radu/Documents/Development/yocto/build/tmp/sysroots/qemux86
+        -Wall -Wchar-subscripts -Wmissing-declarations
+        -Wmissing-prototypes -Wnested-externs -Wpointer-arith
+        -Wcast-align -Wno-address -Wfloat-equal
+        -Wdeclaration-after-statement -Wno-unused -Wno-sign-compare
+        -Wno-pointer-sign -Wno-deprecated-declarations -fno-common
+        -fno-strict-aliasing -O2 -pipe -g -feliminate-unused-debug-types
+        -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -o test-segfault
+        test-segfault.o<br>
+        | make[3]: *** [test_dbus_daemon-dbus-daemon.o] Error 1<br>
+        | make[3]: *** Waiting for unfinished jobs....<br>
+        | i586-poky-linux-libtool: link: ccache i586-poky-linux-gcc -m32
+        -march=i586
+        --sysroot=/home/radu/Documents/Development/yocto/build/tmp/sysroots/qemux86
+        -Wall -Wchar-subsERROR: Function failed: do_compile (see
+        /home/radu/Documents/Development/yocto/build/tmp/work/i586-poky-linux/dbus-1.4.20-r3.0/temp/log.do_compile.10606
+        for further information)<br>
+        | cripts -Wmissing-declarations -Wmissing-prototypes
+        -Wnested-externs -Wpointer-arith -Wcast-align -Wno-address
+        -Wfloat-equal -Wdeclaration-after-statement -Wno-unused
+        -Wno-sign-compare -Wno-pointer-sign -Wno-deprecated-declarations
+        -fno-common -fno-strict-aliasing -O2 -pipe -g
+        -feliminate-unused-debug-types -Wl,-O1 -Wl,--hash-style=gnu
+        -Wl,--as-needed -o test-exit test-exit.o<br>
+        | i586-poky-linux-libtool: link: ccache i586-poky-linux-gcc -m32
+        -march=i586
+        --sysroot=/home/radu/Documents/Development/yocto/build/tmp/sysroots/qemux86
+        -Wall -Wchar-subscripts -Wmissing-declarations
+        -Wmissing-prototypes -Wnested-externs -Wpointer-arith
+        -Wcast-align -Wno-address -Wfloat-equal
+        -Wdeclaration-after-statement -Wno-unused -Wno-sign-compare
+        -Wno-pointer-sign -Wno-deprecated-declarations -fno-common
+        -fno-strict-aliasing -O2 -pipe -g -feliminate-unused-debug-types
+        -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -o
+        test-sleep-forever test-sleep-forever.o<br>
+        | loopback.c:32:37: fatal error: dbus/dbus-glib-lowlevel.h: No
+        such file or directory<br>
+        | compilation terminated.<br>
+        | make[3]: *** [test_loopback-loopback.o] Error 1<br>
+        | i586-poky-linux-libtool: link: ccache i586-poky-linux-gcc -m32
+        -march=i586
+        --sysroot=/home/radu/Documents/Development/yocto/build/tmp/sysroots/qemux86
+        -Wall -Wchar-subscripts -Wmissing-declarations
+        -Wmissing-prototypes -Wnested-externs -Wpointer-arith
+        -Wcast-align -Wno-address -Wfloat-equal
+        -Wdeclaration-after-statement -Wno-unused -Wno-sign-compare
+        -Wno-pointer-sign -Wno-deprecated-declarations -fno-common
+        -fno-strict-aliasing -O2 -pipe -g -feliminate-unused-debug-types
+        -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -o spawn-test
+        spawn-test.o&nbsp; ../dbus/.libs/libdbus-internal.a -lpthread -lrt<br>
+        | corrupt.c:33:37: fatal error: dbus/dbus-glib-lowlevel.h: No
+        such file or directory<br>
+        | compilation terminated.<br>
+        | make[3]: *** [test_corrupt-corrupt.o] Error 1<br>
+        | make[3]: Leaving directory
+`/home/radu/Documents/Development/yocto/build/tmp/work/i586-poky-linux/dbus-1.4.20-r3.0/dbus-1.4.20/test'<br>
+        | make[2]: *** [all-recursive] Error 1<br>
+        | make[2]: Leaving directory
+`/home/radu/Documents/Development/yocto/build/tmp/work/i586-poky-linux/dbus-1.4.20-r3.0/dbus-1.4.20/test'<br>
+        | make[1]: *** [all-recursive] Error 1<br>
+        | make[1]: Leaving directory
+`/home/radu/Documents/Development/yocto/build/tmp/work/i586-poky-linux/dbus-1.4.20-r3.0/dbus-1.4.20'<br>
+        | make: *** [all] Error 2<br>
+        | ERROR: oe_runmake failed<br>
+        NOTE: package dbus-1.4.20-r3.0: task do_compile: Failed<br>
+        ERROR: Task 7
+        (/home/radu/Documents/Development/yocto/poky/meta/recipes-core/dbus/dbus_1.4.20.bb,
+        do_compile) failed with exit code '1'<br>
+        NOTE: Tasks Summary: Attempted 1120 tasks of which 1119 didn't
+        need to be rerun and 1 failed.<br>
+        <br>
+        Summary: 1 task failed:<br>
+        &nbsp;
+        /home/radu/Documents/Development/yocto/poky/meta/recipes-core/dbus/dbus_1.4.20.bb,
+        do_compile<br>
+        Summary: There was 1 ERROR message shown, returning a non-zero
+        exit code.<br>
+      </font></small><br>
+    Radu<br>
+  </body>
+</html>
+
+--------------050908010809020408020205--
