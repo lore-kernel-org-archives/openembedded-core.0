@@ -1,26 +1,26 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Liezhi.Yang@windriver.com>) id 1SZNx2-0006U0-R8
+	(envelope-from <Liezhi.Yang@windriver.com>) id 1SZNx0-0006QA-2D
 	for openembedded-core@lists.openembedded.org;
 	Tue, 29 May 2012 17:03:15 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q4TEqs8S005389
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q4TEqnAu005378
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 May 2012 07:52:55 -0700 (PDT)
+	Tue, 29 May 2012 07:52:52 -0700 (PDT)
 Received: from usp-ub10.corp.ad.wrs.com (128.224.163.69) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.1.255.0; Tue, 29 May 2012 07:52:54 -0700
+	14.1.255.0; Tue, 29 May 2012 07:52:48 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 29 May 2012 22:53:09 +0800
-Message-ID: <17015f5456a8216f84817ef9183b83779537347d.1338302685.git.liezhi.yang@windriver.com>
+Date: Tue, 29 May 2012 22:53:07 +0800
+Message-ID: <a32f1f619d2d181d166b99eda05e267e57048eef.1338302685.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.1
 In-Reply-To: <cover.1338302685.git.liezhi.yang@windriver.com>
 References: <cover.1338302685.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
 Cc: Zhenfeng.Zhao@windriver.com
-Subject: [PATCH 4/4] scripts: replace os.popen with subprocess.Popen
+Subject: [PATCH 2/4] scripts: replace os.system with subprocess.call
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,7 +38,7 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 X-List-Received-Date: Tue, 29 May 2012 15:03:18 -0000
 Content-Type: text/plain
 
-Replace os.popen with subprocess.Popen since the older function would
+Replace os.system with subprocess.call since the older function would
 fail (more or less) silently if the executed program cannot be found
 
 More info:
@@ -48,30 +48,61 @@ http://docs.python.org/library/subprocess.html#subprocess-replacements
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- scripts/contrib/python/generate-manifest-2.7.py |    3 ++-
- 1 files changed, 2 insertions(+), 1 deletions(-)
+ scripts/rpm-createsolvedb.py  |    5 +++--
+ scripts/swabber-strace-attach |    3 ++-
+ 2 files changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/scripts/contrib/python/generate-manifest-2.7.py b/scripts/contrib/python/generate-manifest-2.7.py
-index 7b43137..d139ab1 100755
---- a/scripts/contrib/python/generate-manifest-2.7.py
-+++ b/scripts/contrib/python/generate-manifest-2.7.py
-@@ -13,6 +13,7 @@
- import os
- import sys
- import time
+diff --git a/scripts/rpm-createsolvedb.py b/scripts/rpm-createsolvedb.py
+index 0d5f219..a5b61ba 100755
+--- a/scripts/rpm-createsolvedb.py
++++ b/scripts/rpm-createsolvedb.py
+@@ -14,6 +14,7 @@
+ import sys, os
+ import hashlib
+ import stat
 +import subprocess
  
- VERSION = "2.7.2"
+ if len(sys.argv) < 1:
+     print("Error, rpm command not specified")
+@@ -44,7 +45,7 @@ for path in paths:
+         continue
  
-@@ -149,7 +150,7 @@ class MakefileMaker:
- if __name__ == "__main__":
+     if os.path.exists(path + "/solvedb"):
+-        os.system("rm -rf %s" % (path + "/solvedb"))
++        subprocess.call("rm -rf %s" % (path + "/solvedb"), shell=True)
+     os.mkdir(path + "/solvedb")
+     m = open(path + "/solvedb/manifest", "w")
+     m.write("# Dynamically generated solve manifest\n")
+@@ -56,7 +57,7 @@ for path in paths:
+ 			--noaid --nodeps --noorder --noscripts --notriggers --noparentdirs --nolinktos --stats \
+ 			--ignoresize --nosignature --nodigest -D "__dbi_txn create nofsync" \
+ 			' + path + '/solvedb/manifest'
+-    os.system(cmd)
++    subprocess.call(cmd, shell=True)
  
-     if len( sys.argv ) > 1:
--        os.popen( "rm -f ./%s" % sys.argv[1] )
-+        subprocess.Popen("rm -f ./%s" % sys.argv[1], shell=True, stdout=subprocess.PIPE).stdout
-         outfile = file( sys.argv[1], "w" )
-     else:
-         outfile = sys.stdout
+     open(path + "/solvedb.checksum", "w").write(checksum)
+     open(path + "/solvedb.done", "w")
+diff --git a/scripts/swabber-strace-attach b/scripts/swabber-strace-attach
+index d4f80e4..bb0391a 100755
+--- a/scripts/swabber-strace-attach
++++ b/scripts/swabber-strace-attach
+@@ -1,6 +1,7 @@
+ #!/usr/bin/env python
+ import os
+ import sys
++import subprocess
+ 
+ # Detach from the controlling terminal and parent process by forking twice to daemonize ourselves,
+ # then run the command passed as argv[1]. Send log data to argv[2].
+@@ -24,7 +25,7 @@ os.dup2(si.fileno(), sys.stdin.fileno())
+ os.dup2(so.fileno(), sys.stdout.fileno())
+ os.dup2(se.fileno(), sys.stderr.fileno())
+ 
+-ret = os.system(sys.argv[1])
++ret = subprocess.call(sys.argv[1], shell=True)
+ 
+ os._exit(ret)
+ 
 -- 
 1.7.1
 
