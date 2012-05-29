@@ -1,39 +1,40 @@
-Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1SZUkt-0007Tt-Rb
+	(envelope-from <ross.burton@intel.com>) id 1SZUos-0007df-Hk
 	for openembedded-core@lists.openembedded.org;
-	Wed, 30 May 2012 00:19:08 +0200
-Received: from mail-qc0-f180.google.com ([209.85.216.180])
-	by mga01.intel.com with ESMTP/TLS/RC4-MD5; 29 May 2012 15:07:34 -0700
-Received: by qcmv28 with SMTP id v28so2189236qcm.25
+	Wed, 30 May 2012 00:23:15 +0200
+Received: from mail-qa0-f45.google.com ([209.85.216.45])
+	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 29 May 2012 15:12:55 -0700
+Received: by qaeb19 with SMTP id b19so1602303qae.4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 May 2012 15:07:33 -0700 (PDT)
+	Tue, 29 May 2012 15:12:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
 	:content-type:content-transfer-encoding:x-gm-message-state;
-	bh=peT8eMRpVcSFecUXJZslIn8dEREo83jFvSkhkKNOujE=;
-	b=W3ZmDCzLAXDObFC2DQzL3ccY1Ov7FAP1pl6Bbh1jrl/NLuNy9lmCXEFnrIl8tKyH3P
-	J7jA1F9o+gT8EjHdix7toC7bg31i2QKKbKR+yhlTFY2imhh3FC6xSpvUv7DtrL8h5tKO
-	+/boSFw0KXHVpv8pTwm6lMZYKqxhLKMJqhMhiBaiiawf9sr9FoEeMHwPxprqSXFnwm58
-	EQWBskb8aNM+Nhn0itXQKUaGAHJDRPSmcRjwjChhp4YjoHvBwICe4dwRTPaQ3NJoBn7C
-	XiElCYKpMdVpV4SuR2WmjfRBl2WHcGW21l1xkMRlPQcjCrxCKFR+pFqnI5iwgQXUcgYA
-	X4yQ==
-Received: by 10.224.110.70 with SMTP id m6mr13686893qap.69.1338329253206; Tue,
-	29 May 2012 15:07:33 -0700 (PDT)
+	bh=fvoIhzJIywWXLdx9xssR+8uZugY9rJ/bh4mwTZaQNNU=;
+	b=hIWnqBY9fwJWg854MtrdkAv6K5Bo5qscMBPoSKokCSEucb7yiUQpGk496jFX8gls2Y
+	Yhma9r8jZG2gqXNyjDd9tWp7QAQu7rRndGC4352qasdYefhgeRwX5HkaFOY3caUV8vPT
+	ij2beCZgloFZIdWHCkeL5mXnJeBQWcnsgr3LBElODBzdw06g42PZ9zL1+D3/s/WbDGcl
+	rXdmDRNaao/DNAvX4L+IOgLdtbfrm2IVxun57Q3PkhM/+j/ckwnYpDHn5KBsgj1j761w
+	lv24GvreD1x9ydBIPgiYA/0hthqt2q/5xd3OPU/ZI8/9SFgPoDTQ0QdK81IrShzMYhIB
+	M6cg==
+Received: by 10.224.44.136 with SMTP id a8mr13679777qaf.34.1338329574663; Tue,
+	29 May 2012 15:12:54 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.229.162.12 with HTTP; Tue, 29 May 2012 15:07:12 -0700 (PDT)
-In-Reply-To: <CAP9ODKotiqYtyY9sZ_9TqA3V2OoFRpkMpQLsR9sFSQqLaWf9iA@mail.gmail.com>
+Received: by 10.229.162.12 with HTTP; Tue, 29 May 2012 15:12:34 -0700 (PDT)
+In-Reply-To: <002D9B74-3B1E-42A8-A355-BC33847EB54F@dominion.thruhere.net>
 References: <cover.1338323483.git.ross.burton@intel.com>
-	<73870ed1649a9fae2e44ed6299bfb068217b9e9c.1338323483.git.ross.burton@intel.com>
-	<CAP9ODKotiqYtyY9sZ_9TqA3V2OoFRpkMpQLsR9sFSQqLaWf9iA@mail.gmail.com>
+	<41C46607-08A4-46F1-8572-3320B7FD2615@dominion.thruhere.net>
+	<CAJTo0LaFHe1jGQLoNkS6MkHwsM58iLJiRXpSSEKo-UqNQwjJCA@mail.gmail.com>
+	<002D9B74-3B1E-42A8-A355-BC33847EB54F@dominion.thruhere.net>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 29 May 2012 23:07:12 +0100
-Message-ID: <CAJTo0LbdMKOmz_+n4a6+zCWf1qudCVYkXg2NT07HiMf24FRecw@mail.gmail.com>
+Date: Tue, 29 May 2012 23:12:34 +0100
+Message-ID: <CAJTo0LazLoue3YJndWA3Jd+QyS2HBiQqWUm+o8kaZcvWQK7w7w@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Gm-Message-State: ALoCoQkZv2ClW/0zj/yIUig8x6+w9OFFXbsulUoLX56Epl5/cP1Lc1l8Y14P7c3T80PWpN9vYcJm
-Subject: Re: [PATCH 4/4] connman: upgrade to 1.0
+X-Gm-Message-State: ALoCoQkGPOz/XpT7yZyKu01/yeoKcV06wTqdMFxKfYlE1K1e29I5GSyQkWUqy0f2SK5iz+1AxIUW
+Subject: Re: [PATCH 0/4] Upgrade connman to 1.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,40 +49,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 May 2012 22:19:08 -0000
+X-List-Received-Date: Tue, 29 May 2012 22:23:15 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On 29 May 2012 22:08, Otavio Salvador <otavio@ossystems.com.br> wrote:
-> On Tue, May 29, 2012 at 5:43 PM, Ross Burton <ross.burton@intel.com> wrot=
-e:
->>
->> =C2=A0.../connman/connman/disable_alg-test.patch =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 | =C2=A0 46
->> ----------------
+On 29 May 2012 22:20, Koen Kooi <koen@dominion.thruhere.net> wrote:
+>> Out of the box, root can access the service. =C2=A0There is another patc=
+h
+>> to add "xuser" for systems which run a raw X session as that user. =C2=
+=A0If
+>> you're logging in with gdm to an arbitrary user, then the at_console
+>> test should work, right?
 >
->
-> This will make the build fail with old kernels.
+> No, our PAM magic is still not strong enough :( And worse, serial console=
+ doesn't work with at_console either.
 
-commit d9724d24b091a9412992cc6883ca6a225fa1a88c
-Author: Marcel Holtmann <marcel@holtmann.org>
-Date:   Sat Apr 21 22:04:29 2012 +0200
+Damn shame - totally bust access control is quite depressing.  I'll
+revert that chunk and throw a large comment around it - can't have
+something some suspicious without any documentation.
 
-    build: Remove useless alg-test example program
-
->> =C2=A0.../connman/connman/ethernet_default.patch =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 | =C2=A0 22 --------
->
->
-> Did you check the network is started by default?
-
-commit 091347cc83aa28a2395630274b6f1334fcab4f88
-Author: Jukka Rissanen <jukka.rissanen@linux.intel.com>
-Date:   Fri Apr 27 16:01:48 2012 +0300
-
-    technology: Enable ethernet by default
-
-As I said, irrelevant patches were dropped.
+Hopefully without sounding like an ex-MeeGo fanboy, uxlaunch is
+actually pretty useful for this.  It sets up a proper PAM login,
+brings up X, and handles XDG autostart.  Might be worth looking at for
+single-user environments.
 
 Ross
 
