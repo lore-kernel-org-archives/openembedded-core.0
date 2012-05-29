@@ -1,35 +1,37 @@
-Received: from mail-wg0-f43.google.com ([74.125.82.43])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <elvis.dowson@gmail.com>) id 1SZT1s-00033o-Ox
+	(envelope-from <ross.burton@intel.com>) id 1SZTS5-0003PT-8g
 	for openembedded-core@lists.openembedded.org;
-	Tue, 29 May 2012 22:28:32 +0200
-Received: by wgbdr1 with SMTP id dr1so3918046wgb.24
+	Tue, 29 May 2012 22:55:37 +0200
+Received: from mail-wg0-f44.google.com ([74.125.82.44])
+	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 29 May 2012 13:44:13 -0700
+Received: by wgbdr13 with SMTP id dr13so2991809wgb.13
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 May 2012 13:18:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:content-type:content-transfer-encoding:subject:date:message-id
-	:to:mime-version:x-mailer;
-	bh=rXBClxYBcnjtQs9izPcUq2uixGLDYvQaKRSYizGhnEU=;
-	b=ctfaGJhsuIW+yrReAiKgM80KN0IUx7iNBT+zzX5xnuGDEcrxjR9pksNMnxfofYzSnL
-	6XlPkM3of0n2/Xbbydq80nGAdcBCM8Si+Khn2tvcBHU9o5VvHfU28viXtwzbE78e/eSF
-	1Lfi6sqo8Ud/aQuY/+PYGwPMBLvRb4/J1DTBH6qr4+Hu6p+dHnSSXXRMouV5mbPnMMvn
-	ozaOqC3RTfxMo1e0Ww2GE29jgG7IPZ/JGmL4gjCnhaYXlopi5b3nUd2GMJqpv8GwtsgU
-	waPsZ+68fMCe59H5a9pU3soO2pMV3R5Ic5v2PWB/h7sgPaK9l+M10BCtcZvObt5xkijk
-	tkcw==
-Received: by 10.216.144.145 with SMTP id n17mr8809338wej.101.1338322694482;
-	Tue, 29 May 2012 13:18:14 -0700 (PDT)
-Received: from [192.168.1.36] (247.Red-83-60-170.dynamicIP.rima-tde.net.
-	[83.60.170.247])
-	by mx.google.com with ESMTPS id j4sm30326066wiz.1.2012.05.29.13.18.12
+	Tue, 29 May 2012 13:44:11 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=from:to:subject:date:message-id:x-mailer:x-gm-message-state;
+	bh=lm79452p5Q0h+IsHewq4u4IRozJcVB6PKxI0BwUwvV8=;
+	b=Z11Wuwsw1BVtJeSd+vjkpyACCgEqGIQq1YSJhzbl4P4+YsbOHdmhGWLiVUU7ApOBvi
+	wI7RmbV18h6UVbbWIS0gEat4GAUOpCqgNDtF8+J1w55lWhH1YpU5nr9zR/HkgKVQkBNB
+	7nXGrLhw+7m1LY6eQaKNMSFccJpf4tOtd/8zw2V5XOBfNm/FR7KU9fCSt6hcbwxaLtCv
+	2xVQ6sZ9k+arwr5F/j9SN7mX7PEHePYoDkIyJouOm6HLPZ83DPNjUINWzYWfC8hj+nas
+	0SfwVQJ2v0IKiLnW46Z1DqoAcTP8TXgMjh4BJkou7vbD3/XxL/2R1SQI3WLWwJeJvSdH
+	DE+g==
+Received: by 10.216.142.102 with SMTP id h80mr7156483wej.36.1338324250846;
+	Tue, 29 May 2012 13:44:10 -0700 (PDT)
+Received: from localhost.localdomain (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPS id
+	fm1sm30464662wib.10.2012.05.29.13.44.08
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 29 May 2012 13:18:13 -0700 (PDT)
-From: Elvis Dowson <elvis.dowson@gmail.com>
-Date: Tue, 29 May 2012 22:18:14 +0200
-Message-Id: <3B761AC4-FE90-45BB-912C-4114A3214843@gmail.com>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Mime-Version: 1.0 (Apple Message framework v1278)
-X-Mailer: Apple Mail (2.1278)
-Subject: meta-ti: ERROR: Unable to parse /tool/yocto/meta-ti/recipes-bsp/powervr-drivers/omap3-sgx-modules_4.05.00.03.bb
+	Tue, 29 May 2012 13:44:09 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 29 May 2012 21:43:53 +0100
+Message-Id: <cover.1338323483.git.ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.7.6
+X-Gm-Message-State: ALoCoQnifiqk6Oa1NWtigKD4damsJN2NPC8wsUE6HdD4yDwK7cUlzcgdHHvDx7NuildijkAvAjty
+Subject: [PATCH 0/4] Upgrade connman to 1.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,69 +46,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 May 2012 20:28:32 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 29 May 2012 20:55:37 -0000
 
-Hi,
-      When building with the latest meta-ti layer, I get the following =
-error:
+Below is a patch set upgrading connman to 1.0, and cleaning up the packaging somewhat.
 
-ERROR: Unable to analyse format of PR variable: b                        =
-                                      | ETA:  00:01:18
-ERROR: Unable to parse =
-/tool/yocto/meta-ti/recipes-bsp/powervr-drivers/omap3-sgx-modules_4.05.00.=
-03.bb
-Traceback (most recent call last):
-  File "/tool/yocto/poky/bitbake/lib/bb/parse/ast.py", line 381, in =
-multi_finalize(fn=3D'/tool/yocto/meta-ti/recipes-bsp/powervr-drivers/omap3=
--sgx-modules_4.05.00.03.bb', d=3D<bb.data_smart.DataSmart object at =
-0x337efd0>):
-         try:
-    >        finalize(fn, d)
-         except bb.parse.SkipPackage as e:
-  File "/tool/yocto/poky/bitbake/lib/bb/parse/ast.py", line 323, in =
-finalize(fn=3D'/tool/yocto/meta-ti/recipes-bsp/powervr-drivers/omap3-sgx-m=
-odules_4.05.00.03.bb', d=3D<bb.data_smart.DataSmart object at =
-0x337efd0>, variant=3DNone):
-             code.append("%s(d)" % funcname)
-    >    bb.utils.simple_exec("\n".join(code), {"d": d})
-         bb.data.update_data(d)
-  File "/tool/yocto/poky/bitbake/lib/bb/utils.py", line 274, in =
-simple_exec(code=3D'__anon_119__tool_yocto_poky_meta_classes_staging_bbcla=
-ss(d)\n__anon_540__tool_yocto_poky_meta_classes_base_bbclass(d)\n__anon_17=
-6__tool_yocto_poky_meta_classes_package_bbclass(d)\n__anon_1106__tool_yoct=
-o_poky_meta_classes_package_rpm_bbclass(d)\n__anon_736__tool_yocto_poky_me=
-ta_classes_insane_bbclass(d)\n__anon_20__tool_yocto_poky_meta_classes_debi=
-an_bbclass(d)\n__anon_52__tool_yocto_poky_meta_classes_sstate_bbclass(d)',=
- context=3D{'d': <bb.data_smart.DataSmart object at 0x337efd0>}):
-     def simple_exec(code, context):
-    >    exec(code, _context, context)
-    =20
-  File "<string>", line 2, in <module>
-  File "__anon_540__tool_yocto_poky_meta_classes_base_bbclass", line 75, =
-in =
-__anon_540__tool_yocto_poky_meta_classes_base_bbclass(d=3D<bb.data_smart.D=
-ataSmart object at 0x337efd0>)
-AttributeError: 'NoneType' object has no attribute 'group'
+It Works For Me, but my current available hardware is limited to qemux86 and
+a headless Atom machine.  In particular the non-root-X permission changes
+look to be correct (where they were previously obviously wrong) but I
+haven't verified that they work.  Also the packaging has changed quite
+dramatically since <0.79 becaus what used to be plugins is now in the core,
+which has the potential to break any explicit dependencies on the plugin
+packages.  I've added suitable RPROVIDES which should mitigate that.
 
-ERROR: Command execution failed: Traceback (most recent call last):
-  File "/tool/yocto/poky/bitbake/lib/bb/command.py", line 84, in =
-runAsyncCommand
-    self.cooker.updateCache()
-  File "/tool/yocto/poky/bitbake/lib/bb/cooker.py", line 1202, in =
-updateCache
-    if not self.parser.parse_next():
-  File "/tool/yocto/poky/bitbake/lib/bb/cooker.py", line 1671, in =
-parse_next
-    self.virtuals +=3D len(result)
-UnboundLocalError: local variable 'result' referenced before assignment
+(note that this is against poky master, not oe-core)
 
+Ross
 
+The following changes since commit f28209d9d3c67203a2c7a2b25cacfe31643d1bfa:
 
-best regards,
+  cooker.py: terminate the Parser processes (2012-05-25 11:39:33 +0100)
 
-Elvis Dowson
+are available in the git repository at:
+  git://git.yoctoproject.org/poky-contrib ross/connman
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=connman
+
+Ross Burton (4):
+  connman: just give xuser the extra rights it needs
+  connman: remove a deliberate sed that breaks all DBus access control
+    for connman
+  connman: respect the 3g feature and enable/disable ofono support
+  connman: upgrade to 1.0
+
+ meta/recipes-connectivity/connman/connman.inc      |   34 +++++++-----
+ ...ange-visibility-to-default-for-debug-symb.patch |   35 ------------
+ .../connman/add_xuser_dbus_permission.patch        |   14 ++---
+ .../connman/connman/disable_alg-test.patch         |   46 ----------------
+ .../connman/connman/ethernet_default.patch         |   22 --------
+ .../connman/test-set-ipv4-method-api-fix.patch     |   50 ------------------
+ .../connman/test-set-ipv6-method-api-fix.patch     |   55 --------------------
+ meta/recipes-connectivity/connman/connman_0.79.bb  |   14 -----
+ meta/recipes-connectivity/connman/connman_1.0.bb   |    9 +++
+ 9 files changed, 34 insertions(+), 245 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/connman/connman/0001-plugin.h-Change-visibility-to-default-for-debug-symb.patch
+ delete mode 100644 meta/recipes-connectivity/connman/connman/disable_alg-test.patch
+ delete mode 100644 meta/recipes-connectivity/connman/connman/ethernet_default.patch
+ delete mode 100644 meta/recipes-connectivity/connman/connman/test-set-ipv4-method-api-fix.patch
+ delete mode 100644 meta/recipes-connectivity/connman/connman/test-set-ipv6-method-api-fix.patch
+ delete mode 100644 meta/recipes-connectivity/connman/connman_0.79.bb
+ create mode 100644 meta/recipes-connectivity/connman/connman_1.0.bb
+
+-- 
+1.7.7.6
 
 
 
