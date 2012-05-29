@@ -1,28 +1,28 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <radu.moisan@intel.com>) id 1SZGSR-00023G-Lw
+	(envelope-from <Florin.Sarbu@windriver.com>) id 1SZGbI-00029l-HE
 	for openembedded-core@lists.openembedded.org;
-	Tue, 29 May 2012 09:03:08 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 28 May 2012 23:52:50 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; 
-	d="scan'208,217";a="145648295"
-Received: from dell-desktop (HELO [10.237.104.210]) ([10.237.104.210])
-	by orsmga001.jf.intel.com with ESMTP; 28 May 2012 23:52:49 -0700
-Message-ID: <4FC473AD.6060100@intel.com>
-Date: Tue, 29 May 2012 09:58:53 +0300
-From: Radu Moisan <radu.moisan@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
+	Tue, 29 May 2012 09:12:16 +0200
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb [147.11.189.41])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q4T71v4O029249
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 29 May 2012 00:01:58 -0700 (PDT)
+Received: from ALA-MBB.corp.ad.wrs.com ([169.254.2.203]) by
+	ALA-HCB.corp.ad.wrs.com ([147.11.189.41]) with mapi id 14.01.0255.000;
+	Tue, 29 May 2012 00:01:57 -0700
+From: "Sarbu, Florin-Ionut (Florin)" <Florin.Sarbu@windriver.com>
+To: "'Radu Moisan'" <radu.moisan@intel.com>,
+	"'openembedded-core@lists.openembedded.org'"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH 0/3] Package Updates
+Thread-Index: AQHNPMCiPjjGtuSQ+kOzH2/FBj5ctZbfg9aAgAAAEACAACJOgIAAAJMAgAEdiwD//5QKiQ==
+Date: Tue, 29 May 2012 07:01:55 +0000
+Message-ID: <50D17BD22A23EE4A887974F6B588203864FDA4F6@ALA-MBB.corp.ad.wrs.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [147.11.82.252]
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <CAJTo0La2e0ncRy6ugDa8Yx3uTcuYGXKBbZ8f5CTg9d7kJGis+w@mail.gmail.com>
-	<4FC35FAD.7090505@intel.com> <4FC35FBA.2060200@gherzan.ro>
-	<4FC37C81.6080200@intel.com>
-	<CAK18fxFpx-X-V465UJN7ziqmN6Fj6bz6YkckjhztTkqX5q2KwA@mail.gmail.com>
-	<4FC46C84.5090408@intel.com>
-In-Reply-To: <4FC46C84.5090408@intel.com>
 Subject: Re: [PATCH 0/3] Package Updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -38,129 +38,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 May 2012 07:03:08 -0000
+X-List-Received-Date: Tue, 29 May 2012 07:12:17 -0000
+Content-Language: en-US
 Content-Type: multipart/alternative;
-	boundary="------------070407070409020401080305"
+	boundary="_000_50D17BD22A23EE4A887974F6B588203864FDA4F6ALAMBBcorpadwrs_"
 
---------------070407070409020401080305
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+--_000_50D17BD22A23EE4A887974F6B588203864FDA4F6ALAMBBcorpadwrs_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
+RVhUUkFfT0VDT05GKz0iLS1lbmFibGUtdGVzdHMiIG1heSBiZSB3aGF0IHlvdSBhcmUgbG9va2lu
+ZyBmb3IuDQoNCi0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQpGcm9tOiBSYWR1IE1vaXNhbiBb
+cmFkdS5tb2lzYW5AaW50ZWwuY29tPG1haWx0bzpyYWR1Lm1vaXNhbkBpbnRlbC5jb20+XQ0KU2Vu
+dDogTW9uZGF5LCBNYXkgMjgsIDIwMTIgMTE6MjQgUE0gUGFjaWZpYyBTdGFuZGFyZCBUaW1lDQpU
+bzogb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KU3ViamVjdDogUmU6
+IFtPRS1jb3JlXSBbUEFUQ0ggMC8zXSBQYWNrYWdlIFVwZGF0ZXMNCg0KDQoNCk9uIDA1LzI4LzIw
+MTIgMDQ6MjYgUE0sIEFuZHJlaSBHaGVyemFuIHdyb3RlOg0KT24gTW9uLCBNYXkgMjgsIDIwMTIg
+YXQgNDoyNCBQTSwgUmFkdSBNb2lzYW4gPHJhZHUubW9pc2FuQGludGVsLmNvbTxtYWlsdG86cmFk
+dS5tb2lzYW5AaW50ZWwuY29tPj4gd3JvdGU6DQpPbiAwNS8yOC8yMDEyIDAyOjIxIFBNLCBBbmRy
+ZWkgR2hlcnphbiB3cm90ZToNCkRidXMgY29tZXMgd2l0aCBhIHRlc3Qgc3VpdGUuIFJ1bm5pbmcg
+dGhvc2Ugc2hvdWxkIGJlIGEgbXVzdC4NCkkgY291bGQgbm90IGZpbmQgaG93IHRvIHJ1biB0aGUg
+dGVzdCBzdWl0ZS4gSSd2ZSB0cmllZCBkYnVzLWRhZW1vbiwgZGJ1cy1tb25pdG9yLCBhbmQgdGhl
+IHJlc3QsIGJ1dCBub24gb2YgdGhlbSBoYXZlIG9wdGlvbnMgZm9yIHNvbWUgcnVudGltZSBjaGVj
+a3MuIE90aGVyIHRoYW4gdGhhdCBJIGltYWdpbmUgdGhlIHRlc3Qgc3VpdGUgeW91IG1lbnRpb24g
+bXVzdCBjb21lIGluIGEgc2VwYXJhdGUgcGFja2FnZS4gRG8gd2UgaGF2ZSBhIHJlY2lwZSBmb3Ig
+dGhhdCB0bz8gV2hpY2ggaW1hZ2Ugc2hvdWxkIEkgYnVpbGQgdG8gaGF2ZSB0aGF0IHBhY2thZ2Ug
+aW5jbHVkZWQgYW5kIGJlIGFibGUgdG8gdGVzdD8NCg0KDQpUaGVyZSBpcyBhbiBpbnRlcm5hbCB0
+ZXN0IHN1aXRlIGZvciBkYnVzLiBZb3UgY2FuIGVuYWJsZSBidWlsZGluZyB0aG9zZSB0ZXN0cyBp
+biBjb25maWd1cmU6DQoiLS1lbmFibGUtdGVzdHMiDQoNCkBnDQoNClNvLCBpc24ndCB0aGVyZSBh
+IHdheSBvZiBzcGVjaWZ5aW5nIGJ1aWxkIG9wdGlvbnMgaW4gc29tZSBmaWxlIHRoYXQgYml0YmFr
+ZSB3aWxsIHVzZSBhZnRlcndhcmRzIHRvIGRvIHRoZSBidWlsZD8gRm9yIGluc3RhbmNlIHdoZXJl
+IGZyb20gLi9jb25maWd1cmUgaXMgZXhlY3V0ZWQgKGZyb20gd2l0aGluIGJpdGJha2UgSSBhc3N1
+bWUpLiBJIHRyaWVkIHRvIHRha2UgYSBsb29rIG92ZXIgY29uZmlndXJlIGZpbGUgb2YgZGJ1cyBi
+dXQgY291bGQgbm90IGZpZ3VyZSBvdXQgYSB3YXkgb2YgaGFyZGNvZGluZyB0aGUgLS1lbmFibGUt
+dGVzdHMgb3B0aW9uIChub3QgdGhhdCBoYXJkY29kaW5nIHdvdWxkIGJlIGEgYmVzdCBjaG9pY2Us
+IGJ1dCBmb3IgdGVzdGluZyBwdXJwb3NlcyBJIGNvbnNpZGVyZWQgaXQgYSBjaG9pY2UpLiBBbnkg
+aW5mbyBvbiB0aGlzIGlzIG11Y2ggYXBwcmVjaWF0ZWQuDQoNClRoYW5rcywNClJhZHUNCg==
 
+--_000_50D17BD22A23EE4A887974F6B588203864FDA4F6ALAMBBcorpadwrs_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On 05/29/2012 09:28 AM, Radu Moisan wrote:
->
->
-> On 05/28/2012 04:26 PM, Andrei Gherzan wrote:
->> On Mon, May 28, 2012 at 4:24 PM, Radu Moisan <radu.moisan@intel.com 
->> <mailto:radu.moisan@intel.com>> wrote:
->>
->>     On 05/28/2012 02:21 PM, Andrei Gherzan wrote:
->>
->>         Dbus comes with a test suite. Running those should be a must.
->>
->>     I could not find how to run the test suite. I've tried
->>     dbus-daemon, dbus-monitor, and the rest, but non of them have
->>     options for some runtime checks. Other than that I imagine the
->>     test suite you mention must come in a separate package. Do we
->>     have a recipe for that to? Which image should I build to have
->>     that package included and be able to test?
->>
->>
->> There is an internal test suite for dbus. You can enable building 
->> those tests in configure:
->> "--enable-tests"
->>
->> @g
->>
-> So, isn't there a way of specifying build options in some file that 
-> bitbake will use afterwards to do the build? For instance where from 
-> ./configure is executed (from within bitbake I assume). I tried to 
-> take a look over configure file of dbus but could not figure out a way 
-> of hardcoding the --enable-tests option (not that hardcoding would be 
-> a best choice, but for testing purposes I considered it a choice). Any 
-> info on this is much appreciated.
->
-> Thanks,
-> Radu
-Found it in oe_runconf(). Will try to build them, see what comes out of 
-it :)
-Any comments still apreciated.
+PGh0bWw+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIgY29udGVudD0i
+dGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjwvaGVhZD4NCjxib2R5IGJnY29sb3I9IiNGRkZG
+RkYiIHRleHQ9IiMwMDAwMDAiPg0KRVhUUkFfT0VDT05GJiM0Mzs9JnF1b3Q7LS1lbmFibGUtdGVz
+dHMmcXVvdDsgbWF5IGJlIHdoYXQgeW91IGFyZSBsb29raW5nIGZvci48YnI+DQo8YnI+DQotLS0t
+LU9yaWdpbmFsIE1lc3NhZ2UtLS0tLTxicj4NCjxiPkZyb206Jm5ic3A7PC9iPlJhZHUgTW9pc2Fu
+IFs8YSBocmVmPSJtYWlsdG86cmFkdS5tb2lzYW5AaW50ZWwuY29tIj5yYWR1Lm1vaXNhbkBpbnRl
+bC5jb208L2E+XTxicj4NCjxiPlNlbnQ6Jm5ic3A7PC9iPk1vbmRheSwgTWF5IDI4LCAyMDEyIDEx
+OjI0IFBNIFBhY2lmaWMgU3RhbmRhcmQgVGltZTxicj4NCjxiPlRvOiZuYnNwOzwvYj5vcGVuZW1i
+ZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPGJyPg0KPGI+U3ViamVjdDombmJzcDs8
+L2I+UmU6IFtPRS1jb3JlXSBbUEFUQ0ggMC8zXSBQYWNrYWdlIFVwZGF0ZXM8YnI+DQo8YnI+DQo8
+YnI+DQo8YnI+DQpPbiAwNS8yOC8yMDEyIDA0OjI2IFBNLCBBbmRyZWkgR2hlcnphbiB3cm90ZToN
+CjxibG9ja3F1b3RlIGNpdGU9Im1pZDpDQUsxOGZ4RnB4LVgtVjQ2NVVKTjd6aXFtTjZGajZiejZZ
+a2Nramh6dFRrcVg1cTJLd0FAbWFpbC5nbWFpbC5jb20iIHR5cGU9ImNpdGUiPg0KPGRpdiBjbGFz
+cz0iZ21haWxfcXVvdGUiPk9uIE1vbiwgTWF5IDI4LCAyMDEyIGF0IDQ6MjQgUE0sIFJhZHUgTW9p
+c2FuIDxzcGFuIGRpcj0ibHRyIj4NCiZsdDs8YSBtb3otZG8tbm90LXNlbmQ9InRydWUiIGhyZWY9
+Im1haWx0bzpyYWR1Lm1vaXNhbkBpbnRlbC5jb20iIHRhcmdldD0iX2JsYW5rIj5yYWR1Lm1vaXNh
+bkBpbnRlbC5jb208L2E+Jmd0Ozwvc3Bhbj4gd3JvdGU6PGJyPg0KPGJsb2NrcXVvdGUgY2xhc3M9
+ImdtYWlsX3F1b3RlIiBzdHlsZT0ibWFyZ2luOjAgMCAwDQogICAgICAgICAgLjhleDtib3JkZXIt
+bGVmdDoxcHggI2NjYyBzb2xpZDtwYWRkaW5nLWxlZnQ6MWV4Ij4NCjxkaXYgY2xhc3M9ImltIj5P
+biAwNS8yOC8yMDEyIDAyOjIxIFBNLCBBbmRyZWkgR2hlcnphbiB3cm90ZTo8YnI+DQo8YmxvY2tx
+dW90ZSBjbGFzcz0iZ21haWxfcXVvdGUiIHN0eWxlPSJtYXJnaW46MCAwIDANCiAgICAgICAgICAg
+ICAgLjhleDtib3JkZXItbGVmdDoxcHggI2NjYyBzb2xpZDtwYWRkaW5nLWxlZnQ6MWV4Ij4NCkRi
+dXMgY29tZXMgd2l0aCBhIHRlc3Qgc3VpdGUuIFJ1bm5pbmcgdGhvc2Ugc2hvdWxkIGJlIGEgbXVz
+dC48YnI+DQo8L2Jsb2NrcXVvdGU+DQo8L2Rpdj4NCkkgY291bGQgbm90IGZpbmQgaG93IHRvIHJ1
+biB0aGUgdGVzdCBzdWl0ZS4gSSd2ZSB0cmllZCBkYnVzLWRhZW1vbiwgZGJ1cy1tb25pdG9yLCBh
+bmQgdGhlIHJlc3QsIGJ1dCBub24gb2YgdGhlbSBoYXZlIG9wdGlvbnMgZm9yIHNvbWUgcnVudGlt
+ZSBjaGVja3MuIE90aGVyIHRoYW4gdGhhdCBJIGltYWdpbmUgdGhlIHRlc3Qgc3VpdGUgeW91IG1l
+bnRpb24gbXVzdCBjb21lIGluIGEgc2VwYXJhdGUgcGFja2FnZS4gRG8gd2UgaGF2ZSBhIHJlY2lw
+ZSBmb3INCiB0aGF0IHRvPyBXaGljaCBpbWFnZSBzaG91bGQgSSBidWlsZCB0byBoYXZlIHRoYXQg
+cGFja2FnZSBpbmNsdWRlZCBhbmQgYmUgYWJsZSB0byB0ZXN0PzxzcGFuIGNsYXNzPSJIT0VuWmIi
+Pjxmb250IGNvbG9yPSIjODg4ODg4Ij48YnI+DQo8YnI+DQo8L2ZvbnQ+PC9zcGFuPjwvYmxvY2tx
+dW90ZT4NCjxkaXY+PGJyPg0KPC9kaXY+DQo8ZGl2PlRoZXJlIGlzIGFuIGludGVybmFsIHRlc3Qg
+c3VpdGUgZm9yIGRidXMuIFlvdSBjYW4gZW5hYmxlIGJ1aWxkaW5nIHRob3NlIHRlc3RzIGluIGNv
+bmZpZ3VyZTo8L2Rpdj4NCjxkaXY+JnF1b3Q7LS1lbmFibGUtdGVzdHMmcXVvdDs8L2Rpdj4NCjxk
+aXY+PGJyPg0KPC9kaXY+DQo8ZGl2PkBnPC9kaXY+DQo8L2Rpdj4NCjxicj4NCjwvYmxvY2txdW90
+ZT4NClNvLCBpc24ndCB0aGVyZSBhIHdheSBvZiBzcGVjaWZ5aW5nIGJ1aWxkIG9wdGlvbnMgaW4g
+c29tZSBmaWxlIHRoYXQgYml0YmFrZSB3aWxsIHVzZSBhZnRlcndhcmRzIHRvIGRvIHRoZSBidWls
+ZD8gRm9yIGluc3RhbmNlIHdoZXJlIGZyb20gLi9jb25maWd1cmUgaXMgZXhlY3V0ZWQgKGZyb20g
+d2l0aGluIGJpdGJha2UgSSBhc3N1bWUpLiBJIHRyaWVkIHRvIHRha2UgYSBsb29rIG92ZXIgY29u
+ZmlndXJlIGZpbGUgb2YgZGJ1cyBidXQgY291bGQgbm90DQogZmlndXJlIG91dCBhIHdheSBvZiBo
+YXJkY29kaW5nIHRoZSAtLWVuYWJsZS10ZXN0cyBvcHRpb24gKG5vdCB0aGF0IGhhcmRjb2Rpbmcg
+d291bGQgYmUgYSBiZXN0IGNob2ljZSwgYnV0IGZvciB0ZXN0aW5nIHB1cnBvc2VzIEkgY29uc2lk
+ZXJlZCBpdCBhIGNob2ljZSkuIEFueSBpbmZvIG9uIHRoaXMgaXMgbXVjaCBhcHByZWNpYXRlZC48
+YnI+DQo8YnI+DQpUaGFua3MsPGJyPg0KUmFkdTxicj4NCjwvYm9keT4NCjwvaHRtbD4NCg==
 
-Radu
-
---------------070407070409020401080305
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
-
-<html>
-  <head>
-    <meta content="text/html; charset=ISO-8859-1"
-      http-equiv="Content-Type">
-  </head>
-  <body bgcolor="#FFFFFF" text="#000000">
-    <br>
-    <br>
-    On 05/29/2012 09:28 AM, Radu Moisan wrote:
-    <blockquote cite="mid:4FC46C84.5090408@intel.com" type="cite">
-      <meta http-equiv="Content-Type" content="text/html;
-        charset=ISO-8859-1">
-      <br>
-      <br>
-      On 05/28/2012 04:26 PM, Andrei Gherzan wrote:
-      <blockquote
-cite="mid:CAK18fxFpx-X-V465UJN7ziqmN6Fj6bz6YkckjhztTkqX5q2KwA@mail.gmail.com"
-        type="cite">
-        <div class="gmail_quote">On Mon, May 28, 2012 at 4:24 PM, Radu
-          Moisan <span dir="ltr">&lt;<a moz-do-not-send="true"
-              href="mailto:radu.moisan@intel.com" target="_blank">radu.moisan@intel.com</a>&gt;</span>
-          wrote:<br>
-          <blockquote class="gmail_quote" style="margin:0 0 0
-            .8ex;border-left:1px #ccc solid;padding-left:1ex">
-            <div class="im">On 05/28/2012 02:21 PM, Andrei Gherzan
-              wrote:<br>
-              <blockquote class="gmail_quote" style="margin:0 0 0
-                .8ex;border-left:1px #ccc solid;padding-left:1ex"> Dbus
-                comes with a test suite. Running those should be a must.<br>
-              </blockquote>
-            </div>
-            I could not find how to run the test suite. I've tried
-            dbus-daemon, dbus-monitor, and the rest, but non of them
-            have options for some runtime checks. Other than that I
-            imagine the test suite you mention must come in a separate
-            package. Do we have a recipe for that to? Which image should
-            I build to have that package included and be able to test?<span
-              class="HOEnZb"><font color="#888888"><br>
-                <br>
-              </font></span></blockquote>
-          <div><br>
-          </div>
-          <div>There is an internal test suite for dbus. You can enable
-            building those tests in configure:</div>
-          <div>"--enable-tests"</div>
-          <div><br>
-          </div>
-          <div>@g</div>
-        </div>
-        <br>
-      </blockquote>
-      So, isn't there a way of specifying build options in some file
-      that bitbake will use afterwards to do the build? For instance
-      where from ./configure is executed (from within bitbake I assume).
-      I tried to take a look over configure file of dbus but could not
-      figure out a way of hardcoding the --enable-tests option (not that
-      hardcoding would be a best choice, but for testing purposes I
-      considered it a choice). Any info on this is much appreciated.<br>
-      <br>
-      Thanks,<br>
-      Radu<br>
-    </blockquote>
-    Found it in oe_runconf(). Will try to build them, see what comes out
-    of it :)<br>
-    Any comments still apreciated.<br>
-    <br>
-    Radu<br>
-  </body>
-</html>
-
---------------070407070409020401080305--
+--_000_50D17BD22A23EE4A887974F6B588203864FDA4F6ALAMBBcorpadwrs_--
