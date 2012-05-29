@@ -1,38 +1,42 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mail-gg0-f175.google.com ([209.85.161.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <lianhao.lu@intel.com>) id 1SZIjk-0004sF-JT
+	(envelope-from <andrei@gherzan.ro>) id 1SZItc-00055n-QM
 	for openembedded-core@lists.openembedded.org;
-	Tue, 29 May 2012 11:29:09 +0200
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 29 May 2012 02:18:50 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; 
-	d="scan'208,217";a="105328208"
-Received: from azsmsx601.amr.corp.intel.com ([10.2.121.193])
-	by AZSMGA002.ch.intel.com with ESMTP; 29 May 2012 02:18:50 -0700
-Received: from shsmsx151.ccr.corp.intel.com (10.239.6.50) by
-	azsmsx601.amr.corp.intel.com (10.2.121.193) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Tue, 29 May 2012 02:18:49 -0700
-Received: from shsmsx102.ccr.corp.intel.com ([169.254.2.133]) by
-	SHSMSX151.ccr.corp.intel.com ([169.254.3.90]) with mapi id
-	14.01.0355.002; Tue, 29 May 2012 17:18:48 +0800
-From: "Lu, Lianhao" <lianhao.lu@intel.com>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Thread-Topic: [yocto] Broken SDK
-Thread-Index: AQHNPJOfd91Qw09DEUyod8uKtPkDm5bes19QgAFBHoCAAIngcA==
-Date: Tue, 29 May 2012 09:18:47 +0000
-Message-ID: <857BE142E5399E46B20FD45B9DB8A7BC0FDCC6AE@SHSMSX102.ccr.corp.intel.com>
-References: <CA+Z6RkU-GBXYHygXhY8UQkxe-5vQSvj-4xqSHuueN=VnN126qA@mail.gmail.com>
-	<857BE142E5399E46B20FD45B9DB8A7BC0FDCB920@SHSMSX102.ccr.corp.intel.com>
-	<CA+Z6RkV3zeyCvfSx0ZrRQP7zhNQknchsN7q_sho1VkE2NGvFzg@mail.gmail.com>
-In-Reply-To: <CA+Z6RkV3zeyCvfSx0ZrRQP7zhNQknchsN7q_sho1VkE2NGvFzg@mail.gmail.com>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.239.127.40]
+	Tue, 29 May 2012 11:39:21 +0200
+Received: by ggnp4 with SMTP id p4so2418278ggn.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 29 May 2012 02:29:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:x-originating-ip:in-reply-to:references:from:date
+	:message-id:subject:to:content-type:x-gm-message-state;
+	bh=MIZ/TkBIDv4RvnkX7RdLEdMbVUMfpHX0W0asX71Hl8g=;
+	b=AOhl/flOwVXPqS20wa/XA4d/+pLyd+geZBHyuXTXQp6wGLlrUYZn7JaBO3snmUsZ3W
+	Tj4DF6BC9L2PmGVT6TDI+UKohlnzD6VsF2s7MFdG98qDNPjLB8dlvcj8fIO54x292KkU
+	ATxe/WEc9cClKc2kbOzsYuyWIAlTgDFric4rcDrzG13JVmG6jujj+b+0TeDjAu1/gxnW
+	YfOVXdjE+RV+HcfL89iYUbEe3zjS6e9RQQC43jJ+DZhnjj3lBT2Q0FViv9aLctCxyFaW
+	RuSkECYhn98hrKlAKOFraBq3V1bZaOhQ24YotTT3tXNMoOj+ZGFScjLs2KSTrR5V8/hx
+	L+Vw==
+Received: by 10.50.158.129 with SMTP id wu1mr6457986igb.33.1338283742950; Tue,
+	29 May 2012 02:29:02 -0700 (PDT)
 MIME-Version: 1.0
-Cc: Navani Srivastava <navani.srivastava@gmail.com>
-Subject: FW: [yocto] Broken SDK
+Received: by 10.64.28.147 with HTTP; Tue, 29 May 2012 02:28:42 -0700 (PDT)
+X-Originating-IP: [89.121.200.106]
+In-Reply-To: <4FC49590.6030601@intel.com>
+References: <CAJTo0La2e0ncRy6ugDa8Yx3uTcuYGXKBbZ8f5CTg9d7kJGis+w@mail.gmail.com>
+	<4FC35FAD.7090505@intel.com> <4FC35FBA.2060200@gherzan.ro>
+	<4FC37C81.6080200@intel.com>
+	<CAK18fxFpx-X-V465UJN7ziqmN6Fj6bz6YkckjhztTkqX5q2KwA@mail.gmail.com>
+	<CAJTo0LZ5WuTMA=yuLm65PX-sp2Rx_L8UAg4JL1j5JcHvLC=o9A@mail.gmail.com>
+	<1338212677.20169.75.camel@ted> <4FC488CF.2030803@intel.com>
+	<4FC49590.6030601@intel.com>
+From: Andrei Gherzan <andrei@gherzan.ro>
+Date: Tue, 29 May 2012 12:28:42 +0300
+Message-ID: <CAK18fxFZ_rYXEeeaLwH1Npx=f6dUJw2LHiKxkBg=OKm6=yAhEQ@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Gm-Message-State: ALoCoQmEaV6ZF2w37TgBNvK6tRviLw09DeEN4//fId5y7ILNrG9uXYWvqQ6vLmt7Rb4hszlPsKC5
+Subject: Re: dbus test suite
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,216 +51,270 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 May 2012 09:29:09 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_857BE142E5399E46B20FD45B9DB8A7BC0FDCC6AESHSMSX102ccrcor_"
+X-List-Received-Date: Tue, 29 May 2012 09:39:21 -0000
+Content-Type: multipart/alternative; boundary=14dae93403951b76bd04c1297762
 
---_000_857BE142E5399E46B20FD45B9DB8A7BC0FDCC6AESHSMSX102ccrcor_
-Content-Type: text/plain; charset="us-ascii"
+--14dae93403951b76bd04c1297762
+Content-Type: text/plain; charset=ISO-8859-1
+
+On Tue, May 29, 2012 at 12:23 PM, Radu Moisan <radu.moisan@intel.com> wrote:
+
+>
+> How do I add something in the dependency chain? With --enable-test dbus
+> fails at do_configure complaining about
+>
+>
+> | configure: Full test coverage was requested with --enable-tests=yes
+> | configure: This has many dependencies (GLib, dbus-glib, Python)
+> | checking for i586-poky-linux-pkg-config... no
+> | checking for pkg-config...
+> /home/radu/Documents/Development/yocto/build/tmp/sysroots/x86_64-linux/usr/bin/pkg-config
+> | checking pkg-config is at least version 0.9.0... yes
+> | checking for GLIB... yes
+> | checking for DBUS_GLIB... yes
+> | configure: Full test coverage (--enable-tests=yes) requires Python,
+> dbus-python, pygobject
+> | checking for a Python interpreter with version >= 2.6... python
+> | checking for python...
+> /home/radu/Documents/Development/yocto/build/tmp/sysroots/x86_64-linux/usr/bin/python
+> | checking for python version... 2.7
+> | checking for python platform... linux2
+> | checking for python script directory... ${libdir}/python2.7/site-packages
+> | checking for python extension module directory...
+> ${libdir}/python2.7/site-packages
+> | checking for Python modules for full test coverage... Traceback (most
+> recent call last):
+> |   File "<string>", line 1, in <module>
+> | ImportError: No module named dbus
+> | no
+>
+>
+This says that the configure cannot find the dbus python module. This is
+created in the python-dbus package. So compile that first.
+
+>
+>
+> Radu
+>
+>  Leaving --enable-tests aside for a moment, I'm trying to build dbus with
+> --enable-embedded-tests which is less but still good instead of nothing.
+> However, the build fails at do_compile complaining about
+> dbus/dbus-glib-lowlevel.h missing, although it's there. So I think some
+> variable in Makefile is not pointing correctly, but I cannot find which.
+>
+> | i586-poky-linux-libtool: link: i586-poky-linux-ar cru
+> .libs/libdbus-testutils.a .libs/test-utils.o
+> | i586-poky-linux-libtool: link: i586-poky-linux-ranlib
+> .libs/libdbus-testutils.a
+> | i586-poky-linux-libtool: link: ( cd ".libs" && rm -f "
+> libdbus-testutils.la" && ln -s "../libdbus-testutils.la" "
+> libdbus-testutils.la" )
+> | dbus-daemon.c:32:37: fatal error: dbus/dbus-glib-lowlevel.h: No such
+> file or directory
+> | compilation terminated.
+> | i586-poky-linux-libtool: link: ccache i586-poky-linux-gcc -m32
+> -march=i586
+> --sysroot=/home/radu/Documents/Development/yocto/build/tmp/sysroots/qemux86
+> -Wall -Wchar-subscripts -Wmissing-declarations -Wmissing-prototypes
+> -Wnested-externs -Wpointer-arith -Wcast-align -Wno-address -Wfloat-equal
+> -Wdeclaration-after-statement -Wno-unused -Wno-sign-compare
+> -Wno-pointer-sign -Wno-deprecated-declarations -fno-common
+> -fno-strict-aliasing -O2 -pipe -g -feliminate-unused-debug-types -Wl,-O1
+> -Wl,--hash-style=gnu -Wl,--as-needed -o test-segfault test-segfault.o
+> | make[3]: *** [test_dbus_daemon-dbus-daemon.o] Error 1
+> | make[3]: *** Waiting for unfinished jobs....
+> | i586-poky-linux-libtool: link: ccache i586-poky-linux-gcc -m32
+> -march=i586
+> --sysroot=/home/radu/Documents/Development/yocto/build/tmp/sysroots/qemux86
+> -Wall -Wchar-subsERROR: Function failed: do_compile (see
+> /home/radu/Documents/Development/yocto/build/tmp/work/i586-poky-linux/dbus-1.4.20-r3.0/temp/log.do_compile.10606
+> for further information)
+> | cripts -Wmissing-declarations -Wmissing-prototypes -Wnested-externs
+> -Wpointer-arith -Wcast-align -Wno-address -Wfloat-equal
+> -Wdeclaration-after-statement -Wno-unused -Wno-sign-compare
+> -Wno-pointer-sign -Wno-deprecated-declarations -fno-common
+> -fno-strict-aliasing -O2 -pipe -g -feliminate-unused-debug-types -Wl,-O1
+> -Wl,--hash-style=gnu -Wl,--as-needed -o test-exit test-exit.o
+> | i586-poky-linux-libtool: link: ccache i586-poky-linux-gcc -m32
+> -march=i586
+> --sysroot=/home/radu/Documents/Development/yocto/build/tmp/sysroots/qemux86
+> -Wall -Wchar-subscripts -Wmissing-declarations -Wmissing-prototypes
+> -Wnested-externs -Wpointer-arith -Wcast-align -Wno-address -Wfloat-equal
+> -Wdeclaration-after-statement -Wno-unused -Wno-sign-compare
+> -Wno-pointer-sign -Wno-deprecated-declarations -fno-common
+> -fno-strict-aliasing -O2 -pipe -g -feliminate-unused-debug-types -Wl,-O1
+> -Wl,--hash-style=gnu -Wl,--as-needed -o test-sleep-forever
+> test-sleep-forever.o
+> | loopback.c:32:37: fatal error: dbus/dbus-glib-lowlevel.h: No such file
+> or directory
+> | compilation terminated.
+> | make[3]: *** [test_loopback-loopback.o] Error 1
+> | i586-poky-linux-libtool: link: ccache i586-poky-linux-gcc -m32
+> -march=i586
+> --sysroot=/home/radu/Documents/Development/yocto/build/tmp/sysroots/qemux86
+> -Wall -Wchar-subscripts -Wmissing-declarations -Wmissing-prototypes
+> -Wnested-externs -Wpointer-arith -Wcast-align -Wno-address -Wfloat-equal
+> -Wdeclaration-after-statement -Wno-unused -Wno-sign-compare
+> -Wno-pointer-sign -Wno-deprecated-declarations -fno-common
+> -fno-strict-aliasing -O2 -pipe -g -feliminate-unused-debug-types -Wl,-O1
+> -Wl,--hash-style=gnu -Wl,--as-needed -o spawn-test spawn-test.o
+> ../dbus/.libs/libdbus-internal.a -lpthread -lrt
+> | corrupt.c:33:37: fatal error: dbus/dbus-glib-lowlevel.h: No such file or
+> directory
+>
+
+You will need dbus-glib. This is the package which provides this header.
+This will be a dependency for your case.
+
+Hope i gave to the right hints. If you need more detailed info just ping me.
+
+@g
+
+--14dae93403951b76bd04c1297762
+Content-Type: text/html; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
-Does anyone have the answers to the following question? Thanks!
-
-Regards,
--Lianhao
-
-From: Navani Srivastava [mailto:navani.srivastava@gmail.com]
-Sent: Tuesday, May 29, 2012 5:03 PM
-To: Lu, Lianhao
-Cc: yocto@yoctoproject.org
-Subject: Re: [yocto] Broken SDK
-
-Hi Lianhao,
-
-These patches worked for me.But still I am failing to create symbolic link =
-of mkspecs. It throws below mentioned error-
-
-"ln -s /opt/poky/1.0/sysroots/arm-poky-linux-gnueabi/usr/share/qtopia/mkspe=
-cs mkspecs
-| ln: creating symbolic link `mkspecs': File exists"
-
-On commenting out
- "(cd ${SDK_OUTPUT}/${QT_TOOLS_PREFIX}/..; ln -s ${SDKTARGETSYSROOT}/usr/sh=
-are/qtopia/mkspecs mkspecs;)"
-
-section of meta-toolchain-qte.bb<http://meta-toolchain-qte.bb>, I can succe=
-ssfully create the SDK including my cross toolchain of specified architectu=
-re. Do I need to change any path?
-On Mon, May 28, 2012 at 11:29 AM, Lu, Lianhao <lianhao.lu@intel.com<mailto:=
-lianhao.lu@intel.com>> wrote:
-Navani Srivastava wrote on 2012-05-28:
-> Hi,
->
->
->
-> I am working with poky-bernerd-5.0. I have built cross-toolchain for qt w=
-ith "bitbake -v meta-toolchain-qte" for arm1136 architecture.
->
-> I got the tool chain "poky-eglibc-i686-arm-toolchain-1.0.tar.bz2" under b=
-uild/tmp/deploy/sdk/ directory. On untaring this Toolchain I found
-> that cross gcc wasn't included in the SDK. Can anyone please help me in r=
-ecognizing the problem?
->
-I think the meta-toolchain-qte was not workable in benard. You might need t=
-o cherry-pick other patches for the recipe meta-toolchian-qte.
-
-http://git.yoctoproject.org/cgit/cgit.cgi/poky/log/meta/recipes-qt/meta/met=
-a-toolchain-qte.bb
-
-Best Regards,
-Lianhao
+<div class=3D"gmail_quote">On Tue, May 29, 2012 at 12:23 PM, Radu Moisan <s=
+pan dir=3D"ltr">&lt;<a href=3D"mailto:radu.moisan@intel.com" target=3D"_bla=
+nk">radu.moisan@intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gma=
+il_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-lef=
+t:1ex">
 
 
---_000_857BE142E5399E46B20FD45B9DB8A7BC0FDCC6AESHSMSX102ccrcor_
-Content-Type: text/html; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ =20
+   =20
+ =20
+  <div bgcolor=3D"#FFFFFF" text=3D"#000000"><div><div class=3D"h5">
+    <br>How do I add something in the dependency chain? With --enable-test
+      dbus fails at do_configure complaining about<br><blockquote type=3D"c=
+ite">
+      <br>
+      <small><font face=3D"Droid Sans Mono">| configure: Full test
+          coverage was requested with --enable-tests=3Dyes<br>
+          | configure: This has many dependencies (GLib, dbus-glib,
+          Python)<br>
+          | checking for i586-poky-linux-pkg-config... no<br>
+          | checking for pkg-config...
+/home/radu/Documents/Development/yocto/build/tmp/sysroots/x86_64-linux/usr/=
+bin/pkg-config<br>
+          | checking pkg-config is at least version 0.9.0... yes<br>
+          | checking for GLIB... yes<br>
+          | checking for DBUS_GLIB... yes<br>
+          | configure: Full test coverage (--enable-tests=3Dyes) requires
+          Python, dbus-python, pygobject<br>
+          | checking for a Python interpreter with version &gt;=3D 2.6...
+          python<br>
+          | checking for python...
+/home/radu/Documents/Development/yocto/build/tmp/sysroots/x86_64-linux/usr/=
+bin/python<br>
+          | checking for python version... 2.7<br>
+          | checking for python platform... linux2<br>
+          | checking for python script directory...
+          ${libdir}/python2.7/site-packages<br>
+          | checking for python extension module directory...
+          ${libdir}/python2.7/site-packages<br>
+          | checking for Python modules for full test coverage...
+          Traceback (most recent call last):<br>
+          |=A0=A0 File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt=
+;<br>
+          | ImportError: No module named dbus<br>
+          | no</font></small></blockquote></div></div></div></blockquote><d=
+iv><br></div><div>This says that the configure cannot find the dbus python =
+module. This is created in the python-dbus package. So compile that first.<=
+/div>
 
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
-osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
-//www.w3.org/TR/REC-html40">
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
->
-<meta name=3D"Generator" content=3D"Microsoft Word 14 (filtered medium)">
-<style><!--
-/* Font Definitions */
-@font-face
-	{font-family:SimSun;
-	panose-1:2 1 6 0 3 1 1 1 1 1;}
-@font-face
-	{font-family:SimSun;
-	panose-1:2 1 6 0 3 1 1 1 1 1;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-@font-face
-	{font-family:Tahoma;
-	panose-1:2 11 6 4 3 5 4 4 2 4;}
-@font-face
-	{font-family:SimSun;
-	panose-1:2 1 6 0 3 1 1 1 1 1;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0cm;
-	margin-bottom:.0001pt;
-	font-size:12.0pt;
-	font-family:"Times New Roman","serif";}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:blue;
-	text-decoration:underline;}
-a:visited, span.MsoHyperlinkFollowed
-	{mso-style-priority:99;
-	color:purple;
-	text-decoration:underline;}
-span.EmailStyle17
-	{mso-style-type:personal-reply;
-	font-family:"Calibri","sans-serif";
-	color:#1F497D;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-family:"Calibri","sans-serif";}
-@page WordSection1
-	{size:612.0pt 792.0pt;
-	margin:72.0pt 90.0pt 72.0pt 90.0pt;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]-->
-</head>
-<body lang=3D"ZH-CN" link=3D"blue" vlink=3D"purple">
-<div class=3D"WordSection1">
-<p class=3D"MsoNormal" style=3D"text-align:justify;text-justify:inter-ideog=
-raph"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-family:&quot;Cali=
-bri&quot;,&quot;sans-serif&quot;;color:#1F497D">Does anyone have the answer=
-s to the following question? Thanks!<o:p></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"text-align:justify;text-justify:inter-ideog=
-raph"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-family:&quot;Cali=
-bri&quot;,&quot;sans-serif&quot;;color:#1F497D"><o:p>&nbsp;</o:p></span></p=
->
-<p class=3D"MsoNormal" style=3D"text-align:justify;text-justify:inter-ideog=
-raph"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-family:&quot;Cali=
-bri&quot;,&quot;sans-serif&quot;;color:#1F497D">Regards,<o:p></o:p></span><=
-/p>
-<p class=3D"MsoNormal" style=3D"text-align:justify;text-justify:inter-ideog=
-raph"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-family:&quot;Cali=
-bri&quot;,&quot;sans-serif&quot;;color:#1F497D">-Lianhao<o:p></o:p></span><=
-/p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-=
-family:&quot;Calibri&quot;,&quot;sans-serif&quot;;color:#1F497D"><o:p>&nbsp=
-;</o:p></span></p>
-<p class=3D"MsoNormal"><b><span lang=3D"EN-US" style=3D"font-size:10.0pt;fo=
-nt-family:&quot;Tahoma&quot;,&quot;sans-serif&quot;">From:</span></b><span =
-lang=3D"EN-US" style=3D"font-size:10.0pt;font-family:&quot;Tahoma&quot;,&qu=
-ot;sans-serif&quot;"> Navani Srivastava [mailto:navani.srivastava@gmail.com=
-]
-<br>
-<b>Sent:</b> Tuesday, May 29, 2012 5:03 PM<br>
-<b>To:</b> Lu, Lianhao<br>
-<b>Cc:</b> yocto@yoctoproject.org<br>
-<b>Subject:</b> Re: [yocto] Broken SDK<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
-<p class=3D"MsoNormal" style=3D"margin-bottom:12.0pt"><span lang=3D"EN-US">=
-Hi Lianhao,<br>
-<br>
-These patches worked for me.But still I am failing to create symbolic link =
-of mkspecs. It throws below mentioned error-<br>
-<br>
-&quot;ln -s /opt/poky/1.0/sysroots/arm-poky-linux-gnueabi/usr/share/qtopia/=
-mkspecs mkspecs<br>
-| ln: creating symbolic link `mkspecs': File exists&quot;<br>
-<br>
-On commenting out<br>
-&nbsp;&quot;(cd ${SDK_OUTPUT}/${QT_TOOLS_PREFIX}/..; ln -s ${SDKTARGETSYSRO=
-OT}/usr/share/qtopia/mkspecs mkspecs;)&quot;
-<br>
-<br>
-section of <a href=3D"http://meta-toolchain-qte.bb">meta-toolchain-qte.bb</=
-a>, I can successfully create the SDK including my cross toolchain of speci=
-fied architecture. Do I need to change any path?<o:p></o:p></span></p>
-<div>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">On Mon, May 28, 2012 at 11:29 A=
-M, Lu, Lianhao &lt;<a href=3D"mailto:lianhao.lu@intel.com" target=3D"_blank=
-">lianhao.lu@intel.com</a>&gt; wrote:<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">Navani Srivastava wrote on 2012=
--05-28:<br>
-&gt; Hi,<br>
-&gt;<br>
-&gt;<br>
-&gt;<br>
-&gt; I am working with poky-bernerd-5.0. I have built cross-toolchain for q=
-t with &quot;bitbake -v meta-toolchain-qte&quot; for arm1136 architecture.<=
-o:p></o:p></span></p>
-<div>
-<p class=3D"MsoNormal" style=3D"margin-bottom:12.0pt"><span lang=3D"EN-US">=
-&gt;<br>
-&gt; I got the tool chain &quot;poky-eglibc-i686-arm-toolchain-1.0.tar.bz2&=
-quot; under build/tmp/deploy/sdk/ directory. On untaring this Toolchain I f=
-ound<br>
-&gt; that cross gcc wasn't included in the SDK. Can anyone please help me i=
-n recognizing the problem?<br>
-&gt;<o:p></o:p></span></p>
-</div>
-<p class=3D"MsoNormal" style=3D"margin-bottom:12.0pt"><span lang=3D"EN-US">=
-I think the meta-toolchain-qte was not workable in benard. You might need t=
-o cherry-pick other patches for the recipe meta-toolchian-qte.<br>
-<br>
-<a href=3D"http://git.yoctoproject.org/cgit/cgit.cgi/poky/log/meta/recipes-=
-qt/meta/meta-toolchain-qte.bb" target=3D"_blank">http://git.yoctoproject.or=
-g/cgit/cgit.cgi/poky/log/meta/recipes-qt/meta/meta-toolchain-qte.bb</a><br>
-<br>
-Best Regards,<br>
-Lianhao<o:p></o:p></span></p>
-</div>
-<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
-</div>
-</body>
-</html>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex"><div bgcolor=3D"#FFFFFF" text=3D"#000000"><d=
+iv><div class=3D"h5"><blockquote type=3D"cite"><br>
+      <br>
+      Radu<br>
+      <br>
+    </blockquote></div></div>
+    Leaving --enable-tests aside for a moment, I&#39;m trying to build dbus
+    with --enable-embedded-tests which is less but still good instead of
+    nothing. However, the build fails at do_compile complaining about
+    dbus/dbus-glib-lowlevel.h missing, although it&#39;s there. So I think
+    some variable in Makefile is not pointing correctly, but I cannot
+    find which.<br>
+    <br>
+    <small><font face=3D"Droid Sans Mono">| i586-poky-linux-libtool: link:
+        i586-poky-linux-ar cru .libs/libdbus-testutils.a
+        .libs/test-utils.o<br>
+        | i586-poky-linux-libtool: link: i586-poky-linux-ranlib
+        .libs/libdbus-testutils.a<br>
+        | i586-poky-linux-libtool: link: ( cd &quot;.libs&quot; &amp;&amp; =
+rm -f
+        &quot;<a href=3D"http://libdbus-testutils.la" target=3D"_blank">lib=
+dbus-testutils.la</a>&quot; &amp;&amp; ln -s
+        &quot;../<a href=3D"http://libdbus-testutils.la" target=3D"_blank">=
+libdbus-testutils.la</a>&quot; &quot;<a href=3D"http://libdbus-testutils.la=
+" target=3D"_blank">libdbus-testutils.la</a>&quot; )<br>
+        | dbus-daemon.c:32:37: fatal error: dbus/dbus-glib-lowlevel.h:
+        No such file or directory<br>
+        | compilation terminated.<br>
+        | i586-poky-linux-libtool: link: ccache i586-poky-linux-gcc -m32
+        -march=3Di586
+        --sysroot=3D/home/radu/Documents/Development/yocto/build/tmp/sysroo=
+ts/qemux86
+        -Wall -Wchar-subscripts -Wmissing-declarations
+        -Wmissing-prototypes -Wnested-externs -Wpointer-arith
+        -Wcast-align -Wno-address -Wfloat-equal
+        -Wdeclaration-after-statement -Wno-unused -Wno-sign-compare
+        -Wno-pointer-sign -Wno-deprecated-declarations -fno-common
+        -fno-strict-aliasing -O2 -pipe -g -feliminate-unused-debug-types
+        -Wl,-O1 -Wl,--hash-style=3Dgnu -Wl,--as-needed -o test-segfault
+        test-segfault.o<br>
+        | make[3]: *** [test_dbus_daemon-dbus-daemon.o] Error 1<br>
+        | make[3]: *** Waiting for unfinished jobs....<br>
+        | i586-poky-linux-libtool: link: ccache i586-poky-linux-gcc -m32
+        -march=3Di586
+        --sysroot=3D/home/radu/Documents/Development/yocto/build/tmp/sysroo=
+ts/qemux86
+        -Wall -Wchar-subsERROR: Function failed: do_compile (see
+        /home/radu/Documents/Development/yocto/build/tmp/work/i586-poky-lin=
+ux/dbus-1.4.20-r3.0/temp/log.do_compile.10606
+        for further information)<br>
+        | cripts -Wmissing-declarations -Wmissing-prototypes
+        -Wnested-externs -Wpointer-arith -Wcast-align -Wno-address
+        -Wfloat-equal -Wdeclaration-after-statement -Wno-unused
+        -Wno-sign-compare -Wno-pointer-sign -Wno-deprecated-declarations
+        -fno-common -fno-strict-aliasing -O2 -pipe -g
+        -feliminate-unused-debug-types -Wl,-O1 -Wl,--hash-style=3Dgnu
+        -Wl,--as-needed -o test-exit test-exit.o<br>
+        | i586-poky-linux-libtool: link: ccache i586-poky-linux-gcc -m32
+        -march=3Di586
+        --sysroot=3D/home/radu/Documents/Development/yocto/build/tmp/sysroo=
+ts/qemux86
+        -Wall -Wchar-subscripts -Wmissing-declarations
+        -Wmissing-prototypes -Wnested-externs -Wpointer-arith
+        -Wcast-align -Wno-address -Wfloat-equal
+        -Wdeclaration-after-statement -Wno-unused -Wno-sign-compare
+        -Wno-pointer-sign -Wno-deprecated-declarations -fno-common
+        -fno-strict-aliasing -O2 -pipe -g -feliminate-unused-debug-types
+        -Wl,-O1 -Wl,--hash-style=3Dgnu -Wl,--as-needed -o
+        test-sleep-forever test-sleep-forever.o<br>
+        | loopback.c:32:37: fatal error: dbus/dbus-glib-lowlevel.h: No
+        such file or directory<br>
+        | compilation terminated.<br>
+        | make[3]: *** [test_loopback-loopback.o] Error 1<br>
+        | i586-poky-linux-libtool: link: ccache i586-poky-linux-gcc -m32
+        -march=3Di586
+        --sysroot=3D/home/radu/Documents/Development/yocto/build/tmp/sysroo=
+ts/qemux86
+        -Wall -Wchar-subscripts -Wmissing-declarations
+        -Wmissing-prototypes -Wnested-externs -Wpointer-arith
+        -Wcast-align -Wno-address -Wfloat-equal
+        -Wdeclaration-after-statement -Wno-unused -Wno-sign-compare
+        -Wno-pointer-sign -Wno-deprecated-declarations -fno-common
+        -fno-strict-aliasing -O2 -pipe -g -feliminate-unused-debug-types
+        -Wl,-O1 -Wl,--hash-style=3Dgnu -Wl,--as-needed -o spawn-test
+        spawn-test.o=A0 ../dbus/.libs/libdbus-internal.a -lpthread -lrt<br>
+        | corrupt.c:33:37: fatal error: dbus/dbus-glib-lowlevel.h: No
+        such file or directory<br></font></small></div></blockquote><div><b=
+r></div><div>You will need dbus-glib. This is the package which provides th=
+is header. This will be a dependency for your case.</div><div><br></div>
 
---_000_857BE142E5399E46B20FD45B9DB8A7BC0FDCC6AESHSMSX102ccrcor_--
+<div>Hope i gave to the right hints. If you need more detailed info just pi=
+ng me.</div><div><br></div><div>@g=A0</div></div>
+
+--14dae93403951b76bd04c1297762--
