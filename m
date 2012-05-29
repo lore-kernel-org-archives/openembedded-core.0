@@ -1,33 +1,28 @@
-Received: from mail-wi0-f171.google.com ([209.85.212.171])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ive.found@gmail.com>) id 1SZ57g-00087k-CQ
+	(envelope-from <radu.moisan@intel.com>) id 1SZG00-0000T6-Hv
 	for openembedded-core@lists.openembedded.org;
-	Mon, 28 May 2012 20:56:56 +0200
-Received: by wibhm14 with SMTP id hm14so1687812wib.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 May 2012 11:46:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type; bh=HNvo6OGbgDI+VDvn/hb2H1DCIn7nisWydfEKIWzFZdY=;
-	b=RKsUqpVZM+303qndzRslwhBUCvy/sK+a102Q/uguivkSYVE/8COFpZQTN8p2VEWcGB
-	tEU84sFgOT1haB5UbY8i/4OnpH0c9Q28bN7v4tbFC7NlgHpzco+l8NWlKJlrNwixyvj7
-	bCu4CO8bdTR5rIg2B0QE3OL4KEoUMs3g4oy3Ca6Uhgg6CoN8FLpc0IFEfOjLfNd7Wb43
-	VWftOkyogcLycKpQ65N5OAYz+6zqCJWbfFygrRnwiVUVOkS5WMWlWgSqilS+1JBkwA1i
-	h3EfBzR8dUgbNiu3so6G4cwyew0du6472RlFgi+EhvdOJ9wGjzC4rXdQqWkySRVx338o
-	DOag==
-Received: by 10.216.208.71 with SMTP id p49mr5321166weo.172.1338230799812;
-	Mon, 28 May 2012 11:46:39 -0700 (PDT)
+	Tue, 29 May 2012 08:33:44 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 28 May 2012 23:23:17 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; 
+	d="scan'208,217";a="158091976"
+Received: from dell-desktop (HELO [10.237.104.210]) ([10.237.104.210])
+	by fmsmga001.fm.intel.com with ESMTP; 28 May 2012 23:22:16 -0700
+Message-ID: <4FC46C84.5090408@intel.com>
+Date: Tue, 29 May 2012 09:28:20 +0300
+From: Radu Moisan <radu.moisan@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
 MIME-Version: 1.0
-Received: by 10.223.89.131 with HTTP; Mon, 28 May 2012 11:46:19 -0700 (PDT)
-In-Reply-To: <1338198283.1964.320.camel@phil-desktop>
-References: <1336915722-8155-1-git-send-email-ive.found@gmail.com>
-	<1338198283.1964.320.camel@phil-desktop>
-From: Ive Found <ive.found@gmail.com>
-Date: Mon, 28 May 2012 21:46:19 +0300
-Message-ID: <CABnTX71G-CE_poX2jvPZxcJsqhD420LF3Vwt2G=cf_3z4XdJPQ@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/3] Support additional user-defined package metadata
+To: openembedded-core@lists.openembedded.org
+References: <CAJTo0La2e0ncRy6ugDa8Yx3uTcuYGXKBbZ8f5CTg9d7kJGis+w@mail.gmail.com>
+	<4FC35FAD.7090505@intel.com> <4FC35FBA.2060200@gherzan.ro>
+	<4FC37C81.6080200@intel.com>
+	<CAK18fxFpx-X-V465UJN7ziqmN6Fj6bz6YkckjhztTkqX5q2KwA@mail.gmail.com>
+In-Reply-To: <CAK18fxFpx-X-V465UJN7ziqmN6Fj6bz6YkckjhztTkqX5q2KwA@mail.gmail.com>
+Subject: Re: [PATCH 0/3] Package Updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,51 +37,111 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 May 2012 18:56:56 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 29 May 2012 06:33:44 -0000
+Content-Type: multipart/alternative;
+	boundary="------------030900050901020306030307"
 
-On Mon, May 28, 2012 at 12:44 PM, Phil Blundell <philb@gnu.org> wrote:
-> On Sun, 2012-05-13 at 16:28 +0300, Leonid Borisenko wrote:
->> Custom metadata field with supported firmware version(s) could be
->> included into package control file for preventing of installing packaged
->> modifications onto unsupported firmware.
+--------------030900050901020306030307
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
+
+
+
+On 05/28/2012 04:26 PM, Andrei Gherzan wrote:
+> On Mon, May 28, 2012 at 4:24 PM, Radu Moisan <radu.moisan@intel.com 
+> <mailto:radu.moisan@intel.com>> wrote:
 >
-> Why isn't RDEPENDS sufficient for this?
+>     On 05/28/2012 02:21 PM, Andrei Gherzan wrote:
+>
+>         Dbus comes with a test suite. Running those should be a must.
+>
+>     I could not find how to run the test suite. I've tried
+>     dbus-daemon, dbus-monitor, and the rest, but non of them have
+>     options for some runtime checks. Other than that I imagine the
+>     test suite you mention must come in a separate package. Do we have
+>     a recipe for that to? Which image should I build to have that
+>     package included and be able to test?
+>
+>
+> There is an internal test suite for dbus. You can enable building 
+> those tests in configure:
+> "--enable-tests"
+>
+> @g
+>
+So, isn't there a way of specifying build options in some file that 
+bitbake will use afterwards to do the build? For instance where from 
+./configure is executed (from within bitbake I assume). I tried to take 
+a look over configure file of dbus but could not figure out a way of 
+hardcoding the --enable-tests option (not that hardcoding would be a 
+best choice, but for testing purposes I considered it a choice). Any 
+info on this is much appreciated.
 
-I didn't think about using RDEPENDS for specifing supported firmware version.
+Thanks,
+Radu
 
-I'll try to discuss possible scenario with RDEPENDS. Correct me please
-if I'll miss your point.
+--------------030900050901020306030307
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-So RDEPENDS transforms into Depends field in package control file (I'm
-speaking about ipk/deb, as it's the chosen format). Depends field
-contains list of packages (with their's versions) on which target
-package is depended. Dependencies must be installed before target
-package and target package will not be installed if all dependencies
-will not be satisfied.
+<html>
+  <head>
+    <meta content="text/html; charset=ISO-8859-1"
+      http-equiv="Content-Type">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    <br>
+    <br>
+    On 05/28/2012 04:26 PM, Andrei Gherzan wrote:
+    <blockquote
+cite="mid:CAK18fxFpx-X-V465UJN7ziqmN6Fj6bz6YkckjhztTkqX5q2KwA@mail.gmail.com"
+      type="cite">
+      <meta http-equiv="Content-Type" content="text/html;
+        charset=ISO-8859-1">
+      <div class="gmail_quote">On Mon, May 28, 2012 at 4:24 PM, Radu
+        Moisan <span dir="ltr">&lt;<a moz-do-not-send="true"
+            href="mailto:radu.moisan@intel.com" target="_blank">radu.moisan@intel.com</a>&gt;</span>
+        wrote:<br>
+        <blockquote class="gmail_quote" style="margin:0 0 0
+          .8ex;border-left:1px #ccc solid;padding-left:1ex">
+          <div class="im">On 05/28/2012 02:21 PM, Andrei Gherzan wrote:<br>
+            <blockquote class="gmail_quote" style="margin:0 0 0
+              .8ex;border-left:1px #ccc solid;padding-left:1ex">
+              Dbus comes with a test suite. Running those should be a
+              must.<br>
+            </blockquote>
+          </div>
+          I could not find how to run the test suite. I've tried
+          dbus-daemon, dbus-monitor, and the rest, but non of them have
+          options for some runtime checks. Other than that I imagine the
+          test suite you mention must come in a separate package. Do we
+          have a recipe for that to? Which image should I build to have
+          that package included and be able to test?<span class="HOEnZb"><font
+              color="#888888"><br>
+              <br>
+            </font></span></blockquote>
+        <div><br>
+        </div>
+        <div>There is an internal test suite for dbus. You can enable
+          building those tests in configure:</div>
+        <div>"--enable-tests"</div>
+        <div><br>
+        </div>
+        <div>@g</div>
+      </div>
+      <br>
+    </blockquote>
+    So, isn't there a way of specifying build options in some file that
+    bitbake will use afterwards to do the build? For instance where from
+    ./configure is executed (from within bitbake I assume). I tried to
+    take a look over configure file of dbus but could not figure out a
+    way of hardcoding the --enable-tests option (not that hardcoding
+    would be a best choice, but for testing purposes I considered it a
+    choice). Any info on this is much appreciated.<br>
+    <br>
+    Thanks,<br>
+    Radu<br>
+  </body>
+</html>
 
-So there could be empty package kindle-touch-firmware on which target
-package will depend. Supported version of firmware could be specified
-as version of package. Package will be empty as only it's version
-string is signifcant.
-
-Using of stub package for describing supported version of stock
-proprietary firmware is pretty weird (as for me), but on the other
-side it's OK as it uses existing capabilities of package format and
-existing support of package format in OE.
-
-However, user-defined metadata fields are existing capabilities of
-deb/ipk format too [1].
-
-Also, it could be reasonable to override supported firmware
-specification and install package forcefully. Noone could foresee
-whether his/her package will work on future firmware version, but it
-could in fact work. If package is abandoned and supported firmware
-version wasn't changed in long time and user want to install it on
-newer firmware, then using of stub package in Depends field will bring
-problems. It's not possible to ignore just one package from Depends
-field, all packages from Depends field will be ignored.
-
-[1] http://www.debian.org/doc/debian-policy/ch-controlfields.html#s5.7
-
-
+--------------030900050901020306030307--
