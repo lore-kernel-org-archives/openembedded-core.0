@@ -1,28 +1,28 @@
-Received: from hermes.mlbassoc.com ([64.234.241.98] helo=mail.chez-thomas.org)
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <gary@mlbassoc.com>) id 1SZgsn-0002PN-Mn
-	for openembedded-core@lists.openembedded.org;
-	Wed, 30 May 2012 13:16:05 +0200
-Received: by mail.chez-thomas.org (Postfix, from userid 1998)
-	id 28F9AF81242; Wed, 30 May 2012 05:05:48 -0600 (MDT)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	hermes.chez-thomas.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=ham version=3.3.2
-Received: from hermes.chez-thomas.org (localhost.localdomain [127.0.0.1])
-	by mail.chez-thomas.org (Postfix) with ESMTP id C791EF8123F;
-	Wed, 30 May 2012 05:05:38 -0600 (MDT)
-Message-ID: <4FC5FF02.5070608@mlbassoc.com>
-Date: Wed, 30 May 2012 05:05:38 -0600
-From: Gary Thomas <gary@mlbassoc.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
-MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <cover.1338368508.git.edwin.zhai@intel.com>
-In-Reply-To: <cover.1338368508.git.edwin.zhai@intel.com>
-Subject: Re: [PATCH 0/1] Fix browser crash on PPC
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1SZhdI-0003a3-9j for openembedded-core@lists.openembedded.org;
+	Wed, 30 May 2012 14:04:09 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q4UBroX6021670;
+	Wed, 30 May 2012 12:53:50 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 18246-07; Wed, 30 May 2012 12:53:46 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q4UBremt021664
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Wed, 30 May 2012 12:53:41 +0100
+Message-ID: <1338378819.20169.125.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Mark Hatle <mark.hatle@windriver.com>, openembedded-core
+	<openembedded-core@lists.openembedded.org>
+Date: Wed, 30 May 2012 12:53:39 +0100
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: [PATCH] update-alternatives: Fix absolute symlink handling
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,44 +37,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 May 2012 11:16:06 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Wed, 30 May 2012 12:04:09 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 2012-05-30 03:08, edwin.zhai@intel.com wrote:
-> From: Zhai Edwin<edwin.zhai@intel.com>
->
-> All,
->      This patch use glib as unicode backend to avoid browser crash
->
-> webkit-gtk depends on ICU for the unicode, but ICU is not safe when build and
-> target system owns different endian. ICU's community is not responsive to make
-> a patch for this, so glib is used as work around here.
->
-> [YOCTO #1570] got fixed
->
->
-> The following changes since commit f28209d9d3c67203a2c7a2b25cacfe31643d1bfa:
->
->    cooker.py: terminate the Parser processes (2012-05-25 11:39:33 +0100)
->
-> are available in the git repository at:
->    git://git.pokylinux.org/poky-contrib gzhai/fix3
->    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=gzhai/fix3
->
-> Zhai Edwin (1):
->    webkit-gtk: Use glib as unicode backend to avoid browser crash
->
->   meta/recipes-sato/webkit/webkit-gtk_svn.bb |   10 +++++++++-
->   1 files changed, 9 insertions(+), 1 deletions(-)
+After the class changes, absolute symlinks are not being handled correctly
+by the class file. This adds handling for absolute symlinks to account for the
+pkgdest directory, removing dangling symlink messages from recipes like bzip2.
 
-Note: any big-endian target will probably suffer the same as PowerPC,
-so should this not also be extended to those, e.g. big-endian MIPS, etc?
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+diff --git a/meta/classes/update-alternatives.bbclass b/meta/classes/update-alternatives.bbclass
+index fce1e84..9f2e59f 100644
+--- a/meta/classes/update-alternatives.bbclass
++++ b/meta/classes/update-alternatives.bbclass
+@@ -247,7 +247,11 @@ python perform_packagecopy_append () {
+ 		for alt_target in link_rename:
+ 			src = '%s/%s' % (pkgdest, alt_target)
+ 			dest = '%s/%s' % (pkgdest, link_rename[alt_target])
+-			link_target = os.path.join(os.path.dirname(src), os.readlink(src))
++			link = os.readlink(src)
++			if os.path.isabs(link):
++				link_target = pkgdest + os.readlink(src)
++			else:
++				link_target = os.path.join(os.path.dirname(src), link)
+ 
+ 			if os.path.lexists(link_target):
+ 				# Ok, the link_target exists, we can rename
 
--- 
-------------------------------------------------------------
-Gary Thomas                 |  Consulting for the
-MLB Associates              |    Embedded world
-------------------------------------------------------------
+
 
 
