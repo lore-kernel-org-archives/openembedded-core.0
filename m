@@ -1,36 +1,23 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from smtp-relay2.palm.com ([64.28.152.243])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1SZmYZ-0000Lm-Du
-	for openembedded-core@lists.openembedded.org;
-	Wed, 30 May 2012 19:19:35 +0200
-Received: by eekd49 with SMTP id d49so18938eek.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 May 2012 10:09:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type; bh=HV0RAECl2134oA9tw1xJrvUMup9WtnK4I9FuweTRHSU=;
-	b=mo64c8xDNhQyJW8Qqj2CscvtTMn3lKvP9RUfObGdt5I30gOpMc/5IWpKpuKlxfcrLO
-	w8lwJOJDaGKjvKEb3g1IZ4zRarg7nQbgo8SLKTc2vMcmjne7z9fU+RDEC5lx7FIlacpZ
-	qBRSXXBoum4aevLNPkBHOrM5CJAUX6k5b2XUF79izc2kuYVl+/LXsoI5LDi7UvnNxAVR
-	c8ast8UeHcxA9i2MM3CLH3FD8HVkI0WMgVzfkCZL43+AmQsPKmKfhhAxJ+Q/XtO7Pc+V
-	pigNpBMTkr9X0z8NLAK2n0sCIIqMDJ4HpuwV9loqH81yS7tgoLdWmY5pcg2x1Ff+35dZ
-	EMyQ==
+	(envelope-from <prvs=490fd1ba2=rich.pixley@palm.com>)
+	id 1SZnuz-0003zl-IJ for openembedded-core@lists.openembedded.org;
+	Wed, 30 May 2012 20:46:49 +0200
+X-IronPort-AV: E=Sophos;i="4.75,686,1330934400"; d="scan'208";a="13840076"
+Received: from unknown (HELO ushqusdns3.palm.com) ([148.92.223.90])
+	by smtp-relay2.palm.com with ESMTP; 30 May 2012 11:35:24 -0700
+Received: from fuji-land.noir.com ([10.100.2.10])
+	by ushqusdns3.palm.com (8.14.4/8.14.4) with ESMTP id q4UIZNX9016951;
+	Wed, 30 May 2012 11:35:24 -0700
+Message-ID: <4FC6686B.20904@palm.com>
+Date: Wed, 30 May 2012 11:35:23 -0700
+From: Rich Pixley <rich.pixley@palm.com>
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7;
+	rv:12.0) Gecko/20120428 Thunderbird/12.0.1
 MIME-Version: 1.0
-Received: by 10.14.95.1 with SMTP id o1mr6539896eef.77.1338397756453; Wed, 30
-	May 2012 10:09:16 -0700 (PDT)
-Received: by 10.14.188.11 with HTTP; Wed, 30 May 2012 10:09:16 -0700 (PDT)
-In-Reply-To: <lyehq1zk13.fsf@ensc-virt.intern.sigma-chemnitz.de>
-References: <1338391023-31189-1-git-send-email-enrico.scholz@sigma-chemnitz.de>
-	<1338392680.20169.148.camel@ted>
-	<lyy5o9zm89.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<1338396454.20169.163.camel@ted>
-	<lyehq1zk13.fsf@ensc-virt.intern.sigma-chemnitz.de>
-Date: Wed, 30 May 2012 10:09:16 -0700
-Message-ID: <CAMKF1sq4QLupnK-0H4rCBRppLCEWeA0oKDYe3DNphS-BUJJ_UQ@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] libtasn: fixed cross build issue
+Subject: On the possibility of using upstart...
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,62 +32,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 May 2012 17:19:35 -0000
-Content-Type: multipart/alternative; boundary=bcaec52159e3d774e304c1440202
+X-List-Received-Date: Wed, 30 May 2012 18:46:49 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
---bcaec52159e3d774e304c1440202
-Content-Type: text/plain; charset=UTF-8
+Has anyone considered the possibility of introducing upstart to oe-core, 
+perhaps as an alternative?
 
-On Wednesday, May 30, 2012, Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-wrote:
-> Richard Purdie <richard.purdie@linuxfoundation.org> writes:
->
->>> setting HELP2MAN environment to 'true' for cross-builds might be a
->>> general solution.... But this does not seem to be implemented...
->>
->> Right, I remember looking into this and its hard to disable. I've pushed
->> a PATH change to address this problem...
->
-> But this makes 'help2man' completely unavailable which might break
-> man-page generation for -native (where 'help2man' works) or for every
-> package which requires a working 'help2man' tool.
+How would people feel about patches to do that?
 
-Can you use class overrides to control that
+I ask because "classic", (read, "former" and "proprietary"), WebOS used 
+upstart and we're considering whether to attempt to continue to do so as 
+we move to oe-core, or whether to attempt to convert all of our 
+components over.  Either way, we have to convert a bunch of service 
+scripts.  And if we're going to convert a bunch of service scripts for 
+oe-core components, (as distinct from porting service scripts for Palm 
+components), then it would be much easier of those patches were to find 
+their way into oe-core rather than needing to be maintained separately.
 
->
->
-> Enrico
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+--rich
 
---bcaec52159e3d774e304c1440202
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<br><br>On Wednesday, May 30, 2012, Enrico Scholz &lt;<a href=3D"mailto:enr=
-ico.scholz@sigma-chemnitz.de">enrico.scholz@sigma-chemnitz.de</a>&gt; wrote=
-:<br>&gt; Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfoundati=
-on.org">richard.purdie@linuxfoundation.org</a>&gt; writes:<br>
-&gt;<br>&gt;&gt;&gt; setting HELP2MAN environment to &#39;true&#39; for cro=
-ss-builds might be a<br>&gt;&gt;&gt; general solution.... But this does not=
- seem to be implemented...<br>&gt;&gt;<br>&gt;&gt; Right, I remember lookin=
-g into this and its hard to disable. I&#39;ve pushed<br>
-&gt;&gt; a PATH change to address this problem...<br>&gt;<br>&gt; But this =
-makes &#39;help2man&#39; completely unavailable which might break<br>&gt; m=
-an-page generation for -native (where &#39;help2man&#39; works) or for ever=
-y<br>
-&gt; package which requires a working &#39;help2man&#39; tool.<br><br>Can y=
-ou use class overrides to control that <br><br>&gt;<br>&gt;<br>&gt; Enrico<=
-br>&gt;<br>&gt; _______________________________________________<br>&gt; Ope=
-nembedded-core mailing list<br>
-&gt; <a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedd=
-ed-core@lists.openembedded.org</a><br>&gt; <a href=3D"http://lists.linuxtog=
-o.org/cgi-bin/mailman/listinfo/openembedded-core">http://lists.linuxtogo.or=
-g/cgi-bin/mailman/listinfo/openembedded-core</a><br>
-&gt;
-
---bcaec52159e3d774e304c1440202--
