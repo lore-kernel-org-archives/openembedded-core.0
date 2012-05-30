@@ -1,31 +1,30 @@
-Received: from mail.cvg.de ([62.153.82.30])
+Received: from mail-yw0-f47.google.com ([209.85.213.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1SZko4-0003Y7-BY
+	(envelope-from <giuseppe.condorelli@gmail.com>) id 1SZkpR-00061C-1M
 	for openembedded-core@lists.openembedded.org;
-	Wed, 30 May 2012 17:27:32 +0200
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id q4UFH4a4005590
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Wed, 30 May 2012 17:17:05 +0200
-Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
-	4.76) (envelope-from <ensc@sigma-chemnitz.de>)
-	id 1SZke0-00087d-LL; Wed, 30 May 2012 17:17:04 +0200
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 30 May 2012 17:17:03 +0200
-Message-Id: <1338391023-31189-1-git-send-email-enrico.scholz@sigma-chemnitz.de>
-X-Mailer: git-send-email 1.7.7.6
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-X-DSPAM-Result: Innocent
-X-DSPAM-Probability: 0
-X-DSPAM-Confidence: 0.91
-X-Spam-Score: -5.3
-X-Spam-Level: -----
-X-Spam-Tests: AWL,BAYES_00,SPF_NEUTRAL,T_RP_MATCHES_RCVD,DSPAM_INNOCENT
-X-Scanned-By: MIMEDefang 2.73
-Cc: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Subject: [PATCH] libtasn: fixed cross build issue
+	Wed, 30 May 2012 17:28:54 +0200
+Received: by yhjj56 with SMTP id j56so3470486yhj.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 30 May 2012 08:18:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:date:message-id:subject:from:to:content-type;
+	bh=pyMd+UQGWObje1JQTrPLfSb45nZ/7kTDJBRAjJNjS1k=;
+	b=a7BCrPzZ1OgcI6VbH2gZHEMCmRZQitxZ7TOoRomxYnd33k/eXNHsVqsP/uwCuHP3ag
+	p7anu7feG27xtDaRiiuNx2j3fFWGhq/wTiOjejotQ63SedNBsuD6krCy0vL92P7m75Wb
+	J/7LKM0kaQ8Pjc8OhJogPFhp8B6n1MJdEDwwg+geL4YF97X1sHLVQ/aYDhpqH+3X+CpJ
+	Ah6IoYUD/i8ZF7/l3dZp1y/zFPYevHCCpP9G9YPhXRAbCT4Y3U2CpgTkTMHvascw3Y1d
+	q2Imqd2fLBKIp7xvMIP5S3UnQibAgvVSwhugtL7Z6+2FXgvdsnG1VBAuLfA2AOvwzg1J
+	Sy1w==
+MIME-Version: 1.0
+Received: by 10.50.208.34 with SMTP id mb2mr11250312igc.5.1338391113407; Wed,
+	30 May 2012 08:18:33 -0700 (PDT)
+Received: by 10.231.233.196 with HTTP; Wed, 30 May 2012 08:18:33 -0700 (PDT)
+Date: Wed, 30 May 2012 17:18:33 +0200
+Message-ID: <CAOHjBZsptjefvQA3od1HV4s_fVcoHidWs5qUm-2A5+Fr9ZrRLg@mail.gmail.com>
+From: Giuseppe Condorelli <giuseppe.condorelli@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: target rpm build failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,52 +39,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 May 2012 15:27:37 -0000
+X-List-Received-Date: Wed, 30 May 2012 15:29:01 -0000
+Content-Type: multipart/alternative; boundary=14dae9340cade29dfc04c1427640
 
-Fixes
+--14dae9340cade29dfc04c1427640
+Content-Type: text/plain; charset=ISO-8859-1
 
-| /bin/sh ../libtasn1-2.12-r1/libtasn1-2.12/build-aux/missing --run help2man --info-page libtasn1 \
-|       --name="ASN.1 DER encoder" \
-|       --output=asn1Coding.1 ../src/asn1Coding
-| help2man: can't get `--help' info from ../src/asn1Coding
-| Try `--no-discard-stderr' if option outputs to stderr
-| make[3]: *** [asn1Coding.1] Error 1
+Hi All,
 
-which was caused by touching configure.ac which is a dependency of the
-generated man pages.
+I'm falling in error building rpm-5.4.0 for target.
+It fails on undefined reference to xmalloc, xcalloc, etc... that however
+are internally defined and used as wrapper for real malloc, etc...
+Please, can somebody try to build this package for me?
+NOTE: the rpm build inclusion is dued by the "package-management" added in
+the IMAGE_FEATURE for core-image-minimal.
+NOTE2: I've pulled latest oe-core since two hours.
 
-Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
----
- meta/recipes-support/gnutls/libtasn1_2.12.bb |   10 +++++++++-
- 1 files changed, 9 insertions(+), 1 deletions(-)
+Many thanks for your help.
+Giuseppe
 
-diff --git a/meta/recipes-support/gnutls/libtasn1_2.12.bb b/meta/recipes-support/gnutls/libtasn1_2.12.bb
-index d0b4191..dcc58a2 100644
---- a/meta/recipes-support/gnutls/libtasn1_2.12.bb
-+++ b/meta/recipes-support/gnutls/libtasn1_2.12.bb
-@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
-                     file://COPYING.LIB;md5=4fbd65380cdd255951079008b364516c \
-                     file://README;endline=8;md5=c3803a3e8ca5ab5eb1e5912faa405351"
- 
--PR = "r1"
-+PR = "r2"
- 
- SRC_URI = "${GNU_MIRROR}/libtasn1/libtasn1-${PV}.tar.gz \
-            file://libtasn1_fix_for_automake_1.12.patch \
-@@ -20,3 +20,11 @@ SRC_URI[sha256sum] = "0e257a8a01c80e464f73262e13c226e04a15165c2ad087a340f5390228
- inherit autotools binconfig lib_package
- 
- BBCLASSEXTEND = "native"
-+
-+do_configure_prepend() {
-+    # these autogenerated man pages depend on configure.ac which was
-+    # modified by SRC_URI patches. Regenerating them fails because
-+    # 'help2man' tries to execute the corresponding, cross-compiled
-+    # binary with the '--help' option
-+    touch doc/asn1Parser.1 doc/asn1Coding.1 doc/asn1Decoding.1
-+}
--- 
-1.7.7.6
+--14dae9340cade29dfc04c1427640
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
+<div>Hi All,</div><div>=A0</div><div>I&#39;m falling in error building rpm-=
+5.4.0 for target.</div><div>It fails on undefined reference to xmalloc, xca=
+lloc, etc... that however are internally defined and used as wrapper for re=
+al malloc, etc...</div>
+<div>Please, can somebody try to build this package for me?</div><div>NOTE:=
+ the rpm build inclusion=A0is dued=A0by=A0the &quot;package-management&quot=
+; added in the IMAGE_FEATURE for core-image-minimal.</div><div>NOTE2: I&#39=
+;ve pulled latest oe-core since two hours.</div>
+<div>=A0</div><div>Many thanks for your help.</div><div>Giuseppe</div>
 
-
+--14dae9340cade29dfc04c1427640--
