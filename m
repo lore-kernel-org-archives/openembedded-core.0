@@ -1,37 +1,34 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1SZiyl-0005Ud-M5
-	for openembedded-core@lists.openembedded.org;
-	Wed, 30 May 2012 15:30:23 +0200
-Received: by eaal1 with SMTP id l1so1745506eaa.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 May 2012 06:20:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type; bh=MDwHYkjsB0bEUD8HSlWq94iUuvmh48NoLXPdJKF48FY=;
-	b=YnoeJxc26CboWrcLUWTIf7dW1DjU7FabOcwxCu0CKcoRMO+JTmtdOd9m6DboQ0hUJM
-	8VIsLDT9rxPF0z6PwB1fp6Mpbex5NFJpDM+srb0w2QKXS8poHeLFKOXdrzvNMcMh9CWl
-	KBj8SHzBhkllfpaLc2hn8g9uKwP36v66K6st8sTnTNuZeiN9THx6+fe/396l4xeXz9/C
-	qBautH/PY9gIgsYorkX/as4vHn2/pWX++9eY3Mwm87GbGDi4o7rgtOl3QYvlUX5OEBGC
-	SnKmQjocPGD9S8y7nuR8WkTii84tp0GCfoJ021AMcwppa16uFyYLbBQgy2DrKmXeieH4
-	pQLw==
-MIME-Version: 1.0
-Received: by 10.14.188.140 with SMTP id a12mr5531979een.25.1338384005067; Wed,
-	30 May 2012 06:20:05 -0700 (PDT)
-Received: by 10.14.188.11 with HTTP; Wed, 30 May 2012 06:20:05 -0700 (PDT)
-In-Reply-To: <CAJTo0LYmnmcX=qNz=uA-bQLRkS2+AXLrwbrEX+3Dv4wGx9QG0w@mail.gmail.com>
-References: <cover.1338323483.git.ross.burton@intel.com>
-	<e50f2bf59b64accf580fc2df96e1fbc9eb6cfb98.1338323483.git.ross.burton@intel.com>
-	<CAMKF1so_=OjU2OcoVYO=B5g2KzYAgtY4aA4gNr_cv09YFcxbeQ@mail.gmail.com>
-	<CAJTo0LYe1y0r-VhGqsZ1ejfhN39Awd61Zq6yGk0Bf=VN+zJrHA@mail.gmail.com>
-	<CAMKF1sp2kUL-w==UiXT4SmykAcoN5j93vFxSF2-EmBs9mjWcjA@mail.gmail.com>
-	<CAJTo0LYmnmcX=qNz=uA-bQLRkS2+AXLrwbrEX+3Dv4wGx9QG0w@mail.gmail.com>
-Date: Wed, 30 May 2012 06:20:05 -0700
-Message-ID: <CAMKF1spimcD7atit23hjHsvJD4uZy5-JaK38TqBM0n0cJbdKBg@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1SZj56-0005dH-Az for openembedded-core@lists.openembedded.org;
+	Wed, 30 May 2012 15:36:56 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q4UDQbvx022333;
+	Wed, 30 May 2012 14:26:37 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 21779-05; Wed, 30 May 2012 14:26:33 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q4UDQRKC022327
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Wed, 30 May 2012 14:26:29 +0100
+Message-ID: <1338384388.20169.146.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/4] connman: just give xuser the extra rights it needs
+Date: Wed, 30 May 2012 14:26:28 +0100
+In-Reply-To: <20120530131833.GP3138@jama.jama.net>
+References: <20120530110550.04FA710217@opal>
+	<20120530120443.GL3138@jama.jama.net>
+	<20120530122007.GM3138@jama.jama.net>
+	<20120530125307.GO3138@jama.jama.net> <1338383413.20169.141.camel@ted>
+	<20120530131833.GP3138@jama.jama.net>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: debian.bbclass got broken today Was: [oe-commits] Valentin Popa : xz: updated to version 5.1.1alpha
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,67 +43,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 May 2012 13:30:23 -0000
-Content-Type: multipart/alternative; boundary=bcaec52be54331f44704c140cfd0
+X-List-Received-Date: Wed, 30 May 2012 13:36:56 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---bcaec52be54331f44704c140cfd0
-Content-Type: text/plain; charset=UTF-8
+On Wed, 2012-05-30 at 15:18 +0200, Martin Jansa wrote:
+> On Wed, May 30, 2012 at 02:10:13PM +0100, Richard Purdie wrote:
+> > On Wed, 2012-05-30 at 14:53 +0200, Martin Jansa wrote:
+> > > On Wed, May 30, 2012 at 02:20:07PM +0200, Martin Jansa wrote:
+> > > > On Wed, May 30, 2012 at 02:04:43PM +0200, Martin Jansa wrote:
+> > > > > On Wed, May 30, 2012 at 11:05:49AM +0000, git@git.openembedded.org wrote:
+> > > > > > Module: openembedded-core.git
+> > > > > > Branch: master
+> > > > > > Commit: da98266f3a228cf65f279db9810a5326c8bd5422
+> > > > > > URL:    http://git.openembedded.org/?p=openembedded-core.git&a=commit;h=da98266f3a228cf65f279db9810a5326c8bd5422
+> > > > > > 
+> > > > > > Author: Valentin Popa <valentin.popa@intel.com>
+> > > > > > Date:   Wed May 23 14:08:58 2012 +0300
+> > > > > > 
+> > > > > > xz: updated to version 5.1.1alpha
+> > > > > 
+> > > > > this upgrade is causing liblzma package name change
+> > > > > -liblzma5_5.0.3-r1_armv4te.ipk
+> > > > > +liblzma_5.1.1alpha-r0_armv4t.ipk
+> > > > > 
+> > > > > so all packages which rdepends on liblzma should get PR bump, e.g.:
+> > > > >  *libsystemd-journal0
+> > > > >  *libpoppler18
+> > > > >  *libsdl-image-1.2-0
+> > > > >  *libpoppler-glib8
+> > > > >  *systemd
+> > > > >  *ethumb
+> > > > >  *libtiff5
+> > > > >  *epdf
+> > > > > 
+> > > > > Cheers,
+> > > > 
+> > > > Looks like whole debian.bbclass got broken by todays merge in oe-core..
+> > > 
+> > > looking at buildhistory
+> > > http://git.shr-project.org/git/?p=buildhistory.git;a=commitdiff;h=320a9a8a80f0d412cea31a534a8022bacf6545e6#patch330
+> > > 
+> > > it looks like run.package_do_shlibs also doesn't work (all RDEPENDS
+> > > detected from shlibs are gone), can someone confirm this behavior on 
+> > > his system?
+> > 
+> > Yes, its from:
+> > 
+> > http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=5996b2b58e36864edc077326a942795ca12f48da
+> > 
+> > I'm still trying to figure out the best course of action to fix this...
+> 
+> Ah, thanks for info..
+> 
+> so I have reverted all 3 (to be sure) locally and now trying to find and 
+> rebuild everything which was built today to get sane feed again.
 
-On Wednesday, May 30, 2012, Burton, Ross wrote:
+Its just the commit above that is broken. I've decided to revert it as
+pretty much every change made by it is buggy.
 
-> On 30 May 2012 14:00, Khem Raj <raj.khem@gmail.com <javascript:;>> wrote:
-> > You could have created a new patch and deleted the old then for clarity
->
-> The filename is sensible, the comment was entirely rewritten, as was
-> the actual delta of the patch.  I don't see how this could be any more
-> clear really.
->
->
-Not an issue. usually editing same patch gives the impression of update not
-rewrite
-But you explained it
+The trouble is the readlines() calls return an array, the replacement
+returns one big string and hence bad things start to happen.
+
+In the debian.bbclass case, I did prove that changing it to:
+
+						fp = os.path.join(root, f)
+						cmd = (d.getVar('BUILD_PREFIX', True) or "") + "objdump -p " + fp
+						try:
+							lines = []
+							lines = bb.process.run(cmd)[0].split("\n")
+						# Some ".so" maybe ascii text, e.g: /usr/lib64/libpthread.so,
+						# ingore those errors.
+						except Exception:
+							sys.exc_clear()
+
+works as intended but I didn't want to try and fix up all the different
+calls.
+
+Robert: Fix the patch, test the changes more extensively this time
+please and then resubmit.
+
+Cheers,
+
+Richard
 
 
-> Ross
->
-> _______________________________________________
-> Openembedded-core mailing lists
-> Openembedded-core@lists.openembedded.org <javascript:;>
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
 
---bcaec52be54331f44704c140cfd0
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<br><br>On Wednesday, May 30, 2012, Burton, Ross  wrote:<br><blockquote cla=
-ss=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;pa=
-dding-left:1ex">On 30 May 2012 14:00, Khem Raj &lt;<a href=3D"javascript:;"=
- onclick=3D"_e(event, &#39;cvml&#39;, &#39;raj.khem@gmail.com&#39;)">raj.kh=
-em@gmail.com</a>&gt; wrote:<br>
-
-&gt; You could have created a new patch and deleted the old then for clarit=
-y<br>
-<br>
-The filename is sensible, the comment was entirely rewritten, as was<br>
-the actual delta of the patch. =C2=A0I don&#39;t see how this could be any =
-more<br>
-clear really.<br>
-<br></blockquote><div><br></div><div>Not an issue. usually editing same pat=
-ch gives the impression of update not rewrite</div><div>But you explained i=
-t<span></span></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" styl=
-e=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
-
-Ross<br>
-<br>
-_______________________________________________<br>
-Openembedded-core mailing lists=C2=A0<br>
-<a href=3D"javascript:;" onclick=3D"_e(event, &#39;cvml&#39;, &#39;Openembe=
-dded-core@lists.openembedded.org&#39;)">Openembedded-core@lists.openembedde=
-d.org</a><br>
-<a href=3D"http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded=
--core" target=3D"_blank">http://lists.linuxtogo.org/cgi-bin/mailman/listinf=
-o/openembedded-core</a><br>
-</blockquote>
-
---bcaec52be54331f44704c140cfd0--
