@@ -1,40 +1,37 @@
-Received: from mail-we0-f175.google.com ([74.125.82.175])
+Received: from mail-ey0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>)
-	id 1SZixB-0005PU-4U; Wed, 30 May 2012 15:28:48 +0200
-Received: by werg55 with SMTP id g55so3476579wer.6
-	for <multiple recipients>; Wed, 30 May 2012 06:18:25 -0700 (PDT)
+	(envelope-from <raj.khem@gmail.com>) id 1SZiyl-0005Ud-M5
+	for openembedded-core@lists.openembedded.org;
+	Wed, 30 May 2012 15:30:23 +0200
+Received: by eaal1 with SMTP id l1so1745506eaa.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 30 May 2012 06:20:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=eGDEIT0tNi2vVUcR0WornBwoVAzzh9gNPDJZNwj5f4Y=;
-	b=nXFJRdHHZs3AU2ptxpKCTNxrITKD4HLAkUaNo4Gi2OkgVozLsRjIASXtnWnZj0aptq
-	qzh5OV8YJG+RqdrrhFPvmSPdRwSJhwH0NWWta3LwR2xUonYPz2LD4QmXbi+BKEXOCJJ3
-	ruXNj2YBj5rth0BX9AZk4tuSIAoDgh6MqHGc44PylsGMFfrGgerWGvdQa4ApGj/PgEAN
-	rqRIrq1ISz2e+2PJNIVTJ6d9QrS+uFOk0Q8TlAvehlsLPR6n7bqKKJnugKBkJmKeC1EA
-	7HlGIJ/oRsKZXOZ2mJO9DyugXGEL4Q3CFQNAGSU/ETNNtgGXqdACs5bxpx4/pr2NRN0J
-	qLCw==
-Received: by 10.216.150.140 with SMTP id z12mr10374154wej.68.1338383905110;
-	Wed, 30 May 2012 06:18:25 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id fl2sm56414775wib.2.2012.05.30.06.18.23
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 30 May 2012 06:18:24 -0700 (PDT)
-Date: Wed, 30 May 2012 15:18:33 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type; bh=MDwHYkjsB0bEUD8HSlWq94iUuvmh48NoLXPdJKF48FY=;
+	b=YnoeJxc26CboWrcLUWTIf7dW1DjU7FabOcwxCu0CKcoRMO+JTmtdOd9m6DboQ0hUJM
+	8VIsLDT9rxPF0z6PwB1fp6Mpbex5NFJpDM+srb0w2QKXS8poHeLFKOXdrzvNMcMh9CWl
+	KBj8SHzBhkllfpaLc2hn8g9uKwP36v66K6st8sTnTNuZeiN9THx6+fe/396l4xeXz9/C
+	qBautH/PY9gIgsYorkX/as4vHn2/pWX++9eY3Mwm87GbGDi4o7rgtOl3QYvlUX5OEBGC
+	SnKmQjocPGD9S8y7nuR8WkTii84tp0GCfoJ021AMcwppa16uFyYLbBQgy2DrKmXeieH4
+	pQLw==
+MIME-Version: 1.0
+Received: by 10.14.188.140 with SMTP id a12mr5531979een.25.1338384005067; Wed,
+	30 May 2012 06:20:05 -0700 (PDT)
+Received: by 10.14.188.11 with HTTP; Wed, 30 May 2012 06:20:05 -0700 (PDT)
+In-Reply-To: <CAJTo0LYmnmcX=qNz=uA-bQLRkS2+AXLrwbrEX+3Dv4wGx9QG0w@mail.gmail.com>
+References: <cover.1338323483.git.ross.burton@intel.com>
+	<e50f2bf59b64accf580fc2df96e1fbc9eb6cfb98.1338323483.git.ross.burton@intel.com>
+	<CAMKF1so_=OjU2OcoVYO=B5g2KzYAgtY4aA4gNr_cv09YFcxbeQ@mail.gmail.com>
+	<CAJTo0LYe1y0r-VhGqsZ1ejfhN39Awd61Zq6yGk0Bf=VN+zJrHA@mail.gmail.com>
+	<CAMKF1sp2kUL-w==UiXT4SmykAcoN5j93vFxSF2-EmBs9mjWcjA@mail.gmail.com>
+	<CAJTo0LYmnmcX=qNz=uA-bQLRkS2+AXLrwbrEX+3Dv4wGx9QG0w@mail.gmail.com>
+Date: Wed, 30 May 2012 06:20:05 -0700
+Message-ID: <CAMKF1spimcD7atit23hjHsvJD4uZy5-JaK38TqBM0n0cJbdKBg@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Message-ID: <20120530131833.GP3138@jama.jama.net>
-References: <20120530110550.04FA710217@opal>
-	<20120530120443.GL3138@jama.jama.net>
-	<20120530122007.GM3138@jama.jama.net>
-	<20120530125307.GO3138@jama.jama.net>
-	<1338383413.20169.141.camel@ted>
-MIME-Version: 1.0
-In-Reply-To: <1338383413.20169.141.camel@ted>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-commits@lists.openembedded.org
-Subject: Re: debian.bbclass got broken today Was: [oe-commits] Valentin Popa : xz: updated to version 5.1.1alpha
+Subject: Re: [PATCH 1/4] connman: just give xuser the extra rights it needs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,88 +46,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 May 2012 13:28:48 -0000
-X-Groupsio-MsgNum: 22970
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="movZSYdJ761vCHaE"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 30 May 2012 13:30:23 -0000
+Content-Type: multipart/alternative; boundary=bcaec52be54331f44704c140cfd0
 
---movZSYdJ761vCHaE
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--bcaec52be54331f44704c140cfd0
+Content-Type: text/plain; charset=UTF-8
+
+On Wednesday, May 30, 2012, Burton, Ross wrote:
+
+> On 30 May 2012 14:00, Khem Raj <raj.khem@gmail.com <javascript:;>> wrote:
+> > You could have created a new patch and deleted the old then for clarity
+>
+> The filename is sensible, the comment was entirely rewritten, as was
+> the actual delta of the patch.  I don't see how this could be any more
+> clear really.
+>
+>
+Not an issue. usually editing same patch gives the impression of update not
+rewrite
+But you explained it
+
+
+> Ross
+>
+> _______________________________________________
+> Openembedded-core mailing lists
+> Openembedded-core@lists.openembedded.org <javascript:;>
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+
+--bcaec52be54331f44704c140cfd0
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, May 30, 2012 at 02:10:13PM +0100, Richard Purdie wrote:
-> On Wed, 2012-05-30 at 14:53 +0200, Martin Jansa wrote:
-> > On Wed, May 30, 2012 at 02:20:07PM +0200, Martin Jansa wrote:
-> > > On Wed, May 30, 2012 at 02:04:43PM +0200, Martin Jansa wrote:
-> > > > On Wed, May 30, 2012 at 11:05:49AM +0000, git@git.openembedded.org =
-wrote:
-> > > > > Module: openembedded-core.git
-> > > > > Branch: master
-> > > > > Commit: da98266f3a228cf65f279db9810a5326c8bd5422
-> > > > > URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=
-=3Dcommit;h=3Dda98266f3a228cf65f279db9810a5326c8bd5422
-> > > > >=20
-> > > > > Author: Valentin Popa <valentin.popa@intel.com>
-> > > > > Date:   Wed May 23 14:08:58 2012 +0300
-> > > > >=20
-> > > > > xz: updated to version 5.1.1alpha
-> > > >=20
-> > > > this upgrade is causing liblzma package name change
-> > > > -liblzma5_5.0.3-r1_armv4te.ipk
-> > > > +liblzma_5.1.1alpha-r0_armv4t.ipk
-> > > >=20
-> > > > so all packages which rdepends on liblzma should get PR bump, e.g.:
-> > > >  *libsystemd-journal0
-> > > >  *libpoppler18
-> > > >  *libsdl-image-1.2-0
-> > > >  *libpoppler-glib8
-> > > >  *systemd
-> > > >  *ethumb
-> > > >  *libtiff5
-> > > >  *epdf
-> > > >=20
-> > > > Cheers,
-> > >=20
-> > > Looks like whole debian.bbclass got broken by todays merge in oe-core=
-=2E.
-> >=20
-> > looking at buildhistory
-> > http://git.shr-project.org/git/?p=3Dbuildhistory.git;a=3Dcommitdiff;h=
-=3D320a9a8a80f0d412cea31a534a8022bacf6545e6#patch330
-> >=20
-> > it looks like run.package_do_shlibs also doesn't work (all RDEPENDS
-> > detected from shlibs are gone), can someone confirm this behavior on=20
-> > his system?
->=20
-> Yes, its from:
->=20
-> http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=3D5996b2b58e36864edc=
-077326a942795ca12f48da
->=20
-> I'm still trying to figure out the best course of action to fix this...
+<br><br>On Wednesday, May 30, 2012, Burton, Ross  wrote:<br><blockquote cla=
+ss=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;pa=
+dding-left:1ex">On 30 May 2012 14:00, Khem Raj &lt;<a href=3D"javascript:;"=
+ onclick=3D"_e(event, &#39;cvml&#39;, &#39;raj.khem@gmail.com&#39;)">raj.kh=
+em@gmail.com</a>&gt; wrote:<br>
 
-Ah, thanks for info..
+&gt; You could have created a new patch and deleted the old then for clarit=
+y<br>
+<br>
+The filename is sensible, the comment was entirely rewritten, as was<br>
+the actual delta of the patch. =C2=A0I don&#39;t see how this could be any =
+more<br>
+clear really.<br>
+<br></blockquote><div><br></div><div>Not an issue. usually editing same pat=
+ch gives the impression of update not rewrite</div><div>But you explained i=
+t<span></span></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" styl=
+e=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
 
-so I have reverted all 3 (to be sure) locally and now trying to find and=20
-rebuild everything which was built today to get sane feed again.
+Ross<br>
+<br>
+_______________________________________________<br>
+Openembedded-core mailing lists=C2=A0<br>
+<a href=3D"javascript:;" onclick=3D"_e(event, &#39;cvml&#39;, &#39;Openembe=
+dded-core@lists.openembedded.org&#39;)">Openembedded-core@lists.openembedde=
+d.org</a><br>
+<a href=3D"http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded=
+-core" target=3D"_blank">http://lists.linuxtogo.org/cgi-bin/mailman/listinf=
+o/openembedded-core</a><br>
+</blockquote>
 
-Cheers,
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---movZSYdJ761vCHaE
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
-
-iEYEARECAAYFAk/GHikACgkQN1Ujt2V2gBySXwCeOd6AgsQKtv73CAQeLOUsjRtN
-jzIAn3QRTdBbsk7jzH7Up6oIe5hUEtqK
-=xHBg
------END PGP SIGNATURE-----
-
---movZSYdJ761vCHaE--
+--bcaec52be54331f44704c140cfd0--
