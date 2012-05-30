@@ -1,27 +1,30 @@
-Received: from mga03.intel.com ([143.182.124.21])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1SZgOm-0006Kn-F5
-	for openembedded-core@lists.openembedded.org;
-	Wed, 30 May 2012 12:45:04 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 30 May 2012 03:34:45 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="149423142"
-Received: from unknown (HELO helios.localnet) ([10.255.12.128])
-	by azsmga001.ch.intel.com with ESMTP; 30 May 2012 03:34:44 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Giuseppe Condorelli <giuseppe.condorelli@gmail.com>
-Date: Wed, 30 May 2012 11:34:43 +0100
-Message-ID: <1793641.qLjaTPpfTI@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.8.2 (Linux/3.2.0-24-generic-pae; KDE/4.8.2; i686; ; )
-In-Reply-To: <CAOHjBZsuZjS=mbkEm56=BkcoROj8-X7LUdHDrO-m6p3PWvoyPw@mail.gmail.com>
-References: <CAOHjBZsyWoca=JkLy==aqwYGwLeYYrNgR6PwwWMyNVjP0LSv5g@mail.gmail.com>
-	<CAOHjBZvsH6mQVtHPb8V4tOuKTpjPhCX2yy065yRqR5eQW9=Y-A@mail.gmail.com>
-	<CAOHjBZsuZjS=mbkEm56=BkcoROj8-X7LUdHDrO-m6p3PWvoyPw@mail.gmail.com>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: How to query installed rpm packages
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1SZgmQ-0000LO-NT for openembedded-core@lists.openembedded.org;
+	Wed, 30 May 2012 13:09:30 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q4UAxCwD021335
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 30 May 2012 11:59:12 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 17694-10 for <openembedded-core@lists.openembedded.org>;
+	Wed, 30 May 2012 11:59:08 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q4UAx2W3021329
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 30 May 2012 11:59:03 +0100
+Message-ID: <1338375541.20169.119.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Wed, 30 May 2012 11:59:01 +0100
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: package.bbclass: Add warning about FILES containing '//'
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,36 +39,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 May 2012 10:45:04 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Wed, 30 May 2012 11:09:31 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Wednesday 30 May 2012 12:29:02 Giuseppe Condorelli wrote:
-> > If you aren't including packaging data in the resulting image (i.e.
-> > IMAGE_FEATURES does not contain "package-management"),
-> 
-> Adding the package-management I saw target rpm is set to be built.
-> So I can think I'll have the rpm inside the target fs I'll install via oe
-> system.
-> How can it help me if I query installed packages from host?
+'//' in a FILES variable causes hard to track down issues with
+packaging. This adds a warning and attempts to auto-correct the issue to
+try and make the problem more user friendly.
 
-Adding package-management to IMAGE_FEATURES does two things:
+[YOCTO #2448]
 
-1) Adds rpm to the image to be run on the target
-2) Avoids deleting the rpm database files so that rpm actually works
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index bc83bfb..6bce742 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -917,6 +917,9 @@ python populate_packages () {
+ 		files = filesvar.split()
+ 		file_links = {}
+ 		for file in files:
++			if file.find("//") != -1:
++				bb.warn("FILES variable for package %s contains '//' which is invalid. Attempting to fix this but you should correct the metadata.\n" % pkg)
++				file.replace("//", "/")
+ 			if os.path.isabs(file):
+ 				file = '.' + file
+ 			if not os.path.islink(file):
 
-It's #2 that I was referring to earlier - if the rpm database has been 
-deleted, rpm on the host will not be able to query the contents of the image. 
-Even if they are going to be deleted we can just put our operations before 
-that happens - we just need to inject them in the right place. Putting a call 
-into ROOTFS_POSTPROCESS_COMMAND achieves this.
 
-Cheers,
-Paul
-
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
 
 
