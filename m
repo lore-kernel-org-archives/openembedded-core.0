@@ -1,41 +1,31 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
+Received: from mail.cvg.de ([62.153.82.30])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1SZkdV-0000i4-QA
+	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1SZko4-0003Y7-BY
 	for openembedded-core@lists.openembedded.org;
-	Wed, 30 May 2012 17:16:37 +0200
-Received: by eaal1 with SMTP id l1so1797320eaa.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 May 2012 08:06:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type:content-transfer-encoding;
-	bh=gUtVCd8qwLjXmzuT6rPb46Hm5H/IBFd5RqGYN6QZluc=;
-	b=Z+krJaOuDp0rTFFm3Ire+PBJs/Ph4Ky8OH+W05FeDm1/vdlzdwisGVETDZaKKx2BUt
-	QhaS/8pEHW6KX+YK4RjzbKxKvZNisfHL4aqwufPSDAX9WKrPzAWrHnCfI0ghXBuh8O+2
-	NnE/Gm9so0pnpJeXSbSQXsBIjBrREGbCESU6sG8FDcnpWxBF2TGTAeS0NYf/HwJSK192
-	7ItmVRTMueySyNAiezOb15+Fo0gagzQH+cWZt5OFiu/Vuq9dQrKt6/Lq0PETcdhYJMCk
-	P57ArNnNIofvuQJXxuA5HsmsoEj5GPEVDAvaoo4BglriaV7XpQm48yVilqEmwpDlT4pN
-	9VaA==
-Received: by 10.14.188.140 with SMTP id a12mr5690433een.25.1338390366665; Wed,
-	30 May 2012 08:06:06 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.14.188.11 with HTTP; Wed, 30 May 2012 08:05:36 -0700 (PDT)
-In-Reply-To: <CAGiJk9dbcAVQk5Ta_iFFP=Wpy_=CRMoMrsXsQO4SgnayoJ3KFg@mail.gmail.com>
-References: <1337777200-8672-1-git-send-email-s.stirtzel@googlemail.com>
-	<1FEF30F9-919D-4565-8381-29FF7C2D0B87@dominion.thruhere.net>
-	<CAGiJk9d8nyD9gDHFox_b4tpnzS=5M1squi03mkbyCW7N3OLabQ@mail.gmail.com>
-	<20120529200740.GC5528@sakrah.homelinux.org>
-	<CAGiJk9fpbHXd1Oe4ZkHpWvSONY3y3KhOVKGuYDgAaOjziFF=kw@mail.gmail.com>
-	<CAMKF1soEBM3JUdDt7FEs_F8rX+_Fm962ruuR4GE4rjvSPL+2UQ@mail.gmail.com>
-	<CAGiJk9dpiGdkDHeGkV=pVFu5joeJzqYZw338kJ3Wy2uKKYMEDw@mail.gmail.com>
-	<CAMKF1sq9qgmeWipuxSuRpPtkqKz7nHHtsoh0=+tZQj9J0v6fRA@mail.gmail.com>
-	<CAGiJk9dbcAVQk5Ta_iFFP=Wpy_=CRMoMrsXsQO4SgnayoJ3KFg@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 30 May 2012 08:05:36 -0700
-Message-ID: <CAMKF1srZX77uj6cAKydoN1kidg3EEGV4KKf-LsvXVbs+MCN8Yw@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] valgrind: Enable valgrind for armv7
+	Wed, 30 May 2012 17:27:32 +0200
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id q4UFH4a4005590
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Wed, 30 May 2012 17:17:05 +0200
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.76) (envelope-from <ensc@sigma-chemnitz.de>)
+	id 1SZke0-00087d-LL; Wed, 30 May 2012 17:17:04 +0200
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 30 May 2012 17:17:03 +0200
+Message-Id: <1338391023-31189-1-git-send-email-enrico.scholz@sigma-chemnitz.de>
+X-Mailer: git-send-email 1.7.7.6
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 0.91
+X-Spam-Score: -5.3
+X-Spam-Level: -----
+X-Spam-Tests: AWL,BAYES_00,SPF_NEUTRAL,T_RP_MATCHES_RCVD,DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.73
+Cc: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Subject: [PATCH] libtasn: fixed cross build issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,80 +40,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 May 2012 15:16:44 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 30 May 2012 15:27:37 -0000
 
-On Wed, May 30, 2012 at 7:18 AM, Samuel Stirtzel
-<s.stirtzel@googlemail.com> wrote:
-> 2012/5/30 Khem Raj <raj.khem@gmail.com>:
->>
->>
->> On Wednesday, May 30, 2012, Samuel Stirtzel wrote:
->>>
->>> 2012/5/30 Khem Raj <raj.khem@gmail.com>:
->>> >
->>> >
->>> > On Wednesday, May 30, 2012, Samuel Stirtzel wrote:
->>> >>
->>> >> 2012/5/29 Khem Raj <raj.khem@gmail.com>:
->>> >> >>
->>> >> >> At some extend yes, the configuration checks the host, the defaul=
-t
->>> >> >> string passed is "arm" but the configure.in checks for:
->>> >> >>
->>> >> >> case "${host_cpu}" in
->>> >> >> ...
->>> >> >> =C2=A0 =C2=A0 =C2=A0armv7*)
->>> >> >> =C2=A0 =C2=A0 =C2=A0 AC_MSG_RESULT([ok (${host_cpu})])
->>> >> >> =C2=A0 =C2=A0 =C2=A0 ARCH_MAX=3D"arm"
->>> >> >>
->>> >> >
->>> >> > in OE we know that compiler is configured to generate code for arm=
-v7
->
-> What does this exactly mean, are non armv7 arches also running armv7 code=
-?
->
->>> >> > therefore you can safely change armv7* above in configure.in to be
->>> >> > arm*
->>> >> >
->>> >>
->>> >> On this change I don't have a strong opinion (looks rather
->>> >> cosmetically).
->>> >> But sure I can send a follow up patch like you suggested.
->>> >
->>> >
->>> > It is not cosmetic if you see it also enables it for non armv7 archs
->>>
->>> Maybe it is a misunderstanding?
->>> Do you also want me to change:
->>>
->>> COMPATIBLE_HOST =3D '(i.86|x86_64|powerpc|powerpc64).*-linux'
->>> COMPATIBLE_HOST_armv7a =3D 'arm.*-linux'
->>>
->>> to: COMPATIBLE_HOST =3D '(i.86|x86_64|powerpc|powerpc64||arm).*-linux'
->>>
->>> Else it would be only a cosmetic change, because the recipe is
->>> preventing non armv7 arch.
->>> Or am I mistaken?
->>>
->>
->> Recipe and package itself are two different things I was commenting on
->> package itself how it's baked in OE is a different thing
->
-> You want to pass configure for non armv7 arches but keep baking for
-> them disabled?
-> Sorry I don't get your point, if the machine is not armv7 compatible
-> then it is not compatible with valgrind.
-> If they are compatible there is no point in disallowing them to bake the =
-recipe.
->
-> Yes it is a difference to enable them at recipe / package level, but
-> the effective use of this recipe / package restriction combination
-> does not appear useful (to me).
-> I think I just miss your point.
+Fixes
 
-Its fine. Dont worry
+| /bin/sh ../libtasn1-2.12-r1/libtasn1-2.12/build-aux/missing --run help2man --info-page libtasn1 \
+|       --name="ASN.1 DER encoder" \
+|       --output=asn1Coding.1 ../src/asn1Coding
+| help2man: can't get `--help' info from ../src/asn1Coding
+| Try `--no-discard-stderr' if option outputs to stderr
+| make[3]: *** [asn1Coding.1] Error 1
+
+which was caused by touching configure.ac which is a dependency of the
+generated man pages.
+
+Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+---
+ meta/recipes-support/gnutls/libtasn1_2.12.bb |   10 +++++++++-
+ 1 files changed, 9 insertions(+), 1 deletions(-)
+
+diff --git a/meta/recipes-support/gnutls/libtasn1_2.12.bb b/meta/recipes-support/gnutls/libtasn1_2.12.bb
+index d0b4191..dcc58a2 100644
+--- a/meta/recipes-support/gnutls/libtasn1_2.12.bb
++++ b/meta/recipes-support/gnutls/libtasn1_2.12.bb
+@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
+                     file://COPYING.LIB;md5=4fbd65380cdd255951079008b364516c \
+                     file://README;endline=8;md5=c3803a3e8ca5ab5eb1e5912faa405351"
+ 
+-PR = "r1"
++PR = "r2"
+ 
+ SRC_URI = "${GNU_MIRROR}/libtasn1/libtasn1-${PV}.tar.gz \
+            file://libtasn1_fix_for_automake_1.12.patch \
+@@ -20,3 +20,11 @@ SRC_URI[sha256sum] = "0e257a8a01c80e464f73262e13c226e04a15165c2ad087a340f5390228
+ inherit autotools binconfig lib_package
+ 
+ BBCLASSEXTEND = "native"
++
++do_configure_prepend() {
++    # these autogenerated man pages depend on configure.ac which was
++    # modified by SRC_URI patches. Regenerating them fails because
++    # 'help2man' tries to execute the corresponding, cross-compiled
++    # binary with the '--help' option
++    touch doc/asn1Parser.1 doc/asn1Coding.1 doc/asn1Decoding.1
++}
+-- 
+1.7.7.6
+
 
 
