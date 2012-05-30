@@ -1,30 +1,39 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1SZlXp-0003Ur-QG for openembedded-core@lists.openembedded.org;
-	Wed, 30 May 2012 18:14:45 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q4UG4RPK023199
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <raj.khem@gmail.com>) id 1SZlYj-0003ZW-5S
+	for openembedded-core@lists.openembedded.org;
+	Wed, 30 May 2012 18:15:41 +0200
+Received: by eekd49 with SMTP id d49so1859224eek.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 May 2012 17:04:27 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 21779-06 for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 May 2012 17:04:22 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q4UG4Kla023193
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 May 2012 17:04:21 +0100
-Message-ID: <1338393861.20169.149.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Wed, 30 May 2012 17:04:21 +0100
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: [PATCH] layer.conf/bitbake.conf: Tweak PATH
+	Wed, 30 May 2012 09:05:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type; bh=78DEunZKTLbqN/3vGnaMlKsdtd15lDTPSLnIEy8zszs=;
+	b=Dq6ADOCci74H9DdNzkgR4M5utCCPieeC4Rx6YNzKPl4YEPdUDpewdbbNih8VCTCZAv
+	m16ckIUnA9JAlWRKPNR2hA177xQIuVtwRnl23rekKWwmaHjHOMtjg5PS5wDgAJw7KIGc
+	0YyZXxZij519kYMuc2uGYSlarHrqv6BMcpxsKWRUVCCWBN+omy2LL3+CDpeOotQNMydd
+	teB+uMl/ScLitonWC7taQz3ETC9T8q2Lxa3OvND14S2uiSZ3iQulYhhXUKVZcAYLX07A
+	Qk35TBkj1hPHu+n/ZTSkutYChLEAUa99W5VWEDiwwmglfpEWEzGzXn1ACAafKNgNa6wP
+	szXw==
+Received: by 10.14.100.194 with SMTP id z42mr7355181eef.146.1338393922571;
+	Wed, 30 May 2012 09:05:22 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.14.188.11 with HTTP; Wed, 30 May 2012 09:04:52 -0700 (PDT)
+In-Reply-To: <FE4821DE-4305-4850-94FA-5248620FF105@gmail.com>
+References: <E071AE73-05A7-4D16-9442-952E65ECA96C@gmail.com>
+	<4FC51727.6020205@windriver.com>
+	<2A530553-23DF-4CB1-A957-0E2C3D468BDA@gmail.com>
+	<CAMKF1sq_G6k_o+o=OZrhuz2iNq6EEhTYT67dA1cssU3LFS5cYQ@mail.gmail.com>
+	<CAAB-1yxXDY4O-JV_gpW8eBmfXU=-Jcp4yc0oqZe1WVr6T-rn_w@mail.gmail.com>
+	<559834C0-53F2-4E17-8A48-4061CDB0B63B@gmail.com>
+	<CAMKF1sqhA4UMK7xWwpGjF4SOvVBAwGST7uv1nwgu6aa1QCRuKg@mail.gmail.com>
+	<FE4821DE-4305-4850-94FA-5248620FF105@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 30 May 2012 09:04:52 -0700
+Message-ID: <CAMKF1spQ2PKO7LhNd7fcjDNassmx5MDZ5kQHQpceTR8Bhe4rsA@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: meta-xilinx: ERROR: Failure expanding variable TUNE_PKGARCH ppc440
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,50 +48,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 May 2012 16:14:46 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 30 May 2012 16:15:41 -0000
+Content-Type: text/plain; charset=UTF-8
 
-We want the help2man script in scripts/ to be found in preference to any from
-the host system and from the native sysroot. It turns out to be tricky to
-get the order right from layer.conf so we move the addition of the scripts
-directory to bitbake.conf.
+On Wed, May 30, 2012 at 8:34 AM, Elvis Dowson <elvis.dowson@gmail.com> wrote:
+>
+>
+> On May 30, 2012, at 5:00 PM, Khem Raj wrote:
+>
+>> On Wed, May 30, 2012 at 7:47 AM, Elvis Dowson <elvis.dowson@gmail.com> wrote:
+>>>
+>>> What does the -nf suffix do ?
+>>>
+>>
+>> indicates no float
+>
+> What should I call the tune configuration file: tune-ppc440.inc or tune-ppc440-nf.inc ?
 
-Without this, "bitbake libtasn1 -c cleansstate; bitbake help2man-native; bitbake libtasn1"
-will fail due to finding the host system help2man before ours.
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 48287a7..70a49c6 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -402,7 +402,7 @@ EXTRA_IMAGEDEPENDS = ""
- # Toolchain info.
- ##################################################################
- 
--PATH_prepend = "${STAGING_BINDIR_TOOLCHAIN}:${STAGING_BINDIR_CROSS}:${STAGING_DIR_NATIVE}${sbindir_native}:${STAGING_BINDIR_NATIVE}:${STAGING_DIR_NATIVE}${base_sbindir_native}:${STAGING_DIR_NATIVE}/${base_bindir_native}:"
-+PATH_prepend = "${COREBASE}/scripts:${STAGING_BINDIR_TOOLCHAIN}:${STAGING_BINDIR_CROSS}:${STAGING_DIR_NATIVE}${sbindir_native}:${STAGING_BINDIR_NATIVE}:${STAGING_DIR_NATIVE}${base_sbindir_native}:${STAGING_DIR_NATIVE}/${base_bindir_native}:"
- export PATH
- 
- ##################################################################
-diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
-index 76ae58c..43e4295 100644
---- a/meta/conf/layer.conf
-+++ b/meta/conf/layer.conf
-@@ -11,11 +11,7 @@ BBFILE_PRIORITY_normal = "5"
- # Set a variable to get to the top of the metadata location
- COREBASE := '${@os.path.normpath("${LAYERDIR}/../")}'
- 
--# Add scripts to PATH
--PATH := "${PATH}:${COREBASE}/scripts"
--
- # Set path to qemu image tests included in this layer
--
- QEMUIMAGETESTS := "${COREBASE}/scripts/qemuimage-tests"
- 
- SIGGEN_EXCLUDERECIPES_ABISAFE += " \
-
-
+I dont have strong opinion on it but I think 440 with fpu are denoted
+as ppc440fp or somesuch so I default 440 core is nofp
+unline other powerpc cores.
 
 
