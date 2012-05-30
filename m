@@ -1,34 +1,39 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1SZfRB-0001oZ-CZ for openembedded-core@lists.openembedded.org;
-	Wed, 30 May 2012 11:43:29 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q4U9XCFW020836
+Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <ross.burton@intel.com>) id 1SZfhY-0007E9-Vp
+	for openembedded-core@lists.openembedded.org;
+	Wed, 30 May 2012 12:00:25 +0200
+Received: from mail-qc0-f180.google.com ([209.85.216.180])
+	by mga03.intel.com with ESMTP/TLS/RC4-MD5; 30 May 2012 02:50:05 -0700
+Received: by qcmv28 with SMTP id v28so2386216qcm.25
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 May 2012 10:33:12 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 17694-09 for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 May 2012 10:33:08 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q4U9X24W020830
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 May 2012 10:33:04 +0100
-Message-ID: <1338370380.20169.112.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Wed, 30 May 2012 02:50:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type:x-gm-message-state;
+	bh=6C0mR5eKcAgNNAUMKa3Z7VtSmHwWATrCMJKSNQUa6xA=;
+	b=Ry/lwYpgRsPCLEYdG38JjYjJFGST7FBGXEMctH0FR09sLYa4DtChdRR6+OhN3+4X2J
+	BpnhC9QdRCE7KYwo8ouuEd2ZMLQzQsdCkK+LsWIV4Sy6ZuWHuBPtE0tU7baULrlVpgff
+	rArRQN5X1GmBbtFQMiKiZ2OGuyHGn5Y+hDLrnKG9cRYtmN+CbhSrMjzuhGKvXI+vKrTS
+	1JDpYfrTc0jguDBJS4xBG3lug5ChO+M4rkUnyWw1YxEW8ZHEmlfSH0OMuQc6vuP5jYGf
+	U4R20WSe4lXKDccAf4EtoIkkSV0aM3ilvAqi9UVE1vbi9QN77gItFhkKYaLuSqO3aemn
+	26Jw==
+Received: by 10.229.115.12 with SMTP id g12mr4731158qcq.51.1338371403756; Wed,
+	30 May 2012 02:50:03 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.229.53.212 with HTTP; Wed, 30 May 2012 02:49:42 -0700 (PDT)
+In-Reply-To: <CAMKF1so_=OjU2OcoVYO=B5g2KzYAgtY4aA4gNr_cv09YFcxbeQ@mail.gmail.com>
+References: <cover.1338323483.git.ross.burton@intel.com>
+	<e50f2bf59b64accf580fc2df96e1fbc9eb6cfb98.1338323483.git.ross.burton@intel.com>
+	<CAMKF1so_=OjU2OcoVYO=B5g2KzYAgtY4aA4gNr_cv09YFcxbeQ@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 30 May 2012 10:49:42 +0100
+Message-ID: <CAJTo0LYe1y0r-VhGqsZ1ejfhN39Awd61Zq6yGk0Bf=VN+zJrHA@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Wed, 30 May 2012 10:33:00 +0100
-In-Reply-To: <lyr4u3rtpb.fsf@ensc-virt.intern.sigma-chemnitz.de>
-References: <1338294584.20169.103.camel@ted>
-	<lyr4u3rtpb.fsf@ensc-virt.intern.sigma-chemnitz.de>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH] ccache: Separate out into its own class
+X-Gm-Message-State: ALoCoQmQNRxJSadnb/dAYFdvkexITFUU/3vT0JXZnaoSWEK4wLcf8B84euZ6QzKGU+v5cdy3BHXJ
+Subject: Re: [PATCH 1/4] connman: just give xuser the extra rights it needs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,48 +48,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 May 2012 09:43:29 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 30 May 2012 10:00:25 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Tue, 2012-05-29 at 15:40 +0200, Enrico Scholz wrote:
-> Richard Purdie
-> <richard.purdie-hQyY1W1yCW8ekmWlsbkhG0B+6BGkLq7r@public.gmane.org>
-> writes:
-> 
-> > Currently, ccache is used if it is present. When building from scratch
-> > it gives no performance improvement
-> 
-> Here, I have a 10% cache hit ratio in a scratch build:
-> 
-> cache hit (direct)                  2841
-> cache hit (preprocessed)            1370
-> cache miss                         39957
-> called for link                     3369
-> called for preprocessing            3207
-> multiple source files                  8
-> compile failed                      2531
-> preprocessor error                   432
-> couldn't find the compiler           111
-> bad compiler arguments               468
-> unsupported source language          532
-> autoconf compile/link               6613
-> unsupported compiler option          132
-> no input file                       2919
-> files in cache                     94205
-> cache size                           2.0 Gbytes
-> max cache size                       3.0 Gbytes
-> 
+On 30 May 2012 03:59, Khem Raj <raj.khem@gmail.com> wrote:
+> On Tue, May 29, 2012 at 1:43 PM, Ross Burton <ross.burton@intel.com> wrote:
+>>
+>>
+>> -Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
+>> +Signed-off-by: Ross Burton <ross.burton@intel.com>
+>
+> why remove the old sign-off ?
 
-That's good data, thanks for sharing it. In any measurement I've made,
-it doesn't seem to help the wall time for the build though :(
+The patches are semantically different - Dongxiao's solution was to
+copy the root rules, my solution is to copy the at_console rules.  He
+didn't sign off my solution, so I removed his sign-off.
 
-We're not removing the ability to use ccache, just changing the way its
-enabled which all things considered I still think is a good move...
-
-Cheers,
-
-Richard
-
+Ross
 
 
