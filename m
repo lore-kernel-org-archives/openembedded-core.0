@@ -1,26 +1,26 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Xiaofeng.Yan@windriver.com>) id 1SZY9X-000612-M4
+	(envelope-from <Xiaofeng.Yan@windriver.com>) id 1SZY9Z-000618-5Z
 	for openembedded-core@lists.openembedded.org;
 	Wed, 30 May 2012 03:56:49 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q4U1kS5R006422
+	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q4U1kUM1005504
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 May 2012 18:46:29 -0700 (PDT)
+	Tue, 29 May 2012 18:46:30 -0700 (PDT)
 Received: from localhost.localdomain (128.224.162.28) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.1.255.0; Tue, 29 May 2012 18:46:28 -0700
+	14.1.255.0; Tue, 29 May 2012 18:46:29 -0700
 From: <xiaofeng.yan@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 30 May 2012 09:47:13 +0800
-Message-ID: <f40370d050348df270f30f288422c77a30845848.1338284916.git.xiaofeng.yan@windriver.com>
+Date: Wed, 30 May 2012 09:47:14 +0800
+Message-ID: <584fe37cfcd21184352f2cacbc845f3b674285b2.1338284916.git.xiaofeng.yan@windriver.com>
 X-Mailer: git-send-email 1.7.0.4
 In-Reply-To: <cover.1338284916.git.xiaofeng.yan@windriver.com>
 References: <cover.1338284916.git.xiaofeng.yan@windriver.com>
 MIME-Version: 1.0
 Cc: Zhenfeng.Zhao@windriver.com
-Subject: [PATCH 2/3] lsbinitscripts: Patch file functions for confirming to an lsb image
+Subject: [PATCH 3/3] task-core-lsb: Add another initscripts to an lsb image
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,37 +40,38 @@ Content-Type: text/plain
 
 From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
 
-Add the condition judgment to functions for avoiding to print error \
-information when system start up at first.
+Initscripts with stronger functions will replace the simple one, \
+which will avoid error when some packages need functions which could \
+be absent in the simple initscripts.
 
 [YOCTO #2133]
 
 Signed-off-by: Xiaofeng Yan <xiaofeng.yan@windriver.com>
 ---
- .../lsb/lsbinitscripts/functions.patch             |   14 ++++++++++++++
- 1 files changed, 14 insertions(+), 0 deletions(-)
- create mode 100644 meta/recipes-extended/lsb/lsbinitscripts/functions.patch
+ meta/recipes-extended/tasks/task-core-lsb.bb |    3 ++-
+ 1 files changed, 2 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-extended/lsb/lsbinitscripts/functions.patch b/meta/recipes-extended/lsb/lsbinitscripts/functions.patch
-new file mode 100644
-index 0000000..1906b27
---- /dev/null
-+++ b/meta/recipes-extended/lsb/lsbinitscripts/functions.patch
-@@ -0,0 +1,14 @@
-+Upstream-Status: Inappropriate [embedded specific]
-+Signed-off-by: Xiaofeng Yan <xiaofeng.yan@windriver.com>
-+--- a/rc.d/init.d/functions	2009-12-10 05:24:11.000000000 +0800
-++++ b/rc.d/init.d/functions.new	2012-05-29 14:48:53.900229435 +0800
-+@@ -16,7 +16,8 @@
-+ # Get a sane screen width
-+ [ -z "${COLUMNS:-}" ] && COLUMNS=80
-+ 
-+-[ -z "${CONSOLETYPE:-}" ] && CONSOLETYPE="$(/sbin/consoletype)"
-++
-++[ -z "${CONSOLETYPE:-}" ] && [ -e /sbin/consoletype ] && CONSOLETYPE="$(/sbin/consoletype)"
-+ 
-+ if [ -f /etc/sysconfig/i18n -a -z "${NOLOCALE:-}" -a -z "${LANGSH_SOURCED:-}" ] ; then
-+   . /etc/profile.d/lang.sh 2>/dev/null
+diff --git a/meta/recipes-extended/tasks/task-core-lsb.bb b/meta/recipes-extended/tasks/task-core-lsb.bb
+index 99ca839..c8db300 100644
+--- a/meta/recipes-extended/tasks/task-core-lsb.bb
++++ b/meta/recipes-extended/tasks/task-core-lsb.bb
+@@ -3,7 +3,7 @@
+ #
+ 
+ DESCRIPTION = "Create Small Image Tasks"
+-PR = "r8"
++PR = "r9"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58 \
+                     file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+@@ -80,6 +80,7 @@ RDEPENDS_task-core-sys-extended = "\
+     which \
+     xinetd \
+     zip \
++    lsbinitscripts\
+     "
+ 
+ RDEPENDS_task-core-db = "\
 -- 
 1.7.0.4
 
