@@ -1,37 +1,40 @@
-Received: from mail-pb0-f47.google.com ([209.85.160.47])
+Received: from mail-yx0-f175.google.com ([209.85.213.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1SZpCe-0006hH-2I
+	(envelope-from <brandon@rascalmicro.com>) id 1SZpyF-000201-RO
 	for openembedded-core@lists.openembedded.org;
-	Wed, 30 May 2012 22:09:08 +0200
-Received: by pbbrq2 with SMTP id rq2so430915pbb.6
+	Wed, 30 May 2012 22:58:19 +0200
+Received: by yenl13 with SMTP id l13so262546yen.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 May 2012 12:58:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:content-type;
-	bh=SA889J0tYMCvh54hShPijSUX+i3XfEwK24RJT8xpwHc=;
-	b=I4shE+6i+49DXEV2aAajwkiHGFApbzrJjBUxm2VvJPAm2AEHg/o9XkJm2QE6OwuiV7
-	5nDvgP6JfVNeR59uE8fboH2zMGXtDc4KtXqyrT3GmVaPlgoBsm0QNnsFCcLaPn17nroS
-	aE6bNbYuRveRoLMz/DGX8ZXQPa5wQvbcebX5+kpmgjA44gY3ujS+aUfwYwO0dsH5lyMi
-	YqNiNO5loA1qxFdz9sMTDeqyUdF6CwCy2roUXoCCaHSE952txn5VwwSs+PszWtaHOCml
-	IDStIZbvKN/wzPnHSjvzXCLkUeaAQQG/tMWVTwrL6CkhikbenaXVWob0ZhjZJYZjGxxL
-	Tkrw==
+	Wed, 30 May 2012 13:48:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:x-originating-ip:in-reply-to:references:date
+	:message-id:subject:from:to:content-type:content-transfer-encoding
+	:x-gm-message-state;
+	bh=FQhK9gDOoYlgz3qnHutdiuFP8513BFnLP0M4cztF2nM=;
+	b=kKH+dx221yETC8Q0zHKTEn6XlGy6LXSKCljH3otX5DAIfgxuzrRJnWkiZz9ZajIlLO
+	JmodiO105iKiZmnrCBiJsh49IMObCJplFdg1GXUKoELQUsQul8uO1TtB0wDCHoRAg0X/
+	sKq4gqEZNjgKIQSLmXPReK97mvztbK4kBdOdt7F6Qzps7Mt9R6kwVgJQWvJkIDqtRZLe
+	6+5o+h0572v8GUZkN9RkPO/rdEhd5X2635m8j9VAZyYG9R1idp4u4e3n4wKPhPOeR9HF
+	Z08CwkZOsqmuR4T26sQbfxVPxhf90usOfW4Qv6U0uCcxVM5qCLrNAoOgnII2yML2mkAA
+	O3kg==
 MIME-Version: 1.0
-Received: by 10.68.217.135 with SMTP id oy7mr12132543pbc.10.1338407927968;
-	Wed, 30 May 2012 12:58:47 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.68.25.42 with HTTP; Wed, 30 May 2012 12:58:47 -0700 (PDT)
-In-Reply-To: <4FC66D1A.8050906@palm.com>
-References: <4FC6686B.20904@palm.com>
-	<CAP9ODKrFYmfAzt_ASAMxunp6MS_7O63_WZuDGkm7p3z7nJttuA@mail.gmail.com>
-	<4FC66D1A.8050906@palm.com>
-Date: Wed, 30 May 2012 16:58:47 -0300
-X-Google-Sender-Auth: R8bPzvTJZKkzrKmT_TaEjB7r6h0
-Message-ID: <CAP9ODKr9WX0AXFTpDVmrn5VymbMx5Q07W8uf1v3Sxt7o6NtzdQ@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by 10.50.181.232 with SMTP id dz8mr12050331igc.72.1338410880260;
+	Wed, 30 May 2012 13:48:00 -0700 (PDT)
+Received: by 10.231.66.4 with HTTP; Wed, 30 May 2012 13:48:00 -0700 (PDT)
+X-Originating-IP: [146.115.15.122]
+In-Reply-To: <4FBFFFBE.5000907@windriver.com>
+References: <CA+b4E8yzmANrQE43Ck_DZwW-2o1rAAC3rwGeQ96Uy0M9OS2pdw@mail.gmail.com>
+	<4FBFEBE2.9080905@windriver.com>
+	<CA+b4E8z15092kNF7r=yQiRncNKDnVDZqB5_YqAe_5YRn=kBFPQ@mail.gmail.com>
+	<4FBFFFBE.5000907@windriver.com>
+Date: Wed, 30 May 2012 16:48:00 -0400
+Message-ID: <CA+b4E8ySAPZM7c4g5ZVqG-5L0ZtE1nbWRN7zy1mg+RYzxC4nzw@mail.gmail.com>
+From: Brandon Stafford <brandon@rascalmicro.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: On the possibility of using upstart...
+X-Gm-Message-State: ALoCoQmiulzdEV1TrU/S0mSI/mKvX3mfncuGOI8AJ6bzb61zc9aUI3zpIlCZxujHCCq8bwe9scQA
+Subject: Re: /sbin/init not found in oe-core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,63 +49,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 May 2012 20:09:08 -0000
-Content-Type: multipart/alternative; boundary=047d7b2e7c4c1c751c04c1466142
-
---047d7b2e7c4c1c751c04c1466142
+X-List-Received-Date: Wed, 30 May 2012 20:58:20 -0000
 Content-Type: text/plain; charset=ISO-8859-1
-
-On Wed, May 30, 2012 at 3:55 PM, Rich Pixley <rich.pixley@palm.com> wrote:
-
-> Current systemd classes can give you a good work base.
->
-> At least in debian/ubuntu, the service scripts come with the components
-> that use them.  I haven't looked deeply at oe-core in this regard, but
-> wouldn't doing this in a separate layer involve a large number of
-> append/overlay links to underlying components where the linkages were
-> extremely fragile?
->
-
-Yes and no; having it on a separate layer allow for easy work and avoid
-problems to users not using or wanting to use it.
-
--- 
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
-
---047d7b2e7c4c1c751c04c1466142
-Content-Type: text/html; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
-<div class=3D"gmail_quote">On Wed, May 30, 2012 at 3:55 PM, Rich Pixley <sp=
-an dir=3D"ltr">&lt;<a href=3D"mailto:rich.pixley@palm.com" target=3D"_blank=
-">rich.pixley@palm.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_=
-quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1=
-ex">
+On Fri, May 25, 2012 at 5:55 PM, Mark Hatle <mark.hatle@windriver.com> wrot=
+e:
+>
+> On 5/25/12 3:52 PM, Brandon Stafford wrote:
+>>
+>> On Fri, May 25, 2012 at 4:30 PM, Mark Hatle<mark.hatle@windriver.com> =
+=A0wrote:
+>>
+>>>> >> =A0Has the boot process changed? What should I be doing instead of
+>>>> >> =A0calling /sbin/init?
+>>>
+>>> >
+>>> >
+>>> > =A0You should check your new rootfs. =A0is there anything called init=
+ on it, even
+>>> > =A0in a different directory?
+>>
+>> So far as I can tell, there is no file named init in the filesystem.
+>>
+>>> > =A0Are you using meta-oe and systemd?
+>>
+>> meta-oe: yes
+>> systemd: only if it is enabled by default, so I don't think so. I can
+>> still see /etc/rc[0-5].d, so I think that means Sys V is still in
+>> place.
+>
+>
+> meta-oe may have systemd enabled by default, but I'm not sure. =A0I haven=
+'t used it recently enough to know for sure.
+>
+>>> > =A0You should have some type of an init in the new filesystem.. if no=
+t, then
+>>> > =A0something is wrong with your image and you'll need to diagnose tha=
+t first.
+>>
+>> Sounds like I have something amiss with my filesystem.
 
- =20
-   =20
- =20
-  <div bgcolor=3D"#FFFFFF" text=3D"#000000"><div class=3D"im"><blockquote t=
-ype=3D"cite"><div class=3D"gmail_quote"><div>Current systemd classes can gi=
-ve you a good work base.<br>
-        </div>
-      </div>
-    </blockquote></div>
-    At least in debian/ubuntu, the service scripts come with the
-    components that use them.=A0 I haven&#39;t looked deeply at oe-core in
-    this regard, but wouldn&#39;t doing this in a separate layer involve a
-    large number of append/overlay links to underlying components where
-    the linkages were extremely fragile?</div></blockquote><div><br></div><=
-div>Yes and no; having it on a separate layer allow for easy work and avoid=
- problems to users not using or wanting to use it.=A0</div></div><div><br>
-</div>-- <br>Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=
- =A0 =A0 =A0O.S. Systems<br>E-mail: <a href=3D"mailto:otavio@ossystems.com.=
-br" target=3D"_blank">otavio@ossystems.com.br</a>=A0 <a href=3D"http://www.=
-ossystems.com.br" target=3D"_blank">http://www.ossystems.com.br</a><br>
-Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0<a href=3D"http://pro=
-jetos.ossystems.com.br" target=3D"_blank">http://projetos.ossystems.com.br<=
-/a><br><br>
+Just to wrap this up for the sake of future googlers: in my image
+recipe, I was doing this:
 
---047d7b2e7c4c1c751c04c1466142--
+=A0 =A0 inherit image
+
+instead of:
+
+    inherit core-image
+
+I had also omitted task-core-basic from my IMAGE_INSTALL list. I'm not
+certain which solved the problem, but /sbin/init definitely now
+exists.
+
+Cheers,
+Brandon
+
+
