@@ -1,32 +1,41 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-ey0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1SZkXz-0005Aw-Aq
+	(envelope-from <raj.khem@gmail.com>) id 1SZkdV-0000i4-QA
 	for openembedded-core@lists.openembedded.org;
-	Wed, 30 May 2012 17:10:51 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q4UF0VlV014743
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 30 May 2012 17:16:37 +0200
+Received: by eaal1 with SMTP id l1so1797320eaa.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 May 2012 08:00:31 -0700 (PDT)
-Received: from msp-dhcp40.wrs.com (172.25.34.40) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Wed, 30 May 2012 08:00:30 -0700
-Message-ID: <4FC6360E.1010007@windriver.com>
-Date: Wed, 30 May 2012 10:00:30 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
-	rv:12.0) Gecko/20120428 Thunderbird/12.0.1
+	Wed, 30 May 2012 08:06:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type:content-transfer-encoding;
+	bh=gUtVCd8qwLjXmzuT6rPb46Hm5H/IBFd5RqGYN6QZluc=;
+	b=Z+krJaOuDp0rTFFm3Ire+PBJs/Ph4Ky8OH+W05FeDm1/vdlzdwisGVETDZaKKx2BUt
+	QhaS/8pEHW6KX+YK4RjzbKxKvZNisfHL4aqwufPSDAX9WKrPzAWrHnCfI0ghXBuh8O+2
+	NnE/Gm9so0pnpJeXSbSQXsBIjBrREGbCESU6sG8FDcnpWxBF2TGTAeS0NYf/HwJSK192
+	7ItmVRTMueySyNAiezOb15+Fo0gagzQH+cWZt5OFiu/Vuq9dQrKt6/Lq0PETcdhYJMCk
+	P57ArNnNIofvuQJXxuA5HsmsoEj5GPEVDAvaoo4BglriaV7XpQm48yVilqEmwpDlT4pN
+	9VaA==
+Received: by 10.14.188.140 with SMTP id a12mr5690433een.25.1338390366665; Wed,
+	30 May 2012 08:06:06 -0700 (PDT)
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <E071AE73-05A7-4D16-9442-952E65ECA96C@gmail.com>
-	<4FC51727.6020205@windriver.com>
-	<2A530553-23DF-4CB1-A957-0E2C3D468BDA@gmail.com>
-	<CAMKF1sq_G6k_o+o=OZrhuz2iNq6EEhTYT67dA1cssU3LFS5cYQ@mail.gmail.com>
-	<CAAB-1yxXDY4O-JV_gpW8eBmfXU=-Jcp4yc0oqZe1WVr6T-rn_w@mail.gmail.com>
-	<559834C0-53F2-4E17-8A48-4061CDB0B63B@gmail.com>
-In-Reply-To: <559834C0-53F2-4E17-8A48-4061CDB0B63B@gmail.com>
-Subject: Re: meta-xilinx: ERROR: Failure expanding variable TUNE_PKGARCH ppc440
+Received: by 10.14.188.11 with HTTP; Wed, 30 May 2012 08:05:36 -0700 (PDT)
+In-Reply-To: <CAGiJk9dbcAVQk5Ta_iFFP=Wpy_=CRMoMrsXsQO4SgnayoJ3KFg@mail.gmail.com>
+References: <1337777200-8672-1-git-send-email-s.stirtzel@googlemail.com>
+	<1FEF30F9-919D-4565-8381-29FF7C2D0B87@dominion.thruhere.net>
+	<CAGiJk9d8nyD9gDHFox_b4tpnzS=5M1squi03mkbyCW7N3OLabQ@mail.gmail.com>
+	<20120529200740.GC5528@sakrah.homelinux.org>
+	<CAGiJk9fpbHXd1Oe4ZkHpWvSONY3y3KhOVKGuYDgAaOjziFF=kw@mail.gmail.com>
+	<CAMKF1soEBM3JUdDt7FEs_F8rX+_Fm962ruuR4GE4rjvSPL+2UQ@mail.gmail.com>
+	<CAGiJk9dpiGdkDHeGkV=pVFu5joeJzqYZw338kJ3Wy2uKKYMEDw@mail.gmail.com>
+	<CAMKF1sq9qgmeWipuxSuRpPtkqKz7nHHtsoh0=+tZQj9J0v6fRA@mail.gmail.com>
+	<CAGiJk9dbcAVQk5Ta_iFFP=Wpy_=CRMoMrsXsQO4SgnayoJ3KFg@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 30 May 2012 08:05:36 -0700
+Message-ID: <CAMKF1srZX77uj6cAKydoN1kidg3EEGV4KKf-LsvXVbs+MCN8Yw@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] valgrind: Enable valgrind for armv7
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,40 +50,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 May 2012 15:10:51 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 30 May 2012 15:16:44 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On 5/30/12 9:47 AM, Elvis Dowson wrote:
-> Hi Khem,
->
->> On Tue, May 29, 2012 at 9:56 PM, Khem Raj<raj.khem@gmail.com>  wrote:
->>> On Tue, May 29, 2012 at 12:46 PM, Elvis Dowson<elvis.dowson@gmail.com>  wrote:
->>>> PACKAGE_EXTRA_ARCHS_tune-ppc440 = "${PACKAGE_EXTRA_ARCHS_tune-powerpc} ppc440"
+On Wed, May 30, 2012 at 7:18 AM, Samuel Stirtzel
+<s.stirtzel@googlemail.com> wrote:
+> 2012/5/30 Khem Raj <raj.khem@gmail.com>:
+>>
+>>
+>> On Wednesday, May 30, 2012, Samuel Stirtzel wrote:
 >>>
->>> may be this should be be
+>>> 2012/5/30 Khem Raj <raj.khem@gmail.com>:
+>>> >
+>>> >
+>>> > On Wednesday, May 30, 2012, Samuel Stirtzel wrote:
+>>> >>
+>>> >> 2012/5/29 Khem Raj <raj.khem@gmail.com>:
+>>> >> >>
+>>> >> >> At some extend yes, the configuration checks the host, the defaul=
+t
+>>> >> >> string passed is "arm" but the configure.in checks for:
+>>> >> >>
+>>> >> >> case "${host_cpu}" in
+>>> >> >> ...
+>>> >> >> =C2=A0 =C2=A0 =C2=A0armv7*)
+>>> >> >> =C2=A0 =C2=A0 =C2=A0 AC_MSG_RESULT([ok (${host_cpu})])
+>>> >> >> =C2=A0 =C2=A0 =C2=A0 ARCH_MAX=3D"arm"
+>>> >> >>
+>>> >> >
+>>> >> > in OE we know that compiler is configured to generate code for arm=
+v7
+>
+> What does this exactly mean, are non armv7 arches also running armv7 code=
+?
+>
+>>> >> > therefore you can safely change armv7* above in configure.in to be
+>>> >> > arm*
+>>> >> >
+>>> >>
+>>> >> On this change I don't have a strong opinion (looks rather
+>>> >> cosmetically).
+>>> >> But sure I can send a follow up patch like you suggested.
+>>> >
+>>> >
+>>> > It is not cosmetic if you see it also enables it for non armv7 archs
 >>>
->>>   PACKAGE_EXTRA_ARCHS_tune-ppc440 = "${PACKAGE_EXTRA_ARCHS_tune-powerpc-nf} ppc440"
+>>> Maybe it is a misunderstanding?
+>>> Do you also want me to change:
 >>>
->>> other pieces look good
+>>> COMPATIBLE_HOST =3D '(i.86|x86_64|powerpc|powerpc64).*-linux'
+>>> COMPATIBLE_HOST_armv7a =3D 'arm.*-linux'
+>>>
+>>> to: COMPATIBLE_HOST =3D '(i.86|x86_64|powerpc|powerpc64||arm).*-linux'
+>>>
+>>> Else it would be only a cosmetic change, because the recipe is
+>>> preventing non armv7 arch.
+>>> Or am I mistaken?
+>>>
+>>
+>> Recipe and package itself are two different things I was commenting on
+>> package itself how it's baked in OE is a different thing
 >
+> You want to pass configure for non armv7 arches but keep baking for
+> them disabled?
+> Sorry I don't get your point, if the machine is not armv7 compatible
+> then it is not compatible with valgrind.
+> If they are compatible there is no point in disallowing them to bake the =
+recipe.
 >
-> What does the -nf suffix do ?
+> Yes it is a difference to enable them at recipe / package level, but
+> the effective use of this recipe / package restriction combination
+> does not appear useful (to me).
+> I think I just miss your point.
 
--nf means "no floating" point math.
-
-There are variants of the ppc4xx lines with and without classic Power floating 
-point units.
-
---Mark
-
-> Best regards,
->
-> Elvis Dowson
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-
+Its fine. Dont worry
 
 
