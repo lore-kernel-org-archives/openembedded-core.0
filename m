@@ -1,38 +1,28 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1SZjT8-000709-MV
+	(envelope-from <mark.hatle@windriver.com>) id 1SZjWe-0007mk-17
 	for openembedded-core@lists.openembedded.org;
-	Wed, 30 May 2012 16:01:50 +0200
-Received: by eekd49 with SMTP id d49so1795752eek.6
+	Wed, 30 May 2012 16:05:24 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q4UDt4gV004885
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 May 2012 06:51:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type; bh=OJ7qcEx3f9uMbC6L+EOywg+Bc4z5RzxYpgIK1KhKKFI=;
-	b=H1MxOOpvFGf6UN2leyRtQcs1LetoA9EG36Rtyp0O3n7nrpRz5GEeCy55eq5Ly7USyi
-	e/6Xn/xKdCSEkwS+6nUHtibDgTbgGIrt6myliZxNHKUo/a6jvfX+NDjk/72qip4gKlMO
-	207JfoEWONNW5KvGKNRjl1lzIIx4IEx/drV/9M3hAdEXC80dt+rF0RNUrAapPzukiWpr
-	JMpvwnnwZPQ9foNOb9++GLAYulSkSoF3eyA7uqg+IaFdvx9fE2maW5uOP2ZaqOTEvovn
-	9h2acZKtQkG0TmbiPWOcNglqSz+0dsdxwLTVQEosnP27fmyak2adFTjbzb8Sc4XZI3Vm
-	GrqQ==
+	Wed, 30 May 2012 06:55:04 -0700 (PDT)
+Received: from msp-dhcp40.wrs.com (172.25.34.40) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Wed, 30 May 2012 06:55:03 -0700
+Message-ID: <4FC626B6.70309@windriver.com>
+Date: Wed, 30 May 2012 08:55:02 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
+	rv:12.0) Gecko/20120428 Thunderbird/12.0.1
 MIME-Version: 1.0
-Received: by 10.14.100.194 with SMTP id z42mr7086944eef.146.1338385888192;
-	Wed, 30 May 2012 06:51:28 -0700 (PDT)
-Received: by 10.14.188.11 with HTTP; Wed, 30 May 2012 06:51:28 -0700 (PDT)
-In-Reply-To: <CAGiJk9dpiGdkDHeGkV=pVFu5joeJzqYZw338kJ3Wy2uKKYMEDw@mail.gmail.com>
-References: <1337777200-8672-1-git-send-email-s.stirtzel@googlemail.com>
-	<1FEF30F9-919D-4565-8381-29FF7C2D0B87@dominion.thruhere.net>
-	<CAGiJk9d8nyD9gDHFox_b4tpnzS=5M1squi03mkbyCW7N3OLabQ@mail.gmail.com>
-	<20120529200740.GC5528@sakrah.homelinux.org>
-	<CAGiJk9fpbHXd1Oe4ZkHpWvSONY3y3KhOVKGuYDgAaOjziFF=kw@mail.gmail.com>
-	<CAMKF1soEBM3JUdDt7FEs_F8rX+_Fm962ruuR4GE4rjvSPL+2UQ@mail.gmail.com>
-	<CAGiJk9dpiGdkDHeGkV=pVFu5joeJzqYZw338kJ3Wy2uKKYMEDw@mail.gmail.com>
-Date: Wed, 30 May 2012 06:51:28 -0700
-Message-ID: <CAMKF1sq9qgmeWipuxSuRpPtkqKz7nHHtsoh0=+tZQj9J0v6fRA@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] valgrind: Enable valgrind for armv7
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1337714416.git.mark.hatle@windriver.com>
+	<1338379499.20169.140.camel@ted>
+In-Reply-To: <1338379499.20169.140.camel@ted>
+Subject: Re: [PATCH 00/30] Refactor update-alternatives
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,145 +37,105 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 May 2012 14:01:56 -0000
-Content-Type: multipart/alternative; boundary=bcaec521556b702a5104c1413f84
+X-List-Received-Date: Wed, 30 May 2012 14:05:24 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
---bcaec521556b702a5104c1413f84
-Content-Type: text/plain; charset=UTF-8
+On 5/30/12 7:04 AM, Richard Purdie wrote:
+> On Tue, 2012-05-22 at 14:30 -0500, Mark Hatle wrote:
+>> This set of commits refactors update-alternatives.  The primary purpose
+>> is to cover all of the corner cases currently in oe-core (and hopefully
+>> other layers) so that recipes can all use the update-alternatives class,
+>> instead of manual update-alternatives calls in man post install/remove
+>> scripts.
+>>
+>> The refactored update-alternatives is compatible with the older methods,
+>> but does indicate they are deprecated via a warning message.  One of the
+>> key changes is that all referenced alternatives are not added to the
+>> per-file dependency information.  For example, gawk sets up an
+>> alternative for 'awk'.  The /bin/gawk binary now says it provides
+>> /bin/awk, so that the package management systems that use per file
+>> dependencies (i.e. RPM), will be able to find the minimum set of
+>> packages to resolve the image.
+>>
+>> In addition, to all of that, the references have been changed from
+>> ".${PN}" to ".${BPN}" for alternatives.  This will allow the multilib
+>> system to work as intended by resolving multilib binaries.
+>>
+>> All of the work has been tested using buildhistory and building various
+>> images.  Buildhistory indicated only expected changes were performed.
+>>
+>> (To avoid spamming the list, I have decided to only send the first 3
+>> patches, lrzsz, busybox, util-linux and shadow-native as this is a
+>> reasonable representation of the changes.  Please see the referenced
+>> repository and branch below for full details on the series.)
+>>
+>> *** BLURB HERE ***
+>> The following changes since commit e6333825c3482a559a0c0499e17f8f48d3042ddf:
+>>
+>>    tune-mips64.inc: Add new tune file for mips64 big-endian (2012-05-20 20:24:37 -0700)
+>>
+>> are available in the git repository at:
+>>    git://git.pokylinux.org/poky-contrib mhatle/upd-alt-2
+>>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=mhatle/upd-alt-2
+>>
+>> Mark Hatle (30):
+>>    update-alternatives.bbclass: Refactor the implementation
+>>    update-alternatives.bbclass: Change from using PN to BPN
+>>    which: use BPN for alternatives
+>>    wget: use BPN for alternatives
+>>    time: use BPN for alternatives
+>>    shadow: use BPN for alternatives
+>>    sed: use BPN for alternatives
+>>    mktemp: use BPN for alternatives
+>>    less: use BPN for alternatives
+>>    patch: use BPN for alternatives
+>>    tinylogin: use BPN for alternatives
+>>    sysvinit: use new update-alternatives
+>>    lrzsz: use new update-alternatives
+>>    openssh: use new update-alternatives
+>>    busybox: use new update-alternatives
+>>    coreutils: use new update-alternatives
+>>    dropbear: use new update-alternatives
+>>    ncurses: use new update-alternatives
+>>    psplash: use new update-alternatives
+>>    util-linux: use new update-alternatives
+>>    binutils: use new update-alternatives
+>>    tar: use new update-alternatives
+>>    opkg: use new update-alternatives
+>>    cpio: use new update-alternatives
+>>    grep: use new update-alternatives
+>>    iputils: use new update-alternatives
+>>    psmisc: use new update-alternatives
+>>    sysklogd: use new update-alternatives
+>>    kmod: use new update-alternatives
+>>    shadow-utils-native: remove unnecessary alternatives
+>
+> Merged to master, thanks.
+>
+> I've noticed a few issues and this obviously introduces a lot of warning
+> messages. I've posted a couple of fixes but we need a plan to get the
+> warnings resolved...
 
-On Wednesday, May 30, 2012, Samuel Stirtzel wrote:
+I can work through the warnings fairly quickly.  I left them there 
+intentionally.  I wanted to proved the deprecated functionality was complete and 
+worked as expected.  (I forgot to note that in the original submission.)
 
-> 2012/5/30 Khem Raj <raj.khem@gmail.com <javascript:;>>:
-> >
-> >
-> > On Wednesday, May 30, 2012, Samuel Stirtzel wrote:
-> >>
-> >> 2012/5/29 Khem Raj <raj.khem@gmail.com <javascript:;>>:
-> >> >>
-> >> >> At some extend yes, the configuration checks the host, the default
-> >> >> string passed is "arm" but the configure.in checks for:
-> >> >>
-> >> >> case "${host_cpu}" in
-> >> >> ...
-> >> >>      armv7*)
-> >> >>       AC_MSG_RESULT([ok (${host_cpu})])
-> >> >>       ARCH_MAX="arm"
-> >> >>
-> >> >
-> >> > in OE we know that compiler is configured to generate code for armv7
-> >> > therefore you can safely change armv7* above in configure.in to be
-> arm*
-> >> >
-> >>
-> >> On this change I don't have a strong opinion (looks rather
-> cosmetically).
-> >> But sure I can send a follow up patch like you suggested.
-> >
-> >
-> > It is not cosmetic if you see it also enables it for non armv7 archs
->
-> Maybe it is a misunderstanding?
-> Do you also want me to change:
->
-> COMPATIBLE_HOST = '(i.86|x86_64|powerpc|powerpc64).*-linux'
-> COMPATIBLE_HOST_armv7a = 'arm.*-linux'
->
-> to: COMPATIBLE_HOST = '(i.86|x86_64|powerpc|powerpc64||arm).*-linux'
->
-> Else it would be only a cosmetic change, because the recipe is
-> preventing non armv7 arch.
-> Or am I mistaken?
->
->
-Recipe and package itself are two different things I was commenting on
-package itself how it's baked in OE is a different thing
+If nobody else is working on revising the other items I'll start working through 
+them.
 
+--Mark
+
+> Cheers,
 >
-> --
-> Regards
-> Samuel
+> Richard
+>
+>
 >
 > _______________________________________________
 > Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org <javascript:;>
+> Openembedded-core@lists.openembedded.org
 > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
 
---bcaec521556b702a5104c1413f84
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<br><br>On Wednesday, May 30, 2012, Samuel Stirtzel  wrote:<br><blockquote =
-class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid=
-;padding-left:1ex">2012/5/30 Khem Raj &lt;<a href=3D"javascript:;" onclick=
-=3D"_e(event, &#39;cvml&#39;, &#39;raj.khem@gmail.com&#39;)">raj.khem@gmail=
-.com</a>&gt;:<br>
 
-&gt;<br>
-&gt;<br>
-&gt; On Wednesday, May 30, 2012, Samuel Stirtzel wrote:<br>
-&gt;&gt;<br>
-&gt;&gt; 2012/5/29 Khem Raj &lt;<a href=3D"javascript:;" onclick=3D"_e(even=
-t, &#39;cvml&#39;, &#39;raj.khem@gmail.com&#39;)">raj.khem@gmail.com</a>&gt=
-;:<br>
-&gt;&gt; &gt;&gt;<br>
-&gt;&gt; &gt;&gt; At some extend yes, the configuration checks the host, th=
-e default<br>
-&gt;&gt; &gt;&gt; string passed is &quot;arm&quot; but the <a href=3D"http:=
-//configure.in" target=3D"_blank">configure.in</a> checks for:<br>
-&gt;&gt; &gt;&gt;<br>
-&gt;&gt; &gt;&gt; case &quot;${host_cpu}&quot; in<br>
-&gt;&gt; &gt;&gt; ...<br>
-&gt;&gt; &gt;&gt; =C2=A0 =C2=A0 =C2=A0armv7*)<br>
-&gt;&gt; &gt;&gt; =C2=A0 =C2=A0 =C2=A0 AC_MSG_RESULT([ok (${host_cpu})])<br=
->
-&gt;&gt; &gt;&gt; =C2=A0 =C2=A0 =C2=A0 ARCH_MAX=3D&quot;arm&quot;<br>
-&gt;&gt; &gt;&gt;<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; in OE we know that compiler is configured to generate code fo=
-r armv7<br>
-&gt;&gt; &gt; therefore you can safely change armv7* above in <a href=3D"ht=
-tp://configure.in" target=3D"_blank">configure.in</a> to be arm*<br>
-&gt;&gt; &gt;<br>
-&gt;&gt;<br>
-&gt;&gt; On this change I don&#39;t have a strong opinion (looks rather cos=
-metically).<br>
-&gt;&gt; But sure I can send a follow up patch like you suggested.<br>
-&gt;<br>
-&gt;<br>
-&gt; It is not cosmetic if you see it also enables it for non armv7 archs<b=
-r>
-<br>
-Maybe it is a misunderstanding?<br>
-Do you also want me to change:<br>
-<br>
-COMPATIBLE_HOST =3D &#39;(i.86|x86_64|powerpc|powerpc64).*-linux&#39;<br>
-COMPATIBLE_HOST_armv7a =3D &#39;arm.*-linux&#39;<br>
-<br>
-to: COMPATIBLE_HOST =3D &#39;(i.86|x86_64|powerpc|powerpc64||arm).*-linux&#=
-39;<br>
-<br>
-Else it would be only a cosmetic change, because the recipe is<br>
-preventing non armv7 arch.<br>
-Or am I mistaken?<br>
-<br></blockquote><div><br></div><div>Recipe and package itself are two diff=
-erent things I was commenting on package itself how it&#39;s baked in OE is=
- a different thing=C2=A0<span></span></div><blockquote class=3D"gmail_quote=
-" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
-
-<br>
---<br>
-Regards<br>
-Samuel<br>
-<br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"javascript:;" onclick=3D"_e(event, &#39;cvml&#39;, &#39;Openembe=
-dded-core@lists.openembedded.org&#39;)">Openembedded-core@lists.openembedde=
-d.org</a><br>
-<a href=3D"http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded=
--core" target=3D"_blank">http://lists.linuxtogo.org/cgi-bin/mailman/listinf=
-o/openembedded-core</a><br>
-</blockquote>
-
---bcaec521556b702a5104c1413f84--
