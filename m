@@ -1,31 +1,33 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1SZhjM-0003u7-AO for openembedded-core@lists.openembedded.org;
-	Wed, 30 May 2012 14:10:24 +0200
+	id 1SZhjl-0003vd-S0 for openembedded-core@lists.openembedded.org;
+	Wed, 30 May 2012 14:10:50 +0200
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q4UC06Xh021761;
-	Wed, 30 May 2012 13:00:06 +0100
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q4UC0WPL021776
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 30 May 2012 13:00:32 +0100
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 21338-03; Wed, 30 May 2012 13:00:01 +0100 (BST)
+	id 18246-10 for <openembedded-core@lists.openembedded.org>;
+	Wed, 30 May 2012 13:00:27 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q4UBxw0O021740
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Wed, 30 May 2012 12:59:59 +0100
-Message-ID: <1338379197.20169.130.camel@ted>
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q4UC0MOk021770
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 30 May 2012 13:00:23 +0100
+Message-ID: <1338379221.20169.131.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Wed, 30 May 2012 12:59:57 +0100
-In-Reply-To: <cover.1338302685.git.liezhi.yang@windriver.com>
-References: <cover.1338302685.git.liezhi.yang@windriver.com>
+Date: Wed, 30 May 2012 13:00:21 +0100
+In-Reply-To: <cover.1338280083.git.edwin.zhai@intel.com>
+References: <cover.1338280083.git.edwin.zhai@intel.com>
 X-Mailer: Evolution 3.2.2- 
 Mime-Version: 1.0
 X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: Zhenfeng.Zhao@windriver.com
-Subject: Re: [PATCH 0/4] replace os.system/popen with subprocess module
+Subject: Re: [PATCH 0/1] [v2]qemu: Add an option to remove host sdl/gl checking
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,46 +42,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 May 2012 12:10:24 -0000
+X-List-Received-Date: Wed, 30 May 2012 12:10:50 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2012-05-29 at 22:53 +0800, Robert Yang wrote:
-> These patches are based on oe-core.
+On Tue, 2012-05-29 at 16:30 +0800, edwin.zhai@intel.com wrote:
+> From: Zhai Edwin <edwin.zhai@intel.com>
 > 
-> * Testinfo
->   1) $ bitbake core-image-sato core-image-sato-sdk metatoolchain-sdk with
->         MACHINE=qemuarm, PACKAGE_CLASSES = "package_rpm"
+> Saul,
+> This is the V2 version to fix build error for qemu and qemu-nativesdk.
 > 
->   2) $ bitbake core-image-sato core-image-sato-sdk metatoolchain-sdk with
->         MACHINE=qemuarm, PACKAGE_CLASSES = "package_ipk"
+> Add an PACKAGECONFIG in qemu to disable GL acceleration:
+> * By default configure try best to enable GL acceleration and fail when missing
+>   host dependency(libSDL and libGL).
+> * End user can also choose to turn off GL capability, thus remove the host
+>   dependence in building.
 > 
->   3) $ bitbake core-image-sato with MACHINE=qemux86, PACKAGE_CLASSES = "package_deb"
+> [YOCTO #2407] got fixed.
 > 
->   4) $ bitbake world with MACHINE=qemux86
+> Thanks,
+> Edwin
 > 
-> // Robert
+> The following changes since commit 54f38111868775c85bfe921592d8443a61952c62:
 > 
-> The following changes since commit a7532d6b2870a51079c39366def9ae55faeba626:
-> 
->   rootfs_rpm.bbclass: save rpmlib rather than remove it (2012-05-29 22:36:39 +0800)
+>   pango: Fix modules load failure in multilib environment (2012-05-14 21:50:55 +0800)
 > 
 > are available in the git repository at:
->   git://git.pokylinux.org/poky-contrib robert/meta_subprocess
->   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=robert/meta_subprocess
+>   git://git.pokylinux.org/poky-contrib gzhai/fix2
+>   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=gzhai/fix2
 > 
-> Robert Yang (4):
->   meta: replace os.system with subprocess.call
->   scripts: replace os.system with subprocess.call
->   meta: replace os.popen with subprocess.Popen
+> Zhai Edwin (1):
+>   qemu: Add an option to remove host sdl/gl checking
 
-I took the first three of these, thanks.
-
->   scripts: replace os.popen with subprocess.Popen
-
-As Chris says, we may as well use an unlink call for this case.
-
-Cheers,
+Merged to master, thanks.
 
 Richard
 
