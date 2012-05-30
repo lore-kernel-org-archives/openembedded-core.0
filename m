@@ -1,42 +1,37 @@
-Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
+Received: from mail-gg0-f175.google.com ([209.85.161.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1SZfkl-0007Tz-71
+	(envelope-from <giuseppe.condorelli@gmail.com>) id 1SZgJF-0006Cz-Oo
 	for openembedded-core@lists.openembedded.org;
-	Wed, 30 May 2012 12:03:44 +0200
-Received: from mail-qa0-f49.google.com ([209.85.216.49])
-	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 30 May 2012 02:53:23 -0700
-Received: by qabj40 with SMTP id j40so2343631qab.15
+	Wed, 30 May 2012 12:39:22 +0200
+Received: by ggnp4 with SMTP id p4so3435436ggn.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 May 2012 02:53:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type:x-gm-message-state;
-	bh=1ULAuV1BSO2yqmazXvy+mkkcD+kJtxJwLW/UA0E5gt0=;
-	b=OIXIivXw9VabYZiD650Yv1XqVBuurBDFVSdTI6Vi8LGyRlshJllfkT7O2me8iJvk4W
-	avYQuua9pAjOAwlnmyhy8YM1Yvl+sUGbfmKXO/Po+iMkqp6c/JPk2MAVatRRflX0pcwt
-	lmLHjgddyv0N5yd7XFmpUTrgJafCNqyFCwNsfa7Kj8wjP+UPm1JCIl07+CnV0oREDo31
-	lXLCjrXpRzrPLj1owJ6HFv0NlqhB/rDmO1Kw0h/GamaAmWsVEL1o3xTfkQSziTjoKIrc
-	tP/mAM5zfvmULlQIit6fVbpl9e/nw491PvSU64cIo5O1JrES4ooCcf8/hrroREirgFSj
-	nzTA==
-Received: by 10.224.174.205 with SMTP id u13mr2743129qaz.57.1338371602575;
-	Wed, 30 May 2012 02:53:22 -0700 (PDT)
+	Wed, 30 May 2012 03:29:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=9S2/A10fnFrA8iICddgRGpkXPsfxt8soZo0J2ZbYku8=;
+	b=Rtf0Nk9q8g7hFRyRUqIdH8D9U6bMBQ1hRNxD+C7eMTY3rFvsftSn+s8o0MU3Ergu2z
+	M6dHR4fQxHEByCE/4MjlASrdO8U/xE0aa843uK3EmiDGzkO2rdt3mb1e4I+nLRknTLVN
+	oJUBeg9YxOmHcUxY7k5FguS4Q1HIMLAi5moAucyzh3EReWRRh69idk2YdSmTUW1Ed7An
+	IE5NS5o0rNHHrBznPkHd6H4eZnuaXKmd+kP1cE1vcTQ48hEmNl0433VDKi2ssgTLKUgo
+	oMOq2/hCTjkffRGL4AQtBwcC4cUb6SQwIvSxHbgweKH6tidfdgEuE7JGjbyl/1IadSYb
+	mhRg==
 MIME-Version: 1.0
-Received: by 10.229.53.212 with HTTP; Wed, 30 May 2012 02:53:02 -0700 (PDT)
-In-Reply-To: <969F26A8BAB325438E7EB80D3C3134FB1614CE73@IRSMSX102.ger.corp.intel.com>
-References: <cover.1338323483.git.ross.burton@intel.com>
-	<41C46607-08A4-46F1-8572-3320B7FD2615@dominion.thruhere.net>
-	<CAJTo0LaFHe1jGQLoNkS6MkHwsM58iLJiRXpSSEKo-UqNQwjJCA@mail.gmail.com>
-	<002D9B74-3B1E-42A8-A355-BC33847EB54F@dominion.thruhere.net>
-	<CAJTo0LazLoue3YJndWA3Jd+QyS2HBiQqWUm+o8kaZcvWQK7w7w@mail.gmail.com>
-	<969F26A8BAB325438E7EB80D3C3134FB1614CE73@IRSMSX102.ger.corp.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 30 May 2012 10:53:02 +0100
-Message-ID: <CAJTo0LZd33YnV5xGeQxUn5ufOgsvN8fhjHxPudGQNbKO_2Dw=Q@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Gm-Message-State: ALoCoQkFV+SqpENy7E2SZ3F+HdpuSc/qfwA4yMr+IxU/ad9WOvY8hVv09wJqgU95rfBY0/J2Cr+u
-Subject: Re: [PATCH 0/4] Upgrade connman to 1.0
+Received: by 10.50.191.133 with SMTP id gy5mr10030210igc.55.1338373742204;
+	Wed, 30 May 2012 03:29:02 -0700 (PDT)
+Received: by 10.231.233.196 with HTTP; Wed, 30 May 2012 03:29:02 -0700 (PDT)
+In-Reply-To: <CAOHjBZvsH6mQVtHPb8V4tOuKTpjPhCX2yy065yRqR5eQW9=Y-A@mail.gmail.com>
+References: <CAOHjBZsyWoca=JkLy==aqwYGwLeYYrNgR6PwwWMyNVjP0LSv5g@mail.gmail.com>
+	<3418839.G4f3PdLdKK@helios>
+	<CAOHjBZu6_vfPkPnVj9E48nc=1jEO9dqMG8hkrtLkLesbWZ8g6w@mail.gmail.com>
+	<11156699.ieWXhGW3v3@helios>
+	<CAOHjBZvsH6mQVtHPb8V4tOuKTpjPhCX2yy065yRqR5eQW9=Y-A@mail.gmail.com>
+Date: Wed, 30 May 2012 12:29:02 +0200
+Message-ID: <CAOHjBZsuZjS=mbkEm56=BkcoROj8-X7LUdHDrO-m6p3PWvoyPw@mail.gmail.com>
+From: Giuseppe Condorelli <giuseppe.condorelli@gmail.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: How to query installed rpm packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -51,20 +46,209 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 May 2012 10:03:44 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 30 May 2012 10:39:22 -0000
+Content-Type: multipart/alternative; boundary=14dae93407197b171304c13e6bd7
 
-On 30 May 2012 04:53, Iorga, Cristian <cristian.iorga@intel.com> wrote:
-> Hi Ross,
+--14dae93407197b171304c13e6bd7
+Content-Type: text/plain; charset=ISO-8859-1
+
+Hi Paul,
+
+just another clarification.
+
+> If you aren't including packaging data in the resulting image (i.e.
+> IMAGE_FEATURES does not contain "package-management"),
+
+Adding the package-management I saw target rpm is set to be built.
+So I can think I'll have the rpm inside the target fs I'll install via oe
+system.
+How can it help me if I query installed packages from host?
+
+Cheers,
+Giuseppe
+
+2012/5/29 Giuseppe Condorelli <giuseppe.condorelli@gmail.com>
+
+> 2012/5/29 Paul Eggleton <paul.eggleton@linux.intel.com>
 >
-> As far as I have seen from the code, between the previous version of connman and version 1.0, the way the default connection is set has changed.
+>> On Tuesday 29 May 2012 15:20:14 Giuseppe Condorelli wrote:
+>> > What I'm not understanding is how I can invoke my shell function. Do you
+>> > mean I have to invoke it as append function of populate_rootfs one?
+>>
+>> If you aren't including packaging data in the resulting image (i.e.
+>> IMAGE_FEATURES does not contain "package-management"), you need to do
+>> your rpm
+>> calls from a function called via ROOTFS_POSTPROCESS_COMMAND because
+>> afterwards
+>> the data will be removed and rpm will not be usable.
+>>
+>> > What I really need is a way to query the rpm database
+>> > out from the build system, as we normally do with host packages.
+>> > I tried to have a standalone run of  the rpm command the
+>> > list_installed_packages invokes but (obviously) I got a long series of
+>> > errors.
+>>
+>> Below is what I meant - you could put this into some bbclass that you
+>> could
+>> add using INHERIT += "someclass.bbclass" in local.conf:
+>>
+>> ------------- snip --------------
+>> ROOTFS_POSTPROCESS_COMMAND += "do_some_packaging_stuff ; "
+>>
+>> do_some_packaging_stuff() {
+>>        list_installed_packages > /path/to/output/file
+>> }
+>> ------------- snip --------------
+>>
+>> Substitute list_installed_packages for a similar rpm query command to the
+>> one
+>> list_installed_packages uses.
+>>
+> Yes!!!! Very very simple solution (that obviously I didn't though... :| ).
 >
-> Right now, the default connection is established through an external file.
-> Before 1.0, the default connection was established via the code (and a patch was added in the recipe against this, and it needs to be adapted).
+>
+>>
+>> Out of interest, what information are you querying from the packaging
+>> system?
+>>
+> What I'm trying to obtain is a way to install and to query rpm packages
+> out from build system.
+> I mean, I would like to have the rpms built via bitbake/oe-core repository
+> and than to install them
+> into a specific root path without the build system support. Also, after
+> having installed them (or part of
+> them) I need to query the rpm database in case of debug.
+> So I started asking my questions to understand if (internally) there was a
+> way for querying (and it was!).
+> This for backword compatibility with what I'm currently managing (a
+> distribution totally rpm based) and
+> what I'm thinking to implement in next future (a distribution oe based).
+> For a while I would like both scenarios
+> will exist in parallel.
+> If you have other suggestions, or if you think my way to proceed is going
+> to a black scenario, please don't
+> hesitate to correct me.
+>
+>>
+>> Cheers,
+>> Paul
+>>
+> Cheers,
+> Giuseppe
+>
+>>
+>> --
+>>
+>> Paul Eggleton
+>> Intel Open Source Technology Centre
+>>
+>
+>
 
-With 1.0, if there is no global configuration the technology is
-enabled if ethernet, otherwise disabled.
+--14dae93407197b171304c13e6bd7
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-Ross
+<div>Hi Paul,</div><div>=A0</div><div>just another clarification.</div><div=
+>=A0</div><div>&gt; If you aren&#39;t including packaging data in the resul=
+ting image (i.e.<br>&gt; IMAGE_FEATURES does not contain &quot;package-mana=
+gement&quot;), </div>
+<div>=A0</div><div>Adding the package-management I saw target rpm is set to=
+ be built.</div><div>So I can think I&#39;ll have the rpm inside the target=
+ fs I&#39;ll install via oe system.</div><div>How can it help me if I query=
+ installed packages from host?</div>
+<div>=A0</div><div>Cheers,</div><div>Giuseppe<br><br></div><div class=3D"gm=
+ail_quote">2012/5/29 Giuseppe Condorelli <span dir=3D"ltr">&lt;<a href=3D"m=
+ailto:giuseppe.condorelli@gmail.com" target=3D"_blank">giuseppe.condorelli@=
+gmail.com</a>&gt;</span><br>
+<blockquote style=3D"margin:0px 0px 0px 0.8ex;padding-left:1ex;border-left-=
+color:rgb(204,204,204);border-left-width:1px;border-left-style:solid" class=
+=3D"gmail_quote"><div class=3D"gmail_quote"><div class=3D"im">2012/5/29 Pau=
+l Eggleton <span dir=3D"ltr">&lt;<a href=3D"mailto:paul.eggleton@linux.inte=
+l.com" target=3D"_blank">paul.eggleton@linux.intel.com</a>&gt;</span><br>
+<blockquote style=3D"margin:0px 0px 0px 0.8ex;padding-left:1ex;border-left-=
+color:rgb(204,204,204);border-left-width:1px;border-left-style:solid" class=
+=3D"gmail_quote">
+<div>On Tuesday 29 May 2012 15:20:14 Giuseppe Condorelli wrote:<br>
+&gt; What I&#39;m not understanding is how I can invoke my shell function. =
+Do you<br>
+&gt; mean I have to invoke it as append function of populate_rootfs one?<br=
+>
+<br>
+</div>If you aren&#39;t including packaging data in the resulting image (i.=
+e.<br>
+IMAGE_FEATURES does not contain &quot;package-management&quot;), you need t=
+o do your rpm<br>
+calls from a function called via ROOTFS_POSTPROCESS_COMMAND because afterwa=
+rds<br>
+the data will be removed and rpm will not be usable.<br>
+<div><br>
+&gt; What I really need is a way to query the rpm database<br>
+&gt; out from the build system, as we normally do with host packages.<br>
+&gt; I tried to have a standalone run of =A0the rpm command the<br>
+&gt; list_installed_packages invokes but (obviously) I got a long series of=
+<br>
+&gt; errors.<br>
+<br>
+</div>Below is what I meant - you could put this into some bbclass that you=
+ could<br>
+add using INHERIT +=3D &quot;someclass.bbclass&quot; in local.conf:<br>
+<br>
+------------- snip --------------<br>
+ROOTFS_POSTPROCESS_COMMAND +=3D &quot;do_some_packaging_stuff ; &quot;<br>
+<br>
+do_some_packaging_stuff() {<br>
+ =A0 =A0 =A0 =A0list_installed_packages &gt; /path/to/output/file<br>
+}<br>
+------------- snip --------------<br>
+<br>
+Substitute list_installed_packages for a similar rpm query command to the o=
+ne<br>
+list_installed_packages uses.<br></blockquote></div><div>Yes!!!! Very very =
+simple solution (that obviously I didn&#39;t though... :| ).<br>=A0</div><d=
+iv class=3D"im"><blockquote style=3D"margin:0px 0px 0px 0.8ex;padding-left:=
+1ex;border-left-color:rgb(204,204,204);border-left-width:1px;border-left-st=
+yle:solid" class=3D"gmail_quote">
 
 
+<br>
+Out of interest, what information are you querying from the packaging syste=
+m?<br></blockquote></div><div>What I&#39;m trying to obtain is a way to ins=
+tall and to query rpm packages out from build system.</div><div>I mean, I w=
+ould like to have the rpms built via bitbake/oe-core repository and than to=
+ install them</div>
+
+<div>into a specific root path without the build system support. Also, afte=
+r having installed them (or part of</div><div>them) I need to query the rpm=
+ database in case of debug.</div><div>So I started asking my questions to u=
+nderstand if (internally) there was a way for querying (and it was!).</div>
+
+<div>This for backword compatibility with what=A0I&#39;m currently managing=
+ (a distribution totally rpm based) and</div><div>what=A0I&#39;m thinking t=
+o implement in next future (a distribution oe based). For a while I would l=
+ike both scenarios</div>
+
+<div>will exist in parallel.</div><div>If you have other suggestions, or if=
+ you think my way to proceed is going to a black scenario, please don&#39;t=
+</div><div>hesitate to correct me.</div><blockquote style=3D"margin:0px 0px=
+ 0px 0.8ex;padding-left:1ex;border-left-color:rgb(204,204,204);border-left-=
+width:1px;border-left-style:solid" class=3D"gmail_quote">
+
+
+<br>
+Cheers,<br>
+Paul<br></blockquote><div>Cheers,</div><div>Giuseppe=A0</div><div class=3D"=
+im"><blockquote style=3D"margin:0px 0px 0px 0.8ex;padding-left:1ex;border-l=
+eft-color:rgb(204,204,204);border-left-width:1px;border-left-style:solid" c=
+lass=3D"gmail_quote">
+
+
+<div><div><br>
+--<br>
+<br>
+Paul Eggleton<br>
+Intel Open Source Technology Centre<br>
+</div></div></blockquote></div></div><br>
+</blockquote></div><br>
+
+--14dae93407197b171304c13e6bd7--
