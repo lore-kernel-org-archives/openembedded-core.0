@@ -1,36 +1,40 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from mail-we0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1SZiwk-0005Nt-FX
-	for openembedded-core@lists.openembedded.org;
-	Wed, 30 May 2012 15:28:19 +0200
-Received: by eekd49 with SMTP id d49so1779946eek.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 May 2012 06:18:00 -0700 (PDT)
+	(envelope-from <martin.jansa@gmail.com>)
+	id 1SZixB-0005PU-4U; Wed, 30 May 2012 15:28:48 +0200
+Received: by werg55 with SMTP id g55so3476579wer.6
+	for <multiple recipients>; Wed, 30 May 2012 06:18:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type; bh=ETyG3wG+cuRoo7vo5k/VKmIJU+AySbA7DKhOPdWRDrw=;
-	b=WRENzibourxqL/7npsw7w/727pcmEJY+8ZCyFFhQHA02wTRHqs6pCZetQm8R7W0oR5
-	QrpHgmEcATPdw2AgjJg/nIazyRWSiUY6JM1hzp5NGKJpT+cg6xFKzobiIJV8X4OrHarF
-	NgJRvjYfJU2CbrryRGU7KJvzJJgGkYOI6psS0felKakQZd2tIl0Cix4kszfgxrAsvcTA
-	L7jcPOPFlDIJTuJFWpa8tZFb6uM9cQri+L4hmAZBUyi446Q87+X4OA89uia3tVaxoqrJ
-	BXWQO0S8kKwiMe2zbXp0q6+GiZ3bjSBCmXTWL9sXQhHSjYKH/LQtqEV4y0pedLFh1f/D
-	5PLw==
-MIME-Version: 1.0
-Received: by 10.14.188.140 with SMTP id a12mr5528722een.25.1338383879623; Wed,
-	30 May 2012 06:17:59 -0700 (PDT)
-Received: by 10.14.188.11 with HTTP; Wed, 30 May 2012 06:17:59 -0700 (PDT)
-In-Reply-To: <CAGiJk9fpbHXd1Oe4ZkHpWvSONY3y3KhOVKGuYDgAaOjziFF=kw@mail.gmail.com>
-References: <1337777200-8672-1-git-send-email-s.stirtzel@googlemail.com>
-	<1FEF30F9-919D-4565-8381-29FF7C2D0B87@dominion.thruhere.net>
-	<CAGiJk9d8nyD9gDHFox_b4tpnzS=5M1squi03mkbyCW7N3OLabQ@mail.gmail.com>
-	<20120529200740.GC5528@sakrah.homelinux.org>
-	<CAGiJk9fpbHXd1Oe4ZkHpWvSONY3y3KhOVKGuYDgAaOjziFF=kw@mail.gmail.com>
-Date: Wed, 30 May 2012 06:17:59 -0700
-Message-ID: <CAMKF1soEBM3JUdDt7FEs_F8rX+_Fm962ruuR4GE4rjvSPL+2UQ@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=eGDEIT0tNi2vVUcR0WornBwoVAzzh9gNPDJZNwj5f4Y=;
+	b=nXFJRdHHZs3AU2ptxpKCTNxrITKD4HLAkUaNo4Gi2OkgVozLsRjIASXtnWnZj0aptq
+	qzh5OV8YJG+RqdrrhFPvmSPdRwSJhwH0NWWta3LwR2xUonYPz2LD4QmXbi+BKEXOCJJ3
+	ruXNj2YBj5rth0BX9AZk4tuSIAoDgh6MqHGc44PylsGMFfrGgerWGvdQa4ApGj/PgEAN
+	rqRIrq1ISz2e+2PJNIVTJ6d9QrS+uFOk0Q8TlAvehlsLPR6n7bqKKJnugKBkJmKeC1EA
+	7HlGIJ/oRsKZXOZ2mJO9DyugXGEL4Q3CFQNAGSU/ETNNtgGXqdACs5bxpx4/pr2NRN0J
+	qLCw==
+Received: by 10.216.150.140 with SMTP id z12mr10374154wej.68.1338383905110;
+	Wed, 30 May 2012 06:18:25 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id fl2sm56414775wib.2.2012.05.30.06.18.23
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 30 May 2012 06:18:24 -0700 (PDT)
+Date: Wed, 30 May 2012 15:18:33 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] valgrind: Enable valgrind for armv7
+Message-ID: <20120530131833.GP3138@jama.jama.net>
+References: <20120530110550.04FA710217@opal>
+	<20120530120443.GL3138@jama.jama.net>
+	<20120530122007.GM3138@jama.jama.net>
+	<20120530125307.GO3138@jama.jama.net>
+	<1338383413.20169.141.camel@ted>
+MIME-Version: 1.0
+In-Reply-To: <1338383413.20169.141.camel@ted>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-commits@lists.openembedded.org
+Subject: Re: debian.bbclass got broken today Was: [oe-commits] Valentin Popa : xz: updated to version 5.1.1alpha
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,98 +49,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 May 2012 13:28:19 -0000
-Content-Type: multipart/alternative; boundary=bcaec52be543b7d2d204c140c7dc
+X-List-Received-Date: Wed, 30 May 2012 13:28:48 -0000
+X-Groupsio-MsgNum: 22970
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="movZSYdJ761vCHaE"
+Content-Disposition: inline
 
---bcaec52be543b7d2d204c140c7dc
-Content-Type: text/plain; charset=UTF-8
-
-On Wednesday, May 30, 2012, Samuel Stirtzel wrote:
-
-> 2012/5/29 Khem Raj <raj.khem@gmail.com <javascript:;>>:
-> >>
-> >> At some extend yes, the configuration checks the host, the default
-> >> string passed is "arm" but the configure.in checks for:
-> >>
-> >> case "${host_cpu}" in
-> >> ...
-> >>      armv7*)
-> >>       AC_MSG_RESULT([ok (${host_cpu})])
-> >>       ARCH_MAX="arm"
-> >>
-> >
-> > in OE we know that compiler is configured to generate code for armv7
-> > therefore you can safely change armv7* above in configure.in to be arm*
-> >
->
-> On this change I don't have a strong opinion (looks rather cosmetically).
-> But sure I can send a follow up patch like you suggested.
-
-
-It is not cosmetic if you see it also enables it for non armv7 archs
-
->
->
-> --
-> Regards
-> Samuel
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org <javascript:;>
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
-
---bcaec52be543b7d2d204c140c7dc
-Content-Type: text/html; charset=UTF-8
+--movZSYdJ761vCHaE
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-<br><br>On Wednesday, May 30, 2012, Samuel Stirtzel  wrote:<br><blockquote =
-class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid=
-;padding-left:1ex">2012/5/29 Khem Raj &lt;<a href=3D"javascript:;" onclick=
-=3D"_e(event, &#39;cvml&#39;, &#39;raj.khem@gmail.com&#39;)">raj.khem@gmail=
-.com</a>&gt;:<br>
+On Wed, May 30, 2012 at 02:10:13PM +0100, Richard Purdie wrote:
+> On Wed, 2012-05-30 at 14:53 +0200, Martin Jansa wrote:
+> > On Wed, May 30, 2012 at 02:20:07PM +0200, Martin Jansa wrote:
+> > > On Wed, May 30, 2012 at 02:04:43PM +0200, Martin Jansa wrote:
+> > > > On Wed, May 30, 2012 at 11:05:49AM +0000, git@git.openembedded.org =
+wrote:
+> > > > > Module: openembedded-core.git
+> > > > > Branch: master
+> > > > > Commit: da98266f3a228cf65f279db9810a5326c8bd5422
+> > > > > URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=
+=3Dcommit;h=3Dda98266f3a228cf65f279db9810a5326c8bd5422
+> > > > >=20
+> > > > > Author: Valentin Popa <valentin.popa@intel.com>
+> > > > > Date:   Wed May 23 14:08:58 2012 +0300
+> > > > >=20
+> > > > > xz: updated to version 5.1.1alpha
+> > > >=20
+> > > > this upgrade is causing liblzma package name change
+> > > > -liblzma5_5.0.3-r1_armv4te.ipk
+> > > > +liblzma_5.1.1alpha-r0_armv4t.ipk
+> > > >=20
+> > > > so all packages which rdepends on liblzma should get PR bump, e.g.:
+> > > >  *libsystemd-journal0
+> > > >  *libpoppler18
+> > > >  *libsdl-image-1.2-0
+> > > >  *libpoppler-glib8
+> > > >  *systemd
+> > > >  *ethumb
+> > > >  *libtiff5
+> > > >  *epdf
+> > > >=20
+> > > > Cheers,
+> > >=20
+> > > Looks like whole debian.bbclass got broken by todays merge in oe-core=
+=2E.
+> >=20
+> > looking at buildhistory
+> > http://git.shr-project.org/git/?p=3Dbuildhistory.git;a=3Dcommitdiff;h=
+=3D320a9a8a80f0d412cea31a534a8022bacf6545e6#patch330
+> >=20
+> > it looks like run.package_do_shlibs also doesn't work (all RDEPENDS
+> > detected from shlibs are gone), can someone confirm this behavior on=20
+> > his system?
+>=20
+> Yes, its from:
+>=20
+> http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=3D5996b2b58e36864edc=
+077326a942795ca12f48da
+>=20
+> I'm still trying to figure out the best course of action to fix this...
 
-&gt;&gt;<br>
-&gt;&gt; At some extend yes, the configuration checks the host, the default=
-<br>
-&gt;&gt; string passed is &quot;arm&quot; but the <a href=3D"http://configu=
-re.in" target=3D"_blank">configure.in</a> checks for:<br>
-&gt;&gt;<br>
-&gt;&gt; case &quot;${host_cpu}&quot; in<br>
-&gt;&gt; ...<br>
-&gt;&gt; =C2=A0 =C2=A0 =C2=A0armv7*)<br>
-&gt;&gt; =C2=A0 =C2=A0 =C2=A0 AC_MSG_RESULT([ok (${host_cpu})])<br>
-&gt;&gt; =C2=A0 =C2=A0 =C2=A0 ARCH_MAX=3D&quot;arm&quot;<br>
-&gt;&gt;<br>
-&gt;<br>
-&gt; in OE we know that compiler is configured to generate code for armv7<b=
-r>
-&gt; therefore you can safely change armv7* above in <a href=3D"http://conf=
-igure.in" target=3D"_blank">configure.in</a> to be arm*<br>
-&gt;<br>
-<br>
-On this change I don&#39;t have a strong opinion (looks rather cosmetically=
-).<br>
-But sure I can send a follow up patch like you suggested.</blockquote><div>=
-<br></div><div>It is not cosmetic if you see it also enables it for non arm=
-v7 archs=C2=A0<span></span></div><blockquote class=3D"gmail_quote" style=3D=
-"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+Ah, thanks for info..
 
-<br>
-<br>
---<br>
-Regards<br>
-Samuel<br>
-<br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"javascript:;" onclick=3D"_e(event, &#39;cvml&#39;, &#39;Openembe=
-dded-core@lists.openembedded.org&#39;)">Openembedded-core@lists.openembedde=
-d.org</a><br>
-<a href=3D"http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded=
--core" target=3D"_blank">http://lists.linuxtogo.org/cgi-bin/mailman/listinf=
-o/openembedded-core</a><br>
-</blockquote>
+so I have reverted all 3 (to be sure) locally and now trying to find and=20
+rebuild everything which was built today to get sane feed again.
 
---bcaec52be543b7d2d204c140c7dc--
+Cheers,
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--movZSYdJ761vCHaE
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
+
+iEYEARECAAYFAk/GHikACgkQN1Ujt2V2gBySXwCeOd6AgsQKtv73CAQeLOUsjRtN
+jzIAn3QRTdBbsk7jzH7Up6oIe5hUEtqK
+=xHBg
+-----END PGP SIGNATURE-----
+
+--movZSYdJ761vCHaE--
