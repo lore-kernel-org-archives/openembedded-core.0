@@ -1,29 +1,34 @@
-Received: from mail1.windriver.com ([147.11.146.13])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Liezhi.Yang@windriver.com>) id 1SZfLl-0001iZ-AA
-	for openembedded-core@lists.openembedded.org;
-	Wed, 30 May 2012 11:37:53 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q4U9RWAF009576
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 30 May 2012 02:27:32 -0700 (PDT)
-Received: from [128.224.163.142] (128.224.163.142) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Wed, 30 May 2012 02:27:31 -0700
-Message-ID: <4FC5E801.7090303@windriver.com>
-Date: Wed, 30 May 2012 17:27:29 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
-MIME-Version: 1.0
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1SZfRB-0001oZ-CZ for openembedded-core@lists.openembedded.org;
+	Wed, 30 May 2012 11:43:29 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q4U9XCFW020836
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 30 May 2012 10:33:12 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 17694-09 for <openembedded-core@lists.openembedded.org>;
+	Wed, 30 May 2012 10:33:08 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q4U9X24W020830
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 30 May 2012 10:33:04 +0100
+Message-ID: <1338370380.20169.112.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1338302685.git.liezhi.yang@windriver.com>
-	<17015f5456a8216f84817ef9183b83779537347d.1338302685.git.liezhi.yang@windriver.com>
-	<CABcZANmqC4JZgJ6bMq+JNfQAoirngBxY_bSch+Ae=s4o48pqqQ@mail.gmail.com>
-In-Reply-To: <CABcZANmqC4JZgJ6bMq+JNfQAoirngBxY_bSch+Ae=s4o48pqqQ@mail.gmail.com>
-Cc: Chris Larson <clarson@kergoth.com>, Zhenfeng.Zhao@windriver.com
-Subject: Re: [PATCH 4/4] scripts: replace os.popen with subprocess.Popen
+Date: Wed, 30 May 2012 10:33:00 +0100
+In-Reply-To: <lyr4u3rtpb.fsf@ensc-virt.intern.sigma-chemnitz.de>
+References: <1338294584.20169.103.camel@ted>
+	<lyr4u3rtpb.fsf@ensc-virt.intern.sigma-chemnitz.de>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH] ccache: Separate out into its own class
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,57 +43,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 May 2012 09:37:53 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+X-List-Received-Date: Wed, 30 May 2012 09:43:29 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
+On Tue, 2012-05-29 at 15:40 +0200, Enrico Scholz wrote:
+> Richard Purdie
+> <richard.purdie-hQyY1W1yCW8ekmWlsbkhG0B+6BGkLq7r@public.gmane.org>
+> writes:
+> 
+> > Currently, ccache is used if it is present. When building from scratch
+> > it gives no performance improvement
+> 
+> Here, I have a 10% cache hit ratio in a scratch build:
+> 
+> cache hit (direct)                  2841
+> cache hit (preprocessed)            1370
+> cache miss                         39957
+> called for link                     3369
+> called for preprocessing            3207
+> multiple source files                  8
+> compile failed                      2531
+> preprocessor error                   432
+> couldn't find the compiler           111
+> bad compiler arguments               468
+> unsupported source language          532
+> autoconf compile/link               6613
+> unsupported compiler option          132
+> no input file                       2919
+> files in cache                     94205
+> cache size                           2.0 Gbytes
+> max cache size                       3.0 Gbytes
+> 
 
-On 05/30/2012 01:30 AM, Chris Larson wrote:
-> On Tue, May 29, 2012 at 7:53 AM, Robert Yang<liezhi.yang@windriver.com>  wrote:
->> Replace os.popen with subprocess.Popen since the older function would
->> fail (more or less) silently if the executed program cannot be found
->>
->> More info:
->> http://docs.python.org/library/subprocess.html#subprocess-replacements
->>
->> [YOCTO #2454]
->>
->> Signed-off-by: Robert Yang<liezhi.yang@windriver.com>
->> ---
->>   scripts/contrib/python/generate-manifest-2.7.py |    3 ++-
->>   1 files changed, 2 insertions(+), 1 deletions(-)
->>
->> diff --git a/scripts/contrib/python/generate-manifest-2.7.py b/scripts/contrib/python/generate-manifest-2.7.py
->> index 7b43137..d139ab1 100755
->> --- a/scripts/contrib/python/generate-manifest-2.7.py
->> +++ b/scripts/contrib/python/generate-manifest-2.7.py
->> @@ -13,6 +13,7 @@
->>   import os
->>   import sys
->>   import time
->> +import subprocess
->>
->>   VERSION = "2.7.2"
->>
->> @@ -149,7 +150,7 @@ class MakefileMaker:
->>   if __name__ == "__main__":
->>
->>      if len( sys.argv )>  1:
->> -        os.popen( "rm -f ./%s" % sys.argv[1] )
->> +        subprocess.Popen("rm -f ./%s" % sys.argv[1], shell=True, stdout=subprocess.PIPE).stdout
->>          outfile = file( sys.argv[1], "w" )
->>      else:
->>          outfile = sys.stdout
->
-> This seems like a candidate for subprocess.call, not subprocess.Popen,
-> as the output isn't used. Better yet, just use os.unlink() and ignore
-> exceptions from it.
+That's good data, thanks for sharing it. In any measurement I've made,
+it doesn't seem to help the wall time for the build though :(
 
-Thanks, Chris, I will send the V2 sooner.
+We're not removing the ability to use ccache, just changing the way its
+enabled which all things considered I still think is a good move...
 
-// Robert
+Cheers,
 
-
+Richard
 
 
 
