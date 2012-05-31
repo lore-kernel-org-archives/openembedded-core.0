@@ -1,33 +1,28 @@
-Received: from mail-yx0-f175.google.com ([209.85.213.175])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <aalonso00@gmail.com>) id 1SaCSn-0000zz-6I
+	(envelope-from <mark.hatle@windriver.com>) id 1SaCVj-0001Ye-Bm
 	for openembedded-core@lists.openembedded.org;
-	Thu, 31 May 2012 22:59:21 +0200
-Received: by yenl13 with SMTP id l13so1254973yen.6
+	Thu, 31 May 2012 23:02:23 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q4VKq1h1009424
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 May 2012 13:49:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type:content-transfer-encoding;
-	bh=kuYsIrb9Y00zD891vz+bbYFjfZGd+bgv+3McDxYvB64=;
-	b=KK7SyfzNYWFiPNBhQ48tZu3DkKqkHCO7IKqNd0i9q3imwhyRwR6ZOZ+OvKWd3GtKtN
-	Gl0OjOoYvabgV3f4F4/ptkKup3t7jFYJUVZ1hmx8Zs+PaISxPt2myyyVY5iHU1/P+9o/
-	a270leUVj2+zQn7dHOrX9RXJ1ZdBVleg0DrYVhoahe07XKZ3TXVdgDjsoFQFIXgJqJIL
-	Bfc1s0bFKYZqnDWmtMBYN3JQ//fVvl0w5UmSqaSk494T0k3GLeeKrcskSDC77vb5g29M
-	63ny7BAPsJsppZ1ER6jQqw2gTEJpFjq/Wuui8EoR6cCbIggTVuZv6EugSEK9OJypl2Fa
-	fa7g==
+	Thu, 31 May 2012 13:52:02 -0700 (PDT)
+Received: from msp-dhcp42.wrs.com (172.25.34.42) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Thu, 31 May 2012 13:52:01 -0700
+Message-ID: <4FC7D9F0.20203@windriver.com>
+Date: Thu, 31 May 2012 15:52:00 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
+	rv:12.0) Gecko/20120428 Thunderbird/12.0.1
 MIME-Version: 1.0
-Received: by 10.50.222.170 with SMTP id qn10mr77495igc.45.1338497340219; Thu,
-	31 May 2012 13:49:00 -0700 (PDT)
-Received: by 10.64.0.77 with HTTP; Thu, 31 May 2012 13:49:00 -0700 (PDT)
-In-Reply-To: <33616B9B-AAC8-474C-8790-047AA44C1C89@gmail.com>
-References: <33616B9B-AAC8-474C-8790-047AA44C1C89@gmail.com>
-Date: Thu, 31 May 2012 15:49:00 -0500
-Message-ID: <CAAB-1yw=5xF=YGY+VgU-RvCHYNJ2zYWvZBTwVR+2L3L0UUqG1A@mail.gmail.com>
-From: Adrian Alonso <aalonso00@gmail.com>
-To: Elvis Dowson <elvis.dowson@gmail.com>
-Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: [meta-xilinx] Generating device tree for building linux-xilinx kernel
+To: <openembedded-core@lists.openembedded.org>
+References: <72EA6980-26CF-4ABB-A6F9-9CD5F555EBEB@gmail.com>
+	<F243C528-1700-497D-A358-B43DB67CE753@gmail.com>
+In-Reply-To: <F243C528-1700-497D-A358-B43DB67CE753@gmail.com>
+Subject: Re: [meta-xilinx] WARNING: QA Issue: bash & shell scripts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,40 +37,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 May 2012 20:59:21 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 31 May 2012 21:02:23 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-That's a second process that you need todo with xilinx EDK to export
-and launch xilinx SDK
-from there create a new device tree project which will parse the "mhs"
-hardware descriptor file
-and from there generate the device tree according to the hwd settings...
-
-The only docs available to get to know how the SW/HW works are part of
-my thesis which can
-be found here: http://aalonso.wordpress.com/2011/11/08/thesis-documents/
-
-Regards
-Adrian Alonso
-
-On Thu, May 31, 2012 at 3:28 PM, Elvis Dowson <elvis.dowson@gmail.com> wrot=
-e:
-> Hi Adrian,
-> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 When I attempt to build the linux-xil=
-inx kernel, it doesn't find the device tree (*.dts) in the xilinx-ml507-upd=
-ate BSP project. Is the device tree supposed to be generated manually? If s=
-o, could you please tell me how to generate it?
+On 5/31/12 12:40 PM, Elvis Dowson wrote:
+> Hi,
 >
-> Best regards,
+> On May 31, 2012, at 7:38 PM, Elvis Dowson wrote:
 >
+>> I've found the following warnings while attempting to build linux-xilinx. How can I trace which package it's originating from and what can I do to fix it?
+>>
+>> WARNING: QA Issue: bash: Found a reference to /usr/ in /tool/yocto/poky/build/tmp/work/ppc440-poky-linux/bash-4.2-r2/packages-split/bash/bin/bashbug
+>> WARNING: QA Issue: Shell scripts in base_bindir and base_sbindir should not reference anything in exec_prefix
+>
+> Sorry about that silly question, its originating from the bash-4.2 package. What should I do to fix it?
+
+It's just a warning.... you don't need to fix it.
+
+We're working on a fix for that right now.. the bashbug file is a shell script 
+that adds /usr/bin to the path.  This causes the QA warning to hit and complain 
+that there may be references to /usr/bin items in the script.
+
+The warning is because things in /bin are assumed to be required for booting, 
+and you may boot w/o /usr being mounted.. causing a potential problem.  I can't 
+see why bashbug would ever be used for booting, so this shouldn't be a problem.
+
+Right now, I expect we're going to "fix" the problem with a two step patch.. 
+The first being to move bashbug from base_bindir to bindir, and the second to 
+split it into a new package so that it's not always installed..  (it's only 7k 
+or so.. but why even install it on an embedded system unless it's really needed.)
+
+--Mark
+
 > Elvis Dowson
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
-
-
---=20
-Saludos
-Adrian Alonso
-http://aalonso.wordpress.com
 
 
