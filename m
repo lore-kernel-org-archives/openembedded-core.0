@@ -1,25 +1,25 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Xiaofeng.Yan@windriver.com>) id 1SZyb1-00019j-DD
+	(envelope-from <Xiaofeng.Yan@windriver.com>) id 1SZyb2-00019k-Ff
 	for openembedded-core@lists.openembedded.org;
-	Thu, 31 May 2012 08:10:55 +0200
+	Thu, 31 May 2012 08:10:56 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q4V60ZGj025995
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q4V60a72005965
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 May 2012 23:00:35 -0700 (PDT)
+	Wed, 30 May 2012 23:00:36 -0700 (PDT)
 Received: from localhost.localdomain (128.224.162.28) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.1.255.0; Wed, 30 May 2012 23:00:34 -0700
+	14.1.255.0; Wed, 30 May 2012 23:00:36 -0700
 From: <xiaofeng.yan@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 31 May 2012 14:02:56 +0800
-Message-ID: <ee86332c73aa80fe35b1d87818edd966a07829b6.1338443711.git.xiaofeng.yan@windriver.com>
+Date: Thu, 31 May 2012 14:02:57 +0800
+Message-ID: <354a7b8da4265e47f351fa1b6bc4cfe7adc6eebd.1338443711.git.xiaofeng.yan@windriver.com>
 X-Mailer: git-send-email 1.7.0.4
 In-Reply-To: <cover.1338443711.git.xiaofeng.yan@windriver.com>
 References: <cover.1338443711.git.xiaofeng.yan@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/2] archiver.bbclass: Improve the usability for the archiver classes
+Subject: [PATCH 2/2] local.conf.sample.extended: Change the usage about arhiver.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,40 +34,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 May 2012 06:10:56 -0000
+X-List-Received-Date: Thu, 31 May 2012 06:10:57 -0000
 Content-Type: text/plain
 
 From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
 
-The usability of the archiver classes can be improved, beyond the
-simple addition of default values for the variables. A user could
-well inherit just archiver rather than the individual useful classes,
-and not realize it will do nothing.
+Change the usage about arhiver.bbclass due to the improvement for
+usability of archiver.bbclass
 
 [YOCTO #2472]
 
 Signed-off-by: Xiaofeng Yan <xiaofeng.yan@windriver.com>
 ---
- meta/classes/archiver.bbclass |    6 ++++--
- 1 files changed, 4 insertions(+), 2 deletions(-)
+ meta-yocto/conf/local.conf.sample.extended |   31 ++++++++++++++++-----------
+ 1 files changed, 18 insertions(+), 13 deletions(-)
 
-diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
-index ac8aa95..582c565 100644
---- a/meta/classes/archiver.bbclass
-+++ b/meta/classes/archiver.bbclass
-@@ -6,8 +6,10 @@ ARCHIVE_EXCLUDE_FROM ?= ".pc autom4te.cache"
- ARCHIVE_TYPE ?= "TAR SRPM"
- DISTRO ?= "poky"
- PATCHES_ARCHIVE_WITH_SERIES = 'TRUE'
--SOURCE_ARCHIVE_LOG_WITH_SCRIPTS ?= 'logs_with_scripts'
--SOURCE_ARCHIVE_PACKAGE_TYPE ?= 'tar'
-+SOURCE_ARCHIVE_LOG_WITH_SCRIPTS ?= '${@d.getVarFlag('ARCHIVER_MODE', 'log_type') \
-+                                    if d.getVarFlag('ARCHIVER_MODE', 'log_type') != 'none' else 'logs_with_scripts'}'
-+SOURCE_ARCHIVE_PACKAGE_TYPE ?= '${@d.getVarFlag('ARCHIVER_MODE','type') \
-+                                 if d.getVarFlag('ARCHIVER_MODE', 'log_type')!= 'none' else 'tar'}'
+diff --git a/meta-yocto/conf/local.conf.sample.extended b/meta-yocto/conf/local.conf.sample.extended
+index b493094..66b94ad 100644
+--- a/meta-yocto/conf/local.conf.sample.extended
++++ b/meta-yocto/conf/local.conf.sample.extended
+@@ -184,20 +184,25 @@
  
- def get_bb_inc(d):
- 	'''create a directory "script-logs" including .bb and .inc file in ${WORKDIR}'''
+ # Archiving source code configuration
+ #
+-# The following variables control which files to archive and the type to archive to generate.
+-# There are three basic class defintions of common operations that might be desired and these
+-# can be enabled by uncommenting one of the following lines:
+-#
+-# INHERIT += "archive-original-source"
+-# INHERIT += "archive-patched-source"
+-#INHERIT =+ "archive-configured-source"
+-#
++# The following variables control which files to archive and
++# the type to archive to generate.
++# The content to archive
++# "original":    Copy source code package from downloads if existing. 
++# Archive source code after do_unpack if not found in downloads 
++# "patched":    Archive source code package after do_patch
++# "configured": Archive source code package after do_configure 
++# ARCHIVER_MODE[choices] = "none original patched configured"
+ # Type of archive:
+-# SOURCE_ARCHIVE_PACKAGE_TYPE = 'srpm'
+-#SOURCE_ARCHIVE_PACKAGE_TYPE ?= 'tar'
+-#
++# ARCHIVER_MODE[type] = "tar srpm"
+ # Whether to include WORKDIR/temp, .bb and .inc files:
+ # 'logs_with_scripts' include WORKDIR/temp directory and .bb and .inc files
+ # 'logs' only include WORKDIR/temp
+-# SOURCE_ARCHIVE_LOG_WITH_SCRIPTS ?= 'logs'
+-#SOURCE_ARCHIVE_LOG_WITH_SCRIPTS ?= 'logs_with_scripts'
++# ARCHIVER_MODE[log_type] = "logs logs_with_scripts"
++# There are three basic class defintions of common operations 
++# that might be desired and these can be enabled by 
++# uncommenting five of the following lines:
++#ARCHIVER_MODE ?= "original"
++#ARCHIVER_MODE[type] ?= "tar"
++#ARCHIVER_MODE[log_type] ?= "logs_with_scripts"
++#ARCHIVER_CLASS = "${@'archive-${ARCHIVER_MODE}-source' if ARCHIVER_MODE != 'none' else ''}"
++#INHERIT += "${ARCHIVER_CLASS}"
 -- 
 1.7.0.4
 
