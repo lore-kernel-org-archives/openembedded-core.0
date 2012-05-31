@@ -1,26 +1,33 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from hermes.mlbassoc.com ([64.234.241.98] helo=mail.chez-thomas.org)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Liezhi.Yang@windriver.com>) id 1Sa6Hh-0000FD-8l
+	(envelope-from <gary@mlbassoc.com>) id 1Sa6cl-0000XD-Kt
 	for openembedded-core@lists.openembedded.org;
-	Thu, 31 May 2012 16:23:29 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q4VED8wm003684
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 May 2012 07:13:08 -0700 (PDT)
-Received: from usp-ub10.corp.ad.wrs.com (128.224.163.69) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.1.255.0; Thu, 31 May 2012 07:13:08 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 31 May 2012 22:13:32 +0800
-Message-ID: <87ca0cf2285b018489bde046b0aa7e17a767c70a.1338434706.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.1
-In-Reply-To: <cover.1338434706.git.liezhi.yang@windriver.com>
-References: <cover.1338434706.git.liezhi.yang@windriver.com>
+	Thu, 31 May 2012 16:45:15 +0200
+Received: by mail.chez-thomas.org (Postfix, from userid 1998)
+	id BA142F81238; Thu, 31 May 2012 08:34:55 -0600 (MDT)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	hermes.chez-thomas.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=ham version=3.3.2
+Received: from hermes.chez-thomas.org (localhost.localdomain [127.0.0.1])
+	by mail.chez-thomas.org (Postfix) with ESMTP id A4F5DF81235;
+	Thu, 31 May 2012 08:34:54 -0600 (MDT)
+Message-ID: <4FC7818E.3030704@mlbassoc.com>
+Date: Thu, 31 May 2012 08:34:54 -0600
+From: Gary Thomas <gary@mlbassoc.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
 MIME-Version: 1.0
-Cc: Zhenfeng.Zhao@windriver.com
-Subject: [PATCH 1/1] opkg 0.1.8: respect to the arch when choose the alternatives
+To: openembedded-core@lists.openembedded.org
+References: <CAOHjBZsptjefvQA3od1HV4s_fVcoHidWs5qUm-2A5+Fr9ZrRLg@mail.gmail.com>
+	<CAMKF1spunqV3__K7_jEt5oQwg=J0v+TwZSUtGOv=DeipCPkzSA@mail.gmail.com>
+	<CAOHjBZv9jC9pVwxS9CCjvY0wFo8_9sOaFeUQwMxPEuF8EJDuiA@mail.gmail.com>
+	<CAOHjBZvGY9BWkyS+9V4OtGFcQpCC2SdzKwG9pQ0wq_oeqU=uTw@mail.gmail.com>
+	<CAMKF1so8aA=s7wfo9k9wGNSwyuGYXmd5Ec9x=5Bp0YJbaiJoFA@mail.gmail.com>
+	<CAOHjBZvZmXugpmxypMamZbm1LYdOqTAp4Z+1CBPn1DyohjO3Yw@mail.gmail.com>
+In-Reply-To: <CAOHjBZvZmXugpmxypMamZbm1LYdOqTAp4Z+1CBPn1DyohjO3Yw@mail.gmail.com>
+Subject: Re: target rpm build failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,123 +42,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 May 2012 14:23:29 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 31 May 2012 14:45:15 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-There is a bug if we:
-1) bitbake core-image-sato-sdk MACHINE=qemux86
-2) bitbake core-image-sato with MACHINE=crownbay
+On 2012-05-31 07:57, Giuseppe Condorelli wrote:
+> Thanks for the reply,
+> unfortunately I depend from rpm, I need just rpm packages.
 
-Then several pkgs in deploy/ipk/i586 would be installed to crownbay's
-image even if there is one in deploy/ipk/core2 and we have set the
-core2's priority higher than i586, when the version in deploy/ipk/i586 is
-higher. This doesn't work for us, for example, what the crownbay need is
-xserver-xorg-1.9.3, but it installs xserver-xorg-1.11.2.
+Why do you need RPM?
 
-This is caused by opkg's selecting mechanism, if there are more than one
-candidates which have the same pkg name in the candidate list, for
-example, the same pkg with different versions, then it will use the last
-one which is the highest version in the list, this doesn't work for us,
-it should respect to the arch priorities in such a case.
+> So can you confirm the target rpm for uclibc is not building?
+> Thanks again,
+> Giuseppe
+>
+> 2012/5/31 Khem Raj <raj.khem@gmail.com <mailto:raj.khem@gmail.com>>
+>
+>     On Thu, May 31, 2012 at 5:35 AM, Giuseppe Condorelli
+>     <giuseppe.condorelli@gmail.com <mailto:giuseppe.condorelli@gmail.com>> wrote:
+>     >  Is there some difference for uclibc? Please let me know.
+>
+>     opkg works well with uclibc based systems. Those functions are not
+>     implemented in uclibc I am sure it can be fixed
+>     by linking in other libs or may be creating one. However if you are
+>     not bound to rpm then I would suggest to use opkg
+>
+>     in your local.conf set it
+>
+>     PACKAGE_CLASSES = "package_ipk"
 
-This is for both denzil and master branch.
-
-[YOCTO #2360]
-
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- .../opkg/opkg/respect-to-arch.patch                |   47 ++++++++++++++++++++
- meta/recipes-devtools/opkg/opkg_0.1.8.bb           |    3 +-
- meta/recipes-devtools/opkg/opkg_svn.bb             |    3 +-
- 3 files changed, 51 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-devtools/opkg/opkg/respect-to-arch.patch
-
-diff --git a/meta/recipes-devtools/opkg/opkg/respect-to-arch.patch b/meta/recipes-devtools/opkg/opkg/respect-to-arch.patch
-new file mode 100644
-index 0000000..6f4537f
---- /dev/null
-+++ b/meta/recipes-devtools/opkg/opkg/respect-to-arch.patch
-@@ -0,0 +1,47 @@
-+pkg_hash.c: respect to the arch priorities when good_pkg_by_name
-+
-+If there are more than one candidates which have the same pkg name in
-+the candidate list, for example, the same pkg with different versions,
-+then it will use the last one which is the highest version in the list,
-+it should respect to the arch priorities in such a case.
-+
-+Upstream Status: Pending
-+
-+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-+---
-+ libopkg/pkg_hash.c |   18 +++++++++++++++---
-+ 1 files changed, 15 insertions(+), 3 deletions(-)
-+
-+diff --git a/libopkg/pkg_hash.c b/libopkg/pkg_hash.c
-+index a99cf6b..cc048c8 100644
-+--- a/libopkg/pkg_hash.c
-++++ b/libopkg/pkg_hash.c
-+@@ -376,10 +376,22 @@ pkg_hash_fetch_best_installation_candidate(abstract_pkg_t *apkg,
-+           if (constraint_fcn(matching, cdata)) {
-+              opkg_msg(DEBUG, "Candidate: %s %s.\n",
-+ 			     matching->name, matching->version) ;
-+-             good_pkg_by_name = matching;
-++             /* Respect to the arch priorities when given alternatives */
-++             if (good_pkg_by_name) {
-++                 if (matching->arch_priority >= good_pkg_by_name->arch_priority) {
-++                     good_pkg_by_name = matching;
-++                     opkg_msg(DEBUG, "%s %s wins by priority.\n",
-++                         matching->name, matching->version) ;
-++                 } else
-++                     opkg_msg(DEBUG, "%s %s wins by priority.\n",
-++                         good_pkg_by_name->name, good_pkg_by_name->version) ;
-++             } else
-++                 good_pkg_by_name = matching;
-+ 	     /* It has been provided by hand, so it is what user want */
-+-             if (matching->provided_by_hand == 1)
-+-                break;
-++             if (matching->provided_by_hand == 1) {
-++                 good_pkg_by_name = matching;
-++                 break;
-++             }
-+           }
-+      }
-+ 
-+-- 
-+1.7.1
-+
-diff --git a/meta/recipes-devtools/opkg/opkg_0.1.8.bb b/meta/recipes-devtools/opkg/opkg_0.1.8.bb
-index c206b37..09ff3b5 100644
---- a/meta/recipes-devtools/opkg/opkg_0.1.8.bb
-+++ b/meta/recipes-devtools/opkg/opkg_0.1.8.bb
-@@ -3,6 +3,7 @@ require opkg.inc
- SRC_URI = "http://opkg.googlecode.com/files/opkg-${PV}.tar.gz \
-            file://add_vercmp.patch \
-            file://headerfix.patch \
-+           file://respect-to-arch.patch \
-           "
- 
--PR = "${INC_PR}.0"
-+PR = "${INC_PR}.1"
-diff --git a/meta/recipes-devtools/opkg/opkg_svn.bb b/meta/recipes-devtools/opkg/opkg_svn.bb
-index c07d393..890ed52 100644
---- a/meta/recipes-devtools/opkg/opkg_svn.bb
-+++ b/meta/recipes-devtools/opkg/opkg_svn.bb
-@@ -6,6 +6,7 @@ SRC_URI = "svn://opkg.googlecode.com/svn;module=trunk;proto=http \
-            file://fix_installorder.patch \
-            file://offline_postinstall.patch\
-            file://track_parents.patch \
-+           file://respect-to-arch.patch \
- "
- 
- S = "${WORKDIR}/trunk"
-@@ -13,4 +14,4 @@ S = "${WORKDIR}/trunk"
- SRCREV = "633"
- PV = "0.1.8+svnr${SRCPV}"
- 
--PR = "${INC_PR}.0"
-+PR = "${INC_PR}.1"
 -- 
-1.7.1
-
+------------------------------------------------------------
+Gary Thomas                 |  Consulting for the
+MLB Associates              |    Embedded world
+------------------------------------------------------------
 
 
