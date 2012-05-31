@@ -1,38 +1,34 @@
-Received: from mail-bk0-f47.google.com ([209.85.214.47])
+Received: from mail-gh0-f178.google.com ([209.85.160.178])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <schnitzeltony@googlemail.com>) id 1Sa3TM-0001a0-Hj
+	(envelope-from <giuseppe.condorelli@gmail.com>) id 1Sa4lY-0004ju-J1
 	for openembedded-core@lists.openembedded.org;
-	Thu, 31 May 2012 13:23:21 +0200
-Received: by bkcjm2 with SMTP id jm2so722170bkc.6
+	Thu, 31 May 2012 14:46:12 +0200
+Received: by ghbf1 with SMTP id f1so940140ghb.9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 May 2012 04:13:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
-	:mime-version:content-type:content-transfer-encoding;
-	bh=4VN653ibOeBIzp0aJPWbdhJe7MHzasWeGJ2Xks1c5LM=;
-	b=WhqN9ld2NtqqZ/wDC/KjgO2EFjDUmsAkhyX6W55mICt70lGkgKbX57F9Qr1Wb3Dd5C
-	ua8JmICYf168s+l6pmPmSJuplHE0nYljC7zzVkgzXKBhImNt1eI5Okdi0Qz4WnBq/31x
-	3sAiPguCLvpdbbMiupF8EPcXe20wvC3Wux2rJnKxE+aB7YxqDw12UgbSeyTK3+29CTxG
-	b9owS70as6cXVaC9o6X2k+RtKZ+lpFdLqbBOxGc5wBoQc/x/Zjhh1qmlac7hxhOJ7SNC
-	cbsXiLDArQeiYVIN99UmDz5qWsSNGYdKWpedeD9Zt+YRd2YK1xBjfEv5JGX7jDY7k+5O
-	bgUA==
-Received: by 10.205.134.6 with SMTP id ia6mr11720035bkc.51.1338462780988;
-	Thu, 31 May 2012 04:13:00 -0700 (PDT)
-Received: from localhost.localdomain (ip-95-222-156-83.unitymediagroup.de.
-	[95.222.156.83])
-	by mx.google.com with ESMTPS id gm18sm2835908bkc.7.2012.05.31.04.12.59
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 31 May 2012 04:13:00 -0700 (PDT)
-From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 31 May 2012 13:12:45 +0200
-Message-Id: <1338462765-18412-2-git-send-email-schnitzeltony@googlemail.com>
-X-Mailer: git-send-email 1.7.6.5
-In-Reply-To: <1338462765-18412-1-git-send-email-schnitzeltony@googlemail.com>
-References: <1338462765-18412-1-git-send-email-schnitzeltony@googlemail.com>
+	Thu, 31 May 2012 05:35:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type; bh=lkvUoLZ7ZSZRtk3vcx9nWMO6hJO8QsfjUJaSHCjm9ws=;
+	b=eq52Ri6dEJtPQfWoVPN0xXvorosrsPFw/yjRwzNDyN7xhx2smYcvsOdrFPlX7Gfyh1
+	sg8d9YM0kG0rAJgMzfa15lu2nge9ode8I4spFbWLLFv4/IfxXz5QAtXqOoc/75frqKcI
+	FsRb7e3ePnuUI06791G1GmGEIgaZa+AlOGedfk0NXQdDBVZeRW+BvfvbOeH3jj3iGkHP
+	BGUrX0LCMBMfo0QN8hCXagxY50EbWgZJDYFs6Ks3FeYPvuyo1o0tVJ6PmrbVKnn3YzPA
+	YC7Cb2AfXTgFAtuxSJrH1oMxOgUgFYRIlYC+XY7ZaFNy+tXZH5Ui4VFyEes5FrPJuZQw
+	UrkQ==
 MIME-Version: 1.0
-Subject: [V2 2/2] buildhistory.bbclass: add pkg_pre/postinst/rm contents
+Received: by 10.50.207.38 with SMTP id lt6mr13671798igc.55.1338467751937; Thu,
+	31 May 2012 05:35:51 -0700 (PDT)
+Received: by 10.231.233.196 with HTTP; Thu, 31 May 2012 05:35:51 -0700 (PDT)
+In-Reply-To: <CAOHjBZv9jC9pVwxS9CCjvY0wFo8_9sOaFeUQwMxPEuF8EJDuiA@mail.gmail.com>
+References: <CAOHjBZsptjefvQA3od1HV4s_fVcoHidWs5qUm-2A5+Fr9ZrRLg@mail.gmail.com>
+	<CAMKF1spunqV3__K7_jEt5oQwg=J0v+TwZSUtGOv=DeipCPkzSA@mail.gmail.com>
+	<CAOHjBZv9jC9pVwxS9CCjvY0wFo8_9sOaFeUQwMxPEuF8EJDuiA@mail.gmail.com>
+Date: Thu, 31 May 2012 14:35:51 +0200
+Message-ID: <CAOHjBZvGY9BWkyS+9V4OtGFcQpCC2SdzKwG9pQ0wq_oeqU=uTw@mail.gmail.com>
+From: Giuseppe Condorelli <giuseppe.condorelli@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: target rpm build failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,146 +43,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 May 2012 11:23:21 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 31 May 2012 12:46:12 -0000
+Content-Type: multipart/alternative; boundary=14dae9340e69e5c62004c1544e21
 
-A use-case would have been [1].
+--14dae9340e69e5c62004c1544e21
+Content-Type: text/plain; charset=ISO-8859-1
 
-The following tests were performed:
-* image from scratch with old buildhistory contents
-* image from scratch with buildhistory contents from scratch
-* decrement a PR for a test recipe and check if the message
-  'ERROR: Package version for xy went backwards' is displayed.
+2012/5/31 Giuseppe Condorelli <giuseppe.condorelli@gmail.com>
 
-[1] http://patches.openembedded.org/patch/28841/
+> Hi Khem,
+>
+> 2012/5/30 Khem Raj <raj.khem@gmail.com>
+>
+>> On Wed, May 30, 2012 at 8:18 AM, Giuseppe Condorelli
+>> <giuseppe.condorelli@gmail.com> wrote:
+>> > It fails on undefined reference to xmalloc, xcalloc, etc... that
+>> however are
+>> > internally defined and used as wrapper for real malloc, etc...
+>> > Please, can somebody try to build this package for me?
+>>
+>> are you using  uclibc for system C library ?
+>>
+> Yes, I do!
+>
+>
 
-Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
----
- meta/classes/buildhistory.bbclass |   80 +++++++++++++++++++++++--------------
- 1 files changed, 50 insertions(+), 30 deletions(-)
+Is there some difference for uclibc? Please let me know.
+Cheers,
+Giuseppe
 
-diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
-index d2d19ff..9c49bab 100644
---- a/meta/classes/buildhistory.bbclass
-+++ b/meta/classes/buildhistory.bbclass
-@@ -57,6 +57,10 @@ python buildhistory_emit_pkghistory() {
- 			self.rrecommends = ""
- 			self.files = ""
- 			self.filelist = ""
-+			self.preinst = ""
-+			self.postinst = ""
-+			self.prerm = ""
-+			self.postrm = ""
- 
- 	# Should check PACKAGES here to see if anything removed
- 
-@@ -74,18 +78,19 @@ python buildhistory_emit_pkghistory() {
- 		try:
- 			for line in f:
- 				lns = line.split('=')
--				name = lns[0].strip()
--				value = lns[1].strip(" \t\r\n").strip('"')
--				if name == "PE":
--					rcpinfo.pe = value
--				elif name == "PV":
--					rcpinfo.pv = value
--				elif name == "PR":
--					rcpinfo.pr = value
--				elif name == "DEPENDS":
--					rcpinfo.depends = value
--				elif name == "PACKAGES":
--					rcpinfo.packages = value
-+				if len(lns)==2:
-+					name = lns[0].strip()
-+					value = lns[1].strip(" \t\r\n").strip('"')
-+					if name == "PE":
-+						rcpinfo.pe = value
-+					elif name == "PV":
-+						rcpinfo.pv = value
-+					elif name == "PR":
-+						rcpinfo.pr = value
-+					elif name == "DEPENDS":
-+						rcpinfo.depends = value
-+					elif name == "PACKAGES":
-+						rcpinfo.packages = value
- 		finally:
- 			f.close()
- 		return rcpinfo
-@@ -96,24 +101,25 @@ python buildhistory_emit_pkghistory() {
- 		try:
- 			for line in f:
- 				lns = line.split('=')
--				name = lns[0].strip()
--				value = lns[1].strip(" \t\r\n").strip('"')
--				if name == "PE":
--					pkginfo.pe = value
--				elif name == "PV":
--					pkginfo.pv = value
--				elif name == "PR":
--					pkginfo.pr = value
--				elif name == "RDEPENDS":
--					pkginfo.rdepends = value
--				elif name == "RRECOMMENDS":
--					pkginfo.rrecommends = value
--				elif name == "PKGSIZE":
--					pkginfo.size = long(value)
--				elif name == "FILES":
--					pkginfo.files = value
--				elif name == "FILELIST":
--					pkginfo.filelist = value
-+				if len(lns)==2:
-+					name = lns[0].strip()
-+					value = lns[1].strip(" \t\r\n").strip('"')
-+					if name == "PE":
-+						pkginfo.pe = value
-+					elif name == "PV":
-+						pkginfo.pv = value
-+					elif name == "PR":
-+						pkginfo.pr = value
-+					elif name == "RDEPENDS":
-+						pkginfo.rdepends = value
-+					elif name == "RRECOMMENDS":
-+						pkginfo.rrecommends = value
-+					elif name == "PKGSIZE":
-+						pkginfo.size = long(value)
-+					elif name == "FILES":
-+						pkginfo.files = value
-+					elif name == "FILELIST":
-+						pkginfo.filelist = value
- 		finally:
- 			f.close()
- 		return pkginfo
-@@ -198,6 +204,12 @@ python buildhistory_emit_pkghistory() {
- 		filelist.sort()
- 		pkginfo.filelist = " ".join(filelist)
- 
-+		# pre/postinst/rm
-+		pkginfo.preinst = getpkgvar(pkg, 'pkg_preinst') or ""
-+		pkginfo.postinst = getpkgvar(pkg, 'pkg_postinst') or ""
-+		pkginfo.prerm = getpkgvar(pkg, 'pkg_prerm') or ""
-+		pkginfo.postrm = getpkgvar(pkg, 'pkg_postrm') or ""
-+
- 		write_pkghistory(pkginfo, d)
- 
- 		write_latestlink(pkg, pe, pv, pr, d)
-@@ -246,6 +258,14 @@ def write_pkghistory(pkginfo, d):
- 		f.write("PKGSIZE = %d\n" %  pkginfo.size)
- 		f.write("FILES = %s\n" %  pkginfo.files)
- 		f.write("FILELIST = %s\n" %  pkginfo.filelist)
-+		if pkginfo.preinst != "":
-+			f.write("\npkg_preinst=\n%s\n" %  pkginfo.preinst)
-+		if pkginfo.postinst != "":
-+			f.write("\npkg_postinst=\n%s\n" %  pkginfo.postinst)
-+		if pkginfo.prerm != "":
-+			f.write("\npkg_prerm=\n%s\n" %  pkginfo.prerm)
-+		if pkginfo.postrm != "":
-+			f.write("\npkg_postrm=\n%s\n" %  pkginfo.postrm)
- 	finally:
- 		f.close()
- 
--- 
-1.7.6.5
+>
+>
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>>
+>
+>
 
+--14dae9340e69e5c62004c1544e21
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
+<br><br><div class=3D"gmail_quote">2012/5/31 Giuseppe Condorelli <span dir=
+=3D"ltr">&lt;<a href=3D"mailto:giuseppe.condorelli@gmail.com" target=3D"_bl=
+ank">giuseppe.condorelli@gmail.com</a>&gt;</span><br><blockquote style=3D"m=
+argin:0px 0px 0px 0.8ex;padding-left:1ex;border-left-color:rgb(204,204,204)=
+;border-left-width:1px;border-left-style:solid" class=3D"gmail_quote">
+Hi Khem,<br><br><div class=3D"gmail_quote"><div class=3D"im">2012/5/30 Khem=
+ Raj <span dir=3D"ltr">&lt;<a href=3D"mailto:raj.khem@gmail.com" target=3D"=
+_blank">raj.khem@gmail.com</a>&gt;</span><br><blockquote style=3D"margin:0p=
+x 0px 0px 0.8ex;padding-left:1ex;border-left-color:rgb(204,204,204);border-=
+left-width:1px;border-left-style:solid" class=3D"gmail_quote">
 
+<div>On Wed, May 30, 2012 at 8:18 AM, Giuseppe Condorelli<br>
+&lt;<a href=3D"mailto:giuseppe.condorelli@gmail.com" target=3D"_blank">gius=
+eppe.condorelli@gmail.com</a>&gt; wrote:<br>
+&gt; It fails on undefined reference to xmalloc, xcalloc, etc... that howev=
+er are<br>
+&gt; internally defined and used as wrapper for real malloc, etc...<br>
+&gt; Please, can somebody try to build this package for me?<br>
+<br>
+</div>are you using =A0uclibc for system C library ?<br></blockquote></div>=
+<div>Yes, I do!=A0</div><div>=A0</div></div></blockquote><div>=A0</div><div=
+>Is there=A0some=A0difference for uclibc? Please let me know.</div><div>Che=
+ers,</div>
+<div>Giuseppe=A0</div><blockquote style=3D"margin:0px 0px 0px 0.8ex;padding=
+-left:1ex;border-left-color:rgb(204,204,204);border-left-width:1px;border-l=
+eft-style:solid" class=3D"gmail_quote"><div class=3D"gmail_quote"><div>=A0<=
+/div><div class=3D"im">
+<blockquote style=3D"margin:0px 0px 0px 0.8ex;padding-left:1ex;border-left-=
+color:rgb(204,204,204);border-left-width:1px;border-left-style:solid" class=
+=3D"gmail_quote">
+
+<br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">Openembedded-core@lists.openembedded.org</a><br>
+<a href=3D"http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded=
+-core" target=3D"_blank">http://lists.linuxtogo.org/cgi-bin/mailman/listinf=
+o/openembedded-core</a><br>
+</blockquote></div></div><br>
+</blockquote></div><br>
+
+--14dae9340e69e5c62004c1544e21--
