@@ -1,26 +1,39 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1SaDDV-0003It-VL
+	(envelope-from <raj.khem@gmail.com>) id 1SaEWz-00066G-LF
 	for openembedded-core@lists.openembedded.org;
-	Thu, 31 May 2012 23:47:38 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q4VLbHYq026566
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Fri, 01 Jun 2012 01:11:49 +0200
+Received: by eekd49 with SMTP id d49so681680eek.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 May 2012 14:37:17 -0700 (PDT)
-Received: from localhost.localdomain (172.25.34.61) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Thu, 31 May 2012 14:37:16 -0700
-From: Mark Hatle <mark.hatle@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 31 May 2012 16:42:06 -0500
-Message-ID: <0e5b2974af2638dedde8d2e9298a109d143be55d.1338500281.git.mark.hatle@windriver.com>
-X-Mailer: git-send-email 1.7.3.4
-In-Reply-To: <cover.1338500281.git.mark.hatle@windriver.com>
-References: <cover.1338500281.git.mark.hatle@windriver.com>
+	Thu, 31 May 2012 16:01:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type; bh=C0jNS1bchYGVBy/BuUzvEjIgj16Y8Osre5bsl8hzAUs=;
+	b=Vjaqh6Db6wPNksfVtHmVaXPIn2QvlVBVeRzFxCwr7EBb34sZ1qrvBSdreb9DQD8SG3
+	zMfmQVTzqfeU34UjkUEKGkJPLzShlYirHA1RLOHKB6G7/ozGC38vAU9DMeb/o40riF/C
+	rTMhYxwKV7QMhV8oSSdCHkyyL4kFCclnj8G3ImqAreU/iPchcEuiSdvh6oh/2R2zPkE8
+	YiLz2WF0faFHYtqLE0KukzoPN4dcrOOTtJkdOzgx2VhuALM9MfOLEN1x0J0pf2nfpes9
+	+goglIQRnjUwrMsW2Pq3ht9osRpB3+fraDBxPTd0Vitxfel2cK+AUp4bv9nxdhocrPZa
+	Xuag==
+Received: by 10.14.53.76 with SMTP id f52mr287673eec.79.1338505289288; Thu, 31
+	May 2012 16:01:29 -0700 (PDT)
 MIME-Version: 1.0
-X-Originating-IP: [172.25.34.61]
-Subject: [PATCH 5/5 v3] rpm: Bump PR numbers on componets that require RPM
+Received: by 10.14.188.11 with HTTP; Thu, 31 May 2012 16:00:59 -0700 (PDT)
+In-Reply-To: <CAOHjBZsD06ABMP5VRRcmXd-8jiF7VDD=UJUrswPJyGDqObPV2Q@mail.gmail.com>
+References: <CAOHjBZsptjefvQA3od1HV4s_fVcoHidWs5qUm-2A5+Fr9ZrRLg@mail.gmail.com>
+	<CAMKF1spunqV3__K7_jEt5oQwg=J0v+TwZSUtGOv=DeipCPkzSA@mail.gmail.com>
+	<CAOHjBZv9jC9pVwxS9CCjvY0wFo8_9sOaFeUQwMxPEuF8EJDuiA@mail.gmail.com>
+	<CAOHjBZvGY9BWkyS+9V4OtGFcQpCC2SdzKwG9pQ0wq_oeqU=uTw@mail.gmail.com>
+	<CAMKF1so8aA=s7wfo9k9wGNSwyuGYXmd5Ec9x=5Bp0YJbaiJoFA@mail.gmail.com>
+	<CAOHjBZvZmXugpmxypMamZbm1LYdOqTAp4Z+1CBPn1DyohjO3Yw@mail.gmail.com>
+	<4FC7818E.3030704@mlbassoc.com>
+	<CAOHjBZsD06ABMP5VRRcmXd-8jiF7VDD=UJUrswPJyGDqObPV2Q@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 31 May 2012 16:00:59 -0700
+Message-ID: <CAMKF1soREavpCfcGKqZM_hQwNVXydjzKg3qHRjTzJbP9Y-N5hg@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: target rpm build failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,60 +48,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 May 2012 21:47:39 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 31 May 2012 23:11:49 -0000
+Content-Type: text/plain; charset=UTF-8
 
-With the recent RPM uprev, libzypp, sat-solver and zypper should be
-rebuilt to ensure they get the right BerkleyDB and rpmdb interfaces.
+On Thu, May 31, 2012 at 7:47 AM, Giuseppe Condorelli
+<giuseppe.condorelli@gmail.com> wrote:
+> Have new suggestions?
 
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
----
- meta/recipes-extended/libzypp/libzypp_git.bb       |    2 +-
- meta/recipes-extended/sat-solver/sat-solver_git.bb |    2 +-
- meta/recipes-extended/zypper/zypper_git.bb         |    2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+I found a bit of time and fixed rpm compilation on uclibc. Its only
+compiling though I don't know if it will run on target. Try it out.
+The patch is here
 
-diff --git a/meta/recipes-extended/libzypp/libzypp_git.bb b/meta/recipes-extended/libzypp/libzypp_git.bb
-index c5761d5..90ee8c4 100644
---- a/meta/recipes-extended/libzypp/libzypp_git.bb
-+++ b/meta/recipes-extended/libzypp/libzypp_git.bb
-@@ -11,7 +11,7 @@ DEPENDS  = "rpm boost curl libxml2 zlib sat-solver expat openssl udev libproxy"
- S = "${WORKDIR}/git"
- SRCREV = "15b6c52260bbc52b3d8e585e271b67e10cc7c433"
- PV = "0.0-git${SRCPV}"
--PR = "r21"
-+PR = "r22"
- 
- SRC_URI = "git://github.com/openSUSE/libzypp.git;protocol=git \
-            file://no-doc.patch \
-diff --git a/meta/recipes-extended/sat-solver/sat-solver_git.bb b/meta/recipes-extended/sat-solver/sat-solver_git.bb
-index 9d8422f..b0382f6 100644
---- a/meta/recipes-extended/sat-solver/sat-solver_git.bb
-+++ b/meta/recipes-extended/sat-solver/sat-solver_git.bb
-@@ -8,7 +8,7 @@ DEPENDS = "libcheck rpm zlib expat db"
- 
- SRCREV = "0a7378d5f482f477a01cf1690d76871ab8bdcc32"
- PV = "0.0-git${SRCPV}"
--PR = "r13"
-+PR = "r14"
- 
- PARALLEL_MAKE=""
- 
-diff --git a/meta/recipes-extended/zypper/zypper_git.bb b/meta/recipes-extended/zypper/zypper_git.bb
-index 56ccc86..0a1df5d 100644
---- a/meta/recipes-extended/zypper/zypper_git.bb
-+++ b/meta/recipes-extended/zypper/zypper_git.bb
-@@ -5,7 +5,7 @@ LICENSE  = "GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=3201406e350b39e05a82e28b5020f413"
- 
- DEPENDS  = "libzypp augeas"
--PR = "r2"
-+PR = "r3"
- SRCREV = "2c5bb6ceb99ecd950ef993e43d77bf0569ea0582"
- 
- inherit cmake
--- 
-1.7.3.4
+http://git.openembedded.org/openembedded-core-contrib/commit/?h=kraj/misc&id=3b7ab8bbaca0c7ce122e897a11370dd215b0eddd
 
+This should get you going. Please test it out and I would prefer if you can
+also try it out on target and see if it really runs too.
+
+-Khem
 
 
