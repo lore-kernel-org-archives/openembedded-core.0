@@ -1,28 +1,39 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail-wg0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1SaCVj-0001Ye-Bm
+	(envelope-from <elvis.dowson@gmail.com>) id 1SaCaE-0001gy-6x
 	for openembedded-core@lists.openembedded.org;
-	Thu, 31 May 2012 23:02:23 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q4VKq1h1009424
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 31 May 2012 23:07:02 +0200
+Received: by wgbdr1 with SMTP id dr1so1202826wgb.24
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 May 2012 13:52:02 -0700 (PDT)
-Received: from msp-dhcp42.wrs.com (172.25.34.42) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Thu, 31 May 2012 13:52:01 -0700
-Message-ID: <4FC7D9F0.20203@windriver.com>
-Date: Thu, 31 May 2012 15:52:00 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
-	rv:12.0) Gecko/20120428 Thunderbird/12.0.1
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <72EA6980-26CF-4ABB-A6F9-9CD5F555EBEB@gmail.com>
-	<F243C528-1700-497D-A358-B43DB67CE753@gmail.com>
-In-Reply-To: <F243C528-1700-497D-A358-B43DB67CE753@gmail.com>
-Subject: Re: [meta-xilinx] WARNING: QA Issue: bash & shell scripts
+	Thu, 31 May 2012 13:56:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:mime-version:content-type:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to:x-mailer;
+	bh=1Nc2h+Ca3Tj9gcXRwc+uOsN1nx/QZ1Vob/ywkRWRHiY=;
+	b=B8mZH/kUf6vJltvSBjJojifcata1aFr/NUyrsLxVNPOD3FrCKIAzg35qgkQXXXokJa
+	UMTX+4M+stnP9SW5YvwN9n4aLdhBN0QsGvRc9P/2yfrL3GDUsXnCs2q7OWRv71mE1KM1
+	eK8hqFeFfwFws+0jR38Kz0A7FmaCdHNq+P/mjGilQWIqLcOr+ous8iu/diCWDsP2jx7W
+	6sj1fDgoBntWe5pO80AhQEObdhLnA6VqwDvqKThYuqBMu0ymzahMqEJs3W5MgzoRuHOt
+	wD8OWpC+Ypah+UyKW/FjczRTJPjcWS5mDZccBSemWLEzfTdHCQ/mcr2iXTwiHMczQnoe
+	k7kg==
+Received: by 10.216.143.146 with SMTP id l18mr132606wej.56.1338497802161;
+	Thu, 31 May 2012 13:56:42 -0700 (PDT)
+Received: from [192.168.1.35] (197.Red-79-150-15.dynamicIP.rima-tde.net.
+	[79.150.15.197])
+	by mx.google.com with ESMTPS id dg2sm9966274wib.4.2012.05.31.13.56.40
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 31 May 2012 13:56:41 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1278)
+From: Elvis Dowson <elvis.dowson@gmail.com>
+In-Reply-To: <CAAB-1yw=5xF=YGY+VgU-RvCHYNJ2zYWvZBTwVR+2L3L0UUqG1A@mail.gmail.com>
+Date: Thu, 31 May 2012 22:56:44 +0200
+Message-Id: <C20D3B8A-D5AF-46EE-BC26-5423752FE815@gmail.com>
+References: <33616B9B-AAC8-474C-8790-047AA44C1C89@gmail.com>
+	<CAAB-1yw=5xF=YGY+VgU-RvCHYNJ2zYWvZBTwVR+2L3L0UUqG1A@mail.gmail.com>
+To: Adrian Alonso <aalonso00@gmail.com>
+X-Mailer: Apple Mail (2.1278)
+Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Subject: Re: [meta-xilinx] Generating device tree for building linux-xilinx kernel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,44 +48,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 May 2012 21:02:23 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Thu, 31 May 2012 21:07:02 -0000
+Content-Type: text/plain; charset=iso-8859-1
 Content-Transfer-Encoding: 7bit
 
-On 5/31/12 12:40 PM, Elvis Dowson wrote:
-> Hi,
->
-> On May 31, 2012, at 7:38 PM, Elvis Dowson wrote:
->
->> I've found the following warnings while attempting to build linux-xilinx. How can I trace which package it's originating from and what can I do to fix it?
->>
->> WARNING: QA Issue: bash: Found a reference to /usr/ in /tool/yocto/poky/build/tmp/work/ppc440-poky-linux/bash-4.2-r2/packages-split/bash/bin/bashbug
->> WARNING: QA Issue: Shell scripts in base_bindir and base_sbindir should not reference anything in exec_prefix
->
-> Sorry about that silly question, its originating from the bash-4.2 package. What should I do to fix it?
+Hi Adrian,
 
-It's just a warning.... you don't need to fix it.
+On May 31, 2012, at 10:49 PM, Adrian Alonso wrote:
 
-We're working on a fix for that right now.. the bashbug file is a shell script 
-that adds /usr/bin to the path.  This causes the QA warning to hit and complain 
-that there may be references to /usr/bin items in the script.
+> That's a second process that you need todo with xilinx EDK to export
+> and launch xilinx SDK
+> from there create a new device tree project which will parse the "mhs"
+> hardware descriptor file
+> and from there generate the device tree according to the hwd settings...
 
-The warning is because things in /bin are assumed to be required for booting, 
-and you may boot w/o /usr being mounted.. causing a potential problem.  I can't 
-see why bashbug would ever be used for booting, so this shouldn't be a problem.
+Perhaps these steps could be automated by modifying the 
+meta-xilinx/classes/xilinx-kernel.bbclass file, so that the EDK gets
+invoked from the command line to parse the mhs file and create the
+dts file?
 
-Right now, I expect we're going to "fix" the problem with a two step patch.. 
-The first being to move bashbug from base_bindir to bindir, and the second to 
-split it into a new package so that it's not always installed..  (it's only 7k 
-or so.. but why even install it on an embedded system unless it's really needed.)
+Best regards,
 
---Mark
-
-> Elvis Dowson
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-
+Elvis Dowson
 
 
