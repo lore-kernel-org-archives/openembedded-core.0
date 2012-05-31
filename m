@@ -1,43 +1,27 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1Sa724-0001KB-Ju
+	(envelope-from <Bruce.Ashfield@windriver.com>) id 1Sa73V-0001NG-3K
 	for openembedded-core@lists.openembedded.org;
-	Thu, 31 May 2012 17:11:24 +0200
-Received: by eekd49 with SMTP id d49so435232eek.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 May 2012 08:01:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=subject:mime-version:content-type:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to:x-mailer
-	:x-gm-message-state;
-	bh=NhD2GT3v855hY4hrD3+pM9lVlCuYLJe1+3XFYgKqmeo=;
-	b=jXK5Mrmyfc3fvRHXrHtthmsASkiaV/cOvKTeXcGOpa30PpC6LKlKSzCI/srCRPfr/G
-	i3//SQX+lGtXFCXmUMgZDeQa3pMuCcXYeX+aUxrxQmxkBlBeUM3p0MuHRxxbbOIpMwZX
-	pMxAHQZOKPtyD2T4qPt3Ej26kpB+JIPyrwF+ARxK4koqMN6jWN1Xz6h2wuYXheweCNqL
-	F/PWnH3yK8kSKdNC2Pm3/U2DOOywpLqzl/FAmg/frxVTNbtAdZ9YdfmzeE7KkBb4pSlY
-	ZzZcFR7qY8UJNmaWFkTux5qN2yHNliO1OurJQf7BsUmfRtpzyC8YcS13XEGwYVmCyB+l
-	FabQ==
-Received: by 10.14.187.11 with SMTP id x11mr8707467eem.57.1338476464421;
-	Thu, 31 May 2012 08:01:04 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id t3sm11353234eeb.15.2012.05.31.08.01.02
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 31 May 2012 08:01:03 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1278)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <87ca0cf2285b018489bde046b0aa7e17a767c70a.1338434706.git.liezhi.yang@windriver.com>
-Date: Thu, 31 May 2012 17:01:01 +0200
-Message-Id: <D16CA58F-8D7A-4910-ACCA-84E01CEE6510@dominion.thruhere.net>
-References: <cover.1338434706.git.liezhi.yang@windriver.com>
-	<87ca0cf2285b018489bde046b0aa7e17a767c70a.1338434706.git.liezhi.yang@windriver.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1278)
-X-Gm-Message-State: ALoCoQl0GhWOmO/0BT9w/fbo0KAEDfmNDpSSGHpKir152PvjUpWsC7A9Q723xyQTLdPhwq4LVKdu
-Cc: Zhenfeng.Zhao@windriver.com
-Subject: Re: [PATCH 1/1] opkg 0.1.8: respect to the arch when choose the alternatives
+	Thu, 31 May 2012 17:12:53 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q4VF2UX1024210
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 31 May 2012 08:02:30 -0700 (PDT)
+Received: from [128.224.146.67] (128.224.146.67) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Thu, 31 May 2012 08:02:29 -0700
+Message-ID: <4FC787FF.2030904@windriver.com>
+Date: Thu, 31 May 2012 11:02:23 -0400
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
+MIME-Version: 1.0
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <1338470972.20169.234.camel@ted>
+In-Reply-To: <1338470972.20169.234.camel@ted>
+Cc: "Hart, Darren" <darren.hart@intel.com>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] cmd1.bbclass: Ensure ncurses is built and used for menuconfig tasks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -52,28 +36,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 May 2012 15:11:24 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 31 May 2012 15:12:53 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
+On 12-05-31 09:29 AM, Richard Purdie wrote:
+> Currently, the task just exits if something goes wrong. This adds the
+> ncurses-native dependency. It also adds a small delay before closing the
+> window so any messages displayed there can be seen.
+>
+> Trying to get the kernel build system to correctly find and link with
+> our copy of ncurses is some kind of nightmare. I ended up having to add
+> it to HOST_LOADLIBES globally for this task which is rather nasty but I
+> couldn't find any other way.
 
-Op 31 mei 2012, om 16:13 heeft Robert Yang het volgende geschreven:
+Agreed, and my much more limited knowledge of the options can't come
+up with something different either.
 
-> There is a bug if we:
-> 1) bitbake core-image-sato-sdk MACHINE=3Dqemux86
-> 2) bitbake core-image-sato with MACHINE=3Dcrownbay
->=20
-> Then several pkgs in deploy/ipk/i586 would be installed to crownbay's
-> image even if there is one in deploy/ipk/core2 and we have set the
-> core2's priority higher than i586, when the version in deploy/ipk/i586 =
-is
-> higher. This doesn't work for us, for example, what the crownbay need =
-is
-> xserver-xorg-1.9.3, but it installs xserver-xorg-1.11.2.
+Is there an option to move those flags to the kernel class, so they'd
+only be set when it is in play ? That would at least isolate the data
+a bit more. Alternatively there's the less palatable kernel specific
+do_menuconfig option (ech).
 
-And this is working exactly as intended. Don't break opkg because your =
-hardware driver situation sucks.
+Otherwise, no concerns or big comments from me.
 
-So: NAK on this patch.=
+Bruce
+
+>
+> [YOCTO #2513]
+>
+> Signed-off-by: Richard Purdie<richard.purdie@linuxfoundation.org>
+> ---
+> diff --git a/meta/classes/cml1.bbclass b/meta/classes/cml1.bbclass
+> index d429188..bd25311 100644
+> --- a/meta/classes/cml1.bbclass
+> +++ b/meta/classes/cml1.bbclass
+> @@ -9,9 +9,15 @@ addtask configure after do_unpack do_patch before do_compile
+>
+>   inherit terminal
+>
+> +OE_TERMINAL_EXPORTS += "HOST_EXTRACFLAGS HOSTLDFLAGS HOST_LOADLIBES"
+> +HOST_EXTRACFLAGS = "${BUILD_CFLAGS} ${BUILD_LDFLAGS}"
+> +HOSTLDFLAGS = "${BUILD_LDFLAGS}"
+> +HOST_LOADLIBES = "-lncurses"
+> +
+>   python do_menuconfig() {
+> -        oe_terminal("make menuconfig", '${PN} Configuration', d)
+> +        oe_terminal("${SHELL} -c \"make menuconfig; echo 'Pausing for 5 seconds'; sleep 5\"", '${PN} Configuration', d)
+>   }
+> +do_menuconfig[depends] += "ncurses-native:do_populate_sysroot"
+>   do_menuconfig[nostamp] = "1"
+>   addtask menuconfig after do_configure
+>
+>
+>
+>
+>
+
 
 
