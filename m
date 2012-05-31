@@ -1,34 +1,24 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1SaCxd-0002fd-BU
+	(envelope-from <mark.hatle@windriver.com>) id 1SaDDR-0003IW-Vh
 	for openembedded-core@lists.openembedded.org;
-	Thu, 31 May 2012 23:31:13 +0200
-Received: by eaal1 with SMTP id l1so318061eaa.6
-	for <multiple recipients>; Thu, 31 May 2012 14:20:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:content-transfer-encoding;
-	bh=wsJDJAjkyOUYCvSLj3np+j03fhSR0SLdPetCXQPC7J0=;
-	b=ube6YplPJAe1yS0BJC8/FsUMtCggWkKES+fapSqzbnt493ZKeaqLl5hpBWTP0UkrTc
-	bE45MmLEooweFD6gn2dAySXyPMreDPLCy976lb9HJ+BJHEGeFduhrJAduKhvBGjdgvnC
-	PbTr58KkTBcPGG/6WUFIrJgOlAJ0/gRrPCTZCWbOdegzarobMzTko8K7cAg6gbxzovXu
-	4rzsoT1qPxrlhR6BK4XUACNeUhNB/BHZB0Cjtx8JBa7mtaLyqLeby9Wryb3gklQUgIWq
-	3g2A5ndHPMPTvQsUKGJ22BsAYS73eLXTQPSPIlvMNQCrnvnVdBYVyIbGDvRV9GKuuLSo
-	zmdg==
-Received: by 10.14.39.70 with SMTP id c46mr133174eeb.118.1338499253151; Thu,
-	31 May 2012 14:20:53 -0700 (PDT)
+	Thu, 31 May 2012 23:47:34 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q4VLbDFE009936
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 31 May 2012 14:37:13 -0700 (PDT)
+Received: from localhost.localdomain (172.25.34.61) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
+	Thu, 31 May 2012 14:37:12 -0700
+From: Mark Hatle <mark.hatle@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 31 May 2012 16:42:01 -0500
+Message-ID: <cover.1338500281.git.mark.hatle@windriver.com>
+X-Mailer: git-send-email 1.7.3.4
 MIME-Version: 1.0
-Received: by 10.14.188.11 with HTTP; Thu, 31 May 2012 14:20:22 -0700 (PDT)
-In-Reply-To: <20120531161412.561acb04@wrlaptop>
-References: <20120531161412.561acb04@wrlaptop>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 31 May 2012 14:20:22 -0700
-Message-ID: <CAMKF1sohTucSWxu5tbATPYsMTPALwSMPPvCHJCSr_ugQ3AbXqg@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Cc: "openembedded-core@"
-	<lists.openembedded.org.openembedded-core@lists.openembedded.org>
-Subject: Re: Suggestion: Occasionally take --hash-style=gnu out of the linker
+X-Originating-IP: [172.25.34.61]
+Subject: [PATCH 0/5 v3] Uprev RPM to 5.4.9
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,27 +33,101 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 May 2012 21:31:13 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 31 May 2012 21:47:34 -0000
+Content-Type: text/plain
 
-On Thu, May 31, 2012 at 2:14 PM, Peter Seebach
-<peter.seebach@windriver.com> wrote:
->
-> In theory, it's a bug if a package is configured such that it does not
-> actually request hash-style=3Dgnu. =C2=A0In practice, though, the yocto
-> toolchain is configured so that it's the default.
->
-> Maybe there should be a periodic build or two that uses a compiler not
-> configured that way, to flush out such packages?
+Rebase of the v2 changes.
 
-yes we tried that with classic OE for long time. it did not go much further=
- than
-we changing the recipes to add it to compiler cmdline and subtle bugs.
-Right thing
-would be to fix the packages but its a significant task. Besides OE most of
-other distros use it as default so I dont think there will be many
-fixes upstreamed
-for respective packages.
+Re-disabled the "test" chunk..  this should resolve the hang problem a 
+few people have observed.
+
+v2 message follows:
+
+Berkley DB also gets upreved, and a new package ossp-uuid gets added to
+the system.
+
+This was -heavily- tested with and without zypper on IA, and PPC.
+
+In addition a minor performance enhancement with a query operation was added.
+
+The uprev also adds the capability of using PACKAGECONFIG settings to tailor
+the behavior of RPM.
+
+V2 changes:
+
+Fix a problem with libuuid.so from util-linux would sometimes be linked into
+the binary.
+
+Also force libzypp, sat-solver and zypper to refresh via a PR bump.
+
+
+The following changes since commit e3113827810e98eb1b012f0b280fb917199704c1:
+
+  webkit-gtk: Use glib as unicode backend to avoid browser crash (2012-05-30 17:37:58 +0100)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib mhatle/rpm
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=mhatle/rpm
+
+Mark Hatle (5):
+  rpm: Upgrade RPM to 5.4.8  (db to 5.3.15)
+  rpm: Upgrade RPM to 5.4.9
+  ossp-uuid: Add oss-uuid package and RPM 5.4.9 integration
+  package_rpm: Add capability to directly query packageorigin
+  rpm: Bump PR numbers on componets that require RPM
+
+ meta/classes/package_rpm.bbclass                   |   18 +-
+ meta/classes/rootfs_rpm.bbclass                    |   22 +-
+ .../ossp-uuid/0001-Change-library-name.patch       |  112 +++++
+ ...erve-m-option-status-in-v-option-handling.patch |   55 +++
+ .../ossp-uuid/0003-Fix-whatis-entries.patch        |   51 +++
+ .../ossp-uuid/0004-fix-data-uuid-from-string.patch |   36 ++
+ .../ossp-uuid/ossp-uuid/uuid-libtool.patch         |   24 +
+ .../ossp-uuid/ossp-uuid/uuid-nostrip.patch         |   16 +
+ meta/recipes-devtools/ossp-uuid/ossp-uuid_1.6.2.bb |   58 +++
+ .../rpm/rpm/fix_for_automake_1.11.2.patch          |   54 ---
+ .../rpm/rpm/fprint-pointer-fix.patch               |   35 --
+ .../rpm/rpm/remove-compiled-tests.patch            |  443 --------------------
+ meta/recipes-devtools/rpm/rpm/rpm-autoconf.patch   |   22 -
+ meta/recipes-devtools/rpm/rpm/rpm-autogen.patch    |   41 +--
+ meta/recipes-devtools/rpm/rpm/rpm-db-reduce.patch  |   16 +-
+ .../recipes-devtools/rpm/rpm/rpm-log-auto-rm.patch |   12 +-
+ meta/recipes-devtools/rpm/rpm/rpm-lua.patch        |   29 ++
+ .../rpm/rpm/rpm-no-perl-urpm.patch                 |   43 ++
+ meta/recipes-devtools/rpm/rpm/rpm-nofsync.patch    |   36 --
+ meta/recipes-devtools/rpm/rpm/rpm-ossp-uuid.patch  |   20 +
+ .../rpm/rpm/rpm-packageorigin.patch                |   23 +
+ .../rpm/rpm/rpm-scriptletexechelper.patch          |   33 +-
+ meta/recipes-devtools/rpm/rpm/rpmdeps-oecore.patch |   26 +-
+ .../rpm/{rpm_5.4.0.bb => rpm_5.4.9.bb}             |  158 ++++----
+ .../libzypp/libzypp/libzypp-rpm549.patch           |   28 ++
+ meta/recipes-extended/libzypp/libzypp_git.bb       |    3 +-
+ meta/recipes-extended/sat-solver/sat-solver_git.bb |    2 +-
+ meta/recipes-extended/zypper/zypper_git.bb         |    2 +-
+ .../db/{db_5.1.19.bb => db_5.3.15.bb}              |    8 +-
+ 29 files changed, 652 insertions(+), 774 deletions(-)
+ create mode 100644 meta/recipes-devtools/ossp-uuid/ossp-uuid/0001-Change-library-name.patch
+ create mode 100644 meta/recipes-devtools/ossp-uuid/ossp-uuid/0002-uuid-preserve-m-option-status-in-v-option-handling.patch
+ create mode 100644 meta/recipes-devtools/ossp-uuid/ossp-uuid/0003-Fix-whatis-entries.patch
+ create mode 100644 meta/recipes-devtools/ossp-uuid/ossp-uuid/0004-fix-data-uuid-from-string.patch
+ create mode 100644 meta/recipes-devtools/ossp-uuid/ossp-uuid/uuid-libtool.patch
+ create mode 100644 meta/recipes-devtools/ossp-uuid/ossp-uuid/uuid-nostrip.patch
+ create mode 100644 meta/recipes-devtools/ossp-uuid/ossp-uuid_1.6.2.bb
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/fix_for_automake_1.11.2.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/fprint-pointer-fix.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/remove-compiled-tests.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-autoconf.patch
+ create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-lua.patch
+ create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-no-perl-urpm.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-nofsync.patch
+ create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-ossp-uuid.patch
+ create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-packageorigin.patch
+ rename meta/recipes-devtools/rpm/{rpm_5.4.0.bb => rpm_5.4.9.bb} (76%)
+ create mode 100644 meta/recipes-extended/libzypp/libzypp/libzypp-rpm549.patch
+ rename meta/recipes-support/db/{db_5.1.19.bb => db_5.3.15.bb} (93%)
+
+-- 
+1.7.3.4
+
 
 
