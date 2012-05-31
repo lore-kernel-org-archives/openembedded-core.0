@@ -1,30 +1,23 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <eflanagan@envy.jf.intel.com>) id 1SZsY9-0005kG-4J
+	(envelope-from <Xiaofeng.Yan@windriver.com>) id 1SZyb0-00019i-ED
 	for openembedded-core@lists.openembedded.org;
-	Thu, 31 May 2012 01:43:33 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 30 May 2012 16:32:08 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="150540576"
-Received: from envy.jf.intel.com ([10.7.201.175])
-	by orsmga002.jf.intel.com with ESMTP; 30 May 2012 16:32:08 -0700
-Received: from envy.jf.intel.com (localhost [127.0.0.1])
-	by envy.jf.intel.com (8.14.4/8.14.4/Debian-2ubuntu2) with ESMTP id
-	q4UNdlxE020878 for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 May 2012 16:39:47 -0700
-Received: (from eflanagan@localhost)
-	by envy.jf.intel.com (8.14.4/8.14.4/Submit) id q4UNdlSG020877
-	for openembedded-core@lists.openembedded.org;
-	Wed, 30 May 2012 16:39:47 -0700
-From: Elizabeth Flanagan <elizabeth.flanagan@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 30 May 2012 16:39:45 -0700
-Message-Id: <6dcb3827885e1e0812656d44028df568903fb400.1338420972.git.elizabeth.flanagan@intel.com>
-X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <cover.1338420972.git.elizabeth.flanagan@intel.com>
-References: <cover.1338420972.git.elizabeth.flanagan@intel.com>
-Subject: [PATCH 1/1] license.bbclass: Adding PV to package.manifest
+	Thu, 31 May 2012 08:10:54 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q4V60Yc2005952
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 30 May 2012 23:00:34 -0700 (PDT)
+Received: from localhost.localdomain (128.224.162.28) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.1.255.0; Wed, 30 May 2012 23:00:33 -0700
+From: <xiaofeng.yan@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 31 May 2012 14:02:55 +0800
+Message-ID: <cover.1338443711.git.xiaofeng.yan@windriver.com>
+X-Mailer: git-send-email 1.7.0.4
+MIME-Version: 1.0
+Subject: [PATCH 0/2] archiver.bbclass:Improve the usability for the archiver classes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,36 +32,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 May 2012 23:43:33 -0000
+X-List-Received-Date: Thu, 31 May 2012 06:10:54 -0000
+Content-Type: text/plain
 
-Per request, adding the package version to the package manifest
-file.
+From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
 
-Signed-off-by: Elizabeth Flanagan <elizabeth.flanagan@intel.com>
----
- meta/classes/license.bbclass |    2 ++
- 1 files changed, 2 insertions(+), 0 deletions(-)
+The usability of the archiver classes can be improved, beyond the 
+simple addition of default values for the variables. 
+A user could well inherit just archiver rather than the individual 
+useful classes, and not realize it will do nothing.
 
-diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
-index 6c4a673..a537496 100644
---- a/meta/classes/license.bbclass
-+++ b/meta/classes/license.bbclass
-@@ -90,11 +90,13 @@ license_create_manifest() {
- 		for filename in $files; do
- 			pkged_pn="$(sed -n 's/^PN: //p' ${filename})"
- 			pkged_lic="$(sed -n '/^LICENSE: /{ s/^LICENSE: //; s/[+|&()*]/ /g; s/  */ /g; p }' ${filename})"
-+			pkged_pv="$(sed -n 's/^PV: //p' ${filename})"
- 			# check to see if the package name exists in the manifest. if so, bail.
- 			if ! grep -q "PACKAGE NAME: ${pkg}" ${filename}; then
- 				# exclude local recipes
- 				if [ ! "${pkged_pn}" = "*locale*" ]; then
- 					echo "PACKAGE NAME:" ${pkg} >> ${LICENSE_DIRECTORY}/${IMAGE_NAME}/license.manifest
-+					echo "PACKAGE VERSION:" ${pkged_pv} >> ${LICENSE_DIRECTORY}/${IMAGE_NAME}/license.manifest
- 					echo "RECIPE NAME:" ${pkged_pn} >> ${LICENSE_DIRECTORY}/${IMAGE_NAME}/license.manifest
- 					echo "LICENSE: " >> ${LICENSE_DIRECTORY}/${IMAGE_NAME}/license.manifest
- 					for lic in ${pkged_lic}; do
--- 
-1.7.5.4
+The following changes since commit f28209d9d3c67203a2c7a2b25cacfe31643d1bfa:
+  Kang Kai (1):
+        cooker.py: terminate the Parser processes
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib xiaofeng/2472
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=xiaofeng/2472
+
+Xiaofeng Yan (2):
+  archiver.bbclass: Improve the usability for the archiver classes
+  local.conf.sample.extended: Change the usage about arhiver.bbclass
+
+ meta-yocto/conf/local.conf.sample.extended |   31 ++++++++++++++++-----------
+ meta/classes/archiver.bbclass              |    6 +++-
+ 2 files changed, 22 insertions(+), 15 deletions(-)
 
 
 
