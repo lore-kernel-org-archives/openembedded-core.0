@@ -1,33 +1,41 @@
-Received: from mail-yw0-f47.google.com ([209.85.213.47])
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <giuseppe.condorelli@gmail.com>) id 1Sa22u-000148-4C
+	(envelope-from <koen@dominion.thruhere.net>) id 1Sa2EI-0002hd-NG
 	for openembedded-core@lists.openembedded.org;
-	Thu, 31 May 2012 11:51:57 +0200
-Received: by yhjj56 with SMTP id j56so507230yhj.6
+	Thu, 31 May 2012 12:03:42 +0200
+Received: by eekd49 with SMTP id d49so245032eek.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 May 2012 02:41:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type; bh=MX04zKbS5BJB4qUeYSREir1FhsxPxgWZ+P9gBzqMFf0=;
-	b=R8Lbq+fih1WwrU8DY1B68l4yCYhAUMLj2e7Nrbaz3c6F90QMeMJqmIsid72Mb1gnX8
-	nDo+7fer3sLOYnZxwYwxFXjvOsqeAyjSvB0dgwCIibAjX40UxVrCzTTAYp8JAYV3/mPh
-	cb7QWxmn+8pinlxapootYBVUY8MzRXzPlvZpwkULY13wPXaDtNqpr+96B9FYDoGNU1WL
-	gQELSmhpdVR9+NUqedDUsPjCS+/8IFkmFVbuPNIACVkTZHReJ/Pk6ROPb8FAeXU/Y5g4
-	GMRntpUaUgMMnifyMw8mx4OuHUsuOMz9tVhRnYFx1jNxjsC2b3g+yAH0emHwOQI8ygzd
-	UeTQ==
-MIME-Version: 1.0
-Received: by 10.50.187.201 with SMTP id fu9mr9974346igc.5.1338457295700; Thu,
-	31 May 2012 02:41:35 -0700 (PDT)
-Received: by 10.231.233.196 with HTTP; Thu, 31 May 2012 02:41:35 -0700 (PDT)
-In-Reply-To: <CAMKF1spunqV3__K7_jEt5oQwg=J0v+TwZSUtGOv=DeipCPkzSA@mail.gmail.com>
-References: <CAOHjBZsptjefvQA3od1HV4s_fVcoHidWs5qUm-2A5+Fr9ZrRLg@mail.gmail.com>
-	<CAMKF1spunqV3__K7_jEt5oQwg=J0v+TwZSUtGOv=DeipCPkzSA@mail.gmail.com>
-Date: Thu, 31 May 2012 11:41:35 +0200
-Message-ID: <CAOHjBZv9jC9pVwxS9CCjvY0wFo8_9sOaFeUQwMxPEuF8EJDuiA@mail.gmail.com>
-From: Giuseppe Condorelli <giuseppe.condorelli@gmail.com>
+	Thu, 31 May 2012 02:53:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=content-type:mime-version:subject:from:in-reply-to:date
+	:content-transfer-encoding:message-id:references:to:x-mailer
+	:x-gm-message-state;
+	bh=4xXvg5Xz3ZVmH6ni1EbsR5XQrC8UKvh1ff+BYI+d1PU=;
+	b=G6LpT0vCF5TeOBU6kVqUzLZktS2qA/Gb/KMT0/EYbTHAGu/KOSrWW0Tbc0iRdNLMvm
+	IHss7NnyFAHO42Ik6Ms6qhrgMPnkNYig+YXdJnqBm4NOjntUKxgH320Wi1QmWlDJyONj
+	hNUsD+SqYuNWNtU+mS9eL8L51K2f9f+whpjAVqViXPNCd/XYKYnSU1RfK5i2jGrNaOTA
+	/2b5sfD/ywYGQvMFIGlGbG3m4PMzGvsv3d7J1b0WvwBQJScO9zPtC/4NG8+zPrx3VK5G
+	KoxTFXd2qCKMROJdHxB9W+e2GeZL9/RBSHhycMMxBCcoSGqS5MgLrDLu7U8ieea0/130
+	JE1A==
+Received: by 10.14.188.4 with SMTP id z4mr8687052eem.228.1338458002996;
+	Thu, 31 May 2012 02:53:22 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id c51sm8478295eei.12.2012.05.31.02.53.21
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 31 May 2012 02:53:21 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1278)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <1338455868-31804-1-git-send-email-radu.moisan@intel.com>
+Date: Thu, 31 May 2012 11:53:20 +0200
+Message-Id: <F113D65E-442C-400B-AA87-A3610C52BF12@dominion.thruhere.net>
+References: <1338455868-31804-1-git-send-email-radu.moisan@intel.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: target rpm build failure
+X-Mailer: Apple Mail (2.1278)
+X-Gm-Message-State: ALoCoQl8nHQ3hvdwMB4CB96NFwV0XDAlAGWTJ8VelTI12QzETD538i9qS7G3IqhVnojNr6ZZx+Bt
+Subject: Re: [PATCH v3] dbus: update to version 1.4.20
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,64 +50,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 May 2012 09:51:58 -0000
-Content-Type: multipart/alternative; boundary=14dae9340a6fa842a904c151df8b
+X-List-Received-Date: Thu, 31 May 2012 10:03:42 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 
---14dae9340a6fa842a904c151df8b
-Content-Type: text/plain; charset=ISO-8859-1
 
-Hi Khem,
+Op 31 mei 2012, om 11:17 heeft Radu Moisan het volgende geschreven:
 
-2012/5/30 Khem Raj <raj.khem@gmail.com>
+> Unstable version 1.5.12 also supported
 
-> On Wed, May 30, 2012 at 8:18 AM, Giuseppe Condorelli
-> <giuseppe.condorelli@gmail.com> wrote:
-> > It fails on undefined reference to xmalloc, xcalloc, etc... that however
-> are
-> > internally defined and used as wrapper for real malloc, etc...
-> > Please, can somebody try to build this package for me?
->
-> are you using  uclibc for system C library ?
->
-Yes, I do!
 
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+This should be split into at least 2 seperate commits.
 
---14dae9340a6fa842a904c151df8b
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
 
-Hi Khem,<br><br><div class=3D"gmail_quote">2012/5/30 Khem Raj <span dir=3D"=
-ltr">&lt;<a href=3D"mailto:raj.khem@gmail.com" target=3D"_blank">raj.khem@g=
-mail.com</a>&gt;</span><br><blockquote style=3D"margin:0px 0px 0px 0.8ex;pa=
-dding-left:1ex;border-left-color:rgb(204,204,204);border-left-width:1px;bor=
-der-left-style:solid" class=3D"gmail_quote">
-<div class=3D"im">On Wed, May 30, 2012 at 8:18 AM, Giuseppe Condorelli<br>
-&lt;<a href=3D"mailto:giuseppe.condorelli@gmail.com">giuseppe.condorelli@gm=
-ail.com</a>&gt; wrote:<br>
-&gt; It fails on undefined reference to xmalloc, xcalloc, etc... that howev=
-er are<br>
-&gt; internally defined and used as wrapper for real malloc, etc...<br>
-&gt; Please, can somebody try to build this package for me?<br>
-<br>
-</div>are you using =A0uclibc for system C library ?<br></blockquote><div>Y=
-es, I do!=A0</div><blockquote style=3D"margin:0px 0px 0px 0.8ex;padding-lef=
-t:1ex;border-left-color:rgb(204,204,204);border-left-width:1px;border-left-=
-style:solid" class=3D"gmail_quote">
-
-<br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.openembedded.org</a><br>
-<a href=3D"http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded=
--core" target=3D"_blank">http://lists.linuxtogo.org/cgi-bin/mailman/listinf=
-o/openembedded-core</a><br>
-</blockquote></div><br>
-
---14dae9340a6fa842a904c151df8b--
