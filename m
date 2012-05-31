@@ -1,21 +1,33 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail-yw0-f47.google.com ([209.85.213.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <radu.moisan@intel.com>) id 1Sa1Zz-00022t-Nf
+	(envelope-from <giuseppe.condorelli@gmail.com>) id 1Sa22u-000148-4C
 	for openembedded-core@lists.openembedded.org;
-	Thu, 31 May 2012 11:22:04 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 31 May 2012 02:11:43 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="146542391"
-Received: from dell-desktop (HELO localhost.localdomain) ([10.237.104.210])
-	by orsmga001.jf.intel.com with ESMTP; 31 May 2012 02:11:42 -0700
-From: Radu Moisan <radu.moisan@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 31 May 2012 12:17:48 +0300
-Message-Id: <1338455868-31804-1-git-send-email-radu.moisan@intel.com>
-X-Mailer: git-send-email 1.7.9.5
+	Thu, 31 May 2012 11:51:57 +0200
+Received: by yhjj56 with SMTP id j56so507230yhj.6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 31 May 2012 02:41:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type; bh=MX04zKbS5BJB4qUeYSREir1FhsxPxgWZ+P9gBzqMFf0=;
+	b=R8Lbq+fih1WwrU8DY1B68l4yCYhAUMLj2e7Nrbaz3c6F90QMeMJqmIsid72Mb1gnX8
+	nDo+7fer3sLOYnZxwYwxFXjvOsqeAyjSvB0dgwCIibAjX40UxVrCzTTAYp8JAYV3/mPh
+	cb7QWxmn+8pinlxapootYBVUY8MzRXzPlvZpwkULY13wPXaDtNqpr+96B9FYDoGNU1WL
+	gQELSmhpdVR9+NUqedDUsPjCS+/8IFkmFVbuPNIACVkTZHReJ/Pk6ROPb8FAeXU/Y5g4
+	GMRntpUaUgMMnifyMw8mx4OuHUsuOMz9tVhRnYFx1jNxjsC2b3g+yAH0emHwOQI8ygzd
+	UeTQ==
 MIME-Version: 1.0
-Subject: [PATCH v3] dbus: update to version 1.4.20
+Received: by 10.50.187.201 with SMTP id fu9mr9974346igc.5.1338457295700; Thu,
+	31 May 2012 02:41:35 -0700 (PDT)
+Received: by 10.231.233.196 with HTTP; Thu, 31 May 2012 02:41:35 -0700 (PDT)
+In-Reply-To: <CAMKF1spunqV3__K7_jEt5oQwg=J0v+TwZSUtGOv=DeipCPkzSA@mail.gmail.com>
+References: <CAOHjBZsptjefvQA3od1HV4s_fVcoHidWs5qUm-2A5+Fr9ZrRLg@mail.gmail.com>
+	<CAMKF1spunqV3__K7_jEt5oQwg=J0v+TwZSUtGOv=DeipCPkzSA@mail.gmail.com>
+Date: Thu, 31 May 2012 11:41:35 +0200
+Message-ID: <CAOHjBZv9jC9pVwxS9CCjvY0wFo8_9sOaFeUQwMxPEuF8EJDuiA@mail.gmail.com>
+From: Giuseppe Condorelli <giuseppe.condorelli@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: target rpm build failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -30,257 +42,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 May 2012 09:22:04 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 31 May 2012 09:51:58 -0000
+Content-Type: multipart/alternative; boundary=14dae9340a6fa842a904c151df8b
 
-Unstable version 1.5.12 also supported
+--14dae9340a6fa842a904c151df8b
+Content-Type: text/plain; charset=ISO-8859-1
 
-Signed-off-by: Radu Moisan <radu.moisan@intel.com>
----
- .../dbus/{dbus-1.4.16 => dbus-1.4.20}/dbus-1.init  |    0
- .../dbus/{dbus-1.4.16 => dbus-1.4.20}/tmpdir.patch |    0
- meta/recipes-core/dbus/dbus-1.5.12/dbus-1.init     |  121 ++++++++++++++++++++
- meta/recipes-core/dbus/dbus-1.5.12/tmpdir.patch    |   44 +++++++
- meta/recipes-core/dbus/dbus_1.4.16.bb              |    7 --
- meta/recipes-core/dbus/dbus_1.4.20.bb              |    6 +
- meta/recipes-core/dbus/dbus_1.5.12.bb              |    9 ++
- 7 files changed, 180 insertions(+), 7 deletions(-)
- rename meta/recipes-core/dbus/{dbus-1.4.16 => dbus-1.4.20}/dbus-1.init (100%)
- rename meta/recipes-core/dbus/{dbus-1.4.16 => dbus-1.4.20}/tmpdir.patch (100%)
- create mode 100644 meta/recipes-core/dbus/dbus-1.5.12/dbus-1.init
- create mode 100644 meta/recipes-core/dbus/dbus-1.5.12/tmpdir.patch
- delete mode 100644 meta/recipes-core/dbus/dbus_1.4.16.bb
- create mode 100644 meta/recipes-core/dbus/dbus_1.4.20.bb
- create mode 100644 meta/recipes-core/dbus/dbus_1.5.12.bb
+Hi Khem,
 
-diff --git a/meta/recipes-core/dbus/dbus-1.4.16/dbus-1.init b/meta/recipes-core/dbus/dbus-1.4.20/dbus-1.init
-similarity index 100%
-rename from meta/recipes-core/dbus/dbus-1.4.16/dbus-1.init
-rename to meta/recipes-core/dbus/dbus-1.4.20/dbus-1.init
-diff --git a/meta/recipes-core/dbus/dbus-1.4.16/tmpdir.patch b/meta/recipes-core/dbus/dbus-1.4.20/tmpdir.patch
-similarity index 100%
-rename from meta/recipes-core/dbus/dbus-1.4.16/tmpdir.patch
-rename to meta/recipes-core/dbus/dbus-1.4.20/tmpdir.patch
-diff --git a/meta/recipes-core/dbus/dbus-1.5.12/dbus-1.init b/meta/recipes-core/dbus/dbus-1.5.12/dbus-1.init
-new file mode 100644
-index 0000000..4abc4cb
---- /dev/null
-+++ b/meta/recipes-core/dbus/dbus-1.5.12/dbus-1.init
-@@ -0,0 +1,121 @@
-+#! /bin/sh
-+### BEGIN INIT INFO
-+# Provides:          dbus
-+# Required-Start:    $remote_fs $syslog
-+# Required-Stop:     $remote_fs $syslog
-+# Default-Start:     2 3 4 5
-+# Default-Stop:      1
-+# Short-Description: D-Bus systemwide message bus
-+# Description:       D-Bus is a simple interprocess messaging system, used
-+#                    for sending messages between applications.
-+### END INIT INFO
-+#
-+# -*- coding: utf-8 -*-
-+# Debian init.d script for D-BUS
-+# Copyright © 2003 Colin Walters <walters@debian.org>
-+
-+set -e
-+
-+DAEMON=/usr/bin/dbus-daemon
-+NAME=dbus
-+DAEMONUSER=messagebus
-+PIDDIR=/var/run/dbus
-+PIDFILE=$PIDDIR/pid
-+UUIDDIR=/var/lib/dbus
-+DESC="system message bus"
-+EVENTDIR=/etc/dbus-1/event.d
-+
-+test -x $DAEMON || exit 0
-+
-+# Source defaults file; edit that file to configure this script.
-+ENABLED=1
-+PARAMS=""
-+if [ -e /etc/default/dbus ]; then
-+  . /etc/default/dbus
-+fi
-+
-+test "$ENABLED" != "0" || exit 0
-+
-+start_it_up()
-+{
-+  if [ ! -d $PIDDIR ]; then
-+    mkdir -p $PIDDIR
-+    chown $DAEMONUSER $PIDDIR
-+    chgrp $DAEMONUSER $PIDDIR
-+  fi
-+  if [ -e $PIDFILE ]; then
-+    PIDDIR=/proc/$(cat $PIDFILE)
-+    if [ -d ${PIDDIR} -a  "$(readlink -f ${PIDDIR}/exe)" = "${DAEMON}" ]; then 
-+      echo "$DESC already started; not starting."
-+    else
-+      echo "Removing stale PID file $PIDFILE."
-+      rm -f $PIDFILE
-+    fi
-+  fi
-+
-+  if [ ! -d $UUIDDIR ]; then
-+    mkdir -p $UUIDDIR
-+    chown $DAEMONUSER $UUIDDIR
-+    chgrp $DAEMONUSER $UUIDDIR
-+  fi
-+ 
-+  dbus-uuidgen --ensure  
-+
-+  echo -n "Starting $DESC: "
-+  start-stop-daemon --start --quiet --pidfile $PIDFILE \
-+    --user $DAEMONUSER --exec $DAEMON -- --system $PARAMS
-+  echo "$NAME."
-+  if [ -d $EVENTDIR ]; then
-+      run-parts --arg=start $EVENTDIR
-+  fi
-+}
-+
-+shut_it_down()
-+{
-+  if [ -d $EVENTDIR ]; then
-+      # TODO: --reverse when busybox supports it
-+      run-parts --arg=stop $EVENTDIR
-+  fi
-+  echo -n "Stopping $DESC: "
-+  start-stop-daemon --stop  --quiet --pidfile $PIDFILE \
-+    --user $DAEMONUSER
-+  # We no longer include these arguments so that start-stop-daemon
-+  # can do its job even given that we may have been upgraded.
-+  # We rely on the pidfile being sanely managed
-+  # --exec $DAEMON -- --system $PARAMS
-+  echo "$NAME."
-+  rm -f $PIDFILE
-+}
-+
-+reload_it()
-+{
-+  echo -n "Reloading $DESC config: "
-+  dbus-send --print-reply --system --type=method_call \
-+            --dest=org.freedesktop.DBus \
-+            / org.freedesktop.DBus.ReloadConfig > /dev/null
-+  # hopefully this is enough time for dbus to reload it's config file.
-+  echo "done."
-+}
-+
-+case "$1" in
-+  start)
-+    start_it_up
-+  ;;
-+  stop)
-+    shut_it_down
-+  ;;
-+  reload|force-reload)
-+    reload_it
-+  ;;
-+  restart)
-+    shut_it_down
-+    sleep 1
-+    start_it_up
-+  ;;
-+  *)
-+    echo "Usage: /etc/init.d/$NAME {start|stop|restart|reload|force-reload}" >&2
-+    exit 1
-+  ;;
-+esac
-+
-+exit 0
-diff --git a/meta/recipes-core/dbus/dbus-1.5.12/tmpdir.patch b/meta/recipes-core/dbus/dbus-1.5.12/tmpdir.patch
-new file mode 100644
-index 0000000..bf086e1
---- /dev/null
-+++ b/meta/recipes-core/dbus/dbus-1.5.12/tmpdir.patch
-@@ -0,0 +1,44 @@
-+From 5105fedd7fa13dadd2d0d864fb77873b83b79a4b Mon Sep 17 00:00:00 2001
-+From: Koen Kooi <koen@dominion.thruhere.net>
-+Date: Thu, 23 Jun 2011 13:52:09 +0200
-+Subject: [PATCH] buildsys: hardcode socketdir to /tmp
-+
-+the TMPDIR env var isn't always pointing to the right target path
-+
-+Upstream-Status: Inappropriate [embedded]
-+
-+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
-+
-+Original comment:
-+
-+	avoid to check tmp dir at build time. instead uses hard coded /tmp here
-+	comment added by Kevin Tian <kevin.tian@intel.com>
-+---
-+ configure.ac |   11 +----------
-+ 1 files changed, 1 insertions(+), 10 deletions(-)
-+
-+diff --git a/configure.ac b/configure.ac
-+index 408054b..6d26180 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -1483,16 +1483,7 @@ AC_SUBST(TEST_LAUNCH_HELPER_BINARY)
-+ AC_DEFINE_UNQUOTED(DBUS_TEST_LAUNCH_HELPER_BINARY, "$TEST_LAUNCH_HELPER_BINARY",
-+                    [Full path to the launch helper test program in the builddir])
-+ 
-+-#### Find socket directories
-+-if ! test -z "$TMPDIR" ; then
-+-   DEFAULT_SOCKET_DIR=$TMPDIR
-+-elif ! test -z "$TEMP" ; then
-+-   DEFAULT_SOCKET_DIR=$TEMP
-+-elif ! test -z "$TMP" ; then
-+-   DEFAULT_SOCKET_DIR=$TMP
-+-else
-+-   DEFAULT_SOCKET_DIR=/tmp
-+-fi
-++DEFAULT_SOCKET_DIR=/tmp
-+ 
-+ DEFAULT_SOCKET_DIR=`echo $DEFAULT_SOCKET_DIR | sed 's/+/%2B/g'`
-+ 
-+-- 
-+1.6.6.1
-+
-diff --git a/meta/recipes-core/dbus/dbus_1.4.16.bb b/meta/recipes-core/dbus/dbus_1.4.16.bb
-deleted file mode 100644
-index 3cf8bb8..0000000
---- a/meta/recipes-core/dbus/dbus_1.4.16.bb
-+++ /dev/null
-@@ -1,7 +0,0 @@
--include dbus.inc
--
--PR = "${INC_PR}.0"
--
--SRC_URI[md5sum] = "44a2a10678e7e50460879c3eb4453a65"
--SRC_URI[sha256sum] = "1d8ee6262f8cc2148f06578eee522c755ba0896206b3464ca9bdc84f411b29c6"
--
-diff --git a/meta/recipes-core/dbus/dbus_1.4.20.bb b/meta/recipes-core/dbus/dbus_1.4.20.bb
-new file mode 100644
-index 0000000..c0da998
---- /dev/null
-+++ b/meta/recipes-core/dbus/dbus_1.4.20.bb
-@@ -0,0 +1,6 @@
-+include dbus.inc
-+
-+PR = "${INC_PR}.0"
-+
-+SRC_URI[md5sum] = "79eca2f2c1894ac347acce128314428b"
-+SRC_URI[sha256sum] = "103bdcd261a13140730b5fa69f56a98ab5c89ba3f0116ea62fcfd639520d5aaf"
-diff --git a/meta/recipes-core/dbus/dbus_1.5.12.bb b/meta/recipes-core/dbus/dbus_1.5.12.bb
-new file mode 100644
-index 0000000..f41d170
---- /dev/null
-+++ b/meta/recipes-core/dbus/dbus_1.5.12.bb
-@@ -0,0 +1,9 @@
-+include dbus.inc
-+
-+PR = "${INC_PR}.0"
-+
-+SRC_URI[md5sum] = "ddf18c86fd86ca0d766e18a514e368fd"
-+SRC_URI[sha256sum] = "5d3e09a831259ca64b15357cfa1c60a5a7ab06ef469d5b82c2308de9cadf1094"
-+
-+DEFAULT_PREFERENCE = "-1"
-+
--- 
-1.7.9.5
+2012/5/30 Khem Raj <raj.khem@gmail.com>
 
+> On Wed, May 30, 2012 at 8:18 AM, Giuseppe Condorelli
+> <giuseppe.condorelli@gmail.com> wrote:
+> > It fails on undefined reference to xmalloc, xcalloc, etc... that however
+> are
+> > internally defined and used as wrapper for real malloc, etc...
+> > Please, can somebody try to build this package for me?
+>
+> are you using  uclibc for system C library ?
+>
+Yes, I do!
 
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
+--14dae9340a6fa842a904c151df8b
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
+
+Hi Khem,<br><br><div class=3D"gmail_quote">2012/5/30 Khem Raj <span dir=3D"=
+ltr">&lt;<a href=3D"mailto:raj.khem@gmail.com" target=3D"_blank">raj.khem@g=
+mail.com</a>&gt;</span><br><blockquote style=3D"margin:0px 0px 0px 0.8ex;pa=
+dding-left:1ex;border-left-color:rgb(204,204,204);border-left-width:1px;bor=
+der-left-style:solid" class=3D"gmail_quote">
+<div class=3D"im">On Wed, May 30, 2012 at 8:18 AM, Giuseppe Condorelli<br>
+&lt;<a href=3D"mailto:giuseppe.condorelli@gmail.com">giuseppe.condorelli@gm=
+ail.com</a>&gt; wrote:<br>
+&gt; It fails on undefined reference to xmalloc, xcalloc, etc... that howev=
+er are<br>
+&gt; internally defined and used as wrapper for real malloc, etc...<br>
+&gt; Please, can somebody try to build this package for me?<br>
+<br>
+</div>are you using =A0uclibc for system C library ?<br></blockquote><div>Y=
+es, I do!=A0</div><blockquote style=3D"margin:0px 0px 0px 0.8ex;padding-lef=
+t:1ex;border-left-color:rgb(204,204,204);border-left-width:1px;border-left-=
+style:solid" class=3D"gmail_quote">
+
+<br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
+re@lists.openembedded.org</a><br>
+<a href=3D"http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded=
+-core" target=3D"_blank">http://lists.linuxtogo.org/cgi-bin/mailman/listinf=
+o/openembedded-core</a><br>
+</blockquote></div><br>
+
+--14dae9340a6fa842a904c151df8b--
