@@ -1,35 +1,36 @@
-Received: from mail-wi0-f177.google.com ([209.85.212.177])
+Received: from mail-wg0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <elvis.dowson@gmail.com>) id 1Sa9aP-0004UW-JT
+	(envelope-from <elvis.dowson@gmail.com>) id 1SaC93-0000Lc-LE
 	for openembedded-core@lists.openembedded.org;
-	Thu, 31 May 2012 19:55:01 +0200
-Received: by wibhm14 with SMTP id hm14so1059904wib.6
+	Thu, 31 May 2012 22:38:57 +0200
+Received: by wgbdr1 with SMTP id dr1so1184099wgb.24
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 May 2012 10:44:41 -0700 (PDT)
+	Thu, 31 May 2012 13:28:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:content-type:content-transfer-encoding:subject:date:message-id
-	:to:mime-version:x-mailer;
-	bh=ns/gHmAhWmAQHZvRDXRvbIfF6OZUilcMJZy5lelfdjY=;
-	b=rRMVD89iMmlhH+atAYriEbS2EJNFt1iw/bfQiBuDSCeGqHFj2AlJO+C4SwZEnINcIm
-	wuEP3sMRjwFgZgXYD5JFCccpSGqXI5jIjtGdNzp7C6V9rOrOvqRO5YntaVnlqEeK1GyA
-	7aaAnvj/ANIkMBTPqztPZWSbMO74C+3hUWSc3tdwQmLU7bCpqy/w/A+PJF12XNhACvKM
-	FxiulLckHSJjY97m6WXj1kE9VaqySstlev/TR3EnQFuXpA8M/BvPg8Gvstlm5VV8NyIX
-	0ZLpRblmMFzkkBVHRE3vWnKtHgMkNvLOXR8uMmbHiVXuRaH6rjVaRTndj16oCpbYgf/B
-	kNkQ==
-Received: by 10.216.199.40 with SMTP id w40mr14094887wen.148.1338486278545;
-	Thu, 31 May 2012 10:44:38 -0700 (PDT)
+	:cc:to:mime-version:x-mailer;
+	bh=HuXgqeIiKOjEazbFOKZCpjAxKKY1GAzQoy8LI3sBZBQ=;
+	b=bajmClaHY/KH2Y64qL8Er0wRw9sdgqbPGdsgLbBGen43n1V3Ixb3RXvu1X+jEm6jnI
+	ZqAjzArefg8ROrzCF/Fb1luKK8auKfJdD1H1pE37EGRa247OU2VU6KykGZae0xqmPirX
+	ftxLervZGKJe92dtt/zrhQyvC43JJ7oiMcpZuR3WXT0GaDkr6ELTFrRRrUSeicxbs9D7
+	F9G1JaLq5ZdToI0SZCsa8hY9QTDHteLGFngrX99Oh7AYA7fMHoFfrtwL9Q1XUfNM5pPM
+	fC2JGNFoDetNdIl74DMffjFtqptq6jh12QshKVV8c+1pA5QyY6+mo9X4mdkshco5+XnL
+	qTVA==
+Received: by 10.216.227.154 with SMTP id d26mr116595weq.9.1338496117513;
+	Thu, 31 May 2012 13:28:37 -0700 (PDT)
 Received: from [192.168.1.35] (197.Red-79-150-15.dynamicIP.rima-tde.net.
 	[79.150.15.197])
-	by mx.google.com with ESMTPS id gc6sm4949578wib.0.2012.05.31.10.44.37
+	by mx.google.com with ESMTPS id ez4sm5837271wid.3.2012.05.31.13.28.35
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 31 May 2012 10:44:37 -0700 (PDT)
+	Thu, 31 May 2012 13:28:36 -0700 (PDT)
 From: Elvis Dowson <elvis.dowson@gmail.com>
-Date: Thu, 31 May 2012 19:44:41 +0200
-Message-Id: <D03C46EA-D51F-40C5-9947-0EA7FAE6DD94@gmail.com>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Thu, 31 May 2012 22:28:40 +0200
+Message-Id: <33616B9B-AAC8-474C-8790-047AA44C1C89@gmail.com>
+To: Adrian Alonso <aalonso00@gmail.com>
 Mime-Version: 1.0 (Apple Message framework v1278)
 X-Mailer: Apple Mail (2.1278)
-Subject: [meta-xilinx] WARNING: linux-xilinx: No generic license file exists for: GPL in any provider
+Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Subject: [meta-xilinx] Generating device tree for building linux-xilinx kernel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,18 +45,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 May 2012 17:55:01 -0000
+X-List-Received-Date: Thu, 31 May 2012 20:38:57 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
-      While attempting to build linux-xilinx, I get the following =
-warning:
-
-WARNING: linux-xilinx: No generic license file exists for: GPL in any =
-provider
-
-What should I do to fix this warning?
+Hi Adrian,
+                   When I attempt to build the linux-xilinx kernel, it =
+doesn't find the device tree (*.dts) in the xilinx-ml507-update BSP =
+project. Is the device tree supposed to be generated manually? If so, =
+could you please tell me how to generate it?
 
 Best regards,
 
