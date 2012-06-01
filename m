@@ -1,23 +1,36 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mail-wi0-f177.google.com ([209.85.212.177])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <laurentiu.palcu@intel.com>) id 1SaQPa-0006HU-06
+	(envelope-from <kergoth@gmail.com>) id 1SaSYB-0000pF-K8
 	for openembedded-core@lists.openembedded.org;
-	Fri, 01 Jun 2012 13:52:58 +0200
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 01 Jun 2012 04:41:33 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="106677873"
-Received: from unknown (HELO lpalcu-laptop.ger.corp.intel.com)
-	([10.252.120.35])
-	by AZSMGA002.ch.intel.com with ESMTP; 01 Jun 2012 04:41:31 -0700
-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  1 Jun 2012 14:41:25 +0300
-Message-Id: <1338550885-4165-3-git-send-email-laurentiu.palcu@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <1338550885-4165-1-git-send-email-laurentiu.palcu@intel.com>
-References: <1338550885-4165-1-git-send-email-laurentiu.palcu@intel.com>
-Subject: [PATCH 2/2] directfb-examples: upgrade to 1.5.3
+	Fri, 01 Jun 2012 16:09:59 +0200
+Received: by wibhm14 with SMTP id hm14so592232wib.6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 01 Jun 2012 06:59:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:content-transfer-encoding;
+	bh=YF4FjateSzkJLuLJeHgqiG+adcMQHpTEOD4PP0a/344=;
+	b=bGdWvO8ZF5/JzlqwDeSOXkyiFLICY7TdWRlhz2bvVzgo6wLHbJ7GYoxexfp/Yk+qML
+	/VytAwC+kZynUqetHoGKPaKHuWCv3YG4QAAcWtSIErQ60slstFV3WyQwmp+VGgDmDx3T
+	NgQyreczSyDCVQhANXcTZ6QsOLwtLgzRWHsORW+zTO2Ha18ypQB9Xr8Gyj0EWR44855j
+	Ugknh7Hnzu29aJ/n2xAYdBPMKFHz4cR/fVk7YMUs+kYQxBACHLtfyIv42kPikvhKZGdm
+	R7fW6LltbZVNhT0lOrvaeFCF7NBkNppzWl4hBjUzBN1xhhE5l1UHToLQIImJD0zdIUUl
+	LOZQ==
+Received: by 10.216.135.204 with SMTP id u54mr2160316wei.40.1338559178480;
+	Fri, 01 Jun 2012 06:59:38 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.216.181.16 with HTTP; Fri, 1 Jun 2012 06:59:18 -0700 (PDT)
+In-Reply-To: <20120531230633.70344cfb@wrlaptop>
+References: <cover.1338515870.git.chris_larson@mentor.com>
+	<367a51d945217c0a11caab13e71fe83a557a6872.1338515870.git.chris_larson@mentor.com>
+	<20120531230633.70344cfb@wrlaptop>
+From: Chris Larson <kergoth@gmail.com>
+Date: Fri, 1 Jun 2012 06:59:18 -0700
+Message-ID: <CABcZAN=eWQ2axLAex1RzBdx+HTmomPpsq_6Vq32t3HDE6QJP-Q@mail.gmail.com>
+To: Peter Seebach <peter.seebach@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/3] external-sourcery: extract src and dest sysroot paths from gcc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,31 +45,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Jun 2012 11:52:58 -0000
+X-List-Received-Date: Fri, 01 Jun 2012 14:09:59 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
----
- ...xamples_1.2.0.bb => directfb-examples_1.5.3.bb} |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/directfb/{directfb-examples_1.2.0.bb => directfb-examples_1.5.3.bb} (77%)
+On Thu, May 31, 2012 at 9:06 PM, Peter Seebach
+<peter.seebach@windriver.com> wrote:
+> On Thu, 31 May 2012 19:00:04 -0700
+> Christopher Larson <kergoth@gmail.com> wrote:
+>
+>> +CSL_MULTILIB_ARGS[i586] =3D "-msgxx-glibc"
+>> +CSL_MULTILIB_ARGS[i686] =3D "-msgxx-glibc"
+>> +CSL_MULTILIB_ARGS[core2] =3D "-msgxx-glibc"
+>> +CSL_MULTILIB_ARGS[x86] =3D "-msgxx-glibc"
+>> +CSL_MULTILIB_ARGS[x86-64] =3D "-msgxx-glibc"
+>> +CSL_MULTILIB_ARGS[ppce500] =3D "-te500v1"
+>> +CSL_MULTILIB_ARGS[ppce500mc] =3D "-te500mc"
+>> +CSL_MULTILIB_ARGS[ppce500v2] =3D "-te500v2"
+>> +CSL_MULTILIB_ARGS[ppce600] =3D "-te600"
+>
+> I would suggest that these be ?=3D assignments.
+>
+> Rationale: =C2=A0There is more than one Sourcery toolchain out there, and
+> they sometimes differ in these. =C2=A0It'd be nice if a hypothetical vend=
+or
+> using a hypothetical custom variant of the Sourcery toolchain could use
+> these configuration files with nothing more than a few variable
+> assignments. =C2=A0:)
 
-diff --git a/meta/recipes-graphics/directfb/directfb-examples_1.2.0.bb b/meta/recipes-graphics/directfb/directfb-examples_1.5.3.bb
-similarity index 77%
-rename from meta/recipes-graphics/directfb/directfb-examples_1.2.0.bb
-rename to meta/recipes-graphics/directfb/directfb-examples_1.5.3.bb
-index 215426e..8eec7ba 100644
---- a/meta/recipes-graphics/directfb/directfb-examples_1.2.0.bb
-+++ b/meta/recipes-graphics/directfb/directfb-examples_1.5.3.bb
-@@ -16,5 +16,5 @@ S = "${WORKDIR}/DirectFB-examples-${PV}"
- 
- inherit autotools
- 
--SRC_URI[md5sum] = "ce018f681b469a1d72ffc32650304b98"
--SRC_URI[sha256sum] = "830a1bd6775d8680523596a88a72fd8e4c6a74bf886d3e169b06d234a5cf7e3e"
-+SRC_URI[md5sum] = "f2a5dac3bf1eb8bc0f766525831ac467"
-+SRC_URI[sha256sum] = "7ceb9539a39e4221d838a3b8e8a3834c0c254ecdb34afc27e9bbcf55027cbbb1"
--- 
-1.7.9.5
-
+Good point, I'll change that and send a v2. Thanks.
+--=20
+Christopher Larson
 
 
