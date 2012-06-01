@@ -1,27 +1,40 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1SaVmz-0000Lm-DN
+	(envelope-from <elizabeth.flanagan@intel.com>) id 1SaWSX-0001BZ-DZ
 	for openembedded-core@lists.openembedded.org;
-	Fri, 01 Jun 2012 19:37:29 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 01 Jun 2012 10:27:06 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="150496632"
-Received: from unknown (HELO helios.localnet) ([10.255.12.84])
-	by azsmga001.ch.intel.com with ESMTP; 01 Jun 2012 10:26:50 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Andreas =?ISO-8859-1?Q?M=FCller?= <schnitzeltony@googlemail.com>
-Date: Fri, 01 Jun 2012 18:26:49 +0100
-Message-ID: <2745436.irnIgCHkKU@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.8.3 (Linux/3.2.0-24-generic-pae; KDE/4.8.3; i686; ; )
-In-Reply-To: <CALbNGRR3QYjbSywG93Rv+-ocfSThijVAtMwK0orSDQvZGrjr5w@mail.gmail.com>
-References: <1338462765-18412-1-git-send-email-schnitzeltony@googlemail.com>
-	<2064973.GX7QB0lz6B@helios>
-	<CALbNGRR3QYjbSywG93Rv+-ocfSThijVAtMwK0orSDQvZGrjr5w@mail.gmail.com>
+	Fri, 01 Jun 2012 20:20:25 +0200
+Received: from mail-lb0-f180.google.com ([209.85.217.180])
+	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 01 Jun 2012 11:09:51 -0700
+Received: by lbbgh12 with SMTP id gh12so1642222lbb.25
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 01 Jun 2012 11:09:49 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type:content-transfer-encoding:x-gm-message-state;
+	bh=/N5Kpx6W3gAGjRyGkx9o/c5+QW6HMKUScH830FfOaNE=;
+	b=lkLEZrABwU411MgpBAxWauG7Cv7LH1o/XU7F8UuWk3ySP3ARiaSQv+N0fmOu3teXtQ
+	AAv99ubRp4q9IjKIcLgibgb+BK5jB6CEaDVOvFc9C5/WHJh+9kJazsE8/lfqzer8x4F1
+	rzvSTfDYWFH7VCG2dgM0qffDu2BHh6BxmyatVABoqlMRKVqhaW9cOOGfViiDCPYd04vj
+	m7u2nKu5VmtWLt1TPBGTvUMMALgl5WWJMi7fZmzzQGA1UTdJLa4VLlRNegKqEnngH51j
+	yRezcQ+LT99NSi37HRJFSRCFzCcG29E/qOe+d5MpghtLsoKPkBM/lAK9ikqMZ5ZsoX83
+	zQfA==
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [V2 2/2] buildhistory.bbclass: add pkg_pre/postinst/rm contents
+Received: by 10.152.123.244 with SMTP id md20mr4087633lab.0.1338574189278;
+	Fri, 01 Jun 2012 11:09:49 -0700 (PDT)
+Received: by 10.112.1.227 with HTTP; Fri, 1 Jun 2012 11:09:49 -0700 (PDT)
+In-Reply-To: <4FC86B60.6040907@linux.intel.com>
+References: <cover.1338420972.git.elizabeth.flanagan@intel.com>
+	<6dcb3827885e1e0812656d44028df568903fb400.1338420972.git.elizabeth.flanagan@intel.com>
+	<4FC86B60.6040907@linux.intel.com>
+Date: Fri, 1 Jun 2012 11:09:49 -0700
+Message-ID: <CAPhnLPB6_EijX7A2ZnCyHwuE4rX59yKyneeXo4igNFTsh8ToGw@mail.gmail.com>
+From: "Flanagan, Elizabeth" <elizabeth.flanagan@intel.com>
+To: Saul Wold <sgw@linux.intel.com>
+X-Gm-Message-State: ALoCoQlA7uF5Bjv6UZduj5CrOF+flH54f08UUKKv+sEXfc94pbrBif+kmrlKHUvsXYTtYjAvw+3W
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] license.bbclass: Adding PV to package.manifest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,40 +49,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Jun 2012 17:37:29 -0000
+X-List-Received-Date: Fri, 01 Jun 2012 18:20:25 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
 
-On Friday 01 June 2012 19:24:45 Andreas M=FCller wrote:
-> On Fri, Jun 1, 2012 at 6:54 PM, Paul Eggleton
-> <paul.eggleton@linux.intel.com> wrote:
-> > I'd still like to rework this to use separate files. What if a line=
- in the
-> > postinst script includes an =3D (which is not unlikely)?
->=20
-> Yes after first usage (it is not possible on all my machines due to
-> pythongit version) and taking a look into the parsing scripts I now
-> understand your concern. It might cause non predictable results. Wors=
-t
-> case if there is a oe varaible name used in scripts. One question:
-> when outputting into separate files: isn't there a simple way to
-> attach the raw git diff output for these (maybe as option) in the
-> results of buildhistory-diff? Then we would have all information
-> together under one hood.
+On Fri, Jun 1, 2012 at 12:12 AM, Saul Wold <sgw@linux.intel.com> wrote:
+> On 05/30/2012 04:39 PM, Elizabeth Flanagan wrote:
+>>
+>> Per request, adding the package version to the package manifest
+>> file.
+>>
+>> Signed-off-by: Elizabeth Flanagan<elizabeth.flanagan@intel.com>
+>> ---
+>> =A0meta/classes/license.bbclass | =A0 =A02 ++
+>> =A01 files changed, 2 insertions(+), 0 deletions(-)
+>>
+>> diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
+>> index 6c4a673..a537496 100644
+>> --- a/meta/classes/license.bbclass
+>> +++ b/meta/classes/license.bbclass
+>> @@ -90,11 +90,13 @@ license_create_manifest() {
+>> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0for filename in $files; do
+>> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0pkged_pn=3D"$(sed -n 's/^=
+PN: //p' ${filename})"
+>> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0pkged_lic=3D"$(sed -n '/^=
+LICENSE: /{ s/^LICENSE: //;
+>> s/[+|&()*]/ /g; s/ =A0*/ /g; p }' ${filename})"
+>> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 pkged_pv=3D"$(sed -n 's/^P=
+V: //p' ${filename})"
+>> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0# check to see if the pac=
+kage name exists in the
+>> manifest. if so, bail.
+>> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0if ! grep -q "PACKAGE NAM=
+E: ${pkg}" ${filename};
+>> then
+>> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0# exclude=
+ local recipes
+>> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0if [ ! "$=
+{pkged_pn}" =3D "*locale*" ]; then
+>> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
+=A0 =A0echo "PACKAGE NAME:" ${pkg}>>
+>> =A0${LICENSE_DIRECTORY}/${IMAGE_NAME}/license.manifest
+>> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
+=A0 =A0 echo "PACKAGE VERSION:"
+>> ${pkged_pv}>> =A0${LICENSE_DIRECTORY}/${IMAGE_NAME}/license.manifest
+>> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
+=A0 =A0echo "RECIPE NAME:" ${pkged_pn}>>
+>> =A0${LICENSE_DIRECTORY}/${IMAGE_NAME}/license.manifest
+>> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
+=A0 =A0echo "LICENSE: ">>
+>> =A0${LICENSE_DIRECTORY}/${IMAGE_NAME}/license.manifest
+>> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
+=A0 =A0for lic in ${pkged_lic}; do
+>
+> Beth,
+>
+> Your patches don't seem to apply together, if I apply one the other fails=
+ or
+> the reverse.
+>
+> Can you rebase appropriately
 
-Definitely - if it doesn't already work once we've reworked it we can p=
-oke the=20
-code in lib/oe/buildhistory_analysis.py to just report the diff of the =
-blobs=20
-(we already do this for other classes of files, some of the image ones =
-IIRC).
+In this case, I based both of them off of master as they're two
+different issues and are unrelated too each other. I'll rebase this as
+I pull together a mut for this afternoons AB run.
 
-Cheers,
-Paul
+-b
+
+>
+> Sau!
+
+
 
 --=20
-
-Paul Eggleton
-Intel Open Source Technology Centre
+Elizabeth Flanagan
+Yocto Project
+Build and Release
 
 
