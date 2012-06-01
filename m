@@ -1,37 +1,38 @@
-Received: from mail-wg0-f43.google.com ([74.125.82.43])
+Received: from mail-we0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <elvis.dowson@gmail.com>) id 1SaZP9-00022q-GC
+	(envelope-from <elvis.dowson@gmail.com>) id 1SaaJm-0005Ev-DP
 	for openembedded-core@lists.openembedded.org;
-	Fri, 01 Jun 2012 23:29:07 +0200
-Received: by wgbdr1 with SMTP id dr1so2156788wgb.24
+	Sat, 02 Jun 2012 00:27:38 +0200
+Received: by werg55 with SMTP id g55so1692956wer.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 01 Jun 2012 14:18:46 -0700 (PDT)
+	Fri, 01 Jun 2012 15:17:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=subject:mime-version:content-type:from:in-reply-to:date:cc
 	:content-transfer-encoding:message-id:references:to:x-mailer;
-	bh=Zd3Waxr5ODnWLUIVmGfq493I0KyN2o82BJLTjUEm4oQ=;
-	b=Y5QWHee6yIs6Szy2PA4Mbv4YiYo6h5ECwddVsBdStjdGMXEYFdB8HtA7JK3VP5pDye
-	KFII1migpy9nhFz0keOBo5tAN8zzAAlRDFBtD3dGMJFSmQAyDEHWVQDQVI2CQKj05P62
-	thKvmS7I3Q6pnulBYQIrd52gCc4eLPs4pIMurdybNVeuLJxvRhBfjMEeD78w0qyGbtoM
-	BegRoXaSbA1ZdCAzMYxgMYqbF6G//chHe1cT6LpECwVU/vQG6gXdaNkbRG9M4OwXm790
-	glNm/UvSPys2+/WeMKwbJ1AUPluPZVMiTiLMBXHejv7TJTYMfNDNVgc3pMGxJvLtmmV2
-	O4TA==
-Received: by 10.216.194.93 with SMTP id l71mr3241929wen.169.1338585524376;
-	Fri, 01 Jun 2012 14:18:44 -0700 (PDT)
+	bh=CwgMUVMMIMl/EsYqK/mRlRF/rFFZ2yrMRpNOiHuih98=;
+	b=cmJPFle1wRCfmq6+PygmlOuSm0JrgnW5df440rgaXGaDx2v7mi8QWkmvbuHYDC45hp
+	llP3saOL+TZc4ZRD9K+RUzXnmpfdmgMwDol1oz75YaxWFhNOzTnHTUO6T+bCHuksRQyy
+	7kd+I9N4ER0MNsgWKbYUCLTiLGpOdJar8Los07RTvq5Be9jc/VkA7dj9diO2psRibNZ/
+	+w4cKylIDBnmZ7uDud5H6JfQ7Rkv9hcPevrlSMx8aEXeHvg+6wQzmAhKa5mmnkJrNgMT
+	iOIrkNyNzE8GCEy58UJT3YuS1v+LiZ+u405b6dF5CRTkznasVvWdKg6UBzcrjSLGCb1r
+	cqag==
+Received: by 10.216.218.77 with SMTP id j55mr3053984wep.179.1338589037016;
+	Fri, 01 Jun 2012 15:17:17 -0700 (PDT)
 Received: from [192.168.1.35] (197.Red-79-150-15.dynamicIP.rima-tde.net.
 	[79.150.15.197])
-	by mx.google.com with ESMTPS id k8sm11340449wia.6.2012.06.01.14.18.42
+	by mx.google.com with ESMTPS id k8sm11872818wia.6.2012.06.01.15.17.14
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 01 Jun 2012 14:18:43 -0700 (PDT)
+	Fri, 01 Jun 2012 15:17:15 -0700 (PDT)
 Mime-Version: 1.0 (Apple Message framework v1278)
 From: Elvis Dowson <elvis.dowson@gmail.com>
-In-Reply-To: <CAAB-1ywzkrpx7yoxvZYj-ByCqsXvaATzngWDukZb98mayLfbnQ@mail.gmail.com>
-Date: Fri, 1 Jun 2012 23:18:41 +0200
-Message-Id: <F215876C-50E1-447C-9765-03AC9E75670D@gmail.com>
+In-Reply-To: <F215876C-50E1-447C-9765-03AC9E75670D@gmail.com>
+Date: Sat, 2 Jun 2012 00:17:13 +0200
+Message-Id: <1A5FEE05-459D-4277-97CC-37F418BF1FFA@gmail.com>
 References: <33616B9B-AAC8-474C-8790-047AA44C1C89@gmail.com>
 	<CAAB-1yw=5xF=YGY+VgU-RvCHYNJ2zYWvZBTwVR+2L3L0UUqG1A@mail.gmail.com>
 	<C20D3B8A-D5AF-46EE-BC26-5423752FE815@gmail.com>
 	<CAAB-1ywzkrpx7yoxvZYj-ByCqsXvaATzngWDukZb98mayLfbnQ@mail.gmail.com>
+	<F215876C-50E1-447C-9765-03AC9E75670D@gmail.com>
 To: Adrian Alonso <aalonso00@gmail.com>
 X-Mailer: Apple Mail (2.1278)
 Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
@@ -50,102 +51,132 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Jun 2012 21:29:07 -0000
+X-List-Received-Date: Fri, 01 Jun 2012 22:27:39 -0000
 Content-Type: text/plain; charset=iso-8859-1
 Content-Transfer-Encoding: quoted-printable
 
 Hi Adrian,
 
-On May 31, 2012, at 11:13 PM, Adrian Alonso wrote:
+On Jun 1, 2012, at 11:18 PM, Elvis Dowson wrote:
 
->>> That's a second process that you need todo with xilinx EDK to export
->>> and launch xilinx SDK
->>> from there create a new device tree project which will parse the =
-"mhs"
->>> hardware descriptor file
->>> and from there generate the device tree according to the hwd =
-settings...
-
-I've created a hardware bsp project using Xilinx SDK 14.1, and used the =
-xilinx-ml507-update project, (after updating it to XPS 14.1 format).
-
-Now the script in meta-xilinx/classes/xilinx-kernel.bbclass is looking =
+> I've created a hardware bsp project using Xilinx SDK 14.1, and used =
+the xilinx-ml507-update project, (after updating it to XPS 14.1 format).
+>=20
+> Now the script in meta-xilinx/classes/xilinx-kernel.bbclass is looking =
 for a *.dts file, but I don't see that being created anywhere, in my bsp =
 projects.
 
-The XPS SDK project is generated into the following location from your =
-XPS system.mhs project:
+Ok, got past that error, the *.dts file doesn't get created if I choose =
+Wind River GPP 2.0.=20
 
-/project/xilinx-sdk-workspace (which contains two subfolders =
-linux_2_6_bsp_0, and xilinx-ml507_hw_platform)
+If I switch the distro to Monta Vista 5.0, it generates a ml507.dts =
+file.
 
-Your XPS project is located in
+Now when I execute bitbake linux-xilinx, it picks up the ml507.dts file =
+correctly and builds the linux image.
 
-/project/xilinx-ml507-updated
-
-and my local.conf settings are=20
-
-XILINX_BSP_PATH ?=3D "/project/xilinx-ml507-updated"
-
-is that the correct BSP path location?=20
-
-When I try to build the linux-xilinx recipe, I get the following errors:
-
-NOTE: package =
-linux-xilinx-2.6.37.1+git1+86c81ccd7c8e895904bfff95bd4f87c9615f7fba-r15: =
-task do_unpack: Started
-NOTE: package =
-linux-xilinx-2.6.37.1+git1+86c81ccd7c8e895904bfff95bd4f87c9615f7fba-r15: =
-task do_unpack: Succeeded
-NOTE: Running task 854 of 867 (ID: 1, =
-/tool/yocto/meta-xilinx/recipes-kernel/linux/linux-xilinx_git.bb, =
-do_patch)
-NOTE: package =
-linux-xilinx-2.6.37.1+git1+86c81ccd7c8e895904bfff95bd4f87c9615f7fba-r15: =
-task do_patch: Started
-NOTE: package =
-linux-xilinx-2.6.37.1+git1+86c81ccd7c8e895904bfff95bd4f87c9615f7fba-r15: =
-task do_patch: Succeeded
-NOTE: Running task 855 of 867 (ID: 6, =
+NOTE: Running task 521 of 867 (ID: 6, =
 /tool/yocto/meta-xilinx/recipes-kernel/linux/linux-xilinx_git.bb, =
 do_configure)
 NOTE: package =
 linux-xilinx-2.6.37.1+git1+86c81ccd7c8e895904bfff95bd4f87c9615f7fba-r15: =
 task do_configure: Started
-ERROR: Function failed: do_configure (see =
-/tool/yocto/poky/build/tmp/work/virtex5-poky-linux/linux-xilinx-2.6.37.1+g=
-it1+86c81ccd7c8e895904bfff95bd4f87c9615f7fba-r15/temp/log.do_configure.308=
-45 for further information)
-ERROR: Logfile of failure stored in: =
-/tool/yocto/poky/build/tmp/work/virtex5-poky-linux/linux-xilinx-2.6.37.1+g=
-it1+86c81ccd7c8e895904bfff95bd4f87c9615f7fba-r15/temp/log.do_configure.308=
-45
-Log data follows:
-| DEBUG: Executing python function sysroot_cleansstate
-| DEBUG: Python function sysroot_cleansstate finished
-| DEBUG: Executing shell function do_configure
-| ERROR: Function failed: do_configure (see =
-/tool/yocto/poky/build/tmp/work/virtex5-poky-linux/linux-xilinx-2.6.37.1+g=
-it1+86c81ccd7c8e895904bfff95bd4f87c9615f7fba-r15/temp/log.do_configure.308=
-45 for further information)
-| ERROR: No device tree found, missing hardware ref design?
 NOTE: package =
 linux-xilinx-2.6.37.1+git1+86c81ccd7c8e895904bfff95bd4f87c9615f7fba-r15: =
-task do_configure: Failed
-ERROR: Task 6 =
-(/tool/yocto/meta-xilinx/recipes-kernel/linux/linux-xilinx_git.bb, =
-do_configure) failed with exit code '1'
-NOTE: Tasks Summary: Attempted 856 tasks of which 852 didn't need to be =
-rerun and 1 failed.
-
-Summary: 1 task failed:
-  /tool/yocto/meta-xilinx/recipes-kernel/linux/linux-xilinx_git.bb, =
-do_configure
-Summary: There was 1 ERROR message shown, returning a non-zero exit =
-code.
+task do_configure: Succeeded
+NOTE: Running task 857 of 867 (ID: 7, =
+/tool/yocto/meta-xilinx/recipes-kernel/linux/linux-xilinx_git.bb, =
+do_compile)
+NOTE: package =
+linux-xilinx-2.6.37.1+git1+86c81ccd7c8e895904bfff95bd4f87c9615f7fba-r15: =
+task do_compile: Started
+NOTE: package =
+linux-xilinx-2.6.37.1+git1+86c81ccd7c8e895904bfff95bd4f87c9615f7fba-r15: =
+task do_compile: Succeeded
+NOTE: Running task 858 of 867 (ID: 10, =
+/tool/yocto/meta-xilinx/recipes-kernel/linux/linux-xilinx_git.bb, =
+do_compile_kernelmodules)
+NOTE: Running task 859 of 867 (ID: 9, =
+/tool/yocto/meta-xilinx/recipes-kernel/linux/linux-xilinx_git.bb, =
+do_sizecheck)
+NOTE: Running task 860 of 867 (ID: 8, =
+/tool/yocto/meta-xilinx/recipes-kernel/linux/linux-xilinx_git.bb, =
+do_uboot_mkimage)
+NOTE: package =
+linux-xilinx-2.6.37.1+git1+86c81ccd7c8e895904bfff95bd4f87c9615f7fba-r15: =
+task do_compile_kernelmodules: Started
+NOTE: package =
+linux-xilinx-2.6.37.1+git1+86c81ccd7c8e895904bfff95bd4f87c9615f7fba-r15: =
+task do_sizecheck: Started
+NOTE: package =
+linux-xilinx-2.6.37.1+git1+86c81ccd7c8e895904bfff95bd4f87c9615f7fba-r15: =
+task do_sizecheck: Succeeded
+NOTE: package =
+linux-xilinx-2.6.37.1+git1+86c81ccd7c8e895904bfff95bd4f87c9615f7fba-r15: =
+task do_uboot_mkimage: Started
+NOTE: package =
+linux-xilinx-2.6.37.1+git1+86c81ccd7c8e895904bfff95bd4f87c9615f7fba-r15: =
+task do_uboot_mkimage: Succeeded
+NOTE: package =
+linux-xilinx-2.6.37.1+git1+86c81ccd7c8e895904bfff95bd4f87c9615f7fba-r15: =
+task do_compile_kernelmodules: Succeeded
+NOTE: Running task 861 of 867 (ID: 2, =
+/tool/yocto/meta-xilinx/recipes-kernel/linux/linux-xilinx_git.bb, =
+do_install)
+NOTE: package =
+linux-xilinx-2.6.37.1+git1+86c81ccd7c8e895904bfff95bd4f87c9615f7fba-r15: =
+task do_install: Started
+NOTE: package =
+linux-xilinx-2.6.37.1+git1+86c81ccd7c8e895904bfff95bd4f87c9615f7fba-r15: =
+task do_install: Succeeded
+NOTE: Running task 862 of 867 (ID: 13, =
+/tool/yocto/meta-xilinx/recipes-kernel/linux/linux-xilinx_git.bb, =
+do_package)
+NOTE: Running task 863 of 867 (ID: 11, =
+/tool/yocto/meta-xilinx/recipes-kernel/linux/linux-xilinx_git.bb, =
+do_deploy)
+NOTE: Running task 864 of 867 (ID: 3, =
+/tool/yocto/meta-xilinx/recipes-kernel/linux/linux-xilinx_git.bb, =
+do_populate_sysroot)
+NOTE: package =
+linux-xilinx-2.6.37.1+git1+86c81ccd7c8e895904bfff95bd4f87c9615f7fba-r15: =
+task do_package: Started
+NOTE: package =
+linux-xilinx-2.6.37.1+git1+86c81ccd7c8e895904bfff95bd4f87c9615f7fba-r15: =
+task do_deploy: Started
+NOTE: package =
+linux-xilinx-2.6.37.1+git1+86c81ccd7c8e895904bfff95bd4f87c9615f7fba-r15: =
+task do_populate_sysroot: Started
+NOTE: package =
+linux-xilinx-2.6.37.1+git1+86c81ccd7c8e895904bfff95bd4f87c9615f7fba-r15: =
+task do_deploy: Succeeded
+NOTE: package =
+linux-xilinx-2.6.37.1+git1+86c81ccd7c8e895904bfff95bd4f87c9615f7fba-r15: =
+task do_populate_sysroot: Succeeded
+NOTE: package =
+linux-xilinx-2.6.37.1+git1+86c81ccd7c8e895904bfff95bd4f87c9615f7fba-r15: =
+task do_package: Succeeded
+NOTE: Running task 865 of 867 (ID: 15, =
+/tool/yocto/meta-xilinx/recipes-kernel/linux/linux-xilinx_git.bb, =
+do_package_write_rpm)
+NOTE: package =
+linux-xilinx-2.6.37.1+git1+86c81ccd7c8e895904bfff95bd4f87c9615f7fba-r15: =
+task do_package_write_rpm: Started
+NOTE: package =
+linux-xilinx-2.6.37.1+git1+86c81ccd7c8e895904bfff95bd4f87c9615f7fba-r15: =
+task do_package_write_rpm: Succeeded
+NOTE: Running noexec task 866 of 867 (ID: 12, =
+/tool/yocto/meta-xilinx/recipes-kernel/linux/linux-xilinx_git.bb, =
+do_package_write)
+NOTE: Running noexec task 867 of 867 (ID: 5, =
+/tool/yocto/meta-xilinx/recipes-kernel/linux/linux-xilinx_git.bb, =
+do_build)
+NOTE: Tasks Summary: Attempted 867 tasks of which 855 didn't need to be =
+rerun and all succeeded.
 
 Best regards,
 
-Elvis Dowson=
+Elvis Dowson
+
 
 
