@@ -1,29 +1,22 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1SaTfC-00028G-GN
-	for openembedded-core@lists.openembedded.org;
-	Fri, 01 Jun 2012 17:21:18 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q51FAu0t022281
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 1 Jun 2012 08:10:56 -0700 (PDT)
-Received: from msp-dhcp42.wrs.com (172.25.34.42) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Fri, 1 Jun 2012 08:10:55 -0700
-Message-ID: <4FC8DB7F.3070506@windriver.com>
-Date: Fri, 1 Jun 2012 10:10:55 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
-	rv:12.0) Gecko/20120428 Thunderbird/12.0.1
+	(envelope-from <paul.eggleton@linux.intel.com>)
+	id 1SaUDA-000304-8F; Fri, 01 Jun 2012 17:56:25 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 01 Jun 2012 08:46:01 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="150445944"
+Received: from unknown (HELO helios.localnet) ([10.255.12.84])
+	by azsmga001.ch.intel.com with ESMTP; 01 Jun 2012 08:46:00 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org,
+	openembedded-devel@lists.openembedded.org, yocto@yoctoproject.org
+Date: Fri, 01 Jun 2012 16:45:59 +0100
+Message-ID: <5190700.Ufj2u3sllZ@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.8.3 (Linux/3.2.0-24-generic-pae; KDE/4.8.3; i686; ; )
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1338368508.git.edwin.zhai@intel.com>
-	<2255c64e0eb4a2b5b7f063dbc5ff421e606458c8.1338368508.git.edwin.zhai@intel.com>
-	<4FC81BF9.5050405@intel.com>
-In-Reply-To: <4FC81BF9.5050405@intel.com>
-Subject: Re: RPM packaging issue?
+Subject: Buildhistory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,58 +31,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Jun 2012 15:21:18 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 01 Jun 2012 15:56:25 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On 5/31/12 8:33 PM, Laurentiu Palcu wrote:
-> Hi list,
->
-> I was trying to build core-image-gtk-directfb and ended up with this error:
->
-> Log data follows:
-> | DEBUG: Executing shell function do_rootfs
-> | ERROR: Function failed: do_rootfs (see
-> /home/lau/yocto/build/tmp/work/qemux86-poky-linux/core-image-minimal-1.0-r0/temp/log.do_rootfs.4857
-> for further information)
-> | Generating solve db for /home/lau/yocto/build/tmp/deploy/rpm/qemux86...
-> | Generating solve db for /home/lau/yocto/build/tmp/deploy/rpm/i586...
-> | Generating solve db for /home/lau/yocto/build/tmp/deploy/rpm/all...
-> | Generating solve db for /home/lau/yocto/build/tmp/deploy/rpm/all...
-> | Processing task-core-boot...
-> | Processing module-init-tools...
-> | Unable to find package module-init-tools (module-init-tools)!
-> NOTE: package core-image-minimal-1.0-r0: task do_rootfs: Failed
->
-> module-init-tools is provided by kmod package and is in the RDEPENDS of
-> task_base recipe.
->
-> Then I tried to add module_init_tools to CORE_IMAGE_EXTRA_INSTALL and
-> build core-image-minimal (just for testing), the same result.
->
-> The interesting thing is that this didn't happen if the packaging format
-> is ipk.
->
-> Anybody know anything about this issue?
+Hi all
 
-The IMAGE_INSTALL list has module-init-tools in it.  This list is based on 
-package name and not "dependency" or "provide" name.  The package 
-module-init-tools no longer exists in the system, there is only a runtime 
-provide from the kmod package.
+[Sorry for the cross-post but I thought this would be worth talking about in 
+all three of the lists. By way of discussions and other threads some of you 
+may already be aware of buildhistory - if so you can skip this message.]
 
-This ensures that any package that requires module-init-tools will work 
-properly, but anyone adding module-init-tools to the IMAGE_INSTALL it will fail 
-as you've seen above.
+With buildhistory.bbclass (which incorporates and extends functionality 
+previously provided in OE-Classic via testlab.bbclass) we now have the ability 
+to record some useful information about the output of a build, and commit this 
+information into a git repository so that changes over time can be examined 
+and highlighted. The information recorded includes the content and size of 
+each package, content and size of images (at the package and file level), etc.
 
---Mark
+A side-benefit of buildhistory is that it can also be used just to get 
+information about the content of your image including dependency graphs, so 
+you can figure out exactly what pulled in some particular package.
 
-> Thanks,
-> Laurentiu
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+Further information can be found here:
 
+ https://wiki.yoctoproject.org/wiki/Buildhistory
+
+If you are doing a recipe upgrade or making a change to the metadata that 
+might have wide-ranging effects on the output, then you should consider using 
+buildhistory to determine whether or not there are any issues.
+
+Cheers,
+Paul
+
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
