@@ -1,26 +1,20 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SaMCa-0001Ha-0i
+	(envelope-from <cristian.iorga@intel.com>) id 1SaMpf-0002XY-22
 	for openembedded-core@lists.openembedded.org;
-	Fri, 01 Jun 2012 09:23:16 +0200
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 01 Jun 2012 00:12:35 -0700
+	Fri, 01 Jun 2012 10:03:39 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 01 Jun 2012 00:52:12 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="106612567"
-Received: from unknown (HELO [10.239.11.116]) ([10.239.11.116])
-	by AZSMGA002.ch.intel.com with ESMTP; 01 Jun 2012 00:12:34 -0700
-Message-ID: <4FC86B60.6040907@linux.intel.com>
-Date: Fri, 01 Jun 2012 00:12:32 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
-MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1338420972.git.elizabeth.flanagan@intel.com>
-	<6dcb3827885e1e0812656d44028df568903fb400.1338420972.git.elizabeth.flanagan@intel.com>
-In-Reply-To: <6dcb3827885e1e0812656d44028df568903fb400.1338420972.git.elizabeth.flanagan@intel.com>
-Subject: Re: [PATCH 1/1] license.bbclass: Adding PV to package.manifest
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="173580830"
+Received: from sentry (HELO localhost.localdomain) ([10.237.104.51])
+	by fmsmga002.fm.intel.com with ESMTP; 01 Jun 2012 00:52:11 -0700
+From: Cristian Iorga <cristian.iorga@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  1 Jun 2012 10:52:38 +0300
+Message-Id: <1338537158-19917-1-git-send-email-cristian.iorga@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] ltp: Add patch to correct failing build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,44 +29,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Jun 2012 07:23:16 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 01 Jun 2012 08:03:39 -0000
 
-On 05/30/2012 04:39 PM, Elizabeth Flanagan wrote:
-> Per request, adding the package version to the package manifest
-> file.
->
-> Signed-off-by: Elizabeth Flanagan<elizabeth.flanagan@intel.com>
-> ---
->   meta/classes/license.bbclass |    2 ++
->   1 files changed, 2 insertions(+), 0 deletions(-)
->
-> diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
-> index 6c4a673..a537496 100644
-> --- a/meta/classes/license.bbclass
-> +++ b/meta/classes/license.bbclass
-> @@ -90,11 +90,13 @@ license_create_manifest() {
->   		for filename in $files; do
->   			pkged_pn="$(sed -n 's/^PN: //p' ${filename})"
->   			pkged_lic="$(sed -n '/^LICENSE: /{ s/^LICENSE: //; s/[+|&()*]/ /g; s/  */ /g; p }' ${filename})"
-> +			pkged_pv="$(sed -n 's/^PV: //p' ${filename})"
->   			# check to see if the package name exists in the manifest. if so, bail.
->   			if ! grep -q "PACKAGE NAME: ${pkg}" ${filename}; then
->   				# exclude local recipes
->   				if [ ! "${pkged_pn}" = "*locale*" ]; then
->   					echo "PACKAGE NAME:" ${pkg}>>  ${LICENSE_DIRECTORY}/${IMAGE_NAME}/license.manifest
-> +					echo "PACKAGE VERSION:" ${pkged_pv}>>  ${LICENSE_DIRECTORY}/${IMAGE_NAME}/license.manifest
->   					echo "RECIPE NAME:" ${pkged_pn}>>  ${LICENSE_DIRECTORY}/${IMAGE_NAME}/license.manifest
->   					echo "LICENSE: ">>  ${LICENSE_DIRECTORY}/${IMAGE_NAME}/license.manifest
->   					for lic in ${pkged_lic}; do
-Beth,
+ltp makefile does not interpret correctly the result of git describe
+command and assumes that it is working with a git repo, while in fact
+working with a source code archive.
+Added a patch to corect makefile system.
 
-Your patches don't seem to apply together, if I apply one the other 
-fails or the reverse.
+Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
+---
+ .../ltp/ltp/fix_building_fom_archive.patch         |   23 ++++++++++++++++++++
+ meta/recipes-extended/ltp/ltp_20120401.bb          |    4 ++--
+ 2 files changed, 25 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-extended/ltp/ltp/fix_building_fom_archive.patch
 
-Can you rebase appropriately
+diff --git a/meta/recipes-extended/ltp/ltp/fix_building_fom_archive.patch b/meta/recipes-extended/ltp/ltp/fix_building_fom_archive.patch
+new file mode 100644
+index 0000000..c0ecc86
+--- /dev/null
++++ b/meta/recipes-extended/ltp/ltp/fix_building_fom_archive.patch
+@@ -0,0 +1,23 @@
++ltp package build system is broken if building from archive
++
++ltp makefile does not interpret correctly the result of git describe
++command and assumes that it is working with a git repo, while in fact
++working with a source code archive.
++
++Upstream-Status: Pending
++Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
++
++Index: ltp-20120401/Makefile
++===================================================================
++--- ltp-20120401.orig/Makefile
+++++ ltp-20120401/Makefile
++@@ -173,7 +173,8 @@ SRCDIR_INSTALL_TARGETS	:= $(SRCDIR_INSTA
++ #
++ .PHONY: Version
++ Version:
++-	if git describe &> /dev/null; then \
+++	git describe &> /dev/null
+++	if [ $? -eq 0 ]; then \
++ 		git describe > "$@"; \
++ 	else \
++ 		cp VERSION "$@"; \
+diff --git a/meta/recipes-extended/ltp/ltp_20120401.bb b/meta/recipes-extended/ltp/ltp_20120401.bb
+index 912d6d9..563bd58 100644
+--- a/meta/recipes-extended/ltp/ltp_20120401.bb
++++ b/meta/recipes-extended/ltp/ltp_20120401.bb
+@@ -21,10 +21,10 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3 \
+ 
+ DEPENDS = "attr"
+ 
+-PR = "r3"
++PR = "r4"
+ 
+ SRC_URI = "${SOURCEFORGE_MIRROR}/ltp/ltp-full-${PV}.bz2 \
+-          "
++           file://fix_building_fom_archive.patch"
+ 
+ SRC_URI[md5sum] = "e1d0acf1a6b6da0cb30dc1b0dcf5f26d"
+ SRC_URI[sha256sum] = "f0f5845f9666f61332fdf0b7e396fc647f9372db0902a829af2cf9402b807bd1"
+-- 
+1.7.9.5
 
-Sau!
 
 
