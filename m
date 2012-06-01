@@ -1,39 +1,36 @@
-Received: from mail-pz0-f47.google.com ([209.85.210.47])
+Received: from mail-wg0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1SaHK4-00034k-SQ
+	(envelope-from <kergoth@gmail.com>) id 1SaHLn-0003Fn-7m
 	for openembedded-core@lists.openembedded.org;
-	Fri, 01 Jun 2012 04:10:41 +0200
-Received: by mail-pz0-f47.google.com with SMTP id h21so2151336dal.6
+	Fri, 01 Jun 2012 04:12:27 +0200
+Received: by wgbdr1 with SMTP id dr1so1351172wgb.24
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 May 2012 19:00:22 -0700 (PDT)
+	Thu, 31 May 2012 19:02:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references
-	:in-reply-to:references;
-	bh=wXyP1Lq8i+5/vYbIBQVq/wyxInE8qUdKihGalr0r1IQ=;
-	b=b3SGirjFPBuC1mPC4BBhdvv0bcSySSP0WnZAnwWtnoaspWRrMhVmhUj2wMg9o3JBx0
-	oXRzOc4iPoZS9rjjgIyyBC4vrlEmxJoCUNx1JMBQrDN2900HNDMx9rQeXDVYNX/FTWBr
-	vpXk9PWFm80J9d43tyZmSEzp5J9IMw6nHWIqYJskkKqDj8nnQlQ9ZI8ZtmQWfVFrhWmd
-	swQ9mmHCz9A4PUy1/n4YLxVUELONwrPxzcPZ6RakLnFoXSv7pPFHTpOaBpWD4f4WvhCe
-	GIGcMh856iOQVenhN/ehowHSKKavZDrsU1IYA1+u9g6VUqN/ke/ULEmIA52J52zv8f9e
-	IWoA==
-Received: by 10.68.233.102 with SMTP id tv6mr5064684pbc.153.1338516022317;
-	Thu, 31 May 2012 19:00:22 -0700 (PDT)
-Received: from localhost.localdomain (ip68-110-79-242.ph.ph.cox.net.
-	[68.110.79.242])
-	by mx.google.com with ESMTPS id tk1sm994850pbc.8.2012.05.31.19.00.20
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 31 May 2012 19:00:21 -0700 (PDT)
-From: Christopher Larson <kergoth@gmail.com>
+	h=mime-version:sender:in-reply-to:references:from:date
+	:x-google-sender-auth:message-id:subject:to:cc:content-type
+	:content-transfer-encoding;
+	bh=mzGxNjsqSGdbyxsJk3E1qpKQvFI1DrxHmfwowUTIYx0=;
+	b=rR3zy6fcNni4U4L8IsJuhT3i5tLlrtYAb5rOe37zcSDNuGCjOTZRbXqmADNdbu5fSS
+	rhbJq5O+frMSs9p86/1GNucBFc8UKRVYzaUONorEe1w53Uy9BRyMKMxEirg1mduAX0/s
+	WZQ/y+MQJiVnn1y2LtBjO3La78YYc+lFMk+5FwxttAAd6diJBHAt4KVHQxQOCRV27piG
+	uMV3yMZdPppbn5FVmipstCFtcC1cyRQHwosrloIys38vJ9dGHbG7ev+2Wz77RE8aTzce
+	CiiXwiMPWbte7rF3yOvekL5FDPmMDiNJ7601PivITfeBQp1bT8mm6mXmvBEw7Gy5ybXO
+	1jGQ==
+Received: by 10.216.194.139 with SMTP id m11mr718433wen.198.1338516126960;
+	Thu, 31 May 2012 19:02:06 -0700 (PDT)
+MIME-Version: 1.0
+Sender: kergoth@gmail.com
+Received: by 10.216.181.16 with HTTP; Thu, 31 May 2012 19:01:46 -0700 (PDT)
+In-Reply-To: <cover.1338515870.git.chris_larson@mentor.com>
+References: <cover.1338515870.git.chris_larson@mentor.com>
+From: Christopher Larson <chris_larson@mentor.com>
+Date: Thu, 31 May 2012 19:01:46 -0700
+X-Google-Sender-Auth: 7E90x5gadYj_g3N02PHBOxVbDoY
+Message-ID: <CABcZANm=NFN+kss9O_H4VEQws6DTJ0XL1mjOzyP5B5hR7gkefQ@mail.gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 31 May 2012 19:00:06 -0700
-Message-Id: <f958bfb0aa3b6b1ce558edfacc31e9a944584954.1338515870.git.chris_larson@mentor.com>
-X-Mailer: git-send-email 1.7.10.3
-In-Reply-To: <cover.1338515870.git.chris_larson@mentor.com>
-References: <cover.1338515870.git.chris_larson@mentor.com>
-In-Reply-To: <cover.1338515870.git.chris_larson@mentor.com>
-References: <cover.1338515870.git.chris_larson@mentor.com>
 Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCH 3/3] external-sourcery-toolchain: forcibly create usr/lib
+Subject: Re: [PATCH 0/3] More external toolchain fixes/improvements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,45 +45,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Jun 2012 02:10:41 -0000
+X-List-Received-Date: Fri, 01 Jun 2012 02:12:27 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-From: Christopher Larson <chris_larson@mentor.com>
+On Thu, May 31, 2012 at 7:00 PM, Christopher Larson <kergoth@gmail.com> wro=
+te:
+> are available in the git repository at:
+> =C2=A0github:kergoth/oe-core toolchain
 
-If the usr/lib directory doesn't exist, the toolchain can fail to even try to
-find crti.o in a completely different directory. This causes a failure for the
-case where baselib is lib64.
+Erm, forgot to correct the url, my git url insteadOf adjusts this.
 
-Signed-off-by: Christopher Larson <chris_larson@mentor.com>
----
- .../meta/external-sourcery-toolchain.bb            |    6 +++++-
- 1 files changed, 5 insertions(+), 1 deletions(-)
-
-diff --git a/meta/recipes-core/meta/external-sourcery-toolchain.bb b/meta/recipes-core/meta/external-sourcery-toolchain.bb
-index b67410b..74c82ec 100644
---- a/meta/recipes-core/meta/external-sourcery-toolchain.bb
-+++ b/meta/recipes-core/meta/external-sourcery-toolchain.bb
-@@ -24,7 +24,7 @@ PROVIDES += "\
- 	virtual/linux-libc-headers \
- "
- PV = "${CSL_VER_MAIN}"
--PR = "r6"
-+PR = "r7"
- 
- #SRC_URI = "http://www.codesourcery.com/public/gnu_toolchain/${CSL_TARGET_SYS}/arm-${PV}-${TARGET_PREFIX}i686-pc-linux-gnu.tar.bz2"
- 
-@@ -78,6 +78,10 @@ external_toolchain_sysroot_adjust() {
- 		rm -f ${SYSROOT_DESTDIR}/$dest_sysroot
- 		ln -s . ${SYSROOT_DESTDIR}/$dest_sysroot
- 	fi
-+
-+	# If the usr/lib directory doesn't exist, the toolchain fails to even
-+	# try to find crti.o in a completely different directory (usr/lib64)
-+	install -d ${SYSROOT_DESTDIR}/usr/lib
- }
- 
- PACKAGES =+ "libgcc libgcc-dev libstdc++ libstdc++-dev libstdc++-staticdev linux-libc-headers linux-libc-headers-dev gdbserver gdbserver-dbg"
--- 
-1.7.4.1
-
+https://github.com/kergoth/oe-core toolchain
 
 
