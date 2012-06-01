@@ -1,36 +1,27 @@
-Received: from mail-wg0-f43.google.com ([74.125.82.43])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1SaHLn-0003Fn-7m
+	(envelope-from <Peter.Seebach@windriver.com>) id 1SaJIR-0006Pb-MB
 	for openembedded-core@lists.openembedded.org;
-	Fri, 01 Jun 2012 04:12:27 +0200
-Received: by wgbdr1 with SMTP id dr1so1351172wgb.24
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 May 2012 19:02:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date
-	:x-google-sender-auth:message-id:subject:to:cc:content-type
-	:content-transfer-encoding;
-	bh=mzGxNjsqSGdbyxsJk3E1qpKQvFI1DrxHmfwowUTIYx0=;
-	b=rR3zy6fcNni4U4L8IsJuhT3i5tLlrtYAb5rOe37zcSDNuGCjOTZRbXqmADNdbu5fSS
-	rhbJq5O+frMSs9p86/1GNucBFc8UKRVYzaUONorEe1w53Uy9BRyMKMxEirg1mduAX0/s
-	WZQ/y+MQJiVnn1y2LtBjO3La78YYc+lFMk+5FwxttAAd6diJBHAt4KVHQxQOCRV27piG
-	uMV3yMZdPppbn5FVmipstCFtcC1cyRQHwosrloIys38vJ9dGHbG7ev+2Wz77RE8aTzce
-	CiiXwiMPWbte7rF3yOvekL5FDPmMDiNJ7601PivITfeBQp1bT8mm6mXmvBEw7Gy5ybXO
-	1jGQ==
-Received: by 10.216.194.139 with SMTP id m11mr718433wen.198.1338516126960;
-	Thu, 31 May 2012 19:02:06 -0700 (PDT)
-MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.216.181.16 with HTTP; Thu, 31 May 2012 19:01:46 -0700 (PDT)
-In-Reply-To: <cover.1338515870.git.chris_larson@mentor.com>
+	Fri, 01 Jun 2012 06:17:08 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q5146h5C013390
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 31 May 2012 21:06:43 -0700 (PDT)
+Received: from wrlaptop (172.25.40.226) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Thu, 31 May 2012 21:06:42 -0700
+Date: Thu, 31 May 2012 23:06:33 -0500
+From: Peter Seebach <peter.seebach@windriver.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Message-ID: <20120531230633.70344cfb@wrlaptop>
+In-Reply-To: <367a51d945217c0a11caab13e71fe83a557a6872.1338515870.git.chris_larson@mentor.com>
 References: <cover.1338515870.git.chris_larson@mentor.com>
-From: Christopher Larson <chris_larson@mentor.com>
-Date: Thu, 31 May 2012 19:01:46 -0700
-X-Google-Sender-Auth: 7E90x5gadYj_g3N02PHBOxVbDoY
-Message-ID: <CABcZANm=NFN+kss9O_H4VEQws6DTJ0XL1mjOzyP5B5hR7gkefQ@mail.gmail.com>
-To: openembedded-core@lists.openembedded.org
+	<367a51d945217c0a11caab13e71fe83a557a6872.1338515870.git.chris_larson@mentor.com>
+X-Mailer: Claws Mail 3.7.8 (GTK+ 2.24.4; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
 Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: Re: [PATCH 0/3] More external toolchain fixes/improvements
+Subject: Re: [PATCH 1/3] external-sourcery: extract src and dest sysroot paths from gcc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,17 +36,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Jun 2012 02:12:27 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 01 Jun 2012 04:17:08 -0000
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
 
-On Thu, May 31, 2012 at 7:00 PM, Christopher Larson <kergoth@gmail.com> wro=
-te:
-> are available in the git repository at:
-> =C2=A0github:kergoth/oe-core toolchain
+On Thu, 31 May 2012 19:00:04 -0700
+Christopher Larson <kergoth@gmail.com> wrote:
 
-Erm, forgot to correct the url, my git url insteadOf adjusts this.
+> +CSL_MULTILIB_ARGS[i586] = "-msgxx-glibc"
+> +CSL_MULTILIB_ARGS[i686] = "-msgxx-glibc"
+> +CSL_MULTILIB_ARGS[core2] = "-msgxx-glibc"
+> +CSL_MULTILIB_ARGS[x86] = "-msgxx-glibc"
+> +CSL_MULTILIB_ARGS[x86-64] = "-msgxx-glibc"
+> +CSL_MULTILIB_ARGS[ppce500] = "-te500v1"
+> +CSL_MULTILIB_ARGS[ppce500mc] = "-te500mc"
+> +CSL_MULTILIB_ARGS[ppce500v2] = "-te500v2"
+> +CSL_MULTILIB_ARGS[ppce600] = "-te600"
 
-https://github.com/kergoth/oe-core toolchain
+I would suggest that these be ?= assignments.
+
+Rationale:  There is more than one Sourcery toolchain out there, and
+they sometimes differ in these.  It'd be nice if a hypothetical vendor
+using a hypothetical custom variant of the Sourcery toolchain could use
+these configuration files with nothing more than a few variable
+assignments.  :)
+
+I do quite like the cleanup.
+
+-s
+-- 
+Listen, get this.  Nobody with a good compiler needs to be justified.
 
 
