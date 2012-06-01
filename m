@@ -1,20 +1,33 @@
-Received: from mga11.intel.com ([192.55.52.93])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <cristian.iorga@intel.com>) id 1SaMpf-0002XY-22
-	for openembedded-core@lists.openembedded.org;
-	Fri, 01 Jun 2012 10:03:39 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 01 Jun 2012 00:52:12 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="173580830"
-Received: from sentry (HELO localhost.localdomain) ([10.237.104.51])
-	by fmsmga002.fm.intel.com with ESMTP; 01 Jun 2012 00:52:11 -0700
-From: Cristian Iorga <cristian.iorga@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  1 Jun 2012 10:52:38 +0300
-Message-Id: <1338537158-19917-1-git-send-email-cristian.iorga@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] ltp: Add patch to correct failing build
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1SaNDJ-00031V-Uj for openembedded-core@lists.openembedded.org;
+	Fri, 01 Jun 2012 10:28:06 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q518HgLW010098;
+	Fri, 1 Jun 2012 09:17:42 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 09264-04; Fri,  1 Jun 2012 09:17:37 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q518HVTB010092
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Fri, 1 Jun 2012 09:17:33 +0100
+Message-ID: <1338538650.20169.261.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Fri, 01 Jun 2012 09:17:30 +0100
+In-Reply-To: <D16CA58F-8D7A-4910-ACCA-84E01CEE6510@dominion.thruhere.net>
+References: <cover.1338434706.git.liezhi.yang@windriver.com>
+	<87ca0cf2285b018489bde046b0aa7e17a767c70a.1338434706.git.liezhi.yang@windriver.com>
+	<D16CA58F-8D7A-4910-ACCA-84E01CEE6510@dominion.thruhere.net>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: Zhenfeng.Zhao@windriver.com
+Subject: Re: [PATCH 1/1] opkg 0.1.8: respect to the arch when choose the alternatives
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,68 +42,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Jun 2012 08:03:39 -0000
+X-List-Received-Date: Fri, 01 Jun 2012 08:28:06 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-ltp makefile does not interpret correctly the result of git describe
-command and assumes that it is working with a git repo, while in fact
-working with a source code archive.
-Added a patch to corect makefile system.
+On Thu, 2012-05-31 at 17:01 +0200, Koen Kooi wrote:
+> Op 31 mei 2012, om 16:13 heeft Robert Yang het volgende geschreven:
+> 
+> > There is a bug if we:
+> > 1) bitbake core-image-sato-sdk MACHINE=qemux86
+> > 2) bitbake core-image-sato with MACHINE=crownbay
+> > 
+> > Then several pkgs in deploy/ipk/i586 would be installed to crownbay's
+> > image even if there is one in deploy/ipk/core2 and we have set the
+> > core2's priority higher than i586, when the version in deploy/ipk/i586 is
+> > higher. This doesn't work for us, for example, what the crownbay need is
+> > xserver-xorg-1.9.3, but it installs xserver-xorg-1.11.2.
+> 
+> And this is working exactly as intended. Don't break opkg because your
+> hardware driver situation sucks.
+> 
+> So: NAK on this patch.
 
-Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
----
- .../ltp/ltp/fix_building_fom_archive.patch         |   23 ++++++++++++++++++++
- meta/recipes-extended/ltp/ltp_20120401.bb          |    4 ++--
- 2 files changed, 25 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-extended/ltp/ltp/fix_building_fom_archive.patch
+I think we do have a problem here. For example, the system is ignoring a
+PREFERRED_VERSION directive here by building one thing and then
+installing another. We're also inconsistent between the dpkg/rpm and
+opkg backends. There is therefore definitely some kind of user
+experience issue at stake here since this behaviour is not obvious,
+expected or particularly correct.
 
-diff --git a/meta/recipes-extended/ltp/ltp/fix_building_fom_archive.patch b/meta/recipes-extended/ltp/ltp/fix_building_fom_archive.patch
-new file mode 100644
-index 0000000..c0ecc86
---- /dev/null
-+++ b/meta/recipes-extended/ltp/ltp/fix_building_fom_archive.patch
-@@ -0,0 +1,23 @@
-+ltp package build system is broken if building from archive
-+
-+ltp makefile does not interpret correctly the result of git describe
-+command and assumes that it is working with a git repo, while in fact
-+working with a source code archive.
-+
-+Upstream-Status: Pending
-+Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
-+
-+Index: ltp-20120401/Makefile
-+===================================================================
-+--- ltp-20120401.orig/Makefile
-++++ ltp-20120401/Makefile
-+@@ -173,7 +173,8 @@ SRCDIR_INSTALL_TARGETS	:= $(SRCDIR_INSTA
-+ #
-+ .PHONY: Version
-+ Version:
-+-	if git describe &> /dev/null; then \
-++	git describe &> /dev/null
-++	if [ $? -eq 0 ]; then \
-+ 		git describe > "$@"; \
-+ 	else \
-+ 		cp VERSION "$@"; \
-diff --git a/meta/recipes-extended/ltp/ltp_20120401.bb b/meta/recipes-extended/ltp/ltp_20120401.bb
-index 912d6d9..563bd58 100644
---- a/meta/recipes-extended/ltp/ltp_20120401.bb
-+++ b/meta/recipes-extended/ltp/ltp_20120401.bb
-@@ -21,10 +21,10 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3 \
- 
- DEPENDS = "attr"
- 
--PR = "r3"
-+PR = "r4"
- 
- SRC_URI = "${SOURCEFORGE_MIRROR}/ltp/ltp-full-${PV}.bz2 \
--          "
-+           file://fix_building_fom_archive.patch"
- 
- SRC_URI[md5sum] = "e1d0acf1a6b6da0cb30dc1b0dcf5f26d"
- SRC_URI[sha256sum] = "f0f5845f9666f61332fdf0b7e396fc647f9372db0902a829af2cf9402b807bd1"
--- 
-1.7.9.5
+The fact the example is hardware related is not particularly relevant,
+its the bigger picture I worry about. I know that hardware issue sucks
+and many people on this list have experienced pain due to it, we'd all
+like it to go away. Using this as a reason not to examine and
+potentially fix some problematic package manager behaviour is not right
+IMO though. The world isn't perfect, sucky hardware/software exists, we
+need to work with it.
+
+So to be honest I'm leaning towards taking the patch. I would be
+interested in other people's opinions though...
+
+Cheers,
+
+Richard
+
 
 
 
