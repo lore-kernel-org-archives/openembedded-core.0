@@ -1,35 +1,39 @@
-Received: from mail-we0-f175.google.com ([74.125.82.175])
+Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <elvis.dowson@gmail.com>) id 1Sb72C-0008HB-Qd
+	(envelope-from <elizabeth.flanagan@intel.com>) id 1SbFRX-0003fb-QS
 	for openembedded-core@lists.openembedded.org;
-	Sun, 03 Jun 2012 11:23:40 +0200
-Received: by werg55 with SMTP id g55so2255284wer.6
+	Sun, 03 Jun 2012 20:22:24 +0200
+Received: from mail-lpp01m010-f52.google.com ([209.85.215.52])
+	by mga03.intel.com with ESMTP/TLS/RC4-SHA; 03 Jun 2012 11:11:57 -0700
+Received: by lahj13 with SMTP id j13so2198495lah.25
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 03 Jun 2012 02:13:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:content-type:content-transfer-encoding:subject:date:message-id
-	:to:mime-version:x-mailer;
-	bh=yytgJpsryjGEEHi7oYzCqG1x7DWSQI+fY5n52r9wzt0=;
-	b=x0mvv+sOGFwwPi0FWlLt3keZNLBgKwGJoE3Osf1JN6l9wONrirQnls3Dr1rgK/66uR
-	MOM7fMYvAP2DpBIJpEKQB46E8RxXQUoHt618JK7KmJi9LvCWaozlcFqSZvS0Pzwl0fRG
-	SCbHPZXljMGKkCai1puq/rF42nJYkm39QtfS5VgMAXCOR2/bLMh3cHs8d95p+90j+i9V
-	LHiV1S90/UkYgd+UxUpQ8zmsGpq+PQwZyOuKXpxeZDRto/HBfR19CxtE4l1zn+yq39aN
-	wFoXB1lBzgj/hoBDEDBMtTKH72oJqE/bVuL3i0RoepNVoxFa+Hvrun4hVjiXmSrbqePy
-	nVZw==
-Received: by 10.216.145.149 with SMTP id p21mr7670815wej.1.1338714797514;
-	Sun, 03 Jun 2012 02:13:17 -0700 (PDT)
-Received: from [192.168.1.35] (197.Red-79-150-15.dynamicIP.rima-tde.net.
-	[79.150.15.197])
-	by mx.google.com with ESMTPS id gc6sm11253392wib.0.2012.06.03.02.13.15
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sun, 03 Jun 2012 02:13:16 -0700 (PDT)
-From: Elvis Dowson <elvis.dowson@gmail.com>
-Date: Sun, 3 Jun 2012 11:13:14 +0200
-Message-Id: <DF8CB93B-75E4-4656-B4EF-49061748B656@gmail.com>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Mime-Version: 1.0 (Apple Message framework v1278)
-X-Mailer: Apple Mail (2.1278)
-Subject: [meta-xilinx] WARNING: QA Issue: systemd
+	Sun, 03 Jun 2012 11:11:55 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type:content-transfer-encoding:x-gm-message-state;
+	bh=qZRd93iVAcAvK/yTSQW6Zzorc4PjqBcB6sjXRKbZkPM=;
+	b=V4wwlPdUoXxPf3dEWrY1nxdC6QYml116dr6B3sl8iq6Z2oXlFfImUrYvg4gIDrliP/
+	iKvZIvuBBhGHRHAOdZXmcGFupnYa8MraS/5KMTteuWz7pm47m6wIA9hwHWkHPmeFiTPD
+	0BLdjQkW6YN0rIZHbj4Ojy5ElxVNhjEgntTi66Iu8Vt2XlTGc1/FRgkrVH4MkMIxi3oU
+	3LujcGrYS/2E5xqtnUZu33Cl4+fhHfRQz5urJDOHB2KOJa6Fofq/gw+s4M6G+q+FFvYV
+	vs54dboJvcRjueIvXLgSxbBcxKWcZuRPT0/E9myLZxJ437PZO+AnbycXCNkiRtgJZYy8
+	cVcQ==
+MIME-Version: 1.0
+Received: by 10.112.36.163 with SMTP id r3mr4797789lbj.87.1338747115077; Sun,
+	03 Jun 2012 11:11:55 -0700 (PDT)
+Received: by 10.112.1.227 with HTTP; Sun, 3 Jun 2012 11:11:55 -0700 (PDT)
+In-Reply-To: <3b6d1051beff117d6d98bdcaabb7a06b98c33e51.1338541462.git.xiaofeng.yan@windriver.com>
+References: <cover.1338541462.git.xiaofeng.yan@windriver.com>
+	<3b6d1051beff117d6d98bdcaabb7a06b98c33e51.1338541462.git.xiaofeng.yan@windriver.com>
+Date: Sun, 3 Jun 2012 11:11:55 -0700
+Message-ID: <CAPhnLPBqmU27AVOaVH2+egbeWjhLXhZ=EvDmzi=18Q8tgTCtLg@mail.gmail.com>
+From: "Flanagan, Elizabeth" <elizabeth.flanagan@intel.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Gm-Message-State: ALoCoQmcj2Sfxyj+GqZ98coCk2N4ab9EcA2pFGIHGAMiYsd5itHoOwVTlJiaQOBdDSD8hQGbFGW+
+Cc: Zhenfeng.Zhao@windriver.com
+Subject: Re: [PATCH 1/3 V2] lsbinitscripts: Add initscripts to enhance init functions in an lsb image
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,390 +48,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 03 Jun 2012 09:23:40 -0000
-Content-Type: text/plain; charset=us-ascii
+X-List-Received-Date: Sun, 03 Jun 2012 18:22:24 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
-      I've managed to get core-image-minimal building for the Xilinx =
-ML507 board. The build process completes with a bunch of QA warnings.
+On Fri, Jun 1, 2012 at 2:13 AM,  <xiaofeng.yan@windriver.com> wrote:
+> From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
+>
+> The version of initscripts has more functions than the simple.
+> There could be some errors for current initscripts when running
+> some programe because of absent some functions provided by initscripts.
+>
 
-How can I suppress or fix these warnings?
+Just an FYI, this was missing a DEPENDS on popt. I've fixed that in
+my consolidated pull.
 
-NOTE: package libgpg-error-1.10-r1: task do_package: Started
-WARNING: QA Issue: systemd: =
-/tool/yocto/poky/build/tmp/work/ppc440-poky-linux/systemd-git-r27/packages=
--split/systemd/lib/systemd/systemd-logind links to something under =
-exec_prefix
-WARNING: QA Issue: ldd reports: 	libcap.so.2 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/libcap.so.2 (0xdead1000)
-	libsystemd-daemon.so.0 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/libsystemd-daemon.so.0 =
-(0xdead2000)
-	libdbus-1.so.3 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/usr/lib/libdbus-1.so.3 =
-(0xdead3000)
-	libpthread.so.0 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/libpthread.so.0 =
-(0xdead4000)
-	libudev.so.0 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/libudev.so.0 =
-(0xdead5000)
-	libacl.so.1 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/libacl.so.1 (0xdead6000)
-	librt.so.1 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/librt.so.1 (0xdead7000)
-	libc.so.6 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/libc.so.6 (0xdead8000)
-	/lib/ld.so.1 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/ld.so.1 (0xdead9000)
-	libdl.so.2 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/libdl.so.2 (0xdeada000)
-	libattr.so.1 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/libattr.so.1 =
-(0xdeadb000)
+-b
 
-WARNING: QA Issue: systemd: =
-/tool/yocto/poky/build/tmp/work/ppc440-poky-linux/systemd-git-r27/packages=
--split/systemd/lib/systemd/systemd-timedated links to something under =
-exec_prefix
-WARNING: QA Issue: ldd reports: 	libcap.so.2 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/libcap.so.2 (0xdead1000)
-	libdbus-1.so.3 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/usr/lib/libdbus-1.so.3 =
-(0xdead2000)
-	libpthread.so.0 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/libpthread.so.0 =
-(0xdead3000)
-	librt.so.1 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/librt.so.1 (0xdead4000)
-	libc.so.6 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/libc.so.6 (0xdead5000)
-	/lib/ld.so.1 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/ld.so.1 (0xdead6000)
-
-WARNING: QA Issue: systemd: =
-/tool/yocto/poky/build/tmp/work/ppc440-poky-linux/systemd-git-r27/packages=
--split/systemd/lib/systemd/systemd-update-utmp links to something under =
-exec_prefix
-WARNING: QA Issue: ldd reports: 	libcap.so.2 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/libcap.so.2 (0xdead1000)
-	libdbus-1.so.3 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/usr/lib/libdbus-1.so.3 =
-(0xdead2000)
-	libpthread.so.0 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/libpthread.so.0 =
-(0xdead3000)
-	librt.so.1 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/librt.so.1 (0xdead4000)
-	libc.so.6 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/libc.so.6 (0xdead5000)
-	/lib/ld.so.1 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/ld.so.1 (0xdead6000)
-
-WARNING: QA Issue: systemd: =
-/tool/yocto/poky/build/tmp/work/ppc440-poky-linux/systemd-git-r27/packages=
--split/systemd/lib/systemd/systemd-journald links to something under =
-exec_prefix
-WARNING: QA Issue: ldd reports: 	libsystemd-daemon.so.0 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/libsystemd-daemon.so.0 =
-(0xdead1000)
-	libsystemd-login.so.0 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/libsystemd-login.so.0 =
-(0xdead2000)
-	libcap.so.2 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/libcap.so.2 (0xdead3000)
-	libacl.so.1 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/libacl.so.1 (0xdead4000)
-	liblzma.so.5 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/usr/lib/liblzma.so.5 =
-(0xdead5000)
-	librt.so.1 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/librt.so.1 (0xdead6000)
-	libpthread.so.0 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/libpthread.so.0 =
-(0xdead7000)
-	libc.so.6 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/libc.so.6 (0xdead8000)
-	/lib/ld.so.1 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/ld.so.1 (0xdead9000)
-	libdl.so.2 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/libdl.so.2 (0xdeada000)
-	libattr.so.1 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/libattr.so.1 =
-(0xdeadb000)
-
-WARNING: QA Issue: systemd: =
-/tool/yocto/poky/build/tmp/work/ppc440-poky-linux/systemd-git-r27/packages=
--split/systemd/lib/systemd/systemd links to something under exec_prefix
-WARNING: QA Issue: ldd reports: 	libdbus-1.so.3 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/usr/lib/libdbus-1.so.3 =
-(0xdead1000)
-	libpthread.so.0 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/libpthread.so.0 =
-(0xdead2000)
-	libudev.so.0 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/libudev.so.0 =
-(0xdead3000)
-	libwrap.so.0 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/libwrap.so.0 =
-(0xdead4000)
-	libcap.so.2 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/libcap.so.2 (0xdead5000)
-	libkmod.so.2 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/usr/lib/libkmod.so.2 =
-(0xdead6000)
-	librt.so.1 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/librt.so.1 (0xdead7000)
-	libc.so.6 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/libc.so.6 (0xdead8000)
-	/lib/ld.so.1 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/ld.so.1 (0xdead9000)
-
-WARNING: QA Issue: systemd: =
-/tool/yocto/poky/build/tmp/work/ppc440-poky-linux/systemd-git-r27/packages=
--split/systemd/lib/systemd/systemd-modules-load links to something under =
-exec_prefix
-WARNING: QA Issue: ldd reports: 	libcap.so.2 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/libcap.so.2 (0xdead1000)
-	libkmod.so.2 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/usr/lib/libkmod.so.2 =
-(0xdead2000)
-	librt.so.1 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/librt.so.1 (0xdead3000)
-	libc.so.6 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/libc.so.6 (0xdead4000)
-	/lib/ld.so.1 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/ld.so.1 (0xdead5000)
-	libpthread.so.0 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/libpthread.so.0 =
-(0xdead6000)
-
-WARNING: QA Issue: systemd: =
-/tool/yocto/poky/build/tmp/work/ppc440-poky-linux/systemd-git-r27/packages=
--split/systemd/lib/systemd/systemd-initctl links to something under =
-exec_prefix
-WARNING: QA Issue: ldd reports: 	libcap.so.2 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/libcap.so.2 (0xdead1000)
-	libsystemd-daemon.so.0 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/libsystemd-daemon.so.0 =
-(0xdead2000)
-	libdbus-1.so.3 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/usr/lib/libdbus-1.so.3 =
-(0xdead3000)
-	libpthread.so.0 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/libpthread.so.0 =
-(0xdead4000)
-	librt.so.1 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/librt.so.1 (0xdead5000)
-	libc.so.6 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/libc.so.6 (0xdead6000)
-	/lib/ld.so.1 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/ld.so.1 (0xdead7000)
-	libdl.so.2 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/libdl.so.2 (0xdead8000)
-
-WARNING: QA Issue: systemd: =
-/tool/yocto/poky/build/tmp/work/ppc440-poky-linux/systemd-git-r27/packages=
--split/systemd/lib/systemd/systemd-cgroups-agent links to something =
-under exec_prefix
-WARNING: QA Issue: ldd reports: 	libcap.so.2 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/libcap.so.2 (0xdead1000)
-	libdbus-1.so.3 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/usr/lib/libdbus-1.so.3 =
-(0xdead2000)
-	libpthread.so.0 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/libpthread.so.0 =
-(0xdead3000)
-	librt.so.1 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/librt.so.1 (0xdead4000)
-	libc.so.6 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/libc.so.6 (0xdead5000)
-	/lib/ld.so.1 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/ld.so.1 (0xdead6000)
-
-WARNING: QA Issue: systemd: =
-/tool/yocto/poky/build/tmp/work/ppc440-poky-linux/systemd-git-r27/packages=
--split/systemd/lib/systemd/systemd-localed links to something under =
-exec_prefix
-WARNING: QA Issue: ldd reports: 	libcap.so.2 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/libcap.so.2 (0xdead1000)
-	libdbus-1.so.3 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/usr/lib/libdbus-1.so.3 =
-(0xdead2000)
-	libpthread.so.0 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/libpthread.so.0 =
-(0xdead3000)
-	librt.so.1 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/librt.so.1 (0xdead4000)
-	libc.so.6 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/libc.so.6 (0xdead5000)
-	/lib/ld.so.1 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/ld.so.1 (0xdead6000)
-
-WARNING: QA Issue: systemd: =
-/tool/yocto/poky/build/tmp/work/ppc440-poky-linux/systemd-git-r27/packages=
--split/systemd/lib/systemd/systemd-hostnamed links to something under =
-exec_prefix
-WARNING: QA Issue: ldd reports: 	libcap.so.2 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/libcap.so.2 (0xdead1000)
-	libdbus-1.so.3 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/usr/lib/libdbus-1.so.3 =
-(0xdead2000)
-	libpthread.so.0 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/libpthread.so.0 =
-(0xdead3000)
-	libdl.so.2 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/libdl.so.2 (0xdead4000)
-	librt.so.1 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/librt.so.1 (0xdead5000)
-	libc.so.6 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/libc.so.6 (0xdead6000)
-	/lib/ld.so.1 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/ld.so.1 (0xdead7000)
-
-WARNING: QA Issue: systemd: =
-/tool/yocto/poky/build/tmp/work/ppc440-poky-linux/systemd-git-r27/packages=
--split/systemd/lib/systemd/systemd-fsck links to something under =
-exec_prefix
-WARNING: QA Issue: ldd reports: 	libcap.so.2 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/libcap.so.2 (0xdead1000)
-	libudev.so.0 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/libudev.so.0 =
-(0xdead2000)
-	libdbus-1.so.3 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/usr/lib/libdbus-1.so.3 =
-(0xdead3000)
-	libpthread.so.0 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/libpthread.so.0 =
-(0xdead4000)
-	librt.so.1 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/librt.so.1 (0xdead5000)
-	libc.so.6 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/libc.so.6 (0xdead6000)
-	/lib/ld.so.1 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/ld.so.1 (0xdead7000)
-
-NOTE: package openssl-1.0.0i-r15.2: task do_package: Succeeded
-NOTE: Running task 1420 of 2269 (ID: 1696, =
-/tool/yocto/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.24.1.bb, =
-do_populate_lic)
-NOTE: package libxft-1_2.3.0-r0: task do_package: Succeeded
-NOTE: Running task 1421 of 2269 (ID: 1610, =
-virtual:native:/tool/yocto/poky/meta/recipes-gnome/gnome/gnome-common_2.28=
-.0.bb, do_configure)
-WARNING: QA Issue: systemd: =
-/tool/yocto/poky/build/tmp/work/ppc440-poky-linux/systemd-git-r27/packages=
--split/systemd/bin/loginctl links to something under exec_prefix
-WARNING: QA Issue: ldd reports: 	libcap.so.2 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/libcap.so.2 (0xdead1000)
-	libdbus-1.so.3 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/usr/lib/libdbus-1.so.3 =
-(0xdead2000)
-	libpthread.so.0 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/libpthread.so.0 =
-(0xdead3000)
-	libudev.so.0 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/libudev.so.0 =
-(0xdead4000)
-	librt.so.1 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/librt.so.1 (0xdead5000)
-	libc.so.6 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/libc.so.6 (0xdead6000)
-	/lib/ld.so.1 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/ld.so.1 (0xdead7000)
-
-NOTE: package gdk-pixbuf-2.24.1-r3: task do_populate_lic: Started
-WARNING: QA Issue: systemd: =
-/tool/yocto/poky/build/tmp/work/ppc440-poky-linux/systemd-git-r27/packages=
--split/systemd/bin/systemctl links to something under exec_prefix
-WARNING: QA Issue: ldd reports: 	libsystemd-daemon.so.0 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/libsystemd-daemon.so.0 =
-(0xdead1000)
-	libsystemd-journal.so.0 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/libsystemd-journal.so.0 =
-(0xdead2000)
-	libsystemd-id128.so.0 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/libsystemd-id128.so.0 =
-(0xdead3000)
-	libcap.so.2 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/libcap.so.2 (0xdead4000)
-	libdbus-1.so.3 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/usr/lib/libdbus-1.so.3 =
-(0xdead5000)
-	libpthread.so.0 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/libpthread.so.0 =
-(0xdead6000)
-	librt.so.1 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/librt.so.1 (0xdead7000)
-	libc.so.6 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/libc.so.6 (0xdead8000)
-	/lib/ld.so.1 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/ld.so.1 (0xdead9000)
-	libdl.so.2 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/libdl.so.2 (0xdeada000)
-	liblzma.so.5 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/usr/lib/liblzma.so.5 =
-(0xdeadb000)
-
-NOTE: package gnome-common-native-2.28.0-r1: task do_configure: Started
-WARNING: QA Issue: systemd: =
-/tool/yocto/poky/build/tmp/work/ppc440-poky-linux/systemd-git-r27/packages=
--split/systemd/bin/journalctl links to something under exec_prefix
-WARNING: QA Issue: ldd reports: 	libsystemd-journal.so.0 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/libsystemd-journal.so.0 =
-(0xdead1000)
-	libsystemd-id128.so.0 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/libsystemd-id128.so.0 =
-(0xdead2000)
-	libcap.so.2 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/libcap.so.2 (0xdead3000)
-	liblzma.so.5 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/usr/lib/liblzma.so.5 =
-(0xdead4000)
-	librt.so.1 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/librt.so.1 (0xdead5000)
-	libpthread.so.0 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/libpthread.so.0 =
-(0xdead6000)
-	libc.so.6 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/libc.so.6 (0xdead7000)
-	/lib/ld.so.1 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/ld.so.1 (0xdead8000)
-	libdl.so.2 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/libdl.so.2 (0xdead9000)
-
-NOTE: package gdk-pixbuf-2.24.1-r3: task do_populate_lic: Succeeded
-NOTE: Running task 1422 of 2269 (ID: 1695, =
-/tool/yocto/poky/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.24.1.bb, =
-do_package)
-WARNING: QA Issue: systemd: =
-/tool/yocto/poky/build/tmp/work/ppc440-poky-linux/systemd-git-r27/packages=
--split/libsystemd-journal/lib/libsystemd-journal.so.0.0.3 links to =
-something under exec_prefix
-WARNING: QA Issue: ldd reports: 	libsystemd-id128.so.0 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/libsystemd-id128.so.0 =
-(0xdead1000)
-	libcap.so.2 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/libcap.so.2 (0xdead2000)
-	liblzma.so.5 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/usr/lib/liblzma.so.5 =
-(0xdead3000)
-	libdl.so.2 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/libdl.so.2 (0xdead4000)
-	librt.so.1 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/librt.so.1 (0xdead5000)
-	libpthread.so.0 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/libpthread.so.0 =
-(0xdead6000)
-	libc.so.6 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/libc.so.6 (0xdead7000)
-	/lib/ld.so.1 =3D> =
-/tool/yocto/poky/build/tmp/sysroots/virtex5/lib/ld.so.1 (0xdead8000)
+> [YOCTO #2133]
+>
+> Signed-off-by: Xiaofeng Yan <xiaofeng.yan@windriver.com>
+> ---
+> =A0meta/recipes-extended/lsb/lsbinitscripts_9.03.bb | =A0 26 ++++++++++++=
+++++++++++
+> =A01 files changed, 26 insertions(+), 0 deletions(-)
+> =A0create mode 100644 meta/recipes-extended/lsb/lsbinitscripts_9.03.bb
+>
+> diff --git a/meta/recipes-extended/lsb/lsbinitscripts_9.03.bb b/meta/reci=
+pes-extended/lsb/lsbinitscripts_9.03.bb
+> new file mode 100644
+> index 0000000..8ee8636
+> --- /dev/null
+> +++ b/meta/recipes-extended/lsb/lsbinitscripts_9.03.bb
+> @@ -0,0 +1,26 @@
+> +DESCRIPTION =3D "SysV init scripts which only is used in an LSB image"
+> +SECTION =3D "base"
+> +LICENSE =3D "GPLv2"
+> +PR =3D "r0"
+> +
+> +LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Debf4e8b49780ab187d51bd26aaa02=
+2c6"
+> +
+> +S=3D"${WORKDIR}/initscripts-${PV}"
+> +SRC_URI =3D "http://pkgs.fedoraproject.org/repo/pkgs/initscripts/initscr=
+ipts-${PV}.tar.bz2/668fa2762b57ef75436303857847bba3/initscripts-${PV}.tar.b=
+z2 \
+> + =A0 =A0 =A0 =A0 =A0 file://functions.patch \
+> + =A0 =A0 =A0 =A0 =A0"
+> +
+> +SRC_URI[md5sum] =3D "668fa2762b57ef75436303857847bba3"
+> +SRC_URI[sha256sum] =3D "d56547a68ce223a7413b2676650b042125f047c8d6d139c5=
+b970e118b3dc958a"
+> +inherit update-alternatives
+> +
+> +ALTERNATIVE_PRIORITY =3D "10"
+> +ALTERNATIVE_${PN} =3D "functions"
+> +ALTERNATIVE_LINK_NAME[functions] =3D "${sysconfdir}/init.d/functions"
+> +
+> +do_configure[noexec] =3D "1"
+> +
+> +do_install(){
+> + =A0 =A0 =A0 install -d ${D}/etc/init.d/
+> + =A0 =A0 =A0 install -m 0755 ${S}/rc.d/init.d/functions ${D}/etc/init.d/=
+functions
+> +}
+> --
+> 1.7.0.4
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
-Best regards,
 
-Elvis Dowson=
+--=20
+Elizabeth Flanagan
+Yocto Project
+Build and Release
 
 
