@@ -1,33 +1,29 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1Sba8L-0007A1-SJ
+	(envelope-from <mark.hatle@windriver.com>) id 1SbaAu-0007K6-LN
 	for openembedded-core@lists.openembedded.org;
-	Mon, 04 Jun 2012 18:27:57 +0200
-Received: by eekd49 with SMTP id d49so1604392eek.6
+	Mon, 04 Jun 2012 18:30:37 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q54GKAA7026049
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 04 Jun 2012 09:17:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type; bh=2jaNt7zBMxz8xfoSTiAVZYv+J1Ts58Wv1dpNo7mAsgg=;
-	b=cfcL96c8244P7p14VLdn+ktWAQjuV2vp96rG5alB25xGcx24cpxAXgujP0rrkeytPe
-	q4POIQ3VmSX8YFXzimtQeC8esI3lxbcSj1CO2y8x93UuE2AMjA4Csi330uuvOzftGMW/
-	U+qAsQh4ZI9fiXUp609f+3JteClmVuLDCd2CEK2Yk4OuTjAsQ9f6LzyXY5L/Bo02na8L
-	Te9mFFFjLsXWovYPQLaxXtTrxTMR9FQjB4r3tqqmK4eRR9hWLi91TyPBtySuZJBYq+uH
-	NzU7ZL/gWM74Tv/GpFqA9zdXs5BT93OdomAft+GZ0+a1h/jc+ZqlZKKHLre5ihCcI6GF
-	wqFg==
-Received: by 10.14.100.194 with SMTP id z42mr6498539eef.146.1338826652739;
-	Mon, 04 Jun 2012 09:17:32 -0700 (PDT)
+	Mon, 4 Jun 2012 09:20:10 -0700 (PDT)
+Received: from msp-dhcp43.wrs.com (172.25.34.43) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Mon, 4 Jun 2012 09:20:10 -0700
+Message-ID: <4FCCE039.20307@windriver.com>
+Date: Mon, 4 Jun 2012 11:20:09 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
+	rv:12.0) Gecko/20120428 Thunderbird/12.0.1
 MIME-Version: 1.0
-Received: by 10.14.188.11 with HTTP; Mon, 4 Jun 2012 09:17:02 -0700 (PDT)
-In-Reply-To: <CAOHjBZvFwiq97xv2kf6OjvCbPUCmX5tQ0P5NjvWXb--97oVvgg@mail.gmail.com>
-References: <CAOHjBZukor5Cy+2N-s0rFiiwR8Epp2vDaPuw7o5B4u-BMno3LQ@mail.gmail.com>
-	<CAOHjBZvFwiq97xv2kf6OjvCbPUCmX5tQ0P5NjvWXb--97oVvgg@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 4 Jun 2012 09:17:02 -0700
-Message-ID: <CAMKF1sotQWH+E5+28gKXfRfLJ9mQUN3EQpe2sUziBgu1CXYiZQ@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: libiconv/gettetxt circular dependency on eglibc
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1338500281.git.mark.hatle@windriver.com>
+	<CAPhnLPD8AUtpP9bT=dUVR1zP9xBNhj3i+u+uaLG3rPHbpo-A2g@mail.gmail.com>
+	<4FCCC8B8.5030708@windriver.com>
+In-Reply-To: <4FCCC8B8.5030708@windriver.com>
+Subject: Re: [PATCH 0/5 v3] Uprev RPM to 5.4.9
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,46 +38,147 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Jun 2012 16:27:58 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 04 Jun 2012 16:30:37 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Jun 4, 2012 at 1:33 AM, Giuseppe Condorelli
-<giuseppe.condorelli@gmail.com> wrote:
-> Solved,
-> I missed to set TARGET_OS = "eglibc" leaving it to "uclibc", my previous
-> build...
-
-thats wrong. If you are using OE-Core then the variable to set it TCLIBC
-and TARGET_OS is usually not needed to set.
-
-and libiconv is internal to eglibc so when using eglibc it should
-provide the libiconv
-package.
-
+On 6/4/12 9:39 AM, Mark Hatle wrote:
+> How are these builds being performed, what is the configuration?  Are they
+> iterative?
 >
-> Cheers,
-> Giuseppe
+> I need to get an idea of how to reproduce the issue.  The symptoms indicate that
+> the database configuration file(s) are not getting installed into the target
+> filesystem before the actual install starts...
+
+I was able to reproduce the problem using:
+
+MACHINE = "qemux86"
+
+bitbake meta-toolchain-gmae
+
+I'll work on a solution and potentially a v4 of the RPM uprev.
+
+--Mark
+
+> --Mark
 >
-> 2012/6/4 Giuseppe Condorelli <giuseppe.condorelli@gmail.com>
+> On 6/2/12 12:10 PM, Flanagan, Elizabeth wrote:
+>> On Thu, May 31, 2012 at 2:42 PM, Mark Hatle<mark.hatle@windriver.com>   wrote:
+>>> Rebase of the v2 changes.
+>>>
+>>> Re-disabled the "test" chunk..  this should resolve the hang problem a
+>>> few people have observed.
+>>>
+>>> v2 message follows:
+>>>
+>>> Berkley DB also gets upreved, and a new package ossp-uuid gets added to
+>>> the system.
+>>>
+>>> This was -heavily- tested with and without zypper on IA, and PPC.
+>>>
+>>> In addition a minor performance enhancement with a query operation was added.
+>>>
+>>> The uprev also adds the capability of using PACKAGECONFIG settings to tailor
+>>> the behavior of RPM.
+>>>
+>>> V2 changes:
+>>>
+>>> Fix a problem with libuuid.so from util-linux would sometimes be linked into
+>>> the binary.
+>>>
+>>> Also force libzypp, sat-solver and zypper to refresh via a PR bump.
 >>
->> Hi All,
+>> Something in this patch set seems to be killing the master_under_test
+>> build of meta-toolchain-gmae.
 >>
->> I'm falling in a circular dependency error between libiconv and gettext
->> during eglibc build.
->> libiconv (as set in tclibc-eglibc.inc) is set to "eglibc", so the recipe
->> for libiconv shouldn't be included
->> in the build list (it inherits gettext and gettext depends on libiconv).
->> Please can you clarify this?
+>> See: http://autobuilder.yoctoproject.org:8010/builders/nightly-x86/builds/517/steps/shell_68/logs/stdio
 >>
->> Many thanks,
->> Giuseppe
->
+>> -b
+>>
+>>>
+>>>
+>>> The following changes since commit e3113827810e98eb1b012f0b280fb917199704c1:
+>>>
+>>>    webkit-gtk: Use glib as unicode backend to avoid browser crash (2012-05-30 17:37:58 +0100)
+>>>
+>>> are available in the git repository at:
+>>>    git://git.pokylinux.org/poky-contrib mhatle/rpm
+>>>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=mhatle/rpm
+>>>
+>>> Mark Hatle (5):
+>>>    rpm: Upgrade RPM to 5.4.8  (db to 5.3.15)
+>>>    rpm: Upgrade RPM to 5.4.9
+>>>    ossp-uuid: Add oss-uuid package and RPM 5.4.9 integration
+>>>    package_rpm: Add capability to directly query packageorigin
+>>>    rpm: Bump PR numbers on componets that require RPM
+>>>
+>>>    meta/classes/package_rpm.bbclass                   |   18 +-
+>>>    meta/classes/rootfs_rpm.bbclass                    |   22 +-
+>>>    .../ossp-uuid/0001-Change-library-name.patch       |  112 +++++
+>>>    ...erve-m-option-status-in-v-option-handling.patch |   55 +++
+>>>    .../ossp-uuid/0003-Fix-whatis-entries.patch        |   51 +++
+>>>    .../ossp-uuid/0004-fix-data-uuid-from-string.patch |   36 ++
+>>>    .../ossp-uuid/ossp-uuid/uuid-libtool.patch         |   24 +
+>>>    .../ossp-uuid/ossp-uuid/uuid-nostrip.patch         |   16 +
+>>>    meta/recipes-devtools/ossp-uuid/ossp-uuid_1.6.2.bb |   58 +++
+>>>    .../rpm/rpm/fix_for_automake_1.11.2.patch          |   54 ---
+>>>    .../rpm/rpm/fprint-pointer-fix.patch               |   35 --
+>>>    .../rpm/rpm/remove-compiled-tests.patch            |  443 --------------------
+>>>    meta/recipes-devtools/rpm/rpm/rpm-autoconf.patch   |   22 -
+>>>    meta/recipes-devtools/rpm/rpm/rpm-autogen.patch    |   41 +--
+>>>    meta/recipes-devtools/rpm/rpm/rpm-db-reduce.patch  |   16 +-
+>>>    .../recipes-devtools/rpm/rpm/rpm-log-auto-rm.patch |   12 +-
+>>>    meta/recipes-devtools/rpm/rpm/rpm-lua.patch        |   29 ++
+>>>    .../rpm/rpm/rpm-no-perl-urpm.patch                 |   43 ++
+>>>    meta/recipes-devtools/rpm/rpm/rpm-nofsync.patch    |   36 --
+>>>    meta/recipes-devtools/rpm/rpm/rpm-ossp-uuid.patch  |   20 +
+>>>    .../rpm/rpm/rpm-packageorigin.patch                |   23 +
+>>>    .../rpm/rpm/rpm-scriptletexechelper.patch          |   33 +-
+>>>    meta/recipes-devtools/rpm/rpm/rpmdeps-oecore.patch |   26 +-
+>>>    .../rpm/{rpm_5.4.0.bb =>   rpm_5.4.9.bb}             |  158 ++++----
+>>>    .../libzypp/libzypp/libzypp-rpm549.patch           |   28 ++
+>>>    meta/recipes-extended/libzypp/libzypp_git.bb       |    3 +-
+>>>    meta/recipes-extended/sat-solver/sat-solver_git.bb |    2 +-
+>>>    meta/recipes-extended/zypper/zypper_git.bb         |    2 +-
+>>>    .../db/{db_5.1.19.bb =>   db_5.3.15.bb}              |    8 +-
+>>>    29 files changed, 652 insertions(+), 774 deletions(-)
+>>>    create mode 100644 meta/recipes-devtools/ossp-uuid/ossp-uuid/0001-Change-library-name.patch
+>>>    create mode 100644 meta/recipes-devtools/ossp-uuid/ossp-uuid/0002-uuid-preserve-m-option-status-in-v-option-handling.patch
+>>>    create mode 100644 meta/recipes-devtools/ossp-uuid/ossp-uuid/0003-Fix-whatis-entries.patch
+>>>    create mode 100644 meta/recipes-devtools/ossp-uuid/ossp-uuid/0004-fix-data-uuid-from-string.patch
+>>>    create mode 100644 meta/recipes-devtools/ossp-uuid/ossp-uuid/uuid-libtool.patch
+>>>    create mode 100644 meta/recipes-devtools/ossp-uuid/ossp-uuid/uuid-nostrip.patch
+>>>    create mode 100644 meta/recipes-devtools/ossp-uuid/ossp-uuid_1.6.2.bb
+>>>    delete mode 100644 meta/recipes-devtools/rpm/rpm/fix_for_automake_1.11.2.patch
+>>>    delete mode 100644 meta/recipes-devtools/rpm/rpm/fprint-pointer-fix.patch
+>>>    delete mode 100644 meta/recipes-devtools/rpm/rpm/remove-compiled-tests.patch
+>>>    delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-autoconf.patch
+>>>    create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-lua.patch
+>>>    create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-no-perl-urpm.patch
+>>>    delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-nofsync.patch
+>>>    create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-ossp-uuid.patch
+>>>    create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-packageorigin.patch
+>>>    rename meta/recipes-devtools/rpm/{rpm_5.4.0.bb =>   rpm_5.4.9.bb} (76%)
+>>>    create mode 100644 meta/recipes-extended/libzypp/libzypp/libzypp-rpm549.patch
+>>>    rename meta/recipes-support/db/{db_5.1.19.bb =>   db_5.3.15.bb} (93%)
+>>>
+>>> --
+>>> 1.7.3.4
+>>>
+>>>
+>>> _______________________________________________
+>>> Openembedded-core mailing list
+>>> Openembedded-core@lists.openembedded.org
+>>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>>
+>>
+>>
 >
 >
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+
 
 
