@@ -1,33 +1,24 @@
-Received: from mail-pz0-f47.google.com ([209.85.210.47])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@gmail.com>) id 1SbWq3-0002H3-0p
+	(envelope-from <tom.zanussi@intel.com>) id 1SbYJ4-0000Eh-LI
 	for openembedded-core@lists.openembedded.org;
-	Mon, 04 Jun 2012 14:56:51 +0200
-Received: by dalh21 with SMTP id h21so5985029dal.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 04 Jun 2012 05:46:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type:content-transfer-encoding;
-	bh=c49DHNCKfilnJmJiy3niRhglc4dd5SSbYn5n4dmKGZ4=;
-	b=JDOSXn8goJX8TE33+AoriEi5W+lwljAcBwbk4g2GwdI0jmlS8VGlCJIWHhtcmNXd0H
-	ZRnD03KUsNRT5qHXXsXNd8Xjhd91NhECy7DrB1dMsqC2d6E0curC3TAqBW+a+bfaKiRQ
-	2KgXZuvZKg402VvgdSbleYeDvsqi0yRKcOARgNO7HvDkr6WyFxLi9S1J3FIcTeOgUC9d
-	emktofUY6RPegWzIKcD9s3hMzOigvxHT7RUa2/RdbCXhOicw91jYigv3HJZZiC4weQJI
-	jBWHtZub4qiDKyIMwS5ymF5VWl/ZenlC3wzXU2GRPAk5HNw9TKcWG4aSyXdzizAbVMOs
-	yxUw==
-MIME-Version: 1.0
-Received: by 10.68.130.35 with SMTP id ob3mr40031333pbb.40.1338813985270; Mon,
-	04 Jun 2012 05:46:25 -0700 (PDT)
-Received: by 10.68.197.4 with HTTP; Mon, 4 Jun 2012 05:46:25 -0700 (PDT)
-In-Reply-To: <FFF09E3B-E9FB-4D8C-9CE7-65E014F04F2D@gmail.com>
-References: <FFF09E3B-E9FB-4D8C-9CE7-65E014F04F2D@gmail.com>
-Date: Mon, 4 Jun 2012 08:46:25 -0400
-Message-ID: <CADkTA4N-+rHkOetxrkxdGtTx4Q2NE_wLxMPOinOWMnAxOKuFOQ@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+	Mon, 04 Jun 2012 16:30:54 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 04 Jun 2012 07:20:28 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="147819910"
+Received: from unknown (HELO [10.255.12.197]) ([10.255.12.197])
+	by orsmga001.jf.intel.com with ESMTP; 04 Jun 2012 07:20:27 -0700
+From: Tom Zanussi <tom.zanussi@intel.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [meta-xilinx] Creating a QEMU for Xilinx ARM for Zynq 7020 device
+In-Reply-To: <CALbNGRQ_9XmHOQyPZUoT4rUKmjzH_vxBidYp_eJ0vsLAZNe1rw@mail.gmail.com>
+References: <CALbNGRQ_9XmHOQyPZUoT4rUKmjzH_vxBidYp_eJ0vsLAZNe1rw@mail.gmail.com>
+Date: Mon, 04 Jun 2012 09:20:42 -0500
+Message-ID: <1338819642.28421.26.camel@elmorro>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.28.3 
+Subject: Re: systemtap build fails
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,43 +33,143 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Jun 2012 12:56:51 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 04 Jun 2012 14:30:54 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Mon, Jun 4, 2012 at 3:12 AM, Elvis Dowson <elvis.dowson@gmail.com> wrote=
-:
+On Fri, 2012-06-01 at 01:18 +0200, Andreas Müller wrote:
 > Hi,
-> =A0 =A0 I'd like to add support for qemuxarm and build a core-image-sato =
-image, so that I can emulate the ARM processor on the Xilinx Zynq 7020 devi=
-ce using Yocto.
->
-> The sources for qemuxarm are located below:
->
-> http://git.xilinx.com/?p=3Dqemu-xarm.git;a=3Dsummary
->
-> I haven't done this before, so if someone could guide me as to what I sho=
-uld do, and the recipes I should take a look at, it would be great!
+> 
+> I pulled today, started a build from scratch and ran into trouble with
+> systemtap:
+> ...
+> | In file included from csclient.h:12:0,
+> |                  from main.cxx:24:
+> | cscommon.h:8:17: fatal error: ssl.h: No such file or directory
+> | compilation terminated.
+> | In file included from csclient.h:12:0,
+> |                  from session.cxx:18:
+> | cscommon.h:8:17: fatal error: ssl.h: No such file or directory
+> | compilation terminated.
+> | make[2]: *** [stap-session.o] Error 1
+> | make[2]: *** Waiting for unfinished jobs....
+> | make[2]: *** [stap-main.o] Error 1
+> | make[2]: Leaving directory
+> `/home/Superandy/tmp/oe-core-eglibc/work/armv7a-angstrom-linux-gnueabi/systemtap-1.7+git1+83bd2699d8cff2f2d6b9eaf5ea254e4cb6b33e81-r4/git'
+> | make[1]: *** [all-recursive] Error 1
+> | make[1]: Leaving directory
+> `/home/Superandy/tmp/oe-core-eglibc/work/armv7a-angstrom-linux-gnueabi/systemtap-1.7+git1+83bd2699d8cff2f2d6b9eaf5ea254e4cb6b33e81-r4/git'
+> | make: *** [all] Error 2
+> | ERROR: oe_runmake failed
+> ...
+> 
+> I added --without-nss to EXTRA_OECONF and rebuild. Now stap-main.o and
+> stap-session.o were build but now I get
+> ...
+> | modverify.c:28:21: fatal error: pk11pub.h: No such file or directory
+> | compilation terminated.
+> | make[3]: *** [staprun-modverify.o] Error 1
+> | make[3]: *** Waiting for unfinished jobs....
+> | ../../nsscommon.cxx:37:17: fatal error: ssl.h: No such file or directory
+> | compilation terminated.
+> | make[3]: *** [staprun-nsscommon.o] Error 1
+> | make[3]: Leaving directory
+> `/home/Superandy/tmp/oe-core-eglibc/work/armv7a-angstrom-linux-gnueabi/systemtap-1.7+git1+83bd2699d8cff2f2d6b9eaf5ea254e4cb6b33e81-r5/git/runtime/staprun'
+> | make[2]: *** [all] Error 2
+> | make[2]: Leaving directory
+> `/home/Superandy/tmp/oe-core-eglibc/work/armv7a-angstrom-linux-gnueabi/systemtap-1.7+git1+83bd2699d8cff2f2d6b9eaf5ea254e4cb6b33e81-r5/git/runtime/staprun'
+> | make[1]: *** [all-recursive] Error 1
+> | make[1]: Leaving directory
+> `/home/Superandy/tmp/oe-core-eglibc/work/armv7a-angstrom-linux-gnueabi/systemtap-1.7+git1+83bd2699d8cff2f2d6b9eaf5ea254e4cb6b33e81-r5/git'
+> | make: *** [all] Error 2
+> | ERROR: oe_runmake failed
+> ...
+> 
+> In config.log I find
+> ...
+> HAVE_NSS_TRUE='#'
+> ...
+> 
+> This is strange: In runtime/staprun/Makefile.am the failed files
+> should be excluded from build
+> ...
+> if HAVE_NSS
+> staprun_SOURCES += modverify.c ../../nsscommon.cxx
+> staprun_CFLAGS += $(nss_CFLAGS)
+> staprun_CXXFLAGS += $(nss_CFLAGS)
+> staprun_LDADD += $(nss_LIBS)
+> endif
+> ...
+> 
+> Seems HAVE_NSS_TRUE='#' has not reached runtime/staprun
+> 
+> Any thoughts?
+> 
 
-I'd start from here:
+Looks like systemtap changed some configuration that the recipe was
+relying on.  Could you try this patch and see if it fixes things?
 
-http://git.yoctoproject.org/cgit/cgit.cgi/meta-zynq/tree/README.qemu
+Thanks,
 
-Bruce
+Tom
 
->
-> Best regards,
->
-> Elvis Dowson
+[PATCH] systemtap: disable some optional features
+
+Version 1.7 changed the way some of the configuration works,
+specifically, it removed some of the header checks for nss and avahi
+that the recipe was relying on and replaced them with a couple new
+config options.
+
+We'll also disable the server, which was the component making use of
+nss in the first place, and the grapher, which isn't core
+functionality either.
+
+Signed-off-by: Tom Zanussi <tom.zanussi@intel.com>
+---
+ meta/recipes-kernel/systemtap/systemtap_git.bb |   10 +++-------
+ 1 files changed, 3 insertions(+), 7 deletions(-)
+
+diff --git a/meta/recipes-kernel/systemtap/systemtap_git.bb b/meta/recipes-kernel/systemtap/systemtap_git.bb
+index 4d340fc..3b727b8 100644
+--- a/meta/recipes-kernel/systemtap/systemtap_git.bb
++++ b/meta/recipes-kernel/systemtap/systemtap_git.bb
+@@ -6,19 +6,15 @@ DEPENDS = "elfutils sqlite3 systemtap-native"
+ DEPENDS_virtclass-native = "elfutils-native sqlite3-native gettext-native"
+ DEPENDS_virtclass-nativesdk = "elfutils-nativesdk sqlite3-nativesdk gettext-nativesdk"
+ 
+-PR = "r4"
++PR = "r5"
+ 
+ export CC_FOR_BUILD = "${BUILD_CC}"
+ export CFLAGS_FOR_BUILD = "${BUILD_CFLAGS}"
+ export LDFLAGS_FOR_BUILD = "${BUILD_LDFLAGS}"
+ 
+ EXTRA_OECONF += "--with-libelf=${STAGING_DIR_TARGET} --without-rpm \
+-	     ac_cv_file__usr_include_nss=no \
+-	     ac_cv_file__usr_include_nss3=no \
+-	     ac_cv_file__usr_include_nspr=no \
+-	     ac_cv_file__usr_include_nspr4=no \
+-	     ac_cv_file__usr_include_avahi_client=no \
+-	     ac_cv_file__usr_include_avahi_common=no "
++	     --without-nss --without-avahi \
++	     --disable-server --disable-grapher "
+ 
+ STAP_DOCS ?= "--disable-docs --disable-publican --disable-refdocs"
+ 
+-- 
+1.7.0.4
+
+
+
+
+
+> Andreas
+> 
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
-
---=20
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
 
 
