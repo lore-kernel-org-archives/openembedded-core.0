@@ -1,37 +1,39 @@
-Received: from mail-yw0-f47.google.com ([209.85.213.47])
+Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrei@gherzan.ro>) id 1SbbbT-0005ND-TD
+	(envelope-from <elizabeth.flanagan@intel.com>) id 1SbbfM-0005R8-9U
 	for openembedded-core@lists.openembedded.org;
-	Mon, 04 Jun 2012 20:02:08 +0200
-Received: by yhjj56 with SMTP id j56so3169188yhj.6
+	Mon, 04 Jun 2012 20:06:08 +0200
+Received: from mail-lpp01m010-f52.google.com ([209.85.215.52])
+	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 04 Jun 2012 10:55:41 -0700
+Received: by lahj13 with SMTP id j13so2799586lah.25
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 04 Jun 2012 10:51:42 -0700 (PDT)
+	Mon, 04 Jun 2012 10:55:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=mime-version:x-originating-ip:in-reply-to:references:from:date
-	:message-id:subject:to:content-type:x-gm-message-state;
-	bh=z2Sq885TlmYw4DYVTjqId1nyvVVqypEjpb17v9sAuZU=;
-	b=i60NVk2Y3cMi1zCjb5X+mkT81i+MPdy1V9oDQzRbQjQ78U/6O2kjQGHjDSMal+12Hp
-	4YpDXG+VRqVv2pQqUwrzFKr2U7l4XIJ2EFRdZfxmw+0wfJpZviI2TYYqMwRZOZop5PBQ
-	G3WBqDvOBr2nnXLP+8uf3xdjcNNTILm2gBY7zWmXb5NtIuYo4Cyzxhuv7J5q+eMpde2W
-	w0GrGs8RudLb9e+cbgCdVw7rPv2rktEP7VatCoyU900XxgmJFGGWUSsaX/V9skXwceG3
-	o+R6RiH0YSQ5y47wmngGRjHJTvZXTx/2gStceQ3UiHfBKh03NVTo1hzPNookd5oZLKNh
-	lHqw==
-Received: by 10.50.161.198 with SMTP id xu6mr9074863igb.40.1338832302265; Mon,
-	04 Jun 2012 10:51:42 -0700 (PDT)
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type:content-transfer-encoding:x-gm-message-state;
+	bh=4BDSR6xP3QdtGF4mMrGvy/QeIsSsY9sWOC3dV9bywF0=;
+	b=HDD4qRd7Iy39IZa9/TbwyheQIeXY0+4D7R54/1hN7AX0pMkXkN4dg1fype6TvsWaIi
+	MOHhvCdWqQPRqc9EQqJZmlggHVAKIo+rbNV4bbQnh8gj+m89UrF3GiHSmY98BfRNiUoY
+	ucMIucx1q8ZcPuktLIedEuKfOCdNVkfstWYBxe6ultnY5ZMkgsemJTJvtrW9OpX8xFgV
+	nxCW+DCgSZy7WLipKhPa8U+dMhiqVnmnuTaS6XBbuM0YSpJSm158s5/Q6B+owWyo2YiH
+	KzrerBX7LUnGzJ267QsSrrN7DrEQs7lXPLhnXyjx3kXRq19mtWTyEdc9cTv4g0Nu8mKj
+	Q1tg==
 MIME-Version: 1.0
-Received: by 10.64.28.147 with HTTP; Mon, 4 Jun 2012 10:51:22 -0700 (PDT)
-X-Originating-IP: [79.115.102.71]
-In-Reply-To: <CAPhnLPAUewTddwVFXa77deAUomq7_T17MAYCsr_t+6rmT0OLxw@mail.gmail.com>
-References: <1338537158-19917-1-git-send-email-cristian.iorga@intel.com>
-	<CAPhnLPAUewTddwVFXa77deAUomq7_T17MAYCsr_t+6rmT0OLxw@mail.gmail.com>
-From: Andrei Gherzan <andrei@gherzan.ro>
-Date: Mon, 4 Jun 2012 20:51:22 +0300
-Message-ID: <CAK18fxGZvO+Eu0ZoL0FFQTfPvppYCVdLSQ+D+zeDxLVXT9aeRw@mail.gmail.com>
+Received: by 10.152.109.166 with SMTP id ht6mr13672171lab.46.1338832539510;
+	Mon, 04 Jun 2012 10:55:39 -0700 (PDT)
+Received: by 10.112.1.227 with HTTP; Mon, 4 Jun 2012 10:55:39 -0700 (PDT)
+In-Reply-To: <4FCCC8B8.5030708@windriver.com>
+References: <cover.1338500281.git.mark.hatle@windriver.com>
+	<CAPhnLPD8AUtpP9bT=dUVR1zP9xBNhj3i+u+uaLG3rPHbpo-A2g@mail.gmail.com>
+	<4FCCC8B8.5030708@windriver.com>
+Date: Mon, 4 Jun 2012 10:55:39 -0700
+Message-ID: <CAPhnLPCZSTiQzbQw1kurPtBfx=uqcz7k2rrTXnUCMWyL3TH=SQ@mail.gmail.com>
+From: "Flanagan, Elizabeth" <elizabeth.flanagan@intel.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Gm-Message-State: ALoCoQkKlmJDSqbzUMZiSQ/qx6AXukJNLBdlX4lE1gFzTco41gITaZ9m7FWiJ0dWQ6YbhVlcNSkO
-Subject: Re: [PATCH] ltp: Add patch to correct failing build
+X-Gm-Message-State: ALoCoQnrYykBIOh8jG3nHsKFJf/ywPh78CxVA9/F5fer9TQOCThL397oLXQ5fTGumKj3CEJfSGme
+Subject: Re: [PATCH 0/5 v3] Uprev RPM to 5.4.9
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,285 +48,222 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Jun 2012 18:02:08 -0000
-Content-Type: multipart/alternative; boundary=14dae9341141ca577e04c1a92f78
-
---14dae9341141ca577e04c1a92f78
+X-List-Received-Date: Mon, 04 Jun 2012 18:06:08 -0000
 Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-Confirmed.
+On Mon, Jun 4, 2012 at 7:39 AM, Mark Hatle <mark.hatle@windriver.com> wrote=
+:
+> How are these builds being performed, what is the configuration? =A0Are t=
+hey
+> iterative?
+>
 
-@g
+Mark,
+
+With a shared sstate across a few machines, the autobuilder builds out in o=
+rder:
+
+bitbake core-image-sato core-image-sato-dev core-image-sato-sdk
+core-image-minimal core-image-minimal-dev
+then a core BSP if available
+then it sets the SDKMACHINE and builds out meta-toolchain-gmae
+
+This is on an openSUSE 11.4 machine.
+
+In this particular build, sstate was not cleaned prior to the build,
+but had been cleaned a few builds prior.
+
+I can test this locally if you wish, to confirm that it's not an
+ab/host os issue.
+
+-b
+
+> I need to get an idea of how to reproduce the issue. =A0The symptoms indi=
+cate
+> that the database configuration file(s) are not getting installed into th=
+e
+> target filesystem before the actual install starts...
+>
 
 
-On Sat, Jun 2, 2012 at 7:59 PM, Flanagan, Elizabeth <
-elizabeth.flanagan@intel.com> wrote:
 
-> On Fri, Jun 1, 2012 at 12:52 AM, Cristian Iorga
-> <cristian.iorga@intel.com> wrote:
-> > ltp makefile does not interpret correctly the result of git describe
-> > command and assumes that it is working with a git repo, while in fact
-> > working with a source code archive.
-> > Added a patch to corect makefile system.
-> >
-> > Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
-> > ---
-> >  .../ltp/ltp/fix_building_fom_archive.patch         |   23
-> ++++++++++++++++++++
-> >  meta/recipes-extended/ltp/ltp_20120401.bb          |    4 ++--
-> >  2 files changed, 25 insertions(+), 2 deletions(-)
-> >  create mode 100644
-> meta/recipes-extended/ltp/ltp/fix_building_fom_archive.patch
-> >
-> > diff --git
-> a/meta/recipes-extended/ltp/ltp/fix_building_fom_archive.patch
-> b/meta/recipes-extended/ltp/ltp/fix_building_fom_archive.patch
-> > new file mode 100644
-> > index 0000000..c0ecc86
-> > --- /dev/null
-> > +++ b/meta/recipes-extended/ltp/ltp/fix_building_fom_archive.patch
-> > @@ -0,0 +1,23 @@
-> > +ltp package build system is broken if building from archive
-> > +
-> > +ltp makefile does not interpret correctly the result of git describe
-> > +command and assumes that it is working with a git repo, while in fact
-> > +working with a source code archive.
-> > +
-> > +Upstream-Status: Pending
-> > +Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
-> > +
-> > +Index: ltp-20120401/Makefile
-> > +===================================================================
-> > +--- ltp-20120401.orig/Makefile
-> > ++++ ltp-20120401/Makefile
-> > +@@ -173,7 +173,8 @@ SRCDIR_INSTALL_TARGETS     := $(SRCDIR_INSTA
-> > + #
-> > + .PHONY: Version
-> > + Version:
-> > +-      if git describe &> /dev/null; then \
-> > ++      git describe &> /dev/null
-> > ++      if [ $? -eq 0 ]; then \
-> > +               git describe > "$@"; \
-> > +       else \
-> > +               cp VERSION "$@"; \
-> > diff --git a/meta/recipes-extended/ltp/ltp_20120401.bbb/meta/recipes-extended/ltp/
-> ltp_20120401.bb
-> > index 912d6d9..563bd58 100644
-> > --- a/meta/recipes-extended/ltp/ltp_20120401.bb
-> > +++ b/meta/recipes-extended/ltp/ltp_20120401.bb
-> > @@ -21,10 +21,10 @@ LIC_FILES_CHKSUM =
-> "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3 \
-> >
-> >  DEPENDS = "attr"
-> >
-> > -PR = "r3"
-> > +PR = "r4"
-> >
-> >  SRC_URI = "${SOURCEFORGE_MIRROR}/ltp/ltp-full-${PV}.bz2 \
-> > -          "
-> > +           file://fix_building_fom_archive.patch"
-> >
-> >  SRC_URI[md5sum] = "e1d0acf1a6b6da0cb30dc1b0dcf5f26d"
-> >  SRC_URI[sha256sum] =
-> "f0f5845f9666f61332fdf0b7e396fc647f9372db0902a829af2cf9402b807bd1"
-> > --
-> > 1.7.9.5
-> >
-> >
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
-> This patch seems to be causing build failures:
->
-> | ERROR: Function failed: do_compile (see
->
-> /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-ppc/build/build/tmp/work/ppc603e-poky-linux/ltp-20120401-r4/temp/log.do_compile.695
-> for further information)
-> | NOTE: make -j 16
-> | make -C "lib" \
-> |       -f
-> "/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-ppc/build/build/tmp/work/ppc603e-poky-linux/ltp-20120401-r4/ltp-20120401/lib/Makefile"
-> all
-> | git describe &> /dev/null
-> | make: *** [Version] Error 128
-> | make: *** Waiting for unfinished jobs....
-> | make[1]: Entering directory
->
-> `/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-ppc/build/build/tmp/work/ppc603e-poky-linux/ltp-20120401-r4/ltp-20120401/lib'
-> | make[1]: Nothing to be done for `all'.
-> | make[1]: Leaving directory
->
-> `/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-ppc/build/build/tmp/work/ppc603e-poky-linux/ltp-20120401-r4/ltp-20120401/lib'
-> | ERROR: oe_runmake failed
+> --Mark
 >
 >
+> On 6/2/12 12:10 PM, Flanagan, Elizabeth wrote:
+>>
+>> On Thu, May 31, 2012 at 2:42 PM, Mark Hatle<mark.hatle@windriver.com>
+>> =A0wrote:
+>>>
+>>> Rebase of the v2 changes.
+>>>
+>>> Re-disabled the "test" chunk.. =A0this should resolve the hang problem =
+a
+>>> few people have observed.
+>>>
+>>> v2 message follows:
+>>>
+>>> Berkley DB also gets upreved, and a new package ossp-uuid gets added to
+>>> the system.
+>>>
+>>> This was -heavily- tested with and without zypper on IA, and PPC.
+>>>
+>>> In addition a minor performance enhancement with a query operation was
+>>> added.
+>>>
+>>> The uprev also adds the capability of using PACKAGECONFIG settings to
+>>> tailor
+>>> the behavior of RPM.
+>>>
+>>> V2 changes:
+>>>
+>>> Fix a problem with libuuid.so from util-linux would sometimes be linked
+>>> into
+>>> the binary.
+>>>
+>>> Also force libzypp, sat-solver and zypper to refresh via a PR bump.
+>>
+>>
+>> Something in this patch set seems to be killing the master_under_test
+>> build of meta-toolchain-gmae.
+>>
+>> See:
+>> http://autobuilder.yoctoproject.org:8010/builders/nightly-x86/builds/517=
+/steps/shell_68/logs/stdio
+>>
+>> -b
+>>
+>>>
+>>>
+>>> The following changes since commit
+>>> e3113827810e98eb1b012f0b280fb917199704c1:
+>>>
+>>> =A0webkit-gtk: Use glib as unicode backend to avoid browser crash
+>>> (2012-05-30 17:37:58 +0100)
+>>>
+>>> are available in the git repository at:
+>>> =A0git://git.pokylinux.org/poky-contrib mhatle/rpm
+>>> =A0http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=3Dmhatle/rpm
+>>>
+>>> Mark Hatle (5):
+>>> =A0rpm: Upgrade RPM to 5.4.8 =A0(db to 5.3.15)
+>>> =A0rpm: Upgrade RPM to 5.4.9
+>>> =A0ossp-uuid: Add oss-uuid package and RPM 5.4.9 integration
+>>> =A0package_rpm: Add capability to directly query packageorigin
+>>> =A0rpm: Bump PR numbers on componets that require RPM
+>>>
+>>> =A0meta/classes/package_rpm.bbclass =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=
+ | =A0 18 +-
+>>> =A0meta/classes/rootfs_rpm.bbclass =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
+=A0| =A0 22 +-
+>>> =A0.../ossp-uuid/0001-Change-library-name.patch =A0 =A0 =A0 | =A0112 ++=
++++
+>>> =A0...erve-m-option-status-in-v-option-handling.patch | =A0 55 +++
+>>> =A0.../ossp-uuid/0003-Fix-whatis-entries.patch =A0 =A0 =A0 =A0| =A0 51 =
++++
+>>> =A0.../ossp-uuid/0004-fix-data-uuid-from-string.patch | =A0 36 ++
+>>> =A0.../ossp-uuid/ossp-uuid/uuid-libtool.patch =A0 =A0 =A0 =A0 | =A0 24 =
++
+>>> =A0.../ossp-uuid/ossp-uuid/uuid-nostrip.patch =A0 =A0 =A0 =A0 | =A0 16 =
++
+>>> =A0meta/recipes-devtools/ossp-uuid/ossp-uuid_1.6.2.bb | =A0 58 +++
+>>> =A0.../rpm/rpm/fix_for_automake_1.11.2.patch =A0 =A0 =A0 =A0 =A0| =A0 5=
+4 ---
+>>> =A0.../rpm/rpm/fprint-pointer-fix.patch =A0 =A0 =A0 =A0 =A0 =A0 =A0 | =
+=A0 35 --
+>>> =A0.../rpm/rpm/remove-compiled-tests.patch =A0 =A0 =A0 =A0 =A0 =A0| =A0=
+443
+>>> --------------------
+>>> =A0meta/recipes-devtools/rpm/rpm/rpm-autoconf.patch =A0 | =A0 22 -
+>>> =A0meta/recipes-devtools/rpm/rpm/rpm-autogen.patch =A0 =A0| =A0 41 +--
+>>> =A0meta/recipes-devtools/rpm/rpm/rpm-db-reduce.patch =A0| =A0 16 +-
+>>> =A0.../recipes-devtools/rpm/rpm/rpm-log-auto-rm.patch | =A0 12 +-
+>>> =A0meta/recipes-devtools/rpm/rpm/rpm-lua.patch =A0 =A0 =A0 =A0| =A0 29 =
+++
+>>> =A0.../rpm/rpm/rpm-no-perl-urpm.patch =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 |=
+ =A0 43 ++
+>>> =A0meta/recipes-devtools/rpm/rpm/rpm-nofsync.patch =A0 =A0| =A0 36 --
+>>> =A0meta/recipes-devtools/rpm/rpm/rpm-ossp-uuid.patch =A0| =A0 20 +
+>>> =A0.../rpm/rpm/rpm-packageorigin.patch =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0|=
+ =A0 23 +
+>>> =A0.../rpm/rpm/rpm-scriptletexechelper.patch =A0 =A0 =A0 =A0 =A0| =A0 3=
+3 +-
+>>> =A0meta/recipes-devtools/rpm/rpm/rpmdeps-oecore.patch | =A0 26 +-
+>>> =A0.../rpm/{rpm_5.4.0.bb =3D> =A0rpm_5.4.9.bb} =A0 =A0 =A0 =A0 =A0 =A0 =
+| =A0158 ++++----
+>>> =A0.../libzypp/libzypp/libzypp-rpm549.patch =A0 =A0 =A0 =A0 =A0 | =A0 2=
+8 ++
+>>> =A0meta/recipes-extended/libzypp/libzypp_git.bb =A0 =A0 =A0 | =A0 =A03 =
++-
+>>> =A0meta/recipes-extended/sat-solver/sat-solver_git.bb | =A0 =A02 +-
+>>> =A0meta/recipes-extended/zypper/zypper_git.bb =A0 =A0 =A0 =A0 | =A0 =A0=
+2 +-
+>>> =A0.../db/{db_5.1.19.bb =3D> =A0db_5.3.15.bb} =A0 =A0 =A0 =A0 =A0 =A0 =
+=A0| =A0 =A08 +-
+>>> =A029 files changed, 652 insertions(+), 774 deletions(-)
+>>> =A0create mode 100644
+>>> meta/recipes-devtools/ossp-uuid/ossp-uuid/0001-Change-library-name.patc=
+h
+>>> =A0create mode 100644
+>>> meta/recipes-devtools/ossp-uuid/ossp-uuid/0002-uuid-preserve-m-option-s=
+tatus-in-v-option-handling.patch
+>>> =A0create mode 100644
+>>> meta/recipes-devtools/ossp-uuid/ossp-uuid/0003-Fix-whatis-entries.patch
+>>> =A0create mode 100644
+>>> meta/recipes-devtools/ossp-uuid/ossp-uuid/0004-fix-data-uuid-from-strin=
+g.patch
+>>> =A0create mode 100644
+>>> meta/recipes-devtools/ossp-uuid/ossp-uuid/uuid-libtool.patch
+>>> =A0create mode 100644
+>>> meta/recipes-devtools/ossp-uuid/ossp-uuid/uuid-nostrip.patch
+>>> =A0create mode 100644 meta/recipes-devtools/ossp-uuid/ossp-uuid_1.6.2.b=
+b
+>>> =A0delete mode 100644
+>>> meta/recipes-devtools/rpm/rpm/fix_for_automake_1.11.2.patch
+>>> =A0delete mode 100644
+>>> meta/recipes-devtools/rpm/rpm/fprint-pointer-fix.patch
+>>> =A0delete mode 100644
+>>> meta/recipes-devtools/rpm/rpm/remove-compiled-tests.patch
+>>> =A0delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-autoconf.patch
+>>> =A0create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-lua.patch
+>>> =A0create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-no-perl-urpm.pa=
+tch
+>>> =A0delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-nofsync.patch
+>>> =A0create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-ossp-uuid.patch
+>>> =A0create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-packageorigin.p=
+atch
+>>> =A0rename meta/recipes-devtools/rpm/{rpm_5.4.0.bb =3D> =A0rpm_5.4.9.bb}=
+ (76%)
+>>> =A0create mode 100644
+>>> meta/recipes-extended/libzypp/libzypp/libzypp-rpm549.patch
+>>> =A0rename meta/recipes-support/db/{db_5.1.19.bb =3D> =A0db_5.3.15.bb} (=
+93%)
+>>>
+>>> --
+>>> 1.7.3.4
+>>>
+>>>
+>>> _______________________________________________
+>>> Openembedded-core mailing list
+>>> Openembedded-core@lists.openembedded.org
+>>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>>
+>>
+>>
+>>
 >
-> -b
->
-> --
-> Elizabeth Flanagan
-> Yocto Project
-> Build and Release
 >
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
 
---14dae9341141ca577e04c1a92f78
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
 
-Confirmed.<br clear=3D"all"><div style=3D"text-align:center"></div><div sty=
-le=3D"text-align:center"><div align=3D"left" style=3D"font-family:&#39;Time=
-s New Roman&#39;;font-size:medium"><font face=3D"Arial" color=3D"#333333" s=
-ize=3D"-1"><br>
 
-@g</font></div></div>
-<br><br><div class=3D"gmail_quote">On Sat, Jun 2, 2012 at 7:59 PM, Flanagan=
-, Elizabeth <span dir=3D"ltr">&lt;<a href=3D"mailto:elizabeth.flanagan@inte=
-l.com" target=3D"_blank">elizabeth.flanagan@intel.com</a>&gt;</span> wrote:=
-<br>
+--=20
+Elizabeth Flanagan
+Yocto Project
+Build and Release
 
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">On Fri, Jun 1, 2012 at 12:52 AM, Cristian Io=
-rga<br>
-&lt;<a href=3D"mailto:cristian.iorga@intel.com">cristian.iorga@intel.com</a=
->&gt; wrote:<br>
-&gt; ltp makefile does not interpret correctly the result of git describe<b=
-r>
-&gt; command and assumes that it is working with a git repo, while in fact<=
-br>
-&gt; working with a source code archive.<br>
-&gt; Added a patch to corect makefile system.<br>
-&gt;<br>
-&gt; Signed-off-by: Cristian Iorga &lt;<a href=3D"mailto:cristian.iorga@int=
-el.com">cristian.iorga@intel.com</a>&gt;<br>
-&gt; ---<br>
-&gt; =A0.../ltp/ltp/fix_building_fom_archive.patch =A0 =A0 =A0 =A0 | =A0 23=
- ++++++++++++++++++++<br>
-&gt; =A0meta/recipes-extended/ltp/<a href=3D"http://ltp_20120401.bb" target=
-=3D"_blank">ltp_20120401.bb</a> =A0 =A0 =A0 =A0 =A0| =A0 =A04 ++--<br>
-&gt; =A02 files changed, 25 insertions(+), 2 deletions(-)<br>
-&gt; =A0create mode 100644 meta/recipes-extended/ltp/ltp/fix_building_fom_a=
-rchive.patch<br>
-&gt;<br>
-&gt; diff --git a/meta/recipes-extended/ltp/ltp/fix_building_fom_archive.pa=
-tch b/meta/recipes-extended/ltp/ltp/fix_building_fom_archive.patch<br>
-&gt; new file mode 100644<br>
-&gt; index 0000000..c0ecc86<br>
-&gt; --- /dev/null<br>
-&gt; +++ b/meta/recipes-extended/ltp/ltp/fix_building_fom_archive.patch<br>
-&gt; @@ -0,0 +1,23 @@<br>
-&gt; +ltp package build system is broken if building from archive<br>
-&gt; +<br>
-&gt; +ltp makefile does not interpret correctly the result of git describe<=
-br>
-&gt; +command and assumes that it is working with a git repo, while in fact=
-<br>
-&gt; +working with a source code archive.<br>
-&gt; +<br>
-&gt; +Upstream-Status: Pending<br>
-&gt; +Signed-off-by: Cristian Iorga &lt;<a href=3D"mailto:cristian.iorga@in=
-tel.com">cristian.iorga@intel.com</a>&gt;<br>
-&gt; +<br>
-&gt; +Index: ltp-20120401/Makefile<br>
-&gt; +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
-&gt; +--- ltp-20120401.orig/Makefile<br>
-&gt; ++++ ltp-20120401/Makefile<br>
-&gt; +@@ -173,7 +173,8 @@ SRCDIR_INSTALL_TARGETS =A0 =A0 :=3D $(SRCDIR_INST=
-A<br>
-&gt; + #<br>
-&gt; + .PHONY: Version<br>
-&gt; + Version:<br>
-&gt; +- =A0 =A0 =A0if git describe &amp;&gt; /dev/null; then \<br>
-&gt; ++ =A0 =A0 =A0git describe &amp;&gt; /dev/null<br>
-&gt; ++ =A0 =A0 =A0if [ $? -eq 0 ]; then \<br>
-&gt; + =A0 =A0 =A0 =A0 =A0 =A0 =A0 git describe &gt; &quot;$@&quot;; \<br>
-&gt; + =A0 =A0 =A0 else \<br>
-&gt; + =A0 =A0 =A0 =A0 =A0 =A0 =A0 cp VERSION &quot;$@&quot;; \<br>
-&gt; diff --git a/meta/recipes-extended/ltp/<a href=3D"http://ltp_20120401.=
-bb" target=3D"_blank">ltp_20120401.bb</a> b/meta/recipes-extended/ltp/<a hr=
-ef=3D"http://ltp_20120401.bb" target=3D"_blank">ltp_20120401.bb</a><br>
-&gt; index 912d6d9..563bd58 100644<br>
-&gt; --- a/meta/recipes-extended/ltp/<a href=3D"http://ltp_20120401.bb" tar=
-get=3D"_blank">ltp_20120401.bb</a><br>
-&gt; +++ b/meta/recipes-extended/ltp/<a href=3D"http://ltp_20120401.bb" tar=
-get=3D"_blank">ltp_20120401.bb</a><br>
-&gt; @@ -21,10 +21,10 @@ LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3D06=
-36e73ff0215e8d672dc4c32c317bb3 \<br>
-&gt;<br>
-&gt; =A0DEPENDS =3D &quot;attr&quot;<br>
-&gt;<br>
-&gt; -PR =3D &quot;r3&quot;<br>
-&gt; +PR =3D &quot;r4&quot;<br>
-&gt;<br>
-&gt; =A0SRC_URI =3D &quot;${SOURCEFORGE_MIRROR}/ltp/ltp-full-${PV}.bz2 \<br=
->
-&gt; - =A0 =A0 =A0 =A0 =A0&quot;<br>
-&gt; + =A0 =A0 =A0 =A0 =A0 file://fix_building_fom_archive.patch&quot;<br>
-&gt;<br>
-&gt; =A0SRC_URI[md5sum] =3D &quot;e1d0acf1a6b6da0cb30dc1b0dcf5f26d&quot;<br=
->
-&gt; =A0SRC_URI[sha256sum] =3D &quot;f0f5845f9666f61332fdf0b7e396fc647f9372=
-db0902a829af2cf9402b807bd1&quot;<br>
-&gt; --<br>
-&gt; 1.7.9.5<br>
-&gt;<br>
-&gt;<br>
-&gt; _______________________________________________<br>
-&gt; Openembedded-core mailing list<br>
-&gt; <a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedd=
-ed-core@lists.openembedded.org</a><br>
-&gt; <a href=3D"http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openemb=
-edded-core" target=3D"_blank">http://lists.linuxtogo.org/cgi-bin/mailman/li=
-stinfo/openembedded-core</a><br>
-<br>
-This patch seems to be causing build failures:<br>
-<br>
-| ERROR: Function failed: do_compile (see<br>
-/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-ppc/build/build/t=
-mp/work/ppc603e-poky-linux/ltp-20120401-r4/temp/log.do_compile.695<br>
-for further information)<br>
-| NOTE: make -j 16<br>
-| make -C &quot;lib&quot; \<br>
-| =A0 =A0 =A0 -f &quot;/srv/home/pokybuild/yocto-autobuilder/yocto-slave/ni=
-ghtly-ppc/build/build/tmp/work/ppc603e-poky-linux/ltp-20120401-r4/ltp-20120=
-401/lib/Makefile&quot;<br>
-all<br>
-| git describe &amp;&gt; /dev/null<br>
-| make: *** [Version] Error 128<br>
-| make: *** Waiting for unfinished jobs....<br>
-| make[1]: Entering directory<br>
-`/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-ppc/build/build/=
-tmp/work/ppc603e-poky-linux/ltp-20120401-r4/ltp-20120401/lib&#39;<br>
-| make[1]: Nothing to be done for `all&#39;.<br>
-| make[1]: Leaving directory<br>
-`/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-ppc/build/build/=
-tmp/work/ppc603e-poky-linux/ltp-20120401-r4/ltp-20120401/lib&#39;<br>
-| ERROR: oe_runmake failed<br>
-<br>
-<br>
-<br>
--b<br>
-<span class=3D"HOEnZb"><font color=3D"#888888"><br>
---<br>
-Elizabeth Flanagan<br>
-Yocto Project<br>
-Build and Release<br>
-<br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.openembedded.org</a><br>
-<a href=3D"http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded=
--core" target=3D"_blank">http://lists.linuxtogo.org/cgi-bin/mailman/listinf=
-o/openembedded-core</a><br>
-</font></span></blockquote></div><br>
 
---14dae9341141ca577e04c1a92f78--
