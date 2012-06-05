@@ -1,26 +1,24 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1SbwSH-0005zp-AI
+	(envelope-from <mark.hatle@windriver.com>) id 1SbwSH-0005zo-5t
 	for openembedded-core@lists.openembedded.org;
-	Tue, 05 Jun 2012 18:18:02 +0200
+	Tue, 05 Jun 2012 18:18:06 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q55G7Yu5018172
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q55G7XMq005551
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 5 Jun 2012 09:07:34 -0700 (PDT)
+	Tue, 5 Jun 2012 09:07:33 -0700 (PDT)
 Received: from localhost.localdomain (172.25.34.61) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
 	Tue, 5 Jun 2012 09:07:33 -0700
 From: Mark Hatle <mark.hatle@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 5 Jun 2012 11:13:17 -0500
-Message-ID: <2165f5a6b10e1a45c66fb52730d62e08dfbaba39.1338912425.git.mark.hatle@windriver.com>
+Date: Tue, 5 Jun 2012 11:13:16 -0500
+Message-ID: <cover.1338912425.git.mark.hatle@windriver.com>
 X-Mailer: git-send-email 1.7.3.4
-In-Reply-To: <cover.1338912425.git.mark.hatle@windriver.com>
-References: <cover.1338912425.git.mark.hatle@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [172.25.34.61]
-Subject: [PATCH 7/7] createrepo: For compatibility w/ RPM 5.4.9 remove RPMVSF_NOSIGNATURES flag
+Subject: [PATCH 0/7 v5] Uprev RPM to 5.4.9
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,64 +33,118 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Jun 2012 16:18:02 -0000
+X-List-Received-Date: Tue, 05 Jun 2012 16:18:06 -0000
 Content-Type: text/plain
 
-The RPMVSF_NOSIGNATURES flag was removed from RPM5 - 5.4.9 as a result of
-additional -requires- package validation to help protect from malicious
-packages.  The createrepo "dump" script has been updated to no longer use
-this flag.  This remains compatible with prior versions of RPM.
+Only 7/7 is new in the version.  Due to the removal of the RPMVSF_NOSIGNATURES
+flag in RPM5 5.4.9, createrepo also needed to have this flag removed.
 
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
----
- .../createrepo/createrepo/createrepo-rpm549.patch  |   19 +++++++++++++++++++
- .../createrepo/createrepo_0.4.11.bb                |    3 ++-
- 2 files changed, 21 insertions(+), 1 deletions(-)
+v4 message follows:
+
+Only 6/6 is new in this version.  RPM 5.4.9 appears to be more demanding
+for both the DB_CONFIG file and empty manifest files.  The new patch resolves
+this issue by ensuring that the DB_CONFIG is always generated, and empty
+manifest files do not get installed.
+
+Patches 1-5 are identical to the v3 versions.
+
+v3 messages follows:
+
+Rebase of the v2 changes.
+
+Re-disabled the "test" chunk..  this should resolve the hang problem a
+few people have observed.
+
+v2 message follows:
+
+Berkley DB also gets upreved, and a new package ossp-uuid gets added to
+the system.
+
+This was -heavily- tested with and without zypper on IA, and PPC.
+
+In addition a minor performance enhancement with a query operation was added.
+
+The uprev also adds the capability of using PACKAGECONFIG settings to tailor
+the behavior of RPM.
+
+V2 changes:
+
+Fix a problem with libuuid.so from util-linux would sometimes be linked into
+the binary.
+
+Also force libzypp, sat-solver and zypper to refresh via a PR bump.
+
+The following changes since commit e3113827810e98eb1b012f0b280fb917199704c1:
+
+  webkit-gtk: Use glib as unicode backend to avoid browser crash (2012-05-30 17:37:58 +0100)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib mhatle/rpm
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=mhatle/rpm
+
+Mark Hatle (7):
+  rpm: Upgrade RPM to 5.4.8  (db to 5.3.15)
+  rpm: Upgrade RPM to 5.4.9
+  ossp-uuid: Add oss-uuid package and RPM 5.4.9 integration
+  package_rpm: Add capability to directly query packageorigin
+  rpm: Bump PR numbers on componets that require RPM
+  rootfs_rpm.bbclass: Update database configuration and initial install
+  createrepo: For compatibility w/ RPM 5.4.9 remove RPMVSF_NOSIGNATURES
+    flag
+
+ meta/classes/package_rpm.bbclass                   |   85 +++-
+ meta/classes/rootfs_rpm.bbclass                    |   29 --
+ .../ossp-uuid/0001-Change-library-name.patch       |  112 +++++
+ ...erve-m-option-status-in-v-option-handling.patch |   55 +++
+ .../ossp-uuid/0003-Fix-whatis-entries.patch        |   51 +++
+ .../ossp-uuid/0004-fix-data-uuid-from-string.patch |   36 ++
+ .../ossp-uuid/ossp-uuid/uuid-libtool.patch         |   24 +
+ .../ossp-uuid/ossp-uuid/uuid-nostrip.patch         |   16 +
+ meta/recipes-devtools/ossp-uuid/ossp-uuid_1.6.2.bb |   58 +++
+ .../rpm/rpm/fix_for_automake_1.11.2.patch          |   54 ---
+ .../rpm/rpm/fprint-pointer-fix.patch               |   35 --
+ .../rpm/rpm/remove-compiled-tests.patch            |  443 --------------------
+ meta/recipes-devtools/rpm/rpm/rpm-autoconf.patch   |   22 -
+ meta/recipes-devtools/rpm/rpm/rpm-autogen.patch    |   41 +--
+ meta/recipes-devtools/rpm/rpm/rpm-db-reduce.patch  |   16 +-
+ .../recipes-devtools/rpm/rpm/rpm-log-auto-rm.patch |   12 +-
+ meta/recipes-devtools/rpm/rpm/rpm-lua.patch        |   29 ++
+ .../rpm/rpm/rpm-no-perl-urpm.patch                 |   43 ++
+ meta/recipes-devtools/rpm/rpm/rpm-nofsync.patch    |   36 --
+ meta/recipes-devtools/rpm/rpm/rpm-ossp-uuid.patch  |   20 +
+ .../rpm/rpm/rpm-packageorigin.patch                |   23 +
+ .../rpm/rpm/rpm-scriptletexechelper.patch          |   33 +-
+ meta/recipes-devtools/rpm/rpm/rpmdeps-oecore.patch |   26 +-
+ .../rpm/{rpm_5.4.0.bb => rpm_5.4.9.bb}             |  158 ++++----
+ .../libzypp/libzypp/libzypp-rpm549.patch           |   28 ++
+ meta/recipes-extended/libzypp/libzypp_git.bb       |    3 +-
+ meta/recipes-extended/sat-solver/sat-solver_git.bb |    2 +-
+ meta/recipes-extended/zypper/zypper_git.bb         |    2 +-
+ .../createrepo/createrepo/createrepo-rpm549.patch  |   19 +
+ .../createrepo/createrepo_0.4.11.bb                |    3 +-
+ .../db/{db_5.1.19.bb => db_5.3.15.bb}              |    8 +-
+ 31 files changed, 713 insertions(+), 809 deletions(-)
+ create mode 100644 meta/recipes-devtools/ossp-uuid/ossp-uuid/0001-Change-library-name.patch
+ create mode 100644 meta/recipes-devtools/ossp-uuid/ossp-uuid/0002-uuid-preserve-m-option-status-in-v-option-handling.patch
+ create mode 100644 meta/recipes-devtools/ossp-uuid/ossp-uuid/0003-Fix-whatis-entries.patch
+ create mode 100644 meta/recipes-devtools/ossp-uuid/ossp-uuid/0004-fix-data-uuid-from-string.patch
+ create mode 100644 meta/recipes-devtools/ossp-uuid/ossp-uuid/uuid-libtool.patch
+ create mode 100644 meta/recipes-devtools/ossp-uuid/ossp-uuid/uuid-nostrip.patch
+ create mode 100644 meta/recipes-devtools/ossp-uuid/ossp-uuid_1.6.2.bb
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/fix_for_automake_1.11.2.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/fprint-pointer-fix.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/remove-compiled-tests.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-autoconf.patch
+ create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-lua.patch
+ create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-no-perl-urpm.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-nofsync.patch
+ create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-ossp-uuid.patch
+ create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-packageorigin.patch
+ rename meta/recipes-devtools/rpm/{rpm_5.4.0.bb => rpm_5.4.9.bb} (76%)
+ create mode 100644 meta/recipes-extended/libzypp/libzypp/libzypp-rpm549.patch
  create mode 100644 meta/recipes-support/createrepo/createrepo/createrepo-rpm549.patch
+ rename meta/recipes-support/db/{db_5.1.19.bb => db_5.3.15.bb} (93%)
 
-diff --git a/meta/recipes-support/createrepo/createrepo/createrepo-rpm549.patch b/meta/recipes-support/createrepo/createrepo/createrepo-rpm549.patch
-new file mode 100644
-index 0000000..3423c44
---- /dev/null
-+++ b/meta/recipes-support/createrepo/createrepo/createrepo-rpm549.patch
-@@ -0,0 +1,19 @@
-+dumpMetadata.py: Fix for RPM5 - 5.4.9 integration
-+
-+RPM5 no longer has a switch to disable signature validation.  (Due to security
-+validation concerns.)
-+
-+Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
-+
-+diff -u createrepo-0.4.11.orig/dumpMetadata.py createrepo-0.4.11/dumpMetadata.py
-+--- createrepo-0.4.11.orig/dumpMetadata.py	2012-06-05 10:12:55.687964222 -0500
-++++ createrepo-0.4.11/dumpMetadata.py	2012-06-05 10:40:08.154060600 -0500
-+@@ -92,7 +92,7 @@
-+             fdno = package # let's assume this is an fdno and go with it :)
-+     except OSError:
-+         raise MDError, "Error opening file"
-+-    ts.setVSFlags((rpm._RPMVSF_NOSIGNATURES|rpm.RPMVSF_NOMD5|rpm.RPMVSF_NEEDPAYLOAD))
-++    ts.setVSFlags((rpm.RPMVSF_NOMD5|rpm.RPMVSF_NEEDPAYLOAD))
-+     try:
-+         hdr = ts.hdrFromFdno(fdno)
-+     except rpm.error:
-diff --git a/meta/recipes-support/createrepo/createrepo_0.4.11.bb b/meta/recipes-support/createrepo/createrepo_0.4.11.bb
-index 989a745..060ed59 100644
---- a/meta/recipes-support/createrepo/createrepo_0.4.11.bb
-+++ b/meta/recipes-support/createrepo/createrepo_0.4.11.bb
-@@ -4,11 +4,12 @@ HOMEPAGE = "http://createrepo.baseurl.org/"
- LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=18810669f13b87348459e611d31ab760"
- 
--PR = "r2"
-+PR = "r3"
- 
- SRC_URI= "http://createrepo.baseurl.org/download/${BP}.tar.gz \
-           file://fix-native-install.patch \
-           file://python-scripts-should-use-interpreter-from-env.patch \
-+	  file://createrepo-rpm549.patch \
-          "
- 
- SRC_URI[md5sum] = "3e9ccf4abcffe3f49af078c83611eda2"
 -- 
 1.7.3.4
 
