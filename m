@@ -1,41 +1,26 @@
-Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <elizabeth.flanagan@intel.com>) id 1Sc1Dz-0007rm-No
+	(envelope-from <mark.hatle@windriver.com>) id 1Sc1vr-0001jN-Ir
 	for openembedded-core@lists.openembedded.org;
-	Tue, 05 Jun 2012 23:23:37 +0200
-Received: from mail-lpp01m010-f52.google.com ([209.85.215.52])
-	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 05 Jun 2012 14:13:07 -0700
-Received: by lahj13 with SMTP id j13so3670359lah.25
+	Wed, 06 Jun 2012 00:08:55 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q55LwS5M024314
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 05 Jun 2012 14:13:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type:content-transfer-encoding:x-gm-message-state;
-	bh=VtN/bKSDa14/Iu3H6IpgLwr1QjuHV0N7kljpSr3Xo98=;
-	b=JjfKJfjeJGME8ygerN/htXj8epFoC+NI4+eEefByZSo/1rWMU/l6Q2g3HhYFwyZPBM
-	uatMmiw2qMQDtp09rBMfeapl6YsVqx2fy4DPhkdAhpRFos9q253T35JxfTapdXX8umhC
-	cMV/WyUSo3ZOD339Cwl8xnv7/7vW/Ypehi+03vWB01S+1AHQs/nTOeg8iWVbR6qeD87T
-	ARxQRfHWflC2gQZYU7dkFCbufZET5ovrrJqIQp/rCCnDZmkZQjCa2WX+hKamNIn5+k9m
-	IxBDgPXA74398Wytd8ePV05Bzq/1/6yp6wcYxtPAryQZlo3rdYGkWf68NrsoZCHXPZ5+
-	UWfQ==
+	Tue, 5 Jun 2012 14:58:28 -0700 (PDT)
+Received: from localhost.localdomain (172.25.34.61) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
+	Tue, 5 Jun 2012 14:58:28 -0700
+From: Mark Hatle <mark.hatle@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 5 Jun 2012 17:04:13 -0500
+Message-ID: <1f77eaafa8cd484c07a74c1a18263cdf147bc9ba.1338933735.git.mark.hatle@windriver.com>
+X-Mailer: git-send-email 1.7.3.4
+In-Reply-To: <cover.1338933735.git.mark.hatle@windriver.com>
+References: <cover.1338933735.git.mark.hatle@windriver.com>
 MIME-Version: 1.0
-Received: by 10.112.36.42 with SMTP id n10mr8779533lbj.7.1338930785648; Tue,
-	05 Jun 2012 14:13:05 -0700 (PDT)
-Received: by 10.112.1.227 with HTTP; Tue, 5 Jun 2012 14:13:05 -0700 (PDT)
-In-Reply-To: <4FCE7307.4020008@windriver.com>
-References: <1338835664-27699-1-git-send-email-jason.wessel@windriver.com>
-	<CAPhnLPBktoKn7UJKahYpWwf56CzRDZPjGdoh1nH1t5z6F5DwGw@mail.gmail.com>
-	<4FCE7307.4020008@windriver.com>
-Date: Tue, 5 Jun 2012 14:13:05 -0700
-Message-ID: <CAPhnLPBAmVFTKfhJSTWW4SzAU5owc0C-h2pu8hfsqPNZkQAQvQ@mail.gmail.com>
-From: "Flanagan, Elizabeth" <elizabeth.flanagan@intel.com>
-To: Jason Wessel <jason.wessel@windriver.com>
-X-Gm-Message-State: ALoCoQngjO/0tMHjTk9VY6ljVcm+M2/Xpuc4UmPNG4w/IRuvk87y/zEVlybcu5rY19c1J5eUfPPg
-Cc: Darren Hart <dvhart@linux.intel.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] perl: Allow perl to cross build and native build in a directory named "t"
+X-Originating-IP: [172.25.34.61]
+Subject: [PATCH 6/8 v6] rootfs_rpm.bbclass: Update database configuration file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,58 +35,106 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Jun 2012 21:23:37 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 05 Jun 2012 22:08:56 -0000
+Content-Type: text/plain
 
-On Tue, Jun 5, 2012 at 1:58 PM, Jason Wessel <jason.wessel@windriver.com> w=
-rote:
-> On 06/05/2012 03:25 PM, Flanagan, Elizabeth wrote:
->> On Mon, Jun 4, 2012 at 11:47 AM, Jason Wessel
->> <jason.wessel@windriver.com> wrote:
->>> If any directory in leading up to your tmp directory has the name "t"
->>> perl will fail to build with a very cryptic error shown below:
->>
->>
->> Jason,
->>
->> I'm currently testing this patch and it seems to be causing failures
->> during do_compile for poky-tiny
->>
->> http://autobuilder.yoctoproject.org:8010/builders/nightly-tiny/builds/71=
-/steps/shell_35/logs/stdio
->>
->> | /bin/ln -s perldelta.pod pod/perl5142delta.pod
->> | ./miniperl -Ilib autodoc.pl
->> | make[1]: ./miniperl: Command not found
->> | make[1]: *** [pod/perlintern.pod] Error 127
->> | make[1]: Leaving directory
->> `/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-tiny/build/bu=
-ild/tmp/work/i586-poky-linux/perl-5.14.2-r7/perl-5.14.2'
->> | make: *** [perl] Error 2
->> | ERROR: oe_runmake failed
->
->
-> Did this work before the patch was applied?
->
+Move the creation of the database configuration files to just before we
+perform the install actions.  This ensures they will exist even in SDK or
+other non-target filesystem images.
 
-Ah, my mistake. This is actually an issue in master.
+Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+---
+ meta/classes/package_rpm.bbclass |   32 ++++++++++++++++++++++++++++++++
+ meta/classes/rootfs_rpm.bbclass  |   31 -------------------------------
+ 2 files changed, 32 insertions(+), 31 deletions(-)
 
-> If miniperl cannot be found it usually indicates some other kind of other=
- perl configuration problem.
->
-> How do you setup poky-tiny? =A0The http URL you pointed me to doesn't hav=
-e the local.conf in it. =A0Or is it the case you set those environment vari=
-ables and then try to execute a build?
->
-> Thanks,
-> Jason.
+diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
+index 097fa12..b84c044 100644
+--- a/meta/classes/package_rpm.bbclass
++++ b/meta/classes/package_rpm.bbclass
+@@ -454,6 +454,38 @@ EOF
+ 
+ 	chmod 0755 ${WORKDIR}/scriptlet_wrapper
+ 
++	# Configure RPM... we enforce these settings!
++	mkdir -p ${target_rootfs}${rpmlibdir}
++	mkdir -p ${target_rootfs}${rpmlibdir}/log
++	# After change the __db.* cache size, log file will not be generated automatically,
++	# that will raise some warnings, so touch a bare log for rpm write into it.
++	touch ${target_rootfs}${rpmlibdir}/log/log.0000000001
++	cat > ${target_rootfs}${rpmlibdir}/DB_CONFIG << EOF
++# ================ Environment
++set_data_dir .
++set_create_dir .
++set_lg_dir ./log
++set_tmp_dir ./tmp
++set_flags db_log_autoremove on
++
++# -- thread_count must be >= 8
++set_thread_count 64
++
++# ================ Logging
++
++# ================ Memory Pool
++set_cachesize 0 1048576 0
++set_mp_mmapsize 268435456
++
++# ================ Locking
++set_lk_max_locks 16384
++set_lk_max_lockers 16384
++set_lk_max_objects 16384
++mutex_set_max 163840
++
++# ================ Replication
++EOF
++
+ 	# RPM is special. It can't handle dependencies and preinstall scripts correctly. Its
+ 	# probably a feature. The only way to convince rpm to actually run the preinstall scripts 
+ 	# for base-passwd and shadow first before installing packages that depend on these packages 
+diff --git a/meta/classes/rootfs_rpm.bbclass b/meta/classes/rootfs_rpm.bbclass
+index 703fa15..d227e61 100644
+--- a/meta/classes/rootfs_rpm.bbclass
++++ b/meta/classes/rootfs_rpm.bbclass
+@@ -59,37 +59,6 @@ fakeroot rootfs_rpm_do_rootfs () {
+ 	# Setup base system configuration
+ 	mkdir -p ${INSTALL_ROOTFS_RPM}/etc/rpm/
+ 
+-	mkdir -p ${INSTALL_ROOTFS_RPM}${rpmlibdir}
+-	mkdir -p ${INSTALL_ROOTFS_RPM}${rpmlibdir}/log
+-	# After change the __db.* cache size, log file will not be generated automatically,
+-	# that will raise some warnings, so touch a bare log for rpm write into it.
+-	touch ${INSTALL_ROOTFS_RPM}${rpmlibdir}/log/log.0000000001
+-	cat > ${INSTALL_ROOTFS_RPM}${rpmlibdir}/DB_CONFIG << EOF
+-# ================ Environment
+-set_data_dir .
+-set_create_dir .
+-set_lg_dir ./log
+-set_tmp_dir ./tmp
+-set_flags db_log_autoremove on
+-
+-# -- thread_count must be >= 8
+-set_thread_count 64
+-
+-# ================ Logging
+-
+-# ================ Memory Pool
+-set_cachesize 0 1048576 0
+-set_mp_mmapsize 268435456
+-
+-# ================ Locking
+-set_lk_max_locks 16384
+-set_lk_max_lockers 16384
+-set_lk_max_objects 16384
+-mutex_set_max 163840
+-
+-# ================ Replication
+-EOF
+-
+ 	# List must be prefered to least preferred order
+ 	INSTALL_PLATFORM_EXTRA_RPM=""
+ 	for each_arch in ${MULTILIB_PACKAGE_ARCHS} ${PACKAGE_ARCHS}; do
+-- 
+1.7.3.4
 
-
-
---=20
-Elizabeth Flanagan
-Yocto Project
-Build and Release
 
 
