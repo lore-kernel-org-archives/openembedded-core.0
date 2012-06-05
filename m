@@ -1,34 +1,34 @@
-Received: from mail-yx0-f175.google.com ([209.85.213.175])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <giuseppe.condorelli@gmail.com>) id 1Sbo4p-00086O-99
+	(envelope-from <cristian.iorga@intel.com>) id 1SboQE-0003pa-Ow
 	for openembedded-core@lists.openembedded.org;
-	Tue, 05 Jun 2012 09:21:15 +0200
-Received: by yenl13 with SMTP id l13so3678064yen.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 05 Jun 2012 00:10:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type; bh=PRuonzkQKX6yZ8mN3a5ENWcOUmA0dLYdFxrOMVo/qUk=;
-	b=ThP9QJ7lJ7Fl6ecjSX0WFJXzgEJL5lnDjtrqJKqAJgD1/17iVQ+q9fVaS/BKyk93Yy
-	WxM3ezWVjGNsXPSNM09vJE8FwHG6PcohG56eSrrr3YW6aTc++ZWPF8yY1nWaQT5C45wy
-	YeO2r1Cu9i+Rf83sBAflAJCVHGBfY2R8E9O090G80UqKIVLgzvBTkd6lIMG3R7sJUATW
-	nvWEz1Y7VVWxyKpGMOcFqP6It7q+4Yxr9iMRSaR2vFxya09kd4O2xWYL2IEEBlEILTCX
-	wOMmAfqPGdZ9mOhSWLoniXjZxfbB1I46Vkw6AdhgNszjj5YRtmip85wSGhd3PRPc1R/p
-	C8Ig==
-MIME-Version: 1.0
-Received: by 10.50.187.201 with SMTP id fu9mr1076266igc.5.1338880248875; Tue,
-	05 Jun 2012 00:10:48 -0700 (PDT)
-Received: by 10.231.233.196 with HTTP; Tue, 5 Jun 2012 00:10:48 -0700 (PDT)
-In-Reply-To: <CAMKF1sotQWH+E5+28gKXfRfLJ9mQUN3EQpe2sUziBgu1CXYiZQ@mail.gmail.com>
-References: <CAOHjBZukor5Cy+2N-s0rFiiwR8Epp2vDaPuw7o5B4u-BMno3LQ@mail.gmail.com>
-	<CAOHjBZvFwiq97xv2kf6OjvCbPUCmX5tQ0P5NjvWXb--97oVvgg@mail.gmail.com>
-	<CAMKF1sotQWH+E5+28gKXfRfLJ9mQUN3EQpe2sUziBgu1CXYiZQ@mail.gmail.com>
-Date: Tue, 5 Jun 2012 09:10:48 +0200
-Message-ID: <CAOHjBZu8B-A3=HZpD7eQ2A0M8t0sD1ogFdMt5OkmfZduT2AgOA@mail.gmail.com>
-From: Giuseppe Condorelli <giuseppe.condorelli@gmail.com>
+	Tue, 05 Jun 2012 09:43:23 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 05 Jun 2012 00:31:52 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="151690215"
+Received: from irsmsx103.ger.corp.intel.com ([163.33.3.157])
+	by azsmga001.ch.intel.com with ESMTP; 05 Jun 2012 00:31:51 -0700
+Received: from irsmsx102.ger.corp.intel.com ([169.254.2.198]) by
+	IRSMSX103.ger.corp.intel.com ([169.254.3.48]) with mapi id
+	14.01.0355.002; Tue, 5 Jun 2012 08:30:36 +0100
+From: "Iorga, Cristian" <cristian.iorga@intel.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: libiconv/gettetxt circular dependency on eglibc
+Thread-Topic: [OE-core] [PATCH] ltp: Add patch to correct failing build
+Thread-Index: AQHNQOExUyXFcDQBGEay/C2ZN65di5bqzzqAgACIlOA=
+Date: Tue, 5 Jun 2012 07:30:35 +0000
+Message-ID: <969F26A8BAB325438E7EB80D3C3134FB1614F04C@IRSMSX102.ger.corp.intel.com>
+References: <1338537158-19917-1-git-send-email-cristian.iorga@intel.com>
+	<CAPhnLPAUewTddwVFXa77deAUomq7_T17MAYCsr_t+6rmT0OLxw@mail.gmail.com>
+	<4FCD5093.3070606@linux.intel.com>
+In-Reply-To: <4FCD5093.3070606@linux.intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [163.33.239.180]
+MIME-Version: 1.0
+Subject: Re: [PATCH] ltp: Add patch to correct failing build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,142 +43,155 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Jun 2012 07:21:15 -0000
-Content-Type: multipart/alternative; boundary=14dae9340a6fa18c1604c1b459ee
-
---14dae9340a6fa18c1604c1b459ee
-Content-Type: text/plain; charset=ISO-8859-1
-
-Hi Khem,
-
-indeed my previous comment was too confused.
-What I meant was that TARGET_OS was set to linux-uclibc and so I catched
-the errors.
-Now I set it to "linux" and libiconv is correctly provided by eglibc.
-Sorry for the confusion and thanks as always.
-
-Cheers,
-Giuseppe
-
-2012/6/4 Khem Raj <raj.khem@gmail.com>
-
-> On Mon, Jun 4, 2012 at 1:33 AM, Giuseppe Condorelli
-> <giuseppe.condorelli@gmail.com> wrote:
-> > Solved,
-> > I missed to set TARGET_OS = "eglibc" leaving it to "uclibc", my previous
-> > build...
->
-> thats wrong. If you are using OE-Core then the variable to set it TCLIBC
-> and TARGET_OS is usually not needed to set.
->
-> and libiconv is internal to eglibc so when using eglibc it should
-> provide the libiconv
-> package.
->
-> >
-> > Cheers,
-> > Giuseppe
-> >
-> > 2012/6/4 Giuseppe Condorelli <giuseppe.condorelli@gmail.com>
-> >>
-> >> Hi All,
-> >>
-> >> I'm falling in a circular dependency error between libiconv and gettext
-> >> during eglibc build.
-> >> libiconv (as set in tclibc-eglibc.inc) is set to "eglibc", so the recipe
-> >> for libiconv shouldn't be included
-> >> in the build list (it inherits gettext and gettext depends on libiconv).
-> >> Please can you clarify this?
-> >>
-> >> Many thanks,
-> >> Giuseppe
-> >
-> >
-> >
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-> >
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
-
---14dae9340a6fa18c1604c1b459ee
-Content-Type: text/html; charset=ISO-8859-1
+X-List-Received-Date: Tue, 05 Jun 2012 07:43:23 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-<div>Hi Khem,</div><div>=A0</div><div>indeed my previous comment was too co=
-nfused.</div><div>What I meant was that TARGET_OS was set to linux-uclibc a=
-nd so I catched the errors.</div><div>Now I set it to &quot;linux&quot; and=
- libiconv is correctly provided by eglibc.</div>
-<div>Sorry for the confusion and thanks as always.</div><div>=A0</div><div>=
-Cheers,</div><div>Giuseppe<br><br></div><div class=3D"gmail_quote">2012/6/4=
- Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mailto:raj.khem@gmail.com" targe=
-t=3D"_blank">raj.khem@gmail.com</a>&gt;</span><br>
-<blockquote style=3D"margin:0px 0px 0px 0.8ex;padding-left:1ex;border-left-=
-color:rgb(204,204,204);border-left-width:1px;border-left-style:solid" class=
-=3D"gmail_quote"><div class=3D"im">On Mon, Jun 4, 2012 at 1:33 AM, Giuseppe=
- Condorelli<br>
+Hello all,
 
-&lt;<a href=3D"mailto:giuseppe.condorelli@gmail.com">giuseppe.condorelli@gm=
-ail.com</a>&gt; wrote:<br>
-&gt; Solved,<br>
-&gt; I missed to set TARGET_OS =3D &quot;eglibc&quot; leaving it to &quot;u=
-clibc&quot;, my previous<br>
-&gt; build...<br>
-<br>
-</div>thats wrong. If you are using OE-Core then the variable to set it TCL=
-IBC<br>
-and TARGET_OS is usually not needed to set.<br>
-<br>
-and libiconv is internal to eglibc so when using eglibc it should<br>
-provide the libiconv<br>
-package.<br>
-<div class=3D"im"><br>
-&gt;<br>
-&gt; Cheers,<br>
-&gt; Giuseppe<br>
-&gt;<br>
-&gt; 2012/6/4 Giuseppe Condorelli &lt;<a href=3D"mailto:giuseppe.condorelli=
-@gmail.com">giuseppe.condorelli@gmail.com</a>&gt;<br>
-&gt;&gt;<br>
-&gt;&gt; Hi All,<br>
-&gt;&gt;<br>
-&gt;&gt; I&#39;m falling in a circular dependency error between libiconv an=
-d gettext<br>
-&gt;&gt; during eglibc build.<br>
-&gt;&gt; libiconv (as set in tclibc-eglibc.inc) is set to &quot;eglibc&quot=
-;, so the recipe<br>
-&gt;&gt; for libiconv shouldn&#39;t be included<br>
-&gt;&gt; in the build list (it inherits gettext and gettext depends on libi=
-conv).<br>
-&gt;&gt; Please can you clarify this?<br>
-&gt;&gt;<br>
-&gt;&gt; Many thanks,<br>
-&gt;&gt; Giuseppe<br>
-&gt;<br>
-&gt;<br>
-&gt;<br>
-</div>&gt; _______________________________________________<br>
-&gt; Openembedded-core mailing list<br>
-&gt; <a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedd=
-ed-core@lists.openembedded.org</a><br>
-&gt; <a href=3D"http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openemb=
-edded-core" target=3D"_blank">http://lists.linuxtogo.org/cgi-bin/mailman/li=
-stinfo/openembedded-core</a><br>
-&gt;<br>
-<br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.openembedded.org</a><br>
-<a href=3D"http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded=
--core" target=3D"_blank">http://lists.linuxtogo.org/cgi-bin/mailman/listinf=
-o/openembedded-core</a><br>
-</blockquote></div><br>
+@Saul: Of course I have tested the final patch, I will re-test and get back=
+ to you.
+	It worked for me.
 
---14dae9340a6fa18c1604c1b459ee--
+Thanks,
+Cristian
+
+-----Original Message-----
+From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded=
+-core-bounces@lists.openembedded.org] On Behalf Of Saul Wold
+Sent: Tuesday, June 05, 2012 3:20 AM
+To: Patches and discussions about the oe-core layer
+Subject: Re: [OE-core] [PATCH] ltp: Add patch to correct failing build
+
+On 06/02/2012 09:59 AM, Flanagan, Elizabeth wrote:
+> On Fri, Jun 1, 2012 at 12:52 AM, Cristian Iorga=20
+> <cristian.iorga@intel.com>  wrote:
+>> ltp makefile does not interpret correctly the result of git describe=20
+>> command and assumes that it is working with a git repo, while in fact=20
+>> working with a source code archive.
+>> Added a patch to corect makefile system.
+>>
+>> Signed-off-by: Cristian Iorga<cristian.iorga@intel.com>
+>> ---
+>>   .../ltp/ltp/fix_building_fom_archive.patch         |   23 ++++++++++++=
+++++++++
+>>   meta/recipes-extended/ltp/ltp_20120401.bb          |    4 ++--
+>>   2 files changed, 25 insertions(+), 2 deletions(-)
+>>   create mode 100644=20
+>> meta/recipes-extended/ltp/ltp/fix_building_fom_archive.patch
+>>
+>> diff --git=20
+>> a/meta/recipes-extended/ltp/ltp/fix_building_fom_archive.patch=20
+>> b/meta/recipes-extended/ltp/ltp/fix_building_fom_archive.patch
+>> new file mode 100644
+>> index 0000000..c0ecc86
+>> --- /dev/null
+>> +++ b/meta/recipes-extended/ltp/ltp/fix_building_fom_archive.patch
+>> @@ -0,0 +1,23 @@
+>> +ltp package build system is broken if building from archive
+>> +
+>> +ltp makefile does not interpret correctly the result of git describe=20
+>> +command and assumes that it is working with a git repo, while in=20
+>> +fact working with a source code archive.
+>> +
+>> +Upstream-Status: Pending
+>> +Signed-off-by: Cristian Iorga<cristian.iorga@intel.com>
+>> +
+>> +Index: ltp-20120401/Makefile
+>> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>> +--- ltp-20120401.orig/Makefile
+>> ++++ ltp-20120401/Makefile
+>> +@@ -173,7 +173,8 @@ SRCDIR_INSTALL_TARGETS     :=3D $(SRCDIR_INSTA
+>> + #
+>> + .PHONY: Version
+>> + Version:
+>> +-      if git describe&>  /dev/null; then \
+>> ++      git describe&>  /dev/null
+>> ++      if [ $? -eq 0 ]; then \
+>> +               git describe>  "$@"; \
+>> +       else \
+>> +               cp VERSION "$@"; \
+>> diff --git a/meta/recipes-extended/ltp/ltp_20120401.bb=20
+>> b/meta/recipes-extended/ltp/ltp_20120401.bb
+>> index 912d6d9..563bd58 100644
+>> --- a/meta/recipes-extended/ltp/ltp_20120401.bb
+>> +++ b/meta/recipes-extended/ltp/ltp_20120401.bb
+>> @@ -21,10 +21,10 @@ LIC_FILES_CHKSUM =3D=20
+>> "file://COPYING;md5=3D0636e73ff0215e8d672dc4c32c317bb3 \
+>>
+>>   DEPENDS =3D "attr"
+>>
+>> -PR =3D "r3"
+>> +PR =3D "r4"
+>>
+>>   SRC_URI =3D "${SOURCEFORGE_MIRROR}/ltp/ltp-full-${PV}.bz2 \
+>> -          "
+>> +           file://fix_building_fom_archive.patch"
+>>
+>>   SRC_URI[md5sum] =3D "e1d0acf1a6b6da0cb30dc1b0dcf5f26d"
+>>   SRC_URI[sha256sum] =3D "f0f5845f9666f61332fdf0b7e396fc647f9372db0902a8=
+29af2cf9402b807bd1"
+>> --
+>> 1.7.9.5
+>>
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+> This patch seems to be causing build failures:
+>
+> | ERROR: Function failed: do_compile (see
+> /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-ppc/build/bu
+> ild/tmp/work/ppc603e-poky-linux/ltp-20120401-r4/temp/log.do_compile.69
+> 5
+> for further information)
+> | NOTE: make -j 16
+> | make -C "lib" \
+> | 	-f "/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-ppc/buil=
+d/build/tmp/work/ppc603e-poky-linux/ltp-20120401-r4/ltp-20120401/lib/Makefi=
+le"
+> all
+> | git describe&>  /dev/null
+> | make: *** [Version] Error 128
+> | make: *** Waiting for unfinished jobs....
+> | make[1]: Entering directory
+> `/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-ppc/build/buil=
+d/tmp/work/ppc603e-poky-linux/ltp-20120401-r4/ltp-20120401/lib'
+> | make[1]: Nothing to be done for `all'.
+> | make[1]: Leaving directory
+> `/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-ppc/build/buil=
+d/tmp/work/ppc603e-poky-linux/ltp-20120401-r4/ltp-20120401/lib'
+> | ERROR: oe_runmake failed
+>
+>
+You might want to use "-git describe&>  /dev/null", as this will ignore err=
+ors, I thought you tested the final patch?
+
+ From the make manual pages:
+
+To ignore errors in a recipe line, write a '-' at the beginning of the line=
+'s text (after the initial tab). The '-' is discarded before the line is pa=
+ssed to the shell for execution.
+
+For example,
+
+      clean:
+              -rm -f *.o
+
+This causes make to continue even if rm is unable to remove a file.
+
+>
+> -b
+>
+
+_______________________________________________
+Openembedded-core mailing list
+Openembedded-core@lists.openembedded.org
+http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+
+
