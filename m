@@ -1,24 +1,24 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from vms173019pub.verizon.net ([206.46.173.19])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1SbwSH-0005zo-5t
+	(envelope-from <denis@denix.org>) id 1SbyTF-0001j5-5B
 	for openembedded-core@lists.openembedded.org;
-	Tue, 05 Jun 2012 18:18:06 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q55G7XMq005551
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 5 Jun 2012 09:07:33 -0700 (PDT)
-Received: from localhost.localdomain (172.25.34.61) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Tue, 5 Jun 2012 09:07:33 -0700
-From: Mark Hatle <mark.hatle@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 5 Jun 2012 11:13:16 -0500
-Message-ID: <cover.1338912425.git.mark.hatle@windriver.com>
-X-Mailer: git-send-email 1.7.3.4
-MIME-Version: 1.0
-X-Originating-IP: [172.25.34.61]
-Subject: [PATCH 0/7 v5] Uprev RPM to 5.4.9
+	Tue, 05 Jun 2012 20:27:09 +0200
+Received: from gandalf.denix.org ([unknown] [108.48.117.33])
+	by vms173019.mailsrvcs.net
+	(Sun Java(tm) System Messaging Server 7u2-7.02 32bit (built Apr 16
+	2009)) with ESMTPA id <0M550006UPDZC373@vms173019.mailsrvcs.net> for
+	openembedded-core@lists.openembedded.org;
+	Tue, 05 Jun 2012 13:16:12 -0500 (CDT)
+Received: from localhost.localdomain (elrond [192.168.0.7])
+	by gandalf.denix.org (Postfix) with ESMTP id 78AFE201AD; Tue,
+	05 Jun 2012 14:15:35 -0400 (EDT)
+From: Denys Dmytriyenko <denis@denix.org>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 05 Jun 2012 14:15:30 -0400
+Message-id: <1338920130-26331-1-git-send-email-denis@denix.org>
+X-Mailer: git-send-email 1.7.8.6
+Cc: Denys Dmytriyenko <denys@ti.com>
+Subject: [PATCH] pulseaudio: fix typo in the patch name, pulseaudo -> pulseaudio
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,120 +33,524 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Jun 2012 16:18:06 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 05 Jun 2012 18:27:09 -0000
 
-Only 7/7 is new in the version.  Due to the removal of the RPMVSF_NOSIGNATURES
-flag in RPM5 5.4.9, createrepo also needed to have this flag removed.
+From: Denys Dmytriyenko <denys@ti.com>
 
-v4 message follows:
+No PR bump is needed.
 
-Only 6/6 is new in this version.  RPM 5.4.9 appears to be more demanding
-for both the DB_CONFIG file and empty manifest files.  The new patch resolves
-this issue by ensuring that the DB_CONFIG is always generated, and empty
-manifest files do not get installed.
+Signed-off-by: Denys Dmytriyenko <denys@ti.com>
+---
+ .../pulseaudio/pulseaudio_fix_for_x32.patch        |  238 ++++++++++++++++++++
+ .../pulseaudio/pulseaudo_fix_for_x32.patch         |  238 --------------------
+ .../pulseaudio/pulseaudio_1.1.bb                   |    2 +-
+ 3 files changed, 239 insertions(+), 239 deletions(-)
+ create mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio/pulseaudio_fix_for_x32.patch
+ delete mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio/pulseaudo_fix_for_x32.patch
 
-Patches 1-5 are identical to the v3 versions.
-
-v3 messages follows:
-
-Rebase of the v2 changes.
-
-Re-disabled the "test" chunk..  this should resolve the hang problem a
-few people have observed.
-
-v2 message follows:
-
-Berkley DB also gets upreved, and a new package ossp-uuid gets added to
-the system.
-
-This was -heavily- tested with and without zypper on IA, and PPC.
-
-In addition a minor performance enhancement with a query operation was added.
-
-The uprev also adds the capability of using PACKAGECONFIG settings to tailor
-the behavior of RPM.
-
-V2 changes:
-
-Fix a problem with libuuid.so from util-linux would sometimes be linked into
-the binary.
-
-Also force libzypp, sat-solver and zypper to refresh via a PR bump.
-
-The following changes since commit e3113827810e98eb1b012f0b280fb917199704c1:
-
-  webkit-gtk: Use glib as unicode backend to avoid browser crash (2012-05-30 17:37:58 +0100)
-
-are available in the git repository at:
-  git://git.pokylinux.org/poky-contrib mhatle/rpm
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=mhatle/rpm
-
-Mark Hatle (7):
-  rpm: Upgrade RPM to 5.4.8  (db to 5.3.15)
-  rpm: Upgrade RPM to 5.4.9
-  ossp-uuid: Add oss-uuid package and RPM 5.4.9 integration
-  package_rpm: Add capability to directly query packageorigin
-  rpm: Bump PR numbers on componets that require RPM
-  rootfs_rpm.bbclass: Update database configuration and initial install
-  createrepo: For compatibility w/ RPM 5.4.9 remove RPMVSF_NOSIGNATURES
-    flag
-
- meta/classes/package_rpm.bbclass                   |   85 +++-
- meta/classes/rootfs_rpm.bbclass                    |   29 --
- .../ossp-uuid/0001-Change-library-name.patch       |  112 +++++
- ...erve-m-option-status-in-v-option-handling.patch |   55 +++
- .../ossp-uuid/0003-Fix-whatis-entries.patch        |   51 +++
- .../ossp-uuid/0004-fix-data-uuid-from-string.patch |   36 ++
- .../ossp-uuid/ossp-uuid/uuid-libtool.patch         |   24 +
- .../ossp-uuid/ossp-uuid/uuid-nostrip.patch         |   16 +
- meta/recipes-devtools/ossp-uuid/ossp-uuid_1.6.2.bb |   58 +++
- .../rpm/rpm/fix_for_automake_1.11.2.patch          |   54 ---
- .../rpm/rpm/fprint-pointer-fix.patch               |   35 --
- .../rpm/rpm/remove-compiled-tests.patch            |  443 --------------------
- meta/recipes-devtools/rpm/rpm/rpm-autoconf.patch   |   22 -
- meta/recipes-devtools/rpm/rpm/rpm-autogen.patch    |   41 +--
- meta/recipes-devtools/rpm/rpm/rpm-db-reduce.patch  |   16 +-
- .../recipes-devtools/rpm/rpm/rpm-log-auto-rm.patch |   12 +-
- meta/recipes-devtools/rpm/rpm/rpm-lua.patch        |   29 ++
- .../rpm/rpm/rpm-no-perl-urpm.patch                 |   43 ++
- meta/recipes-devtools/rpm/rpm/rpm-nofsync.patch    |   36 --
- meta/recipes-devtools/rpm/rpm/rpm-ossp-uuid.patch  |   20 +
- .../rpm/rpm/rpm-packageorigin.patch                |   23 +
- .../rpm/rpm/rpm-scriptletexechelper.patch          |   33 +-
- meta/recipes-devtools/rpm/rpm/rpmdeps-oecore.patch |   26 +-
- .../rpm/{rpm_5.4.0.bb => rpm_5.4.9.bb}             |  158 ++++----
- .../libzypp/libzypp/libzypp-rpm549.patch           |   28 ++
- meta/recipes-extended/libzypp/libzypp_git.bb       |    3 +-
- meta/recipes-extended/sat-solver/sat-solver_git.bb |    2 +-
- meta/recipes-extended/zypper/zypper_git.bb         |    2 +-
- .../createrepo/createrepo/createrepo-rpm549.patch  |   19 +
- .../createrepo/createrepo_0.4.11.bb                |    3 +-
- .../db/{db_5.1.19.bb => db_5.3.15.bb}              |    8 +-
- 31 files changed, 713 insertions(+), 809 deletions(-)
- create mode 100644 meta/recipes-devtools/ossp-uuid/ossp-uuid/0001-Change-library-name.patch
- create mode 100644 meta/recipes-devtools/ossp-uuid/ossp-uuid/0002-uuid-preserve-m-option-status-in-v-option-handling.patch
- create mode 100644 meta/recipes-devtools/ossp-uuid/ossp-uuid/0003-Fix-whatis-entries.patch
- create mode 100644 meta/recipes-devtools/ossp-uuid/ossp-uuid/0004-fix-data-uuid-from-string.patch
- create mode 100644 meta/recipes-devtools/ossp-uuid/ossp-uuid/uuid-libtool.patch
- create mode 100644 meta/recipes-devtools/ossp-uuid/ossp-uuid/uuid-nostrip.patch
- create mode 100644 meta/recipes-devtools/ossp-uuid/ossp-uuid_1.6.2.bb
- delete mode 100644 meta/recipes-devtools/rpm/rpm/fix_for_automake_1.11.2.patch
- delete mode 100644 meta/recipes-devtools/rpm/rpm/fprint-pointer-fix.patch
- delete mode 100644 meta/recipes-devtools/rpm/rpm/remove-compiled-tests.patch
- delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-autoconf.patch
- create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-lua.patch
- create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-no-perl-urpm.patch
- delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-nofsync.patch
- create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-ossp-uuid.patch
- create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-packageorigin.patch
- rename meta/recipes-devtools/rpm/{rpm_5.4.0.bb => rpm_5.4.9.bb} (76%)
- create mode 100644 meta/recipes-extended/libzypp/libzypp/libzypp-rpm549.patch
- create mode 100644 meta/recipes-support/createrepo/createrepo/createrepo-rpm549.patch
- rename meta/recipes-support/db/{db_5.1.19.bb => db_5.3.15.bb} (93%)
-
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio/pulseaudio_fix_for_x32.patch b/meta/recipes-multimedia/pulseaudio/pulseaudio/pulseaudio_fix_for_x32.patch
+new file mode 100644
+index 0000000..b68ac5b
+--- /dev/null
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio/pulseaudio_fix_for_x32.patch
+@@ -0,0 +1,238 @@
++Upstream-Status: Pending
++
++This patch makes assembly syntax compatible to the x32 toolchain.
++
++This fixes these kinds of compilations errors with x32 gcc.
++| pulsecore/svolume_mmx.c: Assembler messages:
++| pulsecore/svolume_mmx.c:107: Error: `(%esi,%rdi,4)' is not a valid base/index expression
++| pulsecore/svolume_mmx.c:135: Error: `(%esi,%rdi,4)' is not a valid base/index expression
++| pulsecore/svolume_mmx.c:161: Error: `(%esi,%rdi,4)' is not a valid base/index expression
++| pulsecore/svolume_mmx.c:162: Error: `8(%esi,%rdi,4)' is not a valid base/index expression
++| pulsecore/svolume_mmx.c:180: Error: `(%esi,%rdi,4)' is not a valid base/index expression
++| pulsecore/svolume_mmx.c:210: Error: `(%esi,%rdi,4)' is not a valid base/index expression
++| pulsecore/svolume_mmx.c:244: Error: `(%esi,%rdi,4)' is not a valid base/index expression
++| pulsecore/svolume_mmx.c:245: Error: `8(%esi,%rdi,4)' is not a valid base/index expression
++| make[3]: *** [libpulsecore_1.1_la-svolume_mmx.lo] Error 1
++
++Orignally these assembly lines are written for x86_64 ABI, now they are also compatible with
++X32 ABI.
++
++Signed-Off-By: Nitin A Kamble <nitin.a.kamble@intel.com> 2011/12/03
++Index: pulseaudio-1.1/src/pulsecore/svolume_mmx.c
++===================================================================
++--- pulseaudio-1.1.orig/src/pulsecore/svolume_mmx.c
+++++ pulseaudio-1.1/src/pulsecore/svolume_mmx.c
++@@ -107,7 +107,7 @@ static void pa_volume_s16ne_mmx(int16_t 
++         " test $1, %2                   \n\t" /* check for odd samples */
++         " je 2f                         \n\t"
++ 
++-        " movd (%1, %3, 4), %%mm0       \n\t" /* |  v0h  |  v0l  | */
+++        " movd (%q1, %3, 4), %%mm0       \n\t" /* |  v0h  |  v0l  | */
++         " movw (%0), %w4                \n\t" /*     ..  |  p0   | */
++         " movd %4, %%mm1                \n\t"
++         VOLUME_32x16 (%%mm1, %%mm0)
++@@ -122,7 +122,7 @@ static void pa_volume_s16ne_mmx(int16_t 
++         " je 4f                         \n\t"
++ 
++         "3:                             \n\t" /* do samples in groups of 2 */
++-        " movq (%1, %3, 4), %%mm0       \n\t" /* |  v1h  |  v1l  |  v0h  |  v0l  | */
+++        " movq (%q1, %3, 4), %%mm0       \n\t" /* |  v1h  |  v1l  |  v0h  |  v0l  | */
++         " movd (%0), %%mm1              \n\t" /*              .. |   p1  |  p0   | */
++         VOLUME_32x16 (%%mm1, %%mm0)
++         " movd %%mm0, (%0)              \n\t" /*              .. | p1*v1 | p0*v0 | */
++@@ -135,8 +135,8 @@ static void pa_volume_s16ne_mmx(int16_t 
++         " je 6f                         \n\t"
++ 
++         "5:                             \n\t" /* do samples in groups of 4 */
++-        " movq (%1, %3, 4), %%mm0       \n\t" /* |  v1h  |  v1l  |  v0h  |  v0l  | */
++-        " movq 8(%1, %3, 4), %%mm2      \n\t" /* |  v3h  |  v3l  |  v2h  |  v2l  | */
+++        " movq (%q1, %3, 4), %%mm0       \n\t" /* |  v1h  |  v1l  |  v0h  |  v0l  | */
+++        " movq 8(%q1, %3, 4), %%mm2      \n\t" /* |  v3h  |  v3l  |  v2h  |  v2l  | */
++         " movd (%0), %%mm1              \n\t" /*              .. |   p1  |  p0   | */
++         " movd 4(%0), %%mm3             \n\t" /*              .. |   p3  |  p2   | */
++         VOLUME_32x16 (%%mm1, %%mm0)
++@@ -180,7 +180,7 @@ static void pa_volume_s16re_mmx(int16_t 
++         " test $1, %2                   \n\t" /* check for odd samples */
++         " je 2f                         \n\t"
++ 
++-        " movd (%1, %3, 4), %%mm0       \n\t" /* |  v0h  |  v0l  | */
+++        " movd (%q1, %3, 4), %%mm0       \n\t" /* |  v0h  |  v0l  | */
++         " movw (%0), %w4                \n\t" /*     ..  |  p0   | */
++         " rorw $8, %w4                  \n\t"
++         " movd %4, %%mm1                \n\t"
++@@ -197,7 +197,7 @@ static void pa_volume_s16re_mmx(int16_t 
++         " je 4f                         \n\t"
++ 
++         "3:                             \n\t" /* do samples in groups of 2 */
++-        " movq (%1, %3, 4), %%mm0       \n\t" /* |  v1h  |  v1l  |  v0h  |  v0l  | */
+++        " movq (%q1, %3, 4), %%mm0       \n\t" /* |  v1h  |  v1l  |  v0h  |  v0l  | */
++         " movd (%0), %%mm1              \n\t" /*              .. |   p1  |  p0   | */
++         SWAP_16 (%%mm1)
++         VOLUME_32x16 (%%mm1, %%mm0)
++@@ -212,8 +212,8 @@ static void pa_volume_s16re_mmx(int16_t 
++         " je 6f                         \n\t"
++ 
++         "5:                             \n\t" /* do samples in groups of 4 */
++-        " movq (%1, %3, 4), %%mm0       \n\t" /* |  v1h  |  v1l  |  v0h  |  v0l  | */
++-        " movq 8(%1, %3, 4), %%mm2      \n\t" /* |  v3h  |  v3l  |  v2h  |  v2l  | */
+++        " movq (%q1, %3, 4), %%mm0       \n\t" /* |  v1h  |  v1l  |  v0h  |  v0l  | */
+++        " movq 8(%q1, %3, 4), %%mm2      \n\t" /* |  v3h  |  v3l  |  v2h  |  v2l  | */
++         " movd (%0), %%mm1              \n\t" /*              .. |   p1  |  p0   | */
++         " movd 4(%0), %%mm3             \n\t" /*              .. |   p3  |  p2   | */
++         SWAP_16_2 (%%mm1, %%mm3)
++Index: pulseaudio-1.1/src/pulsecore/svolume_sse.c
++===================================================================
++--- pulseaudio-1.1.orig/src/pulsecore/svolume_sse.c
+++++ pulseaudio-1.1/src/pulsecore/svolume_sse.c
++@@ -92,7 +92,7 @@ static void pa_volume_s16ne_sse2(int16_t
++         " test $1, %2                   \n\t" /* check for odd samples */
++         " je 2f                         \n\t"
++ 
++-        " movd (%1, %3, 4), %%xmm0      \n\t" /* |  v0h  |  v0l  | */
+++        " movd (%q1, %3, 4), %%xmm0      \n\t" /* |  v0h  |  v0l  | */
++         " movw (%0), %w4                \n\t" /*     ..  |   p0  | */
++         " movd %4, %%xmm1               \n\t"
++         VOLUME_32x16 (%%xmm1, %%xmm0)
++@@ -107,7 +107,7 @@ static void pa_volume_s16ne_sse2(int16_t
++         " je 4f                         \n\t"
++ 
++         "3:                             \n\t" /* do samples in groups of 2 */
++-        " movq (%1, %3, 4), %%xmm0      \n\t" /* |  v1h  |  v1l  |  v0h  |  v0l  | */
+++        " movq (%q1, %3, 4), %%xmm0      \n\t" /* |  v1h  |  v1l  |  v0h  |  v0l  | */
++         " movd (%0), %%xmm1             \n\t" /*              .. |   p1  |  p0   | */
++         VOLUME_32x16 (%%xmm1, %%xmm0)
++         " movd %%xmm0, (%0)             \n\t" /*              .. | p1*v1 | p0*v0 | */
++@@ -123,7 +123,7 @@ static void pa_volume_s16ne_sse2(int16_t
++          * that the array is 16 bytes aligned, we probably have to do the odd values
++          * after this then. */
++         "5:                             \n\t" /* do samples in groups of 4 */
++-        " movdqu (%1, %3, 4), %%xmm0    \n\t" /* |  v3h  |  v3l  ..  v0h  |  v0l  | */
+++        " movdqu (%q1, %3, 4), %%xmm0    \n\t" /* |  v3h  |  v3l  ..  v0h  |  v0l  | */
++         " movq (%0), %%xmm1             \n\t" /*              .. |   p3  ..  p0   | */
++         VOLUME_32x16 (%%xmm1, %%xmm0)
++         " movq %%xmm0, (%0)             \n\t" /*              .. | p3*v3 .. p0*v0 | */
++@@ -136,8 +136,8 @@ static void pa_volume_s16ne_sse2(int16_t
++         " je 8f                         \n\t"
++ 
++         "7:                             \n\t" /* do samples in groups of 8 */
++-        " movdqu (%1, %3, 4), %%xmm0    \n\t" /* |  v3h  |  v3l  ..  v0h  |  v0l  | */
++-        " movdqu 16(%1, %3, 4), %%xmm2  \n\t" /* |  v7h  |  v7l  ..  v4h  |  v4l  | */
+++        " movdqu (%q1, %3, 4), %%xmm0    \n\t" /* |  v3h  |  v3l  ..  v0h  |  v0l  | */
+++        " movdqu 16(%q1, %3, 4), %%xmm2  \n\t" /* |  v7h  |  v7l  ..  v4h  |  v4l  | */
++         " movq (%0), %%xmm1             \n\t" /*              .. |   p3  ..  p0   | */
++         " movq 8(%0), %%xmm3            \n\t" /*              .. |   p7  ..  p4   | */
++         VOLUME_32x16 (%%xmm1, %%xmm0)
++@@ -176,7 +176,7 @@ static void pa_volume_s16re_sse2(int16_t
++         " test $1, %2                   \n\t" /* check for odd samples */
++         " je 2f                         \n\t"
++ 
++-        " movd (%1, %3, 4), %%xmm0      \n\t" /* |  v0h  |  v0l  | */
+++        " movd (%q1, %3, 4), %%xmm0      \n\t" /* |  v0h  |  v0l  | */
++         " movw (%0), %w4                \n\t" /*     ..  |   p0  | */
++         " rorw $8, %w4                  \n\t"
++         " movd %4, %%xmm1               \n\t"
++@@ -193,7 +193,7 @@ static void pa_volume_s16re_sse2(int16_t
++         " je 4f                         \n\t"
++ 
++         "3:                             \n\t" /* do samples in groups of 2 */
++-        " movq (%1, %3, 4), %%xmm0      \n\t" /* |  v1h  |  v1l  |  v0h  |  v0l  | */
+++        " movq (%q1, %3, 4), %%xmm0      \n\t" /* |  v1h  |  v1l  |  v0h  |  v0l  | */
++         " movd (%0), %%xmm1             \n\t" /*              .. |   p1  |  p0   | */
++         SWAP_16 (%%xmm1)
++         VOLUME_32x16 (%%xmm1, %%xmm0)
++@@ -211,7 +211,7 @@ static void pa_volume_s16re_sse2(int16_t
++          * that the array is 16 bytes aligned, we probably have to do the odd values
++          * after this then. */
++         "5:                             \n\t" /* do samples in groups of 4 */
++-        " movdqu (%1, %3, 4), %%xmm0    \n\t" /* |  v3h  |  v3l  ..  v0h  |  v0l  | */
+++        " movdqu (%q1, %3, 4), %%xmm0    \n\t" /* |  v3h  |  v3l  ..  v0h  |  v0l  | */
++         " movq (%0), %%xmm1             \n\t" /*              .. |   p3  ..  p0   | */
++         SWAP_16 (%%xmm1)
++         VOLUME_32x16 (%%xmm1, %%xmm0)
++@@ -226,8 +226,8 @@ static void pa_volume_s16re_sse2(int16_t
++         " je 8f                         \n\t"
++ 
++         "7:                             \n\t" /* do samples in groups of 8 */
++-        " movdqu (%1, %3, 4), %%xmm0    \n\t" /* |  v3h  |  v3l  ..  v0h  |  v0l  | */
++-        " movdqu 16(%1, %3, 4), %%xmm2  \n\t" /* |  v7h  |  v7l  ..  v4h  |  v4l  | */
+++        " movdqu (%q1, %3, 4), %%xmm0    \n\t" /* |  v3h  |  v3l  ..  v0h  |  v0l  | */
+++        " movdqu 16(%q1, %3, 4), %%xmm2  \n\t" /* |  v7h  |  v7l  ..  v4h  |  v4l  | */
++         " movq (%0), %%xmm1             \n\t" /*              .. |   p3  ..  p0   | */
++         " movq 8(%0), %%xmm3            \n\t" /*              .. |   p7  ..  p4   | */
++         SWAP_16_2 (%%xmm1, %%xmm3)
++Index: pulseaudio-1.1/src/pulsecore/sconv_sse.c
++===================================================================
++--- pulseaudio-1.1.orig/src/pulsecore/sconv_sse.c
+++++ pulseaudio-1.1/src/pulsecore/sconv_sse.c
++@@ -54,8 +54,8 @@ static void pa_sconv_s16le_from_f32ne_ss
++         " je 2f                         \n\t"
++ 
++         "1:                             \n\t"
++-        " movups (%2, %0, 2), %%xmm0    \n\t" /* read 8 floats */
++-        " movups 16(%2, %0, 2), %%xmm2  \n\t"
+++        " movups (%q2, %0, 2), %%xmm0    \n\t" /* read 8 floats */
+++        " movups 16(%q2, %0, 2), %%xmm2  \n\t"
++         " minps  %%xmm5, %%xmm0         \n\t" /* clamp to 1.0 */
++         " minps  %%xmm5, %%xmm2         \n\t"
++         " maxps  %%xmm6, %%xmm0         \n\t" /* clamp to -1.0 */
++@@ -72,8 +72,8 @@ static void pa_sconv_s16le_from_f32ne_ss
++ 
++         " packssdw %%mm1, %%mm0         \n\t" /* pack parts */
++         " packssdw %%mm3, %%mm2         \n\t"
++-        " movq     %%mm0, (%3, %0)      \n\t"
++-        " movq    %%mm2, 8(%3, %0)     \n\t"
+++        " movq     %%mm0, (%q3, %0)      \n\t"
+++        " movq    %%mm2, 8(%q3, %0)     \n\t"
++ 
++         " add $16, %0                   \n\t"
++         " dec %1                        \n\t"
++@@ -85,12 +85,12 @@ static void pa_sconv_s16le_from_f32ne_ss
++         " je 4f                         \n\t"
++ 
++         "3:                             \n\t"
++-        " movss (%2, %0, 2), %%xmm0     \n\t"
+++        " movss (%q2, %0, 2), %%xmm0     \n\t"
++         " minss  %%xmm5, %%xmm0         \n\t"
++         " maxss  %%xmm6, %%xmm0         \n\t"
++         " mulss  %%xmm7, %%xmm0         \n\t"
++         " cvtss2si %%xmm0, %4           \n\t"
++-        " movw  %w4, (%3, %0)           \n\t"
+++        " movw  %w4, (%q3, %0)           \n\t"
++         " add $2, %0                    \n\t"
++         " dec %1                        \n\t"
++         " jne 3b                        \n\t"
++@@ -119,8 +119,8 @@ static void pa_sconv_s16le_from_f32ne_ss
++         " je 2f                         \n\t"
++ 
++         "1:                             \n\t"
++-        " movups (%2, %0, 2), %%xmm0    \n\t" /* read 8 floats */
++-        " movups 16(%2, %0, 2), %%xmm2  \n\t"
+++        " movups (%q2, %0, 2), %%xmm0    \n\t" /* read 8 floats */
+++        " movups 16(%q2, %0, 2), %%xmm2  \n\t"
++         " minps  %%xmm5, %%xmm0         \n\t" /* clamp to 1.0 */
++         " minps  %%xmm5, %%xmm2         \n\t"
++         " maxps  %%xmm6, %%xmm0         \n\t" /* clamp to -1.0 */
++@@ -132,7 +132,7 @@ static void pa_sconv_s16le_from_f32ne_ss
++         " cvtps2dq %%xmm2, %%xmm2       \n\t"
++ 
++         " packssdw %%xmm2, %%xmm0       \n\t"
++-        " movdqu   %%xmm0, (%3, %0)     \n\t"
+++        " movdqu   %%xmm0, (%q3, %0)     \n\t"
++ 
++         " add $16, %0                   \n\t"
++         " dec %1                        \n\t"
++@@ -144,12 +144,12 @@ static void pa_sconv_s16le_from_f32ne_ss
++         " je 4f                         \n\t"
++ 
++         "3:                             \n\t"
++-        " movss (%2, %0, 2), %%xmm0     \n\t"
+++        " movss (%q2, %0, 2), %%xmm0     \n\t"
++         " minss  %%xmm5, %%xmm0         \n\t"
++         " maxss  %%xmm6, %%xmm0         \n\t"
++         " mulss  %%xmm7, %%xmm0         \n\t"
++         " cvtss2si %%xmm0, %4           \n\t"
++-        " movw  %w4, (%3, %0)           \n\t"
+++        " movw  %w4, (%q3, %0)           \n\t"
++         " add $2, %0                    \n\t"
++         " dec %1                        \n\t"
++         " jne 3b                        \n\t"
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio/pulseaudo_fix_for_x32.patch b/meta/recipes-multimedia/pulseaudio/pulseaudio/pulseaudo_fix_for_x32.patch
+deleted file mode 100644
+index b68ac5b..0000000
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio/pulseaudo_fix_for_x32.patch
++++ /dev/null
+@@ -1,238 +0,0 @@
+-Upstream-Status: Pending
+-
+-This patch makes assembly syntax compatible to the x32 toolchain.
+-
+-This fixes these kinds of compilations errors with x32 gcc.
+-| pulsecore/svolume_mmx.c: Assembler messages:
+-| pulsecore/svolume_mmx.c:107: Error: `(%esi,%rdi,4)' is not a valid base/index expression
+-| pulsecore/svolume_mmx.c:135: Error: `(%esi,%rdi,4)' is not a valid base/index expression
+-| pulsecore/svolume_mmx.c:161: Error: `(%esi,%rdi,4)' is not a valid base/index expression
+-| pulsecore/svolume_mmx.c:162: Error: `8(%esi,%rdi,4)' is not a valid base/index expression
+-| pulsecore/svolume_mmx.c:180: Error: `(%esi,%rdi,4)' is not a valid base/index expression
+-| pulsecore/svolume_mmx.c:210: Error: `(%esi,%rdi,4)' is not a valid base/index expression
+-| pulsecore/svolume_mmx.c:244: Error: `(%esi,%rdi,4)' is not a valid base/index expression
+-| pulsecore/svolume_mmx.c:245: Error: `8(%esi,%rdi,4)' is not a valid base/index expression
+-| make[3]: *** [libpulsecore_1.1_la-svolume_mmx.lo] Error 1
+-
+-Orignally these assembly lines are written for x86_64 ABI, now they are also compatible with
+-X32 ABI.
+-
+-Signed-Off-By: Nitin A Kamble <nitin.a.kamble@intel.com> 2011/12/03
+-Index: pulseaudio-1.1/src/pulsecore/svolume_mmx.c
+-===================================================================
+---- pulseaudio-1.1.orig/src/pulsecore/svolume_mmx.c
+-+++ pulseaudio-1.1/src/pulsecore/svolume_mmx.c
+-@@ -107,7 +107,7 @@ static void pa_volume_s16ne_mmx(int16_t 
+-         " test $1, %2                   \n\t" /* check for odd samples */
+-         " je 2f                         \n\t"
+- 
+--        " movd (%1, %3, 4), %%mm0       \n\t" /* |  v0h  |  v0l  | */
+-+        " movd (%q1, %3, 4), %%mm0       \n\t" /* |  v0h  |  v0l  | */
+-         " movw (%0), %w4                \n\t" /*     ..  |  p0   | */
+-         " movd %4, %%mm1                \n\t"
+-         VOLUME_32x16 (%%mm1, %%mm0)
+-@@ -122,7 +122,7 @@ static void pa_volume_s16ne_mmx(int16_t 
+-         " je 4f                         \n\t"
+- 
+-         "3:                             \n\t" /* do samples in groups of 2 */
+--        " movq (%1, %3, 4), %%mm0       \n\t" /* |  v1h  |  v1l  |  v0h  |  v0l  | */
+-+        " movq (%q1, %3, 4), %%mm0       \n\t" /* |  v1h  |  v1l  |  v0h  |  v0l  | */
+-         " movd (%0), %%mm1              \n\t" /*              .. |   p1  |  p0   | */
+-         VOLUME_32x16 (%%mm1, %%mm0)
+-         " movd %%mm0, (%0)              \n\t" /*              .. | p1*v1 | p0*v0 | */
+-@@ -135,8 +135,8 @@ static void pa_volume_s16ne_mmx(int16_t 
+-         " je 6f                         \n\t"
+- 
+-         "5:                             \n\t" /* do samples in groups of 4 */
+--        " movq (%1, %3, 4), %%mm0       \n\t" /* |  v1h  |  v1l  |  v0h  |  v0l  | */
+--        " movq 8(%1, %3, 4), %%mm2      \n\t" /* |  v3h  |  v3l  |  v2h  |  v2l  | */
+-+        " movq (%q1, %3, 4), %%mm0       \n\t" /* |  v1h  |  v1l  |  v0h  |  v0l  | */
+-+        " movq 8(%q1, %3, 4), %%mm2      \n\t" /* |  v3h  |  v3l  |  v2h  |  v2l  | */
+-         " movd (%0), %%mm1              \n\t" /*              .. |   p1  |  p0   | */
+-         " movd 4(%0), %%mm3             \n\t" /*              .. |   p3  |  p2   | */
+-         VOLUME_32x16 (%%mm1, %%mm0)
+-@@ -180,7 +180,7 @@ static void pa_volume_s16re_mmx(int16_t 
+-         " test $1, %2                   \n\t" /* check for odd samples */
+-         " je 2f                         \n\t"
+- 
+--        " movd (%1, %3, 4), %%mm0       \n\t" /* |  v0h  |  v0l  | */
+-+        " movd (%q1, %3, 4), %%mm0       \n\t" /* |  v0h  |  v0l  | */
+-         " movw (%0), %w4                \n\t" /*     ..  |  p0   | */
+-         " rorw $8, %w4                  \n\t"
+-         " movd %4, %%mm1                \n\t"
+-@@ -197,7 +197,7 @@ static void pa_volume_s16re_mmx(int16_t 
+-         " je 4f                         \n\t"
+- 
+-         "3:                             \n\t" /* do samples in groups of 2 */
+--        " movq (%1, %3, 4), %%mm0       \n\t" /* |  v1h  |  v1l  |  v0h  |  v0l  | */
+-+        " movq (%q1, %3, 4), %%mm0       \n\t" /* |  v1h  |  v1l  |  v0h  |  v0l  | */
+-         " movd (%0), %%mm1              \n\t" /*              .. |   p1  |  p0   | */
+-         SWAP_16 (%%mm1)
+-         VOLUME_32x16 (%%mm1, %%mm0)
+-@@ -212,8 +212,8 @@ static void pa_volume_s16re_mmx(int16_t 
+-         " je 6f                         \n\t"
+- 
+-         "5:                             \n\t" /* do samples in groups of 4 */
+--        " movq (%1, %3, 4), %%mm0       \n\t" /* |  v1h  |  v1l  |  v0h  |  v0l  | */
+--        " movq 8(%1, %3, 4), %%mm2      \n\t" /* |  v3h  |  v3l  |  v2h  |  v2l  | */
+-+        " movq (%q1, %3, 4), %%mm0       \n\t" /* |  v1h  |  v1l  |  v0h  |  v0l  | */
+-+        " movq 8(%q1, %3, 4), %%mm2      \n\t" /* |  v3h  |  v3l  |  v2h  |  v2l  | */
+-         " movd (%0), %%mm1              \n\t" /*              .. |   p1  |  p0   | */
+-         " movd 4(%0), %%mm3             \n\t" /*              .. |   p3  |  p2   | */
+-         SWAP_16_2 (%%mm1, %%mm3)
+-Index: pulseaudio-1.1/src/pulsecore/svolume_sse.c
+-===================================================================
+---- pulseaudio-1.1.orig/src/pulsecore/svolume_sse.c
+-+++ pulseaudio-1.1/src/pulsecore/svolume_sse.c
+-@@ -92,7 +92,7 @@ static void pa_volume_s16ne_sse2(int16_t
+-         " test $1, %2                   \n\t" /* check for odd samples */
+-         " je 2f                         \n\t"
+- 
+--        " movd (%1, %3, 4), %%xmm0      \n\t" /* |  v0h  |  v0l  | */
+-+        " movd (%q1, %3, 4), %%xmm0      \n\t" /* |  v0h  |  v0l  | */
+-         " movw (%0), %w4                \n\t" /*     ..  |   p0  | */
+-         " movd %4, %%xmm1               \n\t"
+-         VOLUME_32x16 (%%xmm1, %%xmm0)
+-@@ -107,7 +107,7 @@ static void pa_volume_s16ne_sse2(int16_t
+-         " je 4f                         \n\t"
+- 
+-         "3:                             \n\t" /* do samples in groups of 2 */
+--        " movq (%1, %3, 4), %%xmm0      \n\t" /* |  v1h  |  v1l  |  v0h  |  v0l  | */
+-+        " movq (%q1, %3, 4), %%xmm0      \n\t" /* |  v1h  |  v1l  |  v0h  |  v0l  | */
+-         " movd (%0), %%xmm1             \n\t" /*              .. |   p1  |  p0   | */
+-         VOLUME_32x16 (%%xmm1, %%xmm0)
+-         " movd %%xmm0, (%0)             \n\t" /*              .. | p1*v1 | p0*v0 | */
+-@@ -123,7 +123,7 @@ static void pa_volume_s16ne_sse2(int16_t
+-          * that the array is 16 bytes aligned, we probably have to do the odd values
+-          * after this then. */
+-         "5:                             \n\t" /* do samples in groups of 4 */
+--        " movdqu (%1, %3, 4), %%xmm0    \n\t" /* |  v3h  |  v3l  ..  v0h  |  v0l  | */
+-+        " movdqu (%q1, %3, 4), %%xmm0    \n\t" /* |  v3h  |  v3l  ..  v0h  |  v0l  | */
+-         " movq (%0), %%xmm1             \n\t" /*              .. |   p3  ..  p0   | */
+-         VOLUME_32x16 (%%xmm1, %%xmm0)
+-         " movq %%xmm0, (%0)             \n\t" /*              .. | p3*v3 .. p0*v0 | */
+-@@ -136,8 +136,8 @@ static void pa_volume_s16ne_sse2(int16_t
+-         " je 8f                         \n\t"
+- 
+-         "7:                             \n\t" /* do samples in groups of 8 */
+--        " movdqu (%1, %3, 4), %%xmm0    \n\t" /* |  v3h  |  v3l  ..  v0h  |  v0l  | */
+--        " movdqu 16(%1, %3, 4), %%xmm2  \n\t" /* |  v7h  |  v7l  ..  v4h  |  v4l  | */
+-+        " movdqu (%q1, %3, 4), %%xmm0    \n\t" /* |  v3h  |  v3l  ..  v0h  |  v0l  | */
+-+        " movdqu 16(%q1, %3, 4), %%xmm2  \n\t" /* |  v7h  |  v7l  ..  v4h  |  v4l  | */
+-         " movq (%0), %%xmm1             \n\t" /*              .. |   p3  ..  p0   | */
+-         " movq 8(%0), %%xmm3            \n\t" /*              .. |   p7  ..  p4   | */
+-         VOLUME_32x16 (%%xmm1, %%xmm0)
+-@@ -176,7 +176,7 @@ static void pa_volume_s16re_sse2(int16_t
+-         " test $1, %2                   \n\t" /* check for odd samples */
+-         " je 2f                         \n\t"
+- 
+--        " movd (%1, %3, 4), %%xmm0      \n\t" /* |  v0h  |  v0l  | */
+-+        " movd (%q1, %3, 4), %%xmm0      \n\t" /* |  v0h  |  v0l  | */
+-         " movw (%0), %w4                \n\t" /*     ..  |   p0  | */
+-         " rorw $8, %w4                  \n\t"
+-         " movd %4, %%xmm1               \n\t"
+-@@ -193,7 +193,7 @@ static void pa_volume_s16re_sse2(int16_t
+-         " je 4f                         \n\t"
+- 
+-         "3:                             \n\t" /* do samples in groups of 2 */
+--        " movq (%1, %3, 4), %%xmm0      \n\t" /* |  v1h  |  v1l  |  v0h  |  v0l  | */
+-+        " movq (%q1, %3, 4), %%xmm0      \n\t" /* |  v1h  |  v1l  |  v0h  |  v0l  | */
+-         " movd (%0), %%xmm1             \n\t" /*              .. |   p1  |  p0   | */
+-         SWAP_16 (%%xmm1)
+-         VOLUME_32x16 (%%xmm1, %%xmm0)
+-@@ -211,7 +211,7 @@ static void pa_volume_s16re_sse2(int16_t
+-          * that the array is 16 bytes aligned, we probably have to do the odd values
+-          * after this then. */
+-         "5:                             \n\t" /* do samples in groups of 4 */
+--        " movdqu (%1, %3, 4), %%xmm0    \n\t" /* |  v3h  |  v3l  ..  v0h  |  v0l  | */
+-+        " movdqu (%q1, %3, 4), %%xmm0    \n\t" /* |  v3h  |  v3l  ..  v0h  |  v0l  | */
+-         " movq (%0), %%xmm1             \n\t" /*              .. |   p3  ..  p0   | */
+-         SWAP_16 (%%xmm1)
+-         VOLUME_32x16 (%%xmm1, %%xmm0)
+-@@ -226,8 +226,8 @@ static void pa_volume_s16re_sse2(int16_t
+-         " je 8f                         \n\t"
+- 
+-         "7:                             \n\t" /* do samples in groups of 8 */
+--        " movdqu (%1, %3, 4), %%xmm0    \n\t" /* |  v3h  |  v3l  ..  v0h  |  v0l  | */
+--        " movdqu 16(%1, %3, 4), %%xmm2  \n\t" /* |  v7h  |  v7l  ..  v4h  |  v4l  | */
+-+        " movdqu (%q1, %3, 4), %%xmm0    \n\t" /* |  v3h  |  v3l  ..  v0h  |  v0l  | */
+-+        " movdqu 16(%q1, %3, 4), %%xmm2  \n\t" /* |  v7h  |  v7l  ..  v4h  |  v4l  | */
+-         " movq (%0), %%xmm1             \n\t" /*              .. |   p3  ..  p0   | */
+-         " movq 8(%0), %%xmm3            \n\t" /*              .. |   p7  ..  p4   | */
+-         SWAP_16_2 (%%xmm1, %%xmm3)
+-Index: pulseaudio-1.1/src/pulsecore/sconv_sse.c
+-===================================================================
+---- pulseaudio-1.1.orig/src/pulsecore/sconv_sse.c
+-+++ pulseaudio-1.1/src/pulsecore/sconv_sse.c
+-@@ -54,8 +54,8 @@ static void pa_sconv_s16le_from_f32ne_ss
+-         " je 2f                         \n\t"
+- 
+-         "1:                             \n\t"
+--        " movups (%2, %0, 2), %%xmm0    \n\t" /* read 8 floats */
+--        " movups 16(%2, %0, 2), %%xmm2  \n\t"
+-+        " movups (%q2, %0, 2), %%xmm0    \n\t" /* read 8 floats */
+-+        " movups 16(%q2, %0, 2), %%xmm2  \n\t"
+-         " minps  %%xmm5, %%xmm0         \n\t" /* clamp to 1.0 */
+-         " minps  %%xmm5, %%xmm2         \n\t"
+-         " maxps  %%xmm6, %%xmm0         \n\t" /* clamp to -1.0 */
+-@@ -72,8 +72,8 @@ static void pa_sconv_s16le_from_f32ne_ss
+- 
+-         " packssdw %%mm1, %%mm0         \n\t" /* pack parts */
+-         " packssdw %%mm3, %%mm2         \n\t"
+--        " movq     %%mm0, (%3, %0)      \n\t"
+--        " movq    %%mm2, 8(%3, %0)     \n\t"
+-+        " movq     %%mm0, (%q3, %0)      \n\t"
+-+        " movq    %%mm2, 8(%q3, %0)     \n\t"
+- 
+-         " add $16, %0                   \n\t"
+-         " dec %1                        \n\t"
+-@@ -85,12 +85,12 @@ static void pa_sconv_s16le_from_f32ne_ss
+-         " je 4f                         \n\t"
+- 
+-         "3:                             \n\t"
+--        " movss (%2, %0, 2), %%xmm0     \n\t"
+-+        " movss (%q2, %0, 2), %%xmm0     \n\t"
+-         " minss  %%xmm5, %%xmm0         \n\t"
+-         " maxss  %%xmm6, %%xmm0         \n\t"
+-         " mulss  %%xmm7, %%xmm0         \n\t"
+-         " cvtss2si %%xmm0, %4           \n\t"
+--        " movw  %w4, (%3, %0)           \n\t"
+-+        " movw  %w4, (%q3, %0)           \n\t"
+-         " add $2, %0                    \n\t"
+-         " dec %1                        \n\t"
+-         " jne 3b                        \n\t"
+-@@ -119,8 +119,8 @@ static void pa_sconv_s16le_from_f32ne_ss
+-         " je 2f                         \n\t"
+- 
+-         "1:                             \n\t"
+--        " movups (%2, %0, 2), %%xmm0    \n\t" /* read 8 floats */
+--        " movups 16(%2, %0, 2), %%xmm2  \n\t"
+-+        " movups (%q2, %0, 2), %%xmm0    \n\t" /* read 8 floats */
+-+        " movups 16(%q2, %0, 2), %%xmm2  \n\t"
+-         " minps  %%xmm5, %%xmm0         \n\t" /* clamp to 1.0 */
+-         " minps  %%xmm5, %%xmm2         \n\t"
+-         " maxps  %%xmm6, %%xmm0         \n\t" /* clamp to -1.0 */
+-@@ -132,7 +132,7 @@ static void pa_sconv_s16le_from_f32ne_ss
+-         " cvtps2dq %%xmm2, %%xmm2       \n\t"
+- 
+-         " packssdw %%xmm2, %%xmm0       \n\t"
+--        " movdqu   %%xmm0, (%3, %0)     \n\t"
+-+        " movdqu   %%xmm0, (%q3, %0)     \n\t"
+- 
+-         " add $16, %0                   \n\t"
+-         " dec %1                        \n\t"
+-@@ -144,12 +144,12 @@ static void pa_sconv_s16le_from_f32ne_ss
+-         " je 4f                         \n\t"
+- 
+-         "3:                             \n\t"
+--        " movss (%2, %0, 2), %%xmm0     \n\t"
+-+        " movss (%q2, %0, 2), %%xmm0     \n\t"
+-         " minss  %%xmm5, %%xmm0         \n\t"
+-         " maxss  %%xmm6, %%xmm0         \n\t"
+-         " mulss  %%xmm7, %%xmm0         \n\t"
+-         " cvtss2si %%xmm0, %4           \n\t"
+--        " movw  %w4, (%3, %0)           \n\t"
+-+        " movw  %w4, (%q3, %0)           \n\t"
+-         " add $2, %0                    \n\t"
+-         " dec %1                        \n\t"
+-         " jne 3b                        \n\t"
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio_1.1.bb b/meta/recipes-multimedia/pulseaudio/pulseaudio_1.1.bb
+index d2ed3c8..02d4180 100644
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio_1.1.bb
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio_1.1.bb
+@@ -8,7 +8,7 @@ inherit gettext perlnative
+ 
+ SRC_URI = "http://freedesktop.org/software/pulseaudio/releases/pulseaudio-${PV}.tar.xz \
+   file://volatiles.04_pulse \
+-  file://pulseaudo_fix_for_x32.patch \
++  file://pulseaudio_fix_for_x32.patch \
+ "
+ 
+ SRC_URI[md5sum] = "17d21df798cee407b769c6355fae397a"
 -- 
-1.7.3.4
+1.7.8.6
 
 
 
