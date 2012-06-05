@@ -1,24 +1,26 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1Sc1vr-0001im-Kq
+	(envelope-from <mark.hatle@windriver.com>) id 1Sc1vs-0001kH-7E
 	for openembedded-core@lists.openembedded.org;
-	Wed, 06 Jun 2012 00:08:55 +0200
+	Wed, 06 Jun 2012 00:08:56 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q55LwRpG023776
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q55LwTXA023779
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 5 Jun 2012 14:58:27 -0700 (PDT)
+	Tue, 5 Jun 2012 14:58:29 -0700 (PDT)
 Received: from localhost.localdomain (172.25.34.61) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Tue, 5 Jun 2012 14:58:27 -0700
+	Tue, 5 Jun 2012 14:58:28 -0700
 From: Mark Hatle <mark.hatle@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 5 Jun 2012 17:04:12 -0500
-Message-ID: <cover.1338933735.git.mark.hatle@windriver.com>
+Date: Tue, 5 Jun 2012 17:04:14 -0500
+Message-ID: <7bd529e79af90b5be989d9eb1406b2b5e750a4e1.1338933735.git.mark.hatle@windriver.com>
 X-Mailer: git-send-email 1.7.3.4
+In-Reply-To: <cover.1338933735.git.mark.hatle@windriver.com>
+References: <cover.1338933735.git.mark.hatle@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [172.25.34.61]
-Subject: [PATCH 0/8 v6] Uprev RPM to 5.4.9
+Subject: [PATCH 8/8 v6] package_rpm: Verify that the package manifests are not empty
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,122 +38,125 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 X-List-Received-Date: Tue, 05 Jun 2012 22:08:56 -0000
 Content-Type: text/plain
 
-Patch 6/8 was reworked to remove the manifest size check.
-Patch 8/8 is new and includes the manifest check removed from 6/8 as well as
-one that was missed in previous testing.
+An empty manifest will cause a failure condition.  We ensure that any install
+actions occur only with a manifest larger then size 0.  Also ensure that padding
+is added to the end of the manifest, instead of the beginning to enable this
+size check.  (Padding is required for very small manifest files..)
 
-v5 message follows:
+Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+---
+ meta/classes/package_rpm.bbclass |   59 ++++++++++++++++++++++----------------
+ 1 files changed, 34 insertions(+), 25 deletions(-)
 
-Only 7/7 is new in the version.  Due to the removal of the RPMVSF_NOSIGNATURES
-flag in RPM5 5.4.9, createrepo also needed to have this flag removed.
-
-v4 message follows:
-
-Only 6/6 is new in this version.  RPM 5.4.9 appears to be more demanding
-for both the DB_CONFIG file and empty manifest files.  The new patch resolves
-this issue by ensuring that the DB_CONFIG is always generated, and empty
-manifest files do not get installed.
-
-Patches 1-5 are identical to the v3 versions.
-
-v3 messages follows:
-
-Rebase of the v2 changes.
-
-Re-disabled the "test" chunk..  this should resolve the hang problem a
-few people have observed.
-
-v2 message follows:
-
-Berkley DB also gets upreved, and a new package ossp-uuid gets added to
-the system.
-
-This was -heavily- tested with and without zypper on IA, and PPC.
-
-In addition a minor performance enhancement with a query operation was added.
-
-The uprev also adds the capability of using PACKAGECONFIG settings to tailor
-the behavior of RPM.
-
-V2 changes:
-
-Fix a problem with libuuid.so from util-linux would sometimes be linked into
-the binary.
-
-Also force libzypp, sat-solver and zypper to refresh via a PR bump.
-
-The following changes since commit e3113827810e98eb1b012f0b280fb917199704c1:
-
-  webkit-gtk: Use glib as unicode backend to avoid browser crash (2012-05-30 17:37:58 +0100)
-
-are available in the git repository at:
-  git://git.pokylinux.org/poky-contrib mhatle/rpm
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=mhatle/rpm
-
-Mark Hatle (8):
-  rpm: Upgrade RPM to 5.4.8  (db to 5.3.15)
-  rpm: Upgrade RPM to 5.4.9
-  ossp-uuid: Add oss-uuid package and RPM 5.4.9 integration
-  package_rpm: Add capability to directly query packageorigin
-  rpm: Bump PR numbers on componets that require RPM
-  rootfs_rpm.bbclass: Update database configuration file
-  createrepo: For compatibility w/ RPM 5.4.9 remove RPMVSF_NOSIGNATURES
-    flag
-  package_rpm: Verify that the package manifests are not empty
-
- meta/classes/package_rpm.bbclass                   |  105 ++++--
- meta/classes/rootfs_rpm.bbclass                    |   29 --
- .../ossp-uuid/0001-Change-library-name.patch       |  112 +++++
- ...erve-m-option-status-in-v-option-handling.patch |   55 +++
- .../ossp-uuid/0003-Fix-whatis-entries.patch        |   51 +++
- .../ossp-uuid/0004-fix-data-uuid-from-string.patch |   36 ++
- .../ossp-uuid/ossp-uuid/uuid-libtool.patch         |   24 +
- .../ossp-uuid/ossp-uuid/uuid-nostrip.patch         |   16 +
- meta/recipes-devtools/ossp-uuid/ossp-uuid_1.6.2.bb |   58 +++
- .../rpm/rpm/fix_for_automake_1.11.2.patch          |   54 ---
- .../rpm/rpm/fprint-pointer-fix.patch               |   35 --
- .../rpm/rpm/remove-compiled-tests.patch            |  443 --------------------
- meta/recipes-devtools/rpm/rpm/rpm-autoconf.patch   |   22 -
- meta/recipes-devtools/rpm/rpm/rpm-autogen.patch    |   41 +--
- meta/recipes-devtools/rpm/rpm/rpm-db-reduce.patch  |   16 +-
- .../recipes-devtools/rpm/rpm/rpm-log-auto-rm.patch |   12 +-
- meta/recipes-devtools/rpm/rpm/rpm-lua.patch        |   29 ++
- .../rpm/rpm/rpm-no-perl-urpm.patch                 |   43 ++
- meta/recipes-devtools/rpm/rpm/rpm-nofsync.patch    |   36 --
- meta/recipes-devtools/rpm/rpm/rpm-ossp-uuid.patch  |   20 +
- .../rpm/rpm/rpm-packageorigin.patch                |   23 +
- .../rpm/rpm/rpm-scriptletexechelper.patch          |   33 +-
- meta/recipes-devtools/rpm/rpm/rpmdeps-oecore.patch |   26 +-
- .../rpm/{rpm_5.4.0.bb => rpm_5.4.9.bb}             |  158 ++++----
- .../libzypp/libzypp/libzypp-rpm549.patch           |   28 ++
- meta/recipes-extended/libzypp/libzypp_git.bb       |    3 +-
- meta/recipes-extended/sat-solver/sat-solver_git.bb |    2 +-
- meta/recipes-extended/zypper/zypper_git.bb         |    2 +-
- .../createrepo/createrepo/createrepo-rpm549.patch  |   19 +
- .../createrepo/createrepo_0.4.11.bb                |    3 +-
- .../db/{db_5.1.19.bb => db_5.3.15.bb}              |    8 +-
- 31 files changed, 725 insertions(+), 817 deletions(-)
- create mode 100644 meta/recipes-devtools/ossp-uuid/ossp-uuid/0001-Change-library-name.patch
- create mode 100644 meta/recipes-devtools/ossp-uuid/ossp-uuid/0002-uuid-preserve-m-option-status-in-v-option-handling.patch
- create mode 100644 meta/recipes-devtools/ossp-uuid/ossp-uuid/0003-Fix-whatis-entries.patch
- create mode 100644 meta/recipes-devtools/ossp-uuid/ossp-uuid/0004-fix-data-uuid-from-string.patch
- create mode 100644 meta/recipes-devtools/ossp-uuid/ossp-uuid/uuid-libtool.patch
- create mode 100644 meta/recipes-devtools/ossp-uuid/ossp-uuid/uuid-nostrip.patch
- create mode 100644 meta/recipes-devtools/ossp-uuid/ossp-uuid_1.6.2.bb
- delete mode 100644 meta/recipes-devtools/rpm/rpm/fix_for_automake_1.11.2.patch
- delete mode 100644 meta/recipes-devtools/rpm/rpm/fprint-pointer-fix.patch
- delete mode 100644 meta/recipes-devtools/rpm/rpm/remove-compiled-tests.patch
- delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-autoconf.patch
- create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-lua.patch
- create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-no-perl-urpm.patch
- delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-nofsync.patch
- create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-ossp-uuid.patch
- create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-packageorigin.patch
- rename meta/recipes-devtools/rpm/{rpm_5.4.0.bb => rpm_5.4.9.bb} (76%)
- create mode 100644 meta/recipes-extended/libzypp/libzypp/libzypp-rpm549.patch
- create mode 100644 meta/recipes-support/createrepo/createrepo/createrepo-rpm549.patch
- rename meta/recipes-support/db/{db_5.1.19.bb => db_5.3.15.bb} (93%)
-
+diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
+index b84c044..bb9aa1a 100644
+--- a/meta/classes/package_rpm.bbclass
++++ b/meta/classes/package_rpm.bbclass
+@@ -182,6 +182,7 @@ rpm_update_pkg () {
+         # been run by now, so don't have to run them(preun, postun, etc.) when
+         # erase the pkg
+         if [ -s ${target_rootfs}/install/remove.manifest ]; then
++            echo "# Removal manifest padding...." >> ${target_rootfs}/install/remove.manifest
+             rpm_common_comand --noscripts --nodeps \
+                 -e `cat ${target_rootfs}/install/remove.manifest`
+         fi
+@@ -249,7 +250,7 @@ package_install_internal_rpm () {
+ 
+ 	# Setup manifest of packages to install...
+ 	mkdir -p ${target_rootfs}/install
+-	echo "# Install manifest" > ${target_rootfs}/install/install.manifest
++	rm -f ${target_rootfs}/install/install.manifest
+ 
+ 	# Uclibc builds don't provide this stuff...
+ 	if [ x${TARGET_OS} = "xlinux" ] || [ x${TARGET_OS} = "xlinux-gnueabi" ] ; then
+@@ -309,12 +310,15 @@ package_install_internal_rpm () {
+ 
+ 	# Generate an install solution by doing a --justdb install, then recreate it with
+ 	# an actual package install!
+-	${RPM} --predefine "_rpmds_sysinfo_path ${target_rootfs}/etc/rpm/sysinfo" \
+-		--predefine "_rpmrc_platform_path ${target_rootfs}/etc/rpm/platform" \
+-		-D "_dbpath ${target_rootfs}/install" -D "`cat ${confbase}-base_archs.macro`" \
+-		-D "__dbi_txn create nofsync" \
+-		-U --justdb --noscripts --notriggers --noparentdirs --nolinktos --ignoresize \
+-		${target_rootfs}/install/install.manifest
++	if [ -s ${target_rootfs}/install/install.manifest ]; then
++		echo "# Install manifest padding" >> ${target_rootfs}/install/install.manifest
++		${RPM} --predefine "_rpmds_sysinfo_path ${target_rootfs}/etc/rpm/sysinfo" \
++			--predefine "_rpmrc_platform_path ${target_rootfs}/etc/rpm/platform" \
++			-D "_dbpath ${target_rootfs}/install" -D "`cat ${confbase}-base_archs.macro`" \
++			-D "__dbi_txn create nofsync" \
++			-U --justdb --noscripts --notriggers --noparentdirs --nolinktos --ignoresize \
++			${target_rootfs}/install/install.manifest
++	fi
+ 
+ 	if [ ! -z "${package_attemptonly}" ]; then
+ 		echo "Adding attempt only packages..."
+@@ -407,8 +411,9 @@ package_install_internal_rpm () {
+ 
+ 	touch ${target_rootfs}/install/install_multilib_solution.manifest
+ 
+-	if [ -e "${target_rootfs}/install/install_multilib.manifest" ]; then
++	if [ -s "${target_rootfs}/install/install_multilib.manifest" ]; then
+ 		# multilib package installation
++		echo "# Install multilib manifest padding" >> ${target_rootfs}/install/install_multilib.manifest
+ 
+ 		# Generate an install solution by doing a --justdb install, then recreate it with
+ 		# an actual package install!
+@@ -493,33 +498,37 @@ EOF
+ 	if [ "${INC_RPM_IMAGE_GEN}" = "1" -a -f "$pre_btmanifest" ]; then
+ 		echo "Skipping pre install due to exisitng image"
+ 	else
+-		echo "# Initial Install manifest" > ${target_rootfs}/install/initial_install.manifest
++		rm -f ${target_rootfs}/install/initial_install.manifest
+ 		echo "Installing base dependencies first (base-passwd, base-files and shadow) since rpm is special"
+ 		grep /base-passwd-[0-9] ${target_rootfs}/install/total_solution.manifest >> ${target_rootfs}/install/initial_install.manifest || true
+ 		grep /base-files-[0-9] ${target_rootfs}/install/total_solution.manifest >> ${target_rootfs}/install/initial_install.manifest || true
+ 		grep /shadow-[0-9] ${target_rootfs}/install/total_solution.manifest >> ${target_rootfs}/install/initial_install.manifest || true
+ 
+-		# Generate an install solution by doing a --justdb install, then recreate it with
+-		# an actual package install!
+-		mkdir -p ${target_rootfs}/initial
++		if [ -s ${target_rootfs}/install/initial_install.manifest ]; then
++			echo "# Initial Install manifest padding..." >> ${target_rootfs}/install/initial_install.manifest
+ 
+-		${RPM} --predefine "_rpmds_sysinfo_path ${target_rootfs}/etc/rpm/sysinfo" \
+-			--predefine "_rpmrc_platform_path ${target_rootfs}/etc/rpm/platform" \
+-			-D "_dbpath ${target_rootfs}/initial" -D "`cat ${confbase}.macro`" \
+-			-D "__dbi_txn create nofsync" \
+-			-U --justdb --noscripts --notriggers --noparentdirs --nolinktos --ignoresize \
+-			${target_rootfs}/install/initial_install.manifest
++			# Generate an install solution by doing a --justdb install, then recreate it with
++			# an actual package install!
++			mkdir -p ${target_rootfs}/initial
+ 
+-		${RPM} -D "_dbpath ${target_rootfs}/initial" -qa --qf "%{packageorigin}\n" \
+-			-D "__dbi_txn create nofsync private" \
+-			> ${target_rootfs}/install/initial_solution.manifest
++			${RPM} --predefine "_rpmds_sysinfo_path ${target_rootfs}/etc/rpm/sysinfo" \
++				--predefine "_rpmrc_platform_path ${target_rootfs}/etc/rpm/platform" \
++				-D "_dbpath ${target_rootfs}/initial" -D "`cat ${confbase}.macro`" \
++				-D "__dbi_txn create nofsync" \
++				-U --justdb --noscripts --notriggers --noparentdirs --nolinktos --ignoresize \
++				${target_rootfs}/install/initial_install.manifest
++
++			${RPM} -D "_dbpath ${target_rootfs}/initial" -qa --qf "%{packageorigin}\n" \
++				-D "__dbi_txn create nofsync private" \
++				> ${target_rootfs}/install/initial_solution.manifest
+ 
+-		rpm_update_pkg ${target_rootfs}/install/initial_solution.manifest
++			rpm_update_pkg ${target_rootfs}/install/initial_solution.manifest
+ 		
+-		grep -Fv -f ${target_rootfs}/install/initial_solution.manifest ${target_rootfs}/install/total_solution.manifest > ${target_rootfs}/install/total_solution.manifest.new
+-		mv ${target_rootfs}/install/total_solution.manifest.new ${target_rootfs}/install/total_solution.manifest
++			grep -Fv -f ${target_rootfs}/install/initial_solution.manifest ${target_rootfs}/install/total_solution.manifest > ${target_rootfs}/install/total_solution.manifest.new
++			mv ${target_rootfs}/install/total_solution.manifest.new ${target_rootfs}/install/total_solution.manifest
+ 		
+-		rm -rf ${target_rootfs}/initial
++			rm -rf ${target_rootfs}/initial
++		fi
+ 	fi
+ 
+ 	echo "Installing main solution manifest (${target_rootfs}/install/total_solution.manifest)"
 -- 
 1.7.3.4
 
