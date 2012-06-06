@@ -1,39 +1,30 @@
-Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
+Received: from mail-yx0-f175.google.com ([209.85.213.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1ScFh0-0000LG-MX
+	(envelope-from <giuseppe.condorelli@gmail.com>) id 1ScFwH-0003Fq-IX
 	for openembedded-core@lists.openembedded.org;
-	Wed, 06 Jun 2012 14:50:31 +0200
-Received: from mail-qa0-f45.google.com ([209.85.216.45])
-	by mga03.intel.com with ESMTP/TLS/RC4-SHA; 06 Jun 2012 05:40:01 -0700
-Received: by qaeb19 with SMTP id b19so2705635qae.4
+	Wed, 06 Jun 2012 15:06:17 +0200
+Received: by yenl13 with SMTP id l13so4830573yen.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 06 Jun 2012 05:40:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:content-transfer-encoding:x-gm-message-state;
-	bh=/PzMxz7ZdZgpvKjVVvT+9SqCFsJM4vDn8v9axCb77gI=;
-	b=QIQX5vzfm0fRCrgqle6gcDQ7gbNJwl2nuaKrM2+fTVVroGiVzLN1ApRRCWV8uck6xH
-	TZauNWeMAcfv7Sj6AY/JWiRLJMxaY7hPEt5EBDZC3/XkUacmB/hcd8FXbClph1HH2C5b
-	ffMj192tnI9hrw9HyumoFMvQyiOgyqy8rouV0AyMiIBj21jx82kK9smdWT9FAHzNqVpA
-	A32Pk0j0iPlPLWspH2bQsM4S0F2tzttzig7Ei4h3KmuILHk8gO99v5rhJGzFKsbUouYy
-	mzzfRM9t/ODPn8TDd0iw8EoKGADt/5/ipDwQi+lxw+PqXWuuH7sfyGs3GEBPIG8mGTNf
-	ypHA==
-Received: by 10.229.69.36 with SMTP id x36mr494368qci.48.1338986400424; Wed,
-	06 Jun 2012 05:40:00 -0700 (PDT)
+	Wed, 06 Jun 2012 05:55:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:date:message-id:subject:from:to:content-type;
+	bh=YgyN4arKXfPuWl4H0HfiWcIn3lrKg6VMpW+Lv43aO3g=;
+	b=Yom0YZ8CmCQLM+bH+LjLnf4yJX71J69443C0S1cLjV+cKrb+Naae3lJfZFkk4qEOcP
+	zLiFf0LjMa27LvI2MDL+MFxO8EcyuBBI+puvaDG+ptvqjjmrnRvAzp3pqllyTo2lADeT
+	duQl5Bz7+UaHXd6spe3T0AwifK49NzQWgrhizV4yrh0bCM9qvma2JoOBV8PAbt/VPZ9D
+	EWJw8i+0o4/bgJHqV9frBzYCMI8J2z7f3c7X3cURornohWgi13Bb2iCr7+kiZBh3QP63
+	2xaR095MxWT2ffDnviT2Z5OXNjI08ayy1Kj09DIvUxb1g53XdAeCl3+Iavkj0qn1qIqV
+	1AZw==
 MIME-Version: 1.0
-Received: by 10.229.53.212 with HTTP; Wed, 6 Jun 2012 05:39:40 -0700 (PDT)
-In-Reply-To: <4FCE71F6.3060001@linux.intel.com>
-References: <4FCE71F6.3060001@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 6 Jun 2012 13:39:40 +0100
-Message-ID: <CAJTo0LawLH56WhV8KcXXKxzP6b4MnrpQHrkoQ2q2PJ3BR+-8OQ@mail.gmail.com>
-To: Darren Hart <dvhart@linux.intel.com>
-X-Gm-Message-State: ALoCoQn39E3UJk5xdqH/NDt6vU0ta49OF7THrkiWLGN1Wl4d7A7hyrUcozNbDrFlGJgKkALc50iX
-Cc: damien.lespiau@intel.com, "Wold, Saul" <saul.wold@intel.com>,
-	Patches and discussions about the oe-core layer
+Received: by 10.50.207.36 with SMTP id lt4mr6544825igc.5.1338987349655; Wed,
+	06 Jun 2012 05:55:49 -0700 (PDT)
+Received: by 10.231.233.196 with HTTP; Wed, 6 Jun 2012 05:55:49 -0700 (PDT)
+Date: Wed, 6 Jun 2012 14:55:49 +0200
+Message-ID: <CAOHjBZu23roe2_TD474s6bthXAMGFy67PeJre3MS26hBST+GQQ@mail.gmail.com>
+From: Giuseppe Condorelli <giuseppe.condorelli@gmail.com>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: RFC: Braindump on Bootloaders, Image Types, and Installers
+Subject: About sdk product
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,27 +39,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Jun 2012 12:50:31 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 06 Jun 2012 13:06:17 -0000
+Content-Type: multipart/alternative; boundary=14dae9340a9955c0c404c1cd49a2
+
+--14dae9340a9955c0c404c1cd49a2
+Content-Type: text/plain; charset=ISO-8859-1
+
+Hi All,
+
+I'm wondering about sdk packaging and installation process.
+My question is: is the sdk image installed as for core images?
+I mean, core images are installed (as rpm, ipk) and then a tar file is also
+provided.
+Is sdk process the same?
+
+Please let me know, I'm asking this before investigating on sdk step to
+have a picture of the status.
+
+Best Regards,
+Giuseppe
+
+--14dae9340a9955c0c404c1cd49a2
+Content-Type: text/html; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
+<div>Hi All,</div><div>=A0</div><div>I&#39;m wondering about sdk packaging =
+and installation process.</div><div>My question is: is the sdk image instal=
+led as for core images?</div><div>I mean, core images are installed (as rpm=
+, ipk) and then a tar file is also provided.</div>
+<div>Is sdk process the same?</div><div>=A0</div><div>Please let me know, I=
+&#39;m asking this before investigating on sdk step to have a picture of th=
+e status.</div><div>=A0</div><div>Best Regards,</div><div>Giuseppe</div>
 
-On 5 June 2012 21:54, Darren Hart <dvhart@linux.intel.com> wrote:
-> =C2=A0* Disk Image
-> =C2=A0 =C2=A0- create partitioned images (not just volume images)
-> =C2=A0 =C2=A0- intended to be written to USB sticks, MMC drives, or SATA =
-disks
-> =C2=A0 =C2=A0- may require a script to assemble the image for specific ta=
-rget
-> =C2=A0 =C2=A0 =C2=A0devices.
-
-Can we get an option to specify the size of the target device?  I've a
-4GB stick that I'm using with .hddimg (being the lucky owner of a box
-that actually boots them!) and it's sad to see the rootfs being only a
-little bigger than the contents when there is about 3.5G of empty disk
-space available.
-
-Ross
-
-
+--14dae9340a9955c0c404c1cd49a2--
