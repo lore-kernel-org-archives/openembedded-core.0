@@ -1,26 +1,26 @@
 Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1ScHgJ-0002GD-Hu
+	(envelope-from <mark.hatle@windriver.com>) id 1ScHgL-0002GJ-2s
 	for openembedded-core@lists.openembedded.org;
-	Wed, 06 Jun 2012 16:57:57 +0200
+	Wed, 06 Jun 2012 16:57:58 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q56ElSX3008583
+	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q56ElTjB008586
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 6 Jun 2012 07:47:28 -0700 (PDT)
+	Wed, 6 Jun 2012 07:47:29 -0700 (PDT)
 Received: from localhost.localdomain (172.25.34.61) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Wed, 6 Jun 2012 07:47:27 -0700
+	Wed, 6 Jun 2012 07:47:28 -0700
 From: Mark Hatle <mark.hatle@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 6 Jun 2012 09:53:14 -0500
-Message-ID: <7778cab45de11f7677bc0ac9749e41cc6dc84759.1338994308.git.mark.hatle@windriver.com>
+Date: Wed, 6 Jun 2012 09:53:16 -0500
+Message-ID: <d09efc862755ce0e73de806ee2e3ce42443c7116.1338994308.git.mark.hatle@windriver.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1338994308.git.mark.hatle@windriver.com>
 References: <cover.1338994308.git.mark.hatle@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [172.25.34.61]
-Subject: [PATCH 3/6] shadow-native: Disable nscd support
+Subject: [PATCH 5/6] gettext: install libgettextlib.a before removing it
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,38 +38,80 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 X-List-Received-Date: Wed, 06 Jun 2012 14:57:58 -0000
 Content-Type: text/plain
 
-Disabling nscd support prevents error messages when shadow utilities attempt
-to trigger nscd to reload.  This does nothing unless the user is root, and even
-if they are root, it's the wrong action to perform when creating a target fs.
+From: Joe Slater <jslater@windriver.com>
 
+In a multiple job build, Makefile can simultaneously
+be installing and removing libgettextlib.a.  We serialize
+the operations.
+
+Signed-off-by: Joe Slater <jslater@windriver.com>
 Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
 ---
- .../shadow/shadow-native_4.1.4.3.bb                |    5 +++--
- 1 files changed, 3 insertions(+), 2 deletions(-)
+ .../gettext/gettext-0.18.1.1/parallel.patch        |   34 ++++++++++++++++++++
+ meta/recipes-core/gettext/gettext_0.18.1.1.bb      |    3 +-
+ 2 files changed, 36 insertions(+), 1 deletions(-)
+ create mode 100644 meta/recipes-core/gettext/gettext-0.18.1.1/parallel.patch
 
-diff --git a/meta/recipes-extended/shadow/shadow-native_4.1.4.3.bb b/meta/recipes-extended/shadow/shadow-native_4.1.4.3.bb
-index fece9c6..1e071f1 100644
---- a/meta/recipes-extended/shadow/shadow-native_4.1.4.3.bb
-+++ b/meta/recipes-extended/shadow/shadow-native_4.1.4.3.bb
-@@ -7,7 +7,7 @@ LICENSE = "BSD | Artistic-1.0"
- LIC_FILES_CHKSUM = "file://COPYING;md5=08c553a87d4e51bbed50b20e0adcaede \
-                     file://src/passwd.c;firstline=8;endline=30;md5=2899a045e90511d0e043b85a7db7e2fe"
+diff --git a/meta/recipes-core/gettext/gettext-0.18.1.1/parallel.patch b/meta/recipes-core/gettext/gettext-0.18.1.1/parallel.patch
+new file mode 100644
+index 0000000..4ca44cc
+--- /dev/null
++++ b/meta/recipes-core/gettext/gettext-0.18.1.1/parallel.patch
+@@ -0,0 +1,34 @@
++instal libgettextlib.a before removing it
++
++In a multiple job build, Makefile can simultaneously
++be installing and removing libgettextlib.a.  We serialize
++the operations.
++
++Signed-off-by: Joe Slater <jslater@windriver.com>
++
++--- a/gettext-tools/gnulib-lib/Makefile.am
+++++ b/gettext-tools/gnulib-lib/Makefile.am
++@@ -57,6 +57,10 @@ endif
++ # Rules generated and collected by gnulib-tool.
++ include Makefile.gnulib
++ 
+++# defined in Makefile.gnulib but missing this dependency
+++#
+++install-exec-clean: install-libLTLIBRARIES
+++
++ # Which classes to export from the shared library.
++ MOOPPFLAGS += --dllexport=styled_ostream
++ 
++--- a/gettext-tools/src/Makefile.am
+++++ b/gettext-tools/src/Makefile.am
++@@ -229,8 +229,8 @@ libgettextsrc_la_LDFLAGS += -Wl,--export
++ endif
++ 
++ # No need to install libgettextsrc.a, except on AIX.
++-install-exec-local: install-libLTLIBRARIES install-exec-clean
++-install-exec-clean:
+++install-exec-local: install-exec-clean
+++install-exec-clean: install-libLTLIBRARIES
++ 	case "@host_os@" in \
++ 	  aix*) ;; \
++ 	  *) $(RM) $(DESTDIR)$(libdir)/libgettextsrc.a ;; \
+diff --git a/meta/recipes-core/gettext/gettext_0.18.1.1.bb b/meta/recipes-core/gettext/gettext_0.18.1.1.bb
+index 5685bbe..253ea43 100644
+--- a/meta/recipes-core/gettext/gettext_0.18.1.1.bb
++++ b/meta/recipes-core/gettext/gettext_0.18.1.1.bb
+@@ -5,13 +5,14 @@ SECTION = "libs"
+ LICENSE = "GPLv3+ & LGPL-2.1+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
  
--PR = "r5"
-+PR = "r6"
+-PR = "r12"
++PR = "r13"
+ DEPENDS = "libxml2-native gettext-native virtual/libiconv ncurses expat"
+ DEPENDS_virtclass-native = "libxml2-native gettext-minimal-native"
+ PROVIDES = "virtual/libintl virtual/gettext"
+ PROVIDES_virtclass-native = "virtual/gettext-native"
+ CONFLICTS_${PN} = "proxy-libintl"
+ SRC_URI = "${GNU_MIRROR}/gettext/gettext-${PV}.tar.gz \
++	   file://parallel.patch \
+           "
  
- SRC_URI = "http://pkg-shadow.alioth.debian.org/releases/${BPN}-${PV}.tar.bz2 \
-            file://shadow.automake-1.11.patch \
-@@ -27,7 +27,8 @@ inherit autotools gettext native
- EXTRA_OECONF += "--without-audit \
-                  --without-libcrack \
-                  --without-libpam \
--                 --without-selinux"
-+                 --without-selinux \
-+                 --without-nscd"
- 
- do_install_append() {
- 	# Enable CREATE_HOME by default.
+ SRC_URI_append_libc-uclibc = " file://wchar-uclibc.patch \
 -- 
 1.7.3.4
 
