@@ -1,27 +1,36 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1ScJYN-00028i-4u
+	(envelope-from <jessica.zhang@intel.com>) id 1ScJo6-0005WS-Nq
 	for openembedded-core@lists.openembedded.org;
-	Wed, 06 Jun 2012 18:57:51 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q56GlNJf010501
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 6 Jun 2012 09:47:23 -0700 (PDT)
-Received: from msp-dhcp45.wrs.com (172.25.34.45) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Wed, 6 Jun 2012 09:47:22 -0700
-Message-ID: <4FCF8999.4000405@windriver.com>
-Date: Wed, 6 Jun 2012 11:47:21 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
-	rv:12.0) Gecko/20120428 Thunderbird/12.0.1
+	Wed, 06 Jun 2012 19:14:07 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 06 Jun 2012 10:02:30 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; 
+	d="scan'208,217";a="108600334"
+Received: from orsmsx606.amr.corp.intel.com ([10.22.226.128])
+	by AZSMGA002.ch.intel.com with ESMTP; 06 Jun 2012 10:02:30 -0700
+Received: from orsmsx104.amr.corp.intel.com (10.22.225.131) by
+	orsmsx606.amr.corp.intel.com (10.22.226.128) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Wed, 6 Jun 2012 10:02:16 -0700
+Received: from orsmsx101.amr.corp.intel.com ([169.254.8.60]) by
+	ORSMSX104.amr.corp.intel.com ([169.254.3.64]) with mapi id
+	14.01.0355.002; Wed, 6 Jun 2012 10:00:04 -0700
+From: "Zhang, Jessica" <jessica.zhang@intel.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [oe-core] About sdk product
+Thread-Index: AQHNQ+O94VcJRPmvxkWkQTYOrhgAzJbtgqcQ
+Date: Wed, 6 Jun 2012 17:00:03 +0000
+Message-ID: <C6510F6D410BB64A8C15398EDC6B847C46A606D9@ORSMSX101.amr.corp.intel.com>
+References: <CAOHjBZu23roe2_TD474s6bthXAMGFy67PeJre3MS26hBST+GQQ@mail.gmail.com>
+In-Reply-To: <CAOHjBZu23roe2_TD474s6bthXAMGFy67PeJre3MS26hBST+GQQ@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.22.254.139]
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <4FCE71F6.3060001@linux.intel.com>
-In-Reply-To: <4FCE71F6.3060001@linux.intel.com>
-Subject: Re: RFC: Braindump on Bootloaders, Image Types, and Installers
+Subject: Re: About sdk product
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,123 +45,174 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Jun 2012 16:57:51 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 06 Jun 2012 17:14:07 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_C6510F6D410BB64A8C15398EDC6B847C46A606D9ORSMSX101amrcor_"
 
-I don't have specific comments below, but I can share some of what I will be 
-working on for my company in the next 6 months or so.
+--_000_C6510F6D410BB64A8C15398EDC6B847C46A606D9ORSMSX101amrcor_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-I will be working on moving the image generation: filesystem construction, 
-filesystem -> image generation, and similar into a framework that can reside 
-externally of OE-core/bitbake.
+Hi Giuseppe,
 
-The idea is that we should have a single framework that can construct the 
-filesystem from the package feeds, construct the images (using the parameters 
-and more that you list below), and then eventually deploy these images onto the 
-target system.
+We have sdk images which the package format can be rpm, ipk, or deb.  We al=
+so provided a toolchain tarball that contains the cross dev toolchain.  For=
+ cross dev, we're using sysroot which is extracted from the desired target =
+image file.  For more details, you can refer to Yocto ADT manual.
 
-Having this external of oe-core will allow it to be invoked by OE-core, as it is 
-today, as well as for on-target installers, people who want to start w/ the 
-package feeds, etc.
+Thanks,
+Jessica
 
-I believe this fits within the vision you have below, but may throw in some 
-issues when we start talking about external capable tooling.
+From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded=
+-core-bounces@lists.openembedded.org] On Behalf Of Giuseppe Condorelli
+Sent: Wednesday, June 06, 2012 5:56 AM
+To: Patches and discussions about the oe-core layer
+Subject: [OE-core] [oe-core] About sdk product
 
---Mark
+Hi All,
 
-On 6/5/12 3:54 PM, Darren Hart wrote:
-> All,
+I'm wondering about sdk packaging and installation process.
+My question is: is the sdk image installed as for core images?
+I mean, core images are installed (as rpm, ipk) and then a tar file is also=
+ provided.
+Is sdk process the same?
+
+Please let me know, I'm asking this before investigating on sdk step to hav=
+e a picture of the status.
+
+Best Regards,
+Giuseppe
+
+--_000_C6510F6D410BB64A8C15398EDC6B847C46A606D9ORSMSX101amrcor_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
+osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
+//www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
 >
-> There has been a lot of discussion scattered across the lists and
-> bugzilla regarding bootable image types. There are a variety of
-> different situations, each with specific requirements. Our current set
-> of image types are showing their age. Here I collect what I've seen in
-> an attempt to start a consolidated discussion to help arrive at a clear
-> vision of where we want to be, and to define tasks that we can
-> distribute across various people. If you are on CC, I intend to include
-> you in that list of people ;-)
->
-> Current issues:
-> * hddimg types fail to boot on many intel platforms [3]
-> * USBZIP image creation is slow and not integrated into the bitbake
->    process
-> * dosfstools is stuck at an old version to avoid requiring GPLv2 to
->    build images
-> * no support for kernel+initramfs as a single blob [9]
-> * can't create partitioned images as the tools require root access
-> * hybrid ISO images are more universally bootable, but don't provide
->    persistent storage even on USB sticks.
-> * different boot loaders are used on the live images and the installed
->    images
-> * boot parameters are not preserved across installation [0]
-> * the installer is very limited to where it can install
-> * the installer doesn't work for EFI images [1]
-> * the hddimg will load the first rootfs it finds, even if it isn't the
->    one on the hddimg boot media
-> * the boot prompts are not self descriptive
-> * EFI, PCBIOS, ISO all have subtly different boot requirements which
->    complicate the bootimg recipe and associated classes.
-> * custom multi-partition images are not supported [4]
-> * Can't build the image and the bootloader as different arches [5]
-> * Various issues with unionfs [7] and chroot [8]
->
-> ... and that's just for x86...
->
-> Where I envision images going:
->
-> * Create the follwing image types:
->    * Live Installer
->      - this is the merger of hddimg, ISO, and ISOHYBRID
->      - non-persistent storage
->      - intended for demonstration and installation
->      - can be written directly to USB sticks or CDs
->    * Disk Image
->      - create partitioned images (not just volume images)
->      - intended to be written to USB sticks, MMC drives, or SATA disks
->      - may require a script to assemble the image for specific target
->        devices.
->    * Initramfs
->      - Linux kernel and initramfs as a single image
->      - this will require some significant workflow changes as images are
->        generated after the kernel and the kernel needs the rootfs to
->        build the combined image.
->
-> As for boot loaders. In x86 land, we have syslinux, efilinux, grub, and
-> grub-efi. We use syslinux for the hddimg and grub after installation,
-> which accounts for some of the boot parameters being lost in the
-> transition. I feel we would benefit from unifying the bootloader across
-> image types and presenting a consistent interface. For the core, I plan
-> to adopt syslinux everywhere [6]. Syslinux supports ISO images, EXT
-> filesystems, FAT filesystems, and will support EFI soon enough. It also
-> has the option for a menu system and basic graphics. With this, we can
-> greatly improve the initial experience and keep that consistent across
-> the various image types, as well as after installation.
->
-> EFI merits a special note here. While working with an EFI enabled
-> system, it often makes sense to work from the EFI shell for a variety of
-> reasons. As such, packaging and including efibootmgr to manage boot
-> targets in the EFI firmware is something we should be providing in
-> addition to the common use case of a boot/install boot loader. Our
-> current EFI images frequently do not boot automatically, despite using
-> the "boot/EFI/boot[ARCH].efi" path for the payload as specified in the
-> EFI specification. This may be do to the media not being ready in time
-> (USB can be awfully slow). Some additional research is clearly necessary
-> to properly support EFI in our images, and likely some hacks to work
-> around buggy firmware [2]. We should be making friends with Matthew Gerrett.
->
->
-> References
-> [0] https://bugzilla.yoctoproject.org/show_bug.cgi?id=2426
-> [1] https://bugzilla.yoctoproject.org/show_bug.cgi?id=1919
-> [2] https://bugzilla.yoctoproject.org/show_bug.cgi?id=1950
-> [3] https://bugzilla.yoctoproject.org/show_bug.cgi?id=1763
-> [4] https://bugzilla.yoctoproject.org/show_bug.cgi?id=1780
-> [5] https://bugzilla.yoctoproject.org/show_bug.cgi?id=2073
-> [6] https://bugzilla.yoctoproject.org/show_bug.cgi?id=1635
-> [7] https://bugzilla.yoctoproject.org/show_bug.cgi?id=2343
-> [8] https://bugzilla.yoctoproject.org/show_bug.cgi?id=2064
-> [9] https://lists.yoctoproject.org/pipermail/yocto/2012-May/008633.html
+<meta name=3D"Generator" content=3D"Microsoft Word 14 (filtered medium)">
+<style><!--
+/* Font Definitions */
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:Tahoma;
+	panose-1:2 11 6 4 3 5 4 4 2 4;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	margin-bottom:.0001pt;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:blue;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-priority:99;
+	color:purple;
+	text-decoration:underline;}
+span.EmailStyle17
+	{mso-style-type:personal-reply;
+	font-family:"Calibri","sans-serif";
+	color:#1F497D;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-family:"Calibri","sans-serif";}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]-->
+</head>
+<body lang=3D"EN-US" link=3D"blue" vlink=3D"purple">
+<div class=3D"WordSection1">
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,&quot;sans-serif&quot;;color:#1F497D">Hi Giuseppe,<o:p></o:p></=
+span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,&quot;sans-serif&quot;;color:#1F497D"><o:p>&nbsp;</o:p></span><=
+/p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,&quot;sans-serif&quot;;color:#1F497D">We have sdk images which =
+the package format can be rpm, ipk, or deb.&nbsp; We also provided a toolch=
+ain tarball that contains the cross dev toolchain.&nbsp; For cross
+ dev, we&#8217;re using sysroot which is extracted from the desired target =
+image file.&nbsp; For more details, you can refer to Yocto ADT manual.<o:p>=
+</o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,&quot;sans-serif&quot;;color:#1F497D"><o:p>&nbsp;</o:p></span><=
+/p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,&quot;sans-serif&quot;;color:#1F497D">Thanks,<o:p></o:p></span>=
+</p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,&quot;sans-serif&quot;;color:#1F497D">Jessica<o:p></o:p></span>=
+</p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,&quot;sans-serif&quot;;color:#1F497D"><o:p>&nbsp;</o:p></span><=
+/p>
+<p class=3D"MsoNormal"><b><span style=3D"font-size:10.0pt;font-family:&quot=
+;Tahoma&quot;,&quot;sans-serif&quot;">From:</span></b><span style=3D"font-s=
+ize:10.0pt;font-family:&quot;Tahoma&quot;,&quot;sans-serif&quot;"> openembe=
+dded-core-bounces@lists.openembedded.org [mailto:openembedded-core-bounces@=
+lists.openembedded.org]
+<b>On Behalf Of </b>Giuseppe Condorelli<br>
+<b>Sent:</b> Wednesday, June 06, 2012 5:56 AM<br>
+<b>To:</b> Patches and discussions about the oe-core layer<br>
+<b>Subject:</b> [OE-core] [oe-core] About sdk product<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<div>
+<p class=3D"MsoNormal">Hi All,<o:p></o:p></p>
+</div>
+<div>
+<p class=3D"MsoNormal">&nbsp;<o:p></o:p></p>
+</div>
+<div>
+<p class=3D"MsoNormal">I'm wondering about sdk packaging and installation p=
+rocess.<o:p></o:p></p>
+</div>
+<div>
+<p class=3D"MsoNormal">My question is: is the sdk image installed as for co=
+re images?<o:p></o:p></p>
+</div>
+<div>
+<p class=3D"MsoNormal">I mean, core images are installed (as rpm, ipk) and =
+then a tar file is also provided.<o:p></o:p></p>
+</div>
+<div>
+<p class=3D"MsoNormal">Is sdk process the same?<o:p></o:p></p>
+</div>
+<div>
+<p class=3D"MsoNormal">&nbsp;<o:p></o:p></p>
+</div>
+<div>
+<p class=3D"MsoNormal">Please let me know, I'm asking this before investiga=
+ting on sdk step to have a picture of the status.<o:p></o:p></p>
+</div>
+<div>
+<p class=3D"MsoNormal">&nbsp;<o:p></o:p></p>
+</div>
+<div>
+<p class=3D"MsoNormal">Best Regards,<o:p></o:p></p>
+</div>
+<div>
+<p class=3D"MsoNormal">Giuseppe<o:p></o:p></p>
+</div>
+</div>
+</body>
+</html>
 
-
-
+--_000_C6510F6D410BB64A8C15398EDC6B847C46A606D9ORSMSX101amrcor_--
