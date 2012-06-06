@@ -1,29 +1,27 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from masterfoo.zenlinux.com ([207.192.74.254])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1ScJHV-0001fM-L0
+	(envelope-from <scott.a.garman@intel.com>) id 1ScJSQ-0001yb-9D
 	for openembedded-core@lists.openembedded.org;
-	Wed, 06 Jun 2012 18:40:25 +0200
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 06 Jun 2012 09:29:57 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="108587687"
-Received: from unknown (HELO envy.home) ([10.255.12.60])
-	by AZSMGA002.ch.intel.com with ESMTP; 06 Jun 2012 09:29:56 -0700
-Message-ID: <4FCF8540.9000000@linux.intel.com>
-Date: Wed, 06 Jun 2012 09:28:48 -0700
-From: Darren Hart <dvhart@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
-MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <4FCE71F6.3060001@linux.intel.com>
-	<CAJTo0LawLH56WhV8KcXXKxzP6b4MnrpQHrkoQ2q2PJ3BR+-8OQ@mail.gmail.com>
-In-Reply-To: <CAJTo0LawLH56WhV8KcXXKxzP6b4MnrpQHrkoQ2q2PJ3BR+-8OQ@mail.gmail.com>
-X-Enigmail-Version: 1.4.2
-Cc: damien.lespiau@intel.com, "Wold, Saul" <saul.wold@intel.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: RFC: Braindump on Bootloaders, Image Types, and Installers
+	Wed, 06 Jun 2012 18:51:42 +0200
+Received: from localhost (c-50-137-42-92.hsd1.or.comcast.net [50.137.42.92])
+	(using TLSv1 with cipher DHE-RSA-AES128-SHA (128/128 bits))
+	(No client certificate requested)
+	by masterfoo.zenlinux.com (Postfix) with ESMTP id B88A530408
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  6 Jun 2012 12:41:09 -0400 (EDT)
+From: Scott Garman <scott.a.garman@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  6 Jun 2012 09:41:01 -0700
+Message-Id: <cover.1339000756.git.scott.a.garman@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+X-MasterFoo-MailScanner-Information: Please contact the ISP for more
+	information
+X-MailScanner-ID: B88A530408.A20C3
+X-MasterFoo-MailScanner: Found to be clean
+X-MasterFoo-MailScanner-SpamCheck: not spam
+X-MasterFoo-MailScanner-From: scott.a.garman@intel.com
+X-Spam-Status: No
+Subject: [PATCH 0/1] qemu WAN networking fix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,43 +36,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Jun 2012 16:40:25 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 06 Jun 2012 16:51:42 -0000
 
+Hello,
 
+This fix allows core-image-sato images to access the WAN.
 
-On 06/06/2012 05:39 AM, Burton, Ross wrote:
-> Hi,
-> 
-> On 5 June 2012 21:54, Darren Hart <dvhart@linux.intel.com> wrote:
->>  * Disk Image
->>    - create partitioned images (not just volume images)
->>    - intended to be written to USB sticks, MMC drives, or SATA disks
->>    - may require a script to assemble the image for specific target
->>      devices.
-> 
-> Can we get an option to specify the size of the target device?  I've a
-> 4GB stick that I'm using with .hddimg (being the lucky owner of a box
-> that actually boots them!) and it's sad to see the rootfs being only a
-> little bigger than the contents when there is about 3.5G of empty disk
-> space available.
+It should be applied to both oe-core master and the denzil branch.
 
-I believe this is a better fit for the diskimage type with proper
-partitions. I don't have data regarding performance of a loop mounted
-filesystem versus a proper block device, but my gut feel is that using
-block devices for large partitions will provide a better experience.
+Fixes Yocto bug #2329.
 
-If we did want to allow for the use of the entire disk, we should find a
-way to do so without bloating the image files themselves with empty
-filesystem space. Does anyone know if we can use sparse files to
-accomplish this with rootfs.img?
+Scott
 
-Thanks,
+The following changes since commit f8a054aca9962ebfd4c74fc1d34cd684de6b3568:
+
+  perl: Allow perl to cross build and native build in a directory named "t" (2012-06-05 23:02:20 +0100)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib sgarman/qemu-networking-fix
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgarman/qemu-networking-fix
+
+Scott Garman (1):
+  runqemu-ifup: enable arp proxying
+
+ scripts/runqemu-ifup |    1 +
+ 1 file changed, 1 insertion(+)
 
 -- 
-Darren Hart
-Intel Open Source Technology Center
-Yocto Project - Linux Kernel
+1.7.9.5
+
 
 
