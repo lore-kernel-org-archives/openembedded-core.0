@@ -1,26 +1,20 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Liezhi.Yang@windriver.com>) id 1ScCmt-0001qB-5z
+	(envelope-from <cristian.iorga@intel.com>) id 1ScD2X-0002gA-E4
 	for openembedded-core@lists.openembedded.org;
-	Wed, 06 Jun 2012 11:44:23 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q569XtxV006896
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 6 Jun 2012 02:33:55 -0700 (PDT)
-Received: from usp-ub10.corp.ad.wrs.com (128.224.163.69) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.1.255.0; Wed, 6 Jun 2012 02:33:55 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 6 Jun 2012 17:34:32 +0800
-Message-ID: <31994e4735ba2fa4a88f92bd02a1675a5c697b03.1338963552.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.1
-In-Reply-To: <cover.1338963552.git.liezhi.yang@windriver.com>
-References: <cover.1338963552.git.liezhi.yang@windriver.com>
-MIME-Version: 1.0
-Cc: Zhenfeng.Zhao@windriver.com
-Subject: [PATCH 5/5] pybootchartgui: Fix the filename and add a default format
+	Wed, 06 Jun 2012 12:00:33 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 06 Jun 2012 02:50:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="153615418"
+Received: from sentry (HELO localhost.localdomain) ([10.237.104.51])
+	by orsmga002.jf.intel.com with ESMTP; 06 Jun 2012 02:50:04 -0700
+From: Cristian Iorga <cristian.iorga@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  6 Jun 2012 12:50:34 +0300
+Message-Id: <1338976234-26916-1-git-send-email-cristian.iorga@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] telepathy-glib: update to 0.19.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,108 +29,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Jun 2012 09:44:23 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 06 Jun 2012 10:00:33 -0000
 
-* Fix teh output filename to make it easy to use
-* Add a default output format (svg)
-* Fix the usage message
-* Fix the version to v1.0.0
-
-Currently, the help messages are:
-
-$ ./pybootchartgui.py --help
-Usage: pybootchartgui.py [options] /path/to/tmp/buildstats/<recipe-machine>/<BUILDNAME>/
-
-Options:
-  --version             show program's version number and exit
-  -h, --help            show this help message and exit
-  -i, --interactive     start in active mode
-  -f FORMAT, --format=FORMAT
-                        image format: svg, pdf, png, [default: svg]
-  -o PATH, --output=PATH
-                        output path (file or directory) where charts are
-                        stored
-  -s NUM, --split=NUM   split the output chart into <NUM> charts, only works
-                        with "-o PATH"
-  -n, --no-prune        do not prune the process tree
-  -q, --quiet           suppress informational messages
-  --very-quiet          suppress all messages except errors
-  --verbose             print all messages
-
-[YOCTO #2403]
-
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
 ---
- scripts/pybootchartgui/pybootchartgui/main.py |   33 ++++++++++--------------
- 1 files changed, 14 insertions(+), 19 deletions(-)
+ ...thy-glib_0.18.1.bb => telepathy-glib_0.19.0.bb} |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-connectivity/telepathy/{telepathy-glib_0.18.1.bb => telepathy-glib_0.19.0.bb} (82%)
 
-diff --git a/scripts/pybootchartgui/pybootchartgui/main.py b/scripts/pybootchartgui/pybootchartgui/main.py
-index fce8dd3..e70ab13 100644
---- a/scripts/pybootchartgui/pybootchartgui/main.py
-+++ b/scripts/pybootchartgui/pybootchartgui/main.py
-@@ -8,13 +8,13 @@ import batch
+diff --git a/meta/recipes-connectivity/telepathy/telepathy-glib_0.18.1.bb b/meta/recipes-connectivity/telepathy/telepathy-glib_0.19.0.bb
+similarity index 82%
+rename from meta/recipes-connectivity/telepathy/telepathy-glib_0.18.1.bb
+rename to meta/recipes-connectivity/telepathy/telepathy-glib_0.19.0.bb
+index 81da5f8..6c4e12c 100644
+--- a/meta/recipes-connectivity/telepathy/telepathy-glib_0.18.1.bb
++++ b/meta/recipes-connectivity/telepathy/telepathy-glib_0.19.0.bb
+@@ -7,8 +7,8 @@ PR = "r0"
  
- def _mk_options_parser():
- 	"""Make an options parser."""
--	usage = "%prog [options] PATH, ..., PATH"
--	version = "%prog v0.0.0"
-+	usage = "%prog [options] /path/to/tmp/buildstats/<recipe-machine>/<BUILDNAME>/"
-+	version = "%prog v1.0.0"
- 	parser = optparse.OptionParser(usage, version=version)
- 	parser.add_option("-i", "--interactive", action="store_true", dest="interactive", default=False, 
- 			  help="start in active mode")
--	parser.add_option("-f", "--format", dest="format", default = None,
--			  help="image format (...); default format ...")
-+	parser.add_option("-f", "--format", dest="format", default="svg", choices=["svg", "pdf", "png"],
-+			  help="image format: svg, pdf, png, [default: %default]")
- 	parser.add_option("-o", "--output", dest="output", metavar="PATH", default=None,
- 			  help="output path (file or directory) where charts are stored")
- 	parser.add_option("-s", "--split", dest="num", type=int, default=1,
-@@ -29,20 +29,15 @@ def _mk_options_parser():
- 			  help="print all messages")
- 	return parser
+ SRC_URI = "http://telepathy.freedesktop.org/releases/telepathy-glib/${BPN}-${PV}.tar.gz"
  
--def _get_filename(paths, options):
--	"""Construct a usable filename for outputs based on the paths and options given on the commandline."""
--	dir = ""
-+def _get_filename(path):
-+	"""Construct a usable filename for outputs"""
-+	dir = "."
- 	file = "bootchart"
--	if options.output != None and not(os.path.isdir(options.output)):
--		return options.output
--	if options.output != None:
--		dir = options.output
--	if len(paths) == 1:
--		if os.path.isdir(paths[0]):
--			file = os.path.split(paths[0])[-1]
--		elif os.path.splitext(paths[0])[1] in [".tar", ".tgz", ".tar.gz"]:
--			file = os.path.splitext(paths[0])[0]
--	return os.path.join(dir, file + "." + options.format)
-+	if os.path.isdir(path):
-+		dir = path
-+	elif path != None:
-+		file = path
-+	return os.path.join(dir, file)
+-SRC_URI[md5sum] = "461732739e3fbf8467991bbe661fb29a"
+-SRC_URI[sha256sum] = "3738256689e34c22ddf9c4eb33f44ce7505c18fb1a14c53b8e56dd9c262f4c6d"
++SRC_URI[md5sum] = "a4a01b748b6b7134853a561228fe70e4"
++SRC_URI[sha256sum] = "f2ed6a5207cb579f6807f6f37d4d379a65208c3e094288e57655238b7afd3d66"
  
- def main(argv=None):
- 	try:
-@@ -57,10 +52,10 @@ def main(argv=None):
- 			return 2
+ LIC_FILES_CHKSUM = "file://COPYING;md5=e413d83db6ee8f2c8e6055719096a48e"
  
- 		res = parsing.parse(args, options.prune)
--		if options.interactive or options.format == None:
-+		if options.interactive or options.output == None:
- 			gui.show(res)
- 		else:
--			filename = _get_filename(args, options)
-+			filename = _get_filename(options.output)
- 			res_list = parsing.split_res(res, options.num)
- 			n = 1
- 			for r in res_list:
 -- 
-1.7.1
+1.7.9.5
 
 
 
