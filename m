@@ -1,20 +1,24 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1ScJ4D-0001Mw-Sh
+	(envelope-from <scott.a.garman@intel.com>) id 1ScJ4E-0001Mw-Ko
 	for openembedded-core@lists.openembedded.org;
 	Wed, 06 Jun 2012 18:26:42 +0200
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
 	by orsmga101.jf.intel.com with ESMTP; 06 Jun 2012 09:15:08 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="153769516"
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="153769517"
 Received: from sgarman-ws.jf.intel.com ([10.7.199.160])
 	by orsmga002.jf.intel.com with ESMTP; 06 Jun 2012 09:15:08 -0700
 From: Scott Garman <scott.a.garman@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  6 Jun 2012 09:14:40 -0700
-Message-Id: <cover.1338999174.git.scott.a.garman@intel.com>
+Date: Wed,  6 Jun 2012 09:14:41 -0700
+Message-Id: <7d0e6a9be9d32f333f3819daec44a5b6d67ceadb.1338999174.git.scott.a.garman@intel.com>
 X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH 0/1] tcmode-default.inc fix
+In-Reply-To: <cover.1338999174.git.scott.a.garman@intel.com>
+References: <cover.1338999174.git.scott.a.garman@intel.com>
+In-Reply-To: <cover.1338999174.git.scott.a.garman@intel.com>
+References: <cover.1338999174.git.scott.a.garman@intel.com>
+Subject: [PATCH 1/1] tcmode-default.inc: use ${EGLIBCVERSION} in PREFERRED_VERSION definitions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,29 +35,31 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 06 Jun 2012 16:26:42 -0000
 
-Hello,
+Remove hard-coded values and replace with ${EGLIBCVERSION}.
 
-This pull request is for the denzil branch. It's a bugfix for
-Yocto #2503.
+This fixes [YOCTO #2503]
 
-Scott
-
-The following changes since commit d7bf94647f17c0382caad8af0bdda837b14b22dc:
-
-  fotowall: Add #include ui_wizard.h to ExportWizard.cpp (2012-05-16 16:20:31 -0700)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib sgarman/eglibc-pref-fix
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgarman/eglibc-pref-fix
-
-Scott Garman (1):
-  tcmode-default.inc: use ${EGLIBCVERSION} in PREFERRED_VERSION
-    definitions
-
+Signed-off-by: Scott Garman <scott.a.garman@intel.com>
+---
  meta/conf/distro/include/tcmode-default.inc |    4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
+diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
+index 3dc0932..b481163 100644
+--- a/meta/conf/distro/include/tcmode-default.inc
++++ b/meta/conf/distro/include/tcmode-default.inc
+@@ -44,9 +44,9 @@ PREFERRED_VERSION_linux-libc-headers ?= "${LINUXLIBCVERSION}"
+ PREFERRED_VERSION_linux-libc-headers-nativesdk ?= "${LINUXLIBCVERSION}"
+ PREFERRED_VERSION_eglibc                   ?= "${EGLIBCVERSION}"
+ PREFERRED_VERSION_eglibc-locale            ?= "${EGLIBCVERSION}"
+-PREFERRED_VERSION_eglibc-nativesdk         ?= "2.15"
++PREFERRED_VERSION_eglibc-nativesdk         ?= "${EGLIBCVERSION}"
+ PREFERRED_VERSION_eglibc-initial           ?= "${EGLIBCVERSION}"
+-PREFERRED_VERSION_eglibc-initial-nativesdk ?= "2.15"
++PREFERRED_VERSION_eglibc-initial-nativesdk ?= "${EGLIBCVERSION}"
+ PREFERRED_VERSION_cross-localedef-native   ?= "${EGLIBCVERSION}"
+ PREFERRED_VERSION_uclibc                   ?= "${UCLIBCVERSION}"
+ PREFERRED_VERSION_uclibc-initial           ?= "${UCLIBCVERSION}"
 -- 
 1.7.9.5
 
