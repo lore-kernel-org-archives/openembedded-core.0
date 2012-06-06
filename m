@@ -1,26 +1,24 @@
-Received: from smtplq-out14.aruba.it ([62.149.158.34] helo=smtplq01.aruba.it)
-	by linuxtogo.org with smtp (Exim 4.72)
-	(envelope-from <stefano@supergenesis.it>) id 1ScBWT-00042Q-FL
+Received: from mail1.windriver.com ([147.11.146.13])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <Liezhi.Yang@windriver.com>) id 1ScCmn-0001pO-9l
 	for openembedded-core@lists.openembedded.org;
-	Wed, 06 Jun 2012 10:23:21 +0200
-Received: (qmail 11011 invoked by uid 89); 6 Jun 2012 08:12:52 -0000
-Received: from unknown (HELO smtp6.aruba.it) (62.149.158.226)
-	by smtplq01.aruba.it with SMTP; 6 Jun 2012 08:12:52 -0000
-Received: (qmail 3118 invoked by uid 89); 6 Jun 2012 08:12:52 -0000
-Received: from unknown (HELO ?192.168.0.20?)
-	(stefano@supergenesis.it@151.65.12.244)
-	by smtp6.ad.aruba.it with SMTP; 6 Jun 2012 08:12:51 -0000
-Message-ID: <4FCF10F9.9070507@supergenesis.it>
-Date: Wed, 06 Jun 2012 10:12:41 +0200
-From: Stefano <stefano@supergenesis.it>
-User-Agent: Mozilla/5.0 (Windows NT 5.1;
-	rv:13.0) Gecko/20120604 Thunderbird/13.0
+	Wed, 06 Jun 2012 11:44:17 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q569XmEM002548
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 6 Jun 2012 02:33:48 -0700 (PDT)
+Received: from usp-ub10.corp.ad.wrs.com (128.224.163.69) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.1.255.0; Wed, 6 Jun 2012 02:33:47 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 6 Jun 2012 17:34:27 +0800
+Message-ID: <cover.1338963552.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.1
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Spam-Rating: smtp6.ad.aruba.it 1.6.2 0/1000/N
-X-Spam-Rating: smtplq01.aruba.it 1.6.2 0/1000/N
-Subject: qt embedded enable plugin-gfx-powervr
+Cc: Zhenfeng.Zhao@windriver.com
+Subject: [PATCH 0/5] pybootchartgui: make the build profiling in pictures
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,43 +33,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Jun 2012 08:23:21 -0000
-Content-Type: text/plain; charset=ISO-8859-15; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 06 Jun 2012 09:44:17 -0000
+Content-Type: text/plain
 
-This the result of ldd on libqgfxpvregl.so
+Note: Removed the patch details for PATCH 1/5 and 2/5 since they are too
+      big(bigger than 2M) to send via email, please fetch the patch via
+      the git repo
 
-ldd libqgfxpvregl.so
+// Robert
 
-libpvrQWSWSEGL.so.1 => /usr/lib/libpvrQWSWSEGL.so.1 (0x4011b000)
-libQtOpenGLE.so.4 => /usr/lib/libQtOpenGLE.so.4 (0x40126000)
-libQtGuiE.so.4 => /usr/lib/libQtGuiE.so.4 (0x401ac000)
-libEGL.so => /usr/lib/libEGL.so (0x40ac6000)
-libQtCoreE.so.4 => /usr/lib/libQtCoreE.so.4 (0x40ad0000)
-libpthread.so.0 => /lib/libpthread.so.0 (0x400a3000)
-libstdc++.so.6 => /usr/lib/libstdc++.so.6 (0x40ddc000)
-libgcc_s.so.1 => /lib/libgcc_s.so.1 (0x400cc000)
-libc.so.6 => /lib/libc.so.6 (0x40e9f000)
-libpvr2d.so => /usr/lib/libpvr2d.so (0x400e9000)
-libGLESv2.so => /usr/lib/libGLESv2.so (0x40fca000)
-libm.so.6 => /lib/libm.so.6 (0x4101c000)
-libQtNetworkE.so.4 => /usr/lib/libQtNetworkE.so.4 (0x4108d000)
-libglib-2.0.so.0 => /usr/lib/libglib-2.0.so.0 (0x411c2000)
-libpng12.so.0 => /usr/lib/libpng12.so.0 (0x412a8000)
-libz.so.1 => /usr/lib/libz.so.1 (0x40075000)
-libfreetype.so.6 => /usr/lib/libfreetype.so.6 (0x412ce000)
-libIMGegl.so => /usr/lib/libIMGegl.so (0x400f6000)
-libdl.so.2 => /lib/libdl.so.2 (0x4010d000)
-libgthread-2.0.so.0 => /usr/lib/libgthread-2.0.so.0 (0x41347000)
-librt.so.1 => /lib/librt.so.1 (0x41353000)
-/lib/ld-linux.so.3 (0x4004f000)
-libsrv_um.so => /usr/lib/libsrv_um.so (0x41362000)
+The following changes since commit df8f55a919b3cc602ce1f1c51630c7edf6e36b55:
 
-Look like correct...
+  ltp: Add patch to correct failing build (2012-06-05 23:05:00 +0100)
 
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib robert/chart
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=robert/chart
 
+Robert Yang (5):
+  pybootchartgui: add the original code
+  pybootchartgui: remove the original examples
+  pybootchartgui: make the build profiling in pictures
+  pybootchartgui: split the output chart into multiple ones
+  pybootchartgui: Fix the filename and add a default format
 
-
+ scripts/pybootchartgui/AUTHORS                     |   11 +
+ scripts/pybootchartgui/COPYING                     |  674 ++++++++++++++++++++
+ scripts/pybootchartgui/README                      |   36 +
+ scripts/pybootchartgui/pybootchartgui.py           |    7 +
+ scripts/pybootchartgui/pybootchartgui/batch.py     |   23 +
+ scripts/pybootchartgui/pybootchartgui/draw.py      |  408 ++++++++++++
+ scripts/pybootchartgui/pybootchartgui/gui.py       |  273 ++++++++
+ scripts/pybootchartgui/pybootchartgui/main.py      |   76 +++
+ scripts/pybootchartgui/pybootchartgui/parsing.py   |  264 ++++++++
+ .../pybootchartgui/pybootchartgui/process_tree.py  |  270 ++++++++
+ scripts/pybootchartgui/pybootchartgui/samples.py   |   93 +++
+ .../pybootchartgui/tests/parser_test.py            |   93 +++
+ .../pybootchartgui/tests/process_tree_test.py      |   78 +++
+ 13 files changed, 2306 insertions(+), 0 deletions(-)
+ create mode 100644 scripts/pybootchartgui/AUTHORS
+ create mode 100644 scripts/pybootchartgui/COPYING
+ create mode 100644 scripts/pybootchartgui/README
+ create mode 100755 scripts/pybootchartgui/pybootchartgui.py
+ create mode 100644 scripts/pybootchartgui/pybootchartgui/__init__.py
+ create mode 100644 scripts/pybootchartgui/pybootchartgui/batch.py
+ create mode 100644 scripts/pybootchartgui/pybootchartgui/draw.py
+ create mode 100644 scripts/pybootchartgui/pybootchartgui/gui.py
+ create mode 100644 scripts/pybootchartgui/pybootchartgui/main.py
+ create mode 100644 scripts/pybootchartgui/pybootchartgui/parsing.py
+ create mode 100644 scripts/pybootchartgui/pybootchartgui/process_tree.py
+ create mode 100644 scripts/pybootchartgui/pybootchartgui/samples.py
+ create mode 100644 scripts/pybootchartgui/pybootchartgui/tests/parser_test.py
+ create mode 100644 scripts/pybootchartgui/pybootchartgui/tests/process_tree_test.py
 
 
 
