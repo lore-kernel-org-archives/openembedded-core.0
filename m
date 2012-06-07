@@ -1,28 +1,20 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1ScbbU-0004Vy-Tj
+	(envelope-from <sgw@linux.intel.com>) id 1SccER-0005Zp-W6
 	for openembedded-core@lists.openembedded.org;
-	Thu, 07 Jun 2012 14:14:17 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 07 Jun 2012 05:03:47 -0700
+	Thu, 07 Jun 2012 14:54:32 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 07 Jun 2012 05:44:01 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="149407856"
-Received: from unknown (HELO [10.255.12.197]) ([10.255.12.197])
-	by orsmga001.jf.intel.com with ESMTP; 07 Jun 2012 05:03:46 -0700
-Message-ID: <4FD098A1.3020105@linux.intel.com>
-Date: Thu, 07 Jun 2012 05:03:45 -0700
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="109002131"
+Received: from unknown (HELO swold-mobl.amr.corp.intel.com) ([10.255.12.197])
+	by AZSMGA002.ch.intel.com with ESMTP; 07 Jun 2012 05:44:00 -0700
 From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
-MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1339051007.git.liezhi.yang@windriver.com>
-	<5f256583bca8c2d4225c379cc9b7ca23f374dcdc.1339051007.git.liezhi.yang@windriver.com>
-	<20120607093144.GF3140@jama.jama.net>
-In-Reply-To: <20120607093144.GF3140@jama.jama.net>
-Cc: Martin Jansa <martin.jansa@gmail.com>, Zhenfeng.Zhao@windriver.com
-Subject: Re: [PATCH 1/1] opkg 0.1.8: do_fetch failed since no checksum specified
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  7 Jun 2012 05:43:59 -0700
+Message-Id: <cover.1339072931.git.sgw@linux.intel.com>
+X-Mailer: git-send-email 1.7.7.6
+Subject: [RFC v2 00/33] Package Reodering - Cover Letter ONLY
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,110 +29,123 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Jun 2012 12:14:17 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 07 Jun 2012 12:54:32 -0000
 
-On 06/07/2012 02:31 AM, Martin Jansa wrote:
-> On Thu, Jun 07, 2012 at 05:24:39PM +0800, Robert Yang wrote:
->> * We use meta/recipes-devtools/opkg/opkg_svn.bb by default, the
->>    opkg_0.1.8.bb failed since no checksum specified.
->>
->> * The add_vercmp.patch in both opkg/ and opkg-0.1.8/, remove the one
->>    in opkg-0.1.8/
->>
->> This patch doesn't impact the output, so I think that we don't have to
->> increment the PR.
->>
->> [YOCTO #2498]
->>
->> Signed-off-by: Robert Yang<liezhi.yang@windriver.com>
->> ---
->>   .../opkg/opkg-0.1.8/add_vercmp.patch               |   36 --------------------
->>   meta/recipes-devtools/opkg/opkg_0.1.8.bb           |    5 ++-
->>   2 files changed, 4 insertions(+), 37 deletions(-)
->>   delete mode 100644 meta/recipes-devtools/opkg/opkg-0.1.8/add_vercmp.patch
->>
->> diff --git a/meta/recipes-devtools/opkg/opkg-0.1.8/add_vercmp.patch b/meta/recipes-devtools/opkg/opkg-0.1.8/add_vercmp.patch
->> deleted file mode 100644
->> index c3396d5..0000000
->> --- a/meta/recipes-devtools/opkg/opkg-0.1.8/add_vercmp.patch
->> +++ /dev/null
->> @@ -1,36 +0,0 @@
->> -Upstream-Status: Inappropriate [other]
->> -
->> -Index: trunk/libopkg/opkg.c
->> -===================================================================
->> ---- trunk.orig/libopkg/opkg.c	2010-01-26 20:32:19.000000000 +0000
->> -+++ trunk/libopkg/opkg.c	2010-01-26 20:40:34.000000000 +0000
->> -@@ -876,3 +876,18 @@
->> -
->> - 	return ret;
->> - }
->> -+
->> -+int
->> -+opkg_compare_versions (const char *ver1, const char *ver2)
->> -+{
->> -+  pkg_t *pkg1, *pkg2;
->> -+
->> -+  pkg1 = pkg_new();
->> -+  pkg2 = pkg_new();
->> -+
->> -+  parse_version(pkg1, ver1);
->> -+  parse_version(pkg2, ver2);
->> -+
->> -+  return pkg_compare_versions(pkg1, pkg2);
->> -+}
->> -+
->> -Index: trunk/libopkg/opkg.h
->> -===================================================================
->> ---- trunk.orig/libopkg/opkg.h	2010-01-26 20:32:19.000000000 +0000
->> -+++ trunk/libopkg/opkg.h	2010-01-26 20:35:19.000000000 +0000
->> -@@ -58,4 +58,6 @@
->> -
->> - int opkg_repository_accessibility_check(void);
->> -
->> -+int opkg_compare_versions (const char *ver1, const char *ver2);
->> -+
->> - #endif /* OPKG_H */
->> diff --git a/meta/recipes-devtools/opkg/opkg_0.1.8.bb b/meta/recipes-devtools/opkg/opkg_0.1.8.bb
->> index c206b37..785b6ca 100644
->> --- a/meta/recipes-devtools/opkg/opkg_0.1.8.bb
->> +++ b/meta/recipes-devtools/opkg/opkg_0.1.8.bb
->> @@ -1,8 +1,11 @@
->>   require opkg.inc
->>
->>   SRC_URI = "http://opkg.googlecode.com/files/opkg-${PV}.tar.gz \
->> -           file://add_vercmp.patch \
->> +           file://opkg/add_vercmp.patch \
->
-> is this "opkg/" really needed?
->
-If it's getting removed, is it needed at all?
+Folks,
+
+This is round 2 of the reorder of the PACKAGE list by moving
+PN to the end of the list.  There were a number of direct changes
+that occurred, I am still evaluating the buildhistory results as
+I have been travelling.
+
+I am just attaching the list of change and repo instead of flooding
+this list with all 33 changes.
+
+In addition to reorder, I have cleaned up the binconfig and lib_package
+classes almost to the point that we could remove lib_package and
+replace it with a line in each recipe to add the PN-bin to each recipe
+(or leave lib_package as is).
+
+Biggest concern I still have is which packages will also need general
+PR bumps, I am working on solving this, but it might just mean a full
+set of PR bumps.
+
+This buildhistory can be review at poky-contrib/sgw/repack-buildhistory
+
+Thanks for your review time.
 
 Sau!
 
->>              file://headerfix.patch \
->>             "
->>
->> +SRC_URI[md5sum] = "c714ce0e4863bf1315e3b6913ffe3299"
->> +SRC_URI[sha256sum] = "ff94bf30bd662d49c4b5057e3a0818d062731adaa555d59abd677ec32a3c1c60"
->> +
->>   PR = "${INC_PR}.0"
->> --
->> 1.7.1
->>
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+
+The following changes since commit f8a054aca9962ebfd4c74fc1d34cd684de6b3568:
+
+  perl: Allow perl to cross build and native build in a directory named "t" (2012-06-05 23:02:20 +0100)
+
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib sgw/repack
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/repack
+
+Saul Wold (33):
+  package.bbclass: convert warning to error
+  bitbake.conf: reorder PACKAGES list
+  binconfig: add *-config files to the -dev package
+  lib_package: remove the -dev list
+  bitbake.conf: add PN-bin and cleanup lib_package.bbclass
+  pmutils: reorder file for correctness
+  eglibc-package: Update PACKAGES and files based on new ordering
+  taglib: correct location of taglib-config to -dev
+  pth: clean-up FILES list due to PACKAGE reorder
+  libusb-compat: clean up FILE after PACKAGE reorder
+  libproxy: clean up FILE after PACKAGE reorder
+  libpcre: clean up FILE after PACKAGE reorder
+  libgpg-error: clean up FILE after PACKAGE reorder
+  libgcrypt: clean up FILE after PACKAGE reorder
+  gpgme: clean up FILE after PACKAGE reorder
+  gnutls: clean up FILE after PACKAGE reorder
+  db: clean up FILE after PACKAGE reorder
+  libpng: clean up FILE after PACKAGE reorder
+  libxml2: clean up FILE after PACKAGE reorder
+  groff: clean up FILE after PACKAGE reorder
+  icu: clean up FILE after PACKAGE reorder
+  gettext: clean up FILE after PACKAGE reorder
+  cups: clean up FILE after PACKAGE reorder
+  procps: clean up FILE after PACKAGE reorder
+  gnome-keyring: clean up FILE after PACKAGE reorder
+  slang: clean up FILE after PACKAGE reorder
+  gthumb: clean up FILE after PACKAGE reorder
+  freetype: clean up FILE after PACKAGE reorder
+  gtk-sato-engine: clean up FILE after PACKAGE reorder
+  libidn: clean up FILE after PACKAGE reorder
+  lttng-viewer: clean up FILE after PACKAGE reorder
+  js: clean up FILE after PACKAGE reorder
+  webkit-gtk: remove /usr/libexec since it's empty
+
+ meta/classes/binconfig.bbclass                     |    2 ++
+ meta/classes/lib_package.bbclass                   |   11 +----------
+ meta/classes/package.bbclass                       |    4 ++--
+ meta/conf/bitbake.conf                             |   10 +++++++---
+ meta/recipes-bsp/pm-utils/pm-utils_1.4.1.bb        |   11 +++++++----
+ meta/recipes-core/eglibc/eglibc-package.inc        |    8 ++++----
+ meta/recipes-core/eglibc/eglibc_2.15.bb            |    2 +-
+ meta/recipes-core/gettext/gettext_0.16.1.bb        |    3 ++-
+ meta/recipes-core/gettext/gettext_0.18.1.1.bb      |    4 +++-
+ meta/recipes-core/libxml/libxml2.inc               |    2 +-
+ meta/recipes-devtools/elfutils/elfutils_0.148.bb   |   12 ++++++++----
+ meta/recipes-extended/cups/cups14.inc              |    1 +
+ meta/recipes-extended/cups/cups_1.4.6.bb           |    2 +-
+ meta/recipes-extended/groff/groff_1.20.1.bb        |    4 +++-
+ meta/recipes-extended/libidn/libidn_0.6.14.bb      |    6 +++++-
+ meta/recipes-extended/libidn/libidn_1.24.bb        |    3 ++-
+ meta/recipes-extended/procps/procps.inc            |    6 ++++--
+ meta/recipes-extended/procps/procps_3.2.8.bb       |    2 +-
+ meta/recipes-extended/slang/slang_2.2.4.bb         |    4 ++--
+ meta/recipes-gnome/gnome/gnome-keyring_2.32.1.bb   |   14 ++++++++++----
+ meta/recipes-gnome/gthumb/gthumb_2.12.4.bb         |   12 ++++++++----
+ meta/recipes-graphics/freetype/freetype_2.4.8.bb   |    5 +----
+ meta/recipes-kernel/lttng/lttng-viewer_0.12.38.bb  |    3 ++-
+ meta/recipes-multimedia/alsa/alsa-lib_1.0.25.bb    |    6 ++++--
+ meta/recipes-multimedia/libpng/libpng_1.2.49.bb    |    4 +---
+ meta/recipes-sato/gtk-engines/gtk-sato-engine.inc  |    2 +-
+ .../gtk-engines/gtk-sato-engine_git.bb             |    2 +-
+ meta/recipes-sato/webkit/webkit-gtk_svn.bb         |    6 +++++-
+ meta/recipes-support/db/db_5.1.19.bb               |   13 ++++++-------
+ meta/recipes-support/gnutls/gnutls.inc             |    5 ++---
+ meta/recipes-support/gpgme/gpgme_1.3.1.bb          |    5 ++---
+ meta/recipes-support/icu/icu-3.6.inc               |    2 ++
+ meta/recipes-support/icu/icu_3.6.bb                |    2 +-
+ meta/recipes-support/js/js_1.7.0+1.8.0rc1.bb       |    3 ++-
+ meta/recipes-support/libgcrypt/libgcrypt.inc       |    4 ----
+ meta/recipes-support/libgcrypt/libgcrypt_1.5.0.bb  |    2 +-
+ .../libgpg-error/libgpg-error_1.10.bb              |    6 +-----
+ meta/recipes-support/libpcre/libpcre_8.21.bb       |    5 +----
+ meta/recipes-support/libproxy/libproxy_0.4.7.bb    |    3 ++-
+ meta/recipes-support/libusb/libusb-compat_0.1.3.bb |    4 +---
+ meta/recipes-support/pth/pth_2.0.7.bb              |    5 +----
+ meta/recipes-support/taglib/taglib_1.6.3.bb        |    3 +--
+ 42 files changed, 113 insertions(+), 100 deletions(-)
+
+-- 
+1.7.7.6
+
 
 
