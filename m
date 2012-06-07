@@ -1,42 +1,42 @@
-Received: from mga10.intel.com ([192.55.52.92] helo=fmsmga102.fm.intel.com)
+Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1Scdjj-0005r9-CT
+	(envelope-from <ross.burton@intel.com>) id 1Scdjl-0005rH-3S
 	for openembedded-core@lists.openembedded.org;
-	Thu, 07 Jun 2012 16:30:55 +0200
-Received: from mail-wg0-f44.google.com ([74.125.82.44])
-	by mga11.intel.com with ESMTP/TLS/RC4-SHA; 07 Jun 2012 07:20:25 -0700
-Received: by wgbdr13 with SMTP id dr13so387209wgb.13
+	Thu, 07 Jun 2012 16:30:57 +0200
+Received: from mail-wi0-f172.google.com ([209.85.212.172])
+	by mga03.intel.com with ESMTP/TLS/RC4-SHA; 07 Jun 2012 07:20:26 -0700
+Received: by wibhj8 with SMTP id hj8so230203wib.13
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 07 Jun 2012 07:20:23 -0700 (PDT)
+	Thu, 07 Jun 2012 07:20:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
 	:in-reply-to:references:x-gm-message-state;
-	bh=XF3rIfyPmUev5whBkbNlL6e4B7TgaTgT2xVcp9Gqq80=;
-	b=Q8AG2EI7PF6ZCfYXpeoMgRFOCfRm2KOrGb4xpNyQ7T5hCcsZGMpk9k2Nnlcm4XJ2Pe
-	uGxYJq1Yu7uWD05AWdX/33WgIB7diOF5SH1Z8Bs6ZLqBcb3lrlPwBlE8W4M4cKvU7/WA
-	beuESiZkyzv5oCJvgnxQVSVJLkLg/iPb+35SpJEJUdjanTEnFJyL3SaxCC6+hvgGR9xF
-	Qxk11LMUzADJnT/sblMcQlvs0gCKwM9oAk3qw5qiZtkUw/CK7C/rdaBrxfzEaj9Iu4Mj
-	49ccnkT/TuOq6UjUXPKkHr9BCf4kacwOubhrWAzDyhKM5lVHfTNAWk+zHcj0wYPgJW6x
-	yA1Q==
-Received: by 10.216.144.145 with SMTP id n17mr1026357wej.101.1339078823337;
-	Thu, 07 Jun 2012 07:20:23 -0700 (PDT)
+	bh=eQQNIzy3XMWDdnsKOWOvolTEeiW4C2TdWJUDUYF5Td0=;
+	b=mvYSf1D2bsB08ikw/TNiu/jsSfT3eDN16gmKs4IeqbkVrr6H5snUKB4iZLjgsTPgPe
+	Q8UAnJAqOX8IZEV8/utABu1UCNZYIVA4wqQtJE0T5FEC96lj5VroTt+E4JjLnQx3opDu
+	3KPC9HJI3YxeiBIrGQyHWeduFBmUIrXLAOGhPjZNMUiiD5F9e8YoIJ1rf61Uj9I11QFQ
+	Y+6tfZGGdVPmxrq4JqDMc71bQ3y1kNe/aVeW9i+9pN1EgZJkTUopmWeU8T8SzBt3mRmL
+	y/XyWbugfd1QMNfAfZ9zQ1MfEm6GXUCQgcO+1MlXiTYf8Tzt26ACtfnu7t+J10VRHWRO
+	srCA==
+Received: by 10.216.196.72 with SMTP id q50mr1052946wen.90.1339078824902;
+	Thu, 07 Jun 2012 07:20:24 -0700 (PDT)
 Received: from localhost.localdomain (35.106.2.81.in-addr.arpa. [81.2.106.35])
 	by mx.google.com with ESMTPS id
-	eb8sm1341625wib.11.2012.06.07.07.20.21
+	eb8sm1341625wib.11.2012.06.07.07.20.23
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 07 Jun 2012 07:20:22 -0700 (PDT)
+	Thu, 07 Jun 2012 07:20:23 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  7 Jun 2012 15:19:36 +0100
-Message-Id: <5afc9f367cc3224e82bbe59fe9bda14f504b45c0.1339078729.git.ross.burton@intel.com>
+Date: Thu,  7 Jun 2012 15:19:37 +0100
+Message-Id: <031b27b3ca07c964ef3c5dc403807ba13d9763fc.1339078729.git.ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <cover.1339078729.git.ross.burton@intel.com>
 References: <cover.1339078729.git.ross.burton@intel.com>
 In-Reply-To: <cover.1339078729.git.ross.burton@intel.com>
 References: <cover.1339078729.git.ross.burton@intel.com>
-X-Gm-Message-State: ALoCoQleP85oG1Z5R/xGoHfPaL+P4UjJzs7uK+x/zcBXNrzb4QU6WsunRCPomG/ZvFKKVSHpZt5G
-Subject: [PATCH 1/3] connman: respect the 3g feature and enable/disable ofono support
+X-Gm-Message-State: ALoCoQnF8eYQsxPlGqSFLuAx47EbYFc1aq/YxcGSHHLC7yE4GKEXNaj44Iuwg8qAB+PWc2aDc1dn
+Subject: [PATCH 2/3] connman: Document the ACL-breaking sed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -51,37 +51,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Jun 2012 14:30:55 -0000
-
-[YOCTO #2357]
+X-List-Received-Date: Thu, 07 Jun 2012 14:30:57 -0000
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-connectivity/connman/connman.inc |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-connectivity/connman/connman.inc |    3 +++
+ 1 files changed, 3 insertions(+), 0 deletions(-)
 
 diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipes-connectivity/connman/connman.inc
-index f2da8d9..58e3f56 100644
+index 58e3f56..4fb7b43 100644
 --- a/meta/recipes-connectivity/connman/connman.inc
 +++ b/meta/recipes-connectivity/connman/connman.inc
-@@ -17,7 +17,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e \
- DEPENDS  = "dbus glib-2.0 ppp iptables gnutls \
-             ${@base_contains('DISTRO_FEATURES', 'bluetooth','bluez4', '', d)} \
-             ${@base_contains('DISTRO_FEATURES', 'wifi','wpa-supplicant', '', d)} \
--            ofono \
-+            ${@base_contains('DISTRO_FEATURES', '3g','ofono', '', d)} \
-             "
+@@ -53,6 +53,9 @@ USERADD_PARAM_${PN} = "--system --no-create-home \
  
- TIST = "--enable-tist"
-@@ -34,7 +34,7 @@ EXTRA_OECONF += "\
-     ${@base_contains('DISTRO_FEATURES', 'wifi','--enable-wifi ${TIST}', '--disable-wifi', d)} \
-     ${@base_contains('DISTRO_FEATURES', 'bluetooth','--enable-bluetooth ${TIST}', '--disable-bluetooth', d)} \
-     --enable-dnsproxy \
--    --enable-ofono \
-+    ${@base_contains('DISTRO_FEATURES', '3g', '', '--disable-ofono', d)} \
-     --enable-tools \
-     --enable-test \
-     --disable-polkit \
+ inherit autotools pkgconfig update-rc.d useradd
+ 
++# This allows *everyone* to access ConnMan over DBus, without any access
++# control.  Really the at_console flag should work, which would mean that
++# both this and the xuser patch can be dropped.
+ do_compile_append() {
+ 	sed -i -e s:deny:allow:g src/connman-dbus.conf
+ }
 -- 
 1.7.7.6
 
