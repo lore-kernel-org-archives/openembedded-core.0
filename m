@@ -1,16 +1,16 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@windriver.com>) id 1Scj2a-0004qz-0o
+	(envelope-from <bruce.ashfield@windriver.com>) id 1Scj2b-0004r8-8T
 	for openembedded-core@lists.openembedded.org;
-	Thu, 07 Jun 2012 22:10:44 +0200
+	Thu, 07 Jun 2012 22:10:45 +0200
 Received: from yow-bashfiel-l1.wrs.com (yow-bashfiel-d3.wrs.com
 	[128.224.147.67])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q57K07Db018923;
-	Thu, 7 Jun 2012 13:00:12 -0700 (PDT)
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q57K07Dc018923;
+	Thu, 7 Jun 2012 13:00:13 -0700 (PDT)
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 To: richard.purdie@linuxfoundation.org
-Date: Thu,  7 Jun 2012 15:59:46 -0400
-Message-Id: <2875567db058ee803c57ad4ca6d61e9d7b270411.1339098507.git.bruce.ashfield@windriver.com>
+Date: Thu,  7 Jun 2012 15:59:47 -0400
+Message-Id: <aa7a41ce0da88bacb6261af9a1a442eadb65b051.1339098507.git.bruce.ashfield@windriver.com>
 X-Mailer: git-send-email 1.7.5.4
 In-Reply-To: <cover.1339098507.git.bruce.ashfield@windriver.com>
 References: <cover.1339098507.git.bruce.ashfield@windriver.com>
@@ -18,7 +18,7 @@ In-Reply-To: <cover.1339098507.git.bruce.ashfield@windriver.com>
 References: <cover.1339098507.git.bruce.ashfield@windriver.com>
 Cc: dvhart@linux.intel.com, openembedded-core@lists.openembedded.org,
 	saul.wold@intel.com
-Subject: [PATCH 5/9] linux-yocto: add machine aliases for yocto BSPs
+Subject: [PATCH 6/9] linux-yocto: add 3.4 recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,156 +33,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Jun 2012 20:10:44 -0000
+X-List-Received-Date: Thu, 07 Jun 2012 20:10:45 -0000
 
-To avoid mapping machine names to kernel machine names in recipes,
-we can define multiple KMACHINE names for a single in tree board.
-This allows the tools to match a board description to multiple
-different MACHINEs.
+Introducing the 3.4 kernel recipe. At this point there are three
+supported kernel 3.4, 3.2 and 3.0.
 
-As a result, we can remove the explicit KMACHINE mappings from
-the linux-yocto recipes and allow the KMACHINE=${MACHINE} default
-to handle mappings. Individual recipes an bbappends can override
-this as required.
+Build and boot tested on qemux86, qemux86-64, qemuarm, qemumips and
+qemuppc
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 ---
- meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb   |    9 +--------
- meta/recipes-kernel/linux/linux-yocto-rt_3.2.bb   |    9 +--------
- meta/recipes-kernel/linux/linux-yocto-tiny_3.2.bb |    3 +--
- meta/recipes-kernel/linux/linux-yocto_3.0.bb      |    9 +--------
- meta/recipes-kernel/linux/linux-yocto_3.2.bb      |    9 +--------
- 5 files changed, 5 insertions(+), 34 deletions(-)
+ meta/recipes-kernel/linux/linux-yocto_3.4.bb |   38 ++++++++++++++++++++++++++
+ 1 files changed, 38 insertions(+), 0 deletions(-)
+ create mode 100644 meta/recipes-kernel/linux/linux-yocto_3.4.bb
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb b/meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb
-index 929aa85..508beb1 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb
-@@ -1,13 +1,6 @@
- inherit kernel
- require recipes-kernel/linux/linux-yocto.inc
- 
--KMACHINE = "common-pc"
--KMACHINE_qemux86  = "common-pc"
--KMACHINE_qemux86-64  = "common-pc-64"
--KMACHINE_qemuarm  = "arm-versatile-926ejs"
--KMACHINE_qemuppc  = "qemu-ppc32"
--KMACHINE_qemumips = "mti-malta32-be"
--
- KBRANCH = "yocto/standard/preempt-rt/base"
- KBRANCH_qemuppc = "yocto/standard/preempt-rt/qemu-ppc32"
- 
-@@ -17,7 +10,7 @@ KMETA = "meta"
- 
- SRCREV_machine ?= "e67428d9966eecec4c081993dc64ceb5c0e64643"
- SRCREV_machine_qemuppc ?= "dcca458cb92cc287f70e4062f02460f36a881b16"
--SRCREV_meta ?= "34e0d2b4b4e9778b31f9ea99ca43f0dc71a7ee23"
-+SRCREV_meta ?= "b040132c19d70b00fc49f3b7e08c2ed52ac59f92"
- 
- PR = "r2"
- PV = "${LINUX_VERSION}+git${SRCPV}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.2.bb b/meta/recipes-kernel/linux/linux-yocto-rt_3.2.bb
-index f881c1f..f27e39e 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_3.2.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.2.bb
-@@ -1,13 +1,6 @@
- inherit kernel
- require recipes-kernel/linux/linux-yocto.inc
- 
--KMACHINE = "common-pc"
--KMACHINE_qemux86  = "common-pc"
--KMACHINE_qemux86-64  = "common-pc-64"
--KMACHINE_qemuarm  = "arm-versatile-926ejs"
--KMACHINE_qemuppc  = "qemu-ppc32"
--KMACHINE_qemumips = "mti-malta32-be"
--
- KBRANCH = "standard/preempt-rt/base"
- KBRANCH_qemuppc = "standard/preempt-rt/qemu-ppc32"
- 
-@@ -18,7 +11,7 @@ KMETA = "meta"
- 
- SRCREV_machine ?= "fe2630b38159ea7b9cf977b5fed40a9917002087"
- SRCREV_machine_qemuppc ?= "0259e5a3ef568c6979f2cb31280a43c55c784f4f"
--SRCREV_meta ?= "49f931bc294d5b6be60502bbd448cff5aa766235"
-+SRCREV_meta ?= "0a18db9fc89a0e030e8c7b8d01fe03c5ca4197e3"
- 
- PR = "r1"
- PV = "${LINUX_VERSION}+git${SRCPV}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_3.2.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_3.2.bb
-index 80be112..81aefb1 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_3.2.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_3.2.bb
-@@ -4,7 +4,6 @@ require recipes-kernel/linux/linux-yocto.inc
- # We need lzma (as CONFIG_KERNEL_LZMA=y)
- DEPENDS += "xz-native"
- 
--KMACHINE = "common-pc"
- KBRANCH = "standard/tiny"
- LINUX_KERNEL_TYPE = "tiny"
- KCONFIG_MODE = "--allnoconfig"
-@@ -12,7 +11,7 @@ KCONFIG_MODE = "--allnoconfig"
- LINUX_VERSION ?= "3.2.18"
- 
- SRCREV_machine ?= "8b8cfaaab2b8d79ac56e8c9a85bad9ae7bca399c"
--SRCREV_meta ?= "49f931bc294d5b6be60502bbd448cff5aa766235"
-+SRCREV_meta ?= "0a18db9fc89a0e030e8c7b8d01fe03c5ca4197e3"
- 
- PR = "r0"
- PV = "${LINUX_VERSION}+git${SRCPV}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto_3.0.bb b/meta/recipes-kernel/linux/linux-yocto_3.0.bb
-index 0f1be83..cfae247 100644
---- a/meta/recipes-kernel/linux/linux-yocto_3.0.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_3.0.bb
-@@ -8,13 +8,6 @@ KBRANCH_qemuppc  = "yocto/standard/qemu-ppc32"
- KBRANCH_qemumips = "yocto/standard/mti-malta32-be"
- KBRANCH_qemuarm  = "yocto/standard/arm-versatile-926ejs"
- 
--# Temporary until 3.0 kernel tree is updated with machine mappings
--KMACHINE_qemux86 = "common-pc"
--KMACHINE_qemux86-64 = "common-pc-64"
--KMACHINE_qemuppc = "qemu-ppc32"
--KMACHINE_qemumips = "mti-malta32-be"
--KMACHINE_qemuarm = "arm-versatile-926ejs"
--
- KMETA = "meta"
- 
- LINUX_VERSION ?= "3.0.32"
-@@ -25,7 +18,7 @@ SRCREV_machine_qemuppc ?= "bd9a3c4c066bd4b9f52b51aaaec9b029a7abe793"
- SRCREV_machine_qemux86 ?= "70342faea067476774eb55f4e3098af0bcc48782"
- SRCREV_machine_qemux86-64 ?= "cba836a545fbeb96f6f2392c3ecbac9d7735fa65"
- SRCREV_machine ?= "bd6ad607c754dea30d91502a237870b4c45e0f1b"
--SRCREV_meta ?= "34e0d2b4b4e9778b31f9ea99ca43f0dc71a7ee23"
-+SRCREV_meta ?= "b040132c19d70b00fc49f3b7e08c2ed52ac59f92"
- 
- PR = "r4"
- PV = "${LINUX_VERSION}+git${SRCPV}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto_3.2.bb b/meta/recipes-kernel/linux/linux-yocto_3.2.bb
-index 665ddca..ac4e454 100644
---- a/meta/recipes-kernel/linux/linux-yocto_3.2.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_3.2.bb
-@@ -1,13 +1,6 @@
- inherit kernel
- require recipes-kernel/linux/linux-yocto.inc
- 
--KMACHINE = "common-pc"
--KMACHINE_qemux86  = "common-pc"
--KMACHINE_qemux86-64  = "common-pc-64"
--KMACHINE_qemuppc  = "qemu-ppc32"
--KMACHINE_qemumips = "mti-malta32-be"
--KMACHINE_qemuarm  = "arm-versatile-926ejs"
--
- KBRANCH = "standard/default/base"
- KBRANCH_qemux86  = "standard/default/common-pc/base"
- KBRANCH_qemux86-64  = "standard/default/common-pc-64/base"
-@@ -23,7 +16,7 @@ SRCREV_machine_qemuppc ?= "466746d1fe6370957ba087f9ca6f2e31201b2162"
- SRCREV_machine_qemux86 ?= "c228cadee60f0ada73d11a36f6932f50a1c52d48"
- SRCREV_machine_qemux86-64 ?= "b95a0ae3773545fa0ed9a47088d0361527c42e6c"
- SRCREV_machine ?= "8b8cfaaab2b8d79ac56e8c9a85bad9ae7bca399c"
--SRCREV_meta ?= "49f931bc294d5b6be60502bbd448cff5aa766235"
-+SRCREV_meta ?= "0a18db9fc89a0e030e8c7b8d01fe03c5ca4197e3"
- 
- PR = "r1"
- PV = "${LINUX_VERSION}+git${SRCPV}"
+diff --git a/meta/recipes-kernel/linux/linux-yocto_3.4.bb b/meta/recipes-kernel/linux/linux-yocto_3.4.bb
+new file mode 100644
+index 0000000..81816b1
+--- /dev/null
++++ b/meta/recipes-kernel/linux/linux-yocto_3.4.bb
+@@ -0,0 +1,38 @@
++inherit kernel
++require recipes-kernel/linux/linux-yocto.inc
++
++KBRANCH = "standard/base"
++KBRANCH_qemux86  = "standard/common-pc/base"
++KBRANCH_qemux86-64  = "standard/common-pc-64/base"
++KBRANCH_qemuppc  = "standard/qemuppc"
++KBRANCH_qemumips = "standard/mti-malta32"
++KBRANCH_qemumips64 = "standard/mti-malta64"
++KBRANCH_qemumips64el = "standard/mti-malta64"
++KBRANCH_qemuarm  = "standard/arm-versatile-926ejs"
++
++SRCREV_machine_qemuarm ?= "bc7dd2ebe7f5443fb9d89d46106053cfc69b5d7f"
++SRCREV_machine_qemumips ?= "5a2ad0078de3d24a6e8e3f3c9a7426a08a86717d"
++SRCREV_machine_qemuppc ?= "f92ab2a332627c0213ecfdfc873d470be008f86b"
++SRCREV_machine_qemux86 ?= "780ab7e11f03931295e8f0e29707f2abb688e9ad"
++SRCREV_machine_qemux86-64 ?= "780ab7e11f03931295e8f0e29707f2abb688e9ad"
++SRCREV_machine ?= "780ab7e11f03931295e8f0e29707f2abb688e9ad"
++SRCREV_meta ?= "3fd089debe624c642d7b4d9363f853021d1675b2"
++
++SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.4.git;protocol=git;nocheckout=1;branch=${KBRANCH},meta;name=machine,meta"
++
++LINUX_VERSION ?= "3.4.1"
++
++PR = "r0"
++PV = "${LINUX_VERSION}+git${SRCPV}"
++
++KMETA = "meta"
++
++COMPATIBLE_MACHINE = "(qemuarm|qemux86|qemuppc|qemumips|qemux86-64)"
++
++# Functionality flags
++KERNEL_REVISION_CHECKING=""
++KERNEL_FEATURES="features/netfilter"
++KERNEL_FEATURES_append_qemux86=" cfg/sound"
++KERNEL_FEATURES_append_qemux86-64=" cfg/sound"
++
++require recipes-kernel/linux/linux-tools.inc
 -- 
 1.7.5.4
 
