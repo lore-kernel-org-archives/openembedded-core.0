@@ -1,32 +1,32 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <eflanagan@envy.jf.intel.com>) id 1ScmQQ-00047k-56
+	(envelope-from <eflanagan@envy.jf.intel.com>) id 1ScmQQ-00047r-KR
 	for openembedded-core@lists.openembedded.org;
 	Fri, 08 Jun 2012 01:47:34 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
 	by orsmga101.jf.intel.com with ESMTP; 07 Jun 2012 16:37:02 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="149733187"
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="154476611"
 Received: from envy.jf.intel.com ([10.7.201.175])
-	by orsmga001.jf.intel.com with ESMTP; 07 Jun 2012 16:37:02 -0700
+	by orsmga002.jf.intel.com with ESMTP; 07 Jun 2012 16:37:02 -0700
 Received: from envy.jf.intel.com (localhost [127.0.0.1])
 	by envy.jf.intel.com (8.14.4/8.14.4/Debian-2ubuntu2) with ESMTP id
-	q57NbFrR006535 for <openembedded-core@lists.openembedded.org>;
-	Thu, 7 Jun 2012 16:37:15 -0700
+	q57NbGYk006539 for <openembedded-core@lists.openembedded.org>;
+	Thu, 7 Jun 2012 16:37:16 -0700
 Received: (from eflanagan@localhost)
-	by envy.jf.intel.com (8.14.4/8.14.4/Submit) id q57NbFZi006534
+	by envy.jf.intel.com (8.14.4/8.14.4/Submit) id q57NbG7T006538
 	for openembedded-core@lists.openembedded.org;
-	Thu, 7 Jun 2012 16:37:15 -0700
+	Thu, 7 Jun 2012 16:37:16 -0700
 From: Elizabeth Flanagan <elizabeth.flanagan@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  7 Jun 2012 16:36:56 -0700
-Message-Id: <590d3c5ed0812ef579ba4aed3ee019e2037937d6.1339111944.git.elizabeth.flanagan@intel.com>
+Date: Thu,  7 Jun 2012 16:36:57 -0700
+Message-Id: <1a1d4279ae184a9bb8412bf7d7990a77737b2474.1339111944.git.elizabeth.flanagan@intel.com>
 X-Mailer: git-send-email 1.7.5.4
 In-Reply-To: <480358f458a7874b5705fc48547489d19a9df72c.1339111944.git.elizabeth.flanagan@intel.com>
 References: <480358f458a7874b5705fc48547489d19a9df72c.1339111944.git.elizabeth.flanagan@intel.com>
 In-Reply-To: <cover.1339111944.git.elizabeth.flanagan@intel.com>
 References: <cover.1339111944.git.elizabeth.flanagan@intel.com>
-Subject: [Consolidated Pull 08/22] runqemu-ifup: enable arp proxying
+Subject: [Consolidated Pull 09/22] beecrypt: disable java
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,32 +43,39 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 07 Jun 2012 23:47:34 -0000
 
-From: Scott Garman <scott.a.garman@intel.com>
+From: Jesse Zhang <sen.zhang@windriver.com>
 
-This allows core-image-sato to access the WAN.
+If java is installed on host, beecrypt will attempt to use it.
 
-Thanks to Dexuan Cui for proposing this fix.
-
-Fixes [YOCTO #2329]
-
-Signed-off-by: Scott Garman <scott.a.garman@intel.com>
+Signed-off-by: Jesse Zhang <sen.zhang@windriver.com>
+Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
 Signed-off-by: Elizabeth Flanagan <elizabeth.flanagan@intel.com>
 ---
- scripts/runqemu-ifup |    1 +
- 1 files changed, 1 insertions(+), 0 deletions(-)
+ meta/recipes-support/beecrypt/beecrypt_4.2.1.bb |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/scripts/runqemu-ifup b/scripts/runqemu-ifup
-index e4c3daf..0926faf 100755
---- a/scripts/runqemu-ifup
-+++ b/scripts/runqemu-ifup
-@@ -109,6 +109,7 @@ $ROUTE add -host 192.168.7.$dest $TAP
- $IPTABLES -A POSTROUTING -t nat -j MASQUERADE -s 192.168.7.$n/32
- $IPTABLES -A POSTROUTING -t nat -j MASQUERADE -s 192.168.7.$dest/32
- echo 1 > /proc/sys/net/ipv4/ip_forward
-+echo 1 > /proc/sys/net/ipv4/conf/$TAP/proxy_arp
- $IPTABLES -P FORWARD ACCEPT
+diff --git a/meta/recipes-support/beecrypt/beecrypt_4.2.1.bb b/meta/recipes-support/beecrypt/beecrypt_4.2.1.bb
+index 2913b46..2b2b348 100644
+--- a/meta/recipes-support/beecrypt/beecrypt_4.2.1.bb
++++ b/meta/recipes-support/beecrypt/beecrypt_4.2.1.bb
+@@ -17,7 +17,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=9894370afd5dfe7d02b8d14319e729a1 \
  
- echo $TAP
+ DEPENDS = "icu"
+ 
+-PR = "r1"
++PR = "r2"
+ 
+ inherit autotools multilib_header
+ acpaths=""
+@@ -26,7 +26,7 @@ do_install_append() {
+ 	oe_multilib_header beecrypt/gnu.h
+ }
+ 
+-EXTRA_OECONF="--without-python --enable-shared --enable-static --disable-openmp"
++EXTRA_OECONF="--without-python --enable-shared --enable-static --disable-openmp --with-java=no"
+ 
+ FILES_${PN} = "${sysconfdir} ${libdir}/*.so.* ${libdir}/${BPN}/*.so.*"
+ FILES_${PN}-dev += "${libdir}/${BPN}/*.so ${libdir}/${BPN}/*.la"
 -- 
 1.7.5.4
 
