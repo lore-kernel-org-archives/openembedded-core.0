@@ -1,26 +1,27 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from stoexhub02.domain01.net ([83.145.59.143])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Liezhi.Yang@windriver.com>) id 1ScWRa-0005WN-IO
+	(envelope-from <anders@chargestorm.se>) id 1ScWma-0001ts-T3
 	for openembedded-core@lists.openembedded.org;
-	Thu, 07 Jun 2012 08:43:56 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q576XDAV018930
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 6 Jun 2012 23:33:14 -0700 (PDT)
-Received: from usp-ub10.corp.ad.wrs.com (128.224.163.69) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.1.255.0; Wed, 6 Jun 2012 23:33:13 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
+	Thu, 07 Jun 2012 09:05:24 +0200
+Received: from localhost (193.41.119.134) by stoexhub02.domain01.net
+	(10.12.10.2) with Microsoft SMTP Server id 8.3.245.1; Thu, 7 Jun 2012
+	08:53:52 +0200
+Date: Thu, 7 Jun 2012 08:52:53 +0200
+From: Anders Darander <anders@chargestorm.se>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 7 Jun 2012 14:33:58 +0800
-Message-ID: <58c162a22d5cbba59fdb435c9aa0bc692d5727aa.1339035261.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.1
-In-Reply-To: <cover.1339035261.git.liezhi.yang@windriver.com>
-References: <cover.1339035261.git.liezhi.yang@windriver.com>
+Message-ID: <20120607065252.GA49212@ad.chargestorm.se>
+Mail-Followup-To: openembedded-core@lists.openembedded.org
+References: <4FCE71F6.3060001@linux.intel.com>
 MIME-Version: 1.0
-Cc: Zhenfeng.Zhao@windriver.com
-Subject: [PATCH 2/2] apt 0.7.14: do_compile failed with gcc 4.7
+In-Reply-To: <4FCE71F6.3060001@linux.intel.com>
+X-Accept-Language: sv, en, de
+X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
+X-GPG-Key-Id: 0x920E938C
+X-GPG-Keyserver: hkp://keys.gnupg.net
+Organization: ChargeStorm AB
+User-Agent: Mutt/1.5.20 (2009-12-10)
+X-GFI-SMTP-Submission: 1
+Subject: Re: RFC: Braindump on Bootloaders, Image Types, and Installers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,137 +36,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Jun 2012 06:43:56 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 07 Jun 2012 07:05:25 -0000
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
 
-apt do_compile failed with gcc 4.7:
+* Darren Hart <dvhart@linux.intel.com> [120605 22:56]:
+>   * Initramfs
+>     - Linux kernel and initramfs as a single image
+>     - this will require some significant workflow changes as images are
+>       generated after the kernel and the kernel needs the rootfs to
+>       build the combined image.
 
-deb/deblistparser.cc: In member function 'virtual short unsigned int debListParser::VersionHash()':
-deb/deblistparser.cc:212:13: error: redeclaration of 'char* I'
-deb/deblistparser.cc:202:22: error: 'const char** I' previously declared here
+Here it would also be nice to support an option to combine the kernel
+and the initramfs in a post-process stage. Otherwise, there needs to be
+some more, possibly complicated, changes to the workflow to make it
+possible to build external kernel modules into the initramfs. Or to
+explicitly state that this is an unsupported configuration. We're
+currently looking into this, but we're currently heading for separate
+kernel and initramfs, partly due to this.
 
-Backport the patch from the upstream would fix the problem, both target and
-native apt need it.
+Cheers,
 
-[YOCTO #2488]
+/Anders
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- .../apt/apt-0.7.14/remove-redeclaration.patch      |   63 ++++++++++++++++++++
- meta/recipes-devtools/apt/apt-native_0.7.14.bb     |    2 +-
- meta/recipes-devtools/apt/apt.inc                  |    1 +
- meta/recipes-devtools/apt/apt_0.7.14.bb            |    2 +-
- 4 files changed, 66 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-devtools/apt/apt-0.7.14/remove-redeclaration.patch
-
-diff --git a/meta/recipes-devtools/apt/apt-0.7.14/remove-redeclaration.patch b/meta/recipes-devtools/apt/apt-0.7.14/remove-redeclaration.patch
-new file mode 100644
-index 0000000..8d7c891
---- /dev/null
-+++ b/meta/recipes-devtools/apt/apt-0.7.14/remove-redeclaration.patch
-@@ -0,0 +1,63 @@
-+Fix build errors on gcc 4.7:
-+
-+deb/deblistparser.cc: In member function 'virtual short unsigned int debListParser::VersionHash()':
-+deb/deblistparser.cc:212:13: error: redeclaration of 'char* I'
-+deb/deblistparser.cc:202:22: error: 'const char** I' previously declared here
-+
-+Upstream-Status: Backport
-+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-+---
-+ apt-pkg/deb/deblistparser.cc |   10 +++++-----
-+ cmdline/apt-get.cc           |    8 ++++----
-+ 2 files changed, 9 insertions(+), 9 deletions(-)
-+
-+diff --git a/apt-pkg/deb/deblistparser.cc b/apt-pkg/deb/deblistparser.cc
-+--- a/apt-pkg/deb/deblistparser.cc
-++++ b/apt-pkg/deb/deblistparser.cc
-+@@ -209,18 +209,18 @@ unsigned short debListParser::VersionHash()
-+       /* Strip out any spaces from the text, this undoes dpkgs reformatting
-+          of certain fields. dpkg also has the rather interesting notion of
-+          reformatting depends operators < -> <= */
-+-      char *I = S;
-++      char *J = S;
-+       for (; Start != End; Start++)
-+       {
-+ 	 if (isspace(*Start) == 0)
-+-	    *I++ = tolower(*Start);
-++	    *J++ = tolower(*Start);
-+ 	 if (*Start == '<' && Start[1] != '<' && Start[1] != '=')
-+-	    *I++ = '=';
-++	    *J++ = '=';
-+ 	 if (*Start == '>' && Start[1] != '>' && Start[1] != '=')
-+-	    *I++ = '=';
-++	    *J++ = '=';
-+       }
-+ 
-+-      Result = AddCRC16(Result,S,I - S);
-++      Result = AddCRC16(Result,S,J - S);
-+    }
-+    
-+    return Result;
-+diff --git a/cmdline/apt-get.cc b/cmdline/apt-get.cc
-+--- a/cmdline/apt-get.cc
-++++ b/cmdline/apt-get.cc
-+@@ -1752,12 +1752,12 @@ bool DoInstall(CommandLine &CmdL)
-+ 	 if ((*Cache)[I].Install() == false)
-+ 	    continue;
-+ 
-+-	 const char **J;
-+-	 for (J = CmdL.FileList + 1; *J != 0; J++)
-+-	    if (strcmp(*J,I.Name()) == 0)
-++	 const char **K;
-++	 for (K = CmdL.FileList + 1; *K != 0; K++)
-++	    if (strcmp(*K,I.Name()) == 0)
-+ 		break;
-+ 	 
-+-	 if (*J == 0) {
-++	 if (*K == 0) {
-+ 	    List += string(I.Name()) + " ";
-+ 	    VersionsList += string(Cache[I].CandVersion) + "\n";
-+ 	 }
-+-- 
-+1.7.1
-+
-diff --git a/meta/recipes-devtools/apt/apt-native_0.7.14.bb b/meta/recipes-devtools/apt/apt-native_0.7.14.bb
-index ec3fd20..ca5476b 100644
---- a/meta/recipes-devtools/apt/apt-native_0.7.14.bb
-+++ b/meta/recipes-devtools/apt/apt-native_0.7.14.bb
-@@ -1,6 +1,6 @@
- require apt-native.inc
- 
--PR = "r7"
-+PR = "r8"
- 
- SRC_URI += "file://nodoc.patch \
-             file://noconfigure.patch \
-diff --git a/meta/recipes-devtools/apt/apt.inc b/meta/recipes-devtools/apt/apt.inc
-index 9d32ddb..1f6343a 100644
---- a/meta/recipes-devtools/apt/apt.inc
-+++ b/meta/recipes-devtools/apt/apt.inc
-@@ -7,6 +7,7 @@ SRC_URI = "${DEBIAN_MIRROR}/main/a/apt/apt_${PV}.tar.gz \
-            file://use-host.patch \
-            file://localefixes.patch \
-            file://makerace.patch \
-+           file://remove-redeclaration.patch \
-            "
- 
- inherit autotools gettext
-diff --git a/meta/recipes-devtools/apt/apt_0.7.14.bb b/meta/recipes-devtools/apt/apt_0.7.14.bb
-index 4055294..a627728 100644
---- a/meta/recipes-devtools/apt/apt_0.7.14.bb
-+++ b/meta/recipes-devtools/apt/apt_0.7.14.bb
-@@ -3,7 +3,7 @@ RDEPENDS_${PN} = "dpkg"
- LIC_FILES_CHKSUM = "file://COPYING.GPL;md5=0636e73ff0215e8d672dc4c32c317bb3"
- require apt.inc
- 
--PR = "r12"
-+PR = "r13"
- 
- SRC_URI += "file://nodoc.patch \
-             file://includes-fix.patch "
 -- 
-1.7.1
-
+Anders Darander
+ChargeStorm AB / eStorm AB
 
 
