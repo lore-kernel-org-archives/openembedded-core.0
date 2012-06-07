@@ -1,20 +1,42 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mga10.intel.com ([192.55.52.92] helo=fmsmga102.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SccER-0005Zp-W6
+	(envelope-from <ross.burton@intel.com>) id 1Scdjj-0005r9-CT
 	for openembedded-core@lists.openembedded.org;
-	Thu, 07 Jun 2012 14:54:32 +0200
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 07 Jun 2012 05:44:01 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="109002131"
-Received: from unknown (HELO swold-mobl.amr.corp.intel.com) ([10.255.12.197])
-	by AZSMGA002.ch.intel.com with ESMTP; 07 Jun 2012 05:44:00 -0700
-From: Saul Wold <sgw@linux.intel.com>
+	Thu, 07 Jun 2012 16:30:55 +0200
+Received: from mail-wg0-f44.google.com ([74.125.82.44])
+	by mga11.intel.com with ESMTP/TLS/RC4-SHA; 07 Jun 2012 07:20:25 -0700
+Received: by wgbdr13 with SMTP id dr13so387209wgb.13
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 07 Jun 2012 07:20:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
+	:in-reply-to:references:x-gm-message-state;
+	bh=XF3rIfyPmUev5whBkbNlL6e4B7TgaTgT2xVcp9Gqq80=;
+	b=Q8AG2EI7PF6ZCfYXpeoMgRFOCfRm2KOrGb4xpNyQ7T5hCcsZGMpk9k2Nnlcm4XJ2Pe
+	uGxYJq1Yu7uWD05AWdX/33WgIB7diOF5SH1Z8Bs6ZLqBcb3lrlPwBlE8W4M4cKvU7/WA
+	beuESiZkyzv5oCJvgnxQVSVJLkLg/iPb+35SpJEJUdjanTEnFJyL3SaxCC6+hvgGR9xF
+	Qxk11LMUzADJnT/sblMcQlvs0gCKwM9oAk3qw5qiZtkUw/CK7C/rdaBrxfzEaj9Iu4Mj
+	49ccnkT/TuOq6UjUXPKkHr9BCf4kacwOubhrWAzDyhKM5lVHfTNAWk+zHcj0wYPgJW6x
+	yA1Q==
+Received: by 10.216.144.145 with SMTP id n17mr1026357wej.101.1339078823337;
+	Thu, 07 Jun 2012 07:20:23 -0700 (PDT)
+Received: from localhost.localdomain (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPS id
+	eb8sm1341625wib.11.2012.06.07.07.20.21
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 07 Jun 2012 07:20:22 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  7 Jun 2012 05:43:59 -0700
-Message-Id: <cover.1339072931.git.sgw@linux.intel.com>
+Date: Thu,  7 Jun 2012 15:19:36 +0100
+Message-Id: <5afc9f367cc3224e82bbe59fe9bda14f504b45c0.1339078729.git.ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.7.6
-Subject: [RFC v2 00/33] Package Reodering - Cover Letter ONLY
+In-Reply-To: <cover.1339078729.git.ross.burton@intel.com>
+References: <cover.1339078729.git.ross.burton@intel.com>
+In-Reply-To: <cover.1339078729.git.ross.burton@intel.com>
+References: <cover.1339078729.git.ross.burton@intel.com>
+X-Gm-Message-State: ALoCoQleP85oG1Z5R/xGoHfPaL+P4UjJzs7uK+x/zcBXNrzb4QU6WsunRCPomG/ZvFKKVSHpZt5G
+Subject: [PATCH 1/3] connman: respect the 3g feature and enable/disable ofono support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,121 +51,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Jun 2012 12:54:32 -0000
+X-List-Received-Date: Thu, 07 Jun 2012 14:30:55 -0000
 
-Folks,
+[YOCTO #2357]
 
-This is round 2 of the reorder of the PACKAGE list by moving
-PN to the end of the list.  There were a number of direct changes
-that occurred, I am still evaluating the buildhistory results as
-I have been travelling.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-connectivity/connman/connman.inc |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
 
-I am just attaching the list of change and repo instead of flooding
-this list with all 33 changes.
-
-In addition to reorder, I have cleaned up the binconfig and lib_package
-classes almost to the point that we could remove lib_package and
-replace it with a line in each recipe to add the PN-bin to each recipe
-(or leave lib_package as is).
-
-Biggest concern I still have is which packages will also need general
-PR bumps, I am working on solving this, but it might just mean a full
-set of PR bumps.
-
-This buildhistory can be review at poky-contrib/sgw/repack-buildhistory
-
-Thanks for your review time.
-
-Sau!
-
-
-The following changes since commit f8a054aca9962ebfd4c74fc1d34cd684de6b3568:
-
-  perl: Allow perl to cross build and native build in a directory named "t" (2012-06-05 23:02:20 +0100)
-
-are available in the git repository at:
-  git://git.openembedded.org/openembedded-core-contrib sgw/repack
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/repack
-
-Saul Wold (33):
-  package.bbclass: convert warning to error
-  bitbake.conf: reorder PACKAGES list
-  binconfig: add *-config files to the -dev package
-  lib_package: remove the -dev list
-  bitbake.conf: add PN-bin and cleanup lib_package.bbclass
-  pmutils: reorder file for correctness
-  eglibc-package: Update PACKAGES and files based on new ordering
-  taglib: correct location of taglib-config to -dev
-  pth: clean-up FILES list due to PACKAGE reorder
-  libusb-compat: clean up FILE after PACKAGE reorder
-  libproxy: clean up FILE after PACKAGE reorder
-  libpcre: clean up FILE after PACKAGE reorder
-  libgpg-error: clean up FILE after PACKAGE reorder
-  libgcrypt: clean up FILE after PACKAGE reorder
-  gpgme: clean up FILE after PACKAGE reorder
-  gnutls: clean up FILE after PACKAGE reorder
-  db: clean up FILE after PACKAGE reorder
-  libpng: clean up FILE after PACKAGE reorder
-  libxml2: clean up FILE after PACKAGE reorder
-  groff: clean up FILE after PACKAGE reorder
-  icu: clean up FILE after PACKAGE reorder
-  gettext: clean up FILE after PACKAGE reorder
-  cups: clean up FILE after PACKAGE reorder
-  procps: clean up FILE after PACKAGE reorder
-  gnome-keyring: clean up FILE after PACKAGE reorder
-  slang: clean up FILE after PACKAGE reorder
-  gthumb: clean up FILE after PACKAGE reorder
-  freetype: clean up FILE after PACKAGE reorder
-  gtk-sato-engine: clean up FILE after PACKAGE reorder
-  libidn: clean up FILE after PACKAGE reorder
-  lttng-viewer: clean up FILE after PACKAGE reorder
-  js: clean up FILE after PACKAGE reorder
-  webkit-gtk: remove /usr/libexec since it's empty
-
- meta/classes/binconfig.bbclass                     |    2 ++
- meta/classes/lib_package.bbclass                   |   11 +----------
- meta/classes/package.bbclass                       |    4 ++--
- meta/conf/bitbake.conf                             |   10 +++++++---
- meta/recipes-bsp/pm-utils/pm-utils_1.4.1.bb        |   11 +++++++----
- meta/recipes-core/eglibc/eglibc-package.inc        |    8 ++++----
- meta/recipes-core/eglibc/eglibc_2.15.bb            |    2 +-
- meta/recipes-core/gettext/gettext_0.16.1.bb        |    3 ++-
- meta/recipes-core/gettext/gettext_0.18.1.1.bb      |    4 +++-
- meta/recipes-core/libxml/libxml2.inc               |    2 +-
- meta/recipes-devtools/elfutils/elfutils_0.148.bb   |   12 ++++++++----
- meta/recipes-extended/cups/cups14.inc              |    1 +
- meta/recipes-extended/cups/cups_1.4.6.bb           |    2 +-
- meta/recipes-extended/groff/groff_1.20.1.bb        |    4 +++-
- meta/recipes-extended/libidn/libidn_0.6.14.bb      |    6 +++++-
- meta/recipes-extended/libidn/libidn_1.24.bb        |    3 ++-
- meta/recipes-extended/procps/procps.inc            |    6 ++++--
- meta/recipes-extended/procps/procps_3.2.8.bb       |    2 +-
- meta/recipes-extended/slang/slang_2.2.4.bb         |    4 ++--
- meta/recipes-gnome/gnome/gnome-keyring_2.32.1.bb   |   14 ++++++++++----
- meta/recipes-gnome/gthumb/gthumb_2.12.4.bb         |   12 ++++++++----
- meta/recipes-graphics/freetype/freetype_2.4.8.bb   |    5 +----
- meta/recipes-kernel/lttng/lttng-viewer_0.12.38.bb  |    3 ++-
- meta/recipes-multimedia/alsa/alsa-lib_1.0.25.bb    |    6 ++++--
- meta/recipes-multimedia/libpng/libpng_1.2.49.bb    |    4 +---
- meta/recipes-sato/gtk-engines/gtk-sato-engine.inc  |    2 +-
- .../gtk-engines/gtk-sato-engine_git.bb             |    2 +-
- meta/recipes-sato/webkit/webkit-gtk_svn.bb         |    6 +++++-
- meta/recipes-support/db/db_5.1.19.bb               |   13 ++++++-------
- meta/recipes-support/gnutls/gnutls.inc             |    5 ++---
- meta/recipes-support/gpgme/gpgme_1.3.1.bb          |    5 ++---
- meta/recipes-support/icu/icu-3.6.inc               |    2 ++
- meta/recipes-support/icu/icu_3.6.bb                |    2 +-
- meta/recipes-support/js/js_1.7.0+1.8.0rc1.bb       |    3 ++-
- meta/recipes-support/libgcrypt/libgcrypt.inc       |    4 ----
- meta/recipes-support/libgcrypt/libgcrypt_1.5.0.bb  |    2 +-
- .../libgpg-error/libgpg-error_1.10.bb              |    6 +-----
- meta/recipes-support/libpcre/libpcre_8.21.bb       |    5 +----
- meta/recipes-support/libproxy/libproxy_0.4.7.bb    |    3 ++-
- meta/recipes-support/libusb/libusb-compat_0.1.3.bb |    4 +---
- meta/recipes-support/pth/pth_2.0.7.bb              |    5 +----
- meta/recipes-support/taglib/taglib_1.6.3.bb        |    3 +--
- 42 files changed, 113 insertions(+), 100 deletions(-)
-
+diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipes-connectivity/connman/connman.inc
+index f2da8d9..58e3f56 100644
+--- a/meta/recipes-connectivity/connman/connman.inc
++++ b/meta/recipes-connectivity/connman/connman.inc
+@@ -17,7 +17,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e \
+ DEPENDS  = "dbus glib-2.0 ppp iptables gnutls \
+             ${@base_contains('DISTRO_FEATURES', 'bluetooth','bluez4', '', d)} \
+             ${@base_contains('DISTRO_FEATURES', 'wifi','wpa-supplicant', '', d)} \
+-            ofono \
++            ${@base_contains('DISTRO_FEATURES', '3g','ofono', '', d)} \
+             "
+ 
+ TIST = "--enable-tist"
+@@ -34,7 +34,7 @@ EXTRA_OECONF += "\
+     ${@base_contains('DISTRO_FEATURES', 'wifi','--enable-wifi ${TIST}', '--disable-wifi', d)} \
+     ${@base_contains('DISTRO_FEATURES', 'bluetooth','--enable-bluetooth ${TIST}', '--disable-bluetooth', d)} \
+     --enable-dnsproxy \
+-    --enable-ofono \
++    ${@base_contains('DISTRO_FEATURES', '3g', '', '--disable-ofono', d)} \
+     --enable-tools \
+     --enable-test \
+     --disable-polkit \
 -- 
 1.7.7.6
 
