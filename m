@@ -1,24 +1,26 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Liezhi.Yang@windriver.com>) id 1ScZ6f-0003MB-Hl
+	(envelope-from <Liezhi.Yang@windriver.com>) id 1ScZ6h-0003ME-T6
 	for openembedded-core@lists.openembedded.org;
-	Thu, 07 Jun 2012 11:34:17 +0200
+	Thu, 07 Jun 2012 11:34:20 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q579Nm7u022167
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q579NnJG013596
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 7 Jun 2012 02:23:48 -0700 (PDT)
+	Thu, 7 Jun 2012 02:23:49 -0700 (PDT)
 Received: from usp-ub10.corp.ad.wrs.com (128.224.163.69) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.1.255.0; Thu, 7 Jun 2012 02:23:47 -0700
+	14.1.255.0; Thu, 7 Jun 2012 02:23:49 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 7 Jun 2012 17:24:38 +0800
-Message-ID: <cover.1339051007.git.liezhi.yang@windriver.com>
+Date: Thu, 7 Jun 2012 17:24:39 +0800
+Message-ID: <5f256583bca8c2d4225c379cc9b7ca23f374dcdc.1339051007.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.1
+In-Reply-To: <cover.1339051007.git.liezhi.yang@windriver.com>
+References: <cover.1339051007.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
 Cc: Zhenfeng.Zhao@windriver.com
-Subject: [PATCH 0/1] opkg 0.1.8: do_fetch failed since no checksum specified
+Subject: [PATCH 1/1] opkg 0.1.8: do_fetch failed since no checksum specified
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,24 +35,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Jun 2012 09:34:17 -0000
+X-List-Received-Date: Thu, 07 Jun 2012 09:34:20 -0000
 Content-Type: text/plain
 
-The following changes since commit f8a054aca9962ebfd4c74fc1d34cd684de6b3568:
+* We use meta/recipes-devtools/opkg/opkg_svn.bb by default, the
+  opkg_0.1.8.bb failed since no checksum specified.
 
-  perl: Allow perl to cross build and native build in a directory named "t" (2012-06-05 23:02:20 +0100)
+* The add_vercmp.patch in both opkg/ and opkg-0.1.8/, remove the one
+  in opkg-0.1.8/
 
-are available in the git repository at:
-  git://git.pokylinux.org/poky-contrib robert/opkg_sum
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=robert/opkg_sum
+This patch doesn't impact the output, so I think that we don't have to
+increment the PR.
 
-Robert Yang (1):
-  opkg 0.1.8: do_fetch failed since no checksum specified
+[YOCTO #2498]
 
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
  .../opkg/opkg-0.1.8/add_vercmp.patch               |   36 --------------------
  meta/recipes-devtools/opkg/opkg_0.1.8.bb           |    5 ++-
  2 files changed, 4 insertions(+), 37 deletions(-)
  delete mode 100644 meta/recipes-devtools/opkg/opkg-0.1.8/add_vercmp.patch
+
+diff --git a/meta/recipes-devtools/opkg/opkg-0.1.8/add_vercmp.patch b/meta/recipes-devtools/opkg/opkg-0.1.8/add_vercmp.patch
+deleted file mode 100644
+index c3396d5..0000000
+--- a/meta/recipes-devtools/opkg/opkg-0.1.8/add_vercmp.patch
++++ /dev/null
+@@ -1,36 +0,0 @@
+-Upstream-Status: Inappropriate [other]
+-
+-Index: trunk/libopkg/opkg.c
+-===================================================================
+---- trunk.orig/libopkg/opkg.c	2010-01-26 20:32:19.000000000 +0000
+-+++ trunk/libopkg/opkg.c	2010-01-26 20:40:34.000000000 +0000
+-@@ -876,3 +876,18 @@
+- 
+- 	return ret;
+- }
+-+
+-+int
+-+opkg_compare_versions (const char *ver1, const char *ver2)
+-+{
+-+  pkg_t *pkg1, *pkg2;
+-+
+-+  pkg1 = pkg_new();
+-+  pkg2 = pkg_new();
+-+
+-+  parse_version(pkg1, ver1);
+-+  parse_version(pkg2, ver2);
+-+
+-+  return pkg_compare_versions(pkg1, pkg2);
+-+}
+-+
+-Index: trunk/libopkg/opkg.h
+-===================================================================
+---- trunk.orig/libopkg/opkg.h	2010-01-26 20:32:19.000000000 +0000
+-+++ trunk/libopkg/opkg.h	2010-01-26 20:35:19.000000000 +0000
+-@@ -58,4 +58,6 @@
+- 
+- int opkg_repository_accessibility_check(void);
+- 
+-+int opkg_compare_versions (const char *ver1, const char *ver2);
+-+
+- #endif /* OPKG_H */
+diff --git a/meta/recipes-devtools/opkg/opkg_0.1.8.bb b/meta/recipes-devtools/opkg/opkg_0.1.8.bb
+index c206b37..785b6ca 100644
+--- a/meta/recipes-devtools/opkg/opkg_0.1.8.bb
++++ b/meta/recipes-devtools/opkg/opkg_0.1.8.bb
+@@ -1,8 +1,11 @@
+ require opkg.inc
+ 
+ SRC_URI = "http://opkg.googlecode.com/files/opkg-${PV}.tar.gz \
+-           file://add_vercmp.patch \
++           file://opkg/add_vercmp.patch \
+            file://headerfix.patch \
+           "
+ 
++SRC_URI[md5sum] = "c714ce0e4863bf1315e3b6913ffe3299"
++SRC_URI[sha256sum] = "ff94bf30bd662d49c4b5057e3a0818d062731adaa555d59abd677ec32a3c1c60"
++
+ PR = "${INC_PR}.0"
+-- 
+1.7.1
 
 
 
