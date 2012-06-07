@@ -1,20 +1,24 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@windriver.com>) id 1Scj2Y-0004qt-FF
+	(envelope-from <bruce.ashfield@windriver.com>) id 1Scj2Y-0004qu-Fo
 	for openembedded-core@lists.openembedded.org;
 	Thu, 07 Jun 2012 22:10:42 +0200
 Received: from yow-bashfiel-l1.wrs.com (yow-bashfiel-d3.wrs.com
 	[128.224.147.67])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q57K07DW018923;
-	Thu, 7 Jun 2012 13:00:07 -0700 (PDT)
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q57K07DX018923;
+	Thu, 7 Jun 2012 13:00:08 -0700 (PDT)
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 To: richard.purdie@linuxfoundation.org
-Date: Thu,  7 Jun 2012 15:59:41 -0400
-Message-Id: <cover.1339098507.git.bruce.ashfield@windriver.com>
+Date: Thu,  7 Jun 2012 15:59:42 -0400
+Message-Id: <142f9889526d2a77bbb23e2591aa36f8974bfad0.1339098507.git.bruce.ashfield@windriver.com>
 X-Mailer: git-send-email 1.7.5.4
+In-Reply-To: <cover.1339098507.git.bruce.ashfield@windriver.com>
+References: <cover.1339098507.git.bruce.ashfield@windriver.com>
+In-Reply-To: <cover.1339098507.git.bruce.ashfield@windriver.com>
+References: <cover.1339098507.git.bruce.ashfield@windriver.com>
 Cc: dvhart@linux.intel.com, openembedded-core@lists.openembedded.org,
 	saul.wold@intel.com
-Subject: [PATCH 0/9] linux-yocto: consolidated pull request
+Subject: [PATCH 1/9] kern-tools: remove unused code, meta branch and directory assumptions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,71 +35,87 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 07 Jun 2012 20:10:42 -0000
 
-Richard/Saul,
+Updating the kern-tools SRCREV to pick up fixes that remove unused
+code, transition code (tree format changes) and to remove assumptions
+about branch and directory naming.
 
-Here's a 9 patch series that is a collection of work that's been
-brewing for about three weeks.
+There are no user visible changes with this update, but the plumbing
+changes will be used in future updates for more generalized support.
 
-Highlights include:
+The commit details are below:
 
-  - removal of the 2.6.37 recipe, it's time is now gone
-  - addition of the 3.4 kernel recipe
-      - configuration fixups and audits within that 3.4 kernel
-      - kernel *only* support for mips64 mti emulation
-  - -stable updates for supported kernels 3.2.18, 3.0.32
-  - machine fixes/configurations for the 3.2 and 3.0 kernels
-  - kern tool updates, streamlining and fixes
+ Author: Bruce Ashfield <bruce.ashfield@windriver.com>
+ Date:   Fri May 11 12:13:12 2012 -0400
 
-I've built and booted the qemu* machines on 3.4, and have been doing
-this for several weeks now. Built and boot tests have also happened
-on the 3.0 and 3.2 trees as well. Some BSP layers are already using
-these changes.
+    kgit-publish: remove --remote option
 
-The tools changes set the stage for some follow on changes that 
-I'm nearly done for the next oe-core/yocto release, but they are
-useful by themselves, so I'm getting them out of my queue.
+    The ability to publish and automatically push a repository was
+    never used, and is error prone. The complexit isn't needed in
+    the script, so removing it is the best option.
 
-I'll follow up to other lists with updates to recipes and configs
-that reference the modified kernels.
+    An explicit push after tree publication is suggested, or a
+    wrapper script (specific to a particular infrastructure) around
+    this script.
 
-BSP layers can be updated as appropriate, since all these changes
-have been pushed to the various kernel trees.
+    Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 
-Cheers,
+ Author: Bruce Ashfield <bruce.ashfield@windriver.com>
+ Date:   Fri May 11 12:04:09 2012 -0400
 
-Bruce
+    kern-tools: remove unused code, scripts and transition code
 
-The following changes since commit df8f55a919b3cc602ce1f1c51630c7edf6e36b55:
+    The period of supporting old trees with a different meta
+    branch name and directory structure are gone. So the cleanup
+    and removal of the old structure can be completed.
 
-  ltp: Add patch to correct failing build (2012-06-05 23:05:00 +0100)
+    The meta branch and directory are now controlled via command line,
+    or via the KMETA environment variable. No testing and conditional
+    processing of the tree are required.
 
-are available in the git repository at:
-  git://git.pokylinux.org/poky-contrib zedd/kernel-oe
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel-oe
+    Additionally, the generate_cfg script is no longer used, or is the
+    branch conditing code in createme. So they can be safely removed
+    from the tools and repository.
 
-Bruce Ashfield (9):
-  kern-tools: remove unused code, meta branch and directory assumptions
-  linux-yocto/3.2: update to v3.2.18
-  linux-yocto/3.0: update to v3.0.32
-  linux-yocto: remove v2.6.37 recipe
-  linux-yocto: add machine aliases for yocto BSPs
-  linux-yocto: add 3.4 recipe
-  linux-yocto/3.2: fri2 and chiefriver machine updates
-  linux-yocto/3.0: add cedartrail kernel features
-  kern-tools: anchor KMACHINE test
+    Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 
- .../kern-tools/kern-tools-native_git.bb            |    4 +-
- meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb    |   15 ++------
- meta/recipes-kernel/linux/linux-yocto-rt_3.2.bb    |   15 ++------
- meta/recipes-kernel/linux/linux-yocto-tiny_3.2.bb  |    7 ++--
- meta/recipes-kernel/linux/linux-yocto_2.6.37.bb    |   38 --------------------
- meta/recipes-kernel/linux/linux-yocto_3.0.bb       |   23 ++++--------
- meta/recipes-kernel/linux/linux-yocto_3.2.bb       |   23 ++++--------
- meta/recipes-kernel/linux/linux-yocto_3.4.bb       |   38 ++++++++++++++++++++
- 8 files changed, 67 insertions(+), 96 deletions(-)
- delete mode 100644 meta/recipes-kernel/linux/linux-yocto_2.6.37.bb
- create mode 100644 meta/recipes-kernel/linux/linux-yocto_3.4.bb
+ Author: Bruce Ashfield <bruce.ashfield@windriver.com>
+ Date:   Thu May 10 12:18:19 2012 -0400
 
+    kern-tools: remove meta tag and directory assumptions
+
+    During repository sanity checks (createme) and during the
+    checkpoint process, there were several assumptions about the tree
+    that either relied on a tag, or a particular directory name.
+
+    With this set of changes, simply passing the meta branch name is
+    enough to sanitize and restore the checkpoint. If no meta branch
+    name is passed, the default of 'meta' is used for both the branch
+    and meta data directory name.
+
+    Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+---
+ .../kern-tools/kern-tools-native_git.bb            |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
+index 9ef1a20..becb0de 100644
+--- a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
++++ b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
+@@ -1,10 +1,10 @@
+ DESCRIPTION = "Scripts and utilities for managing Yocto branched kernels."
+ LICENSE = "GPLv2"
+-LIC_FILES_CHKSUM = "file://git/tools/kgit;beginline=5;endline=9;md5=e2bf4415f3d843f43d2e22b0d91a6fee"
++LIC_FILES_CHKSUM = "file://git/tools/kgit;beginline=5;endline=9;md5=d8d1d729a70cd5f52972f8884b80743d"
+ 
+ DEPENDS = "git-native guilt-native"
+ 
+-SRCREV = "de3649840e8e3ca25bc79d2444f04a1b158a1769"
++SRCREV = "0859d2f73cc6f6973835fa5713b5a98a43ed43ff"
+ PR = "r12"
+ PV = "0.1+git${SRCPV}"
+ 
 -- 
 1.7.5.4
 
