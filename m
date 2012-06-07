@@ -1,34 +1,23 @@
-Received: from out1-smtp.messagingengine.com ([66.111.4.25])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <walters@verbum.org>) id 1ScS7N-0005DX-22
+	(envelope-from <Xiaofeng.Yan@windriver.com>) id 1ScS8z-0005HK-Sk
 	for openembedded-core@lists.openembedded.org;
-	Thu, 07 Jun 2012 04:06:33 +0200
-Received: from compute6.internal (compute6.nyi.mail.srv.osa [10.202.2.46])
-	by gateway1.nyi.mail.srv.osa (Postfix) with ESMTP id 1459120A97;
-	Wed,  6 Jun 2012 21:56:07 -0400 (EDT)
-Received: from frontend2.nyi.mail.srv.osa ([10.202.2.161])
-	by compute6.internal (MEProxy); Wed, 06 Jun 2012 21:56:07 -0400
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
-	messagingengine.com; h=message-id:subject:from:to:cc:date
-	:in-reply-to:references:content-type:content-transfer-encoding
-	:mime-version; s=smtpout; bh=0IF+iuhim6D4LtCO3qZPPZaIBFc=; b=JeY
-	zO2q/928B9gbCokdES/AJQHXRrnFIyyj5O39PDI+aKxqAY+mhvH5OyfG02x8RYw3
-	koQwjwr0A+O3sHncdZ8k2odFIs1B8wuxcCv87sjSLsNq2AfuzrTdjEU0AWDl8viv
-	+X+k/e+zNVwyiixaWbRRaFFg/wW9kOTTN1rT+OS4=
-X-Sasl-enc: NXmQR+5Ulwhp2CEHep/L3dNI530oxsXXSUEbnldob7eJ 1339034166
-Received: from [192.168.1.7] (unknown [50.138.225.153])
-	by mail.messagingengine.com (Postfix) with ESMTPA id BF5EA482515;
-	Wed,  6 Jun 2012 21:56:06 -0400 (EDT)
-Message-ID: <1339034166.14663.13.camel@meta>
-From: Colin Walters <walters@verbum.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Wed, 06 Jun 2012 21:56:06 -0400
-In-Reply-To: <1337238171-27308-1-git-send-email-Martin.Jansa@gmail.com>
-References: <1337238171-27308-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: Evolution 3.2.3 (3.2.3-3.fc16) 
-Mime-Version: 1.0
-Subject: Re: [RFCv3] glib-2.0: upgrade to 2.32.3
+	Thu, 07 Jun 2012 04:08:14 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q571viuB021761
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 6 Jun 2012 18:57:44 -0700 (PDT)
+Received: from localhost.localdomain (128.224.162.28) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.1.255.0; Wed, 6 Jun 2012 18:57:44 -0700
+From: <xiaofeng.yan@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 7 Jun 2012 10:01:54 +0800
+Message-ID: <cover.1339034063.git.xiaofeng.yan@windriver.com>
+X-Mailer: git-send-email 1.7.0.4
+MIME-Version: 1.0
+Subject: [PATCH 0/1] archiver.bbclass: Reduce some duplication for function get_licenses
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,23 +32,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Jun 2012 02:06:33 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 07 Jun 2012 02:08:14 -0000
+Content-Type: text/plain
 
-On Thu, 2012-05-17 at 09:02 +0200, Martin Jansa wrote:
+From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
 
-> +Subject: [PATCH] configure: add option to disable libelf support
+The content to modify this bbclass is as follow:
+- Use the existing functions to get license as a directory instead of 
+  rewriting it for avoiding code duplication.
+- Use SPDXLICENSEMAP to map licenses
 
-Grr...please CC me on GLib patches (and GNOME in general).  In this
-case, yes, we should have an option.  
+The following changes since commit df8f55a919b3cc602ce1f1c51630c7edf6e36b55:
+  Cristian Iorga (1):
+        ltp: Add patch to correct failing build
 
-Anyways, there is one issue with this patch; we should be using AS_IF()
-apparently.  See
-https://bugzilla.gnome.org/show_bug.cgi?id=674483#c9
+are available in the git repository at:
 
-I fixed this and committed it:
-http://git.gnome.org/browse/glib/commit/?id=9e1d4da14d8e69fb60da1a9733ac1d58d0dcd8b2
+  git://git.pokylinux.org/poky-contrib xiaofeng/2473
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=xiaofeng/2473
+
+Xiaofeng Yan (1):
+  archiver.bbclass: Reduce some duplication for function get_licenses
+
+ meta/classes/archiver.bbclass |   23 ++++++++++++-----------
+ 1 files changed, 12 insertions(+), 11 deletions(-)
 
 
 
