@@ -1,40 +1,20 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1Scmu9-00061b-7F
+	(envelope-from <sgw@linux.intel.com>) id 1Scnhw-0007iT-UB
 	for openembedded-core@lists.openembedded.org;
-	Fri, 08 Jun 2012 02:18:17 +0200
-Received: by eekd49 with SMTP id d49so629314eek.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 07 Jun 2012 17:07:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=gpQQKsDg4IwCDxFGas2SZSZNRMwZX0/nHuqOAmoWy7Q=;
-	b=FmqjZ4l8wOcCOYq23IHmec8NIawOjoFNWSsLwuDRtUStKOyVffLYvQWnlh11+5Ytse
-	A9kYm7wnGe4r8KsKmZtvmkMKhE9dQwBGb64JQ3eo80FEFMem1q60mEzK788wBmzswr7/
-	2iwHCzkAcWFtILGsSz+CaYkP7aPgTCgTiGLY+H6bINQXiP2zu+2zRxLxC88MqK28iE4P
-	Hx5ZBj9348jK/8Qh26os8RR9mJ5kFKAJ7/DhquDYSztAHYr7INsHtJ5JFyfeZRHAaR/z
-	R7uTa81YGVVPakmPriQoEcL/rNRFl5jh3j6BSnvHDquBGOUB38BHl8eu69IunXQIk48m
-	y78A==
-Received: by 10.14.28.140 with SMTP id g12mr2231202eea.42.1339114068194;
-	Thu, 07 Jun 2012 17:07:48 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id dg2sm7044842wib.4.2012.06.07.17.07.46
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 07 Jun 2012 17:07:46 -0700 (PDT)
-Date: Fri, 8 Jun 2012 02:08:05 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20120608000804.GH3140@jama.jama.net>
-References: <cover.1339078729.git.ross.burton@intel.com>
-	<5afc9f367cc3224e82bbe59fe9bda14f504b45c0.1339078729.git.ross.burton@intel.com>
-	<20120607143221.GG3140@jama.jama.net>
-	<CAJTo0LaiApvc0oD4VKHPcsoWtEEBcSyPcza9sr=wOs78DNxPLg@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0LaiApvc0oD4VKHPcsoWtEEBcSyPcza9sr=wOs78DNxPLg@mail.gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: [PATCH 1/3] connman: respect the 3g feature and enable/disable ofono support
+	Fri, 08 Jun 2012 03:09:45 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 07 Jun 2012 17:59:13 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="109332077"
+Received: from unknown (HELO swold-mobl.amr.corp.intel.com) ([10.255.12.197])
+	by AZSMGA002.ch.intel.com with ESMTP; 07 Jun 2012 17:59:10 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  7 Jun 2012 17:59:10 -0700
+Message-Id: <1339117150-15442-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 1.7.7.6
+Subject: [PATCH] curl: enable ssl support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,45 +29,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Jun 2012 00:18:17 -0000
-X-Groupsio-MsgNum: 23280
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="U3BNvdZEnlJXqmh+"
-Content-Disposition: inline
+X-List-Received-Date: Fri, 08 Jun 2012 01:09:45 -0000
 
---U3BNvdZEnlJXqmh+
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This patch enables ssl support for curl to allow git to clone from
+https / ssl sites.
 
-On Thu, Jun 07, 2012 at 03:46:54PM +0100, Burton, Ross wrote:
-> On 7 June 2012 15:32, Martin Jansa <martin.jansa@gmail.com> wrote:
-> > Why not use PACKAGECONFIG for all those?
->=20
-> Because this is the first time I've encountered it.  :)  Is there any
-> documentation on it, or a comprehensive example?
+[YOCTO #2532]
 
-Git log shows e.g.
-http://git.openembedded.org/openembedded-core/commit/?id=3D7a58911f6951abd5=
-6db9ebb37f8d6284d91fa514
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+---
+ meta/recipes-support/curl/curl_7.24.0.bb |    6 +++---
+ 1 files changed, 3 insertions(+), 3 deletions(-)
 
-and git grep PACKAGECONFIG will show couple of examples
+diff --git a/meta/recipes-support/curl/curl_7.24.0.bb b/meta/recipes-support/curl/curl_7.24.0.bb
+index 12e95c9..f0ae7f1 100644
+--- a/meta/recipes-support/curl/curl_7.24.0.bb
++++ b/meta/recipes-support/curl/curl_7.24.0.bb
+@@ -5,10 +5,10 @@ SECTION = "console/network"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;beginline=7;md5=3a34942f4ae3fbf1a303160714e664ac"
+ 
+-DEPENDS = "zlib gnutls"
++DEPENDS = "zlib gnutls openssl"
+ DEPENDS_virtclass-native = "zlib-native"
+ DEPENDS_virtclass-nativesdk = "zlib-nativesdk"
+-PR = "r0"
++PR = "r1"
+ 
+ SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
+            file://noldlibpath.patch \
+@@ -20,7 +20,7 @@ SRC_URI[sha256sum] = "ebdb111088ff8b0e05b1d1b075e9f1608285e8105cc51e21caacf33d01
+ inherit autotools pkgconfig binconfig
+ 
+ EXTRA_OECONF = "--with-zlib=${STAGING_LIBDIR}/../ \
+-                --without-ssl \
++		--with-ssl \
+                 --without-libssh2 \
+ 		--with-random=/dev/urandom \
+ 		--without-libidn \
+-- 
+1.7.7.6
 
-Cheers,
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---U3BNvdZEnlJXqmh+
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
-
-iEYEARECAAYFAk/RQmQACgkQN1Ujt2V2gBxFjQCfYKIbKViz4RBk+Ctfz9PK9KvM
-zm4An36NDar+dSxJDlth5qiwcBXjK661
-=YGAe
------END PGP SIGNATURE-----
-
---U3BNvdZEnlJXqmh+--
