@@ -1,23 +1,23 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <jason.wessel@windriver.com>) id 1Sd2Qx-0006Hc-8S
+	(envelope-from <radu.moisan@intel.com>) id 1Sd2ta-0008Hu-6l
 	for Openembedded-core@lists.openembedded.org;
-	Fri, 08 Jun 2012 18:53:21 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q58GgcPB020842
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <Openembedded-core@lists.openembedded.org>;
-	Fri, 8 Jun 2012 09:42:38 -0700 (PDT)
-Received: from ord-lpggp2.wrs.com (128.224.65.244) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Fri, 8 Jun 2012 09:42:37 -0700
-From: Jason Wessel <jason.wessel@windriver.com>
-To: <Openembedded-core@lists.openembedded.org>
-Date: Fri, 8 Jun 2012 11:43:47 -0500
-Message-ID: <1339173827-61084-1-git-send-email-jason.wessel@windriver.com>
-X-Mailer: git-send-email 1.7.1
+	Fri, 08 Jun 2012 19:22:46 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 08 Jun 2012 10:12:15 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; 
+	d="scan'208,217";a="150197241"
+Received: from unknown (HELO [10.255.12.161]) ([10.255.12.161])
+	by orsmga001.jf.intel.com with ESMTP; 08 Jun 2012 10:12:14 -0700
+Message-ID: <4FD2326D.5050109@intel.com>
+Date: Fri, 08 Jun 2012 20:12:13 +0300
+From: Radu Moisan <radu.moisan@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
 MIME-Version: 1.0
-Subject: [PATCH] libnewt: Fix cross link using autoconf detected AR
+To: Openembedded-core@lists.openembedded.org
+Subject: initial setup on my laptop
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,102 +32,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Jun 2012 16:53:21 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 08 Jun 2012 17:22:46 -0000
+Content-Type: multipart/alternative;
+	boundary="------------080109030806060703090907"
 
-If building on 32bit host and creating 64bit libraries, the target
-package builds should not invoke the 32bit hosts's ar.  Specifically
-you will get an error message like:
+--------------080109030806060703090907
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-x86_64-linux-gcc    -m64 --sysroot=/opt/qemux86-64/tmp/sysroots/qemux86-64 -g -o test test.o libnewt.a -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -lslang
-libnewt.a: could not read symbols: Archive has no index; run ranlib to add one
-collect2: error: ld returned 1 exit status
+I'm trying to setup everything on my laptop and I cannot start any 
+build. I must have missed something, the following is the error I get:
 
-Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
----
- meta/recipes-extended/newt/files/cross_ar.patch |   51 +++++++++++++++++++++++
- meta/recipes-extended/newt/libnewt_0.52.14.bb   |    5 +-
- 2 files changed, 54 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-extended/newt/files/cross_ar.patch
+radu@elitebook> bitbake core-image-minimal
+Pseudo is not present but is required, building this first before the 
+main build
+Loading cache: 100% 
+|##################################################################################################################################################| 
+ETA:  00:00:00
+Loaded 1146 entries from dependency cache.
+NOTE: Error expanding variable 
+do_patch                                                                                                                                
+| ETA:  --:--:--
+NOTE: Error during finalise of 
+/home/radu/Documents/Development/Yocto/poky/meta/recipes-kernel/linux/linux-yocto_3.2.bb
+ERROR: ExpansionError during parsing 
+/home/radu/Documents/Development/Yocto/poky/meta/recipes-kernel/linux/linux-yocto_3.2.bb: 
+Failure expanding variable SRCPV, expression was 
+${@bb.fetch2.get_srcrev(d)} which triggered exception FetchError: 
+Fetcher failure for URL: 
+'git://git.yoctoproject.org/linux-yocto-3.2;protocol=git;bareclone=1;branch=standard/default/common-pc/base,meta;name=machine,meta'. 
+The command git ls-remote git://git.yoctoproject.org/linux-yocto-3.2 
+ee78519365bdb25287703bbc31c06b193263c654l gave empty output unexpectedly
+ERROR: No recipes available for:
+   
+/home/radu/Documents/Development/Yocto/poky/meta-yocto/recipes-kernel/linux/linux-yocto_3.2.bbappend
+ERROR: Command execution failed: Exited with 1
 
-diff --git a/meta/recipes-extended/newt/files/cross_ar.patch b/meta/recipes-extended/newt/files/cross_ar.patch
-new file mode 100644
-index 0000000..f67239a
---- /dev/null
-+++ b/meta/recipes-extended/newt/files/cross_ar.patch
-@@ -0,0 +1,51 @@
-+Fix cross link using autoconf detected AR
-+
-+If building on 32bit host and creating 64bit libraries, the target
-+package builds should not invoke the 32bit hosts's ar.  Specifically
-+you will get an error message like:
-+
-+x86_64-linux-gcc    -m64 --sysroot=/opt/qemux86-64/tmp/sysroots/qemux86-64 -g -o test test.o libnewt.a -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -lslang
-+libnewt.a: could not read symbols: Archive has no index; run ranlib to add one
-+collect2: error: ld returned 1 exit status
-+
-+Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
-+
-+Upstream-Status: Pending
-+
-+---
-+ Makefile.in  |    3 ++-
-+ configure.ac |    4 ++++
-+ 2 files changed, 6 insertions(+), 1 deletion(-)
-+
-+--- a/Makefile.in
-++++ b/Makefile.in
-+@@ -7,6 +7,7 @@ CFLAGS = @CFLAGS@
-+ LDFLAGS = @LDFLAGS@
-+ CPPFLAGS = -D_GNU_SOURCE @CPPFLAGS@ 
-+ GNU_LD = @GNU_LD@
-++AR = @AR@
-+ 
-+ VERSION = @VERSION@
-+ TAG = r$(subst .,-,$(VERSION))
-+@@ -95,7 +96,7 @@ whiptcl.so: $(WHIPTCLOBJS) $(LIBNEWTSH)
-+ 	$(CC) -shared $(SHCFLAGS) $(LDFLAGS) -o whiptcl.so $(WHIPTCLOBJS) -L. -lnewt  $(LIBTCL) -lpopt $(LIBS)
-+ 
-+ $(LIBNEWT): $(LIBOBJS)
-+-	ar rv $@ $^
-++	$(AR) rv $@ $^
-+ 
-+ newt.o $(SHAREDDIR)/newt.o: newt.c Makefile
-+ 
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -14,6 +14,10 @@ AC_PROG_CC
-+ AC_PROG_INSTALL
-+ AC_PROG_LN_S
-+ AC_PROG_GREP
-++AN_MAKEVAR([AR], [AC_PROG_AR])
-++AN_PROGRAM([ar], [AC_PROG_AR])
-++AC_DEFUN([AC_PROG_AR], [AC_CHECK_TOOL(AR, ar, :)])
-++AC_PROG_AR
-+ 
-+ # Are we using GNU ld?
-+ AC_MSG_CHECKING([for GNU ld])
-diff --git a/meta/recipes-extended/newt/libnewt_0.52.14.bb b/meta/recipes-extended/newt/libnewt_0.52.14.bb
-index 8a89eb7..0208695 100644
---- a/meta/recipes-extended/newt/libnewt_0.52.14.bb
-+++ b/meta/recipes-extended/newt/libnewt_0.52.14.bb
-@@ -17,11 +17,12 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=55ca817ccb7d5b5b66355690e9abc605"
- # slang needs to be >= 2.2
- DEPENDS = "slang popt"
- 
--PR = "r0"
-+PR = "r1"
- 
- SRC_URI = "https://fedorahosted.org/releases/n/e/newt/newt-${PV}.tar.gz \
-            file://remove_slang_include.patch \
--           file://fix_SHAREDDIR.patch"
-+           file://fix_SHAREDDIR.patch \
-+           file://cross_ar.patch"
- 
- SRC_URI[md5sum] = "eb78c6bb658b92ec7198908b5b8d0e37"
- SRC_URI[sha256sum] = "f70f4f58baa60388ddf2e39249ffb00898fb40f2b2767e42e2ab51fe4b40978e"
--- 
-1.7.1
+Summary: There were 3 ERROR messages shown, returning a non-zero exit code.
 
 
+Thanks,
+Radu
 
+--------------080109030806060703090907
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
+
+<html>
+  <head>
+
+    <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+  </head>
+  <body text="#000000" bgcolor="#FFFFFF">
+    I'm trying to setup everything on my laptop and I cannot start any
+    build. I must have missed something, the following is the error I
+    get:<br>
+    <br>
+    <small><font face="DejaVu Sans Mono">radu@elitebook&gt; bitbake
+        core-image-minimal<br>
+        Pseudo is not present but is required, building this first
+        before the main build<br>
+        Loading cache: 100%
+        |##################################################################################################################################################|
+        ETA:&nbsp; 00:00:00<br>
+        Loaded 1146 entries from dependency cache.<br>
+        NOTE: Error expanding variable
+        do_patch&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        | ETA:&nbsp; --:--:--<br>
+        NOTE: Error during finalise of
+/home/radu/Documents/Development/Yocto/poky/meta/recipes-kernel/linux/linux-yocto_3.2.bb<br>
+        ERROR: ExpansionError during parsing
+        /home/radu/Documents/Development/Yocto/poky/meta/recipes-kernel/linux/linux-yocto_3.2.bb:
+        Failure expanding variable SRCPV, expression was
+        ${@bb.fetch2.get_srcrev(d)} which triggered exception
+        FetchError: Fetcher failure for URL:
+        'git://git.yoctoproject.org/linux-yocto-3.2;protocol=git;bareclone=1;branch=standard/default/common-pc/base,meta;name=machine,meta'.
+        The command git ls-remote
+        git://git.yoctoproject.org/linux-yocto-3.2
+        ee78519365bdb25287703bbc31c06b193263c654l gave empty output
+        unexpectedly<br>
+        ERROR: No recipes available for:<br>
+        &nbsp;
+/home/radu/Documents/Development/Yocto/poky/meta-yocto/recipes-kernel/linux/linux-yocto_3.2.bbappend<br>
+        ERROR: Command execution failed: Exited with 1<br>
+        <br>
+        Summary: There were 3 ERROR messages shown, returning a non-zero
+        exit code.</font></small><br>
+    <br>
+    <br>
+    Thanks,<br>
+    Radu<br>
+  </body>
+</html>
+
+--------------080109030806060703090907--
