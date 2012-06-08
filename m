@@ -1,34 +1,23 @@
-Received: from mail-pz0-f47.google.com ([209.85.210.47])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@gmail.com>) id 1Sd1Oc-0001ML-8e
-	for openembedded-core@lists.openembedded.org;
-	Fri, 08 Jun 2012 17:46:42 +0200
-Received: by dalh21 with SMTP id h21so2365339dal.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Jun 2012 08:36:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type:content-transfer-encoding;
-	bh=AteJN/fNRdwvVqj9aeItFNaXsr1ckd1gwpmD74qxWDk=;
-	b=jkozSNnUXoqF65YoHwiiVYWtkn9eID7hYIF9vqXscvjSpyJZpExmaZ86vap5jaADHQ
-	l1rcPmx1+/U9y+U7CfopsK5lO0Uv3IPZSeKghTB4yEmdqIWTlDDuTGW3OpiwXY5uGOD3
-	k3QwYhRfIswwzOxTSme7Us6jINkWP5yWvQV/u3fzl8zalABwqI0CgLSlL/094hFBrSC9
-	7Ldsgd2Q0TwOUgTDajVpFZc2mPj5iWgacGVyPiYubKl7zka6xLp94rKDVJc0TT5vWPxn
-	CUowwYil74/5RBcBFuFxURvXT/pFlfhYJ18HSYwlUbkTCIerzyjJjv8/t/Yukh6F8IML
-	Z8IQ==
+	(envelope-from <jason.wessel@windriver.com>) id 1Sd2Qx-0006Hc-8S
+	for Openembedded-core@lists.openembedded.org;
+	Fri, 08 Jun 2012 18:53:21 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q58GgcPB020842
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <Openembedded-core@lists.openembedded.org>;
+	Fri, 8 Jun 2012 09:42:38 -0700 (PDT)
+Received: from ord-lpggp2.wrs.com (128.224.65.244) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Fri, 8 Jun 2012 09:42:37 -0700
+From: Jason Wessel <jason.wessel@windriver.com>
+To: <Openembedded-core@lists.openembedded.org>
+Date: Fri, 8 Jun 2012 11:43:47 -0500
+Message-ID: <1339173827-61084-1-git-send-email-jason.wessel@windriver.com>
+X-Mailer: git-send-email 1.7.1
 MIME-Version: 1.0
-Received: by 10.68.132.166 with SMTP id ov6mr21870642pbb.24.1339169770754;
-	Fri, 08 Jun 2012 08:36:10 -0700 (PDT)
-Received: by 10.68.197.4 with HTTP; Fri, 8 Jun 2012 08:36:10 -0700 (PDT)
-In-Reply-To: <c909caf522c3e75922f02d55d9a412984f37b2a0.1339169972.git.bruce.ashfield@windriver.com>
-References: <cover.1339169970.git.bruce.ashfield@windriver.com>
-	<c909caf522c3e75922f02d55d9a412984f37b2a0.1339169972.git.bruce.ashfield@windriver.com>
-Date: Fri, 8 Jun 2012 11:36:10 -0400
-Message-ID: <CADkTA4PhMcBYz4wPuNuqXaHAi6Oi7wOJeKwrhtRYzUJRg5Mt8A@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: richard.purdie@linuxfoundation.org
-Cc: saul.wold@intel.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] linux-libc-headers: set default LINUXLIBCVERSION to 3.4
+Subject: [PATCH] libnewt: Fix cross link using autoconf detected AR
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,78 +32,102 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Jun 2012 15:46:43 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 08 Jun 2012 16:53:21 -0000
+Content-Type: text/plain
 
-On Fri, Jun 8, 2012 at 11:42 AM, Bruce Ashfield
-<bruce.ashfield@windriver.com> wrote:
-> The 3.4 kernel is released, and is the default for qemu* builds, so
-> we can safely update the default libc-headers version to 3.4.
->
-> Built and booted for qemu*
->
-> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
-> ---
-> =A0meta/conf/distro/include/tcmode-default.inc =A0 =A0 =A0 =A0| =A0 =A02 =
-+-
-> =A0.../linux-libc-headers/linux-libc-headers_3.4.bb =A0 | =A0 =A06 ++++++
-> =A02 files changed, 7 insertions(+), 1 deletions(-)
-> =A0create mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-h=
-eaders_3.4.bb
->
-> diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/dist=
-ro/include/tcmode-default.inc
-> index 469233d..89c72c5 100644
-> --- a/meta/conf/distro/include/tcmode-default.inc
-> +++ b/meta/conf/distro/include/tcmode-default.inc
-> @@ -22,7 +22,7 @@ SDKGCCVERSION ?=3D "${GCCVERSION}"
-> =A0BINUVERSION ?=3D "2.22"
-> =A0EGLIBCVERSION ?=3D "2.15"
-> =A0UCLIBCVERSION ?=3D "0.9.33"
-> -LINUXLIBCVERSION ?=3D "3.2"
-> +LINUXLIBCVERSION ?=3D "3.4"
->
-> =A0PREFERRED_VERSION_gcc ?=3D "${GCCVERSION}"
-> =A0PREFERRED_VERSION_gcc-cross ?=3D "${GCCVERSION}"
-> diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.=
-4.bb b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.4.bb
-> new file mode 100644
-> index 0000000..9cedd52
-> --- /dev/null
-> +++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.4.bb
-> @@ -0,0 +1,6 @@
-> +require linux-libc-headers.inc
-> +
-> +PR =3D "r1"
+If building on 32bit host and creating 64bit libraries, the target
+package builds should not invoke the 32bit hosts's ar.  Specifically
+you will get an error message like:
 
-FYI: this r1 came from the reference libc-headers that I used .. but
-now that I think
-about it, it should be r0.
+x86_64-linux-gcc    -m64 --sysroot=/opt/qemux86-64/tmp/sysroots/qemux86-64 -g -o test test.o libnewt.a -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -lslang
+libnewt.a: could not read symbols: Archive has no index; run ranlib to add one
+collect2: error: ld returned 1 exit status
 
-I can make that change on my topic branch.
+Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
+---
+ meta/recipes-extended/newt/files/cross_ar.patch |   51 +++++++++++++++++++++++
+ meta/recipes-extended/newt/libnewt_0.52.14.bb   |    5 +-
+ 2 files changed, 54 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-extended/newt/files/cross_ar.patch
 
-Cheers,
+diff --git a/meta/recipes-extended/newt/files/cross_ar.patch b/meta/recipes-extended/newt/files/cross_ar.patch
+new file mode 100644
+index 0000000..f67239a
+--- /dev/null
++++ b/meta/recipes-extended/newt/files/cross_ar.patch
+@@ -0,0 +1,51 @@
++Fix cross link using autoconf detected AR
++
++If building on 32bit host and creating 64bit libraries, the target
++package builds should not invoke the 32bit hosts's ar.  Specifically
++you will get an error message like:
++
++x86_64-linux-gcc    -m64 --sysroot=/opt/qemux86-64/tmp/sysroots/qemux86-64 -g -o test test.o libnewt.a -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -lslang
++libnewt.a: could not read symbols: Archive has no index; run ranlib to add one
++collect2: error: ld returned 1 exit status
++
++Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
++
++Upstream-Status: Pending
++
++---
++ Makefile.in  |    3 ++-
++ configure.ac |    4 ++++
++ 2 files changed, 6 insertions(+), 1 deletion(-)
++
++--- a/Makefile.in
+++++ b/Makefile.in
++@@ -7,6 +7,7 @@ CFLAGS = @CFLAGS@
++ LDFLAGS = @LDFLAGS@
++ CPPFLAGS = -D_GNU_SOURCE @CPPFLAGS@ 
++ GNU_LD = @GNU_LD@
+++AR = @AR@
++ 
++ VERSION = @VERSION@
++ TAG = r$(subst .,-,$(VERSION))
++@@ -95,7 +96,7 @@ whiptcl.so: $(WHIPTCLOBJS) $(LIBNEWTSH)
++ 	$(CC) -shared $(SHCFLAGS) $(LDFLAGS) -o whiptcl.so $(WHIPTCLOBJS) -L. -lnewt  $(LIBTCL) -lpopt $(LIBS)
++ 
++ $(LIBNEWT): $(LIBOBJS)
++-	ar rv $@ $^
+++	$(AR) rv $@ $^
++ 
++ newt.o $(SHAREDDIR)/newt.o: newt.c Makefile
++ 
++--- a/configure.ac
+++++ b/configure.ac
++@@ -14,6 +14,10 @@ AC_PROG_CC
++ AC_PROG_INSTALL
++ AC_PROG_LN_S
++ AC_PROG_GREP
+++AN_MAKEVAR([AR], [AC_PROG_AR])
+++AN_PROGRAM([ar], [AC_PROG_AR])
+++AC_DEFUN([AC_PROG_AR], [AC_CHECK_TOOL(AR, ar, :)])
+++AC_PROG_AR
++ 
++ # Are we using GNU ld?
++ AC_MSG_CHECKING([for GNU ld])
+diff --git a/meta/recipes-extended/newt/libnewt_0.52.14.bb b/meta/recipes-extended/newt/libnewt_0.52.14.bb
+index 8a89eb7..0208695 100644
+--- a/meta/recipes-extended/newt/libnewt_0.52.14.bb
++++ b/meta/recipes-extended/newt/libnewt_0.52.14.bb
+@@ -17,11 +17,12 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=55ca817ccb7d5b5b66355690e9abc605"
+ # slang needs to be >= 2.2
+ DEPENDS = "slang popt"
+ 
+-PR = "r0"
++PR = "r1"
+ 
+ SRC_URI = "https://fedorahosted.org/releases/n/e/newt/newt-${PV}.tar.gz \
+            file://remove_slang_include.patch \
+-           file://fix_SHAREDDIR.patch"
++           file://fix_SHAREDDIR.patch \
++           file://cross_ar.patch"
+ 
+ SRC_URI[md5sum] = "eb78c6bb658b92ec7198908b5b8d0e37"
+ SRC_URI[sha256sum] = "f70f4f58baa60388ddf2e39249ffb00898fb40f2b2767e42e2ab51fe4b40978e"
+-- 
+1.7.1
 
-Bruce
-
-> +
-> +SRC_URI[md5sum] =3D "146af0160fc7a60cf9acf44aec13482b"
-> +SRC_URI[sha256sum] =3D "a797a15d0b6228381507c14ecf4eec4a6cc5c77cfd521ba3=
-b3e1325e85b5b16d"
-> --
-> 1.7.0.4
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-
-
-
---=20
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
 
 
