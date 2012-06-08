@@ -1,38 +1,36 @@
-Received: from mga10.intel.com ([192.55.52.92] helo=fmsmga102.fm.intel.com)
+Received: from mail-vb0-f47.google.com ([209.85.212.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bogdan.a.marinescu@intel.com>) id 1Scxbo-0008I7-Ai
+	(envelope-from <otavio.salvador@gmail.com>) id 1Scxtv-0004a1-NU
 	for openembedded-core@lists.openembedded.org;
-	Fri, 08 Jun 2012 13:44:04 +0200
-Received: from mail-vc0-f180.google.com ([209.85.220.180])
-	by mga11.intel.com with ESMTP/TLS/RC4-MD5; 08 Jun 2012 04:32:28 -0700
-Received: by vcbfk26 with SMTP id fk26so791573vcb.25
+	Fri, 08 Jun 2012 14:02:47 +0200
+Received: by vbbfr13 with SMTP id fr13so1067269vbb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Jun 2012 04:32:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type:content-transfer-encoding:x-gm-message-state;
-	bh=XYtHmP0sa3mf6PgAjeWRcTnsMmESj3qwohAMR0KRDCs=;
-	b=PDN7nnWfFfCB9XDNN1ajG9XGR4nQ1+chr3teA53t3smdij8HrQznkVw1ph7Or+dOt1
-	EWYt9SGiXVEWprTNcAtSUahaF4yw4SZrMTr7ax2B418wwq/hxPWIZKq02kRsiWGQHWzx
-	KMWPlZNQesVXfCXpjSwfro2jbBE8aq7KFHn26NUoYshZp71pWOWDkSZPUFp6HhK5CdTS
-	59LsLJ4CuVzdtLdSZyQGk1nc6ZV6q3UfeLkwDSEoy/M43fT5pz+/0eARJpHHRLYBIsQL
-	eHJnqNCv/x8K7DNMcAhHhXk9uQpljSYOHf1ccyE+DxE4MD2h4yVLprBR6I3luVn5dwjn
-	9SVQ==
-Received: by 10.220.240.7 with SMTP id ky7mr5724535vcb.46.1339155147423; Fri,
-	08 Jun 2012 04:32:27 -0700 (PDT)
+	Fri, 08 Jun 2012 04:52:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:content-type;
+	bh=w3MwB+oFJMnmnWaB50NKcdkw6WKEHWvQM9vkamqjyVw=;
+	b=GhnzfxZ3PowwTb/7YYQXKk0mTedBZ0uofufLHRVla54/6Dy2tSZfqfqUwK0cdQGbbl
+	3DYuiy1SQgQ5yVq/ZF+aP1CUJpEh3jk9zBmZKX70zlwHnEqBI2O1c+E2vkfq42ncSpEf
+	zgqfdaIKz8Rem9xU+xJp32g15Sjitp6/X5XNYffPYs79X0WWwlC61VoZFecUZzcxL9sB
+	l3ziEdrij7IRcr83wQbsrYbP/IYNBvv3sDYFeM3qsrIX1SDLU/WFr79NpXTBTfEKaGb1
+	4+AgtNwGeWFFzjVyXDy9skpuNcMfyek0e+AlaBJigbLokNfcAvQLhlPh3jiZos9Dh1lE
+	v/lw==
 MIME-Version: 1.0
-Received: by 10.52.169.200 with HTTP; Fri, 8 Jun 2012 04:32:07 -0700 (PDT)
-In-Reply-To: <20120608112246.GI3140@jama.jama.net>
-References: <1339153524-20746-1-git-send-email-bogdan.a.marinescu@intel.com>
-	<20120608112246.GI3140@jama.jama.net>
-From: "Marinescu, Bogdan A" <bogdan.a.marinescu@intel.com>
-Date: Fri, 8 Jun 2012 14:32:07 +0300
-Message-ID: <CAMZjud0TFhLgd2H+fEifCgMC26mqPb0+ab=1OZzFE6=MRvRMFg@mail.gmail.com>
+Received: by 10.52.97.41 with SMTP id dx9mr4957491vdb.89.1339156337561; Fri,
+	08 Jun 2012 04:52:17 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.220.234.132 with HTTP; Fri, 8 Jun 2012 04:52:17 -0700 (PDT)
+In-Reply-To: <1339151624.27075.0.camel@ted>
+References: <cover.1338658338.git.otavio@ossystems.com.br>
+	<1339151624.27075.0.camel@ted>
+Date: Fri, 8 Jun 2012 08:52:17 -0300
+X-Google-Sender-Auth: JYglGaMzHjYw3rOmLJ_iVbpbNls
+Message-ID: <CAP9ODKo415ewPTCpy5_dmziRRZgqesjof6zBKmjgHgDFO_XrcA@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Gm-Message-State: ALoCoQmOZfXoLiSW+xa8tRHTbYhgOWUh7f1YP/6Nu9bCY0AJhr9KG1xz8i4tmgcR9ZcSuqxjjm7m
-Subject: Re: [PATCH] libpcre: updated to version 8.30
+Subject: Re: [PATCH 0/1] Fix build failure of openjade using newer host
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,87 +45,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Jun 2012 11:44:04 -0000
+X-List-Received-Date: Fri, 08 Jun 2012 12:02:47 -0000
+Content-Type: multipart/alternative; boundary=20cf307f3806cc8e9c04c1f4a173
+
+--20cf307f3806cc8e9c04c1f4a173
 Content-Type: text/plain; charset=ISO-8859-1
+
+On Fri, Jun 8, 2012 at 7:33 AM, Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
+
+> Why can't we run autoreconf instead of having the huge patch? This might
+> be the right answer but I'd like to understand the problem here a bit
+> more...
+>
+
+The configure scripts are inside config dir and to proper configure it you
+need to call it with some params; too hackish! I ended getting this change
+from Debian package to not waste time mangling with options for autoreconf
+and like.
+
+-- 
+Otavio Salvador                             O.S. Systems
+E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
+Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
+
+--20cf307f3806cc8e9c04c1f4a173
+Content-Type: text/html; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jun 8, 2012 at 2:22 PM, Martin Jansa <martin.jansa@gmail.com> wrote=
-:
-> On Fri, Jun 08, 2012 at 02:05:24PM +0300, Bogdan Marinescu wrote:
->> Tested by compiling lighttpd
->>
->> Signed-off-by: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
->> ---
->> =A0.../libpcre/{libpcre_8.21.bb =3D> libpcre_8.30.bb} =A0 | =A0 10 +++++=
------
->> =A01 file changed, 5 insertions(+), 5 deletions(-)
->> =A0rename meta/recipes-support/libpcre/{libpcre_8.21.bb =3D> libpcre_8.3=
-0.bb} (86%)
->>
->> diff --git a/meta/recipes-support/libpcre/libpcre_8.21.bb b/meta/recipes=
--support/libpcre/libpcre_8.30.bb
->> similarity index 86%
->> rename from meta/recipes-support/libpcre/libpcre_8.21.bb
->> rename to meta/recipes-support/libpcre/libpcre_8.30.bb
->> index f5fa4ef..83831e7 100644
->> --- a/meta/recipes-support/libpcre/libpcre_8.21.bb
->> +++ b/meta/recipes-support/libpcre/libpcre_8.30.bb
->> @@ -5,15 +5,15 @@ provides a POSIX calling interface to PCRE; the regula=
-r expressions \
->> =A0themselves still follow Perl syntax and semantics. The header file fo=
-r \
->> =A0the POSIX-style functions is called pcreposix.h."
->> =A0SECTION =3D "devel"
->> -PR =3D "r1"
->> +PR =3D "r0"
->> =A0LICENSE =3D "BSD"
->> -LIC_FILES_CHKSUM =3D "file://LICENCE;md5=3D2f00d186a775c8002422a5315079=
-d96b"
->> -SRC_URI =3D "${SOURCEFORGE_MIRROR}/pcre/pcre-${PV}.tar.bz2 \
->> +LIC_FILES_CHKSUM =3D "file://LICENCE;md5=3D115e2bee152e2e23e838a2913609=
-4877"
->
-> What's changed in LICENCE? And add it to commit message in v2.
+<div class=3D"gmail_quote">On Fri, Jun 8, 2012 at 7:33 AM, Richard Purdie <=
+span dir=3D"ltr">&lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org" =
+target=3D"_blank">richard.purdie@linuxfoundation.org</a>&gt;</span> wrote:<=
+br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left=
+:1px #ccc solid;padding-left:1ex">
+<div class=3D"im">Why can&#39;t we run autoreconf instead of having the hug=
+e patch? This might</div>
+be the right answer but I&#39;d like to understand the problem here a bit<b=
+r>
+more...<br></blockquote><div><br></div><div>The configure scripts are insid=
+e config dir and to proper configure it you need to call it with some param=
+s; too hackish! I ended getting this change from Debian package to not wast=
+e time mangling with options for autoreconf and like.</div>
+<div>=A0</div></div>-- <br>Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
+=A0 =A0 =A0 =A0 =A0 =A0 =A0O.S. Systems<br>E-mail: <a href=3D"mailto:otavio=
+@ossystems.com.br" target=3D"_blank">otavio@ossystems.com.br</a>=A0 <a href=
+=3D"http://www.ossystems.com.br" target=3D"_blank">http://www.ossystems.com=
+.br</a><br>
+Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0<a href=3D"http://pro=
+jetos.ossystems.com.br" target=3D"_blank">http://projetos.ossystems.com.br<=
+/a><br><br>
 
-The copyright was extended to 2012. Do I need to resubmit the patch
-with this information?
-
-Thanks,
-Bogdan
-
->
-> Cheers,
->
->> +SRC_URI =3D "${SOURCEFORGE_MIRROR}/project/pcre/pcre/${PV}/pcre-${PV}.t=
-ar.bz2 \
->> =A0 =A0 =A0 =A0 =A0 =A0 file://pcre-cross.patch \
->> =A0 =A0 =A0 =A0 =A0 =A0 file://fix-pcre-name-collision.patch"
->>
->> -SRC_URI[md5sum] =3D "0a7b592bea64b7aa7f4011fc7171a730"
->> -SRC_URI[sha256sum] =3D "a4b8509d11fc2764fb4e1415b764ad2c214459edc011ce4=
-8aeeb6bbe1ac599e3"
->> +SRC_URI[md5sum] =3D "98e8928cccc945d04279581e778fbdff"
->> +SRC_URI[sha256sum] =3D "c1113fd7db934e97ad8b3917d432e5b642e9eb9afd127eb=
-797804937c965f4ac"
->>
->> =A0S =3D "${WORKDIR}/pcre-${PV}"
->>
->> --
->> 1.7.9.5
->>
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
-> --
-> Martin 'JaMa' Jansa =A0 =A0 jabber: Martin.Jansa@gmail.com
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
-
-
+--20cf307f3806cc8e9c04c1f4a173--
