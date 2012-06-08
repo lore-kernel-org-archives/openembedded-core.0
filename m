@@ -1,41 +1,20 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1SctxY-0008A0-Tu
+	(envelope-from <bogdan.a.marinescu@intel.com>) id 1Scvfq-0004D9-Pl
 	for openembedded-core@lists.openembedded.org;
-	Fri, 08 Jun 2012 09:50:17 +0200
-Received: by eaal1 with SMTP id l1so867242eaa.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Jun 2012 00:39:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date
-	:content-transfer-encoding:message-id:references:to:x-mailer
-	:x-gm-message-state;
-	bh=M+L5GJU+sPWBrrG02rT6586olodQthlswKdy7LrcRrU=;
-	b=DnBYkshMNzSh/gGeKx873wUdq2IQgfDbyNcYfD4npRIrL4zgkZUaELOP+PsfK76/yC
-	+OOjn4/Gb4UC75A8QOIdEaJxLZPUzo8qeyAKKxHaVOlU3ZeuXe2UTgpXz7JB7OqTvaXz
-	76BfAYKswRiCB5ohRyd1maib/lH+dHgmEF8nXYGjIBYH2M5iMCcQmyWInOLXp8wxvESh
-	rKe5RQaZWriUKK+XHW8XvZbuQLTXy/B2q0rUtgHZMZMG2vPYILxRIcbYQHrvJ6GlXTY1
-	zUEVuRSF7s1t4r0MlKSR4D4YzsMZeNX1OSKl7HvI+hQS2tPd0QAgYhDIQQiEK7Ux+rrw
-	EIpw==
-Received: by 10.14.127.136 with SMTP id d8mr3221903eei.159.1339141187211;
-	Fri, 08 Jun 2012 00:39:47 -0700 (PDT)
-Received: from [172.20.1.36] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id y3sm19042822eem.16.2012.06.08.00.39.45
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 08 Jun 2012 00:39:46 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1278)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1339117150-15442-1-git-send-email-sgw@linux.intel.com>
-Date: Fri, 8 Jun 2012 09:39:42 +0200
-Message-Id: <0DCEDF44-AD19-4718-92F2-4801F8268190@dominion.thruhere.net>
-References: <1339117150-15442-1-git-send-email-sgw@linux.intel.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1278)
-X-Gm-Message-State: ALoCoQlwPgOSVa34sP7vV9hpN12ZiVrkYpTpENPKf3bmuqOFQMkrWKBuYyppwDN4BtKKxH80JhkJ
-Subject: Re: [PATCH] curl: enable ssl support
+	Fri, 08 Jun 2012 11:40:06 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 08 Jun 2012 02:28:31 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="109487663"
+Received: from bogdanm (HELO localhost.localdomain) ([10.237.104.85])
+	by AZSMGA002.ch.intel.com with ESMTP; 08 Jun 2012 02:28:30 -0700
+From: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  8 Jun 2012 12:30:25 +0300
+Message-Id: <1339147825-24242-1-git-send-email-bogdan.a.marinescu@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] nasm: updated to 2.10.01
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,58 +29,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Jun 2012 07:50:17 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 08 Jun 2012 09:40:07 -0000
 
+Tested by compiling syslinux
 
-Op 8 jun. 2012, om 02:59 heeft Saul Wold het volgende geschreven:
+Signed-off-by: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
+---
+ .../nasm/{nasm_2.07.bb => nasm_2.10.01.bb}         |   11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
+ rename meta/recipes-devtools/nasm/{nasm_2.07.bb => nasm_2.10.01.bb} (58%)
 
-> This patch enables ssl support for curl to allow git to clone from
-> https / ssl sites.
->=20
-> [YOCTO #2532]
->=20
-> Signed-off-by: Saul Wold <sgw@linux.intel.com>
-> ---
-> meta/recipes-support/curl/curl_7.24.0.bb |    6 +++---
-> 1 files changed, 3 insertions(+), 3 deletions(-)
->=20
-> diff --git a/meta/recipes-support/curl/curl_7.24.0.bb =
-b/meta/recipes-support/curl/curl_7.24.0.bb
-> index 12e95c9..f0ae7f1 100644
-> --- a/meta/recipes-support/curl/curl_7.24.0.bb
-> +++ b/meta/recipes-support/curl/curl_7.24.0.bb
-> @@ -5,10 +5,10 @@ SECTION =3D "console/network"
-> LICENSE =3D "MIT"
-> LIC_FILES_CHKSUM =3D =
-"file://COPYING;beginline=3D7;md5=3D3a34942f4ae3fbf1a303160714e664ac"
->=20
-> -DEPENDS =3D "zlib gnutls"
-> +DEPENDS =3D "zlib gnutls openssl"
-> DEPENDS_virtclass-native =3D "zlib-native"
-> DEPENDS_virtclass-nativesdk =3D "zlib-nativesdk"
-> -PR =3D "r0"
-> +PR =3D "r1"
->=20
-> SRC_URI =3D "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
->            file://noldlibpath.patch \
-> @@ -20,7 +20,7 @@ SRC_URI[sha256sum] =3D =
-"ebdb111088ff8b0e05b1d1b075e9f1608285e8105cc51e21caacf33d01
-> inherit autotools pkgconfig binconfig
->=20
-> EXTRA_OECONF =3D "--with-zlib=3D${STAGING_LIBDIR}/../ \
-> -                --without-ssl \
-> +		--with-ssl \
->                 --without-libssh2 \
-> 		--with-random=3D/dev/urandom \
-> 		--without-libidn \
+diff --git a/meta/recipes-devtools/nasm/nasm_2.07.bb b/meta/recipes-devtools/nasm/nasm_2.10.01.bb
+similarity index 58%
+rename from meta/recipes-devtools/nasm/nasm_2.07.bb
+rename to meta/recipes-devtools/nasm/nasm_2.10.01.bb
+index fc2d531..8feaad4 100644
+--- a/meta/recipes-devtools/nasm/nasm_2.07.bb
++++ b/meta/recipes-devtools/nasm/nasm_2.10.01.bb
+@@ -1,15 +1,14 @@
+ DESCRIPTION = "General-purpose x86 assembler"
+ SECTION = "devel"
+ LICENSE = "BSD-2-Clause"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=d89d124974e487e5d64da6f1cd8acfbb"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=90904486f8fbf1861cf42752e1a39efe"
+ COMPATIBLE_HOST = '(x86_64|i.86).*-(linux|freebsd.*)'
+ 
+-PR = "r1"
++PR = "r0"
+ 
+-SRC_URI = "${SOURCEFORGE_MIRROR}/nasm/nasm-${PV}.tar.bz2 "
+-
+-SRC_URI[md5sum] = "d8934231e81874c29374ddef1fbdb1ed"
+-SRC_URI[sha256sum] = "ac70ee451c73d742c9ff830502e5f8b1f648b2abffa8fd00944243283ba8e87c"
++SRC_URI = "http://www.nasm.us/pub/nasm/releasebuilds/${PV}/nasm-${PV}.tar.bz2 "
++SRC_URI[md5sum] = "2e02cb6e90f52950eaaa8cce7a9f2327"
++SRC_URI[sha256sum] = "ac9b37d265c35492ab1bc29dd5a4f3da11b42dd9fea7a31d95f6cb4c812bda84"
+ 
+ inherit autotools
+ 
+-- 
+1.7.9.5
 
-I haven't looked at the complete recipe, but what is the ssl behaviour =
-for the -native and -nativesdk versions?
-
-regards,
-
-Koen=
 
 
