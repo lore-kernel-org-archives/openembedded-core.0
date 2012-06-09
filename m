@@ -1,38 +1,33 @@
-Received: from mail-pb0-f47.google.com ([209.85.160.47])
+Received: from mail-pz0-f47.google.com ([209.85.210.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1SdOwM-0004SW-H1
+	(envelope-from <raj.khem@gmail.com>) id 1SdUBI-0000TZ-5E
 	for openembedded-core@lists.openembedded.org;
-	Sat, 09 Jun 2012 18:55:06 +0200
-Received: by mail-pb0-f47.google.com with SMTP id rq2so3571196pbb.6
+	Sun, 10 Jun 2012 00:30:52 +0200
+Received: by dalh21 with SMTP id h21so3578165dal.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 09 Jun 2012 09:44:37 -0700 (PDT)
+	Sat, 09 Jun 2012 15:20:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
-	:in-reply-to:references;
-	bh=ry+hknjgk84cUpP5V8f9NGDwVzF9U+jxa6U2lfEWdpY=;
-	b=MfKfVIVCScxQDcWuwZLnVhPZRl0fLi2UKkch6kN+hS3kzamlVQ2d8R+jceZ4VFb7Gz
-	ILQriGWgKdyZU4/INF0oxAgu+7lpqWhuLI9zcucDdfaO4yfBdRA+wPRw5VQHPpFShlqC
-	xNW7MMaNJ4gYgGJNTjHe9xglB6m5cvHGLOYUZlSUdtu8q2RhliNJIsGH65jHEmZWP26g
-	pTs29xoFaGiiEPm7Yj6WAz152iPOIyydxKUoDKAvOl+KF+pDgWfR7K3hv0QkWjdnVjNh
-	SHlbAXjBKU6VKmzpF0mTgPINERdnhhFoVg7kHCkAMTccbE5P3qIy3HZKtAH2rI2YXclB
-	S1zA==
-Received: by 10.68.134.163 with SMTP id pl3mr7736044pbb.167.1339260277316;
-	Sat, 09 Jun 2012 09:44:37 -0700 (PDT)
-Received: from localhost.localdomain (oldbuilder.nslu2-linux.org.
-	[140.211.169.168])
-	by mx.google.com with ESMTPS id hc7sm11897651pbc.54.2012.06.09.09.44.35
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=8woVSDECUyq6HoDsMyt0YRnioycbMjWS1PgWs2HOrj0=;
+	b=CFeCIEPqULdVMMOH6DhHJQPfp3VfvQdvIbik4lkV8ss6IFJ7HWLvPmvG3uqEOThIL/
+	9w9nzp3ZP5giwlIJQS1LrxsasTCswwqT2F1LsoHvhkrZiwey+mQUdT/bTzUvTS9r2a1w
+	113acHpHIivnE56augae1mJi0DLg4TUOmy043/JN3NjtnCEvTnLEAyu6z4ReA0Fbwz1r
+	4AHTlIszupOK4tXu6fCVfNlaGZJG+mE/0mv4VT8K/Is6wCZ4+CK7EqNLxFi9UCPPpxUx
+	k1l/4yX2Bt+vy3wea3pxl5brnfxu5oNdXc6fsuabmVjqoIAhQmf5u1Un9T3n8NkLEgue
+	iMfQ==
+Received: by 10.68.200.197 with SMTP id ju5mr10323160pbc.19.1339280419666;
+	Sat, 09 Jun 2012 15:20:19 -0700 (PDT)
+Received: from localhost.localdomain (garnet.openembedded.org.
+	[140.211.169.180])
+	by mx.google.com with ESMTPS id ru4sm12673107pbc.66.2012.06.09.15.20.17
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sat, 09 Jun 2012 09:44:36 -0700 (PDT)
+	Sat, 09 Jun 2012 15:20:18 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat,  9 Jun 2012 09:43:14 -0700
-Message-Id: <74ec80fce12f7fea4f3bd8b036c3e1ec90afa3d0.1339259893.git.raj.khem@gmail.com>
+Date: Sat,  9 Jun 2012 15:19:23 -0700
+Message-Id: <1339280364-22585-1-git-send-email-raj.khem@gmail.com>
 X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <c8b84221a903fa86e1ba3df402166720c7ca9b16.1339259893.git.raj.khem@gmail.com>
-References: <c8b84221a903fa86e1ba3df402166720c7ca9b16.1339259893.git.raj.khem@gmail.com>
-In-Reply-To: <cover.1339259893.git.raj.khem@gmail.com>
-References: <cover.1339259893.git.raj.khem@gmail.com>
-Subject: [PATCH 16/16] gnupg-2.0.19: Depend on npth for uclibc
+Subject: [PATCH 1/2] gcc-common: Enable hardfloat ABI when target is arm
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,30 +42,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 09 Jun 2012 16:55:06 -0000
+X-List-Received-Date: Sat, 09 Jun 2012 22:30:52 -0000
+
+We need to check target to be arm before enabling hard-float
+ABI. There are crossdk targets or candian-cross targets built
+for arm and we should not enable it for those class of recipes.
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-support/gnupg/gnupg_2.0.19.bb |    6 ++++--
- 1 files changed, 4 insertions(+), 2 deletions(-)
+ meta/recipes-devtools/gcc/gcc-common.inc |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-support/gnupg/gnupg_2.0.19.bb b/meta/recipes-support/gnupg/gnupg_2.0.19.bb
-index d014f03..24219a8 100644
---- a/meta/recipes-support/gnupg/gnupg_2.0.19.bb
-+++ b/meta/recipes-support/gnupg/gnupg_2.0.19.bb
-@@ -4,8 +4,10 @@ LICENSE = "GPLv3 & LGPLv3"
- LIC_FILES_CHKSUM = "file://COPYING;md5=f27defe1e96c2e1ecd4e0c9be8967949 \
-                     file://COPYING.LIB;md5=6a6a8e020838b23406c81b19c1d46df6"
+diff --git a/meta/recipes-devtools/gcc/gcc-common.inc b/meta/recipes-devtools/gcc/gcc-common.inc
+index c479403..7911ceb 100644
+--- a/meta/recipes-devtools/gcc/gcc-common.inc
++++ b/meta/recipes-devtools/gcc/gcc-common.inc
+@@ -10,7 +10,7 @@ inherit autotools gettext
+ FILESDIR = "${@os.path.dirname(d.getVar('FILE',1))}/gcc-${PV}"
  
--DEPENDS = "pth libassuan libksba zlib bzip2 readline libgcrypt"
--PR = "r2"
-+DEPENDS = "${PTH} libassuan libksba zlib bzip2 readline libgcrypt"
-+PTH = "pth"
-+PTH_libc-uclibc = "npth"
-+PR = "r3"
- 
- inherit autotools gettext
- 
+ def get_gcc_fpu_setting(bb, d):
+-    if d.getVar('ARMPKGSFX_EABI', True) is "hf":
++    if d.getVar('ARMPKGSFX_EABI', True) is "hf" and  d.getVar('TRANSLATED_TARGET_ARCH', True) is "arm":
+         return "--with-float=hard"
+     if d.getVar('TARGET_FPU', True) in [ 'soft' ]:
+         return "--with-float=soft"
 -- 
 1.7.5.4
 
