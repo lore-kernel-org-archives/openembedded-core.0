@@ -1,38 +1,43 @@
-Received: from mga10.intel.com ([192.55.52.92] helo=fmsmga102.fm.intel.com)
+Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <elizabeth.flanagan@intel.com>) id 1Se8yB-00018d-3q
+	(envelope-from <scott.a.garman@intel.com>) id 1Se8yF-00018u-O2
 	for openembedded-core@lists.openembedded.org;
-	Mon, 11 Jun 2012 20:04:03 +0200
-Received: from mail-lb0-f180.google.com ([209.85.217.180])
-	by mga11.intel.com with ESMTP/TLS/RC4-SHA; 11 Jun 2012 10:53:28 -0700
-Received: by lbbgh12 with SMTP id gh12so2575552lbb.25
+	Mon, 11 Jun 2012 20:04:07 +0200
+Received: from mail-pb0-f52.google.com ([209.85.160.52])
+	by mga01.intel.com with ESMTP/TLS/RC4-MD5; 11 Jun 2012 10:49:53 -0700
+Received: by pbbro8 with SMTP id ro8so5630448pbb.25
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jun 2012 10:53:26 -0700 (PDT)
+	Mon, 11 Jun 2012 10:49:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type:content-transfer-encoding:x-gm-message-state;
-	bh=PJDJnpiSZTOu6JZYdwcinAmV6JXumypnh80wi7v0frI=;
-	b=CT5scd5YdD2DhwrHLDUzfNPz9WgMIDxTDpM9b9VFLT6G9lFHHFpzTx3K2tmp3yoLWk
-	XaAaGn3Wdj+z/fQU51LG2c7F7vJMMS/4VDRuUH0ob4Fe4hRu6/1QFqw9UVAjiA4flIAx
-	QYzsPnOZ0ibxY0FVuYhAW9Dd2i/KqxT8q0XHuo4QpApDa4+6AoaujhztKcPIQZc/ovRY
-	791nTrT5tDTJGp5tq0qczNgx9+jPGudU4IMHhcKRASW/AXRaXghKFXcJ8ab25qkwRDKe
-	eaHsOX4qSUzWDDau+vCP2fVrE6i4G3Jm7DwIiQ1HcbzWnpWJtuAHkLO6Z2uDioCbt5N/
-	4LYg==
+	h=message-id:date:from:user-agent:mime-version:to:subject:references
+	:in-reply-to:content-type:content-transfer-encoding
+	:x-gm-message-state;
+	bh=ki1tCjed/w2MEk2jDkg7H7tm15wESuw2W9QSzN4BZQg=;
+	b=NeIRDyCsd5R7igi42LZPUA9svMbxuL4JMVFNksF2Te7y0YYEis4Cxk5oWNDa7fYKP6
+	cA7i+ojdRKHZI8W/E9TIEofPpnLKzQ5q8MYEX6K2oWqHcFwi+L16VBdyDHgWG0U9OOFv
+	6pJDdPXHv+jGyqkJjcl3yp5heActzj6RIWf2bWPLXtSZ8ZerMjW7A9zxOUmqQmEs9Ufn
+	23NVhGBLVfKpjnCrBXiCOdg4vOy/+wWXheqfXqSuCwWeCWreznTU0w1A0R8u4YD+5i2A
+	ff0l9HYDXM7H6wqchWLWSft6iXaFL6Fqn2V26v/iXoeoS8rusoeQJfrxDgXJrCx6Hf4X
+	3J/g==
+Received: by 10.68.232.232 with SMTP id tr8mr28940276pbc.73.1339436993224;
+	Mon, 11 Jun 2012 10:49:53 -0700 (PDT)
+Received: from [192.168.1.12] (c-76-105-137-48.hsd1.or.comcast.net.
+	[76.105.137.48])
+	by mx.google.com with ESMTPS id he9sm12459313pbc.68.2012.06.11.10.49.51
+	(version=SSLv3 cipher=OTHER); Mon, 11 Jun 2012 10:49:52 -0700 (PDT)
+Message-ID: <4FD62FC5.5010807@intel.com>
+Date: Mon, 11 Jun 2012 10:49:57 -0700
+From: Scott Garman <scott.a.garman@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
 MIME-Version: 1.0
-Received: by 10.152.125.236 with SMTP id mt12mr17954622lab.12.1339437206342;
-	Mon, 11 Jun 2012 10:53:26 -0700 (PDT)
-Received: by 10.112.1.227 with HTTP; Mon, 11 Jun 2012 10:53:26 -0700 (PDT)
-In-Reply-To: <cover.1338541462.git.xiaofeng.yan@windriver.com>
-References: <cover.1338541462.git.xiaofeng.yan@windriver.com>
-Date: Mon, 11 Jun 2012 10:53:26 -0700
-Message-ID: <CAPhnLPALtKFsmCz3V2av7x+=GcmzuVKPn-0fgSOPPzeC_6js+g@mail.gmail.com>
-From: "Flanagan, Elizabeth" <elizabeth.flanagan@intel.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Gm-Message-State: ALoCoQkqBUd8m4I3jnA/7yQqgM83Lc2AuSxKSO+NgbtG339PP8I64t8Gfg6LOX/oj3oj4RghWS49
-Cc: Zhenfeng.Zhao@windriver.com
-Subject: Re: [PATCH 0/3 V2]lsb: Add initscripts to enhance init functions in an lsb image
+To: openembedded-core@lists.openembedded.org
+References: <1339166898-11667-1-git-send-email-laurentiu.palcu@intel.com>
+	<1339166898-11667-2-git-send-email-laurentiu.palcu@intel.com>
+In-Reply-To: <1339166898-11667-2-git-send-email-laurentiu.palcu@intel.com>
+X-Gm-Message-State: ALoCoQmJbcAxo6wSxN2Yd23HSh8ITb5AfT9BtcL47+aYVw7xZk9BzVuvVq8agT0HmZv2OlJ7UNA0
+Subject: Re: [PATCH 1/4] freetype: upgrade to 2.4.9
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,61 +52,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Jun 2012 18:04:03 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 11 Jun 2012 18:04:08 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, Jun 1, 2012 at 2:13 AM,  <xiaofeng.yan@windriver.com> wrote:
-> From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
+On 06/08/2012 07:48 AM, Laurentiu Palcu wrote:
+> Signed-off-by: Laurentiu Palcu<laurentiu.palcu@intel.com>
+
+Hi Laurentiu,
+
+Since this commit fixes a bug and addresses security issues, please be 
+sure to include these details in the future in your commit log. 
+Something along the lines of:
+
+Addresses CVE-2012-1126, CVE-2012-1127, CVE-2012-1128, ...
+
+This fixes [YOCTO #2468]
+
+helps us track security-related fixes and bugfixes more easily.
+
+Note, in this case the number of CVEs this fixes is unusually long (I 
+count 19 of them), but listing all of them is good policy.
+
+Thanks,
+
+Scott
+
+> ---
+>   .../no-hardcode.patch                              |    0
+>   .../{freetype_2.4.8.bb =>  freetype_2.4.9.bb}       |    4 ++--
+>   2 files changed, 2 insertions(+), 2 deletions(-)
+>   rename meta/recipes-graphics/freetype/{freetype-2.4.8 =>  freetype-2.4.9}/no-hardcode.patch (100%)
+>   rename meta/recipes-graphics/freetype/{freetype_2.4.8.bb =>  freetype_2.4.9.bb} (91%)
 >
-> This is V2. The modification is as follows by comparison with V1:
-> - Add extra description in section "DESCRIPTION"
-> - Use bbclass update-alternatives instead of command method.
+> diff --git a/meta/recipes-graphics/freetype/freetype-2.4.8/no-hardcode.patch b/meta/recipes-graphics/freetype/freetype-2.4.9/no-hardcode.patch
+> similarity index 100%
+> rename from meta/recipes-graphics/freetype/freetype-2.4.8/no-hardcode.patch
+> rename to meta/recipes-graphics/freetype/freetype-2.4.9/no-hardcode.patch
+> diff --git a/meta/recipes-graphics/freetype/freetype_2.4.8.bb b/meta/recipes-graphics/freetype/freetype_2.4.9.bb
+> similarity index 91%
+> rename from meta/recipes-graphics/freetype/freetype_2.4.8.bb
+> rename to meta/recipes-graphics/freetype/freetype_2.4.9.bb
+> index bce01cf..31bee80 100644
+> --- a/meta/recipes-graphics/freetype/freetype_2.4.8.bb
+> +++ b/meta/recipes-graphics/freetype/freetype_2.4.9.bb
+> @@ -18,8 +18,8 @@ PR = "r0"
+>   SRC_URI = "${SOURCEFORGE_MIRROR}/freetype/freetype-${PV}.tar.bz2 \
+>              file://no-hardcode.patch"
 >
-> The following changes since commit de4cdfd6bc1280ac7ac0559b87734d26294ef7=
-73:
-> =A0Scott Rifenbark (1):
-> =A0 =A0 =A0 =A0documentation/kernel-manual/kernel-how-to.xml: Updated to =
-kernel 3.4
+> -SRC_URI[md5sum] = "dbf2caca1d3afd410a29217a9809d397"
+> -SRC_URI[sha256sum] = "a9eb7da3875fcb2f022a9c280c01b94ae45ac83d8102838c05dce1277948fb71"
+> +SRC_URI[md5sum] = "77a893dae81fd5b896632715ca041179"
+> +SRC_URI[sha256sum] = "c4204ac1d48e99d4375a2f32bf4f3f92780a9d9f015e64e57e852f6c004859b9"
 >
-> are available in the git repository at:
+>   S = "${WORKDIR}/freetype-${PV}"
 >
-> =A0git://git.pokylinux.org/poky-contrib xiaofeng/2133
-> =A0http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=3Dxiaofeng/2133
->
-> Xiaofeng Yan (3):
-> =A0lsbinitscripts: Add initscripts to enhance init functions in an lsb
-> =A0 =A0image
-> =A0lsbinitscripts: Patch file functions for confirming to an lsb image
-> =A0task-core-lsb: Add another initscripts to an lsb image
->
-> =A0.../lsb/lsbinitscripts/functions.patch =A0 =A0 =A0 =A0 =A0 =A0 | =A0 1=
-1 ++++++++
-> =A0meta/recipes-extended/lsb/lsbinitscripts_9.03.bb =A0 | =A0 26 ++++++++=
-++++++++++++
-> =A0meta/recipes-extended/tasks/task-core-lsb.bb =A0 =A0 =A0 | =A0 =A03 +-
-> =A03 files changed, 39 insertions(+), 1 deletions(-)
-> =A0create mode 100644 meta/recipes-extended/lsb/lsbinitscripts/functions.=
-patch
-> =A0create mode 100644 meta/recipes-extended/lsb/lsbinitscripts_9.03.bb
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
-Merged into OE-Core
-
-Thanks
-
--b
-
-
---=20
-Elizabeth Flanagan
-Yocto Project
-Build and Release
+-- 
+Scott Garman
+Embedded Linux Engineer - Yocto Project
+Intel Open Source Technology Center
 
 
