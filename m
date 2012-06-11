@@ -1,25 +1,31 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+Received: from stoexhub02.domain01.net ([83.145.59.143])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1Se20q-0002YH-Nx
+	(envelope-from <anders@chargestorm.se>) id 1Se2AM-0002sW-Eh
 	for openembedded-core@lists.openembedded.org;
-	Mon, 11 Jun 2012 12:38:20 +0200
-Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
-	helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1Se1qf-0002DV-Kz
-	for openembedded-core@lists.openembedded.org;
-	Mon, 11 Jun 2012 12:27:49 +0200
-From: Phil Blundell <philb@gnu.org>
-To: Patches and discussions about the oe-core layer
+	Mon, 11 Jun 2012 12:48:10 +0200
+Received: from localhost (193.41.119.134) by stoexhub02.domain01.net
+	(10.12.10.2) with Microsoft SMTP Server id 8.3.245.1; Mon, 11 Jun 2012
+	12:37:36 +0200
+Date: Mon, 11 Jun 2012 12:36:31 +0200
+From: Anders Darander <anders@chargestorm.se>
+To: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Date: Mon, 11 Jun 2012 11:27:48 +0100
-In-Reply-To: <2537506.sJK0eATnrm@helios>
+Message-ID: <20120611103631.GB6900@ad.chargestorm.se>
+Mail-Followup-To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
 References: <cover.1339405061.git.lianhao.lu@intel.com>
 	<ebe46107b8bcc9637bf93b125fa5f9b0a0a045bd.1339405061.git.lianhao.lu@intel.com>
-	<20120611094548.GA6900@ad.chargestorm.se> <2537506.sJK0eATnrm@helios>
-X-Mailer: Evolution 3.0.2- 
-Message-ID: <1339410469.31110.73.camel@phil-desktop>
-Mime-Version: 1.0
+	<20120611094548.GA6900@ad.chargestorm.se>
+	<2537506.sJK0eATnrm@helios>
+MIME-Version: 1.0
+In-Reply-To: <2537506.sJK0eATnrm@helios>
+X-Accept-Language: sv, en, de
+X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
+X-GPG-Key-Id: 0x920E938C
+X-GPG-Keyserver: hkp://keys.gnupg.net
+Organization: ChargeStorm AB
+User-Agent: Mutt/1.5.20 (2009-12-10)
+X-GFI-SMTP-Submission: 1
 Subject: Re: [PATCH 1/3] openssh: Allow empty passwords login.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -35,11 +41,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Jun 2012 10:38:20 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 11 Jun 2012 10:48:10 -0000
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
 
-On Mon, 2012-06-11 at 11:24 +0100, Paul Eggleton wrote:
+* Paul Eggleton <paul.eggleton@linux.intel.com> [120611 12:24]:
+
+> On Monday 11 June 2012 11:45:49 Anders Darander wrote:
+> > * Lianhao Lu <lianhao.lu@intel.com> [120611 11:03]:
+> > > Allow empty passwords login so that the default root user can login in
+> > > through openssh.
+> > 
+> > NAK, this isn't a sane default for a OpenSSH-recipe...
+
+> I agree, however more below...
+
+Good.
+
+> > What's your use-case? Is it for automatic testing/development? If so,
+> > can't you either set the password, or change the config using some other
+> > means, e.g. a post rootfs installation script? (And make sure that this
+> > is only run for the image in question, _not_ for all images).
+
 > I don't think we want this to be image-specific. FWIW, we do already have a 
 > mechanism to handle this for the dropbear recipe - debug-tweaks in 
 > IMAGE_FEATURES. I don't particularly like it however since IMAGE_FEATURES 
@@ -47,17 +70,18 @@ On Mon, 2012-06-11 at 11:24 +0100, Paul Eggleton wrote:
 > and I think we ought to change to some other mechanism (perhaps make it a 
 > separate variable) and then make the OpenSSH recipe use that.
 
-In the particular case of OpenSSH, it's just a configuration file
-setting, rather than a compile-time #ifdef, so doing it with
-IMAGE_FEATURES and a rootfs postprocess step sounds like a perfectly
-wholesome approach.  
+That's right, the image shouldn't affect compile-time options. However,
+in this particular case, as it is a configuration file, it should be
+fine.
 
-I agree that the current mechanism used by dropbear (applying patches
-based on IMAGE_FEATURES) is full of suck and should be changed, perhaps
-to something more akin to what openssh does.
+The variable idea is also fine with me, as long as we keep sensible
+defaults, i.e. no empty password logins etc.
 
-p.
+Cheers,
+Anders
 
-
+-- 
+Anders Darander
+ChargeStorm AB / eStorm AB
 
 
