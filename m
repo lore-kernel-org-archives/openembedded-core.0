@@ -1,31 +1,26 @@
-Received: from stoexhub02.domain01.net ([83.145.59.143])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <anders@chargestorm.se>) id 1Se2AM-0002sW-Eh
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1Se2ig-0004Gf-Mr
 	for openembedded-core@lists.openembedded.org;
-	Mon, 11 Jun 2012 12:48:10 +0200
-Received: from localhost (193.41.119.134) by stoexhub02.domain01.net
-	(10.12.10.2) with Microsoft SMTP Server id 8.3.245.1; Mon, 11 Jun 2012
-	12:37:36 +0200
-Date: Mon, 11 Jun 2012 12:36:31 +0200
-From: Anders Darander <anders@chargestorm.se>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20120611103631.GB6900@ad.chargestorm.se>
-Mail-Followup-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
+	Mon, 11 Jun 2012 13:23:38 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 11 Jun 2012 04:13:03 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="151282505"
+Received: from unknown (HELO helios.localnet) ([10.252.120.119])
+	by orsmga001.jf.intel.com with ESMTP; 11 Jun 2012 04:13:02 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 11 Jun 2012 12:13:01 +0100
+Message-ID: <21967910.Cvp1B8MzgQ@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.8.3 (Linux/3.2.0-24-generic-pae; KDE/4.8.3; i686; ; )
+In-Reply-To: <1339410469.31110.73.camel@phil-desktop>
 References: <cover.1339405061.git.lianhao.lu@intel.com>
-	<ebe46107b8bcc9637bf93b125fa5f9b0a0a045bd.1339405061.git.lianhao.lu@intel.com>
-	<20120611094548.GA6900@ad.chargestorm.se>
 	<2537506.sJK0eATnrm@helios>
+	<1339410469.31110.73.camel@phil-desktop>
 MIME-Version: 1.0
-In-Reply-To: <2537506.sJK0eATnrm@helios>
-X-Accept-Language: sv, en, de
-X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
-X-GPG-Key-Id: 0x920E938C
-X-GPG-Keyserver: hkp://keys.gnupg.net
-Organization: ChargeStorm AB
-User-Agent: Mutt/1.5.20 (2009-12-10)
-X-GFI-SMTP-Submission: 1
+Cc: Phil Blundell <philb@gnu.org>
 Subject: Re: [PATCH 1/3] openssh: Allow empty passwords login.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -41,47 +36,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Jun 2012 10:48:10 -0000
+X-List-Received-Date: Mon, 11 Jun 2012 11:23:38 -0000
+Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
 
-* Paul Eggleton <paul.eggleton@linux.intel.com> [120611 12:24]:
+On Monday 11 June 2012 11:27:48 Phil Blundell wrote:
+> On Mon, 2012-06-11 at 11:24 +0100, Paul Eggleton wrote:
+> > I don't think we want this to be image-specific. FWIW, we do already have
+> > a
+> > mechanism to handle this for the dropbear recipe - debug-tweaks in
+> > IMAGE_FEATURES. I don't particularly like it however since IMAGE_FEATURES
+> > should not be influencing non-image recipes. This has bothered me for a
+> > while and I think we ought to change to some other mechanism (perhaps
+> > make it a separate variable) and then make the OpenSSH recipe use that.
+> 
+> In the particular case of OpenSSH, it's just a configuration file
+> setting, rather than a compile-time #ifdef, so doing it with
+> IMAGE_FEATURES and a rootfs postprocess step sounds like a perfectly
+> wholesome approach.
+> 
+> I agree that the current mechanism used by dropbear (applying patches
+> based on IMAGE_FEATURES) is full of suck and should be changed, perhaps
+> to something more akin to what openssh does.
 
-> On Monday 11 June 2012 11:45:49 Anders Darander wrote:
-> > * Lianhao Lu <lianhao.lu@intel.com> [120611 11:03]:
-> > > Allow empty passwords login so that the default root user can login in
-> > > through openssh.
-> > 
-> > NAK, this isn't a sane default for a OpenSSH-recipe...
-
-> I agree, however more below...
-
-Good.
-
-> > What's your use-case? Is it for automatic testing/development? If so,
-> > can't you either set the password, or change the config using some other
-> > means, e.g. a post rootfs installation script? (And make sure that this
-> > is only run for the image in question, _not_ for all images).
-
-> I don't think we want this to be image-specific. FWIW, we do already have a 
-> mechanism to handle this for the dropbear recipe - debug-tweaks in 
-> IMAGE_FEATURES. I don't particularly like it however since IMAGE_FEATURES 
-> should not be influencing non-image recipes. This has bothered me for a while 
-> and I think we ought to change to some other mechanism (perhaps make it a 
-> separate variable) and then make the OpenSSH recipe use that.
-
-That's right, the image shouldn't affect compile-time options. However,
-in this particular case, as it is a configuration file, it should be
-fine.
-
-The variable idea is also fine with me, as long as we keep sensible
-defaults, i.e. no empty password logins etc.
+Sounds good. I've created Yocto bug #2578 to look at fixing this in the manner 
+you described.
 
 Cheers,
-Anders
+Paul
 
 -- 
-Anders Darander
-ChargeStorm AB / eStorm AB
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
