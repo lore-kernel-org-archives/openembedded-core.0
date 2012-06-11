@@ -1,26 +1,26 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1Se9GZ-0001f6-L2
+	(envelope-from <mark.hatle@windriver.com>) id 1Se9Ga-0001f8-9T
 	for openembedded-core@lists.openembedded.org;
 	Mon, 11 Jun 2012 20:23:04 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q5BICSg1019796
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q5BICUfH019799
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jun 2012 11:12:28 -0700 (PDT)
+	Mon, 11 Jun 2012 11:12:30 -0700 (PDT)
 Received: from localhost.localdomain (172.25.34.61) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Mon, 11 Jun 2012 11:12:27 -0700
+	Mon, 11 Jun 2012 11:12:29 -0700
 From: Mark Hatle <mark.hatle@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 11 Jun 2012 13:18:52 -0500
-Message-ID: <6c1a68df1106337b45694df8050aabbd83038914.1339438568.git.mark.hatle@windriver.com>
+Date: Mon, 11 Jun 2012 13:18:54 -0500
+Message-ID: <b60e9f17f05573e5540be107d0ed7b1d18e5d6c5.1339438568.git.mark.hatle@windriver.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1339438568.git.mark.hatle@windriver.com>
 References: <cover.1339438568.git.mark.hatle@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [172.25.34.61]
-Subject: [PATCH 1/9] rpm: Upgrade RPM to 5.4.8 (db to 5.3.15)
+Subject: [PATCH 3/9] ossp-uuid: Add oss-uuid package and RPM 5.4.9 integration
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,1042 +38,494 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 X-List-Received-Date: Mon, 11 Jun 2012 18:23:04 -0000
 Content-Type: text/plain
 
-RPM 5.4.8 requires db 5.3.x, so both are upgraded together.
+RPM 5.4.9 now strongly encourages you to have the ossp-uuid library available.
+
+Add this recipe, and change RPM to use the uuid functionality.
 
 Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
 ---
- meta/classes/rootfs_rpm.bbclass                    |   22 +-
- .../rpm/rpm/fix_for_automake_1.11.2.patch          |   54 ---
- .../rpm/rpm/fprint-pointer-fix.patch               |   35 --
- .../rpm/rpm/remove-compiled-tests.patch            |  443 --------------------
- meta/recipes-devtools/rpm/rpm/rpm-autoconf.patch   |   22 -
- meta/recipes-devtools/rpm/rpm/rpm-autogen.patch    |   41 +--
- meta/recipes-devtools/rpm/rpm/rpm-db-reduce.patch  |   16 +-
- .../recipes-devtools/rpm/rpm/rpm-log-auto-rm.patch |   12 +-
- meta/recipes-devtools/rpm/rpm/rpm-macros.patch     |   61 +++
- .../rpm/rpm/rpm-no-perl-urpm.patch                 |   43 ++
- meta/recipes-devtools/rpm/rpm/rpm-nofsync.patch    |   36 --
- .../rpm/{rpm_5.4.0.bb => rpm_5.4.8.bb}             |   45 ++-
- .../db/{db_5.1.19.bb => db_5.3.15.bb}              |    8 +-
- 13 files changed, 168 insertions(+), 670 deletions(-)
- delete mode 100644 meta/recipes-devtools/rpm/rpm/fix_for_automake_1.11.2.patch
- delete mode 100644 meta/recipes-devtools/rpm/rpm/fprint-pointer-fix.patch
- delete mode 100644 meta/recipes-devtools/rpm/rpm/remove-compiled-tests.patch
- delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-autoconf.patch
- create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-macros.patch
- create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-no-perl-urpm.patch
- delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm-nofsync.patch
- rename meta/recipes-devtools/rpm/{rpm_5.4.0.bb => rpm_5.4.8.bb} (91%)
- rename meta/recipes-support/db/{db_5.1.19.bb => db_5.3.15.bb} (93%)
+ .../ossp-uuid/0001-Change-library-name.patch       |  112 ++++++++++++++++++++
+ ...erve-m-option-status-in-v-option-handling.patch |   55 ++++++++++
+ .../ossp-uuid/0003-Fix-whatis-entries.patch        |   51 +++++++++
+ .../ossp-uuid/0004-fix-data-uuid-from-string.patch |   36 ++++++
+ .../ossp-uuid/ossp-uuid/uuid-libtool.patch         |   24 ++++
+ .../ossp-uuid/ossp-uuid/uuid-nostrip.patch         |   16 +++
+ meta/recipes-devtools/ossp-uuid/ossp-uuid_1.6.2.bb |   58 ++++++++++
+ meta/recipes-devtools/rpm/rpm/rpm-ossp-uuid.patch  |   20 ++++
+ meta/recipes-devtools/rpm/rpm_5.4.9.bb             |   11 ++-
+ 9 files changed, 380 insertions(+), 3 deletions(-)
+ create mode 100644 meta/recipes-devtools/ossp-uuid/ossp-uuid/0001-Change-library-name.patch
+ create mode 100644 meta/recipes-devtools/ossp-uuid/ossp-uuid/0002-uuid-preserve-m-option-status-in-v-option-handling.patch
+ create mode 100644 meta/recipes-devtools/ossp-uuid/ossp-uuid/0003-Fix-whatis-entries.patch
+ create mode 100644 meta/recipes-devtools/ossp-uuid/ossp-uuid/0004-fix-data-uuid-from-string.patch
+ create mode 100644 meta/recipes-devtools/ossp-uuid/ossp-uuid/uuid-libtool.patch
+ create mode 100644 meta/recipes-devtools/ossp-uuid/ossp-uuid/uuid-nostrip.patch
+ create mode 100644 meta/recipes-devtools/ossp-uuid/ossp-uuid_1.6.2.bb
+ create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-ossp-uuid.patch
 
-diff --git a/meta/classes/rootfs_rpm.bbclass b/meta/classes/rootfs_rpm.bbclass
-index fbc46c0..eafb34b 100644
---- a/meta/classes/rootfs_rpm.bbclass
-+++ b/meta/classes/rootfs_rpm.bbclass
-@@ -66,24 +66,26 @@ fakeroot rootfs_rpm_do_rootfs () {
- 	touch ${INSTALL_ROOTFS_RPM}${rpmlibdir}/log/log.0000000001
- 	cat > ${INSTALL_ROOTFS_RPM}${rpmlibdir}/DB_CONFIG << EOF
- # ================ Environment
--set_data_dir            .
--set_create_dir          .
--set_lg_dir              ./log
--set_tmp_dir             ./tmp
-+set_data_dir .
-+set_create_dir .
-+set_lg_dir ./log
-+set_tmp_dir ./tmp
-+set_flags db_log_autoremove on
- 
- # -- thread_count must be >= 8
--set_thread_count        64
-+set_thread_count 64
- 
- # ================ Logging
- 
- # ================ Memory Pool
--set_mp_mmapsize         268435456
-+set_cachesize 0 1048576 0
-+set_mp_mmapsize 268435456
- 
- # ================ Locking
--set_lk_max_locks        16384
--set_lk_max_lockers      16384
--set_lk_max_objects      16384
--mutex_set_max           163840
-+set_lk_max_locks 16384
-+set_lk_max_lockers 16384
-+set_lk_max_objects 16384
-+mutex_set_max 163840
- 
- # ================ Replication
- EOF
-diff --git a/meta/recipes-devtools/rpm/rpm/fix_for_automake_1.11.2.patch b/meta/recipes-devtools/rpm/rpm/fix_for_automake_1.11.2.patch
-deleted file mode 100644
-index bb0f7eb..0000000
---- a/meta/recipes-devtools/rpm/rpm/fix_for_automake_1.11.2.patch
-+++ /dev/null
-@@ -1,54 +0,0 @@
--Upstream-Status: Pending
--
--automake version 1.11.2 has made use of dir variables more strict.
--the use of pkglibdir with SCRIPTS & DATA vars results in automake
--errors.
--  This commits uses pkgdatadir & pkgbindir vars instead of pkglibdir
--to avoid the strict check errors.
--
--  This change also works with automake-1.11.1
--
--Errors fixed:
--Makefile.am:103: error: `pkglibdir' is not a legitimate directory for `DATA'
--scripts/Makefile.am:47: error: `pkglibdir' is not a legitimate directory for `SCRIPTS'
--
--Signed-Off-By: Nitin A Kamble <nitin.a.kamble@intel.com>
--2011/12/27
--
--Index: rpm-5.4.0/Makefile.am
--===================================================================
----- rpm-5.4.0.orig/Makefile.am
--+++ rpm-5.4.0/Makefile.am
--@@ -103,13 +103,13 @@ if WITH_PATH_VERSIONED
-- 	done
-- endif
-- 
---pkglibdir =		@USRLIBRPM@
---pkglib_DATA = rpmpopt macros/macros macros/macros.rpmbuild cpuinfo.yaml
--+pkgdatadir =		@USRLIBRPM@
--+pkgdata_DATA = rpmpopt macros/macros macros/macros.rpmbuild cpuinfo.yaml
-- 
---pkgbindir =	$(pkglibdir)/bin
--+pkgbindir =	$(pkgdatadir)/bin
-- pkgbin_SCRIPTS = install-sh mkinstalldirs
-- 
---pkgcfgdir =	$(pkglibdir)/macros.d
--+pkgcfgdir =	$(pkgdatadir)/macros.d
-- pkgcfg_DATA = \
-- 	macros/cmake macros/java macros/libtool macros/mandriva macros/mono \
-- 	macros/perl macros/pkgconfig macros/php macros/python macros/ruby \
--Index: rpm-5.4.0/scripts/Makefile.am
--===================================================================
----- rpm-5.4.0.orig/scripts/Makefile.am
--+++ rpm-5.4.0/scripts/Makefile.am
--@@ -45,8 +45,8 @@ all:
-- 
-- bin_SCRIPTS = gendiff
-- 
---pkglibdir =		@USRLIBRPM@
---pkglib_SCRIPTS = \
--+pkgbindir =		@USRLIBRPM@
--+pkgbin_SCRIPTS = \
-- 	brp-compress brp-python-bytecompile brp-java-gcjcompile \
-- 	brp-strip brp-strip-comment-note brp-nobuildrootpath \
-- 	brp-strip-shared brp-strip-static-archive brp-sparc64-linux \
-diff --git a/meta/recipes-devtools/rpm/rpm/fprint-pointer-fix.patch b/meta/recipes-devtools/rpm/rpm/fprint-pointer-fix.patch
-deleted file mode 100644
-index 87a92eb..0000000
---- a/meta/recipes-devtools/rpm/rpm/fprint-pointer-fix.patch
-+++ /dev/null
-@@ -1,35 +0,0 @@
--Upstream-Status: Submitted
--
--From: Qing He <qing.he@intel.com>
--Subject: [PATCH] rpm 5.4.0: Fix pointer mishandling
--
--In fpLookupSubdir, data returned by hash should be of type
--"struct rpmffi_s **" instead of "struct rpmffi_s *" to avoid
--segfault.
--
--Signed-off-by: Qing He <qing.he@intel.com>
--
--diff --git a/rpmdb/fprint.c b/rpmdb/fprint.c
--index 0e76148..82b8f45 100644
----- a/rpmdb/fprint.c
--+++ b/rpmdb/fprint.c
--@@ -333,7 +333,7 @@ restart:
--     *te = '\0';
-- 
--     while (te < se) {
---	struct rpmffi_s * recs;
--+	struct rpmffi_s ** recs;
-- 	int numRecs;
-- 	int i;
-- 
--@@ -346,8 +346,8 @@ restart:
-- 	    const char * link;
-- 	    int fx;
-- 
---	    fx = recs[i].fileno;
---	    fi =  recs[i].p->fi;
--+	    fx = recs[i]->fileno;
--+	    fi =  recs[i]->p->fi;
-- 	    flink = fi->flinks[fx];
-- 	    if (!(flink && *flink != '\0'))
-- 		continue;
-diff --git a/meta/recipes-devtools/rpm/rpm/remove-compiled-tests.patch b/meta/recipes-devtools/rpm/rpm/remove-compiled-tests.patch
-deleted file mode 100644
-index 3663692..0000000
---- a/meta/recipes-devtools/rpm/rpm/remove-compiled-tests.patch
-+++ /dev/null
-@@ -1,443 +0,0 @@
--
--Upstream-Status: Inappropriate [configuration]
--
--Index: rpm-5.1.9/configure.ac
--===================================================================
----- rpm-5.1.9.orig/configure.ac	2009-04-18 17:47:02.000000000 +0100
--+++ rpm-5.1.9/configure.ac	2010-07-06 14:47:28.985462456 +0100
--@@ -643,38 +643,22 @@
-- dnl look for libc features
-- PROVIDES_ERRNO=no
-- AC_MSG_CHECKING(if <netdb.h> defines h_errno)
---AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <netdb.h>]], [[printf("%d",h_errno)]])],[PROVIDES_ERRNO=yes],[])
---AC_MSG_RESULT($PROVIDES_ERRNO)
---if test $PROVIDES_ERRNO = yes; then
---	AC_DEFINE(HAVE_HERRNO, 1, [ Define as 1 if <netdb.h> defines h_errno])
---fi
--+AC_DEFINE(HAVE_HERRNO, 1, [ Define as 1 if <netdb.h> defines h_errno])
-- 
-- dnl If a system doesn't have S_IFSOCK, define it as 0 which will
-- dnl make S_ISSOCK always return false (nice, eh?)
-- AC_MSG_CHECKING(if <sys/stat.h> defines S_IFSOCK)
---AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <sys/stat.h>]], [[printf("%d", S_IFSOCK)]])],[HAS_S_IFSOCK=yes],[HAS_S_IFSOCK=no])
---AC_MSG_RESULT($HAS_S_IFSOCK)
---if test $HAS_S_IFSOCK = yes; then
---	AC_DEFINE(HAVE_S_IFSOCK, 1, [Define as 1 if <sys/stat.h> defines S_IFSOCK])
---fi
--+AC_DEFINE(HAVE_S_IFSOCK, 1, [Define as 1 if <sys/stat.h> defines S_IFSOCK])
-- 
-- dnl Some Unix's are missing S_ISLNK, S_ISSOCK
-- AC_MSG_CHECKING(if <sys/stat.h> defines S_ISLNK)
---AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <sys/stat.h>]], [[printf("%d", S_ISLNK(0755))]])],[HAS_S_ISLNK=yes],[HAS_S_ISLNK=no])
---AC_MSG_RESULT($HAS_S_ISLNK)
---if test $HAS_S_ISLNK = yes; then
---	AC_DEFINE(HAVE_S_ISLNK, 1, [Define as 1 if <sys/stat.h> defines S_ISLNK])
---fi
--+AC_DEFINE(HAVE_S_ISLNK, 1, [Define as 1 if <sys/stat.h> defines S_ISLNK])
-- 
-- AC_MSG_CHECKING(if <sys/stat.h> defines S_ISSOCK)
---AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <sys/stat.h>]], [[printf("%d", S_ISSOCK(0755))]])],[HAS_S_ISSOCK=yes],[HAS_S_ISSOCK=no])
---AC_MSG_RESULT($HAS_S_ISSOCK)
---if test $HAS_S_ISSOCK = yes; then
---	AC_DEFINE(HAVE_S_ISSOCK, 1, [Define as 1 if <sys/stat.h> defines S_ISSOCK])
---fi
--+AC_DEFINE(HAVE_S_ISSOCK, 1, [Define as 1 if <sys/stat.h> defines S_ISSOCK])
-- 
-- AC_MSG_CHECKING(if timezone is defined)
---AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <time.h>]], [[printf("%ld", timezone)]])],[HAS_TIMEZONE=yes],[HAS_TIMEZONE=no])
--+$HAS_TIMEZONE=yes
-- AC_MSG_RESULT($HAS_TIMEZONE)
-- 
-- dnl check for missing typedefs
--@@ -726,53 +710,12 @@
--         AC_MSG_RESULT(yes)
--         AC_CHECK_HEADERS([libelf.h gelf.h])
--         if test ".$ac_cv_header_libelf_h" = .no; then
---            dnl # <libelf.h> on Solaris is incompatible with LFS. If we couldn't
---            dnl # include <libelf.h>, see if we can when _FILE_OFFSET_BITS is
---            dnl # set for non-LFS. Same applies for <gelf.h>, since it probably
---            dnl # includes <libelf.h>
---            AC_MSG_CHECKING([if libelf.h conflicts with _LARGEFILE_SOURCE])
---            AC_COMPILE_IFELSE([
---                AC_LANG_PROGRAM([[
---#undef _LARGEFILE64_SOURCE
---#undef _LARGEFILE_SOURCE
---#if !defined(_LP64)
---# undef _FILE_OFFSET_BITS
---# define _FILE_OFFSET_BITS 32
---#endif
---#include <libelf.h>
---                ]], [[
---                    Elf_Data foo;
---                ]])
---            ], [
---                AC_DEFINE(HAVE_LIBELF_H, 1, [Define to 1 if you have libelf.h])
---                ac_cv_header_libelf_h=yes
---                AC_DEFINE(LIBELF_H_LFS_CONFLICT, 1, [Define to 1 if libelf.h is incompatible with LFS API])
---                AC_MSG_RESULT(yes)
---            ], [
---                AC_MSG_RESULT(no)
---            ])
--+            AC_DEFINE(HAVE_LIBELF_H, 1, [Define to 1 if you have libelf.h])
--+            ac_cv_header_libelf_h=yes
--         fi
--         if test ".$ac_cv_header_gelf_h" = .no; then
---            AC_MSG_CHECKING([if gelf.h conflicts with _LARGEFILE_SOURCE])
---            AC_COMPILE_IFELSE([
---                AC_LANG_PROGRAM([[
---#undef _LARGEFILE64_SOURCE
---#undef _LARGEFILE_SOURCE
---#if !defined(_LP64)
---# undef _FILE_OFFSET_BITS
---# define _FILE_OFFSET_BITS 32
---#endif
---#include <gelf.h>
---                ]], [[
---                    Elf32_Verdef foo;
---                ]])
---            ], [
---                AC_DEFINE(HAVE_GELF_H, 1, [Define to 1 if you have gelf.h])
---                ac_cv_header_gelf_h=yes
---                AC_MSG_RESULT(yes)
---            ], [
---                AC_MSG_RESULT(no)
---          ])
--+            AC_DEFINE(HAVE_GELF_H, 1, [Define to 1 if you have gelf.h])
--+            ac_cv_header_gelf_h=yes
--         fi
--         if test ".$ac_cv_header_gelf_h" = .yes; then
--             AC_CHECK_LIB([elf], [elf_version], [
--@@ -854,78 +797,9 @@
--                   python_version=""
--                   ;;
--         esac
---	for python_ver in $python_version ; do
---             if test "$python_ver" != "2.x" ; then
---                  AC_MSG_CHECKING([for Python ${python_ver} API])
---                  save_CFLAGS="${CFLAGS}"
---                  for i in "$prefix" "/usr/local" "/usr"; do
---                  CFLAGS="${save_CFLAGS} -I$i/include/python${python_ver}"
---                  AC_RUN_IFELSE([AC_LANG_SOURCE(
---                  [[#include "Python.h"
---                     main() { exit(strncmp("${python_ver}", PY_VERSION, 3)); } ]])
---                  ], [
---                     PYTHON_VERSION="${python_ver}"
---                     AC_MSG_RESULT(yes)
---                     PYTHON_PREFIX="${i}"
---                     break
---                  ], [ 
---                  ], [
---                     dnl if we're cross compiling, assume the user has a clue
---                     if test "$withval" = "$python_ver"; then
---                         PYTHON_VERSION="${python_ver}"
---                         AC_MSG_RESULT(yes)
---                         break
---                     fi
---                  ])
---                  done
---                  CFLAGS="${save_CFLAGS}"
---                  if test ".$PYTHON_VERSION" == "."; then
---                     dnl check Mac OS X framework
---                     save_CFLAGS="${CFLAGS}"
---                     for f in "~" "" "/System" "/Network"; do
---                     CFLAGS="${save_CFLAGS} -I$f/Library/Frameworks/Python.framework/Versions/${python_ver}/include/python${python_ver}"
---                     AC_RUN_IFELSE([AC_LANG_SOURCE(
---                     [[#include "Python.h"
---                        main() { exit(strncmp("${python_ver}", PY_VERSION, 3)); } ]])
---                     ], [
---                        PYTHON_VERSION="${python_ver}"
---                        AC_MSG_RESULT([yes (using Python.framework)])
---                        PYTHON_PREFIX="$f/Library/Frameworks/Python.framework/Versions/${python_ver}"
---                        break
---                     ], [
---                     ])
---                     done
---                     CFLAGS="${save_CFLAGS}"
---                  fi
---                  if test ".$PYTHON_VERSION" == "."; then
---                     AC_MSG_RESULT(no)
---                  fi
---             else
---                  AC_MSG_CHECKING([for Python 2.x API])
---                  AC_RUN_IFELSE([AC_LANG_SOURCE(
---                  [[#include <python/Python.h>
---                     main() { exit(strncmp("2.", PY_VERSION, 2)); } ]])
---                  ], [
---                     PYTHON_VERSION=""
---                     AC_MSG_RESULT(yes)
---                  ], [ 
---                     AC_MSG_RESULT(no)
---                  ], [
---                     dnl if we're cross compiling, assume the user has a clue
---                     if test "$withval" = "$python_ver"; then
---                         PYTHON_VERSION="${python_ver}"
---                         AC_MSG_RESULT(yes)
---                     else
---                         AC_MSG_RESULT(no)
---                     fi
---                  ])
---             fi
---             if test ".$PYTHON_VERSION" != "."; then
---                  WITH_PYTHON_SUBDIR=python
---                  WITH_PYTHON_SUBPACKAGE=1
---                  break
---             fi
---	done
--+	PYTHON_VERSION="${python_ver}"
--+	WITH_PYTHON_SUBDIR=python
--+	WITH_PYTHON_SUBPACKAGE=1
--     fi
--     AC_ARG_WITH(python-inc-dir, AS_HELP_STRING([--with-python-inc-dir=DIR], [directory with Python include files]),
-- 	    [WITH_PYTHON_INCDIR="$withval"], [WITH_PYTHON_INCDIR="`(python -c 'from distutils.sysconfig import get_python_inc; print get_python_inc()') 2>/dev/null`"])
--@@ -1157,15 +1031,8 @@
-- 	  AC_SUBST(WITH_PCRE_LIBS)
--       else
-- 	dnl # make sure PCRE POSIX API can be really _USED_ by RPM
---	LIBS_SAVED="$LIBS"
-- 	LIBS="-lpcreposix $LIBS"
---	AC_LINK_IFELSE([
---          AC_LANG_PROGRAM([#include <pcreposix.h>], [(void)regcomp(0, 0, 0)])
---	], [
---          AC_DEFINE(WITH_PCRE_POSIX, 1, [Define as 1 if PCRE's POSIX API is available])
---	], [
---          LIBS="$LIBS_SAVED"
---	])
--+        AC_DEFINE(WITH_PCRE_POSIX, 1, [Define as 1 if PCRE's POSIX API is available])
--       fi
--       dnl # enable PCRE native API support for embedded Lua
--       if test ".$WITH_LUA" = .yes; then
--@@ -1234,30 +1101,7 @@
-- 
-- dnl # figure out what root's primary group is
-- AC_MSG_CHECKING([root's primary group])
---AC_RUN_IFELSE([AC_LANG_SOURCE([[#include <stdio.h>
---#include <sys/types.h>
---#include <pwd.h>
---#include <grp.h>
---int main()
---{
---	struct passwd *root = NULL;
---	struct group *roots_group = NULL;
---	FILE * tempfile = NULL;
---	root = getpwuid( (uid_t) 0 );
---	if (root != NULL) {
---		roots_group = getgrgid(root->pw_gid);
---		if (roots_group != NULL) {
---			tempfile = fopen("conftest_rootg", "w");
---			if (tempfile != NULL) {
---				fprintf(tempfile, "%s\n", roots_group->gr_name);
---				fclose(tempfile);
---				exit(0);
---			}
---		}
---	}
---	exit(1);
---}]])],[ROOT_GROUP=`cat conftest_rootg`; rm -f conftest_rootg],[ROOT_GROUP="root"],[ROOT_GROUP="root"
---])
--+$ROOT_GROUP="root"
-- AC_MSG_RESULT([$ROOT_GROUP])
-- AC_SUBST(ROOT_GROUP)
-- 
--Index: rpm-5.1.9/pcre/configure.ac
--===================================================================
----- rpm-5.1.9.orig/pcre/configure.ac	2009-01-14 20:19:31.000000000 +0000
--+++ rpm-5.1.9/pcre/configure.ac	2010-07-06 14:51:50.769586089 +0100
--@@ -278,34 +278,6 @@
-- # The files below are C++ header files.
-- pcre_have_type_traits="0"
-- pcre_have_bits_type_traits="0"
---if test "x$enable_cpp" = "xyes" -a -n "$CXX"
---then
---AC_LANG_PUSH(C++)
---
---# Older versions of pcre defined pcrecpp::no_arg, but in new versions
---# it's called pcrecpp::RE::no_arg.  For backwards ABI compatibility,
---# we want to make one an alias for the other.  Different systems do
---# this in different ways.  Some systems, for instance, can do it via
---# a linker flag: -alias (for os x 10.5) or -i (for os x <=10.4).
---OLD_LDFLAGS="$LDFLAGS"
---for flag in "-alias,__ZN7pcrecpp2RE6no_argE,__ZN7pcrecpp6no_argE" \
---            "-i__ZN7pcrecpp6no_argE:__ZN7pcrecpp2RE6no_argE"; do
---  AC_MSG_CHECKING([for alias support in the linker])
---  LDFLAGS="$OLD_LDFLAGS -Wl,$flag"
---  # We try to run the linker with this new ld flag.  If the link fails,
---  # we give up and remove the new flag from LDFLAGS.
---  AC_LINK_IFELSE(AC_LANG_PROGRAM([namespace pcrecpp {
---                                    class RE { static int no_arg; };
---                                    int RE::no_arg;
---                                  }],
---                                 []),
---                 [AC_MSG_RESULT([yes]);
---                  EXTRA_LIBPCRECPP_LDFLAGS="$EXTRA_LIBPCRECPP_LDFLAGS -Wl,$flag";
---                  break;],
---                 AC_MSG_RESULT([no]))
---done
---LDFLAGS="$OLD_LDFLAGS"
---
-- # We could be more clever here, given we're doing AC_SUBST with this
-- # (eg set a var to be the name of the include file we want). But we're not
-- # so it's easy to change back to 'regular' autoconf vars if we needed to.
--@@ -316,7 +288,6 @@
-- AC_CHECK_HEADERS(type_traits.h, [pcre_have_type_traits="1"],
--                                 [pcre_have_type_traits="0"])
-- 
---AC_LANG_POP
-- fi
-- # Using AC_SUBST eliminates the need to include config.h in a public .h file
-- AC_SUBST(pcre_have_type_traits)
--Index: rpm-5.1.9/db/dist/configure.ac
--===================================================================
----- rpm-5.1.9.orig/db/dist/configure.ac	2008-06-15 08:16:21.000000000 +0100
--+++ rpm-5.1.9/db/dist/configure.ac	2010-07-06 15:36:39.262461127 +0100
--@@ -602,24 +602,6 @@
-- aux*)	AC_LIBOBJ([getopt]);;
-- esac
-- 
---# Linux has a broken O_DIRECT flag, but you can't detect it at configure time.
---# Linux and SGI require buffer alignment we may not match, otherwise writes
---# will fail.  Default to not using the O_DIRECT flag.
---if test "$db_cv_o_direct" = "yes"; then
---	AC_CACHE_CHECK([for open/O_DIRECT], db_cv_open_o_direct, [
---	AC_TRY_LINK([
---	#include <sys/types.h>
---	#include <fcntl.h>], [
---		open("a", O_RDONLY | O_DIRECT, 0);
---	], [db_cv_open_o_direct=yes], [db_cv_open_o_direct=no])])
---	if test \
---	    "$db_cv_o_direct" = "yes" -a "$db_cv_open_o_direct" = "yes"; then
---		AC_DEFINE(HAVE_O_DIRECT)
---		AH_TEMPLATE(HAVE_O_DIRECT,
---		    [Define to 1 if you have the O_DIRECT flag.])
---	fi
---fi
---
-- # Check for largefile support.
-- AC_SYS_LARGEFILE
-- 
--Index: rpm-5.1.9/xz/configure.ac
--===================================================================
----- rpm-5.1.9.orig/xz/configure.ac	2009-02-16 17:07:46.000000000 +0000
--+++ rpm-5.1.9/xz/configure.ac	2010-07-06 15:41:22.632467951 +0100
--@@ -457,26 +457,9 @@
-- #endif
-- ])
-- 
---# Even if we have byteswap.h, we may lack the specific macros/functions.
---if test x$ac_cv_header_byteswap_h = xyes ; then
---	m4_foreach([FUNC], [bswap_16,bswap_32,bswap_64], [
---		AC_MSG_CHECKING([if FUNC is available])
---		AC_LINK_IFELSE([AC_LANG_SOURCE([
---#include <byteswap.h>
---int
---main(void)
---{
---	FUNC[](42);
---	return 0;
---}
---		])], [
---			AC_DEFINE(HAVE_[]m4_toupper(FUNC), [1],
---					[Define to 1 if] FUNC [is available.])
---			AC_MSG_RESULT([yes])
---		], [AC_MSG_RESULT([no])])
---
---	])dnl
---fi
--+AC_DEFINE(HAVE_BSWAP_16, 1)
--+AC_DEFINE(HAVE_BSWAP_32, 1)
--+AC_DEFINE(HAVE_BSWAP_64, 1)
-- 
-- 
-- ###############################################################################
--@@ -527,90 +510,16 @@
-- # xz command line tool uses this to automatically limit its memory usage.
-- # - sysconf() gives all the needed info on GNU+Linux and Solaris.
-- # - BSDs use sysctl().
---AC_MSG_CHECKING([how to detect the amount of physical memory])
---AC_COMPILE_IFELSE([AC_LANG_SOURCE([[
---#include <unistd.h>
---int
---main()
---{
---	long i;
---	i = sysconf(_SC_PAGESIZE);
---	i = sysconf(_SC_PHYS_PAGES);
---	return 0;
---}
---]])], [
---	AC_DEFINE([HAVE_PHYSMEM_SYSCONF], [1],
--+AC_DEFINE([HAVE_PHYSMEM_SYSCONF], [1],
-- 		[Define to 1 if the amount of physical memory can be detected
-- 		with sysconf(_SC_PAGESIZE) and sysconf(_SC_PHYS_PAGES).])
---	AC_MSG_RESULT([sysconf])
---], [
---AC_COMPILE_IFELSE([AC_LANG_SOURCE([[
---#include <sys/types.h>
---#ifdef HAVE_SYS_PARAM_H
---#	include <sys/param.h>
---#endif
---#include <sys/sysctl.h>
---int
---main()
---{
---	int name[2] = { CTL_HW, HW_PHYSMEM };
---	unsigned long mem;
---	size_t mem_ptr_size = sizeof(mem);
---	sysctl(name, 2, &mem, &mem_ptr_size, NULL, NULL);
---	return 0;
---}
---]])], [
---	AC_DEFINE([HAVE_PHYSMEM_SYSCTL], [1],
---		[Define to 1 if the amount of physical memory can be detected
---		with sysctl().])
---	AC_MSG_RESULT([sysctl])
---], [
---	AC_MSG_RESULT([unknown])
---])])
-- 
-- # Check how to find out the number of available CPU cores in the system.
-- # sysconf(_SC_NPROCESSORS_ONLN) works on most systems, except that BSDs
-- # use sysctl().
---AC_MSG_CHECKING([how to detect the number of available CPU cores])
---AC_COMPILE_IFELSE([AC_LANG_SOURCE([[
---#include <unistd.h>
---int
---main()
---{
---	long i;
---	i = sysconf(_SC_NPROCESSORS_ONLN);
---	return 0;
---}
---]])], [
---	AC_DEFINE([HAVE_NCPU_SYSCONF], [1],
--+AC_DEFINE([HAVE_NCPU_SYSCONF], [1],
-- 		[Define to 1 if the number of available CPU cores can be
-- 		detected with sysconf(_SC_NPROCESSORS_ONLN).])
---	AC_MSG_RESULT([sysconf])
---], [
---AC_COMPILE_IFELSE([AC_LANG_SOURCE([[
---#include <sys/types.h>
---#ifdef HAVE_SYS_PARAM_H
---#	include <sys/param.h>
---#endif
---#include <sys/sysctl.h>
---int
---main()
---{
---	int name[2] = { CTL_HW, HW_NCPU };
---	int cpus;
---	size_t cpus_size = sizeof(cpus);
---	sysctl(name, 2, &cpus, &cpus_size, NULL, NULL);
---	return 0;
---}
---]])], [
---	AC_DEFINE([HAVE_NCPU_SYSCTL], [1],
---		[Define to 1 if the number of available CPU cores can be
---		detected with sysctl().])
---	AC_MSG_RESULT([sysctl])
---], [
---	AC_MSG_RESULT([unknown])
---])])
---
-- 
-- ###############################################################################
-- # If using GCC, set some additional CFLAGS:
-diff --git a/meta/recipes-devtools/rpm/rpm/rpm-autoconf.patch b/meta/recipes-devtools/rpm/rpm/rpm-autoconf.patch
-deleted file mode 100644
-index 5e93517..0000000
---- a/meta/recipes-devtools/rpm/rpm/rpm-autoconf.patch
-+++ /dev/null
-@@ -1,22 +0,0 @@
--Using the version of autoconf in poky results in:
--
--configure.ac:11: error: m4_divert_push: cannot change diversion to `GROW' inside m4_expand
--
--without this patch.
--
--Upstream-Status: Pending
--
--Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
--
--diff -ur rpm-5.1.10.orig/configure.ac rpm-5.1.10/configure.ac
----- rpm-5.1.10.orig/configure.ac	2010-08-20 17:12:16.000000000 -0500
--+++ rpm-5.1.10/configure.ac	2010-09-03 11:34:44.722097327 -0500
--@@ -8,7 +8,7 @@
-- 
-- AC_PREREQ(2.60)
-- AC_DEFUN([PACKAGE_BUGREPORT_DEFAULT], [rpm-devel@rpm5.org])
---AC_INIT(rpm, [5.1.10], [PACKAGE_BUGREPORT_DEFAULT])
--+AC_INIT(rpm, [5.1.10])
-- PACKAGE_TIMESTAMP="2008" dnl # YYYY[-MM[-DD[ HH[:MM]]]]
-- AC_MSG_TITLE([RPM Package Manager (RPM)], [$PACKAGE_VERSION])
-- 
-diff --git a/meta/recipes-devtools/rpm/rpm/rpm-autogen.patch b/meta/recipes-devtools/rpm/rpm/rpm-autogen.patch
-index 5fe6ded..5129833 100644
---- a/meta/recipes-devtools/rpm/rpm/rpm-autogen.patch
-+++ b/meta/recipes-devtools/rpm/rpm/rpm-autogen.patch
-@@ -6,42 +6,11 @@ Upstream-Status: Pending
- 
- Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
- 
--diff -ur rpm-5.4.0.orig/autogen.sh rpm-5.4.0/autogen.sh
----- rpm-5.4.0.orig/autogen.sh	2010-11-02 11:55:53.000000000 -0500
--+++ rpm-5.4.0/autogen.sh	2011-01-06 00:15:05.158946295 -0600
--@@ -34,12 +34,6 @@
--     eval $_libtoolize $_libtoolize_args
-- }
-- 
---#   requirements sanity check
---[ "`automake   --version | head -1`" != "$AMV" ] && echo "$USAGE" # && exit 1
---[ "`autoconf   --version | head -1`" != "$ACV" ] && echo "$USAGE" # && exit 1
---[ "`libtoolize --version | head -1`" != "$LTV" ] && echo "$USAGE" # && exit 1
---[ "`gettextize --version | head -1 | sed -e 's;^.*/\\(gettextize\\);\\1;'`" != "$GTT" ] && echo "$USAGE" # && exit 1
---
-- for dir in bash beecrypt file neon pcre popt rc syck xar xz; do
-- 
--   if [ -d $dir ]; then
--diff -ur rpm-5.4.0.orig/neon/autogen.sh rpm-5.4.0/neon/autogen.sh
----- rpm-5.4.0.orig/neon/autogen.sh	2010-10-30 19:11:33.000000000 -0500
--+++ rpm-5.4.0/neon/autogen.sh	2011-01-06 00:15:17.863962139 -0600
--@@ -34,12 +34,6 @@
--     eval $_libtoolize $_libtoolize_args
-- }
-- 
---#   requirements sanity check
---[ "`automake   --version | head -1`" != "$AMV" ] && echo "$USAGE" # && exit 1
---[ "`autoconf   --version | head -1`" != "$ACV" ] && echo "$USAGE" # && exit 1
---[ "`libtoolize --version | head -1`" != "$LTV" ] && echo "$USAGE" # && exit 1
---[ "`gettextize --version | head -1 | sed -e 's;^.*/\\(gettextize\\);\\1;'`" != "$GTT" ] && echo "$USAGE" # && exit 1
---
-- echo "---> generate files via GNU libtool (libtoolize)"
-- libtoolize --quiet --copy --force --install
-- echo "---> generate files via GNU autoconf (aclocal, autoheader)"
--diff -ur rpm-5.4.0.orig/syck/autogen.sh rpm-5.4.0/syck/autogen.sh
----- rpm-5.4.0.orig/syck/autogen.sh	2010-11-02 11:55:56.000000000 -0500
--+++ rpm-5.4.0/syck/autogen.sh	2011-01-06 00:15:27.103949601 -0600
--@@ -34,12 +34,6 @@
-+Index: rpm-5.4.8/syck/autogen.sh
-+===================================================================
-+--- rpm-5.4.8.orig/syck/autogen.sh
-++++ rpm-5.4.8/syck/autogen.sh
-+@@ -34,12 +34,6 @@ libtoolize () {
-      eval $_libtoolize $_libtoolize_args
-  }
-  
-diff --git a/meta/recipes-devtools/rpm/rpm/rpm-db-reduce.patch b/meta/recipes-devtools/rpm/rpm/rpm-db-reduce.patch
-index e063e86..d9b4e33 100644
---- a/meta/recipes-devtools/rpm/rpm/rpm-db-reduce.patch
-+++ b/meta/recipes-devtools/rpm/rpm/rpm-db-reduce.patch
-@@ -4,16 +4,16 @@ Change cache size to reduce the usage of disk space from 62MB to 26MB.
- 
- Signed-off-by: Mei Lei <lei.mei@intel.com>
- 
--diff --git a/rpmdb/DB_CONFIG.in b/rpmdb/DB_CONFIG.in
--index e0b4689..b64e3a9 100644
----- a/rpmdb/DB_CONFIG.in
--+++ b/rpmdb/DB_CONFIG.in
--@@ -29,7 +29,7 @@ set_thread_count	64
-+Index: rpm-5.4.8/rpmdb/DB_CONFIG.in
-+===================================================================
-+--- rpm-5.4.8.orig/rpmdb/DB_CONFIG.in
-++++ rpm-5.4.8/rpmdb/DB_CONFIG.in
-+@@ -29,7 +29,7 @@ set_thread_count 64
-  
-  # ================ Memory Pool
-  #XXX initializing dbenv with set_cachesize has unimplemented prerequsites
---#set_cachesize		0 1048576 0 
--+set_cachesize		0 1048576 0 
-- set_mp_mmapsize		268435456
-+-#set_cachesize 0 1048576 0 
-++set_cachesize 0 1048576 0 
-+ set_mp_mmapsize 268435456
-  
-  # ================ Locking
-diff --git a/meta/recipes-devtools/rpm/rpm/rpm-log-auto-rm.patch b/meta/recipes-devtools/rpm/rpm/rpm-log-auto-rm.patch
-index babafb3..4f484c4 100644
---- a/meta/recipes-devtools/rpm/rpm/rpm-log-auto-rm.patch
-+++ b/meta/recipes-devtools/rpm/rpm/rpm-log-auto-rm.patch
-@@ -5,11 +5,11 @@ diff --git a/rpmdb/DB_CONFIG.in b/rpmdb/DB_CONFIG.in
- index 8b94c94..e0b4689 100644
- --- a/rpmdb/DB_CONFIG.in
- +++ b/rpmdb/DB_CONFIG.in
--@@ -4,6 +4,7 @@ set_data_dir		.
-- set_create_dir		.
-- set_lg_dir		./log
-- set_tmp_dir		./tmp
--+set_flags 		db_log_autoremove on
-+@@ -4,6 +4,7 @@
-+ set_create_dir .
-+ set_lg_dir ./log
-+ set_tmp_dir ./tmp
-++set_flags db_log_autoremove on
-  
-  # -- thread_count must be >= 8
-- set_thread_count	64
-+ set_thread_count 64
-diff --git a/meta/recipes-devtools/rpm/rpm/rpm-macros.patch b/meta/recipes-devtools/rpm/rpm/rpm-macros.patch
+diff --git a/meta/recipes-devtools/ossp-uuid/ossp-uuid/0001-Change-library-name.patch b/meta/recipes-devtools/ossp-uuid/ossp-uuid/0001-Change-library-name.patch
 new file mode 100644
-index 0000000..f25656a
+index 0000000..a46e244
 --- /dev/null
-+++ b/meta/recipes-devtools/rpm/rpm/rpm-macros.patch
-@@ -0,0 +1,61 @@
-+macros/macros.in: Revert settings to the same as RPM 5.4.0
++++ b/meta/recipes-devtools/ossp-uuid/ossp-uuid/0001-Change-library-name.patch
+@@ -0,0 +1,112 @@
++From: Piotr Roszatycki <dexter@debian.org>
++Date: Wed, 27 Jan 2010 16:53:11 +0100
++Subject: [PATCH] Change library name
 +
-+Enable a reasonable set of rpmdeps dependency helper macros.  These sets
-+were used by RPM 5.4.0.
++The soname was changed to ossp-uuid to prevend the name clash with e2fsprogs's
++uuid library.
++---
++ Makefile.in      |    6 +++---
++ perl/Makefile.PL |   12 ++++++------
++ php/config.m4    |    2 +-
++ uuid-config.in   |    2 +-
++ uuid.pc.in       |    4 ++--
++ 5 files changed, 13 insertions(+), 13 deletions(-)
++
++diff --git a/Makefile.in b/Makefile.in
++index d28f4be..c2ba99d 100644
++--- a/Makefile.in
+++++ b/Makefile.in
++@@ -62,13 +62,13 @@ PERL        = @PERL@
++ PHP         = @PHP@
++ PG_CONFIG   = @PG_CONFIG@
++ 
++-LIB_NAME    = libuuid.la
+++LIB_NAME    = libossp-uuid.la
++ LIB_OBJS    = uuid.lo uuid_md5.lo uuid_sha1.lo uuid_prng.lo uuid_mac.lo uuid_time.lo uuid_ui64.lo uuid_ui128.lo uuid_str.lo
++ 
++-DCE_NAME    = libuuid_dce.la
+++DCE_NAME    = libossp-uuid_dce.la
++ DCE_OBJS    = uuid_dce.lo $(LIB_OBJS)
++ 
++-CXX_NAME    = libuuid++.la
+++CXX_NAME    = libossp-uuid++.la
++ CXX_OBJS    = uuid++.lo $(LIB_OBJS)
++ 
++ PRG_NAME    = uuid
++diff --git a/perl/Makefile.PL b/perl/Makefile.PL
++index 92f4494..9c6fee6 100644
++--- a/perl/Makefile.PL
+++++ b/perl/Makefile.PL
++@@ -33,9 +33,9 @@ use Config;
++ use ExtUtils::MakeMaker;
++ 
++ #   determine source directory
++-my ($srcdir) = map { my $d = $_; $d =~ s/\/libuuid\.la$//; $d }
++-               grep { -f $_ } ("../libuuid.la", glob("../*/libuuid.la"))
++-    or die "no source directory found (where libuuid.la is located)";
+++my ($srcdir) = map { my $d = $_; $d =~ s/\/libossp-uuid\.la$//; $d }
+++               grep { -f $_ } ("../libossp-uuid.la", glob("../*/libossp-uuid.la"))
+++    or die "no source directory found (where libossp-uuid.la is located)";
++ 
++ #   determine extra build options
++ my $compat = 0;
++@@ -47,15 +47,15 @@ WriteMakefile(
++     VERSION_FROM      => 'uuid.pm',
++     ABSTRACT_FROM     => 'uuid.pod',
++     PREREQ_PM         => {},
++-    LIBS              => [ "-L$srcdir/.libs -L$srcdir -luuid" ],
+++    LIBS              => [ "-L$srcdir/.libs -L$srcdir -lossp-uuid" ],
++     DEFINE            => '',
++     INC               => "-I. -I$srcdir",
++     PM                => { 'uuid.pm'   => '$(INST_LIBDIR)/uuid.pm',
++                            'uuid.pod'  => '$(INST_LIBDIR)/uuid.pod',
++                            ($compat ? ('uuid_compat.pm'  => '$(INST_LIBDIR)/../Data/UUID.pm')  : ()),
++                            ($compat ? ('uuid_compat.pod' => '$(INST_LIBDIR)/../Data/UUID.pod') : ()), },
++-    MAN3PODS          => { 'uuid.pod' => '$(INST_MAN3DIR)/OSSP::uuid.3',
++-                           ($compat ? ('uuid_compat.pod' => '$(INST_MAN3DIR)/Data::UUID.3') : ()), },
+++    MAN3PODS          => { 'uuid.pod' => '$(INST_MAN3DIR)/OSSP::uuid.3pm',
+++                           ($compat ? ('uuid_compat.pod' => '$(INST_MAN3DIR)/Data::UUID.3pm') : ()), },
++     TYPEMAPS          => [ 'uuid.tm' ],
++     test              => { TESTS => 'uuid.ts' . ($compat ? ' uuid_compat.ts' : '') },
++     NO_META           => 1,
++diff --git a/php/config.m4 b/php/config.m4
++index 5091b96..969b457 100644
++--- a/php/config.m4
+++++ b/php/config.m4
++@@ -34,7 +34,7 @@ if test "$PHP_UUID" != "no"; then
++     PHP_NEW_EXTENSION(uuid, uuid.c, $ext_shared)
++     AC_DEFINE(HAVE_UUID, 1, [Have OSSP uuid library])
++     PHP_ADD_LIBPATH([..], )
++-    PHP_ADD_LIBRARY([uuid],, UUID_SHARED_LIBADD)
+++    PHP_ADD_LIBRARY([ossp-uuid],, UUID_SHARED_LIBADD)
++     PHP_ADD_INCLUDE([..])
++     PHP_SUBST(UUID_SHARED_LIBADD)
++ 
++diff --git a/uuid-config.in b/uuid-config.in
++index 8d2a063..5b58812 100644
++--- a/uuid-config.in
+++++ b/uuid-config.in
++@@ -121,7 +121,7 @@ do
++             output_extra="$output_extra $uuid_ldflags"
++             ;;
++         --libs)
++-            output="$output -luuid"
+++            output="$output -lossp-uuid"
++             output_extra="$output_extra $uuid_libs"
++             ;;
++         * )
++diff --git a/uuid.pc.in b/uuid.pc.in
++index c76ad1e..de00c2f 100644
++--- a/uuid.pc.in
+++++ b/uuid.pc.in
++@@ -36,7 +36,7 @@ Name: OSSP uuid
++ Description: Universally Unique Identifier (UUID) Library
++ Version: @UUID_VERSION_RAW@
++ URL: http://www.ossp.org/pkg/lib/uuid/
++-Cflags: -I${includedir}
++-Libs: -L${libdir} -luuid
+++Cflags: -I${includedir}/ossp
+++Libs: -L${libdir} -lossp-uuid
++ Libs.private: @LIBS@
++ 
++-- 
+diff --git a/meta/recipes-devtools/ossp-uuid/ossp-uuid/0002-uuid-preserve-m-option-status-in-v-option-handling.patch b/meta/recipes-devtools/ossp-uuid/ossp-uuid/0002-uuid-preserve-m-option-status-in-v-option-handling.patch
+new file mode 100644
+index 0000000..1467207
+--- /dev/null
++++ b/meta/recipes-devtools/ossp-uuid/ossp-uuid/0002-uuid-preserve-m-option-status-in-v-option-handling.patch
+@@ -0,0 +1,55 @@
++From: Marco Nenciarini <marco.nenciarini@devise.it>
++Date: Wed, 27 Jan 2010 19:46:21 +0100
++Subject: [PATCH] uuid: preserve -m option status in -v option handling
++
++Bug: 531396
++---
++ uuid_cli.c |   19 ++++++++++---------
++ 1 files changed, 10 insertions(+), 9 deletions(-)
++
++diff --git a/uuid_cli.c b/uuid_cli.c
++index d1b0b11..14a67fe 100644
++--- a/uuid_cli.c
+++++ b/uuid_cli.c
++@@ -140,11 +140,12 @@ int main(int argc, char *argv[])
++                 i = strtol(optarg, &p, 10);
++                 if (*p != '\0')
++                     usage("invalid argument to option 'v'");
+++                version &= ~(UUID_MAKE_V1|UUID_MAKE_V3|UUID_MAKE_V4|UUID_MAKE_V5);
++                 switch (i) {
++-                    case 1: version = UUID_MAKE_V1; break;
++-                    case 3: version = UUID_MAKE_V3; break;
++-                    case 4: version = UUID_MAKE_V4; break;
++-                    case 5: version = UUID_MAKE_V5; break;
+++                    case 1: version |= UUID_MAKE_V1; break;
+++                    case 3: version |= UUID_MAKE_V3; break;
+++                    case 4: version |= UUID_MAKE_V4; break;
+++                    case 5: version |= UUID_MAKE_V5; break;
++                     default:
++                         usage("invalid version on option 'v'");
++                         break;
++@@ -213,10 +214,10 @@ int main(int argc, char *argv[])
++     }
++     else {
++         /* encoding */
++-        if (   (version == UUID_MAKE_V1 && argc != 0)
++-            || (version == UUID_MAKE_V3 && argc != 2)
++-            || (version == UUID_MAKE_V4 && argc != 0)
++-            || (version == UUID_MAKE_V5 && argc != 2))
+++        if (   (version & UUID_MAKE_V1 && argc != 0)
+++            || (version & UUID_MAKE_V3 && argc != 2)
+++            || (version & UUID_MAKE_V4 && argc != 0)
+++            || (version & UUID_MAKE_V5 && argc != 2))
++             usage("invalid number of arguments");
++         if ((rc = uuid_create(&uuid)) != UUID_RC_OK)
++             error(1, "uuid_create: %s", uuid_error(rc));
++@@ -232,7 +233,7 @@ int main(int argc, char *argv[])
++                 if ((rc = uuid_load(uuid, "nil")) != UUID_RC_OK)
++                     error(1, "uuid_load: %s", uuid_error(rc));
++             }
++-            if (version == UUID_MAKE_V3 || version == UUID_MAKE_V5) {
+++            if (version & UUID_MAKE_V3 || version & UUID_MAKE_V5) {
++                 if ((rc = uuid_create(&uuid_ns)) != UUID_RC_OK)
++                     error(1, "uuid_create: %s", uuid_error(rc));
++                 if ((rc = uuid_load(uuid_ns, argv[0])) != UUID_RC_OK) {
++-- 
+diff --git a/meta/recipes-devtools/ossp-uuid/ossp-uuid/0003-Fix-whatis-entries.patch b/meta/recipes-devtools/ossp-uuid/ossp-uuid/0003-Fix-whatis-entries.patch
+new file mode 100644
+index 0000000..060a754
+--- /dev/null
++++ b/meta/recipes-devtools/ossp-uuid/ossp-uuid/0003-Fix-whatis-entries.patch
+@@ -0,0 +1,51 @@
++From: Marco Nenciarini <marco.nenciarini@devise.it>
++Date: Tue, 2 Feb 2010 12:16:49 +0100
++Subject: [PATCH] Fix whatis entries
++
++Fix whatis entry of uuid.1, uuid.3ossp and uuid++.3ossp manpages
++---
++ uuid++.pod   |    2 +-
++ uuid.pod     |    2 +-
++ uuid_cli.pod |    2 +-
++ 3 files changed, 3 insertions(+), 3 deletions(-)
++
++diff --git a/uuid++.pod b/uuid++.pod
++index 8b5a4b1..89c5efb 100644
++--- a/uuid++.pod
+++++ b/uuid++.pod
++@@ -31,7 +31,7 @@
++ 
++ =head1 NAME
++ 
++-B<OSSP uuid> - B<Universally Unique Identifier> (C++ API)
+++B<uuid++> - B<Universally Unique Identifier> (C++ API)
++ 
++ =head1 VERSION
++ 
++diff --git a/uuid.pod b/uuid.pod
++index 4ad3742..0179a46 100644
++--- a/uuid.pod
+++++ b/uuid.pod
++@@ -31,7 +31,7 @@
++ 
++ =head1 NAME
++ 
++-B<OSSP uuid> - B<Universally Unique Identifier>
+++B<uuid> - B<Universally Unique Identifier>
++ 
++ =head1 VERSION
++ 
++diff --git a/uuid_cli.pod b/uuid_cli.pod
++index ddec6bb..df9dc83 100644
++--- a/uuid_cli.pod
+++++ b/uuid_cli.pod
++@@ -31,7 +31,7 @@
++ 
++ =head1 NAME
++ 
++-B<OSSP uuid> - B<Universally Unique Identifier Command-Line Tool>
+++B<uuid> - B<Universally Unique Identifier Command-Line Tool>
++ 
++ =head1 VERSION
++ 
++-- 
+diff --git a/meta/recipes-devtools/ossp-uuid/ossp-uuid/0004-fix-data-uuid-from-string.patch b/meta/recipes-devtools/ossp-uuid/ossp-uuid/0004-fix-data-uuid-from-string.patch
+new file mode 100644
+index 0000000..1f92cea
+--- /dev/null
++++ b/meta/recipes-devtools/ossp-uuid/ossp-uuid/0004-fix-data-uuid-from-string.patch
+@@ -0,0 +1,36 @@
++Description: Support dash-less args to from_string.
++Author: Tim Retout <diocles@debian.org>
++Bug-Debian: http://bugs.debian.org/635607
++
++The module Data::GUID depends on Data::UUID supporting this behaviour.
++
++--- a/perl/uuid_compat.pm
+++++ b/perl/uuid_compat.pm
++@@ -93,7 +93,9 @@
++     $uuid->import('str',
++           $str =~ /^0x/
++         ? join '-', unpack('x2 a8 a4 a4 a4 a12', $str)
++-        : $str
+++        : $str =~ /-/
+++        ? $str
+++        : join '-', unpack('A8 A4 A4 A4 A12', $str)
++     );
++     return $uuid->export('bin');
++ }
++--- a/perl/uuid_compat.ts
+++++ b/perl/uuid_compat.ts
++@@ -28,7 +28,7 @@
++ ##  uuid_compat.ts: Data::UUID Backward Compatibility Perl API (Perl test suite part)
++ ##
++ 
++-use Test::More tests => 14;
+++use Test::More tests => 16;
++ 
++ BEGIN {
++     use_ok('Data::UUID');
++@@ -53,3 +53,5 @@
++ ok($uuid8 = $ug->from_string("6ba7b811-9dad-11d1-80b4-00c04fd430c8"));
++ ok($ug->compare($uuid7, $uuid8) == 0);
++ 
+++ok($uuid9 = $ug->from_string("6ba7b8119dad11d180b400c04fd430c8"));
+++ok($ug->compare($uuid7, $uuid9) == 0);
+diff --git a/meta/recipes-devtools/ossp-uuid/ossp-uuid/uuid-libtool.patch b/meta/recipes-devtools/ossp-uuid/ossp-uuid/uuid-libtool.patch
+new file mode 100644
+index 0000000..97daca4
+--- /dev/null
++++ b/meta/recipes-devtools/ossp-uuid/ossp-uuid/uuid-libtool.patch
+@@ -0,0 +1,24 @@
++Remove hardcoded libtool name, fall back to generated name
 +
 +Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
 +
-+diff -ur rpm-5.4.8.orig/macros/macros.in rpm-5.4.8/macros/macros.in
-+--- rpm-5.4.8.orig/macros/macros.in	2012-03-21 19:04:06.000000000 -0500
-++++ rpm-5.4.8/macros/macros.in	2012-06-07 17:02:53.903046624 -0500
-+@@ -985,7 +985,7 @@
++diff -ur uuid-1.6.2.orig/Makefile.in uuid-1.6.2/Makefile.in
++--- uuid-1.6.2.orig/Makefile.in	2012-05-14 14:37:19.579672930 -0500
+++++ uuid-1.6.2/Makefile.in	2012-05-14 14:37:49.112733787 -0500
++@@ -32,6 +32,7 @@
++ VPATH       = @srcdir@
++ srcdir      = @srcdir@
++ top_srcdir  = @top_srcdir@
+++top_builddir = @top_builddir@
++ S           = $(srcdir)
++ C           = .
 + 
-+ #==============================================================================
-+ # ---- rpmbuild macros.
-+-#%%{load:%{_usrlibrpm}/macros.rpmbuild}
-++%{load:%{_usrlibrpm}/macros.rpmbuild}
-+ 
-+ #------------------------------------------------------------------------
-+ # cmake(...) configuration
-+@@ -997,15 +997,15 @@
-+ 
-+ #------------------------------------------------------------------------
-+ # perl(...) configuration
-+-#%%{load:%{_usrlibrpm}/macros.d/perl}
-++%{load:%{_usrlibrpm}/macros.d/perl}
-+ 
-+ #------------------------------------------------------------------------
-+ # python(...) configuration.
-+-#%%{load:%{_usrlibrpm}/macros.d/python}
-++%{load:%{_usrlibrpm}/macros.d/python}
-+ 
-+ #------------------------------------------------------------------------
-+ # php(...) configuration.
-+-#%%{load:%{_usrlibrpm}/macros.d/php}
-++%{load:%{_usrlibrpm}/macros.d/php}
-+ 
-+ #------------------------------------------------------------------------
-+ # java(...) configuration.
-+@@ -1013,11 +1013,11 @@
-+ 
-+ #------------------------------------------------------------------------
-+ # libtool(...) configuration.
-+-#%%{load:%{_usrlibrpm}/macros.d/libtool}
-++%{load:%{_usrlibrpm}/macros.d/libtool}
-+ 
-+ #------------------------------------------------------------------------
-+ # pkgconfig(...) configuration.
-+-#%%{load:%{_usrlibrpm}/macros.d/pkgconfig}
-++%{load:%{_usrlibrpm}/macros.d/pkgconfig}
-+ 
-+ #------------------------------------------------------------------------
-+ # mono(...) configuration.
-+@@ -1029,7 +1029,7 @@
-+ 
-+ #------------------------------------------------------------------------
-+ # tcl(...) configuration.
-+-#%%{load:%{_usrlibrpm}/macros.d/tcl}
-++%{load:%{_usrlibrpm}/macros.d/tcl}
-+ 
-+ # \endverbatim
-+ #*/
-diff --git a/meta/recipes-devtools/rpm/rpm/rpm-no-perl-urpm.patch b/meta/recipes-devtools/rpm/rpm/rpm-no-perl-urpm.patch
++@@ -55,7 +56,7 @@
++ CP          = cp
++ RMDIR       = rmdir
++ SHTOOL      = $(S)/shtool
++-LIBTOOL     = $(C)/libtool
+++LIBTOOL     = @LIBTOOL@
++ TRUE        = true
++ POD2MAN     = pod2man
++ PERL        = @PERL@
+diff --git a/meta/recipes-devtools/ossp-uuid/ossp-uuid/uuid-nostrip.patch b/meta/recipes-devtools/ossp-uuid/ossp-uuid/uuid-nostrip.patch
 new file mode 100644
-index 0000000..90fee35
+index 0000000..78f3c94
 --- /dev/null
-+++ b/meta/recipes-devtools/rpm/rpm/rpm-no-perl-urpm.patch
-@@ -0,0 +1,43 @@
-+Disable perl-URPM support
-+
-+This causes a configure failure when perl-URPM is not used.
-+
-+| configure.ac:1159: required file `perl-URPM/Makefile.PL.in' not found
-+| configure.ac:1159: required file `perl-URPM/Makefile.in' not found
++++ b/meta/recipes-devtools/ossp-uuid/ossp-uuid/uuid-nostrip.patch
+@@ -0,0 +1,16 @@
++We don't want anything stripped
 +
 +Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
 +
-+--- rpm-5.4.8/configure.ac.orig	2012-04-24 09:10:01.856749153 -0500
-++++ rpm-5.4.8/configure.ac	2012-04-24 09:10:35.198731504 -0500
-+@@ -1149,30 +1149,10 @@
-+ AC_SUBST(WITH_PERL_SUBPACKAGE)
-+ AC_SUBST(WITH_PERL_LIBS)
-+ 
-+-dnl # optional Perl-URPM language bindings
-++dnl # disable Perl-URPM language bindings
-+ WITH_PERL_URPM_SUBDIR=""
-+ WITH_PERL_URPM_SUBPACKAGE=0
-+ WITH_PERL_URPM_LIBS=""
-+-if test ".$WITH_PTHREADS" = .yes; then
-+-    WITH_PERL_URPM_LIBS="$LIBS"
-+-fi
-+-AC_ARG_WITH(perl-urpm, AS_HELP_STRING([--with-perl-urpm], [build with Perl URPM language bindings]), [
-+-    if test ".$withval" != .no; then
-+-	PERL_URPM_INSTALLDIRS=""
-+-	   if test "$withval" == "vendor"; then
-+-		    PERL_URPM_INSTALLDIRS="'INSTALLDIRS'	=> 'vendor',"
-+-	    fi
-+-	    if test "$withval" == "site"; then
-+-		    PERL_URPM_INSTALLDIRS="'INSTALLDIRS'     => 'site',"
-+-	    fi
-+-	    AC_DEFINE_UNQUOTED([PERL_URPM_INSTALLDIRS], [$PERL_URPM_INSTALLDIRS], [Perl install directory (vendor/site)])
-+-	    AC_SUBST(PERL_URPM_INSTALLDIRS)
-+-        WITH_PERL_URPM_SUBDIR=perl-URPM
-+-        WITH_PERL_URPM_SUBPACKAGE=1
-+-        AC_CONFIG_FILES([perl-URPM/Makefile.PL])
-+-        AC_CONFIG_FILES([perl-URPM/Makefile])
-+-    fi
-+-])
-+ AC_SUBST(WITH_PERL_URPM_SUBDIR)
-+ AC_SUBST(WITH_PERL_URPM_SUBPACKAGE)
-+ AC_SUBST(WITH_PERL_URPM_LIBS)
-diff --git a/meta/recipes-devtools/rpm/rpm/rpm-nofsync.patch b/meta/recipes-devtools/rpm/rpm/rpm-nofsync.patch
-deleted file mode 100644
-index f6e5828..0000000
---- a/meta/recipes-devtools/rpm/rpm/rpm-nofsync.patch
-+++ /dev/null
-@@ -1,36 +0,0 @@
--Backport from RPM 5.4.1 CVS, disabled fsync.
--
--Upstream-Status: Backport
--
--Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
--
--diff -ur rpm-5.4.0.orig/CHANGES rpm-5.4.0/CHANGES
----- rpm-5.4.0.orig/CHANGES	2010-12-29 07:51:38.000000000 -0600
--+++ rpm-5.4.0/CHANGES	2011-02-15 20:54:27.021926840 -0600
--@@ -1,4 +1,5 @@
-- 5.4.0 -> 5.4.1:
--+    - jbj: remove fsync(2) after file install, its intolerably slow.
-- 
-- 5.3.7 -> 5.4.0:
--     - jbj: remove markReplacedFiles.
--diff -ur rpm-5.4.0.orig/lib/fsm.c rpm-5.4.0/lib/fsm.c
----- rpm-5.4.0.orig/lib/fsm.c	2009-12-10 12:52:18.000000000 -0600
--+++ rpm-5.4.0/lib/fsm.c	2011-02-15 20:55:04.372938221 -0600
--@@ -1017,7 +1017,17 @@
-- 	    (void) fsmNext(fsm, IOSM_NOTIFY);
--     }
-- 
--+#ifdef DYING
--+/* Measurements from installing kernel-source package:
--+ * +fsync
--+ *     total:               1      0.000000 MB    640.854524 secs
--+ * +fdatasync
--+ *     total:               1      0.000000 MB    419.983200 secs
--+ * w/o fsync/fdsatasync:
--+ *     total:               1      0.000000 MB     12.492918 secs
--+ */
--     xx = fsync(Fileno(fsm->wfd));
--+#endif
-- 
--     if (st->st_size > 0 && (fsm->fdigest || fsm->digest)) {
-- 	void * digest = NULL;
-diff --git a/meta/recipes-devtools/rpm/rpm_5.4.0.bb b/meta/recipes-devtools/rpm/rpm_5.4.8.bb
-similarity index 91%
-rename from meta/recipes-devtools/rpm/rpm_5.4.0.bb
-rename to meta/recipes-devtools/rpm/rpm_5.4.8.bb
-index 43999e5..ac86ff3 100644
---- a/meta/recipes-devtools/rpm/rpm_5.4.0.bb
-+++ b/meta/recipes-devtools/rpm/rpm_5.4.8.bb
-@@ -42,14 +42,14 @@ HOMEPAGE = "http://rpm5.org/"
++diff -ur uuid-1.6.2.orig/Makefile.in uuid-1.6.2/Makefile.in
++--- uuid-1.6.2.orig/Makefile.in	2012-05-14 14:42:42.225789456 -0500
+++++ uuid-1.6.2/Makefile.in	2012-05-14 15:03:03.119733400 -0500
++@@ -254,7 +254,7 @@
++ 	-@if [ ".$(WITH_CXX)" = .yes ]; then \
++ 	    $(LIBTOOL) --mode=install $(SHTOOL) install -c -m 644 $(CXX_NAME) $(DESTDIR)$(libdir)/; \
++ 	fi
++-	@$(LIBTOOL) --mode=install $(SHTOOL) install -c -s -m 755 uuid $(DESTDIR)$(bindir)/
+++	@$(LIBTOOL) --mode=install $(SHTOOL) install -c -m 755 uuid $(DESTDIR)$(bindir)/
++ 	$(SHTOOL) install -c -m 644 $(S)/uuid.1 $(DESTDIR)$(mandir)/man1/
++ 	-@if [ ".$(WITH_PERL)" = .yes ]; then \
++ 	    (cd $(S)/perl && $(MAKE) $(MFLAGS) install DESTDIR=$(DESTDIR)); \
+diff --git a/meta/recipes-devtools/ossp-uuid/ossp-uuid_1.6.2.bb b/meta/recipes-devtools/ossp-uuid/ossp-uuid_1.6.2.bb
+new file mode 100644
+index 0000000..cc1ec75
+--- /dev/null
++++ b/meta/recipes-devtools/ossp-uuid/ossp-uuid_1.6.2.bb
+@@ -0,0 +1,58 @@
++SUMMARY = "Universally Unique Identifier (UUID) library" 
++DESCRIPTION = "OSSP uuid is a ISO-C:1999 application programming interface \
++(API) and corresponding command line interface (CLI) for the generation of \
++DCE 1.1, ISO/IEC 11578:1996 and RFC 4122 compliant Universally Unique \
++Identifier (UUID). It supports DCE 1.1 variant UUIDs of version 1 (time \
++and node based), version 3 (name based, MD5), version 4 (random number \
++based) and version 5 (name based, SHA-1)."
++DESCRIPTION_uuid = "This package contains a tool to create Universally \
++Unique Identifiers (UUID) from the command-line."
++
++HOMEPAGE = "http://www.ossp.org/pkg/lib/uuid/"
++SECTION = "libs"
++
++LICENSE = "ossp_uuid"
++LIC_FILES_CHKSUM = "file://README;beginline=30;endline=55;md5=b394fadb039bbfca6ad9d9d769ee960e"
++
++PR = "r0"
++
++SRC_URI = "ftp://ftp.ossp.org/pkg/lib/uuid/uuid-1.6.2.tar.gz \
++	   file://0001-Change-library-name.patch \
++	   file://0002-uuid-preserve-m-option-status-in-v-option-handling.patch \
++	   file://0003-Fix-whatis-entries.patch \
++	   file://0004-fix-data-uuid-from-string.patch \
++	   file://uuid-libtool.patch \
++	   file://uuid-nostrip.patch \
++	  "
++SRC_URI[md5sum] = "5db0d43a9022a6ebbbc25337ae28942f"
++SRC_URI[sha256sum] = "11a615225baa5f8bb686824423f50e4427acd3f70d394765bdff32801f0fd5b0"
++
++S = "${WORKDIR}/uuid-${PV}"
++
++inherit autotools
++
++EXTRA_OECONF = "--without-dce --without-cxx --without-perl --without-perl-compat --without-php --without-pgsql"
++EXTRA_OECONF = "--includedir=${includedir}/ossp"
++
++do_configure_prepend() {
++  # This package has a completely custom aclocal.m4
++  # so we need to back it up and make it usable...
++  if [ ! -e m4/ossp.m4 ]; then
++    mkdir m4
++    mv aclocal.m4 m4/ossp.m4
++  fi
++
++  rm -f libtool.m4
++}
++
++do_install_append() {
++  mkdir -p  ${D}${includedir}/ossp
++  mv ${D}${libdir}/pkgconfig/uuid.pc ${D}${libdir}/pkgconfig/ossp-uuid.pc
++}
++
++PACKAGES =+ "uuid"
++FILES_uuid = "${bindir}/uuid"
++FILES_${PN} = "${libdir}/libossp-uuid.so.16*"
++FILES_${PN}-dev += "${bindir}/uuid-config"
++
++BBCLASSEXTEND = "native"
+diff --git a/meta/recipes-devtools/rpm/rpm/rpm-ossp-uuid.patch b/meta/recipes-devtools/rpm/rpm/rpm-ossp-uuid.patch
+new file mode 100644
+index 0000000..1f4ba98
+--- /dev/null
++++ b/meta/recipes-devtools/rpm/rpm/rpm-ossp-uuid.patch
+@@ -0,0 +1,20 @@
++Fix integration of ossp-uuid
++
++We need to avoid including the util-linux uuid library, instead
++we need ossp-uuid.  There is a related hack in do_configure to
++make sure that we use the right .pc file as well.
++
++Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
++
++diff -ur rpm-5.4.9.orig/configure.ac rpm-5.4.9/configure.ac
++--- rpm-5.4.9.orig/configure.ac	2012-05-17 16:37:20.594790192 -0500
+++++ rpm-5.4.9/configure.ac	2012-05-17 16:39:23.126933596 -0500
++@@ -1909,7 +1909,7 @@
++ esac
++ RPM_CHECK_LIB(
++     [OSSP uuid], [uuid],
++-    [ossp-uuid uuid], [uuid_import], [uuid.h],
+++    [ossp-uuid], [uuid_import], [uuid.h],
++     [no,external:none], [],
++     [ dnl # enable OSSP uuid native API support for embedded Lua
++       if test ".$WITH_LUA" = .yes; then
+diff --git a/meta/recipes-devtools/rpm/rpm_5.4.9.bb b/meta/recipes-devtools/rpm/rpm_5.4.9.bb
+index 6eba802..2ca0f58 100644
+--- a/meta/recipes-devtools/rpm/rpm_5.4.9.bb
++++ b/meta/recipes-devtools/rpm/rpm_5.4.9.bb
+@@ -42,8 +42,8 @@ HOMEPAGE = "http://rpm5.org/"
  LICENSE = "LGPLv2.1"
  LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=2d5025d4aa3495befef8f17206a5b0a1"
  
--DEPENDS = "bzip2 zlib db openssl elfutils expat libpcre attr acl popt ${extrarpmdeps}"
-+DEPENDS = "beecrypt bzip2 zlib db openssl elfutils expat libpcre attr acl popt ${extrarpmdeps}"
- extrarpmdeps = "python perl file"
- extrarpmdeps_virtclass-native = "python-native file-native"
--PR = "r38"
-+PR = "r39"
+-DEPENDS = "libpcre attr acl popt file"
+-PR = "r40"
++DEPENDS = "libpcre attr acl popt ossp-uuid file"
++PR = "r41"
  
  # rpm2cpio is a shell script, which is part of the rpm src.rpm.  It is needed
  # in order to extract the distribution SRPM into a format we can extract...
--SRC_URI = "http://www.rpm5.org/files/rpm/rpm-5.4/rpm-5.4.0-0.20101229.src.rpm;extract=rpm-5.4.0.tar.gz \
-+SRC_URI = "http://www.rpm5.org/files/rpm/rpm-5.4/rpm-5.4.8-0.20120401.src.rpm;extract=rpm-5.4.8.tar.gz \
- 	   file://rpm-log-auto-rm.patch \
- 	   file://rpm-db-reduce.patch \
- 	   file://perfile_rpmdeps.sh \
-@@ -58,28 +58,22 @@ SRC_URI = "http://www.rpm5.org/files/rpm/rpm-5.4/rpm-5.4.0-0.20101229.src.rpm;ex
- 	   file://header-include-fix.patch \
- 	   file://rpm-platform.patch \
- 	   file://rpm-showrc.patch \
--	   file://rpm-nofsync.patch \
- 	   file://rpm-solvedb.patch \
- 	   file://rpm-tools-mtree-LDFLAGS.patch \
--	   file://fprint-pointer-fix.patch \
- 	   file://rpm-fileclass.patch \
- 	   file://rpm-canonarch.patch \
- 	   file://rpm-no-loopmsg.patch \
- 	   file://rpm-scriptletexechelper.patch \
--	   file://fix_for_automake_1.11.2.patch \
- 	   file://pythondeps.sh \
- 	   file://rpmdeps-oecore.patch \
- 	   file://rpm-resolvedep.patch \
- 	   file://rpm-respect-arch.patch \
--	   file://rpm_fix_for_automake-1.12.patch \
-+	   file://rpm-no-perl-urpm.patch \
-+	   file://rpm-macros.patch \
+@@ -69,6 +69,7 @@ SRC_URI = "http://www.rpm5.org/files/rpm/rpm-5.4/rpm-5.4.9-0.20120508.src.rpm;ex
+ 	   file://rpm-no-perl-urpm.patch \
+ 	   file://rpm-macros.patch \
+ 	   file://rpm-lua.patch \
++	   file://rpm-ossp-uuid.patch \
  	  "
  
--#	   file://rpm-autoconf.patch \
--#	   file://remove-compiled-tests.patch;apply=no \
--#	  "
--
--SRC_URI[md5sum] = "19c1a7f68d7765eeb7615c9c4e54e380"
--SRC_URI[sha256sum] = "887e76218308b570c33c8c2fb10b5298b3afd5d602860d281befc85357b3b923"
-+SRC_URI[md5sum] = "424b60bf2e0a624a218440d943861644"
-+SRC_URI[sha256sum] = "56eb5033d4de98c217475fb34d466d551f8912959389e7854a806e2bd9e13380"
+ SRC_URI[md5sum] = "60d56ace884340c1b3fcac6a1d58e768"
+@@ -145,7 +146,7 @@ EXTRA_OECONF += "--verbose \
+ 		--without-gnutls \
+ 		--with-pcre \
+ 		--enable-utf8 \
+-		--without-uuid \
++		--with-uuid \
+ 		--with-attr \
+ 		--with-acl \
+ 		--with-popt=external \
+@@ -330,6 +331,10 @@ do_configure() {
  
- inherit autotools gettext
+ 	./autogen.sh
  
-@@ -106,13 +100,13 @@ WITH_PYTHON = "	--with-python=${PYTHON_BASEVERSION} \
- # the perl module creation and installation would need to be patched.
- # (currently has host perl contamination issues)
- #WITH_PERL = "	--with-perl --without-perlembed"
--WITH_PERL = "	--without-perl"
-+WITH_PERL = "	--without-perl --without-perl-urpm"
- 
--WITH_PERL_virtclass-native = " --without-perl"
-+WITH_PERL_virtclass-native = " --without-perl --without-perl-urpm"
- 
- WITH_DB = "--with-db --with-dbsql --without-db-tools-integrated --without-sqlite"
- 
--WITH_CRYPTO = "--with-beecrypt=internal --with-openssl --without-nss --without-gcrypt"
-+WITH_CRYPTO = "--with-beecrypt --with-openssl --without-nss --without-gcrypt"
- 
- WITH_KEYUTILS = "--without-keyutils"
- WITH_LIBELF = "--with-libelf"
-@@ -411,6 +405,25 @@ do_install_append() {
- 	rm -f ${D}/${libdir}/rpm/dbconvert.sh
- 
- 	rm -f ${D}/${libdir}/rpm/libsqldb.*
++	# NASTY hack to make sure configure files the right pkg-config file...
++	sed -e 's/pkg-config --exists uuid/pkg-config --exists ossp-uuid/g' \
++	    -e 's/pkg-config uuid/pkg-config ossp-uuid/g' -i configure
 +
-+	# We don't want, nor need the Mandriva multiarch items
-+	rm -f ${D}/${bindir}/multiarch-dispatch
-+	rm -f ${D}/${bindir}/multiarch-platform
-+	rm -f ${D}/${libdir}/rpm/check-multiarch-files
-+	rm -f ${D}/${libdir}/rpm/mkmultiarch
-+	rm -f ${D}/${includedir}/multiarch-dispatch.h
-+
-+	rm -f ${D}/${libdir}/rpm/gstreamer.sh
-+	rm -f ${D}/${libdir}/rpm/gem_helper.rb
-+	rm -f ${D}/${libdir}/rpm/rubygems.rb
-+	rm -f ${D}/${libdir}/rpm/kmod-deps.sh
-+	rm -f ${D}/${libdir}/rpm/pythoneggs.py
-+	rm -f ${D}/${libdir}/rpm/macros.d/kernel
-+	rm -f ${D}/${libdir}/rpm/macros.d/gstreamer
-+	rm -f ${D}/${libdir}/rpm/bin/mgo
-+	rm -f ${D}/${libdir}/rpm/bin/dbconvert
-+	rm -f ${D}/${libdir}/rpm/bin/pom2spec
-+
- }
- 
- do_install_append_virtclass-native() {
-diff --git a/meta/recipes-support/db/db_5.1.19.bb b/meta/recipes-support/db/db_5.3.15.bb
-similarity index 93%
-rename from meta/recipes-support/db/db_5.1.19.bb
-rename to meta/recipes-support/db/db_5.3.15.bb
-index 7e84646..9d2bbe5 100644
---- a/meta/recipes-support/db/db_5.1.19.bb
-+++ b/meta/recipes-support/db/db_5.3.15.bb
-@@ -14,15 +14,15 @@ HOMEPAGE = "http://www.oracle.com/technology/products/berkeley-db/db/index.html"
- LICENSE = "Sleepycat"
- VIRTUAL_NAME ?= "virtual/db"
- CONFLICTS = "db3"
--PR = "r4"
-+PR = "r5"
- 
- SRC_URI = "http://download.oracle.com/berkeley-db/db-${PV}.tar.gz"
- SRC_URI += "file://arm-thumb-mutex_db5.patch;patchdir=.."
- 
--SRC_URI[md5sum] = "76fcbfeebfcd09ba0b4d96bfdf8d884d"
--SRC_URI[sha256sum] = "0194d4ca9266ba1a1c0bfbc233b18bfd05f63163453c81ebcdfdc7112d5ac850"
-+SRC_URI[md5sum] = "5493fb5f7cc3915887c836b096f18773"
-+SRC_URI[sha256sum] = "4f4f7d548984dde3584fcda0e4f96901cb8bafb08033a7781aec64ef2ea1f579"
- 
--LIC_FILES_CHKSUM = "file://../LICENSE;md5=86f9294f39f38ef9e89690bcd2320e7a"
-+LIC_FILES_CHKSUM = "file://../LICENSE;md5=12cc3ff983ed4ecc6cc091370ee4dbc3"
- 
- inherit autotools
- 
+ 	export varprefix=${localstatedir}
+ 	export CC_FOR_BUILD="${BUILD_CC}"
+ 	oe_runconf
 -- 
 1.7.3.4
 
