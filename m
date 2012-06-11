@@ -1,37 +1,38 @@
-Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
+Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <elizabeth.flanagan@intel.com>) id 1Se8dF-0008TB-Pd
+	(envelope-from <elizabeth.flanagan@intel.com>) id 1Se8eQ-0008WC-37
 	for openembedded-core@lists.openembedded.org;
-	Mon, 11 Jun 2012 19:42:25 +0200
-Received: from mail-lpp01m010-f52.google.com ([209.85.215.52])
-	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 11 Jun 2012 10:31:50 -0700
-Received: by lahj13 with SMTP id j13so2476023lah.25
+	Mon, 11 Jun 2012 19:43:38 +0200
+Received: from mail-lb0-f180.google.com ([209.85.217.180])
+	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 11 Jun 2012 10:33:02 -0700
+Received: by lbbgh12 with SMTP id gh12so2562681lbb.25
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jun 2012 10:31:48 -0700 (PDT)
+	Mon, 11 Jun 2012 10:33:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
 	:content-type:content-transfer-encoding:x-gm-message-state;
-	bh=9rWgNaljTMZWwyhAG6iUcRMdJxZCsJRTETndwhMDmzU=;
-	b=pXt9rt6mTePR/8MOjjHiDkquauVub/LuBImKsVRJNu1oNLJuIGsdDWHdsOFFFERYMj
-	ZOaXaknYjf5TQ76YO325ITg1424Pk7gP671Zji0tTUzF5e1/4GWQubMSaImn+X1CK1+P
-	p3OtpeM+rFPK6bM92iPy7K/p6mR9bTOp9U9UJ6P7mNzIKGFRjoIAlV9uuKbk2FmXyBFW
-	J0MD14xgpVGPF65bjBdkdOVda+XygM6h++cREdjk8lz8ncmgi6+mYT1qG+RzdQaJcFHA
-	PeGt5T3uFpUgsJWq/eT1Ge8tjUqU15Kx4IDLot90MPzblj7hjVi/JfaxJHxeqle9bFHK
-	VlrA==
+	bh=+m+aq57YUPDMghNnrSvZz7vRaGQ1Sq33b9KpvEurMLg=;
+	b=D1j8EYnuUvKCxMJ0a/ZBOqeZhn7TmmVoXMP5HnlzrO/k3VOn1JLUb4c9P9HhdDy9cI
+	93c9NKrkcNB5WP0rKRdkRkiaalg02MeKCcK0g89uAud0p7eAfwHVSbfB0T/TskxL3NQi
+	TD8x5q2GyaqREiPUHtcjoou09vjGdegTAOMiXhzmKsTGZ2A1ben7hQcW2fcuwpJ4rUJG
+	DVnewqxmnS2ar0mp1mChozgQKBCSVu0OynZyc5ixQSNsW0SWt0N2wetDA6nPU/VrQRcO
+	OPrSiOzBUdBZo8Yf4/wl3USNW+5CvY/ZlmEvZujwNQrQpd/7epK4rUA7dPvWWu4laLDG
+	y7Vg==
 MIME-Version: 1.0
-Received: by 10.112.85.225 with SMTP id k1mr3539880lbz.38.1339435908486; Mon,
-	11 Jun 2012 10:31:48 -0700 (PDT)
-Received: by 10.112.1.227 with HTTP; Mon, 11 Jun 2012 10:31:48 -0700 (PDT)
-In-Reply-To: <1338976234-26916-1-git-send-email-cristian.iorga@intel.com>
-References: <1338976234-26916-1-git-send-email-cristian.iorga@intel.com>
-Date: Mon, 11 Jun 2012 10:31:48 -0700
-Message-ID: <CAPhnLPCDcitw2N1cRKdSCGZ41Tp9z-kG02G_-aNDTjYd_W4KRg@mail.gmail.com>
+Received: by 10.152.103.109 with SMTP id fv13mr18046053lab.33.1339435980277;
+	Mon, 11 Jun 2012 10:33:00 -0700 (PDT)
+Received: by 10.112.1.227 with HTTP; Mon, 11 Jun 2012 10:33:00 -0700 (PDT)
+In-Reply-To: <1339152317.27075.1.camel@ted>
+References: <cover.1338994308.git.mark.hatle@windriver.com>
+	<1339152317.27075.1.camel@ted>
+Date: Mon, 11 Jun 2012 10:33:00 -0700
+Message-ID: <CAPhnLPAAkMSDq2SCWxA6NJTz6GJha5EnNFc=akYnPQ8HGUPW5w@mail.gmail.com>
 From: "Flanagan, Elizabeth" <elizabeth.flanagan@intel.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Gm-Message-State: ALoCoQk/LEmGrXC48hp84x/DzyI9UKb3T+mL8g8Xyk4OjJ2FPqrCt4EhxbZWyt7Zek6kT88HG+oc
-Subject: Re: [PATCH] telepathy-glib: update to 0.19.0
+X-Gm-Message-State: ALoCoQk3f6v3U2DEnbdPlLR303n/TOFzcwmuVvToLRcuSTzcQ0CkX6AYoiNtnoPbf4mBKtB5Ib+T
+Subject: Re: [PATCH 0/6] Misc package fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,56 +47,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Jun 2012 17:42:26 -0000
+X-List-Received-Date: Mon, 11 Jun 2012 17:43:38 -0000
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jun 6, 2012 at 2:50 AM, Cristian Iorga <cristian.iorga@intel.com> w=
-rote:
-> Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
-> ---
-> =A0...thy-glib_0.18.1.bb =3D> telepathy-glib_0.19.0.bb} | =A0 =A04 ++--
-> =A01 file changed, 2 insertions(+), 2 deletions(-)
-> =A0rename meta/recipes-connectivity/telepathy/{telepathy-glib_0.18.1.bb =
-=3D> telepathy-glib_0.19.0.bb} (82%)
+On Fri, Jun 8, 2012 at 3:45 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Wed, 2012-06-06 at 09:53 -0500, Mark Hatle wrote:
+>> A small collection of misc package fixes...
+>>
+>> The following changes since commit f8a054aca9962ebfd4c74fc1d34cd684de6b3=
+568:
+>>
+>> =A0 perl: Allow perl to cross build and native build in a directory name=
+d "t" (2012-06-05 23:02:20 +0100)
+>>
+>> are available in the git repository at:
+>> =A0 git://git.pokylinux.org/poky-contrib mhatle/misc
+>> =A0 http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=3Dmhatle/misc
+>>
+>> Jesse Zhang (1):
+>> =A0 beecrypt: disable java
+>>
+>> Joe Slater (2):
+>> =A0 shared-mime-info: fix build race condition
+>> =A0 gettext: install libgettextlib.a before removing it
 >
-> diff --git a/meta/recipes-connectivity/telepathy/telepathy-glib_0.18.1.bb=
- b/meta/recipes-connectivity/telepathy/telepathy-glib_0.19.0.bb
-> similarity index 82%
-> rename from meta/recipes-connectivity/telepathy/telepathy-glib_0.18.1.bb
-> rename to meta/recipes-connectivity/telepathy/telepathy-glib_0.19.0.bb
-> index 81da5f8..6c4e12c 100644
-> --- a/meta/recipes-connectivity/telepathy/telepathy-glib_0.18.1.bb
-> +++ b/meta/recipes-connectivity/telepathy/telepathy-glib_0.19.0.bb
-> @@ -7,8 +7,8 @@ PR =3D "r0"
+> These had patches missing Upstream-Status fields. I've fixed it up this
+> time but please pass the message back to include them in future.
 >
-> =A0SRC_URI =3D "http://telepathy.freedesktop.org/releases/telepathy-glib/=
-${BPN}-${PV}.tar.gz"
+> Cheers,
 >
-> -SRC_URI[md5sum] =3D "461732739e3fbf8467991bbe661fb29a"
-> -SRC_URI[sha256sum] =3D "3738256689e34c22ddf9c4eb33f44ce7505c18fb1a14c53b=
-8e56dd9c262f4c6d"
-> +SRC_URI[md5sum] =3D "a4a01b748b6b7134853a561228fe70e4"
-> +SRC_URI[sha256sum] =3D "f2ed6a5207cb579f6807f6f37d4d379a65208c3e094288e5=
-7655238b7afd3d66"
+> Richard
 >
-> =A0LIC_FILES_CHKSUM =3D "file://COPYING;md5=3De413d83db6ee8f2c8e605571909=
-6a48e"
->
-> --
-> 1.7.9.5
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 Merged into OE-Core
 
 Thanks
 
 -b
+
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+
+
 
 --=20
 Elizabeth Flanagan
