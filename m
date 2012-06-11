@@ -1,26 +1,26 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1Se9Gd-0001g5-C4
+	(envelope-from <mark.hatle@windriver.com>) id 1Se9Gd-0001gO-UY
 	for openembedded-core@lists.openembedded.org;
 	Mon, 11 Jun 2012 20:23:08 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q5BICX0f019807
+	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q5BICYkJ024037
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jun 2012 11:12:33 -0700 (PDT)
+	Mon, 11 Jun 2012 11:12:34 -0700 (PDT)
 Received: from localhost.localdomain (172.25.34.61) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Mon, 11 Jun 2012 11:12:32 -0700
+	Mon, 11 Jun 2012 11:12:33 -0700
 From: Mark Hatle <mark.hatle@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 11 Jun 2012 13:18:58 -0500
-Message-ID: <d0288ebd0ed4d6c9db5af8e0ca68a961836558d3.1339438568.git.mark.hatle@windriver.com>
+Date: Mon, 11 Jun 2012 13:18:59 -0500
+Message-ID: <7b19e16d773a44ace72ee2f7e3561b393bdaf7b3.1339438568.git.mark.hatle@windriver.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1339438568.git.mark.hatle@windriver.com>
 References: <cover.1339438568.git.mark.hatle@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [172.25.34.61]
-Subject: [PATCH 7/9] createrepo: For compatibility w/ RPM 5.4.9 remove RPMVSF_NOSIGNATURES flag
+Subject: [PATCH 8/9] package_rpm: Verify that the package manifests are not empty
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,61 +38,125 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 X-List-Received-Date: Mon, 11 Jun 2012 18:23:08 -0000
 Content-Type: text/plain
 
-The RPMVSF_NOSIGNATURES flag was removed from RPM5 - 5.4.9 as a result of
-additional -requires- package validation to help protect from malicious
-packages.  The createrepo "dump" script has been updated to no longer use
-this flag.  This remains compatible with prior versions of RPM.
+An empty manifest will cause a failure condition.  We ensure that any install
+actions occur only with a manifest larger then size 0.  Also ensure that padding
+is added to the end of the manifest, instead of the beginning to enable this
+size check.  (Padding is required for very small manifest files..)
 
 Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
 ---
- .../createrepo/createrepo/createrepo-rpm549.patch  |   19 +++++++++++++++++++
- .../createrepo/createrepo_0.4.11.bb                |    3 ++-
- 2 files changed, 21 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-support/createrepo/createrepo/createrepo-rpm549.patch
+ meta/classes/package_rpm.bbclass |   59 ++++++++++++++++++++++----------------
+ 1 files changed, 34 insertions(+), 25 deletions(-)
 
-diff --git a/meta/recipes-support/createrepo/createrepo/createrepo-rpm549.patch b/meta/recipes-support/createrepo/createrepo/createrepo-rpm549.patch
-new file mode 100644
-index 0000000..3423c44
---- /dev/null
-+++ b/meta/recipes-support/createrepo/createrepo/createrepo-rpm549.patch
-@@ -0,0 +1,19 @@
-+dumpMetadata.py: Fix for RPM5 - 5.4.9 integration
-+
-+RPM5 no longer has a switch to disable signature validation.  (Due to security
-+validation concerns.)
-+
-+Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
-+
-+diff -u createrepo-0.4.11.orig/dumpMetadata.py createrepo-0.4.11/dumpMetadata.py
-+--- createrepo-0.4.11.orig/dumpMetadata.py	2012-06-05 10:12:55.687964222 -0500
-++++ createrepo-0.4.11/dumpMetadata.py	2012-06-05 10:40:08.154060600 -0500
-+@@ -92,7 +92,7 @@
-+             fdno = package # let's assume this is an fdno and go with it :)
-+     except OSError:
-+         raise MDError, "Error opening file"
-+-    ts.setVSFlags((rpm._RPMVSF_NOSIGNATURES|rpm.RPMVSF_NOMD5|rpm.RPMVSF_NEEDPAYLOAD))
-++    ts.setVSFlags((rpm.RPMVSF_NOMD5|rpm.RPMVSF_NEEDPAYLOAD))
-+     try:
-+         hdr = ts.hdrFromFdno(fdno)
-+     except rpm.error:
-diff --git a/meta/recipes-support/createrepo/createrepo_0.4.11.bb b/meta/recipes-support/createrepo/createrepo_0.4.11.bb
-index 989a745..060ed59 100644
---- a/meta/recipes-support/createrepo/createrepo_0.4.11.bb
-+++ b/meta/recipes-support/createrepo/createrepo_0.4.11.bb
-@@ -4,11 +4,12 @@ HOMEPAGE = "http://createrepo.baseurl.org/"
- LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=18810669f13b87348459e611d31ab760"
+diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
+index b84c044..bb9aa1a 100644
+--- a/meta/classes/package_rpm.bbclass
++++ b/meta/classes/package_rpm.bbclass
+@@ -182,6 +182,7 @@ rpm_update_pkg () {
+         # been run by now, so don't have to run them(preun, postun, etc.) when
+         # erase the pkg
+         if [ -s ${target_rootfs}/install/remove.manifest ]; then
++            echo "# Removal manifest padding...." >> ${target_rootfs}/install/remove.manifest
+             rpm_common_comand --noscripts --nodeps \
+                 -e `cat ${target_rootfs}/install/remove.manifest`
+         fi
+@@ -249,7 +250,7 @@ package_install_internal_rpm () {
  
--PR = "r2"
-+PR = "r3"
+ 	# Setup manifest of packages to install...
+ 	mkdir -p ${target_rootfs}/install
+-	echo "# Install manifest" > ${target_rootfs}/install/install.manifest
++	rm -f ${target_rootfs}/install/install.manifest
  
- SRC_URI= "http://createrepo.baseurl.org/download/${BP}.tar.gz \
-           file://fix-native-install.patch \
-           file://python-scripts-should-use-interpreter-from-env.patch \
-+	  file://createrepo-rpm549.patch \
-          "
+ 	# Uclibc builds don't provide this stuff...
+ 	if [ x${TARGET_OS} = "xlinux" ] || [ x${TARGET_OS} = "xlinux-gnueabi" ] ; then
+@@ -309,12 +310,15 @@ package_install_internal_rpm () {
  
- SRC_URI[md5sum] = "3e9ccf4abcffe3f49af078c83611eda2"
+ 	# Generate an install solution by doing a --justdb install, then recreate it with
+ 	# an actual package install!
+-	${RPM} --predefine "_rpmds_sysinfo_path ${target_rootfs}/etc/rpm/sysinfo" \
+-		--predefine "_rpmrc_platform_path ${target_rootfs}/etc/rpm/platform" \
+-		-D "_dbpath ${target_rootfs}/install" -D "`cat ${confbase}-base_archs.macro`" \
+-		-D "__dbi_txn create nofsync" \
+-		-U --justdb --noscripts --notriggers --noparentdirs --nolinktos --ignoresize \
+-		${target_rootfs}/install/install.manifest
++	if [ -s ${target_rootfs}/install/install.manifest ]; then
++		echo "# Install manifest padding" >> ${target_rootfs}/install/install.manifest
++		${RPM} --predefine "_rpmds_sysinfo_path ${target_rootfs}/etc/rpm/sysinfo" \
++			--predefine "_rpmrc_platform_path ${target_rootfs}/etc/rpm/platform" \
++			-D "_dbpath ${target_rootfs}/install" -D "`cat ${confbase}-base_archs.macro`" \
++			-D "__dbi_txn create nofsync" \
++			-U --justdb --noscripts --notriggers --noparentdirs --nolinktos --ignoresize \
++			${target_rootfs}/install/install.manifest
++	fi
+ 
+ 	if [ ! -z "${package_attemptonly}" ]; then
+ 		echo "Adding attempt only packages..."
+@@ -407,8 +411,9 @@ package_install_internal_rpm () {
+ 
+ 	touch ${target_rootfs}/install/install_multilib_solution.manifest
+ 
+-	if [ -e "${target_rootfs}/install/install_multilib.manifest" ]; then
++	if [ -s "${target_rootfs}/install/install_multilib.manifest" ]; then
+ 		# multilib package installation
++		echo "# Install multilib manifest padding" >> ${target_rootfs}/install/install_multilib.manifest
+ 
+ 		# Generate an install solution by doing a --justdb install, then recreate it with
+ 		# an actual package install!
+@@ -493,33 +498,37 @@ EOF
+ 	if [ "${INC_RPM_IMAGE_GEN}" = "1" -a -f "$pre_btmanifest" ]; then
+ 		echo "Skipping pre install due to exisitng image"
+ 	else
+-		echo "# Initial Install manifest" > ${target_rootfs}/install/initial_install.manifest
++		rm -f ${target_rootfs}/install/initial_install.manifest
+ 		echo "Installing base dependencies first (base-passwd, base-files and shadow) since rpm is special"
+ 		grep /base-passwd-[0-9] ${target_rootfs}/install/total_solution.manifest >> ${target_rootfs}/install/initial_install.manifest || true
+ 		grep /base-files-[0-9] ${target_rootfs}/install/total_solution.manifest >> ${target_rootfs}/install/initial_install.manifest || true
+ 		grep /shadow-[0-9] ${target_rootfs}/install/total_solution.manifest >> ${target_rootfs}/install/initial_install.manifest || true
+ 
+-		# Generate an install solution by doing a --justdb install, then recreate it with
+-		# an actual package install!
+-		mkdir -p ${target_rootfs}/initial
++		if [ -s ${target_rootfs}/install/initial_install.manifest ]; then
++			echo "# Initial Install manifest padding..." >> ${target_rootfs}/install/initial_install.manifest
+ 
+-		${RPM} --predefine "_rpmds_sysinfo_path ${target_rootfs}/etc/rpm/sysinfo" \
+-			--predefine "_rpmrc_platform_path ${target_rootfs}/etc/rpm/platform" \
+-			-D "_dbpath ${target_rootfs}/initial" -D "`cat ${confbase}.macro`" \
+-			-D "__dbi_txn create nofsync" \
+-			-U --justdb --noscripts --notriggers --noparentdirs --nolinktos --ignoresize \
+-			${target_rootfs}/install/initial_install.manifest
++			# Generate an install solution by doing a --justdb install, then recreate it with
++			# an actual package install!
++			mkdir -p ${target_rootfs}/initial
+ 
+-		${RPM} -D "_dbpath ${target_rootfs}/initial" -qa --qf "%{packageorigin}\n" \
+-			-D "__dbi_txn create nofsync private" \
+-			> ${target_rootfs}/install/initial_solution.manifest
++			${RPM} --predefine "_rpmds_sysinfo_path ${target_rootfs}/etc/rpm/sysinfo" \
++				--predefine "_rpmrc_platform_path ${target_rootfs}/etc/rpm/platform" \
++				-D "_dbpath ${target_rootfs}/initial" -D "`cat ${confbase}.macro`" \
++				-D "__dbi_txn create nofsync" \
++				-U --justdb --noscripts --notriggers --noparentdirs --nolinktos --ignoresize \
++				${target_rootfs}/install/initial_install.manifest
++
++			${RPM} -D "_dbpath ${target_rootfs}/initial" -qa --qf "%{packageorigin}\n" \
++				-D "__dbi_txn create nofsync private" \
++				> ${target_rootfs}/install/initial_solution.manifest
+ 
+-		rpm_update_pkg ${target_rootfs}/install/initial_solution.manifest
++			rpm_update_pkg ${target_rootfs}/install/initial_solution.manifest
+ 		
+-		grep -Fv -f ${target_rootfs}/install/initial_solution.manifest ${target_rootfs}/install/total_solution.manifest > ${target_rootfs}/install/total_solution.manifest.new
+-		mv ${target_rootfs}/install/total_solution.manifest.new ${target_rootfs}/install/total_solution.manifest
++			grep -Fv -f ${target_rootfs}/install/initial_solution.manifest ${target_rootfs}/install/total_solution.manifest > ${target_rootfs}/install/total_solution.manifest.new
++			mv ${target_rootfs}/install/total_solution.manifest.new ${target_rootfs}/install/total_solution.manifest
+ 		
+-		rm -rf ${target_rootfs}/initial
++			rm -rf ${target_rootfs}/initial
++		fi
+ 	fi
+ 
+ 	echo "Installing main solution manifest (${target_rootfs}/install/total_solution.manifest)"
 -- 
 1.7.3.4
 
