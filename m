@@ -1,29 +1,37 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail-ey0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SeD1U-0002sr-EK
+	(envelope-from <raj.khem@gmail.com>) id 1SeDDa-00039u-Kp
 	for openembedded-core@lists.openembedded.org;
-	Tue, 12 Jun 2012 00:23:44 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 11 Jun 2012 15:13:09 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="151582288"
-Received: from unknown (HELO [10.255.12.133]) ([10.255.12.133])
-	by orsmga001.jf.intel.com with ESMTP; 11 Jun 2012 15:13:09 -0700
-Message-ID: <4FD66D75.1080901@linux.intel.com>
-Date: Mon, 11 Jun 2012 15:13:09 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
+	Tue, 12 Jun 2012 00:36:14 +0200
+Received: by eaal1 with SMTP id l1so2158883eaa.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 11 Jun 2012 15:25:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=TbMLJM246FxU1OwypF8Bx1bj2uFGLev9ApNre1Paiws=;
+	b=K9GlL5KatsWIjBAn+nnP5CqcqPe3MyQwLS9cJQHTdsddkxxqvk5hHPnXhciXRW/ixO
+	OFRmhhzpOri6vwvNwr8uL27lSibUCG/eX/h5MUJIMtLfO+IAiAMKYoNVuP/epz5rQgRl
+	79dWr3tdMNdgl4Y+QGpdmjK5m9ie+D77Zqt1IBYAUjHc0I89VsX48LsipFCImIGUA+mp
+	YboQbo1KqwBmnwDKwrDfgO+Odw2q1sDC2Kgcwt+nhd4W9USkC25uLvf98psdnKLXhDqP
+	ywJjyU1/81fd2gZgNhgy3P9h8LPxJtGLKAsZ7RhBNpeYwHTHkDtzrfXjq9yCB7t61DYX
+	c0Lw==
+Received: by 10.14.188.140 with SMTP id a12mr5860906een.25.1339453540695; Mon,
+	11 Jun 2012 15:25:40 -0700 (PDT)
 MIME-Version: 1.0
-To: Koen Kooi <koen@dominion.thruhere.net>
-References: <1339117150-15442-1-git-send-email-sgw@linux.intel.com>
-	<0DCEDF44-AD19-4718-92F2-4801F8268190@dominion.thruhere.net>
-	<4FD605CE.6060203@linux.intel.com>
-	<2405D501-576B-4710-9FE4-4CBED50F7FA8@dominion.thruhere.net>
-In-Reply-To: <2405D501-576B-4710-9FE4-4CBED50F7FA8@dominion.thruhere.net>
-Cc: Patches and discussions about the oe-core layer
+Received: by 10.14.188.11 with HTTP; Mon, 11 Jun 2012 15:25:10 -0700 (PDT)
+In-Reply-To: <4FD66C13.8010603@linux.intel.com>
+References: <cover.1339194124.git.nitin.a.kamble@intel.com>
+	<01b0f43cacd0beed93aebd108730bfe420ab2397.1339194124.git.nitin.a.kamble@intel.com>
+	<4FD28477.9020201@linux.intel.com> <4FD66C13.8010603@linux.intel.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 11 Jun 2012 15:25:10 -0700
+Message-ID: <CAMKF1sr-C5oot0TBpSJmNNGu409803qwYzK5Lw-1+R_DYoMs7Q@mail.gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
+Cc: yocto@yoctoproject.org, Darren Hart <dvhart@linux.intel.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] curl: enable ssl support
+Subject: Re: [yocto] [PATCH 1/1] eglibc: remove runtime dependency of perl from eglibc-mtrace
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,72 +46,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Jun 2012 22:23:44 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 11 Jun 2012 22:36:14 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 06/11/2012 08:19 AM, Koen Kooi wrote:
+On Mon, Jun 11, 2012 at 3:07 PM, Saul Wold <sgw@linux.intel.com> wrote:
+>> Would the correct solution be to break eglibc-mtrace out into a separate
+>> recipe.
+>>
+> I am not sure if this would be more correct or have the PACKAGES contain
+> something like ${EGLIBC_PACKAGE_MTRACE}, which could the be over-ridden by
+> the yocto-tiny distro.
 >
-> Op 11 jun. 2012, om 09:50 heeft Saul Wold het volgende geschreven:
+> EGLIBC_PACKAGE_MTRACE ?= "${PN}-mtrace"
 >
->> On 06/08/2012 12:39 AM, Koen Kooi wrote:
->>>
->>> Op 8 jun. 2012, om 02:59 heeft Saul Wold het volgende geschreven:
->>>
->>>> This patch enables ssl support for curl to allow git to clone from
->>>> https / ssl sites.
->>>>
->>>> [YOCTO #2532]
->>>>
->>>> Signed-off-by: Saul Wold<sgw@linux.intel.com>
->>>> ---
->>>> meta/recipes-support/curl/curl_7.24.0.bb |    6 +++---
->>>> 1 files changed, 3 insertions(+), 3 deletions(-)
->>>>
->>>> diff --git a/meta/recipes-support/curl/curl_7.24.0.bb b/meta/recipes-support/curl/curl_7.24.0.bb
->>>> index 12e95c9..f0ae7f1 100644
->>>> --- a/meta/recipes-support/curl/curl_7.24.0.bb
->>>> +++ b/meta/recipes-support/curl/curl_7.24.0.bb
->>>> @@ -5,10 +5,10 @@ SECTION = "console/network"
->>>> LICENSE = "MIT"
->>>> LIC_FILES_CHKSUM = "file://COPYING;beginline=7;md5=3a34942f4ae3fbf1a303160714e664ac"
->>>>
->>>> -DEPENDS = "zlib gnutls"
->>>> +DEPENDS = "zlib gnutls openssl"
->>>> DEPENDS_virtclass-native = "zlib-native"
->>>> DEPENDS_virtclass-nativesdk = "zlib-nativesdk"
->>>> -PR = "r0"
->>>> +PR = "r1"
->>>>
->>>> SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
->>>>             file://noldlibpath.patch \
->>>> @@ -20,7 +20,7 @@ SRC_URI[sha256sum] = "ebdb111088ff8b0e05b1d1b075e9f1608285e8105cc51e21caacf33d01
->>>> inherit autotools pkgconfig binconfig
->>>>
->>>> EXTRA_OECONF = "--with-zlib=${STAGING_LIBDIR}/../ \
->>>> -                --without-ssl \
->>>> +		--with-ssl \
->>>>                  --without-libssh2 \
->>>> 		--with-random=/dev/urandom \
->>>> 		--without-libidn \
->>>
->>> I haven't looked at the complete recipe, but what is the ssl behaviour for the -native and -nativesdk versions?
->>>
->> Actually it's the -native that needs the ssl behavior, and this adds it for all 3 correctly, tested on target as well as -native (I did not actually test the -nativesdk, but I will now).
+> and then change ${PN}-mtrace in the PACKAGES list to
+> ${EGLIBC_PACKAGE_MTRACE}.
 >
-> In that case you need to change all the DEPENDS, including the virtclass ones.
->
-Yes, of course, I missed those and it worked since I already had the 
-OpenSSL-native package on my system.
+> This exposes another "global", so I am not sure which is better.
 
-Thanks
-	Sau!
+there are other tools e.g. memusage etc. which could be built in a
+second pass and IMO
+we should separate the eglibc-bin into  a separate recipe since
+everything depends on system libc
+its desirable that it should have few dependencies to build it so
+builds can be more parallel and
+eglibc wont be a bottleneck.
 
-> regards,
->
-> Koen
->
->
->
+-Khem
 
 
