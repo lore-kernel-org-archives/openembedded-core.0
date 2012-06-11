@@ -1,27 +1,30 @@
-Received: from mga09.intel.com ([134.134.136.24])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1Se2ig-0004Gf-Mr
-	for openembedded-core@lists.openembedded.org;
-	Mon, 11 Jun 2012 13:23:38 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 11 Jun 2012 04:13:03 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="151282505"
-Received: from unknown (HELO helios.localnet) ([10.252.120.119])
-	by orsmga001.jf.intel.com with ESMTP; 11 Jun 2012 04:13:02 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 11 Jun 2012 12:13:01 +0100
-Message-ID: <21967910.Cvp1B8MzgQ@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.8.3 (Linux/3.2.0-24-generic-pae; KDE/4.8.3; i686; ; )
-In-Reply-To: <1339410469.31110.73.camel@phil-desktop>
-References: <cover.1339405061.git.lianhao.lu@intel.com>
-	<2537506.sJK0eATnrm@helios>
-	<1339410469.31110.73.camel@phil-desktop>
-MIME-Version: 1.0
-Cc: Phil Blundell <philb@gnu.org>
-Subject: Re: [PATCH 1/3] openssh: Allow empty passwords login.
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1Se4Ey-00027r-GB for openembedded-core@lists.openembedded.org;
+	Mon, 11 Jun 2012 15:01:04 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q5BCoT1a014856;
+	Mon, 11 Jun 2012 13:50:29 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 13232-08; Mon, 11 Jun 2012 13:50:25 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q5BCoJIO014849
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Mon, 11 Jun 2012 13:50:20 +0100
+Message-ID: <1339419022.30460.16.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Bruce Ashfield <bruce.ashfield@windriver.com>
+Date: Mon, 11 Jun 2012 13:50:22 +0100
+In-Reply-To: <cover.1339169970.git.bruce.ashfield@windriver.com>
+References: <cover.1339169970.git.bruce.ashfield@windriver.com>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: openembedded-core@lists.openembedded.org, saul.wold@intel.com
+Subject: Re: [PATCH 0/1] linux-libc-headers: set default LINUXLIBCVERSION to 3.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,38 +39,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Jun 2012 11:23:38 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Mon, 11 Jun 2012 13:01:04 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Monday 11 June 2012 11:27:48 Phil Blundell wrote:
-> On Mon, 2012-06-11 at 11:24 +0100, Paul Eggleton wrote:
-> > I don't think we want this to be image-specific. FWIW, we do already have
-> > a
-> > mechanism to handle this for the dropbear recipe - debug-tweaks in
-> > IMAGE_FEATURES. I don't particularly like it however since IMAGE_FEATURES
-> > should not be influencing non-image recipes. This has bothered me for a
-> > while and I think we ought to change to some other mechanism (perhaps
-> > make it a separate variable) and then make the OpenSSH recipe use that.
+On Fri, 2012-06-08 at 11:42 -0400, Bruce Ashfield wrote:
+> Richard/Saul,
 > 
-> In the particular case of OpenSSH, it's just a configuration file
-> setting, rather than a compile-time #ifdef, so doing it with
-> IMAGE_FEATURES and a rootfs postprocess step sounds like a perfectly
-> wholesome approach.
+> Fresh of my typo success of my last series .. I rebuilt core-image-minal
+> for all qemu machines from scratch with this in place. No issues were
+> seen here, and I'm not sufficiently paranoid for 10 people.
 > 
-> I agree that the current mechanism used by dropbear (applying patches
-> based on IMAGE_FEATURES) is full of suck and should be changed, perhaps
-> to something more akin to what openssh does.
+> The 3.4 kernel is released, and is the default for qemu* builds, so
+> we can safely update the default libc-headers version to 3.4.
+> 
+> Cheers,
+> 
+> Bruce
+> 
+> The following changes since commit 0612cf3fcb3365e7721a2d5c331f8cd2647ae60b:
+>   Kang Kai (1):
+>         hob2: create a standalone deploy image tool
+> 
+> are available in the git repository at:
+> 
+>   git://git.pokylinux.org/poky-contrib zedd/libc-headers
+>   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/libc-headers
+> 
+> Bruce Ashfield (1):
+>   linux-libc-headers: set default LINUXLIBCVERSION to 3.4
 
-Sounds good. I've created Yocto bug #2578 to look at fixing this in the manner 
-you described.
+Merged to master, thanks.
 
-Cheers,
-Paul
+Richard
 
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
 
 
