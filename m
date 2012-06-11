@@ -1,10 +1,10 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1Se9Gd-0001gO-UY
+	(envelope-from <mark.hatle@windriver.com>) id 1Se9Ge-0001k1-S2
 	for openembedded-core@lists.openembedded.org;
-	Mon, 11 Jun 2012 20:23:08 +0200
+	Mon, 11 Jun 2012 20:23:09 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q5BICYkJ024037
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q5BICYSC019810
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 11 Jun 2012 11:12:34 -0700 (PDT)
@@ -13,14 +13,14 @@ Received: from localhost.localdomain (172.25.34.61) by ALA-HCA.corp.ad.wrs.com
 	Mon, 11 Jun 2012 11:12:33 -0700
 From: Mark Hatle <mark.hatle@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 11 Jun 2012 13:18:59 -0500
-Message-ID: <7b19e16d773a44ace72ee2f7e3561b393bdaf7b3.1339438568.git.mark.hatle@windriver.com>
+Date: Mon, 11 Jun 2012 13:19:00 -0500
+Message-ID: <06262b0aa233ae73c04adca1fd2a78d8d247f8aa.1339438568.git.mark.hatle@windriver.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1339438568.git.mark.hatle@windriver.com>
 References: <cover.1339438568.git.mark.hatle@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [172.25.34.61]
-Subject: [PATCH 8/9] package_rpm: Verify that the package manifests are not empty
+Subject: [PATCH 9/9] rpm: Ensure pkgconfig deps don't stray from the package being built
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,128 +35,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Jun 2012 18:23:08 -0000
+X-List-Received-Date: Mon, 11 Jun 2012 18:23:09 -0000
 Content-Type: text/plain
 
-An empty manifest will cause a failure condition.  We ensure that any install
-actions occur only with a manifest larger then size 0.  Also ensure that padding
-is added to the end of the manifest, instead of the beginning to enable this
-size check.  (Padding is required for very small manifest files..)
+Force pkg-config to only look in the install directory, and not be
+able to fall back to system pkg-config directories for resolution.
 
 Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
 ---
- meta/classes/package_rpm.bbclass |   59 ++++++++++++++++++++++----------------
- 1 files changed, 34 insertions(+), 25 deletions(-)
+ .../rpm/rpm/rpm-pkgconfigdeps.patch                |   34 ++++++++++++++++++++
+ meta/recipes-devtools/rpm/rpm_5.4.9.bb             |    3 +-
+ 2 files changed, 36 insertions(+), 1 deletions(-)
+ create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-pkgconfigdeps.patch
 
-diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
-index b84c044..bb9aa1a 100644
---- a/meta/classes/package_rpm.bbclass
-+++ b/meta/classes/package_rpm.bbclass
-@@ -182,6 +182,7 @@ rpm_update_pkg () {
-         # been run by now, so don't have to run them(preun, postun, etc.) when
-         # erase the pkg
-         if [ -s ${target_rootfs}/install/remove.manifest ]; then
-+            echo "# Removal manifest padding...." >> ${target_rootfs}/install/remove.manifest
-             rpm_common_comand --noscripts --nodeps \
-                 -e `cat ${target_rootfs}/install/remove.manifest`
-         fi
-@@ -249,7 +250,7 @@ package_install_internal_rpm () {
- 
- 	# Setup manifest of packages to install...
- 	mkdir -p ${target_rootfs}/install
--	echo "# Install manifest" > ${target_rootfs}/install/install.manifest
-+	rm -f ${target_rootfs}/install/install.manifest
- 
- 	# Uclibc builds don't provide this stuff...
- 	if [ x${TARGET_OS} = "xlinux" ] || [ x${TARGET_OS} = "xlinux-gnueabi" ] ; then
-@@ -309,12 +310,15 @@ package_install_internal_rpm () {
- 
- 	# Generate an install solution by doing a --justdb install, then recreate it with
- 	# an actual package install!
--	${RPM} --predefine "_rpmds_sysinfo_path ${target_rootfs}/etc/rpm/sysinfo" \
--		--predefine "_rpmrc_platform_path ${target_rootfs}/etc/rpm/platform" \
--		-D "_dbpath ${target_rootfs}/install" -D "`cat ${confbase}-base_archs.macro`" \
--		-D "__dbi_txn create nofsync" \
--		-U --justdb --noscripts --notriggers --noparentdirs --nolinktos --ignoresize \
--		${target_rootfs}/install/install.manifest
-+	if [ -s ${target_rootfs}/install/install.manifest ]; then
-+		echo "# Install manifest padding" >> ${target_rootfs}/install/install.manifest
-+		${RPM} --predefine "_rpmds_sysinfo_path ${target_rootfs}/etc/rpm/sysinfo" \
-+			--predefine "_rpmrc_platform_path ${target_rootfs}/etc/rpm/platform" \
-+			-D "_dbpath ${target_rootfs}/install" -D "`cat ${confbase}-base_archs.macro`" \
-+			-D "__dbi_txn create nofsync" \
-+			-U --justdb --noscripts --notriggers --noparentdirs --nolinktos --ignoresize \
-+			${target_rootfs}/install/install.manifest
-+	fi
- 
- 	if [ ! -z "${package_attemptonly}" ]; then
- 		echo "Adding attempt only packages..."
-@@ -407,8 +411,9 @@ package_install_internal_rpm () {
- 
- 	touch ${target_rootfs}/install/install_multilib_solution.manifest
- 
--	if [ -e "${target_rootfs}/install/install_multilib.manifest" ]; then
-+	if [ -s "${target_rootfs}/install/install_multilib.manifest" ]; then
- 		# multilib package installation
-+		echo "# Install multilib manifest padding" >> ${target_rootfs}/install/install_multilib.manifest
- 
- 		# Generate an install solution by doing a --justdb install, then recreate it with
- 		# an actual package install!
-@@ -493,33 +498,37 @@ EOF
- 	if [ "${INC_RPM_IMAGE_GEN}" = "1" -a -f "$pre_btmanifest" ]; then
- 		echo "Skipping pre install due to exisitng image"
- 	else
--		echo "# Initial Install manifest" > ${target_rootfs}/install/initial_install.manifest
-+		rm -f ${target_rootfs}/install/initial_install.manifest
- 		echo "Installing base dependencies first (base-passwd, base-files and shadow) since rpm is special"
- 		grep /base-passwd-[0-9] ${target_rootfs}/install/total_solution.manifest >> ${target_rootfs}/install/initial_install.manifest || true
- 		grep /base-files-[0-9] ${target_rootfs}/install/total_solution.manifest >> ${target_rootfs}/install/initial_install.manifest || true
- 		grep /shadow-[0-9] ${target_rootfs}/install/total_solution.manifest >> ${target_rootfs}/install/initial_install.manifest || true
- 
--		# Generate an install solution by doing a --justdb install, then recreate it with
--		# an actual package install!
--		mkdir -p ${target_rootfs}/initial
-+		if [ -s ${target_rootfs}/install/initial_install.manifest ]; then
-+			echo "# Initial Install manifest padding..." >> ${target_rootfs}/install/initial_install.manifest
- 
--		${RPM} --predefine "_rpmds_sysinfo_path ${target_rootfs}/etc/rpm/sysinfo" \
--			--predefine "_rpmrc_platform_path ${target_rootfs}/etc/rpm/platform" \
--			-D "_dbpath ${target_rootfs}/initial" -D "`cat ${confbase}.macro`" \
--			-D "__dbi_txn create nofsync" \
--			-U --justdb --noscripts --notriggers --noparentdirs --nolinktos --ignoresize \
--			${target_rootfs}/install/initial_install.manifest
-+			# Generate an install solution by doing a --justdb install, then recreate it with
-+			# an actual package install!
-+			mkdir -p ${target_rootfs}/initial
- 
--		${RPM} -D "_dbpath ${target_rootfs}/initial" -qa --qf "%{packageorigin}\n" \
--			-D "__dbi_txn create nofsync private" \
--			> ${target_rootfs}/install/initial_solution.manifest
-+			${RPM} --predefine "_rpmds_sysinfo_path ${target_rootfs}/etc/rpm/sysinfo" \
-+				--predefine "_rpmrc_platform_path ${target_rootfs}/etc/rpm/platform" \
-+				-D "_dbpath ${target_rootfs}/initial" -D "`cat ${confbase}.macro`" \
-+				-D "__dbi_txn create nofsync" \
-+				-U --justdb --noscripts --notriggers --noparentdirs --nolinktos --ignoresize \
-+				${target_rootfs}/install/initial_install.manifest
+diff --git a/meta/recipes-devtools/rpm/rpm/rpm-pkgconfigdeps.patch b/meta/recipes-devtools/rpm/rpm/rpm-pkgconfigdeps.patch
+new file mode 100644
+index 0000000..4aba400
+--- /dev/null
++++ b/meta/recipes-devtools/rpm/rpm/rpm-pkgconfigdeps.patch
+@@ -0,0 +1,34 @@
++pkgconfigdeps.sh: Change to restricting pkgconfig to the local directory
 +
-+			${RPM} -D "_dbpath ${target_rootfs}/initial" -qa --qf "%{packageorigin}\n" \
-+				-D "__dbi_txn create nofsync private" \
-+				> ${target_rootfs}/install/initial_solution.manifest
++Using PKG_CONFIG_PATH will allow pkg-config to fall back to the system paths,
++we don't want this as it may lead to inaccurate results in some corner cases.
++
++PKG_CONFIG_LIBDIR will ensure pkg-config stays within the install directory.
++
++Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
++
++diff -ur rpm-5.4.9.orig/scripts/pkgconfigdeps.sh rpm-5.4.9/scripts/pkgconfigdeps.sh
++--- rpm-5.4.9.orig/scripts/pkgconfigdeps.sh	2009-02-13 08:13:37.000000000 -0600
+++++ rpm-5.4.9/scripts/pkgconfigdeps.sh	2012-06-07 17:35:42.730003847 -0500
++@@ -18,8 +18,8 @@
++     *.pc)
++ 	# Query the dependencies of the package.
++ 	DIR=`dirname ${filename}`
++-	PKG_CONFIG_PATH="$DIR:$DIR/../../share/pkgconfig"
++-	export PKG_CONFIG_PATH
+++	PKG_CONFIG_LIBDIR="$DIR:$DIR/../../share/pkgconfig"
+++	export PKG_CONFIG_LIBDIR
++ 	$pkgconfig --print-provides "$filename" 2> /dev/null | while read n r v ; do
++ 	    [ -n "$n" ] || continue
++ 	    # We have a dependency.  Make a note that we need the pkgconfig
++@@ -42,8 +42,8 @@
++ 	[ -n "$oneshot" ] && echo "$oneshot"; oneshot=""
++ 	# Query the dependencies of the package.
++ 	DIR=`dirname ${filename}`
++-	PKG_CONFIG_PATH="$DIR:$DIR/../../share/pkgconfig"
++-	export PKG_CONFIG_PATH
+++	PKG_CONFIG_LIBDIR="$DIR:$DIR/../../share/pkgconfig"
+++	export PKG_CONFIG_LIBDIR
++ 	$pkgconfig --print-requires "$filename" 2> /dev/null | while read n r v ; do
++ 	    [ -n "$n" ] || continue
++ 	    if  [ -n "$r" ] && [ -n "$v" ]; then
+diff --git a/meta/recipes-devtools/rpm/rpm_5.4.9.bb b/meta/recipes-devtools/rpm/rpm_5.4.9.bb
+index a38a684..51cf93b 100644
+--- a/meta/recipes-devtools/rpm/rpm_5.4.9.bb
++++ b/meta/recipes-devtools/rpm/rpm_5.4.9.bb
+@@ -43,7 +43,7 @@ LICENSE = "LGPLv2.1"
+ LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=2d5025d4aa3495befef8f17206a5b0a1"
  
--		rpm_update_pkg ${target_rootfs}/install/initial_solution.manifest
-+			rpm_update_pkg ${target_rootfs}/install/initial_solution.manifest
- 		
--		grep -Fv -f ${target_rootfs}/install/initial_solution.manifest ${target_rootfs}/install/total_solution.manifest > ${target_rootfs}/install/total_solution.manifest.new
--		mv ${target_rootfs}/install/total_solution.manifest.new ${target_rootfs}/install/total_solution.manifest
-+			grep -Fv -f ${target_rootfs}/install/initial_solution.manifest ${target_rootfs}/install/total_solution.manifest > ${target_rootfs}/install/total_solution.manifest.new
-+			mv ${target_rootfs}/install/total_solution.manifest.new ${target_rootfs}/install/total_solution.manifest
- 		
--		rm -rf ${target_rootfs}/initial
-+			rm -rf ${target_rootfs}/initial
-+		fi
- 	fi
+ DEPENDS = "libpcre attr acl popt ossp-uuid file"
+-PR = "r42"
++PR = "r43"
  
- 	echo "Installing main solution manifest (${target_rootfs}/install/total_solution.manifest)"
+ # rpm2cpio is a shell script, which is part of the rpm src.rpm.  It is needed
+ # in order to extract the distribution SRPM into a format we can extract...
+@@ -71,6 +71,7 @@ SRC_URI = "http://www.rpm5.org/files/rpm/rpm-5.4/rpm-5.4.9-0.20120508.src.rpm;ex
+ 	   file://rpm-lua.patch \
+ 	   file://rpm-ossp-uuid.patch \
+ 	   file://rpm-packageorigin.patch \
++	   file://rpm-pkgconfigdeps.patch \
+ 	  "
+ 
+ SRC_URI[md5sum] = "60d56ace884340c1b3fcac6a1d58e768"
 -- 
 1.7.3.4
 
