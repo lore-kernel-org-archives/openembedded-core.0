@@ -1,41 +1,44 @@
-Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
+Received: from mail-ob0-f175.google.com ([209.85.214.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1Se6XT-0002Rd-MX
+	(envelope-from <koen@dominion.thruhere.net>) id 1Se6Yl-0002US-C0
 	for openembedded-core@lists.openembedded.org;
-	Mon, 11 Jun 2012 17:28:19 +0200
-Received: from mail-qa0-f49.google.com ([209.85.216.49])
-	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 11 Jun 2012 08:17:39 -0700
-Received: by qabj40 with SMTP id j40so2560582qab.15
+	Mon, 11 Jun 2012 17:29:39 +0200
+Received: by obhx4 with SMTP id x4so6961722obh.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jun 2012 08:17:38 -0700 (PDT)
+	Mon, 11 Jun 2012 08:19:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type:content-transfer-encoding:x-gm-message-state;
-	bh=WGA/r7FQsXsEpoPC3qqSkr1IGvXszojIQZYaVGQgmhI=;
-	b=HWm/jc86Yv6FGe5bj7k0nFNbQ3O8c95NQtDzKlo9oKjLxGYLdKWmRr4BJvLKg+2AJr
-	3F+tcX/qkyF2TApEk6DX17H3WOUpYOcBJCGbgIQtTMGYvZNvT7VqYDTB7VHGm9eAdmMb
-	ycSkOI1I3U2En2jUs5lUNixV46eE1Q//VYCVkvDB4H8KVK5IY3j73gOPXccyeIOcAyoa
-	le/9RGx+CJsNcGY8xfghVgGFQI2E5SYr7ElVnbIJXPEGimnUMmaCGskoNagsjO/1Pnew
-	yoHD3yA5e9pvUjgcb/shZMpZ47KwIaG2megvKNOMymxlyDmBLnvOV6pag0ywRGnJR/Ss
-	pHUQ==
-Received: by 10.224.174.138 with SMTP id t10mr3187223qaz.50.1339427858557;
-	Mon, 11 Jun 2012 08:17:38 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.229.111.193 with HTTP; Mon, 11 Jun 2012 08:17:18 -0700 (PDT)
-In-Reply-To: <20120608000804.GH3140@jama.jama.net>
-References: <cover.1339078729.git.ross.burton@intel.com>
-	<5afc9f367cc3224e82bbe59fe9bda14f504b45c0.1339078729.git.ross.burton@intel.com>
-	<20120607143221.GG3140@jama.jama.net>
-	<CAJTo0LaiApvc0oD4VKHPcsoWtEEBcSyPcza9sr=wOs78DNxPLg@mail.gmail.com>
-	<20120608000804.GH3140@jama.jama.net>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 11 Jun 2012 16:17:18 +0100
-Message-ID: <CAJTo0LYZDP5zpHCQmFEpH5mM_dFGaEpE_5D=gBpPg7BUHCre9Q@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
+	h=subject:mime-version:content-type:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to:x-mailer
+	:x-gm-message-state;
+	bh=nBv9dNlESeNiqOYvMR0q2itVe9mw9PBh73Lp98maQVU=;
+	b=ADlvYCgBghYxMqOu0OEVUVK7fTNE75ts6OGoHGyAOaww91phmHyO/Bp4K6D3jweeRz
+	iLrCZE1MMG0qkPvBxApFWAk0NlBrPbPjCV46UQg9h7D12Wmjo433EDx1PSBAy7pRGNfk
+	TrPrXgY7HvS35dXy6KKHk92qdd0SyaS1ygVhSagEasKGvU5xFKC+NBePiq6RpInOg0jx
+	aHTh00p9QQVIJi8jcl+IVNLEDi7vLm+z/lbw8eGnjE4/jOge1d4RzIsqdotUEyzjb8AK
+	05NKUA8lmlyeSIvI5U07i1kCzo9YqBNz2UdnjfDoIJm7ymLhDjdd7+jBbeMlEX1A7fD2
+	r2PA==
+Received: by 10.182.86.130 with SMTP id p2mr16796429obz.52.1339427945183;
+	Mon, 11 Jun 2012 08:19:05 -0700 (PDT)
+Received: from [10.0.1.9] (adsl-68-88-77-36.dsl.rcsntx.swbell.net.
+	[68.88.77.36])
+	by mx.google.com with ESMTPS id xk19sm12327952obc.5.2012.06.11.08.19.03
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 11 Jun 2012 08:19:04 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1278)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <4FD605CE.6060203@linux.intel.com>
+Date: Mon, 11 Jun 2012 10:19:05 -0500
+Message-Id: <2405D501-576B-4710-9FE4-4CBED50F7FA8@dominion.thruhere.net>
+References: <1339117150-15442-1-git-send-email-sgw@linux.intel.com>
+	<0DCEDF44-AD19-4718-92F2-4801F8268190@dominion.thruhere.net>
+	<4FD605CE.6060203@linux.intel.com>
+To: Saul Wold <sgw@linux.intel.com>
+X-Mailer: Apple Mail (2.1278)
+X-Gm-Message-State: ALoCoQlT/la/muQUtcTTc9c7M3/IabTTp+OaLeLjxVxNWHE77Q2ldA2cUg3835IZnKUyazQOwgQU
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Gm-Message-State: ALoCoQkyVbAdpKgTw5z7yAyfotD7/6i+B8OGdhBuCPTmPrKJVWdn3HOj2sPBgCXF1kL/uiASLH7e
-Subject: Re: [PATCH 1/3] connman: respect the 3g feature and enable/disable ofono support
+Subject: Re: [PATCH] curl: enable ssl support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,30 +53,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Jun 2012 15:28:19 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 11 Jun 2012 15:29:39 -0000
+Content-Type: text/plain; charset=iso-8859-1
 Content-Transfer-Encoding: quoted-printable
 
-On 8 June 2012 01:08, Martin Jansa <martin.jansa@gmail.com> wrote:
->> Because this is the first time I've encountered it. =C2=A0:) =C2=A0Is th=
-ere any
->> documentation on it, or a comprehensive example?
->
-> Git log shows e.g.
-> http://git.openembedded.org/openembedded-core/commit/?id=3D7a58911f6951ab=
-d56db9ebb37f8d6284d91fa514
->
-> and git grep PACKAGECONFIG will show couple of examples
 
-So,  the basic theory is that you set PACKAGECONFIG to the list of
-enabled options, i.e. connman would have wifi, bluetooth, 3G.  This
-would be set using base_contains(DISTRO_FEATURES...).
+Op 11 jun. 2012, om 09:50 heeft Saul Wold het volgende geschreven:
 
-Then, you have a PACKAGECONFIG[foo] for each option that defines the
-configure flags and build/runtime depends.
+> On 06/08/2012 12:39 AM, Koen Kooi wrote:
+>>=20
+>> Op 8 jun. 2012, om 02:59 heeft Saul Wold het volgende geschreven:
+>>=20
+>>> This patch enables ssl support for curl to allow git to clone from
+>>> https / ssl sites.
+>>>=20
+>>> [YOCTO #2532]
+>>>=20
+>>> Signed-off-by: Saul Wold<sgw@linux.intel.com>
+>>> ---
+>>> meta/recipes-support/curl/curl_7.24.0.bb |    6 +++---
+>>> 1 files changed, 3 insertions(+), 3 deletions(-)
+>>>=20
+>>> diff --git a/meta/recipes-support/curl/curl_7.24.0.bb =
+b/meta/recipes-support/curl/curl_7.24.0.bb
+>>> index 12e95c9..f0ae7f1 100644
+>>> --- a/meta/recipes-support/curl/curl_7.24.0.bb
+>>> +++ b/meta/recipes-support/curl/curl_7.24.0.bb
+>>> @@ -5,10 +5,10 @@ SECTION =3D "console/network"
+>>> LICENSE =3D "MIT"
+>>> LIC_FILES_CHKSUM =3D =
+"file://COPYING;beginline=3D7;md5=3D3a34942f4ae3fbf1a303160714e664ac"
+>>>=20
+>>> -DEPENDS =3D "zlib gnutls"
+>>> +DEPENDS =3D "zlib gnutls openssl"
+>>> DEPENDS_virtclass-native =3D "zlib-native"
+>>> DEPENDS_virtclass-nativesdk =3D "zlib-nativesdk"
+>>> -PR =3D "r0"
+>>> +PR =3D "r1"
+>>>=20
+>>> SRC_URI =3D "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
+>>>            file://noldlibpath.patch \
+>>> @@ -20,7 +20,7 @@ SRC_URI[sha256sum] =3D =
+"ebdb111088ff8b0e05b1d1b075e9f1608285e8105cc51e21caacf33d01
+>>> inherit autotools pkgconfig binconfig
+>>>=20
+>>> EXTRA_OECONF =3D "--with-zlib=3D${STAGING_LIBDIR}/../ \
+>>> -                --without-ssl \
+>>> +		--with-ssl \
+>>>                 --without-libssh2 \
+>>> 		--with-random=3D/dev/urandom \
+>>> 		--without-libidn \
+>>=20
+>> I haven't looked at the complete recipe, but what is the ssl =
+behaviour for the -native and -nativesdk versions?
+>>=20
+> Actually it's the -native that needs the ssl behavior, and this adds =
+it for all 3 correctly, tested on target as well as -native (I did not =
+actually test the -nativesdk, but I will now).
 
-Neat.
+In that case you need to change all the DEPENDS, including the virtclass =
+ones.
 
-Ross
+regards,
+
+Koen
+
 
 
