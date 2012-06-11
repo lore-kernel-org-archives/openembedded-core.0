@@ -1,38 +1,38 @@
 Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <elizabeth.flanagan@intel.com>) id 1Se8mP-0000MB-Ey
+	(envelope-from <elizabeth.flanagan@intel.com>) id 1Se8nL-0000PF-WE
 	for openembedded-core@lists.openembedded.org;
-	Mon, 11 Jun 2012 19:51:53 +0200
-Received: from mail-lb0-f180.google.com ([209.85.217.180])
-	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 11 Jun 2012 10:41:18 -0700
-Received: by lbbgh12 with SMTP id gh12so2567738lbb.25
+	Mon, 11 Jun 2012 19:52:52 +0200
+Received: from mail-lpp01m010-f52.google.com ([209.85.215.52])
+	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 11 Jun 2012 10:42:17 -0700
+Received: by lahj13 with SMTP id j13so2482294lah.25
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jun 2012 10:41:15 -0700 (PDT)
+	Mon, 11 Jun 2012 10:42:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
 	:content-type:content-transfer-encoding:x-gm-message-state;
-	bh=Palt4LP0t0y89lBCl9FQkcZtZXhv0pV6+VAVZ56r/tg=;
-	b=iw1tCmp8hiYlGjiLmKNhJfvWs1hrkeBGwdKpIPwGB2ER7uubZ3i555rSdbpPBMDS/y
-	2AwWn2sKio9eWidgmAXEiV17l/Jdt90IsQ+tJGOH/1HpBbnehWIagiwNAP+M3AP3+qoV
-	WweXbWBT61kRb3LNkKI6WKYXvRhateXBOOZxYvWBxgUgNVytUeyFnftDrqDNP0/v5fxZ
-	CrCAn2IeC5qQXWp/65XSnjK0f3E2HjuyxMKG1j5IentYCPvCKdOgWzrLPWM61StbJolF
-	SiwB7jDO0IpEYtZLNQOELVdUOit8U9pRH8Qu0sUpF79Ukf3+1MFcSJXjR6hlww8nhxOb
-	znxA==
+	bh=6BehiBQclii9pJIUmo3OaxN6YvXNOFUN20VjKU0Fqis=;
+	b=K3pZ1L9Gd52XxxxryxGNCt4HM0EtZamv7IWIOt9r9FRmHJNnKDKcWswxClL9M6XVNk
+	MG8HP2UkbmA6fE0zqWkopWyHw1jxnFN1nuc8YP5BKbp4hqddhiASPYelPMT6c06XFORM
+	K+aj9gZnf4djpLnnE5sOaWJW9m4YeNoYD+ofXzlWC0X9IVuAmuICJ2dRQoZ00usFPlb6
+	S1lRNP74w/op/O2aiQsahuWRszSTOquIvHny2S00slfUHAC1cd8Q547LzIQ4TaMyFo3+
+	gIsGCeRK0+NDFl0cMt7+HDqhgPPohzmMb05s8xWsKSV1MVWLhvSMF7x8hTU1BPUsDJmm
+	FGmA==
 MIME-Version: 1.0
-Received: by 10.152.135.200 with SMTP id pu8mr8686020lab.8.1339436475828; Mon,
-	11 Jun 2012 10:41:15 -0700 (PDT)
-Received: by 10.112.1.227 with HTTP; Mon, 11 Jun 2012 10:41:15 -0700 (PDT)
-In-Reply-To: <73f473e10d4b1670823ff5b1ec9d8220f2751f9f.1338990374.git.tom.zanussi@intel.com>
+Received: by 10.152.123.244 with SMTP id md20mr18220974lab.0.1339436535216;
+	Mon, 11 Jun 2012 10:42:15 -0700 (PDT)
+Received: by 10.112.1.227 with HTTP; Mon, 11 Jun 2012 10:42:15 -0700 (PDT)
+In-Reply-To: <cover.1338990374.git.tom.zanussi@intel.com>
 References: <cover.1338990374.git.tom.zanussi@intel.com>
-	<73f473e10d4b1670823ff5b1ec9d8220f2751f9f.1338990374.git.tom.zanussi@intel.com>
-Date: Mon, 11 Jun 2012 10:41:15 -0700
-Message-ID: <CAPhnLPBDMamgbD-yNNNSFP=KZR+eNRQ-8oDU7p3eObZJEgzDdg@mail.gmail.com>
+Date: Mon, 11 Jun 2012 10:42:15 -0700
+Message-ID: <CAPhnLPB6GuVv-dnKtv2igK1Ce7pagog0ctUa7gzJDCOJrNLeaA@mail.gmail.com>
 From: "Flanagan, Elizabeth" <elizabeth.flanagan@intel.com>
 To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Gm-Message-State: ALoCoQmjMXimdMa2kgi4tGiLyHNdVxy7T+aPi4zNOeHuxrvDNpUgHCJBsas5dtEGmOn0CujF97Jr
-Subject: Re: [PATCH 1/2] gnupg: add libusb to DEPENDS
+	<openembedded-core@lists.openembedded.org>, 
+	"Zanussi, Tom" <tom.zanussi@intel.com>
+X-Gm-Message-State: ALoCoQns6523sp+pRWVtCv+zlwxl50PEWDJW6pIy+zxBXhyZMHOpq8xKOwhkw8znRldoaE/nqX3R
+Subject: Re: [PATCH 0/2] gnupg build fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,46 +47,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Jun 2012 17:51:53 -0000
+X-List-Received-Date: Mon, 11 Jun 2012 17:52:52 -0000
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jun 6, 2012 at 6:53 AM,  <tom.zanussi@intel.com> wrote:
+On Wed, Jun 6, 2012 at 6:52 AM,  <tom.zanussi@intel.com> wrote:
 > From: Tom Zanussi <tom.zanussi@intel.com>
 >
-> gnupg apparently depends on libusb:
+> The yocto autobuilder was having problems generating rootfs for a bunch
+> of machines which this patchset was seen to fix.
 >
-> | error: Failed dependencies:
-> | =A0 =A0 =A0 =A0libusb-0.1-4 >=3D 0.1.3 is needed by gnupg-2.0.18-r1.cor=
-e2
+> The first patch adds a missing dependency that the second removes; the
+> patches are staged this way to easily allow the second to be reverted
+> if the CCID driver option is wanted, in which case the missing dependency
+> will still be there.
 >
-> So add libusb to gnupg DEPENDS.
+> The following changes since commit df8f55a919b3cc602ce1f1c51630c7edf6e36b=
+55:
+> =A0Cristian Iorga (1):
+> =A0 =A0 =A0 =A0ltp: Add patch to correct failing build
 >
-> Signed-off-by: Tom Zanussi <tom.zanussi@intel.com>
-> ---
-> =A0meta/recipes-support/gnupg/gnupg_2.0.19.bb | =A0 =A04 ++--
-> =A01 files changed, 2 insertions(+), 2 deletions(-)
+> are available in the git repository at:
 >
-> diff --git a/meta/recipes-support/gnupg/gnupg_2.0.19.bb b/meta/recipes-su=
-pport/gnupg/gnupg_2.0.19.bb
-> index 1d19fe3..9a0f160 100644
-> --- a/meta/recipes-support/gnupg/gnupg_2.0.19.bb
-> +++ b/meta/recipes-support/gnupg/gnupg_2.0.19.bb
-> @@ -4,8 +4,8 @@ LICENSE =3D "GPLv3 & LGPLv3"
-> =A0LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Df27defe1e96c2e1ecd4e0c9be89=
-67949 \
-> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 file://COPYING.LIB;md5=3D6a6a8e02=
-0838b23406c81b19c1d46df6"
+> =A0git://git.yoctoproject.org/poky-contrib.git tzanussi/poky-master-gnupg=
+-dependency-fix.v1
+> =A0http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=3Dtzanus=
+si/poky-master-gnupg-dependency-fix.v1
 >
-> -DEPENDS =3D "pth libassuan libksba zlib bzip2 readline libgcrypt"
-> -PR =3D "r0"
-> +DEPENDS =3D "pth libassuan libksba zlib bzip2 readline libgcrypt libusb"
-> +PR =3D "r1"
+> Tom Zanussi (2):
+> =A0gnupg: add libusb to DEPENDS
+> =A0gnupg: disable CCID driver
 >
-> =A0inherit autotools gettext
->
-> --
-> 1.7.0.4
+> =A0meta/recipes-support/gnupg/gnupg_2.0.19.bb | =A0 =A03 ++-
+> =A01 files changed, 2 insertions(+), 1 deletions(-)
 >
 >
 > _______________________________________________
@@ -95,12 +88,12 @@ pport/gnupg/gnupg_2.0.19.bb
 > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
+
 Merged into OE-Core
 
 Thanks
 
 -b
-
 
 --=20
 Elizabeth Flanagan
