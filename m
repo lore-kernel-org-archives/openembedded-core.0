@@ -1,33 +1,36 @@
-Received: from mail-pb0-f47.google.com ([209.85.160.47])
+Received: from mail-bk0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@gmail.com>) id 1Se6nP-0004HP-2u
+	(envelope-from <schnitzeltony@googlemail.com>) id 1Se6qN-0004gS-MO
 	for openembedded-core@lists.openembedded.org;
-	Mon, 11 Jun 2012 17:44:47 +0200
-Received: by pbbrq2 with SMTP id rq2so5478812pbb.6
+	Mon, 11 Jun 2012 17:47:51 +0200
+Received: by bkcjm2 with SMTP id jm2so3446883bkc.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jun 2012 08:34:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type:content-transfer-encoding;
-	bh=YO2B1WWPuHts4djq8Kl5FKwNZeKhR86ZXLx2djcVtrQ=;
-	b=etwkcAZQix5FSGnZ++c1afS7DUQi9keqp6Z2vnLfF6UPnXmrpgjFIo1LIMjhaMFrAO
-	0cU2TdK/iZvRDgrd8899K7jJmLyScQ/WsSHywXnvHi8qdRKNxJCQjXd8aVtAW5yQWPFe
-	FXwIHYVq5BIbQbVoXFSe9bA+6xYncAl2L8r3WIwQWSHrCr3TWAzDe/F7WUp/khEZ3I6y
-	zSgu2d0Y+h6kLgyMQwuJ3jCRy4VhcZUz3PLA+1xG5elGvzUJzVQ/5kcvq0k+w8q46WUo
-	tstZWkpfuzMkj1yi4kMpllkx///wqBxp8uPtRjgBlcymS939cubgvsyo7e9gHwh+blQ2
-	dJqg==
+	Mon, 11 Jun 2012 08:37:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=from:to:subject:date:message-id:x-mailer:mime-version:content-type
+	:content-transfer-encoding;
+	bh=8+tI3zNGhc81wBvmRpVHZ5iuaX07uyvO9lY4jnevF4Q=;
+	b=j01NDd/o0AsCgfxG+wlzgZWlW3X/D7ewniO/XbDASd93/oQtKX+UOMRhenfBJN0NhR
+	uixhZ8yf3ZmFuuEl2wxEuyglnn5r05EknpgyGk3c8kLyv87IbSv1INLuQBjsJPpwIti7
+	25BxKlB2L0rjdZSm5Zd5eM0ON7wgq2JjPoUjBn3qXEZlYOrKFcgkHDlI6PHzFdnNrCjP
+	hh5bYHYEjHlSgzcKXJP5n3w0QIGxv+sWJlXcqTSgDSYxBO+fe1ITYApRqziJT7/O1duc
+	ylkzDmrWJ1Xr21AsyCDE06sn/nzD/HM9bXAo4ze6XU9lIoVpdOWV2egEJUEH7aFgbqXK
+	GMSw==
+Received: by 10.204.152.196 with SMTP id h4mr8029394bkw.131.1339429038266;
+	Mon, 11 Jun 2012 08:37:18 -0700 (PDT)
+Received: from localhost.localdomain (ip-178-202-232-153.unitymediagroup.de.
+	[178.202.232.153])
+	by mx.google.com with ESMTPS id ig1sm16953964bkc.4.2012.06.11.08.37.16
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 11 Jun 2012 08:37:17 -0700 (PDT)
+From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 11 Jun 2012 17:37:03 +0200
+Message-Id: <1339429023-10291-1-git-send-email-schnitzeltony@googlemail.com>
+X-Mailer: git-send-email 1.7.6.5
 MIME-Version: 1.0
-Received: by 10.68.132.166 with SMTP id ov6mr28504549pbb.24.1339428852611;
-	Mon, 11 Jun 2012 08:34:12 -0700 (PDT)
-Received: by 10.68.197.4 with HTTP; Mon, 11 Jun 2012 08:34:12 -0700 (PDT)
-In-Reply-To: <4FD60D68.4040809@linux.intel.com>
-References: <4FD60D68.4040809@linux.intel.com>
-Date: Mon, 11 Jun 2012 11:34:12 -0400
-Message-ID: <CADkTA4PpQYeDwSMs1iss4JoiF1R_szZU4ByMKPwHb=kNrnv=Pw@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Missing Patch Headers
+Subject: [PATCH] systemtap: update Upstream-Status and use correct syntax
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,67 +45,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Jun 2012 15:44:51 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 11 Jun 2012 15:47:52 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Mon, Jun 11, 2012 at 11:23 AM, Saul Wold <sgw@linux.intel.com> wrote:
->
-> Folks,
->
-> We recently had a spat of new patches added without patch headers, ie no
-> patch comment, Signed-off-by or Upstream-Status.
->
-> Please review this list and update the patch and submit a new commit.
->
-> Zhai Edwin -
-> meta/recipes-graphics/pango/pango-1.28.4/multilib-fix-clean.patch
-> Laurentiu Palcu -
-> meta/recipes-graphics/directfb/directfb/libdirect-remove-include-of-linux=
--config.h.patch
-> Cristian Iorga -
-> meta/recipes-extended/ltp/ltp/fix_building_fom_archive.patch
-> Xiaofeng Yan - meta/recipes-extended/lsb/lsbinitscripts/functions.patch
-> Mark Hatle - meta/recipes-devtools/binutils/binutils/binutils-armv5e.patc=
-h
-> Mark Hatle - meta/recipes-devtools/rpm/rpm/rpm-resolvedep.patch
-> Andreas M=FCller -
-> meta/recipes-kernel/systemtap/systemtap/runtime-staprun-configure.ac-supp=
-ort-without-nss-for.patch
-> Bruce Ashfield -
-> meta/recipes-kernel/lttng-2.0/lttng-modules/lttng-sycalls-protect-is_comp=
-at_task-from-redefiniti.patch
+patch was applied [1]
 
-Your script is wrong here. That patch has everything you'd expect,
-since it follows kernel
-patch conventions. Subject, shortlog, log log and sign-off.
+http://sourceware.org/git/gitweb.cgi?p=systemtap.git;a=commit;h=41df51cb6a6d3f09f8b57cb216dffa5ba335e326
 
-So don't expect any resubmission from me on this one, since I won't be
-putting an upstream
-status directly in the patch.
+Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
+---
+ ...prun-configure.ac-support-without-nss-for.patch |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-Bruce
+diff --git a/meta/recipes-kernel/systemtap/systemtap/runtime-staprun-configure.ac-support-without-nss-for.patch b/meta/recipes-kernel/systemtap/systemtap/runtime-staprun-configure.ac-support-without-nss-for.patch
+index fbe7b70..eef414a 100644
+--- a/meta/recipes-kernel/systemtap/systemtap/runtime-staprun-configure.ac-support-without-nss-for.patch
++++ b/meta/recipes-kernel/systemtap/systemtap/runtime-staprun-configure.ac-support-without-nss-for.patch
+@@ -7,7 +7,7 @@ MIME-Version: 1.0
+ Content-Type: text/plain; charset=UTF-8
+ Content-Transfer-Encoding: 8bit
+ 
+-Upstream status: pending
++Upstream-Status: Submitted
+ 
+ Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
+ ---
+-- 
+1.7.6.5
 
->
->
-> Thanks
-> --
-> =A0 =A0Sau!
->
-> Saul Wold
-> Yocto Component Wrangler @ Intel
-> Yocto Project / Poky Build System
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-
-
-
---=20
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
 
 
