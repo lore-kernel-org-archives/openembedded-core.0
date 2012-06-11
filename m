@@ -1,32 +1,29 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1SdrMv-0006ab-Nm
+	(envelope-from <Liezhi.Yang@windriver.com>) id 1SdvG8-0007HK-4I
 	for openembedded-core@lists.openembedded.org;
-	Mon, 11 Jun 2012 01:16:25 +0200
-Received: by eaal1 with SMTP id l1so1782970eaa.6
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 10 Jun 2012 16:05:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:content-transfer-encoding;
-	bh=fjxbXaeENVWgnbNoHw1kdhxPJ3cTy9dLGSP8L8asL1c=;
-	b=nxJF9RI5WkUAao000rZrAK9Y6vKs+jf5K47vbD/LMMSZcDBiS1YOlq7B/9Qie0dgRs
-	2GDGJsFv0MRJ5DdO+Xv/kIkv21JuvdA/VEdmEd70CVh74M9adU4w0Rkhw8+PP0POFaZU
-	MfR1ZEVIgFR5QjPfBM4XhGxxJpDvjALMEcsXiySswKrUFBHTmAb6C9LEWeRuey07EUA5
-	wJ9Zpf8RYJ82Z/1LQL0WK5VNI4hqLxQ1zQFSq2ZKk3R841eGxvBd/CUtslzewBSpzJDp
-	ZJSgLj475ntnOsuXrqecsdGSgZZKzDBF+lV7rFarLi+bvx3Bw2dKxxQ508gXUbI1MpFa
-	wZjQ==
-Received: by 10.14.188.140 with SMTP id a12mr5032946een.25.1339369552778; Sun,
-	10 Jun 2012 16:05:52 -0700 (PDT)
+	Mon, 11 Jun 2012 05:25:40 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q5B3F4oG011068
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Sun, 10 Jun 2012 20:15:04 -0700 (PDT)
+Received: from [128.224.163.142] (128.224.163.142) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Sun, 10 Jun 2012 20:15:03 -0700
+Message-ID: <4FD562B6.8030800@windriver.com>
+Date: Mon, 11 Jun 2012 11:15:02 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
 MIME-Version: 1.0
-Received: by 10.14.188.11 with HTTP; Sun, 10 Jun 2012 16:05:22 -0700 (PDT)
-In-Reply-To: <cover.1339259893.git.raj.khem@gmail.com>
-References: <cover.1339259893.git.raj.khem@gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sun, 10 Jun 2012 16:05:22 -0700
-Message-ID: <CAMKF1sqrxWy7HimP8uoWoOguYHnbN=WNW-E1FrEtay2EzmjXwA@mail.gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 00/16 V2] Prelink/ld bug and rpm compilation on uclibc
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1339035261.git.liezhi.yang@windriver.com>
+	<9dabcaeee29d64ea4b0a8a5d0f4a42ec9369ee8c.1339035261.git.liezhi.yang@windriver.com>
+	<CAMKF1soOGR4zEFO93Oc=uNHqyLXasVs2C3wdRThkwgqJ7=4ztg@mail.gmail.com>
+In-Reply-To: <CAMKF1soOGR4zEFO93Oc=uNHqyLXasVs2C3wdRThkwgqJ7=4ztg@mail.gmail.com>
+Cc: Zhenfeng.Zhao@windriver.com
+Subject: Re: [PATCH 1/2] apt-get 0.7.14: hangs at runtime
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,133 +38,145 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 10 Jun 2012 23:16:25 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-On Sat, Jun 9, 2012 at 9:42 AM, Khem Raj <raj.khem@gmail.com> wrote:
->
-> This patch now can compile a uclibc sato image using rpm as packaging bac=
-kend
-> Introduces variables into cmake class to control linker flags which was
-> not available
-> Adds npth recipe. npth is next gen pth soon gnupg 2.1 will drop pth
-> and move on to use npth, right now its only used in uclibc case
-> conditionalize use of pth using libc overrides since pth is not
-> compatible with uclibc
->
-> The following changes since commit 75a973328d50ef3c007edb7a471ea77fb97911=
-ea:
->
-> =C2=A0kern-tools: anchor KMACHINE test (2012-06-08 11:56:21 +0100)
->
-> are available in the git repository at:
-> =C2=A0git://git.openembedded.org/openembedded-core-contrib kraj/misc-upda=
-tes
-> =C2=A0http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log=
-/?h=3Dkraj/misc-updates
+X-List-Received-Date: Mon, 11 Jun 2012 03:25:40 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
-I have updated this pull request with two additional changes
 
-1. Upgrade uclibc git recipes to latest tip of master this gets
-the eventfd patches which are needed for glib-2.32.x to function
-correctly.
+On 06/10/2012 03:37 PM, Khem Raj wrote:
+> On Wed, Jun 6, 2012 at 11:33 PM, Robert Yang<liezhi.yang@windriver.com>  wrote:
+>> This patch had a little problem, it made a infinite loop:
+>>
+>> for (K = CmdL.FileList + 1; *K != 0; J++)
+>>
+>
+> thats a typo. change J++ to K++ in above construct
+>
+>> But the value of "K" will nerver change, so the apt-get hangs, revert
+>> this patch first, and will fix the problem in another patch.
+>>
+>> Note: Increment the PR from 11 to 12
+>>
+>> Revert "apt: Fix a latent bug exposed by gcc 4.7"
+>
+> I dont think you have to revert it.
+>
 
-2. Include gcc patches to exclude call-convention settings when building
-native and nativesdk gcc recipes.
+Hi Khem,
 
-3. Use translated target arch instead of target_arch in gcc.
+I reverted it was because I thought that modified the patch was not a
+good idea, thanks for your suggestion, I'll modify the patch directly
+for such a case next time (this one has been merged:-)).
 
+// Robert
+
+>>
+>> This reverts commit 9d526462fe97564652771812ad1d363e9962b1e3.
+>>
+>> [YOCTO #2488]
+>>
+>> Signed-off-by: Robert Yang<liezhi.yang@windriver.com>
+>> ---
+>>   .../apt/apt-0.7.14/remove-redeclaration.patch      |   57 --------------------
+>>   meta/recipes-devtools/apt/apt_0.7.14.bb            |    6 +--
+>>   2 files changed, 2 insertions(+), 61 deletions(-)
+>>   delete mode 100644 meta/recipes-devtools/apt/apt-0.7.14/remove-redeclaration.patch
+>>
+>> diff --git a/meta/recipes-devtools/apt/apt-0.7.14/remove-redeclaration.patch b/meta/recipes-devtools/apt/apt-0.7.14/remove-redeclaration.patch
+>> deleted file mode 100644
+>> index 68cb0b0..0000000
+>> --- a/meta/recipes-devtools/apt/apt-0.7.14/remove-redeclaration.patch
+>> +++ /dev/null
+>> @@ -1,57 +0,0 @@
+>> -Fix build errors
+>> -
+>> -deb/deblistparser.cc: In member function 'virtual short unsigned int debListParser::VersionHash()':
+>> -deb/deblistparser.cc:212:13: error: redeclaration of 'char* I'
+>> -deb/deblistparser.cc:202:22: error: 'const char** I' previously declared here
+>> -
+>> -Upstream-Status: Backport
+>> -Signed-off-by: Khem Raj<raj.khem@gmail.com>
+>> -Index: apt-0.7.14/apt-pkg/deb/deblistparser.cc
+>> -===================================================================
+>> ---- apt-0.7.14.orig/apt-pkg/deb/deblistparser.cc       2012-03-30 11:17:09.112456632 -0700
+>> -+++ apt-0.7.14/apt-pkg/deb/deblistparser.cc    2012-03-30 11:25:40.484481643 -0700
+>> -@@ -209,18 +209,18 @@
+>> -       /* Strip out any spaces from the text, this undoes dpkgs reformatting
+>> -          of certain fields. dpkg also has the rather interesting notion of
+>> -          reformatting depends operators<  ->  <= */
+>> --      char *I = S;
+>> -+      char *J = S;
+>> -       for (; Start != End; Start++)
+>> -       {
+>> -        if (isspace(*Start) == 0)
+>> --          *I++ = tolower(*Start);
+>> -+          *J++ = tolower(*Start);
+>> -        if (*Start == '<'&&  Start[1] != '<'&&  Start[1] != '=')
+>> --          *I++ = '=';
+>> -+          *J++ = '=';
+>> -        if (*Start == '>'&&  Start[1] != '>'&&  Start[1] != '=')
+>> --          *I++ = '=';
+>> -+          *J++ = '=';
+>> -       }
+>> -
+>> --      Result = AddCRC16(Result,S,I - S);
+>> -+      Result = AddCRC16(Result,S,J - S);
+>> -    }
+>> -
+>> -    return Result;
+>> -Index: apt-0.7.14/cmdline/apt-get.cc
+>> -===================================================================
+>> ---- apt-0.7.14.orig/cmdline/apt-get.cc 2012-03-30 11:28:56.048490824 -0700
+>> -+++ apt-0.7.14/cmdline/apt-get.cc      2012-03-30 11:32:00.248499740 -0700
+>> -@@ -1752,12 +1752,12 @@
+>> -        if ((*Cache)[I].Install() == false)
+>> -           continue;
+>> -
+>> --       const char **J;
+>> --       for (J = CmdL.FileList + 1; *J != 0; J++)
+>> --          if (strcmp(*J,I.Name()) == 0)
+>> -+       const char **K;
+>> -+       for (K = CmdL.FileList + 1; *K != 0; J++)
+>> -+          if (strcmp(*K,I.Name()) == 0)
+>> -               break;
+>> -
+>> --       if (*J == 0) {
+>> -+       if (*K == 0) {
+>> -           List += string(I.Name()) + " ";
+>> -           VersionsList += string(Cache[I].CandVersion) + "\n";
+>> -        }
+>> diff --git a/meta/recipes-devtools/apt/apt_0.7.14.bb b/meta/recipes-devtools/apt/apt_0.7.14.bb
+>> index 6354f8e..4055294 100644
+>> --- a/meta/recipes-devtools/apt/apt_0.7.14.bb
+>> +++ b/meta/recipes-devtools/apt/apt_0.7.14.bb
+>> @@ -3,12 +3,10 @@ RDEPENDS_${PN} = "dpkg"
+>>   LIC_FILES_CHKSUM = "file://COPYING.GPL;md5=0636e73ff0215e8d672dc4c32c317bb3"
+>>   require apt.inc
+>>
+>> -PR = "r11"
+>> +PR = "r12"
+>>
+>>   SRC_URI += "file://nodoc.patch \
+>> -            file://includes-fix.patch \
+>> -            file://remove-redeclaration.patch \
+>> -           "
+>> +            file://includes-fix.patch "
+>>
+>>   SRC_URI[md5sum] = "19efa18fb1ef20c58b9b44e94258b814"
+>>   SRC_URI[sha256sum] = "8fc06effaf8a4e4333308eedcdc6840f1c8056f2e924210f151dfc076bcd4045"
+>> --
+>> 1.7.1
+>>
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 >
-> Khem Raj (16):
-> =C2=A0binutils_2.22: Backport to fix bogus textrels
-> =C2=A0rpm: Fix compilation on uclibc
-> =C2=A0pth: Mark incompatible with uclibc
-> =C2=A0libtool: Let -fstack-protector passed to link step
-> =C2=A0rpm: Use link time check for libssp
-> =C2=A0sat-solver: Fix build on uclibc
-> =C2=A0libzypp: Fix build with uclibc
-> =C2=A0augeas: Fix compilation failure
-> =C2=A0rpm: pass lrt and lpthread to link step explicitly for uclibc
-> =C2=A0zypper: Fix build on uclibc
-> =C2=A0cmake.bbclass: Add OECMAKE_C_LINK_FLAGS and OECMAKE_CXX_LINK_FLAGS
-> =C2=A0 =C2=A0variables
-> =C2=A0libzypp: Define OECMAKE_CXX_LINK_FLAGS when compiling for uclibc
-> =C2=A0task-self-hosted.bb,task-core-lsb.bb: Conditionalize pth inclusion
-> =C2=A0npth: Add recipe
-> =C2=A0gpgme: Depend on npth for uclibc
-> =C2=A0gnupg-2.0.19: Depend on npth for uclibc
->
-> =C2=A0meta/classes/cmake.bbclass =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A0 =C2=A04 +
-> =C2=A0meta/recipes-core/tasks/task-self-hosted.bb =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0| =C2=A0 =C2=A04 +-
-> =C2=A0.../binutils/binutils/0001-PR-ld-13470.patch =C2=A0 =C2=A0 =C2=A0 |=
- =C2=A0 82 ++++++++++++++++++++
-> =C2=A0meta/recipes-devtools/binutils/binutils_2.22.bb =C2=A0 =C2=A0| =C2=
-=A0 =C2=A03 +-
-> =C2=A0meta/recipes-devtools/libtool/libtool-2.4.2.inc =C2=A0 =C2=A0| =C2=
-=A0 =C2=A03 +-
-> =C2=A0.../libtool/libtool/respect-fstack-protector.patch | =C2=A0 53 ++++=
-+++++++++
-> =C2=A0.../rpm/rpm/fstack-protector-configure-check.patch | =C2=A0 13 +++
-> =C2=A0meta/recipes-devtools/rpm/rpm/rpmatch.patch =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0| =C2=A0 42 ++++++++++
-> =C2=A0meta/recipes-devtools/rpm/rpm/uclibc-support.patch | =C2=A0 69 ++++=
-++++++++++++
-> =C2=A0meta/recipes-devtools/rpm/rpm_5.4.0.bb =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 | =C2=A0 =C2=A07 ++-
-> =C2=A0meta/recipes-extended/augeas/augeas.inc =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0| =C2=A0 =C2=A04 +-
-> =C2=A0.../0001-Add-missing-argument-to-escape.patch =C2=A0 =C2=A0 =C2=A0|=
- =C2=A0 29 +++++++
-> =C2=A0meta/recipes-extended/augeas/augeas_0.10.0.bb =C2=A0 =C2=A0 =C2=A0|=
- =C2=A0 =C2=A02 +-
-> =C2=A0meta/recipes-extended/libzypp/libzypp/cstdio.patch | =C2=A0 49 ++++=
-++++++++
-> =C2=A0meta/recipes-extended/libzypp/libzypp_git.bb =C2=A0 =C2=A0 =C2=A0 |=
- =C2=A0 =C2=A09 ++-
-> =C2=A0.../sat-solver/sat-solver/futimes.patch =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0| =C2=A0 32 ++++++++
-> =C2=A0meta/recipes-extended/sat-solver/sat-solver_git.bb | =C2=A0 =C2=A07=
- +-
-> =C2=A0meta/recipes-extended/tasks/task-core-lsb.bb =C2=A0 =C2=A0 =C2=A0 |=
- =C2=A0 =C2=A06 +-
-> =C2=A0meta/recipes-extended/zypper/zypper/rpmatch.patch =C2=A0| =C2=A0 23=
- ++++++
-> =C2=A0meta/recipes-extended/zypper/zypper_git.bb =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 | =C2=A0 =C2=A04 +-
-> =C2=A0meta/recipes-support/gnupg/gnupg_2.0.19.bb =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 | =C2=A0 =C2=A06 +-
-> =C2=A0meta/recipes-support/gpgme/gpgme_1.3.1.bb =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0| =C2=A0 =C2=A07 +-
-> =C2=A0meta/recipes-support/npth/npth_0.90.bb =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 | =C2=A0 17 ++++
-> =C2=A0meta/recipes-support/pth/pth_2.0.7.bb =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0| =C2=A0 12 +++-
-> =C2=A024 files changed, 469 insertions(+), 18 deletions(-)
-> =C2=A0create mode 100644 meta/recipes-devtools/binutils/binutils/0001-PR-=
-ld-13470.patch
-> =C2=A0create mode 100644 meta/recipes-devtools/libtool/libtool/respect-fs=
-tack-protector.patch
-> =C2=A0create mode 100644 meta/recipes-devtools/rpm/rpm/fstack-protector-c=
-onfigure-check.patch
-> =C2=A0create mode 100644 meta/recipes-devtools/rpm/rpm/rpmatch.patch
-> =C2=A0create mode 100644 meta/recipes-devtools/rpm/rpm/uclibc-support.pat=
-ch
-> =C2=A0create mode 100644 meta/recipes-extended/augeas/augeas/0001-Add-mis=
-sing-argument-to-escape.patch
-> =C2=A0create mode 100644 meta/recipes-extended/libzypp/libzypp/cstdio.pat=
-ch
-> =C2=A0create mode 100644 meta/recipes-extended/sat-solver/sat-solver/futi=
-mes.patch
-> =C2=A0create mode 100644 meta/recipes-extended/zypper/zypper/rpmatch.patc=
-h
-> =C2=A0create mode 100644 meta/recipes-support/npth/npth_0.90.bb
->
-> --
-> 1.7.5.4
->
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
