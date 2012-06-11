@@ -1,26 +1,26 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1Se9Gc-0001fY-MG
+	(envelope-from <mark.hatle@windriver.com>) id 1Se9Gd-0001g5-C4
 	for openembedded-core@lists.openembedded.org;
-	Mon, 11 Jun 2012 20:23:07 +0200
+	Mon, 11 Jun 2012 20:23:08 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q5BICWX6024034
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q5BICX0f019807
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jun 2012 11:12:32 -0700 (PDT)
+	Mon, 11 Jun 2012 11:12:33 -0700 (PDT)
 Received: from localhost.localdomain (172.25.34.61) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Mon, 11 Jun 2012 11:12:31 -0700
+	Mon, 11 Jun 2012 11:12:32 -0700
 From: Mark Hatle <mark.hatle@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 11 Jun 2012 13:18:57 -0500
-Message-ID: <f04f9ffc31a1ef108fbfd8c64f11cb39d7ae5773.1339438568.git.mark.hatle@windriver.com>
+Date: Mon, 11 Jun 2012 13:18:58 -0500
+Message-ID: <d0288ebd0ed4d6c9db5af8e0ca68a961836558d3.1339438568.git.mark.hatle@windriver.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <cover.1339438568.git.mark.hatle@windriver.com>
 References: <cover.1339438568.git.mark.hatle@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [172.25.34.61]
-Subject: [PATCH 6/9] rootfs_rpm.bbclass: Update database configuration file
+Subject: [PATCH 7/9] createrepo: For compatibility w/ RPM 5.4.9 remove RPMVSF_NOSIGNATURES flag
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,104 +35,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Jun 2012 18:23:07 -0000
+X-List-Received-Date: Mon, 11 Jun 2012 18:23:08 -0000
 Content-Type: text/plain
 
-Move the creation of the database configuration files to just before we
-perform the install actions.  This ensures they will exist even in SDK or
-other non-target filesystem images.
+The RPMVSF_NOSIGNATURES flag was removed from RPM5 - 5.4.9 as a result of
+additional -requires- package validation to help protect from malicious
+packages.  The createrepo "dump" script has been updated to no longer use
+this flag.  This remains compatible with prior versions of RPM.
 
 Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
 ---
- meta/classes/package_rpm.bbclass |   32 ++++++++++++++++++++++++++++++++
- meta/classes/rootfs_rpm.bbclass  |   31 -------------------------------
- 2 files changed, 32 insertions(+), 31 deletions(-)
+ .../createrepo/createrepo/createrepo-rpm549.patch  |   19 +++++++++++++++++++
+ .../createrepo/createrepo_0.4.11.bb                |    3 ++-
+ 2 files changed, 21 insertions(+), 1 deletions(-)
+ create mode 100644 meta/recipes-support/createrepo/createrepo/createrepo-rpm549.patch
 
-diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
-index 097fa12..b84c044 100644
---- a/meta/classes/package_rpm.bbclass
-+++ b/meta/classes/package_rpm.bbclass
-@@ -454,6 +454,38 @@ EOF
+diff --git a/meta/recipes-support/createrepo/createrepo/createrepo-rpm549.patch b/meta/recipes-support/createrepo/createrepo/createrepo-rpm549.patch
+new file mode 100644
+index 0000000..3423c44
+--- /dev/null
++++ b/meta/recipes-support/createrepo/createrepo/createrepo-rpm549.patch
+@@ -0,0 +1,19 @@
++dumpMetadata.py: Fix for RPM5 - 5.4.9 integration
++
++RPM5 no longer has a switch to disable signature validation.  (Due to security
++validation concerns.)
++
++Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
++
++diff -u createrepo-0.4.11.orig/dumpMetadata.py createrepo-0.4.11/dumpMetadata.py
++--- createrepo-0.4.11.orig/dumpMetadata.py	2012-06-05 10:12:55.687964222 -0500
+++++ createrepo-0.4.11/dumpMetadata.py	2012-06-05 10:40:08.154060600 -0500
++@@ -92,7 +92,7 @@
++             fdno = package # let's assume this is an fdno and go with it :)
++     except OSError:
++         raise MDError, "Error opening file"
++-    ts.setVSFlags((rpm._RPMVSF_NOSIGNATURES|rpm.RPMVSF_NOMD5|rpm.RPMVSF_NEEDPAYLOAD))
+++    ts.setVSFlags((rpm.RPMVSF_NOMD5|rpm.RPMVSF_NEEDPAYLOAD))
++     try:
++         hdr = ts.hdrFromFdno(fdno)
++     except rpm.error:
+diff --git a/meta/recipes-support/createrepo/createrepo_0.4.11.bb b/meta/recipes-support/createrepo/createrepo_0.4.11.bb
+index 989a745..060ed59 100644
+--- a/meta/recipes-support/createrepo/createrepo_0.4.11.bb
++++ b/meta/recipes-support/createrepo/createrepo_0.4.11.bb
+@@ -4,11 +4,12 @@ HOMEPAGE = "http://createrepo.baseurl.org/"
+ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=18810669f13b87348459e611d31ab760"
  
- 	chmod 0755 ${WORKDIR}/scriptlet_wrapper
+-PR = "r2"
++PR = "r3"
  
-+	# Configure RPM... we enforce these settings!
-+	mkdir -p ${target_rootfs}${rpmlibdir}
-+	mkdir -p ${target_rootfs}${rpmlibdir}/log
-+	# After change the __db.* cache size, log file will not be generated automatically,
-+	# that will raise some warnings, so touch a bare log for rpm write into it.
-+	touch ${target_rootfs}${rpmlibdir}/log/log.0000000001
-+	cat > ${target_rootfs}${rpmlibdir}/DB_CONFIG << EOF
-+# ================ Environment
-+set_data_dir .
-+set_create_dir .
-+set_lg_dir ./log
-+set_tmp_dir ./tmp
-+set_flags db_log_autoremove on
-+
-+# -- thread_count must be >= 8
-+set_thread_count 64
-+
-+# ================ Logging
-+
-+# ================ Memory Pool
-+set_cachesize 0 1048576 0
-+set_mp_mmapsize 268435456
-+
-+# ================ Locking
-+set_lk_max_locks 16384
-+set_lk_max_lockers 16384
-+set_lk_max_objects 16384
-+mutex_set_max 163840
-+
-+# ================ Replication
-+EOF
-+
- 	# RPM is special. It can't handle dependencies and preinstall scripts correctly. Its
- 	# probably a feature. The only way to convince rpm to actually run the preinstall scripts 
- 	# for base-passwd and shadow first before installing packages that depend on these packages 
-diff --git a/meta/classes/rootfs_rpm.bbclass b/meta/classes/rootfs_rpm.bbclass
-index eafb34b..202f9ce 100644
---- a/meta/classes/rootfs_rpm.bbclass
-+++ b/meta/classes/rootfs_rpm.bbclass
-@@ -59,37 +59,6 @@ fakeroot rootfs_rpm_do_rootfs () {
- 	# Setup base system configuration
- 	mkdir -p ${INSTALL_ROOTFS_RPM}/etc/rpm/
+ SRC_URI= "http://createrepo.baseurl.org/download/${BP}.tar.gz \
+           file://fix-native-install.patch \
+           file://python-scripts-should-use-interpreter-from-env.patch \
++	  file://createrepo-rpm549.patch \
+          "
  
--	mkdir -p ${INSTALL_ROOTFS_RPM}${rpmlibdir}
--	mkdir -p ${INSTALL_ROOTFS_RPM}${rpmlibdir}/log
--	# After change the __db.* cache size, log file will not be generated automatically,
--	# that will raise some warnings, so touch a bare log for rpm write into it.
--	touch ${INSTALL_ROOTFS_RPM}${rpmlibdir}/log/log.0000000001
--	cat > ${INSTALL_ROOTFS_RPM}${rpmlibdir}/DB_CONFIG << EOF
--# ================ Environment
--set_data_dir .
--set_create_dir .
--set_lg_dir ./log
--set_tmp_dir ./tmp
--set_flags db_log_autoremove on
--
--# -- thread_count must be >= 8
--set_thread_count 64
--
--# ================ Logging
--
--# ================ Memory Pool
--set_cachesize 0 1048576 0
--set_mp_mmapsize 268435456
--
--# ================ Locking
--set_lk_max_locks 16384
--set_lk_max_lockers 16384
--set_lk_max_objects 16384
--mutex_set_max 163840
--
--# ================ Replication
--EOF
--
- 	# List must be prefered to least preferred order
- 	INSTALL_PLATFORM_EXTRA_RPM=""
- 	for each_arch in ${MULTILIB_PACKAGE_ARCHS} ${PACKAGE_ARCHS}; do
+ SRC_URI[md5sum] = "3e9ccf4abcffe3f49af078c83611eda2"
 -- 
 1.7.3.4
 
