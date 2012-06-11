@@ -1,33 +1,30 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Se4Fs-00038r-66 for openembedded-core@lists.openembedded.org;
-	Mon, 11 Jun 2012 15:02:01 +0200
+	id 1Se4H8-0006oh-CX for openembedded-core@lists.openembedded.org;
+	Mon, 11 Jun 2012 15:03:21 +0200
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q5BCpQWs014897
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jun 2012 13:51:26 +0100
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q5BCqgrD014918;
+	Mon, 11 Jun 2012 13:52:42 +0100
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 13603-06 for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jun 2012 13:51:23 +0100 (BST)
+	id 13603-07; Mon, 11 Jun 2012 13:52:38 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q5BCpINP014891
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Jun 2012 13:51:19 +0100
-Message-ID: <1339419080.30460.19.camel@ted>
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q5BCqWo5014912
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Mon, 11 Jun 2012 13:52:33 +0100
+Message-ID: <1339419155.30460.21.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Mon, 11 Jun 2012 13:51:20 +0100
-In-Reply-To: <1339173827-61084-1-git-send-email-jason.wessel@windriver.com>
-References: <1339173827-61084-1-git-send-email-jason.wessel@windriver.com>
+To: Bruce Ashfield <bruce.ashfield@windriver.com>
+Date: Mon, 11 Jun 2012 13:52:35 +0100
+In-Reply-To: <cover.1339164527.git.bruce.ashfield@windriver.com>
+References: <cover.1339164527.git.bruce.ashfield@windriver.com>
 X-Mailer: Evolution 3.2.2- 
 Mime-Version: 1.0
 X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH] libnewt: Fix cross link using autoconf detected AR
+Cc: openembedded-core@lists.openembedded.org, saul.wold@intel.com
+Subject: Re: [PATCH 0/1] linux-yocto/3.2: fix meta SRCREV typo
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,27 +39,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Jun 2012 13:02:01 -0000
+X-List-Received-Date: Mon, 11 Jun 2012 13:03:21 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2012-06-08 at 11:43 -0500, Jason Wessel wrote:
-> If building on 32bit host and creating 64bit libraries, the target
-> package builds should not invoke the 32bit hosts's ar.  Specifically
-> you will get an error message like:
+On Fri, 2012-06-08 at 10:10 -0400, Bruce Ashfield wrote:
+> Richard/Saul,
 > 
-> x86_64-linux-gcc    -m64 --sysroot=/opt/qemux86-64/tmp/sysroots/qemux86-64 -g -o test test.o libnewt.a -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -lslang
-> libnewt.a: could not read symbols: Archive has no index; run ranlib to add one
-> collect2: error: ld returned 1 exit status
+> Argh. I need a brown paper bag .... being focused on 3.4 hid
+> thsi from me.
 > 
-> Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
-> ---
->  meta/recipes-extended/newt/files/cross_ar.patch |   51 +++++++++++++++++++++++
->  meta/recipes-extended/newt/libnewt_0.52.14.bb   |    5 +-
->  2 files changed, 54 insertions(+), 2 deletions(-)
->  create mode 100644 meta/recipes-extended/newt/files/cross_ar.patch
+> Never underestimate the power of a rebase for inserting fat finger
+> errors that are hidden by local layers.
+> 
+> An extraneous character made it into the 3.2 meta SRCREV, which makes
+> the fetcher error, even when the kernel isn't being built.
 
-Merged to master, thanks.
+I came to Tom's patch first but a fix has been merged.
+
+Cheers,
 
 Richard
 
