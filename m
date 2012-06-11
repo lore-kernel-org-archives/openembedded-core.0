@@ -1,27 +1,34 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail-qa0-f48.google.com ([209.85.216.48])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Bruce.Ashfield@windriver.com>) id 1Se6Go-0002A9-3z
+	(envelope-from <andrei@gherzan.ro>) id 1Se6LW-0002F6-QO
 	for openembedded-core@lists.openembedded.org;
-	Mon, 11 Jun 2012 17:11:06 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q5BD14Bm019043
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 11 Jun 2012 06:01:04 -0700 (PDT)
-Received: from [128.224.146.67] (128.224.146.67) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Mon, 11 Jun 2012 06:01:03 -0700
-Message-ID: <4FD5EC05.7070105@windriver.com>
-Date: Mon, 11 Jun 2012 09:00:53 -0400
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
-MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <cover.1339164527.git.bruce.ashfield@windriver.com>
-	<1339419155.30460.21.camel@ted>
-In-Reply-To: <1339419155.30460.21.camel@ted>
-Cc: openembedded-core@lists.openembedded.org, saul.wold@intel.com
-Subject: Re: [PATCH 0/1] linux-yocto/3.2: fix meta SRCREV typo
+	Mon, 11 Jun 2012 17:15:58 +0200
+Received: by qady23 with SMTP id y23so2919135qad.7
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 11 Jun 2012 08:05:24 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer:x-gm-message-state;
+	bh=rygpOCl+tCCec20gz9qzVs3XZZWJ61i5qCYOyWqds9A=;
+	b=iVr9zI4u5wagCnnK+/B3yAfV2rvgICt89bDIlynxDInwTf58aQVTbNCpqi+f0YkTis
+	dRc30dIO1My7uvn1MY4dV3lFmdjtJt0lZZgFQT13lUGJdomA+6BIzm37/FRkI5KrCe3w
+	xtb9ViVIgQXZvTWPm8Y46BzRJNlLS4cILCOMc14bejjF+wln0YUY76Zp9srStkl9rfck
+	2daOJhphhFRnXUxYnlfpqr0946yN+V7SneWh3EtFP/G3a2zFEsMpx1aH5d6jkRMhV4DM
+	tPuTRhDBJ1xKc2gS3K2CVIdeNXD74M19kbSLmmLk+2nczGyfm+DW8otTfmQP/zg1nwE4
+	/06g==
+Received: by 10.229.135.17 with SMTP id l17mr6626302qct.66.1339427124499;
+	Mon, 11 Jun 2012 08:05:24 -0700 (PDT)
+Received: from otp-agherzan-l1.corp.ad.wrs.com ([89.121.200.106])
+	by mx.google.com with ESMTPS id gy9sm29152339qab.22.2012.06.11.08.05.22
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 11 Jun 2012 08:05:23 -0700 (PDT)
+From: Andrei Gherzan <andrei@gherzan.ro>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 11 Jun 2012 18:05:12 +0300
+Message-Id: <1339427112-6567-1-git-send-email-andrei@gherzan.ro>
+X-Mailer: git-send-email 1.7.9.5
+X-Gm-Message-State: ALoCoQm50/sbOTbXINLfJVh7j9uQykiJU5eZ0DyPq3ulMewJ9mgaSnLguJU1KRmXoZbMmPOelLkV
+Subject: [PATCH] coreutils: Fix a typo in v6.9 (bracket not braket)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,37 +43,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Jun 2012 15:11:06 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 11 Jun 2012 15:15:58 -0000
 
-On 12-06-11 08:52 AM, Richard Purdie wrote:
-> On Fri, 2012-06-08 at 10:10 -0400, Bruce Ashfield wrote:
->> Richard/Saul,
->>
->> Argh. I need a brown paper bag .... being focused on 3.4 hid
->> thsi from me.
->>
->> Never underestimate the power of a rebase for inserting fat finger
->> errors that are hidden by local layers.
->>
->> An extraneous character made it into the 3.2 meta SRCREV, which makes
->> the fetcher error, even when the kernel isn't being built.
->
-> I came to Tom's patch first but a fix has been merged.
+Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
+---
+ meta/recipes-core/coreutils/coreutils_6.9.bb |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-No worries, I'm glad it's in. I can take the paper bag off my head
-now.
-
-Cheers,
-
-Bruce
-
->
-> Cheers,
->
-> Richard
->
+diff --git a/meta/recipes-core/coreutils/coreutils_6.9.bb b/meta/recipes-core/coreutils/coreutils_6.9.bb
+index 6789b8c..5bfab16 100644
+--- a/meta/recipes-core/coreutils/coreutils_6.9.bb
++++ b/meta/recipes-core/coreutils/coreutils_6.9.bb
+@@ -65,7 +65,7 @@ inherit update-alternatives
+ 
+ ALTERNATIVE_PRIORITY = "100"
+ 
+-ALTERNATIVE_${PN} = "lbraket ${bindir_progs} ${base_bindir_progs} ${sbindir_progs}"
++ALTERNATIVE_${PN} = "lbracket ${bindir_progs} ${base_bindir_progs} ${sbindir_progs}"
+ 
+ ALTERNATIVE_PRIORITY[uptime] = "10"
+ ALTERNATIVE_PRIORITY[hostname] = "10"
+-- 
+1.7.9.5
 
 
 
