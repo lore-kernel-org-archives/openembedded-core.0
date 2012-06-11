@@ -1,20 +1,33 @@
-Received: from mga03.intel.com ([143.182.124.21])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bogdan.a.marinescu@intel.com>) id 1Se4Hu-0006re-BD
-	for openembedded-core@lists.openembedded.org;
-	Mon, 11 Jun 2012 15:04:06 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 11 Jun 2012 05:53:31 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="154727312"
-Received: from bogdanm (HELO localhost.localdomain) ([10.237.104.85])
-	by azsmga001.ch.intel.com with ESMTP; 11 Jun 2012 05:53:30 -0700
-From: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 11 Jun 2012 15:55:29 +0300
-Message-Id: <1339419329-26688-1-git-send-email-bogdan.a.marinescu@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] libpcre: updated to version 8.30
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1Se4Ji-0006z6-3W for openembedded-core@lists.openembedded.org;
+	Mon, 11 Jun 2012 15:05:58 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q5BCtOKB014944
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 11 Jun 2012 13:55:24 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 14910-01 for <openembedded-core@lists.openembedded.org>;
+	Mon, 11 Jun 2012 13:55:19 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q5BCtGV1014938
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 11 Jun 2012 13:55:17 +0100
+Message-ID: <1339419319.30460.22.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Mon, 11 Jun 2012 13:55:19 +0100
+In-Reply-To: <1339166898-11667-1-git-send-email-laurentiu.palcu@intel.com>
+References: <1339166898-11667-1-git-send-email-laurentiu.palcu@intel.com>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH 0/4] Package upgrades: freetype, tzdata, ethtool, menu-cache
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,47 +42,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Jun 2012 13:04:06 -0000
+X-List-Received-Date: Mon, 11 Jun 2012 13:05:58 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Tested by compiling lighttpd. The license file changed because the
-copyright notice was updated to cover 2012.
+On Fri, 2012-06-08 at 17:48 +0300, Laurentiu Palcu wrote:
+> Tests done:
+> 	- packages compile fine on all architectures;
+> 	- basic functionality:
+> 		* ethtool - ran ethtool directly;
+> 		* menu-cache - ran pcmanfm;
+> 		* tzdata - it's just a database;
+> 		* freetype - ran matchbox-keyboard;
+> 
+> Laurentiu Palcu (4):
+>   freetype: upgrade to 2.4.9
+>   tzdata: upgrade to 2012c
+>   ethtool: upgrade to 3.2
+>   menu-cache: upgrade to 0.3.3
 
-Signed-off-by: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
----
- .../libpcre/{libpcre_8.21.bb => libpcre_8.30.bb}   |   10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
- rename meta/recipes-support/libpcre/{libpcre_8.21.bb => libpcre_8.30.bb} (86%)
+Merged to master, thanks.
 
-diff --git a/meta/recipes-support/libpcre/libpcre_8.21.bb b/meta/recipes-support/libpcre/libpcre_8.30.bb
-similarity index 86%
-rename from meta/recipes-support/libpcre/libpcre_8.21.bb
-rename to meta/recipes-support/libpcre/libpcre_8.30.bb
-index f5fa4ef..83831e7 100644
---- a/meta/recipes-support/libpcre/libpcre_8.21.bb
-+++ b/meta/recipes-support/libpcre/libpcre_8.30.bb
-@@ -5,15 +5,15 @@ provides a POSIX calling interface to PCRE; the regular expressions \
- themselves still follow Perl syntax and semantics. The header file for \
- the POSIX-style functions is called pcreposix.h."
- SECTION = "devel"
--PR = "r1"
-+PR = "r0"
- LICENSE = "BSD"
--LIC_FILES_CHKSUM = "file://LICENCE;md5=2f00d186a775c8002422a5315079d96b"
--SRC_URI = "${SOURCEFORGE_MIRROR}/pcre/pcre-${PV}.tar.bz2 \
-+LIC_FILES_CHKSUM = "file://LICENCE;md5=115e2bee152e2e23e838a29136094877"
-+SRC_URI = "${SOURCEFORGE_MIRROR}/project/pcre/pcre/${PV}/pcre-${PV}.tar.bz2 \
-            file://pcre-cross.patch \
-            file://fix-pcre-name-collision.patch"
- 
--SRC_URI[md5sum] = "0a7b592bea64b7aa7f4011fc7171a730"
--SRC_URI[sha256sum] = "a4b8509d11fc2764fb4e1415b764ad2c214459edc011ce48aeeb6bbe1ac599e3"
-+SRC_URI[md5sum] = "98e8928cccc945d04279581e778fbdff"
-+SRC_URI[sha256sum] = "c1113fd7db934e97ad8b3917d432e5b642e9eb9afd127eb797804937c965f4ac"
- 
- S = "${WORKDIR}/pcre-${PV}"
- 
--- 
-1.7.9.5
+Richard
 
 
 
