@@ -1,24 +1,33 @@
-Received: from mga03.intel.com ([143.182.124.21])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <lianhao.lu@intel.com>) id 1SeOE3-00064a-V5
-	for openembedded-core@lists.openembedded.org;
-	Tue, 12 Jun 2012 12:21:28 +0200
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 12 Jun 2012 03:10:55 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="111100518"
-Received: from llu-piketon.sh.intel.com (HELO localhost) ([10.239.36.123])
-	by AZSMGA002.ch.intel.com with ESMTP; 12 Jun 2012 03:10:54 -0700
-From: Lianhao Lu <lianhao.lu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 12 Jun 2012 18:10:07 +0800
-Message-Id: <de650fb4dbcc6e2539f9325c58dbe5dd1e94f137.1339495723.git.lianhao.lu@intel.com>
-X-Mailer: git-send-email 1.7.0.4
-In-Reply-To: <40eb390623c511dadf467d19e146a4dc92b70856.1339495723.git.lianhao.lu@intel.com>
-References: <40eb390623c511dadf467d19e146a4dc92b70856.1339495723.git.lianhao.lu@intel.com>
-In-Reply-To: <cover.1339495723.git.lianhao.lu@intel.com>
-References: <cover.1339495723.git.lianhao.lu@intel.com>
-Subject: [PATCH V2 3/3] classes/image: Allow openssh empty passwords login.
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1SeOEF-0006FX-SK for openembedded-core@lists.openembedded.org;
+	Tue, 12 Jun 2012 12:21:40 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q5CAB5d7003104
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 12 Jun 2012 11:11:05 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 30915-05 for <openembedded-core@lists.openembedded.org>;
+	Tue, 12 Jun 2012 11:11:01 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q5CAAv0L003092
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 12 Jun 2012 11:10:59 +0100
+Message-ID: <1339495860.28854.18.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Tue, 12 Jun 2012 11:11:00 +0100
+In-Reply-To: <cover.1339438568.git.mark.hatle@windriver.com>
+References: <cover.1339438568.git.mark.hatle@windriver.com>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH 0/9 v7] Uprev RPM to 5.4.9
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,58 +42,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Jun 2012 10:21:28 -0000
+X-List-Received-Date: Tue, 12 Jun 2012 10:21:40 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Allow empty passwords login so that the default root user can login in
-through openssh.
+On Mon, 2012-06-11 at 13:18 -0500, Mark Hatle wrote:
+> Fix a regression in rpm dependency generated caused by default settings
+> changing.  This has been fixed (and verified on the yocto project build
+> servers.)  This should be the final version....
+> 
+> This has been rebased, and patches 1 and 2 were changed to deal with the
+> fix for the macros files.
+> 
+> v6 message follows:
+> 
+> Patch 6/8 was reworked to remove the manifest size check.
+> Patch 8/8 is new and includes the manifest check removed from 6/8 as well as
+> one that was missed in previous testing.
+> 
+> v5 message follows:
+> 
+> Only 7/7 is new in the version.  Due to the removal of the RPMVSF_NOSIGNATURES
+> flag in RPM5 5.4.9, createrepo also needed to have this flag removed.
+> 
+> v4 message follows:
+> 
+> Only 6/6 is new in this version.  RPM 5.4.9 appears to be more demanding
+> for both the DB_CONFIG file and empty manifest files.  The new patch resolves
+> this issue by ensuring that the DB_CONFIG is always generated, and empty
+> manifest files do not get installed.
+> 
+> Patches 1-5 are identical to the v3 versions.
+> 
+> v3 messages follows:
+> 
+> Rebase of the v2 changes.
+> 
+> Re-disabled the "test" chunk..  this should resolve the hang problem a
+> few people have observed.
+> 
+> v2 message follows:
+> 
+> Berkley DB also gets upreved, and a new package ossp-uuid gets added to
+> the system.
+> 
+> This was -heavily- tested with and without zypper on IA, and PPC.
+> 
+> In addition a minor performance enhancement with a query operation was added.
+> 
+> The uprev also adds the capability of using PACKAGECONFIG settings to tailor
+> the behavior of RPM.
+> 
+> V2 changes:
+> 
+> Fix a problem with libuuid.so from util-linux would sometimes be linked into
+> the binary.
+> 
+> Also force libzypp, sat-solver and zypper to refresh via a PR bump.
+> 
+> The following changes since commit ba22e4fcf07eb8007f6d500908d503f1d3dbdd16:
+> 
+>   nasm: updated to 2.10.01 (2012-06-11 13:55:46 +0100)
+> 
+> are available in the git repository at:
+>   git://git.pokylinux.org/poky-contrib mhatle/rpm
+>   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=mhatle/rpm
+> 
+> Mark Hatle (9):
+>   rpm: Upgrade RPM to 5.4.8  (db to 5.3.15)
+>   rpm: Upgrade RPM to 5.4.9
+>   ossp-uuid: Add oss-uuid package and RPM 5.4.9 integration
+>   package_rpm: Add capability to directly query packageorigin
+>   rpm: Bump PR numbers on componets that require RPM
+>   rootfs_rpm.bbclass: Update database configuration file
+>   createrepo: For compatibility w/ RPM 5.4.9 remove RPMVSF_NOSIGNATURES
+>     flag
+>   package_rpm: Verify that the package manifests are not empty
+>   rpm: Ensure pkgconfig deps don't stray from the package being built
 
-Signed-off-by: Lianhao Lu <lianhao.lu@intel.com>
----
- meta/classes/core-image.bbclass |    2 ++
- meta/classes/image.bbclass      |   10 +++++++++-
- 2 files changed, 11 insertions(+), 1 deletions(-)
+Merged to master, thanks.
 
-diff --git a/meta/classes/core-image.bbclass b/meta/classes/core-image.bbclass
-index e2ad0fc..25f5c5a 100644
---- a/meta/classes/core-image.bbclass
-+++ b/meta/classes/core-image.bbclass
-@@ -69,4 +69,6 @@ ROOTFS_POSTPROCESS_COMMAND += "rootfs_update_timestamp ; "
- 
- # Zap the root password if debug-tweaks feature is not enabled
- ROOTFS_POSTPROCESS_COMMAND += '${@base_contains("IMAGE_FEATURES", "debug-tweaks", "", "zap_root_password ; ",d)}'
-+# Allow openssh accept empty password login if both debug-tweaks and ssh-server-openssh are enabled
-+ROOTFS_POSTPROCESS_COMMAND += '${@base_contains("IMAGE_FEATURES", "debug-tweaks ssh-server-openssh", "openssh_allow_empty_password; ", "",d)}'
- 
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index fb932b9..3f53271 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -318,6 +318,14 @@ zap_root_password () {
- 	mv ${IMAGE_ROOTFS}/etc/passwd.new ${IMAGE_ROOTFS}/etc/passwd
- } 
- 
-+# allow openssh accept login with empty password string
-+openssh_allow_empty_password () {
-+	if [ -e ${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config ]; then
-+		sed 's#.*PermitEmptyPasswords.*#PermitEmptyPasswords yes#' ${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config >${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config.new
-+		mv -f ${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config.new ${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config
-+	fi
-+}
-+
- # Turn any symbolic /sbin/init link into a file
- remove_init_link () {
- 	if [ -h ${IMAGE_ROOTFS}/sbin/init ]; then
-@@ -372,7 +380,7 @@ rootfs_trim_schemas () {
- 	done
- }
- 
--EXPORT_FUNCTIONS zap_root_password remove_init_link do_rootfs make_zimage_symlink_relative set_image_autologin rootfs_update_timestamp rootfs_no_x_startup
-+EXPORT_FUNCTIONS zap_root_password remove_init_link do_rootfs make_zimage_symlink_relative set_image_autologin rootfs_update_timestamp rootfs_no_x_startup openssh_allow_empty_password
- 
- do_fetch[noexec] = "1"
- do_unpack[noexec] = "1"
--- 
-1.7.0.4
+Richard
 
 
 
