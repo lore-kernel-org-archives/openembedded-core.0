@@ -1,16 +1,16 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@windriver.com>) id 1SeUyU-0004cp-6U
+	(envelope-from <bruce.ashfield@windriver.com>) id 1SeUyV-0004cr-74
 	for openembedded-core@lists.openembedded.org;
-	Tue, 12 Jun 2012 19:33:50 +0200
+	Tue, 12 Jun 2012 19:33:51 +0200
 Received: from yow-bashfiel-l1.wrs.com (yow-bashfiel-d3.wrs.com
 	[128.224.147.67])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q5CHN9EB023927;
-	Tue, 12 Jun 2012 10:23:11 -0700 (PDT)
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q5CHN9EC023927;
+	Tue, 12 Jun 2012 10:23:13 -0700 (PDT)
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 To: richard.purdie@linuxfoundation.org
-Date: Tue, 12 Jun 2012 13:22:48 -0400
-Message-Id: <2b7bc8dbfeae528417e737ca139b749f24c11351.1339521554.git.bruce.ashfield@windriver.com>
+Date: Tue, 12 Jun 2012 13:22:49 -0400
+Message-Id: <37e3329f8891cf6e430aee04a97e9ea2db6ec3ff.1339521554.git.bruce.ashfield@windriver.com>
 X-Mailer: git-send-email 1.7.5.4
 In-Reply-To: <cover.1339521554.git.bruce.ashfield@windriver.com>
 References: <cover.1339521554.git.bruce.ashfield@windriver.com>
@@ -18,7 +18,7 @@ In-Reply-To: <cover.1339521554.git.bruce.ashfield@windriver.com>
 References: <cover.1339521554.git.bruce.ashfield@windriver.com>
 Cc: dvhart@linux.intel.com, openembedded-core@lists.openembedded.org,
 	saul.wold@intel.com
-Subject: [PATCH 1/2] linux-yocto/3.4: create linux-yocto-rt recipe
+Subject: [PATCH 2/2] linux-yocto/meta-yocto: update yaffs2 and drop rc6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,69 +33,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Jun 2012 17:33:50 -0000
+X-List-Received-Date: Tue, 12 Jun 2012 17:33:51 -0000
 
-Adding the 3.4 variant of the linux-yocto-rt recipe. This updates
-to 3.4.1-rt9, and builds and boots on the supported targets.
+Updating the 3.4 SRCREVs to pickup a yaffs2 update and the removal
+of a feature that was required in the 3.2 kernel tree.
+
+1/2 [
+    meta: rc6: remove rc6 patches for snb
+
+    The sandybridge rc6 patches are part of the released v3.4 kernel.
+    Hence there is no need to keep these patches in the 3.4 linux
+    yocto kernel repository.
+
+    Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
+]
+
+2/2 [
+    yaffs2: update core support
+
+    Uprev yaffs2 to latest version as of 2012-05-29
+]
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 ---
- meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb |   32 +++++++++++++++++++++++
- meta/recipes-kernel/linux/linux-yocto_3.4.bb    |    2 +-
- 2 files changed, 33 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb
+ .../recipes-kernel/linux/linux-yocto_3.4.bbappend  |    8 ++++----
+ 1 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb b/meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb
-new file mode 100644
-index 0000000..d7de4b6
---- /dev/null
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb
-@@ -0,0 +1,32 @@
-+inherit kernel
-+require recipes-kernel/linux/linux-yocto.inc
-+
-+KBRANCH = "standard/preempt-rt/base"
-+KBRANCH_qemuppc = "standard/preempt-rt/qemu-ppc32"
-+
-+LINUX_VERSION ?= "3.4.1"
-+LINUX_KERNEL_TYPE = "preempt-rt"
-+
-+KMETA = "meta"
-+
-+SRCREV_machine_machine ?= "9dc5e97d144abb03deec411acb9c64883602cff9"
-+SRCREV_machine_qemuppc ?= "241a41d6104df6916280f1273894bbd7fa7cdd71"
-+SRCREV_meta ?= "aa226dcc5a1351fae49da40d77b718c4c3a76e7c"
-+
-+PR = "r0"
-+PV = "${LINUX_VERSION}+git${SRCPV}"
-+
-+SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.4.git;protocol=git;bareclone=1;branch=${KBRANCH},meta;name=machine,meta"
-+
-+# Omit broken machines from COMPATIBLE_MACHINE
-+#   qemuppc hangs at boot
-+#   qemumips panics at boot
-+COMPATIBLE_MACHINE = "(qemux86|qemux86-64|qemuarm)"
-+
-+# Functionality flags
-+KERNEL_FEATURES = "features/netfilter"
-+KERNEL_FEATURES_append = " features/taskstats"
-+KERNEL_FEATURES_append_qemux86 = " cfg/sound"
-+KERNEL_FEATURES_append_qemux86-64 = " cfg/sound"
-+
-+require recipes-kernel/linux/linux-tools.inc
-diff --git a/meta/recipes-kernel/linux/linux-yocto_3.4.bb b/meta/recipes-kernel/linux/linux-yocto_3.4.bb
-index 9205901..af6130d 100644
---- a/meta/recipes-kernel/linux/linux-yocto_3.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_3.4.bb
-@@ -16,7 +16,7 @@ SRCREV_machine_qemuppc ?= "4988a7e34bccd531b511c57f93358de9fcc672a0"
- SRCREV_machine_qemux86 ?= "a8291fa6f723b0182d2b7033b5d59f412ba7cf72"
- SRCREV_machine_qemux86-64 ?= "a8291fa6f723b0182d2b7033b5d59f412ba7cf72"
- SRCREV_machine ?= "a8291fa6f723b0182d2b7033b5d59f412ba7cf72"
--SRCREV_meta ?= "978f876e4368cdd0ef781e74ea28a6771bf69b79"
-+SRCREV_meta ?= "aa226dcc5a1351fae49da40d77b718c4c3a76e7c"
+diff --git a/meta-yocto/recipes-kernel/linux/linux-yocto_3.4.bbappend b/meta-yocto/recipes-kernel/linux/linux-yocto_3.4.bbappend
+index cb8c3aa..6d7d54d 100644
+--- a/meta-yocto/recipes-kernel/linux/linux-yocto_3.4.bbappend
++++ b/meta-yocto/recipes-kernel/linux/linux-yocto_3.4.bbappend
+@@ -3,10 +3,10 @@ KBRANCH_routerstationpro = "standard/routerstationpro"
+ KBRANCH_mpc8315e-rdb = "standard/fsl-mpc8315e-rdb"
+ KBRANCH_beagleboard = "standard/beagleboard"
  
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.4.git;protocol=git;nocheckout=1;branch=${KBRANCH},meta;name=machine,meta"
+-SRCREV_machine_atom-pc ?= "780ab7e11f03931295e8f0e29707f2abb688e9ad"
+-SRCREV_machine_routerstationpro ?= "780ab7e11f03931295e8f0e29707f2abb688e9ad"
+-SRCREV_machine_mpc8315e-rdb ?= "2d99f67fe6b4301cefd4e6f9a5ce75a9cc84686b"
+-SRCREV_machine_beagleboard ?= "780ab7e11f03931295e8f0e29707f2abb688e9ad"
++SRCREV_machine_atom-pc ?= "a8291fa6f723b0182d2b7033b5d59f412ba7cf72"
++SRCREV_machine_routerstationpro ?= "a8291fa6f723b0182d2b7033b5d59f412ba7cf72"
++SRCREV_machine_mpc8315e-rdb ?= "a371ff9dc5cbf9629fd3257d57120d5182e0d981"
++SRCREV_machine_beagleboard ?= "a8291fa6f723b0182d2b7033b5d59f412ba7cf72"
  
+ COMPATIBLE_MACHINE_mpc8315e-rdb = "mpc8315e-rdb"
+ # COMPATIBLE_MACHINE_routerstationpro = "routerstationpro"
 -- 
 1.7.5.4
 
