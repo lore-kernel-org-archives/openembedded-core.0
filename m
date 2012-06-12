@@ -1,44 +1,34 @@
-Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
+Received: from mail-pb0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <saul.wold@intel.com>) id 1SeZcf-0005WH-Rm
+	(envelope-from <bruce.ashfield@gmail.com>) id 1SeZzP-000089-D6
 	for openembedded-core@lists.openembedded.org;
-	Wed, 13 Jun 2012 00:31:38 +0200
-Received: from mail-pb0-f52.google.com ([209.85.160.52])
-	by mga01.intel.com with ESMTP/TLS/RC4-MD5; 12 Jun 2012 15:19:56 -0700
-Received: by pbbro8 with SMTP id ro8so1388122pbb.25
+	Wed, 13 Jun 2012 00:55:07 +0200
+Received: by pbbrq2 with SMTP id rq2so1405706pbb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jun 2012 15:19:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=message-id:date:from:organization:user-agent:mime-version:to:cc
-	:subject:references:in-reply-to:content-type
-	:content-transfer-encoding:x-gm-message-state;
-	bh=9uOM1kLziJ46Kue4HTkPf9Qvf4DznoCItgf3Ai6ALT0=;
-	b=FzfHCIbnJSWnbAUJvPT7adROlKM0816YWGEdmhyFsRr6/9lMBiFV/lWInnTzTSvvif
-	Xxa9rbMzQ2VSGG7q6gDWIFZf2l8Jm1GoSmoPbhLrIHChBT6M7TKeC1vatXqQc6xHBuWt
-	VCy3+BTY+Y0iiRXpsp12wcmXLk+JJ0qXh2ooJIZvTAh0nRoWJrcNjDQV080yh9rGy1Cf
-	KfbOqVdu98AAiG54onYlAM/w8/p0UQpbZ1yGTmo2ZD5FiutMkz1M13s4tmpYkpaois5d
-	+SMDnq72y34rH+sFVd3rEas2E2sqPnP97qYKMWVITQMH3JyAyUthW853DR/ZgJyp4gxt
-	qXrw==
-Received: by 10.68.237.166 with SMTP id vd6mr42970339pbc.139.1339539596208;
-	Tue, 12 Jun 2012 15:19:56 -0700 (PDT)
-Received: from [10.6.18.71] (c-71-193-189-117.hsd1.wa.comcast.net.
-	[71.193.189.117])
-	by mx.google.com with ESMTPS id u5sm3354785pbu.76.2012.06.12.15.19.53
-	(version=SSLv3 cipher=OTHER); Tue, 12 Jun 2012 15:19:54 -0700 (PDT)
-Message-ID: <4FD7C088.1030600@intel.com>
-Date: Tue, 12 Jun 2012 15:19:52 -0700
-From: Saul Wold <saul.wold@intel.com>
-Organization: Intel
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
+	Tue, 12 Jun 2012 15:44:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type:content-transfer-encoding;
+	bh=8Cm0NBtVCwJ6U76vkSo8QPNSqZk1n/cgFjjlmRDsC7U=;
+	b=U3k4sw4gDi0arobqcRefvXSML6yHCOAOIS3yibT+ImTf9D3op6zzthMkoYRjwsB8T1
+	JhqVuU5R+ojHzgo8lh7QGbqphFGQckKPsasVKxWjg1rBqnoLz1XrRSjjfmJ+yRGGAeyp
+	s5squKKQoy+BQlTFOXmbfZ+7t5bb8oHXeqcG0Ejogt6lQafhg+5C+0+NJaHNAAXdpB3h
+	e5FPyV9Zrv48s6hJIScUVYT6y0aOuKQu+X5oxZ7lpxLI4gKI1YmzQlNyCbjWAv6Xfdc4
+	B9bNRPUe7B6y+uBlc9r8vTjUEPmf9nUoXj9cJqp1ks5pbuCNRFnJPh70302GX80HoX6Z
+	LBaA==
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
+Received: by 10.68.204.129 with SMTP id ky1mr44270645pbc.32.1339541071283;
+	Tue, 12 Jun 2012 15:44:31 -0700 (PDT)
+Received: by 10.68.197.4 with HTTP; Tue, 12 Jun 2012 15:44:31 -0700 (PDT)
+In-Reply-To: <4FD7C088.1030600@intel.com>
 References: <cover.1339521554.git.bruce.ashfield@windriver.com>
 	<2b7bc8dbfeae528417e737ca139b749f24c11351.1339521554.git.bruce.ashfield@windriver.com>
-In-Reply-To: <2b7bc8dbfeae528417e737ca139b749f24c11351.1339521554.git.bruce.ashfield@windriver.com>
-X-Gm-Message-State: ALoCoQnddHSs/L3sggNpWJy5/GWveTe10hHgsXwleZfvzd0b8Ntrof2ancRq6QWQF/lmlH02KUut
+	<4FD7C088.1030600@intel.com>
+Date: Tue, 12 Jun 2012 18:44:31 -0400
+Message-ID: <CADkTA4OnQPFJrJzBjCKEP9J-j1s4PEQS4X+FrVvAxcpKuP9RDA@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Cc: dvhart@linux.intel.com
 Subject: Re: [PATCH 1/2] linux-yocto/3.4: create linux-yocto-rt recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -55,78 +45,114 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Jun 2012 22:31:38 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 12 Jun 2012 22:55:08 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-On 06/12/2012 10:22 AM, Bruce Ashfield wrote:
-> Adding the 3.4 variant of the linux-yocto-rt recipe. This updates
-> to 3.4.1-rt9, and builds and boots on the supported targets.
+On Tue, Jun 12, 2012 at 6:19 PM, Saul Wold <saul.wold@intel.com> wrote:
+> On 06/12/2012 10:22 AM, Bruce Ashfield wrote:
+>>
+>> Adding the 3.4 variant of the linux-yocto-rt recipe. This updates
+>> to 3.4.1-rt9, and builds and boots on the supported targets.
+>>
+>> Signed-off-by: Bruce Ashfield<bruce.ashfield@windriver.com>
+>> ---
+>> =A0meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb | =A0 32
+>> +++++++++++++++++++++++
+>> =A0meta/recipes-kernel/linux/linux-yocto_3.4.bb =A0 =A0| =A0 =A02 +-
+>> =A02 files changed, 33 insertions(+), 1 deletions(-)
+>> =A0create mode 100644 meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb
+>>
+>> diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb
+>> b/meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb
+>> new file mode 100644
+>> index 0000000..d7de4b6
+>> --- /dev/null
+>> +++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb
+>> @@ -0,0 +1,32 @@
+>> +inherit kernel
+>> +require recipes-kernel/linux/linux-yocto.inc
+>> +
+>> +KBRANCH =3D "standard/preempt-rt/base"
+>> +KBRANCH_qemuppc =3D "standard/preempt-rt/qemu-ppc32"
+>> +
+>> +LINUX_VERSION ?=3D "3.4.1"
+>> +LINUX_KERNEL_TYPE =3D "preempt-rt"
+>> +
+>> +KMETA =3D "meta"
+>> +
+>> +SRCREV_machine_machine ?=3D "9dc5e97d144abb03deec411acb9c64883602cff9"
 >
-> Signed-off-by: Bruce Ashfield<bruce.ashfield@windriver.com>
-> ---
->   meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb |   32 +++++++++++++++++++++++
->   meta/recipes-kernel/linux/linux-yocto_3.4.bb    |    2 +-
->   2 files changed, 33 insertions(+), 1 deletions(-)
->   create mode 100644 meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb
 >
-> diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb b/meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb
-> new file mode 100644
-> index 0000000..d7de4b6
-> --- /dev/null
-> +++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb
-> @@ -0,0 +1,32 @@
-> +inherit kernel
-> +require recipes-kernel/linux/linux-yocto.inc
-> +
-> +KBRANCH = "standard/preempt-rt/base"
-> +KBRANCH_qemuppc = "standard/preempt-rt/qemu-ppc32"
-> +
-> +LINUX_VERSION ?= "3.4.1"
-> +LINUX_KERNEL_TYPE = "preempt-rt"
-> +
-> +KMETA = "meta"
-> +
-> +SRCREV_machine_machine ?= "9dc5e97d144abb03deec411acb9c64883602cff9"
+> Is this correct? ^^^^^^^^
 
-Is this correct? ^^^^^^^^
+Good eye! My script that creates the SRCREVs apparently doesn't like
+the new repo.
+Fixed on my branch (it's not required for the build, only for new
+machines .. so things
+built).
 
+Cheers,
 
-Sau!
+Bruce
 
-> +SRCREV_machine_qemuppc ?= "241a41d6104df6916280f1273894bbd7fa7cdd71"
-> +SRCREV_meta ?= "aa226dcc5a1351fae49da40d77b718c4c3a76e7c"
-> +
-> +PR = "r0"
-> +PV = "${LINUX_VERSION}+git${SRCPV}"
-> +
-> +SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.4.git;protocol=git;bareclone=1;branch=${KBRANCH},meta;name=machine,meta"
-> +
-> +# Omit broken machines from COMPATIBLE_MACHINE
-> +#   qemuppc hangs at boot
-> +#   qemumips panics at boot
-> +COMPATIBLE_MACHINE = "(qemux86|qemux86-64|qemuarm)"
-> +
-> +# Functionality flags
-> +KERNEL_FEATURES = "features/netfilter"
-> +KERNEL_FEATURES_append = " features/taskstats"
-> +KERNEL_FEATURES_append_qemux86 = " cfg/sound"
-> +KERNEL_FEATURES_append_qemux86-64 = " cfg/sound"
-> +
-> +require recipes-kernel/linux/linux-tools.inc
-> diff --git a/meta/recipes-kernel/linux/linux-yocto_3.4.bb b/meta/recipes-kernel/linux/linux-yocto_3.4.bb
-> index 9205901..af6130d 100644
-> --- a/meta/recipes-kernel/linux/linux-yocto_3.4.bb
-> +++ b/meta/recipes-kernel/linux/linux-yocto_3.4.bb
-> @@ -16,7 +16,7 @@ SRCREV_machine_qemuppc ?= "4988a7e34bccd531b511c57f93358de9fcc672a0"
->   SRCREV_machine_qemux86 ?= "a8291fa6f723b0182d2b7033b5d59f412ba7cf72"
->   SRCREV_machine_qemux86-64 ?= "a8291fa6f723b0182d2b7033b5d59f412ba7cf72"
->   SRCREV_machine ?= "a8291fa6f723b0182d2b7033b5d59f412ba7cf72"
-> -SRCREV_meta ?= "978f876e4368cdd0ef781e74ea28a6771bf69b79"
-> +SRCREV_meta ?= "aa226dcc5a1351fae49da40d77b718c4c3a76e7c"
 >
->   SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.4.git;protocol=git;nocheckout=1;branch=${KBRANCH},meta;name=machine,meta"
 >
+> Sau!
+>
+>
+>> +SRCREV_machine_qemuppc ?=3D "241a41d6104df6916280f1273894bbd7fa7cdd71"
+>> +SRCREV_meta ?=3D "aa226dcc5a1351fae49da40d77b718c4c3a76e7c"
+>> +
+>> +PR =3D "r0"
+>> +PV =3D "${LINUX_VERSION}+git${SRCPV}"
+>> +
+>> +SRC_URI =3D
+>> "git://git.yoctoproject.org/linux-yocto-3.4.git;protocol=3Dgit;bareclone=
+=3D1;branch=3D${KBRANCH},meta;name=3Dmachine,meta"
+>> +
+>> +# Omit broken machines from COMPATIBLE_MACHINE
+>> +# =A0 qemuppc hangs at boot
+>> +# =A0 qemumips panics at boot
+>> +COMPATIBLE_MACHINE =3D "(qemux86|qemux86-64|qemuarm)"
+>> +
+>> +# Functionality flags
+>> +KERNEL_FEATURES =3D "features/netfilter"
+>> +KERNEL_FEATURES_append =3D " features/taskstats"
+>> +KERNEL_FEATURES_append_qemux86 =3D " cfg/sound"
+>> +KERNEL_FEATURES_append_qemux86-64 =3D " cfg/sound"
+>> +
+>> +require recipes-kernel/linux/linux-tools.inc
+>> diff --git a/meta/recipes-kernel/linux/linux-yocto_3.4.bb
+>> b/meta/recipes-kernel/linux/linux-yocto_3.4.bb
+>> index 9205901..af6130d 100644
+>> --- a/meta/recipes-kernel/linux/linux-yocto_3.4.bb
+>> +++ b/meta/recipes-kernel/linux/linux-yocto_3.4.bb
+>> @@ -16,7 +16,7 @@ SRCREV_machine_qemuppc ?=3D
+>> "4988a7e34bccd531b511c57f93358de9fcc672a0"
+>> =A0SRCREV_machine_qemux86 ?=3D "a8291fa6f723b0182d2b7033b5d59f412ba7cf72=
+"
+>> =A0SRCREV_machine_qemux86-64 ?=3D "a8291fa6f723b0182d2b7033b5d59f412ba7c=
+f72"
+>> =A0SRCREV_machine ?=3D "a8291fa6f723b0182d2b7033b5d59f412ba7cf72"
+>> -SRCREV_meta ?=3D "978f876e4368cdd0ef781e74ea28a6771bf69b79"
+>> +SRCREV_meta ?=3D "aa226dcc5a1351fae49da40d77b718c4c3a76e7c"
+>>
+>> =A0SRC_URI =3D
+>> "git://git.yoctoproject.org/linux-yocto-3.4.git;protocol=3Dgit;nocheckou=
+t=3D1;branch=3D${KBRANCH},meta;name=3Dmachine,meta"
+>>
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
+
+
+--=20
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
 
