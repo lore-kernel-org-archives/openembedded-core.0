@@ -1,24 +1,25 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@windriver.com>) id 1SeUyV-0004cr-74
+	(envelope-from <sgw@linux.intel.com>) id 1SeVey-0008GA-Hb
 	for openembedded-core@lists.openembedded.org;
-	Tue, 12 Jun 2012 19:33:51 +0200
-Received: from yow-bashfiel-l1.wrs.com (yow-bashfiel-d3.wrs.com
-	[128.224.147.67])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q5CHN9EC023927;
-	Tue, 12 Jun 2012 10:23:13 -0700 (PDT)
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: richard.purdie@linuxfoundation.org
-Date: Tue, 12 Jun 2012 13:22:49 -0400
-Message-Id: <37e3329f8891cf6e430aee04a97e9ea2db6ec3ff.1339521554.git.bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <cover.1339521554.git.bruce.ashfield@windriver.com>
-References: <cover.1339521554.git.bruce.ashfield@windriver.com>
-In-Reply-To: <cover.1339521554.git.bruce.ashfield@windriver.com>
-References: <cover.1339521554.git.bruce.ashfield@windriver.com>
-Cc: dvhart@linux.intel.com, openembedded-core@lists.openembedded.org,
-	saul.wold@intel.com
-Subject: [PATCH 2/2] linux-yocto/meta-yocto: update yaffs2 and drop rc6
+	Tue, 12 Jun 2012 20:17:44 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 12 Jun 2012 11:07:08 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="155387886"
+Received: from unknown (HELO [10.255.12.133]) ([10.255.12.133])
+	by azsmga001.ch.intel.com with ESMTP; 12 Jun 2012 11:07:08 -0700
+Message-ID: <4FD7854C.6030204@linux.intel.com>
+Date: Tue, 12 Jun 2012 11:07:08 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1339034063.git.xiaofeng.yan@windriver.com>
+In-Reply-To: <cover.1339034063.git.xiaofeng.yan@windriver.com>
+Subject: Re: [PATCH 0/1] archiver.bbclass: Reduce some duplication for function get_licenses
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,53 +34,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Jun 2012 17:33:51 -0000
+X-List-Received-Date: Tue, 12 Jun 2012 18:17:44 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Updating the 3.4 SRCREVs to pickup a yaffs2 update and the removal
-of a feature that was required in the 3.2 kernel tree.
+On 06/06/2012 07:01 PM, xiaofeng.yan@windriver.com wrote:
+> From: Xiaofeng Yan<xiaofeng.yan@windriver.com>
+>
+> The content to modify this bbclass is as follow:
+> - Use the existing functions to get license as a directory instead of
+>    rewriting it for avoiding code duplication.
+> - Use SPDXLICENSEMAP to map licenses
+>
+> The following changes since commit df8f55a919b3cc602ce1f1c51630c7edf6e36b55:
+>    Cristian Iorga (1):
+>          ltp: Add patch to correct failing build
+>
+> are available in the git repository at:
+>
+>    git://git.pokylinux.org/poky-contrib xiaofeng/2473
+>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=xiaofeng/2473
+>
+> Xiaofeng Yan (1):
+>    archiver.bbclass: Reduce some duplication for function get_licenses
+>
+>   meta/classes/archiver.bbclass |   23 ++++++++++++-----------
+>   1 files changed, 12 insertions(+), 11 deletions(-)
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+>
+Merged into OE-Core
 
-1/2 [
-    meta: rc6: remove rc6 patches for snb
-
-    The sandybridge rc6 patches are part of the released v3.4 kernel.
-    Hence there is no need to keep these patches in the 3.4 linux
-    yocto kernel repository.
-
-    Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
-]
-
-2/2 [
-    yaffs2: update core support
-
-    Uprev yaffs2 to latest version as of 2012-05-29
-]
-
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
----
- .../recipes-kernel/linux/linux-yocto_3.4.bbappend  |    8 ++++----
- 1 files changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/meta-yocto/recipes-kernel/linux/linux-yocto_3.4.bbappend b/meta-yocto/recipes-kernel/linux/linux-yocto_3.4.bbappend
-index cb8c3aa..6d7d54d 100644
---- a/meta-yocto/recipes-kernel/linux/linux-yocto_3.4.bbappend
-+++ b/meta-yocto/recipes-kernel/linux/linux-yocto_3.4.bbappend
-@@ -3,10 +3,10 @@ KBRANCH_routerstationpro = "standard/routerstationpro"
- KBRANCH_mpc8315e-rdb = "standard/fsl-mpc8315e-rdb"
- KBRANCH_beagleboard = "standard/beagleboard"
- 
--SRCREV_machine_atom-pc ?= "780ab7e11f03931295e8f0e29707f2abb688e9ad"
--SRCREV_machine_routerstationpro ?= "780ab7e11f03931295e8f0e29707f2abb688e9ad"
--SRCREV_machine_mpc8315e-rdb ?= "2d99f67fe6b4301cefd4e6f9a5ce75a9cc84686b"
--SRCREV_machine_beagleboard ?= "780ab7e11f03931295e8f0e29707f2abb688e9ad"
-+SRCREV_machine_atom-pc ?= "a8291fa6f723b0182d2b7033b5d59f412ba7cf72"
-+SRCREV_machine_routerstationpro ?= "a8291fa6f723b0182d2b7033b5d59f412ba7cf72"
-+SRCREV_machine_mpc8315e-rdb ?= "a371ff9dc5cbf9629fd3257d57120d5182e0d981"
-+SRCREV_machine_beagleboard ?= "a8291fa6f723b0182d2b7033b5d59f412ba7cf72"
- 
- COMPATIBLE_MACHINE_mpc8315e-rdb = "mpc8315e-rdb"
- # COMPATIBLE_MACHINE_routerstationpro = "routerstationpro"
--- 
-1.7.5.4
-
+Thanks
+	Sau!
 
 
