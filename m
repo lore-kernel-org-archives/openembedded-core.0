@@ -1,32 +1,32 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1SeRnO-0008Vx-QF
+	(envelope-from <raj.khem@gmail.com>) id 1SeRuL-0000AK-54
 	for openembedded-core@lists.openembedded.org;
-	Tue, 12 Jun 2012 16:10:10 +0200
-Received: by eaal1 with SMTP id l1so2381487eaa.6
+	Tue, 12 Jun 2012 16:17:21 +0200
+Received: by eekd49 with SMTP id d49so2406129eek.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jun 2012 06:59:36 -0700 (PDT)
+	Tue, 12 Jun 2012 07:06:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type; bh=3FfciL0tC6hlp5wvhZ5SCrXgtzMNqLflmyNbTKReVkw=;
-	b=LTsxgL76icSYR9Sjxs9MGBYz126U8tpOKW8+kfe7HiIBAWLva3ZT9ErV+K+UE3mB3j
-	pJ3PqJemobadXHDv7bT3nxRG+5fE2l0ZR7EkosAdLbonbHMUCqroLgILNaVKTcSiypXe
-	XEz+TrXUKCvt3XU8bjAhj6PmpNaN92wrTTW1+KdrJYLnnd5If9tFZjT3rWku3tKLCO6l
-	bjSNTVfnVR+ds92GKHDYFvYF+Jqep/wqLfSADjqptuMJmL1UPrOPvYrqPA7r/fIcnv6V
-	Bl/fYI09kQYRTxVQxydrj3pIb9BXdYU3VxiEem0B4pmEbKZIO9LuQhwuLtibZnvcUit5
-	YPuw==
-Received: by 10.14.94.201 with SMTP id n49mr6890589eef.158.1339509575344; Tue,
-	12 Jun 2012 06:59:35 -0700 (PDT)
+	:content-type; bh=kzG5/zijlzAme6pD7IUwH/zT21nNUqdDTMaEwkmGdRY=;
+	b=x6UN2/g7yWG7ED4QfTXttFyMEJvnngmvn2umA+IiEC6n7YattR7lT8lZBRTzbh+kBW
+	rdVl0lvKn1LXWuAQmeEh0J/o/qb6Lm0RwIlyTNWb0BcDeFtNFZtlSbmobPC4WlNCAMM0
+	wVDl2jiN0sDcGf51Vxw0xfX6G/iqKn/nekmsZW4n0YKL6g4A3kx266grRFSP+aRmhOWh
+	PXRQGmcUdlVfQ7kUoHRFheMkg3LU84I4J96hfYHFSitv4j4v7uWcvkKX/+1w8YpFEmpI
+	0JivOd1dvZtcraxJhdxoVeDwMqd7jdKv7f/YK/mz3/9eaycMXXnWfb8YZz+SRK6H4aAm
+	TU5g==
+Received: by 10.14.187.141 with SMTP id y13mr257295eem.79.1339510006311; Tue,
+	12 Jun 2012 07:06:46 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.14.188.11 with HTTP; Tue, 12 Jun 2012 06:59:05 -0700 (PDT)
-In-Reply-To: <1339487948-30612-1-git-send-email-bogdan.a.marinescu@intel.com>
-References: <1339487948-30612-1-git-send-email-bogdan.a.marinescu@intel.com>
+Received: by 10.14.188.11 with HTTP; Tue, 12 Jun 2012 07:06:15 -0700 (PDT)
+In-Reply-To: <1339508359-6581-1-git-send-email-andrei@gherzan.ro>
+References: <1339508359-6581-1-git-send-email-andrei@gherzan.ro>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 12 Jun 2012 06:59:05 -0700
-Message-ID: <CAMKF1so7Y_ccRi_RcfjRzzbska1WRbY7N8w=VuN=aFp-U5oYSw@mail.gmail.com>
+Date: Tue, 12 Jun 2012 07:06:15 -0700
+Message-ID: <CAMKF1so63e0OB6Q9JzbJQc_4LOqPpHjcugH_0U70bRki3_kfDA@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] strace: update to 4.7
+Subject: Re: [PATCH] eglibc-package: Reorder PACKAGES to avoid having static libraries in dev
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,13 +41,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Jun 2012 14:10:10 -0000
+X-List-Received-Date: Tue, 12 Jun 2012 14:17:21 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Tue, Jun 12, 2012 at 12:59 AM, Bogdan Marinescu
-<bogdan.a.marinescu@intel.com> wrote:
-> new version doesn't seem to use sigmask anymore.
+On Tue, Jun 12, 2012 at 6:39 AM, Andrei Gherzan <andrei@gherzan.ro> wrote:
+> Move ${PN}-dev at the end of $PACKAGES to avoid having some static libraries
+> in dev and let staticdev have those libraries packaged first.
 
-You have to build it on uclibc to see if you can drop this patch or not.
+did you compare buildhistory output before and after this patch ?
+*_nonshared.a is special e.g. it should not go into staticdev
 
 
