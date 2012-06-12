@@ -1,38 +1,36 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from astoria.ccjclearline.com ([64.235.106.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1SeTDG-0002cQ-6H
+	(envelope-from <rpjday@crashcourse.ca>) id 1SeTEq-0002fS-PO
 	for openembedded-core@lists.openembedded.org;
-	Tue, 12 Jun 2012 17:40:58 +0200
-Received: from mail-qa0-f45.google.com ([209.85.216.45])
-	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 12 Jun 2012 08:30:22 -0700
-Received: by qaeb19 with SMTP id b19so2751074qae.4
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jun 2012 08:30:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type:x-gm-message-state;
-	bh=AhjPgY/TLcXBawj0Zx2n/7AV2orBev65DGS8oFvqmM4=;
-	b=lcAAyfvQFbYlDqIgjVZWGc5B7Aw3XzYHlufkrcUrJe69IlNkTSbzY6HPjFWqWse5OF
-	WN97eBGueLx2gryMyUShdRdOtbgKc4MOQ7BS/hSrivDHmNG+d7kfSKXdzRbux5BNrbwI
-	n6omc26Py1DkFbNzBHLmuC88xVuMnEC3qwbeo8Bes9qzwdX/H0VPgV8ZgYRxzO2yjAhe
-	JqCxXtLUjAscWILwXgSgV7TAWqV8t5sY0AT4g0x0MDcurEIEzuadeIXzL/XCWbRlYTEi
-	wIQjIgSaSDgXLbTU2qzec5DZBv10eJN5eVu9KS7NkVCTStczDR5b5aAocJDP/JxbqH9q
-	8mSA==
-Received: by 10.229.137.135 with SMTP id w7mr8250842qct.48.1339515021324; Tue,
-	12 Jun 2012 08:30:21 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.229.251.142 with HTTP; Tue, 12 Jun 2012 08:30:00 -0700 (PDT)
-In-Reply-To: <1339514272-7427-3-git-send-email-laurentiu.palcu@intel.com>
-References: <1339514272-7427-1-git-send-email-laurentiu.palcu@intel.com>
-	<1339514272-7427-3-git-send-email-laurentiu.palcu@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 12 Jun 2012 16:30:00 +0100
-Message-ID: <CAJTo0LYD01xo2R5r+x9UU0AnB8fVFM+pPBqmUtrmLPN1bhsSRw@mail.gmail.com>
+	Tue, 12 Jun 2012 17:42:36 +0200
+Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
+	([99.241.91.63]:59613 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.77) (envelope-from <rpjday@crashcourse.ca>)
+	id 1SeT4c-0002Gn-J0; Tue, 12 Jun 2012 11:32:02 -0400
+Date: Tue, 12 Jun 2012 11:31:59 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@oneiric
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Gm-Message-State: ALoCoQloAmCZqLJqCnFP89nqNg474McYL7+NfVe0r6+BGXGx2QHRLe0T5UTS0IEa9cs/Cu8dWDNK
-Subject: Re: [PATCH 2/2] connman: make useradd parameters consistent with rootless X
+In-Reply-To: <2704914.5qldZ3P3Ag@helios>
+Message-ID: <alpine.DEB.2.02.1206121129470.13822@oneiric>
+References: <1339487948-30612-1-git-send-email-bogdan.a.marinescu@intel.com>
+	<CAMKF1so7Y_ccRi_RcfjRzzbska1WRbY7N8w=VuN=aFp-U5oYSw@mail.gmail.com>
+	<CAMZjud3vpBnst6PWtSq-io+5CPZZdCCM7whOOSWbi9YCzbE7sQ@mail.gmail.com>
+	<2704914.5qldZ3P3Ag@helios>
+User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+MIME-Version: 1.0
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Subject: Re: [PATCH] strace: update to 4.7
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,18 +45,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Jun 2012 15:40:58 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 12 Jun 2012 15:42:36 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
-On 12 June 2012 16:17, Laurentiu Palcu <laurentiu.palcu@intel.com> wrote:
-> Both connman and rootless X share the same xuser. However, useradd
-> parameters are not consistent and if connman runs useradd first,
-> rootless X will be broken.
+On Tue, 12 Jun 2012, Paul Eggleton wrote:
 
-It's probably a good idea to put a comment in X package where the
-xuser is also created saying that any changes should be mirrored to
-the connman package to avoid this happening again.
+> On Tuesday 12 June 2012 18:13:35 Marinescu, Bogdan A wrote:
+> > On Tue, Jun 12, 2012 at 4:59 PM, Khem Raj <raj.khem@gmail.com> wrote:
+> > > You have to build it on uclibc to see if you can drop this patch or not.
+> >
+> > Thanks for your reply. I built with uclibc and the build succeeded.
+> > Not sure how to test it though. Is there a 'standard' image that I can
+> > build in order to test? I tried core-image-lsb, but it fails with an
+> > error.
+>
+> Any core-image-* would do e.g. core-image-minimal, and you could just use
+> CORE_IMAGE_EXTRA_INSTALL += "strace" in your local.conf to have strace
+> installed in the image by default for the purpose of doing this test.
 
-Ross
+  i remember running across precisely that and being somewhat confused
+by how that was described:
+
+http://permalink.gmane.org/gmane.comp.handhelds.openembedded.core/18105
+
+i still think there's some redundancy involving using both "_EXTRA_"
+and "+=" in the same directive.
+
+rday
+
+-- 
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
