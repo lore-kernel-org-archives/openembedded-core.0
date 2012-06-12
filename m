@@ -1,29 +1,27 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from masterfoo.zenlinux.com ([207.192.74.254])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1SeWGt-0000GZ-Ie
+	(envelope-from <scott.a.garman@intel.com>) id 1SeXzn-00024v-RZ
 	for openembedded-core@lists.openembedded.org;
-	Tue, 12 Jun 2012 20:56:55 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q5CIkJwP008474
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 12 Jun 2012 22:47:24 +0200
+Received: from localhost (c-76-105-137-48.hsd1.or.comcast.net [76.105.137.48])
+	(using TLSv1 with cipher DHE-RSA-AES128-SHA (128/128 bits))
+	(No client certificate requested)
+	by masterfoo.zenlinux.com (Postfix) with ESMTP id 4B9552FD1D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jun 2012 11:46:19 -0700 (PDT)
-Received: from msp-dhcp49.wrs.com (172.25.34.49) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Tue, 12 Jun 2012 11:46:18 -0700
-Message-ID: <4FD78E7A.2040006@windriver.com>
-Date: Tue, 12 Jun 2012 13:46:18 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
-	rv:12.0) Gecko/20120428 Thunderbird/12.0.1
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1339438568.git.mark.hatle@windriver.com>
-	<d756c12e2cdbfabf01dc0c80c0d17d221a332822.1339438568.git.mark.hatle@windriver.com>
-	<CAOHjBZueyfYKnrq19a5J697ohfxriHRSarZBvbqfTFQYzoF48g@mail.gmail.com>
-In-Reply-To: <CAOHjBZueyfYKnrq19a5J697ohfxriHRSarZBvbqfTFQYzoF48g@mail.gmail.com>
-Subject: Re: [PATCH 4/9] package_rpm: Add capability to directly query packageorigin
+	Tue, 12 Jun 2012 16:36:43 -0400 (EDT)
+From: Scott Garman <scott.a.garman@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 12 Jun 2012 13:36:31 -0700
+Message-Id: <cover.1339533128.git.scott.a.garman@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+X-MasterFoo-MailScanner-Information: Please contact the ISP for more
+	information
+X-MailScanner-ID: 4B9552FD1D.0F136
+X-MasterFoo-MailScanner: Found to be clean
+X-MasterFoo-MailScanner-SpamCheck: not spam
+X-MasterFoo-MailScanner-From: scott.a.garman@intel.com
+X-Spam-Status: No
+Subject: RFC: [PATCH 00/16] denzil pull request 2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,180 +36,105 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Jun 2012 18:56:56 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 12 Jun 2012 20:47:24 -0000
 
-On 6/12/12 2:21 AM, Giuseppe Condorelli wrote:
-> Hi Mark,
-> this can be interesting for me. Please can you explain with an example what
-> really this patch does?
+Hello,
 
-The resolver database is seeded with all of the items from the packagefeed. 
-When you seed (install) a database, each entry gets a record of where the 
-package file exists on the disk.  This is stored in the packageorigin field.  It 
-is designed to be used by resolver systems.
+This is the second pull request for the oe-core denzil branch, based on
+a set of commits I've been testing from my sgarman/denzil-next branch.
 
-Before you could only query the packageorigin field if you were using raw RPM 
-calls or using the --yaml export features.  We wanted to be able to query the 
-file path from the resolver via the shell.  This patch added that ability.
+I'm submitting this as an RFC so the community can offer feedback as
+soon as possible. I'm planning on running this through the Yocto
+autobuilder tonight and will reply to this thread with test results.
+Assuming we get green builds, the goal is to get this pull request
+merged into oe-core's denzil branch fairly quickly, so please speak
+up if you have any comments or concerns with these commits.
 
-The packageorigin is likely not useful to anyone, unless you are using it in 
-conjunction w/ an associated package feed/resolver database.
+Thanks,
 
---Mark
+Scott
 
-> Many thanks,
-> Giuseppe
->
-> 2012/6/11 Mark Hatle <mark.hatle@windriver.com <mailto:mark.hatle@windriver.com>>
->
->     Add functionality to RPM to directly query the packageorigin (path) from
->     the resolver database, instead of having to do this via an indirect method.
->
->     This results in a minor performance improvement.
->
->     Signed-off-by: Mark Hatle <mark.hatle@windriver.com
->     <mailto:mark.hatle@windriver.com>>
->     ---
->     meta/classes/package_rpm.bbclass | 18 +++++++-------
->     .../rpm/rpm/rpm-packageorigin.patch | 23 ++++++++++++++++++++
->     meta/recipes-devtools/rpm/rpm_5.4.9.bb <http://rpm_5.4.9.bb> | 3 +-
->     3 files changed, 34 insertions(+), 10 deletions(-)
->     create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-packageorigin.patch
->
->     diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
->     index 35928ab..097fa12 100644
->     --- a/meta/classes/package_rpm.bbclass
->     +++ b/meta/classes/package_rpm.bbclass
->     @@ -130,12 +130,12 @@ resolve_package_rpm () {
->     shift
->     local pkg_name=""
->     for solve in `cat ${conffile}`; do
->     - pkg_name=$(${RPM} -D "_dbpath $solve" -D "__dbi_txn create nofsync" -q
->     --yaml $@ | grep -i 'Packageorigin' | cut -d : -f 2)
->     - if [ -n "$pkg_name" ]; then
->     + pkg_name=$(${RPM} -D "_dbpath $solve" -D "__dbi_txn create nofsync" -q
->     --qf "%{packageorigin}\n" "$@" | grep -v "is not installed" || true)
->     + if [ -n "$pkg_name" -a "$pkg_name" != "(none)" ]; then
->     + echo $pkg_name
->     break;
->     fi
->     done
->     - echo $pkg_name
->     }
->
->     # rpm common command and options
->     @@ -401,9 +401,9 @@ package_install_internal_rpm () {
->
->     # Now that we have a solution, pull out a list of what to install...
->     echo "Manifest: ${target_rootfs}/install/install.manifest"
->     - ${RPM} -D "_dbpath ${target_rootfs}/install" -qa --yaml \
->     + ${RPM} -D "_dbpath ${target_rootfs}/install" -qa --qf "%{packageorigin}\n" \
->     -D "__dbi_txn create nofsync private" \
->     - | grep -i 'Packageorigin' | cut -d : -f 2 >
->     ${target_rootfs}/install/install_solution.manifest
->     + > ${target_rootfs}/install/install_solution.manifest
->
->     touch ${target_rootfs}/install/install_multilib_solution.manifest
->
->     @@ -421,9 +421,9 @@ package_install_internal_rpm () {
->
->     # Now that we have a solution, pull out a list of what to install...
->     echo "Manifest: ${target_rootfs}/install/install_multilib.manifest"
->     - ${RPM} -D "_dbpath ${target_rootfs}/install" -qa --yaml \
->     + ${RPM} -D "_dbpath ${target_rootfs}/install" -qa --qf "%{packageorigin}\n" \
->     -D "__dbi_txn create nofsync private" \
->     - | grep -i 'Packageorigin' | cut -d : -f 2 >
->     ${target_rootfs}/install/install_multilib_solution.manifest
->     + > ${target_rootfs}/install/install_multilib_solution.manifest
->
->     fi
->
->     @@ -478,9 +478,9 @@ EOF
->     -U --justdb --noscripts --notriggers --noparentdirs --nolinktos --ignoresize \
->     ${target_rootfs}/install/initial_install.manifest
->
->     - ${RPM} -D "_dbpath ${target_rootfs}/initial" -qa --yaml \
->     + ${RPM} -D "_dbpath ${target_rootfs}/initial" -qa --qf "%{packageorigin}\n" \
->     -D "__dbi_txn create nofsync private" \
->     - | grep -i 'Packageorigin' | cut -d : -f 2 >
->     ${target_rootfs}/install/initial_solution.manifest
->     + > ${target_rootfs}/install/initial_solution.manifest
->
->     rpm_update_pkg ${target_rootfs}/install/initial_solution.manifest
->
->     diff --git a/meta/recipes-devtools/rpm/rpm/rpm-packageorigin.patch
->     b/meta/recipes-devtools/rpm/rpm/rpm-packageorigin.patch
->     new file mode 100644
->     index 0000000..3c6dad4
->     --- /dev/null
->     +++ b/meta/recipes-devtools/rpm/rpm/rpm-packageorigin.patch
->     @@ -0,0 +1,23 @@
->     +Add the ability to query the packageorigin
->     +
->     +Written by jbj at rpm5.org <http://rpm5.org>
->     +
->     +Signed-off-by: Mark Hatle <mark.hatle@windriver.com
->     <mailto:mark.hatle@windriver.com>>
->     +
->     +Index: rpm-5.4.8/rpmdb/hdrfmt.c
->     +===================================================================
->     +--- rpm-5.4.8.orig/rpmdb/hdrfmt.c
->     ++++ rpm-5.4.8/rpmdb/hdrfmt.c
->     +@@ -2403,8 +2403,10 @@ static int pkgoriginTag(Header h, HE_t
->     + int rc = 1;
->     +
->     + he->tag = RPMTAG_PACKAGEORIGIN;
->     +- if (!headerGet(h, he, HEADERGET_NOEXTENSION)
->     +- && (origin = headerGetOrigin(h)) != NULL)
->     ++ /* XXX two sources for tag data: what search precedence? */
->     ++ if (headerGet(h, he, HEADERGET_NOEXTENSION))
->     ++ rc = 0;
->     ++ else if ((origin = headerGetOrigin(h)) != NULL)
->     + {
->     + he->t = RPM_STRING_TYPE;
->     + he->p.str = xstrdup(origin);
->     diff --git a/meta/recipes-devtools/rpm/rpm_5.4.9.bb <http://rpm_5.4.9.bb>
->     b/meta/recipes-devtools/rpm/rpm_5.4.9.bb <http://rpm_5.4.9.bb>
->     index 2ca0f58..a38a684 100644
->     --- a/meta/recipes-devtools/rpm/rpm_5.4.9.bb <http://rpm_5.4.9.bb>
->     +++ b/meta/recipes-devtools/rpm/rpm_5.4.9.bb <http://rpm_5.4.9.bb>
->     @@ -43,7 +43,7 @@ LICENSE = "LGPLv2.1"
->     LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=2d5025d4aa3495befef8f17206a5b0a1"
->
->     DEPENDS = "libpcre attr acl popt ossp-uuid file"
->     -PR = "r41"
->     +PR = "r42"
->
->     # rpm2cpio is a shell script, which is part of the rpm src.rpm. It is needed
->     # in order to extract the distribution SRPM into a format we can extract...
->     @@ -70,6 +70,7 @@ SRC_URI =
->     "http://www.rpm5.org/files/rpm/rpm-5.4/rpm-5.4.9-0.20120508.src.rpm;ex
->     file://rpm-macros.patch \
->     file://rpm-lua.patch \
->     file://rpm-ossp-uuid.patch \
->     + file://rpm-packageorigin.patch \
->     "
->
->     SRC_URI[md5sum] = "60d56ace884340c1b3fcac6a1d58e768"
->     --
->     1.7.3.4
->
->
->     _______________________________________________
->     Openembedded-core mailing list
->     Openembedded-core@lists.openembedded.org
->     <mailto:Openembedded-core@lists.openembedded.org>
->     http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
->
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+The following changes since commit d7bf94647f17c0382caad8af0bdda837b14b22dc:
+
+  fotowall: Add #include ui_wizard.h to ExportWizard.cpp (2012-05-16 16:20:31 -0700)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib sgarman/denzil-next-testing
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgarman/denzil-next-pull2
+
+Jesse Zhang (1):
+  beecrypt: disable java
+
+Joe Slater (1):
+  shared-mime-info: fix build race condition
+
+Joshua Lock (1):
+  sanity.bbclass: copy the data store and finalise before running
+    checks
+
+Laurentiu Palcu (1):
+  freetype: upgrade to 2.4.9
+
+Mihai Lindner (1):
+  sudo: fixed wrong `chmod` path
+
+Paul Eggleton (1):
+  classes/sanity: send sanity check failure as a separate event for Hob
+
+Paul Gortmaker (1):
+  gitignore: add wildcard to match toplevel patch files
+
+Richard Purdie (2):
+  bitbake.conf: Improve wget timeouts
+  image.bbclass: Ensure ${S} is cleaned at the start of rootfs
+    generation
+
+Robert Yang (1):
+  rpm 5.4.0: respect to the arch when choose the alternatives
+
+Scott Garman (1):
+  runqemu-ifup: enable arp proxying
+
+Song.Li (1):
+  groff: Fix build on Fedora 17
+
+Tom Zanussi (2):
+  gnupg: add libusb to DEPENDS
+  gnupg: disable CCID driver
+
+Xiaofeng Yan (1):
+  ncurses: Avoid occasional builling failure when having parallel
+    processable task
+
+Zhai Edwin (1):
+  webkit-gtk: Use glib as unicode backend to avoid browser crash
+
+ .gitignore                                         |    1 +
+ meta/classes/image.bbclass                         |    1 +
+ meta/classes/sanity.bbclass                        |  143 +++++++++++---------
+ meta/conf/bitbake.conf                             |    8 +-
+ meta/recipes-core/ncurses/ncurses.inc              |   23 +++-
+ .../rpm/rpm/rpm-respect-arch.patch                 |   67 +++++++++
+ meta/recipes-devtools/rpm/rpm_5.4.0.bb             |    3 +-
+ meta/recipes-extended/groff/groff_1.20.1.bb        |   24 +++-
+ meta/recipes-extended/sudo/sudo_1.8.4p4.bb         |    6 +-
+ .../no-hardcode.patch                              |    0
+ .../{freetype_2.4.8.bb => freetype_2.4.9.bb}       |    4 +-
+ meta/recipes-sato/webkit/webkit-gtk_svn.bb         |   10 +-
+ meta/recipes-support/beecrypt/beecrypt_4.2.1.bb    |    4 +-
+ meta/recipes-support/gnupg/gnupg_2.0.18.bb         |    3 +-
+ .../shared-mime-info/install-data-hook.patch       |   21 +++
+ .../shared-mime-info/shared-mime-info_0.91.bb      |    5 +-
+ scripts/runqemu-ifup                               |    1 +
+ 17 files changed, 240 insertions(+), 84 deletions(-)
+ create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-respect-arch.patch
+ rename meta/recipes-graphics/freetype/{freetype-2.4.8 => freetype-2.4.9}/no-hardcode.patch (100%)
+ rename meta/recipes-graphics/freetype/{freetype_2.4.8.bb => freetype_2.4.9.bb} (91%)
+ create mode 100644 meta/recipes-support/shared-mime-info/shared-mime-info/install-data-hook.patch
+
+-- 
+1.7.9.5
 
 
 
