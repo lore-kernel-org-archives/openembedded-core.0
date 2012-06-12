@@ -1,22 +1,28 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <laurentiu.palcu@intel.com>) id 1SeT1E-0002Lf-Sx
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1SeT8g-0002VW-2D
 	for openembedded-core@lists.openembedded.org;
-	Tue, 12 Jun 2012 17:28:33 +0200
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 12 Jun 2012 08:17:58 -0700
+	Tue, 12 Jun 2012 17:36:14 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 12 Jun 2012 08:25:38 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="111200981"
-Received: from lpalcu-linux (HELO localhost.localdomain) ([10.237.105.41])
-	by AZSMGA002.ch.intel.com with ESMTP; 12 Jun 2012 08:17:57 -0700
-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 12 Jun 2012 18:17:52 +0300
-Message-Id: <1339514272-7427-3-git-send-email-laurentiu.palcu@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <1339514272-7427-1-git-send-email-laurentiu.palcu@intel.com>
-References: <1339514272-7427-1-git-send-email-laurentiu.palcu@intel.com>
-Subject: [PATCH 2/2] connman: make useradd parameters consistent with rootless X
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="151978231"
+Received: from unknown (HELO helios.localnet) ([10.252.120.143])
+	by orsmga001.jf.intel.com with ESMTP; 12 Jun 2012 08:25:37 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: "Marinescu, Bogdan A" <bogdan.a.marinescu@intel.com>
+Date: Tue, 12 Jun 2012 16:25:36 +0100
+Message-ID: <2704914.5qldZ3P3Ag@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.8.3 (Linux/3.2.0-24-generic-pae; KDE/4.8.3; i686; ; )
+In-Reply-To: <CAMZjud3vpBnst6PWtSq-io+5CPZZdCCM7whOOSWbi9YCzbE7sQ@mail.gmail.com>
+References: <1339487948-30612-1-git-send-email-bogdan.a.marinescu@intel.com>
+	<CAMKF1so7Y_ccRi_RcfjRzzbska1WRbY7N8w=VuN=aFp-U5oYSw@mail.gmail.com>
+	<CAMZjud3vpBnst6PWtSq-io+5CPZZdCCM7whOOSWbi9YCzbE7sQ@mail.gmail.com>
+MIME-Version: 1.0
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] strace: update to 4.7
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,36 +37,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Jun 2012 15:28:33 -0000
+X-List-Received-Date: Tue, 12 Jun 2012 15:36:14 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Both connman and rootless X share the same xuser. However, useradd
-parameters are not consistent and if connman runs useradd first,
-rootless X will be broken.
+On Tuesday 12 June 2012 18:13:35 Marinescu, Bogdan A wrote:
+> On Tue, Jun 12, 2012 at 4:59 PM, Khem Raj <raj.khem@gmail.com> wrote:
+> > You have to build it on uclibc to see if you can drop this patch or not.
+> 
+> Thanks for your reply. I built with uclibc and the build succeeded.
+> Not sure how to test it though. Is there a 'standard' image that I can
+> build in order to test? I tried core-image-lsb, but it fails with an
+> error.
 
-[Yocto #2467]
+Any core-image-* would do e.g. core-image-minimal, and you could just use 
+CORE_IMAGE_EXTRA_INSTALL += "strace" in your local.conf to have strace 
+installed in the image by default for the purpose of doing this test.
 
-Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
----
- meta/recipes-connectivity/connman/connman.inc |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Cheers,
+Paul 
 
-diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipes-connectivity/connman/connman.inc
-index 4fb7b43..eb174c5 100644
---- a/meta/recipes-connectivity/connman/connman.inc
-+++ b/meta/recipes-connectivity/connman/connman.inc
-@@ -47,8 +47,8 @@ INITSCRIPT_NAME = "connman"
- INITSCRIPT_PARAMS = "start 05 5 2 3 . stop 22 0 1 6 ."
- 
- USERADD_PACKAGES = "${PN}"
--USERADD_PARAM_${PN} = "--system --no-create-home \
--                       --shell /bin/false --groups video,tty,audio \
-+USERADD_PARAM_${PN} = "--create-home \
-+                       --groups video,tty,audio \
-                        --user-group xuser"
- 
- inherit autotools pkgconfig update-rc.d useradd
 -- 
-1.7.9.5
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
