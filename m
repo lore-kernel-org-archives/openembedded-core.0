@@ -1,33 +1,30 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1SeOEF-0006FX-SK for openembedded-core@lists.openembedded.org;
-	Tue, 12 Jun 2012 12:21:40 +0200
+	id 1SeR3J-0007Qz-1W for openembedded-core@lists.openembedded.org;
+	Tue, 12 Jun 2012 15:22:33 +0200
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q5CAB5d7003104
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q5CDBvwT010616
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jun 2012 11:11:05 +0100
+	Tue, 12 Jun 2012 14:11:57 +0100
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 30915-05 for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jun 2012 11:11:01 +0100 (BST)
+	id 08346-09 for <openembedded-core@lists.openembedded.org>;
+	Tue, 12 Jun 2012 14:11:51 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q5CAAv0L003092
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q5CDBm4T010610
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jun 2012 11:10:59 +0100
-Message-ID: <1339495860.28854.18.camel@ted>
+	Tue, 12 Jun 2012 14:11:49 +0100
+Message-ID: <1339506707.8065.0.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Tue, 12 Jun 2012 11:11:00 +0100
-In-Reply-To: <cover.1339438568.git.mark.hatle@windriver.com>
-References: <cover.1339438568.git.mark.hatle@windriver.com>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Tue, 12 Jun 2012 14:11:47 +0100
 X-Mailer: Evolution 3.2.2- 
 Mime-Version: 1.0
 X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 0/9 v7] Uprev RPM to 5.4.9
+Subject: [PATCH] openjade-native: Ensure we reautoconf the package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,87 +39,140 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Jun 2012 10:21:40 -0000
+X-List-Received-Date: Tue, 12 Jun 2012 13:22:33 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Mon, 2012-06-11 at 13:18 -0500, Mark Hatle wrote:
-> Fix a regression in rpm dependency generated caused by default settings
-> changing.  This has been fixed (and verified on the yocto project build
-> servers.)  This should be the final version....
-> 
-> This has been rebased, and patches 1 and 2 were changed to deal with the
-> fix for the macros files.
-> 
-> v6 message follows:
-> 
-> Patch 6/8 was reworked to remove the manifest size check.
-> Patch 8/8 is new and includes the manifest check removed from 6/8 as well as
-> one that was missed in previous testing.
-> 
-> v5 message follows:
-> 
-> Only 7/7 is new in the version.  Due to the removal of the RPMVSF_NOSIGNATURES
-> flag in RPM5 5.4.9, createrepo also needed to have this flag removed.
-> 
-> v4 message follows:
-> 
-> Only 6/6 is new in this version.  RPM 5.4.9 appears to be more demanding
-> for both the DB_CONFIG file and empty manifest files.  The new patch resolves
-> this issue by ensuring that the DB_CONFIG is always generated, and empty
-> manifest files do not get installed.
-> 
-> Patches 1-5 are identical to the v3 versions.
-> 
-> v3 messages follows:
-> 
-> Rebase of the v2 changes.
-> 
-> Re-disabled the "test" chunk..  this should resolve the hang problem a
-> few people have observed.
-> 
-> v2 message follows:
-> 
-> Berkley DB also gets upreved, and a new package ossp-uuid gets added to
-> the system.
-> 
-> This was -heavily- tested with and without zypper on IA, and PPC.
-> 
-> In addition a minor performance enhancement with a query operation was added.
-> 
-> The uprev also adds the capability of using PACKAGECONFIG settings to tailor
-> the behavior of RPM.
-> 
-> V2 changes:
-> 
-> Fix a problem with libuuid.so from util-linux would sometimes be linked into
-> the binary.
-> 
-> Also force libzypp, sat-solver and zypper to refresh via a PR bump.
-> 
-> The following changes since commit ba22e4fcf07eb8007f6d500908d503f1d3dbdd16:
-> 
->   nasm: updated to 2.10.01 (2012-06-11 13:55:46 +0100)
-> 
-> are available in the git repository at:
->   git://git.pokylinux.org/poky-contrib mhatle/rpm
->   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=mhatle/rpm
-> 
-> Mark Hatle (9):
->   rpm: Upgrade RPM to 5.4.8  (db to 5.3.15)
->   rpm: Upgrade RPM to 5.4.9
->   ossp-uuid: Add oss-uuid package and RPM 5.4.9 integration
->   package_rpm: Add capability to directly query packageorigin
->   rpm: Bump PR numbers on componets that require RPM
->   rootfs_rpm.bbclass: Update database configuration file
->   createrepo: For compatibility w/ RPM 5.4.9 remove RPMVSF_NOSIGNATURES
->     flag
->   package_rpm: Verify that the package manifests are not empty
->   rpm: Ensure pkgconfig deps don't stray from the package being built
+Currently since configure.in in is in a subdirectory, we don't reautoconf the
+recipe. We really need to do this, to update things like the libtool script used
+and fix various issues such as those that could creep in if a reautoconf is
+triggered for some reason. Since this source only calls AM_INIT_AUTOMAKE to gain the
+PACKAGE and VERSION definitions and that macro now errors if Makefile.am doesn't
+exist, we need to add these definitions manually.
 
-Merged to master, thanks.
+These changes avoid failures like:
 
-Richard
+----
+| ...
+| DssslApp.cxx:117:36: error: 'PACKAGE' was not declared in this scope
+| DssslApp.cxx:118:36: error: 'VERSION' was not declared in this scope
+| make[2]: *** [DssslApp.lo] Error 1
+----
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+diff --git a/meta/recipes-devtools/openjade/openjade-1.3.2/reautoconf.patch b/meta/recipes-devtools/openjade/openjade-1.3.2/reautoconf.patch
+new file mode 100644
+index 0000000..5102c6a
+--- a/dev/null
++++ b/meta/recipes-devtools/openjade/openjade-1.3.2/reautoconf.patch
+@@ -0,0 +1,83 @@
++Ensure we reautoconf the packag
++
++Currently since configure.in in is in a subdirectory, we don't reautoconf the 
++ecipe. We really need to do this, to update things like the libtool script used
++ and fix various issues such as those that could creep in if a reautoconf is 
++triggered for some reason. Since this source only calls AM_INIT_AUTOMAKE to 
++gain the PACKAGE and VERSION definitions and that macro now errors if Makefile.am 
++doesn't exist, we need to add these definitions manually. 
++
++These changes avoid failures like: 
++---- 
++| ... 
++| DssslApp.cxx:117:36: error: 'PACKAGE' was not declared in this scope 
++| DssslApp.cxx:118:36: error: 'VERSION' was not declared in this scope 
++| make[2]: *** [DssslApp.lo] Error 1 ----
++
++Upstream-Status: Pending
++
++RP 2012/6/12
++
++Index: openjade-1.3.2/acinclude.m4
++===================================================================
++--- /dev/null	1970-01-01 00:00:00.000000000 +0000
+++++ openjade-1.3.2/acinclude.m4	2012-06-12 12:48:54.871365344 +0000
++@@ -0,0 +1,39 @@
+++dnl Configure-time switch with default
+++dnl
+++dnl Each switch defines an --enable-FOO and --disable-FOO option in
+++dnl the resulting configure script.
+++dnl
+++dnl Usage:
+++dnl smr_SWITCH(name, description, default, pos-def, neg-def)
+++dnl
+++dnl where:
+++dnl
+++dnl name        name of switch; generates --enable-name & --disable-name
+++dnl             options
+++dnl description help string is set to this prefixed by "enable" or
+++dnl             "disable", whichever is the non-default value
+++dnl default     either "on" or "off"; specifies default if neither
+++dnl             --enable-name nor --disable-name is specified
+++dnl pos-def     a symbol to AC_DEFINE if switch is on (optional)
+++dnl neg-def     a symbol to AC_DEFINE if switch is off (optional)
+++dnl
+++AC_DEFUN(smr_SWITCH, [
+++    AC_MSG_CHECKING(whether to enable $2)
+++    AC_ARG_ENABLE(
+++        $1,
+++        ifelse($3, on,
+++            [  --disable-[$1]    disable [$2]],
+++            [  --enable-[$1]     enable [$2]]),
+++        [ if test "$enableval" = yes; then
+++            AC_MSG_RESULT(yes)
+++            ifelse($4, , , AC_DEFINE($4))
+++        else
+++            AC_MSG_RESULT(no)
+++            ifelse($5, , , AC_DEFINE($5))
+++        fi ],
+++        ifelse($3, on,
+++           [ AC_MSG_RESULT(yes)
+++             ifelse($4, , , AC_DEFINE($4)) ],
+++           [ AC_MSG_RESULT(no)
+++            ifelse($5, , , AC_DEFINE($5))]))])
+++
++Index: openjade-1.3.2/config/configure.in
++===================================================================
++--- openjade-1.3.2.orig/config/configure.in	2012-06-12 12:47:20.735365445 +0000
+++++ openjade-1.3.2/config/configure.in	2012-06-12 12:48:17.507364080 +0000
++@@ -12,9 +12,12 @@
++ dnl  Credits: this autoconf script was largely "inspired" <g> by the
++ dnl  autoconf script around SP made by Henry Thompson.
++ dnl
++-AC_INIT(dsssl)
+++AC_INIT([openjade], [1.3.2])
++ AC_CONFIG_AUX_DIR(config)
++-AM_INIT_AUTOMAKE( openjade, 1.3.2)
+++AC_SUBST([PACKAGE], [openjade])
+++AC_SUBST([VERSION], [1.3.2])
+++AC_DEFINE_UNQUOTED(PACKAGE, "$PACKAGE")
+++AC_DEFINE_UNQUOTED(VERSION, "$VERSION")
++ TOP=`pwd`
++ AC_SUBST(TOP)
++ dnl
+diff --git a/meta/recipes-devtools/openjade/openjade-native_1.3.2.bb b/meta/recipes-devtools/openjade/openjade-native_1.3.2.bb
+index 18d311e..4bcc9f9 100644
+--- a/meta/recipes-devtools/openjade/openjade-native_1.3.2.bb
++++ b/meta/recipes-devtools/openjade/openjade-native_1.3.2.bb
+@@ -14,6 +14,7 @@ RDEPENDS_${PN} = "sgml-common-native"
+ 
+ SRC_URI = "${SOURCEFORGE_MIRROR}/openjade/openjade-${PV}.tar.gz \
+            file://makefile.patch \
++           file://reautoconf.patch \
+ 	   file://user-declared-default-constructor.patch"
+ 
+ SRC_URI[md5sum] = "7df692e3186109cc00db6825b777201e"
+@@ -38,6 +39,9 @@ CFLAGS =+ "-I${S}/include"
+ SSTATEPOSTINSTFUNCS += "openjade_sstate_postinst"
+ SYSROOT_PREPROCESS_FUNCS += "openjade_sysroot_preprocess"
+ 
++do_configure_prepend () {
++	cp ${S}/config/configure.in ${S}/
++}
+ 
+ # We need to do this else the source interdependencies aren't generated and
+ # build failures can result (e.g. zero size style/Makefile.dep file)
+
 
 
 
