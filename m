@@ -1,20 +1,22 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <lianhao.lu@intel.com>) id 1SeOE0-000648-6M
+	(envelope-from <lianhao.lu@intel.com>) id 1SeOE2-00064a-7r
 	for openembedded-core@lists.openembedded.org;
-	Tue, 12 Jun 2012 12:21:24 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 12 Jun 2012 03:10:48 -0700
+	Tue, 12 Jun 2012 12:21:26 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 12 Jun 2012 03:10:50 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="151833351"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="111100491"
 Received: from llu-piketon.sh.intel.com (HELO localhost) ([10.239.36.123])
-	by orsmga001.jf.intel.com with ESMTP; 12 Jun 2012 03:10:47 -0700
+	by AZSMGA002.ch.intel.com with ESMTP; 12 Jun 2012 03:10:50 -0700
 From: Lianhao Lu <lianhao.lu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 12 Jun 2012 18:10:04 +0800
-Message-Id: <cover.1339495723.git.lianhao.lu@intel.com>
+Date: Tue, 12 Jun 2012 18:10:05 +0800
+Message-Id: <40eb390623c511dadf467d19e146a4dc92b70856.1339495723.git.lianhao.lu@intel.com>
 X-Mailer: git-send-email 1.7.0.4
-Subject: [PATCH V2 0/3] Use openssh to provide sftp-server service
+In-Reply-To: <cover.1339495723.git.lianhao.lu@intel.com>
+References: <cover.1339495723.git.lianhao.lu@intel.com>
+Subject: [PATCH V2 1/3] task-core-ssh-openssh: Added openssh-sftp-server.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,31 +31,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Jun 2012 10:21:24 -0000
+X-List-Received-Date: Tue, 12 Jun 2012 10:21:26 -0000
 
-This patch set changes dropbear to openssh in the referenced core sato-sdk
-image to provide the sftp-server service which is required by some other 
-tools, e.g. the Eclipse Remote System Explorer.
+Added openssh-sftp-server as the default.
 
-The following changes since commit 0eddc176e73e74d4b1a7d3163d65f619fcd4baf0:
-  Saul Wold (1):
-        gnomebase: add GNOME_COMPRESS_TYPE variable
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib llu/ssh
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=llu/ssh
-
-Lianhao Lu (3):
-  task-core-ssh-openssh: Added openssh-sftp-server.
-  core-image-sato-sdk: Replace dropbear by openssh.
-  classes/image: Allow openssh empty passwords login.
-
- meta/classes/core-image.bbclass                  |    2 ++
- meta/classes/image.bbclass                       |   10 +++++++++-
+Signed-off-by: Lianhao Lu <lianhao.lu@intel.com>
+---
  meta/recipes-core/tasks/task-core-ssh-openssh.bb |    2 +-
- meta/recipes-sato/images/core-image-sato-sdk.bb  |    4 +++-
- 4 files changed, 15 insertions(+), 3 deletions(-)
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+diff --git a/meta/recipes-core/tasks/task-core-ssh-openssh.bb b/meta/recipes-core/tasks/task-core-ssh-openssh.bb
+index 794399a..2e22d38 100644
+--- a/meta/recipes-core/tasks/task-core-ssh-openssh.bb
++++ b/meta/recipes-core/tasks/task-core-ssh-openssh.bb
+@@ -12,6 +12,6 @@ PACKAGES = "\
+ 
+ ALLOW_EMPTY = "1"
+ 
+-RDEPENDS_task-core-ssh-openssh = "openssh"
++RDEPENDS_task-core-ssh-openssh = "openssh openssh-sftp-server"
+ RDEPENDS_task-core-ssh-openssh-dbg = "openssh-dbg"
+ RDEPENDS_task-core-ssh-openssh-dev = "openssh-dev"
+-- 
+1.7.0.4
 
 
 
