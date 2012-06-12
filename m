@@ -1,22 +1,22 @@
 Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <laurentiu.palcu@intel.com>) id 1SeT1E-0002Le-Lz
+	(envelope-from <laurentiu.palcu@intel.com>) id 1SeT1E-0002Lf-Sx
 	for openembedded-core@lists.openembedded.org;
-	Tue, 12 Jun 2012 17:28:32 +0200
+	Tue, 12 Jun 2012 17:28:33 +0200
 Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 12 Jun 2012 08:17:57 -0700
+	by azsmga102.ch.intel.com with ESMTP; 12 Jun 2012 08:17:58 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="111200976"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="111200981"
 Received: from lpalcu-linux (HELO localhost.localdomain) ([10.237.105.41])
-	by AZSMGA002.ch.intel.com with ESMTP; 12 Jun 2012 08:17:56 -0700
+	by AZSMGA002.ch.intel.com with ESMTP; 12 Jun 2012 08:17:57 -0700
 From: Laurentiu Palcu <laurentiu.palcu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 12 Jun 2012 18:17:51 +0300
-Message-Id: <1339514272-7427-2-git-send-email-laurentiu.palcu@intel.com>
+Date: Tue, 12 Jun 2012 18:17:52 +0300
+Message-Id: <1339514272-7427-3-git-send-email-laurentiu.palcu@intel.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <1339514272-7427-1-git-send-email-laurentiu.palcu@intel.com>
 References: <1339514272-7427-1-git-send-email-laurentiu.palcu@intel.com>
-Subject: [PATCH 1/2] sanity.bbclass: warn the user if BBPATH contains wrong entries
+Subject: [PATCH 2/2] connman: make useradd parameters consistent with rootless X
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,40 +31,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Jun 2012 15:28:32 -0000
+X-List-Received-Date: Tue, 12 Jun 2012 15:28:33 -0000
 
-If BBPATH references the working directory, the user is warned and asked
-to fix the problem.
+Both connman and rootless X share the same xuser. However, useradd
+parameters are not consistent and if connman runs useradd first,
+rootless X will be broken.
 
-[Yocto #1465]
+[Yocto #2467]
 
 Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
 ---
- meta/classes/sanity.bbclass |   11 +++++++++++
- 1 file changed, 11 insertions(+)
+ meta/recipes-connectivity/connman/connman.inc |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-index f79fc3f..6ed1e6f 100644
---- a/meta/classes/sanity.bbclass
-+++ b/meta/classes/sanity.bbclass
-@@ -387,6 +387,17 @@ def check_sanity(sanity_data):
-     if "." in paths or "" in paths:
-         messages = messages + "PATH contains '.' or '', which will break the build, please remove this."
+diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipes-connectivity/connman/connman.inc
+index 4fb7b43..eb174c5 100644
+--- a/meta/recipes-connectivity/connman/connman.inc
++++ b/meta/recipes-connectivity/connman/connman.inc
+@@ -47,8 +47,8 @@ INITSCRIPT_NAME = "connman"
+ INITSCRIPT_PARAMS = "start 05 5 2 3 . stop 22 0 1 6 ."
  
-+    bbpaths = sanity_data.getVar('BBPATH', True).split(":")
-+    if "." in bbpaths or "" in bbpaths:
-+        # TODO: change the following message to fatal when all BBPATH issues
-+        # are fixed
-+        bb.warn("BBPATH references the current directory, either through "    \
-+                "an empty entry, or a '.'.\n\t This is unsafe and means your "\
-+                "layer configuration is adding empty elements to BBPATH.\n\t "\
-+                "Please check your layer.conf files and other BBPATH "        \
-+                "settings to remove the current working directory "           \
-+                "references.");
-+
-     if sanity_data.getVar('TARGET_ARCH', True) == "arm":
-         # This path is no longer user-readable in modern (very recent) Linux
-         try:
+ USERADD_PACKAGES = "${PN}"
+-USERADD_PARAM_${PN} = "--system --no-create-home \
+-                       --shell /bin/false --groups video,tty,audio \
++USERADD_PARAM_${PN} = "--create-home \
++                       --groups video,tty,audio \
+                        --user-group xuser"
+ 
+ inherit autotools pkgconfig update-rc.d useradd
 -- 
 1.7.9.5
 
