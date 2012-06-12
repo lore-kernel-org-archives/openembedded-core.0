@@ -1,27 +1,20 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1SeTlI-0003fO-5s
+	(envelope-from <bruce.ashfield@windriver.com>) id 1SeUyT-0004co-F6
 	for openembedded-core@lists.openembedded.org;
-	Tue, 12 Jun 2012 18:16:08 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 12 Jun 2012 09:05:32 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="151998391"
-Received: from unknown (HELO helios.localnet) ([10.252.120.143])
-	by orsmga001.jf.intel.com with ESMTP; 12 Jun 2012 09:05:31 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>
-Date: Tue, 12 Jun 2012 17:05:30 +0100
-Message-ID: <1452406.eSFiROSBlj@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.8.3 (Linux/3.2.0-24-generic-pae; KDE/4.8.3; i686; ; )
-In-Reply-To: <alpine.DEB.2.02.1206121129470.13822@oneiric>
-References: <1339487948-30612-1-git-send-email-bogdan.a.marinescu@intel.com>
-	<2704914.5qldZ3P3Ag@helios>
-	<alpine.DEB.2.02.1206121129470.13822@oneiric>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] strace: update to 4.7
+	Tue, 12 Jun 2012 19:33:49 +0200
+Received: from yow-bashfiel-l1.wrs.com (yow-bashfiel-d3.wrs.com
+	[128.224.147.67])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q5CHN9EA023927;
+	Tue, 12 Jun 2012 10:23:09 -0700 (PDT)
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: richard.purdie@linuxfoundation.org
+Date: Tue, 12 Jun 2012 13:22:47 -0400
+Message-Id: <cover.1339521554.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 1.7.5.4
+Cc: dvhart@linux.intel.com, openembedded-core@lists.openembedded.org,
+	saul.wold@intel.com
+Subject: [PATCH 0/2] linux-yocto/linux-yocto-rt: updats and 3.4-rt support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,36 +29,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Jun 2012 16:16:08 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 12 Jun 2012 17:33:49 -0000
 
-On Tuesday 12 June 2012 11:31:59 Robert P. J. Day wrote:
-> On Tue, 12 Jun 2012, Paul Eggleton wrote:
-> > Any core-image-* would do e.g. core-image-minimal, and you could just use
-> > CORE_IMAGE_EXTRA_INSTALL += "strace" in your local.conf to have strace
-> > installed in the image by default for the purpose of doing this test.
-> 
->   i remember running across precisely that and being somewhat confused
-> by how that was described:
-> 
-> http://permalink.gmane.org/gmane.comp.handhelds.openembedded.core/18105
-> 
-> i still think there's some redundancy involving using both "_EXTRA_"
-> and "+=" in the same directive.
+Richard/Saul,
 
-Ultimately it's a variable like any other. Using += works regardless of 
-whether someone has already set it or not and doesn't disturb any existing 
-items if they have.
+When I sent the initial 3.4 kernel and kernel recipes -rt wasn't
+building, so I didn't include it. I've since refreshed the patch,
+and done build/boot testing. 3.4.1-rt9 is up and running.
 
-I agree that in our examples we should try to be consistent though.
+I've also got a yaffs2 update, and rc6 cleanup from nitin for the
+3.4 kernel repository in this pull request.
+
+cc: Darren Hart <dvhart@linux.intel.com>
 
 Cheers,
-Paul
+
+Bruce
+
+The following changes since commit a9c48f05ea9eb0901715cd628280eff22da766aa:
+
+  linux-yocto/3.4: update yaffs2 and drop rc6 (2012-06-12 13:14:36 -0400)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib zedd/kernel
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+
+Bruce Ashfield (2):
+  linux-yocto/3.4: create linux-yocto-rt recipe
+  linux-yocto/meta-yocto: update yaffs2 and drop rc6
+
+ .../recipes-kernel/linux/linux-yocto_3.4.bbappend  |    8 ++--
+ meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb    |   32 ++++++++++++++++++++
+ meta/recipes-kernel/linux/linux-yocto_3.4.bb       |    2 +-
+ 3 files changed, 37 insertions(+), 5 deletions(-)
+ create mode 100644 meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb
 
 -- 
+1.7.5.4
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
 
