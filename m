@@ -1,38 +1,20 @@
-Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bogdan.a.marinescu@intel.com>) id 1SeSyP-0002Da-HS
+	(envelope-from <sgw@linux.intel.com>) id 1SeSyo-0002Fw-Ft
 	for openembedded-core@lists.openembedded.org;
-	Tue, 12 Jun 2012 17:25:37 +0200
-Received: from mail-vb0-f52.google.com ([209.85.212.52])
-	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 12 Jun 2012 08:13:56 -0700
-Received: by vbzb23 with SMTP id b23so2939223vbz.25
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Jun 2012 08:13:55 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type:x-gm-message-state;
-	bh=RmSkgfz4HW9nxdf2dy6WXhu7ks9kRy1uIKv1a+lkd6Y=;
-	b=V7IHcmT04uSQcNx6dUzOWilv3Js/jjMqq2OUKg0DIx6E6QvfRmaXQhPaxWFGizk36v
-	BNmobGmtfkqv3eK7ZcwQLf1xSfVfUj5Nykjmdbd2csngyKpCsbQMddMywlamkxIpMFvC
-	3HyZG9m01feMScKZIqvdtMUy9NmQSCyGydTf4v/JI0LrZKYEsjttmpvwKKz0YNlYqrCI
-	NjDArAW3HFA0bjAmi1/YSk4/Qbylyz0CnWWK3+cfUpCie9mWWUCUolR8ONVhykzO3jND
-	bS2ch5FbibSMD+56X76MGnKtCuQ2GPmBulDf3pi0uo1wd9mfTdWggZgw0tu8XzdkB9ES
-	cGFg==
-Received: by 10.220.223.212 with SMTP id il20mr14870034vcb.71.1339514035522;
-	Tue, 12 Jun 2012 08:13:55 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.52.169.200 with HTTP; Tue, 12 Jun 2012 08:13:35 -0700 (PDT)
-In-Reply-To: <CAMKF1so7Y_ccRi_RcfjRzzbska1WRbY7N8w=VuN=aFp-U5oYSw@mail.gmail.com>
-References: <1339487948-30612-1-git-send-email-bogdan.a.marinescu@intel.com>
-	<CAMKF1so7Y_ccRi_RcfjRzzbska1WRbY7N8w=VuN=aFp-U5oYSw@mail.gmail.com>
-From: "Marinescu, Bogdan A" <bogdan.a.marinescu@intel.com>
-Date: Tue, 12 Jun 2012 18:13:35 +0300
-Message-ID: <CAMZjud3vpBnst6PWtSq-io+5CPZZdCCM7whOOSWbi9YCzbE7sQ@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Gm-Message-State: ALoCoQkrX3RGvkExW+HkrABR8Roy9RmieNbgduQ00NthQpH7CZvWLZ45SsdLcDPh0SrwFm/NfITv
-Subject: Re: [PATCH] strace: update to 4.7
+	Tue, 12 Jun 2012 17:26:02 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 12 Jun 2012 08:15:26 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="164690808"
+Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.133])
+	by fmsmga001.fm.intel.com with ESMTP; 12 Jun 2012 08:15:26 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 12 Jun 2012 08:15:26 -0700
+Message-Id: <1339514126-23855-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 1.7.7.6
+Subject: [PATCH 1/1] busybox: Add check for wifi/bluetooth to enable rfkill
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,30 +29,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Jun 2012 15:25:37 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Tue, 12 Jun 2012 15:26:02 -0000
 
-Hi,
+rfkill is a usefull tool when you have a device with bluetooth and wifi enabled
 
-On Tue, Jun 12, 2012 at 4:59 PM, Khem Raj <raj.khem@gmail.com> wrote:
-> On Tue, Jun 12, 2012 at 12:59 AM, Bogdan Marinescu
-> <bogdan.a.marinescu@intel.com> wrote:
->> new version doesn't seem to use sigmask anymore.
->
-> You have to build it on uclibc to see if you can drop this patch or not.
+[YOCTO #2494]
 
-Thanks for your reply. I built with uclibc and the build succeeded.
-Not sure how to test it though. Is there a 'standard' image that I can
-build in order to test? I tried core-image-lsb, but it fails with an
-error.
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+---
+ meta/recipes-core/busybox/busybox.inc |    5 +++++
+ 1 files changed, 5 insertions(+), 0 deletions(-)
 
-Thanks,
-Bogdan
+diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
+index 5b83d32..83b25b4 100644
+--- a/meta/recipes-core/busybox/busybox.inc
++++ b/meta/recipes-core/busybox/busybox.inc
+@@ -57,6 +57,11 @@ def features_to_busybox_settings(d):
+ 	busybox_cfg('nls',  distro_features, 'CONFIG_LOCALE_SUPPORT', cnf, rem)
+ 	busybox_cfg('ipv4', distro_features, 'CONFIG_FEATURE_IFUPDOWN_IPV4', cnf, rem)
+ 	busybox_cfg('ipv6', distro_features, 'CONFIG_FEATURE_IFUPDOWN_IPV6', cnf, rem)
++	busybox_cfg('wifi', distro_features, 'CONFIG_RFKILL', cnf, rem)
++	busybox_cfg('bluetooth', distro_features, 'CONFIG_RFKILL', cnf, rem)
++	machine_features = d.getVar('MACHINE_FEATURES', True).split()
++	busybox_cfg('wifi', machine_features, 'CONFIG_RFKILL', cnf, rem)
++	busybox_cfg('bluetooth', machine_features, 'CONFIG_RFKILL', cnf, rem)
+ 	return "\n".join(cnf), "\n".join(rem)
+ 
+ # X, Y = ${@features_to_uclibc_settings(d)}
+-- 
+1.7.7.6
 
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
