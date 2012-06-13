@@ -1,18 +1,18 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bogdan.a.marinescu@intel.com>) id 1Seix4-0005R0-0n
+	(envelope-from <bogdan.a.marinescu@intel.com>) id 1Sej2i-0005Xz-Ve
 	for openembedded-core@lists.openembedded.org;
-	Wed, 13 Jun 2012 10:29:18 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 13 Jun 2012 01:18:41 -0700
+	Wed, 13 Jun 2012 10:35:09 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 13 Jun 2012 01:24:20 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="156961062"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="152395522"
 Received: from bogdanm (HELO localhost.localdomain) ([10.237.104.85])
-	by orsmga002.jf.intel.com with ESMTP; 13 Jun 2012 01:18:40 -0700
+	by orsmga001.jf.intel.com with ESMTP; 13 Jun 2012 01:24:19 -0700
 From: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 13 Jun 2012 11:20:10 +0300
-Message-Id: <1339575610-21995-1-git-send-email-bogdan.a.marinescu@intel.com>
+Date: Wed, 13 Jun 2012 11:26:15 +0300
+Message-Id: <1339575975-22078-1-git-send-email-bogdan.a.marinescu@intel.com>
 X-Mailer: git-send-email 1.7.9.5
 Subject: gcc-configure-common: Use build time sysroot for target gcc
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -29,9 +29,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Jun 2012 08:29:18 -0000
-
-From: Khem Raj <raj.khem@gmail.com>
+X-List-Received-Date: Wed, 13 Jun 2012 08:35:09 -0000
 
 From: Khem Raj <raj.khem@gmail.com>
 
