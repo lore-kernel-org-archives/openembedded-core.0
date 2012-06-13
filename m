@@ -1,26 +1,38 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Liezhi.Yang@windriver.com>) id 1Sej4k-0005ct-R1
+	(envelope-from <ross.burton@intel.com>) id 1Sel1f-0007wa-NA
 	for openembedded-core@lists.openembedded.org;
-	Wed, 13 Jun 2012 10:37:15 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q5D8QcaK022671
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 13 Jun 2012 12:42:11 +0200
+Received: from mail-qa0-f49.google.com ([209.85.216.49])
+	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 13 Jun 2012 03:31:18 -0700
+Received: by qabj40 with SMTP id j40so1185058qab.15
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Jun 2012 01:26:38 -0700 (PDT)
-Received: from usp-ub10.corp.ad.wrs.com (128.224.163.69) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.1.255.0; Wed, 13 Jun 2012 01:26:37 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 13 Jun 2012 16:27:46 +0800
-Message-ID: <383a2fd8ee2090cddea30dc5a825d3983780298b.1339568577.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.1
-In-Reply-To: <cover.1339568577.git.liezhi.yang@windriver.com>
-References: <cover.1339568577.git.liezhi.yang@windriver.com>
+	Wed, 13 Jun 2012 03:31:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type:x-gm-message-state;
+	bh=taKFOlEKehmgNMPYDc0ye+8xxP+9ogXpyKteJK8PLX8=;
+	b=AjG1geoGTrPZTiGmQFyNmayQxHEm5UDJe8CSo7I1nwN4wn3Ll/BmjQANVjEQ9NzaAz
+	6JwLS5nu37lHsGHgyCQDicywHhfhRjfG6XhROT9V/u/8TEZUpABYivBihJOPTNVJ/5lG
+	c8mqJZXlO9WkkTts54pSzwa0zgghxhPf3HlTssmC17zeRdlLumigdEFBXWLnboZrMSXe
+	v4eqcmMiuQGNkywUshnhDEKo+hnPlxFOlZ3kzn92YzXKHsVJS8wESYCqz2trpOEEodqQ
+	kxSAy16jCpfWthEFgtKozSXkdKzfnVHAhvMP8DSWZQ7Aw4vJ2dBBgenGG5qvcZfZxSfr
+	IW0w==
+Received: by 10.224.220.17 with SMTP id hw17mr11522401qab.89.1339583477261;
+	Wed, 13 Jun 2012 03:31:17 -0700 (PDT)
 MIME-Version: 1.0
-Cc: Zhenfeng.Zhao@windriver.com
-Subject: [PATCH 1/1] gcc-cross: argument list too long when do_install
+Received: by 10.229.251.142 with HTTP; Wed, 13 Jun 2012 03:30:56 -0700 (PDT)
+In-Reply-To: <1339560104-10189-3-git-send-email-laurentiu.palcu@intel.com>
+References: <1339560104-10189-1-git-send-email-laurentiu.palcu@intel.com>
+	<1339560104-10189-3-git-send-email-laurentiu.palcu@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 13 Jun 2012 11:30:56 +0100
+Message-ID: <CAJTo0LYmE3d3m9Ov5TQV3ERdqMGXcECz2nYbfdy+3z-QzxuJFQ@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Gm-Message-State: ALoCoQmaztHcT+fg9J7l/A1iqOeNu4gJ10x0K4v0hL+aWlvMDvGeydF2mSodIQcbgGpPhlk8nenT
+Subject: Re: [PATCH v2 2/2] connman: make useradd parameters consistent with rootless X
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,46 +47,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Jun 2012 08:37:15 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 13 Jun 2012 10:42:11 -0000
+Content-Type: text/plain; charset=UTF-8
 
-There would be an "Argument list too long" error when the length of
-tmpdir is longer than 190, this is caused by:
+On 13 June 2012 05:01, Laurentiu Palcu <laurentiu.palcu@intel.com> wrote:
+> Both connman and rootless X share the same xuser. However, useradd
+> parameters are not consistent and if connman runs useradd first,
+> rootless X will be broken.
 
-headers=`echo $(PLUGIN_HEADERS) | tr ' ' '\012' | sort -u`
+You'll also want to bump PR, or even better use INC_PR in the .inc:
 
-The PLUGIN_HEADERS is too long before sort, so the "echo" can't handle
-it, use the $(sort list) of GNU make which can handle the too long list
-would fix the problem, the header would be short enough after sorted.
-The "tr ' ' '\012'" was used for translating the space to "\n", the
-$(sort list) doesn't need this.
+INC_PR="r6" (current PR is 5, so bump when moving)
 
-This doesn't impact the output, so it doesn't need the PR bump.
+And then use that variable in the .bb:
 
-[YOCTO #2591]
+PR = "${INC_PR}.0"
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/recipes-devtools/gcc/gcc-common.inc |    4 ++++
- 1 files changed, 4 insertions(+), 0 deletions(-)
-
-diff --git a/meta/recipes-devtools/gcc/gcc-common.inc b/meta/recipes-devtools/gcc/gcc-common.inc
-index 45828bb..c3b79ab 100644
---- a/meta/recipes-devtools/gcc/gcc-common.inc
-+++ b/meta/recipes-devtools/gcc/gcc-common.inc
-@@ -102,6 +102,10 @@ do_headerfix () {
- 	#
- 	sed -i ${S}/gcc/config/*/linux*.h -e \
- 		's#\(GLIBC_DYNAMIC_LINKER[^ ]*\) \( *"/lib.*\)/\(.*\)#\1 SYSTEMLIBS_DIR "\3#'
-+
-+	# Fix the "Argument list too long" error
-+	sed -i ${S}/gcc/Makefile.in -e \
-+		's#headers=`echo $(PLUGIN_HEADERS) | tr .*012.* | sort -u`#headers=\"$(sort $(PLUGIN_HEADERS))\"#'
- }
- 
- addtask headerfix after do_unpack before do_patch
--- 
-1.7.1
-
+Ross
 
 
