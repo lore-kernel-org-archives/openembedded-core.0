@@ -1,36 +1,33 @@
-Received: from mail-pz0-f51.google.com ([209.85.210.51])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1SensW-0006Zw-DU
-	for openembedded-core@lists.openembedded.org;
-	Wed, 13 Jun 2012 15:44:56 +0200
-Received: by dajt11 with SMTP id t11so976789daj.10
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1SeoED-0004Fg-Tl for openembedded-core@lists.openembedded.org;
+	Wed, 13 Jun 2012 16:07:22 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q5DDukE4021756
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Jun 2012 06:34:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:content-type
-	:content-transfer-encoding;
-	bh=cqTLoCwYfrSH0CZ6avIm5LimQyZb20BKBId3lhsASNk=;
-	b=Q7gXbVqs579mmCT9k1LI6sGRk9kva4XqDgkFJq0apPMjfVtc6XteR7Eo0UiKReaGWQ
-	TEDkxlVHg/KeJRDj8yQt+yCxJGY2GhYFcQMJUXEx72H4Rk/Q3keBE9QFVDlOGQx7hPAL
-	2IR/n+bVyGMxJGCkw1OMsAKGOFBf+DVur0g14vC/+anL6HoFdp2S9h+Tw8u43Kap6UPO
-	Op6Z0/UJzL+6SE8Kzj+sNj0rKHnY1Y50BqvGwWVv5Qrz4jTUf7f7WfcN8VfbowI4FCfw
-	UolrllxUBVOEz/k4sqdR7fLjKznD+zRV1bReIkKvZPPbJAbCDkzQ1yL1vgZereSrP5+d
-	Ngmg==
-MIME-Version: 1.0
-Received: by 10.68.227.67 with SMTP id ry3mr5396707pbc.158.1339594459218; Wed,
-	13 Jun 2012 06:34:19 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.68.25.42 with HTTP; Wed, 13 Jun 2012 06:34:19 -0700 (PDT)
-In-Reply-To: <1339593545-14046-1-git-send-email-sbabic@denx.de>
-References: <1339593545-14046-1-git-send-email-sbabic@denx.de>
-Date: Wed, 13 Jun 2012 10:34:19 -0300
-X-Google-Sender-Auth: ARUS1RObdmrM9ougOGxVpNzROUs
-Message-ID: <CAP9ODKoqnr+P+TbQuGk2vMe-UJLtanfF2e8P-PUMwAaqV56F7Q@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
+	Wed, 13 Jun 2012 14:56:46 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 21571-01 for <openembedded-core@lists.openembedded.org>;
+	Wed, 13 Jun 2012 14:56:42 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q5DDudS3021750
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 13 Jun 2012 14:56:40 +0100
+Message-ID: <1339595798.8065.27.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] Added recipe for libconfig
+Date: Wed, 13 Jun 2012 14:56:38 +0100
+In-Reply-To: <1339586425-702-1-git-send-email-laurentiu.palcu@intel.com>
+References: <1339586425-702-1-git-send-email-laurentiu.palcu@intel.com>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH v3 0/2] Bug fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,20 +42,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Jun 2012 13:44:56 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 13 Jun 2012 14:07:22 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jun 13, 2012 at 10:19 AM, Stefano Babic <sbabic@denx.de> wrote:
-> +PR =3D "r0"
+On Wed, 2012-06-13 at 14:20 +0300, Laurentiu Palcu wrote:
+> Version 3 - bump connman PR. Thanks Ross for reminding me! :)
+> 
+> Version 2 adds comments in connman.inc and xserver-nodm-init.bb to inform
+> that xuser's USERADD_PARAMs must be in sync, as suggested by Ross.
+> 
+> This patchset contains two bug fixes for:
+> 	- Yocto #2467
+> 	- Yocto #1465
+> 
+> Laurentiu Palcu (2):
+>   sanity.bbclass: warn the user if BBPATH contains wrong entries
+>   connman: make useradd parameters consistent with rootless X
 
-Please drop the PR when using r0 as this is the default.
+Merged to master, thanks.
 
---=20
-Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
-.S. Systems
-E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
-Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
-tems.com.br
+Richard
+
 
 
