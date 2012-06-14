@@ -1,38 +1,25 @@
-Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
+Received: from sanddollar.geekisp.com ([216.168.135.167])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bogdan.a.marinescu@intel.com>) id 1Sf9Zs-0004aM-96
+	(envelope-from <philip@balister.org>) id 1Sf9nT-0005Aj-88
 	for openembedded-core@lists.openembedded.org;
-	Thu, 14 Jun 2012 14:55:08 +0200
-Received: from mail-vb0-f52.google.com ([209.85.212.52])
-	by mga01.intel.com with ESMTP/TLS/RC4-MD5; 14 Jun 2012 05:43:21 -0700
-Received: by vbzb23 with SMTP id b23so962291vbz.25
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Jun 2012 05:43:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type:x-gm-message-state;
-	bh=k7CYdZBZblQKbmyBapU6Y/NN4N0RPZ22c8JBDOeaKiY=;
-	b=aTa/CfM8ztYW9gsmzSe6NpzSOx9ywWYbffm+VgeHMV0O9RF9TKxolmfF7WTnXI2WD0
-	hIkcvP1krUJ5o58PSjKNjgDMbnpBGEExAhHyimIcXNRC5crFvV5tzYxS1xCS4ZSDI6sN
-	2XilHRUWeORhDekcBNmuLZwFDRxANO99V+rya27WlJu9EmyGAPdykKBQPPvN6SfAIpuI
-	Qpb1+aoE6/unTqMP2yr12HSaBUPlzJaUS24clz3z1oj/xOfiLCh5HF0xDPhqvH27LFYX
-	XY+aqv5laIlbgrLLV9TixaKDGxzGDS/08EXF+4zg4QChP3TLBByaPikCwIxGr2sWZnnJ
-	b2mA==
-Received: by 10.220.157.14 with SMTP id z14mr921178vcw.73.1339677798075; Thu,
-	14 Jun 2012 05:43:18 -0700 (PDT)
+	Thu, 14 Jun 2012 15:09:11 +0200
+Received: (qmail 30261 invoked by uid 1003); 14 Jun 2012 12:58:33 -0000
+Received: from unknown (HELO ?192.168.1.108?) (philip@opensdr.com@71.171.27.98)
+	by mail.geekisp.com with (DHE-RSA-AES256-SHA encrypted) SMTP;
+	14 Jun 2012 12:58:32 -0000
+Message-ID: <4FD9DFF7.70005@balister.org>
+Date: Thu, 14 Jun 2012 08:58:31 -0400
+From: Philip Balister <philip@balister.org>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
+	rv:1.9.2.24) Gecko/20111108 Fedora/3.1.16-1.fc14 Thunderbird/3.1.16
 MIME-Version: 1.0
-Received: by 10.52.169.200 with HTTP; Thu, 14 Jun 2012 05:42:56 -0700 (PDT)
-In-Reply-To: <CAMKF1so7Y_ccRi_RcfjRzzbska1WRbY7N8w=VuN=aFp-U5oYSw@mail.gmail.com>
-References: <1339487948-30612-1-git-send-email-bogdan.a.marinescu@intel.com>
-	<CAMKF1so7Y_ccRi_RcfjRzzbska1WRbY7N8w=VuN=aFp-U5oYSw@mail.gmail.com>
-From: "Marinescu, Bogdan A" <bogdan.a.marinescu@intel.com>
-Date: Thu, 14 Jun 2012 15:42:56 +0300
-Message-ID: <CAMZjud22RrKU8cEAPwu+K4Ze2hPVHo-5z17uu3Zj1cJvk6pNnQ@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Gm-Message-State: ALoCoQmIQZtssSksTbY/BdshrX+SQYR2MNYIj07s8quuMxNiQeEEz0QWjOl1t0iHOIz9del6dtcm
-Subject: Re: [PATCH] strace: update to 4.7
+References: <1339593545-14046-1-git-send-email-sbabic@denx.de>	<CAJTo0LYQQXZKoK8N9g0msxQAcg_c2sc0n4-hAgKCJJYzj4vuag@mail.gmail.com>	<4FD8A219.9000100@denx.de>	<CAJTo0LbKGqM=pCovegAmZgTz-Q2cKZmZU7qUbYm21KRquydzog@mail.gmail.com>
+	<4FD99A2B.2060006@denx.de>
+In-Reply-To: <4FD99A2B.2060006@denx.de>
+X-Enigmail-Version: 1.1.2
+Subject: Re: [PATCH] Added recipe for libconfig
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,29 +34,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Jun 2012 12:55:08 -0000
+X-List-Received-Date: Thu, 14 Jun 2012 13:09:11 -0000
 Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jun 12, 2012 at 4:59 PM, Khem Raj <raj.khem@gmail.com> wrote:
-> On Tue, Jun 12, 2012 at 12:59 AM, Bogdan Marinescu
-> <bogdan.a.marinescu@intel.com> wrote:
->> new version doesn't seem to use sigmask anymore.
->
-> You have to build it on uclibc to see if you can drop this patch or not.
+On 06/14/2012 04:00 AM, Stefano Babic wrote:
+> On 13/06/2012 16:24, Burton, Ross wrote:
+>> On 13 June 2012 15:22, Stefano Babic <sbabic@denx.de> wrote:
+>>> no, there is not yet. I add the libconfig to my image and my apllication
+>>> make use of it. However, I see it as a general purpose library, that one
+>>> can decide to add or not to the own rootfs.
+>>>
+>>> Is there some constraints in OE requiring that a lib can be merged only
+>>> if a provided package make use of it ?
+>>
+>> Surely meta-oe would be a better place for this then?
+> 
+> Understood. Or maybe under meta-yocto/recipes-core ? I will prefer this
+> one because meta-oe is not part of the yocto distribution. Am I right to
+> post patches here or am I completely off-topic ?
 
-I was able to build strace 4.7 with uclibc succesfully, but I'm unable
-to build an uclibc image (even core-image-minimal) to do an actual
-test due to various compilation errors. Should I keep on trying to
-compile an Yocto image to test strace+uclibc or is the succesful
-compilation step enough?
+meta-oe is the place for this tyoe of recipe. The Yocto Project is not a
+distribution, rather a project to make embedded systems easier :)
 
-Thanks,
-Bogdan
-
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+Philip
 
 
