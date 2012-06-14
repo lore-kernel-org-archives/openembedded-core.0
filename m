@@ -1,26 +1,31 @@
-Received: from mga01.intel.com ([192.55.52.88])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SfDnB-0003Cb-S5
-	for openembedded-core@lists.openembedded.org;
-	Thu, 14 Jun 2012 19:25:10 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 14 Jun 2012 10:14:29 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="180099640"
-Received: from unknown (HELO [10.255.12.138]) ([10.255.12.138])
-	by fmsmga002.fm.intel.com with ESMTP; 14 Jun 2012 10:14:29 -0700
-Message-ID: <4FDA1BF5.2000005@linux.intel.com>
-Date: Thu, 14 Jun 2012 10:14:29 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
-MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	Khem Raj <raj.khem@gmail.com>
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1SfFJC-00051D-1o for openembedded-core@lists.openembedded.org;
+	Thu, 14 Jun 2012 21:02:31 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q5EIpagd004982;
+	Thu, 14 Jun 2012 19:51:36 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 04665-04; Thu, 14 Jun 2012 19:51:31 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q5EIpSdP004976
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Thu, 14 Jun 2012 19:51:30 +0100
+Message-ID: <1339699888.24333.96.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Saul Wold <sgw@linux.intel.com>
+Date: Thu, 14 Jun 2012 19:51:28 +0100
+In-Reply-To: <4FDA1BF5.2000005@linux.intel.com>
 References: <1339575975-22078-1-git-send-email-bogdan.a.marinescu@intel.com>
-In-Reply-To: <1339575975-22078-1-git-send-email-bogdan.a.marinescu@intel.com>
+	<4FDA1BF5.2000005@linux.intel.com>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: gcc-configure-common: Use build time sysroot for target gcc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -36,46 +41,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Jun 2012 17:25:10 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Thu, 14 Jun 2012 19:02:39 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 06/13/2012 01:26 AM, Bogdan Marinescu wrote:
-> From: Khem Raj<raj.khem@gmail.com>
->
-> Otherwise it assumes / as sysroot on build host and starts
-> searching for directories in there.
->
-> Signed-off-by: Khem Raj<raj.khem@gmail.com>
-> ---
-> diff --git a/meta/recipes-devtools/gcc/gcc-configure-target.inc b/meta/recipes-devtools/gcc/gcc-configure-target.inc
-> index 1ee7504..5bca2b7 100644
-> --- a/meta/recipes-devtools/gcc/gcc-configure-target.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-configure-target.inc
-> @@ -1,4 +1,6 @@
->   require gcc-configure-common.inc
->
->   EXTRA_OECONF_PATHS = " \
-> +    --with-sysroot \
+On Thu, 2012-06-14 at 10:14 -0700, Saul Wold wrote:
+> On 06/13/2012 01:26 AM, Bogdan Marinescu wrote:
+> > From: Khem Raj<raj.khem@gmail.com>
+> >
+> > Otherwise it assumes / as sysroot on build host and starts
+> > searching for directories in there.
+> >
+> > Signed-off-by: Khem Raj<raj.khem@gmail.com>
+> > ---
+> > diff --git a/meta/recipes-devtools/gcc/gcc-configure-target.inc b/meta/recipes-devtools/gcc/gcc-configure-target.inc
+> > index 1ee7504..5bca2b7 100644
+> > --- a/meta/recipes-devtools/gcc/gcc-configure-target.inc
+> > +++ b/meta/recipes-devtools/gcc/gcc-configure-target.inc
+> > @@ -1,4 +1,6 @@
+> >   require gcc-configure-common.inc
+> >
+> >   EXTRA_OECONF_PATHS = " \
+> > +    --with-sysroot \
+> 
+> I can't seem to find the reply to this, but RP added a "=" to the
+> end of this and that seems to have re-introduced the problem we were 
+> attempting to fix.
+> 
+> Apparently this is a bug in the configure script then also.
 
-I can't seem to find the reply to this, but RP added a "=" to the
-end of this and that seems to have re-introduced the problem we were 
-attempting to fix.
+I screwed up, I've fixed it. Sorry about that.
 
-Apparently this is a bug in the configure script then also.
+Cheers,
 
-Sau!
+Richard
 
-> +    --with-build-sysroot=${STAGING_DIR_TARGET} \
->       --with-gxx-include-dir=${includedir}/c++/"
-> --
-> cgit v0.9.0.2-39-g756e
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
->
 
 
