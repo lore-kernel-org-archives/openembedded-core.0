@@ -1,26 +1,24 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SfFut-0006Hz-Mr
+	(envelope-from <mark.hatle@windriver.com>) id 1SfG7q-0006Vx-A9
 	for openembedded-core@lists.openembedded.org;
-	Thu, 14 Jun 2012 21:41:15 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 14 Jun 2012 12:30:27 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="165775659"
-Received: from unknown (HELO [10.255.12.138]) ([10.255.12.138])
-	by fmsmga001.fm.intel.com with ESMTP; 14 Jun 2012 12:30:27 -0700
-Message-ID: <4FDA3BD3.1090300@linux.intel.com>
-Date: Thu, 14 Jun 2012 12:30:27 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
+	Thu, 14 Jun 2012 21:54:38 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q5EJhxG0024228
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 14 Jun 2012 12:43:59 -0700 (PDT)
+Received: from localhost.localdomain (172.25.34.61) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
+	Thu, 14 Jun 2012 12:43:58 -0700
+From: Mark Hatle <mark.hatle@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 14 Jun 2012 14:50:58 -0500
+Message-ID: <cover.1339703427.git.mark.hatle@windriver.com>
+X-Mailer: git-send-email 1.7.3.4
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <1339487948-30612-1-git-send-email-bogdan.a.marinescu@intel.com>
-	<4FDA340C.5070300@linux.intel.com> <1339701258.24333.98.camel@ted>
-In-Reply-To: <1339701258.24333.98.camel@ted>
-Subject: Re: [PATCH] strace: update to 4.7
+X-Originating-IP: [172.25.34.61]
+Subject: [PATCH 0/1] Fix incorrect busybox alternative
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,57 +33,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Jun 2012 19:41:15 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 14 Jun 2012 19:54:38 -0000
+Content-Type: text/plain
 
-On 06/14/2012 12:14 PM, Richard Purdie wrote:
-> On Thu, 2012-06-14 at 11:57 -0700, Saul Wold wrote:
->> On 06/12/2012 12:59 AM, Bogdan Marinescu wrote:
->>> Removed the x32 specific patches, since they seem to be fully
->>> integrated into 4.7. Also removed the sigmask patch, since the
->>> new version doesn't seem to use sigmask anymore.
->>>
->>> Signed-off-by: Bogdan Marinescu<bogdan.a.marinescu@intel.com>
->>> ---
->>>    .../strace/strace-4.6/sigmask.patch                |   23 -
->>>    .../strace-4.6/strace-4.6_add_x32_support.patch    | 1242 --------------------
->>>    meta/recipes-devtools/strace/strace_4.6.bb         |   23 -
->>>    meta/recipes-devtools/strace/strace_4.7.bb         |   20 +
->>>    4 files changed, 20 insertions(+), 1288 deletions(-)
->>>    delete mode 100644 meta/recipes-devtools/strace/strace-4.6/sigmask.patch
->>>    delete mode 100644 meta/recipes-devtools/strace/strace-4.6/strace-4.6_add_x32_support.patch
->>>    delete mode 100644 meta/recipes-devtools/strace/strace_4.6.bb
->>>    create mode 100644 meta/recipes-devtools/strace/strace_4.7.bb
->>>
->> Did you do a git mv?  by removing and creating, the git history gets
->> lost, can you respin this?
->
-> This is an urban myth. git does not track renames, ever. Some of the
-> tools can detect and display things with "rename detection" though.
->
-> So the patch was just sent without rename detection, it will make no
-> difference to the history whatsoever if merged. It can be harder to
-> review though. Rename detection doesn't always work in the cases of
-> large delta, the exact threshold can be configured.
->
+The following changes since commit ba380813c0198f95b1e786aa7f49b80c68cfe9b9:
 
-If that's the case, then this passed the rest of my testing also can 
-could be included in the C-Pull, I just dropped, I will pull it back in, 
-but not update the main request.
+  gcc-configure-target: Fix sysroot option breakage I introduced (sorry) (2012-06-14 19:48:07 +0100)
 
-Sau!
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib mhatle/misc
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=mhatle/misc
 
-> Cheers,
->
-> Richard
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
->
+Mark Hatle (1):
+  busybox: Fix syslog configuration file
+
+ meta/recipes-core/busybox/busybox.inc       |    1 +
+ meta/recipes-core/busybox/busybox_1.19.4.bb |    2 +-
+ 2 files changed, 2 insertions(+), 1 deletions(-)
+
+-- 
+1.7.3.4
+
 
 
