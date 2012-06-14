@@ -1,37 +1,42 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1SfCo7-0001pD-B8
+	(envelope-from <ross.burton@intel.com>) id 1SfCoB-0001pD-BD
 	for openembedded-core@lists.openembedded.org;
-	Thu, 14 Jun 2012 18:22:03 +0200
+	Thu, 14 Jun 2012 18:22:08 +0200
 Received: from mail-wi0-f178.google.com ([209.85.212.178])
-	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 14 Jun 2012 09:11:02 -0700
-Received: by wibhn6 with SMTP id hn6so1632621wib.13
+	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 14 Jun 2012 09:11:13 -0700
+Received: by mail-wi0-f178.google.com with SMTP id hn6so1632621wib.13
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Jun 2012 09:11:00 -0700 (PDT)
+	Thu, 14 Jun 2012 09:11:13 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer:x-gm-message-state;
-	bh=63ypHZey9XQZH9AZv2XIyPgTgrr+01o0UMEdQpkilO8=;
-	b=gsPdumFa5MVlQrLSY+DLHfTZuXnnBoz2VfZnvFqrUyGLsJZoupQsCEHe9lSiRTebdM
-	2vtI3/q6u3oVPlbECD+fr/C5lXij6xyqDFu/40kmOWTixQI6PDvbkvhqo9hv8xwY7gy/
-	U4Wqm4cZmmShUrj71KyhK4sBgIl9XI8J00BbOsxhPHfvcPX7b/kngTsp0Jrtp6BjtJmb
-	Q3k8JOhQIGDMkfXu+G13Jn4C9X/OcJ0gvOeRGQbCde8+2MoD4I+URZtZjloXHFWkYJlb
-	5+gwdLcg2zbIrYBzFcHZoXIAgxoFyNVh+h/IsVSfK5HHJZzYIiryryppl+YHjxTp5kSb
-	7p1w==
-Received: by 10.180.83.197 with SMTP id s5mr5574418wiy.9.1339690260656;
-	Thu, 14 Jun 2012 09:11:00 -0700 (PDT)
+	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
+	:in-reply-to:references:x-gm-message-state;
+	bh=/LRKJYhbVtetJnJRzuXfVMvtvKTkZnEw/0PBkdtBNCg=;
+	b=jIeSwdv8+Wk6dZqOklV+z7Rvvk/DT50oxBsXW7U4ss5HHm68S+uCU3Hi8OMVt/0bkF
+	NEIfoVjIowkojCNpQyO+TCur0WGG0fvqgk6uVEELiDLgLTIoAYlcYRXGSxXCxTW2IGZq
+	paXEiBMS9SSMBUheHPicXoqInooiZV90/M4K6dLmSBvfgsByvErVNGgj6ddl6GQWMy+K
+	yNTJThLxnc5LRw+4ynS0AdrW/U3teOX5lQWgLawj9N2pGwN32bNeTx+XL4NBrCmCia7j
+	uZuxJqN7z8XihB1fB198A413LoUPflV6fQF8McR0wR1OomMShoPFLvQgYuQn9PvYOLCg
+	hqEg==
+Received: by 10.216.203.80 with SMTP id e58mr1318244weo.41.1339690272864;
+	Thu, 14 Jun 2012 09:11:12 -0700 (PDT)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
 	[81.2.106.35])
-	by mx.google.com with ESMTPS id eb8sm19433631wib.11.2012.06.14.09.10.59
+	by mx.google.com with ESMTPS id z8sm21620993wiy.1.2012.06.14.09.11.10
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 14 Jun 2012 09:10:59 -0700 (PDT)
+	Thu, 14 Jun 2012 09:11:11 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 14 Jun 2012 17:10:53 +0100
-Message-Id: <cover.1339689908.git.ross.burton@intel.com>
+Date: Thu, 14 Jun 2012 17:11:01 +0100
+Message-Id: <2c1faa4e973172cbbec4b4f0f7ca854025286525.1339689908.git.ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10
-X-Gm-Message-State: ALoCoQnbd4RITQr8d3qp+/6NQtP2eHEnfDhamTsrcqGLRa7Wa6j74SJVO8BgTzLhVnXKsgx6PtyA
-Subject: [PATCH 0/2] V3 ConnMan 1.0 / connman-gnome
+In-Reply-To: <31c81258425b08340416818f8ad50d5adf1515ba.1339689908.git.ross.burton@intel.com>
+References: <31c81258425b08340416818f8ad50d5adf1515ba.1339689908.git.ross.burton@intel.com>
+In-Reply-To: <cover.1339689908.git.ross.burton@intel.com>
+References: <cover.1339689908.git.ross.burton@intel.com>
+X-Gm-Message-State: ALoCoQkBnKd7Gjx0TIJyg2qyeDO3xV4ljhFejBrmx6JPdywUNMczNhMkyD9XXavQcxIKj4hqIK1z
+Subject: [PATCH 2/2] connman-gnome: update to ConnMan 1.0 DBus API
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,24 +51,10 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Jun 2012 16:22:03 -0000
+X-List-Received-Date: Thu, 14 Jun 2012 16:22:08 -0000
 
-V3 of the connman 1.0 patches.  The connman patch has been rebased onto master,
-and connman-gnome has been tested on my Intel/iwlagn board.
-
-The following changes since commit 4ff6160d909e2a39e357c8a51f37d803dab64d5d:
-
-  methodpool: Improve method already seen error message (2012-06-14 14:20:51 +0100)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib ross/connman
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ross/connman
-
-Ross Burton (2):
-  connman: upgrade to 1.0
-  connman-gnome: update to ConnMan 1.0 DBus API
-
+Bump srvrev to current master and drop merged patches for sanity.
+---
  ...0001-Monitor-the-Manager-s-State-property.patch |   48 -
  ...e-fix-segfault-due-to-unchecked-null-val.patch} |    6 +-
  .../0002-Update-for-ConnMan-0.79-API-changes.patch |  865 ------------------
@@ -73,15 +64,7 @@ Ross Burton (2):
  ...emove-all-handling-of-Passphrase-property.patch |  249 ------
  ...ix-status-descriptions-in-properties-tree.patch |   42 -
  .../connman/connman-gnome_0.5.bb                   |   13 +-
- meta/recipes-connectivity/connman/connman.inc      |   26 +-
- ...ange-visibility-to-default-for-debug-symb.patch |   35 -
- .../connman/connman/disable_alg-test.patch         |   46 -
- .../connman/connman/ethernet_default.patch         |   22 -
- .../connman/test-set-ipv4-method-api-fix.patch     |   50 --
- .../connman/test-set-ipv6-method-api-fix.patch     |   55 --
- meta/recipes-connectivity/connman/connman_0.79.bb  |   14 -
- meta/recipes-connectivity/connman/connman_1.0.bb   |    9 +
- 17 files changed, 213 insertions(+), 2454 deletions(-)
+ 9 files changed, 186 insertions(+), 2224 deletions(-)
  delete mode 100644 meta/recipes-connectivity/connman/connman-gnome/0001-Monitor-the-Manager-s-State-property.patch
  rename meta/recipes-connectivity/connman/connman-gnome/{0007-connman-gnome-fix-segfault-due-to-unchecked-null-val.patch => 0001-connman-gnome-fix-segfault-due-to-unchecked-null-val.patch} (84%)
  delete mode 100644 meta/recipes-connectivity/connman/connman-gnome/0002-Update-for-ConnMan-0.79-API-changes.patch
@@ -90,14 +73,2490 @@ Ross Burton (2):
  delete mode 100644 meta/recipes-connectivity/connman/connman-gnome/0004-Handle-WiFi-authentication-using-an-agent.patch
  delete mode 100644 meta/recipes-connectivity/connman/connman-gnome/0005-Remove-all-handling-of-Passphrase-property.patch
  delete mode 100644 meta/recipes-connectivity/connman/connman-gnome/0006-Fix-status-descriptions-in-properties-tree.patch
- delete mode 100644 meta/recipes-connectivity/connman/connman/0001-plugin.h-Change-visibility-to-default-for-debug-symb.patch
- delete mode 100644 meta/recipes-connectivity/connman/connman/disable_alg-test.patch
- delete mode 100644 meta/recipes-connectivity/connman/connman/ethernet_default.patch
- delete mode 100644 meta/recipes-connectivity/connman/connman/test-set-ipv4-method-api-fix.patch
- delete mode 100644 meta/recipes-connectivity/connman/connman/test-set-ipv6-method-api-fix.patch
- delete mode 100644 meta/recipes-connectivity/connman/connman_0.79.bb
- create mode 100644 meta/recipes-connectivity/connman/connman_1.0.bb
 
+diff --git a/meta/recipes-connectivity/connman/connman-gnome/0001-Monitor-the-Manager-s-State-property.patch b/meta/recipes-connectivity/connman/connman-gnome/0001-Monitor-the-Manager-s-State-property.patch
+deleted file mode 100644
+index 20cbb30..0000000
+--- a/meta/recipes-connectivity/connman/connman-gnome/0001-Monitor-the-Manager-s-State-property.patch
++++ /dev/null
+@@ -1,48 +0,0 @@
+-From 56d307993c0a661c73fcdd72b1392c3719a0c297 Mon Sep 17 00:00:00 2001
+-Message-Id: <56d307993c0a661c73fcdd72b1392c3719a0c297.1334369310.git.paul.eggleton@linux.intel.com>
+-In-Reply-To: <cover.1334369310.git.paul.eggleton@linux.intel.com>
+-References: <cover.1334369310.git.paul.eggleton@linux.intel.com>
+-From: Joshua Lock <josh@linux.intel.com>
+-Date: Tue, 10 Apr 2012 17:54:56 -0700
+-Subject: [PATCH 1/6] Monitor the Manager's State property
+-
+-Monitor the Manager's State property and update global_ready
+-appropriately when it changes.
+-
+-Without this change using the applet with connman 0.79 and
+-starting the applet after the daemon no status icon is shown.
+-
+-With this change this icon displays an appropriate state when
+-the applet launches.
+-
+-Upstream-Status: Submitted
+-
+-Signed-off-by: Joshua Lock <josh@linux.intel.com>
+----
+- applet/main.c |   10 ++++++++++
+- 1 files changed, 10 insertions(+), 0 deletions(-)
+-
+-diff --git a/applet/main.c b/applet/main.c
+-index 224e2fd..68a77b1 100644
+---- a/applet/main.c
+-+++ b/applet/main.c
+-@@ -111,6 +111,16 @@ static void manager_property_changed(DBusGProxy *proxy, const char *property,
+- 						iterate_list, &path);
+- 		update_service(proxy, path);
+- 		g_free(path);
+-+	} else if (g_str_equal(property, "State") == TRUE) {
+-+		const gchar *state = g_value_get_string(value);
+-+
+-+	  	if (g_strcmp0(state, "ready") == 0 || g_strcmp0(state, "online") == 0) {
+-+	  		global_ready = TRUE;
+-+			status_ready(global_strength);
+-+		} else {
+-+	  		global_ready = FALSE;
+-+			status_offline();
+-+		}
+- 	}
+- }
+- 
+--- 
+-1.7.5.4
+-
+diff --git a/meta/recipes-connectivity/connman/connman-gnome/0007-connman-gnome-fix-segfault-due-to-unchecked-null-val.patch b/meta/recipes-connectivity/connman/connman-gnome/0001-connman-gnome-fix-segfault-due-to-unchecked-null-val.patch
+similarity index 84%
+rename from meta/recipes-connectivity/connman/connman-gnome/0007-connman-gnome-fix-segfault-due-to-unchecked-null-val.patch
+rename to meta/recipes-connectivity/connman/connman-gnome/0001-connman-gnome-fix-segfault-due-to-unchecked-null-val.patch
+index 3e054ba..5056b9e 100644
+--- a/meta/recipes-connectivity/connman/connman-gnome/0007-connman-gnome-fix-segfault-due-to-unchecked-null-val.patch
++++ b/meta/recipes-connectivity/connman/connman-gnome/0001-connman-gnome-fix-segfault-due-to-unchecked-null-val.patch
+@@ -1,7 +1,7 @@
+-From 7225bf8e8e9bee42d7d7d02ba754b9fb30a877b6 Mon Sep 17 00:00:00 2001
++From c76ed8a95d4d2b8e271a8fe90727a54e575ffa7a Mon Sep 17 00:00:00 2001
+ From: Paul Eggleton <paul.eggleton@linux.intel.com>
+ Date: Mon, 16 Apr 2012 19:15:35 +0100
+-Subject: [PATCH] connman-gnome: fix segfault due to unchecked null value
++Subject: [PATCH 1/2] connman-gnome: fix segfault due to unchecked null value
+ 
+ If value is NULL here we should not pass it to g_value_get_boxed().
+ 
+@@ -26,5 +26,5 @@ index 33ac623..822fc98 100644
+  	if (!ipv4)
+  		goto done;
+ -- 
+-1.7.5.4
++1.7.7
+ 
+diff --git a/meta/recipes-connectivity/connman/connman-gnome/0002-Update-for-ConnMan-0.79-API-changes.patch b/meta/recipes-connectivity/connman/connman-gnome/0002-Update-for-ConnMan-0.79-API-changes.patch
+deleted file mode 100644
+index fe87b5b..0000000
+--- a/meta/recipes-connectivity/connman/connman-gnome/0002-Update-for-ConnMan-0.79-API-changes.patch
++++ /dev/null
+@@ -1,865 +0,0 @@
+-From 8b8fd038474def8452354105b40738a402f28d19 Mon Sep 17 00:00:00 2001
+-Message-Id: <8b8fd038474def8452354105b40738a402f28d19.1334369310.git.paul.eggleton@linux.intel.com>
+-In-Reply-To: <cover.1334369310.git.paul.eggleton@linux.intel.com>
+-References: <cover.1334369310.git.paul.eggleton@linux.intel.com>
+-From: Paul Eggleton <paul.eggleton@linux.intel.com>
+-Date: Thu, 12 Apr 2012 00:35:00 +0100
+-Subject: [PATCH 2/6] Update for ConnMan 0.79 API changes
+-
+-* Use Manager.GetServices method instead of Manager.Services property
+-* Use Manager.GetTechnologies / Technology.Powered instead of
+-  Manager.EnabledTechnologies method
+-* Use Technology.Powered property instead of Manager.EnableTechnology
+-  and Manager.DisableTechnology methods
+-* Use Technology.Scan method instead of Manager.RequestScan method
+-* Listen for ServicesAdded, ServicesRemoved, TechnologyAdded and
+-  TechnologyRemoved signals instead of monitoring the old Services
+-  and EnabledTechnologies properties
+-
+-Also remove unused code relating to the old API.
+-
+-Upstream-Status: Submitted
+-
+-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+----
+- common/connman-client.c |   90 ++-----------
+- common/connman-client.h |   12 +-
+- common/connman-dbus.c   |  359 +++++++++++++++++++++++++++--------------------
+- common/connman-dbus.h   |    1 +
+- common/connman-dbus.xml |   17 +--
+- common/marshal.list     |    2 +
+- properties/cellular.c   |    6 +-
+- properties/ethernet.c   |    8 +-
+- properties/main.c       |   14 +--
+- properties/wifi.c       |    8 +-
+- 10 files changed, 245 insertions(+), 272 deletions(-)
+-
+-diff --git a/common/connman-client.c b/common/connman-client.c
+-index 407aea0..9d755c4 100644
+---- a/common/connman-client.c
+-+++ b/common/connman-client.c
+-@@ -112,9 +112,7 @@ static void connman_client_init(ConnmanClient *client)
+- 				G_TYPE_STRING,  /* address */
+- 				G_TYPE_STRING,  /* netmask */
+- 				G_TYPE_STRING,  /* gateway */
+--				G_TYPE_BOOLEAN, /* ethernet enabled */
+--				G_TYPE_BOOLEAN, /* wifi enabled */
+--				G_TYPE_BOOLEAN, /* cellular enabled */
+-+				G_TYPE_BOOLEAN, /* powered */
+- 				G_TYPE_BOOLEAN);/* offline */
+- 
+- 	g_object_set_data(G_OBJECT(priv->store),
+-@@ -288,7 +286,7 @@ void connman_client_set_powered(ConnmanClient *client, const gchar *device,
+- 	DBusGProxy *proxy;
+- 	GValue value = { 0 };
+- 
+--	DBG("client %p", client);
+-+	DBG("client %p device %s", client, device);
+- 
+- 	if (device == NULL)
+- 		return;
+-@@ -300,64 +298,34 @@ void connman_client_set_powered(ConnmanClient *client, const gchar *device,
+- 	g_value_init(&value, G_TYPE_BOOLEAN);
+- 	g_value_set_boolean(&value, powered);
+- 
+--	connman_set_property(proxy, "Powered", &value, NULL);
+--
+--	g_object_unref(proxy);
+--}
+--
+--static gboolean device_scan(GtkTreeModel *model, GtkTreePath *path,
+--					GtkTreeIter *iter, gpointer user_data)
+--{
+--	DBusGProxy *proxy;
+--
+--	gtk_tree_model_get(model, iter, CONNMAN_COLUMN_PROXY, &proxy, -1);
+--
+--	if (proxy == NULL)
+--		return FALSE;
+--
+--	if (g_str_equal(dbus_g_proxy_get_interface(proxy),
+--					CONNMAN_SERVICE_INTERFACE) == FALSE)
+--		return FALSE;
+--
+--	connman_propose_scan(proxy, NULL);
+-+	GError *error = NULL;
+-+	gboolean ret = connman_set_property(proxy, "Powered", &value, &error);
+-+	if( error )
+-+		fprintf (stderr, "error: %s\n", error->message);
+- 
+- 	g_object_unref(proxy);
+--
+--	return FALSE;
+- }
+- 
+--void connman_client_propose_scan(ConnmanClient *client, const gchar *device)
+-+void connman_client_scan(ConnmanClient *client, const gchar *device, 
+-+						connman_scan_reply callback, gpointer user_data)
+- {
+- 	ConnmanClientPrivate *priv = CONNMAN_CLIENT_GET_PRIVATE(client);
+- 	DBusGProxy *proxy;
+- 
+--	DBG("client %p", client);
+-+	DBG("client %p device %s", client, device);
+- 
+--	if (device == NULL) {
+--		gtk_tree_model_foreach(GTK_TREE_MODEL(priv->store),
+--							device_scan, NULL);
+-+	if (device == NULL)
+- 		return;
+--	}
+- 
+- 	proxy = connman_dbus_get_proxy(priv->store, device);
+- 	if (proxy == NULL)
+- 		return;
+- 
+--	connman_propose_scan(proxy, NULL);
+-+	connman_scan_async(proxy, callback, user_data);
+- 
+- 	g_object_unref(proxy);
+- }
+- 
+--void connman_client_request_scan(ConnmanClient *client, char *scantype,
+--				connman_request_scan_reply callback, gpointer userdata)
+--{
+--	ConnmanClientPrivate *priv = CONNMAN_CLIENT_GET_PRIVATE(client);
+--
+--	DBG("client %p", client);
+--
+--	connman_request_scan_async(priv->manager, scantype, callback, userdata);
+--}
+--
+- gboolean connman_client_get_offline_status(ConnmanClient *client)
+- {
+- 	GHashTable *hash;
+-@@ -600,39 +568,3 @@ void connman_client_remove(ConnmanClient *client, const gchar *network)
+- 
+- 	g_object_unref(proxy);
+- }
+--
+--void connman_client_enable_technology(ConnmanClient *client, const char *network,
+--				      const gchar *technology)
+--{
+--	ConnmanClientPrivate *priv = CONNMAN_CLIENT_GET_PRIVATE(client);
+--	DBusGProxy *proxy;
+--	
+--	if (network== NULL)
+--		return;
+--
+--	proxy = connman_dbus_get_proxy(priv->store, network);
+--	if (proxy == NULL)
+--		return;
+--
+--	connman_enable_technology(proxy, technology, NULL);
+--
+--	g_object_unref(proxy);
+--}
+--
+--void connman_client_disable_technology(ConnmanClient *client, const char *network,
+--				      const gchar *technology)
+--{
+--	ConnmanClientPrivate *priv = CONNMAN_CLIENT_GET_PRIVATE(client);
+--	DBusGProxy *proxy;
+--
+--	if (network == NULL)
+--		return;
+--
+--	proxy = connman_dbus_get_proxy(priv->store, network);
+--	if (proxy == NULL)
+--		return;
+--
+--	connman_disable_technology(proxy, technology, NULL);
+--
+--	g_object_unref(proxy);
+--}
+-diff --git a/common/connman-client.h b/common/connman-client.h
+-index 15fa098..6fe772c 100644
+---- a/common/connman-client.h
+-+++ b/common/connman-client.h
+-@@ -69,7 +69,8 @@ void connman_client_set_powered(ConnmanClient *client, const gchar *device,
+- 							gboolean powered);
+- gboolean connman_client_set_ipv4(ConnmanClient *client, const gchar *device,
+- 				struct ipv4_config *ipv4_config);
+--void connman_client_propose_scan(ConnmanClient *client, const gchar *device);
+-+void connman_client_scan(ConnmanClient *client, const gchar *device, 
+-+							connman_scan_reply callback, gpointer user_data);
+- 
+- void connman_client_connect(ConnmanClient *client, const gchar *network);
+- void connman_client_disconnect(ConnmanClient *client, const gchar *network);
+-@@ -89,8 +90,6 @@ void connman_client_set_callback(ConnmanClient *client,
+- 
+- void connman_client_remove(ConnmanClient *client, const gchar *network);
+- 
+--void connman_client_request_scan(ConnmanClient *client, char *scantype,
+--				connman_request_scan_reply callback, gpointer userdata);
+- gboolean connman_client_get_offline_status(ConnmanClient *client);
+- void connman_client_set_offlinemode(ConnmanClient *client, gboolean status);
+- 
+-@@ -114,11 +113,8 @@ enum {
+- 	CONNMAN_COLUMN_ADDRESS,		/* G_TYPE_STRING  */
+- 	CONNMAN_COLUMN_NETMASK,		/* G_TYPE_STRING  */
+- 	CONNMAN_COLUMN_GATEWAY,		/* G_TYPE_STRING  */
+--
+--	CONNMAN_COLUMN_ETHERNET_ENABLED,/* G_TYPE_STRING  */
+--	CONNMAN_COLUMN_WIFI_ENABLED,	/* G_TYPE_STRING  */
+--	CONNMAN_COLUMN_CELLULAR_ENABLED,/* G_TYPE_STRING  */
+--	CONNMAN_COLUMN_OFFLINEMODE,	/* G_TYPE_STRING  */
+-+	CONNMAN_COLUMN_POWERED,		/* G_TYPE_BOOLEAN  */
+-+	CONNMAN_COLUMN_OFFLINEMODE,	/* G_TYPE_BOOLEAN  */
+- 
+- 	_CONNMAN_NUM_COLUMNS
+- };
+-diff --git a/common/connman-dbus.c b/common/connman-dbus.c
+-index 6669749..4eb77b6 100644
+---- a/common/connman-dbus.c
+-+++ b/common/connman-dbus.c
+-@@ -28,6 +28,8 @@
+- #include "connman-dbus.h"
+- #include "connman-dbus-glue.h"
+- 
+-+#include "marshal.h"
+-+
+- #ifdef DEBUG
+- #define DBG(fmt, arg...) printf("%s:%s() " fmt "\n", __FILE__, __FUNCTION__ , ## arg)
+- #else
+-@@ -164,22 +166,6 @@ gboolean connman_dbus_get_iter(GtkTreeStore *store, const gchar *path,
+- 	return get_iter_from_path(store, iter, path);
+- }
+- 
+--static void iterate_list(const GValue *value, gpointer user_data)
+--{
+--	GSList **list = user_data;
+--	gchar *path = g_value_dup_boxed(value);
+--
+--	if (path == NULL)
+--		return;
+--
+--	*list = g_slist_append(*list, path);
+--}
+--
+--static gint compare_path(gconstpointer a, gconstpointer b)
+--{
+--	return g_strcmp0(a, b);
+--}
+--
+- static guint get_type(const GValue *value)
+- {
+- 	const char *type = value ? g_value_get_string(value) : NULL;
+-@@ -217,95 +203,76 @@ static const gchar *type2icon(guint type)
+- 	return NULL;
+- }
+- 
+--static void enabled_technologies_changed(GtkTreeStore *store, GValue *value)
+-+static void tech_changed(DBusGProxy *proxy, const char *property,
+-+					GValue *value, gpointer user_data)
+- {
+-+	GtkTreeStore *store = user_data;
+-+	const char *path = dbus_g_proxy_get_path(proxy);
+- 	GtkTreeIter iter;
+--	gboolean ethernet_enabled_prev, ethernet_enabled = FALSE;
+--	gboolean wifi_enabled_prev, wifi_enabled = FALSE;
+--	gboolean cellular_enabled_prev, cellular_enabled = FALSE;
+--	gchar **tech = g_value_get_boxed (value);
+--	guint i;
+- 
+--	if (value == NULL)
+--		return;
+--
+--	for (i = 0; i < g_strv_length(tech); i++) {
+--		DBG("technology: %s", *(tech+i));
+--		if (g_str_equal("ethernet", *(tech + i)))
+--			ethernet_enabled = TRUE;
+--		else if (g_str_equal ("wifi", *(tech + i)))
+--			wifi_enabled = TRUE;
+--		else if (g_str_equal ("cellular", *(tech + i)))
+--			cellular_enabled = TRUE;
+--	}
+-+	DBG("store %p proxy %p property %s", store, proxy, property);
+- 
+--	get_iter_from_type(store, &iter, CONNMAN_TYPE_LABEL_ETHERNET);
+--	gtk_tree_model_get(GTK_TREE_MODEL(store), &iter,
+--			CONNMAN_COLUMN_ETHERNET_ENABLED, &ethernet_enabled_prev, -1);
+--	if (ethernet_enabled_prev != ethernet_enabled)
+--		gtk_tree_store_set(store, &iter,
+--					CONNMAN_COLUMN_ETHERNET_ENABLED, ethernet_enabled, -1);
+-+	if (property == NULL || value == NULL)
+-+		return;
+- 
+--	get_iter_from_type(store, &iter, CONNMAN_TYPE_LABEL_WIFI);
+--	gtk_tree_model_get(GTK_TREE_MODEL(store), &iter,
+--			CONNMAN_COLUMN_WIFI_ENABLED, &wifi_enabled_prev, -1);
+--	if (wifi_enabled_prev != wifi_enabled)
+--		gtk_tree_store_set(store, &iter,
+--					CONNMAN_COLUMN_WIFI_ENABLED, wifi_enabled, -1);
+-+	if (get_iter_from_path(store, &iter, path) == FALSE)
+-+		return;
+- 
+--	get_iter_from_type(store, &iter, CONNMAN_TYPE_LABEL_CELLULAR);
+--	gtk_tree_model_get(GTK_TREE_MODEL(store), &iter,
+--			CONNMAN_COLUMN_CELLULAR_ENABLED, &cellular_enabled_prev, -1);
+--	if (cellular_enabled_prev != cellular_enabled)
+-+	if (g_str_equal(property, "Powered") == TRUE) {
+-+		gboolean powered = g_value_get_boolean(value);
+- 		gtk_tree_store_set(store, &iter,
+--					CONNMAN_COLUMN_CELLULAR_ENABLED, cellular_enabled, -1);
+-+					CONNMAN_COLUMN_POWERED, powered, -1);
+-+	}
+- }
+- 
+--static void enabled_technologies_properties(GtkTreeStore *store, DBusGProxy *proxy, GValue *value)
+-+static void tech_properties(DBusGProxy *proxy, GHashTable *hash,
+-+					GError *error, gpointer user_data)
+- {
+-+	GtkTreeStore *store = user_data;
+- 	GtkTreeIter iter;
+--	gboolean ethernet_enabled = FALSE;
+--	gboolean wifi_enabled = FALSE;
+--	gboolean cellular_enabled = FALSE;
+--	gchar **tech = g_value_get_boxed (value);
+--	guint i;
+--
+--	for (i = 0; i < g_strv_length (tech); i++) {
+--		DBG("technology: %s", *(tech+i));
+--		if (g_str_equal("ethernet", *(tech + i)))
+--			ethernet_enabled = TRUE;
+--		else if (g_str_equal ("wifi", *(tech + i)))
+--			wifi_enabled = TRUE;
+--		else if (g_str_equal ("cellular", *(tech + i)))
+--			cellular_enabled = TRUE;
+--	}
+-+	gboolean powered = FALSE;
+-+	GValue *propval = 0;
+-+	const char *techtype = 0;
+- 
+--	if (get_iter_from_type(store, &iter, CONNMAN_TYPE_LABEL_ETHERNET) == FALSE)
+--		gtk_tree_store_append(store, &iter, NULL);
+-+	propval = g_hash_table_lookup(hash, "Type");
+-+	techtype = propval ? g_value_get_string(propval) : NULL;
+- 
+--	gtk_tree_store_set(store, &iter,
+--			CONNMAN_COLUMN_PROXY, proxy,
+--			CONNMAN_COLUMN_ETHERNET_ENABLED, ethernet_enabled,
+--			CONNMAN_COLUMN_TYPE, CONNMAN_TYPE_LABEL_ETHERNET,
+--			-1);
+-+	propval = g_hash_table_lookup(hash, "Powered");
+-+	powered = propval ? g_value_get_boolean(propval) : FALSE;
+- 
+--	if (get_iter_from_type(store, &iter, CONNMAN_TYPE_LABEL_WIFI) == FALSE)
+--		gtk_tree_store_append(store, &iter, NULL);
+-+	if (g_str_equal("ethernet", techtype))
+-+	{
+-+		if (get_iter_from_type(store, &iter, CONNMAN_TYPE_LABEL_ETHERNET) == FALSE)
+-+			gtk_tree_store_append(store, &iter, NULL);
+- 
+--	gtk_tree_store_set(store, &iter,
+--			CONNMAN_COLUMN_PROXY, proxy,
+--			CONNMAN_COLUMN_WIFI_ENABLED, wifi_enabled,
+--			CONNMAN_COLUMN_TYPE, CONNMAN_TYPE_LABEL_WIFI,
+--			-1);
+-+		gtk_tree_store_set(store, &iter,
+-+				CONNMAN_COLUMN_PROXY, proxy,
+-+				CONNMAN_COLUMN_POWERED, powered,
+-+				CONNMAN_COLUMN_TYPE, CONNMAN_TYPE_LABEL_ETHERNET,
+-+				-1);
+-+	}
+-+	else if (g_str_equal ("wifi", techtype))
+-+	{
+-+		if (get_iter_from_type(store, &iter, CONNMAN_TYPE_LABEL_WIFI) == FALSE)
+-+			gtk_tree_store_append(store, &iter, NULL);
+- 
+--	if (get_iter_from_type(store, &iter, CONNMAN_TYPE_LABEL_CELLULAR) == FALSE)
+--		gtk_tree_store_append(store, &iter, NULL);
+-+		gtk_tree_store_set(store, &iter,
+-+				CONNMAN_COLUMN_PROXY, proxy,
+-+				CONNMAN_COLUMN_POWERED, powered,
+-+				CONNMAN_COLUMN_TYPE, CONNMAN_TYPE_LABEL_WIFI,
+-+				-1);
+-+	}
+-+	else if (g_str_equal ("3g", techtype))
+-+	{
+-+		if (get_iter_from_type(store, &iter, CONNMAN_TYPE_LABEL_CELLULAR) == FALSE)
+-+			gtk_tree_store_append(store, &iter, NULL);
+- 
+--	gtk_tree_store_set(store, &iter,
+--			CONNMAN_COLUMN_PROXY, proxy,
+--			CONNMAN_COLUMN_CELLULAR_ENABLED, cellular_enabled,
+--			CONNMAN_COLUMN_TYPE, CONNMAN_TYPE_LABEL_CELLULAR,
+--			-1);
+-+		gtk_tree_store_set(store, &iter,
+-+				CONNMAN_COLUMN_PROXY, proxy,
+-+				CONNMAN_COLUMN_POWERED, powered,
+-+				CONNMAN_COLUMN_TYPE, CONNMAN_TYPE_LABEL_CELLULAR,
+-+				-1);
+-+	}
+- }
+- 
+- static void offline_mode_changed(GtkTreeStore *store, GValue *value)
+-@@ -319,6 +286,39 @@ static void offline_mode_changed(GtkTreeStore *store, GValue *value)
+- 			-1);
+- }
+- 
+-+static void tech_added(DBusGProxy *proxy, DBusGObjectPath *path, 
+-+					GHashTable *hash, gpointer user_data)
+-+{
+-+	GtkTreeStore *store = user_data;
+-+	GtkTreeIter iter;
+-+	DBG("store %p proxy %p hash %p", store, proxy, hash);
+-+
+-+	if (!get_iter_from_path(store, &iter, path)) {
+-+		DBusGProxy *tech_proxy = dbus_g_proxy_new_for_name(connection,
+-+						CONNMAN_SERVICE, path,
+-+						CONNMAN_TECHNOLOGY_INTERFACE);
+-+		if (tech_proxy == NULL)
+-+			return;
+-+		
+-+		tech_properties(tech_proxy, hash, NULL, user_data);
+-+		
+-+		dbus_g_proxy_add_signal(tech_proxy, "PropertyChanged",
+-+				G_TYPE_STRING, G_TYPE_VALUE, G_TYPE_INVALID);
+-+		dbus_g_proxy_connect_signal(tech_proxy, "PropertyChanged",
+-+				G_CALLBACK(tech_changed), store, NULL);
+-+	}
+-+}
+-+
+-+static void tech_removed(DBusGProxy *proxy, DBusGObjectPath *path,
+-+					gpointer user_data)
+-+{
+-+	GtkTreeStore *store = user_data;
+-+	GtkTreeIter iter;
+-+
+-+	if (get_iter_from_path(store, &iter, path))
+-+		gtk_tree_store_remove(store, &iter);
+-+}
+-+
+- static void offline_mode_properties(GtkTreeStore *store, DBusGProxy *proxy, GValue *value)
+- {
+- 	GtkTreeIter iter;
+-@@ -401,59 +401,8 @@ static void service_changed(DBusGProxy *proxy, const char *property,
+- 	}
+- }
+- 
+--static void property_update(GtkTreeStore *store, const GValue *value,
+--					connman_get_properties_reply callback)
+--{
+--	GSList *list, *link, *old_list, *new_list = NULL;
+--
+--	DBG("store %p", store);
+--
+--	old_list = g_object_get_data(G_OBJECT(store), "Services");
+--
+--	dbus_g_type_collection_value_iterate(value, iterate_list, &new_list);
+--
+--	g_object_set_data(G_OBJECT(store), "Services", new_list);
+--
+--	for (list = new_list; list; list = list->next) {
+--		gchar *path = list->data;
+--		DBusGProxy *proxy;
+--
+--		DBG("new path %s", path);
+--
+--		link = g_slist_find_custom(old_list, path, compare_path);
+--		if (link != NULL) {
+--			g_free(link->data);
+--			old_list = g_slist_delete_link(old_list, link);
+--		}
+--
+--		proxy = dbus_g_proxy_new_for_name(connection,
+--						CONNMAN_SERVICE, path,
+--						CONNMAN_SERVICE_INTERFACE);
+--		if (proxy == NULL)
+--			continue;
+--
+--		DBG("getting %s properties", "Services");
+--
+--		connman_get_properties_async(proxy, callback, store);
+--	}
+--
+--	for (list = old_list; list; list = list->next) {
+--		gchar *path = list->data;
+--		GtkTreeIter iter;
+--
+--		DBG("old path %s", path);
+--
+--		if (get_iter_from_path(store, &iter, path) == TRUE)
+--			gtk_tree_store_remove(store, &iter);
+--
+--		g_free(path);
+--	}
+--
+--	g_slist_free(old_list);
+--}
+--
+- static void service_properties(DBusGProxy *proxy, GHashTable *hash,
+--					GError *error, gpointer user_data)
+-+							gpointer user_data)
+- {
+- 	GtkTreeStore *store = user_data;
+- 	GValue *value;
+-@@ -468,7 +417,7 @@ static void service_properties(DBusGProxy *proxy, GHashTable *hash,
+- 
+- 	DBG("store %p proxy %p hash %p", store, proxy, hash);
+- 
+--	if (error != NULL || hash == NULL)
+-+	if (hash == NULL)
+- 		goto done;
+- 
+- 	value = g_hash_table_lookup(hash, "Name");
+-@@ -572,11 +521,7 @@ static void manager_changed(DBusGProxy *proxy, const char *property,
+- 	if (property == NULL || value == NULL)
+- 		return;
+- 
+--	if (g_str_equal(property, "Services") == TRUE)
+--		property_update(store, value, service_properties);
+--	else if (g_str_equal(property, "EnabledTechnologies") == TRUE)
+--		enabled_technologies_changed(store, value);
+--	else if (g_str_equal(property, "OfflineMode") == TRUE)
+-+	if (g_str_equal(property, "OfflineMode") == TRUE)
+- 		offline_mode_changed(store, value);
+- }
+- 
+-@@ -591,23 +536,89 @@ static void manager_properties(DBusGProxy *proxy, GHashTable *hash,
+- 	if (error != NULL || hash == NULL)
+- 		return;
+- 
+--	value = g_hash_table_lookup(hash, "Services");
+--	if (value != NULL)
+--		property_update(store, value, service_properties);
+--
+--	value = g_hash_table_lookup(hash, "EnabledTechnologies");
+--	if (value != NULL)
+--		enabled_technologies_properties(store, proxy, value);
+--
+- 	value = g_hash_table_lookup(hash, "OfflineMode");
+- 	if (value != NULL)
+- 		offline_mode_properties(store, proxy, value);
+- }
+- 
+-+static void manager_services(DBusGProxy *proxy, GPtrArray *array,
+-+					GError *error, gpointer user_data)
+-+{
+-+	int i;
+-+
+-+	DBG("proxy %p array %p", proxy, array);
+-+
+-+	if (error != NULL || array == NULL)
+-+		return;
+-+
+-+	for (i = 0; i < array->len; i++)
+-+	{
+-+		GValueArray *item = g_ptr_array_index(array, i);
+-+
+-+		DBusGObjectPath *path = (DBusGObjectPath *)g_value_get_boxed(g_value_array_get_nth(item, 0));
+-+		DBusGProxy *service_proxy = dbus_g_proxy_new_for_name(connection,
+-+						CONNMAN_SERVICE, path,
+-+						CONNMAN_SERVICE_INTERFACE);
+-+		if (service_proxy == NULL)
+-+			continue;
+-+		
+-+		GHashTable *props = (GHashTable *)g_value_get_boxed(g_value_array_get_nth(item, 1));
+-+		service_properties(service_proxy, props, user_data);
+-+	}
+-+}
+-+
+-+static void manager_technologies(DBusGProxy *proxy, GPtrArray *array,
+-+					GError *error, gpointer user_data)
+-+{
+-+	int i;
+-+
+-+	DBG("proxy %p array %p", proxy, array);
+-+
+-+	if (error != NULL || array == NULL)
+-+		return;
+-+
+-+	for (i = 0; i < array->len; i++)
+-+	{
+-+		GValueArray *item = g_ptr_array_index(array, i);
+-+
+-+		DBusGObjectPath *path = (DBusGObjectPath *)g_value_get_boxed(g_value_array_get_nth(item, 0));
+-+		GHashTable *props = (GHashTable *)g_value_get_boxed(g_value_array_get_nth(item, 1));
+-+		
+-+		tech_added(proxy, path, props, user_data);
+-+	}
+-+}
+-+
+-+static void services_added(DBusGProxy *proxy, GPtrArray *array,
+-+					gpointer user_data)
+-+{
+-+	DBG("proxy %p array %p", proxy, array);
+-+
+-+	manager_services(proxy, array, NULL, user_data);
+-+}
+-+
+-+static void services_removed(DBusGProxy *proxy, GPtrArray *array,
+-+					gpointer user_data)
+-+{
+-+	GtkTreeStore *store = user_data;
+-+	GtkTreeIter iter;
+-+	int i;
+-+
+-+	DBG("store %p proxy %p array %p", store, proxy, array);
+-+	
+-+	for (i = 0; i < array->len; i++)
+-+	{
+-+		DBusGObjectPath *path = (DBusGObjectPath *)g_ptr_array_index(array, i);
+-+		
+-+		if (get_iter_from_path(store, &iter, path))
+-+			gtk_tree_store_remove(store, &iter);
+-+	}
+-+}
+-+
+- DBusGProxy *connman_dbus_create_manager(DBusGConnection *conn,
+- 						GtkTreeStore *store)
+- {
+- 	DBusGProxy *proxy;
+-+	GType otype;
+- 
+- 	connection = dbus_g_connection_ref(conn);
+- 
+-@@ -620,11 +631,49 @@ DBusGProxy *connman_dbus_create_manager(DBusGConnection *conn,
+- 				G_TYPE_STRING, G_TYPE_VALUE, G_TYPE_INVALID);
+- 	dbus_g_proxy_connect_signal(proxy, "PropertyChanged",
+- 				G_CALLBACK(manager_changed), store, NULL);
+--
+-+	
+-+	otype = dbus_g_type_get_struct("GValueArray", DBUS_TYPE_G_OBJECT_PATH, DBUS_TYPE_G_DICTIONARY, G_TYPE_INVALID);
+-+	otype = dbus_g_type_get_collection("GPtrArray", otype);
+-+	dbus_g_object_register_marshaller(marshal_VOID__BOXED, G_TYPE_NONE, otype, G_TYPE_INVALID);
+-+
+-+	dbus_g_proxy_add_signal(proxy, "ServicesAdded",
+-+				otype, G_TYPE_INVALID);
+-+	dbus_g_proxy_connect_signal(proxy, "ServicesAdded",
+-+				G_CALLBACK(services_added), store, NULL);
+-+
+-+	otype = DBUS_TYPE_G_OBJECT_PATH_ARRAY;
+-+	dbus_g_object_register_marshaller(marshal_VOID__BOXED, G_TYPE_NONE, otype, G_TYPE_INVALID);
+-+	
+-+	dbus_g_proxy_add_signal(proxy, "ServicesRemoved",
+-+				otype, G_TYPE_INVALID);
+-+	dbus_g_proxy_connect_signal(proxy, "ServicesRemoved",
+-+				G_CALLBACK(services_removed), store, NULL);
+-+
+-+	dbus_g_object_register_marshaller(marshal_VOID__STRING_BOXED, G_TYPE_NONE, DBUS_TYPE_G_OBJECT_PATH, DBUS_TYPE_G_DICTIONARY, G_TYPE_INVALID);
+-+	dbus_g_proxy_add_signal(proxy, "TechnologyAdded",
+-+				DBUS_TYPE_G_OBJECT_PATH, DBUS_TYPE_G_DICTIONARY, G_TYPE_INVALID);
+-+	dbus_g_proxy_connect_signal(proxy, "TechnologyAdded",
+-+				G_CALLBACK(tech_added), store, NULL);
+-+
+-+	dbus_g_object_register_marshaller(marshal_VOID__STRING, G_TYPE_NONE, DBUS_TYPE_G_OBJECT_PATH, G_TYPE_INVALID);
+-+	dbus_g_proxy_add_signal(proxy, "TechnologyRemoved",
+-+				DBUS_TYPE_G_OBJECT_PATH, G_TYPE_INVALID);
+-+	dbus_g_proxy_connect_signal(proxy, "TechnologyRemoved",
+-+				G_CALLBACK(tech_removed), store, NULL);
+-+	
+-+	
+- 	DBG("getting manager properties");
+- 
+- 	connman_get_properties_async(proxy, manager_properties, store);
+- 
+-+	DBG("getting technologies");
+-+
+-+	connman_get_technologies_async(proxy, manager_technologies, store);
+-+
+-+	DBG("getting services");
+-+
+-+	connman_get_services_async(proxy, manager_services, store);
+-+
+- 	return proxy;
+- }
+- 
+-diff --git a/common/connman-dbus.h b/common/connman-dbus.h
+-index cfca50e..c1b5091 100644
+---- a/common/connman-dbus.h
+-+++ b/common/connman-dbus.h
+-@@ -32,6 +32,7 @@
+- 
+- #define CONNMAN_PROFILE_INTERFACE	CONNMAN_SERVICE ".Profile"
+- #define CONNMAN_SERVICE_INTERFACE	CONNMAN_SERVICE ".Service"
+-+#define CONNMAN_TECHNOLOGY_INTERFACE	CONNMAN_SERVICE ".Technology"
+- 
+- DBusGProxy *connman_dbus_create_manager(DBusGConnection *connection,
+- 							GtkTreeStore *store);
+-diff --git a/common/connman-dbus.xml b/common/connman-dbus.xml
+-index e20cb3b..56b9582 100644
+---- a/common/connman-dbus.xml
+-+++ b/common/connman-dbus.xml
+-@@ -5,26 +5,23 @@
+-     <method name="GetProperties">
+-       <arg type="a{sv}" direction="out"/>
+-     </method>
+-+    <method name="GetServices">
+-+      <arg type="a(oa{sv})" direction="out"/>
+-+    </method>
+-+    <method name="GetTechnologies">
+-+      <arg type="a(oa{sv})" direction="out"/>
+-+    </method>
+-     <method name="SetProperty">
+-       <arg type="s"/>
+-       <arg type="v"/>
+-     </method>
+--    <method name="ProposeScan">
+--    </method>
+-     <method name="Connect">
+-     </method>
+-     <method name="Disconnect">
+-     </method>
+-     <method name="Remove">
+-     </method>
+--    <method name="RequestScan">
+--      <arg type="s"/>
+--    </method>
+--    <method name="EnableTechnology">
+--      <arg type="s"/>
+--    </method>
+--    <method name="DisableTechnology">
+--      <arg type="s"/>
+-+    <method name="Scan">
+-     </method>
+-   </interface>
+- </node>
+-diff --git a/common/marshal.list b/common/marshal.list
+-index e72aa4b..8b174d0 100644
+---- a/common/marshal.list
+-+++ b/common/marshal.list
+-@@ -1 +1,3 @@
+- VOID:STRING,BOXED
+-+VOID:BOXED
+-+VOID:STRING
+-diff --git a/properties/cellular.c b/properties/cellular.c
+-index 7bbfb89..4d27e0e 100644
+---- a/properties/cellular.c
+-+++ b/properties/cellular.c
+-@@ -59,9 +59,9 @@ static void switch_callback(GtkWidget *editable, gpointer user_data)
+- 	const gchar *label = gtk_button_get_label(GTK_BUTTON(data->cellular_button));
+- 
+- 	if (g_str_equal(label, "Disable"))
+--		connman_client_disable_technology(data->client, data->device, "cellular");
+-+		connman_client_set_powered(data->client, data->device, FALSE);
+- 	else
+--		connman_client_enable_technology(data->client, data->device, "cellular");
+-+		connman_client_set_powered(data->client, data->device, TRUE);
+- }
+- 
+- void add_cellular_switch_button(GtkWidget *mainbox, GtkTreeIter *iter,
+-@@ -75,7 +75,7 @@ void add_cellular_switch_button(GtkWidget *mainbox, GtkTreeIter *iter,
+- 	gboolean cellular_enabled;
+- 
+- 	gtk_tree_model_get(data->model, iter,
+--			CONNMAN_COLUMN_CELLULAR_ENABLED, &cellular_enabled,
+-+			CONNMAN_COLUMN_POWERED, &cellular_enabled,
+- 			-1);
+- 
+- 	vbox = gtk_vbox_new(TRUE, 0);
+-diff --git a/properties/ethernet.c b/properties/ethernet.c
+-index d7f91d9..31db7a0 100644
+---- a/properties/ethernet.c
+-+++ b/properties/ethernet.c
+-@@ -59,9 +59,9 @@ static void switch_callback(GtkWidget *editable, gpointer user_data)
+- 	struct config_data *data = user_data;
+- 	const gchar *label = gtk_button_get_label(GTK_BUTTON(data->ethernet_button));
+- 	if (g_str_equal(label, "Disable"))
+--		connman_client_disable_technology(data->client, data->device, "ethernet");
+--	else if (g_str_equal(label, "Enable"))
+--		connman_client_enable_technology(data->client, data->device, "ethernet");
+-+		connman_client_set_powered(data->client, data->device, FALSE);
+-+	else
+-+		connman_client_set_powered(data->client, data->device, TRUE);
+- }
+- 
+- void add_ethernet_switch_button(GtkWidget *mainbox, GtkTreeIter *iter,
+-@@ -75,7 +75,7 @@ void add_ethernet_switch_button(GtkWidget *mainbox, GtkTreeIter *iter,
+- 	gboolean ethernet_enabled;
+- 
+- 	gtk_tree_model_get(data->model, iter,
+--			CONNMAN_COLUMN_ETHERNET_ENABLED, &ethernet_enabled,
+-+			CONNMAN_COLUMN_POWERED, &ethernet_enabled,
+- 			-1);
+- 
+- 	vbox = gtk_vbox_new(TRUE, 0);
+-diff --git a/properties/main.c b/properties/main.c
+-index 088684a..e266f03 100644
+---- a/properties/main.c
+-+++ b/properties/main.c
+-@@ -40,18 +40,14 @@ static void status_update(GtkTreeModel *model, GtkTreePath  *path,
+- 	struct config_data *data = user_data;
+- 	guint type;
+- 	const char *name = NULL, *_name = NULL, *state = NULL;
+--	gboolean ethernet_enabled;
+--	gboolean wifi_enabled;
+--	gboolean cellular_enabled;
+-+	gboolean powered;
+- 	gboolean offline_mode;
+- 
+- 	gtk_tree_model_get(model, iter,
+- 			CONNMAN_COLUMN_STATE, &state,
+- 			CONNMAN_COLUMN_NAME, &name,
+- 			CONNMAN_COLUMN_TYPE, &type,
+--			CONNMAN_COLUMN_ETHERNET_ENABLED, &ethernet_enabled,
+--			CONNMAN_COLUMN_WIFI_ENABLED, &wifi_enabled,
+--			CONNMAN_COLUMN_CELLULAR_ENABLED, &cellular_enabled,
+-+			CONNMAN_COLUMN_POWERED, &powered,
+- 			CONNMAN_COLUMN_OFFLINEMODE, &offline_mode,
+- 			-1);
+- 
+-@@ -103,14 +99,14 @@ static void status_update(GtkTreeModel *model, GtkTreePath  *path,
+- 	} else if (type == CONNMAN_TYPE_LABEL_ETHERNET) {
+- 		if (!data->ethernet_button)
+- 			return;
+--		if (ethernet_enabled)
+-+		if (powered)
+- 			gtk_button_set_label(GTK_BUTTON(data->ethernet_button), _("Disable"));
+- 		else
+- 			gtk_button_set_label(GTK_BUTTON(data->ethernet_button), _("Enable"));
+- 	} else if (type == CONNMAN_TYPE_LABEL_WIFI) {
+- 		if (!data->wifi_button)
+- 			return;
+--		if (wifi_enabled) {
+-+		if (powered) {
+- 			gtk_button_set_label(GTK_BUTTON(data->wifi_button), _("Disable"));
+- 			gtk_widget_set_sensitive(data->scan_button, 1);
+- 		} else {
+-@@ -120,7 +116,7 @@ static void status_update(GtkTreeModel *model, GtkTreePath  *path,
+- 	} else if (type == CONNMAN_TYPE_LABEL_CELLULAR) {
+- 		if (!data->cellular_button)
+- 			return;
+--		if (cellular_enabled)
+-+		if (powered)
+- 			gtk_button_set_label(GTK_BUTTON(data->cellular_button), _("Disable"));
+- 		else
+- 			gtk_button_set_label(GTK_BUTTON(data->cellular_button), _("Enable"));
+-diff --git a/properties/wifi.c b/properties/wifi.c
+-index 85922a3..038d35a 100644
+---- a/properties/wifi.c
+-+++ b/properties/wifi.c
+-@@ -96,9 +96,9 @@ static void switch_callback(GtkWidget *editable, gpointer user_data)
+- 	const gchar *label = gtk_button_get_label(GTK_BUTTON(data->wifi_button));
+- 
+- 	if (g_str_equal(label, "Disable"))
+--		connman_client_disable_technology(data->client, data->device, "wifi");
+-+		connman_client_set_powered(data->client, data->device, FALSE);
+- 	else
+--		connman_client_enable_technology(data->client, data->device, "wifi");
+-+		connman_client_set_powered(data->client, data->device, TRUE);
+- }
+- 
+- static void scan_reply_cb(DBusGProxy *proxy, GError *error,
+-@@ -115,7 +115,7 @@ static void scan_callback(GtkWidget *button, gpointer user_data)
+- {
+- 	struct config_data *data = user_data;
+- 	gtk_widget_set_sensitive(button, 0);
+--	connman_client_request_scan(data->client, "", scan_reply_cb, button);
+-+	connman_client_scan(data->client, data->device, scan_reply_cb, button);
+- }
+- 
+- void add_wifi_switch_button(GtkWidget *mainbox, GtkTreeIter *iter,
+-@@ -129,7 +129,7 @@ void add_wifi_switch_button(GtkWidget *mainbox, GtkTreeIter *iter,
+- 	gboolean wifi_enabled;
+- 
+- 	gtk_tree_model_get(data->model, iter,
+--			CONNMAN_COLUMN_WIFI_ENABLED, &wifi_enabled,
+-+			CONNMAN_COLUMN_POWERED, &wifi_enabled,
+- 			-1);
+- 
+- 	vbox = gtk_vbox_new(TRUE, 0);
+--- 
+-1.7.5.4
+-
+diff --git a/meta/recipes-connectivity/connman/connman-gnome/0002-Update-for-ConnMan-1.0-DBus-API.patch b/meta/recipes-connectivity/connman/connman-gnome/0002-Update-for-ConnMan-1.0-DBus-API.patch
+new file mode 100644
+index 0000000..ac3fb29
+--- /dev/null
++++ b/meta/recipes-connectivity/connman/connman-gnome/0002-Update-for-ConnMan-1.0-DBus-API.patch
+@@ -0,0 +1,179 @@
++From 6a17f632f59bcdcf63b74b433a2052585978e933 Mon Sep 17 00:00:00 2001
++From: Ross Burton <ross.burton@intel.com>
++Date: Mon, 11 Jun 2012 11:15:24 +0100
++Subject: [PATCH 2/2] Update for ConnMan 1.0 DBus API
++
++ServicesAdded and ServicesRemoved were replaced with ServicesChanged.
++---
++ common/connman-dbus.c |  117 ++++++++++++++++++++++++-------------------------
++ common/marshal.list   |    1 +
++ 2 files changed, 59 insertions(+), 59 deletions(-)
++
++diff --git a/common/connman-dbus.c b/common/connman-dbus.c
++index 822fc98..b82b3e1 100644
++--- a/common/connman-dbus.c
+++++ b/common/connman-dbus.c
++@@ -532,31 +532,60 @@ static void manager_properties(DBusGProxy *proxy, GHashTable *hash,
++ 		offline_mode_properties(store, proxy, value);
++ }
++ 
++-static void manager_services(DBusGProxy *proxy, GPtrArray *array,
++-					GError *error, gpointer user_data)
+++static void update_services(DBusGProxy *proxy, GPtrArray *added,
+++                            GPtrArray *removed, gpointer user_data)
++ {
+++	GtkTreeStore *store;
+++	GtkTreeIter iter;
++ 	unsigned int i;
++ 
++-	DBG("proxy %p array %p", proxy, array);
+++	DBG("proxy %p store %p added %p removed %p", proxy, user_data, added, removed);
++ 
++-	if (error != NULL || array == NULL)
++-		return;
+++	store = GTK_TREE_STORE (user_data);
++ 
++-	for (i = 0; i < array->len; i++)
++-	{
++-		GHashTable *props;
++-		GValueArray *item = g_ptr_array_index(array, i);
+++	/* Handle the removed services first as a micro-optimisation */
+++	if (removed) {
+++		for (i = 0; i < removed->len; i++)
+++			{
+++				DBusGObjectPath *path;
+++				path = (DBusGObjectPath *)g_ptr_array_index(removed, i);
+++				DBG("removed path %s", path);
+++				if (get_iter_from_path(store, &iter, path))
+++					gtk_tree_store_remove(store, &iter);
+++			}
+++	}
++ 
++-		DBusGObjectPath *path = (DBusGObjectPath *)g_value_get_boxed(g_value_array_get_nth(item, 0));
++-		DBusGProxy *service_proxy = dbus_g_proxy_new_for_name(connection,
++-						CONNMAN_SERVICE, path,
++-						CONNMAN_SERVICE_INTERFACE);
++-		if (service_proxy == NULL)
++-			continue;
+++	if (added) {
+++		for (i = 0; i < added->len; i++)
+++			{
+++				GHashTable *props;
+++				GValueArray *item = g_ptr_array_index(added, i);
+++
+++				DBusGObjectPath *path = (DBusGObjectPath *)g_value_get_boxed(g_value_array_get_nth(item, 0));
+++				DBusGProxy *service_proxy = dbus_g_proxy_new_for_name(connection,
+++										      CONNMAN_SERVICE, path,
+++										      CONNMAN_SERVICE_INTERFACE);
+++				DBG("added path %s", path);
+++				if (service_proxy == NULL)
+++					continue;
+++
+++				props = (GHashTable *)g_value_get_boxed(g_value_array_get_nth(item, 1));
+++				service_properties(service_proxy, props, user_data);
+++			}
+++	}
+++}
++ 
++-		props = (GHashTable *)g_value_get_boxed(g_value_array_get_nth(item, 1));
++-		service_properties(service_proxy, props, user_data);
+++static void manager_services(DBusGProxy *proxy, GPtrArray *services,
+++                             GError *error, gpointer user_data)
+++{
+++	DBG("proxy %p store %p services %p", proxy, user_data, services);
+++
+++	if (error != NULL) {
+++		g_message ("Error getting services: %s", error->message);
+++		return;
++ 	}
+++
+++	update_services (proxy, services, NULL, user_data);
++ }
++ 
++ static void manager_technologies(DBusGProxy *proxy, GPtrArray *array,
++@@ -580,37 +609,11 @@ static void manager_technologies(DBusGProxy *proxy, GPtrArray *array,
++ 	}
++ }
++ 
++-static void services_added(DBusGProxy *proxy, GPtrArray *array,
++-					gpointer user_data)
++-{
++-	DBG("proxy %p array %p", proxy, array);
++-
++-	manager_services(proxy, array, NULL, user_data);
++-}
++-
++-static void services_removed(DBusGProxy *proxy, GPtrArray *array,
++-					gpointer user_data)
++-{
++-	GtkTreeStore *store = user_data;
++-	GtkTreeIter iter;
++-	unsigned int i;
++-
++-	DBG("store %p proxy %p array %p", store, proxy, array);
++-
++-	for (i = 0; i < array->len; i++)
++-	{
++-		DBusGObjectPath *path = (DBusGObjectPath *)g_ptr_array_index(array, i);
++-
++-		if (get_iter_from_path(store, &iter, path))
++-			gtk_tree_store_remove(store, &iter);
++-	}
++-}
++-
++ DBusGProxy *connman_dbus_create_manager(DBusGConnection *conn,
++ 						GtkTreeStore *store)
++ {
++ 	DBusGProxy *proxy;
++-	GType otype;
+++	GType changed_type, removed_type;
++ 
++ 	connection = dbus_g_connection_ref(conn);
++ 
++@@ -624,22 +627,18 @@ DBusGProxy *connman_dbus_create_manager(DBusGConnection *conn,
++ 	dbus_g_proxy_connect_signal(proxy, "PropertyChanged",
++ 				G_CALLBACK(manager_changed), store, NULL);
++ 
++-	otype = dbus_g_type_get_struct("GValueArray", DBUS_TYPE_G_OBJECT_PATH, DBUS_TYPE_G_DICTIONARY, G_TYPE_INVALID);
++-	otype = dbus_g_type_get_collection("GPtrArray", otype);
++-	dbus_g_object_register_marshaller(marshal_VOID__BOXED, G_TYPE_NONE, otype, G_TYPE_INVALID);
++-
++-	dbus_g_proxy_add_signal(proxy, "ServicesAdded",
++-				otype, G_TYPE_INVALID);
++-	dbus_g_proxy_connect_signal(proxy, "ServicesAdded",
++-				G_CALLBACK(services_added), store, NULL);
++-
++-	otype = DBUS_TYPE_G_OBJECT_PATH_ARRAY;
++-	dbus_g_object_register_marshaller(marshal_VOID__BOXED, G_TYPE_NONE, otype, G_TYPE_INVALID);
+++	changed_type = dbus_g_type_get_struct("GValueArray", DBUS_TYPE_G_OBJECT_PATH, DBUS_TYPE_G_DICTIONARY, G_TYPE_INVALID);
+++	changed_type = dbus_g_type_get_collection("GPtrArray", changed_type);
+++        removed_type = DBUS_TYPE_G_OBJECT_PATH_ARRAY;
+++	dbus_g_object_register_marshaller(marshal_VOID__BOXED_BOXED,
+++                                          G_TYPE_NONE,
+++                                          changed_type, removed_type,
+++                                          G_TYPE_INVALID);
++ 
++-	dbus_g_proxy_add_signal(proxy, "ServicesRemoved",
++-				otype, G_TYPE_INVALID);
++-	dbus_g_proxy_connect_signal(proxy, "ServicesRemoved",
++-				G_CALLBACK(services_removed), store, NULL);
+++	dbus_g_proxy_add_signal(proxy, "ServicesChanged",
+++				changed_type, removed_type, G_TYPE_INVALID);
+++	dbus_g_proxy_connect_signal(proxy, "ServicesChanged",
+++				G_CALLBACK(update_services), store, NULL);
++ 
++ 	dbus_g_object_register_marshaller(marshal_VOID__STRING_BOXED, G_TYPE_NONE, DBUS_TYPE_G_OBJECT_PATH, DBUS_TYPE_G_DICTIONARY, G_TYPE_INVALID);
++ 	dbus_g_proxy_add_signal(proxy, "TechnologyAdded",
++diff --git a/common/marshal.list b/common/marshal.list
++index 3c6317b..561002f 100644
++--- a/common/marshal.list
+++++ b/common/marshal.list
++@@ -2,4 +2,5 @@ VOID:STRING,BOXED
++ VOID:OBJECT,BOXED
++ VOID:OBJECT
++ VOID:BOXED
+++VOID:BOXED,BOXED
++ VOID:STRING
++-- 
++1.7.7
++
+diff --git a/meta/recipes-connectivity/connman/connman-gnome/0003-Fix-setting-IPv4-configuration.patch b/meta/recipes-connectivity/connman/connman-gnome/0003-Fix-setting-IPv4-configuration.patch
+deleted file mode 100644
+index a25ffd9..0000000
+--- a/meta/recipes-connectivity/connman/connman-gnome/0003-Fix-setting-IPv4-configuration.patch
++++ /dev/null
+@@ -1,85 +0,0 @@
+-From 8594fb5e2fc347984457e2e46b175eb3cf57951f Mon Sep 17 00:00:00 2001
+-Message-Id: <8594fb5e2fc347984457e2e46b175eb3cf57951f.1334369310.git.paul.eggleton@linux.intel.com>
+-In-Reply-To: <cover.1334369310.git.paul.eggleton@linux.intel.com>
+-References: <cover.1334369310.git.paul.eggleton@linux.intel.com>
+-From: Paul Eggleton <paul.eggleton@linux.intel.com>
+-Date: Sat, 14 Apr 2012 01:11:53 +0100
+-Subject: [PATCH 3/6] Fix setting IPv4 configuration
+-
+-Values in the hashtable for IPv4.Configuration need to be variants, not
+-strings, and don't pass address entries if the method is dhcp.
+-
+-Upstream-Status: Submitted
+-
+-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+----
+- common/connman-client.c |   32 +++++++++++++++++++++++++-------
+- 1 files changed, 25 insertions(+), 7 deletions(-)
+-
+-diff --git a/common/connman-client.c b/common/connman-client.c
+-index 9d755c4..e4441ad 100644
+---- a/common/connman-client.c
+-+++ b/common/connman-client.c
+-@@ -39,6 +39,11 @@
+- #define CONNMAN_CLIENT_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE((obj), \
+- 				CONNMAN_TYPE_CLIENT, ConnmanClientPrivate))
+- 
+-+#ifndef DBUS_TYPE_G_DICTIONARY
+-+#define DBUS_TYPE_G_DICTIONARY \
+-+	(dbus_g_type_get_map("GHashTable", G_TYPE_STRING, G_TYPE_VALUE))
+-+#endif
+-+
+- typedef struct _ConnmanClientPrivate ConnmanClientPrivate;
+- 
+- struct _ConnmanClientPrivate {
+-@@ -248,6 +253,16 @@ GtkTreeModel *connman_client_get_device_model(ConnmanClient *client)
+- 	return model;
+- }
+- 
+-+void hash_table_value_string_insert( GHashTable *hash, gpointer key, const char *str )
+-+{
+-+	GValue *itemvalue;
+-+
+-+	itemvalue = g_slice_new0(GValue);
+-+	g_value_init(itemvalue, G_TYPE_STRING);
+-+	g_value_set_string(itemvalue, str);
+-+	g_hash_table_insert(hash, key, itemvalue);
+-+}
+-+
+- gboolean connman_client_set_ipv4(ConnmanClient *client, const gchar *device,
+- 				struct ipv4_config *ipv4_config)
+- {
+-@@ -255,12 +270,7 @@ gboolean connman_client_set_ipv4(ConnmanClient *client, const gchar *device,
+- 	DBusGProxy *proxy;
+- 	GValue value = { 0 };
+- 	gboolean ret;
+--	GHashTable *ipv4 = g_hash_table_new(g_str_hash, g_str_equal);
+--
+--	g_hash_table_insert(ipv4, "Method",  (gpointer)ipv4_config->method);
+--	g_hash_table_insert(ipv4, "Address", (gpointer)ipv4_config->address);
+--	g_hash_table_insert(ipv4, "Netmask", (gpointer)ipv4_config->netmask);
+--	g_hash_table_insert(ipv4, "Gateway", (gpointer)ipv4_config->gateway);
+-+	GHashTable *ipv4 = g_hash_table_new_full(g_str_hash, g_str_equal, NULL, g_free);
+- 
+- 	DBG("client %p", client);
+- 
+-@@ -270,7 +280,15 @@ gboolean connman_client_set_ipv4(ConnmanClient *client, const gchar *device,
+- 	proxy = connman_dbus_get_proxy(priv->store, device);
+- 	if (proxy == NULL)
+- 		return FALSE;
+--	g_value_init(&value, DBUS_TYPE_G_STRING_STRING_HASHTABLE);
+-+
+-+	hash_table_value_string_insert(ipv4, "Method", ipv4_config->method);
+-+	if( g_strcmp0(ipv4_config->method, "dhcp" ) != 0 ) {
+-+		hash_table_value_string_insert(ipv4, "Address", ipv4_config->address);
+-+		hash_table_value_string_insert(ipv4, "Netmask", ipv4_config->netmask);
+-+		hash_table_value_string_insert(ipv4, "Gateway", ipv4_config->gateway);
+-+	}
+-+
+-+	g_value_init(&value, DBUS_TYPE_G_DICTIONARY);
+- 	g_value_set_boxed(&value, ipv4);
+- 	ret = connman_set_property(proxy, "IPv4.Configuration", &value, NULL);
+- 
+--- 
+-1.7.5.4
+-
+diff --git a/meta/recipes-connectivity/connman/connman-gnome/0004-Handle-WiFi-authentication-using-an-agent.patch b/meta/recipes-connectivity/connman/connman-gnome/0004-Handle-WiFi-authentication-using-an-agent.patch
+deleted file mode 100644
+index 9823052..0000000
+--- a/meta/recipes-connectivity/connman/connman-gnome/0004-Handle-WiFi-authentication-using-an-agent.patch
++++ /dev/null
+@@ -1,923 +0,0 @@
+-From c742b40860851f1659e801d0a652f854f6783bd1 Mon Sep 17 00:00:00 2001
+-Message-Id: <c742b40860851f1659e801d0a652f854f6783bd1.1334369310.git.paul.eggleton@linux.intel.com>
+-In-Reply-To: <cover.1334369310.git.paul.eggleton@linux.intel.com>
+-References: <cover.1334369310.git.paul.eggleton@linux.intel.com>
+-From: Paul Eggleton <paul.eggleton@linux.intel.com>
+-Date: Sat, 14 Apr 2012 02:32:43 +0100
+-Subject: [PATCH 4/6] Handle WiFi authentication using an agent
+-
+-Register an agent within the applet which shows an appropriate dialog
+-when credentials are requested upon connecting to a secured wireless
+-network.
+-
+-Thanks to Julien Massot for providing the underlying agent library code.
+-
+-Upstream-Status: Submitted
+-
+-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+----
+- applet/Makefile.am       |    3 +-
+- applet/agent.c           |  209 +++++++++++++++++++++++
+- applet/agent.h           |   29 +++
+- applet/main.c            |    3 +
+- common/Makefile.am       |   13 +-
+- common/connman-agent.c   |  426 ++++++++++++++++++++++++++++++++++++++++++++++
+- common/connman-agent.h   |   77 +++++++++
+- common/connman-agent.xml |   26 +++
+- common/marshal.list      |    2 +
+- 9 files changed, 783 insertions(+), 5 deletions(-)
+- create mode 100644 applet/agent.c
+- create mode 100644 applet/agent.h
+- create mode 100644 common/connman-agent.c
+- create mode 100644 common/connman-agent.h
+- create mode 100644 common/connman-agent.xml
+-
+-diff --git a/applet/Makefile.am b/applet/Makefile.am
+-index fe582ef..2e7c157 100644
+---- a/applet/Makefile.am
+-+++ b/applet/Makefile.am
+-@@ -2,7 +2,8 @@
+- bin_PROGRAMS = connman-applet
+- 
+- connman_applet_SOURCES = main.c \
+--	properties.h properties.c status.h status.c
+-+	properties.h properties.c status.h \
+-+	status.c agent.h agent.c
+- 
+- connman_applet_LDADD = $(top_builddir)/common/libcommon.a \
+- 					@GTK_LIBS@ @DBUS_LIBS@
+-diff --git a/applet/agent.c b/applet/agent.c
+-new file mode 100644
+-index 0000000..b12d337
+---- /dev/null
+-+++ b/applet/agent.c
+-@@ -0,0 +1,209 @@
+-+/*
+-+ *
+-+ *  Connection Manager
+-+ *
+-+ *  Agent implementation based on code from bluez-gnome
+-+ *
+-+ *  Copyright (C) 2005-2008  Marcel Holtmann <marcel@holtmann.org>
+-+ *  Copyright (C) 2006-2007  Bastien Nocera <hadess@hadess.net>
+-+ *  Copyright (C) 2012  Intel Corporation
+-+ *
+-+ *
+-+ *  This program is free software; you can redistribute it and/or modify
+-+ *  it under the terms of the GNU General Public License as published by
+-+ *  the Free Software Foundation; either version 2 of the License, or
+-+ *  (at your option) any later version.
+-+ *
+-+ *  This program is distributed in the hope that it will be useful,
+-+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+-+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-+ *  GNU General Public License for more details.
+-+ *
+-+ *  You should have received a copy of the GNU General Public License
+-+ *  along with this program; if not, write to the Free Software
+-+ *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+-+ *
+-+ */
+-+
+-+#ifdef HAVE_CONFIG_H
+-+#include <config.h>
+-+#endif
+-+
+-+#include <stdlib.h>
+-+
+-+#include <glib/gi18n.h>
+-+#include <gtk/gtk.h>
+-+
+-+#include <dbus/dbus-glib.h>
+-+
+-+#include <connman-agent.h>
+-+
+-+#include "agent.h"
+-+
+-+struct input_data {
+-+	gboolean numeric;
+-+	gpointer request_data;
+-+	GtkWidget *dialog;
+-+	GHashTable *entries;
+-+};
+-+
+-+static struct input_data *input_data_inst = NULL;
+-+
+-+static void input_free(struct input_data *input)
+-+{
+-+	gtk_widget_destroy(input->dialog);
+-+
+-+	g_hash_table_destroy(input->entries);
+-+	
+-+	if( input_data_inst == input )
+-+		input_data_inst = NULL;
+-+	
+-+	g_free(input);
+-+}
+-+
+-+static void request_input_callback(GtkWidget *dialog,
+-+				gint response, gpointer user_data)
+-+{
+-+	GHashTableIter iter;
+-+	gpointer key, value;
+-+	GValue *retvalue = NULL;
+-+	const gchar *text;
+-+	struct input_data *input = user_data;
+-+
+-+	if (response == GTK_RESPONSE_OK) {
+-+		GHashTable *reply = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, g_free);
+-+		g_hash_table_iter_init (&iter, input->entries);
+-+		while (g_hash_table_iter_next (&iter, &key, &value)) {
+-+			text = gtk_entry_get_text((GtkEntry *)value);
+-+			if(strlen(text)) {
+-+				retvalue = g_slice_new0(GValue);
+-+				g_value_init(retvalue, G_TYPE_STRING);
+-+				g_value_set_string(retvalue, text);
+-+				g_hash_table_insert(reply, g_strdup(key), retvalue);
+-+			}
+-+		}
+-+		
+-+		connman_agent_request_input_set_reply(input->request_data, reply);
+-+	} else {
+-+		connman_agent_request_input_abort(input->request_data);
+-+	}
+-+
+-+	input_free(input);
+-+}
+-+
+-+static void show_dialog(gpointer data, gpointer user_data)
+-+{
+-+	struct input_data *input = data;
+-+
+-+	gtk_widget_show_all(input->dialog);
+-+
+-+	gtk_window_present(GTK_WINDOW(input->dialog));
+-+}
+-+
+-+static void request_input_dialog(GHashTable *request,
+-+						gpointer request_data)
+-+{
+-+	GtkWidget *dialog;
+-+	GtkWidget *label;
+-+	GtkWidget *table;
+-+	GtkWidget *entry;
+-+	struct input_data *input;
+-+	GHashTableIter iter;
+-+	gpointer key, value;
+-+	int elems, i;
+-+
+-+	input = g_try_malloc0(sizeof(*input));
+-+	if (!input)
+-+		return;
+-+
+-+	input->request_data = request_data;
+-+
+-+	input->entries = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, NULL);
+-+
+-+	dialog = gtk_dialog_new();
+-+	gtk_window_set_title(GTK_WINDOW(dialog), _("Connection Manager"));
+-+	gtk_window_set_resizable(GTK_WINDOW(dialog), FALSE);
+-+	gtk_window_set_position(GTK_WINDOW(dialog), GTK_WIN_POS_CENTER);
+-+	gtk_window_set_keep_above(GTK_WINDOW(dialog), TRUE);
+-+	gtk_window_set_urgency_hint(GTK_WINDOW(dialog), TRUE);
+-+	gtk_dialog_set_has_separator(GTK_DIALOG(dialog), FALSE);
+-+	input->dialog = dialog;
+-+
+-+	gtk_dialog_add_button(GTK_DIALOG(dialog),
+-+					GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
+-+	gtk_dialog_add_button(GTK_DIALOG(dialog),
+-+					GTK_STOCK_OK, GTK_RESPONSE_OK);
+-+
+-+	elems = g_hash_table_size(request);
+-+	table = gtk_table_new(elems+1, 2, FALSE);
+-+	gtk_table_set_row_spacings(GTK_TABLE(table), 4);
+-+	gtk_table_set_col_spacings(GTK_TABLE(table), 20);
+-+	gtk_container_set_border_width(GTK_CONTAINER(table), 12);
+-+	gtk_container_add(GTK_CONTAINER(GTK_DIALOG(dialog)->vbox), table);
+-+
+-+	label = gtk_label_new(_("Please provide some network information:"));
+-+	gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.0);
+-+	gtk_table_attach(GTK_TABLE(table), label, 0, 2, 0, 1,
+-+				GTK_EXPAND | GTK_FILL, GTK_SHRINK, 0, 0);
+-+
+-+	g_hash_table_iter_init (&iter, request);
+-+	i=1;
+-+	while (g_hash_table_iter_next (&iter, &key, &value)) {
+-+		label = gtk_label_new((const char *)key);
+-+		gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.0);
+-+		gtk_table_attach(GTK_TABLE(table), label, 0, 1, i, i+1,
+-+					GTK_EXPAND | GTK_FILL, GTK_SHRINK, 0, 0);
+-+
+-+		entry = gtk_entry_new();
+-+		gtk_entry_set_max_length(GTK_ENTRY(entry), 64);
+-+		gtk_entry_set_width_chars(GTK_ENTRY(entry), 16);
+-+		gtk_entry_set_visibility(GTK_ENTRY(entry), FALSE);
+-+		gtk_table_attach(GTK_TABLE(table), entry, 1, 2, i, i+1,
+-+					GTK_EXPAND | GTK_FILL, GTK_SHRINK, 0, 0);
+-+		g_hash_table_insert(input->entries, g_strdup(key), entry);
+-+
+-+		i++;
+-+	}
+-+	
+-+	input_data_inst = input;
+-+	
+-+	g_signal_connect(G_OBJECT(dialog), "response",
+-+				G_CALLBACK(request_input_callback), input);
+-+
+-+	show_dialog(input, NULL);
+-+}
+-+
+-+static void request_input(const char *service_id, 
+-+                              GHashTable *request, gpointer request_data, gpointer user_data)
+-+{
+-+	request_input_dialog(request, request_data);
+-+}
+-+
+-+static gboolean cancel_request(DBusGMethodInvocation *context,
+-+							gpointer user_data)
+-+{
+-+	if( input_data_inst ) {
+-+		connman_agent_request_input_abort(input_data_inst->request_data);
+-+
+-+		input_free(input_data_inst);
+-+	}
+-+
+-+	return TRUE;
+-+}
+-+
+-+int setup_agents(void)
+-+{
+-+	ConnmanAgent *agent = connman_agent_new();
+-+	connman_agent_setup(agent, "/org/gnome/connman/applet");
+-+
+-+	connman_agent_set_request_input_func(agent, request_input, agent);
+-+	connman_agent_set_cancel_func(agent, cancel_request, agent);
+-+
+-+	connman_agent_register(agent);
+-+
+-+	return 0;
+-+}
+-+
+-+void cleanup_agents(void)
+-+{
+-+}
+-diff --git a/applet/agent.h b/applet/agent.h
+-new file mode 100644
+-index 0000000..d85676b
+---- /dev/null
+-+++ b/applet/agent.h
+-@@ -0,0 +1,29 @@
+-+/*
+-+ *
+-+ *  Connection Manager
+-+ *
+-+ *  Agent implementation based on code from bluez-gnome
+-+ *
+-+ *  Copyright (C) 2005-2008  Marcel Holtmann <marcel@holtmann.org>
+-+ *  Copyright (C) 2006-2007  Bastien Nocera <hadess@hadess.net>
+-+ *  Copyright (C) 2012  Intel Corporation
+-+ *
+-+ *
+-+ *  This program is free software; you can redistribute it and/or modify
+-+ *  it under the terms of the GNU General Public License as published by
+-+ *  the Free Software Foundation; either version 2 of the License, or
+-+ *  (at your option) any later version.
+-+ *
+-+ *  This program is distributed in the hope that it will be useful,
+-+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+-+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-+ *  GNU General Public License for more details.
+-+ *
+-+ *  You should have received a copy of the GNU General Public License
+-+ *  along with this program; if not, write to the Free Software
+-+ *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+-+ *
+-+ */
+-+
+-+int setup_agents(void);
+-+void cleanup_agents(void);
+-diff --git a/applet/main.c b/applet/main.c
+-index 68a77b1..d06ce60 100644
+---- a/applet/main.c
+-+++ b/applet/main.c
+-@@ -32,6 +32,7 @@
+- 
+- #include "properties.h"
+- #include "status.h"
+-+#include "agent.h"
+- 
+- static gboolean global_ready = FALSE;
+- static gint global_strength = -1;
+-@@ -132,6 +133,7 @@ static void manager_init(DBusGConnection *connection)
+- 					"/", "net.connman.Manager");
+- 
+- 	properties_create(manager, manager_property_changed, NULL);
+-+	setup_agents();
+- }
+- 
+- static void manager_cleanup(void)
+-@@ -148,6 +150,7 @@ static void name_owner_changed(DBusGProxy *proxy, const char *name,
+- 	if (*new != '\0') {
+- 		status_offline();
+- 		properties_enable(manager);
+-+		setup_agents();
+- 	} else {
+- 		properties_disable(manager);
+- 		status_unavailable();
+-diff --git a/common/Makefile.am b/common/Makefile.am
+-index ef1267a..5bfff19 100644
+---- a/common/Makefile.am
+-+++ b/common/Makefile.am
+-@@ -3,19 +3,21 @@ noinst_LIBRARIES = libcommon.a
+- 
+- libcommon_a_SOURCES = connman-dbus.c connman-dbus.h connman-dbus-glue.h \
+- 				connman-client.h connman-client.c \
+--							instance.h instance.c
+-+							instance.h instance.c \
+-+				connman-agent.h connman-agent.c
+- 
+- BUILT_SOURCES = marshal.h marshal.c \
+- 			connman-dbus-glue.h \
+--				instance-glue.h
+-+				instance-glue.h \
+-+				connman-agent-glue.h
+- 
+--nodist_libcommon_a_SOURCES = connman-dbus-glue.h instance-glue.h
+-+nodist_libcommon_a_SOURCES = connman-dbus-glue.h instance-glue.h connman-agent-glue.h
+- 
+- CLEANFILES = $(BUILT_SOURCES)
+- 
+- AM_CFLAGS = @DBUS_CFLAGS@ @GTK_CFLAGS@
+- 
+--EXTRA_DIST = marshal.list instance.xml connman-dbus.xml
+-+EXTRA_DIST = marshal.list instance.xml connman-dbus.xml connman-agent.xml
+- 
+- MAINTAINERCLEANFILES = Makefile.in
+- 
+-@@ -30,3 +32,6 @@ instance-glue.h: instance.xml
+- 
+- connman-dbus-glue.h: connman-dbus.xml
+- 	$(DBUS_BINDING_TOOL) --prefix=connman --mode=glib-client --output=$@ $<
+-+
+-+connman-agent-glue.h: connman-agent.xml
+-+	$(DBUS_BINDING_TOOL) --prefix=connman_agent --mode=glib-server --output=$@ $<
+-diff --git a/common/connman-agent.c b/common/connman-agent.c
+-new file mode 100644
+-index 0000000..769bf27
+---- /dev/null
+-+++ b/common/connman-agent.c
+-@@ -0,0 +1,426 @@
+-+/*
+-+ *  Connection Manager Agent implementation
+-+ * 
+-+ *  Author(s):
+-+ *  - Julien MASSOT <jmassot@aldebaran-robotics.com>
+-+ *  - Paul Eggleton <paul.eggleton@linux.intel.com>
+-+ *
+-+ *  Copyright (C) 2012 Aldebaran Robotics
+-+ *  Copyright (C) 2012 Intel Corporation
+-+ * 
+-+ *  This library is free software; you can redistribute it and/or
+-+ *  modify it under the terms of the GNU Lesser General Public
+-+ *  License version 2.1 as published by the Free Software Foundation.
+-+ *
+-+ *  This library is distributed in the hope that it will be useful,
+-+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+-+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+-+ *  Lesser General Public License for more details.
+-+ *
+-+ *  You should have received a copy of the GNU Lesser General Public
+-+ *  License along with this library; if not, write to the Free Software
+-+ *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+-+ */
+-+
+-+#include <dbus/dbus-glib.h>
+-+#include <dbus/dbus-glib-lowlevel.h>
+-+#include <stdio.h>
+-+
+-+#include "connman-agent.h"
+-+#include "connman-dbus.h"
+-+
+-+#define CONNMAN_AGENT_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE((obj), \
+-+  CONNMAN_TYPE_AGENT, ConnmanAgentPrivate))
+-+
+-+typedef enum {
+-+  AGENT_ERROR_REJECT,
+-+  AGENT_ERROR_RETRY
+-+} AgentError;
+-+
+-+#define AGENT_ERROR (agent_error_quark())
+-+
+-+#define AGENT_ERROR_TYPE (agent_error_get_type())
+-+
+-+static GQuark agent_error_quark(void)
+-+{
+-+	static GQuark quark = 0;
+-+	if (!quark)
+-+		quark = g_quark_from_static_string("Agent");
+-+
+-+	return quark;
+-+}
+-+
+-+#define ENUM_ENTRY(NAME, DESC) { NAME, "" #NAME "", DESC }
+-+
+-+static GType agent_error_get_type(void)
+-+{
+-+	static GType etype = 0;
+-+	if (etype == 0) {
+-+		static const GEnumValue values[] = {
+-+			ENUM_ENTRY(AGENT_ERROR_REJECT, "Rejected"),
+-+			ENUM_ENTRY(AGENT_ERROR_RETRY, "Retry"),
+-+			{ 0, 0, 0 }
+-+		};
+-+
+-+		etype = g_enum_register_static("Agent", values);
+-+	}
+-+
+-+	return etype;
+-+}
+-+
+-+typedef struct _ConnmanAgentPrivate ConnmanAgentPrivate;
+-+
+-+typedef struct _PendingRequest PendingRequest;
+-+
+-+struct _PendingRequest {
+-+	DBusGMethodInvocation *context;
+-+	ConnmanAgent *agent;
+-+};
+-+
+-+struct _ConnmanAgentPrivate {
+-+	gchar *busname;
+-+	gchar *path;
+-+	DBusGConnection *connection;
+-+	DBusGProxy *connman_proxy;
+-+
+-+	ConnmanAgentRequestInputFunc input_func;
+-+	gpointer input_data;
+-+
+-+	ConnmanAgentCancelFunc cancel_func;
+-+	gpointer cancel_data;
+-+
+-+	ConnmanAgentReleaseFunc release_func;
+-+	gpointer release_data;
+-+
+-+	ConnmanAgentDebugFunc debug_func;
+-+	gpointer debug_data;
+-+
+-+};
+-+
+-+G_DEFINE_TYPE(ConnmanAgent, connman_agent, G_TYPE_OBJECT)
+-+
+-+static inline void debug(ConnmanAgent *agent, const char *format, ...)
+-+{
+-+	char str[256];
+-+	va_list ap;
+-+	ConnmanAgentPrivate *priv = CONNMAN_AGENT_GET_PRIVATE(agent);
+-+
+-+	if (priv->debug_func == NULL)
+-+		return;
+-+
+-+	va_start(ap, format);
+-+
+-+	if (vsnprintf(str, sizeof(str), format, ap) > 0)
+-+		priv->debug_func(str, priv->debug_data);
+-+
+-+	va_end(ap);
+-+}
+-+
+-+gboolean connman_agent_request_input_set_reply(gpointer request_data, GHashTable *reply)
+-+{
+-+	PendingRequest *pendingrequest = request_data;
+-+
+-+	if (request_data == NULL)
+-+		return FALSE;
+-+
+-+	dbus_g_method_return(pendingrequest->context, reply);
+-+
+-+	g_free(pendingrequest);
+-+
+-+	return FALSE;
+-+}
+-+
+-+gboolean connman_agent_request_input_abort(gpointer request_data)
+-+{
+-+	PendingRequest *pendingrequest = request_data;
+-+	GError *result;
+-+	if (request_data == NULL)
+-+		return FALSE;
+-+
+-+	result = g_error_new(AGENT_ERROR, AGENT_ERROR_REJECT,
+-+	                     "Input request rejected");
+-+	dbus_g_method_return_error(pendingrequest->context, result);
+-+	g_clear_error(&result);
+-+	g_free(pendingrequest);
+-+
+-+	return FALSE;
+-+}
+-+
+-+static gboolean connman_agent_request_input_cb(const GHashTable *reply, gpointer user_data)
+-+{
+-+
+-+	PendingRequest *pendingrequest = user_data;
+-+
+-+	dbus_g_method_return(pendingrequest->context, reply);
+-+
+-+	g_free(pendingrequest);
+-+	return FALSE;
+-+}
+-+
+-+gboolean connman_agent_report_error(ConnmanAgent *agent,
+-+                                    const char *path, const char *error,
+-+                                    DBusGMethodInvocation *context)
+-+{
+-+	GError *result;
+-+	ConnmanAgentPrivate *priv = CONNMAN_AGENT_GET_PRIVATE(agent);
+-+
+-+	debug(agent, "connection %s, reports an error: %s", path, error);
+-+	result = g_error_new(AGENT_ERROR, AGENT_ERROR_RETRY,
+-+	                     "Retry");
+-+	dbus_g_method_return_error(context, result);
+-+	g_clear_error(&result);
+-+
+-+	return FALSE;
+-+}
+-+
+-+gboolean connman_agent_request_input(ConnmanAgent *agent,
+-+                                     const char *path, GHashTable *fields,
+-+                                     DBusGMethodInvocation *context)
+-+{
+-+	ConnmanAgentPrivate *priv = CONNMAN_AGENT_GET_PRIVATE(agent);
+-+	const char *sender = dbus_g_method_get_sender(context);
+-+	char *name = NULL, *type = NULL;
+-+	char **id = NULL;
+-+	PendingRequest *pendingrequest = NULL;
+-+
+-+	debug(agent, "request %s, sender %s", path, sender);
+-+
+-+	if (fields == NULL)
+-+		return FALSE;
+-+
+-+	if (priv->input_func != NULL) {
+-+		id = g_strsplit(path, "/net/connman/service/", 2);
+-+		if (g_strv_length(id) == 2) {
+-+			pendingrequest = g_try_new0(PendingRequest, 1);
+-+			pendingrequest->context = context;
+-+			pendingrequest->agent   = agent;
+-+			priv->input_func(id[1], fields, pendingrequest, priv->input_data);
+-+		}
+-+		g_strfreev(id);
+-+	}
+-+
+-+	return FALSE;
+-+}
+-+
+-+gboolean connman_agent_cancel(ConnmanAgent *agent,
+-+                              DBusGMethodInvocation *context)
+-+{
+-+	ConnmanAgentPrivate *priv = CONNMAN_AGENT_GET_PRIVATE(agent);
+-+	const char *sender = dbus_g_method_get_sender(context);
+-+	gboolean result = FALSE;
+-+
+-+	debug(agent, "Request Canceled %s", sender);
+-+
+-+	if (g_str_equal(sender, priv->busname) == FALSE)
+-+		return FALSE;
+-+
+-+	if (priv->cancel_func)
+-+		result = priv->cancel_func(context, priv->cancel_data);
+-+
+-+	return result;
+-+}
+-+
+-+gboolean connman_agent_release(ConnmanAgent *agent,
+-+                               DBusGMethodInvocation *context)
+-+{
+-+	ConnmanAgentPrivate *priv = CONNMAN_AGENT_GET_PRIVATE(agent);
+-+	const char *sender = dbus_g_method_get_sender(context);
+-+
+-+	debug(agent, "agent %p sender %s", agent, sender);
+-+
+-+	if (g_str_equal(sender, priv->busname) == FALSE)
+-+		return FALSE;
+-+
+-+	dbus_g_method_return(context);
+-+
+-+	return TRUE;
+-+}
+-+
+-+#include "connman-agent-glue.h"
+-+
+-+static void connman_agent_init(ConnmanAgent *agent)
+-+{
+-+  debug(agent, "agent %p", agent);
+-+}
+-+
+-+static void connman_agent_finalize(GObject *agent)
+-+{
+-+	ConnmanAgentPrivate *priv = CONNMAN_AGENT_GET_PRIVATE(agent);
+-+
+-+	if (priv->connman_proxy != NULL) {
+-+		g_object_unref(priv->connman_proxy);
+-+	}
+-+
+-+	g_free(priv->path);
+-+	g_free(priv->busname);
+-+	dbus_g_connection_unref(priv->connection);
+-+
+-+	G_OBJECT_CLASS(connman_agent_parent_class)->finalize(agent);
+-+}
+-+
+-+static void connman_agent_class_init(ConnmanAgentClass *klass)
+-+{
+-+	GObjectClass *object_class = (GObjectClass *) klass;
+-+
+-+	g_type_class_add_private(klass, sizeof(ConnmanAgentPrivate));
+-+
+-+	object_class->finalize = connman_agent_finalize;
+-+
+-+	dbus_g_object_type_install_info(CONNMAN_TYPE_AGENT,
+-+	                                &dbus_glib_connman_agent_object_info);
+-+}
+-+
+-+ConnmanAgent *connman_agent_new(void)
+-+{
+-+	ConnmanAgent *agent;
+-+	g_type_init();
+-+
+-+	agent = CONNMAN_AGENT(g_object_new(CONNMAN_TYPE_AGENT, NULL));
+-+
+-+	return agent;
+-+}
+-+
+-+gboolean connman_agent_setup(ConnmanAgent *agent, const char *path)
+-+{
+-+	ConnmanAgentPrivate *priv = CONNMAN_AGENT_GET_PRIVATE(agent);
+-+	DBusGProxy *proxy;
+-+	GObject *object;
+-+	GError *error = NULL;
+-+
+-+	debug(agent, "agent_setup %p", agent);
+-+
+-+	if (priv->path != NULL)
+-+		return FALSE;
+-+
+-+	priv->path = g_strdup(path);
+-+	priv->connection = dbus_g_bus_get(DBUS_BUS_SYSTEM, &error);
+-+	if (error != NULL) {
+-+		g_printerr("Connecting to system bus failed: %s\n",
+-+		           error->message);
+-+		g_error_free(error);
+-+		return FALSE;
+-+	}
+-+
+-+	proxy = dbus_g_proxy_new_for_name_owner(priv->connection, CONNMAN_SERVICE,
+-+	                                        CONNMAN_MANAGER_PATH, CONNMAN_MANAGER_INTERFACE, NULL);
+-+
+-+	g_free(priv->busname);
+-+
+-+	if (proxy != NULL) {
+-+		priv->busname = g_strdup(dbus_g_proxy_get_bus_name(proxy));
+-+		g_object_unref(proxy);
+-+	} else
+-+		priv->busname = NULL;
+-+
+-+	object = dbus_g_connection_lookup_g_object(priv->connection, priv->path);
+-+	if (object != NULL)
+-+		g_object_unref(object);
+-+
+-+	return TRUE;
+-+}
+-+
+-+
+-+gboolean connman_agent_register(ConnmanAgent *agent)
+-+{
+-+	ConnmanAgentPrivate *priv = CONNMAN_AGENT_GET_PRIVATE(agent);
+-+	DBusGProxy *proxy;
+-+	GObject *object;
+-+	GError *error = NULL;
+-+	gchar *path;
+-+
+-+	debug(agent, "register agent %p", agent);
+-+
+-+	if (priv->connman_proxy != NULL)
+-+		return FALSE;
+-+
+-+	priv->connman_proxy = dbus_g_proxy_new_for_name_owner(priv->connection, CONNMAN_SERVICE,
+-+	                                                      CONNMAN_MANAGER_PATH, CONNMAN_MANAGER_INTERFACE, NULL);
+-+
+-+	g_free(priv->busname);
+-+
+-+	priv->busname = g_strdup(dbus_g_proxy_get_bus_name(priv->connman_proxy));
+-+
+-+	object = dbus_g_connection_lookup_g_object(priv->connection, priv->path);
+-+	if (object != NULL)
+-+		g_object_unref(object);
+-+
+-+	dbus_g_connection_register_g_object(priv->connection,
+-+	                                    priv->path, G_OBJECT(agent));
+-+
+-+	dbus_g_proxy_call(priv->connman_proxy, "RegisterAgent", &error,
+-+	                  DBUS_TYPE_G_OBJECT_PATH, priv->path,
+-+	                  G_TYPE_INVALID, G_TYPE_INVALID);
+-+
+-+	if (error != NULL) {
+-+		g_printerr("Agent registration failed: %s\n",
+-+		           error->message);
+-+		g_error_free(error);
+-+		return FALSE;
+-+	}
+-+
+-+	return TRUE;
+-+}
+-+
+-+gboolean connman_agent_unregister(ConnmanAgent *agent)
+-+{
+-+	ConnmanAgentPrivate *priv = CONNMAN_AGENT_GET_PRIVATE(agent);
+-+	GError *error = NULL;
+-+
+-+	debug(agent, "unregister agent %p", agent);
+-+
+-+	if (priv->connman_proxy == NULL)
+-+		return FALSE;
+-+
+-+	dbus_g_proxy_call(priv->connman_proxy, "UnregisterAgent", &error,
+-+	                  DBUS_TYPE_G_OBJECT_PATH, priv->path,
+-+	                  G_TYPE_INVALID, G_TYPE_INVALID);
+-+
+-+	if (error != NULL) {
+-+		g_printerr("Agent unregistration failed: %s\n",
+-+		           error->message);
+-+		g_error_free(error);
+-+	}
+-+
+-+	g_object_unref(priv->connman_proxy);
+-+	priv->connman_proxy = NULL;
+-+
+-+	g_free(priv->path);
+-+	priv->path = NULL;
+-+
+-+	return TRUE;
+-+}
+-+
+-+void connman_agent_set_request_input_func(ConnmanAgent *agent,
+-+                                          ConnmanAgentRequestInputFunc func, gpointer data)
+-+{
+-+	ConnmanAgentPrivate *priv = CONNMAN_AGENT_GET_PRIVATE(agent);
+-+
+-+	priv->input_func = func;
+-+	priv->input_data = data;
+-+}
+-+
+-+void connman_agent_set_cancel_func(ConnmanAgent *agent,
+-+                                   ConnmanAgentCancelFunc func, gpointer data)
+-+{
+-+	ConnmanAgentPrivate *priv = CONNMAN_AGENT_GET_PRIVATE(agent);
+-+
+-+	priv->cancel_func = func;
+-+	priv->cancel_data = data;
+-+}
+-+
+-+void connman_agent_set_release_func(ConnmanAgent *agent,
+-+                                    ConnmanAgentReleaseFunc func, gpointer data)
+-+{
+-+	ConnmanAgentPrivate *priv = CONNMAN_AGENT_GET_PRIVATE(agent);
+-+
+-+	priv->release_func = func;
+-+	priv->release_data = data;
+-+}
+-+
+-+void connman_agent_set_debug_func(ConnmanAgent *agent, ConnmanAgentDebugFunc func, gpointer data)
+-+{
+-+	ConnmanAgentPrivate *priv = CONNMAN_AGENT_GET_PRIVATE(agent);
+-+
+-+	priv->debug_func = func;
+-+	priv->debug_data = data;
+-+}
+-diff --git a/common/connman-agent.h b/common/connman-agent.h
+-new file mode 100644
+-index 0000000..0a1aa92
+---- /dev/null
+-+++ b/common/connman-agent.h
+-@@ -0,0 +1,77 @@
+-+/*
+-+ *  Connection Manager Agent implementation
+-+ * 
+-+ *  Author(s):
+-+ *  - Julien MASSOT <jmassot@aldebaran-robotics.com>
+-+ *  - Paul Eggleton <paul.eggleton@linux.intel.com>
+-+ *
+-+ *  Copyright (C) 2012 Aldebaran Robotics
+-+ *  Copyright (C) 2012 Intel Corporation
+-+ * 
+-+ *  This library is free software; you can redistribute it and/or
+-+ *  modify it under the terms of the GNU Lesser General Public
+-+ *  License version 2.1 as published by the Free Software Foundation.
+-+ *
+-+ *  This library is distributed in the hope that it will be useful,
+-+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+-+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+-+ *  Lesser General Public License for more details.
+-+ *
+-+ *  You should have received a copy of the GNU Lesser General Public
+-+ *  License along with this library; if not, write to the Free Software
+-+ *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+-+ */
+-+
+-+#ifndef   	CONNMAN_AGENT_H_
+-+# define   	CONNMAN_AGENT_H_
+-+
+-+#include <glib-object.h>
+-+#include <dbus/dbus-glib.h>
+-+
+-+G_BEGIN_DECLS
+-+
+-+#define CONNMAN_TYPE_AGENT (connman_agent_get_type())
+-+#define CONNMAN_AGENT(obj) (G_TYPE_CHECK_INSTANCE_CAST((obj), \
+-+                                        CONNMAN_TYPE_AGENT, ConnmanAgent))
+-+#define CONNMAN_AGENT_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST((klass), \
+-+                                        CONNMAN_TYPE_AGENT, ConnmanAgentClass))
+-+#define CONNMAN_IS_AGENT(obj) (G_TYPE_CHECK_INSTANCE_TYPE((obj), \
+-+                                                        CONNMAN_TYPE_AGENT))
+-+#define CONNMAN_IS_AGENT_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE((klass), \
+-+                                                        CONNMAN_TYPE_AGENT))
+-+#define CONNMAN_GET_AGENT_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS((obj), \
+-+                                        CONNMAN_TYPE_AGENT, ConnmanAgentClass))
+-+
+-+typedef struct _ConnmanAgent ConnmanAgent;
+-+typedef struct _ConnmanAgentClass ConnmanAgentClass;
+-+
+-+struct _ConnmanAgent {
+-+	GObject parent;
+-+};
+-+
+-+struct _ConnmanAgentClass {
+-+	GObjectClass parent_class;
+-+};
+-+
+-+GType connman_agent_get_type(void);
+-+
+-+ConnmanAgent *connman_agent_new(void);
+-+
+-+gboolean connman_agent_setup(ConnmanAgent *agent, const char *path);
+-+
+-+gboolean connman_agent_register(ConnmanAgent *agent);
+-+gboolean connman_agent_unregister(ConnmanAgent *agent);
+-+gboolean connman_agent_request_input_set_reply(gpointer request_data, GHashTable *reply);
+-+gboolean connman_agent_request_input_abort(gpointer request_data);
+-+
+-+typedef void (*ConnmanAgentRequestInputFunc) (const char *service_id, GHashTable *request, gpointer request_data, gpointer user_data);
+-+typedef gboolean (*ConnmanAgentCancelFunc) (DBusGMethodInvocation *context, gpointer data);
+-+typedef gboolean (*ConnmanAgentReleaseFunc) (DBusGMethodInvocation *context, gpointer data);
+-+typedef void (*ConnmanAgentDebugFunc) (const char *str, gpointer user_data);
+-+
+-+void connman_agent_set_request_input_func(ConnmanAgent *agent, ConnmanAgentRequestInputFunc func, gpointer data);
+-+void connman_agent_set_cancel_func(ConnmanAgent *agent, ConnmanAgentCancelFunc func, gpointer data);
+-+void connman_agent_set_debug_func(ConnmanAgent *agent, ConnmanAgentDebugFunc func, gpointer data);
+-+
+-+G_END_DECLS
+-+#endif 	    /* !CONNMAN_AGENT_H_ */
+-diff --git a/common/connman-agent.xml b/common/connman-agent.xml
+-new file mode 100644
+-index 0000000..ed9ee8b
+---- /dev/null
+-+++ b/common/connman-agent.xml
+-@@ -0,0 +1,26 @@
+-+<?xml version="1.0" encoding="UTF-8" ?>
+-+
+-+<node name="/net/connman/Agent">
+-+  <interface name="net.connman.Agent">
+-+    <method name="ReportError">
+-+       <annotation name="org.freedesktop.DBus.GLib.Async" value="true"/>
+-+       <arg type="o" direction="in"/>
+-+       <arg type="s" direction="in"/>
+-+    </method>
+-+
+-+    <method name="RequestInput">
+-+      <annotation name="org.freedesktop.DBus.GLib.Async" value="true"/>
+-+      <arg type="o" direction="in"/>
+-+      <arg type="a{sv}" direction="in"/>
+-+      <arg type="a{sv}" direction="out"/>
+-+    </method>
+-+
+-+    <method name="Cancel">
+-+      <annotation name="org.freedesktop.DBus.GLib.Async" value=""/>
+-+    </method>
+-+
+-+    <method name="Release">
+-+      <annotation name="org.freedesktop.DBus.GLib.Async" value=""/>
+-+   </method>
+-+  </interface>
+-+</node>
+-diff --git a/common/marshal.list b/common/marshal.list
+-index 8b174d0..3c6317b 100644
+---- a/common/marshal.list
+-+++ b/common/marshal.list
+-@@ -1,3 +1,5 @@
+- VOID:STRING,BOXED
+-+VOID:OBJECT,BOXED
+-+VOID:OBJECT
+- VOID:BOXED
+- VOID:STRING
+--- 
+-1.7.5.4
+-
+diff --git a/meta/recipes-connectivity/connman/connman-gnome/0005-Remove-all-handling-of-Passphrase-property.patch b/meta/recipes-connectivity/connman/connman-gnome/0005-Remove-all-handling-of-Passphrase-property.patch
+deleted file mode 100644
+index bcc435f..0000000
+--- a/meta/recipes-connectivity/connman/connman-gnome/0005-Remove-all-handling-of-Passphrase-property.patch
++++ /dev/null
+@@ -1,249 +0,0 @@
+-From f24d6e26f81e205769cecf0dae7e6cf90b23f9e9 Mon Sep 17 00:00:00 2001
+-Message-Id: <f24d6e26f81e205769cecf0dae7e6cf90b23f9e9.1334369310.git.paul.eggleton@linux.intel.com>
+-In-Reply-To: <cover.1334369310.git.paul.eggleton@linux.intel.com>
+-References: <cover.1334369310.git.paul.eggleton@linux.intel.com>
+-From: Paul Eggleton <paul.eggleton@linux.intel.com>
+-Date: Sat, 14 Apr 2012 02:37:55 +0100
+-Subject: [PATCH 5/6] Remove all handling of Passphrase property
+-
+-Services no longer have a Passphrase property in ConnMan 0.79 -
+-credentials are handled entirely through the agent.
+-
+-Upstream-Status: Submitted
+-
+-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+----
+- common/connman-client.c |   51 -----------------------------------------------
+- common/connman-client.h |    4 ---
+- common/connman-dbus.c   |   11 +---------
+- properties/advanced.h   |    1 -
+- properties/wifi.c       |   48 --------------------------------------------
+- 5 files changed, 1 insertions(+), 114 deletions(-)
+-
+-diff --git a/common/connman-client.c b/common/connman-client.c
+-index e4441ad..dec9867 100644
+---- a/common/connman-client.c
+-+++ b/common/connman-client.c
+-@@ -112,7 +112,6 @@ static void connman_client_init(ConnmanClient *client)
+- 				G_TYPE_BOOLEAN,	/* favorite */
+- 				G_TYPE_UINT,	/* strength */
+- 				G_TYPE_STRING,	/* security */
+--				G_TYPE_STRING,  /* passphrase */
+- 				G_TYPE_STRING,  /* method */
+- 				G_TYPE_STRING,  /* address */
+- 				G_TYPE_STRING,  /* netmask */
+-@@ -501,56 +500,6 @@ gchar *connman_client_get_security(ConnmanClient *client, const gchar *network)
+- 	return security;
+- }
+- 
+--gchar *connman_client_get_passphrase(ConnmanClient *client, const gchar *network)
+--{
+--	ConnmanClientPrivate *priv = CONNMAN_CLIENT_GET_PRIVATE(client);
+--	GtkTreeIter iter;
+--	gchar *passphrase;
+--
+--	DBG("client %p", client);
+--
+--	if (network == NULL)
+--		return NULL;
+--
+--	if (connman_dbus_get_iter(priv->store, network, &iter) == FALSE)
+--		return NULL;
+--
+--	gtk_tree_model_get(GTK_TREE_MODEL(priv->store), &iter,
+--				CONNMAN_COLUMN_PASSPHRASE, &passphrase, -1);
+--
+--	return passphrase;
+--}
+--
+--gboolean connman_client_set_passphrase(ConnmanClient *client, const gchar *network,
+--						const gchar *passphrase)
+--{
+--	ConnmanClientPrivate *priv = CONNMAN_CLIENT_GET_PRIVATE(client);
+--	DBusGProxy *proxy;
+--	GValue value = { 0 };
+--	gboolean ret = FALSE;
+--
+--	DBG("client %p", client);
+--
+--	if (network == NULL)
+--		goto done;
+--
+--	proxy = connman_dbus_get_proxy(priv->store, network);
+--	if (proxy == NULL)
+--		goto done;
+--
+--	g_value_init(&value, G_TYPE_STRING);
+--	g_value_set_string(&value, passphrase);
+--
+--	ret = connman_set_property(proxy, "Passphrase", &value, NULL);
+--
+--	g_value_unset(&value);
+--
+--	g_object_unref(proxy);
+--
+--done:
+--	return ret;
+--}
+--
+- void connman_client_set_callback(ConnmanClient *client,
+- 			ConnmanClientCallback callback, gpointer user_data)
+- {
+-diff --git a/common/connman-client.h b/common/connman-client.h
+-index 6fe772c..bb36a2f 100644
+---- a/common/connman-client.h
+-+++ b/common/connman-client.h
+-@@ -77,9 +77,6 @@ void connman_client_disconnect(ConnmanClient *client, const gchar *network);
+- gchar *connman_client_get_security(ConnmanClient *client, const gchar *network);
+- void connman_client_connect_async(ConnmanClient *client, const gchar *network,
+- 				connman_connect_reply callback, gpointer userdata);
+--gchar *connman_client_get_passphrase(ConnmanClient *client, const gchar *network);
+--gboolean connman_client_set_passphrase(ConnmanClient *client, const gchar *network,
+--						const gchar *passphrase);
+- void connman_client_set_remember(ConnmanClient *client, const gchar *network,
+- 							gboolean remember);
+- 
+-@@ -108,7 +105,6 @@ enum {
+- 	CONNMAN_COLUMN_FAVORITE,	/* G_TYPE_BOOLEAN */
+- 	CONNMAN_COLUMN_STRENGTH,	/* G_TYPE_UINT    */
+- 	CONNMAN_COLUMN_SECURITY,	/* G_TYPE_STRING  */
+--	CONNMAN_COLUMN_PASSPHRASE,	/* G_TYPE_STRING  */
+- 	CONNMAN_COLUMN_METHOD,		/* G_TYPE_STRING  */
+- 	CONNMAN_COLUMN_ADDRESS,		/* G_TYPE_STRING  */
+- 	CONNMAN_COLUMN_NETMASK,		/* G_TYPE_STRING  */
+-diff --git a/common/connman-dbus.c b/common/connman-dbus.c
+-index 4eb77b6..f46a750 100644
+---- a/common/connman-dbus.c
+-+++ b/common/connman-dbus.c
+-@@ -389,11 +389,6 @@ static void service_changed(DBusGProxy *proxy, const char *property,
+- 		gtk_tree_store_set(store, &iter,
+- 					CONNMAN_COLUMN_SECURITY, security,
+- 					-1);
+--	} else if (g_str_equal(property, "PassPhrase") == TRUE) {
+--		const char *passphrase = value ? g_value_get_string(value) : NULL;
+--		gtk_tree_store_set(store, &iter,
+--					CONNMAN_COLUMN_PASSPHRASE, passphrase,
+--					-1);
+- 	} else if (g_str_equal(property, "Strength") == TRUE) {
+- 		guint strength = g_value_get_uchar(value);
+- 		gtk_tree_store_set(store, &iter,
+-@@ -406,7 +401,7 @@ static void service_properties(DBusGProxy *proxy, GHashTable *hash,
+- {
+- 	GtkTreeStore *store = user_data;
+- 	GValue *value;
+--	const gchar *name, *icon, *passphrase, *security, *state;
+-+	const gchar *name, *icon, *security, *state;
+- 	guint type, strength;
+- 	gboolean favorite;
+- 	GtkTreeIter iter;
+-@@ -439,9 +434,6 @@ static void service_properties(DBusGProxy *proxy, GHashTable *hash,
+- 	value = g_hash_table_lookup(hash, "Security");
+- 	security = value ? g_strjoinv(" ", g_value_get_boxed(value)) : NULL;
+- 
+--	value = g_hash_table_lookup(hash, "PassPhrase");
+--	passphrase = value ? g_value_get_string(value) : NULL;
+--
+- 	DBG("name %s type %d icon %s", name, type, icon);
+- 
+- 	value = g_hash_table_lookup(hash, "IPv4.Configuration");
+-@@ -499,7 +491,6 @@ static void service_properties(DBusGProxy *proxy, GHashTable *hash,
+- 				CONNMAN_COLUMN_STATE, state,
+- 				CONNMAN_COLUMN_FAVORITE, favorite,
+- 				CONNMAN_COLUMN_SECURITY, security,
+--				CONNMAN_COLUMN_PASSPHRASE, passphrase,
+- 				CONNMAN_COLUMN_STRENGTH, strength,
+- 				CONNMAN_COLUMN_METHOD, method,
+- 				CONNMAN_COLUMN_ADDRESS, addr,
+-diff --git a/properties/advanced.h b/properties/advanced.h
+-index d8f4117..553a15e 100644
+---- a/properties/advanced.h
+-+++ b/properties/advanced.h
+-@@ -53,7 +53,6 @@ struct config_data {
+- 		GtkWidget *name;
+- 		GtkWidget *security;
+- 		GtkWidget *strength;
+--		GtkWidget *passphrase;
+- 		GtkWidget *connect_info;
+- 		GtkWidget *connect;
+- 		GtkWidget *disconnect;
+-diff --git a/properties/wifi.c b/properties/wifi.c
+-index 038d35a..bd325ef 100644
+---- a/properties/wifi.c
+-+++ b/properties/wifi.c
+-@@ -57,17 +57,6 @@ static void connect_callback(GtkWidget *editable, gpointer user_data)
+- 	gboolean ret;
+- 	gint active;
+- 
+--	if (data->wifi.passphrase) {
+--		char *passphrase;
+--		passphrase = (gchar *)gtk_entry_get_text(GTK_ENTRY(data->wifi.passphrase));
+--		ret = connman_client_set_passphrase(data->client, data->device,
+--				passphrase);
+--
+--		if (ret == FALSE) {
+--			return;
+--		}
+--	}
+--
+- 	active = gtk_combo_box_get_active(GTK_COMBO_BOX(data->policy.config));
+- 	data->ipv4_config.method = active ? "manual" : "dhcp";
+- 	data->ipv4_config.address = active ? gtk_entry_get_text(GTK_ENTRY(data->ipv4.entry[0])) : NULL;
+-@@ -250,22 +239,11 @@ static void wifi_ipconfig(GtkWidget *table, struct config_data *data, GtkTreeIte
+- 			G_CALLBACK(changed_callback), data);
+- }
+- 
+--static void toggled_callback(GtkWidget *button, gpointer user_data)
+--{
+--	GtkWidget *entry = user_data;
+--	gboolean mode;
+--
+--	mode = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(button));
+--
+--	gtk_entry_set_visibility(GTK_ENTRY(entry), mode);
+--}
+--
+- void add_wifi_service(GtkWidget *mainbox, GtkTreeIter *iter, struct config_data *data)
+- {
+- 	GtkWidget *vbox;
+- 	GtkWidget *table;
+- 	GtkWidget *label;
+--	GtkWidget *entry;
+- 	GtkWidget *button;
+- 
+- 	const char *name, *security, *icon, *state;
+-@@ -308,32 +286,6 @@ void add_wifi_service(GtkWidget *mainbox, GtkTreeIter *iter, struct config_data
+- 	gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
+- 	data->wifi.security = label;
+- 
+--	label = gtk_label_new(_("Passphrase:"));
+--	gtk_table_attach_defaults(GTK_TABLE(table), label, 1, 2, 2, 3);
+--
+--	if (g_str_equal(security, "none") != TRUE &&
+--			g_str_equal(security, "unknown") != TRUE) {
+--		entry = gtk_entry_new();
+--		gtk_entry_set_max_length (GTK_ENTRY (entry), 64);
+--		gtk_table_attach_defaults(GTK_TABLE(table), entry, 2, 4, 2, 3);
+--		gtk_entry_set_visibility(GTK_ENTRY(entry), 0);
+--		data->wifi.passphrase = entry;
+--
+--		button = gtk_check_button_new_with_label(_("Show input"));
+--		gtk_table_attach_defaults(GTK_TABLE(table), button, 4, 5, 2, 3);
+--
+--		g_signal_connect(G_OBJECT(button), "toggled",
+--				G_CALLBACK(toggled_callback), entry);
+--
+--
+--	} else {
+--		label = gtk_label_new(_("none"));
+--		gtk_table_attach_defaults(GTK_TABLE(table), label, 2, 4, 2, 3);
+--		gtk_label_set_justify(GTK_LABEL(label), GTK_JUSTIFY_LEFT);
+--		gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
+--		data->wifi.passphrase = NULL;
+--	}
+--
+- 	label = gtk_label_new(_(""));
+- 	gtk_table_attach_defaults(GTK_TABLE(table), label, 2, 3, 8, 9);
+- 	gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.0);
+--- 
+-1.7.5.4
+-
+diff --git a/meta/recipes-connectivity/connman/connman-gnome/0006-Fix-status-descriptions-in-properties-tree.patch b/meta/recipes-connectivity/connman/connman-gnome/0006-Fix-status-descriptions-in-properties-tree.patch
+deleted file mode 100644
+index 99a2df8..0000000
+--- a/meta/recipes-connectivity/connman/connman-gnome/0006-Fix-status-descriptions-in-properties-tree.patch
++++ /dev/null
+@@ -1,42 +0,0 @@
+-From ce510179cba98c906974bdbd6bda2b586b6058c1 Mon Sep 17 00:00:00 2001
+-Message-Id: <ce510179cba98c906974bdbd6bda2b586b6058c1.1334369310.git.paul.eggleton@linux.intel.com>
+-In-Reply-To: <cover.1334369310.git.paul.eggleton@linux.intel.com>
+-References: <cover.1334369310.git.paul.eggleton@linux.intel.com>
+-From: Paul Eggleton <paul.eggleton@linux.intel.com>
+-Date: Sat, 14 Apr 2012 02:39:15 +0100
+-Subject: [PATCH 6/6] Fix status descriptions in properties tree
+-
+-* configurating -> configuring
+-* connnected -> connected
+-* Use i18n wrappers
+-
+-Upstream-Status: Submitted
+-
+-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+----
+- properties/main.c |    6 +++---
+- 1 files changed, 3 insertions(+), 3 deletions(-)
+-
+-diff --git a/properties/main.c b/properties/main.c
+-index e266f03..c05f443 100644
+---- a/properties/main.c
+-+++ b/properties/main.c
+-@@ -332,12 +332,12 @@ static void device_to_text(GtkTreeViewColumn *column, GtkCellRenderer *cell,
+- 		/* Show the AP name */
+- 		title = N_(name);
+- 		if (g_str_equal(state, "association") == TRUE)
+--			state = "associating...";
+-+			state = _("associating...");
+- 		else if (g_str_equal(state, "configuration") == TRUE)
+--			state = "configurating...";
+-+			state = _("configuring...");
+- 		else if (g_str_equal(state, "ready") == TRUE ||
+- 				g_str_equal(state, "online") == TRUE)
+--			state = "connnected";
+-+			state = _("connected");
+- 		else
+- 			state = "";
+- 		markup = g_strdup_printf("  %s\n  %s", title, state);
+--- 
+-1.7.5.4
+-
+diff --git a/meta/recipes-connectivity/connman/connman-gnome_0.5.bb b/meta/recipes-connectivity/connman/connman-gnome_0.5.bb
+index e2e8deb..09e7fb6 100644
+--- a/meta/recipes-connectivity/connman/connman-gnome_0.5.bb
++++ b/meta/recipes-connectivity/connman/connman-gnome_0.5.bb
+@@ -8,17 +8,12 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=eb723b61539feef013de476e68b5c50a \
+ 
+ DEPENDS = "gtk+ dbus"
+ 
+-PR = "r10"
++PR = "r11"
+ 
+-SRCREV = "42c652d123ea133d0a0930b96e8e39dbd0c597b5"
++SRCREV = "8b8171237e9b3f1d0c360299efd1001368a3bf63"
+ SRC_URI = "git://git.kernel.org/pub/scm/network/connman/connman-gnome.git \
+-           file://0001-Monitor-the-Manager-s-State-property.patch \
+-           file://0002-Update-for-ConnMan-0.79-API-changes.patch \
+-           file://0003-Fix-setting-IPv4-configuration.patch \
+-           file://0004-Handle-WiFi-authentication-using-an-agent.patch \
+-           file://0005-Remove-all-handling-of-Passphrase-property.patch \
+-           file://0006-Fix-status-descriptions-in-properties-tree.patch \
+-           file://0007-connman-gnome-fix-segfault-due-to-unchecked-null-val.patch"
++           file://0001-connman-gnome-fix-segfault-due-to-unchecked-null-val.patch \
++           file://0002-Update-for-ConnMan-1.0-DBus-API.patch"
+ 
+ S = "${WORKDIR}/git"
+ 
 -- 
 1.7.10
 
