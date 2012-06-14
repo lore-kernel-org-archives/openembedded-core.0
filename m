@@ -1,24 +1,24 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SfFsI-0005l9-Ig
+	(envelope-from <sgw@linux.intel.com>) id 1SfFsJ-0005lC-9G
 	for openembedded-core@lists.openembedded.org;
-	Thu, 14 Jun 2012 21:38:34 +0200
+	Thu, 14 Jun 2012 21:38:35 +0200
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 14 Jun 2012 12:27:51 -0700
+	by fmsmga101.fm.intel.com with ESMTP; 14 Jun 2012 12:27:53 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="180153894"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="180153907"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.138])
-	by fmsmga002.fm.intel.com with ESMTP; 14 Jun 2012 12:27:51 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 14 Jun 2012 12:27:53 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 14 Jun 2012 12:27:14 -0700
-Message-Id: <c7a0dc60ae9d2ce64ecab89cdbb00e03c92116db.1339701375.git.sgw@linux.intel.com>
+Date: Thu, 14 Jun 2012 12:27:21 -0700
+Message-Id: <bbe302aa8a0c57c8260cfc4a086fd9157b17d90c.1339701375.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <cover.1339701375.git.sgw@linux.intel.com>
 References: <cover.1339701375.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1339701375.git.sgw@linux.intel.com>
 References: <cover.1339701375.git.sgw@linux.intel.com>
-Subject: [Consolidated Pull 10/17] linux-yocto/3.4: create linux-yocto-rt recipe
+Subject: [Consolidated Pull 17/17] beecrypt: add patch for build issue on Fedora 17
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,71 +33,101 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Jun 2012 19:38:34 -0000
+X-List-Received-Date: Thu, 14 Jun 2012 19:38:35 -0000
 
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
+../../x86_64-linux-libtool --tag=CXX   --mode=compile g++ -DHAVE_CONFIG_H -I. -I../.. -I../../include  -isystem/intel/poky/builds/f17/tmp/sysroots/x86_64-linux/usr/include  -isystem/intel/poky/builds/f17/tmp/sysroots/x86_64-linux/usr/include -O2 -pipe -Wa,--noexecstack -c -o Properties.lo Properties.cxx
+x86_64-linux-libtool: compile:  g++ -DHAVE_CONFIG_H -I. -I../.. -I../../include -isystem/intel/poky/builds/f17/tmp/sysroots/x86_64-linux/usr/include -isystem/intel/poky/builds/f17/tmp/sysroots/x86_64-linux/usr/include -O2 -pipe -Wa,--noexecstack -c Properties.cxx  -fPIC -DPIC -o .libs/Properties.o
+In file included from ../../include/beecrypt/c++/util/Hashtable.h:42:0,
+                 from ../../include/beecrypt/c++/util/Properties.h:36,
+                 from Properties.cxx:25:
+../../include/beecrypt/c++/util/AbstractSet.h: In instantiation of 'bool beecrypt::util::AbstractSet<E>::equals(const beecrypt::lang::Object*) const [with E = beecrypt::util::Map<beecrypt::lang::Object, beecrypt::lang::Object>::Entry]':
+Properties.cxx:228:1:   required from here
+../../include/beecrypt/c++/util/AbstractSet.h:59:27: error: 'containsAll' was not declared in this scope, and no declarations were found by argument-dependent lookup at the point of instantiation [-fpermissive]
+../../include/beecrypt/c++/util/AbstractSet.h:59:27: note: declarations in dependent base 'beecrypt::util::AbstractCollection<beecrypt::util::Map<beecrypt::lang::Object, beecrypt::lang::Object>::Entry>' are not found by unqualified lookup
+../../include/beecrypt/c++/util/AbstractSet.h:59:27: note: use 'this->containsAll' instead
+../../include/beecrypt/c++/util/AbstractSet.h: In instantiation of 'bool beecrypt::util::AbstractSet<E>::equals(const beecrypt::lang::Object*) const [with E = beecrypt::lang::Object]':
+Properties.cxx:228:1:   required from here
+../../include/beecrypt/c++/util/AbstractSet.h:59:27: error: 'containsAll' was not declared in this scope, and no declarations were found by argument-dependent lookup at the point of instantiation [-fpermissive]
+../../include/beecrypt/c++/util/AbstractSet.h:59:27: note: declarations in dependent base 'beecrypt::util::AbstractCollection<beecrypt::lang::Object>' are not found by unqualified lookup
+../../include/beecrypt/c++/util/AbstractSet.h:59:27: note: use 'this->containsAll' instead
 
-Adding the 3.4 variant of the linux-yocto-rt recipe. This updates
-to 3.4.1-rt9, and builds and boots on the supported targets.
+[YOCTO #2593]
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb |   32 +++++++++++++++++++++++
- meta/recipes-kernel/linux/linux-yocto_3.4.bb    |    2 +-
- 2 files changed, 33 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb
+ .../beecrypt/beecrypt/fix-for-gcc-4.7.patch        |   39 ++++++++++++++++++++
+ meta/recipes-support/beecrypt/beecrypt_4.2.1.bb    |    5 ++-
+ 2 files changed, 42 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-support/beecrypt/beecrypt/fix-for-gcc-4.7.patch
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb b/meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb
+diff --git a/meta/recipes-support/beecrypt/beecrypt/fix-for-gcc-4.7.patch b/meta/recipes-support/beecrypt/beecrypt/fix-for-gcc-4.7.patch
 new file mode 100644
-index 0000000..81730ea
+index 0000000..8144e39
 --- /dev/null
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb
-@@ -0,0 +1,32 @@
-+inherit kernel
-+require recipes-kernel/linux/linux-yocto.inc
++++ b/meta/recipes-support/beecrypt/beecrypt/fix-for-gcc-4.7.patch
+@@ -0,0 +1,39 @@
 +
-+KBRANCH = "standard/preempt-rt/base"
-+KBRANCH_qemuppc = "standard/preempt-rt/qemu-ppc32"
++gcc-4.7 seems to be stricter about some things, so follow
++the suggestion from the error/note information.
 +
-+LINUX_VERSION ?= "3.4.1"
-+LINUX_KERNEL_TYPE = "preempt-rt"
++    ../../x86_64-linux-libtool --tag=CXX   --mode=compile g++ -DHAVE_CONFIG_H -I. -I../.. 
++    x86_64-linux-libtool: compile:  g++ -DHAVE_CONFIG_H -I. -I../.. -I../../include -isyst
++    In file included from ../../include/beecrypt/c++/util/Hashtable.h:42:0,
++                     from ../../include/beecrypt/c++/util/Properties.h:36,
++                     from Properties.cxx:25:
++    ../../include/beecrypt/c++/util/AbstractSet.h: In instantiation of 'bool beecrypt::uti
++    Properties.cxx:228:1:   required from here
++    ../../include/beecrypt/c++/util/AbstractSet.h:59:27: error: 'containsAll' was not decl
++    ../../include/beecrypt/c++/util/AbstractSet.h:59:27: note: declarations in dependent b
++    ../../include/beecrypt/c++/util/AbstractSet.h:59:27: note: use 'this->containsAll' ins
++    ../../include/beecrypt/c++/util/AbstractSet.h: In instantiation of 'bool beecrypt::uti
++    Properties.cxx:228:1:   required from here
++    ../../include/beecrypt/c++/util/AbstractSet.h:59:27: error: 'containsAll' was not decl
++    ../../include/beecrypt/c++/util/AbstractSet.h:59:27: note: declarations in dependent b
++    ../../include/beecrypt/c++/util/AbstractSet.h:59:27: note: use 'this->containsAll' ins
++    
 +
-+KMETA = "meta"
++Upstream-Status: Pending
 +
-+SRCREV_machine ?= "9dc5e97d144abb03deec411acb9c64883602cff9"
-+SRCREV_machine_qemuppc ?= "241a41d6104df6916280f1273894bbd7fa7cdd71"
-+SRCREV_meta ?= "aa226dcc5a1351fae49da40d77b718c4c3a76e7c"
++Signed-off-by: Saul Wold <sgw@linux.intel.com>
 +
-+PR = "r0"
-+PV = "${LINUX_VERSION}+git${SRCPV}"
 +
-+SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.4.git;protocol=git;bareclone=1;branch=${KBRANCH},meta;name=machine,meta"
-+
-+# Omit broken machines from COMPATIBLE_MACHINE
-+#   qemuppc hangs at boot
-+#   qemumips panics at boot
-+COMPATIBLE_MACHINE = "(qemux86|qemux86-64|qemuarm)"
-+
-+# Functionality flags
-+KERNEL_FEATURES = "features/netfilter"
-+KERNEL_FEATURES_append = " features/taskstats"
-+KERNEL_FEATURES_append_qemux86 = " cfg/sound"
-+KERNEL_FEATURES_append_qemux86-64 = " cfg/sound"
-+
-+require recipes-kernel/linux/linux-tools.inc
-diff --git a/meta/recipes-kernel/linux/linux-yocto_3.4.bb b/meta/recipes-kernel/linux/linux-yocto_3.4.bb
-index 9205901..af6130d 100644
---- a/meta/recipes-kernel/linux/linux-yocto_3.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_3.4.bb
-@@ -16,7 +16,7 @@ SRCREV_machine_qemuppc ?= "4988a7e34bccd531b511c57f93358de9fcc672a0"
- SRCREV_machine_qemux86 ?= "a8291fa6f723b0182d2b7033b5d59f412ba7cf72"
- SRCREV_machine_qemux86-64 ?= "a8291fa6f723b0182d2b7033b5d59f412ba7cf72"
- SRCREV_machine ?= "a8291fa6f723b0182d2b7033b5d59f412ba7cf72"
--SRCREV_meta ?= "978f876e4368cdd0ef781e74ea28a6771bf69b79"
-+SRCREV_meta ?= "aa226dcc5a1351fae49da40d77b718c4c3a76e7c"
++Index: beecrypt-4.2.1/include/beecrypt/c++/util/AbstractSet.h
++===================================================================
++--- beecrypt-4.2.1.orig/include/beecrypt/c++/util/AbstractSet.h
+++++ beecrypt-4.2.1/include/beecrypt/c++/util/AbstractSet.h
++@@ -56,7 +56,7 @@ namespace beecrypt {
++ 					if (c->size() != size())
++ 						return false;
++ 
++-					return containsAll(*c);
+++					return this->containsAll(*c);
++ 				}
++ 				return false;
++ 			}
+diff --git a/meta/recipes-support/beecrypt/beecrypt_4.2.1.bb b/meta/recipes-support/beecrypt/beecrypt_4.2.1.bb
+index 2b2b348..7baf92e 100644
+--- a/meta/recipes-support/beecrypt/beecrypt_4.2.1.bb
++++ b/meta/recipes-support/beecrypt/beecrypt_4.2.1.bb
+@@ -6,7 +6,8 @@ DESCRIPTION="Beecrypt is a general-purpose cryptography library."
+ HOMEPAGE="http://sourceforge.net/projects/beecrypt"
+ SRC_URI="${SOURCEFORGE_MIRROR}/beecrypt/beecrypt-${PV}.tar.gz \
+ 	 file://disable-icu-check.patch \
+-	 file://fix-security.patch"
++	 file://fix-security.patch \
++         file://fix-for-gcc-4.7.patch"
  
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.4.git;protocol=git;nocheckout=1;branch=${KBRANCH},meta;name=machine,meta"
+ SRC_URI[md5sum] = "8441c014170823f2dff97e33df55af1e"
+ SRC_URI[sha256sum] = "286f1f56080d1a6b1d024003a5fa2158f4ff82cae0c6829d3c476a4b5898c55d"
+@@ -17,7 +18,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=9894370afd5dfe7d02b8d14319e729a1 \
  
+ DEPENDS = "icu"
+ 
+-PR = "r2"
++PR = "r3"
+ 
+ inherit autotools multilib_header
+ acpaths=""
 -- 
 1.7.7.6
 
