@@ -1,33 +1,28 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Sf7KZ-0001R0-FC for openembedded-core@lists.openembedded.org;
-	Thu, 14 Jun 2012 12:31:11 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q5EAKYrZ032205
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Jun 2012 11:20:34 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 32033-02 for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Jun 2012 11:20:27 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q5EAKPmg032199
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Jun 2012 11:20:26 +0100
-Message-ID: <1339669225.24333.53.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
+Received: from mga03.intel.com ([143.182.124.21])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <laurentiu.palcu@intel.com>) id 1Sf8z7-0003xQ-3F
+	for openembedded-core@lists.openembedded.org;
+	Thu, 14 Jun 2012 14:17:09 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 14 Jun 2012 05:06:31 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="156317845"
+Received: from lpalcu-linux (HELO [10.237.105.41]) ([10.237.105.41])
+	by azsmga001.ch.intel.com with ESMTP; 14 Jun 2012 05:06:30 -0700
+Message-ID: <4FD9D3C5.8030309@intel.com>
+Date: Thu, 14 Jun 2012 15:06:29 +0300
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
+MIME-Version: 1.0
+To: Saul Wold <sgw@linux.intel.com>
+References: <1339514272-7427-1-git-send-email-laurentiu.palcu@intel.com>
+	<1339514272-7427-2-git-send-email-laurentiu.palcu@intel.com>
+	<4FD96838.20508@linux.intel.com>
+In-Reply-To: <4FD96838.20508@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Thu, 14 Jun 2012 11:20:25 +0100
-In-Reply-To: <cover.1339533128.git.scott.a.garman@intel.com>
-References: <cover.1339533128.git.scott.a.garman@intel.com>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: RFC: [PATCH 00/16] denzil pull request 2
+Subject: Re: [PATCH 1/2] sanity.bbclass: warn the user if BBPATH contains wrong entries
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,86 +37,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Jun 2012 10:31:11 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 14 Jun 2012 12:17:09 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2012-06-12 at 13:36 -0700, Scott Garman wrote:
-> Hello,
-> 
-> This is the second pull request for the oe-core denzil branch, based on
-> a set of commits I've been testing from my sgarman/denzil-next branch.
-> 
-> I'm submitting this as an RFC so the community can offer feedback as
-> soon as possible. I'm planning on running this through the Yocto
-> autobuilder tonight and will reply to this thread with test results.
-> Assuming we get green builds, the goal is to get this pull request
-> merged into oe-core's denzil branch fairly quickly, so please speak
-> up if you have any comments or concerns with these commits.
-> 
-> Thanks,
-> 
-> Scott
-> 
-> The following changes since commit d7bf94647f17c0382caad8af0bdda837b14b22dc:
-> 
->   fotowall: Add #include ui_wizard.h to ExportWizard.cpp (2012-05-16 16:20:31 -0700)
-> 
-> are available in the git repository at:
-> 
->   git://git.openembedded.org/openembedded-core-contrib sgarman/denzil-next-testing
->   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgarman/denzil-next-pull2
-> 
-> Jesse Zhang (1):
->   beecrypt: disable java
-> 
-> Joe Slater (1):
->   shared-mime-info: fix build race condition
-> 
-> Joshua Lock (1):
->   sanity.bbclass: copy the data store and finalise before running
->     checks
-> 
-> Laurentiu Palcu (1):
->   freetype: upgrade to 2.4.9
-> 
-> Mihai Lindner (1):
->   sudo: fixed wrong `chmod` path
-> 
-> Paul Eggleton (1):
->   classes/sanity: send sanity check failure as a separate event for Hob
-> 
-> Paul Gortmaker (1):
->   gitignore: add wildcard to match toplevel patch files
-> 
-> Richard Purdie (2):
->   bitbake.conf: Improve wget timeouts
->   image.bbclass: Ensure ${S} is cleaned at the start of rootfs
->     generation
-> 
-> Robert Yang (1):
->   rpm 5.4.0: respect to the arch when choose the alternatives
-> 
-> Scott Garman (1):
->   runqemu-ifup: enable arp proxying
-> 
-> Song.Li (1):
->   groff: Fix build on Fedora 17
-> 
-> Tom Zanussi (2):
->   gnupg: add libusb to DEPENDS
->   gnupg: disable CCID driver
-> 
-> Xiaofeng Yan (1):
->   ncurses: Avoid occasional builling failure when having parallel
->     processable task
-> 
-> Zhai Edwin (1):
->   webkit-gtk: Use glib as unicode backend to avoid browser crash
 
-Merged into denzil, thanks.
 
-Richard
+On 06/14/2012 07:27 AM, Saul Wold wrote:
+> On 06/12/2012 08:17 AM, Laurentiu Palcu wrote:
+>> If BBPATH references the working directory, the user is warned and asked
+>> to fix the problem.
+>>
+>> [Yocto #1465]
+>>
+>> Signed-off-by: Laurentiu Palcu<laurentiu.palcu@intel.com>
+>> ---
+>>   meta/classes/sanity.bbclass |   11 +++++++++++
+>>   1 file changed, 11 insertions(+)
+>>
+>> diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+>> index f79fc3f..6ed1e6f 100644
+>> --- a/meta/classes/sanity.bbclass
+>> +++ b/meta/classes/sanity.bbclass
+>> @@ -387,6 +387,17 @@ def check_sanity(sanity_data):
+>>       if "." in paths or "" in paths:
+>>           messages = messages + "PATH contains '.' or '', which will break the build, please remove this."
+>>
+>> +    bbpaths = sanity_data.getVar('BBPATH', True).split(":")
+>> +    if "." in bbpaths or "" in bbpaths:
+>> +        # TODO: change the following message to fatal when all BBPATH issues
+>> +        # are fixed
+>> +        bb.warn("BBPATH references the current directory, either through "    \
+>> +                "an empty entry, or a '.'.\n\t This is unsafe and means your "\
+>> +                "layer configuration is adding empty elements to BBPATH.\n\t "\
+>> +                "Please check your layer.conf files and other BBPATH "        \
+>> +                "settings to remove the current working directory "           \
+>> +                "references.");
+>> +
+> This change seems to trigger in the default case of the standard 
+> bblayers.conf file included in meta-yocto.  Is there a fix for this?  Do 
+> we need to uprev the bblayers file?
+There's no fix yet. I will take a look and come with a fix. That's the
+reason I avoided throwing a fatal error and print just a warning. So we
+have time to fix these existing BBPATH issues without affecting everybody.
 
+Thanks,
+Laurentiu
+
+> 
+> Sau!
+> 
+>>       if sanity_data.getVar('TARGET_ARCH', True) == "arm":
+>>           # This path is no longer user-readable in modern (very recent) Linux
+>>           try:
 
 
