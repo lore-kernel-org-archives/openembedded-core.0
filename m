@@ -1,20 +1,30 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <laurentiu.palcu@intel.com>) id 1Sf9q6-0005ER-Gc
+	(envelope-from <dvhart@linux.intel.com>) id 1SfAiB-0002e1-RJ
 	for openembedded-core@lists.openembedded.org;
-	Thu, 14 Jun 2012 15:11:54 +0200
+	Thu, 14 Jun 2012 16:07:48 +0200
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 14 Jun 2012 06:01:16 -0700
+	by fmsmga101.fm.intel.com with ESMTP; 14 Jun 2012 06:57:09 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="165636113"
-Received: from lpalcu-linux (HELO localhost.localdomain) ([10.237.105.41])
-	by fmsmga001.fm.intel.com with ESMTP; 14 Jun 2012 06:01:06 -0700
-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 14 Jun 2012 16:01:05 +0300
-Message-Id: <1339678865-3610-1-git-send-email-laurentiu.palcu@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] core-image-gtk-directfb, qt4e-demo-image: Remove module-init-tools from IMAGE_INSTALL list
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="165653804"
+Received: from unknown (HELO envy.home) ([10.255.12.119])
+	by fmsmga001.fm.intel.com with ESMTP; 14 Jun 2012 06:57:09 -0700
+Message-ID: <4FD9ED69.50800@linux.intel.com>
+Date: Thu, 14 Jun 2012 06:55:53 -0700
+From: Darren Hart <dvhart@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:13.0) Gecko/20120605 Thunderbird/13.0
+MIME-Version: 1.0
+To: Phil Blundell <philb@gnu.org>
+References: <cover.1339650859.git.dvhart@linux.intel.com>
+	<3b44305edae36265295087fb5f31d22d660599b8.1339650859.git.dvhart@linux.intel.com>
+	<1339666865.14857.39.camel@phil-desktop>
+In-Reply-To: <1339666865.14857.39.camel@phil-desktop>
+X-Enigmail-Version: 1.4.2
+Cc: Yocto Project <yocto@yoctoproject.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/3] busybox: Add setsid and cttyhack for tiny DISTRO_FEATURE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,63 +39,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Jun 2012 13:11:54 -0000
+X-List-Received-Date: Thu, 14 Jun 2012 14:07:48 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-As module-init-tools package does not exist anymore there's no reason to
-have it in the IMAGE_INSTALL package list. If RPM package manager is
-used, build will fail with:
 
-Unable to find package module-init-tools (module-init-tools)!
 
-[Yocto #2580]
+On 06/14/2012 02:41 AM, Phil Blundell wrote:
+> On Wed, 2012-06-13 at 22:19 -0700, Darren Hart wrote:
+>> diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
+>> index 5b83d32..d07ba7e 100644
+>> --- a/meta/recipes-core/busybox/busybox.inc
+>> +++ b/meta/recipes-core/busybox/busybox.inc
+>> @@ -57,6 +57,8 @@ def features_to_busybox_settings(d):
+>>  	busybox_cfg('nls',  distro_features, 'CONFIG_LOCALE_SUPPORT', cnf, rem)
+>>  	busybox_cfg('ipv4', distro_features, 'CONFIG_FEATURE_IFUPDOWN_IPV4', cnf, rem)
+>>  	busybox_cfg('ipv6', distro_features, 'CONFIG_FEATURE_IFUPDOWN_IPV6', cnf, rem)
+>> +	busybox_cfg('tiny', distro_features, 'CONFIG_SETSID', cnf, rem)
+>> +	busybox_cfg('tiny', distro_features, 'CONFIG_CTTYHACK', cnf, rem)
+>>  	return "\n".join(cnf), "\n".join(rem)
+>>  
+>>  # X, Y = ${@features_to_uclibc_settings(d)}
+> 
+> What exactly is the mission of the "tiny" DISTRO_FEATURE?  It doesn't
+> seem very wholesome for it to be enabling a random grab-bag of bits in
+> busybox (or anywhere else).
 
-Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
----
- .../images/core-image-gtk-directfb.bb              |    3 +--
- meta/recipes-qt/images/qt4e-demo-image.bb          |    3 +--
- 2 files changed, 2 insertions(+), 4 deletions(-)
+The idea is to avoid having to bbappend busybox and other recipes
+basically. I can see how "tiny" is different than "ipv4" as it isn't
+explicit it what it enables, making it a "grab-bag" as you put it.
 
-diff --git a/meta/recipes-graphics/images/core-image-gtk-directfb.bb b/meta/recipes-graphics/images/core-image-gtk-directfb.bb
-index a5fba17..dcf5165 100644
---- a/meta/recipes-graphics/images/core-image-gtk-directfb.bb
-+++ b/meta/recipes-graphics/images/core-image-gtk-directfb.bb
-@@ -1,5 +1,5 @@
- LICENSE = "MIT"
--PR="r0"
-+PR="r1"
- 
- 
- LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58 \
-@@ -17,7 +17,6 @@ inherit core-image
- IMAGE_INSTALL += "\
- 	${CORE_IMAGE_BASE_INSTALL} \
- 	task-core-basic \
--	module-init-tools \
- 	task-core-gtk-directfb-base \
- "
- 
-diff --git a/meta/recipes-qt/images/qt4e-demo-image.bb b/meta/recipes-qt/images/qt4e-demo-image.bb
-index 6c0dc70..794dac5 100644
---- a/meta/recipes-qt/images/qt4e-demo-image.bb
-+++ b/meta/recipes-qt/images/qt4e-demo-image.bb
-@@ -1,6 +1,6 @@
- DESCRIPTION = "Version 1.0-r1 of the qtr3-demo-image."
- LICENSE = "MIT"
--PR="r1"
-+PR="r2"
- 
- LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58 \
-                     file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
-@@ -13,7 +13,6 @@ RDEPENDS_${PN} += " \
- 
- IMAGE_INSTALL += "\
- 	${CORE_IMAGE_BASE_INSTALL} \
--	module-init-tools \
- 	task-qt4e-base \
- "
- 
+I could come up with a term that describes systems without complex init
+systems that need to be able to setup their own shells easily.
+
+Another approach would be to just consider these two features and decide
+if they shouldn't just be part of the oe-core busybox defconfig anyway.
+I don't see why setsid shouldn't be. I can see arguments against
+cttyhack (as it is a hack), but I wouldn't think either should be a huge
+deal to just include. I thought the DISTRO_FEATURE was a reasonable
+compromise between that and having to maintain a bbappend outside of
+oe-core.
+
+> 
+> If poky-tiny wants those features enabled then it can, and should, ship
+> its own configuration for busybox which turns them on.  I think that
+> would be better than further proliferation of switches in oe-core.
+> 
+
+How would you feel about just including these two features in the
+defconfig then?
+
 -- 
-1.7.9.5
+Darren Hart
+Intel Open Source Technology Center
+Yocto Project - Linux Kernel
+
 
 
 
