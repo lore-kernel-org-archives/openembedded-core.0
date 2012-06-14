@@ -1,22 +1,23 @@
 Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1SfGJS-00078c-Td
+	(envelope-from <philb@gnu.org>) id 1SfGMk-0007Cg-VJ
 	for openembedded-core@lists.openembedded.org;
-	Thu, 14 Jun 2012 22:06:38 +0200
+	Thu, 14 Jun 2012 22:10:03 +0200
 Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
 	helo=[192.168.114.6])
 	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1SfG9D-0007P5-Gq
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1SfGCV-0007PE-Ne
 	for openembedded-core@lists.openembedded.org;
-	Thu, 14 Jun 2012 21:56:03 +0200
-Message-ID: <1339703681.3339.116.camel@x121e.pbcl.net>
+	Thu, 14 Jun 2012 21:59:27 +0200
+Message-ID: <1339703886.3339.118.camel@x121e.pbcl.net>
 From: Phil Blundell <philb@gnu.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Thu, 14 Jun 2012 20:54:41 +0100
-In-Reply-To: <5a1646b267619919186d5b12e59207d3251cf2dd.1339701375.git.sgw@linux.intel.com>
+Date: Thu, 14 Jun 2012 20:58:06 +0100
+In-Reply-To: <1339703681.3339.116.camel@x121e.pbcl.net>
 References: <cover.1339701375.git.sgw@linux.intel.com>
 	<5a1646b267619919186d5b12e59207d3251cf2dd.1339701375.git.sgw@linux.intel.com>
+	<1339703681.3339.116.camel@x121e.pbcl.net>
 X-Mailer: Evolution 3.2.2-1 
 Mime-Version: 1.0
 Subject: Re: [Consolidated Pull 13/17] curl: enable ssl support
@@ -34,16 +35,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Jun 2012 20:06:39 -0000
+X-List-Received-Date: Thu, 14 Jun 2012 20:10:03 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2012-06-14 at 12:27 -0700, Saul Wold wrote:
-> +DEPENDS = "zlib gnutls openssl"
+On Thu, 2012-06-14 at 20:54 +0100, Phil Blundell wrote:
+> On Thu, 2012-06-14 at 12:27 -0700, Saul Wold wrote:
+> > +DEPENDS = "zlib gnutls openssl"
+> 
+> Do you really want both gnutls and openssl simultaneously?  That seems a
+> bit excessive.  What exactly is openssl bringing here that gnutls
+> doesn't do?
 
-Do you really want both gnutls and openssl simultaneously?  That seems a
-bit excessive.  What exactly is openssl bringing here that gnutls
-doesn't do?
+Also, if you really do want this, it ought to be a DISTRO_FEATURE and/or
+PKG_CONFIG option.  Aside from the issue of binary bloat, OpenSSL brings
+a pile of licensing grief that a lot of folks may not want.
 
 p.
 
