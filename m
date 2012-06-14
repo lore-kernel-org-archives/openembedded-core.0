@@ -1,25 +1,27 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SfDeG-000357-Bp
+	(envelope-from <sgw@linux.intel.com>) id 1SfDnB-0003Cb-S5
 	for openembedded-core@lists.openembedded.org;
-	Thu, 14 Jun 2012 19:15:56 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 14 Jun 2012 10:05:18 -0700
+	Thu, 14 Jun 2012 19:25:10 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 14 Jun 2012 10:14:29 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="157661891"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="180099640"
 Received: from unknown (HELO [10.255.12.138]) ([10.255.12.138])
-	by orsmga002.jf.intel.com with ESMTP; 14 Jun 2012 10:05:17 -0700
-Message-ID: <4FDA19CD.3080003@linux.intel.com>
-Date: Thu, 14 Jun 2012 10:05:17 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 14 Jun 2012 10:14:29 -0700
+Message-ID: <4FDA1BF5.2000005@linux.intel.com>
+Date: Thu, 14 Jun 2012 10:14:29 -0700
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <1339678865-3610-1-git-send-email-laurentiu.palcu@intel.com>
-In-Reply-To: <1339678865-3610-1-git-send-email-laurentiu.palcu@intel.com>
-Subject: Re: [PATCH] core-image-gtk-directfb, qt4e-demo-image: Remove module-init-tools from IMAGE_INSTALL list
+	<openembedded-core@lists.openembedded.org>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	Khem Raj <raj.khem@gmail.com>
+References: <1339575975-22078-1-git-send-email-bogdan.a.marinescu@intel.com>
+In-Reply-To: <1339575975-22078-1-git-send-email-bogdan.a.marinescu@intel.com>
+Subject: Re: gcc-configure-common: Use build time sysroot for target gcc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,67 +36,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Jun 2012 17:15:56 -0000
+X-List-Received-Date: Thu, 14 Jun 2012 17:25:10 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 06/14/2012 06:01 AM, Laurentiu Palcu wrote:
-> As module-init-tools package does not exist anymore there's no reason to
-> have it in the IMAGE_INSTALL package list. If RPM package manager is
-> used, build will fail with:
+On 06/13/2012 01:26 AM, Bogdan Marinescu wrote:
+> From: Khem Raj<raj.khem@gmail.com>
 >
-> Unable to find package module-init-tools (module-init-tools)!
+> Otherwise it assumes / as sysroot on build host and starts
+> searching for directories in there.
 >
-Do we need to replace it with kmod?
+> Signed-off-by: Khem Raj<raj.khem@gmail.com>
+> ---
+> diff --git a/meta/recipes-devtools/gcc/gcc-configure-target.inc b/meta/recipes-devtools/gcc/gcc-configure-target.inc
+> index 1ee7504..5bca2b7 100644
+> --- a/meta/recipes-devtools/gcc/gcc-configure-target.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-configure-target.inc
+> @@ -1,4 +1,6 @@
+>   require gcc-configure-common.inc
+>
+>   EXTRA_OECONF_PATHS = " \
+> +    --with-sysroot \
+
+I can't seem to find the reply to this, but RP added a "=" to the
+end of this and that seems to have re-introduced the problem we were 
+attempting to fix.
+
+Apparently this is a bug in the configure script then also.
 
 Sau!
 
-> [Yocto #2580]
+> +    --with-build-sysroot=${STAGING_DIR_TARGET} \
+>       --with-gxx-include-dir=${includedir}/c++/"
+> --
+> cgit v0.9.0.2-39-g756e
 >
-> Signed-off-by: Laurentiu Palcu<laurentiu.palcu@intel.com>
-> ---
->   .../images/core-image-gtk-directfb.bb              |    3 +--
->   meta/recipes-qt/images/qt4e-demo-image.bb          |    3 +--
->   2 files changed, 2 insertions(+), 4 deletions(-)
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 >
-> diff --git a/meta/recipes-graphics/images/core-image-gtk-directfb.bb b/meta/recipes-graphics/images/core-image-gtk-directfb.bb
-> index a5fba17..dcf5165 100644
-> --- a/meta/recipes-graphics/images/core-image-gtk-directfb.bb
-> +++ b/meta/recipes-graphics/images/core-image-gtk-directfb.bb
-> @@ -1,5 +1,5 @@
->   LICENSE = "MIT"
-> -PR="r0"
-> +PR="r1"
->
->
->   LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58 \
-> @@ -17,7 +17,6 @@ inherit core-image
->   IMAGE_INSTALL += "\
->   	${CORE_IMAGE_BASE_INSTALL} \
->   	task-core-basic \
-> -	module-init-tools \
->   	task-core-gtk-directfb-base \
->   "
->
-> diff --git a/meta/recipes-qt/images/qt4e-demo-image.bb b/meta/recipes-qt/images/qt4e-demo-image.bb
-> index 6c0dc70..794dac5 100644
-> --- a/meta/recipes-qt/images/qt4e-demo-image.bb
-> +++ b/meta/recipes-qt/images/qt4e-demo-image.bb
-> @@ -1,6 +1,6 @@
->   DESCRIPTION = "Version 1.0-r1 of the qtr3-demo-image."
->   LICENSE = "MIT"
-> -PR="r1"
-> +PR="r2"
->
->   LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58 \
->                       file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
-> @@ -13,7 +13,6 @@ RDEPENDS_${PN} += " \
->
->   IMAGE_INSTALL += "\
->   	${CORE_IMAGE_BASE_INSTALL} \
-> -	module-init-tools \
->   	task-qt4e-base \
->   "
 >
 
 
