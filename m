@@ -1,38 +1,28 @@
-Received: from mail-pz0-f47.google.com ([209.85.210.47])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <darren@apps.dvhart.com>) id 1SfeUD-0006Qs-2m
+	(envelope-from <dvhart@linux.intel.com>) id 1Sff5f-0007hK-HO
 	for openembedded-core@lists.openembedded.org;
-	Fri, 15 Jun 2012 23:55:21 +0200
-Received: by dalh21 with SMTP id h21so4421285dal.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Jun 2012 14:44:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=sender:from:to:cc:subject:date:message-id:x-mailer
-	:x-gm-message-state;
-	bh=RYGTjbkA48d8k8HkF83HPh+dny4fy1Sratfvtel6Lq0=;
-	b=cmMi/bRjXJPJuJ33A7+ZZylN95wa2tNDSh2vJMmqVsEE99j0X9RrcVUjN25He2OLf/
-	7TLtuqnqYtG35IVDa0z0Jv/0BWe2VWkRkpHq1SSQO4yT5J3ZxKp5mzp9YP+k17hiRTZP
-	okZzovEgTpTRzVqylw2kOY2nh+xQJhI6tdlSmPMP8bMR1JWKM+/1ZrcAKzDuA2Fl4G/0
-	rcMyIBiwnJQbS1LqVXQQCcLsNhM//2x45Y7nHOhnz8WmrdCgAZfLZByxcuXRgBRm4H41
-	FCCetuA7nL7Jcez34uN//bmii3E3ivXcPhlQV2Zf6mC7JxfiyGfG3Yc4uKXLswA+Lgsm
-	jvpA==
-Received: by 10.68.240.99 with SMTP id vz3mr24802141pbc.60.1339796681248;
-	Fri, 15 Jun 2012 14:44:41 -0700 (PDT)
-Received: from localhost (static-50-53-99-101.bvtn.or.frontiernet.net.
-	[50.53.99.101])
-	by mx.google.com with ESMTPS id os9sm14480729pbb.62.2012.06.15.14.44.40
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 15 Jun 2012 14:44:40 -0700 (PDT)
-Sender: Darren Hart <darren@apps.dvhart.com>
+	Sat, 16 Jun 2012 00:34:03 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 15 Jun 2012 15:23:23 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="158239861"
+Received: from unknown (HELO envy.home) ([10.255.12.88])
+	by orsmga002.jf.intel.com with ESMTP; 15 Jun 2012 15:23:23 -0700
+Message-ID: <4FDBB58C.5030208@linux.intel.com>
+Date: Fri, 15 Jun 2012 15:22:04 -0700
 From: Darren Hart <dvhart@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 15 Jun 2012 14:44:24 -0700
-Message-Id: <88fd8e08d1933a78856c17245210d2ef7e4ae926.1339796664.git.dvhart@linux.intel.com>
-X-Mailer: git-send-email 1.7.5.4
-X-Gm-Message-State: ALoCoQmOCzv9YhjKv7wPU+F9k+LRCFJ2xxCJbP2SPvtXgnfZxb2ICHcG9vlrnMQm9yVDhSgBFOig
-Cc: Darren Hart <dvhart@linux.intel.com>
-Subject: [PATCH] cml1.bbclass: Only delay exit if the command fails
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:13.0) Gecko/20120605 Thunderbird/13.0
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1339650859.git.dvhart@linux.intel.com>
+	<3b44305edae36265295087fb5f31d22d660599b8.1339650859.git.dvhart@linux.intel.com>
+	<4FD98D3B.7060200@gmail.com>
+In-Reply-To: <4FD98D3B.7060200@gmail.com>
+X-Enigmail-Version: 1.4.2
+Subject: Re: [PATCH 2/3] busybox: Add setsid and cttyhack for tiny DISTRO_FEATURE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,33 +37,106 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Jun 2012 21:55:21 -0000
+X-List-Received-Date: Fri, 15 Jun 2012 22:34:03 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-Rather than pause for 5 seconds, test the return code of the command and
-require user input before exiting on failure. This avoids pausing after
-successful command execution as well as possibly not waiting long enough
-if the user happens to be doing something else for 5 seconds.
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
 
-Signed-off-by: Darren Hart <dvhart@linux.intel.com>
----
- meta/classes/cml1.bbclass |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
 
-diff --git a/meta/classes/cml1.bbclass b/meta/classes/cml1.bbclass
-index bd25311..52d520a 100644
---- a/meta/classes/cml1.bbclass
-+++ b/meta/classes/cml1.bbclass
-@@ -15,7 +15,7 @@ HOSTLDFLAGS = "${BUILD_LDFLAGS}"
- HOST_LOADLIBES = "-lncurses"
- 
- python do_menuconfig() {
--        oe_terminal("${SHELL} -c \"make menuconfig; echo 'Pausing for 5 seconds'; sleep 5\"", '${PN} Configuration', d)
-+        oe_terminal("${SHELL} -c \"make menuconfig; if [ $? -ne 0 ]; then echo 'Command failed.'; echo -n 'Press any key to continue... '; read r; fi\"", '${PN} Configuration', d)
- }
- do_menuconfig[depends] += "ncurses-native:do_populate_sysroot"
- do_menuconfig[nostamp] = "1"
--- 
-1.7.5.4
 
+On 06/14/2012 12:05 AM, Khem Raj wrote:
+> On 6/13/2012 10:19 PM, Darren Hart wrote:
+>> When building very small systems, it can be useful to spawn a
+>> shell from a simple init script, rather than a full System V Init
+>>  process. This requires the shell be the session leader and be
+>> able to open the controlling terminal if it is to have job
+>> control.
+> 
+>> Enable CONFIG_CTTYHACK and CONFIG_SETSID to enable this for 
+>> distros defining the "tiny" DISTRO_FEATURE.
+> 
+>> Signed-off-by: Darren Hart <dvhart@linux.intel.com> CC: OE Core 
+>> <openembedded-core@lists.openembedded.org> --- 
+>> meta/recipes-core/busybox/busybox.inc |    2 ++ 1 files changed,
+>> 2 insertions(+), 0 deletions(-)
+> 
+>> diff --git a/meta/recipes-core/busybox/busybox.inc 
+>> b/meta/recipes-core/busybox/busybox.inc index 5b83d32..d07ba7e 
+>> 100644 --- a/meta/recipes-core/busybox/busybox.inc +++ 
+>> b/meta/recipes-core/busybox/busybox.inc @@ -57,6 +57,8 @@ def 
+>> features_to_busybox_settings(d): busybox_cfg('nls', 
+>> distro_features, 'CONFIG_LOCALE_SUPPORT', cnf, rem) 
+>> busybox_cfg('ipv4', distro_features, 
+>> 'CONFIG_FEATURE_IFUPDOWN_IPV4', cnf, rem) busybox_cfg('ipv6', 
+>> distro_features, 'CONFIG_FEATURE_IFUPDOWN_IPV6', cnf, rem) + 
+>> busybox_cfg('tiny', distro_features, 'CONFIG_SETSID', cnf, rem)
+>> + busybox_cfg('tiny', distro_features, 'CONFIG_CTTYHACK', cnf,
+>> rem) return "\n".join(cnf), "\n".join(rem)
+> 
+>> # X, Y = ${@features_to_uclibc_settings(d)}
+> 
+> Enabling cttyhack and setsid could be a good thing in general 
+> (thinking of initramfs kind of images) so I would propose to enable
+> it by default and not introduce another distro knob here. How much
+> does busybox code size grow which these two features turned on.?
+
+So this struck me as strange, but I did it twice to make sure I didn't
+mess something up:
+
+BEFORE
+- -rwxr-xr-x 1 dvhart dvhart 2799417 2012-06-15 15:06 busybox
+- -rwxr-xr-x 1 dvhart dvhart 547872 2012-06-15 15:06 busybox_stripped
+
+AFTER (w/ SETSID and CTTYHACK)
+- -rwxr-xr-x 1 dvhart dvhart 2805195 2012-06-15 14:45 busybox
+- -rwxr-xr-x 1 dvhart dvhart 547872 2012-06-15 15:05 busybox_stripped
+
+DELTA
+         busybox: 5778
+busybox_stripped: 0
+
+The difference is <6k for the unstripped binary, and 0 bytes for the
+stripped binary. It must have something to do with the way busybox
+builds and enables features. The above was using my host strip
+command. I also tried building the rootfs with and without these
+features and comparing the cross-stripped binaries in the rootfs,
+delta is also 0 bytes.
+
+So the cost is "negligible" and there is a clear advantage to having
+these two options enabled. I'll resend with a two line change to the
+defconfig to enable them.
+
+- --
+Darren
+
+> 
+> otherwise second best thing is to keep it in poky-tiny distro
+> layer which wants to set the policy
+> 
+> _______________________________________________ Openembedded-core
+> mailing list Openembedded-core@lists.openembedded.org 
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+> 
+- -- 
+Darren Hart
+Intel Open Source Technology Center
+Yocto Project - Linux Kernel
+
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.12 (GNU/Linux)
+Comment: Using GnuPG with Mozilla - http://enigmail.mozdev.org/
+
+iQEcBAEBAgAGBQJP27WMAAoJEKbMaAwKp364Hf0IAKpHOMWy63ZPYwN+Ay7wXPf1
+KaUe4fWGBIMNJqS5FGJyhxBnWMdXJceAKMP6Wo2nIa/kvjat//IME8v41xwAb+mD
+5sjZpkcBE02CFq9rZmHfiTTPbYC7iS8a6Dz5n/fTLb79b189Jv3Rx/G3GCN4ioeC
+xqwVU8zmdtkrHfU+UonR5G4HdNMCjOCFETLWcWW6DNTsj5PmazJV2cMIZTYJEr43
+G/EyvO2fz/n+y53dsI04zwNEXuyr0pjurCK7dXt9oxlOnDvE276yS1b0Xihwm3cW
+G/h0udSeQ3fcF91vCxdYMAlQNJyMqiCOCeSW5gOVe6NKs+kuxzRqYFSEfD0gtmY=
+=aZeL
+-----END PGP SIGNATURE-----
 
 
