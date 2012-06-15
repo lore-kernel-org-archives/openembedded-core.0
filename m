@@ -1,16 +1,16 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@windriver.com>) id 1Sfd3y-0004Ft-23
+	(envelope-from <bruce.ashfield@windriver.com>) id 1Sfd3y-0004Fw-F9
 	for openembedded-core@lists.openembedded.org;
 	Fri, 15 Jun 2012 22:24:10 +0200
 Received: from localhost.localdomain (yow-bashfiel-d2.wrs.com
 	[128.224.146.167])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q5FKDQAB020236;
-	Fri, 15 Jun 2012 13:13:27 -0700 (PDT)
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q5FKDQAC020236;
+	Fri, 15 Jun 2012 13:13:28 -0700 (PDT)
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 To: richard.purdie@linuxfoundation.org
-Date: Fri, 15 Jun 2012 16:23:01 -0400
-Message-Id: <40732c1c548493a69d437f3fbb125affa338b3e9.1339791495.git.bruce.ashfield@windriver.com>
+Date: Fri, 15 Jun 2012 16:23:02 -0400
+Message-Id: <4c36f782924b4055896a740706ba10846d282231.1339791495.git.bruce.ashfield@windriver.com>
 X-Mailer: git-send-email 1.7.0.4
 In-Reply-To: <cover.1339791495.git.bruce.ashfield@windriver.com>
 References: <cover.1339791495.git.bruce.ashfield@windriver.com>
@@ -18,7 +18,7 @@ In-Reply-To: <cover.1339791495.git.bruce.ashfield@windriver.com>
 References: <cover.1339791495.git.bruce.ashfield@windriver.com>
 Cc: openembedded-core@lists.openembedded.org, liang.li@windriver.com,
 	saul.wold@intel.com
-Subject: [PATCH 1/2] recipes-kernel: make perf a standalone package
+Subject: [PATCH 2/2] recipes-kernel: remove linux-tools.inc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,114 +35,129 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 15 Jun 2012 20:24:10 -0000
 
-From: Liang Li <liang.li@windriver.com>
+perf has been moved to a standalone package, making linux-tools.inc
+unecessary. It can now be removed and recipes that included it
+updated.
 
-perf has been coupled to the kernel packages via kernel.bbclass.
-While maintaining the build of perf out of the kernel source tree
-is desired the package coupling has proved to be awkward in
-several situations such as:
-
-  - when a kernel recipe doesn't want to build/provide perf
-  - when licensing of dependencies would prohibit perf and hence
-    the kernel from being built.
-
-To solve some of these problems, this recipe is the extraction of
-the linux-tools.inc provided perf compilation into a standalone
-perf recipe that builds out of the kernel source, but is otherwise
-independent.
-
-No new functionality is provided above what the linux-tools.inc
-variant provided, but the separate recipe provides baseline for
-adding new functionality.
-
-Signed-off-by: Liang Li <liang.li@windriver.com>
 Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 ---
- meta/classes/kernel.bbclass          |    7 +----
- meta/recipes-kernel/perf/perf_3.4.bb |   52 ++++++++++++++++++++++++++++++++++
- 2 files changed, 53 insertions(+), 6 deletions(-)
- create mode 100644 meta/recipes-kernel/perf/perf_3.4.bb
+ meta/recipes-kernel/linux/linux-tools.inc       |   41 -----------------------
+ meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb |    2 -
+ meta/recipes-kernel/linux/linux-yocto-rt_3.2.bb |    2 -
+ meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb |    2 -
+ meta/recipes-kernel/linux/linux-yocto_3.0.bb    |    2 -
+ meta/recipes-kernel/linux/linux-yocto_3.2.bb    |    2 -
+ meta/recipes-kernel/linux/linux-yocto_3.4.bb    |    2 -
+ 7 files changed, 0 insertions(+), 53 deletions(-)
+ delete mode 100644 meta/recipes-kernel/linux/linux-tools.inc
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 116e10b..02234df 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -469,7 +469,7 @@ python populate_packages_prepend () {
- 	metapkg = "kernel-modules"
- 	d.setVar('ALLOW_EMPTY_' + metapkg, "1")
- 	d.setVar('FILES_' + metapkg, "")
--	blacklist = [ 'kernel-dev', 'kernel-image', 'kernel-base', 'kernel-vmlinux', 'perf', 'perf-dbg', 'kernel-misc' ]
-+	blacklist = [ 'kernel-dev', 'kernel-image', 'kernel-base', 'kernel-vmlinux', 'kernel-misc' ]
- 	for l in module_deps.values():
- 		for i in l:
- 			pkg = module_pattern % legitimize_package_name(re.match(module_regex, os.path.basename(i)).group(1))
-@@ -548,8 +548,3 @@ addtask deploy before do_build after do_install
- 
- EXPORT_FUNCTIONS do_deploy
- 
--# perf must be enabled in individual kernel recipes
--PACKAGES =+ "perf-dbg perf"
--FILES_perf = "${bindir}/* \
--              ${libexecdir}"
--FILES_perf-dbg = "${FILES_${PN}-dbg}"
-diff --git a/meta/recipes-kernel/perf/perf_3.4.bb b/meta/recipes-kernel/perf/perf_3.4.bb
-new file mode 100644
-index 0000000..9c8ceb0
---- /dev/null
-+++ b/meta/recipes-kernel/perf/perf_3.4.bb
-@@ -0,0 +1,52 @@
-+SUMMARY = "Performance analysis tools for Linux"
-+DESCRIPTION = "Performance counters for Linux are a new kernel-based \
-+subsystem that provide a framework for all things \
-+performance analysis. It covers hardware level \
-+(CPU/PMU, Performance Monitoring Unit) features \
-+and software features (software counters, tracepoints) \
-+as well."
-+
-+LICENSE = "GPLv2"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=d7810fab7487fb0aad327b76f1be7cd7"
-+
-+PR = "r0"
-+
-+BUILDPERF_libc-uclibc = "no"
-+
-+PERFDEPENDS = " \
-+virtual/${MLPREFIX}libc:do_populate_sysroot \
-+${MLPREFIX}elfutils:do_populate_sysroot \
-+${MLPREFIX}binutils:do_populate_sysroot \
-+"
-+RDEPENDS += "elfutils perl python"
-+
-+PROVIDES = "virtual/perf"
-+
-+S = "${STAGING_KERNEL_DIR}/source"
-+B = "${WORKDIR}/${BPN}-${PV}"
-+
-+EXTRA_OEMAKE = \
-+		'-C ${S}/tools/perf \
-+		O=${B} \
-+		CROSS_COMPILE=${TARGET_PREFIX} \
-+		ARCH=${TARGET_ARCH} \
-+		CC="${CC}" \
-+		AR="${AR}" \
-+		prefix=/usr \
-+		NO_GTK2=1 NO_NEWT=1 NO_DWARF=1 \
-+		'
-+
-+do_configure[depends] = "virtual/kernel:do_populate_sysroot"
-+
-+do_compile() {
-+	oe_runmake all
-+}
-+
-+do_compile[depends] = "${PERFDEPENDS}"
-+
-+do_install() {
-+	oe_runmake DESTDIR=${D} install
-+}
-+
-+PACKAGE_ARCH = "${MACHINE_ARCH}"
-+
+diff --git a/meta/recipes-kernel/linux/linux-tools.inc b/meta/recipes-kernel/linux/linux-tools.inc
+deleted file mode 100644
+index 3b03c05..0000000
+--- a/meta/recipes-kernel/linux/linux-tools.inc
++++ /dev/null
+@@ -1,41 +0,0 @@
+-# included by kernel recipes if they want to build/provide
+-# perf functionality from their tree.
+-
+-BUILDPERF = "yes"
+-BUILDPERF_libc-uclibc = "no"
+-# perf requires binutils which is GPLv3 licensed, don't prevent the entire kernel
+-# being built if GPLv3 is in INCOMPATIBLE_LICENSE
+-python () {
+-    if ((d.getVar("INCOMPATIBLE_LICENSE", True) or "").find("GPLv3") != -1):
+-       # GPLv3, drop perf
+-       d.setVar("BUILDPERF", "no")
+-       d.setVar("PERFDEPENDS", "")
+-}
+-
+-do_compile_perf () {
+-    if [ "${BUILDPERF}" = "yes" ]; then
+-	oe_runmake -C ${S}/tools/perf CC="${CC}" LD="${LD}" prefix=${prefix} NO_NEWT=1 NO_DWARF=1
+-    fi
+-}
+-
+-fakeroot do_install_perf () {
+-    if [ "${BUILDPERF}" = "yes" ]; then
+-	oe_runmake -C ${S}/tools/perf CC="${CC}" LD="${LD}" prefix=${prefix} DESTDIR=${D} install NO_NEWT=1 NO_DWARF=1
+-    fi
+-}
+-
+-
+-# perf tasks
+-addtask compile_perf after do_compile before do_install
+-addtask install_perf after do_install before do_package
+-
+-do_compile_perf[umask] = "022"
+-do_install_perf[umask] = "022"
+-
+-PERFDEPENDS = "virtual/${MLPREFIX}libc:do_populate_sysroot ${MLPREFIX}elfutils:do_populate_sysroot ${MLPREFIX}binutils:do_populate_sysroot"
+-PERFDEPENDS_libc-uclibc = ""
+-PERFRDEPENDS = "python perl elfutils"
+-PERFRDEPENDS_libc-uclibc = ""
+-
+-do_compile_perf[depends] = "${PERFDEPENDS}"
+-RDEPENDS_perf += "${PERFRDEPENDS}"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb b/meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb
+index a39b966..971d1a8 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb
+@@ -27,5 +27,3 @@ KERNEL_FEATURES = "features/netfilter"
+ KERNEL_FEATURES_append = " features/taskstats"
+ KERNEL_FEATURES_append_qemux86 = " cfg/sound"
+ KERNEL_FEATURES_append_qemux86-64 = " cfg/sound"
+-
+-require recipes-kernel/linux/linux-tools.inc
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.2.bb b/meta/recipes-kernel/linux/linux-yocto-rt_3.2.bb
+index a07b27a..ada66b8 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_3.2.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.2.bb
+@@ -28,5 +28,3 @@ KERNEL_FEATURES = "features/netfilter"
+ KERNEL_FEATURES_append = " features/taskstats"
+ KERNEL_FEATURES_append_qemux86 = " cfg/sound"
+ KERNEL_FEATURES_append_qemux86-64 = " cfg/sound"
+-
+-require recipes-kernel/linux/linux-tools.inc
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb b/meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb
+index 81730ea..52f2dd1 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb
+@@ -28,5 +28,3 @@ KERNEL_FEATURES = "features/netfilter"
+ KERNEL_FEATURES_append = " features/taskstats"
+ KERNEL_FEATURES_append_qemux86 = " cfg/sound"
+ KERNEL_FEATURES_append_qemux86-64 = " cfg/sound"
+-
+-require recipes-kernel/linux/linux-tools.inc
+diff --git a/meta/recipes-kernel/linux/linux-yocto_3.0.bb b/meta/recipes-kernel/linux/linux-yocto_3.0.bb
+index 440821c..5cdff95 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_3.0.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_3.0.bb
+@@ -32,5 +32,3 @@ KERNEL_FEATURES = "features/netfilter"
+ KERNEL_FEATURES_append = " features/taskstats"
+ KERNEL_FEATURES_append_qemux86 = " cfg/sound"
+ KERNEL_FEATURES_append_qemux86-64 = " cfg/sound"
+-
+-require linux-tools.inc
+diff --git a/meta/recipes-kernel/linux/linux-yocto_3.2.bb b/meta/recipes-kernel/linux/linux-yocto_3.2.bb
+index e6cf9bb..3e4a9dd 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_3.2.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_3.2.bb
+@@ -32,5 +32,3 @@ KERNEL_FEATURES="features/netfilter"
+ KERNEL_FEATURES_append=" features/taskstats"
+ KERNEL_FEATURES_append_qemux86=" cfg/sound"
+ KERNEL_FEATURES_append_qemux86-64=" cfg/sound"
+-
+-require linux-tools.inc
+diff --git a/meta/recipes-kernel/linux/linux-yocto_3.4.bb b/meta/recipes-kernel/linux/linux-yocto_3.4.bb
+index af6130d..eb5e888 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_3.4.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_3.4.bb
+@@ -34,5 +34,3 @@ KERNEL_REVISION_CHECKING=""
+ KERNEL_FEATURES="features/netfilter"
+ KERNEL_FEATURES_append_qemux86=" cfg/sound"
+ KERNEL_FEATURES_append_qemux86-64=" cfg/sound"
+-
+-require recipes-kernel/linux/linux-tools.inc
 -- 
 1.7.7
 
