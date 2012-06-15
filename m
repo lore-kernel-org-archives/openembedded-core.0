@@ -1,38 +1,27 @@
-Received: from mail-pb0-f47.google.com ([209.85.160.47])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>)
-	id 1SfYpU-0005n6-In; Fri, 15 Jun 2012 17:52:57 +0200
-Received: by pbbrq2 with SMTP id rq2so5256827pbb.6
-	for <multiple recipients>; Fri, 15 Jun 2012 08:42:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:subject:references
-	:in-reply-to:x-enigmail-version:content-type
-	:content-transfer-encoding;
-	bh=SmyJCNV49UQM4AU+yPJX63pf8cvBUS66EutYrhMubm8=;
-	b=d1Rpn03seqwRgmlezWGvUnNZ7wHyy8df7KxUfdsQJjYfH7PBXYvZfQEO+K9QC9A3Bh
-	okP29aj0opXuRtPRXk0ac7KIvGZkTI3en+4P5r7mpLuO5zCmvgHDYwCDEJbwqpv4TNe8
-	XU0AArHM/ypj8bPinpqvC3ZQ8X7KsjMFh+EqMt67GlKTKoGdTCLMm0vf53umlmtN72sl
-	Msqcc+zZnpIp9MJJU+hFRCgyteOOciKicBKrospiA5N+eZJFu74vTCmTMgCG4wL2mzq7
-	bHBjL/0MUqUO6SgpkXQQaaNbUoFK48TVNMFkv0PG/mnPkhdecffMIn265lsfSjkktyDH
-	O9Ng==
-Received: by 10.68.225.42 with SMTP id rh10mr9839691pbc.116.1339774936865;
-	Fri, 15 Jun 2012 08:42:16 -0700 (PDT)
-Received: from [192.168.1.71] (99-57-140-209.lightspeed.sntcca.sbcglobal.net.
-	[99.57.140.209])
-	by mx.google.com with ESMTPS id iv8sm13587392pbc.53.2012.06.15.08.42.14
-	(version=SSLv3 cipher=OTHER); Fri, 15 Jun 2012 08:42:15 -0700 (PDT)
-Message-ID: <4FDB57DB.5090407@gmail.com>
-Date: Fri, 15 Jun 2012 08:42:19 -0700
-From: Khem Raj <raj.khem@gmail.com>
-User-Agent: Mozilla/5.0 (Windows NT 6.1;
-	rv:12.0) Gecko/20120428 Thunderbird/12.0.1
+	(envelope-from <sgw@linux.intel.com>) id 1SfYrR-0005uL-GH
+	for openembedded-core@lists.openembedded.org;
+	Fri, 15 Jun 2012 17:54:58 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 15 Jun 2012 08:44:17 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="156844176"
+Received: from unknown (HELO [10.255.12.138]) ([10.255.12.138])
+	by azsmga001.ch.intel.com with ESMTP; 15 Jun 2012 08:44:17 -0700
+Message-ID: <4FDB5851.6080606@linux.intel.com>
+Date: Fri, 15 Jun 2012 08:44:17 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org, 
-	openembedded-devel@lists.openembedded.org
-References: <CANBf+V3=LvWkE28TR1qNR-NpLd60EGroEqmXQqypXAUUZ0pv-Q@mail.gmail.com>
-In-Reply-To: <CANBf+V3=LvWkE28TR1qNR-NpLd60EGroEqmXQqypXAUUZ0pv-Q@mail.gmail.com>
-X-Enigmail-Version: 1.4.2
-Subject: Re: Proposal: Creating meta-networking
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>, 
+	"Burton, Ross" <ross.burton@intel.com>
+References: <cover.1339772198.git.ross.burton@intel.com>
+	<bd87663246598c6a4c7408c774dc9199322e26fa.1339772198.git.ross.burton@intel.com>
+In-Reply-To: <bd87663246598c6a4c7408c774dc9199322e26fa.1339772198.git.ross.burton@intel.com>
+Subject: Re: [PATCH 1/2] connman: upgrade to 1.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,124 +36,372 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Jun 2012 15:52:57 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Fri, 15 Jun 2012 15:54:58 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
------BEGIN PGP SIGNED MESSAGE-----
-Hash: SHA1
+On 06/15/2012 07:58 AM, Ross Burton wrote:
+> Drop all upstreamed or irrelevant patches, remove unused configure arguments,
+> and add compatibility rprovides for what used to be plugins but are now
+> integrated into the core.
+>
+> Signed-off-by: Ross Burton<ross.burton@intel.com>
+> ---
+>   meta/recipes-connectivity/connman/connman.inc      |   26 ++++++---
+>   ...ange-visibility-to-default-for-debug-symb.patch |   35 ------------
+>   .../connman/connman/disable_alg-test.patch         |   46 ----------------
+>   .../connman/connman/ethernet_default.patch         |   22 --------
+>   .../connman/test-set-ipv4-method-api-fix.patch     |   50 ------------------
+>   .../connman/test-set-ipv6-method-api-fix.patch     |   55 --------------------
+>   meta/recipes-connectivity/connman/connman_0.79.bb  |   14 -----
+>   meta/recipes-connectivity/connman/connman_1.0.bb   |    9 +++
+>   8 files changed, 27 insertions(+), 230 deletions(-)
+>   delete mode 100644 meta/recipes-connectivity/connman/connman/0001-plugin.h-Change-visibility-to-default-for-debug-symb.patch
+>   delete mode 100644 meta/recipes-connectivity/connman/connman/disable_alg-test.patch
+>   delete mode 100644 meta/recipes-connectivity/connman/connman/ethernet_default.patch
+>   delete mode 100644 meta/recipes-connectivity/connman/connman/test-set-ipv4-method-api-fix.patch
+>   delete mode 100644 meta/recipes-connectivity/connman/connman/test-set-ipv6-method-api-fix.patch
+>   delete mode 100644 meta/recipes-connectivity/connman/connman_0.79.bb
+>   create mode 100644 meta/recipes-connectivity/connman/connman_1.0.bb
+>
+> diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipes-connectivity/connman/connman.inc
+> index 3412323..75078d1 100644
+> --- a/meta/recipes-connectivity/connman/connman.inc
+> +++ b/meta/recipes-connectivity/connman/connman.inc
+> @@ -11,7 +11,7 @@ HOMEPAGE = "http://connman.net/"
+>   BUGTRACKER = "http://bugs.meego.com/buglist.cgi?quicksearch=connman"
+>   LICENSE  = "GPLv2"
+>   LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e \
+> -                    file://src/main.c;beginline=1;endline=20;md5=4b55b550fa6b33cc2055ef30dd262b3e"
+> +                    file://src/main.c;beginline=1;endline=20;md5=d6a1ac98a6791c5294e8a7f176ecd66d"
+>
+Can you please add a commit comment as to what changed in the License 
+Header?  It may be as simple as the year was added/updated, but it's 
+important to track that information.
 
-On 6/15/2012 8:15 AM, Joe MacDonald wrote:
-> Hi all,
-> 
-> We've been talking about this on-and-off at Wind River for a while
-> now, but it now seems like a reasonable time to bring a proposal to
-> the OE community at large.  We're thinking about creating a new
-> layer to house recipes, etc.  for networking packages.  I'll try to
-> address what seem to be the most immediate questions (certainly the
-> ones we've been thinking most about any time I've discussed this
-> with anyone):
-> 
-> Who would use this?
-> 
-> The intent is that this would be a layer generally useful directly
-> on top of the Yocto Project / OE-core, but it would also draw from
-> and compliment meta-oe.  Right now I'm imagining two main groups
-> interested in this layer.
-> 
-> - Anyone building a small networking device (eg. a home router / 
-> bridge / switch).
-> 
-> - Anyone wanting to add network services to their device (eg. 
-> anything that might benefit from a small ftp/tftp server)
-> 
-> What will it include?
-> 
-> The focus should be on networking protocols, daemons, servers and
-> utilities. The plan is for a staged approach.  Initially we're
-> going to bring forward a number of recipes from OE Classic that
-> aren't currently in OE-core or the meta-oe layer.  The short list
-> right now is:
-> 
-> - aoetools - openldap - quagga - radvd - tftp-hpa - traceroute -
-> tunctl - vblade - vlan - xl2tpd
-> 
-> The next two stages would run concurrently, with Wind River 
-> contributing a number of recipes we intend to support for the 
-> long-term.  That list is still being firmed up but will include:
-> 
-> - freeradius - netcat - racoon2 - rdist
-> 
-> There's about another six or seven packages on the short list
-> right now, generally in the same vein.
-> 
-> The other stage is migrating packages that seem like obvious fits
-> into this layer from meta-oe.  The current list under consideration
-> would be:
-> 
-> - atftp - bridge-utils - dnsmasq - dnsmasq-dbus - inetutils -
-> ipsec-tools - iw - libnet - libnfnetlink - net-snmp - ntp -
-> ntp-ssl - openvpn - ptpd - rp-pppoe - samba - strongswan - talloc -
-> tcpdump - vsftpd
-> 
-> That's a lot of stuff, are you going to organize it somehow?
-> 
-> The plan is that we will have subdirectories for logical groups of 
-> recipes in much the same way meta-oe is organized today.  Groupings
-> I would propose right now would be:
-> 
-> - recipes-daemons - containing stuff like atftp, dnsmasq, racoon2,
-> radvd, etc. - recipes-protocols - containing stuff like quagga,
-> openldap, xl2tpd, maybe iscsi if it appears, etc. -
-> recipes-support - containing the rest, aoetools, bridge-utils,
-> traceroute, etc.
-> 
-> This is definitely the least-clear part of our plan so far and
-> would need the most feedback and fine-tuning, I expect.
-> 
-> Why move anything from meta-oe?
-> 
-> "Networking" covers such a broad area and touches so much that it 
-> really seems like 'meta-networking' should be a home for all of
-> the embedded networking bits.  Leaving some parts in meta-oe and
-> having the rest in meta-networking would ultimately seem a bit
-> arbitrary.
-> 
-> Who is 'we'?
-> 
-> Wind River is volunteering to maintain the layer and any recipes
-> we contribute at the outset.  For recipes imported from OE Classic
-> it'd be great if the maintainers there continued ownership, but if
-> that's not possible, WR will also sign up for general maintenance.
-> For recipes imported from meta-oe we would hope that the current
-> maintainers would continue support in meta-networking once it's
-> created.  WR definitely won't be able to do this alone so we're
-> hoping for help from everyone here.
-> 
-> When are you doing this?
-> 
-> I've been working on a prototype on and off for the last little bit
-> but considering the scope and potential impact, it seemed best to
-> open up the discussion here first and if it seemed like a generally
-> desirable thing, we'd get some version of this up and available
-> within a few days of consensus.
-> 
-> So what does everyone think?  Awesome idea?  Terrible idea?
-> (Hopefully) something in between?  All feedback is welcome.
-> 
+Thanks
+	Sau!
 
-I think creating a networking layer is fine idea, alongside meta-oe,
-as a separate layer in meta-openembedded repo. Reshuffling recipes
-from meta-oe into different layers is fine. I would like to avoid copies.
-
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.12 (MingW32)
-Comment: Using GnuPG with Mozilla - http://enigmail.mozdev.org/
-
-iEYEARECAAYFAk/bV9sACgkQuwUzVZGdMxSaVgCeJN3phaSkPA18pJkb4mtjq2i5
-BzQAnRK05weQOYDQxFc9ZqWz04MUrqB6
-=8Cdm
------END PGP SIGNATURE-----
+>   # we need to define the depends here, the dynamic stuff is too late
+>   DEPENDS  = "dbus glib-2.0 ppp iptables gnutls \
+> @@ -35,14 +35,11 @@ EXTRA_OECONF += "\
+>       --enable-ethernet \
+>       ${@base_contains('DISTRO_FEATURES', 'wifi','--enable-wifi ${TIST}', '--disable-wifi', d)} \
+>       ${@base_contains('DISTRO_FEATURES', 'bluetooth','--enable-bluetooth ${TIST}', '--disable-bluetooth', d)} \
+> -    --enable-dnsproxy \
+>       ${@base_contains('DISTRO_FEATURES', '3g', '', '--disable-ofono', d)} \
+>       --enable-tools \
+>       --enable-test \
+>       --disable-polkit \
+> -    --enable-client \
+> -    --enable-fake \
+> -    --disable-ntpd \
+> +    --disable-client \
+>   "
+>
+>   INITSCRIPT_NAME = "connman"
+> @@ -76,13 +73,26 @@ do_install_append() {
+>   	rmdir ${D}${libdir}/connman/scripts
+>   }
+>
+> +# These used to be plugins, but now they are core
+> +RPROVIDES_${PN} = "\
+> +	connman-plugin-loopback \
+> +	connman-plugin-ethernet \
+> +	${@base_contains('DISTRO_FEATURES', 'bluetooth','connman-plugin-bluetooth', '', d)} \
+> +	${@base_contains('DISTRO_FEATURES', 'wifi','connman-plugin-wifi', '', d)} \
+> +	${@base_contains('DISTRO_FEATURES', '3g','connman-plugin-ofono', '', d)} \
+> +	"
+> +
+> +RDEPENDS_${PN} = "\
+> +	${@base_contains('DISTRO_FEATURES', 'bluetooth', 'bluez4', '', d)} \
+> +	${@base_contains('DISTRO_FEATURES', 'wifi','wpa-supplicant', '', d)} \
+> +	${@base_contains('DISTRO_FEATURES', '3g','ofono', '', d)} \
+> +	"
+> +
+>   PACKAGES_DYNAMIC = "${PN}-plugin-*"
+>
+>   python populate_packages_prepend() {
+>   	depmap = dict( pppd="ppp",
+> -	               wifi="wpa-supplicant",
+> -	               bluetooth="bluez4",
+> -	               ofono="ofono" )
+> +	       	     )
+>   	packages = []
+>   	multilib_prefix = (d.getVar("MLPREFIX", True) or "")
+>   	hook = lambda file,pkg,b,c,d:packages.append((file,pkg))
+> diff --git a/meta/recipes-connectivity/connman/connman/0001-plugin.h-Change-visibility-to-default-for-debug-symb.patch b/meta/recipes-connectivity/connman/connman/0001-plugin.h-Change-visibility-to-default-for-debug-symb.patch
+> deleted file mode 100644
+> index e6f03e6..0000000
+> --- a/meta/recipes-connectivity/connman/connman/0001-plugin.h-Change-visibility-to-default-for-debug-symb.patch
+> +++ /dev/null
+> @@ -1,35 +0,0 @@
+> -From 4ddaf78dad5a9ee4a0658235f71b75132192123e Mon Sep 17 00:00:00 2001
+> -From: Khem Raj<raj.khem@gmail.com>
+> -Date: Sat, 7 Apr 2012 18:52:12 -0700
+> -Subject: [PATCH] plugin.h: Change visibility to default for debug symbols
+> -
+> -gold refuses to link in undefined weak symbols which
+> -have hidden visibility
+> -
+> -Signed-off-by: Khem Raj<raj.khem@gmail.com>
+> -
+> -
+> -Upstream-Status: Pending
+> ----
+> - include/plugin.h |    4 ++--
+> - 1 files changed, 2 insertions(+), 2 deletions(-)
+> -
+> -diff --git a/include/plugin.h b/include/plugin.h
+> -index 692a4e5..a9361c3 100644
+> ---- a/include/plugin.h
+> -+++ b/include/plugin.h
+> -@@ -89,9 +89,9 @@ struct connman_plugin_desc {
+> - #else
+> - #define CONNMAN_PLUGIN_DEFINE(name, description, version, priority, init, exit) \
+> - 		extern struct connman_debug_desc __start___debug[] \
+> --				__attribute__ ((weak, visibility("hidden"))); \
+> -+				__attribute__ ((weak, visibility("default"))); \
+> - 		extern struct connman_debug_desc __stop___debug[] \
+> --				__attribute__ ((weak, visibility("hidden"))); \
+> -+				__attribute__ ((weak, visibility("default"))); \
+> - 		extern struct connman_plugin_desc connman_plugin_desc \
+> - 				__attribute__ ((visibility("default"))); \
+> - 		struct connman_plugin_desc connman_plugin_desc = { \
+> ---
+> -1.7.5.4
+> -
+> diff --git a/meta/recipes-connectivity/connman/connman/disable_alg-test.patch b/meta/recipes-connectivity/connman/connman/disable_alg-test.patch
+> deleted file mode 100644
+> index f5cea00..0000000
+> --- a/meta/recipes-connectivity/connman/connman/disable_alg-test.patch
+> +++ /dev/null
+> @@ -1,46 +0,0 @@
+> -From 3ebba424d56919018733064ad9e0ab8790d2bf1d Mon Sep 17 00:00:00 2001
+> -From: Otavio Salvador<otavio@ossystems.com.br>
+> -Date: Fri, 16 Dec 2011 19:31:59 -0200
+> -Subject: [PATCH] Disable building of alg-test
+> -
+> -alg-test utility depends on linux/if_alg.h header that is only
+> -available on kernels>= 2.6.39.
+> -
+> -Upstream-Status: Inappropriate [configuration]
+> -
+> -Signed-off-by: Otavio Salvador<otavio@ossystems.com.br>
+> ----
+> - Makefile.am  |    2 +-
+> - configure.ac |    3 ---
+> - 2 files changed, 1 insertions(+), 4 deletions(-)
+> -
+> -diff --git a/Makefile.am b/Makefile.am
+> -index a6509f1..93618a3 100644
+> ---- a/Makefile.am
+> -+++ b/Makefile.am
+> -@@ -145,7 +145,7 @@ noinst_PROGRAMS += tools/wispr tools/supplicant-test \
+> - 			tools/dbus-test tools/polkit-test \
+> - 			tools/iptables-test tools/tap-test tools/wpad-test \
+> - 			tools/stats-tool tools/private-network-test \
+> --			tools/alg-test unit/test-session unit/test-ippool \
+> -+			unit/test-session unit/test-ippool \
+> - 			unit/test-nat
+> -
+> - tools_wispr_SOURCES = $(gweb_sources) tools/wispr.c
+> -diff --git a/configure.ac b/configure.ac
+> -index 3dca02e..3b2da4d 100644
+> ---- a/configure.ac
+> -+++ b/configure.ac
+> -@@ -419,9 +419,6 @@ if (test "${enable_tools}" = "yes"); then
+> - 				AC_MSG_ERROR(GnuTLS library is required))
+> - 	AC_SUBST(GNUTLS_CFLAGS)
+> - 	AC_SUBST(GNUTLS_LIBS)
+> --
+> --	AC_CHECK_HEADERS(linux/if_alg.h, dummy=yes,
+> --		AC_MSG_ERROR(User-space algorithm header files are required))
+> - fi
+> - AM_CONDITIONAL(TOOLS, test "${enable_tools}" = "yes")
+> -
+> ---
+> -1.7.9.1
+> -
+> diff --git a/meta/recipes-connectivity/connman/connman/ethernet_default.patch b/meta/recipes-connectivity/connman/connman/ethernet_default.patch
+> deleted file mode 100644
+> index 6dae2aa..0000000
+> --- a/meta/recipes-connectivity/connman/connman/ethernet_default.patch
+> +++ /dev/null
+> @@ -1,22 +0,0 @@
+> -Default to enabling the ethernet interface. If we don't do this, connman
+> -will shut down all the networking when it starts without any configuration
+> -which is usualy not what the users expects. This is particularly
+> -problematic with our qemu images and runtime testing using qemu.
+> -
+> -Upstream-Status: Inappropriate [Configuration]
+> -
+> -RP 2011/12/12
+> -
+> -Index: git/src/storage.c
+> -===================================================================
+> ---- git.orig/src/storage.c	2011-12-12 16:14:10.892316565 +0000
+> -+++ git/src/storage.c	2011-12-12 16:14:13.788316431 +0000
+> -@@ -367,7 +367,7 @@
+> - 					"Enable", FALSE);
+> -
+> - 		g_key_file_set_boolean(keyfile, "Wired",
+> --					"Enable", FALSE);
+> -+					"Enable", TRUE);
+> -
+> - 		g_key_file_set_boolean(keyfile, "3G",
+> - 					"Enable", FALSE);
+> diff --git a/meta/recipes-connectivity/connman/connman/test-set-ipv4-method-api-fix.patch b/meta/recipes-connectivity/connman/connman/test-set-ipv4-method-api-fix.patch
+> deleted file mode 100644
+> index 78eb19a..0000000
+> --- a/meta/recipes-connectivity/connman/connman/test-set-ipv4-method-api-fix.patch
+> +++ /dev/null
+> @@ -1,50 +0,0 @@
+> -From 0b817dd3096f5c3ca8f0b868ee55ea550054137b Mon Sep 17 00:00:00 2001
+> -From: Daniel Wagner<daniel.wagner@bmw-carit.de>
+> -Date: Mon, 19 Mar 2012 14:03:27 +0100
+> -Subject: [PATCH 3/3] set-ipv4-method: The arguments have to be wrapped into a
+> - variant
+> -
+> -Fixes BMC#24986
+> -
+> -Upstream-Status: Backport
+> -
+> -Signed-off-by: Otavio Salvador<otavio@ossystems.com.br>
+> ----
+> - test/set-ipv4-method |   11 +++++++----
+> - 1 file changed, 7 insertions(+), 4 deletions(-)
+> -
+> -diff --git a/test/set-ipv4-method b/test/set-ipv4-method
+> -index 820b24b..235113f 100755
+> ---- a/test/set-ipv4-method
+> -+++ b/test/set-ipv4-method
+> -@@ -3,6 +3,9 @@
+> - import sys
+> - import dbus
+> -
+> -+def make_variant(string):
+> -+	return dbus.String(string, variant_level=1)
+> -+
+> - def print_usage():
+> - 	print "Usage: %s<service>  [off|dhcp|manual<address>  [netmask] [gateway]]" % (sys.argv[0])
+> -
+> -@@ -20,13 +23,13 @@ properties = service.GetProperties()
+> -
+> - print "Setting method %s for %s" % (sys.argv[2], sys.argv[1])
+> -
+> --ipv4_configuration = { "Method": sys.argv[2] }
+> -+ipv4_configuration = { "Method": make_variant(sys.argv[2]) }
+> - if (len(sys.argv)>  3):
+> --	ipv4_configuration["Address"] = sys.argv[3]
+> -+	ipv4_configuration["Address"] = make_variant(sys.argv[3])
+> - if (len(sys.argv)>  4):
+> --	ipv4_configuration["Netmask"] = sys.argv[4]
+> -+	ipv4_configuration["Netmask"] = make_variant(sys.argv[4])
+> - if (len(sys.argv)>  5):
+> --        ipv4_configuration["Gateway"] = sys.argv[5]
+> -+        ipv4_configuration["Gateway"] = make_variant(sys.argv[5])
+> -
+> - service.SetProperty("IPv4.Configuration", ipv4_configuration)
+> - print "New IPv4.Configuration: ", ipv4_configuration
+> ---
+> -1.7.9.5
+> -
+> diff --git a/meta/recipes-connectivity/connman/connman/test-set-ipv6-method-api-fix.patch b/meta/recipes-connectivity/connman/connman/test-set-ipv6-method-api-fix.patch
+> deleted file mode 100644
+> index 773127b..0000000
+> --- a/meta/recipes-connectivity/connman/connman/test-set-ipv6-method-api-fix.patch
+> +++ /dev/null
+> @@ -1,55 +0,0 @@
+> -From 2885e71c9c0df7ea9866e91ab79d255eaa8de53d Mon Sep 17 00:00:00 2001
+> -From: Daniel Wagner<daniel.wagner@bmw-carit.de>
+> -Date: Mon, 19 Mar 2012 14:03:28 +0100
+> -Subject: [PATCH 2/3] set-ipv6-method: The arguments have to be wrapped into a
+> - variant
+> -
+> -Fixes BMC#24986
+> -
+> -Upstream-Status: Backport
+> -
+> -Signed-off-by: Otavio Salvador<otavio@ossystems.com.br>
+> ----
+> - test/set-ipv6-method |   13 ++++++++-----
+> - 1 file changed, 8 insertions(+), 5 deletions(-)
+> -
+> -diff --git a/test/set-ipv6-method b/test/set-ipv6-method
+> -index 7f60b88..4f2de09 100755
+> ---- a/test/set-ipv6-method
+> -+++ b/test/set-ipv6-method
+> -@@ -3,6 +3,9 @@
+> - import sys
+> - import dbus
+> -
+> -+def make_variant(string):
+> -+	return dbus.String(string, variant_level=1)
+> -+
+> - def print_usage():
+> - 	print "Usage: %s<service>  off|manual|auto [<address>  [prefixlen] [gateway]] [<privacy>]" % (sys.argv[0])
+> -
+> -@@ -19,17 +22,17 @@ properties = service.GetProperties()
+> -
+> - print "Setting method %s for %s" % (sys.argv[2], sys.argv[1])
+> -
+> --ipv6_configuration = { "Method": sys.argv[2] }
+> -+ipv6_configuration = { "Method": make_variant(sys.argv[2])}
+> - if sys.argv[2] == "auto":
+> - 	if (len(sys.argv)>  3):
+> --		ipv6_configuration["Privacy"] = sys.argv[3]
+> -+		ipv6_configuration["Privacy"] = make_variant(sys.argv[3])
+> - else:
+> - 	if (len(sys.argv)>  3):
+> --		ipv6_configuration["Address"] = sys.argv[3]
+> -+		ipv6_configuration["Address"] = make_variant(sys.argv[3])
+> - 	if (len(sys.argv)>  4):
+> --		ipv6_configuration["PrefixLength"] = sys.argv[4]
+> -+		ipv6_configuration["PrefixLength"] = make_variant(sys.argv[4])
+> - 	if (len(sys.argv)>  5):
+> --		ipv6_configuration["Gateway"] = sys.argv[5]
+> -+		ipv6_configuration["Gateway"] = make_variant(sys.argv[5])
+> -
+> - service.SetProperty("IPv6.Configuration", ipv6_configuration)
+> - print "New IPv6.Configuration: ", ipv6_configuration
+> ---
+> -1.7.9.5
+> -
+> diff --git a/meta/recipes-connectivity/connman/connman_0.79.bb b/meta/recipes-connectivity/connman/connman_0.79.bb
+> deleted file mode 100644
+> index 898fb11..0000000
+> --- a/meta/recipes-connectivity/connman/connman_0.79.bb
+> +++ /dev/null
+> @@ -1,14 +0,0 @@
+> -require connman.inc
+> -
+> -# 0.79 tag
+> -SRCREV = "442b1fe603e005814f592a3dbcf0d0bfb13f961c"
+> -SRC_URI  = "git://git.kernel.org/pub/scm/network/connman/connman.git \
+> -            file://add_xuser_dbus_permission.patch \
+> -            file://ethernet_default.patch \
+> -            file://disable_alg-test.patch \
+> -            file://0001-plugin.h-Change-visibility-to-default-for-debug-symb.patch \
+> -            file://test-set-ipv4-method-api-fix.patch \
+> -            file://test-set-ipv6-method-api-fix.patch \
+> -            file://connman"
+> -S = "${WORKDIR}/git"
+> -PR = "${INC_PR}.0"
+> diff --git a/meta/recipes-connectivity/connman/connman_1.0.bb b/meta/recipes-connectivity/connman/connman_1.0.bb
+> new file mode 100644
+> index 0000000..87f4873
+> --- /dev/null
+> +++ b/meta/recipes-connectivity/connman/connman_1.0.bb
+> @@ -0,0 +1,9 @@
+> +require connman.inc
+> +
+> +# 1.0 tag
+> +SRCREV = "6d6f312fb2b751b4cf7037f2a526c7785364732f"
+> +SRC_URI  = "git://git.kernel.org/pub/scm/network/connman/connman.git \
+> +            file://add_xuser_dbus_permission.patch \
+> +            file://connman"
+> +S = "${WORKDIR}/git"
+> +PR = "${INC_PR}.0"
 
 
