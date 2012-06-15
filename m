@@ -1,35 +1,40 @@
-Received: from mail-wi0-f171.google.com ([209.85.212.171])
+Received: from mga10.intel.com ([192.55.52.92] helo=fmsmga102.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1SfQJG-00020W-N3
+	(envelope-from <bogdan.a.marinescu@intel.com>) id 1SfRLf-00038J-82
 	for openembedded-core@lists.openembedded.org;
-	Fri, 15 Jun 2012 08:47:06 +0200
-Received: by wibhm14 with SMTP id hm14so193886wib.6
+	Fri, 15 Jun 2012 09:53:39 +0200
+Received: from mail-vc0-f180.google.com ([209.85.220.180])
+	by mga11.intel.com with ESMTP/TLS/RC4-SHA; 15 Jun 2012 00:42:59 -0700
+Received: by vcbfk26 with SMTP id fk26so1403664vcb.25
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Jun 2012 23:36:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:subject:message-id:mime-version:content-type
-	:content-disposition:user-agent;
-	bh=gi/xKZx6azKlY95LQoOgsxp5EQqMKDOlsW8XPZWos20=;
-	b=tk2PEbDKlt874dm0KvByH5L0I7B52ITml7p40Z96MDxoVbXYG2XOY8LcGggvco0rvK
-	idP5ogru9i0WL6NKbmwvTcgESeS5UXzoBwCXGNt6YyvzlwVzkZliwpogA0CX5hRgKMap
-	WZHCnfvewS18K4pM4b/EwBptkWekURvl9v5XppPymjapx5BHHcDcMnjKuGUFz27fuXeH
-	eiV9X/6vHdK8A1cGoDprk9juIRFNlKvVRIqqx3fGxmUdfeOKkLGWZ/GmPXNppV4MOfSM
-	bhO0ybzmF+pFcVi+0Bp19O6TP0KnPrQpP6NqrwRo6x/PLewaRKuIc6zI6lo4fxtc4QUe
-	I3yA==
-Received: by 10.180.80.228 with SMTP id u4mr1690425wix.5.1339742188699;
-	Thu, 14 Jun 2012 23:36:28 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id f7sm2228024wiv.2.2012.06.14.23.36.27
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 14 Jun 2012 23:36:27 -0700 (PDT)
-Date: Fri, 15 Jun 2012 08:36:47 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
+	Fri, 15 Jun 2012 00:42:58 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type:x-gm-message-state;
+	bh=SxGjWRCS3BApg7YJDxL+cVLu886TqNhS06uNKjGLIco=;
+	b=LYQHsSwvZMyVBxKPI0YjjBYjBzjDZ7J/EbIZ9c0dWQheqbpj3kD1Ty+YMmWdMuLbDD
+	NXK+FtDpF8IgN64BqTijqpyKR06ZYd5khdGEmZoMZc3ixsD4tw1TPbgNNHQgVNwv3cPk
+	C7cnj6G/uInCyRRHOYk+jK9YQ9G62mc3kdTP5jWrP5Yq9JTNjGXf3GljRHXNBLkKPRsp
+	dQiJfXwLlsqGjqOXtE87cXGEQ420opgO8nNEapjwtap1Zw7KWO/FdKX74xrvQZZLO3Jy
+	0jqY5phaOGq7ngjbF31nVvf4cTW0003eCvr5mGDM5FuFBgyixjQ/qJb3dxSXRwTtI7D5
+	ZJzA==
+Received: by 10.52.69.83 with SMTP id c19mr2092157vdu.79.1339746178925; Fri,
+	15 Jun 2012 00:42:58 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.52.169.200 with HTTP; Fri, 15 Jun 2012 00:42:38 -0700 (PDT)
+In-Reply-To: <CAMKF1sqDF9-hGz_H34AP1onxOrbJ5tp2Ds0_SuMfA=bOkL9o6g@mail.gmail.com>
+References: <1339487948-30612-1-git-send-email-bogdan.a.marinescu@intel.com>
+	<CAMKF1so7Y_ccRi_RcfjRzzbska1WRbY7N8w=VuN=aFp-U5oYSw@mail.gmail.com>
+	<CAMZjud22RrKU8cEAPwu+K4Ze2hPVHo-5z17uu3Zj1cJvk6pNnQ@mail.gmail.com>
+	<CAMKF1sqDF9-hGz_H34AP1onxOrbJ5tp2Ds0_SuMfA=bOkL9o6g@mail.gmail.com>
+From: "Marinescu, Bogdan A" <bogdan.a.marinescu@intel.com>
+Date: Fri, 15 Jun 2012 10:42:38 +0300
+Message-ID: <CAMZjud2uk23xtx3=nrmEg_uBNYcs_C6YiJ1Xeiz2vcD-LEdxdQ@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Message-ID: <20120615063647.GU3140@jama.jama.net>
-MIME-Version: 1.0
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: openssl does not build on recent distributions with perl-5.16.0
+X-Gm-Message-State: ALoCoQmKdqFsffrKeD3bOcbX77biiA613YGYKxHiTcVqubqLzD/lk5i2o51GT3BaDN146/VWXWSj
+Subject: Re: [PATCH] strace: update to 4.7
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,67 +49,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Jun 2012 06:47:06 -0000
-X-Groupsio-MsgNum: 23600
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="sDhuxz86kt5qlkuV"
-Content-Disposition: inline
+X-List-Received-Date: Fri, 15 Jun 2012 07:53:39 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
---sDhuxz86kt5qlkuV
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Fri, Jun 15, 2012 at 12:27 AM, Khem Raj <raj.khem@gmail.com> wrote:
+> On Thu, Jun 14, 2012 at 5:42 AM, Marinescu, Bogdan A
+> <bogdan.a.marinescu@intel.com> wrote:
+>> I was able to build strace 4.7 with uclibc succesfully, but I'm unable
+>> to build an uclibc image (even core-image-minimal) to do an actual
+>> test due to various compilation errors. Should I keep on trying to
+>> compile an Yocto image to test strace+uclibc or is the succesful
+>> compilation step enough?
+>
+> hmmm, it should be ok I guess. Which image were you trying to build.
+> btw. only core-image-minimal, core-image-core and core-image-sato,
+> meta-toolchain work with uclibc others are not tried.
 
-Hi,
+I tried with core-image-minimal. I added these two lines to my local.conf:
 
-openembedded-core/meta/recipes-connectivity/openssl/openssl.inc
+CORE_IMAGE_EXTRA_INSTALL += "strace"
+TCLIBC = "uclibc"
 
-is using perlpath.pl:
+The libiconv problem is a minor one, it turns out that gettext and the
+kernel also refuse to compile in this configuration.
 
-  do_configure () {
-          cd util
-          perl perlpath.pl ${STAGING_BINDIR_NATIVE}
-  ...
+Thanks,
+Bogdan
 
-and perlpath.pl is using find.pl:
-openssl-1.0.0i/util/perlpath.pl:
-  #!/usr/local/bin/perl
-  #
-  # modify the '#!/usr/local/bin/perl'
-  # line in all scripts that rely on perl.
-  #
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
-  require "find.pl";
-  ...
 
-which was removed in perl-5.16.0 and marked as deprecated and
-unmaintained in 5.14 and older:=20
-/tmp/usr/lib/perl5/5.14.2/find.pl:
-  warn "Legacy library @{[(caller(0))[6]]} will be removed from the Perl
-  core distribution in the next major release. Please install it from the
-  CPAN distribution Perl4::CoreLibs. It is being used at @{[(caller)[1]]},
-  line @{[(caller)[2]]}.\n";
-
-  # This library is deprecated and unmaintained. It is included for
-  # compatibility with Perl 4 scripts which may use it, but it will be
-  # removed in a future version of Perl. Please use the File::Find module
-  # instead.
-
-Cheers,
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---sDhuxz86kt5qlkuV
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
-
-iEYEARECAAYFAk/a1/8ACgkQN1Ujt2V2gBxYSQCgm4g4MdFshz34NYyNcjPcv4cH
-2h8AoJ0yiOYYZz5HIEe5RUuP2e69SACO
-=HqNW
------END PGP SIGNATURE-----
-
---sDhuxz86kt5qlkuV--
