@@ -1,26 +1,33 @@
-Received: from mga11.intel.com ([192.55.52.93])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1SfWrc-00053w-ST
-	for openembedded-core@lists.openembedded.org;
-	Fri, 15 Jun 2012 15:47:01 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 15 Jun 2012 06:36:21 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="180548854"
-Received: from unknown (HELO helios.localnet) ([10.252.120.157])
-	by fmsmga002.fm.intel.com with ESMTP; 15 Jun 2012 06:36:20 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Laurentiu Palcu <laurentiu.palcu@intel.com>
-Date: Fri, 15 Jun 2012 14:36:16 +0100
-Message-ID: <2973338.6EnvHsnj7v@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.8.3 (Linux/3.2.0-25-generic-pae; KDE/4.8.3; i686; ; )
-In-Reply-To: <4FDB32BA.9060004@intel.com>
-References: <1339678865-3610-1-git-send-email-laurentiu.palcu@intel.com>
-	<4FDA19CD.3080003@linux.intel.com> <4FDB32BA.9060004@intel.com>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] core-image-gtk-directfb, qt4e-demo-image: Remove module-init-tools from IMAGE_INSTALL list
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1SfXT6-0006eY-OE for openembedded-core@lists.openembedded.org;
+	Fri, 15 Jun 2012 16:25:45 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q5FEF59s014192
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 15 Jun 2012 15:15:05 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 13116-08 for <openembedded-core@lists.openembedded.org>;
+	Fri, 15 Jun 2012 15:14:59 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q5FEEwcN014181
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 15 Jun 2012 15:14:59 +0100
+Message-ID: <1339769698.4471.1.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Fri, 15 Jun 2012 15:14:58 +0100
+In-Reply-To: <cover.1339701375.git.sgw@linux.intel.com>
+References: <cover.1339701375.git.sgw@linux.intel.com>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [Consolidated Pull 00/17] bug fixes and updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,40 +42,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Jun 2012 13:47:01 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Fri, 15 Jun 2012 14:25:45 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Friday 15 June 2012 16:03:54 Laurentiu Palcu wrote:
-> On 06/14/2012 08:05 PM, Saul Wold wrote:
-> >> As module-init-tools package does not exist anymore there's no reason to
-> >> > have it in the IMAGE_INSTALL package list. If RPM package manager is
-> >> > used, build will fail with:
-> >> > 
-> >> > Unable to find package module-init-tools (module-init-tools)!
-> > 
-> > Do we need to replace it with kmod?
-> > 
-> > Sau!
+On Thu, 2012-06-14 at 12:27 -0700, Saul Wold wrote:
+> Andrei Gherzan (1):
+>   coreutils: Fix a typo in v6.9 (bracket not braket)
 > 
-> kmod gets installed in the final image without adding it into the
-> IMAGE_INSTALL list. I couldn't, yet, figure out how... :( It's not in
-> the IMAGE_INSTALL and it's not in the RDEPENDS of any other package.
-> Maybe I missed something. If someone can put some light on this, I would
-> appreciate it.
+> Bogdan Marinescu (1):
+>   libpcre: updated to version 8.30
+> 
+> Bruce Ashfield (2):
+>   linux-yocto/3.4: update yaffs2 and drop rc6
+>   linux-yocto/3.4: create linux-yocto-rt recipe
+> 
+> Robert Yang (6):
+>   pybootchartgui: add the original code
+>   pybootchartgui: remove the original examples
+>   pybootchartgui: make the build profiling in pictures
+>   pybootchartgui: split the output chart into multiple ones
+>   pybootchartgui: Fix the filename and add a default format
+>   opkg 0.1.8: do_fetch failed since no checksum specified
+> 
+> Saul Wold (7):
+>   distro_tracking_fields: move to meta-yocto as seperate files
+>   busybox: Add check for wifi/bluetooth to enable rfkill
+>   curl: enable ssl support
+>   quilt: added ac_cv_path_BASH to CACHED_CONFIGUREVARS
+>   eglibc: added ac_cv_path_ to CACHED_CONFIGUREVARS
+>   gcc-target: ensure target packages have the correct virtual package
+>     names
+>   beecrypt: add patch for build issue on Fedora 17
 
-It's because of the following dependency chain:
+I merged these. Can open a bug to track improving the ssl situation
+though please?
 
-task-core-basic -> task-core-basic-extended -> module-init-tools
-
-Since the kmod package RPROVIDES module-init-tools it gets installed.
+I also merged the "add original code" and "remove examaples" patches,
+there is little point in adding and then removing those files.
 
 Cheers,
-Paul
 
--- 
+Richard
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
 
