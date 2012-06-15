@@ -1,37 +1,34 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1SfVkJ-00010z-GL for openembedded-core@lists.openembedded.org;
-	Fri, 15 Jun 2012 14:35:23 +0200
+	id 1SfW2Y-0001My-IL for openembedded-core@lists.openembedded.org;
+	Fri, 15 Jun 2012 14:54:14 +0200
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q5FCOj6e013341
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q5FChbCb013498
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Jun 2012 13:24:45 +0100
+	Fri, 15 Jun 2012 13:43:37 +0100
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 12720-06 for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Jun 2012 13:24:42 +0100 (BST)
+	id 13116-03 for <openembedded-core@lists.openembedded.org>;
+	Fri, 15 Jun 2012 13:43:33 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q5FCObYR013335
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q5FChUov013491
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Jun 2012 13:24:38 +0100
-Message-ID: <1339763076.24333.113.camel@ted>
+	Fri, 15 Jun 2012 13:43:31 +0100
+Message-ID: <1339764210.24333.114.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Fri, 15 Jun 2012 13:24:36 +0100
-In-Reply-To: <CAMZjud2uk23xtx3=nrmEg_uBNYcs_C6YiJ1Xeiz2vcD-LEdxdQ@mail.gmail.com>
-References: <1339487948-30612-1-git-send-email-bogdan.a.marinescu@intel.com>
-	<CAMKF1so7Y_ccRi_RcfjRzzbska1WRbY7N8w=VuN=aFp-U5oYSw@mail.gmail.com>
-	<CAMZjud22RrKU8cEAPwu+K4Ze2hPVHo-5z17uu3Zj1cJvk6pNnQ@mail.gmail.com>
-	<CAMKF1sqDF9-hGz_H34AP1onxOrbJ5tp2Ds0_SuMfA=bOkL9o6g@mail.gmail.com>
-	<CAMZjud2uk23xtx3=nrmEg_uBNYcs_C6YiJ1Xeiz2vcD-LEdxdQ@mail.gmail.com>
+Date: Fri, 15 Jun 2012 13:43:30 +0100
+In-Reply-To: <1f0884d8428c923c1b18670877c85cb3dc09cfda.1339740433.git.raj.khem@gmail.com>
+References: <1366d81a5719e42af8bf24d46b86352491fc0e67.1339740433.git.raj.khem@gmail.com>
+	<1f0884d8428c923c1b18670877c85cb3dc09cfda.1339740433.git.raj.khem@gmail.com>
 X-Mailer: Evolution 3.2.2- 
 Mime-Version: 1.0
 X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH] strace: update to 4.7
+Subject: Re: [PATCH 4/9] rpm: Use link time check for libssp
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,39 +43,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Jun 2012 12:35:23 -0000
+X-List-Received-Date: Fri, 15 Jun 2012 12:54:14 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2012-06-15 at 10:42 +0300, Marinescu, Bogdan A wrote:
-> On Fri, Jun 15, 2012 at 12:27 AM, Khem Raj <raj.khem@gmail.com> wrote:
-> > On Thu, Jun 14, 2012 at 5:42 AM, Marinescu, Bogdan A
-> > <bogdan.a.marinescu@intel.com> wrote:
-> >> I was able to build strace 4.7 with uclibc succesfully, but I'm unable
-> >> to build an uclibc image (even core-image-minimal) to do an actual
-> >> test due to various compilation errors. Should I keep on trying to
-> >> compile an Yocto image to test strace+uclibc or is the succesful
-> >> compilation step enough?
-> >
-> > hmmm, it should be ok I guess. Which image were you trying to build.
-> > btw. only core-image-minimal, core-image-core and core-image-sato,
-> > meta-toolchain work with uclibc others are not tried.
+On Thu, 2012-06-14 at 23:12 -0700, Khem Raj wrote:
+> -fstack-protector needs libssp to link with
+> so when checking for this option support we
+> need to find if libssp is staged in root file
+> system
 > 
-> I tried with core-image-minimal. I added these two lines to my local.conf:
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>  .../rpm/rpm/fstack-protector-configure-check.patch |   13 +++++++++++++
+>  meta/recipes-devtools/rpm/rpm_5.4.9.bb             |    1 +
+>  2 files changed, 14 insertions(+), 0 deletions(-)
+>  create mode 100644 meta/recipes-devtools/rpm/rpm/fstack-protector-configure-check.patch
 > 
-> CORE_IMAGE_EXTRA_INSTALL += "strace"
-> TCLIBC = "uclibc"
-> 
-> The libiconv problem is a minor one, it turns out that gettext and the
-> kernel also refuse to compile in this configuration.
+> diff --git a/meta/recipes-devtools/rpm/rpm/fstack-protector-configure-check.patch b/meta/recipes-devtools/rpm/rpm/fstack-protector-configure-check.patch
+> new file mode 100644
+> index 0000000..84d0430
+> --- /dev/null
+> +++ b/meta/recipes-devtools/rpm/rpm/fstack-protector-configure-check.patch
 
-I think the difference is that the poky distro config turns some
-warnings into errors. We've gone through and fixed all those warnings
-for all the usual "official" combinations we test.
+
+This is a rather subtle patch with no header information (author,
+explaination, upstream status).
 
 Cheers,
 
 Richard
+
+> @@ -0,0 +1,13 @@
+> +Index: rpm-5.4.0/configure.ac
+> +===================================================================
+> +--- rpm-5.4.0.orig/configure.ac	2012-06-01 11:41:19.741480143 -0700
+> ++++ rpm-5.4.0/configure.ac	2012-06-01 11:41:51.773481676 -0700
+> +@@ -193,7 +193,7 @@
+> +  my_save_cflags="$CFLAGS"
+> +  CFLAGS=$c
+> +  AC_MSG_CHECKING([whether GCC supports $c])
+> +- AC_COMPILE_IFELSE([AC_LANG_PROGRAM([])],
+> ++ AC_LINK_IFELSE([AC_LANG_PROGRAM([])],
+> +     [AC_MSG_RESULT([yes])]
+> +     [my_cflags=$c],
+> +     [AC_MSG_RESULT([no])]
+> diff --git a/meta/recipes-devtools/rpm/rpm_5.4.9.bb b/meta/recipes-devtools/rpm/rpm_5.4.9.bb
+> index 404916a..ccf015a 100644
+> --- a/meta/recipes-devtools/rpm/rpm_5.4.9.bb
+> +++ b/meta/recipes-devtools/rpm/rpm_5.4.9.bb
+> @@ -74,6 +74,7 @@ SRC_URI = "http://www.rpm5.org/files/rpm/rpm-5.4/rpm-5.4.9-0.20120508.src.rpm;ex
+>  	   file://rpm-pkgconfigdeps.patch \
+>  	   file://uclibc-support.patch \
+>  	   file://rpmatch.patch \
+> +	   file://fstack-protector-configure-check.patch \
+>  	  "
+>  
+>  SRC_URI[md5sum] = "60d56ace884340c1b3fcac6a1d58e768"
+
 
 
 
