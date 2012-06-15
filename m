@@ -1,26 +1,38 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mail-yx0-f175.google.com ([209.85.213.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SfbAX-0001HT-MW
+	(envelope-from <andrei@gherzan.ro>) id 1Sfbr7-0002T6-Hh
 	for openembedded-core@lists.openembedded.org;
-	Fri, 15 Jun 2012 20:22:49 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 15 Jun 2012 11:12:10 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="156899932"
-Received: from unknown (HELO [10.255.12.138]) ([10.255.12.138])
-	by azsmga001.ch.intel.com with ESMTP; 15 Jun 2012 11:12:10 -0700
-Message-ID: <4FDB7AF9.7030801@linux.intel.com>
-Date: Fri, 15 Jun 2012 11:12:09 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
+	Fri, 15 Jun 2012 21:06:49 +0200
+Received: by yenl13 with SMTP id l13so2532513yen.6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 15 Jun 2012 11:56:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:x-originating-ip:in-reply-to:references:from:date
+	:message-id:subject:to:content-type:x-gm-message-state;
+	bh=+ezmuFijqfdHhh1FX5uN/O7DmftYL/HSejSS8rlrbI0=;
+	b=Exkj3XgCvBh6JWYwYtCXrXgkdai3gK8dbn/fveVi7+jjEzeTFF0e5Jlabz2BsWniYx
+	dtfsS8YLEYj4+DTLJpd65UncqAVNvJ1ZfrV2dB/sL4sCn2Mbg7r/+ol6s2GP1MT/5vwb
+	uYCW74DpafMfwniiwJKuhc1F1KRTlbLX3kV2B3+Mt/2DAEr5oo7MBP4sUYpWc4OGsOwL
+	u8s0zTK5VyDk275bqFRnJ3eFjXBZBq0MSAefsYMUJ4UfZo87SQJ4usLfcKsBnLYqtOym
+	O2ZFr9XNbxpYP9HHz0Pg/tXMw3Q3xAndOD27LQhMUWxQeSgFQpxW/k6mwF+YWfwtyNEw
+	c0Fw==
+Received: by 10.50.196.195 with SMTP id io3mr3021467igc.39.1339786570052; Fri,
+	15 Jun 2012 11:56:10 -0700 (PDT)
 MIME-Version: 1.0
+Received: by 10.64.42.103 with HTTP; Fri, 15 Jun 2012 11:55:49 -0700 (PDT)
+X-Originating-IP: [79.117.123.32]
+In-Reply-To: <CAP9ODKrkmDNCzXcK3wDqypxZW6Le44004rcO7e5CiW4HD5o-AA@mail.gmail.com>
+References: <CANBf+V3=LvWkE28TR1qNR-NpLd60EGroEqmXQqypXAUUZ0pv-Q@mail.gmail.com>
+	<4FDB57DB.5090407@gmail.com>
+	<CAP9ODKrkmDNCzXcK3wDqypxZW6Le44004rcO7e5CiW4HD5o-AA@mail.gmail.com>
+From: Andrei Gherzan <andrei@gherzan.ro>
+Date: Fri, 15 Jun 2012 21:55:49 +0300
+Message-ID: <CAK18fxGOAi40Tzduw99=fQMf_cn9sySqr=dvJzRncNCutjjyaw@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <1339764889-25852-1-git-send-email-laurentiu.palcu@intel.com>
-	<1339764889-25852-2-git-send-email-laurentiu.palcu@intel.com>
-In-Reply-To: <1339764889-25852-2-git-send-email-laurentiu.palcu@intel.com>
-Subject: Re: [PATCH 1/2] directfb: added missing Upstream-status
+X-Gm-Message-State: ALoCoQnA7kLxKmfpqm8MpmyVNMszw9LYFOEobMTbEJMVnxVkucEj62LGmvSW/RCZ0ZrQ7p7I3Q8K
+Subject: Re: Proposal: Creating meta-networking
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,30 +47,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Jun 2012 18:22:50 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 15 Jun 2012 19:06:49 -0000
+Content-Type: multipart/alternative; boundary=14dae934119395343004c2875ea6
 
-On 06/15/2012 05:54 AM, Laurentiu Palcu wrote:
-> Signed-off-by: Laurentiu Palcu<laurentiu.palcu@intel.com>
-> ---
->   ...ibdirect-remove-include-of-linux-config.h.patch |    2 ++
->   1 file changed, 2 insertions(+)
+--14dae934119395343004c2875ea6
+Content-Type: text/plain; charset=ISO-8859-1
+
+On Fri, Jun 15, 2012 at 9:08 PM, Otavio Salvador <otavio@ossystems.com.br>wrote:
+
+> On Fri, Jun 15, 2012 at 12:42 PM, Khem Raj <raj.khem@gmail.com> wrote:
+> > I think creating a networking layer is fine idea, alongside meta-oe,
+> > as a separate layer in meta-openembedded repo. Reshuffling recipes
+> > from meta-oe into different layers is fine. I would like to avoid copies.
 >
-> diff --git a/meta/recipes-graphics/directfb/directfb/libdirect-remove-include-of-linux-config.h.patch b/meta/recipes-graphics/directfb/directfb/libdirect-remove-include-of-linux-config.h.patch
-> index eeb7738..dcf6736 100644
-> --- a/meta/recipes-graphics/directfb/directfb/libdirect-remove-include-of-linux-config.h.patch
-> +++ b/meta/recipes-graphics/directfb/directfb/libdirect-remove-include-of-linux-config.h.patch
-> @@ -1,3 +1,5 @@
-> +Upstream-status: backport from 1.6.0-pre1
-> +
->   From cd575a84f10d90759e069f5f2e6092251a1b84bd Mon Sep 17 00:00:00 2001
->   From: Sven Neumann<s.neumann@raumfeld.com>
->   Date: Fri, 23 Sep 2011 10:00:02 +0200
+> I'd prefer if it used another git repository; people needing to use it
+> shouldn't be forced to clone whole meta-oe.
+>
+> This would be my proposal as well. To have this as a separate layer.
 
-Merged into OE-Core
+@g
 
-Thanks
-	Sau!
+--14dae934119395343004c2875ea6
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
+<br><div class=3D"gmail_quote">On Fri, Jun 15, 2012 at 9:08 PM, Otavio Salv=
+ador <span dir=3D"ltr">&lt;<a href=3D"mailto:otavio@ossystems.com.br" targe=
+t=3D"_blank">otavio@ossystems.com.br</a>&gt;</span> wrote:<br><blockquote c=
+lass=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;=
+padding-left:1ex">
 
+On Fri, Jun 15, 2012 at 12:42 PM, Khem Raj &lt;<a href=3D"mailto:raj.khem@g=
+mail.com">raj.khem@gmail.com</a>&gt; wrote:<br>
+&gt; I think creating a networking layer is fine idea, alongside meta-oe,<b=
+r>
+&gt; as a separate layer in meta-openembedded repo. Reshuffling recipes<br>
+&gt; from meta-oe into different layers is fine. I would like to avoid copi=
+es.<br>
+<br>
+I&#39;d prefer if it used another git repository; people needing to use it<=
+br>
+shouldn&#39;t be forced to clone whole meta-oe.<br><br></blockquote><div>Th=
+is would be my proposal as well. To have this as a separate layer.=A0</div>=
+<div><br></div><div>@g=A0</div></div><br>
+
+--14dae934119395343004c2875ea6--
