@@ -1,22 +1,24 @@
-Received: from smtp2-g21.free.fr ([212.27.42.2])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <eric@eukrea.com>) id 1SfRuQ-0003x8-D6
+	(envelope-from <Xiaofeng.Yan@windriver.com>) id 1SfT21-0005HE-Fq
 	for openembedded-core@lists.openembedded.org;
-	Fri, 15 Jun 2012 10:29:34 +0200
-Received: from eb-e6520 (unknown [82.240.38.71])
-	by smtp2-g21.free.fr (Postfix) with ESMTP id 4E1964B00FA
+	Fri, 15 Jun 2012 11:41:29 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q5F9Uosl002783
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Jun 2012 10:18:53 +0200 (CEST)
-Date: Fri, 15 Jun 2012 10:18:52 +0200
-From: Eric =?ISO-8859-1?B?QuluYXJk?= <eric@eukrea.com>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20120615101852.116d715d@eb-e6520>
-In-Reply-To: <4FDAEDB5.4090805@supergenesis.it>
-References: <4FDAEDB5.4090805@supergenesis.it>
-Organization: =?ISO-8859-1?B?RXVrculh?= Electromatique
-X-Mailer: Claws Mail 3.8.0 (GTK+ 2.24.8; x86_64-redhat-linux-gnu)
-Mime-Version: 1.0
-Subject: Re: meta-toolchain-qte
+	Fri, 15 Jun 2012 02:30:50 -0700 (PDT)
+Received: from usp-ub1204-64.corp.ad.wrs.com (128.224.162.28) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.1.255.0; Fri, 15 Jun 2012 02:30:49 -0700
+From: <xiaofeng.yan@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 15 Jun 2012 17:30:39 +0800
+Message-ID: <cover.1339751573.git.xiaofeng.yan@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
+MIME-Version: 1.0
+Cc: Zhenfeng.Zhao@windriver.com
+Subject: [PATCH 0/3] lsbinitscripts: support multilib, link function and add the header for patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,19 +33,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Jun 2012 08:29:34 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 15 Jun 2012 09:41:29 -0000
+Content-Type: text/plain
 
-Le Fri, 15 Jun 2012 10:09:25 +0200,
-Stefano <stefano@supergenesis.it> a =E9crit :
+From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
 
-> The meta-toolchain-qte is bugged and don't work with qt creator. Someone=
-=20
-> can works with me to repair that recipe?
+Add the multilib support for this package and remove the original 
+/etc/init.d/functions and link functions to functions.lsbinitscripts.
+Add the header for patch.
 
-what do you mean by "don't work with qt creator" ?
+The following changes since commit 3f292735407e50eebb23044fa9f579906a94e800:
 
-Eric
+  gcc-configure-target: Fix sysroot option breakage I introduced (sorry) (2012-06-14 19:48:47 +0100)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib xiaofeng/lsbinitscripts
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=xiaofeng/lsbinitscripts
+
+Xiaofeng Yan (3):
+  multilib.conf: Add the support of multilib for lsbinitscripts
+  lsbinitscripts: Remove original /etc/init.d/functions when building
+    an lsb image
+  lsbinitscripts: Add the header for functions.patch
+
+ meta/conf/multilib.conf                            |    1 +
+ .../lsb/lsbinitscripts/functions.patch             |    3 +++
+ meta/recipes-extended/lsb/lsbinitscripts_9.03.bb   |    8 +++++++-
+ 3 files changed, 11 insertions(+), 1 deletion(-)
+
+-- 
+1.7.9.5
+
 
 
