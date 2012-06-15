@@ -1,26 +1,26 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Kai.Kang@windriver.com>) id 1SfPg2-000131-5Z
+	(envelope-from <Kai.Kang@windriver.com>) id 1SfPg5-00013H-TH
 	for openembedded-core@lists.openembedded.org;
-	Fri, 15 Jun 2012 08:06:34 +0200
+	Fri, 15 Jun 2012 08:06:38 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q5F5tt4A019062
+	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q5F5tvhL000756
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 14 Jun 2012 22:55:55 -0700 (PDT)
+	Thu, 14 Jun 2012 22:55:58 -0700 (PDT)
 Received: from localhost.localdomain (128.224.162.164) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.1.255.0; Thu, 14 Jun 2012 22:55:55 -0700
+	(TLS) id 14.1.255.0; Thu, 14 Jun 2012 22:55:57 -0700
 From: Kang Kai <kai.kang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 15 Jun 2012 13:56:07 +0800
-Message-ID: <7ebe37bad6bc8909ee9b9249ce35c7e6e581dc13.1339739522.git.kai.kang@windriver.com>
+Date: Fri, 15 Jun 2012 13:56:08 +0800
+Message-ID: <f0c36f7c173653bec6ddba5ca0ba06e1576cc22d.1339739522.git.kai.kang@windriver.com>
 X-Mailer: git-send-email 1.7.5.4
 In-Reply-To: <cover.1339739522.git.kai.kang@windriver.com>
 References: <cover.1339739522.git.kai.kang@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [128.224.162.164]
 Cc: Zhenfeng.Zhao@windriver.com
-Subject: [PATCH 1/4] cleanup-workdir: update the way to check obsolete dirs
+Subject: [PATCH 2/4] cleanup-workdir: replace commands with subprocess
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,114 +35,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Jun 2012 06:06:34 -0000
+X-List-Received-Date: Fri, 15 Jun 2012 06:06:38 -0000
 Content-Type: text/plain
 
-Update the way to check obsolete directories.
-
-According to package and its version construct a list of all packages'
-current build directory. If any directory under $WORKDIR/*/ is not in
-the list will be removed.
-
-At same time, all the files(vs. directory) under $WORKDIR and
-$WORKDIR/*/ will be removed because they are not created by poky.
+Use modules subprocess to run command instead of module commands.
 
 Signed-off-by: Kang Kai <kai.kang@windriver.com>
 ---
- scripts/cleanup-workdir |   59 ++++++++++++++++++----------------------------
- 1 files changed, 23 insertions(+), 36 deletions(-)
+ scripts/cleanup-workdir |   22 ++++++++++++----------
+ 1 files changed, 12 insertions(+), 10 deletions(-)
 
 diff --git a/scripts/cleanup-workdir b/scripts/cleanup-workdir
-index b77e8c6..3739a00 100755
+index 3739a00..1e9c56d 100755
 --- a/scripts/cleanup-workdir
 +++ b/scripts/cleanup-workdir
-@@ -22,7 +22,7 @@ import re
- import commands
+@@ -19,7 +19,7 @@ import os
+ import sys
+ import optparse
+ import re
+-import commands
++import subprocess
  import shutil
  
--versions = {}
-+pkg_cur_dirs = []
- obsolete_dirs = []
- parser = None
- 
-@@ -39,15 +39,6 @@ def parse_version(verstr):
+ pkg_cur_dirs = []
+@@ -39,6 +39,14 @@ def parse_version(verstr):
      else:
          return epoch + '_' + elems[1]
  
--def parse_dir(match, pkgabsdir):
--    pkg_name = match.group(1)
--    pkg_version = match.group(2)
--    if pkg_name in versions:
--        if pkg_version != versions[pkg_name]:
--            obsolete_dirs.append(pkgabsdir)
--        return True
--    return False
--
++def run_command(cmd):
++    pipe = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True)
++    output = pipe.communicate()[0]
++    if pipe.returncode != 0:
++        print "Execute command '%s' failed." % cmd
++        sys.exit(1)
++    return output
++
  def main():
      global parser
      parser = optparse.OptionParser(
-@@ -89,7 +80,7 @@ This script must be ran under BUILDDIR after source file \"oe-init-build-env\"."
-             version = parse_version(elems[1])
-         else:
-             version = parse_version(elems[2])
--        versions[elems[0]] = version
-+        pkg_cur_dirs.append(elems[0] + '-' + version)
+@@ -49,7 +57,7 @@ This script must be ran under BUILDDIR after source file \"oe-init-build-env\"."
+ 
+     options, args = parser.parse_args(sys.argv)
+ 
+-    builddir = commands.getoutput('echo $BUILDDIR')
++    builddir = run_command('echo $BUILDDIR').strip()
+     if len(builddir) == 0:
+         err_quit("Please source file \"oe-init-build-env\" first.\n")
+ 
+@@ -58,10 +66,7 @@ This script must be ran under BUILDDIR after source file \"oe-init-build-env\"."
+ 
+     print 'Updating bitbake caches...'
+     cmd = "bitbake -s"
+-    (ret, output) = commands.getstatusoutput(cmd)
+-    if ret != 0:
+-        print "Execute 'bitbake -s' failed. Can't get packages' versions."
+-        return 1
++    output = run_command(cmd)
+ 
+     output = output.split('\n')
+     index = 0
+@@ -83,10 +88,7 @@ This script must be ran under BUILDDIR after source file \"oe-init-build-env\"."
+         pkg_cur_dirs.append(elems[0] + '-' + version)
  
      cmd = "bitbake -e | grep ^TMPDIR"
-     (ret, output) = commands.getstatusoutput(cmd)
-@@ -103,31 +94,27 @@ This script must be ran under BUILDDIR after source file \"oe-init-build-env\"."
-         print "WORKDIR %s does NOT exist. Quit." % workdir
-         return 1
+-    (ret, output) = commands.getstatusoutput(cmd)
+-    if ret != 0:
+-        print "Execute 'bitbke -e' failed. Can't get TMPDIR."
+-        return 1
++    output = run_command(cmd)
  
--    for archdir in os.listdir(workdir):
--        archdir = os.path.join(workdir, archdir)
--        if not os.path.isdir(archdir):
--            pass
--
--        for pkgdir in sorted(os.listdir(archdir)):
--            pkgabsdir = os.path.join(archdir, pkgdir)
--            if not os.path.isdir(pkgabsdir):
--                pass
--
--            # parse the package directory names
--            # parse native/nativesdk packages first
--            match = re.match('(.*?-native.*?)-(.*)', pkgdir)
--            if match and parse_dir(match, pkgabsdir):
--                continue
--
--            # parse package names which ends with numbers such as 'glib-2.0'
--            match = re.match('(.*?-[\.\d]+)-(\d.*)', pkgdir)
--            if match and parse_dir(match, pkgabsdir):
--                continue
--
--            # other packages
--            match = re.match('(.*?)-(\d.*)', pkgdir)
--            if match and parse_dir(match, pkgabsdir):
--                continue
-+    for workroot, dirs, files in os.walk(workdir):
-+        # For the files, they should NOT exist in WORKDIR. Romve them.
-+        for f in files:
-+            obsolete_dirs.append(os.path.join(workroot, f))
-+
-+        for d in dirs:
-+            for pkgroot, pkgdirs, filenames in os.walk(os.path.join(workroot, d)):
-+                for f in filenames:
-+                    obsolete_dirs.append(os.path.join(pkgroot, f))
-+
-+                for pkgdir in sorted(pkgdirs):
-+                    if pkgdir not in pkg_cur_dirs:
-+                        obsolete_dirs.append(os.path.join(pkgroot, pkgdir))
-+
-+                # just process the top dir of every package under tmp/work/*/,
-+                # then jump out of the above os.walk()
-+                break
-+
-+        # it is convenient to use os.walk() to get dirs and files at same time
-+        # both of them have been dealed in the loop, so jump out
-+        break
- 
-     for d in obsolete_dirs:
-         print "Deleleting %s" % d
+     tmpdir = output.split('"')[1]
+     workdir = os.path.join(tmpdir, 'work')
 -- 
 1.7.5.4
 
