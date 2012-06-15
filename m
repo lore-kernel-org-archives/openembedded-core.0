@@ -1,24 +1,26 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Kai.Kang@windriver.com>) id 1SfPg1-000130-5O
+	(envelope-from <Kai.Kang@windriver.com>) id 1SfPg2-000131-5Z
 	for openembedded-core@lists.openembedded.org;
-	Fri, 15 Jun 2012 08:06:33 +0200
+	Fri, 15 Jun 2012 08:06:34 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q5F5tqbv019053
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q5F5tt4A019062
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 14 Jun 2012 22:55:53 -0700 (PDT)
+	Thu, 14 Jun 2012 22:55:55 -0700 (PDT)
 Received: from localhost.localdomain (128.224.162.164) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.1.255.0; Thu, 14 Jun 2012 22:55:52 -0700
+	(TLS) id 14.1.255.0; Thu, 14 Jun 2012 22:55:55 -0700
 From: Kang Kai <kai.kang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 15 Jun 2012 13:56:06 +0800
-Message-ID: <cover.1339739522.git.kai.kang@windriver.com>
+Date: Fri, 15 Jun 2012 13:56:07 +0800
+Message-ID: <7ebe37bad6bc8909ee9b9249ce35c7e6e581dc13.1339739522.git.kai.kang@windriver.com>
 X-Mailer: git-send-email 1.7.5.4
+In-Reply-To: <cover.1339739522.git.kai.kang@windriver.com>
+References: <cover.1339739522.git.kai.kang@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [128.224.162.164]
 Cc: Zhenfeng.Zhao@windriver.com
-Subject: [PATCH 0/4] Update cleanup-workdir
+Subject: [PATCH 1/4] cleanup-workdir: update the way to check obsolete dirs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,37 +35,114 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Jun 2012 06:06:33 -0000
+X-List-Received-Date: Fri, 15 Jun 2012 06:06:34 -0000
 Content-Type: text/plain
 
-Hi,
+Update the way to check obsolete directories.
 
-This series of patches update the cleanup-workdir:
-1 update the help text
-2 update the way to check obsolete directories
-3 only clean the directories related to current arch
-4 replace module commands with subprocess
+According to package and its version construct a list of all packages'
+current build directory. If any directory under $WORKDIR/*/ is not in
+the list will be removed.
 
-Regards,
-Kai
+At same time, all the files(vs. directory) under $WORKDIR and
+$WORKDIR/*/ will be removed because they are not created by poky.
 
-The following changes since commit 5ed855d12cddf2de535c3f6d05d3dfe85d69d99d:
+Signed-off-by: Kang Kai <kai.kang@windriver.com>
+---
+ scripts/cleanup-workdir |   59 ++++++++++++++++++----------------------------
+ 1 files changed, 23 insertions(+), 36 deletions(-)
 
-  openjade-native: Ensure we reautoconf the package (2012-06-12 16:34:30 +0100)
-
-are available in the git repository at:
-  git://git.pokylinux.org/poky-contrib kangkai/distro
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/distro
-
-Kang Kai (4):
-  cleanup-workdir: update the way to check obsolete dirs
-  cleanup-workdir: replace commands with subprocess
-  cleanup-workdir: only deal dirs related to current arch
-  cleanup-workdir: update help text
-
- scripts/cleanup-workdir |  128 ++++++++++++++++++++++++++++++-----------------
- 1 files changed, 82 insertions(+), 46 deletions(-)
-
+diff --git a/scripts/cleanup-workdir b/scripts/cleanup-workdir
+index b77e8c6..3739a00 100755
+--- a/scripts/cleanup-workdir
++++ b/scripts/cleanup-workdir
+@@ -22,7 +22,7 @@ import re
+ import commands
+ import shutil
+ 
+-versions = {}
++pkg_cur_dirs = []
+ obsolete_dirs = []
+ parser = None
+ 
+@@ -39,15 +39,6 @@ def parse_version(verstr):
+     else:
+         return epoch + '_' + elems[1]
+ 
+-def parse_dir(match, pkgabsdir):
+-    pkg_name = match.group(1)
+-    pkg_version = match.group(2)
+-    if pkg_name in versions:
+-        if pkg_version != versions[pkg_name]:
+-            obsolete_dirs.append(pkgabsdir)
+-        return True
+-    return False
+-
+ def main():
+     global parser
+     parser = optparse.OptionParser(
+@@ -89,7 +80,7 @@ This script must be ran under BUILDDIR after source file \"oe-init-build-env\"."
+             version = parse_version(elems[1])
+         else:
+             version = parse_version(elems[2])
+-        versions[elems[0]] = version
++        pkg_cur_dirs.append(elems[0] + '-' + version)
+ 
+     cmd = "bitbake -e | grep ^TMPDIR"
+     (ret, output) = commands.getstatusoutput(cmd)
+@@ -103,31 +94,27 @@ This script must be ran under BUILDDIR after source file \"oe-init-build-env\"."
+         print "WORKDIR %s does NOT exist. Quit." % workdir
+         return 1
+ 
+-    for archdir in os.listdir(workdir):
+-        archdir = os.path.join(workdir, archdir)
+-        if not os.path.isdir(archdir):
+-            pass
+-
+-        for pkgdir in sorted(os.listdir(archdir)):
+-            pkgabsdir = os.path.join(archdir, pkgdir)
+-            if not os.path.isdir(pkgabsdir):
+-                pass
+-
+-            # parse the package directory names
+-            # parse native/nativesdk packages first
+-            match = re.match('(.*?-native.*?)-(.*)', pkgdir)
+-            if match and parse_dir(match, pkgabsdir):
+-                continue
+-
+-            # parse package names which ends with numbers such as 'glib-2.0'
+-            match = re.match('(.*?-[\.\d]+)-(\d.*)', pkgdir)
+-            if match and parse_dir(match, pkgabsdir):
+-                continue
+-
+-            # other packages
+-            match = re.match('(.*?)-(\d.*)', pkgdir)
+-            if match and parse_dir(match, pkgabsdir):
+-                continue
++    for workroot, dirs, files in os.walk(workdir):
++        # For the files, they should NOT exist in WORKDIR. Romve them.
++        for f in files:
++            obsolete_dirs.append(os.path.join(workroot, f))
++
++        for d in dirs:
++            for pkgroot, pkgdirs, filenames in os.walk(os.path.join(workroot, d)):
++                for f in filenames:
++                    obsolete_dirs.append(os.path.join(pkgroot, f))
++
++                for pkgdir in sorted(pkgdirs):
++                    if pkgdir not in pkg_cur_dirs:
++                        obsolete_dirs.append(os.path.join(pkgroot, pkgdir))
++
++                # just process the top dir of every package under tmp/work/*/,
++                # then jump out of the above os.walk()
++                break
++
++        # it is convenient to use os.walk() to get dirs and files at same time
++        # both of them have been dealed in the loop, so jump out
++        break
+ 
+     for d in obsolete_dirs:
+         print "Deleleting %s" % d
 -- 
 1.7.5.4
 
