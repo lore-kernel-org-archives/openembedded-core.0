@@ -1,28 +1,37 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail-pz0-f47.google.com ([209.85.210.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1Sff5f-0007hK-HO
+	(envelope-from <darren@apps.dvhart.com>) id 1SffLw-00088k-KZ
 	for openembedded-core@lists.openembedded.org;
-	Sat, 16 Jun 2012 00:34:03 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 15 Jun 2012 15:23:23 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="158239861"
-Received: from unknown (HELO envy.home) ([10.255.12.88])
-	by orsmga002.jf.intel.com with ESMTP; 15 Jun 2012 15:23:23 -0700
-Message-ID: <4FDBB58C.5030208@linux.intel.com>
-Date: Fri, 15 Jun 2012 15:22:04 -0700
+	Sat, 16 Jun 2012 00:50:52 +0200
+Received: by dalh21 with SMTP id h21so4459998dal.6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 15 Jun 2012 15:40:13 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=sender:from:to:subject:date:message-id:x-mailer:x-gm-message-state;
+	bh=THwMbzggWEUgCxyr+zKcVz0IKRKobqQ4sIi8Jzms3kk=;
+	b=irQeU0BwMik+9jcdk1ikzcXPWJCBEdjh6XkEPZKb0yLLj/atz27xMhrXKBRCjbPivb
+	FjJzcOVC+Vkis5S7+LCfOozZNvNPf82AVzTmL+i6jM3enycY7um9chbI7CaqpUbaHDGy
+	zMKXDGRwacB4SF0I7h3orSzkjpsgm5CyBAjD8Wf2ZeSJV5N08pOScDYw1I4jruhHiZF4
+	Tc/rfRyWLYJmC8XKMO2jTW/zcPG2yBCNSkYSwQ/qVqbAS+RmdY7fC8AWKETlJsXO4Tyy
+	9E6ykU/N2fJkuEkwAC0b0H//5HgF4wEc9h5ERRZ/ILbxcdmLC3vLQ+auJcoIyHdtgUYm
+	ic6Q==
+Received: by 10.68.242.162 with SMTP id wr2mr24946954pbc.125.1339800012822;
+	Fri, 15 Jun 2012 15:40:12 -0700 (PDT)
+Received: from localhost (static-50-53-99-101.bvtn.or.frontiernet.net.
+	[50.53.99.101])
+	by mx.google.com with ESMTPS id ip5sm14646017pbc.3.2012.06.15.15.40.11
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 15 Jun 2012 15:40:12 -0700 (PDT)
+Sender: Darren Hart <darren@apps.dvhart.com>
 From: Darren Hart <dvhart@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:13.0) Gecko/20120605 Thunderbird/13.0
-MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1339650859.git.dvhart@linux.intel.com>
-	<3b44305edae36265295087fb5f31d22d660599b8.1339650859.git.dvhart@linux.intel.com>
-	<4FD98D3B.7060200@gmail.com>
-In-Reply-To: <4FD98D3B.7060200@gmail.com>
-X-Enigmail-Version: 1.4.2
-Subject: Re: [PATCH 2/3] busybox: Add setsid and cttyhack for tiny DISTRO_FEATURE
+To: openembedded-core@lists.openembedded.org, Khem Raj <raj.khem@gmail.com>,
+	philb@gnu.org
+Date: Fri, 15 Jun 2012 15:39:59 -0700
+Message-Id: <cover.1339799869.git.dvhart@linux.intel.com>
+X-Mailer: git-send-email 1.7.5.4
+X-Gm-Message-State: ALoCoQl+/a/SGTrotrltQT7wvQLnjSIhkuYCEMt7SQypxdMYO52cLJrE85d/j06A1puBe2zbphcd
+Subject: [PATCH 0/1] busybox: Include setsid and cttyhack in defconfig
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,106 +46,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Jun 2012 22:34:03 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 15 Jun 2012 22:50:52 -0000
 
------BEGIN PGP SIGNED MESSAGE-----
-Hash: SHA1
+The following changes since commit 63d1ae1c2828cda03828b4c3fdde037d7a23f1e4:
 
+  directfb: added missing Upstream-status (2012-06-15 15:41:11 +0100)
 
+are available in the git repository at:
+  git://git.yoctoproject.org/user-contrib/dvhart/oe-core dvhart/tiny
+  http://git.yoctoproject.org/cgit.cgi/user-contrib/dvhart/oe-core/log/?h=dvhart/tiny
 
-On 06/14/2012 12:05 AM, Khem Raj wrote:
-> On 6/13/2012 10:19 PM, Darren Hart wrote:
->> When building very small systems, it can be useful to spawn a
->> shell from a simple init script, rather than a full System V Init
->>  process. This requires the shell be the session leader and be
->> able to open the controlling terminal if it is to have job
->> control.
-> 
->> Enable CONFIG_CTTYHACK and CONFIG_SETSID to enable this for 
->> distros defining the "tiny" DISTRO_FEATURE.
-> 
->> Signed-off-by: Darren Hart <dvhart@linux.intel.com> CC: OE Core 
->> <openembedded-core@lists.openembedded.org> --- 
->> meta/recipes-core/busybox/busybox.inc |    2 ++ 1 files changed,
->> 2 insertions(+), 0 deletions(-)
-> 
->> diff --git a/meta/recipes-core/busybox/busybox.inc 
->> b/meta/recipes-core/busybox/busybox.inc index 5b83d32..d07ba7e 
->> 100644 --- a/meta/recipes-core/busybox/busybox.inc +++ 
->> b/meta/recipes-core/busybox/busybox.inc @@ -57,6 +57,8 @@ def 
->> features_to_busybox_settings(d): busybox_cfg('nls', 
->> distro_features, 'CONFIG_LOCALE_SUPPORT', cnf, rem) 
->> busybox_cfg('ipv4', distro_features, 
->> 'CONFIG_FEATURE_IFUPDOWN_IPV4', cnf, rem) busybox_cfg('ipv6', 
->> distro_features, 'CONFIG_FEATURE_IFUPDOWN_IPV6', cnf, rem) + 
->> busybox_cfg('tiny', distro_features, 'CONFIG_SETSID', cnf, rem)
->> + busybox_cfg('tiny', distro_features, 'CONFIG_CTTYHACK', cnf,
->> rem) return "\n".join(cnf), "\n".join(rem)
-> 
->> # X, Y = ${@features_to_uclibc_settings(d)}
-> 
-> Enabling cttyhack and setsid could be a good thing in general 
-> (thinking of initramfs kind of images) so I would propose to enable
-> it by default and not introduce another distro knob here. How much
-> does busybox code size grow which these two features turned on.?
+Darren Hart (1):
+  busybox: Include setsid and cttyhack in defconfig
 
-So this struck me as strange, but I did it twice to make sure I didn't
-mess something up:
+ meta/recipes-core/busybox/busybox-1.19.4/defconfig |    4 ++--
+ meta/recipes-core/busybox/busybox_1.19.4.bb        |    2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-BEFORE
-- -rwxr-xr-x 1 dvhart dvhart 2799417 2012-06-15 15:06 busybox
-- -rwxr-xr-x 1 dvhart dvhart 547872 2012-06-15 15:06 busybox_stripped
+-- 
+1.7.5.4
 
-AFTER (w/ SETSID and CTTYHACK)
-- -rwxr-xr-x 1 dvhart dvhart 2805195 2012-06-15 14:45 busybox
-- -rwxr-xr-x 1 dvhart dvhart 547872 2012-06-15 15:05 busybox_stripped
-
-DELTA
-         busybox: 5778
-busybox_stripped: 0
-
-The difference is <6k for the unstripped binary, and 0 bytes for the
-stripped binary. It must have something to do with the way busybox
-builds and enables features. The above was using my host strip
-command. I also tried building the rootfs with and without these
-features and comparing the cross-stripped binaries in the rootfs,
-delta is also 0 bytes.
-
-So the cost is "negligible" and there is a clear advantage to having
-these two options enabled. I'll resend with a two line change to the
-defconfig to enable them.
-
-- --
-Darren
-
-> 
-> otherwise second best thing is to keep it in poky-tiny distro
-> layer which wants to set the policy
-> 
-> _______________________________________________ Openembedded-core
-> mailing list Openembedded-core@lists.openembedded.org 
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
-> 
-- -- 
-Darren Hart
-Intel Open Source Technology Center
-Yocto Project - Linux Kernel
-
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.12 (GNU/Linux)
-Comment: Using GnuPG with Mozilla - http://enigmail.mozdev.org/
-
-iQEcBAEBAgAGBQJP27WMAAoJEKbMaAwKp364Hf0IAKpHOMWy63ZPYwN+Ay7wXPf1
-KaUe4fWGBIMNJqS5FGJyhxBnWMdXJceAKMP6Wo2nIa/kvjat//IME8v41xwAb+mD
-5sjZpkcBE02CFq9rZmHfiTTPbYC7iS8a6Dz5n/fTLb79b189Jv3Rx/G3GCN4ioeC
-xqwVU8zmdtkrHfU+UonR5G4HdNMCjOCFETLWcWW6DNTsj5PmazJV2cMIZTYJEr43
-G/EyvO2fz/n+y53dsI04zwNEXuyr0pjurCK7dXt9oxlOnDvE276yS1b0Xihwm3cW
-G/h0udSeQ3fcF91vCxdYMAlQNJyMqiCOCeSW5gOVe6NKs+kuxzRqYFSEfD0gtmY=
-=aZeL
------END PGP SIGNATURE-----
 
 
