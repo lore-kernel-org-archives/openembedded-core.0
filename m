@@ -1,25 +1,37 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail-vb0-f47.google.com ([209.85.212.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Sfb63-0000wx-QH
+	(envelope-from <otavio.salvador@gmail.com>) id 1Sfb6v-000136-58
 	for openembedded-core@lists.openembedded.org;
-	Fri, 15 Jun 2012 20:18:12 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 15 Jun 2012 11:07:29 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="158159680"
-Received: from unknown (HELO [10.255.12.138]) ([10.255.12.138])
-	by orsmga002.jf.intel.com with ESMTP; 15 Jun 2012 11:07:29 -0700
-Message-ID: <4FDB79E1.7020903@linux.intel.com>
-Date: Fri, 15 Jun 2012 11:07:29 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
+	Fri, 15 Jun 2012 20:19:05 +0200
+Received: by vbbfr13 with SMTP id fr13so1931173vbb.6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 15 Jun 2012 11:08:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:content-type
+	:content-transfer-encoding;
+	bh=9vKIZVtTeSdle+mUbB2H42jsjfpg/T2Cxz0oYza2964=;
+	b=YS89f6NDqUfRtcNaTnKL824TDGpHTBogOi5+wQ4TrbQiZnaQEWDERX65eVFsCHO19h
+	sjde5XvGma8al/bXjjcLCekjA+b/8/BSvDKMfg4+HufRETej1LDbxmZn7TGN9y9cemDe
+	x0jp505FW1jE0NDUamkCPx8dupH0xyXRwGU3N3sOPldVQWEcZlhMgKPcpyuOc52Tq+fe
+	Xdirgb3TPVPmM8NLu6Y+axSErrm9dUxvLXfAN81P5mJX28J7HwYYOH2O6zXjgc3o2i7d
+	YzzikMeea54+QjoHZS5be6nHUNmsTk0SkWbtnq4f9SfUfXgVSqWXL9ibn/jnLH81MO9g
+	PT6A==
 MIME-Version: 1.0
+Received: by 10.52.92.228 with SMTP id cp4mr2846011vdb.42.1339783705763; Fri,
+	15 Jun 2012 11:08:25 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.220.155.130 with HTTP; Fri, 15 Jun 2012 11:08:25 -0700 (PDT)
+In-Reply-To: <4FDB57DB.5090407@gmail.com>
+References: <CANBf+V3=LvWkE28TR1qNR-NpLd60EGroEqmXQqypXAUUZ0pv-Q@mail.gmail.com>
+	<4FDB57DB.5090407@gmail.com>
+Date: Fri, 15 Jun 2012 15:08:25 -0300
+X-Google-Sender-Auth: OyWyNfXggEXKHrP1qX8hkdy3aW4
+Message-ID: <CAP9ODKrkmDNCzXcK3wDqypxZW6Le44004rcO7e5CiW4HD5o-AA@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <1339427112-6567-1-git-send-email-andrei@gherzan.ro>
-In-Reply-To: <1339427112-6567-1-git-send-email-andrei@gherzan.ro>
-Subject: Re: [PATCH] coreutils: Fix a typo in v6.9 (bracket not braket)
+Subject: Re: Proposal: Creating meta-networking
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,33 +46,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Jun 2012 18:18:12 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 15 Jun 2012 18:19:05 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-On 06/11/2012 08:05 AM, Andrei Gherzan wrote:
-> Signed-off-by: Andrei Gherzan<andrei@gherzan.ro>
-> ---
->   meta/recipes-core/coreutils/coreutils_6.9.bb |    2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-core/coreutils/coreutils_6.9.bb b/meta/recipes-core/coreutils/coreutils_6.9.bb
-> index 6789b8c..5bfab16 100644
-> --- a/meta/recipes-core/coreutils/coreutils_6.9.bb
-> +++ b/meta/recipes-core/coreutils/coreutils_6.9.bb
-> @@ -65,7 +65,7 @@ inherit update-alternatives
->
->   ALTERNATIVE_PRIORITY = "100"
->
-> -ALTERNATIVE_${PN} = "lbraket ${bindir_progs} ${base_bindir_progs} ${sbindir_progs}"
-> +ALTERNATIVE_${PN} = "lbracket ${bindir_progs} ${base_bindir_progs} ${sbindir_progs}"
->
->   ALTERNATIVE_PRIORITY[uptime] = "10"
->   ALTERNATIVE_PRIORITY[hostname] = "10"
+On Fri, Jun 15, 2012 at 12:42 PM, Khem Raj <raj.khem@gmail.com> wrote:
+> I think creating a networking layer is fine idea, alongside meta-oe,
+> as a separate layer in meta-openembedded repo. Reshuffling recipes
+> from meta-oe into different layers is fine. I would like to avoid copies.
 
-Merged into OE-Core
+I'd prefer if it used another git repository; people needing to use it
+shouldn't be forced to clone whole meta-oe.
 
-Thanks
-	Sau!
+--=20
+Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
+.S. Systems
+E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
+Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
+tems.com.br
 
 
