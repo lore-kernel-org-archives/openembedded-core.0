@@ -1,38 +1,38 @@
 Received: from mail-pz0-f47.google.com ([209.85.210.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1SfPxQ-0001Uo-Tu
+	(envelope-from <raj.khem@gmail.com>) id 1SfPxR-0001W7-CH
 	for openembedded-core@lists.openembedded.org;
 	Fri, 15 Jun 2012 08:24:33 +0200
-Received: by mail-pz0-f47.google.com with SMTP id h21so3477206dal.6
+Received: by dalh21 with SMTP id h21so3477246dal.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Jun 2012 23:13:56 -0700 (PDT)
+	Thu, 14 Jun 2012 23:13:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
 	:in-reply-to:references;
-	bh=zufGFCrMQWfOHXR/bQGcG2C1Nj6tOd/cO9Vnc+4Q5io=;
-	b=KZs5YjwbVG/uIrokFF48I3ZFtCFfMhYNTwhFBFj5Q5MUhtteCtw57T5ZsmGwuVeaXE
-	3BWT2sOdAYtv28KOpTp0kbyTjottcWoWMCE22PcOzZQFIjVWSgq9UCaeS2ryU7qFA0BC
-	MKSPzJhrV0KrhX39a8fyF7027vnMcgvN+nsXCwRtKJWGOTW24nl1I+tTG9ef7d5Yv12m
-	xuMR4emt9jiodt3GJ3QepnQFdGODAThrZBcjAGY+3lZfndyS9m9BUVjCBkTkOSgORmSH
-	CStHtml58IXYKKGeI8rTSndZO8Tpl7VIcKl+111MbdefUWZWWXuJOSfLXT2296PlVyGV
-	ZVpg==
-Received: by 10.68.231.8 with SMTP id tc8mr16126044pbc.140.1339740836774;
-	Thu, 14 Jun 2012 23:13:56 -0700 (PDT)
+	bh=fgjbzAhB9Ahnokr8iJfJkgY6tn4B43IV/4/IzH9f3/8=;
+	b=WvQG+2WeLZ+9/VUGD50o+iQXvymT/HHOrX4AEBiXffWveIXOSv/X9t7+bD3KvpEzoa
+	hjk64Gy1UjuriC1Y1TTB93Q97eJLP6Li8I7250/mUOTiHzWmKkF8ll+NL5v7wyO+f4/m
+	Ke2Xn5d7sRJmI42mHp7vJh5AvO0yv7lcA7VuYNI2yno9xidHm6K0Ao14P+9ER0ZgD9v6
+	mdsOGHHKw5rOaHCjGHMLSqcShdrjtpUi7s7DLoKXXqc8JgxkCD4b8z2b2uH8lv9QQJF+
+	c7aACY/NF3opjPu6Vkd7lam9w0Ey4+vxUnXXMlDia0l3KrNYHpZz63khbd6bwKnMdF3u
+	H0PA==
+Received: by 10.68.226.226 with SMTP id rv2mr16445645pbc.101.1339740834694;
+	Thu, 14 Jun 2012 23:13:54 -0700 (PDT)
 Received: from localhost.localdomain (oldbuilder.nslu2-linux.org.
 	[140.211.169.168])
-	by mx.google.com with ESMTPS id tm2sm12117280pbc.69.2012.06.14.23.13.54
+	by mx.google.com with ESMTPS id tm2sm12117280pbc.69.2012.06.14.23.13.52
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 14 Jun 2012 23:13:55 -0700 (PDT)
+	Thu, 14 Jun 2012 23:13:53 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 14 Jun 2012 23:12:33 -0700
-Message-Id: <19714e83037894ed728b3759a3f62b43e75cd590.1339740433.git.raj.khem@gmail.com>
+Date: Thu, 14 Jun 2012 23:12:32 -0700
+Message-Id: <c49e7e2915d4ade3dd67f706f12b3979a3b5c021.1339740433.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 1.7.5.4
 In-Reply-To: <1366d81a5719e42af8bf24d46b86352491fc0e67.1339740433.git.raj.khem@gmail.com>
 References: <1366d81a5719e42af8bf24d46b86352491fc0e67.1339740433.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1339740433.git.raj.khem@gmail.com>
 References: <cover.1339740433.git.raj.khem@gmail.com>
-Subject: [PATCH 6/9] libzypp: Fix build with uclibc
+Subject: [PATCH 5/9] sat-solver: Fix build on uclibc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,115 +49,77 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 15 Jun 2012 06:24:34 -0000
 
-cstdio is included indrectly with eglibc based systems
-but not with uclibc based systems and use of functions
-like ::eof are then reported as warnings. Therefore
-we include cstdio explicitly.
+futimes is not available on uclibc so use utimes
+qsort is also not as expected by sat-solver therefore
+for uclibc we resort to using internal version of
+qsort
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-extended/libzypp/libzypp/cstdio.patch |   49 ++++++++++++++++++++
- meta/recipes-extended/libzypp/libzypp_git.bb       |   10 +++-
- 2 files changed, 57 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-extended/libzypp/libzypp/cstdio.patch
+ .../sat-solver/sat-solver/futimes.patch            |   32 ++++++++++++++++++++
+ meta/recipes-extended/sat-solver/sat-solver_git.bb |    3 ++
+ 2 files changed, 35 insertions(+), 0 deletions(-)
+ create mode 100644 meta/recipes-extended/sat-solver/sat-solver/futimes.patch
 
-diff --git a/meta/recipes-extended/libzypp/libzypp/cstdio.patch b/meta/recipes-extended/libzypp/libzypp/cstdio.patch
+diff --git a/meta/recipes-extended/sat-solver/sat-solver/futimes.patch b/meta/recipes-extended/sat-solver/sat-solver/futimes.patch
 new file mode 100644
-index 0000000..a021d58
+index 0000000..b24d852
 --- /dev/null
-+++ b/meta/recipes-extended/libzypp/libzypp/cstdio.patch
-@@ -0,0 +1,49 @@
-+include cstdio to get definitions of ::xxx functions which
-+are now reported by gcc-4.7 as wanrings and warnings are treated
-+as errors
++++ b/meta/recipes-extended/sat-solver/sat-solver/futimes.patch
+@@ -0,0 +1,32 @@
++This patch uses utimes instead of futimes for uclibc
++since futimes is not available
 +
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 +Upstream-Status: Pending
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
 +
-+Index: git/zypp/ExternalProgram.cc
++Index: git/examples/solv.c
 +===================================================================
-+--- git.orig/zypp/ExternalProgram.cc	2012-06-01 16:25:17.098304709 -0700
-++++ git/zypp/ExternalProgram.cc	2012-06-01 16:25:37.254305681 -0700
-+@@ -22,6 +22,7 @@
-+ #include <cstring> // strsignal
-+ #include <iostream>
-+ #include <sstream>
-++#include <cstdio>
++--- git.orig/examples/solv.c	2012-06-01 12:06:22.041552848 -0700
+++++ git/examples/solv.c	2012-06-01 12:49:17.417677449 -0700
++@@ -1027,7 +1027,8 @@
++   int flags;
 + 
-+ #include "zypp/base/Logger.h"
-+ #include "zypp/base/String.h"
-+Index: git/zypp/PluginScript.cc
-+===================================================================
-+--- git.orig/zypp/PluginScript.cc	2012-06-01 16:21:37.814294089 -0700
-++++ git/zypp/PluginScript.cc	2012-06-01 16:24:41.002302961 -0700
-+@@ -14,6 +14,7 @@
-+ 
-+ #include <iostream>
-+ #include <sstream>
-++#include <cstdio>
-+ 
-+ #include "zypp/base/LogTools.h"
-+ #include "zypp/base/DefaultIntegral.h"
-+@@ -336,7 +337,7 @@
-+     if ( fd == -1 )
-+       ZYPP_THROW( PluginScriptException( "Bad file descriptor" ) );
-+ 
-+-    ::clearerr( filep );
-++    std::clearerr( filep );
-+     std::string data;
++   cinfo = repo->appdata;
++-  if (!(fp = fopen(calccachepath(repo, repoext), "r")))
+++  const char* fname = calccachepath(repo, repoext);
+++  if (!(fp = fopen(fname, "r")))
++     return 0;
++   if (fseek(fp, -sizeof(mycookie), SEEK_END) || fread(mycookie, sizeof(mycookie), 1, fp) != 1)
 +     {
-+       PluginDebugBuffer _debug( data ); // dump receive buffer if PLUGIN_DEBUG
-+@@ -370,7 +371,7 @@
-+ 	    int retval = select( fd+1, &rfds, NULL, NULL, &tv );
-+ 	    if ( retval > 0 )	// FD_ISSET( fd, &rfds ) will be true.
-+ 	    {
-+-	      ::clearerr( filep );
-++	      std::clearerr( filep );
-+ 	    }
-+ 	    else if ( retval == 0 )
-+ 	    {
-diff --git a/meta/recipes-extended/libzypp/libzypp_git.bb b/meta/recipes-extended/libzypp/libzypp_git.bb
-index 90ee8c4..ca32e73 100644
---- a/meta/recipes-extended/libzypp/libzypp_git.bb
-+++ b/meta/recipes-extended/libzypp/libzypp_git.bb
-@@ -11,7 +11,7 @@ DEPENDS  = "rpm boost curl libxml2 zlib sat-solver expat openssl udev libproxy"
- S = "${WORKDIR}/git"
- SRCREV = "15b6c52260bbc52b3d8e585e271b67e10cc7c433"
- PV = "0.0-git${SRCPV}"
--PR = "r22"
-+PR = "r23"
- 
- SRC_URI = "git://github.com/openSUSE/libzypp.git;protocol=git \
-            file://no-doc.patch \
-@@ -24,6 +24,7 @@ SRC_URI = "git://github.com/openSUSE/libzypp.git;protocol=git \
- 	   file://hardcode-lib-fix.patch \
- 	   file://close.patch \
- 	   file://libzypp-rpm549.patch \
-+	   file://cstdio.patch \
++@@ -1068,7 +1069,11 @@
++       memcpy(cinfo->extcookie, myextcookie, sizeof(myextcookie));
++     }
++   if (mark)
+++#ifdef __UCLIBC__
+++    utimes(fname, 0);	/* try to set modification time */
+++#else
++     futimes(fileno(fp), 0);	/* try to set modification time */
+++#endif
++   fclose(fp);
++   return 1;
++ }
+diff --git a/meta/recipes-extended/sat-solver/sat-solver_git.bb b/meta/recipes-extended/sat-solver/sat-solver_git.bb
+index b0382f6..b0daa6a 100644
+--- a/meta/recipes-extended/sat-solver/sat-solver_git.bb
++++ b/meta/recipes-extended/sat-solver/sat-solver_git.bb
+@@ -20,6 +20,7 @@ SRC_URI = "git://github.com/openSUSE/sat-solver.git;protocol=git \
+            file://sat-solver_core.patch \
+            file://fix_gcc-4.6.0_compile_issue.patch \
+            file://0001-sat_xfopen.c-Forward-port-to-zlib-1.2.6-gzFile.patch \
++           file://futimes.patch \
            "
  
- SRC_URI_append_mips = " file://mips-workaround-gcc-tribool-error.patch"
-@@ -32,7 +33,10 @@ SRC_URI_append_mips = " file://mips-workaround-gcc-tribool-error.patch"
- SRC_URI_append_arm  = " file://arm-workaround-global-constructor.patch"
- 
- # rpmdb2solv from sat-solver is run from libzypp
--RDEPENDS_${PN} = "sat-solver rpm-libs gzip gnupg"
-+RDEPENDS_${PN} = "sat-solver rpm-libs gzip ${RDEPGNUPG}"
-+
-+RDEPGNUPG = "gnupg"
-+RDEPGNUPG_libc-uclibc = ""
- 
- PACKAGES =+ "${PN}-pkgmgt"
- 
-@@ -46,6 +50,8 @@ FILES_${PN}-pkgmgt = "${bindir}/package-manager \
+ S = "${WORKDIR}/git"
+@@ -28,6 +29,8 @@ EXTRA_OECMAKE += "-DRPM5=RPM5 -DOE_CORE=OE_CORE"
  
  EXTRA_OECMAKE += " -DLIB=${@os.path.basename('${libdir}')}"
  
-+LDFLAGS += "-lpthread"
++TUNE_CCARGS_libc-uclibc_append = " -DUSE_OWN_QSORT=1 "
 +
- PACKAGE_ARCH = "${MACHINE_ARCH}"
+ inherit cmake pkgconfig
  
- AVOID_CONSTRUCTOR = ""
+ RDEPENDS_${PN} = "rpm-libs"
 -- 
 1.7.5.4
 
