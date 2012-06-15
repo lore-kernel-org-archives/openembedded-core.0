@@ -1,23 +1,38 @@
-Received: from [78.110.170.148] (helo=tinyArch.localdomain)
+Received: from mail-wg0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ml@communistcode.co.uk>) id 1SfXeC-00089T-8g
+	(envelope-from <martin.jansa@gmail.com>) id 1SfXjX-0008Gf-9V
 	for openembedded-core@lists.openembedded.org;
-	Fri, 15 Jun 2012 16:37:14 +0200
-Received: from [192.168.0.41] (unknown [195.171.99.130])
-	by tinyArch.localdomain (Postfix) with ESMTPSA id 68F2F6005D
+	Fri, 15 Jun 2012 16:42:43 +0200
+Received: by wgbdr1 with SMTP id dr1so2749689wgb.24
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Jun 2012 14:35:02 +0100 (BST)
-Message-ID: <4FDB4654.4090302@communistcode.co.uk>
-Date: Fri, 15 Jun 2012 15:27:32 +0100
-From: Jack Mitchell <ml@communistcode.co.uk>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:13.0) Gecko/20120605 Thunderbird/13.0
-MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
+	Fri, 15 Jun 2012 07:32:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=ejx9IEt/OpDGx1NDGaEGBk/SaRJERQWqDBOAriLxqe4=;
+	b=Lt77GF+YXLq+MR2mtZkQQetOsyu2AzKHMbOcM+ORUyamEd5MgOjueUbN1QefR5y13y
+	PjBgwcZXsiX0rLF9rZv0r0gLXHThzVzs/vXBJ3cVimbozPR4e7uhuzqqHLe6i/XZms0+
+	MspUffQdmZ8k/a/nomx/5PoyasggbMIHtdIgqvdpZHmEsmh/sM+1XtmYjkn44CGMdQPS
+	Detpe0vcEHMW2jb+jH2uonF13WnW+1/4QpONWwq3RVPBMbGEhDQHBSWXvLhMyW4xlitJ
+	ksHGXLq3gt26G4/NYG29xRbbsg0GRoMkTI3LJYVwJIemwFpLBKMvI/2IM+ZfEuJ7H4Lo
+	nQkQ==
+Received: by 10.180.80.35 with SMTP id o3mr5060972wix.7.1339770724624;
+	Fri, 15 Jun 2012 07:32:04 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id ez4sm3400340wid.3.2012.06.15.07.32.03
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 15 Jun 2012 07:32:03 -0700 (PDT)
+Date: Fri, 15 Jun 2012 16:32:24 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Message-ID: <20120615143224.GW3140@jama.jama.net>
 References: <20120615063647.GU3140@jama.jama.net>
 	<CAMKF1srmOijugSfqfOivt2Sqfi0CvUVfZDRgUCprSShJ4nzf_w@mail.gmail.com>
 	<4FDB4476.2070105@communistcode.co.uk>
+MIME-Version: 1.0
 In-Reply-To: <4FDB4476.2070105@communistcode.co.uk>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Subject: Re: openssl does not build on recent distributions with perl-5.16.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -33,241 +48,109 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Jun 2012 14:37:15 -0000
-Content-Type: multipart/alternative;
-	boundary="------------060805040003040806010702"
+X-List-Received-Date: Fri, 15 Jun 2012 14:42:43 -0000
+X-Groupsio-MsgNum: 23622
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="pEAjBjStGYT6H+Py"
+Content-Disposition: inline
 
---------------060805040003040806010702
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+--pEAjBjStGYT6H+Py
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 15/06/12 15:19, Jack Mitchell wrote:
+On Fri, Jun 15, 2012 at 03:19:34PM +0100, Jack Mitchell wrote:
 > On 15/06/12 15:15, Khem Raj wrote:
->>
->>
->> On Thursday, June 14, 2012, Martin Jansa wrote:
->>
->>     Hi,
->>
->>     openembedded-core/meta/recipes-connectivity/openssl/openssl.inc
->>
->>     is using perlpath.pl <http://perlpath.pl>:
->>
->>      do_configure () {
->>              cd util
->>              perl perlpath.pl <http://perlpath.pl>
->>     ${STAGING_BINDIR_NATIVE}
->>
->>
->> I wonder why it's using host perl and not staged perl-native
->> May be missing inherit perlnative
->>
->>      ...
->>
->>     and perlpath.pl <http://perlpath.pl> is using find.pl
->>     <http://find.pl>:
->>     openssl-1.0.0i/util/perlpath.pl <http://perlpath.pl>:
->>      #!/usr/local/bin/perl
->>      #
->>      # modify the '#!/usr/local/bin/perl'
->>      # line in all scripts that rely on perl.
->>      #
->>
->>      require "find.pl <http://find.pl>";
->>      ...
->>
->>     which was removed in perl-5.16.0 and marked as deprecated and
->>     unmaintained in 5.14 and older:
->>     /tmp/usr/lib/perl5/5.14.2/find.pl <http://find.pl>:
->>      warn "Legacy library @{[(caller(0))[6]]} will be removed from
->>     the Perl
->>      core distribution in the next major release. Please install it
->>     from the
->>      CPAN distribution Perl4::CoreLibs. It is being used at
->>     @{[(caller)[1]]},
->>      line @{[(caller)[2]]}.\n";
->>
->>      # This library is deprecated and unmaintained. It is included for
->>      # compatibility with Perl 4 scripts which may use it, but it will be
->>      # removed in a future version of Perl. Please use the File::Find
->>     module
->>      # instead.
->>
->>     Cheers,
->>
->>     --
->>     Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com <javascript:;>
->>
->>
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
-> I can confirm I also ran into this issue using Archlinux, I thought it 
+> >
+> >
+> > On Thursday, June 14, 2012, Martin Jansa wrote:
+> >
+> >     Hi,
+> >
+> >     openembedded-core/meta/recipes-connectivity/openssl/openssl.inc
+> >
+> >     is using perlpath.pl <http://perlpath.pl>:
+> >
+> >      do_configure () {
+> >              cd util
+> >              perl perlpath.pl <http://perlpath.pl>
+> >     ${STAGING_BINDIR_NATIVE}
+> >
+> >
+> > I wonder why it's using host perl and not staged perl-native
+> > May be missing inherit perlnative
+> >
+> >      ...
+> >
+> >     and perlpath.pl <http://perlpath.pl> is using find.pl
+> >     <http://find.pl>:
+> >     openssl-1.0.0i/util/perlpath.pl <http://perlpath.pl>:
+> >      #!/usr/local/bin/perl
+> >      #
+> >      # modify the '#!/usr/local/bin/perl'
+> >      # line in all scripts that rely on perl.
+> >      #
+> >
+> >      require "find.pl <http://find.pl>";
+> >      ...
+> >
+> >     which was removed in perl-5.16.0 and marked as deprecated and
+> >     unmaintained in 5.14 and older:
+> >     /tmp/usr/lib/perl5/5.14.2/find.pl <http://find.pl>:
+> >      warn "Legacy library @{[(caller(0))[6]]} will be removed from the
+> >     Perl
+> >      core distribution in the next major release. Please install it
+> >     from the
+> >      CPAN distribution Perl4::CoreLibs. It is being used at
+> >     @{[(caller)[1]]},
+> >      line @{[(caller)[2]]}.\n";
+> >
+> >      # This library is deprecated and unmaintained. It is included for
+> >      # compatibility with Perl 4 scripts which may use it, but it will =
+be
+> >      # removed in a future version of Perl. Please use the File::Find
+> >     module
+> >      # instead.
+> >
+> >     Cheers,
+> >
+> >     --
+> >     Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com <javascript:=
+;>
+> >
+> >
+> >
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>=20
+> I can confirm I also ran into this issue using Archlinux, I thought it=20
 > was an issue with my Perl install but obviously not!
->
+>=20
 > Regards,
-> -- 
->
->    Jack Mitchell (jack@embed.me.uk)
->    Embedded Systems Engineer
->    http://www.embed.me.uk
->
-> --
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
-Also, from a quick check adding perlnative to openssl.inc allows it to 
-build, now fighting with sgml-common-native :/
+You can use this patch as work around
+http://git.openembedded.org/openembedded-core-contrib/commit/?h=3Dshr&id=3D=
+376acaea6856b4d7da35c61332d67e919d8c5736
+but I guess that it should be fixed better for oe-core (preferably in
+openssl perlpath.pl directly).
 
-Regards,
+Cheers,
 
--- 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-   Jack Mitchell (jack@embed.me.uk)
-   Embedded Systems Engineer
-   http://www.embed.me.uk
+--pEAjBjStGYT6H+Py
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
---
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
 
+iEYEARECAAYFAk/bR3gACgkQN1Ujt2V2gBxzygCghU+HT2ttAkRHpIE067tVv4be
+dWcAoIIhgco1FrrDxX3QpvT4gAA5tFdL
+=auKx
+-----END PGP SIGNATURE-----
 
---------------060805040003040806010702
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
-
-<html>
-  <head>
-    <meta content="text/html; charset=ISO-8859-1"
-      http-equiv="Content-Type">
-  </head>
-  <body text="#000000" bgcolor="#FFFFFF">
-    <div class="moz-cite-prefix">On 15/06/12 15:19, Jack Mitchell wrote:<br>
-    </div>
-    <blockquote cite="mid:4FDB4476.2070105@communistcode.co.uk"
-      type="cite">
-      <meta content="text/html; charset=ISO-8859-1"
-        http-equiv="Content-Type">
-      <div class="moz-cite-prefix">On 15/06/12 15:15, Khem Raj wrote:<br>
-      </div>
-      <blockquote
-cite="mid:CAMKF1srmOijugSfqfOivt2Sqfi0CvUVfZDRgUCprSShJ4nzf_w@mail.gmail.com"
-        type="cite"><br>
-        <br>
-        On Thursday, June 14, 2012, Martin Jansa wrote:<br>
-        <blockquote class="gmail_quote" style="margin:0 0 0
-          .8ex;border-left:1px #ccc solid;padding-left:1ex">Hi,<br>
-          <br>
-openembedded-core/meta/recipes-connectivity/openssl/openssl.inc<br>
-          <br>
-          is using <a moz-do-not-send="true" href="http://perlpath.pl"
-            target="_blank">perlpath.pl</a>:<br>
-          <br>
-          &nbsp;do_configure () {<br>
-          &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;cd util<br>
-          &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;perl <a moz-do-not-send="true"
-            href="http://perlpath.pl" target="_blank">perlpath.pl</a>
-          ${STAGING_BINDIR_NATIVE}</blockquote>
-        <div><br>
-        </div>
-        <div>I wonder why it's using host perl and not staged
-          perl-native</div>
-        <div>May be missing inherit perlnative&nbsp;<span></span></div>
-        <blockquote class="gmail_quote" style="margin:0 0 0
-          .8ex;border-left:1px #ccc solid;padding-left:1ex"> &nbsp;...<br>
-          <br>
-          and <a moz-do-not-send="true" href="http://perlpath.pl"
-            target="_blank">perlpath.pl</a> is using <a
-            moz-do-not-send="true" href="http://find.pl" target="_blank">find.pl</a>:<br>
-          openssl-1.0.0i/util/<a moz-do-not-send="true"
-            href="http://perlpath.pl" target="_blank">perlpath.pl</a>:<br>
-          &nbsp;#!/usr/local/bin/perl<br>
-          &nbsp;#<br>
-          &nbsp;# modify the '#!/usr/local/bin/perl'<br>
-          &nbsp;# line in all scripts that rely on perl.<br>
-          &nbsp;#<br>
-          <br>
-          &nbsp;require "<a moz-do-not-send="true" href="http://find.pl"
-            target="_blank">find.pl</a>";<br>
-          &nbsp;...<br>
-          <br>
-          which was removed in perl-5.16.0 and marked as deprecated and<br>
-          unmaintained in 5.14 and older:<br>
-          /tmp/usr/lib/perl5/5.14.2/<a moz-do-not-send="true"
-            href="http://find.pl" target="_blank">find.pl</a>:<br>
-          &nbsp;warn "Legacy library @{[(caller(0))[6]]} will be removed from
-          the Perl<br>
-          &nbsp;core distribution in the next major release. Please install
-          it from the<br>
-          &nbsp;CPAN distribution Perl4::CoreLibs. It is being used at
-          @{[(caller)[1]]},<br>
-          &nbsp;line @{[(caller)[2]]}.\n";<br>
-          <br>
-          &nbsp;# This library is deprecated and unmaintained. It is included
-          for<br>
-          &nbsp;# compatibility with Perl 4 scripts which may use it, but it
-          will be<br>
-          &nbsp;# removed in a future version of Perl. Please use the
-          File::Find module<br>
-          &nbsp;# instead.<br>
-          <br>
-          Cheers,<br>
-          <br>
-          --<br>
-          Martin 'JaMa' Jansa &nbsp; &nbsp; jabber: <a moz-do-not-send="true"
-            href="javascript:;" onclick="_e(event, 'cvml',
-            'Martin.Jansa@gmail.com')">Martin.Jansa@gmail.com</a><br>
-        </blockquote>
-        <br>
-        <fieldset class="mimeAttachmentHeader"></fieldset>
-        <br>
-        <pre wrap="">_______________________________________________
-Openembedded-core mailing list
-<a moz-do-not-send="true" class="moz-txt-link-abbreviated" href="mailto:Openembedded-core@lists.openembedded.org">Openembedded-core@lists.openembedded.org</a>
-<a moz-do-not-send="true" class="moz-txt-link-freetext" href="http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core">http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core</a>
-</pre>
-      </blockquote>
-      <tt><br>
-        I can confirm I also ran into this issue using Archlinux, I
-        thought it was an issue with my Perl install but obviously not!<br>
-        <br>
-        Regards, </tt><br>
-      <pre class="moz-signature" cols="72">-- 
-
-  Jack Mitchell (<a moz-do-not-send="true" class="moz-txt-link-abbreviated" href="mailto:jack@embed.me.uk">jack@embed.me.uk</a>)             
-  Embedded Systems Engineer
-  <a moz-do-not-send="true" class="moz-txt-link-freetext" href="http://www.embed.me.uk">http://www.embed.me.uk</a>
-
---
-</pre>
-      <br>
-      <fieldset class="mimeAttachmentHeader"></fieldset>
-      <br>
-      <pre wrap="">_______________________________________________
-Openembedded-core mailing list
-<a class="moz-txt-link-abbreviated" href="mailto:Openembedded-core@lists.openembedded.org">Openembedded-core@lists.openembedded.org</a>
-<a class="moz-txt-link-freetext" href="http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core">http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core</a>
-</pre>
-    </blockquote>
-    <tt><br>
-      Also, from a quick check adding perlnative to openssl.inc allows
-      it to build, now fighting with sgml-common-native :/<br>
-      <br>
-      Regards,</tt><br>
-    <pre class="moz-signature" cols="72">-- 
-
-  Jack Mitchell (<a class="moz-txt-link-abbreviated" href="mailto:jack@embed.me.uk">jack@embed.me.uk</a>)             
-  Embedded Systems Engineer
-  <a class="moz-txt-link-freetext" href="http://www.embed.me.uk">http://www.embed.me.uk</a>
-
---
-</pre>
-  </body>
-</html>
-
---------------060805040003040806010702--
+--pEAjBjStGYT6H+Py--
