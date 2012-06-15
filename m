@@ -1,37 +1,42 @@
-Received: from mail-pz0-f47.google.com ([209.85.210.47])
+Received: from mail-pb0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <darren@apps.dvhart.com>) id 1SffLw-00088k-KZ
+	(envelope-from <darren@apps.dvhart.com>) id 1SffM3-000891-DZ
 	for openembedded-core@lists.openembedded.org;
-	Sat, 16 Jun 2012 00:50:52 +0200
-Received: by dalh21 with SMTP id h21so4459998dal.6
+	Sat, 16 Jun 2012 00:50:59 +0200
+Received: by pbbrq2 with SMTP id rq2so5623806pbb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Jun 2012 15:40:13 -0700 (PDT)
+	Fri, 15 Jun 2012 15:40:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=sender:from:to:subject:date:message-id:x-mailer:x-gm-message-state;
-	bh=THwMbzggWEUgCxyr+zKcVz0IKRKobqQ4sIi8Jzms3kk=;
-	b=irQeU0BwMik+9jcdk1ikzcXPWJCBEdjh6XkEPZKb0yLLj/atz27xMhrXKBRCjbPivb
-	FjJzcOVC+Vkis5S7+LCfOozZNvNPf82AVzTmL+i6jM3enycY7um9chbI7CaqpUbaHDGy
-	zMKXDGRwacB4SF0I7h3orSzkjpsgm5CyBAjD8Wf2ZeSJV5N08pOScDYw1I4jruhHiZF4
-	Tc/rfRyWLYJmC8XKMO2jTW/zcPG2yBCNSkYSwQ/qVqbAS+RmdY7fC8AWKETlJsXO4Tyy
-	9E6ykU/N2fJkuEkwAC0b0H//5HgF4wEc9h5ERRZ/ILbxcdmLC3vLQ+auJcoIyHdtgUYm
-	ic6Q==
-Received: by 10.68.242.162 with SMTP id wr2mr24946954pbc.125.1339800012822;
-	Fri, 15 Jun 2012 15:40:12 -0700 (PDT)
+	h=sender:from:to:subject:date:message-id:x-mailer:in-reply-to
+	:references:in-reply-to:references:x-gm-message-state;
+	bh=/HBzgoGWgUOfmXhmsQ/0xZ37fuVCN7FnAsfa38cyPZc=;
+	b=DhVxrLQDZCF21rjsXmerw5m9I5W2vVLzcSHHvLwHU7dcUmAmsIDsT8Lx0RndF90OfC
+	3crnV2Rbdp7F2I0drL3ijR6WOvoPs+K5fUr1yDoNYFggKX35yeNMEpcydByntLHHb4LT
+	8nSfwFgBsOAF5jJoQQoiX2YHazgG0BVyeP8SB2GmPzddLq8DHcpQNp+Ic2NasEI7Noud
+	SiNlmY3UTsMAZA9NGkQpEIHlvzvR6658blw4eYtgLAUbWkYl+hqOFOkRMqrFTcS6eRYU
+	sAVjC8bKnDzuar5+tnBH91y+KRFqePm4fdB7Sej8/8SLaP0nz4FSVIM22g0xlOlzYddN
+	I25g==
+Received: by 10.68.226.226 with SMTP id rv2mr24829922pbc.101.1339800019267;
+	Fri, 15 Jun 2012 15:40:19 -0700 (PDT)
 Received: from localhost (static-50-53-99-101.bvtn.or.frontiernet.net.
 	[50.53.99.101])
-	by mx.google.com with ESMTPS id ip5sm14646017pbc.3.2012.06.15.15.40.11
+	by mx.google.com with ESMTPS id tm2sm14612884pbc.69.2012.06.15.15.40.18
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 15 Jun 2012 15:40:12 -0700 (PDT)
+	Fri, 15 Jun 2012 15:40:18 -0700 (PDT)
 Sender: Darren Hart <darren@apps.dvhart.com>
 From: Darren Hart <dvhart@linux.intel.com>
 To: openembedded-core@lists.openembedded.org, Khem Raj <raj.khem@gmail.com>,
 	philb@gnu.org
-Date: Fri, 15 Jun 2012 15:39:59 -0700
-Message-Id: <cover.1339799869.git.dvhart@linux.intel.com>
+Date: Fri, 15 Jun 2012 15:40:00 -0700
+Message-Id: <5f472764f7cea2d386b7ee572870fc03769868fc.1339799869.git.dvhart@linux.intel.com>
 X-Mailer: git-send-email 1.7.5.4
-X-Gm-Message-State: ALoCoQl+/a/SGTrotrltQT7wvQLnjSIhkuYCEMt7SQypxdMYO52cLJrE85d/j06A1puBe2zbphcd
-Subject: [PATCH 0/1] busybox: Include setsid and cttyhack in defconfig
+In-Reply-To: <cover.1339799869.git.dvhart@linux.intel.com>
+References: <cover.1339799869.git.dvhart@linux.intel.com>
+In-Reply-To: <cover.1339799869.git.dvhart@linux.intel.com>
+References: <cover.1339799869.git.dvhart@linux.intel.com>
+X-Gm-Message-State: ALoCoQkWIcWehpffZPLtJJEX+bv5Pg0IxMCscLpa8XVmnJrdbs3v1HSxlq4Y1qNzwhkjSMWkmEM3
+Subject: [PATCH 1/1] busybox: Include setsid and cttyhack in defconfig
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,23 +51,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Jun 2012 22:50:52 -0000
+X-List-Received-Date: Fri, 15 Jun 2012 22:50:59 -0000
 
-The following changes since commit 63d1ae1c2828cda03828b4c3fdde037d7a23f1e4:
+When building very small systems, it can be useful to spawn a shell
+from a simple init script, rather than a full System V Init
+process. This requires the shell be the session leader and be able
+to open the controlling terminal if it is to have job control.
 
-  directfb: added missing Upstream-status (2012-06-15 15:41:11 +0100)
+Enable CONFIG_CTTYHACK and CONFIG_SETSID to enable this. The resulting
+busybox binary does not change in size (I checked several times!).
 
-are available in the git repository at:
-  git://git.yoctoproject.org/user-contrib/dvhart/oe-core dvhart/tiny
-  http://git.yoctoproject.org/cgit.cgi/user-contrib/dvhart/oe-core/log/?h=dvhart/tiny
-
-Darren Hart (1):
-  busybox: Include setsid and cttyhack in defconfig
-
+Signed-off-by: Darren Hart <dvhart@linux.intel.com>
+---
  meta/recipes-core/busybox/busybox-1.19.4/defconfig |    4 ++--
  meta/recipes-core/busybox/busybox_1.19.4.bb        |    2 +-
  2 files changed, 3 insertions(+), 3 deletions(-)
 
+diff --git a/meta/recipes-core/busybox/busybox-1.19.4/defconfig b/meta/recipes-core/busybox/busybox-1.19.4/defconfig
+index 372d7b5..0a5d5c9 100644
+--- a/meta/recipes-core/busybox/busybox-1.19.4/defconfig
++++ b/meta/recipes-core/busybox/busybox-1.19.4/defconfig
+@@ -700,7 +700,7 @@ CONFIG_MICROCOM=y
+ # CONFIG_RFKILL is not set
+ # CONFIG_RUNLEVEL is not set
+ # CONFIG_RX is not set
+-# CONFIG_SETSID is not set
++CONFIG_SETSID=y
+ CONFIG_STRINGS=y
+ # CONFIG_TASKSET is not set
+ # CONFIG_FEATURE_TASKSET_FANCY is not set
+@@ -960,7 +960,7 @@ CONFIG_ASH_BUILTIN_TEST=y
+ CONFIG_ASH_OPTIMIZE_FOR_SIZE=y
+ # CONFIG_ASH_RANDOM_SUPPORT is not set
+ CONFIG_ASH_EXPAND_PRMT=y
+-# CONFIG_CTTYHACK is not set
++CONFIG_CTTYHACK=y
+ # CONFIG_HUSH is not set
+ # CONFIG_HUSH_BASH_COMPAT is not set
+ # CONFIG_HUSH_BRACE_EXPANSION is not set
+diff --git a/meta/recipes-core/busybox/busybox_1.19.4.bb b/meta/recipes-core/busybox/busybox_1.19.4.bb
+index 0717075..5b3f356 100644
+--- a/meta/recipes-core/busybox/busybox_1.19.4.bb
++++ b/meta/recipes-core/busybox/busybox_1.19.4.bb
+@@ -1,5 +1,5 @@
+ require busybox.inc
+-PR = "r6"
++PR = "r7"
+ 
+ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
+            file://B921600.patch \
 -- 
 1.7.5.4
 
