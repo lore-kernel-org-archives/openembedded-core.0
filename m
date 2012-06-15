@@ -1,24 +1,39 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-we0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@windriver.com>) id 1Sfd3y-0004Fw-F9
+	(envelope-from <martin.jansa@gmail.com>) id 1SfdT6-0004of-HE
 	for openembedded-core@lists.openembedded.org;
-	Fri, 15 Jun 2012 22:24:10 +0200
-Received: from localhost.localdomain (yow-bashfiel-d2.wrs.com
-	[128.224.146.167])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q5FKDQAC020236;
-	Fri, 15 Jun 2012 13:13:28 -0700 (PDT)
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: richard.purdie@linuxfoundation.org
-Date: Fri, 15 Jun 2012 16:23:02 -0400
-Message-Id: <4c36f782924b4055896a740706ba10846d282231.1339791495.git.bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 1.7.0.4
-In-Reply-To: <cover.1339791495.git.bruce.ashfield@windriver.com>
-References: <cover.1339791495.git.bruce.ashfield@windriver.com>
-In-Reply-To: <cover.1339791495.git.bruce.ashfield@windriver.com>
-References: <cover.1339791495.git.bruce.ashfield@windriver.com>
-Cc: openembedded-core@lists.openembedded.org, liang.li@windriver.com,
-	saul.wold@intel.com
-Subject: [PATCH 2/2] recipes-kernel: remove linux-tools.inc
+	Fri, 15 Jun 2012 22:50:08 +0200
+Received: by werg55 with SMTP id g55so2254215wer.6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 15 Jun 2012 13:39:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=YjFQCknzlS63mph0IoP4GPawQN8YrmJj6i3QqaptEhc=;
+	b=0jjJkNsfejQy3DOrCPJsIb+TcWT+0t82sgZsTVGqrVZVyBLutBD8McAff3kNTX2Bij
+	a0F/bP5iNhfNqJKqU86V0Qh3XZo8W3iA16PHT5rmNLGIhRzbhdPQsA4VDO63iAItQSxg
+	g70gIHFa7LB7RMGhj9TNxg4OUz1ghglfMWuacj3umw32daYD/IjjjH7vZBMsQGMjw7to
+	XLXgKdAgEq+MHZxow7Cdeo3nGGgkz8n7miKzhoW6QdUo5e0ykGnMrtE1TlEbSkORfoY6
+	tK3UT5UXGpEjlvXerPb4cx6D5Un+4A4/oOaIgcl0BbKJUktUwFstiJg8XBbbvmGfjDVU
+	09gA==
+Received: by 10.180.106.137 with SMTP id gu9mr7091853wib.8.1339792769582;
+	Fri, 15 Jun 2012 13:39:29 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id gc6sm5404628wib.0.2012.06.15.13.39.27
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 15 Jun 2012 13:39:28 -0700 (PDT)
+Date: Fri, 15 Jun 2012 22:39:49 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Message-ID: <20120615203949.GY3140@jama.jama.net>
+References: <20120615063647.GU3140@jama.jama.net>
+	<CAMKF1srmOijugSfqfOivt2Sqfi0CvUVfZDRgUCprSShJ4nzf_w@mail.gmail.com>
+	<1339771010.4471.14.camel@ted>
+MIME-Version: 1.0
+In-Reply-To: <1339771010.4471.14.camel@ted>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Subject: Re: openssl does not build on recent distributions with perl-5.16.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,133 +48,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Jun 2012 20:24:10 -0000
+X-List-Received-Date: Fri, 15 Jun 2012 20:50:08 -0000
+X-Groupsio-MsgNum: 23652
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="R9baxdNnpTjJ7oIU"
+Content-Disposition: inline
 
-perf has been moved to a standalone package, making linux-tools.inc
-unecessary. It can now be removed and recipes that included it
-updated.
+--R9baxdNnpTjJ7oIU
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
----
- meta/recipes-kernel/linux/linux-tools.inc       |   41 -----------------------
- meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb |    2 -
- meta/recipes-kernel/linux/linux-yocto-rt_3.2.bb |    2 -
- meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb |    2 -
- meta/recipes-kernel/linux/linux-yocto_3.0.bb    |    2 -
- meta/recipes-kernel/linux/linux-yocto_3.2.bb    |    2 -
- meta/recipes-kernel/linux/linux-yocto_3.4.bb    |    2 -
- 7 files changed, 0 insertions(+), 53 deletions(-)
- delete mode 100644 meta/recipes-kernel/linux/linux-tools.inc
+On Fri, Jun 15, 2012 at 03:36:50PM +0100, Richard Purdie wrote:
+> On Fri, 2012-06-15 at 07:15 -0700, Khem Raj wrote:
+> > On Thursday, June 14, 2012, Martin Jansa wrote:
+> >         Hi,
+> >
+> >         openembedded-core/meta/recipes-connectivity/openssl/openssl.inc
+> >
+> >         is using perlpath.pl:
+> >
+> >          do_configure () {
+> >                  cd util
+> >                  perl perlpath.pl ${STAGING_BINDIR_NATIVE}
+> >
+> > I wonder why it's using host perl and not staged perl-native
+> > May be missing inherit perlnative=20
+>=20
+> perlnative is not meant to be used as a replacement for the host
+> system's perl, its meant for building target modules and target perl
+> itself.=20
+>=20
+> We require perl to be on the host system. We're not meant to be using
+> anything outside the standard perl install though. The alternative means
+> effectively totally cratering build time as we'd have to build
+> perl-native before pretty much anything else.
+>=20
+> So the best solution is likely to have something that adds find.pl to
+> the native sysroot and have these recipes depend on it, at least short
+> term. I'm extremely reluctant to start adding perl-native dependencies
+> throughout the system due to performance considerations.
 
-diff --git a/meta/recipes-kernel/linux/linux-tools.inc b/meta/recipes-kernel/linux/linux-tools.inc
-deleted file mode 100644
-index 3b03c05..0000000
---- a/meta/recipes-kernel/linux/linux-tools.inc
-+++ /dev/null
-@@ -1,41 +0,0 @@
--# included by kernel recipes if they want to build/provide
--# perf functionality from their tree.
--
--BUILDPERF = "yes"
--BUILDPERF_libc-uclibc = "no"
--# perf requires binutils which is GPLv3 licensed, don't prevent the entire kernel
--# being built if GPLv3 is in INCOMPATIBLE_LICENSE
--python () {
--    if ((d.getVar("INCOMPATIBLE_LICENSE", True) or "").find("GPLv3") != -1):
--       # GPLv3, drop perf
--       d.setVar("BUILDPERF", "no")
--       d.setVar("PERFDEPENDS", "")
--}
--
--do_compile_perf () {
--    if [ "${BUILDPERF}" = "yes" ]; then
--	oe_runmake -C ${S}/tools/perf CC="${CC}" LD="${LD}" prefix=${prefix} NO_NEWT=1 NO_DWARF=1
--    fi
--}
--
--fakeroot do_install_perf () {
--    if [ "${BUILDPERF}" = "yes" ]; then
--	oe_runmake -C ${S}/tools/perf CC="${CC}" LD="${LD}" prefix=${prefix} DESTDIR=${D} install NO_NEWT=1 NO_DWARF=1
--    fi
--}
--
--
--# perf tasks
--addtask compile_perf after do_compile before do_install
--addtask install_perf after do_install before do_package
--
--do_compile_perf[umask] = "022"
--do_install_perf[umask] = "022"
--
--PERFDEPENDS = "virtual/${MLPREFIX}libc:do_populate_sysroot ${MLPREFIX}elfutils:do_populate_sysroot ${MLPREFIX}binutils:do_populate_sysroot"
--PERFDEPENDS_libc-uclibc = ""
--PERFRDEPENDS = "python perl elfutils"
--PERFRDEPENDS_libc-uclibc = ""
--
--do_compile_perf[depends] = "${PERFDEPENDS}"
--RDEPENDS_perf += "${PERFRDEPENDS}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb b/meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb
-index a39b966..971d1a8 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb
-@@ -27,5 +27,3 @@ KERNEL_FEATURES = "features/netfilter"
- KERNEL_FEATURES_append = " features/taskstats"
- KERNEL_FEATURES_append_qemux86 = " cfg/sound"
- KERNEL_FEATURES_append_qemux86-64 = " cfg/sound"
--
--require recipes-kernel/linux/linux-tools.inc
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.2.bb b/meta/recipes-kernel/linux/linux-yocto-rt_3.2.bb
-index a07b27a..ada66b8 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_3.2.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.2.bb
-@@ -28,5 +28,3 @@ KERNEL_FEATURES = "features/netfilter"
- KERNEL_FEATURES_append = " features/taskstats"
- KERNEL_FEATURES_append_qemux86 = " cfg/sound"
- KERNEL_FEATURES_append_qemux86-64 = " cfg/sound"
--
--require recipes-kernel/linux/linux-tools.inc
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb b/meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb
-index 81730ea..52f2dd1 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb
-@@ -28,5 +28,3 @@ KERNEL_FEATURES = "features/netfilter"
- KERNEL_FEATURES_append = " features/taskstats"
- KERNEL_FEATURES_append_qemux86 = " cfg/sound"
- KERNEL_FEATURES_append_qemux86-64 = " cfg/sound"
--
--require recipes-kernel/linux/linux-tools.inc
-diff --git a/meta/recipes-kernel/linux/linux-yocto_3.0.bb b/meta/recipes-kernel/linux/linux-yocto_3.0.bb
-index 440821c..5cdff95 100644
---- a/meta/recipes-kernel/linux/linux-yocto_3.0.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_3.0.bb
-@@ -32,5 +32,3 @@ KERNEL_FEATURES = "features/netfilter"
- KERNEL_FEATURES_append = " features/taskstats"
- KERNEL_FEATURES_append_qemux86 = " cfg/sound"
- KERNEL_FEATURES_append_qemux86-64 = " cfg/sound"
--
--require linux-tools.inc
-diff --git a/meta/recipes-kernel/linux/linux-yocto_3.2.bb b/meta/recipes-kernel/linux/linux-yocto_3.2.bb
-index e6cf9bb..3e4a9dd 100644
---- a/meta/recipes-kernel/linux/linux-yocto_3.2.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_3.2.bb
-@@ -32,5 +32,3 @@ KERNEL_FEATURES="features/netfilter"
- KERNEL_FEATURES_append=" features/taskstats"
- KERNEL_FEATURES_append_qemux86=" cfg/sound"
- KERNEL_FEATURES_append_qemux86-64=" cfg/sound"
--
--require linux-tools.inc
-diff --git a/meta/recipes-kernel/linux/linux-yocto_3.4.bb b/meta/recipes-kernel/linux/linux-yocto_3.4.bb
-index af6130d..eb5e888 100644
---- a/meta/recipes-kernel/linux/linux-yocto_3.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_3.4.bb
-@@ -34,5 +34,3 @@ KERNEL_REVISION_CHECKING=""
- KERNEL_FEATURES="features/netfilter"
- KERNEL_FEATURES_append_qemux86=" cfg/sound"
- KERNEL_FEATURES_append_qemux86-64=" cfg/sound"
--
--require recipes-kernel/linux/linux-tools.inc
--- 
-1.7.7
+is there any other recipe depending on find.pl? (I've tried only minimal
+image with perl-5.16), maybe sgml-common-native as Jack reported,=20
+here it's used only in do_configure, that's why I added find.pl only to=20
+openssl and better fix would be to send patch to use File::Find in=20
+perlpath.pl to openssl upstream IMHO then adding find.pl to sysroot.
 
+Cheers,
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--R9baxdNnpTjJ7oIU
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
+
+iEYEARECAAYFAk/bnZUACgkQN1Ujt2V2gByccQCeJ/t6WeyQuHXeVmEc6dL+srCh
+2CkAnREll/howgDXosKMOIErFQ4wlF0b
+=sKaB
+-----END PGP SIGNATURE-----
+
+--R9baxdNnpTjJ7oIU--
