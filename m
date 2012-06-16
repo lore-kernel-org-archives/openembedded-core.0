@@ -1,33 +1,38 @@
-Received: from mail-gg0-f175.google.com ([209.85.161.175])
+Received: from mail-vc0-f175.google.com ([209.85.220.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <cazfi74@gmail.com>) id 1Sfx64-0007Qt-3E
+	(envelope-from <otavio.salvador@gmail.com>) id 1SfxE2-0007ac-Ep
 	for openembedded-core@lists.openembedded.org;
-	Sat, 16 Jun 2012 19:47:41 +0200
-Received: by ggnp4 with SMTP id p4so2796411ggn.6
+	Sat, 16 Jun 2012 19:55:54 +0200
+Received: by vcbfl15 with SMTP id fl15so2185904vcb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 16 Jun 2012 10:36:59 -0700 (PDT)
+	Sat, 16 Jun 2012 10:45:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type; bh=si3Prs8+HSp98xM9vmomOMyuacpDxT9iF8izDUqENts=;
-	b=XR3nk5isq2ARiu77PUptpDaCxkTzslHrzkONMJUA448xVsf8B4TQ5K8fHbrdvttw8i
-	gyza8+VWKsgUupGoKbSXHue1xsEkhWUdeDL/BiPRC32Ghxn0w0lXylwunfh0QyxbMbL4
-	KxlSVY1GIj8bumbQoVjplewF4JGWn8ikmYl5alPzVSvuGDaCUFJbkYTzeDAkyOLyRs5H
-	gzbKWsUIF1bSEsWZY4VFbXPLY70EGtx0lxLhenD0q2wUVeO7ZIiOl47jyU0A167bLCZz
-	rltRjy8MaA2if7lhHLk8YRf/SgXliIOb+1czksIazMvWiXeRIZGoNXiDuk7TH0c+1xHq
-	Erfw==
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:content-type
+	:content-transfer-encoding;
+	bh=LxRbhZfzCM8v26Ux8uVoKyJGsACjbV3RRY2Xf+/GeDY=;
+	b=GmG/8Rk+hC9JYQwY56t2Nkkg35nk00Cx9TCefiU3Og9Ep/lcnoJg1ZL943JnIBPFtq
+	KaGN+9wlSa8AfZFda79/BM+vfRpvbQpN/+jvvY3+ojiWvgkOPGqRTHMhyuHBnODL6l+I
+	pPFYlLeAfZ/WYdowR1309NppPatIkRzP0eZK58HdT4ZYl9aNkrOp0bxbMOOPCzIakCeD
+	LezObOAuED2FQ0kfpVTESk5/hBq8RbEevch+T/PY7Ivfu2mCFoTvGTI4eONCRvdNxfxC
+	ZjF5Waf52L2+fgdbRoYdGFM7B4wEYfkJZlkcMF67g6WlxQSXZBwbbTo3inZRUlygzTHE
+	bikQ==
 MIME-Version: 1.0
-Received: by 10.50.236.71 with SMTP id us7mr4857179igc.16.1339868219264; Sat,
-	16 Jun 2012 10:36:59 -0700 (PDT)
-Received: by 10.64.127.197 with HTTP; Sat, 16 Jun 2012 10:36:59 -0700 (PDT)
-In-Reply-To: <4FDB9332.6010807@balister.org>
+Received: by 10.52.33.100 with SMTP id q4mr4152409vdi.59.1339868714224; Sat,
+	16 Jun 2012 10:45:14 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.220.155.130 with HTTP; Sat, 16 Jun 2012 10:45:14 -0700 (PDT)
+In-Reply-To: <CAF6bG8dn4scUh_pWX84iEZH_6L4ZEzCX1VO=oa1+_G3AA-kakQ@mail.gmail.com>
 References: <CANBf+V3=LvWkE28TR1qNR-NpLd60EGroEqmXQqypXAUUZ0pv-Q@mail.gmail.com>
 	<4FDB57DB.5090407@gmail.com>
 	<CAP9ODKrkmDNCzXcK3wDqypxZW6Le44004rcO7e5CiW4HD5o-AA@mail.gmail.com>
 	<CAK18fxGOAi40Tzduw99=fQMf_cn9sySqr=dvJzRncNCutjjyaw@mail.gmail.com>
 	<4FDB9332.6010807@balister.org>
-Date: Sat, 16 Jun 2012 20:36:59 +0300
-Message-ID: <CAF6bG8dn4scUh_pWX84iEZH_6L4ZEzCX1VO=oa1+_G3AA-kakQ@mail.gmail.com>
-From: Marko Lindqvist <cazfi74@gmail.com>
+	<CAF6bG8dn4scUh_pWX84iEZH_6L4ZEzCX1VO=oa1+_G3AA-kakQ@mail.gmail.com>
+Date: Sat, 16 Jun 2012 14:45:14 -0300
+X-Google-Sender-Auth: B2zeGtzYEO9Bhhd0iX_6F3qdADM
+Message-ID: <CAP9ODKp6=yeY1HDpKhgBQbg9JWq=gvPAJRS-+NdJ5U4Tqn+Oxw@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: Proposal: Creating meta-networking
@@ -45,40 +50,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 16 Jun 2012 17:47:41 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Sat, 16 Jun 2012 17:55:54 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-On 15 June 2012 22:55, Philip Balister <philip@balister.org> wrote:
-> On 06/15/2012 02:55 PM, Andrei Gherzan wrote:
->> On Fri, Jun 15, 2012 at 9:08 PM, Otavio Salvador <otavio@ossystems.com.br>wrote:
->>
->>> On Fri, Jun 15, 2012 at 12:42 PM, Khem Raj <raj.khem@gmail.com> wrote:
->>>> I think creating a networking layer is fine idea, alongside meta-oe,
->>>> as a separate layer in meta-openembedded repo. Reshuffling recipes
->>>> from meta-oe into different layers is fine. I would like to avoid copies.
->>>
->>> I'd prefer if it used another git repository; people needing to use it
->>> shouldn't be forced to clone whole meta-oe.
->>>
->>> This would be my proposal as well. To have this as a separate layer.
->
-> meta-oe already hosts several layers. It is kind of nice not to have to
-> clone a slowly increasing number of git repos. Rather clone a few and
-> manage the layers within them.
+On Sat, Jun 16, 2012 at 2:36 PM, Marko Lindqvist <cazfi74@gmail.com> wrote:
+> =A0Need to clone many separate repos for building your own system
+> (bitbake, oe-core, oe-meta, oe-networking, your own sw) is a minor
+> annoyance in itself, but need to synchronize between them (what
+> revisions of the first repo are compatible with given revision of the
+> second) could lead to headaches for someone having additional
+> constraints of the production level system maintenance (i.e. when one
+> cannot simply take HEAD of everything).
 
- Need to clone many separate repos for building your own system
-(bitbake, oe-core, oe-meta, oe-networking, your own sw) is a minor
-annoyance in itself, but need to synchronize between them (what
-revisions of the first repo are compatible with given revision of the
-second) could lead to headaches for someone having additional
-constraints of the production level system maintenance (i.e. when one
-cannot simply take HEAD of everything).
- I do see both sides. Either some people need to clone bigger repo
-than they absolutely need, or some other people are forced to clone
-several repos. Depends on OE userbase which one would annoy more
-people.
+I've been working using repo for this and it works very nice! easy to
+have a stable release when it is desired and easy to follow upstream
+otherwise.
 
-
- - ML
+--=20
+Otavio Salvador=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0O=
+.S. Systems
+E-mail: otavio@ossystems.com.br=A0 http://www.ossystems.com.br
+Mobile: +55 53 9981-7854=A0 =A0 =A0 =A0=A0 =A0 =A0 =A0http://projetos.ossys=
+tems.com.br
 
 
