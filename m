@@ -1,30 +1,42 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mail-vb0-f47.google.com ([209.85.212.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1SfwCu-0005tC-KZ
+	(envelope-from <joe@deserted.net>) id 1SfwgL-0006n0-LR
 	for openembedded-core@lists.openembedded.org;
-	Sat, 16 Jun 2012 18:50:40 +0200
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 16 Jun 2012 09:39:59 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="112853082"
-Received: from unknown (HELO envy.home) ([10.255.12.121])
-	by AZSMGA002.ch.intel.com with ESMTP; 16 Jun 2012 09:39:59 -0700
-Message-ID: <4FDCB690.8090004@linux.intel.com>
-Date: Sat, 16 Jun 2012 09:38:40 -0700
-From: Darren Hart <dvhart@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:13.0) Gecko/20120605 Thunderbird/13.0
+	Sat, 16 Jun 2012 19:21:05 +0200
+Received: by vbbfr13 with SMTP id fr13so2262448vbb.6
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 16 Jun 2012 10:10:25 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:content-type
+	:x-gm-message-state;
+	bh=oCGfF1sX9FHqF3t5JxDXkZrzH4RZsgXDj0o6iMwaiGI=;
+	b=fOlP4Dd+S2SRm36mPNOt2gytang/cWmR1FfEelbKjkTQhcpLM/VRLIouuCMn8eLubC
+	E0Hi8zhnyqc2WyDnxf0CeWJL0aavBLSKQwYgYWMtPy/RNjnuG6elJpPfFI8lGVtJlBaU
+	7fZi7Uaq5V3+3hfORyqtNR2BXammnoKi11x5YhNpqdHdCbLPJMWhF52y+g4qgZHxFmvt
+	Qe1TwBr53eokQqHN/8n2pmJIQuCar9sz/13m70J6ukfmJ8hUyDNUPPpdzwYs/8Zc7E6l
+	93abf0WQRGbJ4zk2KBJ8iwLuIEBm3Uip6tTD7xx1D0mlKxS3WVZ+UXhzfq9FyAal4fZC
+	v4ZQ==
 MIME-Version: 1.0
-To: Phil Blundell <philb@gnu.org>
-References: <cover.1339799869.git.dvhart@linux.intel.com>
-	<5f472764f7cea2d386b7ee572870fc03769868fc.1339799869.git.dvhart@linux.intel.com>
-	<4FDBBD8D.1050201@linux.intel.com>
-	<1339863500.3339.150.camel@x121e.pbcl.net>
-In-Reply-To: <1339863500.3339.150.camel@x121e.pbcl.net>
-X-Enigmail-Version: 1.4.2
-Cc: Patches and discussions about the oe-core layer
+Received: by 10.52.70.163 with SMTP id n3mr4142416vdu.64.1339866625049; Sat,
+	16 Jun 2012 10:10:25 -0700 (PDT)
+Sender: joe@deserted.net
+Received: by 10.52.169.1 with HTTP; Sat, 16 Jun 2012 10:10:24 -0700 (PDT)
+In-Reply-To: <4FDB9332.6010807@balister.org>
+References: <CANBf+V3=LvWkE28TR1qNR-NpLd60EGroEqmXQqypXAUUZ0pv-Q@mail.gmail.com>
+	<4FDB57DB.5090407@gmail.com>
+	<CAP9ODKrkmDNCzXcK3wDqypxZW6Le44004rcO7e5CiW4HD5o-AA@mail.gmail.com>
+	<CAK18fxGOAi40Tzduw99=fQMf_cn9sySqr=dvJzRncNCutjjyaw@mail.gmail.com>
+	<4FDB9332.6010807@balister.org>
+Date: Sat, 16 Jun 2012 13:10:24 -0400
+X-Google-Sender-Auth: REi1K-FtTtqJaJGKZKKjiiL21Cg
+Message-ID: <CANBf+V3pAYvHuZdp_5fv33QQwZJTOiLqusZuZHUQ1yDjZCyyPw@mail.gmail.com>
+From: Joe MacDonald <joe.macdonald@windriver.com>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] busybox: Include setsid and cttyhack in defconfig
+X-Gm-Message-State: ALoCoQlLRM9HqiHVuOHiLIW4Jmjh64RHu75wT+NfWHwXuK3Aa6qsbQiPPKRPrzFJFhXfBLUnfqxx
+Subject: Re: Proposal: Creating meta-networking
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,57 +51,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 16 Jun 2012 16:50:40 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 16 Jun 2012 17:21:05 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
+On Fri, Jun 15, 2012 at 3:55 PM, Philip Balister <philip@balister.org> wrote:
+> On 06/15/2012 02:55 PM, Andrei Gherzan wrote:
+>> On Fri, Jun 15, 2012 at 9:08 PM, Otavio Salvador <otavio@ossystems.com.br>wrote:
+>>
+>>> On Fri, Jun 15, 2012 at 12:42 PM, Khem Raj <raj.khem@gmail.com> wrote:
+>>>> I think creating a networking layer is fine idea, alongside meta-oe,
+>>>> as a separate layer in meta-openembedded repo. Reshuffling recipes
+>>>> from meta-oe into different layers is fine. I would like to avoid copies.
+>>>
+>>> I'd prefer if it used another git repository; people needing to use it
+>>> shouldn't be forced to clone whole meta-oe.
+>>>
+>>> This would be my proposal as well. To have this as a separate layer.
+>
+> meta-oe already hosts several layers. It is kind of nice not to have to
+> clone a slowly increasing number of git repos. Rather clone a few and
+> manage the layers within them.
 
+I'm inclined to agree.  I see the value in keeping this in meta-oe,
+but my goal with this layer is that it's as self-contained as
+possible.  Meaning that it could be used by someone building a small,
+network connected system.  I'm thinking there'd be value in reflecting
+in the layer itself by being a separate repo that can be cloned
+independent of the rest of meta-oe.
 
-On 06/16/2012 09:18 AM, Phil Blundell wrote:
-> On Fri, 2012-06-15 at 15:56 -0700, Darren Hart wrote:
->> So the delta for including SETSID and CTTYHACK is 2560 bytes.
-> 
-> Personally I am still not in favour of adding this to the default
-> configuration.  I appreciate that it's "only" 2.5k in this case, but
-> every time we make a change like this the binary gets a little bit
-> bigger and, over time, it does add up.  This sort of gradual bloat is
-> quite insidious and difficult to combat after the fact.
-> 
-> So, I continue to think that poky-tiny should just provide its own
-> busybox configuration and turn on the options that it wants just like
-> other DISTROs do.  No doubt there are some things currently included in
-> the oe-core defaults that poky-tiny doesn't need, so you would probably
-> get a smaller binary that way as well.
+I can definitely see both sides of the debate, though.
 
-You are correct that poky-tiny would benefit from a smaller config. My
-original intent was to update the busybox recipe to use the new
-merge-config.sh that we pushed to the upstream Linux kernel (which
-should work with busybox as it uses the same config mechanism). This
-would allow us to maintain a base busybox config with a several config
-fragments that can be easily added via DISTRO_FEATURES rather than the
-complicated hack that is in busybox now for handling DISTRO_FEATURES. I
-prefer this approach as it reduces (if not eliminates) the need for the
-proliferation of busybox.bbappend files.
+> My larger concern with the networking layer, is what layers will it
+> depend on? Will the layer dependencies change based on the distro
+> features? This is the hardest thing to get right with layer grouping.
 
-However, this is a larger project and my immediate goal is to get
-poky-tiny into better shape in terms of the initial experience. This is
-why I originally implemented it as a "tiny" DISTRO_FEATURE as that would
-migrate naturally to the config fragment approach. You and others
-objected to that approach, and I do understand not wanting to complicate
-the DISTRO_FEATURE logic further.
+Agreed.  The intent is for it to not depend on any layers other than
+oe-core.  The reality will likely be something short of that ideal,
+but what I`ve been playing with as my proof-of-concept is nicely
+self-contained.  You bring up a really good point, though, about layer
+dependencies changing based on distro features.  I think that`s
+something that we`d have to manage carefully.
 
-With the above goal in mind, can you accept either of my proposed
-patches as an interim solution? Either as an added tiny DISTRO_FEATURE
-or as a simple addition to the defconfig? I do believe these two
-features are useful beyond poky-tiny.
-
-
-
--- 
-Darren Hart
-Intel Open Source Technology Center
-Yocto Project - Linux Kernel
-
-
+-J.
 
 
