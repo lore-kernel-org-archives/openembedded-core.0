@@ -1,24 +1,24 @@
 Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Sg8Ny-0008Qo-Um
+	(envelope-from <sgw@linux.intel.com>) id 1Sg8Nz-0008R9-Hr
 	for openembedded-core@lists.openembedded.org;
 	Sun, 17 Jun 2012 07:50:55 +0200
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 16 Jun 2012 22:40:10 -0700
+	by fmsmga102.fm.intel.com with ESMTP; 16 Jun 2012 22:40:11 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="181103299"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="181103301"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.105])
 	by fmsmga002.fm.intel.com with ESMTP; 16 Jun 2012 22:40:10 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 16 Jun 2012 22:39:54 -0700
-Message-Id: <d3d4cb6e78329c097d8a5c3d7e0194a10ac86aa1.1339911478.git.sgw@linux.intel.com>
+Date: Sat, 16 Jun 2012 22:39:55 -0700
+Message-Id: <2aedc40d6e34511fc120292a5f52b88a180d84e2.1339911478.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <cover.1339911478.git.sgw@linux.intel.com>
 References: <cover.1339911478.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1339911478.git.sgw@linux.intel.com>
 References: <cover.1339911478.git.sgw@linux.intel.com>
-Subject: [Consolidated Pull 10/23] rpm: pass lrt and lpthread to link step explicitly for uclibc
+Subject: [Consolidated Pull 11/23] zypper: Fix build on uclibc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,28 +37,62 @@ X-List-Received-Date: Sun, 17 Jun 2012 05:50:55 -0000
 
 From: Khem Raj <raj.khem@gmail.com>
 
-These need to appear in DT_NEEDED for librpmio.so
-for uclibc somehow it does not get added to link
-cmdline so we do it explicitly.
+uclibc does not have rpmatch() so we define
+it if zypper is being compiled for uclibc
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-devtools/rpm/rpm_5.4.9.bb |    2 ++
- 1 files changed, 2 insertions(+), 0 deletions(-)
+ meta/recipes-extended/zypper/zypper/rpmatch.patch |   23 +++++++++++++++++++++
+ meta/recipes-extended/zypper/zypper_git.bb        |    2 +
+ 2 files changed, 25 insertions(+), 0 deletions(-)
+ create mode 100644 meta/recipes-extended/zypper/zypper/rpmatch.patch
 
-diff --git a/meta/recipes-devtools/rpm/rpm_5.4.9.bb b/meta/recipes-devtools/rpm/rpm_5.4.9.bb
-index ccf015a..8e892a8 100644
---- a/meta/recipes-devtools/rpm/rpm_5.4.9.bb
-+++ b/meta/recipes-devtools/rpm/rpm_5.4.9.bb
-@@ -182,6 +182,8 @@ EXTRA_OECONF += "--verbose \
- 
- CFLAGS_append = " -DRPM_VENDOR_WINDRIVER -DRPM_VENDOR_POKY -DRPM_VENDOR_OE"
- 
-+LDFLAGS_append_libc-uclibc = "-lrt -lpthread"
+diff --git a/meta/recipes-extended/zypper/zypper/rpmatch.patch b/meta/recipes-extended/zypper/zypper/rpmatch.patch
+new file mode 100644
+index 0000000..a750a3b
+--- /dev/null
++++ b/meta/recipes-extended/zypper/zypper/rpmatch.patch
+@@ -0,0 +1,23 @@
++rpmatch() is missing in uclibc so we provide a local definition
++in form of a macro
 +
- PACKAGES = "${PN}-dbg ${PN} ${PN}-doc ${PN}-libs ${PN}-dev ${PN}-staticdev ${PN}-common ${PN}-build python-rpm-dbg python-rpm-staticdev python-rpm perl-module-rpm perl-module-rpm-dev ${PN}-locale"
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++Upstream-Status: Pending
++
++Index: git/src/utils/prompt.h
++===================================================================
++--- git.orig/src/utils/prompt.h	2012-06-06 15:51:00.899112775 -0700
+++++ git/src/utils/prompt.h	2012-06-06 15:52:17.003116762 -0700
++@@ -172,4 +172,12 @@
++   return errstr;
++ }
++ 
+++#ifdef __UCLIBC__
+++#define rpmatch(line) \
+++       ( (line == NULL)? -1 : \
+++         (*line == 'y' || *line == 'Y')? 1 : \
+++         (*line == 'n' || *line == 'N')? 0 : \
+++         -1 )
+++#endif /* __UCLIBC__ */
+++
++ #endif /*ZYPPERPROMPT_H_*/
+diff --git a/meta/recipes-extended/zypper/zypper_git.bb b/meta/recipes-extended/zypper/zypper_git.bb
+index 0a1df5d..c5d7c61 100644
+--- a/meta/recipes-extended/zypper/zypper_git.bb
++++ b/meta/recipes-extended/zypper/zypper_git.bb
+@@ -16,6 +16,7 @@ SRC_URI = "git://github.com/openSUSE/zypper.git;protocol=git \
+            file://dso_linking_change_build_fix.patch \
+            file://rpm5-flag.patch \
+            file://gcc-scope.patch \
++           file://rpmatch.patch \
+           "
+ S = "${WORKDIR}/git"
  
- SOLIBS = "5.4.so"
+@@ -25,3 +26,4 @@ RDEPENDS_${PN} = "rpm-libs"
+ RRECOMMENDS_${PN} = "procps util-linux-uuidgen"
+ 
+ PACKAGE_ARCH = "${MACHINE_ARCH}"
++OECMAKE_CXX_LINK_FLAGS_libc-uclibc += "-lintl"
 -- 
 1.7.7.6
 
