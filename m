@@ -1,20 +1,24 @@
 Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Sg8Nu-0008Qm-Qr
+	(envelope-from <sgw@linux.intel.com>) id 1Sg8Nv-0008Qm-Ga
 	for openembedded-core@lists.openembedded.org;
 	Sun, 17 Jun 2012 07:50:51 +0200
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 16 Jun 2012 22:40:08 -0700
+	by fmsmga102.fm.intel.com with ESMTP; 16 Jun 2012 22:40:09 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="181103275"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="181103278"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.105])
 	by fmsmga002.fm.intel.com with ESMTP; 16 Jun 2012 22:40:08 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 16 Jun 2012 22:39:44 -0700
-Message-Id: <cover.1339911478.git.sgw@linux.intel.com>
+Date: Sat, 16 Jun 2012 22:39:45 -0700
+Message-Id: <ba86c65ed858f9449814cb82fc23173027e2cf0a.1339911478.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
-Subject: [Consolidated Pull 00/23] uClibc/RPM Updates & Other fixes
+In-Reply-To: <cover.1339911478.git.sgw@linux.intel.com>
+References: <cover.1339911478.git.sgw@linux.intel.com>
+In-Reply-To: <cover.1339911478.git.sgw@linux.intel.com>
+References: <cover.1339911478.git.sgw@linux.intel.com>
+Subject: [Consolidated Pull 01/23] gcc-cross: argument list too long when do_install
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,108 +35,135 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Sun, 17 Jun 2012 05:50:51 -0000
 
-Richard,
+From: Robert Yang <liezhi.yang@windriver.com>
 
-Been tested on the ab over the weekend, reviewed.
+There would be an "Argument list too long" error when the length of
+tmpdir is longer than 190, this is caused by:
 
-Autobuild turned up a latent dependency issue with mdadm!
+headers=`echo $(PLUGIN_HEADERS) | tr ' ' '\012' | sort -u`
 
-Sau!
+The PLUGIN_HEADERS is too long before sort, so the "echo" can't handle
+it, use the $(sort list) of GNU make which can handle the too long list
+would fix the problem, the header would be short enough after sorted.
+The "tr ' ' '\012'" was used for translating the space to "\n", the
+$(sort list) doesn't need this.
 
-The following changes since commit 63d1ae1c2828cda03828b4c3fdde037d7a23f1e4:
+This doesn't impact the output, so it doesn't need the PR bump.
 
-  directfb: added missing Upstream-status (2012-06-15 15:41:11 +0100)
+[YOCTO #2591]
 
-are available in the git repository at:
-  git://git.openembedded.org/openembedded-core-contrib sgw/stage
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
-
-Bruce Ashfield (1):
-  meta-skeleton: add linux-yocto-custom reference recipe
-
-Kang Kai (4):
-  cleanup-workdir: update the way to check obsolete dirs
-  cleanup-workdir: replace commands with subprocess
-  cleanup-workdir: only deal dirs related to current arch
-  cleanup-workdir: update help text
-
-Khem Raj (9):
-  uclibc_0.9.33.bb: Upgrade to latest git
-  site/x86_64-linux-uclibc: Cache definitions of guint32/guint64
-  rpm: Fix compilation on uclibc
-  rpm: Use link time check for libssp
-  sat-solver: Fix build on uclibc
-  libzypp: Fix build with uclibc
-  rpm: pass lrt and lpthread to link step explicitly for uclibc
-  zypper: Fix build on uclibc
-  libzypp: Define OECMAKE_CXX_LINK_FLAGS when compiling for uclibc
-
-Laurentiu Palcu (2):
-  core-image-gtk-directfb, qt4e-demo-image: Remove module-init-tools
-    from IMAGE_INSTALL list
-  puzzles: upgrade to r9561
-
-Mark Hatle (1):
-  busybox: Fix syslog configuration file
-
-Robert Yang (1):
-  gcc-cross: argument list too long when do_install
-
-Saul Wold (3):
-  directfb: fix Upstream-status -> Upstream-Status
-  curl: Use gnutls for target and openssl for native
-  mdadm: add binutils to DEPENDS
-
-Xiaofeng Yan (2):
-  multilib.conf: Add the support of multilib for lsbinitscripts
-  lsbinitscripts: Add the header for functions.patch
-
- .../recipes-kernel/linux/linux-yocto-custom.bb     |   46 +++++++
- .../0001-linux-version-tweak.patch                 |   26 ++++
- .../linux/linux-yocto-custom/feature.scc           |    1 +
- .../linux/linux-yocto-custom/smp.cfg               |    1 +
- meta/conf/multilib.conf                            |    1 +
- meta/recipes-core/busybox/busybox.inc              |    1 +
- meta/recipes-core/busybox/busybox_1.19.4.bb        |    2 +-
- meta/recipes-core/uclibc/uclibc_0.9.33.bb          |    4 +-
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
  meta/recipes-devtools/gcc/gcc-4.6.inc              |    1 +
- .../gcc/gcc-4.6/gcc-argument-list-too-long.patch   |   33 +++++
+ .../gcc/gcc-4.6/gcc-argument-list-too-long.patch   |   33 ++++++++++++++++++++
  meta/recipes-devtools/gcc/gcc-4.7.inc              |    1 +
- .../gcc/gcc-4.7/gcc-argument-list-too-long.patch   |   33 +++++
- .../rpm/rpm/fstack-protector-configure-check.patch |   21 +++
- meta/recipes-devtools/rpm/rpm/rpmatch.patch        |   42 +++++++
- meta/recipes-devtools/rpm/rpm/uclibc-support.patch |   63 ++++++++++
- meta/recipes-devtools/rpm/rpm_5.4.9.bb             |    7 +-
- meta/recipes-extended/libzypp/libzypp/cstdio.patch |   49 ++++++++
- meta/recipes-extended/libzypp/libzypp_git.bb       |    9 +-
- .../lsb/lsbinitscripts/functions.patch             |    3 +
- meta/recipes-extended/mdadm/mdadm_3.2.5.bb         |    1 +
- .../sat-solver/sat-solver/futimes.patch            |   32 +++++
- meta/recipes-extended/sat-solver/sat-solver_git.bb |    3 +
- meta/recipes-extended/zypper/zypper/rpmatch.patch  |   23 ++++
- meta/recipes-extended/zypper/zypper_git.bb         |    2 +
- ...ibdirect-remove-include-of-linux-config.h.patch |    2 +-
- .../images/core-image-gtk-directfb.bb              |    3 +-
- meta/recipes-qt/images/qt4e-demo-image.bb          |    3 +-
- .../puzzles/{puzzles_r9375.bb => puzzles_r9561.bb} |    6 +-
- meta/recipes-support/curl/curl_7.24.0.bb           |   13 +-
- meta/site/x86_64-linux-uclibc                      |    3 +
- scripts/cleanup-workdir                            |  128 +++++++++++++-------
- 31 files changed, 496 insertions(+), 67 deletions(-)
- create mode 100644 meta-skeleton/recipes-kernel/linux/linux-yocto-custom.bb
- create mode 100644 meta-skeleton/recipes-kernel/linux/linux-yocto-custom/0001-linux-version-tweak.patch
- create mode 100644 meta-skeleton/recipes-kernel/linux/linux-yocto-custom/feature.scc
- create mode 100644 meta-skeleton/recipes-kernel/linux/linux-yocto-custom/smp.cfg
+ .../gcc/gcc-4.7/gcc-argument-list-too-long.patch   |   33 ++++++++++++++++++++
+ 4 files changed, 68 insertions(+), 0 deletions(-)
  create mode 100644 meta/recipes-devtools/gcc/gcc-4.6/gcc-argument-list-too-long.patch
  create mode 100644 meta/recipes-devtools/gcc/gcc-4.7/gcc-argument-list-too-long.patch
- create mode 100644 meta/recipes-devtools/rpm/rpm/fstack-protector-configure-check.patch
- create mode 100644 meta/recipes-devtools/rpm/rpm/rpmatch.patch
- create mode 100644 meta/recipes-devtools/rpm/rpm/uclibc-support.patch
- create mode 100644 meta/recipes-extended/libzypp/libzypp/cstdio.patch
- create mode 100644 meta/recipes-extended/sat-solver/sat-solver/futimes.patch
- create mode 100644 meta/recipes-extended/zypper/zypper/rpmatch.patch
- rename meta/recipes-sato/puzzles/{puzzles_r9375.bb => puzzles_r9561.bb} (88%)
 
+diff --git a/meta/recipes-devtools/gcc/gcc-4.6.inc b/meta/recipes-devtools/gcc/gcc-4.6.inc
+index 7a70a38..03d8871 100644
+--- a/meta/recipes-devtools/gcc/gcc-4.6.inc
++++ b/meta/recipes-devtools/gcc/gcc-4.6.inc
+@@ -75,6 +75,7 @@ SRC_URI = "svn://gcc.gnu.org/svn/gcc/branches;module=${BRANCH};proto=http \
+ 	   file://fortran-cross-compile-hack.patch \
+ 	   file://cpp-honour-sysroot.patch \
+ 	   file://mips64-default-n64.patch \
++	   file://gcc-argument-list-too-long.patch \
+ 	  "
+ 
+ SRC_URI_append_sh3  = " file://sh3-installfix-fixheaders.patch "
+diff --git a/meta/recipes-devtools/gcc/gcc-4.6/gcc-argument-list-too-long.patch b/meta/recipes-devtools/gcc/gcc-4.6/gcc-argument-list-too-long.patch
+new file mode 100644
+index 0000000..70d3c53
+--- /dev/null
++++ b/meta/recipes-devtools/gcc/gcc-4.6/gcc-argument-list-too-long.patch
+@@ -0,0 +1,33 @@
++There would be an "Argument list too long" error when the
++build directory is longer than 200, this is caused by:
++
++headers=`echo $(PLUGIN_HEADERS) | tr ' ' '\012' | sort -u`
++
++The PLUGIN_HEADERS is too long before sort, so the "echo" can't handle
++it, use the $(sort list) of GNU make which can handle the too long list
++would fix the problem, the header would be short enough after sorted.
++The "tr ' ' '\012'" was used for translating the space to "\n", the
++$(sort list) doesn't need this.
++
++Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
++
++Upstream-Status: Pending
++---
++ gcc/Makefile.in |    2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/gcc/Makefile.in b/gcc/Makefile.in
++--- a/gcc/Makefile.in
+++++ b/gcc/Makefile.in
++@@ -4553,7 +4553,7 @@ install-plugin: installdirs lang.install-plugin s-header-vars install-gengtype
++ # We keep the directory structure for files in config or c-family and .def
++ # files. All other files are flattened to a single directory.
++ 	$(mkinstalldirs) $(DESTDIR)$(plugin_includedir)
++-	headers=`echo $(PLUGIN_HEADERS) | tr ' ' '\012' | sort -u`; \
+++	headers="$(sort $(PLUGIN_HEADERS))"; \
++ 	srcdirstrip=`echo "$(srcdir)" | sed 's/[].[^$$\\*|]/\\\\&/g'`; \
++ 	for file in $$headers; do \
++ 	  if [ -f $$file ] ; then \
++-- 
++1.7.10.2
++
+diff --git a/meta/recipes-devtools/gcc/gcc-4.7.inc b/meta/recipes-devtools/gcc/gcc-4.7.inc
+index 973c211..34a73b1 100644
+--- a/meta/recipes-devtools/gcc/gcc-4.7.inc
++++ b/meta/recipes-devtools/gcc/gcc-4.7.inc
+@@ -66,6 +66,7 @@ SRC_URI = "svn://gcc.gnu.org/svn/gcc/branches;module=${BRANCH};proto=http \
+ 	   file://cpp-honor-sysroot.patch \
+ 	   file://mips64-default-n64.patch \
+ 	   file://arm-hard-float-loader.patch \
++	   file://gcc-argument-list-too-long.patch \
+ 	  "
+ 
+ S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/${BRANCH}"
+diff --git a/meta/recipes-devtools/gcc/gcc-4.7/gcc-argument-list-too-long.patch b/meta/recipes-devtools/gcc/gcc-4.7/gcc-argument-list-too-long.patch
+new file mode 100644
+index 0000000..70d3c53
+--- /dev/null
++++ b/meta/recipes-devtools/gcc/gcc-4.7/gcc-argument-list-too-long.patch
+@@ -0,0 +1,33 @@
++There would be an "Argument list too long" error when the
++build directory is longer than 200, this is caused by:
++
++headers=`echo $(PLUGIN_HEADERS) | tr ' ' '\012' | sort -u`
++
++The PLUGIN_HEADERS is too long before sort, so the "echo" can't handle
++it, use the $(sort list) of GNU make which can handle the too long list
++would fix the problem, the header would be short enough after sorted.
++The "tr ' ' '\012'" was used for translating the space to "\n", the
++$(sort list) doesn't need this.
++
++Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
++
++Upstream-Status: Pending
++---
++ gcc/Makefile.in |    2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/gcc/Makefile.in b/gcc/Makefile.in
++--- a/gcc/Makefile.in
+++++ b/gcc/Makefile.in
++@@ -4553,7 +4553,7 @@ install-plugin: installdirs lang.install-plugin s-header-vars install-gengtype
++ # We keep the directory structure for files in config or c-family and .def
++ # files. All other files are flattened to a single directory.
++ 	$(mkinstalldirs) $(DESTDIR)$(plugin_includedir)
++-	headers=`echo $(PLUGIN_HEADERS) | tr ' ' '\012' | sort -u`; \
+++	headers="$(sort $(PLUGIN_HEADERS))"; \
++ 	srcdirstrip=`echo "$(srcdir)" | sed 's/[].[^$$\\*|]/\\\\&/g'`; \
++ 	for file in $$headers; do \
++ 	  if [ -f $$file ] ; then \
++-- 
++1.7.10.2
++
 -- 
 1.7.7.6
 
