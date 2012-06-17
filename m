@@ -1,21 +1,27 @@
-Received: from stoexhub03.domain01.net ([83.145.59.144])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <anders@chargestorm.se>) id 1SgDsr-0000mW-0N
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1SgMxo-0003JG-Q3
 	for openembedded-core@lists.openembedded.org;
-	Sun, 17 Jun 2012 13:43:09 +0200
-Received: from localhost (83.252.253.85) by stoexhub03.domain01.net
-	(10.12.10.3) with Microsoft SMTP Server id 8.3.245.1; Sun, 17 Jun 2012
-	13:31:17 +0200
-From: Anders Darander <anders@chargestorm.se>
-To: <openembedded-core@lists.openembedded.org>
-Date: Sun, 17 Jun 2012 13:31:46 +0200
-Message-ID: <5b10b328ed39fd43464ed1f97fdc8964237252e7.1339932526.git.anders@chargestorm.se>
-X-Mailer: git-send-email 1.7.10
-In-Reply-To: <cover.1339932526.git.anders@chargestorm.se>
-References: <cover.1339932526.git.anders@chargestorm.se>
+	Sun, 17 Jun 2012 23:24:52 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 17 Jun 2012 14:14:10 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="166732221"
+Received: from unknown (HELO helios.localnet) ([10.252.120.142])
+	by fmsmga001.fm.intel.com with ESMTP; 17 Jun 2012 14:14:10 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Koen Kooi <koen@dominion.thruhere.net>
+Date: Sun, 17 Jun 2012 22:14:09 +0100
+Message-ID: <2995235.0tdnUIKyVU@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.8.3 (Linux/3.2.0-25-generic-pae; KDE/4.8.3; i686; ; )
+In-Reply-To: <5351B318-5055-410D-91E9-7A0460FC451D@dominion.thruhere.net>
+References: <cover.1339799869.git.dvhart@linux.intel.com>
+	<4FDCFEFB.3090004@linux.intel.com>
+	<5351B318-5055-410D-91E9-7A0460FC451D@dominion.thruhere.net>
 MIME-Version: 1.0
-X-GFI-SMTP-Submission: 1
-Subject: [oe-core, for-denzil][PATCH 1/1] qt4-embedded: fix QT_ARCH usage in QT_CONFIG_FLAGS
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] busybox: Include setsid and cttyhack in defconfig
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -30,34 +36,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 17 Jun 2012 11:43:09 -0000
-Content-Type: text/plain
+X-List-Received-Date: Sun, 17 Jun 2012 21:24:53 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-After the change to shell style functions (from python style), the
-ability to use oe_filter_out on QT_CONFIG_FLAGS got broken.
+On Saturday 16 June 2012 21:41:53 Koen Kooi wrote:
+> Op 16 jun. 2012, om 16:47 heeft Darren Hart het volgende geschreven:
+> > Note that poky-tiny is not currently in its own layer, but is included
+> > in the meta-intel layer. I will look into ways to accomplish this
+> > without adding to the core busybox config and not having to break out
+> > poky-tiny into its own layer.
+> 
+> What is it with you intel folks (bless their hearts) wanting to combine BSP
+> and distro? baerion, guacamayo and poky-tiny all force you to include the
+> distro stuff if you want any of their recipes. I don't want to have all the
+> hostnames on my boards changed to 'baerion' when I build mediatomb!
 
-This patch solves that by referring to QT_ARCH in a more correct way.
+All of these efforts are separate and put together by different people.
 
-Signed-off-by: Anders Darander <anders@chargestorm.se>
----
- meta/recipes-qt/qt4/qt4-embedded.inc |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Firstly, I think when Darren said "meta-intel" he meant to say "meta-yocto" 
+which is where the poky-tiny distro config can be found (and indeed that is 
+where I would expect to find it).
 
-diff --git a/meta/recipes-qt/qt4/qt4-embedded.inc b/meta/recipes-qt/qt4/qt4-embedded.inc
-index 05803d1..9c5b4af 100644
---- a/meta/recipes-qt/qt4/qt4-embedded.inc
-+++ b/meta/recipes-qt/qt4/qt4-embedded.inc
-@@ -10,7 +10,7 @@ QT_BASE_LIB  ?= "libqt-embedded"
- SRC_URI += "file://qte.sh"
- 
- QT_CONFIG_FLAGS += " \
--    -embedded ${QT_ARCH} \
-+    -embedded $QT_ARCH \
-     -qtlibinfix ${QT_LIBINFIX} \
-     -plugin-gfx-transformed -plugin-gfx-qvfb -plugin-gfx-vnc -plugin-gfx-directfb \
-     -plugin-mouse-tslib -qt-mouse-pc -qt-mouse-qvfb -qt-mouse-linuxinput \
+Secondly, you already asked me about Baryon and I already agreed that it 
+needed reorganising and promised to do it; but I haven't had time yet. I'd 
+also point out in any case that it does not contain any BSP and the mere 
+presence of the baryon distro config does not force you to use it as you 
+suggest.
+
+Paul
+
 -- 
-1.7.10
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
