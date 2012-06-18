@@ -1,27 +1,20 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1SggDY-0002cP-RI
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1SggLb-0005T0-Et
 	for openembedded-core@lists.openembedded.org;
-	Mon, 18 Jun 2012 19:58:25 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q5IHlfte016270
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Jun 2012 10:47:41 -0700 (PDT)
-Received: from msp-dhcp56.wrs.com (172.25.34.56) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Mon, 18 Jun 2012 10:47:40 -0700
-Message-ID: <4FDF69BC.6080808@windriver.com>
-Date: Mon, 18 Jun 2012 12:47:40 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6;
-	rv:12.0) Gecko/20120428 Thunderbird/12.0.1
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <4FDEF21A.5020004@windriver.com>
-In-Reply-To: <4FDEF21A.5020004@windriver.com>
-Subject: Re: glibc detected *** groupadd: malloc(): memory corruption
+	Mon, 18 Jun 2012 20:06:43 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 18 Jun 2012 10:55:59 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="159108351"
+Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.120.122])
+	by orsmga002.jf.intel.com with ESMTP; 18 Jun 2012 10:55:58 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 18 Jun 2012 18:55:56 +0100
+Message-Id: <1340042156-25187-1-git-send-email-paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] conf/bitbake.conf: fix reparsing after -p is used
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,62 +29,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Jun 2012 17:58:25 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 18 Jun 2012 18:06:43 -0000
 
-We're not away of any size limitations within pseudo, other then PATH_MAX which 
-is typically 4096...
+The bitbake wrapper script is set up such that the -p (--parse-only)
+command line option is not executed under pseudo, and it sets the
+PSEUDO_BUILD variable to indicate whether or not pseudo is being used.
+Since PSEUDO_BUILD is allowed through into the environment via
+BB_ENV_EXTRAWHITE it influences the data hash and thus if you run
+"bitbake -p" and then run bitbake again to actually build something, the
+change to PSEUDO_BUILD causes the cache from the -p execution not to be
+used. This is fixed simply by adding PSEUDO_BUILD to
+BB_HASHCONFIG_WHITELIST in bitbake.conf so that it doesn't influence the
+data hash.
 
---Mark
+Fixes [YOCTO #2600].
 
-On 6/18/12 4:17 AM, Robert Yang wrote:
->
-> Hi Experts:
->
-> I've met a strange issue, when set the length of builddir to
-> 266 (Why I did this is that I need to know how long the tmpdir
-> that oe-core can support):
->
-> NOTE: package dbus-1.4.20-r3.0: task do_install: Started
-> *** glibc detected *** groupadd: malloc(): memory corruption: 0x000000000101da70 ***
-> *** glibc detected *** groupadd: malloc(): memory corruption: 0x000000000101da70 ***
->
-> Then the build would hang, this is caused by the command:
->
-> PSEUDO_PREFIX=/too/long/path/tmp/sysroots/x86_64-linux/usr
-> PSEUDO_LOCALSTATEDIR=... PSEUDO_PASSWD=...
-> PSEUDO_NOSYMLINKEXP=1 PSEUDO_DISABLED=0 PSEUDO_LOCALSTATEDIR
-> ... /too/long/path/to/tmp/sysroots/x86_64-linux/usr/bin/pseudo
-> groupadd --root /too/long/path/to/tmp/sysroots/qemux86 -r netdev -f
->
-> 1) I had looked into the code of groupadd, and found that this would
-> happen when it used the glibc function which needs malloc(for example,
-> the access()), so it seemed this was caused by the glibc or pseudo,
-> but I didn't know why it only happened to groupadd/useradd.
->
-> 2) I had tried not to use pseudo, it worked well:
->
-> sudo groupadd --root /too/long/path/to/tmp/sysroots/qemux86 -r netdev -f
->
->   From this, it seemed that the glibc was ok
->
-> 3) I had tried to write a small piece of code which used the access(), and
-> used pseudo to run it, it worked well:
->
-> /too/long/path/for/pseudo/settings/and/then/run/pseudo my_app
->
->   From this, it seemed that both pseudo and glibc were OK.
->
-> These 3 steps make me puzzle, maybe we can think that the tmpdir can not
-> be too long, and limit it to a proper length, please see this:
->
-> http://lists.linuxtogo.org/pipermail/openembedded-core/2012-May/022112.html
->
-> BTW. the "argument list too long" error has been fixed.
->
-> Any suggestion is appreciated.
->
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+---
+ meta/conf/bitbake.conf |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 97930a7..12598f4 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -746,7 +746,7 @@ BB_CONSOLELOG ?= "${TMPDIR}/cooker.log.${DATETIME}"
+ # Setup our default hash policy
+ BB_SIGNATURE_HANDLER ?= "OEBasic"
+ BB_HASHBASE_WHITELIST ?= "TMPDIR FILE PATH PWD BB_TASKHASH BBPATH DL_DIR SSTATE_DIR THISDIR FILESEXTRAPATHS FILE_DIRNAME HOME LOGNAME SHELL TERM USER FILESPATH STAGING_DIR_HOST STAGING_DIR_TARGET COREBASE PRSERV_HOST PRSERV_PORT PRSERV_DUMPDIR PRSERV_DUMPFILE PRSERV_LOCKDOWN PARALLEL_MAKE CCACHE_DIR EXTERNAL_TOOLCHAIN CCACHE"
+-BB_HASHCONFIG_WHITELIST ?= "${BB_HASHBASE_WHITELIST} DATE TIME SESSION_MANAGER DBUS_SESSION_BUS_ADDRESS SSH_AGENT_PID XDG_SESSION_COOKIE SSH_AUTH_SOCK XAUTHORITY"
++BB_HASHCONFIG_WHITELIST ?= "${BB_HASHBASE_WHITELIST} DATE TIME SESSION_MANAGER DBUS_SESSION_BUS_ADDRESS SSH_AGENT_PID XDG_SESSION_COOKIE SSH_AUTH_SOCK XAUTHORITY PSEUDO_BUILD"
+ BB_SIGNATURE_EXCLUDE_FLAGS ?= "doc defaultval _append _prepend deps depends lockfiles type vardepsexclude \
+                                vardeps vardepvalue file-checksums python func task export unexport noexec \
+                                nostamp dirs cleandirs sstate-lockfile-shared prefuncs postfuncs export_func \
+-- 
+1.7.9.5
 
 
 
