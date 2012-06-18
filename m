@@ -1,36 +1,32 @@
-Received: from mail-wg0-f43.google.com ([74.125.82.43])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>)
-	id 1SgciR-0005mg-Oj; Mon, 18 Jun 2012 16:14:03 +0200
-Received: by wgbdr1 with SMTP id dr1so4795216wgb.24
-	for <multiple recipients>; Mon, 18 Jun 2012 07:03:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=ozSwv+E4zrTmk6GVSur5yVncz/Y7yXBzHMm+X2uY3gs=;
-	b=tWGA3TCC/goSB2frpNfxcMGsQMtRfmO3q8Y6kCDGPntRzG7G4RCXSRxHcqIAxv4r/N
-	yNltUVCxY+FaGkbn2lglmPwoznTMiGkfl0XQFEZU+lKoxYS5leLX41Upx7F7n8o2BkZq
-	ALyoYN0unYiI0eye+WsywtAk6nUtgpvjxDjttjoJWOrpVEQnk02hST/hSgNkm0M0YGxC
-	zunVGQw6q9O5DBW4pSXDyZljkfHbh+k9HxY/cgzjwbbk3MjVdipBdtMJbMXBABH/nvVj
-	K5UGhGBcrJ+QVKDU5YDdSG5ML2Hs7ql1uzxBWr0RuR6jgr9NeuacCzEvfGKET8emvonL
-	3BnA==
-Received: by 10.180.78.197 with SMTP id d5mr24476010wix.7.1340028201529;
-	Mon, 18 Jun 2012 07:03:21 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id hv7sm45007853wib.0.2012.06.18.07.03.19
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 18 Jun 2012 07:03:19 -0700 (PDT)
-Date: Mon, 18 Jun 2012 16:03:20 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-devel@lists.openembedded.org
-Message-ID: <20120618140320.GK3178@jama.jama.net>
-References: <20120615141252.7DBDA10339@opal>
+	(envelope-from <dvhart@linux.intel.com>) id 1Sgd8T-0006X2-Vo
+	for openembedded-core@lists.openembedded.org;
+	Mon, 18 Jun 2012 16:40:58 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 18 Jun 2012 07:29:57 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="159022829"
+Received: from unknown (HELO envy.home) ([10.255.12.119])
+	by orsmga002.jf.intel.com with ESMTP; 18 Jun 2012 07:29:34 -0700
+Message-ID: <4FDF3B00.7020809@linux.intel.com>
+Date: Mon, 18 Jun 2012 07:28:16 -0700
+From: Darren Hart <dvhart@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:13.0) Gecko/20120605 Thunderbird/13.0
 MIME-Version: 1.0
-In-Reply-To: <20120615141252.7DBDA10339@opal>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org,
-	openembedded-commits@lists.openembedded.org
-Subject: Re: [oe-commits] Saul Wold : busybox: Add check for wifi/bluetooth to enable rfkill
+To: Phil Blundell <philb@gnu.org>
+References: <cover.1339799869.git.dvhart@linux.intel.com>
+	<5f472764f7cea2d386b7ee572870fc03769868fc.1339799869.git.dvhart@linux.intel.com>
+	<4FDBBD8D.1050201@linux.intel.com>
+	<1339863500.3339.150.camel@x121e.pbcl.net>
+	<4FDCB690.8090004@linux.intel.com>
+	<1340019305.14857.147.camel@phil-desktop>
+In-Reply-To: <1340019305.14857.147.camel@phil-desktop>
+X-Enigmail-Version: 1.4.2
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] busybox: Include setsid and cttyhack in defconfig
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,92 +41,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Jun 2012 14:14:04 -0000
-X-Groupsio-MsgNum: 23727
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="kswDJesP0akhmDn8"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 18 Jun 2012 14:40:58 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
---kswDJesP0akhmDn8
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jun 15, 2012 at 02:12:52PM +0000, git@git.openembedded.org wrote:
-> Module: openembedded-core.git
-> Branch: master
-> Commit: f71258f0ef96802e714b6f12ecc8c17842d6cf87
-> URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcommit=
-;h=3Df71258f0ef96802e714b6f12ecc8c17842d6cf87
->=20
-> Author: Saul Wold <sgw@linux.intel.com>
-> Date:   Wed Jun  6 00:27:14 2012 -0700
->=20
-> busybox: Add check for wifi/bluetooth to enable rfkill
->=20
-> rfkill is a usefull tool when you have a device with bluetooth and wifi e=
-nabled
 
-this breaks opkg upgrade if standalone rfkill is already installed:
+On 06/18/2012 04:35 AM, Phil Blundell wrote:
+> On Sat, 2012-06-16 at 09:38 -0700, Darren Hart wrote:
+>> With the above goal in mind, can you accept either of my proposed
+>> patches as an interim solution? Either as an added tiny DISTRO_FEATURE
+>> or as a simple addition to the defconfig? I do believe these two
+>> features are useful beyond poky-tiny.
+> 
+> Well, obviously it isn't my place to accept or reject your patch; one of
+> the oe-core maintainers would have to make that decision.  But,
+> personally, given a choice between those two options I would prefer the
+> latter.
+> 
+> However, I do still think that the best interim approach is just to
+> provide a suitable, complete defconfig file in whatever layer contains
+> poky-tiny.  This doesn't need to involve splitting poky-tiny into its
+> own layer, doesn't require any extra tooling in oe-core in the short
+> term, and doesn't necessarily even need to involve a .bbappend (although
+> it would probably be easiest if it did).
 
-Configuring busybox.
-ln: /usr/sbin/rfkill: File exists
-=2E..
-update-alternatives: Error: not linking //usr/sbin/rfkill to
-=2E./../bin/busybox since //usr/sbin/rfkill exists and is not a link
+I'm going to look into this approach today.
 
-so rfkill recipe in meta-oe
-=2E/meta-oe/recipes-connectivity/rfkill/rfkill_0.4.bb
-needs to be updated to use u-a too.
 
-Cheers,
+-- 
+Darren Hart
+Intel Open Source Technology Center
+Yocto Project - Linux Kernel
 
->=20
-> [YOCTO #2494]
->=20
-> Signed-off-by: Saul Wold <sgw@linux.intel.com>
->=20
-> ---
->=20
->  meta/recipes-core/busybox/busybox.inc |    2 ++
->  1 files changed, 2 insertions(+), 0 deletions(-)
->=20
-> diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/bu=
-sybox/busybox.inc
-> index 5b83d32..db337ad 100644
-> --- a/meta/recipes-core/busybox/busybox.inc
-> +++ b/meta/recipes-core/busybox/busybox.inc
-> @@ -57,6 +57,8 @@ def features_to_busybox_settings(d):
->  	busybox_cfg('nls',  distro_features, 'CONFIG_LOCALE_SUPPORT', cnf, rem)
->  	busybox_cfg('ipv4', distro_features, 'CONFIG_FEATURE_IFUPDOWN_IPV4', cn=
-f, rem)
->  	busybox_cfg('ipv6', distro_features, 'CONFIG_FEATURE_IFUPDOWN_IPV6', cn=
-f, rem)
-> +	busybox_cfg('wifi', distro_features, 'CONFIG_RFKILL', cnf, rem)
-> +	busybox_cfg('bluetooth', distro_features, 'CONFIG_RFKILL', cnf, rem)
->  	return "\n".join(cnf), "\n".join(rem)
-> =20
->  # X, Y =3D ${@features_to_uclibc_settings(d)}
->=20
->=20
-> _______________________________________________
-> Openembedded-commits mailing list
-> Openembedded-commits@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-commits
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---kswDJesP0akhmDn8
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
-
-iEYEARECAAYFAk/fNSgACgkQN1Ujt2V2gByELgCfYeS2V6DzXqy3W6bkoANjJuQT
-UeIAniq/zhjWoA5aHQDxv7wfCbbEcjk9
-=YPqQ
------END PGP SIGNATURE-----
-
---kswDJesP0akhmDn8--
