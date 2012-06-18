@@ -1,26 +1,27 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1SgZbH-00058o-G3
+	(envelope-from <philb@gnu.org>) id 1SgaOw-00085N-0V
 	for openembedded-core@lists.openembedded.org;
-	Mon, 18 Jun 2012 12:54:27 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 18 Jun 2012 03:43:44 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="166911479"
-Received: from unknown (HELO helios.localnet) ([10.252.120.122])
-	by fmsmga001.fm.intel.com with ESMTP; 18 Jun 2012 03:43:43 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Koen Kooi <koen@dominion.thruhere.net>
-Date: Mon, 18 Jun 2012 11:43:42 +0100
-Message-ID: <67003530.Ye7vr7B5iY@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.8.3 (Linux/3.2.0-25-generic-pae; KDE/4.8.3; i686; ; )
-In-Reply-To: <F8DD14C2-FF05-4503-8006-B6BCC3BE5A81@dominion.thruhere.net>
+	Mon, 18 Jun 2012 13:45:46 +0200
+Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
+	helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>)
+	id 1SgaEb-00057N-U7; Mon, 18 Jun 2012 13:35:06 +0200
+From: Phil Blundell <philb@gnu.org>
+To: Darren Hart <dvhart@linux.intel.com>
+Date: Mon, 18 Jun 2012 12:35:04 +0100
+In-Reply-To: <4FDCB690.8090004@linux.intel.com>
 References: <cover.1339799869.git.dvhart@linux.intel.com>
-	<7661818.rLLbVEY8n5@helios>
-	<F8DD14C2-FF05-4503-8006-B6BCC3BE5A81@dominion.thruhere.net>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
+	<5f472764f7cea2d386b7ee572870fc03769868fc.1339799869.git.dvhart@linux.intel.com>
+	<4FDBBD8D.1050201@linux.intel.com>
+	<1339863500.3339.150.camel@x121e.pbcl.net>
+	<4FDCB690.8090004@linux.intel.com>
+X-Mailer: Evolution 3.0.2- 
+Message-ID: <1340019305.14857.147.camel@phil-desktop>
+Mime-Version: 1.0
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 1/1] busybox: Include setsid and cttyhack in defconfig
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -36,49 +37,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Jun 2012 10:54:27 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Mon, 18 Jun 2012 11:45:46 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Monday 18 June 2012 11:26:22 Koen Kooi wrote:
-> Op 18 jun. 2012, om 09:58 heeft Paul Eggleton het volgende geschreven:
-> > On Monday 18 June 2012 07:00:19 Koen Kooi wrote:
-> >> it does force the distro bbappends onto everyone, messing up
-> >> /etc/hostname
-> > 
-> > So it did. Now it's fixed.
-> 
-> Thanks! I'll add it to the angstrom layer stack later this week.
+On Sat, 2012-06-16 at 09:38 -0700, Darren Hart wrote:
+> With the above goal in mind, can you accept either of my proposed
+> patches as an interim solution? Either as an added tiny DISTRO_FEATURE
+> or as a simple addition to the defconfig? I do believe these two
+> features are useful beyond poky-tiny.
 
-Well, you could do that, but I have to say I never intended meta-baryon to be 
-the proper home for the additional recipes that it contains, and indeed it 
-duplicates some already in meta-oe (so it did not have to pull in meta-oe).
+Well, obviously it isn't my place to accept or reject your patch; one of
+the oe-core maintainers would have to make that decision.  But,
+personally, given a choice between those two options I would prefer the
+latter.
 
-If you wanted to add the new recipes it contains somewhere else then I'd be 
-more than happy for that to happen, or I'll get round to doing it some time in 
-the near future. FYI what's there that's not currently in any other layer 
-(excluding ffmpeg):
+However, I do still think that the best interim approach is just to
+provide a suitable, complete defconfig file in whatever layer contains
+poky-tiny.  This doesn't need to involve splitting poky-tiny into its
+own layer, doesn't require any extra tooling in oe-core in the short
+term, and doesn't necessarily even need to involve a .bbappend (although
+it would probably be easiest if it did).
 
-* faac [added for ffmpeg]
-* ffmpeg [I'm guessing you won't want this, but mediatomb/ffmpegthumbnailer will 
-need fixing up to use libav instead if you don't.]
-* ffmpegthumbnailer
-* libgsm [added for ffmpeg but probably could have been disabled instead]
-* mediatomb
-* proftpd
-* schroedinger [added for ffmpeg]
-* webmin [might need some tweaking]
-* webmin-notice [might not be particularly interesting]
+p.
 
-The libav adaptation is one of the reasons I haven't done this yet as it looks 
-like it might not be a 5 minute job.
 
-Cheers,
-Paul
-
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
 
 
