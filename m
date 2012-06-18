@@ -1,18 +1,18 @@
 Received: from masterfoo.zenlinux.com ([207.192.74.254])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1SgiFo-0008R6-4u
+	(envelope-from <scott.a.garman@intel.com>) id 1SgiFs-0008TU-0R
 	for openembedded-core@lists.openembedded.org;
-	Mon, 18 Jun 2012 22:08:52 +0200
+	Mon, 18 Jun 2012 22:08:56 +0200
 Received: from localhost (c-76-105-137-48.hsd1.or.comcast.net [76.105.137.48])
 	(using TLSv1 with cipher DHE-RSA-AES128-SHA (128/128 bits))
 	(No client certificate requested)
-	by masterfoo.zenlinux.com (Postfix) with ESMTP id 4AC5430466
+	by masterfoo.zenlinux.com (Postfix) with ESMTP id 9780930461
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Jun 2012 15:58:00 -0400 (EDT)
+	Mon, 18 Jun 2012 15:58:08 -0400 (EDT)
 From: Scott Garman <scott.a.garman@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 18 Jun 2012 12:57:55 -0700
-Message-Id: <87753615435c8aec7df5964045e24f13877cd7cc.1340038108.git.scott.a.garman@intel.com>
+Date: Mon, 18 Jun 2012 12:57:58 -0700
+Message-Id: <4e4c4d1748dbc3592569bedc07c8b46f60307ace.1340038108.git.scott.a.garman@intel.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1340038108.git.scott.a.garman@intel.com>
 References: <cover.1340038108.git.scott.a.garman@intel.com>
@@ -20,12 +20,12 @@ In-Reply-To: <cover.1340038108.git.scott.a.garman@intel.com>
 References: <cover.1340038108.git.scott.a.garman@intel.com>
 X-MasterFoo-MailScanner-Information: Please contact the ISP for more
 	information
-X-MailScanner-ID: 4AC5430466.9550B
+X-MailScanner-ID: 9780930461.8457D
 X-MasterFoo-MailScanner: Found to be clean
 X-MasterFoo-MailScanner-SpamCheck: not spam
 X-MasterFoo-MailScanner-From: scott.a.garman@intel.com
 X-Spam-Status: No
-Subject: [PATCH 1/6] openjade-native: Ensure we reautoconf the package
+Subject: [PATCH 4/6] eglibc: package mtrace separately
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,145 +40,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Jun 2012 20:08:52 -0000
+X-List-Received-Date: Mon, 18 Jun 2012 20:08:56 -0000
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-Currently since configure.in in is in a subdirectory, we don't reautoconf the
-recipe. We really need to do this, to update things like the libtool script used
-and fix various issues such as those that could creep in if a reautoconf is
-triggered for some reason. Since this source only calls AM_INIT_AUTOMAKE to gain the
-PACKAGE and VERSION definitions and that macro now errors if Makefile.am doesn't
-exist, we need to add these definitions manually.
+add libc-mtrace as dependency for task-core-tools-debug
 
-These changes avoid failures like:
+now eglibc-mtrace gets included in an sdk image and not in a non-sdk image.
 
-----
-| ...
-| DssslApp.cxx:117:36: error: 'PACKAGE' was not declared in this scope
-| DssslApp.cxx:118:36: error: 'VERSION' was not declared in this scope
-| make[2]: *** [DssslApp.lo] Error 1
-----
+This does not affect builds with uclibc.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+This fixes bug: [YOCTO# 2374]
+
+Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
 ---
- .../openjade/openjade-1.3.2/reautoconf.patch       |   83 ++++++++++++++++++++
- .../openjade/openjade-native_1.3.2.bb              |    5 ++
- 2 files changed, 88 insertions(+)
- create mode 100644 meta/recipes-devtools/openjade/openjade-1.3.2/reautoconf.patch
+ meta/recipes-core/eglibc/eglibc-package.inc      |    7 ++++++-
+ meta/recipes-core/eglibc/eglibc_2.13.bb          |    2 +-
+ meta/recipes-core/tasks/task-core-tools-debug.bb |    4 ++++
+ 3 files changed, 11 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/openjade/openjade-1.3.2/reautoconf.patch b/meta/recipes-devtools/openjade/openjade-1.3.2/reautoconf.patch
-new file mode 100644
-index 0000000..1a23a4a
---- /dev/null
-+++ b/meta/recipes-devtools/openjade/openjade-1.3.2/reautoconf.patch
-@@ -0,0 +1,83 @@
-+Ensure we reautoconf the packag
-+
-+Currently since configure.in in is in a subdirectory, we don't reautoconf the 
-+recipe. We really need to do this, to update things like the libtool script used
-+and fix various issues such as those that could creep in if a reautoconf is 
-+triggered for some reason. Since this source only calls AM_INIT_AUTOMAKE to 
-+gain the PACKAGE and VERSION definitions and that macro now errors if Makefile.am 
-+doesn't exist, we need to add these definitions manually. 
-+
-+These changes avoid failures like: 
-+---- 
-+| ... 
-+| DssslApp.cxx:117:36: error: 'PACKAGE' was not declared in this scope 
-+| DssslApp.cxx:118:36: error: 'VERSION' was not declared in this scope 
-+| make[2]: *** [DssslApp.lo] Error 1 ----
-+
-+Upstream-Status: Pending
-+
-+RP 2012/6/12
-+
-+Index: openjade-1.3.2/acinclude.m4
-+===================================================================
-+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
-++++ openjade-1.3.2/acinclude.m4	2012-06-12 12:48:54.871365344 +0000
-+@@ -0,0 +1,39 @@
-++dnl Configure-time switch with default
-++dnl
-++dnl Each switch defines an --enable-FOO and --disable-FOO option in
-++dnl the resulting configure script.
-++dnl
-++dnl Usage:
-++dnl smr_SWITCH(name, description, default, pos-def, neg-def)
-++dnl
-++dnl where:
-++dnl
-++dnl name        name of switch; generates --enable-name & --disable-name
-++dnl             options
-++dnl description help string is set to this prefixed by "enable" or
-++dnl             "disable", whichever is the non-default value
-++dnl default     either "on" or "off"; specifies default if neither
-++dnl             --enable-name nor --disable-name is specified
-++dnl pos-def     a symbol to AC_DEFINE if switch is on (optional)
-++dnl neg-def     a symbol to AC_DEFINE if switch is off (optional)
-++dnl
-++AC_DEFUN(smr_SWITCH, [
-++    AC_MSG_CHECKING(whether to enable $2)
-++    AC_ARG_ENABLE(
-++        $1,
-++        ifelse($3, on,
-++            [  --disable-[$1]    disable [$2]],
-++            [  --enable-[$1]     enable [$2]]),
-++        [ if test "$enableval" = yes; then
-++            AC_MSG_RESULT(yes)
-++            ifelse($4, , , AC_DEFINE($4))
-++        else
-++            AC_MSG_RESULT(no)
-++            ifelse($5, , , AC_DEFINE($5))
-++        fi ],
-++        ifelse($3, on,
-++           [ AC_MSG_RESULT(yes)
-++             ifelse($4, , , AC_DEFINE($4)) ],
-++           [ AC_MSG_RESULT(no)
-++            ifelse($5, , , AC_DEFINE($5))]))])
-++
-+Index: openjade-1.3.2/config/configure.in
-+===================================================================
-+--- openjade-1.3.2.orig/config/configure.in	2012-06-12 12:47:20.735365445 +0000
-++++ openjade-1.3.2/config/configure.in	2012-06-12 12:48:17.507364080 +0000
-+@@ -12,9 +12,12 @@
-+ dnl  Credits: this autoconf script was largely "inspired" <g> by the
-+ dnl  autoconf script around SP made by Henry Thompson.
-+ dnl
-+-AC_INIT(dsssl)
-++AC_INIT([openjade], [1.3.2])
-+ AC_CONFIG_AUX_DIR(config)
-+-AM_INIT_AUTOMAKE( openjade, 1.3.2)
-++AC_SUBST([PACKAGE], [openjade])
-++AC_SUBST([VERSION], [1.3.2])
-++AC_DEFINE_UNQUOTED(PACKAGE, "$PACKAGE")
-++AC_DEFINE_UNQUOTED(VERSION, "$VERSION")
-+ TOP=`pwd`
-+ AC_SUBST(TOP)
-+ dnl
-diff --git a/meta/recipes-devtools/openjade/openjade-native_1.3.2.bb b/meta/recipes-devtools/openjade/openjade-native_1.3.2.bb
-index 18d311e..5b29c1f 100644
---- a/meta/recipes-devtools/openjade/openjade-native_1.3.2.bb
-+++ b/meta/recipes-devtools/openjade/openjade-native_1.3.2.bb
-@@ -14,6 +14,7 @@ RDEPENDS_${PN} = "sgml-common-native"
+diff --git a/meta/recipes-core/eglibc/eglibc-package.inc b/meta/recipes-core/eglibc/eglibc-package.inc
+index 0db221f..3c371a7 100644
+--- a/meta/recipes-core/eglibc/eglibc-package.inc
++++ b/meta/recipes-core/eglibc/eglibc-package.inc
+@@ -20,11 +20,12 @@ USE_LDCONFIG ?= "1"
+ PKGSUFFIX = ""
+ PKGSUFFIX_virtclass-nativesdk = "-nativesdk"
  
- SRC_URI = "${SOURCEFORGE_MIRROR}/openjade/openjade-${PV}.tar.gz \
-            file://makefile.patch \
-+           file://reautoconf.patch \
- 	   file://user-declared-default-constructor.patch"
+-PACKAGES = "${PN}-dbg ${PN} catchsegv${PKGSUFFIX} sln${PKGSUFFIX} nscd${PKGSUFFIX} ldd${PKGSUFFIX} ${PN}-utils eglibc-extra-nss${PKGSUFFIX} eglibc-thread-db${PKGSUFFIX} ${PN}-pic ${PN}-dev ${PN}-staticdev ${PN}-doc libcidn${PKGSUFFIX} libmemusage${PKGSUFFIX} libsegfault${PKGSUFFIX} ${PN}-pcprofile libsotruss${PKGSUFFIX}"
++PACKAGES = "${PN}-dbg ${PN} catchsegv${PKGSUFFIX} sln${PKGSUFFIX} nscd${PKGSUFFIX} ldd${PKGSUFFIX} ${PN}-mtrace ${PN}-utils eglibc-extra-nss${PKGSUFFIX} eglibc-thread-db${PKGSUFFIX} ${PN}-pic ${PN}-dev ${PN}-staticdev ${PN}-doc libcidn${PKGSUFFIX} libmemusage${PKGSUFFIX} libsegfault${PKGSUFFIX} ${PN}-pcprofile libsotruss${PKGSUFFIX}"
  
- SRC_URI[md5sum] = "7df692e3186109cc00db6825b777201e"
-@@ -38,6 +39,10 @@ CFLAGS =+ "-I${S}/include"
- SSTATEPOSTINSTFUNCS += "openjade_sstate_postinst"
- SYSROOT_PREPROCESS_FUNCS += "openjade_sysroot_preprocess"
+ # The ld.so in this eglibc supports the GNU_HASH
+ RPROVIDES_${PN} = "glibc${PKGSUFFIX} rtld(GNU_HASH)"
+ RPROVIDES_${PN}-utils = "glibc${PKGSUFFIX}-utils"
++RPROVIDES_${PN}-mtrace = "glibc${PKGSUFFIX}-mtrace libc-mtrace"
+ RPROVIDES_${PN}-pic = "glibc${PKGSUFFIX}-pic"
+ RPROVIDES_${PN}-dev = "glibc${PKGSUFFIX}-dev"
+ RPROVIDES_${PN}-staticdev = "glibc${PKGSUFFIX}-staticdev"
+@@ -48,11 +49,13 @@ FILES_${PN}-dev_append += "${bindir}/rpcgen ${libdir}/*_nonshared.a \
+ 	${base_libdir}/*_nonshared.a ${base_libdir}/*.o ${datadir}/aclocal"
+ FILES_${PN}-staticdev_append += "${libdir}/*.a ${base_libdir}/*.a"
+ FILES_nscd${PKGSUFFIX} = "${sbindir}/nscd*"
++FILES_${PN}-mtrace = "${bindir}/mtrace"
+ FILES_${PN}-utils = "${bindir}/* ${sbindir}/*"
+ FILES_${PN}-dbg += "${libexecdir}/*/.debug ${libdir}/audit/.debug"
+ FILES_catchsegv${PKGSUFFIX} = "${bindir}/catchsegv"
+ RDEPENDS_catchsegv${PKGSUFFIX} = "libsegfault"
+ RDEPENDS_${PN}-utils += "bash"
++RDEPENDS_${PN}-mtrace += "perl"
+ FILES_${PN}-pcprofile = "${base_libdir}/libpcprofile.so"
+ FILES_eglibc-thread-db${PKGSUFFIX} = "${base_libdir}/libthread_db.so.* ${base_libdir}/libthread_db-*.so"
+ RPROVIDES_${PN}-dev += "libc-dev"
+@@ -68,6 +71,8 @@ SUMMARY_ldd = "print shared library dependencies"
+ DESCRIPTION_ldd = "/usr/bin/ldd prints shared library dependencies for each program or shared library specified on the command line."
+ SUMMARY_${PN}-utils = "Miscellaneous utilities provided by eglibc"
+ DESCRIPTION_${PN}-utils = "Miscellaneous utilities including getconf, iconf, locale, gencat, tzselect, zic, rpcinfo, ..."
++SUMMARY_${PN}-mtrace = "mtrace utility provided by eglibc"
++DESCRIPTION_${PN}-mtrace = "mtrace utility provided by eglibc"
+ DESCRIPTION_libsotruss = "Library to support sotruss which traces calls through PLTs"
  
-+# configure.in needs to be reloacted to trigger reautoconf
-+do_configure_prepend () {
-+	cp ${S}/config/configure.in ${S}/
-+}
+ inherit libc-common multilib_header
+diff --git a/meta/recipes-core/eglibc/eglibc_2.13.bb b/meta/recipes-core/eglibc/eglibc_2.13.bb
+index d8a41dc..73cd0aa 100644
+--- a/meta/recipes-core/eglibc/eglibc_2.13.bb
++++ b/meta/recipes-core/eglibc/eglibc_2.13.bb
+@@ -3,7 +3,7 @@ require eglibc.inc
+ SRCREV = "15508"
  
- # We need to do this else the source interdependencies aren't generated and
- # build failures can result (e.g. zero size style/Makefile.dep file)
+ DEPENDS += "gperf-native"
+-PR = "r26"
++PR = "r27"
+ PR_append = "+svnr${SRCPV}"
+ 
+ EGLIBC_BRANCH="eglibc-2_13"
+diff --git a/meta/recipes-core/tasks/task-core-tools-debug.bb b/meta/recipes-core/tasks/task-core-tools-debug.bb
+index 3c92f3f..1dddbb8 100644
+--- a/meta/recipes-core/tasks/task-core-tools-debug.bb
++++ b/meta/recipes-core/tasks/task-core-tools-debug.bb
+@@ -17,10 +17,14 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
+ 
+ ALLOW_EMPTY = "1"
+ 
++MTRACE = ""
++MTRACE_libc-glibc = "libc-mtrace"
++
+ RDEPENDS_${PN} = "\
+     gdb \
+     gdbserver \
+     tcf-agent \
+     rsync \
+     strace \
++    ${MTRACE} \
+     "
 -- 
 1.7.9.5
 
