@@ -1,18 +1,18 @@
 Received: from masterfoo.zenlinux.com ([207.192.74.254])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1SgiFv-00009t-Gu
+	(envelope-from <scott.a.garman@intel.com>) id 1SgiFv-00009r-QS
 	for openembedded-core@lists.openembedded.org;
 	Mon, 18 Jun 2012 22:09:00 +0200
 Received: from localhost (c-76-105-137-48.hsd1.or.comcast.net [76.105.137.48])
 	(using TLSv1 with cipher DHE-RSA-AES128-SHA (128/128 bits))
 	(No client certificate requested)
-	by masterfoo.zenlinux.com (Postfix) with ESMTP id CE28F30467
+	by masterfoo.zenlinux.com (Postfix) with ESMTP id 0504830466
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Jun 2012 15:58:13 -0400 (EDT)
+	Mon, 18 Jun 2012 15:58:10 -0400 (EDT)
 From: Scott Garman <scott.a.garman@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 18 Jun 2012 12:58:00 -0700
-Message-Id: <eedf8f8d9a7324b33dec71a5c52f8d980dc78752.1340038108.git.scott.a.garman@intel.com>
+Date: Mon, 18 Jun 2012 12:57:59 -0700
+Message-Id: <0dd9446aa82dd1baaf0109a4e2dc001a0ceca2a3.1340038108.git.scott.a.garman@intel.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1340038108.git.scott.a.garman@intel.com>
 References: <cover.1340038108.git.scott.a.garman@intel.com>
@@ -20,12 +20,12 @@ In-Reply-To: <cover.1340038108.git.scott.a.garman@intel.com>
 References: <cover.1340038108.git.scott.a.garman@intel.com>
 X-MasterFoo-MailScanner-Information: Please contact the ISP for more
 	information
-X-MailScanner-ID: CE28F30467.D3931
+X-MailScanner-ID: 0504830466.B855E
 X-MasterFoo-MailScanner: Found to be clean
 X-MasterFoo-MailScanner-SpamCheck: not spam
 X-MasterFoo-MailScanner-From: scott.a.garman@intel.com
 X-Spam-Status: No
-Subject: [PATCH 6/6] eglibc: added ac_cv_path_ to CACHED_CONFIGUREVARS
+Subject: [PATCH 5/6] quilt: added ac_cv_path_BASH to CACHED_CONFIGUREVARS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -55,50 +55,25 @@ Reworked commit to fix merge conflicts with denzil branch.
 
 Signed-off-by: Scott Garman <scott.a.garman@intel.com>
 ---
- meta/recipes-core/eglibc/eglibc.inc     |    2 ++
- meta/recipes-core/eglibc/eglibc_2.13.bb |    2 +-
- meta/recipes-core/eglibc/eglibc_2.15.bb |    2 +-
- 3 files changed, 4 insertions(+), 2 deletions(-)
+ meta/recipes-devtools/quilt/quilt_0.51.bb |    5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/eglibc/eglibc.inc b/meta/recipes-core/eglibc/eglibc.inc
-index 8e3fe50..51061bc 100644
---- a/meta/recipes-core/eglibc/eglibc.inc
-+++ b/meta/recipes-core/eglibc/eglibc.inc
-@@ -32,6 +32,8 @@ require eglibc-options.inc
+diff --git a/meta/recipes-devtools/quilt/quilt_0.51.bb b/meta/recipes-devtools/quilt/quilt_0.51.bb
+index 4e51b49..81a7a9a 100644
+--- a/meta/recipes-devtools/quilt/quilt_0.51.bb
++++ b/meta/recipes-devtools/quilt/quilt_0.51.bb
+@@ -4,7 +4,10 @@ RDEPENDS_${PN} += "patch diffstat bzip2 util-linux"
+ SRC_URI += "file://aclocal.patch \
+             file://gnu_patch_test_fix_target.patch \
+            "
+-PR = "r4"
++PR = "r5"
++
++
++CACHED_CONFIGUREVARS += "ac_cv_path_BASH=${base_bindir}/bash"
  
- LEAD_SONAME = "libc.so"
- 
-+CACHED_CONFIGUREVARS += "ac_cv_path_KSH=${base_bindir}/bash \
-+                       ac_cv_path_BASH_SHELL=${base_bindir}/bash"
- GLIBC_EXTRA_OECONF ?= ""
- GLIBC_EXTRA_OECONF_virtclass-nativesdk = ""
- INHIBIT_DEFAULT_DEPS = "1"
-diff --git a/meta/recipes-core/eglibc/eglibc_2.13.bb b/meta/recipes-core/eglibc/eglibc_2.13.bb
-index 73cd0aa..690f99d 100644
---- a/meta/recipes-core/eglibc/eglibc_2.13.bb
-+++ b/meta/recipes-core/eglibc/eglibc_2.13.bb
-@@ -3,7 +3,7 @@ require eglibc.inc
- SRCREV = "15508"
- 
- DEPENDS += "gperf-native"
--PR = "r27"
-+PR = "r28"
- PR_append = "+svnr${SRCPV}"
- 
- EGLIBC_BRANCH="eglibc-2_13"
-diff --git a/meta/recipes-core/eglibc/eglibc_2.15.bb b/meta/recipes-core/eglibc/eglibc_2.15.bb
-index 713efc3..f5219d1 100644
---- a/meta/recipes-core/eglibc/eglibc_2.15.bb
-+++ b/meta/recipes-core/eglibc/eglibc_2.15.bb
-@@ -3,7 +3,7 @@ require eglibc.inc
- SRCREV = "17386"
- 
- DEPENDS += "gperf-native"
--PR = "r6"
-+PR = "r7"
- PR_append = "+svnr${SRCPV}"
- 
- EGLIBC_BRANCH="eglibc-2_15"
+ PERLPATH = "${bindir}/env perl"
+ PERLPATH_virtclass-nativesdk = "/usr/bin/env perl"
 -- 
 1.7.9.5
 
