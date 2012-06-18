@@ -1,26 +1,44 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SgfFi-0001oC-3t
+	(envelope-from <saul.wold@intel.com>) id 1SgfGf-0001qY-Vz
 	for openembedded-core@lists.openembedded.org;
-	Mon, 18 Jun 2012 18:56:34 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 18 Jun 2012 09:45:51 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="181665680"
-Received: from unknown (HELO [10.255.12.105]) ([10.255.12.105])
-	by fmsmga002.fm.intel.com with ESMTP; 18 Jun 2012 09:45:50 -0700
-Message-ID: <4FDF5B3E.5050503@linux.intel.com>
-Date: Mon, 18 Jun 2012 09:45:50 -0700
-From: Saul Wold <sgw@linux.intel.com>
+	Mon, 18 Jun 2012 18:57:34 +0200
+Received: from mail-pz0-f52.google.com ([209.85.210.52])
+	by mga09.intel.com with ESMTP/TLS/RC4-MD5; 18 Jun 2012 09:46:32 -0700
+Received: by dano14 with SMTP id o14so7071819dan.25
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 18 Jun 2012 09:46:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=message-id:date:from:organization:user-agent:mime-version:to:cc
+	:subject:references:in-reply-to:content-type
+	:content-transfer-encoding:x-gm-message-state;
+	bh=cQdGU8GqsVQzSoGzwmLM6dAhwVH6mlr80jmUgCFYegA=;
+	b=iLVyBp6yq3C983mGsWjw4ZUzR+A40t1Pfz7wrkvTkOX+lXNxjMe9hZLV46WaEBzfqg
+	pm/b0p97pJnK7ZDtqeUDDT1FAcNxxnfQdeBouT/QlrLPNuaOnWrrqafujLKK5euz4JZd
+	6c6iSZf+r2geNFiUrYpTFF67JkOwD80aZXR5m6vjswNPQ2bHGHhx4NqgR7yBijh78F7U
+	ecle1cjfkQu/Zh0FHpkA8h06njULALDNwIYlmWA9WFbhLKHWu6AFcPSgXKNub/bjVL/U
+	1DEA3ZadLf0s7Wo1MyQywtWkzKWwU7PJiUed+dXCiUtiKigmXbrd44PYxVcbw5srSz+3
+	UIZA==
+Received: by 10.68.219.166 with SMTP id pp6mr53528403pbc.35.1340037991582;
+	Mon, 18 Jun 2012 09:46:31 -0700 (PDT)
+Received: from [10.6.18.71] (c-71-193-189-117.hsd1.wa.comcast.net.
+	[71.193.189.117])
+	by mx.google.com with ESMTPS id og4sm24423508pbb.48.2012.06.18.09.46.29
+	(version=SSLv3 cipher=OTHER); Mon, 18 Jun 2012 09:46:29 -0700 (PDT)
+Message-ID: <4FDF5B63.1030005@intel.com>
+Date: Mon, 18 Jun 2012 09:46:27 -0700
+From: Saul Wold <saul.wold@intel.com>
+Organization: Intel
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <1339764889-25852-1-git-send-email-laurentiu.palcu@intel.com>
-	<1339764889-25852-3-git-send-email-laurentiu.palcu@intel.com>
-In-Reply-To: <1339764889-25852-3-git-send-email-laurentiu.palcu@intel.com>
-Subject: Re: [PATCH 2/2] puzzles: upgrade to r9561
+References: <cover.1339777686.git.bruce.ashfield@windriver.com>
+In-Reply-To: <cover.1339777686.git.bruce.ashfield@windriver.com>
+X-Gm-Message-State: ALoCoQluj6NJ54xRkYrwvYUWtgWBpWByP2fFNpaleDZglKM3CEA90FqJ9X5Nzc3XK0NwuiwNmiyT
+Subject: Re: [PATCH 0/1] meta-skeleton: add linux-yocto-custom reference recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,46 +53,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Jun 2012 16:56:34 -0000
+X-List-Received-Date: Mon, 18 Jun 2012 16:57:34 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 06/15/2012 05:54 AM, Laurentiu Palcu wrote:
-> Minor change in LICENCE file:
+On 06/15/2012 09:30 AM, Bruce Ashfield wrote:
+> Richard/Saul,
 >
-> -This software is copyright (c) 2004-2010 Simon Tatham.
-> +This software is copyright (c) 2004-2012 Simon Tatham.
+> There have been some korg and custom recipes that use the linux-yocto
+> tools on top of other git repositories in poky-extras for quite some
+> time.
 >
-> Signed-off-by: Laurentiu Palcu<laurentiu.palcu@intel.com>
-> ---
->   .../puzzles/{puzzles_r9375.bb =>  puzzles_r9561.bb} |    6 +++---
->   1 file changed, 3 insertions(+), 3 deletions(-)
->   rename meta/recipes-sato/puzzles/{puzzles_r9375.bb =>  puzzles_r9561.bb} (88%)
+> To increase the visibility, I've clean linux-yocto-custom and moved
+> it to meta-skeleton. All relevant documentation on how to use this is
+> within the recipe itself (and hence the patch that follows this
+> pull request).
 >
-> diff --git a/meta/recipes-sato/puzzles/puzzles_r9375.bb b/meta/recipes-sato/puzzles/puzzles_r9561.bb
-> similarity index 88%
-> rename from meta/recipes-sato/puzzles/puzzles_r9375.bb
-> rename to meta/recipes-sato/puzzles/puzzles_r9561.bb
-> index 1867dad..83fabdf 100644
-> --- a/meta/recipes-sato/puzzles/puzzles_r9375.bb
-> +++ b/meta/recipes-sato/puzzles/puzzles_r9561.bb
-> @@ -6,13 +6,13 @@ PR = "r0"
->   MOD_PV = "${@d.getVar('PV',1)[1:]}"
+> Cheers,
 >
->   LICENSE = "MIT"
-> -LIC_FILES_CHKSUM = "file://LICENCE;md5=9928b60f3b78be315b7ab699c1b03ff5"
-> +LIC_FILES_CHKSUM = "file://LICENCE;md5=453de74d749439762ef4814f7bee1fec"
+> Bruce
 >
->   # Upstream updates puzzles.tar.gz for the new release, so checksums seem to be changing regularly right now
->   #SRC_URI = "svn://ixion.tartarus.org/main;module=puzzles;rev=${MOD_PV}"
->   SRC_URI = "http://www.chiark.greenend.org.uk/~sgtatham/puzzles/puzzles-${PV}.tar.gz"
-> -SRC_URI[md5sum] = "25f2349611cdd8fb35d27b24f5b937a8"
-> -SRC_URI[sha256sum] = "bddf4e52c328c98b9d95bd7daf6b9098f25e8272a7c1059ba69809eb619124a2"
-> +SRC_URI[md5sum] = "c86695aebfc95efe1d6241863849101b"
-> +SRC_URI[sha256sum] = "2c20a45189387e3de8804a58bdb4e47ac4bb0f890001a509dfbdc015b5a84b95"
+> The following changes since commit 4bb7ef94fca392bcd389ed7069280c238f8fe094:
 >
+>    directfb: added missing Upstream-status (2012-06-15 15:44:39 +0100)
 >
->   S = "${WORKDIR}/${BPN}-${PV}"
+> are available in the git repository at:
+>    git://git.pokylinux.org/poky-contrib zedd/skeleton
+>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/skeleton
+>
+> Bruce Ashfield (1):
+>    meta-skeleton: add linux-yocto-custom reference recipe
+>
+>   .../recipes-kernel/linux/linux-yocto-custom.bb     |   46 ++++++++++++++++++++
+>   .../0001-linux-version-tweak.patch                 |   26 +++++++++++
+>   .../linux/linux-yocto-custom/feature.scc           |    1 +
+>   .../linux/linux-yocto-custom/smp.cfg               |    1 +
+>   4 files changed, 74 insertions(+), 0 deletions(-)
+>   create mode 100644 meta-skeleton/recipes-kernel/linux/linux-yocto-custom.bb
+>   create mode 100644 meta-skeleton/recipes-kernel/linux/linux-yocto-custom/0001-linux-version-tweak.patch
+>   create mode 100644 meta-skeleton/recipes-kernel/linux/linux-yocto-custom/feature.scc
+>   create mode 100644 meta-skeleton/recipes-kernel/linux/linux-yocto-custom/smp.cfg
+>
 
 Merged into OE-Core
 
