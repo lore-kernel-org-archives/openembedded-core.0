@@ -1,28 +1,26 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1SgX1N-0006k2-UG
+	(envelope-from <Liezhi.Yang@windriver.com>) id 1SgYFc-00013u-9u
 	for openembedded-core@lists.openembedded.org;
-	Mon, 18 Jun 2012 10:09:14 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 18 Jun 2012 00:58:31 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="181412819"
-Received: from unknown (HELO helios.localnet) ([10.252.120.127])
-	by fmsmga002.fm.intel.com with ESMTP; 18 Jun 2012 00:58:30 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Koen Kooi <koen@dominion.thruhere.net>
-Date: Mon, 18 Jun 2012 08:58:29 +0100
-Message-ID: <7661818.rLLbVEY8n5@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.8.3 (Linux/3.2.0-25-generic-pae; KDE/4.8.3; i686; ; )
-In-Reply-To: <282073B0-0EB0-4DCA-9042-151F7003BC46@dominion.thruhere.net>
-References: <cover.1339799869.git.dvhart@linux.intel.com>
-	<2995235.0tdnUIKyVU@helios>
-	<282073B0-0EB0-4DCA-9042-151F7003BC46@dominion.thruhere.net>
+	Mon, 18 Jun 2012 11:28:00 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q5I9HG4t027311
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 18 Jun 2012 02:17:16 -0700 (PDT)
+Received: from [128.224.163.142] (128.224.163.142) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Mon, 18 Jun 2012 02:17:16 -0700
+Message-ID: <4FDEF21A.5020004@windriver.com>
+Date: Mon, 18 Jun 2012 17:17:14 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
 MIME-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] busybox: Include setsid and cttyhack in defconfig
+Cc: "Zhao, Zhenfeng" <Zhenfeng.Zhao@windriver.com>
+Subject: glibc detected *** groupadd: malloc(): memory corruption
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,20 +35,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Jun 2012 08:09:14 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Mon, 18 Jun 2012 09:28:01 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Monday 18 June 2012 07:00:19 Koen Kooi wrote:
-> it does force the distro bbappends onto everyone, messing up /etc/hostname
 
-So it did. Now it's fixed.
+Hi Experts:
 
-Paul
+I've met a strange issue, when set the length of builddir to
+266 (Why I did this is that I need to know how long the tmpdir
+that oe-core can support):
+
+NOTE: package dbus-1.4.20-r3.0: task do_install: Started
+*** glibc detected *** groupadd: malloc(): memory corruption: 0x000000000101da70 ***
+*** glibc detected *** groupadd: malloc(): memory corruption: 0x000000000101da70 ***
+
+Then the build would hang, this is caused by the command:
+
+PSEUDO_PREFIX=/too/long/path/tmp/sysroots/x86_64-linux/usr
+PSEUDO_LOCALSTATEDIR=... PSEUDO_PASSWD=...
+PSEUDO_NOSYMLINKEXP=1 PSEUDO_DISABLED=0 PSEUDO_LOCALSTATEDIR
+... /too/long/path/to/tmp/sysroots/x86_64-linux/usr/bin/pseudo
+groupadd --root /too/long/path/to/tmp/sysroots/qemux86 -r netdev -f
+
+1) I had looked into the code of groupadd, and found that this would
+happen when it used the glibc function which needs malloc(for example,
+the access()), so it seemed this was caused by the glibc or pseudo,
+but I didn't know why it only happened to groupadd/useradd.
+
+2) I had tried not to use pseudo, it worked well:
+
+sudo groupadd --root /too/long/path/to/tmp/sysroots/qemux86 -r netdev -f
+
+ From this, it seemed that the glibc was ok
+
+3) I had tried to write a small piece of code which used the access(), and
+used pseudo to run it, it worked well:
+
+/too/long/path/for/pseudo/settings/and/then/run/pseudo my_app
+
+ From this, it seemed that both pseudo and glibc were OK.
+
+These 3 steps make me puzzle, maybe we can think that the tmpdir can not
+be too long, and limit it to a proper length, please see this:
+
+http://lists.linuxtogo.org/pipermail/openembedded-core/2012-May/022112.html
+
+BTW. the "argument list too long" error has been fixed.
+
+Any suggestion is appreciated.
 
 -- 
+Thanks
 
-Paul Eggleton
-Intel Open Source Technology Centre
+Robert
 
 
