@@ -1,21 +1,33 @@
-Received: from icp-osb-irony-out7.external.iinet.net.au ([203.59.1.224])
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <james@digitalmatter.com.au>) id 1SgRxY-0001F4-CE
+	(envelope-from <raj.khem@gmail.com>) id 1SgS8E-0001U9-Je
 	for openembedded-core@lists.openembedded.org;
-	Mon, 18 Jun 2012 04:44:56 +0200
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: AvwEALOR3k/LO4Se/2dsb2JhbABEtViBB4MYKIEpiAq3So5XgxsDiECSWooHgm0
-X-IronPort-AV: E=Sophos;i="4.75,789,1330876800"; 
-   d="scan'208";a="5485621"
-Received: from unknown (HELO gentoo_vm.DMA.local) ([203.59.132.158])
-	by icp-osb-irony-out7.iinet.net.au with ESMTP;
-	18 Jun 2012 10:31:07 +0800
-From: James Limbouris <james@digitalmatter.com.au>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 18 Jun 2012 10:33:33 +0800
-Message-Id: <1339986813-17890-1-git-send-email-james@digitalmatter.com.au>
-X-Mailer: git-send-email 1.7.3.4
-Subject: [PATCH] debian.bbclass: invoke target objdump
+	Mon, 18 Jun 2012 04:55:58 +0200
+Received: by eekd49 with SMTP id d49so1401559eek.6
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 17 Jun 2012 19:45:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type:content-transfer-encoding;
+	bh=ZiSki8d/OdEzrGYWs1Kp1lp0+jByMUWVVdtvlPlEX1A=;
+	b=SDWytu0DDdOETz5eRR+thtCANzIyPHY2mCLo7nc0R749EOZwMKe27npm+2LfnLm2S7
+	9DbEWENQY/4rLSZaQl/63d/m+IzdNVUseIAmv8J1GGVO2PkSC+UaPRRH3eNk2Tyb2Qa6
+	rQfzzHMxdhvaLfM6fbaXt9CwU7eQUpSrdHb993J73jV2WJTcqcsegSC4oilAc09Lkfnl
+	+JBYNf2P7x2Obl1ZRe+fagXXRbcV8i/qBTf/je+v2W1e1VzTB9MoZU25uiKklSd2OVw6
+	nIg5xGwenTVa5wm/BK/4fTGMHFTXHXwpvYr6LiMP6ZXvTy+Usv0n1gv8YSWeRuUNJVGj
+	colg==
+Received: by 10.14.187.141 with SMTP id y13mr2995033eem.79.1339987516922; Sun,
+	17 Jun 2012 19:45:16 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.14.188.11 with HTTP; Sun, 17 Jun 2012 19:44:45 -0700 (PDT)
+In-Reply-To: <1339986813-17890-1-git-send-email-james@digitalmatter.com.au>
+References: <1339986813-17890-1-git-send-email-james@digitalmatter.com.au>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sun, 17 Jun 2012 19:44:45 -0700
+Message-ID: <CAMKF1so1rWbtjGh_w_00D-YpeYhaPx5=Xp2Y1vGXMYu2tt93ew@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] debian.bbclass: invoke target objdump
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -30,35 +42,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Jun 2012 02:44:56 -0000
+X-List-Received-Date: Mon, 18 Jun 2012 02:55:58 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
 
-Using the host objdump can lead to errors like:
-
-objdump: library.so.1.0.0: File format is ambiguous
-objdump: Matching formats: elf32-littlearm elf32-littlearm-symbian elf32-littlearm-vxworks
-
-with certain configurations of binutils.
-
-Signed-off-by: James Limbouris <james@digitalmatter.com.au>
----
- meta/classes/debian.bbclass |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
-
-diff --git a/meta/classes/debian.bbclass b/meta/classes/debian.bbclass
-index 3637e2e..bb4ae11 100644
---- a/meta/classes/debian.bbclass
-+++ b/meta/classes/debian.bbclass
-@@ -60,7 +60,7 @@ python debian_package_name_hook () {
- 				for f in files:
- 					if so_re.match(f):
- 						fp = os.path.join(root, f)
--						cmd = (d.getVar('BUILD_PREFIX', True) or "") + "objdump -p " + fp + " 2>/dev/null"
-+						cmd = (d.getVar('TARGET_PREFIX', True) or "") + "objdump -p " + fp + " 2>/dev/null"
- 						fd = os.popen(cmd)
- 						lines = fd.readlines()
- 						fd.close()
--- 
-1.7.3.4
-
+T24gU3VuLCBKdW4gMTcsIDIwMTIgYXQgNzozMyBQTSwgSmFtZXMgTGltYm91cmlzCjxqYW1lc0Bk
+aWdpdGFsbWF0dGVyLmNvbS5hdT4gd3JvdGU6Cj4gVXNpbmcgdGhlIGhvc3Qgb2JqZHVtcCBjYW4g
+bGVhZCB0byBlcnJvcnMgbGlrZToKPgo+IG9iamR1bXA6IGxpYnJhcnkuc28uMS4wLjA6IEZpbGUg
+Zm9ybWF0IGlzIGFtYmlndW91cwo+IG9iamR1bXA6IE1hdGNoaW5nIGZvcm1hdHM6IGVsZjMyLWxp
+dHRsZWFybSBlbGYzMi1saXR0bGVhcm0tc3ltYmlhbiBlbGYzMi1saXR0bGVhcm0tdnh3b3Jrcwo+
+Cgp5ZXMgZm9yIHRhcmdldCByZWNpcGVzIHdlIHNob3VsZCBhbHdheXMgdXNlIGNyb3NzIGJpbnV0
+aWxzIHNpbmNlIGhvc3QKb2JqZHVtcCBtYXkgbm90IGhhdmUgYWxsIGJmZCBlbXVsYXRpb25zIGJ1
+aWx0IGluLgoKPiB3aXRoIGNlcnRhaW4gY29uZmlndXJhdGlvbnMgb2YgYmludXRpbHMuCj4KPiBT
+aWduZWQtb2ZmLWJ5OiBKYW1lcyBMaW1ib3VyaXMgPGphbWVzQGRpZ2l0YWxtYXR0ZXIuY29tLmF1
+Pgo+IC0tLQo+IMKgbWV0YS9jbGFzc2VzL2RlYmlhbi5iYmNsYXNzIHwgwqAgwqAyICstCj4gwqAx
+IGZpbGVzIGNoYW5nZWQsIDEgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbnMoLSkKPgo+IGRpZmYg
+LS1naXQgYS9tZXRhL2NsYXNzZXMvZGViaWFuLmJiY2xhc3MgYi9tZXRhL2NsYXNzZXMvZGViaWFu
+LmJiY2xhc3MKPiBpbmRleCAzNjM3ZTJlLi5iYjRhZTExIDEwMDY0NAo+IC0tLSBhL21ldGEvY2xh
+c3Nlcy9kZWJpYW4uYmJjbGFzcwo+ICsrKyBiL21ldGEvY2xhc3Nlcy9kZWJpYW4uYmJjbGFzcwo+
+IEBAIC02MCw3ICs2MCw3IEBAIHB5dGhvbiBkZWJpYW5fcGFja2FnZV9uYW1lX2hvb2sgKCkgewo+
+IMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgZm9yIGYgaW4g
+ZmlsZXM6Cj4gwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAg
+wqAgwqAgwqAgwqBpZiBzb19yZS5tYXRjaChmKToKPiDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDC
+oCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoGZwID0gb3MucGF0
+aC5qb2luKHJvb3QsIGYpCj4gLSDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDC
+oCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCBjbWQgPSAoZC5nZXRWYXIoJ0JVSUxEX1BS
+RUZJWCcsIFRydWUpIG9yICIiKSArICJvYmpkdW1wIC1wICIgKyBmcCArICIgMj4vZGV2L251bGwi
+Cj4gKyDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDC
+oCDCoCDCoCDCoCDCoCDCoCBjbWQgPSAoZC5nZXRWYXIoJ1RBUkdFVF9QUkVGSVgnLCBUcnVlKSBv
+ciAiIikgKyAib2JqZHVtcCAtcCAiICsgZnAgKyAiIDI+L2Rldi9udWxsIgo+IMKgIMKgIMKgIMKg
+IMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKg
+IMKgZmQgPSBvcy5wb3BlbihjbWQpCj4gwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAg
+wqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqBsaW5lcyA9IGZkLnJlYWRsaW5l
+cygpCj4gwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAg
+wqAgwqAgwqAgwqAgwqAgwqAgwqBmZC5jbG9zZSgpCj4gLS0KPiAxLjcuMy40Cj4KPgo+IF9fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCj4gT3BlbmVtYmVkZGVk
+LWNvcmUgbWFpbGluZyBsaXN0Cj4gT3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVk
+Lm9yZwo+IGh0dHA6Ly9saXN0cy5saW51eHRvZ28ub3JnL2NnaS1iaW4vbWFpbG1hbi9saXN0aW5m
+by9vcGVuZW1iZWRkZWQtY29yZQo=
 
 
