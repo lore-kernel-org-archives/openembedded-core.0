@@ -1,31 +1,41 @@
-Received: from masterfoo.zenlinux.com ([207.192.74.254])
+Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1SgiFv-00009r-QS
+	(envelope-from <scott.a.garman@intel.com>) id 1SgiIw-0000GP-Tc
 	for openembedded-core@lists.openembedded.org;
-	Mon, 18 Jun 2012 22:09:00 +0200
-Received: from localhost (c-76-105-137-48.hsd1.or.comcast.net [76.105.137.48])
-	(using TLSv1 with cipher DHE-RSA-AES128-SHA (128/128 bits))
-	(No client certificate requested)
-	by masterfoo.zenlinux.com (Postfix) with ESMTP id 0504830466
+	Mon, 18 Jun 2012 22:12:07 +0200
+Received: from mail-pz0-f52.google.com ([209.85.210.52])
+	by mga01.intel.com with ESMTP/TLS/RC4-MD5; 18 Jun 2012 13:01:21 -0700
+Received: by dano14 with SMTP id o14so7255603dan.25
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Jun 2012 15:58:10 -0400 (EDT)
+	Mon, 18 Jun 2012 13:01:21 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=message-id:date:from:user-agent:mime-version:to:subject:references
+	:in-reply-to:content-type:content-transfer-encoding
+	:x-gm-message-state;
+	bh=a7bXS9mMj2ebunppuFTuZzhus1T8XRjAr9/EBm6qPXM=;
+	b=NkCs3Bm13n0/2IdFlhLYKWbbc9Y6aktdp6uvTStz9+3geGIvoiNHpn6YffLPN4xPO8
+	2p6qa3IO9kx0uCmYGIxGM3i7phaxXJ5LHeoSfF1JaO14uvKeegIBB1syDswZFGrUaBJA
+	NV36gqH6iXTZWu7z/sfEPChfJ2NBPwrb7ZBqGDJxY7sOCeTeCboa62IVO2OLedbZHXRL
+	M/c0oXF+wEOVKF3TNXfsqA6mjVWXzif6iHbfGq7C2k4Z2s10KCotWk/NvWbqTIgvPbNQ
+	YvtXu3LDUo7iEze764qgdkTsGuSrwlDstHlFplyOZ6r7Omez6RXLq+42Vz3i0ZTTjrZK
+	NpbA==
+Received: by 10.68.226.226 with SMTP id rv2mr55395340pbc.101.1340049681266;
+	Mon, 18 Jun 2012 13:01:21 -0700 (PDT)
+Received: from [127.0.0.1] (masterfoo.zenlinux.com. [207.192.74.254])
+	by mx.google.com with ESMTPS id wk3sm24961087pbc.21.2012.06.18.13.01.18
+	(version=SSLv3 cipher=OTHER); Mon, 18 Jun 2012 13:01:20 -0700 (PDT)
+Message-ID: <4FDF8907.4060500@intel.com>
+Date: Mon, 18 Jun 2012 13:01:11 -0700
 From: Scott Garman <scott.a.garman@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
+MIME-Version: 1.0
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 18 Jun 2012 12:57:59 -0700
-Message-Id: <0dd9446aa82dd1baaf0109a4e2dc001a0ceca2a3.1340038108.git.scott.a.garman@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1340038108.git.scott.a.garman@intel.com>
 References: <cover.1340038108.git.scott.a.garman@intel.com>
 In-Reply-To: <cover.1340038108.git.scott.a.garman@intel.com>
-References: <cover.1340038108.git.scott.a.garman@intel.com>
-X-MasterFoo-MailScanner-Information: Please contact the ISP for more
-	information
-X-MailScanner-ID: 0504830466.B855E
-X-MasterFoo-MailScanner: Found to be clean
-X-MasterFoo-MailScanner-SpamCheck: not spam
-X-MasterFoo-MailScanner-From: scott.a.garman@intel.com
-X-Spam-Status: No
-Subject: [PATCH 5/6] quilt: added ac_cv_path_BASH to CACHED_CONFIGUREVARS
+X-Gm-Message-State: ALoCoQmZnpz2Nxszug4mqXzymx776bvg7si6uJqHuN5rGff9fmucQasfO3rhrJqYjO7npdWV2R9W
+Subject: Re: [PATCH 0/6] denzil pull request 3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,42 +50,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Jun 2012 20:09:00 -0000
+X-List-Received-Date: Mon, 18 Jun 2012 20:12:07 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Saul Wold <sgw@linux.intel.com>
+On 06/18/2012 12:57 PM, Scott Garman wrote:
+> Hello,
+>
+> This is the third pull request for the oe-core denzil branch, based on
+> a set of commits I've been testing from my sgarman/denzil-next branch.
+>
+> These commits have undergone the following testing on the autobuilder:
+>
+> nightly:
+>
 
-On Fedora 17, bash has moved to /usr/bin/bash and the configure process finds it
-on the host machine there, this ensures that it is set correctly for the target.
+Forgot the url here:
 
-[YOCTO #2363]
+http://autobuilder.yoctoproject.org:8010/builders/nightly/builds/518
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
+Scott
 
-Reworked commit to fix merge conflicts with denzil branch.
-
-Signed-off-by: Scott Garman <scott.a.garman@intel.com>
----
- meta/recipes-devtools/quilt/quilt_0.51.bb |    5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
-
-diff --git a/meta/recipes-devtools/quilt/quilt_0.51.bb b/meta/recipes-devtools/quilt/quilt_0.51.bb
-index 4e51b49..81a7a9a 100644
---- a/meta/recipes-devtools/quilt/quilt_0.51.bb
-+++ b/meta/recipes-devtools/quilt/quilt_0.51.bb
-@@ -4,7 +4,10 @@ RDEPENDS_${PN} += "patch diffstat bzip2 util-linux"
- SRC_URI += "file://aclocal.patch \
-             file://gnu_patch_test_fix_target.patch \
-            "
--PR = "r4"
-+PR = "r5"
-+
-+
-+CACHED_CONFIGUREVARS += "ac_cv_path_BASH=${base_bindir}/bash"
- 
- PERLPATH = "${bindir}/env perl"
- PERLPATH_virtclass-nativesdk = "/usr/bin/env perl"
 -- 
-1.7.9.5
-
+Scott Garman
+Embedded Linux Engineer - Yocto Project
+Intel Open Source Technology Center
 
 
