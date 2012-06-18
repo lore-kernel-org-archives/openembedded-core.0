@@ -1,26 +1,45 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Liezhi.Yang@windriver.com>) id 1SgYFc-00013u-9u
+	(envelope-from <koen@dominion.thruhere.net>) id 1SgYOR-0001dm-HO
 	for openembedded-core@lists.openembedded.org;
-	Mon, 18 Jun 2012 11:28:00 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q5I9HG4t027311
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Mon, 18 Jun 2012 11:37:07 +0200
+Received: by eekd49 with SMTP id d49so1479406eek.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Jun 2012 02:17:16 -0700 (PDT)
-Received: from [128.224.163.142] (128.224.163.142) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Mon, 18 Jun 2012 02:17:16 -0700
-Message-ID: <4FDEF21A.5020004@windriver.com>
-Date: Mon, 18 Jun 2012 17:17:14 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
-MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
+	Mon, 18 Jun 2012 02:26:25 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=subject:mime-version:content-type:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to:x-mailer
+	:x-gm-message-state;
+	bh=RRgMGP45LINo+n4TPWBWneQnsAXZzUcr7cRePUWauF8=;
+	b=MDdKeGn75SHUy59D37nxetQbaa16925hEMIXMAbK0qTdTfkij0RNG51GJTA3HvT7k8
+	HK61a2xFr6wk0WX4blVOhnNWjul6V6GI19985lJyzCFpg4mohnHPTZaU9sp2ts0QT2nN
+	I4hJTDmJUSaxgGGLmMAsy3gx7lFYxom6ChywtHFZxm04wfEZvvIF9zHpk6at2N6S9a9z
+	yOK4mQSzc7buHKdjszut+a3CPHvRGdktun3pbGLERbh/ybLzb7xmHSbqkLx7wRO/u5yl
+	nvLM9AF2+mvs0ezyOrMDlxTjZxtTokOQOXqnqQ8U2Nrvewty53qu3i2nePQQCuTzHIys
+	ew0w==
+Received: by 10.14.97.137 with SMTP id t9mr3455862eef.73.1340011585495;
+	Mon, 18 Jun 2012 02:26:25 -0700 (PDT)
+Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id c42sm59103175eeb.2.2012.06.18.02.26.24
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 18 Jun 2012 02:26:24 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1278)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <7661818.rLLbVEY8n5@helios>
+Date: Mon, 18 Jun 2012 11:26:22 +0200
+Message-Id: <F8DD14C2-FF05-4503-8006-B6BCC3BE5A81@dominion.thruhere.net>
+References: <cover.1339799869.git.dvhart@linux.intel.com>
+	<2995235.0tdnUIKyVU@helios>
+	<282073B0-0EB0-4DCA-9042-151F7003BC46@dominion.thruhere.net>
+	<7661818.rLLbVEY8n5@helios>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+X-Mailer: Apple Mail (2.1278)
+X-Gm-Message-State: ALoCoQlSeoGzP7vZL9/g94eG2G7S68nmjpfXkQIkCLE5dzdumvinvUl8ngxnfiYQrV0qEptiaSd2
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Cc: "Zhao, Zhenfeng" <Zhenfeng.Zhao@windriver.com>
-Subject: glibc detected *** groupadd: malloc(): memory corruption
+Subject: Re: [PATCH 1/1] busybox: Include setsid and cttyhack in defconfig
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,59 +54,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Jun 2012 09:28:01 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Mon, 18 Jun 2012 09:37:08 -0000
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
 
 
-Hi Experts:
+Op 18 jun. 2012, om 09:58 heeft Paul Eggleton het volgende geschreven:
 
-I've met a strange issue, when set the length of builddir to
-266 (Why I did this is that I need to know how long the tmpdir
-that oe-core can support):
+> On Monday 18 June 2012 07:00:19 Koen Kooi wrote:
+>> it does force the distro bbappends onto everyone, messing up /etc/hostname
+> 
+> So it did. Now it's fixed.
 
-NOTE: package dbus-1.4.20-r3.0: task do_install: Started
-*** glibc detected *** groupadd: malloc(): memory corruption: 0x000000000101da70 ***
-*** glibc detected *** groupadd: malloc(): memory corruption: 0x000000000101da70 ***
-
-Then the build would hang, this is caused by the command:
-
-PSEUDO_PREFIX=/too/long/path/tmp/sysroots/x86_64-linux/usr
-PSEUDO_LOCALSTATEDIR=... PSEUDO_PASSWD=...
-PSEUDO_NOSYMLINKEXP=1 PSEUDO_DISABLED=0 PSEUDO_LOCALSTATEDIR
-... /too/long/path/to/tmp/sysroots/x86_64-linux/usr/bin/pseudo
-groupadd --root /too/long/path/to/tmp/sysroots/qemux86 -r netdev -f
-
-1) I had looked into the code of groupadd, and found that this would
-happen when it used the glibc function which needs malloc(for example,
-the access()), so it seemed this was caused by the glibc or pseudo,
-but I didn't know why it only happened to groupadd/useradd.
-
-2) I had tried not to use pseudo, it worked well:
-
-sudo groupadd --root /too/long/path/to/tmp/sysroots/qemux86 -r netdev -f
-
- From this, it seemed that the glibc was ok
-
-3) I had tried to write a small piece of code which used the access(), and
-used pseudo to run it, it worked well:
-
-/too/long/path/for/pseudo/settings/and/then/run/pseudo my_app
-
- From this, it seemed that both pseudo and glibc were OK.
-
-These 3 steps make me puzzle, maybe we can think that the tmpdir can not
-be too long, and limit it to a proper length, please see this:
-
-http://lists.linuxtogo.org/pipermail/openembedded-core/2012-May/022112.html
-
-BTW. the "argument list too long" error has been fixed.
-
-Any suggestion is appreciated.
-
--- 
-Thanks
-
-Robert
+Thanks! I'll add it to the angstrom layer stack later this week.
 
 
