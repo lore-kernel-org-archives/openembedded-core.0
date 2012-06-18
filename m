@@ -1,33 +1,31 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1SgS8E-0001U9-Je
+	(envelope-from <Xiaofeng.Yan@windriver.com>) id 1SgSK0-0002DW-HF
 	for openembedded-core@lists.openembedded.org;
-	Mon, 18 Jun 2012 04:55:58 +0200
-Received: by eekd49 with SMTP id d49so1401559eek.6
+	Mon, 18 Jun 2012 05:08:08 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q5I2vPgv015900
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 17 Jun 2012 19:45:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type:content-transfer-encoding;
-	bh=ZiSki8d/OdEzrGYWs1Kp1lp0+jByMUWVVdtvlPlEX1A=;
-	b=SDWytu0DDdOETz5eRR+thtCANzIyPHY2mCLo7nc0R749EOZwMKe27npm+2LfnLm2S7
-	9DbEWENQY/4rLSZaQl/63d/m+IzdNVUseIAmv8J1GGVO2PkSC+UaPRRH3eNk2Tyb2Qa6
-	rQfzzHMxdhvaLfM6fbaXt9CwU7eQUpSrdHb993J73jV2WJTcqcsegSC4oilAc09Lkfnl
-	+JBYNf2P7x2Obl1ZRe+fagXXRbcV8i/qBTf/je+v2W1e1VzTB9MoZU25uiKklSd2OVw6
-	nIg5xGwenTVa5wm/BK/4fTGMHFTXHXwpvYr6LiMP6ZXvTy+Usv0n1gv8YSWeRuUNJVGj
-	colg==
-Received: by 10.14.187.141 with SMTP id y13mr2995033eem.79.1339987516922; Sun,
-	17 Jun 2012 19:45:16 -0700 (PDT)
+	Sun, 17 Jun 2012 19:57:25 -0700 (PDT)
+Received: from [128.224.162.223] (128.224.162.223) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
+	Sun, 17 Jun 2012 19:57:25 -0700
+Message-ID: <4FDE9912.60406@windriver.com>
+Date: Mon, 18 Jun 2012 10:57:22 +0800
+From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:11.0) Gecko/20120329 Thunderbird/11.0.1
 MIME-Version: 1.0
-Received: by 10.14.188.11 with HTTP; Sun, 17 Jun 2012 19:44:45 -0700 (PDT)
-In-Reply-To: <1339986813-17890-1-git-send-email-james@digitalmatter.com.au>
-References: <1339986813-17890-1-git-send-email-james@digitalmatter.com.au>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sun, 17 Jun 2012 19:44:45 -0700
-Message-ID: <CAMKF1so1rWbtjGh_w_00D-YpeYhaPx5=Xp2Y1vGXMYu2tt93ew@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] debian.bbclass: invoke target objdump
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1339751573.git.xiaofeng.yan@windriver.com>
+	<cf3611bc2fea78d0aa3d042e000edb0e86534297.1339751573.git.xiaofeng.yan@windriver.com>
+	<1339772393.7261.6.camel@ted>
+In-Reply-To: <1339772393.7261.6.camel@ted>
+X-Originating-IP: [128.224.162.223]
+X-MIME-Autoconverted: from 8bit to quoted-printable by mail.windriver.com id
+	q5I2vPgv015900
+Subject: Re: [PATCH 2/3] lsbinitscripts: Remove original /etc/init.d/functions when building an lsb image
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,43 +40,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Jun 2012 02:55:58 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Mon, 18 Jun 2012 03:08:08 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-T24gU3VuLCBKdW4gMTcsIDIwMTIgYXQgNzozMyBQTSwgSmFtZXMgTGltYm91cmlzCjxqYW1lc0Bk
-aWdpdGFsbWF0dGVyLmNvbS5hdT4gd3JvdGU6Cj4gVXNpbmcgdGhlIGhvc3Qgb2JqZHVtcCBjYW4g
-bGVhZCB0byBlcnJvcnMgbGlrZToKPgo+IG9iamR1bXA6IGxpYnJhcnkuc28uMS4wLjA6IEZpbGUg
-Zm9ybWF0IGlzIGFtYmlndW91cwo+IG9iamR1bXA6IE1hdGNoaW5nIGZvcm1hdHM6IGVsZjMyLWxp
-dHRsZWFybSBlbGYzMi1saXR0bGVhcm0tc3ltYmlhbiBlbGYzMi1saXR0bGVhcm0tdnh3b3Jrcwo+
-Cgp5ZXMgZm9yIHRhcmdldCByZWNpcGVzIHdlIHNob3VsZCBhbHdheXMgdXNlIGNyb3NzIGJpbnV0
-aWxzIHNpbmNlIGhvc3QKb2JqZHVtcCBtYXkgbm90IGhhdmUgYWxsIGJmZCBlbXVsYXRpb25zIGJ1
-aWx0IGluLgoKPiB3aXRoIGNlcnRhaW4gY29uZmlndXJhdGlvbnMgb2YgYmludXRpbHMuCj4KPiBT
-aWduZWQtb2ZmLWJ5OiBKYW1lcyBMaW1ib3VyaXMgPGphbWVzQGRpZ2l0YWxtYXR0ZXIuY29tLmF1
-Pgo+IC0tLQo+IMKgbWV0YS9jbGFzc2VzL2RlYmlhbi5iYmNsYXNzIHwgwqAgwqAyICstCj4gwqAx
-IGZpbGVzIGNoYW5nZWQsIDEgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbnMoLSkKPgo+IGRpZmYg
-LS1naXQgYS9tZXRhL2NsYXNzZXMvZGViaWFuLmJiY2xhc3MgYi9tZXRhL2NsYXNzZXMvZGViaWFu
-LmJiY2xhc3MKPiBpbmRleCAzNjM3ZTJlLi5iYjRhZTExIDEwMDY0NAo+IC0tLSBhL21ldGEvY2xh
-c3Nlcy9kZWJpYW4uYmJjbGFzcwo+ICsrKyBiL21ldGEvY2xhc3Nlcy9kZWJpYW4uYmJjbGFzcwo+
-IEBAIC02MCw3ICs2MCw3IEBAIHB5dGhvbiBkZWJpYW5fcGFja2FnZV9uYW1lX2hvb2sgKCkgewo+
-IMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgZm9yIGYgaW4g
-ZmlsZXM6Cj4gwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAg
-wqAgwqAgwqAgwqBpZiBzb19yZS5tYXRjaChmKToKPiDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDC
-oCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoGZwID0gb3MucGF0
-aC5qb2luKHJvb3QsIGYpCj4gLSDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDC
-oCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCBjbWQgPSAoZC5nZXRWYXIoJ0JVSUxEX1BS
-RUZJWCcsIFRydWUpIG9yICIiKSArICJvYmpkdW1wIC1wICIgKyBmcCArICIgMj4vZGV2L251bGwi
-Cj4gKyDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDC
-oCDCoCDCoCDCoCDCoCDCoCBjbWQgPSAoZC5nZXRWYXIoJ1RBUkdFVF9QUkVGSVgnLCBUcnVlKSBv
-ciAiIikgKyAib2JqZHVtcCAtcCAiICsgZnAgKyAiIDI+L2Rldi9udWxsIgo+IMKgIMKgIMKgIMKg
-IMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKg
-IMKgZmQgPSBvcy5wb3BlbihjbWQpCj4gwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAg
-wqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqBsaW5lcyA9IGZkLnJlYWRsaW5l
-cygpCj4gwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAg
-wqAgwqAgwqAgwqAgwqAgwqAgwqBmZC5jbG9zZSgpCj4gLS0KPiAxLjcuMy40Cj4KPgo+IF9fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCj4gT3BlbmVtYmVkZGVk
-LWNvcmUgbWFpbGluZyBsaXN0Cj4gT3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVk
-Lm9yZwo+IGh0dHA6Ly9saXN0cy5saW51eHRvZ28ub3JnL2NnaS1iaW4vbWFpbG1hbi9saXN0aW5m
-by9vcGVuZW1iZWRkZWQtY29yZQo=
+On 2012=E5=B9=B406=E6=9C=8815=E6=97=A5 22:59, Richard Purdie wrote:
+> On Fri, 2012-06-15 at 17:30 +0800, xiaofeng.yan@windriver.com wrote:
+>> From: Xiaofeng Yan<xiaofeng.yan@windriver.com>
+>>
+>> The linking will fail when an original functions exist. So remove the
+>> original functions when building an lsb image and make functions linki=
+ng to
+>> functions.lsbinitscripts successfully.
+>>
+>> [YOCTO #2133]
+>>
+>> Signed-off-by: Xiaofeng Yan<xiaofeng.yan@windriver.com>
+>> ---
+>>   meta/recipes-extended/lsb/lsbinitscripts_9.03.bb |    8 +++++++-
+>>   1 file changed, 7 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/meta/recipes-extended/lsb/lsbinitscripts_9.03.bb b/meta/r=
+ecipes-extended/lsb/lsbinitscripts_9.03.bb
+>> index dd92a92..73bea2f 100644
+>> --- a/meta/recipes-extended/lsb/lsbinitscripts_9.03.bb
+>> +++ b/meta/recipes-extended/lsb/lsbinitscripts_9.03.bb
+>> @@ -2,7 +2,7 @@ DESCRIPTION =3D "SysV init scripts which only is used =
+in an LSB image"
+>>   SECTION =3D "base"
+>>   LICENSE =3D "GPLv2"
+>>   DEPENDS =3D "popt"
+>> -PR =3D "r0"
+>> +PR =3D "r1"
+>>
+>>   LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Debf4e8b49780ab187d51bd26a=
+aa022c6"
+>>
+>> @@ -25,3 +25,9 @@ do_install(){
+>>   	install -d ${D}/etc/init.d/
+>>   	install -m 0755 ${S}/rc.d/init.d/functions ${D}/etc/init.d/function=
+s
+>>   }
+>> +
+>> +pkg_postinst_${PN} () {
+>> +	if [ -f "/etc/init.d/functions" ]; then
+>> +		rm -f /etc/init.d/functions
+>> +	fi
+>> +}
+> This looks highly suspicious to me. Shouldn't the other provider of thi=
+s
+> be put under control for update-alternatives too or something?
+Thanks for your comments.
+the other provider of this is from initscripts_1.0.bb, installing all of=20
+init-scripts in the stage of installing without using=20
+update-alternatives. So the functions is a file instead of linking mode.=20
+An error appear when lsbinicscritps replace initscripts if not removing=20
+file functions. So I remove the original functions for making the latter=20
+linking successfully. What is the purpose is for avoiding to modify the=20
+other non-lsb bb files. The changes of this will be only in lsb image.
+Thanks
+Yan
+> Cheers,
+>
+> Richard
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+
 
 
