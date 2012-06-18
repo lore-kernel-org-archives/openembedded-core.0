@@ -1,24 +1,26 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1SgeOk-0001Am-E2
+	(envelope-from <sgw@linux.intel.com>) id 1SgfFi-0001oC-3t
 	for openembedded-core@lists.openembedded.org;
-	Mon, 18 Jun 2012 18:01:50 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 18 Jun 2012 08:50:53 -0700
+	Mon, 18 Jun 2012 18:56:34 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 18 Jun 2012 09:45:51 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="159057533"
-Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.120.122])
-	by orsmga002.jf.intel.com with ESMTP; 18 Jun 2012 08:50:52 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 18 Jun 2012 16:50:50 +0100
-Message-Id: <24c85c99d46225bedd33abb52c4fe638842c3ca3.1340034490.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1340034490.git.paul.eggleton@linux.intel.com>
-References: <cover.1340034490.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1340034490.git.paul.eggleton@linux.intel.com>
-References: <cover.1340034490.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 1/1] classes/cml1: ensure -c menuconfig forces a rebuild next time
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="181665680"
+Received: from unknown (HELO [10.255.12.105]) ([10.255.12.105])
+	by fmsmga002.fm.intel.com with ESMTP; 18 Jun 2012 09:45:50 -0700
+Message-ID: <4FDF5B3E.5050503@linux.intel.com>
+Date: Mon, 18 Jun 2012 09:45:50 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <1339764889-25852-1-git-send-email-laurentiu.palcu@intel.com>
+	<1339764889-25852-3-git-send-email-laurentiu.palcu@intel.com>
+In-Reply-To: <1339764889-25852-3-git-send-email-laurentiu.palcu@intel.com>
+Subject: Re: [PATCH 2/2] puzzles: upgrade to r9561
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,62 +35,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Jun 2012 16:01:50 -0000
+X-List-Received-Date: Mon, 18 Jun 2012 16:56:34 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Ensure the following results in the kernel being rebuilt, repackaged and
-re-deployed in the final step:
+On 06/15/2012 05:54 AM, Laurentiu Palcu wrote:
+> Minor change in LICENCE file:
+>
+> -This software is copyright (c) 2004-2010 Simon Tatham.
+> +This software is copyright (c) 2004-2012 Simon Tatham.
+>
+> Signed-off-by: Laurentiu Palcu<laurentiu.palcu@intel.com>
+> ---
+>   .../puzzles/{puzzles_r9375.bb =>  puzzles_r9561.bb} |    6 +++---
+>   1 file changed, 3 insertions(+), 3 deletions(-)
+>   rename meta/recipes-sato/puzzles/{puzzles_r9375.bb =>  puzzles_r9561.bb} (88%)
+>
+> diff --git a/meta/recipes-sato/puzzles/puzzles_r9375.bb b/meta/recipes-sato/puzzles/puzzles_r9561.bb
+> similarity index 88%
+> rename from meta/recipes-sato/puzzles/puzzles_r9375.bb
+> rename to meta/recipes-sato/puzzles/puzzles_r9561.bb
+> index 1867dad..83fabdf 100644
+> --- a/meta/recipes-sato/puzzles/puzzles_r9375.bb
+> +++ b/meta/recipes-sato/puzzles/puzzles_r9561.bb
+> @@ -6,13 +6,13 @@ PR = "r0"
+>   MOD_PV = "${@d.getVar('PV',1)[1:]}"
+>
+>   LICENSE = "MIT"
+> -LIC_FILES_CHKSUM = "file://LICENCE;md5=9928b60f3b78be315b7ab699c1b03ff5"
+> +LIC_FILES_CHKSUM = "file://LICENCE;md5=453de74d749439762ef4814f7bee1fec"
+>
+>   # Upstream updates puzzles.tar.gz for the new release, so checksums seem to be changing regularly right now
+>   #SRC_URI = "svn://ixion.tartarus.org/main;module=puzzles;rev=${MOD_PV}"
+>   SRC_URI = "http://www.chiark.greenend.org.uk/~sgtatham/puzzles/puzzles-${PV}.tar.gz"
+> -SRC_URI[md5sum] = "25f2349611cdd8fb35d27b24f5b937a8"
+> -SRC_URI[sha256sum] = "bddf4e52c328c98b9d95bd7daf6b9098f25e8272a7c1059ba69809eb619124a2"
+> +SRC_URI[md5sum] = "c86695aebfc95efe1d6241863849101b"
+> +SRC_URI[sha256sum] = "2c20a45189387e3de8804a58bdb4e47ac4bb0f890001a509dfbdc015b5a84b95"
+>
+>
+>   S = "${WORKDIR}/${BPN}-${PV}"
 
-bitbake virtual/kernel
-bitbake -c menuconfig virtual/kernel
-[ make changes to the kernel configuration and save ]
-bitbake virtual/kernel
+Merged into OE-Core
 
-If there are no changes to the configuration saved, the rebuild will not
-be triggered.
-
-Note that this relies on a function recently added to BitBake and
-requires full hashing (i.e. BB_SIGNATURE_HANDLER must be set to a
-signature handler that inherits from BasicHash) - if this is not the
-case or the function is not available in the version of BitBake being
-used this change will do nothing.
-
-Fixes [YOCTO #2256].
-
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- meta/classes/cml1.bbclass |   16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
-
-diff --git a/meta/classes/cml1.bbclass b/meta/classes/cml1.bbclass
-index bd25311..fd80c18 100644
---- a/meta/classes/cml1.bbclass
-+++ b/meta/classes/cml1.bbclass
-@@ -15,7 +15,23 @@ HOSTLDFLAGS = "${BUILD_LDFLAGS}"
- HOST_LOADLIBES = "-lncurses"
- 
- python do_menuconfig() {
-+        try:
-+            mtime = os.path.getmtime(".config")
-+        except OSError:
-+            mtime = 0
-+
-         oe_terminal("${SHELL} -c \"make menuconfig; echo 'Pausing for 5 seconds'; sleep 5\"", '${PN} Configuration', d)
-+
-+        # FIXME this check can be removed when the minimum bitbake version has been bumped
-+        if hasattr(bb.build, 'write_taint'):
-+            try:
-+                newmtime = os.path.getmtime(".config")
-+            except OSError:
-+                newmtime = 0
-+
-+            if newmtime > mtime:
-+                bb.note("Configuration changed, recompile will be forced")
-+                bb.build.write_taint('do_compile', d)
- }
- do_menuconfig[depends] += "ncurses-native:do_populate_sysroot"
- do_menuconfig[nostamp] = "1"
--- 
-1.7.9.5
-
+Thanks
+	Sau!
 
 
