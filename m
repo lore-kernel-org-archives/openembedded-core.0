@@ -1,24 +1,24 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Sh11M-00027q-RB
+	(envelope-from <sgw@linux.intel.com>) id 1Sh11M-00027s-VK
 	for openembedded-core@lists.openembedded.org;
 	Tue, 19 Jun 2012 18:11:13 +0200
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
 	by orsmga101.jf.intel.com with ESMTP; 19 Jun 2012 09:00:01 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="155520252"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="155520267"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.123])
-	by orsmga001.jf.intel.com with ESMTP; 19 Jun 2012 09:00:00 -0700
+	by orsmga001.jf.intel.com with ESMTP; 19 Jun 2012 09:00:01 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 19 Jun 2012 08:59:25 -0700
-Message-Id: <00bc8ed546df0b0d053125333a1e246867ccf10f.1340121099.git.sgw@linux.intel.com>
+Date: Tue, 19 Jun 2012 08:59:28 -0700
+Message-Id: <6a2679901a1f1e6f1c72a39dcf9a7b3944ee263f.1340121099.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <cover.1340121099.git.sgw@linux.intel.com>
 References: <cover.1340121099.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1340121099.git.sgw@linux.intel.com>
 References: <cover.1340121099.git.sgw@linux.intel.com>
-Subject: [PATCH 07/39] taglib: correct location of taglib-config to -dev
+Subject: [PATCH 10/39] libproxy: clean up FILE after PACKAGE reorder
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,30 +37,24 @@ X-List-Received-Date: Tue, 19 Jun 2012 16:11:13 -0000
 
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/recipes-support/taglib/taglib_1.6.3.bb |    3 +--
- 1 files changed, 1 insertions(+), 2 deletions(-)
+ meta/recipes-support/libproxy/libproxy_0.4.7.bb |    3 ++-
+ 1 files changed, 2 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-support/taglib/taglib_1.6.3.bb b/meta/recipes-support/taglib/taglib_1.6.3.bb
-index 97980f7..bda7d02 100644
---- a/meta/recipes-support/taglib/taglib_1.6.3.bb
-+++ b/meta/recipes-support/taglib/taglib_1.6.3.bb
-@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://COPYING.LGPL;md5=db979804f025cf55aabec7129cb671ed \
-                     file://COPYING.MPL;md5=bfe1f75d606912a4111c90743d6c7325 \
-                     file://taglib/audioproperties.h;beginline=1;endline=24;md5=39dcdd772f378a0f8c9a41bc929eccce"
+diff --git a/meta/recipes-support/libproxy/libproxy_0.4.7.bb b/meta/recipes-support/libproxy/libproxy_0.4.7.bb
+index e3721a8..7e3cf27 100644
+--- a/meta/recipes-support/libproxy/libproxy_0.4.7.bb
++++ b/meta/recipes-support/libproxy/libproxy_0.4.7.bb
+@@ -23,8 +23,9 @@ inherit cmake pkgconfig
+ EXTRA_OECMAKE = "-DWITH_WEBKIT=no -DWITH_GNOME=yes -DWITH_KDE4=no \
+ 	      -DWITH_PYTHON=no -DWITH_PERL=no -DWITH_MOZJS=no -DWITH_NM=no -DLIB_INSTALL_DIR=${libdir}"
  
--PR = "r1"
-+PR = "r2"
- # http://developer.kde.org/~wheeler/files/src/taglib-${PV}.tar.gz
- SRC_URI = "http://launchpad.net/${BPN}/trunk/${PV}/+download/${BPN}-${PV}.tar.gz \
-            file://configuretweak.patch \
-@@ -20,7 +20,6 @@ S = "${WORKDIR}/taglib-${PV}"
- inherit autotools pkgconfig binconfig
++FILES_${PN} += "${libdir}/${BPN}/${PV}/modules"
+ FILES_${PN}-dev += "${datadir}/cmake"
+-FILES_${PN}-dbg += "${libdir}/libproxy/${PV}/plugins/.debug/ ${libdir}/libproxy/${PV}/modules/.debug/"
++FILES_${PN}-dbg += "${libdir}/${BPN}/${PV}/plugins/.debug/ ${libdir}/${BPN}/${PV}/modules/.debug/"
  
- PACKAGES =+ "${PN}-c"
--FILES_${PN}-dbg += "${bindir}/taglib-config"
- FILES_${PN}-c = "${libdir}/libtag_c.so.*"
- 
- do_configure_prepend () {
+ do_configure_prepend() {
+ 	export HOST_SYS=${HOST_SYS}
 -- 
 1.7.7.6
 
