@@ -1,32 +1,34 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
+Received: from astoria.ccjclearline.com ([64.235.106.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1Sh5Ha-00023d-Vx
+	(envelope-from <rpjday@crashcourse.ca>) id 1Sh5Ww-0002pC-TB
 	for openembedded-core@lists.openembedded.org;
-	Tue, 19 Jun 2012 22:44:15 +0200
-Received: by eaal1 with SMTP id l1so2207201eaa.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Jun 2012 13:33:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type; bh=8H3qq0YL38H0l8/7D7TKTDditrxQDLRcg1GBFx/ix7s=;
-	b=uSlUt18j35w2nS+KvRqp/HKUwc/5lNR3zQBnyVg1MzXVtJf6bCGfJVUK+pH9opOmVl
-	ao9vvGEYSu+B/PTgabgayPjyTiF4y5ygdG5QJYV9d+vx6Tg20xJtDCb1WB64SGeBtugi
-	UyZi0VVAGUZz/E+aZJsPgWIbWw1uoYrkZ2zMaX3rbVVHrPXaVBOIKQsLSHXNeaJnlWrR
-	OGNiqTO+vQf7kzXgKShZeeEosY+6rf4BXigleo1XT+ib6VjvtSRbqPVUE1pM9emksPps
-	6u+Qg8R67oAnKejxxvLqt1vqJzjh8AU0jNK+hUemMas+OL0zksWgcx4KYWOI6DGdSVZX
-	EFFQ==
+	Tue, 19 Jun 2012 23:00:07 +0200
+Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
+	([99.241.91.63]:56757 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.77) (envelope-from <rpjday@crashcourse.ca>)
+	id 1Sh5Ma-0002Mb-8l; Tue, 19 Jun 2012 16:49:24 -0400
+Date: Tue, 19 Jun 2012 16:49:18 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@oneiric
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+In-Reply-To: <2651001.mzcHSCxQpi@helios>
+Message-ID: <alpine.DEB.2.02.1206191647570.3325@oneiric>
+References: <alpine.DEB.2.02.1206191218210.929@oneiric>
+	<2651001.mzcHSCxQpi@helios>
+User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
 MIME-Version: 1.0
-Received: by 10.14.37.206 with SMTP id y54mr4811061eea.218.1340138011221; Tue,
-	19 Jun 2012 13:33:31 -0700 (PDT)
-Received: by 10.14.219.71 with HTTP; Tue, 19 Jun 2012 13:33:31 -0700 (PDT)
-In-Reply-To: <CANrdZLjpmXK5j+jr=fTD43je2Ni6exWGcrCkejKgE1ZZXe5TGQ@mail.gmail.com>
-References: <CANrdZLjpmXK5j+jr=fTD43je2Ni6exWGcrCkejKgE1ZZXe5TGQ@mail.gmail.com>
-Date: Tue, 19 Jun 2012 13:33:31 -0700
-Message-ID: <CAMKF1spWqFCoXRbnevoKz+ftThQf41nObpMQ6N46YQ6_fucznQ@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Generating a movable SDK
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: some simple questions about assignment and appending
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,59 +43,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Jun 2012 20:44:15 -0000
-Content-Type: multipart/alternative; boundary=bcaec517a71c1bdec904c2d93271
+X-List-Received-Date: Tue, 19 Jun 2012 21:00:07 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
---bcaec517a71c1bdec904c2d93271
-Content-Type: text/plain; charset=UTF-8
+On Tue, 19 Jun 2012, Paul Eggleton wrote:
 
-On Tuesday, June 19, 2012, Steve English <steve.english@navetas.com> wrote:
-> Hi,
-> I've generated a cross compiling ARM SDK
-(angstrom-eglibc-x86_64-armv7a-v2012.05-toolchain.tar.bz2) that works great
-if installed in /usr/local/oecore-x86_64. I would like to move these
-binaries and run them from under my home directory (on this and other host
-machines).
+> On Tuesday 19 June 2012 12:28:22 Robert P. J. Day wrote:
 >
-> I can tweak the PATH and use --sysroot where appropriate, but the ELF
-binaries themselves specify a loader of
-/usr/local/oecore-x86_64/sysroots/x86_64-angstromsdk-linux/lib/ld-linux-x86-64.so.2
-in their .interp header. Is it possible to generate an SDK that uses the
-standard host loader, or at least uses a relative path for the built loader?
-
-
-Sdk is not install time relocatable yet there is a feature enhancement
-request in yo to bugzilla for the same
-
-M>
-> I have also asked this question (in a slightly more generic form) on
-Stack Overflow http://stackoverflow.com/q/11104609/307745
+> >   finally, what are the evaluation mechanics of the "?=" operator?
 >
-> Thanks,
->
-> Steve
->
+> ?= is the same as = except that it only sets the value if it is not
+> already set at the time the line is parsed.
 
---bcaec517a71c1bdec904c2d93271
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+  just so i don't come across as a total idiot, i did understand that
+"?=" is a conditional assignment -- my question was whether it had
+immediate evaluation semantics like ":=" or delayed evaluation
+semantics like "=", and you appear to have answered that.  thanks.
 
-<br><br>On Tuesday, June 19, 2012, Steve English &lt;<a href=3D"mailto:stev=
-e.english@navetas.com">steve.english@navetas.com</a>&gt; wrote:<br>&gt; Hi,=
-<br>&gt; I&#39;ve generated a cross compiling ARM SDK (angstrom-eglibc-x86_=
-64-armv7a-v2012.05-toolchain.tar.bz2) that works great if installed in /usr=
-/local/oecore-x86_64. I would like to move these binaries and run them from=
- under my home directory (on this and other host machines).<br>
-&gt;<br>&gt; I can tweak the PATH and use --sysroot where appropriate, but =
-the ELF binaries themselves specify a loader of /usr/local/oecore-x86_64/sy=
-sroots/x86_64-angstromsdk-linux/lib/ld-linux-x86-64.so.2 in their .interp h=
-eader. Is it possible to generate an SDK that uses the standard host loader=
-, or at least uses a relative path for the built loader?<br>
-<br><br>Sdk is not install time relocatable yet there is a feature enhancem=
-ent request in yo to bugzilla for the same<br><br>M&gt;<br>&gt; I have also=
- asked this question (in a slightly more generic form) on Stack Overflow <a=
- href=3D"http://stackoverflow.com/q/11104609/307745">http://stackoverflow.c=
-om/q/11104609/307745</a><br>
-&gt;<br>&gt; Thanks,<br>&gt;<br>&gt; Steve<br>&gt;
+rday
 
---bcaec517a71c1bdec904c2d93271--
+-- 
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
+
+
