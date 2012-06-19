@@ -1,45 +1,25 @@
-Received: from moutng.kundenserver.de ([212.227.126.187])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <steve.english@navetas.com>) id 1Sh2Cd-0004vd-BR
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1Sh2Sc-00057u-TU
 	for openembedded-core@lists.openembedded.org;
-	Tue, 19 Jun 2012 19:26:55 +0200
-Received: from mail-gh0-f175.google.com (mail-gh0-f175.google.com
-	[209.85.160.175])
-	by mrelayeu.kundenserver.de (node=mrbap0) with ESMTP (Nemesis)
-	id 0MOkKM-1Sn4Ff1ZdW-0064SJ; Tue, 19 Jun 2012 19:03:33 +0200
-Received: by ghbz2 with SMTP id z2so4459745ghb.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Jun 2012 10:03:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:date:message-id:subject:from:to:content-type
-	:x-gm-message-state;
-	bh=TTHasnWvC4UObcHe3ggP1JgXUa5z1nJKEv7BwzvMuIU=;
-	b=Y4eLjWbuDA7j5HcndhQ2hMIRJwKFkn7/w7PmJx0xCBoGS2mW9i6p0tX7XgKs0sAQxp
-	4+MyGidfKujPIcCVQlh7lgvGGmQssBMQu7pqNR0BR6ZsWIah7PU+urnVjTMnETNd7x0U
-	tPeb8JQyg63MISGXNh1CszMuBWZaq7R7BFSH9oTjkLzwEv6r70WLAJqg6lSCp/cjvHwJ
-	wTzfPi/kyZUKm29IUa7A2L1FKV5X5fG7eb20ntgJtEnt5z9hObFXQR7HJ3iq5KP1O355
-	8724j0lZRJ/Xm4iqG+boXQcSTThy2JvFn5pqUbSGAWiOsxYeAYNS41JXtSgJU3R3UVve
-	wwxg==
+	Tue, 19 Jun 2012 19:43:27 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 19 Jun 2012 10:32:42 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="158266642"
+Received: from unknown (HELO helios.localnet) ([10.252.120.169])
+	by azsmga001.ch.intel.com with ESMTP; 19 Jun 2012 10:32:41 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+Date: Tue, 19 Jun 2012 18:32:40 +0100
+Message-ID: <2651001.mzcHSCxQpi@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.8.3 (Linux/3.2.0-25-generic-pae; KDE/4.8.3; i686; ; )
+In-Reply-To: <alpine.DEB.2.02.1206191218210.929@oneiric>
+References: <alpine.DEB.2.02.1206191218210.929@oneiric>
 MIME-Version: 1.0
-Received: by 10.50.185.163 with SMTP id fd3mr2049275igc.22.1340125411808; Tue,
-	19 Jun 2012 10:03:31 -0700 (PDT)
-Received: by 10.64.77.130 with HTTP; Tue, 19 Jun 2012 10:03:31 -0700 (PDT)
-Date: Tue, 19 Jun 2012 18:03:31 +0100
-Message-ID: <CANrdZLjpmXK5j+jr=fTD43je2Ni6exWGcrCkejKgE1ZZXe5TGQ@mail.gmail.com>
-From: Steve English <steve.english@navetas.com>
-To: openembedded-core@lists.openembedded.org
-X-Gm-Message-State: ALoCoQk743KcHVQ8bS+yDOjfvyiS/AJOuQ8cwFusZA992GHaljp+xAeVXPfkbDqpWWCo9Qnz1044
-X-Provags-ID: V02:K0:+0pD4DV8dl462dYdVP9iHPa+hoHn3H0KlGBAD/hm3x1
-	tXrmUGSG/EHUVTea2HmyKLuJS8/aeVTBgdzD1Xn+9XTwPoXQ5H
-	bwVJSxU1+J+Q5rfcTiHNHtshmmEEXHbZhPPqA9L8FtTnicwHKm
-	Oom/gZbhQqJPBLvYK23WNgmJBRyh0VNmnY0dVTsjuV3+No46Lj
-	3p05z1Yr8cVNznXzs6ukn4g8a6nPkBaaP7OfQUckSnyeiZ57pf
-	t2HnzHbgIFmYjZwuHfTigjIJIOAA9oWmiu32agiyCvfm1jCl4P
-	ZOC/tRgUnVp4gh57cmu+JJ6Aj9VrohNlu+KYofE60u8VfoBNUy
-	laanpWHO72V5961u2jh77afxdgnv1uA8D5Ux3WrW8yQ/KiwYpt
-	j92vCc+K1qRHcUl4moCEdLTpIRx6b4/S1EAAUm5ZN6d8knVooE JhlV0
-Subject: Generating a movable SDK
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: some simple questions about assignment and appending
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -54,47 +34,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Jun 2012 17:26:55 -0000
-Content-Type: multipart/alternative; boundary=14dae9340d8b2015c804c2d6431b
+X-List-Received-Date: Tue, 19 Jun 2012 17:43:27 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
---14dae9340d8b2015c804c2d6431b
-Content-Type: text/plain; charset=ISO-8859-1
+On Tuesday 19 June 2012 12:28:22 Robert P. J. Day wrote:
+>   i want to make absolutely sure i understand the mechanics of the
+> different types of assignment so i'm looking at this snippet from
+> core-image.bbclass:
+> 
+> ... snip ...
+> 
+> PACKAGE_GROUP_qt4-pkgs = "task-core-qt-demos"
+> 
+> CORE_IMAGE_BASE_INSTALL = '\
+>     task-core-boot \
+>     task-base-extended \
+>     \
+>     ${CORE_IMAGE_EXTRA_INSTALL} \
+>     '
+> 
+> CORE_IMAGE_EXTRA_INSTALL ?= ""
+> 
+> IMAGE_INSTALL ?= "${CORE_IMAGE_BASE_INSTALL}"
+> 
+> ... snip ...
+> 
+>   first, if you're assigning a fixed string (as in the first line
+> shown in the snippet above), i assume there is no functional
+> difference in using "=" versus ":=", correct?
 
-Hi,
-I've generated a cross compiling ARM SDK
-(angstrom-eglibc-x86_64-armv7a-v2012.05-toolchain.tar.bz2) that works great
-if installed in /usr/local/oecore-x86_64. I would like to move these
-binaries and run them from under my home directory (on this and other host
-machines).
+Correct. := means immediately expand all variable references and set the 
+variable's value to the result; if there aren't any references the value is 
+the same.
 
-I can tweak the PATH and use --sysroot where appropriate, but the ELF
-binaries themselves specify a loader of
-/usr/local/oecore-x86_64/sysroots/x86_64-angstromsdk-linux/lib/ld-linux-x86-64.so.2
-in their .interp header. Is it possible to generate an SDK that uses the
-standard host loader, or at least uses a relative path for the built loader?
+>   next, is there any value in that null line in the assignment to
+> CORE_IMAGE_BASE_INSTALL?
 
-I have also asked this question (in a slightly more generic form) on Stack
-Overflow http://stackoverflow.com/q/11104609/307745
+There's no functional meaning at least, I assume it is there purely for 
+formatting reasons.
 
-Thanks,
+>   next, is it technically necessary to conditionally do this?
+> 
+> CORE_IMAGE_EXTRA_INSTALL ?= ""
+> 
+> if that variable wasn't set, does it really need to be set to the
+> empty string?
 
-Steve
+Yes - references to unset variables are left unexpanded so without that line 
+if the variable was unset you would end up with a literal 
+${CORE_IMAGE_EXTRA_INSTALL} within the expanded value of 
+CORE_IMAGE_BASE_INSTALL, which would not be good.
 
---14dae9340d8b2015c804c2d6431b
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+>   finally, what are the evaluation mechanics of the "?=" operator?  
 
-Hi,<br>I&#39;ve generated a cross compiling ARM SDK (angstrom-eglibc-x86_64=
--armv7a-v2012.05-toolchain.tar.bz2) that works great if installed in /usr/l=
-ocal/oecore-x86_64. I would like to move these binaries and run them from u=
-nder my home directory (on this and other host machines).<br>
-<br>I can tweak the PATH and use --sysroot where appropriate, but the ELF b=
-inaries themselves specify a loader of /usr/local/oecore-x86_64/sysroots/x8=
-6_64-angstromsdk-linux/lib/ld-linux-x86-64.so.2 in their .interp header. Is=
- it possible to generate an SDK that uses the standard host loader, or at l=
-east uses a relative path for the built loader?<br>
-<br>I have also asked this question (in a slightly more generic form) on St=
-ack Overflow <a href=3D"http://stackoverflow.com/q/11104609/307745">http://=
-stackoverflow.com/q/11104609/307745</a><br><br>Thanks,<br><br>Steve<br>
+?= is the same as = except that it only sets the value if it is not already 
+set at the time the line is parsed.
 
---14dae9340d8b2015c804c2d6431b--
+> in this line,
+> 
+> IMAGE_INSTALL ?= "${CORE_IMAGE_BASE_INSTALL}"
+> 
+> is the right-hand side evaluated first?  i ask since i find the
+> snippet above a bit confusing in that you need to follow backwards to
+> deduce what IMAGE_INSTALL is eventually set to.  i would think this
+> would be easier to read:
+> 
+> CORE_IMAGE_BASE_INSTALL = '\
+>     task-core-boot \
+>     task-base-extended
+> 
+> IMAGE_INSTALL = "${CORE_IMAGE_BASE_INSTALL} ${CORE_IMAGE_EXTRA_INSTALL}"
+> 
+>   in this rewriting, i can *immediately* see what values are used to
+> construct IMAGE_INSTALL.  in the current code, it's nowhere near as
+> clear, and you have to backtrack to see how CORE_IMAGE_BASE_INSTALL is
+> assigned.
+
+So overall I agree this has unfortunately ended up being rather messy. To me, 
+the above change should be OK at face value and would improve readability; 
+however given that we potentially broke people's images/configuration not that 
+long ago by changing from POKY_* to CORE_IMAGE_* I think we want to be careful 
+about making significant changes to this again.
+
+Cheers,
+Paul
+
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
+
+
