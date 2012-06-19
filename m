@@ -1,20 +1,22 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <lianhao.lu@intel.com>) id 1SgyiC-0007JS-0a
+	(envelope-from <lianhao.lu@intel.com>) id 1SgyiD-0007JU-QA
 	for openembedded-core@lists.openembedded.org;
-	Tue, 19 Jun 2012 15:43:16 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 19 Jun 2012 06:32:31 -0700
+	Tue, 19 Jun 2012 15:43:18 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 19 Jun 2012 06:32:33 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="158161902"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="182142822"
 Received: from llu-piketon.sh.intel.com (HELO localhost) ([10.239.36.116])
-	by azsmga001.ch.intel.com with ESMTP; 19 Jun 2012 06:32:30 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 19 Jun 2012 06:32:33 -0700
 From: Lianhao Lu <lianhao.lu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 19 Jun 2012 21:32:59 +0800
-Message-Id: <cover.1340112263.git.lianhao.lu@intel.com>
+Date: Tue, 19 Jun 2012 21:33:00 +0800
+Message-Id: <c4e1a065c0a9417fb466ab2e23c3dddddfd5000e.1340112263.git.lianhao.lu@intel.com>
 X-Mailer: git-send-email 1.7.0.4
-Subject: [PATCH 0/3] misc IMAGE_FEATURE fixings
+In-Reply-To: <cover.1340112263.git.lianhao.lu@intel.com>
+References: <cover.1340112263.git.lianhao.lu@intel.com>
+Subject: [PATCH 1/3] classes/image: Allow openssh empty passwords login.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,40 +31,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Jun 2012 13:43:16 -0000
+X-List-Received-Date: Tue, 19 Jun 2012 13:43:18 -0000
 
-This patch set fixed the bug [YOCTO #2605].
+Allow empty passwords login so that the default root user can login in
+through openssh.
 
-It allows to login to openssh with empty password if the IMAGE_FEATURE
-debug-tweak feature is set.
+Signed-off-by: Lianhao Lu <lianhao.lu@intel.com>
+---
+ meta/classes/core-image.bbclass |    2 ++
+ meta/classes/image.bbclass      |   10 +++++++++-
+ 2 files changed, 11 insertions(+), 1 deletions(-)
 
-It processes conflicting IMAGE_FEATURE features, i.e. ssh-server-dropbear 
-and ssh-server-openssh.
-
-It also adds a new IMAGE_FEATURE 'eclipse-support' for developing user 
-applications using Eclipse plugin.
-
-The following changes since commit 6d761ae17ddbd3d936e7fe985b40825ad62b2418:
-  James Limbouris (1):
-        debian.bbclass: invoke target objdump
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib llu/bug2605
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=llu/bug2605
-
-Lianhao Lu (3):
-  classes/image: Allow openssh empty passwords login.
-  image/core-image: Handle conflicting IMAGE_FEATURES.
-  core-image/misc: Added new IMAGE_FEATURE eclipse-support.
-
- meta/classes/core-image.bbclass                    |   15 ++++++++++-
- meta/classes/image.bbclass                         |   26 +++++++++++++++++++-
- meta/conf/multilib.conf                            |    1 +
- .../tasks/task-core-eclipse-support.bb             |   17 +++++++++++++
- meta/recipes-sato/images/core-image-sato-sdk.bb    |    4 ++-
- 5 files changed, 60 insertions(+), 3 deletions(-)
- create mode 100644 meta/recipes-core/tasks/task-core-eclipse-support.bb
+diff --git a/meta/classes/core-image.bbclass b/meta/classes/core-image.bbclass
+index e2ad0fc..25f5c5a 100644
+--- a/meta/classes/core-image.bbclass
++++ b/meta/classes/core-image.bbclass
+@@ -69,4 +69,6 @@ ROOTFS_POSTPROCESS_COMMAND += "rootfs_update_timestamp ; "
+ 
+ # Zap the root password if debug-tweaks feature is not enabled
+ ROOTFS_POSTPROCESS_COMMAND += '${@base_contains("IMAGE_FEATURES", "debug-tweaks", "", "zap_root_password ; ",d)}'
++# Allow openssh accept empty password login if both debug-tweaks and ssh-server-openssh are enabled
++ROOTFS_POSTPROCESS_COMMAND += '${@base_contains("IMAGE_FEATURES", "debug-tweaks ssh-server-openssh", "openssh_allow_empty_password; ", "",d)}'
+ 
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index fb932b9..3f53271 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -318,6 +318,14 @@ zap_root_password () {
+ 	mv ${IMAGE_ROOTFS}/etc/passwd.new ${IMAGE_ROOTFS}/etc/passwd
+ } 
+ 
++# allow openssh accept login with empty password string
++openssh_allow_empty_password () {
++	if [ -e ${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config ]; then
++		sed 's#.*PermitEmptyPasswords.*#PermitEmptyPasswords yes#' ${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config >${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config.new
++		mv -f ${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config.new ${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config
++	fi
++}
++
+ # Turn any symbolic /sbin/init link into a file
+ remove_init_link () {
+ 	if [ -h ${IMAGE_ROOTFS}/sbin/init ]; then
+@@ -372,7 +380,7 @@ rootfs_trim_schemas () {
+ 	done
+ }
+ 
+-EXPORT_FUNCTIONS zap_root_password remove_init_link do_rootfs make_zimage_symlink_relative set_image_autologin rootfs_update_timestamp rootfs_no_x_startup
++EXPORT_FUNCTIONS zap_root_password remove_init_link do_rootfs make_zimage_symlink_relative set_image_autologin rootfs_update_timestamp rootfs_no_x_startup openssh_allow_empty_password
+ 
+ do_fetch[noexec] = "1"
+ do_unpack[noexec] = "1"
+-- 
+1.7.0.4
 
 
 
