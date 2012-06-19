@@ -1,32 +1,34 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from tygrysek.juszkiewicz.com.pl ([178.33.81.99])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1Sh1KI-0003vT-PY
+	(envelope-from <marcin.juszkiewicz@linaro.org>) id 1Sh1PV-00040V-Cc
 	for openembedded-core@lists.openembedded.org;
-	Tue, 19 Jun 2012 18:30:47 +0200
-Received: by eekd49 with SMTP id d49so2133408eek.6
+	Tue, 19 Jun 2012 18:36:09 +0200
+Received: by tygrysek.juszkiewicz.com.pl (Postfix, from userid 65534)
+	id E745AD2380; Tue, 19 Jun 2012 18:25:28 +0200 (CEST)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	tygrysek.juszkiewicz.com.pl
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=ham version=3.3.2
+Received: from [192.168.1.112] (87-206-60-144.dynamic.chello.pl
+	[87.206.60.144])
+	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	(Authenticated sender: marcin@juszkiewicz.com.pl)
+	by tygrysek.juszkiewicz.com.pl (Postfix) with ESMTPSA id 2605ED232A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Jun 2012 09:20:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type:content-transfer-encoding;
-	bh=yVfrPtHMgGYWIYNyTWwLx1lOymw9GzbRywPP6yHwEho=;
-	b=gn0WvZFeBcgdO1TgHVODwYJYx3kncDFNAuiV6Fo3BoGTNWIo4ubV1Dfm2c+QnVwQPG
-	ZvW+YZK7ChUk4thvneuzTj8J2JKTPI1eutWm3hnTBsASTxJyvghu/H0EXhmMvBNhRFWH
-	/pe0rliR7lp8pIzFkS2jC54YKOhB/8oiz6sk/XjZWnCwo+TKf5Ud3jUsBnHIGz2kljNE
-	Rl1A9i+Al1AS/u5Vr9Dbcqn0iT+0Db7NXOCCyPHZSgNgyNgI3M5AjdeWFhr7oL0r2CRg
-	/T4wd/T0UCRBjeUgJnkykbr6jRWi67yYm73E9FtiZr9LmP7iS5b9HP/SCUm6qitRgySl
-	ze1w==
-Received: by 10.14.97.16 with SMTP id s16mr4160618eef.117.1340122803127; Tue,
-	19 Jun 2012 09:20:03 -0700 (PDT)
+	Tue, 19 Jun 2012 18:25:07 +0200 (CEST)
+Message-ID: <4FE0A7DF.7030909@linaro.org>
+Date: Tue, 19 Jun 2012 18:25:03 +0200
+From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+Organization: Linaro
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:14.0) Gecko/20120611 Thunderbird/14.0
 MIME-Version: 1.0
-Received: by 10.14.219.71 with HTTP; Tue, 19 Jun 2012 09:19:32 -0700 (PDT)
-In-Reply-To: <4FE0714A.1060603@linaro.org>
+To: openembedded-core@lists.openembedded.org
 References: <4FE0684D.2000906@linaro.org> <4FE0714A.1060603@linaro.org>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 19 Jun 2012 09:19:32 -0700
-Message-ID: <CAMKF1spK-ezqmFr+rh7J5dcbVvPbpDFGHxW02HvX9uaWdqTohQ@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
+	<CAMKF1spK-ezqmFr+rh7J5dcbVvPbpDFGHxW02HvX9uaWdqTohQ@mail.gmail.com>
+In-Reply-To: <CAMKF1spK-ezqmFr+rh7J5dcbVvPbpDFGHxW02HvX9uaWdqTohQ@mail.gmail.com>
 Subject: Re: Is target toolchain supposed to be working?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -42,41 +44,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Jun 2012 16:30:48 -0000
+X-List-Received-Date: Tue, 19 Jun 2012 16:36:09 -0000
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jun 19, 2012 at 5:32 AM, Marcin Juszkiewicz
-<marcin.juszkiewicz@linaro.org> wrote:
-> W dniu 19.06.2012 13:53, Marcin Juszkiewicz pisze:
->> ignoring nonexistent directory "usr/include/c++/"
->> ignoring nonexistent directory "usr/include/c++//i586-oe-linux"
->> ignoring nonexistent directory "usr/include/c++//backward"
->> ignoring nonexistent directory "/usr/local/include"
->> ignoring nonexistent directory
->> "/usr/lib/gcc/i586-oe-linux/4.7.1/../../../../i586-oe-linux/include"
->> #include "..." search starts here:
->> =C2=A0.
->> #include <...> search starts here:
->> =C2=A0..
->> =C2=A0../lib
->> =C2=A0/usr/lib/gcc/i586-oe-linux/4.7.1/include
->> =C2=A0/usr/lib/gcc/i586-oe-linux/4.7.1/include-fixed
->> =C2=A0/usr/include
->> =C2=A0../lib/compat
->> End of search list.
->
-> Attached patch fixed problem for me.
->
+W dniu 19.06.2012 18:19, Khem Raj pisze:
 
+> includedir already has leading slash so I wonder if you changed 
+> includedir in your setup somehow ?
 
-includedir already has leading slash so I wonder if you changed
-includedir in your setup somehow ?
+bitbake gcc -e|grep ^includedir shown "/usr/include" value. G++ started
+on target as "g++ -v" shown "--with-c++-includes=/usr/include/c++" so I
+was surprised when it was not working.
 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+Added extra slash and it works. But please check in your configuration.
 
 
