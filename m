@@ -1,24 +1,24 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Sh11M-00027s-VK
+	(envelope-from <sgw@linux.intel.com>) id 1Sh11M-00027z-KU
 	for openembedded-core@lists.openembedded.org;
 	Tue, 19 Jun 2012 18:11:13 +0200
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 19 Jun 2012 09:00:01 -0700
+	by orsmga101.jf.intel.com with ESMTP; 19 Jun 2012 09:00:00 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="155520267"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="155520238"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.123])
-	by orsmga001.jf.intel.com with ESMTP; 19 Jun 2012 09:00:01 -0700
+	by orsmga001.jf.intel.com with ESMTP; 19 Jun 2012 09:00:00 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 19 Jun 2012 08:59:28 -0700
-Message-Id: <6a2679901a1f1e6f1c72a39dcf9a7b3944ee263f.1340121099.git.sgw@linux.intel.com>
+Date: Tue, 19 Jun 2012 08:59:23 -0700
+Message-Id: <e7d578f901087ac309ab3b3c96458596e0ba6fc6.1340121099.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <cover.1340121099.git.sgw@linux.intel.com>
 References: <cover.1340121099.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1340121099.git.sgw@linux.intel.com>
 References: <cover.1340121099.git.sgw@linux.intel.com>
-Subject: [PATCH 10/39] libproxy: clean up FILE after PACKAGE reorder
+Subject: [PATCH 05/39] pmutils: reorder file for correctness
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,24 +37,35 @@ X-List-Received-Date: Tue, 19 Jun 2012 16:11:13 -0000
 
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/recipes-support/libproxy/libproxy_0.4.7.bb |    3 ++-
- 1 files changed, 2 insertions(+), 1 deletions(-)
+ meta/recipes-bsp/pm-utils/pm-utils_1.4.1.bb |   11 +++++++----
+ 1 files changed, 7 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-support/libproxy/libproxy_0.4.7.bb b/meta/recipes-support/libproxy/libproxy_0.4.7.bb
-index e3721a8..7e3cf27 100644
---- a/meta/recipes-support/libproxy/libproxy_0.4.7.bb
-+++ b/meta/recipes-support/libproxy/libproxy_0.4.7.bb
-@@ -23,8 +23,9 @@ inherit cmake pkgconfig
- EXTRA_OECMAKE = "-DWITH_WEBKIT=no -DWITH_GNOME=yes -DWITH_KDE4=no \
- 	      -DWITH_PYTHON=no -DWITH_PERL=no -DWITH_MOZJS=no -DWITH_NM=no -DLIB_INSTALL_DIR=${libdir}"
+diff --git a/meta/recipes-bsp/pm-utils/pm-utils_1.4.1.bb b/meta/recipes-bsp/pm-utils/pm-utils_1.4.1.bb
+index 92d65c1..faa0e4e 100644
+--- a/meta/recipes-bsp/pm-utils/pm-utils_1.4.1.bb
++++ b/meta/recipes-bsp/pm-utils/pm-utils_1.4.1.bb
+@@ -11,14 +11,17 @@ RDEPENDS_${PN} = "grep"
  
-+FILES_${PN} += "${libdir}/${BPN}/${PV}/modules"
- FILES_${PN}-dev += "${datadir}/cmake"
--FILES_${PN}-dbg += "${libdir}/libproxy/${PV}/plugins/.debug/ ${libdir}/libproxy/${PV}/modules/.debug/"
-+FILES_${PN}-dbg += "${libdir}/${BPN}/${PV}/plugins/.debug/ ${libdir}/${BPN}/${PV}/modules/.debug/"
+ SRC_URI = "http://pm-utils.freedesktop.org/releases/pm-utils-${PV}.tar.gz"
  
- do_configure_prepend() {
- 	export HOST_SYS=${HOST_SYS}
++SRC_URI[md5sum] = "1742a556089c36c3a89eb1b957da5a60"
++SRC_URI[sha256sum] = "8ed899032866d88b2933a1d34cc75e8ae42dcde20e1cc21836baaae3d4370c0b"
++
+ inherit pkgconfig autotools
+ 
+-FILES_${PN}-dbg += "${libdir}/pm-utils/bin/.debug \
+-		    ${datadir}/doc/pm-utils/README.debugging"
++RDEPENDS_${PN} = "grep"
+ 
+ do_configure_prepend () {
+ 	autoreconf -f -i -s
+ }
+ 
+-SRC_URI[md5sum] = "1742a556089c36c3a89eb1b957da5a60"
+-SRC_URI[sha256sum] = "8ed899032866d88b2933a1d34cc75e8ae42dcde20e1cc21836baaae3d4370c0b"
++FILES_${PN} += "${libdir}/${BPN}/*"
++FILES_${PN}-dbg += "${libdir}/${BPN}/bin/.debug \
++		    ${datadir}/doc/pm-utils/README.debugging"
 -- 
 1.7.7.6
 
