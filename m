@@ -1,24 +1,24 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Sh11T-00027z-0h
+	(envelope-from <sgw@linux.intel.com>) id 1Sh11V-00027q-9k
 	for openembedded-core@lists.openembedded.org;
-	Tue, 19 Jun 2012 18:11:19 +0200
+	Tue, 19 Jun 2012 18:11:21 +0200
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 19 Jun 2012 09:00:08 -0700
+	by orsmga101.jf.intel.com with ESMTP; 19 Jun 2012 09:00:09 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="155520396"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="155520416"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.123])
-	by orsmga001.jf.intel.com with ESMTP; 19 Jun 2012 09:00:08 -0700
+	by orsmga001.jf.intel.com with ESMTP; 19 Jun 2012 09:00:09 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 19 Jun 2012 08:59:51 -0700
-Message-Id: <b59d5d0db40212ed27c4d888bfb75299819e3227.1340121099.git.sgw@linux.intel.com>
+Date: Tue, 19 Jun 2012 08:59:56 -0700
+Message-Id: <056920553482ead5dc6260668c9af70c1d904029.1340121099.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <cover.1340121099.git.sgw@linux.intel.com>
 References: <cover.1340121099.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1340121099.git.sgw@linux.intel.com>
 References: <cover.1340121099.git.sgw@linux.intel.com>
-Subject: [PATCH 33/39] grub: Clean up FILES_* after PACKAGES reoder
+Subject: [PATCH 38/39] libevent: disable openssl by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,52 +35,35 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 19 Jun 2012 16:11:21 -0000
 
+This creates a more deterministic build and also reduces the size of this library.
+
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/recipes-bsp/grub/grub_0.97.bb |    5 +----
- meta/recipes-bsp/grub/grub_1.99.bb |    4 +---
- 2 files changed, 2 insertions(+), 7 deletions(-)
+ meta/recipes-support/libevent/libevent_2.0.16.bb |    4 +++-
+ 1 files changed, 3 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-bsp/grub/grub_0.97.bb b/meta/recipes-bsp/grub/grub_0.97.bb
-index 1cde30d..da72c7a 100644
---- a/meta/recipes-bsp/grub/grub_0.97.bb
-+++ b/meta/recipes-bsp/grub/grub_0.97.bb
-@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=c93c0550bd3173f4504b2cbd8991e50b \
-                     file://grub/main.c;beginline=3;endline=9;md5=22a5f28d2130fff9f2a17ed54be90ed6"
+diff --git a/meta/recipes-support/libevent/libevent_2.0.16.bb b/meta/recipes-support/libevent/libevent_2.0.16.bb
+index 38d42f0..1c464ef 100644
+--- a/meta/recipes-support/libevent/libevent_2.0.16.bb
++++ b/meta/recipes-support/libevent/libevent_2.0.16.bb
+@@ -7,7 +7,7 @@ SECTION = "libs"
+ LICENSE = "BSD"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=50aad300de703db62baae12146832b45"
  
- RDEPENDS_${PN} = "diffutils"
--PR = "r5"
-+PR = "r6"
+-PR = "r1"
++PR = "r2"
  
- SRC_URI = "ftp://alpha.gnu.org/gnu/grub/grub-${PV}.tar.gz; \
-             file://no-reorder-functions.patch \
-@@ -34,6 +34,3 @@ do_install_append_vmware() {
- 	mkdir -p ${D}/boot/
- 	ln -sf ../usr/lib/grub/{$TARGET_ARCH}{$TARGET_VENDOR}/ ${D}/boot/grub
- }
--
--FILES_${PN}-doc = "${datadir}"
--FILES_${PN} = "/boot /usr"
-diff --git a/meta/recipes-bsp/grub/grub_1.99.bb b/meta/recipes-bsp/grub/grub_1.99.bb
-index 882f21d..0d49f23 100644
---- a/meta/recipes-bsp/grub/grub_1.99.bb
-+++ b/meta/recipes-bsp/grub/grub_1.99.bb
-@@ -13,7 +13,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+ SRC_URI = "http://github.com/downloads/libevent/libevent/${BPN}-${PV}-stable.tar.gz \
+            file://libevent-2.0.16_fix_for_x32.patch"
+@@ -17,6 +17,8 @@ SRC_URI[sha256sum] = "a578c7bcaf3bab1cc7924bd4d219f2ea621ab8c51dfc4f886e234b6ef4
  
- DEPENDS = "autogen-native"
- RDEPENDS_${PN} = "diffutils freetype"
--PR = "r7"
-+PR = "r8"
+ S = "${WORKDIR}/${BPN}-${PV}-stable"
  
- SRC_URI = "ftp://ftp.gnu.org/gnu/grub/grub-${PV}.tar.gz \
-           file://grub-install.in.patch \
-@@ -44,6 +44,4 @@ do_install_append () {
-     install -m 0755 ${WORKDIR}/40_custom ${D}${sysconfdir}/grub.d/40_custom
- }
++EXTRA_OECONF = "--disable-openssl"
++
+ inherit autotools
  
--FILES_${PN}-doc = "${datadir}"
--FILES_${PN} = "/usr /etc"
- INSANE_SKIP_${PN} = "arch"
+ # Needed for Debian packaging
 -- 
 1.7.7.6
 
