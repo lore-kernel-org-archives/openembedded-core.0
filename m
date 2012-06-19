@@ -1,24 +1,24 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Sh11S-00028G-U6
+	(envelope-from <sgw@linux.intel.com>) id 1Sh11T-00027q-6M
 	for openembedded-core@lists.openembedded.org;
 	Tue, 19 Jun 2012 18:11:19 +0200
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 19 Jun 2012 09:00:06 -0700
+	by orsmga101.jf.intel.com with ESMTP; 19 Jun 2012 09:00:08 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="155520364"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="155520404"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.123])
-	by orsmga001.jf.intel.com with ESMTP; 19 Jun 2012 09:00:06 -0700
+	by orsmga001.jf.intel.com with ESMTP; 19 Jun 2012 09:00:08 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 19 Jun 2012 08:59:45 -0700
-Message-Id: <89a4526ac1ef3be68e583bd6e6e87635345fdb4f.1340121099.git.sgw@linux.intel.com>
+Date: Tue, 19 Jun 2012 08:59:53 -0700
+Message-Id: <ed4ba40c1365820d4410f14ad951fcfbf547acce.1340121099.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <cover.1340121099.git.sgw@linux.intel.com>
 References: <cover.1340121099.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1340121099.git.sgw@linux.intel.com>
 References: <cover.1340121099.git.sgw@linux.intel.com>
-Subject: [PATCH 27/39] gtk-sato-engine: clean up FILE after PACKAGE reorder
+Subject: [PATCH 35/39] man-pages: Clean up FILES_* after PACKAGES reoder
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,36 +37,30 @@ X-List-Received-Date: Tue, 19 Jun 2012 16:11:21 -0000
 
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/recipes-sato/gtk-engines/gtk-sato-engine.inc  |    2 +-
- .../gtk-engines/gtk-sato-engine_git.bb             |    2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-extended/man-pages/man-pages_3.41.bb |    6 ++++--
+ 1 files changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-sato/gtk-engines/gtk-sato-engine.inc b/meta/recipes-sato/gtk-engines/gtk-sato-engine.inc
-index 8472ecb..f75a038 100644
---- a/meta/recipes-sato/gtk-engines/gtk-sato-engine.inc
-+++ b/meta/recipes-sato/gtk-engines/gtk-sato-engine.inc
-@@ -10,7 +10,7 @@ RDEPENDS_gtk-theme-sato = "gtk-sato-engine"
+diff --git a/meta/recipes-extended/man-pages/man-pages_3.41.bb b/meta/recipes-extended/man-pages/man-pages_3.41.bb
+index cf0523c..f6a399a 100644
+--- a/meta/recipes-extended/man-pages/man-pages_3.41.bb
++++ b/meta/recipes-extended/man-pages/man-pages_3.41.bb
+@@ -3,7 +3,7 @@ DESCRIPTION = "The Linux man-pages project documents the Linux kernel and C libr
+ SECTION = "console/utils"
+ HOMEPAGE = "http://www.kernel.org/pub/linux/docs/man-pages"
+ LICENSE = "GPLv2+"
+-PR = "r0"
++PR = "r1"
  
- PACKAGES += "gtk-theme-sato"
- FILES_${PN} = "${libdir}/gtk-2.0/*/engines/*.so "
--FILES_${PN}-dev = "${libdir}/gtk-2.0/*/engines/*"
-+FILES_${PN}-dev = "${libdir}/gtk-2.0/*/engines/*.la"
- FILES_${PN}-dbg += " ${libdir}/gtk-2.0/*/engines/.debug"
- FILES_gtk-theme-sato = "${datadir}/icons ${datadir}/themes"
+ LIC_FILES_CHKSUM = "file://README;md5=0422377a748010b2b738342e24f141c1"
+ SRC_URI = "${KERNELORG_MIRROR}/linux/docs/${BPN}/Archive/${BP}.tar.gz"
+@@ -25,4 +25,6 @@ do_install() {
+         oe_runmake install DESTDIR=${D}
+ }
  
-diff --git a/meta/recipes-sato/gtk-engines/gtk-sato-engine_git.bb b/meta/recipes-sato/gtk-engines/gtk-sato-engine_git.bb
-index d6685f5..467c40a 100644
---- a/meta/recipes-sato/gtk-engines/gtk-sato-engine_git.bb
-+++ b/meta/recipes-sato/gtk-engines/gtk-sato-engine_git.bb
-@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=2d5025d4aa3495befef8f17206a5b0a1 \
- 
- SRCREV = "e4a29fbb7648f12fb3aefd8ea0120c3f54ba392a"
- PV = "0.3.3+git${SRCPV}"
--PR = "r1"
-+PR = "r2"
- 
- SRC_URI = "git://git.yoctoproject.org/${BPN};protocol=git"
- 
+-FILES_${PN} += "${datadir}/man/"
++# Only deliveres man-pages so FILES_${PN} gets everything
++FILES_${PN}-doc = ""
++FILES_${PN} = "${mandir}/*"
 -- 
 1.7.7.6
 
