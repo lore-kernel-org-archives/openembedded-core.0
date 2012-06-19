@@ -1,26 +1,31 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from astoria.ccjclearline.com ([64.235.106.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Sgz6k-00085c-9j
+	(envelope-from <rpjday@crashcourse.ca>) id 1Sh08r-0000yC-Ic
 	for openembedded-core@lists.openembedded.org;
-	Tue, 19 Jun 2012 16:08:38 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 19 Jun 2012 06:57:54 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="155455377"
-Received: from unknown (HELO [10.255.12.123]) ([10.255.12.123])
-	by orsmga001.jf.intel.com with ESMTP; 19 Jun 2012 06:57:53 -0700
-Message-ID: <4FE08561.9080604@linux.intel.com>
-Date: Tue, 19 Jun 2012 06:57:53 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
+	Tue, 19 Jun 2012 17:14:53 +0200
+Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
+	([99.241.91.63]:37032 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.77) (envelope-from <rpjday@crashcourse.ca>)
+	id 1SgzyV-0001q3-8V for openembedded-core@lists.openembedded.org;
+	Tue, 19 Jun 2012 11:04:11 -0400
+Date: Tue, 19 Jun 2012 11:04:06 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@oneiric
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.DEB.2.02.1206191102130.565@oneiric>
+User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1340112263.git.lianhao.lu@intel.com>
-	<c4e1a065c0a9417fb466ab2e23c3dddddfd5000e.1340112263.git.lianhao.lu@intel.com>
-In-Reply-To: <c4e1a065c0a9417fb466ab2e23c3dddddfd5000e.1340112263.git.lianhao.lu@intel.com>
-Subject: Re: [PATCH 1/3] classes/image: Allow openssh empty passwords login.
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Subject: getting rid of SRC_URI_append uses with "+="
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,62 +40,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Jun 2012 14:08:38 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 19 Jun 2012 15:14:53 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
-On 06/19/2012 06:33 AM, Lianhao Lu wrote:
-> Allow empty passwords login so that the default root user can login in
-> through openssh.
->
-> Signed-off-by: Lianhao Lu<lianhao.lu@intel.com>
-> ---
->   meta/classes/core-image.bbclass |    2 ++
->   meta/classes/image.bbclass      |   10 +++++++++-
->   2 files changed, 11 insertions(+), 1 deletions(-)
->
-> diff --git a/meta/classes/core-image.bbclass b/meta/classes/core-image.bbclass
-> index e2ad0fc..25f5c5a 100644
-> --- a/meta/classes/core-image.bbclass
-> +++ b/meta/classes/core-image.bbclass
-> @@ -69,4 +69,6 @@ ROOTFS_POSTPROCESS_COMMAND += "rootfs_update_timestamp ; "
->
->   # Zap the root password if debug-tweaks feature is not enabled
->   ROOTFS_POSTPROCESS_COMMAND += '${@base_contains("IMAGE_FEATURES", "debug-tweaks", "", "zap_root_password ; ",d)}'
-> +# Allow openssh accept empty password login if both debug-tweaks and ssh-server-openssh are enabled
-> +ROOTFS_POSTPROCESS_COMMAND += '${@base_contains("IMAGE_FEATURES", "debug-tweaks ssh-server-openssh", "openssh_allow_empty_password; ", "",d)}'
->
-> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-> index fb932b9..3f53271 100644
-> --- a/meta/classes/image.bbclass
-> +++ b/meta/classes/image.bbclass
-> @@ -318,6 +318,14 @@ zap_root_password () {
->   	mv ${IMAGE_ROOTFS}/etc/passwd.new ${IMAGE_ROOTFS}/etc/passwd
->   }
->
-> +# allow openssh accept login with empty password string
-> +openssh_allow_empty_password () {
-> +	if [ -e ${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config ]; then
-> +		sed 's#.*PermitEmptyPasswords.*#PermitEmptyPasswords yes#' ${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config>${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config.new
-> +		mv -f ${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config.new ${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config
-> +	fi
-Why not use sed -i here?
 
-Sau!
+  a while back, i pointed out odd instances of:
 
-> +}
-> +
->   # Turn any symbolic /sbin/init link into a file
->   remove_init_link () {
->   	if [ -h ${IMAGE_ROOTFS}/sbin/init ]; then
-> @@ -372,7 +380,7 @@ rootfs_trim_schemas () {
->   	done
->   }
->
-> -EXPORT_FUNCTIONS zap_root_password remove_init_link do_rootfs make_zimage_symlink_relative set_image_autologin rootfs_update_timestamp rootfs_no_x_startup
-> +EXPORT_FUNCTIONS zap_root_password remove_init_link do_rootfs make_zimage_symlink_relative set_image_autologin rootfs_update_timestamp rootfs_no_x_startup openssh_allow_empty_password
->
->   do_fetch[noexec] = "1"
->   do_unpack[noexec] = "1"
+meta/recipes-support/gmp/gmp_5.0.4.bb:SRC_URI_append += "file://use-includedir.patch \
+meta/recipes-graphics/tslib/tslib_1.0.bb:SRC_URI_append_qemumips += " file://32bitBE-support.patch"
+meta/recipes-graphics/tslib/tslib_1.0.bb:SRC_URI_append_qemuppc += " file://32bitBE-support.patch"
+meta/recipes-sato/leafpad/leafpad_0.8.18.1.bb:SRC_URI_append_poky += " file://owl-menu.patch;apply=yes "
+
+that is, the apparent redundancy of using "+=" with SRC_URI_append.
+anyone want to clean those up, just for the sake of clarity?
+
+rday
+
+-- 
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
