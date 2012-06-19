@@ -1,24 +1,24 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Sh11S-00027z-74
+	(envelope-from <sgw@linux.intel.com>) id 1Sh11S-00027q-Bn
 	for openembedded-core@lists.openembedded.org;
 	Tue, 19 Jun 2012 18:11:18 +0200
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 19 Jun 2012 09:00:06 -0700
+	by orsmga101.jf.intel.com with ESMTP; 19 Jun 2012 09:00:05 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="155520371"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="155520347"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.123])
-	by orsmga001.jf.intel.com with ESMTP; 19 Jun 2012 09:00:06 -0700
+	by orsmga001.jf.intel.com with ESMTP; 19 Jun 2012 09:00:05 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 19 Jun 2012 08:59:46 -0700
-Message-Id: <8377ebf0d8b8b42bc3f556a5aebd6542248b039a.1340121099.git.sgw@linux.intel.com>
+Date: Tue, 19 Jun 2012 08:59:41 -0700
+Message-Id: <f1701238a3c52df25ecffa273c84ef843d572d1c.1340121099.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <cover.1340121099.git.sgw@linux.intel.com>
 References: <cover.1340121099.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1340121099.git.sgw@linux.intel.com>
 References: <cover.1340121099.git.sgw@linux.intel.com>
-Subject: [PATCH 28/39] libidn: clean up FILE after PACKAGE reorder
+Subject: [PATCH 23/39] gnome-keyring: clean up FILE after PACKAGE reorder
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,51 +37,38 @@ X-List-Received-Date: Tue, 19 Jun 2012 16:11:18 -0000
 
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/recipes-extended/libidn/libidn_0.6.14.bb |    6 +++++-
- meta/recipes-extended/libidn/libidn_1.24.bb   |    3 ++-
- 2 files changed, 7 insertions(+), 2 deletions(-)
+ meta/recipes-gnome/gnome/gnome-keyring_2.32.1.bb |   14 ++++++++++----
+ 1 files changed, 10 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-extended/libidn/libidn_0.6.14.bb b/meta/recipes-extended/libidn/libidn_0.6.14.bb
-index 67c9381..e740250 100644
---- a/meta/recipes-extended/libidn/libidn_0.6.14.bb
-+++ b/meta/recipes-extended/libidn/libidn_0.6.14.bb
-@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=eb723b61539feef013de476e68b5c50a \
-                     file://COPYING.LIB;md5=a6f89e2100d9b6cdffcea4f398e37343 \
-                     file://lib/idna.h;firstline=6;endline=18;md5=6d9d5532eb28b99e860262281c540d02 \
-                     file://src/idn.c;firstline=6;endline=18;md5=41b6aec531cc6a9d54a6c4deee251bf5"
--PR = "r0"
-+PR = "r1"
+diff --git a/meta/recipes-gnome/gnome/gnome-keyring_2.32.1.bb b/meta/recipes-gnome/gnome/gnome-keyring_2.32.1.bb
+index 1a5ee05..ad60094 100644
+--- a/meta/recipes-gnome/gnome/gnome-keyring_2.32.1.bb
++++ b/meta/recipes-gnome/gnome/gnome-keyring_2.32.1.bb
+@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
  
- inherit pkgconfig autotools gettext
+ SECTION = "x11/gnome"
  
-@@ -25,3 +25,7 @@ do_configure_prepend() {
- 	sed -i -e "/AC_REQUIRE(\[gl_USE_SYSTEM_EXTENSIONS/d" ${S}/lib/gl/m4/gnulib-comp.m4
- 	rm -f ${S}/lib/gl/m4/extensions.m4
+-PR = "r6"
++PR = "r7"
+ 
+ inherit autotools gnome pkgconfig
+ 
+@@ -38,6 +38,12 @@ pkg_postinst_${PN} () {
+ 	test -x ${bindir}/glib-compile-schemas && glib-compile-schemas  ${datadir}/glib-2.0/schemas
  }
+ 
+-FILES_${PN} += "${datadir}/dbus-1/services ${datadir}/gcr ${base_libdir}/security/*.so"
+-FILES_${PN}-dbg += "${libdir}/gnome-keyring/standalone/.debug/ ${base_libdir}/security/*.la"
+-FILES_${PN}-dbg += "${libdir}/gnome-keyring/devel/.debug/ ${base_libdir}/security/.debug"
++FILES_${PN} += "${datadir}/dbus-1/services ${datadir}/gcr"
++                
 +
-+do_install_append() {
-+	rm -rf ${D}${libdir}/Libidn.dll
-+}
-diff --git a/meta/recipes-extended/libidn/libidn_1.24.bb b/meta/recipes-extended/libidn/libidn_1.24.bb
-index c6ecea7..a4ecce1 100644
---- a/meta/recipes-extended/libidn/libidn_1.24.bb
-+++ b/meta/recipes-extended/libidn/libidn_1.24.bb
-@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=9c9d9d207a3468a696a03368913d360b \
-                     file://COPYINGv3;md5=d32239bcb673463ab874e80d47fae504 \
-                     file://lib/idna.h;endline=21;md5=7364f6a250728ffe16170f5e3ab37512 \
-                     file://src/idn.c;endline=20;md5=7d7235e7951ac87d9dfac42e1b69d9cb"
--PR = "r1"
-+PR = "r2"
- 
- inherit pkgconfig autotools gettext
- 
-@@ -28,5 +28,6 @@ FILES_idn = "${bindir}/*"
- EXTRA_OECONF = " --disable-tld"
- 
- do_install_append() {
-+	rm -rf ${D}${libdir}/Libidn.dll
- 	rm -rf ${D}${datadir}/emacs
- }
++FILES_${PN}-dev += "${libdir}/${BPN}/devel/*.la \
++                    ${libdir}/${BPN}/devel/*${SOLIBSDEV} \
++                    ${libdir}/${BPN}/standalone/*.la"
++
++FILES_${PN}-dbg += "${libdir}/${BPN}/standalone/.debug/ \
++                    ${libdir}/${BPN}/devel/.debug/"
 -- 
 1.7.7.6
 
