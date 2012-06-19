@@ -1,35 +1,31 @@
-Received: from tygrysek.juszkiewicz.com.pl ([178.33.81.99])
+Received: from astoria.ccjclearline.com ([64.235.106.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <marcin.juszkiewicz@linaro.org>) id 1Sh1PV-00040V-Cc
+	(envelope-from <rpjday@crashcourse.ca>) id 1Sh1SS-00044A-GS
 	for openembedded-core@lists.openembedded.org;
-	Tue, 19 Jun 2012 18:36:09 +0200
-Received: by tygrysek.juszkiewicz.com.pl (Postfix, from userid 65534)
-	id E745AD2380; Tue, 19 Jun 2012 18:25:28 +0200 (CEST)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	tygrysek.juszkiewicz.com.pl
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=ham version=3.3.2
-Received: from [192.168.1.112] (87-206-60-144.dynamic.chello.pl
-	[87.206.60.144])
-	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: marcin@juszkiewicz.com.pl)
-	by tygrysek.juszkiewicz.com.pl (Postfix) with ESMTPSA id 2605ED232A
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Jun 2012 18:25:07 +0200 (CEST)
-Message-ID: <4FE0A7DF.7030909@linaro.org>
-Date: Tue, 19 Jun 2012 18:25:03 +0200
-From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
-Organization: Linaro
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:14.0) Gecko/20120611 Thunderbird/14.0
+	Tue, 19 Jun 2012 18:39:12 +0200
+Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
+	([99.241.91.63]:37970 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.77) (envelope-from <rpjday@crashcourse.ca>)
+	id 1Sh1I3-0006SL-9m for openembedded-core@lists.openembedded.org;
+	Tue, 19 Jun 2012 12:28:27 -0400
+Date: Tue, 19 Jun 2012 12:28:22 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@oneiric
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.DEB.2.02.1206191218210.929@oneiric>
+User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <4FE0684D.2000906@linaro.org> <4FE0714A.1060603@linaro.org>
-	<CAMKF1spK-ezqmFr+rh7J5dcbVvPbpDFGHxW02HvX9uaWdqTohQ@mail.gmail.com>
-In-Reply-To: <CAMKF1spK-ezqmFr+rh7J5dcbVvPbpDFGHxW02HvX9uaWdqTohQ@mail.gmail.com>
-Subject: Re: Is target toolchain supposed to be working?
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Subject: some simple questions about assignment and appending
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,19 +40,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Jun 2012 16:36:09 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 19 Jun 2012 16:39:12 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
-W dniu 19.06.2012 18:19, Khem Raj pisze:
 
-> includedir already has leading slash so I wonder if you changed 
-> includedir in your setup somehow ?
+  i want to make absolutely sure i understand the mechanics of the
+different types of assignment so i'm looking at this snippet from
+core-image.bbclass:
 
-bitbake gcc -e|grep ^includedir shown "/usr/include" value. G++ started
-on target as "g++ -v" shown "--with-c++-includes=/usr/include/c++" so I
-was surprised when it was not working.
+... snip ...
 
-Added extra slash and it works. But please check in your configuration.
+PACKAGE_GROUP_qt4-pkgs = "task-core-qt-demos"
+
+CORE_IMAGE_BASE_INSTALL = '\
+    task-core-boot \
+    task-base-extended \
+    \
+    ${CORE_IMAGE_EXTRA_INSTALL} \
+    '
+
+CORE_IMAGE_EXTRA_INSTALL ?= ""
+
+IMAGE_INSTALL ?= "${CORE_IMAGE_BASE_INSTALL}"
+
+... snip ...
+
+  first, if you're assigning a fixed string (as in the first line
+shown in the snippet above), i assume there is no functional
+difference in using "=" versus ":=", correct?
+
+  next, is there any value in that null line in the assignment to
+CORE_IMAGE_BASE_INSTALL?
+
+  next, is it technically necessary to conditionally do this?
+
+CORE_IMAGE_EXTRA_INSTALL ?= ""
+
+if that variable wasn't set, does it really need to be set to the
+empty string?
+
+  finally, what are the evaluation mechanics of the "?=" operator?  in
+this line,
+
+IMAGE_INSTALL ?= "${CORE_IMAGE_BASE_INSTALL}"
+
+is the right-hand side evaluated first?  i ask since i find the
+snippet above a bit confusing in that you need to follow backwards to
+deduce what IMAGE_INSTALL is eventually set to.  i would think this
+would be easier to read:
+
+CORE_IMAGE_BASE_INSTALL = '\
+    task-core-boot \
+    task-base-extended
+
+IMAGE_INSTALL = "${CORE_IMAGE_BASE_INSTALL} ${CORE_IMAGE_EXTRA_INSTALL}"
+
+  in this rewriting, i can *immediately* see what values are used to
+construct IMAGE_INSTALL.  in the current code, it's nowhere near as
+clear, and you have to backtrack to see how CORE_IMAGE_BASE_INSTALL is
+assigned.  or would that not be equivalent based on a misunderstanding
+of how assignment works?
+
+rday
+
+-- 
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
