@@ -1,24 +1,24 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Sh11V-00027z-Lp
+	(envelope-from <sgw@linux.intel.com>) id 1Sh11V-00027s-T4
 	for openembedded-core@lists.openembedded.org;
 	Tue, 19 Jun 2012 18:11:22 +0200
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 19 Jun 2012 09:00:08 -0700
+	by orsmga101.jf.intel.com with ESMTP; 19 Jun 2012 09:00:09 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="155520393"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="155520418"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.123])
-	by orsmga001.jf.intel.com with ESMTP; 19 Jun 2012 09:00:07 -0700
+	by orsmga001.jf.intel.com with ESMTP; 19 Jun 2012 09:00:09 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 19 Jun 2012 08:59:50 -0700
-Message-Id: <10ef5eed082ba680197bad29d1f6bcb5191230a2.1340121099.git.sgw@linux.intel.com>
+Date: Tue, 19 Jun 2012 08:59:57 -0700
+Message-Id: <ccb52ac84f93df9924760acdc2dd33db8eba8738.1340121099.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <cover.1340121099.git.sgw@linux.intel.com>
 References: <cover.1340121099.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1340121099.git.sgw@linux.intel.com>
 References: <cover.1340121099.git.sgw@linux.intel.com>
-Subject: [PATCH 32/39] libtool: add ${PN} in middle of package list to ensure .m4 get with ${PN}
+Subject: [PATCH 39/39] libpcre: Clean up FILES_* after PACKAGES reoder
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,35 +33,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Jun 2012 16:11:23 -0000
-
-With the new order scheme, ${PN} needs to be in the middle
-for the .m4 files to be packaged, otherwise the move the
--dev package which is wrong in this case.
+X-List-Received-Date: Tue, 19 Jun 2012 16:11:24 -0000
 
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/recipes-devtools/libtool/libtool-2.4.2.inc |    7 ++++++-
- 1 files changed, 6 insertions(+), 1 deletions(-)
+ meta/recipes-support/libpcre/libpcre_8.30.bb |    7 ++-----
+ 1 files changed, 2 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-devtools/libtool/libtool-2.4.2.inc b/meta/recipes-devtools/libtool/libtool-2.4.2.inc
-index 05a2e6d..5b9557e 100644
---- a/meta/recipes-devtools/libtool/libtool-2.4.2.inc
-+++ b/meta/recipes-devtools/libtool/libtool-2.4.2.inc
-@@ -37,7 +37,12 @@ EXTRA_AUTORECONF = "--exclude=libtoolize"
- DEPENDS = "libtool-native"
+diff --git a/meta/recipes-support/libpcre/libpcre_8.30.bb b/meta/recipes-support/libpcre/libpcre_8.30.bb
+index 83831e7..05ca7ca 100644
+--- a/meta/recipes-support/libpcre/libpcre_8.30.bb
++++ b/meta/recipes-support/libpcre/libpcre_8.30.bb
+@@ -5,7 +5,7 @@ provides a POSIX calling interface to PCRE; the regular expressions \
+ themselves still follow Perl syntax and semantics. The header file for \
+ the POSIX-style functions is called pcreposix.h."
+ SECTION = "devel"
+-PR = "r0"
++PR = "r1"
+ LICENSE = "BSD"
+ LIC_FILES_CHKSUM = "file://LICENCE;md5=115e2bee152e2e23e838a29136094877"
+ SRC_URI = "${SOURCEFORGE_MIRROR}/project/pcre/pcre/${PV}/pcre-${PV}.tar.bz2 \
+@@ -47,10 +47,7 @@ do_compile () {
  
- PACKAGES =+ "libltdl libltdl-dev libltdl-dbg libltdl-staticdev"
--FILES_${PN} += "${datadir}/aclocal*"
-+FILES_${PN} += "${datadir}/aclocal"
-+FILES_${PN}-dev = "${includedir} ${FILES_SOLIBSDEV} ${libdir}/*.la \
-+                ${libdir}/*.o ${libdir}/pkgconfig ${datadir}/pkgconfig \
-+                ${base_libdir}/*.o ${libdir}/${BPN}/*.la ${base_libdir}/*.la"
-+
-+#FILES_${PN}-dev := "${@oe_filter_out('${datadir}/aclocal', '${FILES_libtool-dev}', d)}"
- FILES_libltdl = "${libdir}/libltdl${SOLIBS}"
- FILES_libltdl-dev = "${libdir}/libltdl${SOLIBSDEV} ${includedir}"
- FILES_libltdl-staticdev = "${libdir}/libltdl.a"
+ python populate_packages_prepend () {
+ 	pcre_libdir = d.expand('${libdir}')
+-	do_split_packages(d, pcre_libdir, '^lib(.*)\.so\.+', 'lib%s', 'libpcre %s library', extra_depends='', allow_links=True)
++	do_split_packages(d, pcre_libdir, '^lib(.*)\.so\.+', 'lib%s', 'libpcre %s library', extra_depends='', allow_links=True, prepend=True)
+ }
+ 
+-FILES_${PN} = "${libdir}/libpcre.so.*"
+-FILES_${PN}-dev += "${bindir}/*"
+-
+ BBCLASSEXTEND = "native"
 -- 
 1.7.7.6
 
