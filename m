@@ -1,34 +1,20 @@
-Received: from mail-we0-f175.google.com ([74.125.82.175])
+Received: from tygrysek.juszkiewicz.com.pl ([178.33.81.99])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1SgtFM-0005Np-SF
-	for openembedded-core@lists.openembedded.org;
-	Tue, 19 Jun 2012 09:53:08 +0200
-Received: by mail-we0-f175.google.com with SMTP id g55so4054639wer.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Jun 2012 00:42:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	bh=l1bPynfpf/YdP7sHnB9ZyMr7n8RjVVIj4x6EJptVLzI=;
-	b=AsrFQL6wipxwWpf3U4Zis33OKm098c2si6H5SBEhj144lAwLAjO0jvRCjPmjqXJVqT
-	r/IOA5mD9emvwTqdEI34G+vu4QhxlmyNbVf6yy7l2t723YsBEK1Y37Zt83lYJP9iN9r/
-	NC4iD2a/yu7I1SgLqycohzcbT3bN2lIz55de+0S3/HZnIvFrAVxRtdjtM13nH4oViUy6
-	neAL+VX3BfQzGPMvGAtj8Upr6xxgvYfHPlipuexnqVGDq3pFSqlIXsHVLKfXnmzi1YF1
-	j9jwztdfY6/v9JpQ4rdKAhRq8YxSR0GFhv531Uxy8eK+leeKOL0W99CjewWprMTT5o1m
-	OOAQ==
-Received: by 10.216.212.157 with SMTP id y29mr10589275weo.146.1340091747964;
-	Tue, 19 Jun 2012 00:42:27 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id j4sm30809314wiz.1.2012.06.19.00.42.26
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 19 Jun 2012 00:42:27 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 19 Jun 2012 09:42:10 +0200
-Message-Id: <1340091730-5993-2-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.7.8.6
-In-Reply-To: <1340091730-5993-1-git-send-email-Martin.Jansa@gmail.com>
-References: <1340091730-5993-1-git-send-email-Martin.Jansa@gmail.com>
-Subject: [PATCH 2/2] kernel.bbclass: pass KERNEL_VERSION to depmod calls in postinst
+	(envelope-from <marcin.juszkiewicz@linaro.org>) id 1Sgwle-0004Us-Ra
+	for Openembedded-core@lists.openembedded.org;
+	Tue, 19 Jun 2012 13:38:42 +0200
+Received: from puchatek.dom (87-206-60-144.dynamic.chello.pl [87.206.60.144])
+	(using TLSv1.1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	(Authenticated sender: marcin@juszkiewicz.com.pl)
+	by tygrysek.juszkiewicz.com.pl (Postfix) with ESMTPSA id 54982D232A;
+	Tue, 19 Jun 2012 13:21:29 +0200 (CEST)
+From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+To: Openembedded-core@lists.openembedded.org
+Date: Tue, 19 Jun 2012 13:21:25 +0200
+Message-Id: <1340104885-28752-1-git-send-email-marcin.juszkiewicz@linaro.org>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] binutils: set sysroot for target
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,40 +29,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Jun 2012 07:53:09 -0000
+X-List-Received-Date: Tue, 19 Jun 2012 11:38:42 -0000
 
-* without this, kernel upgrades where KERNEL_VERSION is changed
-  e.g. 3.4.2 -> 3.4.3 generate .dep for running 3.4.2 and after reboot user ends
-  up without any module loaded to make it worse after reboot nothing is upgraded
-  to trigger another kernel(-module) postinst to generate .dep for now running 3.4.3
+"ld: this linker was not configured to use sysroots" was what I got on
+device instead of compiled binary.
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+Signed-off-by: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
 ---
- meta/classes/kernel.bbclass |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-devtools/binutils/binutils_2.22.bb |    4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 116e10b..a455164 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -271,13 +271,13 @@ fi
- if [ -n "$D" ]; then
- 	depmod -a -b $D -F ${STAGING_KERNEL_DIR}/System.map-${KERNEL_VERSION} ${KERNEL_VERSION}
- else
--	depmod -a
-+	depmod -a ${KERNEL_VERSION}
- fi
- }
+diff --git a/meta/recipes-devtools/binutils/binutils_2.22.bb b/meta/recipes-devtools/binutils/binutils_2.22.bb
+index 7b6adef..71523d7 100644
+--- a/meta/recipes-devtools/binutils/binutils_2.22.bb
++++ b/meta/recipes-devtools/binutils/binutils_2.22.bb
+@@ -1,6 +1,6 @@
+ require binutils.inc
  
- pkg_postinst_modules () {
- if [ -z "$D" ]; then
--	depmod -a
-+	depmod -a ${KERNEL_VERSION}
- 	update-modules || true
- fi
- }
+-PR = "r9"
++PR = "r10"
+ 
+ LIC_FILES_CHKSUM="\
+     file://src-release;endline=17;md5=4830a9ef968f3b18dd5e9f2c00db2d35\
+@@ -40,3 +40,5 @@ SRC_URI[sha256sum] = "6c7af8ed1c8cf9b4b9d6e6fe09a3e1d3d479fe63984ba8b9b26bf356b6
+ 
+ 
+ BBCLASSEXTEND = "native"
++
++EXTRA_OECONF += "--with-sysroot=/ "
 -- 
-1.7.8.6
+1.7.10.4
 
 
 
