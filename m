@@ -1,24 +1,24 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Sh11P-00027q-HI
+	(envelope-from <sgw@linux.intel.com>) id 1Sh11P-00027s-Fu
 	for openembedded-core@lists.openembedded.org;
 	Tue, 19 Jun 2012 18:11:16 +0200
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 19 Jun 2012 09:00:04 -0700
+	by orsmga101.jf.intel.com with ESMTP; 19 Jun 2012 09:00:03 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="155520330"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="155520296"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.123])
-	by orsmga001.jf.intel.com with ESMTP; 19 Jun 2012 09:00:04 -0700
+	by orsmga001.jf.intel.com with ESMTP; 19 Jun 2012 09:00:02 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 19 Jun 2012 08:59:37 -0700
-Message-Id: <38e43a9328a9506ef7ec7f4549d5bd960bcf9b92.1340121099.git.sgw@linux.intel.com>
+Date: Tue, 19 Jun 2012 08:59:32 -0700
+Message-Id: <212818f8ca9857431f4ba21a2e9c08d01b3fae59.1340121099.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <cover.1340121099.git.sgw@linux.intel.com>
 References: <cover.1340121099.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1340121099.git.sgw@linux.intel.com>
 References: <cover.1340121099.git.sgw@linux.intel.com>
-Subject: [PATCH 19/39] icu: clean up FILE after PACKAGE reorder
+Subject: [PATCH 14/39] gnutls: clean up FILE after PACKAGE reorder
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,35 +37,39 @@ X-List-Received-Date: Tue, 19 Jun 2012 16:11:17 -0000
 
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/recipes-support/icu/icu-3.6.inc |    2 ++
- meta/recipes-support/icu/icu_3.6.bb  |    2 +-
- 2 files changed, 3 insertions(+), 1 deletions(-)
+ meta/recipes-support/gnutls/gnutls.inc |    5 ++---
+ 1 files changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-support/icu/icu-3.6.inc b/meta/recipes-support/icu/icu-3.6.inc
-index e3f9dd2..23447d3 100644
---- a/meta/recipes-support/icu/icu-3.6.inc
-+++ b/meta/recipes-support/icu/icu-3.6.inc
-@@ -46,6 +46,8 @@ do_install_append() {
+diff --git a/meta/recipes-support/gnutls/gnutls.inc b/meta/recipes-support/gnutls/gnutls.inc
+index f489fb6..b16dd21 100644
+--- a/meta/recipes-support/gnutls/gnutls.inc
++++ b/meta/recipes-support/gnutls/gnutls.inc
+@@ -3,7 +3,7 @@ HOMEPAGE = "http://www.gnu.org/software/gnutls/"
+ BUGTRACKER = "https://savannah.gnu.org/support/?group=gnutls"
+ DEPENDS = "zlib lzo libtasn1 libgcrypt (>= 1.4.2) libcap readline"
  
- PACKAGES =+ "libicudata libicuuc libicui18n libicule libiculx libicutu libicuio"
+-INC_PR = "r6"
++INC_PR = "r7"
  
-+FILES_${PN}-dev += "${libdir}/${BPN}/"
-+
- FILES_libicudata = "${libdir}/libicudata.so.*"
- FILES_libicuuc = "${libdir}/libicuuc.so.*"
- FILES_libicui18n = "${libdir}/libicui18n.so.*"
-diff --git a/meta/recipes-support/icu/icu_3.6.bb b/meta/recipes-support/icu/icu_3.6.bb
-index f5a3d8c..d7be522 100644
---- a/meta/recipes-support/icu/icu_3.6.bb
-+++ b/meta/recipes-support/icu/icu_3.6.bb
-@@ -1,6 +1,6 @@
- require icu-3.6.inc
+ LICENSE = "GPLv3+ & LGPLv2.1+"
+ LICENSE_${PN} = "LGPLv2.1+"
+@@ -37,7 +37,6 @@ do_configure_prepend() {
  
--PR = "r7"
-+PR = "r8"
+ PACKAGES =+ "${PN}-openssl ${PN}-extra ${PN}-bin ${PN}-xx"
  
- SRC_URI[md5sum] = "6243f7a19e03e05403ce84e597510d4c"
- SRC_URI[sha256sum] = "5135e8d69d6206d320515df7aeee7027711ab1aef9d8dbf29571a97a9746b041"
+-FILES_${PN} = "${libdir}/libgnutls.so.*"
+ FILES_${PN}-bin = "${bindir}/gnutls-serv \
+                    ${bindir}/gnutls-cli \
+                    ${bindir}/srptool \
+@@ -46,7 +45,7 @@ FILES_${PN}-bin = "${bindir}/gnutls-serv \
+                    ${bindir}/certtool \
+                    ${bindir}/gnutls-srpcrypt"
+ 
+-FILES_${PN}-dev += "${bindir}/*-config ${bindir}/gnutls-cli-debug"
++FILES_${PN}-dev += "${bindir}/gnutls-cli-debug"
+ FILES_${PN}-extra = "${libdir}/libgnutls-extra.so.*"
+ FILES_${PN}-openssl = "${libdir}/libgnutls-openssl.so.*"
+ FILES_${PN}-xx = "${libdir}/libgnutlsxx.so.*"
 -- 
 1.7.7.6
 
