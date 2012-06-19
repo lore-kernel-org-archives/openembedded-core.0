@@ -1,33 +1,24 @@
-Received: from mail-pb0-f47.google.com ([209.85.160.47])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1Sh0m1-0001bC-Vh
+	(envelope-from <sgw@linux.intel.com>) id 1Sh11J-00027o-1v
 	for openembedded-core@lists.openembedded.org;
-	Tue, 19 Jun 2012 17:55:22 +0200
-Received: by pbbrq2 with SMTP id rq2so9371045pbb.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Jun 2012 08:44:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=hX+DUK/NTUBp9hngagyk2tRmm6iuMZDB4oMek6IdfI4=;
-	b=cjNBr0tOuJz1moeD3ycjjTviVEvSdDkiGPV3Sg7l2U4zmpMm59pBv/dTInAzUumOGO
-	y2qWLaZ9sfQ9PFeX3WMRqySesZ+WyHd3646rjpU5ZyUYO6viwN3OsV0JFmAngyYQ/VDT
-	VQXY+z7vxQYtCzHelIGXheOjTENwF8LvUXRVNPyLkUJQC4ZW9fCYdnnimy2TSq9fio2W
-	AgS5osGX9tNvnRi6whHfyStAjJtqNBZYMwJo5n5f6H7E6THPyhwQbgdb6bhJ0ii+OQlj
-	6DkEBQ+FfmfZD1vF9eGnpRIYxhhJnnnG6GeBSDaQ7EmZBO2w6TAQgQIfKqJo580PVpK8
-	JHxQ==
-Received: by 10.68.197.70 with SMTP id is6mr46868251pbc.64.1340120677791;
-	Tue, 19 Jun 2012 08:44:37 -0700 (PDT)
-Received: from localhost.localdomain (oldbuilder.nslu2-linux.org.
-	[140.211.169.168])
-	by mx.google.com with ESMTPS id kt1sm28280609pbc.32.2012.06.19.08.44.36
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 19 Jun 2012 08:44:36 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
+	Tue, 19 Jun 2012 18:11:09 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 19 Jun 2012 08:59:59 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="155520229"
+Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.123])
+	by orsmga001.jf.intel.com with ESMTP; 19 Jun 2012 08:59:58 -0700
+From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 19 Jun 2012 08:43:21 -0700
-Message-Id: <1340120601-23917-1-git-send-email-raj.khem@gmail.com>
-X-Mailer: git-send-email 1.7.5.4
-Subject: [PATCH] gcc-4.7: Update to tip of gcc-4_7-branch since 4.7.1 has been out
+Date: Tue, 19 Jun 2012 08:59:19 -0700
+Message-Id: <33759cb330142f3d9e1bb0fcda1ddb546faca5ef.1340121099.git.sgw@linux.intel.com>
+X-Mailer: git-send-email 1.7.7.6
+In-Reply-To: <cover.1340121099.git.sgw@linux.intel.com>
+References: <cover.1340121099.git.sgw@linux.intel.com>
+In-Reply-To: <cover.1340121099.git.sgw@linux.intel.com>
+References: <cover.1340121099.git.sgw@linux.intel.com>
+Subject: [PATCH 01/39] bitbake.conf: reorder PACKAGES list
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,48 +33,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Jun 2012 15:55:22 -0000
+X-List-Received-Date: Tue, 19 Jun 2012 16:11:09 -0000
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+This change re-orders the PACKAGES list to move PN to the end of the list
+this will ensure that base package gets the final bits since the packaging
+is greedy. We can then have -dev and other package get bits first.
+
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/recipes-devtools/gcc/gcc-4.7.inc |   12 ++++++------
- 1 files changed, 6 insertions(+), 6 deletions(-)
+ meta/conf/bitbake.conf |    8 +++++---
+ 1 files changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-devtools/gcc/gcc-4.7.inc b/meta/recipes-devtools/gcc/gcc-4.7.inc
-index 34a73b1..25a1088 100644
---- a/meta/recipes-devtools/gcc/gcc-4.7.inc
-+++ b/meta/recipes-devtools/gcc/gcc-4.7.inc
-@@ -3,12 +3,12 @@ require gcc-common.inc
- PR = "r2"
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 97930a7..e072757 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -253,7 +253,7 @@ SOLIBSDEV_darwin = ".dylib"
+ SOLIBSDEV_darwin8 = ".dylib"
+ SOLIBSDEV_darwin9 = ".dylib"
  
- # Third digit in PV should be incremented after a minor release
--# happens from this branch on gcc e.g. currently its 4.7.0
--# when 4.7.1 is releases and we bump SRCREV beyond the release
--# on branch then PV should be incremented to 4.7.1+svnr${SRCPV}
-+# happens from this branch on gcc e.g. currently its 4.7.1
-+# when 4.7.2 is releases and we bump SRCREV beyond the release
-+# on branch then PV should be incremented to 4.7.2+svnr${SRCPV}
- # to reflect that change
+-PACKAGES = "${PN}-dbg ${PN}-staticdev ${PN} ${PN}-doc ${PN}-dev ${PN}-locale"
++PACKAGES = "${PN}-dbg ${PN}-staticdev ${PN}-dev ${PN}-doc ${PN}-locale ${PN}"
+ PACKAGES_DYNAMIC = "${PN}-locale-*"
+ FILES = ""
  
--PV = "4.7.0+svnr${SRCPV}"
-+PV = "4.7.1+svnr${SRCPV}"
+@@ -270,9 +270,11 @@ FILES_${PN}-doc = "${docdir} ${mandir} ${infodir} ${datadir}/gtk-doc \
+             ${datadir}/gnome/help"
+ SECTION_${PN}-doc = "doc"
  
- # BINV should be incremented after updating to a revision
- # after a minor gcc release (e.g. 4.7.1 or 4.7.2) has been made
-@@ -16,9 +16,9 @@ PV = "4.7.0+svnr${SRCPV}"
- # 4.7.1 then the value below will have 2 which will mean 4.7.2
- # which will be next minor release and so on.
- 
--BINV = "4.7.1"
-+BINV = "4.7.2"
- 
--SRCREV = "186651"
-+SRCREV = "188658"
- BRANCH = "gcc-4_7-branch"
- FILESPATH = "${@base_set_filespath([ '${FILE_DIRNAME}/gcc-4.7' ], d)}"
- 
+-FILES_${PN}-dev = "${includedir} ${libdir}/lib*${SOLIBSDEV} ${libdir}/*.la \
++FILES_SOLIBSDEV ?= "${base_libdir}/lib*${SOLIBSDEV} ${libdir}/lib*${SOLIBSDEV}"
++FILES_${PN}-dev = "${includedir} ${FILES_SOLIBSDEV} ${libdir}/*.la \
+                 ${libdir}/*.o ${libdir}/pkgconfig ${datadir}/pkgconfig \
+-                ${datadir}/aclocal ${base_libdir}/*.o"
++                ${datadir}/aclocal ${base_libdir}/*.o \
++                ${libdir}/${BPN}/*.la ${base_libdir}/*.la"
+ SECTION_${PN}-dev = "devel"
+ ALLOW_EMPTY_${PN}-dev = "1"
+ RDEPENDS_${PN}-dev = "${PN} (= ${EXTENDPKGV})"
 -- 
-1.7.5.4
+1.7.7.6
 
 
 
