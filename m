@@ -1,35 +1,27 @@
-Received: from mail-pb0-f47.google.com ([209.85.160.47])
+Received: from masterfoo.zenlinux.com ([207.192.74.254])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1ShSpm-00080B-GK
+	(envelope-from <scott.a.garman@intel.com>) id 1ShU8c-0001CV-N3
 	for openembedded-core@lists.openembedded.org;
-	Wed, 20 Jun 2012 23:53:06 +0200
-Received: by pbbrq2 with SMTP id rq2so1137977pbb.6
+	Thu, 21 Jun 2012 01:16:38 +0200
+Received: from localhost (c-76-105-137-48.hsd1.or.comcast.net [76.105.137.48])
+	(using TLSv1 with cipher DHE-RSA-AES128-SHA (128/128 bits))
+	(No client certificate requested)
+	by masterfoo.zenlinux.com (Postfix) with ESMTP id B0B9F30411
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Jun 2012 14:42:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references;
-	bh=s7eNOmi6WzLKcOV+jAOaBWHAGLJhXQbTSQwYUHkC+3c=;
-	b=r+2rMRZU/3g3gCTwo0Jj818r3T73WP3JxbRouLSCZaLIz/CKnegqIY+7jndwEGjSde
-	PcNj0hWkRcC4c8OyXNoLV+2y2dhtc2IP4f6hdXJqrd8QhNYYEg61gmCJ5mUQQlb/kqSz
-	TGuUKLCd4kFojH9A2WE82NDMQHBibW7Cjgv4XxM/eZx7QRBN2dJeH5mLD21GWIE1JqSj
-	K/FqW2BhmyqEO8FDbXtSMovP4eu1OuX0xzMerg8+1jsW9JX1m1qlKPkfSrdnkXR9dD+K
-	7yuiekAvfPw678I8TC07BBPWSfZUqntd3eG8CzxgHdQsw1lGX52Q6S0j4BqTgtioSb5j
-	K3lA==
-Received: by 10.68.239.9 with SMTP id vo9mr75926123pbc.41.1340228540766;
-	Wed, 20 Jun 2012 14:42:20 -0700 (PDT)
-Received: from localhost.localdomain (oldbuilder.nslu2-linux.org.
-	[140.211.169.168])
-	by mx.google.com with ESMTPS id ua6sm33279135pbc.20.2012.06.20.14.42.19
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 20 Jun 2012 14:42:19 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
+	Wed, 20 Jun 2012 19:05:44 -0400 (EDT)
+From: Scott Garman <scott.a.garman@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 20 Jun 2012 14:41:04 -0700
-Message-Id: <3df261f3071c776a836bfaf44304c4a0ee572912.1340228144.git.raj.khem@gmail.com>
-X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <cover.1340228144.git.raj.khem@gmail.com>
-References: <cover.1340228144.git.raj.khem@gmail.com>
-Subject: [PATCH 1/1] kconfig-frontends: New recipe
+Date: Wed, 20 Jun 2012 16:05:47 -0700
+Message-Id: <cover.1340233133.git.scott.a.garman@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+X-MasterFoo-MailScanner-Information: Please contact the ISP for more
+	information
+X-MailScanner-ID: B0B9F30411.1EB7B
+X-MasterFoo-MailScanner: Found to be clean
+X-MasterFoo-MailScanner-SpamCheck: not spam
+X-MasterFoo-MailScanner-From: scott.a.garman@intel.com
+X-Spam-Status: No
+Subject: [PATCH 0/6] denzil pull request 4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,57 +36,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Jun 2012 21:53:06 -0000
+X-List-Received-Date: Wed, 20 Jun 2012 23:16:38 -0000
 
-kconfig-frontends provides the kconfig infrastructure
-thats used for linux kernel as a standalone package. Its
-not intended to be used for kernel itself but can be
-used by packages who are based on kconfig e.g. busybox
-uclibc or new packages who wants to use kconfig infra
-for the package build
+Hello,
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- .../kconfig-frontends/kconfig-frontends_3.4.bb     |   28 ++++++++++++++++++++
- 1 files changed, 28 insertions(+), 0 deletions(-)
- create mode 100644 meta/recipes-devtools/kconfig-frontends/kconfig-frontends_3.4.bb
+This is the fourth pull request for the oe-core denzil branch, based on
+a set of commits I've been testing from my sgarman/denzil-next branch.
+At the time I'm composing this, my previous pull request hasn't been
+merged yet, so I created this pull against my previous branch,
+sgarman/denzil-next-pull3.
 
-diff --git a/meta/recipes-devtools/kconfig-frontends/kconfig-frontends_3.4.bb b/meta/recipes-devtools/kconfig-frontends/kconfig-frontends_3.4.bb
-new file mode 100644
-index 0000000..d95d3e8
---- /dev/null
-+++ b/meta/recipes-devtools/kconfig-frontends/kconfig-frontends_3.4.bb
-@@ -0,0 +1,28 @@
-+# Copyright (C) 2012 Khem Raj <raj.khem@gmail.com>
-+# Released under the MIT license (see COPYING.MIT for the terms)
-+
-+DESCRIPTION = "The kconfig-frontends project aims at centralising \
-+the effort of keeping an up-to-date, out-of-tree, packaging of the \
-+kconfig infrastructure, ready for use by third-party projects. \
-+The kconfig-frontends package provides the kconfig parser, as well as all \
-+the frontends"
-+HOMEPAGE = "http://ymorin.is-a-geek.org/projects/kconfig-frontends"
-+LICENSE = "GPL-2.0"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=9b8cf60ff39767ff04b671fca8302408"
-+SECTION = "devel"
-+DEPENDS += "ncurses flex bison gperf"
-+PR = "r0"
-+PV = "3.4.0"
-+SPIN = "0"
-+SRC_URI = "http://ymorin.is-a-geek.org/download/${BPN}/${BPN}-${PV}-${SPIN}.tar.xz"
-+SRC_URI[md5sum] = "7eed0faf5a41d6dd0b2a886a440a972d"
-+SRC_URI[sha256sum] = "638006f3d1aefefdc1db3030a15b562cf3c89f2028b1cea0bf0f0629708802f2"
-+
-+S = "${WORKDIR}/${BPN}-${PV}-${SPIN}"
-+
-+inherit autotools
-+do_configure_prepend () {
-+	mkdir -p scripts/.autostuff/m4
-+}
-+EXTRA_OECONF += "--disable-gconf --disable-qconf"
-+BBCLASSEXTEND = "native nativesdk"
+Once this branch gets merged, we will generate the first denzil release
+candidate, which will undergo a full QA pass.
+
+These commits have undergone the following testing on the autobuilder:
+
+nightly:
+http://autobuilder.yoctoproject.org:8010/builders/nightly/builds/521
+
+nightly-multilib:
+http://autobuilder.yoctoproject.org:8010/builders/nightly-multilib/builds/117
+
+nightly-non-gpl3:
+http://autobuilder.yoctoproject.org:8010/builders/nightly-non-gpl3/builds/118
+
+nightly-tiny:
+http://autobuilder.yoctoproject.org:8010/builders/nightly-tiny/builds/100
+
+nightly-meta-intel (still finishing):
+http://autobuilder.yoctoproject.org:8010/builders/nightly-meta-intel/builds/107
+
+I'll note these tests were done with the poky-based tree.
+
+Scott
+
+The following changes since commit eedf8f8d9a7324b33dec71a5c52f8d980dc78752:
+
+  eglibc: added ac_cv_path_ to CACHED_CONFIGUREVARS (2012-06-15 09:40:13 -0700)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib sgarman/denzil-next-testing
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgarman/denzil-next-pull4
+
+Anders Darander (1):
+  qt4-embedded: fix QT_ARCH usage in QT_CONFIG_FLAGS
+
+Bruce Ashfield (5):
+  linux-yocto/3.2: configuration and pch merge
+  linux-yocto: intel BSP config changes
+  linux-yocto: policy cleanups
+  linux-yocto/3.2: update to v3.2.18
+  linux-yocto/3.0: update to v3.0.32
+
+ meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb   |    6 +++---
+ meta/recipes-kernel/linux/linux-yocto-rt_3.2.bb   |    8 ++++----
+ meta/recipes-kernel/linux/linux-yocto-tiny_3.2.bb |    6 +++---
+ meta/recipes-kernel/linux/linux-yocto_3.0.bb      |   16 ++++++++--------
+ meta/recipes-kernel/linux/linux-yocto_3.2.bb      |   18 +++++++++---------
+ meta/recipes-qt/qt4/qt4-embedded.inc              |    2 +-
+ 6 files changed, 28 insertions(+), 28 deletions(-)
+
 -- 
-1.7.5.4
+1.7.9.5
 
 
 
