@@ -1,33 +1,34 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1ShFLA-00055i-CJ for openembedded-core@lists.openembedded.org;
-	Wed, 20 Jun 2012 09:28:36 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q5K7Hqt0002333
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <raj.khem@gmail.com>) id 1ShFwB-0005wQ-F0
+	for openembedded-core@lists.openembedded.org;
+	Wed, 20 Jun 2012 10:06:51 +0200
+Received: by eekd49 with SMTP id d49so2317408eek.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Jun 2012 08:17:52 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 01637-03 for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Jun 2012 08:17:48 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q5K7HiRe002325
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Jun 2012 08:17:45 +0100
-Message-ID: <1340176664.1640.17.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Wed, 20 Jun 2012 00:56:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type; bh=lFSDvjZWTXMr/SKe5wCuReZjgsHKPZ5fIuN7n2qckBU=;
+	b=ZCXV8KLrjdMdQWOTGndenGmE0jOlYY84SYQWNNn7qSVhCzF5+yIAtbB4DcQ93ebDdo
+	xmm2tbvrD4YQjZar+PGtOAK/8Iq1AGPIT6SgloW6XsoSgGGmXTXfJTx8matC3pvEv+kI
+	HD+gA5XYYvwWZn7tFYZBn0TrgYoWDA+28m7NO34yGUCC+SZpt06MCoI1QHZM57PLys3H
+	r5RVM48uhYJeoeY4OI4UstSgzwb9T4DDTxiO7nVUmNmLT1808c5fh6Lz28g6I4G16xkV
+	lIubr8/5eVjY4D62BShJLwpTgjlprryfJCnXHDK68WrRQcViZW/U/QSe7m7yb/k6w8QH
+	LRcw==
+Received: by 10.14.37.76 with SMTP id x52mr5084118eea.102.1340178966961; Wed,
+	20 Jun 2012 00:56:06 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.14.219.71 with HTTP; Wed, 20 Jun 2012 00:55:36 -0700 (PDT)
+In-Reply-To: <4FE0A7DF.7030909@linaro.org>
+References: <4FE0684D.2000906@linaro.org> <4FE0714A.1060603@linaro.org>
+	<CAMKF1spK-ezqmFr+rh7J5dcbVvPbpDFGHxW02HvX9uaWdqTohQ@mail.gmail.com>
+	<4FE0A7DF.7030909@linaro.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 20 Jun 2012 00:55:36 -0700
+Message-ID: <CAMKF1so50NhTxaeeghsH8ogD=HUgmGDjR8rnh4yPbYv0JaU5tA@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Wed, 20 Jun 2012 08:17:44 +0100
-In-Reply-To: <alpine.DEB.2.02.1206191652560.3440@oneiric>
-References: <alpine.DEB.2.02.1206191652560.3440@oneiric>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH] Simplify "SRC_URI_append +=" to "SRC_URI_append ="
+Subject: Re: Is target toolchain supposed to be working?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,32 +43,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Jun 2012 07:28:36 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 20 Jun 2012 08:06:51 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Tue, 2012-06-19 at 16:54 -0400, Robert P. J. Day wrote:
+On Tue, Jun 19, 2012 at 9:25 AM, Marcin Juszkiewicz
+<marcin.juszkiewicz@linaro.org> wrote:
+> W dniu 19.06.2012 18:19, Khem Raj pisze:
+>
+>> includedir already has leading slash so I wonder if you changed
+>> includedir in your setup somehow ?
+>
+> bitbake gcc -e|grep ^includedir shown "/usr/include" value. G++ started
+> on target as "g++ -v" shown "--with-c++-includes=/usr/include/c++" so I
+> was surprised when it was not working.
+>
+> Added extra slash and it works. But please check in your configuration.
+>
 
-> diff --git a/meta/recipes-support/gmp/gmp_5.0.4.bb b/meta/recipes-support/gmp/gmp_5.0.4.bb
-> index cb2ca5b..0f72742 100644
-> --- a/meta/recipes-support/gmp/gmp_5.0.4.bb
-> +++ b/meta/recipes-support/gmp/gmp_5.0.4.bb
-> @@ -4,7 +4,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
->  		    file://version.c;endline=18;md5=d8c56b52b9092346b9f93b4da65ef790"
->  PR = "r1"
-> 
-> -SRC_URI_append += "file://use-includedir.patch \
-> +SRC_URI_append = "file://use-includedir.patch \
->                     file://gmp_fix_for_x32.patch \
->                     file://gmp_fix_for_automake-1.12.patch \
->                     "
+can you try the fixes from my branch
 
-This last one will need a space before the first file:// to be correct.
+http://git.openembedded.org/openembedded-core-contrib/log/?h=kraj/misc-updates
 
-Cheers,
-
-Richard
-
-
+this should fix both gcc and binutils on target
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
