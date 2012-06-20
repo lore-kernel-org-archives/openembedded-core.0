@@ -1,31 +1,32 @@
-Received: from astoria.ccjclearline.com ([64.235.106.9])
+Received: from mail-ey0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpjday@crashcourse.ca>) id 1Sh5bZ-0002sr-99
+	(envelope-from <raj.khem@gmail.com>) id 1Sh96a-0001sW-C8
 	for openembedded-core@lists.openembedded.org;
-	Tue, 19 Jun 2012 23:04:53 +0200
-Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
-	([99.241.91.63]:56874 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.77) (envelope-from <rpjday@crashcourse.ca>)
-	id 1Sh5RD-0002YG-0K for openembedded-core@lists.openembedded.org;
-	Tue, 19 Jun 2012 16:54:11 -0400
-Date: Tue, 19 Jun 2012 16:54:08 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@oneiric
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.DEB.2.02.1206191652560.3440@oneiric>
-User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+	Wed, 20 Jun 2012 02:49:08 +0200
+Received: by eaal1 with SMTP id l1so2243871eaa.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 19 Jun 2012 17:38:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type; bh=6EPZ+lMyJ0Nze4B6E7RQl7He+offE7RsnDUL6uYFeO4=;
+	b=ibNqgV1nzxfpCjlke8B+QKQg+E4TC24jLvIigiZD5Pm/MjLUm7G11Yf1pN9KO1WHr1
+	J4ts8ophyNoRw0cicavHLwjRBaA/zjRmbN31/FZOJYiwNYGeZF2yXQAdGax8taqQV5z3
+	KuTzgbJn0TT/Q2btHBpKc5GbqhP46WOx3TEHHkdaVmr8LHHt8WwrXApybFSFk8dlVOd6
+	kUg9OCrDFQOm57GIaSFeitg7R1NiLqoZp9qHuZzWG2q+5FI/GXwwZ3iDx2s6wBt791Ov
+	Khy8tLWYCPjeaFfGsrmAWuQ/OgC7f1vsb1/m+PO4aA7ESAQhOc0Taxuf4DHMmINWiWVY
+	Vg+A==
+Received: by 10.14.97.16 with SMTP id s16mr4416156eef.117.1340152704370; Tue,
+	19 Jun 2012 17:38:24 -0700 (PDT)
 MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Subject: [PATCH] Simplify "SRC_URI_append +=" to "SRC_URI_append ="
+Received: by 10.14.219.71 with HTTP; Tue, 19 Jun 2012 17:37:54 -0700 (PDT)
+In-Reply-To: <alpine.DEB.2.02.1206191652560.3440@oneiric>
+References: <alpine.DEB.2.02.1206191652560.3440@oneiric>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 19 Jun 2012 17:37:54 -0700
+Message-ID: <CAMKF1sqtH_Va4w8ayxm+Qi0pH_2xmeFnMcHLHUB57uQAZp=5bw@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] Simplify "SRC_URI_append +=" to "SRC_URI_append ="
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,64 +41,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Jun 2012 21:04:53 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Wed, 20 Jun 2012 00:49:08 -0000
+Content-Type: text/plain; charset=UTF-8
 
+Thanks for doing this
 
-Signed-off-by: Robert P. J. Day <rpjday@crashcourse.ca>
+On Tue, Jun 19, 2012 at 1:54 PM, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
+>
+> +SRC_URI_append_poky = " file://owl-menu.patch;apply=yes "
 
----
-
-diff --git a/meta/recipes-graphics/tslib/tslib_1.0.bb b/meta/recipes-graphics/tslib/tslib_1.0.bb
-index 54ff3d4..2c4b325 100644
---- a/meta/recipes-graphics/tslib/tslib_1.0.bb
-+++ b/meta/recipes-graphics/tslib/tslib_1.0.bb
-@@ -21,8 +21,8 @@ SRC_URI = "http://download.berlios.de/tslib/tslib-${PV}.tar.bz2 \
-
- SRC_URI[md5sum] = "92b2eb55b1e4ef7e2c0347069389390e"
- SRC_URI[sha256sum] = "9c40d914e4f6fe00bdd77137d671c7ce4f211686228f2eb8b2d3c2360bc249c8"
--SRC_URI_append_qemumips += " file://32bitBE-support.patch"
--SRC_URI_append_qemuppc += " file://32bitBE-support.patch"
-+SRC_URI_append_qemumips = " file://32bitBE-support.patch"
-+SRC_URI_append_qemuppc = " file://32bitBE-support.patch"
-
-
- inherit autotools pkgconfig
-diff --git a/meta/recipes-sato/leafpad/leafpad_0.8.18.1.bb b/meta/recipes-sato/leafpad/leafpad_0.8.18.1.bb
-index 3d1bc43..273cc72 100644
---- a/meta/recipes-sato/leafpad/leafpad_0.8.18.1.bb
-+++ b/meta/recipes-sato/leafpad/leafpad_0.8.18.1.bb
-@@ -15,7 +15,7 @@ SRC_URI[md5sum] = "254a72fc67505e3aa52884c729cd7b97"
- SRC_URI[sha256sum] = "959d22ae07f22803bc66ff40d373a854532a6e4732680bf8a96a3fbcb9f80a2c"
- PR = "r2"
-
--SRC_URI_append_poky += " file://owl-menu.patch;apply=yes "
-+SRC_URI_append_poky = " file://owl-menu.patch;apply=yes "
-
- inherit autotools pkgconfig
-
-diff --git a/meta/recipes-support/gmp/gmp_5.0.4.bb b/meta/recipes-support/gmp/gmp_5.0.4.bb
-index cb2ca5b..0f72742 100644
---- a/meta/recipes-support/gmp/gmp_5.0.4.bb
-+++ b/meta/recipes-support/gmp/gmp_5.0.4.bb
-@@ -4,7 +4,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
- 		    file://version.c;endline=18;md5=d8c56b52b9092346b9f93b4da65ef790"
- PR = "r1"
-
--SRC_URI_append += "file://use-includedir.patch \
-+SRC_URI_append = "file://use-includedir.patch \
-                    file://gmp_fix_for_x32.patch \
-                    file://gmp_fix_for_automake-1.12.patch \
-                    "
-
--- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
+while you are at it can you remove apply=yes from there ?
+since thats the default anyway for files ending in .patch
 
 
