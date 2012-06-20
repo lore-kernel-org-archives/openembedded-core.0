@@ -1,24 +1,24 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <lianhao.lu@intel.com>) id 1ShCdg-0001Qb-OW
+	(envelope-from <lianhao.lu@intel.com>) id 1ShCdi-0001Qo-NP
 	for openembedded-core@lists.openembedded.org;
-	Wed, 20 Jun 2012 06:35:32 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 19 Jun 2012 21:24:47 -0700
+	Wed, 20 Jun 2012 06:35:35 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 19 Jun 2012 21:24:49 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="182507173"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="155805265"
 Received: from llu-piketon.sh.intel.com (HELO localhost) ([10.239.36.116])
-	by fmsmga002.fm.intel.com with ESMTP; 19 Jun 2012 21:24:47 -0700
+	by orsmga001.jf.intel.com with ESMTP; 19 Jun 2012 21:24:49 -0700
 From: Lianhao Lu <lianhao.lu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 20 Jun 2012 12:25:22 +0800
-Message-Id: <d044bf6e1300b1e64869517545d7aa255ba978dd.1340166208.git.lianhao.lu@intel.com>
+Date: Wed, 20 Jun 2012 12:25:23 +0800
+Message-Id: <622f94dd940787bff2cf59299be285cfb6ddec98.1340166208.git.lianhao.lu@intel.com>
 X-Mailer: git-send-email 1.7.0.4
 In-Reply-To: <644f893ebb1c70b7081a82cef39b10b7233463cd.1340166208.git.lianhao.lu@intel.com>
 References: <644f893ebb1c70b7081a82cef39b10b7233463cd.1340166208.git.lianhao.lu@intel.com>
 In-Reply-To: <cover.1340166208.git.lianhao.lu@intel.com>
 References: <cover.1340166208.git.lianhao.lu@intel.com>
-Subject: [PATCH V2 2/3] image/core-image: Handle conflicting IMAGE_FEATURES.
+Subject: [PATCH V2 3/3] core-image/misc: Added new IMAGE_FEATURE eclipse-support.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,95 +33,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Jun 2012 04:35:33 -0000
+X-List-Received-Date: Wed, 20 Jun 2012 04:35:35 -0000
 
-IMAGE_FEATURES such as 'ssh-server-dropbear' and 'ssh-server-openssh'
-can't be both enabled. User can use the following variables to define
-the relationship of image features:
-
-IMAGE_FEATURES_REPLACES_foo = "bar" means including image feature "foo"
-would replace the image feature "bar".
-
-IMAGE_FEATURES_CONFLICTS_foo = "bar" means including both image features
-"foo" and "bar" would cause an parsing error.
+Added a new IMAGE_FEATURES eclipse-support to support developing user
+applications through Eclipse plugin.
 
 Signed-off-by: Lianhao Lu <lianhao.lu@intel.com>
 ---
- meta/classes/core-image.bbclass                 |   11 ++++++++++-
- meta/classes/image.bbclass                      |   17 +++++++++++++++++
- meta/recipes-sato/images/core-image-sato-sdk.bb |    2 ++
- 3 files changed, 29 insertions(+), 1 deletions(-)
+ meta/classes/core-image.bbclass                    |    2 ++
+ meta/conf/multilib.conf                            |    1 +
+ .../tasks/task-core-eclipse-support.bb             |   17 +++++++++++++++++
+ meta/recipes-sato/images/core-image-sato-sdk.bb    |    2 +-
+ 4 files changed, 21 insertions(+), 1 deletions(-)
+ create mode 100644 meta/recipes-core/tasks/task-core-eclipse-support.bb
 
 diff --git a/meta/classes/core-image.bbclass b/meta/classes/core-image.bbclass
-index 25f5c5a..6b207d7 100644
+index 6b207d7..8505d6f 100644
 --- a/meta/classes/core-image.bbclass
 +++ b/meta/classes/core-image.bbclass
-@@ -47,6 +47,14 @@ PACKAGE_GROUP_ssh-server-openssh = "task-core-ssh-openssh"
+@@ -28,6 +28,7 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3
+ # - ssh-server-dropbear - SSH server (dropbear)
+ # - ssh-server-openssh  - SSH server (openssh)
+ # - debug-tweaks        - makes an image suitable for development
++# - eclipse-support     - Support Eclipse plugin
+ #
+ PACKAGE_GROUP_apps-console-core = "task-core-apps-console"
+ PACKAGE_GROUP_x11-mini = "task-core-x11-mini"
+@@ -46,6 +47,7 @@ PACKAGE_GROUP_ssh-server-dropbear = "task-core-ssh-dropbear"
+ PACKAGE_GROUP_ssh-server-openssh = "task-core-ssh-openssh"
  PACKAGE_GROUP_package-management = "${ROOTFS_PKGMANAGE}"
  PACKAGE_GROUP_qt4-pkgs = "task-core-qt-demos"
++PACKAGE_GROUP_eclipse-support = "task-core-eclipse-support task-core-tools-debug task-core-tools-profile"
  
-+
-+# IMAGE_FEAETURES_REPLACES_foo = 'bar1 bar2'
-+# Including image feature foo would replace the image features bar1 and bar2
-+IMAGE_FEATURES_REPLACES_ssh-server-openssh = "ssh-server-dropbear"
-+
-+# IMAGE_FEATURES_CONFLICTS_foo = 'bar1 bar2'
-+# An error exception would be raised if both image features foo and bar1(or bar2) are included
-+
- CORE_IMAGE_BASE_INSTALL = '\
-     task-core-boot \
-     task-base-extended \
-@@ -60,7 +68,8 @@ IMAGE_INSTALL ?= "${CORE_IMAGE_BASE_INSTALL}"
  
- X11_IMAGE_FEATURES  = "x11-base apps-x11-core package-management"
- ENHANCED_IMAGE_FEATURES = "${X11_IMAGE_FEATURES} apps-x11-games apps-x11-pimlico package-management"
--SATO_IMAGE_FEATURES = "${ENHANCED_IMAGE_FEATURES} x11-sato ssh-server-dropbear"
-+SSHSERVER_IMAGE_FEATURES ??= "ssh-server-dropbear"
-+SATO_IMAGE_FEATURES = "${ENHANCED_IMAGE_FEATURES} x11-sato ${SSHSERVER_IMAGE_FEATURES}"
- 
- inherit image
- 
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index 404bf03..9c07ceb 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -87,6 +87,23 @@ python () {
-         deps += " %s:do_populate_sysroot" % dep
-     d.setVarFlag('do_rootfs', 'depends', deps)
- 
-+    #process IMAGE_FEATURES, we must do this before runtime_mapping_rename
-+    #Check for replaces image features
-+    features = set(oe.data.typed_value('IMAGE_FEATURES', d))
-+    remain_features = features.copy()
-+    for feature in features:
-+        replaces = set((d.getVar("IMAGE_FEATURES_REPLACES_%s" % feature, True) or "").split())
-+        remain_features -= replaces
+ # IMAGE_FEAETURES_REPLACES_foo = 'bar1 bar2'
+diff --git a/meta/conf/multilib.conf b/meta/conf/multilib.conf
+index cea8694..ee21d40 100644
+--- a/meta/conf/multilib.conf
++++ b/meta/conf/multilib.conf
+@@ -618,6 +618,7 @@ BBCLASSEXTEND_append_pn-task-core-basic = " ${MULTILIBS}"
+ BBCLASSEXTEND_append_pn-task-core-boot = " ${MULTILIBS}"
+ BBCLASSEXTEND_append_pn-task-core-clutter = " ${MULTILIBS}"
+ BBCLASSEXTEND_append_pn-task-core-console = " ${MULTILIBS}"
++BBCLASSEXTEND_append_pn-task-core-eclipse-support = " ${MULTILIBS}"
+ BBCLASSEXTEND_append_pn-task-core-gtk-directfb = " ${MULTILIBS}"
+ BBCLASSEXTEND_append_pn-task-core-lsb = " ${MULTILIBS}"
+ BBCLASSEXTEND_append_pn-task-core-nfs = " ${MULTILIBS}"
+diff --git a/meta/recipes-core/tasks/task-core-eclipse-support.bb b/meta/recipes-core/tasks/task-core-eclipse-support.bb
+new file mode 100644
+index 0000000..78a21a4
+--- /dev/null
++++ b/meta/recipes-core/tasks/task-core-eclipse-support.bb
+@@ -0,0 +1,17 @@
++DESCRIPTION = "Agent for Eclipse plugin task for Poky"
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58 \
++                    file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
++PR = "r0"
 +
-+    #Check for conflict image features
-+    for feature in remain_features:
-+        conflicts = set((d.getVar("IMAGE_FEATURES_CONFLICTS_%s" % feature, True) or "").split())
-+        temp = conflicts & remain_features
-+        if temp:
-+            raise bb.parse.SkipPackage("%s contains conflicting IMAGE_FEATURES %s %s" % (d.getVar('PN', True), feature, ' '.join(list(temp))))
++PACKAGES = "\
++    ${PN} \
++    ${PN}-dev \
++    ${PN}-dbg \
++    "
 +
-+    d.setVar('IMAGE_FEATURES', ' '.join(list(remain_features)))
++ALLOW_EMPTY = "1"
 +
-     # If we don't do this we try and run the mapping hooks while parsing which is slow
-     # bitbake should really provide something to let us know this...
-     if d.getVar('BB_WORKERCONTEXT', True) is not None:
++RDEPENDS_${PN} = "tcf-agent \
++	openssh-sftp-server \
++	"
 diff --git a/meta/recipes-sato/images/core-image-sato-sdk.bb b/meta/recipes-sato/images/core-image-sato-sdk.bb
-index eed1698..5bb9469 100644
+index 5bb9469..0630314 100644
 --- a/meta/recipes-sato/images/core-image-sato-sdk.bb
 +++ b/meta/recipes-sato/images/core-image-sato-sdk.bb
-@@ -8,6 +8,8 @@ form a standalone SDK."
- IMAGE_FEATURES += "apps-console-core ${SATO_IMAGE_FEATURES} dev-pkgs tools-sdk qt4-pkgs"
+@@ -5,7 +5,7 @@ DESCRIPTION = "Image with Sato support that includes everything within \
+ core-image-sato plus meta-toolchain, development headers and libraries to \
+ form a standalone SDK."
+ 
+-IMAGE_FEATURES += "apps-console-core ${SATO_IMAGE_FEATURES} dev-pkgs tools-sdk qt4-pkgs"
++IMAGE_FEATURES += "apps-console-core ${SATO_IMAGE_FEATURES} dev-pkgs tools-sdk qt4-pkgs eclipse-support"
  EXTRA_IMAGE_FEATURES += "tools-debug tools-profile tools-testapps debug-tweaks"
  
-+SSHSERVER_IMAGE_FEATURES = "ssh-server-openssh"
-+
- LICENSE = "MIT"
- 
- inherit core-image
+ SSHSERVER_IMAGE_FEATURES = "ssh-server-openssh"
 -- 
 1.7.0.4
 
