@@ -1,35 +1,33 @@
-Received: from astoria.ccjclearline.com ([64.235.106.9])
+Received: from mail-pz0-f47.google.com ([209.85.210.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpjday@crashcourse.ca>) id 1ShRu9-00076q-M5
+	(envelope-from <raj.khem@gmail.com>) id 1ShSpb-0007z4-4S
 	for openembedded-core@lists.openembedded.org;
-	Wed, 20 Jun 2012 22:53:33 +0200
-Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
-	([99.241.91.63]:45491 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.77) (envelope-from <rpjday@crashcourse.ca>)
-	id 1ShRjm-0005x7-49 for openembedded-core@lists.openembedded.org;
-	Wed, 20 Jun 2012 16:42:50 -0400
-Date: Wed, 20 Jun 2012 16:42:49 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@oneiric
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <1340224236.1640.64.camel@ted>
-Message-ID: <alpine.DEB.2.02.1206201642330.5787@oneiric>
-References: <alpine.DEB.2.02.1206201619360.5623@oneiric>
-	<1340224236.1640.64.camel@ted>
-User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
-MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Subject: Re: [PATCH] Fix typoes, "enviroment"
+	Wed, 20 Jun 2012 23:52:55 +0200
+Received: by dalh21 with SMTP id h21so10016081dal.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 20 Jun 2012 14:42:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=z7ek9K11bFkoKUrzwMpP+YsplFZ0lW+rEghVCEjNBYA=;
+	b=GpjxCNlc3MgDP7znWNjE/HplLxVethrGsvHLagrB/fwMj5BhTi4+wFI85bJStBUM3K
+	ureBNHi5QJT/So3wFuMW4528nJ6D3GJnZeLoqWxWYRUQtsjE4CYmqVItNemt7Av96lX2
+	ePmLkRbnu3oyXn7z75ZsjzsP6ksN0rpkM9y4qO2lEG09Y4kcJQHNSuvByVh6JX0pSAbD
+	CCz/UUxeJ9XAH5hpxKMhwQUNK5biQdpZ/AKyPNsQwwQ9I7wjgzdoa0mvUvhMdWZj5eMx
+	tTStX1Dj9hUXQygMJO8RGRJPOz96/HPDU05Uz7GE5/ZyPmpGxZAIR2DaYYY8HIBGEHGL
+	VUMA==
+Received: by 10.68.219.162 with SMTP id pp2mr80313639pbc.85.1340228529131;
+	Wed, 20 Jun 2012 14:42:09 -0700 (PDT)
+Received: from localhost.localdomain (oldbuilder.nslu2-linux.org.
+	[140.211.169.168])
+	by mx.google.com with ESMTPS id rv9sm33270381pbc.43.2012.06.20.14.42.07
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 20 Jun 2012 14:42:08 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 20 Jun 2012 14:40:52 -0700
+Message-Id: <cover.1340228144.git.raj.khem@gmail.com>
+X-Mailer: git-send-email 1.7.5.4
+Subject: [PATCH 0/1] Add standalone kconfig infrastructure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,25 +42,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Jun 2012 20:53:33 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Wed, 20 Jun 2012 21:52:55 -0000
 
-On Wed, 20 Jun 2012, Richard Purdie wrote:
+Right now we have few packages which uses kconfig infra
+besides the Linux kernel e.g. busybox, uclibc
+at present they all include their own version of kconfig
+infrastructure. This package called kconfig-frontends
+has been created to help manage projects using kconfig
+or wanting to use kconfig which are not kernel.
 
-> On Wed, 2012-06-20 at 16:20 -0400, Robert P. J. Day wrote:
-> > Signed-off-by: Robert P. J. Day <rpjday@crashcourse.ca>
-> >
-> > ---
->
-> I've replied about these before. The typos are in upstream components we
-> don't control. Fixing a typo in the patch will mean the patch doesn't
-> apply for example.
->
-> So I'm afraid I can't take these. Please talk to the respective
-> upstreams if they really bother you.
+The package will keep lock step releases with upstream
+kernel release.
 
-  oh, crap, sorry, i forgot about that.  my bad.
+This will tremendesouly help in deploying kconfig into
+glibc/eglibc which is going to convert the eglibc options
+into kconfig and eventually into glibc.
 
-rday
+I do not have the eglibc patches quite ready yet. but
+this is independent of that change.
+
+The following changes since commit 6d761ae17ddbd3d936e7fe985b40825ad62b2418:
+
+  debian.bbclass: invoke target objdump (2012-06-18 13:20:29 +0100)
+
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib kraj/kconfig-frontends
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=kraj/kconfig-frontends
+
+Khem Raj (1):
+  kconfig-frontends: New recipe
+
+ .../kconfig-frontends/kconfig-frontends_3.4.bb     |   28 ++++++++++++++++++++
+ 1 files changed, 28 insertions(+), 0 deletions(-)
+ create mode 100644 meta/recipes-devtools/kconfig-frontends/kconfig-frontends_3.4.bb
+
+-- 
+1.7.5.4
+
 
 
