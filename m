@@ -1,31 +1,20 @@
-Received: from astoria.ccjclearline.com ([64.235.106.9])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpjday@crashcourse.ca>) id 1ShGnr-00073A-02
+	(envelope-from <valentin.popa@intel.com>) id 1ShIZa-0000Av-NA
 	for openembedded-core@lists.openembedded.org;
-	Wed, 20 Jun 2012 11:02:19 +0200
-Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
-	([99.241.91.63]:33494 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.77) (envelope-from <rpjday@crashcourse.ca>)
-	id 1ShGdT-0008Ka-G6 for openembedded-core@lists.openembedded.org;
-	Wed, 20 Jun 2012 04:51:35 -0400
-Date: Wed, 20 Jun 2012 04:51:32 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@oneiric
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.DEB.2.02.1206200450150.7297@oneiric>
-User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
-MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Subject: [PATCH] Simplify "SRC_URI_append +=" to "SRC_URI_append ="
+	Wed, 20 Jun 2012 12:55:42 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 20 Jun 2012 03:43:49 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="167945610"
+Received: from valentin-desktop (HELO localhost.localdomain) ([10.237.105.52])
+	by fmsmga001.fm.intel.com with ESMTP; 20 Jun 2012 03:43:48 -0700
+From: Valentin Popa <valentin.popa@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 20 Jun 2012 10:50:41 +0300
+Message-Id: <1340178641-5900-1-git-send-email-valentin.popa@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] evolution-data-server: updated to ver. 2.30_3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,66 +29,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Jun 2012 09:02:19 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Wed, 20 Jun 2012 10:55:42 -0000
 
+Tested using Tasks & Contacts
 
-Signed-off-by: Robert P. J. Day <rpjday@crashcourse.ca>
-
+Signed-off-by: Valentin Popa <valentin.popa@intel.com>
 ---
+ meta/recipes-sato/eds/evolution-data-server_git.bb |    5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-  second attempt ...
-
-diff --git a/meta/recipes-graphics/tslib/tslib_1.0.bb b/meta/recipes-graphics/tslib/tslib_1.0.bb
-index 54ff3d4..2c4b325 100644
---- a/meta/recipes-graphics/tslib/tslib_1.0.bb
-+++ b/meta/recipes-graphics/tslib/tslib_1.0.bb
-@@ -21,8 +21,8 @@ SRC_URI = "http://download.berlios.de/tslib/tslib-${PV}.tar.bz2 \
-
- SRC_URI[md5sum] = "92b2eb55b1e4ef7e2c0347069389390e"
- SRC_URI[sha256sum] = "9c40d914e4f6fe00bdd77137d671c7ce4f211686228f2eb8b2d3c2360bc249c8"
--SRC_URI_append_qemumips += " file://32bitBE-support.patch"
--SRC_URI_append_qemuppc += " file://32bitBE-support.patch"
-+SRC_URI_append_qemumips = " file://32bitBE-support.patch"
-+SRC_URI_append_qemuppc = " file://32bitBE-support.patch"
-
-
- inherit autotools pkgconfig
-diff --git a/meta/recipes-sato/leafpad/leafpad_0.8.18.1.bb b/meta/recipes-sato/leafpad/leafpad_0.8.18.1.bb
-index 3d1bc43..273cc72 100644
---- a/meta/recipes-sato/leafpad/leafpad_0.8.18.1.bb
-+++ b/meta/recipes-sato/leafpad/leafpad_0.8.18.1.bb
-@@ -15,7 +15,7 @@ SRC_URI[md5sum] = "254a72fc67505e3aa52884c729cd7b97"
- SRC_URI[sha256sum] = "959d22ae07f22803bc66ff40d373a854532a6e4732680bf8a96a3fbcb9f80a2c"
- PR = "r2"
-
--SRC_URI_append_poky += " file://owl-menu.patch;apply=yes "
-+SRC_URI_append_poky = " file://owl-menu.patch;apply=yes "
-
- inherit autotools pkgconfig
-
-diff --git a/meta/recipes-support/gmp/gmp_5.0.4.bb b/meta/recipes-support/gmp/gmp_5.0.4.bb
-index cb2ca5b..f794438 100644
---- a/meta/recipes-support/gmp/gmp_5.0.4.bb
-+++ b/meta/recipes-support/gmp/gmp_5.0.4.bb
-@@ -4,7 +4,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
- 		    file://version.c;endline=18;md5=d8c56b52b9092346b9f93b4da65ef790"
- PR = "r1"
-
--SRC_URI_append += "file://use-includedir.patch \
-+SRC_URI_append = " file://use-includedir.patch \
-                    file://gmp_fix_for_x32.patch \
-                    file://gmp_fix_for_automake-1.12.patch \
-                    "
-
+diff --git a/meta/recipes-sato/eds/evolution-data-server_git.bb b/meta/recipes-sato/eds/evolution-data-server_git.bb
+index 1d675dc..17724ce 100644
+--- a/meta/recipes-sato/eds/evolution-data-server_git.bb
++++ b/meta/recipes-sato/eds/evolution-data-server_git.bb
+@@ -10,9 +10,10 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=6a6e689d19255cf0557f3fe7d7068212 \
+ 
+ DEPENDS = "intltool-native glib-2.0 gtk+ gconf dbus db gnome-common virtual/libiconv zlib libsoup-2.4 libglade libical gnome-keyring gperf-native"
+ 
+-SRCREV = "7337d11aed576e7caaa12b4e881ad8d33668799f"
++SRCREV = "3ca578d968d09785933ebbb45b66b3bccdbd5832"
++
+ PV = "2.30+git${SRCPV}"
+-PR = "r1"
++PR = "r0"
+ 
+ SRC_URI = "git://git.gnome.org/evolution-data-server;protocol=git \
+            file://oh-contact.patch;striplevel=0 \
 -- 
+1.7.9.5
 
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
 
 
