@@ -1,22 +1,34 @@
-Received: from [78.110.170.148] (helo=tinyArch.localdomain)
+Received: from tygrysek.juszkiewicz.com.pl ([178.33.81.99])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ml@communistcode.co.uk>) id 1ShMlX-00015y-W4
+	(envelope-from <marcin.juszkiewicz@linaro.org>) id 1ShMoQ-00019z-KD
 	for openembedded-core@lists.openembedded.org;
-	Wed, 20 Jun 2012 17:24:20 +0200
-Received: from [192.168.0.46] (unknown [195.171.99.130])
-	by tinyArch.localdomain (Postfix) with ESMTPSA id 23A34600CC
+	Wed, 20 Jun 2012 17:27:18 +0200
+Received: by tygrysek.juszkiewicz.com.pl (Postfix, from userid 65534)
+	id 749A2D2380; Wed, 20 Jun 2012 17:16:37 +0200 (CEST)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	tygrysek.juszkiewicz.com.pl
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=ham version=3.3.2
+Received: from [192.168.1.112] (87-206-60-144.dynamic.chello.pl
+	[87.206.60.144])
+	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	(Authenticated sender: marcin@juszkiewicz.com.pl)
+	by tygrysek.juszkiewicz.com.pl (Postfix) with ESMTPSA id 81363D232B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Jun 2012 15:05:02 +0100 (BST)
-Message-ID: <4FE1E8D7.2010407@communistcode.co.uk>
-Date: Wed, 20 Jun 2012 16:14:31 +0100
-From: Jack Mitchell <ml@communistcode.co.uk>
+	Wed, 20 Jun 2012 17:16:07 +0200 (CEST)
+Message-ID: <4FE1E933.70500@linaro.org>
+Date: Wed, 20 Jun 2012 17:16:03 +0200
+From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+Organization: Linaro
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:13.0) Gecko/20120616 Thunderbird/13.0.1
+	rv:14.0) Gecko/20120614 Thunderbird/14.0
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
+To: openembedded-core@lists.openembedded.org
 References: <4FE1E603.4040408@linaro.org>
-In-Reply-To: <4FE1E603.4040408@linaro.org>
+	<4FE1E8D7.2010407@communistcode.co.uk>
+In-Reply-To: <4FE1E8D7.2010407@communistcode.co.uk>
 Subject: Re: Apache recipe?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -32,38 +44,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Jun 2012 15:24:20 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Wed, 20 Jun 2012 15:27:18 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 20/06/12 16:02, Marcin Juszkiewicz wrote:
-> Does someone has recipe for Apache? I want to make LAMP image for our
-> tests and so far my choices are lighttpd or creation of new recipes for
-> Apache (based on 2.2.17 from OE classic).
+W dniu 20.06.2012 17:14, Jack Mitchell pisze:
+> On 20/06/12 16:02, Marcin Juszkiewicz wrote:
+>> Does someone has recipe for Apache? I want to make LAMP image for our
+>> tests and so far my choices are lighttpd or creation of new recipes for
+>> Apache (based on 2.2.17 from OE classic).
+
+> Last time I checked the PHP recipe needs a bit of love too, I've done a
+> slightly updated customised build but it's a fantastic hackfest.
+> 
+> Any reason you specifically want Apache? I'm using Hiawatha webserver
+> which is another lightweight alternative with PHP-cgi support as I
+> wasn't too keen on lighttpd.
 >
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+> I would be happy to provide the recipes if you wish you to use them.
 
-Last time I checked the PHP recipe needs a bit of love too, I've done a 
-slightly updated customised build but it's a fantastic hackfest.
-
-Any reason you specifically want Apache? I'm using Hiawatha webserver 
-which is another lightweight alternative with PHP-cgi support as I 
-wasn't too keen on lighttpd.
-
-I would be happy to provide the recipes if you wish you to use them.
-
-Regards,
-
--- 
-
-   Jack Mitchell (jack@embed.me.uk)
-   Embedded Systems Engineer
-   http://www.embed.me.uk
-
---
-
+I may end with lighttpd but would be great if you can share recipes.
 
 
