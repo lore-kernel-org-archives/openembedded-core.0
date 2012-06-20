@@ -1,23 +1,37 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Xin.Ouyang@windriver.com>) id 1ShJVe-0001lA-0a
+	(envelope-from <ross.burton@intel.com>) id 1ShJXt-0001oz-Tt
 	for openembedded-core@lists.openembedded.org;
-	Wed, 20 Jun 2012 13:55:42 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q5K7HHj1019108
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 20 Jun 2012 13:58:02 +0200
+Received: from mail-wg0-f44.google.com ([74.125.82.44])
+	by mga03.intel.com with ESMTP/TLS/RC4-SHA; 20 Jun 2012 04:47:15 -0700
+Received: by wgbdr13 with SMTP id dr13so5066440wgb.13
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Jun 2012 00:17:17 -0700 (PDT)
-Received: from Xouyang-Ubuntu.corp.ad.wrs.com (128.224.162.231) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.1.255.0; Wed, 20 Jun 2012 00:17:17 -0700
-From: <xin.ouyang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 20 Jun 2012 15:17:17 +0800
-Message-ID: <1340176637-19586-1-git-send-email-xin.ouyang@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-MIME-Version: 1.0
-Subject: [PATCH] xinetd: Add default options.
+	Wed, 20 Jun 2012 04:47:13 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer:x-gm-message-state;
+	bh=VRiBvddmTU+L8jSc0bvcIWAhnS6EIFSbzaHDnFxdsYY=;
+	b=BtgO336QF8UrCKjD2Ceomeb5VhMZgAA7QZXf3+sDAhGNwml5o5WvqSYDHbzeHs+FDY
+	tOZRhtXy+qfqnWcXweN5fbbAHeDk6qxeCoOJcxHgQ/KfD7CZVXi/V2/YGif4eZIzmaEo
+	fWxdkAF8eVpyOg4bwoXMRVilX2GhMhWesL9KnXITTQCMsKesBI+RUveVUva/JaKD2zMG
+	bV7DQZzdq5nYjXS565kfXX2jDJbL/6NuwNOzhEX+7LfY0rKojefGT69XgJ9bUd9vmToT
+	VHfcVM037C9KjRTef/0ODBJP3cVdF6hA8TjRe+vVUr4UoUYAVGhisCmXVXYMIT+WAUeQ
+	M8Ug==
+Received: by 10.180.7.133 with SMTP id j5mr11442060wia.14.1340192833554;
+	Wed, 20 Jun 2012 04:47:13 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35])
+	by mx.google.com with ESMTPS id t8sm4596363wiy.3.2012.06.20.04.47.12
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 20 Jun 2012 04:47:12 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 20 Jun 2012 12:47:08 +0100
+Message-Id: <cover.1340192772.git.ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10
+X-Gm-Message-State: ALoCoQnN8UhiEE1v2y2r2duboG6Bldsagn8rUQVGzGv8faUbqdlwUqSUWfKMxZGc27LANA/7aWRm
+Subject: [PATCH 0/1] ignore build*/ entirely
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,70 +46,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Jun 2012 11:55:42 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 20 Jun 2012 11:58:02 -0000
 
-From: Xin Ouyang <Xin.Ouyang@windriver.com>
+Instead of ignoring bits of the build dir, just ignore the entire thing. 
+build/ shouldn't be in git, right?
 
-Currently, xinetd cannot start if no service enabled.
+The following changes since commit e0a70547069fe7e8a2d6bdaffc985fb172d46c31:
 
- # /etc/init.d/xinetd start
- # ps aux | grep xinetd
- # cat /var/log/syslog
- xinetd[862]: 862 {init_services} no services. Exiting...
+  perl: Allow perl to cross build and native build in a directory named "t" (2012-06-18 17:33:04 +0100)
 
-So add -stayalive option by default, as most distos do. 
+are available in the git repository at:
 
-Signed-off-by: Xin Ouyang <Xin.Ouyang@windriver.com>
----
- meta/recipes-extended/xinetd/xinetd/xinetd.default |   12 ++++++++++++
- meta/recipes-extended/xinetd/xinetd_2.3.15.bb      |    3 +++
- 2 files changed, 15 insertions(+)
- create mode 100644 meta/recipes-extended/xinetd/xinetd/xinetd.default
+  git://git.yoctoproject.org/poky-contrib ross/ignore
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ross/ignore
 
-diff --git a/meta/recipes-extended/xinetd/xinetd/xinetd.default b/meta/recipes-extended/xinetd/xinetd/xinetd.default
-new file mode 100644
-index 0000000..20a38e3
---- /dev/null
-+++ b/meta/recipes-extended/xinetd/xinetd/xinetd.default
-@@ -0,0 +1,12 @@
-+# Default settings for xinetd. This file is sourced by /bin/sh from
-+# /etc/init.d/xinetd
-+
-+# enable xinetd Inetd compat mode
-+INETD_COMPAT=Yes
-+
-+# Options to pass to xinetd
-+#
-+# -stayalive comes by default : it can be removed if xinetd is expected
-+# not to start when no service is configured
-+#
-+XINETD_OPTS="-stayalive"
-diff --git a/meta/recipes-extended/xinetd/xinetd_2.3.15.bb b/meta/recipes-extended/xinetd/xinetd_2.3.15.bb
-index 3d55e99..a142143 100644
---- a/meta/recipes-extended/xinetd/xinetd_2.3.15.bb
-+++ b/meta/recipes-extended/xinetd/xinetd_2.3.15.bb
-@@ -12,6 +12,7 @@ PR = "r0"
- SRC_URI = "http://www.xinetd.org/xinetd-${PV}.tar.gz \
-       file://xinetd.init \
-       file://xinetd.conf \
-+      file://xinetd.default \
-       file://Various-fixes-from-the-previous-maintainer.patch \
-       file://Disable-services-from-inetd.conf-if-a-service-with-t.patch \
-       file://xinetd-should-be-able-to-listen-on-IPv6-even-in-ine.patch \
-@@ -40,8 +41,10 @@ do_install() {
- 	install -d "${D}/usr/sbin"
- 	install -d "${D}/etc/init.d"
- 	install -d "${D}/etc/xinetd.d"
-+	install -d "${D}/etc/default"
- 	install -m 644 "${WORKDIR}/xinetd.conf" "${D}/etc"
- 	install -m 755 "${WORKDIR}/xinetd.init" "${D}/etc/init.d/xinetd"
-+	install -m 644 "${WORKDIR}/xinetd.default" "${D}/etc/default/xinetd"
- 	install -m 755 "${S}/xinetd/xinetd" "${D}/usr/sbin"
- 	install -m 755 "${S}/xinetd/itox" "${D}/usr/sbin"
- }
+Ross Burton (1):
+  gitignore: ignore build*/ entirely
+
+ .gitignore |    6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
+
 -- 
-1.7.9.5
+1.7.10
 
 
 
