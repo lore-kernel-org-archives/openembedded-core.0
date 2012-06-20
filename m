@@ -1,33 +1,37 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from mail-lb0-f175.google.com ([209.85.217.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1ShDmH-00032o-P1
+	(envelope-from <tasskjapp@gmail.com>) id 1ShEDt-0003sa-VO
 	for openembedded-core@lists.openembedded.org;
-	Wed, 20 Jun 2012 07:48:29 +0200
-Received: by eekd49 with SMTP id d49so2286612eek.6
+	Wed, 20 Jun 2012 08:17:02 +0200
+Received: by lbol5 with SMTP id l5so126635lbo.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Jun 2012 22:37:45 -0700 (PDT)
+	Tue, 19 Jun 2012 23:06:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type:content-transfer-encoding;
-	bh=Bc4oblAavQQgni7AbMONaQNnWzuFR4neLA1dPKHJvOo=;
-	b=UuRGuI7tMWAjAQMZ6K8cdAxD5JnBmwcrr7QztCpui8xkN6OB5K7qeOtDFfoVIfm1TS
-	UoO9Fgwj1P1ajKHyETDDtUWVZSS9lkALmzTKAnFMwO6xfyEplWmgkPYZLlwXU8kHaTP8
-	NdR7dLPzzyfoFZM0T9CSWH6X9DLPVqxji5wC64/8bAinpM/a4Vt+dwyfsxfyl3Kk1cdV
-	YrNvqT2+nJl6LRId8dsBINf6QEVc632PkU3LAv5M7C1msTggcoyQPbmdI88KKMLqSpor
-	bEvUIkT+tLHJkB4omOkeM9oronbWyzYv8vpIZ4RX/58Cyi5IKcDCDG59DEDwEsix+iKe
-	8DJg==
-Received: by 10.14.97.16 with SMTP id s16mr4531211eef.117.1340170665349; Tue,
-	19 Jun 2012 22:37:45 -0700 (PDT)
+	h=message-id:date:from:user-agent:mime-version:to:subject:references
+	:in-reply-to:content-type:content-transfer-encoding;
+	bh=gth9SnuaOx8oNAGxKDTKJpK0ii7DuSXjBNGRmtrv2RM=;
+	b=ZS6kD+N1ML8cvQ10EEBI8mGrsYU9QA7A1Muv7iYDFhH4S1OiAiyvhn/GgouyzKuFol
+	ebp61SsCD3SgEDFP5yJw/PppV/fCdsXfv6rfb8jtaiiantZENHtfx18orCatmQf/Qwao
+	Oa6eKJ9DI9dzLV829Rs8Dc39ZSdF+VQoM8P5sEhDDzZNDu+nVAlp2lO4X9oKfEk+1vP/
+	ZsQO54CQjg3IQD5upp62Ylc/gdngkh/MQxiaktfFOoe7Tu5UPeBAcmTPawy/uSm1mBCS
+	YX5Ls6NZFZu2AjM1zrH/epPrMfqrAoUjrg1XZI2qMCjkoESMJRtMfi16rbxLUiKm52xe
+	wbZw==
+Received: by 10.152.124.45 with SMTP id mf13mr1245038lab.44.1340172377647;
+	Tue, 19 Jun 2012 23:06:17 -0700 (PDT)
+Received: from [192.168.0.121] ([84.49.231.147])
+	by mx.google.com with ESMTPS id h9sm15441393lbi.9.2012.06.19.23.06.15
+	(version=SSLv3 cipher=OTHER); Tue, 19 Jun 2012 23:06:16 -0700 (PDT)
+Message-ID: <4FE167B4.3020802@gmail.com>
+Date: Wed, 20 Jun 2012 08:03:32 +0200
+From: Tasslehoff Kjappfot <tasskjapp@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
 MIME-Version: 1.0
-Received: by 10.14.219.71 with HTTP; Tue, 19 Jun 2012 22:37:15 -0700 (PDT)
-In-Reply-To: <CAJy-8bt3YwS1L3Oj=vonPY2Yzar2oGW0PWRbLx18EbHUigszAw@mail.gmail.com>
-References: <CAJy-8bt3YwS1L3Oj=vonPY2Yzar2oGW0PWRbLx18EbHUigszAw@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 19 Jun 2012 22:37:15 -0700
-Message-ID: <CAMKF1sq1zLSDH2twH9toheN6nHwzuLFZ=+KZBDWsutckY+F4Qw@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: how to use external tool chain to build opebembedded-core ?
+To: openembedded-core@lists.openembedded.org
+References: <CANrdZLjpmXK5j+jr=fTD43je2Ni6exWGcrCkejKgE1ZZXe5TGQ@mail.gmail.com>
+	<CAMKF1spWqFCoXRbnevoKz+ftThQf41nObpMQ6N46YQ6_fucznQ@mail.gmail.com>
+In-Reply-To: <CAMKF1spWqFCoXRbnevoKz+ftThQf41nObpMQ6N46YQ6_fucznQ@mail.gmail.com>
+Subject: Re: Generating a movable SDK
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,38 +46,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Jun 2012 05:48:29 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 20 Jun 2012 06:17:02 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jun 19, 2012 at 7:41 PM, Michael Zhu <boot2linux@gmail.com> wrote:
-> Dears,
-> how to use prebuilt external tool chain to build=C2=A0 openembedded-core =
-?
-> thanks!
-
-Look at meta/conf/distro/include/tcmode-external-sourcery.inc
-
-thats how code sourcery toolchains are hooked in. and you do set
-TCMODE =3D "external-sourcery" in your local.conf
-
-and it will use csl toolchains, linaro has something similar look at
-linaro layer
-look at
-
-git://git.linaro.org/people/kwerner/meta-linaro.git
-
-it calls the TCMODE =3D "external-linaro"
-
-you can set your own following these as examples.
-
-> B.R.
-> Michael
+On 06/19/2012 10:33 PM, Khem Raj wrote:
 >
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 >
+> On Tuesday, June 19, 2012, Steve English <steve.english@navetas.com
+> <mailto:steve.english@navetas.com>> wrote:
+>  > Hi,
+>  > I've generated a cross compiling ARM SDK
+> (angstrom-eglibc-x86_64-armv7a-v2012.05-toolchain.tar.bz2) that works
+> great if installed in /usr/local/oecore-x86_64. I would like to move
+> these binaries and run them from under my home directory (on this and
+> other host machines).
+>  >
+>  > I can tweak the PATH and use --sysroot where appropriate, but the ELF
+> binaries themselves specify a loader of
+> /usr/local/oecore-x86_64/sysroots/x86_64-angstromsdk-linux/lib/ld-linux-x86-64.so.2
+> in their .interp header. Is it possible to generate an SDK that uses the
+> standard host loader, or at least uses a relative path for the built loader?
+>
+>
+> Sdk is not install time relocatable yet there is a feature enhancement
+> request in yo to bugzilla for the same
+>
+That request is mine, I think. I have gotten around this by making 
+/usr/local/oecore-i686 a symlink to where I want to keep the toolchain 
+(in a vcs). Works like a charm.
+
+- Tasslehoff
 
 
