@@ -1,20 +1,31 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from astoria.ccjclearline.com ([64.235.106.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bogdan.a.marinescu@intel.com>) id 1ShGMo-0006Hn-PK
+	(envelope-from <rpjday@crashcourse.ca>) id 1ShGnr-00073A-02
 	for openembedded-core@lists.openembedded.org;
-	Wed, 20 Jun 2012 10:34:23 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 20 Jun 2012 01:23:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="158548956"
-Received: from bogdanm (HELO localhost.localdomain) ([10.237.105.145])
-	by azsmga001.ch.intel.com with ESMTP; 20 Jun 2012 01:23:36 -0700
-From: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 20 Jun 2012 11:25:32 +0300
-Message-Id: <1340180732-26710-1-git-send-email-bogdan.a.marinescu@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] linux-tools: multilib compilation fix
+	Wed, 20 Jun 2012 11:02:19 +0200
+Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
+	([99.241.91.63]:33494 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.77) (envelope-from <rpjday@crashcourse.ca>)
+	id 1ShGdT-0008Ka-G6 for openembedded-core@lists.openembedded.org;
+	Wed, 20 Jun 2012 04:51:35 -0400
+Date: Wed, 20 Jun 2012 04:51:32 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@oneiric
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.DEB.2.02.1206200450150.7297@oneiric>
+User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+MIME-Version: 1.0
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Subject: [PATCH] Simplify "SRC_URI_append +=" to "SRC_URI_append ="
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,32 +40,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Jun 2012 08:34:23 -0000
+X-List-Received-Date: Wed, 20 Jun 2012 09:02:19 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
-This patch makes linux-tools compile properly on multilib configurations
-(which failed because of some invalid dependencies). Tested by compiling
-lib32-core-image-sato-sdk.
 
-Signed-off-by: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
+Signed-off-by: Robert P. J. Day <rpjday@crashcourse.ca>
+
 ---
- meta/recipes-kernel/linux/linux-tools.inc |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-kernel/linux/linux-tools.inc b/meta/recipes-kernel/linux/linux-tools.inc
-index 3b03c05..048608c 100644
---- a/meta/recipes-kernel/linux/linux-tools.inc
-+++ b/meta/recipes-kernel/linux/linux-tools.inc
-@@ -34,7 +34,7 @@ do_install_perf[umask] = "022"
- 
- PERFDEPENDS = "virtual/${MLPREFIX}libc:do_populate_sysroot ${MLPREFIX}elfutils:do_populate_sysroot ${MLPREFIX}binutils:do_populate_sysroot"
- PERFDEPENDS_libc-uclibc = ""
--PERFRDEPENDS = "python perl elfutils"
-+PERFRDEPENDS = "${MLPREFIX}python ${MLPREFIX}perl ${MLPREFIX}elfutils"
- PERFRDEPENDS_libc-uclibc = ""
- 
- do_compile_perf[depends] = "${PERFDEPENDS}"
+  second attempt ...
+
+diff --git a/meta/recipes-graphics/tslib/tslib_1.0.bb b/meta/recipes-graphics/tslib/tslib_1.0.bb
+index 54ff3d4..2c4b325 100644
+--- a/meta/recipes-graphics/tslib/tslib_1.0.bb
++++ b/meta/recipes-graphics/tslib/tslib_1.0.bb
+@@ -21,8 +21,8 @@ SRC_URI = "http://download.berlios.de/tslib/tslib-${PV}.tar.bz2 \
+
+ SRC_URI[md5sum] = "92b2eb55b1e4ef7e2c0347069389390e"
+ SRC_URI[sha256sum] = "9c40d914e4f6fe00bdd77137d671c7ce4f211686228f2eb8b2d3c2360bc249c8"
+-SRC_URI_append_qemumips += " file://32bitBE-support.patch"
+-SRC_URI_append_qemuppc += " file://32bitBE-support.patch"
++SRC_URI_append_qemumips = " file://32bitBE-support.patch"
++SRC_URI_append_qemuppc = " file://32bitBE-support.patch"
+
+
+ inherit autotools pkgconfig
+diff --git a/meta/recipes-sato/leafpad/leafpad_0.8.18.1.bb b/meta/recipes-sato/leafpad/leafpad_0.8.18.1.bb
+index 3d1bc43..273cc72 100644
+--- a/meta/recipes-sato/leafpad/leafpad_0.8.18.1.bb
++++ b/meta/recipes-sato/leafpad/leafpad_0.8.18.1.bb
+@@ -15,7 +15,7 @@ SRC_URI[md5sum] = "254a72fc67505e3aa52884c729cd7b97"
+ SRC_URI[sha256sum] = "959d22ae07f22803bc66ff40d373a854532a6e4732680bf8a96a3fbcb9f80a2c"
+ PR = "r2"
+
+-SRC_URI_append_poky += " file://owl-menu.patch;apply=yes "
++SRC_URI_append_poky = " file://owl-menu.patch;apply=yes "
+
+ inherit autotools pkgconfig
+
+diff --git a/meta/recipes-support/gmp/gmp_5.0.4.bb b/meta/recipes-support/gmp/gmp_5.0.4.bb
+index cb2ca5b..f794438 100644
+--- a/meta/recipes-support/gmp/gmp_5.0.4.bb
++++ b/meta/recipes-support/gmp/gmp_5.0.4.bb
+@@ -4,7 +4,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
+ 		    file://version.c;endline=18;md5=d8c56b52b9092346b9f93b4da65ef790"
+ PR = "r1"
+
+-SRC_URI_append += "file://use-includedir.patch \
++SRC_URI_append = " file://use-includedir.patch \
+                    file://gmp_fix_for_x32.patch \
+                    file://gmp_fix_for_automake-1.12.patch \
+                    "
+
 -- 
-1.7.9.5
 
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
