@@ -1,20 +1,20 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <valentin.popa@intel.com>) id 1ShIeN-0000gW-AY
+	(envelope-from <valentin.popa@intel.com>) id 1ShIfx-0000jg-Rx
 	for openembedded-core@lists.openembedded.org;
-	Wed, 20 Jun 2012 13:00:39 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 20 Jun 2012 03:48:49 -0700
+	Wed, 20 Jun 2012 13:02:18 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 20 Jun 2012 03:50:28 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="155947318"
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="159974733"
 Received: from valentin-desktop (HELO localhost.localdomain) ([10.237.105.52])
-	by orsmga001.jf.intel.com with ESMTP; 20 Jun 2012 03:48:48 -0700
+	by orsmga002.jf.intel.com with ESMTP; 20 Jun 2012 03:50:27 -0700
 From: Valentin Popa <valentin.popa@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 20 Jun 2012 10:56:11 +0300
-Message-Id: <1340178971-6053-1-git-send-email-valentin.popa@intel.com>
+Date: Wed, 20 Jun 2012 10:57:50 +0300
+Message-Id: <1340179070-6095-1-git-send-email-valentin.popa@intel.com>
 X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] gpgme: updated to 1.3.2
+Subject: [PATCH] xev: updated to 1.2.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,51 +29,137 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Jun 2012 11:00:40 -0000
+X-List-Received-Date: Wed, 20 Jun 2012 11:02:18 -0000
+
+tested on sato
 
 Signed-off-by: Valentin Popa <valentin.popa@intel.com>
 ---
- .../disable_gpgconf_check.patch                    |    0
- .../gpgme/{gpgme_1.3.1.bb => gpgme_1.3.2.bb}       |    8 ++++----
- 2 files changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-support/gpgme/{gpgme-1.3.1 => gpgme-1.3.2}/disable_gpgconf_check.patch (100%)
- rename meta/recipes-support/gpgme/{gpgme_1.3.1.bb => gpgme_1.3.2.bb} (83%)
+ meta/recipes-graphics/xorg-app/xev/diet-x11.patch  |   38 ++++++++++----------
+ .../xorg-app/{xev_1.0.3.bb => xev_1.2.0.bb}        |    6 ++--
+ 2 files changed, 22 insertions(+), 22 deletions(-)
+ rename meta/recipes-graphics/xorg-app/{xev_1.0.3.bb => xev_1.2.0.bb} (33%)
 
-diff --git a/meta/recipes-support/gpgme/gpgme-1.3.1/disable_gpgconf_check.patch b/meta/recipes-support/gpgme/gpgme-1.3.2/disable_gpgconf_check.patch
-similarity index 100%
-rename from meta/recipes-support/gpgme/gpgme-1.3.1/disable_gpgconf_check.patch
-rename to meta/recipes-support/gpgme/gpgme-1.3.2/disable_gpgconf_check.patch
-diff --git a/meta/recipes-support/gpgme/gpgme_1.3.1.bb b/meta/recipes-support/gpgme/gpgme_1.3.2.bb
-similarity index 83%
-rename from meta/recipes-support/gpgme/gpgme_1.3.1.bb
-rename to meta/recipes-support/gpgme/gpgme_1.3.2.bb
-index 43d8aad..6529fe5 100644
---- a/meta/recipes-support/gpgme/gpgme_1.3.1.bb
-+++ b/meta/recipes-support/gpgme/gpgme_1.3.2.bb
-@@ -5,19 +5,19 @@ BUGTRACKER = "https://bugs.g10code.com/gnupg/index"
- LICENSE = "GPLv2+ & LGPLv2.1+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
-                     file://COPYING.LESSER;md5=bbb461211a33b134d42ed5ee802b37ff \
--                    file://src/gpgme.h.in;endline=23;md5=942b47052c0674c6a3b9b9e6127628a4 \
-+                    file://src/gpgme.h.in;endline=23;md5=00846fee29ec2a6f5c808bfe7fc24e65 \
-                     file://src/engine.h;endline=22;md5=e96acfaab1cff82dd8fbefddd2f5c436"
+diff --git a/meta/recipes-graphics/xorg-app/xev/diet-x11.patch b/meta/recipes-graphics/xorg-app/xev/diet-x11.patch
+index 139838c..6130959 100644
+--- a/meta/recipes-graphics/xorg-app/xev/diet-x11.patch
++++ b/meta/recipes-graphics/xorg-app/xev/diet-x11.patch
+@@ -4,11 +4,11 @@ Upstream-Status: Inappropriate [disable feature]
+  xev.c |   16 ++++++++--------
+  1 file changed, 8 insertions(+), 8 deletions(-)
  
- SRC_URI = "ftp://ftp.gnupg.org/gcrypt/gpgme/gpgme-${PV}.tar.bz2 \
-            file://disable_gpgconf_check.patch"
+-Index: xev-1.0.2/xev.c
++Index: xev-1.2.0/xev.c
+ ===================================================================
+---- xev-1.0.2.orig/xev.c	2006-06-02 00:25:44.000000000 +0100
+-+++ xev-1.0.2/xev.c	2007-05-10 15:22:07.000000000 +0100
+-@@ -109,7 +109,7 @@ do_KeyPress (XEvent *eventp)
++--- xev-1.2.0.orig/xev.c
+++++ xev-1.2.0/xev.c
++@@ -116,7 +116,7 @@ do_KeyPress (XEvent *eventp)
+      nbytes = XLookupString (e, str, 256, &ks, NULL);
+  
+      /* not supposed to call XmbLookupString on a key release event */
+@@ -17,7 +17,7 @@ Index: xev-1.0.2/xev.c
+          do {
+              nmbbytes = XmbLookupString (xic, e, buf, bsize - 1, &ks, &status);
+              buf[nmbbytes] = '\0';
+-@@ -119,7 +119,7 @@ do_KeyPress (XEvent *eventp)
++@@ -126,7 +126,7 @@ do_KeyPress (XEvent *eventp)
+                  buf = realloc (buf, bsize);
+              }
+          } while (status == XBufferOverflow);
+@@ -26,7 +26,7 @@ Index: xev-1.0.2/xev.c
+  
+      if (ks == NoSymbol)
+  	ksname = "NoSymbol";
+-@@ -149,7 +149,7 @@ do_KeyPress (XEvent *eventp)
++@@ -156,7 +156,7 @@ do_KeyPress (XEvent *eventp)
+      }
+  
+      /* not supposed to call XmbLookupString on a key release event */
+@@ -35,16 +35,16 @@ Index: xev-1.0.2/xev.c
+          printf ("    XmbLookupString gives %d bytes: ", nmbbytes);
+          if (nmbbytes > 0) {
+             dump (buf, nmbbytes);
+-@@ -157,7 +157,7 @@ do_KeyPress (XEvent *eventp)
++@@ -164,7 +164,7 @@ do_KeyPress (XEvent *eventp)
+          } else {
+      	   printf ("\n");
+          }
+ -    }
+ +    } */
+  
+-     printf ("    XFilterEvent returns: %s\n", 
++     printf ("    XFilterEvent returns: %s\n",
+  	    XFilterEvent (eventp, e->window) ? "True" : "False");
+-@@ -804,7 +804,7 @@ main (int argc, char **argv)
++@@ -1015,7 +1015,7 @@ main (int argc, char **argv)
+          fprintf (stderr, "%s:  XSetLocaleModifiers failed\n", ProgramName);
+      }
+  
+@@ -53,30 +53,30 @@ Index: xev-1.0.2/xev.c
+      if (xim == NULL) {
+          fprintf (stderr, "%s:  XOpenIM failed\n", ProgramName);
+      }
+-@@ -831,7 +831,7 @@ main (int argc, char **argv)
++@@ -1042,7 +1042,7 @@ main (int argc, char **argv)
+              }
+              XFree (xim_styles);
+          }
+--    } 
+-+    }*/
++-    }
+++	}*/
+  
+      screen = DefaultScreen (dpy);
+  
+-@@ -891,7 +891,7 @@ main (int argc, char **argv)
++@@ -1109,7 +1109,7 @@ main (int argc, char **argv)
+  	printf ("Outer window is 0x%lx, inner window is 0x%lx\n", w, subw);
+      }
+  
+ -    if (xim && xim_style) {
+ +    /*if (xim && xim_style) {
+-         xic = XCreateIC (xim, 
+-                          XNInputStyle, xim_style, 
+-                          XNClientWindow, w, 
+-@@ -901,7 +901,7 @@ main (int argc, char **argv)
++         xic = XCreateIC (xim,
++                          XNInputStyle, xim_style,
++                          XNClientWindow, w,
++@@ -1119,7 +1119,7 @@ main (int argc, char **argv)
+          if (xic == NULL) {
+              fprintf (stderr, "XCreateIC failed\n");
+          }
+ -    }
+ +    }*/
+  
+-     for (done = 0; !done; ) {
+- 	XEvent event;
++     have_rr = XRRQueryExtension (dpy, &rr_event_base, &rr_error_base);
++     if (have_rr) {
+diff --git a/meta/recipes-graphics/xorg-app/xev_1.0.3.bb b/meta/recipes-graphics/xorg-app/xev_1.2.0.bb
+similarity index 33%
+rename from meta/recipes-graphics/xorg-app/xev_1.0.3.bb
+rename to meta/recipes-graphics/xorg-app/xev_1.2.0.bb
+index 21ba62e..b340409 100644
+--- a/meta/recipes-graphics/xorg-app/xev_1.0.3.bb
++++ b/meta/recipes-graphics/xorg-app/xev_1.2.0.bb
+@@ -1,10 +1,10 @@
+ require xorg-app-common.inc
+-LIC_FILES_CHKSUM = "file://xev.c;startline=0;endline=35;md5=db2e69260ca64f1d332efa6ab4b7e2b5"
++LIC_FILES_CHKSUM = "file://xev.c;startline=0;endline=35;md5=2f39a0038b59269c1e62efae64cfd056"
+ DESCRIPTION = "X Event Viewer"
+ LICENSE = "MIT"
+ PE = "1"
  
--SRC_URI[md5sum] = "90afa8436ce2b2683c001c824bd22601"
--SRC_URI[sha256sum] = "15ef27a875ae0d79d7446fd931deda11438e724ffbeac74449ed19cba23df4d4"
-+SRC_URI[md5sum] = "326fe97077141713f0930aa87949a287"
-+SRC_URI[sha256sum] = "cfd235663f1d1adc97abb38dd5e6d093bb7e155580f171f9ba0158feab69f875"
- DEPENDS = "libgpg-error libassuan ${PTH}"
- PTH_libc-uclibc = "npth"
- PTH = "pth"
+ SRC_URI += "file://diet-x11.patch"
  
--PR = "r2"
-+PR = "r0"
- 
- EXTRA_OECONF = "--with-pth=${STAGING_DIR_HOST} --without-pth-test \
-                 --with-gpg=${bindir}/gpg --without-gpgsm"
+-SRC_URI[md5sum] = "a9532c3d1683c99bb5df1895cb3a60b1"
+-SRC_URI[sha256sum] = "d4ac7ae154ee9733be27a5f55586abb9362c768f5fb8a4fc7fd2645100a9313a"
++SRC_URI[md5sum] = "2727c72f3eba0c23f8f6b2e618d195a2"
++SRC_URI[sha256sum] = "3786a77dab17741d508d5d117a0ff33bb6eabf93e0935388b5f920bfcf2fb38f"
 -- 
 1.7.9.5
 
