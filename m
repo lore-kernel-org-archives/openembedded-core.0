@@ -1,33 +1,35 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
+Received: from astoria.ccjclearline.com ([64.235.106.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1ShND7-0001qJ-3M
+	(envelope-from <rpjday@crashcourse.ca>) id 1ShNw6-0002i2-Vy
 	for openembedded-core@lists.openembedded.org;
-	Wed, 20 Jun 2012 17:52:54 +0200
-Received: by eaal1 with SMTP id l1so2542717eaa.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Jun 2012 08:42:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type:content-transfer-encoding;
-	bh=J7WLU1DzLd4LvqNU6QBqW4CmHcVCt5UmiYungeTj0JI=;
-	b=kwxNGsn1IpADGMuCu4JFh+8YcJpxle8BGIPJTFatzSZEqG8XsupJOrk/SlKf0hOZXw
-	nT4TEOr06LAjtPC9bSVp9Xag8FOceeRj4xlhuAno4Z+8M0v9fbBWzYLpuVenH/+w8CYS
-	nmISHLy0n9mwtyviPzZVFVzFVayQZuL5fdy2Uxvlx7ownnfIhw4nTZJBk8GMJT5r31ra
-	pwRGf8yvgNwTBrhZ3nqG6SyC/NKojSpOa4isYE+HA1pWLzg7XZVmxyh6jKp7W2iyNq+5
-	EWTCC8rjuOWzEa3TlOhXsFy+JvFzCQ4+o+93CSUK+hs/FnTtKCdaY8y9WlkugcZMuOaI
-	rYoQ==
-Received: by 10.14.95.138 with SMTP id p10mr5378641eef.110.1340206924311; Wed,
-	20 Jun 2012 08:42:04 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.14.219.71 with HTTP; Wed, 20 Jun 2012 08:41:34 -0700 (PDT)
-In-Reply-To: <1340195059.14857.198.camel@phil-desktop>
-References: <alpine.DEB.2.02.1206200807090.4904@oneiric>
-	<1340195059.14857.198.camel@phil-desktop>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 20 Jun 2012 08:41:34 -0700
-Message-ID: <CAMKF1soec-83D+yqBoy7TGHEN5hD2A=YLKp1rbWY1eKYgnPHfA@mail.gmail.com>
+	Wed, 20 Jun 2012 18:39:19 +0200
+Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
+	([99.241.91.63]:42702 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.77) (envelope-from <rpjday@crashcourse.ca>)
+	id 1ShNlj-00026p-DR for openembedded-core@lists.openembedded.org;
+	Wed, 20 Jun 2012 12:28:35 -0400
+Date: Wed, 20 Jun 2012 12:28:34 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@oneiric
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <CAMKF1soec-83D+yqBoy7TGHEN5hD2A=YLKp1rbWY1eKYgnPHfA@mail.gmail.com>
+Message-ID: <alpine.DEB.2.02.1206201227150.7643@oneiric>
+References: <alpine.DEB.2.02.1206200807090.4904@oneiric>
+	<1340195059.14857.198.camel@phil-desktop>
+	<CAMKF1soec-83D+yqBoy7TGHEN5hD2A=YLKp1rbWY1eKYgnPHfA@mail.gmail.com>
+User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+MIME-Version: 1.0
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 Subject: Re: oddities related to "_append" and "_prepend" in oe-core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -43,23 +45,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Jun 2012 15:52:54 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 20 Jun 2012 16:39:19 -0000
+Content-Type: MULTIPART/MIXED; BOUNDARY="8323329-1742136638-1340209715=:7643"
 
-On Wed, Jun 20, 2012 at 5:24 AM, Phil Blundell <philb@gnu.org> wrote:
->> meta/classes/multilib.bbclass:PACKAGEFUNCS_append =3D "do_package_qa_mul=
-tilib"
+--8323329-1742136638-1340209715=:7643
+Content-Type: TEXT/PLAIN; charset=utf-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+
+On Wed, 20 Jun 2012, Khem Raj wrote:
+
+> On Wed, Jun 20, 2012 at 5:24 AM, Phil Blundell <philb@gnu.org> wrote:
+> >> meta/classes/multilib.bbclass:PACKAGEFUNCS_append =3D "do_package_qa_m=
+ultilib"
+> >
+> > That one is a bit weird. =C2=A0It looks broken but, presumably, it must=
+ work
+> > otherwise someone would have noticed. =C2=A0I don't know offhand what i=
+s
+> > making it work.
 >
-> That one is a bit weird. =C2=A0It looks broken but, presumably, it must w=
-ork
-> otherwise someone would have noticed. =C2=A0I don't know offhand what is
-> making it work.
+> insane.bbclass:PACKAGEFUNCS +=3D " do_package_qa "
+>
+> and it gets appended after that so it works, but I think adding a
+> space in the append above is a wise thing to do.
 
-insane.bbclass:PACKAGEFUNCS +=3D " do_package_qa "
+  that is *exactly* the kind of thing that makes using oe-core code
+examples such a minefield.  nothing personal.  :-)
 
-and it gets appended after that so it works, but I think adding a
-space in the append
-above is a wise thing to do.
+  perhaps i'll start collecting style guide suggestions.
 
+rday
 
+--=20
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+--8323329-1742136638-1340209715=:7643--
