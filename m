@@ -1,37 +1,31 @@
-Received: from mail-we0-f175.google.com ([74.125.82.175])
+Received: from astoria.ccjclearline.com ([64.235.106.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1ShQEg-0005ch-LS
+	(envelope-from <rpjday@crashcourse.ca>) id 1ShRYK-0006qF-Kd
 	for openembedded-core@lists.openembedded.org;
-	Wed, 20 Jun 2012 21:06:38 +0200
-Received: by werg55 with SMTP id g55so5232633wer.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Jun 2012 11:55:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=2I91UDkFWGh+i43Hy5Yy1xQD7BBXB42TteP6bjO/hLI=;
-	b=yaNdqfGS6NOKDamUjHD+LmiEWoEMvtBQ/WlPSxB4Rmop7EUAFWicXykqAi308C69QV
-	v+hslSfRTbyo8bDrhbiDeTA6Eeh3B9Mf6IjqXg6UZzc13DH69NpW7MOqRBuvHWOjY6//
-	IC+yM0pDQo0YbsFvPzk74T7MSLF5LG56RkgUapyV3oHSO1w3KggMaQbYu1r4BgtpS/Mz
-	LjKIEivPrrVeP0OD10Uq2cuvOrAzYbM+9meLymi+7u5N/UST3eUer+kkQkhjj0Kdxbzl
-	vMCsZQAtuskf85CUmYCnG2p72xGmN1JQRor1LxOfgSg60JBJlUdTEVJstUDwdHQSRj6J
-	r1Gg==
-Received: by 10.180.24.103 with SMTP id t7mr13996933wif.16.1340218548875;
-	Wed, 20 Jun 2012 11:55:48 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id z8sm77488474wiy.1.2012.06.20.11.55.47
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 20 Jun 2012 11:55:47 -0700 (PDT)
-Date: Wed, 20 Jun 2012 20:55:51 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20120620185551.GU3178@jama.jama.net>
-References: <CALbNGRR1j33mDcTD-q2FD+g2uL1VNZNdDwRX7_MNeUTKtN=ozQ@mail.gmail.com>
+	Wed, 20 Jun 2012 22:31:00 +0200
+Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
+	([99.241.91.63]:45108 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.77) (envelope-from <rpjday@crashcourse.ca>)
+	id 1ShRNw-00050J-Ht for openembedded-core@lists.openembedded.org;
+	Wed, 20 Jun 2012 16:20:16 -0400
+Date: Wed, 20 Jun 2012 16:20:13 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@oneiric
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.DEB.2.02.1206201619360.5623@oneiric>
+User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
 MIME-Version: 1.0
-In-Reply-To: <CALbNGRR1j33mDcTD-q2FD+g2uL1VNZNdDwRX7_MNeUTKtN=ozQ@mail.gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: latest updates make kernel menuconfig unusable
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Subject: [PATCH] Fix typoes, "enviroment"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,71 +40,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Jun 2012 19:06:38 -0000
-X-Groupsio-MsgNum: 23901
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="oP9at/Ymg5VWhwKB"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 20 Jun 2012 20:31:00 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
---oP9at/Ymg5VWhwKB
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jun 20, 2012 at 04:20:03PM +0200, Andreas M=FCller wrote:
-> Hi,
->=20
-> since
->=20
-> commit fe417e8a4d625c6933de72163d2fee52ac47f571
-> Author: Richard Purdie <richard.purdie@linuxfoundation.org>
-> Date:   Thu May 31 13:22:34 2012 +0000
->=20
->     cmd1.bbclass: Ensure ncurses is built and used for menuconfig tasks
->=20
->     Currently, the task just exits if something goes wrong. This adds the
->     ncurses-native dependency. It also adds a small delay before closing =
-the
->     window so any messages displayed there can be seen.
->=20
->     Trying to get the kernel build system to correctly find and link with
->     our copy of ncurses is some kind of nightmare. I ended up having to a=
-dd
->     it to HOST_LOADLIBES globally for this task which is rather nasty but=
- I
->     couldn't find any other way.
->=20
->     [YOCTO #2513]
->=20
->     Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->=20
-> my menuconfig is unusable (see screenshot attached). I reverted it and
-> can work as before.
->=20
-> I am working on Fedora 15 and set in my local.conf
->=20
-> TERMCMD =3D "${GNOME_TERMCMD}"
-> TERMCMDRUN =3D "${GNOME_TERMCMDRUN}"
+Signed-off-by: Robert P. J. Day <rpjday@crashcourse.ca>
 
-I can confirm the same look&feel with=20
-TERMCMD =3D "${SCREEN_TERMCMD}"
-TERMCMDRUN =3D "${SCREEN_TERMCMDRUN}"
+---
 
-Cheers,
+diff --git a/meta/recipes-devtools/bison/bison/bison-2.3_m4.patch b/meta/recipes-devtools/bison/bison/bison-2.3_m4.patch
+index 348ce1d..f63b92e 100644
+--- a/meta/recipes-devtools/bison/bison/bison-2.3_m4.patch
++++ b/meta/recipes-devtools/bison/bison/bison-2.3_m4.patch
+@@ -430,7 +430,7 @@ Upstream-Status: Pending
+ +             glib_major_version, glib_minor_version, glib_micro_version);
+ +      printf ("*** was found! If glib-config was correct, then it is best\n");
+ +      printf ("*** to remove the old version of GLIB. You may also be able to fix the error\n");
+-+      printf("*** by modifying your LD_LIBRARY_PATH enviroment variable, or by editing\n");
+++      printf("*** by modifying your LD_LIBRARY_PATH environment variable, or by editing\n");
+ +      printf("*** /etc/ld.so.conf. Make sure you have run ldconfig if that is\n");
+ +      printf("*** required on your system.\n");
+ +      printf("*** If glib-config was wrong, set the environment variable GLIB_CONFIG\n");
+@@ -467,7 +467,7 @@ Upstream-Status: Pending
+ +        printf("*** being found. The easiest way to fix this is to remove the old version\n");
+ +        printf("*** of GLIB, but you can also set the GLIB_CONFIG environment to point to the\n");
+ +        printf("*** correct copy of glib-config. (In this case, you will have to\n");
+-+        printf("*** modify your LD_LIBRARY_PATH enviroment variable, or edit /etc/ld.so.conf\n");
+++        printf("*** modify your LD_LIBRARY_PATH environment variable, or edit /etc/ld.so.conf\n");
+ +        printf("*** so that the correct libraries are found at run-time))\n");
+ +      }
+ +    }
+diff --git a/meta/recipes-devtools/bison/bison/m4.patch b/meta/recipes-devtools/bison/bison/m4.patch
+index d139da5..702774f 100644
+--- a/meta/recipes-devtools/bison/bison/m4.patch
++++ b/meta/recipes-devtools/bison/bison/m4.patch
+@@ -282,7 +282,7 @@ Index: bison-2.4.2/m4/glib.m4
+ +             glib_major_version, glib_minor_version, glib_micro_version);
+ +      printf ("*** was found! If glib-config was correct, then it is best\n");
+ +      printf ("*** to remove the old version of GLIB. You may also be able to fix the error\n");
+-+      printf("*** by modifying your LD_LIBRARY_PATH enviroment variable, or by editing\n");
+++      printf("*** by modifying your LD_LIBRARY_PATH environment variable, or by editing\n");
+ +      printf("*** /etc/ld.so.conf. Make sure you have run ldconfig if that is\n");
+ +      printf("*** required on your system.\n");
+ +      printf("*** If glib-config was wrong, set the environment variable GLIB_CONFIG\n");
+@@ -319,7 +319,7 @@ Index: bison-2.4.2/m4/glib.m4
+ +        printf("*** being found. The easiest way to fix this is to remove the old version\n");
+ +        printf("*** of GLIB, but you can also set the GLIB_CONFIG environment to point to the\n");
+ +        printf("*** correct copy of glib-config. (In this case, you will have to\n");
+-+        printf("*** modify your LD_LIBRARY_PATH enviroment variable, or edit /etc/ld.so.conf\n");
+++        printf("*** modify your LD_LIBRARY_PATH environment variable, or edit /etc/ld.so.conf\n");
+ +        printf("*** so that the correct libraries are found at run-time))\n");
+ +      }
+ +    }
+diff --git a/meta/recipes-multimedia/flac/flac-1.2.1/xmms.m4 b/meta/recipes-multimedia/flac/flac-1.2.1/xmms.m4
+index 5e250cd..d36c8ff 100644
+--- a/meta/recipes-multimedia/flac/flac-1.2.1/xmms.m4
++++ b/meta/recipes-multimedia/flac/flac-1.2.1/xmms.m4
+@@ -128,7 +128,7 @@ else
+             echo "*** being found. The easiest way to fix this is to remove the old version"
+             echo "*** of XMMS, but you can also set the XMMS_CONFIG environment to point to the"
+             echo "*** correct copy of xmms-config. (In this case, you will have to"
+-            echo "*** modify your LD_LIBRARY_PATH enviroment variable, or edit /etc/ld.so.conf"
++            echo "*** modify your LD_LIBRARY_PATH environment variable, or edit /etc/ld.so.conf"
+             echo "*** so that the correct libraries are found at run-time)"
+ 	fi
+     fi
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+-- 
 
---oP9at/Ymg5VWhwKB
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
-iEYEARECAAYFAk/iHLcACgkQN1Ujt2V2gByEsQCcCc7uNKotFtnghl+hqVziAuqh
-AaAAnA1tBjm0NFT4BMEBer9i39b7C6Eh
-=a+tK
------END PGP SIGNATURE-----
 
---oP9at/Ymg5VWhwKB--
