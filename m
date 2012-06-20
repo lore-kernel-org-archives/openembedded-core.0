@@ -1,36 +1,42 @@
-Received: from astoria.ccjclearline.com ([64.235.106.9])
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpjday@crashcourse.ca>) id 1ShNw6-0002i2-Vy
+	(envelope-from <koen@dominion.thruhere.net>) id 1ShOET-0002vG-OO
 	for openembedded-core@lists.openembedded.org;
-	Wed, 20 Jun 2012 18:39:19 +0200
-Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
-	([99.241.91.63]:42702 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.77) (envelope-from <rpjday@crashcourse.ca>)
-	id 1ShNlj-00026p-DR for openembedded-core@lists.openembedded.org;
-	Wed, 20 Jun 2012 12:28:35 -0400
-Date: Wed, 20 Jun 2012 12:28:34 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@oneiric
+	Wed, 20 Jun 2012 18:58:17 +0200
+Received: by eekd49 with SMTP id d49so2598093eek.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 20 Jun 2012 09:47:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=content-type:mime-version:subject:from:in-reply-to:date
+	:content-transfer-encoding:message-id:references:to:x-mailer
+	:x-gm-message-state;
+	bh=UW93XxJRW38o0ZoS11UNisXCUYUwPVaRLmiy9AQKJT4=;
+	b=pDKNaG4GV3FTVk1KMVFamzFvEXYdd+U4MtTrhPKm3hxlTcgC5r9w7Gg4y6RobNIbZ8
+	16Q/SNMIXionOtoYEW7pwHujckUdWKCgZ3aoC7JlOnkQgCLQIKrKIvoLR9pfgLptbKGt
+	c1KnSiXL1vt7XbsxmGYwZjuJ7pULjgg1Mp0MlGq2Cicic/UBPAzI/1hwMpo5CRjsaXQa
+	YNC5IhZJDKD7qV+h8n7mavoqKu7m40Dq7W30+pFUCI9SUbf/uZJO5s3z6dFGkjAty2MH
+	ecvBr4rCV3QPBZvyo+++vc0pKJ49eYe5cx/pDcJB0F90fE77i7KnaJvFpUrkya5hNI/k
+	6U8Q==
+Received: by 10.14.127.198 with SMTP id d46mr5572285eei.101.1340210852762;
+	Wed, 20 Jun 2012 09:47:32 -0700 (PDT)
+Received: from [172.20.1.36] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id y54sm92896512eef.10.2012.06.20.09.47.30
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 20 Jun 2012 09:47:31 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1278)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <4FE1E8D7.2010407@communistcode.co.uk>
+Date: Wed, 20 Jun 2012 18:47:29 +0200
+Message-Id: <F87AB0A3-3B41-4A89-95ED-68EB661BD732@dominion.thruhere.net>
+References: <4FE1E603.4040408@linaro.org>
+	<4FE1E8D7.2010407@communistcode.co.uk>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <CAMKF1soec-83D+yqBoy7TGHEN5hD2A=YLKp1rbWY1eKYgnPHfA@mail.gmail.com>
-Message-ID: <alpine.DEB.2.02.1206201227150.7643@oneiric>
-References: <alpine.DEB.2.02.1206200807090.4904@oneiric>
-	<1340195059.14857.198.camel@phil-desktop>
-	<CAMKF1soec-83D+yqBoy7TGHEN5hD2A=YLKp1rbWY1eKYgnPHfA@mail.gmail.com>
-User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
-MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Subject: Re: oddities related to "_append" and "_prepend" in oe-core
+X-Mailer: Apple Mail (2.1278)
+X-Gm-Message-State: ALoCoQm8GffHysoJnk0KwRLl1AKqGN3UNuJU5xU82YatJu6fDm80WR41Cft9CqHEF4eKR8WXCmrN
+Subject: Re: Apache recipe?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,49 +51,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Jun 2012 16:39:19 -0000
-Content-Type: MULTIPART/MIXED; BOUNDARY="8323329-1742136638-1340209715=:7643"
+X-List-Received-Date: Wed, 20 Jun 2012 16:58:17 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
---8323329-1742136638-1340209715=:7643
-Content-Type: TEXT/PLAIN; charset=utf-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
 
-On Wed, 20 Jun 2012, Khem Raj wrote:
+Op 20 jun. 2012, om 17:14 heeft Jack Mitchell het volgende geschreven:
 
-> On Wed, Jun 20, 2012 at 5:24 AM, Phil Blundell <philb@gnu.org> wrote:
-> >> meta/classes/multilib.bbclass:PACKAGEFUNCS_append =3D "do_package_qa_m=
-ultilib"
-> >
-> > That one is a bit weird. =C2=A0It looks broken but, presumably, it must=
- work
-> > otherwise someone would have noticed. =C2=A0I don't know offhand what i=
-s
-> > making it work.
->
-> insane.bbclass:PACKAGEFUNCS +=3D " do_package_qa "
->
-> and it gets appended after that so it works, but I think adding a
-> space in the append above is a wise thing to do.
+> On 20/06/12 16:02, Marcin Juszkiewicz wrote:
+>> Does someone has recipe for Apache? I want to make LAMP image for our
+>> tests and so far my choices are lighttpd or creation of new recipes =
+for
+>> Apache (based on 2.2.17 from OE classic).
+>>=20
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>=20
+> Last time I checked the PHP recipe needs a bit of love too, I've done =
+a slightly updated customised build but it's a fantastic hackfest.
 
-  that is *exactly* the kind of thing that makes using oe-core code
-examples such a minefield.  nothing personal.  :-)
+There's a php recipe in meta-oe, but as you say, it's ugly=
 
-  perhaps i'll start collecting style guide suggestions.
 
-rday
-
---=20
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-
---8323329-1742136638-1340209715=:7643--
