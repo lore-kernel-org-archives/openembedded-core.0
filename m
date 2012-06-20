@@ -1,29 +1,34 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-ey0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Bruce.Ashfield@windriver.com>) id 1ShMzC-0001fm-UQ
+	(envelope-from <raj.khem@gmail.com>) id 1ShND7-0001qJ-3M
 	for openembedded-core@lists.openembedded.org;
-	Wed, 20 Jun 2012 17:38:27 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q5KFReup001706
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 20 Jun 2012 08:27:40 -0700 (PDT)
-Received: from [128.224.146.67] (128.224.146.67) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Wed, 20 Jun 2012 08:27:39 -0700
-Message-ID: <4FE1EBDF.8040703@windriver.com>
-Date: Wed, 20 Jun 2012 11:27:27 -0400
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
+	Wed, 20 Jun 2012 17:52:54 +0200
+Received: by eaal1 with SMTP id l1so2542717eaa.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 20 Jun 2012 08:42:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type:content-transfer-encoding;
+	bh=J7WLU1DzLd4LvqNU6QBqW4CmHcVCt5UmiYungeTj0JI=;
+	b=kwxNGsn1IpADGMuCu4JFh+8YcJpxle8BGIPJTFatzSZEqG8XsupJOrk/SlKf0hOZXw
+	nT4TEOr06LAjtPC9bSVp9Xag8FOceeRj4xlhuAno4Z+8M0v9fbBWzYLpuVenH/+w8CYS
+	nmISHLy0n9mwtyviPzZVFVzFVayQZuL5fdy2Uxvlx7ownnfIhw4nTZJBk8GMJT5r31ra
+	pwRGf8yvgNwTBrhZ3nqG6SyC/NKojSpOa4isYE+HA1pWLzg7XZVmxyh6jKp7W2iyNq+5
+	EWTCC8rjuOWzEa3TlOhXsFy+JvFzCQ4+o+93CSUK+hs/FnTtKCdaY8y9WlkugcZMuOaI
+	rYoQ==
+Received: by 10.14.95.138 with SMTP id p10mr5378641eef.110.1340206924311; Wed,
+	20 Jun 2012 08:42:04 -0700 (PDT)
 MIME-Version: 1.0
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-References: <cover.1340201997.git.bruce.ashfield@windriver.com>
-	<6e8878c5f3598b60d364e2656af74e9f712770ca.1340201997.git.bruce.ashfield@windriver.com>
-	<1472036.VpViiY8Ijl@helios>
-In-Reply-To: <1472036.VpViiY8Ijl@helios>
-Cc: saul.wold@intel.com, liang.li@windriver.com,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/3] recipes-kernel: make perf a standalone package
+Received: by 10.14.219.71 with HTTP; Wed, 20 Jun 2012 08:41:34 -0700 (PDT)
+In-Reply-To: <1340195059.14857.198.camel@phil-desktop>
+References: <alpine.DEB.2.02.1206200807090.4904@oneiric>
+	<1340195059.14857.198.camel@phil-desktop>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 20 Jun 2012 08:41:34 -0700
+Message-ID: <CAMKF1soec-83D+yqBoy7TGHEN5hD2A=YLKp1rbWY1eKYgnPHfA@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: oddities related to "_append" and "_prepend" in oe-core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,41 +43,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Jun 2012 15:38:27 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 20 Jun 2012 15:52:54 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On 12-06-20 11:25 AM, Paul Eggleton wrote:
-> On Wednesday 20 June 2012 10:31:40 Bruce Ashfield wrote:
->> From: Liang Li<liang.li@windriver.com>
->> ...
->> +EXTRA_OEMAKE = \
->> +		'-C ${S}/tools/perf \
->> +		O=${B} \
->> +		CROSS_COMPILE=${TARGET_PREFIX} \
->> +		ARCH=${ARCH} \
->> +		CC="${CC}" \
->> +		AR="${AR}" \
->> +		prefix=/usr \
->> +		NO_GTK2=1 NO_NEWT=1 NO_DWARF=1 \
+On Wed, Jun 20, 2012 at 5:24 AM, Phil Blundell <philb@gnu.org> wrote:
+>> meta/classes/multilib.bbclass:PACKAGEFUNCS_append =3D "do_package_qa_mul=
+tilib"
 >
-> Coincidentally, I've just noticed that the current (kernel integrated) perf
-> package can sometimes depend on gtk+/glib-2.0 or not depending on whether
-> these are available when the kernel is built. Presumably NO_GTK2=1 above
-> disables gtk+ support and thus would prevent this?
+> That one is a bit weird. =C2=A0It looks broken but, presumably, it must w=
+ork
+> otherwise someone would have noticed. =C2=A0I don't know offhand what is
+> making it work.
 
-That was the plan. It hard disables it for now, and once we have
-a more flexible package, we can add some optional dependencies and
-features back into the equation.
+insane.bbclass:PACKAGEFUNCS +=3D " do_package_qa "
 
-Cheers,
-
-Bruce
-
->
-> Cheers,
-> Paul
->
-
+and it gets appended after that so it works, but I think adding a
+space in the append
+above is a wise thing to do.
 
 
