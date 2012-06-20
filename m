@@ -1,24 +1,22 @@
 Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1ShB6x-0004K7-It
+	(envelope-from <lianhao.lu@intel.com>) id 1ShCde-0001Qa-TY
 	for openembedded-core@lists.openembedded.org;
-	Wed, 20 Jun 2012 04:57:39 +0200
+	Wed, 20 Jun 2012 06:35:31 +0200
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 19 Jun 2012 19:46:54 -0700
+	by fmsmga102.fm.intel.com with ESMTP; 19 Jun 2012 21:24:45 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="167808159"
-Received: from unknown (HELO [10.255.12.124]) ([10.255.12.124])
-	by fmsmga001.fm.intel.com with ESMTP; 19 Jun 2012 19:46:54 -0700
-Message-ID: <4FE1399E.7070700@linux.intel.com>
-Date: Tue, 19 Jun 2012 19:46:54 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
-MIME-Version: 1.0
-To: Victor Khristenko <vdkhristenko1991@gmail.com>
-References: <CAFcWV5rFabz+=jd6yESLvfvvNFfyf5Rd23MnTWQVG_q0YpnrEg@mail.gmail.com>
-In-Reply-To: <CAFcWV5rFabz+=jd6yESLvfvvNFfyf5Rd23MnTWQVG_q0YpnrEg@mail.gmail.com>
-Subject: Re: _XGetRequest issue
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="167831817"
+Received: from llu-piketon.sh.intel.com (HELO localhost) ([10.239.36.116])
+	by fmsmga001.fm.intel.com with ESMTP; 19 Jun 2012 21:24:45 -0700
+From: Lianhao Lu <lianhao.lu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 20 Jun 2012 12:25:21 +0800
+Message-Id: <644f893ebb1c70b7081a82cef39b10b7233463cd.1340166208.git.lianhao.lu@intel.com>
+X-Mailer: git-send-email 1.7.0.4
+In-Reply-To: <cover.1340166208.git.lianhao.lu@intel.com>
+References: <cover.1340166208.git.lianhao.lu@intel.com>
+Subject: [PATCH V2 1/3] classes/image: Allow openssh empty passwords login.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,33 +31,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Jun 2012 02:57:39 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 20 Jun 2012 04:35:31 -0000
 
-On 06/19/2012 04:20 PM, Victor Khristenko wrote:
-> Hi Saul,
->
-> First of all, I'm really sorry to disturb you but I found your email
-> address at this web
-> http://patches.openembedded.org/patch/20999/
->
-Victor, actually it was Khem Raj that submitted that patch,
-he might be able to help with this issue.
+Allow empty passwords login so that the default root user can login in
+through openssh.
 
-Sau!
+Signed-off-by: Lianhao Lu <lianhao.lu@intel.com>
+---
+ meta/classes/core-image.bbclass |    2 ++
+ meta/classes/image.bbclass      |    9 ++++++++-
+ 2 files changed, 10 insertions(+), 1 deletions(-)
 
-> My name is Viktor and I'm trying to compile an application, which
-> depends on libGL.so
-> I have met with a problem that libGL.so contains undefined reference to
-> _XGetRequest
-> I was trying to solve it myself, but i couldn't figure it out. I looked
-> it up and found that you might have solved it
->
-> I was wondering if you could help or advise how I could solve it?
-> I'm using Ubuntu 12.04
->
-> Thanks a lot,
-> Viktor.
+diff --git a/meta/classes/core-image.bbclass b/meta/classes/core-image.bbclass
+index e2ad0fc..25f5c5a 100644
+--- a/meta/classes/core-image.bbclass
++++ b/meta/classes/core-image.bbclass
+@@ -69,4 +69,6 @@ ROOTFS_POSTPROCESS_COMMAND += "rootfs_update_timestamp ; "
+ 
+ # Zap the root password if debug-tweaks feature is not enabled
+ ROOTFS_POSTPROCESS_COMMAND += '${@base_contains("IMAGE_FEATURES", "debug-tweaks", "", "zap_root_password ; ",d)}'
++# Allow openssh accept empty password login if both debug-tweaks and ssh-server-openssh are enabled
++ROOTFS_POSTPROCESS_COMMAND += '${@base_contains("IMAGE_FEATURES", "debug-tweaks ssh-server-openssh", "openssh_allow_empty_password; ", "",d)}'
+ 
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index fb932b9..404bf03 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -318,6 +318,13 @@ zap_root_password () {
+ 	mv ${IMAGE_ROOTFS}/etc/passwd.new ${IMAGE_ROOTFS}/etc/passwd
+ } 
+ 
++# allow openssh accept login with empty password string
++openssh_allow_empty_password () {
++	if [ -e ${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config ]; then
++		sed -i 's#.*PermitEmptyPasswords.*#PermitEmptyPasswords yes#' ${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config
++	fi
++}
++
+ # Turn any symbolic /sbin/init link into a file
+ remove_init_link () {
+ 	if [ -h ${IMAGE_ROOTFS}/sbin/init ]; then
+@@ -372,7 +379,7 @@ rootfs_trim_schemas () {
+ 	done
+ }
+ 
+-EXPORT_FUNCTIONS zap_root_password remove_init_link do_rootfs make_zimage_symlink_relative set_image_autologin rootfs_update_timestamp rootfs_no_x_startup
++EXPORT_FUNCTIONS zap_root_password remove_init_link do_rootfs make_zimage_symlink_relative set_image_autologin rootfs_update_timestamp rootfs_no_x_startup openssh_allow_empty_password
+ 
+ do_fetch[noexec] = "1"
+ do_unpack[noexec] = "1"
+-- 
+1.7.0.4
+
 
 
