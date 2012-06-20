@@ -1,37 +1,26 @@
-Received: from mail-lb0-f175.google.com ([209.85.217.175])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <tasskjapp@gmail.com>) id 1ShEDt-0003sa-VO
+	(envelope-from <Liezhi.Yang@windriver.com>) id 1ShEFY-0003vg-Kf
 	for openembedded-core@lists.openembedded.org;
-	Wed, 20 Jun 2012 08:17:02 +0200
-Received: by lbol5 with SMTP id l5so126635lbo.6
+	Wed, 20 Jun 2012 08:18:44 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q5K67xXW010975
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Jun 2012 23:06:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:subject:references
-	:in-reply-to:content-type:content-transfer-encoding;
-	bh=gth9SnuaOx8oNAGxKDTKJpK0ii7DuSXjBNGRmtrv2RM=;
-	b=ZS6kD+N1ML8cvQ10EEBI8mGrsYU9QA7A1Muv7iYDFhH4S1OiAiyvhn/GgouyzKuFol
-	ebp61SsCD3SgEDFP5yJw/PppV/fCdsXfv6rfb8jtaiiantZENHtfx18orCatmQf/Qwao
-	Oa6eKJ9DI9dzLV829Rs8Dc39ZSdF+VQoM8P5sEhDDzZNDu+nVAlp2lO4X9oKfEk+1vP/
-	ZsQO54CQjg3IQD5upp62Ylc/gdngkh/MQxiaktfFOoe7Tu5UPeBAcmTPawy/uSm1mBCS
-	YX5Ls6NZFZu2AjM1zrH/epPrMfqrAoUjrg1XZI2qMCjkoESMJRtMfi16rbxLUiKm52xe
-	wbZw==
-Received: by 10.152.124.45 with SMTP id mf13mr1245038lab.44.1340172377647;
-	Tue, 19 Jun 2012 23:06:17 -0700 (PDT)
-Received: from [192.168.0.121] ([84.49.231.147])
-	by mx.google.com with ESMTPS id h9sm15441393lbi.9.2012.06.19.23.06.15
-	(version=SSLv3 cipher=OTHER); Tue, 19 Jun 2012 23:06:16 -0700 (PDT)
-Message-ID: <4FE167B4.3020802@gmail.com>
-Date: Wed, 20 Jun 2012 08:03:32 +0200
-From: Tasslehoff Kjappfot <tasskjapp@gmail.com>
+	Tue, 19 Jun 2012 23:07:59 -0700 (PDT)
+Received: from [128.224.163.142] (128.224.163.142) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Tue, 19 Jun 2012 23:07:59 -0700
+Message-ID: <4FE168BD.9000906@windriver.com>
+Date: Wed, 20 Jun 2012 14:07:57 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux i686;
 	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <CANrdZLjpmXK5j+jr=fTD43je2Ni6exWGcrCkejKgE1ZZXe5TGQ@mail.gmail.com>
-	<CAMKF1spWqFCoXRbnevoKz+ftThQf41nObpMQ6N46YQ6_fucznQ@mail.gmail.com>
-In-Reply-To: <CAMKF1spWqFCoXRbnevoKz+ftThQf41nObpMQ6N46YQ6_fucznQ@mail.gmail.com>
-Subject: Re: Generating a movable SDK
+To: <openembedded-core@lists.openembedded.org>
+References: <4FDEF21A.5020004@windriver.com> <4FDF69BC.6080808@windriver.com>
+In-Reply-To: <4FDF69BC.6080808@windriver.com>
+Subject: Re: glibc detected *** groupadd: malloc(): memory corruption
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,36 +35,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Jun 2012 06:17:02 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Wed, 20 Jun 2012 06:18:45 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 06/19/2012 10:33 PM, Khem Raj wrote:
->
->
-> On Tuesday, June 19, 2012, Steve English <steve.english@navetas.com
-> <mailto:steve.english@navetas.com>> wrote:
->  > Hi,
->  > I've generated a cross compiling ARM SDK
-> (angstrom-eglibc-x86_64-armv7a-v2012.05-toolchain.tar.bz2) that works
-> great if installed in /usr/local/oecore-x86_64. I would like to move
-> these binaries and run them from under my home directory (on this and
-> other host machines).
->  >
->  > I can tweak the PATH and use --sysroot where appropriate, but the ELF
-> binaries themselves specify a loader of
-> /usr/local/oecore-x86_64/sysroots/x86_64-angstromsdk-linux/lib/ld-linux-x86-64.so.2
-> in their .interp header. Is it possible to generate an SDK that uses the
-> standard host loader, or at least uses a relative path for the built loader?
->
->
-> Sdk is not install time relocatable yet there is a feature enhancement
-> request in yo to bugzilla for the same
->
-That request is mine, I think. I have gotten around this by making 
-/usr/local/oecore-i686 a symlink to where I want to keep the toolchain 
-(in a vcs). Works like a charm.
 
-- Tasslehoff
+Thanks Mark, the rpm.real also has the same problem when the length of tmpdir
+is 210, it seems that this is because of the glibc.
+
+
+And also other problems found:
+When use PACKAGE_CLASSES = "package_deb", and the length of tmpdir is 177,
+the error is:
+
+/too/long/path/totmp/sysroots/x86_64-linux/usr/bin/dpkg-scanpackages: bad 
+interpreter: No such file or directory
+
+The interpreter is perl, and it does exist, it seems that we should limit
+the length of tmpdir to a smaller value then 177 rather than fix these strange
+problems. I will go on working on it.
+
+// Robert
+
+On 06/19/2012 01:47 AM, Mark Hatle wrote:
+> We're not away of any size limitations within pseudo, other then PATH_MAX which
+> is typically 4096...
+>
+> --Mark
+>
+> On 6/18/12 4:17 AM, Robert Yang wrote:
+>>
+>> Hi Experts:
+>>
+>> I've met a strange issue, when set the length of builddir to
+>> 266 (Why I did this is that I need to know how long the tmpdir
+>> that oe-core can support):
+>>
+>> NOTE: package dbus-1.4.20-r3.0: task do_install: Started
+>> *** glibc detected *** groupadd: malloc(): memory corruption:
+>> 0x000000000101da70 ***
+>> *** glibc detected *** groupadd: malloc(): memory corruption:
+>> 0x000000000101da70 ***
+>>
+>> Then the build would hang, this is caused by the command:
+>>
+>> PSEUDO_PREFIX=/too/long/path/tmp/sysroots/x86_64-linux/usr
+>> PSEUDO_LOCALSTATEDIR=... PSEUDO_PASSWD=...
+>> PSEUDO_NOSYMLINKEXP=1 PSEUDO_DISABLED=0 PSEUDO_LOCALSTATEDIR
+>> ... /too/long/path/to/tmp/sysroots/x86_64-linux/usr/bin/pseudo
+>> groupadd --root /too/long/path/to/tmp/sysroots/qemux86 -r netdev -f
+>>
+>> 1) I had looked into the code of groupadd, and found that this would
+>> happen when it used the glibc function which needs malloc(for example,
+>> the access()), so it seemed this was caused by the glibc or pseudo,
+>> but I didn't know why it only happened to groupadd/useradd.
+>>
+>> 2) I had tried not to use pseudo, it worked well:
+>>
+>> sudo groupadd --root /too/long/path/to/tmp/sysroots/qemux86 -r netdev -f
+>>
+>> From this, it seemed that the glibc was ok
+>>
+>> 3) I had tried to write a small piece of code which used the access(), and
+>> used pseudo to run it, it worked well:
+>>
+>> /too/long/path/for/pseudo/settings/and/then/run/pseudo my_app
+>>
+>> From this, it seemed that both pseudo and glibc were OK.
+>>
+>> These 3 steps make me puzzle, maybe we can think that the tmpdir can not
+>> be too long, and limit it to a proper length, please see this:
+>>
+>> http://lists.linuxtogo.org/pipermail/openembedded-core/2012-May/022112.html
+>>
+>> BTW. the "argument list too long" error has been fixed.
+>>
+>> Any suggestion is appreciated.
+>>
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+>
 
 
