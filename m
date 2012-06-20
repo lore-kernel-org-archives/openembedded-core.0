@@ -1,42 +1,43 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga10.intel.com ([192.55.52.92] helo=fmsmga102.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1ShJEs-00019o-75
+	(envelope-from <ross.burton@intel.com>) id 1ShJEs-00019n-KG
 	for openembedded-core@lists.openembedded.org;
 	Wed, 20 Jun 2012 13:38:22 +0200
-Received: from mail-wi0-f172.google.com ([209.85.212.172])
-	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 20 Jun 2012 04:27:36 -0700
-Received: by wibhm11 with SMTP id hm11so1400216wib.13
+Received: from mail-wg0-f44.google.com ([74.125.82.44])
+	by mga11.intel.com with ESMTP/TLS/RC4-SHA; 20 Jun 2012 04:27:36 -0700
+Received: by wgbdr13 with SMTP id dr13so5054529wgb.13
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Jun 2012 04:27:33 -0700 (PDT)
+	Wed, 20 Jun 2012 04:27:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
 	:in-reply-to:references:x-gm-message-state;
-	bh=VHspnYPXS/HqkxrrFua8RShI1t7oKyNyGBRi+Kan2yg=;
-	b=BioxJhXzAuIiTyTpC4ZCv/ks5D7bAs1ixk+NEaPXIF84N8eqBP4eZkhSK/5vF7azT0
-	btn56R1/WWNKQkuxxOMj3QYelSFKfbDih6rROeclldHEGcxD1cqLEjCZWIQe1bsX0BpZ
-	AnB+VxucKe358VTmDVJZMjb2s+fgQYZDQGnLTvpnkGV2rUkaUz6xK4LYM2C8Scqh6mi2
-	9AZFIOsVN3q6aCB0fE1wKh/b5Wigy6qCwopvfvNtsjFnMqBIrPpQnqNRWWtAd6IMda6f
-	IMrWtzNxaqX5PX3L/Jce3p8qgbdj7uCRBZG4niKjbA9g1nYNG7OqHZOx87z0xOmPlaT7
-	80Kg==
-Received: by 10.180.92.69 with SMTP id ck5mr11336040wib.14.1340191653523;
-	Wed, 20 Jun 2012 04:27:33 -0700 (PDT)
+	bh=USB29GSg+ON8qqgg+juVmgtwMqljtQ04j/BLZI0Et64=;
+	b=ZyHVuM+UTEhoW4YCsJcqcf0o8CJDTNtlV3tppKgxTsOebvp8lperoV/LW0gOf7uFM6
+	t6epiYFVDWXTajqnO6Fxr46ao682AWw+rPc/oQDIPjNqM9rbYuxj8PtTqAEB6hZAoTr7
+	iOtRdoIlC00LtFy/vWwmpBZkDANvHGGBG+SRXSFkbqBlDb5kLMbuFBw5rtRSlL03tf7I
+	fESh11gQDUhJxiMmQtHf7oKD3XfFCdKo9WmRmHHidsXNuLzjRc+RoSe2hhNcAY1wu9QV
+	hKBq5RsP4x4yJIxuu0PFsPQtT2OxJd6Fk8OsqjZbGkCb50GtT9ubOvzvszChk5lD/WLU
+	7lgA==
+Received: by 10.180.78.197 with SMTP id d5mr11373128wix.7.1340191655016;
+	Wed, 20 Jun 2012 04:27:35 -0700 (PDT)
 Received: from localhost.localdomain (35.106.2.81.in-addr.arpa. [81.2.106.35])
 	by mx.google.com with ESMTPS id
-	fo7sm38528660wib.9.2012.06.20.04.27.31
+	fo7sm38528660wib.9.2012.06.20.04.27.33
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 20 Jun 2012 04:27:31 -0700 (PDT)
+	Wed, 20 Jun 2012 04:27:34 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 20 Jun 2012 12:27:18 +0100
-Message-Id: <715f2b8f8d165641f28a3eceea55570491e2f9b5.1340191527.git.ross.burton@intel.com>
+Date: Wed, 20 Jun 2012 12:27:19 +0100
+Message-Id: <ab2ff667b79be4f69d9b2d5f56f43b0ce4a10c08.1340191527.git.ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.7.6
+In-Reply-To: <715f2b8f8d165641f28a3eceea55570491e2f9b5.1340191527.git.ross.burton@intel.com>
+References: <cover.1340191527.git.ross.burton@intel.com>
+	<715f2b8f8d165641f28a3eceea55570491e2f9b5.1340191527.git.ross.burton@intel.com>
 In-Reply-To: <cover.1340191527.git.ross.burton@intel.com>
 References: <cover.1340191527.git.ross.burton@intel.com>
-In-Reply-To: <cover.1340191527.git.ross.burton@intel.com>
-References: <cover.1340191527.git.ross.burton@intel.com>
-X-Gm-Message-State: ALoCoQmhz8O8JeNCT/VSkjb8e1nd/YOrYXwwFf+GUlD04biJWC1zAB3lREqir/j1SoKfaqGDcsmE
-Subject: [PATCH 1/6] connman: rationalise configure options
+X-Gm-Message-State: ALoCoQl/IHpSZHGg47TnAm3gETTEmlZE8JuMpqLTpUrcoTeyCLtnUjAR7+u2mHnf/cq3eR8E1H5w
+Subject: [PATCH 2/6] connman: add compat RPROVIDES for older packaging
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -53,42 +54,57 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 20 Jun 2012 11:38:22 -0000
 
-dnsproxy and ntpd don't exist anymore, and the client is almost entirely useless.
+wifi, bluetooth and 3g used to be plugins so were packaged separately, but not
+anymore.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-connectivity/connman/connman.inc |    6 ++----
- 1 files changed, 2 insertions(+), 4 deletions(-)
+ meta/recipes-connectivity/connman/connman.inc |   21 +++++++++++++++++----
+ 1 files changed, 17 insertions(+), 4 deletions(-)
 
 diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipes-connectivity/connman/connman.inc
-index 3412323..7a10615 100644
+index 7a10615..7215f25 100644
 --- a/meta/recipes-connectivity/connman/connman.inc
 +++ b/meta/recipes-connectivity/connman/connman.inc
 @@ -20,7 +20,7 @@ DEPENDS  = "dbus glib-2.0 ppp iptables gnutls \
              ${@base_contains('DISTRO_FEATURES', '3g','ofono', '', d)} \
              "
  
--INC_PR = "r6"
-+INC_PR = "r7"
+-INC_PR = "r7"
++INC_PR = "r8"
  
  TIST = "--enable-tist"
  TIST_powerpc = ""
-@@ -35,14 +35,12 @@ EXTRA_OECONF += "\
-     --enable-ethernet \
-     ${@base_contains('DISTRO_FEATURES', 'wifi','--enable-wifi ${TIST}', '--disable-wifi', d)} \
-     ${@base_contains('DISTRO_FEATURES', 'bluetooth','--enable-bluetooth ${TIST}', '--disable-bluetooth', d)} \
--    --enable-dnsproxy \
-     ${@base_contains('DISTRO_FEATURES', '3g', '', '--disable-ofono', d)} \
-     --enable-tools \
-     --enable-test \
-     --disable-polkit \
--    --enable-client \
-+    --disable-client \
-     --enable-fake \
--    --disable-ntpd \
- "
+@@ -74,13 +74,26 @@ do_install_append() {
+ 	rmdir ${D}${libdir}/connman/scripts
+ }
  
- INITSCRIPT_NAME = "connman"
++# These used to be plugins, but now they are core
++RPROVIDES_${PN} = "\
++	connman-plugin-loopback \
++	connman-plugin-ethernet \
++	${@base_contains('DISTRO_FEATURES', 'bluetooth','connman-plugin-bluetooth', '', d)} \
++	${@base_contains('DISTRO_FEATURES', 'wifi','connman-plugin-wifi', '', d)} \
++	${@base_contains('DISTRO_FEATURES', '3g','connman-plugin-ofono', '', d)} \
++	"
++
++RDEPENDS_${PN} = "\
++	${@base_contains('DISTRO_FEATURES', 'bluetooth', 'bluez4', '', d)} \
++	${@base_contains('DISTRO_FEATURES', 'wifi','wpa-supplicant', '', d)} \
++	${@base_contains('DISTRO_FEATURES', '3g','ofono', '', d)} \
++	"
++
+ PACKAGES_DYNAMIC = "${PN}-plugin-*"
+ 
+ python populate_packages_prepend() {
+ 	depmap = dict( pppd="ppp",
+-	               wifi="wpa-supplicant",
+-	               bluetooth="bluez4",
+-	               ofono="ofono" )
++				 )
+ 	packages = []
+ 	multilib_prefix = (d.getVar("MLPREFIX", True) or "")
+ 	hook = lambda file,pkg,b,c,d:packages.append((file,pkg))
 -- 
 1.7.7.6
 
