@@ -1,31 +1,33 @@
-Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpjday@crashcourse.ca>) id 1ShLEx-0007B7-Tk
-	for openembedded-core@lists.openembedded.org;
-	Wed, 20 Jun 2012 15:46:36 +0200
-Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
-	([99.241.91.63]:39296 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.77) (envelope-from <rpjday@crashcourse.ca>)
-	id 1ShL4a-0001Cd-Ar for openembedded-core@lists.openembedded.org;
-	Wed, 20 Jun 2012 09:35:52 -0400
-Date: Wed, 20 Jun 2012 09:35:33 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@oneiric
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.DEB.2.02.1206200933440.6028@oneiric>
-User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
-MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Subject: is there a better forum for me to ask these sorts of questions?
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1ShLN4-0007Gm-Ki for openembedded-core@lists.openembedded.org;
+	Wed, 20 Jun 2012 15:54:58 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q5KDiEDu006654
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 20 Jun 2012 14:44:14 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 05439-08 for <openembedded-core@lists.openembedded.org>;
+	Wed, 20 Jun 2012 14:44:09 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q5KDi77l006648
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 20 Jun 2012 14:44:08 +0100
+Message-ID: <1340199848.1640.54.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Wed, 20 Jun 2012 14:44:08 +0100
+In-Reply-To: <alpine.DEB.2.02.1206200933440.6028@oneiric>
+References: <alpine.DEB.2.02.1206200933440.6028@oneiric>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: is there a better forum for me to ask these sorts of questions?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,26 +42,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Jun 2012 13:46:36 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Wed, 20 Jun 2012 13:54:58 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
+On Wed, 2012-06-20 at 09:35 -0400, Robert P. J. Day wrote:
+> given that the next few days for me will be digging thru the docs,
+> comparing to code and asking annoyingly pedantic questions, is there a
+> better forum for this?  an "oe-docs" list?  just don't want to annoy
+> folks with what are, in many cases, trivial observations and fixups,
+> but are still kind of necessary for what i'm trying to do.
 
-  given that the next few days for me will be digging thru the docs,
-comparing to code and asking annoyingly pedantic questions, is there a
-better forum for this?  an "oe-docs" list?  just don't want to annoy
-folks with what are, in many cases, trivial observations and fixups,
-but are still kind of necessary for what i'm trying to do.
+I think the questions are fine here.
 
-rday
+There are some new people working on the Yocto Project at Intel and I've
+been trying to convince them its fine to ask questions here too...
 
--- 
+The trouble with a separate list is that the people who can answer are
+probably not going to read it even with the best intentions :/.
 
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
+Cheers,
 
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
+Richard
+
 
 
