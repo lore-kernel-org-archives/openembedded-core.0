@@ -1,50 +1,36 @@
-Received: from moutng.kundenserver.de ([212.227.17.8])
+Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <steve.english@navetas.com>) id 1ShJ2O-0000xg-5A
+	(envelope-from <ross.burton@intel.com>) id 1ShJDb-00014t-7U
 	for openembedded-core@lists.openembedded.org;
-	Wed, 20 Jun 2012 13:25:28 +0200
-Received: from mail-yx0-f175.google.com (mail-yx0-f175.google.com
-	[209.85.213.175])
-	by mrelayeu.kundenserver.de (node=mrbap4) with ESMTP (Nemesis)
-	id 0M8QOg-1RvP5T1BuU-00vy4X; Wed, 20 Jun 2012 13:02:05 +0200
-Received: by yenl13 with SMTP id l13so5180136yen.6
+	Wed, 20 Jun 2012 13:37:03 +0200
+Received: from mail-we0-f180.google.com ([74.125.82.180])
+	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 20 Jun 2012 04:26:16 -0700
+Received: by weyt11 with SMTP id t11so4822316wey.25
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Jun 2012 04:02:04 -0700 (PDT)
+	Wed, 20 Jun 2012 04:26:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type:x-gm-message-state;
-	bh=AX0Lwc4sxbA4WfuhOX09BEeFr2V/+5psLm+cIB/uLS0=;
-	b=j1h+mncfB1xEnmy6FXA1SaE8U6ttJudQ+TZ2OYXQ805NuSuK25FV1msY88fObZX4Kw
-	lGDVAJYj+2nZlPmDox0iBnblJzipL9Y7LPnSqiTuCRgR2IFtcs68Ra7+AMdHeJeKm8+k
-	fSyZuIbBp0s8emtjJzMaZlXrG48LYXrfuGQsPa/+Hw9mgyoe7fz3zDI6xewwriohZZHA
-	eEw9T2G2rbkwyFOL+W2jJNJS9PTNfMNBsWajkhl3BTxjA3ZmOAvT+PG1IGVh8QR5yRYm
-	Yo0vge/Gm4d3MSMnjSiHAUAcWI4nmcahTxw8NUfmxN7rTJYziFuBhMFObThWzf9oMi5U
-	Pdog==
-MIME-Version: 1.0
-Received: by 10.50.184.227 with SMTP id ex3mr3996751igc.26.1340190123775; Wed,
-	20 Jun 2012 04:02:03 -0700 (PDT)
-Received: by 10.64.77.130 with HTTP; Wed, 20 Jun 2012 04:02:03 -0700 (PDT)
-In-Reply-To: <4FE167B4.3020802@gmail.com>
-References: <CANrdZLjpmXK5j+jr=fTD43je2Ni6exWGcrCkejKgE1ZZXe5TGQ@mail.gmail.com>
-	<CAMKF1spWqFCoXRbnevoKz+ftThQf41nObpMQ6N46YQ6_fucznQ@mail.gmail.com>
-	<4FE167B4.3020802@gmail.com>
-Date: Wed, 20 Jun 2012 12:02:03 +0100
-Message-ID: <CANrdZLgHDF+HuVRtdBP+SHchT3XTCwaRgXyXgRVZ68o2ZSkDVg@mail.gmail.com>
-From: Steve English <steve.english@navetas.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Gm-Message-State: ALoCoQnChbJyB2a+ixWG8tipOBTXqzvkVhgi2l3m1Gd/raFrl3sFdW2yohyBcfcy3QLtWTPPFFkF
-X-Provags-ID: V02:K0:C0uTeGf5TQKTKLIgWHJIQPdej291Ft/b5fQp6P+ka8O
-	fG7HBd5wr5Au0zIo5Y9VMcwVHHdeLlaN/I8LzeDpDjP3M/vxwd
-	ozwOM9sateuz/g+qWqMRN8Fp5XMg+xDTJLvFoi4PpMGMoTmjia
-	2u+f83ae8gIC2crYg9CO+thMwJRFyrLHnbUufQ5gQfVG+pn7RZ
-	W/z+0jJTzNoQAzFWPtSuyIL/TUR6eWmUr5lG+Im1IGWsL6OXhN
-	2XKdytVSdOqxPKZg3pDVigoXzOMXV7qzdF7uJlWFiwij1xFW7A
-	8cWNc7parL8Mba5vVS8pwlrQjQ72N4E9yWsOnBbZRGJqeX5ZHO
-	MpmurSZz/eFVZDOUuf3CeEDhm1jPi6GRdV8dTVAfTOwbdeyak0
-	LHixCJh0RI/zWylEaFkng9pnYJRC3bMi5I78TDBculfiq4bY6t kevd0
-Subject: Re: Generating a movable SDK
+	h=from:to:cc:subject:date:message-id:x-mailer:x-gm-message-state;
+	bh=zRQW57qF1xZlMsKfrE8FQUjBaPiS3sxSrdtcXhEaPVo=;
+	b=JH3AnOlAckzMPw2AZ/TD22fivRRq+hsBXd9xbFYlhCd0Kgl9Qe2WLISw7wyLhX0YgJ
+	zL7/VEHP9pU3fh8sMpZHkEcDjY9dt7oFf2Ldkl/K8RI4ubkPlytq9uAXM4nz26hVFBMq
+	B/2Q4hgDem3ikcvfMjRjQt5TZOTF58/f+zq8IY7766g+T8+ynWyS59wSB8TMwIB6jFh7
+	vYTmTKTgBFWrU16GelEdZxXbwtEhiHD/bjpH6qf9ndPSTls0fDDHjCkubovfDj5/WK/N
+	E64l1kuBznWlshW5yAjAUByIRcsHju02mifIm+mM1QMGcyALFiEyD7iU2veLzhsrS1Nv
+	+54w==
+Received: by 10.216.143.148 with SMTP id l20mr13381451wej.115.1340191574452;
+	Wed, 20 Jun 2012 04:26:14 -0700 (PDT)
+Received: from localhost.localdomain (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPS id j4sm38490365wiz.1.2012.06.20.04.26.12
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 20 Jun 2012 04:26:13 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 20 Jun 2012 12:26:09 +0100
+Message-Id: <cover.1340191527.git.ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.7.6
+X-Gm-Message-State: ALoCoQkOA3oNQKueNC4zie58BvsFJrpgzYr6+XwHugrzpem5RKTWAUJhoXaX/aJKjE0JdgjDj98v
+Subject: [PATCH 0/6] ConnMan 1.0 upgrade
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -59,100 +45,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Jun 2012 11:25:28 -0000
-Content-Type: multipart/alternative; boundary=14dae9340d8142573704c2e55498
+X-List-Received-Date: Wed, 20 Jun 2012 11:37:03 -0000
 
---14dae9340d8142573704c2e55498
-Content-Type: text/plain; charset=ISO-8859-1
+Same as before, but I signed it all off this time.
 
-On Wed, Jun 20, 2012 at 7:03 AM, Tasslehoff Kjappfot <tasskjapp@gmail.com>wrote:
+The following changes since commit e0a70547069fe7e8a2d6bdaffc985fb172d46c31:
 
-> On 06/19/2012 10:33 PM, Khem Raj wrote:
->
->> Sdk is not install time relocatable yet there is a feature enhancement
->> request in yo to bugzilla for the same
->>
->>  That request is mine, I think. I have gotten around this by making
-> /usr/local/oecore-i686 a symlink to where I want to keep the toolchain (in
-> a vcs). Works like a charm.
->
+  perl: Allow perl to cross build and native build in a directory named "t" (2012-06-18 17:33:04 +0100)
 
-I've got it to run by:
-1. Changing the dynamic loader to the system loader and making RPATH
-directives use relative paths in the elf files in:
-*
-x86_64-angstromsdk-linux/usr/libexec/armv7a-angstrom-linux-gnueabi/gcc/arm-angstrom-linux-gnueabi/4.5.4/
-* x86_64-angstromsdk-linux/usr/bin/armv7a-angstrom-linux-gnueabi
+are available in the git repository at:
+  git://git.yoctoproject.org/poky-contrib ross/connman
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ross/connman
 
-with patchelf (http://nixos.org/patchelf.html):
+Ross Burton (6):
+  connman: rationalise configure options
+  connman: add compat RPROVIDES for older packaging
+  connman: upgrade to 1.0
+  connman-gnome: fix build depends (Yocto #2556)
+  connman-gnome: clean up runtime dependencies
+  connman-gnome: upgrade to 0.7, which works with connman 1.0
 
-for x in *; do echo $x; patchelf --set-interpreter
-/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2 $x; patchelf --set-rpath
-"\$ORIGIN/../../lib/armv7a-angstrom-linux-gnueabi/:\$ORIGIN/../../../lib/:\$ORIGIN/../../lib"
-$x; done
+ .../connman/connman-gnome_0.5.bb                   |   38 --------------
+ .../connman/connman-gnome_0.7.bb                   |   19 +++++++
+ meta/recipes-connectivity/connman/connman.inc      |   27 +++++++---
+ .../connman/connman/disable_alg-test.patch         |   46 ----------------
+ .../connman/connman/ethernet_default.patch         |   22 --------
+ .../connman/test-set-ipv4-method-api-fix.patch     |   50 ------------------
+ .../connman/test-set-ipv6-method-api-fix.patch     |   55 --------------------
+ .../connman/{connman_0.79.bb => connman_1.0.bb}    |   10 +---
+ 8 files changed, 41 insertions(+), 226 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/connman/connman-gnome_0.5.bb
+ create mode 100644 meta/recipes-connectivity/connman/connman-gnome_0.7.bb
+ delete mode 100644 meta/recipes-connectivity/connman/connman/disable_alg-test.patch
+ delete mode 100644 meta/recipes-connectivity/connman/connman/ethernet_default.patch
+ delete mode 100644 meta/recipes-connectivity/connman/connman/test-set-ipv4-method-api-fix.patch
+ delete mode 100644 meta/recipes-connectivity/connman/connman/test-set-ipv6-method-api-fix.patch
+ rename meta/recipes-connectivity/connman/{connman_0.79.bb => connman_1.0.bb} (53%)
 
-2. Making the symlinks in
-x86_64-angstromsdk-linux/usr/libexec/armv7a-angstrom-linux-gnueabi/gcc/arm-angstrom-linux-gnueabi/4.5.4/
-use relative paths:
+-- 
+1.7.7.6
 
-x86_64-angstromsdk-linux/usr/libexec/armv7a-angstrom-linux-gnueabi/gcc/arm-angstrom-linux-gnueabi/4.5.4$
-cat tweak_target.sh
-#!/bin/bash
-FILE=`basename $1`
-ln -f -s ../../../../../bin/armv7a-angstrom-linux-gnueabi/arm-angstrom-linux-gnueabi-$FILE
-$FILE
-x86_64-angstromsdk-linux/usr/libexec/armv7a-angstrom-linux-gnueabi/gcc/arm-angstrom-linux-gnueabi/4.5.4$
-find . -type l -exec ./tweak_target.sh {} \;
 
-This feels like a rather unpleasant hack so I'm going to use the
-codesourcery compiler for now, but this does appear to work.
 
-Thanks,
-
-Steve
-
---14dae9340d8142573704c2e55498
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
-
-<div class=3D"gmail_quote">On Wed, Jun 20, 2012 at 7:03 AM, Tasslehoff Kjap=
-pfot <span dir=3D"ltr">&lt;<a href=3D"mailto:tasskjapp@gmail.com" target=3D=
-"_blank">tasskjapp@gmail.com</a>&gt;</span> wrote:<br><blockquote class=3D"=
-gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-=
-left:1ex">
-<div class=3D"im">On 06/19/2012 10:33 PM, Khem Raj wrote:<br>
-</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-l=
-eft:1px #ccc solid;padding-left:1ex">Sdk is not install time relocatable ye=
-t there is a feature enhancement<br><div class=3D"im">
-request in yo to bugzilla for the same<br>
-<br>
-</div></blockquote>
-That request is mine, I think. I have gotten around this by making /usr/loc=
-al/oecore-i686 a symlink to where I want to keep the toolchain (in a vcs). =
-Works like a charm.<br></blockquote></div><br>I&#39;ve got it to run by:<br=
->
-1. Changing the dynamic loader to the system loader and making RPATH direct=
-ives use relative paths in the elf files in:<br>* x86_64-angstromsdk-linux/=
-usr/libexec/armv7a-angstrom-linux-gnueabi/gcc/arm-angstrom-linux-gnueabi/4.=
-5.4/<br>
-* x86_64-angstromsdk-linux/usr/bin/armv7a-angstrom-linux-gnueabi<br><br>wit=
-h patchelf (<a href=3D"http://nixos.org/patchelf.html">http://nixos.org/pat=
-chelf.html</a>):<br><pre>for x in *; do echo $x; patchelf --set-interpreter=
- /lib/x86_64-linux-gnu/ld-linux-x86-64.so.2 $x; patchelf --set-rpath &quot;=
-\$ORIGIN/../../lib/armv7a-angstrom-linux-gnueabi/:\$ORIGIN/../../../lib/:\$=
-ORIGIN/../../lib&quot; $x; done</pre>
-2. Making the symlinks in x86_64-angstromsdk-linux/usr/libexec/armv7a-angst=
-rom-linux-gnueabi/gcc/arm-angstrom-linux-gnueabi/4.5.4/ use relative paths:=
-<br><pre>x86_64-angstromsdk-linux/usr/libexec/armv7a-angstrom-linux-gnueabi=
-/gcc/arm-angstrom-linux-gnueabi/4.5.4$ cat tweak_target.sh=20
-#!/bin/bash
-FILE=3D`basename $1`
-ln -f -s ../../../../../bin/armv7a-angstrom-linux-gnueabi/arm-angstrom-linu=
-x-gnueabi-$FILE $FILE
-x86_64-angstromsdk-linux/usr/libexec/armv7a-angstrom-linux-gnueabi/gcc/arm-=
-angstrom-linux-gnueabi/4.5.4$ find . -type l -exec ./tweak_target.sh {} \;<=
-/pre>This feels like a rather unpleasant hack so I&#39;m going to use the c=
-odesourcery compiler for now, but this does appear to work.<br>
-<br>Thanks,<br><br>Steve<br><br>
-
---14dae9340d8142573704c2e55498--
