@@ -1,23 +1,31 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from astoria.ccjclearline.com ([64.235.106.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Xin.Ouyang@windriver.com>) id 1Shbky-0000z3-7v
+	(envelope-from <rpjday@crashcourse.ca>) id 1ShdMZ-0001a6-M1
 	for openembedded-core@lists.openembedded.org;
-	Thu, 21 Jun 2012 09:24:46 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q5L7Dsc7025358
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Jun 2012 00:13:54 -0700 (PDT)
-Received: from Xouyang-Ubuntu.corp.ad.wrs.com (128.224.162.231) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.1.255.0; Thu, 21 Jun 2012 00:13:54 -0700
-From: <xin.ouyang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 21 Jun 2012 15:13:54 +0800
-Message-ID: <1340262834-27560-1-git-send-email-xin.ouyang@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
+	Thu, 21 Jun 2012 11:07:39 +0200
+Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
+	([99.241.91.63]:55363 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.77) (envelope-from <rpjday@crashcourse.ca>)
+	id 1ShdCA-0002mp-Up for openembedded-core@lists.openembedded.org;
+	Thu, 21 Jun 2012 04:56:55 -0400
+Date: Thu, 21 Jun 2012 04:56:51 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@oneiric
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.DEB.2.02.1206210454080.17361@oneiric>
+User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
 MIME-Version: 1.0
-Subject: [PATCH] cpan.bbclass: Fix CCFLAGS.
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Subject: superfluous download locations in oe-core's bitbake.conf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,49 +40,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Jun 2012 07:24:46 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 21 Jun 2012 09:07:40 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
-From: Xin Ouyang <Xin.Ouyang@windriver.com>
 
-We should not just replace CCFLAGS with CFLAGS while compiling, because 
-this may cause run-time errors with perl's DynaLoader.pm.
+  given that oe-core is defined as being a really minimal
+configuration with no extraneous cruft, there seems to be a number of
+unnecessary download locations in the shipped bitbake.conf, things
+like:
 
-Tested on qemux86 with new libnet-libidn-perl bb recipe:
+ADOBE_MIRROR =
+FREEBSD_MIRROR =
 
-root@qemux86:~# perl -e "use Net::LibIDN"
-Not a CODE reference at /usr/lib/perl/5.14.2//DynaLoader.pm line 213.
-END failed--call queue aborted at /usr/lib/perl/vendor_perl/5.14.2//Net/LibIDN.pm line 213.
-Compilation failed in require at -e line 1.
-BEGIN failed--compilation aborted at -e line 1.
+and so on.  obviously, they're not doing any harm but there seems to
+be little value in defining download locations that aren't used by
+anything actually in oe-core.
 
-Signed-off-by: Xin Ouyang <Xin.Ouyang@windriver.com>
----
- meta/classes/cpan.bbclass |    3 ++-
- 1 files changed, 2 insertions(+), 1 deletions(-)
+rday
 
-diff --git a/meta/classes/cpan.bbclass b/meta/classes/cpan.bbclass
-index 2e9432c..957a6e2 100644
---- a/meta/classes/cpan.bbclass
-+++ b/meta/classes/cpan.bbclass
-@@ -26,13 +26,14 @@ cpan_do_configure () {
- 			test -f $f2 || continue
- 			sed -i -e "s:\(PERL_ARCHLIB = \).*:\1${PERL_ARCHLIB}:" \
- 				-e 's/perl.real/perl/' \
-+				-e "s/^\(CCFLAGS =.*\)/\1 ${CFLAGS}/" \
- 				$f2
- 		done
- 	fi
- }
- 
- cpan_do_compile () {
--	oe_runmake PASTHRU_INC="${CFLAGS}" CCFLAGS="${CFLAGS}" LD="${CCLD}"
-+	oe_runmake PASTHRU_INC="${CFLAGS}" LD="${CCLD}"
- }
- 
- cpan_do_install () {
 -- 
-1.7.5.4
 
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
