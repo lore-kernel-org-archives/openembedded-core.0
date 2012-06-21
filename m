@@ -1,37 +1,34 @@
-Received: from mail-qc0-f175.google.com ([209.85.216.175])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@gmail.com>) id 1Shgsy-0004Dp-7L
+	(envelope-from <ross.burton@intel.com>) id 1Shi88-0002Kv-EW
 	for openembedded-core@lists.openembedded.org;
-	Thu, 21 Jun 2012 14:53:20 +0200
-Received: by qcso7 with SMTP id o7so256293qcs.6
+	Thu, 21 Jun 2012 16:13:04 +0200
+Received: from mail-qa0-f45.google.com ([209.85.216.45])
+	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 21 Jun 2012 07:01:52 -0700
+Received: by qaeb19 with SMTP id b19so4205775qae.4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Jun 2012 05:42:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type:content-transfer-encoding;
-	bh=bhaWtsdzmI5GCn415ZcZ4fZUg7Ul1O4WXuFb2wZnVxc=;
-	b=PgCHgczA7xD0o8JwvtT+5/4HqYrUd4ijPf3PQf0KWFdbxj9vwG757gbSB/lWUa7AVT
-	FpmPrKBkydCsflkL38/pk7cqnenLhteBnU1bwBrSDhWdGSTSGCI+Pfw2bh4UXpnAIZXx
-	5W6K+BiuUjOBE4WrtclG+05eme5e5uqE53JCH50Ql1Li3ct/cjw1bNvMAYU9YZDovZS5
-	t7QjhdVk45sAClPc/GEcXSTZzUBUvwRKTh+6P+QFuoDEg387ce4mQuwrOzeLfA6rcdTf
-	I1LN9PI+y4VFI15MLngDxjZzaIdCrOHOCKq9HGHJ6h66IrbhZZZx7eu8VZm8VMVHW803
-	y2ig==
+	Thu, 21 Jun 2012 07:01:51 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:from:date:message-id:subject:to:content-type
+	:x-gm-message-state;
+	bh=o9L97VkYzlTiA05HYI7I0N7LNO2jzs920th0bxBLIh8=;
+	b=FsIZ0zxTv1UaM5qFCug1blS6EZZdVeLfNZcehrAeqHQVMrVOsf7d6PsC5Fb39SLrh6
+	1bkqaQuOwIbMeW1id4/VPUROlirP6yR3tJmmC9K3/mPJ8KrM77aMGO81a6IRnZieGAjw
+	RYn2MxmUjeymazQ6/KheBnYbl+amzW78WOU3PfKE/FWW2DrETpcTVUsSlvEePsof8ASM
+	74UUpsN1y032c0kegggxOjTGNPvKd8LvgLJPiKbmprWIOzf6mw7u01j5uMJgSY5KdRj9
+	/t9hsgcoieoL+ccNFwE7oXxfET5MRZy1asAnp+TpHuLjMZEfo3TT9/NCx18nomLQM7DK
+	pgqA==
+Received: by 10.224.117.129 with SMTP id r1mr48153827qaq.31.1340287311162;
+	Thu, 21 Jun 2012 07:01:51 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.224.208.66 with SMTP id gb2mr47798685qab.29.1340282554069;
-	Thu, 21 Jun 2012 05:42:34 -0700 (PDT)
-Received: by 10.229.51.10 with HTTP; Thu, 21 Jun 2012 05:42:33 -0700 (PDT)
-In-Reply-To: <1340282394.1640.108.camel@ted>
-References: <1340180732-26710-1-git-send-email-bogdan.a.marinescu@intel.com>
-	<1340281789.1640.106.camel@ted>
-	<CAMZjud0p_349MXBVFUj4q-jxKy0S+1bz3_onEjx16XdkKtRPQw@mail.gmail.com>
-	<CADkTA4M6tN=zGrKe6-1ZVmcW3Facm-cLT+70cqMs7+Q_U6DXOg@mail.gmail.com>
-	<1340282394.1640.108.camel@ted>
-Date: Thu, 21 Jun 2012 08:42:33 -0400
-Message-ID: <CADkTA4Pgp=3oD+b-7bdseEiNE++CSwzd++FfBriQ5kZ=0qS+vQ@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] linux-tools: multilib compilation fix
+Received: by 10.229.101.202 with HTTP; Thu, 21 Jun 2012 07:01:30 -0700 (PDT)
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 21 Jun 2012 15:01:30 +0100
+Message-ID: <CAJTo0LZc57=-7fEto_2dEL=yjDDoKH=HntQQFLTzZo=tqBSxcw@mail.gmail.com>
+To: OE-core <openembedded-core@lists.openembedded.org>
+X-Gm-Message-State: ALoCoQm9CcUsVaCeUIQCLQ+DbCA/h47JnNqVEp5GIO8aL5SCDQmJXCzH9KQBuFxqKZRTuL2zKPHY
+Subject: [RFC] Fetching single files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,78 +43,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Jun 2012 12:53:20 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 21 Jun 2012 14:13:04 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Thu, Jun 21, 2012 at 8:39 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Thu, 2012-06-21 at 08:33 -0400, Bruce Ashfield wrote:
->> On Thu, Jun 21, 2012 at 8:32 AM, Marinescu, Bogdan A
->> <bogdan.a.marinescu@intel.com> wrote:
->> > On Thu, Jun 21, 2012 at 3:29 PM, Richard Purdie
->> > <richard.purdie@linuxfoundation.org> wrote:
->> >> On Wed, 2012-06-20 at 11:25 +0300, Bogdan Marinescu wrote:
->> >>> This patch makes linux-tools compile properly on multilib configurat=
-ions
->> >>> (which failed because of some invalid dependencies). Tested by compi=
-ling
->> >>> lib32-core-image-sato-sdk.
->> >>>
->> >>> Signed-off-by: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
->> >>> ---
->> >>> =A0meta/recipes-kernel/linux/linux-tools.inc | =A0 =A02 +-
->> >>> =A01 file changed, 1 insertion(+), 1 deletion(-)
->> >>>
->> >>> diff --git a/meta/recipes-kernel/linux/linux-tools.inc b/meta/recipe=
-s-kernel/linux/linux-tools.inc
->> >>> index 3b03c05..048608c 100644
->> >>> --- a/meta/recipes-kernel/linux/linux-tools.inc
->> >>> +++ b/meta/recipes-kernel/linux/linux-tools.inc
->> >>> @@ -34,7 +34,7 @@ do_install_perf[umask] =3D "022"
->> >>>
->> >>> =A0PERFDEPENDS =3D "virtual/${MLPREFIX}libc:do_populate_sysroot ${ML=
-PREFIX}elfutils:do_populate_sysroot ${MLPREFIX}binutils:do_populate_sysroot=
-"
->> >>> =A0PERFDEPENDS_libc-uclibc =3D ""
->> >>> -PERFRDEPENDS =3D "python perl elfutils"
->> >>> +PERFRDEPENDS =3D "${MLPREFIX}python ${MLPREFIX}perl ${MLPREFIX}elfu=
-tils"
->> >>> =A0PERFRDEPENDS_libc-uclibc =3D ""
->> >>>
->> >>> =A0do_compile_perf[depends] =3D "${PERFDEPENDS}"
->> >>
->> >> Bruce has just totally rearranged this code. Could you check if the n=
-ew
->> >> recipe still suffers from this issue please?
->> >
->> > Sure, I'm on it.
->>
->> Yep. We still need this addition to the recipe .. luckily, easy to do :)
->
-> I'm not sure, the autorenaming magic should take care of a simple
-> RDEPENDS...
+Hi,
 
-Ah yes, I wasn't sure about that myself. I'll just watch and wait in
-that case :)
+I was looking at updating the webkit-gtk package to the latest
+upstream when I noticed that instead of just checking out the
+repository it checks out a selection of directories and includes in
+oe-core the essential top-level files.  I can see the rationale for
+this: a full checkout of webkit includes the full test suite and web
+site sources.
 
-Bruce
+However I'm not entirely keen on the package shipping the top-level
+files in oe-core, as that is asking for trouble.  One solution would
+be the ability to fetch a single file through the svn fetcher instead
+of a directory, which svn can do using "svn export" (checking out a
+file is an error).  This doens't bring any metadata along with it so
+it isn't actually a checkout that can be updated in the future, but
+for a single file I think this isn't a problem.
 
->
-> Cheers,
->
-> Richard
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+In poky-contrib:ross/svn I've started implement a proof of concept on
+this.  So far using the singlefile=1 parameter the export logic is
+activated, the file is svn exported and stashed in the download
+directory, suitable renamed.  The next step is to hook this into the
+unpack stage so that the file gets renamed correctly on it's way to
+the workdir.
 
+But before I start looking at this I thought I'd mail the list and see
+if anyone has any comments.  So, anyone know of any problems, pitfalls
+or better solutions?
 
-
---=20
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+Ross
 
 
