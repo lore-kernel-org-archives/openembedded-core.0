@@ -1,40 +1,37 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
+Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1ShiZS-0002ar-K2
+	(envelope-from <ross.burton@intel.com>) id 1ShioK-0002op-Ox
 	for openembedded-core@lists.openembedded.org;
-	Thu, 21 Jun 2012 16:41:18 +0200
-Received: by eaal1 with SMTP id l1so238953eaa.6
+	Thu, 21 Jun 2012 16:56:41 +0200
+Received: from mail-qa0-f51.google.com ([209.85.216.51])
+	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 21 Jun 2012 07:45:29 -0700
+Received: by qaea16 with SMTP id a16so1658681qae.17
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Jun 2012 07:30:32 -0700 (PDT)
+	Thu, 21 Jun 2012 07:45:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date
-	:content-transfer-encoding:message-id:references:to:x-mailer
-	:x-gm-message-state;
-	bh=GiHR8vi8F0TDOymGIlQ/pOXba5SUfwebr62mwGNofNY=;
-	b=OW4IXH9hheKMQWZAij6H/7/9CH4jT1TJj6iD9hryGMTnBE7ea14Z5YNvwAxU7nZOH4
-	cMXu9y/ILWlXAlI7xBNPKidzyGoyYMf59g2tjy+cCeWoAOCwVpZYLbd19TPo+Wq+1Nmf
-	pUlCws1tmzsu+TvF3pNK44tLumQTXNZgBzfJaPbyGQXKZa28xaG/4AozU9E3SkPlytjW
-	GsAw6tIrrEZ1psYtqVhqrC6Z0NHGnNgN/+yoY0jJ8LQgN9Y0pHYRBWVnmMXOQpCTAXVQ
-	eVdyQ8sqzdo4J/ydPvI3l5kMle/Hy00U76nvPyVA4/yGVSwjnFbxp8alp1QHb30lABCW
-	BaQg==
-Received: by 10.14.37.2 with SMTP id x2mr5081426eea.72.1340289032657;
-	Thu, 21 Jun 2012 07:30:32 -0700 (PDT)
-Received: from ?IPv6:2001:610:612::b158:17:12ce:5b02?
-	([2001:610:612:0:b158:17:12ce:5b02])
-	by mx.google.com with ESMTPS id u14sm103437647eem.4.2012.06.21.07.30.30
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 21 Jun 2012 07:30:31 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1278)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <CAJTo0LZc57=-7fEto_2dEL=yjDDoKH=HntQQFLTzZo=tqBSxcw@mail.gmail.com>
-Date: Thu, 21 Jun 2012 16:30:27 +0200
-Message-Id: <6BA43A2F-5293-4CBD-9DE7-39D3ABD0AF88@dominion.thruhere.net>
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type:x-gm-message-state;
+	bh=Ip5zBRq315hdi8QJbScVV6Y+LsEa9VBZeJ67NsJYSrU=;
+	b=knri1R2gD7cptS0ksIHGdgfiC2zaM3ZDZ0pvSpLJzmoOpfPEQ6AB/B32jhBfK02v7U
+	GYvpDUWXP+gbwWiCz/DKtRDrSwwv/SLcGkPEgzZLFJVYO65XvM3sxmySIXTv3LXBY6zK
+	xHNy6J2/BVl5cfvndQFOy/R82rq3VdnrmouGNJcNC4O4oFBDQzW//WjfoqpEcBh06yBO
+	CP1xHAo8EL2X11rpRLjibbK1foXM6zk+mqypTHlPeTyZK3Y/PciB6/V4l1sElgN7F/Mg
+	wjxt+052XHWN5LdKATuglkjirVLSbtpk+nkzb7fkSun453qzcbOgXK1dWo+M8nMN9P6M
+	qc/g==
+Received: by 10.224.187.11 with SMTP id cu11mr40540622qab.24.1340289927792;
+	Thu, 21 Jun 2012 07:45:27 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.229.101.202 with HTTP; Thu, 21 Jun 2012 07:45:07 -0700 (PDT)
+In-Reply-To: <6BA43A2F-5293-4CBD-9DE7-39D3ABD0AF88@dominion.thruhere.net>
 References: <CAJTo0LZc57=-7fEto_2dEL=yjDDoKH=HntQQFLTzZo=tqBSxcw@mail.gmail.com>
+	<6BA43A2F-5293-4CBD-9DE7-39D3ABD0AF88@dominion.thruhere.net>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 21 Jun 2012 15:45:07 +0100
+Message-ID: <CAJTo0LaF6SdeTgJSJw8gh7ETDSqgQrLdi_8e1a+jCjAx39m=_w@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1278)
-X-Gm-Message-State: ALoCoQkQBZOzpni2VQqyaTOyKx9djc+UjyzW7NPpTju3Plc6XjhqYdl4ZRAGwDrHqU4TYCBUMxgr
+X-Gm-Message-State: ALoCoQkfsH7ZdOevF3elie3wOGTXCOiFoVDFI57/tYRkRgw9ZXNUHSQzsiuYiF66qdyWMME8wZE2
 Subject: Re: [RFC] Fetching single files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -50,48 +47,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Jun 2012 14:41:18 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 21 Jun 2012 14:56:41 -0000
+Content-Type: text/plain; charset=UTF-8
 
+On 21 June 2012 15:30, Koen Kooi <koen@dominion.thruhere.net> wrote:
+> We didn't do single file fetches/checkouts in the past because it's a svn 1.6.x feature. I would be really happy if we declare that 1.6.x is the minimum we support. I would be even happier if we just fetch webkit (completely) from git :)
 
-Op 21 jun. 2012, om 16:01 heeft Burton, Ross het volgende geschreven:
+1.6.0 was released in 2009, that seems old enough now.  Even Debian
+Stable ships 1.6.12. :)
 
-> Hi,
->=20
-> I was looking at updating the webkit-gtk package to the latest
-> upstream when I noticed that instead of just checking out the
-> repository it checks out a selection of directories and includes in
-> oe-core the essential top-level files.  I can see the rationale for
-> this: a full checkout of webkit includes the full test suite and web
-> site sources.
->=20
-> However I'm not entirely keen on the package shipping the top-level
-> files in oe-core, as that is asking for trouble.  One solution would
-> be the ability to fetch a single file through the svn fetcher instead
-> of a directory, which svn can do using "svn export" (checking out a
-> file is an error).  This doens't bring any metadata along with it so
-> it isn't actually a checkout that can be updated in the future, but
-> for a single file I think this isn't a problem.
->=20
-> In poky-contrib:ross/svn I've started implement a proof of concept on
-> this.  So far using the singlefile=3D1 parameter the export logic is
-> activated, the file is svn exported and stashed in the download
-> directory, suitable renamed.  The next step is to hook this into the
-> unpack stage so that the file gets renamed correctly on it's way to
-> the workdir.
->=20
-> But before I start looking at this I thought I'd mail the list and see
-> if anyone has any comments.  So, anyone know of any problems, pitfalls
-> or better solutions?
+WebKit from git is still a good 3GB to clone[1], and more importantly
+only mirrors WebKit trunk so the 1.8.x series isn't even on it.
 
-We didn't do single file fetches/checkouts in the past because it's a =
-svn 1.6.x feature. I would be really happy if we declare that 1.6.x is =
-the minimum we support. I would be even happier if we just fetch webkit =
-(completely) from git :)
+Ross
 
-regards,
-
-Koen=
+[1] well, a colleague puts his WebKit/.git/ at 3.3G, which much
+approximate the download size
 
 
