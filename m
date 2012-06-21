@@ -1,33 +1,38 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1ShghQ-000266-KC for openembedded-core@lists.openembedded.org;
-	Thu, 21 Jun 2012 14:41:25 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q5LCUPIt022307
+Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <bogdan.a.marinescu@intel.com>) id 1ShgjX-00029T-PM
+	for openembedded-core@lists.openembedded.org;
+	Thu, 21 Jun 2012 14:43:36 +0200
+Received: from mail-vc0-f180.google.com ([209.85.220.180])
+	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 21 Jun 2012 05:32:37 -0700
+Received: by vcbfk26 with SMTP id fk26so257295vcb.25
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Jun 2012 13:30:25 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 22083-07 for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Jun 2012 13:30:21 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q5LCUFL2022296
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Jun 2012 13:30:16 +0100
-Message-ID: <1340281810.1640.107.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Thu, 21 Jun 2012 05:32:37 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type:content-transfer-encoding:x-gm-message-state;
+	bh=sTezhY+f1Bx5jrnLdM2SEeI41pzHdNdE2b6KcWPTyZI=;
+	b=NjeXtUmnjmqF6bJ4eDyaj+cclGmsO97sHB9XI9aq+kxtYX7yPRRYtJnoYjNGRp0fgz
+	20eq7Gv0HYc5PcKHvz4User+gGw/v4MXxsCr1P84+x1QsChyQvoYkYsI3hqudWl97QmD
+	lP0ujUaDbiPuG+JzJRIcnrg4Ntxs50aAKwMGr5gRqtSnUmBPcZowzL5JSvg14pRjEr0M
+	JdfeTaRx7C4CpIvbe2l6Rbi1bgDJN4Ra6FjrzhVa29Bz7OwAoVpvAHmHM6KzSPXfTY99
+	rne3Cf3Ts/i2FTDufEnLXluusGDxPNqN87Bb+nWux07NDHRBg3p9TfNCHPYKssQH0IWu
+	c7ow==
+Received: by 10.220.228.193 with SMTP id jf1mr4375394vcb.73.1340281956920;
+	Thu, 21 Jun 2012 05:32:36 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.52.34.208 with HTTP; Thu, 21 Jun 2012 05:32:16 -0700 (PDT)
+In-Reply-To: <1340281789.1640.106.camel@ted>
+References: <1340180732-26710-1-git-send-email-bogdan.a.marinescu@intel.com>
+	<1340281789.1640.106.camel@ted>
+From: "Marinescu, Bogdan A" <bogdan.a.marinescu@intel.com>
+Date: Thu, 21 Jun 2012 15:32:16 +0300
+Message-ID: <CAMZjud0p_349MXBVFUj4q-jxKy0S+1bz3_onEjx16XdkKtRPQw@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Thu, 21 Jun 2012 13:30:10 +0100
-In-Reply-To: <alpine.DEB.2.02.1206200450150.7297@oneiric>
-References: <alpine.DEB.2.02.1206200450150.7297@oneiric>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH] Simplify "SRC_URI_append +=" to "SRC_URI_append ="
+X-Gm-Message-State: ALoCoQlwxOKPlp8ggS2xJd1ea+Qndj/4qGX3ucXKTF8o90VGuRASAYJ9W/Ja46Z6GrJJ6QR7cqRf
+Subject: Re: [PATCH] linux-tools: multilib compilation fix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,21 +47,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Jun 2012 12:41:25 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 21 Jun 2012 12:43:36 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 2012-06-20 at 04:51 -0400, Robert P. J. Day wrote:
-> Signed-off-by: Robert P. J. Day <rpjday@crashcourse.ca>
-> 
-> ---
-> 
->   second attempt ...
-> 
+On Thu, Jun 21, 2012 at 3:29 PM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Wed, 2012-06-20 at 11:25 +0300, Bogdan Marinescu wrote:
+>> This patch makes linux-tools compile properly on multilib configurations
+>> (which failed because of some invalid dependencies). Tested by compiling
+>> lib32-core-image-sato-sdk.
+>>
+>> Signed-off-by: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
+>> ---
+>> =A0meta/recipes-kernel/linux/linux-tools.inc | =A0 =A02 +-
+>> =A01 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/meta/recipes-kernel/linux/linux-tools.inc b/meta/recipes-ke=
+rnel/linux/linux-tools.inc
+>> index 3b03c05..048608c 100644
+>> --- a/meta/recipes-kernel/linux/linux-tools.inc
+>> +++ b/meta/recipes-kernel/linux/linux-tools.inc
+>> @@ -34,7 +34,7 @@ do_install_perf[umask] =3D "022"
+>>
+>> =A0PERFDEPENDS =3D "virtual/${MLPREFIX}libc:do_populate_sysroot ${MLPREF=
+IX}elfutils:do_populate_sysroot ${MLPREFIX}binutils:do_populate_sysroot"
+>> =A0PERFDEPENDS_libc-uclibc =3D ""
+>> -PERFRDEPENDS =3D "python perl elfutils"
+>> +PERFRDEPENDS =3D "${MLPREFIX}python ${MLPREFIX}perl ${MLPREFIX}elfutils=
+"
+>> =A0PERFRDEPENDS_libc-uclibc =3D ""
+>>
+>> =A0do_compile_perf[depends] =3D "${PERFDEPENDS}"
+>
+> Bruce has just totally rearranged this code. Could you check if the new
+> recipe still suffers from this issue please?
 
-Merged to master, thanks.
+Sure, I'm on it.
 
-Richard
+Thanks,
+Bogdan
 
+>
+> Cheers,
+>
+> Richard
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
