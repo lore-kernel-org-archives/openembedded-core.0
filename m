@@ -1,31 +1,33 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Shgb4-0001oP-CM for openembedded-core@lists.openembedded.org;
-	Thu, 21 Jun 2012 14:34:50 +0200
+	id 1ShgbD-0001q6-Gj for openembedded-core@lists.openembedded.org;
+	Thu, 21 Jun 2012 14:34:59 +0200
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q5LCNrwe022175;
-	Thu, 21 Jun 2012 13:23:53 +0100
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q5LCODt4022184
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 21 Jun 2012 13:24:13 +0100
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 21414-09; Thu, 21 Jun 2012 13:23:47 +0100 (BST)
+	id 22083-03 for <openembedded-core@lists.openembedded.org>;
+	Thu, 21 Jun 2012 13:24:09 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q5LCNiYs022169
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Thu, 21 Jun 2012 13:23:45 +0100
-Message-ID: <1340281427.1640.100.camel@ted>
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q5LCO5oO022178
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 21 Jun 2012 13:24:06 +0100
+Message-ID: <1340281447.1640.101.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Bruce Ashfield <bruce.ashfield@windriver.com>
-Date: Thu, 21 Jun 2012 13:23:47 +0100
-In-Reply-To: <b6499cb8429671a360a1a1a0263f3f81c96ac5aa.1340202895.git.bruce.ashfield@windriver.com>
-References: <cover.1340202895.git.bruce.ashfield@windriver.com>
-	<b6499cb8429671a360a1a1a0263f3f81c96ac5aa.1340202895.git.bruce.ashfield@windriver.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Thu, 21 Jun 2012 13:24:07 +0100
+In-Reply-To: <cover.1340205163.git.raj.khem@gmail.com>
+References: <cover.1340205163.git.raj.khem@gmail.com>
 X-Mailer: Evolution 3.2.2- 
 Mime-Version: 1.0
 X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: openembedded-core@lists.openembedded.org, saul.wold@intel.com
-Subject: Re: [PATCH 1/1] linux-libc-headers: use kernel-arch to set ARCH
+Subject: Re: [PATCH 0/5] Toolchain fixes and uclibc-git upgrade
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,19 +42,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Jun 2012 12:34:50 -0000
+X-List-Received-Date: Thu, 21 Jun 2012 12:34:59 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2012-06-20 at 10:54 -0400, Bruce Ashfield wrote:
-> linux-libc-headers no longer needs its own ARCH mapping code,
-> since the mapping done in kernel-arch works and we can
-> consolidate all arch mapping code in a single place.
+On Wed, 2012-06-20 at 08:18 -0700, Khem Raj wrote:
+> This patchset 
 > 
-> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
-> ---
->  .../linux-libc-headers/linux-libc-headers.inc      |   30 ++-----------------
->  1 files changed, 4 insertions(+), 26 deletions(-)
+> 1. Updates gcc to 4.7.1+
+> 2. Fixes on device toolchain since now they are built with sysroot
+>    couple of issues showed up
+> 3. Rearranges binutils recipes so that target binutils recipe in not
+>    included everywhere
+> 4. Add enable plugin option to binutils. Its needed for LTO to work
+> 5. Update uclibc_git recipe to lastest uclibc master after a major
+>    branch has been collapsed in uclibc master
 
 Merged to master, thanks.
 
