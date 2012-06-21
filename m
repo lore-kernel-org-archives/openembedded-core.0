@@ -1,23 +1,26 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from vms173001pub.verizon.net ([206.46.173.1])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Paul.Gortmaker@windriver.com>) id 1ShqZS-0001P9-1D
-	for openembedded-core@lists.openembedded.org;
-	Fri, 22 Jun 2012 01:13:50 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q5LKZW0l019013
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Jun 2012 13:35:32 -0700 (PDT)
-Received: from yow-pgortmak-d2.corp.ad.wrs.com (128.224.146.165) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.1.255.0; Thu, 21 Jun 2012 13:35:32 -0700
-From: Paul Gortmaker <paul.gortmaker@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 21 Jun 2012 16:35:25 -0400
-Message-ID: <1340310925-12937-1-git-send-email-paul.gortmaker@windriver.com>
-X-Mailer: git-send-email 1.7.9.6
-MIME-Version: 1.0
-Subject: [PATCH] linux-firmware: update to main repo on kernel.org
+	(envelope-from <denis@denix.org>)
+	id 1ShqZT-0001PA-1K; Fri, 22 Jun 2012 01:13:51 +0200
+Received: from gandalf.denix.org ([unknown] [108.48.117.33])
+	by vms173001.mailsrvcs.net
+	(Sun Java(tm) System Messaging Server 7u2-7.02 32bit (built Apr 16
+	2009))
+	with ESMTPA id <0M5Z00HKRPBSB75C@vms173001.mailsrvcs.net>; Thu,
+	21 Jun 2012 18:02:31 -0500 (CDT)
+Received: by gandalf.denix.org (Postfix, from userid 1000)	id 545AF20564; Thu,
+	21 Jun 2012 19:02:16 -0400 (EDT)
+Date: Thu, 21 Jun 2012 19:02:16 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+In-reply-to: <CALbNGRQCVUeZFX_xxVe=3ixZMm7MRt3WWB5VxemNs0Bi+qCHcQ@mail.gmail.com>
+To: Andreas =?iso-8859-1?Q?M=FCller?= <schnitzeltony@googlemail.com>
+Message-id: <20120621230216.GD30753@denix.org>
+MIME-version: 1.0
+References: <CALbNGRQCVUeZFX_xxVe=3ixZMm7MRt3WWB5VxemNs0Bi+qCHcQ@mail.gmail.com>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Cc: meta-ti@yoctoproject.org, openembedded-devel@lists.openembedded.org,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [meta-ti] massive fallout after updates / was (no subject)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,49 +35,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Jun 2012 23:13:50 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 21 Jun 2012 23:13:51 -0000
+Content-type: text/plain; charset=iso-8859-1
+Content-transfer-encoding: QUOTED-PRINTABLE
+Content-disposition: inline
 
-This is now the authoratative repository, taking updates.
-The latest has a couple updated license files, vs. the previous
-srcrev that was used.
+On Fri, Jun 22, 2012 at 12:11:46AM +0200, Andreas M=FCller wrote:
+> On Thu, Jun 21, 2012 at 11:36 PM, Andreas M=FCller
+> <schnitzeltony@googlemail.com> wrote:
+> > after updating all my repos (angstrom+few extra layers) I get
+>=20
+> The error seems to be caused by meta-ti. When removed, parsing work=
+s
+> as expected. By re-including I get now:
+>=20
+> ERROR: ExpansionError during parsing
+> /home/Superandy/data/oe-core/sources/meta-ti/recipes-ti/gstreamer-t=
+i/gstreamer-ti_svn.bb:
+> Failure expanding variable FILESPATH, expression was
+> ${@base_set_filespath([
+> "/home/Superandy/data/oe-core/sources/meta-ti/recipes-ti/gstreamer-=
+ti/gstreamer-ti-svnr962-r85+${MACHINE_KERNEL_PR}",
 
-Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
+Could be caused by MACHINE_KERNEL_PR being undefined... What machine =
+you are=20
+building for?
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-index 3675978..0127d55 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-@@ -7,23 +7,23 @@ SECTION = "kernel"
- 
- LICENSE = "Proprietary"
- 
--LIC_FILES_CHKSUM = "file://LICENSE.radeon_rlc;md5=4c243f7854d2884b483abda991adef43 \
-+LIC_FILES_CHKSUM = "file://LICENSE.radeon;md5=e56b405656593a0c97e478513051ea0e \
-                     file://LICENSE.dib0700;md5=f7411825c8a555a1a3e5eab9ca773431 \
-                     file://LICENCE.xc5000;md5=1e170c13175323c32c7f4d0998d53f66 \
-                     file://LICENCE.ralink-firmware.txt;md5=ab2c269277c45476fb449673911a2dfd \
-                     file://LICENCE.qla2xxx;md5=4005328a134054f0fa077bdc37aa64f2 \
--                    file://LICENCE.iwlwifi_firmware;md5=311cc823df5b1be4f00fbf0f17d96a6b \
-+                    file://LICENCE.iwlwifi_firmware;md5=11545778abf78c43d7644d4f171ea1c7 \
-                     file://LICENCE.i2400m;md5=14b901969e23c41881327c0d9e4b7d36 \
-                     file://LICENCE.atheros_firmware;md5=30a14c7823beedac9fa39c64fdd01a13 \
-                     file://LICENCE.agere;md5=af0133de6b4a9b2522defd5f188afd31 \
-                     file://LICENCE.rtlwifi_firmware.txt;md5=00d06cfd3eddd5a2698948ead2ad54a5 \
-                    "
- 
--SRCREV = "15888a2eab052ac3d3f49334e4f6f05f347a516e"
-+SRCREV = "e98750f0d68d0037ce5a186f7f863a9c13bf773a"
- PV = "0.0+git${SRCPV}"
- PR = "r1"
- 
--SRC_URI = "git://git.infradead.org/users/dwmw2/linux-firmware.git;protocol=git"
-+SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git;protocol=git"
- 
- S = "${WORKDIR}/git"
- 
--- 
-1.7.9.6
+--=20
+Denys
+
+
+> "/home/Superandy/data/oe-core/sources/meta-ti/recipes-ti/gstreamer-=
+ti/gstreamer-ti-svnr962",
+> "/home/Superandy/data/oe-core/sources/meta-ti/recipes-ti/gstreamer-=
+ti/gstreamer-ti",
+> "/home/Superandy/data/oe-core/sources/meta-ti/recipes-ti/gstreamer-=
+ti/gstreamer-ti-svnr962",
+> "/home/Superandy/data/oe-core/sources/meta-ti/recipes-ti/gstreamer-=
+ti/gstreamer-ti",
+> "/home/Superandy/data/oe-core/sources/meta-ti/recipes-ti/gstreamer-=
+ti/files",
+> "/home/Superandy/data/oe-core/sources/meta-ti/recipes-ti/gstreamer-=
+ti"
+> ], d)} which triggered exception SyntaxError: EOL while scanning
+> string literal (FILESPATH, line 1)
+> ERROR: No recipes available for:
+>   /home/Superandy/data/oe-core/sources/meta-intel/meta-sugarbay/rec=
+ipes-kernel/linux/linux-yocto_3.2.bbappend
+>   /home/Superandy/data/oe-core/sources/meta-intel/meta-crownbay/rec=
+ipes-kernel/linux/linux-yocto_3.2.bbappend
+>   /home/Superandy/data/oe-core/sources/meta-intel/meta-emenlow/reci=
+pes-kernel/linux/linux-yocto_3.2.bbappend
+>   /home/Superandy/data/oe-core/sources/meta-intel/meta-fishriver/re=
+cipes-kernel/linux/linux-yocto_3.2.bbappend
+>   /home/Superandy/data/oe-core/sources/meta-intel/meta-fri2/recipes=
+-kernel/linux/linux-yocto_3.2.bbappend
+>   /home/Superandy/data/oe-core/sources/meta-intel/meta-jasperforest=
+/recipes-kernel/linux/linux-yocto_3.2.bbappend
+>   ......
+>=20
+> Andreas
+> _______________________________________________
+> meta-ti mailing list
+> meta-ti@yoctoproject.org
+> https://lists.yoctoproject.org/listinfo/meta-ti
+>=20
 
 
 
