@@ -1,28 +1,25 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1Shjvr-0004RK-Cp
+	(envelope-from <sgw@linux.intel.com>) id 1ShkSH-0003cd-E5
 	for openembedded-core@lists.openembedded.org;
-	Thu, 21 Jun 2012 18:08:32 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q5LFviE4014515
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Jun 2012 08:57:44 -0700 (PDT)
-Received: from msp-dhcp2.wrs.com (172.25.34.2) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Thu, 21 Jun 2012 08:57:44 -0700
-Message-ID: <4FE34477.1010108@windriver.com>
-Date: Thu, 21 Jun 2012 10:57:43 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7;
-	rv:13.0) Gecko/20120614 Thunderbird/13.0.1
+	Thu, 21 Jun 2012 18:42:01 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 21 Jun 2012 09:31:14 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="160796497"
+Received: from unknown (HELO [10.255.12.124]) ([10.255.12.124])
+	by orsmga002.jf.intel.com with ESMTP; 21 Jun 2012 09:31:13 -0700
+Message-ID: <4FE34C51.1000502@linux.intel.com>
+Date: Thu, 21 Jun 2012 09:31:13 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <4FDEF21A.5020004@windriver.com> <4FDF69BC.6080808@windriver.com>
-	<4FE168BD.9000906@windriver.com> <4FE341CF.5060406@linux.intel.com>
-In-Reply-To: <4FE341CF.5060406@linux.intel.com>
-Subject: Re: glibc detected *** groupadd: malloc(): memory corruption
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <1340276276-11520-1-git-send-email-ross.burton@intel.com>
+In-Reply-To: <1340276276-11520-1-git-send-email-ross.burton@intel.com>
+Subject: Re: [PATCH] sato-icon-theme: inherit the GNOME icon theme (Yocto #2594)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,143 +34,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Jun 2012 16:08:32 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Thu, 21 Jun 2012 16:42:01 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 6/21/12 10:46 AM, Saul Wold wrote:
-> On 06/19/2012 11:07 PM, Robert Yang wrote:
->>
->> Thanks Mark, the rpm.real also has the same problem when the length of
->> tmpdir
->> is 210, it seems that this is because of the glibc.
->>
->>
->> And also other problems found:
->> When use PACKAGE_CLASSES = "package_deb", and the length of tmpdir is 177,
->> the error is:
->>
->> /too/long/path/totmp/sysroots/x86_64-linux/usr/bin/dpkg-scanpackages:
->> bad interpreter: No such file or directory
-
-There is a limit to the length of the interpreter line.  The only solution I 
-have ever found for this is to replace explicit interpreter paths with:
-
-#! /usr/bin/env <interpreter>
-
-This does require that the items be in the PATH.
-
-We should scan scripts for that syntax and replace them w/ the /usr/bin/env 
-syntax, assuming it will work as expected.
-
-That may still leave issues with other components however.
-
-(and I agree with Saul, 175 characters is unacceptable, it's -very- easy to hit 
-that..)
-
---Mark
-
->> The interpreter is perl, and it does exist, it seems that we should limit
->> the length of tmpdir to a smaller value then 177 rather than fix these
->> strange
->> problems. I will go on working on it.
->>
-> Robert,
->
-> A path length of 175 or short is not ideal, we should file bugs against
-> these issues.  We should also add the sanity check you suggested as a
-> WARNING for lenghts over 175.  That should not be the final solution
-> though, we need to address the issues and get them fixed up stream.
->
-> The groupadd one sounds like it might be a buffer overflow issue which
-> could have larger ramifications
->
-> Thanks
->
-> Sau!
->
->> // Robert
->>
->> On 06/19/2012 01:47 AM, Mark Hatle wrote:
->>> We're not away of any size limitations within pseudo, other then
->>> PATH_MAX which
->>> is typically 4096...
->>>
->>> --Mark
->>>
->>> On 6/18/12 4:17 AM, Robert Yang wrote:
->>>>
->>>> Hi Experts:
->>>>
->>>> I've met a strange issue, when set the length of builddir to
->>>> 266 (Why I did this is that I need to know how long the tmpdir
->>>> that oe-core can support):
->>>>
->>>> NOTE: package dbus-1.4.20-r3.0: task do_install: Started
->>>> *** glibc detected *** groupadd: malloc(): memory corruption:
->>>> 0x000000000101da70 ***
->>>> *** glibc detected *** groupadd: malloc(): memory corruption:
->>>> 0x000000000101da70 ***
->>>>
->>>> Then the build would hang, this is caused by the command:
->>>>
->>>> PSEUDO_PREFIX=/too/long/path/tmp/sysroots/x86_64-linux/usr
->>>> PSEUDO_LOCALSTATEDIR=... PSEUDO_PASSWD=...
->>>> PSEUDO_NOSYMLINKEXP=1 PSEUDO_DISABLED=0 PSEUDO_LOCALSTATEDIR
->>>> ... /too/long/path/to/tmp/sysroots/x86_64-linux/usr/bin/pseudo
->>>> groupadd --root /too/long/path/to/tmp/sysroots/qemux86 -r netdev -f
->>>>
->>>> 1) I had looked into the code of groupadd, and found that this would
->>>> happen when it used the glibc function which needs malloc(for example,
->>>> the access()), so it seemed this was caused by the glibc or pseudo,
->>>> but I didn't know why it only happened to groupadd/useradd.
->>>>
->>>> 2) I had tried not to use pseudo, it worked well:
->>>>
->>>> sudo groupadd --root /too/long/path/to/tmp/sysroots/qemux86 -r netdev -f
->>>>
->>>>  From this, it seemed that the glibc was ok
->>>>
->>>> 3) I had tried to write a small piece of code which used the
->>>> access(), and
->>>> used pseudo to run it, it worked well:
->>>>
->>>> /too/long/path/for/pseudo/settings/and/then/run/pseudo my_app
->>>>
->>>>  From this, it seemed that both pseudo and glibc were OK.
->>>>
->>>> These 3 steps make me puzzle, maybe we can think that the tmpdir can not
->>>> be too long, and limit it to a proper length, please see this:
->>>>
->>>> http://lists.linuxtogo.org/pipermail/openembedded-core/2012-May/022112.html
->>>>
->>>>
->>>> BTW. the "argument list too long" error has been fixed.
->>>>
->>>> Any suggestion is appreciated.
->>>>
->>>
->>>
->>> _______________________________________________
->>> Openembedded-core mailing list
->>> Openembedded-core@lists.openembedded.org
->>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->>>
->>>
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->>
->>
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+On 06/21/2012 03:57 AM, Ross Burton wrote:
+> Many apps want to use the full GNOME icon theme and install it, but if our theme
+> doesn't inherit it the the icons are not available.
 >
 
+Merged into OE-Core
 
+In the future, please use the [YOCTO #nnnn] tag in the commit message 
+rather than on the subject.
+
+Thanks
+	Sau!
+
+> Signed-off-by: Ross Burton<ross.burton@intel.com>
+> ---
+>   .../0001-Inherit-the-GNOME-icon-theme.patch        |   31 ++++++++++++++++++++
+>   .../sato-icon-theme/sato-icon-theme_0.4.1.bb       |    5 ++-
+>   2 files changed, 34 insertions(+), 2 deletions(-)
+>   create mode 100644 meta/recipes-sato/sato-icon-theme/sato-icon-theme/0001-Inherit-the-GNOME-icon-theme.patch
+>
+> diff --git a/meta/recipes-sato/sato-icon-theme/sato-icon-theme/0001-Inherit-the-GNOME-icon-theme.patch b/meta/recipes-sato/sato-icon-theme/sato-icon-theme/0001-Inherit-the-GNOME-icon-theme.patch
+> new file mode 100644
+> index 0000000..fa595dc
+> --- /dev/null
+> +++ b/meta/recipes-sato/sato-icon-theme/sato-icon-theme/0001-Inherit-the-GNOME-icon-theme.patch
+> @@ -0,0 +1,31 @@
+> +From b9f02989310a3c920589f1aa646bcbf16b2572a0 Mon Sep 17 00:00:00 2001
+> +From: Ross Burton<ross.burton@intel.com>
+> +Date: Wed, 13 Jun 2012 11:07:33 +0100
+> +Subject: [PATCH] Inherit the GNOME icon theme
+> +
+> +If the GNOME icon theme isn't installed this is a no-op, but if it is then
+> +you'll get fallback from Sato to GNOME for icons that are not in Sato.
+> +
+> +As applications that use the full GNOME icon theme depend on gnome-icon-theme,
+> +this just works.
+> +
+> +Upstream-Status: Backport
+> +---
+> + index.theme |    1 +
+> + 1 file changed, 1 insertion(+)
+> +
+> +diff --git a/index.theme b/index.theme
+> +index c4b03a7..688fbbf 100644
+> +--- a/index.theme
+> ++++ b/index.theme
+> +@@ -1,6 +1,7 @@
+> + [Icon Theme]
+> + Name=Sato
+> + Comment=Sato icon theme
+> ++Inherits=gnome
+> +
+> + Directories=16x16/apps,16x16/status,16x16/stock,16x16/places,16x16/mimetypes,16x16/devices,16x16/actions,22x22/apps,22x22/status,22x22/stock,22x22/places,22x22/mimetypes,22x22/devices,22x22/actions,32x32/apps,32x32/status,32x32/stock,32x32/places,32x32/mimetypes,32x32/devices,32x32/actions,48x48/apps,48x48/status,48x48/stock,48x48/places,48x48/mimetypes,48x48/devices,48x48/actions,64x64/apps,64x64/status,64x64/stock,64x64/places,64x64/mimetypes,64x64/devices,64x64/actions,
+> +
+> +--
+> +1.7.10
+> +
+> diff --git a/meta/recipes-sato/sato-icon-theme/sato-icon-theme_0.4.1.bb b/meta/recipes-sato/sato-icon-theme/sato-icon-theme_0.4.1.bb
+> index 652424a..108f8e8 100644
+> --- a/meta/recipes-sato/sato-icon-theme/sato-icon-theme_0.4.1.bb
+> +++ b/meta/recipes-sato/sato-icon-theme/sato-icon-theme_0.4.1.bb
+> @@ -2,10 +2,11 @@ require sato-icon-theme.inc
+>
+>   DEPENDS += "icon-naming-utils-native"
+>
+> -PR = "r2"
+> +PR = "r3"
+>
+>   SRC_URI = "http://pokylinux.org/releases/sato/${BPN}-${PV}.tar.gz \
+> -           file://iconpath-option.patch"
+> +           file://iconpath-option.patch \
+> +           file://0001-Inherit-the-GNOME-icon-theme.patch"
+>
+>   SRC_URI[md5sum] = "86a847f3128a43a9cf23b7029a656f50"
+>   SRC_URI[sha256sum] = "0b0a2807a6a96918ac799a86094ec3e8e2c892be0fd679a4232c2a77f2f61732"
 
 
