@@ -1,26 +1,26 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Liezhi.Yang@windriver.com>) id 1ShXJI-0004uK-Oq
+	(envelope-from <sgw@linux.intel.com>) id 1ShXTw-00055u-A1
 	for openembedded-core@lists.openembedded.org;
-	Thu, 21 Jun 2012 04:39:53 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q5L2T700003880
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Jun 2012 19:29:07 -0700 (PDT)
-Received: from usp-ub10.corp.ad.wrs.com (128.224.163.69) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.1.255.0; Wed, 20 Jun 2012 19:29:06 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 21 Jun 2012 10:30:00 +0800
-Message-ID: <3f182aa0ab19494800404d9b3fce27ddbdb5048a.1340177329.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.1
-In-Reply-To: <cover.1340177329.git.liezhi.yang@windriver.com>
-References: <cover.1340177329.git.liezhi.yang@windriver.com>
+	Thu, 21 Jun 2012 04:50:52 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 20 Jun 2012 19:40:06 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="156298029"
+Received: from unknown (HELO [10.255.12.124]) ([10.255.12.124])
+	by orsmga001.jf.intel.com with ESMTP; 20 Jun 2012 19:40:05 -0700
+Message-ID: <4FE28985.1000501@linux.intel.com>
+Date: Wed, 20 Jun 2012 19:40:05 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
 MIME-Version: 1.0
-Cc: Zhenfeng.Zhao@windriver.com
-Subject: [PATCH 1/1] package_rpm.bbclass: fix incremental rpm generation
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <1340091730-5993-1-git-send-email-Martin.Jansa@gmail.com>
+In-Reply-To: <1340091730-5993-1-git-send-email-Martin.Jansa@gmail.com>
+Cc: Martin Jansa <martin.jansa@gmail.com>
+Subject: Re: [PATCH 1/2] opkg-utils: bump SRCREV
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,130 +35,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Jun 2012 02:39:53 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 21 Jun 2012 02:50:52 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Fixes:
-* Remove the "echo '# Remove manifest padding....' > remove.manifest,
-  The remove.manifest would be used via "rpm -e `remove.manifest`",
-  there would be error since there is no pkg called: Remove, manifest or
-  padding
+On 06/19/2012 12:42 AM, Martin Jansa wrote:
+> * there are 2 small fixes
+>    python-2.6 compatibility
+>    missing C option for opkg-build
+>
+> Signed-off-by: Martin Jansa<Martin.Jansa@gmail.com>
+> ---
+>   .../opkg-utils/opkg-utils/shr.patch                |   26 ++++++++++++++++++++
+>   meta/recipes-devtools/opkg-utils/opkg-utils_git.bb |    2 +-
+>   2 files changed, 27 insertions(+), 1 deletions(-)
+>   create mode 100644 meta/recipes-devtools/opkg-utils/opkg-utils/shr.patch
+>
+> diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils/shr.patch b/meta/recipes-devtools/opkg-utils/opkg-utils/shr.patch
+> new file mode 100644
+> index 0000000..29de962
+> --- /dev/null
+> +++ b/meta/recipes-devtools/opkg-utils/opkg-utils/shr.patch
 
-* The incremental.manifest can't be null when used by rpm, so check it
-  before use.
+Martin,
 
-* The rpm needs:
-	--root "${target_rootfs}/install"
-  when use:
-	-D "_dbpath ${target_rootfs}/install"
-  Otherwise it would use the ${target_rootfs} as the root, and use the
-  ${target_rootfs}/var/lib/rpm as the dbpath, this is OK in a fresh
-  installation, but there would be errors when increment rpm generation.
+No Upstream-Status or Signed-off-by
 
-[YOCTO #2617]
+Please fix this
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/classes/package_rpm.bbclass |   16 +++++++++++++---
- 1 files changed, 13 insertions(+), 3 deletions(-)
+Thanks
+	Sau!
 
-diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
-index d5406c2..5559a46 100644
---- a/meta/classes/package_rpm.bbclass
-+++ b/meta/classes/package_rpm.bbclass
-@@ -182,14 +182,15 @@ rpm_update_pkg () {
-         # been run by now, so don't have to run them(preun, postun, etc.) when
-         # erase the pkg
-         if [ -s ${target_rootfs}/install/remove.manifest ]; then
--            echo "# Remove manifest padding...." >> ${target_rootfs}/install/remove.manifest
-             rpm_common_comand --noscripts --nodeps \
-                 -e `cat ${target_rootfs}/install/remove.manifest`
-         fi
- 
-         # Attempt to install the incremental pkgs
--        rpm_common_comand --nodeps --replacefiles --replacepkgs \
--            -Uvh ${target_rootfs}/install/incremental.manifest
-+        if [ -s ${target_rootfs}/install/incremental.manifest ]; then
-+            rpm_common_comand --nodeps --replacefiles --replacepkgs \
-+               -Uvh ${target_rootfs}/install/incremental.manifest
-+        fi
-     else
-         # Attempt to install
-         rpm_common_comand --replacepkgs -Uhv $manifest
-@@ -314,6 +315,7 @@ package_install_internal_rpm () {
- 		echo "# Install manifest padding" >> ${target_rootfs}/install/install.manifest
- 		${RPM} --predefine "_rpmds_sysinfo_path ${target_rootfs}/etc/rpm/sysinfo" \
- 			--predefine "_rpmrc_platform_path ${target_rootfs}/etc/rpm/platform" \
-+			--root "${target_rootfs}/install" \
- 			-D "_dbpath ${target_rootfs}/install" -D "`cat ${confbase}-base_archs.macro`" \
- 			-D "__dbi_txn create nofsync" \
- 			-U --justdb --noscripts --notriggers --noparentdirs --nolinktos --ignoresize \
-@@ -343,6 +345,7 @@ package_install_internal_rpm () {
- 			echo "Attempting $pkg_name..." >> "${WORKDIR}/temp/log.do_${task}_attemptonly.${PID}"
- 			${RPM} --predefine "_rpmds_sysinfo_path ${target_rootfs}/etc/rpm/sysinfo" \
- 				--predefine "_rpmrc_platform_path ${target_rootfs}/etc/rpm/platform" \
-+				--root "${target_rootfs}/install" \
- 				-D "_dbpath ${target_rootfs}/install" -D "`cat ${confbase}.macro`" \
- 				-D "__dbi_txn create nofsync private" \
- 				-U --justdb --noscripts --notriggers --noparentdirs --nolinktos --ignoresize \
-@@ -363,6 +366,7 @@ package_install_internal_rpm () {
- 		# Dump the full set of recommends...
- 		${RPM} --predefine "_rpmds_sysinfo_path ${target_rootfs}/etc/rpm/sysinfo" \
- 			--predefine "_rpmrc_platform_path ${target_rootfs}/etc/rpm/platform" \
-+			--root "${target_rootfs}/install" \
- 			-D "_dbpath ${target_rootfs}/install" -D "`cat ${confbase}.macro`" \
- 			-D "__dbi_txn create nofsync private" \
- 			-qa --qf "[%{RECOMMENDS}\n]" | sort -u > ${target_rootfs}/install/recommend
-@@ -392,6 +396,7 @@ package_install_internal_rpm () {
- 			echo "Attempting $pkg_name..." >> "${WORKDIR}/temp/log.do_{task}_recommend.${PID}"
- 			${RPM} --predefine "_rpmds_sysinfo_path ${target_rootfs}/etc/rpm/sysinfo" \
- 				--predefine "_rpmrc_platform_path ${target_rootfs}/etc/rpm/platform" \
-+				--root "${target_rootfs}/install" \
- 				-D "_dbpath ${target_rootfs}/install" -D "`cat ${confbase}.macro`" \
- 				-D "__dbi_txn create nofsync private" \
- 				-U --justdb --noscripts --notriggers --noparentdirs --nolinktos --ignoresize \
-@@ -406,6 +411,7 @@ package_install_internal_rpm () {
- 	# Now that we have a solution, pull out a list of what to install...
- 	echo "Manifest: ${target_rootfs}/install/install.manifest"
- 	${RPM} -D "_dbpath ${target_rootfs}/install" -qa --qf "%{packageorigin}\n" \
-+		--root "${target_rootfs}/install" \
- 		-D "__dbi_txn create nofsync private" \
- 		> ${target_rootfs}/install/install_solution.manifest
- 
-@@ -419,6 +425,7 @@ package_install_internal_rpm () {
- 		# an actual package install!
- 		${RPM} --predefine "_rpmds_sysinfo_path ${target_rootfs}/etc/rpm/sysinfo" \
- 			--predefine "_rpmrc_platform_path ${target_rootfs}/etc/rpm/platform" \
-+			--root "${target_rootfs}/install" \
- 			-D "_dbpath ${target_rootfs}/install" -D "`cat ${confbase}-ml_archs.macro`" \
- 			-D "__dbi_txn create nofsync" \
- 			-U --justdb --noscripts --notriggers --noparentdirs --nolinktos --ignoresize \
-@@ -427,6 +434,7 @@ package_install_internal_rpm () {
- 		# Now that we have a solution, pull out a list of what to install...
- 		echo "Manifest: ${target_rootfs}/install/install_multilib.manifest"
- 		${RPM} -D "_dbpath ${target_rootfs}/install" -qa --qf "%{packageorigin}\n" \
-+			--root "${target_rootfs}/install" \
- 			-D "__dbi_txn create nofsync private" \
- 			> ${target_rootfs}/install/install_multilib_solution.manifest
- 
-@@ -513,6 +521,7 @@ EOF
- 
- 			${RPM} --predefine "_rpmds_sysinfo_path ${target_rootfs}/etc/rpm/sysinfo" \
- 				--predefine "_rpmrc_platform_path ${target_rootfs}/etc/rpm/platform" \
-+				--root "${target_rootfs}/install" \
- 				-D "_dbpath ${target_rootfs}/initial" -D "`cat ${confbase}.macro`" \
- 				-D "__dbi_txn create nofsync" \
- 				-U --justdb --noscripts --notriggers --noparentdirs --nolinktos --ignoresize \
-@@ -520,6 +529,7 @@ EOF
- 
- 			${RPM} -D "_dbpath ${target_rootfs}/initial" -qa --qf "%{packageorigin}\n" \
- 				-D "__dbi_txn create nofsync private" \
-+				--root "${target_rootfs}/install" \
- 				> ${target_rootfs}/install/initial_solution.manifest
- 
- 			rpm_update_pkg ${target_rootfs}/install/initial_solution.manifest
--- 
-1.7.1
-
+> @@ -0,0 +1,26 @@
+> +diff --git a/opkg-build b/opkg-build
+> +index 012afd3..485897a 100755
+> +--- a/opkg-build
+> ++++ b/opkg-build
+> +@@ -160,7 +160,7 @@ outer=ar
+> + noclean=0
+> + opkext=0
+> + usage="Usage: $0 [-c] [-C] [-O] [-o owner] [-g group]<pkg_directory>  [<destination_directory>]"
+> +-while getopts "cg:ho:vO" opt; do
+> ++while getopts "cCg:ho:vO" opt; do
+> +     case $opt in
+> + 	o ) owner=$OPTARG
+> + 	    ogargs="--owner=$owner"
+> +diff --git a/opkg-make-index b/opkg-make-index
+> +index 22393e8..1c3a8e1 100755
+> +--- a/opkg-make-index
+> ++++ b/opkg-make-index
+> +@@ -186,7 +186,7 @@ if packages_filename:
+> +      gzip_filename = ("%s.gz" % packages_filename)
+> +      tmp_gzip_filename = ("%s.%d" % (gzip_filename, os.getpid()))
+> +      gzip_cmd = "gzip -9c<  %s>  %s" % (tmp_packages_filename, tmp_gzip_filename)
+> +-     rc = subprocess.check_output(gzip_cmd, shell=True)
+> ++     subprocess.call(gzip_cmd, shell=True)
+> +      os.rename(tmp_packages_filename, packages_filename)
+> +      os.rename(tmp_gzip_filename, gzip_filename)
+> +
+> diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb b/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
+> index 1996c75..b193ba4 100644
+> --- a/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
+> +++ b/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
+> @@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+>                       file://opkg.py;beginline=1;endline=18;md5=15917491ad6bf7acc666ca5f7cc1e083"
+>   RDEPENDS_${PN} = "python"
+>   RDEPENDS_${PN}_virtclass-native = ""
+> -SRCREV = "44df9dd3dc411ca1255cb4b23bde7eb71aed4778"
+> +SRCREV = "423ecd36b4782327c16f516885d1248249c7724a"
+>   PV = "0.1.8+git${SRCPV}"
+>   PR = "r1"
+>
 
 
