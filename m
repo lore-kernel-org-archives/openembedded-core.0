@@ -1,31 +1,34 @@
-Received: from masterfoo.zenlinux.com ([207.192.74.254])
+Received: from mail-wi0-f171.google.com ([209.85.212.171])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1ShU8o-0001K3-JX
+	(envelope-from <raj.khem@gmail.com>) id 1ShVSL-0002rt-FC
 	for openembedded-core@lists.openembedded.org;
-	Thu, 21 Jun 2012 01:16:50 +0200
-Received: from localhost (c-76-105-137-48.hsd1.or.comcast.net [76.105.137.48])
-	(using TLSv1 with cipher DHE-RSA-AES128-SHA (128/128 bits))
-	(No client certificate requested)
-	by masterfoo.zenlinux.com (Postfix) with ESMTP id A345530414
+	Thu, 21 Jun 2012 02:41:05 +0200
+Received: by wibhi8 with SMTP id hi8so2094607wib.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Jun 2012 19:06:01 -0400 (EDT)
-From: Scott Garman <scott.a.garman@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 20 Jun 2012 16:05:53 -0700
-Message-Id: <2de9f69aa427e5eb23f64c68182b874283829fb4.1340233133.git.scott.a.garman@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1340233133.git.scott.a.garman@intel.com>
-References: <cover.1340233133.git.scott.a.garman@intel.com>
-In-Reply-To: <cover.1340233133.git.scott.a.garman@intel.com>
-References: <cover.1340233133.git.scott.a.garman@intel.com>
-X-MasterFoo-MailScanner-Information: Please contact the ISP for more
-	information
-X-MailScanner-ID: A345530414.C3FC5
-X-MasterFoo-MailScanner: Found to be clean
-X-MasterFoo-MailScanner-SpamCheck: not spam
-X-MasterFoo-MailScanner-From: scott.a.garman@intel.com
-X-Spam-Status: No
-Subject: [PATCH 6/6] qt4-embedded: fix QT_ARCH usage in QT_CONFIG_FLAGS
+	Wed, 20 Jun 2012 17:30:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type:content-transfer-encoding;
+	bh=Z3hbPWixmgJm2oQIi3vWkPa8eD3v02BD0H3nOVAWMyE=;
+	b=Dg5p2nIhh/LjAsfJp388sr9JLfi0r4I9pu+V+sv1g7m6LIxYAC8QG44zUECVeDqDJV
+	xmaP9RKCcrSSc36pe5mvdBj3Half+bE4t9oLoix6OH3NEiBUhMXowIMAQMFl62RozJR7
+	pAsPSP91P0ZHgqVxp1BzpegYOJDRz8IjYnefwdaOqXVKROPbWFSI1jpTEbtaYtolgu5w
+	kRlrVPCoQNk8BCTBUxvMXlap7f9JIKkpK6XCP+0gtU0tEtssgmplnC5kZzeQUn2wQajn
+	ZJXaXCshxKU1xlkrZQ5tKjPljQdvvTm7lm9u0v5nCvAsmSTShBF3SvXsuohFb6ZbySQ3
+	SiLA==
+Received: by 10.180.92.65 with SMTP id ck1mr15601062wib.14.1340238620304; Wed,
+	20 Jun 2012 17:30:20 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.194.19.6 with HTTP; Wed, 20 Jun 2012 17:29:50 -0700 (PDT)
+In-Reply-To: <20120620185551.GU3178@jama.jama.net>
+References: <CALbNGRR1j33mDcTD-q2FD+g2uL1VNZNdDwRX7_MNeUTKtN=ozQ@mail.gmail.com>
+	<20120620185551.GU3178@jama.jama.net>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 20 Jun 2012 17:29:50 -0700
+Message-ID: <CAMKF1soNF3pdCnn41Ob0zWb8JaR0J4eL8tcc8MK3FKXeXnihVg@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: latest updates make kernel menuconfig unusable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,36 +43,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Jun 2012 23:16:50 -0000
+X-List-Received-Date: Thu, 21 Jun 2012 00:41:05 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-From: Anders Darander <anders@chargestorm.se>
+On Wed, Jun 20, 2012 at 11:55 AM, Martin Jansa <martin.jansa@gmail.com> wro=
+te:
+> On Wed, Jun 20, 2012 at 04:20:03PM +0200, Andreas M=C3=BCller wrote:
+>> Hi,
+>>
+>> since
+>>
+>> commit fe417e8a4d625c6933de72163d2fee52ac47f571
+>> Author: Richard Purdie <richard.purdie@linuxfoundation.org>
+>> Date: =C2=A0 Thu May 31 13:22:34 2012 +0000
+>>
+>> =C2=A0 =C2=A0 cmd1.bbclass: Ensure ncurses is built and used for menucon=
+fig tasks
+>>
+>> =C2=A0 =C2=A0 Currently, the task just exits if something goes wrong. Th=
+is adds the
+>> =C2=A0 =C2=A0 ncurses-native dependency. It also adds a small delay befo=
+re closing the
+>> =C2=A0 =C2=A0 window so any messages displayed there can be seen.
+>>
+>> =C2=A0 =C2=A0 Trying to get the kernel build system to correctly find an=
+d link with
+>> =C2=A0 =C2=A0 our copy of ncurses is some kind of nightmare. I ended up =
+having to add
+>> =C2=A0 =C2=A0 it to HOST_LOADLIBES globally for this task which is rathe=
+r nasty but I
+>> =C2=A0 =C2=A0 couldn't find any other way.
+>>
+>> =C2=A0 =C2=A0 [YOCTO #2513]
+>>
+>> =C2=A0 =C2=A0 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundat=
+ion.org>
+>>
+>> my menuconfig is unusable (see screenshot attached). I reverted it and
+>> can work as before.
+>>
+>> I am working on Fedora 15 and set in my local.conf
+>>
+>> TERMCMD =3D "${GNOME_TERMCMD}"
+>> TERMCMDRUN =3D "${GNOME_TERMCMDRUN}"
+>
+> I can confirm the same look&feel with
+> TERMCMD =3D "${SCREEN_TERMCMD}"
+> TERMCMDRUN =3D "${SCREEN_TERMCMDRUN}"
+>
 
-After the change to shell style functions (from python style), the
-ability to use oe_filter_out on QT_CONFIG_FLAGS got broken.
-
-This patch solves that by referring to QT_ARCH in a more correct way.
-
-Signed-off-by: Anders Darander <anders@chargestorm.se>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-qt/qt4/qt4-embedded.inc |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-qt/qt4/qt4-embedded.inc b/meta/recipes-qt/qt4/qt4-embedded.inc
-index 05803d1..9c5b4af 100644
---- a/meta/recipes-qt/qt4/qt4-embedded.inc
-+++ b/meta/recipes-qt/qt4/qt4-embedded.inc
-@@ -10,7 +10,7 @@ QT_BASE_LIB  ?= "libqt-embedded"
- SRC_URI += "file://qte.sh"
- 
- QT_CONFIG_FLAGS += " \
--    -embedded ${QT_ARCH} \
-+    -embedded $QT_ARCH \
-     -qtlibinfix ${QT_LIBINFIX} \
-     -plugin-gfx-transformed -plugin-gfx-qvfb -plugin-gfx-vnc -plugin-gfx-directfb \
-     -plugin-mouse-tslib -qt-mouse-pc -qt-mouse-qvfb -qt-mouse-linuxinput \
--- 
-1.7.9.5
-
+seems like a locale issue.
 
 
