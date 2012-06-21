@@ -1,33 +1,35 @@
 Received: from mail-pb0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1ShqSa-00016g-6m
+	(envelope-from <raj.khem@gmail.com>) id 1ShqSh-00016g-Pf
 	for openembedded-core@lists.openembedded.org;
-	Fri, 22 Jun 2012 01:06:44 +0200
-Received: by pbbrq2 with SMTP id rq2so2657441pbb.6
+	Fri, 22 Jun 2012 01:06:51 +0200
+Received: by mail-pb0-f47.google.com with SMTP id rq2so2657441pbb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Jun 2012 15:55:56 -0700 (PDT)
+	Thu, 21 Jun 2012 15:56:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=kwcX4Pwe5WIDCuelI657z9FiFDQvb3Jy6iahIXQSUeg=;
-	b=YIlXJkHaWrhHrXvOIr4GUpGsBg7Y0kMaCLbYJBX8UN/DR+Hyg6TyBIeyl2DMUEVYqs
-	66ddnhzQo9LPUSFfVFjVbiDeA2dwtFlKuIf/YhiUhUn9qSFymuBz1QBtrLohoDYq2Ctw
-	FKvtzdSzUhVMTO31gf54W2XMy/isRMeJzn0oD7qEMkkajkpENI2uTSDQ5KqXkHzHMsBD
-	w7iY+fOhQdstCEgGMI8MXBS1PXo6MT9fUyAS0jsNgPJXHtRRa5XptceD5AsmEfPbzy9Y
-	IzKVYJHDdEwFbaqAPU+TZkLLVzM8+HZYKY0+ANrNec4C4Jpgzh78iX8T6ft3hr8FQrkV
-	PbfQ==
-Received: by 10.68.213.7 with SMTP id no7mr3711769pbc.3.1340319356879;
-	Thu, 21 Jun 2012 15:55:56 -0700 (PDT)
+	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references;
+	bh=s7eNOmi6WzLKcOV+jAOaBWHAGLJhXQbTSQwYUHkC+3c=;
+	b=D1QbdGvi6qFQZztkjTD7O7d1E2aH0AMTu0J8qFJAmFjuvKijq1Cp21bJOjzBkZYZzu
+	Qvx4EF+Gxb9mEU+rAel9N9C6nr7766s/ChQerXwucB2KFMVkfRRsS2fQ7h5cG4s+WCIH
+	qB0GsAGS7a7+RaASL0vSoSfPNQtH+xSTcDgjaAtNZs7r2IL/l4T9ip2HsWqPkuem+sRi
+	tLk6kVDRTNgieE4IB+hTcrB3vk/K/ZNgwczk2HSkK9T5rrEgK7z7fEDaCE2yVov2ZFv3
+	k8z4zJlTOG3g69+uHMK1ytPbzeEQ8z+HlwkGnnPG67nNP5rsBKVKG6DwB7ZeRlRbJ8Hv
+	Qepg==
+Received: by 10.68.200.104 with SMTP id jr8mr3822597pbc.9.1340319367275;
+	Thu, 21 Jun 2012 15:56:07 -0700 (PDT)
 Received: from localhost.localdomain (oldbuilder.nslu2-linux.org.
 	[140.211.169.168])
-	by mx.google.com with ESMTPS id ng8sm14565967pbc.13.2012.06.21.15.55.55
+	by mx.google.com with ESMTPS id tk1sm36951511pbc.8.2012.06.21.15.56.05
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 21 Jun 2012 15:55:56 -0700 (PDT)
+	Thu, 21 Jun 2012 15:56:06 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 21 Jun 2012 15:54:38 -0700
-Message-Id: <cover.1340319020.git.raj.khem@gmail.com>
+Date: Thu, 21 Jun 2012 15:54:46 -0700
+Message-Id: <34661d7f2383341236e842d75197263faf23ced1.1340319020.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 1.7.5.4
-Subject: [PATCH 0/5] Fix uclibc packaging and update qemu git recipe
+In-Reply-To: <cover.1340319020.git.raj.khem@gmail.com>
+References: <cover.1340319020.git.raj.khem@gmail.com>
+Subject: [PATCH 1/5] kconfig-frontends: New recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,44 +44,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Jun 2012 23:06:44 -0000
+X-List-Received-Date: Thu, 21 Jun 2012 23:06:52 -0000
 
-This patchset does following
+kconfig-frontends provides the kconfig infrastructure
+thats used for linux kernel as a standalone package. Its
+not intended to be used for kernel itself but can be
+used by packages who are based on kconfig e.g. busybox
+uclibc or new packages who wants to use kconfig infra
+for the package build
 
-1. Fixes uclibc packaging issues that came after packaging order rework
-2. Upgrades qemu git recipes to latest on qemu git/master
-   This does not forward port any of the patches except the
-   ROM thats required to boot ppc.
-   This helps in using qemu for some of less uses architectures
-
-3. Fix PACKAGECONFIG for qemu thats needed for qemu-git to work
-   without gl patches
-4. Adds recipes for kconfig-frontends which I have resent in another tree
-
-The following changes since commit e2cc4a44d510e0d473d15f207c1c886db6a5ccf7:
-
-  [PATCH] guile: fix compilation on MIPS/PPC (2012-06-21 13:41:12 +0100)
-
-are available in the git repository at:
-  git://git.openembedded.org/openembedded-core-contrib kraj/misc-updates
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=kraj/misc-updates
-
-Khem Raj (5):
-  kconfig-frontends: New recipe
-  uclibc: Fix packaging to match the new package order
-  qemu.inc: Fix packageconfig options
-  qemu-git: Move to tip of git
-  qemu_git: set empty PACKAGECONFIG
-
- meta/recipes-core/uclibc/uclibc.inc                |   28 ++++++++++---------
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
  .../kconfig-frontends/kconfig-frontends_3.4.bb     |   28 ++++++++++++++++++++
- .../recipes-devtools/qemu/qemu-git/powerpc_rom.bin |  Bin 0 -> 4096 bytes
- meta/recipes-devtools/qemu/qemu.inc                |    2 +-
- meta/recipes-devtools/qemu/qemu_git.bb             |   19 ++++---------
- 5 files changed, 50 insertions(+), 27 deletions(-)
+ 1 files changed, 28 insertions(+), 0 deletions(-)
  create mode 100644 meta/recipes-devtools/kconfig-frontends/kconfig-frontends_3.4.bb
- create mode 100644 meta/recipes-devtools/qemu/qemu-git/powerpc_rom.bin
 
+diff --git a/meta/recipes-devtools/kconfig-frontends/kconfig-frontends_3.4.bb b/meta/recipes-devtools/kconfig-frontends/kconfig-frontends_3.4.bb
+new file mode 100644
+index 0000000..d95d3e8
+--- /dev/null
++++ b/meta/recipes-devtools/kconfig-frontends/kconfig-frontends_3.4.bb
+@@ -0,0 +1,28 @@
++# Copyright (C) 2012 Khem Raj <raj.khem@gmail.com>
++# Released under the MIT license (see COPYING.MIT for the terms)
++
++DESCRIPTION = "The kconfig-frontends project aims at centralising \
++the effort of keeping an up-to-date, out-of-tree, packaging of the \
++kconfig infrastructure, ready for use by third-party projects. \
++The kconfig-frontends package provides the kconfig parser, as well as all \
++the frontends"
++HOMEPAGE = "http://ymorin.is-a-geek.org/projects/kconfig-frontends"
++LICENSE = "GPL-2.0"
++LIC_FILES_CHKSUM = "file://COPYING;md5=9b8cf60ff39767ff04b671fca8302408"
++SECTION = "devel"
++DEPENDS += "ncurses flex bison gperf"
++PR = "r0"
++PV = "3.4.0"
++SPIN = "0"
++SRC_URI = "http://ymorin.is-a-geek.org/download/${BPN}/${BPN}-${PV}-${SPIN}.tar.xz"
++SRC_URI[md5sum] = "7eed0faf5a41d6dd0b2a886a440a972d"
++SRC_URI[sha256sum] = "638006f3d1aefefdc1db3030a15b562cf3c89f2028b1cea0bf0f0629708802f2"
++
++S = "${WORKDIR}/${BPN}-${PV}-${SPIN}"
++
++inherit autotools
++do_configure_prepend () {
++	mkdir -p scripts/.autostuff/m4
++}
++EXTRA_OECONF += "--disable-gconf --disable-qconf"
++BBCLASSEXTEND = "native nativesdk"
 -- 
 1.7.5.4
 
