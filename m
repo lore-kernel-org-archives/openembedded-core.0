@@ -1,24 +1,32 @@
-Received: from vms173001pub.verizon.net ([206.46.173.1])
+Received: from mail-yw0-f50.google.com ([209.85.213.50])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <denis@denix.org>)
-	id 1ShqZT-0001PA-1K; Fri, 22 Jun 2012 01:13:51 +0200
-Received: from gandalf.denix.org ([unknown] [108.48.117.33])
-	by vms173001.mailsrvcs.net
-	(Sun Java(tm) System Messaging Server 7u2-7.02 32bit (built Apr 16
-	2009))
-	with ESMTPA id <0M5Z00HKRPBSB75C@vms173001.mailsrvcs.net>; Thu,
-	21 Jun 2012 18:02:31 -0500 (CDT)
-Received: by gandalf.denix.org (Postfix, from userid 1000)	id 545AF20564; Thu,
-	21 Jun 2012 19:02:16 -0400 (EDT)
-Date: Thu, 21 Jun 2012 19:02:16 -0400
-From: Denys Dmytriyenko <denis@denix.org>
-In-reply-to: <CALbNGRQCVUeZFX_xxVe=3ixZMm7MRt3WWB5VxemNs0Bi+qCHcQ@mail.gmail.com>
-To: Andreas =?iso-8859-1?Q?M=FCller?= <schnitzeltony@googlemail.com>
-Message-id: <20120621230216.GD30753@denix.org>
-MIME-version: 1.0
+	(envelope-from <schnitzeltony@googlemail.com>)
+	id 1Shr4I-0001qu-BP; Fri, 22 Jun 2012 01:45:42 +0200
+Received: by yhjj63 with SMTP id j63so1443266yhj.9
+	for <multiple recipients>; Thu, 21 Jun 2012 16:34:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=T1ozfN2L5Pi/VCwU2GzXZk+FZJcwZtxMSozx6sUFovU=;
+	b=jUne3O4JYPmvoFvQsvBlimhSGnghVsI3eMC0XwT5GrcBAmxmZdOkSlVz7TeGqSHUoO
+	bFOrvt8soY08X7XZ9+GTRO1+wb6Z89t4JwxN6mb0XDmyPg3gFwEsly/m66ez9qaGAow3
+	k1lqi8YTq1cc3PWt92iVA+mgM+Hn4ee/oX9EEjXz/rmzDw7nwV5EWLBS1eQaV6I6lAGr
+	s7cY0/N+CDDFFuBlkaLFNTzlkTg1WntVSfzqu6xRIe1dBdzp/9atBECBDp9fgTJpy3M9
+	PJlGy+L/IEJ0Mn31jtvHnj6z0UK2uA4PduFgVIK5vAU5a4ZneHlfe5ec9iuULxULlz2i
+	yEQQ==
+MIME-Version: 1.0
+Received: by 10.50.207.3 with SMTP id ls3mr165824igc.0.1340321694806; Thu, 21
+	Jun 2012 16:34:54 -0700 (PDT)
+Received: by 10.64.9.165 with HTTP; Thu, 21 Jun 2012 16:34:54 -0700 (PDT)
+In-Reply-To: <20120621230216.GD30753@denix.org>
 References: <CALbNGRQCVUeZFX_xxVe=3ixZMm7MRt3WWB5VxemNs0Bi+qCHcQ@mail.gmail.com>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Cc: meta-ti@yoctoproject.org, openembedded-devel@lists.openembedded.org,
+	<20120621230216.GD30753@denix.org>
+Date: Fri, 22 Jun 2012 01:34:54 +0200
+Message-ID: <CALbNGRQ5CBSDS8zPnkem59mOjzAGDy8FHZifU_g5f9z59yOybg@mail.gmail.com>
+From: =?ISO-8859-1?Q?Andreas_M=FCller?= <schnitzeltony@googlemail.com>
+To: meta-ti@yoctoproject.org
+Cc: openembedded-devel@lists.openembedded.org,
 	openembedded-core@lists.openembedded.org
 Subject: Re: [meta-ti] massive fallout after updates / was (no subject)
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -35,71 +43,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Jun 2012 23:13:51 -0000
-Content-type: text/plain; charset=iso-8859-1
-Content-transfer-encoding: QUOTED-PRINTABLE
-Content-disposition: inline
+X-List-Received-Date: Thu, 21 Jun 2012 23:45:42 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On Fri, Jun 22, 2012 at 12:11:46AM +0200, Andreas M=FCller wrote:
-> On Thu, Jun 21, 2012 at 11:36 PM, Andreas M=FCller
-> <schnitzeltony@googlemail.com> wrote:
-> > after updating all my repos (angstrom+few extra layers) I get
->=20
-> The error seems to be caused by meta-ti. When removed, parsing work=
-s
-> as expected. By re-including I get now:
->=20
-> ERROR: ExpansionError during parsing
-> /home/Superandy/data/oe-core/sources/meta-ti/recipes-ti/gstreamer-t=
-i/gstreamer-ti_svn.bb:
-> Failure expanding variable FILESPATH, expression was
-> ${@base_set_filespath([
-> "/home/Superandy/data/oe-core/sources/meta-ti/recipes-ti/gstreamer-=
-ti/gstreamer-ti-svnr962-r85+${MACHINE_KERNEL_PR}",
+On Fri, Jun 22, 2012 at 1:02 AM, Denys Dmytriyenko <denis@denix.org> wrote:
+No need to understand everything: By removing require linux-tools.inc
+(the fastest patch I ever had :) I can now build again.
 
-Could be caused by MACHINE_KERNEL_PR being undefined... What machine =
-you are=20
-building for?
+@layer maintainers: removing
 
---=20
-Denys
+require linux-tools.inc
 
+should be taken into consideration
 
-> "/home/Superandy/data/oe-core/sources/meta-ti/recipes-ti/gstreamer-=
-ti/gstreamer-ti-svnr962",
-> "/home/Superandy/data/oe-core/sources/meta-ti/recipes-ti/gstreamer-=
-ti/gstreamer-ti",
-> "/home/Superandy/data/oe-core/sources/meta-ti/recipes-ti/gstreamer-=
-ti/gstreamer-ti-svnr962",
-> "/home/Superandy/data/oe-core/sources/meta-ti/recipes-ti/gstreamer-=
-ti/gstreamer-ti",
-> "/home/Superandy/data/oe-core/sources/meta-ti/recipes-ti/gstreamer-=
-ti/files",
-> "/home/Superandy/data/oe-core/sources/meta-ti/recipes-ti/gstreamer-=
-ti"
-> ], d)} which triggered exception SyntaxError: EOL while scanning
-> string literal (FILESPATH, line 1)
-> ERROR: No recipes available for:
->   /home/Superandy/data/oe-core/sources/meta-intel/meta-sugarbay/rec=
-ipes-kernel/linux/linux-yocto_3.2.bbappend
->   /home/Superandy/data/oe-core/sources/meta-intel/meta-crownbay/rec=
-ipes-kernel/linux/linux-yocto_3.2.bbappend
->   /home/Superandy/data/oe-core/sources/meta-intel/meta-emenlow/reci=
-pes-kernel/linux/linux-yocto_3.2.bbappend
->   /home/Superandy/data/oe-core/sources/meta-intel/meta-fishriver/re=
-cipes-kernel/linux/linux-yocto_3.2.bbappend
->   /home/Superandy/data/oe-core/sources/meta-intel/meta-fri2/recipes=
--kernel/linux/linux-yocto_3.2.bbappend
->   /home/Superandy/data/oe-core/sources/meta-intel/meta-jasperforest=
-/recipes-kernel/linux/linux-yocto_3.2.bbappend
->   ......
->=20
-> Andreas
-> _______________________________________________
-> meta-ti mailing list
-> meta-ti@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/meta-ti
->=20
-
+Andreas
 
 
