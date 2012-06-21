@@ -1,25 +1,38 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail-wg0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1ShkT8-0003fK-5l
+	(envelope-from <martin.jansa@gmail.com>) id 1Shm7h-0005pY-Pc
 	for openembedded-core@lists.openembedded.org;
-	Thu, 21 Jun 2012 18:42:54 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 21 Jun 2012 09:31:52 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="160796836"
-Received: from unknown (HELO [10.255.12.124]) ([10.255.12.124])
-	by orsmga002.jf.intel.com with ESMTP; 21 Jun 2012 09:31:51 -0700
-Message-ID: <4FE34C76.4010303@linux.intel.com>
-Date: Thu, 21 Jun 2012 09:31:50 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
-MIME-Version: 1.0
+	Thu, 21 Jun 2012 20:28:53 +0200
+Received: by wgbdr1 with SMTP id dr1so845348wgb.24
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 21 Jun 2012 11:18:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=/Yt+kwOEVVbYwtAMxU5JlqecD6rzaMvpf5la89YEbiU=;
+	b=q4lPdMQ5U+/1YNNpLSRiB2tisahHbXLGER6oRZLvuciqwQqNkD2iVWurI1N2hTH3Oy
+	bJXzLsQTY8IM07MNT6biQ3SGT277ySqozR24BI2/xzbAfOPWihANIcDclNj7MHoVdM+B
+	bfsjCAbZm7xZAft/H2TtocdhGTL50MA7a5kDeCNRpob5d5VAPPcqiX9ymqjCVT0PwSm+
+	KRoURPn1Sm6raEsJ95uZatNfH96zzj1iaFLUuHBwqoRTb+YV6wXHDybtFQJLiJFPpfL/
+	XuqTuKeDpXWRejSl2YVir8njb7BEyMoUdokS9IeOSQRyjoa09SqdYQvrOJsVUxbu2DiI
+	CrBA==
+Received: by 10.216.144.228 with SMTP id n78mr14664258wej.26.1340302687782;
+	Thu, 21 Jun 2012 11:18:07 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id dg2sm91247032wib.4.2012.06.21.11.18.05
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 21 Jun 2012 11:18:06 -0700 (PDT)
+Date: Thu, 21 Jun 2012 20:18:06 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <1340278793-24590-1-git-send-email-bogdan.a.marinescu@intel.com>
-In-Reply-To: <1340278793-24590-1-git-send-email-bogdan.a.marinescu@intel.com>
-Subject: Re: [PATCH] guile: fix compilation on MIPS/PPC
+Message-ID: <20120621181806.GG9352@jama.jama.net>
+References: <CAJTo0LZc57=-7fEto_2dEL=yjDDoKH=HntQQFLTzZo=tqBSxcw@mail.gmail.com>
+	<6BA43A2F-5293-4CBD-9DE7-39D3ABD0AF88@dominion.thruhere.net>
+MIME-Version: 1.0
+In-Reply-To: <6BA43A2F-5293-4CBD-9DE7-39D3ABD0AF88@dominion.thruhere.net>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Subject: Re: [RFC] Fetching single files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,142 +47,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Jun 2012 16:42:54 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 21 Jun 2012 18:28:53 -0000
+X-Groupsio-MsgNum: 23957
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="f5QefDQHtn8hx44O"
+Content-Disposition: inline
 
-On 06/21/2012 04:39 AM, Bogdan Marinescu wrote:
-> This commit fixes the guile compilation segfault on MIPS/PPC.
-> Tested by compiling guile with MACHINE=qemumips.
->
-> [Yocto #2478]
->
-> Signed-off-by: Bogdan Marinescu<bogdan.a.marinescu@intel.com>
-> ---
->   .../guile_2.0.5_disable_goops_optimizations.patch  |   32 +++++++++++++
->   .../files/guile_2.0.5_fix_cross_compilation.patch  |   47 ++++++++++++++++++++
->   meta/recipes-devtools/guile/guile_2.0.5.bb         |    4 +-
->   3 files changed, 82 insertions(+), 1 deletion(-)
->   create mode 100644 meta/recipes-devtools/guile/files/guile_2.0.5_disable_goops_optimizations.patch
->   create mode 100644 meta/recipes-devtools/guile/files/guile_2.0.5_fix_cross_compilation.patch
->
-> diff --git a/meta/recipes-devtools/guile/files/guile_2.0.5_disable_goops_optimizations.patch b/meta/recipes-devtools/guile/files/guile_2.0.5_disable_goops_optimizations.patch
-> new file mode 100644
-> index 0000000..8609775
-> --- /dev/null
-> +++ b/meta/recipes-devtools/guile/files/guile_2.0.5_disable_goops_optimizations.patch
-> @@ -0,0 +1,32 @@
-> +commit f7d8efc630ce45f5d82aae5b2682d261e5541d5f
-> +Author: Andy Wingo<wingo@pobox.com>
-> +Date:   Sun Apr 15 13:00:30 2012 -0700
-> +
-> +    disable optimizations in goops dispatch procedures
-> +
-> +    * module/oop/goops/dispatch.scm: Disable peval and cse.
-> +
-> +Upstream-Status: Backported
-> +
-> +diff --git a/module/oop/goops/dispatch.scm b/module/oop/goops/dispatch.scm
-> +index e433b86..b12ab15 100644
-> +--- a/module/oop/goops/dispatch.scm
-> ++++ b/module/oop/goops/dispatch.scm
-> +@@ -1,4 +1,4 @@
-> +-;;;; 	Copyright (C) 1999, 2000, 2001, 2003, 2006, 2009 Free Software Foundation, Inc.
-> ++;;;;   Copyright (C) 1999, 2000, 2001, 2003, 2006, 2009, 2012 Free Software Foundation, Inc.
-> + ;;;;
-> + ;;;; This library is free software; you can redistribute it and/or
-> + ;;;; modify it under the terms of the GNU Lesser General Public
-> +@@ -178,7 +178,9 @@
-> +                      '())
-> +                  (acons gf gf-sym '()))))
-> +   (define (comp exp vals)
-> +-    (let ((p ((@ (system base compile) compile) exp #:env *dispatch-module*)))
-> ++    (let ((p ((@ (system base compile) compile) exp
-> ++              #:env *dispatch-module*
-> ++              #:opts '(#:partial-eval? #f #:cse? #f))))
-> +       (apply p vals)))
-> +
-> +   ;; kick it.
-> +
-> diff --git a/meta/recipes-devtools/guile/files/guile_2.0.5_fix_cross_compilation.patch b/meta/recipes-devtools/guile/files/guile_2.0.5_fix_cross_compilation.patch
-> new file mode 100644
-> index 0000000..b81f02e
-> --- /dev/null
-> +++ b/meta/recipes-devtools/guile/files/guile_2.0.5_fix_cross_compilation.patch
-> @@ -0,0 +1,47 @@
-> +commit f3b312a19d70293d7a3407fc4ef479183edd7cca
-> +Author: Ludovic Courtès<ludo@gnu.org>
-> +Date:   Wed Jun 20 01:11:44 2012 +0200
-> +
-> +    Fix cross-compilation of GOOPS-using code.
-> +
-> +    Fixes<http://bugs.gnu.org/11645>.
-> +    Reported by Bogdan A. Marinescu<bogdan.a.marinescu@intel.com>.
-> +
-> +    * module/oop/goops/dispatch.scm (compute-dispatch-procedure)[comp]:
-> +      Wrap `compile' call in (with-target %host-type ...).
-> +
-> +Upstream-Status: Backported
-> +
-> +diff --git a/module/oop/goops/dispatch.scm b/module/oop/goops/dispatch.scm
-> +index b12ab15..de5359f 100644
-> +--- a/module/oop/goops/dispatch.scm
-> ++++ b/module/oop/goops/dispatch.scm
-> +@@ -25,6 +25,7 @@
-> +   #:use-module (oop goops)
-> +   #:use-module (oop goops util)
-> +   #:use-module (oop goops compile)
-> ++  #:use-module (system base target)
-> +   #:export (memoize-method!)
-> +   #:no-backtrace)
-> +
-> +@@ -178,11 +179,15 @@
-> +                      '())
-> +                  (acons gf gf-sym '()))))
-> +   (define (comp exp vals)
-> +-    (let ((p ((@ (system base compile) compile) exp
-> +-              #:env *dispatch-module*
-> +-              #:opts '(#:partial-eval? #f #:cse? #f))))
-> +-      (apply p vals)))
-> +-
-> ++    ;; When cross-compiling Guile itself, the native Guile must generate
-> ++    ;; code for the host.
-> ++    (with-target %host-type
-> ++      (lambda ()
-> ++        (let ((p ((@ (system base compile) compile) exp
-> ++                  #:env *dispatch-module*
-> ++                  #:opts '(#:partial-eval? #f #:cse? #f))))
-> ++          (apply p vals)))))
-> ++
-> +   ;; kick it.
-> +   (scan))
-> +
-> diff --git a/meta/recipes-devtools/guile/guile_2.0.5.bb b/meta/recipes-devtools/guile/guile_2.0.5.bb
-> index db75863..cf222a6 100644
-> --- a/meta/recipes-devtools/guile/guile_2.0.5.bb
-> +++ b/meta/recipes-devtools/guile/guile_2.0.5.bb
-> @@ -18,6 +18,8 @@ SRC_URI = "${GNU_MIRROR}/guile/guile-${PV}.tar.gz \
->              file://debian/0003-Mark-mutex-with-owner-not-retained-threads-test-as-u.patch \
->              file://opensuse/guile-64bit.patch \
->              file://guile_2.0.5_fix_sed_error.patch \
-> +           file://guile_2.0.5_disable_goops_optimizations.patch \
-> +           file://guile_2.0.5_fix_cross_compilation.patch \
->              "
->
->   #           file://debian/0001-Change-guile-to-guile-X.Y-for-info-pages.patch
-> @@ -26,7 +28,7 @@ SRC_URI = "${GNU_MIRROR}/guile/guile-${PV}.tar.gz \
->   SRC_URI[md5sum] = "bcf70d54b44c99cb9acd3f63c5486b4b"
->   SRC_URI[sha256sum] = "2a026ea6cdbc51ca71bcd9787839debfa45ac5db1e26dc00b30ca9b128b10956"
->
-> -PR = "r0"
-> +PR = "r1"
->
->   inherit autotools gettext
->   BBCLASSEXTEND = "native"
+--f5QefDQHtn8hx44O
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Merged into OE-Core
+On Thu, Jun 21, 2012 at 04:30:27PM +0200, Koen Kooi wrote:
+>=20
+> Op 21 jun. 2012, om 16:01 heeft Burton, Ross het volgende geschreven:
+>=20
+> > Hi,
+> >=20
+> > I was looking at updating the webkit-gtk package to the latest
+> > upstream when I noticed that instead of just checking out the
+> > repository it checks out a selection of directories and includes in
+> > oe-core the essential top-level files.  I can see the rationale for
+> > this: a full checkout of webkit includes the full test suite and web
+> > site sources.
+> >=20
+> > However I'm not entirely keen on the package shipping the top-level
+> > files in oe-core, as that is asking for trouble.  One solution would
+> > be the ability to fetch a single file through the svn fetcher instead
+> > of a directory, which svn can do using "svn export" (checking out a
+> > file is an error).  This doens't bring any metadata along with it so
+> > it isn't actually a checkout that can be updated in the future, but
+> > for a single file I think this isn't a problem.
+> >=20
+> > In poky-contrib:ross/svn I've started implement a proof of concept on
+> > this.  So far using the singlefile=3D1 parameter the export logic is
+> > activated, the file is svn exported and stashed in the download
+> > directory, suitable renamed.  The next step is to hook this into the
+> > unpack stage so that the file gets renamed correctly on it's way to
+> > the workdir.
+> >=20
+> > But before I start looking at this I thought I'd mail the list and see
+> > if anyone has any comments.  So, anyone know of any problems, pitfalls
+> > or better solutions?
+>=20
+> We didn't do single file fetches/checkouts in the past because it's a svn=
+ 1.6.x feature. I would be really happy if we declare that 1.6.x is the min=
+imum we support. I would be even happier if we just fetch webkit (completel=
+y) from git :)
 
-Thanks
-	Sau!
+We should drop subversion-native from ASSUME_PROVIDED and let distro
+decide if the minimum is 1.6 or even 1.7
 
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D2409
 
+Cheers,
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--f5QefDQHtn8hx44O
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
+
+iEYEARECAAYFAk/jZV0ACgkQN1Ujt2V2gBw9egCeJ0p27LtsZZEl5anP4RvrzbkH
+xV4An2iX2aOLt+3hLymNBjl1oGcDxBgy
+=QfRD
+-----END PGP SIGNATURE-----
+
+--f5QefDQHtn8hx44O--
