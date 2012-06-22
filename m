@@ -1,25 +1,38 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail.cvg.de ([62.153.82.30])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Paul.Gortmaker@windriver.com>) id 1Si5en-0005qD-Uw
+	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1Si5gB-0005sb-Qf
 	for openembedded-core@lists.openembedded.org;
-	Fri, 22 Jun 2012 17:20:22 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q5MEFHxi019833
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 22 Jun 2012 07:15:17 -0700 (PDT)
-Received: from yow-pgortmak-d2.corp.ad.wrs.com (128.224.146.165) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.1.255.0; Fri, 22 Jun 2012 07:15:17 -0700
-From: Paul Gortmaker <paul.gortmaker@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 22 Jun 2012 10:15:07 -0400
-Message-ID: <1340374507-20613-1-git-send-email-paul.gortmaker@windriver.com>
-X-Mailer: git-send-email 1.7.9.6
-In-Reply-To: <298672C9-7064-437A-9D46-45259E697684@dominion.thruhere.net>
-References: <298672C9-7064-437A-9D46-45259E697684@dominion.thruhere.net>
+	Fri, 22 Jun 2012 17:21:47 +0200
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id q5MFAw9D006121
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 22 Jun 2012 17:10:59 +0200
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.76) (envelope-from <ensc@sigma-chemnitz.de>) id 1Si5Vv-00046N-Ul
+	for openembedded-core@lists.openembedded.org;
+	Fri, 22 Jun 2012 17:11:11 +0200
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To: openembedded-core@lists.openembedded.org
+References: <1340373998.394.36.camel@ted>
+	<lypq8rzaoj.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	<1340376144.394.49.camel@ted>
+Date: Fri, 22 Jun 2012 17:11:11 +0200
+In-Reply-To: <1340376144.394.49.camel@ted> (Richard Purdie's message of "Fri, 
+	22 Jun 2012 15:42:24 +0100")
+Message-ID: <lylijfz8j4.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.0.97 (gnu/linux)
 MIME-Version: 1.0
-Cc: koen@dominion.thruhere.net
-Subject: [PATCH v2] linux-firmware: update to main repo on kernel.org
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 0.99
+X-Spam-Score: -5.3
+X-Spam-Level: -----
+X-Spam-Tests: AWL,BAYES_00,SPF_NEUTRAL,T_RP_MATCHES_RCVD,DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.73
+Subject: Re: [PATCH] bitbake.conf/abi_version.conf: Update to use BasicHash signature generator
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,55 +47,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Jun 2012 15:20:22 -0000
+X-List-Received-Date: Fri, 22 Jun 2012 15:21:48 -0000
 Content-Type: text/plain
 
-This is now the authoratative repository, taking updates.
-The latest has a couple updated license files, vs. the previous
-srcrev that was used.
+Richard Purdie
+<richard.purdie-hQyY1W1yCW8ekmWlsbkhG0B+6BGkLq7r@public.gmane.org>
+writes:
 
-Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
----
-[v2: add missing pr bump]
+>> There are some subtle bugs in the hash generation too (e.g. bitbake's
+>> get_file_depends() result is used to calculate a hash over a set() which
+>> is filled nondeterministically when BB_NUMBER_THREADS>1) which cause
+>> random rebuilds too.
+>
+> Bug reports on issues like this would be good, we can't fix a problem if
+> we don't know about it.
 
- .../linux-firmware/linux-firmware_git.bb           |   10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+http://lists.linuxtogo.org/pipermail/bitbake-devel/2012-May/002951.html
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-index 3675978..8aacce4 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-@@ -7,23 +7,23 @@ SECTION = "kernel"
- 
- LICENSE = "Proprietary"
- 
--LIC_FILES_CHKSUM = "file://LICENSE.radeon_rlc;md5=4c243f7854d2884b483abda991adef43 \
-+LIC_FILES_CHKSUM = "file://LICENSE.radeon;md5=e56b405656593a0c97e478513051ea0e \
-                     file://LICENSE.dib0700;md5=f7411825c8a555a1a3e5eab9ca773431 \
-                     file://LICENCE.xc5000;md5=1e170c13175323c32c7f4d0998d53f66 \
-                     file://LICENCE.ralink-firmware.txt;md5=ab2c269277c45476fb449673911a2dfd \
-                     file://LICENCE.qla2xxx;md5=4005328a134054f0fa077bdc37aa64f2 \
--                    file://LICENCE.iwlwifi_firmware;md5=311cc823df5b1be4f00fbf0f17d96a6b \
-+                    file://LICENCE.iwlwifi_firmware;md5=11545778abf78c43d7644d4f171ea1c7 \
-                     file://LICENCE.i2400m;md5=14b901969e23c41881327c0d9e4b7d36 \
-                     file://LICENCE.atheros_firmware;md5=30a14c7823beedac9fa39c64fdd01a13 \
-                     file://LICENCE.agere;md5=af0133de6b4a9b2522defd5f188afd31 \
-                     file://LICENCE.rtlwifi_firmware.txt;md5=00d06cfd3eddd5a2698948ead2ad54a5 \
-                    "
- 
--SRCREV = "15888a2eab052ac3d3f49334e4f6f05f347a516e"
-+SRCREV = "e98750f0d68d0037ce5a186f7f863a9c13bf773a"
- PV = "0.0+git${SRCPV}"
--PR = "r1"
-+PR = "r2"
- 
--SRC_URI = "git://git.infradead.org/users/dwmw2/linux-firmware.git;protocol=git"
-+SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git;protocol=git"
- 
- S = "${WORKDIR}/git"
- 
--- 
-1.7.9.6
 
+Enrico
 
 
