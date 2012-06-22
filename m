@@ -1,24 +1,24 @@
 Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SiC8A-0007hO-Na
+	(envelope-from <sgw@linux.intel.com>) id 1SiC8A-0007hH-RT
 	for openembedded-core@lists.openembedded.org;
 	Sat, 23 Jun 2012 00:15:07 +0200
 Received: from azsmga002.ch.intel.com ([10.2.17.35])
 	by azsmga101.ch.intel.com with ESMTP; 22 Jun 2012 15:04:16 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="115173233"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="115173235"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.175])
-	by AZSMGA002.ch.intel.com with ESMTP; 22 Jun 2012 15:04:15 -0700
+	by AZSMGA002.ch.intel.com with ESMTP; 22 Jun 2012 15:04:16 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 22 Jun 2012 15:00:43 -0700
-Message-Id: <9020c3a1a7cbaffe24b5f3d0e08ef7becfff7b7b.1340402353.git.sgw@linux.intel.com>
+Date: Fri, 22 Jun 2012 15:00:44 -0700
+Message-Id: <a8ed32964c9cc331d52d264bf7448c89b7e3a2f4.1340402353.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <cover.1340402353.git.sgw@linux.intel.com>
 References: <cover.1340402353.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1340402353.git.sgw@linux.intel.com>
 References: <cover.1340402353.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 02/17] runqemu-internal: qemu fails to run on ext2 image
+Subject: [CONSOLIDATED PULL 03/17] mtd-utils: do not stage headers in sysroot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,34 +35,45 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 22 Jun 2012 22:15:07 -0000
 
-From: Kang Kai <kai.kang@windriver.com>
+From: Andrea Adami <andrea.adami@gmail.com>
 
-[Yocto 2579]
+* Headers are included in the package for compatibility
+* but have not yet been synched with linux 3.0
+* The actual issue was that ubi-user.h in sysroot
+* was overwritten by the older version.
+* Unfortunately one ioctl was renamed:
+* http://lists.infradead.org/pipermail/linux-mtd/
+* 2011-March/034419.html
+* Note: the recipe will still use its own older header,
+* following upstream.
 
-When set DISTRO to poky-tiny, only ext2 image is created. But
-runqemu-internal doesn't set QEMUOPTIONS for ext2 image that make qemu
-fail to boot.
-
-Fix it for qemux86 arch since poky-tiny can only build for qemux86 now.
-
-Signed-off-by: Kang Kai <kai.kang@windriver.com>
+Signed-off-by: Andrea Adami <andrea.adami@gmail.com>
 ---
- scripts/runqemu-internal |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+ meta/recipes-devtools/mtd/mtd-utils_1.5.0.bb |    6 +-----
+ 1 files changed, 1 insertions(+), 5 deletions(-)
 
-diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
-index c8e3186..041464d 100755
---- a/scripts/runqemu-internal
-+++ b/scripts/runqemu-internal
-@@ -319,7 +319,7 @@ fi
- if [ "$MACHINE" = "qemux86" ]; then
-     QEMU=qemu
-     QEMU_UI_OPTIONS="$QEMU_UI_OPTIONS -vga vmware -enable-gl"
--    if [ "$FSTYPE" = "ext3" -o "$FSTYPE" = "btrfs" ]; then
-+    if [ "$FSTYPE" = "ext2" -o "$FSTYPE" = "ext3" -o "$FSTYPE" = "btrfs" ]; then
-         KERNCMDLINE="vga=0 root=/dev/hda rw mem=$QEMU_MEMORY $KERNEL_NETWORK_CMD"
-         QEMUOPTIONS="$QEMU_NETWORK_CMD -hda $ROOTFS $QEMU_UI_OPTIONS"
-     fi
+diff --git a/meta/recipes-devtools/mtd/mtd-utils_1.5.0.bb b/meta/recipes-devtools/mtd/mtd-utils_1.5.0.bb
+index daa3554..1a9d4d3 100644
+--- a/meta/recipes-devtools/mtd/mtd-utils_1.5.0.bb
++++ b/meta/recipes-devtools/mtd/mtd-utils_1.5.0.bb
+@@ -11,16 +11,12 @@ SRC_URI = "git://git.infradead.org/mtd-utils.git;protocol=git;tag=ca39eb1d98e736
+ 
+ S = "${WORKDIR}/git/"
+ 
+-PR = "r0"
++PR = "r1"
+ 
+ EXTRA_OEMAKE = "'CC=${CC}' 'RANLIB=${RANLIB}' 'AR=${AR}' 'CFLAGS=${CFLAGS} -I${S}/include -DWITHOUT_XATTR' 'BUILDDIR=${S}'"
+ 
+ do_install () {
+ 	oe_runmake install DESTDIR=${D} SBINDIR=${sbindir} MANDIR=${mandir} INCLUDEDIR=${includedir}
+-	install -d ${D}${includedir}/mtd/
+-	for f in ${S}/include/mtd/*.h; do
+-		install -m 0644 $f ${D}${includedir}/mtd/
+-	done
+ }
+ 
+ PARALLEL_MAKE = ""
 -- 
 1.7.7.6
 
