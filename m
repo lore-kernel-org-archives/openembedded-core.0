@@ -1,31 +1,36 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Si4xD-0004SZ-FK for openembedded-core@lists.openembedded.org;
-	Fri, 22 Jun 2012 16:35:19 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q5MEOTKg002348;
-	Fri, 22 Jun 2012 15:24:29 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 01132-08; Fri, 22 Jun 2012 15:24:25 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q5MEOLfI002340
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Fri, 22 Jun 2012 15:24:21 +0100
-Message-ID: <1340375063.394.39.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Fri, 22 Jun 2012 15:24:23 +0100
-In-Reply-To: <25294393.hmh001VYMW@helios>
-References: <alpine.DEB.2.02.1206210454080.17361@oneiric>
-	<25294393.hmh001VYMW@helios>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: superfluous download locations in oe-core's bitbake.conf
+Received: from mail.cvg.de ([62.153.82.30])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1Si4xG-0004Sb-3M
+	for openembedded-core@lists.openembedded.org;
+	Fri, 22 Jun 2012 16:35:22 +0200
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id q5MEOVKb032145
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 22 Jun 2012 16:24:32 +0200
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.76) (envelope-from <ensc@sigma-chemnitz.de>) id 1Si4my-0006mm-9f
+	for openembedded-core@lists.openembedded.org;
+	Fri, 22 Jun 2012 16:24:44 +0200
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To: openembedded-core@lists.openembedded.org
+References: <1340373998.394.36.camel@ted>
+Date: Fri, 22 Jun 2012 16:24:44 +0200
+In-Reply-To: <1340373998.394.36.camel@ted> (Richard Purdie's message of "Fri, 
+	22 Jun 2012 15:06:38 +0100")
+Message-ID: <lypq8rzaoj.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.0.97 (gnu/linux)
+MIME-Version: 1.0
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 0.84
+X-Spam-Score: -5.3
+X-Spam-Level: -----
+X-Spam-Tests: AWL,BAYES_00,SPF_NEUTRAL,T_RP_MATCHES_RCVD,DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.73
+Subject: Re: [PATCH] bitbake.conf/abi_version.conf: Update to use BasicHash signature generator
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,46 +45,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Jun 2012 14:35:19 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 22 Jun 2012 14:35:22 -0000
+Content-Type: text/plain
 
-On Fri, 2012-06-22 at 14:34 +0100, Paul Eggleton wrote:
-> On Thursday 21 June 2012 04:56:51 Robert P. J. Day wrote:
-> >   given that oe-core is defined as being a really minimal
-> > configuration with no extraneous cruft, there seems to be a number of
-> > unnecessary download locations in the shipped bitbake.conf, things
-> > like:
-> > 
-> > ADOBE_MIRROR =
-> > FREEBSD_MIRROR =
-> > 
-> > and so on.  obviously, they're not doing any harm but there seems to
-> > be little value in defining download locations that aren't used by
-> > anything actually in oe-core.
-> 
-> These are present for largely historical reasons - namely in OE-Classic we had 
-> a number of recipes needing this same mirror defined and it was deemed that it 
-> was easier to edit it in one place if it needed to change. Some of them are 
-> even completely useless now as the sites to which they point are now gone, 
-> e.g. HANDHELDS_CVS.
-> 
-> I think the way to approach this would be to just submit a patch removing the 
-> more extraneous ones and see if anyone complains. Note that some of them that 
-> aren't used in OE-Core might be used within meta-oe or other OE community 
-> layers, so those might need to stay at least for the time being.
+Richard Purdie
+<richard.purdie-hQyY1W1yCW8ekmWlsbkhG0B+6BGkLq7r@public.gmane.org>
+writes:
 
-Agreed, we should clean some of these up.
+> This switches to use the hash based signature generatior and update
+> layout_abi to match stamp file layout changes.
 
-I would also add that we do have things in OE-Core without direct users
-(at least by default), particularly things like classes but also
-variables. OE-Core is a collaboration and where it makes sense to have
-something defined in one location rather than in many, I'm not adverse
-to that. Some of the mirror definitions do fit into that category.
+Has this really been tested? I played a little bit with it and it was
+very painful when whole distribution will be rebuilt due to a minor
+change in an early package.
 
-Cheers,
+There are some subtle bugs in the hash generation too (e.g. bitbake's
+get_file_depends() result is used to calculate a hash over a set() which
+is filled nondeterministically when BB_NUMBER_THREADS>1) which cause
+random rebuilds too.
 
-Richard
 
+
+Enrico
 
 
