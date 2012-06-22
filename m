@@ -1,30 +1,28 @@
 Received: from 75-148-42-21-colorado.hfc.comcastbusiness.net ([75.148.42.21]
 	helo=judge.camp.se-eng.com) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raymondd@beast.se-eng.com>) id 1SiAcs-0003uD-7c
+	(envelope-from <raymondd@beast.se-eng.com>) id 1SiAcs-0003uC-9N
 	for openembedded-core@lists.openembedded.org;
 	Fri, 22 Jun 2012 22:38:42 +0200
 Received: from localhost (localhost [127.0.0.1])
-	by judge.camp.se-eng.com (Postfix) with ESMTP id A0815138AE7
+	by judge.camp.se-eng.com (Postfix) with ESMTP id 9CC4B138AEA
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Jun 2012 14:21:04 -0600 (MDT)
+	Fri, 22 Jun 2012 14:21:03 -0600 (MDT)
 X-Virus-Scanned: amavisd-new at camp.se-eng.com
 Received: from judge.camp.se-eng.com ([127.0.0.1])
 	by localhost (judge.camp.se-eng.com [127.0.0.1]) (amavisd-new,
 	port 10024)
-	with ESMTP id T-K9bWHPk01i; Fri, 22 Jun 2012 14:21:03 -0600 (MDT)
+	with ESMTP id kt0qGv6CC6g0; Fri, 22 Jun 2012 14:21:02 -0600 (MDT)
 Received: from beast (beast.camp.se-eng.com [172.20.202.96])
-	by judge.camp.se-eng.com (Postfix) with ESMTP id E4C7B138AE9;
+	by judge.camp.se-eng.com (Postfix) with ESMTP id 1BB2E138AE7;
 	Fri, 22 Jun 2012 14:21:02 -0600 (MDT)
 Received: by beast (Postfix, from userid 1000)
-	id 53CFA2C64A; Fri, 22 Jun 2012 14:22:16 -0600 (MDT)
+	id 663DE2C64A; Fri, 22 Jun 2012 14:22:15 -0600 (MDT)
 From: Raymond Danks <ray.danks@se-eng.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 22 Jun 2012 14:22:13 -0600
-Message-Id: <1340396533-5386-2-git-send-email-ray.danks@se-eng.com>
+Date: Fri, 22 Jun 2012 14:22:12 -0600
+Message-Id: <1340396533-5386-1-git-send-email-ray.danks@se-eng.com>
 X-Mailer: git-send-email 1.7.0.4
-In-Reply-To: <1340396533-5386-1-git-send-email-ray.danks@se-eng.com>
-References: <1340396533-5386-1-git-send-email-ray.danks@se-eng.com>
-Subject: [PATCH 2/2] mkelfimage: Add stable git build (initial recipe)
+Subject: [PATCH 1/2] image_types: Add elf image type
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,41 +39,74 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 22 Jun 2012 20:38:42 -0000
 
+On x86, an ELF image file may be stored as a coreboot payload.
+The image file is constructed, using the mkelfimage utility,
+from a kernel and an initrd.
+
 Signed-off-by: Raymond Danks <ray.danks@se-eng.com>
 ---
 This was originally submitted to the openembedded project:
-http://patches.openembedded.org/patch/7687/
+http://patches.openembedded.org/patch/7689/
 
 Resubmitting to oe-core for review prior to commit in openembedded-core.
 
- meta/recipes-devtools/mkelfimage/mkelfimage_git.bb |   18 ++++++++++++++++++
- 1 files changed, 18 insertions(+), 0 deletions(-)
- create mode 100644 meta/recipes-devtools/mkelfimage/mkelfimage_git.bb
+ meta/classes/image_types.bbclass |   18 +++++++++++++++++-
+ 1 files changed, 17 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-devtools/mkelfimage/mkelfimage_git.bb b/meta/recipes-devtools/mkelfimage/mkelfimage_git.bb
-new file mode 100644
-index 0000000..b341213
---- /dev/null
-+++ b/meta/recipes-devtools/mkelfimage/mkelfimage_git.bb
-@@ -0,0 +1,18 @@
-+DESCRIPTION = "A utility to create ELF boot images from Linux kernel images"
-+HOMEPAGE = "http://www.coreboot.org/Mkelfimage"
-+SECTION = "devel"
-+LICENSE = "GPLv2"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=ea5bed2f60d357618ca161ad539f7c0a"
+diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+index 55f122e..bbca20c 100644
+--- a/meta/classes/image_types.bbclass
++++ b/meta/classes/image_types.bbclass
+@@ -7,6 +7,12 @@ def get_imagecmds(d):
+     ctypes = d.getVar('COMPRESSIONTYPES', True).split()
+     cimages = {}
+ 
++    if "elf" in alltypes:
++        alltypes.remove("elf")
++        if "cpio.gz" not in alltypes:
++                alltypes.append("cpio.gz")
++        alltypes.append("elf")
 +
-+SRCREV = "e13632a939e7dde8d7d44fc73e73a41dae8060c3"
-+PV = "1.0.0+gitr${SRCPV}"
-+PR = "r1"
+     # Filter out all the compressed images from types
+     for type in alltypes:
+         basetype = None
+@@ -173,6 +179,14 @@ IMAGE_CMD_cpio () {
+ 	cd ${IMAGE_ROOTFS} && (find . | cpio -o -H newc >${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cpio)
+ }
+ 
++ELF_KERNEL ?= ${STAGING_DIR_HOST}/kernel/bzImage
++ELF_APPEND ?= "ramdisk_size=32768 root=/dev/ram0 rw console=" 
 +
-+SRC_URI = "git://review.coreboot.org/p/coreboot;protocol=http;branch=master"
++IMAGE_CMD_elf () {
++	test -f ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.elf && rm -f ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.elf 
++	mkelfImage --kernel=${ELF_KERNEL} --initrd=${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cpio.gz --output=${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.elf --append='${ELF_APPEND}' ${EXTRA_IMAGECMD}
++}
 +
-+S = "${WORKDIR}/git/util/mkelfImage"
-+
-+inherit autotools
-+
-+NATIVE_INSTALL_WORKS = "1"
-+BBCLASSEXTEND = "native"
+ UBI_VOLNAME ?= "${MACHINE}-rootfs"
+ 
+ IMAGE_CMD_ubi () {
+@@ -199,6 +213,7 @@ EXTRA_IMAGECMD_ext2 ?= "-i 8192"
+ EXTRA_IMAGECMD_ext3 ?= "-i 8192"
+ EXTRA_IMAGECMD_ext4 ?= "-i 8192"
+ EXTRA_IMAGECMD_btrfs ?= ""
++EXTRA_IMAGECMD_elf ?= ""
+ 
+ IMAGE_DEPENDS = ""
+ IMAGE_DEPENDS_jffs2 = "mtd-utils-native"
+@@ -210,11 +225,12 @@ IMAGE_DEPENDS_ext4 = "genext2fs-native e2fsprogs-native"
+ IMAGE_DEPENDS_btrfs = "btrfs-tools-native"
+ IMAGE_DEPENDS_squashfs = "squashfs-tools-native"
+ IMAGE_DEPENDS_squashfs-lzma = "squashfs-lzma-tools-native"
++IMAGE_DEPENDS_elf = "virtual/kernel mkelfimage-native"
+ IMAGE_DEPENDS_ubi = "mtd-utils-native"
+ IMAGE_DEPENDS_ubifs = "mtd-utils-native"
+ 
+ # This variable is available to request which values are suitable for IMAGE_FSTYPES
+-IMAGE_TYPES = "jffs2 sum.jffs2 cramfs ext2 ext2.gz ext2.bz2 ext3 ext3.gz ext2.lzma btrfs live squashfs squashfs-lzma ubi tar tar.gz tar.bz2 tar.xz cpio cpio.gz cpio.xz cpio.lzma vmdk"
++IMAGE_TYPES = "jffs2 sum.jffs2 cramfs ext2 ext2.gz ext2.bz2 ext3 ext3.gz ext2.lzma btrfs live squashfs squashfs-lzma ubi tar tar.gz tar.bz2 tar.xz cpio cpio.gz cpio.xz cpio.lzma vmdk elf"
+ 
+ COMPRESSIONTYPES = "gz bz2 lzma xz"
+ COMPRESS_CMD_lzma = "lzma -k -f -7 ${IMAGE_NAME}.rootfs.${type}"
 -- 
 1.7.0.4
 
