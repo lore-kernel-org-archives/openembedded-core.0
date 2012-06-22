@@ -1,25 +1,30 @@
-Received: from mga09.intel.com ([134.134.136.24])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1Si4AZ-0003LC-31
-	for openembedded-core@lists.openembedded.org;
-	Fri, 22 Jun 2012 15:45:03 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 22 Jun 2012 06:34:15 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="157124030"
-Received: from unknown (HELO helios.localnet) ([10.252.120.123])
-	by orsmga001.jf.intel.com with ESMTP; 22 Jun 2012 06:34:14 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>
-Date: Fri, 22 Jun 2012 14:34:13 +0100
-Message-ID: <25294393.hmh001VYMW@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.8.3 (Linux/3.2.0-25-generic-pae; KDE/4.8.3; i686; ; )
-In-Reply-To: <alpine.DEB.2.02.1206210454080.17361@oneiric>
-References: <alpine.DEB.2.02.1206210454080.17361@oneiric>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: superfluous download locations in oe-core's bitbake.conf
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1Si4G8-0003Qk-9q for openembedded-core@lists.openembedded.org;
+	Fri, 22 Jun 2012 15:50:48 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q5MDe1UZ001893
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 22 Jun 2012 14:40:01 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 01132-05 for <openembedded-core@lists.openembedded.org>;
+	Fri, 22 Jun 2012 14:39:57 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q5MDdrvo001887
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 22 Jun 2012 14:39:54 +0100
+Message-ID: <1340372395.394.35.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Fri, 22 Jun 2012 14:39:55 +0100
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: [PATCH] layer.conf/bblayers.conf.sample: Fix empth BBPATH entry warnings
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,40 +39,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Jun 2012 13:45:03 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Fri, 22 Jun 2012 13:50:48 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Thursday 21 June 2012 04:56:51 Robert P. J. Day wrote:
->   given that oe-core is defined as being a really minimal
-> configuration with no extraneous cruft, there seems to be a number of
-> unnecessary download locations in the shipped bitbake.conf, things
-> like:
-> 
-> ADOBE_MIRROR =
-> FREEBSD_MIRROR =
-> 
-> and so on.  obviously, they're not doing any harm but there seems to
-> be little value in defining download locations that aren't used by
-> anything actually in oe-core.
+Many people are seeing issues from the empty path warnings from BBPATH.
+The empty path entry corresponding to the current working directory is a
+problem since if cwd changes, so does BBPATH and build reproducibility.
 
-These are present for largely historical reasons - namely in OE-Classic we had 
-a number of recipes needing this same mirror defined and it was deemed that it 
-was easier to edit it in one place if it needed to change. Some of them are 
-even completely useless now as the sites to which they point are now gone, 
-e.g. HANDHELDS_CVS.
+Simply removing the empty element causes problems since the build
+directory then isn't listed in BBPATH which means local.conf isn't found
+and this gives an extremely confusing error message about bbappends
+being unsatisfied.
 
-I think the way to approach this would be to just submit a patch removing the 
-more extraneous ones and see if anyone complains. Note that some of them that 
-aren't used in OE-Core might be used within meta-oe or other OE community 
-layers, so those might need to stay at least for the time being.
+The build directory in bitbake terms is TOPDIR. The correct way to fix
+things is to add in TOPDIR into bblayers.conf itself. This means the
+layers can happily append/prepend to BBPATH at will as its no longer
+empty hence neatly solving all the various problems. Since the file has
+changed, the version is also changed.
 
-Cheers,
-Paul
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
--- 
+---
+ meta/conf/bblayers.conf.sample |    4 +++-
+ meta/conf/layer.conf           |    1 -
+ 2 files changed, 3 insertions(+), 2 deletions(-)
 
-Paul Eggleton
-Intel Open Source Technology Centre
+diff --git a/meta/conf/bblayers.conf.sample b/meta/conf/bblayers.conf.sample
+index 222b03a..e621866 100644
+--- a/meta/conf/bblayers.conf.sample
++++ b/meta/conf/bblayers.conf.sample
+@@ -1,8 +1,10 @@
+ # LAYER_CONF_VERSION is increased each time build/conf/bblayers.conf
+ # changes incompatibly
+-LCONF_VERSION = "4"
++LCONF_VERSION = "5"
+ 
++BBPATH = "${TOPDIR}"
+ BBFILES ?= ""
++
+ BBLAYERS ?= " \
+   ##COREBASE##/meta \
+   "
+diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
+index 43e4295..090c8e2 100644
+--- a/meta/conf/layer.conf
++++ b/meta/conf/layer.conf
+@@ -1,4 +1,3 @@
+-BBPATH ?= ""
+ # We have a conf and classes directory, add to BBPATH
+ BBPATH .= ":${LAYERDIR}"
+ # We have a packages directory, add to BBFILES
+
 
 
