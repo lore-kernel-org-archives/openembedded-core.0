@@ -1,26 +1,33 @@
-Received: from mga01.intel.com ([192.55.52.88])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1Si5HS-00052h-3p
-	for openembedded-core@lists.openembedded.org;
-	Fri, 22 Jun 2012 16:56:14 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 22 Jun 2012 07:45:26 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="168958730"
-Received: from unknown (HELO helios.localnet) ([10.252.120.123])
-	by fmsmga001.fm.intel.com with ESMTP; 22 Jun 2012 07:45:25 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Date: Fri, 22 Jun 2012 15:45:24 +0100
-Message-ID: <1722786.sz61Qr6Lvv@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.8.3 (Linux/3.2.0-25-generic-pae; KDE/4.8.3; i686; ; )
-In-Reply-To: <20120622143812.GO9352@jama.jama.net>
-References: <alpine.DEB.2.02.1206210454080.17361@oneiric>
-	<1340375063.394.39.camel@ted> <20120622143812.GO9352@jama.jama.net>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: superfluous download locations in oe-core's bitbake.conf
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1Si5Ow-0005W3-7Q for openembedded-core@lists.openembedded.org;
+	Fri, 22 Jun 2012 17:03:58 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q5MErC4V002645
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 22 Jun 2012 15:53:12 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 02530-01 for <openembedded-core@lists.openembedded.org>;
+	Fri, 22 Jun 2012 15:53:08 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q5MEr2uQ002639
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 22 Jun 2012 15:53:03 +0100
+Message-ID: <1340376783.394.50.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Fri, 22 Jun 2012 15:53:03 +0100
+In-Reply-To: <3297658.NN3oiPzfJJ@helios>
+References: <3297658.NN3oiPzfJJ@helios>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: RFC: removing buildhistory support for flat versioned package info
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,35 +42,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Jun 2012 14:56:14 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Fri, 22 Jun 2012 15:03:58 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Friday 22 June 2012 16:38:12 Martin Jansa wrote:
-> Is there easy way for layer to define additional MIRRORs with global
-> scope for layer? e.g. putting them layer.conf?
-
-I believe that works yes.
-
-> e.g. FREESMARTPHONE_GIT is used in few recipes in meta-oe and in many in
-> meta-fso layer and right now is only defined but not used in oe-core.
+On Fri, 2012-06-22 at 15:15 +0100, Paul Eggleton wrote:
+> Hi all,
 > 
-> So moving FREESMARTPHONE_GIT definition from oe-core to meta-oe will add
-> aditional dependency on meta-oe, but still better then duplicating it in
-> both layer or even in many .inc files.
+> One feature carried over from packagehistory.bbclass into buildhistory.bbclass 
+> was the ability for it to optionally output PE:PV-PR named package info files 
+> and then create a "latest" symlink to the latest one, which was useful in the 
+> absence of the integration with git which buildhistory now has. This can 
+> currently be enabled by setting BUILDHISTORY_KEEP_VERSIONS to 1.
+> 
+> I suspect not many people even know this feature exists let alone use it, and 
+> looking at the code it could be simplified a bit by not supporting it at all. 
+> Are there any objections to removing it?
 
-I don't think we want to remove any that are going to cause that kind of pain. 
-If the value is still valid and more than one layer is using the variable then 
-it's reasonable to keep there. On the other hand, if it's invalid or only one 
-layer is likely to ever use it (e.g. the Opie ones that I removed earlier) 
-then it's a candidate for moving out, IMHO.
+Speaking as the author of that original code, I'm probably fine with
+that, things have moved on...
 
 Cheers,
-Paul
 
--- 
+Richard
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
 
