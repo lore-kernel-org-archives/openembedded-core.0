@@ -1,22 +1,25 @@
-Received: from [78.110.170.148] (helo=tinyArch.localdomain)
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ml@communistcode.co.uk>) id 1Si1Zv-0006RC-8e
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1Si4AZ-0003LC-31
 	for openembedded-core@lists.openembedded.org;
-	Fri, 22 Jun 2012 12:59:03 +0200
-Received: from [192.168.0.46] (unknown [195.171.99.130])
-	by tinyArch.localdomain (Postfix) with ESMTPSA id 0B10C601C3
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Jun 2012 11:48:10 +0100 (BST)
-Message-ID: <4FE44DB0.7020703@communistcode.co.uk>
-Date: Fri, 22 Jun 2012 11:49:20 +0100
-From: Jack Mitchell <ml@communistcode.co.uk>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:13.0) Gecko/20120616 Thunderbird/13.0.1
+	Fri, 22 Jun 2012 15:45:03 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 22 Jun 2012 06:34:15 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="157124030"
+Received: from unknown (HELO helios.localnet) ([10.252.120.123])
+	by orsmga001.jf.intel.com with ESMTP; 22 Jun 2012 06:34:14 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+Date: Fri, 22 Jun 2012 14:34:13 +0100
+Message-ID: <25294393.hmh001VYMW@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.8.3 (Linux/3.2.0-25-generic-pae; KDE/4.8.3; i686; ; )
+In-Reply-To: <alpine.DEB.2.02.1206210454080.17361@oneiric>
+References: <alpine.DEB.2.02.1206210454080.17361@oneiric>
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <4FE44C1C.2050301@communistcode.co.uk>
-In-Reply-To: <4FE44C1C.2050301@communistcode.co.uk>
-Subject: Re: libpcre build failure - using host system libs?
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: superfluous download locations in oe-core's bitbake.conf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,139 +34,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Jun 2012 10:59:03 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 22 Jun 2012 13:45:03 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On 22/06/12 11:42, Jack Mitchell wrote:
-> Ok, so it seems today isn't my day. Along with the sgml-common I have 
-> now come across another issue:
->
->     [jack@archHP ~]$ cat
->     /home/jack/Projects/poky-denzil.git/r0005/tmp/work/x86_64-linux/libpcre-native-8.30-r2/temp/log.do_compile.21828
->     DEBUG: Executing shell function do_compile
->     ERROR: Function failed: do_compile (see
->     /home/jack/Projects/poky-denzil.git/r0005/tmp/work/x86_64-linux/libpcre-native-8.30-r2/temp/log.do_compile.21828
->     for further information)
->     NOTE: make CC_FOR_BUILD=gcc  CFLAGS_FOR_BUILD=-DLINK_SIZE=2
->     -I/home/jack/Projects/poky-denzil.git/r0005/tmp/work/x86_64-linux/libpcre-native-8.30-r2/pcre-8.30/include
->     LINK_FOR_BUILD=gcc
->     -L/home/jack/Projects/poky-denzil.git/r0005/tmp/work/x86_64-linux/libpcre-native-8.30-r2/pcre-8.30/lib
->     make  all-am
->     make[1]: Entering directory
->     `/home/jack/Projects/poky-denzil.git/r0005/tmp/work/x86_64-linux/libpcre-native-8.30-r2/pcre-8.30'
->     ./x86_64-linux-libtool  --tag=CXX   --mode=link g++
->     -isystem/home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux/usr/include
->     -O2 -pipe -version-info 0:0:0
->     -L/home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux/usr/lib
->     -L/home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux/lib
->     -Wl,-rpath-link,/home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux/usr/lib
->     -Wl,-rpath-link,/home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux/lib
->     -Wl,-rpath,/home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux/usr/lib
->     -Wl,-rpath,/home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux/lib
->     -Wl,-O1 -o libpcrecpp.la -rpath
->     /home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux/usr/lib
->     pcrecpp.lo pcre_scanner.lo pcre_stringpiece.lo libpcre.la
->     x86_64-linux-libtool: link: g++  -fPIC -DPIC -shared -nostdlib
->     /usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.0/../../../../lib/crti.o
->     /usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.0/crtbeginS.o
->     .libs/pcrecpp.o .libs/pcre_scanner.o .libs/pcre_stringpiece.o  
->     -Wl,-rpath
->     -Wl,/home/jack/Projects/poky-denzil.git/r0005/tmp/work/x86_64-linux/libpcre-native-8.30-r2/pcre-8.30/.libs
->     -Wl,-rpath
->     -Wl,/home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux/usr/lib
->     -L/home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux/usr/lib
->     -L/home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux/lib
->     ./.libs/libpcre.so -L/usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.0
->     -L/usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.0/../../../../lib
->     -L/lib/../lib -L/usr/lib/../lib
->     -L/usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.0/../../.. -lstdc++
->     -lm -lc -lgcc_s
->     /usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.0/crtendS.o
->     /usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.0/../../../../lib/crtn.o
->     -O2 -Wl,-rpath-link
->     -Wl,/home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux/usr/lib
->     -Wl,-rpath-link
->     -Wl,/home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux/lib
->     -Wl,-rpath
->     -Wl,/home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux/usr/lib
->     -Wl,-rpath
->     -Wl,/home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux/lib
->     -Wl,-O1   -Wl,-soname -Wl,libpcrecpp.so.0 -o .libs/libpcrecpp.so.0.0.0
->     g++: error:
->     /usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.0/../../../../lib/crti.o: No
->     such file or directory
->     g++: error:
->     /usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.0/crtbeginS.o: No such
->     file or directory
->     g++: error: /usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.0/crtendS.o:
->     No such file or directory
->     g++: error:
->     /usr/lib/gcc/x86_64-unknown-linux-gnu/4.7.0/../../../../lib/crtn.o: No
->     such file or directory
->     make[1]: *** [libpcrecpp.la] Error 1
->     make[1]: Leaving directory
->     `/home/jack/Projects/poky-denzil.git/r0005/tmp/work/x86_64-linux/libpcre-native-8.30-r2/pcre-8.30'
->     make: *** [all] Error 2
->     ERROR: oe_runmake failed
->
->
->
-> This seems to me like it is looking in my host distribution for the 
-> require files and therefore can't find them? For starters I think I 
-> know why it can't find them as my host uses GCC 4.7.1.
->
-> So, first off is it meant to be using host system files, and second 
-> why has it not picked up my new GCC version?
->
-> Regards,
-> -- 
->
->    Jack Mitchell (jack@embed.me.uk)
->    Embedded Systems Engineer
->    http://www.embed.me.uk
->
-> --
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+On Thursday 21 June 2012 04:56:51 Robert P. J. Day wrote:
+>   given that oe-core is defined as being a really minimal
+> configuration with no extraneous cruft, there seems to be a number of
+> unnecessary download locations in the shipped bitbake.conf, things
+> like:
+> 
+> ADOBE_MIRROR =
+> FREEBSD_MIRROR =
+> 
+> and so on.  obviously, they're not doing any harm but there seems to
+> be little value in defining download locations that aren't used by
+> anything actually in oe-core.
 
-Ok, so it looks as if it isn't meant to be using host system files as 
-this function shows:
+These are present for largely historical reasons - namely in OE-Classic we had 
+a number of recipes needing this same mirror defined and it was deemed that it 
+was easier to edit it in one place if it needed to change. Some of them are 
+even completely useless now as the sites to which they point are now gone, 
+e.g. HANDHELDS_CVS.
 
-do_compile () {
-   # stop libtool from trying to link with host libraries - fix from #33
-   # this resolve build problem on amd64 - #1015
-   if [ -e ${S}/${HOST_SYS}-libtool ] ; then
-     sed -i 's:-L\$:-L${STAGING_LIBDIR} -L\$:' ${S}/${HOST_SYS}-libtool
-   else
-     ln -sf ${S}/libtool ${S}/${HOST_SYS}-libtool
-     sed -i 's:-L\$:-L${STAGING_LIBDIR} -L\$:' ${S}/${HOST_SYS}-libtool
-   fi
+I think the way to approach this would be to just submit a patch removing the 
+more extraneous ones and see if anyone complains. Note that some of them that 
+aren't used in OE-Core might be used within meta-oe or other OE community 
+layers, so those might need to stay at least for the time being.
 
-   # The generation of dftables can lead to timestamp problems with ccache
-   # because the generated config.h seems newer.  It is sufficient to 
-ensure that the
-   # attempt to build dftables inside make will actually work 
-(foo_FOR_BUILD is
-   # only used for this).
-   oe_runmake CC_FOR_BUILD="${BUILD_CC}" CFLAGS_FOR_BUILD="-DLINK_SIZE=2 
--I${S}/include" LINK_FOR_BUILD="${BUILD_CC} -L${S}/lib"
-}
-
-So it's something that has been tried to fix but maybe I've just hit a 
-corner case. My machine is 64bit.
+Cheers,
+Paul
 
 -- 
 
-   Jack Mitchell (jack@embed.me.uk)
-   Embedded Systems Engineer
-   http://www.embed.me.uk
-
---
-
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
