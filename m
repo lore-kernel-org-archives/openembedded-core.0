@@ -1,24 +1,24 @@
 Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SiC8P-0007hP-KV
+	(envelope-from <sgw@linux.intel.com>) id 1SiC8P-0007hO-Lp
 	for openembedded-core@lists.openembedded.org;
 	Sat, 23 Jun 2012 00:15:22 +0200
 Received: from azsmga002.ch.intel.com ([10.2.17.35])
 	by azsmga101.ch.intel.com with ESMTP; 22 Jun 2012 15:04:22 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="115173282"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="115173283"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.175])
 	by AZSMGA002.ch.intel.com with ESMTP; 22 Jun 2012 15:04:22 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 22 Jun 2012 15:00:57 -0700
-Message-Id: <59fedfc6c5dda692b04c36cad2bc5116b802c394.1340402353.git.sgw@linux.intel.com>
+Date: Fri, 22 Jun 2012 15:00:58 -0700
+Message-Id: <f8f9909d6093a37ff7f0fb581fa1b559e66726c2.1340402353.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <cover.1340402353.git.sgw@linux.intel.com>
 References: <cover.1340402353.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1340402353.git.sgw@linux.intel.com>
 References: <cover.1340402353.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 16/17] qemu_git: set empty PACKAGECONFIG
+Subject: [CONSOLIDATED PULL 17/17] distrodata: Fix missed VARIABLE name change
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,24 +35,24 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 22 Jun 2012 22:15:24 -0000
 
-From: Khem Raj <raj.khem@gmail.com>
-
-gl patches are not yet forward ported to git recipe
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/recipes-devtools/qemu/qemu_git.bb |    1 +
- 1 files changed, 1 insertions(+), 0 deletions(-)
+ meta/classes/distrodata.bbclass |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-devtools/qemu/qemu_git.bb b/meta/recipes-devtools/qemu/qemu_git.bb
-index b788e51..0d0308b 100644
---- a/meta/recipes-devtools/qemu/qemu_git.bb
-+++ b/meta/recipes-devtools/qemu/qemu_git.bb
-@@ -18,3 +18,4 @@ SRC_URI = "\
- S = "${WORKDIR}/git"
+diff --git a/meta/classes/distrodata.bbclass b/meta/classes/distrodata.bbclass
+index 90ee7ae..5b10eac 100644
+--- a/meta/classes/distrodata.bbclass
++++ b/meta/classes/distrodata.bbclass
+@@ -612,7 +612,7 @@ python do_checkpkg() {
+ 		pstatus += ":%s%s" % (host, path)
  
- DEFAULT_PREFERENCE = "-1"
-+PACKAGECONFIG = ""
+ 	"""Read from manual distro tracking fields as alternative"""
+-	pmver = d.getVar("RECIPE_LATEST_VERSION", True)
++	pmver = d.getVar("RECIPE_UPSTREAM_VERSION", True)
+ 	if not pmver:
+ 		pmver = "N/A"
+ 		pmstatus = "ErrNoRecipeData"
 -- 
 1.7.7.6
 
