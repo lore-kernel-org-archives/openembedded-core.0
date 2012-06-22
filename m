@@ -1,38 +1,38 @@
 Received: from mail-pb0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1Si5Vb-0005dq-FH
+	(envelope-from <raj.khem@gmail.com>) id 1Si5Vc-0005ds-3Y
 	for openembedded-core@lists.openembedded.org;
 	Fri, 22 Jun 2012 17:10:52 +0200
-Received: by pbbrq2 with SMTP id rq2so3545046pbb.6
+Received: by pbbrq2 with SMTP id rq2so3545061pbb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Jun 2012 08:00:03 -0700 (PDT)
+	Fri, 22 Jun 2012 08:00:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
 	:in-reply-to:references;
-	bh=6lUaNKoDAAhidgLSnwvLKbEOJiCrJ75620LCop1DIjk=;
-	b=u+D49ZCIISIBhirE9HFOjofY8pT/Fvd5qUbe+7XQ0JxVfaRy/YH12xaqt/4DpH87w3
-	FtZ2EcNiW9g0V8txhmnWX7nKcUm2bMNlWi8J/Sl/2pdIxXdgGQPdbHRiBhqOudIQcie7
-	XQ40Upa1C5KIJ5fcbAXTC6wVvFl2yDYSmiJgmDKsF/4cwxZxEMpQbWBxNzJlSH1LBXPJ
-	khTtzbIzxQYCR9wqmFNOBZgxnVpGdBllsqxFQZFX/G9JsZxO/yrlz1m1HxqKyHotHqgs
-	r/N1dOH4cy+vvzRZKwpPF53qG09LuEuHZunCFi8eHyWT/HeFrEfWqzvGaFW+eBPp4A05
-	a+Sg==
-Received: by 10.68.132.166 with SMTP id ov6mr11501788pbb.24.1340377202461;
-	Fri, 22 Jun 2012 08:00:02 -0700 (PDT)
+	bh=CW8BRd9Ano7eDz5jS6GlR6i2dKctm+aOk34vei1Jtik=;
+	b=PeJLCNWQGeBWg6Sba1BWiJMr5jDjoDtgDJUYzrbvEgYLVL0RINEEe/+jojuSVZpl51
+	vyDf89RchKoGYKUujp45tXOPLFltAeQTYYnnYM8Tf9vSGAMtuBbwv6nmJ/CPXdJIXajW
+	5nqE0c3isCg8iCUzGKB6g3BbotZy97hAOkOclfncA/6Q4LpXANddKnZ5saUplFBd1fxs
+	sTs8PoMn1vepUuk1yojMUgPNg+soywzazPH9ZiAp1vU6Ntx4wmCR/0Zu2wbKslxgZjmX
+	i/L3o3IeA1QUor37kvdwiL3Q35wAdxDllTmijAB5HwkDPB9nEuO1Ux8tNWQgs2r55Lou
+	TCIQ==
+Received: by 10.68.194.105 with SMTP id hv9mr2057798pbc.126.1340377204143;
+	Fri, 22 Jun 2012 08:00:04 -0700 (PDT)
 Received: from agate.agate.openembedded.org (oldbuilder.nslu2-linux.org.
 	[140.211.169.168])
-	by mx.google.com with ESMTPS id rv5sm39166827pbc.56.2012.06.22.08.00.00
+	by mx.google.com with ESMTPS id rv5sm39166827pbc.56.2012.06.22.08.00.02
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 22 Jun 2012 08:00:01 -0700 (PDT)
+	Fri, 22 Jun 2012 08:00:03 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 22 Jun 2012 07:59:47 -0700
-Message-Id: <26faaf861e5468fc1ddc7d5097842043d9dad1fc.1340377032.git.raj.khem@gmail.com>
+Date: Fri, 22 Jun 2012 07:59:48 -0700
+Message-Id: <04d409bb5e86ac6470dcc816863f841d1980a22f.1340377032.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <7e632ad285b74dd043764b0830bdc63e2ad4d709.1340377031.git.raj.khem@gmail.com>
 References: <7e632ad285b74dd043764b0830bdc63e2ad4d709.1340377031.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1340377031.git.raj.khem@gmail.com>
 References: <cover.1340377031.git.raj.khem@gmail.com>
-Subject: [PATCH 2/3] eglibc-2.13: Retire into toolchain layer
+Subject: [PATCH 3/3] gcc: Remove csl gcc recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,1181 +47,1710 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Jun 2012 15:10:52 -0000
+X-List-Received-Date: Fri, 22 Jun 2012 15:10:53 -0000
 
-If anyone wants it add toolchain-layer from meta-openembedded
-repo to your setup
+sourcery toolchain is available as external pluggable toolchain
+if needed.
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../eglibc/cross-localedef-native_2.13.bb          |   43 --
- .../eglibc/eglibc-2.13/IO-acquire-lock-fix.patch   |   17 -
- .../eglibc-2.13/armv4-eabi-compile-fix.patch       |   25 -
- .../eglibc-svn-arm-lowlevellock-include-tls.patch  |   21 -
- .../eglibc/eglibc-2.13/generate-supported.mk       |   11 -
- .../eglibc/eglibc-2.13/ld-search-order.patch       |   56 --
- .../eglibc/eglibc-2.13/mips-rld-map-check.patch    |   26 -
- .../eglibc/eglibc-2.13/multilib_readlib.patch      |   17 -
- .../recipes-core/eglibc/eglibc-2.13/ppc-sqrt.patch |  538 --------------------
- .../eglibc/eglibc-2.13/stack-protector-test.patch  |   35 --
- .../eglibc-2.13/use-sysroot-cxx-headers.patch      |   36 --
- meta/recipes-core/eglibc/eglibc-initial_2.13.bb    |    6 -
- meta/recipes-core/eglibc/eglibc-locale_2.13.bb     |    1 -
- meta/recipes-core/eglibc/eglibc_2.13.bb            |  218 --------
- 14 files changed, 1050 deletions(-)
- delete mode 100644 meta/recipes-core/eglibc/cross-localedef-native_2.13.bb
- delete mode 100644 meta/recipes-core/eglibc/eglibc-2.13/IO-acquire-lock-fix.patch
- delete mode 100644 meta/recipes-core/eglibc/eglibc-2.13/armv4-eabi-compile-fix.patch
- delete mode 100644 meta/recipes-core/eglibc/eglibc-2.13/eglibc-svn-arm-lowlevellock-include-tls.patch
- delete mode 100644 meta/recipes-core/eglibc/eglibc-2.13/etc/ld.so.conf
- delete mode 100644 meta/recipes-core/eglibc/eglibc-2.13/generate-supported.mk
- delete mode 100644 meta/recipes-core/eglibc/eglibc-2.13/ld-search-order.patch
- delete mode 100644 meta/recipes-core/eglibc/eglibc-2.13/mips-rld-map-check.patch
- delete mode 100644 meta/recipes-core/eglibc/eglibc-2.13/multilib_readlib.patch
- delete mode 100644 meta/recipes-core/eglibc/eglibc-2.13/ppc-sqrt.patch
- delete mode 100644 meta/recipes-core/eglibc/eglibc-2.13/stack-protector-test.patch
- delete mode 100644 meta/recipes-core/eglibc/eglibc-2.13/use-sysroot-cxx-headers.patch
- delete mode 100644 meta/recipes-core/eglibc/eglibc-initial_2.13.bb
- delete mode 100644 meta/recipes-core/eglibc/eglibc-locale_2.13.bb
- delete mode 100644 meta/recipes-core/eglibc/eglibc_2.13.bb
+ .../gcc/gcc-cross-initial_csl-arm-2008q1.bb        |   10 -
+ .../gcc/gcc-cross-intermediate_csl-arm-2008q1.bb   |   10 -
+ meta/recipes-devtools/gcc/gcc-cross-kernel.inc     |   19 -
+ .../gcc/gcc-cross_csl-arm-2008q1.bb                |   24 -
+ meta/recipes-devtools/gcc/gcc-csl-arm-2005q3.inc   |   22 -
+ meta/recipes-devtools/gcc/gcc-csl-arm-2008q1.inc   |   53 -
+ .../gcc/gcc-csl-arm/arm-nolibfloat.patch           |   25 -
+ .../gcc/gcc-csl-arm/arm-softfloat.patch            |   17 -
+ .../gcc/gcc-csl-arm/gcc-3.4.4-eabi-bigendian.patch |   13 -
+ .../gcc/gcc-csl-arm/gcc-3.4.4-makefile-fix.patch   |   30 -
+ .../gcc/gcc-csl-arm/gcc-configure-no-fortran.patch | 1076 --------------------
+ .../gcc/gcc-csl-arm/gcc-new-makeinfo.patch         |   36 -
+ .../gcc/gcc-csl-arm/gcc41-configure.in.patch       |   24 -
+ .../gcc/gcc-csl-arm/gcc_optab_arm.patch            |   97 --
+ .../gcc/gcc-csl-arm/gfortran.patch                 |   42 -
+ .../gcc/gcc-csl-arm/zecke-no-host-includes.patch   |   33 -
+ .../gcc/gcc-csl-arm/zecke-xgcc-cpp.patch           |   17 -
+ meta/recipes-devtools/gcc/gcc_csl-arm-2008q1.bb    |    3 -
+ 18 files changed, 1551 deletions(-)
+ delete mode 100644 meta/recipes-devtools/gcc/gcc-cross-initial_csl-arm-2008q1.bb
+ delete mode 100644 meta/recipes-devtools/gcc/gcc-cross-intermediate_csl-arm-2008q1.bb
+ delete mode 100644 meta/recipes-devtools/gcc/gcc-cross-kernel.inc
+ delete mode 100644 meta/recipes-devtools/gcc/gcc-cross_csl-arm-2008q1.bb
+ delete mode 100644 meta/recipes-devtools/gcc/gcc-csl-arm-2005q3.inc
+ delete mode 100644 meta/recipes-devtools/gcc/gcc-csl-arm-2008q1.inc
+ delete mode 100644 meta/recipes-devtools/gcc/gcc-csl-arm/arm-nolibfloat.patch
+ delete mode 100644 meta/recipes-devtools/gcc/gcc-csl-arm/arm-softfloat.patch
+ delete mode 100644 meta/recipes-devtools/gcc/gcc-csl-arm/gcc-3.4.4-eabi-bigendian.patch
+ delete mode 100644 meta/recipes-devtools/gcc/gcc-csl-arm/gcc-3.4.4-makefile-fix.patch
+ delete mode 100644 meta/recipes-devtools/gcc/gcc-csl-arm/gcc-configure-no-fortran.patch
+ delete mode 100644 meta/recipes-devtools/gcc/gcc-csl-arm/gcc-new-makeinfo.patch
+ delete mode 100644 meta/recipes-devtools/gcc/gcc-csl-arm/gcc41-configure.in.patch
+ delete mode 100644 meta/recipes-devtools/gcc/gcc-csl-arm/gcc_optab_arm.patch
+ delete mode 100644 meta/recipes-devtools/gcc/gcc-csl-arm/gfortran.patch
+ delete mode 100644 meta/recipes-devtools/gcc/gcc-csl-arm/zecke-no-host-includes.patch
+ delete mode 100644 meta/recipes-devtools/gcc/gcc-csl-arm/zecke-xgcc-cpp.patch
+ delete mode 100644 meta/recipes-devtools/gcc/gcc_csl-arm-2008q1.bb
 
-diff --git a/meta/recipes-core/eglibc/cross-localedef-native_2.13.bb b/meta/recipes-core/eglibc/cross-localedef-native_2.13.bb
+diff --git a/meta/recipes-devtools/gcc/gcc-cross-initial_csl-arm-2008q1.bb b/meta/recipes-devtools/gcc/gcc-cross-initial_csl-arm-2008q1.bb
 deleted file mode 100644
-index 52759af..0000000
---- a/meta/recipes-core/eglibc/cross-localedef-native_2.13.bb
+index 0621103..0000000
+--- a/meta/recipes-devtools/gcc/gcc-cross-initial_csl-arm-2008q1.bb
 +++ /dev/null
-@@ -1,43 +0,0 @@
--DESCRIPTION = "Cross locale generation tool for eglibc"
--HOMEPAGE = "http://www.eglibc.org/home"
--SECTION = "libs"
--LICENSE = "LGPL"
+@@ -1,10 +0,0 @@
+-require gcc-cross_${PV}.bb
+-require gcc-cross-initial.inc
 -
--LIC_DIR = "${WORKDIR}/${EGLIBC_BRANCH}/libc"
--LIC_FILES_CHKSUM = "file://${LIC_DIR}/LICENSES;md5=07a394b26e0902b9ffdec03765209770 \
--      file://${LIC_DIR}/COPYING;md5=393a5ca445f6965873eca0259a17f833 \
--      file://${LIC_DIR}/posix/rxspencer/COPYRIGHT;md5=dc5485bb394a13b2332ec1c785f5d83a \
--      file://${LIC_DIR}/COPYING.LIB;md5=bbb461211a33b134d42ed5ee802b37ff "
+-S = "${WORKDIR}/gcc-4.2"
 -
--
--inherit native
--inherit autotools
--
--PR = "r1"
--SRCREV="11982"
--EGLIBC_BRANCH="eglibc-2_12"
--SRC_URI = "svn://www.eglibc.org/svn/branches/;module=${EGLIBC_BRANCH};proto=http "
--S = "${WORKDIR}/${EGLIBC_BRANCH}/localedef"
--
--do_unpack_append() {
--	bb.build.exec_func('do_move_ports', d)
+-# Hack till we fix *libc properly
+-do_install_append() {
+-	ln -sf ${STAGING_DIR_NATIVE}${prefix_native}/lib/gcc/${TARGET_SYS}/${BINV}/include-fixed/* ${D}${STAGING_DIR_NATIVE}${prefix_native}/lib/gcc/${TARGET_SYS}/${BINV}/include/
 -}
 -
--do_move_ports() {
--        if test -d ${WORKDIR}/${EGLIBC_BRANCH}/ports ; then
--	    rm -rf ${WORKDIR}/libc/ports
--	    mv ${WORKDIR}/${EGLIBC_BRANCH}/ports ${WORKDIR}/libc/
--	fi
--}
--
--EXTRA_OECONF = "--with-glibc=${WORKDIR}/${EGLIBC_BRANCH}/libc"
--
--do_configure () {
--	./configure ${EXTRA_OECONF}
--}
--
--
--do_install() {
--	install -d ${D}${bindir} 
--	install -m 0755 ${S}/localedef ${D}${bindir}/cross-localedef
--}
-diff --git a/meta/recipes-core/eglibc/eglibc-2.13/IO-acquire-lock-fix.patch b/meta/recipes-core/eglibc/eglibc-2.13/IO-acquire-lock-fix.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-cross-intermediate_csl-arm-2008q1.bb b/meta/recipes-devtools/gcc/gcc-cross-intermediate_csl-arm-2008q1.bb
 deleted file mode 100644
-index cf58035..0000000
---- a/meta/recipes-core/eglibc/eglibc-2.13/IO-acquire-lock-fix.patch
+index 8a8f21a..0000000
+--- a/meta/recipes-devtools/gcc/gcc-cross-intermediate_csl-arm-2008q1.bb
 +++ /dev/null
-@@ -1,17 +0,0 @@
--import http://sourceware.org/ml/libc-ports/2007-12/msg00000.html
+@@ -1,10 +0,0 @@
+-require gcc-cross_${PV}.bb
+-require gcc-cross-intermediate.inc
 -
--Upstream-Status: Pending
+-S = "${WORKDIR}/gcc-4.2"
 -
--Index: libc/bits/stdio-lock.h
--===================================================================
----- libc.orig/bits/stdio-lock.h	2009-10-28 14:34:19.000000000 -0700
--+++ libc/bits/stdio-lock.h	2009-10-28 14:34:54.000000000 -0700
--@@ -50,6 +50,8 @@ __libc_lock_define_recursive (typedef, _
--   _IO_cleanup_region_start ((void (*) (void *)) _IO_funlockfile, (_fp));      \
--   _IO_flockfile (_fp)
-- 
--+# define _IO_acquire_lock_clear_flags2(_fp) _IO_acquire_lock (_fp)
--+
-- # define _IO_release_lock(_fp) \
--   _IO_funlockfile (_fp);						      \
--   _IO_cleanup_region_end (0)
-diff --git a/meta/recipes-core/eglibc/eglibc-2.13/armv4-eabi-compile-fix.patch b/meta/recipes-core/eglibc/eglibc-2.13/armv4-eabi-compile-fix.patch
+-# Hack till we fix *libc properly
+-do_install_append() {
+-	ln -sf ${STAGING_DIR_NATIVE}${prefix_native}/lib/gcc/${TARGET_SYS}/${BINV}/include-fixed/* ${D}${STAGING_DIR_NATIVE}${prefix_native}/lib/gcc/${TARGET_SYS}/${BINV}/include/
+-}
+-
+diff --git a/meta/recipes-devtools/gcc/gcc-cross-kernel.inc b/meta/recipes-devtools/gcc/gcc-cross-kernel.inc
 deleted file mode 100644
-index c2407ee..0000000
---- a/meta/recipes-core/eglibc/eglibc-2.13/armv4-eabi-compile-fix.patch
+index be772ba..0000000
+--- a/meta/recipes-devtools/gcc/gcc-cross-kernel.inc
++++ /dev/null
+@@ -1,19 +0,0 @@
+-# Cut-down gcc for kernel builds
+-# Only installs ${TARGET_PREFIX}gcc-${PV}, not ${TARGET_PREFIX}gcc.
+-
+-PROVIDES = "virtual/${TARGET_PREFIX}gcc-${PV}"
+-
+-do_install () {
+-	cd gcc
+-	oe_runmake 'DESTDIR=${D}' install-common install-headers install-libgcc
+-	install -m 0755 xgcc  ${D}${bindir}/${TARGET_PREFIX}gcc-${PV}
+-
+-    # Insert symlinks into libexec so when tools without a prefix are searched for, the correct ones are
+-    # found. These need to be relative paths so they work in different locations.
+-    dest=${D}${libexecdir}/gcc/${TARGET_SYS}/${BINV}/
+-    install -d $dest
+-    for t in ar as ld nm objcopy objdump ranlib strip cpp; do
+-        ln -sf ${BINRELPATH}/${TARGET_PREFIX}$t $dest$t
+-        ln -sf ${BINRELPATH}/${TARGET_PREFIX}$t ${dest}${TARGET_PREFIX}$t
+-    done
+-}
+diff --git a/meta/recipes-devtools/gcc/gcc-cross_csl-arm-2008q1.bb b/meta/recipes-devtools/gcc/gcc-cross_csl-arm-2008q1.bb
+deleted file mode 100644
+index 58eba46..0000000
+--- a/meta/recipes-devtools/gcc/gcc-cross_csl-arm-2008q1.bb
++++ /dev/null
+@@ -1,24 +0,0 @@
+-require gcc-csl-arm-2008q1.inc
+-require gcc-cross4.inc
+-require gcc-configure-cross.inc
+-require gcc-package-cross.inc
+-
+-SRC_URI_append = " file://zecke-no-host-includes.patch "
+-
+-EXTRA_OECONF += "--disable-multilib --disable-libunwind-exceptions --with-mpfr=${STAGING_DIR_NATIVE}${prefix_native}"
+-
+-#We don't want i686 linux ending up in the CFLAGS_FOR_TARGET like this: -isystem/OE/angstrom-tmp/staging/i686-linux/usr/include
+-CFLAGS = ""
+-CXXFLAGS = ""
+-LDFLAGS = ""
+-
+-# staging-linkage and cross-linkage recipes don't work anymore, so do it by hand for this backwards CSL toolchain
+-do_compile_prepend() {
+-	ln -sf ${STAGING_DIR_TARGET}${target_libdir}/crt*.o ${STAGING_DIR_NATIVE}${prefix_native}/${TARGET_SYS}/lib/
+-	ln -sf ${STAGING_DIR_TARGET}${target_libdir}/ld-* ${STAGING_DIR_NATIVE}${prefix_native}/${TARGET_SYS}/lib/
+-	ln -sf ${STAGING_DIR_TARGET}/lib/libc* ${STAGING_DIR_NATIVE}${prefix_native}/${TARGET_SYS}/lib/ 
+-	sed -i -e 's:gcc_no_link=yes:gcc_no_link=no:' ${S}/libstdc++-v3/configure
+-
+-}
+-
+-ARCH_FLAGS_FOR_TARGET += " -L${STAGING_DIR_TARGET}${target_libdir} -isystem${STAGING_DIR_TARGET}${target_includedir}"
+diff --git a/meta/recipes-devtools/gcc/gcc-csl-arm-2005q3.inc b/meta/recipes-devtools/gcc/gcc-csl-arm-2005q3.inc
+deleted file mode 100644
+index 9aad535..0000000
+--- a/meta/recipes-devtools/gcc/gcc-csl-arm-2005q3.inc
++++ /dev/null
+@@ -1,22 +0,0 @@
+-require gcc-common.inc
+-
+-BINV = "3.4.4"
+-PV = "3.4.4+csl-arm-2005q3-2"
+-PV_chinook-compat = "3.4.4cs2005q3.2"
+-
+-FILESDIR = "${FILE_DIRNAME}/gcc-csl-arm"
+-
+-SRC_URI = "http://www.codesourcery.com/public/gnu_toolchain/arm-none-eabi/arm-2005q3-2-arm-none-eabi.src.tar.bz2 \
+-           file://gcc_optab_arm.patch \
+-           file://gcc-3.4.4-eabi-bigendian.patch"
+-
+-S = "${WORKDIR}/gcc-2005q3"
+-
+-do_unpack2() {
+-	cd ${WORKDIR}
+-	tar -xvjf ./arm-2005q3-2-arm-none-eabi/gcc-2005q3-2.tar.bz2
+-}
+-
+-addtask unpack2 after do_unpack before do_patch
+-
+-
+diff --git a/meta/recipes-devtools/gcc/gcc-csl-arm-2008q1.inc b/meta/recipes-devtools/gcc/gcc-csl-arm-2008q1.inc
+deleted file mode 100644
+index 648d783..0000000
+--- a/meta/recipes-devtools/gcc/gcc-csl-arm-2008q1.inc
++++ /dev/null
+@@ -1,53 +0,0 @@
+-require gcc-common.inc
+-
+-BINV = "4.2.3"
+-PV = "4.2.3+csl-arm-2008q1-126"
+-PR = "r6"
+-
+-FILESDIR = "${FILE_DIRNAME}/gcc-csl-arm"
+-
+-SRC_URI = "http://www.codesourcery.com/public/gnu_toolchain/arm-none-eabi/arm-2008q1-126-arm-none-eabi.src.tar.bz2 \
+-           file://gcc41-configure.in.patch \
+-           file://arm-nolibfloat.patch \
+-           file://arm-softfloat.patch \
+-           file://zecke-xgcc-cpp.patch \
+-"
+-#           file://100-uclibc-conf.patch
+-#           file://103-uclibc-conf-noupstream.patch
+-#           file://200-uclibc-locale.patch
+-#           file://203-uclibc-locale-no__x.patch
+-#           file://204-uclibc-locale-wchar_fix.patch
+-#           file://205-uclibc-locale-update.patch
+-#           file://300-libstdc++-pic.patch
+-#           file://302-c99-snprintf.patch
+-#           file://303-c99-complex-ugly-hack.patch
+-#           file://304-index_macro.patch
+-#           file://305-libmudflap-susv3-legacy.patch
+-#           file://306-libstdc++-namespace.patch
+-#           file://307-locale_facets.patch
+-#           file://402-libbackend_dep_gcov-iov.h.patch
+-#           file://602-sdk-libstdc++-includes.patch
+-#           file://gfortran.patch
+-#           file://fortran-static-linking.patch
+-#           file://gcc-configure-no-fortran.patch
+-#           file://gcc-new-makeinfo.patch
+-
+-S = "${WORKDIR}/gcc-4.2"
+-
+-do_unpack2() {
+-	cd ${WORKDIR}
+-	tar -xvjf ./arm-2008q1-126-arm-none-eabi/gcc-2008q1-126.tar.bz2
+-}
+-
+-# Language Overrides
+-FORTRAN = ""
+-#FORTRAN_linux-gnueabi = ",fortran"
+-#JAVA = ",java"
+-
+-EXTRA_OECONF_BASE = "--enable-libssp --disable-bootstrap --disable-libgomp --disable-libmudflap"
+-EXTRA_OECONF_INITIAL = "--disable-libmudflap --disable-libgomp --disable-libssp --disable-bootstrap"
+-EXTRA_OECONF_INTERMEDIATE = "--disable-libmudflap --disable-libgomp --disable-libssp --disable-bootstrap"
+-
+-ARM_INSTRUCTION_SET = "arm"
+-
+-addtask unpack2 after do_unpack before do_patch
+diff --git a/meta/recipes-devtools/gcc/gcc-csl-arm/arm-nolibfloat.patch b/meta/recipes-devtools/gcc/gcc-csl-arm/arm-nolibfloat.patch
+deleted file mode 100644
+index 57d4a00..0000000
+--- a/meta/recipes-devtools/gcc/gcc-csl-arm/arm-nolibfloat.patch
 +++ /dev/null
 @@ -1,25 +0,0 @@
--Source: http://sourceware.org/bugzilla/show_bug.cgi?id=12097
--Upstream-Status: Submitted
--
--The patch should be merged into glibc-ports
--
---Khem
--Index: libc/ports/sysdeps/unix/sysv/linux/arm/eabi/libc-do-syscall.S
--===================================================================
----- libc.orig/ports/sysdeps/unix/sysv/linux/arm/eabi/libc-do-syscall.S
--+++ libc/ports/sysdeps/unix/sysv/linux/arm/eabi/libc-do-syscall.S
--@@ -16,6 +16,8 @@
--    Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
--    02111-1307 USA.  */
-- 
--+#if defined(__thumb__)
--+
-- #include <sysdep.h>
-- 
-- /* Out-of-line syscall stub.  We expect the system call number in ip
--@@ -41,3 +43,5 @@ ENTRY (__libc_do_syscall)
-- 	pop	{r7, pc}
-- 	.fnend
-- END (__libc_do_syscall)
--+
--+#endif /* __thumb__ */
-diff --git a/meta/recipes-core/eglibc/eglibc-2.13/eglibc-svn-arm-lowlevellock-include-tls.patch b/meta/recipes-core/eglibc/eglibc-2.13/eglibc-svn-arm-lowlevellock-include-tls.patch
-deleted file mode 100644
-index 4313aa5..0000000
---- a/meta/recipes-core/eglibc/eglibc-2.13/eglibc-svn-arm-lowlevellock-include-tls.patch
-+++ /dev/null
-@@ -1,21 +0,0 @@
--In file included from ../nptl/sysdeps/unix/sysv/linux/libc-lowlevellock.c:21:
--../nptl/sysdeps/unix/sysv/linux/lowlevellock.c: In function '__lll_lock_wait_private':
--../nptl/sysdeps/unix/sysv/linux/lowlevellock.c:34: warning: implicit declaration of function 'THREAD_GETMEM'
--../nptl/sysdeps/unix/sysv/linux/lowlevellock.c:34: error: 'THREAD_SELF' undeclared (first use in this function)
--../nptl/sysdeps/unix/sysv/linux/lowlevellock.c:34: error: (Each undeclared identifier is reported only once
--../nptl/sysdeps/unix/sysv/linux/lowlevellock.c:34: error: for each function it appears in.)
--../nptl/sysdeps/unix/sysv/linux/lowlevellock.c:34: error: 'header' undeclared (first use in this function)
--make[4]: *** [/var/tmp/portage/sys-libs/glibc-2.7-r1/work/build-default-armv4l-unknown-linux-gnu-nptl/nptl/rtld-libc-lowlevellock.os] Error 1
--
 -Upstream-Status: Pending
+-# Dimitry Andric <dimitry@andric.com>, 2004-05-01
+-#
+-# * Removed the extra -lfloat option from LIBGCC_SPEC, since it isn't needed
+-#   anymore.  (The required functions are now in libgcc.)
+-# 
+-# Fixes errors like
+-# arm-softfloat-linux-gnu/3.4.0/../../../../arm-softfloat-linux-gnu/bin/ld: cannot find -lfloat
+-# collect2: ld returned 1 exit status
+-# make[2]: *** [arm-softfloat-linux-gnu/gcc-3.4.0-glibc-2.3.2/build-glibc/iconvdata/ISO8859-1.so] Error 1
+-# when building glibc-2.3.3 with gcc-3.4.0 for arm-softfloat
 -
----- libc/ports/sysdeps/unix/sysv/linux/arm/nptl/lowlevellock.h.orig
--+++ libc/ports/sysdeps/unix/sysv/linux/arm/nptl/lowlevellock.h
--@@ -25,6 +25,7 @@
-- #include <atomic.h>
-- #include <sysdep.h>
-- #include <kernel-features.h>
--+#include <tls.h>
+-Index: gcc-4.0.2/gcc/config/arm/linux-elf.h
+-===================================================================
+---- gcc-4.0.2.orig/gcc/config/arm/linux-elf.h	2005-03-04 16:14:01.000000000 +0000
+-+++ gcc-4.0.2/gcc/config/arm/linux-elf.h	2005-11-11 18:02:54.000000000 +0000
+-@@ -56,7 +56,7 @@
+-    %{shared:-lc} \
+-    %{!shared:%{profile:-lc_p}%{!profile:-lc}}"
 - 
-- #define FUTEX_WAIT		0
-- #define FUTEX_WAKE		1
-diff --git a/meta/recipes-core/eglibc/eglibc-2.13/etc/ld.so.conf b/meta/recipes-core/eglibc/eglibc-2.13/etc/ld.so.conf
+--#define LIBGCC_SPEC "%{msoft-float:-lfloat} %{mfloat-abi=soft*:-lfloat} -lgcc"
+-+#define LIBGCC_SPEC "-lgcc"
+- 
+- /* Provide a STARTFILE_SPEC appropriate for GNU/Linux.  Here we add
+-    the GNU/Linux magical crtbegin.o file (see crtstuff.c) which
+diff --git a/meta/recipes-devtools/gcc/gcc-csl-arm/arm-softfloat.patch b/meta/recipes-devtools/gcc/gcc-csl-arm/arm-softfloat.patch
 deleted file mode 100644
-index e69de29..0000000
-diff --git a/meta/recipes-core/eglibc/eglibc-2.13/generate-supported.mk b/meta/recipes-core/eglibc/eglibc-2.13/generate-supported.mk
-deleted file mode 100644
-index d2a28c2..0000000
---- a/meta/recipes-core/eglibc/eglibc-2.13/generate-supported.mk
+index 9a0a691..0000000
+--- a/meta/recipes-devtools/gcc/gcc-csl-arm/arm-softfloat.patch
 +++ /dev/null
-@@ -1,11 +0,0 @@
--#!/usr/bin/make
--
--include $(IN)
--
--all:
--	rm -f $(OUT)
--	touch $(OUT)
--	for locale in $(SUPPORTED-LOCALES); do \
--		[ $$locale = true ] && continue; \
--		echo $$locale | sed 's,/, ,' >> $(OUT); \
--	done
-diff --git a/meta/recipes-core/eglibc/eglibc-2.13/ld-search-order.patch b/meta/recipes-core/eglibc/eglibc-2.13/ld-search-order.patch
+@@ -1,17 +0,0 @@
+-Upstream-Status: Pending
+-Index: gcc-4.0.2/gcc/config/arm/t-linux
+-===================================================================
+---- gcc-4.0.2.orig/gcc/config/arm/t-linux	2004-05-15 12:41:35.000000000 +0000
+-+++ gcc-4.0.2/gcc/config/arm/t-linux	2005-11-11 16:07:53.000000000 +0000
+-@@ -4,7 +4,10 @@
+- LIBGCC2_DEBUG_CFLAGS = -g0
+- 
+- LIB1ASMSRC = arm/lib1funcs.asm
+--LIB1ASMFUNCS = _udivsi3 _divsi3 _umodsi3 _modsi3 _dvmd_lnx
+-+LIB1ASMFUNCS = _udivsi3 _divsi3 _umodsi3 _modsi3 _dvmd_lnx \
+-+    _negdf2 _addsubdf3 _muldivdf3 _cmpdf2 _unorddf2 _fixdfsi _fixunsdfsi \
+-+    _truncdfsf2 _negsf2 _addsubsf3 _muldivsf3 _cmpsf2 _unordsf2 \
+-+    _fixsfsi _fixunssfsi _floatdidf _floatdisf _floatundisf _floatundidf
+- 
+- # MULTILIB_OPTIONS = mhard-float/msoft-float
+- # MULTILIB_DIRNAMES = hard-float soft-float
+diff --git a/meta/recipes-devtools/gcc/gcc-csl-arm/gcc-3.4.4-eabi-bigendian.patch b/meta/recipes-devtools/gcc/gcc-csl-arm/gcc-3.4.4-eabi-bigendian.patch
 deleted file mode 100644
-index 40ae6d3..0000000
---- a/meta/recipes-core/eglibc/eglibc-2.13/ld-search-order.patch
+index 7453acd..0000000
+--- a/meta/recipes-devtools/gcc/gcc-csl-arm/gcc-3.4.4-eabi-bigendian.patch
 +++ /dev/null
-@@ -1,56 +0,0 @@
+@@ -1,13 +0,0 @@
+-Upstream-Status: Pending
+---- gcc-2005q3/gcc/config/arm/linux-eabi.h~	2007-07-10 09:19:47.000000000 +0930
+-+++ gcc-2005q3/gcc/config/arm/linux-eabi.h	2007-07-10 10:42:37.000000000 +0930
+-@@ -48,7 +48,8 @@
+- #define SUBTARGET_CPU_DEFAULT TARGET_CPU_arm10tdmi
+- 
+- #undef SUBTARGET_EXTRA_LINK_SPEC
+--#define SUBTARGET_EXTRA_LINK_SPEC " -m armelf_linux_eabi"
+-+#define SUBTARGET_EXTRA_LINK_SPEC \
+-+    " %{mbig-endian:-m armelfb_linux_eabi} %{mlittle-endian:-m armelf_linux_eabi} "
+- 
+- /* Use ld-linux.so.3 so that it will be possible to run "classic"
+-    GNU/Linux binaries on an EABI system.  */
+diff --git a/meta/recipes-devtools/gcc/gcc-csl-arm/gcc-3.4.4-makefile-fix.patch b/meta/recipes-devtools/gcc/gcc-csl-arm/gcc-3.4.4-makefile-fix.patch
+deleted file mode 100644
+index 9c53173..0000000
+--- a/meta/recipes-devtools/gcc/gcc-csl-arm/gcc-3.4.4-makefile-fix.patch
++++ /dev/null
+@@ -1,30 +0,0 @@
+-Upstream-Status: Pending
+---- gcc-3.4.4/gcc/Makefile.in.orig	2005-07-25 21:00:37 +0200
+-+++ gcc-3.4.4/gcc/Makefile.in	2005-07-25 21:01:19 +0200
+-@@ -304,7 +304,7 @@
+-     if [ "$(host)" = "$(target)" ] ; then \
+-       echo ar; \
+-     else \
+--       t='$(program_transform_name)'; echo ar | sed -e $$t ; \
+-+       t='$(program_transform_name)'; echo ar | sed -e "$$t" ; \
+-     fi; \
+-   fi`
+- AR_FLAGS_FOR_TARGET =
+-@@ -317,7 +317,7 @@
+-     if [ "$(host)" = "$(target)" ] ; then \
+-       echo $(RANLIB); \
+-     else \
+--       t='$(program_transform_name)'; echo ranlib | sed -e $$t ; \
+-+       t='$(program_transform_name)'; echo ranlib | sed -e "$$t" ; \
+-     fi; \
+-   fi`
+- NM_FOR_TARGET = ` \
+-@@ -329,7 +329,7 @@
+-     if [ "$(host)" = "$(target)" ] ; then \
+-       echo nm; \
+-     else \
+--       t='$(program_transform_name)'; echo nm | sed -e $$t ; \
+-+       t='$(program_transform_name)'; echo nm | sed -e "$$t" ; \
+-     fi; \
+-   fi`
+- 
+diff --git a/meta/recipes-devtools/gcc/gcc-csl-arm/gcc-configure-no-fortran.patch b/meta/recipes-devtools/gcc/gcc-csl-arm/gcc-configure-no-fortran.patch
+deleted file mode 100644
+index d9aed34..0000000
+--- a/meta/recipes-devtools/gcc/gcc-csl-arm/gcc-configure-no-fortran.patch
++++ /dev/null
+@@ -1,1076 +0,0 @@
+-Upstream-Status: Inappropriate [embedded specific]
+---- tmp/configure.in.orig	2006-09-05 17:50:48.000000000 +0100
+-+++ tmp/configure.in	2006-09-05 17:50:48.000000000 +0100
+-@@ -157,7 +157,6 @@
+- 		target-libstdc++-v3 \
+- 		target-libmudflap \
+- 		target-libssp \
+--		target-libgfortran \
+- 		${libgcj} \
+- 		target-libobjc \
+- 		target-libada"
+-@@ -1084,77 +1083,6 @@
+- AC_SUBST(docdir)
+- AC_SUBST(htmldir)
+- 
+--# Check for GMP and MPFR
+--gmplibs=
+--gmpinc=
+--have_gmp=yes
+--# Specify a location for mpfr
+--# check for this first so it ends up on the link line before gmp.
+--AC_ARG_WITH(mpfr-dir, [  --with-mpfr-dir=PATH    Specify source directory for MPFR library])
+--
+--if test "x$with_mpfr_dir" != x; then
+--  gmpinc="-I$with_mpfr_dir"
+--  gmplibs="$with_mpfr_dir/libmpfr.a"
+--else
+--  gmplibs="-lmpfr"
+--fi
+--
+--AC_ARG_WITH(mpfr, [  --with-mpfr=PATH        Specify directory for installed MPFR library])
+--
+--if test "x$with_mpfr" != x; then
+--  gmplibs="-L$with_mpfr/lib $gmplibs"
+--  gmpinc="-I$with_mpfr/include"
+--fi
+--
+--# Specify a location for gmp
+--AC_ARG_WITH(gmp-dir, [  --with-gmp-dir=PATH     Specify source directory for GMP library])
+--
+--if test "x$with_gmp_dir" != x; then
+--  gmpinc="$gmpinc -I$with_gmp_dir"
+--  if test -f "$with_gmp_dir/.libs/libgmp.a"; then
+--    gmplibs="$gmplibs $with_gmp_dir/.libs/libgmp.a"
+--  elif test -f "$with_gmp_dir/_libs/libgmp.a"; then
+--    gmplibs="$gmplibs $with_gmp_dir/_libs/libgmp.a"
+--  fi
+--  # One of the later tests will catch the error if neither library is present.
+--else
+--  gmplibs="$gmplibs -lgmp"
+--fi
+--
+--AC_ARG_WITH(gmp, [  --with-gmp=PATH         Specify directory for installed GMP library])
+--
+--if test "x$with_gmp" != x; then
+--  gmplibs="-L$with_gmp/lib $gmplibs"
+--  gmpinc="-I$with_gmp/include $gmpinc"
+--fi
+--
+--saved_CFLAGS="$CFLAGS"
+--CFLAGS="$CFLAGS $gmpinc"
+--# Check GMP actually works
+--AC_MSG_CHECKING([for correct version of gmp.h])
+--AC_TRY_COMPILE([#include "gmp.h"],[
+--#if __GNU_MP_VERSION < 3
+--choke me
+--#endif
+--], [AC_MSG_RESULT([yes])],
+--  [AC_MSG_RESULT([no]); have_gmp=no])
+--
+--if test x"$have_gmp" = xyes; then
+--  AC_MSG_CHECKING([for MPFR])
+--
+--  saved_LIBS="$LIBS"
+--  LIBS="$LIBS $gmplibs"
+--  AC_TRY_LINK([#include <gmp.h>
+--#include <mpfr.h>], [mpfr_t n; mpfr_init(n);],
+--    [AC_MSG_RESULT([yes])],  [AC_MSG_RESULT([no]); have_gmp=no])
+--  LIBS="$saved_LIBS"
+--  CFLAGS="$saved_CFLAGS"
+--fi
+--
+--# Flags needed for both GMP and/or MPFR
+--AC_SUBST(gmplibs)
+--AC_SUBST(gmpinc)
+--
+- # By default, C is the only stage 1 language.
+- stage1_languages=c
+- AC_SUBST(stage1_languages)
+-@@ -1182,15 +1110,6 @@
+-   fi
+-   enable_languages=`echo "${enable_languages}" | sed -e 's/[[ 	,]][[ 	,]]*/,/g' -e 's/,$//'`
+- 
+--  # 'f95' is the old name for the 'fortran' language. We issue a warning
+--  # and make the substitution.
+--  case ,${enable_languages}, in
+--    *,f95,*)
+--      echo configure.in: warning: 'f95' as language name is deprecated, use 'fortran' instead 1>&2
+--      enable_languages=`echo "${enable_languages}" | sed -e 's/f95/fortran/g'`
+--      ;;
+--  esac
+--
+-   # First scan to see if an enabled language requires some other language.
+-   # We assume that a given config-lang.in will list all the language
+-   # front ends it requires, even if some are required indirectly.
+-@@ -2213,7 +2132,6 @@
+- NCN_STRICT_CHECK_TARGET_TOOLS(DLLTOOL_FOR_TARGET, dlltool)
+- NCN_STRICT_CHECK_TARGET_TOOLS(GCC_FOR_TARGET, gcc, ${CC_FOR_TARGET})
+- NCN_STRICT_CHECK_TARGET_TOOLS(GCJ_FOR_TARGET, gcj)
+--NCN_STRICT_CHECK_TARGET_TOOLS(GFORTRAN_FOR_TARGET, gfortran)
+- NCN_STRICT_CHECK_TARGET_TOOLS(LD_FOR_TARGET, ld)
+- NCN_STRICT_CHECK_TARGET_TOOLS(LIPO_FOR_TARGET, lipo)
+- NCN_STRICT_CHECK_TARGET_TOOLS(NM_FOR_TARGET, nm)
+-@@ -2237,9 +2155,7 @@
+- GCC_TARGET_TOOL(gcc, GCC_FOR_TARGET, , [gcc/xgcc -B$$r/$(HOST_SUBDIR)/gcc/])
+- GCC_TARGET_TOOL(gcj, GCJ_FOR_TARGET, GCJ,
+- 		[gcc/gcj -B$$r/$(HOST_SUBDIR)/gcc/], java)
+--GCC_TARGET_TOOL(gfortran, GFORTRAN_FOR_TARGET, GFORTRAN,
+--		[gcc/gfortran -B$$r/$(HOST_SUBDIR)/gcc/], fortran)
+- GCC_TARGET_TOOL(ld, LD_FOR_TARGET, LD, [ld/ld-new])
+- GCC_TARGET_TOOL(lipo, LIPO_FOR_TARGET, LIPO)
+- GCC_TARGET_TOOL(nm, NM_FOR_TARGET, NM, [binutils/nm-new])
+-
+---- tmp/Makefile.in.orig	2006-09-06 08:33:46.000000000 +0100
+-+++ tmp/Makefile.in	2006-09-06 08:33:46.000000000 +0100
+-@@ -119,7 +119,6 @@
+- 	CXX="$(CXX_FOR_BUILD)"; export CXX; \
+- 	CXXFLAGS="$(CXXFLAGS_FOR_BUILD)"; export CXXFLAGS; \
+- 	GCJ="$(GCJ_FOR_BUILD)"; export GCJ; \
+--	GFORTRAN="$(GFORTRAN_FOR_BUILD)"; export GFORTRAN; \
+- 	DLLTOOL="$(DLLTOOL_FOR_BUILD)"; export DLLTOOL; \
+- 	LD="$(LD_FOR_BUILD)"; export LD; \
+- 	LDFLAGS="$(LDFLAGS_FOR_BUILD)"; export LDFLAGS; \
+-@@ -201,7 +200,6 @@
+- 	CPPFLAGS="$(CPPFLAGS_FOR_TARGET)"; export CPPFLAGS; \
+- 	CXXFLAGS="$(CXXFLAGS_FOR_TARGET)"; export CXXFLAGS; \
+- 	GCJ="$(GCJ_FOR_TARGET)"; export GCJ; \
+--	GFORTRAN="$(GFORTRAN_FOR_TARGET)"; export GFORTRAN; \
+- 	DLLTOOL="$(DLLTOOL_FOR_TARGET)"; export DLLTOOL; \
+- 	LD="$(COMPILER_LD_FOR_TARGET)"; export LD; \
+- 	LDFLAGS="$(LDFLAGS_FOR_TARGET)"; export LDFLAGS; \
+-@@ -313,7 +311,6 @@
+- CXX_FOR_TARGET=$(STAGE_CC_WRAPPER) @CXX_FOR_TARGET@ $(FLAGS_FOR_TARGET)
+- RAW_CXX_FOR_TARGET=$(STAGE_CC_WRAPPER) @RAW_CXX_FOR_TARGET@ $(FLAGS_FOR_TARGET)
+- GCJ_FOR_TARGET=$(STAGE_CC_WRAPPER) @GCJ_FOR_TARGET@ $(FLAGS_FOR_TARGET)
+--GFORTRAN_FOR_TARGET=$(STAGE_CC_WRAPPER) @GFORTRAN_FOR_TARGET@ $(FLAGS_FOR_TARGET)
+- DLLTOOL_FOR_TARGET=@DLLTOOL_FOR_TARGET@
+- LD_FOR_TARGET=@LD_FOR_TARGET@
+- 
+-@@ -452,7 +449,6 @@
+- 	"CXXFLAGS_FOR_TARGET=$(CXXFLAGS_FOR_TARGET)" \
+- 	"DLLTOOL_FOR_TARGET=$(DLLTOOL_FOR_TARGET)" \
+- 	"GCJ_FOR_TARGET=$(GCJ_FOR_TARGET)" \
+--	"GFORTRAN_FOR_TARGET=$(GFORTRAN_FOR_TARGET)" \
+- 	"LD_FOR_TARGET=$(LD_FOR_TARGET)" \
+- 	"LIPO_FOR_TARGET=$(LIPO_FOR_TARGET)" \
+- 	"LDFLAGS_FOR_TARGET=$(LDFLAGS_FOR_TARGET)" \
+-@@ -618,7 +614,6 @@
+-     maybe-configure-target-libmudflap \
+-     maybe-configure-target-libssp \
+-     maybe-configure-target-newlib \
+--    maybe-configure-target-libgfortran \
+-     maybe-configure-target-libobjc \
+-     maybe-configure-target-libtermcap \
+-     maybe-configure-target-winsup \
+-@@ -737,7 +732,6 @@
+-     maybe-all-target-libmudflap \
+-     maybe-all-target-libssp \
+-     maybe-all-target-newlib \
+--    maybe-all-target-libgfortran \
+-     maybe-all-target-libobjc \
+-     maybe-all-target-libtermcap \
+-     maybe-all-target-winsup \
+-@@ -844,7 +838,6 @@
+-     maybe-info-target-libmudflap \
+-     maybe-info-target-libssp \
+-     maybe-info-target-newlib \
+--    maybe-info-target-libgfortran \
+-     maybe-info-target-libobjc \
+-     maybe-info-target-libtermcap \
+-     maybe-info-target-winsup \
+-@@ -946,7 +939,6 @@
+-     maybe-dvi-target-libmudflap \
+-     maybe-dvi-target-libssp \
+-     maybe-dvi-target-newlib \
+--    maybe-dvi-target-libgfortran \
+-     maybe-dvi-target-libobjc \
+-     maybe-dvi-target-libtermcap \
+-     maybe-dvi-target-winsup \
+-@@ -1048,7 +1040,6 @@
+-     maybe-html-target-libmudflap \
+-     maybe-html-target-libssp \
+-     maybe-html-target-newlib \
+--    maybe-html-target-libgfortran \
+-     maybe-html-target-libobjc \
+-     maybe-html-target-libtermcap \
+-     maybe-html-target-winsup \
+-@@ -1150,7 +1141,6 @@
+-     maybe-TAGS-target-libmudflap \
+-     maybe-TAGS-target-libssp \
+-     maybe-TAGS-target-newlib \
+--    maybe-TAGS-target-libgfortran \
+-     maybe-TAGS-target-libobjc \
+-     maybe-TAGS-target-libtermcap \
+-     maybe-TAGS-target-winsup \
+-@@ -1252,7 +1242,6 @@
+-     maybe-install-info-target-libmudflap \
+-     maybe-install-info-target-libssp \
+-     maybe-install-info-target-newlib \
+--    maybe-install-info-target-libgfortran \
+-     maybe-install-info-target-libobjc \
+-     maybe-install-info-target-libtermcap \
+-     maybe-install-info-target-winsup \
+-@@ -1354,7 +1343,6 @@
+-     maybe-install-html-target-libmudflap \
+-     maybe-install-html-target-libssp \
+-     maybe-install-html-target-newlib \
+--    maybe-install-html-target-libgfortran \
+-     maybe-install-html-target-libobjc \
+-     maybe-install-html-target-libtermcap \
+-     maybe-install-html-target-winsup \
+-@@ -1456,7 +1444,6 @@
+-     maybe-installcheck-target-libmudflap \
+-     maybe-installcheck-target-libssp \
+-     maybe-installcheck-target-newlib \
+--    maybe-installcheck-target-libgfortran \
+-     maybe-installcheck-target-libobjc \
+-     maybe-installcheck-target-libtermcap \
+-     maybe-installcheck-target-winsup \
+-@@ -1558,7 +1545,6 @@
+-     maybe-mostlyclean-target-libmudflap \
+-     maybe-mostlyclean-target-libssp \
+-     maybe-mostlyclean-target-newlib \
+--    maybe-mostlyclean-target-libgfortran \
+-     maybe-mostlyclean-target-libobjc \
+-     maybe-mostlyclean-target-libtermcap \
+-     maybe-mostlyclean-target-winsup \
+-@@ -1660,7 +1646,6 @@
+-     maybe-clean-target-libmudflap \
+-     maybe-clean-target-libssp \
+-     maybe-clean-target-newlib \
+--    maybe-clean-target-libgfortran \
+-     maybe-clean-target-libobjc \
+-     maybe-clean-target-libtermcap \
+-     maybe-clean-target-winsup \
+-@@ -1762,7 +1747,6 @@
+-     maybe-distclean-target-libmudflap \
+-     maybe-distclean-target-libssp \
+-     maybe-distclean-target-newlib \
+--    maybe-distclean-target-libgfortran \
+-     maybe-distclean-target-libobjc \
+-     maybe-distclean-target-libtermcap \
+-     maybe-distclean-target-winsup \
+-@@ -1864,7 +1848,6 @@
+-     maybe-maintainer-clean-target-libmudflap \
+-     maybe-maintainer-clean-target-libssp \
+-     maybe-maintainer-clean-target-newlib \
+--    maybe-maintainer-clean-target-libgfortran \
+-     maybe-maintainer-clean-target-libobjc \
+-     maybe-maintainer-clean-target-libtermcap \
+-     maybe-maintainer-clean-target-winsup \
+-@@ -2024,7 +2007,6 @@
+-     maybe-check-target-libmudflap \
+-     maybe-check-target-libssp \
+-     maybe-check-target-newlib \
+--    maybe-check-target-libgfortran \
+-     maybe-check-target-libobjc \
+-     maybe-check-target-libtermcap \
+-     maybe-check-target-winsup \
+-@@ -2223,7 +2205,6 @@
+-     maybe-install-target-libmudflap \
+-     maybe-install-target-libssp \
+-     maybe-install-target-newlib \
+--    maybe-install-target-libgfortran \
+-     maybe-install-target-libobjc \
+-     maybe-install-target-libtermcap \
+-     maybe-install-target-winsup \
+-@@ -31606,382 +31587,6 @@
+- 
+- 
+- # There's only one multilib.out.  Cleverer subdirs shouldn't need it copied.
+--@if target-libgfortran
+--$(TARGET_SUBDIR)/libgfortran/multilib.out: multilib.out
+--	$(SHELL) $(srcdir)/mkinstalldirs $(TARGET_SUBDIR)/libgfortran ; \
+--	rm -f $(TARGET_SUBDIR)/libgfortran/Makefile || : ; \
+--	cp multilib.out $(TARGET_SUBDIR)/libgfortran/multilib.out
+--@endif target-libgfortran
+--
+--
+--
+--.PHONY: configure-target-libgfortran maybe-configure-target-libgfortran
+--maybe-configure-target-libgfortran:
+--@if target-libgfortran
+--maybe-configure-target-libgfortran: configure-target-libgfortran
+--configure-target-libgfortran: $(TARGET_SUBDIR)/libgfortran/multilib.out
+--	@$(unstage)
+--	@test ! -f $(TARGET_SUBDIR)/libgfortran/Makefile || exit 0; \
+--	$(SHELL) $(srcdir)/mkinstalldirs $(TARGET_SUBDIR)/libgfortran ; \
+--	r=`${PWD_COMMAND}`; export r; \
+--	s=`cd $(srcdir); ${PWD_COMMAND}`; export s; \
+--	$(NORMAL_TARGET_EXPORTS) \
+--	echo Configuring in $(TARGET_SUBDIR)/libgfortran; \
+--	cd "$(TARGET_SUBDIR)/libgfortran" || exit 1; \
+--	case $(srcdir) in \
+--	  /* | [A-Za-z]:[\\/]*) topdir=$(srcdir) ;; \
+--	  *) topdir=`echo $(TARGET_SUBDIR)/libgfortran/ | \
+--		sed -e 's,\./,,g' -e 's,[^/]*/,../,g' `$(srcdir) ;; \
+--	esac; \
+--	srcdiroption="--srcdir=$${topdir}/libgfortran"; \
+--	libsrcdir="$$s/libgfortran"; \
+--	rm -f no-such-file || : ; \
+--	CONFIG_SITE=no-such-file $(SHELL) $${libsrcdir}/configure \
+--	  $(TARGET_CONFIGARGS) $${srcdiroption}  \
+--	  || exit 1
+--@endif target-libgfortran
+--
+--
+--
+--
+--
+--.PHONY: all-target-libgfortran maybe-all-target-libgfortran
+--maybe-all-target-libgfortran:
+--@if target-libgfortran
+--TARGET-target-libgfortran=all
+--maybe-all-target-libgfortran: all-target-libgfortran
+--all-target-libgfortran: configure-target-libgfortran
+--	@$(unstage)
+--	@r=`${PWD_COMMAND}`; export r; \
+--	s=`cd $(srcdir); ${PWD_COMMAND}`; export s; \
+--	$(NORMAL_TARGET_EXPORTS) \
+--	(cd $(TARGET_SUBDIR)/libgfortran && \
+--	  $(MAKE) $(TARGET_FLAGS_TO_PASS)  $(TARGET-target-libgfortran))
+--@endif target-libgfortran
+--
+--
+--
+--
+--
+--.PHONY: check-target-libgfortran maybe-check-target-libgfortran
+--maybe-check-target-libgfortran:
+--@if target-libgfortran
+--maybe-check-target-libgfortran: check-target-libgfortran
+--
+--check-target-libgfortran:
+--	@: $(MAKE); $(unstage)
+--	@r=`${PWD_COMMAND}`; export r; \
+--	s=`cd $(srcdir); ${PWD_COMMAND}`; export s; \
+--	$(NORMAL_TARGET_EXPORTS) \
+--	(cd $(TARGET_SUBDIR)/libgfortran && \
+--	  $(MAKE) $(TARGET_FLAGS_TO_PASS)   check)
+--
+--@endif target-libgfortran
+--
+--.PHONY: install-target-libgfortran maybe-install-target-libgfortran
+--maybe-install-target-libgfortran:
+--@if target-libgfortran
+--maybe-install-target-libgfortran: install-target-libgfortran
+--
+--install-target-libgfortran: installdirs
+--	@: $(MAKE); $(unstage)
+--	@r=`${PWD_COMMAND}`; export r; \
+--	s=`cd $(srcdir); ${PWD_COMMAND}`; export s; \
+--	$(NORMAL_TARGET_EXPORTS) \
+--	(cd $(TARGET_SUBDIR)/libgfortran && \
+--	  $(MAKE) $(TARGET_FLAGS_TO_PASS)  install)
+--
+--@endif target-libgfortran
+--
+--# Other targets (info, dvi, etc.)
+--
+--.PHONY: maybe-info-target-libgfortran info-target-libgfortran
+--maybe-info-target-libgfortran:
+--@if target-libgfortran
+--maybe-info-target-libgfortran: info-target-libgfortran
+--
+--info-target-libgfortran: \
+--    configure-target-libgfortran 
+--	@: $(MAKE); $(unstage)
+--	@[ -f $(TARGET_SUBDIR)/libgfortran/Makefile ] || exit 0 ; \
+--	r=`${PWD_COMMAND}`; export r; \
+--	s=`cd $(srcdir); ${PWD_COMMAND}`; export s; \
+--	$(NORMAL_TARGET_EXPORTS) \
+--	echo "Doing info in $(TARGET_SUBDIR)/libgfortran" ; \
+--	for flag in $(EXTRA_TARGET_FLAGS); do \
+--	  eval `echo "$$flag" | sed -e "s|^\([^=]*\)=\(.*\)|\1='\2'; export \1|"`; \
+--	done; \
+--	(cd $(TARGET_SUBDIR)/libgfortran && \
+--	  $(MAKE) $(BASE_FLAGS_TO_PASS) "AR=$${AR}" "AS=$${AS}" \
+--	          "CC=$${CC}" "CXX=$${CXX}" "LD=$${LD}" "NM=$${NM}" \
+--	          "RANLIB=$${RANLIB}" \
+--	          "DLLTOOL=$${DLLTOOL}" "WINDRES=$${WINDRES}" \
+--	           info) \
+--	  || exit 1
+--
+--@endif target-libgfortran
+--
+--.PHONY: maybe-dvi-target-libgfortran dvi-target-libgfortran
+--maybe-dvi-target-libgfortran:
+--@if target-libgfortran
+--maybe-dvi-target-libgfortran: dvi-target-libgfortran
+--
+--dvi-target-libgfortran: \
+--    configure-target-libgfortran 
+--	@: $(MAKE); $(unstage)
+--	@[ -f $(TARGET_SUBDIR)/libgfortran/Makefile ] || exit 0 ; \
+--	r=`${PWD_COMMAND}`; export r; \
+--	s=`cd $(srcdir); ${PWD_COMMAND}`; export s; \
+--	$(NORMAL_TARGET_EXPORTS) \
+--	echo "Doing dvi in $(TARGET_SUBDIR)/libgfortran" ; \
+--	for flag in $(EXTRA_TARGET_FLAGS); do \
+--	  eval `echo "$$flag" | sed -e "s|^\([^=]*\)=\(.*\)|\1='\2'; export \1|"`; \
+--	done; \
+--	(cd $(TARGET_SUBDIR)/libgfortran && \
+--	  $(MAKE) $(BASE_FLAGS_TO_PASS) "AR=$${AR}" "AS=$${AS}" \
+--	          "CC=$${CC}" "CXX=$${CXX}" "LD=$${LD}" "NM=$${NM}" \
+--	          "RANLIB=$${RANLIB}" \
+--	          "DLLTOOL=$${DLLTOOL}" "WINDRES=$${WINDRES}" \
+--	           dvi) \
+--	  || exit 1
+--
+--@endif target-libgfortran
+--
+--.PHONY: maybe-html-target-libgfortran html-target-libgfortran
+--maybe-html-target-libgfortran:
+--@if target-libgfortran
+--maybe-html-target-libgfortran: html-target-libgfortran
+--
+--html-target-libgfortran: \
+--    configure-target-libgfortran 
+--	@: $(MAKE); $(unstage)
+--	@[ -f $(TARGET_SUBDIR)/libgfortran/Makefile ] || exit 0 ; \
+--	r=`${PWD_COMMAND}`; export r; \
+--	s=`cd $(srcdir); ${PWD_COMMAND}`; export s; \
+--	$(NORMAL_TARGET_EXPORTS) \
+--	echo "Doing html in $(TARGET_SUBDIR)/libgfortran" ; \
+--	for flag in $(EXTRA_TARGET_FLAGS); do \
+--	  eval `echo "$$flag" | sed -e "s|^\([^=]*\)=\(.*\)|\1='\2'; export \1|"`; \
+--	done; \
+--	(cd $(TARGET_SUBDIR)/libgfortran && \
+--	  $(MAKE) $(BASE_FLAGS_TO_PASS) "AR=$${AR}" "AS=$${AS}" \
+--	          "CC=$${CC}" "CXX=$${CXX}" "LD=$${LD}" "NM=$${NM}" \
+--	          "RANLIB=$${RANLIB}" \
+--	          "DLLTOOL=$${DLLTOOL}" "WINDRES=$${WINDRES}" \
+--	           html) \
+--	  || exit 1
+--
+--@endif target-libgfortran
+--
+--.PHONY: maybe-TAGS-target-libgfortran TAGS-target-libgfortran
+--maybe-TAGS-target-libgfortran:
+--@if target-libgfortran
+--maybe-TAGS-target-libgfortran: TAGS-target-libgfortran
+--
+--TAGS-target-libgfortran: \
+--    configure-target-libgfortran 
+--	@: $(MAKE); $(unstage)
+--	@[ -f $(TARGET_SUBDIR)/libgfortran/Makefile ] || exit 0 ; \
+--	r=`${PWD_COMMAND}`; export r; \
+--	s=`cd $(srcdir); ${PWD_COMMAND}`; export s; \
+--	$(NORMAL_TARGET_EXPORTS) \
+--	echo "Doing TAGS in $(TARGET_SUBDIR)/libgfortran" ; \
+--	for flag in $(EXTRA_TARGET_FLAGS); do \
+--	  eval `echo "$$flag" | sed -e "s|^\([^=]*\)=\(.*\)|\1='\2'; export \1|"`; \
+--	done; \
+--	(cd $(TARGET_SUBDIR)/libgfortran && \
+--	  $(MAKE) $(BASE_FLAGS_TO_PASS) "AR=$${AR}" "AS=$${AS}" \
+--	          "CC=$${CC}" "CXX=$${CXX}" "LD=$${LD}" "NM=$${NM}" \
+--	          "RANLIB=$${RANLIB}" \
+--	          "DLLTOOL=$${DLLTOOL}" "WINDRES=$${WINDRES}" \
+--	           TAGS) \
+--	  || exit 1
+--
+--@endif target-libgfortran
+--
+--.PHONY: maybe-install-info-target-libgfortran install-info-target-libgfortran
+--maybe-install-info-target-libgfortran:
+--@if target-libgfortran
+--maybe-install-info-target-libgfortran: install-info-target-libgfortran
+--
+--install-info-target-libgfortran: \
+--    configure-target-libgfortran \
+--    info-target-libgfortran 
+--	@: $(MAKE); $(unstage)
+--	@[ -f $(TARGET_SUBDIR)/libgfortran/Makefile ] || exit 0 ; \
+--	r=`${PWD_COMMAND}`; export r; \
+--	s=`cd $(srcdir); ${PWD_COMMAND}`; export s; \
+--	$(NORMAL_TARGET_EXPORTS) \
+--	echo "Doing install-info in $(TARGET_SUBDIR)/libgfortran" ; \
+--	for flag in $(EXTRA_TARGET_FLAGS); do \
+--	  eval `echo "$$flag" | sed -e "s|^\([^=]*\)=\(.*\)|\1='\2'; export \1|"`; \
+--	done; \
+--	(cd $(TARGET_SUBDIR)/libgfortran && \
+--	  $(MAKE) $(BASE_FLAGS_TO_PASS) "AR=$${AR}" "AS=$${AS}" \
+--	          "CC=$${CC}" "CXX=$${CXX}" "LD=$${LD}" "NM=$${NM}" \
+--	          "RANLIB=$${RANLIB}" \
+--	          "DLLTOOL=$${DLLTOOL}" "WINDRES=$${WINDRES}" \
+--	           install-info) \
+--	  || exit 1
+--
+--@endif target-libgfortran
+--
+--.PHONY: maybe-install-html-target-libgfortran install-html-target-libgfortran
+--maybe-install-html-target-libgfortran:
+--@if target-libgfortran
+--maybe-install-html-target-libgfortran: install-html-target-libgfortran
+--
+--install-html-target-libgfortran: \
+--    configure-target-libgfortran \
+--    html-target-libgfortran 
+--	@: $(MAKE); $(unstage)
+--	@[ -f $(TARGET_SUBDIR)/libgfortran/Makefile ] || exit 0 ; \
+--	r=`${PWD_COMMAND}`; export r; \
+--	s=`cd $(srcdir); ${PWD_COMMAND}`; export s; \
+--	$(NORMAL_TARGET_EXPORTS) \
+--	echo "Doing install-html in $(TARGET_SUBDIR)/libgfortran" ; \
+--	for flag in $(EXTRA_TARGET_FLAGS); do \
+--	  eval `echo "$$flag" | sed -e "s|^\([^=]*\)=\(.*\)|\1='\2'; export \1|"`; \
+--	done; \
+--	(cd $(TARGET_SUBDIR)/libgfortran && \
+--	  $(MAKE) $(BASE_FLAGS_TO_PASS) "AR=$${AR}" "AS=$${AS}" \
+--	          "CC=$${CC}" "CXX=$${CXX}" "LD=$${LD}" "NM=$${NM}" \
+--	          "RANLIB=$${RANLIB}" \
+--	          "DLLTOOL=$${DLLTOOL}" "WINDRES=$${WINDRES}" \
+--	           install-html) \
+--	  || exit 1
+--
+--@endif target-libgfortran
+--
+--.PHONY: maybe-installcheck-target-libgfortran installcheck-target-libgfortran
+--maybe-installcheck-target-libgfortran:
+--@if target-libgfortran
+--maybe-installcheck-target-libgfortran: installcheck-target-libgfortran
+--
+--installcheck-target-libgfortran: \
+--    configure-target-libgfortran 
+--	@: $(MAKE); $(unstage)
+--	@[ -f $(TARGET_SUBDIR)/libgfortran/Makefile ] || exit 0 ; \
+--	r=`${PWD_COMMAND}`; export r; \
+--	s=`cd $(srcdir); ${PWD_COMMAND}`; export s; \
+--	$(NORMAL_TARGET_EXPORTS) \
+--	echo "Doing installcheck in $(TARGET_SUBDIR)/libgfortran" ; \
+--	for flag in $(EXTRA_TARGET_FLAGS); do \
+--	  eval `echo "$$flag" | sed -e "s|^\([^=]*\)=\(.*\)|\1='\2'; export \1|"`; \
+--	done; \
+--	(cd $(TARGET_SUBDIR)/libgfortran && \
+--	  $(MAKE) $(BASE_FLAGS_TO_PASS) "AR=$${AR}" "AS=$${AS}" \
+--	          "CC=$${CC}" "CXX=$${CXX}" "LD=$${LD}" "NM=$${NM}" \
+--	          "RANLIB=$${RANLIB}" \
+--	          "DLLTOOL=$${DLLTOOL}" "WINDRES=$${WINDRES}" \
+--	           installcheck) \
+--	  || exit 1
+--
+--@endif target-libgfortran
+--
+--.PHONY: maybe-mostlyclean-target-libgfortran mostlyclean-target-libgfortran
+--maybe-mostlyclean-target-libgfortran:
+--@if target-libgfortran
+--maybe-mostlyclean-target-libgfortran: mostlyclean-target-libgfortran
+--
+--mostlyclean-target-libgfortran: 
+--	@: $(MAKE); $(unstage)
+--	@[ -f $(TARGET_SUBDIR)/libgfortran/Makefile ] || exit 0 ; \
+--	r=`${PWD_COMMAND}`; export r; \
+--	s=`cd $(srcdir); ${PWD_COMMAND}`; export s; \
+--	$(NORMAL_TARGET_EXPORTS) \
+--	echo "Doing mostlyclean in $(TARGET_SUBDIR)/libgfortran" ; \
+--	for flag in $(EXTRA_TARGET_FLAGS); do \
+--	  eval `echo "$$flag" | sed -e "s|^\([^=]*\)=\(.*\)|\1='\2'; export \1|"`; \
+--	done; \
+--	(cd $(TARGET_SUBDIR)/libgfortran && \
+--	  $(MAKE) $(BASE_FLAGS_TO_PASS) "AR=$${AR}" "AS=$${AS}" \
+--	          "CC=$${CC}" "CXX=$${CXX}" "LD=$${LD}" "NM=$${NM}" \
+--	          "RANLIB=$${RANLIB}" \
+--	          "DLLTOOL=$${DLLTOOL}" "WINDRES=$${WINDRES}" \
+--	           mostlyclean) \
+--	  || exit 1
+--
+--@endif target-libgfortran
+--
+--.PHONY: maybe-clean-target-libgfortran clean-target-libgfortran
+--maybe-clean-target-libgfortran:
+--@if target-libgfortran
+--maybe-clean-target-libgfortran: clean-target-libgfortran
+--
+--clean-target-libgfortran: 
+--	@: $(MAKE); $(unstage)
+--	@[ -f $(TARGET_SUBDIR)/libgfortran/Makefile ] || exit 0 ; \
+--	r=`${PWD_COMMAND}`; export r; \
+--	s=`cd $(srcdir); ${PWD_COMMAND}`; export s; \
+--	$(NORMAL_TARGET_EXPORTS) \
+--	echo "Doing clean in $(TARGET_SUBDIR)/libgfortran" ; \
+--	for flag in $(EXTRA_TARGET_FLAGS); do \
+--	  eval `echo "$$flag" | sed -e "s|^\([^=]*\)=\(.*\)|\1='\2'; export \1|"`; \
+--	done; \
+--	(cd $(TARGET_SUBDIR)/libgfortran && \
+--	  $(MAKE) $(BASE_FLAGS_TO_PASS) "AR=$${AR}" "AS=$${AS}" \
+--	          "CC=$${CC}" "CXX=$${CXX}" "LD=$${LD}" "NM=$${NM}" \
+--	          "RANLIB=$${RANLIB}" \
+--	          "DLLTOOL=$${DLLTOOL}" "WINDRES=$${WINDRES}" \
+--	           clean) \
+--	  || exit 1
+--
+--@endif target-libgfortran
+--
+--.PHONY: maybe-distclean-target-libgfortran distclean-target-libgfortran
+--maybe-distclean-target-libgfortran:
+--@if target-libgfortran
+--maybe-distclean-target-libgfortran: distclean-target-libgfortran
+--
+--distclean-target-libgfortran: 
+--	@: $(MAKE); $(unstage)
+--	@[ -f $(TARGET_SUBDIR)/libgfortran/Makefile ] || exit 0 ; \
+--	r=`${PWD_COMMAND}`; export r; \
+--	s=`cd $(srcdir); ${PWD_COMMAND}`; export s; \
+--	$(NORMAL_TARGET_EXPORTS) \
+--	echo "Doing distclean in $(TARGET_SUBDIR)/libgfortran" ; \
+--	for flag in $(EXTRA_TARGET_FLAGS); do \
+--	  eval `echo "$$flag" | sed -e "s|^\([^=]*\)=\(.*\)|\1='\2'; export \1|"`; \
+--	done; \
+--	(cd $(TARGET_SUBDIR)/libgfortran && \
+--	  $(MAKE) $(BASE_FLAGS_TO_PASS) "AR=$${AR}" "AS=$${AS}" \
+--	          "CC=$${CC}" "CXX=$${CXX}" "LD=$${LD}" "NM=$${NM}" \
+--	          "RANLIB=$${RANLIB}" \
+--	          "DLLTOOL=$${DLLTOOL}" "WINDRES=$${WINDRES}" \
+--	           distclean) \
+--	  || exit 1
+--
+--@endif target-libgfortran
+--
+--.PHONY: maybe-maintainer-clean-target-libgfortran maintainer-clean-target-libgfortran
+--maybe-maintainer-clean-target-libgfortran:
+--@if target-libgfortran
+--maybe-maintainer-clean-target-libgfortran: maintainer-clean-target-libgfortran
+--
+--maintainer-clean-target-libgfortran: 
+--	@: $(MAKE); $(unstage)
+--	@[ -f $(TARGET_SUBDIR)/libgfortran/Makefile ] || exit 0 ; \
+--	r=`${PWD_COMMAND}`; export r; \
+--	s=`cd $(srcdir); ${PWD_COMMAND}`; export s; \
+--	$(NORMAL_TARGET_EXPORTS) \
+--	echo "Doing maintainer-clean in $(TARGET_SUBDIR)/libgfortran" ; \
+--	for flag in $(EXTRA_TARGET_FLAGS); do \
+--	  eval `echo "$$flag" | sed -e "s|^\([^=]*\)=\(.*\)|\1='\2'; export \1|"`; \
+--	done; \
+--	(cd $(TARGET_SUBDIR)/libgfortran && \
+--	  $(MAKE) $(BASE_FLAGS_TO_PASS) "AR=$${AR}" "AS=$${AS}" \
+--	          "CC=$${CC}" "CXX=$${CXX}" "LD=$${LD}" "NM=$${NM}" \
+--	          "RANLIB=$${RANLIB}" \
+--	          "DLLTOOL=$${DLLTOOL}" "WINDRES=$${WINDRES}" \
+--	           maintainer-clean) \
+--	  || exit 1
+--
+--@endif target-libgfortran
+--
+--
+--
+--# There's only one multilib.out.  Cleverer subdirs shouldn't need it copied.
+- @if target-libobjc
+- $(TARGET_SUBDIR)/libobjc/multilib.out: multilib.out
+- 	$(SHELL) $(srcdir)/mkinstalldirs $(TARGET_SUBDIR)/libobjc ; \
+-@@ -38574,8 +38179,6 @@
+- 
+- configure-target-newlib: maybe-all-gcc
+- 
+--configure-target-libgfortran: maybe-all-gcc
+--
+- configure-target-libobjc: maybe-all-gcc
+- 
+- configure-target-libtermcap: maybe-all-gcc
+-@@ -38613,9 +38216,7 @@
+- 
+- configure-target-libada: maybe-all-target-newlib maybe-all-target-libgloss
+- 
+--configure-target-libgfortran: maybe-all-target-newlib maybe-all-target-libgloss
+--
+- configure-target-libffi: maybe-all-target-newlib maybe-all-target-libgloss
+- 
+- configure-target-libjava: maybe-all-target-newlib maybe-all-target-libgloss
+-
+---- tmp/Makefile.tpl.orig	2006-09-06 08:36:52.000000000 +0100
+-+++ tmp/Makefile.tpl	2006-09-06 08:36:52.000000000 +0100
+-@@ -122,7 +122,6 @@
+- 	CXX="$(CXX_FOR_BUILD)"; export CXX; \
+- 	CXXFLAGS="$(CXXFLAGS_FOR_BUILD)"; export CXXFLAGS; \
+- 	GCJ="$(GCJ_FOR_BUILD)"; export GCJ; \
+--	GFORTRAN="$(GFORTRAN_FOR_BUILD)"; export GFORTRAN; \
+- 	DLLTOOL="$(DLLTOOL_FOR_BUILD)"; export DLLTOOL; \
+- 	LD="$(LD_FOR_BUILD)"; export LD; \
+- 	LDFLAGS="$(LDFLAGS_FOR_BUILD)"; export LDFLAGS; \
+-@@ -204,7 +203,6 @@
+- 	CPPFLAGS="$(CPPFLAGS_FOR_TARGET)"; export CPPFLAGS; \
+- 	CXXFLAGS="$(CXXFLAGS_FOR_TARGET)"; export CXXFLAGS; \
+- 	GCJ="$(GCJ_FOR_TARGET)"; export GCJ; \
+--	GFORTRAN="$(GFORTRAN_FOR_TARGET)"; export GFORTRAN; \
+- 	DLLTOOL="$(DLLTOOL_FOR_TARGET)"; export DLLTOOL; \
+- 	LD="$(COMPILER_LD_FOR_TARGET)"; export LD; \
+- 	LDFLAGS="$(LDFLAGS_FOR_TARGET)"; export LDFLAGS; \
+-@@ -316,7 +314,6 @@
+- CXX_FOR_TARGET=$(STAGE_CC_WRAPPER) @CXX_FOR_TARGET@ $(FLAGS_FOR_TARGET)
+- RAW_CXX_FOR_TARGET=$(STAGE_CC_WRAPPER) @RAW_CXX_FOR_TARGET@ $(FLAGS_FOR_TARGET)
+- GCJ_FOR_TARGET=$(STAGE_CC_WRAPPER) @GCJ_FOR_TARGET@ $(FLAGS_FOR_TARGET)
+--GFORTRAN_FOR_TARGET=$(STAGE_CC_WRAPPER) @GFORTRAN_FOR_TARGET@ $(FLAGS_FOR_TARGET)
+- DLLTOOL_FOR_TARGET=@DLLTOOL_FOR_TARGET@
+- LD_FOR_TARGET=@LD_FOR_TARGET@
+-
+---- tmp/Makefile.def.orig	2006-09-06 08:38:50.000000000 +0100
+-+++ tmp/Makefile.def	2006-09-06 08:38:50.000000000 +0100
+-@@ -117,7 +117,6 @@
+- target_modules = { module= libmudflap; lib_path=.libs; };
+- target_modules = { module= libssp; lib_path=.libs; };
+- target_modules = { module= newlib; };
+--target_modules = { module= libgfortran; };
+- target_modules = { module= libobjc; };
+- target_modules = { module= libtermcap; no_check=true;
+-                    missing=mostlyclean;
+-@@ -227,7 +226,6 @@
+- flags_to_pass = { flag= CXXFLAGS_FOR_TARGET ; };
+- flags_to_pass = { flag= DLLTOOL_FOR_TARGET ; };
+- flags_to_pass = { flag= GCJ_FOR_TARGET ; };
+--flags_to_pass = { flag= GFORTRAN_FOR_TARGET ; };
+- flags_to_pass = { flag= LD_FOR_TARGET ; };
+- flags_to_pass = { flag= LIPO_FOR_TARGET ; };
+- flags_to_pass = { flag= LDFLAGS_FOR_TARGET ; };
+-@@ -415,7 +413,6 @@
+- lang_env_dependencies = { module=boehm-gc; };
+- lang_env_dependencies = { module=gperf; cxx=true; };
+- lang_env_dependencies = { module=libada; };
+--lang_env_dependencies = { module=libgfortran; };
+- lang_env_dependencies = { module=libffi; };
+- lang_env_dependencies = { module=libjava; cxx=true; };
+- lang_env_dependencies = { module=libmudflap; };
+-
+---- tmp/configure.orgig	2006-09-06 10:01:52.000000000 +0100
+-+++ tmp/configure	2006-09-06 10:01:52.000000000 +0100
+-@@ -921,7 +921,6 @@
+- 		target-libstdc++-v3 \
+- 		target-libmudflap \
+- 		target-libssp \
+--		target-libgfortran \
+- 		${libgcj} \
+- 		target-libobjc \
+- 		target-libada"
+-@@ -2246,135 +2245,6 @@
+- fi
+- 
+- 
+--
+--
+--
+--
+--# Check for GMP and MPFR
+--gmplibs=
+--gmpinc=
+--have_gmp=yes
+--# Specify a location for mpfr
+--# check for this first so it ends up on the link line before gmp.
+--# Check whether --with-mpfr-dir or --without-mpfr-dir was given.
+--if test "${with_mpfr_dir+set}" = set; then
+--  withval="$with_mpfr_dir"
+--  :
+--fi
+--
+--
+--if test "x$with_mpfr_dir" != x; then
+--  gmpinc="-I$with_mpfr_dir"
+--  gmplibs="$with_mpfr_dir/libmpfr.a"
+--else
+--  gmplibs="-lmpfr"
+--fi
+--
+--# Check whether --with-mpfr or --without-mpfr was given.
+--if test "${with_mpfr+set}" = set; then
+--  withval="$with_mpfr"
+--  :
+--fi
+--
+--
+--if test "x$with_mpfr" != x; then
+--  gmplibs="-L$with_mpfr/lib $gmplibs"
+--  gmpinc="-I$with_mpfr/include"
+--fi
+--
+--# Specify a location for gmp
+--# Check whether --with-gmp-dir or --without-gmp-dir was given.
+--if test "${with_gmp_dir+set}" = set; then
+--  withval="$with_gmp_dir"
+--  :
+--fi
+--
+--
+--if test "x$with_gmp_dir" != x; then
+--  gmpinc="$gmpinc -I$with_gmp_dir"
+--  if test -f "$with_gmp_dir/.libs/libgmp.a"; then
+--    gmplibs="$gmplibs $with_gmp_dir/.libs/libgmp.a"
+--  elif test -f "$with_gmp_dir/_libs/libgmp.a"; then
+--    gmplibs="$gmplibs $with_gmp_dir/_libs/libgmp.a"
+--  fi
+--  # One of the later tests will catch the error if neither library is present.
+--else
+--  gmplibs="$gmplibs -lgmp"
+--fi
+--
+--# Check whether --with-gmp or --without-gmp was given.
+--if test "${with_gmp+set}" = set; then
+--  withval="$with_gmp"
+--  :
+--fi
+--
+--
+--if test "x$with_gmp" != x; then
+--  gmplibs="-L$with_gmp/lib $gmplibs"
+--  gmpinc="-I$with_gmp/include $gmpinc"
+--fi
+--
+--saved_CFLAGS="$CFLAGS"
+--CFLAGS="$CFLAGS $gmpinc"
+--# Check GMP actually works
+--echo $ac_n "checking for correct version of gmp.h""... $ac_c" 1>&6
+--echo "configure:2322: checking for correct version of gmp.h" >&5
+--cat > conftest.$ac_ext <<EOF
+--#line 2324 "configure"
+--#include "confdefs.h"
+--#include "gmp.h"
+--int main() {
+--
+--#if __GNU_MP_VERSION < 3
+--choke me
+--#endif
+--
+--; return 0; }
+--EOF
+--if { (eval echo configure:2335: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
+--  rm -rf conftest*
+--  echo "$ac_t""yes" 1>&6
+--else
+--  echo "configure: failed program was:" >&5
+--  cat conftest.$ac_ext >&5
+--  rm -rf conftest*
+--  echo "$ac_t""no" 1>&6; have_gmp=no
+--fi
+--rm -f conftest*
+--
+--if test x"$have_gmp" = xyes; then
+--  echo $ac_n "checking for MPFR""... $ac_c" 1>&6
+--echo "configure:2348: checking for MPFR" >&5
+--
+--  saved_LIBS="$LIBS"
+--  LIBS="$LIBS $gmplibs"
+--  cat > conftest.$ac_ext <<EOF
+--#line 2353 "configure"
+--#include "confdefs.h"
+--#include <gmp.h>
+--#include <mpfr.h>
+--int main() {
+--mpfr_t n; mpfr_init(n);
+--; return 0; }
+--EOF
+--if { (eval echo configure:2361: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
+--  rm -rf conftest*
+--  echo "$ac_t""yes" 1>&6
+--else
+--  echo "configure: failed program was:" >&5
+--  cat conftest.$ac_ext >&5
+--  rm -rf conftest*
+--  echo "$ac_t""no" 1>&6; have_gmp=no
+--fi
+--rm -f conftest*
+--  LIBS="$saved_LIBS"
+--  CFLAGS="$saved_CFLAGS"
+--fi
+--
+--# Flags needed for both GMP and/or MPFR
+--
+--
+--
+- # By default, C is the only stage 1 language.
+- stage1_languages=c
+- 
+-@@ -2402,15 +2272,6 @@
+-   fi
+-   enable_languages=`echo "${enable_languages}" | sed -e 's/[ 	,][ 	,]*/,/g' -e 's/,$//'`
+- 
+--  # 'f95' is the old name for the 'fortran' language. We issue a warning
+--  # and make the substitution.
+--  case ,${enable_languages}, in
+--    *,f95,*)
+--      echo configure.in: warning: 'f95' as language name is deprecated, use 'fortran' instead 1>&2
+--      enable_languages=`echo "${enable_languages}" | sed -e 's/f95/fortran/g'`
+--      ;;
+--  esac
+--
+-   # First scan to see if an enabled language requires some other language.
+-   # We assume that a given config-lang.in will list all the language
+-   # front ends it requires, even if some are required indirectly.
+-@@ -5036,81 +4897,6 @@
+-   fi
+- fi
+- 
+-- for ncn_progname in gfortran; do
+--  if test -n "$ncn_target_tool_prefix"; then
+--    # Extract the first word of "${ncn_target_tool_prefix}${ncn_progname}", so it can be a program name with args.
+--set dummy ${ncn_target_tool_prefix}${ncn_progname}; ac_word=$2
+--echo $ac_n "checking for $ac_word""... $ac_c" 1>&6
+--echo "configure:5045: checking for $ac_word" >&5
+--if eval "test \"`echo '$''{'ac_cv_prog_GFORTRAN_FOR_TARGET'+set}'`\" = set"; then
+--  echo $ac_n "(cached) $ac_c" 1>&6
+--else
+--  if test -n "$GFORTRAN_FOR_TARGET"; then
+--  ac_cv_prog_GFORTRAN_FOR_TARGET="$GFORTRAN_FOR_TARGET" # Let the user override the test.
+--else
+--  IFS="${IFS= 	}"; ac_save_ifs="$IFS"; IFS=":"
+--  ac_dummy="$PATH"
+--  for ac_dir in $ac_dummy; do
+--    test -z "$ac_dir" && ac_dir=.
+--    if test -f $ac_dir/$ac_word; then
+--      ac_cv_prog_GFORTRAN_FOR_TARGET="${ncn_target_tool_prefix}${ncn_progname}"
+--      break
+--    fi
+--  done
+--  IFS="$ac_save_ifs"
+--fi
+--fi
+--GFORTRAN_FOR_TARGET="$ac_cv_prog_GFORTRAN_FOR_TARGET"
+--if test -n "$GFORTRAN_FOR_TARGET"; then
+--  echo "$ac_t""$GFORTRAN_FOR_TARGET" 1>&6
+--else
+--  echo "$ac_t""no" 1>&6
+--fi
+--
+--  fi
+--  if test -z "$ac_cv_prog_GFORTRAN_FOR_TARGET" && test $build = $target ; then
+--    # Extract the first word of "${ncn_progname}", so it can be a program name with args.
+--set dummy ${ncn_progname}; ac_word=$2
+--echo $ac_n "checking for $ac_word""... $ac_c" 1>&6
+--echo "configure:5076: checking for $ac_word" >&5
+--if eval "test \"`echo '$''{'ac_cv_prog_GFORTRAN_FOR_TARGET'+set}'`\" = set"; then
+--  echo $ac_n "(cached) $ac_c" 1>&6
+--else
+--  if test -n "$GFORTRAN_FOR_TARGET"; then
+--  ac_cv_prog_GFORTRAN_FOR_TARGET="$GFORTRAN_FOR_TARGET" # Let the user override the test.
+--else
+--  IFS="${IFS= 	}"; ac_save_ifs="$IFS"; IFS=":"
+--  ac_dummy="$PATH"
+--  for ac_dir in $ac_dummy; do
+--    test -z "$ac_dir" && ac_dir=.
+--    if test -f $ac_dir/$ac_word; then
+--      ac_cv_prog_GFORTRAN_FOR_TARGET="${ncn_progname}"
+--      break
+--    fi
+--  done
+--  IFS="$ac_save_ifs"
+--fi
+--fi
+--GFORTRAN_FOR_TARGET="$ac_cv_prog_GFORTRAN_FOR_TARGET"
+--if test -n "$GFORTRAN_FOR_TARGET"; then
+--  echo "$ac_t""$GFORTRAN_FOR_TARGET" 1>&6
+--else
+--  echo "$ac_t""no" 1>&6
+--fi
+-- 
+--  fi
+--  test -n "$ac_cv_prog_GFORTRAN_FOR_TARGET" && break
+--done
+--
+--if test -z "$ac_cv_prog_GFORTRAN_FOR_TARGET" ; then
+--  set dummy gfortran
+--  if test $build = $target ; then
+--    GFORTRAN_FOR_TARGET="$2"
+--  else
+--    GFORTRAN_FOR_TARGET="${ncn_target_tool_prefix}$2"
+--  fi
+--fi
+--
+-  for ncn_progname in ld; do
+-   if test -n "$ncn_target_tool_prefix"; then
+-     # Extract the first word of "${ncn_target_tool_prefix}${ncn_progname}", so it can be a program name with args.
+-@@ -5843,34 +5629,6 @@
+-     echo "$ac_t""pre-installed" 1>&6
+-   fi
+- fi
+--echo $ac_n "checking where to find the target gfortran""... $ac_c" 1>&6
+--echo "configure:5848: checking where to find the target gfortran" >&5
+--if test "x${build}" != "x${host}" ; then
+--  # Canadian cross, just use what we found
+--  echo "$ac_t""pre-installed" 1>&6
+--else
+--  ok=yes
+--  case " ${configdirs} " in
+--    *" gcc "*) ;;
+--    *) ok=no ;;
+--  esac
+--  case ,${enable_languages}, in
+--    *,fortran,*) ;;
+--    *) ok=no ;;
+--  esac
+--  if test $ok = yes; then
+--    # An in-tree tool is available and we can use it
+--    GFORTRAN_FOR_TARGET='$$r/$(HOST_SUBDIR)/gcc/gfortran -B$$r/$(HOST_SUBDIR)/gcc/'
+--    echo "$ac_t""just compiled" 1>&6
+--  elif test "x$target" = "x$host"; then
+--    # We can use an host tool
+--    GFORTRAN_FOR_TARGET='$(GFORTRAN)'
+--    echo "$ac_t""host tool" 1>&6
+--  else
+--    # We need a cross tool
+--    echo "$ac_t""pre-installed" 1>&6
+--  fi
+--fi
+- echo $ac_n "checking where to find the target ld""... $ac_c" 1>&6
+- echo "configure:5876: checking where to find the target ld" >&5
+- if test "x${build}" != "x${host}" ; then
+-@@ -6413,7 +6171,6 @@
+- s%@DLLTOOL_FOR_TARGET@%$DLLTOOL_FOR_TARGET%g
+- s%@GCC_FOR_TARGET@%$GCC_FOR_TARGET%g
+- s%@GCJ_FOR_TARGET@%$GCJ_FOR_TARGET%g
+--s%@GFORTRAN_FOR_TARGET@%$GFORTRAN_FOR_TARGET%g
+- s%@LD_FOR_TARGET@%$LD_FOR_TARGET%g
+- s%@LIPO_FOR_TARGET@%$LIPO_FOR_TARGET%g
+- s%@NM_FOR_TARGET@%$NM_FOR_TARGET%g
+-
+---- tmp/config-ml.in.orig	2006-09-06 10:27:49.000000000 +0100
+-+++ tmp/config-ml.in	2006-09-06 10:27:49.000000000 +0100
+-@@ -785,14 +785,12 @@
+-         break
+-       fi
+-     done
+--    ml_config_env='CC="${CC_}$flags" CXX="${CXX_}$flags" F77="${F77_}$flags" GCJ="${GCJ_}$flags" GFORTRAN="${GFORTRAN_}$flags"'
+-+    ml_config_env='CC="${CC_}$flags" CXX="${CXX_}$flags" GCJ="${GCJ_}$flags"'
+- 
+-     if [ "${with_target_subdir}" = "." ]; then
+- 	CC_=$CC' '
+- 	CXX_=$CXX' '
+--	F77_=$F77' '
+- 	GCJ_=$GCJ' '
+--	GFORTRAN_=$GFORTRAN' '
+-     else
+- 	# Create a regular expression that matches any string as long
+- 	# as ML_POPDIR.
+-@@ -821,18 +819,6 @@
+- 	  esac
+- 	done
+- 
+--	F77_=
+--	for arg in ${F77}; do
+--	  case $arg in
+--	  -[BIL]"${ML_POPDIR}"/*)
+--	    F77_="${F77_}"`echo "X${arg}" | sed -n "s/X\\(-[BIL]${popdir_rx}\\).*/\\1/p"`/${ml_dir}`echo "X${arg}" | sed -n "s/X-[BIL]${popdir_rx}\\(.*\\)/\\1/p"`' ' ;;
+--	  "${ML_POPDIR}"/*)
+--	    F77_="${F77_}"`echo "X${arg}" | sed -n "s/X\\(${popdir_rx}\\).*/\\1/p"`/${ml_dir}`echo "X${arg}" | sed -n "s/X${popdir_rx}\\(.*\\)/\\1/p"`' ' ;;
+--	  *)
+--	    F77_="${F77_}${arg} " ;;
+--	  esac
+--	done
+--
+- 	GCJ_=
+- 	for arg in ${GCJ}; do
+- 	  case $arg in
+-@@ -845,18 +831,6 @@
+- 	  esac
+- 	done
+- 
+--	GFORTRAN_=
+--	for arg in ${GFORTRAN}; do
+--	  case $arg in
+--	  -[BIL]"${ML_POPDIR}"/*)
+--	    GFORTRAN_="${GFORTRAN_}"`echo "X${arg}" | sed -n "s/X\\(-[BIL]${popdir_rx}\\).*/\\1/p"`/${ml_dir}`echo "X${arg}" | sed -n "s/X-[BIL]${popdir_rx}\\(.*\\)/\\1/p"`' ' ;;
+--	  "${ML_POPDIR}"/*)
+--	    GFORTRAN_="${GFORTRAN_}"`echo "X${arg}" | sed -n "s/X\\(${popdir_rx}\\).*/\\1/p"`/${ml_dir}`echo "X${arg}" | sed -n "s/X${popdir_rx}\\(.*\\)/\\1/p"`' ' ;;
+--	  *)
+--	    GFORTRAN_="${GFORTRAN_}${arg} " ;;
+--	  esac
+--	done
+--
+- 	if test "x${LD_LIBRARY_PATH+set}" = xset; then
+- 	  LD_LIBRARY_PATH_=
+- 	  for arg in `echo "$LD_LIBRARY_PATH" | tr ':' ' '`; do
+diff --git a/meta/recipes-devtools/gcc/gcc-csl-arm/gcc-new-makeinfo.patch b/meta/recipes-devtools/gcc/gcc-csl-arm/gcc-new-makeinfo.patch
+deleted file mode 100644
+index bd3197d..0000000
+--- a/meta/recipes-devtools/gcc/gcc-csl-arm/gcc-new-makeinfo.patch
++++ /dev/null
+@@ -1,36 +0,0 @@
+-Upstream-Status: Inappropriate [embedded specific]
+----
+- configure    |    2 +-
+- configure.in |    2 +-
+- 2 files changed, 2 insertions(+), 2 deletions(-)
+-
+---- gcc-2006q1.orig/configure
+-+++ gcc-2006q1/configure
+-@@ -3453,11 +3453,11 @@ case " $build_configdirs " in
+-   *)
+- 
+-     # For an installed makeinfo, we require it to be from texinfo 4.2 or
+-     # higher, else we use the "missing" dummy.
+-     if ${MAKEINFO} --version \
+--       | egrep 'texinfo[^0-9]*([1-3][0-9]|4\.[2-9]|[5-9])' >/dev/null 2>&1; then
+-+       | egrep 'texinfo[^0-9]*(4\.([6-9]|[1-9][0-9])|[5-9]|[1-9][0-9])' >/dev/null 2>&1; then
+-       :
+-     else
+-       MAKEINFO="$MISSING makeinfo"
+-     fi
+-     ;;
+---- gcc-2006q1.orig/configure.in
+-+++ gcc-2006q1/configure.in
+-@@ -2078,11 +2078,11 @@ case " $build_configdirs " in
+-   *)
+- changequote(,)
+-     # For an installed makeinfo, we require it to be from texinfo 4.2 or
+-     # higher, else we use the "missing" dummy.
+-     if ${MAKEINFO} --version \
+--       | egrep 'texinfo[^0-9]*([1-3][0-9]|4\.[2-9]|[5-9])' >/dev/null 2>&1; then
+-+       | egrep 'texinfo[^0-9]*(4\.([6-9]|[1-9][0-9])|[5-9]|[1-9][0-9])' >/dev/null 2>&1; then
+-       :
+-     else
+-       MAKEINFO="$MISSING makeinfo"
+-     fi
+-     ;;
+diff --git a/meta/recipes-devtools/gcc/gcc-csl-arm/gcc41-configure.in.patch b/meta/recipes-devtools/gcc/gcc-csl-arm/gcc41-configure.in.patch
+deleted file mode 100644
+index 88b0611..0000000
+--- a/meta/recipes-devtools/gcc/gcc-csl-arm/gcc41-configure.in.patch
++++ /dev/null
+@@ -1,24 +0,0 @@
 -Upstream-Status: Inappropriate [embedded specific]
 -
--The default lib search path order is:
--
--  1) LD_LIBRARY_PATH
--  2) RPATH from the binary
--  3) ld.so.cache
--  4) default search paths embedded in the linker
--
--For nativesdk binaries which are being used alongside binaries on a host system, we 
--need the search paths to firstly search the shipped nativesdk libs but then also
--cover the host system. For example we want the host system's libGL and this may be
--in a non-standard location like /usr/lib/mesa. The only place the location is know 
--about is in the ld.so.cache of the host system.
--
--Since nativesdk has a simple structure and doesn't need to use a cache itself, we 
--repurpose the cache for use as a last resort in finding host system binaries. This 
--means we need to switch the order of 3 and 4 above to make this work effectively.
--
--RP 14/10/2010
--
--Index: libc/elf/dl-load.c
--===================================================================
----- libc.orig/elf/dl-load.c
--+++ libc/elf/dl-load.c
--@@ -2107,6 +2107,15 @@ _dl_map_object (struct link_map *loader,
-- 			&loader->l_runpath_dirs, &realname, &fb, loader,
-- 			LA_SER_RUNPATH, &found_other_class);
+---- gcc-3.4.4/configure.in.orig	2005-08-09 19:57:51.504323183 -0700
+-+++ gcc-3.4.4/configure.in	2005-08-09 20:00:12.073168623 -0700
+-@@ -1907,7 +1907,7 @@
+-   *) gxx_include_dir=${with_gxx_include_dir} ;;
+- esac
 - 
--+      /* try the default path.  */
--+      if (fd == -1
--+	  && ((l = loader ?: GL(dl_ns)[nsid]._ns_loaded) == NULL
--+	      || __builtin_expect (!(l->l_flags_1 & DF_1_NODEFLIB), 1))
--+	  && rtld_search_dirs.dirs != (void *) -1)
--+	fd = open_path (name, namelen, mode & __RTLD_SECURE, &rtld_search_dirs,
--+			&realname, &fb, l, LA_SER_DEFAULT, &found_other_class);
--+
--+      /* Finally try ld.so.cache */
--       if (fd == -1
-- 	  && (__builtin_expect (! (mode & __RTLD_SECURE), 1)
-- 	      || ! INTUSE(__libc_enable_secure)))
--@@ -2169,14 +2178,6 @@ _dl_map_object (struct link_map *loader,
-- 	    }
-- 	}
+--FLAGS_FOR_TARGET=
+-+FLAGS_FOR_TARGET="$ARCH_FLAGS_FOR_TARGET"
+- case " $target_configdirs " in
+-  *" newlib "*)
+-   case " $target_configargs " in
+---- gcc-3.4.4/configure.orig	2005-08-09 21:02:29.668360660 -0700
+-+++ gcc-3.4.4/configure	2005-08-09 21:02:50.157649970 -0700
+-@@ -2669,7 +2669,7 @@
+-   *) gxx_include_dir=${with_gxx_include_dir} ;;
+- esac
 - 
---      /* Finally, try the default path.  */
---      if (fd == -1
---	  && ((l = loader ?: GL(dl_ns)[nsid]._ns_loaded) == NULL
---	      || __builtin_expect (!(l->l_flags_1 & DF_1_NODEFLIB), 1))
---	  && rtld_search_dirs.dirs != (void *) -1)
---	fd = open_path (name, namelen, mode & __RTLD_SECURE, &rtld_search_dirs,
---			&realname, &fb, l, LA_SER_DEFAULT, &found_other_class);
---
--       /* Add another newline when we are tracing the library loading.  */
--       if (__builtin_expect (GLRO_dl_debug_mask & DL_DEBUG_LIBS, 0))
-- 	_dl_debug_printf ("\n");
-diff --git a/meta/recipes-core/eglibc/eglibc-2.13/mips-rld-map-check.patch b/meta/recipes-core/eglibc/eglibc-2.13/mips-rld-map-check.patch
+--FLAGS_FOR_TARGET=
+-+FLAGS_FOR_TARGET="$ARCH_FLAGS_FOR_TARGET"
+- case " $target_configdirs " in
+-  *" newlib "*)
+-   case " $target_configargs " in
+diff --git a/meta/recipes-devtools/gcc/gcc-csl-arm/gcc_optab_arm.patch b/meta/recipes-devtools/gcc/gcc-csl-arm/gcc_optab_arm.patch
 deleted file mode 100644
-index 9b646fe..0000000
---- a/meta/recipes-core/eglibc/eglibc-2.13/mips-rld-map-check.patch
+index 5738a47..0000000
+--- a/meta/recipes-devtools/gcc/gcc-csl-arm/gcc_optab_arm.patch
 +++ /dev/null
-@@ -1,26 +0,0 @@
--
--On mips target, binutils currently sets DT_MIPS_RLD_MAP to 0 in dynamic
--section if a --version-script sets _RLD_MAP to local. This is apparently
--a binutils bug, but libc shouldn't segfault in this case.
--
--see also: http://sourceware.org/bugilla/show_bug.cgi?id=11615
--
+@@ -1,97 +0,0 @@
 -Upstream-Status: Pending
 -
--9/19/2010 - added by Qing He <qing.he@intel.com>
+-ARM is the only architecture that has a helper function that returns
+-an unbiased result. This fix is trivial enough that we can show it
+-doesn't effect any of the other arches. Can we consider this a
+-regression fix since it used to work until the helper was added :}
 -
+-Tested with no regressions on x86_64-pc-linux-gnu and arm-none-eabi.
 -
-----
--diff -ru glibc-2.10.1.orig/ports/sysdeps/mips/dl-machine.h glibc-2.10.1/ports/sysdeps/mips/dl-machine.h
----- glibc-2.10.1.orig/ports/sysdeps/mips/dl-machine.h	2009-05-16 16:36:20.000000000 +0800
--+++ glibc-2.10.1/ports/sysdeps/mips/dl-machine.h	2010-09-19 09:11:53.000000000 +0800
--@@ -70,7 +70,8 @@
-- /* If there is a DT_MIPS_RLD_MAP entry in the dynamic section, fill it in
--    with the run-time address of the r_debug structure  */
-- #define ELF_MACHINE_DEBUG_SETUP(l,r) \
---do { if ((l)->l_info[DT_MIPS (RLD_MAP)]) \
--+do { if ((l)->l_info[DT_MIPS (RLD_MAP)] && \
--+         (l)->l_info[DT_MIPS (RLD_MAP)]->d_un.d_ptr) \
--        *(ElfW(Addr) *)((l)->l_info[DT_MIPS (RLD_MAP)]->d_un.d_ptr) = \
--        (ElfW(Addr)) (r); \
--    } while (0)
-diff --git a/meta/recipes-core/eglibc/eglibc-2.13/multilib_readlib.patch b/meta/recipes-core/eglibc/eglibc-2.13/multilib_readlib.patch
+-Cheers,
+-Carlos.
+--- 
+-Carlos O'Donell
+-CodeSourcery
+-carlos@codesourcery.com
+-(650) 331-3385 x716
+-
+-gcc/
+-
+-2006-01-27  Carlos O'Donell  <carlos@codesourcery.com>
+-
+-	* optabs.c (prepare_cmp_insn): If unbaised and unsigned then bias
+-	the comparison routine return.
+-	
+-gcc/testsuite/
+-
+-2006-01-27  Carlos O'Donell  <carlos@codesourcery.com>
+-
+-	* gcc.dg/unsigned-long-compare.c: New test.
+-
+-Index: gcc/optabs.c
+-===================================================================
+---- 1/gcc/optabs.c	(revision 110300)
+-+++ 2/gcc/optabs.c	(working copy)
+-@@ -3711,18 +3711,24 @@
+-       result = emit_library_call_value (libfunc, NULL_RTX, LCT_CONST_MAKE_BLOCK,
+- 					word_mode, 2, x, mode, y, mode);
+- 
+-+      /* There are two kinds of comparison routines. Biased routines
+-+	 return 0/1/2, and unbiased routines return -1/0/1. Other parts
+-+	 of gcc expect that the comparison operation is equivalent
+-+	 to the modified comparison. For signed comparisons compare the 
+-+	 result against 1 in the unbiased case, and zero in the biased
+-+	 case. For unsigned comparisons always compare against 1 after
+-+	 biasing the unbased result by adding 1. This gives us a way to
+-+	 represent LTU. */
+-       *px = result;
+-       *pmode = word_mode;
+--      if (TARGET_LIB_INT_CMP_BIASED)
+--	/* Integer comparison returns a result that must be compared
+--	   against 1, so that even if we do an unsigned compare
+--	   afterward, there is still a value that can represent the
+--	   result "less than".  */
+--	*py = const1_rtx;
+--      else
+-+      *py = const1_rtx;
+-+
+-+      if (!TARGET_LIB_INT_CMP_BIASED)
+- 	{
+--	  *py = const0_rtx;
+--	  *punsignedp = 1;
+-+	  if (*punsignedp)
+-+	    *px = plus_constant (result, 1);  
+-+	  else
+-+	    *py = const0_rtx;
+- 	}
+-       return;
+-     }
+-Index: gcc/testsuite/gcc.dg/unsigned-long-compare.c
+-===================================================================
+---- 1/gcc/testsuite/gcc.dg/unsigned-long-compare.c	(revision 0)
+-+++ 2/gcc/testsuite/gcc.dg/unsigned-long-compare.c	(revision 0)
+-@@ -0,0 +1,24 @@
+-+/* Copyright (C) 2006 Free Software Foundation, Inc. */
+-+/* Contributed by Carlos O'Donell on 2006-01-27 */
+-+
+-+/* Test a division corner case where the expression simplifies
+-+   to a comparison, and the optab expansion is wrong. The optab 
+-+   expansion emits a function whose return is unbiased and needs
+-+   adjustment. */
+-+/* Origin: Carlos O'Donell <carlos@codesourcery.com> */
+-+/* { dg-do run { target arm-*-*eabi* } } */
+-+/* { dg-options "" } */
+-+#include <stdlib.h>
+-+
+-+#define BIG_CONSTANT 0xFFFFFFFF80000000ULL
+-+
+-+int main (void)
+-+{
+-+  unsigned long long OneULL = 1ULL;
+-+  unsigned long long result;
+-+
+-+  result = OneULL / BIG_CONSTANT; 
+-+  if (result)
+-+    abort ();
+-+  exit (0);
+-+}
+diff --git a/meta/recipes-devtools/gcc/gcc-csl-arm/gfortran.patch b/meta/recipes-devtools/gcc/gcc-csl-arm/gfortran.patch
 deleted file mode 100644
-index 1542b1b..0000000
---- a/meta/recipes-core/eglibc/eglibc-2.13/multilib_readlib.patch
+index c78e831..0000000
+--- a/meta/recipes-devtools/gcc/gcc-csl-arm/gfortran.patch
++++ /dev/null
+@@ -1,42 +0,0 @@
+-Upstream-Status: Pending
+-
+-The patch below fixes a crash building libgfortran on arm-linux-gnueabi.
+-
+-This target doesn't really have a 128-bit integer type, however it does use 
+-TImode to represent the return value of certain special ABI defined library 
+-functions. This results in type_for_size(TImode) being called.
+-
+-Because TImode deosn't correspond to any gfortran integer kind 
+-gfc_type_for_size returns NULL and we segfault shortly after.
+-
+-The patch below fixes this by making gfc_type_for_size handle TImode in the 
+-same way as the C frontend.
+-
+-Tested on x86_64-linux and arm-linux-gnueabi.
+-Applied to trunk.
+-
+-Paul
+-
+-2007-05-15  Paul Brook  <paul@codesourcery.com>
+-
+-	gcc/fortran/
+-	* trans-types.c (gfc_type_for_size): Handle signed TImode.
+-
+-Index: gcc-4.2.1/gcc/fortran/trans-types.c
+-===================================================================
+---- gcc-4.2.1/gcc/fortran/trans-types.c	(revision 170435)
+-+++ gcc-4.2.1/gcc/fortran/trans-types.c	(working copy)
+-@@ -1800,6 +1800,13 @@ gfc_type_for_size (unsigned bits, int un
+- 	  if (type && bits == TYPE_PRECISION (type))
+- 	    return type;
+- 	}
+-+
+-+      /* Handle TImode as a special case because it is used by some backends
+-+         (eg. ARM) even though it is not available for normal use.  */
+-+#if HOST_BITS_PER_WIDE_INT >= 64
+-+      if (bits == TYPE_PRECISION (intTI_type_node))
+-+	return intTI_type_node;
+-+#endif
+-     }
+-   else
+-     {
+diff --git a/meta/recipes-devtools/gcc/gcc-csl-arm/zecke-no-host-includes.patch b/meta/recipes-devtools/gcc/gcc-csl-arm/zecke-no-host-includes.patch
+deleted file mode 100644
+index 1695582..0000000
+--- a/meta/recipes-devtools/gcc/gcc-csl-arm/zecke-no-host-includes.patch
++++ /dev/null
+@@ -1,33 +0,0 @@
+-Upstream-Status: Pending
+-
+-Index: gcc-4.0.2/gcc/c-incpath.c
+-===================================================================
+---- gcc-4.0.2.orig/gcc/c-incpath.c	2005-01-23 16:05:27.000000000 +0100
+-+++ gcc-4.0.2/gcc/c-incpath.c	2006-05-15 21:23:02.000000000 +0200
+-@@ -350,6 +350,26 @@
+-   p->construct = 0;
+-   p->user_supplied_p = user_supplied_p;
+- 
+-+#ifdef CROSS_COMPILE
+-+    /* A common error when cross compiling is including
+-+    host headers. This code below will try to fail fast
+-+    for cross compiling. Currently we consider /usr/include,
+-+    /opt/include and /sw/include as harmful.  */
+-+	{
+-+		/* printf("Adding Path: %s\n", p->name ); */
+-+		if( strstr(p->name, "/usr/include" ) == p->name ) {
+-+			fprintf(stderr, _("BUILD ISOLATION FAILURE: /usr/include in INCLUDEPATH: %s\n Please fix the flags passed to the compiler to use the correct prefix.\n"), p->name);
+-+			abort();
+-+		} else if( strstr(p->name, "/sw/include") == p->name ) {
+-+			fprintf(stderr, _("BUILD ISOLATION FAILURE: /sw/include in INCLUDEPATH: %s\n Please fix the flags passed to the compiler to use the correct prefix.\n"), p->name);
+-+			abort();
+-+		} else if( strstr(p->name, "/opt/include") == p->name ) {
+-+			fprintf(stderr, _("BUILD ISOLATION FAILURE: /opt/include in INCLUDEPATH: %s\n Please fix the flags passed to the compiler to use the correct prefix.\n"), p->name);
+-+			abort();
+-+		 }
+-+	}
+-+#endif
+-+
+-   add_cpp_dir_path (p, chain);
+- }
+- 
+diff --git a/meta/recipes-devtools/gcc/gcc-csl-arm/zecke-xgcc-cpp.patch b/meta/recipes-devtools/gcc/gcc-csl-arm/zecke-xgcc-cpp.patch
+deleted file mode 100644
+index b06de54..0000000
+--- a/meta/recipes-devtools/gcc/gcc-csl-arm/zecke-xgcc-cpp.patch
 +++ /dev/null
 @@ -1,17 +0,0 @@
 -Upstream-Status: Inappropriate [embedded specific]
+-upstream: n/a
+-comment: Use the preprocessor we have just compiled instead the one of
+-the system. There might be incompabilities between us and them.
 -
--Replace the OECORE_KNOWN_INTERPRETER_NAMES with the value of 
--variable EGLIBC_KNOWN_INTERPRETER_NAMES.
--
--Lianhao Lu, 08/01/2011
--
----- libc/elf/readlib.c.orig	2011-08-12 17:05:51.864470837 +0800
--+++ libc/elf/readlib.c	2011-08-12 17:06:39.346942074 +0800
--@@ -52,6 +52,7 @@
-- #ifdef SYSDEP_KNOWN_INTERPRETER_NAMES
--   SYSDEP_KNOWN_INTERPRETER_NAMES
-- #endif
--+  OECORE_KNOWN_INTERPRETER_NAMES
-- };
-- 
-- static struct known_names known_libs[] =
-diff --git a/meta/recipes-core/eglibc/eglibc-2.13/ppc-sqrt.patch b/meta/recipes-core/eglibc/eglibc-2.13/ppc-sqrt.patch
+-Index: gcc-4.1.1/Makefile.in
+-===================================================================
+---- gcc-4.1.1.orig/Makefile.in	2006-08-06 13:32:44.000000000 +0200
+-+++ gcc-4.1.1/Makefile.in	2006-08-06 13:32:46.000000000 +0200
+-@@ -194,6 +194,7 @@
+- 	AS="$(COMPILER_AS_FOR_TARGET)"; export AS; \
+- 	CC="$(CC_FOR_TARGET)"; export CC; \
+- 	CFLAGS="$(CFLAGS_FOR_TARGET)"; export CFLAGS; \
+-+	CPP="$(CC_FOR_TARGET) -E"; export CCP; \
+- 	CONFIG_SHELL="$(SHELL)"; export CONFIG_SHELL; \
+- 	CPPFLAGS="$(CPPFLAGS_FOR_TARGET)"; export CPPFLAGS; \
+- 	CXXFLAGS="$(CXXFLAGS_FOR_TARGET)"; export CXXFLAGS; \
+diff --git a/meta/recipes-devtools/gcc/gcc_csl-arm-2008q1.bb b/meta/recipes-devtools/gcc/gcc_csl-arm-2008q1.bb
 deleted file mode 100644
-index 203040c..0000000
---- a/meta/recipes-core/eglibc/eglibc-2.13/ppc-sqrt.patch
+index 5bb8e58..0000000
+--- a/meta/recipes-devtools/gcc/gcc_csl-arm-2008q1.bb
 +++ /dev/null
-@@ -1,538 +0,0 @@
--Upstream-Status: Pending
--
--2011-03-22  Joseph Myers  <joseph@codesourcery.com>
--
--        Merge from SG++ 2.11:
--
--        2010-10-05  Nathan Froyd  <froydnj@codesourcery.com>
--
--        Issue #9382
--
--        * sysdeps/powerpc/powerpc32/603e/: New directory.
--        * sysdeps/unix/sysv/linux/powerpc/powerpc32/e500mc/: New directory.
--        * sysdeps/unix/sysv/linux/powerpc/powerpc32/603e/: New directory.
--        * sysdeps/unix/sysv/linux/powerpc/powerpc32/7400/: New directory.
--        * sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrtf.c: Update.
--        * sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrt.c: Update.
--        * sysdeps/powerpc/powerpc64/e5500/fpu/Implies: New file.
--
--Index: libc/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrt.c
--===================================================================
----- /dev/null
--+++ libc/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrt.c
--@@ -0,0 +1,134 @@
--+/* Double-precision floating point square root.
--+   Copyright (C) 2010 Free Software Foundation, Inc.
--+   This file is part of the GNU C Library.
--+
--+   The GNU C Library is free software; you can redistribute it and/or
--+   modify it under the terms of the GNU Lesser General Public
--+   License as published by the Free Software Foundation; either
--+   version 2.1 of the License, or (at your option) any later version.
--+
--+   The GNU C Library is distributed in the hope that it will be useful,
--+   but WITHOUT ANY WARRANTY; without even the implied warranty of
--+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
--+   Lesser General Public License for more details.
--+
--+   You should have received a copy of the GNU Lesser General Public
--+   License along with the GNU C Library; if not, write to the Free
--+   Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
--+   02111-1307 USA.  */
--+
--+#include <math.h>
--+#include <math_private.h>
--+#include <fenv_libc.h>
--+#include <inttypes.h>
--+
--+#include <sysdep.h>
--+#include <ldsodefs.h>
--+
--+static const ieee_float_shape_type a_nan = {.word = 0x7fc00000 };
--+static const ieee_float_shape_type a_inf = {.word = 0x7f800000 };
--+static const float two108 = 3.245185536584267269e+32;
--+static const float twom54 = 5.551115123125782702e-17;
--+static const float half = 0.5;
--+
--+/* The method is based on the descriptions in:
--+
--+   _The Handbook of Floating-Pointer Arithmetic_ by Muller et al., chapter 5;
--+   _IA-64 and Elementary Functions: Speed and Precision_ by Markstein, chapter 9
--+
--+   We find the actual square root and half of its reciprocal
--+   simultaneously.  */
--+
--+#ifdef __STDC__
--+double
--+__ieee754_sqrt (double b)
--+#else
--+double
--+__ieee754_sqrt (b)
--+     double b;
--+#endif
--+{
--+  if (__builtin_expect (b > 0, 1))
--+    {
--+      double y, g, h, d, r;
--+      ieee_double_shape_type u;
--+
--+      if (__builtin_expect (b != a_inf.value, 1))
--+        {
--+          fenv_t fe;
--+
--+          fe = fegetenv_register ();
--+
--+          u.value = b;
--+
--+          relax_fenv_state ();
--+
--+          __asm__ ("frsqrte %[estimate], %[x]\n"
--+                   : [estimate] "=f" (y) : [x] "f" (b));
--+
--+          /* Following Muller et al, page 168, equation 5.20.
--+
--+             h goes to 1/(2*sqrt(b))
--+             g goes to sqrt(b).
--+
--+             We need three iterations to get within 1ulp.  */
--+
--+          /* Indicate that these can be performed prior to the branch.  GCC
--+             insists on sinking them below the branch, however; it seems like
--+             they'd be better before the branch so that we can cover any latency
--+             from storing the argument and loading its high word.  Oh well.  */
--+
--+          g = b * y;
--+          h = 0.5 * y;
--+  
--+          /* Handle small numbers by scaling.  */
--+          if (__builtin_expect ((u.parts.msw & 0x7ff00000) <= 0x02000000, 0))
--+            return __ieee754_sqrt (b * two108) * twom54;
--+
--+#define FMADD(a_, c_, b_)                                               \
--+          ({ double __r;                                                \
--+          __asm__ ("fmadd %[r], %[a], %[c], %[b]\n"                     \
--+                   : [r] "=f" (__r) : [a] "f" (a_), [c] "f" (c_), [b] "f" (b_)); \
--+          __r;})
--+#define FNMSUB(a_, c_, b_)                                          \
--+          ({ double __r;                                                \
--+          __asm__ ("fnmsub %[r], %[a], %[c], %[b]\n"                     \
--+                   : [r] "=f" (__r) : [a] "f" (a_), [c] "f" (c_), [b] "f" (b_)); \
--+          __r;})
--+
--+          r = FNMSUB (g, h, half);
--+          g = FMADD (g, r, g);
--+          h = FMADD (h, r, h);
--+
--+          r = FNMSUB (g, h, half);
--+          g = FMADD (g, r, g);
--+          h = FMADD (h, r, h);
--+
--+          r = FNMSUB (g, h, half);
--+          g = FMADD (g, r, g);
--+          h = FMADD (h, r, h);
--+
--+          /* g is now +/- 1ulp, or exactly equal to, the square root of b.  */
--+
--+          /* Final refinement.  */
--+          d = FNMSUB (g, g, b);
--+
--+          fesetenv_register (fe);
--+          return FMADD (d, h, g);
--+        }
--+    }
--+  else if (b < 0)
--+    {
--+      /* For some reason, some PowerPC32 processors don't implement
--+         FE_INVALID_SQRT.  */
--+#ifdef FE_INVALID_SQRT
--+      feraiseexcept (FE_INVALID_SQRT);
--+
--+      fenv_union_t u = { .fenv = fegetenv_register () };
--+      if ((u.l[1] & FE_INVALID) == 0)
--+#endif
--+	feraiseexcept (FE_INVALID);
--+      b = a_nan.value;
--+    }
--+  return f_wash (b);
--+}
--Index: libc/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrtf.c
--===================================================================
----- /dev/null
--+++ libc/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrtf.c
--@@ -0,0 +1,101 @@
--+/* Single-precision floating point square root.
--+   Copyright (C) 2010 Free Software Foundation, Inc.
--+   This file is part of the GNU C Library.
--+
--+   The GNU C Library is free software; you can redistribute it and/or
--+   modify it under the terms of the GNU Lesser General Public
--+   License as published by the Free Software Foundation; either
--+   version 2.1 of the License, or (at your option) any later version.
--+
--+   The GNU C Library is distributed in the hope that it will be useful,
--+   but WITHOUT ANY WARRANTY; without even the implied warranty of
--+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
--+   Lesser General Public License for more details.
--+
--+   You should have received a copy of the GNU Lesser General Public
--+   License along with the GNU C Library; if not, write to the Free
--+   Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
--+   02111-1307 USA.  */
--+
--+#include <math.h>
--+#include <math_private.h>
--+#include <fenv_libc.h>
--+#include <inttypes.h>
--+
--+#include <sysdep.h>
--+#include <ldsodefs.h>
--+
--+static const ieee_float_shape_type a_nan = {.word = 0x7fc00000 };
--+static const ieee_float_shape_type a_inf = {.word = 0x7f800000 };
--+static const float threehalf = 1.5;
--+
--+/* The method is based on the descriptions in:
--+
--+   _The Handbook of Floating-Pointer Arithmetic_ by Muller et al., chapter 5;
--+   _IA-64 and Elementary Functions: Speed and Precision_ by Markstein, chapter 9
--+
--+   We find the reciprocal square root and use that to compute the actual
--+   square root.  */
--+
--+#ifdef __STDC__
--+float
--+__ieee754_sqrtf (float b)
--+#else
--+float
--+__ieee754_sqrtf (b)
--+     float b;
--+#endif
--+{
--+  if (__builtin_expect (b > 0, 1))
--+    {
--+#define FMSUB(a_, c_, b_)                                               \
--+      ({ double __r;                                                    \
--+        __asm__ ("fmsub %[r], %[a], %[c], %[b]\n"                       \
--+                 : [r] "=f" (__r) : [a] "f" (a_), [c] "f" (c_), [b] "f" (b_)); \
--+        __r;})
--+#define FNMSUB(a_, c_, b_)                                              \
--+      ({ double __r;                                                    \
--+        __asm__ ("fnmsub %[r], %[a], %[c], %[b]\n"                      \
--+                 : [r] "=f" (__r) : [a] "f" (a_), [c] "f" (c_), [b] "f" (b_)); \
--+        __r;})
--+
--+      if (__builtin_expect (b != a_inf.value, 1))
--+        {
--+          double y, x;
--+          fenv_t fe;
--+
--+          fe = fegetenv_register ();
--+
--+          relax_fenv_state ();
--+
--+          /* Compute y = 1.5 * b - b.  Uses fewer constants than y = 0.5 * b.  */
--+          y = FMSUB (threehalf, b, b);
--+
--+          /* Initial estimate.  */
--+          __asm__ ("frsqrte %[x], %[b]\n" : [x] "=f" (x) : [b] "f" (b));
--+
--+          /* Iterate.  x_{n+1} = x_n * (1.5 - y * (x_n * x_n)).  */
--+          x = x * FNMSUB (y, x * x, threehalf);
--+          x = x * FNMSUB (y, x * x, threehalf);
--+          x = x * FNMSUB (y, x * x, threehalf);
--+
--+          /* All done.  */
--+          fesetenv_register (fe);
--+          return x * b;
--+        }
--+    }
--+  else if (b < 0)
--+    {
--+      /* For some reason, some PowerPC32 processors don't implement
--+         FE_INVALID_SQRT.  */
--+#ifdef FE_INVALID_SQRT
--+      feraiseexcept (FE_INVALID_SQRT);
--+
--+      fenv_union_t u = { .fenv = fegetenv_register () };
--+      if ((u.l[1] & FE_INVALID) == 0)
--+#endif
--+	feraiseexcept (FE_INVALID);
--+      b = a_nan.value;
--+    }
--+  return f_washf (b);
--+}
--Index: libc/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrt.c
--===================================================================
----- /dev/null
--+++ libc/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrt.c
--@@ -0,0 +1,134 @@
--+/* Double-precision floating point square root.
--+   Copyright (C) 2010 Free Software Foundation, Inc.
--+   This file is part of the GNU C Library.
--+
--+   The GNU C Library is free software; you can redistribute it and/or
--+   modify it under the terms of the GNU Lesser General Public
--+   License as published by the Free Software Foundation; either
--+   version 2.1 of the License, or (at your option) any later version.
--+
--+   The GNU C Library is distributed in the hope that it will be useful,
--+   but WITHOUT ANY WARRANTY; without even the implied warranty of
--+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
--+   Lesser General Public License for more details.
--+
--+   You should have received a copy of the GNU Lesser General Public
--+   License along with the GNU C Library; if not, write to the Free
--+   Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
--+   02111-1307 USA.  */
--+
--+#include <math.h>
--+#include <math_private.h>
--+#include <fenv_libc.h>
--+#include <inttypes.h>
--+
--+#include <sysdep.h>
--+#include <ldsodefs.h>
--+
--+static const ieee_float_shape_type a_nan = {.word = 0x7fc00000 };
--+static const ieee_float_shape_type a_inf = {.word = 0x7f800000 };
--+static const float two108 = 3.245185536584267269e+32;
--+static const float twom54 = 5.551115123125782702e-17;
--+static const float half = 0.5;
--+
--+/* The method is based on the descriptions in:
--+
--+   _The Handbook of Floating-Pointer Arithmetic_ by Muller et al., chapter 5;
--+   _IA-64 and Elementary Functions: Speed and Precision_ by Markstein, chapter 9
--+
--+   We find the actual square root and half of its reciprocal
--+   simultaneously.  */
--+
--+#ifdef __STDC__
--+double
--+__ieee754_sqrt (double b)
--+#else
--+double
--+__ieee754_sqrt (b)
--+     double b;
--+#endif
--+{
--+  if (__builtin_expect (b > 0, 1))
--+    {
--+      double y, g, h, d, r;
--+      ieee_double_shape_type u;
--+
--+      if (__builtin_expect (b != a_inf.value, 1))
--+        {
--+          fenv_t fe;
--+
--+          fe = fegetenv_register ();
--+
--+          u.value = b;
--+
--+          relax_fenv_state ();
--+
--+          __asm__ ("frsqrte %[estimate], %[x]\n"
--+                   : [estimate] "=f" (y) : [x] "f" (b));
--+
--+          /* Following Muller et al, page 168, equation 5.20.
--+
--+             h goes to 1/(2*sqrt(b))
--+             g goes to sqrt(b).
--+
--+             We need three iterations to get within 1ulp.  */
--+
--+          /* Indicate that these can be performed prior to the branch.  GCC
--+             insists on sinking them below the branch, however; it seems like
--+             they'd be better before the branch so that we can cover any latency
--+             from storing the argument and loading its high word.  Oh well.  */
--+
--+          g = b * y;
--+          h = 0.5 * y;
--+  
--+          /* Handle small numbers by scaling.  */
--+          if (__builtin_expect ((u.parts.msw & 0x7ff00000) <= 0x02000000, 0))
--+            return __ieee754_sqrt (b * two108) * twom54;
--+
--+#define FMADD(a_, c_, b_)                                               \
--+          ({ double __r;                                                \
--+          __asm__ ("fmadd %[r], %[a], %[c], %[b]\n"                     \
--+                   : [r] "=f" (__r) : [a] "f" (a_), [c] "f" (c_), [b] "f" (b_)); \
--+          __r;})
--+#define FNMSUB(a_, c_, b_)                                          \
--+          ({ double __r;                                                \
--+          __asm__ ("fnmsub %[r], %[a], %[c], %[b]\n"                     \
--+                   : [r] "=f" (__r) : [a] "f" (a_), [c] "f" (c_), [b] "f" (b_)); \
--+          __r;})
--+
--+          r = FNMSUB (g, h, half);
--+          g = FMADD (g, r, g);
--+          h = FMADD (h, r, h);
--+
--+          r = FNMSUB (g, h, half);
--+          g = FMADD (g, r, g);
--+          h = FMADD (h, r, h);
--+
--+          r = FNMSUB (g, h, half);
--+          g = FMADD (g, r, g);
--+          h = FMADD (h, r, h);
--+
--+          /* g is now +/- 1ulp, or exactly equal to, the square root of b.  */
--+
--+          /* Final refinement.  */
--+          d = FNMSUB (g, g, b);
--+
--+          fesetenv_register (fe);
--+          return FMADD (d, h, g);
--+        }
--+    }
--+  else if (b < 0)
--+    {
--+      /* For some reason, some PowerPC32 processors don't implement
--+         FE_INVALID_SQRT.  */
--+#ifdef FE_INVALID_SQRT
--+      feraiseexcept (FE_INVALID_SQRT);
--+
--+      fenv_union_t u = { .fenv = fegetenv_register () };
--+      if ((u.l[1] & FE_INVALID) == 0)
--+#endif
--+	feraiseexcept (FE_INVALID);
--+      b = a_nan.value;
--+    }
--+  return f_wash (b);
--+}
--Index: libc/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrtf.c
--===================================================================
----- /dev/null
--+++ libc/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrtf.c
--@@ -0,0 +1,101 @@
--+/* Single-precision floating point square root.
--+   Copyright (C) 2010 Free Software Foundation, Inc.
--+   This file is part of the GNU C Library.
--+
--+   The GNU C Library is free software; you can redistribute it and/or
--+   modify it under the terms of the GNU Lesser General Public
--+   License as published by the Free Software Foundation; either
--+   version 2.1 of the License, or (at your option) any later version.
--+
--+   The GNU C Library is distributed in the hope that it will be useful,
--+   but WITHOUT ANY WARRANTY; without even the implied warranty of
--+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
--+   Lesser General Public License for more details.
--+
--+   You should have received a copy of the GNU Lesser General Public
--+   License along with the GNU C Library; if not, write to the Free
--+   Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
--+   02111-1307 USA.  */
--+
--+#include <math.h>
--+#include <math_private.h>
--+#include <fenv_libc.h>
--+#include <inttypes.h>
--+
--+#include <sysdep.h>
--+#include <ldsodefs.h>
--+
--+static const ieee_float_shape_type a_nan = {.word = 0x7fc00000 };
--+static const ieee_float_shape_type a_inf = {.word = 0x7f800000 };
--+static const float threehalf = 1.5;
--+
--+/* The method is based on the descriptions in:
--+
--+   _The Handbook of Floating-Pointer Arithmetic_ by Muller et al., chapter 5;
--+   _IA-64 and Elementary Functions: Speed and Precision_ by Markstein, chapter 9
--+
--+   We find the reciprocal square root and use that to compute the actual
--+   square root.  */
--+
--+#ifdef __STDC__
--+float
--+__ieee754_sqrtf (float b)
--+#else
--+float
--+__ieee754_sqrtf (b)
--+     float b;
--+#endif
--+{
--+  if (__builtin_expect (b > 0, 1))
--+    {
--+#define FMSUB(a_, c_, b_)                                               \
--+      ({ double __r;                                                    \
--+        __asm__ ("fmsub %[r], %[a], %[c], %[b]\n"                       \
--+                 : [r] "=f" (__r) : [a] "f" (a_), [c] "f" (c_), [b] "f" (b_)); \
--+        __r;})
--+#define FNMSUB(a_, c_, b_)                                              \
--+      ({ double __r;                                                    \
--+        __asm__ ("fnmsub %[r], %[a], %[c], %[b]\n"                      \
--+                 : [r] "=f" (__r) : [a] "f" (a_), [c] "f" (c_), [b] "f" (b_)); \
--+        __r;})
--+
--+      if (__builtin_expect (b != a_inf.value, 1))
--+        {
--+          double y, x;
--+          fenv_t fe;
--+
--+          fe = fegetenv_register ();
--+
--+          relax_fenv_state ();
--+
--+          /* Compute y = 1.5 * b - b.  Uses fewer constants than y = 0.5 * b.  */
--+          y = FMSUB (threehalf, b, b);
--+
--+          /* Initial estimate.  */
--+          __asm__ ("frsqrte %[x], %[b]\n" : [x] "=f" (x) : [b] "f" (b));
--+
--+          /* Iterate.  x_{n+1} = x_n * (1.5 - y * (x_n * x_n)).  */
--+          x = x * FNMSUB (y, x * x, threehalf);
--+          x = x * FNMSUB (y, x * x, threehalf);
--+          x = x * FNMSUB (y, x * x, threehalf);
--+
--+          /* All done.  */
--+          fesetenv_register (fe);
--+          return x * b;
--+        }
--+    }
--+  else if (b < 0)
--+    {
--+      /* For some reason, some PowerPC32 processors don't implement
--+         FE_INVALID_SQRT.  */
--+#ifdef FE_INVALID_SQRT
--+      feraiseexcept (FE_INVALID_SQRT);
--+
--+      fenv_union_t u = { .fenv = fegetenv_register () };
--+      if ((u.l[1] & FE_INVALID) == 0)
--+#endif
--+	feraiseexcept (FE_INVALID);
--+      b = a_nan.value;
--+    }
--+  return f_washf (b);
--+}
--Index: libc/sysdeps/unix/sysv/linux/powerpc/powerpc32/603e/fpu/Implies
--===================================================================
----- /dev/null
--+++ libc/sysdeps/unix/sysv/linux/powerpc/powerpc32/603e/fpu/Implies
--@@ -0,0 +1 @@
--+powerpc/powerpc32/603e/fpu
--Index: libc/sysdeps/unix/sysv/linux/powerpc/powerpc32/7400/fpu/Implies
--===================================================================
----- /dev/null
--+++ libc/sysdeps/unix/sysv/linux/powerpc/powerpc32/7400/fpu/Implies
--@@ -0,0 +1 @@
--+powerpc/powerpc32/603e/fpu
--Index: libc/sysdeps/unix/sysv/linux/powerpc/powerpc32/e500mc/fpu/Implies
--===================================================================
----- /dev/null
--+++ libc/sysdeps/unix/sysv/linux/powerpc/powerpc32/e500mc/fpu/Implies
--@@ -0,0 +1 @@
--+powerpc/powerpc32/603e/fpu
--Index: libc/sysdeps/unix/sysv/linux/powerpc/powerpc64/e5500/fpu/Implies
--===================================================================
----- /dev/null
--+++ libc/sysdeps/unix/sysv/linux/powerpc/powerpc64/e5500/fpu/Implies
--@@ -0,0 +1 @@
--+powerpc/powerpc64/e5500/fpu
--Index: libc/sysdeps/unix/sysv/linux/powerpc/powerpc32/e5500/fpu/Implies
--===================================================================
----- /dev/null
--+++ libc/sysdeps/unix/sysv/linux/powerpc/powerpc32/e5500/fpu/Implies
--@@ -0,0 +1 @@
--+powerpc/powerpc32/603e/fpu
-diff --git a/meta/recipes-core/eglibc/eglibc-2.13/stack-protector-test.patch b/meta/recipes-core/eglibc/eglibc-2.13/stack-protector-test.patch
-deleted file mode 100644
-index dbf70a9..0000000
---- a/meta/recipes-core/eglibc/eglibc-2.13/stack-protector-test.patch
-+++ /dev/null
-@@ -1,35 +0,0 @@
--Test for -fstack-protector is compile only test. One might have the option but
--might have build the compiler with --disable-ssp which means ssp should not be
--enabled. Therefore we change the test to a link time test. It will fail if
--libssp is not available.
--
--Upstream-Status: Pending
--
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--
--Index: libc/configure
--===================================================================
----- libc.orig/configure
--+++ libc/configure
--@@ -6937,7 +6937,7 @@ if test "${libc_cv_ssp+set}" = set; then
--   $as_echo_n "(cached) " >&6
-- else
--   if { ac_try='${CC-cc} $CFLAGS $CPPFLAGS -Werror -fstack-protector
---			    -o /dev/null -c -x c /dev/null 1>&5'
--+			    -o /dev/null -x c /dev/null 1>&5'
--   { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
--   (eval $ac_try) 2>&5
--   ac_status=$?
--Index: libc/configure.in
--===================================================================
----- libc.orig/configure.in
--+++ libc/configure.in
--@@ -1787,7 +1787,7 @@ AC_SUBST(fno_unit_at_a_time)
-- 
-- AC_CACHE_CHECK(for -fstack-protector, libc_cv_ssp, [dnl
-- if AC_TRY_COMMAND([${CC-cc} $CFLAGS $CPPFLAGS -Werror -fstack-protector
---			    -o /dev/null -c -x c /dev/null 1>&AS_MESSAGE_LOG_FD])
--+			    -o /dev/null -x c /dev/null 1>&AS_MESSAGE_LOG_FD])
-- then
--   libc_cv_ssp=yes
-- else
-diff --git a/meta/recipes-core/eglibc/eglibc-2.13/use-sysroot-cxx-headers.patch b/meta/recipes-core/eglibc/eglibc-2.13/use-sysroot-cxx-headers.patch
-deleted file mode 100644
-index c06eebf..0000000
---- a/meta/recipes-core/eglibc/eglibc-2.13/use-sysroot-cxx-headers.patch
-+++ /dev/null
-@@ -1,36 +0,0 @@
--build system of glibc currently adds the cxx headers path by detecting
--it using provided CXX and expects that they are installed w.r.t to standard
--installation location but in OE we install and use cxx headers from target
--sysroot therefore that code needs to be adapted for OE
--
--Upstream-Status: Inappropriate [OE-specific]
--
---Khem
--
--
----- a/configure.in
--+++ b/configure.in
--@@ -1118,9 +1118,8 @@ if test -n "$sysheaders"; then
--   SYSINCLUDES="$SYSINCLUDES \
-- -isystem `echo $sysheaders | sed 's/:/ -isystem /g'`"
--   if test -n "$CXX"; then
---    cxxversion=`$CXX -dumpversion 2>&AS_MESSAGE_LOG_FD` &&
--     cxxmachine=`$CXX -dumpmachine 2>&AS_MESSAGE_LOG_FD` &&
---    cxxheaders=`$CXX -print-file-name=../../../../include/c++/`"$cxxversion" &&
--+    cxxheaders=`$CXX -print-sysroot`"$prefix/include/c++" &&
--     CXX_SYSINCLUDES="-isystem $cxxheaders \
-- -isystem $cxxheaders/$cxxmachine -isystem $cxxheaders/backward"
--   fi
----- a/configure
--+++ b/configure
--@@ -5544,9 +5544,8 @@ if test -n "$sysheaders"; then
--   SYSINCLUDES="$SYSINCLUDES \
-- -isystem `echo $sysheaders | sed 's/:/ -isystem /g'`"
--   if test -n "$CXX"; then
---    cxxversion=`$CXX -dumpversion 2>&5` &&
--     cxxmachine=`$CXX -dumpmachine 2>&5` &&
---    cxxheaders=`$CXX -print-file-name=../../../../include/c++/`"$cxxversion" &&
--+    cxxheaders=`$CXX -print-sysroot`"$prefix/include/c++" &&
--     CXX_SYSINCLUDES="-isystem $cxxheaders \
-- -isystem $cxxheaders/$cxxmachine -isystem $cxxheaders/backward"
--   fi
-diff --git a/meta/recipes-core/eglibc/eglibc-initial_2.13.bb b/meta/recipes-core/eglibc/eglibc-initial_2.13.bb
-deleted file mode 100644
-index 787c762..0000000
---- a/meta/recipes-core/eglibc/eglibc-initial_2.13.bb
-+++ /dev/null
-@@ -1,6 +0,0 @@
--require eglibc_${PV}.bb
--require eglibc-initial.inc
--
--do_configure_prepend () {
--        unset CFLAGS
--}
-diff --git a/meta/recipes-core/eglibc/eglibc-locale_2.13.bb b/meta/recipes-core/eglibc/eglibc-locale_2.13.bb
-deleted file mode 100644
-index ce6c1d2..0000000
---- a/meta/recipes-core/eglibc/eglibc-locale_2.13.bb
-+++ /dev/null
-@@ -1 +0,0 @@
--require eglibc-locale.inc
-diff --git a/meta/recipes-core/eglibc/eglibc_2.13.bb b/meta/recipes-core/eglibc/eglibc_2.13.bb
-deleted file mode 100644
-index 690f99d..0000000
---- a/meta/recipes-core/eglibc/eglibc_2.13.bb
-+++ /dev/null
-@@ -1,218 +0,0 @@
--require eglibc.inc
--
--SRCREV = "15508"
--
--DEPENDS += "gperf-native"
--PR = "r28"
--PR_append = "+svnr${SRCPV}"
--
--EGLIBC_BRANCH="eglibc-2_13"
--SRC_URI = "svn://www.eglibc.org/svn/branches/;module=${EGLIBC_BRANCH};proto=http \
--           file://eglibc-svn-arm-lowlevellock-include-tls.patch \
--           file://IO-acquire-lock-fix.patch \
--           file://mips-rld-map-check.patch \
--           file://stack-protector-test.patch \
--           file://armv4-eabi-compile-fix.patch \
--           file://etc/ld.so.conf \
--           file://generate-supported.mk \
--           file://ppc-sqrt.patch \
--           file://multilib_readlib.patch \
--           file://use-sysroot-cxx-headers.patch \
--	   "
--LIC_FILES_CHKSUM = "file://LICENSES;md5=98a1128c4b58120182cbea3b1752d8b9 \
--      file://COPYING;md5=393a5ca445f6965873eca0259a17f833 \
--      file://posix/rxspencer/COPYRIGHT;md5=dc5485bb394a13b2332ec1c785f5d83a \
--      file://COPYING.LIB;md5=bbb461211a33b134d42ed5ee802b37ff "
--
--SRC_URI_append_virtclass-nativesdk = " file://ld-search-order.patch"
--S = "${WORKDIR}/${EGLIBC_BRANCH}/libc"
--B = "${WORKDIR}/build-${TARGET_SYS}"
--
--PACKAGES_DYNAMIC = "libc6*"
--RPROVIDES_${PN}-dev = "libc6-dev virtual-libc-dev"
--PROVIDES_${PN}-dbg = "glibc-dbg"
--
--# the -isystem in bitbake.conf screws up glibc do_stage
--BUILD_CPPFLAGS = "-I${STAGING_INCDIR_NATIVE}"
--TARGET_CPPFLAGS = "-I${STAGING_DIR_TARGET}${layout_includedir}"
--
--GLIBC_BROKEN_LOCALES = " _ER _ET so_ET yn_ER sid_ET tr_TR mn_MN gez_ET gez_ER bn_BD te_IN es_CR.ISO-8859-1"
--
--FILESPATH = "${@base_set_filespath([ '${FILE_DIRNAME}/eglibc-${PV}', '${FILE_DIRNAME}/eglibc', '${FILE_DIRNAME}/files', '${FILE_DIRNAME}' ], d)}"
--
--#
--# For now, we will skip building of a gcc package if it is a uclibc one
--# and our build is not a uclibc one, and we skip a glibc one if our build
--# is a uclibc build.
--#
--# See the note in gcc/gcc_3.4.0.oe
--#
--
--python __anonymous () {
--    import bb, re
--    uc_os = (re.match('.*uclibc$', d.getVar('TARGET_OS', True)) != None)
--    if uc_os:
--        raise bb.parse.SkipPackage("incompatible with target %s" %
--                                   d.getVar('TARGET_OS', True))
--}
--
--export libc_cv_slibdir = "${base_libdir}"
--
--
--EXTRA_OECONF = "--enable-kernel=${OLDEST_KERNEL} \
--                --without-cvs --disable-profile --disable-debug --without-gd \
--                --enable-clocale=gnu \
--                --enable-add-ons=${GLIBC_ADDONS},ports \
--                --with-headers=${STAGING_INCDIR} \
--                --without-selinux \
--                ${GLIBC_EXTRA_OECONF}"
--
--EXTRA_OECONF += "${@get_libc_fpu_setting(bb, d)}"
--
--do_unpack_append() {
--	bb.build.exec_func('do_move_ports', d)
--}
--
--do_move_ports() {
--        if test -d ${WORKDIR}/${EGLIBC_BRANCH}/ports ; then
--	    rm -rf ${S}/ports
--	    mv ${WORKDIR}/${EGLIBC_BRANCH}/ports ${S}/
--	fi
--}
--
--do_patch_append() {
--	bb.build.exec_func('do_fix_ia_headers', d)
--	bb.build.exec_func('do_fix_readlib_c', d)
--}
--
--# We need to ensure that all of the i386 and x86_64 headers are identical
--# to support the multilib case.  We do this by copying headers from x86_64
--# to i386 directories.  Normally when hand building eglibc or a combined
--# system you would build 32-bit, and then overwrite any files with the x86_64
--# versions.
--#
--# Each time eglibc is updated, this will need to be re-evaluated.  In order
--# to do this, disable this function.  Build eglibc for a 32-bit and a 64-bit
--# IA32 target.  Compare the contents of the include files -- comments specific
--# to the x86_64 version compared to the 32-bit one.
--#
--# For eglibc 2.13, each conflict noted below:
--#  bits/a.out.h - Add support for __WORDSIZE = 64
--#  bits/byteswap.h - Copyright date mismatch, add support for __WORDSIZE = 64
--#  bits/endian.h - Comment mismatch
--#  bits/environment.h - add support for __WORDSIZE = 64
--#  bits/fcntl.h - Comment/Copyright date mismatch, add support for __WORDSIZE = 64
--#  bits/fenv.h - Copyright date mismatch, add support for __WORDSIZE = 64
--#  bits/huge_vall.h - Comment/Copyright date mismatch, remove support for older gcc
--#  bits/link.h - Function name difference, add x86_64 definitions
--#  bits/mathdef.h - Copyright date mismatch, add support for __WORDSIZE = 64
--#  bits/mathinline.h - Copyright date mismatch, contributed by mismatch, remove support for older gcc/assembly optimization, add support for __WORDSIZE = 64
--#  bits/mman.h - Header/Copyright date mismatch, add MAP_32BIT definition
--#  bits/msq.h - Copyright date mismatch, add __WORDSIZE = 32 definitions
--#  bits/pthread_type.h -- Contributed by added, add support for __WORDSIZE = 64
--#  bits/select.h - Copyright date mismatch, add support for __WORDSIZE = 64
--#  bits/semaphore.h - Copyright date mismatch, add support for __WORDSIZE = 64
--#  bits/sem.h - Copyright date mismatch
--#  bits/setjmp.h - Copyrgiht date mismatch, add support for __WORDSIZE = 64
--#  bits/shm.h - Copyright date mismatch, add support for __WORDSIZE = 32
--#  bits/sigcontext.h - Copyright date mismatch, license wording mismatch, add support for __WORDSIZE = 32
--#  bits/stat.h - Copyright date mismatch, add support for __WORDSIZE = 32 and __WORDSIZE = 64
--#  bits/string.h - Header/Copyright date mismatch, remove assembly optimizations
--#  bits/syscall.h - different order, some different syscalls listed
--#  bits/wchar.h - Change the way the definitions are done
--#  bits/wordsize.h - Different header, remove license notice, add __x86_64__ support
--#  bits/xtitypes.h - Header difference, different typedef format
--#  bits/fpu_control.h - header difference, revised comments, updated assembly macros
--#  sys/debugreg.h - Copyright date mismatch, new definition and added __WORDSIZE=64 support
--#  sys/epoll.h - Copyright date mismatch, slightly different definitions
--#  sys/io.h - Copyright date mismatch, slightly different assembly formats
--#  sys/perm.h - Copyright date mismatch
--#  sys/procfs.h - Copyright date mismatch, support for __WORDSIZE = 32
--#  sys/reg.h - Copyright date mismatch, support for __WORDSIZE = 64
--#  sys/ucontext.h - Copyright date mismatch, support for __WORDSIZE = 64
--#  sys/user.h - Copyright date mismatch, support for __WORDSIZE = 64
--#
--# we rm something to return to the default version
--#
--do_fix_ia_headers() {
--	cp ${S}/sysdeps/unix/sysv/linux/x86_64/bits/a.out.h ${S}/sysdeps/unix/sysv/linux/i386/bits/a.out.h
--	cp ${S}/sysdeps/x86_64/bits/byteswap.h ${S}/sysdeps/i386/bits/byteswap.h
--	cp ${S}/sysdeps/x86_64/bits/endian.h ${S}/sysdeps/i386/bits/endian.h
--	cp ${S}/sysdeps/unix/sysv/linux/x86_64/bits/environments.h ${S}/sysdeps/unix/sysv/linux/i386/bits/environments.h
--	cp ${S}/sysdeps/unix/sysv/linux/x86_64/bits/fcntl.h ${S}/sysdeps/unix/sysv/linux/i386/bits/fcntl.h
--	cp ${S}/sysdeps/x86_64/fpu/bits/fenv.h ${S}/sysdeps/i386/fpu/bits/fenv.h
--	rm -f ${S}/sysdeps/i386/bits/huge_vall.h
--	cp ${S}/sysdeps/x86_64/bits/link.h ${S}/sysdeps/i386/bits/link.h
--	cp ${S}/sysdeps/x86_64/bits/mathdef.h ${S}/sysdeps/i386/bits/mathdef.h
--	cp ${S}/sysdeps/x86_64/fpu/bits/mathinline.h ${S}/sysdeps/i386/fpu/bits/mathinline.h
--	cp ${S}/sysdeps/unix/sysv/linux/x86_64/bits/mman.h ${S}/sysdeps/unix/sysv/linux/i386/bits/mman.h
--	cp ${S}/sysdeps/unix/sysv/linux/x86_64/bits/msq.h ${S}/sysdeps/unix/sysv/linux/i386/bits/msq.h
--	cp ${S}/nptl/sysdeps/unix/sysv/linux/x86_64/bits/pthreadtypes.h ${S}/nptl/sysdeps/unix/sysv/linux/i386/bits/pthreadtypes.h
--	cp ${S}/sysdeps/x86_64/bits/select.h ${S}/sysdeps/i386/bits/select.h
--	cp ${S}/nptl/sysdeps/unix/sysv/linux/x86_64/bits/semaphore.h ${S}/nptl/sysdeps/unix/sysv/linux/i386/bits/semaphore.h
--	rm -f ${S}/sysdeps/unix/sysv/linux/x86_64/bits/sem.h
--	cp ${S}/sysdeps/x86_64/bits/setjmp.h ${S}/sysdeps/i386/bits/setjmp.h
--	cp ${S}/sysdeps/unix/sysv/linux/x86_64/bits/shm.h ${S}/sysdeps/unix/sysv/linux/i386/bits/shm.h
--	cp ${S}/sysdeps/unix/sysv/linux/x86_64/bits/sigcontext.h ${S}/sysdeps/unix/sysv/linux/i386/bits/sigcontext.h
--	cp ${S}/sysdeps/unix/sysv/linux/x86_64/bits/stat.h ${S}/sysdeps/unix/sysv/linux/i386/bits/stat.h
--	rm -f ${S}/sysdeps/i386/i486/bits/string.h ; cp ${S}/sysdeps/x86_64/bits/string.h ${S}/sysdeps/i386/bits/string.h 
--	# Skip syscall.h, see do_install
--	rm -f ${S}/sysdeps/unix/sysv/linux/i386/bits/wchar.h 
--	cp ${S}/sysdeps/x86_64/bits/wordsize.h ${S}/sysdeps/i386/bits/wordsize.h
--	cp ${S}/sysdeps/x86_64/bits/xtitypes.h ${S}/sysdeps/i386/bits/xtitypes.h
--	# i386 version is correct, x86_64 is incorrect for fpu_control.h
--	cp ${S}/sysdeps/i386/fpu_control.h ${S}/sysdeps/x86_64/fpu_control.h
--	cp ${S}/sysdeps/unix/sysv/linux/x86_64/sys/debugreg.h ${S}/sysdeps/unix/sysv/linux/i386/sys/debugreg.h
--	cp ${S}/sysdeps/unix/sysv/linux/x86_64/sys/epoll.h ${S}/sysdeps/unix/sysv/linux/i386/sys/epoll.h
--	cp ${S}/sysdeps/unix/sysv/linux/x86_64/sys/io.h ${S}/sysdeps/unix/sysv/linux/i386/sys/io.h
--	cp ${S}/sysdeps/unix/sysv/linux/x86_64/sys/perm.h ${S}/sysdeps/unix/sysv/linux/i386/sys/perm.h
--	cp ${S}/sysdeps/unix/sysv/linux/x86_64/sys/procfs.h ${S}/sysdeps/unix/sysv/linux/i386/sys/procfs.h
--	cp ${S}/sysdeps/unix/sysv/linux/x86_64/sys/reg.h ${S}/sysdeps/unix/sysv/linux/i386/sys/reg.h
--	cp ${S}/sysdeps/unix/sysv/linux/x86_64/sys/ucontext.h ${S}/sysdeps/unix/sysv/linux/i386/sys/ucontext.h
--	cp ${S}/sysdeps/unix/sysv/linux/x86_64/sys/user.h ${S}/sysdeps/unix/sysv/linux/i386/sys/user.h
--}
--
--do_fix_readlib_c () {
--	sed -i -e 's#OECORE_KNOWN_INTERPRETER_NAMES#${EGLIBC_KNOWN_INTERPRETER_NAMES}#' ${S}/elf/readlib.c
--}
--
--do_configure () {
--# override this function to avoid the autoconf/automake/aclocal/autoheader
--# calls for now
--# don't pass CPPFLAGS into configure, since it upsets the kernel-headers
--# version check and doesn't really help with anything
--        if [ -z "`which rpcgen`" ]; then
--                echo "rpcgen not found.  Install glibc-devel."
--                exit 1
--        fi
--        (cd ${S} && gnu-configize) || die "failure in running gnu-configize"
--        find ${S} -name "configure" | xargs touch
--        CPPFLAGS="" oe_runconf
--}
--
--rpcsvc = "bootparam_prot.x nlm_prot.x rstat.x \
--	  yppasswd.x klm_prot.x rex.x sm_inter.x mount.x \
--	  rusers.x spray.x nfs_prot.x rquota.x key_prot.x"
--
--do_compile () {
--	# -Wl,-rpath-link <staging>/lib in LDFLAGS can cause breakage if another glibc is in staging
--	unset LDFLAGS
--	base_do_compile
--	(
--		cd ${S}/sunrpc/rpcsvc
--		for r in ${rpcsvc}; do
--			h=`echo $r|sed -e's,\.x$,.h,'`
--			rpcgen -h $r -o $h || bbwarn "unable to generate header for $r"
--		done
--	)
--	echo "Adjust ldd script"
--	if [ -n "${RTLDLIST}" ]
--	then
--		sed -i ${B}/elf/ldd -e 's#^\(RTLDLIST=\)"\(.*\)"$#\1\2#'
--		sed -i ${B}/elf/ldd -e 's#^\(RTLDLIST=\)\(.*\)$#\1"${RTLDLIST} \2"#'
--	fi
--}
--
--require eglibc-package.inc
--
--BBCLASSEXTEND = "nativesdk"
+@@ -1,3 +0,0 @@
+-require gcc-${PV}.inc
+-require gcc-configure-target.inc
+-require gcc-package-target.inc
 -- 
 1.7.9.5
 
