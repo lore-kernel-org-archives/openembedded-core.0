@@ -1,28 +1,25 @@
-Received: from 75-148-42-21-colorado.hfc.comcastbusiness.net ([75.148.42.21]
-	helo=judge.camp.se-eng.com) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raymondd@beast.se-eng.com>) id 1SiAcs-0003uC-9N
+Received: from mga02.intel.com ([134.134.136.20])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <sgw@linux.intel.com>) id 1SiC1E-0006Pr-UC
 	for openembedded-core@lists.openembedded.org;
-	Fri, 22 Jun 2012 22:38:42 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by judge.camp.se-eng.com (Postfix) with ESMTP id 9CC4B138AEA
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Jun 2012 14:21:03 -0600 (MDT)
-X-Virus-Scanned: amavisd-new at camp.se-eng.com
-Received: from judge.camp.se-eng.com ([127.0.0.1])
-	by localhost (judge.camp.se-eng.com [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with ESMTP id kt0qGv6CC6g0; Fri, 22 Jun 2012 14:21:02 -0600 (MDT)
-Received: from beast (beast.camp.se-eng.com [172.20.202.96])
-	by judge.camp.se-eng.com (Postfix) with ESMTP id 1BB2E138AE7;
-	Fri, 22 Jun 2012 14:21:02 -0600 (MDT)
-Received: by beast (Postfix, from userid 1000)
-	id 663DE2C64A; Fri, 22 Jun 2012 14:22:15 -0600 (MDT)
-From: Raymond Danks <ray.danks@se-eng.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 22 Jun 2012 14:22:12 -0600
-Message-Id: <1340396533-5386-1-git-send-email-ray.danks@se-eng.com>
-X-Mailer: git-send-email 1.7.0.4
-Subject: [PATCH 1/2] image_types: Add elf image type
+	Sat, 23 Jun 2012 00:07:57 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 22 Jun 2012 14:57:07 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="157274009"
+Received: from unknown (HELO [10.255.12.175]) ([10.255.12.175])
+	by orsmga001.jf.intel.com with ESMTP; 22 Jun 2012 14:57:06 -0700
+Message-ID: <4FE4EA32.5060200@linux.intel.com>
+Date: Fri, 22 Jun 2012 14:57:06 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <1340179070-6095-1-git-send-email-valentin.popa@intel.com>
+In-Reply-To: <1340179070-6095-1-git-send-email-valentin.popa@intel.com>
+Subject: Re: [PATCH] xev: updated to 1.2.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,78 +34,144 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Jun 2012 20:38:42 -0000
+X-List-Received-Date: Fri, 22 Jun 2012 22:07:57 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On x86, an ELF image file may be stored as a coreboot payload.
-The image file is constructed, using the mkelfimage utility,
-from a kernel and an initrd.
+On 06/20/2012 12:57 AM, Valentin Popa wrote:
+> tested on sato
+>
+> Signed-off-by: Valentin Popa<valentin.popa@intel.com>
+> ---
+>   meta/recipes-graphics/xorg-app/xev/diet-x11.patch  |   38 ++++++++++----------
+>   .../xorg-app/{xev_1.0.3.bb =>  xev_1.2.0.bb}        |    6 ++--
+>   2 files changed, 22 insertions(+), 22 deletions(-)
+>   rename meta/recipes-graphics/xorg-app/{xev_1.0.3.bb =>  xev_1.2.0.bb} (33%)
+>
+> diff --git a/meta/recipes-graphics/xorg-app/xev/diet-x11.patch b/meta/recipes-graphics/xorg-app/xev/diet-x11.patch
+> index 139838c..6130959 100644
+> --- a/meta/recipes-graphics/xorg-app/xev/diet-x11.patch
+> +++ b/meta/recipes-graphics/xorg-app/xev/diet-x11.patch
+> @@ -4,11 +4,11 @@ Upstream-Status: Inappropriate [disable feature]
+>    xev.c |   16 ++++++++--------
+>    1 file changed, 8 insertions(+), 8 deletions(-)
+>
+> -Index: xev-1.0.2/xev.c
+> +Index: xev-1.2.0/xev.c
+>   ===================================================================
+> ---- xev-1.0.2.orig/xev.c	2006-06-02 00:25:44.000000000 +0100
+> -+++ xev-1.0.2/xev.c	2007-05-10 15:22:07.000000000 +0100
+> -@@ -109,7 +109,7 @@ do_KeyPress (XEvent *eventp)
+> +--- xev-1.2.0.orig/xev.c
+> ++++ xev-1.2.0/xev.c
+> +@@ -116,7 +116,7 @@ do_KeyPress (XEvent *eventp)
+>        nbytes = XLookupString (e, str, 256,&ks, NULL);
+>
+>        /* not supposed to call XmbLookupString on a key release event */
+> @@ -17,7 +17,7 @@ Index: xev-1.0.2/xev.c
+>            do {
+>                nmbbytes = XmbLookupString (xic, e, buf, bsize - 1,&ks,&status);
+>                buf[nmbbytes] = '\0';
+> -@@ -119,7 +119,7 @@ do_KeyPress (XEvent *eventp)
+> +@@ -126,7 +126,7 @@ do_KeyPress (XEvent *eventp)
+>                    buf = realloc (buf, bsize);
+>                }
+>            } while (status == XBufferOverflow);
+> @@ -26,7 +26,7 @@ Index: xev-1.0.2/xev.c
+>
+>        if (ks == NoSymbol)
+>    	ksname = "NoSymbol";
+> -@@ -149,7 +149,7 @@ do_KeyPress (XEvent *eventp)
+> +@@ -156,7 +156,7 @@ do_KeyPress (XEvent *eventp)
+>        }
+>
+>        /* not supposed to call XmbLookupString on a key release event */
+> @@ -35,16 +35,16 @@ Index: xev-1.0.2/xev.c
+>            printf ("    XmbLookupString gives %d bytes: ", nmbbytes);
+>            if (nmbbytes>  0) {
+>               dump (buf, nmbbytes);
+> -@@ -157,7 +157,7 @@ do_KeyPress (XEvent *eventp)
+> +@@ -164,7 +164,7 @@ do_KeyPress (XEvent *eventp)
+>            } else {
+>        	   printf ("\n");
+>            }
+>   -    }
+>   +    } */
+>
+> -     printf ("    XFilterEvent returns: %s\n",
+> +     printf ("    XFilterEvent returns: %s\n",
+>    	    XFilterEvent (eventp, e->window) ? "True" : "False");
+> -@@ -804,7 +804,7 @@ main (int argc, char **argv)
+> +@@ -1015,7 +1015,7 @@ main (int argc, char **argv)
+>            fprintf (stderr, "%s:  XSetLocaleModifiers failed\n", ProgramName);
+>        }
+>
+> @@ -53,30 +53,30 @@ Index: xev-1.0.2/xev.c
+>        if (xim == NULL) {
+>            fprintf (stderr, "%s:  XOpenIM failed\n", ProgramName);
+>        }
+> -@@ -831,7 +831,7 @@ main (int argc, char **argv)
+> +@@ -1042,7 +1042,7 @@ main (int argc, char **argv)
+>                }
+>                XFree (xim_styles);
+>            }
+> --    }
+> -+    }*/
+> +-    }
+> ++	}*/
+>
+>        screen = DefaultScreen (dpy);
+>
+> -@@ -891,7 +891,7 @@ main (int argc, char **argv)
+> +@@ -1109,7 +1109,7 @@ main (int argc, char **argv)
+>    	printf ("Outer window is 0x%lx, inner window is 0x%lx\n", w, subw);
+>        }
+>
+>   -    if (xim&&  xim_style) {
+>   +    /*if (xim&&  xim_style) {
+> -         xic = XCreateIC (xim,
+> -                          XNInputStyle, xim_style,
+> -                          XNClientWindow, w,
+> -@@ -901,7 +901,7 @@ main (int argc, char **argv)
+> +         xic = XCreateIC (xim,
+> +                          XNInputStyle, xim_style,
+> +                          XNClientWindow, w,
+> +@@ -1119,7 +1119,7 @@ main (int argc, char **argv)
+>            if (xic == NULL) {
+>                fprintf (stderr, "XCreateIC failed\n");
+>            }
+>   -    }
+>   +    }*/
+>
+> -     for (done = 0; !done; ) {
+> - 	XEvent event;
+> +     have_rr = XRRQueryExtension (dpy,&rr_event_base,&rr_error_base);
+> +     if (have_rr) {
+> diff --git a/meta/recipes-graphics/xorg-app/xev_1.0.3.bb b/meta/recipes-graphics/xorg-app/xev_1.2.0.bb
+> similarity index 33%
+> rename from meta/recipes-graphics/xorg-app/xev_1.0.3.bb
+> rename to meta/recipes-graphics/xorg-app/xev_1.2.0.bb
+> index 21ba62e..b340409 100644
+> --- a/meta/recipes-graphics/xorg-app/xev_1.0.3.bb
+> +++ b/meta/recipes-graphics/xorg-app/xev_1.2.0.bb
+> @@ -1,10 +1,10 @@
+>   require xorg-app-common.inc
+> -LIC_FILES_CHKSUM = "file://xev.c;startline=0;endline=35;md5=db2e69260ca64f1d332efa6ab4b7e2b5"
+> +LIC_FILES_CHKSUM = "file://xev.c;startline=0;endline=35;md5=2f39a0038b59269c1e62efae64cfd056"
+Something changed in the License Area of the xev.c file?  Please list 
+that change in the commit.
 
-Signed-off-by: Raymond Danks <ray.danks@se-eng.com>
----
-This was originally submitted to the openembedded project:
-http://patches.openembedded.org/patch/7689/
+Sau!
 
-Resubmitting to oe-core for review prior to commit in openembedded-core.
-
- meta/classes/image_types.bbclass |   18 +++++++++++++++++-
- 1 files changed, 17 insertions(+), 1 deletions(-)
-
-diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-index 55f122e..bbca20c 100644
---- a/meta/classes/image_types.bbclass
-+++ b/meta/classes/image_types.bbclass
-@@ -7,6 +7,12 @@ def get_imagecmds(d):
-     ctypes = d.getVar('COMPRESSIONTYPES', True).split()
-     cimages = {}
- 
-+    if "elf" in alltypes:
-+        alltypes.remove("elf")
-+        if "cpio.gz" not in alltypes:
-+                alltypes.append("cpio.gz")
-+        alltypes.append("elf")
-+
-     # Filter out all the compressed images from types
-     for type in alltypes:
-         basetype = None
-@@ -173,6 +179,14 @@ IMAGE_CMD_cpio () {
- 	cd ${IMAGE_ROOTFS} && (find . | cpio -o -H newc >${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cpio)
- }
- 
-+ELF_KERNEL ?= ${STAGING_DIR_HOST}/kernel/bzImage
-+ELF_APPEND ?= "ramdisk_size=32768 root=/dev/ram0 rw console=" 
-+
-+IMAGE_CMD_elf () {
-+	test -f ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.elf && rm -f ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.elf 
-+	mkelfImage --kernel=${ELF_KERNEL} --initrd=${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cpio.gz --output=${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.elf --append='${ELF_APPEND}' ${EXTRA_IMAGECMD}
-+}
-+
- UBI_VOLNAME ?= "${MACHINE}-rootfs"
- 
- IMAGE_CMD_ubi () {
-@@ -199,6 +213,7 @@ EXTRA_IMAGECMD_ext2 ?= "-i 8192"
- EXTRA_IMAGECMD_ext3 ?= "-i 8192"
- EXTRA_IMAGECMD_ext4 ?= "-i 8192"
- EXTRA_IMAGECMD_btrfs ?= ""
-+EXTRA_IMAGECMD_elf ?= ""
- 
- IMAGE_DEPENDS = ""
- IMAGE_DEPENDS_jffs2 = "mtd-utils-native"
-@@ -210,11 +225,12 @@ IMAGE_DEPENDS_ext4 = "genext2fs-native e2fsprogs-native"
- IMAGE_DEPENDS_btrfs = "btrfs-tools-native"
- IMAGE_DEPENDS_squashfs = "squashfs-tools-native"
- IMAGE_DEPENDS_squashfs-lzma = "squashfs-lzma-tools-native"
-+IMAGE_DEPENDS_elf = "virtual/kernel mkelfimage-native"
- IMAGE_DEPENDS_ubi = "mtd-utils-native"
- IMAGE_DEPENDS_ubifs = "mtd-utils-native"
- 
- # This variable is available to request which values are suitable for IMAGE_FSTYPES
--IMAGE_TYPES = "jffs2 sum.jffs2 cramfs ext2 ext2.gz ext2.bz2 ext3 ext3.gz ext2.lzma btrfs live squashfs squashfs-lzma ubi tar tar.gz tar.bz2 tar.xz cpio cpio.gz cpio.xz cpio.lzma vmdk"
-+IMAGE_TYPES = "jffs2 sum.jffs2 cramfs ext2 ext2.gz ext2.bz2 ext3 ext3.gz ext2.lzma btrfs live squashfs squashfs-lzma ubi tar tar.gz tar.bz2 tar.xz cpio cpio.gz cpio.xz cpio.lzma vmdk elf"
- 
- COMPRESSIONTYPES = "gz bz2 lzma xz"
- COMPRESS_CMD_lzma = "lzma -k -f -7 ${IMAGE_NAME}.rootfs.${type}"
--- 
-1.7.0.4
-
+>   DESCRIPTION = "X Event Viewer"
+>   LICENSE = "MIT"
+>   PE = "1"
+>
+>   SRC_URI += "file://diet-x11.patch"
+>
+> -SRC_URI[md5sum] = "a9532c3d1683c99bb5df1895cb3a60b1"
+> -SRC_URI[sha256sum] = "d4ac7ae154ee9733be27a5f55586abb9362c768f5fb8a4fc7fd2645100a9313a"
+> +SRC_URI[md5sum] = "2727c72f3eba0c23f8f6b2e618d195a2"
+> +SRC_URI[sha256sum] = "3786a77dab17741d508d5d117a0ff33bb6eabf93e0935388b5f920bfcf2fb38f"
 
 
