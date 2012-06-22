@@ -1,20 +1,42 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga10.intel.com ([192.55.52.92] helo=fmsmga102.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <valentin.popa@intel.com>) id 1Si5qX-00061f-S7
+	(envelope-from <scott.a.garman@intel.com>) id 1Si7W6-0007ou-EP
 	for openembedded-core@lists.openembedded.org;
-	Fri, 22 Jun 2012 17:32:30 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 22 Jun 2012 08:20:36 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="168971099"
-Received: from valentin-desktop (HELO localhost.localdomain) ([10.237.105.52])
-	by fmsmga001.fm.intel.com with ESMTP; 22 Jun 2012 08:20:35 -0700
-From: Valentin Popa <valentin.popa@intel.com>
+	Fri, 22 Jun 2012 19:19:31 +0200
+Received: from mail-pb0-f52.google.com ([209.85.160.52])
+	by mga11.intel.com with ESMTP/TLS/RC4-MD5; 22 Jun 2012 10:08:40 -0700
+Received: by pbbro8 with SMTP id ro8so3873723pbb.25
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 22 Jun 2012 10:08:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=message-id:date:from:user-agent:mime-version:to:subject:references
+	:in-reply-to:content-type:content-transfer-encoding
+	:x-gm-message-state;
+	bh=VAKA5ym3sFP4uMROGoU3z9XQ+4tN3Ylk5OIkihWvyWs=;
+	b=KHTHCAvPjSWjoHDyU5EHwFpCw93oCdjmQJDAqERIdWHrVremmYVLWy56LhNakOVZ6g
+	DN7mAFEq4x8JzUlypQG4pRoU1sEN19vLY5yEgLKvkH2kr1bl6UuDMtV3hZh61F3Skvyu
+	MCXKy+0k+8aU0FJ/lzUNNoaNpN4xp5rKFCH3Fz3ZufRMTCdVp5II0SOvt0NtamIW21tl
+	SioDoswV4cauWzcmGMyN64UR1zZ58NYGx3gR1DsqLGQh1RhDuGJxYq/oRtY5uaMZBzMZ
+	Hu/4QgYALWUx86e354DdCBEkDK6QpVxonLN5Onc+aDuIqnCHVtMelvuVZGGcHvQdlmST
+	DNcw==
+Received: by 10.68.192.73 with SMTP id he9mr12537307pbc.17.1340384920172;
+	Fri, 22 Jun 2012 10:08:40 -0700 (PDT)
+Received: from [10.1.10.192] (c-50-137-42-92.hsd1.or.comcast.net.
+	[50.137.42.92])
+	by mx.google.com with ESMTPS id iv8sm39452399pbc.53.2012.06.22.10.08.38
+	(version=SSLv3 cipher=OTHER); Fri, 22 Jun 2012 10:08:39 -0700 (PDT)
+Message-ID: <4FE4A694.2040504@intel.com>
+Date: Fri, 22 Jun 2012 10:08:36 -0700
+From: Scott Garman <scott.a.garman@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:13.0) Gecko/20120615 Thunderbird/13.0.1
+MIME-Version: 1.0
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 22 Jun 2012 15:27:53 +0300
-Message-Id: <1340368073-7078-1-git-send-email-valentin.popa@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] gpgme: updated to 1.3.2
+References: <4FE431E4.6070706@communistcode.co.uk>
+In-Reply-To: <4FE431E4.6070706@communistcode.co.uk>
+X-Gm-Message-State: ALoCoQk0bIkVfjz5I8NO+/h5La/WbSmzFJ7ZdacqQZSqA/lUZ0kbXX+s//CNzCKoSkgnFTgM86sj
+Subject: Re: sgml-common sstate_task_postfunc failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,55 +51,263 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Jun 2012 15:32:30 -0000
+X-List-Received-Date: Fri, 22 Jun 2012 17:19:31 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Licence update: the same licence and new copyright years added
+On 06/22/2012 01:50 AM, Jack Mitchell wrote:
+> I have had issues building sgml-common the past few days with oe-core
+> master. Could anyone shed any light on the debug messages I am receiving
+> and what I could do to go about fixing them.
+>
+> I don't really understand the recipe, it seems to be some sort of
+> surrogate recipe for transferring over specified files.
 
-Signed-off-by: Valentin Popa <valentin.popa@intel.com>
----
- .../disable_gpgconf_check.patch                    |    0
- .../gpgme/{gpgme_1.3.1.bb => gpgme_1.3.2.bb}       |    8 ++++----
- 2 files changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-support/gpgme/{gpgme-1.3.1 => gpgme-1.3.2}/disable_gpgconf_check.patch (100%)
- rename meta/recipes-support/gpgme/{gpgme_1.3.1.bb => gpgme_1.3.2.bb} (83%)
+The sgml catalog generation process has been plagued with race 
+conditions and special cases like requiring SSTATEPOSTINSTFUNCS from the 
+start - the problem is that unlike most packages, we're not installing 
+static files but need to dynamically update the sgml catalog every time 
+a new dtd gets installed.
 
-diff --git a/meta/recipes-support/gpgme/gpgme-1.3.1/disable_gpgconf_check.patch b/meta/recipes-support/gpgme/gpgme-1.3.2/disable_gpgconf_check.patch
-similarity index 100%
-rename from meta/recipes-support/gpgme/gpgme-1.3.1/disable_gpgconf_check.patch
-rename to meta/recipes-support/gpgme/gpgme-1.3.2/disable_gpgconf_check.patch
-diff --git a/meta/recipes-support/gpgme/gpgme_1.3.1.bb b/meta/recipes-support/gpgme/gpgme_1.3.2.bb
-similarity index 83%
-rename from meta/recipes-support/gpgme/gpgme_1.3.1.bb
-rename to meta/recipes-support/gpgme/gpgme_1.3.2.bb
-index 949a24c..b3c1d46 100644
---- a/meta/recipes-support/gpgme/gpgme_1.3.1.bb
-+++ b/meta/recipes-support/gpgme/gpgme_1.3.2.bb
-@@ -5,19 +5,19 @@ BUGTRACKER = "https://bugs.g10code.com/gnupg/index"
- LICENSE = "GPLv2+ & LGPLv2.1+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
-                     file://COPYING.LESSER;md5=bbb461211a33b134d42ed5ee802b37ff \
--                    file://src/gpgme.h.in;endline=23;md5=942b47052c0674c6a3b9b9e6127628a4 \
-+                    file://src/gpgme.h.in;endline=23;md5=00846fee29ec2a6f5c808bfe7fc24e65 \
-                     file://src/engine.h;endline=22;md5=e96acfaab1cff82dd8fbefddd2f5c436"
- 
- SRC_URI = "ftp://ftp.gnupg.org/gcrypt/gpgme/gpgme-${PV}.tar.bz2 \
-            file://disable_gpgconf_check.patch"
- 
--SRC_URI[md5sum] = "90afa8436ce2b2683c001c824bd22601"
--SRC_URI[sha256sum] = "15ef27a875ae0d79d7446fd931deda11438e724ffbeac74449ed19cba23df4d4"
-+SRC_URI[md5sum] = "326fe97077141713f0930aa87949a287"
-+SRC_URI[sha256sum] = "cfd235663f1d1adc97abb38dd5e6d093bb7e155580f171f9ba0158feab69f875"
- DEPENDS = "libgpg-error libassuan ${PTH}"
- PTH_libc-uclibc = "npth"
- PTH = "pth"
- 
--PR = "r3"
-+PR = "r0"
- 
- EXTRA_OECONF = "--with-pth=${STAGING_DIR_HOST} --without-pth-test \
-                 --with-gpg=${bindir}/gpg --without-gpgsm"
+If this is reproducible, and you've only been experiencing it for the 
+past few days, could you possibly bisect which commit has caused this error?
+
+Scott
+
+>
+> [jack@archHP ~]$ cat
+> /home/jack/Projects/poky-denzil.git/r0005/tmp/work/x86_64-linux/sgml-common-native-0.6.3-r0/temp/log.do_populate_sysroot.21669
+>
+> DEBUG: Executing python function sstate_task_prefunc
+> DEBUG: Removing manifest:
+> /home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux/usr/bin/sgmlwhich
+>
+> DEBUG: Removing manifest:
+> /home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux/usr/bin/install-catalog
+>
+> DEBUG: Removing manifest:
+> /home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux/usr/share/sgml/xml.dcl
+>
+> DEBUG: Removing manifest:
+> /home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux/usr/share/sgml/xml-iso-entities-8879.1986/ISOgrk2.ent
+>
+> DEBUG: Removing manifest:
+> /home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux/usr/share/sgml/xml-iso-entities-8879.1986/ISOgrk1.ent
+>
+> DEBUG: Removing manifest:
+> /home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux/usr/share/sgml/xml-iso-entities-8879.1986/ISOlat1.ent
+>
+> DEBUG: Removing manifest:
+> /home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux/usr/share/sgml/xml-iso-entities-8879.1986/ISOdia.ent
+>
+> DEBUG: Removing manifest:
+> /home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux/usr/share/sgml/xml-iso-entities-8879.1986/ISOcyr2.ent
+>
+> DEBUG: Removing manifest:
+> /home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux/usr/share/sgml/xml-iso-entities-8879.1986/ISOgrk3.ent
+>
+> DEBUG: Removing manifest:
+> /home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux/usr/share/sgml/xml-iso-entities-8879.1986/ISOamsc.ent
+>
+> DEBUG: Removing manifest:
+> /home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux/usr/share/sgml/xml-iso-entities-8879.1986/ISOlat2.ent
+>
+> DEBUG: Removing manifest:
+> /home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux/usr/share/sgml/xml-iso-entities-8879.1986/ISOnum.ent
+>
+> DEBUG: Removing manifest:
+> /home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux/usr/share/sgml/xml-iso-entities-8879.1986/ISOtech.ent
+>
+> DEBUG: Removing manifest:
+> /home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux/usr/share/sgml/xml-iso-entities-8879.1986/ISOamsb.ent
+>
+> DEBUG: Removing manifest:
+> /home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux/usr/share/sgml/xml-iso-entities-8879.1986/ISOamsr.ent
+>
+> DEBUG: Removing manifest:
+> /home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux/usr/share/sgml/xml-iso-entities-8879.1986/ISOamso.ent
+>
+> DEBUG: Removing manifest:
+> /home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux/usr/share/sgml/xml-iso-entities-8879.1986/ISOgrk4.ent
+>
+> DEBUG: Removing manifest:
+> /home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux/usr/share/sgml/xml-iso-entities-8879.1986/ISOcyr1.ent
+>
+> DEBUG: Removing manifest:
+> /home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux/usr/share/sgml/xml-iso-entities-8879.1986/ISOamsa.ent
+>
+> DEBUG: Removing manifest:
+> /home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux/usr/share/sgml/xml-iso-entities-8879.1986/ISObox.ent
+>
+> DEBUG: Removing manifest:
+> /home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux/usr/share/sgml/xml-iso-entities-8879.1986/ISOpub.ent
+>
+> DEBUG: Removing manifest:
+> /home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux/usr/share/sgml/xml-iso-entities-8879.1986/ISOamsn.ent
+>
+> DEBUG: Removing manifest:
+> /home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux/usr/share/sgml/xml-iso-entities-8879.1986/catalog
+>
+> DEBUG: Removing manifest:
+> /home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux/usr/share/sgml/sgml-iso-entities-8879.1986/ISOgrk2.ent
+>
+> DEBUG: Removing manifest:
+> /home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux/usr/share/sgml/sgml-iso-entities-8879.1986/ISOgrk1.ent
+>
+> DEBUG: Removing manifest:
+> /home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux/usr/share/sgml/sgml-iso-entities-8879.1986/ISOlat1.ent
+>
+> DEBUG: Removing manifest:
+> /home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux/usr/share/sgml/sgml-iso-entities-8879.1986/ISOdia.ent
+>
+> DEBUG: Removing manifest:
+> /home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux/usr/share/sgml/sgml-iso-entities-8879.1986/ISOcyr2.ent
+>
+> DEBUG: Removing manifest:
+> /home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux/usr/share/sgml/sgml-iso-entities-8879.1986/ISOgrk3.ent
+>
+> DEBUG: Removing manifest:
+> /home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux/usr/share/sgml/sgml-iso-entities-8879.1986/ISOamsc.ent
+>
+> DEBUG: Removing manifest:
+> /home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux/usr/share/sgml/sgml-iso-entities-8879.1986/ISOlat2.ent
+>
+> DEBUG: Removing manifest:
+> /home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux/usr/share/sgml/sgml-iso-entities-8879.1986/ISOnum.ent
+>
+> DEBUG: Removing manifest:
+> /home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux/usr/share/sgml/sgml-iso-entities-8879.1986/ISOtech.ent
+>
+> DEBUG: Removing manifest:
+> /home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux/usr/share/sgml/sgml-iso-entities-8879.1986/ISOamsb.ent
+>
+> DEBUG: Removing manifest:
+> /home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux/usr/share/sgml/sgml-iso-entities-8879.1986/ISOamsr.ent
+>
+> DEBUG: Removing manifest:
+> /home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux/usr/share/sgml/sgml-iso-entities-8879.1986/ISOamso.ent
+>
+> DEBUG: Removing manifest:
+> /home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux/usr/share/sgml/sgml-iso-entities-8879.1986/ISOgrk4.ent
+>
+> DEBUG: Removing manifest:
+> /home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux/usr/share/sgml/sgml-iso-entities-8879.1986/ISOcyr1.ent
+>
+> DEBUG: Removing manifest:
+> /home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux/usr/share/sgml/sgml-iso-entities-8879.1986/ISOamsa.ent
+>
+> DEBUG: Removing manifest:
+> /home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux/usr/share/sgml/sgml-iso-entities-8879.1986/ISObox.ent
+>
+> DEBUG: Removing manifest:
+> /home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux/usr/share/sgml/sgml-iso-entities-8879.1986/ISOpub.ent
+>
+> DEBUG: Removing manifest:
+> /home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux/usr/share/sgml/sgml-iso-entities-8879.1986/ISOamsn.ent
+>
+> DEBUG: Removing manifest:
+> /home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux/usr/share/sgml/sgml-iso-entities-8879.1986/catalog
+>
+> DEBUG: Removing manifest:
+> /home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux/etc/sgml/sgml-ent.cat
+>
+> DEBUG: Removing manifest:
+> /home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux/etc/sgml/sgml.conf
+>
+> DEBUG: Removing manifest:
+> /home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux/etc/sgml/sgml-docbook.cat
+>
+> DEBUG: Removing manifest:
+> /home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux/etc/sgml/catalog
+>
+> DEBUG: Removing manifest:
+> /home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux/usr/share/sgml/sgml-iso-entities-8879.1986/
+>
+> DEBUG: Removing manifest:
+> /home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux/usr/share/sgml/xml-iso-entities-8879.1986/
+>
+> DEBUG: Removing manifest:
+> /home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux/usr/share/sgml/
+>
+> DEBUG: Removing manifest:
+> /home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux/usr/share/
+>
+> DEBUG: Removing manifest:
+> /home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux/etc/sgml/
+>
+> DEBUG: Removing manifest:
+> /home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux/usr/bin/
+>
+> DEBUG: Removing manifest:
+> /home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux/etc/
+> DEBUG: Removing manifest:
+> /home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux/usr/
+> DEBUG: Python function sstate_task_prefunc finished
+> DEBUG: Executing python function do_populate_sysroot
+> DEBUG: Executing shell function sysroot_stage_all
+> DEBUG: Shell function sysroot_stage_all finished
+> DEBUG: Executing python function relocatable_binaries_preprocess
+> DEBUG: Python function relocatable_binaries_preprocess finished
+> DEBUG: Executing shell function sgml_common_native_mangle
+> DEBUG: Shell function sgml_common_native_mangle finished
+> DEBUG: Python function do_populate_sysroot finished
+> DEBUG: Executing python function do_qa_staging
+> NOTE: QA checking staging
+> DEBUG: Python function do_qa_staging finished
+> DEBUG: Executing python function sstate_task_postfunc
+> DEBUG: Staging files from
+> /home/jack/Projects/poky-denzil.git/r0005/tmp/work/x86_64-linux/sgml-common-native-0.6.3-r0/sysroot-destdir///home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux
+> to /home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux
+> DEBUG: Staging files from
+> /home/jack/Projects/poky-denzil.git/r0005/tmp/work/x86_64-linux/sgml-common-native-0.6.3-r0/sysroot-destdir///home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux
+> to /home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux
+> DEBUG: Staging files from
+> /home/jack/Projects/poky-denzil.git/r0005/tmp/work/x86_64-linux/sgml-common-native-0.6.3-r0/sysroot-destdir///home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux
+> to /home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux
+> DEBUG: Staging files from
+> /home/jack/Projects/poky-denzil.git/r0005/tmp/work/x86_64-linux/sgml-common-native-0.6.3-r0/sysroot-destdir///home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux
+> to /home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux
+> DEBUG: Staging files from
+> /home/jack/Projects/poky-denzil.git/r0005/tmp/work/x86_64-linux/sgml-common-native-0.6.3-r0/sysroot-destdir///home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux
+> to /home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux
+> DEBUG: Staging files from
+> /home/jack/Projects/poky-denzil.git/r0005/tmp/work/x86_64-linux/sgml-common-native-0.6.3-r0/sysroot-destdir///home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux
+> to /home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux
+> DEBUG: Staging files from
+> /home/jack/Projects/poky-denzil.git/r0005/tmp/work/x86_64-linux/sgml-common-native-0.6.3-r0/sysroot-destdir///home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux
+> to /home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux
+> DEBUG: Staging files from
+> /home/jack/Projects/poky-denzil.git/r0005/tmp/work/x86_64-linux/sgml-common-native-0.6.3-r0/sysroot-destdir///home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux
+> to /home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux
+> DEBUG: Staging files from
+> /home/jack/Projects/poky-denzil.git/r0005/tmp/work/x86_64-linux/sgml-common-native-0.6.3-r0/sysroot-destdir///home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux
+> to /home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux
+> DEBUG: Executing shell function sgml_common_sstate_postinst
+> DEBUG: Python function sstate_task_postfunc finished
+> ERROR: Function failed: sgml_common_sstate_postinst (see
+> /home/jack/Projects/poky-denzil.git/r0005/tmp/work/x86_64-linux/sgml-common-native-0.6.3-r0/temp/log.do_populate_sysroot.21669
+> for further information)
+> install-catalog: addition of
+> /home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux/etc/sgml/sgml-docbook-dtd-3.1.cat
+> in
+> /home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux/etc/sgml/sgml-docbook.cat
+>
+> install-catalog: addition of
+> /home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux/etc/sgml/dsssl-docbook-stylesheets.cat
+> in
+> /home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux/etc/sgml/sgml-docbook.cat
+>
+> install-catalog:
+> "/home/jack/Projects/poky-denzil.git/r0005/tmp/sysroots/x86_64-linux/etc/sgml/sgml-docbook-dtd-4.1.cat"
+> does not exist or is empty.
+>
+
+
 -- 
-1.7.9.5
+Scott Garman
+Embedded Linux Engineer - Yocto Project
+Intel Open Source Technology Center
+
 
 
 
