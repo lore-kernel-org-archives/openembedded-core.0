@@ -1,33 +1,33 @@
 Received: from mail-ey0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1Si4rJ-0004I4-KZ
+	(envelope-from <raj.khem@gmail.com>) id 1Si4sD-0004Kg-CD
 	for openembedded-core@lists.openembedded.org;
-	Fri, 22 Jun 2012 16:29:13 +0200
-Received: by eaal1 with SMTP id l1so607694eaa.6
+	Fri, 22 Jun 2012 16:30:09 +0200
+Received: by eaal1 with SMTP id l1so608110eaa.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Jun 2012 07:18:26 -0700 (PDT)
+	Fri, 22 Jun 2012 07:19:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
 	:content-type:content-transfer-encoding;
-	bh=LrkDArfzpopcv/58fdJXTEvYFuKrluciYHUWL8S55P8=;
-	b=kQqToIPeuIa+xApdAKjQMDfx71GT8YEv5bXGUrChYPSxjNvVLk8/Fzhn3kiXweafuh
-	Z4LM7PLtQZIRzaMdLU8I0iMDxFUgIN144jBs9tpukU4iAb5Ons/thRkA5cB2Vy5KkY1D
-	jEst+gwvripvU2gj3wGfOWT7/uUCOQBMWpgtl/YRUICmFXJqO5Z/PHGs5V1QGtvk9UZO
-	UflkBBcQSzwZyCGZ6+J9O3xlkoCX2bdFgJ4LAGEG5xP3dWj+Is246+zjidBJLgn7a62y
-	piQkm9gX3+MMRnZ5wbflc8zWkn4FGGgtIj1Dhj7wge2CAJNAmEZYV3sYWWvd8dAgVlWg
-	N1Gg==
-Received: by 10.14.37.206 with SMTP id y54mr493821eea.218.1340374706309; Fri,
-	22 Jun 2012 07:18:26 -0700 (PDT)
+	bh=IzLrKplMuf/R896txzfzWKdX9J6mMkBa6GsGN9gqjvE=;
+	b=NMkfw7E3JGnte/LJxuMGTKP2Ht0pdwZelDOA/zBEb/rVU5nRoVLgjfPtrl+ervJDpL
+	oGrD+SnWO2y7xYTaVyr06L7Sq2Vtv38A9Sm8cW6PyC9RaW72ytOv0sav8/PuZ+alDJeu
+	FoZk4NWrOg22XjLJsuEzDPoJZU70xbEspUpAKvWlfz619Hiw+nYvP0j6ce3u/0IWXfBn
+	8wEKrBUb7cWA+Bgahs8HDarvcR7Dc+tW42ZdakOYwx3uk3e3zch4AOD8sYMFufPLrC/I
+	s0jspdpWLWwsB8QQdc4Rvjt1Q+fnSDEUW1qr4K+X96NbqgkQ+d3zhDzTKngJ/OUlPS/e
+	L5Vg==
+Received: by 10.14.95.138 with SMTP id p10mr496143eef.110.1340374762293; Fri,
+	22 Jun 2012 07:19:22 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.14.219.71 with HTTP; Fri, 22 Jun 2012 07:17:56 -0700 (PDT)
-In-Reply-To: <1340372395.394.35.camel@ted>
-References: <1340372395.394.35.camel@ted>
+Received: by 10.14.219.71 with HTTP; Fri, 22 Jun 2012 07:18:52 -0700 (PDT)
+In-Reply-To: <1340373998.394.36.camel@ted>
+References: <1340373998.394.36.camel@ted>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 22 Jun 2012 07:17:56 -0700
-Message-ID: <CAMKF1srBxRO+cnCW6LZ+VN2xpXz8nQKdaPLQBWt_Pkpcy-62Hg@mail.gmail.com>
+Date: Fri, 22 Jun 2012 07:18:52 -0700
+Message-ID: <CAMKF1sq1bDOmmxAjQGev6BhsSTcO7kuazocbUc1U_gU452shDg@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] layer.conf/bblayers.conf.sample: Fix empth BBPATH entry warnings
+Subject: Re: [PATCH] bitbake.conf/abi_version.conf: Update to use BasicHash signature generator
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,67 +42,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Jun 2012 14:29:13 -0000
+X-List-Received-Date: Fri, 22 Jun 2012 14:30:09 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jun 22, 2012 at 6:39 AM, Richard Purdie
+On Fri, Jun 22, 2012 at 7:06 AM, Richard Purdie
 <richard.purdie@linuxfoundation.org> wrote:
-> Many people are seeing issues from the empty path warnings from BBPATH.
-> The empty path entry corresponding to the current working directory is a
-> problem since if cwd changes, so does BBPATH and build reproducibility.
+> This switches to use the hash based signature generatior and update
+> layout_abi to match stamp file layout changes.
 >
-> Simply removing the empty element causes problems since the build
-> directory then isn't listed in BBPATH which means local.conf isn't found
-> and this gives an extremely confusing error message about bbappends
-> being unsatisfied.
->
-> The build directory in bitbake terms is TOPDIR. The correct way to fix
-> things is to add in TOPDIR into bblayers.conf itself. This means the
-> layers can happily append/prepend to BBPATH at will as its no longer
-> empty hence neatly solving all the various problems. Since the file has
-> changed, the version is also changed.
-
-
-thanks this is fine
-
-
+> Angstrom, SHR and Poky did this a while ago. This brings the OE-Core defa=
+ults
+> into line with what is the best common practise at this point. Its been
+> discussed on the mailing lists and by the TSC at length, this just comple=
+tes
+> the transition.
 >
 > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->
+
+thanks looks good
+
+
 > ---
-> =C2=A0meta/conf/bblayers.conf.sample | =C2=A0 =C2=A04 +++-
-> =C2=A0meta/conf/layer.conf =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A0 =
-=C2=A01 -
-> =C2=A02 files changed, 3 insertions(+), 2 deletions(-)
+> =C2=A0meta/conf/abi_version.conf | =C2=A0 =C2=A02 +-
+> =C2=A0meta/conf/bitbake.conf =C2=A0 =C2=A0 | =C2=A0 =C2=A02 +-
+> =C2=A02 files changed, 2 insertions(+), 2 deletions(-)
 >
-> diff --git a/meta/conf/bblayers.conf.sample b/meta/conf/bblayers.conf.sam=
-ple
-> index 222b03a..e621866 100644
-> --- a/meta/conf/bblayers.conf.sample
-> +++ b/meta/conf/bblayers.conf.sample
-> @@ -1,8 +1,10 @@
-> =C2=A0# LAYER_CONF_VERSION is increased each time build/conf/bblayers.con=
-f
-> =C2=A0# changes incompatibly
-> -LCONF_VERSION =3D "4"
-> +LCONF_VERSION =3D "5"
+> diff --git a/meta/conf/abi_version.conf b/meta/conf/abi_version.conf
+> index f2919e5..83b668a 100644
+> --- a/meta/conf/abi_version.conf
+> +++ b/meta/conf/abi_version.conf
+> @@ -4,4 +4,4 @@
+> =C2=A0# that breaks the format and have been previously discussed on the =
+mailing list
+> =C2=A0# with general agreement from the core team.
+> =C2=A0#
+> -OELAYOUT_ABI =3D "7"
+> +OELAYOUT_ABI =3D "8"
+> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+> index b6fbc7a..fbc0ca2 100644
+> --- a/meta/conf/bitbake.conf
+> +++ b/meta/conf/bitbake.conf
+> @@ -748,7 +748,7 @@ TRANSLATED_TARGET_ARCH ??=3D "${@d.getVar('TARGET_ARC=
+H', True).replace("_", "-")}"
+> =C2=A0BB_CONSOLELOG ?=3D "${TMPDIR}/cooker.log.${DATETIME}"
 >
-> +BBPATH =3D "${TOPDIR}"
-> =C2=A0BBFILES ?=3D ""
-> +
-> =C2=A0BBLAYERS ?=3D " \
-> =C2=A0 ##COREBASE##/meta \
-> =C2=A0 "
-> diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
-> index 43e4295..090c8e2 100644
-> --- a/meta/conf/layer.conf
-> +++ b/meta/conf/layer.conf
-> @@ -1,4 +1,3 @@
-> -BBPATH ?=3D ""
-> =C2=A0# We have a conf and classes directory, add to BBPATH
-> =C2=A0BBPATH .=3D ":${LAYERDIR}"
-> =C2=A0# We have a packages directory, add to BBFILES
+> =C2=A0# Setup our default hash policy
+> -BB_SIGNATURE_HANDLER ?=3D "OEBasic"
+> +BB_SIGNATURE_HANDLER ?=3D "OEBasicHash"
+> =C2=A0BB_HASHBASE_WHITELIST ?=3D "TMPDIR FILE PATH PWD BB_TASKHASH BBPATH=
+ DL_DIR SSTATE_DIR THISDIR FILESEXTRAPATHS FILE_DIRNAME HOME LOGNAME SHELL =
+TERM USER FILESPATH STAGING_DIR_HOST STAGING_DIR_TARGET COREBASE PRSERV_HOS=
+T PRSERV_PORT PRSERV_DUMPDIR PRSERV_DUMPFILE PRSERV_LOCKDOWN PARALLEL_MAKE =
+CCACHE_DIR EXTERNAL_TOOLCHAIN CCACHE"
+> =C2=A0BB_HASHCONFIG_WHITELIST ?=3D "${BB_HASHBASE_WHITELIST} DATE TIME SE=
+SSION_MANAGER DBUS_SESSION_BUS_ADDRESS SSH_AGENT_PID XDG_SESSION_COOKIE SSH=
+_AUTH_SOCK XAUTHORITY PSEUDO_BUILD"
+> =C2=A0BB_SIGNATURE_EXCLUDE_FLAGS ?=3D "doc defaultval _append _prepend de=
+ps depends lockfiles type vardepsexclude \
+>
 >
 >
 > _______________________________________________
