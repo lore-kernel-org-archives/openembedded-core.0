@@ -1,26 +1,30 @@
-Received: from mga11.intel.com ([192.55.52.93])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Si8e5-0000s6-FQ
+Received: from 75-148-42-21-colorado.hfc.comcastbusiness.net ([75.148.42.21]
+	helo=judge.camp.se-eng.com) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <raymondd@beast.se-eng.com>) id 1SiAcs-0003uD-7c
 	for openembedded-core@lists.openembedded.org;
-	Fri, 22 Jun 2012 20:31:49 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 22 Jun 2012 11:20:57 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="183800480"
-Received: from unknown (HELO [10.255.12.175]) ([10.255.12.175])
-	by fmsmga002.fm.intel.com with ESMTP; 22 Jun 2012 11:20:57 -0700
-Message-ID: <4FE4B789.5080108@linux.intel.com>
-Date: Fri, 22 Jun 2012 11:20:57 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
-MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1340177329.git.liezhi.yang@windriver.com>
-In-Reply-To: <cover.1340177329.git.liezhi.yang@windriver.com>
-Cc: Zhenfeng.Zhao@windriver.com
-Subject: Re: [PATCH 0/1] package_rpm.bbclass: fix incremental rpm generation
+	Fri, 22 Jun 2012 22:38:42 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by judge.camp.se-eng.com (Postfix) with ESMTP id A0815138AE7
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 22 Jun 2012 14:21:04 -0600 (MDT)
+X-Virus-Scanned: amavisd-new at camp.se-eng.com
+Received: from judge.camp.se-eng.com ([127.0.0.1])
+	by localhost (judge.camp.se-eng.com [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with ESMTP id T-K9bWHPk01i; Fri, 22 Jun 2012 14:21:03 -0600 (MDT)
+Received: from beast (beast.camp.se-eng.com [172.20.202.96])
+	by judge.camp.se-eng.com (Postfix) with ESMTP id E4C7B138AE9;
+	Fri, 22 Jun 2012 14:21:02 -0600 (MDT)
+Received: by beast (Postfix, from userid 1000)
+	id 53CFA2C64A; Fri, 22 Jun 2012 14:22:16 -0600 (MDT)
+From: Raymond Danks <ray.danks@se-eng.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 22 Jun 2012 14:22:13 -0600
+Message-Id: <1340396533-5386-2-git-send-email-ray.danks@se-eng.com>
+X-Mailer: git-send-email 1.7.0.4
+In-Reply-To: <1340396533-5386-1-git-send-email-ray.danks@se-eng.com>
+References: <1340396533-5386-1-git-send-email-ray.danks@se-eng.com>
+Subject: [PATCH 2/2] mkelfimage: Add stable git build (initial recipe)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,36 +39,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Jun 2012 18:31:49 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 22 Jun 2012 20:38:42 -0000
 
-On 06/20/2012 07:29 PM, Robert Yang wrote:
-> The following changes since commit e0a70547069fe7e8a2d6bdaffc985fb172d46c31:
->
->    perl: Allow perl to cross build and native build in a directory named "t" (2012-06-18 17:33:04 +0100)
->
-> are available in the git repository at:
->    git://git.pokylinux.org/poky-contrib robert/rpm_inc
->    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=robert/rpm_inc
->
-> Robert Yang (1):
->    package_rpm.bbclass: fix incremental rpm generation
->
->   meta/classes/package_rpm.bbclass |   16 +++++++++++++---
->   1 files changed, 13 insertions(+), 3 deletions(-)
->
->
-Merged into OE-Core
+Signed-off-by: Raymond Danks <ray.danks@se-eng.com>
+---
+This was originally submitted to the openembedded project:
+http://patches.openembedded.org/patch/7687/
 
-Thanks
-	Sau!
+Resubmitting to oe-core for review prior to commit in openembedded-core.
 
+ meta/recipes-devtools/mkelfimage/mkelfimage_git.bb |   18 ++++++++++++++++++
+ 1 files changed, 18 insertions(+), 0 deletions(-)
+ create mode 100644 meta/recipes-devtools/mkelfimage/mkelfimage_git.bb
 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+diff --git a/meta/recipes-devtools/mkelfimage/mkelfimage_git.bb b/meta/recipes-devtools/mkelfimage/mkelfimage_git.bb
+new file mode 100644
+index 0000000..b341213
+--- /dev/null
++++ b/meta/recipes-devtools/mkelfimage/mkelfimage_git.bb
+@@ -0,0 +1,18 @@
++DESCRIPTION = "A utility to create ELF boot images from Linux kernel images"
++HOMEPAGE = "http://www.coreboot.org/Mkelfimage"
++SECTION = "devel"
++LICENSE = "GPLv2"
++LIC_FILES_CHKSUM = "file://COPYING;md5=ea5bed2f60d357618ca161ad539f7c0a"
++
++SRCREV = "e13632a939e7dde8d7d44fc73e73a41dae8060c3"
++PV = "1.0.0+gitr${SRCPV}"
++PR = "r1"
++
++SRC_URI = "git://review.coreboot.org/p/coreboot;protocol=http;branch=master"
++
++S = "${WORKDIR}/git/util/mkelfImage"
++
++inherit autotools
++
++NATIVE_INSTALL_WORKS = "1"
++BBCLASSEXTEND = "native"
+-- 
+1.7.0.4
+
 
 
