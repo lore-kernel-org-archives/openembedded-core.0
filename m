@@ -1,27 +1,26 @@
-Received: from masterfoo.zenlinux.com ([207.192.74.254])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1Si7n4-0007xe-9W
+	(envelope-from <sgw@linux.intel.com>) id 1Si859-0008Cs-Sv
 	for openembedded-core@lists.openembedded.org;
-	Fri, 22 Jun 2012 19:37:02 +0200
-Received: from localhost (c-50-137-42-92.hsd1.or.comcast.net [50.137.42.92])
-	(using TLSv1 with cipher DHE-RSA-AES128-SHA (128/128 bits))
-	(No client certificate requested)
-	by masterfoo.zenlinux.com (Postfix) with ESMTP id 5AFAB3044F
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Jun 2012 13:26:00 -0400 (EDT)
-From: Scott Garman <scott.a.garman@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 22 Jun 2012 10:25:49 -0700
-Message-Id: <cover.1340385690.git.scott.a.garman@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-X-MasterFoo-MailScanner-Information: Please contact the ISP for more
-	information
-X-MailScanner-ID: 5AFAB3044F.D4E32
-X-MasterFoo-MailScanner: Found to be clean
-X-MasterFoo-MailScanner-SpamCheck: not spam
-X-MasterFoo-MailScanner-From: scott.a.garman@intel.com
-X-Spam-Status: No
-Subject: [PATCH 0/2] Recipe upgrades - gzip and sudo
+	Fri, 22 Jun 2012 19:55:44 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 22 Jun 2012 10:44:55 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="183786780"
+Received: from unknown (HELO [10.255.12.175]) ([10.255.12.175])
+	by fmsmga002.fm.intel.com with ESMTP; 22 Jun 2012 10:44:54 -0700
+Message-ID: <4FE4AF16.9090709@linux.intel.com>
+Date: Fri, 22 Jun 2012 10:44:54 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1340034490.git.paul.eggleton@linux.intel.com>
+In-Reply-To: <cover.1340034490.git.paul.eggleton@linux.intel.com>
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
+Subject: Re: [PATCH 0/1] Ensure -c menuconfig forces kernel rebuild
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,44 +35,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Jun 2012 17:37:02 -0000
+X-List-Received-Date: Fri, 22 Jun 2012 17:55:44 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hello,
+On 06/18/2012 08:50 AM, Paul Eggleton wrote:
+> Note: to have any effect, this change requires a patch just sent to the
+> bitbake-devel list; without it -c menuconfig will behave as it did
+> before.
+>
+>
+> The following change since commit 6d761ae17ddbd3d936e7fe985b40825ad62b2418:
+>
+>    debian.bbclass: invoke target objdump (2012-06-18 13:20:29 +0100)
+>
+> is available in the git repository at:
+>
+>    git://git.openembedded.org/openembedded-core-contrib paule/menuconfig-rebuild
+>    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/menuconfig-rebuild
+>
+> Paul Eggleton (1):
+>    classes/cml1: ensure -c menuconfig forces a rebuild next time
+>
+>   meta/classes/cml1.bbclass |   16 ++++++++++++++++
+>   1 file changed, 16 insertions(+)
+>
+Merged into OE-Core
 
-These are some trivial recipe upgrades for gzip and sudo. They have
-been build-tested for all 5 of our qemu architectures, and I've done
-a visual inspection of the package output to watch for any troublesome
-differences. (I do intend to start using buildhistory soon)
-
-Note, this pull request is for oe-core master.
-
-Scott
-
-The following changes since commit e2cc4a44d510e0d473d15f207c1c886db6a5ccf7:
-
-  [PATCH] guile: fix compilation on MIPS/PPC (2012-06-21 13:41:12 +0100)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib sgarman/recipe-upgrades-oe
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=sgarman/recipe-upgrades-oe
-
-Scott Garman (2):
-  gzip: upgrade to 1.5
-  sudo: upgrade to 1.8.5p2
-
- meta/recipes-extended/gzip/gzip.inc                |    7 +++++--
- meta/recipes-extended/gzip/gzip_1.4.bb             |   10 ----------
- meta/recipes-extended/gzip/gzip_1.5.bb             |   10 ++++++++++
- meta/recipes-extended/sudo/sudo.inc                |    2 +-
- .../sudo/{sudo_1.8.4p4.bb => sudo_1.8.5p2.bb}      |    6 +++---
- 5 files changed, 19 insertions(+), 16 deletions(-)
- delete mode 100644 meta/recipes-extended/gzip/gzip_1.4.bb
- create mode 100644 meta/recipes-extended/gzip/gzip_1.5.bb
- rename meta/recipes-extended/sudo/{sudo_1.8.4p4.bb => sudo_1.8.5p2.bb} (83%)
-
--- 
-1.7.9.5
-
+Thanks
+	Sau!
 
 
