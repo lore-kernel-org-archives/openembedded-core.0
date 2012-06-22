@@ -1,30 +1,30 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Si4G8-0003Qk-9q for openembedded-core@lists.openembedded.org;
-	Fri, 22 Jun 2012 15:50:48 +0200
+	id 1Si4fx-000448-K1 for openembedded-core@lists.openembedded.org;
+	Fri, 22 Jun 2012 16:17:29 +0200
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q5MDe1UZ001893
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q5ME6hYB002206
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Jun 2012 14:40:01 +0100
+	Fri, 22 Jun 2012 15:06:43 +0100
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 01132-05 for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Jun 2012 14:39:57 +0100 (BST)
+	id 01932-01 for <openembedded-core@lists.openembedded.org>;
+	Fri, 22 Jun 2012 15:06:39 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q5MDdrvo001887
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q5ME6ZJD002199
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Jun 2012 14:39:54 +0100
-Message-ID: <1340372395.394.35.camel@ted>
+	Fri, 22 Jun 2012 15:06:36 +0100
+Message-ID: <1340373998.394.36.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Fri, 22 Jun 2012 14:39:55 +0100
+Date: Fri, 22 Jun 2012 15:06:38 +0100
 X-Mailer: Evolution 3.2.2- 
 Mime-Version: 1.0
 X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: [PATCH] layer.conf/bblayers.conf.sample: Fix empth BBPATH entry warnings
+Subject: [PATCH] bitbake.conf/abi_version.conf: Update to use BasicHash signature generator
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,57 +39,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Jun 2012 13:50:48 -0000
+X-List-Received-Date: Fri, 22 Jun 2012 14:17:29 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-Many people are seeing issues from the empty path warnings from BBPATH.
-The empty path entry corresponding to the current working directory is a
-problem since if cwd changes, so does BBPATH and build reproducibility.
+This switches to use the hash based signature generatior and update
+layout_abi to match stamp file layout changes.
 
-Simply removing the empty element causes problems since the build
-directory then isn't listed in BBPATH which means local.conf isn't found
-and this gives an extremely confusing error message about bbappends
-being unsatisfied.
-
-The build directory in bitbake terms is TOPDIR. The correct way to fix
-things is to add in TOPDIR into bblayers.conf itself. This means the
-layers can happily append/prepend to BBPATH at will as its no longer
-empty hence neatly solving all the various problems. Since the file has
-changed, the version is also changed.
+Angstrom, SHR and Poky did this a while ago. This brings the OE-Core defaults
+into line with what is the best common practise at this point. Its been
+discussed on the mailing lists and by the TSC at length, this just completes
+the transition.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-
 ---
- meta/conf/bblayers.conf.sample |    4 +++-
- meta/conf/layer.conf           |    1 -
- 2 files changed, 3 insertions(+), 2 deletions(-)
+ meta/conf/abi_version.conf |    2 +-
+ meta/conf/bitbake.conf     |    2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/conf/bblayers.conf.sample b/meta/conf/bblayers.conf.sample
-index 222b03a..e621866 100644
---- a/meta/conf/bblayers.conf.sample
-+++ b/meta/conf/bblayers.conf.sample
-@@ -1,8 +1,10 @@
- # LAYER_CONF_VERSION is increased each time build/conf/bblayers.conf
- # changes incompatibly
--LCONF_VERSION = "4"
-+LCONF_VERSION = "5"
+diff --git a/meta/conf/abi_version.conf b/meta/conf/abi_version.conf
+index f2919e5..83b668a 100644
+--- a/meta/conf/abi_version.conf
++++ b/meta/conf/abi_version.conf
+@@ -4,4 +4,4 @@
+ # that breaks the format and have been previously discussed on the mailing list 
+ # with general agreement from the core team.
+ #
+-OELAYOUT_ABI = "7"
++OELAYOUT_ABI = "8"
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index b6fbc7a..fbc0ca2 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -748,7 +748,7 @@ TRANSLATED_TARGET_ARCH ??= "${@d.getVar('TARGET_ARCH', True).replace("_", "-")}"
+ BB_CONSOLELOG ?= "${TMPDIR}/cooker.log.${DATETIME}"
  
-+BBPATH = "${TOPDIR}"
- BBFILES ?= ""
-+
- BBLAYERS ?= " \
-   ##COREBASE##/meta \
-   "
-diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
-index 43e4295..090c8e2 100644
---- a/meta/conf/layer.conf
-+++ b/meta/conf/layer.conf
-@@ -1,4 +1,3 @@
--BBPATH ?= ""
- # We have a conf and classes directory, add to BBPATH
- BBPATH .= ":${LAYERDIR}"
- # We have a packages directory, add to BBFILES
+ # Setup our default hash policy
+-BB_SIGNATURE_HANDLER ?= "OEBasic"
++BB_SIGNATURE_HANDLER ?= "OEBasicHash"
+ BB_HASHBASE_WHITELIST ?= "TMPDIR FILE PATH PWD BB_TASKHASH BBPATH DL_DIR SSTATE_DIR THISDIR FILESEXTRAPATHS FILE_DIRNAME HOME LOGNAME SHELL TERM USER FILESPATH STAGING_DIR_HOST STAGING_DIR_TARGET COREBASE PRSERV_HOST PRSERV_PORT PRSERV_DUMPDIR PRSERV_DUMPFILE PRSERV_LOCKDOWN PARALLEL_MAKE CCACHE_DIR EXTERNAL_TOOLCHAIN CCACHE"
+ BB_HASHCONFIG_WHITELIST ?= "${BB_HASHBASE_WHITELIST} DATE TIME SESSION_MANAGER DBUS_SESSION_BUS_ADDRESS SSH_AGENT_PID XDG_SESSION_COOKIE SSH_AUTH_SOCK XAUTHORITY PSEUDO_BUILD"
+ BB_SIGNATURE_EXCLUDE_FLAGS ?= "doc defaultval _append _prepend deps depends lockfiles type vardepsexclude \
+
 
 
 
