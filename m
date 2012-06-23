@@ -1,32 +1,34 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
+Received: from astoria.ccjclearline.com ([64.235.106.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1SiVJ0-00014I-Is
+	(envelope-from <rpjday@crashcourse.ca>) id 1SiVKo-00016q-Ar
 	for openembedded-core@lists.openembedded.org;
-	Sat, 23 Jun 2012 20:43:34 +0200
-Received: by eaal1 with SMTP id l1so876397eaa.6
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 23 Jun 2012 11:32:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type:content-transfer-encoding;
-	bh=kEra+bnAYCirsROeiER8jxcCRlcEpIffumlbHB63q54=;
-	b=G3BjZRTURw57a+PyXKEkw5dWoV+Qng84bkk8dBkl5u7OkxOt+j0BMV+rfCX4mRh4VT
-	1oN/MEPyDGmUPkfyPCTPLVK4jOEFuFatNnpitoBoHR3nphSyIAhUW9DmPKOetRfysOM8
-	1KkwzNpCeaccDthjloxPh5X3pX/ubKb7FTSWKjT7KChU2iD64Eru0PnfUtGSjvL0oGH9
-	S/uFG1e6U18xJ2/gp+RSB5bsddX+rtEp3ICme/xJtGCqKp5IXDAj8E3CWv0vBzx2FyrN
-	8qIUSzzIcCt50BVxeIE33L6DqeVKwxecE4rFkA4Xz1rrFIx/wmVgn3g+sF8NuxAITsSc
-	K2Tw==
-Received: by 10.14.119.202 with SMTP id n50mr1255105eeh.33.1340476365522; Sat,
-	23 Jun 2012 11:32:45 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.14.219.71 with HTTP; Sat, 23 Jun 2012 11:32:15 -0700 (PDT)
-In-Reply-To: <alpine.DEB.2.02.1206231405330.16744@oneiric>
-References: <alpine.DEB.2.02.1206231405330.16744@oneiric>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sat, 23 Jun 2012 11:32:15 -0700
-Message-ID: <CAMKF1srVzNYz-yippAtJAK3+j3E5bDY=W=tccMebNU_XP1vctg@mail.gmail.com>
+	Sat, 23 Jun 2012 20:45:26 +0200
+Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
+	([99.241.91.63]:58160 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.77) (envelope-from <rpjday@crashcourse.ca>)
+	id 1SiVAM-0006NT-Hp for openembedded-core@lists.openembedded.org;
+	Sat, 23 Jun 2012 14:34:38 -0400
+Date: Sat, 23 Jun 2012 14:34:35 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@oneiric
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <CAMKF1srVzNYz-yippAtJAK3+j3E5bDY=W=tccMebNU_XP1vctg@mail.gmail.com>
+Message-ID: <alpine.DEB.2.02.1206231434100.16912@oneiric>
+References: <alpine.DEB.2.02.1206231405330.16744@oneiric>
+	<CAMKF1srVzNYz-yippAtJAK3+j3E5bDY=W=tccMebNU_XP1vctg@mail.gmail.com>
+User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+MIME-Version: 1.0
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 Subject: Re: should kernel-arch.bbclass be returning "arm26"?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -42,27 +44,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 23 Jun 2012 18:43:34 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Sat, 23 Jun 2012 18:45:26 -0000
+Content-Type: MULTIPART/MIXED; BOUNDARY="8323329-1204705983-1340476477=:16912"
 
-T24gU2F0LCBKdW4gMjMsIDIwMTIgYXQgMTE6MDcgQU0sIFJvYmVydCBQLiBKLiBEYXkKPHJwamRh
-eUBjcmFzaGNvdXJzZS5jYT4gd3JvdGU6Cj4KPiDCoHNlZSBzdWJqZWN0IC0tICJhcm0yNiIgaXMg
-bm8gbG9uZ2VyIGEgdmFsaWQga2VybmVsIGFyY2gKPiBzdWJkaXJlY3RvcnksIGl0IHdhcyByZW1v
-dmVkIGJhY2sgaW4gMjAwOC4gwqBzaG91bGQgaSBzdWJtaXQgYSBwYXRjaCB0bwo+IHRha2Ugb3V0
-IHRoYXQgY2hlY2s/Cgp3aGVyZSBkbyB5b3Ugc2VlIHRoaXMgY29kZSA/Cgo+Cj4gcmRheQo+Cj4g
-LS0KPgo+ID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PQo+IFJvYmVydCBQLiBKLiBEYXkgwqAgwqAgwqAgwqAgwqAg
-wqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgT3R0YXdhLCBPbnRhcmlvLCBDQU5BREEK
-PiDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoGh0dHA6Ly9jcmFzaGNvdXJzZS5j
-YQo+Cj4gVHdpdHRlcjogwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAg
-wqAgwqAgwqAgwqAgwqAgaHR0cDovL3R3aXR0ZXIuY29tL3JwamRheQo+IExpbmtlZEluOiDCoCDC
-oCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCBodHRwOi8vY2EubGlua2Vk
-aW4uY29tL2luL3JwamRheQo+ID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQo+Cj4gX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX18KPiBPcGVuZW1iZWRkZWQtY29yZSBtYWlsaW5n
-IGxpc3QKPiBPcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnCj4gaHR0cDov
-L2xpc3RzLmxpbnV4dG9nby5vcmcvY2dpLWJpbi9tYWlsbWFuL2xpc3RpbmZvL29wZW5lbWJlZGRl
-ZC1jb3JlCg==
+--8323329-1204705983-1340476477=:16912
+Content-Type: TEXT/PLAIN; charset=utf-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 
+On Sat, 23 Jun 2012, Khem Raj wrote:
 
+> On Sat, Jun 23, 2012 at 11:07 AM, Robert P. J. Day
+> <rpjday@crashcourse.ca> wrote:
+> >
+> > =C2=A0see subject -- "arm26" is no longer a valid kernel arch
+> > subdirectory, it was removed back in 2008. =C2=A0should i submit a patc=
+h to
+> > take out that check?
+>
+> where do you see this code ?
+
+  meta/classes/kernel-arch.bbclass
+
+rday
+
+--=20
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+--8323329-1204705983-1340476477=:16912--
