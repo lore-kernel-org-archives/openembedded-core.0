@@ -1,28 +1,25 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Liezhi.Yang@windriver.com>) id 1SiGu2-00050o-Q9
+	(envelope-from <sgw@linux.intel.com>) id 1SiHx3-0001Zc-Qt
 	for openembedded-core@lists.openembedded.org;
-	Sat, 23 Jun 2012 05:20:51 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q5N39u9G009608
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 22 Jun 2012 20:09:56 -0700 (PDT)
-Received: from [128.224.163.142] (128.224.163.142) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Fri, 22 Jun 2012 20:09:55 -0700
-Message-ID: <4FE5337E.2030400@windriver.com>
-Date: Sat, 23 Jun 2012 11:09:50 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
+	Sat, 23 Jun 2012 06:28:02 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 22 Jun 2012 21:17:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="161552727"
+Received: from unknown (HELO [10.255.12.175]) ([10.255.12.175])
+	by orsmga002.jf.intel.com with ESMTP; 22 Jun 2012 21:17:11 -0700
+Message-ID: <4FE54346.5080401@linux.intel.com>
+Date: Fri, 22 Jun 2012 21:17:10 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
 MIME-Version: 1.0
-To: Saul Wold <sgw@linux.intel.com>
-References: <4FDEF21A.5020004@windriver.com> <4FDF69BC.6080808@windriver.com>
-	<4FE168BD.9000906@windriver.com> <4FE341CF.5060406@linux.intel.com>
-In-Reply-To: <4FE341CF.5060406@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: glibc detected *** groupadd: malloc(): memory corruption
+References: <1340120601-23917-1-git-send-email-raj.khem@gmail.com>
+In-Reply-To: <1340120601-23917-1-git-send-email-raj.khem@gmail.com>
+Subject: Re: [PATCH] gcc-4.7: Update to tip of gcc-4_7-branch since 4.7.1 has been out
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,133 +34,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 23 Jun 2012 03:20:51 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Sat, 23 Jun 2012 04:28:02 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-
-
-On 06/21/2012 11:46 PM, Saul Wold wrote:
-> On 06/19/2012 11:07 PM, Robert Yang wrote:
->>
->> Thanks Mark, the rpm.real also has the same problem when the length of
->> tmpdir
->> is 210, it seems that this is because of the glibc.
->>
->>
->> And also other problems found:
->> When use PACKAGE_CLASSES = "package_deb", and the length of tmpdir is 177,
->> the error is:
->>
->> /too/long/path/totmp/sysroots/x86_64-linux/usr/bin/dpkg-scanpackages:
->> bad interpreter: No such file or directory
->>
->> The interpreter is perl, and it does exist, it seems that we should limit
->> the length of tmpdir to a smaller value then 177 rather than fix these
->> strange
->> problems. I will go on working on it.
->>
-> Robert,
+On 06/19/2012 08:43 AM, Khem Raj wrote:
+> Signed-off-by: Khem Raj<raj.khem@gmail.com>
+> ---
+>   meta/recipes-devtools/gcc/gcc-4.7.inc |   12 ++++++------
+>   1 files changed, 6 insertions(+), 6 deletions(-)
 >
-> A path length of 175 or short is not ideal, we should file bugs against these
-
-Thanks Saul, the bug is:
-
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=2639
-
-I'd like to try to fix it next week, I will send a patch to show the WARNING
-as you suggested if I can't fix it, but the value maybe shorter than 175,
-I've realised that even 175 is a very short value, so this should be fixed:-)
-
-// Robert
-
-> issues. We should also add the sanity check you suggested as a WARNING for
-> lenghts over 175. That should not be the final solution though, we need to
-> address the issues and get them fixed up stream.
+> diff --git a/meta/recipes-devtools/gcc/gcc-4.7.inc b/meta/recipes-devtools/gcc/gcc-4.7.inc
+> index 34a73b1..25a1088 100644
+> --- a/meta/recipes-devtools/gcc/gcc-4.7.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-4.7.inc
+> @@ -3,12 +3,12 @@ require gcc-common.inc
+>   PR = "r2"
 >
-> The groupadd one sounds like it might be a buffer overflow issue which could
-> have larger ramifications
+>   # Third digit in PV should be incremented after a minor release
+> -# happens from this branch on gcc e.g. currently its 4.7.0
+> -# when 4.7.1 is releases and we bump SRCREV beyond the release
+> -# on branch then PV should be incremented to 4.7.1+svnr${SRCPV}
+> +# happens from this branch on gcc e.g. currently its 4.7.1
+> +# when 4.7.2 is releases and we bump SRCREV beyond the release
+> +# on branch then PV should be incremented to 4.7.2+svnr${SRCPV}
+>   # to reflect that change
 >
-> Thanks
+> -PV = "4.7.0+svnr${SRCPV}"
+> +PV = "4.7.1+svnr${SRCPV}"
 >
-> Sau!
+>   # BINV should be incremented after updating to a revision
+>   # after a minor gcc release (e.g. 4.7.1 or 4.7.2) has been made
+> @@ -16,9 +16,9 @@ PV = "4.7.0+svnr${SRCPV}"
+>   # 4.7.1 then the value below will have 2 which will mean 4.7.2
+>   # which will be next minor release and so on.
 >
->> // Robert
->>
->> On 06/19/2012 01:47 AM, Mark Hatle wrote:
->>> We're not away of any size limitations within pseudo, other then
->>> PATH_MAX which
->>> is typically 4096...
->>>
->>> --Mark
->>>
->>> On 6/18/12 4:17 AM, Robert Yang wrote:
->>>>
->>>> Hi Experts:
->>>>
->>>> I've met a strange issue, when set the length of builddir to
->>>> 266 (Why I did this is that I need to know how long the tmpdir
->>>> that oe-core can support):
->>>>
->>>> NOTE: package dbus-1.4.20-r3.0: task do_install: Started
->>>> *** glibc detected *** groupadd: malloc(): memory corruption:
->>>> 0x000000000101da70 ***
->>>> *** glibc detected *** groupadd: malloc(): memory corruption:
->>>> 0x000000000101da70 ***
->>>>
->>>> Then the build would hang, this is caused by the command:
->>>>
->>>> PSEUDO_PREFIX=/too/long/path/tmp/sysroots/x86_64-linux/usr
->>>> PSEUDO_LOCALSTATEDIR=... PSEUDO_PASSWD=...
->>>> PSEUDO_NOSYMLINKEXP=1 PSEUDO_DISABLED=0 PSEUDO_LOCALSTATEDIR
->>>> ... /too/long/path/to/tmp/sysroots/x86_64-linux/usr/bin/pseudo
->>>> groupadd --root /too/long/path/to/tmp/sysroots/qemux86 -r netdev -f
->>>>
->>>> 1) I had looked into the code of groupadd, and found that this would
->>>> happen when it used the glibc function which needs malloc(for example,
->>>> the access()), so it seemed this was caused by the glibc or pseudo,
->>>> but I didn't know why it only happened to groupadd/useradd.
->>>>
->>>> 2) I had tried not to use pseudo, it worked well:
->>>>
->>>> sudo groupadd --root /too/long/path/to/tmp/sysroots/qemux86 -r netdev -f
->>>>
->>>> From this, it seemed that the glibc was ok
->>>>
->>>> 3) I had tried to write a small piece of code which used the
->>>> access(), and
->>>> used pseudo to run it, it worked well:
->>>>
->>>> /too/long/path/for/pseudo/settings/and/then/run/pseudo my_app
->>>>
->>>> From this, it seemed that both pseudo and glibc were OK.
->>>>
->>>> These 3 steps make me puzzle, maybe we can think that the tmpdir can not
->>>> be too long, and limit it to a proper length, please see this:
->>>>
->>>> http://lists.linuxtogo.org/pipermail/openembedded-core/2012-May/022112.html
->>>>
->>>>
->>>> BTW. the "argument list too long" error has been fixed.
->>>>
->>>> Any suggestion is appreciated.
->>>>
->>>
->>>
->>> _______________________________________________
->>> Openembedded-core mailing list
->>> Openembedded-core@lists.openembedded.org
->>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->>>
->>>
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->>
->>
+> -BINV = "4.7.1"
+> +BINV = "4.7.2"
 >
+I merged this and had tested it on the Autobuilder, but I just tried 
+another build locally and got a grouping of failures that may have used 
+sstate because they failed do_compile:
+   /srv/ssd/sgw_ab/poky/meta/recipes-extended/newt/libnewt_0.52.14.bb, 
+do_compile
+   /srv/ssd/sgw_ab/poky/meta/recipes-graphics/mesa/mesa-dri_7.11.bb, 
+do_compile
+   /srv/ssd/sgw_ab/poky/meta/recipes-kernel/trace-cmd/trace-cmd_1.2.bb, 
+do_compile
+ 
+/srv/ssd/sgw_ab/poky/meta/recipes-extended/logrotate/logrotate_3.8.1.bb, 
+do_compile
+   /srv/ssd/sgw_ab/poky/meta/recipes-kernel/kexec/kexec-tools_2.0.3.bb, 
+do_compile
+ 
+/srv/ssd/sgw_ab/poky/meta/recipes-kernel/trace-cmd/kernelshark_1.2.bb, 
+do_compile
+ 
+/srv/ssd/sgw_ab/poky/meta/recipes-bsp/u-boot/u-boot-mkimage_2011.06.bb, 
+do_compile
+   /srv/ssd/sgw_ab/poky/meta/recipes-devtools/apt/apt_0.7.14.bb, do_compile
+
+
+The failure was:
+| make: *** No rule to make target 
+`/srv/ssd/sgw_ab/builds/repack/tmp/sysroots/x86_64-linux/usr/lib/i586-poky-linux/gcc/i586-poky-linux/4.7.1/include/stddef.h', 
+needed by `logrotate.o'.  Stop.
+
+Note the 4.7.1!
+
+A clean solved the issue, so I am not sure where it's picking up the 
+4.7.1 from during the do_configure.
+
+More investigation is required!
+
+Sau!
+
+
+
+
+> -SRCREV = "186651"
+> +SRCREV = "188658"
+>   BRANCH = "gcc-4_7-branch"
+>   FILESPATH = "${@base_set_filespath([ '${FILE_DIRNAME}/gcc-4.7' ], d)}"
 >
 
 
