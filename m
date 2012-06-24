@@ -1,24 +1,24 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SirKY-0004YT-2q
+	(envelope-from <sgw@linux.intel.com>) id 1SirKZ-0004YM-Fd
 	for openembedded-core@lists.openembedded.org;
-	Sun, 24 Jun 2012 20:14:38 +0200
+	Sun, 24 Jun 2012 20:14:41 +0200
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
 	by orsmga101.jf.intel.com with ESMTP; 24 Jun 2012 11:03:45 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="161983155"
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="161983156"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.175])
 	by orsmga002.jf.intel.com with ESMTP; 24 Jun 2012 11:03:45 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 24 Jun 2012 11:03:38 -0700
-Message-Id: <af05a8cd868de913ef754ca2710985d031ebd253.1340560914.git.sgw@linux.intel.com>
+Date: Sun, 24 Jun 2012 11:03:39 -0700
+Message-Id: <6a73991c1abc0fa0b663d144c1a6f7f332e07b43.1340560914.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <cover.1340560914.git.sgw@linux.intel.com>
 References: <cover.1340560914.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1340560914.git.sgw@linux.intel.com>
 References: <cover.1340560914.git.sgw@linux.intel.com>
-Subject: [PATCH 13/14] libidn: Upgrade to 1.25
+Subject: [PATCH 14/14] libtiff: Upgrade to 4.0.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,40 +33,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 24 Jun 2012 18:14:40 -0000
+X-List-Received-Date: Sun, 24 Jun 2012 18:14:44 -0000
 
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- .../libidn/{libidn_1.24.bb => libidn_1.25.bb}      |    6 +++---
+ .../libtiff/{tiff_4.0.1.bb => tiff_4.0.2.bb}       |    6 +++---
  1 files changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-extended/libidn/{libidn_1.24.bb => libidn_1.25.bb} (89%)
+ rename meta/recipes-multimedia/libtiff/{tiff_4.0.1.bb => tiff_4.0.2.bb} (84%)
 
-diff --git a/meta/recipes-extended/libidn/libidn_1.24.bb b/meta/recipes-extended/libidn/libidn_1.25.bb
-similarity index 89%
-rename from meta/recipes-extended/libidn/libidn_1.24.bb
-rename to meta/recipes-extended/libidn/libidn_1.25.bb
-index a4ecce1..755a818 100644
---- a/meta/recipes-extended/libidn/libidn_1.24.bb
-+++ b/meta/recipes-extended/libidn/libidn_1.25.bb
-@@ -10,15 +10,15 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=9c9d9d207a3468a696a03368913d360b \
-                     file://COPYINGv3;md5=d32239bcb673463ab874e80d47fae504 \
-                     file://lib/idna.h;endline=21;md5=7364f6a250728ffe16170f5e3ab37512 \
-                     file://src/idn.c;endline=20;md5=7d7235e7951ac87d9dfac42e1b69d9cb"
--PR = "r2"
+diff --git a/meta/recipes-multimedia/libtiff/tiff_4.0.1.bb b/meta/recipes-multimedia/libtiff/tiff_4.0.2.bb
+similarity index 84%
+rename from meta/recipes-multimedia/libtiff/tiff_4.0.1.bb
+rename to meta/recipes-multimedia/libtiff/tiff_4.0.2.bb
+index 72d99a1..5188963 100644
+--- a/meta/recipes-multimedia/libtiff/tiff_4.0.1.bb
++++ b/meta/recipes-multimedia/libtiff/tiff_4.0.2.bb
+@@ -3,13 +3,13 @@ LICENSE = "BSD-2-Clause"
+ LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=34da3db46fab7501992f9615d7e158cf"
+ HOMEPAGE = "http://www.remotesensing.org/libtiff/"
+ DEPENDS = "zlib jpeg xz"
+-PR = "r1"
 +PR = "r0"
  
- inherit pkgconfig autotools gettext
+ SRC_URI = "ftp://ftp.remotesensing.org/pub/libtiff/tiff-${PV}.tar.gz \
+            file://libtool2.patch"
  
- SRC_URI = "${GNU_MIRROR}/libidn/${BPN}-${PV}.tar.gz \
-            file://libidn_fix_for_automake-1.12.patch "
+-SRC_URI[md5sum] = "fae149cc9da35c598d8be897826dfc63"
+-SRC_URI[sha256sum] = "9a7a039e516c37478038740f1642818250bfb1414cf404cc8b569e5f9d4bf2f0"
++SRC_URI[md5sum] = "04a08fa1e07e696e820a0c3f32465a13"
++SRC_URI[sha256sum] = "aa29f1f5bfe3f443c3eb4dac472ebde15adc8ff0464b83376f35e3b2fef935da"
  
--SRC_URI[md5sum] = "764d7258eeb273941680499fab2c7367"
--SRC_URI[sha256sum] = "da1708c6063ecb7951a0908e67df3eacdfe128b18edaa6cf6867d7b73b5f35ff"
-+SRC_URI[md5sum] = "45ffabce4b8ca87fe98fe4542668d33d"
-+SRC_URI[sha256sum] = "7fe625328a6a5d837d723c462c1788affb84d9c9fc0ae5cd0ce9ac7724c34716"
+ inherit autotools
  
- # command tool is under GPLv3+, while libidn itself is under LGPLv2.1+ or LGPLv3
- # so package command into a separate package
 -- 
 1.7.7.6
 
