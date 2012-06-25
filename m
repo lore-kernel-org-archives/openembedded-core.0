@@ -1,34 +1,24 @@
-Received: from mail-pz0-f47.google.com ([209.85.210.47])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrea.adami@gmail.com>) id 1SiutY-0006ad-HU
+	(envelope-from <lianhao.lu@intel.com>) id 1Sj1mq-0003l2-BA
 	for openembedded-core@lists.openembedded.org;
-	Mon, 25 Jun 2012 00:03:00 +0200
-Received: by dalh21 with SMTP id h21so4288117dal.6
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 24 Jun 2012 14:52:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type:content-transfer-encoding;
-	bh=3jGgpfo6N/jIUz+KtogmSw44f1fvl6ryBDVGJhDJHHo=;
-	b=0P81Rc4HjDnqh64vPyiuUf73QELneYgERKkojFCYwMaXDT7ywlUuvcQ29lX2aXTDW9
-	ohdK6I/o7lDOPSnOJeYJL6SlvY591ZslWbmnuWOcizeeD7LEpDACx5eWP64gN7Kp6Xxi
-	RYtktkT7rn2mMqHp/Q/0PJC/IF5Y6P/TupdvYZSzZISqaXd4P0qTxIb6Trk3g9Qk7Ekr
-	Tc3+tWA0NC0uqQTyYBi9V1vLUjERz/jmpQOpZaQX2qIEKK/ONG3T+3BurDZBrqNRdQpA
-	19Yzvgp4rKORhKceWGDDHkjmkSm5Fn4GEpuQhGoiir357LyKi2lm/rXL3ujzAev5NY74
-	QPwg==
-MIME-Version: 1.0
-Received: by 10.68.230.68 with SMTP id sw4mr10598780pbc.142.1340574729443;
-	Sun, 24 Jun 2012 14:52:09 -0700 (PDT)
-Received: by 10.142.203.12 with HTTP; Sun, 24 Jun 2012 14:52:09 -0700 (PDT)
-In-Reply-To: <4FE74FD8.9000204@linux.intel.com>
-References: <1340319423-24865-1-git-send-email-andrea.adami@gmail.com>
-	<4FE74FD8.9000204@linux.intel.com>
-Date: Sun, 24 Jun 2012 23:52:09 +0200
-Message-ID: <CAAQYJAu9-xuDQnG60J76eBHGc_jH6WYQwBic0MjjFuJhAFwEHw@mail.gmail.com>
-From: Andrea Adami <andrea.adami@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] mtd-utils: do not stage headers in sysroot
+	Mon, 25 Jun 2012 07:24:32 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 24 Jun 2012 22:13:39 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="160237784"
+Received: from llu-piketon.sh.intel.com (HELO localhost) ([10.239.36.116])
+	by azsmga001.ch.intel.com with ESMTP; 24 Jun 2012 22:13:39 -0700
+From: Lianhao Lu <lianhao.lu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 25 Jun 2012 13:15:30 +0800
+Message-Id: <13ed4eabf4dfcb28267d045fc30e402a3484e95d.1340600710.git.lianhao.lu@intel.com>
+X-Mailer: git-send-email 1.7.0.4
+In-Reply-To: <5bfc2cadad3f2b0e2b03c4562aba4efd0a604c95.1340600710.git.lianhao.lu@intel.com>
+References: <5bfc2cadad3f2b0e2b03c4562aba4efd0a604c95.1340600710.git.lianhao.lu@intel.com>
+In-Reply-To: <cover.1340600710.git.lianhao.lu@intel.com>
+References: <cover.1340600710.git.lianhao.lu@intel.com>
+Subject: [PATCH V3 2/3] image/core-image: Handle conflicting IMAGE_FEATURES.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,77 +33,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 24 Jun 2012 22:03:00 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 25 Jun 2012 05:24:32 -0000
 
-On Sun, Jun 24, 2012 at 7:35 PM, Saul Wold <sgw@linux.intel.com> wrote:
-> On 06/21/2012 03:57 PM, Andrea Adami wrote:
->>
->> * Headers are included in the package for compatibility
->> * but have not yet been synched with linux 3.0
->> * The actual issue was that ubi-user.h in sysroot
->> * was overwritten by the older version.
->> * Unfortunately one ioctl was renamed:
->> * http://lists.infradead.org/pipermail/linux-mtd/
->> * 2011-March/034419.html
->> * Note: the recipe will still use its own older header,
->> * following upstream.
->>
->> Signed-off-by: Andrea Adami<andrea.adami@gmail.com>
->> ---
->> =A0meta/recipes-devtools/mtd/mtd-utils_1.5.0.bb | =A0 =A06 +-----
->> =A01 files changed, 1 insertions(+), 5 deletions(-)
->>
->> diff --git a/meta/recipes-devtools/mtd/mtd-utils_1.5.0.bb
->> b/meta/recipes-devtools/mtd/mtd-utils_1.5.0.bb
->> index daa3554..1a9d4d3 100644
->> --- a/meta/recipes-devtools/mtd/mtd-utils_1.5.0.bb
->> +++ b/meta/recipes-devtools/mtd/mtd-utils_1.5.0.bb
->> @@ -11,16 +11,12 @@ SRC_URI =3D
->> "git://git.infradead.org/mtd-utils.git;protocol=3Dgit;tag=3Dca39eb1d98e7=
-36
->>
->> =A0S =3D "${WORKDIR}/git/"
->>
->> -PR =3D "r0"
->> +PR =3D "r1"
->>
->> =A0EXTRA_OEMAKE =3D "'CC=3D${CC}' 'RANLIB=3D${RANLIB}' 'AR=3D${AR}'
->> 'CFLAGS=3D${CFLAGS} -I${S}/include -DWITHOUT_XATTR' 'BUILDDIR=3D${S}'"
->>
->> =A0do_install () {
->> =A0 =A0 =A0 =A0oe_runmake install DESTDIR=3D${D} SBINDIR=3D${sbindir} MA=
-NDIR=3D${mandir}
->> INCLUDEDIR=3D${includedir}
->> - =A0 =A0 =A0 install -d ${D}${includedir}/mtd/
->> - =A0 =A0 =A0 for f in ${S}/include/mtd/*.h; do
->> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 install -m 0644 $f ${D}${includedir}/mtd/
->> - =A0 =A0 =A0 done
->> =A0}
->
-> Just curious how this was tested?
->
-> I did a couple of different builds and on one clean rebuild, I found that
-> udev failed because it could not find mtd/mtd-user.h
->
-> Thanks
-> =A0 =A0 =A0 =A0Sau!
->
->
->>
->> =A0PARALLEL_MAKE =3D ""
+IMAGE_FEATURES such as 'ssh-server-dropbear' and 'ssh-server-openssh'
+can't be both enabled. User can use the following variables to define
+the relationship of image features:
 
-Strange...
-I've done build from scratch of core-image-base to test and all was
-built just fine, included udev_164.
-It would be indeed bizarre if udev would depend on headers provided by
-mtd-utils, though.
+IMAGE_FEATURES_REPLACES_foo = "bar" means including image feature "foo"
+would replace the image feature "bar".
 
-Finally, mtd-user.h belongs to linux-libc-headers(-dev) package.
+IMAGE_FEATURES_CONFLICTS_foo = "bar" means including both image features
+"foo" and "bar" would cause an parsing error.
 
-Regards
+Signed-off-by: Lianhao Lu <lianhao.lu@intel.com>
+---
+ meta/classes/core-image.bbclass                 |   11 ++++++++++-
+ meta/classes/image.bbclass                      |   17 +++++++++++++++++
+ meta/recipes-sato/images/core-image-sato-sdk.bb |    2 ++
+ 3 files changed, 29 insertions(+), 1 deletions(-)
 
-Andrea
+diff --git a/meta/classes/core-image.bbclass b/meta/classes/core-image.bbclass
+index 25f5c5a..6b207d7 100644
+--- a/meta/classes/core-image.bbclass
++++ b/meta/classes/core-image.bbclass
+@@ -47,6 +47,14 @@ PACKAGE_GROUP_ssh-server-openssh = "task-core-ssh-openssh"
+ PACKAGE_GROUP_package-management = "${ROOTFS_PKGMANAGE}"
+ PACKAGE_GROUP_qt4-pkgs = "task-core-qt-demos"
+ 
++
++# IMAGE_FEAETURES_REPLACES_foo = 'bar1 bar2'
++# Including image feature foo would replace the image features bar1 and bar2
++IMAGE_FEATURES_REPLACES_ssh-server-openssh = "ssh-server-dropbear"
++
++# IMAGE_FEATURES_CONFLICTS_foo = 'bar1 bar2'
++# An error exception would be raised if both image features foo and bar1(or bar2) are included
++
+ CORE_IMAGE_BASE_INSTALL = '\
+     task-core-boot \
+     task-base-extended \
+@@ -60,7 +68,8 @@ IMAGE_INSTALL ?= "${CORE_IMAGE_BASE_INSTALL}"
+ 
+ X11_IMAGE_FEATURES  = "x11-base apps-x11-core package-management"
+ ENHANCED_IMAGE_FEATURES = "${X11_IMAGE_FEATURES} apps-x11-games apps-x11-pimlico package-management"
+-SATO_IMAGE_FEATURES = "${ENHANCED_IMAGE_FEATURES} x11-sato ssh-server-dropbear"
++SSHSERVER_IMAGE_FEATURES ??= "ssh-server-dropbear"
++SATO_IMAGE_FEATURES = "${ENHANCED_IMAGE_FEATURES} x11-sato ${SSHSERVER_IMAGE_FEATURES}"
+ 
+ inherit image
+ 
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index 0772363..6fac974 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -87,6 +87,23 @@ python () {
+         deps += " %s:do_populate_sysroot" % dep
+     d.setVarFlag('do_rootfs', 'depends', deps)
+ 
++    #process IMAGE_FEATURES, we must do this before runtime_mapping_rename
++    #Check for replaces image features
++    features = set(oe.data.typed_value('IMAGE_FEATURES', d))
++    remain_features = features.copy()
++    for feature in features:
++        replaces = set((d.getVar("IMAGE_FEATURES_REPLACES_%s" % feature, True) or "").split())
++        remain_features -= replaces
++
++    #Check for conflict image features
++    for feature in remain_features:
++        conflicts = set((d.getVar("IMAGE_FEATURES_CONFLICTS_%s" % feature, True) or "").split())
++        temp = conflicts & remain_features
++        if temp:
++            raise bb.parse.SkipPackage("%s contains conflicting IMAGE_FEATURES %s %s" % (d.getVar('PN', True), feature, ' '.join(list(temp))))
++
++    d.setVar('IMAGE_FEATURES', ' '.join(list(remain_features)))
++
+     # If we don't do this we try and run the mapping hooks while parsing which is slow
+     # bitbake should really provide something to let us know this...
+     if d.getVar('BB_WORKERCONTEXT', True) is not None:
+diff --git a/meta/recipes-sato/images/core-image-sato-sdk.bb b/meta/recipes-sato/images/core-image-sato-sdk.bb
+index eed1698..5bb9469 100644
+--- a/meta/recipes-sato/images/core-image-sato-sdk.bb
++++ b/meta/recipes-sato/images/core-image-sato-sdk.bb
+@@ -8,6 +8,8 @@ form a standalone SDK."
+ IMAGE_FEATURES += "apps-console-core ${SATO_IMAGE_FEATURES} dev-pkgs tools-sdk qt4-pkgs"
+ EXTRA_IMAGE_FEATURES += "tools-debug tools-profile tools-testapps debug-tweaks"
+ 
++SSHSERVER_IMAGE_FEATURES = "ssh-server-openssh"
++
+ LICENSE = "MIT"
+ 
+ inherit core-image
+-- 
+1.7.0.4
+
 
 
