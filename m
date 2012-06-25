@@ -1,27 +1,25 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SjCEC-000859-Qg
+	(envelope-from <sgw@linux.intel.com>) id 1SjCHO-00088J-Ix
 	for openembedded-core@lists.openembedded.org;
-	Mon, 25 Jun 2012 18:33:29 +0200
+	Mon, 25 Jun 2012 18:36:46 +0200
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 25 Jun 2012 09:22:36 -0700
+	by orsmga102.jf.intel.com with ESMTP; 25 Jun 2012 09:25:54 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="157964636"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="157966077"
 Received: from unknown (HELO [10.255.12.180]) ([10.255.12.180])
-	by orsmga001.jf.intel.com with ESMTP; 25 Jun 2012 09:22:36 -0700
-Message-ID: <4FE8904C.1080008@linux.intel.com>
-Date: Mon, 25 Jun 2012 09:22:36 -0700
+	by orsmga001.jf.intel.com with ESMTP; 25 Jun 2012 09:25:54 -0700
+Message-ID: <4FE89112.5070101@linux.intel.com>
+Date: Mon, 25 Jun 2012 09:25:54 -0700
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <298672C9-7064-437A-9D46-45259E697684@dominion.thruhere.net>
-	<1340374507-20613-1-git-send-email-paul.gortmaker@windriver.com>
-In-Reply-To: <1340374507-20613-1-git-send-email-paul.gortmaker@windriver.com>
-Cc: koen@dominion.thruhere.net
-Subject: Re: [PATCH v2] linux-firmware: update to main repo on kernel.org
+References: <cover.1340319020.git.raj.khem@gmail.com>
+In-Reply-To: <cover.1340319020.git.raj.khem@gmail.com>
+Subject: Re: [PATCH 0/5] Fix uclibc packaging and update qemu git recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,59 +34,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Jun 2012 16:33:29 -0000
+X-List-Received-Date: Mon, 25 Jun 2012 16:36:46 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 06/22/2012 07:15 AM, Paul Gortmaker wrote:
-> This is now the authoratative repository, taking updates.
-> The latest has a couple updated license files, vs. the previous
-> srcrev that was used.
+On 06/21/2012 03:54 PM, Khem Raj wrote:
+> This patchset does following
 >
-> Signed-off-by: Paul Gortmaker<paul.gortmaker@windriver.com>
-> ---
-> [v2: add missing pr bump]
+> 1. Fixes uclibc packaging issues that came after packaging order rework
+> 2. Upgrades qemu git recipes to latest on qemu git/master
+>     This does not forward port any of the patches except the
+>     ROM thats required to boot ppc.
+>     This helps in using qemu for some of less uses architectures
 >
->   .../linux-firmware/linux-firmware_git.bb           |   10 +++++-----
->   1 file changed, 5 insertions(+), 5 deletions(-)
+> 3. Fix PACKAGECONFIG for qemu thats needed for qemu-git to work
+>     without gl patches
+> 4. Adds recipes for kconfig-frontends which I have resent in another tree
 >
-> diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-> index 3675978..8aacce4 100644
-> --- a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-> +++ b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-> @@ -7,23 +7,23 @@ SECTION = "kernel"
+> The following changes since commit e2cc4a44d510e0d473d15f207c1c886db6a5ccf7:
 >
->   LICENSE = "Proprietary"
+>    [PATCH] guile: fix compilation on MIPS/PPC (2012-06-21 13:41:12 +0100)
 >
-> -LIC_FILES_CHKSUM = "file://LICENSE.radeon_rlc;md5=4c243f7854d2884b483abda991adef43 \
-> +LIC_FILES_CHKSUM = "file://LICENSE.radeon;md5=e56b405656593a0c97e478513051ea0e \
->                       file://LICENSE.dib0700;md5=f7411825c8a555a1a3e5eab9ca773431 \
->                       file://LICENCE.xc5000;md5=1e170c13175323c32c7f4d0998d53f66 \
->                       file://LICENCE.ralink-firmware.txt;md5=ab2c269277c45476fb449673911a2dfd \
->                       file://LICENCE.qla2xxx;md5=4005328a134054f0fa077bdc37aa64f2 \
-> -                    file://LICENCE.iwlwifi_firmware;md5=311cc823df5b1be4f00fbf0f17d96a6b \
-> +                    file://LICENCE.iwlwifi_firmware;md5=11545778abf78c43d7644d4f171ea1c7 \
->                       file://LICENCE.i2400m;md5=14b901969e23c41881327c0d9e4b7d36 \
->                       file://LICENCE.atheros_firmware;md5=30a14c7823beedac9fa39c64fdd01a13 \
->                       file://LICENCE.agere;md5=af0133de6b4a9b2522defd5f188afd31 \
->                       file://LICENCE.rtlwifi_firmware.txt;md5=00d06cfd3eddd5a2698948ead2ad54a5 \
->                      "
+> are available in the git repository at:
+>    git://git.openembedded.org/openembedded-core-contrib kraj/misc-updates
+>    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=kraj/misc-updates
 >
-> -SRCREV = "15888a2eab052ac3d3f49334e4f6f05f347a516e"
-> +SRCREV = "e98750f0d68d0037ce5a186f7f863a9c13bf773a"
->   PV = "0.0+git${SRCPV}"
-> -PR = "r1"
-> +PR = "r2"
->
-> -SRC_URI = "git://git.infradead.org/users/dwmw2/linux-firmware.git;protocol=git"
-> +SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git;protocol=git"
->
->   S = "${WORKDIR}/git"
->
+> Khem Raj (5):
+>    kconfig-frontends: New recipe
+Khem,
+As already noted, can you resubmit this patch, with the packaging update 
+that I sent.
 
-Merged into OE-Core
+>    uclibc: Fix packaging to match the new package order
+>    qemu.inc: Fix packageconfig options
+Merged these 2
+>    qemu-git: Move to tip of git
+>    qemu_git: set empty PACKAGECONFIG
+>
+Richard commented on this, we need to have the GL patch updated also.
 
-Thanks
-	Sau!
+Sau!
+
+
+>   meta/recipes-core/uclibc/uclibc.inc                |   28 ++++++++++---------
+>   .../kconfig-frontends/kconfig-frontends_3.4.bb     |   28 ++++++++++++++++++++
+>   .../recipes-devtools/qemu/qemu-git/powerpc_rom.bin |  Bin 0 ->  4096 bytes
+>   meta/recipes-devtools/qemu/qemu.inc                |    2 +-
+>   meta/recipes-devtools/qemu/qemu_git.bb             |   19 ++++---------
+>   5 files changed, 50 insertions(+), 27 deletions(-)
+>   create mode 100644 meta/recipes-devtools/kconfig-frontends/kconfig-frontends_3.4.bb
+>   create mode 100644 meta/recipes-devtools/qemu/qemu-git/powerpc_rom.bin
+>
 
 
