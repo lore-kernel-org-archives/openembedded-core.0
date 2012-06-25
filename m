@@ -1,24 +1,20 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1SjIyU-0000nv-Ed
+	(envelope-from <sgw@linux.intel.com>) id 1SjJ6q-0000u4-WD
 	for openembedded-core@lists.openembedded.org;
-	Tue, 26 Jun 2012 01:45:42 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 25 Jun 2012 16:34:46 -0700
+	Tue, 26 Jun 2012 01:54:21 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 25 Jun 2012 16:43:28 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="162529767"
-Received: from unknown (HELO envy.home) ([10.255.12.249])
-	by orsmga002.jf.intel.com with ESMTP; 25 Jun 2012 16:34:46 -0700
-Message-ID: <4FE8F542.2070304@linux.intel.com>
-Date: Mon, 25 Jun 2012 16:33:22 -0700
-From: Darren Hart <dvhart@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:13.0) Gecko/20120615 Thunderbird/13.0.1
-MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Enigmail-Version: 1.4.2
-Subject: kernel: building target-arch scripts/* to include in kernel-headers package
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="160597096"
+Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.180])
+	by azsmga001.ch.intel.com with ESMTP; 25 Jun 2012 16:43:28 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 25 Jun 2012 16:43:27 -0700
+Message-Id: <1340667807-17990-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 1.7.7.6
+Subject: [PATCH] busybox: add correct ALTERNATIVE_TARGET for init.d/syslog
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,43 +29,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Jun 2012 23:45:42 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 25 Jun 2012 23:54:21 -0000
 
-I'm working on a patch series to provide a kernel-headers package which
-allows for the compilation of Linux kernel modules on the target. I
-currently have something working, but it requires that I first build the
-scripts/* binaries on the target, prior to trying to build a module.
+[YOCTO #2535]
 
-	# cd /usr/src/kernel-headers
-	# make scripts
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+---
+ meta/recipes-core/busybox/busybox.inc       |    3 ++-
+ meta/recipes-core/busybox/busybox_1.19.4.bb |    2 +-
+ 2 files changed, 3 insertions(+), 2 deletions(-)
 
-Then I can build modules:
-
-	# cd /home/root/hello-mod/files
-	# export KERNEL_SRC=/usr/src/kernel-headers
-	# make
-
-And test:
-
-	# insmod hello.ko
-	# rmmod hello.ko
-	# dmesg | tail -n2
-	Hello World!
-	Goodbye Cruel World!
-
-I would like to package the target-arch scripts binaries with the
-kernel-headers package, but I'm not sure how to go about building both
-the native and the target binaries as part of the kernel building
-process. Does it make sense to build these as part of the do_install()
-task after I've moved the files from the linux recipe's workdir and
-removed the host-arch binaries from scripts?
-
+diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
+index a9a58e2..82137a3 100644
+--- a/meta/recipes-core/busybox/busybox.inc
++++ b/meta/recipes-core/busybox/busybox.inc
+@@ -210,11 +210,12 @@ ALTERNATIVE_PRIORITY = "50"
+ ALTERNATIVE_${PN}-syslog = "syslog-init syslog-startup-conf"
+ 
+ ALTERNATIVE_LINK_NAME[syslog-init] = "${sysconfdir}/init.d/syslog"
++ALTERNATIVE_TARGET[syslog-init] = "${sysconfdir}/init.d/syslog.${BPN}"
+ 
+ ALTERNATIVE_LINK_NAME[syslog-startup-conf] = "${sysconfdir}/syslog-startup.conf"
++ALTERNATIVE_TARGET[syslog-startup-conf] = "${sysconfdir}/syslog-startup.conf.${BPN}"
+ 
+ ALTERNATIVE_TARGET = "/bin/busybox"
+-ALTERNATIVE_TARGET[syslog-startup-conf] = "${sysconfdir}/syslog-startup.conf.${BPN}"
+ 
+ python do_package_prepend () {
+ 	# We need to load the full set of busybox provides from the /etc/busybox.links
+diff --git a/meta/recipes-core/busybox/busybox_1.19.4.bb b/meta/recipes-core/busybox/busybox_1.19.4.bb
+index 5b3f356..de331ad 100644
+--- a/meta/recipes-core/busybox/busybox_1.19.4.bb
++++ b/meta/recipes-core/busybox/busybox_1.19.4.bb
+@@ -1,5 +1,5 @@
+ require busybox.inc
+-PR = "r7"
++PR = "r8"
+ 
+ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
+            file://B921600.patch \
 -- 
-Darren Hart
-Intel Open Source Technology Center
-Yocto Project - Linux Kernel
+1.7.7.6
 
 
 
