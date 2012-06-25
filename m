@@ -1,26 +1,24 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1SjCoI-0000Sl-DH
+	(envelope-from <bruce.ashfield@windriver.com>) id 1SjCog-0000Uz-6B
 	for openembedded-core@lists.openembedded.org;
-	Mon, 25 Jun 2012 19:10:46 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 25 Jun 2012 09:59:54 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="157980417"
-Received: from unknown (HELO envy.home) ([10.7.199.60])
-	by orsmga001.jf.intel.com with ESMTP; 25 Jun 2012 09:59:54 -0700
-Message-ID: <4FE898B7.3050606@linux.intel.com>
-Date: Mon, 25 Jun 2012 09:58:31 -0700
-From: Darren Hart <dvhart@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:13.0) Gecko/20120615 Thunderbird/13.0.1
-MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <1340396533-5386-1-git-send-email-ray.danks@se-eng.com>
-In-Reply-To: <1340396533-5386-1-git-send-email-ray.danks@se-eng.com>
-X-Enigmail-Version: 1.4.2
-Subject: Re: [PATCH 1/2] image_types: Add elf image type
+	Mon, 25 Jun 2012 19:11:10 +0200
+Received: from yow-bashfiel-l1.wrs.com (yow-bashfiel-d3.wrs.com
+	[128.224.147.67])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q5PH09tH017802;
+	Mon, 25 Jun 2012 10:00:11 -0700 (PDT)
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: richard.purdie@linuxfoundation.org
+Date: Mon, 25 Jun 2012 12:59:44 -0400
+Message-Id: <52fd088b6bd20e32ceeefd63fc15f00bbb972496.1340643139.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 1.7.5.4
+In-Reply-To: <cover.1340643139.git.bruce.ashfield@windriver.com>
+References: <cover.1340643139.git.bruce.ashfield@windriver.com>
+In-Reply-To: <cover.1340643139.git.bruce.ashfield@windriver.com>
+References: <cover.1340643139.git.bruce.ashfield@windriver.com>
+Cc: dvhart@linux.intel.com, openembedded-core@lists.openembedded.org,
+	saul.wold@intel.com
+Subject: [PATCH 1/5] kern-tools: add buildall and robustness fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,115 +33,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Jun 2012 17:10:46 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 25 Jun 2012 17:11:10 -0000
 
-Hi Raymond,
+Updating the kern-tools SRCREV to pickup the following functionality:
 
-On 06/22/2012 01:22 PM, Raymond Danks wrote:
-> On x86, an ELF image file may be stored as a coreboot payload.
-> The image file is constructed, using the mkelfimage utility,
-> from a kernel and an initrd.
-> 
+ - buildall: provides the ability to build all kernel branches
+             without a build system, only a cross compiler and configme
+             are required.
 
-Is this usable solely as a coreboot payload?
+ - robustness/cleanups: obselete/unused code removal and general robustness
+                        fixes from Paul Gortmaker and Bruce Ashfield
 
-The reason I ask is there have been requests to be able to build the
-kernel+initramfs that the Linux make system supports. The coreboot wiki
-suggests that this may be sufficient in lieu of the mkelfimage format.
+The following kern-tools commits are part of this series:
 
-http://www.coreboot.org/Mkelfimage
+ b8dfd3d buildall: add whitelist/blacklist support
+ 0ef039c configme: catch errors found during fragment sanitization
+ 5b6498c buildall: remove all instances of it using/reading scc files
+ 2e57550 buildall: support semi seamless restarts
+ 4b5dd4d kconf_check: simplify cmdline args, dont store data per branch
+ 58fbb6e configme: relieve it of all knowledge of scc files
+ a03e291 configme: strip out alternative meta series logic.
+ 96d2bcf kgit-init: check for valid branchpoint
+ 5598db6 buildall: allow a max cap on the number of builds done
+ b46abec buildall: add support for randomizing build order
+ 68a04e9 buildall: dont copy failed build logs into main build dir
+ 5575d85 buildall: script to independently build all board kernels
+ 86d6200 configme: delete unused variable
+ 8d4e29d configme: delete unused KPROFILE setting
+ 7e15436 configme: ensure we have a valid machine type set
+ 152b9cb scc: remove depreciated/unused commands
+ bb4e96a scc: allow includes within conditional statements
+ 7da7951 configme: derive path to tools from $0
+ 152dc45 configme: test for BUILD_DIR != ""
+ 129f7b0 kgit-scc: add warnings about bad input args.
+ e977662 kgit-scc: add text for no arg and invalid arg case.
 
-If we can satisfy both goals with one image type, I would prefer we do
-that, at least for the core.
+[YOCTO #843]
 
-> Signed-off-by: Raymond Danks <ray.danks@se-eng.com>
-> ---
-> This was originally submitted to the openembedded project:
-> http://patches.openembedded.org/patch/7689/
-> 
-> Resubmitting to oe-core for review prior to commit in openembedded-core.
-> 
->  meta/classes/image_types.bbclass |   18 +++++++++++++++++-
->  1 files changed, 17 insertions(+), 1 deletions(-)
-> 
-> diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-> index 55f122e..bbca20c 100644
-> --- a/meta/classes/image_types.bbclass
-> +++ b/meta/classes/image_types.bbclass
-> @@ -7,6 +7,12 @@ def get_imagecmds(d):
->      ctypes = d.getVar('COMPRESSIONTYPES', True).split()
->      cimages = {}
->  
-> +    if "elf" in alltypes:
-> +        alltypes.remove("elf")
-> +        if "cpio.gz" not in alltypes:
-> +                alltypes.append("cpio.gz")
-> +        alltypes.append("elf")
-> +
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+---
+ meta/classes/kernel-yocto.bbclass                  |    2 +-
+ .../kern-tools/kern-tools-native_git.bb            |    2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-What is the goal of this? Do you just need cpio.gz to appear before elf
-in the list? If so, can that just be checked for at the time of adding
-elf the first time?
-
->      # Filter out all the compressed images from types
->      for type in alltypes:
->          basetype = None
-> @@ -173,6 +179,14 @@ IMAGE_CMD_cpio () {
->  	cd ${IMAGE_ROOTFS} && (find . | cpio -o -H newc >${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cpio)
->  }
->  
-> +ELF_KERNEL ?= ${STAGING_DIR_HOST}/kernel/bzImage
-
-There are various kernel image types. Is the elf format only valid with
-bzImage?
-
-> +ELF_APPEND ?= "ramdisk_size=32768 root=/dev/ram0 rw console=" 
-
-We would need to parameterize ramdisk_size.
-
---
-Darren
-
-> +
-> +IMAGE_CMD_elf () {
-> +	test -f ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.elf && rm -f ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.elf 
-> +	mkelfImage --kernel=${ELF_KERNEL} --initrd=${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cpio.gz --output=${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.elf --append='${ELF_APPEND}' ${EXTRA_IMAGECMD}
-> +}
-> +
->  UBI_VOLNAME ?= "${MACHINE}-rootfs"
->  
->  IMAGE_CMD_ubi () {
-> @@ -199,6 +213,7 @@ EXTRA_IMAGECMD_ext2 ?= "-i 8192"
->  EXTRA_IMAGECMD_ext3 ?= "-i 8192"
->  EXTRA_IMAGECMD_ext4 ?= "-i 8192"
->  EXTRA_IMAGECMD_btrfs ?= ""
-> +EXTRA_IMAGECMD_elf ?= ""
->  
->  IMAGE_DEPENDS = ""
->  IMAGE_DEPENDS_jffs2 = "mtd-utils-native"
-> @@ -210,11 +225,12 @@ IMAGE_DEPENDS_ext4 = "genext2fs-native e2fsprogs-native"
->  IMAGE_DEPENDS_btrfs = "btrfs-tools-native"
->  IMAGE_DEPENDS_squashfs = "squashfs-tools-native"
->  IMAGE_DEPENDS_squashfs-lzma = "squashfs-lzma-tools-native"
-> +IMAGE_DEPENDS_elf = "virtual/kernel mkelfimage-native"
->  IMAGE_DEPENDS_ubi = "mtd-utils-native"
->  IMAGE_DEPENDS_ubifs = "mtd-utils-native"
->  
->  # This variable is available to request which values are suitable for IMAGE_FSTYPES
-> -IMAGE_TYPES = "jffs2 sum.jffs2 cramfs ext2 ext2.gz ext2.bz2 ext3 ext3.gz ext2.lzma btrfs live squashfs squashfs-lzma ubi tar tar.gz tar.bz2 tar.xz cpio cpio.gz cpio.xz cpio.lzma vmdk"
-> +IMAGE_TYPES = "jffs2 sum.jffs2 cramfs ext2 ext2.gz ext2.bz2 ext3 ext3.gz ext2.lzma btrfs live squashfs squashfs-lzma ubi tar tar.gz tar.bz2 tar.xz cpio cpio.gz cpio.xz cpio.lzma vmdk elf"
->  
->  COMPRESSIONTYPES = "gz bz2 lzma xz"
->  COMPRESS_CMD_lzma = "lzma -k -f -7 ${IMAGE_NAME}.rootfs.${type}"
-> 
-
+diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
+index 2a3373c..48c8974 100644
+--- a/meta/classes/kernel-yocto.bbclass
++++ b/meta/classes/kernel-yocto.bbclass
+@@ -193,7 +193,7 @@ python do_kernel_configcheck() {
+     bb.plain("NOTE: validating kernel configuration")
+ 
+     pathprefix = "export PATH=%s:%s; " % (d.getVar('PATH', True), "${S}/scripts/util/")
+-    cmd = d.expand("cd ${B}/..; kconf_check -config- ${B} ${S} ${B} ${KBRANCH}")
++    cmd = d.expand("cd ${S}; kconf_check -config- ${KMETA}/meta-series ${S} ${B}")
+     ret, result = commands.getstatusoutput("%s%s" % (pathprefix, cmd))
+ 
+     bb.plain( "%s" % result )
+diff --git a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
+index 2329ab9..f47262f 100644
+--- a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
++++ b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
+@@ -4,7 +4,7 @@ LIC_FILES_CHKSUM = "file://git/tools/kgit;beginline=5;endline=9;md5=d8d1d729a70c
+ 
+ DEPENDS = "git-native guilt-native"
+ 
+-SRCREV = "4b1fef0a85db38bad6db7f14d44ea59713a64fdb"
++SRCREV = "b8dfd3d641400a8dfbf16868ee64f524508c80b7"
+ PR = "r12"
+ PV = "0.1+git${SRCPV}"
+ 
 -- 
-Darren Hart
-Intel Open Source Technology Center
-Yocto Project - Linux Kernel
-
+1.7.5.4
 
 
 
