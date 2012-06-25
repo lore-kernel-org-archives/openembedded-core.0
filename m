@@ -1,36 +1,27 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1Sj24g-0004AI-Gh
+	(envelope-from <sgw@linux.intel.com>) id 1Sj49d-00065c-B5
 	for openembedded-core@lists.openembedded.org;
-	Mon, 25 Jun 2012 07:42:58 +0200
-Received: by eaal1 with SMTP id l1so1124760eaa.6
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 24 Jun 2012 22:32:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type:content-transfer-encoding;
-	bh=r2sdd+N0TXKuMzSWx14Eah9wqaNfA2utLpF1ewMYgEY=;
-	b=CY1/ECtGTdYjBo0hsv+8vycpaP5IkjysdVr0erPtymRE2s+zTjiNdTFI25L3tDtDLp
-	zKbhOrzSMTmEYSLrbWjrXb7z/c7IvJ2WiuBf4k1I+wV3NO6kni55scNUwsjr6pOBbS+2
-	xFOGG5ltRhPUvWXoMAV8VwKBozgY5YyRldwrg3sBQylIOKGp3++cKH+VOO7zT7LkIetR
-	VbhPSn9Nud1IaCIvkovnQq4atM/iWAXQ7KOqUUB3kB5vlRhCCsr9Lh0CXTPCp5KqBLqu
-	0KUe4TchA8jaIDBYfiEfRe5WTrwKwzW4qA/tgu8Hwu3DnQfN5J6ulbHhWlMZTm4OZke8
-	Q3/g==
-Received: by 10.14.119.202 with SMTP id n50mr2059308eeh.33.1340602327772; Sun,
-	24 Jun 2012 22:32:07 -0700 (PDT)
+	Mon, 25 Jun 2012 09:56:13 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 25 Jun 2012 00:45:10 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="115673357"
+Received: from unknown (HELO [10.255.12.178]) ([10.255.12.178])
+	by AZSMGA002.ch.intel.com with ESMTP; 25 Jun 2012 00:45:09 -0700
+Message-ID: <4FE81705.1030703@linux.intel.com>
+Date: Mon, 25 Jun 2012 00:45:09 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
 MIME-Version: 1.0
-Received: by 10.14.219.71 with HTTP; Sun, 24 Jun 2012 22:31:37 -0700 (PDT)
-In-Reply-To: <4FE7F730.8080505@linux.intel.com>
-References: <1340319423-24865-1-git-send-email-andrea.adami@gmail.com>
-	<4FE74FD8.9000204@linux.intel.com>
-	<CAAQYJAu9-xuDQnG60J76eBHGc_jH6WYQwBic0MjjFuJhAFwEHw@mail.gmail.com>
-	<4FE7F730.8080505@linux.intel.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sun, 24 Jun 2012 22:31:37 -0700
-Message-ID: <CAMKF1so10Leus56=FqhVsn6+cSMVhY1q_DR-X8t+LYLXhtgjXA@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] mtd-utils: do not stage headers in sysroot
+References: <cover.1340560914.git.sgw@linux.intel.com>
+	<B0A816B5-77AF-4371-AAC8-FF4A4D78D0A9@dominion.thruhere.net>
+In-Reply-To: <B0A816B5-77AF-4371-AAC8-FF4A4D78D0A9@dominion.thruhere.net>
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: Re: [PATCH 00/14] Package Updating
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,96 +36,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Jun 2012 05:42:58 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 25 Jun 2012 07:56:13 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Sun, Jun 24, 2012 at 10:29 PM, Saul Wold <sgw@linux.intel.com> wrote:
-> On 06/24/2012 02:52 PM, Andrea Adami wrote:
+On 06/24/2012 12:27 PM, Koen Kooi wrote:
+>
+> Op 24 jun. 2012, om 20:03 heeft Saul Wold het volgende geschreven:
+>
+>> Richard,
 >>
->> On Sun, Jun 24, 2012 at 7:35 PM, Saul Wold<sgw@linux.intel.com> =C2=A0wr=
-ote:
->>>
->>> On 06/21/2012 03:57 PM, Andrea Adami wrote:
->>>>
->>>>
->>>> * Headers are included in the package for compatibility
->>>> * but have not yet been synched with linux 3.0
->>>> * The actual issue was that ubi-user.h in sysroot
->>>> * was overwritten by the older version.
->>>> * Unfortunately one ioctl was renamed:
->>>> * http://lists.infradead.org/pipermail/linux-mtd/
->>>> * 2011-March/034419.html
->>>> * Note: the recipe will still use its own older header,
->>>> * following upstream.
->>>>
->>>> Signed-off-by: Andrea Adami<andrea.adami@gmail.com>
->>>> ---
->>>> =C2=A0meta/recipes-devtools/mtd/mtd-utils_1.5.0.bb | =C2=A0 =C2=A06 +-=
-----
->>>> =C2=A01 files changed, 1 insertions(+), 5 deletions(-)
->>>>
->>>> diff --git a/meta/recipes-devtools/mtd/mtd-utils_1.5.0.bb
->>>> b/meta/recipes-devtools/mtd/mtd-utils_1.5.0.bb
->>>> index daa3554..1a9d4d3 100644
->>>> --- a/meta/recipes-devtools/mtd/mtd-utils_1.5.0.bb
->>>> +++ b/meta/recipes-devtools/mtd/mtd-utils_1.5.0.bb
->>>> @@ -11,16 +11,12 @@ SRC_URI =3D
->>>> "git://git.infradead.org/mtd-utils.git;protocol=3Dgit;tag=3Dca39eb1d98=
-e736
->>>>
->>>> =C2=A0S =3D "${WORKDIR}/git/"
->>>>
->>>> -PR =3D "r0"
->>>> +PR =3D "r1"
->>>>
->>>> =C2=A0EXTRA_OEMAKE =3D "'CC=3D${CC}' 'RANLIB=3D${RANLIB}' 'AR=3D${AR}'
->>>> 'CFLAGS=3D${CFLAGS} -I${S}/include -DWITHOUT_XATTR' 'BUILDDIR=3D${S}'"
->>>>
->>>> =C2=A0do_install () {
->>>> =C2=A0 =C2=A0 =C2=A0 =C2=A0oe_runmake install DESTDIR=3D${D} SBINDIR=
-=3D${sbindir}
->>>> MANDIR=3D${mandir}
->>>> INCLUDEDIR=3D${includedir}
->>>> - =C2=A0 =C2=A0 =C2=A0 install -d ${D}${includedir}/mtd/
->>>> - =C2=A0 =C2=A0 =C2=A0 for f in ${S}/include/mtd/*.h; do
->>>> - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 install -m 0644 $f =
-${D}${includedir}/mtd/
->>>> - =C2=A0 =C2=A0 =C2=A0 done
->>>> =C2=A0}
->>>
->>>
->>> Just curious how this was tested?
->>>
->>> I did a couple of different builds and on one clean rebuild, I found th=
-at
->>> udev failed because it could not find mtd/mtd-user.h
->>>
->>> Thanks
->>> =C2=A0 =C2=A0 =C2=A0 =C2=A0Sau!
->>>
->>>
->>>>
->>>> =C2=A0PARALLEL_MAKE =3D ""
->>
->>
->> Strange...
->> I've done build from scratch of core-image-base to test and all was
->> built just fine, included udev_164.
->> It would be indeed bizarre if udev would depend on headers provided by
->> mtd-utils, though.
->>
->> Finally, mtd-user.h belongs to linux-libc-headers(-dev) package.
->>
-> If that's the case, then maybe there's a race condition as to or we need =
-to
-> also add linux-libc-headers to the udev package to ensure they are instal=
-led
-> correctly before udev is built.
+>> Here is a patch of updates.
+>
+> How were those tested?
+>
+Koen:
 
-kernel-headers are installed very eary on even before toolchain or
-libc are built
-udev can only be compiled after libc is built. So there is something
-else going on here
+
+I tested these in a variety of ways, depending on the usage in the 
+overall environment.  Obviously I built them both from within a clean 
+build area and a build env that contained shared state from prior 
+builds. As seen earlier today, I found an issue with a couple of patches 
+that built on my initial testing, but then failed later.
+
+Then I checked what the target dependencies might be for the libraries 
+and built a target image that included those, such as webkit for libidn.
+Most of these packages are in the core-image-lsb, so I built that and 
+ran the target binaries with --help and -V (or --version) to ensure they 
+at least start up.
+
+In some cases, such as libxml-simple-perl, it's used in the build system 
+and is therefore tested as part of a core build when using 
+gnome-icon-theme handling.
+
+If you have further concerns, please let me know.
+
+Thanks
+	Sau!
+
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+>
 
 
