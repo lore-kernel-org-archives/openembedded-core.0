@@ -1,24 +1,27 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <lianhao.lu@intel.com>) id 1Sj1mt-0003l3-BM
+	(envelope-from <sgw@linux.intel.com>) id 1Sj220-00045O-A1
 	for openembedded-core@lists.openembedded.org;
-	Mon, 25 Jun 2012 07:24:35 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 24 Jun 2012 22:13:41 -0700
+	Mon, 25 Jun 2012 07:40:12 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 24 Jun 2012 22:29:20 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="184442518"
-Received: from llu-piketon.sh.intel.com (HELO localhost) ([10.239.36.116])
-	by fmsmga002.fm.intel.com with ESMTP; 24 Jun 2012 22:13:41 -0700
-From: Lianhao Lu <lianhao.lu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 25 Jun 2012 13:15:31 +0800
-Message-Id: <1d37342720de8357c5b7954b0264ed8f0cdba5af.1340600710.git.lianhao.lu@intel.com>
-X-Mailer: git-send-email 1.7.0.4
-In-Reply-To: <5bfc2cadad3f2b0e2b03c4562aba4efd0a604c95.1340600710.git.lianhao.lu@intel.com>
-References: <5bfc2cadad3f2b0e2b03c4562aba4efd0a604c95.1340600710.git.lianhao.lu@intel.com>
-In-Reply-To: <cover.1340600710.git.lianhao.lu@intel.com>
-References: <cover.1340600710.git.lianhao.lu@intel.com>
-Subject: [PATCH V3 3/3] task-core-tools-debug: Added openssh-sftp-server.
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="160240853"
+Received: from unknown (HELO [10.255.12.178]) ([10.255.12.178])
+	by azsmga001.ch.intel.com with ESMTP; 24 Jun 2012 22:29:20 -0700
+Message-ID: <4FE7F730.8080505@linux.intel.com>
+Date: Sun, 24 Jun 2012 22:29:20 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <1340319423-24865-1-git-send-email-andrea.adami@gmail.com>
+	<4FE74FD8.9000204@linux.intel.com>
+	<CAAQYJAu9-xuDQnG60J76eBHGc_jH6WYQwBic0MjjFuJhAFwEHw@mail.gmail.com>
+In-Reply-To: <CAAQYJAu9-xuDQnG60J76eBHGc_jH6WYQwBic0MjjFuJhAFwEHw@mail.gmail.com>
+Subject: Re: [PATCH] mtd-utils: do not stage headers in sysroot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,38 +36,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Jun 2012 05:24:35 -0000
+X-List-Received-Date: Mon, 25 Jun 2012 05:40:12 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Added openssh-sftp-server to the tools-debug IMAGE_FEATURE.
+On 06/24/2012 02:52 PM, Andrea Adami wrote:
+> On Sun, Jun 24, 2012 at 7:35 PM, Saul Wold<sgw@linux.intel.com>  wrote:
+>> On 06/21/2012 03:57 PM, Andrea Adami wrote:
+>>>
+>>> * Headers are included in the package for compatibility
+>>> * but have not yet been synched with linux 3.0
+>>> * The actual issue was that ubi-user.h in sysroot
+>>> * was overwritten by the older version.
+>>> * Unfortunately one ioctl was renamed:
+>>> * http://lists.infradead.org/pipermail/linux-mtd/
+>>> * 2011-March/034419.html
+>>> * Note: the recipe will still use its own older header,
+>>> * following upstream.
+>>>
+>>> Signed-off-by: Andrea Adami<andrea.adami@gmail.com>
+>>> ---
+>>>   meta/recipes-devtools/mtd/mtd-utils_1.5.0.bb |    6 +-----
+>>>   1 files changed, 1 insertions(+), 5 deletions(-)
+>>>
+>>> diff --git a/meta/recipes-devtools/mtd/mtd-utils_1.5.0.bb
+>>> b/meta/recipes-devtools/mtd/mtd-utils_1.5.0.bb
+>>> index daa3554..1a9d4d3 100644
+>>> --- a/meta/recipes-devtools/mtd/mtd-utils_1.5.0.bb
+>>> +++ b/meta/recipes-devtools/mtd/mtd-utils_1.5.0.bb
+>>> @@ -11,16 +11,12 @@ SRC_URI =
+>>> "git://git.infradead.org/mtd-utils.git;protocol=git;tag=ca39eb1d98e736
+>>>
+>>>   S = "${WORKDIR}/git/"
+>>>
+>>> -PR = "r0"
+>>> +PR = "r1"
+>>>
+>>>   EXTRA_OEMAKE = "'CC=${CC}' 'RANLIB=${RANLIB}' 'AR=${AR}'
+>>> 'CFLAGS=${CFLAGS} -I${S}/include -DWITHOUT_XATTR' 'BUILDDIR=${S}'"
+>>>
+>>>   do_install () {
+>>>         oe_runmake install DESTDIR=${D} SBINDIR=${sbindir} MANDIR=${mandir}
+>>> INCLUDEDIR=${includedir}
+>>> -       install -d ${D}${includedir}/mtd/
+>>> -       for f in ${S}/include/mtd/*.h; do
+>>> -               install -m 0644 $f ${D}${includedir}/mtd/
+>>> -       done
+>>>   }
+>>
+>> Just curious how this was tested?
+>>
+>> I did a couple of different builds and on one clean rebuild, I found that
+>> udev failed because it could not find mtd/mtd-user.h
+>>
+>> Thanks
+>>         Sau!
+>>
+>>
+>>>
+>>>   PARALLEL_MAKE = ""
+>
+> Strange...
+> I've done build from scratch of core-image-base to test and all was
+> built just fine, included udev_164.
+> It would be indeed bizarre if udev would depend on headers provided by
+> mtd-utils, though.
+>
+> Finally, mtd-user.h belongs to linux-libc-headers(-dev) package.
+>
+If that's the case, then maybe there's a race condition as to or we need 
+to also add linux-libc-headers to the udev package to ensure they are 
+installed correctly before udev is built.
 
-Signed-off-by: Lianhao Lu <lianhao.lu@intel.com>
----
- meta/recipes-core/tasks/task-core-tools-debug.bb |    3 +++
- 1 files changed, 3 insertions(+), 0 deletions(-)
+Sau!
 
-diff --git a/meta/recipes-core/tasks/task-core-tools-debug.bb b/meta/recipes-core/tasks/task-core-tools-debug.bb
-index 1dddbb8..b7eff21 100644
---- a/meta/recipes-core/tasks/task-core-tools-debug.bb
-+++ b/meta/recipes-core/tasks/task-core-tools-debug.bb
-@@ -13,6 +13,8 @@ PACKAGES = "\
-     ${PN}-dev \
-     "
- 
-+PR = "r1"
-+
- PACKAGE_ARCH = "${MACHINE_ARCH}"
- 
- ALLOW_EMPTY = "1"
-@@ -24,6 +26,7 @@ RDEPENDS_${PN} = "\
-     gdb \
-     gdbserver \
-     tcf-agent \
-+    openssh-sftp-server \
-     rsync \
-     strace \
-     ${MTRACE} \
--- 
-1.7.0.4
-
+> Regards
+>
+> Andrea
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+>
 
 
