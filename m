@@ -1,21 +1,40 @@
-Received: from [78.110.170.148] (helo=tinyArch.localdomain)
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ml@communistcode.co.uk>) id 1Sj6BA-00033T-BG
+	(envelope-from <koen@dominion.thruhere.net>) id 1Sj6D8-00037l-JI
 	for openembedded-core@lists.openembedded.org;
-	Mon, 25 Jun 2012 12:05:56 +0200
-Received: from [192.168.0.49] (unknown [195.171.99.130])
-	by tinyArch.localdomain (Postfix) with ESMTPSA id D5FC5600D2
+	Mon, 25 Jun 2012 12:07:58 +0200
+Received: by eekd49 with SMTP id d49so1215033eek.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Jun 2012 10:45:06 +0100 (BST)
-Message-ID: <4FE835BC.2060009@communistcode.co.uk>
-Date: Mon, 25 Jun 2012 10:56:12 +0100
-From: Jack Mitchell <ml@communistcode.co.uk>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:13.0) Gecko/20120616 Thunderbird/13.0.1
-MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <1340615583-21184-1-git-send-email-marcin.juszkiewicz@linaro.org>
+	Mon, 25 Jun 2012 02:57:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=content-type:mime-version:subject:from:in-reply-to:date
+	:content-transfer-encoding:message-id:references:to:x-mailer
+	:x-gm-message-state;
+	bh=FYRX+b+VLyClJ3kzkWJCBr3NGp1bSVBh6vBd3njtX/Y=;
+	b=d+SL46LOs+5Jec7gljUKxMyLr5Vs15EKjYh1FEs09nNBjoMmIy51kcibizEt7YTHTe
+	0x3Q1DStmtXFUQd5EK222GZUJffjJKCS3gBOXZb78VdkQOkbS9pSE0av0jg3gWNYkSvn
+	15D3YNTmuNjVYSaeD2TWZdZKB5PvlsDpd7ufljhw17M1kbWofHcE2mmH9PX3/qBBXB3K
+	z3qYVtnMNdiCnGOq4Q9ZUg9tD0YV/L0cYVaDaSwt2TmPtPiHdbkPZLtEdIYA2hzAAxnl
+	Y5rFG3Mvpe3wyAIghQrgLf4zWdot+UJygGLqwv4/AMUKK3qNCOZ8Estb2jaRs2HJx36B
+	iefQ==
+Received: by 10.14.95.201 with SMTP id p49mr2234037eef.103.1340618227933;
+	Mon, 25 Jun 2012 02:57:07 -0700 (PDT)
+Received: from [172.20.1.36] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id e45sm137049155eeb.6.2012.06.25.02.57.06
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 25 Jun 2012 02:57:07 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1278)
+From: Koen Kooi <koen@dominion.thruhere.net>
 In-Reply-To: <1340615583-21184-1-git-send-email-marcin.juszkiewicz@linaro.org>
+Date: Mon, 25 Jun 2012 11:56:58 +0200
+Message-Id: <4A01B739-F944-4715-8585-5DA41F7EA52E@dominion.thruhere.net>
+References: <1340615583-21184-1-git-send-email-marcin.juszkiewicz@linaro.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1278)
+X-Gm-Message-State: ALoCoQlJXfOIjdvK63WKLVGCwn5LsEgC2swABS23NZPZvI6qztQFexzmosy50Khni/eSMddQ3+ov
 Subject: Re: [PATCH] lighttpd: fix FastCGI configuration for PHP
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -31,82 +50,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Jun 2012 10:05:56 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 25 Jun 2012 10:07:58 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-Hi Martin,
 
-On 25/06/12 10:13, Marcin Juszkiewicz wrote:
-> /usr/local/bin/php was set as PHP interpreter so lighttpd failed to run.
+Op 25 jun. 2012, om 11:13 heeft Marcin Juszkiewicz het volgende =
+geschreven:
+
+> /usr/local/bin/php was set as PHP interpreter so lighttpd failed to =
+run.
 > Also uncommented FastCGI configuration block to make mod_fastcgi
 > enablement easier for user.
->
+>=20
 > Signed-off-by: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
 > ---
->   meta/recipes-extended/lighttpd/files/lighttpd.conf |   16 ++++++++--------
->   meta/recipes-extended/lighttpd/lighttpd_1.4.30.bb  |    2 +-
->   2 files changed, 9 insertions(+), 9 deletions(-)
->
-> diff --git a/meta/recipes-extended/lighttpd/files/lighttpd.conf b/meta/recipes-extended/lighttpd/files/lighttpd.conf
+> meta/recipes-extended/lighttpd/files/lighttpd.conf |   16 =
+++++++++--------
+> meta/recipes-extended/lighttpd/lighttpd_1.4.30.bb  |    2 +-
+> 2 files changed, 9 insertions(+), 9 deletions(-)
+>=20
+> diff --git a/meta/recipes-extended/lighttpd/files/lighttpd.conf =
+b/meta/recipes-extended/lighttpd/files/lighttpd.conf
 > index 3342470..0838da8 100644
 > --- a/meta/recipes-extended/lighttpd/files/lighttpd.conf
 > +++ b/meta/recipes-extended/lighttpd/files/lighttpd.conf
-> @@ -211,14 +211,14 @@ static-file.exclude-extensions = ( ".php", ".pl", ".fcgi" )
->   #### fastcgi module
->   ## read fastcgi.txt for more info
->   ## for PHP don't forget to set cgi.fix_pathinfo = 1 in the php.ini
-> -#fastcgi.server             = ( ".php" =>
-> -#                               ( "localhost" =>
+> @@ -211,14 +211,14 @@ static-file.exclude-extensions =3D ( ".php", =
+".pl", ".fcgi" )
+> #### fastcgi module
+> ## read fastcgi.txt for more info
+> ## for PHP don't forget to set cgi.fix_pathinfo =3D 1 in the php.ini
+> -#fastcgi.server             =3D ( ".php" =3D>
+> -#                               ( "localhost" =3D>
 > -#                                 (
-> -#                                   "socket" => "/tmp/php-fastcgi.socket",
-> -#                                   "bin-path" => "/usr/local/bin/php"
+> -#                                   "socket" =3D> =
+"/tmp/php-fastcgi.socket",
+> -#                                   "bin-path" =3D> =
+"/usr/local/bin/php"
 > -#                                 )
 > -#                               )
 > -#                            )
-> +fastcgi.server             = ( ".php" =>
-> +                               ( "localhost" =>
+> +fastcgi.server             =3D ( ".php" =3D>
+> +                               ( "localhost" =3D>
 > +                                 (
-> +                                   "socket" => "/tmp/php-fastcgi.socket",
-> +                                   "bin-path" => "/usr/bin/php-cgi"
-
-Changing the path here I agree with.
-
->
+> +                                   "socket" =3D> =
+"/tmp/php-fastcgi.socket",
+> +                                   "bin-path" =3D> "/usr/bin/php-cgi"
 > +                                 )
-> +                               )
-> +                            )
->   
->   #### CGI module
->   #cgi.assign                 = ( ".pl"  => "/usr/bin/perl",
-> diff --git a/meta/recipes-extended/lighttpd/lighttpd_1.4.30.bb b/meta/recipes-extended/lighttpd/lighttpd_1.4.30.bb
-> index 161c0d9..99b359c 100644
-> --- a/meta/recipes-extended/lighttpd/lighttpd_1.4.30.bb
-> +++ b/meta/recipes-extended/lighttpd/lighttpd_1.4.30.bb
-> @@ -16,7 +16,7 @@ RDEPENDS_${PN} += " \
->                  lighttpd-module-staticfile \
->   "
->   
-> -PR = "r1"
-> +PR = "r2"
->   
->   SRC_URI = "http://download.lighttpd.net/lighttpd/releases-1.4.x/lighttpd-${PV}.tar.bz2 \
->           file://index.html.lighttpd \
 
-However I don't think we should be enabling php-cgi by default, 
-especially as it is not included in oe-core. Uncommenting some lines in 
-a configuration file should be manageable by users that can build (and 
-add additional layers to) OpenEmbedded.
+How does this work with DISTROs that set ${prefix}=3D""?
 
-Regards,
+regards,
 
--- 
-
-   Jack Mitchell (jack@embed.me.uk)
-   Embedded Systems Engineer
-   http://www.embed.me.uk
-
---
-
+Koen=
 
 
