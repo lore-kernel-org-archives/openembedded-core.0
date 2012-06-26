@@ -1,26 +1,36 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Liezhi.Yang@windriver.com>) id 1SjSjp-00062p-Rg
+	(envelope-from <ross.burton@intel.com>) id 1SjSte-0006CG-AX
 	for openembedded-core@lists.openembedded.org;
-	Tue, 26 Jun 2012 12:11:14 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q5QA0L37022690
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 26 Jun 2012 12:21:22 +0200
+Received: from mail-we0-f180.google.com ([74.125.82.180])
+	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 26 Jun 2012 03:10:28 -0700
+Received: by weyt11 with SMTP id t11so3165434wey.25
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Jun 2012 03:00:21 -0700 (PDT)
-Received: from usp-ub10.corp.ad.wrs.com (128.224.163.69) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.1.255.0; Tue, 26 Jun 2012 03:00:20 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 26 Jun 2012 18:01:04 +0800
-Message-ID: <f3ed48ee5e3307e45781d80f81cc9d5019f2c90f.1340619275.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.1
-In-Reply-To: <cover.1340619275.git.liezhi.yang@windriver.com>
-References: <cover.1340619275.git.liezhi.yang@windriver.com>
-MIME-Version: 1.0
-Cc: Zhenfeng.Zhao@windriver.com
-Subject: [PATCH 1/1] bitbake.conf: disable ccache explicitly if it is not enabled
+	Tue, 26 Jun 2012 03:10:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=from:to:subject:date:message-id:x-mailer:x-gm-message-state;
+	bh=649QG/I7qOsIuQ9mZFuWL2IkfeWbwAnW2sOG+f/o6sI=;
+	b=juTl0htb9VKVFORfwR5qSVcgL0PAPmKMDP8bLoQM3zvF7ouIpl707sG4X2LQKM0vcW
+	fDtsFcd87WK7nt9culrUNp0GIAsmLXc6MTTx3PsaUbxp3SNN8+bE8Mugmvk0qnwku8v9
+	3aA4vZYthb/QpvPZKAObBGErRvTyGCKBoB1UmWk46nxFyDTqCGYe5XmT/CHG63ZQ04cJ
+	vD4BiWYkeFWoBlhzoRwIr+fHLEEDrIiB8nceZlortkyQMu2z7QMBcrpeb0gvxJ1/76NI
+	Ps1N4BwnkMvsKKX2n6igAn0RAPSTxOI5KlaPO92ANBkbLFCYHVvZ80nOwQLpKLOQdkDs
+	6H1A==
+Received: by 10.216.144.199 with SMTP id n49mr7654343wej.25.1340705426846;
+	Tue, 26 Jun 2012 03:10:26 -0700 (PDT)
+Received: from localhost.localdomain (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPS id k8sm6418385wia.6.2012.06.26.03.10.25
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 26 Jun 2012 03:10:26 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 26 Jun 2012 11:10:23 +0100
+Message-Id: <1340705423-18430-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.7.6
+X-Gm-Message-State: ALoCoQkxGXQEMz2yx8hOPHcapdTYVKc1sBy4bkc9LWB+hDUgHB+n76DgF4PLb6CNEiRySBctDvK9
+Subject: [PATCH] gconf.bbclass: don't register schemas in the install stage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,69 +45,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Jun 2012 10:11:14 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 26 Jun 2012 10:21:22 -0000
 
-The autogen-native built error on FC17:
+Previously this was installing schemas in the sysroot, which is wrong for native
+packages as nothing should touch the sysroot directly, and even more wrong for
+non-native packages as the sysroot is irrelevant.
 
-ccache: failed to create /dev/null/.ccache
+So, export the environment variable that stops the registration happening at
+install time. The postinst script will handle the non-native case, and for the
+sysroot I've opened #2648.  This isn't a massive problem as nothing to my
+knowledge actually installs schemas to the sysroot.
 
-This is because the default gcc command of FC17 is a symlink to ccache,
-so the ccache will always be used regardless to the setting of CCACHE,
-ccache uses $HOME/.ccache as the CACHE_DIR by default, but autogen set
-HOME=/dev/null, so the error happens.
+[YOCTO #2245]
 
-Disable ccache explicitly if it is not enabled would fix the problem,
-otherwise it would always use ccache regardless to the setting of CCACHE
-on Fedora 17.
-
-The ccache 3.1.7 has a bug, it would always create $CCCHE_DIR/.ccache
-even CCACHE_DISABLE=1.
-
-Unset CCACHE_DISABLE in ccache.bbclass, since ccache only checks whether
-there is a CCACHE_DISABLE in the environment or not, it doesn't care about
-its value, so we need unset it explicitly when enable ccache.
-
-[YOCTO #2554]
-
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/classes/ccache.bbclass |    1 +
- meta/conf/bitbake.conf      |    8 ++++++++
- 2 files changed, 9 insertions(+), 0 deletions(-)
+ meta/classes/gconf.bbclass |   12 ++++++++++--
+ 1 files changed, 10 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/ccache.bbclass b/meta/classes/ccache.bbclass
-index 10f9b9f..5aa2da2 100644
---- a/meta/classes/ccache.bbclass
-+++ b/meta/classes/ccache.bbclass
-@@ -1,5 +1,6 @@
- CCACHE = "${@bb.which(d.getVar('PATH', True), 'ccache') and 'ccache '}"
- export CCACHE_DIR = "${TMPDIR}/ccache/${MULTIMACH_HOST_SYS}/${PN}"
-+CCACHE_DISABLE[unexport] = "1"
+diff --git a/meta/classes/gconf.bbclass b/meta/classes/gconf.bbclass
+index a966c26..fb9f701 100644
+--- a/meta/classes/gconf.bbclass
++++ b/meta/classes/gconf.bbclass
+@@ -1,10 +1,18 @@
+ DEPENDS += "gconf gconf-native"
  
- do_configure[dirs] =+ "${CCACHE_DIR}"
- do_kernel_configme[dirs] =+ "${CCACHE_DIR}"
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index b6fbc7a..da8e780 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -414,6 +414,14 @@ export PATH
- ##################################################################
+-# This is referenced by the gconf m4 macros and would default to the value hardcoded
+-# into gconf at compile time otherwise
++# These are for when gconftool is used natively and the prefix isn't necessarily
++# the sysroot.  TODO: replicate the postinst logic for -native packages going
++# into sysroot as they won't be running their own install-time schema
++# registration (disabled below) nor the postinst script (as they don't happen).
+ export GCONF_SCHEMA_INSTALL_SOURCE = "xml:merged:${STAGING_DIR_NATIVE}${sysconfdir}/gconf/gconf.xml.defaults"
+ export GCONF_BACKEND_DIR = "${STAGING_LIBDIR_NATIVE}/GConf/2"
  
- CCACHE ??= ""
-+# Disable ccache explicitly if CCACHE is null since gcc may be a symlink
-+# of ccache some distributions (e.g., Fedora 17).
-+export CCACHE_DISABLE ??= "${@[0,1][d.getVar('CCACHE', True) == '']}"
-+# Assign CCACHE_DIR a default vaule to fix a bug of ccache 3.1.7,
-+# since it would always create CCACHE_DIR/.ccache even if
-+# CCACHE_DISABLE = 1.
-+export CCACHE_DIR ??= "${@os.getenv('HOME')}"
++# Disable install-time schema registration as we're a packaging system so this
++# happens in the postinst script, not at install time.  Set both the configure
++# script option and the traditional envionment variable just to make sure.
++EXTRA_OECONF += "--disable-schemas-install"
++export GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL = "1"
 +
- TOOLCHAIN_OPTIONS = " --sysroot=${STAGING_DIR_TARGET}"
- 
- export CC = "${CCACHE}${HOST_PREFIX}gcc ${HOST_CC_ARCH}${TOOLCHAIN_OPTIONS}"
+ gconf_postinst() {
+ if [ "x$D" != "x" ]; then
+ 	exit 1
 -- 
-1.7.1
+1.7.7.6
 
 
 
