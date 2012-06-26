@@ -1,23 +1,25 @@
-Received: from sestofw01.enea.se ([192.36.1.252] helo=mx-3.enea.com)
-	by linuxtogo.org with smtp (Exim 4.72)
-	(envelope-from <David.Nystrom@enea.com>) id 1SjRK1-00042Q-QJ
+Received: from mail1.windriver.com ([147.11.146.13])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <Kai.Kang@windriver.com>) id 1SjSMi-0005Hi-Pz
 	for openembedded-core@lists.openembedded.org;
-	Tue, 26 Jun 2012 10:40:29 +0200
-Received: from [172.16.140.132] (172.16.140.132) by smtp.enea.com
-	(172.21.1.209) with Microsoft SMTP Server id 14.2.247.3;
-	Tue, 26 Jun 2012 10:28:33 +0200
-Message-ID: <4FE972C1.8000702@enea.com>
-Date: Tue, 26 Jun 2012 10:28:49 +0200
-From: =?UTF-8?B?RGF2aWQgTnlzdHLDtm0=?= <david.nystrom@enea.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
+	Tue, 26 Jun 2012 11:47:21 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q5Q9aRcO020753
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 26 Jun 2012 02:36:27 -0700 (PDT)
+Received: from localhost.localdomain (128.224.162.164) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
+	(TLS) id 14.1.255.0; Tue, 26 Jun 2012 02:36:27 -0700
+From: Kang Kai <kai.kang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 26 Jun 2012 17:36:52 +0800
+Message-ID: <cover.1340703038.git.kai.kang@windriver.com>
+X-Mailer: git-send-email 1.7.5.4
 MIME-Version: 1.0
-To: <david.nystrom@enea.com>
-References: <1340106529-47436-1-git-send-email-david.nystrom@enea.com>
-In-Reply-To: <1340106529-47436-1-git-send-email-david.nystrom@enea.com>
-X-Originating-IP: [172.16.140.132]
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] eglibc backport of ARM ucontext
+X-Originating-IP: [128.224.162.164]
+Cc: Zhenfeng.Zhao@windriver.com
+Subject: [PATCH 0/2] archiver.bbclass: Add the function of filtering packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,37 +34,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Jun 2012 08:40:29 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 26 Jun 2012 09:47:21 -0000
+Content-Type: text/plain
 
-Arrgh,
+Hi,
 
-Please ignore this, this was cached and resent due to a
-malconfigured sendmail instance.
+These patches are from Xiaofeng Yan <xiaofeng.yan@windriver.com>
 
-Br,
-David
+This function can miss and tarball packages according to license from recipes.
 
-On 06/19/2012 01:48 PM, david.nystrom@enea.com wrote:
-> From: David Nystr=C3=B6m<david.nystrom@enea.com>
->
-> Last patch sent was corrupted due to sendmail issues,
-> lets hope for better luck this time :).
->
-> Allows for setcontext, getcontext swapcontext et.c. on ARM targets.
->
-> David Nystr=C3=B6m (1):
->    Added backported ucontext support for ARM in eglibc
->
->   meta/recipes-core/eglibc/eglibc_2.13.bb            |    1 +
->   meta/recipes-core/eglibc/eglibc_2.15.bb            |    1 +
->   .../eglibc/files/0001-ucontext-for-arm.patch       |  434 +++++++++++++=
-+++++++
->   3 files changed, 436 insertions(+), 0 deletions(-)
->   create mode 100644 meta/recipes-core/eglibc/files/0001-ucontext-for-arm=
-.patch
->
+Regards,
+Kai
+
+The following changes since commit 8ce8d25bcda0e2e0b62204d5ca5875dedcaacf7d:
+
+  sanity.bbclass: Increase LAYER_CONF_VERSION to match bblayers change (2012-06-25 17:20:54 +0100)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib xiaofeng/archiver
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=xiaofeng/archiver
+
+Xiaofeng Yan (2):
+  archiver.bbclass: Add the function of filtering packages
+  local.conf.sample.extended: Add filtering function to
+    archiver.bbclass
+
+ meta-yocto/conf/local.conf.sample.extended |    3 +
+ meta/classes/archiver.bbclass              |   71 +++++++++++++++++++++++++++-
+ 2 files changed, 73 insertions(+), 1 deletions(-)
+
+-- 
+1.7.5.4
 
 
 
