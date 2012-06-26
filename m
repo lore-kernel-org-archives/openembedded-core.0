@@ -1,20 +1,36 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from out3-smtp.messagingengine.com ([66.111.4.27])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SjaAk-0007bB-Fb
+	(envelope-from <walters@verbum.org>) id 1Sjd5O-0003QM-JM
 	for openembedded-core@lists.openembedded.org;
-	Tue, 26 Jun 2012 20:07:31 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 26 Jun 2012 10:56:06 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="158455160"
-Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.180])
-	by orsmga001.jf.intel.com with ESMTP; 26 Jun 2012 10:56:05 -0700
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 26 Jun 2012 10:56:04 -0700
-Message-Id: <1340733364-29968-1-git-send-email-sgw@linux.intel.com>
-X-Mailer: git-send-email 1.7.7.6
-Subject: [PATCH] native.bbclass: correct PATH to have native-intercept be prepended
+	Tue, 26 Jun 2012 23:14:10 +0200
+Received: from compute3.internal (compute3.nyi.mail.srv.osa [10.202.2.43])
+	by gateway1.nyi.mail.srv.osa (Postfix) with ESMTP id DC65C212A2
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 26 Jun 2012 17:03:19 -0400 (EDT)
+Received: from frontend2.nyi.mail.srv.osa ([10.202.2.161])
+	by compute3.internal (MEProxy); Tue, 26 Jun 2012 17:03:19 -0400
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
+	messagingengine.com; h=message-id:subject:from:to:date
+	:in-reply-to:references:content-type:mime-version
+	:content-transfer-encoding; s=smtpout; bh=8lnN+SEv5o5t/7nwIxN680
+	gU8bk=; b=Ngd1O0N6XDLxg33Mw88zGGkP8vrS2luC/XPngG2VdEu1tV7v5XN9gy
+	irkxlea76kQ/j8/e1HVkGDZ4bgdW2EH7vEO5gJP/xyf2JKqXg7ZeoXcipCj/MC3h
+	u4G0ju1evPfFRm9bWhtQ19OU5m0lM2CF/FJx+VDA55Scj8G5mklFs=
+X-Sasl-enc: TW666A6VCib/qB3h3WLLgazFUuGd4UVGTm7WXNDJ+heX 1340744599
+Received: from [10.16.189.124] (unknown [66.187.233.206])
+	by mail.messagingengine.com (Postfix) with ESMTPA id 904B24836DC
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 26 Jun 2012 17:03:19 -0400 (EDT)
+Message-ID: <1340744566.3500.2.camel@lenny>
+From: Colin Walters <walters@verbum.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Tue, 26 Jun 2012 17:02:46 -0400
+In-Reply-To: <1340705423-18430-1-git-send-email-ross.burton@intel.com>
+References: <1340705423-18430-1-git-send-email-ross.burton@intel.com>
+X-Mailer: Evolution 3.4.3 (3.4.3-1.fc17) 
+Mime-Version: 1.0
+Subject: Re: [PATCH] gconf.bbclass: don't register schemas in the install stage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,33 +45,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Jun 2012 18:07:31 -0000
+X-List-Received-Date: Tue, 26 Jun 2012 21:14:10 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-This was needed since it was after the sysroots and thus in some cases
-the native sysroot chown was being found and used instead of the script
-provided by native-intercept/chown.  This was noticed by the non-gplv3
-build since it's coreutils depends on coreutils-native.
+On Tue, 2012-06-26 at 11:10 +0100, Ross Burton wrote:
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- meta/classes/native.bbclass |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+> +# Disable install-time schema registration as we're a packaging system so this
+> +# happens in the postinst script, not at install time.  Set both the configure
+> +# script option and the traditional envionment variable just to make sure.
+> +EXTRA_OECONF += "--disable-schemas-install"
+> +export GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL = "1"
 
-diff --git a/meta/classes/native.bbclass b/meta/classes/native.bbclass
-index bca48d4..eb30b5a 100644
---- a/meta/classes/native.bbclass
-+++ b/meta/classes/native.bbclass
-@@ -99,7 +99,7 @@ PKG_CONFIG_SYSROOT_DIR = ""
- LIBCOVERRIDE = ""
- CLASSOVERRIDE = "class-native"
- 
--PATH =. "${COREBASE}/scripts/native-intercept:"
-+PATH_prepend = "${COREBASE}/scripts/native-intercept:"
- 
- python native_virtclass_handler () {
-     if not isinstance(e, bb.event.RecipePreFinalise):
--- 
-1.7.7.6
+Even better is to have the source code check for DESTDIR, and skip gconf
+bits itself; e.g.:
+
+http://git.gnome.org/browse/evolution/tree/shell/Makefile.am?h=gnome-2-28#n201
+
+This patch is still useful though for components which don't check
+DESTDIR, but again it's better to patch the relevant source code to do
+so (or port to GSettings...).
+
+
 
 
 
