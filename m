@@ -1,34 +1,35 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1SjrfN-0001PU-RL for openembedded-core@lists.openembedded.org;
-	Wed, 27 Jun 2012 14:48:18 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q5RCbOS7015894
+Received: from mail-qc0-f169.google.com ([209.85.216.169])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <bruce.ashfield@gmail.com>) id 1SjrrW-0001uH-JI
+	for openembedded-core@lists.openembedded.org;
+	Wed, 27 Jun 2012 15:00:50 +0200
+Received: by qcsd16 with SMTP id d16so675308qcs.28
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Jun 2012 13:37:24 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 15325-04 for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Jun 2012 13:37:20 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q5RCbFfI015887
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Jun 2012 13:37:16 +0100
-Message-ID: <1340800639.23146.38.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
+	Wed, 27 Jun 2012 05:49:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type:content-transfer-encoding;
+	bh=DbJK3DdmS6CxtkZdSamfDGGRwHyDwRpHGxMDb/3VQ/Q=;
+	b=EZSB4xj+LkWf/rexrf7MinvdvweYbeDS/fGsD2iRiyniplEN69Kt3WnVJYnuediPpK
+	8wv2m6hkhfjw5zaOA/s2/cjVKTS/EWRSTw6iWicHgmonT3H2OdxeYEiR3GxmB4l0e2tK
+	xoQIZBJHOTW3t4ehdleTZqrG+sFwqb24KFnnvh/mINEvYkIKgENXx9+Lud6GTVAjzOPD
+	FiBvjifC620vz7SnPEbx8+GwoczcdNeFpde8K/q4OcUbSHTo+/g7GiDzXtrVmLubu7js
+	uUnE1VJj8MCKE3nq8iMyZk3PQPHN/J+5Vos8/pMSrqqQM9FgP94Y2VvsTCpWetXfaxtZ
+	K6aw==
+MIME-Version: 1.0
+Received: by 10.224.45.8 with SMTP id c8mr10713638qaf.29.1340801396714; Wed,
+	27 Jun 2012 05:49:56 -0700 (PDT)
+Received: by 10.229.41.5 with HTTP; Wed, 27 Jun 2012 05:49:56 -0700 (PDT)
+In-Reply-To: <CAMKF1srKXavMswBxM+E_-HHGXdDphYuPfNKbXHAZf4=w1nsMUw@mail.gmail.com>
+References: <CAF1ZMEcMxTQUhyHdmMWV_PA6TY=RTz9rq-EahKU0p=DFFPw+Ew@mail.gmail.com>
+	<CAMKF1srKXavMswBxM+E_-HHGXdDphYuPfNKbXHAZf4=w1nsMUw@mail.gmail.com>
+Date: Wed, 27 Jun 2012 08:49:56 -0400
+Message-ID: <CADkTA4P0LCRS7STDMr7uG6mg-85SGiixfzX_iso_i664Q9ftKQ@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: yocto@yoctoproject.org, Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Wed, 27 Jun 2012 13:37:19 +0100
-In-Reply-To: <3ef3573dcf3deb300a12a1830ccc768c999e61fe.1340777116.git.raj.khem@gmail.com>
-References: <55a411d66293b6d2196e98376f0fb9e4487b4bdf.1340777116.git.raj.khem@gmail.com>
-	<3ef3573dcf3deb300a12a1830ccc768c999e61fe.1340777116.git.raj.khem@gmail.com>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 2/7] tclibc-eglibc.inc: Define USE_NLS
+Subject: Re: [yocto] bring mipsel support (little endian mode)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,46 +44,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Jun 2012 12:48:18 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 27 Jun 2012 13:00:50 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 2012-06-26 at 23:09 -0700, Khem Raj wrote:
-> USE_NLS is generally defined for uclibc based system builds
-> and generally its defined to 'no' there. However this variable
-> does not exist at all for eglibc/glibc distributions. This
-> patch adds a weak definition to 'yes' on eglibc based system
-> builds. This will ease out some of the cryptic contructs we
-> have to define certain options based on USE_NLS and also
-> checking got uclibc at the same time to avoid pythong exceptions
-> when its not defined.
-> 
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
->  meta/conf/distro/include/tclibc-eglibc.inc |    2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/meta/conf/distro/include/tclibc-eglibc.inc b/meta/conf/distro/include/tclibc-eglibc.inc
-> index 4f5607f..e2ca4e8 100644
-> --- a/meta/conf/distro/include/tclibc-eglibc.inc
-> +++ b/meta/conf/distro/include/tclibc-eglibc.inc
-> @@ -32,6 +32,8 @@ LIBC_LOCALE_DEPENDENCIES = "\
->  	eglibc-gconv-iso8859-1 \
->  	eglibc-gconv-iso8859-15"
->  
-> +USE_NLS ?= "yes"
-> +
->  def get_libc_locales_dependencies(d):
->      if 'libc-locales' in (d.getVar('DISTRO_FEATURES', True) or '').split() :
->          return d.getVar('LIBC_LOCALE_DEPENDENCIES', True) or ''
+On Wed, Jun 27, 2012 at 2:40 AM, Khem Raj <raj.khem@gmail.com> wrote:
+> On Tue, Jun 26, 2012 at 11:25 PM, Dennis.Yxun <dennis.yxun@gmail.com> wro=
+te:
+>> HI ALL:
+>> =A0 Sorry for crossing post, but I'm quite new here, so if I did
+>> something wrong, please point me the right direction. thanks
+>> =A0 I'm using oe-core, and notice that mipsel support(o32, little
+>> endian mode) is missing (current available choose is: qemumips,
+>> qemumips64, qemumips64el).
+>> =A0 So, here I'm trying to bring up qemumipsel support . My first
+>> attempt would just make qemumipsel work,
+>> further would make it running on real board, thus maybe mips4kec,
+>> mips24k, mips74k chips.
+>> =A0 What I achieved here current:
+>> =A01) toolchain/basic libs, utilities should works ,only one changes,
+>> see my patch [a]
+>> =A0 for mipsel we also have to filter out -march=3Dmips32, previously we
+>> only handle mips (the big endian?)
+>> =A0 don't have the error message now, but if you request, I can provide.
+>> =A02) attempt to =A0compile kernel to support qemumipsel, unfortunately =
+it fail.
+>> The point here is linux-yocto doesn't support qemumipsel, but merely
+>> support those other three mips arches,
+>> So here is my attempt patch [b], and the fail log [c], complied out
+>> binary still big endian.
+>>
+>> =A0 Could my patch [a] be accepted? or should I send with another mail
+>> for better review?
+>> =A0 Is it better to request a ticket in yocto's bugzilla? or just
+>> report here, I'm not quite sure.
+>>
+>> Dennis
+>>
+>> [a] 0001-eglibc-support-mipsel-little-endian-filter-out-march.patch
+>
+> This patch is appropriate for OE-Core, I will add it to my tree.
+>
+>> [b] 0002-qemu-attempt-to-add-mipsel-little-endian-support-but.patch
+>
+> This looks good to me but I will leave it to Bruce to decide.
 
-Shouldn't this go as a weak default in bitbake.conf?
+I've always had latent support for mipsel in the kernel tree, since it is
+just a minor switch to the configs for the mti.
 
-USE_NLS ??= "yes"
+We'd also sent the KMACHINE to mti-malta32-le to pickup the le
+configuration switches from the kernel .. or alternatively, I'll just updat=
+e
+the description to match on qemumipsel.
+
+I'd want to do some build and boot testing myself first though, Phil seemed
+to indicate that patch a) wasn't required. I'll start my own build and see =
+if
+my results match.
+
+So if there's a desire to get this into oe-core, I can take care of the ker=
+nel
+tweaks (and then carry it), but I'd expect Richard has an opinion on this, =
+since
+it really should be something that we then build and minimally test
+on a regular basis.
 
 Cheers,
 
-Richard
+Bruce
 
+>
+>> [c] build_log.txt
+>> [d] log.do_package
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>>
+> _______________________________________________
+> yocto mailing list
+> yocto@yoctoproject.org
+> https://lists.yoctoproject.org/listinfo/yocto
+
+
+
+--=20
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
 
