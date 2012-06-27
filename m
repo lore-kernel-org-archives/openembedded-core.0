@@ -1,24 +1,24 @@
 Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SjuZV-0001h2-A1
+	(envelope-from <sgw@linux.intel.com>) id 1SjuZV-0001h3-IJ
 	for openembedded-core@lists.openembedded.org;
 	Wed, 27 Jun 2012 17:54:25 +0200
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
 	by azsmga101.ch.intel.com with ESMTP; 27 Jun 2012 08:43:29 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="161344521"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="161344526"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.182])
-	by azsmga001.ch.intel.com with ESMTP; 27 Jun 2012 08:43:28 -0700
+	by azsmga001.ch.intel.com with ESMTP; 27 Jun 2012 08:43:29 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 27 Jun 2012 08:43:12 -0700
-Message-Id: <11a06351528213a078a55a3202810a062906b4a5.1340811559.git.sgw@linux.intel.com>
+Date: Wed, 27 Jun 2012 08:43:13 -0700
+Message-Id: <d96edf9c001d96c618d15554a100791a76c2d0ab.1340811559.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <cover.1340811559.git.sgw@linux.intel.com>
 References: <cover.1340811559.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1340811559.git.sgw@linux.intel.com>
 References: <cover.1340811559.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 07/20] linux-yocto/3.4: update and categorize configuration options
+Subject: [CONSOLIDATED PULL 08/20] linux-yocto/3.4: update to v3.4.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,68 +37,68 @@ X-List-Received-Date: Wed, 27 Jun 2012 15:54:26 -0000
 
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 
-Updating the 3.4 kernel tree with some initial results of the 3.4
-kernel configuration audit and refresh. This is the start of the
-3.4 kernel configuration policy update and includes a refresh / update
-with respect to kernel.org defaults and new categorization of
-configuration fragments.
-
- 0f6975b Sched: Import base BFS-423 for v3.4
- c517c5c cfg: strip off redundant path prefixes
- 689fd20 cfg: create timer subdir for HZ and HPET related settings
- 5367b46 cfg: add a fs dir for filesystem related configs
- 67a784b x86/x86_64: disable MTRR sanitizer
- 5da51ea x86/x86_64: consolidate ACPI and EFI settings
- 7627402 x86/x86_64: enable CONFIG_NO_HZ=y by default.
- 9ca6026 mips: select HZ=100 by default.
- 149efc6 arm: select HZ=100 by default.
- 29c9fc7 x86/x86_64: use HZ=1000
- 700b8b5 x86/x86_64: enable boot mem corruption checks; align with korg defaults
- bbd054d x86: enable CONFIG_HIGHPTE=y by default.
- 2569871 x86: align to korg defconfig on IRQ fixups and microcode
- ec5cdc2 x86/x86_64: enable SMP by default
- b9932fa cfg: relocate/add a frag for HPET / RTC enablement
- f9645f5 8250: separate out the 8250 configuration from feature dir
- 5e8fea0 bsp: tie cfg/x86.scc into all "KARCH i386" boards
- 4020ade cfg: make a common landing ground for ARCH=x86
- e126316 cfg: add basic HZ fragments
- 4a8627b cfg: delete instances of any reference to dmesg buf size.
- 0794c16 routerstationpro: lib/kobject_uevent: switch to uevent_sock_mutex
-
-[YOCTO #1694]
+Bumping the linux-yocto 3.4 SRCREV to import the -stable update
+to v3.4.3.
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 ---
- meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb |    2 +-
- meta/recipes-kernel/linux/linux-yocto_3.4.bb    |    2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb |    8 ++++----
+ meta/recipes-kernel/linux/linux-yocto_3.4.bb    |   16 ++++++++--------
+ 2 files changed, 12 insertions(+), 12 deletions(-)
 
 diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb b/meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb
-index 52f2dd1..bd6f222 100644
+index bd6f222..fabbb97 100644
 --- a/meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb
 +++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb
-@@ -11,7 +11,7 @@ KMETA = "meta"
+@@ -4,14 +4,14 @@ require recipes-kernel/linux/linux-yocto.inc
+ KBRANCH = "standard/preempt-rt/base"
+ KBRANCH_qemuppc = "standard/preempt-rt/qemu-ppc32"
  
- SRCREV_machine ?= "9dc5e97d144abb03deec411acb9c64883602cff9"
- SRCREV_machine_qemuppc ?= "241a41d6104df6916280f1273894bbd7fa7cdd71"
--SRCREV_meta ?= "aa226dcc5a1351fae49da40d77b718c4c3a76e7c"
-+SRCREV_meta ?= "0f6975b8d01ffba0cd5f3548812e763c8610965b"
+-LINUX_VERSION ?= "3.4.1"
++LINUX_VERSION ?= "3.4.3"
+ LINUX_KERNEL_TYPE = "preempt-rt"
+ 
+ KMETA = "meta"
+ 
+-SRCREV_machine ?= "9dc5e97d144abb03deec411acb9c64883602cff9"
+-SRCREV_machine_qemuppc ?= "241a41d6104df6916280f1273894bbd7fa7cdd71"
+-SRCREV_meta ?= "0f6975b8d01ffba0cd5f3548812e763c8610965b"
++SRCREV_machine ?= "e1247309cd90fbdb17479f909a7172e4b0b622d0"
++SRCREV_machine_qemuppc ?= "10ba85000bd4e32ea9e5557bf6d9166b12651c02"
++SRCREV_meta ?= "ef03644fe33f7fd6f50a36b85701fdc6d73e2c96"
  
  PR = "r0"
  PV = "${LINUX_VERSION}+git${SRCPV}"
 diff --git a/meta/recipes-kernel/linux/linux-yocto_3.4.bb b/meta/recipes-kernel/linux/linux-yocto_3.4.bb
-index eb5e888..0ff40be 100644
+index 0ff40be..d859c29 100644
 --- a/meta/recipes-kernel/linux/linux-yocto_3.4.bb
 +++ b/meta/recipes-kernel/linux/linux-yocto_3.4.bb
-@@ -16,7 +16,7 @@ SRCREV_machine_qemuppc ?= "4988a7e34bccd531b511c57f93358de9fcc672a0"
- SRCREV_machine_qemux86 ?= "a8291fa6f723b0182d2b7033b5d59f412ba7cf72"
- SRCREV_machine_qemux86-64 ?= "a8291fa6f723b0182d2b7033b5d59f412ba7cf72"
- SRCREV_machine ?= "a8291fa6f723b0182d2b7033b5d59f412ba7cf72"
--SRCREV_meta ?= "aa226dcc5a1351fae49da40d77b718c4c3a76e7c"
-+SRCREV_meta ?= "0f6975b8d01ffba0cd5f3548812e763c8610965b"
+@@ -10,17 +10,17 @@ KBRANCH_qemumips64 = "standard/mti-malta64"
+ KBRANCH_qemumips64el = "standard/mti-malta64"
+ KBRANCH_qemuarm  = "standard/arm-versatile-926ejs"
+ 
+-SRCREV_machine_qemuarm ?= "1b83eb1b99e937b67dafa4dedba9440d596cbd9f"
+-SRCREV_machine_qemumips ?= "c6104a63aae262ff4238b45905ab1c57145334bc"
+-SRCREV_machine_qemuppc ?= "4988a7e34bccd531b511c57f93358de9fcc672a0"
+-SRCREV_machine_qemux86 ?= "a8291fa6f723b0182d2b7033b5d59f412ba7cf72"
+-SRCREV_machine_qemux86-64 ?= "a8291fa6f723b0182d2b7033b5d59f412ba7cf72"
+-SRCREV_machine ?= "a8291fa6f723b0182d2b7033b5d59f412ba7cf72"
+-SRCREV_meta ?= "0f6975b8d01ffba0cd5f3548812e763c8610965b"
++SRCREV_machine_qemuarm ?= "5a282e8b7138174389b64846ea993240c8b1f869"
++SRCREV_machine_qemumips  ?= "7db36332a033ab89988dfcb7b563cbcd83b93663"
++SRCREV_machine_qemuppc ?= "74f0e62044042a7e7abdbac83c6bf160b0c12c58"
++SRCREV_machine_qemux86 ?= "aa9621f0955723c71821cc25e711a6d8fe80caf9"
++SRCREV_machine_qemux86-64 ?= "aa9621f0955723c71821cc25e711a6d8fe80caf9"
++SRCREV_machine ?= "aa9621f0955723c71821cc25e711a6d8fe80caf9"
++SRCREV_meta ?= "ef03644fe33f7fd6f50a36b85701fdc6d73e2c96"
  
  SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.4.git;protocol=git;nocheckout=1;branch=${KBRANCH},meta;name=machine,meta"
  
+-LINUX_VERSION ?= "3.4.1"
++LINUX_VERSION ?= "3.4.3"
+ 
+ PR = "r0"
+ PV = "${LINUX_VERSION}+git${SRCPV}"
 -- 
 1.7.7.6
 
