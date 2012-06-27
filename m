@@ -1,20 +1,24 @@
 Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SjuZS-0001h1-SX
+	(envelope-from <sgw@linux.intel.com>) id 1SjuZT-0001h1-Kf
 	for openembedded-core@lists.openembedded.org;
 	Wed, 27 Jun 2012 17:54:23 +0200
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 27 Jun 2012 08:43:26 -0700
+	by azsmga101.ch.intel.com with ESMTP; 27 Jun 2012 08:43:27 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="161344497"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="161344500"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.182])
 	by azsmga001.ch.intel.com with ESMTP; 27 Jun 2012 08:43:26 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 27 Jun 2012 08:43:05 -0700
-Message-Id: <cover.1340811559.git.sgw@linux.intel.com>
+Date: Wed, 27 Jun 2012 08:43:06 -0700
+Message-Id: <6c33d56f0f6b472e8ba695d1f2636bc829e56696.1340811559.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
-Subject: [CONSOLIDATED PULL 00/20] Kernel Updates and other fixes
+In-Reply-To: <cover.1340811559.git.sgw@linux.intel.com>
+References: <cover.1340811559.git.sgw@linux.intel.com>
+In-Reply-To: <cover.1340811559.git.sgw@linux.intel.com>
+References: <cover.1340811559.git.sgw@linux.intel.com>
+Subject: [CONSOLIDATED PULL 01/20] mx: Upgrade to 1.4.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,99 +35,157 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 27 Jun 2012 15:54:23 -0000
 
-Richard,
+Remove patch as introspection.m4 is now included with the upstream
 
-Another set of pulls with various fixes and updates.
-
-Of note: 
-* Ross's gconf also needs to get into the denzil branch for 1.2.1
-  build it and it resolved the gthumb build issue.
-* Robert's change for disabling CCACHE
-* Zhenhua's linux-dtb work
-
-The following changes since commit f4b5afe46ff018570c1949653eb6995428827f6f:
-
-  sanity.bbclass: Increase LAYER_CONF_VERSION to match bblayers change (2012-06-25 17:20:06 +0100)
-
-are available in the git repository at:
-  git://git.openembedded.org/openembedded-core-contrib sgw/stage
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
-
-Andrea Adami (1):
-  mtd-utils: do not stage headers in sysroot
-
-Bruce Ashfield (6):
-  kern-tools: add buildall and robustness fixes
-  linux-yocto/3.4: update and categorize configuration options
-  linux-yocto/3.4: update to v3.4.3
-  linux-yocto-rt/3.4: update qemuppc branch
-  linux-yocto/3.4: -rt build fixes + configuration audit (part2)
-  linux-yocto/3.0: update BSP descriptions to new kern-tools format
-
-Lianhao Lu (3):
-  classes/image: Allow openssh empty passwords login.
-  image/core-image: Handle conflicting IMAGE_FEATURES.
-  task-core-tools-debug: Added openssh-sftp-server.
-
-Marcin Juszkiewicz (1):
-  libxml: disable lzma
-
-Robert Yang (1):
-  bitbake.conf: disable ccache explicitly if it is not enabled
-
-Ross Burton (1):
-  gconf.bbclass: don't register schemas in the install stage
-
-Saul Wold (3):
-  mx: Upgrade to 1.4.6
-  busybox: add correct ALTERNATIVE_TARGET for init.d/syslog
-  native.bbclass: correct PATH to have native-intercept be prepended
-
-Wade Farnsworth (1):
-  systemtap: update to version 1.8
-
-Xiaofeng Yan (2):
-  archiver.bbclass: Add the function of filtering packages
-  local.conf.sample.extended: Add filtering function to
-    archiver.bbclass
-
-Zhenhua Luo (1):
-  linux-dtb: add multi-dtb build support
-
- meta/classes/archiver.bbclass                      |   71 +++++++++++++-
- meta/classes/ccache.bbclass                        |    1 +
- meta/classes/core-image.bbclass                    |   13 ++-
- meta/classes/gconf.bbclass                         |   12 ++-
- meta/classes/image.bbclass                         |   24 +++++
- meta/classes/kernel-yocto.bbclass                  |    2 +-
- meta/classes/native.bbclass                        |    2 +-
- meta/conf/bitbake.conf                             |    8 ++
- meta/conf/local.conf.sample.extended               |   14 ++-
- meta/recipes-core/busybox/busybox.inc              |    3 +-
- meta/recipes-core/busybox/busybox_1.19.4.bb        |    2 +-
- meta/recipes-core/libxml/libxml2.inc               |    8 +-
- meta/recipes-core/libxml/libxml2_2.8.0.bb          |    2 +-
- meta/recipes-core/tasks/task-core-tools-debug.bb   |    3 +
- meta/recipes-devtools/mtd/mtd-utils_1.5.0.bb       |    6 +-
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+---
  .../mx/files/introspection-m4.patch                |  106 --------------------
  .../mx/{mx_1.4.2.bb => mx_1.4.6.bb}                |    9 +-
- .../kern-tools/kern-tools-native_git.bb            |    2 +-
- meta/recipes-kernel/linux/linux-dtb.inc            |   36 ++++++--
- meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb    |    2 +-
- meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb    |   10 +-
- meta/recipes-kernel/linux/linux-yocto_3.0.bb       |    2 +-
- meta/recipes-kernel/linux/linux-yocto_3.4.bb       |   16 ++--
- ...prun-configure.ac-support-without-nss-for.patch |   50 ---------
- .../systemtap_fix_for_automake_1.12.patch          |   23 ----
- meta/recipes-kernel/systemtap/systemtap_git.bb     |    2 +-
- meta/recipes-kernel/systemtap/systemtap_git.inc    |    6 +-
- meta/recipes-sato/images/core-image-sato-sdk.bb    |    2 +
- 28 files changed, 205 insertions(+), 232 deletions(-)
+ 2 files changed, 4 insertions(+), 111 deletions(-)
  delete mode 100644 meta/recipes-graphics/mx/files/introspection-m4.patch
  rename meta/recipes-graphics/mx/{mx_1.4.2.bb => mx_1.4.6.bb} (71%)
- delete mode 100644 meta/recipes-kernel/systemtap/systemtap/runtime-staprun-configure.ac-support-without-nss-for.patch
- delete mode 100644 meta/recipes-kernel/systemtap/systemtap/systemtap_fix_for_automake_1.12.patch
 
+diff --git a/meta/recipes-graphics/mx/files/introspection-m4.patch b/meta/recipes-graphics/mx/files/introspection-m4.patch
+deleted file mode 100644
+index 2dcb62a..0000000
+--- a/meta/recipes-graphics/mx/files/introspection-m4.patch
++++ /dev/null
+@@ -1,106 +0,0 @@
+-A copy of introspection.m4 from upstream gobject-introspection so that
+-we can use the GOBJECT_INTROSPECTION_CHECK([0.6.4]) and --disable-introspection
+-
+-Signed-off-by: Joshua Lock <josh@linux.intel.com>
+-
+-Upstream-Status: Inappropriate (build system specific).
+-
+-Index: mx-1.4.2/m4/introspection.m4
+-===================================================================
+---- /dev/null
+-+++ mx-1.4.2/m4/introspection.m4
+-@@ -0,0 +1,94 @@
+-+dnl -*- mode: autoconf -*-
+-+dnl Copyright 2009 Johan Dahlin
+-+dnl
+-+dnl This file is free software; the author(s) gives unlimited
+-+dnl permission to copy and/or distribute it, with or without
+-+dnl modifications, as long as this notice is preserved.
+-+dnl
+-+
+-+# serial 1
+-+
+-+m4_define([_GOBJECT_INTROSPECTION_CHECK_INTERNAL],
+-+[
+-+    AC_BEFORE([AC_PROG_LIBTOOL],[$0])dnl setup libtool first
+-+    AC_BEFORE([AM_PROG_LIBTOOL],[$0])dnl setup libtool first
+-+    AC_BEFORE([LT_INIT],[$0])dnl setup libtool first
+-+
+-+    dnl enable/disable introspection
+-+    m4_if([$2], [require],
+-+    [dnl
+-+        enable_introspection=yes
+-+    ],[dnl
+-+        AC_ARG_ENABLE(introspection,
+-+                  AS_HELP_STRING([--enable-introspection[=@<:@no/auto/yes@:>@]],
+-+                                 [Enable introspection for this build]),, 
+-+                                 [enable_introspection=auto])
+-+    ])dnl
+-+
+-+    AC_MSG_CHECKING([for gobject-introspection])
+-+
+-+    dnl presence/version checking
+-+    AS_CASE([$enable_introspection],
+-+    [no], [dnl
+-+        found_introspection="no (disabled, use --enable-introspection to enable)"
+-+    ],dnl
+-+    [yes],[dnl
+-+        PKG_CHECK_EXISTS([gobject-introspection-1.0],,
+-+                         AC_MSG_ERROR([gobject-introspection-1.0 is not installed]))
+-+        PKG_CHECK_EXISTS([gobject-introspection-1.0 >= $1],
+-+                         found_introspection=yes,
+-+                         AC_MSG_ERROR([You need to have gobject-introspection >= $1 installed to build AC_PACKAGE_NAME]))
+-+    ],dnl
+-+    [auto],[dnl
+-+        PKG_CHECK_EXISTS([gobject-introspection-1.0 >= $1], found_introspection=yes, found_introspection=no)
+-+    ],dnl
+-+    [dnl	
+-+        AC_MSG_ERROR([invalid argument passed to --enable-introspection, should be one of @<:@no/auto/yes@:>@])
+-+    ])dnl
+-+
+-+    AC_MSG_RESULT([$found_introspection])
+-+
+-+    INTROSPECTION_SCANNER=
+-+    INTROSPECTION_COMPILER=
+-+    INTROSPECTION_GENERATE=
+-+    INTROSPECTION_GIRDIR=
+-+    INTROSPECTION_TYPELIBDIR=
+-+    if test "x$found_introspection" = "xyes"; then
+-+       INTROSPECTION_SCANNER=`$PKG_CONFIG --variable=g_ir_scanner gobject-introspection-1.0`
+-+       INTROSPECTION_COMPILER=`$PKG_CONFIG --variable=g_ir_compiler gobject-introspection-1.0`
+-+       INTROSPECTION_GENERATE=`$PKG_CONFIG --variable=g_ir_generate gobject-introspection-1.0`
+-+       INTROSPECTION_GIRDIR=`$PKG_CONFIG --variable=girdir gobject-introspection-1.0`
+-+       INTROSPECTION_TYPELIBDIR="$($PKG_CONFIG --variable=typelibdir gobject-introspection-1.0)"
+-+       INTROSPECTION_CFLAGS=`$PKG_CONFIG --cflags gobject-introspection-1.0`
+-+       INTROSPECTION_LIBS=`$PKG_CONFIG --libs gobject-introspection-1.0`
+-+       INTROSPECTION_MAKEFILE=`$PKG_CONFIG --variable=datadir gobject-introspection-1.0`/gobject-introspection-1.0/Makefile.introspection
+-+    fi
+-+    AC_SUBST(INTROSPECTION_SCANNER)
+-+    AC_SUBST(INTROSPECTION_COMPILER)
+-+    AC_SUBST(INTROSPECTION_GENERATE)
+-+    AC_SUBST(INTROSPECTION_GIRDIR)
+-+    AC_SUBST(INTROSPECTION_TYPELIBDIR)
+-+    AC_SUBST(INTROSPECTION_CFLAGS)
+-+    AC_SUBST(INTROSPECTION_LIBS)
+-+    AC_SUBST(INTROSPECTION_MAKEFILE)
+-+
+-+    AM_CONDITIONAL(HAVE_INTROSPECTION, test "x$found_introspection" = "xyes")
+-+])
+-+
+-+
+-+dnl Usage:
+-+dnl   GOBJECT_INTROSPECTION_CHECK([minimum-g-i-version])
+-+
+-+AC_DEFUN([GOBJECT_INTROSPECTION_CHECK],
+-+[
+-+  _GOBJECT_INTROSPECTION_CHECK_INTERNAL([$1])
+-+])
+-+
+-+dnl Usage:
+-+dnl   GOBJECT_INTROSPECTION_REQUIRE([minimum-g-i-version])
+-+
+-+
+-+AC_DEFUN([GOBJECT_INTROSPECTION_REQUIRE],
+-+[
+-+  _GOBJECT_INTROSPECTION_CHECK_INTERNAL([$1], [require])
+-+])
+diff --git a/meta/recipes-graphics/mx/mx_1.4.2.bb b/meta/recipes-graphics/mx/mx_1.4.6.bb
+similarity index 71%
+rename from meta/recipes-graphics/mx/mx_1.4.2.bb
+rename to meta/recipes-graphics/mx/mx_1.4.6.bb
+index bee65f6..81bc5b9 100644
+--- a/meta/recipes-graphics/mx/mx_1.4.2.bb
++++ b/meta/recipes-graphics/mx/mx_1.4.6.bb
+@@ -1,17 +1,16 @@
+ DESCRIPTION = "Clutter based widget library"
+ LICENSE = "LGPLv2.1"
+ 
+-PR = "r1"
++PR = "r0"
+ 
+ DEPENDS = "clutter-1.8 dbus-glib libxrandr gdk-pixbuf startup-notification"
+ 
+ inherit autotools gettext
+ 
+-SRC_URI = "http://source.clutter-project.org/sources/mx/1.4/mx-${PV}.tar.bz2 \
+-	   file://introspection-m4.patch"
++SRC_URI = "http://source.clutter-project.org/sources/mx/1.4/mx-${PV}.tar.bz2"
+ 
+-SRC_URI[md5sum] = "faf8d97ad9995f54cc91f90bc90c8f9d"
+-SRC_URI[sha256sum] = "9d40dd48a8e3d098cc75c05163f77305ffb83439783dc91be50681c9502660ce"
++SRC_URI[md5sum] = "c7192ca7c43bb1a39adc2fafdc012f49"
++SRC_URI[sha256sum] = "a3c7ffaf29b282144c982757b450d145cd85867183dfafef4750a00a0d406672"
+ 
+ LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=fbc093901857fcd118f065f900982c24 \
+                     file://mx/mx-widget.c;beginline=8;endline=20;md5=13bba3c973a72414a701e1e87b5ee879"
 -- 
 1.7.7.6
 
