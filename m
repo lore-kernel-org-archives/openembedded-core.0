@@ -1,41 +1,27 @@
-Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1SjnuD-0005iW-9c
+	(envelope-from <Florin.Sarbu@windriver.com>) id 1Sjnv3-0005lo-7t
 	for openembedded-core@lists.openembedded.org;
-	Wed, 27 Jun 2012 10:47:21 +0200
-Received: from mail-ey0-f180.google.com ([209.85.215.180])
-	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 27 Jun 2012 01:36:22 -0700
-Received: by eaai12 with SMTP id i12so227430eaa.25
+	Wed, 27 Jun 2012 10:48:13 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q5R8bJIM009544
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Jun 2012 01:36:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=date:from:to:message-id:in-reply-to:references:subject:x-mailer
-	:mime-version:content-type:x-gm-message-state;
-	bh=5GTCo5xAhqtyIRhC84z4jUhSdXt9DbFOM5gEGYbVhec=;
-	b=I2X8oyCS/xl+Un66q/yfO+op4CpqAnbtg4GccHnYUa7NnSVYs7Lz77gC1u6Y76NYyG
-	GY3+BG1OP1PjpVnSfyDOk/5Br3ONybxFA9jWz/LrefHcFRJHxW09M0YsBJhdVkQWm1qr
-	uTTtPZIATjlb0iK8do/EQpuPKBKzjOWL5lMx2fCMTt6dAUwrNWaCoPf9v31A+N/vtP0H
-	LBpQWxCkJGsiKKbrPcwqzv/Oox1Rd5nuaaE6D4lJD154HSMhpqgX4YAjcMhw3b0QeXEM
-	XaZGyTM6mUZOlPWbNwU/NElQbJ1VFsj/aXiZd6oshWAreJPV6LZcPvDFBWC3H7EAIGn3
-	HOJg==
-Received: by 10.14.22.6 with SMTP id s6mr3995297ees.154.1340786180275;
-	Wed, 27 Jun 2012 01:36:20 -0700 (PDT)
-Received: from [192.168.1.5] (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id h53sm156753200eea.1.2012.06.27.01.36.16
-	(version=SSLv3 cipher=OTHER); Wed, 27 Jun 2012 01:36:19 -0700 (PDT)
-Date: Wed, 27 Jun 2012 09:36:14 +0100
-From: Ross Burton <ross.burton@intel.com>
+	Wed, 27 Jun 2012 01:37:19 -0700 (PDT)
+Received: from [128.224.171.127] (128.224.171.127) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Wed, 27 Jun 2012 01:37:19 -0700
+Message-ID: <4FEAC63E.3020903@windriver.com>
+Date: Wed, 27 Jun 2012 11:37:18 +0300
+From: Florin Sarbu <florin.sarbu@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:14.0) Gecko/20120614 Thunderbird/14.0
+MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Message-ID: <2790F11E14324B8FA3F9EF5D382B2DC4@intel.com>
-In-Reply-To: <B881EA27-5FFA-434C-BF87-9C6A0DA5A47D@dominion.thruhere.net>
-References: <CAJTo0LYRGSkOGOV04C+Pb3ypi7JvbbjC7UJY-Yxywk12FQusaQ@mail.gmail.com>
-	<B881EA27-5FFA-434C-BF87-9C6A0DA5A47D@dominion.thruhere.net>
-X-Mailer: sparrow 1.3 (build 495)
-MIME-Version: 1.0
-X-Gm-Message-State: ALoCoQk4dYg+4gXEzwmVB3IWEeZLt0q+FCA/cSRMrNonNvJ6Ew/2b5YMi2lQPmCXKc51QhwHD+R/
-Subject: Re: [RFC] webkit-gtk upgrade
+References: <1334908328-13649-1-git-send-email-florin.sarbu@windriver.com>
+In-Reply-To: <1334908328-13649-1-git-send-email-florin.sarbu@windriver.com>
+Subject: Re: [PATCH v3] Update intltool to version 0.50.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,95 +36,223 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Jun 2012 08:47:21 -0000
-Content-Type: multipart/alternative; boundary="4feac5fe_3d1b58ba_3f17"
-
---4feac5fe_3d1b58ba_3f17
-Content-Type: text/plain; charset="utf-8"
+X-List-Received-Date: Wed, 27 Jun 2012 08:48:13 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
 
-Poky, but should rebase with a fast-forward.
+Ping?
 
-Actually, it's probably based on my gconf branch. I'm away from my work machines now do can't check but the relevant changes can easily be cherry-picked. 
+On 04/20/2012 10:52 AM, Florin Sarbu wrote:
+> Uprev intltool to newer 0.50.0 version
+>
+> Signed-off-by: Florin Sarbu <florin.sarbu@windriver.com>
+> ---
+>   .../intltool-0.40.6/intltool-nowarn-0.40.0.patch   |   52 --------------------
+>   .../intltool-0.50.0/intltool-nowarn-0.50.0.patch   |   42 ++++++++++++++++
+>   .../noperlcheck.patch                              |    8 +--
+>   .../remove-xml-check.patch                         |    3 --
+>   .../use-nativeperl.patch                           |    0
+>   meta/recipes-devtools/intltool/intltool.inc        |    2 +-
+>   .../{intltool_0.40.6.bb => intltool_0.50.0.bb}     |   12 ++---
+>   7 files changed, 53 insertions(+), 66 deletions(-)
+>   delete mode 100644 meta/recipes-devtools/intltool/intltool-0.40.6/intltool-nowarn-0.40.0.patch
+>   create mode 100644 meta/recipes-devtools/intltool/intltool-0.50.0/intltool-nowarn-0.50.0.patch
+>   rename meta/recipes-devtools/intltool/{intltool-0.40.6 => intltool-0.50.0}/noperlcheck.patch (85%)
+>   rename meta/recipes-devtools/intltool/{intltool-0.40.6 => intltool-0.50.0}/remove-xml-check.patch (95%)
+>   rename meta/recipes-devtools/intltool/{intltool-0.40.6 => intltool-0.50.0}/use-nativeperl.patch (100%)
+>   rename meta/recipes-devtools/intltool/{intltool_0.40.6.bb => intltool_0.50.0.bb} (63%)
+>
+> diff --git a/meta/recipes-devtools/intltool/intltool-0.40.6/intltool-nowarn-0.40.0.patch b/meta/recipes-devtools/intltool/intltool-0.40.6/intltool-nowarn-0.40.0.patch
+> deleted file mode 100644
+> index ff9f52e..0000000
+> --- a/meta/recipes-devtools/intltool/intltool-0.40.6/intltool-nowarn-0.40.0.patch
+> +++ /dev/null
+> @@ -1,52 +0,0 @@
+> -Upstream-Status: Inappropriate [embedded specific]
+> -
+> -Index: intltool-0.40.0/intltool-extract.in
+> -===================================================================
+> ---- intltool-0.40.0.orig/intltool-extract.in	2008-12-17 11:50:19.000000000 +0000
+> -+++ intltool-0.40.0/intltool-extract.in	2008-12-17 11:50:31.000000000 +0000
+> -@@ -1,4 +1,4 @@
+> --#!@INTLTOOL_PERL@ -w
+> -+#!@INTLTOOL_PERL@
+> - # -*- Mode: perl; indent-tabs-mode: nil; c-basic-offset: 4  -*-
+> -
+> - #
+> -Index: intltool-0.40.0/intltool-merge.in
+> -===================================================================
+> ---- intltool-0.40.0.orig/intltool-merge.in	2008-12-17 11:50:19.000000000 +0000
+> -+++ intltool-0.40.0/intltool-merge.in	2008-12-17 11:50:38.000000000 +0000
+> -@@ -1,4 +1,4 @@
+> --#!@INTLTOOL_PERL@ -w
+> -+#!@INTLTOOL_PERL@
+> - # -*- Mode: perl; indent-tabs-mode: nil; c-basic-offset: 4  -*-
+> -
+> - #
+> -Index: intltool-0.40.0/intltool-prepare.in
+> -===================================================================
+> ---- intltool-0.40.0.orig/intltool-prepare.in	2008-12-17 11:50:19.000000000 +0000
+> -+++ intltool-0.40.0/intltool-prepare.in	2008-12-17 11:50:42.000000000 +0000
+> -@@ -1,4 +1,4 @@
+> --#!@INTLTOOL_PERL@ -w
+> -+#!@INTLTOOL_PERL@
+> - # -*- Mode: perl; indent-tabs-mode: nil; c-basic-offset: 4  -*-
+> -
+> - #  Intltool .desktop, .directory Prepare Tool
+> -Index: intltool-0.40.0/intltool-unicodify.in
+> -===================================================================
+> ---- intltool-0.40.0.orig/intltool-unicodify.in	2008-12-17 11:50:19.000000000 +0000
+> -+++ intltool-0.40.0/intltool-unicodify.in	2008-12-17 11:50:46.000000000 +0000
+> -@@ -1,4 +1,4 @@
+> --#!@INTLTOOL_PERL@ -w
+> -+#!@INTLTOOL_PERL@
+> -
+> - #
+> - #  The i18n Unicode Encoding Utility
+> -Index: intltool-0.40.0/intltool-update.in
+> -===================================================================
+> ---- intltool-0.40.0.orig/intltool-update.in	2008-12-17 11:50:19.000000000 +0000
+> -+++ intltool-0.40.0/intltool-update.in	2008-12-17 11:50:49.000000000 +0000
+> -@@ -1,4 +1,4 @@
+> --#!@INTLTOOL_PERL@ -w
+> -+#!@INTLTOOL_PERL@
+> - # -*- Mode: perl; indent-tabs-mode: nil; c-basic-offset: 4  -*-
+> -
+> - #
+> diff --git a/meta/recipes-devtools/intltool/intltool-0.50.0/intltool-nowarn-0.50.0.patch b/meta/recipes-devtools/intltool/intltool-0.50.0/intltool-nowarn-0.50.0.patch
+> new file mode 100644
+> index 0000000..06c938b
+> --- /dev/null
+> +++ b/meta/recipes-devtools/intltool/intltool-0.50.0/intltool-nowarn-0.50.0.patch
+> @@ -0,0 +1,42 @@
+> +Upstream-Status: Inappropriate [embedded specific]
+> +
+> +Index: intltool-0.40.0/intltool-extract.in
+> +===================================================================
+> +--- intltool-0.50.0.orig/intltool-extract.in	2011-10-08 22:24:57.000000000 +0300
+> ++++ intltool-0.50.0/intltool-extract.in	2011-12-07 16:04:07.000000000 +0200
+> +@@ -1,4 +1,4 @@
+> +-#!@INTLTOOL_PERL@ -w
+> ++#!@INTLTOOL_PERL@
+> + # -*- Mode: perl; indent-tabs-mode: nil; c-basic-offset: 4  -*-
+> +
+> + #
+> +Index: intltool-0.50.0/intltool-merge.in
+> +===================================================================
+> +--- intltool-0.50.0.orig/intltool-merge.in	2011-10-08 17:52:01.000000000 +0300
+> ++++ intltool-0.50.0/intltool-merge.in	2011-12-07 16:05:55.000000000 +0200
+> +@@ -1,4 +1,4 @@
+> +-#!@INTLTOOL_PERL@ -w
+> ++#!@INTLTOOL_PERL@
+> + # -*- Mode: perl; indent-tabs-mode: nil; c-basic-offset: 4  -*-
+> +
+> + #
+> +Index: intltool-0.50.0/intltool-prepare.in
+> +===================================================================
+> +--- intltool-0.50.0.orig/intltool-prepare.in	2011-10-08 09:16:58.000000000 +0300
+> ++++ intltool-0.50.0/intltool-prepare.in	2011-12-07 16:06:13.000000000 +0200
+> +@@ -1,4 +1,4 @@
+> +-#!@INTLTOOL_PERL@ -w
+> ++#!@INTLTOOL_PERL@
+> + # -*- Mode: perl; indent-tabs-mode: nil; c-basic-offset: 4  -*-
+> +
+> + #  Intltool .desktop, .directory Prepare Tool
+> +Index: intltool-0.50.0/intltool-update.in
+> +===================================================================
+> +--- intltool-0.50.0.orig/intltool-update.in	2011-10-08 22:24:57.000000000 +0300
+> ++++ intltool-0.50.0/intltool-update.in	2011-12-07 16:06:39.000000000 +0200
+> +@@ -1,4 +1,4 @@
+> +-#!@INTLTOOL_PERL@ -w
+> ++#!@INTLTOOL_PERL@
+> + # -*- Mode: perl; indent-tabs-mode: nil; c-basic-offset: 4  -*-
+> +
+> + #
+> diff --git a/meta/recipes-devtools/intltool/intltool-0.40.6/noperlcheck.patch b/meta/recipes-devtools/intltool/intltool-0.50.0/noperlcheck.patch
+> similarity index 85%
+> rename from meta/recipes-devtools/intltool/intltool-0.40.6/noperlcheck.patch
+> rename to meta/recipes-devtools/intltool/intltool-0.50.0/noperlcheck.patch
+> index 3d8b591..cc26749 100644
+> --- a/meta/recipes-devtools/intltool/intltool-0.40.6/noperlcheck.patch
+> +++ b/meta/recipes-devtools/intltool/intltool-0.50.0/noperlcheck.patch
+> @@ -7,11 +7,11 @@ RP 31/8/2011
+>   
+>   Upstream-Status: Inappropriate [OE specific]
+>   
+> -Index: intltool-0.40.6/configure.in
+> +Index: intltool-0.40.6/configure.ac
+>   ===================================================================
+> ---- intltool-0.40.6.orig/configure.in	2011-08-31 11:21:13.061160535 +0100
+> -+++ intltool-0.40.6/configure.in	2011-08-31 11:22:44.991160885 +0100
+> -@@ -9,24 +9,10 @@
+> +--- intltool-0.40.6.orig/configure.ac	2011-08-31 11:21:13.061160535 +0100
+> ++++ intltool-0.40.6/configure.ac	2011-08-31 11:22:44.991160885 +0100
+> +@@ -11,24 +11,10 @@
+>    aclocaldir='${datadir}'/aclocal
+>    AC_SUBST(aclocaldir)
+>    
+> diff --git a/meta/recipes-devtools/intltool/intltool-0.40.6/remove-xml-check.patch b/meta/recipes-devtools/intltool/intltool-0.50.0/remove-xml-check.patch
+> similarity index 95%
+> rename from meta/recipes-devtools/intltool/intltool-0.40.6/remove-xml-check.patch
+> rename to meta/recipes-devtools/intltool/intltool-0.50.0/remove-xml-check.patch
+> index 2eb9abd..476d091 100644
+> --- a/meta/recipes-devtools/intltool/intltool-0.40.6/remove-xml-check.patch
+> +++ b/meta/recipes-devtools/intltool/intltool-0.50.0/remove-xml-check.patch
+> @@ -1,6 +1,3 @@
+> -
+> -Upstream-Status: Inappropriate [configuration]
+> -
+>   Index: intltool-0.40.6/intltool.m4
+>   ===================================================================
+>   --- intltool-0.40.6.orig/intltool.m4	2009-02-14 14:12:28.000000000 -0800
+> diff --git a/meta/recipes-devtools/intltool/intltool-0.40.6/use-nativeperl.patch b/meta/recipes-devtools/intltool/intltool-0.50.0/use-nativeperl.patch
+> similarity index 100%
+> rename from meta/recipes-devtools/intltool/intltool-0.40.6/use-nativeperl.patch
+> rename to meta/recipes-devtools/intltool/intltool-0.50.0/use-nativeperl.patch
+> diff --git a/meta/recipes-devtools/intltool/intltool.inc b/meta/recipes-devtools/intltool/intltool.inc
+> index 8d983df..1c41f0f 100644
+> --- a/meta/recipes-devtools/intltool/intltool.inc
+> +++ b/meta/recipes-devtools/intltool/intltool.inc
+> @@ -3,7 +3,7 @@ SECTION = "devel"
+>   LICENSE = "GPLv2"
+>   
+>   URLV="${@'.'.join(d.getVar('PV',1).split('.')[0:2])}"
+> -SRC_URI = "${GNOME_MIRROR}/intltool/${URLV}/intltool-${PV}.tar.bz2"
+> +SRC_URI = "http://launchpad.net/${BPN}/trunk/${PV}/+download/${BP}.tar.gz"
+>   S = "${WORKDIR}/intltool-${PV}"
+>   
+>   DEPENDS = "libxml-parser-perl-native"
+> diff --git a/meta/recipes-devtools/intltool/intltool_0.40.6.bb b/meta/recipes-devtools/intltool/intltool_0.50.0.bb
+> similarity index 63%
+> rename from meta/recipes-devtools/intltool/intltool_0.40.6.bb
+> rename to meta/recipes-devtools/intltool/intltool_0.50.0.bb
+> index c820f11..d1ee31d 100644
+> --- a/meta/recipes-devtools/intltool/intltool_0.40.6.bb
+> +++ b/meta/recipes-devtools/intltool/intltool_0.50.0.bb
+> @@ -1,11 +1,11 @@
+>   require intltool.inc
+>   LICENSE="GPLv2"
+>   LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
+> -PR = "r6"
+> +PR = "r0"
+>   
+> -SRC_URI_append = " file://intltool-nowarn-0.40.0.patch \
+> -                   ${NATIVEPATCHES} \
+> -                 "
+> +SRC_URI += "file://intltool-nowarn-0.50.0.patch \
+> +           ${NATIVEPATCHES} \
+> +           "
+>   
+>   #
+>   # All of the intltool scripts have the correct paths to perl already
+> @@ -15,5 +15,5 @@ NATIVEPATCHES = "file://noperlcheck.patch \
+>                    file://remove-xml-check.patch"
+>   NATIVEPATCHES_virtclass-native = "file://use-nativeperl.patch"
+>   
+> -SRC_URI[md5sum] = "69bc0353323112f42ad4f9cf351bc3e5"
+> -SRC_URI[sha256sum] = "4d1e5f8561f09c958e303d4faa885079a5e173a61d28437d0013ff5efc9e3b64"
+> +SRC_URI[md5sum] = "0da9847a60391ca653df35123b1f7cc0"
+> +SRC_URI[sha256sum] = "dccfb0b7dd35a170130e8934bfd30c29da6ae73bcd3ca4ba71317c977b2893d6"
 
-Ross-- 
-Ross Burton
-Sent with Sparrow (http://www.sparrowmailapp.com/?sig)
 
 
-On Wednesday, 27 June 2012 at 08:21, Koen Kooi wrote:
-
-> 
-> Op 27 jun. 2012, om 08:40 heeft Burton, Ross het volgende geschreven:
-> 
-> > Hi,
-> > 
-> > In the git branch poky-contrib/ross/webkit I've upgraded webkit-gtk
-> > from a 1.7.1-ish git snapshot to the 1.8.1 tarball. I've tested that
-> > web builds and Midori (from meta-oe) works, although obviously more
-> > testing is needed -- both users of the library and architectures.
-> > 
-> > I'm going away for a week now so if interested parties could test this
-> > it would be much appreciated!
-> > 
-> 
-> 
-> Is that branch against oe-core or poky?
-> 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-> 
-> 
-
-
-
---4feac5fe_3d1b58ba_3f17
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
-
-
-    <div id=3D=22reply-content=22>
-        Poky, but should rebase with a fast-forward.</div><div id=3D=22re=
-ply-content=22><br></div><div id=3D=22reply-content=22>Actually, it's pro=
-bably based on my gconf branch. I'm away from my work machines now do can=
-'t check but the relevant changes can easily be cherry-picked.</div>
-    <div id=3D=223974943D9147415881=469EA4439=46C=46BCE=22><div><br></div=
-><div>Ross</div>--&nbsp;<br>Ross Burton<br><div>Sent with <a href=3D=22ht=
-tp://www.sparrowmailapp.com/=3Fsig=22>Sparrow</a></div><div><br></div></d=
-iv>
-    =20
-    <p style=3D=22color: =23A0A0A8;=22>On Wednesday, 27 June 2012 at 08:2=
-1, Koen Kooi wrote:</p>
-    <blockquote type=3D=22cite=22 style=3D=22border-left-style:solid;bord=
-er-width:1px;margin-left:0px;padding-left:10px;=22>
-        <div id=3D=22quoted-message-content=22><div><div><br></div><div>O=
-p 27 jun. 2012, om 08:40 heeft Burton, Ross het volgende geschreven:</div=
-><div><br></div><blockquote type=3D=22cite=22><div><div>Hi,</div><div><br=
-></div><div>In the git branch poky-contrib/ross/webkit I've upgraded webk=
-it-gtk</div><div>from a 1.7.1-ish git snapshot to the 1.8.1 tarball.  I'v=
-e tested that</div><div>web builds and Midori (from meta-oe) works, altho=
-ugh obviously more</div><div>testing is needed -- both users of the libra=
-ry and architectures.</div><div><br></div><div>I'm going away for a week =
-now so if interested parties could test this</div><div>it would be much a=
-ppreciated=21</div></div></blockquote><div><br></div><div>Is that branch =
-against oe-core or poky=3F</div><div><br></div><div>=5F=5F=5F=5F=5F=5F=5F=
-=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=
-=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F</div><div>Openembedded-core=
- mailing list</div><div>Openembedded-core=40lists.openembedded.org</div><=
-div>http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core=
-</div></div></div>
-        =20
-        =20
-        =20
-        =20
-    </blockquote>
-    =20
-    <div>
-        <br>
-    </div>
-
---4feac5fe_3d1b58ba_3f17--
