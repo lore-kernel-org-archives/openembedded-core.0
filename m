@@ -1,20 +1,27 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SjvaL-0000tL-Ol
+	(envelope-from <sgw@linux.intel.com>) id 1Sjvf0-0001MO-LN
 	for openembedded-core@lists.openembedded.org;
-	Wed, 27 Jun 2012 18:59:22 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 27 Jun 2012 09:48:11 -0700
+	Wed, 27 Jun 2012 19:04:10 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 27 Jun 2012 09:53:16 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="170714132"
-Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.182])
-	by fmsmga001.fm.intel.com with ESMTP; 27 Jun 2012 09:48:11 -0700
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="163520252"
+Received: from unknown (HELO [10.255.12.182]) ([10.255.12.182])
+	by orsmga002.jf.intel.com with ESMTP; 27 Jun 2012 09:53:15 -0700
+Message-ID: <4FEB3A7B.2030605@linux.intel.com>
+Date: Wed, 27 Jun 2012 09:53:15 -0700
 From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 27 Jun 2012 09:48:11 -0700
-Message-Id: <1340815691-12117-1-git-send-email-sgw@linux.intel.com>
-X-Mailer: git-send-email 1.7.7.6
-Subject: [PATCH] lsbinitiscripts: Add glib-2.0 to DEPENDS list
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1340776826.git.kai.kang@windriver.com>
+	<70f42c05e9e15f403cccc16c92fb14d0675c0c7d.1340776826.git.kai.kang@windriver.com>
+In-Reply-To: <70f42c05e9e15f403cccc16c92fb14d0675c0c7d.1340776826.git.kai.kang@windriver.com>
+Cc: Zhenfeng.Zhao@windriver.com
+Subject: Re: [PATCH 1/1] lsbinitscripts: Add a linking for functions.lsbinitscripts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,40 +36,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Jun 2012 16:59:22 -0000
+X-List-Received-Date: Wed, 27 Jun 2012 17:04:10 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-ppp-watch requires it.
+On 06/26/2012 11:04 PM, Kang Kai wrote:
+> From: Xiaofeng Yan<xiaofeng.yan@windriver.com>
+>
+> The linking will fail when an original file "functions" exists.
+> So using the new linking replace the previous "functions".
+>
+> [YOCTO #2133]
+>
+> Signed-off-by: Xiaofeng Yan<xiaofeng.yan@windriver.com>
+> ---
+>   meta/recipes-extended/lsb/lsbinitscripts_9.03.bb |   11 ++++-------
+>   1 files changed, 4 insertions(+), 7 deletions(-)
+>
+> diff --git a/meta/recipes-extended/lsb/lsbinitscripts_9.03.bb b/meta/recipes-extended/lsb/lsbinitscripts_9.03.bb
+> index dd92a92..990da2e 100644
+> --- a/meta/recipes-extended/lsb/lsbinitscripts_9.03.bb
+> +++ b/meta/recipes-extended/lsb/lsbinitscripts_9.03.bb
+> @@ -2,7 +2,7 @@ DESCRIPTION = "SysV init scripts which only is used in an LSB image"
+>   SECTION = "base"
+>   LICENSE = "GPLv2"
+>   DEPENDS = "popt"
+> -PR = "r0"
+> +PR = "r1"
+>
+>   LIC_FILES_CHKSUM = "file://COPYING;md5=ebf4e8b49780ab187d51bd26aaa022c6"
+>
+> @@ -13,15 +13,12 @@ SRC_URI = "http://pkgs.fedoraproject.org/repo/pkgs/initscripts/initscripts-${PV}
+>
+>   SRC_URI[md5sum] = "668fa2762b57ef75436303857847bba3"
+>   SRC_URI[sha256sum] = "d56547a68ce223a7413b2676650b042125f047c8d6d139c5b970e118b3dc958a"
+> -inherit update-alternatives
+> -
+> -ALTERNATIVE_PRIORITY = "10"
+> -ALTERNATIVE_${PN} = "functions"
+> -ALTERNATIVE_LINK_NAME[functions] = "${sysconfdir}/init.d/functions"
+>
+>   do_configure[noexec] = "1"
+>
+>   do_install(){
+>   	install -d ${D}/etc/init.d/
+> -	install -m 0755 ${S}/rc.d/init.d/functions ${D}/etc/init.d/functions
+> +	install -m 0755 ${S}/rc.d/init.d/functions ${D}/etc/init.d/functions.lsbinitscripts
+> +        cd ${D}/etc/init.d/
+> +        ln -sf functions.lsbinitscripts functions
+>   }
 
-x86_64-poky-linux-gcc    -m64 --sysroot=/intel/poky2/builds/fetch/tmp/sysroots/qemux86-64 -O2 -pipe -g -feliminate-unused-debug-types  -Wall -D_GNU_SOURCE `pkg-config glib-2.0 --cflags` -c ppp-watch.c -o ppp-watch.o
-Package glib-2.0 was not found in the pkg-config search path.
-Perhaps you should add the directory containing `glib-2.0.pc'
-to the PKG_CONFIG_PATH environment variable
-No package 'glib-2.0' found
-ppp-watch.c:78:18: fatal error: glib.h: No such file or directory
-compilation terminated.
-make[1]: *** [ppp-watch.o] Error 1
-make[1]: Leaving directory `/intel/poky2/builds/fetch/tmp/work/x86_64-poky-linux/lsbinitscripts-9.03-r0/initscripts-9.03/src'
+This is still not correct, you are disabling the usage update 
+ALTERNATIVE here.  What you should really be doing is adding that 
+support to the original initscripts_1.0.bb recipes for the function file 
+and give this a higher ALTERNATIVE_PRIORITY, so that when it is 
+installed it will do the right thing (tm) via the update alternative 
+functionality.
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- meta/recipes-extended/lsb/lsbinitscripts_9.03.bb |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
-
-diff --git a/meta/recipes-extended/lsb/lsbinitscripts_9.03.bb b/meta/recipes-extended/lsb/lsbinitscripts_9.03.bb
-index dd92a92..ff11c53 100644
---- a/meta/recipes-extended/lsb/lsbinitscripts_9.03.bb
-+++ b/meta/recipes-extended/lsb/lsbinitscripts_9.03.bb
-@@ -1,7 +1,7 @@
- DESCRIPTION = "SysV init scripts which only is used in an LSB image"
- SECTION = "base"
- LICENSE = "GPLv2"
--DEPENDS = "popt"
-+DEPENDS = "popt glib-2.0"
- PR = "r0"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=ebf4e8b49780ab187d51bd26aaa022c6"
--- 
-1.7.7.6
-
+Sau!
 
 
