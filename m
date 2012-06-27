@@ -1,35 +1,41 @@
-Received: from out3-smtp.messagingengine.com ([66.111.4.27])
+Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <walters@verbum.org>) id 1Sjd5O-0003QM-JM
+	(envelope-from <ross.burton@intel.com>) id 1SjlUI-00035T-2L
 	for openembedded-core@lists.openembedded.org;
-	Tue, 26 Jun 2012 23:14:10 +0200
-Received: from compute3.internal (compute3.nyi.mail.srv.osa [10.202.2.43])
-	by gateway1.nyi.mail.srv.osa (Postfix) with ESMTP id DC65C212A2
+	Wed, 27 Jun 2012 08:12:26 +0200
+Received: from mail-wi0-f172.google.com ([209.85.212.172])
+	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 26 Jun 2012 23:01:13 -0700
+Received: by wibhm11 with SMTP id hm11so3957297wib.13
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Jun 2012 17:03:19 -0400 (EDT)
-Received: from frontend2.nyi.mail.srv.osa ([10.202.2.161])
-	by compute3.internal (MEProxy); Tue, 26 Jun 2012 17:03:19 -0400
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
-	messagingengine.com; h=message-id:subject:from:to:date
-	:in-reply-to:references:content-type:mime-version
-	:content-transfer-encoding; s=smtpout; bh=8lnN+SEv5o5t/7nwIxN680
-	gU8bk=; b=Ngd1O0N6XDLxg33Mw88zGGkP8vrS2luC/XPngG2VdEu1tV7v5XN9gy
-	irkxlea76kQ/j8/e1HVkGDZ4bgdW2EH7vEO5gJP/xyf2JKqXg7ZeoXcipCj/MC3h
-	u4G0ju1evPfFRm9bWhtQ19OU5m0lM2CF/FJx+VDA55Scj8G5mklFs=
-X-Sasl-enc: TW666A6VCib/qB3h3WLLgazFUuGd4UVGTm7WXNDJ+heX 1340744599
-Received: from [10.16.189.124] (unknown [66.187.233.206])
-	by mail.messagingengine.com (Postfix) with ESMTPA id 904B24836DC
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Jun 2012 17:03:19 -0400 (EDT)
-Message-ID: <1340744566.3500.2.camel@lenny>
-From: Colin Walters <walters@verbum.org>
+	Tue, 26 Jun 2012 23:01:11 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=date:from:to:message-id:in-reply-to:references:subject:x-mailer
+	:mime-version:content-type:content-transfer-encoding
+	:content-disposition:x-gm-message-state;
+	bh=bXQKx+FYUOEKGxeOMV/YKyDbjP58bF5vu9ryPyTrkyk=;
+	b=Cf++Puc/v1tOiOUYaSi8oKWH4jOUJePNy9DvVTtFSjE+S3r71Ij5En3V1RtyijErr7
+	Tqz482cmoKO99Cp4sHsut0mYjqwm6pt39Xjc2kECNQQB7QMcAiUPB3CM9YfbwCI394dk
+	4xFU3MkqDM5a2DGuCFqGbdx5EkIHsUSsaWc534+wlXqj3aexNJRQ25pBrpUaTVG10viI
+	2fYUvT+ltF9lBOEHb/X94SdOSgJ1R4NRM+iggMpe5LO/okixwH++uCjGHWPyb8M6+0xV
+	iMqSumSC4oSMiF7OZ7/VSWkxrl9FO+ag+II6I1PglHnzI49joBFWJJJz7Ackx7bQlowZ
+	eSaw==
+Received: by 10.180.102.36 with SMTP id fl4mr1808899wib.2.1340776871715;
+	Tue, 26 Jun 2012 23:01:11 -0700 (PDT)
+Received: from elizabeth.local (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPS id hs8sm15892062wib.10.2012.06.26.23.01.09
+	(version=SSLv3 cipher=OTHER); Tue, 26 Jun 2012 23:01:09 -0700 (PDT)
+Date: Wed, 27 Jun 2012 07:01:08 +0100
+From: Ross Burton <ross.burton@intel.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Tue, 26 Jun 2012 17:02:46 -0400
-In-Reply-To: <1340705423-18430-1-git-send-email-ross.burton@intel.com>
+Message-ID: <C4D2E4A76F2943CD9278FA15BFD5C15E@intel.com>
+In-Reply-To: <1340744566.3500.2.camel@lenny>
 References: <1340705423-18430-1-git-send-email-ross.burton@intel.com>
-X-Mailer: Evolution 3.4.3 (3.4.3-1.fc17) 
-Mime-Version: 1.0
+	<1340744566.3500.2.camel@lenny>
+X-Mailer: sparrow 1.4.2 (build 959.4)
+MIME-Version: 1.0
+X-Gm-Message-State: ALoCoQkxHO1bv2rKyKaFick9wXfTE7a+QJdUS5RnkeaUdG1SF9O16fDUNG0JUC58L28/Tj1a1yC7
 Subject: Re: [PATCH] gconf.bbclass: don't register schemas in the install stage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -45,27 +51,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Jun 2012 21:14:10 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 27 Jun 2012 06:12:26 -0000
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
-On Tue, 2012-06-26 at 11:10 +0100, Ross Burton wrote:
+On Tuesday, 26 June 2012 at 22:02, Colin Walters wrote:
+> Even better is to have the source code check for DESTDIR, and skip gconf
+> bits itself; e.g.:
+> 
+> http://git.gnome.org/browse/evolution/tree/shell/Makefile.am?h=gnome-2-28#n201
+> 
+> This patch is still useful though for components which don't check
+> DESTDIR, but again it's better to patch the relevant source code to do
+> so (or port to GSettings...).
 
-> +# Disable install-time schema registration as we're a packaging system so this
-> +# happens in the postinst script, not at install time.  Set both the configure
-> +# script option and the traditional envionment variable just to make sure.
-> +EXTRA_OECONF += "--disable-schemas-install"
-> +export GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL = "1"
+I'd prefer to use an option that the GConf autoconf macro provides over patching every module that uses GConf, as we're assured much better coverage that way.  Adding the option caught every module in the Sato image but two, which were being rather minimal with their build system and the environment variable caught those (as it affects gconftool itself).
 
-Even better is to have the source code check for DESTDIR, and skip gconf
-bits itself; e.g.:
-
-http://git.gnome.org/browse/evolution/tree/shell/Makefile.am?h=gnome-2-28#n201
-
-This patch is still useful though for components which don't check
-DESTDIR, but again it's better to patch the relevant source code to do
-so (or port to GSettings...).
-
+Ross
 
 
 
