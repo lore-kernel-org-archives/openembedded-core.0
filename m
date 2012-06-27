@@ -1,41 +1,24 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1SjmjJ-0004fE-Rd
+	(envelope-from <Liezhi.Yang@windriver.com>) id 1SjndV-0005Sb-OM
 	for openembedded-core@lists.openembedded.org;
-	Wed, 27 Jun 2012 09:32:01 +0200
-Received: by eekd49 with SMTP id d49so214878eek.6
+	Wed, 27 Jun 2012 10:30:06 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q5R8JBrK013610
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Jun 2012 00:21:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date
-	:content-transfer-encoding:message-id:references:to:x-mailer
-	:x-gm-message-state;
-	bh=eR/0sLfb+tsUznvVt+khIdFANCYLmAEBELMV0PVhE+8=;
-	b=f3R3QlViTMmUC0CDzL0MijD2lq6BN+/2Vze8139dDcEwSbLEZXQcSy3XP9658EQQKH
-	KNttN/FBV+bYZxAi0uCuPkk/TSXTpD8evpeIwZUl3/7Rf7e/WlYbch2Hs4hdtjHe4ey7
-	VFVLD0WLA2I6vUnxIr/HvEbwJ2A/jCC+sV3VVXarQj0dVjQQ84ZiwmLa7C4BzKM6DlMO
-	dfgaDg7peTXOja2lsaQtk05QzvEojtjN4QSHDJvlXkmbr2V9Uld6IUR0Hh6+ROcEuplg
-	PIJ09MdKgsg/chYVLHkIRJCX4ve3sbhTM0ng+3FWqpGgEiY6m4/TZ3ytGv5GzaDKOOXx
-	5vSA==
-Received: by 10.14.29.78 with SMTP id h54mr3734796eea.132.1340781668858;
-	Wed, 27 Jun 2012 00:21:08 -0700 (PDT)
-Received: from [172.20.0.96] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id c6sm3861243eeb.2.2012.06.27.00.21.06
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 27 Jun 2012 00:21:07 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1278)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <CAJTo0LYRGSkOGOV04C+Pb3ypi7JvbbjC7UJY-Yxywk12FQusaQ@mail.gmail.com>
-Date: Wed, 27 Jun 2012 09:21:05 +0200
-Message-Id: <B881EA27-5FFA-434C-BF87-9C6A0DA5A47D@dominion.thruhere.net>
-References: <CAJTo0LYRGSkOGOV04C+Pb3ypi7JvbbjC7UJY-Yxywk12FQusaQ@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1278)
-X-Gm-Message-State: ALoCoQlcuiwzP9K/vNdRA5VoelFkOKqMPvius/3SBSB0HNXovumGwePS4XjCf2DtnQX1lB0WzMDV
-Subject: Re: [RFC] webkit-gtk upgrade
+	Wed, 27 Jun 2012 01:19:11 -0700 (PDT)
+Received: from usp-ub10.corp.ad.wrs.com (128.224.163.69) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.1.255.0; Wed, 27 Jun 2012 01:19:10 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 27 Jun 2012 16:19:51 +0800
+Message-ID: <cover.1340773014.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.1
+MIME-Version: 1.0
+Cc: Zhenfeng.Zhao@windriver.com
+Subject: [PATCH 0/2] icu 3.6: do_install failed: Segmentation fault
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,23 +33,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Jun 2012 07:32:02 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 27 Jun 2012 08:30:06 -0000
+Content-Type: text/plain
 
+The following changes since commit f4b5afe46ff018570c1949653eb6995428827f6f:
 
-Op 27 jun. 2012, om 08:40 heeft Burton, Ross het volgende geschreven:
+  sanity.bbclass: Increase LAYER_CONF_VERSION to match bblayers change (2012-06-25 17:20:06 +0100)
 
-> Hi,
-> 
-> In the git branch poky-contrib/ross/webkit I've upgraded webkit-gtk
-> from a 1.7.1-ish git snapshot to the 1.8.1 tarball.  I've tested that
-> web builds and Midori (from meta-oe) works, although obviously more
-> testing is needed -- both users of the library and architectures.
-> 
-> I'm going away for a week now so if interested parties could test this
-> it would be much appreciated!
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib robert/icu
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=robert/icu
 
-Is that branch against oe-core or poky?
+Robert Yang (2):
+  icu 3.6: dropp apply=yes from path
+  icu 3.6: do_install failed: Segmentation fault
+
+ .../icu/files/larger-cmd-size.patch                |   27 ++++++++++++++++++++
+ meta/recipes-support/icu/icu-3.6.inc               |    9 ++++--
+ meta/recipes-support/icu/icu_3.6.bb                |    2 +-
+ 3 files changed, 34 insertions(+), 4 deletions(-)
+ create mode 100644 meta/recipes-support/icu/files/larger-cmd-size.patch
+
 
 
