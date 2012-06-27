@@ -1,23 +1,36 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-vb0-f47.google.com ([209.85.212.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@windriver.com>) id 1SjuIH-0001NI-2V
+	(envelope-from <jrsantos@jonathanrsantos.com>) id 1SjuRk-0001Wn-Jy
 	for openembedded-core@lists.openembedded.org;
-	Wed, 27 Jun 2012 17:36:37 +0200
-Received: from yow-bashfiel-l1.wrs.com (yow-bashfiel-d3.wrs.com
-	[128.224.147.67])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q5RFPdti017601;
-	Wed, 27 Jun 2012 08:25:41 -0700 (PDT)
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: richard.purdie@linuxfoundation.org
-Date: Wed, 27 Jun 2012 11:25:16 -0400
-Message-Id: <79530b87e6aba46b328b91abb368a4796b116964.1340741590.git.bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <cover.1340741590.git.bruce.ashfield@windriver.com>
-References: <cover.1340741590.git.bruce.ashfield@windriver.com>
-In-Reply-To: <cover.1340741590.git.bruce.ashfield@windriver.com>
-References: <cover.1340741590.git.bruce.ashfield@windriver.com>
-Cc: openembedded-core@lists.openembedded.org, saul.wold@intel.com
-Subject: [PATCH 1/1] linux-yocto/3.0: update BSP descriptions to new kern-tools format
+	Wed, 27 Jun 2012 17:46:24 +0200
+Received: by vbbfr13 with SMTP id fr13so798631vbb.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 27 Jun 2012 08:35:30 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer:x-gm-message-state;
+	bh=LfHCsXSS8C2bU8V0oH2n2MXQhxtVbX5AITDNbUSN/f8=;
+	b=EZ3XOb4RT6YiTV10LR4eksJx83AFkMzCd7vANnkRybUs2zD7/CnxUIjgtdrwX9CCDt
+	Rm1CV/bAyjSgrRnyafHShkro7z7Ss+qX4/an+ye6CLuGe28H0/DmxJGytLAGJbR1mSsT
+	z3MGl53fN1nx2iwOYdcdTQIFRlJdOCJx2yRJYhKAVJ8vI/1FQeAD1IO/Mp6dpzT0pUEx
+	yaaYIUBobp4kLT1TOrkxTL5PdEOdtJJ0SH+6cH46T4zNImKLdYmAhFx+1Ge/PoQpX8ju
+	bCkSRS/np8CKcnXLkZXFfucMJiClQ9X+EE9d9kKcvAj9Z3ipWiA70/B2yRZ58VnMentl
+	gvaA==
+Received: by 10.220.16.8 with SMTP id m8mr14315644vca.10.1340811330810;
+	Wed, 27 Jun 2012 08:35:30 -0700 (PDT)
+Received: from el-gaucho.home (pool-72-74-140-89.bstnma.fios.verizon.net.
+	[72.74.140.89])
+	by mx.google.com with ESMTPS id by3sm59531441vdc.17.2012.06.27.08.35.29
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 27 Jun 2012 08:35:30 -0700 (PDT)
+From: Jonathan Santos <jrsantos@jonathanrsantos.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 27 Jun 2012 11:35:25 -0400
+Message-Id: <1340811325-6186-1-git-send-email-jrsantos@jonathanrsantos.com>
+X-Mailer: git-send-email 1.7.11
+X-Gm-Message-State: ALoCoQlU1nqpn8N65LEb3fQvfU0033ckXu4EEUM7CocY1MB8YvBaoD1mg/rvLFhYoxF0ByyA/XrA
+Cc: Jonathan Santos <jrsantos@jonathanrsantos.com>
+Subject: [PATCH] mklibs-native: Upgrade to 0.1.34
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,54 +45,128 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Jun 2012 15:36:37 -0000
+X-List-Received-Date: Wed, 27 Jun 2012 15:46:24 -0000
 
-In tree linux-yocto 3.0 boards indicate that they are BSPs via
-the older/obsolete syntax "scc_leaf". This line in their board
-description is detected by the build process and is used to find
-the BSP description and the kernel type they use as their base.
-
-To work with the latest kern tools, the BSP descriptions should
-be updated to "include <ktype> branch <machine>" to acheive the
-same result.
-
-All trees newer than 3.0 already have this change and do not need
-to be updated.
-
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+Signed-off-by: Jonathan Santos <jrsantos@jonathanrsantos.com>
 ---
- meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb |    2 +-
- meta/recipes-kernel/linux/linux-yocto_3.0.bb    |    2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ .../mklibs/files/include-unistd.h-for-gcc47.patch  | 43 ----------------------
+ .../mklibs/mklibs-native_0.1.33.bb                 | 25 -------------
+ .../mklibs/mklibs-native_0.1.34.bb                 | 22 +++++++++++
+ 3 files changed, 22 insertions(+), 68 deletions(-)
+ delete mode 100644 meta/recipes-devtools/mklibs/files/include-unistd.h-for-gcc47.patch
+ delete mode 100644 meta/recipes-devtools/mklibs/mklibs-native_0.1.33.bb
+ create mode 100644 meta/recipes-devtools/mklibs/mklibs-native_0.1.34.bb
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb b/meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb
-index 971d1a8..1de0411 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb
-@@ -10,7 +10,7 @@ KMETA = "meta"
- 
- SRCREV_machine ?= "e67428d9966eecec4c081993dc64ceb5c0e64643"
- SRCREV_machine_qemuppc ?= "dcca458cb92cc287f70e4062f02460f36a881b16"
--SRCREV_meta ?= "46e8fc2bbbe73514e8d99101adaaa373f760ffa7"
-+SRCREV_meta ?= "d282029891bba5440630a885b940dea5e34e3e2c"
- 
- PR = "r2"
- PV = "${LINUX_VERSION}+git${SRCPV}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto_3.0.bb b/meta/recipes-kernel/linux/linux-yocto_3.0.bb
-index 5cdff95..362e65a 100644
---- a/meta/recipes-kernel/linux/linux-yocto_3.0.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_3.0.bb
-@@ -18,7 +18,7 @@ SRCREV_machine_qemuppc ?= "bd9a3c4c066bd4b9f52b51aaaec9b029a7abe793"
- SRCREV_machine_qemux86 ?= "70342faea067476774eb55f4e3098af0bcc48782"
- SRCREV_machine_qemux86-64 ?= "cba836a545fbeb96f6f2392c3ecbac9d7735fa65"
- SRCREV_machine ?= "bd6ad607c754dea30d91502a237870b4c45e0f1b"
--SRCREV_meta ?= "46e8fc2bbbe73514e8d99101adaaa373f760ffa7"
-+SRCREV_meta ?= "d282029891bba5440630a885b940dea5e34e3e2c"
- 
- PR = "r4"
- PV = "${LINUX_VERSION}+git${SRCPV}"
+diff --git a/meta/recipes-devtools/mklibs/files/include-unistd.h-for-gcc47.patch b/meta/recipes-devtools/mklibs/files/include-unistd.h-for-gcc47.patch
+deleted file mode 100644
+index baa12bd..0000000
+--- a/meta/recipes-devtools/mklibs/files/include-unistd.h-for-gcc47.patch
++++ /dev/null
+@@ -1,43 +0,0 @@
+-include <unistd.h> to fix build on gcc 4.7
+-
+-Many of the standard C++ library include files have been edited to no
+-longer include <unistd.h> to remove namespace pollution in gcc 4.7, so
+-we need include <unistd.h> manually sometimes.
+-
+-mklibs (0.1.33+nmu1) UNRELEASED; urgency=low
+- * Non-maintainer upload
+- * Fix FTBFS with gcc 4.7 due to missing <unistd.h> include (Closes: #667282).
+-
+--- Cyril Brulebois <kibi@debian.org>  Thu, 05 Apr 2012 00:15:27 +0000
+-
+-mklibs (0.1.33) unstable; urgency=low
+- 
+-  * Adjust the libc_pic directory for multiarch as well.
+-
+-Upstream-Status: Backport 
+-
+-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+-
+-[Added upstream information about patch]
+-
+-Signed-off-by: Saul Wold <sgw@linux.intel.com>
+-
+----
+- src/mklibs-readelf/elf.cpp |    1 +
+- 1 file changed, 1 insertion(+)
+-
+-diff --git a/src/mklibs-readelf/elf.cpp b/src/mklibs-readelf/elf.cpp
+-index 444f330..654c46f 100644
+---- a/src/mklibs-readelf/elf.cpp
+-+++ b/src/mklibs-readelf/elf.cpp
+-@@ -25,6 +25,7 @@
+- #include <fcntl.h>
+- #include <sys/mman.h>
+- #include <sys/stat.h>
+-+#include <unistd.h>
+- 
+- using namespace Elf;
+- 
+--- 
+-1.7.10
+-
+diff --git a/meta/recipes-devtools/mklibs/mklibs-native_0.1.33.bb b/meta/recipes-devtools/mklibs/mklibs-native_0.1.33.bb
+deleted file mode 100644
+index a8d12ec..0000000
+--- a/meta/recipes-devtools/mklibs/mklibs-native_0.1.33.bb
++++ /dev/null
+@@ -1,25 +0,0 @@
+-DESCRIPTION = "mklibs produces cut-down shared libraries that contain only the routines required by a particular set of executables."
+-HOMEPAGE = "https://code.launchpad.net/mklibs"
+-SECTION = "devel"
+-LICENSE = "GPLv2+"
+-LIC_FILES_CHKSUM = "file://debian/copyright;md5=98d31037b13d896e33890738ef01af64"
+-DEPENDS = "python-native"
+-
+-PR = "r1"
+-
+-SRC_URI = "http://ftp.de.debian.org/debian/pool/main/m/mklibs/${BPN}_${PV}.tar.gz \
+-	file://ac_init_fix.patch\
+-	file://fix_STT_GNU_IFUNC.patch\
+-	file://include-unistd.h-for-gcc47.patch \
+-"
+-
+-SRC_URI[md5sum] = "a462d9b802164993d247c1193116d78b"
+-SRC_URI[sha256sum] = "706aa22ec979bc54adaf9616d278cecc2f1e8cd5faa656269c9760e8669fcc1e"
+-
+-S = "${WORKDIR}/${BPN}"
+-
+-inherit autotools gettext native
+-
+-do_configure_prepend() {
+-	sed "s+MKLIBS_VERSION+${PV}+" ${S}/configure.ac
+-}
+diff --git a/meta/recipes-devtools/mklibs/mklibs-native_0.1.34.bb b/meta/recipes-devtools/mklibs/mklibs-native_0.1.34.bb
+new file mode 100644
+index 0000000..f2c3033
+--- /dev/null
++++ b/meta/recipes-devtools/mklibs/mklibs-native_0.1.34.bb
+@@ -0,0 +1,22 @@
++DESCRIPTION = "mklibs produces cut-down shared libraries that contain only the routines required by a particular set of executables."
++HOMEPAGE = "https://code.launchpad.net/mklibs"
++SECTION = "devel"
++LICENSE = "GPLv2+"
++LIC_FILES_CHKSUM = "file://debian/copyright;md5=98d31037b13d896e33890738ef01af64"
++DEPENDS = "python-native"
++
++PR = "r0"
++
++SRC_URI = "http://ftp.de.debian.org/debian/pool/main/m/mklibs/${BPN}_${PV}.tar.gz \
++	file://ac_init_fix.patch\
++	file://fix_STT_GNU_IFUNC.patch\
++"
++
++SRC_URI[md5sum] = "afe0ed527ba96b8a882b5de350603007"
++SRC_URI[sha256sum] = "0c13c314f5c397529f58a5a02d57d83aeb4463d6a0d80b9374c6576ec37ed39f"
++
++inherit autotools gettext native
++
++do_configure_prepend() {
++	sed "s+MKLIBS_VERSION+${PV}+" ${S}/configure.ac
++}
 -- 
-1.7.5.4
+1.7.11
 
 
 
