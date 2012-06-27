@@ -1,35 +1,26 @@
-Received: from astoria.ccjclearline.com ([64.235.106.9])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpjday@crashcourse.ca>)
-	id 1SjttE-00016O-HI; Wed, 27 Jun 2012 17:10:44 +0200
-Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
-	([99.241.91.63]:47392 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.77) (envelope-from <rpjday@crashcourse.ca>)
-	id 1Sjtif-0006AY-P6; Wed, 27 Jun 2012 10:59:49 -0400
-Date: Wed, 27 Jun 2012 10:59:44 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@oneiric
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <1340808774-24884-1-git-send-email-enrico.scholz@sigma-chemnitz.de>
-Message-ID: <alpine.DEB.2.02.1206271059080.19635@oneiric>
-References: <1340793253.23146.19.camel@ted>
-	<1340808774-24884-1-git-send-email-enrico.scholz@sigma-chemnitz.de>
-User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+	(envelope-from <Bruce.Ashfield@windriver.com>) id 1SjuAC-0001I2-SO
+	for openembedded-core@lists.openembedded.org;
+	Wed, 27 Jun 2012 17:28:17 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q5RFHLIV015794
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 27 Jun 2012 08:17:21 -0700 (PDT)
+Received: from [128.224.146.67] (128.224.146.67) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Wed, 27 Jun 2012 08:17:21 -0700
+Message-ID: <4FEB23F3.6070408@windriver.com>
+Date: Wed, 27 Jun 2012 11:17:07 -0400
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
 MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Cc: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>,
-	bitbake-devel@lists.openembedded.org
-Subject: Re: [PATCH 20/20] fetch: allow regexps in mirror protocol
+To: "Dennis.Yxun" <dennis.yxun@gmail.com>
+References: <CAF1ZMEcMxTQUhyHdmMWV_PA6TY=RTz9rq-EahKU0p=DFFPw+Ew@mail.gmail.com>
+In-Reply-To: <CAF1ZMEcMxTQUhyHdmMWV_PA6TY=RTz9rq-EahKU0p=DFFPw+Ew@mail.gmail.com>
+Cc: yocto@yoctoproject.org, openembedded-core@lists.openembedded.org
+Subject: Re: bring mipsel support (little endian mode)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,62 +35,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Jun 2012 15:10:44 -0000
-Content-Type: MULTIPART/MIXED; BOUNDARY="8323329-1222317525-1340809187=:19635"
+X-List-Received-Date: Wed, 27 Jun 2012 15:28:17 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
---8323329-1222317525-1340809187=:19635
-Content-Type: TEXT/PLAIN; charset=utf-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+On 12-06-27 02:25 AM, Dennis.Yxun wrote:
+> HI ALL:
+>     Sorry for crossing post, but I'm quite new here, so if I did
+> something wrong, please point me the right direction. thanks
+>     I'm using oe-core, and notice that mipsel support(o32, little
+> endian mode) is missing (current available choose is: qemumips,
+> qemumips64, qemumips64el).
+>     So, here I'm trying to bring up qemumipsel support . My first
+> attempt would just make qemumipsel work,
+> further would make it running on real board, thus maybe mips4kec,
+> mips24k, mips74k chips.
+>     What I achieved here current:
+>    1) toolchain/basic libs, utilities should works ,only one changes,
+> see my patch [a]
+>     for mipsel we also have to filter out -march=mips32, previously we
+> only handle mips (the big endian?)
+>     don't have the error message now, but if you request, I can provide.
+>    2) attempt to  compile kernel to support qemumipsel, unfortunately it fail.
+> The point here is linux-yocto doesn't support qemumipsel, but merely
+> support those other three mips arches,
+> So here is my attempt patch [b], and the fail log [c], complied out
+> binary still big endian.
 
-On Wed, 27 Jun 2012, Enrico Scholz wrote:
+Since it was easy enough to do, and doesn't imply any sort of full
+support (since I can't declare that), I did the tweak to the mips
+board descriptions and qemumipsel works without any machine mapping
+in the linux-yocto recipes.
 
-> Last mirror rewrite caused a regression not accepting
+I pushed the change to the linux-yocto-3.4 meta branch, and staged a
+commit for it locally.
+
+You can see that commit here:
+
+http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=zedd/mipsel
+
+  .. stacked on top of my other pending 3.4 commits.
+
+Note: I didn't update machine compatibility in that commit on purpose,
+and I wasn't able to complete a full core-image-minimal build due to
+QA issues. I'm probably just not building with a complete machine.conf ..
+since I grabbed one quickly this morning to check the kernel parts.
+
+Cheers,
+
+Bruce
+
 >
->    .*://.*/.* file://${DL_DIR}/../local/
+>     Could my patch [a] be accepted? or should I send with another mail
+> for better review?
+>     Is it better to request a ticket in yocto's bugzilla? or just
+> report here, I'm not quite sure.
 >
-> like specifications anymore. Patch restores old behavior by using regexp
-> matching when checking protocol.
+> Dennis
 >
-> Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-> ---
->  lib/bb/fetch2/__init__.py |    2 +-
->  1 Datei ge=C3=A4ndert, 1 Zeile hinzugef=C3=BCgt(+), 1 Zeile entfernt(-)
->
-> diff --git a/lib/bb/fetch2/__init__.py b/lib/bb/fetch2/__init__.py
-> index 6f3d88c..75ce01b 100644
-> --- a/lib/bb/fetch2/__init__.py
-> +++ b/lib/bb/fetch2/__init__.py
-> @@ -207,7 +207,7 @@ def uri_replace(ud, uri_find, uri_replace, d):
->          elif loc =3D=3D 0:
->              # Principle of least surprise. We could end up with https ma=
-tching against http and
->              # generating "files://" urls if we use the regexp engine bel=
-ow.
-> -            if i !=3D uri_decoded[loc]:
-> +            if not re.match(i, uri_decoded[loc]):
->                  return None
->              result_decoded[loc] =3D uri_replace_decoded[loc]
->          elif (re.match(i, uri_decoded[loc])):
-> --
-> 1.7.10.2
+> [a] 0001-eglibc-support-mipsel-little-endian-filter-out-march.patch
+> [b] 0002-qemu-attempt-to-add-mipsel-little-endian-support-but.patch
+> [c] build_log.txt
+> [d] log.do_package
 
-  that certainly seems to have solved my issue with using
-"own-mirrors".
 
-rday
 
---=20
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-
---8323329-1222317525-1340809187=:19635--
