@@ -1,39 +1,36 @@
-Received: from mail-vc0-f175.google.com ([209.85.220.175])
+Received: from mail-gg0-f175.google.com ([209.85.161.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <jrsantos@jonathanrsantos.com>) id 1SjwAq-0006cr-UE
+	(envelope-from <dennis.yxun@gmail.com>) id 1SjySI-0000VS-SS
 	for openembedded-core@lists.openembedded.org;
-	Wed, 27 Jun 2012 19:37:05 +0200
-Received: by vcbfl15 with SMTP id fl15so898420vcb.6
+	Wed, 27 Jun 2012 22:03:15 +0200
+Received: by ggnp4 with SMTP id p4so1232572ggn.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Jun 2012 10:26:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references
-	:x-gm-message-state;
-	bh=+RO2jOBpyS4buZIQVHJ+wDGN+yvw2aMyTHefvdA43VY=;
-	b=N3psRpCY1MjZGxKtwUusPzQxclOMi/CKpEJHP9sScPl0LjCFmvirY+3j7Aw+Fur4MO
-	0ovVhjTp0FfyA1k+1c+waYgv/wIGmQs8UGqxm7Qm881jJKmO0bcDYtu0YIJmRMqtEM8i
-	otF9f9ku7cR04YqnioHldQftQGiX987/jzzQVSvx7oHnyGYc26qfgemkddTBlCQBlWqa
-	oLXpKxcZGR7rCWuz7/3/h/1tjJYwHo5qnqTqwqJsv0JCyaBPtH9aGllZkXVxtqqvhSxq
-	WSPGJfl8pzuprLx2xapLJg7ivmzRYCAUTI3r0oSY+6JFC81n3jXM7crceIbXd6Urlibl
-	lQyQ==
-Received: by 10.52.36.180 with SMTP id r20mr3122904vdj.15.1340817970701;
-	Wed, 27 Jun 2012 10:26:10 -0700 (PDT)
-Received: from el-gaucho.home (pool-72-74-140-89.bstnma.fios.verizon.net.
-	[72.74.140.89])
-	by mx.google.com with ESMTPS id z17sm59922624vdg.13.2012.06.27.10.26.09
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 27 Jun 2012 10:26:10 -0700 (PDT)
-From: Jonathan Santos <jrsantos@jonathanrsantos.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 27 Jun 2012 13:25:22 -0400
-Message-Id: <1340817922-7341-1-git-send-email-jrsantos@jonathanrsantos.com>
-X-Mailer: git-send-email 1.7.11
-In-Reply-To: <4FEB3D2F.3050707@linux.intel.com>
-References: <4FEB3D2F.3050707@linux.intel.com>
-X-Gm-Message-State: ALoCoQl2NsSyv9wx4amlmE3EnY5DbVeHuec/1QXQiGM25F5Q/A63eBBcuNSZl/TNi/XlVFjFCqBJ
-Cc: Jonathan Santos <jrsantos@jonathanrsantos.com>
-Subject: [PATCH v2] mklibs-native: Upgrade to 0.1.34
+	Wed, 27 Jun 2012 12:52:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=/0t4q9ViUJIW1iL3vrilmoPCc/kvjXjojGkGG68dvKM=;
+	b=AdP/+tDvveE3GO65zzhoQNioMDmnX4KRCpiO3gSoH0n3ckAujkcX9j7oFp4ubRS4xl
+	MO4muv5CA6HpbExXAYoauvBVo8IFx+/OqYdO0k2AkvuFQ4RQ33I6lGjLeYHQAnw90mze
+	bD6/YYC9kC+ke7cxHnplm3RS9e+106WtiLsYysseLqutEhZEHxFVd9VmYX+yvodFGTza
+	D4YxTNlfTds2TIdfptnqYuXWuMRuDVHp8FrVb3bzblbq4IKmBxR7whCf6JrjgMBPr4KE
+	mq83Ox0xgRUwrxN9w5dqmpK4jRvRIN3M5gLu0KoNqjFgPcNbJIsNfRiqXtOreaPZ9r6e
+	Alyw==
+MIME-Version: 1.0
+Received: by 10.60.2.161 with SMTP id 1mr22345091oev.48.1340826740150; Wed, 27
+	Jun 2012 12:52:20 -0700 (PDT)
+Received: by 10.182.37.134 with HTTP; Wed, 27 Jun 2012 12:52:20 -0700 (PDT)
+Received: by 10.182.37.134 with HTTP; Wed, 27 Jun 2012 12:52:20 -0700 (PDT)
+In-Reply-To: <4FEB23F3.6070408@windriver.com>
+References: <CAF1ZMEcMxTQUhyHdmMWV_PA6TY=RTz9rq-EahKU0p=DFFPw+Ew@mail.gmail.com>
+	<4FEB23F3.6070408@windriver.com>
+Date: Thu, 28 Jun 2012 03:52:20 +0800
+Message-ID: <CAF1ZMEcU1fLbucJQC=BrXZ2XK50N-eMxei0m++vDb+edGnPkrA@mail.gmail.com>
+From: "Dennis.Yxun" <dennis.yxun@gmail.com>
+To: Bruce Ashfield <bruce.ashfield@windriver.com>
+Cc: yocto@yoctoproject.org, Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: bring mipsel support (little endian mode)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,130 +45,184 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Jun 2012 17:37:05 -0000
+X-List-Received-Date: Wed, 27 Jun 2012 20:03:15 -0000
+Content-Type: multipart/alternative; boundary=e89a8f923de48d531804c3798d5c
 
-include-unistd.h-for-gcc47.patch is no longer needed, since it was fixed upstream.
+--e89a8f923de48d531804c3798d5c
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Jonathan Santos <jrsantos@jonathanrsantos.com>
----
- .../mklibs/files/include-unistd.h-for-gcc47.patch  | 43 ----------------------
- .../mklibs/mklibs-native_0.1.33.bb                 | 25 -------------
- .../mklibs/mklibs-native_0.1.34.bb                 | 22 +++++++++++
- 3 files changed, 22 insertions(+), 68 deletions(-)
- delete mode 100644 meta/recipes-devtools/mklibs/files/include-unistd.h-for-gcc47.patch
- delete mode 100644 meta/recipes-devtools/mklibs/mklibs-native_0.1.33.bb
- create mode 100644 meta/recipes-devtools/mklibs/mklibs-native_0.1.34.bb
+hi  bruce:
+   i'm cherry-pick your commit, and it seems compile successfully, though
+will do a run-time check later, thanks
 
-diff --git a/meta/recipes-devtools/mklibs/files/include-unistd.h-for-gcc47.patch b/meta/recipes-devtools/mklibs/files/include-unistd.h-for-gcc47.patch
-deleted file mode 100644
-index baa12bd..0000000
---- a/meta/recipes-devtools/mklibs/files/include-unistd.h-for-gcc47.patch
-+++ /dev/null
-@@ -1,43 +0,0 @@
--include <unistd.h> to fix build on gcc 4.7
--
--Many of the standard C++ library include files have been edited to no
--longer include <unistd.h> to remove namespace pollution in gcc 4.7, so
--we need include <unistd.h> manually sometimes.
--
--mklibs (0.1.33+nmu1) UNRELEASED; urgency=low
-- * Non-maintainer upload
-- * Fix FTBFS with gcc 4.7 due to missing <unistd.h> include (Closes: #667282).
--
---- Cyril Brulebois <kibi@debian.org>  Thu, 05 Apr 2012 00:15:27 +0000
--
--mklibs (0.1.33) unstable; urgency=low
-- 
--  * Adjust the libc_pic directory for multiarch as well.
--
--Upstream-Status: Backport 
--
--Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
--
--[Added upstream information about patch]
--
--Signed-off-by: Saul Wold <sgw@linux.intel.com>
--
-----
-- src/mklibs-readelf/elf.cpp |    1 +
-- 1 file changed, 1 insertion(+)
--
--diff --git a/src/mklibs-readelf/elf.cpp b/src/mklibs-readelf/elf.cpp
--index 444f330..654c46f 100644
----- a/src/mklibs-readelf/elf.cpp
--+++ b/src/mklibs-readelf/elf.cpp
--@@ -25,6 +25,7 @@
-- #include <fcntl.h>
-- #include <sys/mman.h>
-- #include <sys/stat.h>
--+#include <unistd.h>
-- 
-- using namespace Elf;
-- 
---- 
--1.7.10
--
-diff --git a/meta/recipes-devtools/mklibs/mklibs-native_0.1.33.bb b/meta/recipes-devtools/mklibs/mklibs-native_0.1.33.bb
-deleted file mode 100644
-index a8d12ec..0000000
---- a/meta/recipes-devtools/mklibs/mklibs-native_0.1.33.bb
-+++ /dev/null
-@@ -1,25 +0,0 @@
--DESCRIPTION = "mklibs produces cut-down shared libraries that contain only the routines required by a particular set of executables."
--HOMEPAGE = "https://code.launchpad.net/mklibs"
--SECTION = "devel"
--LICENSE = "GPLv2+"
--LIC_FILES_CHKSUM = "file://debian/copyright;md5=98d31037b13d896e33890738ef01af64"
--DEPENDS = "python-native"
--
--PR = "r1"
--
--SRC_URI = "http://ftp.de.debian.org/debian/pool/main/m/mklibs/${BPN}_${PV}.tar.gz \
--	file://ac_init_fix.patch\
--	file://fix_STT_GNU_IFUNC.patch\
--	file://include-unistd.h-for-gcc47.patch \
--"
--
--SRC_URI[md5sum] = "a462d9b802164993d247c1193116d78b"
--SRC_URI[sha256sum] = "706aa22ec979bc54adaf9616d278cecc2f1e8cd5faa656269c9760e8669fcc1e"
--
--S = "${WORKDIR}/${BPN}"
--
--inherit autotools gettext native
--
--do_configure_prepend() {
--	sed "s+MKLIBS_VERSION+${PV}+" ${S}/configure.ac
--}
-diff --git a/meta/recipes-devtools/mklibs/mklibs-native_0.1.34.bb b/meta/recipes-devtools/mklibs/mklibs-native_0.1.34.bb
-new file mode 100644
-index 0000000..f2c3033
---- /dev/null
-+++ b/meta/recipes-devtools/mklibs/mklibs-native_0.1.34.bb
-@@ -0,0 +1,22 @@
-+DESCRIPTION = "mklibs produces cut-down shared libraries that contain only the routines required by a particular set of executables."
-+HOMEPAGE = "https://code.launchpad.net/mklibs"
-+SECTION = "devel"
-+LICENSE = "GPLv2+"
-+LIC_FILES_CHKSUM = "file://debian/copyright;md5=98d31037b13d896e33890738ef01af64"
-+DEPENDS = "python-native"
-+
-+PR = "r0"
-+
-+SRC_URI = "http://ftp.de.debian.org/debian/pool/main/m/mklibs/${BPN}_${PV}.tar.gz \
-+	file://ac_init_fix.patch\
-+	file://fix_STT_GNU_IFUNC.patch\
-+"
-+
-+SRC_URI[md5sum] = "afe0ed527ba96b8a882b5de350603007"
-+SRC_URI[sha256sum] = "0c13c314f5c397529f58a5a02d57d83aeb4463d6a0d80b9374c6576ec37ed39f"
-+
-+inherit autotools gettext native
-+
-+do_configure_prepend() {
-+	sed "s+MKLIBS_VERSION+${PV}+" ${S}/configure.ac
-+}
--- 
-1.7.11
+at 2012-6-27 pm11:17=EF=BC=8C"Bruce Ashfield" <bruce.ashfield@windriver.com=
+>written=EF=BC=9A
+>
+> On 12-06-27 02:25 AM, Dennis.Yxun wrote:
+>>
+>> HI ALL:
+>>    Sorry for crossing post, but I'm quite new here, so if I did
+>> something wrong, please point me the right direction. thanks
+>>    I'm using oe-core, and notice that mipsel support(o32, little
+>> endian mode) is missing (current available choose is: qemumips,
+>> qemumips64, qemumips64el).
+>>    So, here I'm trying to bring up qemumipsel support . My first
+>> attempt would just make qemumipsel work,
+>> further would make it running on real board, thus maybe mips4kec,
+>> mips24k, mips74k chips.
+>>    What I achieved here current:
+>>   1) toolchain/basic libs, utilities should works ,only one changes,
+>> see my patch [a]
+>>    for mipsel we also have to filter out -march=3Dmips32, previously we
+>> only handle mips (the big endian?)
+>>    don't have the error message now, but if you request, I can provide.
+>>   2) attempt to  compile kernel to support qemumipsel, unfortunately it
+fail.
+>> The point here is linux-yocto doesn't support qemumipsel, but merely
+>> support those other three mips arches,
+>> So here is my attempt patch [b], and the fail log [c], complied out
+>> binary still big endian.
+>
+>
+> Since it was easy enough to do, and doesn't imply any sort of full
+> support (since I can't declare that), I did the tweak to the mips
+> board descriptions and qemumipsel works without any machine mapping
+> in the linux-yocto recipes.
+>
+> I pushed the change to the linux-yocto-3.4 meta branch, and staged a
+> commit for it locally.
+>
+> You can see that commit here:
+>
+> http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=3Dzedd/mips=
+el
+>
+>  .. stacked on top of my other pending 3.4 commits.
+>
+> Note: I didn't update machine compatibility in that commit on purpose,
+> and I wasn't able to complete a full core-image-minimal build due to
+> QA issues. I'm probably just not building with a complete machine.conf ..
+> since I grabbed one quickly this morning to check the kernel parts.
+>
+> Cheers,
+>
+> Bruce
+>
+>
+>>
+>>    Could my patch [a] be accepted? or should I send with another mail
+>> for better review?
+>>    Is it better to request a ticket in yocto's bugzilla? or just
+>> report here, I'm not quite sure.
+>>
+>> Dennis
+>>
+>> [a] 0001-eglibc-support-mipsel-little-endian-filter-out-march.patch
+>> [b] 0002-qemu-attempt-to-add-mipsel-little-endian-support-but.patch
+>> [c] build_log.txt
+>> [d] log.do_package
+>
+>
 
+--e89a8f923de48d531804c3798d5c
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<p>hi=C2=A0 bruce:<br>
+=C2=A0=C2=A0 i&#39;m cherry-pick your commit, and it seems compile successf=
+ully, though will do a run-time check later, thanks<br></p>
+<p>at 2012-6-27 pm11:17=EF=BC=8C&quot;Bruce Ashfield&quot; &lt;<a href=3D"m=
+ailto:bruce.ashfield@windriver.com">bruce.ashfield@windriver.com</a>&gt;wri=
+tten=EF=BC=9A<br>
+&gt;<br>
+&gt; On 12-06-27 02:25 AM, Dennis.Yxun wrote:<br>
+&gt;&gt;<br>
+&gt;&gt; HI ALL:<br>
+&gt;&gt; =C2=A0 =C2=A0Sorry for crossing post, but I&#39;m quite new here, =
+so if I did<br>
+&gt;&gt; something wrong, please point me the right direction. thanks<br>
+&gt;&gt; =C2=A0 =C2=A0I&#39;m using oe-core, and notice that mipsel support=
+(o32, little<br>
+&gt;&gt; endian mode) is missing (current available choose is: qemumips,<br=
+>
+&gt;&gt; qemumips64, qemumips64el).<br>
+&gt;&gt; =C2=A0 =C2=A0So, here I&#39;m trying to bring up qemumipsel suppor=
+t . My first<br>
+&gt;&gt; attempt would just make qemumipsel work,<br>
+&gt;&gt; further would make it running on real board, thus maybe mips4kec,<=
+br>
+&gt;&gt; mips24k, mips74k chips.<br>
+&gt;&gt; =C2=A0 =C2=A0What I achieved here current:<br>
+&gt;&gt; =C2=A0 1) toolchain/basic libs, utilities should works ,only one c=
+hanges,<br>
+&gt;&gt; see my patch [a]<br>
+&gt;&gt; =C2=A0 =C2=A0for mipsel we also have to filter out -march=3Dmips32=
+, previously we<br>
+&gt;&gt; only handle mips (the big endian?)<br>
+&gt;&gt; =C2=A0 =C2=A0don&#39;t have the error message now, but if you requ=
+est, I can provide.<br>
+&gt;&gt; =C2=A0 2) attempt to =C2=A0compile kernel to support qemumipsel, u=
+nfortunately it fail.<br>
+&gt;&gt; The point here is linux-yocto doesn&#39;t support qemumipsel, but =
+merely<br>
+&gt;&gt; support those other three mips arches,<br>
+&gt;&gt; So here is my attempt patch [b], and the fail log [c], complied ou=
+t<br>
+&gt;&gt; binary still big endian.<br>
+&gt;<br>
+&gt;<br>
+&gt; Since it was easy enough to do, and doesn&#39;t imply any sort of full=
+<br>
+&gt; support (since I can&#39;t declare that), I did the tweak to the mips<=
+br>
+&gt; board descriptions and qemumipsel works without any machine mapping<br=
+>
+&gt; in the linux-yocto recipes.<br>
+&gt;<br>
+&gt; I pushed the change to the linux-yocto-3.4 meta branch, and staged a<b=
+r>
+&gt; commit for it locally.<br>
+&gt;<br>
+&gt; You can see that commit here:<br>
+&gt;<br>
+&gt; <a href=3D"http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/=
+?h=3Dzedd/mipsel">http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/lo=
+g/?h=3Dzedd/mipsel</a><br>
+&gt;<br>
+&gt; =C2=A0.. stacked on top of my other pending 3.4 commits.<br>
+&gt;<br>
+&gt; Note: I didn&#39;t update machine compatibility in that commit on purp=
+ose,<br>
+&gt; and I wasn&#39;t able to complete a full core-image-minimal build due =
+to<br>
+&gt; QA issues. I&#39;m probably just not building with a complete machine.=
+conf ..<br>
+&gt; since I grabbed one quickly this morning to check the kernel parts.<br=
+>
+&gt;<br>
+&gt; Cheers,<br>
+&gt;<br>
+&gt; Bruce<br>
+&gt;<br>
+&gt;<br>
+&gt;&gt;<br>
+&gt;&gt; =C2=A0 =C2=A0Could my patch [a] be accepted? or should I send with=
+ another mail<br>
+&gt;&gt; for better review?<br>
+&gt;&gt; =C2=A0 =C2=A0Is it better to request a ticket in yocto&#39;s bugzi=
+lla? or just<br>
+&gt;&gt; report here, I&#39;m not quite sure.<br>
+&gt;&gt;<br>
+&gt;&gt; Dennis<br>
+&gt;&gt;<br>
+&gt;&gt; [a] 0001-eglibc-support-mipsel-little-endian-filter-out-march.patc=
+h<br>
+&gt;&gt; [b] 0002-qemu-attempt-to-add-mipsel-little-endian-support-but.patc=
+h<br>
+&gt;&gt; [c] build_log.txt<br>
+&gt;&gt; [d] log.do_package<br>
+&gt;<br>
+&gt;</p>
 
+--e89a8f923de48d531804c3798d5c--
