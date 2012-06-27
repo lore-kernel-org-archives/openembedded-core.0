@@ -1,35 +1,38 @@
-Received: from mail-pz0-f47.google.com ([209.85.210.47])
+Received: from mail-pb0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1SjlcX-0003Gz-H9
+	(envelope-from <raj.khem@gmail.com>) id 1Sjlcb-0003IU-ER
 	for openembedded-core@lists.openembedded.org;
-	Wed, 27 Jun 2012 08:20:57 +0200
-Received: by mail-pz0-f47.google.com with SMTP id h21so894934dal.6
+	Wed, 27 Jun 2012 08:21:01 +0200
+Received: by pbbrq2 with SMTP id rq2so1066681pbb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Jun 2012 23:10:06 -0700 (PDT)
+	Tue, 26 Jun 2012 23:10:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references;
-	bh=o1EykKS4xC2v17Xsv+SI+S4kRSL69DT/nggPI8YILSo=;
-	b=kEeYSoHxi5MzDUV5CvaweaaaHCBH1wqqlE1nNox7+snEMzErSeBF8KU54xWlFPiMbX
-	ucAm/aAXA8H4pLarBi6NFnsJfvn6zIjUeX2oxnNnXq94lDt7q+GZcTaHVjAPwz30YH55
-	caoIOwb6rGcLcf1npCy0hUKRfzIjHyWDq/X3sNwonF4RAWPvL4Vb6gEVbWOtzUnDwfTN
-	jjF5RVttLdn9N094YrhUAkhTiEYKdCEp+cVoBWLCt/5zH9c5Z4ew6IOa4ImkktT6NIFo
-	Ki3GayztVXkzB9Erpel0obQGwKNEoZXdDkm1FVN1h9jI4cyBOOnPPZQslk29GXRYe6Qt
-	jnwg==
-Received: by 10.68.203.66 with SMTP id ko2mr60329212pbc.84.1340777406274;
-	Tue, 26 Jun 2012 23:10:06 -0700 (PDT)
+	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
+	:in-reply-to:references;
+	bh=fxapr3JOtuKYh7opy/jiucGJfi/rzK41SKG7ihnQ/rw=;
+	b=HTKW3zfmAxhR94TEu5WmmCvy7Q+Mtoo2BWb/RAwRJwjcHGcicWQW6k5hP1ai0cIQ/3
+	64GLu9/fSl/z7uCr0B0GoGTtYbekx2b/Ak839BFZ7B6e4Hs+RTNiPqHPlzTniUncW/w4
+	+3JJgEUVD9kBBS6m5WS2fuacqGikKXIj3ZfE/ic4hXM7nfPDJlHjlaUo/c+V+pu+yL/J
+	qdciUToVqvXKXy12r1I7ZYxpMp94oowa6MCJWPYZ3EAXWal/IiHk+X2ymJLnXzAHkp/3
+	iTDNWZ04VLhX8NuQawhg1VASzGaCwoSjF57e6nHVhOntaay8qAD7GaLiCywyaQ9xxUlK
+	3WYA==
+Received: by 10.68.239.164 with SMTP id vt4mr58453663pbc.166.1340777407753;
+	Tue, 26 Jun 2012 23:10:07 -0700 (PDT)
 Received: from agate.agate.openembedded.org (oldbuilder.nslu2-linux.org.
 	[140.211.169.168])
-	by mx.google.com with ESMTPS id ob9sm14168304pbb.28.2012.06.26.23.10.04
+	by mx.google.com with ESMTPS id ob9sm14168304pbb.28.2012.06.26.23.10.06
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 26 Jun 2012 23:10:05 -0700 (PDT)
+	Tue, 26 Jun 2012 23:10:06 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 26 Jun 2012 23:09:45 -0700
-Message-Id: <55a411d66293b6d2196e98376f0fb9e4487b4bdf.1340777116.git.raj.khem@gmail.com>
+Date: Tue, 26 Jun 2012 23:09:46 -0700
+Message-Id: <3ef3573dcf3deb300a12a1830ccc768c999e61fe.1340777116.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <55a411d66293b6d2196e98376f0fb9e4487b4bdf.1340777116.git.raj.khem@gmail.com>
+References: <55a411d66293b6d2196e98376f0fb9e4487b4bdf.1340777116.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1340777115.git.raj.khem@gmail.com>
 References: <cover.1340777115.git.raj.khem@gmail.com>
-Subject: [PATCH 1/7] kconfig-frontends: New recipe
+Subject: [PATCH 2/7] tclibc-eglibc.inc: Define USE_NLS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,66 +47,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Jun 2012 06:20:57 -0000
+X-List-Received-Date: Wed, 27 Jun 2012 06:21:01 -0000
 
-kconfig-frontends provides the kconfig infrastructure
-thats used for linux kernel as a standalone package. Its
-not intended to be used for kernel itself but can be
-used by packages who are based on kconfig e.g. busybox
-uclibc or new packages who wants to use kconfig infra
-for the package build
-
-kconfig-frontends names it's shared library as -3.4.0.so instead of .so.3.4.0,
-this causes the -dev package to grab it since it matches on *.so. This error
-would also have shown up with the old PACKAGE order.
+USE_NLS is generally defined for uclibc based system builds
+and generally its defined to 'no' there. However this variable
+does not exist at all for eglibc/glibc distributions. This
+patch adds a weak definition to 'yes' on eglibc based system
+builds. This will ease out some of the cryptic contructs we
+have to define certain options based on USE_NLS and also
+checking got uclibc at the same time to avoid pythong exceptions
+when its not defined.
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- .../kconfig-frontends/kconfig-frontends_3.4.bb     |   34 ++++++++++++++++++++
- 1 file changed, 34 insertions(+)
- create mode 100644 meta/recipes-devtools/kconfig-frontends/kconfig-frontends_3.4.bb
+ meta/conf/distro/include/tclibc-eglibc.inc |    2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-devtools/kconfig-frontends/kconfig-frontends_3.4.bb b/meta/recipes-devtools/kconfig-frontends/kconfig-frontends_3.4.bb
-new file mode 100644
-index 0000000..9abfa75
---- /dev/null
-+++ b/meta/recipes-devtools/kconfig-frontends/kconfig-frontends_3.4.bb
-@@ -0,0 +1,34 @@
-+# Copyright (C) 2012 Khem Raj <raj.khem@gmail.com>
-+# Released under the MIT license (see COPYING.MIT for the terms)
+diff --git a/meta/conf/distro/include/tclibc-eglibc.inc b/meta/conf/distro/include/tclibc-eglibc.inc
+index 4f5607f..e2ca4e8 100644
+--- a/meta/conf/distro/include/tclibc-eglibc.inc
++++ b/meta/conf/distro/include/tclibc-eglibc.inc
+@@ -32,6 +32,8 @@ LIBC_LOCALE_DEPENDENCIES = "\
+ 	eglibc-gconv-iso8859-1 \
+ 	eglibc-gconv-iso8859-15"
+ 
++USE_NLS ?= "yes"
 +
-+DESCRIPTION = "The kconfig-frontends project aims at centralising \
-+the effort of keeping an up-to-date, out-of-tree, packaging of the \
-+kconfig infrastructure, ready for use by third-party projects. \
-+The kconfig-frontends package provides the kconfig parser, as well as all \
-+the frontends"
-+HOMEPAGE = "http://ymorin.is-a-geek.org/projects/kconfig-frontends"
-+LICENSE = "GPL-2.0"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=9b8cf60ff39767ff04b671fca8302408"
-+SECTION = "devel"
-+DEPENDS += "ncurses flex bison gperf"
-+PR = "r0"
-+PV = "3.4.0"
-+SPIN = "0"
-+SRC_URI = "http://ymorin.is-a-geek.org/download/${BPN}/${BPN}-${PV}-${SPIN}.tar.xz"
-+SRC_URI[md5sum] = "7eed0faf5a41d6dd0b2a886a440a972d"
-+SRC_URI[sha256sum] = "638006f3d1aefefdc1db3030a15b562cf3c89f2028b1cea0bf0f0629708802f2"
-+
-+S = "${WORKDIR}/${BPN}-${PV}-${SPIN}"
-+
-+inherit autotools
-+do_configure_prepend () {
-+	mkdir -p scripts/.autostuff/m4
-+}
-+EXTRA_OECONF += "--disable-gconf --disable-qconf"
-+
-+# Some packages have the version preceeding the .so instead properly
-+# versioned .so.<version>, so we need to reorder and repackage.
-+SOLIBS = "-${PV}.so"
-+FILES_SOLIBSDEV = "${libdir}/libkconfig-parser.so"
-+
-+BBCLASSEXTEND = "native"
+ def get_libc_locales_dependencies(d):
+     if 'libc-locales' in (d.getVar('DISTRO_FEATURES', True) or '').split() :
+         return d.getVar('LIBC_LOCALE_DEPENDENCIES', True) or ''
 -- 
 1.7.9.5
 
