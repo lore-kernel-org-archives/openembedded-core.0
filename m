@@ -1,24 +1,25 @@
 Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SjuZW-0001h2-Mi
+	(envelope-from <sgw@linux.intel.com>) id 1SjuZW-0001h3-S6
 	for openembedded-core@lists.openembedded.org;
-	Wed, 27 Jun 2012 17:54:26 +0200
+	Wed, 27 Jun 2012 17:54:27 +0200
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
 	by azsmga101.ch.intel.com with ESMTP; 27 Jun 2012 08:43:30 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="161344532"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="161344538"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.182])
-	by azsmga001.ch.intel.com with ESMTP; 27 Jun 2012 08:43:29 -0700
+	by azsmga001.ch.intel.com with ESMTP; 27 Jun 2012 08:43:30 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 27 Jun 2012 08:43:15 -0700
-Message-Id: <a09cdff7e0194b521d747c034531aa0eae8f583a.1340811559.git.sgw@linux.intel.com>
+Date: Wed, 27 Jun 2012 08:43:16 -0700
+Message-Id: <afe357190a70c71957dbe1b370b1d3dbd80d25f5.1340811559.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <cover.1340811559.git.sgw@linux.intel.com>
 References: <cover.1340811559.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1340811559.git.sgw@linux.intel.com>
 References: <cover.1340811559.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 10/20] linux-yocto/3.4: -rt build fixes + configuration audit (part2)
+MIME-Version: 1.0
+Subject: [CONSOLIDATED PULL 11/20] systemtap: update to version 1.8
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,86 +35,142 @@ List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 27 Jun 2012 15:54:27 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
+From: Wade Farnsworth <wade_farnsworth@mentor.com>
 
-Updating the 3.4 SRCREVs to pickup build fixes for -rt, feature backports,
-and a second set of 3.4 configuration audit results.
+Update the systemtap recipes to the recently released 1.8.  Remove a
+couple patches whose changes are already present in the new version.
 
-  d65afd9 profiling: delete reference of obsolete CONFIG_X86_UP_APIC
-  9431490 meta: fix net_sched.cfg include
-  242149d meta: add CONFIG_VIRTIO_CONSOLE to virtio configuration
-  671a822 meta: resync series -> branches
-  e044ee1 rt: integrate patch to fix compile fail on certain configs
-  edac822 ktest: update with v3.5 content
-  182b8da net_sched: Add CODEL queue management algorithm.
-  c6adcd9 net_sched: move content out of cgroups dir
-  c8edb3e sys940x: branch before merge
-  6d06257 ext3: delete duplicate enablement settings.
-  6a5a2f8 ipv6: build in the core support vs. it being modular
-  e106230 ipv6: make standard and RT share a common config block
-  42996fb netfilter: coalesce bridge settings for standard and RT into a common file.
-  2b62fea netfilter: coalesce IPv6 settings for standard and RT into a common file.
-  d1c38c8 netfilter: coalesce IPv4 settings for standard and RT into a common file.
-  b5f9c7c preempt-rt: align with standard kernel type for basic cfg
-  ea33e01 cfg: move devtmpfs cfg/scc to cfg/fs dir
-  517eda4 preempt-rt: combine two config fragments into one
-  171a30a cgroups: re-enable net_traffic config fragment
-  86a599d cgroups: delete old blkio patches
-  8be6e5b netfilter: add comment documenting external bb use case
-  90e06bf x86[_64]: align with korg on HOTPLUG_PCI, HOTPLUG_PCI_PCIE and PCI_MSI
-  e103f7c seccomp: backport of BPF syscall filtering from v3.5
-
-[YOCTO #1694]
-
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+Signed-off-by: Wade Farnsworth <wade_farnsworth@mentor.com>
 ---
- meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb |    6 +++---
- meta/recipes-kernel/linux/linux-yocto_3.4.bb    |   14 +++++++-------
- 2 files changed, 10 insertions(+), 10 deletions(-)
+ ...prun-configure.ac-support-without-nss-for.patch |   50 --------------------
+ .../systemtap_fix_for_automake_1.12.patch          |   23 ---------
+ meta/recipes-kernel/systemtap/systemtap_git.bb     |    2 +-
+ meta/recipes-kernel/systemtap/systemtap_git.inc    |    6 +--
+ 4 files changed, 3 insertions(+), 78 deletions(-)
+ delete mode 100644 meta/recipes-kernel/systemtap/systemtap/runtime-staprun-configure.ac-support-without-nss-for.patch
+ delete mode 100644 meta/recipes-kernel/systemtap/systemtap/systemtap_fix_for_automake_1.12.patch
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb b/meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb
-index 295fe27..9b77186 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb
-@@ -9,9 +9,9 @@ LINUX_KERNEL_TYPE = "preempt-rt"
+diff --git a/meta/recipes-kernel/systemtap/systemtap/runtime-staprun-configure.ac-support-without-nss-for.patch b/meta/recipes-kernel/systemtap/systemtap/runtime-staprun-configure.ac-support-without-nss-for.patch
+deleted file mode 100644
+index eef414a..0000000
+--- a/meta/recipes-kernel/systemtap/systemtap/runtime-staprun-configure.ac-support-without-nss-for.patch
++++ /dev/null
+@@ -1,50 +0,0 @@
+-From fa81ccd4f92e5cb15a11a81a7e656bfe01745afb Mon Sep 17 00:00:00 2001
+-From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
+-Date: Tue, 5 Jun 2012 10:22:23 +0200
+-Subject: [PATCH] runtime/staprun/configure.ac: support --without-nss for
+- staprun
+-MIME-Version: 1.0
+-Content-Type: text/plain; charset=UTF-8
+-Content-Transfer-Encoding: 8bit
+-
+-Upstream-Status: Submitted
+-
+-Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
+----
+- runtime/staprun/configure.ac |   20 +++++++++++++++-----
+- 1 files changed, 15 insertions(+), 5 deletions(-)
+-
+-diff --git a/runtime/staprun/configure.ac b/runtime/staprun/configure.ac
+-index 8fd1b42..7b05f73 100644
+---- a/runtime/staprun/configure.ac
+-+++ b/runtime/staprun/configure.ac
+-@@ -67,11 +67,21 @@ AS_IF([test "x$enable_sdt_probes" != xno], [
+-             [Define to 1 to enable process.mark probes in staprun, stapio.])
+- ])
+- 
+--PKG_CHECK_MODULES([nss], [nss >= 3], [have_nss=yes], [have_nss=no])
+--AM_CONDITIONAL([HAVE_NSS], [test $have_nss = yes])
+--AS_IF([test $have_nss = yes], [
+--  AC_DEFINE([HAVE_NSS], [1], [Define to 1 if you have the nss libraries.])
+--])
+-+dnl See if we have the nss/nspr headers and libraries
+-+AC_ARG_WITH([nss],
+-+  AS_HELP_STRING([--without-nss],
+-+    [Do not use NSS even if present]))
+-+
+-+AS_IF([test "x$with_nss" != "xno"], [
+-+  PKG_CHECK_MODULES([nss], [nss >= 3],
+-+    [have_nss=yes
+-+     AC_DEFINE([HAVE_NSS], [1], [Define to 1 if you have the nss libraries.])
+-+    ], [have_nss=no])
+-+], [have_nss=no])
+-+
+-+AM_CONDITIONAL([HAVE_NSS], [test "${have_nss}" = "yes"])
+-+
+-+
+- AC_ARG_ENABLE([nls], [AS_HELP_STRING([--enable-nls], [enable translating program messages])])
+- AS_IF([test "x$enable_nls" != xno], [
+- AC_DEFINE([ENABLE_NLS], [1], [Define to 1 if program messages should be translated.])
+--- 
+-1.7.6.5
+-
+diff --git a/meta/recipes-kernel/systemtap/systemtap/systemtap_fix_for_automake_1.12.patch b/meta/recipes-kernel/systemtap/systemtap/systemtap_fix_for_automake_1.12.patch
+deleted file mode 100644
+index ef74a09..0000000
+--- a/meta/recipes-kernel/systemtap/systemtap/systemtap_fix_for_automake_1.12.patch
++++ /dev/null
+@@ -1,23 +0,0 @@
+-Upstream-Status: Pending 
+-
+-Automake 1.12 has deprecated automatic de-ANSI-fication support
+-
+-Fix this issue with automake 1.12:
+-
+-| configure.ac:23: error: automatic de-ANSI-fication support has been removed
+-
+-Signed-Off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
+-2012/05/02
+-
+-Index: git/configure.ac
+-===================================================================
+---- git.orig/configure.ac
+-+++ git/configure.ac
+-@@ -20,7 +20,6 @@ AC_PROG_CXX
+- AC_PROG_CPP
+- AM_PROG_CC_STDC
+- AM_PROG_CC_C_O
+--AM_C_PROTOTYPES
+- AC_PROG_RANLIB
+- AC_OBJEXT
+- AC_EXEEXT
+diff --git a/meta/recipes-kernel/systemtap/systemtap_git.bb b/meta/recipes-kernel/systemtap/systemtap_git.bb
+index 7ed5fcd..059aca7 100644
+--- a/meta/recipes-kernel/systemtap/systemtap_git.bb
++++ b/meta/recipes-kernel/systemtap/systemtap_git.bb
+@@ -6,7 +6,7 @@ DEPENDS = "elfutils sqlite3 systemtap-native"
+ DEPENDS_virtclass-native = "elfutils-native sqlite3-native gettext-native"
+ DEPENDS_virtclass-nativesdk = "elfutils-nativesdk sqlite3-nativesdk gettext-nativesdk"
  
- KMETA = "meta"
+-PR = "r5"
++PR = "r0"
  
--SRCREV_machine ?= "e1247309cd90fbdb17479f909a7172e4b0b622d0"
--SRCREV_machine_qemuppc ?= "10ba85000bd4e32ea9e5557bf6d9166b12651c02"
--SRCREV_meta ?= "ef03644fe33f7fd6f50a36b85701fdc6d73e2c96"
-+SRCREV_machine ?= "4a688295a1c6d44f3eea409d51a0344c8830d829"
-+SRCREV_machine_qemuppc ?= "83843542dd524007547eddba507690cd4bab393b"
-+SRCREV_meta ?= "d65afd9e42230a3ef4cc1f9ad62d0aa84a533cd0"
+ export CC_FOR_BUILD = "${BUILD_CC}"
+ export CFLAGS_FOR_BUILD = "${BUILD_CFLAGS}"
+diff --git a/meta/recipes-kernel/systemtap/systemtap_git.inc b/meta/recipes-kernel/systemtap/systemtap_git.inc
+index 5f2987b..093e62d 100644
+--- a/meta/recipes-kernel/systemtap/systemtap_git.inc
++++ b/meta/recipes-kernel/systemtap/systemtap_git.inc
+@@ -1,13 +1,11 @@
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
  
- PR = "r0"
- PV = "${LINUX_VERSION}+git${SRCPV}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto_3.4.bb b/meta/recipes-kernel/linux/linux-yocto_3.4.bb
-index d859c29..7d14967 100644
---- a/meta/recipes-kernel/linux/linux-yocto_3.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_3.4.bb
-@@ -10,13 +10,13 @@ KBRANCH_qemumips64 = "standard/mti-malta64"
- KBRANCH_qemumips64el = "standard/mti-malta64"
- KBRANCH_qemuarm  = "standard/arm-versatile-926ejs"
+-SRCREV = "83bd2699d8cff2f2d6b9eaf5ea254e4cb6b33e81"
+-PV = "1.7+git${SRCPV}"
++SRCREV = "48fa6b5e1d3e636c34cbd5650370e6f634efc294"
++PV = "1.8+git${SRCPV}"
  
--SRCREV_machine_qemuarm ?= "5a282e8b7138174389b64846ea993240c8b1f869"
--SRCREV_machine_qemumips  ?= "7db36332a033ab89988dfcb7b563cbcd83b93663"
--SRCREV_machine_qemuppc ?= "74f0e62044042a7e7abdbac83c6bf160b0c12c58"
--SRCREV_machine_qemux86 ?= "aa9621f0955723c71821cc25e711a6d8fe80caf9"
--SRCREV_machine_qemux86-64 ?= "aa9621f0955723c71821cc25e711a6d8fe80caf9"
--SRCREV_machine ?= "aa9621f0955723c71821cc25e711a6d8fe80caf9"
--SRCREV_meta ?= "ef03644fe33f7fd6f50a36b85701fdc6d73e2c96"
-+SRCREV_machine_qemuarm ?= "4e354f7fa345464f284525a27eb1544cbc60968d"
-+SRCREV_machine_qemumips  ?= "c65bc98cd501459bb6ffc7b5ec5a7e72c41dceef"
-+SRCREV_machine_qemuppc ?= "ee3475b4ca8c9e26f55f6e107101d832e7dec7ac"
-+SRCREV_machine_qemux86 ?= "a1cdb60720c452c3965eaec3ec2cd10f06261cc5"
-+SRCREV_machine_qemux86-64 ?= "a1cdb60720c452c3965eaec3ec2cd10f06261cc5"
-+SRCREV_machine ?= "a1cdb60720c452c3965eaec3ec2cd10f06261cc5"
-+SRCREV_meta ?= "d65afd9e42230a3ef4cc1f9ad62d0aa84a533cd0"
+ SRC_URI = "git://sources.redhat.com/git/systemtap.git;protocol=git \
+            file://docproc-build-fix.patch \
+-           file://systemtap_fix_for_automake_1.12.patch \
+-           file://runtime-staprun-configure.ac-support-without-nss-for.patch \
+           "
  
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.4.git;protocol=git;nocheckout=1;branch=${KBRANCH},meta;name=machine,meta"
- 
+ FILESPATH = "${FILE_DIRNAME}/systemtap"
 -- 
 1.7.7.6
 
