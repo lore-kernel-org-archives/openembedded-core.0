@@ -1,24 +1,24 @@
 Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SjuZU-0001h1-Ce
+	(envelope-from <sgw@linux.intel.com>) id 1SjuZU-0001h2-Hy
 	for openembedded-core@lists.openembedded.org;
 	Wed, 27 Jun 2012 17:54:24 +0200
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 27 Jun 2012 08:43:27 -0700
+	by azsmga101.ch.intel.com with ESMTP; 27 Jun 2012 08:43:28 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="161344503"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="161344507"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.182])
 	by azsmga001.ch.intel.com with ESMTP; 27 Jun 2012 08:43:27 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 27 Jun 2012 08:43:08 -0700
-Message-Id: <39ef0a705ca059f9a7c68aa1710c81411fb7c762.1340811559.git.sgw@linux.intel.com>
+Date: Wed, 27 Jun 2012 08:43:09 -0700
+Message-Id: <d419bc8c4de78a3021183197b08ee7b864c6569d.1340811559.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <cover.1340811559.git.sgw@linux.intel.com>
 References: <cover.1340811559.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1340811559.git.sgw@linux.intel.com>
 References: <cover.1340811559.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 03/20] classes/image: Allow openssh empty passwords login.
+Subject: [CONSOLIDATED PULL 04/20] image/core-image: Handle conflicting IMAGE_FEATURES.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,44 +37,93 @@ X-List-Received-Date: Wed, 27 Jun 2012 15:54:24 -0000
 
 From: Lianhao Lu <lianhao.lu@intel.com>
 
-Allow empty passwords login so that the default root user can login in
-through openssh.
+IMAGE_FEATURES such as 'ssh-server-dropbear' and 'ssh-server-openssh'
+can't be both enabled. User can use the following variables to define
+the relationship of image features:
+
+IMAGE_FEATURES_REPLACES_foo = "bar" means including image feature "foo"
+would replace the image feature "bar".
+
+IMAGE_FEATURES_CONFLICTS_foo = "bar" means including both image features
+"foo" and "bar" would cause an parsing error.
 
 Signed-off-by: Lianhao Lu <lianhao.lu@intel.com>
 ---
- meta/classes/core-image.bbclass |    2 ++
- meta/classes/image.bbclass      |    7 +++++++
- 2 files changed, 9 insertions(+), 0 deletions(-)
+ meta/classes/core-image.bbclass                 |   11 ++++++++++-
+ meta/classes/image.bbclass                      |   17 +++++++++++++++++
+ meta/recipes-sato/images/core-image-sato-sdk.bb |    2 ++
+ 3 files changed, 29 insertions(+), 1 deletions(-)
 
 diff --git a/meta/classes/core-image.bbclass b/meta/classes/core-image.bbclass
-index e2ad0fc..25f5c5a 100644
+index 25f5c5a..6b207d7 100644
 --- a/meta/classes/core-image.bbclass
 +++ b/meta/classes/core-image.bbclass
-@@ -69,4 +69,6 @@ ROOTFS_POSTPROCESS_COMMAND += "rootfs_update_timestamp ; "
+@@ -47,6 +47,14 @@ PACKAGE_GROUP_ssh-server-openssh = "task-core-ssh-openssh"
+ PACKAGE_GROUP_package-management = "${ROOTFS_PKGMANAGE}"
+ PACKAGE_GROUP_qt4-pkgs = "task-core-qt-demos"
  
- # Zap the root password if debug-tweaks feature is not enabled
- ROOTFS_POSTPROCESS_COMMAND += '${@base_contains("IMAGE_FEATURES", "debug-tweaks", "", "zap_root_password ; ",d)}'
-+# Allow openssh accept empty password login if both debug-tweaks and ssh-server-openssh are enabled
-+ROOTFS_POSTPROCESS_COMMAND += '${@base_contains("IMAGE_FEATURES", "debug-tweaks ssh-server-openssh", "openssh_allow_empty_password; ", "",d)}'
++
++# IMAGE_FEAETURES_REPLACES_foo = 'bar1 bar2'
++# Including image feature foo would replace the image features bar1 and bar2
++IMAGE_FEATURES_REPLACES_ssh-server-openssh = "ssh-server-dropbear"
++
++# IMAGE_FEATURES_CONFLICTS_foo = 'bar1 bar2'
++# An error exception would be raised if both image features foo and bar1(or bar2) are included
++
+ CORE_IMAGE_BASE_INSTALL = '\
+     task-core-boot \
+     task-base-extended \
+@@ -60,7 +68,8 @@ IMAGE_INSTALL ?= "${CORE_IMAGE_BASE_INSTALL}"
+ 
+ X11_IMAGE_FEATURES  = "x11-base apps-x11-core package-management"
+ ENHANCED_IMAGE_FEATURES = "${X11_IMAGE_FEATURES} apps-x11-games apps-x11-pimlico package-management"
+-SATO_IMAGE_FEATURES = "${ENHANCED_IMAGE_FEATURES} x11-sato ssh-server-dropbear"
++SSHSERVER_IMAGE_FEATURES ??= "ssh-server-dropbear"
++SATO_IMAGE_FEATURES = "${ENHANCED_IMAGE_FEATURES} x11-sato ${SSHSERVER_IMAGE_FEATURES}"
+ 
+ inherit image
  
 diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index fb932b9..0772363 100644
+index 0772363..6fac974 100644
 --- a/meta/classes/image.bbclass
 +++ b/meta/classes/image.bbclass
-@@ -318,6 +318,13 @@ zap_root_password () {
- 	mv ${IMAGE_ROOTFS}/etc/passwd.new ${IMAGE_ROOTFS}/etc/passwd
- } 
+@@ -87,6 +87,23 @@ python () {
+         deps += " %s:do_populate_sysroot" % dep
+     d.setVarFlag('do_rootfs', 'depends', deps)
  
-+# allow openssh accept login with empty password string
-+openssh_allow_empty_password () {
-+	if [ -e ${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config ]; then
-+		sed -i 's#.*PermitEmptyPasswords.*#PermitEmptyPasswords yes#' ${IMAGE_ROOTFS}${sysconfdir}/ssh/sshd_config
-+	fi
-+}
++    #process IMAGE_FEATURES, we must do this before runtime_mapping_rename
++    #Check for replaces image features
++    features = set(oe.data.typed_value('IMAGE_FEATURES', d))
++    remain_features = features.copy()
++    for feature in features:
++        replaces = set((d.getVar("IMAGE_FEATURES_REPLACES_%s" % feature, True) or "").split())
++        remain_features -= replaces
 +
- # Turn any symbolic /sbin/init link into a file
- remove_init_link () {
- 	if [ -h ${IMAGE_ROOTFS}/sbin/init ]; then
++    #Check for conflict image features
++    for feature in remain_features:
++        conflicts = set((d.getVar("IMAGE_FEATURES_CONFLICTS_%s" % feature, True) or "").split())
++        temp = conflicts & remain_features
++        if temp:
++            raise bb.parse.SkipPackage("%s contains conflicting IMAGE_FEATURES %s %s" % (d.getVar('PN', True), feature, ' '.join(list(temp))))
++
++    d.setVar('IMAGE_FEATURES', ' '.join(list(remain_features)))
++
+     # If we don't do this we try and run the mapping hooks while parsing which is slow
+     # bitbake should really provide something to let us know this...
+     if d.getVar('BB_WORKERCONTEXT', True) is not None:
+diff --git a/meta/recipes-sato/images/core-image-sato-sdk.bb b/meta/recipes-sato/images/core-image-sato-sdk.bb
+index eed1698..5bb9469 100644
+--- a/meta/recipes-sato/images/core-image-sato-sdk.bb
++++ b/meta/recipes-sato/images/core-image-sato-sdk.bb
+@@ -8,6 +8,8 @@ form a standalone SDK."
+ IMAGE_FEATURES += "apps-console-core ${SATO_IMAGE_FEATURES} dev-pkgs tools-sdk qt4-pkgs"
+ EXTRA_IMAGE_FEATURES += "tools-debug tools-profile tools-testapps debug-tweaks"
+ 
++SSHSERVER_IMAGE_FEATURES = "ssh-server-openssh"
++
+ LICENSE = "MIT"
+ 
+ inherit core-image
 -- 
 1.7.7.6
 
