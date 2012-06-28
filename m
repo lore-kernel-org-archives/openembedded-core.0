@@ -1,44 +1,25 @@
-Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <saul.wold@intel.com>) id 1SkIU4-0002L7-2X
+	(envelope-from <sgw@linux.intel.com>) id 1SkIfO-0002TX-Ql
 	for openembedded-core@lists.openembedded.org;
-	Thu, 28 Jun 2012 19:26:24 +0200
-Received: from mail-pz0-f52.google.com ([209.85.210.52])
-	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 28 Jun 2012 10:15:28 -0700
-Received: by dano14 with SMTP id o14so3148072dan.25
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Jun 2012 10:15:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=message-id:date:from:organization:user-agent:mime-version:to:cc
-	:subject:references:in-reply-to:content-type
-	:content-transfer-encoding:x-gm-message-state;
-	bh=/3CJwiMLcdnVE7kxgagBQjseQsOtmq7lwyjzIbGzJLs=;
-	b=egfQjrM2ddwUW0Yk0F7cDD0KkS290MFU2cEq5m1JgvVGEMobjYxH8GLlHTfpf5Sooj
-	ppCCITiAabG+5ZgS9s0YadbLahROLIzE+KucVrckgKLZ5YuYV3sFORR9nXYgY/qBY/e7
-	UrbFTcooUcM9941NGTqPspc+b4tSPXxsMF6nP5r0mvWy0pxs/pQhZgheNQ/pS3syLSaZ
-	XopKEk0XHpA8ug6rENuz8vcoQg3DGCulBFVxkDlYQFssEvXCQFGTyXp47RXzkK1594iO
-	LjhV4AcQykBdpBsoSnAa/J039Z9ciEFExGhIy0Tg0lWuHOK11P/Rj//WjkK9PgB87QfV
-	d3dA==
-Received: by 10.68.225.9 with SMTP id rg9mr9202363pbc.137.1340903727668;
-	Thu, 28 Jun 2012 10:15:27 -0700 (PDT)
-Received: from [10.6.18.71] (c-71-193-189-117.hsd1.wa.comcast.net.
-	[71.193.189.117])
-	by mx.google.com with ESMTPS id nh8sm2642414pbc.60.2012.06.28.10.15.25
-	(version=SSLv3 cipher=OTHER); Thu, 28 Jun 2012 10:15:26 -0700 (PDT)
-Message-ID: <4FEC912C.5060308@intel.com>
-Date: Thu, 28 Jun 2012 10:15:24 -0700
-From: Saul Wold <saul.wold@intel.com>
-Organization: Intel
+	Thu, 28 Jun 2012 19:38:07 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 28 Jun 2012 10:27:10 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="161874782"
+Received: from unknown (HELO [10.255.12.182]) ([10.255.12.182])
+	by azsmga001.ch.intel.com with ESMTP; 28 Jun 2012 10:27:10 -0700
+Message-ID: <4FEC93ED.2040102@linux.intel.com>
+Date: Thu, 28 Jun 2012 10:27:09 -0700
+From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1340741590.git.bruce.ashfield@windriver.com>
-In-Reply-To: <cover.1340741590.git.bruce.ashfield@windriver.com>
-X-Gm-Message-State: ALoCoQl6TU3MO/8gbDLNlnFpGBkzpURK9dpgPNzDOz3r1Dv7/fFTaXCN3hERFa+pqK0NKneHzbTz
-Subject: Re: [PATCH 0/1] linux-yocto/3.0: update BSP descriptions
+References: <1340859395-13638-1-git-send-email-dennis.lan@actions-semi.com>
+In-Reply-To: <1340859395-13638-1-git-send-email-dennis.lan@actions-semi.com>
+Subject: Re: [PATCH v2] openjade-native: fix undefined Getopts error, use std namespace
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -53,43 +34,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Jun 2012 17:26:24 -0000
+X-List-Received-Date: Thu, 28 Jun 2012 17:38:07 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 06/27/2012 08:25 AM, Bruce Ashfield wrote:
-> Saul,
+On 06/27/2012 09:56 PM, dennis lan wrote:
+> From: Dennis Lan<dennis.yxun@gmail.com>
 >
-> Here's the fix for the 3.0 mpc 8360 build issue on the autobuilder.
-> A few boards were missed when updating the BSP descriptions to a new
-> format. This completes the effort.
+> Using Gentoo Linux as the build host, it fails without this patch
+> Use Getopt::Std in place of getopts.pl.
 >
-> On a related note, we'll bump this to 3.4 support shortly so the tweak
-> to the meta data is the best short term fix.
+> https://bugs.gentoo.org/show_bug.cgi?id=420083
 >
-> Cheers,
+> which following error:
+> /usr/bin/perl -w ./../msggen.pl -l jstyleModule InterpreterMessages.msg
+> /usr/bin/perl -w ./../msggen.pl -l jstyleModule DssslAppMessages.msg
+> Undefined subroutine&main::Getopts called at ./../msggen.pl line 22.
+> make[2]: *** [InterpreterMessages.h] Error 2
+> make[2]: *** Waiting for unfinished jobs....
+> Undefined subroutine&main::Getopts called at ./../msggen.pl line 22.
+> make[2]: *** [DssslAppMessages.h] Error 2
 >
-> Bruce
+> Upstream-Status: Submitted [openjade-devel@lists.sourceforge.net]
 >
-> The following changes since commit fae565d2bc9090cbb083d44ea5de6b2b80622118:
+This needs to be in the patch file itself, we can track the patches 
+better that way.
+> Signed-off-by: Dennis Lan<dennis.yxun@gmail.com>
+> ---
+>   .../openjade/openjade-1.3.2/msggen.pl.patch        |   32 ++++++++++++++++++++
+>   .../openjade/openjade-native_1.3.2.bb              |    1 +
+>   2 files changed, 33 insertions(+), 0 deletions(-)
+>   create mode 100644 meta/recipes-devtools/openjade/openjade-1.3.2/msggen.pl.patch
 >
->    linux-yocto/3.4: -rt build fixes + configuration audit (part2) (2012-06-26 14:34:22 -0400)
->
-> are available in the git repository at:
->    git://git.pokylinux.org/poky-contrib zedd/3.0-fix
->    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/3.0-fix
->
-> Bruce Ashfield (1):
->    linux-yocto/3.0: update BSP descriptions to new kern-tools format
->
->   meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb |    2 +-
->   meta/recipes-kernel/linux/linux-yocto_3.0.bb    |    2 +-
->   2 files changed, 2 insertions(+), 2 deletions(-)
->
+> diff --git a/meta/recipes-devtools/openjade/openjade-1.3.2/msggen.pl.patch b/meta/recipes-devtools/openjade/openjade-1.3.2/msggen.pl.patch
+> new file mode 100644
+> index 0000000..1afe68b
+> --- /dev/null
+> +++ b/meta/recipes-devtools/openjade/openjade-1.3.2/msggen.pl.patch
 
-Merged into OE-Core
+Please add comment Upstream-Status and SOB to the patch itself.
 
 Thanks
-	Sau!
+Sau!
+
+> @@ -0,0 +1,32 @@
+> +Use Getopt::Std in place of getopts.pl.
+> +https://bugs.gentoo.org/show_bug.cgi?id=420083
+> +
+> +--- a/msggen.pl
+> ++++ b/msggen.pl
+> +@@ -4,6 +4,7 @@
+> + # See the file COPYING for copying permission.
+> +
+> + use POSIX;
+> ++use Getopt::Std;
+> +
+> + # Package and version.
+> + $package = 'openjade';
+> +@@ -18,8 +19,7 @@
+> + undef $opt_l;
+> + undef $opt_p;
+> + undef $opt_t;
+> +-do 'getopts.pl';
+> +-&Getopts('l:p:t:');
+> ++getopts('l:p:t:');
+> + $module = $opt_l;
+> + $pot_file = $opt_p;
+> +
+> +@@ -72,7 +72,7 @@
+> +     else {
+> + 	$field[0] =~ /^[IWQXE][0-9]$/ ||&error("invalid first field");;
+> + 	$type[$num] = substr($field[0], 0, 1);
+> +-	$argc = int(substr($field[0], 1, 1));
+> ++	$argc = substr($field[0], 1, 1);
+> +     }
+> +     $nargs[$num] = $argc;
+> +     $field[1] =~ /^[a-zA-Z_][a-zA-Z0-9_]+$/ ||&error("invalid tag");
+> diff --git a/meta/recipes-devtools/openjade/openjade-native_1.3.2.bb b/meta/recipes-devtools/openjade/openjade-native_1.3.2.bb
+> index 5b29c1f..efd1e11 100644
+> --- a/meta/recipes-devtools/openjade/openjade-native_1.3.2.bb
+> +++ b/meta/recipes-devtools/openjade/openjade-native_1.3.2.bb
+> @@ -14,6 +14,7 @@ RDEPENDS_${PN} = "sgml-common-native"
+>
+>   SRC_URI = "${SOURCEFORGE_MIRROR}/openjade/openjade-${PV}.tar.gz \
+>              file://makefile.patch \
+> +           file://msggen.pl.patch \
+>              file://reautoconf.patch \
+>   	   file://user-declared-default-constructor.patch"
+>
 
 
