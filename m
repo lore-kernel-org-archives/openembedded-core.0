@@ -1,26 +1,35 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail-pb0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Kai.Kang@windriver.com>) id 1SkBJ0-0001Qs-1c
+	(envelope-from <dennis.yxun@gmail.com>) id 1SkBKn-0001YA-OL
 	for openembedded-core@lists.openembedded.org;
-	Thu, 28 Jun 2012 11:46:30 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q5S9ZYHn001940
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 28 Jun 2012 02:35:34 -0700 (PDT)
-Received: from localhost.localdomain (128.224.162.164) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.1.255.0; Thu, 28 Jun 2012 02:35:34 -0700
-From: Kang Kai <kai.kang@windriver.com>
-To: <sgw@linux.intel.com>
-Date: Thu, 28 Jun 2012 17:35:57 +0800
-Message-ID: <e6f7a20a5b94c037c1f234180751ecceba8d2d41.1340873279.git.kai.kang@windriver.com>
-X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <cover.1340873279.git.kai.kang@windriver.com>
-References: <cover.1340873279.git.kai.kang@windriver.com>
+	Thu, 28 Jun 2012 11:48:22 +0200
+Received: by pbbrq2 with SMTP id rq2so2706769pbb.6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 28 Jun 2012 02:37:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type:content-transfer-encoding;
+	bh=tMGFGS41d+u6cxgd11g/zbtHKT19AhpkRLqtFDBGDbY=;
+	b=q7wggonyLZi6VB2SMDRHtVyplNe2xBac5fZEmwmhnt95RMIH9dxZYHMTa7VymigO5g
+	RXaoyTjjq8APaMk3OohDzp7J6XtkT7lxl4spjCKqztj8o6Gd1KLJQW2YGuhM6AiqPhNP
+	Y4WDWzEE1m6n3hVMFTpjEFVrskne1n32lb4oSQX+QG3U0R2DpdstbNr/k1rYR12eGzG1
+	KLid1NJRRpgZ+XgMChGZN28vcJeBpt4anNK7uyqNPjvf6FzN35maVxGWQjTnhhySjV5i
+	zwPuHBrTvezF9tCrG4d478jf+PG4xMXv+XEUISMNmszTfC7l+pYB4peKXW2oYpr88NDi
+	O22g==
 MIME-Version: 1.0
-X-Originating-IP: [128.224.162.164]
-Cc: Zhenfeng.Zhao@windriver.com, openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/2] lsbinitscripts: Add a linking for functions.lsbinitscripts
+Received: by 10.68.218.101 with SMTP id pf5mr5082948pbc.152.1340876246361;
+	Thu, 28 Jun 2012 02:37:26 -0700 (PDT)
+Received: by 10.68.230.69 with HTTP; Thu, 28 Jun 2012 02:37:26 -0700 (PDT)
+In-Reply-To: <e7eb300513b285a6e90a46989ed283e1cf28bfc0.1340845612.git.raj.khem@gmail.com>
+References: <cover.1340845612.git.raj.khem@gmail.com>
+	<ac748647d97bee19bca3a4f312c82619b148c96e.1340845612.git.raj.khem@gmail.com>
+	<e7eb300513b285a6e90a46989ed283e1cf28bfc0.1340845612.git.raj.khem@gmail.com>
+Date: Thu, 28 Jun 2012 17:37:26 +0800
+Message-ID: <CAF1ZMEccy-nQowP8odxJGRGHBvXCuDDfGYCNDzkWdGoeHFcjog@mail.gmail.com>
+From: "Dennis.Yxun" <dennis.yxun@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/4] eglibc: support mipsel little endian, filter out -march=mips32
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,54 +44,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Jun 2012 09:46:30 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 28 Jun 2012 09:48:22 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
+HI Raj:
+   So this will eventually goes into OE-core, right?
+   As I see Bruce has no response for the "override scheme"
+so mips -> for big endian mips o32 (could be mipseb better?, less confusion=
+)
+and mipsel -> for little endian mips o32, they in same level, not of
+one's subset
 
-Increase ALTERNATIVE_PRIORITY of functions to be higher than the
-value of package initscript. When lsbinitscripts installed, file
-functions provided by lsbinitscripts will be used.
+Dennis
 
-[YOCTO #2133]
-
-Signed-off-by: Xiaofeng Yan <xiaofeng.yan@windriver.com>
-Signed-off-by: Kang Kai <kai.kang@windriver.com>
----
- meta/recipes-extended/lsb/lsbinitscripts_9.03.bb |    6 +++---
- 1 files changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/meta/recipes-extended/lsb/lsbinitscripts_9.03.bb b/meta/recipes-extended/lsb/lsbinitscripts_9.03.bb
-index dd92a92..f324994 100644
---- a/meta/recipes-extended/lsb/lsbinitscripts_9.03.bb
-+++ b/meta/recipes-extended/lsb/lsbinitscripts_9.03.bb
-@@ -2,7 +2,7 @@ DESCRIPTION = "SysV init scripts which only is used in an LSB image"
- SECTION = "base"
- LICENSE = "GPLv2"
- DEPENDS = "popt"
--PR = "r0"
-+PR = "r1"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=ebf4e8b49780ab187d51bd26aaa022c6"
- 
-@@ -15,7 +15,7 @@ SRC_URI[md5sum] = "668fa2762b57ef75436303857847bba3"
- SRC_URI[sha256sum] = "d56547a68ce223a7413b2676650b042125f047c8d6d139c5b970e118b3dc958a"
- inherit update-alternatives
- 
--ALTERNATIVE_PRIORITY = "10"
-+ALTERNATIVE_PRIORITY = "100"
- ALTERNATIVE_${PN} = "functions"
- ALTERNATIVE_LINK_NAME[functions] = "${sysconfdir}/init.d/functions"
- 
-@@ -23,5 +23,5 @@ do_configure[noexec] = "1"
- 
- do_install(){
- 	install -d ${D}/etc/init.d/
--	install -m 0755 ${S}/rc.d/init.d/functions ${D}/etc/init.d/functions
-+	install -m 0755 ${S}/rc.d/init.d/functions ${D}/etc/init.d/functions.${BPN}
- }
--- 
-1.7.5.4
-
+On Thu, Jun 28, 2012 at 9:10 AM, Khem Raj <raj.khem@gmail.com> wrote:
+> From: Dennis Lan <dennis.yxun@gmail.com>
+>
+> Quote for eglibc source:
+> =C2=A0for mips eglibc now builds syscall tables for all abi's
+> =C2=A0so we make sure that we choose right march option which is
+> =C2=A0compatible with o32,n32 and n64 abi's
+> =C2=A0e.g. -march=3Dmips32 is not compatible with n32 and n64 therefore
+> =C2=A0we filter it out in such case -march=3Dfrom-abi which will be
+> =C2=A0mips1 when using o32 and mips3 when using n32/n64
+>
+> Signed-off-by: Dennis Lan <dennis.yxun@gmail.com>
+> ---
+> =C2=A0meta/recipes-core/eglibc/eglibc_2.15.bb | =C2=A0 =C2=A01 +
+> =C2=A01 file changed, 1 insertion(+)
+>
+> diff --git a/meta/recipes-core/eglibc/eglibc_2.15.bb b/meta/recipes-core/=
+eglibc/eglibc_2.15.bb
+> index e57a112..b2922b4 100644
+> --- a/meta/recipes-core/eglibc/eglibc_2.15.bb
+> +++ b/meta/recipes-core/eglibc/eglibc_2.15.bb
+> @@ -101,6 +101,7 @@ do_patch_append() {
+> =C2=A0# mips1 when using o32 and mips3 when using n32/n64
+>
+> =C2=A0TUNE_CCARGS_mips :=3D "${@oe_filter_out('-march=3Dmips32', '${TUNE_=
+CCARGS}', d)}"
+> +TUNE_CCARGS_mipsel :=3D "${@oe_filter_out('-march=3Dmips32', '${TUNE_CCA=
+RGS}', d)}"
+>
+> =C2=A0# We need to ensure that all of the i386 and x86_64 headers are ide=
+ntical
+> =C2=A0# to support the multilib case. =C2=A0We do this by copying headers=
+ from x86_64
+> --
+> 1.7.9.5
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
