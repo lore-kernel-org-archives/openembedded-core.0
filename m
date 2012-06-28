@@ -1,40 +1,24 @@
-Received: from mail-qc0-f175.google.com ([209.85.216.175])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mario.goulart@gmail.com>) id 1SkJZr-0003oi-3g
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1SkJeD-0003sm-Jo
 	for openembedded-core@lists.openembedded.org;
-	Thu, 28 Jun 2012 20:36:27 +0200
-Received: by qcad10 with SMTP id d10so308451qca.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Jun 2012 11:25:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:from:to:subject:references:date:in-reply-to:message-id
-	:user-agent:mime-version:content-type;
-	bh=DN9kxL2W1jLw5NNzg1sbtRZuu1sq6g06o2aT+fNvCKs=;
-	b=CxYgYUAEsQqM0uTLDLzbPIh385IWQciwJqr+WgDH2CbRPFB/jsln4QGb8yy0zGROEw
-	59VmgZXYI8iCcup7caeAyCP1PDDK+uVGoIgGsyLkTZFSgzXdVMVqydlY+9F17B+txOIy
-	ymjnM7x186oSDDuo0m/cd2pmDhel6C8/Kml7qInUwbzSwmUbaWVm2s9HtmdVhfMc7WTq
-	PSisaAf6tvdDMRyNrTVzWQaF+G+j805hLcRAZbf6e1OgeA+UOUoG9cxSOBOq3zIoVQHc
-	xQSOc0vJz68O0A6/1KJVXsmsaI1BPT+ZdWjmsJhM0oUvN1adTdyMgpp//ric0R00uhXq
-	ecvQ==
-Received: by 10.229.136.144 with SMTP id r16mr958898qct.14.1340907931095;
-	Thu, 28 Jun 2012 11:25:31 -0700 (PDT)
-Received: from cl-t066-141cl.privatedns.com.gmail.com (wkit.com.br.
-	[67.205.85.241])
-	by mx.google.com with ESMTPS id y10sm1097981qan.9.2012.06.28.11.25.29
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 28 Jun 2012 11:25:29 -0700 (PDT)
-Sender: Mario Domenech Goulart <mario.goulart@gmail.com>
-From: Mario Domenech Goulart <mario@ossystems.com.br>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <CAF1ZMEftbcYLjj-qFiXgGQysr_pnfMMonXJz25TO3+UXXj4ckQ@mail.gmail.com>
-Date: Thu, 28 Jun 2012 14:19:58 -0400
-In-Reply-To: <CAF1ZMEftbcYLjj-qFiXgGQysr_pnfMMonXJz25TO3+UXXj4ckQ@mail.gmail.com>
-	(Dennis Yxun's message of "Thu, 28 Jun 2012 14:08:48 +0800")
-Message-ID: <85obo3s3ht.fsf@cl-t066-141cl.privatedns.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/23.1.91 (gnu/linux)
-MIME-Version: 1.0
-Subject: Re: xcursor-transparent-theme-0.1.1: upstream source vanish
+	Thu, 28 Jun 2012 20:40:57 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 28 Jun 2012 11:30:00 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="164125086"
+Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.120.222])
+	by orsmga002.jf.intel.com with ESMTP; 28 Jun 2012 11:29:59 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 28 Jun 2012 19:29:47 +0100
+Message-Id: <b89507663fd994bc551d07ad0f80e27b62416b94.1340908084.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1340908084.git.paul.eggleton@linux.intel.com>
+References: <cover.1340908084.git.paul.eggleton@linux.intel.com>
+In-Reply-To: <cover.1340908084.git.paul.eggleton@linux.intel.com>
+References: <cover.1340908084.git.paul.eggleton@linux.intel.com>
+Subject: [PATCH 1/3] apr: Install apr-local libtool in build dir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,53 +33,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Jun 2012 18:36:27 -0000
-Content-Type: text/plain; charset=us-ascii
+X-List-Received-Date: Thu, 28 Jun 2012 18:40:57 -0000
 
-Hi Dennis,
+From: Joe MacDonald <joe.macdonald@windriver.com>
 
-On Thu, 28 Jun 2012 14:08:48 +0800 "Dennis.Yxun" <dennis.yxun@gmail.com> wrote:
+Building apache with this version of apr would blow up on the results
+from:
 
->  Hit following error, seems that upstream source vanished
-> either provide with another valid download url, or deprecated this package?
-> any idea?
->
-> Dennis
->
-> ARNING: Checksum error encountered with download (will attempt other s[92/1931]
-> URL: 'http://matchbox-project.org/sources/utils/xcursor-transparent-theme-0.1.1.
-> smatch!
-> File: '/home/dennis/oe/downloads/xcursor-transparent-theme-0.1.1.tar.gz' has md5
-> fcb1fd1747066a1402eb3a when 7b0c623049d4aab20600d6473f8aab23 was expected
-> File: '/home/dennis/oe/downloads/xcursor-transparent-theme-0.1.1.tar.gz' has sha
-> 9e6cc99db0fc24b24fc544458d7e42dd0b2efc20bad174eb0700e634f when b26adf2d503d01299
-> 220de09423be0364e9a060bf7e4 was expected
-> ERROR: Fetcher failure for URL: 'http://matchbox-project.org/sources/utils/xcurs
-> -0.1.1.tar.gz'. Checksum mismatch!
-> File: '/home/dennis/oe/downloads/xcursor-transparent-theme-0.1.1.tar.gz' has md5
-> fcb1fd1747066a1402eb3a when 7b0c623049d4aab20600d6473f8aab23 was expected
-> File: '/home/dennis/oe/downloads/xcursor-transparent-theme-0.1.1.tar.gz' has sha
-> 9e6cc99db0fc24b24fc544458d7e42dd0b2efc20bad174eb0700e634f when b26adf2d503d01299
-> 220de09423be0364e9a060bf7e4 was expected
-> ERROR: Function failed: Fetcher failure for URL: 'http://matchbox-project.org/so
-> transparent-theme-0.1.1.tar.gz'. Unable to fetch URL from any source.
-> ERROR: Logfile of failure stored in: /home/dennis/oe/oe-core/build/tmp-eglibc/wo
-> sor-transparent-theme-0.1.1-r4/temp/log.do_fetch.2231
+   apr_config --apr-libtool
 
-At the moment I cannot access the svn repository (linked from
-https://matchbox-project.org/get_involved.html).
+Errors of the form:
 
-The download links from https://matchbox-project.org/download.html are
-broken.  https://matchbox-project.org/sources.1.html gives me an empty
-page and http://handhelds.org/~mallum/downloadables/ (for older
-releases) gives me a 404 code.
+   /bin/sh: /media/large/tmp/sysroots/x86_64-linux/usr/share/build-1/libtool: No such file or directory
 
-Nobody connected to freenode's #matchbox at the moment.
+Fix that by ensuring libtool from apr's build lands in
+.../usr/share/build-1/.
 
-Do you know of any alternative to xcursor-transparent-theme?
+Signed-off-by: Joe MacDonald <joe.macdonald@windriver.com>
+---
+ meta/recipes-support/apr/apr_1.4.6.bb |    2 ++
+ 1 file changed, 2 insertions(+)
 
+diff --git a/meta/recipes-support/apr/apr_1.4.6.bb b/meta/recipes-support/apr/apr_1.4.6.bb
+index c0ab4f1..6cd37f1 100644
+--- a/meta/recipes-support/apr/apr_1.4.6.bb
++++ b/meta/recipes-support/apr/apr_1.4.6.bb
+@@ -39,6 +39,8 @@ do_configure_append() {
+ 
+ do_install_append() {
+ 	oe_multilib_header apr.h
++	install -d ${D}${datadir}/apr
++	cp ${S}/${HOST_SYS}-libtool ${D}${datadir}/build-1/libtool
+ }
+ 
+ SSTATE_SCAN_FILES += "apr_rules.mk"
+-- 
+1.7.9.5
 
-Best wishes.
-Mario
 
 
