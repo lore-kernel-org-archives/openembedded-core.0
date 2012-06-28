@@ -1,20 +1,42 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail-ey0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <valentin.popa@intel.com>) id 1SkF4W-0004qP-Al
+	(envelope-from <koen@dominion.thruhere.net>) id 1SkHLo-0000la-Fo
 	for openembedded-core@lists.openembedded.org;
-	Thu, 28 Jun 2012 15:47:48 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 28 Jun 2012 06:36:53 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="163981401"
-Received: from valentin-desktop (HELO localhost.localdomain) ([10.237.105.52])
-	by orsmga002.jf.intel.com with ESMTP; 28 Jun 2012 06:36:52 -0700
-From: Valentin Popa <valentin.popa@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 28 Jun 2012 15:43:55 +0300
-Message-Id: <1340887435-30694-1-git-send-email-valentin.popa@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] qt4e-demo-image: new description
+	Thu, 28 Jun 2012 18:13:48 +0200
+Received: by eaal1 with SMTP id l1so906030eaa.6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 28 Jun 2012 09:02:53 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=subject:mime-version:content-type:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to:x-mailer
+	:x-gm-message-state;
+	bh=VNkQq67iYN0xjzvlt7i/0lrHZTco2l9QTIkri3/7Vcg=;
+	b=E1ayXVrJnuOBltWKMOWsnaI7KCZnndA4bXH40OEJ8p2qxgid2bcuBpUSbZt1X5h22v
+	r8ju3HD9SJKb/haW8vVTxQzHoqxg2jWQOpqKLQfV2JKTMVVqx3Xh6j0z0Wk7aB9Tdxu0
+	jadXAkLDq+TzGeIxhOfyDuTUzOwjF07suYz8r+vpdATCxbZ025Jos0PXSOvrdEG+xRZ2
+	A3ojmPtcpcAwV0VW2FVJZYWGzyHoyvSc+EzrWhlwKzajHM0YVZJSTlu25BLkF+JnD31A
+	B84phpwJuWkrX/W7pQ5UydQnQMMUTJWhLmBw7zVHFlLfndSoTVUMybLh4UrPole/SHGf
+	9hbQ==
+Received: by 10.14.127.195 with SMTP id d43mr641264eei.174.1340899373600;
+	Thu, 28 Jun 2012 09:02:53 -0700 (PDT)
+Received: from [172.20.10.4] ([84.241.205.162])
+	by mx.google.com with ESMTPS id g47sm17144051eea.14.2012.06.28.09.02.50
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 28 Jun 2012 09:02:52 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1278)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <1340876879-3690-2-git-send-email-jackie.huang@windriver.com>
+Date: Thu, 28 Jun 2012 18:02:47 +0200
+Message-Id: <F7D3BA9A-464D-4DC2-BD70-84D2D10FBF16@dominion.thruhere.net>
+References: <1340876879-3690-1-git-send-email-jackie.huang@windriver.com>
+	<1340876879-3690-2-git-send-email-jackie.huang@windriver.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1278)
+X-Gm-Message-State: ALoCoQnlBXOYnMNUvQJUz+mCmLhbVmyMWq4rxisScNULZ7QlhPp4Y0LVUtWEN9RBkU+GN1xVQ648
+Cc: Zhenfeng.Zhao@windriver.com
+Subject: Re: [PATCH 2/2] ruby: Add ruby 1.9.3 recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,29 +51,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Jun 2012 13:47:48 -0000
+X-List-Received-Date: Thu, 28 Jun 2012 16:13:48 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-(-) replaced qt4e-demo-image description
 
-[YOCTO #2636]
+Op 28 jun. 2012, om 11:47 heeft <jackie.huang@windriver.com> =
+<jackie.huang@windriver.com> het volgende geschreven:
 
-Signed-off-by: Valentin Popa <valentin.popa@intel.com>
----
- meta/recipes-qt/images/qt4e-demo-image.bb |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> From: Jackie Huang <jackie.huang@windriver.com>
+>=20
+> Took ruby 1.8.7 from OE and updated to 1.9.3-p194.
+> Most of the 1.9.3 patches originate from =
+ruby-1.9.3.194-10.1.fc17.src.rpm
 
-diff --git a/meta/recipes-qt/images/qt4e-demo-image.bb b/meta/recipes-qt/images/qt4e-demo-image.bb
-index 794dac5..8f9478d 100644
---- a/meta/recipes-qt/images/qt4e-demo-image.bb
-+++ b/meta/recipes-qt/images/qt4e-demo-image.bb
-@@ -1,4 +1,4 @@
--DESCRIPTION = "Version 1.0-r1 of the qtr3-demo-image."
-+DESCRIPTION = "An image that will launch into the demo application for the embedded (not based on X11) version of Qt."
- LICENSE = "MIT"
- PR="r2"
- 
--- 
-1.7.9.5
-
+Is ruby something that belongs into oe-core?=
 
 
