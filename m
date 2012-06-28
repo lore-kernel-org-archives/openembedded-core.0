@@ -1,27 +1,35 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail-we0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SkK51-0008Cr-Q6
-	for openembedded-core@lists.openembedded.org;
-	Thu, 28 Jun 2012 21:08:41 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 28 Jun 2012 11:57:44 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="164136462"
-Received: from unknown (HELO [10.255.12.182]) ([10.255.12.182])
-	by orsmga002.jf.intel.com with ESMTP; 28 Jun 2012 11:57:43 -0700
-Message-ID: <4FECA927.20204@linux.intel.com>
-Date: Thu, 28 Jun 2012 11:57:43 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
+	(envelope-from <martin.jansa@gmail.com>)
+	id 1SkKJh-0008Lt-HB; Thu, 28 Jun 2012 21:23:49 +0200
+Received: by werg55 with SMTP id g55so1671897wer.6
+	for <multiple recipients>; Thu, 28 Jun 2012 12:12:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=fI/iwrLSB6W8pWKs1pFytn26OyWVXSE05vLAZ+uoYAo=;
+	b=PXRq3usQbfWKL2kYldW6pucgD8xCGDPBRMp5KctjJe97tXW9UlBi+s8PpvIrZnOQ2y
+	wktpAUyrrsx+BRiW0JqUnjOgDrNhh/L0cQqEWDb5UjokTPzIZNkhVxZvnCLu1D61FKln
+	V0QiQTLCBiAFq2fytqQHjAqx0V+++xVosHgqV2vSaG2vbKxWbpgImanuHwdV6m4b2fws
+	PDq95LGQ2g7mzVhlJx0Uc98zdPkeI5bwzqmQ/TRzgPPNMn45MQQKu6t2PLcFJeLm7Mrp
+	nH8gApPPnT4hMF9Sy0k0J78YZwCFt17hObpd4gGedkrXu3EG18X2jN9+oJn7fzzbb9Nc
+	DnbQ==
+Received: by 10.180.20.239 with SMTP id q15mr226810wie.13.1340910774546;
+	Thu, 28 Jun 2012 12:12:54 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id dg2sm661445wib.4.2012.06.28.12.12.51
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 28 Jun 2012 12:12:53 -0700 (PDT)
+Date: Thu, 28 Jun 2012 21:12:46 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Message-ID: <20120628191246.GA5532@localhost.jama.net>
+References: <20120530110534.15D7110219@opal>
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <CAF1ZMEftbcYLjj-qFiXgGQysr_pnfMMonXJz25TO3+UXXj4ckQ@mail.gmail.com>
-	<85obo3s3ht.fsf@cl-t066-141cl.privatedns.com>
-In-Reply-To: <85obo3s3ht.fsf@cl-t066-141cl.privatedns.com>
-Cc: Mario Domenech Goulart <mario@ossystems.com.br>
-Subject: Re: xcursor-transparent-theme-0.1.1: upstream source vanish
+In-Reply-To: <20120530110534.15D7110219@opal>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-commits@lists.openembedded.org
+Subject: Re: [oe-commits] Mark Hatle : util-linux: use new update-alternatives
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,74 +44,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Jun 2012 19:08:41 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 28 Jun 2012 19:23:49 -0000
+X-Groupsio-MsgNum: 24259
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="LZvS9be/3tNcYl/X"
+Content-Disposition: inline
 
-On 06/28/2012 11:19 AM, Mario Domenech Goulart wrote:
-> Hi Dennis,
->
-> On Thu, 28 Jun 2012 14:08:48 +0800 "Dennis.Yxun"<dennis.yxun@gmail.com>  wrote:
->
->>   Hit following error, seems that upstream source vanished
->> either provide with another valid download url, or deprecated this package?
->> any idea?
->>
->> Dennis
->>
->> ARNING: Checksum error encountered with download (will attempt other s[92/1931]
->> URL: 'http://matchbox-project.org/sources/utils/xcursor-transparent-theme-0.1.1.
->> smatch!
->> File: '/home/dennis/oe/downloads/xcursor-transparent-theme-0.1.1.tar.gz' has md5
->> fcb1fd1747066a1402eb3a when 7b0c623049d4aab20600d6473f8aab23 was expected
->> File: '/home/dennis/oe/downloads/xcursor-transparent-theme-0.1.1.tar.gz' has sha
->> 9e6cc99db0fc24b24fc544458d7e42dd0b2efc20bad174eb0700e634f when b26adf2d503d01299
->> 220de09423be0364e9a060bf7e4 was expected
->> ERROR: Fetcher failure for URL: 'http://matchbox-project.org/sources/utils/xcurs
->> -0.1.1.tar.gz'. Checksum mismatch!
->> File: '/home/dennis/oe/downloads/xcursor-transparent-theme-0.1.1.tar.gz' has md5
->> fcb1fd1747066a1402eb3a when 7b0c623049d4aab20600d6473f8aab23 was expected
->> File: '/home/dennis/oe/downloads/xcursor-transparent-theme-0.1.1.tar.gz' has sha
->> 9e6cc99db0fc24b24fc544458d7e42dd0b2efc20bad174eb0700e634f when b26adf2d503d01299
->> 220de09423be0364e9a060bf7e4 was expected
->> ERROR: Function failed: Fetcher failure for URL: 'http://matchbox-project.org/so
->> transparent-theme-0.1.1.tar.gz'. Unable to fetch URL from any source.
->> ERROR: Logfile of failure stored in: /home/dennis/oe/oe-core/build/tmp-eglibc/wo
->> sor-transparent-theme-0.1.1-r4/temp/log.do_fetch.2231
->
-> At the moment I cannot access the svn repository (linked from
-> https://matchbox-project.org/get_involved.html).
->
-> The download links from https://matchbox-project.org/download.html are
-> broken.  https://matchbox-project.org/sources.1.html gives me an empty
-> page and http://handhelds.org/~mallum/downloadables/ (for older
-> releases) gives me a 404 code.
->
-This is being looked into, at the matchbox site side.
+--LZvS9be/3tNcYl/X
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Can you get the file from here:
+On Wed, May 30, 2012 at 11:05:32AM +0000, git@git.openembedded.org wrote:
+> Module: openembedded-core.git
+> Branch: master
+> Commit: 55c01de28a28a4cfe16d36663c190a874ef2e85d
+> URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcommit=
+;h=3D55c01de28a28a4cfe16d36663c190a874ef2e85d
+>=20
+> Author: Mark Hatle <mark.hatle@windriver.com>
+> Date:   Mon May 21 12:42:34 2012 -0500
+>=20
+> util-linux: use new update-alternatives
+>=20
+> In addition to switching to the new update-alternatives, it was discovered
+> that the sln, shutdown, halt, reboot and related commands were never gene=
+rated.
+> Remove these from the list.  (These appear to have been removed from util=
+-linux
+> some time ago.)
+>=20
+> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
 
-http://autobuilder.yoctoproject.org/pub/sources/xcursor-transparent-theme-0.1.1.tar.gz
+This seems to break u-a for reset while upgrading from older image:
 
-This is a mirror that should be accessed, do you set your PREMIRROR to 
-something?  See the meta-yocto/conf/distro/poky.conf for an example for 
-setting to the Yocto Project Mirror.
+update-alternatives: Error: cannot register alternative reset to
+/bin/reset since it is already registered to /usr/bin/reset
 
-Sau!
+anyone seen it too?
 
-> Nobody connected to freenode's #matchbox at the moment.
->
-> Do you know of any alternative to xcursor-transparent-theme?
->
->
-> Best wishes.
-> Mario
->
+Cheers,
+
+>=20
+> ---
+>=20
+>  meta/recipes-core/util-linux/util-linux.inc       |  212 +++++----------=
+------
+>  meta/recipes-core/util-linux/util-linux_2.21.1.bb |    2 +-
+>  2 files changed, 45 insertions(+), 169 deletions(-)
+>=20
+> Diff:   http://git.openembedded.org/?p=3Dopenembedded-core.git/?a=3Dcommi=
+tdiff;h=3D55c01de28a28a4cfe16d36663c190a874ef2e85d
+>=20
 > _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
->
+> Openembedded-commits mailing list
+> Openembedded-commits@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-commits
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--LZvS9be/3tNcYl/X
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
+
+iEYEARECAAYFAk/srK4ACgkQN1Ujt2V2gByPiwCfUgM5aT467E37UhFLq6g18h9C
+0tAAoLq5sYUIm3n4qYg+aLexJIeM27PL
+=16l8
+-----END PGP SIGNATURE-----
+
+--LZvS9be/3tNcYl/X--
