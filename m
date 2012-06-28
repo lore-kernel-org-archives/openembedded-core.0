@@ -1,29 +1,34 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail-we0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Xin.Ouyang@windriver.com>) id 1Sk9ne-0008SY-3h
+	(envelope-from <andrei@gherzan.ro>) id 1SkA1K-0000BJ-Tp
 	for openembedded-core@lists.openembedded.org;
-	Thu, 28 Jun 2012 10:10:02 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q5S7x5mW000692
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 28 Jun 2012 00:59:05 -0700 (PDT)
-Received: from [128.224.162.231] (128.224.162.231) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Thu, 28 Jun 2012 00:59:05 -0700
-Message-ID: <4FEC0EC7.6050800@windriver.com>
-Date: Thu, 28 Jun 2012 15:59:03 +0800
-From: Pascal Ouyang <xin.ouyang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:13.0) Gecko/20120615 Thunderbird/13.0.1
-MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <1340262834-27560-1-git-send-email-xin.ouyang@windriver.com>
-	<CAMKF1sp-vCv1iP3YAgAbEP4=2ruAme+-JnCqxBLXGW5yJ3oyZw@mail.gmail.com>
-In-Reply-To: <CAMKF1sp-vCv1iP3YAgAbEP4=2ruAme+-JnCqxBLXGW5yJ3oyZw@mail.gmail.com>
-X-MIME-Autoconverted: from 8bit to quoted-printable by mail1.windriver.com id
-	q5S7x5mW000692
-Subject: Re: [PATCH] cpan.bbclass: Fix CCFLAGS.
+	Thu, 28 Jun 2012 10:24:10 +0200
+Received: by werg55 with SMTP id g55so1259163wer.6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 28 Jun 2012 01:13:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer:x-gm-message-state;
+	bh=3gfPAMojWrAvC+it1aWI3Xo2oZicVlgJd1lGfWCLPio=;
+	b=SFd1uYsjkXAgMFmG/EhXnz+0jmd0bXFyUjZ3Wmk2DUnEkNva5K1wZsPZw51QMpyK5I
+	mSGFf3zIt7ZnxN6aSd+ccMgEJCFnxoSC6vLMQb+/Lvo3BtVraFQtW6f9vAmpIqAnahgH
+	XzUDP76yB4r0fVVlXICVM3pNpAs4cwvlEwd5AlnZ0M6GLYvt3HX3FkyB4VYpwPAJ0mWd
+	GVzI71cq6tIMXeA2sjxFHG0+0tns/AX7gEUPQDfWfeaXmKu1ViqHqOG0p53k0yeaPdoA
+	nheZJ4RMYUDt3hMedihBea3HcnpW2jWhfI8TBXzLJcko8ebSZSnHcLV9con7qh0LjH3T
+	QuLw==
+Received: by 10.216.216.154 with SMTP id g26mr555343wep.120.1340871196662;
+	Thu, 28 Jun 2012 01:13:16 -0700 (PDT)
+Received: from localhost.localdomain ([79.117.121.110])
+	by mx.google.com with ESMTPS id db7sm15334723wib.6.2012.06.28.01.13.14
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 28 Jun 2012 01:13:15 -0700 (PDT)
+From: Andrei Gherzan <andrei@gherzan.ro>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 28 Jun 2012 11:13:06 +0300
+Message-Id: <1340871186-20545-1-git-send-email-andrei@gherzan.ro>
+X-Mailer: git-send-email 1.7.9.5
+X-Gm-Message-State: ALoCoQkGb979+L+edC5Md01XlAQj9CkZ1xY0KinAWPF58sYG9kr8rjS/JU37c9vU/UmzUWiNN5e/
+Subject: [PATCH] package.bbclass: Create symlinks for packages with different packaged name
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,103 +43,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Jun 2012 08:10:02 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 28 Jun 2012 08:24:11 -0000
 
-On 2012=E5=B9=B406=E6=9C=8821=E6=97=A5 23:47, Khem Raj wrote:
-> On Thu, Jun 21, 2012 at 12:13 AM,  <xin.ouyang@windriver.com> wrote:
->> From: Xin Ouyang <Xin.Ouyang@windriver.com>
->>
->> We should not just replace CCFLAGS with CFLAGS while compiling, becaus=
-e
->> this may cause run-time errors with perl's DynaLoader.pm.
->>
->> Tested on qemux86 with new libnet-libidn-perl bb recipe:
->
-> can you instead try the patch from
->
-> http://bugs.debian.org/cgi-bin/bugreport.cgi?msg=3D19;bug=3D628522
->
-This debian patch takes no effect.
+While generating license.manifest package information is searched in:
+filename=`ls ${TMPDIR}/pkgdata/*/runtime/${pkg}| head -1`
+This is ok as long as package name is the same as the package name
+after packaging.
+For example dbus is packaged as dbus-1. So, searching
+ls ${TMPDIR}/pkgdata/*/runtime/dbus-1 will fail because there is no file
+with this package name.
 
-Actually it try to fix this:
+Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
+---
+ meta/classes/package.bbclass |    5 +++++
+ 1 file changed, 5 insertions(+)
 
-Some packages which has those lines in Makefile.PL:
-   WriteMakefile(
-       ...
-       'CCFLAGS'    =3D> 'some cflags',
-       ...
-   );
-While run perl Makefile.PL to configure, there are CCFLAGS=3D"some cflags=
-"=20
-to override the original CCFLAGS=3D$Config{ccflags} in generated Makefile=
-s.
-
-
-In Poky, CCFLAGS in our generated Makefiles are all right.
-But when we run oe_runmake CCFLAGS=3D"${CFLAGS}" to do_compile, this will=
-=20
-override our right CCFLAGS.
-
-
-- Xin
-
->>
->> root@qemux86:~# perl -e "use Net::LibIDN"
->> Not a CODE reference at /usr/lib/perl/5.14.2//DynaLoader.pm line 213.
->> END failed--call queue aborted at /usr/lib/perl/vendor_perl/5.14.2//Ne=
-t/LibIDN.pm line 213.
->> Compilation failed in require at -e line 1.
->> BEGIN failed--compilation aborted at -e line 1.
->>
->> Signed-off-by: Xin Ouyang <Xin.Ouyang@windriver.com>
->> ---
->>   meta/classes/cpan.bbclass |    3 ++-
->>   1 files changed, 2 insertions(+), 1 deletions(-)
->>
->> diff --git a/meta/classes/cpan.bbclass b/meta/classes/cpan.bbclass
->> index 2e9432c..957a6e2 100644
->> --- a/meta/classes/cpan.bbclass
->> +++ b/meta/classes/cpan.bbclass
->> @@ -26,13 +26,14 @@ cpan_do_configure () {
->>                         test -f $f2 || continue
->>                         sed -i -e "s:\(PERL_ARCHLIB =3D \).*:\1${PERL_=
-ARCHLIB}:" \
->>                                 -e 's/perl.real/perl/' \
->> +                               -e "s/^\(CCFLAGS =3D.*\)/\1 ${CFLAGS}/=
-" \
->>                                 $f2
->>                 done
->>         fi
->>   }
->>
->>   cpan_do_compile () {
->> -       oe_runmake PASTHRU_INC=3D"${CFLAGS}" CCFLAGS=3D"${CFLAGS}" LD=3D=
-"${CCLD}"
->> +       oe_runmake PASTHRU_INC=3D"${CFLAGS}" LD=3D"${CCLD}"
->>   }
->>
->>   cpan_do_install () {
->> --
->> 1.7.5.4
->>
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
-
-
---=20
-- Pascal
-
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index 10c2f0a..460b351 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -1120,6 +1120,11 @@ python emit_pkgdata() {
+ 		sf.write('%s_%s: %s\n' % ('PKGSIZE', pkg, get_directory_size(pkgdest + "/%s" % pkg)))
+ 		sf.close()
+ 
++		# Symlinks needed while generating manifest
++		pkgval = d.getVar('PKG_%s' % (pkg), True)
++		if pkgval != pkg:
++			subdata_sym = pkgdatadir + "/runtime/%s" % pkgval
++			os.symlink(pkg,subdata_sym)
+ 
+ 		allow_empty = d.getVar('ALLOW_EMPTY_%s' % pkg, True)
+ 		if not allow_empty:
+-- 
+1.7.9.5
 
 
 
