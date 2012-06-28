@@ -1,26 +1,26 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SkIRh-0002D1-14
+	(envelope-from <sgw@linux.intel.com>) id 1SkISC-0002FY-0c
 	for openembedded-core@lists.openembedded.org;
-	Thu, 28 Jun 2012 19:23:57 +0200
+	Thu, 28 Jun 2012 19:24:28 +0200
 Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 28 Jun 2012 10:13:01 -0700
+	by azsmga102.ch.intel.com with ESMTP; 28 Jun 2012 10:13:32 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="117023631"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="117023802"
 Received: from unknown (HELO [10.255.12.182]) ([10.255.12.182])
-	by AZSMGA002.ch.intel.com with ESMTP; 28 Jun 2012 10:13:01 -0700
-Message-ID: <4FEC909C.2090907@linux.intel.com>
-Date: Thu, 28 Jun 2012 10:13:00 -0700
+	by AZSMGA002.ch.intel.com with ESMTP; 28 Jun 2012 10:13:32 -0700
+Message-ID: <4FEC90BB.3010107@linux.intel.com>
+Date: Thu, 28 Jun 2012 10:13:31 -0700
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1340703038.git.kai.kang@windriver.com>
-In-Reply-To: <cover.1340703038.git.kai.kang@windriver.com>
+References: <cover.1340619275.git.liezhi.yang@windriver.com>
+In-Reply-To: <cover.1340619275.git.liezhi.yang@windriver.com>
 Cc: Zhenfeng.Zhao@windriver.com
-Subject: Re: [PATCH 0/2] archiver.bbclass: Add the function of filtering packages
+Subject: Re: [PATCH 0/1] bitbake.conf: disable ccache explicitly if it is not enabled
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,36 +35,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Jun 2012 17:23:57 -0000
+X-List-Received-Date: Thu, 28 Jun 2012 17:24:28 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 06/26/2012 02:36 AM, Kang Kai wrote:
-> Hi,
+On 06/26/2012 03:01 AM, Robert Yang wrote:
+> The following changes since commit b876f42821383bf0069ee49b607ba06614417fba:
 >
-> These patches are from Xiaofeng Yan<xiaofeng.yan@windriver.com>
->
-> This function can miss and tarball packages according to license from recipes.
->
-> Regards,
-> Kai
->
-> The following changes since commit 8ce8d25bcda0e2e0b62204d5ca5875dedcaacf7d:
->
->    sanity.bbclass: Increase LAYER_CONF_VERSION to match bblayers change (2012-06-25 17:20:54 +0100)
+>    guile: fix compilation on MIPS/PPC (2012-06-21 14:42:25 +0100)
 >
 > are available in the git repository at:
->    git://git.pokylinux.org/poky-contrib xiaofeng/archiver
->    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=xiaofeng/archiver
+>    git://git.pokylinux.org/poky-contrib robert/autogen
+>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=robert/autogen
 >
-> Xiaofeng Yan (2):
->    archiver.bbclass: Add the function of filtering packages
->    local.conf.sample.extended: Add filtering function to
->      archiver.bbclass
+> Robert Yang (1):
+>    bitbake.conf: disable ccache explicitly if it is not enabled
 >
->   meta-yocto/conf/local.conf.sample.extended |    3 +
->   meta/classes/archiver.bbclass              |   71 +++++++++++++++++++++++++++-
->   2 files changed, 73 insertions(+), 1 deletions(-)
+>   meta/classes/ccache.bbclass |    1 +
+>   meta/conf/bitbake.conf      |    8 ++++++++
+>   2 files changed, 9 insertions(+), 0 deletions(-)
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 >
 
 Merged into OE-Core
