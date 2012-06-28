@@ -1,38 +1,38 @@
 Received: from mail-pb0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1SkMZO-0005rp-LJ
+	(envelope-from <raj.khem@gmail.com>) id 1SkMZQ-0005rp-3F
 	for openembedded-core@lists.openembedded.org;
-	Thu, 28 Jun 2012 23:48:10 +0200
+	Thu, 28 Jun 2012 23:48:12 +0200
 Received: by mail-pb0-f47.google.com with SMTP id rq2so3494282pbb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Jun 2012 14:37:17 -0700 (PDT)
+	Thu, 28 Jun 2012 14:37:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
 	:in-reply-to:references;
-	bh=zrrj4aEzb5IMVQ5LLplUAgGJttW5zeSxzIVvyhPoStU=;
-	b=Ke7DMsC/HKW4rO1JbLyOyUOm0o2dgLZ6fa6LHDi7tQb7tRzaHms3EGl8+LAyzL+b5H
-	qRrqgghfxkdtmYWlJs7Pwp3VTbJH1hUawltNPUewzQ3al3qU9JcLfV/37ylpexq1b1t9
-	Bk+WRaknRueLXWSSRVuMq/5Dhv4fbtrz/kvuAjWUYoN/ayxIScguNgQQ/Gvp0jd1AjaB
-	jtznDxhzvRemrLQB2aw+zEXzZ/e/bcbqn3pb9lnitzWFStc2dYKGh/T4ESNZWK9pE7/j
-	5OaqfAw5kr3YFQzhjvzt0RL1zLACddPzzpMap2ngTN09lZ+VjMVhapWvwSWAHUJhE2AP
-	KJeQ==
-Received: by 10.68.220.39 with SMTP id pt7mr12433552pbc.40.1340919437519;
-	Thu, 28 Jun 2012 14:37:17 -0700 (PDT)
+	bh=DoQiUL5mFck5h0Qg/0zZJRZ7New1vxjdRU8RPNnoZ8I=;
+	b=x4UII06XWzbOOqzVy/+oIxgeDGvfNuDfdY9NMoXJEPtIHvFkhwWTM2kXXfSmmSta7z
+	DDLobUb+8zobuUFFDO5Wiri8NCa7GqWIFoWjq9KzN0F/VjuBMqTj4EnwwLi04JSkJhmQ
+	6qQ7WO5JovgHLmgiBogwpvlqrHnEwanWjio8ck4rHXjHZ9A2ulYN+ewcROOzibqWdczw
+	53JZgbr+nN4H99UG/X73LcXsMvL9Z27gRANqkpjqZqUIXFMf/3FW502VNmrs+MrdYKoq
+	s2oJIZ/LVRYtis9yAYbW/7ZncmwR1G6VF+/XHTXcySHJl0nFzngUKpwe+Sn7PdLLE9UR
+	AXvg==
+Received: by 10.68.239.9 with SMTP id vo9mr12206389pbc.41.1340919438991;
+	Thu, 28 Jun 2012 14:37:18 -0700 (PDT)
 Received: from agate.agate.openembedded.org (oldbuilder.nslu2-linux.org.
 	[140.211.169.168])
-	by mx.google.com with ESMTPS id os1sm3220209pbb.49.2012.06.28.14.37.16
+	by mx.google.com with ESMTPS id os1sm3220209pbb.49.2012.06.28.14.37.17
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 28 Jun 2012 14:37:16 -0700 (PDT)
+	Thu, 28 Jun 2012 14:37:18 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 28 Jun 2012 14:36:50 -0700
-Message-Id: <9f94d7186a9b9bb9d976f934fe2dab53ab58a2b4.1340919157.git.raj.khem@gmail.com>
+Date: Thu, 28 Jun 2012 14:36:51 -0700
+Message-Id: <9ece5fc3278374eaec8b661fd9ef40d044d46560.1340919157.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <638231d75b991a3be5c9aed5add4c56e66f79fe0.1340919157.git.raj.khem@gmail.com>
 References: <638231d75b991a3be5c9aed5add4c56e66f79fe0.1340919157.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1340919157.git.raj.khem@gmail.com>
 References: <cover.1340919157.git.raj.khem@gmail.com>
-Subject: [PATCH 04/11] eglibc: support mipsel little endian, filter out -march=mips32
+Subject: [PATCH 05/11] eglibc-2.15: Update to latest on 2.15 branch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,35 +47,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Jun 2012 21:48:10 -0000
+X-List-Received-Date: Thu, 28 Jun 2012 21:48:12 -0000
 
-From: Dennis Lan <dennis.yxun@gmail.com>
-
-Quote for eglibc source:
- for mips eglibc now builds syscall tables for all abi's
- so we make sure that we choose right march option which is
- compatible with o32,n32 and n64 abi's
- e.g. -march=mips32 is not compatible with n32 and n64 therefore
- we filter it out in such case -march=from-abi which will be
- mips1 when using o32 and mips3 when using n32/n64
-
-Signed-off-by: Dennis Lan <dennis.yxun@gmail.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-core/eglibc/eglibc_2.15.bb |    1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-core/eglibc/eglibc_2.15.bb |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/meta/recipes-core/eglibc/eglibc_2.15.bb b/meta/recipes-core/eglibc/eglibc_2.15.bb
-index e57a112..b2922b4 100644
+index b2922b4..7dd9810 100644
 --- a/meta/recipes-core/eglibc/eglibc_2.15.bb
 +++ b/meta/recipes-core/eglibc/eglibc_2.15.bb
-@@ -101,6 +101,7 @@ do_patch_append() {
- # mips1 when using o32 and mips3 when using n32/n64
+@@ -1,6 +1,6 @@
+ require eglibc.inc
  
- TUNE_CCARGS_mips := "${@oe_filter_out('-march=mips32', '${TUNE_CCARGS}', d)}"
-+TUNE_CCARGS_mipsel := "${@oe_filter_out('-march=mips32', '${TUNE_CCARGS}', d)}"
+-SRCREV = "17386"
++SRCREV = "19294"
  
- # We need to ensure that all of the i386 and x86_64 headers are identical
- # to support the multilib case.  We do this by copying headers from x86_64
+ DEPENDS += "gperf-native"
+ PR = "r12"
 -- 
 1.7.9.5
 
