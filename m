@@ -1,35 +1,33 @@
-Received: from mail-we0-f175.google.com ([74.125.82.175])
+Received: from mail-pb0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>)
-	id 1SkMUf-0005h9-KB; Thu, 28 Jun 2012 23:43:17 +0200
-Received: by werg55 with SMTP id g55so1756507wer.6
-	for <multiple recipients>; Thu, 28 Jun 2012 14:32:22 -0700 (PDT)
+	(envelope-from <raj.khem@gmail.com>) id 1SkMXU-0005k7-5s
+	for openembedded-core@lists.openembedded.org;
+	Thu, 28 Jun 2012 23:46:12 +0200
+Received: by pbbrq2 with SMTP id rq2so3492275pbb.6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 28 Jun 2012 14:35:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=og5N9jEEwa0LZdLKDUcv0FDAr6PVWySSjMBQiVMlbaw=;
-	b=UpTwd1LvZzQF64Hh5i9lADlK1gLkgW2XPtg+gv5SidYrm5KdUynhuWblj6TGto1IF4
-	/VU53iV30RCKelxrFfUSa38/uDtxsMnu+ooELP3bFxdiBqH/RrMxFGEbkmo0b3n0FigM
-	jHJ5J51sHOUrV66i5xo6MsYjV58mIJdeK7ST/KXXa1qhUGEG/WnTYg0s1n97ZEyAHjAv
-	XVaj7mzS7JahIr/p8F+1txLU6e8NZXkZWNVQoq7x8DVJxNlKx/Q9aB2ZRPRlGdHX94I9
-	vIxN1gNtbaPIYpLmzqsbM5TPS8xjt+BDPxd20g0UwVxv/uH6CUDQnizABllJzE3F3187
-	IGGA==
-Received: by 10.180.87.232 with SMTP id bb8mr383653wib.0.1340919142740;
-	Thu, 28 Jun 2012 14:32:22 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id fu8sm2471436wib.5.2012.06.28.14.32.20
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=ZIH+lo0JaYkKV/690l4qiJ3cLg9REokL+s2+q4u7cUU=;
+	b=t6yyTmzn1yedavTs+41vX3VVIvWOJGXU+/2bL/BMW1FNw+5vFTLJ01UHDZKcir6UDc
+	6RHPIihmgk6BblGudn0HkGKzgINalepjS+zHPp2n8sVcTj2i3q1rN2S1X5GgQ/zQ/BoV
+	XNAycfzx5ofvVcQtA+ElKFnXlzTM4O+RKwlBecqm+4HHkMdxY+dVGXYtGWhpRRKjSF52
+	1Cz3gnH5uIe6RRNqn04UcdiAUv0delOaWwiojpkxvyxHH5n1i4WNvN/7Ba0K502Y5FSp
+	62+HeXIIaC7gyxSdJ75COtBuqf69xAB06GpN/Vj3oqGp5ThXfNT6c3aU70T574aCa2B6
+	Kx2A==
+Received: by 10.66.73.98 with SMTP id k2mr345035pav.73.1340919316142;
+	Thu, 28 Jun 2012 14:35:16 -0700 (PDT)
+Received: from agate.agate.openembedded.org (oldbuilder.nslu2-linux.org.
+	[140.211.169.168])
+	by mx.google.com with ESMTPS id os9sm3212821pbb.62.2012.06.28.14.35.14
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 28 Jun 2012 14:32:21 -0700 (PDT)
-Date: Thu, 28 Jun 2012 23:32:15 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
+	Thu, 28 Jun 2012 14:35:14 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Message-ID: <20120628213215.GC3961@jama.jama.net>
-References: <20120628152441.4D5571032F@opal>
-MIME-Version: 1.0
-In-Reply-To: <20120628152441.4D5571032F@opal>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-commits@lists.openembedded.org
-Subject: Re: [oe-commits] Bruce Ashfield : kern-tools: add buildall and robustness fixes
+Date: Thu, 28 Jun 2012 14:34:59 -0700
+Message-Id: <cover.1340919157.git.raj.khem@gmail.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH 00/11] toolchain updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,91 +42,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Jun 2012 21:43:17 -0000
-X-Groupsio-MsgNum: 24266
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="L6iaP+gRLNZHKoI4"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 28 Jun 2012 21:46:12 -0000
 
---L6iaP+gRLNZHKoI4
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, Jun 28, 2012 at 03:24:41PM +0000, git@git.openembedded.org wrote:
-> Module: openembedded-core.git
-> Branch: master
-> Commit: be3cff86d55db6255e036d68e943e527802b4f4c
-> URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcommit=
-;h=3Dbe3cff86d55db6255e036d68e943e527802b4f4c
->=20
-> Author: Bruce Ashfield <bruce.ashfield@windriver.com>
-> Date:   Fri Jun 15 15:26:44 2012 -0400
->=20
-> kern-tools: add buildall and robustness fixes
->=20
-> Updating the kern-tools SRCREV to pickup the following functionality:
->=20
->  - buildall: provides the ability to build all kernel branches
->              without a build system, only a cross compiler and configme
->              are required.
->=20
->  - robustness/cleanups: obselete/unused code removal and general robustne=
-ss
->                         fixes from Paul Gortmaker and Bruce Ashfield
-
-is this expected with latest kern-tools/linux-yocto and qemux86-64?
-
-NOTE: package linux-yocto-3.4.3+git3+d65afd9e42230a3ef4cc1f9ad62d0aa84a533c=
-d0_3+a1cdb60720c452c3965eaec3ec2cd10f06261cc5-r0: task do_kernel_configchec=
-k: Start
-ed
-NOTE: validating kernel configuration
-find: warning: -path /OE/shr-core/tmp-eglibc/work/qemux86_64-oe-linux/linux=
--yocto/linux-yocto-3.4.3+git3+d65afd9e42230a3ef4cc1f9ad62d0aa84a533cd0_3+a1=
-cdb60720c452c3965eaec3ec2cd10f06261cc5-r0/linux/ will not match anything be=
-cause it ends with /.
-This BSP sets 1 kernel options that are possibly non-hardware related.
-The full list can be found in your kernel src dir at:
-meta/cfg/standard/common-pc-64/specified_non_hdw.cfg
-
-There were 1 instances of config fragment errors.
-The full list can be found in your kernel src dir at:
-meta/cfg/standard/common-pc-64/fragment_errors.txt
-
-NOTE: package linux-yocto-3.4.3+git3+d65afd9e42230a3ef4cc1f9ad62d0aa84a533c=
-d0_3+a1cdb60720c452c3965eaec3ec2cd10f06261cc5-r0: task do_kernel_configchec=
-k: Succeeded
+This combines my two previous pull requests in Addition RP's
+feedback on USE_NLS definition
 
 
-OE @ ~/shr-core/tmp-eglibc/work/qemux86_64-oe-linux/linux-yocto/linux-yocto=
--3.4.3+git3+d65afd9e42230a3ef4cc1f9ad62d0aa84a533cd0_3+a1cdb60720c452c3965e=
-aec3ec2c
-d10f06261cc5-r0/linux $ cat meta/cfg/standard/common-pc-64/specified_non_hd=
-w.cfg
-CONFIG_BLOCK
-OE @ ~/shr-core/tmp-eglibc/work/qemux86_64-oe-linux/linux-yocto/linux-yocto=
--3.4.3+git3+d65afd9e42230a3ef4cc1f9ad62d0aa84a533cd0_3+a1cdb60720c452c3965e=
-aec3ec2c
-d10f06261cc5-r0/linux $ cat meta/cfg/standard/common-pc-64/fragment_errors.=
-txt
-Warning: Value of CONFIG_NET_CLS_CGROUP is defined multiple times within fr=
-agment meta/cfg/kernel-cache/features/net_sched/net_sched.cfg:
-CONFIG_NET_CLS_CGROUP=3Dy
-CONFIG_NET_CLS_CGROUP=3Dy
+The following changes since commit b26dda2d1e839ea461485236028e1af53b839d34:
 
-Cheers,
+  local.conf.sample.extended: Add accidentally missed features (2012-06-28 16:30:32 +0100)
 
---L6iaP+gRLNZHKoI4
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+are available in the git repository at:
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
+  git://git.openembedded.org/openembedded-core-contrib kraj/misc-updates
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=kraj/misc-updates
 
-iEYEARECAAYFAk/szV8ACgkQN1Ujt2V2gBxZdgCfVopbJO4QAzBDAmOs89rfi4F0
-tQwAnAw5BDs0BHTa+VcusdylWmnm20f2
-=HYWW
------END PGP SIGNATURE-----
+Dennis Lan (1):
+  eglibc: support mipsel little endian, filter out -march=mips32
 
---L6iaP+gRLNZHKoI4--
+Khem Raj (10):
+  bitbake.conf: Add weak definition for USE_NLS
+  libgcc: Remove unpackage unwind.h
+  gcc-configure-sdk,gcc-configure-cross: Dont recompute USE_NLS
+  eglibc-2.15: Update to latest on 2.15 branch
+  kconfig-frontends: New recipe
+  uclibc: Separate the bits between uclibc and uclibc-initial
+  uclibc-git: Update for building systemd
+  uclibc-0.9.33: add posix_fallocate implementation
+  bison: link in librt on uclibc
+  glib-2.0: Add missing dependency on virtual/libiconv
+
+ meta/conf/bitbake.conf                             |    1 +
+ meta/conf/distro/include/tclibc-eglibc.inc         |    2 +
+ meta/recipes-core/eglibc/eglibc_2.15.bb            |    3 +-
+ meta/recipes-core/glib-2.0/glib-2.0_2.32.3.bb      |    2 +-
+ meta/recipes-core/glib-2.0/glib.inc                |    2 +-
+ meta/recipes-core/uclibc/uclibc-0.9.33.inc         |   22 ++
+ .../uclibc/uclibc-0.9.33/posix_fallocate.patch     |  408 ++++++++++++++++++++
+ meta/recipes-core/uclibc/uclibc-git.inc            |   29 ++
+ ...1-atexit_old-Do-not-add-it-to-shared-libc.patch |   44 +++
+ ...brt-Use-nodefaultlibs-instead-of-nostdlib.patch |   33 ++
+ ...-Move-aeabi_read_tp-to-uclibc_nonshared.a.patch |   31 ++
+ ...rk-Hide-pthread_atfork-in-shared-versions.patch |   74 ++++
+ .../uclibc-git/define-MSG_CMSG_CLOEXEC.patch       |   25 ++
+ meta/recipes-core/uclibc/uclibc-git/dup3.patch     |   37 ++
+ .../uclibc/uclibc-git/posix_fallocate.patch        |  408 ++++++++++++++++++++
+ meta/recipes-core/uclibc/uclibc-initial_0.9.33.bb  |    3 +-
+ meta/recipes-core/uclibc/uclibc-initial_git.bb     |    3 +-
+ meta/recipes-core/uclibc/uclibc-package.inc        |   37 ++
+ meta/recipes-core/uclibc/uclibc.inc                |   59 +--
+ meta/recipes-core/uclibc/uclibc_0.9.33.bb          |   33 +-
+ meta/recipes-core/uclibc/uclibc_git.bb             |   33 +-
+ meta/recipes-devtools/bison/bison_2.5.bb           |    1 +
+ meta/recipes-devtools/gcc/gcc-configure-cross.inc  |    2 -
+ meta/recipes-devtools/gcc/gcc-configure-sdk.inc    |    4 -
+ meta/recipes-devtools/gcc/libgcc_4.7.bb            |    4 +
+ .../kconfig-frontends/kconfig-frontends_3.4.bb     |   34 ++
+ 26 files changed, 1228 insertions(+), 106 deletions(-)
+ create mode 100644 meta/recipes-core/uclibc/uclibc-0.9.33.inc
+ create mode 100644 meta/recipes-core/uclibc/uclibc-0.9.33/posix_fallocate.patch
+ create mode 100644 meta/recipes-core/uclibc/uclibc-git.inc
+ create mode 100644 meta/recipes-core/uclibc/uclibc-git/0001-atexit_old-Do-not-add-it-to-shared-libc.patch
+ create mode 100644 meta/recipes-core/uclibc/uclibc-git/0001-librt-Use-nodefaultlibs-instead-of-nostdlib.patch
+ create mode 100644 meta/recipes-core/uclibc/uclibc-git/0001-nptl-arm-Move-aeabi_read_tp-to-uclibc_nonshared.a.patch
+ create mode 100644 meta/recipes-core/uclibc/uclibc-git/0001-nptl-atfork-Hide-pthread_atfork-in-shared-versions.patch
+ create mode 100644 meta/recipes-core/uclibc/uclibc-git/define-MSG_CMSG_CLOEXEC.patch
+ create mode 100644 meta/recipes-core/uclibc/uclibc-git/dup3.patch
+ create mode 100644 meta/recipes-core/uclibc/uclibc-git/posix_fallocate.patch
+ create mode 100644 meta/recipes-core/uclibc/uclibc-package.inc
+ create mode 100644 meta/recipes-devtools/kconfig-frontends/kconfig-frontends_3.4.bb
+
+-- 
+1.7.9.5
+
+
+
