@@ -1,20 +1,20 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <valentin.popa@intel.com>) id 1SkF32-0004nT-9H
+	(envelope-from <valentin.popa@intel.com>) id 1SkF4W-0004qP-Al
 	for openembedded-core@lists.openembedded.org;
-	Thu, 28 Jun 2012 15:46:16 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 28 Jun 2012 06:35:18 -0700
+	Thu, 28 Jun 2012 15:47:48 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 28 Jun 2012 06:36:53 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="171108968"
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="163981401"
 Received: from valentin-desktop (HELO localhost.localdomain) ([10.237.105.52])
-	by fmsmga001.fm.intel.com with ESMTP; 28 Jun 2012 06:35:17 -0700
+	by orsmga002.jf.intel.com with ESMTP; 28 Jun 2012 06:36:52 -0700
 From: Valentin Popa <valentin.popa@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 28 Jun 2012 15:42:20 +0300
-Message-Id: <1340887340-30645-1-git-send-email-valentin.popa@intel.com>
+Date: Thu, 28 Jun 2012 15:43:55 +0300
+Message-Id: <1340887435-30694-1-git-send-email-valentin.popa@intel.com>
 X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] build-appliance-image: rename from self-hosted-image
+Subject: [PATCH] qt4e-demo-image: new description
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,46 +29,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Jun 2012 13:46:16 -0000
+X-List-Received-Date: Thu, 28 Jun 2012 13:47:48 -0000
 
-(-) renamed self-hosted-image to build-appliance-image
-(-) replaced build-appliance-image description
+(-) replaced qt4e-demo-image description
 
 [YOCTO #2636]
 
 Signed-off-by: Valentin Popa <valentin.popa@intel.com>
 ---
- meta/conf/multilib.conf                            |    2 +-
- ...lf-hosted-image.bb => build-appliance-image.bb} |    2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-core/images/{self-hosted-image.bb => build-appliance-image.bb} (91%)
+ meta/recipes-qt/images/qt4e-demo-image.bb |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/conf/multilib.conf b/meta/conf/multilib.conf
-index cea8694..92a7813 100644
---- a/meta/conf/multilib.conf
-+++ b/meta/conf/multilib.conf
-@@ -583,7 +583,7 @@ BBCLASSEXTEND_append_pn-sat-solver = " ${MULTILIBS}"
- BBCLASSEXTEND_append_pn-screen = " ${MULTILIBS}"
- BBCLASSEXTEND_append_pn-scrnsaverproto = " ${MULTILIBS}"
- BBCLASSEXTEND_append_pn-sed = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-self-hosted-image = " ${MULTILIBS}"
-+BBCLASSEXTEND_append_pn-build-appliance-image = " ${MULTILIBS}"
- BBCLASSEXTEND_append_pn-service = " ${MULTILIBS}"
- BBCLASSEXTEND_append_pn-setserial = " ${MULTILIBS}"
- BBCLASSEXTEND_append_pn-settings-daemon = " ${MULTILIBS}"
-diff --git a/meta/recipes-core/images/self-hosted-image.bb b/meta/recipes-core/images/build-appliance-image.bb
-similarity index 91%
-rename from meta/recipes-core/images/self-hosted-image.bb
-rename to meta/recipes-core/images/build-appliance-image.bb
-index aef1507..2b7906f 100644
---- a/meta/recipes-core/images/self-hosted-image.bb
-+++ b/meta/recipes-core/images/build-appliance-image.bb
+diff --git a/meta/recipes-qt/images/qt4e-demo-image.bb b/meta/recipes-qt/images/qt4e-demo-image.bb
+index 794dac5..8f9478d 100644
+--- a/meta/recipes-qt/images/qt4e-demo-image.bb
++++ b/meta/recipes-qt/images/qt4e-demo-image.bb
 @@ -1,4 +1,4 @@
--DESCRIPTION = "Version 1.0-r6 of the self-hosted image."
-+DESCRIPTION = "An image you can boot and run using either the VMware Player or VMware Workstation.  For more information, see the<a href='http://www.yoctoproject.org/documentation/build-appliance'>Build Appliance page</a>."
- IMAGE_INSTALL = "task-core-boot task-core-apps-console task-core-ssh-openssh task-self-hosted"
- 
+-DESCRIPTION = "Version 1.0-r1 of the qtr3-demo-image."
++DESCRIPTION = "An image that will launch into the demo application for the embedded (not based on X11) version of Qt."
  LICENSE = "MIT"
+ PR="r2"
+ 
 -- 
 1.7.9.5
 
