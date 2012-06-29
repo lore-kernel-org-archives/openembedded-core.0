@@ -1,37 +1,30 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1SkjaL-0001rI-UM
+	(envelope-from <sgw@linux.intel.com>) id 1Skjej-0001wI-4g
 	for openembedded-core@lists.openembedded.org;
-	Sat, 30 Jun 2012 00:22:41 +0200
-Received: by eaal1 with SMTP id l1so1550160eaa.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Jun 2012 15:11:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=z9D6YBJx+eKzSZX7QPUxzYjPuEqSc30jGxuoYlHqFY8=;
-	b=jz6ul+GqOUxsB1t/1NXCsDNVBxe06uXgf4rtLuFecQW+81Ac747sb4HzeQvlK0nZUF
-	mFwHZEx2uw1joq87Cb+a9dhhVJPDhihZ2boMzFQB1N85xXgOrA8NQkv7WZwJyIhUQXZF
-	twzxkodBi5fxxLEhxPlsfeFHanN8gWjYeqv60fnx+dkVw1ZP+/aIzkUL1cF5CcMENMYQ
-	VFAq8B0dLL+BUngWk/l5/e9NBuZJQrfJLaAA7U1VTm2p30yfzvayDkxg3INE8d1NxIP2
-	3PQsin4qu8AdL5jUzjVDjaNhb7sIEi1psfWAoeb/uIn3tmbUJXt0SFu0CdIkb2NB2c4I
-	NToA==
+	Sat, 30 Jun 2012 00:27:13 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 29 Jun 2012 15:16:15 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="171795758"
+Received: from unknown (HELO [10.255.12.182]) ([10.255.12.182])
+	by fmsmga001.fm.intel.com with ESMTP; 29 Jun 2012 15:16:14 -0700
+Message-ID: <4FEE292E.6020806@linux.intel.com>
+Date: Fri, 29 Jun 2012 15:16:14 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
 MIME-Version: 1.0
-Received: by 10.14.97.16 with SMTP id s16mr959477eef.117.1341007905806; Fri,
-	29 Jun 2012 15:11:45 -0700 (PDT)
-Received: by 10.14.210.199 with HTTP; Fri, 29 Jun 2012 15:11:45 -0700 (PDT)
-In-Reply-To: <20120629220145.70BDC2026AF@gemini.denx.de>
-References: <1340994915-14947-1-git-send-email-paul.gortmaker@windriver.com>
-	<1340994915-14947-2-git-send-email-paul.gortmaker@windriver.com>
-	<CAMKF1srGhdr8kAQ+wyYPnVUW6nq_BHHup22YcGqrFrroW7WHhQ@mail.gmail.com>
-	<20120629220145.70BDC2026AF@gemini.denx.de>
-Date: Fri, 29 Jun 2012 15:11:45 -0700
-Message-ID: <CAMKF1sp8=OreFKNds00t-rxoVVgWaraUTRzMNqVZdY13FXu2YA@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-To: Wolfgang Denk <wd@denx.de>
+To: Khem Raj <raj.khem@gmail.com>
+References: <cover.1341004548.git.sgw@linux.intel.com>
+	<d273d0ea0fd0059499c54b68ba420043a31f2bb7.1341004548.git.sgw@linux.intel.com>
+	<CAMKF1so_1JQY-4eRWZ8Xkq4ixQ7cCmCSVAEohtjRJEFd9KoZiA@mail.gmail.com>
+	<4FEE253F.805@linux.intel.com>
+	<CAMKF1sp9Nw4ko-8b1TC0u0r+dyyWaO_TbrTKUuFWBribxF-h0w@mail.gmail.com>
+In-Reply-To: <CAMKF1sp9Nw4ko-8b1TC0u0r+dyyWaO_TbrTKUuFWBribxF-h0w@mail.gmail.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/3] u-boot: Don't make the -Os removal part of global settings.
+Subject: Re: [PATCH 1/7] bitbake.conf: Add PACKAGE_BEFORE_PN to PACKAGES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,77 +39,96 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Jun 2012 22:22:42 -0000
-Content-Type: multipart/alternative; boundary=90e6ba476467dddb9304c3a3bb65
+X-List-Received-Date: Fri, 29 Jun 2012 22:27:13 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
---90e6ba476467dddb9304c3a3bb65
-Content-Type: text/plain; charset=UTF-8
+On 06/29/2012 03:09 PM, Khem Raj wrote:
+>
+>
+> On Friday, June 29, 2012, Saul Wold <sgw@linux.intel.com
+> <mailto:sgw@linux.intel.com>> wrote:
+>  > On 06/29/2012 02:52 PM, Khem Raj wrote:
+>  >>
+>  >>
+>  >> On Friday, June 29, 2012, Saul Wold <sgw@linux.intel.com
+> <mailto:sgw@linux.intel.com>
+>  >> <mailto:sgw@linux.intel.com <mailto:sgw@linux.intel.com>>> wrote:
+>  >> > By doing this we can easily add addtional packages that can be
+>  >> > greedy before PN, but after some of the other standard packages.
+>  >> >
+>  >> > This will also allow us to simplify the lib_package class to set
+>  >> > this variable.
+>  >> >
+>  >> > Signed-off-by: Saul Wold <sgw@linux.intel.com
+> <mailto:sgw@linux.intel.com>
+>  >> <mailto:sgw@linux.intel.com <mailto:sgw@linux.intel.com>>>
+>  >> > ---
+>  >> >  meta/conf/bitbake.conf |    3 ++-
+>  >> >  1 file changed, 2 insertions(+), 1 deletion(-)
+>  >> >
+>  >> > diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+>  >> > index 9377ee6..df4907e 100644
+>  >> > --- a/meta/conf/bitbake.conf
+>  >> > +++ b/meta/conf/bitbake.conf
+>  >> > @@ -254,7 +254,8 @@ SOLIBSDEV_darwin = ".dylib"
+>  >> >  SOLIBSDEV_darwin8 = ".dylib"
+>  >> >  SOLIBSDEV_darwin9 = ".dylib"
+>  >> >
+>  >> > -PACKAGES = "${PN}-dbg ${PN}-staticdev ${PN}-dev ${PN}-doc
+>  >> ${PN}-locale ${PN}"
+>  >> > +PACKAGE_BEFORE_PN ?= ""
+>  >> > +PACKAGES = "${PN}-dbg ${PN}-staticdev ${PN}-dev ${PN}-doc
+>  >> ${PN}-locale ${PACKAGE_BEFORE_PN} ${PN}"
+>  >> >  PACKAGES_DYNAMIC = "${PN}-locale-*"
+>  >> >  FILES = ""
+>  >> >
+>  >>
+>  >>
+>  >> Can it appear at the beginning before pn-dbg?
+>  >> Then you could just prepend I don't think any of those predefined
+>  >> packages will have anything of interest that's in pn-bin
+>  >
+>  > No that's won't work since pn-dev wants to get -config binaries and
+> sometimes there are other binaries that pn-dev wants, I did try that
+> initially, by having -bin in front with =+ and got failures.
+>  >
+>  > This has been a tricky set of changes to deal with.
+>
+>
+> Hmm this variable really looks very specific not something for general
+> bitbake.conf I think
+> Can pn-bin appear after pn  since in case of libraries on should not
+> have much interest
 
-On Friday, June 29, 2012, Wolfgang Denk <wd@denx.de> wrote:
-> Dear Khem Raj,
->
-> In message <
-CAMKF1srGhdr8kAQ+wyYPnVUW6nq_BHHup22YcGqrFrroW7WHhQ@mail.gmail.com> you
-wrote:
->>
->> > We don't want to force everyone to be stripping the -Os
->> > flags from their u-boot builds.  Remove it, since it pertains
->> > to an old toolchain issue that is no longer relevant, and it
->> > breaks the powerpc mpc8315.
->>
->> Its fixed that's right but I am curious how does it break with -O2
->
-> -O2 causes much bigger memory footprint, so the code does not fit any
-> more in the memory map and/or flash sectors that are reserved for it.
+No it can't appear after because PN is greedy and will grab all the 
+bindir and base_bindir executable.  If anything I could move PN-bin 
+definition back into lib_package, but I found it clear to define it in 
+bitbake.conf with all the other PN-* definitions.
 
-Hmm interesting so we are living on edge here
-Thanks for the info
+Sau!
 
--khem
+>  > Sau!
+>  >
+>  >> > --
+>  >> > 1.7.10.4
+>  >> >
+>  >> >
+>  >> > _______________________________________________
+>  >> > Openembedded-core mailing list
+>  >> > Openembedded-core@lists.openembedded.org
+> <mailto:Openembedded-core@lists.openembedded.org>
+>  >> <mailto:Openembedded-core@lists.openembedded.org
+> <mailto:Openembedded-core@lists.openembedded.org>>
+>  >> > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>  >> >
+>  >>
+>  >>
+>  >> _______________________________________________
+>  >> Openembedded-core mailing list
+>  >> Openembedded-core@lists.openembedded.org
+> <mailto:Openembedded-core@lists.openembedded.org>
+>  >> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>  >
 
->
-> Best regards,
->
-> Wolfgang Denk
->
-> --
-> DENX Software Engineering GmbH,     MD: Wolfgang Denk & Detlev Zundel
-> HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
-> Phone: (+49)-8142-66989-10 Fax: (+49)-8142-66989-80 Email: wd@denx.de
-> HANDLE WITH EXTREME CARE:  This Product Contains  Minute Electrically
-> Charged  Particles  Moving  at  Velocities  in Excess of Five Hundred
-> Million Miles Per Hour.
->
 
---90e6ba476467dddb9304c3a3bb65
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<br><br>On Friday, June 29, 2012, Wolfgang Denk &lt;<a href=3D"mailto:wd@de=
-nx.de">wd@denx.de</a>&gt; wrote:<br>&gt; Dear Khem Raj,<br>&gt;<br>&gt; In =
-message &lt;<a href=3D"mailto:CAMKF1srGhdr8kAQ%2BwyYPnVUW6nq_BHHup22YcGqrFr=
-roW7WHhQ@mail.gmail.com">CAMKF1srGhdr8kAQ+wyYPnVUW6nq_BHHup22YcGqrFrroW7WHh=
-Q@mail.gmail.com</a>&gt; you wrote:<br>
-&gt;&gt;<br>&gt;&gt; &gt; We don&#39;t want to force everyone to be strippi=
-ng the -Os<br>&gt;&gt; &gt; flags from their u-boot builds. =C2=A0Remove it=
-, since it pertains<br>&gt;&gt; &gt; to an old toolchain issue that is no l=
-onger relevant, and it<br>
-&gt;&gt; &gt; breaks the powerpc mpc8315.<br>&gt;&gt;<br>&gt;&gt; Its fixed=
- that&#39;s right but I am curious how does it break with -O2<br>&gt;<br>&g=
-t; -O2 causes much bigger memory footprint, so the code does not fit any<br=
->
-&gt; more in the memory map and/or flash sectors that are reserved for it.<=
-br><br>Hmm interesting so we are living on edge here <br>Thanks for the inf=
-o<br><br>-khem<br><br>&gt;<br>&gt; Best regards,<br>&gt;<br>&gt; Wolfgang D=
-enk<br>
-&gt;<br>&gt; --<br>&gt; DENX Software Engineering GmbH, =C2=A0 =C2=A0 MD: W=
-olfgang Denk &amp; Detlev Zundel<br>&gt; HRB 165235 Munich, Office: Kirchen=
-str.5, D-82194 Groebenzell, Germany<br>&gt; Phone: (+49)-8142-66989-10 Fax:=
- (+49)-8142-66989-80 Email: <a href=3D"mailto:wd@denx.de">wd@denx.de</a><br=
->
-&gt; HANDLE WITH EXTREME CARE: =C2=A0This Product Contains =C2=A0Minute Ele=
-ctrically<br>&gt; Charged =C2=A0Particles =C2=A0Moving =C2=A0at =C2=A0Veloc=
-ities =C2=A0in Excess of Five Hundred<br>&gt; Million Miles Per Hour.<br>&g=
-t;
-
---90e6ba476467dddb9304c3a3bb65--
