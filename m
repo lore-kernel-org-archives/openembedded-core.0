@@ -1,34 +1,35 @@
-Received: from mail-qc0-f175.google.com ([209.85.216.175])
+Received: from mail-qa0-f47.google.com ([209.85.216.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@gmail.com>) id 1Skb0d-0006EC-Ls
-	for openembedded-core@lists.openembedded.org;
-	Fri, 29 Jun 2012 15:13:15 +0200
-Received: by qcad10 with SMTP id d10so699012qca.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Jun 2012 06:02:19 -0700 (PDT)
+	(envelope-from <bruce.ashfield@gmail.com>)
+	id 1Skb39-0006HL-IB; Fri, 29 Jun 2012 15:15:51 +0200
+Received: by qabg1 with SMTP id g1so713992qab.6
+	for <multiple recipients>; Fri, 29 Jun 2012 06:04:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
 	:cc:content-type:content-transfer-encoding;
-	bh=6DaBJw24+469XBNT7pcUb7w6b3CIsK1Xk3C1A7N03kE=;
-	b=iQQwVguBA/v3uPV023vzb/k039phVAUNah/BB90iQQFR5Dsc/oBGGRwYI/gqJzUpjE
-	9mKJcZUPk92ss7i5rCbJQQob+7DBysduYpzkcbUZy0DTbyVaGRv9eGPbYXRDRIVHw61u
-	KyGKactp5/i8N+jfqYiuKsDegrl1Ou8NCyScX3FU86Wwg1w8fhVFPKpIyFosB7xL4hx+
-	+9R1nUY3pnSyWlPruAkAKeBnQ2tbhPlX1PmMTQspqvvkYcyQNF+R8sYS0okXAj65ppDe
-	W8fKcyeBo8Z/QcPvGQtoBb/FWyCEnX3TBJE2+fT1YBxs5lQn1BFLuCmLzKf+BqSTPjIM
-	s1wA==
+	bh=0aHckQN8r+x+ljr933fEcecNcsF7sWOjyNGdG81QxVw=;
+	b=wAPIgMCoIww7sqFRLWxGI+lTMy0D4bQ1pupnYuLvMBprxU2Q6oDdf91G6UgHJVUIQ0
+	jvdpSbXWqSe7FPb0/XRKkSa4GokngmO4VBHjV1dZcDi80pEMFM5KUDr7ZWCMR/0dZ5eB
+	s8wQpprokv1VSDb5h2nHfNrO9X1Niwe88xizBa94kKBMVgZxwv8tWq91Y4+v7b8dLf6t
+	Bby4CpO2HfRCqP+qRBg3siz63z0aSRN8lN2f7IEv2y3Xd7ewT3qF5jgu/RxZX6dzntsd
+	8y/Ej1tBRjyhrT5nDqiXKFgN4shZo+ZuY2FE/vHS9hOqmL6Y72XIxHCk9d8OEDy2xkbo
+	y3pQ==
 MIME-Version: 1.0
-Received: by 10.229.137.84 with SMTP id v20mr652669qct.36.1340974939462; Fri,
-	29 Jun 2012 06:02:19 -0700 (PDT)
-Received: by 10.229.41.5 with HTTP; Fri, 29 Jun 2012 06:02:19 -0700 (PDT)
-In-Reply-To: <4263ffefaa6f3b0069bc41c0f7578d36717edcfc.1340942930.git.dvhart@linux.intel.com>
-References: <cover.1340942930.git.dvhart@linux.intel.com>
-	<4263ffefaa6f3b0069bc41c0f7578d36717edcfc.1340942930.git.dvhart@linux.intel.com>
-Date: Fri, 29 Jun 2012 09:02:19 -0400
-Message-ID: <CADkTA4MUhn4nUEkUdxG_TkV6qg8VHorhoPjYpeFOqAPrxEr4=A@mail.gmail.com>
+Received: by 10.224.39.131 with SMTP id g3mr3572780qae.93.1340975095087; Fri,
+	29 Jun 2012 06:04:55 -0700 (PDT)
+Received: by 10.229.41.5 with HTTP; Fri, 29 Jun 2012 06:04:54 -0700 (PDT)
+In-Reply-To: <20120629060037.GD3961@jama.jama.net>
+References: <20120628152441.4D5571032F@opal>
+	<20120628213215.GC3961@jama.jama.net>
+	<CADkTA4OKVFgLnSJMMVOZLuuMyfDZXMpriZR_q0O7PjzoJMij8Q@mail.gmail.com>
+	<20120629060037.GD3961@jama.jama.net>
+Date: Fri, 29 Jun 2012 09:04:54 -0400
+Message-ID: <CADkTA4MxhVtYtH0Y==R64A7bnSaMjmrSM6RqekBU5PxuJNK0jA@mail.gmail.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Darren Hart <dvhart@linux.intel.com>
-Cc: Poky <poky@yoctoproject.org>, openembedded-core@lists.openembedded.org
-Subject: Re: [poky] [PATCH 1/4] linux-libc-headers-yocto: Do not include linux-yocto
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Cc: openembedded-commits@lists.openembedded.org
+Subject: Re: [oe-commits] Bruce Ashfield : kern-tools: add buildall and robustness fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,74 +44,135 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Jun 2012 13:13:15 -0000
+X-List-Received-Date: Fri, 29 Jun 2012 13:15:51 -0000
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jun 29, 2012 at 12:17 AM, Darren Hart <dvhart@linux.intel.com> wrot=
+On Fri, Jun 29, 2012 at 2:00 AM, Martin Jansa <martin.jansa@gmail.com> wrot=
 e:
-> The only bit we seem to need from the linux-yocto include is the
-> SRCREV_FORMAT. If we define this explicitly, we can avoid including the
-> linux-yocto include.
+> On Thu, Jun 28, 2012 at 07:31:45PM -0400, Bruce Ashfield wrote:
+>> On Thu, Jun 28, 2012 at 5:32 PM, Martin Jansa <martin.jansa@gmail.com> w=
+rote:
+>> > On Thu, Jun 28, 2012 at 03:24:41PM +0000, git@git.openembedded.org wro=
+te:
+>> >> Module: openembedded-core.git
+>> >> Branch: master
+>> >> Commit: be3cff86d55db6255e036d68e943e527802b4f4c
+>> >> URL: =A0 =A0http://git.openembedded.org/?p=3Dopenembedded-core.git&a=
+=3Dcommit;h=3Dbe3cff86d55db6255e036d68e943e527802b4f4c
+>> >>
+>> >> Author: Bruce Ashfield <bruce.ashfield@windriver.com>
+>> >> Date: =A0 Fri Jun 15 15:26:44 2012 -0400
+>> >>
+>> >> kern-tools: add buildall and robustness fixes
+>> >>
+>> >> Updating the kern-tools SRCREV to pickup the following functionality:
+>> >>
+>> >> =A0- buildall: provides the ability to build all kernel branches
+>> >> =A0 =A0 =A0 =A0 =A0 =A0 =A0without a build system, only a cross compi=
+ler and configme
+>> >> =A0 =A0 =A0 =A0 =A0 =A0 =A0are required.
+>> >>
+>> >> =A0- robustness/cleanups: obselete/unused code removal and general ro=
+bustness
+>> >> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 fixes from Paul Gortm=
+aker and Bruce Ashfield
+>> >
+>> > is this expected with latest kern-tools/linux-yocto and qemux86-64?
+>> >
+>> > NOTE: package linux-yocto-3.4.3+git3+d65afd9e42230a3ef4cc1f9ad62d0aa84=
+a533cd0_3+a1cdb60720c452c3965eaec3ec2cd10f06261cc5-r0: task do_kernel_confi=
+gcheck: Start
+>> > ed
+>> > NOTE: validating kernel configuration
+>> > find: warning: -path /OE/shr-core/tmp-eglibc/work/qemux86_64-oe-linux/=
+linux-yocto/linux-yocto-3.4.3+git3+d65afd9e42230a3ef4cc1f9ad62d0aa84a533cd0=
+_3+a1cdb60720c452c3965eaec3ec2cd10f06261cc5-r0/linux/ will not match anythi=
+ng because it ends with /.
+>> > This BSP sets 1 kernel options that are possibly non-hardware related.
+>> > The full list can be found in your kernel src dir at:
+>> > meta/cfg/standard/common-pc-64/specified_non_hdw.cfg
+>> >
+>> > There were 1 instances of config fragment errors.
+>> > The full list can be found in your kernel src dir at:
+>> > meta/cfg/standard/common-pc-64/fragment_errors.txt
+>> >
+>> > NOTE: package linux-yocto-3.4.3+git3+d65afd9e42230a3ef4cc1f9ad62d0aa84=
+a533cd0_3+a1cdb60720c452c3965eaec3ec2cd10f06261cc5-r0: task do_kernel_confi=
+gcheck: Succeeded
+>> >
+>> >
+>> > OE @ ~/shr-core/tmp-eglibc/work/qemux86_64-oe-linux/linux-yocto/linux-=
+yocto-3.4.3+git3+d65afd9e42230a3ef4cc1f9ad62d0aa84a533cd0_3+a1cdb60720c452c=
+3965eaec3ec2c
+>> > d10f06261cc5-r0/linux $ cat meta/cfg/standard/common-pc-64/specified_n=
+on_hdw.cfg
+>> > CONFIG_BLOCK
+>> > OE @ ~/shr-core/tmp-eglibc/work/qemux86_64-oe-linux/linux-yocto/linux-=
+yocto-3.4.3+git3+d65afd9e42230a3ef4cc1f9ad62d0aa84a533cd0_3+a1cdb60720c452c=
+3965eaec3ec2c
+>> > d10f06261cc5-r0/linux $ cat meta/cfg/standard/common-pc-64/fragment_er=
+rors.txt
+>> > Warning: Value of CONFIG_NET_CLS_CGROUP is defined multiple times with=
+in fragment meta/cfg/kernel-cache/features/net_sched/net_sched.cfg:
+>> > CONFIG_NET_CLS_CGROUP=3Dy
+>> > CONFIG_NET_CLS_CGROUP=3Dy
+>>
+>> It is, only because I was waiting for my other queued changes to get pul=
+led
+>> before sending another batch:
+>>
+>> http://git.yoctoproject.org/cgit/cgit.cgi/yocto-kernel-cache/commit/?id=
+=3D0329bbc053c97f9b250454ff6a60727f75973706
 >
-> This is desirable so that linux-yocto can require kernel and simplify
-> the PR update process of all the linux-yocto* recipes. Pulling in
-> kernel to the linux-libc-headers-yocto recipes causes build failures by
-> pulling in "update-modules-nativesdk".
+> Ah OK, from those validation messages it wasn't very clear if it's
+> info/warning/error/fatal.
 
-I'm familiar with this particular issue .. and I've tried to fix it
-myself (I have
-something that does largely work with both kernel and kernel yocto
-included), but I didn't know you were looking into this, so I'll toss
-that out :)
-
-There's something missing with this change, that I had restored the ability
-to patch and modify the tree, but I'll bolt that on later when I fix up tho=
-se
-nativesdk parts.
-
-Acked-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+Agreed :)
 
 >
-> Signed-off-by: Darren Hart <dvhart@linux.intel.com>
-> CC: Bruce Ashfield <bruce.ashfield@windriver.com>
-> CC: Tom Zanussi <tom.zanussi@intel.com>
-> ---
-> =A0.../linux-libc-headers/linux-libc-headers-yocto_git.bb =A0 =A0 =A0 =A0=
- =A0 =A0 =A0| =A0 =A03 ++-
-> =A01 file changed, 2 insertions(+), 1 deletion(-)
+> BTW: there is typo in this new commit 'dupicate'
+
+It won't be my last! ;)
+
+Bruce
+
 >
-> diff --git a/meta-yocto/recipes-kernel/linux-libc-headers/linux-libc-head=
-ers-yocto_git.bb b/meta-yocto/recipes-kernel/linux-libc-headers/linux-libc-=
-headers-yocto_git.bb
-> index b4222f1..8ab4fb1 100644
-> --- a/meta-yocto/recipes-kernel/linux-libc-headers/linux-libc-headers-yoc=
-to_git.bb
-> +++ b/meta-yocto/recipes-kernel/linux-libc-headers/linux-libc-headers-yoc=
-to_git.bb
-> @@ -1,5 +1,4 @@
-> =A0require recipes-kernel/linux-libc-headers/linux-libc-headers.inc
-> -include recipes-kernel/linux/linux-yocto.inc
+> Cheers,
 >
-> =A0B =3D "${S}"
+>>
+>> Cheers,
+>>
+>> Bruce
+>>
+>> >
+>> > Cheers,
+>> >
+>> > _______________________________________________
+>> > Openembedded-core mailing list
+>> > Openembedded-core@lists.openembedded.org
+>> > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>> >
+>>
+>>
+>>
+>> --
+>> "Thou shalt not follow the NULL pointer, for chaos and madness await
+>> thee at its end"
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 >
-> @@ -13,6 +12,8 @@ SRCREV =3D "a1cdb60720c452c3965eaec3ec2cd10f06261cc5"
-> =A0PV =3D "3.4+git-${SRCPV}"
-> =A0PR =3D "r6"
->
-> +SRCREV_FORMAT ?=3D "meta_machine"
-> +
-> =A0SRC_URI =3D "git://git.yoctoproject.org/linux-yocto-3.4.git;protocol=
-=3Dgit;nocheckout=3D1;branch=3D${KBRANCH},meta;name=3Dmachine,meta"
->
-> =A0# force this to empty to prevent installation failures, we aren't
 > --
-> 1.7.10.2
+> Martin 'JaMa' Jansa =A0 =A0 jabber: Martin.Jansa@gmail.com
 >
 > _______________________________________________
-> poky mailing list
-> poky@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/poky
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
 
 
