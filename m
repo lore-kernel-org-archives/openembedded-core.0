@@ -1,31 +1,23 @@
-Received: from astoria.ccjclearline.com ([64.235.106.9])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpjday@crashcourse.ca>) id 1SkfhC-0006vP-Bg
+	(envelope-from <Paul.Gortmaker@windriver.com>) id 1SkgD5-0007Hl-4F
 	for openembedded-core@lists.openembedded.org;
-	Fri, 29 Jun 2012 20:13:30 +0200
-Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
-	([99.241.91.63]:56740 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.77) (envelope-from <rpjday@crashcourse.ca>)
-	id 1SkfWa-0002vn-NU for openembedded-core@lists.openembedded.org;
-	Fri, 29 Jun 2012 14:02:32 -0400
-Date: Fri, 29 Jun 2012 14:02:30 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@oneiric
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.DEB.2.02.1206291400090.6157@oneiric>
-User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+	Fri, 29 Jun 2012 20:46:27 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q5TIZSht002372
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 29 Jun 2012 11:35:29 -0700 (PDT)
+Received: from yow-pgortmak-d2.corp.ad.wrs.com (128.224.146.165) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.1.255.0; Fri, 29 Jun 2012 11:35:28 -0700
+From: Paul Gortmaker <paul.gortmaker@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 29 Jun 2012 14:35:12 -0400
+Message-ID: <1340994915-14947-1-git-send-email-paul.gortmaker@windriver.com>
+X-Mailer: git-send-email 1.7.9.6
 MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Subject: kernel-arch: Remove test for long-dead arm26 architecture.
+Subject: [PATCH 0/3] u-boot recipe updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,44 +32,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Jun 2012 18:13:30 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Fri, 29 Jun 2012 18:46:27 -0000
+Content-Type: text/plain
 
+These are the oe-core updates required so that yocto can do
+a successful build of a working u-boot image for the mpc8315
+reference BSP.
 
-Signed-off-by: Robert P. J. Day <rpjday@crashcourse.ca>
+A follow up patch will be sent to the yocto list to enable
+building it by default for the mpc8315-rdb.
 
 ---
 
-diff --git a/meta/classes/kernel-arch.bbclass b/meta/classes/kernel-arch.bbclass
-index e186422..4a30192 100644
---- a/meta/classes/kernel-arch.bbclass
-+++ b/meta/classes/kernel-arch.bbclass
-@@ -8,7 +8,7 @@ valid_archs = "alpha cris ia64 \
-                i386 x86 \
-                m68knommu m68k ppc powerpc powerpc64 ppc64  \
- 	       sparc sparc64 \
--               arm  arm26 \
-+               arm \
-                m32r mips \
- 	       sh sh64 um h8300   \
- 	       parisc s390  v850 \
-@@ -21,7 +21,6 @@ def map_kernel_arch(a, d):
- 	valid_archs = d.getVar('valid_archs', True).split()
+Paul Gortmaker (3):
+  u-boot: Don't make the -Os removal part of global settings.
+  u-boot: make FILESDIR a shared setting.
+  u-boot: make sure CROSS_COMPILE is passed into build
 
- 	if   re.match('(i.86|athlon|x86.64)$', a):	return 'x86'
--	elif re.match('arm26$', a):		        return 'arm26'
- 	elif re.match('armeb$', a):		        return 'arm'
- 	elif re.match('mips(el|64|64el)$', a):	        return 'mips'
- 	elif re.match('p(pc|owerpc)(|64)', a):		return 'powerpc'
+ meta/recipes-bsp/u-boot/u-boot.inc           |    4 +---
+ meta/recipes-bsp/u-boot/u-boot_2011.03.bb    |    2 --
+ meta/recipes-bsp/u-boot/u-boot_2011.06.bb    |    2 --
+ meta/recipes-bsp/u-boot/u-boot_2012.04.01.bb |    5 +++--
+ 4 files changed, 4 insertions(+), 9 deletions(-)
 
 -- 
+1.7.9.6
 
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
 
 
