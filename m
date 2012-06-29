@@ -1,32 +1,43 @@
-Received: from mga11.intel.com ([192.55.52.93])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1Skkn2-00031U-5r
-	for openembedded-core@lists.openembedded.org;
-	Sat, 30 Jun 2012 01:39:52 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 29 Jun 2012 16:28:55 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="171813871"
-Received: from unknown (HELO envy.home) ([10.255.13.25])
-	by fmsmga001.fm.intel.com with ESMTP; 29 Jun 2012 16:28:54 -0700
-Message-ID: <4FEE39DB.90101@linux.intel.com>
-Date: Fri, 29 Jun 2012 16:27:23 -0700
-From: Darren Hart <dvhart@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:13.0) Gecko/20120615 Thunderbird/13.0.1
+Received: from mail-out.m-online.net ([212.18.0.10])
+	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <wd@denx.de>)
+	id 1SkksS-00036R-Dw for openembedded-core@lists.openembedded.org;
+	Sat, 30 Jun 2012 01:45:28 +0200
+Received: from frontend4.mail.m-online.net (unknown [192.168.8.183])
+	by mail-out.m-online.net (Postfix) with ESMTP id 3WPDjS0sK4z3hhXk;
+	Sat, 30 Jun 2012 01:34:52 +0200 (CEST)
+Received: from localhost (dynscan1.mnet-online.de [192.168.8.164])
+	by mail.m-online.net (Postfix) with ESMTP id 3WPDj61cVdzbbrV;
+	Sat, 30 Jun 2012 01:34:34 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at mnet-online.de
+Received: from smtp-auth.mnet-online.de ([192.168.8.183])
+	by localhost (dynscan1.mail.m-online.net [192.168.8.164]) (amavisd-new,
+	port 10024)
+	with ESMTP id hDWr7b7Lvf-G; Sat, 30 Jun 2012 01:34:33 +0200 (CEST)
+Received: from diddl.denx.de (host-80-81-18-216.customer.m-online.net
+	[80.81.18.216]) by smtp-auth.mnet-online.de (Postfix) with ESMTPA;
+	Sat, 30 Jun 2012 01:34:33 +0200 (CEST)
+Received: from gemini.denx.de (gemini.denx.de [10.0.0.2])
+	by diddl.denx.de (Postfix) with ESMTP id 635761A20EE;
+	Sat, 30 Jun 2012 01:34:33 +0200 (CEST)
+Received: from gemini.denx.de (localhost [127.0.0.1])
+	by gemini.denx.de (Postfix) with ESMTP id 368832026AF;
+	Sat, 30 Jun 2012 01:34:33 +0200 (CEST)
+To: Khem Raj <raj.khem@gmail.com>
+From: Wolfgang Denk <wd@denx.de>
 MIME-Version: 1.0
-To: "Zhang, Jessica" <jessica.zhang@intel.com>
-References: <cover.1340998763.git.dvhart@linux.intel.com>
-	<4263ffefaa6f3b0069bc41c0f7578d36717edcfc.1340998763.git.dvhart@linux.intel.com>
-	<53ce203eec118e3d5b0faac4c8e71f69c9857146.1340998763.git.dvhart@linux.intel.com>
-	<CAMKF1sqrg5O7A1Tt=XjTzc0PfV5ZKcETe1tJfHOP460NNmpojw@mail.gmail.com>
-	<4FEE33CB.3010609@linux.intel.com>
-	<C6510F6D410BB64A8C15398EDC6B847C46A7A698@ORSMSX101.amr.corp.intel.com>
-In-Reply-To: <C6510F6D410BB64A8C15398EDC6B847C46A7A698@ORSMSX101.amr.corp.intel.com>
-X-Enigmail-Version: 1.4.2
-Cc: Poky <poky@yoctoproject.org>, "openembedded-core@lists.openembedded.org"
+In-reply-to: <CAMKF1sp8=OreFKNds00t-rxoVVgWaraUTRzMNqVZdY13FXu2YA@mail.gmail.com>
+References: <1340994915-14947-1-git-send-email-paul.gortmaker@windriver.com>
+	<1340994915-14947-2-git-send-email-paul.gortmaker@windriver.com>
+	<CAMKF1srGhdr8kAQ+wyYPnVUW6nq_BHHup22YcGqrFrroW7WHhQ@mail.gmail.com>
+	<20120629220145.70BDC2026AF@gemini.denx.de>
+	<CAMKF1sp8=OreFKNds00t-rxoVVgWaraUTRzMNqVZdY13FXu2YA@mail.gmail.com>
+Comments: In-reply-to Khem Raj <raj.khem@gmail.com>
+	message dated "Fri, 29 Jun 2012 15:11:45 -0700."
+Date: Sat, 30 Jun 2012 01:34:33 +0200
+Message-Id: <20120629233433.368832026AF@gemini.denx.de>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [poky] [PATCH 4/5] tasl-core-sdk: Add kernel-dev to task-core-sdk RDEPENDS
+Subject: Re: [PATCH 1/3] u-boot: Don't make the -Os removal part of global settings.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,68 +52,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Jun 2012 23:39:52 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 29 Jun 2012 23:45:28 -0000
+Content-type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+Dear Khem Raj,
 
+In message <CAMKF1sp8=3DOreFKNds00t-rxoVVgWaraUTRzMNqVZdY13FXu2YA@mail.gm=
+ail.com> you wrote:
+>=20
+> > -O2 causes much bigger memory footprint, so the code does not fit any
+> > more in the memory map and/or flash sectors that are reserved for it.
+>=20
+> Hmm interesting so we are living on edge here
 
-On 06/29/2012 04:23 PM, Zhang, Jessica wrote:
-> Hi Darren,
-> 
-> I think add kernel-dev to sdk image is a better approach for what you're trying to achieve.
+Well, -O2 can mean some 30% bigger code size than -Os.  This hurts for
+memory-footprint optimized code like a boot loader.  [It also hurts in
+terms of exacution speed on most embedded systems...]
 
-OK, I'll go that route in the upcoming V3.
+> Thanks for the info
 
-Thanks,
+You are welcome.
 
-Darren
+Best regards,
 
-> 
-> Thanks,
-> Jessica
-> 
-> -----Original Message-----
-> From: Darren Hart [mailto:dvhart@linux.intel.com]
-> Sent: Friday, June 29, 2012 4:02 PM
-> To: Khem Raj
-> Cc: Poky; openembedded-core@lists.openembedded.org; Bodke, Kishore K; Zhang, Jessica
-> Subject: Re: [poky] [PATCH 4/5] tasl-core-sdk: Add kernel-dev to task-core-sdk RDEPENDS
-> 
-> On 06/29/2012 02:59 PM, Khem Raj wrote:
-> 
->>>  ALLOW_EMPTY = "1"
->>>  #PACKAGEFUNCS =+ 'generate_sdk_pkgs'
->>> @@ -46,7 +46,8 @@ RDEPENDS_task-core-sdk = "\
->>>     distcc \
->>>     ldd \
->>>     file \
->>> -    tcl"
->>> +    tcl \
->>> +    kernel-dev"
->>
->> Doesn't this.make sdk to be machine specific now
-> 
-> It does indeed as the kernel-dev contains the system map, config, and possibly even modified headers dependingon the KBRANCH.
-> 
-> Is task-core-sdk intended to be only architecture specific?
-> 
-> If so, I can just add kernel-dev to the -sdk image recipes directly rather than modifying task-core-sdk.
-> 
-> Jessica, any opinion here?
-> 
-> --
-> Darren Hart
-> Intel Open Source Technology Center
-> Yocto Project - Linux Kernel
-> 
-> 
+Wolfgang Denk
 
--- 
-Darren Hart
-Intel Open Source Technology Center
-Yocto Project - Linux Kernel
-
-
+--=20
+DENX Software Engineering GmbH,     MD: Wolfgang Denk & Detlev Zundel
+HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
+Phone: (+49)-8142-66989-10 Fax: (+49)-8142-66989-80 Email: wd@denx.de
+The IQ of the group is the lowest IQ of a member of the group divided
+by the number of people in the group.
 
 
