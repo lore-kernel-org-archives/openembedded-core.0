@@ -1,30 +1,37 @@
-Received: from mga14.intel.com ([143.182.124.37])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1SkhTe-00047e-RS
+Received: from 75-148-42-21-colorado.hfc.comcastbusiness.net ([75.148.42.21]
+	helo=judge.camp.se-eng.com) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <ray.danks@se-eng.com>) id 1SkhWa-0004F3-4Q
 	for openembedded-core@lists.openembedded.org;
-	Fri, 29 Jun 2012 22:07:39 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 29 Jun 2012 12:56:10 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="162369433"
-Received: from unknown (HELO localhost) ([10.255.13.25])
-	by azsmga001.ch.intel.com with ESMTP; 29 Jun 2012 12:56:09 -0700
-From: Darren Hart <dvhart@linux.intel.com>
-To: Poky <poky@yoctoproject.org>, openembedded-core@lists.openembedded.org,
-	Kishore Bodke <kishore.k.bodke@intel.com>
-Date: Fri, 29 Jun 2012 12:54:34 -0700
-Message-Id: <53ce203eec118e3d5b0faac4c8e71f69c9857146.1340998763.git.dvhart@linux.intel.com>
-X-Mailer: git-send-email 1.7.10.2
-In-Reply-To: <4263ffefaa6f3b0069bc41c0f7578d36717edcfc.1340998763.git.dvhart@linux.intel.com>
-References: <4263ffefaa6f3b0069bc41c0f7578d36717edcfc.1340998763.git.dvhart@linux.intel.com>
-In-Reply-To: <cover.1340998763.git.dvhart@linux.intel.com>
-References: <cover.1340998763.git.dvhart@linux.intel.com>
-Cc: Darren Hart <dvhart@linux.intel.com>
-Subject: [PATCH 4/5] tasl-core-sdk: Add kernel-dev to task-core-sdk RDEPENDS
+	Fri, 29 Jun 2012 22:10:40 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by judge.camp.se-eng.com (Postfix) with ESMTP id C8D131391B1;
+	Fri, 29 Jun 2012 13:59:42 -0600 (MDT)
+X-Virus-Scanned: amavisd-new at camp.se-eng.com
+Received: from judge.camp.se-eng.com ([127.0.0.1])
+	by localhost (judge.camp.se-eng.com [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with ESMTP id AKCT1gzNOgdt; Fri, 29 Jun 2012 13:59:41 -0600 (MDT)
+Received: from [172.20.202.96] (beast.camp.se-eng.com [172.20.202.96])
+	by judge.camp.se-eng.com (Postfix) with ESMTPSA id 3B17C1391B0;
+	Fri, 29 Jun 2012 13:59:40 -0600 (MDT)
+Message-ID: <4FEE0985.4050502@se-eng.com>
+Date: Fri, 29 Jun 2012 14:01:09 -0600
+From: Raymond Danks <ray.danks@se-eng.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:10.0) Gecko/20120129 Thunderbird/10.0
+MIME-Version: 1.0
+To: Darren Hart <dvhart@linux.intel.com>
+References: <1340396533-5386-2-git-send-email-ray.danks@se-eng.com>
+	<1340984497-32423-1-git-send-email-ray.danks@se-eng.com>
+	<4FEDE9B8.8010605@linux.intel.com>
+In-Reply-To: <4FEDE9B8.8010605@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2 v2] image_types: Add elf image type
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: ray.danks@se-eng.com, Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -35,43 +42,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Jun 2012 20:07:39 -0000
+X-List-Received-Date: Fri, 29 Jun 2012 20:10:40 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Add kernel-dev to task-core-sdk so it will be included with
-core-image-sato-sdk and similar image recipes. This enables
-building Linux kernel modules on the target.
+On 06/29/2012 11:45 AM, Darren Hart wrote:
+>
+> On 06/29/2012 08:41 AM, Raymond Danks wrote:
+>> On x86, an ELF image file may be stored as a coreboot payload.
+>> The image file is constructed, using the mkelfimage utility,
+>> from a kernel and an initrd.
+>>
+>> Signed-off-by: Raymond Danks<ray.danks@se-eng.com>
+>> ---
+>> This was originally submitted to the openembedded project:
+>> http://patches.openembedded.org/patch/7689/
+>>
+>> v2:
+>>   Include KERNEL_IMAGETYPE for location of ELF_KERNEL
+>>
+>>   meta/classes/image_types.bbclass |   18 +++++++++++++++++-
+>>   1 files changed, 17 insertions(+), 1 deletions(-)
+>>
+>> diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+>> index 55f122e..12419f4 100644
+>> --- a/meta/classes/image_types.bbclass
+>> +++ b/meta/classes/image_types.bbclass
+>> @@ -7,6 +7,12 @@ def get_imagecmds(d):
+>>       ctypes = d.getVar('COMPRESSIONTYPES', True).split()
+>>       cimages = {}
+>>
+>> +    if "elf" in alltypes:
+>> +        alltypes.remove("elf")
+>> +        if "cpio.gz" not in alltypes:
+>> +                alltypes.append("cpio.gz")
+>> +        alltypes.append("elf")
+>> +
+>>       # Filter out all the compressed images from types
+>>       for type in alltypes:
+>>           basetype = None
+>> @@ -173,6 +179,14 @@ IMAGE_CMD_cpio () {
+>>   	cd ${IMAGE_ROOTFS}&&  (find . | cpio -o -H newc>${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cpio)
+>>   }
+>>
+>> +ELF_KERNEL ?= ${STAGING_DIR_HOST}/kernel/${KERNEL_IMAGETYPE}
+> This should be ${STAGING_KERNEL_DIR} I believe. I have a patch series
+> under review currently which would break the above as it is now in
+> /usr/src/kernel-headers
+>
+> Note that you could also collect this from the DEPLOY_DIR_IMAGE, which
+> is probably more appropriate for assembling images
+>
+> Thanks,
+>
+Yes.  This appears to work:
+ELF_KERNEL ?= ${DEPLOY_DIR_IMAGE}/${KERNEL_IMAGETYPE}
 
-Signed-off-by: Darren Hart <dvhart@linux.intel.com>
-CC: Jessica Zhang <jessica.zhang@intel.com>
----
- meta/recipes-core/tasks/task-core-sdk.bb |    5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-core/tasks/task-core-sdk.bb b/meta/recipes-core/tasks/task-core-sdk.bb
-index ec6cdcc..d65a53a 100644
---- a/meta/recipes-core/tasks/task-core-sdk.bb
-+++ b/meta/recipes-core/tasks/task-core-sdk.bb
-@@ -7,7 +7,7 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58 \
-                     file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
- DEPENDS = "task-core-console"
--PR = "r7"
-+PR = "r8"
- 
- ALLOW_EMPTY = "1"
- #PACKAGEFUNCS =+ 'generate_sdk_pkgs'
-@@ -46,7 +46,8 @@ RDEPENDS_task-core-sdk = "\
-     distcc \
-     ldd \
-     file \
--    tcl"
-+    tcl \
-+    kernel-dev"
- 
- #python generate_sdk_pkgs () {
- #    poky_pkgs = read_pkgdata('task-core', d)['PACKAGES']
--- 
-1.7.10.2
+I'm regenerating the patch now.
 
 
 
