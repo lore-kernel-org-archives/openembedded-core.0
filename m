@@ -1,26 +1,22 @@
 Received: from c-71-193-189-117.hsd1.wa.comcast.net ([71.193.189.117]
 	helo=yujin.bigsur.com) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@yujin.bigsur.com>) id 1SkisL-00087L-Js
+	(envelope-from <sgw@yujin.bigsur.com>) id 1SkisP-00087L-Nv
 	for openembedded-core@lists.openembedded.org;
-	Fri, 29 Jun 2012 23:37:14 +0200
+	Fri, 29 Jun 2012 23:37:18 +0200
 Received: from yujin.bigsur.com (localhost [127.0.0.1])
 	by yujin.bigsur.com (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	q5TLLOKD028214 for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Jun 2012 14:21:24 -0700
+	q5TLLNEc028202 for <openembedded-core@lists.openembedded.org>;
+	Fri, 29 Jun 2012 14:21:23 -0700
 Received: (from sgw@localhost)
-	by yujin.bigsur.com (8.14.4/8.14.4/Submit) id q5TLLOHh028213
+	by yujin.bigsur.com (8.14.4/8.14.4/Submit) id q5TLLNaA028201
 	for openembedded-core@lists.openembedded.org;
-	Fri, 29 Jun 2012 14:21:24 -0700
+	Fri, 29 Jun 2012 14:21:23 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 29 Jun 2012 14:21:15 -0700
-Message-Id: <3277b68d65f29bc9409de70988484a426debb198.1341004548.git.sgw@linux.intel.com>
+Date: Fri, 29 Jun 2012 14:21:12 -0700
+Message-Id: <cover.1341004548.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <cover.1341004548.git.sgw@linux.intel.com>
-References: <cover.1341004548.git.sgw@linux.intel.com>
-In-Reply-To: <cover.1341004548.git.sgw@linux.intel.com>
-References: <cover.1341004548.git.sgw@linux.intel.com>
-Subject: [PATCH 3/7] libacpi: use lib_package bbclass
+Subject: [PATCH 0/7] Simplify lib_package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,41 +31,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Jun 2012 21:37:17 -0000
+X-List-Received-Date: Fri, 29 Jun 2012 21:37:18 -0000
 
-This is a clean-up following the recent addition of PN-bin
-to bitbake.conf and lib_package
+This series continues the PACKAGES changes and takes
+advanatage of having a ${PN}-bin, by adding a
+PACKGE_BEFORE_PN in the PACKAGES list.
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- meta/recipes-bsp/libacpi/libacpi_0.2.bb |    7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+Update other recipes that had defined ${PN}-bin.
 
-diff --git a/meta/recipes-bsp/libacpi/libacpi_0.2.bb b/meta/recipes-bsp/libacpi/libacpi_0.2.bb
-index 1a6dc97..b0fbf0b 100644
---- a/meta/recipes-bsp/libacpi/libacpi_0.2.bb
-+++ b/meta/recipes-bsp/libacpi/libacpi_0.2.bb
-@@ -5,7 +5,7 @@ SECTION = "base"
- HOMEPAGE = "http://www.ngolde.de/libacpi.html"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=fec17f82f16630adf2dfb7d2a46f21c5"
--PR = "r5"
-+PR = "r6"
- 
- SRC_URI = "http://www.ngolde.de/download/libacpi-${PV}.tar.gz \
- 	   file://makefile-fix.patch \
-@@ -15,10 +15,7 @@ SRC_URI = "http://www.ngolde.de/download/libacpi-${PV}.tar.gz \
- SRC_URI[md5sum] = "05b53dd7bead66dda35fec502b91066c"
- SRC_URI[sha256sum] = "13086e31d428b9c125954d48ac497b754bbbce2ef34ea29ecd903e82e25bad29"
- 
--PACKAGES += "${PN}-bin"
--
--FILES_${PN} = "${libdir}/libacpi.so.*"
--FILES_${PN}-bin = "${bindir}"
-+inherit lib_package
- 
- COMPATIBLE_HOST = '(x86_64|i.86).*-(linux|freebsd.*)'
- 
+I verified these changes did not affect any packages directly
+with buildhistory, which can be seen at poky-contrib/sgw/libhistory
+
+Sau!
+
+
+The following changes since commit 3347ea9e300514d07315a8a044b9b3be206a30ea:
+
+  upstream_tracking: update boost (2012-06-29 14:07:59 -0700)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib sgw/lib_package
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=sgw/lib_package
+
+Saul Wold (7):
+  bitbake.conf: Add PACKAGE_BEFORE_PN to PACKAGES
+  lib_package: use PACKAGE_BEFORE_PN
+  libacpi: use lib_package bbclass
+  pulseaudio: use lib_package bbclass
+  db: use lib_package bbclass
+  gnutls: use lib_package bbclass
+  speex: use lib_package bbclass
+
+ meta/classes/lib_package.bbclass                     |    3 +--
+ meta/conf/bitbake.conf                               |    3 ++-
+ meta/recipes-bsp/libacpi/libacpi_0.2.bb              |    7 ++-----
+ meta/recipes-multimedia/pulseaudio/pulseaudio.inc    |    3 +--
+ meta/recipes-multimedia/pulseaudio/pulseaudio_1.1.bb |    2 +-
+ meta/recipes-multimedia/speex/speex_1.2rc1.bb        |    8 ++------
+ meta/recipes-support/db/db_5.3.15.bb                 |    4 +---
+ meta/recipes-support/gnutls/gnutls.inc               |   14 +++-----------
+ 8 files changed, 13 insertions(+), 31 deletions(-)
+
 -- 
 1.7.10.4
 
