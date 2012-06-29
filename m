@@ -1,37 +1,31 @@
-Received: from 75-148-42-21-colorado.hfc.comcastbusiness.net ([75.148.42.21]
-	helo=judge.camp.se-eng.com) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ray.danks@se-eng.com>) id 1SkhWa-0004F3-4Q
+Received: from mga01.intel.com ([192.55.52.88])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <dvhart@linux.intel.com>) id 1SkhY7-0004Ho-H1
 	for openembedded-core@lists.openembedded.org;
-	Fri, 29 Jun 2012 22:10:40 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by judge.camp.se-eng.com (Postfix) with ESMTP id C8D131391B1;
-	Fri, 29 Jun 2012 13:59:42 -0600 (MDT)
-X-Virus-Scanned: amavisd-new at camp.se-eng.com
-Received: from judge.camp.se-eng.com ([127.0.0.1])
-	by localhost (judge.camp.se-eng.com [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with ESMTP id AKCT1gzNOgdt; Fri, 29 Jun 2012 13:59:41 -0600 (MDT)
-Received: from [172.20.202.96] (beast.camp.se-eng.com [172.20.202.96])
-	by judge.camp.se-eng.com (Postfix) with ESMTPSA id 3B17C1391B0;
-	Fri, 29 Jun 2012 13:59:40 -0600 (MDT)
-Message-ID: <4FEE0985.4050502@se-eng.com>
-Date: Fri, 29 Jun 2012 14:01:09 -0600
-From: Raymond Danks <ray.danks@se-eng.com>
+	Fri, 29 Jun 2012 22:12:15 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 29 Jun 2012 13:01:18 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="186734966"
+Received: from unknown (HELO envy.home) ([10.255.13.25])
+	by fmsmga002.fm.intel.com with ESMTP; 29 Jun 2012 13:01:18 -0700
+Message-ID: <4FEE0933.2000206@linux.intel.com>
+Date: Fri, 29 Jun 2012 12:59:47 -0700
+From: Darren Hart <dvhart@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:10.0) Gecko/20120129 Thunderbird/10.0
+	rv:13.0) Gecko/20120615 Thunderbird/13.0.1
 MIME-Version: 1.0
 To: Darren Hart <dvhart@linux.intel.com>
-References: <1340396533-5386-2-git-send-email-ray.danks@se-eng.com>
-	<1340984497-32423-1-git-send-email-ray.danks@se-eng.com>
-	<4FEDE9B8.8010605@linux.intel.com>
-In-Reply-To: <4FEDE9B8.8010605@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2 v2] image_types: Add elf image type
+References: <4263ffefaa6f3b0069bc41c0f7578d36717edcfc.1340998763.git.dvhart@linux.intel.com>
+	<53ce203eec118e3d5b0faac4c8e71f69c9857146.1340998763.git.dvhart@linux.intel.com>
+In-Reply-To: <53ce203eec118e3d5b0faac4c8e71f69c9857146.1340998763.git.dvhart@linux.intel.com>
+X-Enigmail-Version: 1.4.2
+Cc: Poky <poky@yoctoproject.org>, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 4/5] tasl-core-sdk: Add kernel-dev to task-core-sdk RDEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: ray.danks@se-eng.com, Patches and discussions about the oe-core layer
+Reply-To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -42,63 +36,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Jun 2012 20:10:40 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Fri, 29 Jun 2012 20:12:15 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 
-On 06/29/2012 11:45 AM, Darren Hart wrote:
->
-> On 06/29/2012 08:41 AM, Raymond Danks wrote:
->> On x86, an ELF image file may be stored as a coreboot payload.
->> The image file is constructed, using the mkelfimage utility,
->> from a kernel and an initrd.
->>
->> Signed-off-by: Raymond Danks<ray.danks@se-eng.com>
->> ---
->> This was originally submitted to the openembedded project:
->> http://patches.openembedded.org/patch/7689/
->>
->> v2:
->>   Include KERNEL_IMAGETYPE for location of ELF_KERNEL
->>
->>   meta/classes/image_types.bbclass |   18 +++++++++++++++++-
->>   1 files changed, 17 insertions(+), 1 deletions(-)
->>
->> diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
->> index 55f122e..12419f4 100644
->> --- a/meta/classes/image_types.bbclass
->> +++ b/meta/classes/image_types.bbclass
->> @@ -7,6 +7,12 @@ def get_imagecmds(d):
->>       ctypes = d.getVar('COMPRESSIONTYPES', True).split()
->>       cimages = {}
->>
->> +    if "elf" in alltypes:
->> +        alltypes.remove("elf")
->> +        if "cpio.gz" not in alltypes:
->> +                alltypes.append("cpio.gz")
->> +        alltypes.append("elf")
->> +
->>       # Filter out all the compressed images from types
->>       for type in alltypes:
->>           basetype = None
->> @@ -173,6 +179,14 @@ IMAGE_CMD_cpio () {
->>   	cd ${IMAGE_ROOTFS}&&  (find . | cpio -o -H newc>${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cpio)
->>   }
->>
->> +ELF_KERNEL ?= ${STAGING_DIR_HOST}/kernel/${KERNEL_IMAGETYPE}
-> This should be ${STAGING_KERNEL_DIR} I believe. I have a patch series
-> under review currently which would break the above as it is now in
-> /usr/src/kernel-headers
->
-> Note that you could also collect this from the DEPLOY_DIR_IMAGE, which
-> is probably more appropriate for assembling images
->
-> Thanks,
->
-Yes.  This appears to work:
-ELF_KERNEL ?= ${DEPLOY_DIR_IMAGE}/${KERNEL_IMAGETYPE}
+s/tasl-core-sdk/task-core-sdk/ in subject fixed in branch.
 
-I'm regenerating the patch now.
+-- 
+Darren Hart
+Intel Open Source Technology Center
+Yocto Project - Linux Kernel
 
 
 
