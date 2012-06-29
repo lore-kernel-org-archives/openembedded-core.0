@@ -1,34 +1,56 @@
-Received: from 75-148-42-21-colorado.hfc.comcastbusiness.net ([75.148.42.21]
-	helo=judge.camp.se-eng.com) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raymondd@beast.se-eng.com>) id 1Skhyc-0004xq-85
+Received: from tx2ehsobe001.messaging.microsoft.com ([65.55.88.11]
+	helo=tx2outboundpool.messaging.microsoft.com)
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <B29882@freescale.com>) id 1SkiY1-0005r7-46
 	for openembedded-core@lists.openembedded.org;
-	Fri, 29 Jun 2012 22:39:38 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by judge.camp.se-eng.com (Postfix) with ESMTP id 83D421391C4
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Jun 2012 14:28:41 -0600 (MDT)
-X-Virus-Scanned: amavisd-new at camp.se-eng.com
-Received: from judge.camp.se-eng.com ([127.0.0.1])
-	by localhost (judge.camp.se-eng.com [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with ESMTP id UwyV+yfKJpvp; Fri, 29 Jun 2012 14:28:40 -0600 (MDT)
-Received: from beast (beast.camp.se-eng.com [172.20.202.96])
-	by judge.camp.se-eng.com (Postfix) with ESMTP id E1D4F1391C2;
-	Fri, 29 Jun 2012 14:28:39 -0600 (MDT)
-Received: by beast (Postfix, from userid 1000)
-	id 3548B38344; Fri, 29 Jun 2012 14:30:09 -0600 (MDT)
-From: Raymond Danks <ray.danks@se-eng.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 29 Jun 2012 14:30:07 -0600
-Message-Id: <1341001807-10206-1-git-send-email-ray.danks@se-eng.com>
-X-Mailer: git-send-email 1.7.0.4
-In-Reply-To: <1340984497-32423-2-git-send-email-ray.danks@se-eng.com>
-References: <1340984497-32423-2-git-send-email-ray.danks@se-eng.com>
-Subject: [PATCH 2/2 v3] mkelfimage: Add stable git build (initial recipe)
+	Fri, 29 Jun 2012 23:16:13 +0200
+Received: from mail179-tx2-R.bigfish.com (10.9.14.252) by
+	TX2EHSOBE010.bigfish.com (10.9.40.30) with Microsoft SMTP Server id
+	14.1.225.23; Fri, 29 Jun 2012 20:02:58 +0000
+Received: from mail179-tx2 (localhost [127.0.0.1])	by
+	mail179-tx2-R.bigfish.com (Postfix) with ESMTP id 13EAA460258	for
+	<openembedded-core@lists.openembedded.org>;
+	Fri, 29 Jun 2012 20:02:58 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-SpamScore: -2
+X-BigFish: VS-2(zz98dI9371I1432Izz1202hzz8275bh8275dhz2dh2a8h668h839h8e2h8e3hf0ahbe9i)
+Received: from mail179-tx2 (localhost.localdomain [127.0.0.1]) by mail179-tx2
+	(MessageSwitch) id 1341000175970626_15080;
+	Fri, 29 Jun 2012 20:02:55 +0000 (UTC)
+Received: from TX2EHSMHS038.bigfish.com (unknown [10.9.14.250])	by
+	mail179-tx2.bigfish.com (Postfix) with ESMTP id E7E3E340052	for
+	<openembedded-core@lists.openembedded.org>;
+	Fri, 29 Jun 2012 20:02:55 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by TX2EHSMHS038.bigfish.com
+	(10.9.99.138) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Fri, 29 Jun 2012 20:02:55 +0000
+Received: from 039-SN1MPN1-001.039d.mgd.msft.net ([169.254.1.135]) by
+	039-SN1MMR1-003.039d.mgd.msft.net ([10.84.1.16]) with mapi id
+	14.02.0298.005; Fri, 29 Jun 2012 15:04:45 -0500
+From: McClintock Matthew-B29882 <B29882@freescale.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH 3/3] u-boot: make sure CROSS_COMPILE is
+	passed into build
+Thread-Index: AQHNVjJtp37hPwcOx0OAR1JZ5GEipQ==
+Date: Fri, 29 Jun 2012 20:04:44 +0000
+Message-ID: <CAEsOVNdNezAmBfOZxj_9oXekYwLvqEQFfvoQQH1Unz3sQFPO6Q@mail.gmail.com>
+References: <1340994915-14947-1-git-send-email-paul.gortmaker@windriver.com>
+	<1340994915-14947-4-git-send-email-paul.gortmaker@windriver.com>
+In-Reply-To: <1340994915-14947-4-git-send-email-paul.gortmaker@windriver.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [70.112.201.132]
+MIME-Version: 1.0
+X-OriginatorOrg: freescale.com
+Subject: Re: [PATCH 3/3] u-boot: make sure CROSS_COMPILE is passed into build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -39,49 +61,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Jun 2012 20:39:38 -0000
+X-List-Received-Date: Fri, 29 Jun 2012 21:16:13 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <E1615EA0BE69484296F990CA84B0D936@mgd.freescale.com>
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Raymond Danks <ray.danks@se-eng.com>
-Acked-by: Darren Hart <dvhart@linux.intel.com>
----
-This was originally submitted to the openembedded project:
-http://patches.openembedded.org/patch/7687/
+On Fri, Jun 29, 2012 at 1:35 PM, Paul Gortmaker
+<paul.gortmaker@windriver.com> wrote:
+> The u-boot build system expects this, otherwise it will
+> choose from its own internal defaults. =A0In the case of
+> powerpc, we'll see it look for "ppc_8xx-gcc" and fail.
+>
+> Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
+> ---
+> =A0meta/recipes-bsp/u-boot/u-boot_2012.04.01.bb | =A0 =A03 +++
+> =A01 file changed, 3 insertions(+)
+>
+> diff --git a/meta/recipes-bsp/u-boot/u-boot_2012.04.01.bb b/meta/recipes-=
+bsp/u-boot/u-boot_2012.04.01.bb
+> index 25cc8c9..b37fe01 100644
+> --- a/meta/recipes-bsp/u-boot/u-boot_2012.04.01.bb
+> +++ b/meta/recipes-bsp/u-boot/u-boot_2012.04.01.bb
+> @@ -26,3 +26,6 @@ SRC_URI =3D "git://git.denx.de/u-boot.git;branch=3Dmast=
+er;protocol=3Dgit"
+> =A0S =3D "${WORKDIR}/git"
+>
+> =A0PACKAGE_ARCH =3D "${MACHINE_ARCH}"
+> +
+> +# u-boot expects this to indicate what toolchain to use
+> +EXTRA_OEMAKE =3D "CROSS_COMPILE=3D${TARGET_PREFIX}"
 
-v2:
- Remove depreciated NATIVE_INSTALL_WORKS
+Isn't this already in u-boot.inc?
 
-v3:
- No changes from v2
+-M
 
- meta/recipes-devtools/mkelfimage/mkelfimage_git.bb |   17 +++++++++++++++++
- 1 files changed, 17 insertions(+), 0 deletions(-)
- create mode 100644 meta/recipes-devtools/mkelfimage/mkelfimage_git.bb
-
-diff --git a/meta/recipes-devtools/mkelfimage/mkelfimage_git.bb b/meta/recipes-devtools/mkelfimage/mkelfimage_git.bb
-new file mode 100644
-index 0000000..1224a63
---- /dev/null
-+++ b/meta/recipes-devtools/mkelfimage/mkelfimage_git.bb
-@@ -0,0 +1,17 @@
-+DESCRIPTION = "A utility to create ELF boot images from Linux kernel images"
-+HOMEPAGE = "http://www.coreboot.org/Mkelfimage"
-+SECTION = "devel"
-+LICENSE = "GPLv2"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=ea5bed2f60d357618ca161ad539f7c0a"
-+
-+SRCREV = "e13632a939e7dde8d7d44fc73e73a41dae8060c3"
-+PV = "1.0.0+gitr${SRCPV}"
-+PR = "r1"
-+
-+SRC_URI = "git://review.coreboot.org/p/coreboot;protocol=http;branch=master"
-+
-+S = "${WORKDIR}/git/util/mkelfImage"
-+
-+inherit autotools
-+
-+BBCLASSEXTEND = "native"
--- 
-1.7.0.4
+> --
+> 1.7.9.6
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core=
 
 
 
