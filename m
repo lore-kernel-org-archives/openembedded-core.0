@@ -1,35 +1,27 @@
-Received: from astoria.ccjclearline.com ([64.235.106.9])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpjday@crashcourse.ca>) id 1SkfT5-0006H7-Pl
+	(envelope-from <dvhart@linux.intel.com>) id 1SkfTn-0006Ja-DA
 	for openembedded-core@lists.openembedded.org;
-	Fri, 29 Jun 2012 19:58:56 +0200
-Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
-	([99.241.91.63]:56706 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.77) (envelope-from <rpjday@crashcourse.ca>)
-	id 1SkfIX-00023x-0S for openembedded-core@lists.openembedded.org;
-	Fri, 29 Jun 2012 13:48:01 -0400
-Date: Fri, 29 Jun 2012 13:47:57 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@oneiric
+	Fri, 29 Jun 2012 19:59:39 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 29 Jun 2012 10:48:42 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="117442224"
+Received: from unknown (HELO envy.home) ([10.255.13.25])
+	by AZSMGA002.ch.intel.com with ESMTP; 29 Jun 2012 10:48:42 -0700
+Message-ID: <4FEDEA1E.6080503@linux.intel.com>
+Date: Fri, 29 Jun 2012 10:47:10 -0700
+From: Darren Hart <dvhart@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:13.0) Gecko/20120615 Thunderbird/13.0.1
+MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <CAMKF1sq7aAb=d3Bcnf27AhZo8A06WH63mGdp+gfSPHL-J9h09A@mail.gmail.com>
-Message-ID: <alpine.DEB.2.02.1206291341400.5592@oneiric>
-References: <alpine.DEB.2.02.1206291259270.4694@oneiric>
-	<CAMKF1sq7aAb=d3Bcnf27AhZo8A06WH63mGdp+gfSPHL-J9h09A@mail.gmail.com>
-User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
-MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Subject: Re: any subtle reason for using "BPN" with ALLOW_EMPTY instead of just "PN"?
+References: <1340396533-5386-2-git-send-email-ray.danks@se-eng.com>
+	<1340984497-32423-2-git-send-email-ray.danks@se-eng.com>
+In-Reply-To: <1340984497-32423-2-git-send-email-ray.danks@se-eng.com>
+X-Enigmail-Version: 1.4.2
+Subject: Re: [PATCH 2/2 v2] mkelfimage: Add stable git build (initial recipe)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,85 +36,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Jun 2012 17:58:56 -0000
-Content-Type: MULTIPART/MIXED; BOUNDARY="8323329-487220653-1340992080=:5592"
+X-List-Received-Date: Fri, 29 Jun 2012 17:59:39 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
---8323329-487220653-1340992080=:5592
-Content-Type: TEXT/PLAIN; charset=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
 
-On Fri, 29 Jun 2012, raj.khem wrote:
 
-> On Friday, June 29, 2012, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
-> >
-> > =C2=A0in current poky ref manual, the explanation of ALLOW_EMPTY talks
-> > about using it with a package name, as in:
-> >
-> > =C2=A0ALLOW_EMPTY_${PN} =3D "1"
-> >
-> > which makes perfect sense, except that there is the occasional example
-> > where something other than "PN" is used, sometimes for good reason,
-> > sometimes not clear.
-> >
-> > =C2=A0for instance, there's this:
-> >
-> > meta/recipes-qt/qt4/qt4.inc:ALLOW_EMPTY_${PN} =3D "1"
-> > meta/recipes-qt/qt4/qt4.inc:ALLOW_EMPTY_${QT_BASE_NAME}-fonts =3D "1"
-> >
-> > which makes sense (i guess) since, in this case, PN=3Dqt4-x11-free,
-> > while QT_BASE_NAME=3Dqt4. =C2=A0so there are obviously going to be spec=
-ial
-> > cases like that.
-> >
-> > =C2=A0but here are a few that seem to use BPN unnecessarily:
-> >
-> > meta/recipes-core/eglibc/eglibc-locale.inc:ALLOW_EMPTY_${BPN}-binaries =
-=3D "1"
-> > meta/recipes-core/eglibc/eglibc-locale.inc:ALLOW_EMPTY_${BPN}-charmaps =
-=3D "1"
-> > meta/recipes-core/eglibc/eglibc-locale.inc:ALLOW_EMPTY_${BPN}-gconvs =
-=3D "1"
-> > meta/recipes-core/eglibc/eglibc-locale.inc:ALLOW_EMPTY_${BPN}-localedat=
-as =3D "1"
-> > meta/recipes-graphics/pango/pango.inc:ALLOW_EMPTY_${BPN}-modules =3D "1=
-"
-> >
-> > it seems that, with the above packages, PN =3D BPN so, yes, either
-> > one would have worked, but is there a best practice? =C2=A0i would
-> > think that using anything other than PN should be reserved for
-> > when it's necessary, so that it's more aesthetically obvious that
-> > something different is happening.
->
-> This is needed when PN is altered e.g
-> When using BBCLASSEXTEND
+On 06/29/2012 08:41 AM, Raymond Danks wrote:
+> Signed-off-by: Raymond Danks <ray.danks@se-eng.com>
+> ---
+> This was originally submitted to the openembedded project:
+> http://patches.openembedded.org/patch/7687/
+> 
+> v2:
+>  Remove depreciated NATIVE_INSTALL_WORKS
+> 
+>  meta/recipes-devtools/mkelfimage/mkelfimage_git.bb |   17 +++++++++++++++++
+>  1 files changed, 17 insertions(+), 0 deletions(-)
+>  create mode 100644 meta/recipes-devtools/mkelfimage/mkelfimage_git.bb
+> 
+> diff --git a/meta/recipes-devtools/mkelfimage/mkelfimage_git.bb b/meta/recipes-devtools/mkelfimage/mkelfimage_git.bb
+> new file mode 100644
+> index 0000000..1224a63
+> --- /dev/null
+> +++ b/meta/recipes-devtools/mkelfimage/mkelfimage_git.bb
+> @@ -0,0 +1,17 @@
+> +DESCRIPTION = "A utility to create ELF boot images from Linux kernel images"
+> +HOMEPAGE = "http://www.coreboot.org/Mkelfimage"
+> +SECTION = "devel"
+> +LICENSE = "GPLv2"
+> +LIC_FILES_CHKSUM = "file://COPYING;md5=ea5bed2f60d357618ca161ad539f7c0a"
+> +
+> +SRCREV = "e13632a939e7dde8d7d44fc73e73a41dae8060c3"
+> +PV = "1.0.0+gitr${SRCPV}"
+> +PR = "r1"
 
-  ah, that clears it up.  i was using:
+Minor, but I believe this should be "r0" for the initial creation of a
+recipe.
 
-  $ bitbake -e pango
 
-to check the environment variables for pango and saw that PN was equal
-to BPN ("pango") and i was getting confused.  then i realized i should
-have been trying:
+-- 
+Darren Hart
+Intel Open Source Technology Center
+Yocto Project - Linux Kernel
 
-  $ bitbake -e pango-native
 
-and then i could see the difference between PN and BPN.  thanks.  more
-idiot questions to follow.
 
-rday
 
---=20
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-
---8323329-487220653-1340992080=:5592--
