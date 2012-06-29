@@ -1,34 +1,35 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1SkaLF-0004gx-1P for openembedded-core@lists.openembedded.org;
-	Fri, 29 Jun 2012 14:30:29 +0200
+	id 1SkaSB-00054L-Pg for openembedded-core@lists.openembedded.org;
+	Fri, 29 Jun 2012 14:37:39 +0200
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q5TCJXkQ001993
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q5TCQiBZ002036
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Jun 2012 13:19:33 +0100
+	Fri, 29 Jun 2012 13:26:44 +0100
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 00996-03 for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Jun 2012 13:19:29 +0100 (BST)
+	id 31331-10 for <openembedded-core@lists.openembedded.org>;
+	Fri, 29 Jun 2012 13:26:39 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q5TCJQOb001987
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q5TCQc5w002030
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Jun 2012 13:19:27 +0100
-Message-ID: <1340972370.23146.150.camel@ted>
+	Fri, 29 Jun 2012 13:26:38 +0100
+Message-ID: <1340972802.23146.153.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Fri, 29 Jun 2012 13:19:30 +0100
-In-Reply-To: <1340396533-5386-2-git-send-email-ray.danks@se-eng.com>
-References: <1340396533-5386-1-git-send-email-ray.danks@se-eng.com>
-	<1340396533-5386-2-git-send-email-ray.danks@se-eng.com>
+Date: Fri, 29 Jun 2012 13:26:42 +0100
+In-Reply-To: <CAMKF1soWzVQO2Y0gQAS_wi9ng3TyyFhMQqBEZiQN4SNCmy6RUA@mail.gmail.com>
+References: <cover.1340402353.git.sgw@linux.intel.com>
+	<1340639719.23146.1.camel@ted>
+	<CAMKF1soWzVQO2Y0gQAS_wi9ng3TyyFhMQqBEZiQN4SNCmy6RUA@mail.gmail.com>
 X-Mailer: Evolution 3.2.2- 
 Mime-Version: 1.0
 X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 2/2] mkelfimage: Add stable git build (initial recipe)
+Subject: Re: [CONSOLIDATED PULL 00/17] Misc Fixes & Updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,50 +44,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Jun 2012 12:30:29 -0000
+X-List-Received-Date: Fri, 29 Jun 2012 12:37:40 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2012-06-22 at 14:22 -0600, Raymond Danks wrote:
-> Signed-off-by: Raymond Danks <ray.danks@se-eng.com>
-> ---
-> This was originally submitted to the openembedded project:
-> http://patches.openembedded.org/patch/7687/
+On Mon, 2012-06-25 at 14:14 -0700, Khem Raj wrote:
+> On Mon, Jun 25, 2012 at 8:55 AM, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> >>   qemu-git: Move to tip of git
+> >>  qemu_git: set empty PACKAGECONFIG
+> >
+> > I have said no to this until the patch set gets updated. It will just
+> > get ignored/forgotten about otherwise.
+> >
 > 
-> Resubmitting to oe-core for review prior to commit in openembedded-core.
+> qemu git recipe as we have today is probably useless and its older
+> than 0.15 even and in any case set to D_P = "-1", forward porting
+> those gl patches is non trivial
+> intention of this recipe is to have support/fixes for machines that
+> had been since added and gl patches are x86 specific.
 > 
->  meta/recipes-devtools/mkelfimage/mkelfimage_git.bb |   18 ++++++++++++++++++
->  1 files changed, 18 insertions(+), 0 deletions(-)
->  create mode 100644 meta/recipes-devtools/mkelfimage/mkelfimage_git.bb
-> 
-> diff --git a/meta/recipes-devtools/mkelfimage/mkelfimage_git.bb b/meta/recipes-devtools/mkelfimage/mkelfimage_git.bb
-> new file mode 100644
-> index 0000000..b341213
-> --- /dev/null
-> +++ b/meta/recipes-devtools/mkelfimage/mkelfimage_git.bb
-> @@ -0,0 +1,18 @@
-> +DESCRIPTION = "A utility to create ELF boot images from Linux kernel images"
-> +HOMEPAGE = "http://www.coreboot.org/Mkelfimage"
-> +SECTION = "devel"
-> +LICENSE = "GPLv2"
-> +LIC_FILES_CHKSUM = "file://COPYING;md5=ea5bed2f60d357618ca161ad539f7c0a"
-> +
-> +SRCREV = "e13632a939e7dde8d7d44fc73e73a41dae8060c3"
-> +PV = "1.0.0+gitr${SRCPV}"
-> +PR = "r1"
-> +
-> +SRC_URI = "git://review.coreboot.org/p/coreboot;protocol=http;branch=master"
-> +
-> +S = "${WORKDIR}/git/util/mkelfImage"
-> +
-> +inherit autotools
-> +
-> +NATIVE_INSTALL_WORKS = "1"
+> I feel its a unnecessary restriction you are imposing for a recipe
+> which is not used by default even.
 
-The above line is no longer needed, does nothing and should be removed.
+Having one recipe that provides different sets of features with the same
+configuration is something I get concerned about.
 
-
-> +BBCLASSEXTEND = "native"
+I'm putting on some pressure to the team to figure out how/when we're
+going to upgrade this. I'm hoping to have an answer on that soon.
 
 Cheers,
 
