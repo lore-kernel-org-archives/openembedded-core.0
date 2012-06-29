@@ -1,27 +1,27 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Skdfb-0005D4-9E for openembedded-core@lists.openembedded.org;
-	Fri, 29 Jun 2012 18:03:43 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q5TFqinT003213;
-	Fri, 29 Jun 2012 16:52:44 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 02039-03; Fri, 29 Jun 2012 16:52:39 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q5TFqaE3003203
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Fri, 29 Jun 2012 16:52:37 +0100
-Message-ID: <1340985160.23146.174.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Fri, 29 Jun 2012 16:52:40 +0100
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: [PATCH] package.bbclass: Add missing PKGR, PKGV, PKGE and ALTERNATIVE variables from PACKAGEVARS
+Received: from mga02.intel.com ([134.134.136.20])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <sgw@linux.intel.com>) id 1Ske1F-0005SG-4Y
+	for openembedded-core@lists.openembedded.org;
+	Fri, 29 Jun 2012 18:26:05 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 29 Jun 2012 09:15:08 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="159767246"
+Received: from unknown (HELO [10.255.12.182]) ([10.255.12.182])
+	by orsmga001.jf.intel.com with ESMTP; 29 Jun 2012 09:15:07 -0700
+Message-ID: <4FEDD48B.4000803@linux.intel.com>
+Date: Fri, 29 Jun 2012 09:15:07 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <4FEB3D2F.3050707@linux.intel.com>
+	<1340817922-7341-1-git-send-email-jrsantos@jonathanrsantos.com>
+In-Reply-To: <1340817922-7341-1-git-send-email-jrsantos@jonathanrsantos.com>
+Cc: Jonathan Santos <jrsantos@jonathanrsantos.com>
+Subject: Re: [PATCH v2] mklibs-native: Upgrade to 0.1.34
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,33 +36,136 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Jun 2012 16:03:43 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 29 Jun 2012 16:26:05 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-These variables all take package name extensions and should be considered in sstate
-dependency processing.
+On 06/27/2012 10:25 AM, Jonathan Santos wrote:
+> include-unistd.h-for-gcc47.patch is no longer needed, since it was fixed upstream.
+>
+> Signed-off-by: Jonathan Santos<jrsantos@jonathanrsantos.com>
+> ---
+>   .../mklibs/files/include-unistd.h-for-gcc47.patch  | 43 ----------------------
+>   .../mklibs/mklibs-native_0.1.33.bb                 | 25 -------------
+>   .../mklibs/mklibs-native_0.1.34.bb                 | 22 +++++++++++
+>   3 files changed, 22 insertions(+), 68 deletions(-)
+>   delete mode 100644 meta/recipes-devtools/mklibs/files/include-unistd.h-for-gcc47.patch
+>   delete mode 100644 meta/recipes-devtools/mklibs/mklibs-native_0.1.33.bb
+>   create mode 100644 meta/recipes-devtools/mklibs/mklibs-native_0.1.34.bb
 
-This may also fix some multilib alternatives issues (unconfirmed).
+Merged into OE-Core
 
-[YOCTO #2056]
+Thanks
+	Sau!
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index 10c2f0a..0b98c6b 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -1701,7 +1701,7 @@ python package_depchains() {
- 
- # Since bitbake can't determine which variables are accessed during package 
- # iteration, we need to list them here:
--PACKAGEVARS = "FILES RDEPENDS RRECOMMENDS SUMMARY DESCRIPTION RSUGGESTS RPROVIDES RCONFLICTS PKG ALLOW_EMPTY pkg_postinst pkg_postrm INITSCRIPT_NAME INITSCRIPT_PARAMS DEBIAN_NOAUTONAME"
-+PACKAGEVARS = "FILES RDEPENDS RRECOMMENDS SUMMARY DESCRIPTION RSUGGESTS RPROVIDES RCONFLICTS PKG ALLOW_EMPTY pkg_postinst pkg_postrm INITSCRIPT_NAME INITSCRIPT_PARAMS DEBIAN_NOAUTONAME ALTERNATIVE PKGE PKGV PKGR"
- 
- def gen_packagevar(d):
-     ret = []
-
-
+>
+> diff --git a/meta/recipes-devtools/mklibs/files/include-unistd.h-for-gcc47.patch b/meta/recipes-devtools/mklibs/files/include-unistd.h-for-gcc47.patch
+> deleted file mode 100644
+> index baa12bd..0000000
+> --- a/meta/recipes-devtools/mklibs/files/include-unistd.h-for-gcc47.patch
+> +++ /dev/null
+> @@ -1,43 +0,0 @@
+> -include<unistd.h>  to fix build on gcc 4.7
+> -
+> -Many of the standard C++ library include files have been edited to no
+> -longer include<unistd.h>  to remove namespace pollution in gcc 4.7, so
+> -we need include<unistd.h>  manually sometimes.
+> -
+> -mklibs (0.1.33+nmu1) UNRELEASED; urgency=low
+> - * Non-maintainer upload
+> - * Fix FTBFS with gcc 4.7 due to missing<unistd.h>  include (Closes: #667282).
+> -
+> --- Cyril Brulebois<kibi@debian.org>   Thu, 05 Apr 2012 00:15:27 +0000
+> -
+> -mklibs (0.1.33) unstable; urgency=low
+> -
+> -  * Adjust the libc_pic directory for multiarch as well.
+> -
+> -Upstream-Status: Backport
+> -
+> -Signed-off-by: Robert Yang<liezhi.yang@windriver.com>
+> -
+> -[Added upstream information about patch]
+> -
+> -Signed-off-by: Saul Wold<sgw@linux.intel.com>
+> -
+> ----
+> - src/mklibs-readelf/elf.cpp |    1 +
+> - 1 file changed, 1 insertion(+)
+> -
+> -diff --git a/src/mklibs-readelf/elf.cpp b/src/mklibs-readelf/elf.cpp
+> -index 444f330..654c46f 100644
+> ---- a/src/mklibs-readelf/elf.cpp
+> -+++ b/src/mklibs-readelf/elf.cpp
+> -@@ -25,6 +25,7 @@
+> - #include<fcntl.h>
+> - #include<sys/mman.h>
+> - #include<sys/stat.h>
+> -+#include<unistd.h>
+> -
+> - using namespace Elf;
+> -
+> ---
+> -1.7.10
+> -
+> diff --git a/meta/recipes-devtools/mklibs/mklibs-native_0.1.33.bb b/meta/recipes-devtools/mklibs/mklibs-native_0.1.33.bb
+> deleted file mode 100644
+> index a8d12ec..0000000
+> --- a/meta/recipes-devtools/mklibs/mklibs-native_0.1.33.bb
+> +++ /dev/null
+> @@ -1,25 +0,0 @@
+> -DESCRIPTION = "mklibs produces cut-down shared libraries that contain only the routines required by a particular set of executables."
+> -HOMEPAGE = "https://code.launchpad.net/mklibs"
+> -SECTION = "devel"
+> -LICENSE = "GPLv2+"
+> -LIC_FILES_CHKSUM = "file://debian/copyright;md5=98d31037b13d896e33890738ef01af64"
+> -DEPENDS = "python-native"
+> -
+> -PR = "r1"
+> -
+> -SRC_URI = "http://ftp.de.debian.org/debian/pool/main/m/mklibs/${BPN}_${PV}.tar.gz \
+> -	file://ac_init_fix.patch\
+> -	file://fix_STT_GNU_IFUNC.patch\
+> -	file://include-unistd.h-for-gcc47.patch \
+> -"
+> -
+> -SRC_URI[md5sum] = "a462d9b802164993d247c1193116d78b"
+> -SRC_URI[sha256sum] = "706aa22ec979bc54adaf9616d278cecc2f1e8cd5faa656269c9760e8669fcc1e"
+> -
+> -S = "${WORKDIR}/${BPN}"
+> -
+> -inherit autotools gettext native
+> -
+> -do_configure_prepend() {
+> -	sed "s+MKLIBS_VERSION+${PV}+" ${S}/configure.ac
+> -}
+> diff --git a/meta/recipes-devtools/mklibs/mklibs-native_0.1.34.bb b/meta/recipes-devtools/mklibs/mklibs-native_0.1.34.bb
+> new file mode 100644
+> index 0000000..f2c3033
+> --- /dev/null
+> +++ b/meta/recipes-devtools/mklibs/mklibs-native_0.1.34.bb
+> @@ -0,0 +1,22 @@
+> +DESCRIPTION = "mklibs produces cut-down shared libraries that contain only the routines required by a particular set of executables."
+> +HOMEPAGE = "https://code.launchpad.net/mklibs"
+> +SECTION = "devel"
+> +LICENSE = "GPLv2+"
+> +LIC_FILES_CHKSUM = "file://debian/copyright;md5=98d31037b13d896e33890738ef01af64"
+> +DEPENDS = "python-native"
+> +
+> +PR = "r0"
+> +
+> +SRC_URI = "http://ftp.de.debian.org/debian/pool/main/m/mklibs/${BPN}_${PV}.tar.gz \
+> +	file://ac_init_fix.patch\
+> +	file://fix_STT_GNU_IFUNC.patch\
+> +"
+> +
+> +SRC_URI[md5sum] = "afe0ed527ba96b8a882b5de350603007"
+> +SRC_URI[sha256sum] = "0c13c314f5c397529f58a5a02d57d83aeb4463d6a0d80b9374c6576ec37ed39f"
+> +
+> +inherit autotools gettext native
+> +
+> +do_configure_prepend() {
+> +	sed "s+MKLIBS_VERSION+${PV}+" ${S}/configure.ac
+> +}
 
 
