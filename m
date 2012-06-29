@@ -1,22 +1,26 @@
 Received: from c-71-193-189-117.hsd1.wa.comcast.net ([71.193.189.117]
 	helo=yujin.bigsur.com) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@yujin.bigsur.com>) id 1SkisP-00087L-Nv
+	(envelope-from <sgw@yujin.bigsur.com>) id 1SkisQ-00087L-TS
 	for openembedded-core@lists.openembedded.org;
-	Fri, 29 Jun 2012 23:37:18 +0200
+	Fri, 29 Jun 2012 23:37:19 +0200
 Received: from yujin.bigsur.com (localhost [127.0.0.1])
 	by yujin.bigsur.com (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	q5TLLNEc028202 for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Jun 2012 14:21:23 -0700
+	q5TLLQhs028230 for <openembedded-core@lists.openembedded.org>;
+	Fri, 29 Jun 2012 14:21:26 -0700
 Received: (from sgw@localhost)
-	by yujin.bigsur.com (8.14.4/8.14.4/Submit) id q5TLLNaA028201
+	by yujin.bigsur.com (8.14.4/8.14.4/Submit) id q5TLLQZb028229
 	for openembedded-core@lists.openembedded.org;
-	Fri, 29 Jun 2012 14:21:23 -0700
+	Fri, 29 Jun 2012 14:21:26 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 29 Jun 2012 14:21:12 -0700
-Message-Id: <cover.1341004548.git.sgw@linux.intel.com>
+Date: Fri, 29 Jun 2012 14:21:19 -0700
+Message-Id: <dacb77db3fcf7dd283cf60361ca156e322dd466f.1341004548.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH 0/7] Simplify lib_package
+In-Reply-To: <cover.1341004548.git.sgw@linux.intel.com>
+References: <cover.1341004548.git.sgw@linux.intel.com>
+In-Reply-To: <cover.1341004548.git.sgw@linux.intel.com>
+References: <cover.1341004548.git.sgw@linux.intel.com>
+Subject: [PATCH 7/7] speex: use lib_package bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,48 +35,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Jun 2012 21:37:18 -0000
+X-List-Received-Date: Fri, 29 Jun 2012 21:37:19 -0000
 
-This series continues the PACKAGES changes and takes
-advanatage of having a ${PN}-bin, by adding a
-PACKGE_BEFORE_PN in the PACKAGES list.
+This is a clean-up following the recent addition of PN-bin
+to bitbake.conf and lib_package
 
-Update other recipes that had defined ${PN}-bin.
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+---
+ meta/recipes-multimedia/speex/speex_1.2rc1.bb |    8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
 
-I verified these changes did not affect any packages directly
-with buildhistory, which can be seen at poky-contrib/sgw/libhistory
-
-Sau!
-
-
-The following changes since commit 3347ea9e300514d07315a8a044b9b3be206a30ea:
-
-  upstream_tracking: update boost (2012-06-29 14:07:59 -0700)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib sgw/lib_package
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=sgw/lib_package
-
-Saul Wold (7):
-  bitbake.conf: Add PACKAGE_BEFORE_PN to PACKAGES
-  lib_package: use PACKAGE_BEFORE_PN
-  libacpi: use lib_package bbclass
-  pulseaudio: use lib_package bbclass
-  db: use lib_package bbclass
-  gnutls: use lib_package bbclass
-  speex: use lib_package bbclass
-
- meta/classes/lib_package.bbclass                     |    3 +--
- meta/conf/bitbake.conf                               |    3 ++-
- meta/recipes-bsp/libacpi/libacpi_0.2.bb              |    7 ++-----
- meta/recipes-multimedia/pulseaudio/pulseaudio.inc    |    3 +--
- meta/recipes-multimedia/pulseaudio/pulseaudio_1.1.bb |    2 +-
- meta/recipes-multimedia/speex/speex_1.2rc1.bb        |    8 ++------
- meta/recipes-support/db/db_5.3.15.bb                 |    4 +---
- meta/recipes-support/gnutls/gnutls.inc               |   14 +++-----------
- 8 files changed, 13 insertions(+), 31 deletions(-)
-
+diff --git a/meta/recipes-multimedia/speex/speex_1.2rc1.bb b/meta/recipes-multimedia/speex/speex_1.2rc1.bb
+index 7370134..faf63b0 100644
+--- a/meta/recipes-multimedia/speex/speex_1.2rc1.bb
++++ b/meta/recipes-multimedia/speex/speex_1.2rc1.bb
+@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=314649d8ba9dd7045dfb6683f298d0a8 \
+                     file://include/speex/speex.h;beginline=1;endline=34;md5=a68129f78d7fe66e07163f73aba143b3"
+ DEPENDS = "libogg"
+ 
+-PR = "r1"
++PR = "r2"
+ 
+ SRC_URI = "http://downloads.us.xiph.org/releases/speex/speex-1.2rc1.tar.gz"
+ 
+@@ -16,12 +16,8 @@ SRC_URI[sha256sum] = "342f30dc57bd4a6dad41398365baaa690429660b10d866b7d508e8f117
+ 
+ PARALLEL_MAKE = ""
+ 
+-inherit autotools pkgconfig
++inherit autotools pkgconfig lib_package
+ 
+ EXTRA_OECONF = " --enable-fixed-point --with-ogg-libraries=${STAGING_LIBDIR} \
+                  --disable-float-api --disable-vbr \
+                  --with-ogg-includes=${STAGING_INCDIR} --disable-oggtest"
+-
+-PACKAGES += "${PN}-bin"
+-FILES_${PN} = "${libdir}/lib*.so.*"
+-FILES_${PN}-bin = "${bindir}"
 -- 
 1.7.10.4
 
