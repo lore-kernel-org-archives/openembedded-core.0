@@ -1,32 +1,34 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1SkZd7-0003l8-4I for openembedded-core@lists.openembedded.org;
-	Fri, 29 Jun 2012 13:44:53 +0200
+	id 1SkZm9-0003ra-GI for openembedded-core@lists.openembedded.org;
+	Fri, 29 Jun 2012 13:54:13 +0200
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q5TBXw3Z001791;
-	Fri, 29 Jun 2012 12:33:58 +0100
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q5TBhJdA001835
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 29 Jun 2012 12:43:19 +0100
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 31331-08; Fri, 29 Jun 2012 12:33:53 +0100 (BST)
+	id 00996-02 for <openembedded-core@lists.openembedded.org>;
+	Fri, 29 Jun 2012 12:43:15 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q5TBXlRZ001785
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Fri, 29 Jun 2012 12:33:48 +0100
-Message-ID: <1340969629.23146.144.camel@ted>
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q5TBhAgx001829
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 29 Jun 2012 12:43:11 +0100
+Message-ID: <1340970193.23146.148.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Fri, 29 Jun 2012 12:33:49 +0100
-In-Reply-To: <1515296.CLmyHfUsyt@helios>
-References: <cover.1340908084.git.paul.eggleton@linux.intel.com>
-	<1fb664d76463830cf80997e2e13891adfff7a6eb.1340908084.git.paul.eggleton@linux.intel.com>
-	<4FED1743.4050203@gmail.com> <1515296.CLmyHfUsyt@helios>
+Date: Fri, 29 Jun 2012 12:43:13 +0100
+In-Reply-To: <638231d75b991a3be5c9aed5add4c56e66f79fe0.1340919157.git.raj.khem@gmail.com>
+References: <cover.1340919157.git.raj.khem@gmail.com>
+	<638231d75b991a3be5c9aed5add4c56e66f79fe0.1340919157.git.raj.khem@gmail.com>
 X-Mailer: Evolution 3.2.2- 
 Mime-Version: 1.0
 X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 3/3] apr: fix incorrect size of pid_t
+Subject: Re: [PATCH 01/11] bitbake.conf: Add weak definition for USE_NLS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,26 +43,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Jun 2012 11:44:53 -0000
+X-List-Received-Date: Fri, 29 Jun 2012 11:54:13 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2012-06-29 at 11:50 +0100, Paul Eggleton wrote:
-> On Thursday 28 June 2012 19:47:31 Khem Raj wrote:
-> > I think this may not be correct thing for 64bit targets. You are
-> > better of adding this to appropriate site files.
+On Thu, 2012-06-28 at 14:36 -0700, Khem Raj wrote:
+> USE_NLS is generally defined for uclibc based system builds
+> and generally its defined to 'no' there. However this variable
+> does not exist at all for eglibc/glibc distributions. This
+> patch adds a weak definition to 'yes' on eglibc based system
+> builds. This will ease out some of the cryptic contructs we
+> have to define certain options based on USE_NLS and also
+> checking got uclibc at the same time to avoid pythong exceptions
+> when its not defined.
 > 
-> pid_t is apparently always an int on Linux and our siteinfo files state that 
-> ac_cv_sizeof_int is 4 for every target. Nevertheless, if we see the need to 
-> define ac_cv_sizeof_int even though the value isn't currently different 
-> anywhere, it seems at least consistent to set ac_cv_sizeof_pid_t there as 
-> well.
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>  meta/conf/bitbake.conf                     |    1 +
+>  meta/conf/distro/include/tclibc-eglibc.inc |    2 ++
+>  2 files changed, 3 insertions(+)
 > 
-> However, I can't help feeling that these files are a bit of a mess and it's not 
-> totally clear to me where I should be putting this value. Should it go in 
-> common-linux? Or do I have to add it to the specific site file for every arch?
+> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+> index 9b26580..9377ee6 100644
+> --- a/meta/conf/bitbake.conf
+> +++ b/meta/conf/bitbake.conf
+> @@ -98,6 +98,7 @@ TUNE_ASARGS ??= ""
+>  TUNE_FEATURES ??= "${TUNE_FEATURES_tune-${DEFAULTTUNE}}"
+>  LIBCEXTENSION ??= ""
+>  ABIEXTENSION ??= ""
+> +USE_NLS ??= "yes"
+>  
+>  TARGET_ARCH = "${TUNE_ARCH}"
+>  TARGET_OS = "linux${LIBCEXTENSION}${ABIEXTENSION}"
+> diff --git a/meta/conf/distro/include/tclibc-eglibc.inc b/meta/conf/distro/include/tclibc-eglibc.inc
+> index 4f5607f..e2ca4e8 100644
+> --- a/meta/conf/distro/include/tclibc-eglibc.inc
+> +++ b/meta/conf/distro/include/tclibc-eglibc.inc
+> @@ -32,6 +32,8 @@ LIBC_LOCALE_DEPENDENCIES = "\
+>  	eglibc-gconv-iso8859-1 \
+>  	eglibc-gconv-iso8859-15"
+>  
+> +USE_NLS ?= "yes"
+> +
+>  def get_libc_locales_dependencies(d):
+>      if 'libc-locales' in (d.getVar('DISTRO_FEATURES', True) or '').split() :
+>          return d.getVar('LIBC_LOCALE_DEPENDENCIES', True) or ''
 
-common-linux sounds like the right place to me.
+This second change is just pointless noise now :)
 
 Cheers,
 
