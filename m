@@ -1,25 +1,22 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Paul.Gortmaker@windriver.com>) id 1SkgD8-0007Hu-7x
+	(envelope-from <dvhart@linux.intel.com>) id 1SkhT5-0003vl-V9
 	for openembedded-core@lists.openembedded.org;
-	Fri, 29 Jun 2012 20:46:30 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q5TIZXtt002916
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Jun 2012 11:35:33 -0700 (PDT)
-Received: from yow-pgortmak-d2.corp.ad.wrs.com (128.224.146.165) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.1.255.0; Fri, 29 Jun 2012 11:35:33 -0700
-From: Paul Gortmaker <paul.gortmaker@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 29 Jun 2012 14:35:15 -0400
-Message-ID: <1340994915-14947-4-git-send-email-paul.gortmaker@windriver.com>
-X-Mailer: git-send-email 1.7.9.6
-In-Reply-To: <1340994915-14947-1-git-send-email-paul.gortmaker@windriver.com>
-References: <1340994915-14947-1-git-send-email-paul.gortmaker@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 3/3] u-boot: make sure CROSS_COMPILE is passed into build
+	Fri, 29 Jun 2012 22:07:04 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 29 Jun 2012 12:56:06 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="159841735"
+Received: from unknown (HELO localhost) ([10.255.13.25])
+	by orsmga001.jf.intel.com with ESMTP; 29 Jun 2012 12:56:06 -0700
+From: Darren Hart <dvhart@linux.intel.com>
+To: Poky <poky@yoctoproject.org>, openembedded-core@lists.openembedded.org,
+	Kishore Bodke <kishore.k.bodke@intel.com>
+Date: Fri, 29 Jun 2012 12:54:31 -0700
+Message-Id: <cover.1340998763.git.dvhart@linux.intel.com>
+X-Mailer: git-send-email 1.7.10.2
+Cc: Darren Hart <dvhart@linux.intel.com>
+Subject: [PATCH 0/5 V2] Enable building modules on target
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,31 +31,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Jun 2012 18:46:30 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 29 Jun 2012 20:07:05 -0000
 
-The u-boot build system expects this, otherwise it will
-choose from its own internal defaults.  In the case of
-powerpc, we'll see it look for "ppc_8xx-gcc" and fail.
+This series simplifies the include mechanisms for the linux-yocto recipes
+and adds support for a kernel-headers package which enables the building
+of modules on the target.
 
-Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
----
- meta/recipes-bsp/u-boot/u-boot_2012.04.01.bb |    3 +++
- 1 file changed, 3 insertions(+)
+Sending to both oe-core and poky as this series touches files in both
+and I didn't want to confuse the intent or the dependency by splitting
+them up.
 
-diff --git a/meta/recipes-bsp/u-boot/u-boot_2012.04.01.bb b/meta/recipes-bsp/u-boot/u-boot_2012.04.01.bb
-index 25cc8c9..b37fe01 100644
---- a/meta/recipes-bsp/u-boot/u-boot_2012.04.01.bb
-+++ b/meta/recipes-bsp/u-boot/u-boot_2012.04.01.bb
-@@ -26,3 +26,6 @@ SRC_URI = "git://git.denx.de/u-boot.git;branch=master;protocol=git"
- S = "${WORKDIR}/git"
- 
- PACKAGE_ARCH = "${MACHINE_ARCH}"
-+
-+# u-boot expects this to indicate what toolchain to use
-+EXTRA_OEMAKE = "CROSS_COMPILE=${TARGET_PREFIX}"
+V2:
+o Add files to kernel-dev rather than create a new kernel-headers package
+o Move the location to /usr/src/kernel from /usr/src/kernel-headers
+o Eliminate the kernel-misc package as kernel-dev covers it now
+o Fix a bug with linux-yocto-custom exposed during testing
+
+The following changes since commit 4d48398798c898c5db08294ba64d9bfc7daca19c:
+
+  local.conf.sample.extended: Add filtering function to archiver.bbclass (2012-06-28 16:32:58 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib dvhart/modules
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=dvhart/modules
+
+Darren Hart (5):
+  linux-libc-headers-yocto: Do not include linux-yocto
+  linux-yocto: Use INC_PR and move kernel require to linux-yocto.inc
+  kernel: Add kernel headers to kernel-dev package
+  tasl-core-sdk: Add kernel-dev to task-core-sdk RDEPENDS
+  linux-yocto-custom: Remove linux-tools
+
+ .../recipes-kernel/linux/linux-yocto-custom.bb          |    2 --
+ .../linux-libc-headers/linux-libc-headers-yocto_git.bb  |    3 ++-
+ meta/classes/kernel.bbclass                             |   15 +++++++--------
+ meta/conf/bitbake.conf                                  |    2 +-
+ meta/recipes-core/tasks/task-core-sdk.bb                |    5 +++--
+ meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb         |    3 +--
+ meta/recipes-kernel/linux/linux-yocto-rt_3.2.bb         |    3 +--
+ meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb         |    3 +--
+ meta/recipes-kernel/linux/linux-yocto-tiny_3.2.bb       |    3 +--
+ meta/recipes-kernel/linux/linux-yocto.inc               |    3 +++
+ meta/recipes-kernel/linux/linux-yocto_3.0.bb            |    3 +--
+ meta/recipes-kernel/linux/linux-yocto_3.2.bb            |    3 +--
+ meta/recipes-kernel/linux/linux-yocto_3.4.bb            |    3 +--
+ 13 files changed, 23 insertions(+), 28 deletions(-)
+
 -- 
-1.7.9.6
+1.7.10.2
 
 
 
