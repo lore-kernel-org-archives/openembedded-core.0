@@ -1,37 +1,37 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1SkjXh-0001kg-Oi
+	(envelope-from <raj.khem@gmail.com>) id 1SkjYA-0001nA-MW
 	for openembedded-core@lists.openembedded.org;
-	Sat, 30 Jun 2012 00:19:59 +0200
-Received: by eaal1 with SMTP id l1so1549780eaa.6
+	Sat, 30 Jun 2012 00:20:26 +0200
+Received: by eekd49 with SMTP id d49so1532178eek.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Jun 2012 15:09:01 -0700 (PDT)
+	Fri, 29 Jun 2012 15:09:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
 	:cc:content-type;
-	bh=loOrsDPjhLeIq+cYn3zzQ8qkMkpJmpx8ILlRxBVQno4=;
-	b=XHLaQ+M3tUcChkFGoTZiCDpGJNIahzgxYC1+37/sP+nKiyABl4bc5z89FOK6UvYtdU
-	/s1GTQehLhMFT6MhgdfglPpMGfFAikSNcyFb3q+0dmo6TrJk+cOhQ9BIsatL12hCwvz2
-	ZYtS2/Yl98eEvFusiaD1P5i9iTHbpMAVf2g2GqCFyvmORY146gsHsMcnabrTM7qMl320
-	BHj8wJEEihELfu6FWTh662ymu0V07VXPIOggR0AebqJ0OeL6cp0yIiw8jupk996Ue1u3
-	7MXdou4vQj8+9aVSivoygd0rdpdLKUx/oBjsY4AODcvG9q8Nztqf4tdmsQF/+ilZEyuE
-	V3ow==
+	bh=4ptxzj9owxiCtjcA2iUIhRSSAKxFUxXTMFu1vuxUxKo=;
+	b=Y+/lY2aOqTGknhk1DFKdN//7IgcV7MKguSfWEwdais+tmhzYsWBQU7ikKh1b9vCPOR
+	4TeSXeBEXEP7n2LLmcqHIp2xWOT4I+0X2YVN0nRwt3EeCYSxfwFqVZwSlSItP4rNrT+t
+	EBFXQ8Zr+jb1yMBMYNw4fAwgp2DY6jk7LIQe+XKkR3clWyAGTdHnKM0VCBWBN2DHiX+P
+	7zsXkNCNMUx+U7iUBsDP1idDjLW4rYqTGE+W29aTOjNGX/XhQtjg2a2OS99+XYUzVlHu
+	pwgvkxIGOU1Q4zhE77ld1XbCcutqUNA6xeqLre4uKkyVvLEFwzHwRrczGsP6Mt1Lmgg5
+	RGNQ==
 MIME-Version: 1.0
-Received: by 10.14.39.1 with SMTP id c1mr618455eeb.142.1341007741613; Fri, 29
-	Jun 2012 15:09:01 -0700 (PDT)
-Received: by 10.14.210.199 with HTTP; Fri, 29 Jun 2012 15:09:01 -0700 (PDT)
+Received: by 10.14.97.16 with SMTP id s16mr957542eef.117.1341007770451; Fri,
+	29 Jun 2012 15:09:30 -0700 (PDT)
+Received: by 10.14.210.199 with HTTP; Fri, 29 Jun 2012 15:09:30 -0700 (PDT)
 In-Reply-To: <4FEE253F.805@linux.intel.com>
 References: <cover.1341004548.git.sgw@linux.intel.com>
 	<d273d0ea0fd0059499c54b68ba420043a31f2bb7.1341004548.git.sgw@linux.intel.com>
 	<CAMKF1so_1JQY-4eRWZ8Xkq4ixQ7cCmCSVAEohtjRJEFd9KoZiA@mail.gmail.com>
 	<4FEE253F.805@linux.intel.com>
-Date: Fri, 29 Jun 2012 15:09:01 -0700
-Message-ID: <CAMKF1srBr6=b_s-OAbPiL3nYGQuf7V-hG9R2dbcaa+fodyUvuA@mail.gmail.com>
+Date: Fri, 29 Jun 2012 15:09:30 -0700
+Message-ID: <CAMKF1sp9Nw4ko-8b1TC0u0r+dyyWaO_TbrTKUuFWBribxF-h0w@mail.gmail.com>
 From: Khem Raj <raj.khem@gmail.com>
 To: Saul Wold <sgw@linux.intel.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/7] bitbake.conf: Add PACKAGE_BEFORE_PN to PACKAGES
+Subject: [PATCH 1/7] bitbake.conf: Add PACKAGE_BEFORE_PN to PACKAGES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,10 +46,10 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Jun 2012 22:19:59 -0000
-Content-Type: multipart/alternative; boundary=bcaec52be7311475de04c3a3b27c
+X-List-Received-Date: Fri, 29 Jun 2012 22:20:26 -0000
+Content-Type: multipart/alternative; boundary=90e6ba476467cc7eba04c3a3b39d
 
---bcaec52be7311475de04c3a3b27c
+--90e6ba476467cc7eba04c3a3b39d
 Content-Type: text/plain; charset=UTF-8
 
 On Friday, June 29, 2012, Saul Wold <sgw@linux.intel.com> wrote:
@@ -102,7 +102,7 @@ initially, by having -bin in front with =+ and got failures.
 Hmm this variable really looks very specific not something for general
 bitbake.conf I think
 Can pn-bin appear after pn  since in case of libraries on should not have
-much interest in binaries
+much interest
 > Sau!
 >
 >>  > --
@@ -123,7 +123,7 @@ much interest in binaries
 >> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 >
 
---bcaec52be7311475de04c3a3b27c
+--90e6ba476467cc7eba04c3a3b39d
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
@@ -169,7 +169,7 @@ inaries and sometimes there are other binaries that pn-dev wants, I did try=
 &gt;<br>&gt; This has been a tricky set of changes to deal with.<br><br><br=
 >Hmm this variable really looks very specific not something for general bit=
 bake.conf I think<br>Can pn-bin appear after pn =C2=A0since in case of libr=
-aries on should not have much interest in binaries <br>
+aries on should not have much interest<br>
 &gt; Sau!<br>&gt;<br>&gt;&gt; =C2=A0&gt; --<br>&gt;&gt; =C2=A0&gt; 1.7.10.4=
 <br>&gt;&gt; =C2=A0&gt;<br>&gt;&gt; =C2=A0&gt;<br>&gt;&gt; =C2=A0&gt; _____=
 __________________________________________<br>&gt;&gt; =C2=A0&gt; Openembed=
@@ -189,4 +189,4 @@ bedded-core@lists.openembedded.org</a><br>
 nembedded-core">http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openemb=
 edded-core</a><br>&gt;
 
---bcaec52be7311475de04c3a3b27c--
+--90e6ba476467cc7eba04c3a3b39d--
