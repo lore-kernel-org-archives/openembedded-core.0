@@ -1,27 +1,27 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1SkYDB-00025c-NH
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1SkYxA-0002vY-1R
 	for openembedded-core@lists.openembedded.org;
-	Fri, 29 Jun 2012 12:14:01 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 29 Jun 2012 03:03:05 -0700
+	Fri, 29 Jun 2012 13:01:32 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 29 Jun 2012 03:50:35 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="171573493"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="162195603"
 Received: from unknown (HELO helios.localnet) ([10.252.120.185])
-	by fmsmga001.fm.intel.com with ESMTP; 29 Jun 2012 03:03:04 -0700
+	by azsmga001.ch.intel.com with ESMTP; 29 Jun 2012 03:50:34 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 29 Jun 2012 11:03:02 +0100
-Message-ID: <1946254.saFvDeFQPC@helios>
+Date: Fri, 29 Jun 2012 11:50:33 +0100
+Message-ID: <1515296.CLmyHfUsyt@helios>
 Organization: Intel Corporation
 User-Agent: KMail/4.8.3 (Linux/3.2.0-25-generic-pae; KDE/4.8.3; i686; ; )
-In-Reply-To: <4FED178F.50806@gmail.com>
+In-Reply-To: <4FED1743.4050203@gmail.com>
 References: <cover.1340908084.git.paul.eggleton@linux.intel.com>
-	<dfdd61d5d2f3c413b6b19db1b9d9371e46b32aa5.1340908084.git.paul.eggleton@linux.intel.com>
-	<4FED178F.50806@gmail.com>
+	<1fb664d76463830cf80997e2e13891adfff7a6eb.1340908084.git.paul.eggleton@linux.intel.com>
+	<4FED1743.4050203@gmail.com>
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/3] apr: add util-linux to DEPENDS for libuuid
+Subject: Re: [PATCH 3/3] apr: fix incorrect size of pid_t
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,35 +36,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Jun 2012 10:14:01 -0000
+X-List-Received-Date: Fri, 29 Jun 2012 11:01:32 -0000
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-On Thursday 28 June 2012 19:48:47 Khem Raj wrote:
-> -----BEGIN PGP SIGNED MESSAGE-----
-> Hash: SHA1
-> 
-> On 6/28/2012 11:29 AM, Paul Eggleton wrote:
-> > apr will use libuuid if it is present, and thus we should require
-> > that it is there so that we have a deterministic build.
-> > 
-> > Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com> ---
-> > meta/recipes-support/apr/apr_1.4.6.bb |    1 + 1 file changed, 1
-> > insertion(+)
-> > 
-> > diff --git a/meta/recipes-support/apr/apr_1.4.6.bb
-> > b/meta/recipes-support/apr/apr_1.4.6.bb index 6cd37f1..54c47fe
-> > 100644 --- a/meta/recipes-support/apr/apr_1.4.6.bb +++
-> > b/meta/recipes-support/apr/apr_1.4.6.bb @@ -1,6 +1,7 @@ DESCRIPTION
-> > = "Apache Portable Runtime (APR) library" HOMEPAGE =
-> > "http://apr.apache.org/" SECTION = "libs" +DEPENDS = "util-linux"
-> 
-> interesting. I wonder if there is configure option to denote this
-> feature. May be its better to enable it explicitly along with this change
+On Thursday 28 June 2012 19:47:31 Khem Raj wrote:
+> I think this may not be correct thing for 64bit targets. You are
+> better of adding this to appropriate site files.
 
-There's no documented option - I can force ac_cv_osuuid but that doesn't 
-actually have the desired effect (i.e. it does not make it fail if uuid isn't 
-actually provided).
+pid_t is apparently always an int on Linux and our siteinfo files state that 
+ac_cv_sizeof_int is 4 for every target. Nevertheless, if we see the need to 
+define ac_cv_sizeof_int even though the value isn't currently different 
+anywhere, it seems at least consistent to set ac_cv_sizeof_pid_t there as 
+well.
+
+However, I can't help feeling that these files are a bit of a mess and it's not 
+totally clear to me where I should be putting this value. Should it go in 
+common-linux? Or do I have to add it to the specific site file for every arch?
 
 Cheers,
 Paul
