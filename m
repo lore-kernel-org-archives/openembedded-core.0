@@ -1,29 +1,42 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail-pz0-f47.google.com ([209.85.210.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Liezhi.Yang@windriver.com>) id 1SkQaS-0004Qg-QL
+	(envelope-from <raj.khem@gmail.com>) id 1SkRPc-000539-N3
 	for openembedded-core@lists.openembedded.org;
-	Fri, 29 Jun 2012 04:05:33 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q5T1sa5Z018391
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Fri, 29 Jun 2012 04:58:24 +0200
+Received: by dalh21 with SMTP id h21so3613362dal.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Jun 2012 18:54:36 -0700 (PDT)
-Received: from [128.224.163.142] (128.224.163.142) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Thu, 28 Jun 2012 18:54:35 -0700
-Message-ID: <4FED0AD9.5010102@windriver.com>
-Date: Fri, 29 Jun 2012 09:54:33 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
+	Thu, 28 Jun 2012 19:47:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=message-id:date:from:user-agent:mime-version:to:cc:subject
+	:references:in-reply-to:x-enigmail-version:content-type
+	:content-transfer-encoding;
+	bh=PQiNXfDbv4C9Z88+9GRXhwFcHawFmsP/SNf1pNVXgCM=;
+	b=wH4Zl6R0xG8fVE8C8B6vKfk/aBGePvDdhr9QbxEl3DoNng32EfZ9879hE8vQu1aU/d
+	6+RVZ80TWOKxNYPtTdjRCHcC0aTcI09uGj31gelREmLYCKRNmw/WPkUuIzIgTgLGmDGD
+	K+ckSW427Z1g0Og2SFJz2miz/rr89/HctFQpVB7iSvTT1K/axhSsHKnLfsMChSL8MX87
+	MGIkb+ETF+HkMZIOWA/3JERCv+PyYG/29xJh9NKETKus4Ml/bSYNO3f+Fc8W7GiDQmw9
+	pqcWUOPMpDAf0iVXOzkzdJ/hBJMfxYitqMpFNf+zMScTpcUSx94WrhEp9kcXThZVfJWh
+	aptA==
+Received: by 10.68.223.129 with SMTP id qu1mr587092pbc.165.1340938048147;
+	Thu, 28 Jun 2012 19:47:28 -0700 (PDT)
+Received: from [192.168.1.71] (99-57-140-209.lightspeed.sntcca.sbcglobal.net.
+	[99.57.140.209])
+	by mx.google.com with ESMTPS id jv6sm3943419pbc.40.2012.06.28.19.47.25
+	(version=SSLv3 cipher=OTHER); Thu, 28 Jun 2012 19:47:26 -0700 (PDT)
+Message-ID: <4FED1743.4050203@gmail.com>
+Date: Thu, 28 Jun 2012 19:47:31 -0700
+From: Khem Raj <raj.khem@gmail.com>
+User-Agent: Mozilla/5.0 (Windows NT 6.1;
+	rv:13.0) Gecko/20120614 Thunderbird/13.0.1
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1340773014.git.liezhi.yang@windriver.com>
-	<63976f811fe5cb0c5688fe6847975499ac2d9e51.1340773014.git.liezhi.yang@windriver.com>
-In-Reply-To: <63976f811fe5cb0c5688fe6847975499ac2d9e51.1340773014.git.liezhi.yang@windriver.com>
-Cc: Zhenfeng.Zhao@windriver.com
-Subject: Re: [PATCH 2/2] icu 3.6: do_install failed: Segmentation fault
+References: <cover.1340908084.git.paul.eggleton@linux.intel.com>
+	<1fb664d76463830cf80997e2e13891adfff7a6eb.1340908084.git.paul.eggleton@linux.intel.com>
+In-Reply-To: <1fb664d76463830cf80997e2e13891adfff7a6eb.1340908084.git.paul.eggleton@linux.intel.com>
+X-Enigmail-Version: 1.4.2
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
+Subject: Re: [PATCH 3/3] apr: fix incorrect size of pid_t
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,92 +51,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Jun 2012 02:05:33 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Fri, 29 Jun 2012 02:58:24 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
+
+On 6/28/2012 11:29 AM, Paul Eggleton wrote:
+> If cross-compiling, apr's configure script assumes that pid_t is 
+> 64-bit which is wrong - it appears that 32-bit is a safe
+> assumption for Linux, so use that instead.
+> 
+> This fixes Apache writing garbage to its pid file when built using
+> apr produced from this recipe.
+> 
+> Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com> --- 
+> meta/recipes-support/apr/apr_1.4.6.bb |    4 +++- 1 file changed, 3
+> insertions(+), 1 deletion(-)
+> 
+> diff --git a/meta/recipes-support/apr/apr_1.4.6.bb
+> b/meta/recipes-support/apr/apr_1.4.6.bb index 54c47fe..8af5411
+> 100644 --- a/meta/recipes-support/apr/apr_1.4.6.bb +++
+> b/meta/recipes-support/apr/apr_1.4.6.bb @@ -9,7 +9,7 @@
+> LIC_FILES_CHKSUM =
+> "file://LICENSE;md5=0c35ff3c4c83b89d2f076e315caac28b \
+> 
+> BBCLASSEXTEND = "native"
+> 
+> -PR = "r0" +PR = "r1"
+> 
+> SRC_URI = "${APACHE_MIRROR}/apr/${BPN}-${PV}.tar.bz2 \ 
+> file://configure_fixes.patch \ @@ -23,6 +23,8 @@ inherit autotools
+> lib_package binconfig multilib_header
+> 
+> OE_BINCONFIG_EXTRA_MANGLE = " -e
+> 's:location=source:location=installed:'"
+> 
+> +EXTRA_OECONF_append_class-target = " ac_cv_sizeof_pid_t=4" +
+
+I think this may not be correct thing for 64bit targets. You are
+better of adding this to appropriate site files.
 
 
-On 06/27/2012 04:19 PM, Robert Yang wrote:
-> There is a "Segmentation fault" error when the tmpdir is longer than 470
-> (or less), this is because it used "char cmd[1024]" which is not enough
-> for the command line. Allocate a larger memory size should fix this problem.
->
-> [YOCTO #2664]
->
-> Signed-off-by: Robert Yang<liezhi.yang@windriver.com>
-> ---
->   .../icu/files/larger-cmd-size.patch                |   27 ++++++++++++++++++++
->   meta/recipes-support/icu/icu-3.6.inc               |    1 +
->   meta/recipes-support/icu/icu_3.6.bb                |    2 +-
->   3 files changed, 29 insertions(+), 1 deletions(-)
->   create mode 100644 meta/recipes-support/icu/files/larger-cmd-size.patch
->
-> diff --git a/meta/recipes-support/icu/files/larger-cmd-size.patch b/meta/recipes-support/icu/files/larger-cmd-size.patch
-> new file mode 100644
-> index 0000000..4b5f73d
-> --- /dev/null
-> +++ b/meta/recipes-support/icu/files/larger-cmd-size.patch
-> @@ -0,0 +1,27 @@
-> +Allocate a larger memory size for cmd
-> +
-> +The length of the command line can be longer than 1024 sometimes,
-> +which will cause a "Segmentation fault" error.
-> +
-> +Signed-off-by: Robert Yang<liezhi.yang@windriver.com>
-> +
-> +Upstream-Status: Pending
-> +---
-> + tools/pkgdata/pkgdata.c |    2 +-
-> + 1 file changed, 1 insertion(+), 1 deletion(-)
-> +
-> +diff --git a/tools/pkgdata/pkgdata.c b/tools/pkgdata/pkgdata.c
-> +--- a/tools/pkgdata/pkgdata.c
-> ++++ b/tools/pkgdata/pkgdata.c
-> +@@ -439,7 +439,7 @@ main(int argc, char* argv[]) {
-> + /* POSIX - execute makefile */
-> + static int executeMakefile(const UPKGOptions *o)
-> + {
-> +-    char cmd[1024];
-> ++    char cmd[BUFSIZ];
+> do_configure_prepend() { cd ${S} ./buildconf
+> 
 
-I've changed the cmd[BUFSIZ] to cmd[2048], which should be enough for us, and
-pushed it to the git repo again:
 
-   git://git.pokylinux.org/poky-contrib robert/icu
-   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=robert/icu
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.12 (MingW32)
+Comment: Using GnuPG with Mozilla - http://enigmail.mozdev.org/
 
-// Robert
-
-> +     /*char pwd[1024];*/
-> +     const char *make;
-> +     int rc;
-> +--
-> +1.7.10.2
-> +
-> diff --git a/meta/recipes-support/icu/icu-3.6.inc b/meta/recipes-support/icu/icu-3.6.inc
-> index d3391fe..d969caa 100644
-> --- a/meta/recipes-support/icu/icu-3.6.inc
-> +++ b/meta/recipes-support/icu/icu-3.6.inc
-> @@ -6,6 +6,7 @@ BASE_SRC_URI = "ftp://ftp.software.ibm.com/software/globalization/icu/3.6/icu4c-
->              file://gccfix.patch \
->              file://fix-parallel-build.patch \
->              file://use-g++-for-linking.patch \
-> +           file://larger-cmd-size.patch \
->              "
->   SRC_URI = "${BASE_SRC_URI} \
->              file://noldlibpath.patch \
-> diff --git a/meta/recipes-support/icu/icu_3.6.bb b/meta/recipes-support/icu/icu_3.6.bb
-> index d7be522..f941acf 100644
-> --- a/meta/recipes-support/icu/icu_3.6.bb
-> +++ b/meta/recipes-support/icu/icu_3.6.bb
-> @@ -1,6 +1,6 @@
->   require icu-3.6.inc
->
-> -PR = "r8"
-> +PR = "r9"
->
->   SRC_URI[md5sum] = "6243f7a19e03e05403ce84e597510d4c"
->   SRC_URI[sha256sum] = "5135e8d69d6206d320515df7aeee7027711ab1aef9d8dbf29571a97a9746b041"
+iEYEARECAAYFAk/tF0MACgkQuwUzVZGdMxSXNACfUhw2qkbBYBL/mBIvJ5zwIla7
+ojoAoICsjsBSRzJlS7s6Qg3i8Ze+NBQo
+=yxut
+-----END PGP SIGNATURE-----
 
 
