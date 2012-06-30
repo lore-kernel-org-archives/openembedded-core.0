@@ -1,31 +1,31 @@
-Received: from astoria.ccjclearline.com ([64.235.106.9])
+Received: from mail.cvg.de ([62.153.82.30])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpjday@crashcourse.ca>) id 1Skw5U-0006Mk-MO
-	for openembedded-core@lists.openembedded.org;
-	Sat, 30 Jun 2012 13:43:40 +0200
-Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
-	([99.241.91.63]:34154 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.77) (envelope-from <rpjday@crashcourse.ca>)
-	id 1Skvuu-00072D-BV for openembedded-core@lists.openembedded.org;
-	Sat, 30 Jun 2012 07:32:44 -0400
-Date: Sat, 30 Jun 2012 07:32:41 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@oneiric
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.DEB.2.02.1206300725040.15690@oneiric>
-User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+	(envelope-from <enrico.scholz@sigma-chemnitz.de>)
+	id 1SkwJg-0006Y1-Jd; Sat, 30 Jun 2012 13:58:20 +0200
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id q5UBlJPH009633
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Sat, 30 Jun 2012 13:47:20 +0200
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.76) (envelope-from <ensc@sigma-chemnitz.de>)
+	id 1Skw9K-0006aH-9J; Sat, 30 Jun 2012 13:47:38 +0200
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To: openembedded-core@lists.openembedded.org,
+	bitbake-devel@lists.openembedded.org
+Date: Sat, 30 Jun 2012 13:47:37 +0200
+Message-ID: <ly8vf558di.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.0.97 (gnu/linux)
 MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Subject: poky ref variable glossary seems to define IMAGE_ROOTFS_SIZE inaccurately
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 0.99
+X-Spam-Score: -5.3
+X-Spam-Level: -----
+X-Spam-Tests: AWL,BAYES_00,SPF_NEUTRAL,T_RP_MATCHES_RCVD,DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.73
+Subject: do_fetchall broken by recent bitbake
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,41 +40,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 30 Jun 2012 11:43:40 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Sat, 30 Jun 2012 11:58:20 -0000
+Content-Type: text/plain
+
+Hi,
+
+the 82d73423c57569b984ee0ae3d93e3c3bd5dc5216 "runqueue: Reimplement
+recrdepends so it works more correctly" bitbake commit breaks
+OpenEmbedded's 'do_fetchall' task.  Previously sources of all dependent
+tasks were downloaded.  Now, only a small subset gets fetched.
+
+Before:
+
+| $ ./bitbake my-image -c fetchall
+| NOTE: Running task 1 of 202 (ID: 201, ...openssl/ocf-linux_20100325.bb, do_fetch)
 
 
-  here's the current definition:
+After:
 
-http://www.yoctoproject.org/docs/current/poky-ref-manual/poky-ref-manual.html#var-IMAGE_ROOTFS_SIZE
+| $ ./bitbake my-image -c fetchall
+| NOTE: Running task 1 of 11 (ID: 10, ...opkg-collateral.bb, do_fetch)
 
-but if you look at the formula that's used in
-meta/classes/image_types.bbclass:
 
-ROOTFS_SIZE=`du -ks ${IMAGE_ROOTFS}|awk '{base_size = $1 *
-${IMAGE_OVERHEAD_FACTOR} + ${IMAGE_ROOTFS_ALIGNMENT} - 1; base_size -=
-base_size % ${IMAGE_ROOTFS_ALIGNMENT}; print ((base_size >
-${IMAGE_ROOTFS_SIZE} ? base_size : ${IMAGE_ROOTFS_SIZE}) +
-${IMAGE_ROOTFS_EXTRA_SPACE}) }'`
+Any chance to fix bitbake or OE?
 
-  the value of IMAGE_ROOTFS_SIZE is simply one of the (possibly
-user-supplied) values that is combined to produce the *actual* rootfs
-size that is stored in ROOTFS_SIZE (and used later).  i don't think
-that's abundantly clear from the glossary entry, which initially
-implies that IMAGE_ROOTFS_SIZE is the eventual size of the image.
 
-  or am i just reading this the wrong way?
 
-rday
+Enrico
 
--- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
 
 
