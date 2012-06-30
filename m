@@ -1,36 +1,36 @@
 Received: from mail-yw0-f41.google.com ([209.85.213.41])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrei@gherzan.ro>) id 1Skyw9-0001d6-Th
+	(envelope-from <andrei@gherzan.ro>) id 1Skz1C-0001j2-JM
 	for openembedded-core@lists.openembedded.org;
-	Sat, 30 Jun 2012 16:46:14 +0200
-Received: by yhr47 with SMTP id 47so4847265yhr.28
+	Sat, 30 Jun 2012 16:51:26 +0200
+Received: by yhr47 with SMTP id 47so4849242yhr.28
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 30 Jun 2012 07:35:16 -0700 (PDT)
+	Sat, 30 Jun 2012 07:40:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=mime-version:x-originating-ip:in-reply-to:references:from:date
 	:message-id:subject:to:content-type:x-gm-message-state;
-	bh=GyccwerVHqaA0v6gqeGrfaWszVeJK6hqAwWvLphNkXs=;
-	b=Jtnq8irIKK/vvthoc5JWWjPQfJenlSnrwZDbOnKzBXn+/UZI29MhDvO8yquZRWsmgR
-	xUDsJilINoMFePv6gOuvPCirssSIV90jrF1ZS0Z4fbr2cVBMrnztkg6JFFtfw4VRHYRU
-	0/9FFvrx3XywjBfctSiW6uvgvwkaBoBIoAgwQopef1NixKmMfczMJziQWMj4YtwK/ZHk
-	merhbwvvfQfQ6z0SXzyfJqgF4d1/87JYkx/s4t3fPd5NxUFznX5+DOuwVWMb53Lw9/DI
-	riBozTPidC/LPzpuvh6ZEUtIgHUl3pvWALatXpGJxqLsh4MIaag0zdk1AHHRO9eoAEwU
-	IPSQ==
-Received: by 10.50.100.137 with SMTP id ey9mr1580836igb.61.1341066916021; Sat,
-	30 Jun 2012 07:35:16 -0700 (PDT)
+	bh=zKjuXXo40RTYQTYjwvlsAYvyStL2XMC1nS57J/RotlE=;
+	b=FvqdV518a+oMp78frbO+YPeH/656HrIsiiRMtE8Wi9WbVGiWDdeRBe0vDTNKuJa4Ar
+	4ckz3CM+xjhqdVUDTym0rs2087teFANGTrdzEVkpTfXKlRDEiCN+Rvycegh7VEvWRxxn
+	bbBO7fEdcCmInhYFzpvhD49fmvQTVO4PZx6TAcBFlFqvGk97I7Yq/ZClKrGTgzlqtY+G
+	gE73yzBkcHvcTlDL1B5wZG6RKab3665deZaZUA5qwa12wzphNg//QashSQy69K8+I+Wx
+	JMEElVSoMsyRhJUrhDxXpfhGucJV/6ZqV8R85vw0eB2ksAk2gO/JifmnzRQ/KUNPzRdh
+	LHAw==
+Received: by 10.42.10.73 with SMTP id p9mr2942136icp.43.1341067228796; Sat, 30
+	Jun 2012 07:40:28 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.64.69.170 with HTTP; Sat, 30 Jun 2012 07:34:55 -0700 (PDT)
+Received: by 10.64.69.170 with HTTP; Sat, 30 Jun 2012 07:40:08 -0700 (PDT)
 X-Originating-IP: [79.117.115.156]
-In-Reply-To: <alpine.DEB.2.02.1206300923060.17865@oneiric>
-References: <alpine.DEB.2.02.1206300923060.17865@oneiric>
+In-Reply-To: <alpine.DEB.2.02.1206300847330.17264@oneiric>
+References: <alpine.DEB.2.02.1206300847330.17264@oneiric>
 From: Andrei Gherzan <andrei@gherzan.ro>
-Date: Sat, 30 Jun 2012 17:34:55 +0300
-Message-ID: <CAK18fxF8a1qkFpGMgZFyLURATy4JxNP5u=8F9b9hDnHZf8VAww@mail.gmail.com>
+Date: Sat, 30 Jun 2012 17:40:08 +0300
+Message-ID: <CAK18fxGKQrqrtZK2m3Qi9qECSXMVpzhOGzbua3or19UAoGrUSw@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Gm-Message-State: ALoCoQkRss7s3XIiXDpcuy7CO+g5T5zW1z/4XK9R9muimy7ypLkzd3fhiw2fpFjVwgmCQ0rds9D7
-Subject: Re: is it best practice to use ${sysconfdir} rather than hard-coding "/etc"?
+X-Gm-Message-State: ALoCoQmgo2GiF8FYSnkKYm8s85AUvhnEan9Y5exQRjTs/kpmKdTjAPdEm6Nuzekd6tznvZPC/NM7
+Subject: Re: does it make sense to define INITSCRIPT_* without inheriting update-rc.d?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,39 +45,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 30 Jun 2012 14:46:14 -0000
-Content-Type: multipart/alternative; boundary=e89a8f23532b26473504c3b179a8
+X-List-Received-Date: Sat, 30 Jun 2012 14:51:26 -0000
+Content-Type: multipart/alternative; boundary=20cf30244ca3cad6ed04c3b18bc3
 
---e89a8f23532b26473504c3b179a8
+--20cf30244ca3cad6ed04c3b18bc3
 Content-Type: text/plain; charset=ISO-8859-1
 
-As a general rule is it better to use any "path variable" instead of a
-hard-coded one.
+No. It won't make a difference. Or actually it makes a tiny difference:
+check package.bbclass, function named gen_packagevar.
 
 @g
 
-On Sat, Jun 30, 2012 at 4:25 PM, Robert P. J. Day <rpjday@crashcourse.ca>wrote:
+
+On Sat, Jun 30, 2012 at 3:50 PM, Robert P. J. Day <rpjday@crashcourse.ca>wrote:
 
 >
->  i suspect i know the answer to this, but in the recipe file
-> usbinit.bb, we have:
+>  currently figuring out details of INITSCRIPT_*, and noticed that the
+> recipe file irda-utils_0.9.18.bb assigned values to both
+> INITSCRIPT_NAME and INITSCRIPT_PARAMS without inheriting update-rc.d.
 >
-> do_install() {
->    install -d ${D}/etc
->    install -d ${D}/etc/init.d
->    install usb-gether ${D}/etc/init.d
-> }
->
->  i'm guessing that would more properly be coded:
->
-> do_install() {
->    install -d ${D}${sysconfdir}
->    install -d ${D}${sysconfdir}/init.d
->    install usb-gether ${D}${sysconfdir}/init.d
-> }
->
->  the end result is functionally identical, of course, it's all just a
-> matter of style.
+>  is that allowed?  does it make sense?  unless the explicit
+> do_install() routine in that recipe file somehow takes care of things.
 >
 > rday
 >
@@ -97,40 +85,28 @@ On Sat, Jun 30, 2012 at 4:25 PM, Robert P. J. Day <rpjday@crashcourse.ca>wrote:
 > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 >
 
---e89a8f23532b26473504c3b179a8
+--20cf30244ca3cad6ed04c3b18bc3
 Content-Type: text/html; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
-As a general rule is it better to use any &quot;path variable&quot; instead=
- of a hard-coded one.<br><br>
-@g<br><br><div class=3D"gmail_quote">On Sat, Jun 30, 2012 at 4:25 PM, Rober=
-t P. J. Day <span dir=3D"ltr">&lt;<a href=3D"mailto:rpjday@crashcourse.ca" =
-target=3D"_blank">rpjday@crashcourse.ca</a>&gt;</span> wrote:<br><blockquot=
-e class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc sol=
-id;padding-left:1ex">
+No. It won&#39;t make a difference. Or actually it makes a tiny difference:=
+ check package.bbclass, function named=A0gen_packagevar.<div><br></div><div=
+>@g<br>
+<br><br><div class=3D"gmail_quote">On Sat, Jun 30, 2012 at 3:50 PM, Robert =
+P. J. Day <span dir=3D"ltr">&lt;<a href=3D"mailto:rpjday@crashcourse.ca" ta=
+rget=3D"_blank">rpjday@crashcourse.ca</a>&gt;</span> wrote:<br><blockquote =
+class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid=
+;padding-left:1ex">
 
 <br>
- =A0i suspect i know the answer to this, but in the recipe file<br>
-<a href=3D"http://usbinit.bb" target=3D"_blank">usbinit.bb</a>, we have:<br=
+ =A0currently figuring out details of INITSCRIPT_*, and noticed that the<br=
 >
+recipe file <a href=3D"http://irda-utils_0.9.18.bb" target=3D"_blank">irda-=
+utils_0.9.18.bb</a> assigned values to both<br>
+INITSCRIPT_NAME and INITSCRIPT_PARAMS without inheriting update-rc.d.<br>
 <br>
-do_install() {<br>
- =A0 =A0install -d ${D}/etc<br>
- =A0 =A0install -d ${D}/etc/init.d<br>
- =A0 =A0install usb-gether ${D}/etc/init.d<br>
-}<br>
-<br>
- =A0i&#39;m guessing that would more properly be coded:<br>
-<br>
-do_install() {<br>
- =A0 =A0install -d ${D}${sysconfdir}<br>
- =A0 =A0install -d ${D}${sysconfdir}/init.d<br>
- =A0 =A0install usb-gether ${D}${sysconfdir}/init.d<br>
-}<br>
-<br>
- =A0the end result is functionally identical, of course, it&#39;s all just =
-a<br>
-matter of style.<br>
+ =A0is that allowed? =A0does it make sense? =A0unless the explicit<br>
+do_install() routine in that recipe file somehow takes care of things.<br>
 <br>
 rday<br>
 <br>
@@ -161,6 +137,6 @@ re@lists.openembedded.org</a><br>
 <a href=3D"http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded=
 -core" target=3D"_blank">http://lists.linuxtogo.org/cgi-bin/mailman/listinf=
 o/openembedded-core</a><br>
-</blockquote></div><br>
+</blockquote></div><br></div>
 
---e89a8f23532b26473504c3b179a8--
+--20cf30244ca3cad6ed04c3b18bc3--
