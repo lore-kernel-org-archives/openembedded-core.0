@@ -1,27 +1,35 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from astoria.ccjclearline.com ([64.235.106.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1Sky4l-0000Zy-Kj
+	(envelope-from <rpjday@crashcourse.ca>) id 1Sky64-0000d5-3x
 	for openembedded-core@lists.openembedded.org;
-	Sat, 30 Jun 2012 15:51:03 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 30 Jun 2012 06:40:05 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="165108404"
-Received: from unknown (HELO envy.home) ([10.255.13.27])
-	by orsmga002.jf.intel.com with ESMTP; 30 Jun 2012 06:40:05 -0700
-Message-ID: <4FEF0159.7050606@linux.intel.com>
-Date: Sat, 30 Jun 2012 06:38:33 -0700
-From: Darren Hart <dvhart@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:13.0) Gecko/20120615 Thunderbird/13.0.1
-MIME-Version: 1.0
+	Sat, 30 Jun 2012 15:52:24 +0200
+Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
+	([99.241.91.63]:35781 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.77) (envelope-from <rpjday@crashcourse.ca>)
+	id 1SkxvU-0003xG-Bk for openembedded-core@lists.openembedded.org;
+	Sat, 30 Jun 2012 09:41:28 -0400
+Date: Sat, 30 Jun 2012 09:41:25 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@oneiric
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <1340984497-32423-2-git-send-email-ray.danks@se-eng.com>
-	<1341001154-10071-1-git-send-email-ray.danks@se-eng.com>
-In-Reply-To: <1341001154-10071-1-git-send-email-ray.danks@se-eng.com>
-X-Enigmail-Version: 1.4.2
-Subject: Re: [PATCH 1/2 v3] image_types: Add elf image type
+In-Reply-To: <20120630132935.GA3689@jama.jama.net>
+Message-ID: <alpine.DEB.2.02.1206300940100.18253@oneiric>
+References: <alpine.DEB.2.02.1206300923060.17865@oneiric>
+	<20120630132935.GA3689@jama.jama.net>
+User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+MIME-Version: 1.0
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Subject: Re: is it best practice to use ${sysconfdir} rather than hard-coding "/etc"?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,92 +44,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 30 Jun 2012 13:51:03 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 30 Jun 2012 13:52:24 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
+On Sat, 30 Jun 2012, Martin Jansa wrote:
 
+> On Sat, Jun 30, 2012 at 09:25:57AM -0400, Robert P. J. Day wrote:
+> >
+> >   i suspect i know the answer to this, but in the recipe file
+> > usbinit.bb, we have:
+> >
+> > do_install() {
+> >     install -d ${D}/etc
+> >     install -d ${D}/etc/init.d
+> >     install usb-gether ${D}/etc/init.d
+> > }
+> >
+> >   i'm guessing that would more properly be coded:
+> >
+> > do_install() {
+> >     install -d ${D}${sysconfdir}
+> >     install -d ${D}${sysconfdir}/init.d
+> >     install usb-gether ${D}${sysconfdir}/init.d
+> > }
+> >
+> >   the end result is functionally identical, of course, it's all just a
+> > matter of style.
+>
+> using sysconfdir is better as someone can define it to different value
+> then 'etc' and the later will still work (be consistent across image)
 
-On 06/29/2012 01:19 PM, Raymond Danks wrote:
-> On x86, an ELF image file may be stored as a coreboot payload.
-> The image file is constructed, using the mkelfimage utility,
-> from a kernel and an initrd.
-> 
-> Signed-off-by: Raymond Danks <ray.danks@se-eng.com>
+  there are definitely a number of examples of hard-coded "/etc" in
+the recipes, but i'm not about to run around cleaning them -- i just
+wanted to make sure there was no compelling reason to do that
+hard-coding.  thanks.
 
-Acked-by: Darren Hart <dvhart@linux.intel.com>
-
-> ---
-> This was originally submitted to the openembedded project:
-> http://patches.openembedded.org/patch/7689/
-> 
-> v3:
->  Include DEPLOY_DIR_IMAGE and KERNEL_IMAGETYPE for location of ELF_KERNEL
-> 
->  meta/classes/image_types.bbclass |   18 +++++++++++++++++-
->  1 files changed, 17 insertions(+), 1 deletions(-)
-> 
-> diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-> index 55f122e..64fa14a 100644
-> --- a/meta/classes/image_types.bbclass
-> +++ b/meta/classes/image_types.bbclass
-> @@ -7,6 +7,12 @@ def get_imagecmds(d):
->      ctypes = d.getVar('COMPRESSIONTYPES', True).split()
->      cimages = {}
->  
-> +    if "elf" in alltypes:
-> +        alltypes.remove("elf")
-> +        if "cpio.gz" not in alltypes:
-> +                alltypes.append("cpio.gz")
-> +        alltypes.append("elf")
-> +
->      # Filter out all the compressed images from types
->      for type in alltypes:
->          basetype = None
-> @@ -173,6 +179,14 @@ IMAGE_CMD_cpio () {
->  	cd ${IMAGE_ROOTFS} && (find . | cpio -o -H newc >${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cpio)
->  }
->  
-> +ELF_KERNEL ?= ${DEPLOY_DIR_IMAGE}/${KERNEL_IMAGETYPE}
-> +ELF_APPEND ?= "ramdisk_size=32768 root=/dev/ram0 rw console=" 
-> +
-> +IMAGE_CMD_elf () {
-> +	test -f ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.elf && rm -f ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.elf 
-> +	mkelfImage --kernel=${ELF_KERNEL} --initrd=${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cpio.gz --output=${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.elf --append='${ELF_APPEND}' ${EXTRA_IMAGECMD}
-> +}
-> +
->  UBI_VOLNAME ?= "${MACHINE}-rootfs"
->  
->  IMAGE_CMD_ubi () {
-> @@ -199,6 +213,7 @@ EXTRA_IMAGECMD_ext2 ?= "-i 8192"
->  EXTRA_IMAGECMD_ext3 ?= "-i 8192"
->  EXTRA_IMAGECMD_ext4 ?= "-i 8192"
->  EXTRA_IMAGECMD_btrfs ?= ""
-> +EXTRA_IMAGECMD_elf ?= ""
->  
->  IMAGE_DEPENDS = ""
->  IMAGE_DEPENDS_jffs2 = "mtd-utils-native"
-> @@ -210,11 +225,12 @@ IMAGE_DEPENDS_ext4 = "genext2fs-native e2fsprogs-native"
->  IMAGE_DEPENDS_btrfs = "btrfs-tools-native"
->  IMAGE_DEPENDS_squashfs = "squashfs-tools-native"
->  IMAGE_DEPENDS_squashfs-lzma = "squashfs-lzma-tools-native"
-> +IMAGE_DEPENDS_elf = "virtual/kernel mkelfimage-native"
->  IMAGE_DEPENDS_ubi = "mtd-utils-native"
->  IMAGE_DEPENDS_ubifs = "mtd-utils-native"
->  
->  # This variable is available to request which values are suitable for IMAGE_FSTYPES
-> -IMAGE_TYPES = "jffs2 sum.jffs2 cramfs ext2 ext2.gz ext2.bz2 ext3 ext3.gz ext2.lzma btrfs live squashfs squashfs-lzma ubi tar tar.gz tar.bz2 tar.xz cpio cpio.gz cpio.xz cpio.lzma vmdk"
-> +IMAGE_TYPES = "jffs2 sum.jffs2 cramfs ext2 ext2.gz ext2.bz2 ext3 ext3.gz ext2.lzma btrfs live squashfs squashfs-lzma ubi tar tar.gz tar.bz2 tar.xz cpio cpio.gz cpio.xz cpio.lzma vmdk elf"
->  
->  COMPRESSIONTYPES = "gz bz2 lzma xz"
->  COMPRESS_CMD_lzma = "lzma -k -f -7 ${IMAGE_NAME}.rootfs.${type}"
-> 
+rday
 
 -- 
-Darren Hart
-Intel Open Source Technology Center
-Yocto Project - Linux Kernel
 
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
 
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
