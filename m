@@ -1,31 +1,31 @@
-Received: from mail.cvg.de ([62.153.82.30])
+Received: from astoria.ccjclearline.com ([64.235.106.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <enrico.scholz@sigma-chemnitz.de>)
-	id 1SkwJg-0006Y1-Jd; Sat, 30 Jun 2012 13:58:20 +0200
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id q5UBlJPH009633
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Sat, 30 Jun 2012 13:47:20 +0200
-Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
-	4.76) (envelope-from <ensc@sigma-chemnitz.de>)
-	id 1Skw9K-0006aH-9J; Sat, 30 Jun 2012 13:47:38 +0200
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-To: openembedded-core@lists.openembedded.org,
-	bitbake-devel@lists.openembedded.org
-Date: Sat, 30 Jun 2012 13:47:37 +0200
-Message-ID: <ly8vf558di.fsf@ensc-virt.intern.sigma-chemnitz.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.0.97 (gnu/linux)
+	(envelope-from <rpjday@crashcourse.ca>) id 1SkxIg-00080P-3I
+	for openembedded-core@lists.openembedded.org;
+	Sat, 30 Jun 2012 15:01:22 +0200
+Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
+	([99.241.91.63]:35136 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.77) (envelope-from <rpjday@crashcourse.ca>)
+	id 1Skx86-0001Rc-8S for openembedded-core@lists.openembedded.org;
+	Sat, 30 Jun 2012 08:50:26 -0400
+Date: Sat, 30 Jun 2012 08:50:23 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@oneiric
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.DEB.2.02.1206300847330.17264@oneiric>
+User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
 MIME-Version: 1.0
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-X-DSPAM-Result: Innocent
-X-DSPAM-Probability: 0
-X-DSPAM-Confidence: 0.99
-X-Spam-Score: -5.3
-X-Spam-Level: -----
-X-Spam-Tests: AWL,BAYES_00,SPF_NEUTRAL,T_RP_MATCHES_RCVD,DSPAM_INNOCENT
-X-Scanned-By: MIMEDefang 2.73
-Subject: do_fetchall broken by recent bitbake
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Subject: does it make sense to define INITSCRIPT_* without inheriting update-rc.d?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,33 +40,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 30 Jun 2012 11:58:20 -0000
-Content-Type: text/plain
-
-Hi,
-
-the 82d73423c57569b984ee0ae3d93e3c3bd5dc5216 "runqueue: Reimplement
-recrdepends so it works more correctly" bitbake commit breaks
-OpenEmbedded's 'do_fetchall' task.  Previously sources of all dependent
-tasks were downloaded.  Now, only a small subset gets fetched.
-
-Before:
-
-| $ ./bitbake my-image -c fetchall
-| NOTE: Running task 1 of 202 (ID: 201, ...openssl/ocf-linux_20100325.bb, do_fetch)
+X-List-Received-Date: Sat, 30 Jun 2012 13:01:22 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
 
-After:
+  currently figuring out details of INITSCRIPT_*, and noticed that the
+recipe file irda-utils_0.9.18.bb assigned values to both
+INITSCRIPT_NAME and INITSCRIPT_PARAMS without inheriting update-rc.d.
 
-| $ ./bitbake my-image -c fetchall
-| NOTE: Running task 1 of 11 (ID: 10, ...opkg-collateral.bb, do_fetch)
+  is that allowed?  does it make sense?  unless the explicit
+do_install() routine in that recipe file somehow takes care of things.
 
+rday
 
-Any chance to fix bitbake or OE?
+-- 
 
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
 
-
-Enrico
-
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
