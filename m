@@ -1,26 +1,26 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1Skq62-0004yl-PV
+	(envelope-from <Liezhi.Yang@windriver.com>) id 1SktgF-0003pD-0V
 	for openembedded-core@lists.openembedded.org;
-	Sat, 30 Jun 2012 07:19:51 +0200
+	Sat, 30 Jun 2012 11:09:27 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q5U58rJ9008378
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q5U8wShM019072
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Jun 2012 22:08:53 -0700 (PDT)
-Received: from localhost.localdomain (172.25.34.61) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Fri, 29 Jun 2012 22:08:53 -0700
-From: Mark Hatle <mark.hatle@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Sat, 30 Jun 2012 00:18:03 -0500
-Message-ID: <1e7b8271bd6c80f48d6b1840674c77609aa38b84.1341033367.git.mark.hatle@windriver.com>
-X-Mailer: git-send-email 1.7.3.4
-In-Reply-To: <cover.1341033367.git.mark.hatle@windriver.com>
-References: <cover.1341033367.git.mark.hatle@windriver.com>
+	Sat, 30 Jun 2012 01:58:28 -0700 (PDT)
+Received: from [128.224.163.142] (128.224.163.142) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Sat, 30 Jun 2012 01:58:28 -0700
+Message-ID: <4FEEBFB2.8080804@windriver.com>
+Date: Sat, 30 Jun 2012 16:58:26 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
 MIME-Version: 1.0
-X-Originating-IP: [172.25.34.61]
-Subject: [PATCH 1/6 v2] Fix manual log file paths
+To: <openembedded-core@lists.openembedded.org>
+References: <4FED7714.5000309@windriver.com> <1340969529.23146.143.camel@ted>
+In-Reply-To: <1340969529.23146.143.camel@ted>
+Subject: Re: The native perl's path is not in PATH
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,123 +35,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 30 Jun 2012 05:19:51 -0000
-Content-Type: text/plain
+X-List-Received-Date: Sat, 30 Jun 2012 09:09:27 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-When a recent change, the path to log files may be contained within an
-arbitrary directory.  To generate the manual log files in the correct path
-we should be using the ${BB_LOGFILE}'s path instead of always assuming the
-logs go into ${WORKDIR}/temp.
 
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
----
- meta/classes/image.bbclass        |    2 +-
- meta/classes/package_deb.bbclass  |    4 ++--
- meta/classes/package_ipk.bbclass  |    2 +-
- meta/classes/package_rpm.bbclass  |   10 +++++-----
- meta/classes/populate_sdk.bbclass |    2 +-
- 5 files changed, 10 insertions(+), 10 deletions(-)
 
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index 0772363..4f50376 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -218,7 +218,7 @@ insert_feed_uris () {
- log_check() {
- 	for target in $*
- 	do
--		lf_path="${WORKDIR}/temp/log.do_$target.${PID}"
-+		lf_path="`dirname ${BB_LOGFILE}`/log.do_$target.${PID}"
- 		
- 		echo "log_check: Using $lf_path as logfile"
- 		
-diff --git a/meta/classes/package_deb.bbclass b/meta/classes/package_deb.bbclass
-index 0a3e976..cb4bef9 100644
---- a/meta/classes/package_deb.bbclass
-+++ b/meta/classes/package_deb.bbclass
-@@ -167,10 +167,10 @@ package_install_internal_deb () {
- 		fi
- 	done
- 
--	rm -f ${WORKDIR}/temp/log.do_${task}-attemptonly.${PID}
-+	rm -f `dirname ${BB_LOGFILE}`/log.do_${task}-attemptonly.${PID}
- 	if [ ! -z "${package_attemptonly}" ]; then
- 		for i in ${package_attemptonly}; do
--			apt-get install $i --force-yes --allow-unauthenticated >> ${WORKDIR}/temp/log.do_${task}-attemptonly.${PID} 2>&1 || true
-+			apt-get install $i --force-yes --allow-unauthenticated >> `dirname ${BB_LOGFILE}`/log.do_${task}-attemptonly.${PID} 2>&1 || true
- 		done
- 	fi
- 
-diff --git a/meta/classes/package_ipk.bbclass b/meta/classes/package_ipk.bbclass
-index c86ea03..e682e6a 100644
---- a/meta/classes/package_ipk.bbclass
-+++ b/meta/classes/package_ipk.bbclass
-@@ -157,7 +157,7 @@ package_install_internal_ipk() {
- 	fi
- 
- 	if [ ! -z "${package_attemptonly}" ]; then
--		opkg-cl ${ipkg_args} install ${package_attemptonly} > "${WORKDIR}/temp/log.do_${task}_attemptonly.${PID}" || true
-+		opkg-cl ${ipkg_args} install ${package_attemptonly} > "`dirname ${BB_LOGFILE}`/log.do_${task}_attemptonly.${PID}" || true
- 	fi
- 
- 	package_tryout_install_multilib_ipk
-diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
-index 5559a46..78279f5 100644
---- a/meta/classes/package_rpm.bbclass
-+++ b/meta/classes/package_rpm.bbclass
-@@ -342,14 +342,14 @@ package_install_internal_rpm () {
- 				echo "Note: Unable to find package $pkg ($ml_pkg) -- PACKAGE_INSTALL_ATTEMPTONLY"
- 				continue
- 			fi
--			echo "Attempting $pkg_name..." >> "${WORKDIR}/temp/log.do_${task}_attemptonly.${PID}"
-+			echo "Attempting $pkg_name..." >> "`dirname ${BB_LOGFILE}`/log.do_${task}_attemptonly.${PID}"
- 			${RPM} --predefine "_rpmds_sysinfo_path ${target_rootfs}/etc/rpm/sysinfo" \
- 				--predefine "_rpmrc_platform_path ${target_rootfs}/etc/rpm/platform" \
- 				--root "${target_rootfs}/install" \
- 				-D "_dbpath ${target_rootfs}/install" -D "`cat ${confbase}.macro`" \
- 				-D "__dbi_txn create nofsync private" \
- 				-U --justdb --noscripts --notriggers --noparentdirs --nolinktos --ignoresize \
--			$pkg_name >> "${WORKDIR}/temp/log.do_${task}_attemptonly.${PID}" || true
-+			$pkg_name >> "`dirname ${BB_LOGFILE}`/log.do_${task}_attemptonly.${PID}" || true
- 		done
- 	fi
- 
-@@ -390,17 +390,17 @@ package_install_internal_rpm () {
- 
- 			if [ $found -eq 0 ]; then
- 				echo "Note: Unable to find package $pkg -- suggests"
--				echo "Unable to find package $pkg." >> "${WORKDIR}/temp/log.do_${task}_recommend.${PID}"
-+				echo "Unable to find package $pkg." >> "`dirname ${BB_LOGFILE}`/log.do_${task}_recommend.${PID}"
- 				continue
- 			fi
--			echo "Attempting $pkg_name..." >> "${WORKDIR}/temp/log.do_{task}_recommend.${PID}"
-+			echo "Attempting $pkg_name..." >> "`dirname ${BB_LOGFILE}`/log.do_{task}_recommend.${PID}"
- 			${RPM} --predefine "_rpmds_sysinfo_path ${target_rootfs}/etc/rpm/sysinfo" \
- 				--predefine "_rpmrc_platform_path ${target_rootfs}/etc/rpm/platform" \
- 				--root "${target_rootfs}/install" \
- 				-D "_dbpath ${target_rootfs}/install" -D "`cat ${confbase}.macro`" \
- 				-D "__dbi_txn create nofsync private" \
- 				-U --justdb --noscripts --notriggers --noparentdirs --nolinktos --ignoresize \
--				$pkg_name >> "${WORKDIR}/temp/log.do_${task}_recommend.${PID}" 2>&1 || true
-+				$pkg_name >> "`dirname ${BB_LOGFILE}`/log.do_${task}_recommend.${PID}" 2>&1 || true
- 		done
- 		cat ${target_rootfs}/install/recommend.list ${target_rootfs}/install/recommend.new | sort -u > ${target_rootfs}/install/recommend.new.list
- 		mv -f ${target_rootfs}/install/recommend.new.list ${target_rootfs}/install/recommend.list
-diff --git a/meta/classes/populate_sdk.bbclass b/meta/classes/populate_sdk.bbclass
-index 5aa8e92..1131d68 100644
---- a/meta/classes/populate_sdk.bbclass
-+++ b/meta/classes/populate_sdk.bbclass
-@@ -70,7 +70,7 @@ fakeroot do_populate_sdk() {
- populate_sdk_log_check() {
- 	for target in $*
- 	do
--		lf_path="${WORKDIR}/temp/log.do_$target.${PID}"
-+		lf_path="`dirname ${BB_LOGFILE}`/log.do_$target.${PID}"
- 
- 		echo "log_check: Using $lf_path as logfile"
- 
--- 
-1.7.3.4
+On 06/29/2012 07:32 PM, Richard Purdie wrote:
+> On Fri, 2012-06-29 at 17:36 +0800, Robert Yang wrote:
+>> The native perl is installed to:
+>>
+>> ${STAGING_BINDIR_NATIVE}/perl-native/perl
+>>
+>> But this isn't in the PATH, so we can use the native perl
+>> by the command "perl" or "#!/usr/bin/env perl".
+>>
+>> I wonder why we install the perl to ${STAGING_BINDIR_NATIVE}/perl-native,
+>> but not to ${STAGING_BINDIR_NATIVE}.
+>>
+>> It would be good if we can add ${STAGING_BINDIR_NATIVE}/perl-native to the path
+>> or install the native perl to ${STAGING_BINDIR_NATIVE}, I will send a patch
+>> for it if you are ok with it.
+>
+> No, this is very deliberately not in PATH by default. Please see the
+> mailing list archives and the original patches that implemented this to
+> understand why.
+>
+> Such a patch will not be accepted.
+>
+> What problem are you trying to fix?
+>
 
+Thanks, the problem is that when "#!/very/long/path/to/perl" in a perl
+script, there would be an error "Bad interpreter: No such file or directory",
+when the length of "#!/very/long/path/" is longer than 170 (or smaller), the
+script which has this problem is the dpkg-scanpackages (and other dpkg-*
+scripts, but they don't run when generate the rootfs of deb backend)) we can
+use "#!/usr/bin/env perl" to fix this problem if the native perl is in the
+PATH, and we can't use the host's perl since the host perl's @INC doesn't
+contain the native perl's module which is needed by dpkg-scanpackages.
+
+I think that I can use "/path/to/native-perl/perl dpkg-scanpackages"
+to fix this problem since we can't add the native perl to the PATH.
+
+// Robert
+
+> Cheers,
+>
+> Richard
+>
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+>
 
 
