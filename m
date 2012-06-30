@@ -1,31 +1,20 @@
-Received: from astoria.ccjclearline.com ([64.235.106.9])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpjday@crashcourse.ca>) id 1Sl0ob-0008JX-4O
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1Sl57n-0003zT-Fo
 	for openembedded-core@lists.openembedded.org;
-	Sat, 30 Jun 2012 18:46:33 +0200
-Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
-	([99.241.91.63]:37157 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.77) (envelope-from <rpjday@crashcourse.ca>)
-	id 1Sl0e1-0003eg-7C for openembedded-core@lists.openembedded.org;
-	Sat, 30 Jun 2012 12:35:37 -0400
-Date: Sat, 30 Jun 2012 12:35:33 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@oneiric
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.DEB.2.02.1206301223060.12575@oneiric>
-User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
-MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Subject: a few more questions (and apparent doc fixes) for INITSCRIPT_* variables
+	Sat, 30 Jun 2012 23:22:39 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 30 Jun 2012 14:11:31 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="165195265"
+Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.120.207])
+	by orsmga002.jf.intel.com with ESMTP; 30 Jun 2012 14:11:30 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 30 Jun 2012 22:11:23 +0100
+Message-Id: <cover.1341090544.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH 0/2] apr fixes v2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,76 +29,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 30 Jun 2012 16:46:33 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Sat, 30 Jun 2012 21:22:39 -0000
+
+Since v1, rebase on latest master (removing now merged patch to add
+libtool) and use site file to set pid_t type.
 
 
-  just to finish off where i was going with all this INITSCRIPT_*
-stuff, it seems like there are a couple inaccuracies in the poky ref
-manual regarding those variables as listed in the glossary.
+The following changes since commit 54429dfcca0e35a3aeaa78e509240b87d6a8f4ac:
 
-  regarding INITSCRIPT_PACKAGES, yes, it's true that that variable
-defaults to the value of ${PN}, but this part of the explanation
-appears to be incorrect:
+  mklibs-native: Upgrade to 0.1.34 (2012-06-29 13:21:19 +0100)
 
-"If multiple packages are specified, you need to append the package
-name to the other INITSCRIPT_* as an override."
+are available in the git repository at:
 
-  as i read it, it's not only if multiple packages are specified, it's
-also if a single package that isn't ${PN} is specified as well,
-correct?  as in the case of
-meta/recipes-connectivity/openssh/openssh_6.0p1.bb:
+  git://git.openembedded.org/openembedded-core-contrib paule/apr-fixes
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/apr-fixes
 
-INITSCRIPT_PACKAGES = "${PN}-sshd"
-INITSCRIPT_NAME_${PN}-sshd = "sshd"
-INITSCRIPT_PARAMS_${PN}-sshd = "defaults 9"
+Paul Eggleton (2):
+  apr: add util-linux to DEPENDS for libuuid
+  site/common-linux: fix incorrect size of pid_t for apr
 
-  there's only one package being identified, but the fact that it
-isn't ${PN} requires the explicit setting of INITSCRIPT_PACKAGES, does
-it not?
-
-  the explanation of INITSCRIPT_NAME appears to be correct -- it's
-a required value for each named package, so that's fine.
-
-  there is an apparent error in the explanation for INITSCRIPT_PARAMS,
-however:
-
-"The variable is mandatory and is used in recipes when using
-update-rc.d.bbclass."
-
-  well, it's mandatory, yes, but it's also set by default in
-update-rc.d.bbclass thusly:
-
-  INITSCRIPT_PARAMS ?= "defaults"
-
-so there's no need for the developer to set it if that value is fine,
-despite what the glossary explanation suggests, correct?
-
-  finally, given that default, there appear to be some superfluous
-lines in a few recipes, but they're not doing anyone any harm:
-
-$ grep -r "^INITSCRIPT_PARAMS = \"defaults\"" *
-meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.3.bb:INITSCRIPT_PARAMS = "defaults"
-meta/recipes-connectivity/bind/bind_9.8.1.bb:INITSCRIPT_PARAMS = "defaults"
-meta/recipes-bsp/apmd/apmd_3.2.2-14.bb:INITSCRIPT_PARAMS = "defaults"
-meta/recipes-bsp/acpid/acpid.inc:INITSCRIPT_PARAMS = "defaults"
-meta/recipes-extended/xinetd/xinetd_2.3.15.bb:INITSCRIPT_PARAMS = "defaults"
-$
-
-  does all of that make sense?
-
-rday
+ meta/recipes-support/apr/apr_1.4.6.bb |    3 ++-
+ meta/site/common-linux                |    1 +
+ 2 files changed, 3 insertions(+), 1 deletion(-)
 
 -- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
-
+1.7.9.5
 
 
 
