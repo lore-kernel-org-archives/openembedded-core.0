@@ -1,31 +1,26 @@
-Received: from astoria.ccjclearline.com ([64.235.106.9])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpjday@crashcourse.ca>) id 1SlGgz-0005Jc-3e
+	(envelope-from <sgw@linux.intel.com>) id 1SlSPg-0003Yk-0D
 	for openembedded-core@lists.openembedded.org;
-	Sun, 01 Jul 2012 11:43:45 +0200
-Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
-	([99.241.91.63]:41348 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.77) (envelope-from <rpjday@crashcourse.ca>)
-	id 1SlGWJ-000112-Kw for openembedded-core@lists.openembedded.org;
-	Sun, 01 Jul 2012 05:32:43 -0400
-Date: Sun, 1 Jul 2012 05:32:40 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@oneiric
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.DEB.2.02.1207010531450.30586@oneiric>
-User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+	Mon, 02 Jul 2012 00:14:41 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 01 Jul 2012 15:03:29 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="162874730"
+Received: from unknown (HELO [10.255.12.182]) ([10.255.12.182])
+	by azsmga001.ch.intel.com with ESMTP; 01 Jul 2012 15:03:28 -0700
+Message-ID: <4FF0C930.4000104@linux.intel.com>
+Date: Sun, 01 Jul 2012 15:03:28 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
 MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Subject: bitbake.conf: Tidy up a few comment typoes; no functional changes.
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <1340994915-14947-1-git-send-email-paul.gortmaker@windriver.com>
+	<1340994915-14947-2-git-send-email-paul.gortmaker@windriver.com>
+In-Reply-To: <1340994915-14947-2-git-send-email-paul.gortmaker@windriver.com>
+Subject: Re: [PATCH 1/3] u-boot: Don't make the -Os removal part of global settings.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,57 +35,165 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 01 Jul 2012 09:43:45 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Sun, 01 Jul 2012 22:14:41 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
+
+On 06/29/2012 11:35 AM, Paul Gortmaker wrote:
+> We don't want to force everyone to be stripping the -Os
+> flags from their u-boot builds.  Remove it, since it pertains
+> to an old toolchain issue that is no longer relevant, and it
+> breaks the powerpc mpc8315.
+>
+> Signed-off-by: Paul Gortmaker<paul.gortmaker@windriver.com>
+> ---
+>   meta/recipes-bsp/u-boot/u-boot.inc |    3 ---
+>   1 file changed, 3 deletions(-)
+>
+> diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
+> index a13eddc..0ed5fd9 100644
+> --- a/meta/recipes-bsp/u-boot/u-boot.inc
+> +++ b/meta/recipes-bsp/u-boot/u-boot.inc
+> @@ -7,9 +7,6 @@ inherit deploy
+>
+>   PARALLEL_MAKE=""
+>
+> -# GCC 4.5.1 builds unusable binaries using -Os, remove it from OPTFLAGS
+> -EXTRA_OEMAKE = "CROSS_COMPILE=${TARGET_PREFIX} OPTFLAGS='-O2'"
+> -
+>   python () {
+>   	if not d.getVar("UBOOT_MACHINE", True):
+>   		PN = d.getVar("PN", True)
+
+Not sure what else changed, but I think you removed the TARGET_PREFIX or 
+something else broke, but building with the Autobuilder, the following 
+errors occur.
+
+> ERROR: Function failed: do_compile (see /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/temp/log.do_compile.15139 for further information)
+> ERROR: Logfile of failure stored in: /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/temp/log.do_compile.15139
+> Log data follows:
+> | DEBUG: Executing shell function do_compile
+> | NOTE: make -e MAKEFLAGS= omap3_beagle_config
+> | awk '(NF && $1 !~ /^#/) { print $1 ": " $1 "_config; $(MAKE)" }' boards.cfg > .boards.depend
+> | Configuring for omap3_beagle board...
+> | NOTE: make -e MAKEFLAGS= all
+> | Generating include/autoconf.mk
+> | Generating include/autoconf.mk.dep
+> | arm-poky-linux-gnueabi-gcc  -march=armv7-a -fno-tree-vectorize     -mthumb-interwork -mfloat-abi=softfp -mfpu=neon -mtune=cortex-a8 --sysroot=/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/sysroots/beagleboard -DDO_DEPS_ONLY \
+> | 	-g  -Os   -fno-common -ffixed-r8 -msoft-float   -D__KERNEL__ -DCONFIG_SYS_TEXT_BASE=0x80008000 -I/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/include -fno-builtin -ffreestanding -nostdinc -isystem /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/sysroots/x86_64-linux/usr/lib/armv7a-vfp-neon-poky-linux-gnueabi/gcc/arm-poky-linux-gnueabi/4.7.2/include -pipe  -DCONFIG_ARM -D__ARM__ -marm  -mabi=aapcs-linux -mno-thumb-interwork -march=armv5 -Wall -Wstrict-prototypes -fno-stack-protector   \
+> | 	-o lib/asm-offsets.s lib/asm-offsets.c -c -S
+> | Generating include/generated/generic-asm-offsets.h
+> | tools/scripts/make-asm-offsets lib/asm-offsets.s include/generated/generic-asm-offsets.h
+> | for dir in tools examples/standalone examples/api arch/arm/cpu/armv7 /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/arch/arm/cpu/armv7/ ; do \
+> | 		make -C $dir _depend ; done
+> | make[1]: arm-linux-gcc: Command not found
+> | make[1]: Entering directory `/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/tools'
+> | make[1]: Leaving directory `/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/tools'
+> | make[1]: arm-linux-gcc: Command not found
+> | make[1]: Entering directory `/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/tools'
+> | make[1]: Nothing to be done for `_depend'.
+> | make[1]: Leaving directory `/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/tools'
+> | make[1]: arm-linux-gcc: Command not found
+> | make[1]: Entering directory `/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/examples/standalone'
+> | /bin/sh: arm-linux-gcc: command not found
+> | dirname: missing operand
+> | Try `dirname --help' for more information.
+> | /bin/sh: line 2: arm-linux-gcc: command not found
+> | /bin/sh: line 2: arm-linux-gcc: command not found
+> | make[1]: *** No rule to make target `.depend', needed by `_depend'.  Stop.
+> | make[1]: Leaving directory `/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/examples/standalone'
+> | make[1]: arm-linux-gcc: Command not found
+> | make[1]: Entering directory `/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/examples/api'
+> | /bin/sh: arm-linux-gcc: command not found
+> | dirname: missing operand
+> | Try `dirname --help' for more information.
+> | make[1]: Leaving directory `/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/examples/api'
+> | make[1]: arm-linux-gcc: Command not found
+> | make[1]: Entering directory `/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/examples/api'
+> | /bin/sh: arm-linux-gcc: command not found
+> | dirname: missing operand
+> | Try `dirname --help' for more information.
+> | make[1]: Nothing to be done for `_depend'.
+> | make[1]: Leaving directory `/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/examples/api'
+> | make[1]: arm-linux-gcc: Command not found
+> | make[1]: Entering directory `/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/arch/arm/cpu/armv7'
+> | /bin/sh: line 2: arm-linux-gcc: command not found
+> | /bin/sh: line 2: arm-linux-gcc: command not found
+> | /bin/sh: line 2: arm-linux-gcc: command not found
+> | make[1]: *** No rule to make target `.depend', needed by `_depend'.  Stop.
+> | make[1]: Leaving directory `/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/arch/arm/cpu/armv7'
+> | make[1]: arm-linux-gcc: Command not found
+> | make[1]: Entering directory `/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/arch/arm/cpu/armv7'
+> | make[1]: Nothing to be done for `_depend'.
+> | make[1]: Leaving directory `/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/arch/arm/cpu/armv7'
+> | make -C tools all
+> | make[1]: arm-linux-gcc: Command not found
+> | make[1]: Entering directory `/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/tools'
+> | gcc -g -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -idirafter /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/include -idirafter /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/include2 -idirafter /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/include -I /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/lib/libfdt -I /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011
+.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/tools -DCONFIG_SYS_TEXT_BASE=0x80008000 -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -pedantic -c -o crc32.o /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/lib/crc32.c
+> | gcc -g -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -idirafter /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/include -idirafter /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/include2 -idirafter /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/include -I /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/lib/libfdt -I /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011
+.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/tools -DCONFIG_SYS_TEXT_BASE=0x80008000 -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -c -o env_embedded.o /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/common/env_embedded.c
+> | gcc -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -idirafter /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/include -idirafter /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/include2 -idirafter /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/include -I /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/lib/libfdt -I /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06
++git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/tools -DCONFIG_SYS_TEXT_BASE=0x80008000 -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -pedantic   -o envcrc.o envcrc.c -c
+> | gcc -g -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -idirafter /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/include -idirafter /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/include2 -idirafter /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/include -I /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/lib/libfdt -I /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011
+.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/tools -DCONFIG_SYS_TEXT_BASE=0x80008000 -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -pedantic -c -o sha1.o /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/lib/sha1.c
+> | gcc -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -idirafter /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/include -idirafter /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/include2 -idirafter /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/include -I /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/lib/libfdt -I /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06
++git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/tools -DCONFIG_SYS_TEXT_BASE=0x80008000 -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -pedantic  -o envcrc crc32.o env_embedded.o envcrc.o sha1.o
+> | gcc -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -idirafter /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/include -idirafter /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/include2 -idirafter /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/include -I /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/lib/libfdt -I /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06
++git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/tools -DCONFIG_SYS_TEXT_BASE=0x80008000 -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -pedantic   -o img2srec.o img2srec.c -c
+> | gcc -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -idirafter /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/include -idirafter /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/include2 -idirafter /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/include -I /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/lib/libfdt -I /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06
++git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/tools -DCONFIG_SYS_TEXT_BASE=0x80008000 -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -pedantic  -o img2srec img2srec.o
+> | strip img2srec
+> | gcc -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -idirafter /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/include -idirafter /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/include2 -idirafter /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/include -I /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/lib/libfdt -I /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06
++git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/tools -DCONFIG_SYS_TEXT_BASE=0x80008000 -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES   -o default_image.o default_image.c -c
+> | gcc -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -idirafter /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/include -idirafter /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/include2 -idirafter /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/include -I /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/lib/libfdt -I /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06
++git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/tools -DCONFIG_SYS_TEXT_BASE=0x80008000 -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES   -o fit_image.o fit_image.c -c
+> | gcc -g -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -idirafter /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/include -idirafter /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/include2 -idirafter /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/include -I /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/lib/libfdt -I /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011
+.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/tools -DCONFIG_SYS_TEXT_BASE=0x80008000 -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -c -o image.o /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/common/image.c
+> | gcc -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -idirafter /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/include -idirafter /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/include2 -idirafter /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/include -I /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/lib/libfdt -I /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06
++git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/tools -DCONFIG_SYS_TEXT_BASE=0x80008000 -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES   -o imximage.o imximage.c -c
+> | gcc -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -idirafter /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/include -idirafter /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/include2 -idirafter /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/include -I /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/lib/libfdt -I /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06
++git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/tools -DCONFIG_SYS_TEXT_BASE=0x80008000 -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES   -o kwbimage.o kwbimage.c -c
+> | gcc -g -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -idirafter /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/include -idirafter /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/include2 -idirafter /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/include -I /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/lib/libfdt -I /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011
+.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/tools -DCONFIG_SYS_TEXT_BASE=0x80008000 -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -pedantic -c -o md5.o /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/lib/md5.c
+> | gcc -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -idirafter /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/include -idirafter /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/include2 -idirafter /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/include -I /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/lib/libfdt -I /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06
++git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/tools -DCONFIG_SYS_TEXT_BASE=0x80008000 -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES   -o mkimage.o mkimage.c -c
+> | gcc -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -idirafter /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/include -idirafter /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/include2 -idirafter /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/include -I /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/lib/libfdt -I /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06
++git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/tools -DCONFIG_SYS_TEXT_BASE=0x80008000 -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES   -o os_support.o os_support.c -c
+> | gcc -g -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -idirafter /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/include -idirafter /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/include2 -idirafter /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/include -I /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/lib/libfdt -I /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011
+.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/tools -DCONFIG_SYS_TEXT_BASE=0x80008000 -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -c -o fdt.o /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/lib/libfdt/fdt.c
+> | gcc -g -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -idirafter /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/include -idirafter /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/include2 -idirafter /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/include -I /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/lib/libfdt -I /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011
+.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/tools -DCONFIG_SYS_TEXT_BASE=0x80008000 -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -c -o fdt_ro.o /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/lib/libfdt/fdt_ro.c
+> | gcc -g -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -idirafter /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/include -idirafter /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/include2 -idirafter /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/include -I /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/lib/libfdt -I /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011
+.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/tools -DCONFIG_SYS_TEXT_BASE=0x80008000 -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -c -o fdt_rw.o /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/lib/libfdt/fdt_rw.c
+> | gcc -g -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -idirafter /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/include -idirafter /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/include2 -idirafter /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/include -I /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/lib/libfdt -I /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011
+.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/tools -DCONFIG_SYS_TEXT_BASE=0x80008000 -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -c -o fdt_strerror.o /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/lib/libfdt/fdt_strerror.c
+> | gcc -g -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -idirafter /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/include -idirafter /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/include2 -idirafter /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/include -I /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/lib/libfdt -I /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011
+.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/tools -DCONFIG_SYS_TEXT_BASE=0x80008000 -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -c -o fdt_wip.o /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/lib/libfdt/fdt_wip.c
+> | gcc -Wall -Wstrict-prototypes -O2 -fomit-frame-pointer -idirafter /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/include -idirafter /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/include2 -idirafter /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/include -I /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/lib/libfdt -I /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06
++git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/tools -DCONFIG_SYS_TEXT_BASE=0x80008000 -DUSE_HOSTCC -D__KERNEL_STRICT_NAMES -pedantic  -o mkimage crc32.o default_image.o fit_image.o image.o imximage.o kwbimage.o md5.o mkimage.o os_support.o sha1.o fdt.o fdt_ro.o fdt_rw.o fdt_strerror.o fdt_wip.o
+> | strip mkimage
+> | make[1]: Leaving directory `/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/tools'
+> | make -C examples/standalone all
+> | make[1]: arm-linux-gcc: Command not found
+> | make[1]: Entering directory `/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/examples/standalone'
+> | /bin/sh: arm-linux-gcc: command not found
+> | dirname: missing operand
+> | Try `dirname --help' for more information.
+> | arm-linux-gcc  -g  -Os   -fno-common -ffixed-r8 -msoft-float   -D__KERNEL__ -DCONFIG_SYS_TEXT_BASE=0x80008000 -I/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/include -fno-builtin -ffreestanding -nostdinc -isystem  -pipe  -DCONFIG_ARM -D__ARM__         -march=armv5 -Wall -Wstrict-prototypes     -o hello_world.o hello_world.c -c
+> | make[1]: arm-linux-gcc: Command not found
+> | make[1]: *** [hello_world.o] Error 127
+> | make[1]: Leaving directory `/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/git/examples/standalone'
+> | make: *** [examples/standalone] Error 2
+> | ERROR: oe_runmake failed
+> | ERROR: Function failed: do_compile (see /srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/build/tmp/work/beagleboard-poky-linux-gnueabi/u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1/temp/log.do_compile.15139 for further information)
+> NOTE: package u-boot-v2011.06+git14+b1af6f532e0d348b153d5c148369229d24af361a-r1: task do_compile: Failed
+> ERROR: Task 77 (/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-arm/build/meta/recipes-bsp/u-boot/u-boot_2011.06.bb, do_compile) failed with exit code '1'
 
 
-Signed-off-by: Robert P. J. Day <rpjday@crashcourse.ca>
+Can you verify if your change or the other one causes this issue.
 
----
-
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 9377ee6..0a177c8 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -368,7 +368,7 @@ DEPLOY_DIR_TOOLS = "${DEPLOY_DIR}/tools"
- PKGDATA_DIR = "${TMPDIR}/pkgdata/${MULTIMACH_TARGET_SYS}"
-
- ##################################################################
--# SDK variables,
-+# SDK variables.
- ##################################################################
-
- SDK_NAME_PREFIX ?= "oecore"
-@@ -395,9 +395,9 @@ IMAGE_LINK_NAME = "${IMAGE_BASENAME}-${MACHINE}"
- # This option allows for a percentage overage of the actual image size rather than a
- # fixed extra space, this is space needed for initial startup and basic operations.
- IMAGE_OVERHEAD_FACTOR ?= "1.3"
--# This option allow for adding addition space in K above and beyond what the
-+# This option allows for adding additional space in K above and beyond what the
- # IMAGE_OVERHEAD_FACTOR might add. This space is for additional packages, user data, ...
--# To set a fixed size then overrideing IMAGE_ROOTFS_SIZE with the max size one wants
-+# To set a fixed size then overriding IMAGE_ROOTFS_SIZE with the max size one wants
- # should do the trick
- IMAGE_ROOTFS_EXTRA_SPACE ?= "0"
-
-@@ -418,7 +418,7 @@ CCACHE ??= ""
- # Disable ccache explicitly if CCACHE is null since gcc may be a symlink
- # of ccache some distributions (e.g., Fedora 17).
- export CCACHE_DISABLE ??= "${@[0,1][d.getVar('CCACHE', True) == '']}"
--# Assign CCACHE_DIR a default vaule to fix a bug of ccache 3.1.7,
-+# Assign CCACHE_DIR a default value to fix a bug of ccache 3.1.7,
- # since it would always create CCACHE_DIR/.ccache even if
- # CCACHE_DISABLE = 1.
- export CCACHE_DIR ??= "${@os.getenv('HOME')}"
-
--- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
+Thanks
+	Sau!
 
 
