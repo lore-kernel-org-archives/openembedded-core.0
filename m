@@ -1,38 +1,28 @@
-Received: from mail-lb0-f175.google.com ([209.85.217.175])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1SlgwD-0005Mr-A5
+	(envelope-from <dvhart@linux.intel.com>) id 1SlgwO-0005N9-Ab
 	for openembedded-core@lists.openembedded.org;
-	Mon, 02 Jul 2012 15:45:13 +0200
-Received: by lbol5 with SMTP id l5so7205930lbo.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 02 Jul 2012 06:34:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date
-	:x-google-sender-auth:message-id:subject:to:content-type;
-	bh=3MxXOnYrNXkqrBmF7sYtY8GMD3P+fefyhGqx5YRqrIA=;
-	b=UYdZBYe7fKWOeFxhYvwXkht4XEq1ZnQE/BTtPktO/stAmo1KU6y/zadUj8UU5BSoj5
-	tlR6SrVB7ATTmbH2BQ2QrUGPa+NSPW6Q2XveEqkXp0LcPMy+PeavpS4ElRa1povbHhg4
-	sKUHnvdYn+l962VenidpfrBVKXMnvhNCB8GoA/SlTMRg/xlzqEb4Lox1Pf/y5Oih3JqK
-	b+3c1R8okr+Yp5Tjbqv/GtxYVWvjsHthQH11n2HOXmw8lV7AIbe7kxGqaNDgGWOCKE7u
-	k7wAFeSRZbmsGyNmjyRG1RhpDwqV4E/nLQwasSMhWnjflLSz0fJMu/3v0PxLp6uDntX1
-	Lkaw==
-Received: by 10.112.102.136 with SMTP id fo8mr6300927lbb.106.1341236052473;
-	Mon, 02 Jul 2012 06:34:12 -0700 (PDT)
+	Mon, 02 Jul 2012 15:45:25 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 02 Jul 2012 06:34:22 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="160532865"
+Received: from unknown (HELO envy.home) ([10.255.13.27])
+	by orsmga001.jf.intel.com with ESMTP; 02 Jul 2012 06:34:22 -0700
+Message-ID: <4FF1A304.90204@linux.intel.com>
+Date: Mon, 02 Jul 2012 06:32:52 -0700
+From: Darren Hart <dvhart@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:13.0) Gecko/20120615 Thunderbird/13.0.1
 MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.114.64.180 with HTTP; Mon, 2 Jul 2012 06:33:52 -0700 (PDT)
-In-Reply-To: <CAP9ODKot3PDg5vkz76NwNgSsy+2tn_FB2-tvaYyc1WJzW3zjrQ@mail.gmail.com>
-References: <4FF0C930.4000104@linux.intel.com>
-	<1341207885-9463-1-git-send-email-paul.gortmaker@windriver.com>
-	<1341207885-9463-3-git-send-email-paul.gortmaker@windriver.com>
-	<CAP9ODKot3PDg5vkz76NwNgSsy+2tn_FB2-tvaYyc1WJzW3zjrQ@mail.gmail.com>
-From: Chris Larson <clarson@kergoth.com>
-Date: Mon, 2 Jul 2012 06:33:52 -0700
-X-Google-Sender-Auth: r7cO7gO8kiDRk6kMXzntGLsbP6E
-Message-ID: <CABcZANm5d2gQ8kdEEbcgW-KD7Puy7jZrDu82m6dHq2vVj1uagA@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCHv2 2/3] u-boot: make FILESDIR a shared setting.
+To: Bruce Ashfield <bruce.ashfield@windriver.com>
+References: <cover.1341025161.git.dvhart@linux.intel.com>
+	<2e2f72682e773f4f97db3181112e7eb569df09da.1341025161.git.dvhart@linux.intel.com>
+	<4FEFC933.9090103@windriver.com>
+In-Reply-To: <4FEFC933.9090103@windriver.com>
+X-Enigmail-Version: 1.4.2
+Cc: openembedded-core@lists.openembedded.org, Poky <poky@yoctoproject.org>
+Subject: Re: [PATCH 1/3] kernel: Add kernel headers to kernel-dev package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,21 +37,172 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Jul 2012 13:45:13 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 02 Jul 2012 13:45:25 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-On Mon, Jul 2, 2012 at 4:24 AM, Otavio Salvador <otavio@ossystems.com.br> wrote:
-> On Mon, Jul 2, 2012 at 2:44 AM, Paul Gortmaker
-> <paul.gortmaker@windriver.com> wrote:
->> The setting is the same in all recipes, so move it to
->> the shared settings in u-boot.inc
+
+
+On 06/30/2012 08:51 PM, Bruce Ashfield wrote:
+> On 12-06-30 12:25 AM, Darren Hart wrote:
+>> [YOCTO #1614]
 >>
->> Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
->
-> Acked-by: Otavio Salvador <otavio@ossystems.com.br>
+>> Add the kernel headers to the kernel-dev package. This packages what was
+>> already built and kept in sysroots for building modules with bitbake.
+>> Making this available on the target requires removing some additional
+>> host binaries.
+>>
+>> Move the location to /usr/src/kernel
+>>
+>> Before use on the target, the user will need to:
+>>
+>>      # cd /usr/src/kernel
+>>      # make scripts
+>>
+>> This renders the kernel-misc recipe empty, so remove it.
+>>
+>> As we use /usr/src/kernel in several places (and I missed one in the
+>> previous version), add a KERNEL_SRC_DIR variable and use that throughout
+>> the class to avoid update errors in the future.
+>>
+>> Now that we package the kernel headers, drop the
+>> kernel_package_preprocess function which removed them from PKGD.
+>>
+>> All *-sdk image recipes include dev-pkgs, so the kernel-dev package will
+>> be installed by default on all such images.
 
-It shouldn't be using the old, legacy FILESDIR mechanism at all.
+You picked a great spot to reply to. This last line is wrong, which is
+why I had to add kernel-sdk to the sdk images in 3/3. That... or I'm
+hitting bug 2595...
+
+> 
+> Looks good to me .. hopefully we'll go no further than v3b!
+> 
+> Cheers,
+> 
+> Bruce
+> 
+>>
+>> Signed-off-by: Darren Hart<dvhart@linux.intel.com>
+>> CC: Bruce Ashfield<bruce.ashfield@windriver.com>
+>> CC: Tom Zanussi<tom.zanussi@intel.com>
+>> CC: Khem Raj<raj.khem@gmail.com>
+>> ---
+>>   meta/classes/kernel.bbclass               |   27 ++++++++++++---------------
+>>   meta/conf/bitbake.conf                    |    2 +-
+>>   meta/recipes-kernel/linux/linux-yocto.inc |    2 +-
+>>   3 files changed, 14 insertions(+), 17 deletions(-)
+>>
+>> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+>> index 31e633b..44461bc 100644
+>> --- a/meta/classes/kernel.bbclass
+>> +++ b/meta/classes/kernel.bbclass
+>> @@ -77,6 +77,10 @@ EXTRA_OEMAKE = ""
+>>
+>>   KERNEL_ALT_IMAGETYPE ??= ""
+>>
+>> +# Define where the kernel headers are installed on the target as well as where
+>> +# they are staged.
+>> +KERNEL_SRC_PATH = "/usr/src/kernel"
+>> +
+>>   KERNEL_IMAGETYPE_FOR_MAKE = "${@(lambda s: s[:-3] if s[-3:] == ".gz" else s)(d.getVar('KERNEL_IMAGETYPE', True))}"
+>>
+>>   kernel_do_compile() {
+>> @@ -130,7 +134,7 @@ kernel_do_install() {
+>>   	# Support for external module building - create a minimal copy of the
+>>   	# kernel source tree.
+>>   	#
+>> -	kerneldir=${D}/kernel
+>> +	kerneldir=${D}${KERNEL_SRC_PATH}
+>>   	install -d $kerneldir
+>>
+>>   	#
+>> @@ -183,23 +187,18 @@ kernel_do_install() {
+>>   		cp arch/powerpc/lib/crtsavres.o $kerneldir/arch/powerpc/lib/crtsavres.o
+>>   	fi
+>>
+>> -	# Remove the following binaries which cause strip errors
+>> +	# Remove the following binaries which cause strip or arch QA errors
+>>   	# during do_package for cross-compiled platforms
+>>   	bin_files="arch/powerpc/boot/addnote arch/powerpc/boot/hack-coff \
+>> -	           arch/powerpc/boot/mktree"
+>> +	           arch/powerpc/boot/mktree scripts/kconfig/zconf.tab.o \
+>> +		   scripts/kconfig/conf.o"
+>>   	for entry in $bin_files; do
+>>   		rm -f $kerneldir/$entry
+>>   	done
+>>   }
+>>
+>> -PACKAGE_PREPROCESS_FUNCS += "kernel_package_preprocess"
+>> -
+>> -kernel_package_preprocess () {
+>> -	rm -rf ${PKGD}/kernel
+>> -}
+>> -
+>>   sysroot_stage_all_append() {
+>> -	sysroot_stage_dir ${D}/kernel ${SYSROOT_DESTDIR}/kernel
+>> +	sysroot_stage_dir ${D}${KERNEL_SRC_PATH} ${SYSROOT_DESTDIR}${KERNEL_SRC_PATH}
+>>   }
+>>
+>>   kernel_do_configure() {
+>> @@ -247,13 +246,11 @@ EXPORT_FUNCTIONS do_compile do_install do_configure
+>>
+>>   # kernel-base becomes kernel-${KERNEL_VERSION}
+>>   # kernel-image becomes kernel-image-${KERNEL_VERISON}
+>> -PACKAGES = "kernel kernel-base kernel-vmlinux kernel-image kernel-dev kernel-misc"
+>> +PACKAGES = "kernel kernel-base kernel-vmlinux kernel-image kernel-dev"
+>>   FILES = ""
+>>   FILES_kernel-image = "/boot/${KERNEL_IMAGETYPE}*"
+>> -FILES_kernel-dev = "/boot/System.map* /boot/Module.symvers* /boot/config*"
+>> +FILES_kernel-dev = "/boot/System.map* /boot/Module.symvers* /boot/config* ${KERNEL_SRC_PATH}"
+>>   FILES_kernel-vmlinux = "/boot/vmlinux*"
+>> -# misc is a package to contain files we need in staging
+>> -FILES_kernel-misc = "/kernel/include/config /kernel/scripts /kernel/drivers/crypto /kernel/drivers/media"
+>>   RDEPENDS_kernel = "kernel-base"
+>>   # Allow machines to override this dependency if kernel image files are
+>>   # not wanted in images as standard
+>> @@ -469,7 +466,7 @@ python populate_packages_prepend () {
+>>   	metapkg = "kernel-modules"
+>>   	d.setVar('ALLOW_EMPTY_' + metapkg, "1")
+>>   	d.setVar('FILES_' + metapkg, "")
+>> -	blacklist = [ 'kernel-dev', 'kernel-image', 'kernel-base', 'kernel-vmlinux', 'kernel-misc' ]
+>> +	blacklist = [ 'kernel-dev', 'kernel-image', 'kernel-base', 'kernel-vmlinux' ]
+>>   	for l in module_deps.values():
+>>   		for i in l:
+>>   			pkg = module_pattern % legitimize_package_name(re.match(module_regex, os.path.basename(i)).group(1))
+>> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+>> index 9377ee6..7e3de09 100644
+>> --- a/meta/conf/bitbake.conf
+>> +++ b/meta/conf/bitbake.conf
+>> @@ -381,7 +381,7 @@ SDKPATHNATIVE = "${SDKPATH}/sysroots/${SDK_SYS}"
+>>   ##################################################################
+>>
+>>   OLDEST_KERNEL = "2.6.16"
+>> -STAGING_KERNEL_DIR = "${STAGING_DIR_HOST}/kernel"
+>> +STAGING_KERNEL_DIR = "${STAGING_DIR_HOST}/usr/src/kernel"
+>>
+>>   ##################################################################
+>>   # Specific image creation and rootfs population info.
+>> diff --git a/meta/recipes-kernel/linux/linux-yocto.inc b/meta/recipes-kernel/linux/linux-yocto.inc
+>> index 9b46e74..973970d 100644
+>> --- a/meta/recipes-kernel/linux/linux-yocto.inc
+>> +++ b/meta/recipes-kernel/linux/linux-yocto.inc
+>> @@ -4,7 +4,7 @@ LICENSE = "GPLv2"
+>>
+>>   LIC_FILES_CHKSUM = "file://COPYING;md5=d7810fab7487fb0aad327b76f1be7cd7"
+>>
+>> -INC_PR = "r3"
+>> +INC_PR = "r4"
+>>
+>>   # A KMACHINE is the mapping of a yocto $MACHINE to what is built
+>>   # by the kernel. This is typically the branch that should be built,
+> 
+
 -- 
-Christopher Larson
+Darren Hart
+Intel Open Source Technology Center
+Yocto Project - Linux Kernel
+
+
 
 
