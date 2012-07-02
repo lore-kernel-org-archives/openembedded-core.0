@@ -1,34 +1,39 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1SlTWc-0004wf-38
+	(envelope-from <lianhao.lu@intel.com>) id 1SlVCb-0001er-EB
 	for openembedded-core@lists.openembedded.org;
-	Mon, 02 Jul 2012 01:25:54 +0200
-Received: by eekd49 with SMTP id d49so1897285eek.6
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 01 Jul 2012 16:14:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type; bh=V+7aN26PUTdePNRVzNnhfmxBrn/qeLQwqlL0Hm4GZQM=;
-	b=AEta/nwd+zYt4taqU9lVUi6U19n4VGHBO5aBNAdadHSrQQLE5HjNikjEVg7RXtg1uc
-	IMTb5AMzTYBRRz3F+i98le7jSaTpR0bQ43mrezvt8Pcqzi5TQs5PMz9K/Ke/j7v4EjFf
-	CpVoYDc9JD5MkdRCb4+KI1QpuX4XyXOk5oK3McUOvcVK05FLmXrLiWo2QXI0siTrr6RN
-	4EEn51Eyy2zg4p592YSJWmTVZT5JDIXtarJ89Iz7pN+xm0aeJTciUz8whkIcPZfBk0xE
-	++NGgnYNNdk246NnbIZ3WtZ1B8BCVs9vc8rmdM5dGS0cEJezI8dio/2YtaPXEKPVCEUa
-	Y4Yw==
-Received: by 10.14.97.16 with SMTP id s16mr2393667eef.117.1341184494107; Sun,
-	01 Jul 2012 16:14:54 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.14.210.199 with HTTP; Sun, 1 Jul 2012 16:14:23 -0700 (PDT)
-In-Reply-To: <4FF0C930.4000104@linux.intel.com>
-References: <1340994915-14947-1-git-send-email-paul.gortmaker@windriver.com>
-	<1340994915-14947-2-git-send-email-paul.gortmaker@windriver.com>
-	<4FF0C930.4000104@linux.intel.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sun, 1 Jul 2012 16:14:23 -0700
-Message-ID: <CAMKF1squMsnS32n76Nz1jOo+x9_H5igyeNyUpE4LcWvUpso49Q@mail.gmail.com>
+	Mon, 02 Jul 2012 03:13:21 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 01 Jul 2012 18:02:15 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="172319788"
+Received: from fmsmsx104.amr.corp.intel.com ([10.19.9.35])
+	by fmsmga001.fm.intel.com with ESMTP; 01 Jul 2012 18:02:15 -0700
+Received: from fmsmsx151.amr.corp.intel.com (10.19.17.220) by
+	FMSMSX104.amr.corp.intel.com (10.19.9.35) with Microsoft SMTP Server
+	(TLS) id 14.1.355.2; Sun, 1 Jul 2012 18:02:15 -0700
+Received: from shsmsx101.ccr.corp.intel.com (10.239.4.153) by
+	FMSMSX151.amr.corp.intel.com (10.19.17.220) with Microsoft SMTP Server
+	(TLS) id 14.1.355.2; Sun, 1 Jul 2012 18:02:00 -0700
+Received: from shsmsx102.ccr.corp.intel.com ([169.254.2.33]) by
+	SHSMSX101.ccr.corp.intel.com ([169.254.1.220]) with mapi id
+	14.01.0355.002; Mon, 2 Jul 2012 09:01:59 +0800
+From: "Lu, Lianhao" <lianhao.lu@intel.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/3] u-boot: Don't make the -Os removal part of global settings.
+Thread-Topic: [OE-core] [CONSOLIDATED PULL 00/20] Kernel Updates and other
+	fixes
+Thread-Index: AQHNVHulmHBFIx62dkSPP1txNiBvJ5cVMmGw
+Date: Mon, 2 Jul 2012 01:01:59 +0000
+Message-ID: <857BE142E5399E46B20FD45B9DB8A7BC0FE50D39@SHSMSX102.ccr.corp.intel.com>
+References: <cover.1340811559.git.sgw@linux.intel.com>
+In-Reply-To: <cover.1340811559.git.sgw@linux.intel.com>
+Accept-Language: zh-CN, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.239.127.40]
+MIME-Version: 1.0
+Subject: Re: [CONSOLIDATED PULL 00/20] Kernel Updates and other fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,27 +48,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 01 Jul 2012 23:25:54 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 02 Jul 2012 01:13:21 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, Jul 1, 2012 at 3:03 PM, Saul Wold <sgw@linux.intel.com> wrote:
->>
->> -# GCC 4.5.1 builds unusable binaries using -Os, remove it from OPTFLAGS
->> -EXTRA_OEMAKE = "CROSS_COMPILE=${TARGET_PREFIX} OPTFLAGS='-O2'"
->> -
+Hi Richard,
 
-instead of deleting it I think this should be
+> Lianhao Lu (3):
+>   classes/image: Allow openssh empty passwords login.
+>   image/core-image: Handle conflicting IMAGE_FEATURES.
+>   task-core-tools-debug: Added openssh-sftp-server.
 
-EXTRA_OEMAKE = "CROSS_COMPILE=${TARGET_PREFIX}"
+I saw only the first patch "openssh empty password" was merged. What's the =
+status of the other 2 patches?
 
->>   python () {
->>         if not d.getVar("UBOOT_MACHINE", True):
->>                 PN = d.getVar("PN", True)
->
->
-> Not sure what else changed, but I think you removed the TARGET_PREFIX or
-> something else broke, but building with the Autobuilder, the following
-> errors occur.
->
+Best Regards,
+-Lianhao
+
+Saul Wold wrote on 2012-06-27:
+> Richard,
+>=20
+> Another set of pulls with various fixes and updates.
+>=20
+> Of note:
+> * Ross's gconf also needs to get into the denzil branch for 1.2.1
+>   build it and it resolved the gthumb build issue.
+> * Robert's change for disabling CCACHE
+> * Zhenhua's linux-dtb work
+>=20
+> The following changes since commit f4b5afe46ff018570c1949653eb6995428827f=
+6f:
+>=20
+>   sanity.bbclass: Increase LAYER_CONF_VERSION to match bblayers change (2=
+012-06-25 17:20:06 +0100)
+> are available in the git repository at:
+>   git://git.openembedded.org/openembedded-core-contrib sgw/stage
+>   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=
+=3Dsgw/stage
+> Andrea Adami (1):
+>   mtd-utils: do not stage headers in sysroot
+> Bruce Ashfield (6):
+>   kern-tools: add buildall and robustness fixes
+>   linux-yocto/3.4: update and categorize configuration options
+>   linux-yocto/3.4: update to v3.4.3
+>   linux-yocto-rt/3.4: update qemuppc branch
+>   linux-yocto/3.4: -rt build fixes + configuration audit (part2)
+>   linux-yocto/3.0: update BSP descriptions to new kern-tools format
+> Lianhao Lu (3):
+>   classes/image: Allow openssh empty passwords login.
+>   image/core-image: Handle conflicting IMAGE_FEATURES.
+>   task-core-tools-debug: Added openssh-sftp-server.
+> Marcin Juszkiewicz (1):
+>   libxml: disable lzma
+> Robert Yang (1):
+>   bitbake.conf: disable ccache explicitly if it is not enabled
+> Ross Burton (1):
+>   gconf.bbclass: don't register schemas in the install stage
+> Saul Wold (3):
+>   mx: Upgrade to 1.4.6
+>   busybox: add correct ALTERNATIVE_TARGET for init.d/syslog
+>   native.bbclass: correct PATH to have native-intercept be prepended
+> Wade Farnsworth (1):
+>   systemtap: update to version 1.8
+> Xiaofeng Yan (2):
+>   archiver.bbclass: Add the function of filtering packages
+>   local.conf.sample.extended: Add filtering function to
+>     archiver.bbclass
+> Zhenhua Luo (1):
+>   linux-dtb: add multi-dtb build support
+
 
 
