@@ -1,55 +1,32 @@
-Received: from va3ehsobe003.messaging.microsoft.com ([216.32.180.13]
-	helo=va3outboundpool.messaging.microsoft.com)
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1SljXP-0003oq-H0
+	(envelope-from <mark.hatle@windriver.com>) id 1Sljde-00047K-0X
 	for openembedded-core@lists.openembedded.org;
-	Mon, 02 Jul 2012 18:31:47 +0200
-Received: from mail115-va3-R.bigfish.com (10.7.14.253) by
-	VA3EHSOBE004.bigfish.com (10.7.40.24) with Microsoft SMTP Server id
-	14.1.225.23; Mon, 2 Jul 2012 15:18:27 +0000
-Received: from mail115-va3 (localhost [127.0.0.1])	by
-	mail115-va3-R.bigfish.com (Postfix) with ESMTP id 06111E030B	for
-	<openembedded-core@lists.openembedded.org>;
-	Mon,  2 Jul 2012 15:18:27 +0000 (UTC)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-X-SpamScore: -3
-X-BigFish: VS-3(zz98dI9371I936eI1432Izz1202hzz8275bh8275dhz2dh2a8h668h839h8e2h8e3hf0ahbe9i)
-Received: from mail115-va3 (localhost.localdomain [127.0.0.1]) by mail115-va3
-	(MessageSwitch) id 1341242304804691_21062;
-	Mon,  2 Jul 2012 15:18:24 +0000 (UTC)
-Received: from VA3EHSMHS006.bigfish.com (unknown [10.7.14.246])	by
-	mail115-va3.bigfish.com (Postfix) with ESMTP id AC97532004B	for
-	<openembedded-core@lists.openembedded.org>;
-	Mon,  2 Jul 2012 15:18:24 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by VA3EHSMHS006.bigfish.com
-	(10.7.99.16) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Mon, 2 Jul 2012 15:18:21 +0000
-Received: from 039-SN1MPN1-003.039d.mgd.msft.net ([169.254.3.163]) by
-	039-SN1MMR1-003.039d.mgd.msft.net ([10.84.1.16]) with mapi id
-	14.02.0298.005; Mon, 2 Jul 2012 10:20:17 -0500
-From: McClintock Matthew-B29882 <B29882@freescale.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH 0/6 v2] Enable the ability to create an image
-	matching SDK
-Thread-Index: AQHNWGYv5DOyUIM0eUaHkkyGciFUxg==
-Date: Mon, 2 Jul 2012 15:20:17 +0000
-Message-ID: <CAEsOVNdKPAY8yOdGUXo18Scn8qMrgckrfe_jJ7ojMxVSg0raBw@mail.gmail.com>
-References: <cover.1341032578.git.mark.hatle@windriver.com>
-In-Reply-To: <cover.1341032578.git.mark.hatle@windriver.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [70.112.201.132]
+	Mon, 02 Jul 2012 18:38:14 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q62GR7YF006990
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 2 Jul 2012 09:27:07 -0700 (PDT)
+Received: from msp-dhcp21.wrs.com (172.25.34.21) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Mon, 2 Jul 2012 09:27:06 -0700
+Message-ID: <4FF1CBE1.5080802@windriver.com>
+Date: Mon, 2 Jul 2012 11:27:13 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7;
+	rv:13.0) Gecko/20120614 Thunderbird/13.0.1
 MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1341032578.git.mark.hatle@windriver.com>
+	<CAEsOVNdKPAY8yOdGUXo18Scn8qMrgckrfe_jJ7ojMxVSg0raBw@mail.gmail.com>
+In-Reply-To: <CAEsOVNdKPAY8yOdGUXo18Scn8qMrgckrfe_jJ7ojMxVSg0raBw@mail.gmail.com>
 Subject: Re: [PATCH 0/6 v2] Enable the ability to create an image matching SDK
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
-	Patches and discussions about the oe-core layer
+Reply-To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -60,81 +37,103 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Jul 2012 16:31:47 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <8B10C764A784BE4597506F019DAF70B8@mgd.freescale.com>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 02 Jul 2012 16:38:14 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Mark,
+On 7/2/12 10:20 AM, McClintock Matthew-B29882 wrote:
+> Mark,
+>
+> By 'match the image' you mean the libraries in the toolchain tarball
+> will contain matching versions that are on the root file system?
 
-By 'match the image' you mean the libraries in the toolchain tarball
-will contain matching versions that are on the root file system?
 
--M
+If you create an image that only has busybox, and glibc.. a matching SDK would 
+only include busybox and glibc (development) components as well.
 
-On Sat, Jun 30, 2012 at 12:18 AM, Mark Hatle <mark.hatle@windriver.com> wro=
-te:
-> Only difference is patch 1/6, I accidently sent and older broken version =
-of the
-> patch. =A0This is the correct version.
+You won't get libstdc++, glib, libX11, or anything else that is not part of the 
+image..
+
+For my customers they create a base platform image.  This image defines all of 
+the (external to them) software that will be running on their devices.  They 
+then use that image to create an SDK to pass to their internal (and external) 
+application developers.  So it's critical the SDK match the image they 
+generated.  (And they, and I, don't see why in this case making an external SDK 
+recipe makes sense.. the SDK should simply match the image...  Note, there is 
+definitely a case where you want to build an application SDK that does not match 
+the image...  Usually this is done when you only want app developers to use a 
+limited set of APIs for their apps.)
+
+
+So yes, the SDK will match the libraires selected for an image, and provide the 
+-dev and -dbg versions of the components.  (-staticdev is not included...)
+
+--Mark
+
+> -M
 >
-> ---
->
-> After this series of patches, it is possible to generate an SDK that
-> matches the image. =A0The SDK and all related code is only activated if a=
-n image
-> recipe is built using the "populate_sdk" task, such as:
->
-> bitbake core-image-sato -c populate_sdk
->
-> Existing SDK images, such as meta-toolchain or meta-toolchain-gmae contin=
-ue to
-> work without modifications.
->
-> The following changes since commit 54429dfcca0e35a3aeaa78e509240b87d6a8f4=
-ac:
->
-> =A0 mklibs-native: Upgrade to 0.1.34 (2012-06-29 13:21:19 +0100)
->
-> are available in the git repository at:
-> =A0 git://git.pokylinux.org/poky-contrib mhatle/sdk
-> =A0 http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=3Dmhatle/sdk
->
-> Mark Hatle (6):
-> =A0 Fix manual log file paths
-> =A0 populate_sdk.bbclass: Split into two parts
-> =A0 populate_sdk: Allow for attempt only packages in the SDK
-> =A0 populate_sdk_base.bbclass: Change to using task specific depends
-> =A0 populate_sdk: enable basic multilib support
-> =A0 image.bbclass: Add support to build the SDK in parallel with the
-> =A0 =A0 image
->
-> =A0meta/classes/image.bbclass =A0 =A0 =A0 =A0 =A0 =A0 | =A0 =A07 ++-
-> =A0meta/classes/package_deb.bbclass =A0 =A0 =A0 | =A0 =A04 +-
-> =A0meta/classes/package_ipk.bbclass =A0 =A0 =A0 | =A0 =A02 +-
-> =A0meta/classes/package_rpm.bbclass =A0 =A0 =A0 | =A0 10 +-
-> =A0meta/classes/populate_sdk.bbclass =A0 =A0 =A0| =A0 91 +---------------=
-------
-> =A0meta/classes/populate_sdk_base.bbclass | =A0128 ++++++++++++++++++++++=
-++++++++++
-> =A0meta/classes/populate_sdk_deb.bbclass =A0| =A0 =A06 +-
-> =A0meta/classes/populate_sdk_ipk.bbclass =A0| =A0 =A05 +-
-> =A0meta/classes/populate_sdk_rpm.bbclass =A0| =A0 =A04 +-
-> =A0meta/classes/rootfs_deb.bbclass =A0 =A0 =A0 =A0| =A0 =A02 +
-> =A0meta/classes/rootfs_ipk.bbclass =A0 =A0 =A0 =A0| =A0 =A02 +
-> =A0meta/classes/toolchain-scripts.bbclass | =A0 16 +++--
-> =A012 files changed, 170 insertions(+), 107 deletions(-)
-> =A0create mode 100644 meta/classes/populate_sdk_base.bbclass
->
-> --
-> 1.7.3.4
->
+> On Sat, Jun 30, 2012 at 12:18 AM, Mark Hatle <mark.hatle@windriver.com> wrote:
+>> Only difference is patch 1/6, I accidently sent and older broken version of the
+>> patch.  This is the correct version.
+>>
+>> ---
+>>
+>> After this series of patches, it is possible to generate an SDK that
+>> matches the image.  The SDK and all related code is only activated if an image
+>> recipe is built using the "populate_sdk" task, such as:
+>>
+>> bitbake core-image-sato -c populate_sdk
+>>
+>> Existing SDK images, such as meta-toolchain or meta-toolchain-gmae continue to
+>> work without modifications.
+>>
+>> The following changes since commit 54429dfcca0e35a3aeaa78e509240b87d6a8f4ac:
+>>
+>>    mklibs-native: Upgrade to 0.1.34 (2012-06-29 13:21:19 +0100)
+>>
+>> are available in the git repository at:
+>>    git://git.pokylinux.org/poky-contrib mhatle/sdk
+>>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=mhatle/sdk
+>>
+>> Mark Hatle (6):
+>>    Fix manual log file paths
+>>    populate_sdk.bbclass: Split into two parts
+>>    populate_sdk: Allow for attempt only packages in the SDK
+>>    populate_sdk_base.bbclass: Change to using task specific depends
+>>    populate_sdk: enable basic multilib support
+>>    image.bbclass: Add support to build the SDK in parallel with the
+>>      image
+>>
+>>   meta/classes/image.bbclass             |    7 ++-
+>>   meta/classes/package_deb.bbclass       |    4 +-
+>>   meta/classes/package_ipk.bbclass       |    2 +-
+>>   meta/classes/package_rpm.bbclass       |   10 +-
+>>   meta/classes/populate_sdk.bbclass      |   91 +---------------------
+>>   meta/classes/populate_sdk_base.bbclass |  128 ++++++++++++++++++++++++++++++++
+>>   meta/classes/populate_sdk_deb.bbclass  |    6 +-
+>>   meta/classes/populate_sdk_ipk.bbclass  |    5 +-
+>>   meta/classes/populate_sdk_rpm.bbclass  |    4 +-
+>>   meta/classes/rootfs_deb.bbclass        |    2 +
+>>   meta/classes/rootfs_ipk.bbclass        |    2 +
+>>   meta/classes/toolchain-scripts.bbclass |   16 +++--
+>>   12 files changed, 170 insertions(+), 107 deletions(-)
+>>   create mode 100644 meta/classes/populate_sdk_base.bbclass
+>>
+>> --
+>> 1.7.3.4
+>>
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 >
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core=
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+
 
 
 
