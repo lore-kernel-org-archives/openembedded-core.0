@@ -1,35 +1,36 @@
-Received: from mail-lb0-f175.google.com ([209.85.217.175])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1Slh6c-0005gJ-U9
-	for openembedded-core@lists.openembedded.org;
-	Mon, 02 Jul 2012 15:55:59 +0200
-Received: by lbol5 with SMTP id l5so7218397lbo.6
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1Slh7X-0005i6-Bf for openembedded-core@lists.openembedded.org;
+	Mon, 02 Jul 2012 15:56:55 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q62Djt0O031470
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 02 Jul 2012 06:44:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date
-	:x-google-sender-auth:message-id:subject:to:content-type;
-	bh=t3X6NyUUFxD5kSRbYHSQ1dUZCIeAPq9OXvSPzzoVZYk=;
-	b=BTeiVriiXpSfzBwPHZ+M569jyWhhAu4FtQXb7wA6gqwKi2qJIe7U579qQ+Rnxo0Hbj
-	9FPpUtFE8olW95aH+Hnh6tLO7J8eDAQpwPYFhYCryUW6Mb7SgaXLktyt0+DzFLIOi9SZ
-	N6brfTMOzIaDYuq2jlNSvK19ky+uYupc/FHscZ+0maKA1Ec1uZwx5WXR9U8yMTsD3DXN
-	ir/77NfD2ZLBTDeUu6odFTULa3yWZdcViCZKeYExGxxYQnSS4zzfJWCnaLJUoraVC/GV
-	oTBbAb/YEq7t+PsV7KoyvCiJ7ytGBHZcRdu8qNIXOju4dxMVP2Q+7UH1BGkfxB5JhjF7
-	wEaQ==
-Received: by 10.112.100.234 with SMTP id fb10mr6280312lbb.12.1341236698234;
-	Mon, 02 Jul 2012 06:44:58 -0700 (PDT)
-MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.114.64.180 with HTTP; Mon, 2 Jul 2012 06:44:38 -0700 (PDT)
-In-Reply-To: <alpine.DEB.2.02.1207020939420.22071@oneiric>
-References: <alpine.DEB.2.02.1207020939420.22071@oneiric>
-From: Chris Larson <clarson@kergoth.com>
-Date: Mon, 2 Jul 2012 06:44:38 -0700
-X-Google-Sender-Auth: BYe_OcHRPsPfbpUZ5edktlvTfDo
-Message-ID: <CABcZANkvCek+Zg82a1aQK1XA1_jPB6EgrUEzqF8aOJYW0OLXaw@mail.gmail.com>
+	Mon, 2 Jul 2012 14:45:55 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 29631-06 for <openembedded-core@lists.openembedded.org>;
+	Mon,  2 Jul 2012 14:45:51 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q62DjjsW031464
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 2 Jul 2012 14:45:46 +0100
+Message-ID: <1341236751.23146.229.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: can i use bitbake to run an arbitrary python routine in a class file?
+Date: Mon, 02 Jul 2012 14:45:51 +0100
+In-Reply-To: <857BE142E5399E46B20FD45B9DB8A7BC0FE5361F@SHSMSX102.ccr.corp.intel.com>
+References: <5bfc2cadad3f2b0e2b03c4562aba4efd0a604c95.1340600710.git.lianhao.lu@intel.com>
+	<13ed4eabf4dfcb28267d045fc30e402a3484e95d.1340600710.git.lianhao.lu@intel.com>
+	<1341219341.23146.183.camel@ted>
+	<857BE142E5399E46B20FD45B9DB8A7BC0FE5361F@SHSMSX102.ccr.corp.intel.com>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH V3 2/3] image/core-image: Handle conflicting IMAGE_FEATURES.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,53 +45,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Jul 2012 13:55:59 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 02 Jul 2012 13:56:55 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Mon, Jul 2, 2012 at 6:40 AM, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
->   i'm not even remotely a python expert (working on that, though) so
-> there may be a trivial and documented answer to this -- can i use
-> bitbake to run an arbitrary python routine to see what the output
-> would be?
->
->   for example, here's qemu.bbclass:
->
-> def qemu_target_binary(data):
->         import bb
->
->         target_arch = data.getVar("TARGET_ARCH", True)
->         if target_arch in ("i486", "i586", "i686"):
->                 target_arch = "i386"
->         elif target_arch == "powerpc":
->                 target_arch = "ppc"
->
->         return "qemu-" + target_arch
->
-> what if i wanted to see what that would return given a current build?
-> can i do that?  does that question even make sense?
+On Mon, 2012-07-02 at 11:10 +0000, Lu, Lianhao wrote:
+> Richard Purdie wrote on 2012-07-02:
+> > On Mon, 2012-06-25 at 13:15 +0800, Lianhao Lu wrote:
+> >> IMAGE_FEATURES such as 'ssh-server-dropbear' and 'ssh-server-openssh'
+> >> can't be both enabled. User can use the following variables to define
+> >> the relationship of image features:
+> >> 
+> >> IMAGE_FEATURES_REPLACES_foo = "bar" means including image feature "foo"
+> >> would replace the image feature "bar".
+> >> 
+> >> IMAGE_FEATURES_CONFLICTS_foo = "bar" means including both image features
+> >> "foo" and "bar" would cause an parsing error.
+> >> 
+> >> Signed-off-by: Lianhao Lu <lianhao.lu@intel.com>
+> >> ---
+> >>  meta/classes/core-image.bbclass                 |   11 ++++++++++-
+> >>  meta/classes/image.bbclass                      |   17 +++++++++++++++++
+> >>  meta/recipes-sato/images/core-image-sato-sdk.bb |    2 ++
+> >>  3 files changed, 29 insertions(+), 1 deletions(-)
+> >> diff --git a/meta/classes/core-image.bbclass b/meta/classes/core-image.bbclass
+> >> index 25f5c5a..6b207d7 100644
+> >> --- a/meta/classes/core-image.bbclass
+> >> +++ b/meta/classes/core-image.bbclass
+> >> @@ -47,6 +47,14 @@ PACKAGE_GROUP_ssh-server-openssh = "task-core-ssh-openssh"
+> >>  PACKAGE_GROUP_package-management = "${ROOTFS_PKGMANAGE}"
+> >>  PACKAGE_GROUP_qt4-pkgs = "task-core-qt-demos"
+> >> +
+> >> +# IMAGE_FEAETURES_REPLACES_foo = 'bar1 bar2'
+> >> +# Including image feature foo would replace the image features bar1 and bar2
+> >> +IMAGE_FEATURES_REPLACES_ssh-server-openssh = "ssh-server-dropbear"
+> >> +
+> >> +# IMAGE_FEATURES_CONFLICTS_foo = 'bar1 bar2'
+> >> +# An error exception would be raised if both image features foo and bar1(or bar2) are included
+> >> +
+> >>  CORE_IMAGE_BASE_INSTALL = '\
+> >>      task-core-boot \
+> >>      task-base-extended \
+> >> @@ -60,7 +68,8 @@ IMAGE_INSTALL ?= "${CORE_IMAGE_BASE_INSTALL}"
+> >> 
+> >>  X11_IMAGE_FEATURES  = "x11-base apps-x11-core package-management"
+> >>  ENHANCED_IMAGE_FEATURES = "${X11_IMAGE_FEATURES} apps-x11-games apps-x11-pimlico package-management"
+> >> -SATO_IMAGE_FEATURES = "${ENHANCED_IMAGE_FEATURES} x11-sato ssh-server-dropbear"
+> >> +SSHSERVER_IMAGE_FEATURES ??= "ssh-server-dropbear"
+> >> +SATO_IMAGE_FEATURES = "${ENHANCED_IMAGE_FEATURES} x11-sato ${SSHSERVER_IMAGE_FEATURES}"
+> >> 
+> >>  inherit image
+> >> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+> >> index 0772363..6fac974 100644
+> >> --- a/meta/classes/image.bbclass
+> >> +++ b/meta/classes/image.bbclass
+> >> @@ -87,6 +87,23 @@ python () {
+> >>          deps += " %s:do_populate_sysroot" % dep
+> >>      d.setVarFlag('do_rootfs', 'depends', deps)
+> >> +    #process IMAGE_FEATURES, we must do this before runtime_mapping_rename
+> >> +    #Check for replaces image features
+> >> +    features = set(oe.data.typed_value('IMAGE_FEATURES', d))
+> >> +    remain_features = features.copy()
+> >> +    for feature in features:
+> >> +        replaces = set((d.getVar("IMAGE_FEATURES_REPLACES_%s" % feature, True) or "").split())
+> >> +        remain_features -= replaces
+> >> +
+> >> +    #Check for conflict image features
+> >> +    for feature in remain_features:
+> >> +        conflicts = set((d.getVar("IMAGE_FEATURES_CONFLICTS_%s" % feature, True) or "").split())
+> >> +        temp = conflicts & remain_features
+> >> +        if temp:
+> >> +            raise bb.parse.SkipPackage("%s contains conflicting IMAGE_FEATURES %s %s" % (d.getVar('PN', True), feature, '
+> > '.join(list(temp))))
+> > 
+> > 
+> > I'm not sure that SkipPackage is the right error here. This will simply
+> > make the image target "disappear" when in this case we really want to
+> > raise a "proper" error?
+> > 
+> 
+> How about directly bb.fatal? Just like the base.bbclass handles the recipes without setting the LICENSE field.
 
-An anonymous python function is one which is automatically run at the
-end of the parsing process. Alternatively, you can register an event
-handler which can be run at any number of points where bitbake events
-are fired, including the end of the recipe parse.
+Yes, I think that is more appropriate in this case.
 
-python () {
-    bb.warn("qemu_target_binary: %s" % qemu_target_binary(d))
-}
+Cheers,
 
-python print_some_value () {
-    if not isinstance(e, bb.event.RecipeParsed):
-        return
-    bb.warn("qemu_target_binary: %s" % qemu_target_binary(e.data))
-}
-addhandler print_some_value
+Richard
 
-Alternatively, just do:
-
-FOO = "${@qemu_target_binary(d)}"
-
-And then: bitbake -e | grep \^FOO=
--- 
-Christopher Larson
 
 
