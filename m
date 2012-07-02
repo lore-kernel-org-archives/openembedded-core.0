@@ -1,26 +1,26 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1SlnbK-0004bR-Fq
+	(envelope-from <mark.hatle@windriver.com>) id 1Slniw-0004rE-Kw
 	for openembedded-core@lists.openembedded.org;
-	Mon, 02 Jul 2012 22:52:06 +0200
+	Mon, 02 Jul 2012 22:59:59 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q62KetZJ010491
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q62Kmp7t023802
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 2 Jul 2012 13:40:55 -0700 (PDT)
+	Mon, 2 Jul 2012 13:48:52 -0700 (PDT)
 Received: from localhost.localdomain (172.25.34.61) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Mon, 2 Jul 2012 13:40:54 -0700
+	Mon, 2 Jul 2012 13:48:51 -0700
 From: Mark Hatle <mark.hatle@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 2 Jul 2012 15:50:28 -0500
-Message-ID: <8d24b139f2f1ce024ad66750cbb00bfc8527af37.1341262097.git.mark.hatle@windriver.com>
+Date: Mon, 2 Jul 2012 15:58:26 -0500
+Message-ID: <e86e3f66a6cb13e9b03c6da4e01c448ff18fcb5e.1341262598.git.mark.hatle@windriver.com>
 X-Mailer: git-send-email 1.7.3.4
-In-Reply-To: <cover.1341262097.git.mark.hatle@windriver.com>
-References: <cover.1341262097.git.mark.hatle@windriver.com>
+In-Reply-To: <cover.1341262598.git.mark.hatle@windriver.com>
+References: <cover.1341262598.git.mark.hatle@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [172.25.34.61]
-Subject: [PATCH 7/7] base.bbclass: Add cross-canadian-${TRANSLATED_TARGET_ARCH} to the license exclusion list
+Subject: [PATCH 1/2 v2] libc-common: Allow -dbg package to append, and not just set package variables
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,30 +35,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Jul 2012 20:52:06 -0000
+X-List-Received-Date: Mon, 02 Jul 2012 20:59:59 -0000
 Content-Type: text/plain
 
-This appears to be an oversight in the original implementation.  All of the
-host package types were being ignored except for the SDK cross-canadian type.
+The libc-common attempts to rewrite the package information in a way similar
+to debian.bbclass.  When it does this, it should be appending to the
+dependency variables (RPROVIDES, RREPLACES, and RCONFLICTS), instead
+of simply setting a hard coded value.  Otherwise the lib package can not
+tailor the dependency variables to suite it's needs.
 
 Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
 ---
- meta/classes/base.bbclass |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+ meta/classes/libc-common.bbclass |    6 +++---
+ 1 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-index 9219170..08065c6 100644
---- a/meta/classes/base.bbclass
-+++ b/meta/classes/base.bbclass
-@@ -432,7 +432,7 @@ python () {
- 
-         dont_want_license = d.getVar('INCOMPATIBLE_LICENSE', True)
- 
--        if dont_want_license and not pn.endswith("-native") and not pn.endswith("-cross") and not pn.endswith("-cross-initial") and not pn.endswith("-cross-intermediate") and not pn.endswith("-crosssdk-intermediate") and not pn.endswith("-crosssdk") and not pn.endswith("-crosssdk-initial") and not pn.endswith("-nativesdk"):
-+        if dont_want_license and not pn.endswith("-native") and not pn.endswith("-cross") and not pn.endswith("-cross-initial") and not pn.endswith("-cross-intermediate") and not pn.endswith("-crosssdk-intermediate") and not pn.endswith("-crosssdk") and not pn.endswith("-crosssdk-initial") and not pn.endswith("-cross-canadian-%s" % d.getVar('TRANSLATED_TARGET_ARCH', True)) and not pn.endswith("-nativesdk"):
-         # Internally, we'll use the license mapping. This way INCOMPATIBLE_LICENSE = "GPLv2" and
-         # INCOMPATIBLE_LICENSE = "GPLv2.0" will pick up all variations of GPL-2.0
-             spdx_license = return_spdx(d, dont_want_license)
+diff --git a/meta/classes/libc-common.bbclass b/meta/classes/libc-common.bbclass
+index 9b91f0a..8145d64 100644
+--- a/meta/classes/libc-common.bbclass
++++ b/meta/classes/libc-common.bbclass
+@@ -29,7 +29,7 @@ python populate_packages_prepend () {
+ 		d.setVar('PKG_'+bpn+'-dev', 'libc6-dev')
+ 		d.setVar('PKG_'+bpn+'-dbg', 'libc6-dbg')
+ 		# For backward compatibility with old -dbg package
+-		d.setVar('RPROVIDES_' + bpn + '-dbg', 'libc-dbg')
+-		d.setVar('RCONFLICTS_' + bpn + '-dbg', 'libc-dbg')
+-		d.setVar('RREPLACES_' + bpn + '-dbg', 'libc-dbg')
++		d.appendVar('RPROVIDES_' + bpn + '-dbg', ' libc-dbg')
++		d.appendVar('RCONFLICTS_' + bpn + '-dbg', ' libc-dbg')
++		d.appendVar('RREPLACES_' + bpn + '-dbg', ' libc-dbg')
+ }
 -- 
 1.7.3.4
 
