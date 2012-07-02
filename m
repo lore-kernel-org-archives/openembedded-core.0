@@ -1,31 +1,32 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail-pz0-f47.google.com ([209.85.210.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Xin.Ouyang@windriver.com>) id 1Slbdo-0001Q3-2L
-	for openembedded-core@lists.openembedded.org;
-	Mon, 02 Jul 2012 10:05:52 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q627snUH028500
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 2 Jul 2012 00:54:50 -0700 (PDT)
-Received: from [128.224.162.231] (128.224.162.231) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Mon, 2 Jul 2012 00:54:49 -0700
-Message-ID: <4FF153C8.2060902@windriver.com>
-Date: Mon, 2 Jul 2012 15:54:48 +0800
-From: Pascal Ouyang <xin.ouyang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:13.0) Gecko/20120615 Thunderbird/13.0.1
+	(envelope-from <fransmeulenbroeks@gmail.com>)
+	id 1Slbhh-0001XQ-PL; Mon, 02 Jul 2012 10:09:54 +0200
+Received: by dalh21 with SMTP id h21so6912565dal.6
+	for <multiple recipients>; Mon, 02 Jul 2012 00:58:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=QoF4xrjjdROF4caD/1+EeEZMiGf91xVTPSJ9rbSVAbY=;
+	b=XUGesVZhiwGvc7NsTsaNeZ0lL4vjREsqk4L29c34AZXA9BCBh9gGjfp+ITdUE7jlOa
+	aanD7F2e0f7g8lj4m69s9CWINOyONz4P6G0GiuVpFQOqOXg9p7IiMtErPDPi8SoLUMiu
+	rnrHzP3XrK+cHA4TVmvo/BuEM5MZm0ClQXr6+rJ9wzNY8PJahHpFmRtkIpJxjqVbvWNY
+	4/B8bS2zDFBGTU/OphwFB+KyFdlDEwJp7TrsWIFJ8xsMwg6hlQ+TGqZ7ujllDvjnESjx
+	2MdhaWhVkzSXSaR/xOKpDLu8xsG74zL5yr6OX8o7PRPa+KOmI+DzpoxzYZG8IquO1g8z
+	vY9w==
 MIME-Version: 1.0
-To: Khem Raj <raj.khem@gmail.com>
-References: <1340262834-27560-1-git-send-email-xin.ouyang@windriver.com>
-	<CAMKF1sp-vCv1iP3YAgAbEP4=2ruAme+-JnCqxBLXGW5yJ3oyZw@mail.gmail.com>
-	<4FEC0EC7.6050800@windriver.com> <4FEC807C.1040803@gmail.com>
-In-Reply-To: <4FEC807C.1040803@gmail.com>
-X-MIME-Autoconverted: from 8bit to quoted-printable by mail1.windriver.com id
-	q627snUH028500
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] cpan.bbclass: Fix CCFLAGS.
+Received: by 10.68.192.97 with SMTP id hf1mr27496774pbc.132.1341215932153;
+	Mon, 02 Jul 2012 00:58:52 -0700 (PDT)
+Received: by 10.68.201.4 with HTTP; Mon, 2 Jul 2012 00:58:52 -0700 (PDT)
+In-Reply-To: <CA+YB3rZjUeSyPRqJxYOYeY5cwX+RPSRUi6s5R7ndN+2y213C=A@mail.gmail.com>
+References: <CA+YB3rZjUeSyPRqJxYOYeY5cwX+RPSRUi6s5R7ndN+2y213C=A@mail.gmail.com>
+Date: Mon, 2 Jul 2012 09:58:52 +0200
+Message-ID: <CACW_hTaJOqwrYhu=iv2RVQxPYh-f7SGs2a-nkePndKX+B1+29Q@mail.gmail.com>
+From: Frans Meulenbroeks <fransmeulenbroeks@gmail.com>
+To: openembedded-devel@lists.openembedded.org
+Cc: tsc <tsc@lists.openembedded.org>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [oe] Minutes: OE Technical Steering Committee 19 June 2012
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,74 +41,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Jul 2012 08:05:52 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+X-List-Received-Date: Mon, 02 Jul 2012 08:09:54 -0000
+Content-Type: multipart/alternative; boundary=e89a8ff1c8b834004704c3d42bc7
+
+--e89a8ff1c8b834004704c3d42bc7
+Content-Type: text/plain; charset=ISO-8859-1
+
+>
+>  b. elections
+>  -> remove from this list, put back when needed - 2 years from last
+> December
+>  => Jefro to document on wiki & remind the board in October 2013
+>
+
+This is not correct.
+
+From http://www.openembedded.org/wiki/TSC
+
+"Each member serves a two-year term. During election time, one member may
+stand for election every two months. The next election will be for Richard
+Purdie's seat in July, 2013."
+
+So probably this should be initiated in April or May 2013, not Oct.
+
+FM
+
+--e89a8ff1c8b834004704c3d42bc7
+Content-Type: text/html; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
-On 2012=E5=B9=B406=E6=9C=8829=E6=97=A5 00:04, Khem Raj wrote:
-> -----BEGIN PGP SIGNED MESSAGE-----
-> Hash: SHA1
->
-> On 6/28/2012 12:59 AM, Pascal Ouyang wrote:
->> On 2012=E5=B9=B406=E6=9C=8821=E6=97=A5 23:47, Khem Raj wrote:
->>> On Thu, Jun 21, 2012 at 12:13 AM,  <xin.ouyang@windriver.com>
->>> wrote:
->>>> From: Xin Ouyang <Xin.Ouyang@windriver.com>
->>>>
->>>> We should not just replace CCFLAGS with CFLAGS while compiling,
->>>> because this may cause run-time errors with perl's
->>>> DynaLoader.pm.
->>>>
->>>> Tested on qemux86 with new libnet-libidn-perl bb recipe:
->>>
->>> can you instead try the patch from
->>>
->>> http://bugs.debian.org/cgi-bin/bugreport.cgi?msg=3D19;bug=3D628522
->>>
->> This debian patch takes no effect.
->>
->> Actually it try to fix this:
->>
->> Some packages which has those lines in Makefile.PL: WriteMakefile(
->> ... 'CCFLAGS'    =3D> 'some cflags', ... ); While run perl
->> Makefile.PL to configure, there are CCFLAGS=3D"some cflags" to
->> override the original CCFLAGS=3D$Config{ccflags} in generated
->> Makefiles.
->>
->>
->> In Poky, CCFLAGS in our generated Makefiles are all right. But when
->> we run oe_runmake CCFLAGS=3D"${CFLAGS}" to do_compile, this will
->> override our right CCFLAGS.
->
-> but thats what assign operator is meant to do isnt it ?
->
+<br><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"m=
+argin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+<br>
+=A0b. elections<br>
+=A0-&gt; remove from this list, put back when needed - 2 years from last De=
+cember<br>
+=A0=3D&gt; Jefro to document on wiki &amp; remind the board in October 2013=
+<br></blockquote></div><br>This is not correct.<br><br>From <a href=3D"http=
+://www.openembedded.org/wiki/TSC">http://www.openembedded.org/wiki/TSC</a><=
+br>
+<br>&quot;Each member serves a two-year term. During election time, one mem=
+ber may
+ stand for election every two months. The next election will be for=20
+Richard Purdie&#39;s seat in July, 2013.&quot;<br><br>So probably this shou=
+ld be initiated in April or May 2013, not Oct.<br><br>FM<br>
 
-But CCFLAGS cannot be overrided by CFLAGS, because original CCFLAGS has=20
-some -DXXX flags read from the config for perl.
-Without these compile flags, the perl modules cannot run correctly.
-
-root@qemux86:~# perl -e "use Net::LibIDN"
-...
-Compilation failed in require at -e line 1.
-BEGIN failed--compilation aborted at -e line 1.
-
--P
-
->
-> -----BEGIN PGP SIGNATURE-----
-> Version: GnuPG v1.4.12 (MingW32)
-> Comment: Using GnuPG with Mozilla - http://enigmail.mozdev.org/
->
-> iEYEARECAAYFAk/sgHwACgkQuwUzVZGdMxSvoACdHtcMLShjJIglhq/KXuE73QIW
-> 7FsAoI/IFxzDXZWX/xLj3tNkDDzdUM++
-> =3DMWVl
-> -----END PGP SIGNATURE-----
->
-
-
---=20
-- Pascal
-
-
-
-
+--e89a8ff1c8b834004704c3d42bc7--
