@@ -1,37 +1,37 @@
-Received: from mail-pz0-f47.google.com ([209.85.210.47])
+Received: from astoria.ccjclearline.com ([64.235.106.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1Slevj-0006oG-HR
+	(envelope-from <rpjday@crashcourse.ca>) id 1SlezE-0006ud-8B
 	for openembedded-core@lists.openembedded.org;
-	Mon, 02 Jul 2012 13:36:35 +0200
-Received: by dalh21 with SMTP id h21so7134934dal.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 02 Jul 2012 04:25:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:content-type;
-	bh=0mfzSyjDWdMNJCgAzjl21JXOuqbn3w8+49T2lV8gQqA=;
-	b=myJVn7HSjOkes+OwPou90duV0hGO5LC1vCaG5KjitZTHW3Dx0aaBv/k+l8xkoHIJ0F
-	RLaPoMkopKP2EfSjH9kPLAU0Z7EegmXJvktbA9cgkeI2ZPgJWWiNkotmKLY1KMMtIOwy
-	jlnSxyNfgWkuQd5XdHF6zn5M//bH9P4EO4fNgrat41BMWVETBt/G1NIUOuSnxuaogMih
-	fN6YP8ylz2rPxXnfuztB3OMb7qlhbyrrF1vV9F4va6fTuFuY2BTyMBA9fK6bUC5o2DI1
-	WDzzl/RI89UzrDl7zMeAC9O0ZhDTyTf/Ozql2X4d6KiL+F+C1Um2/NW27Y264o66s3V0
-	4zmQ==
-MIME-Version: 1.0
-Received: by 10.68.232.232 with SMTP id tr8mr28975267pbc.73.1341228334333;
-	Mon, 02 Jul 2012 04:25:34 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.68.129.129 with HTTP; Mon, 2 Jul 2012 04:25:34 -0700 (PDT)
-In-Reply-To: <1341207885-9463-4-git-send-email-paul.gortmaker@windriver.com>
-References: <4FF0C930.4000104@linux.intel.com>
-	<1341207885-9463-1-git-send-email-paul.gortmaker@windriver.com>
-	<1341207885-9463-4-git-send-email-paul.gortmaker@windriver.com>
-Date: Mon, 2 Jul 2012 08:25:34 -0300
-X-Google-Sender-Auth: YlWBCroa2SBZSeFF4sCRHPRT1VI
-Message-ID: <CAP9ODKrvnLPo=E7GEwocVa9LwjdFAuycg2U9bVi+3XQzxmhXiw@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
+	Mon, 02 Jul 2012 13:40:12 +0200
+Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
+	([99.241.91.63]:50330 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.77) (envelope-from <rpjday@crashcourse.ca>)
+	id 1Sleoa-0005U0-AI for openembedded-core@lists.openembedded.org;
+	Mon, 02 Jul 2012 07:29:12 -0400
+Date: Mon, 2 Jul 2012 07:29:08 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@oneiric
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCHv2 3/3] u-boot: do not clobber PARALLEL_MAKE setting
+In-Reply-To: <1341219932.23146.187.camel@ted>
+Message-ID: <alpine.DEB.2.02.1207020726170.23135@oneiric>
+References: <alpine.DEB.2.02.1206300602360.13626@oneiric>
+	<CA+chaQfxRZkRJz=BM+57d2R_vbGCNtumVZMpjC6KdoF5o5-e+A@mail.gmail.com>
+	<alpine.DEB.2.02.1206300618250.14118@oneiric>
+	<1341219932.23146.187.camel@ted>
+User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+MIME-Version: 1.0
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Subject: Re: is the PRIORITY variable actually used anywhere?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,26 +46,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Jul 2012 11:36:35 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Mon, 02 Jul 2012 11:40:12 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
-On Mon, Jul 2, 2012 at 2:44 AM, Paul Gortmaker
-<paul.gortmaker@windriver.com> wrote:
-> The u-boot tree is fully capable of parallel builds, so this
-> setting should not exist as a blanket setting for all of the
-> recipes.  Going forward, if there is a parallelism issue
-> in u-boot, it needs to be reported and fixed there, and not
-> with the "make -j1" band-aid approach.
+On Mon, 2 Jul 2012, Richard Purdie wrote:
+
+> On Sat, 2012-06-30 at 06:20 -0400, Robert P. J. Day wrote:
+> > On Sat, 30 Jun 2012, Martin Jansa wrote:
+> >
+> > > http://git.openembedded.org/meta-openembedded/commit/?id=040f75eca217c79fed7b881589d9bb36358cffe1
+> > > http://git.openembedded.org/openembedded-core/commit/?id=d122343362669c683acc4af295971a62cbc823fc
+> > >
+> > > so can be dropped from bitbake.conf too AFAIK
+> >
+> >   actually, there are still a number of lines that refer to that
+> > variable:
+> >
+> > $ grep -rw PRIORITY *
+> > meta/conf/bitbake.conf:PRIORITY = "optional"
+> > meta/conf/documentation.conf:PRIORITY[doc] = "Importance of package, default values are 'optional' or 'needed'."
+> > meta/classes/package_deb.bbclass:        fields.append(["Priority: %s\n", ['PRIORITY']])
+> > meta/classes/package_ipk.bbclass:		fields.append(["Priority: %s\n", ['PRIORITY']])
+> > meta/classes/oelint.bbclass:	# Test for valid PRIORITY
+> > meta/classes/oelint.bbclass:	s = testVar("PRIORITY")
+> > meta/classes/oelint.bbclass:				bb.note("PRIORITY '%s' is not recommended" % s)
+> > meta/classes/oelint.bbclass:				bb.note("PRIORITY '%s' is not recommended, better use '%s'" % (s, newprio))
+> > meta/classes/oelint.bbclass:			bb.note("PRIORITY '%s' is not recommended" % s)
+> > meta/classes/oelint.bbclass:			bb.error("PRIORITY should only use lower case")
+> > $
+> >
+> >   if i can assume that all of that can be removed, i can do that as a
+> > single patch, again unless someone else wants to handle it if there
+> > are subtleties involved.
 >
-> Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
+> I think this one is best left alone as the code stands. We did remove
+> the variable from standard usage, it doesn't obsolete the above code
+> which someone could in theory still use from say a distro configuration
+> perspective.
+>
+> The line in documentation.conf look wrong though, I think "needed"
+> should be "required".
 
-Acked-by: Otavio Salvador <otavio@ossystems.com.br>
+  oelint.bbclass currently suggests it can be any of "standard",
+"required", "optional" or "extra".  and perhaps a dumb question -- how
+are there *two* default values?  not sure what that means.
 
-I've been building it with -j12 for long time, it does work :-)
+  anyway, i'll leave this in someone else's capable hands.  it's
+pretty obvious that no use is being made of this variable these days.
+
+rday
 
 -- 
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
