@@ -1,30 +1,24 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1SlnYM-0004Xr-Ps
+	(envelope-from <mark.hatle@windriver.com>) id 1Slnb9-0004bP-Uw
 	for openembedded-core@lists.openembedded.org;
-	Mon, 02 Jul 2012 22:49:03 +0200
+	Mon, 02 Jul 2012 22:51:56 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q62KbuGl010451
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q62KesZ5022802
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 2 Jul 2012 13:37:56 -0700 (PDT)
-Received: from msp-dhcp21.wrs.com (172.25.34.21) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Mon, 2 Jul 2012 13:37:56 -0700
-Message-ID: <4FF206A3.6000108@windriver.com>
-Date: Mon, 2 Jul 2012 15:37:55 -0500
+	Mon, 2 Jul 2012 13:40:54 -0700 (PDT)
+Received: from localhost.localdomain (172.25.34.61) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
+	Mon, 2 Jul 2012 13:40:53 -0700
 From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7;
-	rv:13.0) Gecko/20120614 Thunderbird/13.0.1
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 2 Jul 2012 15:50:27 -0500
+Message-ID: <cover.1341262097.git.mark.hatle@windriver.com>
+X-Mailer: git-send-email 1.7.3.4
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1341015667.git.mark.hatle@windriver.com>
-	<3112d19714501de42e197c3e05247065bbfea57a.1341015667.git.mark.hatle@windriver.com>
-	<1341260763.2886.34.camel@x121e.pbcl.net>
-In-Reply-To: <1341260763.2886.34.camel@x121e.pbcl.net>
-Subject: Re: [PATCH 1/2] libc-common: Allow debug package to append, not set depends
+X-Originating-IP: [172.25.34.61]
+Subject: [PATCH 0/7 v3] Enable the ability to create an image matching SDK
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,64 +33,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Jul 2012 20:49:03 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 02 Jul 2012 20:51:56 -0000
+Content-Type: text/plain
 
-On 7/2/12 3:26 PM, Phil Blundell wrote:
-> On Fri, 2012-06-29 at 19:22 -0500, Mark Hatle wrote:
->> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
->
-> This patch has no checkin message (other than the subject line) which is
-> contrary to our fine guidelines.  What bug is this fixing?
+Rebased and patch 7/7 added to correct an oversight in base.bbclass.
 
-Exactly what the subject is.  The libc-common.bbclass needs to be able to append 
-the RPROVIDES, RCONFLICT_, RREPLACES_ and not just -set- them.
+--- v2
 
-The guidelines say that if the subject and code explain what is being changed, 
-then repeating the subject is frowned upon.
+Only difference is patch 1/6, I accidently sent and older broken version of the
+patch.  This is the correct version.
 
-> Also, the subject line talks about "depends" but the patch actually
-> modifies the way that RPROVIDES/RCONFLICTS/RREPLACES are set and I'm not
-> sure that most people would class those as "depends".
+--- v1
 
-Sorry, terminology then.. I consider these all depends.
+After this series of patches, it is possible to generate an SDK that 
+matches the image.  The SDK and all related code is only activated if an image
+recipe is built using the "populate_sdk" task, such as:
 
-I can reword it, but it was clear to me when I wrote it that the subject and 
-patch itself explained what was happening.
+bitbake core-image-sato -c populate_sdk
 
---Mark
+Existing SDK images, such as meta-toolchain or meta-toolchain-gmae continue to
+work without modifications.
 
-> p.
->
->> ---
->>   meta/classes/libc-common.bbclass |    6 +++---
->>   1 files changed, 3 insertions(+), 3 deletions(-)
->>
->> diff --git a/meta/classes/libc-common.bbclass b/meta/classes/libc-common.bbclass
->> index 9b91f0a..8145d64 100644
->> --- a/meta/classes/libc-common.bbclass
->> +++ b/meta/classes/libc-common.bbclass
->> @@ -29,7 +29,7 @@ python populate_packages_prepend () {
->>   		d.setVar('PKG_'+bpn+'-dev', 'libc6-dev')
->>   		d.setVar('PKG_'+bpn+'-dbg', 'libc6-dbg')
->>   		# For backward compatibility with old -dbg package
->> -		d.setVar('RPROVIDES_' + bpn + '-dbg', 'libc-dbg')
->> -		d.setVar('RCONFLICTS_' + bpn + '-dbg', 'libc-dbg')
->> -		d.setVar('RREPLACES_' + bpn + '-dbg', 'libc-dbg')
->> +		d.appendVar('RPROVIDES_' + bpn + '-dbg', ' libc-dbg')
->> +		d.appendVar('RCONFLICTS_' + bpn + '-dbg', ' libc-dbg')
->> +		d.appendVar('RREPLACES_' + bpn + '-dbg', ' libc-dbg')
->>   }
->
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+The following changes since commit 64422f7c5da160050a5454817c8fa9d070104b34:
 
+  package.bbclass: Add missing PKGR, PKGV, PKGE and ALTERNATIVE variables from PACKAGEVARS (2012-07-02 16:44:57 +0100)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib mhatle/sdk
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=mhatle/sdk
+
+Mark Hatle (7):
+  Fix manual log file paths
+  populate_sdk.bbclass: Split into two parts
+  populate_sdk: Allow for attempt only packages in the SDK
+  populate_sdk_base.bbclass: Change to using task specific depends
+  populate_sdk: enable basic multilib support
+  image.bbclass: Add support to build the SDK in parallel with the
+    image
+  base.bbclass: Add cross-canadian-${TRANSLATED_TARGET_ARCH} to the
+    license exclusion list
+
+ meta/classes/base.bbclass              |    2 +-
+ meta/classes/image.bbclass             |    7 ++-
+ meta/classes/package_deb.bbclass       |    4 +-
+ meta/classes/package_ipk.bbclass       |    2 +-
+ meta/classes/package_rpm.bbclass       |   10 +-
+ meta/classes/populate_sdk.bbclass      |   91 +---------------------
+ meta/classes/populate_sdk_base.bbclass |  128 ++++++++++++++++++++++++++++++++
+ meta/classes/populate_sdk_deb.bbclass  |    6 +-
+ meta/classes/populate_sdk_ipk.bbclass  |    5 +-
+ meta/classes/populate_sdk_rpm.bbclass  |    4 +-
+ meta/classes/rootfs_deb.bbclass        |    2 +
+ meta/classes/rootfs_ipk.bbclass        |    2 +
+ meta/classes/toolchain-scripts.bbclass |   16 +++--
+ 13 files changed, 171 insertions(+), 108 deletions(-)
+ create mode 100644 meta/classes/populate_sdk_base.bbclass
+
+-- 
+1.7.3.4
 
 
 
