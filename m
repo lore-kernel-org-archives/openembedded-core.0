@@ -1,38 +1,42 @@
-Received: from 75-148-42-21-colorado.hfc.comcastbusiness.net ([75.148.42.21]
-	helo=judge.camp.se-eng.com) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ray.danks@se-eng.com>) id 1Slm0M-0008H1-HK
-	for openembedded-core@lists.openembedded.org;
-	Mon, 02 Jul 2012 21:09:50 +0200
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1Slm51-0008Ov-Kj for openembedded-core@lists.openembedded.org;
+	Mon, 02 Jul 2012 21:14:39 +0200
 Received: from localhost (localhost [127.0.0.1])
-	by judge.camp.se-eng.com (Postfix) with ESMTP id 5E9641380C9;
-	Mon,  2 Jul 2012 12:58:46 -0600 (MDT)
-X-Virus-Scanned: amavisd-new at camp.se-eng.com
-Received: from judge.camp.se-eng.com ([127.0.0.1])
-	by localhost (judge.camp.se-eng.com [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with ESMTP id knuSF5zTZrVT; Mon,  2 Jul 2012 12:58:43 -0600 (MDT)
-Received: from [172.20.202.96] (beast.camp.se-eng.com [172.20.202.96])
-	by judge.camp.se-eng.com (Postfix) with ESMTPSA id 33F411380C8;
-	Mon,  2 Jul 2012 12:58:43 -0600 (MDT)
-Message-ID: <4FF1EFC4.6030805@se-eng.com>
-Date: Mon, 02 Jul 2012 13:00:20 -0600
-From: Raymond Danks <ray.danks@se-eng.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:10.0) Gecko/20120129 Thunderbird/10.0
-MIME-Version: 1.0
-To: Saul Wold <sgw@linux.intel.com>
-References: <1340984497-32423-2-git-send-email-ray.danks@se-eng.com>
-	<1341001154-10071-1-git-send-email-ray.danks@se-eng.com>
-	<4FF12208.3000702@linux.intel.com> <4FF1B8BD.2000104@se-eng.com>
-	<4FF1D19D.3080906@linux.intel.com>
-In-Reply-To: <4FF1D19D.3080906@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q62J3a89005465
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 2 Jul 2012 20:03:36 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 05228-03 for <openembedded-core@lists.openembedded.org>;
+	Mon,  2 Jul 2012 20:03:31 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q62J3Tml005458
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 2 Jul 2012 20:03:31 +0100
+Message-ID: <1341255815.23146.262.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2 v3] image_types: Add elf image type
+Date: Mon, 02 Jul 2012 20:03:35 +0100
+In-Reply-To: <CAP9ODKpVfDG31Bh=gy0xgPCcGMbH4g-=CNrrE2TVc+RHnvp7EA@mail.gmail.com>
+References: <4FF0C930.4000104@linux.intel.com>
+	<1341207885-9463-1-git-send-email-paul.gortmaker@windriver.com>
+	<1341207885-9463-3-git-send-email-paul.gortmaker@windriver.com>
+	<CAP9ODKot3PDg5vkz76NwNgSsy+2tn_FB2-tvaYyc1WJzW3zjrQ@mail.gmail.com>
+	<CABcZANm5d2gQ8kdEEbcgW-KD7Puy7jZrDu82m6dHq2vVj1uagA@mail.gmail.com>
+	<CAP9ODKpVfDG31Bh=gy0xgPCcGMbH4g-=CNrrE2TVc+RHnvp7EA@mail.gmail.com>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCHv2 2/3] u-boot: make FILESDIR a shared setting.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: ray.danks@se-eng.com, Patches and discussions about the oe-core layer
+Reply-To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -43,135 +47,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Jul 2012 19:09:50 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Mon, 02 Jul 2012 19:14:39 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 07/02/2012 10:51 AM, Saul Wold wrote:
-> On 07/02/2012 08:05 AM, Raymond Danks wrote:
->> On 07/01/2012 10:22 PM, Saul Wold wrote:
->>> On 06/29/2012 01:19 PM, Raymond Danks wrote:
->>>> On x86, an ELF image file may be stored as a coreboot payload.
->>>> The image file is constructed, using the mkelfimage utility,
->>>> from a kernel and an initrd.
->>>>
->>>> Signed-off-by: Raymond Danks<ray.danks@se-eng.com>
->>>> ---
->>>> This was originally submitted to the openembedded project:
->>>> http://patches.openembedded.org/patch/7689/
->>>>
->>>> v3:
->>>> Include DEPLOY_DIR_IMAGE and KERNEL_IMAGETYPE for location of 
->>>> ELF_KERNEL
->>>>
->>>> meta/classes/image_types.bbclass | 18 +++++++++++++++++-
->>>> 1 files changed, 17 insertions(+), 1 deletions(-)
->>>>
->>>> diff --git a/meta/classes/image_types.bbclass
->>>> b/meta/classes/image_types.bbclass
->>>> index 55f122e..64fa14a 100644
->>>> --- a/meta/classes/image_types.bbclass
->>>> +++ b/meta/classes/image_types.bbclass
->>>> @@ -7,6 +7,12 @@ def get_imagecmds(d):
->>>> ctypes = d.getVar('COMPRESSIONTYPES', True).split()
->>>> cimages = {}
->>>>
->>>> + if "elf" in alltypes:
->>>> + alltypes.remove("elf")
->>>> + if "cpio.gz" not in alltypes:
->>>> + alltypes.append("cpio.gz")
->>>> + alltypes.append("elf")
->>>> +
->>>> # Filter out all the compressed images from types
->>>> for type in alltypes:
->>>> basetype = None
->>>> @@ -173,6 +179,14 @@ IMAGE_CMD_cpio () {
->>>> cd ${IMAGE_ROOTFS}&& (find . | cpio -o -H
->>>> newc>${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cpio)
->>>> }
->>>>
->>>> +ELF_KERNEL ?= ${DEPLOY_DIR_IMAGE}/${KERNEL_IMAGETYPE}
->>>
->>> I guess this was not tested very well, as this failed right out of the
->>> gate.
->> Thanks for giving this a shot Sau. Could you be more specific regarding
->> the failure you are seeing?
->
-> Sorry, It was Sunday evening and I was a little grumpy at the failure 
-> occuring after all the version.
->
->
-> ERROR: ParseError at 
-> /intel/poky/distro/meta/classes/image_types.bbclass:182: unparsed 
-> line: 'ELF_KERNEL ?= ${DEPLOY_DIR_IMAGE}/${KERNEL_IMAGETYPE}'
->
-> My guess is because you forgot the quotes on that line, now why I hit 
-> it instantly and you did not see it I am not sure.
-Yes.  I see.  I was using bitbake 1.15.1.  I have updated bitbake to 
-current and now see the issue.  I'm submitting an updated version of 
-this patch with quotes around this definition.
+On Mon, 2012-07-02 at 13:42 -0300, Otavio Salvador wrote:
+> On Mon, Jul 2, 2012 at 10:33 AM, Chris Larson <clarson@kergoth.com> wrote:
+> > On Mon, Jul 2, 2012 at 4:24 AM, Otavio Salvador <otavio@ossystems.com.br> wrote:
+> >> On Mon, Jul 2, 2012 at 2:44 AM, Paul Gortmaker
+> >> <paul.gortmaker@windriver.com> wrote:
+> >>> The setting is the same in all recipes, so move it to
+> >>> the shared settings in u-boot.inc
+> >>>
+> >>> Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
+> >>
+> >> Acked-by: Otavio Salvador <otavio@ossystems.com.br>
+> >
+> > It shouldn't be using the old, legacy FILESDIR mechanism at all.
+> 
+> Indeed; grepping for it shows nothing.
+> 
+> This can be removed :-D
 
-Thanks,
-Ray
->
-> bitbake world and it will fail
->
->>>
->>> Please let me know what kind of testing you have done.
->> This was tested rather exhaustively on an x86_64->x86_64 configuration
->> prior to the latest changes to the above line. I have only tested this
->> using the bzImage kernel type. I did feel that I had tested the above
->> line as well, but it's possible I had something cached somewhere. I'll
->> kick off a clean build and see if anything surfaces.
->>
->>>
->>> Thanks
->>> Sau!
->>>> +ELF_APPEND ?= "ramdisk_size=32768 root=/dev/ram0 rw console="
->>>> +
->>>> +IMAGE_CMD_elf () {
->>>> + test -f ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.elf&& rm -f
->>>> ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.elf
->>>> + mkelfImage --kernel=${ELF_KERNEL}
->>>> --initrd=${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cpio.gz
->>>> --output=${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.elf
->>>> --append='${ELF_APPEND}' ${EXTRA_IMAGECMD}
->>>> +}
->>>> +
->>>> UBI_VOLNAME ?= "${MACHINE}-rootfs"
->>>>
->>>> IMAGE_CMD_ubi () {
->>>> @@ -199,6 +213,7 @@ EXTRA_IMAGECMD_ext2 ?= "-i 8192"
->>>> EXTRA_IMAGECMD_ext3 ?= "-i 8192"
->>>> EXTRA_IMAGECMD_ext4 ?= "-i 8192"
->>>> EXTRA_IMAGECMD_btrfs ?= ""
->>>> +EXTRA_IMAGECMD_elf ?= ""
->>>>
->>>> IMAGE_DEPENDS = ""
->>>> IMAGE_DEPENDS_jffs2 = "mtd-utils-native"
->>>> @@ -210,11 +225,12 @@ IMAGE_DEPENDS_ext4 = "genext2fs-native
->>>> e2fsprogs-native"
->>>> IMAGE_DEPENDS_btrfs = "btrfs-tools-native"
->>>> IMAGE_DEPENDS_squashfs = "squashfs-tools-native"
->>>> IMAGE_DEPENDS_squashfs-lzma = "squashfs-lzma-tools-native"
->>>> +IMAGE_DEPENDS_elf = "virtual/kernel mkelfimage-native"
->>>> IMAGE_DEPENDS_ubi = "mtd-utils-native"
->>>> IMAGE_DEPENDS_ubifs = "mtd-utils-native"
->>>>
->>>> # This variable is available to request which values are suitable for
->>>> IMAGE_FSTYPES
->>>> -IMAGE_TYPES = "jffs2 sum.jffs2 cramfs ext2 ext2.gz ext2.bz2 ext3
->>>> ext3.gz ext2.lzma btrfs live squashfs squashfs-lzma ubi tar tar.gz
->>>> tar.bz2 tar.xz cpio cpio.gz cpio.xz cpio.lzma vmdk"
->>>> +IMAGE_TYPES = "jffs2 sum.jffs2 cramfs ext2 ext2.gz ext2.bz2 ext3
->>>> ext3.gz ext2.lzma btrfs live squashfs squashfs-lzma ubi tar tar.gz
->>>> tar.bz2 tar.xz cpio cpio.gz cpio.xz cpio.lzma vmdk elf"
->>>>
->>>> COMPRESSIONTYPES = "gz bz2 lzma xz"
->>>> COMPRESS_CMD_lzma = "lzma -k -f -7 ${IMAGE_NAME}.rootfs.${type}"
->>
->>
->>
+This isn't what Chris meant. BitBake handles FILESDIR, not the metadata
+(and grepping bitbake will show a result).
+
+I'm tempted to take the patch on the grounds that a single reference to
+fix is probably easier than several other references. The replacement is
+probably something like:
+
+FILESPATH =. "${FILE_DIRNAME}/u-boot-git/${MACHINE}:"
+
+We should really get on, replace the remaining references and complete
+removal of FILESDIR.
+
+Cheers,
+
+Richard
+
+
+
 
 
 
