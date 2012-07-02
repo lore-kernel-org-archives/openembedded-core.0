@@ -1,24 +1,30 @@
-Received: from mail1.windriver.com ([147.11.146.13])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1Slniw-0004rC-Ao
+Received: from 75-148-42-21-colorado.hfc.comcastbusiness.net ([75.148.42.21]
+	helo=judge.camp.se-eng.com) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <raymondd@beast.se-eng.com>) id 1Slnjr-0005Jq-5T
 	for openembedded-core@lists.openembedded.org;
-	Mon, 02 Jul 2012 23:00:03 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q62Kmp6Z010561
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Mon, 02 Jul 2012 23:00:55 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by judge.camp.se-eng.com (Postfix) with ESMTP id B8588138118
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 2 Jul 2012 13:48:51 -0700 (PDT)
-Received: from localhost.localdomain (172.25.34.61) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Mon, 2 Jul 2012 13:48:51 -0700
-From: Mark Hatle <mark.hatle@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 2 Jul 2012 15:58:25 -0500
-Message-ID: <cover.1341262598.git.mark.hatle@windriver.com>
-X-Mailer: git-send-email 1.7.3.4
-MIME-Version: 1.0
-X-Originating-IP: [172.25.34.61]
-Subject: [PATCH 0/2 v2] SDK related misc changes
+	Mon,  2 Jul 2012 14:49:52 -0600 (MDT)
+X-Virus-Scanned: amavisd-new at camp.se-eng.com
+Received: from judge.camp.se-eng.com ([127.0.0.1])
+	by localhost (judge.camp.se-eng.com [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with ESMTP id Cjr2SCjqaOqp; Mon,  2 Jul 2012 14:49:51 -0600 (MDT)
+Received: from beast (beast.camp.se-eng.com [172.20.202.96])
+	by judge.camp.se-eng.com (Postfix) with ESMTP id 9F3C6138115;
+	Mon,  2 Jul 2012 14:49:51 -0600 (MDT)
+Received: by beast (Postfix, from userid 1000)
+	id 744E0383A3; Mon,  2 Jul 2012 14:51:28 -0600 (MDT)
+From: Raymond Danks <ray.danks@se-eng.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  2 Jul 2012 14:51:25 -0600
+Message-Id: <1341262285-30288-1-git-send-email-ray.danks@se-eng.com>
+X-Mailer: git-send-email 1.7.0.4
+In-Reply-To: <1341001154-10071-1-git-send-email-ray.danks@se-eng.com>
+References: <1341001154-10071-1-git-send-email-ray.danks@se-eng.com>
+Subject: [PATCH 1/2 v4] image_types: Add elf image type
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,37 +39,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Jul 2012 21:00:03 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 02 Jul 2012 21:00:55 -0000
 
-Commit contents are the same, patch 1/2's commit message was rewritten to
-avoid confusion.
+On x86, an ELF image file may be stored as a coreboot payload.
+The image file is constructed, using the mkelfimage utility,
+from a kernel and an initrd.
 
-----
+Signed-off-by: Raymond Danks <ray.danks@se-eng.com>
+Acked-by: Darren Hart <dvhart@linux.intel.com>
+---
+This was originally submitted to the openembedded project:
+http://patches.openembedded.org/patch/7689/
 
-Two minor changes related to SDK generations.  One is a bug fix, the other
-allows for better control over the per-file dependency generation.
+v3:
+ Include DEPLOY_DIR_IMAGE and KERNEL_IMAGETYPE for location of ELF_KERNEL
 
-The following changes since commit 64422f7c5da160050a5454817c8fa9d070104b34:
+v4:
+ Quotes must surround ELF_KERNEL defintion with newer versions of bitbake.
 
-  package.bbclass: Add missing PKGR, PKGV, PKGE and ALTERNATIVE variables from PACKAGEVARS (2012-07-02 16:44:57 +0100)
+ meta/classes/image_types.bbclass |   18 +++++++++++++++++-
+ 1 files changed, 17 insertions(+), 1 deletions(-)
 
-are available in the git repository at:
-  git://git.pokylinux.org/poky-contrib mhatle/misc
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=mhatle/misc
-
-Mark Hatle (2):
-  libc-common: Allow -dbg package to append, and not just set package
-    variables
-  package.bbclass: Allow a package to skip per file dependency
-    generation
-
- meta/classes/libc-common.bbclass |    6 +++---
- meta/classes/package.bbclass     |    3 +++
- 2 files changed, 6 insertions(+), 3 deletions(-)
-
+diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+index 55f122e..2873273 100644
+--- a/meta/classes/image_types.bbclass
++++ b/meta/classes/image_types.bbclass
+@@ -7,6 +7,12 @@ def get_imagecmds(d):
+     ctypes = d.getVar('COMPRESSIONTYPES', True).split()
+     cimages = {}
+ 
++    if "elf" in alltypes:
++        alltypes.remove("elf")
++        if "cpio.gz" not in alltypes:
++                alltypes.append("cpio.gz")
++        alltypes.append("elf")
++
+     # Filter out all the compressed images from types
+     for type in alltypes:
+         basetype = None
+@@ -173,6 +179,14 @@ IMAGE_CMD_cpio () {
+ 	cd ${IMAGE_ROOTFS} && (find . | cpio -o -H newc >${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cpio)
+ }
+ 
++ELF_KERNEL ?= "${STAGING_DIR_HOST}/kernel/${KERNEL_IMAGETYPE}"
++ELF_APPEND ?= "ramdisk_size=32768 root=/dev/ram0 rw console=" 
++
++IMAGE_CMD_elf () {
++	test -f ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.elf && rm -f ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.elf 
++	mkelfImage --kernel=${ELF_KERNEL} --initrd=${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cpio.gz --output=${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.elf --append='${ELF_APPEND}' ${EXTRA_IMAGECMD}
++}
++
+ UBI_VOLNAME ?= "${MACHINE}-rootfs"
+ 
+ IMAGE_CMD_ubi () {
+@@ -199,6 +213,7 @@ EXTRA_IMAGECMD_ext2 ?= "-i 8192"
+ EXTRA_IMAGECMD_ext3 ?= "-i 8192"
+ EXTRA_IMAGECMD_ext4 ?= "-i 8192"
+ EXTRA_IMAGECMD_btrfs ?= ""
++EXTRA_IMAGECMD_elf ?= ""
+ 
+ IMAGE_DEPENDS = ""
+ IMAGE_DEPENDS_jffs2 = "mtd-utils-native"
+@@ -210,11 +225,12 @@ IMAGE_DEPENDS_ext4 = "genext2fs-native e2fsprogs-native"
+ IMAGE_DEPENDS_btrfs = "btrfs-tools-native"
+ IMAGE_DEPENDS_squashfs = "squashfs-tools-native"
+ IMAGE_DEPENDS_squashfs-lzma = "squashfs-lzma-tools-native"
++IMAGE_DEPENDS_elf = "virtual/kernel mkelfimage-native"
+ IMAGE_DEPENDS_ubi = "mtd-utils-native"
+ IMAGE_DEPENDS_ubifs = "mtd-utils-native"
+ 
+ # This variable is available to request which values are suitable for IMAGE_FSTYPES
+-IMAGE_TYPES = "jffs2 sum.jffs2 cramfs ext2 ext2.gz ext2.bz2 ext3 ext3.gz ext2.lzma btrfs live squashfs squashfs-lzma ubi tar tar.gz tar.bz2 tar.xz cpio cpio.gz cpio.xz cpio.lzma vmdk"
++IMAGE_TYPES = "jffs2 sum.jffs2 cramfs ext2 ext2.gz ext2.bz2 ext3 ext3.gz ext2.lzma btrfs live squashfs squashfs-lzma ubi tar tar.gz tar.bz2 tar.xz cpio cpio.gz cpio.xz cpio.lzma vmdk elf"
+ 
+ COMPRESSIONTYPES = "gz bz2 lzma xz"
+ COMPRESS_CMD_lzma = "lzma -k -f -7 ${IMAGE_NAME}.rootfs.${type}"
 -- 
-1.7.3.4
+1.7.0.4
 
 
 
