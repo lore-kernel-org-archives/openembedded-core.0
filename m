@@ -1,26 +1,24 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SlYKM-0002Ee-R8
+	(envelope-from <Paul.Gortmaker@windriver.com>) id 1SlZcI-0003OM-GT
 	for openembedded-core@lists.openembedded.org;
-	Mon, 02 Jul 2012 06:33:35 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 01 Jul 2012 21:22:33 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="172359732"
-Received: from unknown (HELO [10.255.12.182]) ([10.255.12.182])
-	by fmsmga001.fm.intel.com with ESMTP; 01 Jul 2012 21:22:32 -0700
-Message-ID: <4FF12208.3000702@linux.intel.com>
-Date: Sun, 01 Jul 2012 21:22:32 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
+	Mon, 02 Jul 2012 07:56:10 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q625j3EC027673
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Sun, 1 Jul 2012 22:45:03 -0700 (PDT)
+Received: from yow-pgortmak-d2.corp.ad.wrs.com (128.224.146.165) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.1.255.0; Sun, 1 Jul 2012 22:45:02 -0700
+From: Paul Gortmaker <paul.gortmaker@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 2 Jul 2012 01:44:42 -0400
+Message-ID: <1341207885-9463-1-git-send-email-paul.gortmaker@windriver.com>
+X-Mailer: git-send-email 1.7.9.6
+In-Reply-To: <4FF0C930.4000104@linux.intel.com>
+References: <4FF0C930.4000104@linux.intel.com>
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <1340984497-32423-2-git-send-email-ray.danks@se-eng.com>
-	<1341001154-10071-1-git-send-email-ray.danks@se-eng.com>
-In-Reply-To: <1341001154-10071-1-git-send-email-ray.danks@se-eng.com>
-Subject: Re: [PATCH 1/2 v3] image_types: Add elf image type
+Subject: [PATCHv2 0/3] u-boot recipe updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,86 +33,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Jul 2012 04:33:36 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 02 Jul 2012 05:56:10 -0000
+Content-Type: text/plain
 
-On 06/29/2012 01:19 PM, Raymond Danks wrote:
-> On x86, an ELF image file may be stored as a coreboot payload.
-> The image file is constructed, using the mkelfimage utility,
-> from a kernel and an initrd.
->
-> Signed-off-by: Raymond Danks<ray.danks@se-eng.com>
-> ---
-> This was originally submitted to the openembedded project:
-> http://patches.openembedded.org/patch/7689/
->
-> v3:
->   Include DEPLOY_DIR_IMAGE and KERNEL_IMAGETYPE for location of ELF_KERNEL
->
->   meta/classes/image_types.bbclass |   18 +++++++++++++++++-
->   1 files changed, 17 insertions(+), 1 deletions(-)
->
-> diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-> index 55f122e..64fa14a 100644
-> --- a/meta/classes/image_types.bbclass
-> +++ b/meta/classes/image_types.bbclass
-> @@ -7,6 +7,12 @@ def get_imagecmds(d):
->       ctypes = d.getVar('COMPRESSIONTYPES', True).split()
->       cimages = {}
->
-> +    if "elf" in alltypes:
-> +        alltypes.remove("elf")
-> +        if "cpio.gz" not in alltypes:
-> +                alltypes.append("cpio.gz")
-> +        alltypes.append("elf")
-> +
->       # Filter out all the compressed images from types
->       for type in alltypes:
->           basetype = None
-> @@ -173,6 +179,14 @@ IMAGE_CMD_cpio () {
->   	cd ${IMAGE_ROOTFS}&&  (find . | cpio -o -H newc>${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cpio)
->   }
->
-> +ELF_KERNEL ?= ${DEPLOY_DIR_IMAGE}/${KERNEL_IMAGETYPE}
+These are the oe-core updates required so that yocto can do
+a successful build of a working u-boot image for the mpc8315
+reference BSP.
 
-I guess this was not tested very well, as this failed right out of the gate.
+In v2, I've fixed up the issue where TARGET_PREFIX accidentally became
+specific to the one single recipe.  That made the 3/3 patch in v1 no
+longer required.  However, when build testing, I noticed that we
+were needlessly clobbering PARALLEL_MAKE for u-boot, which is not
+at all required, and just slows down builds.  So a new patch is
+added to fix that, and we still have three total.
 
-Please let me know what kind of testing you have done.
+I've built for the beagleboard with -j8 (twice), and the same for
+the 8315 BSP.  I've also always built u-boot with -j10 or greater
+for countless powerpc images I've made in the last 1/2 dozen years.
+Looking at the git history, it appears this just came in with some
+large import, versus being an actively chosen individual setting.
 
-Thanks
-	Sau!
-> +ELF_APPEND ?= "ramdisk_size=32768 root=/dev/ram0 rw console="
-> +
-> +IMAGE_CMD_elf () {
-> +	test -f ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.elf&&  rm -f ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.elf
-> +	mkelfImage --kernel=${ELF_KERNEL} --initrd=${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cpio.gz --output=${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.elf --append='${ELF_APPEND}' ${EXTRA_IMAGECMD}
-> +}
-> +
->   UBI_VOLNAME ?= "${MACHINE}-rootfs"
->
->   IMAGE_CMD_ubi () {
-> @@ -199,6 +213,7 @@ EXTRA_IMAGECMD_ext2 ?= "-i 8192"
->   EXTRA_IMAGECMD_ext3 ?= "-i 8192"
->   EXTRA_IMAGECMD_ext4 ?= "-i 8192"
->   EXTRA_IMAGECMD_btrfs ?= ""
-> +EXTRA_IMAGECMD_elf ?= ""
->
->   IMAGE_DEPENDS = ""
->   IMAGE_DEPENDS_jffs2 = "mtd-utils-native"
-> @@ -210,11 +225,12 @@ IMAGE_DEPENDS_ext4 = "genext2fs-native e2fsprogs-native"
->   IMAGE_DEPENDS_btrfs = "btrfs-tools-native"
->   IMAGE_DEPENDS_squashfs = "squashfs-tools-native"
->   IMAGE_DEPENDS_squashfs-lzma = "squashfs-lzma-tools-native"
-> +IMAGE_DEPENDS_elf = "virtual/kernel mkelfimage-native"
->   IMAGE_DEPENDS_ubi = "mtd-utils-native"
->   IMAGE_DEPENDS_ubifs = "mtd-utils-native"
->
->   # This variable is available to request which values are suitable for IMAGE_FSTYPES
-> -IMAGE_TYPES = "jffs2 sum.jffs2 cramfs ext2 ext2.gz ext2.bz2 ext3 ext3.gz ext2.lzma btrfs live squashfs squashfs-lzma ubi tar tar.gz tar.bz2 tar.xz cpio cpio.gz cpio.xz cpio.lzma vmdk"
-> +IMAGE_TYPES = "jffs2 sum.jffs2 cramfs ext2 ext2.gz ext2.bz2 ext3 ext3.gz ext2.lzma btrfs live squashfs squashfs-lzma ubi tar tar.gz tar.bz2 tar.xz cpio cpio.gz cpio.xz cpio.lzma vmdk elf"
->
->   COMPRESSIONTYPES = "gz bz2 lzma xz"
->   COMPRESS_CMD_lzma = "lzma -k -f -7 ${IMAGE_NAME}.rootfs.${type}"
+The 8315 specific patch that was sent to the yocto list earlier to
+enable building it (u-boot.bin) by default is unchanged, but I can
+resend that if it helps somehow.
+
+Paul.
+---
+
+Paul Gortmaker (3):
+  u-boot: Don't make the -Os removal part of global settings.
+  u-boot: make FILESDIR a shared setting.
+  u-boot: do not clobber PARALLEL_MAKE setting
+
+ meta/recipes-bsp/u-boot/u-boot.inc           |    6 ++----
+ meta/recipes-bsp/u-boot/u-boot_2011.03.bb    |    2 --
+ meta/recipes-bsp/u-boot/u-boot_2011.06.bb    |    2 --
+ meta/recipes-bsp/u-boot/u-boot_2012.04.01.bb |    2 --
+ 4 files changed, 2 insertions(+), 10 deletions(-)
+
+-- 
+1.7.9.6
+
 
 
