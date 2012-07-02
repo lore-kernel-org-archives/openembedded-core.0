@@ -1,31 +1,27 @@
-Received: from astoria.ccjclearline.com ([64.235.106.9])
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpjday@crashcourse.ca>) id 1Slnxa-0005cL-Hj
+	(envelope-from <philb@gnu.org>) id 1Slo0I-0005mL-3u
 	for openembedded-core@lists.openembedded.org;
-	Mon, 02 Jul 2012 23:15:06 +0200
-Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
-	([99.241.91.63]:55732 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.77) (envelope-from <rpjday@crashcourse.ca>)
-	id 1Slnmx-0005vT-3E for openembedded-core@lists.openembedded.org;
-	Mon, 02 Jul 2012 17:04:07 -0400
-Date: Mon, 2 Jul 2012 17:04:02 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@oneiric
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.DEB.2.02.1207021702510.27692@oneiric>
-User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
-MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Subject: any value in still accommodating pcmcia-cs?
+	Mon, 02 Jul 2012 23:17:54 +0200
+Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
+	helo=[192.168.114.6])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1Slnpf-0000ja-9e
+	for openembedded-core@lists.openembedded.org;
+	Mon, 02 Jul 2012 23:06:55 +0200
+Message-ID: <1341263124.2886.44.camel@x121e.pbcl.net>
+From: Phil Blundell <philb@gnu.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Mon, 02 Jul 2012 22:05:24 +0100
+In-Reply-To: <4FF20578.9030109@windriver.com>
+References: <cover.1341032578.git.mark.hatle@windriver.com>
+	<28adf5fdb58c3409ec2dcc1a8dfffaaf2a8eab2b.1341032578.git.mark.hatle@windriver.com>
+	<1341259953.2886.29.camel@x121e.pbcl.net>
+	<4FF20578.9030109@windriver.com>
+X-Mailer: Evolution 3.2.2-1 
+Mime-Version: 1.0
+Subject: Re: [PATCH 6/6] image.bbclass: Add support to build the SDK in parallel with the image
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,23 +36,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Jul 2012 21:15:06 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Mon, 02 Jul 2012 21:17:54 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+
+On Mon, 2012-07-02 at 15:32 -0500, Mark Hatle wrote:
+> On 7/2/12 3:12 PM, Phil Blundell wrote:
+> > On Sat, 2012-06-30 at 00:07 -0500, Mark Hatle wrote:
+> >> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+> >> index 4f50376..7e41982 100644
+> >> --- a/meta/classes/image.bbclass
+> >> +++ b/meta/classes/image.bbclass
+> >> @@ -3,6 +3,11 @@ inherit rootfs_${IMAGE_PKGTYPE}
+> >>   IMAGETEST ?= "dummy"
+> >>   inherit imagetest-${IMAGETEST}
+> >>
+> >> +inherit populate_sdk_base
+> >
+> > This seems to haul a vast amount of stuff into image.bbclass.  Is it
+> > really necessary to have all that in there by default?
+> 
+> Yes, in order to build an SDK that matches an image, it is.
+> 
+> We need to have all of the code that is needed for both IMAGE and SDK 
+> generation.  The SDK code is only active if and only if you call the 
+> populate_sdk task.
+
+Can the SDK bits not live in another class which is applied on top of
+the images via BBCLASSEXTEND or some such?  I don't entirely understand
+why this all needs to be in image.bbclass if, as you say, it's inactive
+by default.  
+
+The code itself looks harmless enough to a casual inspection, but the
+increased number of nested "inherits" does make it rather more difficult
+to understand what's going on, since you have to inspect all of the
+inherited files to understand whether or not they are doing anything.
+
+If we really are going to have this included in image.bbclass, though,
+then it might be worth trying to eliminate the duplicate definitions
+between image.bbclass and populate_sdk{_base}.bbclass.  I think PID and
+EXCLUDE_FROM_WORLD, at least, are defined in both places and I suspect
+there are probably some more. 
+
+p.
 
 
-  given that pcmcia-cs has *long* been deprecated in favour of
-pcmciautils, is there any value in still supporting pcmcia-cs?
-
-rday
-
--- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
 
 
