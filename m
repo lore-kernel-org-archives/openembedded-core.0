@@ -1,27 +1,40 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SlpjA-0006OG-Gf
+	(envelope-from <lianhao.lu@intel.com>) id 1SlqPm-0007Xo-GN
 	for openembedded-core@lists.openembedded.org;
-	Tue, 03 Jul 2012 01:08:20 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 02 Jul 2012 15:57:18 -0700
+	Tue, 03 Jul 2012 01:52:23 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 02 Jul 2012 16:41:20 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="165993821"
-Received: from unknown (HELO [10.255.12.182]) ([10.255.12.182])
-	by orsmga002.jf.intel.com with ESMTP; 02 Jul 2012 15:57:18 -0700
-Message-ID: <4FF2274D.70102@linux.intel.com>
-Date: Mon, 02 Jul 2012 15:57:17 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
-MIME-Version: 1.0
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="160725859"
+Received: from fmsmsx103.amr.corp.intel.com ([10.19.9.34])
+	by orsmga001.jf.intel.com with ESMTP; 02 Jul 2012 16:41:20 -0700
+Received: from fmsmsx152.amr.corp.intel.com (10.19.17.221) by
+	FMSMSX103.amr.corp.intel.com (10.19.9.34) with Microsoft SMTP Server
+	(TLS) id 14.1.355.2; Mon, 2 Jul 2012 16:41:20 -0700
+Received: from shsmsx101.ccr.corp.intel.com (10.239.4.153) by
+	fmsmsx152.amr.corp.intel.com (10.19.17.221) with Microsoft SMTP Server
+	(TLS) id 14.1.355.2; Mon, 2 Jul 2012 16:41:19 -0700
+Received: from shsmsx102.ccr.corp.intel.com ([169.254.2.33]) by
+	SHSMSX101.ccr.corp.intel.com ([169.254.1.220]) with mapi id
+	14.01.0355.002; Tue, 3 Jul 2012 07:41:17 +0800
+From: "Lu, Lianhao" <lianhao.lu@intel.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <1341268076-1331-1-git-send-email-sgw@linux.intel.com>
-	<1341268444.2886.46.camel@x121e.pbcl.net>
-In-Reply-To: <1341268444.2886.46.camel@x121e.pbcl.net>
-Cc: Phil Blundell <philb@gnu.org>
-Subject: Re: [RFC] package.bbclass: enable the use of ERROR_QA
+Thread-Topic: [OE-core] [CONSOLIDATED PULL 04/20] image/core-image: Handle
+	conflicting IMAGE_FEATURES.
+Thread-Index: AQHNWJ9knFRNCmHWyU2JzsSNZCEo25cWpxoy
+Date: Mon, 2 Jul 2012 23:41:16 +0000
+Message-ID: <ipbxcy5ot4bd7mhok1scpn9w.1341272470181@email.android.com>
+References: <cover.1340811559.git.sgw@linux.intel.com>
+	<d419bc8c4de78a3021183197b08ee7b864c6569d.1340811559.git.sgw@linux.intel.com>,
+	<CAF1ZMEcga8Z80tMiCvjdFuG=evyvf12T-+JnkTqenDO0_oBWyw@mail.gmail.com>
+In-Reply-To: <CAF1ZMEcga8Z80tMiCvjdFuG=evyvf12T-+JnkTqenDO0_oBWyw@mail.gmail.com>
+Accept-Language: zh-CN, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+MIME-Version: 1.0
+Subject: Re: [CONSOLIDATED PULL 04/20] image/core-image: Handle conflicting IMAGE_FEATURES.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,34 +49,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Jul 2012 23:08:20 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 02 Jul 2012 23:52:23 -0000
+Content-Language: zh-CN
+Content-Type: text/plain; charset="gb2312"
+Content-Transfer-Encoding: base64
 
-On 07/02/2012 03:34 PM, Phil Blundell wrote:
-> On Mon, 2012-07-02 at 15:27 -0700, Saul Wold wrote:
->> +		if "installed_vs_shipped" in = (d.getVar('INSANE_SKIP_' + pn, True) or "").split()
->> +			bb.note("Package %s skipping Packging installed vs shipped QA test" % pn)
->> +			continue
->
-> Does that actually compile?  It doesn't look entirely like valid python
-> to me.
->
-Apparently not, I am really not sure what I tested this, but I did test 
-something that gave me the messages I wanted.  I am going back to my 
-code and well, I feel stupid right now.
-
-Sau!
-
-> p.
->
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
->
+VGhlIHByb2JsZW0gaXMgdGhhdCB0aGUgUkVQTEFDRVMvQ09ORkxJQ1RTIG1ldGhvZCB3aGljaCBk
+ZWZpbmVkIGluIGRlYmlhbiBwb2xvY3kgaXMgbm90IHN1cHBvcnRlZCBieSB0aGUgaXBrIGJhY2tl
+bmQuDQoNCi1saWFuaGFvDQoNCiJEZW5uaXMuWXh1biIgPGRlbm5pcy55eHVuQGdtYWlsLmNvbT6x
+4NC0o7oNCg0KDQoNCmlzIHRoYXQgcG9zc2libGUgdG8gaGF2ZSBhIHZpcnR1YWwvc3NoLXNlcnZl
+ciBtZWNoYW5pc20sIHByb3ZpZGUgZWl0aGVyIG9wZW5zc2ggb3IgZHJvcGJlYXIgd291bGQgc2Vy
+dmVyIHRoaXMgZGVwZW5kZW5jeSwgcXVpdGUgc2ltaWxpYXIgd2l0aCB3aGF0IGdlbnRvbyBsaW51
+eCBoYW5kbGUgdGhpcywgaW5zdGVhZCBvZiBvdmVycmlkZSBmb28gd2l0aCBiYXINCg0K1NogMjAx
+Mi02LTI3IM/CzucxMTo0M6OsIlNhdWwgV29sZCIgPHNnd0BsaW51eC5pbnRlbC5jb208bWFpbHRv
+OnNnd0BsaW51eC5pbnRlbC5jb20+PtC0tcCjug0KRnJvbTogTGlhbmhhbyBMdSA8bGlhbmhhby5s
+dUBpbnRlbC5jb208bWFpbHRvOmxpYW5oYW8ubHVAaW50ZWwuY29tPj4NCg0KSU1BR0VfRkVBVFVS
+RVMgc3VjaCBhcyAnc3NoLXNlcnZlci1kcm9wYmVhcicgYW5kICdzc2gtc2VydmVyLW9wZW5zc2gn
+DQpjYW4ndCBiZSBib3RoIGVuYWJsZWQuIFVzZXIgY2FuIHVzZSB0aGUgZm9sbG93aW5nIHZhcmlh
+YmxlcyB0byBkZWZpbmUNCnRoZSByZWxhdGlvbnNoaXAgb2YgaW1hZ2UgZmVhdHVyZXM6DQoNCklN
+QUdFX0ZFQVRVUkVTX1JFUExBQ0VTX2ZvbyA9ICJiYXIiIG1lYW5zIGluY2x1ZGluZyBpbWFnZSBm
+ZWF0dXJlICJmb28iDQp3b3VsZCByZXBsYWNlIHRoZSBpbWFnZSBmZWF0dXJlICJiYXIiLg0KDQpJ
+TUFHRV9GRUFUVVJFU19DT05GTElDVFNfZm9vID0gImJhciIgbWVhbnMgaW5jbHVkaW5nIGJvdGgg
+aW1hZ2UgZmVhdHVyZXMNCiJmb28iIGFuZCAiYmFyIiB3b3VsZCBjYXVzZSBhbiBwYXJzaW5nIGVy
+cm9yLg0KDQpTaWduZWQtb2ZmLWJ5OiBMaWFuaGFvIEx1IDxsaWFuaGFvLmx1QGludGVsLmNvbTxt
+YWlsdG86bGlhbmhhby5sdUBpbnRlbC5jb20+Pg0KLS0tDQogbWV0YS9jbGFzc2VzL2NvcmUtaW1h
+Z2UuYmJjbGFzcyAgICAgICAgICAgICAgICAgfCAgIDExICsrKysrKysrKystDQogbWV0YS9jbGFz
+c2VzL2ltYWdlLmJiY2xhc3MgICAgICAgICAgICAgICAgICAgICAgfCAgIDE3ICsrKysrKysrKysr
+KysrKysrDQogbWV0YS9yZWNpcGVzLXNhdG8vaW1hZ2VzL2NvcmUtaW1hZ2Utc2F0by1zZGsuYmI8
+aHR0cDovL2NvcmUtaW1hZ2Utc2F0by1zZGsuYmI+IHwgICAgMiArKw0KIDMgZmlsZXMgY2hhbmdl
+ZCwgMjkgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbnMoLSkNCg0KZGlmZiAtLWdpdCBhL21ldGEv
+Y2xhc3Nlcy9jb3JlLWltYWdlLmJiY2xhc3MgYi9tZXRhL2NsYXNzZXMvY29yZS1pbWFnZS5iYmNs
+YXNzDQppbmRleCAyNWY1YzVhLi42YjIwN2Q3IDEwMDY0NA0KLS0tIGEvbWV0YS9jbGFzc2VzL2Nv
+cmUtaW1hZ2UuYmJjbGFzcw0KKysrIGIvbWV0YS9jbGFzc2VzL2NvcmUtaW1hZ2UuYmJjbGFzcw0K
+QEAgLTQ3LDYgKzQ3LDE0IEBAIFBBQ0tBR0VfR1JPVVBfc3NoLXNlcnZlci1vcGVuc3NoID0gInRh
+c2stY29yZS1zc2gtb3BlbnNzaCINCiBQQUNLQUdFX0dST1VQX3BhY2thZ2UtbWFuYWdlbWVudCA9
+ICIke1JPT1RGU19QS0dNQU5BR0V9Ig0KIFBBQ0tBR0VfR1JPVVBfcXQ0LXBrZ3MgPSAidGFzay1j
+b3JlLXF0LWRlbW9zIg0KDQorDQorIyBJTUFHRV9GRUFFVFVSRVNfUkVQTEFDRVNfZm9vID0gJ2Jh
+cjEgYmFyMicNCisjIEluY2x1ZGluZyBpbWFnZSBmZWF0dXJlIGZvbyB3b3VsZCByZXBsYWNlIHRo
+ZSBpbWFnZSBmZWF0dXJlcyBiYXIxIGFuZCBiYXIyDQorSU1BR0VfRkVBVFVSRVNfUkVQTEFDRVNf
+c3NoLXNlcnZlci1vcGVuc3NoID0gInNzaC1zZXJ2ZXItZHJvcGJlYXIiDQorDQorIyBJTUFHRV9G
+RUFUVVJFU19DT05GTElDVFNfZm9vID0gJ2JhcjEgYmFyMicNCisjIEFuIGVycm9yIGV4Y2VwdGlv
+biB3b3VsZCBiZSByYWlzZWQgaWYgYm90aCBpbWFnZSBmZWF0dXJlcyBmb28gYW5kIGJhcjEob3Ig
+YmFyMikgYXJlIGluY2x1ZGVkDQorDQogQ09SRV9JTUFHRV9CQVNFX0lOU1RBTEwgPSAnXA0KICAg
+ICB0YXNrLWNvcmUtYm9vdCBcDQogICAgIHRhc2stYmFzZS1leHRlbmRlZCBcDQpAQCAtNjAsNyAr
+NjgsOCBAQCBJTUFHRV9JTlNUQUxMID89ICIke0NPUkVfSU1BR0VfQkFTRV9JTlNUQUxMfSINCg0K
+IFgxMV9JTUFHRV9GRUFUVVJFUyAgPSAieDExLWJhc2UgYXBwcy14MTEtY29yZSBwYWNrYWdlLW1h
+bmFnZW1lbnQiDQogRU5IQU5DRURfSU1BR0VfRkVBVFVSRVMgPSAiJHtYMTFfSU1BR0VfRkVBVFVS
+RVN9IGFwcHMteDExLWdhbWVzIGFwcHMteDExLXBpbWxpY28gcGFja2FnZS1tYW5hZ2VtZW50Ig0K
+LVNBVE9fSU1BR0VfRkVBVFVSRVMgPSAiJHtFTkhBTkNFRF9JTUFHRV9GRUFUVVJFU30geDExLXNh
+dG8gc3NoLXNlcnZlci1kcm9wYmVhciINCitTU0hTRVJWRVJfSU1BR0VfRkVBVFVSRVMgPz89ICJz
+c2gtc2VydmVyLWRyb3BiZWFyIg0KK1NBVE9fSU1BR0VfRkVBVFVSRVMgPSAiJHtFTkhBTkNFRF9J
+TUFHRV9GRUFUVVJFU30geDExLXNhdG8gJHtTU0hTRVJWRVJfSU1BR0VfRkVBVFVSRVN9Ig0KDQog
+aW5oZXJpdCBpbWFnZQ0KDQpkaWZmIC0tZ2l0IGEvbWV0YS9jbGFzc2VzL2ltYWdlLmJiY2xhc3Mg
+Yi9tZXRhL2NsYXNzZXMvaW1hZ2UuYmJjbGFzcw0KaW5kZXggMDc3MjM2My4uNmZhYzk3NCAxMDA2
+NDQNCi0tLSBhL21ldGEvY2xhc3Nlcy9pbWFnZS5iYmNsYXNzDQorKysgYi9tZXRhL2NsYXNzZXMv
+aW1hZ2UuYmJjbGFzcw0KQEAgLTg3LDYgKzg3LDIzIEBAIHB5dGhvbiAoKSB7DQogICAgICAgICBk
+ZXBzICs9ICIgJXM6ZG9fcG9wdWxhdGVfc3lzcm9vdCIgJSBkZXANCiAgICAgZC5zZXRWYXJGbGFn
+KCdkb19yb290ZnMnLCAnZGVwZW5kcycsIGRlcHMpDQoNCisgICAgI3Byb2Nlc3MgSU1BR0VfRkVB
+VFVSRVMsIHdlIG11c3QgZG8gdGhpcyBiZWZvcmUgcnVudGltZV9tYXBwaW5nX3JlbmFtZQ0KKyAg
+ICAjQ2hlY2sgZm9yIHJlcGxhY2VzIGltYWdlIGZlYXR1cmVzDQorICAgIGZlYXR1cmVzID0gc2V0
+KG9lLmRhdGEudHlwZWRfdmFsdWUoJ0lNQUdFX0ZFQVRVUkVTJywgZCkpDQorICAgIHJlbWFpbl9m
+ZWF0dXJlcyA9IGZlYXR1cmVzLmNvcHkoKQ0KKyAgICBmb3IgZmVhdHVyZSBpbiBmZWF0dXJlczoN
+CisgICAgICAgIHJlcGxhY2VzID0gc2V0KChkLmdldFZhcigiSU1BR0VfRkVBVFVSRVNfUkVQTEFD
+RVNfJXMiICUgZmVhdHVyZSwgVHJ1ZSkgb3IgIiIpLnNwbGl0KCkpDQorICAgICAgICByZW1haW5f
+ZmVhdHVyZXMgLT0gcmVwbGFjZXMNCisNCisgICAgI0NoZWNrIGZvciBjb25mbGljdCBpbWFnZSBm
+ZWF0dXJlcw0KKyAgICBmb3IgZmVhdHVyZSBpbiByZW1haW5fZmVhdHVyZXM6DQorICAgICAgICBj
+b25mbGljdHMgPSBzZXQoKGQuZ2V0VmFyKCJJTUFHRV9GRUFUVVJFU19DT05GTElDVFNfJXMiICUg
+ZmVhdHVyZSwgVHJ1ZSkgb3IgIiIpLnNwbGl0KCkpDQorICAgICAgICB0ZW1wID0gY29uZmxpY3Rz
+ICYgcmVtYWluX2ZlYXR1cmVzDQorICAgICAgICBpZiB0ZW1wOg0KKyAgICAgICAgICAgIHJhaXNl
+IGJiLnBhcnNlLlNraXBQYWNrYWdlKCIlcyBjb250YWlucyBjb25mbGljdGluZyBJTUFHRV9GRUFU
+VVJFUyAlcyAlcyIgJSAoZC5nZXRWYXIoJ1BOJywgVHJ1ZSksIGZlYXR1cmUsICcgJy5qb2luKGxp
+c3QodGVtcCkpKSkNCisNCisgICAgZC5zZXRWYXIoJ0lNQUdFX0ZFQVRVUkVTJywgJyAnLmpvaW4o
+bGlzdChyZW1haW5fZmVhdHVyZXMpKSkNCisNCiAgICAgIyBJZiB3ZSBkb24ndCBkbyB0aGlzIHdl
+IHRyeSBhbmQgcnVuIHRoZSBtYXBwaW5nIGhvb2tzIHdoaWxlIHBhcnNpbmcgd2hpY2ggaXMgc2xv
+dw0KICAgICAjIGJpdGJha2Ugc2hvdWxkIHJlYWxseSBwcm92aWRlIHNvbWV0aGluZyB0byBsZXQg
+dXMga25vdyB0aGlzLi4uDQogICAgIGlmIGQuZ2V0VmFyKCdCQl9XT1JLRVJDT05URVhUJywgVHJ1
+ZSkgaXMgbm90IE5vbmU6DQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXNhdG8vaW1hZ2VzL2Nv
+cmUtaW1hZ2Utc2F0by1zZGsuYmI8aHR0cDovL2NvcmUtaW1hZ2Utc2F0by1zZGsuYmI+IGIvbWV0
+YS9yZWNpcGVzLXNhdG8vaW1hZ2VzL2NvcmUtaW1hZ2Utc2F0by1zZGsuYmI8aHR0cDovL2NvcmUt
+aW1hZ2Utc2F0by1zZGsuYmI+DQppbmRleCBlZWQxNjk4Li41YmI5NDY5IDEwMDY0NA0KLS0tIGEv
+bWV0YS9yZWNpcGVzLXNhdG8vaW1hZ2VzL2NvcmUtaW1hZ2Utc2F0by1zZGsuYmI8aHR0cDovL2Nv
+cmUtaW1hZ2Utc2F0by1zZGsuYmI+DQorKysgYi9tZXRhL3JlY2lwZXMtc2F0by9pbWFnZXMvY29y
+ZS1pbWFnZS1zYXRvLXNkay5iYjxodHRwOi8vY29yZS1pbWFnZS1zYXRvLXNkay5iYj4NCkBAIC04
+LDYgKzgsOCBAQCBmb3JtIGEgc3RhbmRhbG9uZSBTREsuIg0KIElNQUdFX0ZFQVRVUkVTICs9ICJh
+cHBzLWNvbnNvbGUtY29yZSAke1NBVE9fSU1BR0VfRkVBVFVSRVN9IGRldi1wa2dzIHRvb2xzLXNk
+ayBxdDQtcGtncyINCiBFWFRSQV9JTUFHRV9GRUFUVVJFUyArPSAidG9vbHMtZGVidWcgdG9vbHMt
+cHJvZmlsZSB0b29scy10ZXN0YXBwcyBkZWJ1Zy10d2Vha3MiDQoNCitTU0hTRVJWRVJfSU1BR0Vf
+RkVBVFVSRVMgPSAic3NoLXNlcnZlci1vcGVuc3NoIg0KKw0KIExJQ0VOU0UgPSAiTUlUIg0KDQog
+aW5oZXJpdCBjb3JlLWltYWdlDQotLQ0KMS43LjcuNg0KDQoNCl9fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fDQpPcGVuZW1iZWRkZWQtY29yZSBtYWlsaW5nIGxp
+c3QNCk9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc8bWFpbHRvOk9wZW5l
+bWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+DQpodHRwOi8vbGlzdHMubGludXh0
+b2dvLm9yZy9jZ2ktYmluL21haWxtYW4vbGlzdGluZm8vb3BlbmVtYmVkZGVkLWNvcmUNCg==
 
 
