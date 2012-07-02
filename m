@@ -1,34 +1,36 @@
 Received: from mail-ob0-f175.google.com ([209.85.214.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dennis.yxun@gmail.com>) id 1Sloy6-0004ny-QC
+	(envelope-from <dennis.yxun@gmail.com>) id 1SlpDt-0005Bb-K0
 	for openembedded-core@lists.openembedded.org;
-	Tue, 03 Jul 2012 00:19:43 +0200
-Received: by obcva7 with SMTP id va7so8876079obc.6
+	Tue, 03 Jul 2012 00:36:01 +0200
+Received: by obcva7 with SMTP id va7so8898443obc.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 02 Jul 2012 15:08:41 -0700 (PDT)
+	Mon, 02 Jul 2012 15:24:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type; bh=Z8odAAOYvzKQsCMlqzR/d9Iio4yEAPKDIQCQgroq17o=;
-	b=Vaswk+3CCNJTTwlj1tA2d+NC8CiWLuIZM7axr2NH9fYbQc9F65nfYcCpLBLtnWvREM
-	MdK6Vc/G1jLmIYBxMLFNNNZvfazsLEZU4FSYeosNRM46XfyUaIT1MEajaVYZbHm+JtDk
-	6tlmJtNMUI8wqsMOYj0i1rTNoDDgwzyNg3GSDriTnuSSGsAgMtxP++H7AW4xGEp6qZ7U
-	IQbTOoaZU/ZLU3bN5syamNYQh0R5ceKPGn1c02iZoUNKl6sUFrJcgo5JRnyD5fpL2fqF
-	em6PFNLAjN6n+ETz1RLpltthuJUNavTE06jiDKGuHrJz6LbD+b8pYEklen8usyy/klpd
-	2WoA==
+	:cc:content-type;
+	bh=yeCSbseOnaYH163EvhSKhjlzqCxVKSuqaEFPx8nDkuM=;
+	b=CUUeXgAu0Qi9KEE7F0GxXNp0f4B4WPCqc152eBNd4oZgR25Xs4ZYMK+QR3M5VGHvWO
+	KFY1poQPU07/JbRyEV7oCKHcrHwJUBZ20VUBXk9JxJnGin/XiNZ9o8et5UcufQm0OaiQ
+	CvIp6gdgVwVeUXvFfVduuJTyHmEuEXdnOqpkeqc/MFtIrJBY9g8/VYRF+7kjYrnIsBmT
+	3ILsCxhVplkEeh1Rri5Lhr2AMQIXCf5vkbku2StJGem5zTpa4cSffjqbrapuQ3kXdQ+j
+	JDsneMRKF+iG7ivq6E4qFL3wOeR6IfUkwgC+7q0sDL4C8rzBgHGD9qj1BucuznvjbQ41
+	6qMw==
 MIME-Version: 1.0
-Received: by 10.182.16.70 with SMTP id e6mr10258432obd.24.1341266921022; Mon,
-	02 Jul 2012 15:08:41 -0700 (PDT)
-Received: by 10.182.37.134 with HTTP; Mon, 2 Jul 2012 15:08:40 -0700 (PDT)
-Received: by 10.182.37.134 with HTTP; Mon, 2 Jul 2012 15:08:40 -0700 (PDT)
-In-Reply-To: <d419bc8c4de78a3021183197b08ee7b864c6569d.1340811559.git.sgw@linux.intel.com>
-References: <cover.1340811559.git.sgw@linux.intel.com>
-	<d419bc8c4de78a3021183197b08ee7b864c6569d.1340811559.git.sgw@linux.intel.com>
-Date: Tue, 3 Jul 2012 06:08:40 +0800
-Message-ID: <CAF1ZMEcga8Z80tMiCvjdFuG=evyvf12T-+JnkTqenDO0_oBWyw@mail.gmail.com>
+Received: by 10.182.1.101 with SMTP id 5mr10257116obl.74.1341267899575; Mon,
+	02 Jul 2012 15:24:59 -0700 (PDT)
+Received: by 10.182.37.134 with HTTP; Mon, 2 Jul 2012 15:24:59 -0700 (PDT)
+Received: by 10.182.37.134 with HTTP; Mon, 2 Jul 2012 15:24:59 -0700 (PDT)
+In-Reply-To: <4FEC93ED.2040102@linux.intel.com>
+References: <1340859395-13638-1-git-send-email-dennis.lan@actions-semi.com>
+	<4FEC93ED.2040102@linux.intel.com>
+Date: Tue, 3 Jul 2012 06:24:59 +0800
+Message-ID: <CAF1ZMEfVGmrhzMHwKErPo8x1wZCy_ZeVAGS4qDctpQ=d_jsAkg@mail.gmail.com>
 From: "Dennis.Yxun" <dennis.yxun@gmail.com>
-To: Patches and discussions about the oe-core layer
+To: Saul Wold <sgw@linux.intel.com>, floppym@gentoo.org
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [CONSOLIDATED PULL 04/20] image/core-image: Handle conflicting IMAGE_FEATURES.
+Subject: Re: [PATCH v2] openjade-native: fix undefined Getopts error, use std namespace
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,289 +45,256 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Jul 2012 22:19:43 -0000
-Content-Type: multipart/alternative; boundary=bcaec55240ee60666c04c3e00abd
+X-List-Received-Date: Mon, 02 Jul 2012 22:36:02 -0000
+Content-Type: multipart/alternative; boundary=f46d04462f0ab3ec9c04c3e0449f
 
---bcaec55240ee60666c04c3e00abd
+--f46d04462f0ab3ec9c04c3e0449f
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-is that possible to have a virtual/ssh-server mechanism, provide either
-openssh or dropbear would server this dependency, quite similiar with what
-gentoo linux handle this, instead of override foo with bar
-=E5=9C=A8 2012-6-27 =E4=B8=8B=E5=8D=8811:43=EF=BC=8C"Saul Wold" <sgw@linux.=
-intel.com>=E5=86=99=E9=81=93=EF=BC=9A
+hi saul:
+  please see my comment as following
 
-> From: Lianhao Lu <lianhao.lu@intel.com>
->
-> IMAGE_FEATURES such as 'ssh-server-dropbear' and 'ssh-server-openssh'
-> can't be both enabled. User can use the following variables to define
-> the relationship of image features:
->
-> IMAGE_FEATURES_REPLACES_foo =3D "bar" means including image feature "foo"
-> would replace the image feature "bar".
->
-> IMAGE_FEATURES_CONFLICTS_foo =3D "bar" means including both image feature=
-s
-> "foo" and "bar" would cause an parsing error.
->
-> Signed-off-by: Lianhao Lu <lianhao.lu@intel.com>
-> ---
->  meta/classes/core-image.bbclass                 |   11 ++++++++++-
->  meta/classes/image.bbclass                      |   17 +++++++++++++++++
->  meta/recipes-sato/images/core-image-sato-sdk.bb |    2 ++
->  3 files changed, 29 insertions(+), 1 deletions(-)
->
-> diff --git a/meta/classes/core-image.bbclass
-> b/meta/classes/core-image.bbclass
-> index 25f5c5a..6b207d7 100644
-> --- a/meta/classes/core-image.bbclass
-> +++ b/meta/classes/core-image.bbclass
-> @@ -47,6 +47,14 @@ PACKAGE_GROUP_ssh-server-openssh =3D
-> "task-core-ssh-openssh"
->  PACKAGE_GROUP_package-management =3D "${ROOTFS_PKGMANAGE}"
->  PACKAGE_GROUP_qt4-pkgs =3D "task-core-qt-demos"
->
-> +
-> +# IMAGE_FEAETURES_REPLACES_foo =3D 'bar1 bar2'
-> +# Including image feature foo would replace the image features bar1 and
-> bar2
-> +IMAGE_FEATURES_REPLACES_ssh-server-openssh =3D "ssh-server-dropbear"
-> +
-> +# IMAGE_FEATURES_CONFLICTS_foo =3D 'bar1 bar2'
-> +# An error exception would be raised if both image features foo and
-> bar1(or bar2) are included
-> +
->  CORE_IMAGE_BASE_INSTALL =3D '\
->      task-core-boot \
->      task-base-extended \
-> @@ -60,7 +68,8 @@ IMAGE_INSTALL ?=3D "${CORE_IMAGE_BASE_INSTALL}"
->
->  X11_IMAGE_FEATURES  =3D "x11-base apps-x11-core package-management"
->  ENHANCED_IMAGE_FEATURES =3D "${X11_IMAGE_FEATURES} apps-x11-games
-> apps-x11-pimlico package-management"
-> -SATO_IMAGE_FEATURES =3D "${ENHANCED_IMAGE_FEATURES} x11-sato
-> ssh-server-dropbear"
-> +SSHSERVER_IMAGE_FEATURES ??=3D "ssh-server-dropbear"
-> +SATO_IMAGE_FEATURES =3D "${ENHANCED_IMAGE_FEATURES} x11-sato
-> ${SSHSERVER_IMAGE_FEATURES}"
->
->  inherit image
->
-> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-> index 0772363..6fac974 100644
-> --- a/meta/classes/image.bbclass
-> +++ b/meta/classes/image.bbclass
-> @@ -87,6 +87,23 @@ python () {
->          deps +=3D " %s:do_populate_sysroot" % dep
->      d.setVarFlag('do_rootfs', 'depends', deps)
->
-> +    #process IMAGE_FEATURES, we must do this before runtime_mapping_rena=
-me
-> +    #Check for replaces image features
-> +    features =3D set(oe.data.typed_value('IMAGE_FEATURES', d))
-> +    remain_features =3D features.copy()
-> +    for feature in features:
-> +        replaces =3D set((d.getVar("IMAGE_FEATURES_REPLACES_%s" % featur=
-e,
-> True) or "").split())
-> +        remain_features -=3D replaces
-> +
-> +    #Check for conflict image features
-> +    for feature in remain_features:
-> +        conflicts =3D set((d.getVar("IMAGE_FEATURES_CONFLICTS_%s" %
-> feature, True) or "").split())
-> +        temp =3D conflicts & remain_features
-> +        if temp:
-> +            raise bb.parse.SkipPackage("%s contains conflicting
-> IMAGE_FEATURES %s %s" % (d.getVar('PN', True), feature, '
-> '.join(list(temp))))
-> +
-> +    d.setVar('IMAGE_FEATURES', ' '.join(list(remain_features)))
-> +
->      # If we don't do this we try and run the mapping hooks while parsing
-> which is slow
->      # bitbake should really provide something to let us know this...
->      if d.getVar('BB_WORKERCONTEXT', True) is not None:
-> diff --git a/meta/recipes-sato/images/core-image-sato-sdk.bbb/meta/recipe=
-s-sato/images/
-> core-image-sato-sdk.bb
-> index eed1698..5bb9469 100644
-> --- a/meta/recipes-sato/images/core-image-sato-sdk.bb
-> +++ b/meta/recipes-sato/images/core-image-sato-sdk.bb
-> @@ -8,6 +8,8 @@ form a standalone SDK."
->  IMAGE_FEATURES +=3D "apps-console-core ${SATO_IMAGE_FEATURES} dev-pkgs
-> tools-sdk qt4-pkgs"
->  EXTRA_IMAGE_FEATURES +=3D "tools-debug tools-profile tools-testapps
-> debug-tweaks"
->
-> +SSHSERVER_IMAGE_FEATURES =3D "ssh-server-openssh"
-> +
->  LICENSE =3D "MIT"
->
->  inherit core-image
-> --
-> 1.7.7.6
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+dennis
 
---bcaec55240ee60666c04c3e00abd
+At 2012-6-29 AM1:27=EF=BC=8C"Saul Wold" &
+>
+> On 06/27/2012 09:56 PM, dennis lan wrote:
+>
+>> From: Dennis Lan<dennis.yxun@gmail.com>
+>>
+>> Using Gentoo Linux as the build host, it fails without this patch
+>> Use Getopt::Std in place of getopts.pl.
+>>
+>> https://bugs.gentoo.org/show_**bug.cgi?id=3D420083<https://bugs.gentoo.o=
+rg/show_bug.cgi?id=3D420083>
+>>
+>> which following error:
+>> /usr/bin/perl -w ./../msggen.pl -l jstyleModule InterpreterMessages.msg
+>> /usr/bin/perl -w ./../msggen.pl -l jstyleModule DssslAppMessages.msg
+>> Undefined subroutine&main::Getopts called at ./../msggen.pl line 22.
+>> make[2]: *** [InterpreterMessages.h] Error 2
+>> make[2]: *** Waiting for unfinished jobs....
+>> Undefined subroutine&main::Getopts called at ./../msggen.pl line 22.
+>> make[2]: *** [DssslAppMessages.h] Error 2
+>>
+>> Upstream-Status: Submitted [openjade-devel@lists.**sourceforge.net<openj=
+ade-devel@lists.sourceforge.net>
+>> ]
+>>
+>>  This needs to be in the patch file itself, we can track the patches
+> better that way.
+>
+>> Signed-off-by: Dennis Lan<dennis.yxun@gmail.com>
+>> ---
+>>   .../openjade/openjade-1.3.2/**msggen.pl.patch        |   32
+>> ++++++++++++++++++++
+>>   .../openjade/openjade-native_**1.3.2.bb<http://openjade-native_1.3.2.b=
+b>             |    1 +
+>>   2 files changed, 33 insertions(+), 0 deletions(-)
+>>   create mode 100644 meta/recipes-devtools/**openjade/openjade-1.3.2/**
+>> msggen.pl.patch
+>>
+>> diff --git a/meta/recipes-devtools/**openjade/openjade-1.3.2/**msggen.pl=
+.patch
+>> b/meta/recipes-devtools/**openjade/openjade-1.3.2/**msggen.pl.patch
+>> new file mode 100644
+>> index 0000000..1afe68b
+>> --- /dev/null
+>> +++ b/meta/recipes-devtools/**openjade/openjade-1.3.2/**msggen.pl.patch
+>>
+>
+> Please add comment Upstream-Status and SOB to the patch itself.
+>
+> Thanks
+> Sau!
+>
+>  @@ -0,0 +1,32 @@
+>> +Use Getopt::Std in place of getopts.pl.
+>> +https://bugs.gentoo.org/show_**bug.cgi?id=3D420083<https://bugs.gentoo.=
+org/show_bug.cgi?id=3D420083>
+>> +
+>> +--- a/msggen.pl
+>> ++++ b/msggen.pl
+>> +@@ -4,6 +4,7 @@
+>> + # See the file COPYING for copying permission.
+>> +
+>> + use POSIX;
+>> ++use Getopt::Std;
+>> +
+>> + # Package and version.
+>> + $package =3D 'openjade';
+>> +@@ -18,8 +19,7 @@
+>> + undef $opt_l;
+>> + undef $opt_p;
+>> + undef $opt_t;
+>> +-do 'getopts.pl';
+>> +-&Getopts('l:p:t:');
+>> ++getopts('l:p:t:');
+>> + $module =3D $opt_l;
+>> + $pot_file =3D $opt_p;
+>> +
+>> +@@ -72,7 +72,7 @@
+>> +     else {
+>> +       $field[0] =3D~ /^[IWQXE][0-9]$/ ||&error("invalid first field");=
+;
+>> +       $type[$num] =3D substr($field[0], 0, 1);
+>> +-      $argc =3D int(substr($field[0], 1, 1));
+>> ++      $argc =3D substr($field[0], 1, 1);
+>> +     }
+>> +     $nargs[$num] =3D $argc;
+>> +     $field[1] =3D~ /^[a-zA-Z_][a-zA-Z0-9_]+$/ ||&error("invalid tag");
+>> diff --git a/meta/recipes-devtools/**openjade/openjade-native_1.3.**2.bb=
+<http://openjade-native_1.3.2.bb>b/meta/recipes-devtools/
+>> **openjade/openjade-native_1.3.**2.bb <http://openjade-native_1.3.2.bb>
+>> index 5b29c1f..efd1e11 100644
+>> --- a/meta/recipes-devtools/**openjade/openjade-native_1.3.**2.bb<http:/=
+/openjade-native_1.3.2.bb>
+>> +++ b/meta/recipes-devtools/**openjade/openjade-native_1.3.**2.bb<http:/=
+/openjade-native_1.3.2.bb>
+>> @@ -14,6 +14,7 @@ RDEPENDS_${PN} =3D "sgml-common-native"
+>>
+>>   SRC_URI =3D "${SOURCEFORGE_MIRROR}/**openjade/openjade-${PV}.tar.gz \
+>>              file://makefile.patch \
+>> +           file://msggen.pl.patch \
+>>              file://reautoconf.patch \
+>>            file://user-declared-default-**constructor.patch"
+>>
+>>
+
+--f46d04462f0ab3ec9c04c3e0449f
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<p>is that possible to have a virtual/ssh-server mechanism, provide either =
-openssh or dropbear would server this dependency, quite similiar with what =
-gentoo linux handle this, instead of override foo with bar</p>
-<div class=3D"gmail_quote">=E5=9C=A8 2012-6-27 =E4=B8=8B=E5=8D=8811:43=EF=
-=BC=8C&quot;Saul Wold&quot; &lt;<a href=3D"mailto:sgw@linux.intel.com">sgw@=
-linux.intel.com</a>&gt;=E5=86=99=E9=81=93=EF=BC=9A<br type=3D"attribution">=
+<p>hi saul:<br>
+=C2=A0 please see my comment as following</p>
+<p>dennis</p>
+<p>At 2012-6-29 AM1:27=EF=BC=8C&quot;Saul Wold&quot; &amp;<blockquote class=
+=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
+ing-left:1ex">On 06/27/2012 09:56 PM, dennis lan wrote:<br>
 <blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
 x #ccc solid;padding-left:1ex">
-From: Lianhao Lu &lt;<a href=3D"mailto:lianhao.lu@intel.com">lianhao.lu@int=
-el.com</a>&gt;<br>
+From: Dennis Lan&lt;<a href=3D"mailto:dennis.yxun@gmail.com" target=3D"_bla=
+nk">dennis.yxun@gmail.com</a>&gt;<br>
 <br>
-IMAGE_FEATURES such as &#39;ssh-server-dropbear&#39; and &#39;ssh-server-op=
-enssh&#39;<br>
-can&#39;t be both enabled. User can use the following variables to define<b=
-r>
-the relationship of image features:<br>
+Using Gentoo Linux as the build host, it fails without this patch<br>
+Use Getopt::Std in place of <a href=3D"http://getopts.pl" target=3D"_blank"=
+>getopts.pl</a>.<br>
 <br>
-IMAGE_FEATURES_REPLACES_foo =3D &quot;bar&quot; means including image featu=
-re &quot;foo&quot;<br>
-would replace the image feature &quot;bar&quot;.<br>
+<a href=3D"https://bugs.gentoo.org/show_bug.cgi?id=3D420083" target=3D"_bla=
+nk">https://bugs.gentoo.org/show_<u></u>bug.cgi?id=3D420083</a><br>
 <br>
-IMAGE_FEATURES_CONFLICTS_foo =3D &quot;bar&quot; means including both image=
- features<br>
-&quot;foo&quot; and &quot;bar&quot; would cause an parsing error.<br>
+which following error:<br>
+/usr/bin/perl -w ./../<a href=3D"http://msggen.pl" target=3D"_blank">msggen=
+.pl</a> -l jstyleModule InterpreterMessages.msg<br>
+/usr/bin/perl -w ./../<a href=3D"http://msggen.pl" target=3D"_blank">msggen=
+.pl</a> -l jstyleModule DssslAppMessages.msg<br>
+Undefined subroutine&amp;main::Getopts called at ./../<a href=3D"http://msg=
+gen.pl" target=3D"_blank">msggen.pl</a> line 22.<br>
+make[2]: *** [InterpreterMessages.h] Error 2<br>
+make[2]: *** Waiting for unfinished jobs....<br>
+Undefined subroutine&amp;main::Getopts called at ./../<a href=3D"http://msg=
+gen.pl" target=3D"_blank">msggen.pl</a> line 22.<br>
+make[2]: *** [DssslAppMessages.h] Error 2<br>
 <br>
-Signed-off-by: Lianhao Lu &lt;<a href=3D"mailto:lianhao.lu@intel.com">lianh=
-ao.lu@intel.com</a>&gt;<br>
+Upstream-Status: Submitted [<a href=3D"mailto:openjade-devel@lists.sourcefo=
+rge.net" target=3D"_blank">openjade-devel@lists.<u></u>sourceforge.net</a>]=
+<br>
+<br>
+</blockquote>
+This needs to be in the patch file itself, we can track the patches better =
+that way.<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex">
+Signed-off-by: Dennis Lan&lt;<a href=3D"mailto:dennis.yxun@gmail.com" targe=
+t=3D"_blank">dennis.yxun@gmail.com</a>&gt;<br>
 ---<br>
-=C2=A0meta/classes/core-image.bbclass =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 | =C2=A0 11 ++++++++++-<br>
-=C2=A0meta/classes/image.bbclass =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| =C2=A0 17 +++++++++++++++++<br>
-=C2=A0meta/recipes-sato/images/<a href=3D"http://core-image-sato-sdk.bb" ta=
-rget=3D"_blank">core-image-sato-sdk.bb</a> | =C2=A0 =C2=A02 ++<br>
-=C2=A03 files changed, 29 insertions(+), 1 deletions(-)<br>
+=C2=A0 .../openjade/openjade-1.3.2/<u></u>msggen.pl.patch =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0| =C2=A0 32 ++++++++++++++++++++<br>
+=C2=A0 .../openjade/<a href=3D"http://openjade-native_1.3.2.bb" target=3D"_=
+blank">openjade-native_<u></u>1.3.2.bb</a> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0| =C2=A0 =C2=A01 +<br>
+=C2=A0 2 files changed, 33 insertions(+), 0 deletions(-)<br>
+=C2=A0 create mode 100644 meta/recipes-devtools/<u></u>openjade/openjade-1.=
+3.2/<u></u>msggen.pl.patch<br>
 <br>
-diff --git a/meta/classes/core-image.bbclass b/meta/classes/core-image.bbcl=
-ass<br>
-index 25f5c5a..6b207d7 100644<br>
---- a/meta/classes/core-image.bbclass<br>
-+++ b/meta/classes/core-image.bbclass<br>
-@@ -47,6 +47,14 @@ PACKAGE_GROUP_ssh-server-openssh =3D &quot;task-core-ssh=
--openssh&quot;<br>
-=C2=A0PACKAGE_GROUP_package-management =3D &quot;${ROOTFS_PKGMANAGE}&quot;<=
-br>
-=C2=A0PACKAGE_GROUP_qt4-pkgs =3D &quot;task-core-qt-demos&quot;<br>
+diff --git a/meta/recipes-devtools/<u></u>openjade/openjade-1.3.2/<u></u>ms=
+ggen.pl.patch b/meta/recipes-devtools/<u></u>openjade/openjade-1.3.2/<u></u=
+>msggen.pl.patch<br>
+new file mode 100644<br>
+index 0000000..1afe68b<br>
+--- /dev/null<br>
++++ b/meta/recipes-devtools/<u></u>openjade/openjade-1.3.2/<u></u>msggen.pl=
+.patch<br>
+</blockquote>
 <br>
+Please add comment Upstream-Status and SOB to the patch itself.<br>
+<br>
+Thanks<br>
+Sau!<br>
+<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex">
+@@ -0,0 +1,32 @@<br>
++Use Getopt::Std in place of <a href=3D"http://getopts.pl" target=3D"_blank=
+">getopts.pl</a>.<br>
++<a href=3D"https://bugs.gentoo.org/show_bug.cgi?id=3D420083" target=3D"_bl=
+ank">https://bugs.gentoo.org/show_<u></u>bug.cgi?id=3D420083</a><br>
 +<br>
-+# IMAGE_FEAETURES_REPLACES_foo =3D &#39;bar1 bar2&#39;<br>
-+# Including image feature foo would replace the image features bar1 and ba=
-r2<br>
-+IMAGE_FEATURES_REPLACES_ssh-server-openssh =3D &quot;ssh-server-dropbear&q=
-uot;<br>
++--- a/<a href=3D"http://msggen.pl" target=3D"_blank">msggen.pl</a><br>
+++++ b/<a href=3D"http://msggen.pl" target=3D"_blank">msggen.pl</a><br>
++@@ -4,6 +4,7 @@<br>
++ # See the file COPYING for copying permission.<br>
 +<br>
-+# IMAGE_FEATURES_CONFLICTS_foo =3D &#39;bar1 bar2&#39;<br>
-+# An error exception would be raised if both image features foo and bar1(o=
-r bar2) are included<br>
++ use POSIX;<br>
+++use Getopt::Std;<br>
 +<br>
-=C2=A0CORE_IMAGE_BASE_INSTALL =3D &#39;\<br>
-=C2=A0 =C2=A0 =C2=A0task-core-boot \<br>
-=C2=A0 =C2=A0 =C2=A0task-base-extended \<br>
-@@ -60,7 +68,8 @@ IMAGE_INSTALL ?=3D &quot;${CORE_IMAGE_BASE_INSTALL}&quot;=
-<br>
-<br>
-=C2=A0X11_IMAGE_FEATURES =C2=A0=3D &quot;x11-base apps-x11-core package-man=
-agement&quot;<br>
-=C2=A0ENHANCED_IMAGE_FEATURES =3D &quot;${X11_IMAGE_FEATURES} apps-x11-game=
-s apps-x11-pimlico package-management&quot;<br>
--SATO_IMAGE_FEATURES =3D &quot;${ENHANCED_IMAGE_FEATURES} x11-sato ssh-serv=
-er-dropbear&quot;<br>
-+SSHSERVER_IMAGE_FEATURES ??=3D &quot;ssh-server-dropbear&quot;<br>
-+SATO_IMAGE_FEATURES =3D &quot;${ENHANCED_IMAGE_FEATURES} x11-sato ${SSHSER=
-VER_IMAGE_FEATURES}&quot;<br>
-<br>
-=C2=A0inherit image<br>
-<br>
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass<br>
-index 0772363..6fac974 100644<br>
---- a/meta/classes/image.bbclass<br>
-+++ b/meta/classes/image.bbclass<br>
-@@ -87,6 +87,23 @@ python () {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0deps +=3D &quot; %s:do_populate_sysroot&q=
-uot; % dep<br>
-=C2=A0 =C2=A0 =C2=A0d.setVarFlag(&#39;do_rootfs&#39;, &#39;depends&#39;, de=
-ps)<br>
-<br>
-+ =C2=A0 =C2=A0#process IMAGE_FEATURES, we must do this before runtime_mapp=
-ing_rename<br>
-+ =C2=A0 =C2=A0#Check for replaces image features<br>
-+ =C2=A0 =C2=A0features =3D set(oe.data.typed_value(&#39;IMAGE_FEATURES&#39=
-;, d))<br>
-+ =C2=A0 =C2=A0remain_features =3D features.copy()<br>
-+ =C2=A0 =C2=A0for feature in features:<br>
-+ =C2=A0 =C2=A0 =C2=A0 =C2=A0replaces =3D set((d.getVar(&quot;IMAGE_FEATURE=
-S_REPLACES_%s&quot; % feature, True) or &quot;&quot;).split())<br>
-+ =C2=A0 =C2=A0 =C2=A0 =C2=A0remain_features -=3D replaces<br>
++ # Package and version.<br>
++ $package =3D &#39;openjade&#39;;<br>
++@@ -18,8 +19,7 @@<br>
++ undef $opt_l;<br>
++ undef $opt_p;<br>
++ undef $opt_t;<br>
++-do &#39;<a href=3D"http://getopts.pl" target=3D"_blank">getopts.pl</a>&#3=
+9;;<br>
++-&amp;Getopts(&#39;l:p:t:&#39;);<br>
+++getopts(&#39;l:p:t:&#39;);<br>
++ $module =3D $opt_l;<br>
++ $pot_file =3D $opt_p;<br>
 +<br>
-+ =C2=A0 =C2=A0#Check for conflict image features<br>
-+ =C2=A0 =C2=A0for feature in remain_features:<br>
-+ =C2=A0 =C2=A0 =C2=A0 =C2=A0conflicts =3D set((d.getVar(&quot;IMAGE_FEATUR=
-ES_CONFLICTS_%s&quot; % feature, True) or &quot;&quot;).split())<br>
-+ =C2=A0 =C2=A0 =C2=A0 =C2=A0temp =3D conflicts &amp; remain_features<br>
-+ =C2=A0 =C2=A0 =C2=A0 =C2=A0if temp:<br>
-+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0raise bb.parse.SkipPackage(&quot=
-;%s contains conflicting IMAGE_FEATURES %s %s&quot; % (d.getVar(&#39;PN&#39=
-;, True), feature, &#39; &#39;.join(list(temp))))<br>
-+<br>
-+ =C2=A0 =C2=A0d.setVar(&#39;IMAGE_FEATURES&#39;, &#39; &#39;.join(list(rem=
-ain_features)))<br>
-+<br>
-=C2=A0 =C2=A0 =C2=A0# If we don&#39;t do this we try and run the mapping ho=
-oks while parsing which is slow<br>
-=C2=A0 =C2=A0 =C2=A0# bitbake should really provide something to let us kno=
-w this...<br>
-=C2=A0 =C2=A0 =C2=A0if d.getVar(&#39;BB_WORKERCONTEXT&#39;, True) is not No=
-ne:<br>
-diff --git a/meta/recipes-sato/images/<a href=3D"http://core-image-sato-sdk=
-.bb" target=3D"_blank">core-image-sato-sdk.bb</a> b/meta/recipes-sato/image=
-s/<a href=3D"http://core-image-sato-sdk.bb" target=3D"_blank">core-image-sa=
-to-sdk.bb</a><br>
++@@ -72,7 +72,7 @@<br>
++ =C2=A0 =C2=A0 else {<br>
++ =C2=A0 =C2=A0 =C2=A0 $field[0] =3D~ /^[IWQXE][0-9]$/ ||&amp;error(&quot;i=
+nvalid first field&quot;);;<br>
++ =C2=A0 =C2=A0 =C2=A0 $type[$num] =3D substr($field[0], 0, 1);<br>
++- =C2=A0 =C2=A0 =C2=A0$argc =3D int(substr($field[0], 1, 1));<br>
+++ =C2=A0 =C2=A0 =C2=A0$argc =3D substr($field[0], 1, 1);<br>
++ =C2=A0 =C2=A0 }<br>
++ =C2=A0 =C2=A0 $nargs[$num] =3D $argc;<br>
++ =C2=A0 =C2=A0 $field[1] =3D~ /^[a-zA-Z_][a-zA-Z0-9_]+$/ ||&amp;error(&quo=
+t;invalid tag&quot;);<br>
+diff --git a/meta/recipes-devtools/<u></u>openjade/<a href=3D"http://openja=
+de-native_1.3.2.bb" target=3D"_blank">openjade-native_1.3.<u></u>2.bb</a> b=
+/meta/recipes-devtools/<u></u>openjade/<a href=3D"http://openjade-native_1.=
+3.2.bb" target=3D"_blank">openjade-native_1.3.<u></u>2.bb</a><br>
 
-index eed1698..5bb9469 100644<br>
---- a/meta/recipes-sato/images/<a href=3D"http://core-image-sato-sdk.bb" ta=
-rget=3D"_blank">core-image-sato-sdk.bb</a><br>
-+++ b/meta/recipes-sato/images/<a href=3D"http://core-image-sato-sdk.bb" ta=
-rget=3D"_blank">core-image-sato-sdk.bb</a><br>
-@@ -8,6 +8,8 @@ form a standalone SDK.&quot;<br>
-=C2=A0IMAGE_FEATURES +=3D &quot;apps-console-core ${SATO_IMAGE_FEATURES} de=
-v-pkgs tools-sdk qt4-pkgs&quot;<br>
-=C2=A0EXTRA_IMAGE_FEATURES +=3D &quot;tools-debug tools-profile tools-testa=
-pps debug-tweaks&quot;<br>
+index 5b29c1f..efd1e11 100644<br>
+--- a/meta/recipes-devtools/<u></u>openjade/<a href=3D"http://openjade-nati=
+ve_1.3.2.bb" target=3D"_blank">openjade-native_1.3.<u></u>2.bb</a><br>
++++ b/meta/recipes-devtools/<u></u>openjade/<a href=3D"http://openjade-nati=
+ve_1.3.2.bb" target=3D"_blank">openjade-native_1.3.<u></u>2.bb</a><br>
+@@ -14,6 +14,7 @@ RDEPENDS_${PN} =3D &quot;sgml-common-native&quot;<br>
 <br>
-+SSHSERVER_IMAGE_FEATURES =3D &quot;ssh-server-openssh&quot;<br>
-+<br>
-=C2=A0LICENSE =3D &quot;MIT&quot;<br>
+=C2=A0 SRC_URI =3D &quot;${SOURCEFORGE_MIRROR}/<u></u>openjade/openjade-${P=
+V}.tar.gz \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://makefile.patch \<br>
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://msggen.pl.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://reautoconf.patch \<b=
+r>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://user-declared-default-<u></=
+u>constructor.patch&quot;<br>
 <br>
-=C2=A0inherit core-image<br>
---<br>
-1.7.7.6<br>
-<br>
-<br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.openembedded.org</a><br>
-<a href=3D"http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded=
--core" target=3D"_blank">http://lists.linuxtogo.org/cgi-bin/mailman/listinf=
-o/openembedded-core</a><br>
-</blockquote></div>
+</blockquote>
+</blockquote></p>
 
---bcaec55240ee60666c04c3e00abd--
+--f46d04462f0ab3ec9c04c3e0449f--
