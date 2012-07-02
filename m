@@ -1,30 +1,25 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1SlnKj-00044t-85 for openembedded-core@lists.openembedded.org;
-	Mon, 02 Jul 2012 22:34:57 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q62KNuVp006296
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 2 Jul 2012 21:23:56 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 05228-10 for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 Jul 2012 21:23:51 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q62KNofJ006290
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 2 Jul 2012 21:23:51 +0100
-Message-ID: <1341260636.23146.266.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Mon, 02 Jul 2012 21:23:56 +0100
-X-Mailer: Evolution 3.2.2- 
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <philb@gnu.org>) id 1SlnOD-0004CQ-Fj
+	for openembedded-core@lists.openembedded.org;
+	Mon, 02 Jul 2012 22:38:33 +0200
+Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
+	helo=[192.168.114.6])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1SlnDa-0000iR-Kv
+	for openembedded-core@lists.openembedded.org;
+	Mon, 02 Jul 2012 22:27:34 +0200
+Message-ID: <1341260763.2886.34.camel@x121e.pbcl.net>
+From: Phil Blundell <philb@gnu.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Mon, 02 Jul 2012 21:26:03 +0100
+In-Reply-To: <3112d19714501de42e197c3e05247065bbfea57a.1341015667.git.mark.hatle@windriver.com>
+References: <cover.1341015667.git.mark.hatle@windriver.com>
+	<3112d19714501de42e197c3e05247065bbfea57a.1341015667.git.mark.hatle@windriver.com>
+X-Mailer: Evolution 3.2.2-1 
 Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: [PATCH] subversion-native: Enable subversion-native 1.7 and remove it from ASSUME_PROVIDED
+Subject: Re: [PATCH 1/2] libc-common: Allow debug package to append, not set depends
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,43 +34,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Jul 2012 20:34:57 -0000
+X-List-Received-Date: Mon, 02 Jul 2012 20:38:33 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-This enables a switch to subversion 1.7 now bitbake is able to cope with
-upgrading existing working copies. The impact of this change should be
-minimal since we don't have many subversion recipes now.
+On Fri, 2012-06-29 at 19:22 -0500, Mark Hatle wrote:
+> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 9377ee6..36caff0 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -157,7 +157,6 @@ ASSUME_PROVIDED = "\
-     patch-native \
-     perl-native-runtime \
-     python-native-runtime \
--    subversion-native \
-     tar-native \
-     virtual/libintl-native \
-     "
-diff --git a/meta/recipes-devtools/subversion/subversion_1.7.2.bb b/meta/recipes-devtools/subversion/subversion_1.7.2.bb
-index a8d4f22..d4d56d0 100644
---- a/meta/recipes-devtools/subversion/subversion_1.7.2.bb
-+++ b/meta/recipes-devtools/subversion/subversion_1.7.2.bb
-@@ -9,10 +9,6 @@ BBCLASSEXTEND = "native"
+This patch has no checkin message (other than the subject line) which is
+contrary to our fine guidelines.  What bug is this fixing?
+
+Also, the subject line talks about "depends" but the patch actually
+modifies the way that RPROVIDES/RCONFLICTS/RREPLACES are set and I'm not
+sure that most people would class those as "depends".
+
+p.
  
- PR = "r1"
- 
--# negative, because of new checkout format in 1.7.0 
--# and distro PREMIRRORs need to be in sync with users
--DEFAULT_PREFERENCE = "-1"
--
- SRC_URI = "${APACHE_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
-            file://libtool2.patch \
- "
+> ---
+>  meta/classes/libc-common.bbclass |    6 +++---
+>  1 files changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/meta/classes/libc-common.bbclass b/meta/classes/libc-common.bbclass
+> index 9b91f0a..8145d64 100644
+> --- a/meta/classes/libc-common.bbclass
+> +++ b/meta/classes/libc-common.bbclass
+> @@ -29,7 +29,7 @@ python populate_packages_prepend () {
+>  		d.setVar('PKG_'+bpn+'-dev', 'libc6-dev')
+>  		d.setVar('PKG_'+bpn+'-dbg', 'libc6-dbg')
+>  		# For backward compatibility with old -dbg package
+> -		d.setVar('RPROVIDES_' + bpn + '-dbg', 'libc-dbg')
+> -		d.setVar('RCONFLICTS_' + bpn + '-dbg', 'libc-dbg')
+> -		d.setVar('RREPLACES_' + bpn + '-dbg', 'libc-dbg')
+> +		d.appendVar('RPROVIDES_' + bpn + '-dbg', ' libc-dbg')
+> +		d.appendVar('RCONFLICTS_' + bpn + '-dbg', ' libc-dbg')
+> +		d.appendVar('RREPLACES_' + bpn + '-dbg', ' libc-dbg')
+>  }
 
 
 
