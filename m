@@ -1,35 +1,34 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1SlqRM-0007eC-BU
+	(envelope-from <raj.khem@gmail.com>) id 1SlqTm-0007hA-Rq
 	for openembedded-core@lists.openembedded.org;
-	Tue, 03 Jul 2012 01:54:00 +0200
-Received: by eaal1 with SMTP id l1so2313915eaa.6
+	Tue, 03 Jul 2012 01:56:30 +0200
+Received: by eekd49 with SMTP id d49so2300466eek.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 02 Jul 2012 16:42:59 -0700 (PDT)
+	Mon, 02 Jul 2012 16:45:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=ohJbsJo3e0odjsXauFlt1VnrIgP+fceS4iZhxa7OCBg=;
-	b=WkjoqQoPB5L7zFUYzHanaledtKJJcgmsL6iyrX8Ne4yK6Xatngyp62jLdfOj7nJTnl
-	ju2iFayBaWDUa3AaHBwmQxVqHLxM3mxmKlTv8GJ3bfHZmbaej9azfx3ULf93JYY0dTOr
-	np4IUC12/I+pecqOj02wwzNw03UAm2jzHwqFL90Di4XZ8ZPBJ+0VqFT1g4AHqK4Y245m
-	Sbad/ob0ri3BUNtQ6TsTPzLrs+1P4OU2AZsoDoSmmxSsJuhE+GadimWCTEdNLchokisx
-	nZPAu1p/yOPdKHyVE9iFxUNyWiHyKzQ/U27BLOyq5K4UmF8n0yOf+9BN5Qacexuh6Ygf
-	6Iig==
-Received: by 10.14.99.201 with SMTP id x49mr2333090eef.142.1341272579196; Mon,
-	02 Jul 2012 16:42:59 -0700 (PDT)
+	:content-type; bh=y+yW1DC3+Kbuj+P10Uc/aePnxWJrcUjc7yFXU9hT4II=;
+	b=OGymZ90Oz4DJFBIQuuI+YlegLnDulcKON4iQsYkdgWqUGTdlTQ5Xaiza9eCa0FyNnz
+	rvS/zdokSHpLK5E039gjbPwefPnHTZvV8mqzA2KMXfCmgYwqwBnxTX1BQIST7qCP6jIp
+	9yS44nKSg5MLJdUUUW5qSPvjyPDj+ZhOk+EvLeV02OZzg0vH5Uft2ryqookdj46v1ZYu
+	8mkhOGSCX4nFvizDgEpQfAzNLE4xOE81ZrJZiMtPBJmT9bI63IBMjZEIFEIljvUsMxjG
+	cVdLoFnlPvlpnjU5hDyNzfe7KFIpf6k+0w9wFhFlNObxRyzNzTmHngjBWMhOdyfRDkyu
+	dH6Q==
+Received: by 10.14.185.137 with SMTP id u9mr3902792eem.220.1341272729714; Mon,
+	02 Jul 2012 16:45:29 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.14.210.199 with HTTP; Mon, 2 Jul 2012 16:42:29 -0700 (PDT)
-In-Reply-To: <441e9c9457b3f888162fe83793df551a6ee97697.1341259773.git.dvhart@linux.intel.com>
-References: <441e9c9457b3f888162fe83793df551a6ee97697.1341259773.git.dvhart@linux.intel.com>
+Received: by 10.14.210.199 with HTTP; Mon, 2 Jul 2012 16:44:59 -0700 (PDT)
+In-Reply-To: <1341259602.2886.27.camel@x121e.pbcl.net>
+References: <cover.1341257063.git.mark.hatle@windriver.com>
+	<ce879400de83074f4c24961787ec36aad372fb80.1341257063.git.mark.hatle@windriver.com>
+	<1341259602.2886.27.camel@x121e.pbcl.net>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 2 Jul 2012 16:42:29 -0700
-Message-ID: <CAMKF1srEBy_rLPp_DGr9zQ9WwRqma5JX6qRd6szBPQOf-AOv1A@mail.gmail.com>
+Date: Mon, 2 Jul 2012 16:44:59 -0700
+Message-ID: <CAMKF1sp2RfBJEggBUzkR9xdQ9L5Q_ik3Za2hCFf=3cJDCkqrEg@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	Darren Hart <dvhart@linux.intel.com>
-Subject: Re: [RFC PATCH] grub-efi: Do not use help2man
+Subject: Re: [PATCH 1/1] oprofile: Change /root to /home/root
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,18 +43,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Jul 2012 23:54:00 -0000
+X-List-Received-Date: Mon, 02 Jul 2012 23:56:31 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Mon, Jul 2, 2012 at 1:09 PM, Darren Hart <dvhart@linux.intel.com> wrote:
-> Fixes [YOCTO #2527]
+On Mon, Jul 2, 2012 at 1:06 PM, Phil Blundell <philb@gnu.org> wrote:
 >
-> Modify configure.ac and the generated configure script to avoid using
-> help2man during the compilation process. For grub-efi we are only
-> deploying the EFI payload and are not installing grub on the target
-> root filesystem. Therefor, we do not need the man pages.
+> Why is it putting "daemon setup information" in /root in the first
+> place?  Surely that should go in /etc or some such place.
 >
+> Also, the choice of where root's home directory goes is a distro
+> decision and, in the general case, it is not correct to say that "OE
+> uses /home/root".  Changing the hardcoded value from one thing to
+> another is probably not that much of an improvement overall.
 
-what if you do export HELP2MAN='true' in say do_configure ?
+yes having ROOTHOME configurable is desirable but probably nothing as such
+exists AFAICT
 
 
