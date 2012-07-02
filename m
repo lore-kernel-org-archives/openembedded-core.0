@@ -1,30 +1,31 @@
-Received: from 75-148-42-21-colorado.hfc.comcastbusiness.net ([75.148.42.21]
-	helo=judge.camp.se-eng.com) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raymondd@beast.se-eng.com>) id 1Slnjr-0005Jq-5T
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <rpjday@crashcourse.ca>) id 1Slnxa-0005cL-Hj
 	for openembedded-core@lists.openembedded.org;
-	Mon, 02 Jul 2012 23:00:55 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by judge.camp.se-eng.com (Postfix) with ESMTP id B8588138118
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 Jul 2012 14:49:52 -0600 (MDT)
-X-Virus-Scanned: amavisd-new at camp.se-eng.com
-Received: from judge.camp.se-eng.com ([127.0.0.1])
-	by localhost (judge.camp.se-eng.com [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with ESMTP id Cjr2SCjqaOqp; Mon,  2 Jul 2012 14:49:51 -0600 (MDT)
-Received: from beast (beast.camp.se-eng.com [172.20.202.96])
-	by judge.camp.se-eng.com (Postfix) with ESMTP id 9F3C6138115;
-	Mon,  2 Jul 2012 14:49:51 -0600 (MDT)
-Received: by beast (Postfix, from userid 1000)
-	id 744E0383A3; Mon,  2 Jul 2012 14:51:28 -0600 (MDT)
-From: Raymond Danks <ray.danks@se-eng.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  2 Jul 2012 14:51:25 -0600
-Message-Id: <1341262285-30288-1-git-send-email-ray.danks@se-eng.com>
-X-Mailer: git-send-email 1.7.0.4
-In-Reply-To: <1341001154-10071-1-git-send-email-ray.danks@se-eng.com>
-References: <1341001154-10071-1-git-send-email-ray.danks@se-eng.com>
-Subject: [PATCH 1/2 v4] image_types: Add elf image type
+	Mon, 02 Jul 2012 23:15:06 +0200
+Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
+	([99.241.91.63]:55732 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.77) (envelope-from <rpjday@crashcourse.ca>)
+	id 1Slnmx-0005vT-3E for openembedded-core@lists.openembedded.org;
+	Mon, 02 Jul 2012 17:04:07 -0400
+Date: Mon, 2 Jul 2012 17:04:02 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@oneiric
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.DEB.2.02.1207021702510.27692@oneiric>
+User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+MIME-Version: 1.0
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Subject: any value in still accommodating pcmcia-cs?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,83 +40,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Jul 2012 21:00:55 -0000
+X-List-Received-Date: Mon, 02 Jul 2012 21:15:06 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
-On x86, an ELF image file may be stored as a coreboot payload.
-The image file is constructed, using the mkelfimage utility,
-from a kernel and an initrd.
 
-Signed-off-by: Raymond Danks <ray.danks@se-eng.com>
-Acked-by: Darren Hart <dvhart@linux.intel.com>
----
-This was originally submitted to the openembedded project:
-http://patches.openembedded.org/patch/7689/
+  given that pcmcia-cs has *long* been deprecated in favour of
+pcmciautils, is there any value in still supporting pcmcia-cs?
 
-v3:
- Include DEPLOY_DIR_IMAGE and KERNEL_IMAGETYPE for location of ELF_KERNEL
+rday
 
-v4:
- Quotes must surround ELF_KERNEL defintion with newer versions of bitbake.
-
- meta/classes/image_types.bbclass |   18 +++++++++++++++++-
- 1 files changed, 17 insertions(+), 1 deletions(-)
-
-diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-index 55f122e..2873273 100644
---- a/meta/classes/image_types.bbclass
-+++ b/meta/classes/image_types.bbclass
-@@ -7,6 +7,12 @@ def get_imagecmds(d):
-     ctypes = d.getVar('COMPRESSIONTYPES', True).split()
-     cimages = {}
- 
-+    if "elf" in alltypes:
-+        alltypes.remove("elf")
-+        if "cpio.gz" not in alltypes:
-+                alltypes.append("cpio.gz")
-+        alltypes.append("elf")
-+
-     # Filter out all the compressed images from types
-     for type in alltypes:
-         basetype = None
-@@ -173,6 +179,14 @@ IMAGE_CMD_cpio () {
- 	cd ${IMAGE_ROOTFS} && (find . | cpio -o -H newc >${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cpio)
- }
- 
-+ELF_KERNEL ?= "${STAGING_DIR_HOST}/kernel/${KERNEL_IMAGETYPE}"
-+ELF_APPEND ?= "ramdisk_size=32768 root=/dev/ram0 rw console=" 
-+
-+IMAGE_CMD_elf () {
-+	test -f ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.elf && rm -f ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.elf 
-+	mkelfImage --kernel=${ELF_KERNEL} --initrd=${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cpio.gz --output=${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.elf --append='${ELF_APPEND}' ${EXTRA_IMAGECMD}
-+}
-+
- UBI_VOLNAME ?= "${MACHINE}-rootfs"
- 
- IMAGE_CMD_ubi () {
-@@ -199,6 +213,7 @@ EXTRA_IMAGECMD_ext2 ?= "-i 8192"
- EXTRA_IMAGECMD_ext3 ?= "-i 8192"
- EXTRA_IMAGECMD_ext4 ?= "-i 8192"
- EXTRA_IMAGECMD_btrfs ?= ""
-+EXTRA_IMAGECMD_elf ?= ""
- 
- IMAGE_DEPENDS = ""
- IMAGE_DEPENDS_jffs2 = "mtd-utils-native"
-@@ -210,11 +225,12 @@ IMAGE_DEPENDS_ext4 = "genext2fs-native e2fsprogs-native"
- IMAGE_DEPENDS_btrfs = "btrfs-tools-native"
- IMAGE_DEPENDS_squashfs = "squashfs-tools-native"
- IMAGE_DEPENDS_squashfs-lzma = "squashfs-lzma-tools-native"
-+IMAGE_DEPENDS_elf = "virtual/kernel mkelfimage-native"
- IMAGE_DEPENDS_ubi = "mtd-utils-native"
- IMAGE_DEPENDS_ubifs = "mtd-utils-native"
- 
- # This variable is available to request which values are suitable for IMAGE_FSTYPES
--IMAGE_TYPES = "jffs2 sum.jffs2 cramfs ext2 ext2.gz ext2.bz2 ext3 ext3.gz ext2.lzma btrfs live squashfs squashfs-lzma ubi tar tar.gz tar.bz2 tar.xz cpio cpio.gz cpio.xz cpio.lzma vmdk"
-+IMAGE_TYPES = "jffs2 sum.jffs2 cramfs ext2 ext2.gz ext2.bz2 ext3 ext3.gz ext2.lzma btrfs live squashfs squashfs-lzma ubi tar tar.gz tar.bz2 tar.xz cpio cpio.gz cpio.xz cpio.lzma vmdk elf"
- 
- COMPRESSIONTYPES = "gz bz2 lzma xz"
- COMPRESS_CMD_lzma = "lzma -k -f -7 ${IMAGE_NAME}.rootfs.${type}"
 -- 
-1.7.0.4
 
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
