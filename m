@@ -1,24 +1,31 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from astoria.ccjclearline.com ([64.235.106.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1Sm9eq-00068f-Lm
+	(envelope-from <rpjday@crashcourse.ca>) id 1Sm9lu-0006Ed-1B
 	for openembedded-core@lists.openembedded.org;
-	Tue, 03 Jul 2012 22:25:12 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 03 Jul 2012 13:14:09 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="166504706"
-Received: from unknown (HELO helios.localnet) ([10.252.120.234])
-	by orsmga002.jf.intel.com with ESMTP; 03 Jul 2012 13:14:08 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 03 Jul 2012 21:14:07 +0100
-Message-ID: <1772332.Hc46G99qAB@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.8.3 (Linux/3.2.0-26-generic-pae; KDE/4.8.3; i686; ; )
-In-Reply-To: <1335478762-14532-1-git-send-email-obi@opendreambox.org>
-References: <1335478762-14532-1-git-send-email-obi@opendreambox.org>
+	Tue, 03 Jul 2012 22:32:30 +0200
+Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
+	([99.241.91.63]:37158 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.77) (envelope-from <rpjday@crashcourse.ca>)
+	id 1Sm9bF-0002O7-9s for openembedded-core@lists.openembedded.org;
+	Tue, 03 Jul 2012 16:21:29 -0400
+Date: Tue, 3 Jul 2012 16:21:23 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@oneiric
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.DEB.2.02.1207031620150.30734@oneiric>
+User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
 MIME-Version: 1.0
-Subject: Re: [PATCH] opkg-collateral: import fixes from OE-Classic
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Subject: prexport.bbclass: Fix typo in warning: "AUROPR" -> "AUTOPR".
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,84 +40,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Jul 2012 20:25:12 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 03 Jul 2012 20:32:30 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
-On Friday 27 April 2012 00:19:22 Andreas Oberritter wrote:
-> * Set lists_dir to /var/lib/opkg
-> 
->   commit 16808bc4817492beba512f4e73bce8c232d1eafa
->   Author: Marcin Juszkiewicz <hrw@openembedded.org>
->   Date:   Mon Mar 17 23:40:48 2008 +0000
-> 
-> * Update new options sample and move the opkg.conf to correct place
-> 
->   commit cc9825d97962287df75e164aec456901292e1b7f
->   Author: Tick Chen <ticktock35@gmail.com>
->   Date:   Mon Dec 29 19:41:47 2008 +0800
-> 
-> Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
-> ---
->  meta/recipes-devtools/opkg/opkg-collateral.bb      |    8 +++++---
->  meta/recipes-devtools/opkg/opkg-collateral/lists   |    2 +-
->  .../opkg/opkg-collateral/opkg.conf.comments        |    3 +++
->  3 files changed, 9 insertions(+), 4 deletions(-)
-> 
-> diff --git a/meta/recipes-devtools/opkg/opkg-collateral.bb
-> b/meta/recipes-devtools/opkg/opkg-collateral.bb index e3e0b5f..251c535
-> 100644
-> --- a/meta/recipes-devtools/opkg/opkg-collateral.bb
-> +++ b/meta/recipes-devtools/opkg/opkg-collateral.bb
-> @@ -2,6 +2,8 @@ DESCRIPTION = "opkg configuration files"
->  SECTION = "base"
->  LICENSE = "MIT"
->  LIC_FILES_CHKSUM =
-> "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
-> +PR = "r1"
-> +
->  SRC_URI = "file://opkg.conf.comments \
->  	   file://lists \
->  	   file://dest \
-> @@ -15,8 +17,8 @@ do_compile () {
->  }
-> 
->  do_install () {
-> -	install -d ${D}${sysconfdir}/
-> -	install -m 0644 ${WORKDIR}/opkg.conf ${D}${sysconfdir}/opkg.conf
-> +	install -d ${D}${sysconfdir}/opkg
-> +	install -m 0644 ${WORKDIR}/opkg.conf ${D}${sysconfdir}/opkg/opkg.conf
->  }
-> 
-> -CONFFILES_${PN} = "${sysconfdir}/opkg.conf"
-> +CONFFILES_${PN} = "${sysconfdir}/opkg/opkg.conf"
-> diff --git a/meta/recipes-devtools/opkg/opkg-collateral/lists
-> b/meta/recipes-devtools/opkg/opkg-collateral/lists index 3c524f8..f8aecd8
-> 100644
-> --- a/meta/recipes-devtools/opkg/opkg-collateral/lists
-> +++ b/meta/recipes-devtools/opkg/opkg-collateral/lists
-> @@ -1,2 +1,2 @@
-> -lists_dir ext /var/lib/ipkg
-> +lists_dir ext /var/lib/opkg
 
-Unfortunately, it seems this change has caused bug 2595 - moving the config file 
-to /etc/opkg means that it is always read regardless of whether -f is specified 
-or not (as it is during do_rootfs in order to specify our own generated config 
-file), and this means that after opkg-collateral is installed into the rootfs, 
-this version of the config is used, resulting in opkg ignoring the lists it has 
-already downloaded (since it now sees list_dir as var/lib/opkg instead of 
-var/lib/opkg/lists) and thus it fails to install any of the "attemptonly" 
-packages (including *-dev, *-dbg, etc.).
+Signed-off-by: Robert P. J. Day <rpjday@crashcourse.ca>
 
-The question is, should opkg be fixed to not load anything from etc/opkg/ when 
--f is specified?
+---
 
-Cheers,
-Paul
+  i'm *assuming* this is the correct fix.
+
+diff --git a/meta/classes/prexport.bbclass b/meta/classes/prexport.bbclass
+index 2b16a66..b990c2b 100644
+--- a/meta/classes/prexport.bbclass
++++ b/meta/classes/prexport.bbclass
+@@ -21,7 +21,7 @@ python prexport_handler () {
+             bb.fatal("prexport_handler: export failed!")
+         (metainfo, datainfo) = retval
+         if not datainfo:
+-            bb.warn("prexport_handler: No AUROPR values found for %s" % ver)
++            bb.warn("prexport_handler: No AUTOPR values found for %s" % ver)
+             return
+         oe.prservice.prserv_export_tofile(e.data, None, datainfo, False)
+     elif isinstance(e, bb.event.ParseStarted):
 
 -- 
 
-Paul Eggleton
-Intel Open Source Technology Centre
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
