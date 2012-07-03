@@ -1,24 +1,31 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from astoria.ccjclearline.com ([64.235.106.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <tom.zanussi@intel.com>) id 1Sm7kU-0003oG-Pl
+	(envelope-from <rpjday@crashcourse.ca>) id 1Sm7wy-00047C-Gf
 	for openembedded-core@lists.openembedded.org;
-	Tue, 03 Jul 2012 20:22:54 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 03 Jul 2012 11:10:46 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="161053561"
-Received: from unknown (HELO localhost) ([10.255.12.166])
-	by orsmga001.jf.intel.com with ESMTP; 03 Jul 2012 11:10:46 -0700
-From: tom.zanussi@intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  3 Jul 2012 13:10:33 -0500
-Message-Id: <810402def620000423905174204d9155b33d3f1a.1341338051.git.tom.zanussi@intel.com>
-X-Mailer: git-send-email 1.7.0.4
-In-Reply-To: <ef6a9af654411604543f0baf3fb9b366268ba233.1341338051.git.tom.zanussi@intel.com>
-References: <ef6a9af654411604543f0baf3fb9b366268ba233.1341338051.git.tom.zanussi@intel.com>
-In-Reply-To: <cover.1341338051.git.tom.zanussi@intel.com>
-References: <cover.1341338051.git.tom.zanussi@intel.com>
-Subject: [PATCH 6/9] perf: add libexec/perf-core and contents
+	Tue, 03 Jul 2012 20:35:48 +0200
+Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
+	([99.241.91.63]:35997 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.77) (envelope-from <rpjday@crashcourse.ca>)
+	id 1Sm7mJ-0004nT-C7 for openembedded-core@lists.openembedded.org;
+	Tue, 03 Jul 2012 14:24:47 -0400
+Date: Tue, 3 Jul 2012 14:24:42 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@oneiric
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.DEB.2.02.1207031423470.1309@oneiric>
+User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+MIME-Version: 1.0
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Subject: recent intro of obvious comment typo in core-image.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,32 +40,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Jul 2012 18:22:55 -0000
+X-List-Received-Date: Tue, 03 Jul 2012 18:35:48 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
-From: Tom Zanussi <tom.zanussi@intel.com>
 
-libexec/perf-core contains all the pre-canned scripts and modules
-needed by both the Perl and Python bindigs.  Add libexec/perf-core
-along with all the pre-defined perf scripts underneath it.
+# IMAGE_FEAETURES_REPLACES_foo = 'bar1 bar2'
 
-Signed-off-by: Tom Zanussi <tom.zanussi@intel.com>
----
- meta/recipes-kernel/perf/perf_3.4.bb |    1 +
- 1 files changed, 1 insertions(+), 0 deletions(-)
+  someone else is welcome to do with that what they will.
 
-diff --git a/meta/recipes-kernel/perf/perf_3.4.bb b/meta/recipes-kernel/perf/perf_3.4.bb
-index 514876b..a1628bb 100644
---- a/meta/recipes-kernel/perf/perf_3.4.bb
-+++ b/meta/recipes-kernel/perf/perf_3.4.bb
-@@ -65,5 +65,6 @@ do_install() {
- 
- PACKAGE_ARCH = "${MACHINE_ARCH}"
- 
-+FILES_${PN} += "${libexecdir}/perf-core"
- FILES_${PN}-dbg += "${libdir}/python*/site-packages/.debug"
- FILES_${PN} += "${libdir}/python*/site-packages"
+rday
+
 -- 
-1.7.0.4
 
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
