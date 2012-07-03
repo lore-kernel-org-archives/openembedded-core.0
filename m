@@ -1,24 +1,27 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from starfish.geekisp.com ([216.168.135.166])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@windriver.com>) id 1Sm4yo-0007lG-5i
+	(envelope-from <philip@balister.org>) id 1Sm5CG-000863-Jm
 	for openembedded-core@lists.openembedded.org;
-	Tue, 03 Jul 2012 17:25:30 +0200
-Received: from yow-bashfiel-l1.wrs.com (yow-bashfiel-d3.wrs.com
-	[128.224.147.67])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q63FELje005061;
-	Tue, 3 Jul 2012 08:14:25 -0700 (PDT)
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: richard.purdie@linuxfoundation.org
-Date: Tue,  3 Jul 2012 11:14:15 -0400
-Message-Id: <49aa0be539d4fc90e277cf8386c85c1bb99af361.1341327590.git.bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <cover.1341327589.git.bruce.ashfield@windriver.com>
-References: <cover.1341327589.git.bruce.ashfield@windriver.com>
-In-Reply-To: <cover.1341327589.git.bruce.ashfield@windriver.com>
-References: <cover.1341327589.git.bruce.ashfield@windriver.com>
-Cc: dvhart@linux.intel.com, openembedded-core@lists.openembedded.org,
-	saul.wold@intel.com
-Subject: [PATCH 4/4] linux-yocto-tiny: add KMETA specification
+	Tue, 03 Jul 2012 17:39:24 +0200
+Received: (qmail 166 invoked by uid 1003); 3 Jul 2012 15:28:21 -0000
+Received: from unknown (HELO ?192.168.1.105?)
+	(philip@opensdr.com@96.240.162.243)
+	by mail.geekisp.com with (DHE-RSA-AES256-SHA encrypted) SMTP;
+	3 Jul 2012 15:28:21 -0000
+Message-ID: <4FF30F93.6030706@balister.org>
+Date: Tue, 03 Jul 2012 11:28:19 -0400
+From: Philip Balister <philip@balister.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:13.0) Gecko/20120615 Thunderbird/13.0.1
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1341257063.git.mark.hatle@windriver.com>
+	<ce879400de83074f4c24961787ec36aad372fb80.1341257063.git.mark.hatle@windriver.com>
+	<1341259602.2886.27.camel@x121e.pbcl.net>
+	<CAMKF1sp2RfBJEggBUzkR9xdQ9L5Q_ik3Za2hCFf=3cJDCkqrEg@mail.gmail.com>
+In-Reply-To: <CAMKF1sp2RfBJEggBUzkR9xdQ9L5Q_ik3Za2hCFf=3cJDCkqrEg@mail.gmail.com>
+Subject: Re: [PATCH 1/1] oprofile: Change /root to /home/root
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,39 +36,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Jul 2012 15:25:30 -0000
+X-List-Received-Date: Tue, 03 Jul 2012 15:39:24 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-With recent kern tools changes, having a meta branch is opt-in. The
-other linux-yocto recipes were updated, but linux-yocto-tiny was
-missed.
+On 07/02/2012 07:44 PM, Khem Raj wrote:
+> On Mon, Jul 2, 2012 at 1:06 PM, Phil Blundell <philb@gnu.org> wrote:
+>>
+>> Why is it putting "daemon setup information" in /root in the first
+>> place?  Surely that should go in /etc or some such place.
+>>
+>> Also, the choice of where root's home directory goes is a distro
+>> decision and, in the general case, it is not correct to say that "OE
+>> uses /home/root".  Changing the hardcoded value from one thing to
+>> another is probably not that much of an improvement overall.
+>
+> yes having ROOTHOME configurable is desirable but probably nothing as such
+> exists AFAICT
 
-Without specifying a meta branch, the kernel configuration audit
-won't return any useful results, and throws a warning message.
+Why do we use /home/root instead of /root? If we are having to patch 
+multiple recipes to account for this, maybe we should default to /root?
 
- WARNING: Can't find any BSP hardware or required configuration fragments.
- WARNING: Looked at //cfg///hdw_frags.txt and //cfg///required_frags.txt in directory: //cfg//
- NOTE: package linux-yocto-tiny-3.2.18+git1+ee78519365bdb25287703bbc31c06b193263c654_1+27b68a93eb791e830da8d3a2c0fc99780897ad89-r3.0: task do_kernel
-
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
----
- meta/recipes-kernel/linux/linux-yocto-tiny_3.2.bb |    2 ++
- 1 files changed, 2 insertions(+), 0 deletions(-)
-
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_3.2.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_3.2.bb
-index 78337fb..5381770 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_3.2.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_3.2.bb
-@@ -9,6 +9,8 @@ KCONFIG_MODE = "--allnoconfig"
- 
- LINUX_VERSION ?= "3.2.18"
- 
-+KMETA = "meta"
-+
- SRCREV_machine ?= "27b68a93eb791e830da8d3a2c0fc99780897ad89"
- SRCREV_meta ?= "ee78519365bdb25287703bbc31c06b193263c654"
- 
--- 
-1.7.5.4
+Philip
 
 
 
