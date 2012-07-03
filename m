@@ -1,19 +1,19 @@
 Received: from astoria.ccjclearline.com ([64.235.106.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpjday@crashcourse.ca>) id 1Sm9lu-0006Ed-1B
+	(envelope-from <rpjday@crashcourse.ca>) id 1SmAGs-0006tf-CJ
 	for openembedded-core@lists.openembedded.org;
-	Tue, 03 Jul 2012 22:32:30 +0200
+	Tue, 03 Jul 2012 23:04:30 +0200
 Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
-	([99.241.91.63]:37158 helo=crashcourse.ca)
+	([99.241.91.63]:37694 helo=crashcourse.ca)
 	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
 	(Exim 4.77) (envelope-from <rpjday@crashcourse.ca>)
-	id 1Sm9bF-0002O7-9s for openembedded-core@lists.openembedded.org;
-	Tue, 03 Jul 2012 16:21:29 -0400
-Date: Tue, 3 Jul 2012 16:21:23 -0400 (EDT)
+	id 1SmA6D-0003l1-K2 for openembedded-core@lists.openembedded.org;
+	Tue, 03 Jul 2012 16:53:29 -0400
+Date: Tue, 3 Jul 2012 16:53:24 -0400 (EDT)
 From: "Robert P. J. Day" <rpjday@crashcourse.ca>
 X-X-Sender: rpjday@oneiric
 To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.DEB.2.02.1207031620150.30734@oneiric>
+Message-ID: <alpine.DEB.2.02.1207031651540.31160@oneiric>
 User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
 MIME-Version: 1.0
 X-AntiAbuse: This header was added to track abuse,
@@ -25,7 +25,7 @@ X-AntiAbuse: Sender Address Domain - crashcourse.ca
 X-Source: 
 X-Source-Args: 
 X-Source-Dir: 
-Subject: prexport.bbclass: Fix typo in warning: "AUROPR" -> "AUTOPR".
+Subject: was someone going to remove the MACHINE-related stuff from scripts/runqemu?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,29 +40,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Jul 2012 20:32:30 -0000
+X-List-Received-Date: Tue, 03 Jul 2012 21:04:30 -0000
 Content-Type: TEXT/PLAIN; charset=US-ASCII
 
 
-Signed-off-by: Robert P. J. Day <rpjday@crashcourse.ca>
+  a while back, i pointed out that some of the help printed from
+scripts/runqemu is clearly wrong -- anything to do with that "MACHINE"
+variable.  was someone going to fix that?
 
----
-
-  i'm *assuming* this is the correct fix.
-
-diff --git a/meta/classes/prexport.bbclass b/meta/classes/prexport.bbclass
-index 2b16a66..b990c2b 100644
---- a/meta/classes/prexport.bbclass
-+++ b/meta/classes/prexport.bbclass
-@@ -21,7 +21,7 @@ python prexport_handler () {
-             bb.fatal("prexport_handler: export failed!")
-         (metainfo, datainfo) = retval
-         if not datainfo:
--            bb.warn("prexport_handler: No AUROPR values found for %s" % ver)
-+            bb.warn("prexport_handler: No AUTOPR values found for %s" % ver)
-             return
-         oe.prservice.prserv_export_tofile(e.data, None, datainfo, False)
-     elif isinstance(e, bb.event.ParseStarted):
+rday
 
 -- 
 
