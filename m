@@ -1,27 +1,31 @@
-Received: from starfish.geekisp.com ([216.168.135.166])
+Received: from astoria.ccjclearline.com ([64.235.106.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philip@balister.org>) id 1Sm5CG-000863-Jm
+	(envelope-from <rpjday@crashcourse.ca>) id 1Sm5c1-0000Lp-WA
 	for openembedded-core@lists.openembedded.org;
-	Tue, 03 Jul 2012 17:39:24 +0200
-Received: (qmail 166 invoked by uid 1003); 3 Jul 2012 15:28:21 -0000
-Received: from unknown (HELO ?192.168.1.105?)
-	(philip@opensdr.com@96.240.162.243)
-	by mail.geekisp.com with (DHE-RSA-AES256-SHA encrypted) SMTP;
-	3 Jul 2012 15:28:21 -0000
-Message-ID: <4FF30F93.6030706@balister.org>
-Date: Tue, 03 Jul 2012 11:28:19 -0400
-From: Philip Balister <philip@balister.org>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:13.0) Gecko/20120615 Thunderbird/13.0.1
+	Tue, 03 Jul 2012 18:06:02 +0200
+Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
+	([99.241.91.63]:34114 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.77) (envelope-from <rpjday@crashcourse.ca>)
+	id 1Sm5RN-0005D5-7r for openembedded-core@lists.openembedded.org;
+	Tue, 03 Jul 2012 11:55:01 -0400
+Date: Tue, 3 Jul 2012 11:54:56 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@oneiric
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.DEB.2.02.1207031150230.31710@oneiric>
+User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1341257063.git.mark.hatle@windriver.com>
-	<ce879400de83074f4c24961787ec36aad372fb80.1341257063.git.mark.hatle@windriver.com>
-	<1341259602.2886.27.camel@x121e.pbcl.net>
-	<CAMKF1sp2RfBJEggBUzkR9xdQ9L5Q_ik3Za2hCFf=3cJDCkqrEg@mail.gmail.com>
-In-Reply-To: <CAMKF1sp2RfBJEggBUzkR9xdQ9L5Q_ik3Za2hCFf=3cJDCkqrEg@mail.gmail.com>
-Subject: Re: [PATCH 1/1] oprofile: Change /root to /home/root
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Subject: what's the easiest way to download *all* recipe-referenced tarballs?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,28 +40,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Jul 2012 15:39:24 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 03 Jul 2012 16:06:02 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
-On 07/02/2012 07:44 PM, Khem Raj wrote:
-> On Mon, Jul 2, 2012 at 1:06 PM, Phil Blundell <philb@gnu.org> wrote:
->>
->> Why is it putting "daemon setup information" in /root in the first
->> place?  Surely that should go in /etc or some such place.
->>
->> Also, the choice of where root's home directory goes is a distro
->> decision and, in the general case, it is not correct to say that "OE
->> uses /home/root".  Changing the hardcoded value from one thing to
->> another is probably not that much of an improvement overall.
->
-> yes having ROOTHOME configurable is desirable but probably nothing as such
-> exists AFAICT
 
-Why do we use /home/root instead of /root? If we are having to patch 
-multiple recipes to account for this, maybe we should default to /root?
+  followup to once upon a time post of mine, i'm prepping to give a
+tutorial in OE/yocto, and it would be nice if the client could, ahead
+of time, set up a premirror of every conceivable tarball that is used
+by any recipe in oe-core.
 
-Philip
+  can that be done?  easily?  i can see configuring for a build,
+selecting a MACHINE, then doing "bitbake -c fetchall world", or some
+variation thereof.  but that would be MACHINE-specific.
 
+  is there a better way?  i just want a stash of tarballs ready to go
+so we don't waste a lot of time downloading.
+
+rday
+
+-- 
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
