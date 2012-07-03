@@ -1,37 +1,20 @@
-Received: from mail-we0-f175.google.com ([74.125.82.175])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1Sm7am-0003U9-Lz
+	(envelope-from <tom.zanussi@intel.com>) id 1Sm7jG-0003as-Si
 	for openembedded-core@lists.openembedded.org;
-	Tue, 03 Jul 2012 20:12:52 +0200
-Received: by weyr6 with SMTP id r6so1134349wey.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 03 Jul 2012 11:01:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=PfROe1seYaOVMOiIUG9dglgABWY4FQwnt5t/IBxvvE8=;
-	b=aAnFeZgW+ozPPy08H5ukA2PlCxkoO1qirqwCm4uZvz/4FWjPonVV5VokCFLBemRHpU
-	g1Mwx9SbKcAIwJO3ZNQ6bNS36rnED6W6hsX+BD21Oc5gZKcizZpBHEWTdpJUOx8P5srZ
-	xvdSs8avYBCKG/sOEbTtCO2qsU+Wlc6x72VkBp3xrBUu4eZP2IOEIaZyXuVDpj26Kv4I
-	GVumQgbYgt6g6Z/ikwPEdXjl+k7l5XmtwcwRCfxKO1twILlMOdg8uh/EaB0BiHSmleeS
-	uhKXelnZMbG4/v52p8r7n025Wz7vJT7s2ox+0NeNrhmpLHRhV6YSzSomGusiBkMpoQMu
-	nRaA==
-Received: by 10.180.86.226 with SMTP id s2mr33754460wiz.9.1341338510731;
-	Tue, 03 Jul 2012 11:01:50 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id q6sm32585754wiy.0.2012.07.03.11.01.49
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 03 Jul 2012 11:01:49 -0700 (PDT)
-Date: Tue, 3 Jul 2012 20:01:50 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20120703180150.GF3771@jama.jama.net>
-References: <1341260636.23146.266.camel@ted>
-MIME-Version: 1.0
-In-Reply-To: <1341260636.23146.266.camel@ted>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: [PATCH] subversion-native: Enable subversion-native 1.7 and remove it from ASSUME_PROVIDED
+	Tue, 03 Jul 2012 20:21:39 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 03 Jul 2012 11:10:36 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="188062959"
+Received: from unknown (HELO localhost) ([10.255.12.166])
+	by fmsmga002.fm.intel.com with ESMTP; 03 Jul 2012 11:10:35 -0700
+From: tom.zanussi@intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  3 Jul 2012 13:10:33 -0500
+Message-Id: <cover.1341338051.git.tom.zanussi@intel.com>
+X-Mailer: git-send-email 1.7.0.4
+Subject: [PATCH 0/9] perf: enable Perl and Python bindings, and perf TUI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,78 +29,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Jul 2012 18:12:52 -0000
-X-Groupsio-MsgNum: 24588
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="nYySOmuH/HDX6pKp"
-Content-Disposition: inline
+X-List-Received-Date: Tue, 03 Jul 2012 18:21:39 -0000
 
---nYySOmuH/HDX6pKp
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+From: Tom Zanussi <tom.zanussi@intel.com>
 
-On Mon, Jul 02, 2012 at 09:23:56PM +0100, Richard Purdie wrote:
-> This enables a switch to subversion 1.7 now bitbake is able to cope with
-> upgrading existing working copies. The impact of this change should be
-> minimal since we don't have many subversion recipes now.
+This patchset enables the Perl and Python bindings for perf, as well as
+the perf TUI (text-based UI).
 
-One less change I had to keep in shr branch for quite some time
+These can be separately enabled on a machine basis by adding
+'perf-scripting' and/or 'perf-tui' to the machine's MACHINE_FEATURES.
+The default is to completely disable all scripting and TUI features.
 
-Acked-by: Martin Jansa <Martin.Jansa@gmail.com>
+There are also a couple patches that fix other problems noticed along
+the way.
 
->=20
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
-> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> index 9377ee6..36caff0 100644
-> --- a/meta/conf/bitbake.conf
-> +++ b/meta/conf/bitbake.conf
-> @@ -157,7 +157,6 @@ ASSUME_PROVIDED =3D "\
->      patch-native \
->      perl-native-runtime \
->      python-native-runtime \
-> -    subversion-native \
->      tar-native \
->      virtual/libintl-native \
->      "
-> diff --git a/meta/recipes-devtools/subversion/subversion_1.7.2.bb b/meta/=
-recipes-devtools/subversion/subversion_1.7.2.bb
-> index a8d4f22..d4d56d0 100644
-> --- a/meta/recipes-devtools/subversion/subversion_1.7.2.bb
-> +++ b/meta/recipes-devtools/subversion/subversion_1.7.2.bb
-> @@ -9,10 +9,6 @@ BBCLASSEXTEND =3D "native"
-> =20
->  PR =3D "r1"
-> =20
-> -# negative, because of new checkout format in 1.7.0=20
-> -# and distro PREMIRRORs need to be in sync with users
-> -DEFAULT_PREFERENCE =3D "-1"
-> -
->  SRC_URI =3D "${APACHE_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
->             file://libtool2.patch \
->  "
->=20
->=20
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+These changes need corresponding changes made to linux-yocto and posted
+separately on the yocto and linux-yocto mailing lists.
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+This patchset has been build- and run-tested on the following machines:
 
---nYySOmuH/HDX6pKp
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+qemux86
+qemux86-64
+qemuarm
+sugarbay
+crownbay
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
+The following changes since commit 644ad4bf1e30fcee4b9d5abb819046d1f2193d27:
+  Scott Rifenbark (1):
+        documentation/bsp-guide/bsp.xml: Yocto term paring
 
-iEYEARECAAYFAk/zM44ACgkQN1Ujt2V2gByldgCfWl8+nb/tZ5pxFQRZJRBB5JL/
-ErQAn0uWp3lnOlM9zWgtrOdekNrVaawz
-=0AOT
------END PGP SIGNATURE-----
+are available in the git repository at:
 
---nYySOmuH/HDX6pKp--
+  git://git.yoctoproject.org/poky-contrib.git tzanussi/perf-scripting
+  http://git.yoctoproject.org/cgit.cgi//log/?h=tzanussi/perf-scripting
+
+Tom Zanussi (9):
+  perl: keep original libperl location
+  perl: add @STAGINGDIR@ for config.sh substitions
+  perl: use @STAGINGDIR@ in config.sh
+  perf: enable Python bindings
+  perf: enable Perl binding
+  perf: add libexec/perf-core and contents
+  perf: add perf-scripting MACHINE_FEATURE
+  qemumachines: make MACHINE_FEATURES append follow qemu.inc include
+  perf: add perf-tui MACHINE_FEATURE
+
+ meta/conf/machine/qemux86-64.conf                |    4 +-
+ meta/conf/machine/qemux86.conf                   |    4 +-
+ meta/recipes-devtools/perl/perl-5.14.2/config.sh |    2 +-
+ meta/recipes-devtools/perl/perl_5.14.2.bb        |    4 ++-
+ meta/recipes-kernel/perf/perf_3.4.bb             |   36 ++++++++++++++++++++--
+ 5 files changed, 41 insertions(+), 9 deletions(-)
+
+
+
