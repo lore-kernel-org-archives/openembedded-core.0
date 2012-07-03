@@ -1,42 +1,29 @@
-Received: from mail-pb0-f47.google.com ([209.85.160.47])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1Sm8ZV-0004rs-OK
+	(envelope-from <dvhart@linux.intel.com>) id 1Sm8Zl-0004sF-Me
 	for openembedded-core@lists.openembedded.org;
-	Tue, 03 Jul 2012 21:15:38 +0200
-Received: by pbbrq2 with SMTP id rq2so9470753pbb.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 03 Jul 2012 12:04:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=references:in-reply-to:mime-version:content-transfer-encoding
-	:content-type:message-id:cc:x-mailer:from:subject:date:to;
-	bh=TEFfxk5M14d0xkVTbZtQGclHbXc+ZifIm74seZkYiK8=;
-	b=k7zmkCW9y7NiXPB0BZ2dYf1CsNkprS2jNYQk/SgOYQdRGnkZITtsGi0NrOowXc2xpF
-	l8UhF7QSDVptiRns4TRufECIrsh2lrR0IyGauIp4m7nZdZ4YTUScqHrPqtQbRN9yr1Np
-	lBcMT9VouIrneuABsFADeOqdjtmbQ+7IF+TTMYz4Cm9bKwWiiTyz3awdnpwRTf0SSIpX
-	vggfszgSHMMgvGCjsl2Cfrn765c3AXSnp5HngSlhHeN73IemvWawQyxqKQ1xjZJ7FfGZ
-	c9ZP8ce8O5GMmeGGo0l0G2nkx8gPblw6t5jxIjkq2/hz20XX+E4iDtheMNrgxjh5txIQ
-	dIgQ==
-Received: by 10.68.130.169 with SMTP id of9mr1269476pbb.82.1341342269550;
-	Tue, 03 Jul 2012 12:04:29 -0700 (PDT)
-Received: from [10.0.0.165] ([96.24.66.215])
-	by mx.google.com with ESMTPS id ka5sm16066343pbb.37.2012.07.03.12.04.27
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 03 Jul 2012 12:04:28 -0700 (PDT)
-References: <1341276037-32076-1-git-send-email-sgw@linux.intel.com>
-	<CABcZANnVy0B_wFyVhxz_JsipTf_PXL2ZzLU4hnNGbObDbZRDLw@mail.gmail.com>
-	<4FF3280B.3020008@linux.intel.com>
-In-Reply-To: <4FF3280B.3020008@linux.intel.com>
-Mime-Version: 1.0 (1.0)
-Message-Id: <25E47B94-1ECC-40D1-B0B4-15793B6F8B7D@gmail.com>
-X-Mailer: iPad Mail (9B206)
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 3 Jul 2012 12:04:25 -0700
+	Tue, 03 Jul 2012 21:15:53 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 03 Jul 2012 12:04:50 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="161070836"
+Received: from unknown (HELO envy.home) ([10.255.13.50])
+	by orsmga001.jf.intel.com with ESMTP; 03 Jul 2012 12:04:50 -0700
+Message-ID: <4FF341FA.5070507@linux.intel.com>
+Date: Tue, 03 Jul 2012 12:03:22 -0700
+From: Darren Hart <dvhart@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:13.0) Gecko/20120615 Thunderbird/13.0.1
+MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Cc: Chris Larson <clarson@kergoth.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC v2] package.bbclass: enable the use of package_qa_handle_error
+References: <441e9c9457b3f888162fe83793df551a6ee97697.1341259773.git.dvhart@linux.intel.com>
+	<CAMKF1srEBy_rLPp_DGr9zQ9WwRqma5JX6qRd6szBPQOf-AOv1A@mail.gmail.com>
+	<4FF242B8.1000401@linux.intel.com> <4FF274EC.7030005@gmail.com>
+In-Reply-To: <4FF274EC.7030005@gmail.com>
+X-Enigmail-Version: 1.4.2
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
+Subject: Re: [RFC PATCH] grub-efi: Do not use help2man
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -51,82 +38,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Jul 2012 19:15:38 -0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
+X-List-Received-Date: Tue, 03 Jul 2012 19:15:53 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
 
 
 
--Khem
+On 07/02/2012 09:28 PM, Khem Raj wrote:
+> On 7/2/2012 5:54 PM, Darren Hart wrote:
+>> I added HELP2MAN='true' to EXTRA_OECONF and it failed in the
+>> same way.
+> 
+> 
+> hmmm export it I dont know passing in extra_oeconf will work
 
-On Jul 3, 2012, at 10:12 AM, Saul Wold <sgw@linux.intel.com> wrote:
+OK, I wasn't sure how to gurantee an environment export to
+autotools_do_configure from the grub-efi recipe, so as a test I just
+added the assignment to the top of autotools_do_configure() directly:
 
-> On 07/03/2012 06:55 AM, Chris Larson wrote:
->> On Mon, Jul 2, 2012 at 5:40 PM, Saul Wold<sgw@linux.intel.com>  wrote:
->>> This will allow the reporting of these errors as either WARNINGs (defaul=
-t)
->>> or ERRORs if installed_vs_shipped is added to the ERROR_QA of the policy=
+export HELP2MAN='true'
 
->>> file (such as a<distro_name>.conf file.
->>>=20
->>> V2: found the code I had intended to send instead of that other junk,
->>>     was just not watching what I pushed on that one, sorry. (this is edi=
-t in
->>>     no in the actual commit message)
->>>=20
->>> Signed-off-by: Saul Wold<sgw@linux.intel.com>
->>> ---
->>>  meta/classes/package.bbclass |   11 ++++++++---
->>>  1 file changed, 8 insertions(+), 3 deletions(-)
->>>=20
->>> diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass=
+Building grub-efi-i586-native fails in the same way.
 
->>> index 0b98c6b..ff2ec96 100644
->>> --- a/meta/classes/package.bbclass
->>> +++ b/meta/classes/package.bbclass
->>> @@ -988,9 +988,14 @@ python populate_packages () {
->>>                                 unshipped.append(path)
->>>=20
->>>         if unshipped !=3D []:
->>> -               bb.warn("For recipe %s, the following files/directories w=
-ere installed but not shipped in any package:" % pn)
->>> -               for f in unshipped:
->>> -                       bb.warn("  " + f)
->>> +               msg =3D pn + ": Files/directories were installed but not=
- shipped"
->>> +               skip =3D (d.getVar('INSANE_SKIP_' + pn, True) or "").spl=
-it()
->>> +               if "installed_vs_shipped" in skip:
->>> +                       bb.note("Package %s skipping QA tests: installed=
-_vs_shipped" % pn)
->>> +               else:
->>> +                       package_qa_handle_error("installed_vs_shipped", m=
-sg, d)
->>> +                       for f in unshipped:
->>> +                               package_qa_handle_error("installed_vs_sh=
-ipped", "  " + f, d)
->>=20
->> Hmm, I wonder if this is best, or if it should assemble a single
->> message with newlines separating the files. *thinks*
->=20
-> So that would cause only 1 ERROR or WARNING count, vs N ERRORs or WARNIGS i=
-n the final count for every file that is listed, I think it's good to have t=
-he larger count it signal's something went wrong if that count increases gre=
-atly when a recipe is changed.
+I didn't see anything in the configure script that suggested to be
+that I could override this with an env variable - did you spot
+something I missed?
 
-If its flagged as error then count really doesn't matter and if it is warnin=
-g then user doesnt care=20
-But reporting all together may be better
+- -- 
+Darren Hart
+Intel Open Source Technology Center
+Yocto Project - Linux Kernel
 
->=20
-> Could work either way, but I like the exaggerated count.
->=20
-> Sau!
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.12 (GNU/Linux)
+Comment: Using GnuPG with Mozilla - http://enigmail.mozdev.org/
+
+iQEcBAEBAgAGBQJP80H6AAoJEKbMaAwKp364nVEH/Rf6E/ePZgjPuRWzxTC5IMG0
+4Xwf/rzBJXwkdnRbcWoGY63x7jUN8jCgLhYEPmFDQerB6nMstCrWp4gcc/4AADdK
+SGcPFT7XKa+cOA95uAFRj96SAM6S63IojFQh0Oi98xJB6Hqc3iOIrmCwmCsDn9lM
+ts5DDSCN5x5GAS6XJL0B63shcft9eeaeaQzx/nnZPQbRnGxZRazbTWIDnaPI6gqI
+Cs7Jz6BwV5eczk4iSzNtjAjnGWeTvou3bp//rni+qMcKgttuj6nKMEc60IAQC/h3
+WXsdsODq+ZHRJQRFYzdVOMXtBg6fiSZa4nV1hy7ppeBzEVh7JgfP/Ou3OZT+NMQ=
+=ywCB
+-----END PGP SIGNATURE-----
 
 
