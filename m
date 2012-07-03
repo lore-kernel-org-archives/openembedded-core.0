@@ -1,18 +1,41 @@
-Received: from nat-lmt.mentorg.com ([139.181.28.34] helo=alm.mentorg.com)
+Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ciby_peuse@mentor.com>) id 1SmAbp-00077S-TT
+	(envelope-from <scott.a.garman@intel.com>) id 1SmAjG-0007Dt-A2
 	for openembedded-core@lists.openembedded.org;
-	Tue, 03 Jul 2012 23:26:10 +0200
-Received: from localhost.localdomain ([134.86.97.114])
-	by alm.mentorg.com (8.12.10/8.12.10) with ESMTP id q63LE4gE006915;
-	Tue, 3 Jul 2012 16:14:04 -0500
-From: Ciby Peuse <ciby_peuse@mentor.com>
+	Tue, 03 Jul 2012 23:33:50 +0200
+Received: from mail-yw0-f52.google.com ([209.85.213.52])
+	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 03 Jul 2012 14:22:46 -0700
+Received: by yhpp61 with SMTP id p61so7305153yhp.25
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 03 Jul 2012 14:22:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=message-id:date:from:user-agent:mime-version:to:subject:references
+	:in-reply-to:content-type:content-transfer-encoding
+	:x-gm-message-state;
+	bh=WS8G6t/2AfIuC3ta1RcsObgmZH+MOkYKyvGe/vx2zxQ=;
+	b=hP9S/b7xnsYrUBI5FVfQTvYVnv8TJUtCEgkmcFuKzBba7S0IG6SaKwlnhL+U+s7Ueh
+	/bCzfMcCbgof/onp4BeF4akqtqYlHG1y5oN6RVCOR4rOPCCvD5PhuuS4GrrFhgWAoCPH
+	l68ZSGcxV/8/fgdVBYrLWsBZ2OUaMUqWMPJLLfoJV3M3GyRNbqFBobiTo+3zpliOjsEK
+	QssoO2XEzBG1wY9HXhpQTn7dL8vKCNW3vqDctkLeOgp2MS5gV/XZArRhYAcecGxIbGjz
+	F5u5dLeLFZlbJe2uu+hfAWPp+yfKrzbErlggcl7hLD15hKRTyG3s+W/4gzCm0+zRHAb1
+	c3qQ==
+Received: by 10.68.226.131 with SMTP id rs3mr10877333pbc.62.1341350564567;
+	Tue, 03 Jul 2012 14:22:44 -0700 (PDT)
+Received: from [127.0.0.1] (masterfoo.zenlinux.com. [207.192.74.254])
+	by mx.google.com with ESMTPS id rs4sm16262035pbc.0.2012.07.03.14.22.42
+	(version=SSLv3 cipher=OTHER); Tue, 03 Jul 2012 14:22:43 -0700 (PDT)
+Message-ID: <4FF3628D.8090506@intel.com>
+Date: Tue, 03 Jul 2012 14:22:21 -0700
+From: Scott Garman <scott.a.garman@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:13.0) Gecko/20120615 Thunderbird/13.0.1
+MIME-Version: 1.0
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  3 Jul 2012 16:14:05 -0500
-Message-Id: <1341350045-4504-1-git-send-email-ciby_peuse@mentor.com>
-X-Mailer: git-send-email 1.7.0.4
-Cc: Ciby Peuse <ciby_peuse@mentor.com>
-Subject: [PATCH] libedit: Update LICENSE, adjust DEPENDS assignment and include PR.
+References: <alpine.DEB.2.02.1207031651540.31160@oneiric>
+In-Reply-To: <alpine.DEB.2.02.1207031651540.31160@oneiric>
+X-Gm-Message-State: ALoCoQl0fA2pb3Wvo8srcPKyPWEJ3XhJ2uMBIW7wkgseMaUEbXuSKEeKSu3yc8CYz8nHDPAt/qe5
+Subject: Re: was someone going to remove the MACHINE-related stuff from scripts/runqemu?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,35 +50,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Jul 2012 21:26:10 -0000
+X-List-Received-Date: Tue, 03 Jul 2012 21:33:50 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Update to include SPDX license string and include a few other
-improvements to the recipe.
-Signed-off-by: Ciby Peuse <ciby_peuse@mentor.com>
----
- .../recipes-devtools/libedit/libedit_20110802.bb   |    6 +++---
- 1 files changed, 3 insertions(+), 3 deletions(-)
+On 07/03/2012 01:53 PM, Robert P. J. Day wrote:
+>
+>    a while back, i pointed out that some of the help printed from
+> scripts/runqemu is clearly wrong -- anything to do with that "MACHINE"
+> variable.  was someone going to fix that?
+>
+> rday
 
-diff --git a/meta-oe/recipes-devtools/libedit/libedit_20110802.bb b/meta-oe/recipes-devtools/libedit/libedit_20110802.bb
-index 2aac727..d55eaf6 100644
---- a/meta-oe/recipes-devtools/libedit/libedit_20110802.bb
-+++ b/meta-oe/recipes-devtools/libedit/libedit_20110802.bb
-@@ -1,10 +1,10 @@
- DESCRIPTION = "BSD replacement for libreadline"
- HOMEPAGE = "http://www.thrysoee.dk/editline/"
- SECTION = "libs"
--LICENSE = "BSD"
-+LICENSE = "BSD-3-Clause"
- LIC_FILES_CHKSUM = "file://COPYING;md5=1e4228d0c5a9093b01aeaaeae6641533"
--
--DEPENDS = "ncurses"
-+DEPENDS += "ncurses"
-+PR = "r0"
- 
- inherit autotools
- 
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=2611
+
+I will submit a patch for this by EOD Thursday.
+
+Scott
+
 -- 
-1.7.0.4
+Scott Garman
+Embedded Linux Engineer - Yocto Project
+Intel Open Source Technology Center
+
 
 
 
