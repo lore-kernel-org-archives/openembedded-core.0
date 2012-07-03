@@ -1,24 +1,24 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SlxPv-0006tU-N1
+	(envelope-from <sgw@linux.intel.com>) id 1SlxPw-0006zt-7t
 	for openembedded-core@lists.openembedded.org;
 	Tue, 03 Jul 2012 09:21:00 +0200
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 03 Jul 2012 00:09:51 -0700
+	by orsmga102.jf.intel.com with ESMTP; 03 Jul 2012 00:09:50 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="166158078"
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="166158058"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.182])
-	by orsmga002.jf.intel.com with ESMTP; 03 Jul 2012 00:09:51 -0700
+	by orsmga002.jf.intel.com with ESMTP; 03 Jul 2012 00:09:49 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  3 Jul 2012 00:09:39 -0700
-Message-Id: <5e3f777f9fcc986ae66203651830b5765bca49fd.1341299168.git.sgw@linux.intel.com>
+Date: Tue,  3 Jul 2012 00:09:34 -0700
+Message-Id: <779db325d407f0bade84572ef99fdad4d0c88011.1341299168.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <cover.1341299168.git.sgw@linux.intel.com>
 References: <cover.1341299168.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1341299168.git.sgw@linux.intel.com>
 References: <cover.1341299168.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 10/17] u-boot: Don't make the -Os removal part of global settings.
+Subject: [CONSOLIDATED PULL 05/17] Fix manual log file paths
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,32 +35,120 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 03 Jul 2012 07:21:01 -0000
 
-From: Paul Gortmaker <paul.gortmaker@windriver.com>
+From: Mark Hatle <mark.hatle@windriver.com>
 
-We don't want to force everyone to be stripping the -Os
-flags from their u-boot builds.  Remove it, since it pertains
-to an old toolchain issue that is no longer relevant, and it
-breaks the powerpc mpc8315.
+When a recent change, the path to log files may be contained within an
+arbitrary directory.  To generate the manual log files in the correct path
+we should be using the ${BB_LOGFILE}'s path instead of always assuming the
+logs go into ${WORKDIR}/temp.
 
-Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
+Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
 ---
- meta/recipes-bsp/u-boot/u-boot.inc |    3 +--
- 1 files changed, 1 insertions(+), 2 deletions(-)
+ meta/classes/image.bbclass        |    2 +-
+ meta/classes/package_deb.bbclass  |    4 ++--
+ meta/classes/package_ipk.bbclass  |    2 +-
+ meta/classes/package_rpm.bbclass  |   10 +++++-----
+ meta/classes/populate_sdk.bbclass |    2 +-
+ 5 files changed, 10 insertions(+), 10 deletions(-)
 
-diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
-index a13eddc..5de3583 100644
---- a/meta/recipes-bsp/u-boot/u-boot.inc
-+++ b/meta/recipes-bsp/u-boot/u-boot.inc
-@@ -7,8 +7,7 @@ inherit deploy
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index 7e4bb69..9fae1fe 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -220,7 +220,7 @@ insert_feed_uris () {
+ log_check() {
+ 	for target in $*
+ 	do
+-		lf_path="${WORKDIR}/temp/log.do_$target.${PID}"
++		lf_path="`dirname ${BB_LOGFILE}`/log.do_$target.${PID}"
+ 		
+ 		echo "log_check: Using $lf_path as logfile"
+ 		
+diff --git a/meta/classes/package_deb.bbclass b/meta/classes/package_deb.bbclass
+index 0a8dc1b..f58fd2b 100644
+--- a/meta/classes/package_deb.bbclass
++++ b/meta/classes/package_deb.bbclass
+@@ -167,10 +167,10 @@ package_install_internal_deb () {
+ 		fi
+ 	done
  
- PARALLEL_MAKE=""
+-	rm -f ${WORKDIR}/temp/log.do_${task}-attemptonly.${PID}
++	rm -f `dirname ${BB_LOGFILE}`/log.do_${task}-attemptonly.${PID}
+ 	if [ ! -z "${package_attemptonly}" ]; then
+ 		for i in ${package_attemptonly}; do
+-			apt-get install $i --force-yes --allow-unauthenticated >> ${WORKDIR}/temp/log.do_${task}-attemptonly.${PID} 2>&1 || true
++			apt-get install $i --force-yes --allow-unauthenticated >> `dirname ${BB_LOGFILE}`/log.do_${task}-attemptonly.${PID} 2>&1 || true
+ 		done
+ 	fi
  
--# GCC 4.5.1 builds unusable binaries using -Os, remove it from OPTFLAGS
--EXTRA_OEMAKE = "CROSS_COMPILE=${TARGET_PREFIX} OPTFLAGS='-O2'"
-+EXTRA_OEMAKE = "CROSS_COMPILE=${TARGET_PREFIX}"
+diff --git a/meta/classes/package_ipk.bbclass b/meta/classes/package_ipk.bbclass
+index c86ea03..e682e6a 100644
+--- a/meta/classes/package_ipk.bbclass
++++ b/meta/classes/package_ipk.bbclass
+@@ -157,7 +157,7 @@ package_install_internal_ipk() {
+ 	fi
  
- python () {
- 	if not d.getVar("UBOOT_MACHINE", True):
+ 	if [ ! -z "${package_attemptonly}" ]; then
+-		opkg-cl ${ipkg_args} install ${package_attemptonly} > "${WORKDIR}/temp/log.do_${task}_attemptonly.${PID}" || true
++		opkg-cl ${ipkg_args} install ${package_attemptonly} > "`dirname ${BB_LOGFILE}`/log.do_${task}_attemptonly.${PID}" || true
+ 	fi
+ 
+ 	package_tryout_install_multilib_ipk
+diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
+index 5559a46..78279f5 100644
+--- a/meta/classes/package_rpm.bbclass
++++ b/meta/classes/package_rpm.bbclass
+@@ -342,14 +342,14 @@ package_install_internal_rpm () {
+ 				echo "Note: Unable to find package $pkg ($ml_pkg) -- PACKAGE_INSTALL_ATTEMPTONLY"
+ 				continue
+ 			fi
+-			echo "Attempting $pkg_name..." >> "${WORKDIR}/temp/log.do_${task}_attemptonly.${PID}"
++			echo "Attempting $pkg_name..." >> "`dirname ${BB_LOGFILE}`/log.do_${task}_attemptonly.${PID}"
+ 			${RPM} --predefine "_rpmds_sysinfo_path ${target_rootfs}/etc/rpm/sysinfo" \
+ 				--predefine "_rpmrc_platform_path ${target_rootfs}/etc/rpm/platform" \
+ 				--root "${target_rootfs}/install" \
+ 				-D "_dbpath ${target_rootfs}/install" -D "`cat ${confbase}.macro`" \
+ 				-D "__dbi_txn create nofsync private" \
+ 				-U --justdb --noscripts --notriggers --noparentdirs --nolinktos --ignoresize \
+-			$pkg_name >> "${WORKDIR}/temp/log.do_${task}_attemptonly.${PID}" || true
++			$pkg_name >> "`dirname ${BB_LOGFILE}`/log.do_${task}_attemptonly.${PID}" || true
+ 		done
+ 	fi
+ 
+@@ -390,17 +390,17 @@ package_install_internal_rpm () {
+ 
+ 			if [ $found -eq 0 ]; then
+ 				echo "Note: Unable to find package $pkg -- suggests"
+-				echo "Unable to find package $pkg." >> "${WORKDIR}/temp/log.do_${task}_recommend.${PID}"
++				echo "Unable to find package $pkg." >> "`dirname ${BB_LOGFILE}`/log.do_${task}_recommend.${PID}"
+ 				continue
+ 			fi
+-			echo "Attempting $pkg_name..." >> "${WORKDIR}/temp/log.do_{task}_recommend.${PID}"
++			echo "Attempting $pkg_name..." >> "`dirname ${BB_LOGFILE}`/log.do_{task}_recommend.${PID}"
+ 			${RPM} --predefine "_rpmds_sysinfo_path ${target_rootfs}/etc/rpm/sysinfo" \
+ 				--predefine "_rpmrc_platform_path ${target_rootfs}/etc/rpm/platform" \
+ 				--root "${target_rootfs}/install" \
+ 				-D "_dbpath ${target_rootfs}/install" -D "`cat ${confbase}.macro`" \
+ 				-D "__dbi_txn create nofsync private" \
+ 				-U --justdb --noscripts --notriggers --noparentdirs --nolinktos --ignoresize \
+-				$pkg_name >> "${WORKDIR}/temp/log.do_${task}_recommend.${PID}" 2>&1 || true
++				$pkg_name >> "`dirname ${BB_LOGFILE}`/log.do_${task}_recommend.${PID}" 2>&1 || true
+ 		done
+ 		cat ${target_rootfs}/install/recommend.list ${target_rootfs}/install/recommend.new | sort -u > ${target_rootfs}/install/recommend.new.list
+ 		mv -f ${target_rootfs}/install/recommend.new.list ${target_rootfs}/install/recommend.list
+diff --git a/meta/classes/populate_sdk.bbclass b/meta/classes/populate_sdk.bbclass
+index 5aa8e92..1131d68 100644
+--- a/meta/classes/populate_sdk.bbclass
++++ b/meta/classes/populate_sdk.bbclass
+@@ -70,7 +70,7 @@ fakeroot do_populate_sdk() {
+ populate_sdk_log_check() {
+ 	for target in $*
+ 	do
+-		lf_path="${WORKDIR}/temp/log.do_$target.${PID}"
++		lf_path="`dirname ${BB_LOGFILE}`/log.do_$target.${PID}"
+ 
+ 		echo "log_check: Using $lf_path as logfile"
+ 
 -- 
 1.7.7.6
 
