@@ -1,46 +1,24 @@
-Received: from va3ehsobe003.messaging.microsoft.com ([216.32.180.13]
-	helo=va3outboundpool.messaging.microsoft.com)
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1Sm9M9-0005wS-7g
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1Sm9eq-00068f-Lm
 	for openembedded-core@lists.openembedded.org;
-	Tue, 03 Jul 2012 22:05:53 +0200
-Received: from mail102-va3-R.bigfish.com (10.7.14.252) by
-	VA3EHSOBE001.bigfish.com (10.7.40.21) with Microsoft SMTP Server id
-	14.1.225.23; Tue, 3 Jul 2012 19:37:48 +0000
-Received: from mail102-va3 (localhost [127.0.0.1])	by
-	mail102-va3-R.bigfish.com (Postfix) with ESMTP id 38C6FE0713	for
-	<openembedded-core@lists.openembedded.org>;
-	Tue,  3 Jul 2012 19:32:01 +0000 (UTC)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-X-SpamScore: 3
-X-BigFish: VS3(zzzz1202h1082kzz8275bh8275dhz2dh2a8h668h839hd24he5bhf0ah)
-Received: from mail102-va3 (localhost.localdomain [127.0.0.1]) by mail102-va3
-	(MessageSwitch) id 1341343919245724_16593;
-	Tue,  3 Jul 2012 19:31:59 +0000 (UTC)
-Received: from VA3EHSMHS003.bigfish.com (unknown [10.7.14.245])	by
-	mail102-va3.bigfish.com (Postfix) with ESMTP id 34C482015D	for
-	<openembedded-core@lists.openembedded.org>;
-	Tue,  3 Jul 2012 19:31:59 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by VA3EHSMHS003.bigfish.com
-	(10.7.99.13) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Tue, 3 Jul 2012 19:31:54 +0000
-Received: from tx30smr01.am.freescale.net (10.81.153.31) by
-	039-SN1MMR1-001.039d.mgd.msft.net (10.84.1.13) with Microsoft SMTP
-	Server (TLS) id 14.2.298.5; Tue, 3 Jul 2012 14:21:08 -0500
-Received: from right.am.freescale.net (right.am.freescale.net [10.82.193.13])
-	by tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id
-	q63JL8WQ008364
-	for <openembedded-core@lists.openembedded.org>; Tue, 3 Jul 2012 12:21:08
-	-0700
-From: Matthew McClintock <msm@freescale.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 3 Jul 2012 14:21:07 -0500
-Message-ID: <1341343267-32355-1-git-send-email-msm@freescale.com>
-X-Mailer: git-send-email 1.7.10
+	Tue, 03 Jul 2012 22:25:12 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 03 Jul 2012 13:14:09 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="166504706"
+Received: from unknown (HELO helios.localnet) ([10.252.120.234])
+	by orsmga002.jf.intel.com with ESMTP; 03 Jul 2012 13:14:08 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 03 Jul 2012 21:14:07 +0100
+Message-ID: <1772332.Hc46G99qAB@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.8.3 (Linux/3.2.0-26-generic-pae; KDE/4.8.3; i686; ; )
+In-Reply-To: <1335478762-14532-1-git-send-email-obi@opendreambox.org>
+References: <1335478762-14532-1-git-send-email-obi@opendreambox.org>
 MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Subject: [PATCH] libxml-parser-perl_2.41.bb: fix MakeMaker issues with using wrong CC/LD/etc
+Subject: Re: [PATCH] opkg-collateral: import fixes from OE-Classic
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -55,59 +33,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Jul 2012 20:05:53 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 03 Jul 2012 20:25:12 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-MakeMaker has a bug where it does not propagate CC/LD/etc information
-down to subproject it generates Makefiles for... this recipe has has an
-Expat subproject which has issues building if we are using sstate-cache
-and it will reference the old sysroots and be unable to build properly.
-There is an upstream MakeMaker bug for this issue but we can work around
-it by fixing up the Makefiles for now
+On Friday 27 April 2012 00:19:22 Andreas Oberritter wrote:
+> * Set lists_dir to /var/lib/opkg
+> 
+>   commit 16808bc4817492beba512f4e73bce8c232d1eafa
+>   Author: Marcin Juszkiewicz <hrw@openembedded.org>
+>   Date:   Mon Mar 17 23:40:48 2008 +0000
+> 
+> * Update new options sample and move the opkg.conf to correct place
+> 
+>   commit cc9825d97962287df75e164aec456901292e1b7f
+>   Author: Tick Chen <ticktock35@gmail.com>
+>   Date:   Mon Dec 29 19:41:47 2008 +0800
+> 
+> Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
+> ---
+>  meta/recipes-devtools/opkg/opkg-collateral.bb      |    8 +++++---
+>  meta/recipes-devtools/opkg/opkg-collateral/lists   |    2 +-
+>  .../opkg/opkg-collateral/opkg.conf.comments        |    3 +++
+>  3 files changed, 9 insertions(+), 4 deletions(-)
+> 
+> diff --git a/meta/recipes-devtools/opkg/opkg-collateral.bb
+> b/meta/recipes-devtools/opkg/opkg-collateral.bb index e3e0b5f..251c535
+> 100644
+> --- a/meta/recipes-devtools/opkg/opkg-collateral.bb
+> +++ b/meta/recipes-devtools/opkg/opkg-collateral.bb
+> @@ -2,6 +2,8 @@ DESCRIPTION = "opkg configuration files"
+>  SECTION = "base"
+>  LICENSE = "MIT"
+>  LIC_FILES_CHKSUM =
+> "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+> +PR = "r1"
+> +
+>  SRC_URI = "file://opkg.conf.comments \
+>  	   file://lists \
+>  	   file://dest \
+> @@ -15,8 +17,8 @@ do_compile () {
+>  }
+> 
+>  do_install () {
+> -	install -d ${D}${sysconfdir}/
+> -	install -m 0644 ${WORKDIR}/opkg.conf ${D}${sysconfdir}/opkg.conf
+> +	install -d ${D}${sysconfdir}/opkg
+> +	install -m 0644 ${WORKDIR}/opkg.conf ${D}${sysconfdir}/opkg/opkg.conf
+>  }
+> 
+> -CONFFILES_${PN} = "${sysconfdir}/opkg.conf"
+> +CONFFILES_${PN} = "${sysconfdir}/opkg/opkg.conf"
+> diff --git a/meta/recipes-devtools/opkg/opkg-collateral/lists
+> b/meta/recipes-devtools/opkg/opkg-collateral/lists index 3c524f8..f8aecd8
+> 100644
+> --- a/meta/recipes-devtools/opkg/opkg-collateral/lists
+> +++ b/meta/recipes-devtools/opkg/opkg-collateral/lists
+> @@ -1,2 +1,2 @@
+> -lists_dir ext /var/lib/ipkg
+> +lists_dir ext /var/lib/opkg
 
-See:
-https://rt.cpan.org/Public/Bug/Display.html?id=28632
+Unfortunately, it seems this change has caused bug 2595 - moving the config file 
+to /etc/opkg means that it is always read regardless of whether -f is specified 
+or not (as it is during do_rootfs in order to specify our own generated config 
+file), and this means that after opkg-collateral is installed into the rootfs, 
+this version of the config is used, resulting in opkg ignoring the lists it has 
+already downloaded (since it now sees list_dir as var/lib/opkg instead of 
+var/lib/opkg/lists) and thus it fails to install any of the "attemptonly" 
+packages (including *-dev, *-dbg, etc.).
 
-Signed-off-by: Matthew McClintock <msm@freescale.com>
----
- meta/recipes-devtools/perl/libxml-parser-perl_2.41.bb |   11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+The question is, should opkg be fixed to not load anything from etc/opkg/ when 
+-f is specified?
 
-diff --git a/meta/recipes-devtools/perl/libxml-parser-perl_2.41.bb b/meta/recipes-devtools/perl/libxml-parser-perl_2.41.bb
-index be41578..fff29ac 100644
---- a/meta/recipes-devtools/perl/libxml-parser-perl_2.41.bb
-+++ b/meta/recipes-devtools/perl/libxml-parser-perl_2.41.bb
-@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://README;beginline=2;endline=6;md5=c8767d7516229f07b26e
- 
- DEPENDS += "expat expat-native"
- 
--PR = "r2"
-+PR = "r3"
- 
- SRC_URI = "http://www.cpan.org/modules/by-module/XML/XML-Parser-${PV}.tar.gz"
- SRC_URI[md5sum] = "c320d2ffa459e6cdc6f9f59c1185855e"
-@@ -13,10 +13,17 @@ SRC_URI[sha256sum] = "b48197cd2265a26c5f016489f11a7b450d8833cb8b3d6a46ee15975740
- 
- S = "${WORKDIR}/XML-Parser-${PV}"
- 
--EXTRA_CPANFLAGS = "EXPATLIBPATH=${STAGING_LIBDIR} EXPATINCPATH=${STAGING_INCDIR}"
-+EXTRA_CPANFLAGS = "EXPATLIBPATH=${STAGING_LIBDIR} EXPATINCPATH=${STAGING_INCDIR} CC=${CC} LD=${LD} FULL_AR=${AR}"
- 
- inherit cpan
- 
-+# fix up sub MakeMaker project as arguments don't get propagated though
-+# see https://rt.cpan.org/Public/Bug/Display.html?id=28632
-+do_configure_append() {
-+	sed 's/--sysroot=.*\(\s\|$\)/--sysroot=${STAGING_DIR_TARGET} /g' -i Makefile Expat/Makefile
-+	sed 's/^FULL_AR = .*/FULL_AR = ${AR}/g' Expat/Makefile
-+}
-+
- do_compile() {
- 	export LIBC="$(find ${STAGING_DIR_TARGET}/${base_libdir}/ -name 'libc-*.so')"
- 	cpan_do_compile
+Cheers,
+Paul
+
 -- 
-1.7.10
 
-
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
