@@ -1,24 +1,24 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SlxPx-0006zt-IO
+	(envelope-from <sgw@linux.intel.com>) id 1SlxPx-0006xS-D4
 	for openembedded-core@lists.openembedded.org;
 	Tue, 03 Jul 2012 09:21:01 +0200
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 03 Jul 2012 00:09:53 -0700
+	by orsmga102.jf.intel.com with ESMTP; 03 Jul 2012 00:09:52 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="166158087"
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="166158083"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.182])
 	by orsmga002.jf.intel.com with ESMTP; 03 Jul 2012 00:09:52 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  3 Jul 2012 00:09:43 -0700
-Message-Id: <a1ca125de55a8e7cab402e2ba5737a56d4e890c2.1341299168.git.sgw@linux.intel.com>
+Date: Tue,  3 Jul 2012 00:09:41 -0700
+Message-Id: <7ad08f5b73aa949a877adc5641b4bb1d007de750.1341299168.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <cover.1341299168.git.sgw@linux.intel.com>
 References: <cover.1341299168.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1341299168.git.sgw@linux.intel.com>
 References: <cover.1341299168.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 14/17] package.bbclass: Allow a package to skip per file dependency generation
+Subject: [CONSOLIDATED PULL 12/17] autotools.bbclass: When configure fails, dump the config.log files the logs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,33 +35,44 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 03 Jul 2012 07:21:02 -0000
 
-From: Mark Hatle <mark.hatle@windriver.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Most of the time skipping per file dependency generation is a bad idea, but
-when building a nativesdk or similar you may be required to pickup host
-dependencies.  These host dependencies can not always be reconciled within
-the scope of other nativesdk components, so if we skip them we can facilitate
-this unique situation.
+When configure fails, it usually says "see config.log" yet nobody ever shares
+the config.log file meaning the person trying to help invariably has to ask
+for more information.
 
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+This patch dumps all the config.log files into the main bitbake log files when
+configure fails, meaning all the information is present to help someone debug
+such failures. It does make the log rather larger but this is preferable to
+not having enough information in most cases.
+
+[YOCTO #2463]
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes/package.bbclass |    3 +++
- 1 files changed, 3 insertions(+), 0 deletions(-)
+ meta/classes/autotools.bbclass |    9 ++++++++-
+ 1 files changed, 8 insertions(+), 1 deletions(-)
 
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index 0b98c6b..d94d32f 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -1154,6 +1154,9 @@ RPMDEPS = "${STAGING_LIBDIR_NATIVE}/rpm/bin/rpmdeps-oecore --macros ${STAGING_LI
- python package_do_filedeps() {
- 	import re
- 
-+	if d.getVar('SKIP_FILEDEPS', True) == '1':
-+		return
-+
- 	pkgdest = d.getVar('PKGDEST', True)
- 	packages = d.getVar('PACKAGES', True)
- 
+diff --git a/meta/classes/autotools.bbclass b/meta/classes/autotools.bbclass
+index 9b36f3c..02b984d 100644
+--- a/meta/classes/autotools.bbclass
++++ b/meta/classes/autotools.bbclass
+@@ -74,7 +74,14 @@ oe_runconf () {
+ 	cfgscript="${S}/configure"
+ 	if [ -x "$cfgscript" ] ; then
+ 		bbnote "Running $cfgscript ${CONFIGUREOPTS} ${EXTRA_OECONF} $@"
+-		${CACHED_CONFIGUREVARS} $cfgscript ${CONFIGUREOPTS} ${EXTRA_OECONF} "$@" || bbfatal "oe_runconf failed"
++		set +e
++		${CACHED_CONFIGUREVARS} $cfgscript ${CONFIGUREOPTS} ${EXTRA_OECONF} "$@"
++		if [ "$?" != "0" ]; then
++			echo "Configure failed. The contents of all config.log files follows to aid debugging"
++			find ${S} -name config.log -print -exec cat {} \;
++			bbfatal "oe_runconf failed"
++		fi
++		set -e
+ 	else
+ 		bbfatal "no configure script found at $cfgscript"
+ 	fi
 -- 
 1.7.7.6
 
