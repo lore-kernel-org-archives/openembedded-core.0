@@ -1,20 +1,24 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SlxPn-0006tU-79
+	(envelope-from <sgw@linux.intel.com>) id 1SlxPn-0006xS-UX
 	for openembedded-core@lists.openembedded.org;
 	Tue, 03 Jul 2012 09:20:53 +0200
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
 	by orsmga102.jf.intel.com with ESMTP; 03 Jul 2012 00:09:48 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="166158038"
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="166158041"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.182])
 	by orsmga002.jf.intel.com with ESMTP; 03 Jul 2012 00:09:48 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  3 Jul 2012 00:09:29 -0700
-Message-Id: <cover.1341299168.git.sgw@linux.intel.com>
+Date: Tue,  3 Jul 2012 00:09:30 -0700
+Message-Id: <705baf06d151eb4f9dcae7b23c7f3e57c0c09a74.1341299168.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
-Subject: [CONSOLIDATED PULL 00/17] SDK Fixes and other Patches
+In-Reply-To: <cover.1341299168.git.sgw@linux.intel.com>
+References: <cover.1341299168.git.sgw@linux.intel.com>
+In-Reply-To: <cover.1341299168.git.sgw@linux.intel.com>
+References: <cover.1341299168.git.sgw@linux.intel.com>
+Subject: [CONSOLIDATED PULL 01/17] kconfig-frontends: New recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,95 +35,66 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 03 Jul 2012 07:20:54 -0000
 
-Richard,
+From: Khem Raj <raj.khem@gmail.com>
 
-This has been built against the AB and ready for pull
+kconfig-frontends provides the kconfig infrastructure
+thats used for linux kernel as a standalone package. Its
+not intended to be used for kernel itself but can be
+used by packages who are based on kconfig e.g. busybox
+uclibc or new packages who wants to use kconfig infra
+for the package build
 
-There is one multilib related issue I am still tracking down 
-related to task-core-boot, but I can seem to determin which
-commit here casues it yet. 
+kconfig-frontends names it's shared library as -3.4.0.so instead of .so.3.4.0,
+this causes the -dev package to grab it since it matches on *.so. This error
+would also have shown up with the old PACKAGE order.
 
-Please pull this set and we will work that out.
-
-Sau!
-
-The following changes since commit 64422f7c5da160050a5454817c8fa9d070104b34:
-
-  package.bbclass: Add missing PKGR, PKGV, PKGE and ALTERNATIVE variables from PACKAGEVARS (2012-07-02 16:44:57 +0100)
-
-are available in the git repository at:
-  git://git.openembedded.org/openembedded-core-contrib sgw/stage
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
-
-Darren Hart (2):
-  linux-yocto-custom: Remove linux-tools
-  core-image*sdk: Add kernel-dev to sdk images
-
-Dennis Lan (1):
-  openjade-native: fix undefined Getopts error, use std namespace
-
-Khem Raj (1):
-  kconfig-frontends: New recipe
-
-Mark Hatle (9):
-  Fix manual log file paths
-  populate_sdk.bbclass: Split into two parts
-  populate_sdk: Allow for attempt only packages in the SDK
-  populate_sdk_base.bbclass: Change to using task specific depends
-  populate_sdk: enable basic multilib support
-  libc-common: Allow -dbg package to append, and not just set package
-    variables
-  package.bbclass: Allow a package to skip per file dependency
-    generation
-  image.bbclass: Add support to build the SDK in parallel with the
-    image
-  base.bbclass: Add cross-canadian-${TRANSLATED_TARGET_ARCH} to the
-    license exclusion list
-
-Paul Gortmaker (2):
-  u-boot: Don't make the -Os removal part of global settings.
-  u-boot: do not clobber PARALLEL_MAKE setting
-
-Richard Purdie (1):
-  autotools.bbclass: When configure fails, dump the config.log files
-    the logs
-
-Robert Yang (1):
-  icu 3.6: do_install failed: Segmentation fault
-
- .../recipes-kernel/linux/linux-yocto-custom.bb     |    2 -
- meta/classes/autotools.bbclass                     |    9 ++-
- meta/classes/base.bbclass                          |    2 +-
- meta/classes/image.bbclass                         |    7 +-
- meta/classes/libc-common.bbclass                   |    6 +-
- meta/classes/package.bbclass                       |    3 +
- meta/classes/package_deb.bbclass                   |    4 +-
- meta/classes/package_ipk.bbclass                   |    2 +-
- meta/classes/package_rpm.bbclass                   |   10 +-
- meta/classes/populate_sdk.bbclass                  |   91 +-------------
- meta/classes/populate_sdk_base.bbclass             |  128 ++++++++++++++++++++
- meta/classes/populate_sdk_deb.bbclass              |    6 +-
- meta/classes/populate_sdk_ipk.bbclass              |    5 +-
- meta/classes/populate_sdk_rpm.bbclass              |    4 +-
- meta/classes/rootfs_deb.bbclass                    |    2 +
- meta/classes/rootfs_ipk.bbclass                    |    2 +
- meta/classes/toolchain-scripts.bbclass             |   16 ++-
- meta/recipes-bsp/u-boot/u-boot.inc                 |    5 +-
- .../kconfig-frontends/kconfig-frontends_3.4.bb     |   34 +++++
- .../openjade/openjade-1.3.2/msggen.pl.patch        |   44 +++++++
- .../openjade/openjade-native_1.3.2.bb              |    1 +
- meta/recipes-extended/images/core-image-lsb-sdk.bb |    1 +
- meta/recipes-rt/images/core-image-rt-sdk.bb        |    2 +-
- meta/recipes-sato/images/core-image-sato-sdk.bb    |    3 +
- .../icu/files/larger-cmd-size.patch                |   27 ++++
- meta/recipes-support/icu/icu-3.6.inc               |    1 +
- meta/recipes-support/icu/icu_3.6.bb                |    2 +-
- 27 files changed, 299 insertions(+), 120 deletions(-)
- create mode 100644 meta/classes/populate_sdk_base.bbclass
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+---
+ .../kconfig-frontends/kconfig-frontends_3.4.bb     |   34 ++++++++++++++++++++
+ 1 files changed, 34 insertions(+), 0 deletions(-)
  create mode 100644 meta/recipes-devtools/kconfig-frontends/kconfig-frontends_3.4.bb
- create mode 100644 meta/recipes-devtools/openjade/openjade-1.3.2/msggen.pl.patch
- create mode 100644 meta/recipes-support/icu/files/larger-cmd-size.patch
 
+diff --git a/meta/recipes-devtools/kconfig-frontends/kconfig-frontends_3.4.bb b/meta/recipes-devtools/kconfig-frontends/kconfig-frontends_3.4.bb
+new file mode 100644
+index 0000000..9abfa75
+--- /dev/null
++++ b/meta/recipes-devtools/kconfig-frontends/kconfig-frontends_3.4.bb
+@@ -0,0 +1,34 @@
++# Copyright (C) 2012 Khem Raj <raj.khem@gmail.com>
++# Released under the MIT license (see COPYING.MIT for the terms)
++
++DESCRIPTION = "The kconfig-frontends project aims at centralising \
++the effort of keeping an up-to-date, out-of-tree, packaging of the \
++kconfig infrastructure, ready for use by third-party projects. \
++The kconfig-frontends package provides the kconfig parser, as well as all \
++the frontends"
++HOMEPAGE = "http://ymorin.is-a-geek.org/projects/kconfig-frontends"
++LICENSE = "GPL-2.0"
++LIC_FILES_CHKSUM = "file://COPYING;md5=9b8cf60ff39767ff04b671fca8302408"
++SECTION = "devel"
++DEPENDS += "ncurses flex bison gperf"
++PR = "r0"
++PV = "3.4.0"
++SPIN = "0"
++SRC_URI = "http://ymorin.is-a-geek.org/download/${BPN}/${BPN}-${PV}-${SPIN}.tar.xz"
++SRC_URI[md5sum] = "7eed0faf5a41d6dd0b2a886a440a972d"
++SRC_URI[sha256sum] = "638006f3d1aefefdc1db3030a15b562cf3c89f2028b1cea0bf0f0629708802f2"
++
++S = "${WORKDIR}/${BPN}-${PV}-${SPIN}"
++
++inherit autotools
++do_configure_prepend () {
++	mkdir -p scripts/.autostuff/m4
++}
++EXTRA_OECONF += "--disable-gconf --disable-qconf"
++
++# Some packages have the version preceeding the .so instead properly
++# versioned .so.<version>, so we need to reorder and repackage.
++SOLIBS = "-${PV}.so"
++FILES_SOLIBSDEV = "${libdir}/libkconfig-parser.so"
++
++BBCLASSEXTEND = "native"
 -- 
 1.7.7.6
 
