@@ -1,26 +1,29 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Sm7PZ-00039e-75
+	(envelope-from <mark.hatle@windriver.com>) id 1Sm7QR-0003CP-5O
 	for openembedded-core@lists.openembedded.org;
-	Tue, 03 Jul 2012 20:01:17 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 03 Jul 2012 10:50:10 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="173042407"
-Received: from unknown (HELO [10.255.12.182]) ([10.255.12.182])
-	by fmsmga001.fm.intel.com with ESMTP; 03 Jul 2012 10:50:10 -0700
-Message-ID: <4FF330D2.7020203@linux.intel.com>
-Date: Tue, 03 Jul 2012 10:50:10 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
+	Tue, 03 Jul 2012 20:02:11 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q63Hp7Zm027820
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 3 Jul 2012 10:51:07 -0700 (PDT)
+Received: from msp-dhcp21.wrs.com (172.25.34.21) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Tue, 3 Jul 2012 10:51:07 -0700
+Message-ID: <4FF3310A.6000000@windriver.com>
+Date: Tue, 3 Jul 2012 12:51:06 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7;
+	rv:13.0) Gecko/20120614 Thunderbird/13.0.1
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1340773014.git.liezhi.yang@windriver.com>
-In-Reply-To: <cover.1340773014.git.liezhi.yang@windriver.com>
-Cc: Zhenfeng.Zhao@windriver.com
-Subject: Re: [PATCH 0/2] icu 3.6: do_install failed: Segmentation fault
+To: <openembedded-core@lists.openembedded.org>
+References: <4FF320DD.8090301@palm.com> <4FF32550.6060606@linux.intel.com>
+	<4FF329B2.1040101@palm.com> <4FF32D67.7020309@windriver.com>
+	<20120703174702.GD3771@jama.jama.net>
+In-Reply-To: <20120703174702.GD3771@jama.jama.net>
+Subject: Re: local.conf & bblayers.conf changes...
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,28 +38,136 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Jul 2012 18:01:17 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Tue, 03 Jul 2012 18:02:11 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 06/27/2012 01:19 AM, Robert Yang wrote:
-> The following changes since commit f4b5afe46ff018570c1949653eb6995428827f6f:
+On 7/3/12 12:47 PM, Martin Jansa wrote:
+> On Tue, Jul 03, 2012 at 12:35:35PM -0500, Mark Hatle wrote:
+>> On 7/3/12 12:19 PM, Rich Pixley wrote:
+>>> On 7/3/12 10:01 , Saul Wold wrote:
+>>>> On 07/03/2012 09:42 AM, Rich Pixley wrote:
+>>>>> Where can I find a description of the recent changes and what I need to
+>>>>> do to bring my files back up to current?
+>>>>>
+>>>>> What were the incompatible changes?
+>>>>>
+>>>> For bblayers.conf, we bumped the version becase we moved the BBPATH
+>>>> initial setting into the bblayers.conf to ensure we dont accidently
+>>>> pickup things in . because of the way a :: was being parsed.  See
+>>>> this commit
+>>>> http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?id=5e3a61b40b7b697d83b41e7e247cd1f94eb7673c
+>>>>
+>>>> Not sure what you mean about local.conf, since I am not sure of your
+>>>> starting point.
+>>> Ok, so I *liked* having BBPATH be relative.  The alternative, using
+>>> absolute pathnames, means that you have to bolt absolute path names into
+>>> all of your binaries, all of your debug symbols, and all of your build
+>>> configurations.  This means that your binary sizes are greater, that
+>>> debug symbols are significantly greater and more difficult to configure
+>>> properly in your debuger, and that working directories cannot be moved
+>>> around or renamed without needing to manually force full rebuilds.  It
+>>> also means that some forms of file system checkpointing can't be used
+>>> since you can't rely on the build to be in the same place on the file
+>>> system every build.
+>>
+>> BBPATH being relative doesn't affect what ends up in debug symbols, etc.
+>>
+>> The BBPATH needs to be absolute, within the scope of a single loaded session to
+>> avoid randomly included items, primarily from the CWD.  This prevents
+>> non-repeatable builds.
+>>
+>> In a layer, the typical BBPATH is something like:
+>>
+>> BBPATH := "${LAYERDIR}:${BBPATH}"
 >
->    sanity.bbclass: Increase LAYER_CONF_VERSION to match bblayers change (2012-06-25 17:20:06 +0100)
+> No, please append to it, so order of layers in BBPATH is the same as
+> order of layers in BBLAYERS variable in bblayers.conf
+
+This affects ordering.. in my expample.. I wanted my layer to take precedence 
+over the BBPATH is other layers.
+
+> So typical BBPATH in layer.conf should be:
+> BBPATH .= ":${LAYERDIR}"
+
+It has to be := and not .=.  If it's not immediately resolved, then ${LAYERDIR} 
+will go to undefined later.
+
+If .= is working, I'm surprised.. the semantics may be different when processing 
+BBPATH then other variables.
+
+> This is now consistent in all layers I'm using and quick search in
+> layers I'm not using shows only meta-baryon having it vice versa.
+
+--Mark
+
+> Cheers,
 >
-> are available in the git repository at:
->    git://git.pokylinux.org/poky-contrib robert/icu
->    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=robert/icu
+>>
+>> LAYERDIR is always the path to the layer being processed at any given time...
+>> so if a layer also provides addition scripts you can do:
+>>
+>> # Add scripts to PATH
+>> PATH := "${PATH}:${LAYERDIR}/scripts"
+>>
+>>
+>> As for the debug items, the system handles all of the debug symbols for you.
+>> All target symbols are referenced from the -root- of the target filesystem.  If
+>> this is not happening in your builds, then you've disabled the debug symbol
+>> processing -- or you found a bug in the system...  On the target side, debugging
+>> on the target that is, everything should 'just work' with no manual settings.
+>>
+>> On a remote debug, you just need to tell the system where the relative path is
+>> to the root of the filesystem you are debugging, gdb should then be able to add
+>> the references to the associated sources and .debug split items.
+>>
+>> This is all unchanged behavior for oe-core from when it was made oe-core to present.
+>>
+>>> I'll try to roll with the current plan, though.
+>>>
+>>> In the current arrangement, I'm getting confusing messages about not
+>>> setting MACHINE, even though MACHINE is set in my local.conf.  I'm
+>>> guessing that means that the pathing is busted and it's not finding my
+>>> local.conf.  How is the initial configuration file found?  And which
+>>
+>> If it says MACHINE isn't configured, then you are lacking a proper BSP/machine
+>> configuration file.
+>>
+>> There are a couple of checks, but in the end they resolve down to checking that
+>> TUNE_ARCH, TARGET_OS, and TUNE_PKGARCH exit and are reasonable, as well as
+>> conf/machine/${MACHINE}.conf can be loaded.
+>>
+>> Any of the above items not found or not configured properly indicate MACHINE
+>> isn't defined, or the conf/machine/${MACHINE}.conf doesn't exist -- or is
+>> incorrectly configured.
+>>
+>>> configuration file is initial?  Is that "./conf/bblayers.conf"?  And if
+>>> so, does this mean that I need to put my other directory assignments
+>>> like TOPDIR and TMPDIR in bblayers.conf as well?  And if so, then what's
+>>> the logical distinction between bblayers.conf and local.conf at this
+>>> point if build policy needs to go into bblayers.conf?
+>>
+>> bblayers shouldn't affect your machine files, other then a layer may contain a
+>> conf/machine/...conf file.  The BBPATH setting of ${LAYERDIR} allows this
+>> directory to be automatically scanned when requesting a conf file.
+>>
+>> --Mark
+>>
+>>> --rich
+>>>
+>>> _______________________________________________
+>>> Openembedded-core mailing list
+>>> Openembedded-core@lists.openembedded.org
+>>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>>>
+>>
+>>
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 >
-> Robert Yang (2):
->    icu 3.6: dropp apply=yes from path
->    icu 3.6: do_install failed: Segmentation fault
->
->   .../icu/files/larger-cmd-size.patch                |   27 ++++++++++++++++++++
->   meta/recipes-support/icu/icu-3.6.inc               |    9 ++++--
->   meta/recipes-support/icu/icu_3.6.bb                |    2 +-
->   3 files changed, 34 insertions(+), 4 deletions(-)
->   create mode 100644 meta/recipes-support/icu/files/larger-cmd-size.patch
 >
 >
 > _______________________________________________
@@ -64,11 +175,7 @@ On 06/27/2012 01:19 AM, Robert Yang wrote:
 > Openembedded-core@lists.openembedded.org
 > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 >
->
-Merged into OE-Core the latest version with 2048
 
-Thanks
-	Sau!
 
 
 
