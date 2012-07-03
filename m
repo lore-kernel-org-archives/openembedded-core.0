@@ -1,29 +1,30 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1Slris-0002EM-3O
+	(envelope-from <Kai.Kang@windriver.com>) id 1SlsJ8-00037q-Ua
 	for openembedded-core@lists.openembedded.org;
-	Tue, 03 Jul 2012 03:16:10 +0200
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 02 Jul 2012 18:05:08 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="118293785"
-Received: from unknown (HELO envy.home) ([10.255.13.50])
-	by AZSMGA002.ch.intel.com with ESMTP; 02 Jul 2012 18:05:07 -0700
-Message-ID: <4FF244EB.8040809@linux.intel.com>
-Date: Mon, 02 Jul 2012 18:03:39 -0700
-From: Darren Hart <dvhart@linux.intel.com>
+	Tue, 03 Jul 2012 03:53:39 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q631gZx0025867
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 2 Jul 2012 18:42:35 -0700 (PDT)
+Received: from [128.224.162.164] (128.224.162.164) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
+	Mon, 2 Jul 2012 18:42:35 -0700
+Message-ID: <4FF24E07.7010905@windriver.com>
+Date: Tue, 3 Jul 2012 09:42:31 +0800
+From: Kang Kai <Kai.Kang@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:13.0) Gecko/20120615 Thunderbird/13.0.1
+	rv:10.0.2) Gecko/20120216 Thunderbird/10.0.2
 MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <441e9c9457b3f888162fe83793df551a6ee97697.1341259773.git.dvhart@linux.intel.com>
-	<1341261067.23146.269.camel@ted>
-In-Reply-To: <1341261067.23146.269.camel@ted>
-X-Enigmail-Version: 1.4.2
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	Patches and discussions about the oe-core layer
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC PATCH] grub-efi: Do not use help2man
+References: <cover.1340873279.git.kai.kang@windriver.com>
+In-Reply-To: <cover.1340873279.git.kai.kang@windriver.com>
+X-Originating-IP: [128.224.162.164]
+X-MIME-Autoconverted: from 8bit to quoted-printable by mail.windriver.com id
+	q631gZx0025867
+Cc: Zhenfeng.Zhao@windriver.com
+Subject: Re: [PATCH 0/2] Fix lsbinitscripts link problem
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,39 +39,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Jul 2012 01:16:10 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 03 Jul 2012 01:53:39 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-On 07/02/2012 01:31 PM, Richard Purdie wrote:
-> On Mon, 2012-07-02 at 13:09 -0700, Darren Hart wrote:
+On 2012=E5=B9=B406=E6=9C=8828=E6=97=A5 17:35, Kang Kai wrote:
+> Hi Saul,
+>
+> I update the initscripts to use update alternative way to install file =
+functions.
+> That make file functions provided by lsbinitscripts will be used instea=
+d of initscripts.
 
->> +Index: grub-1.99/configure
->> +===================================================================
->> +--- grub-1.99.orig/configure
->> ++++ grub-1.99/configure
-> 
-> Isn't configure regenerated so we don't need this second bit patching
-> configure, just configure.ac?
+Could anyone give comments of these two patches?
+Thanks.
 
-It wasn't in my tests. I tried again in master with:
+Regards,
+Kai
 
-$ bitbake grub-efi-i586 native -c cleanall
-$ bitbake grub-efi-i586 native -d devshell
-  performs fetch, unpack, patch
-# edited configure.ac and left configure alone
-$ bitbake grub-efi-i586 native
-
-Fails in the same way and configure does not reflect the changes from
-configure.ac. This is what I would expect as ./autogen.sh should
-typically only be run when building from the RCS sources and not release
-tarballs.
-
--- 
-Darren Hart
-Intel Open Source Technology Center
-Yocto Project - Linux Kernel
-
+>
+> Regards,
+> Kai
+>
+> The following changes since commit 8ce8d25bcda0e2e0b62204d5ca5875dedcaa=
+cf7d:
+>
+>    sanity.bbclass: Increase LAYER_CONF_VERSION to match bblayers change=
+ (2012-06-25 17:20:54 +0100)
+>
+> are available in the git repository at:
+>    git://git.pokylinux.org/poky-contrib kangkai/distro
+>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=3Dkangkai/dist=
+ro
+>
+> Kang Kai (1):
+>    initscripts: use update-alternative to handle file functions
+>
+> Xiaofeng Yan (1):
+>    lsbinitscripts: Add a linking for functions.lsbinitscripts
+>
+>   meta/recipes-core/initscripts/initscripts_1.0.bb |   10 ++++++++--
+>   meta/recipes-extended/lsb/lsbinitscripts_9.03.bb |    6 +++---
+>   2 files changed, 11 insertions(+), 5 deletions(-)
+>
 
 
 
