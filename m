@@ -1,27 +1,26 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from smtp-relay2.palm.com ([64.28.152.243])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Sm6pH-0001vO-A4
-	for openembedded-core@lists.openembedded.org;
-	Tue, 03 Jul 2012 19:23:47 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 03 Jul 2012 10:12:44 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="163645874"
-Received: from unknown (HELO [10.255.12.182]) ([10.255.12.182])
-	by azsmga001.ch.intel.com with ESMTP; 03 Jul 2012 10:12:43 -0700
-Message-ID: <4FF3280B.3020008@linux.intel.com>
-Date: Tue, 03 Jul 2012 10:12:43 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
+	(envelope-from <prvs=524cf9d53=rich.pixley@palm.com>)
+	id 1Sm6wB-000218-4y for openembedded-core@lists.openembedded.org;
+	Tue, 03 Jul 2012 19:30:55 +0200
+X-IronPort-AV: E=Sophos;i="4.77,517,1336374000"; d="scan'208";a="14516073"
+Received: from unknown (HELO ushqusdns4.palm.com) ([148.92.223.164])
+	by smtp-relay2.palm.com with ESMTP; 03 Jul 2012 10:19:46 -0700
+Received: from fuji.noir.com ([10.100.2.10])
+	by ushqusdns4.palm.com (8.14.4/8.14.4) with ESMTP id q63HJk0e030963;
+	Tue, 3 Jul 2012 10:19:46 -0700
+Message-ID: <4FF329B2.1040101@palm.com>
+Date: Tue, 03 Jul 2012 10:19:46 -0700
+From: Rich Pixley <rich.pixley@palm.com>
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7;
+	rv:13.0) Gecko/20120614 Thunderbird/13.0.1
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
+To: Saul Wold <sgw@linux.intel.com>
+References: <4FF320DD.8090301@palm.com> <4FF32550.6060606@linux.intel.com>
+In-Reply-To: <4FF32550.6060606@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <1341276037-32076-1-git-send-email-sgw@linux.intel.com>
-	<CABcZANnVy0B_wFyVhxz_JsipTf_PXL2ZzLU4hnNGbObDbZRDLw@mail.gmail.com>
-In-Reply-To: <CABcZANnVy0B_wFyVhxz_JsipTf_PXL2ZzLU4hnNGbObDbZRDLw@mail.gmail.com>
-Cc: Chris Larson <clarson@kergoth.com>
-Subject: Re: [RFC v2] package.bbclass: enable the use of package_qa_handle_error
+Subject: Re: local.conf & bblayers.conf changes...
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,55 +35,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Jul 2012 17:23:47 -0000
+X-List-Received-Date: Tue, 03 Jul 2012 17:30:55 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 07/03/2012 06:55 AM, Chris Larson wrote:
-> On Mon, Jul 2, 2012 at 5:40 PM, Saul Wold<sgw@linux.intel.com>  wrote:
->> This will allow the reporting of these errors as either WARNINGs (default)
->> or ERRORs if installed_vs_shipped is added to the ERROR_QA of the policy
->> file (such as a<distro_name>.conf file.
+On 7/3/12 10:01 , Saul Wold wrote:
+> On 07/03/2012 09:42 AM, Rich Pixley wrote:
+>> Where can I find a description of the recent changes and what I need to
+>> do to bring my files back up to current?
 >>
->> V2: found the code I had intended to send instead of that other junk,
->>      was just not watching what I pushed on that one, sorry. (this is edit in
->>      no in the actual commit message)
+>> What were the incompatible changes?
 >>
->> Signed-off-by: Saul Wold<sgw@linux.intel.com>
->> ---
->>   meta/classes/package.bbclass |   11 ++++++++---
->>   1 file changed, 8 insertions(+), 3 deletions(-)
->>
->> diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
->> index 0b98c6b..ff2ec96 100644
->> --- a/meta/classes/package.bbclass
->> +++ b/meta/classes/package.bbclass
->> @@ -988,9 +988,14 @@ python populate_packages () {
->>                                  unshipped.append(path)
->>
->>          if unshipped != []:
->> -               bb.warn("For recipe %s, the following files/directories were installed but not shipped in any package:" % pn)
->> -               for f in unshipped:
->> -                       bb.warn("  " + f)
->> +               msg = pn + ": Files/directories were installed but not shipped"
->> +               skip = (d.getVar('INSANE_SKIP_' + pn, True) or "").split()
->> +               if "installed_vs_shipped" in skip:
->> +                       bb.note("Package %s skipping QA tests: installed_vs_shipped" % pn)
->> +               else:
->> +                       package_qa_handle_error("installed_vs_shipped", msg, d)
->> +                       for f in unshipped:
->> +                               package_qa_handle_error("installed_vs_shipped", "  " + f, d)
+> For bblayers.conf, we bumped the version becase we moved the BBPATH
+> initial setting into the bblayers.conf to ensure we dont accidently
+> pickup things in . because of the way a :: was being parsed.  See
+> this commit
+> http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?id=5e3a61b40b7b697d83b41e7e247cd1f94eb7673c
 >
-> Hmm, I wonder if this is best, or if it should assemble a single
-> message with newlines separating the files. *thinks*
+> Not sure what you mean about local.conf, since I am not sure of your
+> starting point.
+Ok, so I *liked* having BBPATH be relative.  The alternative, using 
+absolute pathnames, means that you have to bolt absolute path names into 
+all of your binaries, all of your debug symbols, and all of your build 
+configurations.  This means that your binary sizes are greater, that 
+debug symbols are significantly greater and more difficult to configure 
+properly in your debuger, and that working directories cannot be moved 
+around or renamed without needing to manually force full rebuilds.  It 
+also means that some forms of file system checkpointing can't be used 
+since you can't rely on the build to be in the same place on the file 
+system every build.
 
-So that would cause only 1 ERROR or WARNING count, vs N ERRORs or 
-WARNIGS in the final count for every file that is listed, I think it's 
-good to have the larger count it signal's something went wrong if that 
-count increases greatly when a recipe is changed.
+I'll try to roll with the current plan, though.
 
-Could work either way, but I like the exaggerated count.
+In the current arrangement, I'm getting confusing messages about not 
+setting MACHINE, even though MACHINE is set in my local.conf.  I'm 
+guessing that means that the pathing is busted and it's not finding my 
+local.conf.  How is the initial configuration file found?  And which 
+configuration file is initial?  Is that "./conf/bblayers.conf"?  And if 
+so, does this mean that I need to put my other directory assignments 
+like TOPDIR and TMPDIR in bblayers.conf as well?  And if so, then what's 
+the logical distinction between bblayers.conf and local.conf at this 
+point if build policy needs to go into bblayers.conf?
 
-Sau!
+--rich
 
 
