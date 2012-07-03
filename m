@@ -1,24 +1,24 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SlxPn-0006xS-UX
+	(envelope-from <sgw@linux.intel.com>) id 1SlxPp-0006zt-6S
 	for openembedded-core@lists.openembedded.org;
-	Tue, 03 Jul 2012 09:20:53 +0200
+	Tue, 03 Jul 2012 09:20:54 +0200
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 03 Jul 2012 00:09:48 -0700
+	by orsmga102.jf.intel.com with ESMTP; 03 Jul 2012 00:09:49 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="166158041"
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="166158043"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.182])
 	by orsmga002.jf.intel.com with ESMTP; 03 Jul 2012 00:09:48 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  3 Jul 2012 00:09:30 -0700
-Message-Id: <705baf06d151eb4f9dcae7b23c7f3e57c0c09a74.1341299168.git.sgw@linux.intel.com>
+Date: Tue,  3 Jul 2012 00:09:31 -0700
+Message-Id: <3fd5d0334439b6231a6afd2a544a16b87ae81c99.1341299168.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <cover.1341299168.git.sgw@linux.intel.com>
 References: <cover.1341299168.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1341299168.git.sgw@linux.intel.com>
 References: <cover.1341299168.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 01/17] kconfig-frontends: New recipe
+Subject: [CONSOLIDATED PULL 02/17] icu 3.6: do_install failed: Segmentation fault
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,66 +35,79 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 03 Jul 2012 07:20:54 -0000
 
-From: Khem Raj <raj.khem@gmail.com>
+From: Robert Yang <liezhi.yang@windriver.com>
 
-kconfig-frontends provides the kconfig infrastructure
-thats used for linux kernel as a standalone package. Its
-not intended to be used for kernel itself but can be
-used by packages who are based on kconfig e.g. busybox
-uclibc or new packages who wants to use kconfig infra
-for the package build
+There is a "Segmentation fault" error when the tmpdir is longer than 470
+(or less), this is because it used "char cmd[1024]" which is not enough
+for the command line. Allocate a larger memory size should fix this problem.
 
-kconfig-frontends names it's shared library as -3.4.0.so instead of .so.3.4.0,
-this causes the -dev package to grab it since it matches on *.so. This error
-would also have shown up with the old PACKAGE order.
+[YOCTO #2664]
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- .../kconfig-frontends/kconfig-frontends_3.4.bb     |   34 ++++++++++++++++++++
- 1 files changed, 34 insertions(+), 0 deletions(-)
- create mode 100644 meta/recipes-devtools/kconfig-frontends/kconfig-frontends_3.4.bb
+ .../icu/files/larger-cmd-size.patch                |   27 ++++++++++++++++++++
+ meta/recipes-support/icu/icu-3.6.inc               |    1 +
+ meta/recipes-support/icu/icu_3.6.bb                |    2 +-
+ 3 files changed, 29 insertions(+), 1 deletions(-)
+ create mode 100644 meta/recipes-support/icu/files/larger-cmd-size.patch
 
-diff --git a/meta/recipes-devtools/kconfig-frontends/kconfig-frontends_3.4.bb b/meta/recipes-devtools/kconfig-frontends/kconfig-frontends_3.4.bb
+diff --git a/meta/recipes-support/icu/files/larger-cmd-size.patch b/meta/recipes-support/icu/files/larger-cmd-size.patch
 new file mode 100644
-index 0000000..9abfa75
+index 0000000..74a84f1
 --- /dev/null
-+++ b/meta/recipes-devtools/kconfig-frontends/kconfig-frontends_3.4.bb
-@@ -0,0 +1,34 @@
-+# Copyright (C) 2012 Khem Raj <raj.khem@gmail.com>
-+# Released under the MIT license (see COPYING.MIT for the terms)
++++ b/meta/recipes-support/icu/files/larger-cmd-size.patch
+@@ -0,0 +1,27 @@
++Allocate a larger memory size for cmd
 +
-+DESCRIPTION = "The kconfig-frontends project aims at centralising \
-+the effort of keeping an up-to-date, out-of-tree, packaging of the \
-+kconfig infrastructure, ready for use by third-party projects. \
-+The kconfig-frontends package provides the kconfig parser, as well as all \
-+the frontends"
-+HOMEPAGE = "http://ymorin.is-a-geek.org/projects/kconfig-frontends"
-+LICENSE = "GPL-2.0"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=9b8cf60ff39767ff04b671fca8302408"
-+SECTION = "devel"
-+DEPENDS += "ncurses flex bison gperf"
-+PR = "r0"
-+PV = "3.4.0"
-+SPIN = "0"
-+SRC_URI = "http://ymorin.is-a-geek.org/download/${BPN}/${BPN}-${PV}-${SPIN}.tar.xz"
-+SRC_URI[md5sum] = "7eed0faf5a41d6dd0b2a886a440a972d"
-+SRC_URI[sha256sum] = "638006f3d1aefefdc1db3030a15b562cf3c89f2028b1cea0bf0f0629708802f2"
++The length of the command line can be longer than 1024 sometimes,
++which will cause a "Segmentation fault" error.
 +
-+S = "${WORKDIR}/${BPN}-${PV}-${SPIN}"
++Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 +
-+inherit autotools
-+do_configure_prepend () {
-+	mkdir -p scripts/.autostuff/m4
-+}
-+EXTRA_OECONF += "--disable-gconf --disable-qconf"
++Upstream-Status: Pending
++---
++ tools/pkgdata/pkgdata.c |    2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
 +
-+# Some packages have the version preceeding the .so instead properly
-+# versioned .so.<version>, so we need to reorder and repackage.
-+SOLIBS = "-${PV}.so"
-+FILES_SOLIBSDEV = "${libdir}/libkconfig-parser.so"
++diff --git a/tools/pkgdata/pkgdata.c b/tools/pkgdata/pkgdata.c
++--- a/tools/pkgdata/pkgdata.c
+++++ b/tools/pkgdata/pkgdata.c
++@@ -439,7 +439,7 @@ main(int argc, char* argv[]) {
++ /* POSIX - execute makefile */
++ static int executeMakefile(const UPKGOptions *o)
++ {
++-    char cmd[1024];
+++    char cmd[2048];
++     /*char pwd[1024];*/
++     const char *make;
++     int rc;
++-- 
++1.7.10.2
 +
-+BBCLASSEXTEND = "native"
+diff --git a/meta/recipes-support/icu/icu-3.6.inc b/meta/recipes-support/icu/icu-3.6.inc
+index d3391fe..d969caa 100644
+--- a/meta/recipes-support/icu/icu-3.6.inc
++++ b/meta/recipes-support/icu/icu-3.6.inc
+@@ -6,6 +6,7 @@ BASE_SRC_URI = "ftp://ftp.software.ibm.com/software/globalization/icu/3.6/icu4c-
+            file://gccfix.patch \
+            file://fix-parallel-build.patch \
+            file://use-g++-for-linking.patch \
++           file://larger-cmd-size.patch \
+            "
+ SRC_URI = "${BASE_SRC_URI} \
+            file://noldlibpath.patch \
+diff --git a/meta/recipes-support/icu/icu_3.6.bb b/meta/recipes-support/icu/icu_3.6.bb
+index d7be522..f941acf 100644
+--- a/meta/recipes-support/icu/icu_3.6.bb
++++ b/meta/recipes-support/icu/icu_3.6.bb
+@@ -1,6 +1,6 @@
+ require icu-3.6.inc
+ 
+-PR = "r8"
++PR = "r9"
+ 
+ SRC_URI[md5sum] = "6243f7a19e03e05403ce84e597510d4c"
+ SRC_URI[sha256sum] = "5135e8d69d6206d320515df7aeee7027711ab1aef9d8dbf29571a97a9746b041"
 -- 
 1.7.7.6
 
