@@ -1,32 +1,20 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Kai.Kang@windriver.com>) id 1SlwAD-0004ZD-5J
+	(envelope-from <laurentiu.palcu@intel.com>) id 1Slx77-00036R-9g
 	for openembedded-core@lists.openembedded.org;
-	Tue, 03 Jul 2012 08:00:41 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q635nbt5015915
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 2 Jul 2012 22:49:37 -0700 (PDT)
-Received: from [128.224.162.164] (128.224.162.164) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Mon, 2 Jul 2012 22:49:37 -0700
-Message-ID: <4FF287ED.5080706@windriver.com>
-Date: Tue, 3 Jul 2012 13:49:33 +0800
-From: Kang Kai <Kai.Kang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:10.0.2) Gecko/20120216 Thunderbird/10.0.2
-MIME-Version: 1.0
-To: Saul Wold <sgw@linux.intel.com>
-References: <cover.1340873279.git.kai.kang@windriver.com>
-	<4FF24E07.7010905@windriver.com> <4FF26F33.2090508@linux.intel.com>
-In-Reply-To: <4FF26F33.2090508@linux.intel.com>
-X-Originating-IP: [128.224.162.164]
-X-MIME-Autoconverted: from 8bit to quoted-printable by mail1.windriver.com id
-	q635nbt5015915
-Cc: Zhenfeng.Zhao@windriver.com,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/2] Fix lsbinitscripts link problem
+	Tue, 03 Jul 2012 09:01:33 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 02 Jul 2012 23:50:30 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="118373924"
+Received: from lpalcu-linux (HELO localhost.localdomain) ([10.237.105.41])
+	by AZSMGA002.ch.intel.com with ESMTP; 02 Jul 2012 23:50:29 -0700
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  3 Jul 2012 09:50:17 +0300
+Message-Id: <1341298228-4412-1-git-send-email-laurentiu.palcu@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH 00/10] package upgrades, about 10
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,72 +29,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Jul 2012 06:00:41 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 03 Jul 2012 07:01:33 -0000
 
-On 2012=E5=B9=B407=E6=9C=8803=E6=97=A5 12:04, Saul Wold wrote:
-> On 07/02/2012 06:42 PM, Kang Kai wrote:
->> On 2012=E5=B9=B406=E6=9C=8828=E6=97=A5 17:35, Kang Kai wrote:
->>> Hi Saul,
->>>
->>> I update the initscripts to use update alternative way to install fil=
-e
->>> functions.
->>> That make file functions provided by lsbinitscripts will be used
->>> instead of initscripts.
->>
->> Could anyone give comments of these two patches?
->
-> Kai,
->
-> I commented on this patch already on 6/27, please see attached email
+Hi,
 
-Hi Saul,
-
-I saw your comments and updated initscripts with update-alternatives too.
-Sorry for didn't add "V2".
-Please help to review them.
+This patchset upgrades the packages listed below. All packages were successfully
+built for all architectures with the exception of xf86-input-vmmouse which only supports
+x86 and x86-64 architectures. Basic sanity tests were also performed on an an atom based
+Lenovo S10-3t. No obvious issues spotted.
 
 Thanks,
-Kai
+Laurentiu
 
->
-> Sau!
->
->> Thanks.
->>
->> Regards,
->> Kai
->>
->>>
->>> Regards,
->>> Kai
->>>
->>> The following changes since commit
->>> 8ce8d25bcda0e2e0b62204d5ca5875dedcaacf7d:
->>>
->>> sanity.bbclass: Increase LAYER_CONF_VERSION to match bblayers change
->>> (2012-06-25 17:20:54 +0100)
->>>
->>> are available in the git repository at:
->>> git://git.pokylinux.org/poky-contrib kangkai/distro
->>> http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=3Dkangkai/distr=
-o
->>>
->>> Kang Kai (1):
->>> initscripts: use update-alternative to handle file functions
->>>
->>> Xiaofeng Yan (1):
->>> lsbinitscripts: Add a linking for functions.lsbinitscripts
->>>
->>> meta/recipes-core/initscripts/initscripts_1.0.bb | 10 ++++++++--
->>> meta/recipes-extended/lsb/lsbinitscripts_9.03.bb | 6 +++---
->>> 2 files changed, 11 insertions(+), 5 deletions(-)
->>>
->>
->>
->>
+Laurentiu Palcu (10):
+  xf86-input-vmmouse: upgrade to 12.9.0
+  xf86-input-synaptics: upgrade to 1.6.2
+  xcb-util: upgrade to 0.3.9
+  libdrm: upgrade to 2.4.35
+  ethtool: upgrade to 3.4.1
+  libxft: upgrade to 2.3.1
+  xcb-util-wm: upgrade to 0.3.9
+  xcb-util-image: upgrade to 0.3.9
+  xcb-util-keysyms: upgrade to 0.3.9
+  lighttpd: upgrade to 1.4.31
+
+ .../ethtool/{ethtool_3.2.bb => ethtool_3.4.1.bb}   |    4 ++--
+ .../{lighttpd_1.4.30.bb => lighttpd_1.4.31.bb}     |    6 +++---
+ .../drm/{libdrm_2.4.34.bb => libdrm_2.4.35.bb}     |    4 ++--
+ ...util-image_0.3.8.bb => xcb-util-image_0.3.9.bb} |    4 ++--
+ ...-keysyms_0.3.8.bb => xcb-util-keysyms_0.3.9.bb} |    4 ++--
+ .../{xcb-util-wm_0.3.8.bb => xcb-util-wm_0.3.9.bb} |    4 ++--
+ .../xcb/{xcb-util_0.3.8.bb => xcb-util_0.3.9.bb}   |    4 ++--
+ ...tics_1.6.1.bb => xf86-input-synaptics_1.6.2.bb} |    4 ++--
+ ...ouse_12.8.0.bb => xf86-input-vmmouse_12.9.0.bb} |    4 ++--
+ .../xorg-lib/{libxft_2.3.0.bb => libxft_2.3.1.bb}  |    4 ++--
+ 10 files changed, 21 insertions(+), 21 deletions(-)
+ rename meta/recipes-extended/ethtool/{ethtool_3.2.bb => ethtool_3.4.1.bb} (79%)
+ rename meta/recipes-extended/lighttpd/{lighttpd_1.4.30.bb => lighttpd_1.4.31.bb} (92%)
+ rename meta/recipes-graphics/drm/{libdrm_2.4.34.bb => libdrm_2.4.35.bb} (62%)
+ rename meta/recipes-graphics/xcb/{xcb-util-image_0.3.8.bb => xcb-util-image_0.3.9.bb} (66%)
+ rename meta/recipes-graphics/xcb/{xcb-util-keysyms_0.3.8.bb => xcb-util-keysyms_0.3.9.bb} (52%)
+ rename meta/recipes-graphics/xcb/{xcb-util-wm_0.3.8.bb => xcb-util-wm_0.3.9.bb} (74%)
+ rename meta/recipes-graphics/xcb/{xcb-util_0.3.8.bb => xcb-util_0.3.9.bb} (62%)
+ rename meta/recipes-graphics/xorg-driver/{xf86-input-synaptics_1.6.1.bb => xf86-input-synaptics_1.6.2.bb} (81%)
+ rename meta/recipes-graphics/xorg-driver/{xf86-input-vmmouse_12.8.0.bb => xf86-input-vmmouse_12.9.0.bb} (75%)
+ rename meta/recipes-graphics/xorg-lib/{libxft_2.3.0.bb => libxft_2.3.1.bb} (88%)
+
+-- 
+1.7.9.5
 
 
 
