@@ -1,22 +1,22 @@
 Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <laurentiu.palcu@intel.com>) id 1Slx78-000376-NV
+	(envelope-from <laurentiu.palcu@intel.com>) id 1Slx78-00036R-TW
 	for openembedded-core@lists.openembedded.org;
-	Tue, 03 Jul 2012 09:01:34 +0200
+	Tue, 03 Jul 2012 09:01:35 +0200
 Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 02 Jul 2012 23:50:33 -0700
+	by azsmga101.ch.intel.com with ESMTP; 02 Jul 2012 23:50:35 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="118373954"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="118373964"
 Received: from lpalcu-linux (HELO localhost.localdomain) ([10.237.105.41])
-	by AZSMGA002.ch.intel.com with ESMTP; 02 Jul 2012 23:50:33 -0700
+	by AZSMGA002.ch.intel.com with ESMTP; 02 Jul 2012 23:50:34 -0700
 From: Laurentiu Palcu <laurentiu.palcu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  3 Jul 2012 09:50:20 +0300
-Message-Id: <1341298228-4412-4-git-send-email-laurentiu.palcu@intel.com>
+Date: Tue,  3 Jul 2012 09:50:21 +0300
+Message-Id: <1341298228-4412-5-git-send-email-laurentiu.palcu@intel.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <1341298228-4412-1-git-send-email-laurentiu.palcu@intel.com>
 References: <1341298228-4412-1-git-send-email-laurentiu.palcu@intel.com>
-Subject: [PATCH 03/10] xcb-util: upgrade to 0.3.9
+Subject: [PATCH 04/10] libdrm: upgrade to 2.4.35
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,29 +31,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Jul 2012 07:01:34 -0000
+X-List-Received-Date: Tue, 03 Jul 2012 07:01:35 -0000
 
 Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
 ---
- .../xcb/{xcb-util_0.3.8.bb => xcb-util_0.3.9.bb}   |    4 ++--
+ .../drm/{libdrm_2.4.34.bb => libdrm_2.4.35.bb}     |    4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/xcb/{xcb-util_0.3.8.bb => xcb-util_0.3.9.bb} (62%)
+ rename meta/recipes-graphics/drm/{libdrm_2.4.34.bb => libdrm_2.4.35.bb} (62%)
 
-diff --git a/meta/recipes-graphics/xcb/xcb-util_0.3.8.bb b/meta/recipes-graphics/xcb/xcb-util_0.3.9.bb
+diff --git a/meta/recipes-graphics/drm/libdrm_2.4.34.bb b/meta/recipes-graphics/drm/libdrm_2.4.35.bb
 similarity index 62%
-rename from meta/recipes-graphics/xcb/xcb-util_0.3.8.bb
-rename to meta/recipes-graphics/xcb/xcb-util_0.3.9.bb
-index b7eff29..6f2cd43 100644
---- a/meta/recipes-graphics/xcb/xcb-util_0.3.8.bb
-+++ b/meta/recipes-graphics/xcb/xcb-util_0.3.9.bb
-@@ -5,5 +5,5 @@ LIC_FILES_CHKSUM = "file://src/xcb_aux.c;endline=30;md5=ae305b9c2a38f9ba27060191
-                     file://src/xcb_event.h;endline=27;md5=627be355aee59e1b8ade80d5bd90fad9"
- PR = "r0"
+rename from meta/recipes-graphics/drm/libdrm_2.4.34.bb
+rename to meta/recipes-graphics/drm/libdrm_2.4.35.bb
+index bf489cf..3677b8d 100644
+--- a/meta/recipes-graphics/drm/libdrm_2.4.34.bb
++++ b/meta/recipes-graphics/drm/libdrm_2.4.35.bb
+@@ -8,5 +8,5 @@ SRC_URI += "file://installtests.patch \
+             file://GNU_SOURCE_definition.patch \
+            "
  
--SRC_URI[md5sum] = "8ce019c4bbf20dce246b98f177cfccff"
--SRC_URI[sha256sum] = "c1eed9284750bc09352e60654df77bb585dbbe7673fdcc675e58b7f3a0b447b9"
-+SRC_URI[md5sum] = "01dcc7a16d5020530552712710646ea2"
-+SRC_URI[sha256sum] = "c611259c0ab20fd76f79f48f4684843c18ea9c967eba78a45e8b3636315c18c4"
+-SRC_URI[md5sum] = "293cb2b31392d52caa02ab0861dfc2c9"
+-SRC_URI[sha256sum] = "a468570e7c85107b7c2f8eaceeebaa8f8a0da86482618f445bb74fa0b0d0f8d0"
++SRC_URI[md5sum] = "a40f5293dc0a7b49d2a1e959d7d60194"
++SRC_URI[sha256sum] = "c390aee132f05910edb09398b70e108c6b53f9b69b21914a9ea3165eed6f1b21"
 -- 
 1.7.9.5
 
