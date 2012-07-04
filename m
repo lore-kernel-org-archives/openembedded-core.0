@@ -1,26 +1,24 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Liezhi.Yang@windriver.com>) id 1SmMnW-0007Cl-TK
+	(envelope-from <Liezhi.Yang@windriver.com>) id 1SmMo3-0007Gk-Em
 	for openembedded-core@lists.openembedded.org;
-	Wed, 04 Jul 2012 12:27:03 +0200
+	Wed, 04 Jul 2012 12:27:35 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q64AFwBJ015771
+	by mail1.windriver.com (8.14.3/8.14.3) with ESMTP id q64AGWgZ010276
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 4 Jul 2012 03:15:58 -0700 (PDT)
+	Wed, 4 Jul 2012 03:16:32 -0700 (PDT)
 Received: from usp-ub10.corp.ad.wrs.com (128.224.163.69) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.1.255.0; Wed, 4 Jul 2012 03:15:57 -0700
+	14.1.255.0; Wed, 4 Jul 2012 03:16:31 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 4 Jul 2012 18:15:54 +0800
-Message-ID: <bb2efe6415a880bcc733e2d30e3eb0ea3524b877.1341391695.git.liezhi.yang@windriver.com>
+Date: Wed, 4 Jul 2012 18:16:27 +0800
+Message-ID: <cover.1341392163.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.1
-In-Reply-To: <cover.1341391695.git.liezhi.yang@windriver.com>
-References: <cover.1341391695.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
 Cc: Zhenfeng.Zhao@windriver.com
-Subject: [PATCH 1/1] dpkg 1.15.8.7: bad interpreter when long tmpdir
+Subject: [PATCH 0/2] apt 0.7.14: runtime error fix when tmpdir is very long
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,62 +33,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Jul 2012 10:27:03 -0000
+X-List-Received-Date: Wed, 04 Jul 2012 10:27:35 -0000
 Content-Type: text/plain
 
-When use PACKAGE_CLASSES = "package_deb", and the length of tmpdir is
-longer than 177, the error occurs during the image generation:
+The following changes since commit a6b6df1350149c116050cb93c3c7b4802c709d31:
 
-/very/long/path/totmp/sysroots/x86_64-linux/usr/bin/dpkg-scanpackages:
-bad interpreter: No such file or directory
+  task-core-tools-debug: Added openssh-sftp-server. (2012-07-03 14:52:38 +0100)
 
-The interpreter is perl, and it does exist, this is because the first
-line:
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib robert/apt
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=robert/apt
 
-  #!/very/long/path/to/perl
+Robert Yang (2):
+  apt 0.7.14: runtime error: filename too long (tmpdir length)
+  apt 0.7.14: runtime error: Method file has died unexpectedly
 
-in the script can't be very long.
-
-Create a wrapper for it would fix the problem.
-
-[YOCTO #2640]
-
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/recipes-devtools/dpkg/dpkg.inc |   11 ++++++++++-
- 1 files changed, 10 insertions(+), 1 deletions(-)
-
-diff --git a/meta/recipes-devtools/dpkg/dpkg.inc b/meta/recipes-devtools/dpkg/dpkg.inc
-index 09bfbbc..7f4f620 100644
---- a/meta/recipes-devtools/dpkg/dpkg.inc
-+++ b/meta/recipes-devtools/dpkg/dpkg.inc
-@@ -2,7 +2,7 @@ DESCRIPTION = "Package maintenance system for Debian."
- LICENSE = "GPLv2.0+"
- SECTION = "base"
- 
--INC_PR = "r16"
-+INC_PR = "r17"
- 
- SRC_URI = "${DEBIAN_MIRROR}/main/d/dpkg/dpkg_${PV}.tar.bz2 \
-            file://ignore_extra_fields.patch"
-@@ -56,6 +56,15 @@ do_install_append () {
- 	fi
- }
- 
-+# Create a wrapper for the perl script to avoid the "bad interpreter"
-+# error when the tmpdir is longer than 150.
-+do_install_append_virtclass-native () {
-+	tmp=`find ${D}${bindir} -type f -exec grep -m 1 -l '#!/.*/perl-native/perl' {} \;`
-+	for i in $tmp; do
-+		create_wrapper $i ${STAGING_BINDIR_NATIVE}/perl-native/perl
-+	done
-+}
-+
- PROV = "virtual/update-alternatives"
- PROV_virtclass-native = ""
- 
--- 
-1.7.1
+ .../apt/apt-0.7.14/allocate-larger-memory.patch    |   75 ++++++++++++++++++++
+ .../apt/apt-0.7.14/truncate-filename.patch         |   35 +++++++++
+ meta/recipes-devtools/apt/apt-native_0.7.14.bb     |    2 +-
+ meta/recipes-devtools/apt/apt.inc                  |    2 +
+ meta/recipes-devtools/apt/apt_0.7.14.bb            |    2 +-
+ 5 files changed, 114 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-devtools/apt/apt-0.7.14/allocate-larger-memory.patch
+ create mode 100644 meta/recipes-devtools/apt/apt-0.7.14/truncate-filename.patch
 
 
 
