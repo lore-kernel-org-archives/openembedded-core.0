@@ -1,28 +1,38 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+Received: from mail-wg0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1SmRgo-0007u9-5L
+	(envelope-from <martin.jansa@gmail.com>) id 1SmRpz-0000IW-SX
 	for openembedded-core@lists.openembedded.org;
-	Wed, 04 Jul 2012 17:40:26 +0200
-Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
-	helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1SmRW9-0002c9-75
-	for openembedded-core@lists.openembedded.org;
-	Wed, 04 Jul 2012 17:29:25 +0200
-From: Phil Blundell <philb@gnu.org>
+	Wed, 04 Jul 2012 17:49:55 +0200
+Received: by wgbdr1 with SMTP id dr1so6800846wgb.24
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 04 Jul 2012 08:38:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=Hav51OEn2BYOak0plSqp2IMX9JBTAl7hqObG5dalqfg=;
+	b=IMjpJFbwBTM2kyBNaKXDU5oYJP8QdQ1Vw5TUgj9I5SbREG8zh87ec6ODs2oFJb95Ri
+	wVW74a3h54Vw9xcp7Krh3P5DgcsIQ7G7eI9ytGW6zyPziR7PtBMN6Jxth6QcGGvZtNtk
+	ILsj7wySZ2S6odcHf/KXl/RClqxUBl9S7+T0d3AWCb0XsTosWMnEJ78puQofEGBfO18j
+	PMrzt7yUfqVvy3eEgwqKJ00TPDUxw1kG3vhjB7qnVHyqL1lH/MQI+gut/VUjHIVAkGuH
+	fQHp3ZIOIEzdTdRg265oiSkV4xJIzrdZoBcRYdOD5NV+vglzj9ZRG0Z8xX6iw0Si6hal
+	0RPg==
+Received: by 10.216.211.19 with SMTP id v19mr6255067weo.89.1341416332298;
+	Wed, 04 Jul 2012 08:38:52 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id bg10sm67454293wib.9.2012.07.04.08.38.48
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 04 Jul 2012 08:38:49 -0700 (PDT)
+Date: Wed, 4 Jul 2012 17:38:43 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Wed, 04 Jul 2012 16:29:24 +0100
-In-Reply-To: <20120704150005.GD1817@windriver.com>
-References: <4FF0C930.4000104@linux.intel.com>
-	<1341207885-9463-1-git-send-email-paul.gortmaker@windriver.com>
-	<4FF33085.1070703@linux.intel.com>
-	<20120704141259.GA1817@windriver.com>
-	<20120704150005.GD1817@windriver.com>
-X-Mailer: Evolution 3.0.2- 
-Message-ID: <1341415765.20265.30.camel@phil-desktop>
-Mime-Version: 1.0
-Subject: Re: [PATCHv2 0/3] u-boot recipe updates
+Message-ID: <20120704153843.GD15100@jama.jama.net>
+References: <4FF33085.1070703@linux.intel.com>
+	<1341415425-16073-1-git-send-email-paul.gortmaker@windriver.com>
+MIME-Version: 1.0
+In-Reply-To: <1341415425-16073-1-git-send-email-paul.gortmaker@windriver.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Subject: Re: [PATCH] u-boot: make FILESDIR a shared setting via FILESPATH
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,43 +47,127 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Jul 2012 15:40:26 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 04 Jul 2012 15:49:56 -0000
+X-Groupsio-MsgNum: 24671
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="EXKGNeO8l0xGFBjy"
+Content-Disposition: inline
 
-On Wed, 2012-07-04 at 11:00 -0400, Paul Gortmaker wrote:
-> I've found Richard's comments [looking in OE archive and not poky
-> helped] and will test what he proposed to replace FILESDIR.  But I still
-> think it extremely worthwhile if some fine tuning to the mailing list(s)
-> can be done to address what I mentioned below.
+--EXKGNeO8l0xGFBjy
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Can you be more specific about what you think should be changed?  If I
-look at the message of yours that I'm replying to, it has:
+On Wed, Jul 04, 2012 at 11:23:45AM -0400, Paul Gortmaker wrote:
+> The setting is the same in all recipes, so move it to
+> the shared settings in u-boot.inc
+>=20
+> Since FILESDIR is also being phased out, use the FILESPATH
+> setting as suggested by Richard Purdie.
 
-Return-Path: <openembedded-core-bounces@lists.openembedded.org>
-Received: from linuxtogo.org ([188.40.83.200]) by hetzner.pbcl.net with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32) (Exim 4.72) (envelope-from <openembedded-core-bounces@lists.openembedded.org>) id 1SmR3u-0002an-JT for pb@pbcl.net; Wed, 04 Jul 2012 17:00:14 +0200
-Received: from localhost ([127.0.0.1]) by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <openembedded-core-bounces@lists.openembedded.org>) id 1SmREX-0006Iq-NQ; Wed, 04 Jul 2012 17:11:13 +0200
-Received: from mail1.windriver.com ([147.11.146.13]) by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <Paul.Gortmaker@windriver.com>) id 1SmREW-0006Ih-OQ for openembedded-core@lists.openembedded.org; Wed, 04 Jul 2012 17:11:13 +0200
+Shouldn't it be added in FILESEXTRAPATHS instead of FILESPATH?
 
-[...]
+Cheers,
 
-From: Paul Gortmaker <paul.gortmaker@windriver.com>
-To: Saul Wold <sgw@linux.intel.com>
-Message-id: <20120704150005.GD1817@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
+> Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
+> Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
+> ---
+>=20
+> [ PG: Retested builds for 8315 and beagleboard ]
+>=20
+>  meta/recipes-bsp/u-boot/u-boot.inc           |    1 +
+>  meta/recipes-bsp/u-boot/u-boot_2011.03.bb    |    2 --
+>  meta/recipes-bsp/u-boot/u-boot_2011.06.bb    |    2 --
+>  meta/recipes-bsp/u-boot/u-boot_2012.04.01.bb |    2 --
+>  4 files changed, 1 insertion(+), 6 deletions(-)
+>=20
+> diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot=
+/u-boot.inc
+> index 5de3583..664c2e6 100644
+> --- a/meta/recipes-bsp/u-boot/u-boot.inc
+> +++ b/meta/recipes-bsp/u-boot/u-boot.inc
+> @@ -59,6 +59,7 @@ do_install () {
+>  }
+> =20
+>  FILES_${PN} =3D "/boot"
+> +FILESPATH =3D. "${FILE_DIRNAME}/u-boot-git/${MACHINE}:"
+> =20
+>  do_deploy () {
+>      install -d ${DEPLOYDIR}
+> diff --git a/meta/recipes-bsp/u-boot/u-boot_2011.03.bb b/meta/recipes-bsp=
+/u-boot/u-boot_2011.03.bb
+> index e99bc2c..ed38f54 100644
+> --- a/meta/recipes-bsp/u-boot/u-boot_2011.03.bb
+> +++ b/meta/recipes-bsp/u-boot/u-boot_2011.03.bb
+> @@ -10,8 +10,6 @@ LICENSE =3D "GPLv2+"
+>  LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D1707d6db1d42237583f50183a5651=
+ecb \
+>                      file://README;beginline=3D1;endline=3D22;md5=3D3a00e=
+f51d3fc96e9d6c1bc4708ccd3b5"
+> =20
+> -FILESDIR =3D "${@os.path.dirname(d.getVar('FILE',1))}/u-boot-git/${MACHI=
+NE}"
+> -
+>  # This revision corresponds to the tag "v2011.03"
+>  # We use the revision in order to avoid having to fetch it from the repo=
+ during parse
+>  SRCREV =3D "19b54a701811220221fc4d5089a2bb18892018ca"
+> diff --git a/meta/recipes-bsp/u-boot/u-boot_2011.06.bb b/meta/recipes-bsp=
+/u-boot/u-boot_2011.06.bb
+> index 680401f..da61852 100644
+> --- a/meta/recipes-bsp/u-boot/u-boot_2011.06.bb
+> +++ b/meta/recipes-bsp/u-boot/u-boot_2011.06.bb
+> @@ -10,8 +10,6 @@ LICENSE =3D "GPLv2+"
+>  LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D1707d6db1d42237583f50183a5651=
+ecb \
+>                      file://README;beginline=3D1;endline=3D22;md5=3D5ba42=
+18ac89af7846802d0348df3fb90"
+> =20
+> -FILESDIR =3D "${@os.path.dirname(d.getVar('FILE',1))}/u-boot-git/${MACHI=
+NE}"
+> -
+>  # This revision corresponds to the tag "v2011.06"
+>  # We use the revision in order to avoid having to fetch it from the repo=
+ during parse
+>  SRCREV =3D "b1af6f532e0d348b153d5c148369229d24af361a"
+> diff --git a/meta/recipes-bsp/u-boot/u-boot_2012.04.01.bb b/meta/recipes-=
+bsp/u-boot/u-boot_2012.04.01.bb
+> index dbdc663..25cc8c9 100644
+> --- a/meta/recipes-bsp/u-boot/u-boot_2012.04.01.bb
+> +++ b/meta/recipes-bsp/u-boot/u-boot_2012.04.01.bb
+> @@ -14,8 +14,6 @@ DEFAULT_PREFERENCE =3D "-1"
+>  LICENSE =3D "GPLv2+"
+>  LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D1707d6db1d42237583f50183a5651=
+ecb"
+> =20
+> -FILESDIR =3D "${@os.path.dirname(d.getVar('FILE',1))}/u-boot-git/${MACHI=
+NE}"
+> -
+>  # This revision corresponds to the tag "v2012.04.01"
+>  # We use the revision in order to avoid having to fetch it from the
+>  # repo during parse
+> --=20
+> 1.7.9.6
+>=20
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
-which all seems in order.  Which part do you think is wrong?
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-> > On a related note, is it possible to fix the mailing list so that it
-> > does not strip To/Cc information and Message-ID strings?  [I'd have to
-> > check -- maybe it is (also) inserting a needless Reply-To: header that
-> > messes things up.]
-> > 
-> > Further, without a proper Message-ID, it breaks patchworks, so Richard's
-> > comments should be here:
+--EXKGNeO8l0xGFBjy
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
-p.
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
 
+iEYEARECAAYFAk/0Y4MACgkQN1Ujt2V2gByfgQCeIWs4halmN/1fM1QaAqCoBcpJ
+bjMAmgKWMo0NGHELAPhpKqmIOiaYHqvb
+=oW+T
+-----END PGP SIGNATURE-----
 
-
-
+--EXKGNeO8l0xGFBjy--
