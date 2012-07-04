@@ -1,40 +1,26 @@
-Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <alexandru.damian@intel.com>) id 1SmRMR-0006RJ-Kw
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1SmRRe-0006WN-F8
 	for openembedded-core@lists.openembedded.org;
-	Wed, 04 Jul 2012 17:19:24 +0200
-Received: from mail-lb0-f180.google.com ([209.85.217.180])
-	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 04 Jul 2012 08:06:58 -0700
-Received: by lbbgj3 with SMTP id gj3so9322195lbb.25
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 04 Jul 2012 08:06:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type:x-gm-message-state;
-	bh=L2w32HsW8Y5H0dSM/pHC4hrIytzHxbFQU3pi2AuY1+E=;
-	b=n497q6NBr53wMN5Evw6ULuoryz5PGGIw4SvKHM0yInH8S7iJCFcOPLqHmvpW4a/dZn
-	GDLXhH8OYhzbEiyiOH0hFTR8gouEyX9pIb9VZJcZquMAEql9lhBljdKs2um3tDwfcOlN
-	J+OKwS80S+TXy8RwhqGZl4KuasoQJ9Kk+SXX8TttSdoT85BYdzFIBQU/Y7h0rBDzKKeB
-	rj5St7xJulFuVN6Q0OLozB6p5qPFr5YPvNm1hlmy5dF2UsBboWmhlKCDHVXp49LeJr28
-	ppcc0Xx37cHEm6OJ/iv5X9183X3giSRvyOkL1SGMVEVLHGOf9VF8KzWMXoTstat8/Rxt
-	dXBQ==
+	Wed, 04 Jul 2012 17:24:46 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 04 Jul 2012 08:13:42 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="173382202"
+Received: from unknown (HELO helios.localnet) ([10.252.120.228])
+	by fmsmga001.fm.intel.com with ESMTP; 04 Jul 2012 08:13:38 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Andreas Oberritter <obi@opendreambox.org>
+Date: Wed, 04 Jul 2012 16:13:37 +0100
+Message-ID: <2712492.S71dH6BlmC@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.8.3 (Linux/3.2.0-26-generic-pae; KDE/4.8.3; i686; ; )
+In-Reply-To: <4FF44A09.6040603@opendreambox.org>
+References: <1335478762-14532-1-git-send-email-obi@opendreambox.org>
+	<1772332.Hc46G99qAB@helios> <4FF44A09.6040603@opendreambox.org>
 MIME-Version: 1.0
-Received: by 10.152.122.9 with SMTP id lo9mr22237149lab.41.1341414416029; Wed,
-	04 Jul 2012 08:06:56 -0700 (PDT)
-Received: by 10.112.38.132 with HTTP; Wed, 4 Jul 2012 08:06:55 -0700 (PDT)
-In-Reply-To: <1341414137.3906.33.camel@ted>
-References: <CAJ2CSBsPhAtmpoTpBRzfqghV6tnRQXmjpcY415h=XfXtHxQzHQ@mail.gmail.com>
-	<4FF453EC.8030007@linux.intel.com> <1341413143.3906.31.camel@ted>
-	<CAJ2CSBuRsmRDCaj5oY8xToURc3GkCJzRj8y6auzTUxA32AZBMQ@mail.gmail.com>
-	<1341414137.3906.33.camel@ted>
-Date: Wed, 4 Jul 2012 18:06:55 +0300
-Message-ID: <CAJ2CSBtESa4NVB1YF_VSN3BOj-n8NipPN7krkuLHH-nRdEVfcg@mail.gmail.com>
-From: "Damian, Alexandru" <alexandru.damian@intel.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Gm-Message-State: ALoCoQk1Fnx5cytSptr+9lrGVfr8lvljnzeLY2eFCmUsdxAOsth767DgpNQuhhVlrw/klGdC7kub
-Subject: Re: gcc errors while building core-image-sato-sdk
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] opkg-collateral: import fixes from OE-Classic
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,163 +35,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Jul 2012 15:19:24 -0000
-Content-Type: multipart/alternative; boundary=f46d043bd6fac395d204c4026126
+X-List-Received-Date: Wed, 04 Jul 2012 15:24:46 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
---f46d043bd6fac395d204c4026126
-Content-Type: text/plain; charset=ISO-8859-1
+On Wednesday 04 July 2012 15:50:01 Andreas Oberritter wrote:
+> On 03.07.2012 22:14, Paul Eggleton wrote:
+> > Unfortunately, it seems this change has caused bug 2595 - moving the
+> > config file to /etc/opkg means that it is always read regardless of
+> > whether -f is specified or not (as it is during do_rootfs in order to
+> > specify our own generated config file), and this means that after
+> > opkg-collateral is installed into the rootfs, this version of the config
+> > is used, resulting in opkg ignoring the lists it has already downloaded
+> > (since it now sees list_dir as var/lib/opkg instead of
+> > var/lib/opkg/lists) and thus it fails to install any of the "attemptonly"
+> > packages (including *-dev, *-dbg, etc.).
+> 
+> Would it be possible to download the lists to var/lib/opkg instead, if
+> that's the only difference?
 
-I guess the problem is no lmld, (skips over), Mihai says that
+Possible yes, but this has exposed some behaviour that means any distro-
+specific settings that get put into files in that directory can break the rootfs 
+construction, which is not ideal. I'm also wondering if having the lists their 
+own directory might be a good thing anyway (I wonder for example what happens 
+if you have a feed called "status"), but that's a separate issue.
 
-- library search path "/usr/lib/cmplrs/cc2.11" is unsafe for
-cross-compilation
+> I'm not familiar with the use of opkg-collateral during the creation of the
+> rootfs.
 
-is the cause.
+opkg-collateral isn't really "used" in creation of the rootfs, but it always 
+gets installed as a package along with all other packages (since it is in 
+ROOTFS_PKGMANAGE for the ipk backend) in the first stage of package 
+installation, and once it is installed, the problem occurs.
+ 
+> > The question is, should opkg be fixed to not load anything from etc/opkg/
+> > when -f is specified?
+> 
+> I think this would work only if other files than opkg.conf in etc/opkg/
+> aren't needed, which I guess is not the case.
+
+It is the case for rootfs construction, because then opkg has to be able to 
+operate initially with etc/opkg being empty (or nonexistent) before any 
+packages have been installed. The only other file that gets installed into that 
+directory by default is arch.conf, and the values in that are already provided 
+in our generated configuration we specify with -f.
+
+Clearly we can work around this by just moving etc/opkg out of the way 
+temporarily, and that might be what I end up doing to fix this for the moment; 
+however it does seem to me that the behaviour of -f is wrong, unless -f is 
+intended to be able to be used in a different manner than we are using it.
+
+Cheers,
+Paul
+
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
-I'm unable to trace back the cc2.11 file name (path).
-
-
-
-Let's take it bit by bit, we have two issues here.
-1. - why the configure hangs from time to time (what is that c2.11 ??)
-
-2. - why sometimes it triggers massive rebuild even if nothing is changed.
-
-Regarding point 2, does anybody else sees it ?
-
-Alex
-
-On Wed, Jul 4, 2012 at 6:02 PM, Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
-
-> On Wed, 2012-07-04 at 17:50 +0300, Damian, Alexandru wrote:
-> > The question wasn't why it fails, but why sometimes it goes through,
-> > why sometimes fail, and why is it retriggered
-> > without any changes to the config or files (run 5 times the
-> > core-image-sato-sdk build in a row, and at least once it will fail).
-> >
-> > I don't trust systems that are not deterministic :).
->
-> The check runs at the end of the do_configure task.
->
-> The config.log is generated by do_compile. If do_configure is re-run,
-> you'll hit the failure.
->
-> > This being said:
-> >
-> > grep -C5 -e 'CROSS COMPILE Badness:' -e 'is unsafe for
-> > cross-compilation'
-> /home/ddalex/ssd/yocto/build/tmp/work/i586-poky-linux/gcc-4.7.1+svnr188658-r2/gcc-4_7-branch/build.i586-poky-linux.i586-poky-linux/gcc/config.log
-> > | return ldopen ();
-> > |   ;
-> > |   return 0;
-> > | }
-> > configure:8836: i586-poky-linux-gcc  -m32   -march=i586
-> > --sysroot=/home/ddalex/ssd/yocto/build/tmp/sysroots/qemux86 -o
-> > conftest -pipe -g -feliminate-unused-debug-types   -Wl,-O1
-> > -Wl,--hash-style=gnu -Wl,--as-needed conftest.c
-> > -L/usr/lib/cmplrs/cc2.11 -lmld >&5
-> >
-> /home/ddalex/ssd/yocto/build/tmp/sysroots/x86_64-linux/usr/libexec/i586-poky-linux/gcc/i586-poky-linux/4.7.2/ld:
-> warning: library search path "/usr/lib/cmplrs/cc2.11" is unsafe for
-> cross-compilation
-> >
-> /home/ddalex/ssd/yocto/build/tmp/sysroots/x86_64-linux/usr/libexec/i586-poky-linux/gcc/i586-poky-linux/4.7.2/ld:
-> cannot find -lmld
-> > collect2: error: ld returned 1 exit status
-> > configure:8836: $? = 1
-> > configure: failed program was:
-> > | /* confdefs.h */
->
-> So we need it to stop looking for libmld whatever that is. Hopefully
-> there is a --disable-xxxx option we can pass in?
->
-> Cheers,
->
-> Richard
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
-
---f46d043bd6fac395d204c4026126
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
-
-I guess the problem is no lmld, (skips over), Mihai says that <br><br>- lib=
-rary search path &quot;/usr/lib/cmplrs/cc2.11&quot; is unsafe for cross-com=
-pilation<br><br>is the cause.<br><br><br>I&#39;m unable to trace back the c=
-c2.11 file name (path).<br>
-<br><br><br>Let&#39;s take it bit by bit, we have two issues here.<br>1. - =
-why the configure hangs from time to time (what is that c2.11 ??)<br><br>2.=
- - why sometimes it triggers massive rebuild even if nothing is changed.<br=
->
-<br>Regarding point 2, does anybody else sees it ?<br><br>Alex<br><br><div =
-class=3D"gmail_quote">On Wed, Jul 4, 2012 at 6:02 PM, Richard Purdie <span =
-dir=3D"ltr">&lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org" targe=
-t=3D"_blank">richard.purdie@linuxfoundation.org</a>&gt;</span> wrote:<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex"><div class=3D"im">On Wed, 2012-07-04 at 17:5=
-0 +0300, Damian, Alexandru wrote:<br>
-&gt; The question wasn&#39;t why it fails, but why sometimes it goes throug=
-h,<br>
-&gt; why sometimes fail, and why is it retriggered<br>
-&gt; without any changes to the config or files (run 5 times the<br>
-&gt; core-image-sato-sdk build in a row, and at least once it will fail).<b=
-r>
-&gt;<br>
-&gt; I don&#39;t trust systems that are not deterministic :).<br>
-<br>
-</div>The check runs at the end of the do_configure task.<br>
-<br>
-The config.log is generated by do_compile. If do_configure is re-run,<br>
-you&#39;ll hit the failure.<br>
-<div class=3D"im"><br>
-&gt; This being said:<br>
-&gt;<br>
-&gt; grep -C5 -e &#39;CROSS COMPILE Badness:&#39; -e &#39;is unsafe for<br>
-&gt; cross-compilation&#39; /home/ddalex/ssd/yocto/build/tmp/work/i586-poky=
--linux/gcc-4.7.1+svnr188658-r2/gcc-4_7-branch/build.i586-poky-linux.i586-po=
-ky-linux/gcc/config.log<br>
-&gt; | return ldopen ();<br>
-&gt; | =A0 ;<br>
-&gt; | =A0 return 0;<br>
-&gt; | }<br>
-&gt; configure:8836: i586-poky-linux-gcc =A0-m32 =A0 -march=3Di586<br>
-&gt; --sysroot=3D/home/ddalex/ssd/yocto/build/tmp/sysroots/qemux86 -o<br>
-&gt; conftest -pipe -g -feliminate-unused-debug-types =A0 -Wl,-O1<br>
-&gt; -Wl,--hash-style=3Dgnu -Wl,--as-needed conftest.c<br>
-&gt; -L/usr/lib/cmplrs/cc2.11 -lmld &gt;&amp;5<br>
-&gt; /home/ddalex/ssd/yocto/build/tmp/sysroots/x86_64-linux/usr/libexec/i58=
-6-poky-linux/gcc/i586-poky-linux/4.7.2/ld: warning: library search path &qu=
-ot;/usr/lib/cmplrs/cc2.11&quot; is unsafe for cross-compilation<br>
-&gt; /home/ddalex/ssd/yocto/build/tmp/sysroots/x86_64-linux/usr/libexec/i58=
-6-poky-linux/gcc/i586-poky-linux/4.7.2/ld: cannot find -lmld<br>
-&gt; collect2: error: ld returned 1 exit status<br>
-&gt; configure:8836: $? =3D 1<br>
-&gt; configure: failed program was:<br>
-&gt; | /* confdefs.h */<br>
-<br>
-</div>So we need it to stop looking for libmld whatever that is. Hopefully<=
-br>
-there is a --disable-xxxx option we can pass in?<br>
-<div class=3D"HOEnZb"><div class=3D"h5"><br>
-Cheers,<br>
-<br>
-Richard<br>
-<br>
-<br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.openembedded.org</a><br>
-<a href=3D"http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded=
--core" target=3D"_blank">http://lists.linuxtogo.org/cgi-bin/mailman/listinf=
-o/openembedded-core</a><br>
-</div></div></blockquote></div><br>
-
---f46d043bd6fac395d204c4026126--
