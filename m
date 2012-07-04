@@ -1,34 +1,39 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1SmRGk-0006Mb-Ik for openembedded-core@lists.openembedded.org;
-	Wed, 04 Jul 2012 17:13:30 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q64F2RsQ024622
+Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <alexandru.damian@intel.com>) id 1SmRMR-0006RJ-Kw
+	for openembedded-core@lists.openembedded.org;
+	Wed, 04 Jul 2012 17:19:24 +0200
+Received: from mail-lb0-f180.google.com ([209.85.217.180])
+	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 04 Jul 2012 08:06:58 -0700
+Received: by lbbgj3 with SMTP id gj3so9322195lbb.25
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 4 Jul 2012 16:02:27 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 24103-05 for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Jul 2012 16:02:23 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q64F2HjG024612
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 4 Jul 2012 16:02:18 +0100
-Message-ID: <1341414137.3906.33.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Wed, 04 Jul 2012 16:02:17 +0100
-In-Reply-To: <CAJ2CSBuRsmRDCaj5oY8xToURc3GkCJzRj8y6auzTUxA32AZBMQ@mail.gmail.com>
+	Wed, 04 Jul 2012 08:06:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type:x-gm-message-state;
+	bh=L2w32HsW8Y5H0dSM/pHC4hrIytzHxbFQU3pi2AuY1+E=;
+	b=n497q6NBr53wMN5Evw6ULuoryz5PGGIw4SvKHM0yInH8S7iJCFcOPLqHmvpW4a/dZn
+	GDLXhH8OYhzbEiyiOH0hFTR8gouEyX9pIb9VZJcZquMAEql9lhBljdKs2um3tDwfcOlN
+	J+OKwS80S+TXy8RwhqGZl4KuasoQJ9Kk+SXX8TttSdoT85BYdzFIBQU/Y7h0rBDzKKeB
+	rj5St7xJulFuVN6Q0OLozB6p5qPFr5YPvNm1hlmy5dF2UsBboWmhlKCDHVXp49LeJr28
+	ppcc0Xx37cHEm6OJ/iv5X9183X3giSRvyOkL1SGMVEVLHGOf9VF8KzWMXoTstat8/Rxt
+	dXBQ==
+MIME-Version: 1.0
+Received: by 10.152.122.9 with SMTP id lo9mr22237149lab.41.1341414416029; Wed,
+	04 Jul 2012 08:06:56 -0700 (PDT)
+Received: by 10.112.38.132 with HTTP; Wed, 4 Jul 2012 08:06:55 -0700 (PDT)
+In-Reply-To: <1341414137.3906.33.camel@ted>
 References: <CAJ2CSBsPhAtmpoTpBRzfqghV6tnRQXmjpcY415h=XfXtHxQzHQ@mail.gmail.com>
 	<4FF453EC.8030007@linux.intel.com> <1341413143.3906.31.camel@ted>
 	<CAJ2CSBuRsmRDCaj5oY8xToURc3GkCJzRj8y6auzTUxA32AZBMQ@mail.gmail.com>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
+	<1341414137.3906.33.camel@ted>
+Date: Wed, 4 Jul 2012 18:06:55 +0300
+Message-ID: <CAJ2CSBtESa4NVB1YF_VSN3BOj-n8NipPN7krkuLHH-nRdEVfcg@mail.gmail.com>
+From: "Damian, Alexandru" <alexandru.damian@intel.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Gm-Message-State: ALoCoQk1Fnx5cytSptr+9lrGVfr8lvljnzeLY2eFCmUsdxAOsth767DgpNQuhhVlrw/klGdC7kub
 Subject: Re: gcc errors while building core-image-sato-sdk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -44,49 +49,163 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Jul 2012 15:13:30 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 04 Jul 2012 15:19:24 -0000
+Content-Type: multipart/alternative; boundary=f46d043bd6fac395d204c4026126
 
-On Wed, 2012-07-04 at 17:50 +0300, Damian, Alexandru wrote:
-> The question wasn't why it fails, but why sometimes it goes through,
-> why sometimes fail, and why is it retriggered
-> without any changes to the config or files (run 5 times the
-> core-image-sato-sdk build in a row, and at least once it will fail).
+--f46d043bd6fac395d204c4026126
+Content-Type: text/plain; charset=ISO-8859-1
+
+I guess the problem is no lmld, (skips over), Mihai says that
+
+- library search path "/usr/lib/cmplrs/cc2.11" is unsafe for
+cross-compilation
+
+is the cause.
+
+
+I'm unable to trace back the cc2.11 file name (path).
+
+
+
+Let's take it bit by bit, we have two issues here.
+1. - why the configure hangs from time to time (what is that c2.11 ??)
+
+2. - why sometimes it triggers massive rebuild even if nothing is changed.
+
+Regarding point 2, does anybody else sees it ?
+
+Alex
+
+On Wed, Jul 4, 2012 at 6:02 PM, Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
+
+> On Wed, 2012-07-04 at 17:50 +0300, Damian, Alexandru wrote:
+> > The question wasn't why it fails, but why sometimes it goes through,
+> > why sometimes fail, and why is it retriggered
+> > without any changes to the config or files (run 5 times the
+> > core-image-sato-sdk build in a row, and at least once it will fail).
+> >
+> > I don't trust systems that are not deterministic :).
 >
-> I don't trust systems that are not deterministic :).
+> The check runs at the end of the do_configure task.
+>
+> The config.log is generated by do_compile. If do_configure is re-run,
+> you'll hit the failure.
+>
+> > This being said:
+> >
+> > grep -C5 -e 'CROSS COMPILE Badness:' -e 'is unsafe for
+> > cross-compilation'
+> /home/ddalex/ssd/yocto/build/tmp/work/i586-poky-linux/gcc-4.7.1+svnr188658-r2/gcc-4_7-branch/build.i586-poky-linux.i586-poky-linux/gcc/config.log
+> > | return ldopen ();
+> > |   ;
+> > |   return 0;
+> > | }
+> > configure:8836: i586-poky-linux-gcc  -m32   -march=i586
+> > --sysroot=/home/ddalex/ssd/yocto/build/tmp/sysroots/qemux86 -o
+> > conftest -pipe -g -feliminate-unused-debug-types   -Wl,-O1
+> > -Wl,--hash-style=gnu -Wl,--as-needed conftest.c
+> > -L/usr/lib/cmplrs/cc2.11 -lmld >&5
+> >
+> /home/ddalex/ssd/yocto/build/tmp/sysroots/x86_64-linux/usr/libexec/i586-poky-linux/gcc/i586-poky-linux/4.7.2/ld:
+> warning: library search path "/usr/lib/cmplrs/cc2.11" is unsafe for
+> cross-compilation
+> >
+> /home/ddalex/ssd/yocto/build/tmp/sysroots/x86_64-linux/usr/libexec/i586-poky-linux/gcc/i586-poky-linux/4.7.2/ld:
+> cannot find -lmld
+> > collect2: error: ld returned 1 exit status
+> > configure:8836: $? = 1
+> > configure: failed program was:
+> > | /* confdefs.h */
+>
+> So we need it to stop looking for libmld whatever that is. Hopefully
+> there is a --disable-xxxx option we can pass in?
+>
+> Cheers,
+>
+> Richard
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
-The check runs at the end of the do_configure task.
+--f46d043bd6fac395d204c4026126
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-The config.log is generated by do_compile. If do_configure is re-run,
-you'll hit the failure.
+I guess the problem is no lmld, (skips over), Mihai says that <br><br>- lib=
+rary search path &quot;/usr/lib/cmplrs/cc2.11&quot; is unsafe for cross-com=
+pilation<br><br>is the cause.<br><br><br>I&#39;m unable to trace back the c=
+c2.11 file name (path).<br>
+<br><br><br>Let&#39;s take it bit by bit, we have two issues here.<br>1. - =
+why the configure hangs from time to time (what is that c2.11 ??)<br><br>2.=
+ - why sometimes it triggers massive rebuild even if nothing is changed.<br=
+>
+<br>Regarding point 2, does anybody else sees it ?<br><br>Alex<br><br><div =
+class=3D"gmail_quote">On Wed, Jul 4, 2012 at 6:02 PM, Richard Purdie <span =
+dir=3D"ltr">&lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org" targe=
+t=3D"_blank">richard.purdie@linuxfoundation.org</a>&gt;</span> wrote:<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex"><div class=3D"im">On Wed, 2012-07-04 at 17:5=
+0 +0300, Damian, Alexandru wrote:<br>
+&gt; The question wasn&#39;t why it fails, but why sometimes it goes throug=
+h,<br>
+&gt; why sometimes fail, and why is it retriggered<br>
+&gt; without any changes to the config or files (run 5 times the<br>
+&gt; core-image-sato-sdk build in a row, and at least once it will fail).<b=
+r>
+&gt;<br>
+&gt; I don&#39;t trust systems that are not deterministic :).<br>
+<br>
+</div>The check runs at the end of the do_configure task.<br>
+<br>
+The config.log is generated by do_compile. If do_configure is re-run,<br>
+you&#39;ll hit the failure.<br>
+<div class=3D"im"><br>
+&gt; This being said:<br>
+&gt;<br>
+&gt; grep -C5 -e &#39;CROSS COMPILE Badness:&#39; -e &#39;is unsafe for<br>
+&gt; cross-compilation&#39; /home/ddalex/ssd/yocto/build/tmp/work/i586-poky=
+-linux/gcc-4.7.1+svnr188658-r2/gcc-4_7-branch/build.i586-poky-linux.i586-po=
+ky-linux/gcc/config.log<br>
+&gt; | return ldopen ();<br>
+&gt; | =A0 ;<br>
+&gt; | =A0 return 0;<br>
+&gt; | }<br>
+&gt; configure:8836: i586-poky-linux-gcc =A0-m32 =A0 -march=3Di586<br>
+&gt; --sysroot=3D/home/ddalex/ssd/yocto/build/tmp/sysroots/qemux86 -o<br>
+&gt; conftest -pipe -g -feliminate-unused-debug-types =A0 -Wl,-O1<br>
+&gt; -Wl,--hash-style=3Dgnu -Wl,--as-needed conftest.c<br>
+&gt; -L/usr/lib/cmplrs/cc2.11 -lmld &gt;&amp;5<br>
+&gt; /home/ddalex/ssd/yocto/build/tmp/sysroots/x86_64-linux/usr/libexec/i58=
+6-poky-linux/gcc/i586-poky-linux/4.7.2/ld: warning: library search path &qu=
+ot;/usr/lib/cmplrs/cc2.11&quot; is unsafe for cross-compilation<br>
+&gt; /home/ddalex/ssd/yocto/build/tmp/sysroots/x86_64-linux/usr/libexec/i58=
+6-poky-linux/gcc/i586-poky-linux/4.7.2/ld: cannot find -lmld<br>
+&gt; collect2: error: ld returned 1 exit status<br>
+&gt; configure:8836: $? =3D 1<br>
+&gt; configure: failed program was:<br>
+&gt; | /* confdefs.h */<br>
+<br>
+</div>So we need it to stop looking for libmld whatever that is. Hopefully<=
+br>
+there is a --disable-xxxx option we can pass in?<br>
+<div class=3D"HOEnZb"><div class=3D"h5"><br>
+Cheers,<br>
+<br>
+Richard<br>
+<br>
+<br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
+re@lists.openembedded.org</a><br>
+<a href=3D"http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded=
+-core" target=3D"_blank">http://lists.linuxtogo.org/cgi-bin/mailman/listinf=
+o/openembedded-core</a><br>
+</div></div></blockquote></div><br>
 
-> This being said:
-> 
-> grep -C5 -e 'CROSS COMPILE Badness:' -e 'is unsafe for
-> cross-compilation' /home/ddalex/ssd/yocto/build/tmp/work/i586-poky-linux/gcc-4.7.1+svnr188658-r2/gcc-4_7-branch/build.i586-poky-linux.i586-poky-linux/gcc/config.log
-> | return ldopen ();
-> |   ;
-> |   return 0;
-> | }
-> configure:8836: i586-poky-linux-gcc  -m32   -march=i586
-> --sysroot=/home/ddalex/ssd/yocto/build/tmp/sysroots/qemux86 -o
-> conftest -pipe -g -feliminate-unused-debug-types   -Wl,-O1
-> -Wl,--hash-style=gnu -Wl,--as-needed conftest.c
-> -L/usr/lib/cmplrs/cc2.11 -lmld >&5
-> /home/ddalex/ssd/yocto/build/tmp/sysroots/x86_64-linux/usr/libexec/i586-poky-linux/gcc/i586-poky-linux/4.7.2/ld: warning: library search path "/usr/lib/cmplrs/cc2.11" is unsafe for cross-compilation
-> /home/ddalex/ssd/yocto/build/tmp/sysroots/x86_64-linux/usr/libexec/i586-poky-linux/gcc/i586-poky-linux/4.7.2/ld: cannot find -lmld
-> collect2: error: ld returned 1 exit status
-> configure:8836: $? = 1
-> configure: failed program was:
-> | /* confdefs.h */
-
-So we need it to stop looking for libmld whatever that is. Hopefully
-there is a --disable-xxxx option we can pass in?
-
-Cheers,
-
-Richard
-
-
-
+--f46d043bd6fac395d204c4026126--
