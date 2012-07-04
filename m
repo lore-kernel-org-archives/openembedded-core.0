@@ -1,41 +1,24 @@
-Received: from mail-wi0-f177.google.com ([209.85.212.177])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1SmRZ0-0006cx-3R
+	(envelope-from <Paul.Gortmaker@windriver.com>) id 1SmRbh-0006gZ-5N
 	for openembedded-core@lists.openembedded.org;
-	Wed, 04 Jul 2012 17:32:22 +0200
-Received: by wibhm11 with SMTP id hm11so4867314wib.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 04 Jul 2012 08:21:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=SBof2Iq6X4KZox6/qvCTtZAW8DCq8Mx+Bn/5iImGCnM=;
-	b=We/KzzZnxbsJoe2jaGYcQ5G6hiHnS/frvX4Sx4YLPnG9loGi3AjG9aa/BcCNPFT7mj
-	QDH3yNLEjGLsJH1OVll0xfPSw9/utWU1+/uvcoa7Q8hyFoPoRph2Nky7ebyxNhiZZoi0
-	nOaHIrkoYx5UcTzbwMS3WMooFS3AJg7hOyPzRWQX5dL0THJGO/vPQZ8+nPOkBbGqmH8f
-	qTRrj520yhE3u+vUApbv1kAQLTeNF72lvGKjSt8r54DkbIMIxBT/YP+3oSwNrwNeddeX
-	pOI1d6sNlKyMR3s3O82dUiOtxT/A+qVKVtuN/OZ0/mJbHOmLPjluKZIjgDIJKxf832Ks
-	2srQ==
-Received: by 10.180.98.69 with SMTP id eg5mr34616269wib.3.1341415278897;
-	Wed, 04 Jul 2012 08:21:18 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id fu8sm37302367wib.5.2012.07.04.08.21.17
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 04 Jul 2012 08:21:17 -0700 (PDT)
-Date: Wed, 4 Jul 2012 17:21:11 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20120704152111.GB15100@jama.jama.net>
-References: <CAJ2CSBsPhAtmpoTpBRzfqghV6tnRQXmjpcY415h=XfXtHxQzHQ@mail.gmail.com>
-	<4FF453EC.8030007@linux.intel.com> <1341413143.3906.31.camel@ted>
-	<CAJ2CSBuRsmRDCaj5oY8xToURc3GkCJzRj8y6auzTUxA32AZBMQ@mail.gmail.com>
-	<1341414137.3906.33.camel@ted>
-	<CAJ2CSBtESa4NVB1YF_VSN3BOj-n8NipPN7krkuLHH-nRdEVfcg@mail.gmail.com>
+	Wed, 04 Jul 2012 17:35:14 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q64FNwxd021735
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 4 Jul 2012 08:24:03 -0700 (PDT)
+Received: from yow-pgortmak-d2.corp.ad.wrs.com (128.224.146.165) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.1.255.0; Wed, 4 Jul 2012 08:23:59 -0700
+From: Paul Gortmaker <paul.gortmaker@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 4 Jul 2012 11:23:45 -0400
+Message-ID: <1341415425-16073-1-git-send-email-paul.gortmaker@windriver.com>
+X-Mailer: git-send-email 1.7.9.6
+In-Reply-To: <4FF33085.1070703@linux.intel.com>
+References: <4FF33085.1070703@linux.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <CAJ2CSBtESa4NVB1YF_VSN3BOj-n8NipPN7krkuLHH-nRdEVfcg@mail.gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: gcc errors while building core-image-sato-sdk
+Subject: [PATCH] u-boot: make FILESDIR a shared setting via FILESPATH
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,122 +33,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Jul 2012 15:32:22 -0000
-X-Groupsio-MsgNum: 24668
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="eJnRUKwClWJh1Khz"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 04 Jul 2012 15:35:14 -0000
+Content-Type: text/plain
 
---eJnRUKwClWJh1Khz
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The setting is the same in all recipes, so move it to
+the shared settings in u-boot.inc
 
-On Wed, Jul 04, 2012 at 06:06:55PM +0300, Damian, Alexandru wrote:
-> I guess the problem is no lmld, (skips over), Mihai says that
->=20
-> - library search path "/usr/lib/cmplrs/cc2.11" is unsafe for
-> cross-compilation
+Since FILESDIR is also being phased out, use the FILESPATH
+setting as suggested by Richard Purdie.
 
-It's one of issues I sometimes see during gcc upgrades.. and it was
-there with e.g. gcc-4.6.3 too=20
-http://build.shr-project.org/tests/jama/gcc-issue/gcc.issue (from Jan
-14)
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
+---
 
-> is the cause.
->=20
->=20
-> I'm unable to trace back the cc2.11 file name (path).
->=20
->=20
->=20
-> Let's take it bit by bit, we have two issues here.
-> 1. - why the configure hangs from time to time (what is that c2.11 ??)
->=20
-> 2. - why sometimes it triggers massive rebuild even if nothing is changed.
->=20
-> Regarding point 2, does anybody else sees it ?
->=20
-> Alex
->=20
-> On Wed, Jul 4, 2012 at 6:02 PM, Richard Purdie <
-> richard.purdie@linuxfoundation.org> wrote:
->=20
-> > On Wed, 2012-07-04 at 17:50 +0300, Damian, Alexandru wrote:
-> > > The question wasn't why it fails, but why sometimes it goes through,
-> > > why sometimes fail, and why is it retriggered
-> > > without any changes to the config or files (run 5 times the
-> > > core-image-sato-sdk build in a row, and at least once it will fail).
-> > >
-> > > I don't trust systems that are not deterministic :).
-> >
-> > The check runs at the end of the do_configure task.
-> >
-> > The config.log is generated by do_compile. If do_configure is re-run,
-> > you'll hit the failure.
-> >
-> > > This being said:
-> > >
-> > > grep -C5 -e 'CROSS COMPILE Badness:' -e 'is unsafe for
-> > > cross-compilation'
-> > /home/ddalex/ssd/yocto/build/tmp/work/i586-poky-linux/gcc-4.7.1+svnr188=
-658-r2/gcc-4_7-branch/build.i586-poky-linux.i586-poky-linux/gcc/config.log
-> > > | return ldopen ();
-> > > |   ;
-> > > |   return 0;
-> > > | }
-> > > configure:8836: i586-poky-linux-gcc  -m32   -march=3Di586
-> > > --sysroot=3D/home/ddalex/ssd/yocto/build/tmp/sysroots/qemux86 -o
-> > > conftest -pipe -g -feliminate-unused-debug-types   -Wl,-O1
-> > > -Wl,--hash-style=3Dgnu -Wl,--as-needed conftest.c
-> > > -L/usr/lib/cmplrs/cc2.11 -lmld >&5
-> > >
-> > /home/ddalex/ssd/yocto/build/tmp/sysroots/x86_64-linux/usr/libexec/i586=
--poky-linux/gcc/i586-poky-linux/4.7.2/ld:
-> > warning: library search path "/usr/lib/cmplrs/cc2.11" is unsafe for
-> > cross-compilation
-> > >
-> > /home/ddalex/ssd/yocto/build/tmp/sysroots/x86_64-linux/usr/libexec/i586=
--poky-linux/gcc/i586-poky-linux/4.7.2/ld:
-> > cannot find -lmld
-> > > collect2: error: ld returned 1 exit status
-> > > configure:8836: $? =3D 1
-> > > configure: failed program was:
-> > > | /* confdefs.h */
-> >
-> > So we need it to stop looking for libmld whatever that is. Hopefully
-> > there is a --disable-xxxx option we can pass in?
-> >
-> > Cheers,
-> >
-> > Richard
-> >
-> >
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-> >
+[ PG: Retested builds for 8315 and beagleboard ]
 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+ meta/recipes-bsp/u-boot/u-boot.inc           |    1 +
+ meta/recipes-bsp/u-boot/u-boot_2011.03.bb    |    2 --
+ meta/recipes-bsp/u-boot/u-boot_2011.06.bb    |    2 --
+ meta/recipes-bsp/u-boot/u-boot_2012.04.01.bb |    2 --
+ 4 files changed, 1 insertion(+), 6 deletions(-)
+
+diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
+index 5de3583..664c2e6 100644
+--- a/meta/recipes-bsp/u-boot/u-boot.inc
++++ b/meta/recipes-bsp/u-boot/u-boot.inc
+@@ -59,6 +59,7 @@ do_install () {
+ }
+ 
+ FILES_${PN} = "/boot"
++FILESPATH =. "${FILE_DIRNAME}/u-boot-git/${MACHINE}:"
+ 
+ do_deploy () {
+     install -d ${DEPLOYDIR}
+diff --git a/meta/recipes-bsp/u-boot/u-boot_2011.03.bb b/meta/recipes-bsp/u-boot/u-boot_2011.03.bb
+index e99bc2c..ed38f54 100644
+--- a/meta/recipes-bsp/u-boot/u-boot_2011.03.bb
++++ b/meta/recipes-bsp/u-boot/u-boot_2011.03.bb
+@@ -10,8 +10,6 @@ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=1707d6db1d42237583f50183a5651ecb \
+                     file://README;beginline=1;endline=22;md5=3a00ef51d3fc96e9d6c1bc4708ccd3b5"
+ 
+-FILESDIR = "${@os.path.dirname(d.getVar('FILE',1))}/u-boot-git/${MACHINE}"
+-
+ # This revision corresponds to the tag "v2011.03"
+ # We use the revision in order to avoid having to fetch it from the repo during parse
+ SRCREV = "19b54a701811220221fc4d5089a2bb18892018ca"
+diff --git a/meta/recipes-bsp/u-boot/u-boot_2011.06.bb b/meta/recipes-bsp/u-boot/u-boot_2011.06.bb
+index 680401f..da61852 100644
+--- a/meta/recipes-bsp/u-boot/u-boot_2011.06.bb
++++ b/meta/recipes-bsp/u-boot/u-boot_2011.06.bb
+@@ -10,8 +10,6 @@ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=1707d6db1d42237583f50183a5651ecb \
+                     file://README;beginline=1;endline=22;md5=5ba4218ac89af7846802d0348df3fb90"
+ 
+-FILESDIR = "${@os.path.dirname(d.getVar('FILE',1))}/u-boot-git/${MACHINE}"
+-
+ # This revision corresponds to the tag "v2011.06"
+ # We use the revision in order to avoid having to fetch it from the repo during parse
+ SRCREV = "b1af6f532e0d348b153d5c148369229d24af361a"
+diff --git a/meta/recipes-bsp/u-boot/u-boot_2012.04.01.bb b/meta/recipes-bsp/u-boot/u-boot_2012.04.01.bb
+index dbdc663..25cc8c9 100644
+--- a/meta/recipes-bsp/u-boot/u-boot_2012.04.01.bb
++++ b/meta/recipes-bsp/u-boot/u-boot_2012.04.01.bb
+@@ -14,8 +14,6 @@ DEFAULT_PREFERENCE = "-1"
+ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=1707d6db1d42237583f50183a5651ecb"
+ 
+-FILESDIR = "${@os.path.dirname(d.getVar('FILE',1))}/u-boot-git/${MACHINE}"
+-
+ # This revision corresponds to the tag "v2012.04.01"
+ # We use the revision in order to avoid having to fetch it from the
+ # repo during parse
+-- 
+1.7.9.6
 
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---eJnRUKwClWJh1Khz
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
-
-iEYEARECAAYFAk/0X2cACgkQN1Ujt2V2gByIZQCgga5Ip97jjsefTvRB+V7QSB6L
-he0An0sbpJxVP8i12yhZWqmWufd4/XMs
-=9SlD
------END PGP SIGNATURE-----
-
---eJnRUKwClWJh1Khz--
