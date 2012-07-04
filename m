@@ -1,16 +1,23 @@
-Received: from mrsl.grasp.upenn.edu ([158.130.53.11] helo=morwong)
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kartikmohta@gmail.com>) id 1SmGQx-0004hJ-Nt
+	(envelope-from <dvhart@linux.intel.com>) id 1SmHSf-00011A-4B
 	for openembedded-core@lists.openembedded.org;
-	Wed, 04 Jul 2012 05:39:20 +0200
-Received: by morwong (Postfix, from userid 1000)
-	id 51C7EA1321; Tue,  3 Jul 2012 23:21:21 -0400 (EDT)
-From: Kartik Mohta <kartikmohta@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  3 Jul 2012 23:21:07 -0400
-Message-Id: <1341372067-24821-1-git-send-email-kartikmohta@gmail.com>
-X-Mailer: git-send-email 1.7.4.1
-Subject: [PATCH] gcc-common: Don't use "is" for comparing strings, use "=="
+	Wed, 04 Jul 2012 06:45:09 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 03 Jul 2012 21:34:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="166675769"
+Received: from fear.jf.intel.com (HELO rage.local) ([10.7.201.160])
+	by orsmga002.jf.intel.com with ESMTP; 03 Jul 2012 21:34:05 -0700
+From: Darren Hart <dvhart@linux.intel.com>
+To: openembedded-core@lists.openembedded.org,
+	Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Khem Raj <raj.khem@gmail.com>, Tom Zanussi <tom.zanussi@intel.com>,
+	Kishore Bodke <kishore.k.bodke@intel.com>, Saul Wold <sgw@linux.intel.com>
+Date: Tue,  3 Jul 2012 21:33:57 -0700
+Message-Id: <cover.1341376182.git.dvhart@linux.intel.com>
+X-Mailer: git-send-email 1.7.5.4
+Subject: [PATCH 0/5] Live installer fixes and EFI support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -25,34 +32,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Jul 2012 03:39:20 -0000
+X-List-Received-Date: Wed, 04 Jul 2012 04:45:09 -0000
 
-Needed because the equality check was failing here even though upon
-printing the LHS and RHS were the same.
-As per http://stackoverflow.com/a/2987975/64537, using "is" compares the
-memory addresses of the two objects which is not what we want here. We
-just want to compare the values.
+Cleanup the existing installer a bit.
+Fix the grub-efi-native help2man build issue.
+Add EFI support to the installer.
 
-Signed-off-by: Kartik Mohta <kartikmohta@gmail.com>
----
- meta/recipes-devtools/gcc/gcc-common.inc |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+I have tested both PCBIOS install as well as EFI install from a live USB key to
+the internal MMC device on the FRI2 BSP.
 
-diff --git a/meta/recipes-devtools/gcc/gcc-common.inc b/meta/recipes-devtools/gcc/gcc-common.inc
-index 45828bb..0a9324a 100644
---- a/meta/recipes-devtools/gcc/gcc-common.inc
-+++ b/meta/recipes-devtools/gcc/gcc-common.inc
-@@ -10,7 +10,7 @@ inherit autotools gettext
- FILESDIR = "${@os.path.dirname(d.getVar('FILE',1))}/gcc-${PV}"
- 
- def get_gcc_fpu_setting(bb, d):
--    if d.getVar('ARMPKGSFX_EABI', True) is "hf" and  d.getVar('TRANSLATED_TARGET_ARCH', True) is "arm":
-+    if d.getVar('ARMPKGSFX_EABI', True) == "hf" and d.getVar('TRANSLATED_TARGET_ARCH', True) == "arm":
-         return "--with-float=hard"
-     if d.getVar('TARGET_FPU', True) in [ 'soft' ]:
-         return "--with-float=soft"
+The following changes since commit a6b6df1350149c116050cb93c3c7b4802c709d31:
+
+  task-core-tools-debug: Added openssh-sftp-server. (2012-07-03 14:52:38 +0100)
+
+are available in the git repository at:
+  git://git.yoctoproject.org/user-contrib/dvhart/oe-core installer
+  http://git.yoctoproject.org/cgit.cgi/user-contrib/dvhart/oe-core/log/?h=installer
+
+Darren Hart (5):
+  init-install: Use swap_ratio in the calulation of swap_size
+  init-install: Correct ext2->ext3 typo in logging
+  init-install: Clean up partition alignment
+  grub-efi: Do not use help2man
+  EFI: Make installer EFI aware
+
+ meta/classes/grub-efi.bbclass                      |    2 +
+ .../grub/files/grub-1.99-disable-help2man.patch    |  231 ++++++++++++++++++++
+ meta/recipes-bsp/grub/grub-efi-native_1.99.bb      |   17 +-
+ .../images/core-image-minimal-initramfs.bb         |    2 +-
+ .../initrdscripts/files/init-install-efi.sh        |  188 ++++++++++++++++
+ .../initrdscripts/files/init-install.sh            |   12 +-
+ meta/recipes-core/initrdscripts/files/init-live.sh |    6 +-
+ 7 files changed, 440 insertions(+), 18 deletions(-)
+ create mode 100644 meta/recipes-bsp/grub/files/grub-1.99-disable-help2man.patch
+ create mode 100644 meta/recipes-core/initrdscripts/files/init-install-efi.sh
+
 -- 
-1.7.4.1
+1.7.5.4
 
 
 
