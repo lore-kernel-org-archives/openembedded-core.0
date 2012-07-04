@@ -1,30 +1,43 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail-qa0-f47.google.com ([209.85.216.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mihaix.lindner@linux.intel.com>) id 1SmQna-0005Vt-SZ
+	(envelope-from <mario.goulart@gmail.com>) id 1SmQwQ-0005dV-0x
 	for openembedded-core@lists.openembedded.org;
-	Wed, 04 Jul 2012 16:43:23 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 04 Jul 2012 07:32:13 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="161370875"
-Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
-	by orsmga001.jf.intel.com with ESMTP; 04 Jul 2012 07:32:13 -0700
-Received: from [10.237.105.47] (mlindnex-mobl1.ger.corp.intel.com
-	[10.237.105.47])
-	by linux.intel.com (Postfix) with ESMTP id 7157D2C8001
+	Wed, 04 Jul 2012 16:52:30 +0200
+Received: by qabg1 with SMTP id g1so3575570qab.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Jul 2012 07:32:16 -0700 (PDT)
-Message-ID: <4FF453EC.8030007@linux.intel.com>
-Date: Wed, 04 Jul 2012 17:32:12 +0300
-From: Mihai Lindner <mihaix.lindner@linux.intel.com>
-Organization: Intel OTC
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
-	rv:13.0) Gecko/20120614 Thunderbird/13.0.1
+	Wed, 04 Jul 2012 07:41:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=sender:from:to:cc:subject:references:date:in-reply-to:message-id
+	:user-agent:mime-version:content-type;
+	bh=mlfflDrklQZPWLZzd9nF3+9Rj5BpwiHIjVhVl67RX90=;
+	b=ZouJLIXpPeXP5SZPNrzQN9xr1nvm2UT0ozXcQ7Pr8RWfGQiIPWNybOAzfwhXxzuojb
+	XBoqRPrNP1++g4wDJK4SIVTMbqnZ6zkJVAU91TtJ0/Ka9iMyP/tmAIBuxxFN+G+KRCFT
+	mTj2ISiuV++yOJUhw6Y9Dws0JrAVx2lAsjQuXDMEvgS/04Z+BZXRSvIztOxXL6QWxaxR
+	xsLMbo/cefTz3sJJus+Y633Vo53xu5mUZD4pYavxKp0BwsrC0zSicrhr0xFDJjClcBdD
+	rgmLf72SGBBmFz/4Vz/xoJmyB9iMOOrfQy+IceWk05MqVTlyWFxrLzpKG79dY7b1z910
+	QCtw==
+Received: by 10.224.59.19 with SMTP id j19mr38636442qah.25.1341412886228;
+	Wed, 04 Jul 2012 07:41:26 -0700 (PDT)
+Received: from cl-t066-141cl.privatedns.com.gmail.com (wkit.com.br.
+	[67.205.85.241])
+	by mx.google.com with ESMTPS id f14sm20833736qak.20.2012.07.04.07.41.24
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 04 Jul 2012 07:41:24 -0700 (PDT)
+Sender: Mario Domenech Goulart <mario.goulart@gmail.com>
+From: Mario Domenech Goulart <mario@ossystems.com.br>
+To: Saul Wold <sgw@linux.intel.com>
+References: <CAF1ZMEftbcYLjj-qFiXgGQysr_pnfMMonXJz25TO3+UXXj4ckQ@mail.gmail.com>
+	<85obo3s3ht.fsf@cl-t066-141cl.privatedns.com>
+	<4FECA927.20204@linux.intel.com>
+Date: Wed, 04 Jul 2012 10:35:38 -0400
+In-Reply-To: <4FECA927.20204@linux.intel.com> (Saul Wold's message of "Thu, 28
+	Jun 2012 11:57:43 -0700")
+Message-ID: <85sjd7mw5h.fsf@cl-t066-141cl.privatedns.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/23.1.91 (gnu/linux)
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <CAJ2CSBsPhAtmpoTpBRzfqghV6tnRQXmjpcY415h=XfXtHxQzHQ@mail.gmail.com>
-In-Reply-To: <CAJ2CSBsPhAtmpoTpBRzfqghV6tnRQXmjpcY415h=XfXtHxQzHQ@mail.gmail.com>
-Subject: Re: gcc errors while building core-image-sato-sdk
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: xcursor-transparent-theme-0.1.1: upstream source vanish
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,41 +52,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Jul 2012 14:43:23 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 04 Jul 2012 14:52:30 -0000
+Content-Type: text/plain; charset=us-ascii
 
-On 7/4/2012 3:55 PM, Damian, Alexandru wrote:
-> Hi guys,
-> 
-> From time to time I get errors building gcc (although I didn't trigger a rebuild!) when runnign
-> bitbake core-image-sato-sdk
-> 
-> The error is attached:
-> /home/ddalex/ssd/yocto/build/tmp/work/i586-poky-linux/gcc-4.7.1+svnr188658-r2/temp/log.do_configure.20668
-> 
-> What is causing this, is this a know bug ?
-> 
-> Cheers,
-> Alex
-> 
-> 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-> 
+On Thu, 28 Jun 2012 11:57:43 -0700 Saul Wold <sgw@linux.intel.com> wrote:
 
-To get a hint on why it fails, check in /home/ddalex/ssd/yocto/build/tmp/work/i586-poky-linux/gcc-4.7.1+svnr188658-r2/gcc-4_7-branch/build.i586-poky-linux.i586-poky-linux/gcc/config.log if there's "CROSS COMPILE Badness:" or "is unsafe for cross-compilation".
+> On 06/28/2012 11:19 AM, Mario Domenech Goulart wrote:
+>
+>> At the moment I cannot access the svn repository (linked from
+>> https://matchbox-project.org/get_involved.html).
+>>
+>> The download links from https://matchbox-project.org/download.html are
+>> broken.  https://matchbox-project.org/sources.1.html gives me an empty
+>> page and http://handhelds.org/~mallum/downloadables/ (for older
+>> releases) gives me a 404 code.
+>
+> This is being looked into, at the matchbox site side.
+>
+> Can you get the file from here:
+>
+> http://autobuilder.yoctoproject.org/pub/sources/xcursor-transparent-theme-0.1.1.tar.gz
+>
+> This is a mirror that should be accessed, do you set your PREMIRROR to
+> something?  See the meta-yocto/conf/distro/poky.conf for an example
+> for setting to the Yocto Project Mirror.
 
-#$ grep -e 'CROSS COMPILE Badness:' -e 'is unsafe for cross-compilation' /home/ddalex/ssd/yocto/build/tmp/work/i586-poky-linux/gcc-4.7.1+svnr188658-r2/gcc-4_7-branch/build.i586-poky-linux.i586-poky-linux/gcc/config.log
+Thanks a lot, Saul.
 
-`bitbake` will fail if `grep` has results.
-
--- 
-Mihai Lindner
-Yocto Project
-
-
+Best wishes.
+Mario
 
 
