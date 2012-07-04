@@ -1,34 +1,30 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1SmQKj-0003fA-Bs for openembedded-core@lists.openembedded.org;
-	Wed, 04 Jul 2012 16:13:33 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q64E2UUL024179
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 4 Jul 2012 15:02:30 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 24103-01 for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Jul 2012 15:02:26 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q64E2Oir024169
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 4 Jul 2012 15:02:25 +0100
-Message-ID: <1341410543.3906.29.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Wed, 04 Jul 2012 15:02:23 +0100
-In-Reply-To: <0856ecabc55e047a8d4aeb67bf213a8d11cf385a.1341338051.git.tom.zanussi@intel.com>
-References: <ef6a9af654411604543f0baf3fb9b366268ba233.1341338051.git.tom.zanussi@intel.com>
-	<0856ecabc55e047a8d4aeb67bf213a8d11cf385a.1341338051.git.tom.zanussi@intel.com>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 7/9] perf: add perf-scripting MACHINE_FEATURE
+Received: from mail.windriver.com ([147.11.1.11])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <Paul.Gortmaker@windriver.com>) id 1SmQUw-0003qg-35
+	for openembedded-core@lists.openembedded.org;
+	Wed, 04 Jul 2012 16:26:14 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q64ED1BC013062
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 4 Jul 2012 07:13:01 -0700 (PDT)
+Received: from yow-pgortmak-d1 (128.224.146.65) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
+	Wed, 4 Jul 2012 07:13:00 -0700
+Received: from paul by yow-pgortmak-d1 with local (Exim 4.74)	(envelope-from
+	<paul.gortmaker@windriver.com>)	id 1SmQKB-0000WT-Mf; Wed, 04 Jul 2012
+	10:12:59 -0400
+Date: Wed, 4 Jul 2012 10:12:59 -0400
+From: Paul Gortmaker <paul.gortmaker@windriver.com>
+To: Saul Wold <sgw@linux.intel.com>
+Message-ID: <20120704141259.GA1817@windriver.com>
+References: <4FF0C930.4000104@linux.intel.com>
+	<1341207885-9463-1-git-send-email-paul.gortmaker@windriver.com>
+	<4FF33085.1070703@linux.intel.com>
+MIME-Version: 1.0
+In-Reply-To: <4FF33085.1070703@linux.intel.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCHv2 0/3] u-boot recipe updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,32 +39,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Jul 2012 14:13:33 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 04 Jul 2012 14:26:14 -0000
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
 
-On Tue, 2012-07-03 at 13:10 -0500, tom.zanussi@intel.com wrote:
-> From: Tom Zanussi <tom.zanussi@intel.com>
+[Re: [PATCHv2 0/3] u-boot recipe updates] On 03/07/2012 (Tue 10:48) Saul Wold wrote:
+
+> On 07/01/2012 10:44 PM, Paul Gortmaker wrote:
+> >These are the oe-core updates required so that yocto can do
+> >a successful build of a working u-boot image for the mpc8315
+> >reference BSP.
+> >
+> >In v2, I've fixed up the issue where TARGET_PREFIX accidentally became
+> >specific to the one single recipe.  That made the 3/3 patch in v1 no
+> >longer required.  However, when build testing, I noticed that we
+> >were needlessly clobbering PARALLEL_MAKE for u-boot, which is not
+> >at all required, and just slows down builds.  So a new patch is
+> >added to fix that, and we still have three total.
+> >
+> >I've built for the beagleboard with -j8 (twice), and the same for
+> >the 8315 BSP.  I've also always built u-boot with -j10 or greater
+> >for countless powerpc images I've made in the last 1/2 dozen years.
+> >Looking at the git history, it appears this just came in with some
+> >large import, versus being an actively chosen individual setting.
+> >
+> >The 8315 specific patch that was sent to the yocto list earlier to
+> >enable building it (u-boot.bin) by default is unchanged, but I can
+> >resend that if it helps somehow.
+> >
+> >Paul.
+> >---
+> >
+> >Paul Gortmaker (3):
+> >   u-boot: Don't make the -Os removal part of global settings.
+> >   u-boot: make FILESDIR a shared setting.
+> >   u-boot: do not clobber PARALLEL_MAKE setting
+> >
+> Took in patches 1 & 3 into OE-Core
+
+Thanks!
+
 > 
-> Add a new MACHINE_FEATURE named 'perf-scripting'.  Adding this into
-> any machine configuration will enable perf scripting on the target,
-> which will turn on all the language bindings currently aavailable in
-> perf (Perl and Python), if perf is included in an image.
+> Looking for an update for FILESDIR -> FILESPATH as suggested by Richard.
+
+I've not seen Richard's feedback, since I'm OOO, and with the To/Cc:
+stripped, it has got archived vs. staying in my inbox.  [They get
+archived, because just like LKML, I'm not going to pretend I can read
+all poky/oe mail on the very day it arrives.]
+
+On a related note, is it possible to fix the mailing list so that it
+does not strip To/Cc information and Message-ID strings?  [I'd have to
+check -- maybe it is (also) inserting a needless Reply-To: header that
+messes things up.]
+
+Further, without a proper Message-ID, it breaks patchworks, so Richard's
+comments should be here:
+
+http://patchwork.openembedded.org/patch/30879/
+
+but unfortunately they are not.  The netdev and ppc dev lists for linux
+use patchworks and have the follow-up review comments captured and it is
+really quite useful to all (esp. the person who has to triage and
+decruftify patchworks content/state once a month...)
+
+Finally, I can't even find it in the June/July archives:
+
+https://lists.yoctoproject.org/pipermail/poky/2012-July/subject.html
+
+Just thought it worth a mention, in case it hasn't been mentioned
+before.  Fixing these little quirks would lower the barrier to entry
+and the frustration factor for new contributors.  If I can help out
+somehow with testing a fix, let me know.
+
+Thanks,
+Paul.
+--
+
 > 
-> If 'perf-scripting' isn't named as a feature (the default), all perf
-> language bindings will be disabled and unavailable.
+> Thanks
+> 	Sau!
 > 
-> Signed-off-by: Tom Zanussi <tom.zanussi@intel.com>
-> ---
->  meta/recipes-kernel/perf/perf_3.4.bb |   11 ++++++++---
->  1 files changed, 8 insertions(+), 3 deletions(-)
-
-Does this make sense as a MACHINE specific feature? Wouldn't it make
-sense done on a per architecture basis for example?
-
-Cheers,
-
-Richard
-
+> 
+> >  meta/recipes-bsp/u-boot/u-boot.inc           |    6 ++----
+> >  meta/recipes-bsp/u-boot/u-boot_2011.03.bb    |    2 --
+> >  meta/recipes-bsp/u-boot/u-boot_2011.06.bb    |    2 --
+> >  meta/recipes-bsp/u-boot/u-boot_2012.04.01.bb |    2 --
+> >  4 files changed, 2 insertions(+), 10 deletions(-)
+> >
 
 
