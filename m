@@ -1,38 +1,35 @@
-Received: from mail-wg0-f43.google.com ([74.125.82.43])
+Received: from mail-wi0-f171.google.com ([209.85.212.171])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1SmRpz-0000IW-SX
-	for openembedded-core@lists.openembedded.org;
-	Wed, 04 Jul 2012 17:49:55 +0200
-Received: by wgbdr1 with SMTP id dr1so6800846wgb.24
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 04 Jul 2012 08:38:52 -0700 (PDT)
+	(envelope-from <martin.jansa@gmail.com>)
+	id 1SmSab-0001gb-Gt; Wed, 04 Jul 2012 18:38:05 +0200
+Received: by wibhq4 with SMTP id hq4so4928802wib.6
+	for <multiple recipients>; Wed, 04 Jul 2012 09:27:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:subject:message-id:references:mime-version
+	h=date:from:to:cc:subject:message-id:references:mime-version
 	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=Hav51OEn2BYOak0plSqp2IMX9JBTAl7hqObG5dalqfg=;
-	b=IMjpJFbwBTM2kyBNaKXDU5oYJP8QdQ1Vw5TUgj9I5SbREG8zh87ec6ODs2oFJb95Ri
-	wVW74a3h54Vw9xcp7Krh3P5DgcsIQ7G7eI9ytGW6zyPziR7PtBMN6Jxth6QcGGvZtNtk
-	ILsj7wySZ2S6odcHf/KXl/RClqxUBl9S7+T0d3AWCb0XsTosWMnEJ78puQofEGBfO18j
-	PMrzt7yUfqVvy3eEgwqKJ00TPDUxw1kG3vhjB7qnVHyqL1lH/MQI+gut/VUjHIVAkGuH
-	fQHp3ZIOIEzdTdRg265oiSkV4xJIzrdZoBcRYdOD5NV+vglzj9ZRG0Z8xX6iw0Si6hal
-	0RPg==
-Received: by 10.216.211.19 with SMTP id v19mr6255067weo.89.1341416332298;
-	Wed, 04 Jul 2012 08:38:52 -0700 (PDT)
+	bh=SguF/p55woRXn3RnNJcPYFSMb2qKayzslym9rcFyXHU=;
+	b=Qb1VWOzZA0ahVQafMbvCM+YCZ+drGNQcbvklqCAGR/7isqSHbNNbgtBG/ei66FlzEv
+	FiTysBuAXnja11IpRcctNaEOs+YgeKp35I1p4ZbLdj2tvnCTcVm/F2wihbGziShQA/5f
+	JYi2bN5RKkLzYFrq463wHpUZmalnnZRr6hMGI4S9bgoKWDWdgZZ/jJa8XQN1BJs5auhz
+	Nv1IgFkSkrrhEv2eqOe3eT7X2fCNSqKlmt9/r5LBZ2YKq4BE4UWFfGD6vnsZv2BaLADv
+	32P4hc0ICyggV2FkXT53gNSr2OZLir8QpoD3eHbcMZFm72trrI0ag5RSTQWNj+6SDiWP
+	AfMg==
+Received: by 10.216.237.193 with SMTP id y43mr6056645weq.75.1341419222227;
+	Wed, 04 Jul 2012 09:27:02 -0700 (PDT)
 Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id bg10sm67454293wib.9.2012.07.04.08.38.48
+	by mx.google.com with ESMTPS id n6sm67790871wie.7.2012.07.04.09.27.00
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 04 Jul 2012 08:38:49 -0700 (PDT)
-Date: Wed, 4 Jul 2012 17:38:43 +0200
+	Wed, 04 Jul 2012 09:27:01 -0700 (PDT)
+Date: Wed, 4 Jul 2012 18:26:54 +0200
 From: Martin Jansa <martin.jansa@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20120704153843.GD15100@jama.jama.net>
-References: <4FF33085.1070703@linux.intel.com>
-	<1341415425-16073-1-git-send-email-paul.gortmaker@windriver.com>
+To: openembedded-core@lists.openembedded.org
+Message-ID: <20120704162654.GE15100@jama.jama.net>
+References: <20120704134932.B766810217@opal>
 MIME-Version: 1.0
-In-Reply-To: <1341415425-16073-1-git-send-email-paul.gortmaker@windriver.com>
+In-Reply-To: <20120704134932.B766810217@opal>
 User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: [PATCH] u-boot: make FILESDIR a shared setting via FILESPATH
+Cc: openembedded-commits@lists.openembedded.org
+Subject: Re: [oe-commits] Richard Purdie : meta/classes: Update recrdeptask fields for recursive dependency handling changes in bitbake
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,127 +44,157 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Jul 2012 15:49:56 -0000
-X-Groupsio-MsgNum: 24671
+X-List-Received-Date: Wed, 04 Jul 2012 16:38:05 -0000
+X-Groupsio-MsgNum: 24672
 Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="EXKGNeO8l0xGFBjy"
+	protocol="application/pgp-signature"; boundary="oPmsXEqKQNHCSXW7"
 Content-Disposition: inline
 
---EXKGNeO8l0xGFBjy
+--oPmsXEqKQNHCSXW7
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jul 04, 2012 at 11:23:45AM -0400, Paul Gortmaker wrote:
-> The setting is the same in all recipes, so move it to
-> the shared settings in u-boot.inc
+On Wed, Jul 04, 2012 at 01:49:32PM +0000, git@git.openembedded.org wrote:
+> Module: openembedded-core.git
+> Branch: master
+> Commit: 8229fb5d7205f5e5b198ab2860fbcc02054476eb
+> URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcommit=
+;h=3D8229fb5d7205f5e5b198ab2860fbcc02054476eb
 >=20
-> Since FILESDIR is also being phased out, use the FILESPATH
-> setting as suggested by Richard Purdie.
+> Author: Richard Purdie <richard.purdie@linuxfoundation.org>
+> Date:   Mon Jul  2 12:27:46 2012 +0000
+>=20
+> meta/classes: Update recrdeptask fields for recursive dependency handling=
+ changes in bitbake
+>=20
+> This also deletes the buildall task since I seen usecases for it.
 
-Shouldn't it be added in FILESEXTRAPATHS instead of FILESPATH?
+Is there a typo in last sentence? :)
+
+I've seen
+BB_DEFAULT_TASK =3D "buildall"
+in my local.conf and now it had to go..
 
 Cheers,
 
-> Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
-> Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>=20
 > ---
 >=20
-> [ PG: Retested builds for 8315 and beagleboard ]
+>  meta/classes/distrodata.bbclass    |    8 ++++----
+>  meta/classes/recipe_sanity.bbclass |    3 +--
+>  meta/classes/utility-tasks.bbclass |   10 ++--------
+>  3 files changed, 7 insertions(+), 14 deletions(-)
 >=20
->  meta/recipes-bsp/u-boot/u-boot.inc           |    1 +
->  meta/recipes-bsp/u-boot/u-boot_2011.03.bb    |    2 --
->  meta/recipes-bsp/u-boot/u-boot_2011.06.bb    |    2 --
->  meta/recipes-bsp/u-boot/u-boot_2012.04.01.bb |    2 --
->  4 files changed, 1 insertion(+), 6 deletions(-)
->=20
-> diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot=
-/u-boot.inc
-> index 5de3583..664c2e6 100644
-> --- a/meta/recipes-bsp/u-boot/u-boot.inc
-> +++ b/meta/recipes-bsp/u-boot/u-boot.inc
-> @@ -59,6 +59,7 @@ do_install () {
+> diff --git a/meta/classes/distrodata.bbclass b/meta/classes/distrodata.bb=
+class
+> index 5b10eac..7b212c9 100644
+> --- a/meta/classes/distrodata.bbclass
+> +++ b/meta/classes/distrodata.bbclass
+> @@ -177,7 +177,7 @@ python do_distrodata() {
 >  }
 > =20
->  FILES_${PN} =3D "/boot"
-> +FILESPATH =3D. "${FILE_DIRNAME}/u-boot-git/${MACHINE}:"
+>  addtask distrodataall after do_distrodata
+> -do_distrodataall[recrdeptask] =3D "do_distrodata"
+> +do_distrodataall[recrdeptask] =3D "do_distrodataall do_distrodata"
+>  do_distrodataall[nostamp] =3D "1"
+>  do_distrodataall() {
+>  	:
+> @@ -634,7 +634,7 @@ python do_checkpkg() {
+>  }
 > =20
->  do_deploy () {
->      install -d ${DEPLOYDIR}
-> diff --git a/meta/recipes-bsp/u-boot/u-boot_2011.03.bb b/meta/recipes-bsp=
-/u-boot/u-boot_2011.03.bb
-> index e99bc2c..ed38f54 100644
-> --- a/meta/recipes-bsp/u-boot/u-boot_2011.03.bb
-> +++ b/meta/recipes-bsp/u-boot/u-boot_2011.03.bb
-> @@ -10,8 +10,6 @@ LICENSE =3D "GPLv2+"
->  LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D1707d6db1d42237583f50183a5651=
-ecb \
->                      file://README;beginline=3D1;endline=3D22;md5=3D3a00e=
-f51d3fc96e9d6c1bc4708ccd3b5"
+>  addtask checkpkgall after do_checkpkg
+> -do_checkpkgall[recrdeptask] =3D "do_checkpkg"
+> +do_checkpkgall[recrdeptask] =3D "do_checkpkgall do_checkpkg"
+>  do_checkpkgall[nostamp] =3D "1"
+>  do_checkpkgall() {
+>  	:
+> @@ -677,7 +677,7 @@ python do_distro_check() {
+>  }
 > =20
-> -FILESDIR =3D "${@os.path.dirname(d.getVar('FILE',1))}/u-boot-git/${MACHI=
-NE}"
+>  addtask distro_checkall after do_distro_check
+> -do_distro_checkall[recrdeptask] =3D "do_distro_check"
+> +do_distro_checkall[recrdeptask] =3D "do_distro_checkall do_distro_check"
+>  do_distro_checkall[nostamp] =3D "1"
+>  do_distro_checkall() {
+>  	:
+> @@ -727,7 +727,7 @@ python do_checklicense() {
+>  }
+> =20
+>  addtask checklicenseall after do_checklicense
+> -do_checklicenseall[recrdeptask] =3D "do_checklicense"
+> +do_checklicenseall[recrdeptask] =3D "do_checklicenseall do_checklicense"
+>  do_checklicenseall[nostamp] =3D "1"
+>  do_checklicenseall() {
+>  	:
+> diff --git a/meta/classes/recipe_sanity.bbclass b/meta/classes/recipe_san=
+ity.bbclass
+> index da8ad76..61e07bf 100644
+> --- a/meta/classes/recipe_sanity.bbclass
+> +++ b/meta/classes/recipe_sanity.bbclass
+> @@ -136,11 +136,10 @@ python do_recipe_sanity () {
+>      bad_runtime_vars(cfgdata, d)
+>  }
+>  do_recipe_sanity[nostamp] =3D "1"
+> -#do_recipe_sanity[recrdeptask] =3D "do_recipe_sanity"
+>  addtask recipe_sanity
+> =20
+>  do_recipe_sanity_all[nostamp] =3D "1"
+> -do_recipe_sanity_all[recrdeptask] =3D "do_recipe_sanity"
+> +do_recipe_sanity_all[recrdeptask] =3D "do_recipe_sanity_all do_recipe_sa=
+nity"
+>  do_recipe_sanity_all () {
+>      :
+>  }
+> diff --git a/meta/classes/utility-tasks.bbclass b/meta/classes/utility-ta=
+sks.bbclass
+> index cbb000a..6c2232e 100644
+> --- a/meta/classes/utility-tasks.bbclass
+> +++ b/meta/classes/utility-tasks.bbclass
+> @@ -46,20 +46,14 @@ python do_checkuri() {
+>  }
+> =20
+>  addtask checkuriall after do_checkuri
+> -do_checkuriall[recrdeptask] =3D "do_checkuri"
+> +do_checkuriall[recrdeptask] =3D "do_checkuriall do_checkuri"
+>  do_checkuriall[nostamp] =3D "1"
+>  do_checkuriall() {
+>  	:
+>  }
+> =20
+>  addtask fetchall after do_fetch
+> -do_fetchall[recrdeptask] =3D "do_fetch"
+> +do_fetchall[recrdeptask] =3D "do_fetchall do_fetch"
+>  do_fetchall() {
+>  	:
+>  }
 > -
->  # This revision corresponds to the tag "v2011.03"
->  # We use the revision in order to avoid having to fetch it from the repo=
- during parse
->  SRCREV =3D "19b54a701811220221fc4d5089a2bb18892018ca"
-> diff --git a/meta/recipes-bsp/u-boot/u-boot_2011.06.bb b/meta/recipes-bsp=
-/u-boot/u-boot_2011.06.bb
-> index 680401f..da61852 100644
-> --- a/meta/recipes-bsp/u-boot/u-boot_2011.06.bb
-> +++ b/meta/recipes-bsp/u-boot/u-boot_2011.06.bb
-> @@ -10,8 +10,6 @@ LICENSE =3D "GPLv2+"
->  LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D1707d6db1d42237583f50183a5651=
-ecb \
->                      file://README;beginline=3D1;endline=3D22;md5=3D5ba42=
-18ac89af7846802d0348df3fb90"
-> =20
-> -FILESDIR =3D "${@os.path.dirname(d.getVar('FILE',1))}/u-boot-git/${MACHI=
-NE}"
-> -
->  # This revision corresponds to the tag "v2011.06"
->  # We use the revision in order to avoid having to fetch it from the repo=
- during parse
->  SRCREV =3D "b1af6f532e0d348b153d5c148369229d24af361a"
-> diff --git a/meta/recipes-bsp/u-boot/u-boot_2012.04.01.bb b/meta/recipes-=
-bsp/u-boot/u-boot_2012.04.01.bb
-> index dbdc663..25cc8c9 100644
-> --- a/meta/recipes-bsp/u-boot/u-boot_2012.04.01.bb
-> +++ b/meta/recipes-bsp/u-boot/u-boot_2012.04.01.bb
-> @@ -14,8 +14,6 @@ DEFAULT_PREFERENCE =3D "-1"
->  LICENSE =3D "GPLv2+"
->  LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D1707d6db1d42237583f50183a5651=
-ecb"
-> =20
-> -FILESDIR =3D "${@os.path.dirname(d.getVar('FILE',1))}/u-boot-git/${MACHI=
-NE}"
-> -
->  # This revision corresponds to the tag "v2012.04.01"
->  # We use the revision in order to avoid having to fetch it from the
->  # repo during parse
-> --=20
-> 1.7.9.6
+> -addtask buildall after do_build
+> -do_buildall[recrdeptask] =3D "do_build"
+> -do_buildall() {
+> -	:
+> -}
 >=20
 >=20
 > _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+> Openembedded-commits mailing list
+> Openembedded-commits@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-commits
 
 --=20
 Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---EXKGNeO8l0xGFBjy
+--oPmsXEqKQNHCSXW7
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: Digital signature
 
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v2.0.19 (GNU/Linux)
 
-iEYEARECAAYFAk/0Y4MACgkQN1Ujt2V2gByfgQCeIWs4halmN/1fM1QaAqCoBcpJ
-bjMAmgKWMo0NGHELAPhpKqmIOiaYHqvb
-=oW+T
+iEYEARECAAYFAk/0bs4ACgkQN1Ujt2V2gBynFwCdFHvlNQQ6O0PeemqXEIYKFzcm
+t1oAoIscWdY3HZMcSkAqIA+qcxKP6DWN
+=JWyW
 -----END PGP SIGNATURE-----
 
---EXKGNeO8l0xGFBjy--
+--oPmsXEqKQNHCSXW7--
