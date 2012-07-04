@@ -1,30 +1,30 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Paul.Gortmaker@windriver.com>) id 1SmQUw-0003qg-35
+	(envelope-from <mihaix.lindner@linux.intel.com>) id 1SmQna-0005Vt-SZ
 	for openembedded-core@lists.openembedded.org;
-	Wed, 04 Jul 2012 16:26:14 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q64ED1BC013062
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 4 Jul 2012 07:13:01 -0700 (PDT)
-Received: from yow-pgortmak-d1 (128.224.146.65) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Wed, 4 Jul 2012 07:13:00 -0700
-Received: from paul by yow-pgortmak-d1 with local (Exim 4.74)	(envelope-from
-	<paul.gortmaker@windriver.com>)	id 1SmQKB-0000WT-Mf; Wed, 04 Jul 2012
-	10:12:59 -0400
-Date: Wed, 4 Jul 2012 10:12:59 -0400
-From: Paul Gortmaker <paul.gortmaker@windriver.com>
-To: Saul Wold <sgw@linux.intel.com>
-Message-ID: <20120704141259.GA1817@windriver.com>
-References: <4FF0C930.4000104@linux.intel.com>
-	<1341207885-9463-1-git-send-email-paul.gortmaker@windriver.com>
-	<4FF33085.1070703@linux.intel.com>
+	Wed, 04 Jul 2012 16:43:23 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 04 Jul 2012 07:32:13 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="161370875"
+Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
+	by orsmga001.jf.intel.com with ESMTP; 04 Jul 2012 07:32:13 -0700
+Received: from [10.237.105.47] (mlindnex-mobl1.ger.corp.intel.com
+	[10.237.105.47])
+	by linux.intel.com (Postfix) with ESMTP id 7157D2C8001
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  4 Jul 2012 07:32:16 -0700 (PDT)
+Message-ID: <4FF453EC.8030007@linux.intel.com>
+Date: Wed, 04 Jul 2012 17:32:12 +0300
+From: Mihai Lindner <mihaix.lindner@linux.intel.com>
+Organization: Intel OTC
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
+	rv:13.0) Gecko/20120614 Thunderbird/13.0.1
 MIME-Version: 1.0
-In-Reply-To: <4FF33085.1070703@linux.intel.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCHv2 0/3] u-boot recipe updates
+To: openembedded-core@lists.openembedded.org
+References: <CAJ2CSBsPhAtmpoTpBRzfqghV6tnRQXmjpcY415h=XfXtHxQzHQ@mail.gmail.com>
+In-Reply-To: <CAJ2CSBsPhAtmpoTpBRzfqghV6tnRQXmjpcY415h=XfXtHxQzHQ@mail.gmail.com>
+Subject: Re: gcc errors while building core-image-sato-sdk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,92 +39,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Jul 2012 14:26:14 -0000
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 04 Jul 2012 14:43:23 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-[Re: [PATCHv2 0/3] u-boot recipe updates] On 03/07/2012 (Tue 10:48) Saul Wold wrote:
-
-> On 07/01/2012 10:44 PM, Paul Gortmaker wrote:
-> >These are the oe-core updates required so that yocto can do
-> >a successful build of a working u-boot image for the mpc8315
-> >reference BSP.
-> >
-> >In v2, I've fixed up the issue where TARGET_PREFIX accidentally became
-> >specific to the one single recipe.  That made the 3/3 patch in v1 no
-> >longer required.  However, when build testing, I noticed that we
-> >were needlessly clobbering PARALLEL_MAKE for u-boot, which is not
-> >at all required, and just slows down builds.  So a new patch is
-> >added to fix that, and we still have three total.
-> >
-> >I've built for the beagleboard with -j8 (twice), and the same for
-> >the 8315 BSP.  I've also always built u-boot with -j10 or greater
-> >for countless powerpc images I've made in the last 1/2 dozen years.
-> >Looking at the git history, it appears this just came in with some
-> >large import, versus being an actively chosen individual setting.
-> >
-> >The 8315 specific patch that was sent to the yocto list earlier to
-> >enable building it (u-boot.bin) by default is unchanged, but I can
-> >resend that if it helps somehow.
-> >
-> >Paul.
-> >---
-> >
-> >Paul Gortmaker (3):
-> >   u-boot: Don't make the -Os removal part of global settings.
-> >   u-boot: make FILESDIR a shared setting.
-> >   u-boot: do not clobber PARALLEL_MAKE setting
-> >
-> Took in patches 1 & 3 into OE-Core
-
-Thanks!
-
+On 7/4/2012 3:55 PM, Damian, Alexandru wrote:
+> Hi guys,
 > 
-> Looking for an update for FILESDIR -> FILESPATH as suggested by Richard.
-
-I've not seen Richard's feedback, since I'm OOO, and with the To/Cc:
-stripped, it has got archived vs. staying in my inbox.  [They get
-archived, because just like LKML, I'm not going to pretend I can read
-all poky/oe mail on the very day it arrives.]
-
-On a related note, is it possible to fix the mailing list so that it
-does not strip To/Cc information and Message-ID strings?  [I'd have to
-check -- maybe it is (also) inserting a needless Reply-To: header that
-messes things up.]
-
-Further, without a proper Message-ID, it breaks patchworks, so Richard's
-comments should be here:
-
-http://patchwork.openembedded.org/patch/30879/
-
-but unfortunately they are not.  The netdev and ppc dev lists for linux
-use patchworks and have the follow-up review comments captured and it is
-really quite useful to all (esp. the person who has to triage and
-decruftify patchworks content/state once a month...)
-
-Finally, I can't even find it in the June/July archives:
-
-https://lists.yoctoproject.org/pipermail/poky/2012-July/subject.html
-
-Just thought it worth a mention, in case it hasn't been mentioned
-before.  Fixing these little quirks would lower the barrier to entry
-and the frustration factor for new contributors.  If I can help out
-somehow with testing a fix, let me know.
-
-Thanks,
-Paul.
---
-
+> From time to time I get errors building gcc (although I didn't trigger a rebuild!) when runnign
+> bitbake core-image-sato-sdk
 > 
-> Thanks
-> 	Sau!
+> The error is attached:
+> /home/ddalex/ssd/yocto/build/tmp/work/i586-poky-linux/gcc-4.7.1+svnr188658-r2/temp/log.do_configure.20668
+> 
+> What is causing this, is this a know bug ?
+> 
+> Cheers,
+> Alex
 > 
 > 
-> >  meta/recipes-bsp/u-boot/u-boot.inc           |    6 ++----
-> >  meta/recipes-bsp/u-boot/u-boot_2011.03.bb    |    2 --
-> >  meta/recipes-bsp/u-boot/u-boot_2011.06.bb    |    2 --
-> >  meta/recipes-bsp/u-boot/u-boot_2012.04.01.bb |    2 --
-> >  4 files changed, 2 insertions(+), 10 deletions(-)
-> >
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+> 
+
+To get a hint on why it fails, check in /home/ddalex/ssd/yocto/build/tmp/work/i586-poky-linux/gcc-4.7.1+svnr188658-r2/gcc-4_7-branch/build.i586-poky-linux.i586-poky-linux/gcc/config.log if there's "CROSS COMPILE Badness:" or "is unsafe for cross-compilation".
+
+#$ grep -e 'CROSS COMPILE Badness:' -e 'is unsafe for cross-compilation' /home/ddalex/ssd/yocto/build/tmp/work/i586-poky-linux/gcc-4.7.1+svnr188658-r2/gcc-4_7-branch/build.i586-poky-linux.i586-poky-linux/gcc/config.log
+
+`bitbake` will fail if `grep` has results.
+
+-- 
+Mihai Lindner
+Yocto Project
+
+
 
 
