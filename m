@@ -1,31 +1,16 @@
-Received: from astoria.ccjclearline.com ([64.235.106.9])
+Received: from mrsl.grasp.upenn.edu ([158.130.53.11] helo=morwong)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpjday@crashcourse.ca>) id 1SmFPc-0003jP-Ov
+	(envelope-from <kartikmohta@gmail.com>) id 1SmGQx-0004hJ-Nt
 	for openembedded-core@lists.openembedded.org;
-	Wed, 04 Jul 2012 04:33:52 +0200
-Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
-	([99.241.91.63]:42903 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.77) (envelope-from <rpjday@crashcourse.ca>)
-	id 1SmFEl-0006d1-0R for openembedded-core@lists.openembedded.org;
-	Tue, 03 Jul 2012 22:22:39 -0400
-Date: Tue, 3 Jul 2012 22:22:33 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@oneiric
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.DEB.2.02.1207032219210.21877@oneiric>
-User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
-MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Subject: why would a recipe have both do_install() and do_install_append()?
+	Wed, 04 Jul 2012 05:39:20 +0200
+Received: by morwong (Postfix, from userid 1000)
+	id 51C7EA1321; Tue,  3 Jul 2012 23:21:21 -0400 (EDT)
+From: Kartik Mohta <kartikmohta@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  3 Jul 2012 23:21:07 -0400
+Message-Id: <1341372067-24821-1-git-send-email-kartikmohta@gmail.com>
+X-Mailer: git-send-email 1.7.4.1
+Subject: [PATCH] gcc-common: Don't use "is" for comparing strings, use "=="
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,45 +25,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Jul 2012 02:33:52 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Wed, 04 Jul 2012 03:39:20 -0000
 
+Needed because the equality check was failing here even though upon
+printing the LHS and RHS were the same.
+As per http://stackoverflow.com/a/2987975/64537, using "is" compares the
+memory addresses of the two objects which is not what we want here. We
+just want to compare the values.
 
-  i'm probably just misreading something, but what is the point of a
-recipe having both a do_install() and do_install_append() function?
-for example, here's part of e2fsprogs_1.42.1.bb:
+Signed-off-by: Kartik Mohta <kartikmohta@gmail.com>
+---
+ meta/recipes-devtools/gcc/gcc-common.inc |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-do_install () {
-        oe_runmake 'DESTDIR=${D}' install
-        oe_runmake 'DESTDIR=${D}' install-libs
-        # We use blkid from util-linux now so remove from here
-        rm -f ${D}${base_libdir}/libblkid*
-        rm -rf ${D}${includedir}/blkid
-        rm -f ${D}${base_libdir}/pkgconfig/blkid.pc
-}
-
-do_install_append () {
-        # e2initrd_helper and the pkgconfig files belong in libdir
-        if [ ! ${D}${libdir} -ef ${D}${base_libdir} ]; then
-                install -d ${D}${libdir}
-                mv ${D}${base_libdir}/e2initrd_helper ${D}${libdir}
-                mv ${D}${base_libdir}/pkgconfig ${D}${libdir}
-        fi
-}
-
-  how does that differ from simply defining a single do_install()
-routine?  i'm willing for this to be a dumb question.
-
-rday
-
+diff --git a/meta/recipes-devtools/gcc/gcc-common.inc b/meta/recipes-devtools/gcc/gcc-common.inc
+index 45828bb..0a9324a 100644
+--- a/meta/recipes-devtools/gcc/gcc-common.inc
++++ b/meta/recipes-devtools/gcc/gcc-common.inc
+@@ -10,7 +10,7 @@ inherit autotools gettext
+ FILESDIR = "${@os.path.dirname(d.getVar('FILE',1))}/gcc-${PV}"
+ 
+ def get_gcc_fpu_setting(bb, d):
+-    if d.getVar('ARMPKGSFX_EABI', True) is "hf" and  d.getVar('TRANSLATED_TARGET_ARCH', True) is "arm":
++    if d.getVar('ARMPKGSFX_EABI', True) == "hf" and d.getVar('TRANSLATED_TARGET_ARCH', True) == "arm":
+         return "--with-float=hard"
+     if d.getVar('TARGET_FPU', True) in [ 'soft' ]:
+         return "--with-float=soft"
 -- 
+1.7.4.1
 
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
 
 
