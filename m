@@ -1,26 +1,41 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mail-wi0-f177.google.com ([209.85.212.177])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1SmRRe-0006WN-F8
+	(envelope-from <martin.jansa@gmail.com>) id 1SmRZ0-0006cx-3R
 	for openembedded-core@lists.openembedded.org;
-	Wed, 04 Jul 2012 17:24:46 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 04 Jul 2012 08:13:42 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="173382202"
-Received: from unknown (HELO helios.localnet) ([10.252.120.228])
-	by fmsmga001.fm.intel.com with ESMTP; 04 Jul 2012 08:13:38 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Andreas Oberritter <obi@opendreambox.org>
-Date: Wed, 04 Jul 2012 16:13:37 +0100
-Message-ID: <2712492.S71dH6BlmC@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.8.3 (Linux/3.2.0-26-generic-pae; KDE/4.8.3; i686; ; )
-In-Reply-To: <4FF44A09.6040603@opendreambox.org>
-References: <1335478762-14532-1-git-send-email-obi@opendreambox.org>
-	<1772332.Hc46G99qAB@helios> <4FF44A09.6040603@opendreambox.org>
+	Wed, 04 Jul 2012 17:32:22 +0200
+Received: by wibhm11 with SMTP id hm11so4867314wib.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 04 Jul 2012 08:21:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=SBof2Iq6X4KZox6/qvCTtZAW8DCq8Mx+Bn/5iImGCnM=;
+	b=We/KzzZnxbsJoe2jaGYcQ5G6hiHnS/frvX4Sx4YLPnG9loGi3AjG9aa/BcCNPFT7mj
+	QDH3yNLEjGLsJH1OVll0xfPSw9/utWU1+/uvcoa7Q8hyFoPoRph2Nky7ebyxNhiZZoi0
+	nOaHIrkoYx5UcTzbwMS3WMooFS3AJg7hOyPzRWQX5dL0THJGO/vPQZ8+nPOkBbGqmH8f
+	qTRrj520yhE3u+vUApbv1kAQLTeNF72lvGKjSt8r54DkbIMIxBT/YP+3oSwNrwNeddeX
+	pOI1d6sNlKyMR3s3O82dUiOtxT/A+qVKVtuN/OZ0/mJbHOmLPjluKZIjgDIJKxf832Ks
+	2srQ==
+Received: by 10.180.98.69 with SMTP id eg5mr34616269wib.3.1341415278897;
+	Wed, 04 Jul 2012 08:21:18 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id fu8sm37302367wib.5.2012.07.04.08.21.17
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 04 Jul 2012 08:21:17 -0700 (PDT)
+Date: Wed, 4 Jul 2012 17:21:11 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Message-ID: <20120704152111.GB15100@jama.jama.net>
+References: <CAJ2CSBsPhAtmpoTpBRzfqghV6tnRQXmjpcY415h=XfXtHxQzHQ@mail.gmail.com>
+	<4FF453EC.8030007@linux.intel.com> <1341413143.3906.31.camel@ted>
+	<CAJ2CSBuRsmRDCaj5oY8xToURc3GkCJzRj8y6auzTUxA32AZBMQ@mail.gmail.com>
+	<1341414137.3906.33.camel@ted>
+	<CAJ2CSBtESa4NVB1YF_VSN3BOj-n8NipPN7krkuLHH-nRdEVfcg@mail.gmail.com>
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] opkg-collateral: import fixes from OE-Classic
+In-Reply-To: <CAJ2CSBtESa4NVB1YF_VSN3BOj-n8NipPN7krkuLHH-nRdEVfcg@mail.gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Subject: Re: gcc errors while building core-image-sato-sdk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,62 +50,122 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Jul 2012 15:24:46 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Wed, 04 Jul 2012 15:32:22 -0000
+X-Groupsio-MsgNum: 24668
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="eJnRUKwClWJh1Khz"
+Content-Disposition: inline
 
-On Wednesday 04 July 2012 15:50:01 Andreas Oberritter wrote:
-> On 03.07.2012 22:14, Paul Eggleton wrote:
-> > Unfortunately, it seems this change has caused bug 2595 - moving the
-> > config file to /etc/opkg means that it is always read regardless of
-> > whether -f is specified or not (as it is during do_rootfs in order to
-> > specify our own generated config file), and this means that after
-> > opkg-collateral is installed into the rootfs, this version of the config
-> > is used, resulting in opkg ignoring the lists it has already downloaded
-> > (since it now sees list_dir as var/lib/opkg instead of
-> > var/lib/opkg/lists) and thus it fails to install any of the "attemptonly"
-> > packages (including *-dev, *-dbg, etc.).
-> 
-> Would it be possible to download the lists to var/lib/opkg instead, if
-> that's the only difference?
+--eJnRUKwClWJh1Khz
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Possible yes, but this has exposed some behaviour that means any distro-
-specific settings that get put into files in that directory can break the rootfs 
-construction, which is not ideal. I'm also wondering if having the lists their 
-own directory might be a good thing anyway (I wonder for example what happens 
-if you have a feed called "status"), but that's a separate issue.
+On Wed, Jul 04, 2012 at 06:06:55PM +0300, Damian, Alexandru wrote:
+> I guess the problem is no lmld, (skips over), Mihai says that
+>=20
+> - library search path "/usr/lib/cmplrs/cc2.11" is unsafe for
+> cross-compilation
 
-> I'm not familiar with the use of opkg-collateral during the creation of the
-> rootfs.
+It's one of issues I sometimes see during gcc upgrades.. and it was
+there with e.g. gcc-4.6.3 too=20
+http://build.shr-project.org/tests/jama/gcc-issue/gcc.issue (from Jan
+14)
 
-opkg-collateral isn't really "used" in creation of the rootfs, but it always 
-gets installed as a package along with all other packages (since it is in 
-ROOTFS_PKGMANAGE for the ipk backend) in the first stage of package 
-installation, and once it is installed, the problem occurs.
- 
-> > The question is, should opkg be fixed to not load anything from etc/opkg/
-> > when -f is specified?
-> 
-> I think this would work only if other files than opkg.conf in etc/opkg/
-> aren't needed, which I guess is not the case.
+> is the cause.
+>=20
+>=20
+> I'm unable to trace back the cc2.11 file name (path).
+>=20
+>=20
+>=20
+> Let's take it bit by bit, we have two issues here.
+> 1. - why the configure hangs from time to time (what is that c2.11 ??)
+>=20
+> 2. - why sometimes it triggers massive rebuild even if nothing is changed.
+>=20
+> Regarding point 2, does anybody else sees it ?
+>=20
+> Alex
+>=20
+> On Wed, Jul 4, 2012 at 6:02 PM, Richard Purdie <
+> richard.purdie@linuxfoundation.org> wrote:
+>=20
+> > On Wed, 2012-07-04 at 17:50 +0300, Damian, Alexandru wrote:
+> > > The question wasn't why it fails, but why sometimes it goes through,
+> > > why sometimes fail, and why is it retriggered
+> > > without any changes to the config or files (run 5 times the
+> > > core-image-sato-sdk build in a row, and at least once it will fail).
+> > >
+> > > I don't trust systems that are not deterministic :).
+> >
+> > The check runs at the end of the do_configure task.
+> >
+> > The config.log is generated by do_compile. If do_configure is re-run,
+> > you'll hit the failure.
+> >
+> > > This being said:
+> > >
+> > > grep -C5 -e 'CROSS COMPILE Badness:' -e 'is unsafe for
+> > > cross-compilation'
+> > /home/ddalex/ssd/yocto/build/tmp/work/i586-poky-linux/gcc-4.7.1+svnr188=
+658-r2/gcc-4_7-branch/build.i586-poky-linux.i586-poky-linux/gcc/config.log
+> > > | return ldopen ();
+> > > |   ;
+> > > |   return 0;
+> > > | }
+> > > configure:8836: i586-poky-linux-gcc  -m32   -march=3Di586
+> > > --sysroot=3D/home/ddalex/ssd/yocto/build/tmp/sysroots/qemux86 -o
+> > > conftest -pipe -g -feliminate-unused-debug-types   -Wl,-O1
+> > > -Wl,--hash-style=3Dgnu -Wl,--as-needed conftest.c
+> > > -L/usr/lib/cmplrs/cc2.11 -lmld >&5
+> > >
+> > /home/ddalex/ssd/yocto/build/tmp/sysroots/x86_64-linux/usr/libexec/i586=
+-poky-linux/gcc/i586-poky-linux/4.7.2/ld:
+> > warning: library search path "/usr/lib/cmplrs/cc2.11" is unsafe for
+> > cross-compilation
+> > >
+> > /home/ddalex/ssd/yocto/build/tmp/sysroots/x86_64-linux/usr/libexec/i586=
+-poky-linux/gcc/i586-poky-linux/4.7.2/ld:
+> > cannot find -lmld
+> > > collect2: error: ld returned 1 exit status
+> > > configure:8836: $? =3D 1
+> > > configure: failed program was:
+> > > | /* confdefs.h */
+> >
+> > So we need it to stop looking for libmld whatever that is. Hopefully
+> > there is a --disable-xxxx option we can pass in?
+> >
+> > Cheers,
+> >
+> > Richard
+> >
+> >
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+> >
 
-It is the case for rootfs construction, because then opkg has to be able to 
-operate initially with etc/opkg being empty (or nonexistent) before any 
-packages have been installed. The only other file that gets installed into that 
-directory by default is arch.conf, and the values in that are already provided 
-in our generated configuration we specify with -f.
-
-Clearly we can work around this by just moving etc/opkg out of the way 
-temporarily, and that might be what I end up doing to fix this for the moment; 
-however it does seem to me that the behaviour of -f is wrong, unless -f is 
-intended to be able to be used in a different manner than we are using it.
-
-Cheers,
-Paul
-
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--eJnRUKwClWJh1Khz
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
+
+iEYEARECAAYFAk/0X2cACgkQN1Ujt2V2gByIZQCgga5Ip97jjsefTvRB+V7QSB6L
+he0An0sbpJxVP8i12yhZWqmWufd4/XMs
+=9SlD
+-----END PGP SIGNATURE-----
+
+--eJnRUKwClWJh1Khz--
