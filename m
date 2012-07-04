@@ -1,25 +1,23 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ddalex@adamian-desktop>) id 1SmKDL-0004MJ-Mc
+	(envelope-from <ddalex@adamian-desktop>) id 1SmKEN-0004Pe-PK
 	for openembedded-core@lists.openembedded.org;
-	Wed, 04 Jul 2012 09:41:32 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 04 Jul 2012 00:30:28 -0700
+	Wed, 04 Jul 2012 09:42:35 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 04 Jul 2012 00:30:27 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="163885942"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="188276862"
 Received: from adamian-desktop.rb.intel.com (HELO adamian-desktop)
 	([10.237.105.143])
-	by azsmga001.ch.intel.com with ESMTP; 04 Jul 2012 00:30:26 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 04 Jul 2012 00:30:26 -0700
 Received: by adamian-desktop (Postfix, from userid 1000)
-	id 9A61D840172; Wed,  4 Jul 2012 10:31:20 +0300 (EEST)
+	id 8794D840568; Wed,  4 Jul 2012 10:31:20 +0300 (EEST)
 From: alexandru.damian@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  4 Jul 2012 10:31:18 +0300
-Message-Id: <1341387078-25060-2-git-send-email-alexandru.damian@intel.com>
+Date: Wed,  4 Jul 2012 10:31:17 +0300
+Message-Id: <1341387078-25060-1-git-send-email-alexandru.damian@intel.com>
 X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <1341387078-25060-1-git-send-email-alexandru.damian@intel.com>
-References: <1341387078-25060-1-git-send-email-alexandru.damian@intel.com>
-Subject: [PATCH 2/2] curl: upgrade to 7.26.0
+Subject: [PATCH 1/2] liburcu: upgrade to 0.7.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,226 +32,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Jul 2012 07:41:32 -0000
+X-List-Received-Date: Wed, 04 Jul 2012 07:42:36 -0000
 
 From: Alexandru DAMIAN <alexandru.damian@intel.com>
 
-Config system changed from 7.24.0 and the noldlibpatch
-is no longer needed, thus deleted.
+The license changed with the addition of GPLv3 for one file.
+
+* GPLv3 (or later)
+
+The following build-related macro is under GPLv3 (or later):
+
+m4/ax_tls.m4
 
 Signed-off-by: Alexandru DAMIAN <alexandru.damian@intel.com>
 ---
- meta/recipes-support/curl/curl/noldlibpath.patch |   76 ----------------------
- meta/recipes-support/curl/curl_7.24.0.bb         |   55 ----------------
- meta/recipes-support/curl/curl_7.26.0.bb         |   54 +++++++++++++++
- 3 files changed, 54 insertions(+), 131 deletions(-)
- delete mode 100644 meta/recipes-support/curl/curl/noldlibpath.patch
- delete mode 100644 meta/recipes-support/curl/curl_7.24.0.bb
- create mode 100644 meta/recipes-support/curl/curl_7.26.0.bb
+ meta/recipes-support/liburcu/liburcu_0.6.7.bb |   24 ------------------------
+ meta/recipes-support/liburcu/liburcu_0.7.3.bb |   24 ++++++++++++++++++++++++
+ 2 files changed, 24 insertions(+), 24 deletions(-)
+ delete mode 100644 meta/recipes-support/liburcu/liburcu_0.6.7.bb
+ create mode 100644 meta/recipes-support/liburcu/liburcu_0.7.3.bb
 
-diff --git a/meta/recipes-support/curl/curl/noldlibpath.patch b/meta/recipes-support/curl/curl/noldlibpath.patch
+diff --git a/meta/recipes-support/liburcu/liburcu_0.6.7.bb b/meta/recipes-support/liburcu/liburcu_0.6.7.bb
 deleted file mode 100644
-index f4c72a1..0000000
---- a/meta/recipes-support/curl/curl/noldlibpath.patch
+index be73856..0000000
+--- a/meta/recipes-support/liburcu/liburcu_0.6.7.bb
 +++ /dev/null
-@@ -1,76 +0,0 @@
--Upstream-Status: Inappropriate [embedded specific]
+@@ -1,24 +0,0 @@
+-DESCRIPTION = "The userspace read-copy update library by Mathieu Desnoyers"
+-HOMEPAGE = "http://lttng.org/urcu"
+-BUGTRACKER = "http://lttng.org/project/issues"
 -
--Manipulating LD_LIBRARY_PATH can totally break builds when cross compiling.
--Since we never run compiled binaries for the target, we should *never* need
--to change LD_LIBRARY_PATH.
+-LICENSE = "LGPLv2.1+ & MIT-style"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=b472dc110d38774921e1d5ccb0065fff \
+-                    file://urcu.h;beginline=4;endline=32;md5=4de0d68d3a997643715036d2209ae1d9 \
+-                    file://urcu/uatomic/x86.h;beginline=4;endline=21;md5=220552f72c55b102f2ee35929734ef42"
 -
--RP 9/6/2010
+-PR = "r0"
 -
--Index: curl-7.20.0/configure.ac
--===================================================================
----- curl-7.20.0.orig/configure.ac	2010-06-09 11:06:30.000000000 +0100
--+++ curl-7.20.0/configure.ac	2010-06-09 11:04:25.000000000 +0100
--@@ -1461,9 +1461,10 @@
--        dnl linker doesn't search through, we need to add it to LD_LIBRARY_PATH
--        dnl to prevent further configure tests to fail due to this
-- 
---       LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$LIB_OPENSSL"
---       export LD_LIBRARY_PATH
---       AC_MSG_NOTICE([Added $LIB_OPENSSL to LD_LIBRARY_PATH])
--+       #LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$LIB_OPENSSL"
--+       #export LD_LIBRARY_PATH
--+       #AC_MSG_NOTICE([Added $LIB_OPENSSL to LD_LIBRARY_PATH])
--+       :
--     fi
--   fi
-- 
--@@ -1684,9 +1686,10 @@
--           dnl LD_LIBRARY_PATH to prevent further configure tests to fail
--           dnl due to this
-- 
---          LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$gtlslib"
---          export LD_LIBRARY_PATH
---          AC_MSG_NOTICE([Added $gtlslib to LD_LIBRARY_PATH])
--+          #LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$gtlslib"
--+          #export LD_LIBRARY_PATH
--+          #AC_MSG_NOTICE([Added $gtlslib to LD_LIBRARY_PATH])
--+          :
--         fi
--       fi
-- 
--@@ -1696,6 +1699,8 @@
-- 
-- fi dnl OPENSSL != 1
-- 
--+AC_SUBST(GNUTLS_REQUIRED)
--+
-- dnl ----------------------------------------------------
-- dnl NSS. Only check if GnuTLS and OpenSSL are not enabled
-- dnl ----------------------------------------------------
--@@ -1781,9 +1786,10 @@
--         dnl LD_LIBRARY_PATH to prevent further configure tests to fail
--         dnl due to this
-- 
---        LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$nssprefix/lib$libsuff"
---        export LD_LIBRARY_PATH
---        AC_MSG_NOTICE([Added $nssprefix/lib$libsuff to LD_LIBRARY_PATH])
--+        #LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$nssprefix/lib$libsuff"
--+        #export LD_LIBRARY_PATH
--+        #AC_MSG_NOTICE([Added $nssprefix/lib$libsuff to LD_LIBRARY_PATH])
--+        :
--       fi
-- 
--     fi
--@@ -1881,9 +1887,9 @@
--        dnl libssh2_version is a post 1.0 addition
--        AC_CHECK_FUNCS( libssh2_version )
-- 
---       LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$DIR_SSH2"
---       export LD_LIBRARY_PATH
---       AC_MSG_NOTICE([Added $DIR_SSH2 to LD_LIBRARY_PATH])
--+       #LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$DIR_SSH2"
--+       #export LD_LIBRARY_PATH
--+       #AC_MSG_NOTICE([Added $DIR_SSH2 to LD_LIBRARY_PATH])
--     fi
--   else
--     dnl no libssh2, revert back to clean variables
-diff --git a/meta/recipes-support/curl/curl_7.24.0.bb b/meta/recipes-support/curl/curl_7.24.0.bb
-deleted file mode 100644
-index 832254f..0000000
---- a/meta/recipes-support/curl/curl_7.24.0.bb
-+++ /dev/null
-@@ -1,55 +0,0 @@
--DESCRIPTION = "Command line tool and library for client-side URL transfers."
--HOMEPAGE = "http://curl.haxx.se/"
--BUGTRACKER = "http://curl.haxx.se/mail/list.cgi?list=curl-tracker"
--SECTION = "console/network"
--LICENSE = "MIT"
--LIC_FILES_CHKSUM = "file://COPYING;beginline=7;md5=3a34942f4ae3fbf1a303160714e664ac"
+-SRC_URI = "http://lttng.org/files/urcu/userspace-rcu-${PV}.tar.bz2"
 -
--DEPENDS = "zlib gnutls"
--DEPENDS_virtclass-native = "zlib-native openssl-native"
--DEPENDS_virtclass-nativesdk = "zlib-nativesdk"
--PR = "r3"
+-SRC_URI[md5sum] = "2705dadd65beda8e8960472c082e44b3"
+-SRC_URI[sha256sum] = "b0b09aead6fbcb4d5efb4270e12f84ffd115b99b55b2c745e052b2d87a47e75f"
 -
--SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
--           file://noldlibpath.patch \
--           file://pkgconfig_fix.patch"
+-S = "${WORKDIR}/userspace-rcu-${PV}"
+-CFLAGS_append_libc-uclibc = " -D_GNU_SOURCE"
+-inherit autotools
 -
--SRC_URI[md5sum] = "f912221d75eb8d8fe08900eaf011b023"
--SRC_URI[sha256sum] = "ebdb111088ff8b0e05b1d1b075e9f1608285e8105cc51e21caacf33d01812c16"
+-# liburcu, which is only used by lttng-ust, may not build on other
+-# platforms, like MIPS.
+-COMPATIBLE_HOST = '(x86_64.*|i.86.*|arm.*|powerpc.*)-linux'
 -
--inherit autotools pkgconfig binconfig
--
--EXTRA_OECONF = "--with-zlib=${STAGING_LIBDIR}/../ \
--                --without-libssh2 \
--		--with-random=/dev/urandom \
--		--without-libidn \
--		--enable-crypto-auth \
--                ${CURLGNUTLS} \
--		"
--
--CURLGNUTLS = " --with-gnutls=${STAGING_LIBDIR}/../ --without-ssl"
--CURLGNUTLS_virtclass-native = "--without-gnutls --with-ssl"
--CURLGNUTLS_virtclass-nativesdk = "--without-gnutls --without-ssl"
--
--do_configure_prepend() {
--	sed -i s:OPT_GNUTLS/bin:OPT_GNUTLS:g configure.ac
--}
--
--PACKAGES =+ "${PN}-certs libcurl libcurl-dev libcurl-staticdev libcurl-doc"
--
--FILES_${PN}-certs = "${datadir}/curl/curl-*"
--PACKAGE_ARCH_${PN}-certs = "all"
--
--FILES_lib${BPN} = "${libdir}/lib*.so.*"
--RRECOMMENDS_lib${BPN} += "${PN}-certs"
--FILES_lib${BPN}-dev = "${includedir} \
--                      ${libdir}/lib*.so \
--                      ${libdir}/lib*.la \
--                      ${libdir}/pkgconfig \
--                      ${datadir}/aclocal \
--                      ${bindir}/*-config"
--FILES_lib${BPN}-staticdev = "${libdir}/lib*.a"
--FILES_lib${BPN}-doc = "${mandir}/man3 \
--                      ${mandir}/man1/curl-config.1"
--
--BBCLASSEXTEND = "native nativesdk"
-diff --git a/meta/recipes-support/curl/curl_7.26.0.bb b/meta/recipes-support/curl/curl_7.26.0.bb
+diff --git a/meta/recipes-support/liburcu/liburcu_0.7.3.bb b/meta/recipes-support/liburcu/liburcu_0.7.3.bb
 new file mode 100644
-index 0000000..f04b400
+index 0000000..45c51bc
 --- /dev/null
-+++ b/meta/recipes-support/curl/curl_7.26.0.bb
-@@ -0,0 +1,54 @@
-+DESCRIPTION = "Command line tool and library for client-side URL transfers."
-+HOMEPAGE = "http://curl.haxx.se/"
-+BUGTRACKER = "http://curl.haxx.se/mail/list.cgi?list=curl-tracker"
-+SECTION = "console/network"
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://COPYING;beginline=7;md5=3a34942f4ae3fbf1a303160714e664ac"
++++ b/meta/recipes-support/liburcu/liburcu_0.7.3.bb
+@@ -0,0 +1,24 @@
++DESCRIPTION = "The userspace read-copy update library by Mathieu Desnoyers"
++HOMEPAGE = "http://lttng.org/urcu"
++BUGTRACKER = "http://lttng.org/project/issues"
 +
-+DEPENDS = "zlib gnutls"
-+DEPENDS_virtclass-native = "zlib-native openssl-native"
-+DEPENDS_virtclass-nativesdk = "zlib-nativesdk"
++LICENSE = "LGPLv2.1+ & MIT-style & GPLv3"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=95dfea59eeaa41a4057faa07a58f5f89 \
++                    file://urcu.h;beginline=4;endline=32;md5=4de0d68d3a997643715036d2209ae1d9 \
++                    file://urcu/uatomic/x86.h;beginline=4;endline=21;md5=220552f72c55b102f2ee35929734ef42"
++
 +PR = "r0"
 +
-+SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
-+           file://pkgconfig_fix.patch"
++SRC_URI = "http://lttng.org/files/urcu/userspace-rcu-${PV}.tar.bz2"
 +
-+SRC_URI[md5sum] = "bfa80f01b3d300359cfb4d409b6136a3"
-+SRC_URI[sha256sum] = "fced262f16eb6bfcdcea15e04a7905ffcb5ff04b14a19ca35b9df86d6720d26a"
++SRC_URI[md5sum] = "c40b726f13bff80982c1ffa1bc2db31d"
++SRC_URI[sha256sum] = "63f540a5d3c947fa3739711099fb87a66036d3c9560f26da763e500da296a1af"
 +
-+inherit autotools pkgconfig binconfig
++S = "${WORKDIR}/userspace-rcu-${PV}"
++CFLAGS_append_libc-uclibc = " -D_GNU_SOURCE"
++inherit autotools
 +
-+EXTRA_OECONF = "--with-zlib=${STAGING_LIBDIR}/../ \
-+                --without-libssh2 \
-+		--with-random=/dev/urandom \
-+		--without-libidn \
-+		--enable-crypto-auth \
-+                ${CURLGNUTLS} \
-+		"
++# liburcu, which is only used by lttng-ust, may not build on other
++# platforms, like MIPS.
++COMPATIBLE_HOST = '(x86_64.*|i.86.*|arm.*|powerpc.*)-linux'
 +
-+CURLGNUTLS = " --with-gnutls=${STAGING_LIBDIR}/../ --without-ssl"
-+CURLGNUTLS_virtclass-native = "--without-gnutls --with-ssl"
-+CURLGNUTLS_virtclass-nativesdk = "--without-gnutls --without-ssl"
-+
-+do_configure_prepend() {
-+	sed -i s:OPT_GNUTLS/bin:OPT_GNUTLS:g configure.ac
-+}
-+
-+PACKAGES =+ "${PN}-certs libcurl libcurl-dev libcurl-staticdev libcurl-doc"
-+
-+FILES_${PN}-certs = "${datadir}/curl/curl-*"
-+PACKAGE_ARCH_${PN}-certs = "all"
-+
-+FILES_lib${BPN} = "${libdir}/lib*.so.*"
-+RRECOMMENDS_lib${BPN} += "${PN}-certs"
-+FILES_lib${BPN}-dev = "${includedir} \
-+                      ${libdir}/lib*.so \
-+                      ${libdir}/lib*.la \
-+                      ${libdir}/pkgconfig \
-+                      ${datadir}/aclocal \
-+                      ${bindir}/*-config"
-+FILES_lib${BPN}-staticdev = "${libdir}/lib*.a"
-+FILES_lib${BPN}-doc = "${mandir}/man3 \
-+                      ${mandir}/man1/curl-config.1"
-+
-+BBCLASSEXTEND = "native nativesdk"
 -- 
 1.7.9.5
 
