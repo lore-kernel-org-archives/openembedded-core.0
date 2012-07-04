@@ -1,34 +1,36 @@
-Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
+Received: from mga10.intel.com ([192.55.52.92] helo=fmsmga102.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <alexandru.damian@intel.com>) id 1SmPHb-0001fl-PP
+	(envelope-from <alexandru.damian@intel.com>) id 1SmPJo-0001kw-LO
 	for openembedded-core@lists.openembedded.org;
-	Wed, 04 Jul 2012 15:06:16 +0200
+	Wed, 04 Jul 2012 15:08:33 +0200
 Received: from mail-lb0-f180.google.com ([209.85.217.180])
-	by mga03.intel.com with ESMTP/TLS/RC4-SHA; 04 Jul 2012 05:55:11 -0700
-Received: by lbbgj3 with SMTP id gj3so9193717lbb.25
+	by mga11.intel.com with ESMTP/TLS/RC4-SHA; 04 Jul 2012 05:56:23 -0700
+Received: by lbbgj3 with SMTP id gj3so9194884lbb.25
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 04 Jul 2012 05:55:09 -0700 (PDT)
+	Wed, 04 Jul 2012 05:56:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=mime-version:date:message-id:subject:from:to:content-type
-	:x-gm-message-state;
-	bh=66JM7aJ0GQl96sr7+X4NcaHaN1YcJNj+cTWVsaTBnIk=;
-	b=GPJ8Zdq2oVkK/hlXU0VaHh6LcV2B+64wbNiNfo8COudWL1Z+1lh+YitMmUIavpWicK
-	4m9PlHjcouREb7cVU7uhXjqCMDHZbOyaAXN9To8oC8stqBfJB/dNTPTHwvgEYKZU2lvp
-	fRt73N5jKPXv5rdPvXYnd3ppwvoemV93LjH6JaxjdgagLXMe9+sMA8od2aYOlk9x6Vm6
-	l41htB5buTr9h130VbA8efGd25PHOn/I1wT4Q9FIr2nUqx8S/1HaxrnF4rUNSMeas17K
-	IWYpQy7XwvFZzpj301eMYCc5xpcv1dBp2C3upGrd3IZSpbRAakd+xipl4I/99Xqz4gp0
-	fFEQ==
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type:x-gm-message-state;
+	bh=BixDjGY/CPjv9LlYuu6htJqUuqIt0MIX+KUdfcJarco=;
+	b=NBbFc5n4u/h5AV57q7QGEqTPNoRyCp8K41MJhaaPGM2ysONXdz1/C7gwRisg5+Q/ie
+	YMQy6xbarP5xLylrQhQAdc8exgLncwooZYiYXsZqn33/1pEeAXdVOS+Y7Hdhr3B0tJEf
+	rtmIv01GJ1FBYKeH+LUeJVBMFxWmJqfnYy5fODUpTtdHcXODfiMr79N2gG7o/SO12Vyl
+	OeshxmnU4+2CEh3tBaViW/iHJjwxChw9hBkv9fYTZLsVy3GjEeEZrO9WTutyEWBTrA2F
+	Go50XXR62OtlT42s5tRWaNKgwQdHJy7NC0/C98o7Q3WojeOOr09DGGRXQ8JW0nI/Jd6F
+	k+6A==
 MIME-Version: 1.0
-Received: by 10.152.102.234 with SMTP id fr10mr22041821lab.32.1341406509027;
-	Wed, 04 Jul 2012 05:55:09 -0700 (PDT)
-Received: by 10.112.38.132 with HTTP; Wed, 4 Jul 2012 05:55:08 -0700 (PDT)
-Date: Wed, 4 Jul 2012 15:55:08 +0300
-Message-ID: <CAJ2CSBsPhAtmpoTpBRzfqghV6tnRQXmjpcY415h=XfXtHxQzHQ@mail.gmail.com>
+Received: by 10.152.48.6 with SMTP id h6mr21776847lan.30.1341406581598; Wed,
+	04 Jul 2012 05:56:21 -0700 (PDT)
+Received: by 10.112.38.132 with HTTP; Wed, 4 Jul 2012 05:56:21 -0700 (PDT)
+In-Reply-To: <CAJ2CSBv9amOtH=LdU+37ZoNo0LB0B6uJ-=osARD0d_Chuppu9Q@mail.gmail.com>
+References: <CAJ2CSBv9amOtH=LdU+37ZoNo0LB0B6uJ-=osARD0d_Chuppu9Q@mail.gmail.com>
+Date: Wed, 4 Jul 2012 15:56:21 +0300
+Message-ID: <CAJ2CSBu8oFTwDh_Cg_ciokfDvYEZ33Pz3-FZM-FJYZsKdepuqA@mail.gmail.com>
 From: "Damian, Alexandru" <alexandru.damian@intel.com>
 To: openembedded-core@lists.openembedded.org
-X-Gm-Message-State: ALoCoQlEnAAiQ1NIpDNisvV8lOh9Vs2iV7DLhT7IKqJTjIXB27i2Y3zzZ3RjudRmUSd99lofb/sV
-Subject: gcc errors while building core-image-sato-sdk
+X-Gm-Message-State: ALoCoQkubAcZ5DZHB+eePM9q6K2ctg4vriWrweR5OQSdjyMNOdDycMsNFWpmSSeBzTNbTV/GE6HZ
+Subject: Re: Files not getting into the debug packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,218 +45,116 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Jul 2012 13:06:16 -0000
-X-Groupsio-MsgNum: 24652
-Content-Type: multipart/mixed; boundary=f46d0407125978526f04c4008a78
+X-List-Received-Date: Wed, 04 Jul 2012 13:08:33 -0000
+Content-Type: multipart/alternative; boundary=bcaec5524242cbaa7104c4008ed5
 
---f46d0407125978526f04c4008a78
-Content-Type: multipart/alternative; boundary=f46d0407125978526d04c4008a76
-
---f46d0407125978526d04c4008a76
+--bcaec5524242cbaa7104c4008ed5
 Content-Type: text/plain; charset=ISO-8859-1
 
-Hi guys,
+MIhai gratiously provided the insight, the debug lines should be
 
-From time to time I get errors building gcc (although I didn't trigger a
-rebuild!) when runnign
-bitbake core-image-sato-sdk
+FILES_${PN}-dbg += "${base_libdir}/udev/udev/.debug/"
+FILES_${PN}-dbg += "${base_libdir}/udev/udev/.debug/*"
 
-The error is attached:
-/home/ddalex/ssd/yocto/build/tmp/work/i586-poky-linux/gcc-4.7.1+svnr188658-r2/temp/log.do_configure.20668
-
-What is causing this, is this a know bug ?
+(notice base_libdir instead of libexecdir)
 
 Cheers,
 Alex
 
---f46d0407125978526d04c4008a76
+On Wed, Jul 4, 2012 at 3:19 PM, Damian, Alexandru <
+alexandru.damian@intel.com> wrote:
+
+> Hi guys,
+>
+> I'm trying to run a udev package upgrade (See attached patch).
+>
+> I get this error,
+>
+> ERROR: QA Issue: non debug package contains .debug directory: udev path
+> /work/i586-poky-linux/udev-182-r0/packages-split/udev/lib/udev/udev/.debug/v4l_id
+> ERROR: QA Issue: non debug package contains .debug directory: udev path
+> /work/i586-poky-linux/udev-182-r0/packages-split/udev/lib/udev/udev/.debug/cdrom_id
+> ERROR: QA Issue: non debug package contains .debug directory: udev path
+> /work/i586-poky-linux/udev-182-r0/packages-split/udev/lib/udev/udev/.debug/mtd_probe
+> ERROR: QA Issue: non debug package contains .debug directory: udev path
+> /work/i586-poky-linux/udev-182-r0/packages-split/udev/lib/udev/udev/.debug/accelerometer
+> ERROR: QA Issue: non debug package contains .debug directory: udev path
+> /work/i586-poky-linux/udev-182-r0/packages-split/udev/lib/udev/udev/.debug/scsi_id
+> ERROR: QA Issue: non debug package contains .debug directory: udev path
+> /work/i586-poky-linux/udev-182-r0/packages-split/udev/lib/udev/udev/.debug/udevd
+> ERROR: QA Issue: non debug package contains .debug directory: udev path
+> /work/i586-poky-linux/udev-182-r0/packages-split/udev/lib/udev/udev/.debug/keymap
+> ERROR: QA Issue: non debug package contains .debug directory: udev path
+> /work/i586-poky-linux/udev-182-r0/packages-split/udev/lib/udev/udev/.debug/collect
+> ERROR: QA Issue: non debug package contains .debug directory: udev path
+> /work/i586-poky-linux/udev-182-r0/packages-split/udev/lib/udev/udev/.debug/ata_id
+> ERROR: QA run found fatal errors. Please consider fixing them.
+>
+>
+> although I added the files to the debug package (I think)
+>
+>  FILES_${PN}-dbg += "${libexecdir}/.debug"
+> +FILES_${PN}-dbg += "${libexecdir}/udev/udev/.debug/"
+> +FILES_${PN}-dbg += "${libexecdir}/udev/udev/.debug/*"
+>  FILES_${PN}-dev = "${datadir}/pkgconfig/udev.pc"
+>
+> Can somebody please point out what I'm doing wrong ?
+>
+> Cheers,
+> Alex
+>
+
+--bcaec5524242cbaa7104c4008ed5
 Content-Type: text/html; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
-Hi guys,<br><br>From time to time I get errors building gcc (although I did=
-n&#39;t trigger a rebuild!) when runnign<br>bitbake core-image-sato-sdk<br>=
-<br>The error is attached:<br>/home/ddalex/ssd/yocto/build/tmp/work/i586-po=
-ky-linux/gcc-4.7.1+svnr188658-r2/temp/log.do_configure.20668<br>
-<br>What is causing this, is this a know bug ?<br><br>Cheers,<br>Alex<br>
+MIhai gratiously provided the insight, the debug lines should be <br><br>FI=
+LES_${PN}-dbg +=3D &quot;${base_libdir}/udev/udev/.debug/&quot;<br>FILES_${=
+PN}-dbg +=3D &quot;${base_libdir}/udev/udev/.debug/*&quot;<br><br>(notice b=
+ase_libdir instead of libexecdir)<br>
+<br>Cheers,<br>Alex<br><br><div class=3D"gmail_quote">On Wed, Jul 4, 2012 a=
+t 3:19 PM, Damian, Alexandru <span dir=3D"ltr">&lt;<a href=3D"mailto:alexan=
+dru.damian@intel.com" target=3D"_blank">alexandru.damian@intel.com</a>&gt;<=
+/span> wrote:<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex">Hi guys,<br><br>I&#39;m trying to run a udev=
+ package upgrade (See attached patch).<br><br>I get this error, <br><br>ERR=
+OR: QA Issue: non debug package contains .debug directory: udev path /work/=
+i586-poky-linux/udev-182-r0/packages-split/udev/lib/udev/udev/.debug/v4l_id=
+<br>
 
---f46d0407125978526d04c4008a76--
+ERROR: QA Issue: non debug package contains .debug directory: udev path /wo=
+rk/i586-poky-linux/udev-182-r0/packages-split/udev/lib/udev/udev/.debug/cdr=
+om_id<br>ERROR: QA Issue: non debug package contains .debug directory: udev=
+ path /work/i586-poky-linux/udev-182-r0/packages-split/udev/lib/udev/udev/.=
+debug/mtd_probe<br>
 
---f46d0407125978526f04c4008a78
-Content-Type: application/octet-stream; name="log.do_configure.20668"
-Content-Disposition: attachment; filename="log.do_configure.20668"
-Content-Transfer-Encoding: base64
-X-Attachment-Id: f_h48ettwq0
+ERROR: QA Issue: non debug package contains .debug directory: udev path /wo=
+rk/i586-poky-linux/udev-182-r0/packages-split/udev/lib/udev/udev/.debug/acc=
+elerometer<br>ERROR: QA Issue: non debug package contains .debug directory:=
+ udev path /work/i586-poky-linux/udev-182-r0/packages-split/udev/lib/udev/u=
+dev/.debug/scsi_id<br>
 
-REVCVUc6IEV4ZWN1dGluZyBweXRob24gZnVuY3Rpb24gc3lzcm9vdF9jbGVhbnNzdGF0ZQpERUJV
-RzogUHl0aG9uIGZ1bmN0aW9uIHN5c3Jvb3RfY2xlYW5zc3RhdGUgZmluaXNoZWQKREVCVUc6IFNJ
-VEUgZmlsZXMgWydlbmRpYW4tbGl0dGxlJywgJ2JpdC0zMicsICdpeDg2LWNvbW1vbicsICdjb21t
-b24tbGludXgnLCAnY29tbW9uLWdsaWJjJywgJ2k1ODYtbGludXgnLCAnY29tbW9uJ10KREVCVUc6
-IEV4ZWN1dGluZyBzaGVsbCBmdW5jdGlvbiBkb19jb25maWd1cmUKY29uZmlndXJlLmFjOjMzOiBl
-cnJvcjogUGxlYXNlIHVzZSBleGFjdGx5IEF1dG9jb25mIDIuNjQgaW5zdGVhZCBvZiAyLjY4Lgpj
-b25maWcvb3ZlcnJpZGUubTQ6MTI6IF9HQ0NfQVVUT0NPTkZfVkVSU0lPTl9DSEVDSyBpcyBleHBh
-bmRlZCBmcm9tLi4uCmNvbmZpZ3VyZS5hYzozMzogdGhlIHRvcCBsZXZlbAphdXRvbTR0ZTogbTQg
-ZmFpbGVkIHdpdGggZXhpdCBzdGF0dXM6IDEKTk9URTogUnVubmluZyAvaG9tZS9kZGFsZXgvc3Nk
-L3lvY3RvL2J1aWxkL3RtcC93b3JrLXNoYXJlZC9nY2MtNC43LjErc3ZucjE4ODY1OC1yMi9nY2Mt
-NF83LWJyYW5jaC9jb25maWd1cmUgIC0tYnVpbGQ9eDg2XzY0LWxpbnV4IAkJICAtLWhvc3Q9aTU4
-Ni1wb2t5LWxpbnV4IAkJICAtLXRhcmdldD1pNTg2LXBva3ktbGludXggCQkgIC0tcHJlZml4PS91
-c3IgCQkgIC0tZXhlY19wcmVmaXg9L3VzciAJCSAgLS1iaW5kaXI9L3Vzci9iaW4gCQkgIC0tc2Jp
-bmRpcj0vdXNyL3NiaW4gCQkgIC0tbGliZXhlY2Rpcj0vdXNyL2xpYmV4ZWMgCQkgIC0tZGF0YWRp
-cj0vdXNyL3NoYXJlIAkJICAtLXN5c2NvbmZkaXI9L2V0YyAJCSAgLS1zaGFyZWRzdGF0ZWRpcj0v
-Y29tIAkJICAtLWxvY2Fsc3RhdGVkaXI9L3ZhciAJCSAgLS1saWJkaXI9L3Vzci9saWIgCQkgIC0t
-aW5jbHVkZWRpcj0vdXNyL2luY2x1ZGUgCQkgIC0tb2xkaW5jbHVkZWRpcj0vdXNyL2luY2x1ZGUg
-CQkgIC0taW5mb2Rpcj0vdXNyL3NoYXJlL2luZm8gCQkgIC0tbWFuZGlyPS91c3Ivc2hhcmUvbWFu
-IAkJICAtLWRpc2FibGUtc2lsZW50LXJ1bGVzIAkJICAtLWRpc2FibGUtZGVwZW5kZW5jeS10cmFj
-a2luZyAJCSAgLS13aXRoLWxpYnRvb2wtc3lzcm9vdD0vaG9tZS9kZGFsZXgvc3NkL3lvY3RvL2J1
-aWxkL3RtcC9zeXNyb290cy9xZW11eDg2ICAgICAgICAgICAgICAgICAgLS13aXRoLWdudS1sZCAg
-ICAgICAgICAgICAgICAgLS1lbmFibGUtc2hhcmVkICAgICAgICAgICAgICAgICAtLWVuYWJsZS1s
-YW5ndWFnZXM9YyxjKysgICAgICAgICAgICAgICAgIC0tZW5hYmxlLXRocmVhZHM9cG9zaXggICAg
-ICAgICAgICAgICAgIC0tZGlzYWJsZS1tdWx0aWxpYiAgICAgICAgICAgICAgICAgLS1lbmFibGUt
-Yzk5ICAgICAgICAgICAgICAgICAtLWVuYWJsZS1sb25nLWxvbmcgICAgICAgICAgICAgICAgIC0t
-ZW5hYmxlLXN5bXZlcnM9Z251ICAgICAgICAgICAgICAgICAtLWVuYWJsZS1saWJzdGRjeHgtcGNo
-ICAgICAgICAgICAgICAgICAtLXByb2dyYW0tcHJlZml4PWk1ODYtcG9reS1saW51eC0gCQktLXdp
-dGhvdXQtbG9jYWwtcHJlZml4ICAgICAgICAgICAgICAgICAtLWVuYWJsZS10YXJnZXQtb3B0c3Bh
-Y2UgICAgICAgICAgICAgICAgICAtLWVuYWJsZS1sdG8gCQkJLS1lbmFibGUtbGlic3NwIAkJCS0t
-ZGlzYWJsZS1ib290c3RyYXAgCQkJLS1kaXNhYmxlLWxpYmdvbXAgCQkJLS1kaXNhYmxlLWxpYm11
-ZGZsYXAgCQkJLS13aXRoLXN5c3RlbS16bGliIAkJCS0td2l0aC1saW5rZXItaGFzaC1zdHlsZT1n
-bnUgCQkJLS13aXRoLXBwbD1ubyAJCQktLXdpdGgtY2xvb2c9bm8gCQkJLS1lbmFibGUtY2hlY2tp
-bmc9cmVsZWFzZSAJCQktLWVuYWJsZS1jaGVhZGVycz1jX2dsb2JhbCAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAtLXdpdGgtc3lzcm9vdD0vICAgICAtLXdpdGgtYnVpbGQt
-c3lzcm9vdD0vaG9tZS9kZGFsZXgvc3NkL3lvY3RvL2J1aWxkL3RtcC9zeXNyb290cy9xZW11eDg2
-ICAgICAtLXdpdGgtZ3h4LWluY2x1ZGUtZGlyPS91c3IvaW5jbHVkZS9jKysvICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAtLWVuYWJsZS1ubHMgLS1lbmFibGUtX19jeGFfYXRleGl0
-IApjaGVja2luZyBidWlsZCBzeXN0ZW0gdHlwZS4uLiB4ODZfNjQtcGMtbGludXgtZ251CmNoZWNr
-aW5nIGhvc3Qgc3lzdGVtIHR5cGUuLi4gaTU4Ni1wb2t5LWxpbnV4LWdudQpjaGVja2luZyB0YXJn
-ZXQgc3lzdGVtIHR5cGUuLi4gaTU4Ni1wb2t5LWxpbnV4LWdudQpjaGVja2luZyBmb3IgYSBCU0Qt
-Y29tcGF0aWJsZSBpbnN0YWxsLi4uIC91c3IvYmluL2luc3RhbGwgLWMKY2hlY2tpbmcgd2hldGhl
-ciBsbiB3b3Jrcy4uLiB5ZXMKY2hlY2tpbmcgd2hldGhlciBsbiAtcyB3b3Jrcy4uLiB5ZXMKY2hl
-Y2tpbmcgZm9yIGEgc2VkIHRoYXQgZG9lcyBub3QgdHJ1bmNhdGUgb3V0cHV0Li4uIC9iaW4vc2Vk
-CmNoZWNraW5nIGZvciBnYXdrLi4uIGdhd2sKY2hlY2tpbmcgZm9yIGxpYml0bSBzdXBwb3J0Li4u
-IHllcwpjaGVja2luZyBmb3IgaTU4Ni1wb2t5LWxpbnV4LWdjYy4uLiBpNTg2LXBva3ktbGludXgt
-Z2NjICAtbTMyICAgLW1hcmNoPWk1ODYgLS1zeXNyb290PS9ob21lL2RkYWxleC9zc2QveW9jdG8v
-YnVpbGQvdG1wL3N5c3Jvb3RzL3FlbXV4ODYKY2hlY2tpbmcgZm9yIEMgY29tcGlsZXIgZGVmYXVs
-dCBvdXRwdXQgZmlsZSBuYW1lLi4uIGEub3V0CmNoZWNraW5nIHdoZXRoZXIgdGhlIEMgY29tcGls
-ZXIgd29ya3MuLi4geWVzCmNoZWNraW5nIHdoZXRoZXIgd2UgYXJlIGNyb3NzIGNvbXBpbGluZy4u
-LiB5ZXMKY2hlY2tpbmcgZm9yIHN1ZmZpeCBvZiBleGVjdXRhYmxlcy4uLiAKY2hlY2tpbmcgZm9y
-IHN1ZmZpeCBvZiBvYmplY3QgZmlsZXMuLi4gbwpjaGVja2luZyB3aGV0aGVyIHdlIGFyZSB1c2lu
-ZyB0aGUgR05VIEMgY29tcGlsZXIuLi4geWVzCmNoZWNraW5nIHdoZXRoZXIgaTU4Ni1wb2t5LWxp
-bnV4LWdjYyAgLW0zMiAgIC1tYXJjaD1pNTg2IC0tc3lzcm9vdD0vaG9tZS9kZGFsZXgvc3NkL3lv
-Y3RvL2J1aWxkL3RtcC9zeXNyb290cy9xZW11eDg2IGFjY2VwdHMgLWcuLi4geWVzCmNoZWNraW5n
-IGZvciBpNTg2LXBva3ktbGludXgtZ2NjICAtbTMyICAgLW1hcmNoPWk1ODYgLS1zeXNyb290PS9o
-b21lL2RkYWxleC9zc2QveW9jdG8vYnVpbGQvdG1wL3N5c3Jvb3RzL3FlbXV4ODYgb3B0aW9uIHRv
-IGFjY2VwdCBJU08gQzg5Li4uIG5vbmUgbmVlZGVkCmNoZWNraW5nIHdoZXRoZXIgd2UgYXJlIHVz
-aW5nIHRoZSBHTlUgQysrIGNvbXBpbGVyLi4uIHllcwpjaGVja2luZyB3aGV0aGVyIGk1ODYtcG9r
-eS1saW51eC1nKysgIC1tMzIgICAtbWFyY2g9aTU4NiAtLXN5c3Jvb3Q9L2hvbWUvZGRhbGV4L3Nz
-ZC95b2N0by9idWlsZC90bXAvc3lzcm9vdHMvcWVtdXg4NiBhY2NlcHRzIC1nLi4uIHllcwpjaGVj
-a2luZyBmb3IgaTU4Ni1wb2t5LWxpbnV4LWduYXRiaW5kLi4uIG5vCmNoZWNraW5nIGZvciBnbmF0
-YmluZC4uLiBubwpjaGVja2luZyBmb3IgaTU4Ni1wb2t5LWxpbnV4LWduYXRtYWtlLi4uIG5vCmNo
-ZWNraW5nIGZvciBnbmF0bWFrZS4uLiBubwpjaGVja2luZyB3aGV0aGVyIGNvbXBpbGVyIGRyaXZl
-ciB1bmRlcnN0YW5kcyBBZGEuLi4gbm8KY2hlY2tpbmcgaG93IHRvIGNvbXBhcmUgYm9vdHN0cmFw
-cGVkIG9iamVjdHMuLi4gY21wIC0taWdub3JlLWluaXRpYWw9MTYgJCRmMSAkJGYyCmNoZWNraW5n
-IGZvciBvYmpkaXIuLi4gLmxpYnMKY2hlY2tpbmcgZm9yIHRoZSBjb3JyZWN0IHZlcnNpb24gb2Yg
-Z21wLmguLi4geWVzCmNoZWNraW5nIGZvciB0aGUgY29ycmVjdCB2ZXJzaW9uIG9mIG1wZnIuaC4u
-LiB5ZXMKY2hlY2tpbmcgZm9yIHRoZSBjb3JyZWN0IHZlcnNpb24gb2YgbXBjLmguLi4geWVzCmNo
-ZWNraW5nIGZvciB0aGUgY29ycmVjdCB2ZXJzaW9uIG9mIHRoZSBnbXAvbXBmci9tcGMgbGlicmFy
-aWVzLi4uIHllcwoqKiogVGhpcyBjb25maWd1cmF0aW9uIGlzIG5vdCBzdXBwb3J0ZWQgaW4gdGhl
-IGZvbGxvd2luZyBzdWJkaXJlY3RvcmllczoKICAgICB6bGliIGduYXR0b29scyB0YXJnZXQtbGli
-YWRhIHRhcmdldC1saWJnZm9ydHJhbiB0YXJnZXQtbGliZ28gdGFyZ2V0LWxpYmZmaSB0YXJnZXQt
-emxpYiB0YXJnZXQtbGliamF2YSB0YXJnZXQtbGlib2JqYyB0YXJnZXQtbGliZ29tcCB0YXJnZXQt
-bGlibXVkZmxhcCB0YXJnZXQtYm9laG0tZ2MKICAgIChBbnkgb3RoZXIgZGlyZWN0b3JpZXMgc2hv
-dWxkIHN0aWxsIHdvcmsgZmluZS4pCmNoZWNraW5nIGZvciBkZWZhdWx0IEJVSUxEX0NPTkZJRy4u
-LiAKY2hlY2tpbmcgZm9yIGJpc29uLi4uIGJpc29uIC15CmNoZWNraW5nIGZvciBiaXNvbi4uLiBi
-aXNvbgpjaGVja2luZyBmb3IgZ200Li4uIG5vCmNoZWNraW5nIGZvciBnbnVtNC4uLiBubwpjaGVj
-a2luZyBmb3IgbTQuLi4gbTQKY2hlY2tpbmcgZm9yIGZsZXguLi4gZmxleApjaGVja2luZyBmb3Ig
-ZmxleC4uLiBmbGV4CmNoZWNraW5nIGZvciBtYWtlaW5mby4uLiBtYWtlaW5mbwpjaGVja2luZyBm
-b3IgZXhwZWN0Li4uIG5vCmNoZWNraW5nIGZvciBydW50ZXN0Li4uIG5vCmNoZWNraW5nIGZvciBh
-ci4uLiAoY2FjaGVkKSBpNTg2LXBva3ktbGludXgtYXIKY2hlY2tpbmcgZm9yIGk1ODYtcG9reS1s
-aW51eC1hci4uLiAoY2FjaGVkKSBpNTg2LXBva3ktbGludXgtYXIKY2hlY2tpbmcgZm9yIGFzLi4u
-IChjYWNoZWQpIGk1ODYtcG9reS1saW51eC1hcwpjaGVja2luZyBmb3IgaTU4Ni1wb2t5LWxpbnV4
-LWFzLi4uIChjYWNoZWQpIGk1ODYtcG9reS1saW51eC1hcwpjaGVja2luZyBmb3IgaTU4Ni1wb2t5
-LWxpbnV4LWRsbHRvb2wuLi4gbm8KY2hlY2tpbmcgZm9yIGxkLi4uIChjYWNoZWQpIGk1ODYtcG9r
-eS1saW51eC1sZCAtLXN5c3Jvb3Q9L2hvbWUvZGRhbGV4L3NzZC95b2N0by9idWlsZC90bXAvc3lz
-cm9vdHMvcWVtdXg4NgpjaGVja2luZyBmb3IgaTU4Ni1wb2t5LWxpbnV4LWxkLi4uIChjYWNoZWQp
-IGk1ODYtcG9reS1saW51eC1sZCAtLXN5c3Jvb3Q9L2hvbWUvZGRhbGV4L3NzZC95b2N0by9idWls
-ZC90bXAvc3lzcm9vdHMvcWVtdXg4NgpjaGVja2luZyBmb3IgaTU4Ni1wb2t5LWxpbnV4LWxpcG8u
-Li4gbm8KY2hlY2tpbmcgZm9yIG5tLi4uIChjYWNoZWQpIGk1ODYtcG9reS1saW51eC1ubQpjaGVj
-a2luZyBmb3IgaTU4Ni1wb2t5LWxpbnV4LW5tLi4uIChjYWNoZWQpIGk1ODYtcG9reS1saW51eC1u
-bQpjaGVja2luZyBmb3IgcmFubGliLi4uIChjYWNoZWQpIGk1ODYtcG9reS1saW51eC1yYW5saWIK
-Y2hlY2tpbmcgZm9yIGk1ODYtcG9reS1saW51eC1yYW5saWIuLi4gKGNhY2hlZCkgaTU4Ni1wb2t5
-LWxpbnV4LXJhbmxpYgpjaGVja2luZyBmb3Igc3RyaXAuLi4gKGNhY2hlZCkgaTU4Ni1wb2t5LWxp
-bnV4LXN0cmlwCmNoZWNraW5nIGZvciBpNTg2LXBva3ktbGludXgtc3RyaXAuLi4gKGNhY2hlZCkg
-aTU4Ni1wb2t5LWxpbnV4LXN0cmlwCmNoZWNraW5nIGZvciBpNTg2LXBva3ktbGludXgtd2luZHJl
-cy4uLiBubwpjaGVja2luZyBmb3IgaTU4Ni1wb2t5LWxpbnV4LXdpbmRtYy4uLiBubwpjaGVja2lu
-ZyBmb3Igb2JqY29weS4uLiAoY2FjaGVkKSBpNTg2LXBva3ktbGludXgtb2JqY29weQpjaGVja2lu
-ZyBmb3IgaTU4Ni1wb2t5LWxpbnV4LW9iamNvcHkuLi4gKGNhY2hlZCkgaTU4Ni1wb2t5LWxpbnV4
-LW9iamNvcHkKY2hlY2tpbmcgZm9yIG9iamR1bXAuLi4gKGNhY2hlZCkgaTU4Ni1wb2t5LWxpbnV4
-LW9iamR1bXAKY2hlY2tpbmcgZm9yIGk1ODYtcG9reS1saW51eC1vYmpkdW1wLi4uIChjYWNoZWQp
-IGk1ODYtcG9reS1saW51eC1vYmpkdW1wCmNoZWNraW5nIGZvciBpNTg2LXBva3ktbGludXgtcmVh
-ZGVsZi4uLiBpNTg2LXBva3ktbGludXgtcmVhZGVsZgpjaGVja2luZyBmb3IgY2MuLi4gKGNhY2hl
-ZCkgaTU4Ni1wb2t5LWxpbnV4LWdjYyAgLW0zMiAgIC1tYXJjaD1pNTg2IC0tc3lzcm9vdD0vaG9t
-ZS9kZGFsZXgvc3NkL3lvY3RvL2J1aWxkL3RtcC9zeXNyb290cy9xZW11eDg2CmNoZWNraW5nIGZv
-ciBnY2MuLi4gKGNhY2hlZCkgaTU4Ni1wb2t5LWxpbnV4LWdjYyAgLW0zMiAgIC1tYXJjaD1pNTg2
-IC0tc3lzcm9vdD0vaG9tZS9kZGFsZXgvc3NkL3lvY3RvL2J1aWxkL3RtcC9zeXNyb290cy9xZW11
-eDg2CmNoZWNraW5nIGZvciBjKysuLi4gKGNhY2hlZCkgaTU4Ni1wb2t5LWxpbnV4LWcrKyAgLW0z
-MiAgIC1tYXJjaD1pNTg2IC0tc3lzcm9vdD0vaG9tZS9kZGFsZXgvc3NkL3lvY3RvL2J1aWxkL3Rt
-cC9zeXNyb290cy9xZW11eDg2CmNoZWNraW5nIGZvciBnKysuLi4gKGNhY2hlZCkgaTU4Ni1wb2t5
-LWxpbnV4LWcrKyAgLW0zMiAgIC1tYXJjaD1pNTg2IC0tc3lzcm9vdD0vaG9tZS9kZGFsZXgvc3Nk
-L3lvY3RvL2J1aWxkL3RtcC9zeXNyb290cy9xZW11eDg2CmNoZWNraW5nIGZvciBjeHguLi4gKGNh
-Y2hlZCkgaTU4Ni1wb2t5LWxpbnV4LWcrKyAgLW0zMiAgIC1tYXJjaD1pNTg2IC0tc3lzcm9vdD0v
-aG9tZS9kZGFsZXgvc3NkL3lvY3RvL2J1aWxkL3RtcC9zeXNyb290cy9xZW11eDg2CmNoZWNraW5n
-IGZvciBneHguLi4gKGNhY2hlZCkgaTU4Ni1wb2t5LWxpbnV4LWcrKyAgLW0zMiAgIC1tYXJjaD1p
-NTg2IC0tc3lzcm9vdD0vaG9tZS9kZGFsZXgvc3NkL3lvY3RvL2J1aWxkL3RtcC9zeXNyb290cy9x
-ZW11eDg2CmNoZWNraW5nIGZvciBnY2MuLi4gKGNhY2hlZCkgaTU4Ni1wb2t5LWxpbnV4LWdjYyAg
-LW0zMiAgIC1tYXJjaD1pNTg2IC0tc3lzcm9vdD0vaG9tZS9kZGFsZXgvc3NkL3lvY3RvL2J1aWxk
-L3RtcC9zeXNyb290cy9xZW11eDg2CmNoZWNraW5nIGZvciBpNTg2LXBva3ktbGludXgtZ2NqLi4u
-IG5vCmNoZWNraW5nIGZvciBnZm9ydHJhbi4uLiAoY2FjaGVkKSBnZm9ydHJhbgpjaGVja2luZyBm
-b3IgaTU4Ni1wb2t5LWxpbnV4LWdjY2dvLi4uIG5vCmNoZWNraW5nIGZvciBpNTg2LXBva3ktbGlu
-dXgtZGxsdG9vbC4uLiBubwpjaGVja2luZyBmb3IgaTU4Ni1wb2t5LWxpbnV4LWxpcG8uLi4gbm8K
-Y2hlY2tpbmcgZm9yIGk1ODYtcG9reS1saW51eC1yZWFkZWxmLi4uIGk1ODYtcG9reS1saW51eC1y
-ZWFkZWxmCmNoZWNraW5nIGZvciBpNTg2LXBva3ktbGludXgtd2luZHJlcy4uLiBubwpjaGVja2lu
-ZyBmb3IgaTU4Ni1wb2t5LWxpbnV4LXdpbmRtYy4uLiBubwpjaGVja2luZyB3aGVyZSB0byBmaW5k
-IHRoZSB0YXJnZXQgYXIuLi4gcHJlLWluc3RhbGxlZCBpbiAvaG9tZS9kZGFsZXgvc3NkL3lvY3Rv
-L2J1aWxkL3RtcC9zeXNyb290cy94ODZfNjQtbGludXgvdXNyL2xpYmV4ZWMvaTU4Ni1wb2t5LWxp
-bnV4L2djYy9pNTg2LXBva3ktbGludXgvNC43LjIKY2hlY2tpbmcgd2hlcmUgdG8gZmluZCB0aGUg
-dGFyZ2V0IGFzLi4uIHByZS1pbnN0YWxsZWQgaW4gL2hvbWUvZGRhbGV4L3NzZC95b2N0by9idWls
-ZC90bXAvc3lzcm9vdHMveDg2XzY0LWxpbnV4L3Vzci9saWJleGVjL2k1ODYtcG9reS1saW51eC9n
-Y2MvaTU4Ni1wb2t5LWxpbnV4LzQuNy4yCmNoZWNraW5nIHdoZXJlIHRvIGZpbmQgdGhlIHRhcmdl
-dCBjYy4uLiBwcmUtaW5zdGFsbGVkCmNoZWNraW5nIHdoZXJlIHRvIGZpbmQgdGhlIHRhcmdldCBj
-KysuLi4gcHJlLWluc3RhbGxlZApjaGVja2luZyB3aGVyZSB0byBmaW5kIHRoZSB0YXJnZXQgYysr
-IGZvciBsaWJzdGRjKysuLi4gcHJlLWluc3RhbGxlZApjaGVja2luZyB3aGVyZSB0byBmaW5kIHRo
-ZSB0YXJnZXQgZGxsdG9vbC4uLiBwcmUtaW5zdGFsbGVkCmNoZWNraW5nIHdoZXJlIHRvIGZpbmQg
-dGhlIHRhcmdldCBnY2MuLi4gcHJlLWluc3RhbGxlZApjaGVja2luZyB3aGVyZSB0byBmaW5kIHRo
-ZSB0YXJnZXQgZ2NqLi4uIHByZS1pbnN0YWxsZWQKY2hlY2tpbmcgd2hlcmUgdG8gZmluZCB0aGUg
-dGFyZ2V0IGdmb3J0cmFuLi4uIHByZS1pbnN0YWxsZWQKY2hlY2tpbmcgd2hlcmUgdG8gZmluZCB0
-aGUgdGFyZ2V0IGdjY2dvLi4uIHByZS1pbnN0YWxsZWQKY2hlY2tpbmcgd2hlcmUgdG8gZmluZCB0
-aGUgdGFyZ2V0IGxkLi4uIHByZS1pbnN0YWxsZWQgaW4gL2hvbWUvZGRhbGV4L3NzZC95b2N0by9i
-dWlsZC90bXAvc3lzcm9vdHMveDg2XzY0LWxpbnV4L3Vzci9saWJleGVjL2k1ODYtcG9reS1saW51
-eC9nY2MvaTU4Ni1wb2t5LWxpbnV4LzQuNy4yCmNoZWNraW5nIHdoZXJlIHRvIGZpbmQgdGhlIHRh
-cmdldCBsaXBvLi4uIHByZS1pbnN0YWxsZWQKY2hlY2tpbmcgd2hlcmUgdG8gZmluZCB0aGUgdGFy
-Z2V0IG5tLi4uIHByZS1pbnN0YWxsZWQgaW4gL2hvbWUvZGRhbGV4L3NzZC95b2N0by9idWlsZC90
-bXAvc3lzcm9vdHMveDg2XzY0LWxpbnV4L3Vzci9saWJleGVjL2k1ODYtcG9reS1saW51eC9nY2Mv
-aTU4Ni1wb2t5LWxpbnV4LzQuNy4yCmNoZWNraW5nIHdoZXJlIHRvIGZpbmQgdGhlIHRhcmdldCBv
-YmpkdW1wLi4uIHByZS1pbnN0YWxsZWQgaW4gL2hvbWUvZGRhbGV4L3NzZC95b2N0by9idWlsZC90
-bXAvc3lzcm9vdHMveDg2XzY0LWxpbnV4L3Vzci9saWJleGVjL2k1ODYtcG9reS1saW51eC9nY2Mv
-aTU4Ni1wb2t5LWxpbnV4LzQuNy4yCmNoZWNraW5nIHdoZXJlIHRvIGZpbmQgdGhlIHRhcmdldCBy
-YW5saWIuLi4gcHJlLWluc3RhbGxlZCBpbiAvaG9tZS9kZGFsZXgvc3NkL3lvY3RvL2J1aWxkL3Rt
-cC9zeXNyb290cy94ODZfNjQtbGludXgvdXNyL2xpYmV4ZWMvaTU4Ni1wb2t5LWxpbnV4L2djYy9p
-NTg2LXBva3ktbGludXgvNC43LjIKY2hlY2tpbmcgd2hlcmUgdG8gZmluZCB0aGUgdGFyZ2V0IHJl
-YWRlbGYuLi4gcHJlLWluc3RhbGxlZApjaGVja2luZyB3aGVyZSB0byBmaW5kIHRoZSB0YXJnZXQg
-c3RyaXAuLi4gcHJlLWluc3RhbGxlZCBpbiAvaG9tZS9kZGFsZXgvc3NkL3lvY3RvL2J1aWxkL3Rt
-cC9zeXNyb290cy94ODZfNjQtbGludXgvdXNyL2xpYmV4ZWMvaTU4Ni1wb2t5LWxpbnV4L2djYy9p
-NTg2LXBva3ktbGludXgvNC43LjIKY2hlY2tpbmcgd2hlcmUgdG8gZmluZCB0aGUgdGFyZ2V0IHdp
-bmRyZXMuLi4gcHJlLWluc3RhbGxlZApjaGVja2luZyB3aGVyZSB0byBmaW5kIHRoZSB0YXJnZXQg
-d2luZG1jLi4uIHByZS1pbnN0YWxsZWQKY2hlY2tpbmcgd2hldGhlciB0byBlbmFibGUgbWFpbnRh
-aW5lci1zcGVjaWZpYyBwb3J0aW9ucyBvZiBNYWtlZmlsZXMuLi4gbm8KY2hlY2tpbmcgd2hldGhl
-ciAtZmtlZXAtaW5saW5lLWZ1bmN0aW9ucyBpcyBzdXBwb3J0ZWQuLi4geWVzCmNvbmZpZ3VyZTog
-Y3JlYXRpbmcgLi9jb25maWcuc3RhdHVzCmNvbmZpZy5zdGF0dXM6IGNyZWF0aW5nIE1ha2VmaWxl
-CkRFQlVHOiBTaGVsbCBmdW5jdGlvbiBkb19jb25maWd1cmUgZmluaXNoZWQKREVCVUc6IEV4ZWN1
-dGluZyBweXRob24gZnVuY3Rpb24gZG9fcWFfY29uZmlndXJlCk5PVEU6IENoZWNraW5nIGF1dG90
-b29scyBlbnZpcm9ubWVudCBmb3IgY29tbW9uIG1pc2NvbmZpZ3VyYXRpb24KRVJST1I6IFRoaXMg
-YXV0b2NvbmYgbG9nIGluZGljYXRlcyBlcnJvcnMsIGl0IGxvb2tlZCBhdCBob3N0IGluY2x1ZGUg
-YW5kL29yIGxpYnJhcnkgcGF0aHMgd2hpbGUgZGV0ZXJtaW5pbmcgc3lzdGVtIGNhcGFiaWxpdGll
-cy4KUmVydW4gY29uZmlndXJlIHRhc2sgYWZ0ZXIgZml4aW5nIHRoaXMuIFRoZSBwYXRoIHdhcyAn
-L2hvbWUvZGRhbGV4L3NzZC95b2N0by9idWlsZC90bXAvd29yay9pNTg2LXBva3ktbGludXgvZ2Nj
-LTQuNy4xK3N2bnIxODg2NTgtcjIvZ2NjLTRfNy1icmFuY2gvYnVpbGQuaTU4Ni1wb2t5LWxpbnV4
-Lmk1ODYtcG9reS1saW51eC9nY2MnCkRFQlVHOiBQeXRob24gZnVuY3Rpb24gZG9fcWFfY29uZmln
-dXJlIGZpbmlzaGVkCkVSUk9SOiBGdW5jdGlvbiBmYWlsZWQ6IGRvX3FhX2NvbmZpZ3VyZQo=
+ERROR: QA Issue: non debug package contains .debug directory: udev path /wo=
+rk/i586-poky-linux/udev-182-r0/packages-split/udev/lib/udev/udev/.debug/ude=
+vd<br>ERROR: QA Issue: non debug package contains .debug directory: udev pa=
+th /work/i586-poky-linux/udev-182-r0/packages-split/udev/lib/udev/udev/.deb=
+ug/keymap<br>
 
---f46d0407125978526f04c4008a78--
+ERROR: QA Issue: non debug package contains .debug directory: udev path /wo=
+rk/i586-poky-linux/udev-182-r0/packages-split/udev/lib/udev/udev/.debug/col=
+lect<br>ERROR: QA Issue: non debug package contains .debug directory: udev =
+path /work/i586-poky-linux/udev-182-r0/packages-split/udev/lib/udev/udev/.d=
+ebug/ata_id<br>
+
+ERROR: QA run found fatal errors. Please consider fixing them.<br><br><br>a=
+lthough I added the files to the debug package (I think)<br><br>=A0FILES_${=
+PN}-dbg +=3D &quot;${libexecdir}/.debug&quot;<br>+FILES_${PN}-dbg +=3D &quo=
+t;${libexecdir}/udev/udev/.debug/&quot;<br>
+
++FILES_${PN}-dbg +=3D &quot;${libexecdir}/udev/udev/.debug/*&quot;<br>=A0FI=
+LES_${PN}-dev =3D &quot;${datadir}/pkgconfig/udev.pc&quot;<br><br>Can someb=
+ody please point out what I&#39;m doing wrong ?<br><br>Cheers,<br>Alex<br>
+</blockquote></div><br>
+
+--bcaec5524242cbaa7104c4008ed5--
