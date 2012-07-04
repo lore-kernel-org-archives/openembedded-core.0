@@ -1,34 +1,44 @@
-Received: from mail.dream-property.net ([82.149.226.172])
+Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <obi@opendreambox.org>) id 1SmQ8t-0002pT-0n
+	(envelope-from <saul.wold@intel.com>) id 1SmQCn-0002v4-MY
 	for openembedded-core@lists.openembedded.org;
-	Wed, 04 Jul 2012 16:01:19 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by mail.dream-property.net (Postfix) with ESMTP id CADD8315D847;
-	Wed,  4 Jul 2012 15:50:13 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
-Received: from mail.dream-property.net ([127.0.0.1])
-	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id rb6V+FsM1LVk; Wed,  4 Jul 2012 15:50:02 +0200 (CEST)
-Received: from [172.22.22.61] (ip-88-153-5-144.unitymediagroup.de
-	[88.153.5.144])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mail.dream-property.net (Postfix) with ESMTPSA id 8364B315D844;
-	Wed,  4 Jul 2012 15:50:02 +0200 (CEST)
-Message-ID: <4FF44A09.6040603@opendreambox.org>
-Date: Wed, 04 Jul 2012 15:50:01 +0200
-From: Andreas Oberritter <obi@opendreambox.org>
+	Wed, 04 Jul 2012 16:05:22 +0200
+Received: from mail-gh0-f180.google.com ([209.85.160.180])
+	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 04 Jul 2012 06:54:01 -0700
+Received: by ghbz12 with SMTP id z12so6112015ghb.25
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 04 Jul 2012 06:54:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=message-id:date:from:organization:user-agent:mime-version:to:cc
+	:subject:references:in-reply-to:content-type
+	:content-transfer-encoding:x-gm-message-state;
+	bh=dK4RhQGS50gYpdytrgKUwJxnPChPTNuaRt7dra9HCzk=;
+	b=k3Ywjzn6z6sIDPkwpTB33mvZv3nkN2zWSsEx6o7dzsZgQ/JLGKoARHlpuAnx+WDeau
+	0dWs9iH6eJv+KlH9rLwpN3o/d/FfYMujono4YCmIc5fnP5yb8jN4yCBra7OVxZpg6La5
+	erLddKnZcxXY+h3ZrYuH5yKQV3xPTlZ+q5rSb3GDnNAx92DwKIyO2zdxHaXmnbwgGKTR
+	JXWqPOlxU2nyBXiLR5NvTp6HNr6RbP3x62Icje6ymJ5tSpFBFbVA+vtx81bSIYwKr2//
+	j6ESu+mSgqVkOl5arWxytfJ01ZlpV9P2JCuj9RDA8Wq8RhfC4zhhxRJ+br/BHTd/b3pR
+	Eopg==
+Received: by 10.68.228.2 with SMTP id se2mr19439131pbc.109.1341410040003;
+	Wed, 04 Jul 2012 06:54:00 -0700 (PDT)
+Received: from [10.6.18.71] (c-71-193-189-117.hsd1.wa.comcast.net.
+	[71.193.189.117])
+	by mx.google.com with ESMTPS id rv9sm17760602pbc.43.2012.07.04.06.53.57
+	(version=SSLv3 cipher=OTHER); Wed, 04 Jul 2012 06:53:58 -0700 (PDT)
+Message-ID: <4FF44AF4.9080007@intel.com>
+Date: Wed, 04 Jul 2012 06:53:56 -0700
+From: Saul Wold <saul.wold@intel.com>
+Organization: Intel
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:13.0) Gecko/20120615 Thunderbird/13.0.1
+	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
 MIME-Version: 1.0
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-References: <1335478762-14532-1-git-send-email-obi@opendreambox.org>
-	<1772332.Hc46G99qAB@helios>
-In-Reply-To: <1772332.Hc46G99qAB@helios>
+To: "Damian, Alexandru" <alexandru.damian@intel.com>
+References: <CAJ2CSBu1HFggNOqVQt4jnH6_swNmUa5T+RrWf06h-epcNBkbuA@mail.gmail.com>
+In-Reply-To: <CAJ2CSBu1HFggNOqVQt4jnH6_swNmUa5T+RrWf06h-epcNBkbuA@mail.gmail.com>
+X-Gm-Message-State: ALoCoQmwKBOXuPLo9ATLpcDsxO1QqcDSTbJoJHJ5g97uQp/YKI0QipoCSmLC8B2UtwpHe4ZminkK
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] opkg-collateral: import fixes from OE-Classic
+Subject: Re: erroneously marked packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,93 +53,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Jul 2012 14:01:19 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Wed, 04 Jul 2012 14:05:22 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 03.07.2012 22:14, Paul Eggleton wrote:
-> On Friday 27 April 2012 00:19:22 Andreas Oberritter wrote:
->> * Set lists_dir to /var/lib/opkg
->>
->>   commit 16808bc4817492beba512f4e73bce8c232d1eafa
->>   Author: Marcin Juszkiewicz <hrw@openembedded.org>
->>   Date:   Mon Mar 17 23:40:48 2008 +0000
->>
->> * Update new options sample and move the opkg.conf to correct place
->>
->>   commit cc9825d97962287df75e164aec456901292e1b7f
->>   Author: Tick Chen <ticktock35@gmail.com>
->>   Date:   Mon Dec 29 19:41:47 2008 +0800
->>
->> Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
->> ---
->>  meta/recipes-devtools/opkg/opkg-collateral.bb      |    8 +++++---
->>  meta/recipes-devtools/opkg/opkg-collateral/lists   |    2 +-
->>  .../opkg/opkg-collateral/opkg.conf.comments        |    3 +++
->>  3 files changed, 9 insertions(+), 4 deletions(-)
->>
->> diff --git a/meta/recipes-devtools/opkg/opkg-collateral.bb
->> b/meta/recipes-devtools/opkg/opkg-collateral.bb index e3e0b5f..251c535
->> 100644
->> --- a/meta/recipes-devtools/opkg/opkg-collateral.bb
->> +++ b/meta/recipes-devtools/opkg/opkg-collateral.bb
->> @@ -2,6 +2,8 @@ DESCRIPTION = "opkg configuration files"
->>  SECTION = "base"
->>  LICENSE = "MIT"
->>  LIC_FILES_CHKSUM =
->> "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
->> +PR = "r1"
->> +
->>  SRC_URI = "file://opkg.conf.comments \
->>  	   file://lists \
->>  	   file://dest \
->> @@ -15,8 +17,8 @@ do_compile () {
->>  }
->>
->>  do_install () {
->> -	install -d ${D}${sysconfdir}/
->> -	install -m 0644 ${WORKDIR}/opkg.conf ${D}${sysconfdir}/opkg.conf
->> +	install -d ${D}${sysconfdir}/opkg
->> +	install -m 0644 ${WORKDIR}/opkg.conf ${D}${sysconfdir}/opkg/opkg.conf
->>  }
->>
->> -CONFFILES_${PN} = "${sysconfdir}/opkg.conf"
->> +CONFFILES_${PN} = "${sysconfdir}/opkg/opkg.conf"
->> diff --git a/meta/recipes-devtools/opkg/opkg-collateral/lists
->> b/meta/recipes-devtools/opkg/opkg-collateral/lists index 3c524f8..f8aecd8
->> 100644
->> --- a/meta/recipes-devtools/opkg/opkg-collateral/lists
->> +++ b/meta/recipes-devtools/opkg/opkg-collateral/lists
->> @@ -1,2 +1,2 @@
->> -lists_dir ext /var/lib/ipkg
->> +lists_dir ext /var/lib/opkg
-> 
-> Unfortunately, it seems this change has caused bug 2595 - moving the config file 
-> to /etc/opkg means that it is always read regardless of whether -f is specified 
-> or not (as it is during do_rootfs in order to specify our own generated config 
-> file), and this means that after opkg-collateral is installed into the rootfs, 
-> this version of the config is used, resulting in opkg ignoring the lists it has 
-> already downloaded (since it now sees list_dir as var/lib/opkg instead of 
-> var/lib/opkg/lists) and thus it fails to install any of the "attemptonly" 
-> packages (including *-dev, *-dbg, etc.).
+On 07/04/2012 05:26 AM, Damian, Alexandru wrote:
+> Hi Saul,
+>
+> Some packages don't need upgrade, even if they are in the list, because
+> the detection was wrong.
+>
+> How do we handle those ?
+> I'm talking here about:
+> - u-boot-mkimage, the 2012.04.1 version is already in the tree
+> - js, the 1.6 (target) is older than current version
+> - mobile-broadband-provider-info, target 20090309 is older than current
+> version
+>
+It may be my list is out of date.
 
-Would it be possible to download the lists to var/lib/opkg instead, if
-that's the only difference? I'm not familiar with the use of
-opkg-collateral during the creation of the rootfs.
+If it is already updated because someone else did it then my list is 
+olde, then you can ignore it and the next milestone list will reflect 
+that it's already updated, such as u-boot-mkimage.
 
-> The question is, should opkg be fixed to not load anything from etc/opkg/ when 
-> -f is specified?
+If there a reason why we can't upgrade then you use the 
+NO_UPGRADE_REASON_pn-<PN> tag.
 
-I think this would work only if other files than opkg.conf in etc/opkg/
-aren't needed, which I guess is not the case.
+>
+> Alex
 
-Maybe a new option to specify a config directory instead of a file would
-be more straightforward to implement, if opkg always loads
-$configdir/*.conf (i.e. there's no special handling for a file named
-"opkg.conf", AFAIR). You could then copy etc/opkg to a temporary
-location and overwrite opkg.conf.
-
-Regards,
-Andreas
 
 
