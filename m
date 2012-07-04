@@ -1,12 +1,12 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1SmHSi-00011A-53
+	(envelope-from <dvhart@linux.intel.com>) id 1SmHSi-00011I-GR
 	for openembedded-core@lists.openembedded.org;
-	Wed, 04 Jul 2012 06:45:12 +0200
+	Wed, 04 Jul 2012 06:45:13 +0200
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
 	by orsmga102.jf.intel.com with ESMTP; 03 Jul 2012 21:34:05 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="166675786"
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="166675783"
 Received: from fear.jf.intel.com (HELO rage.local) ([10.7.201.160])
 	by orsmga002.jf.intel.com with ESMTP; 03 Jul 2012 21:34:05 -0700
 From: Darren Hart <dvhart@linux.intel.com>
@@ -14,15 +14,14 @@ To: openembedded-core@lists.openembedded.org,
 	Richard Purdie <richard.purdie@linuxfoundation.org>,
 	Khem Raj <raj.khem@gmail.com>, Tom Zanussi <tom.zanussi@intel.com>,
 	Kishore Bodke <kishore.k.bodke@intel.com>, Saul Wold <sgw@linux.intel.com>
-Date: Tue,  3 Jul 2012 21:34:02 -0700
-Message-Id: <4e017c01096f3e665e436d9f05bb8916c18bded1.1341376182.git.dvhart@linux.intel.com>
+Date: Tue,  3 Jul 2012 21:34:01 -0700
+Message-Id: <83947990d6d26f9a2ef706b55c414f0c3b363669.1341376182.git.dvhart@linux.intel.com>
 X-Mailer: git-send-email 1.7.5.4
 In-Reply-To: <cover.1341376182.git.dvhart@linux.intel.com>
 References: <cover.1341376182.git.dvhart@linux.intel.com>
 In-Reply-To: <cover.1341376182.git.dvhart@linux.intel.com>
 References: <cover.1341376182.git.dvhart@linux.intel.com>
-MIME-Version: 1.0
-Subject: [PATCH 5/5] EFI: Make installer EFI aware
+Subject: [PATCH 4/5] grub-efi: Do not use help2man
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,271 +37,300 @@ List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 04 Jul 2012 04:45:13 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 
-[YOCTO #1919]
+Fixes [YOCTO #2527]
 
-Create a basic EFI installer script modeled after the existing installer
-and add it to a new initramfs-live-install-efi recipe. Update the
-init-live.sh script to distinguish between LABEL=install and
-LABEL=install-efi and select the appropriate script. Add the efi
-installer to core-image-minimal-initramfs.
+Modify configure.ac and the generated configure script to avoid using
+help2man during the compilation process. For grub-efi we are only
+deploying the EFI payload and are not installing grub on the target
+root filesystem. Therefor, we do not need the man pages.
 
-Update grub-efi.bbclass to use "LABEL=install-efi" when it detects a
-label of "install". This is clearly not ideal, but a proper fix would
-involve decoupling the LABELS assignment from the image-live.bbclass
-usage of SYSLINUX_LABELS. We should be able to address that in a
-follow-on clean-up series.
+Cleanup the SRC_URI whitespace while we add a line to it.
+
+Signed-off-by: Darren Hart <dvhart@linux.intel.com>
+CC: Paul Eggleton <paul.eggleton@linux.intel.com>
+CC: Radu Moisan <radu.moisan@intel.com>
+
+grub-efi-native whitespace cleanup (INC)
 
 Signed-off-by: Darren Hart <dvhart@linux.intel.com>
 ---
- meta/classes/grub-efi.bbclass                      |    2 +
- .../images/core-image-minimal-initramfs.bb         |    2 +-
- .../initrdscripts/files/init-install-efi.sh        |  188 ++++++++++++++++++++
- meta/recipes-core/initrdscripts/files/init-live.sh |    6 +-
- 4 files changed, 194 insertions(+), 4 deletions(-)
- create mode 100644 meta/recipes-core/initrdscripts/files/init-install-efi.sh
+ .../grub/files/grub-1.99-disable-help2man.patch    |  231 ++++++++++++++++++++
+ meta/recipes-bsp/grub/grub-efi-native_1.99.bb      |   17 +-
+ 2 files changed, 240 insertions(+), 8 deletions(-)
+ create mode 100644 meta/recipes-bsp/grub/files/grub-1.99-disable-help2man.patch
 
-diff --git a/meta/classes/grub-efi.bbclass b/meta/classes/grub-efi.bbclass
-index 1efb43b..147accc 100644
---- a/meta/classes/grub-efi.bbclass
-+++ b/meta/classes/grub-efi.bbclass
-@@ -99,6 +99,8 @@ python build_grub_cfg() {
-         bb.data.update_data(localdata)
- 
-         cfgfile.write('\nmenuentry \'%s\'{\n' % (label))
-+        if label == "install":
-+            label = "install-efi"
-         cfgfile.write('linux /vmlinuz LABEL=%s' % (label))
- 
-         append = localdata.getVar('APPEND', True)
-diff --git a/meta/recipes-core/images/core-image-minimal-initramfs.bb b/meta/recipes-core/images/core-image-minimal-initramfs.bb
-index 4aeb618..7f6826c 100644
---- a/meta/recipes-core/images/core-image-minimal-initramfs.bb
-+++ b/meta/recipes-core/images/core-image-minimal-initramfs.bb
-@@ -3,7 +3,7 @@ DESCRIPTION = "Small image capable of booting a device. The kernel includes \
- the Minimal RAM-based Initial Root Filesystem (initramfs), which finds the \
- first “init” program more efficiently."
- 
--IMAGE_INSTALL = "initramfs-live-boot initramfs-live-install busybox udev base-passwd"
-+IMAGE_INSTALL = "initramfs-live-boot initramfs-live-install initramfs-live-install-efi busybox udev base-passwd"
- 
- # Do not pollute the initrd image with rootfs features
- IMAGE_FEATURES = ""
-diff --git a/meta/recipes-core/initrdscripts/files/init-install-efi.sh b/meta/recipes-core/initrdscripts/files/init-install-efi.sh
+diff --git a/meta/recipes-bsp/grub/files/grub-1.99-disable-help2man.patch b/meta/recipes-bsp/grub/files/grub-1.99-disable-help2man.patch
 new file mode 100644
-index 0000000..c762f4b
+index 0000000..3ffefdc
 --- /dev/null
-+++ b/meta/recipes-core/initrdscripts/files/init-install-efi.sh
-@@ -0,0 +1,188 @@
-+#!/bin/sh -e
-+#
-+# Copyright (c) 2012, Intel Corporation.
-+# All rights reserved.
-+#
-+# install.sh [device_name] [rootfs_name] [video_mode] [vga_mode]
-+#
++++ b/meta/recipes-bsp/grub/files/grub-1.99-disable-help2man.patch
+@@ -0,0 +1,231 @@
++Upstream-Status: Inappropriate (Bitbake build environment)
 +
-+PATH=/sbin:/bin:/usr/sbin:/usr/bin
++We do not need the man pages when building just the EFI payload for the target,
++all the tools are built for the host. This does not trigger GRUB's built-in
++cross-compilation check, so force it. After the change to configure.ac,
++autogen.sh was run in devshell and the resulting configure was used to generate
++the configure diff. The configure diff was included to avoid having to add
++autogen.sh to a do_configure_prepend() routine which would slow down the build
++unnecessarily.
 +
-+# We need 20 Mb for the boot partition
-+boot_size=20
++Signed-off-by: Darren Hart <dvhart@linux.intel.com>
 +
-+# 5% for the swap
-+swap_ratio=5
++Index: grub-1.99/configure.ac
++===================================================================
++--- grub-1.99.orig/configure.ac
+++++ grub-1.99/configure.ac
++@@ -275,11 +275,12 @@ if test x$grub_cv_apple_cc = xyes ; then
++   HOST_CFLAGS="$HOST_CFLAGS -fnested-functions"
++ fi
 +
-+found="no"
-+
-+echo "Searching for a hard drive..."
-+for device in 'hda' 'hdb' 'sda' 'sdb' 'mmcblk0' 'mmcblk1'
-+do
-+    if [ -e /sys/block/${device}/removable ]; then
-+        if [ "$(cat /sys/block/${device}/removable)" = "0" ]; then
-+            found="yes"
-+
-+            while true; do
-+                # Try sleeping here to avoid getting kernel messages
-+                # obscuring/confusing user
-+                sleep 5
-+                echo "Found drive at /dev/${device}. Do you want to install this image there ? [y/n]"
-+                read answer
-+                if [ "$answer" = "y" ] ; then
-+                    break
-+                fi
-+
-+                if [ "$answer" = "n" ] ; then
-+                    found=no
-+                    break
-+                fi
-+
-+                echo "Please answer y or n"
-+            done
-+        fi
-+    fi
-+
-+    if [ "$found" = "yes" ]; then
-+        break;
-+    fi
-+
-+done
-+
-+if [ "$found" = "no" ]; then
-+    exit 1
-+fi
-+
-+echo "Installing image on /dev/${device}"
-+
-+#
-+# The udev automounter can cause pain here, kill it
-+#
-+rm -f /etc/udev/scripts/mount*
-+
-+#
-+# Unmount anything the automounter had mounted
-+#
-+umount /dev/${device}* 2> /dev/null || /bin/true
-+
-+# We always build with devtmpfs, this is not necessary
-+#if [ ! -b /dev/sda ] ; then
-+#    mknod /dev/sda b 8 0
-+#fi
-+#
-+#if [ ! -b /dev/sdb ] ; then
-+#    mknod /dev/sdb b 8 16
-+#fi
-+#
-+#if [ ! -b /dev/loop0 ] ; then
-+#    mknod /dev/loop0 b 7 0
-+#fi
-+
-+mkdir -p /tmp
-+cat /proc/mounts > /etc/mtab
-+
-+disk_size=$(parted /dev/${device} unit mb print | grep Disk | cut -d" " -f 3 | sed -e "s/MB//")
-+
-+swap_size=$((disk_size*swap_ratio/100))
-+rootfs_size=$((disk_size-boot_size-swap_size))
-+
-+rootfs_start=$((boot_size))
-+rootfs_end=$((rootfs_start+rootfs_size))
-+swap_start=$((rootfs_end))
-+
-+# MMC devices are special in a couple of ways
-+# 1) they use a partition prefix character 'p'
-+# 2) they are detected asynchronously (need rootwait)
-+rootwait=""
-+part_prefix=""
-+if [ ! "${device#mmcblk}" = "${device}" ]; then
-+    part_prefix="p"
-+    rootwait="rootwait"
-+fi
-+bootfs=/dev/${device}${part_prefix}1
-+rootfs=/dev/${device}${part_prefix}2
-+swap=/dev/${device}${part_prefix}3
-+
-+echo "*****************"
-+echo "Boot partition size:   $boot_size MB ($bootfs)"
-+echo "Rootfs partition size: $rootfs_size MB ($rootfs)"
-+echo "Swap partition size:   $swap_size MB ($swap)"
-+echo "*****************"
-+echo "Deleting partition table on /dev/${device} ..."
-+dd if=/dev/zero of=/dev/${device} bs=512 count=2
-+
-+echo "Creating new partition table on /dev/${device} ..."
-+parted /dev/${device} mklabel gpt
-+
-+echo "Creating boot partition on $bootfs"
-+parted /dev/${device} mkpart primary 0% $boot_size
-+
-+echo "Creating rootfs partition on $rootfs"
-+parted /dev/${device} mkpart primary $rootfs_start $rootfs_end
-+
-+echo "Creating swap partition on $swap"
-+parted /dev/${device} mkpart primary $swap_start 100%
-+
-+parted /dev/${device} print
-+
-+echo "Formatting $bootfs to vfat..."
-+mkfs.vfat $bootfs
-+
-+echo "Formatting $rootfs to ext3..."
-+mkfs.ext3 $rootfs
-+
-+echo "Formatting swap partition...($swap)"
-+mkswap $swap
-+
-+mkdir /ssd
-+mkdir /rootmnt
-+mkdir /bootmnt
-+
-+mount $rootfs /ssd
-+mount -o rw,loop,noatime,nodiratime /media/$1/$2 /rootmnt
-+
-+echo "Copying rootfs files..."
-+cp -a /rootmnt/* /ssd
-+
-+if [ -d /ssd/etc/ ] ; then
-+    echo "$swap                swap             swap       defaults              0  0" >> /ssd/etc/fstab
-+
-+    # We dont want udev to mount our root device while we're booting...
-+    if [ -d /ssd/etc/udev/ ] ; then
-+        echo "/dev/${device}" >> /ssd/etc/udev/mount.blacklist
-+    fi
-+fi
-+
-+umount /ssd
-+umount /rootmnt
-+
-+echo "Preparing boot partition..."
-+mount $bootfs /ssd
-+
-+EFIDIR="/ssd/EFI/BOOT"
-+mkdir -p $EFIDIR
-+GRUBCFG="$EFIDIR/grub.cfg"
-+
-+cp /media/$1/vmlinuz /ssd
-+# Copy the efi loader and config (booti*.efi and grub.cfg)
-+cp /media/$1/EFI/BOOT/* $EFIDIR
-+
-+# Update grub config for the installed image
-+# Delete the install entry
-+sed -i "/menuentry 'install'/,/^}/d" $GRUBCFG
-+# Delete the initrd lines
-+sed -i "/initrd /d" $GRUBCFG
-+# Delete any LABEL= strings
-+sed -i "s/ LABEL=[^ ]*/ /" $GRUBCFG
-+# Replace the ramdisk root with the install device and include other options
-+sed -i "s@ root=[^ ]*@ root=$rootfs rw $rootwait quiet@" $GRUBCFG
-+
-+umount /ssd
-+sync
-+
-+echo "Remove your installation media, and press ENTER"
-+
-+read enter
-+
-+echo "Rebooting..."
-+reboot -f
-diff --git a/meta/recipes-core/initrdscripts/files/init-live.sh b/meta/recipes-core/initrdscripts/files/init-live.sh
-index 737dae4..d02ed19 100644
---- a/meta/recipes-core/initrdscripts/files/init-live.sh
-+++ b/meta/recipes-core/initrdscripts/files/init-live.sh
-@@ -110,11 +110,11 @@ case $label in
- 	    fi
- 	fi
- 	;;
--    install)
-+    install|install-efi)
- 	if [ -f /media/$i/$ISOLINUX/$ROOT_IMAGE ] ; then
--	    ./install.sh $i/$ISOLINUX $ROOT_IMAGE $video_mode $vga_mode
-+	    ./$label.sh $i/$ISOLINUX $ROOT_IMAGE $video_mode $vga_mode
- 	else
--	    fatal "Could not find install script"
-+	    fatal "Could not find $label script"
- 	fi
++-if test "x$cross_compiling" = xyes; then
++-  AC_MSG_WARN([cannot generate manual pages while cross compiling])
++-else
++-  AC_PATH_PROG(HELP2MAN, help2man)
++-fi
+++# Force behaving as though we are cross-compiling with respect to HELP2MAN
+++#if test "x$cross_compiling" = xyes; then
+++AC_MSG_WARN([cannot generate manual pages while cross compiling])
+++#else
+++#  AC_PATH_PROG(HELP2MAN, help2man)
+++#fi
++ 
++ # Check for functions and headers.
++ AC_CHECK_FUNCS(posix_memalign memalign asprintf vasprintf getextmntent)
++Index: grub-1.99/configure
++===================================================================
++--- grub-1.99.orig/configure
+++++ grub-1.99/configure
++@@ -1172,7 +1172,6 @@ GL_COND_LIBTOOL_FALSE
++ GL_COND_LIBTOOL_TRUE
++ BUILD_CC
++ LIBUTIL
++-HELP2MAN
++ POSUB
++ LTLIBINTL
++ LIBINTL
++@@ -1204,6 +1203,7 @@ LEXLIB
++ am__fastdepCC_FALSE
++ am__fastdepCC_TRUE
++ CCDEPMODE
+++am__nodep
++ AMDEPBACKSLASH
++ AMDEP_FALSE
++ AMDEP_TRUE
++@@ -3011,7 +3011,6 @@ _ACEOF
++ # Let the site file select an alternate cache file if it wants to.
++ # Prefer an explicitly selected file to automatically selected ones.
++ ac_site_file1=NONE
++-ac_site_file2=NONE
++ if test -n "$CONFIG_SITE"; then
++   # We do not want a PATH search for config.site.
++   case $CONFIG_SITE in #((
++@@ -3019,14 +3018,8 @@ if test -n "$CONFIG_SITE"; then
++     */*) ac_site_file1=$CONFIG_SITE;;
++     *)   ac_site_file1=./$CONFIG_SITE;;
++   esac
++-elif test "x$prefix" != xNONE; then
++-  ac_site_file1=$prefix/share/config.site
++-  ac_site_file2=$prefix/etc/config.site
++-else
++-  ac_site_file1=$ac_default_prefix/share/config.site
++-  ac_site_file2=$ac_default_prefix/etc/config.site
++ fi
++-for ac_site_file in "$ac_site_file1" "$ac_site_file2"
+++for ac_site_file in $ac_site_file1
++ do
++   test "x$ac_site_file" = xNONE && continue
++   if test /dev/null != "$ac_site_file" && test -r "$ac_site_file"; then
++@@ -3313,8 +3306,9 @@ case $target_os in *\ *) target_os=`echo
++ # The aliases save the names the user supplied, while $host etc.
++ # will get canonicalized.
++ test -n "$target_alias" &&
++-  test "$program_prefix$program_suffix$program_transform_name" = \
++-    NONENONEs,x,x, &&
+++  test "$target_alias" != "$host_alias" &&
+++    test "$program_prefix$program_suffix$program_transform_name" = \
+++      NONENONEs,x,x, &&
++   program_prefix=${target_alias}-
++ 
++ am__api_version='1.11'
++@@ -3786,11 +3780,11 @@ MAKEINFO=${MAKEINFO-"${am_missing_run}ma
++ 
++ # We need awk for the "check" target.  The system "awk" is bad on
++ # some platforms.
++-# Always define AMTAR for backward compatibility.
++-
++-AMTAR=${AMTAR-"${am_missing_run}tar"}
+++# Always define AMTAR for backward compatibility.  Yes, it's still used
+++# in the wild :-(  We should find a proper way to deprecate it ...
+++AMTAR='$${TAR-tar}'
++ 
++-am__tar='${AMTAR} chof - "$$tardir"'; am__untar='${AMTAR} xf -'
+++am__tar='$${TAR-tar} chof - "$$tardir"' am__untar='$${TAR-tar} xf -'
++ 
++ 
++ 
++@@ -4256,6 +4250,7 @@ fi
++ if test "x$enable_dependency_tracking" != xno; then
++   am_depcomp="$ac_aux_dir/depcomp"
++   AMDEPBACKSLASH='\'
+++  am__nodep='_no'
++ fi
++  if test "x$enable_dependency_tracking" != xno; then
++   AMDEP_TRUE=
++@@ -5069,6 +5064,7 @@ else
++   # instance it was reported that on HP-UX the gcc test will end up
++   # making a dummy file named `D' -- because `-MD' means `put the output
++   # in D'.
+++  rm -rf conftest.dir
++   mkdir conftest.dir
++   # Copy depcomp to subdir because otherwise we won't find it if we're
++   # using a relative directory.
++@@ -5128,7 +5124,7 @@ else
++ 	break
++       fi
++       ;;
++-    msvisualcpp | msvcmsys)
+++    msvc7 | msvc7msys | msvisualcpp | msvcmsys)
++       # This compiler won't grok `-c -o', but also, the minuso test has
++       # not run yet.  These depmodes are late enough in the game, and
++       # so weak that their functioning should not be impacted.
++@@ -6044,6 +6040,7 @@ else
++   # instance it was reported that on HP-UX the gcc test will end up
++   # making a dummy file named `D' -- because `-MD' means `put the output
++   # in D'.
+++  rm -rf conftest.dir
++   mkdir conftest.dir
++   # Copy depcomp to subdir because otherwise we won't find it if we're
++   # using a relative directory.
++@@ -6103,7 +6100,7 @@ else
++ 	break
++       fi
++       ;;
++-    msvisualcpp | msvcmsys)
+++    msvc7 | msvc7msys | msvisualcpp | msvcmsys)
++       # This compiler won't grok `-c -o', but also, the minuso test has
++       # not run yet.  These depmodes are late enough in the game, and
++       # so weak that their functioning should not be impacted.
++@@ -6848,6 +6845,7 @@ else
++   # instance it was reported that on HP-UX the gcc test will end up
++   # making a dummy file named `D' -- because `-MD' means `put the output
++   # in D'.
+++  rm -rf conftest.dir
++   mkdir conftest.dir
++   # Copy depcomp to subdir because otherwise we won't find it if we're
++   # using a relative directory.
++@@ -6905,7 +6903,7 @@ else
++ 	break
++       fi
++       ;;
++-    msvisualcpp | msvcmsys)
+++    msvc7 | msvc7msys | msvisualcpp | msvcmsys)
++       # This compiler won't grok `-c -o', but also, the minuso test has
++       # not run yet.  These depmodes are late enough in the game, and
++       # so weak that their functioning should not be impacted.
++@@ -9529,51 +9527,13 @@ if test x$grub_cv_apple_cc = xyes ; then
++   HOST_CFLAGS="$HOST_CFLAGS -fnested-functions"
++ fi
++ 
++-if test "x$cross_compiling" = xyes; then
++-  { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: cannot generate manual pages while cross compiling" >&5
+++# Force behaving as though we are cross-compiling with respect to HELP2MAN
+++#if test "x$cross_compiling" = xyes; then
+++{ $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: cannot generate manual pages while cross compiling" >&5
++ $as_echo "$as_me: WARNING: cannot generate manual pages while cross compiling" >&2;}
++-else
++-  # Extract the first word of "help2man", so it can be a program name with args.
++-set dummy help2man; ac_word=$2
++-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
++-$as_echo_n "checking for $ac_word... " >&6; }
++-if ${ac_cv_path_HELP2MAN+:} false; then :
++-  $as_echo_n "(cached) " >&6
++-else
++-  case $HELP2MAN in
++-  [\\/]* | ?:[\\/]*)
++-  ac_cv_path_HELP2MAN="$HELP2MAN" # Let the user override the test with a path.
++-  ;;
++-  *)
++-  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
++-for as_dir in $PATH
++-do
++-  IFS=$as_save_IFS
++-  test -z "$as_dir" && as_dir=.
++-    for ac_exec_ext in '' $ac_executable_extensions; do
++-  if { test -f "$as_dir/$ac_word$ac_exec_ext" && $as_test_x "$as_dir/$ac_word$ac_exec_ext"; }; then
++-    ac_cv_path_HELP2MAN="$as_dir/$ac_word$ac_exec_ext"
++-    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
++-    break 2
++-  fi
++-done
++-  done
++-IFS=$as_save_IFS
++-
++-  ;;
++-esac
++-fi
++-HELP2MAN=$ac_cv_path_HELP2MAN
++-if test -n "$HELP2MAN"; then
++-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $HELP2MAN" >&5
++-$as_echo "$HELP2MAN" >&6; }
++-else
++-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
++-$as_echo "no" >&6; }
++-fi
++-
++-
++-fi
+++#else
+++#  AC_PATH_PROG(HELP2MAN, help2man)
+++#fi
++ 
++ # Check for functions and headers.
++ for ac_func in posix_memalign memalign asprintf vasprintf getextmntent
++@@ -20309,6 +20269,7 @@ $as_echo_n "checking whether \`$CC' gene
++ cat confdefs.h - <<_ACEOF >conftest.$ac_ext
++ /* end confdefs.h.  */
++ 
+++void g (int);
++ void f (int (*p) (void));
++ void g (int i)
++ {
+diff --git a/meta/recipes-bsp/grub/grub-efi-native_1.99.bb b/meta/recipes-bsp/grub/grub-efi-native_1.99.bb
+index 20dcdb9..86a6d44 100644
+--- a/meta/recipes-bsp/grub/grub-efi-native_1.99.bb
++++ b/meta/recipes-bsp/grub/grub-efi-native_1.99.bb
+@@ -16,20 +16,21 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+ # FIXME: We should be able to optionally drop freetype as a dependency
+ DEPENDS = "help2man-native autogen-native"
+ RDEPENDS_${PN} = "diffutils freetype"
+-PR = "r9"
++PR = "r10"
  
- 	# If we're getting here, we failed...
+ # Native packages do not normally rebuild when the target changes.
+ # Ensure this is built once per HOST-TARGET pair.
+ PN := "grub-efi-${TRANSLATED_TARGET_ARCH}-native"
+ 
+ SRC_URI = "ftp://ftp.gnu.org/gnu/grub/grub-${PV}.tar.gz \
+-	file://grub-1.99_fix_for_automake_1.11.2.patch \
+-	file://grub-1.99-fpmath-sse-387-fix.patch \
+-	file://grub-1.99-gcc-4.7.0.patch \
+-	file://grub-1.99-gcc-4.7.0-uninitialized-var-errors.patch \
+-	file://grub-1.99-gcc-4.7.0-strict-aliasing-errors.patch \
+-        file://grub-1.99-fix-enable_execute_stack-check.patch \
+-	"
++           file://grub-1.99_fix_for_automake_1.11.2.patch \
++           file://grub-1.99-fpmath-sse-387-fix.patch \
++           file://grub-1.99-gcc-4.7.0.patch \
++           file://grub-1.99-gcc-4.7.0-uninitialized-var-errors.patch \
++           file://grub-1.99-gcc-4.7.0-strict-aliasing-errors.patch \
++           file://grub-1.99-fix-enable_execute_stack-check.patch \
++           file://grub-1.99-disable-help2man.patch \
++          "
+ 
+ SRC_URI[md5sum] = "ca9f2a2d571b57fc5c53212d1d22e2b5"
+ SRC_URI[sha256sum] = "b91f420f2c51f6155e088e34ff99bea09cc1fb89585cf7c0179644e57abd28ff"
 -- 
 1.7.5.4
 
