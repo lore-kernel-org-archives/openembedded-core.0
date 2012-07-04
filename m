@@ -1,36 +1,33 @@
-Received: from mail-wi0-f177.google.com ([209.85.212.177])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>)
-	id 1SmPKb-0001mn-0X; Wed, 04 Jul 2012 15:09:21 +0200
-Received: by wibhm11 with SMTP id hm11so4743209wib.6
-	for <multiple recipients>; Wed, 04 Jul 2012 05:58:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=o9qz0Pfu3RKe64Ig+KbfSIPPBzgESq2sazz5hELG308=;
-	b=pleQ2WGX4Iz0Rj62gUnk8ELHUKfpMd7SXjhSIqRYPcupwB9fwU/5f8qck7H3MOsNi2
-	vfJcwKSw2Ono5DjDF7qPYNwBO7Du9awZqFjHqAhV2Mftbn8XprAbELdEgbugCFdGRX27
-	CoAgI9AqiWN+RRNQvzuqRKpdYBXdM/N273yTx4KTUgju2PcOo6f8jQ34amou1hHMPTXf
-	EnsVxrF3QdbgYYMvIdE1LbfJ99cHYE/XAeDKK0kiWHKs25D4DBxC72nLCBUGKOxKzJBN
-	cr6v9mlFc9Lt1tL88pwS79BFRuF/Cb2pkScRxm0UJg22sYBuzy/6kHDhPMZFoX2k9qUR
-	VXSQ==
-Received: by 10.180.14.34 with SMTP id m2mr33558975wic.22.1341406697904;
-	Wed, 04 Jul 2012 05:58:17 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id d10sm66343440wiy.3.2012.07.04.05.58.16
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 04 Jul 2012 05:58:16 -0700 (PDT)
-Date: Wed, 4 Jul 2012 14:58:10 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1SmPKg-0001mo-BL for openembedded-core@lists.openembedded.org;
+	Wed, 04 Jul 2012 15:09:26 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q64CwIKj023518
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 4 Jul 2012 13:58:18 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 20900-10 for <openembedded-core@lists.openembedded.org>;
+	Wed,  4 Jul 2012 13:58:14 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q64CwAeV023511
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 4 Jul 2012 13:58:12 +0100
+Message-ID: <1341406689.3906.15.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Message-ID: <20120704125810.GA15100@jama.jama.net>
-References: <CAMKF1spU53TcfLHif3CUzrHKqJTT1uBqBqsZAn-zfaBOBecMtw@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAMKF1spU53TcfLHif3CUzrHKqJTT1uBqBqsZAn-zfaBOBecMtw@mail.gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembeded-devel <Openembedded-devel@lists.openembedded.org>
-Subject: Re: eglibc 2.16
+Date: Wed, 04 Jul 2012 13:58:09 +0100
+In-Reply-To: <CAJ2CSBv9amOtH=LdU+37ZoNo0LB0B6uJ-=osARD0d_Chuppu9Q@mail.gmail.com>
+References: <CAJ2CSBv9amOtH=LdU+37ZoNo0LB0B6uJ-=osARD0d_Chuppu9Q@mail.gmail.com>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: Files not getting into the debug packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,56 +42,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Jul 2012 13:09:21 -0000
-X-Groupsio-MsgNum: 24654
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="opJtzjQTFsWo+cga"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 04 Jul 2012 13:09:26 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---opJtzjQTFsWo+cga
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Wed, 2012-07-04 at 15:19 +0300, Damian, Alexandru wrote:
+> Hi guys,
+> 
+> I'm trying to run a udev package upgrade (See attached patch).
+> 
+> I get this error, 
+> 
+> ERROR: QA Issue: non debug package contains .debug directory: udev
+> path /work/i586-poky-linux/udev-182-r0/packages-split/udev/lib/udev/udev/.debug/v4l_id
+> ERROR: QA Issue: non debug package contains .debug directory: udev
+> path /work/i586-poky-linux/udev-182-r0/packages-split/udev/lib/udev/udev/.debug/cdrom_id
+> ERROR: QA Issue: non debug package contains .debug directory: udev
+> path /work/i586-poky-linux/udev-182-r0/packages-split/udev/lib/udev/udev/.debug/mtd_probe
+> ERROR: QA Issue: non debug package contains .debug directory: udev
+> path /work/i586-poky-linux/udev-182-r0/packages-split/udev/lib/udev/udev/.debug/accelerometer
+> ERROR: QA Issue: non debug package contains .debug directory: udev
+> path /work/i586-poky-linux/udev-182-r0/packages-split/udev/lib/udev/udev/.debug/scsi_id
+> ERROR: QA Issue: non debug package contains .debug directory: udev
+> path /work/i586-poky-linux/udev-182-r0/packages-split/udev/lib/udev/udev/.debug/udevd
+> ERROR: QA Issue: non debug package contains .debug directory: udev
+> path /work/i586-poky-linux/udev-182-r0/packages-split/udev/lib/udev/udev/.debug/keymap
+> ERROR: QA Issue: non debug package contains .debug directory: udev
+> path /work/i586-poky-linux/udev-182-r0/packages-split/udev/lib/udev/udev/.debug/collect
+> ERROR: QA Issue: non debug package contains .debug directory: udev
+> path /work/i586-poky-linux/udev-182-r0/packages-split/udev/lib/udev/udev/.debug/ata_id
+> ERROR: QA run found fatal errors. Please consider fixing them.
+> 
+> 
+> although I added the files to the debug package (I think)
+> 
+>  FILES_${PN}-dbg += "${libexecdir}/.debug"
+> +FILES_${PN}-dbg += "${libexecdir}/udev/udev/.debug/"
+> +FILES_${PN}-dbg += "${libexecdir}/udev/udev/.debug/*"
+>  FILES_${PN}-dev = "${datadir}/pkgconfig/udev.pc"
+> 
+> Can somebody please point out what I'm doing wrong ?
 
-On Wed, Jul 04, 2012 at 12:14:29AM -0700, Khem Raj wrote:
-> Hi All,
->=20
-> I have pushed a contrib branch with eglibc 2.16 here
->=20
-> http://git.openembedded.org/openembedded-core-contrib kraj/eglibc-2.16
->=20
-> and I would like some hands in testing it out. I have so far tested
-> core-image-minimal and core-image-sato on all architectures
-> they build and boot fine. There are changes in eglibc which may need
-> tweaking some apps especially if its using gnulib. So give it shot and
-> let me know if you find issues
->=20
-> All you need is pull this branch into your sandbox and then set
->=20
-> EGLIBCVERSION =3D "2.16" in your local.conf if using angstrom then add
-> ANGSTROM_EGLIBC_VERSION =3D "2.16" to local.conf
+The path in question is:
 
-Buildtest still runnig (NOTE: Running task 1525 of 17969) sofar only
-bison failed (missing gets).
+/lib/udev/udev/
 
-And I belive that grub would need something like this too:
-https://bugs.gentoo.org/show_bug.cgi?id=3D424703
+and libexecdir is /usr/libexec/ so 
+
+${libexecdir}/udev/udev/.debug/
+
+expands to the wrong thing. You probably want ${base_libdir}/udev/udev/.
+The double udev there does look a little odd...
 
 Cheers,
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+Richard
 
---opJtzjQTFsWo+cga
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
 
-iEYEARECAAYFAk/0PeIACgkQN1Ujt2V2gBwAUQCcC/rcyxyw8MVm09jlwUy1eCgK
-AYMAoKVujCTYjMalo7e+0/1lTIO67CKY
-=evRu
------END PGP SIGNATURE-----
 
---opJtzjQTFsWo+cga--
+
