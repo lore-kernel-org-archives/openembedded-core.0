@@ -1,46 +1,46 @@
-Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
+Received: from co1ehsobe001.messaging.microsoft.com ([216.32.180.184]
+	helo=co1outboundpool.messaging.microsoft.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1Sms3Y-00049F-NY
+	(envelope-from <B29882@freescale.com>) id 1SmsDV-0004Hi-R6
 	for openembedded-core@lists.openembedded.org;
-	Thu, 05 Jul 2012 21:49:40 +0200
-Received: from mail-gh0-f180.google.com ([209.85.160.180])
-	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 05 Jul 2012 12:38:34 -0700
-Received: by ghbz12 with SMTP id z12so7392449ghb.25
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Jul 2012 12:38:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:cc:subject
-	:references:in-reply-to:content-type:content-transfer-encoding
-	:x-gm-message-state;
-	bh=VbLNRU0dNU3P7padMWrYi2Dxrr7MLaf8nGzW9Q0A8bc=;
-	b=dWhCJGlyr/rI9L7NT+GbAj1ItgEjMY5Xjv6MYLOCeFPI5R+s4PDyav7Bg6zQLEg2w/
-	0bGJBLiQriTRcZrnCQVfOe3yPfqQ2HIucPMCufQDH2/SXOCnYdG2aIZJ151ylhvAIvjn
-	CL9iNrsMMdlIJIjXDlCYwj2fXYGoX2HE+nNKHKFHM/0t2poJwdcim3vfICw8knm0ezdY
-	ZkJN3+46y13cb8GjhAMD4c/5zcS1oMm5h/ohCC9GfSx/y0jwAAyaddaSPjfnrEyBrBlR
-	RgWad4KMr7sjXX0txG7bdUmsfe9zzZBlTMu3vNbXtVCQnmDjg8kCcSlEdeJEFBpffZ+h
-	uiQA==
-Received: by 10.68.227.198 with SMTP id sc6mr30455551pbc.138.1341517113004;
-	Thu, 05 Jul 2012 12:38:33 -0700 (PDT)
-Received: from [127.0.0.1] (masterfoo.zenlinux.com. [207.192.74.254])
-	by mx.google.com with ESMTPS id pe2sm20286754pbc.59.2012.07.05.12.38.30
-	(version=SSLv3 cipher=OTHER); Thu, 05 Jul 2012 12:38:31 -0700 (PDT)
-Message-ID: <4FF5ED30.7070506@intel.com>
-Date: Thu, 05 Jul 2012 12:38:24 -0700
-From: Scott Garman <scott.a.garman@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:13.0) Gecko/20120615 Thunderbird/13.0.1
+	Thu, 05 Jul 2012 21:59:58 +0200
+Received: from mail4-co1-R.bigfish.com (10.243.78.254) by
+	CO1EHSOBE012.bigfish.com (10.243.66.75) with Microsoft SMTP Server id
+	14.1.225.23; Thu, 5 Jul 2012 19:16:35 +0000
+Received: from mail4-co1 (localhost [127.0.0.1])	by mail4-co1-R.bigfish.com
+	(Postfix) with ESMTP id 18B41C0025B	for
+	<openembedded-core@lists.openembedded.org>;
+	Thu,  5 Jul 2012 19:16:35 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-SpamScore: 3
+X-BigFish: VS3(zzzz1202h1082kzz8275bh8275dhz2dh2a8h668h839hd24he5bhf0ah107ah)
+Received: from mail4-co1 (localhost.localdomain [127.0.0.1]) by mail4-co1
+	(MessageSwitch) id 1341515792262203_13137;
+	Thu,  5 Jul 2012 19:16:32 +0000 (UTC)
+Received: from CO1EHSMHS006.bigfish.com (unknown [10.243.78.250])	by
+	mail4-co1.bigfish.com (Postfix) with ESMTP id C8336AC0052	for
+	<openembedded-core@lists.openembedded.org>;
+	Thu,  5 Jul 2012 19:16:31 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by CO1EHSMHS006.bigfish.com
+	(10.243.66.16) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Thu, 5 Jul 2012 19:16:31 +0000
+Received: from tx30smr01.am.freescale.net (10.81.153.31) by
+	039-SN1MMR1-003.039d.mgd.msft.net (10.84.1.16) with Microsoft SMTP
+	Server (TLS) id 14.2.298.5; Thu, 5 Jul 2012 14:18:35 -0500
+Received: from right.am.freescale.net (right.am.freescale.net [10.82.176.228])
+	by tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id
+	q65JIZ2V029521
+	for <openembedded-core@lists.openembedded.org>; Thu, 5 Jul 2012 12:18:36
+	-0700
+From: Matthew McClintock <msm@freescale.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 5 Jul 2012 14:18:35 -0500
+Message-ID: <1341515915-28529-1-git-send-email-msm@freescale.com>
+X-Mailer: git-send-email 1.7.10
 MIME-Version: 1.0
-To: McClintock Matthew-B29882 <B29882@freescale.com>
-References: <1340682796-11569-1-git-send-email-b19537@freescale.com>
-	<4FEC908A.3000205@linux.intel.com>
-	<CAEsOVNerdO8m=0LHYUy8sn+6W=aOiEQS18vOQy8DYqWQeDxA+Q@mail.gmail.com>
-In-Reply-To: <CAEsOVNerdO8m=0LHYUy8sn+6W=aOiEQS18vOQy8DYqWQeDxA+Q@mail.gmail.com>
-X-Gm-Message-State: ALoCoQkeKrRVe7fKYCnuH6gbAdvhpykAihIZqiu7PNA4/qnzpbqpzq51zaHsHoqjmRWOq6uWP7gc
-Cc: Luo Zhenhua-B19537 <B19537@freescale.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: linux-dtb: add multi-dtb build support
+X-OriginatorOrg: freescale.com
+Subject: [PATCH v2] libxml-parser-perl_2.41.bb: fix MakeMaker issues with using wrong CC/LD/etc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -55,24 +55,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Jul 2012 19:49:40 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 05 Jul 2012 19:59:58 -0000
+Content-Type: text/plain
 
-On 07/05/2012 11:29 AM, McClintock Matthew-B29882 wrote:
-> Can we add this to denzil branch? (post 1.2.1 is fine) - I realize
-> this is somewhat a new feature though but it would be helpful to have
-> it in denzil.
+MakeMaker has a bug where it does not propagate CC/LD/etc information
+down to subproject it generates Makefiles for... this recipe has has an
+Expat subproject which has issues building if we are using sstate-cache
+and it will reference the old sysroots and be unable to build properly.
+There is an upstream MakeMaker bug for this issue but we can work around
+it by fixing up the Makefiles for now
 
-I've made a note of this, and the commit appears to apply cleanly. So I 
-should be able to take it for 1.2.2.
+See:
+https://rt.cpan.org/Public/Bug/Display.html?id=28632
 
-Scott
+Signed-off-by: Matthew McClintock <msm@freescale.com>
+---
+v2: -add '-i' to second sed argument that was missed
+    -change sed delimeter to : instead of / to avoid escaping
+     the bash variables
 
+ meta/recipes-devtools/perl/libxml-parser-perl_2.41.bb |   11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
+
+diff --git a/meta/recipes-devtools/perl/libxml-parser-perl_2.41.bb b/meta/recipes-devtools/perl/libxml-parser-perl_2.41.bb
+index be41578..33b4d83 100644
+--- a/meta/recipes-devtools/perl/libxml-parser-perl_2.41.bb
++++ b/meta/recipes-devtools/perl/libxml-parser-perl_2.41.bb
+@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://README;beginline=2;endline=6;md5=c8767d7516229f07b26e
+ 
+ DEPENDS += "expat expat-native"
+ 
+-PR = "r2"
++PR = "r3"
+ 
+ SRC_URI = "http://www.cpan.org/modules/by-module/XML/XML-Parser-${PV}.tar.gz"
+ SRC_URI[md5sum] = "c320d2ffa459e6cdc6f9f59c1185855e"
+@@ -13,10 +13,17 @@ SRC_URI[sha256sum] = "b48197cd2265a26c5f016489f11a7b450d8833cb8b3d6a46ee15975740
+ 
+ S = "${WORKDIR}/XML-Parser-${PV}"
+ 
+-EXTRA_CPANFLAGS = "EXPATLIBPATH=${STAGING_LIBDIR} EXPATINCPATH=${STAGING_INCDIR}"
++EXTRA_CPANFLAGS = "EXPATLIBPATH=${STAGING_LIBDIR} EXPATINCPATH=${STAGING_INCDIR} CC=${CC} LD=${LD} FULL_AR=${AR}"
+ 
+ inherit cpan
+ 
++# fix up sub MakeMaker project as arguments don't get propagated though
++# see https://rt.cpan.org/Public/Bug/Display.html?id=28632
++do_configure_append() {
++	sed 's:--sysroot=.*\(\s\|$\):--sysroot=${STAGING_DIR_TARGET} :g' -i Makefile Expat/Makefile
++	sed 's:^FULL_AR = .*:FULL_AR = ${AR}:g' -i Expat/Makefile
++}
++
+ do_compile() {
+ 	export LIBC="$(find ${STAGING_DIR_TARGET}/${base_libdir}/ -name 'libc-*.so')"
+ 	cpan_do_compile
 -- 
-Scott Garman
-Embedded Linux Engineer - Yocto Project
-Intel Open Source Technology Center
+1.7.10
 
 
 
