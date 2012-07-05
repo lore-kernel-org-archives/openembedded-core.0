@@ -1,26 +1,38 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from astoria.ccjclearline.com ([64.235.106.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Liezhi.Yang@windriver.com>) id 1Smi3E-0005bq-UN
+	(envelope-from <rpjday@crashcourse.ca>) id 1SmjG1-0006tV-Sf
 	for openembedded-core@lists.openembedded.org;
-	Thu, 05 Jul 2012 11:08:41 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q658vZgR025162
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 5 Jul 2012 01:57:35 -0700 (PDT)
-Received: from usp-ub10.corp.ad.wrs.com (128.224.163.69) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.1.255.0; Thu, 5 Jul 2012 01:57:35 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 5 Jul 2012 16:57:33 +0800
-Message-ID: <f60e1ac7831879919453664410fb6ad7b2cefdc7.1341462183.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.1
-In-Reply-To: <cover.1341462182.git.liezhi.yang@windriver.com>
-References: <cover.1341462182.git.liezhi.yang@windriver.com>
+	Thu, 05 Jul 2012 12:25:59 +0200
+Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
+	([99.241.91.63]:54601 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.77) (envelope-from <rpjday@crashcourse.ca>)
+	id 1Smj5K-0001AI-Md for openembedded-core@lists.openembedded.org;
+	Thu, 05 Jul 2012 06:14:54 -0400
+Date: Thu, 5 Jul 2012 06:14:46 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@oneiric
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <4FF5289C.80107@gmail.com>
+Message-ID: <alpine.DEB.2.02.1207050607040.3303@oneiric>
+References: <alpine.DEB.2.02.1207032219210.21877@oneiric>
+	<CAMKF1sqWn-S=Hc_eMw-JU3ZP6ox-vfNSidiQbF_oLPhg9tO71g@mail.gmail.com>
+	<4FF4151A.7050400@opendreambox.org>
+	<alpine.DEB.2.02.1207040615500.23821@oneiric>
+	<1341401390.3906.12.camel@ted> <4FF5289C.80107@gmail.com>
+User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
 MIME-Version: 1.0
-Cc: Zhenfeng.Zhao@windriver.com
-Subject: [PATCH 1/1] sanity.bbclass: the tmpdir can't be longer than 410
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Subject: Re: why would a recipe have both do_install() and do_install_append()?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,69 +47,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Jul 2012 09:08:41 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 05 Jul 2012 10:25:59 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
-There will be errors when the length of the tmpdir is longer than 410:
+On Wed, 4 Jul 2012, Khem Raj wrote:
 
-1) Longer than 420:
-Can't exec "/bin/sh": Argument list too long at /usr/lib/perl/5.10/IO/File.pm line 66.
+> -----BEGIN PGP SIGNED MESSAGE-----
+> Hash: SHA1
+>
+> On 7/4/2012 4:29 AM, Richard Purdie wrote:
+> >>>>> AFAICT, you can't override an append. Both appends, the
+> >>>>> original and the bbappended, would get executed.
+> >>>
+> >>> ok, now i *definitely* want to know whether this would work or
+> >>> not since there are a few recipes that define both do_install()
+> >>> and do_install_append().
+> > Andreas is correct, you can't override a do_install_append (),
+> > both would just get appended.
+>
+> yes thats true. I was thinking about having appends which are
+> recipe-class specific but that case wont apply to a normal _append
+> like above
 
-This error happens on both Ubuntu 10.04 and 10.10 when the pkg needs run
-"autoreconf", this is because it passes many files with absolute path to
-aclocal, aclocal passes them to perl, this is a limitation of the perl
-on Ubuntu 10.04 and 10.10, and the perl-native is not ready at this very
-early stage.
+  so, in the end. there's really no compelling rationale for a recipe
+defining both a do_install() and do_install_append() back to back, is
+that correct?  because there are a small number of OE recipes that do
+just that:
 
-2) Longer than 490:
-bitbake/lib/bb/persist_data.py", line 197, in connect(database=...)
-    >    return sqlite3.connect(database, timeout=5, isolation_level=None)
-OperationalError: unable to open database file
+$ grep -wl do_install $(grep -rlw do_install_append *)
+meta/recipes-support/libcap/libcap.inc
+meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.1.bb
+meta/recipes-core/tinylogin/tinylogin_1.4.bb
+meta/recipes-core/eglibc/eglibc-package.inc
+meta/recipes-kernel/linux/linux-yocto.inc
+meta/recipes-extended/lsb/lsb_1.4.bb
+meta/recipes-extended/man/man_1.6f.bb
+meta/recipes-extended/logrotate/logrotate_3.8.1.bb
+$
 
-This error happens on Ubuntu 10.04, 10.10 and Fedora 17. This is because
-the length of the database in sqlite3 module (host's) can't be longer
-than 490 (or little smaller). The python-native is not ready at this
-very early stage.
+  obviously, it doesn't hurt, it just seems unnecessary.
 
-The 2 errors are host related, I think that limit the length of the
-TMPDIR to 410 is OK for most of the build, rarely build sets TMPDIR's
-longer than 410.
+rday
 
-[YOCTO #2434]
-
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/classes/sanity.bbclass |    8 ++++++++
- 1 files changed, 8 insertions(+), 0 deletions(-)
-
-diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-index 6ed1e6f..765958e 100644
---- a/meta/classes/sanity.bbclass
-+++ b/meta/classes/sanity.bbclass
-@@ -171,6 +171,11 @@ def check_create_long_filename(filepath, pathname):
-         return "Failed to create %s directory in which to run long name sanity check: %s.\n" % (pathname, strerror)
-     return ""
- 
-+def check_path_length(filepath, pathname, limit):
-+    if len(filepath) > limit:
-+	return "The length of %s is longer than 410, this would cause unexpected errors, please use a shorter path.\n" % pathname
-+    return ""
-+
- def check_connectivity(d):
-     # URI's to check can be set in the CONNECTIVITY_CHECK_URIS variable
-     # using the same syntax as for SRC_URI. If the variable is not set
-@@ -453,6 +458,9 @@ def check_sanity(sanity_data):
-     tmpdir = sanity_data.getVar('TMPDIR', True)
-     sstate_dir = sanity_data.getVar('SSTATE_DIR', True)
- 
-+    # The length of tmpdir can't be longer than 410
-+    messages = messages + check_path_length(tmpdir, "TMPDIR", 410)
-+
-     # Check saved sanity info
-     last_sanity_version = 0
-     last_tmpdir = ""
 -- 
-1.7.1
 
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
