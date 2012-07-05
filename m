@@ -1,46 +1,45 @@
-Received: from tx2ehsobe005.messaging.microsoft.com ([65.55.88.15]
-	helo=tx2outboundpool.messaging.microsoft.com)
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1SmsHy-0004l6-6T
+	(envelope-from <scott.a.garman@intel.com>) id 1SmsNo-0004r0-TE
 	for openembedded-core@lists.openembedded.org;
-	Thu, 05 Jul 2012 22:04:34 +0200
-Received: from mail124-tx2-R.bigfish.com (10.9.14.246) by
-	TX2EHSOBE012.bigfish.com (10.9.40.32) with Microsoft SMTP Server id
-	14.1.225.23; Thu, 5 Jul 2012 19:21:11 +0000
-Received: from mail124-tx2 (localhost [127.0.0.1])	by
-	mail124-tx2-R.bigfish.com (Postfix) with ESMTP id EF49D40112	for
-	<openembedded-core@lists.openembedded.org>;
-	Thu,  5 Jul 2012 19:21:10 +0000 (UTC)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-X-SpamScore: 3
-X-BigFish: VS3(zzzz1202h1082kzz8275bh8275dhz2dh2a8h668h839hd24he5bhf0ah107ah)
-Received: from mail124-tx2 (localhost.localdomain [127.0.0.1]) by mail124-tx2
-	(MessageSwitch) id 13415160691346_6719;
-	Thu,  5 Jul 2012 19:21:09 +0000 (UTC)
-Received: from TX2EHSMHS031.bigfish.com (unknown [10.9.14.240])	by
-	mail124-tx2.bigfish.com (Postfix) with ESMTP id EFD953C0044	for
-	<openembedded-core@lists.openembedded.org>;
-	Thu,  5 Jul 2012 19:21:08 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by TX2EHSMHS031.bigfish.com
-	(10.9.99.131) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Thu, 5 Jul 2012 19:21:07 +0000
-Received: from tx30smr01.am.freescale.net (10.81.153.31) by
-	039-SN1MMR1-003.039d.mgd.msft.net (10.84.1.16) with Microsoft SMTP
-	Server (TLS) id 14.2.298.5; Thu, 5 Jul 2012 14:23:11 -0500
-Received: from right.am.freescale.net (right.am.freescale.net [10.82.176.228])
-	by tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id
-	q65JNBfa031629
-	for <openembedded-core@lists.openembedded.org>; Thu, 5 Jul 2012 12:23:12
-	-0700
-From: Matthew McClintock <msm@freescale.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 5 Jul 2012 14:23:11 -0500
-Message-ID: <1341516191-31573-1-git-send-email-msm@freescale.com>
-X-Mailer: git-send-email 1.7.10
+	Thu, 05 Jul 2012 22:10:37 +0200
+Received: from mail-gh0-f180.google.com ([209.85.160.180])
+	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 05 Jul 2012 12:59:31 -0700
+Received: by ghbz12 with SMTP id z12so7411882ghb.25
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 05 Jul 2012 12:59:30 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=message-id:date:from:user-agent:mime-version:to:subject:references
+	:in-reply-to:content-type:content-transfer-encoding
+	:x-gm-message-state;
+	bh=LE+D6gqRcxMG3QFlQ/KaoZ+0dHB4uZUBHfeEL+qI9SY=;
+	b=J7lt1Xtb21+QtMt2lpJW4a2YHoeS8Zhn/qSqjh+z4lhDPGRRUzmKjZGdMub610pA2q
+	xKhKDdoD9oGSBwlEBPx5V0X/9U3xfY2rgcYnRzXKxY3Oqg+jftOV/vuw7WyCxBbrFGuI
+	mE84qWH+1NSO6j/nnKB+sOP23M3xhi2YVOaMXBiDilzmuKMDE3MRgKs+3x0D9evcXktb
+	jiaiofw6CzmA3bKXERZzbAgUpTXs0mAwIjd7Ac0QzcDdhjaEvlcqXlrFHOKgvE0Ym9E9
+	fohZjqAe3vKuT6NGgll65tOJ42ImL1AVVTIz8bsuunExrpHf74mkb661HA41DC+MgsJq
+	C6dw==
+Received: by 10.66.75.225 with SMTP id f1mr38107069paw.35.1341518369964;
+	Thu, 05 Jul 2012 12:59:29 -0700 (PDT)
+Received: from [127.0.0.1] (masterfoo.zenlinux.com. [207.192.74.254])
+	by mx.google.com with ESMTPS id
+	op10sm20307501pbc.75.2012.07.05.12.59.27
+	(version=SSLv3 cipher=OTHER); Thu, 05 Jul 2012 12:59:28 -0700 (PDT)
+Message-ID: <4FF5F219.8000103@intel.com>
+Date: Thu, 05 Jul 2012 12:59:21 -0700
+From: Scott Garman <scott.a.garman@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:13.0) Gecko/20120615 Thunderbird/13.0.1
 MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Subject: [PATCH] utils.bbclass: add helper function to add all multilib variants of a specific package
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <1340682796-11569-1-git-send-email-b19537@freescale.com>
+	<4FEC908A.3000205@linux.intel.com>
+	<CAEsOVNerdO8m=0LHYUy8sn+6W=aOiEQS18vOQy8DYqWQeDxA+Q@mail.gmail.com>
+In-Reply-To: <CAEsOVNerdO8m=0LHYUy8sn+6W=aOiEQS18vOQy8DYqWQeDxA+Q@mail.gmail.com>
+X-Gm-Message-State: ALoCoQn5pGoen/GgRHoZiP+LnKbcpL9SQPSGRTxsPAIBesGZbpcHYAa9p0NDtnBdggTsXELDzIvE
+Subject: Re: linux-dtb: add multi-dtb build support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -55,44 +54,121 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Jul 2012 20:04:34 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 05 Jul 2012 20:10:37 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+On 07/05/2012 11:29 AM, McClintock Matthew-B29882 wrote:
+> Can we add this to denzil branch? (post 1.2.1 is fine) - I realize
+> this is somewhat a new feature though but it would be helpful to have
+> it in denzil.
 
-This is useful for the scenario where we want to add 'gcc' to
-the root file system for all multilib variants
+Ok, I've now created a contrib branch to start tracking changes for 
+1.2.2, and have included this commit:
 
-Signed-off-by: Matthew McClintock <msm@freescale.com>
----
-RP was the author of this patch via pastebin only... I thought
-I would properly attribute it to him
+http://git.openembedded.org/openembedded-core-contrib/log/?h=sgarman/denzil-next-1.2.2
 
- meta/classes/utils.bbclass |    9 +++++++++
- 1 file changed, 9 insertions(+)
+The usual caveats apply - I can rebase this branch at any time, etc.
 
-diff --git a/meta/classes/utils.bbclass b/meta/classes/utils.bbclass
-index fde8f44..cc3acfa 100644
---- a/meta/classes/utils.bbclass
-+++ b/meta/classes/utils.bbclass
-@@ -351,6 +351,15 @@ def extend_variants(d, var, extend, delim=':'):
- 			variants.append(eext[1])
- 	return " ".join(variants)
- 
-+def multilib_pkg_extend(d, pkg):
-+	variants = (d.getVar("MULTILIB_VARIANTS", True) or "").split()
-+	if not variants:
-+	    return pkg
-+	pkgs = pkg
-+	for v in variants:
-+	    pkgs = pkgs + " " + v + "-" + pkg
-+	return pkgs
-+
- def all_multilib_tune_values(d, var, unique = True, need_split = True, delim = ' '):
- 	"""Return a string of all ${var} in all multilib tune configuration"""
- 	values = []
+Scott
+
+>
+> -M
+>
+> On Thu, Jun 28, 2012 at 12:12 PM, Saul Wold <sgw@linux.intel.com> wrote:
+>> On 06/25/2012 08:53 PM, b19537@freescale.com wrote:
+>>>
+>>> From: Zhenhua Luo<b19537@freescale.com>
+>>>
+>>>       including following enhancement:
+>>>       * support multi-dtb build
+>>>       * skip dtb build and install when KERNEL_DEVICETREE is empty
+>>>       * print a warning message when specified dts file is not available
+>>>
+>>> Signed-off-by: Zhenhua Luo<b19537@freescale.com>
+>>> ---
+>>>    meta/recipes-kernel/linux/linux-dtb.inc |   36
+>>> +++++++++++++++++++++++++------
+>>>    1 files changed, 29 insertions(+), 7 deletions(-)
+>>>
+>>> diff --git a/meta/recipes-kernel/linux/linux-dtb.inc
+>>> b/meta/recipes-kernel/linux/linux-dtb.inc
+>>> index 9188cee..8aa1458 100644
+>>> --- a/meta/recipes-kernel/linux/linux-dtb.inc
+>>> +++ b/meta/recipes-kernel/linux/linux-dtb.inc
+>>> @@ -15,13 +15,35 @@ python __anonymous () {
+>>>
+>>>    do_install_append() {
+>>>        if test -n "${KERNEL_DEVICETREE}"; then
+>>> -       dtc -I dts -O dtb ${KERNEL_DEVICETREE_FLAGS} -o devicetree
+>>> ${KERNEL_DEVICETREE}
+>>> -       install -m 0644 devicetree ${D}/boot/devicetree-${KERNEL_VERSION}
+>>> -       install -d ${DEPLOYDIR}
+>>> -       install -m 0644 devicetree
+>>> ${DEPLOYDIR}/${KERNEL_IMAGE_BASE_NAME}.dtb
+>>> -       cd ${DEPLOYDIR}
+>>> -       rm -f ${KERNEL_IMAGE_SYMLINK_NAME}.dtb
+>>> -       ln -sf ${KERNEL_IMAGE_BASE_NAME}.dtb
+>>> ${KERNEL_IMAGE_SYMLINK_NAME}.dtb
+>>> +        for DTS_FILE in ${KERNEL_DEVICETREE}; do
+>>> +            if [ ! -f ${DTS_FILE} ]; then
+>>> +                echo "Warning: ${DTS_FILE} is not available!"
+>>> +                continue
+>>> +            fi
+>>> +            DTS_BASE_NAME=`basename ${DTS_FILE} | awk -F "." '{print
+>>> $1}'`
+>>> +            DTB_NAME=`echo ${KERNEL_IMAGE_BASE_NAME} | sed
+>>> "s/${MACHINE}/${DTS_BASE_NAME}/g"`
+>>> +            DTB_SYMLINK_NAME=`echo ${KERNEL_IMAGE_SYMLINK_NAME} | sed
+>>> "s/${MACHINE}/${DTS_BASE_NAME}/g"`
+>>> +            dtc -I dts -O dtb ${KERNEL_DEVICETREE_FLAGS} -o
+>>> ${DTS_BASE_NAME} ${DTS_FILE}
+>>> +            install -m 0644 ${DTS_BASE_NAME}
+>>> ${D}/boot/devicetree-${DTB_SYMLINK_NAME}.dtb
+>>> +        done
+>>>        fi
+>>>    }
+>>>
+>>> +do_deploy_append() {
+>>> +    if test -n "${KERNEL_DEVICETREE}"; then
+>>> +        for DTS_FILE in ${KERNEL_DEVICETREE}; do
+>>> +            if [ ! -f ${DTS_FILE} ]; then
+>>> +                echo "Warning: ${DTS_FILE} is not available!"
+>>> +                continue
+>>> +            fi
+>>> +            DTS_BASE_NAME=`basename ${DTS_FILE} | awk -F "." '{print
+>>> $1}'`
+>>> +            DTB_NAME=`echo ${KERNEL_IMAGE_BASE_NAME} | sed
+>>> "s/${MACHINE}/${DTS_BASE_NAME}/g"`
+>>> +            DTB_SYMLINK_NAME=`echo ${KERNEL_IMAGE_SYMLINK_NAME} | sed
+>>> "s/${MACHINE}/${DTS_BASE_NAME}/g"`
+>>> +            install -d ${DEPLOYDIR}
+>>> +            install -m 0644 ${B}/${DTS_BASE_NAME}
+>>> ${DEPLOYDIR}/${DTB_NAME}.dtb
+>>> +            cd ${DEPLOYDIR}
+>>> +            ln -sf ${DTB_NAME}.dtb ${DTB_SYMLINK_NAME}.dtb
+>>> +            cd -
+>>> +        done
+>>> +    fi
+>>> +}
+>>
+>>
+>> Merged into OE-Core
+>>
+>> Thanks
+>>          Sau!
+>>
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+
+
 -- 
-1.7.10
+Scott Garman
+Embedded Linux Engineer - Yocto Project
+Intel Open Source Technology Center
 
 
 
