@@ -1,46 +1,26 @@
-Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1Smq60-0003T9-Bb
+	(envelope-from <sgw@linux.intel.com>) id 1Smq8W-0003WW-1J
 	for openembedded-core@lists.openembedded.org;
-	Thu, 05 Jul 2012 19:44:04 +0200
-Received: from mail-pb0-f52.google.com ([209.85.160.52])
-	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 05 Jul 2012 10:32:58 -0700
-Received: by pbbro8 with SMTP id ro8so12851957pbb.25
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Jul 2012 10:32:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:subject:references
-	:in-reply-to:content-type:content-transfer-encoding
-	:x-gm-message-state;
-	bh=U7dBQZystvFl2kbzEuj6iFAzg2y/ca0cfOSatP7kc/8=;
-	b=XBsRjGhc0LfVQwl9Wx8qEwnQGWtW+/kHZa2qHBblWVaTN7BLEnfkmrLsiTvKT3H9YS
-	Du4bYdKukd95/jL8B0pTXWcel/UYiu78U6rbpb8MOXbDJlzkvouYeaDhA9ErTqylXL/M
-	+bUHihkBxKOPHN+ys6gekXSbbiAVD27NUvPEWVKhJ4DTQ1+mmGhQ13H69W2LDhhn1eDF
-	XIuRGpDfZ52EMuVFg6Z/azD91FR6+pRvKCiLx/L8Xne6OnCoZyGdpqXmTxF/tZxwNUUL
-	dbdDvySD4FmoJEkcN9Hen1//Um7Zopx8g+u/sdCRqcT1E9VOwxO0w/pn8Qq/1x2lZWZE
-	Zqjw==
-Received: by 10.68.200.104 with SMTP id jr8mr29886284pbc.9.1341509578137;
-	Thu, 05 Jul 2012 10:32:58 -0700 (PDT)
-Received: from [127.0.0.1] (masterfoo.zenlinux.com. [207.192.74.254])
-	by mx.google.com with ESMTPS id to1sm20140919pbc.27.2012.07.05.10.32.55
-	(version=SSLv3 cipher=OTHER); Thu, 05 Jul 2012 10:32:57 -0700 (PDT)
-Message-ID: <4FF5CFC2.9090700@intel.com>
-Date: Thu, 05 Jul 2012 10:32:50 -0700
-From: Scott Garman <scott.a.garman@intel.com>
+	Thu, 05 Jul 2012 19:46:40 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 05 Jul 2012 10:35:34 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="173806163"
+Received: from unknown (HELO [10.255.12.176]) ([10.255.12.176])
+	by fmsmga001.fm.intel.com with ESMTP; 05 Jul 2012 10:35:34 -0700
+Message-ID: <4FF5D065.90401@linux.intel.com>
+Date: Thu, 05 Jul 2012 10:35:33 -0700
+From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:13.0) Gecko/20120615 Thunderbird/13.0.1
+	rv:13.0) Gecko/20120605 Thunderbird/13.0
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <alpine.DEB.2.02.1207032219210.21877@oneiric>
-	<CAMKF1sqWn-S=Hc_eMw-JU3ZP6ox-vfNSidiQbF_oLPhg9tO71g@mail.gmail.com>
-	<4FF4151A.7050400@opendreambox.org>
-	<alpine.DEB.2.02.1207040615500.23821@oneiric>
-	<1341401390.3906.12.camel@ted> <4FF5289C.80107@gmail.com>
-	<alpine.DEB.2.02.1207050607040.3303@oneiric>
-In-Reply-To: <alpine.DEB.2.02.1207050607040.3303@oneiric>
-X-Gm-Message-State: ALoCoQnFBqLvN0Z4irB8zG44B6vClGflEJu9VsaW9DAnBA6sdUtzbNmz0BtX+ofWL+xKBsUhDxlw
-Subject: Re: why would a recipe have both do_install() and do_install_append()?
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <1341001154-10071-1-git-send-email-ray.danks@se-eng.com>
+	<1341262285-30288-1-git-send-email-ray.danks@se-eng.com>
+In-Reply-To: <1341262285-30288-1-git-send-email-ray.danks@se-eng.com>
+Subject: Re: [PATCH 1/2 v4] image_types: Add elf image type
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -55,61 +35,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Jul 2012 17:44:04 -0000
+X-List-Received-Date: Thu, 05 Jul 2012 17:46:40 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 07/05/2012 03:14 AM, Robert P. J. Day wrote:
-> On Wed, 4 Jul 2012, Khem Raj wrote:
+On 07/02/2012 01:51 PM, Raymond Danks wrote:
+> On x86, an ELF image file may be stored as a coreboot payload.
+> The image file is constructed, using the mkelfimage utility,
+> from a kernel and an initrd.
 >
->> -----BEGIN PGP SIGNED MESSAGE-----
->> Hash: SHA1
->>
->> On 7/4/2012 4:29 AM, Richard Purdie wrote:
->>>>>>> AFAICT, you can't override an append. Both appends, the
->>>>>>> original and the bbappended, would get executed.
->>>>>
->>>>> ok, now i *definitely* want to know whether this would work or
->>>>> not since there are a few recipes that define both do_install()
->>>>> and do_install_append().
->>> Andreas is correct, you can't override a do_install_append (),
->>> both would just get appended.
->>
->> yes thats true. I was thinking about having appends which are
->> recipe-class specific but that case wont apply to a normal _append
->> like above
+> Signed-off-by: Raymond Danks <ray.danks@se-eng.com>
+> Acked-by: Darren Hart <dvhart@linux.intel.com>
+> ---
+> This was originally submitted to the openembedded project:
+> http://patches.openembedded.org/patch/7689/
 >
->    so, in the end. there's really no compelling rationale for a recipe
-> defining both a do_install() and do_install_append() back to back, is
-> that correct?  because there are a small number of OE recipes that do
-> just that:
+> v3:
+>   Include DEPLOY_DIR_IMAGE and KERNEL_IMAGETYPE for location of ELF_KERNEL
 >
-> $ grep -wl do_install $(grep -rlw do_install_append *)
-> meta/recipes-support/libcap/libcap.inc
-> meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.1.bb
-> meta/recipes-core/tinylogin/tinylogin_1.4.bb
-> meta/recipes-core/eglibc/eglibc-package.inc
-> meta/recipes-kernel/linux/linux-yocto.inc
-> meta/recipes-extended/lsb/lsb_1.4.bb
-> meta/recipes-extended/man/man_1.6f.bb
-> meta/recipes-extended/logrotate/logrotate_3.8.1.bb
-> $
+> v4:
+>   Quotes must surround ELF_KERNEL defintion with newer versions of bitbake.
 >
->    obviously, it doesn't hurt, it just seems unnecessary.
+>   meta/classes/image_types.bbclass |   18 +++++++++++++++++-
+>   1 files changed, 17 insertions(+), 1 deletions(-)
+>
+Merged both parts of this patch set (v4 from here and v3 2/2)
 
-I wrote the do_install_append() in e2fsprogs, and it was no doubt due to 
-the fact that I was moving libraries around in a number of recipes, and 
-wanted to logically separate this operation into the _append step in a 
-consistent manner. It was just a mindset I was in, and as you point out, 
-it wasn't necessary, nor did it do much harm.
+Thanks
+	Sau!
 
-Scott
-
--- 
-Scott Garman
-Embedded Linux Engineer - Yocto Project
-Intel Open Source Technology Center
-
+> diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+> index 55f122e..2873273 100644
+> --- a/meta/classes/image_types.bbclass
+> +++ b/meta/classes/image_types.bbclass
+> @@ -7,6 +7,12 @@ def get_imagecmds(d):
+>       ctypes = d.getVar('COMPRESSIONTYPES', True).split()
+>       cimages = {}
+>
+> +    if "elf" in alltypes:
+> +        alltypes.remove("elf")
+> +        if "cpio.gz" not in alltypes:
+> +                alltypes.append("cpio.gz")
+> +        alltypes.append("elf")
+> +
+>       # Filter out all the compressed images from types
+>       for type in alltypes:
+>           basetype = None
+> @@ -173,6 +179,14 @@ IMAGE_CMD_cpio () {
+>   	cd ${IMAGE_ROOTFS} && (find . | cpio -o -H newc >${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cpio)
+>   }
+>
+> +ELF_KERNEL ?= "${STAGING_DIR_HOST}/kernel/${KERNEL_IMAGETYPE}"
+> +ELF_APPEND ?= "ramdisk_size=32768 root=/dev/ram0 rw console="
+> +
+> +IMAGE_CMD_elf () {
+> +	test -f ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.elf && rm -f ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.elf
+> +	mkelfImage --kernel=${ELF_KERNEL} --initrd=${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cpio.gz --output=${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.elf --append='${ELF_APPEND}' ${EXTRA_IMAGECMD}
+> +}
+> +
+>   UBI_VOLNAME ?= "${MACHINE}-rootfs"
+>
+>   IMAGE_CMD_ubi () {
+> @@ -199,6 +213,7 @@ EXTRA_IMAGECMD_ext2 ?= "-i 8192"
+>   EXTRA_IMAGECMD_ext3 ?= "-i 8192"
+>   EXTRA_IMAGECMD_ext4 ?= "-i 8192"
+>   EXTRA_IMAGECMD_btrfs ?= ""
+> +EXTRA_IMAGECMD_elf ?= ""
+>
+>   IMAGE_DEPENDS = ""
+>   IMAGE_DEPENDS_jffs2 = "mtd-utils-native"
+> @@ -210,11 +225,12 @@ IMAGE_DEPENDS_ext4 = "genext2fs-native e2fsprogs-native"
+>   IMAGE_DEPENDS_btrfs = "btrfs-tools-native"
+>   IMAGE_DEPENDS_squashfs = "squashfs-tools-native"
+>   IMAGE_DEPENDS_squashfs-lzma = "squashfs-lzma-tools-native"
+> +IMAGE_DEPENDS_elf = "virtual/kernel mkelfimage-native"
+>   IMAGE_DEPENDS_ubi = "mtd-utils-native"
+>   IMAGE_DEPENDS_ubifs = "mtd-utils-native"
+>
+>   # This variable is available to request which values are suitable for IMAGE_FSTYPES
+> -IMAGE_TYPES = "jffs2 sum.jffs2 cramfs ext2 ext2.gz ext2.bz2 ext3 ext3.gz ext2.lzma btrfs live squashfs squashfs-lzma ubi tar tar.gz tar.bz2 tar.xz cpio cpio.gz cpio.xz cpio.lzma vmdk"
+> +IMAGE_TYPES = "jffs2 sum.jffs2 cramfs ext2 ext2.gz ext2.bz2 ext3 ext3.gz ext2.lzma btrfs live squashfs squashfs-lzma ubi tar tar.gz tar.bz2 tar.xz cpio cpio.gz cpio.xz cpio.lzma vmdk elf"
+>
+>   COMPRESSIONTYPES = "gz bz2 lzma xz"
+>   COMPRESS_CMD_lzma = "lzma -k -f -7 ${IMAGE_NAME}.rootfs.${type}"
+>
 
 
 
