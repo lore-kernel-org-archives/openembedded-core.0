@@ -1,46 +1,59 @@
-Received: from mail-pb0-f47.google.com ([209.85.160.47])
+Received: from va3ehsobe002.messaging.microsoft.com ([216.32.180.12]
+	helo=va3outboundpool.messaging.microsoft.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1Smtrm-0006gw-Kg
+	(envelope-from <B29882@freescale.com>) id 1Smu9J-0007IX-TX
 	for openembedded-core@lists.openembedded.org;
-	Thu, 05 Jul 2012 23:45:38 +0200
-Received: by pbbrq2 with SMTP id rq2so12977879pbb.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Jul 2012 14:34:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:subject:references
-	:in-reply-to:x-enigmail-version:content-type
-	:content-transfer-encoding;
-	bh=iKpFp7LXNhP3+gzbsgsG71f+WaIUXLua/OMYckoew7k=;
-	b=og3lBsoEmT9UQJtrfXGGbU8RqQmdXU4CUsiRlddSalO0YXvlnkDZLpIEwcTYus4P64
-	3lf1zTfYSPlLn0Pm0keqOhyB/qqTvK6eiMjRUhhvy1Anf9+UmE3uKJB876bITqRZJE2v
-	A3kgtKpRpyfUjn25sgdwY94m51VhOUcLKEDusjIP781oE7tA+b/5O23cWrk8oBpYtMaX
-	cGYZTNsEhNy2nGcx+t3CiCwsayd+qM5L7dNdEBMXdfCdtkRu6YvHG47H6kRwpH9557D4
-	H7OGrD5cMMD/czDeHD0T+aQzRqfRGo8OGLZTgn5qaYo4Cxvnyw4x7PsS2pNFUx4GbRq4
-	wUYg==
-Received: by 10.68.190.102 with SMTP id gp6mr31164206pbc.5.1341524072928;
-	Thu, 05 Jul 2012 14:34:32 -0700 (PDT)
-Received: from [192.168.1.71] (99-57-140-209.lightspeed.sntcca.sbcglobal.net.
-	[99.57.140.209])
-	by mx.google.com with ESMTPS id rv9sm20445017pbc.43.2012.07.05.14.34.31
-	(version=SSLv3 cipher=OTHER); Thu, 05 Jul 2012 14:34:32 -0700 (PDT)
-Message-ID: <4FF6086A.9000500@gmail.com>
-Date: Thu, 05 Jul 2012 14:34:34 -0700
-From: Khem Raj <raj.khem@gmail.com>
-User-Agent: Mozilla/5.0 (Windows NT 6.1;
-	rv:13.0) Gecko/20120614 Thunderbird/13.0.1
+	Fri, 06 Jul 2012 00:03:46 +0200
+Received: from mail123-va3-R.bigfish.com (10.7.14.250) by
+	VA3EHSOBE010.bigfish.com (10.7.40.12) with Microsoft SMTP Server id
+	14.1.225.22; Thu, 5 Jul 2012 21:35:32 +0000
+Received: from mail123-va3 (localhost [127.0.0.1])	by
+	mail123-va3-R.bigfish.com (Postfix) with ESMTP id D40643600D4	for
+	<openembedded-core@lists.openembedded.org>;
+	Thu,  5 Jul 2012 21:35:31 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-SpamScore: -4
+X-BigFish: VS-4(zzbb2dI98dI9371I1432I4015Izz1202hzz8275bh8275dhz2dh2a8h668h839h8e2h8e3hf0ah107ahbe9i)
+Received: from mail123-va3 (localhost.localdomain [127.0.0.1]) by mail123-va3
+	(MessageSwitch) id 1341524130444800_3610;
+	Thu,  5 Jul 2012 21:35:30 +0000 (UTC)
+Received: from VA3EHSMHS012.bigfish.com (unknown [10.7.14.235])	by
+	mail123-va3.bigfish.com (Postfix) with ESMTP id 697391A013B	for
+	<openembedded-core@lists.openembedded.org>;
+	Thu,  5 Jul 2012 21:35:30 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by VA3EHSMHS012.bigfish.com
+	(10.7.99.22) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Thu, 5 Jul 2012 21:35:30 +0000
+Received: from 039-SN1MPN1-003.039d.mgd.msft.net ([169.254.3.163]) by
+	039-SN1MMR1-002.039d.mgd.msft.net ([10.84.1.15]) with mapi id
+	14.02.0298.005; Thu, 5 Jul 2012 16:37:35 -0500
+From: McClintock Matthew-B29882 <B29882@freescale.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [oe-core] linux-dtb: add multi-dtb build support
+Thread-Index: AQHNWtwtIn2bs/LK9UedJs65xGih+A==
+Date: Thu, 5 Jul 2012 21:37:34 +0000
+Message-ID: <CAEsOVNeMe1CQEj4V6et+uUsEct0HEETLs6yFL03YteBQyywT_A@mail.gmail.com>
+References: <1340682796-11569-1-git-send-email-b19537@freescale.com>
+	<4FEC908A.3000205@linux.intel.com>
+	<CAEsOVNerdO8m=0LHYUy8sn+6W=aOiEQS18vOQy8DYqWQeDxA+Q@mail.gmail.com>
+	<4FF5F219.8000103@intel.com>
+	<CAEsOVNf0s+QBs_NYiquUTU8zew052PKx6uEwUEwPBBHzbnVLUA@mail.gmail.com>
+	<4FF60815.4040909@intel.com>
+In-Reply-To: <4FF60815.4040909@intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [70.112.201.132]
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <cover.1341498745.git.raj.khem@gmail.com>
-	<20120705202306.GD3708@jama.jama.net>
-	<CAMKF1sr7c4c3vk3DsJCM-usUD9zvSdgrZKCM0OxKfnQWLPaeZw@mail.gmail.com>
-	<20120705205709.GE3708@jama.jama.net>
-In-Reply-To: <20120705205709.GE3708@jama.jama.net>
-X-Enigmail-Version: 1.4.2
-Subject: Re: [PATCH 00/14] eglibc 2.16
+X-OriginatorOrg: freescale.com
+Subject: Re: linux-dtb: add multi-dtb build support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -51,47 +64,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Jul 2012 21:45:38 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 05 Jul 2012 22:03:46 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <AB91BDAD8EAA6F4D942CABC360626353@mgd.freescale.com>
+Content-Transfer-Encoding: quoted-printable
 
------BEGIN PGP SIGNED MESSAGE-----
-Hash: SHA1
+On Thu, Jul 5, 2012 at 4:33 PM, Scott Garman <scott.a.garman@intel.com> wro=
+te:
+> On 07/05/2012 01:52 PM, McClintock Matthew-B29882 wrote:
+>>
+>> On Thu, Jul 5, 2012 at 2:59 PM, Scott Garman <scott.a.garman@intel.com>
+>> wrote:
+>>>
+>>> On 07/05/2012 11:29 AM, McClintock Matthew-B29882 wrote:
+>>>>
+>>>>
+>>>> Can we add this to denzil branch? (post 1.2.1 is fine) - I realize
+>>>> this is somewhat a new feature though but it would be helpful to have
+>>>> it in denzil.
+>>>
+>>>
+>>>
+>>> Ok, I've now created a contrib branch to start tracking changes for
+>>> 1.2.2,
+>>> and have included this commit:
+>>>
+>>>
+>>> http://git.openembedded.org/openembedded-core-contrib/log/?h=3Dsgarman/=
+denzil-next-1.2.2
+>>>
+>>> The usual caveats apply - I can rebase this branch at any time, etc.
+>>
+>>
+>> Are you missing a patch on this series? ChecksumError class does not
+>> exist...
+>>
+>> commit 2f009e5b?
+>
+>
+> What is the title of that commit? I'm not seeing it.
 
-On 7/5/2012 1:57 PM, Martin Jansa wrote:
-> I was looking in meta/recipes-core/eglibc for switch forcing bfd
-> for it, but I haven't found it neither in 2.15 or 2.16..
+$ git show 2f009e5b
+commit 2f009e5b1e4e0a4148ab7d5c60bf0e7a193faa2e
+Author: Richard Purdie <richard.purdie@linuxfoundation.org>
+Date:   Sun May 13 12:00:45 2012 +0000
 
-STAGINGCC is gcc-cross-intermediate for eglibc and gcc-cross-initial
-for eglibc-initial
+    bitbake/fetch2: Improve visibility of checksum warnings when
+fetching from mirrors
 
-and if you look at gcc-cross-intermediate recipe then it uses
+    When fetching from mirrors, checksum errors would get buried in the
+    logs. This raises their profile so a warning is logged on the console
+    when fetcher checksum issues are encountered, even if other attempts
+    are made to get the file (which may or may not have the same issue).
 
-in EXTRA_OECONF
+    (Bitbake rev: d43fafd7f01b5534499b45213197d8ccececdbc4)
 
-${@base_contains('DISTRO_FEATURES', 'ld-is-gold',
-'--with-ld=${STAGING_BINDIR_TOOLCHAIN}/${TARGET_PREFIX}ld.bfd', '', d)}"
+    Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-which means it use ld.bfd when ld-is-gold is enabled.
+-M
 
-however we need something similar for gcc-cross-initial as well
-and thats why you see the problem with eglibc-initial
+>
+> Thanks,
+>
+> Scott
+>
+>
+> --
+> Scott Garman
+> Embedded Linux Engineer - Yocto Project
+> Intel Open Source Technology Center
+>
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core=
 
-I have created a patch and added it to the pull branch please
-try that out
-
-especially this one
-http://git.openembedded.org/openembedded-core-contrib/commit/?h=kraj/eglibc-2.16&id=3b68cb3e23138c72e61771c50a4a4b08bb4d0865
-
-Thanks
-- -Khem
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.12 (MingW32)
-Comment: Using GnuPG with Mozilla - http://enigmail.mozdev.org/
-
-iEYEARECAAYFAk/2CGoACgkQuwUzVZGdMxSiXQCfT+LaNCf9iZAK1tr2fNsX8opW
-MAIAnihWe8FauLk+y3gmLMHcg8e+MfIf
-=m9f1
------END PGP SIGNATURE-----
 
 
