@@ -1,29 +1,56 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from co1ehsobe005.messaging.microsoft.com ([216.32.180.188]
+	helo=co1outboundpool.messaging.microsoft.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SmqT6-0005ny-5j
+	(envelope-from <B29882@freescale.com>) id 1SmqYe-0005v4-3J
 	for openembedded-core@lists.openembedded.org;
-	Thu, 05 Jul 2012 20:07:56 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 05 Jul 2012 10:56:42 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="188845695"
-Received: from unknown (HELO [10.255.12.176]) ([10.255.12.176])
-	by fmsmga002.fm.intel.com with ESMTP; 05 Jul 2012 10:56:42 -0700
-Message-ID: <4FF5D55A.3070000@linux.intel.com>
-Date: Thu, 05 Jul 2012 10:56:42 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:13.0) Gecko/20120605 Thunderbird/13.0
-MIME-Version: 1.0
+	Thu, 05 Jul 2012 20:13:40 +0200
+Received: from mail73-co1-R.bigfish.com (10.243.78.251) by
+	CO1EHSOBE015.bigfish.com (10.243.66.78) with Microsoft SMTP Server id
+	14.1.225.23; Thu, 5 Jul 2012 18:00:29 +0000
+Received: from mail73-co1 (localhost [127.0.0.1])	by mail73-co1-R.bigfish.com
+	(Postfix) with ESMTP id F3491D00253	for
+	<openembedded-core@lists.openembedded.org>;
+	Thu,  5 Jul 2012 18:00:28 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-SpamScore: -3
+X-BigFish: VS-3(zzbb2dI98dI9371I1432Izz1202hzz8275bh8275dhz2dh2a8h668h839h8e2h8e3hf0ah107ahbe9i)
+Received: from mail73-co1 (localhost.localdomain [127.0.0.1]) by mail73-co1
+	(MessageSwitch) id 1341511227460576_16796;
+	Thu,  5 Jul 2012 18:00:27 +0000 (UTC)
+Received: from CO1EHSMHS003.bigfish.com (unknown [10.243.78.239])	by
+	mail73-co1.bigfish.com (Postfix) with ESMTP id 64F4E860044	for
+	<openembedded-core@lists.openembedded.org>;
+	Thu,  5 Jul 2012 18:00:27 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by CO1EHSMHS003.bigfish.com
+	(10.243.66.13) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Thu, 5 Jul 2012 18:00:27 +0000
+Received: from 039-SN1MPN1-003.039d.mgd.msft.net ([169.254.3.163]) by
+	039-SN1MMR1-001.039d.mgd.msft.net ([10.84.1.13]) with mapi id
+	14.02.0298.005; Thu, 5 Jul 2012 13:02:31 -0500
+From: McClintock Matthew-B29882 <B29882@freescale.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1341338051.git.tom.zanussi@intel.com>
-In-Reply-To: <cover.1341338051.git.tom.zanussi@intel.com>
-Subject: Re: [PATCH 0/9] perf: enable Perl and Python bindings, and perf TUI
+Thread-Topic: [OE-core] Generating a movable SDK
+Thread-Index: AQHNWthY4+vCdGfTDkO3AhEFgoLeHA==
+Date: Thu, 5 Jul 2012 18:02:31 +0000
+Message-ID: <CAEsOVNe_OiSH8N9MyPG7_m2ciWiv=TshttamtdWbJ=m5-eJu+w@mail.gmail.com>
+References: <CANrdZLjpmXK5j+jr=fTD43je2Ni6exWGcrCkejKgE1ZZXe5TGQ@mail.gmail.com>
+	<CAMKF1spWqFCoXRbnevoKz+ftThQf41nObpMQ6N46YQ6_fucznQ@mail.gmail.com>
+	<4FE167B4.3020802@gmail.com> <4FF3E606.7000001@gmail.com>
+In-Reply-To: <4FF3E606.7000001@gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [70.112.201.132]
+MIME-Version: 1.0
+X-OriginatorOrg: freescale.com
+Subject: Re: Generating a movable SDK
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -34,76 +61,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Jul 2012 18:07:56 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 05 Jul 2012 18:13:40 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <8BE15967D9274B468980A482F54ED07A@mgd.freescale.com>
+Content-Transfer-Encoding: quoted-printable
 
-On 07/03/2012 11:10 AM, tom.zanussi@intel.com wrote:
-> From: Tom Zanussi <tom.zanussi@intel.com>
+On Wed, Jul 4, 2012 at 1:43 AM, Tasslehoff Kjappfot <tasskjapp@gmail.com> w=
+rote:
+> On 06/20/2012 08:03 AM, Tasslehoff Kjappfot wrote:
+>>
+>> On 06/19/2012 10:33 PM, Khem Raj wrote:
+>>>
+>>>
+>>>
+>>> On Tuesday, June 19, 2012, Steve English <steve.english@navetas.com
+>>> <mailto:steve.english@navetas.com>> wrote:
+>>>  > Hi,
+>>>  > I've generated a cross compiling ARM SDK
+>>> (angstrom-eglibc-x86_64-armv7a-v2012.05-toolchain.tar.bz2) that works
+>>> great if installed in /usr/local/oecore-x86_64. I would like to move
+>>> these binaries and run them from under my home directory (on this and
+>>> other host machines).
+>>>  >
+>>>  > I can tweak the PATH and use --sysroot where appropriate, but the EL=
+F
+>>> binaries themselves specify a loader of
+>>>
+>>> /usr/local/oecore-x86_64/sysroots/x86_64-angstromsdk-linux/lib/ld-linux=
+-x86-64.so.2
+>>>
+>>> in their .interp header. Is it possible to generate an SDK that uses th=
+e
+>>> standard host loader, or at least uses a relative path for the built
+>>> loader?
+>>>
+>>>
+>>> Sdk is not install time relocatable yet there is a feature enhancement
+>>> request in yo to bugzilla for the same
+>>>
+>> That request is mine, I think. I have gotten around this by making
+>> /usr/local/oecore-i686 a symlink to where I want to keep the toolchain
+>> (in a vcs). Works like a charm.
+>>
+>> - Tasslehoff
 >
-> This patchset enables the Perl and Python bindings for perf, as well as
-> the perf TUI (text-based UI).
 >
-> These can be separately enabled on a machine basis by adding
-> 'perf-scripting' and/or 'perf-tui' to the machine's MACHINE_FEATURES.
-> The default is to completely disable all scripting and TUI features.
+> But now I wish the sdk was relocatable again.
 >
-> There are also a couple patches that fix other problems noticed along
-> the way.
+> As I said we have the sdk in our vcs, and a symlink in /usr/local to make
+> the toolchain binaries happy. We have a build server that does continous
+> builds, and she has multiple trees checked out, so the symlink-approach i=
+s
+> not ideal.
 >
-> These changes need corresponding changes made to linux-yocto and posted
-> separately on the yocto and linux-yocto mailing lists.
->
-> This patchset has been build- and run-tested on the following machines:
->
-> qemux86
-> qemux86-64
-> qemuarm
-> sugarbay
-> crownbay
->
-> The following changes since commit 644ad4bf1e30fcee4b9d5abb819046d1f2193d27:
->    Scott Rifenbark (1):
->          documentation/bsp-guide/bsp.xml: Yocto term paring
->
-> are available in the git repository at:
->
->    git://git.yoctoproject.org/poky-contrib.git tzanussi/perf-scripting
->    http://git.yoctoproject.org/cgit.cgi//log/?h=tzanussi/perf-scripting
->
-> Tom Zanussi (9):
->    perl: keep original libperl location
->    perl: add @STAGINGDIR@ for config.sh substitions
->    perl: use @STAGINGDIR@ in config.sh
->    perf: enable Python bindings
->    perf: enable Perl binding
->    perf: add libexec/perf-core and contents
-The above where all merged into OE-Core
->    perf: add perf-scripting MACHINE_FEATURE
-Not Merged
->    qemumachines: make MACHINE_FEATURES append follow qemu.inc include
-Merged into OE-Core
->    perf: add perf-tui MACHINE_FEATURE
->
-Not Merged
+> Any clever workaround for this (or even better, a fix to make the sdk
+> relocatable)?
 
-Thanks
-	Sau!
+chroot jail could work for you... a bit more effort though.
+
+-M
 
 
->   meta/conf/machine/qemux86-64.conf                |    4 +-
->   meta/conf/machine/qemux86.conf                   |    4 +-
->   meta/recipes-devtools/perl/perl-5.14.2/config.sh |    2 +-
->   meta/recipes-devtools/perl/perl_5.14.2.bb        |    4 ++-
->   meta/recipes-kernel/perf/perf_3.4.bb             |   36 ++++++++++++++++++++--
->   5 files changed, 41 insertions(+), 9 deletions(-)
+>
+>
+> - Tasslehoff
 >
 >
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core=
 
 
 
