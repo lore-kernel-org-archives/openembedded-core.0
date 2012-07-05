@@ -1,36 +1,31 @@
-Received: from mail-wi0-f171.google.com ([209.85.212.171])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>)
-	id 1SmoO4-0001AP-6E; Thu, 05 Jul 2012 17:54:36 +0200
-Received: by wibhq4 with SMTP id hq4so5803126wib.6
-	for <multiple recipients>; Thu, 05 Jul 2012 08:43:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=BJfY3fUS/lCWN28uM9bKJNi7oLf4xyt1Dutryr07u7c=;
-	b=lpAK7xS/sexpDhD2UCrO5meFzOjyLvsEDjH3IX8VLDbPrFwc1rjt7dJk8nOmaKh/XM
-	3I9Pf4h+xFDuRAKfvvCtm1x3vAfpJ6LWEp94VtDxjbpE2wz9jC8OdwLAg3/kECPOpPzY
-	Ti84r0P+JeHsPX7ssI6bNCGR6ttq+2vyPvRbCZqmIJ2x7LPk6FtdPaMVkztQz34jaMkL
-	efJrFjmMEcK0sMxMnKHQ4GJ8BC+lBoJJJCm9muk5sNPtCJilnZzVoWYKaJewU5HhGJ7Z
-	ejBtdBNOCeo7KdUcZ/vIj6InYOUPDes5NtKj3NI52rAriRDGNHAAUBV1myFD860sUAcD
-	yYWA==
-Received: by 10.180.98.39 with SMTP id ef7mr353435wib.21.1341503011453;
-	Thu, 05 Jul 2012 08:43:31 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id j6sm974696wiy.4.2012.07.05.08.43.28
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 05 Jul 2012 08:43:29 -0700 (PDT)
-Date: Thu, 5 Jul 2012 17:43:23 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Cristian Iorga <cristian.iorga@intel.com>
-Message-ID: <20120705154323.GA3708@jama.jama.net>
-References: <20120705132323.579D910333@opal>
+	(envelope-from <Paul.Gortmaker@windriver.com>) id 1SmoZj-0001fj-2Z
+	for openembedded-core@lists.openembedded.org;
+	Thu, 05 Jul 2012 18:06:39 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q65FtU1n029851
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 5 Jul 2012 08:55:30 -0700 (PDT)
+Received: from yow-pgortmak-d1 (128.224.146.65) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
+	Thu, 5 Jul 2012 08:55:30 -0700
+Received: from paul by yow-pgortmak-d1 with local (Exim 4.74)	(envelope-from
+	<paul.gortmaker@windriver.com>)	id 1SmoOt-0003hm-9K; Thu, 05 Jul 2012
+	11:55:27 -0400
+Date: Thu, 5 Jul 2012 11:55:27 -0400
+From: Paul Gortmaker <paul.gortmaker@windriver.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Message-ID: <20120705155526.GF1817@windriver.com>
+References: <20120625153328.B76A81033A@opal>
+	<20120628192018.GB5532@localhost.jama.net>
+	<20120704172715.GH15100@jama.jama.net>
 MIME-Version: 1.0
-In-Reply-To: <20120705132323.579D910333@opal>
+In-Reply-To: <20120704172715.GH15100@jama.jama.net>
 User-Agent: Mutt/1.5.21 (2010-09-15)
 Cc: openembedded-core@lists.openembedded.org,
 	openembedded-commits@lists.openembedded.org
-Subject: Re: [oe-commits] Cristian Iorga : bluez4: update to ver. 4.101
+Subject: Re: [oe-commits] Paul Gortmaker : linux-firmware: update to main repo on kernel.org
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,107 +40,124 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Jul 2012 15:54:36 -0000
-X-Groupsio-MsgNum: 24723
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="3V7upXqbjpZ4EhLz"
+X-List-Received-Date: Thu, 05 Jul 2012 16:06:39 -0000
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
 
---3V7upXqbjpZ4EhLz
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+[Re: [oe-commits] Paul Gortmaker : linux-firmware: update to main repo on kernel.org] On 04/07/2012 (Wed 19:27) Martin Jansa wrote:
 
-On Thu, Jul 05, 2012 at 01:23:23PM +0000, git@git.openembedded.org wrote:
-> Module: openembedded-core.git
-> Branch: master
-> Commit: 1b2f6a21dde6045c4604ca5463e6c4db3499ee06
-> URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcommit=
-;h=3D1b2f6a21dde6045c4604ca5463e6c4db3499ee06
->=20
-> Author: Cristian Iorga <cristian.iorga@intel.com>
-> Date:   Wed Jul  4 14:34:00 2012 +0300
->=20
-> bluez4: update to ver. 4.101
->=20
-> Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> On Thu, Jun 28, 2012 at 09:20:18PM +0200, Martin Jansa wrote:
+> > On Mon, Jun 25, 2012 at 03:33:28PM +0000, git@git.openembedded.org wrote:
+> > > Module: openembedded-core.git
+> > > Branch: master
+> > > Commit: b9d42ec94dfcbe92ce2a857045a0e3678c05c26c
+> > > URL:    http://git.openembedded.org/?p=openembedded-core.git&a=commit;h=b9d42ec94dfcbe92ce2a857045a0e3678c05c26c
+> > > 
+> > > Author: Paul Gortmaker <paul.gortmaker@windriver.com>
+> > > Date:   Fri Jun 22 10:15:07 2012 -0400
+> > > 
+> > > linux-firmware: update to main repo on kernel.org
+> > > 
+> > > This is now the authoratative repository, taking updates.
+> > > The latest has a couple updated license files, vs. the previous
+> > > srcrev that was used.
+> > > 
+> > > Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
+> > > 
+> > > ---
+> > > 
+> > >  .../linux-firmware/linux-firmware_git.bb           |   10 +++++-----
+> > >  1 files changed, 5 insertions(+), 5 deletions(-)
+> > > 
+> > > diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
+> > > index 3675978..8aacce4 100644
+> > > --- a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
+> > > +++ b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
+> > > @@ -7,23 +7,23 @@ SECTION = "kernel"
+> > >  
+> > >  LICENSE = "Proprietary"
+> > >  
+> > > -LIC_FILES_CHKSUM = "file://LICENSE.radeon_rlc;md5=4c243f7854d2884b483abda991adef43 \
+> > > +LIC_FILES_CHKSUM = "file://LICENSE.radeon;md5=e56b405656593a0c97e478513051ea0e \
+> > >                      file://LICENSE.dib0700;md5=f7411825c8a555a1a3e5eab9ca773431 \
+> > >                      file://LICENCE.xc5000;md5=1e170c13175323c32c7f4d0998d53f66 \
+> > >                      file://LICENCE.ralink-firmware.txt;md5=ab2c269277c45476fb449673911a2dfd \
+> > >                      file://LICENCE.qla2xxx;md5=4005328a134054f0fa077bdc37aa64f2 \
+> > > -                    file://LICENCE.iwlwifi_firmware;md5=311cc823df5b1be4f00fbf0f17d96a6b \
+> > > +                    file://LICENCE.iwlwifi_firmware;md5=11545778abf78c43d7644d4f171ea1c7 \
+> > >                      file://LICENCE.i2400m;md5=14b901969e23c41881327c0d9e4b7d36 \
+> > >                      file://LICENCE.atheros_firmware;md5=30a14c7823beedac9fa39c64fdd01a13 \
+> > >                      file://LICENCE.agere;md5=af0133de6b4a9b2522defd5f188afd31 \
+> > >                      file://LICENCE.rtlwifi_firmware.txt;md5=00d06cfd3eddd5a2698948ead2ad54a5 \
+> > >                     "
+> > >  
+> > > -SRCREV = "15888a2eab052ac3d3f49334e4f6f05f347a516e"
+> > > +SRCREV = "e98750f0d68d0037ce5a186f7f863a9c13bf773a"
+> > >  PV = "0.0+git${SRCPV}"
+> > > -PR = "r1"
+> > > +PR = "r2"
+> > >  
+> > > -SRC_URI = "git://git.infradead.org/users/dwmw2/linux-firmware.git;protocol=git"
+> > > +SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git;protocol=git"
+> > 
+> > changing git URL (or even just branch) in recipe with SRCPV in PV resets LOCALCOUNT to zero..
+> > so breaks upgrade path.
+> > 
+> > Bump PE or PV to fix that!
+> 
+> Ping,
 
-I guess this is new:
-WARNING: QA Issue: bluez4: Files/directories were installed but not
-shipped
-  /usr/share/dbus-1
-  /usr/share/dbus-1/system-services
-  /usr/share/dbus-1/system-services/org.bluez.service
+Since the mailing list conveniently mangles the Cc: list, I never saw
+this original feedback.   I can submit a one line change for PV, but to
+be honest, I've no idea how PV is used, nor what LOCALCOUNT is.  Since
+it clearly matters to a particular workflow you use, and you understand
+how it works, I'd suggest you send the one liner, since you'll be better
+able to write a meaningful commit log than I could.
 
-Cheers,
+To me, it seems odd that a change in the PR thing doesn't immediately
+cause a change in whatever state the test on the PV thing is checking.
+That is probably because I've not a clear vision of how they are to be
+used and why they have overlapping roles.
 
->=20
-> ---
->=20
->  .../{bluez4-4.99 =3D> bluez4-4.101}/bluetooth.conf   |    0
->  .../{bluez4-4.99 =3D> bluez4-4.101}/sbc_mmx.patch    |    0
->  .../bluez/{bluez4_4.99.bb =3D> bluez4_4.101.bb}      |    9 ++++-----
->  3 files changed, 4 insertions(+), 5 deletions(-)
->=20
-> diff --git a/meta/recipes-connectivity/bluez/bluez4-4.99/bluetooth.conf b=
-/meta/recipes-connectivity/bluez/bluez4-4.101/bluetooth.conf
-> similarity index 100%
-> rename from meta/recipes-connectivity/bluez/bluez4-4.99/bluetooth.conf
-> rename to meta/recipes-connectivity/bluez/bluez4-4.101/bluetooth.conf
-> diff --git a/meta/recipes-connectivity/bluez/bluez4-4.99/sbc_mmx.patch b/=
-meta/recipes-connectivity/bluez/bluez4-4.101/sbc_mmx.patch
-> similarity index 100%
-> rename from meta/recipes-connectivity/bluez/bluez4-4.99/sbc_mmx.patch
-> rename to meta/recipes-connectivity/bluez/bluez4-4.101/sbc_mmx.patch
-> diff --git a/meta/recipes-connectivity/bluez/bluez4_4.99.bb b/meta/recipe=
-s-connectivity/bluez/bluez4_4.101.bb
-> similarity index 83%
-> rename from meta/recipes-connectivity/bluez/bluez4_4.99.bb
-> rename to meta/recipes-connectivity/bluez/bluez4_4.101.bb
-> index 32831e7..a2ba66f 100644
-> --- a/meta/recipes-connectivity/bluez/bluez4_4.99.bb
-> +++ b/meta/recipes-connectivity/bluez/bluez4_4.101.bb
-> @@ -1,13 +1,12 @@
->  require bluez4.inc
-> =20
-> -PR =3D "r2"
-> +PR =3D "r0"
-> =20
->  SRC_URI +=3D "file://bluetooth.conf \
-> -            file://sbc_mmx.patch \
-> -           "
-> +            file://sbc_mmx.patch"
-> =20
-> -SRC_URI[md5sum] =3D "570aa10692ed890aa0a4297b37824912"
-> -SRC_URI[sha256sum] =3D "d884b9aa5d3d9653c076b7646ca14a3e43eb84bccfe8193c=
-49690f802bbd827c"
-> +SRC_URI[md5sum] =3D "fb42cb7038c380eb0e2fa208987c96ad"
-> +SRC_URI[sha256sum] =3D "59738410ade9f0e61a13c0f77d9aaffaafe49ba9418107e4=
-ad75fe52846f7487"
-> =20
->  do_install_append() {
->  	install -m 0644 ${S}/audio/audio.conf ${D}/${sysconfdir}/bluetooth/
->=20
->=20
-> _______________________________________________
-> Openembedded-commits mailing list
-> Openembedded-commits@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-commits
+Thanks,
+Paul.
+--
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+> 
+> > NOTE: package linux-firmware-0.0+git1+e98750f0d68d0037ce5a186f7f863a9c13bf773a-r2: task do_package: Started
+> > ERROR: Package version for package linux-firmware-sd8686 went backwards which would break package feeds from (0:0.0+git2+15888a2eab052ac3d3f49334e4f6f05f347a516e-r1 to 0:0.0+git1+e98750f0d68d0037ce5a186f7f863a9c13bf773a-r2)
+> > ERROR: Package version for package linux-firmware-rtl8192cu went backwards which would break package feeds from (0:0.0+git2+15888a2eab052ac3d3f49334e4f6f05f347a516e-r1 to 0:0.0+git1+e98750f0d68d0037ce5a186f7f863a9c13bf773a-r2)
+> > ERROR: Package version for package linux-firmware-rtl8192ce went backwards which would break package feeds from (0:0.0+git2+15888a2eab052ac3d3f49334e4f6f05f347a516e-r1 to 0:0.0+git1+e98750f0d68d0037ce5a186f7f863a9c13bf773a-r2)
+> > ERROR: Package version for package linux-firmware-rtl8192su went backwards which would break package feeds from (0:0.0+git2+15888a2eab052ac3d3f49334e4f6f05f347a516e-r1 to 0:0.0+git1+e98750f0d68d0037ce5a186f7f863a9c13bf773a-r2)
+> > ERROR: Package version for package linux-firmware-wl12xx went backwards which would break package feeds from (0:0.0+git2+15888a2eab052ac3d3f49334e4f6f05f347a516e-r1 to 0:0.0+git1+e98750f0d68d0037ce5a186f7f863a9c13bf773a-r2)
+> > ERROR: Package version for package linux-firmware-dbg went backwards which would break package feeds from (0:0.0+git2+15888a2eab052ac3d3f49334e4f6f05f347a516e-r1 to 0:0.0+git1+e98750f0d68d0037ce5a186f7f863a9c13bf773a-r2)
+> > ERROR: Package version for package linux-firmware-staticdev went backwards which would break package feeds from (0:0.0+git2+15888a2eab052ac3d3f49334e4f6f05f347a516e-r1 to 0:0.0+git1+e98750f0d68d0037ce5a186f7f863a9c13bf773a-r2)
+> > ERROR: Package version for package linux-firmware-dev went backwards which would break package feeds from (0:0.0+git2+15888a2eab052ac3d3f49334e4f6f05f347a516e-r1 to 0:0.0+git1+e98750f0d68d0037ce5a186f7f863a9c13bf773a-r2)
+> > ERROR: Package version for package linux-firmware-doc went backwards which would break package feeds from (0:0.0+git2+15888a2eab052ac3d3f49334e4f6f05f347a516e-r1 to 0:0.0+git1+e98750f0d68d0037ce5a186f7f863a9c13bf773a-r2)
+> > ERROR: Package version for package linux-firmware-locale went backwards which would break package feeds from (0:0.0+git2+15888a2eab052ac3d3f49334e4f6f05f347a516e-r1 to 0:0.0+git1+e98750f0d68d0037ce5a186f7f863a9c13bf773a-r2)
+> > ERROR: Package version for package linux-firmware went backwards which would break package feeds from (0:0.0+git2+15888a2eab052ac3d3f49334e4f6f05f347a516e-r1 to 0:0.0+git1+e98750f0d68d0037ce5a186f7f863a9c13bf773a-r2)
+> > NOTE: package linux-firmware-0.0+git1+e98750f0d68d0037ce5a186f7f863a9c13bf773a-r2: task do_package: Succeeded
+> > 
+> > Cheers,
+> > 
+> > >  
+> > >  S = "${WORKDIR}/git"
+> > >  
+> > > 
+> > > 
+> > > _______________________________________________
+> > > Openembedded-commits mailing list
+> > > Openembedded-commits@lists.openembedded.org
+> > > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-commits
+> > 
+> > -- 
+> > Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+> 
+> 
+> 
+> -- 
+> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---3V7upXqbjpZ4EhLz
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
 
-iEYEARECAAYFAk/1thsACgkQN1Ujt2V2gByMQwCdH5XnjSJL23OxeG5v1bGBzZVp
-gZQAoJF82sLoJ15qn+oJD3KXgP2TTcX1
-=P3BZ
------END PGP SIGNATURE-----
 
---3V7upXqbjpZ4EhLz--
