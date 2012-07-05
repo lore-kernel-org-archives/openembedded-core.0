@@ -1,21 +1,25 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1SmqgZ-00066v-Ta
+	(envelope-from <Peter.Seebach@windriver.com>) id 1SmqvJ-0006LF-Qj
 	for openembedded-core@lists.openembedded.org;
-	Thu, 05 Jul 2012 20:21:52 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 05 Jul 2012 11:10:46 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="173821325"
-Received: from unknown (HELO localhost) ([10.255.12.184])
-	by fmsmga001.fm.intel.com with ESMTP; 05 Jul 2012 11:10:40 -0700
-From: Darren Hart <dvhart@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Jul 2012 11:08:59 -0700
-Message-Id: <4f44ff83fd87ca9ee470f3ee789bb5550aa5101a.1341511739.git.dvhart@linux.intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Cc: Darren Hart <dvhart@linux.intel.com>, saul.wold@intel.com
-Subject: [PATCH] bootimg: Use STAGING_KERNEL_DIR
+	Thu, 05 Jul 2012 20:37:06 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q65IQ0UA021164
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 5 Jul 2012 11:26:00 -0700 (PDT)
+Received: from localhost.localdomain (172.25.34.64) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Thu, 5 Jul 2012 11:26:00 -0700
+From: Peter Seebach <peter.seebach@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 5 Jul 2012 13:25:58 -0500
+Message-ID: <7125f689903d818be255e6c439fa15cc34b0b2ac.1341512660.git.peter.seebach@windriver.com>
+X-Mailer: git-send-email 1.7.0.4
+In-Reply-To: <cover.1341512659.git.peter.seebach@windriver.com>
+References: <cover.1341512659.git.peter.seebach@windriver.com>
+MIME-Version: 1.0
+Subject: [PATCH 1/1] pseudo: Update to 1.3.1 (fixing chroot crash)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -30,40 +34,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Jul 2012 18:21:52 -0000
+X-List-Received-Date: Thu, 05 Jul 2012 18:37:06 -0000
+Content-Type: text/plain
 
-bootimg.bbclass using STAGING_DIR_HOST/kernel instead of
-STAGING_KERNEL_DIR, resulting in build failure of live images.
+Yocto bug #2639.  If a chroot path was long, expanding absolute
+paths within the chroot path could overrun a buffer.
 
-| install: cannot stat `/usr/local/dev/yocto/fishriver-test/build/tmp/sysroots/fishriver/kernel/bzImage': No such file or directory
-
-Replace it with STAGING_KERNEL_DIR.
-
-UNTESTED - PLEASE TEST PRIOR TO PULL.
-
-Signed-off-by: Darren Hart <dvhart@linux.intel.com>
-CC: tom.zanussi@intel.com
-CC: saul.wold@intel.com
-CC: nitin.a.kamble@intel.com
+Signed-off-by: Peter Seebach <peter.seebach@windriver.com>
 ---
- meta/classes/bootimg.bbclass |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-devtools/pseudo/pseudo_1.3.1.bb |    8 ++++++++
+ meta/recipes-devtools/pseudo/pseudo_1.3.bb   |    8 --------
+ meta/recipes-devtools/pseudo/pseudo_git.bb   |    6 +++---
+ 3 files changed, 11 insertions(+), 11 deletions(-)
+ create mode 100644 meta/recipes-devtools/pseudo/pseudo_1.3.1.bb
+ delete mode 100644 meta/recipes-devtools/pseudo/pseudo_1.3.bb
 
-diff --git a/meta/classes/bootimg.bbclass b/meta/classes/bootimg.bbclass
-index 370b378..a4c0e8d 100644
---- a/meta/classes/bootimg.bbclass
-+++ b/meta/classes/bootimg.bbclass
-@@ -63,7 +63,7 @@ populate() {
- 	install -d ${DEST}
+diff --git a/meta/recipes-devtools/pseudo/pseudo_1.3.1.bb b/meta/recipes-devtools/pseudo/pseudo_1.3.1.bb
+new file mode 100644
+index 0000000..d64e0e5
+--- /dev/null
++++ b/meta/recipes-devtools/pseudo/pseudo_1.3.1.bb
+@@ -0,0 +1,8 @@
++require pseudo.inc
++
++PR = "r11"
++
++SRC_URI = "http://www.yoctoproject.org/downloads/${BPN}/${BPN}-${PV}.tar.bz2"
++
++SRC_URI[md5sum] = "aa7dbe925d065187833e1171746e9a94"
++SRC_URI[sha256sum] = "dc896c06b0f5bc253faaeb21ed78157db7ef7553e3ecae15a1eb6faf64942110"
+diff --git a/meta/recipes-devtools/pseudo/pseudo_1.3.bb b/meta/recipes-devtools/pseudo/pseudo_1.3.bb
+deleted file mode 100644
+index 187b46d..0000000
+--- a/meta/recipes-devtools/pseudo/pseudo_1.3.bb
++++ /dev/null
+@@ -1,8 +0,0 @@
+-require pseudo.inc
+-
+-PR = "r10"
+-
+-SRC_URI = "http://www.yoctoproject.org/downloads/${BPN}/${BPN}-${PV}.tar.bz2"
+-
+-SRC_URI[md5sum] = "5832bb70e6dce1a17b9b33a9c5c4b923"
+-SRC_URI[sha256sum] = "2f30e2e9ec966cec3a321fc2ed80408ee77ad6c0cd73aaf36f88b98e008f8508"
+diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
+index 1852fab..2f58072 100644
+--- a/meta/recipes-devtools/pseudo/pseudo_git.bb
++++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
+@@ -1,8 +1,8 @@
+ require pseudo.inc
  
- 	# Install bzImage, initrd, and rootfs.img in DEST for all loaders to use.
--	install -m 0644 ${STAGING_DIR_HOST}/kernel/bzImage ${DEST}/vmlinuz
-+	install -m 0644 ${STAGING_KERNEL_DIR}/bzImage ${DEST}/vmlinuz
+-SRCREV = "f0375c9aaefbccfd41aebbf6d332bb4d9e8f980c"
+-PV = "1.3+git${SRCPV}"
+-PR = "r25"
++SRCREV = "2e0189ba5368b1e88d509d0ab82bccb15cfb3653"
++PV = "1.3.1+git${SRCPV}"
++PR = "r26"
  
- 	if [ -n "${INITRD}" ] && [ -s "${INITRD}" ]; then
- 		install -m 0644 ${INITRD} ${DEST}/initrd
+ DEFAULT_PREFERENCE = "-1"
+ 
 -- 
-1.7.10.4
+1.7.0.4
 
 
 
