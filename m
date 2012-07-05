@@ -1,20 +1,45 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Smtoc-0006Zb-1v
+	(envelope-from <scott.a.garman@intel.com>) id 1Smtqp-0006eO-DF
 	for openembedded-core@lists.openembedded.org;
-	Thu, 05 Jul 2012 23:42:22 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 05 Jul 2012 14:31:16 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="164524809"
-Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.176])
-	by azsmga001.ch.intel.com with ESMTP; 05 Jul 2012 14:31:16 -0700
-From: Saul Wold <sgw@linux.intel.com>
+	Thu, 05 Jul 2012 23:44:39 +0200
+Received: from mail-yx0-f180.google.com ([209.85.213.180])
+	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 05 Jul 2012 14:33:33 -0700
+Received: by yenq6 with SMTP id q6so7478299yen.25
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 05 Jul 2012 14:33:32 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=message-id:date:from:user-agent:mime-version:to:subject:references
+	:in-reply-to:content-type:content-transfer-encoding
+	:x-gm-message-state;
+	bh=WrOBbaZgKn7cC1pmTm4IqROYrx66LE+A0ZG7o0Krmis=;
+	b=S9fVfeiBh6+AX0On7+/xbCw+3r/YMY1ItH9a80zcfSOvhdK+zHYWkzrht6R24cViQ+
+	6xfUexP7P+WMxDytzeHXAe7UWo1u1xT4DJboeCbX8H5lGeGd4A6qaGeROuqrIDoKEvyf
+	NPVToksfkqnS8nT+0+0aVEUNOy1mengKyXqezJxyz2AgHO4cNQrvgN8ESIpkMPWenHno
+	O3qmtTtQXuaiHWgmgyJJezls1dmP6kKP57eUY+qC1m2wHjfWISuqB9DUylc+XClh6xxs
+	V6GEUVqV8yG4YJMFtDXp2fe/oklVTPZxg70keJJAwMQbEjugRr/MAWKhNiMTv1+wF91q
+	rHPQ==
+Received: by 10.66.74.3 with SMTP id p3mr40059099pav.49.1341524011782;
+	Thu, 05 Jul 2012 14:33:31 -0700 (PDT)
+Received: from [127.0.0.1] (masterfoo.zenlinux.com. [207.192.74.254])
+	by mx.google.com with ESMTPS id gj8sm20451715pbc.39.2012.07.05.14.33.29
+	(version=SSLv3 cipher=OTHER); Thu, 05 Jul 2012 14:33:30 -0700 (PDT)
+Message-ID: <4FF60815.4040909@intel.com>
+Date: Thu, 05 Jul 2012 14:33:09 -0700
+From: Scott Garman <scott.a.garman@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:13.0) Gecko/20120615 Thunderbird/13.0.1
+MIME-Version: 1.0
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Jul 2012 14:31:15 -0700
-Message-Id: <1341523875-4758-1-git-send-email-sgw@linux.intel.com>
-X-Mailer: git-send-email 1.7.7.6
-Subject: [PATCH] gnutls: make sure native is patched for gettext version
+References: <1340682796-11569-1-git-send-email-b19537@freescale.com>
+	<4FEC908A.3000205@linux.intel.com>
+	<CAEsOVNerdO8m=0LHYUy8sn+6W=aOiEQS18vOQy8DYqWQeDxA+Q@mail.gmail.com>
+	<4FF5F219.8000103@intel.com>
+	<CAEsOVNf0s+QBs_NYiquUTU8zew052PKx6uEwUEwPBBHzbnVLUA@mail.gmail.com>
+In-Reply-To: <CAEsOVNf0s+QBs_NYiquUTU8zew052PKx6uEwUEwPBBHzbnVLUA@mail.gmail.com>
+X-Gm-Message-State: ALoCoQkMfVwgYPeD/F/ATb/yUyy9tMpJrW/Y3+KctxJUx5nFgIlrmlQX6sphELatCVbFiJIPKUyw
+Subject: Re: linux-dtb: add multi-dtb build support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,36 +54,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Jul 2012 21:42:22 -0000
+X-List-Received-Date: Thu, 05 Jul 2012 21:44:39 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- meta/recipes-support/gnutls/gnutls_2.12.20.bb |    9 +--------
- 1 files changed, 1 insertions(+), 8 deletions(-)
+On 07/05/2012 01:52 PM, McClintock Matthew-B29882 wrote:
+> On Thu, Jul 5, 2012 at 2:59 PM, Scott Garman <scott.a.garman@intel.com> wrote:
+>> On 07/05/2012 11:29 AM, McClintock Matthew-B29882 wrote:
+>>>
+>>> Can we add this to denzil branch? (post 1.2.1 is fine) - I realize
+>>> this is somewhat a new feature though but it would be helpful to have
+>>> it in denzil.
+>>
+>>
+>> Ok, I've now created a contrib branch to start tracking changes for 1.2.2,
+>> and have included this commit:
+>>
+>> http://git.openembedded.org/openembedded-core-contrib/log/?h=sgarman/denzil-next-1.2.2
+>>
+>> The usual caveats apply - I can rebase this branch at any time, etc.
+>
+> Are you missing a patch on this series? ChecksumError class does not exist...
+>
+> commit 2f009e5b?
 
-diff --git a/meta/recipes-support/gnutls/gnutls_2.12.20.bb b/meta/recipes-support/gnutls/gnutls_2.12.20.bb
-index 248c90f..010f179 100644
---- a/meta/recipes-support/gnutls/gnutls_2.12.20.bb
-+++ b/meta/recipes-support/gnutls/gnutls_2.12.20.bb
-@@ -5,15 +5,8 @@ PR = "${INC_PR}.0"
- SRC_URI += "file://gnutls-openssl.patch \
-             file://correct_rpl_gettimeofday_signature.patch \
-             file://configure-fix.patch \
-+            ${@['', 'file://fix-gettext-version.patch'][bb.data.inherits_class('native', d) or (not ((d.getVar("INCOMPATIBLE_LICENSE", True) or "").find("GPLv3") != -1))]} \
-            "
- 
- SRC_URI[md5sum] = "f1dea97da5d4dcdbc675720c9aad9ee3"
- SRC_URI[sha256sum] = "4884eafcc8383ed23209199bbc72ad04f4eb94955a50a594125ff34c6889c564"
--
--python() {
--    if not ((d.getVar("INCOMPATIBLE_LICENSE", True) or "").find("GPLv3") != -1):
--        # if GPLv3 add patch
--        src_uri = (d.getVar("SRC_URI", False) or "").split()
--        src_uri.append("file://fix-gettext-version.patch")
--        d.setVar("SRC_URI", " ".join(src_uri))
--}
+What is the title of that commit? I'm not seeing it.
+
+Thanks,
+
+Scott
+
 -- 
-1.7.7.6
+Scott Garman
+Embedded Linux Engineer - Yocto Project
+Intel Open Source Technology Center
+
 
 
 
