@@ -1,38 +1,31 @@
-Received: from astoria.ccjclearline.com ([64.235.106.9])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpjday@crashcourse.ca>) id 1SmjG1-0006tV-Sf
+	(envelope-from <Xin.Ouyang@windriver.com>) id 1SmkEj-0001LB-GY
 	for openembedded-core@lists.openembedded.org;
-	Thu, 05 Jul 2012 12:25:59 +0200
-Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
-	([99.241.91.63]:54601 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.77) (envelope-from <rpjday@crashcourse.ca>)
-	id 1Smj5K-0001AI-Md for openembedded-core@lists.openembedded.org;
-	Thu, 05 Jul 2012 06:14:54 -0400
-Date: Thu, 5 Jul 2012 06:14:46 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@oneiric
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <4FF5289C.80107@gmail.com>
-Message-ID: <alpine.DEB.2.02.1207050607040.3303@oneiric>
-References: <alpine.DEB.2.02.1207032219210.21877@oneiric>
-	<CAMKF1sqWn-S=Hc_eMw-JU3ZP6ox-vfNSidiQbF_oLPhg9tO71g@mail.gmail.com>
-	<4FF4151A.7050400@opendreambox.org>
-	<alpine.DEB.2.02.1207040615500.23821@oneiric>
-	<1341401390.3906.12.camel@ted> <4FF5289C.80107@gmail.com>
-User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+	Thu, 05 Jul 2012 13:28:41 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q65BHWKx016677
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 5 Jul 2012 04:17:33 -0700 (PDT)
+Received: from [128.224.162.231] (128.224.162.231) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Thu, 5 Jul 2012 04:17:32 -0700
+Message-ID: <4FF577CC.3040205@windriver.com>
+Date: Thu, 5 Jul 2012 19:17:32 +0800
+From: Pascal Ouyang <xin.ouyang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:13.0) Gecko/20120615 Thunderbird/13.0.1
 MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Subject: Re: why would a recipe have both do_install() and do_install_append()?
+To: Khem Raj <raj.khem@gmail.com>
+References: <1340262834-27560-1-git-send-email-xin.ouyang@windriver.com>
+	<CAMKF1sp-vCv1iP3YAgAbEP4=2ruAme+-JnCqxBLXGW5yJ3oyZw@mail.gmail.com>
+	<4FEC0EC7.6050800@windriver.com> <4FEC807C.1040803@gmail.com>
+In-Reply-To: <4FEC807C.1040803@gmail.com>
+X-MIME-Autoconverted: from 8bit to quoted-printable by mail.windriver.com id
+	q65BHWKx016677
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] cpan.bbclass: Fix CCFLAGS.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,56 +40,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Jul 2012 10:25:59 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Thu, 05 Jul 2012 11:28:41 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 4 Jul 2012, Khem Raj wrote:
-
+On 2012=E5=B9=B406=E6=9C=8829=E6=97=A5 00:04, Khem Raj wrote:
 > -----BEGIN PGP SIGNED MESSAGE-----
 > Hash: SHA1
 >
-> On 7/4/2012 4:29 AM, Richard Purdie wrote:
-> >>>>> AFAICT, you can't override an append. Both appends, the
-> >>>>> original and the bbappended, would get executed.
-> >>>
-> >>> ok, now i *definitely* want to know whether this would work or
-> >>> not since there are a few recipes that define both do_install()
-> >>> and do_install_append().
-> > Andreas is correct, you can't override a do_install_append (),
-> > both would just get appended.
+> On 6/28/2012 12:59 AM, Pascal Ouyang wrote:
+>> On 2012=E5=B9=B406=E6=9C=8821=E6=97=A5 23:47, Khem Raj wrote:
+>>> On Thu, Jun 21, 2012 at 12:13 AM,  <xin.ouyang@windriver.com>
+>>> wrote:
+>>>> From: Xin Ouyang <Xin.Ouyang@windriver.com>
+>>>>
+>>>> We should not just replace CCFLAGS with CFLAGS while compiling,
+>>>> because this may cause run-time errors with perl's
+>>>> DynaLoader.pm.
+>>>>
+>>>> Tested on qemux86 with new libnet-libidn-perl bb recipe:
+>>>
+>>> can you instead try the patch from
+>>>
+>>> http://bugs.debian.org/cgi-bin/bugreport.cgi?msg=3D19;bug=3D628522
+>>>
+>> This debian patch takes no effect.
+>>
+>> Actually it try to fix this:
+>>
+>> Some packages which has those lines in Makefile.PL: WriteMakefile(
+>> ... 'CCFLAGS'    =3D> 'some cflags', ... ); While run perl
+>> Makefile.PL to configure, there are CCFLAGS=3D"some cflags" to
+>> override the original CCFLAGS=3D$Config{ccflags} in generated
+>> Makefiles.
+>>
+>>
+>> In Poky, CCFLAGS in our generated Makefiles are all right. But when
+>> we run oe_runmake CCFLAGS=3D"${CFLAGS}" to do_compile, this will
+>> override our right CCFLAGS.
 >
-> yes thats true. I was thinking about having appends which are
-> recipe-class specific but that case wont apply to a normal _append
-> like above
+> but thats what assign operator is meant to do isnt it ?
+>
 
-  so, in the end. there's really no compelling rationale for a recipe
-defining both a do_install() and do_install_append() back to back, is
-that correct?  because there are a small number of OE recipes that do
-just that:
+Hi Raj,
 
-$ grep -wl do_install $(grep -rlw do_install_append *)
-meta/recipes-support/libcap/libcap.inc
-meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.1.bb
-meta/recipes-core/tinylogin/tinylogin_1.4.bb
-meta/recipes-core/eglibc/eglibc-package.inc
-meta/recipes-kernel/linux/linux-yocto.inc
-meta/recipes-extended/lsb/lsb_1.4.bb
-meta/recipes-extended/man/man_1.6f.bb
-meta/recipes-extended/logrotate/logrotate_3.8.1.bb
-$
+This is indeed a bug, because all non-pure perl modules(with C codes,=20
+tested libtext-iconv-perl and libnet-libidn-perl) would fail in running=20
+time on the 32bit X86 machines with current cpan.bbclass.
+And the root cause is CCFLAGS=3D"${CFLAGS}" passed to oe_runmake has=20
+overrided the CCFLAGS in Makefile.
 
-  obviously, it doesn't hurt, it just seems unnecessary.
+So, I still don't know what is your opinion of this patch.
+Thanks.
 
-rday
+- Pascal
 
--- 
+>
+> -----BEGIN PGP SIGNATURE-----
+> Version: GnuPG v1.4.12 (MingW32)
+> Comment: Using GnuPG with Mozilla - http://enigmail.mozdev.org/
+>
+> iEYEARECAAYFAk/sgHwACgkQuwUzVZGdMxSvoACdHtcMLShjJIglhq/KXuE73QIW
+> 7FsAoI/IFxzDXZWX/xLj3tNkDDzdUM++
+> =3DMWVl
+> -----END PGP SIGNATURE-----
+>
 
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
 
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
+--=20
+- Pascal
+
+
 
 
