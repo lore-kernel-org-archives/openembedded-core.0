@@ -1,39 +1,27 @@
-Received: from mail-wi0-f171.google.com ([209.85.212.171])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1SmtHc-0006FR-4d
+	(envelope-from <dvhart@linux.intel.com>) id 1SmtoS-0006Xg-Lm
 	for openembedded-core@lists.openembedded.org;
-	Thu, 05 Jul 2012 23:08:16 +0200
-Received: by wibhq4 with SMTP id hq4so77918wib.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Jul 2012 13:57:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=smRCO2jNBP3YkB7RK4lvleE2LkQHc393B1mh064oPzE=;
-	b=Jeqeat9tzPrS84pqPWOT4TrfqU9KuXV/NRGK1MQqTxIm6BHfiUk54G0a/zgdqEp4SW
-	eYeRDUrR263oCWPPkeB5PU9se3PzbvN3vMrXOG8+eTaUOzt7UUW7ZDAVUlu0QrpSbL+P
-	EjUElr3SsPKVf7b1gozP2zvGreT4flzi9KkZw8Nn04DE9NzXWYcwd/vi5sajH4OVAq3n
-	1LZjMMZ5S77uDVwxlYnlZGYFO1JknZJF68JMjQAezG4/PHe6zvr+Jnjoy+sCTnh4FUY7
-	XLJKxhQ85vh0icJcNgy9loyiR0jsGlKO7XGk3Jv5j/kToUlHJPS8V/wGymV9TvlU3dyv
-	+9Gw==
-Received: by 10.180.105.130 with SMTP id gm2mr2279752wib.6.1341521831545;
-	Thu, 05 Jul 2012 13:57:11 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id db7sm2000001wib.6.2012.07.05.13.57.10
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 05 Jul 2012 13:57:10 -0700 (PDT)
-Date: Thu, 5 Jul 2012 22:57:09 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20120705205709.GE3708@jama.jama.net>
-References: <cover.1341498745.git.raj.khem@gmail.com>
-	<20120705202306.GD3708@jama.jama.net>
-	<CAMKF1sr7c4c3vk3DsJCM-usUD9zvSdgrZKCM0OxKfnQWLPaeZw@mail.gmail.com>
+	Thu, 05 Jul 2012 23:42:12 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 05 Jul 2012 14:31:06 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="173889267"
+Received: from unknown (HELO envy.home) ([10.255.12.184])
+	by fmsmga001.fm.intel.com with ESMTP; 05 Jul 2012 14:31:06 -0700
+Message-ID: <4FF6073D.7070709@linux.intel.com>
+Date: Thu, 05 Jul 2012 14:29:33 -0700
+From: Darren Hart <dvhart@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:13.0) Gecko/20120615 Thunderbird/13.0.1
 MIME-Version: 1.0
-In-Reply-To: <CAMKF1sr7c4c3vk3DsJCM-usUD9zvSdgrZKCM0OxKfnQWLPaeZw@mail.gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: [PATCH 00/14] eglibc 2.16
+To: Tom Zanussi <tom.zanussi@intel.com>
+References: <4f44ff83fd87ca9ee470f3ee789bb5550aa5101a.1341511739.git.dvhart@linux.intel.com>
+	<1341518766.6761.50.camel@trz-ThinkPad-T420>
+In-Reply-To: <1341518766.6761.50.camel@trz-ThinkPad-T420>
+X-Enigmail-Version: 1.4.2
+Cc: saul.wold@intel.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] bootimg: Use STAGING_KERNEL_DIR
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,80 +36,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Jul 2012 21:08:16 -0000
-X-Groupsio-MsgNum: 24762
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="TD8GDToEDw0WLGOL"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 05 Jul 2012 21:42:12 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
---TD8GDToEDw0WLGOL
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jul 05, 2012 at 01:39:04PM -0700, Khem Raj wrote:
-> On Thu, Jul 5, 2012 at 1:23 PM, Martin Jansa <martin.jansa@gmail.com> wro=
-te:
-> > On Thu, Jul 05, 2012 at 07:35:19AM -0700, Khem Raj wrote:
-> >> This patch adds eglibc 2.16 recipes. I was able to build world
-> >> on x86 except perf which was failing with 2.15 as well.
-> >>
-> >> I have also build and run core-image-sato on all qemus
-> >>
-> >> I did not remove 2.15 to allow some soak in time.
-> >>
-> >> The following changes since commit 5beb7176d361d4bfa279bbfab5a17b8fe4f=
-a3b73:
-> >>
-> >>   netbase: update to ver. 5.0 (2012-07-05 14:18:19 +0100)
-> >
-> > Build and runtime tested on armv4t with bfd (om-gta02), but on armv7a
-> > (where I have enabled gold) it fails in do_configure already.
-> >
-> > *** These critical programs are missing or too old: ld
->=20
-> which package do you see this issue with ?
-> glibc itself is not buildable with gold. In OE-Core we use gnu ld for
-> linking eglibc and gold for rest of it.
 
-eglibc-initial
-http://norman-schleicher.de/jenkins/job/shr-core-branches-nokia900-shr-imag=
-e/lastBuild/console
+On 07/05/2012 01:06 PM, Tom Zanussi wrote:
+> On Thu, 2012-07-05 at 11:08 -0700, Darren Hart wrote:
+>> bootimg.bbclass using STAGING_DIR_HOST/kernel instead of
+>> STAGING_KERNEL_DIR, resulting in build failure of live images.
+>>
+>> | install: cannot stat `/usr/local/dev/yocto/fishriver-test/build/tmp/sysroots/fishriver/kernel/bzImage': No such file or directory
+>>
+>> Replace it with STAGING_KERNEL_DIR.
+>>
+>> UNTESTED - PLEASE TEST PRIOR TO PULL.
+> 
+> Fixed the build problem here.
+> 
+> Tested-by: Tom Zanussi <tom.zanussi@intel.com>
 
-I was looking in meta/recipes-core/eglibc for switch forcing bfd for it,
-but I haven't found it neither in 2.15 or 2.16..
+Great. I'm getting bags packed and kids ready to go. Can someone please
+pull this one in and clean up the commit log to remove the UNTESTED line
+and add Tom's Tested-by?
 
-Cheers,
+Thanks,
 
->=20
-> >
-> > IIRC I've seen this with older eglibc too, but then it was working
-> > again..
-> >
-> > BTW: gold on armv4t is still unusable right?
-> >
->=20
-> yes. It still is. I think one option is to try binutils/master, I was
-> close to fixing it before I ran out of time
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+Darren
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+> 
+>>
+>> Signed-off-by: Darren Hart <dvhart@linux.intel.com>
+>> CC: tom.zanussi@intel.com
+>> CC: saul.wold@intel.com
+>> CC: nitin.a.kamble@intel.com
+>> ---
+>>  meta/classes/bootimg.bbclass |    2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/meta/classes/bootimg.bbclass b/meta/classes/bootimg.bbclass
+>> index 370b378..a4c0e8d 100644
+>> --- a/meta/classes/bootimg.bbclass
+>> +++ b/meta/classes/bootimg.bbclass
+>> @@ -63,7 +63,7 @@ populate() {
+>>  	install -d ${DEST}
+>>  
+>>  	# Install bzImage, initrd, and rootfs.img in DEST for all loaders to use.
+>> -	install -m 0644 ${STAGING_DIR_HOST}/kernel/bzImage ${DEST}/vmlinuz
+>> +	install -m 0644 ${STAGING_KERNEL_DIR}/bzImage ${DEST}/vmlinuz
+>>  
+>>  	if [ -n "${INITRD}" ] && [ -s "${INITRD}" ]; then
+>>  		install -m 0644 ${INITRD} ${DEST}/initrd
+> 
+> 
 
---TD8GDToEDw0WLGOL
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+-- 
+Darren Hart
+Intel Open Source Technology Center
+Yocto Project - Linux Kernel
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
 
-iEYEARECAAYFAk/1/6UACgkQN1Ujt2V2gByLJQCaA3pUg/xcow1eGfDWjLEJbXRh
-8FkAnjKvWOLSWz2c616E6jRFP9ZAd3M4
-=eveL
------END PGP SIGNATURE-----
 
---TD8GDToEDw0WLGOL--
+
