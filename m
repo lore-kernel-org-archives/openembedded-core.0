@@ -1,32 +1,33 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1Sn1DY-0001zN-2a
+	(envelope-from <Xin.Ouyang@windriver.com>) id 1Sn1LA-00026O-UD
 	for openembedded-core@lists.openembedded.org;
-	Fri, 06 Jul 2012 07:36:36 +0200
-Received: by eekd49 with SMTP id d49so3385976eek.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Jul 2012 22:25:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type; bh=9EWDDqIT259trO7ISZC0j4hyYMG+1P9TiJ1K+H4v/jM=;
-	b=S2qY4CTwR54JVcnRSaotRroVU9HDAUwpcep61qtSiyYF0HZ0CLEj0OtkjkH+ttjFD/
-	xRKEcbgSDPJsQNUsASagd1yKmSz6SyfSP//pAjW2/rLZ/BDaOMUAGLxSYtUFEENtkesZ
-	IAkTESIMqriY8BCcvo6KvsYrGxV/4bfBs82NA0JTPbUnTxe+j1tsjUhwRz9U3ekxVqkV
-	7ibEF0pIyvUHFxMEwmHEHXYsOO0BRH1twvdvJPhfVtQ6zym3NwTy/AIQsniTePE/OPNS
-	mMvd9WEsK/Ybn/b92Jyq0T1LnDgS5QqeCGl45kf7rk33zAAMxnZQmmRsB5Krge2ZT2Pp
-	pxTg==
-Received: by 10.14.97.16 with SMTP id s16mr6393087eef.117.1341552330976; Thu,
-	05 Jul 2012 22:25:30 -0700 (PDT)
+	Fri, 06 Jul 2012 07:44:29 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q665XKFv027947
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 5 Jul 2012 22:33:20 -0700 (PDT)
+Received: from [128.224.162.231] (128.224.162.231) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Thu, 5 Jul 2012 22:33:19 -0700
+Message-ID: <4FF678A0.4040200@windriver.com>
+Date: Fri, 6 Jul 2012 13:33:20 +0800
+From: Pascal Ouyang <xin.ouyang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:13.0) Gecko/20120615 Thunderbird/13.0.1
 MIME-Version: 1.0
-Received: by 10.14.210.199 with HTTP; Thu, 5 Jul 2012 22:25:00 -0700 (PDT)
-In-Reply-To: <1341549155-30728-1-git-send-email-msm@freescale.com>
-References: <1341549155-30728-1-git-send-email-msm@freescale.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 5 Jul 2012 22:25:00 -0700
-Message-ID: <CAMKF1srU_KcFP7-3-znj+T6m9Tc1J+JVFbxy4L5ojW-2Z3GUag@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
+To: Khem Raj <raj.khem@gmail.com>
+References: <1340262834-27560-1-git-send-email-xin.ouyang@windriver.com>
+	<CAMKF1sp-vCv1iP3YAgAbEP4=2ruAme+-JnCqxBLXGW5yJ3oyZw@mail.gmail.com>
+	<4FEC0EC7.6050800@windriver.com> <4FEC807C.1040803@gmail.com>
+	<4FF577CC.3040205@windriver.com>
+	<CAMKF1sqqiaXyxxzrreU2+00mmdCAmtpSNXnrXVgF1F5a4b07_g@mail.gmail.com>
+In-Reply-To: <CAMKF1sqqiaXyxxzrreU2+00mmdCAmtpSNXnrXVgF1F5a4b07_g@mail.gmail.com>
+X-MIME-Autoconverted: from 8bit to quoted-printable by mail.windriver.com id
+	q665XKFv027947
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] libgomp: add libgomp (openmp) library, and build for powerpc targets by default
+Subject: Re: [PATCH] cpan.bbclass: Fix CCFLAGS.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,78 +42,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Jul 2012 05:36:36 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 06 Jul 2012 05:44:29 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jul 5, 2012 at 9:32 PM, Matthew McClintock <msm@freescale.com> wrote:
-> Signed-off-by: Matthew McClintock <msm@freescale.com>
-> ---
->  meta/recipes-devtools/gcc/gcc-4.6.inc               |    2 +-
->  meta/recipes-devtools/gcc/gcc-configure-runtime.inc |    2 ++
->  meta/recipes-devtools/gcc/gcc-package-runtime.inc   |    9 +++++++++
->  3 files changed, 12 insertions(+), 1 deletion(-)
+On 2012=E5=B9=B407=E6=9C=8805=E6=97=A5 22:57, Khem Raj wrote:
+> On Thu, Jul 5, 2012 at 4:17 AM, Pascal Ouyang <xin.ouyang@windriver.com=
+> wrote:
+>>
+>> So, I still don't know what is your opinion of this patch.
 >
-> diff --git a/meta/recipes-devtools/gcc/gcc-4.6.inc b/meta/recipes-devtools/gcc/gcc-4.6.inc
-> index 020e21b..32545eb 100644
-> --- a/meta/recipes-devtools/gcc/gcc-4.6.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-4.6.inc
-> @@ -1,6 +1,6 @@
->  require gcc-common.inc
+> I think we still need the CC and CFLAGS to appear in CCFLAGS since
+> they sometimes decide ABI etc. that we use and without that
+> the modules will be incompatible. So may be
+> appending to CCFLAGS would work instead
 >
-> -PR = "r25"
-> +PR = "r26"
->
->  # Third digit in PV should be incremented after a minor release
->  # happens from this branch on gcc e.g. currently its 4.6.0
-> diff --git a/meta/recipes-devtools/gcc/gcc-configure-runtime.inc b/meta/recipes-devtools/gcc/gcc-configure-runtime.inc
-> index 34bfaeb..a7d478c 100644
-> --- a/meta/recipes-devtools/gcc/gcc-configure-runtime.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-configure-runtime.inc
-> @@ -9,6 +9,8 @@ EXTRA_OECONF_PATHS = " \
->      --with-build-sysroot=${STAGING_DIR_TARGET}"
->
->  RUNTIMETARGET = "libssp libstdc++-v3"
-> +RUNTIMETARGET_append_powerpc = " libgomp"
-> +RUNTIMETARGET_append_powerpc64 = " libgomp"
->  #  ?
->  # libiberty
->  # libmudflap
-> diff --git a/meta/recipes-devtools/gcc/gcc-package-runtime.inc b/meta/recipes-devtools/gcc/gcc-package-runtime.inc
-> index feb8735..001a444 100644
-> --- a/meta/recipes-devtools/gcc/gcc-package-runtime.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-package-runtime.inc
-> @@ -13,6 +13,8 @@ PACKAGES = "\
->    libgfortran-dev \
->    libmudflap \
->    libmudflap-dev \
-> +  libgomp \
-> +  libgomp-dev \
->  "
->  # The base package doesn't exist, so we clear the recommends.
->  RRECOMMENDS_${PN}-dbg = ""
-> @@ -61,3 +63,10 @@ FILES_libmudflap-dev = "\
->    ${libdir}/libmudflap*.a \
->    ${libdir}/libmudflap*.la"
->
-> +FILES_libgomp = "${libdir}/libgomp*.so.*"
-> +FILES_libgomp-dev = "\
-> +  ${libdir}/libgomp*.so \
-> +  ${libdir}/libgomp*.a \
-> +  ${libdir}/libgomp*.la \
-> +  ${libdir}/libgomp.spec \
-> +  ${libdir}/gcc/${TARGET_SYS}/${BINV}/include/omp.h"
 
-Did you build a non ppc architecture to verify that it does not
-complain about empty packages ?
+Exactly in my patch, this just appends CFLAGS to CCFLAGS.
 
-> --
-> 1.7.10
->
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+@@ -26,13 +26,14 @@ cpan_do_configure () {
+  			test -f $f2 || continue
+  			sed -i -e "s:\(PERL_ARCHLIB =3D \).*:\1${PERL_ARCHLIB}:" \
+  				-e 's/perl.real/perl/' \
++				-e "s/^\(CCFLAGS =3D.*\)/\1 ${CFLAGS}/" \
+  				$f2
+  		done
+  	fi
+  }
+
+Thanks.
+--=20
+- Pascal
+
+
 
 
