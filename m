@@ -1,37 +1,32 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1Sn1D4-0001xD-Pm
+	(envelope-from <raj.khem@gmail.com>) id 1Sn1DY-0001zN-2a
 	for openembedded-core@lists.openembedded.org;
-	Fri, 06 Jul 2012 07:36:06 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 05 Jul 2012 22:25:00 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="174015447"
-Received: from orsmsx606.amr.corp.intel.com ([10.22.226.128])
-	by fmsmga001.fm.intel.com with ESMTP; 05 Jul 2012 22:25:00 -0700
-Received: from orsmsx102.amr.corp.intel.com (10.22.225.129) by
-	orsmsx606.amr.corp.intel.com (10.22.226.128) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Thu, 5 Jul 2012 22:25:00 -0700
-Received: from orsmsx106.amr.corp.intel.com ([169.254.5.168]) by
-	ORSMSX102.amr.corp.intel.com ([169.254.1.101]) with mapi id
-	14.01.0355.002; Thu, 5 Jul 2012 22:25:00 -0700
-From: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
-To: Darren Hart <dvhart@linux.intel.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [PATCH] bootimg: Use STAGING_KERNEL_DIR
-Thread-Index: AQHNWtmAYwzarSVFKE+SsTYYEIsTnZcbuSuQ
-Date: Fri, 6 Jul 2012 05:24:59 +0000
-Message-ID: <ADD6A3980E8C39419A432FF422031B4C031693CF@ORSMSX106.amr.corp.intel.com>
-References: <4f44ff83fd87ca9ee470f3ee789bb5550aa5101a.1341511739.git.dvhart@linux.intel.com>
-In-Reply-To: <4f44ff83fd87ca9ee470f3ee789bb5550aa5101a.1341511739.git.dvhart@linux.intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.22.254.140]
+	Fri, 06 Jul 2012 07:36:36 +0200
+Received: by eekd49 with SMTP id d49so3385976eek.6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 05 Jul 2012 22:25:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type; bh=9EWDDqIT259trO7ISZC0j4hyYMG+1P9TiJ1K+H4v/jM=;
+	b=S2qY4CTwR54JVcnRSaotRroVU9HDAUwpcep61qtSiyYF0HZ0CLEj0OtkjkH+ttjFD/
+	xRKEcbgSDPJsQNUsASagd1yKmSz6SyfSP//pAjW2/rLZ/BDaOMUAGLxSYtUFEENtkesZ
+	IAkTESIMqriY8BCcvo6KvsYrGxV/4bfBs82NA0JTPbUnTxe+j1tsjUhwRz9U3ekxVqkV
+	7ibEF0pIyvUHFxMEwmHEHXYsOO0BRH1twvdvJPhfVtQ6zym3NwTy/AIQsniTePE/OPNS
+	mMvd9WEsK/Ybn/b92Jyq0T1LnDgS5QqeCGl45kf7rk33zAAMxnZQmmRsB5Krge2ZT2Pp
+	pxTg==
+Received: by 10.14.97.16 with SMTP id s16mr6393087eef.117.1341552330976; Thu,
+	05 Jul 2012 22:25:30 -0700 (PDT)
 MIME-Version: 1.0
-Cc: "Wold, Saul" <saul.wold@intel.com>
-Subject: Re: [PATCH] bootimg: Use STAGING_KERNEL_DIR
+Received: by 10.14.210.199 with HTTP; Thu, 5 Jul 2012 22:25:00 -0700 (PDT)
+In-Reply-To: <1341549155-30728-1-git-send-email-msm@freescale.com>
+References: <1341549155-30728-1-git-send-email-msm@freescale.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 5 Jul 2012 22:25:00 -0700
+Message-ID: <CAMKF1srU_KcFP7-3-znj+T6m9Tc1J+JVFbxy4L5ojW-2Z3GUag@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] libgomp: add libgomp (openmp) library, and build for powerpc targets by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,60 +41,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Jul 2012 05:36:07 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 06 Jul 2012 05:36:36 -0000
+Content-Type: text/plain; charset=UTF-8
 
-ACK, This patch fixes the build. Bitbake is able to complete the creation o=
-f the bootable images.
-
-Nitin
-
-
-> -----Original Message-----
-> From: Darren Hart [mailto:dvhart@linux.intel.com]
-> Sent: Thursday, July 05, 2012 11:39 PM
-> To: openembedded-core@lists.openembedded.org
-> Cc: Darren Hart; Zanussi, Tom; Wold, Saul; Kamble, Nitin A
-> Subject: [PATCH] bootimg: Use STAGING_KERNEL_DIR
->=20
-> bootimg.bbclass using STAGING_DIR_HOST/kernel instead of
-> STAGING_KERNEL_DIR, resulting in build failure of live images.
->=20
-> | install: cannot stat
-> | `/usr/local/dev/yocto/fishriver-test/build/tmp/sysroots/fishriver/kern
-> | el/bzImage': No such file or directory
->=20
-> Replace it with STAGING_KERNEL_DIR.
->=20
-> UNTESTED - PLEASE TEST PRIOR TO PULL.
->=20
-> Signed-off-by: Darren Hart <dvhart@linux.intel.com>
-> CC: tom.zanussi@intel.com
-> CC: saul.wold@intel.com
-> CC: nitin.a.kamble@intel.com
+On Thu, Jul 5, 2012 at 9:32 PM, Matthew McClintock <msm@freescale.com> wrote:
+> Signed-off-by: Matthew McClintock <msm@freescale.com>
 > ---
->  meta/classes/bootimg.bbclass |    2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/meta/classes/bootimg.bbclass b/meta/classes/bootimg.bbclass
-> index 370b378..a4c0e8d 100644
-> --- a/meta/classes/bootimg.bbclass
-> +++ b/meta/classes/bootimg.bbclass
-> @@ -63,7 +63,7 @@ populate() {
->  	install -d ${DEST}
->=20
->  	# Install bzImage, initrd, and rootfs.img in DEST for all loaders to us=
-e.
-> -	install -m 0644 ${STAGING_DIR_HOST}/kernel/bzImage
-> ${DEST}/vmlinuz
-> +	install -m 0644 ${STAGING_KERNEL_DIR}/bzImage ${DEST}/vmlinuz
->=20
->  	if [ -n "${INITRD}" ] && [ -s "${INITRD}" ]; then
->  		install -m 0644 ${INITRD} ${DEST}/initrd
-> --
-> 1.7.10.4
+>  meta/recipes-devtools/gcc/gcc-4.6.inc               |    2 +-
+>  meta/recipes-devtools/gcc/gcc-configure-runtime.inc |    2 ++
+>  meta/recipes-devtools/gcc/gcc-package-runtime.inc   |    9 +++++++++
+>  3 files changed, 12 insertions(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-devtools/gcc/gcc-4.6.inc b/meta/recipes-devtools/gcc/gcc-4.6.inc
+> index 020e21b..32545eb 100644
+> --- a/meta/recipes-devtools/gcc/gcc-4.6.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-4.6.inc
+> @@ -1,6 +1,6 @@
+>  require gcc-common.inc
+>
+> -PR = "r25"
+> +PR = "r26"
+>
+>  # Third digit in PV should be incremented after a minor release
+>  # happens from this branch on gcc e.g. currently its 4.6.0
+> diff --git a/meta/recipes-devtools/gcc/gcc-configure-runtime.inc b/meta/recipes-devtools/gcc/gcc-configure-runtime.inc
+> index 34bfaeb..a7d478c 100644
+> --- a/meta/recipes-devtools/gcc/gcc-configure-runtime.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-configure-runtime.inc
+> @@ -9,6 +9,8 @@ EXTRA_OECONF_PATHS = " \
+>      --with-build-sysroot=${STAGING_DIR_TARGET}"
+>
+>  RUNTIMETARGET = "libssp libstdc++-v3"
+> +RUNTIMETARGET_append_powerpc = " libgomp"
+> +RUNTIMETARGET_append_powerpc64 = " libgomp"
+>  #  ?
+>  # libiberty
+>  # libmudflap
+> diff --git a/meta/recipes-devtools/gcc/gcc-package-runtime.inc b/meta/recipes-devtools/gcc/gcc-package-runtime.inc
+> index feb8735..001a444 100644
+> --- a/meta/recipes-devtools/gcc/gcc-package-runtime.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-package-runtime.inc
+> @@ -13,6 +13,8 @@ PACKAGES = "\
+>    libgfortran-dev \
+>    libmudflap \
+>    libmudflap-dev \
+> +  libgomp \
+> +  libgomp-dev \
+>  "
+>  # The base package doesn't exist, so we clear the recommends.
+>  RRECOMMENDS_${PN}-dbg = ""
+> @@ -61,3 +63,10 @@ FILES_libmudflap-dev = "\
+>    ${libdir}/libmudflap*.a \
+>    ${libdir}/libmudflap*.la"
+>
+> +FILES_libgomp = "${libdir}/libgomp*.so.*"
+> +FILES_libgomp-dev = "\
+> +  ${libdir}/libgomp*.so \
+> +  ${libdir}/libgomp*.a \
+> +  ${libdir}/libgomp*.la \
+> +  ${libdir}/libgomp.spec \
+> +  ${libdir}/gcc/${TARGET_SYS}/${BINV}/include/omp.h"
 
+Did you build a non ppc architecture to verify that it does not
+complain about empty packages ?
+
+> --
+> 1.7.10
+>
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
