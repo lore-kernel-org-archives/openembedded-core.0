@@ -1,23 +1,25 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <tom.zanussi@intel.com>) id 1SnFKt-00028t-O6
+	(envelope-from <tom.zanussi@intel.com>) id 1SnFKv-000290-9d
 	for openembedded-core@lists.openembedded.org;
-	Fri, 06 Jul 2012 22:41:07 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 06 Jul 2012 13:30:00 -0700
+	Fri, 06 Jul 2012 22:41:09 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 06 Jul 2012 13:30:02 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="168088981"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="189350789"
 Received: from unknown (HELO localhost) ([10.255.13.37])
-	by orsmga002.jf.intel.com with ESMTP; 06 Jul 2012 13:30:00 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 06 Jul 2012 13:30:01 -0700
 From: tom.zanussi@intel.com
 To: openembedded-core@lists.openembedded.org,
 	richard.purdie@linuxfoundation.org
-Date: Fri,  6 Jul 2012 15:29:57 -0500
-Message-Id: <a2ba99c6c2be42f7d30f5827361b0a6892659997.1341606068.git.tom.zanussi@intel.com>
+Date: Fri,  6 Jul 2012 15:29:58 -0500
+Message-Id: <ad53f92454d7311ad5e8531b46e150e0bb5d4611.1341606068.git.tom.zanussi@intel.com>
 X-Mailer: git-send-email 1.7.0.4
+In-Reply-To: <a2ba99c6c2be42f7d30f5827361b0a6892659997.1341606068.git.tom.zanussi@intel.com>
+References: <a2ba99c6c2be42f7d30f5827361b0a6892659997.1341606068.git.tom.zanussi@intel.com>
 In-Reply-To: <cover.1341606068.git.tom.zanussi@intel.com>
 References: <cover.1341606068.git.tom.zanussi@intel.com>
-Subject: [PATCH 1/3] perf: add perf.inc
+Subject: [PATCH 2/3] perf: add arch-specific perf-scripting feature
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,69 +34,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Jul 2012 20:41:08 -0000
+X-List-Received-Date: Fri, 06 Jul 2012 20:41:09 -0000
 
 From: Tom Zanussi <tom.zanussi@intel.com>
 
-Add a perf.inc to contain utility functions and definitions and to
-avoid cluttering up the main recipe.
+Add a new architecture-specific feature named 'perf-scripting'.
+Adding this into the perf_features_by_arch table in perf.inc for a
+given arch will enable perf scripting on a target built for that arch,
+which will turn on all the language bindings currently aavailable in
+perf (Perl and Python), if perf is included in an image.
+
+If 'perf-scripting' isn't named as a feature (the default), all perf
+language bindings will be disabled and unavailable.
 
 Signed-off-by: Tom Zanussi <tom.zanussi@intel.com>
 ---
- meta/recipes-kernel/perf/perf.inc    |   30 ++++++++++++++++++++++++++++++
- meta/recipes-kernel/perf/perf_3.4.bb |    2 ++
- 2 files changed, 32 insertions(+), 0 deletions(-)
- create mode 100644 meta/recipes-kernel/perf/perf.inc
+ meta/recipes-kernel/perf/perf_3.4.bb |   12 +++++++++---
+ 1 files changed, 9 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-kernel/perf/perf.inc b/meta/recipes-kernel/perf/perf.inc
-new file mode 100644
-index 0000000..9b46311
---- /dev/null
-+++ b/meta/recipes-kernel/perf/perf.inc
-@@ -0,0 +1,30 @@
-+def perf_arch_supports_feature(feature, trueval, falseval, d):
-+    """
-+    Check which perf features a particular architecture supports.
-+
-+    The perf_features_by_arch table below lists the perf features
-+    supported by each arch.  If you want a particular arch to support
-+    a given set of perf features, add an entry for the arch to this
-+    table.  Otherwise the arch won't support any features (which may
-+    be exactly what you want, just a barebones perf without any extra
-+    baggage, which is what you get if you don't add any features
-+    here.)
-+
-+    Available perf features:
-+      perf-scripting: enable support for Perl and Python bindings
-+      perf-tui: enable support for the perf TUI (via libnewt)
-+
-+    """
-+    perf_features_by_arch = {
-+	"core2":      "perf-scripting perf-tui",
-+	"core2-64":   "perf-scripting perf-tui",
-+	"x86":	      "perf-scripting perf-tui",
-+	"x86-64":     "perf-scripting perf-tui",
-+	"i586":	      "perf-scripting perf-tui",
-+	}
-+
-+    tune = d.getVar("DEFAULTTUNE", True) or ""
-+    if perf_features_by_arch.has_key(tune):
-+	if feature in perf_features_by_arch[tune]:
-+		return trueval
-+    return falseval
 diff --git a/meta/recipes-kernel/perf/perf_3.4.bb b/meta/recipes-kernel/perf/perf_3.4.bb
-index 381332e..d494243 100644
+index d494243..a79e9e6 100644
 --- a/meta/recipes-kernel/perf/perf_3.4.bb
 +++ b/meta/recipes-kernel/perf/perf_3.4.bb
-@@ -11,6 +11,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d7810fab7487fb0aad327b76f1be7cd7"
+@@ -9,7 +9,7 @@ as well."
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d7810fab7487fb0aad327b76f1be7cd7"
  
- PR = "r1"
+-PR = "r1"
++PR = "r2"
  
-+require perf.inc
+ require perf.inc
+ 
+@@ -21,7 +21,8 @@ DEPENDS = "virtual/kernel \
+            ${MLPREFIX}binutils \
+           "
+ 
+-RDEPENDS_${PN} += "elfutils perl perl-modules python"
++SCRIPTING_RDEPENDS = "${@perf_arch_supports_feature('perf-scripting', 'perl perl-modules python', '',d)}"
++RDEPENDS_${PN} += "elfutils ${SCRIPTING_RDEPENDS}"
+ 
+ PROVIDES = "virtual/perf"
+ 
+@@ -45,6 +46,8 @@ export PERL_ARCHLIB = "${STAGING_LIBDIR}${PERL_OWN_DIR}/perl/${@get_perl_version
+ S = "${STAGING_KERNEL_DIR}"
+ B = "${WORKDIR}/${BPN}-${PV}"
+ 
++SCRIPTING_DEFINES = "${@perf_arch_supports_feature('perf-scripting', '', 'NO_LIBPERL=1 NO_LIBPYTHON=1',d)}"
 +
- BUILDPERF_libc-uclibc = "no"
+ EXTRA_OEMAKE = \
+ 		'-C ${S}/tools/perf \
+ 		O=${B} \
+@@ -53,7 +56,7 @@ EXTRA_OEMAKE = \
+ 		CC="${CC}" \
+ 		AR="${AR}" \
+ 		prefix=/usr \
+-		NO_GTK2=1 NO_NEWT=1 NO_DWARF=1 \
++		NO_GTK2=1 NO_NEWT=1 NO_DWARF=1 ${SCRIPTING_DEFINES} \
+ 		'
  
- DEPENDS = "virtual/kernel \
+ do_compile() {
+@@ -62,6 +65,9 @@ do_compile() {
+ 
+ do_install() {
+ 	oe_runmake DESTDIR=${D} install
++	if [ "${@perf_arch_supports_feature('perf-scripting', 1, 0, d)}" = "1" ]; then
++		oe_runmake DESTDIR=${D} install-python_ext
++	fi
+ }
+ 
+ PACKAGE_ARCH = "${MACHINE_ARCH}"
 -- 
 1.7.0.4
 
