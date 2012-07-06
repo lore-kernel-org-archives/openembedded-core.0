@@ -1,21 +1,23 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <tom.zanussi@intel.com>) id 1SnFKr-00028s-Qd
+	(envelope-from <tom.zanussi@intel.com>) id 1SnFKt-00028t-O6
 	for openembedded-core@lists.openembedded.org;
-	Fri, 06 Jul 2012 22:41:06 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 06 Jul 2012 13:29:58 -0700
+	Fri, 06 Jul 2012 22:41:07 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 06 Jul 2012 13:30:00 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="164942881"
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="168088981"
 Received: from unknown (HELO localhost) ([10.255.13.37])
-	by azsmga001.ch.intel.com with ESMTP; 06 Jul 2012 13:29:58 -0700
+	by orsmga002.jf.intel.com with ESMTP; 06 Jul 2012 13:30:00 -0700
 From: tom.zanussi@intel.com
 To: openembedded-core@lists.openembedded.org,
 	richard.purdie@linuxfoundation.org
-Date: Fri,  6 Jul 2012 15:29:56 -0500
-Message-Id: <cover.1341606068.git.tom.zanussi@intel.com>
+Date: Fri,  6 Jul 2012 15:29:57 -0500
+Message-Id: <a2ba99c6c2be42f7d30f5827361b0a6892659997.1341606068.git.tom.zanussi@intel.com>
 X-Mailer: git-send-email 1.7.0.4
-Subject: [PATCH 0/3] perf-scripting/perf-tui features, v2
+In-Reply-To: <cover.1341606068.git.tom.zanussi@intel.com>
+References: <cover.1341606068.git.tom.zanussi@intel.com>
+Subject: [PATCH 1/3] perf: add perf.inc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -30,37 +32,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Jul 2012 20:41:06 -0000
+X-List-Received-Date: Fri, 06 Jul 2012 20:41:08 -0000
 
 From: Tom Zanussi <tom.zanussi@intel.com>
 
-This patchset adds perf-scriping and perf-tui features as
-a per-arch thing rather than per-machine, as suggested by
-Richard Purdie.
+Add a perf.inc to contain utility functions and definitions and to
+avoid cluttering up the main recipe.
 
-I just started testing this, it works so far, but thought
-I'd put it out there now in case there were comments before
-putting too much effort into that, and possibly giving other
-people a chance to try it out.
-
-The following changes since commit 5051e9837fa698e03d0a7a8a918ee7aa98409ce1:
-  Robert P. J. Day (1):
-        bitbake: usermanual: Fix missing markup
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib.git tzanussi/perf-scripting-v2
-  http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=tzanussi/perf-scripting-v2
-
-Tom Zanussi (3):
-  perf: add perf.inc
-  perf: add arch-specific perf-scripting feature
-  perf: add arch-specific perf-tui feature
-
+Signed-off-by: Tom Zanussi <tom.zanussi@intel.com>
+---
  meta/recipes-kernel/perf/perf.inc    |   30 ++++++++++++++++++++++++++++++
- meta/recipes-kernel/perf/perf_3.4.bb |   18 +++++++++++++++---
- 2 files changed, 45 insertions(+), 3 deletions(-)
+ meta/recipes-kernel/perf/perf_3.4.bb |    2 ++
+ 2 files changed, 32 insertions(+), 0 deletions(-)
  create mode 100644 meta/recipes-kernel/perf/perf.inc
+
+diff --git a/meta/recipes-kernel/perf/perf.inc b/meta/recipes-kernel/perf/perf.inc
+new file mode 100644
+index 0000000..9b46311
+--- /dev/null
++++ b/meta/recipes-kernel/perf/perf.inc
+@@ -0,0 +1,30 @@
++def perf_arch_supports_feature(feature, trueval, falseval, d):
++    """
++    Check which perf features a particular architecture supports.
++
++    The perf_features_by_arch table below lists the perf features
++    supported by each arch.  If you want a particular arch to support
++    a given set of perf features, add an entry for the arch to this
++    table.  Otherwise the arch won't support any features (which may
++    be exactly what you want, just a barebones perf without any extra
++    baggage, which is what you get if you don't add any features
++    here.)
++
++    Available perf features:
++      perf-scripting: enable support for Perl and Python bindings
++      perf-tui: enable support for the perf TUI (via libnewt)
++
++    """
++    perf_features_by_arch = {
++	"core2":      "perf-scripting perf-tui",
++	"core2-64":   "perf-scripting perf-tui",
++	"x86":	      "perf-scripting perf-tui",
++	"x86-64":     "perf-scripting perf-tui",
++	"i586":	      "perf-scripting perf-tui",
++	}
++
++    tune = d.getVar("DEFAULTTUNE", True) or ""
++    if perf_features_by_arch.has_key(tune):
++	if feature in perf_features_by_arch[tune]:
++		return trueval
++    return falseval
+diff --git a/meta/recipes-kernel/perf/perf_3.4.bb b/meta/recipes-kernel/perf/perf_3.4.bb
+index 381332e..d494243 100644
+--- a/meta/recipes-kernel/perf/perf_3.4.bb
++++ b/meta/recipes-kernel/perf/perf_3.4.bb
+@@ -11,6 +11,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d7810fab7487fb0aad327b76f1be7cd7"
+ 
+ PR = "r1"
+ 
++require perf.inc
++
+ BUILDPERF_libc-uclibc = "no"
+ 
+ DEPENDS = "virtual/kernel \
+-- 
+1.7.0.4
 
 
 
