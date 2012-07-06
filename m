@@ -1,26 +1,46 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-db3.bigfish.com ([94.245.120.74]
+	helo=DB3EHSOBE004.bigfish.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1SnEoY-0000VB-NR
+	(envelope-from <B29882@freescale.com>) id 1SnEzh-0005UL-Kv
 	for openembedded-core@lists.openembedded.org;
-	Fri, 06 Jul 2012 22:07:43 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q66JuaDn027473
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 6 Jul 2012 12:56:36 -0700 (PDT)
-Received: from localhost.localdomain (172.25.34.61) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Fri, 6 Jul 2012 12:56:35 -0700
-From: Mark Hatle <mark.hatle@windriver.com>
+	Fri, 06 Jul 2012 22:19:13 +0200
+Received: from mail39-db3-R.bigfish.com (10.3.81.230) by
+	DB3EHSOBE004.bigfish.com (10.3.84.24) with Microsoft SMTP Server id
+	14.1.225.23; Fri, 6 Jul 2012 20:05:58 +0000
+Received: from mail39-db3 (localhost [127.0.0.1])	by mail39-db3-R.bigfish.com
+	(Postfix) with ESMTP id D5EC0401CE	for
+	<openembedded-core@lists.openembedded.org>;
+	Fri,  6 Jul 2012 20:05:58 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-SpamScore: 3
+X-BigFish: VS3(zzzz1202h1082kzz8275bhz2dh2a8h668h839hd24he5bhf0ah107ah)
+Received: from mail39-db3 (localhost.localdomain [127.0.0.1]) by mail39-db3
+	(MessageSwitch) id 1341605157318314_9033;
+	Fri,  6 Jul 2012 20:05:57 +0000 (UTC)
+Received: from DB3EHSMHS010.bigfish.com (unknown [10.3.81.238])	by
+	mail39-db3.bigfish.com (Postfix) with ESMTP id 4B95C260043	for
+	<openembedded-core@lists.openembedded.org>;
+	Fri,  6 Jul 2012 20:05:57 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by DB3EHSMHS010.bigfish.com
+	(10.3.87.110) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Fri, 6 Jul 2012 20:05:55 +0000
+Received: from tx30smr01.am.freescale.net (10.81.153.31) by
+	039-SN1MMR1-002.039d.mgd.msft.net (10.84.1.15) with Microsoft SMTP
+	Server (TLS) id 14.2.298.5; Fri, 6 Jul 2012 15:08:02 -0500
+Received: from right.am.freescale.net (right.am.freescale.net [10.82.176.228])
+	by tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id
+	q66K80vL027294
+	for <openembedded-core@lists.openembedded.org>; Fri, 6 Jul 2012 13:08:02
+	-0700
+From: Matthew McClintock <msm@freescale.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 6 Jul 2012 15:06:42 -0500
-Message-ID: <74546eaf77be4b767935c1668d9b03dc37ee2b39.1341605152.git.mark.hatle@windriver.com>
-X-Mailer: git-send-email 1.7.3.4
-In-Reply-To: <cover.1341605152.git.mark.hatle@windriver.com>
-References: <cover.1341605152.git.mark.hatle@windriver.com>
+Date: Fri, 6 Jul 2012 15:08:00 -0500
+Message-ID: <1341605280-32431-1-git-send-email-msm@freescale.com>
+X-Mailer: git-send-email 1.7.10
 MIME-Version: 1.0
-X-Originating-IP: [172.25.34.61]
-Subject: [PATCH 1/1] rpm: Fix PACKAGECONFIG dependencies
+X-OriginatorOrg: freescale.com
+Subject: [PATCH] packagedata.py: Fix get_subpkgedata_fn for multilib
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,52 +55,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Jul 2012 20:07:43 -0000
+X-List-Received-Date: Fri, 06 Jul 2012 20:19:13 -0000
 Content-Type: text/plain
 
-neon requires expat to be built first
+This happens when tryng to add libgcc-dev to as a multilib package
+(e.g. IMAGE_INSTALL_append = " lib32-libgcc-dev")
 
-lua similarly requires expat if enabled
+| Processing task-core-boot...
+| Processing fman-ucode...
+| Processing dosfstools...
+| Processing lib32-libgcc-dev...
+| Unable to find package lib32-libgcc-dev (libgcc-dev)!
+NOTE: package fsl-image-full-1.0-r1.1.3.6: task do_rootfs: Failed
 
-selinux package name should be "libselinux" (from meta-selinux).
+RPM (or bitbake?) is looking in the tmp/pkgdata, however some of these file
+paths are mungned for the multilib scenario:
 
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+$ find tmp/pkgdata/ | grep libgcc-dev$
+tmp/pkgdata/ppce5500-fsl-linux/runtime/lib32-libgcc-dev
+tmp/pkgdata/ppc64e5500-fsl-linux/runtime/libgcc-dev
+
+This patch fixes where we look for these files so they can be found and
+properly installed for the multilib root file system
+
+Signed-off-by: Matthew McClintock <msm@freescale.com>
 ---
- meta/recipes-devtools/rpm/rpm_5.4.9.bb |    8 ++++----
- 1 files changed, 4 insertions(+), 4 deletions(-)
+ meta/lib/oe/packagedata.py |    8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/meta/recipes-devtools/rpm/rpm_5.4.9.bb b/meta/recipes-devtools/rpm/rpm_5.4.9.bb
-index 8e892a8..6ef1aae 100644
---- a/meta/recipes-devtools/rpm/rpm_5.4.9.bb
-+++ b/meta/recipes-devtools/rpm/rpm_5.4.9.bb
-@@ -43,7 +43,7 @@ LICENSE = "LGPLv2.1"
- LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=2d5025d4aa3495befef8f17206a5b0a1"
+diff --git a/meta/lib/oe/packagedata.py b/meta/lib/oe/packagedata.py
+index a7a40f0..9a28e6b 100644
+--- a/meta/lib/oe/packagedata.py
++++ b/meta/lib/oe/packagedata.py
+@@ -27,6 +27,14 @@ def read_pkgdatafile(fn):
  
- DEPENDS = "libpcre attr acl popt ossp-uuid file"
--PR = "r44"
-+PR = "r45"
- 
- # rpm2cpio is a shell script, which is part of the rpm src.rpm.  It is needed
- # in order to extract the distribution SRPM into a format we can extract...
-@@ -129,13 +129,13 @@ PACKAGECONFIG[libelf] = "--with-libelf,--without-libelf,elfutils,"
- 
- WITH_SELINUX = "--with-selinux --with-sepol --with-semanage"
- WITHOUT_SELINUX = "--without-selinux --without-sepol --without-semanage"
--PACKAGECONFIG[selinux] = "${WITH_SELINUX},${WITHOUT_SELINUX},selinux,"
-+PACKAGECONFIG[selinux] = "${WITH_SELINUX},${WITHOUT_SELINUX},libselinux,"
- 
- WITH_NEON = "--with-neon --with-libproxy --with-expat --without-gssapi"
- WITHOUT_NEON = "--without-neon --without-libproxy --without-expat --without-gssapi"
--PACKAGECONFIG[neon] = "${WITH_NEON},${WITHOUT_NEON},neon,"
-+PACKAGECONFIG[neon] = "${WITH_NEON},${WITHOUT_NEON},neon expat,"
- 
--PACKAGECONFIG[lua] = "--with-lua,--without-lua,"
-+PACKAGECONFIG[lua] = "--with-lua,--without-lua,expat,"
- PACKAGECONFIG[tcl] = "--with-tcl,--without-tcl,tcl,"
- 
- PACAKGECONFIG[augeas] = "--with-augeas,--without-augeas,augeas,"
+ def get_subpkgedata_fn(pkg, d):
+     archs = d.expand("${PACKAGE_ARCHS}").split(" ")
++    mlarchs = d.getVar("MULTILIB_PACKAGE_ARCHS", d) or None
++
++    if mlarchs:
++        for mlarch in mlarchs.split(" "):
++            if "_" in mlarch:
++                prefix, split, new_arch = mlarch.partition("_")
++                archs.append(new_arch)
++
+     archs.reverse()
+     pkgdata = d.expand('${TMPDIR}/pkgdata/')
+     targetdir = d.expand('${TARGET_VENDOR}-${TARGET_OS}/runtime/')
 -- 
-1.7.3.4
+1.7.10
+
 
 
 
