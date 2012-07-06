@@ -1,40 +1,31 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Sn4V8-0001Qn-3k for openembedded-core@lists.openembedded.org;
-	Fri, 06 Jul 2012 11:06:58 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q668tsqZ008109
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 6 Jul 2012 09:55:54 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 07892-02 for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Jul 2012 09:55:50 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q668tiUk008103
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 6 Jul 2012 09:55:45 +0100
-Message-ID: <1341564942.3104.3.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Fri, 06 Jul 2012 09:55:42 +0100
-In-Reply-To: <4FF5F32C.7080905@gmail.com>
-References: <CAJ2CSBsPhAtmpoTpBRzfqghV6tnRQXmjpcY415h=XfXtHxQzHQ@mail.gmail.com>
-	<4FF453EC.8030007@linux.intel.com> <1341413143.3906.31.camel@ted>
-	<CAJ2CSBuRsmRDCaj5oY8xToURc3GkCJzRj8y6auzTUxA32AZBMQ@mail.gmail.com>
-	<1341414137.3906.33.camel@ted>
-	<CAJ2CSBtESa4NVB1YF_VSN3BOj-n8NipPN7krkuLHH-nRdEVfcg@mail.gmail.com>
-	<20120704152111.GB15100@jama.jama.net>
-	<CAJ2CSBvQJtFPBXf-QEVm7bO84W4_K2ziYAOR=1kiQfENyK_D_Q@mail.gmail.com>
-	<4FF5F32C.7080905@gmail.com>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: gcc errors while building core-image-sato-sdk
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <rpjday@crashcourse.ca>) id 1Sn6r6-0007ZM-AY
+	for openembedded-core@lists.openembedded.org;
+	Fri, 06 Jul 2012 13:37:48 +0200
+Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
+	([99.241.91.63]:39778 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.77) (envelope-from <rpjday@crashcourse.ca>)
+	id 1Sn6gO-000313-0Z for openembedded-core@lists.openembedded.org;
+	Fri, 06 Jul 2012 07:26:44 -0400
+Date: Fri, 6 Jul 2012 07:26:32 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@oneiric
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.DEB.2.02.1207060723250.12641@oneiric>
+User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+MIME-Version: 1.0
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Subject: seems like links to bitbake need to be updated in places
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,40 +40,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Jul 2012 09:06:58 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 06 Jul 2012 11:37:48 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
-On Thu, 2012-07-05 at 13:03 -0700, Khem Raj wrote:
-> On 7/4/2012 11:51 PM, Damian, Alexandru wrote:
-> > I guess the root of the problem is when the autotools start up -
-> > we're having autoconf 2.68, which is not liked by gcc 4.7.1
-> > 
-> 
-> thats a red herring. You should instead find out why is it trying to
-> autoreconf
-> 
-> > configure.ac:33: error: Please use exactly Autoconf 2.64 instead of
-> > 2.68. config/override.m4:12: _GCC_AUTOCONF_VERSION_CHECK is
-> > expanded from... configure.ac:33: the top level autom4te: m4 failed
-> > with exit status: 1
-> > 
-> > 
-> > I'm gonna downgrade to autoconf 2.64 and see what happens.
-> > 
-> 
-> it wont help.
 
-I merged a couple of gcc changes fairly quickly to address a variety of
-problems people started hitting (including the autobuilder). The svn
-nature of the recipe is causing a few issues with the subversion 1.7
-change. I am wondering if we should just point it to the svn checkout
-tarball by default and leave the svn url for use when updating only and
-populating the mirror?
+  if one googles on getting bitbake, one of the first links is to
+here:
 
-Cheers,
+http://developer.berlios.de/projects/bitbake/
 
-Richard
+which seems somewhat out of date (version 1.12.0?).  but that's the
+page one is taken to if one is reading the OE wiki page here:
 
+http://www.openembedded.org/wiki/Getting_started
+
+down in the section "Getting a working bitbake".
+
+rday
+
+-- 
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
