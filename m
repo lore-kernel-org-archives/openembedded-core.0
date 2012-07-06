@@ -1,25 +1,33 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mail-pb0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <tom.zanussi@intel.com>) id 1SnFKw-000290-08
+	(envelope-from <iyadkq@gmail.com>) id 1SnHig-0005r6-2q
 	for openembedded-core@lists.openembedded.org;
-	Fri, 06 Jul 2012 22:41:10 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 06 Jul 2012 13:30:04 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="189350798"
-Received: from unknown (HELO localhost) ([10.255.13.37])
-	by fmsmga002.fm.intel.com with ESMTP; 06 Jul 2012 13:30:03 -0700
-From: tom.zanussi@intel.com
-To: openembedded-core@lists.openembedded.org,
-	richard.purdie@linuxfoundation.org
-Date: Fri,  6 Jul 2012 15:29:59 -0500
-Message-Id: <aa1a296026a1d616f44f4882c1fe50ab98051a59.1341606068.git.tom.zanussi@intel.com>
-X-Mailer: git-send-email 1.7.0.4
-In-Reply-To: <a2ba99c6c2be42f7d30f5827361b0a6892659997.1341606068.git.tom.zanussi@intel.com>
-References: <a2ba99c6c2be42f7d30f5827361b0a6892659997.1341606068.git.tom.zanussi@intel.com>
-In-Reply-To: <cover.1341606068.git.tom.zanussi@intel.com>
-References: <cover.1341606068.git.tom.zanussi@intel.com>
-Subject: [PATCH 3/3] perf: add arch-specific perf-tui feature
+	Sat, 07 Jul 2012 01:13:50 +0200
+Received: by pbbrq2 with SMTP id rq2so14651295pbb.6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 06 Jul 2012 16:02:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=pimr0e9ZqDgak7s7Y8JY3KxLSc67LwReIZQbdcHQIlI=;
+	b=uw48eKHXwRKIVWUGYLfZtLeRUNfIfHWJiT8K2wuVyS2Ue2LgEhcwEAPOvKcPg4AcFt
+	6Yc0kxD3pLYrhvQ0rReFUzxkZkQ5cwYojqhhqr55mWPK710VP7PPJ1feD5hDk0gdgN/B
+	LiIYAwjgeLu/KIklMIiBULD5UNcPB93QhDVkkIWcYL7jkFXhu+6VxOBIyWk/0PA/+S3O
+	IqvLisy22ESwtFIXyj5T1gt200AK61iH+kqdgzYaIR8CTq+8W1dZhX3adDc4NYzu3I52
+	uCHNd4E7zHfToMoioxDbZDAlmOevA3ftwGYNxhyrwvFmoDzlxNPL8ZDIL2BfMUHzUaAu
+	HPiA==
+Received: by 10.68.135.201 with SMTP id pu9mr40575120pbb.146.1341615763354;
+	Fri, 06 Jul 2012 16:02:43 -0700 (PDT)
+Received: from localhost.localdomain (palm-64-28-152-131.palm.com.
+	[64.28.152.131])
+	by mx.google.com with ESMTPS id nj4sm8754559pbc.5.2012.07.06.16.02.42
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 06 Jul 2012 16:02:42 -0700 (PDT)
+From: Iyad Qumei <iyadkq@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  6 Jul 2012 16:02:30 -0700
+Message-Id: <1341615750-25579-1-git-send-email-iyadkq@gmail.com>
+X-Mailer: git-send-email 1.7.4.1
+Subject: [PATH] fix build failure due to lic_files_chksum mismatch. The correction unpacks the source in the correct directory.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,68 +42,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Jul 2012 20:41:10 -0000
+X-List-Received-Date: Fri, 06 Jul 2012 23:13:50 -0000
 
-From: Tom Zanussi <tom.zanussi@intel.com>
-
-Add a new architecture-specific feature named 'perf-tui'.  Adding this
-into the perf_features_by_arch table in perf.inc for a given arch will
-enable the perf TUI (Text-base UI) user interface on a target built
-for that arch, which adds libnewt and turns on the perf text UI
-options in perf, if perf is included in an image.
-
-If 'perf-tui' isn't named as a feature (the default), the perf TUI
-will be disabled and unavailable.
-
-Signed-off-by: Tom Zanussi <tom.zanussi@intel.com>
+Signed-off-by: Iyad Qumei <iyadkq@gmail.com>
 ---
- meta/recipes-kernel/perf/perf_3.4.bb |    8 ++++++--
- 1 files changed, 6 insertions(+), 2 deletions(-)
+ meta/recipes-core/netbase/netbase_5.0.bb |    4 +++-
+ 1 files changed, 3 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-kernel/perf/perf_3.4.bb b/meta/recipes-kernel/perf/perf_3.4.bb
-index a79e9e6..aa9dd6c 100644
---- a/meta/recipes-kernel/perf/perf_3.4.bb
-+++ b/meta/recipes-kernel/perf/perf_3.4.bb
-@@ -9,16 +9,19 @@ as well."
+diff --git a/meta/recipes-core/netbase/netbase_5.0.bb b/meta/recipes-core/netbase/netbase_5.0.bb
+index 3aea874..ad80ef6 100644
+--- a/meta/recipes-core/netbase/netbase_5.0.bb
++++ b/meta/recipes-core/netbase/netbase_5.0.bb
+@@ -4,7 +4,7 @@ HOMEPAGE = "http://packages.debian.org/netbase"
+ SECTION = "base"
  LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=d7810fab7487fb0aad327b76f1be7cd7"
+ LIC_FILES_CHKSUM = "file://debian/copyright;md5=3dd6192d306f582dee7687da3d8748ab"
+-PR = "r0"
++PR = "r1"
  
--PR = "r2"
-+PR = "r3"
+ inherit update-rc.d
  
- require perf.inc
+@@ -17,6 +17,8 @@ SRC_URI = "${DEBIAN_MIRROR}/main/n/netbase/netbase_${PV}.tar.gz \
+            file://interfaces \
+            file://nfsroot"
  
- BUILDPERF_libc-uclibc = "no"
- 
-+TUI_DEPENDS = "${@perf_arch_supports_feature('perf-tui', 'libnewt', '',d)}"
++S = "${WORKDIR}/${P}"
 +
- DEPENDS = "virtual/kernel \
-            virtual/${MLPREFIX}libc \
-            ${MLPREFIX}elfutils \
-            ${MLPREFIX}binutils \
-+           ${TUI_DEPENDS} \
-           "
+ SRC_URI[md5sum] = "a379d9199d44d817543eddc211a29b70"
+ SRC_URI[sha256sum] = "ac9424d3cb2bd3c07b6c5bc5875c434d3bc687a73cd7c54b7dc7122308afa9dc"
  
- SCRIPTING_RDEPENDS = "${@perf_arch_supports_feature('perf-scripting', 'perl perl-modules python', '',d)}"
-@@ -47,6 +50,7 @@ S = "${STAGING_KERNEL_DIR}"
- B = "${WORKDIR}/${BPN}-${PV}"
- 
- SCRIPTING_DEFINES = "${@perf_arch_supports_feature('perf-scripting', '', 'NO_LIBPERL=1 NO_LIBPYTHON=1',d)}"
-+TUI_DEFINES = "${@perf_arch_supports_feature('perf-tui', '', 'NO_NEWT=1',d)}"
- 
- EXTRA_OEMAKE = \
- 		'-C ${S}/tools/perf \
-@@ -56,7 +60,7 @@ EXTRA_OEMAKE = \
- 		CC="${CC}" \
- 		AR="${AR}" \
- 		prefix=/usr \
--		NO_GTK2=1 NO_NEWT=1 NO_DWARF=1 ${SCRIPTING_DEFINES} \
-+		NO_GTK2=1 ${TUI_DEFINES} NO_DWARF=1 ${SCRIPTING_DEFINES} \
- 		'
- 
- do_compile() {
 -- 
-1.7.0.4
+1.7.4.1
 
 
 
