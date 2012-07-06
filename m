@@ -1,26 +1,24 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1SnE0A-0004Yt-Cb
+	(envelope-from <mark.hatle@windriver.com>) id 1SnE04-0004Xw-JP
 	for openembedded-core@lists.openembedded.org;
 	Fri, 06 Jul 2012 21:16:11 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q66J3ujW021588
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q66J3sSr021571
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 6 Jul 2012 12:03:56 -0700 (PDT)
+	Fri, 6 Jul 2012 12:03:54 -0700 (PDT)
 Received: from localhost.localdomain (172.25.34.61) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Fri, 6 Jul 2012 12:03:56 -0700
+	Fri, 6 Jul 2012 12:03:53 -0700
 From: Mark Hatle <mark.hatle@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 6 Jul 2012 14:14:01 -0500
-Message-ID: <6f6a9549daaa722253b706306553f725bd5423f8.1341601764.git.mark.hatle@windriver.com>
+Date: Fri, 6 Jul 2012 14:13:58 -0500
+Message-ID: <cover.1341601764.git.mark.hatle@windriver.com>
 X-Mailer: git-send-email 1.7.3.4
-In-Reply-To: <cover.1341601764.git.mark.hatle@windriver.com>
-References: <cover.1341601764.git.mark.hatle@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [172.25.34.61]
-Subject: [PATCH 3/3] package_rpm: Avoid duplicate package generation failures
+Subject: [PATCH 0/3] Image/SDK multilib fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,69 +34,39 @@ List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 06 Jul 2012 19:17:47 -0000
-X-List-Received-Date: Fri, 06 Jul 2012 19:17:47 -0000
 Content-Type: text/plain
 
-When constructing a multilib based image, it's possible to end up with
-the same package listed in multiple steps of the install.  During resolution
-we use the --replacepkgs option to avoid errors, as the resulting install
-solution will be as expected.  (We do not enable the replacepkgs option
-for the final install step, only the generation of the install solution.)
+The image generation for RPM needs to be synced with the python fragement in
+the populate_sdk case.  Otherwise the multilib configuations get out of sync.
 
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
----
- meta/classes/package_rpm.bbclass |   10 +++++-----
- 1 files changed, 5 insertions(+), 5 deletions(-)
+Similar changes are NOT needed for deb or ipkg.
 
-diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
-index 78279f5..2a29917 100644
---- a/meta/classes/package_rpm.bbclass
-+++ b/meta/classes/package_rpm.bbclass
-@@ -318,7 +318,7 @@ package_install_internal_rpm () {
- 			--root "${target_rootfs}/install" \
- 			-D "_dbpath ${target_rootfs}/install" -D "`cat ${confbase}-base_archs.macro`" \
- 			-D "__dbi_txn create nofsync" \
--			-U --justdb --noscripts --notriggers --noparentdirs --nolinktos --ignoresize \
-+			-U --justdb --replacepkgs --noscripts --notriggers --noparentdirs --nolinktos --ignoresize \
- 			${target_rootfs}/install/install.manifest
- 	fi
- 
-@@ -348,7 +348,7 @@ package_install_internal_rpm () {
- 				--root "${target_rootfs}/install" \
- 				-D "_dbpath ${target_rootfs}/install" -D "`cat ${confbase}.macro`" \
- 				-D "__dbi_txn create nofsync private" \
--				-U --justdb --noscripts --notriggers --noparentdirs --nolinktos --ignoresize \
-+				-U --justdb --replacepkgs --noscripts --notriggers --noparentdirs --nolinktos --ignoresize \
- 			$pkg_name >> "`dirname ${BB_LOGFILE}`/log.do_${task}_attemptonly.${PID}" || true
- 		done
- 	fi
-@@ -399,7 +399,7 @@ package_install_internal_rpm () {
- 				--root "${target_rootfs}/install" \
- 				-D "_dbpath ${target_rootfs}/install" -D "`cat ${confbase}.macro`" \
- 				-D "__dbi_txn create nofsync private" \
--				-U --justdb --noscripts --notriggers --noparentdirs --nolinktos --ignoresize \
-+				-U --justdb --replacepkgs --noscripts --notriggers --noparentdirs --nolinktos --ignoresize \
- 				$pkg_name >> "`dirname ${BB_LOGFILE}`/log.do_${task}_recommend.${PID}" 2>&1 || true
- 		done
- 		cat ${target_rootfs}/install/recommend.list ${target_rootfs}/install/recommend.new | sort -u > ${target_rootfs}/install/recommend.new.list
-@@ -428,7 +428,7 @@ package_install_internal_rpm () {
- 			--root "${target_rootfs}/install" \
- 			-D "_dbpath ${target_rootfs}/install" -D "`cat ${confbase}-ml_archs.macro`" \
- 			-D "__dbi_txn create nofsync" \
--			-U --justdb --noscripts --notriggers --noparentdirs --nolinktos --ignoresize \
-+			-U --justdb --replacepkgs --noscripts --notriggers --noparentdirs --nolinktos --ignoresize \
- 			${target_rootfs}/install/install_multilib.manifest
- 
- 		# Now that we have a solution, pull out a list of what to install...
-@@ -524,7 +524,7 @@ EOF
- 				--root "${target_rootfs}/install" \
- 				-D "_dbpath ${target_rootfs}/initial" -D "`cat ${confbase}.macro`" \
- 				-D "__dbi_txn create nofsync" \
--				-U --justdb --noscripts --notriggers --noparentdirs --nolinktos --ignoresize \
-+				-U --justdb --replacepkgs --noscripts --notriggers --noparentdirs --nolinktos --ignoresize \
- 				${target_rootfs}/install/initial_install.manifest
- 
- 			${RPM} -D "_dbpath ${target_rootfs}/initial" -qa --qf "%{packageorigin}\n" \
+We also needed to enable multilib remapping when the populate_sdk_base is
+loaded, otherwise we don't get matching package and sdk images.
+
+Finally to avoid conflicts in the SDK generation, we compute the install 
+solutions by adding --replacepkgs to the temporary database.  This does
+not change the installed image behavior in any way.
+
+The following changes since commit 8f16811a8d51982a8b3d70e6087aef4a41926840:
+
+  bootimg: Use STAGING_KERNEL_DIR (2012-07-06 09:38:17 +0100)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib mhatle/sdk
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=mhatle/sdk
+
+Mark Hatle (3):
+  populate_sdk_rpm: Sync multilib configuration with rootfs_rpm
+  multilib: Enable multilib remapping for SDK generation
+  package_rpm: Avoid duplicate package generation failures
+
+ meta/classes/multilib.bbclass         |    6 ++++++
+ meta/classes/package_rpm.bbclass      |   10 +++++-----
+ meta/classes/populate_sdk_rpm.bbclass |   15 ++++++++++-----
+ meta/classes/rootfs_rpm.bbclass       |    1 +
+ 4 files changed, 22 insertions(+), 10 deletions(-)
+
 -- 
 1.7.3.4
 
