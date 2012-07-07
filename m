@@ -1,23 +1,19 @@
 Received: from astoria.ccjclearline.com ([64.235.106.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpjday@crashcourse.ca>) id 1SnSQu-0001J5-Ty
+	(envelope-from <rpjday@crashcourse.ca>) id 1SnSUz-0001ON-Pd
 	for openembedded-core@lists.openembedded.org;
-	Sat, 07 Jul 2012 12:40:13 +0200
+	Sat, 07 Jul 2012 12:44:26 +0200
 Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
-	([99.241.91.63]:51791 helo=crashcourse.ca)
+	([99.241.91.63]:51944 helo=crashcourse.ca)
 	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
 	(Exim 4.77) (envelope-from <rpjday@crashcourse.ca>)
-	id 1SnSGB-0006W7-ON for openembedded-core@lists.openembedded.org;
-	Sat, 07 Jul 2012 06:29:07 -0400
-Date: Sat, 7 Jul 2012 06:28:56 -0400 (EDT)
+	id 1SnSKG-0006da-EB for openembedded-core@lists.openembedded.org;
+	Sat, 07 Jul 2012 06:33:20 -0400
+Date: Sat, 7 Jul 2012 06:33:10 -0400 (EDT)
 From: "Robert P. J. Day" <rpjday@crashcourse.ca>
 X-X-Sender: rpjday@oneiric
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <20120707101549.GI3708@jama.jama.net>
-Message-ID: <alpine.DEB.2.02.1207070623560.17992@oneiric>
-References: <alpine.DEB.2.02.1207070547020.17784@oneiric>
-	<20120707101549.GI3708@jama.jama.net>
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.DEB.2.02.1207070629090.18029@oneiric>
 User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
 MIME-Version: 1.0
 X-AntiAbuse: This header was added to track abuse,
@@ -29,7 +25,7 @@ X-AntiAbuse: Sender Address Domain - crashcourse.ca
 X-Source: 
 X-Source-Args: 
 X-Source-Dir: 
-Subject: Re: wanting to clarify patch mechanics
+Subject: FETCHCMD versus FETCHCOMMAND
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,45 +40,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 07 Jul 2012 10:40:13 -0000
+X-List-Received-Date: Sat, 07 Jul 2012 10:44:26 -0000
 Content-Type: TEXT/PLAIN; charset=US-ASCII
 
-On Sat, 7 Jul 2012, Martin Jansa wrote:
 
-> On Sat, Jul 07, 2012 at 06:04:07AM -0400, Robert P. J. Day wrote:
-> >
-> >   speaking of apply, it would seem that "apply=yes" is redundant, is
-> > that correct?  there are a couple dozen examples of that throughout
-> > oe-core, mostly in the bash recipe file.  is there anything subtle
-> > about that parameter, or is it truly superfluous?
->
-> apply=yes is default for *.patch and .diff, for files with other
-> extension it's still needed (e.g. those entries in bash)
+  just noticed the following as i was still poking around with
+fetchers:
 
-  ah, that's useful to know, thanks.
+$ grep -r FETCHCMD * | grep -v pyc
+bitbake/lib/bb/fetch2/hg.py:        basecmd = data.expand('${FETCHCMD_hg}', d)
+bitbake/lib/bb/fetch2/svn.py:        ud.basecmd = d.getVar('FETCHCMD_svn', True)
+bitbake/lib/bb/fetch2/osc.py:        basecmd = data.expand('${FETCHCMD_osc}', d)
+bitbake/lib/bb/fetch2/git.py:        ud.basecmd = data.getVar("FETCHCMD_git", d, True) or "git"
+bitbake/lib/bb/fetch2/git.py:        basecmd = data.getVar("FETCHCMD_git", d, True) or "git"
+bitbake/lib/bb/fetch2/git.py:        basecmd = data.getVar("FETCHCMD_git", d, True) or "git"
+bitbake/lib/bb/fetch2/bzr.py:        basecmd = data.expand('${FETCHCMD_bzr}', d)
+bitbake/ChangeLog:	  (requires new FETCHCMD_svn definition in bitbake.conf)
+meta/conf/bitbake.conf:FETCHCMD_svn = "/usr/bin/env svn"
+meta/conf/bitbake.conf:FETCHCMD_cvs = "/usr/bin/env cvs"
+meta/conf/bitbake.conf:FETCHCMD_wget = "/usr/bin/env wget -t 2 -T 30 -nv --no-check-certificate"
+meta/conf/bitbake.conf:FETCHCMD_bzr = "/usr/bin/env bzr"
+meta/conf/bitbake.conf:FETCHCMD_hg = "/usr/bin/env hg"
+$
 
-> so there is only a few redundant usages in oe-core:
-> meta/recipes-connectivity/portmap/portmap.inc:  file://make.patch;apply=yes"
-> meta/recipes-core/eggdbus/eggdbus_0.6.bb:          file://gtk-doc.patch;apply=yes \
-> meta/recipes-core/eggdbus/eggdbus_0.6.bb:           file://marshal.patch;apply=yes \
-> meta/recipes-graphics/libxsettings-client/libxsettings-client_0.10.bb:        file://link-x11.patch;apply=yes \
-> meta/recipes-graphics/xorg-proto/calibrateproto_git.bb:           file://fix.patch;apply=yes"
-> meta/recipes-sato/leafpad/leafpad_0.8.18.1.bb:SRC_URI_append_poky = " file://owl-menu.patch;apply=yes "
-> meta/recipes-sato/pimlico/contacts.inc:SRC_URI_append_poky = " file://contacts-owl-window-menu.patch;apply=yes "
-> meta/recipes-sato/pimlico/dates.inc:SRC_URI_append_poky = " file://dates-owl-window-menu.patch;apply=yes "
-> meta/recipes-sato/settings-daemon/settings-daemon_git.bb:           file://addsoundkeys.patch;apply=yes \
-> meta/recipes-support/libcroco/libcroco_0.6.3.bb:SRC_URI_append = " file://croco.patch;apply=yes \
->
-> some devs cleanup those when doing upgrades.. if it bothers you enough
-> you can send patch removing those...
+  i can see that FETCHCMD represent the "base" fetch command for each
+fetcher, i also notice that there isn't a perfect correspondence
+between the fetchers and bitbake.conf.
 
-  it didn't really bother me so much as i just wanted to make sure it
-didn't represent something subtle that changed the expected behaviour,
-and your earlier explanation clarified that.  i might send a patch
-along later.  thanks for the clarification.
+  for example, there's no definition of FETCHCMD_osc even though
+osc.py checks for it.  conversely, bitbake.conf sets FETCHCMD_cvs even
+though the cvs.py fetcher never bothers to check it.
 
-  today's going to be a very oe-oriented day so expect more nitpicking
-pedantry.
+  nothing wrong with any of that, just an observation about
+consistency.
 
 rday
 
