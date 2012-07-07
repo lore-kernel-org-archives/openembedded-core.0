@@ -1,19 +1,19 @@
 Received: from astoria.ccjclearline.com ([64.235.106.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpjday@crashcourse.ca>) id 1SnSpB-0002md-QT
+	(envelope-from <rpjday@crashcourse.ca>) id 1SnXLs-00069h-8X
 	for openembedded-core@lists.openembedded.org;
-	Sat, 07 Jul 2012 13:05:18 +0200
+	Sat, 07 Jul 2012 17:55:20 +0200
 Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
-	([99.241.91.63]:52761 helo=crashcourse.ca)
+	([99.241.91.63]:60322 helo=crashcourse.ca)
 	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
 	(Exim 4.77) (envelope-from <rpjday@crashcourse.ca>)
-	id 1SnSeS-0007BI-Jr for openembedded-core@lists.openembedded.org;
-	Sat, 07 Jul 2012 06:54:12 -0400
-Date: Sat, 7 Jul 2012 06:54:02 -0400 (EDT)
+	id 1SnXB8-000073-9G for openembedded-core@lists.openembedded.org;
+	Sat, 07 Jul 2012 11:44:14 -0400
+Date: Sat, 7 Jul 2012 11:43:58 -0400 (EDT)
 From: "Robert P. J. Day" <rpjday@crashcourse.ca>
 X-X-Sender: rpjday@oneiric
 To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.DEB.2.02.1207070649530.18262@oneiric>
+Message-ID: <alpine.DEB.2.02.1207071126550.20571@oneiric>
 User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
 MIME-Version: 1.0
 X-AntiAbuse: This header was added to track abuse,
@@ -25,7 +25,7 @@ X-AntiAbuse: Sender Address Domain - crashcourse.ca
 X-Source: 
 X-Source-Args: 
 X-Source-Dir: 
-Subject: tcf-agent, matchbox-wm-2: Correct "proto=git" to "protocol=git".
+Subject: what's the easiest way to see the difference some local configuration makes?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,48 +40,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 07 Jul 2012 11:05:18 -0000
+X-List-Received-Date: Sat, 07 Jul 2012 15:55:20 -0000
 Content-Type: TEXT/PLAIN; charset=US-ASCII
 
 
-"proto=git" is not a valid parameter for the git fetcher.
+  i recall that there's a current request to be able to list the
+packages and versions that relate *just* to the current target and
+machine, so i'm looking for any other way to do this so students can
+see the difference for themselves.
 
-Signed-off-by: Robert P. J. Day <rpjday@crashcourse.ca>
+  for example, i'm starting with a configuration of "qemuarm", and i
+can do a fetchall:
 
----
+$ bitbake -c fetchall core-image-minimal
 
-  normally, i wouldn't pick on stuff like this but as i read git.py,
-it seems pretty clear that "proto=git" isn't even a valid parameter.
-a cleaner solution would be to remove all of that superfluous
-"protocol=git" content but i'm not going down that road.
+and let that run.  so far, so good -- i've now fetched everything
+required for this target.  if i repeat that command, obviously,
+nothing should change, and it doesn't.  (i don't even have to build
+the target, i'm just doing fetching for now.)
 
+  now let's say i add to my local.conf:
 
-diff --git a/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb b/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
-index 8ac8022..25fccaf 100644
---- a/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
-+++ b/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
-@@ -10,7 +10,7 @@ SRCREV = "4ef94ecb927a8912c3d79ce137182247786cff8f"
- PV = "0.4.0+git${SRCPV}"
- PR = "r0"
+IMAGE_INSTALL_append = " strace"
 
--SRC_URI = "git://git.eclipse.org/gitroot/tcf/org.eclipse.tcf.agent.git;proto=git \
-+SRC_URI = "git://git.eclipse.org/gitroot/tcf/org.eclipse.tcf.agent.git;protocol=git \
-            http://www.eclipse.org/legal/epl-v10.html;name=epl \
-            file://fix_ranlib.patch \
-            file://fix_tcf-agent.init.patch \
-diff --git a/meta/recipes-graphics/matchbox-wm-2/matchbox-wm-2_git.bb b/meta/recipes-graphics/matchbox-wm-2/matchbox-wm-2_git.bb
-index 4aad3a9..8b162be 100644
---- a/meta/recipes-graphics/matchbox-wm-2/matchbox-wm-2_git.bb
-+++ b/meta/recipes-graphics/matchbox-wm-2/matchbox-wm-2_git.bb
-@@ -9,7 +9,7 @@ SRCREV = "01fa5465743c9ee43d040350f4405d35293e4869"
- PV = "0.1+git${SRCPV}"
- PR = "r1"
+i suspect there's an easier way to see this, but if i want to *prove*
+that the strace recipe would be part of the build, i can do:
 
--SRC_URI = "git://git.yoctoproject.org/matchbox-window-manager-2;proto=git \
-+SRC_URI = "git://git.yoctoproject.org/matchbox-window-manager-2;protocol=git \
- 	file://fix_makefile.patch \
- 	  "
+$ bitbake -c fetchall -n core-image-minimal     [dry run]
 
+to get:
+
+... snip ...
+NOTE: Running task 302 of 309 (ID: 21, /home/rpjday/oe/oe-core/meta/recipes-devtools/strace/strace_4.7.bb, do_fetch)
+NOTE: Running task 309 of 309 (ID: 1, /home/rpjday/oe/oe-core/meta/recipes-core/images/core-image-minimal.bb, do_fetchall)
+NOTE: Tasks Summary: Attempted 309 tasks of which 307 didn't need to be rerun and all succeeded.
+$
+
+  so that's "proof" that i've officially added strace to my
+core-image-minimal.
+
+  i'm sure that's massive overkill -- is there a simpler way to
+demonstrate this?  i want to start simple by adding a single package,
+then move on to adding multiple packages, and features and so on, and
+let the student see the effect of each change.
+
+  what's the easiest way to do that?  thanks.
+
+rday
 
 -- 
 
