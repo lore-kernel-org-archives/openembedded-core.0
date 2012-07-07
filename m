@@ -1,21 +1,19 @@
 Received: from astoria.ccjclearline.com ([64.235.106.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpjday@crashcourse.ca>) id 1SnXoc-0006px-2z
+	(envelope-from <rpjday@crashcourse.ca>) id 1SnaIQ-0003zq-8a
 	for openembedded-core@lists.openembedded.org;
-	Sat, 07 Jul 2012 18:25:02 +0200
+	Sat, 07 Jul 2012 21:03:58 +0200
 Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
-	([99.241.91.63]:33033 helo=crashcourse.ca)
+	([99.241.91.63]:35168 helo=crashcourse.ca)
 	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
 	(Exim 4.77) (envelope-from <rpjday@crashcourse.ca>)
-	id 1SnXds-0001AK-Ek; Sat, 07 Jul 2012 12:13:56 -0400
-Date: Sat, 7 Jul 2012 12:13:46 -0400 (EDT)
+	id 1Sna7g-0006eE-BJ for openembedded-core@lists.openembedded.org;
+	Sat, 07 Jul 2012 14:52:52 -0400
+Date: Sat, 7 Jul 2012 14:52:44 -0400 (EDT)
 From: "Robert P. J. Day" <rpjday@crashcourse.ca>
 X-X-Sender: rpjday@oneiric
-To: Saul Wold <sgw@linux.intel.com>
-In-Reply-To: <4FF85E97.9010202@linux.intel.com>
-Message-ID: <alpine.DEB.2.02.1207071212460.22356@oneiric>
-References: <alpine.DEB.2.02.1207071126550.20571@oneiric>
-	<4FF85E97.9010202@linux.intel.com>
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.DEB.2.02.1207071435090.25344@oneiric>
 User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
 MIME-Version: 1.0
 X-AntiAbuse: This header was added to track abuse,
@@ -27,9 +25,7 @@ X-AntiAbuse: Sender Address Domain - crashcourse.ca
 X-Source: 
 X-Source-Args: 
 X-Source-Dir: 
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: what's the easiest way to see the difference some local configuration makes?
+Subject: setting EXTRA_IMAGE_FEATURES explicitly in .bb file can screw things up
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,45 +40,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 07 Jul 2012 16:25:02 -0000
+X-List-Received-Date: Sat, 07 Jul 2012 19:03:58 -0000
 Content-Type: TEXT/PLAIN; charset=US-ASCII
 
-On Sat, 7 Jul 2012, Saul Wold wrote:
 
-> On 07/07/2012 08:43 AM, Robert P. J. Day wrote:
-> >
-> >    i recall that there's a current request to be able to list the
-> > packages and versions that relate *just* to the current target and
-> > machine, so i'm looking for any other way to do this so students can
-> > see the difference for themselves.
-> >
-> >    for example, i'm starting with a configuration of "qemuarm", and i
-> > can do a fetchall:
-> >
-> > $ bitbake -c fetchall core-image-minimal
-> >
-> > and let that run.  so far, so good -- i've now fetched everything
-> > required for this target.  if i repeat that command, obviously,
-> > nothing should change, and it doesn't.  (i don't even have to build
-> > the target, i'm just doing fetching for now.)
-> >
-> >    now let's say i add to my local.conf:
-> >
-> > IMAGE_INSTALL_append = " strace"
-> >
-> > i suspect there's an easier way to see this, but if i want to *prove*
-> > that the strace recipe would be part of the build, i can do:
-> >
-> > $ bitbake -c fetchall -n core-image-minimal     [dry run]
-> >
-> Have you tried bitbake -e which prints out all the variables and python
-> functions, you can then grep for ^IMAGE_INSTALL or what ever you expect to
-> affect by your change
->
-> Sau!
+  a while back, i whined about the inconsistent usage of
+EXTRA_IMAGE_FEATURES, like this as a snippet:
 
-   oh, that's already on my list, i was just trying to dig up
-clever(?) ways to show *only* what would change.
+meta/recipes-sato/images/core-image-sato-sdk.bb:EXTRA_IMAGE_FEATURES += "tools-debug tools-profile tools-testapps debug-tweaks"
+meta/recipes-rt/images/core-image-rt-sdk.bb:EXTRA_IMAGE_FEATURES += "tools-debug tools-profile tools-testapps debug-tweaks"
+meta/recipes-extended/images/core-image-lsb-sdk.bb:EXTRA_IMAGE_FEATURES = "tools-debug tools-profile tools-testapps debug-tweaks"
+
+notice the mixing of "+=" and "=", which seems messy.  then i ran
+across this in core-image-lsb-sdk.bb:
+
+IMAGE_FEATURES += "apps-console-core tools-sdk dev-pkgs ssh-server-openssh"
+EXTRA_IMAGE_FEATURES = "tools-debug tools-profile tools-testapps debug-tweaks"
+
+  that *can't* be right, can it?  the explicit setting of
+EXTRA_IMAGE_FEATURES in that recipe file will override any such
+setting in one's local.conf file, won't it?  and that's how the
+current manual *advises* how to add more features through your
+local.conf.
+
+  i tested this target with a standard local.conf, and checked the
+environment to see:
+
+... snip ...
+IMAGE_FEATURES="apps-console-core debug-tweaks tools-sdk
+tools-testapps dev-pkgs tools-profile tools-debug ssh-server-openssh"
+
+which looks fine according to the .bb file.
+
+  but if i add the following to my local.conf file (as the manual
+suggests i do to add another feature):
+
+EXTRA_IMAGE_FEATURES = "nfs-server"
+
+i see *no* difference in the environment.  hasn't the setting in the
+.bb file overridden the one in my local.conf?
+
+  i *can* get nfs-server added to my list of features with
+(predictably):
+
+IMAGE_FEATURES += "nfs-server"
+
+but that doesn't strike me as a proper solution and will certainly
+come as an unpleasant surprise to someone eventually.  thoughts?
 
 rday
 
