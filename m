@@ -1,26 +1,43 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SnJHu-0001co-1N
+	(envelope-from <raj.khem@gmail.com>) id 1SnJTE-0002K2-Ay
 	for openembedded-core@lists.openembedded.org;
-	Sat, 07 Jul 2012 02:54:18 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 06 Jul 2012 17:43:10 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="189425828"
-Received: from unknown (HELO [10.255.12.157]) ([10.255.12.157])
-	by fmsmga002.fm.intel.com with ESMTP; 06 Jul 2012 17:43:10 -0700
-Message-ID: <4FF7861E.6040702@linux.intel.com>
-Date: Fri, 06 Jul 2012 17:43:10 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:13.0) Gecko/20120605 Thunderbird/13.0
+	Sat, 07 Jul 2012 03:06:17 +0200
+Received: by eekd49 with SMTP id d49so3639668eek.6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 06 Jul 2012 17:54:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=2jq7I2OMsYBASKS1I30dp5vghfIg5+uDVOBlxwxwTH8=;
+	b=z2A/9jluxq4b6seOL6NyEFIcc3xfQtjcEDrYhr4sBv+JBYu4luCjIIHqDkttC4BhJR
+	TbfJTOjMFURqqYkG/eXsanuX7cx9nkAzS6xoP2pn2pbfYY8f83tyrgjdTpW95Vd8YaCL
+	/9ndfpiIvzfvC+3yQ7/ZvwiJYjfRVDS9wxfUGfjjJq+u8zMRBmWT5HKhdHIzZVozFr/i
+	KRziikzUv0mQNHK+L8fqOvJ6KdT7ZfukGG+YO1FNchG1PuUo9gDhPex4mBCzSJd3Z3MF
+	RKOZ4gkOuOTjDJG4zo1YTAWbQgWesCklpW6cUnUJsP+1xKn19MuMgRsAub8UsLO75RuB
+	44Jw==
+Received: by 10.14.97.16 with SMTP id s16mr7159270eef.117.1341622481665; Fri,
+	06 Jul 2012 17:54:41 -0700 (PDT)
 MIME-Version: 1.0
-To: Kang Kai <kai.kang@windriver.com>
-References: <cover.1340873279.git.kai.kang@windriver.com>
-	<e6f7a20a5b94c037c1f234180751ecceba8d2d41.1340873279.git.kai.kang@windriver.com>
-In-Reply-To: <e6f7a20a5b94c037c1f234180751ecceba8d2d41.1340873279.git.kai.kang@windriver.com>
-Cc: Zhenfeng.Zhao@windriver.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/2] lsbinitscripts: Add a linking for functions.lsbinitscripts
+Received: by 10.14.210.199 with HTTP; Fri, 6 Jul 2012 17:54:11 -0700 (PDT)
+In-Reply-To: <4FF71F28.70302@linux.intel.com>
+References: <CAJ2CSBsPhAtmpoTpBRzfqghV6tnRQXmjpcY415h=XfXtHxQzHQ@mail.gmail.com>
+	<4FF453EC.8030007@linux.intel.com> <1341413143.3906.31.camel@ted>
+	<CAJ2CSBuRsmRDCaj5oY8xToURc3GkCJzRj8y6auzTUxA32AZBMQ@mail.gmail.com>
+	<1341414137.3906.33.camel@ted>
+	<CAJ2CSBtESa4NVB1YF_VSN3BOj-n8NipPN7krkuLHH-nRdEVfcg@mail.gmail.com>
+	<20120704152111.GB15100@jama.jama.net>
+	<CAJ2CSBvQJtFPBXf-QEVm7bO84W4_K2ziYAOR=1kiQfENyK_D_Q@mail.gmail.com>
+	<4FF5F32C.7080905@gmail.com> <1341564942.3104.3.camel@ted>
+	<CAMKF1so=LN+cXK37B9Eu1msE-kmVUJDkSzvcCLm9jSFNDaZM_w@mail.gmail.com>
+	<4FF71F28.70302@linux.intel.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 6 Jul 2012 17:54:11 -0700
+Message-ID: <CAMKF1sqBzraHf8ZD=Df6yMR56EUEb=4N2FgDm8yneCxfE5pr4Q@mail.gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: gcc errors while building core-image-sato-sdk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,62 +52,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 07 Jul 2012 00:54:18 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 07 Jul 2012 01:06:18 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 06/28/2012 02:35 AM, Kang Kai wrote:
-> From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
->
-> Increase ALTERNATIVE_PRIORITY of functions to be higher than the
-> value of package initscript. When lsbinitscripts installed, file
-> functions provided by lsbinitscripts will be used.
->
-> [YOCTO #2133]
->
-> Signed-off-by: Xiaofeng Yan <xiaofeng.yan@windriver.com>
-> Signed-off-by: Kang Kai <kai.kang@windriver.com>
-> ---
->   meta/recipes-extended/lsb/lsbinitscripts_9.03.bb |    6 +++---
->   1 files changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/meta/recipes-extended/lsb/lsbinitscripts_9.03.bb b/meta/recipes-extended/lsb/lsbinitscripts_9.03.bb
-> index dd92a92..f324994 100644
-> --- a/meta/recipes-extended/lsb/lsbinitscripts_9.03.bb
-> +++ b/meta/recipes-extended/lsb/lsbinitscripts_9.03.bb
-> @@ -2,7 +2,7 @@ DESCRIPTION = "SysV init scripts which only is used in an LSB image"
->   SECTION = "base"
->   LICENSE = "GPLv2"
->   DEPENDS = "popt"
-> -PR = "r0"
-> +PR = "r1"
->
->   LIC_FILES_CHKSUM = "file://COPYING;md5=ebf4e8b49780ab187d51bd26aaa022c6"
->
-> @@ -15,7 +15,7 @@ SRC_URI[md5sum] = "668fa2762b57ef75436303857847bba3"
->   SRC_URI[sha256sum] = "d56547a68ce223a7413b2676650b042125f047c8d6d139c5b970e118b3dc958a"
->   inherit update-alternatives
->
-> -ALTERNATIVE_PRIORITY = "10"
-> +ALTERNATIVE_PRIORITY = "100"
->   ALTERNATIVE_${PN} = "functions"
->   ALTERNATIVE_LINK_NAME[functions] = "${sysconfdir}/init.d/functions"
->
-> @@ -23,5 +23,5 @@ do_configure[noexec] = "1"
->
->   do_install(){
->   	install -d ${D}/etc/init.d/
-> -	install -m 0755 ${S}/rc.d/init.d/functions ${D}/etc/init.d/functions
-> +	install -m 0755 ${S}/rc.d/init.d/functions ${D}/etc/init.d/functions.${BPN}
->   }
->
-As Richard already pointed out, this rename during install is not 
-needed, it happens automagically via the update-alternatives bbclass, 
-this is true with the initscripts recipe also, please fix these two 
-issues and we can move forward with this patch.
+On Fri, Jul 6, 2012 at 10:23 AM, Saul Wold <sgw@linux.intel.com> wrote:
+> On 07/06/2012 09:00 AM, Khem Raj wrote:
+>>
+>> On Fri, Jul 6, 2012 at 1:55 AM, Richard Purdie
+>> <richard.purdie@linuxfoundation.org> wrote:
+>>>
+>>>
+>>> I merged a couple of gcc changes fairly quickly to address a variety of
+>>> problems people started hitting (including the autobuilder). The svn
+>>> nature of the recipe is causing a few issues with the subversion 1.7
+>>> change. I am wondering if we should just point it to the svn checkout
+>>> tarball by default and leave the svn url for use when updating only and
+>>> populating the mirror?
+>>
+>>
+>> or we can use git instead of svn. http://gcc.gnu.org/git/?p=gcc.git
+>>
+> That sounds like a good idea.
 
-Thanks
-	Sau!
+I have queued up a patch in the eglibc 2.16 pull tree for it
+http://git.openembedded.org/openembedded-core-contrib/commit/?h=kraj/eglibc-2.16&id=d81a98a5c13256f6f14c5b7921492c293dd9587b
 
+>
+> Sau!
+>
+>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>>
+>>
+>
 
 
