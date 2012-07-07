@@ -1,33 +1,26 @@
-Received: from mail-pb0-f47.google.com ([209.85.160.47])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <iyadkq@gmail.com>) id 1SnHig-0005r6-2q
+	(envelope-from <sgw@linux.intel.com>) id 1SnJHu-0001co-1N
 	for openembedded-core@lists.openembedded.org;
-	Sat, 07 Jul 2012 01:13:50 +0200
-Received: by pbbrq2 with SMTP id rq2so14651295pbb.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 06 Jul 2012 16:02:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=pimr0e9ZqDgak7s7Y8JY3KxLSc67LwReIZQbdcHQIlI=;
-	b=uw48eKHXwRKIVWUGYLfZtLeRUNfIfHWJiT8K2wuVyS2Ue2LgEhcwEAPOvKcPg4AcFt
-	6Yc0kxD3pLYrhvQ0rReFUzxkZkQ5cwYojqhhqr55mWPK710VP7PPJ1feD5hDk0gdgN/B
-	LiIYAwjgeLu/KIklMIiBULD5UNcPB93QhDVkkIWcYL7jkFXhu+6VxOBIyWk/0PA/+S3O
-	IqvLisy22ESwtFIXyj5T1gt200AK61iH+kqdgzYaIR8CTq+8W1dZhX3adDc4NYzu3I52
-	uCHNd4E7zHfToMoioxDbZDAlmOevA3ftwGYNxhyrwvFmoDzlxNPL8ZDIL2BfMUHzUaAu
-	HPiA==
-Received: by 10.68.135.201 with SMTP id pu9mr40575120pbb.146.1341615763354;
-	Fri, 06 Jul 2012 16:02:43 -0700 (PDT)
-Received: from localhost.localdomain (palm-64-28-152-131.palm.com.
-	[64.28.152.131])
-	by mx.google.com with ESMTPS id nj4sm8754559pbc.5.2012.07.06.16.02.42
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 06 Jul 2012 16:02:42 -0700 (PDT)
-From: Iyad Qumei <iyadkq@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  6 Jul 2012 16:02:30 -0700
-Message-Id: <1341615750-25579-1-git-send-email-iyadkq@gmail.com>
-X-Mailer: git-send-email 1.7.4.1
-Subject: [PATH] fix build failure due to lic_files_chksum mismatch. The correction unpacks the source in the correct directory.
+	Sat, 07 Jul 2012 02:54:18 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 06 Jul 2012 17:43:10 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="189425828"
+Received: from unknown (HELO [10.255.12.157]) ([10.255.12.157])
+	by fmsmga002.fm.intel.com with ESMTP; 06 Jul 2012 17:43:10 -0700
+Message-ID: <4FF7861E.6040702@linux.intel.com>
+Date: Fri, 06 Jul 2012 17:43:10 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:13.0) Gecko/20120605 Thunderbird/13.0
+MIME-Version: 1.0
+To: Kang Kai <kai.kang@windriver.com>
+References: <cover.1340873279.git.kai.kang@windriver.com>
+	<e6f7a20a5b94c037c1f234180751ecceba8d2d41.1340873279.git.kai.kang@windriver.com>
+In-Reply-To: <e6f7a20a5b94c037c1f234180751ecceba8d2d41.1340873279.git.kai.kang@windriver.com>
+Cc: Zhenfeng.Zhao@windriver.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/2] lsbinitscripts: Add a linking for functions.lsbinitscripts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,37 +35,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Jul 2012 23:13:50 -0000
+X-List-Received-Date: Sat, 07 Jul 2012 00:54:18 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Iyad Qumei <iyadkq@gmail.com>
----
- meta/recipes-core/netbase/netbase_5.0.bb |    4 +++-
- 1 files changed, 3 insertions(+), 1 deletions(-)
+On 06/28/2012 02:35 AM, Kang Kai wrote:
+> From: Xiaofeng Yan <xiaofeng.yan@windriver.com>
+>
+> Increase ALTERNATIVE_PRIORITY of functions to be higher than the
+> value of package initscript. When lsbinitscripts installed, file
+> functions provided by lsbinitscripts will be used.
+>
+> [YOCTO #2133]
+>
+> Signed-off-by: Xiaofeng Yan <xiaofeng.yan@windriver.com>
+> Signed-off-by: Kang Kai <kai.kang@windriver.com>
+> ---
+>   meta/recipes-extended/lsb/lsbinitscripts_9.03.bb |    6 +++---
+>   1 files changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/meta/recipes-extended/lsb/lsbinitscripts_9.03.bb b/meta/recipes-extended/lsb/lsbinitscripts_9.03.bb
+> index dd92a92..f324994 100644
+> --- a/meta/recipes-extended/lsb/lsbinitscripts_9.03.bb
+> +++ b/meta/recipes-extended/lsb/lsbinitscripts_9.03.bb
+> @@ -2,7 +2,7 @@ DESCRIPTION = "SysV init scripts which only is used in an LSB image"
+>   SECTION = "base"
+>   LICENSE = "GPLv2"
+>   DEPENDS = "popt"
+> -PR = "r0"
+> +PR = "r1"
+>
+>   LIC_FILES_CHKSUM = "file://COPYING;md5=ebf4e8b49780ab187d51bd26aaa022c6"
+>
+> @@ -15,7 +15,7 @@ SRC_URI[md5sum] = "668fa2762b57ef75436303857847bba3"
+>   SRC_URI[sha256sum] = "d56547a68ce223a7413b2676650b042125f047c8d6d139c5b970e118b3dc958a"
+>   inherit update-alternatives
+>
+> -ALTERNATIVE_PRIORITY = "10"
+> +ALTERNATIVE_PRIORITY = "100"
+>   ALTERNATIVE_${PN} = "functions"
+>   ALTERNATIVE_LINK_NAME[functions] = "${sysconfdir}/init.d/functions"
+>
+> @@ -23,5 +23,5 @@ do_configure[noexec] = "1"
+>
+>   do_install(){
+>   	install -d ${D}/etc/init.d/
+> -	install -m 0755 ${S}/rc.d/init.d/functions ${D}/etc/init.d/functions
+> +	install -m 0755 ${S}/rc.d/init.d/functions ${D}/etc/init.d/functions.${BPN}
+>   }
+>
+As Richard already pointed out, this rename during install is not 
+needed, it happens automagically via the update-alternatives bbclass, 
+this is true with the initscripts recipe also, please fix these two 
+issues and we can move forward with this patch.
 
-diff --git a/meta/recipes-core/netbase/netbase_5.0.bb b/meta/recipes-core/netbase/netbase_5.0.bb
-index 3aea874..ad80ef6 100644
---- a/meta/recipes-core/netbase/netbase_5.0.bb
-+++ b/meta/recipes-core/netbase/netbase_5.0.bb
-@@ -4,7 +4,7 @@ HOMEPAGE = "http://packages.debian.org/netbase"
- SECTION = "base"
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://debian/copyright;md5=3dd6192d306f582dee7687da3d8748ab"
--PR = "r0"
-+PR = "r1"
- 
- inherit update-rc.d
- 
-@@ -17,6 +17,8 @@ SRC_URI = "${DEBIAN_MIRROR}/main/n/netbase/netbase_${PV}.tar.gz \
-            file://interfaces \
-            file://nfsroot"
- 
-+S = "${WORKDIR}/${P}"
-+
- SRC_URI[md5sum] = "a379d9199d44d817543eddc211a29b70"
- SRC_URI[sha256sum] = "ac9424d3cb2bd3c07b6c5bc5875c434d3bc687a73cd7c54b7dc7122308afa9dc"
- 
--- 
-1.7.4.1
+Thanks
+	Sau!
 
 
 
