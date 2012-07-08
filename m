@@ -1,31 +1,23 @@
-Received: from astoria.ccjclearline.com ([64.235.106.9])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpjday@crashcourse.ca>) id 1SnaIQ-0003zq-8a
+	(envelope-from <tom.zanussi@intel.com>) id 1Snk3p-0006Rd-OO
 	for openembedded-core@lists.openembedded.org;
-	Sat, 07 Jul 2012 21:03:58 +0200
-Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
-	([99.241.91.63]:35168 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.77) (envelope-from <rpjday@crashcourse.ca>)
-	id 1Sna7g-0006eE-BJ for openembedded-core@lists.openembedded.org;
-	Sat, 07 Jul 2012 14:52:52 -0400
-Date: Sat, 7 Jul 2012 14:52:44 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@oneiric
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.DEB.2.02.1207071435090.25344@oneiric>
-User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
-MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Subject: setting EXTRA_IMAGE_FEATURES explicitly in .bb file can screw things up
+	Sun, 08 Jul 2012 07:29:33 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 07 Jul 2012 22:18:24 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="165302252"
+Received: from unknown (HELO [10.255.13.33]) ([10.255.13.33])
+	by azsmga001.ch.intel.com with ESMTP; 07 Jul 2012 22:18:24 -0700
+Message-ID: <1341724701.6761.177.camel@trz-ThinkPad-T420>
+From: Tom Zanussi <tom.zanussi@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 08 Jul 2012 00:18:21 -0500
+In-Reply-To: <cover.1341606068.git.tom.zanussi@intel.com>
+References: <cover.1341606068.git.tom.zanussi@intel.com>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+Subject: Re: [PATCH 0/3] perf-scripting/perf-tui features, v2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,64 +32,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 07 Jul 2012 19:03:58 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Sun, 08 Jul 2012 05:29:34 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+
+On Fri, 2012-07-06 at 15:29 -0500, tom.zanussi@intel.com wrote:
+> From: Tom Zanussi <tom.zanussi@intel.com>
+> 
+> This patchset adds perf-scriping and perf-tui features as
+> a per-arch thing rather than per-machine, as suggested by
+> Richard Purdie.
+> 
+> I just started testing this, it works so far, but thought
+> I'd put it out there now in case there were comments before
+> putting too much effort into that, and possibly giving other
+> people a chance to try it out.
+> 
+
+Looks fine after more build-testing: qemux86, qemux86-64, crownbay,
+sugarbay, qemuarm and qemuppc both with and without perf-scripting and
+perf-tui, and builds without perf as well all build fine here.
+
+Tom
+
+> The following changes since commit 5051e9837fa698e03d0a7a8a918ee7aa98409ce1:
+>   Robert P. J. Day (1):
+>         bitbake: usermanual: Fix missing markup
+> 
+> are available in the git repository at:
+> 
+>   git://git.yoctoproject.org/poky-contrib.git tzanussi/perf-scripting-v2
+>   http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=tzanussi/perf-scripting-v2
+> 
+> Tom Zanussi (3):
+>   perf: add perf.inc
+>   perf: add arch-specific perf-scripting feature
+>   perf: add arch-specific perf-tui feature
+> 
+>  meta/recipes-kernel/perf/perf.inc    |   30 ++++++++++++++++++++++++++++++
+>  meta/recipes-kernel/perf/perf_3.4.bb |   18 +++++++++++++++---
+>  2 files changed, 45 insertions(+), 3 deletions(-)
+>  create mode 100644 meta/recipes-kernel/perf/perf.inc
+> 
 
 
-  a while back, i whined about the inconsistent usage of
-EXTRA_IMAGE_FEATURES, like this as a snippet:
-
-meta/recipes-sato/images/core-image-sato-sdk.bb:EXTRA_IMAGE_FEATURES += "tools-debug tools-profile tools-testapps debug-tweaks"
-meta/recipes-rt/images/core-image-rt-sdk.bb:EXTRA_IMAGE_FEATURES += "tools-debug tools-profile tools-testapps debug-tweaks"
-meta/recipes-extended/images/core-image-lsb-sdk.bb:EXTRA_IMAGE_FEATURES = "tools-debug tools-profile tools-testapps debug-tweaks"
-
-notice the mixing of "+=" and "=", which seems messy.  then i ran
-across this in core-image-lsb-sdk.bb:
-
-IMAGE_FEATURES += "apps-console-core tools-sdk dev-pkgs ssh-server-openssh"
-EXTRA_IMAGE_FEATURES = "tools-debug tools-profile tools-testapps debug-tweaks"
-
-  that *can't* be right, can it?  the explicit setting of
-EXTRA_IMAGE_FEATURES in that recipe file will override any such
-setting in one's local.conf file, won't it?  and that's how the
-current manual *advises* how to add more features through your
-local.conf.
-
-  i tested this target with a standard local.conf, and checked the
-environment to see:
-
-... snip ...
-IMAGE_FEATURES="apps-console-core debug-tweaks tools-sdk
-tools-testapps dev-pkgs tools-profile tools-debug ssh-server-openssh"
-
-which looks fine according to the .bb file.
-
-  but if i add the following to my local.conf file (as the manual
-suggests i do to add another feature):
-
-EXTRA_IMAGE_FEATURES = "nfs-server"
-
-i see *no* difference in the environment.  hasn't the setting in the
-.bb file overridden the one in my local.conf?
-
-  i *can* get nfs-server added to my list of features with
-(predictably):
-
-IMAGE_FEATURES += "nfs-server"
-
-but that doesn't strike me as a proper solution and will certainly
-come as an unpleasant surprise to someone eventually.  thoughts?
-
-rday
-
--- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
 
 
