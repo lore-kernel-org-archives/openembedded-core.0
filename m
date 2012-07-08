@@ -1,38 +1,38 @@
 Received: from mail-pb0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1SnuFs-0001Uh-KO
+	(envelope-from <raj.khem@gmail.com>) id 1SnuFv-0001kb-NL
 	for openembedded-core@lists.openembedded.org;
-	Sun, 08 Jul 2012 18:22:41 +0200
-Received: by mail-pb0-f47.google.com with SMTP id rq2so16967057pbb.6
+	Sun, 08 Jul 2012 18:22:44 +0200
+Received: by pbbrq2 with SMTP id rq2so16967335pbb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 08 Jul 2012 09:11:31 -0700 (PDT)
+	Sun, 08 Jul 2012 09:11:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
 	:in-reply-to:references;
-	bh=8lOpVzcfkWdcKMk7HqltM1dho4fc61k7pzoYDSbn4/o=;
-	b=qH807JMYoBAPhWvasuMwsYfc8bH/zZxPDY0vsPrb05Uxr/AFARwZTty2WDBDW5Ih1s
-	TlftHSU4t8xJjdQZbAALhjSuD+uGZFABjP1LLHycI06k18YHvOZZsGoaIEKgk9WKUSPs
-	gN8/TsiLZQ3cGtQpgCPiui8jOjagmetG9rhxe/0umOB9oGC+6GbVX5+TgSTK0k7nuoGb
-	5wCn9yyKUmBSfwjtAnWKIsE6taLc5K2MY7XbtWGhMkrScRpHl8Lt2TuUPJehbnKu43QT
-	k4/QfWLBIBWka56t7IHSzNDguxRcqRRB5J3cE0EVfHxtpqcVtwePquY3VZUa840kggb3
-	bhyw==
-Received: by 10.66.72.225 with SMTP id g1mr59983279pav.3.1341763891430;
-	Sun, 08 Jul 2012 09:11:31 -0700 (PDT)
+	bh=ctIrvT+5D2M1pk9jCZFEItkBexLRnrFR0NQUOsaAkqU=;
+	b=052TjBTcQ43CxGRZdp2cusRRYEGVTxMopQcHpF61lLFnM3XlY3ykxBkYbqB8J45ytb
+	Qgar/mLWGAbHD0s1At2xLfhAba7nEIAAFCqM5sW0jZ1KeJRW6KY6ww0WIw8ncVRlXXWw
+	elsRLDndiuJyWAcCUKcEitnEyW9WvdVzSMJlx+O74SbZ0sHPWRH/d4yvdIGAMt3bH8sw
+	jRnVUGE0P3m2j9rmXFUmcNZcqSmfMidMn/GsZItAoiwGNX1DNctU7jwetuRCBMhLllV9
+	wKb38+FOMyMAbXz7QO+VP85xnpY1XJAN/YsX17qIJLgBhWHiFh7UQN8oA+i6NSjUFdkK
+	0YXA==
+Received: by 10.68.138.166 with SMTP id qr6mr53111140pbb.43.1341763894535;
+	Sun, 08 Jul 2012 09:11:34 -0700 (PDT)
 Received: from agate.agate.openembedded.org (oldbuilder.nslu2-linux.org.
 	[140.211.169.168])
-	by mx.google.com with ESMTPS id qp9sm25927714pbc.9.2012.07.08.09.11.29
+	by mx.google.com with ESMTPS id qp9sm25927714pbc.9.2012.07.08.09.11.32
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sun, 08 Jul 2012 09:11:30 -0700 (PDT)
+	Sun, 08 Jul 2012 09:11:33 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun,  8 Jul 2012 09:10:35 -0700
-Message-Id: <9f42cd8a4251507135300cea8520492b49cab19f.1341763347.git.raj.khem@gmail.com>
+Date: Sun,  8 Jul 2012 09:10:37 -0700
+Message-Id: <f11c8fd25c35d88f09b2dc55ab141863f5234d61.1341763347.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <8e3806df2f45dfaf6bf86ce7591b8d09b873c27e.1341763346.git.raj.khem@gmail.com>
 References: <8e3806df2f45dfaf6bf86ce7591b8d09b873c27e.1341763346.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1341763345.git.raj.khem@gmail.com>
 References: <cover.1341763345.git.raj.khem@gmail.com>
-Subject: [PATCH 17/19] gcc: Refresh support for fsl E5500/E6500
+Subject: [PATCH 19/19] eglibc: Add recipes for 2.16 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,1782 +47,1558 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 08 Jul 2012 16:22:41 -0000
+X-List-Received-Date: Sun, 08 Jul 2012 16:22:44 -0000
 
-These patches are backport from gcc mainline
-they fix issues where eglibc was not compilable
-for e5500+ due to missing vector intrinsics
-It obsoletes the existing e5500 patch
+Drop the patches that were either applied
+or fixed differenly in 2.16
+
+Add patches to fix ppc spe patches to match
+eglibc 2.16
+
+Fix CPPFLAGS to contain correct includepaths
+so autoconf cache is generated correctly
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-devtools/gcc/gcc-4.7.inc              |    7 +-
- .../gcc/gcc-4.7/define_insn_reservation.patch      |  118 +++
- .../gcc/gcc-4.7/ppc_with_cpu.patch                 |  752 ++++++++++++++++++++
- ...pc-e5500.patch => ppce5500-e6500-support.patch} |  560 +++++++++++----
- .../gcc/gcc-4.7/rs6000-tables.patch                |  135 ++++
- 5 files changed, 1412 insertions(+), 160 deletions(-)
- create mode 100644 meta/recipes-devtools/gcc/gcc-4.7/define_insn_reservation.patch
- create mode 100644 meta/recipes-devtools/gcc/gcc-4.7/ppc_with_cpu.patch
- rename meta/recipes-devtools/gcc/gcc-4.7/{powerpc-e5500.patch => ppce5500-e6500-support.patch} (41%)
- create mode 100644 meta/recipes-devtools/gcc/gcc-4.7/rs6000-tables.patch
+ .../eglibc/cross-localedef-native_2.16.bb          |   44 ++
+ .../eglibc/eglibc-2.16/GLRO_dl_debug_mask.patch    |  108 ++++
+ .../eglibc/eglibc-2.16/IO-acquire-lock-fix.patch   |   17 +
+ .../eglibc-svn-arm-lowlevellock-include-tls.patch  |   21 +
+ .../eglibc_fix_findidx_parameters.patch            |   38 ++
+ .../eglibc/eglibc-2.16/generate-supported.mk       |   11 +
+ .../eglibc/eglibc-2.16/initgroups_keys.patch       |   20 +
+ .../eglibc/eglibc-2.16/ld-search-order.patch       |   56 ++
+ .../eglibc/eglibc-2.16/mips-rld-map-check.patch    |   26 +
+ .../eglibc/eglibc-2.16/multilib_readlib.patch      |   17 +
+ .../recipes-core/eglibc/eglibc-2.16/ppc-sqrt.patch |  538 ++++++++++++++++++++
+ .../eglibc/eglibc-2.16/ppc-sqrt_finite.patch       |  112 ++++
+ .../eglibc/eglibc-2.16/ppc_slow_ieee754_sqrt.patch |  123 +++++
+ .../eglibc/eglibc-2.16/rpc-bootstrap.patch         |   63 +++
+ .../eglibc-2.16/use-sysroot-cxx-headers.patch      |   42 ++
+ meta/recipes-core/eglibc/eglibc-initial_2.16.bb    |    6 +
+ meta/recipes-core/eglibc/eglibc-locale_2.16.bb     |    1 +
+ meta/recipes-core/eglibc/eglibc_2.16.bb            |  146 ++++++
+ 18 files changed, 1389 insertions(+)
+ create mode 100644 meta/recipes-core/eglibc/cross-localedef-native_2.16.bb
+ create mode 100644 meta/recipes-core/eglibc/eglibc-2.16/GLRO_dl_debug_mask.patch
+ create mode 100644 meta/recipes-core/eglibc/eglibc-2.16/IO-acquire-lock-fix.patch
+ create mode 100644 meta/recipes-core/eglibc/eglibc-2.16/eglibc-svn-arm-lowlevellock-include-tls.patch
+ create mode 100644 meta/recipes-core/eglibc/eglibc-2.16/eglibc_fix_findidx_parameters.patch
+ create mode 100644 meta/recipes-core/eglibc/eglibc-2.16/etc/ld.so.conf
+ create mode 100644 meta/recipes-core/eglibc/eglibc-2.16/generate-supported.mk
+ create mode 100644 meta/recipes-core/eglibc/eglibc-2.16/initgroups_keys.patch
+ create mode 100644 meta/recipes-core/eglibc/eglibc-2.16/ld-search-order.patch
+ create mode 100644 meta/recipes-core/eglibc/eglibc-2.16/mips-rld-map-check.patch
+ create mode 100644 meta/recipes-core/eglibc/eglibc-2.16/multilib_readlib.patch
+ create mode 100644 meta/recipes-core/eglibc/eglibc-2.16/ppc-sqrt.patch
+ create mode 100644 meta/recipes-core/eglibc/eglibc-2.16/ppc-sqrt_finite.patch
+ create mode 100644 meta/recipes-core/eglibc/eglibc-2.16/ppc_slow_ieee754_sqrt.patch
+ create mode 100644 meta/recipes-core/eglibc/eglibc-2.16/rpc-bootstrap.patch
+ create mode 100644 meta/recipes-core/eglibc/eglibc-2.16/use-sysroot-cxx-headers.patch
+ create mode 100644 meta/recipes-core/eglibc/eglibc-initial_2.16.bb
+ create mode 100644 meta/recipes-core/eglibc/eglibc-locale_2.16.bb
+ create mode 100644 meta/recipes-core/eglibc/eglibc_2.16.bb
 
-diff --git a/meta/recipes-devtools/gcc/gcc-4.7.inc b/meta/recipes-devtools/gcc/gcc-4.7.inc
-index a824573..72edd1a 100644
---- a/meta/recipes-devtools/gcc/gcc-4.7.inc
-+++ b/meta/recipes-devtools/gcc/gcc-4.7.inc
-@@ -1,6 +1,6 @@
- require gcc-common.inc
- 
--PR = "r2"
-+PR = "r3"
- 
- # Third digit in PV should be incremented after a minor release
- # happens from this branch on gcc e.g. currently its 4.7.1
-@@ -59,7 +59,10 @@ SRC_URI = "git://github.com/mirrors/gcc.git;branch=${BRANCH};proto=git \
- 	   file://disable_relax_pic_calls_flag.patch \
- 	   file://COLLECT_GCC_OPTIONS.patch \
-            file://use-defaults.h-and-t-oe-in-B.patch \
--	   file://powerpc-e5500.patch \
-+	   file://ppc_with_cpu.patch \
-+	   file://ppce5500-e6500-support.patch \
-+	   file://rs6000-tables.patch \
-+	   file://define_insn_reservation.patch \
- 	   file://pr32219.patch \
- 	   file://fortran-cross-compile-hack.patch \
- 	   file://libgcc-sjlj-check.patch \
-diff --git a/meta/recipes-devtools/gcc/gcc-4.7/define_insn_reservation.patch b/meta/recipes-devtools/gcc/gcc-4.7/define_insn_reservation.patch
+diff --git a/meta/recipes-core/eglibc/cross-localedef-native_2.16.bb b/meta/recipes-core/eglibc/cross-localedef-native_2.16.bb
 new file mode 100644
-index 0000000..2b0ff67
+index 0000000..88c701e
 --- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc-4.7/define_insn_reservation.patch
-@@ -0,0 +1,118 @@
-+Upstream-Status: Backport
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
++++ b/meta/recipes-core/eglibc/cross-localedef-native_2.16.bb
+@@ -0,0 +1,44 @@
++DESCRIPTION = "Cross locale generation tool for eglibc"
++HOMEPAGE = "http://www.eglibc.org/home"
++SECTION = "libs"
++LICENSE = "LGPL-2.1"
 +
-+From aab806a131efe9706396692ecc67d324371e39bc Mon Sep 17 00:00:00 2001
-+From: edmarwjr <edmarwjr@138bc75d-0d04-0410-961f-82ee72b054a4>
-+Date: Fri, 22 Jun 2012 20:13:23 +0000
-+Subject: [PATCH] 2012-06-22  Edmar Wienskoski  <edmar@freescale.com>
-+
-+	* config/rs6000/rs6000.md (define_attr "type"): New type popcnt.
-+	(popcntb<mode>2): Add attribute type popcnt.
-+	(popcntd<mode>2): Ditto.
-+	* config/rs6000/power4.md (define_insn_reservation): Add type popcnt.
-+	* config/rs6000/power5.md (define_insn_reservation): Ditto.
-+	* config/rs6000/power7.md (define_insn_reservation): Ditto.
-+	* config/rs6000/476.md (define_insn_reservation): Ditto.
-+	* config/rs6000/power6.md (define_insn_reservation): New
-+	reservation for popcnt instructions.
++LIC_DIR = "${WORKDIR}/${EGLIBC_BRANCH}/libc"
++LIC_FILES_CHKSUM = "file://${LIC_DIR}/LICENSES;md5=98a1128c4b58120182cbea3b1752d8b9\
++      file://${LIC_DIR}/COPYING;md5=393a5ca445f6965873eca0259a17f833 \
++      file://${LIC_DIR}/posix/rxspencer/COPYRIGHT;md5=dc5485bb394a13b2332ec1c785f5d83a \
++      file://${LIC_DIR}/COPYING.LIB;md5=bbb461211a33b134d42ed5ee802b37ff "
 +
 +
++inherit native
++inherit autotools
 +
-+git-svn-id: svn+ssh://gcc.gnu.org/svn/gcc/trunk@188901 138bc75d-0d04-0410-961f-82ee72b054a4
-+---
-+ gcc/ChangeLog               |   12 ++++++++++++
-+ gcc/config/rs6000/476.md    |    2 +-
-+ gcc/config/rs6000/power5.md |    2 +-
-+ gcc/config/rs6000/power6.md |    5 +++++
-+ gcc/config/rs6000/power7.md |    2 +-
-+ gcc/config/rs6000/rs6000.md |   10 +++++++---
-+ 6 files changed, 27 insertions(+), 6 deletions(-)
++PR = "r0"
++SRCREV="19383"
++EGLIBC_BRANCH="eglibc-2_16"
++SRC_URI = "svn://www.eglibc.org/svn/branches/;module=${EGLIBC_BRANCH};proto=http "
++S = "${WORKDIR}/${EGLIBC_BRANCH}/localedef"
 +
-+Index: gcc-4_7-branch/gcc/config/rs6000/476.md
-+===================================================================
-+--- gcc-4_7-branch.orig/gcc/config/rs6000/476.md	2012-07-05 23:49:07.000000000 -0700
-++++ gcc-4_7-branch/gcc/config/rs6000/476.md	2012-07-06 19:50:30.078779999 -0700
-+@@ -71,7 +71,7 @@
-+    ppc476_i_pipe|ppc476_lj_pipe")
-+ 
-+ (define_insn_reservation "ppc476-complex-integer" 1
-+-  (and (eq_attr "type" "cmp,cr_logical,delayed_cr,cntlz,isel,isync,sync,trap")
-++  (and (eq_attr "type" "cmp,cr_logical,delayed_cr,cntlz,isel,isync,sync,trap,popcnt")
-+        (eq_attr "cpu" "ppc476"))
-+   "ppc476_issue,\
-+    ppc476_i_pipe")
-+Index: gcc-4_7-branch/gcc/config/rs6000/power5.md
-+===================================================================
-+--- gcc-4_7-branch.orig/gcc/config/rs6000/power5.md	2012-07-05 23:49:07.000000000 -0700
-++++ gcc-4_7-branch/gcc/config/rs6000/power5.md	2012-07-06 19:50:30.078779999 -0700
-+@@ -142,7 +142,7 @@
-+ ; Integer latency is 2 cycles
-+ (define_insn_reservation "power5-integer" 2
-+   (and (eq_attr "type" "integer,insert_dword,shift,trap,\
-+-                        var_shift_rotate,cntlz,exts,isel")
-++                        var_shift_rotate,cntlz,exts,isel,popcnt")
-+        (eq_attr "cpu" "power5"))
-+   "iq_power5")
-+ 
-+Index: gcc-4_7-branch/gcc/config/rs6000/power6.md
-+===================================================================
-+--- gcc-4_7-branch.orig/gcc/config/rs6000/power6.md	2012-07-05 23:49:07.000000000 -0700
-++++ gcc-4_7-branch/gcc/config/rs6000/power6.md	2012-07-06 19:50:30.078779999 -0700
-+@@ -216,6 +216,11 @@
-+        (eq_attr "cpu" "power6"))
-+   "FXU_power6")
-+ 
-++(define_insn_reservation "power6-popcnt" 1
-++  (and (eq_attr "type" "popcnt")
-++       (eq_attr "cpu" "power6"))
-++  "FXU_power6")
-++
-+ (define_insn_reservation "power6-insert" 1
-+   (and (eq_attr "type" "insert_word")
-+        (eq_attr "cpu" "power6"))
-+Index: gcc-4_7-branch/gcc/config/rs6000/power7.md
-+===================================================================
-+--- gcc-4_7-branch.orig/gcc/config/rs6000/power7.md	2012-07-05 23:49:07.000000000 -0700
-++++ gcc-4_7-branch/gcc/config/rs6000/power7.md	2012-07-06 19:50:30.078779999 -0700
-+@@ -150,7 +150,7 @@
-+ ; FX Unit
-+ (define_insn_reservation "power7-integer" 1
-+   (and (eq_attr "type" "integer,insert_word,insert_dword,shift,trap,\
-+-                        var_shift_rotate,exts,isel")
-++                        var_shift_rotate,exts,isel,popcnt")
-+        (eq_attr "cpu" "power7"))
-+   "DU_power7,FXU_power7")
-+ 
-+Index: gcc-4_7-branch/gcc/config/rs6000/rs6000.md
-+===================================================================
-+--- gcc-4_7-branch.orig/gcc/config/rs6000/rs6000.md	2012-07-06 19:44:38.000000000 -0700
-++++ gcc-4_7-branch/gcc/config/rs6000/rs6000.md	2012-07-06 19:50:30.078779999 -0700
-+@@ -144,7 +144,7 @@
-+ 
-+ ;; Define an insn type attribute.  This is used in function unit delay
-+ ;; computations.
-+-(define_attr "type" "integer,two,three,load,load_ext,load_ext_u,load_ext_ux,load_ux,load_u,store,store_ux,store_u,fpload,fpload_ux,fpload_u,fpstore,fpstore_ux,fpstore_u,vecload,vecstore,imul,imul2,imul3,lmul,idiv,ldiv,insert_word,branch,cmp,fast_compare,compare,var_delayed_compare,delayed_compare,imul_compare,lmul_compare,fpcompare,cr_logical,delayed_cr,mfcr,mfcrf,mtcr,mfjmpr,mtjmpr,fp,fpsimple,dmul,sdiv,ddiv,ssqrt,dsqrt,jmpreg,brinc,vecsimple,veccomplex,vecdiv,veccmp,veccmpsimple,vecperm,vecfloat,vecfdiv,vecdouble,isync,sync,load_l,store_c,shift,trap,insert_dword,var_shift_rotate,cntlz,exts,mffgpr,mftgpr,isel"
-++(define_attr "type" "integer,two,three,load,load_ext,load_ext_u,load_ext_ux,load_ux,load_u,store,store_ux,store_u,fpload,fpload_ux,fpload_u,fpstore,fpstore_ux,fpstore_u,vecload,vecstore,imul,imul2,imul3,lmul,idiv,ldiv,insert_word,branch,cmp,fast_compare,compare,var_delayed_compare,delayed_compare,imul_compare,lmul_compare,fpcompare,cr_logical,delayed_cr,mfcr,mfcrf,mtcr,mfjmpr,mtjmpr,fp,fpsimple,dmul,sdiv,ddiv,ssqrt,dsqrt,jmpreg,brinc,vecsimple,veccomplex,vecdiv,veccmp,veccmpsimple,vecperm,vecfloat,vecfdiv,vecdouble,isync,sync,load_l,store_c,shift,trap,insert_dword,var_shift_rotate,cntlz,exts,mffgpr,mftgpr,isel,popcnt"
-+   (const_string "integer"))
-+ 
-+ ;; Define floating point instruction sub-types for use with Xfpu.md
-+@@ -2329,13 +2329,17 @@
-+         (unspec:GPR [(match_operand:GPR 1 "gpc_reg_operand" "r")]
-+                      UNSPEC_POPCNTB))]
-+   "TARGET_POPCNTB"
-+-  "popcntb %0,%1")
-++  "popcntb %0,%1"
-++  [(set_attr "length" "4")
-++   (set_attr "type" "popcnt")])
-+ 
-+ (define_insn "popcntd<mode>2"
-+   [(set (match_operand:GPR 0 "gpc_reg_operand" "=r")
-+ 	(popcount:GPR (match_operand:GPR 1 "gpc_reg_operand" "r")))]
-+   "TARGET_POPCNTD"
-+-  "popcnt<wd> %0,%1")
-++  "popcnt<wd> %0,%1"
-++  [(set_attr "length" "4")
-++   (set_attr "type" "popcnt")])
-+ 
-+ (define_expand "popcount<mode>2"
-+   [(set (match_operand:GPR 0 "gpc_reg_operand" "")
-diff --git a/meta/recipes-devtools/gcc/gcc-4.7/ppc_with_cpu.patch b/meta/recipes-devtools/gcc/gcc-4.7/ppc_with_cpu.patch
++do_unpack_append() {
++	bb.build.exec_func('do_move_ports', d)
++}
++
++do_move_ports() {
++        if test -d ${WORKDIR}/${EGLIBC_BRANCH}/ports ; then
++	    rm -rf ${WORKDIR}/libc/ports
++	    mv ${WORKDIR}/${EGLIBC_BRANCH}/ports ${WORKDIR}/libc/
++	fi
++}
++
++EXTRA_OECONF = "--with-glibc=${WORKDIR}/${EGLIBC_BRANCH}/libc"
++CFLAGS += "-DNOT_IN_libc=1"
++
++do_configure () {
++	./configure ${EXTRA_OECONF}
++}
++
++
++do_install() {
++	install -d ${D}${bindir} 
++	install -m 0755 ${S}/localedef ${D}${bindir}/cross-localedef
++}
+diff --git a/meta/recipes-core/eglibc/eglibc-2.16/GLRO_dl_debug_mask.patch b/meta/recipes-core/eglibc/eglibc-2.16/GLRO_dl_debug_mask.patch
 new file mode 100644
-index 0000000..5ca12a6
+index 0000000..b899562
 --- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc-4.7/ppc_with_cpu.patch
-@@ -0,0 +1,752 @@
-+Upstream-Status: Backport
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
++++ b/meta/recipes-core/eglibc/eglibc-2.16/GLRO_dl_debug_mask.patch
+@@ -0,0 +1,108 @@
++Its controlled by __OPTION_EGLIBC_RTLD_DEBUG
++so we should use GLRO_dl_debug_mask
 +
-+From 7630308303ea21c318bd57c35590fc4f249a30d8 Mon Sep 17 00:00:00 2001
-+From: hainque <hainque@138bc75d-0d04-0410-961f-82ee72b054a4>
-+Date: Wed, 16 May 2012 08:43:41 +0000
-+Subject: [PATCH]         * config/rs6000/rs6000-opts.h (enum processor_type):
-+ Add         PROCESSOR_PPC8548.         *
-+ config/rs6000/rs6000-cpus.def: Reference it for cpu="8548".
-+         * config/rs6000/rs6000.md (cpu attribute
-+ definition): Add ppc8548.         * config/rs6000/8540.md:
-+ indicate that the units/patterns apply to         ppc8548
-+ as well.
++Singed-off-by: Khem Raj <raj.khem@gmail.com>
 +
-+        * config/rs6000/rs6000.c (rs6000_option_override_internal): Rename
-+        default_cpu into implicit_cpu, conveying what --with-cpu was passed at
-+        configure time. Treat implicit_cpu as have_CPU. Pick defaults for SPE
-+        related flags,  check that what is queried is supported by the selected
-+        configuration. Rework the single/double_float and MASK_STRING resets to
-+        hit for all the E500 cores (854x + E500MC variants). Select the ppc8540
-+        costs for PROCESSOR_PPC8548 as well.
-+        (rs6000_issue_rate): case CPU_PPC8548 together with CPU_PPC8540.
-+        (rs6000_use_sched_lookahead): Likewise, rewriting function as a case
-+        statement instead of a sequence of ifs.
-+
-+        * config/rs6000/rs6000.h (TARGET_E500): Remove.
-+        (TARGET_NO_LWSYNC): Adjust accordingly.
-+        * config/rs6000/e500.h (TARGET_E500): Remove.
-+        (CHECK_E500_OPTIONS): Adjust accordingly.
-+        * config/rs6000/eabispe.h (SUBSUBTARGET_OVERRIDE_OPTIONS): Remove.
-+        (TARGET_DEFAULT): Reformat definition to match the one in linuxspe.h.
-+        * config/rs6000/linuxspe.h: Likewise.
-+        * config/rs6000/vxworks.h: Remove bogus TARGET_E500 overrides and
-+        superfluous comments.
-+        * config/rs6000/e500-double.h: Remove.
-+
-+        * config.gcc (pick a default with_cpu): For powerpc*-*-*spe*,
-+        default to with_cpu=8548 if --enable-e500-double, and to 8540
-+        otherwise.
-+        (set misc flags section): For powerpc*|rs6000*, remove inclusion
-+        of e500-double.h for --enable-e500-double.
-+
-+
-+
-+git-svn-id: svn+ssh://gcc.gnu.org/svn/gcc/trunk@187581 138bc75d-0d04-0410-961f-82ee72b054a4
-+---
-+ gcc/ChangeLog                     |   37 +++++++++
-+ gcc/config.gcc                    |   12 +--
-+ gcc/config/rs6000/8540.md         |   50 ++++++------
-+ gcc/config/rs6000/e500-double.h   |   24 ------
-+ gcc/config/rs6000/e500.h          |   10 +--
-+ gcc/config/rs6000/eabispe.h       |   17 +---
-+ gcc/config/rs6000/linuxspe.h      |   16 +---
-+ gcc/config/rs6000/rs6000-cpus.def |    3 +-
-+ gcc/config/rs6000/rs6000-opts.h   |    1 +
-+ gcc/config/rs6000/rs6000.c        |  155 +++++++++++++++++++++++--------------
-+ gcc/config/rs6000/rs6000.h        |    7 +-
-+ gcc/config/rs6000/rs6000.md       |    2 +-
-+ gcc/config/rs6000/rtems.h         |   14 ----
-+ gcc/config/rs6000/vxworks.h       |   11 ---
-+ 14 files changed, 178 insertions(+), 181 deletions(-)
-+
-+Index: gcc-4_7-branch/gcc/config.gcc
++Upstream-Status: Pending
++Index: libc/elf/dl-open.c
 +===================================================================
-+--- gcc-4_7-branch.orig/gcc/config.gcc	2012-07-06 19:43:53.000000000 -0700
-++++ gcc-4_7-branch/gcc/config.gcc	2012-07-06 19:44:38.000000000 -0700
-+@@ -2876,6 +2876,13 @@
-+     mips*-*-vxworks)
-+       with_arch=mips2
-+       ;;
-++    powerpc*-*-*spe*)
-++      if test x$enable_e500_double = xyes; then
-++         with_cpu=8548
-++      else
-++         with_cpu=8540
-++      fi       
-++      ;;
-+     sparc-leon*-*)
-+       with_cpu=v8;
-+       ;;
-+@@ -3564,11 +3571,6 @@
-+ 		c_target_objs="${c_target_objs} rs6000-c.o"
-+ 		cxx_target_objs="${cxx_target_objs} rs6000-c.o"
-+ 		tmake_file="rs6000/t-rs6000 ${tmake_file}"
-+-
-+-                if test x$enable_e500_double = xyes
-+-                then
-+-                        tm_file="$tm_file rs6000/e500-double.h"
-+-                fi
-+ 		;;
++--- libc.orig/elf/dl-open.c	2012-03-09 08:54:34.691443995 -0800
+++++ libc/elf/dl-open.c	2012-03-09 08:55:31.275446730 -0800
++@@ -154,7 +154,7 @@
++ 	  ns->_ns_main_searchlist->r_list[new_nlist++] = map;
 + 
-+ 	sh[123456ble]*-*-* | sh-*-*)
-+Index: gcc-4_7-branch/gcc/config/rs6000/8540.md
++ 	  /* We modify the global scope.  Report this.  */
++-	  if (__builtin_expect (GLRO(dl_debug_mask) & DL_DEBUG_SCOPES, 0))
+++	  if (__builtin_expect (GLRO_dl_debug_mask & DL_DEBUG_SCOPES, 0))
++ 	    _dl_debug_printf ("\nadd %s [%lu] to global scope\n",
++ 			      map->l_name, map->l_ns);
++ 	}
++@@ -294,7 +294,7 @@
++   _dl_debug_state ();
++ 
++   /* Print scope information.  */
++-  if (__builtin_expect (GLRO(dl_debug_mask) & DL_DEBUG_SCOPES, 0))
+++  if (__builtin_expect (GLRO_dl_debug_mask & DL_DEBUG_SCOPES, 0))
++     _dl_show_scope (new, 0);
++ 
++   /* Only do lazy relocation if `LD_BIND_NOW' is not set.  */
++@@ -438,7 +438,7 @@
++ 	}
++ 
++       /* Print scope information.  */
++-      if (__builtin_expect (GLRO(dl_debug_mask) & DL_DEBUG_SCOPES, 0))
+++      if (__builtin_expect (GLRO_dl_debug_mask & DL_DEBUG_SCOPES, 0))
++ 	_dl_show_scope (imap, from_scope);
++     }
++ 
++Index: libc/ports/sysdeps/mips/dl-lookup.c
 +===================================================================
-+--- gcc-4_7-branch.orig/gcc/config/rs6000/8540.md	2012-07-05 23:49:07.000000000 -0700
-++++ gcc-4_7-branch/gcc/config/rs6000/8540.md	2012-07-06 19:44:38.466780001 -0700
-+@@ -87,18 +87,18 @@
-+   (and (eq_attr "type" "integer,insert_word,insert_dword,cmp,compare,\
-+                         delayed_compare,var_delayed_compare,fast_compare,\
-+                         shift,trap,var_shift_rotate,cntlz,exts,isel")
-+-       (eq_attr "cpu" "ppc8540"))
-++       (eq_attr "cpu" "ppc8540,ppc8548"))
-+   "ppc8540_decode,ppc8540_issue+ppc8540_su_stage0+ppc8540_retire")
++--- libc.orig/ports/sysdeps/mips/dl-lookup.c	2012-03-09 08:54:34.707443996 -0800
+++++ libc/ports/sysdeps/mips/dl-lookup.c	2012-03-09 09:02:36.903467324 -0800
++@@ -111,7 +111,7 @@
++ 	continue;
 + 
-+ (define_insn_reservation "ppc8540_two" 1
-+   (and (eq_attr "type" "two")
-+-       (eq_attr "cpu" "ppc8540"))
-++       (eq_attr "cpu" "ppc8540,ppc8548"))
-+   "ppc8540_decode,ppc8540_issue+ppc8540_su_stage0+ppc8540_retire,\
-+    ppc8540_issue+ppc8540_su_stage0+ppc8540_retire")
++       /* Print some debugging info if wanted.  */
++-      if (__builtin_expect (GLRO(dl_debug_mask) & DL_DEBUG_SYMBOLS, 0))
+++      if (__builtin_expect (GLRO_dl_debug_mask & DL_DEBUG_SYMBOLS, 0))
++ 	_dl_debug_printf ("symbol=%s;  lookup in file=%s [%lu]\n",
++ 			  undef_name,
++ 			  map->l_name[0] ? map->l_name : rtld_progname,
++@@ -432,7 +432,7 @@
++ 		     hash table.  */
++ 		  if (__builtin_expect (tab->size, 0))
++ 		    {
++-		      assert (GLRO(dl_debug_mask) & DL_DEBUG_PRELINK);
+++		      assert (GLRO_dl_debug_mask & DL_DEBUG_PRELINK);
++ 		      __rtld_lock_unlock_recursive (tab->lock);
++ 		      goto success;
++ 		    }
++@@ -681,7 +681,7 @@
++ 	}
 + 
-+ (define_insn_reservation "ppc8540_three" 1
-+   (and (eq_attr "type" "three")
-+-       (eq_attr "cpu" "ppc8540"))
-++       (eq_attr "cpu" "ppc8540,ppc8548"))
-+   "ppc8540_decode,ppc8540_issue+ppc8540_su_stage0+ppc8540_retire,\
-+    ppc8540_issue+ppc8540_su_stage0+ppc8540_retire,\
-+    ppc8540_issue+ppc8540_su_stage0+ppc8540_retire")
-+@@ -106,13 +106,13 @@
-+ ;; Branch.  Actually this latency time is not used by the scheduler.
-+ (define_insn_reservation "ppc8540_branch" 1
-+   (and (eq_attr "type" "jmpreg,branch,isync")
-+-       (eq_attr "cpu" "ppc8540"))
-++       (eq_attr "cpu" "ppc8540,ppc8548"))
-+   "ppc8540_decode,ppc8540_bu,ppc8540_retire")
++       /* Display information if we are debugging.  */
++-      if (__builtin_expect (GLRO(dl_debug_mask) & DL_DEBUG_FILES, 0))
+++      if (__builtin_expect (GLRO_dl_debug_mask & DL_DEBUG_FILES, 0))
++ 	_dl_debug_printf ("\
++ \nfile=%s [%lu];  needed by %s [%lu] (relocation dependency)\n\n",
++ 			  map->l_name[0] ? map->l_name : rtld_progname,
++@@ -860,7 +860,7 @@
++   if (__builtin_expect (current_value.m->l_used == 0, 0))
++     current_value.m->l_used = 1;
 + 
-+ ;; Multiply
-+ (define_insn_reservation "ppc8540_multiply" 4
-+   (and (eq_attr "type" "imul,imul2,imul3,imul_compare")
-+-       (eq_attr "cpu" "ppc8540"))
-++       (eq_attr "cpu" "ppc8540,ppc8548"))
-+   "ppc8540_decode,ppc8540_issue+ppc8540_mu_stage0,ppc8540_mu_stage1,\
-+    ppc8540_mu_stage2,ppc8540_mu_stage3+ppc8540_retire")
-+ 
-+@@ -122,57 +122,57 @@
-+ ;; time.
-+ (define_insn_reservation "ppc8540_divide" 14
-+   (and (eq_attr "type" "idiv")
-+-       (eq_attr "cpu" "ppc8540"))
-++       (eq_attr "cpu" "ppc8540,ppc8548"))
-+   "ppc8540_decode,ppc8540_issue+ppc8540_mu_stage0+ppc8540_mu_div,\
-+    ppc8540_mu_div*13")
-+ 
-+ ;; CR logical
-+ (define_insn_reservation "ppc8540_cr_logical" 1
-+   (and (eq_attr "type" "cr_logical,delayed_cr")
-+-       (eq_attr "cpu" "ppc8540"))
-++       (eq_attr "cpu" "ppc8540,ppc8548"))
-+   "ppc8540_decode,ppc8540_bu,ppc8540_retire")
-+ 
-+ ;; Mfcr
-+ (define_insn_reservation "ppc8540_mfcr" 1
-+   (and (eq_attr "type" "mfcr")
-+-       (eq_attr "cpu" "ppc8540"))
-++       (eq_attr "cpu" "ppc8540,ppc8548"))
-+   "ppc8540_decode,ppc8540_issue+ppc8540_su1_stage0+ppc8540_retire")
-+ 
-+ ;; Mtcrf
-+ (define_insn_reservation "ppc8540_mtcrf" 1
-+   (and (eq_attr "type" "mtcr")
-+-       (eq_attr "cpu" "ppc8540"))
-++       (eq_attr "cpu" "ppc8540,ppc8548"))
-+   "ppc8540_decode,ppc8540_issue+ppc8540_su1_stage0+ppc8540_retire")
-+ 
-+ ;; Mtjmpr
-+ (define_insn_reservation "ppc8540_mtjmpr" 1
-+   (and (eq_attr "type" "mtjmpr,mfjmpr")
-+-       (eq_attr "cpu" "ppc8540"))
-++       (eq_attr "cpu" "ppc8540,ppc8548"))
-+   "ppc8540_decode,ppc8540_issue+ppc8540_su_stage0+ppc8540_retire")
-+ 
-+ ;; Loads
-+ (define_insn_reservation "ppc8540_load" 3
-+   (and (eq_attr "type" "load,load_ext,load_ext_u,load_ext_ux,load_ux,load_u,\
-+ 			load_l,sync")
-+-       (eq_attr "cpu" "ppc8540"))
-++       (eq_attr "cpu" "ppc8540,ppc8548"))
-+   "ppc8540_decode,ppc8540_issue+ppc8540_lsu,nothing,ppc8540_retire")
-+ 
-+ ;; Stores.
-+ (define_insn_reservation "ppc8540_store" 3
-+   (and (eq_attr "type" "store,store_ux,store_u,store_c")
-+-       (eq_attr "cpu" "ppc8540"))
-++       (eq_attr "cpu" "ppc8540,ppc8548"))
-+   "ppc8540_decode,ppc8540_issue+ppc8540_lsu,nothing,ppc8540_retire")
-+ 
-+ ;; Simple FP
-+ (define_insn_reservation "ppc8540_simple_float" 1
-+   (and (eq_attr "type" "fpsimple")
-+-       (eq_attr "cpu" "ppc8540"))
-++       (eq_attr "cpu" "ppc8540,ppc8548"))
-+   "ppc8540_decode,ppc8540_issue+ppc8540_su_stage0+ppc8540_retire")
-+ 
-+ ;; FP
-+ (define_insn_reservation "ppc8540_float" 4
-+   (and (eq_attr "type" "fp")
-+-       (eq_attr "cpu" "ppc8540"))
-++       (eq_attr "cpu" "ppc8540,ppc8548"))
-+   "ppc8540_decode,ppc8540_issue+ppc8540_mu_stage0,ppc8540_mu_stage1,\
-+    ppc8540_mu_stage2,ppc8540_mu_stage3+ppc8540_retire")
-+ 
-+@@ -180,44 +180,44 @@
-+ ;; because of the result automata will be huge.
-+ (define_insn_reservation "ppc8540_float_vector_divide" 29
-+   (and (eq_attr "type" "vecfdiv")
-+-       (eq_attr "cpu" "ppc8540"))
-++       (eq_attr "cpu" "ppc8540,ppc8548"))
-+   "ppc8540_decode,ppc8540_issue+ppc8540_mu_stage0+ppc8540_mu_div,\
-+    ppc8540_mu_div*28")
-+ 
-+ ;; Brinc
-+ (define_insn_reservation "ppc8540_brinc" 1
-+   (and (eq_attr "type" "brinc")
-+-       (eq_attr "cpu" "ppc8540"))
-++       (eq_attr "cpu" "ppc8540,ppc8548"))
-+   "ppc8540_decode,ppc8540_issue+ppc8540_su_stage0+ppc8540_retire")
-+ 
-+ ;; Simple vector
-+ (define_insn_reservation "ppc8540_simple_vector" 1
-+   (and (eq_attr "type" "vecsimple")
-+-       (eq_attr "cpu" "ppc8540"))
-++       (eq_attr "cpu" "ppc8540,ppc8548"))
-+   "ppc8540_decode,ppc8540_issue+ppc8540_su1_stage0+ppc8540_retire")
-+ 
-+ ;; Simple vector compare
-+ (define_insn_reservation "ppc8540_simple_vector_compare" 1
-+   (and (eq_attr "type" "veccmpsimple")
-+-       (eq_attr "cpu" "ppc8540"))
-++       (eq_attr "cpu" "ppc8540,ppc8548"))
-+   "ppc8540_decode,ppc8540_issue+ppc8540_su_stage0+ppc8540_retire")
-+ 
-+ ;; Vector compare
-+ (define_insn_reservation "ppc8540_vector_compare" 1
-+   (and (eq_attr "type" "veccmp")
-+-       (eq_attr "cpu" "ppc8540"))
-++       (eq_attr "cpu" "ppc8540,ppc8548"))
-+   "ppc8540_decode,ppc8540_issue+ppc8540_su1_stage0+ppc8540_retire")
-+ 
-+ ;; evsplatfi evsplati
-+ (define_insn_reservation "ppc8540_vector_perm" 1
-+   (and (eq_attr "type" "vecperm")
-+-       (eq_attr "cpu" "ppc8540"))
-++       (eq_attr "cpu" "ppc8540,ppc8548"))
-+   "ppc8540_decode,ppc8540_issue+ppc8540_su1_stage0+ppc8540_retire")
-+ 
-+ ;; Vector float
-+ (define_insn_reservation "ppc8540_float_vector" 4
-+   (and (eq_attr "type" "vecfloat")
-+-       (eq_attr "cpu" "ppc8540"))
-++       (eq_attr "cpu" "ppc8540,ppc8548"))
-+   "ppc8540_decode,ppc8540_issue+ppc8540_mu_stage0,ppc8540_mu_stage1,\
-+    ppc8540_mu_stage2,ppc8540_mu_stage3+ppc8540_retire")
-+ 
-+@@ -226,25 +226,25 @@
-+ ;; of miu_stage3 here because we use the average latency time.
-+ (define_insn_reservation "ppc8540_vector_divide" 14
-+   (and (eq_attr "type" "vecdiv")
-+-       (eq_attr "cpu" "ppc8540"))
-++       (eq_attr "cpu" "ppc8540,ppc8548"))
-+   "ppc8540_decode,ppc8540_issue+ppc8540_mu_stage0+ppc8540_mu_div,\
-+    ppc8540_mu_div*13")
-+ 
-+ ;; Complex vector.
-+ (define_insn_reservation "ppc8540_complex_vector" 4
-+   (and (eq_attr "type" "veccomplex")
-+-       (eq_attr "cpu" "ppc8540"))
-++       (eq_attr "cpu" "ppc8540,ppc8548"))
-+   "ppc8540_decode,ppc8540_issue+ppc8540_mu_stage0,ppc8540_mu_stage1,\
-+    ppc8540_mu_stage2,ppc8540_mu_stage3+ppc8540_retire")
-+ 
-+ ;; Vector load
-+ (define_insn_reservation "ppc8540_vector_load" 3
-+   (and (eq_attr "type" "vecload")
-+-       (eq_attr "cpu" "ppc8540"))
-++       (eq_attr "cpu" "ppc8540,ppc8548"))
-+   "ppc8540_decode,ppc8540_issue+ppc8540_lsu,nothing,ppc8540_retire")
-+ 
-+ ;; Vector store
-+ (define_insn_reservation "ppc8540_vector_store" 3
-+   (and (eq_attr "type" "vecstore")
-+-       (eq_attr "cpu" "ppc8540"))
-++       (eq_attr "cpu" "ppc8540,ppc8548"))
-+   "ppc8540_decode,ppc8540_issue+ppc8540_lsu,nothing,ppc8540_retire")
-+Index: gcc-4_7-branch/gcc/config/rs6000/e500-double.h
-+===================================================================
-+--- gcc-4_7-branch.orig/gcc/config/rs6000/e500-double.h	2012-07-05 23:49:07.000000000 -0700
-++++ /dev/null	1970-01-01 00:00:00.000000000 +0000
-+@@ -1,24 +0,0 @@
-+-/* Target definitions for E500 with double precision FP.
-+-   Copyright (C) 2004, 2006, 2007, 2011 Free Software Foundation, Inc.
-+-   Contributed by Aldy Hernandez (aldyh@redhat.com).
-+-
-+-   This file is part of GCC.
-+-
-+-   GCC is free software; you can redistribute it and/or modify it
-+-   under the terms of the GNU General Public License as published
-+-   by the Free Software Foundation; either version 3, or (at your
-+-   option) any later version.
-+-
-+-   GCC is distributed in the hope that it will be useful, but WITHOUT
-+-   ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
-+-   or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public
-+-   License for more details.
-+-
-+-   You should have received a copy of the GNU General Public License
-+-   along with GCC; see the file COPYING3.  If not see
-+-   <http://www.gnu.org/licenses/>.  */
-+-
-+-#undef  SUB3TARGET_OVERRIDE_OPTIONS
-+-#define SUB3TARGET_OVERRIDE_OPTIONS \
-+-  if (!global_options_set.x_rs6000_float_gprs) \
-+-    rs6000_float_gprs = 2;
-+Index: gcc-4_7-branch/gcc/config/rs6000/e500.h
-+===================================================================
-+--- gcc-4_7-branch.orig/gcc/config/rs6000/e500.h	2012-07-05 23:49:07.000000000 -0700
-++++ gcc-4_7-branch/gcc/config/rs6000/e500.h	2012-07-06 19:44:38.466780001 -0700
-+@@ -19,7 +19,6 @@
-+ 
-+ #undef TARGET_SPE_ABI
-+ #undef TARGET_SPE
-+-#undef TARGET_E500
-+ #undef TARGET_FPRS
-+ #undef TARGET_E500_SINGLE
-+ #undef TARGET_E500_DOUBLE
-+@@ -27,21 +26,20 @@
-+ 
-+ #define TARGET_SPE_ABI rs6000_spe_abi
-+ #define TARGET_SPE rs6000_spe
-+-#define TARGET_E500 (rs6000_cpu == PROCESSOR_PPC8540)
-+ #define TARGET_FPRS (rs6000_float_gprs == 0)
-+ #define TARGET_E500_SINGLE (TARGET_HARD_FLOAT && rs6000_float_gprs == 1)
-+ #define TARGET_E500_DOUBLE (TARGET_HARD_FLOAT && rs6000_float_gprs == 2)
-+ #define CHECK_E500_OPTIONS						\
-+   do {									\
-+-    if (TARGET_E500 || TARGET_SPE || TARGET_SPE_ABI			\
-++    if (TARGET_SPE || TARGET_SPE_ABI					\
-+ 	|| TARGET_E500_SINGLE || TARGET_E500_DOUBLE)			\
-+       {									\
-+ 	if (TARGET_ALTIVEC)						\
-+-	  error ("AltiVec and E500 instructions cannot coexist");	\
-++	  error ("AltiVec and SPE instructions cannot coexist");	\
-+ 	if (TARGET_VSX)							\
-+-	  error ("VSX and E500 instructions cannot coexist");		\
-++	  error ("VSX and SPE instructions cannot coexist");		\
-+ 	if (TARGET_64BIT)						\
-+-	  error ("64-bit E500 not supported");				\
-++	  error ("64-bit SPE not supported");				\
-+ 	if (TARGET_HARD_FLOAT && TARGET_FPRS)				\
-+ 	  error ("E500 and FPRs not supported");			\
-+       }									\
-+Index: gcc-4_7-branch/gcc/config/rs6000/eabispe.h
-+===================================================================
-+--- gcc-4_7-branch.orig/gcc/config/rs6000/eabispe.h	2012-07-05 23:49:07.000000000 -0700
-++++ gcc-4_7-branch/gcc/config/rs6000/eabispe.h	2012-07-06 19:44:38.466780001 -0700
-+@@ -21,21 +21,8 @@
-+    <http://www.gnu.org/licenses/>.  */
-+ 
-+ #undef  TARGET_DEFAULT
-+-#define TARGET_DEFAULT (MASK_POWERPC | MASK_NEW_MNEMONICS | MASK_EABI	\
-+-  | MASK_STRICT_ALIGN)
-+-
-+-#undef  SUBSUBTARGET_OVERRIDE_OPTIONS
-+-#define SUBSUBTARGET_OVERRIDE_OPTIONS \
-+-  if (!global_options_set.x_rs6000_cpu_index) \
-+-    rs6000_cpu = PROCESSOR_PPC8540; \
-+-  if (!global_options_set.x_rs6000_spe_abi) \
-+-    rs6000_spe_abi = 1; \
-+-  if (!global_options_set.x_rs6000_float_gprs) \
-+-    rs6000_float_gprs = 1; \
-+-  if (!global_options_set.x_rs6000_spe) \
-+-    rs6000_spe = 1; \
-+-  if (target_flags & MASK_64BIT) \
-+-    error ("-m64 not supported in this configuration")
-++#define TARGET_DEFAULT \
-++  (MASK_POWERPC | MASK_NEW_MNEMONICS | MASK_STRICT_ALIGN | MASK_EABI)
-+ 
-+ #undef  ASM_DEFAULT_SPEC
-+ #define	ASM_DEFAULT_SPEC "-mppc -mspe -me500"
-+Index: gcc-4_7-branch/gcc/config/rs6000/linuxspe.h
-+===================================================================
-+--- gcc-4_7-branch.orig/gcc/config/rs6000/linuxspe.h	2012-07-05 23:52:14.000000000 -0700
-++++ gcc-4_7-branch/gcc/config/rs6000/linuxspe.h	2012-07-06 19:44:38.466780001 -0700
-+@@ -22,20 +22,8 @@
-+ 
-+ /* Override rs6000.h and sysv4.h definition.  */
-+ #undef	TARGET_DEFAULT
-+-#define	TARGET_DEFAULT (MASK_POWERPC | MASK_NEW_MNEMONICS | MASK_STRICT_ALIGN)
-+-
-+-#undef  SUBSUBTARGET_OVERRIDE_OPTIONS
-+-#define SUBSUBTARGET_OVERRIDE_OPTIONS \
-+-  if (!global_options_set.x_rs6000_cpu_index) \
-+-    rs6000_cpu = PROCESSOR_PPC8540; \
-+-  if (!global_options_set.x_rs6000_spe_abi) \
-+-    rs6000_spe_abi = 1; \
-+-  if (!global_options_set.x_rs6000_float_gprs) \
-+-    rs6000_float_gprs = 1; \
-+-  if (!global_options_set.x_rs6000_spe) \
-+-    rs6000_spe = 1; \
-+-  if (target_flags & MASK_64BIT) \
-+-    error ("-m64 not supported in this configuration")
-++#define TARGET_DEFAULT \
-++  (MASK_POWERPC | MASK_NEW_MNEMONICS | MASK_STRICT_ALIGN)
-+ 
-+ #undef  ASM_DEFAULT_SPEC
-+ #define	ASM_DEFAULT_SPEC "-mppc -mspe -me500"
-+Index: gcc-4_7-branch/gcc/config/rs6000/rs6000-cpus.def
-+===================================================================
-+--- gcc-4_7-branch.orig/gcc/config/rs6000/rs6000-cpus.def	2012-07-06 19:43:53.000000000 -0700
-++++ gcc-4_7-branch/gcc/config/rs6000/rs6000-cpus.def	2012-07-06 19:44:38.000000000 -0700
-+@@ -76,8 +76,7 @@
-+ RS6000_CPU ("823", PROCESSOR_MPCCORE, POWERPC_BASE_MASK | MASK_SOFT_FLOAT)
-+ RS6000_CPU ("8540", PROCESSOR_PPC8540, POWERPC_BASE_MASK | MASK_STRICT_ALIGN
-+ 	    | MASK_ISEL)
-+-/* 8548 has a dummy entry for now.  */
-+-RS6000_CPU ("8548", PROCESSOR_PPC8540, POWERPC_BASE_MASK | MASK_STRICT_ALIGN
-++RS6000_CPU ("8548", PROCESSOR_PPC8548, POWERPC_BASE_MASK | MASK_STRICT_ALIGN
-+ 	    | MASK_ISEL)
-+ RS6000_CPU ("a2", PROCESSOR_PPCA2,
-+ 	    POWERPC_BASE_MASK | MASK_PPC_GFXOPT | MASK_POWERPC64 | MASK_POPCNTB
-+Index: gcc-4_7-branch/gcc/config/rs6000/rs6000-opts.h
-+===================================================================
-+--- gcc-4_7-branch.orig/gcc/config/rs6000/rs6000-opts.h	2012-07-06 19:43:53.000000000 -0700
-++++ gcc-4_7-branch/gcc/config/rs6000/rs6000-opts.h	2012-07-06 19:44:38.000000000 -0700
-+@@ -49,6 +49,7 @@
-+    PROCESSOR_PPC7400,
-+    PROCESSOR_PPC7450,
-+    PROCESSOR_PPC8540,
-++   PROCESSOR_PPC8548,
-+    PROCESSOR_PPCE300C2,
-+    PROCESSOR_PPCE300C3,
-+    PROCESSOR_PPCE500MC,
-+Index: gcc-4_7-branch/gcc/config/rs6000/rs6000.c
-+===================================================================
-+--- gcc-4_7-branch.orig/gcc/config/rs6000/rs6000.c	2012-07-06 19:43:53.194780001 -0700
-++++ gcc-4_7-branch/gcc/config/rs6000/rs6000.c	2012-07-06 19:44:38.000000000 -0700
-+@@ -2597,7 +2597,10 @@
++-  if (__builtin_expect (GLRO(dl_debug_mask)
+++  if (__builtin_expect (GLRO_dl_debug_mask
++ 			& (DL_DEBUG_BINDINGS|DL_DEBUG_PRELINK), 0))
++     _dl_debug_bindings (undef_name, undef_map, ref,
++ 			&current_value, version, type_class, protected);
++@@ -925,7 +925,7 @@
 + {
-+   bool ret = true;
-+   bool have_cpu = false;
-+-  const char *default_cpu = OPTION_TARGET_CPU_DEFAULT;
-++
-++  /* The default cpu requested at configure time, if any.  */
-++  const char *implicit_cpu = OPTION_TARGET_CPU_DEFAULT;
-++
-+   int set_masks;
-+   int cpu_index;
-+   int tune_index;
-+@@ -2616,11 +2619,6 @@
-+     warning (0, "-malign-power is not supported for 64-bit Darwin;"
-+ 	     " it is incompatible with the installed C and C++ libraries");
++   const char *reference_name = undef_map->l_name;
 + 
-+-  if (global_options_set.x_rs6000_spe_abi
-+-      && rs6000_spe_abi
-+-      && !TARGET_SPE_ABI)
-+-    error ("not configured for SPE ABI");
++-  if (GLRO(dl_debug_mask) & DL_DEBUG_BINDINGS)
+++  if (GLRO_dl_debug_mask & DL_DEBUG_BINDINGS)
++     {
++       _dl_debug_printf ("binding file %s [%lu] to %s [%lu]: %s symbol `%s'",
++ 			(reference_name[0]
++@@ -941,7 +941,7 @@
++ 	_dl_debug_printf_c ("\n");
++     }
++ #ifdef SHARED
++-  if (GLRO(dl_debug_mask) & DL_DEBUG_PRELINK)
+++  if (GLRO_dl_debug_mask & DL_DEBUG_PRELINK)
++     {
++       int conflict = 0;
++       struct sym_val val = { NULL, NULL };
++Index: libc/elf/rtld.c
++===================================================================
++--- libc.orig/elf/rtld.c	2012-03-09 09:01:35.159464344 -0800
+++++ libc/elf/rtld.c	2012-03-09 09:01:56.247465364 -0800
++@@ -2198,7 +2198,7 @@
++   GLRO(dl_init_all_dirs) = GL(dl_all_dirs);
++ 
++   /* Print scope information.  */
++-  if (__builtin_expect (GLRO(dl_debug_mask) & DL_DEBUG_SCOPES, 0))
+++  if (__builtin_expect (GLRO_dl_debug_mask & DL_DEBUG_SCOPES, 0))
++     {
++       _dl_debug_printf ("\nInitial object scopes\n");
++ 
+diff --git a/meta/recipes-core/eglibc/eglibc-2.16/IO-acquire-lock-fix.patch b/meta/recipes-core/eglibc/eglibc-2.16/IO-acquire-lock-fix.patch
+new file mode 100644
+index 0000000..cf58035
+--- /dev/null
++++ b/meta/recipes-core/eglibc/eglibc-2.16/IO-acquire-lock-fix.patch
+@@ -0,0 +1,17 @@
++import http://sourceware.org/ml/libc-ports/2007-12/msg00000.html
++
++Upstream-Status: Pending
++
++Index: libc/bits/stdio-lock.h
++===================================================================
++--- libc.orig/bits/stdio-lock.h	2009-10-28 14:34:19.000000000 -0700
+++++ libc/bits/stdio-lock.h	2009-10-28 14:34:54.000000000 -0700
++@@ -50,6 +50,8 @@ __libc_lock_define_recursive (typedef, _
++   _IO_cleanup_region_start ((void (*) (void *)) _IO_funlockfile, (_fp));      \
++   _IO_flockfile (_fp)
++ 
+++# define _IO_acquire_lock_clear_flags2(_fp) _IO_acquire_lock (_fp)
+++
++ # define _IO_release_lock(_fp) \
++   _IO_funlockfile (_fp);						      \
++   _IO_cleanup_region_end (0)
+diff --git a/meta/recipes-core/eglibc/eglibc-2.16/eglibc-svn-arm-lowlevellock-include-tls.patch b/meta/recipes-core/eglibc/eglibc-2.16/eglibc-svn-arm-lowlevellock-include-tls.patch
+new file mode 100644
+index 0000000..4313aa5
+--- /dev/null
++++ b/meta/recipes-core/eglibc/eglibc-2.16/eglibc-svn-arm-lowlevellock-include-tls.patch
+@@ -0,0 +1,21 @@
++In file included from ../nptl/sysdeps/unix/sysv/linux/libc-lowlevellock.c:21:
++../nptl/sysdeps/unix/sysv/linux/lowlevellock.c: In function '__lll_lock_wait_private':
++../nptl/sysdeps/unix/sysv/linux/lowlevellock.c:34: warning: implicit declaration of function 'THREAD_GETMEM'
++../nptl/sysdeps/unix/sysv/linux/lowlevellock.c:34: error: 'THREAD_SELF' undeclared (first use in this function)
++../nptl/sysdeps/unix/sysv/linux/lowlevellock.c:34: error: (Each undeclared identifier is reported only once
++../nptl/sysdeps/unix/sysv/linux/lowlevellock.c:34: error: for each function it appears in.)
++../nptl/sysdeps/unix/sysv/linux/lowlevellock.c:34: error: 'header' undeclared (first use in this function)
++make[4]: *** [/var/tmp/portage/sys-libs/glibc-2.7-r1/work/build-default-armv4l-unknown-linux-gnu-nptl/nptl/rtld-libc-lowlevellock.os] Error 1
++
++Upstream-Status: Pending
++
++--- libc/ports/sysdeps/unix/sysv/linux/arm/nptl/lowlevellock.h.orig
+++++ libc/ports/sysdeps/unix/sysv/linux/arm/nptl/lowlevellock.h
++@@ -25,6 +25,7 @@
++ #include <atomic.h>
++ #include <sysdep.h>
++ #include <kernel-features.h>
+++#include <tls.h>
++ 
++ #define FUTEX_WAIT		0
++ #define FUTEX_WAKE		1
+diff --git a/meta/recipes-core/eglibc/eglibc-2.16/eglibc_fix_findidx_parameters.patch b/meta/recipes-core/eglibc/eglibc-2.16/eglibc_fix_findidx_parameters.patch
+new file mode 100644
+index 0000000..bbf4605
+--- /dev/null
++++ b/meta/recipes-core/eglibc/eglibc-2.16/eglibc_fix_findidx_parameters.patch
+@@ -0,0 +1,38 @@
++Upstream-Status: backport
++
++Imported patch from: http://www.eglibc.org/archives/patches/msg01124.html
++
++Signed-Off-By: Nitin A Kamble <nitin.a.kamble@intel.com>
++2012/05/09
++
++Index: libc/posix/xregex.c
++===================================================================
++--- libc.orig/posix/xregex.c
+++++ libc/posix/xregex.c
++@@ -2943,7 +2943,7 @@ PREFIX(regex_compile) (const char *ARG_P
++ 				  _NL_CURRENT (LC_COLLATE,
++ 					       _NL_COLLATE_INDIRECTWC);
++ 
++-				idx = findidx ((const wint_t**)&cp);
+++				idx = findidx ((const wint_t**)&cp, -1);
++ 				if (idx == 0 || cp < (wint_t*) str + c1)
++ 				  /* This is no valid character.  */
++ 				  FREE_STACK_RETURN (REG_ECOLLATE);
++@@ -3392,7 +3392,7 @@ PREFIX(regex_compile) (const char *ARG_P
++ 			    indirect = (const int32_t *)
++ 			      _NL_CURRENT (LC_COLLATE, _NL_COLLATE_INDIRECTMB);
++ 
++-			    idx = findidx (&cp);
+++			    idx = findidx (&cp, -1);
++ 			    if (idx == 0 || cp < str + c1)
++ 			      /* This is no valid character.  */
++ 			      FREE_STACK_RETURN (REG_ECOLLATE);
++@@ -6363,7 +6363,7 @@ byte_re_match_2_internal (struct re_patt
++ 		      }
++ 		    str_buf[i] = TRANSLATE(*(d+i));
++ 		    str_buf[i+1] = '\0'; /* sentinel */
++-		    idx2 = findidx ((const wint_t**)&cp);
+++		    idx2 = findidx ((const wint_t**)&cp, -1);
++ 		  }
++ 
++ 		/* Update d, however d will be incremented at
+diff --git a/meta/recipes-core/eglibc/eglibc-2.16/etc/ld.so.conf b/meta/recipes-core/eglibc/eglibc-2.16/etc/ld.so.conf
+new file mode 100644
+index 0000000..e69de29
+diff --git a/meta/recipes-core/eglibc/eglibc-2.16/generate-supported.mk b/meta/recipes-core/eglibc/eglibc-2.16/generate-supported.mk
+new file mode 100644
+index 0000000..d2a28c2
+--- /dev/null
++++ b/meta/recipes-core/eglibc/eglibc-2.16/generate-supported.mk
+@@ -0,0 +1,11 @@
++#!/usr/bin/make
++
++include $(IN)
++
++all:
++	rm -f $(OUT)
++	touch $(OUT)
++	for locale in $(SUPPORTED-LOCALES); do \
++		[ $$locale = true ] && continue; \
++		echo $$locale | sed 's,/, ,' >> $(OUT); \
++	done
+diff --git a/meta/recipes-core/eglibc/eglibc-2.16/initgroups_keys.patch b/meta/recipes-core/eglibc/eglibc-2.16/initgroups_keys.patch
+new file mode 100644
+index 0000000..be29856
+--- /dev/null
++++ b/meta/recipes-core/eglibc/eglibc-2.16/initgroups_keys.patch
+@@ -0,0 +1,20 @@
++This is needed since initgroups belongs to NET group
++so when NET is disabled in eglibc build then it reports
++as undefined symbol
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++Upstream-Status: Pending
++
++Index: libc/nss/getent.c
++===================================================================
++--- libc.orig/nss/getent.c	2012-03-09 09:41:57.099581559 -0800
+++++ libc/nss/getent.c	2012-03-09 09:42:13.095582334 -0800
++@@ -898,7 +898,7 @@
++ D(group)
++ D(gshadow)
++ DN(hosts)
++-D(initgroups)
+++DN(initgroups)
++ DN(netgroup)
++ DN(networks)
++ D(passwd)
+diff --git a/meta/recipes-core/eglibc/eglibc-2.16/ld-search-order.patch b/meta/recipes-core/eglibc/eglibc-2.16/ld-search-order.patch
+new file mode 100644
+index 0000000..40ae6d3
+--- /dev/null
++++ b/meta/recipes-core/eglibc/eglibc-2.16/ld-search-order.patch
+@@ -0,0 +1,56 @@
++Upstream-Status: Inappropriate [embedded specific]
++
++The default lib search path order is:
++
++  1) LD_LIBRARY_PATH
++  2) RPATH from the binary
++  3) ld.so.cache
++  4) default search paths embedded in the linker
++
++For nativesdk binaries which are being used alongside binaries on a host system, we 
++need the search paths to firstly search the shipped nativesdk libs but then also
++cover the host system. For example we want the host system's libGL and this may be
++in a non-standard location like /usr/lib/mesa. The only place the location is know 
++about is in the ld.so.cache of the host system.
++
++Since nativesdk has a simple structure and doesn't need to use a cache itself, we 
++repurpose the cache for use as a last resort in finding host system binaries. This 
++means we need to switch the order of 3 and 4 above to make this work effectively.
++
++RP 14/10/2010
++
++Index: libc/elf/dl-load.c
++===================================================================
++--- libc.orig/elf/dl-load.c
+++++ libc/elf/dl-load.c
++@@ -2107,6 +2107,15 @@ _dl_map_object (struct link_map *loader,
++ 			&loader->l_runpath_dirs, &realname, &fb, loader,
++ 			LA_SER_RUNPATH, &found_other_class);
++ 
+++      /* try the default path.  */
+++      if (fd == -1
+++	  && ((l = loader ?: GL(dl_ns)[nsid]._ns_loaded) == NULL
+++	      || __builtin_expect (!(l->l_flags_1 & DF_1_NODEFLIB), 1))
+++	  && rtld_search_dirs.dirs != (void *) -1)
+++	fd = open_path (name, namelen, mode & __RTLD_SECURE, &rtld_search_dirs,
+++			&realname, &fb, l, LA_SER_DEFAULT, &found_other_class);
+++
+++      /* Finally try ld.so.cache */
++       if (fd == -1
++ 	  && (__builtin_expect (! (mode & __RTLD_SECURE), 1)
++ 	      || ! INTUSE(__libc_enable_secure)))
++@@ -2169,14 +2178,6 @@ _dl_map_object (struct link_map *loader,
++ 	    }
++ 	}
++ 
++-      /* Finally, try the default path.  */
++-      if (fd == -1
++-	  && ((l = loader ?: GL(dl_ns)[nsid]._ns_loaded) == NULL
++-	      || __builtin_expect (!(l->l_flags_1 & DF_1_NODEFLIB), 1))
++-	  && rtld_search_dirs.dirs != (void *) -1)
++-	fd = open_path (name, namelen, mode & __RTLD_SECURE, &rtld_search_dirs,
++-			&realname, &fb, l, LA_SER_DEFAULT, &found_other_class);
 +-
-+   /* Numerous experiment shows that IRA based loop pressure
-+      calculation works better for RTL loop invariant motion on targets
-+      with enough (>= 32) registers.  It is an expensive optimization.
-+@@ -2656,7 +2654,8 @@
-+   /* Process the -mcpu=<xxx> and -mtune=<xxx> argument.  If the user changed
-+      the cpu in a target attribute or pragma, but did not specify a tuning
-+      option, use the cpu for the tuning option rather than the option specified
-+-     with -mtune on the command line.  */
-++     with -mtune on the command line.  Process a '--with-cpu' configuration
-++     request as an implicit --cpu.  */
-+   if (rs6000_cpu_index >= 0)
-+     {
-+       cpu_index = rs6000_cpu_index;
-+@@ -2669,10 +2668,12 @@
-+     }
-+   else
-+     {
-+-      if (!default_cpu)
-+-	default_cpu = (TARGET_POWERPC64 ? "powerpc64" : "powerpc");
-++      const char *default_cpu =
-++        (implicit_cpu ? implicit_cpu
-++         : (TARGET_POWERPC64 ? "powerpc64" : "powerpc"));
-+ 
-+       rs6000_cpu_index = cpu_index = rs6000_cpu_name_lookup (default_cpu);
-++      have_cpu = implicit_cpu != 0;
-+     }
-+ 
-+   gcc_assert (cpu_index >= 0);
-+@@ -2703,6 +2704,42 @@
-+   gcc_assert (tune_index >= 0);
-+   rs6000_cpu = processor_target_table[tune_index].processor;
-+ 
-++  /* Pick defaults for SPE related control flags.  Do this early to make sure
-++     that the TARGET_ macros are representative ASAP.  */
-++  {
-++    int spe_capable_cpu =
-++      (rs6000_cpu == PROCESSOR_PPC8540
-++       || rs6000_cpu == PROCESSOR_PPC8548);
-++
-++    if (!global_options_set.x_rs6000_spe_abi)
-++      rs6000_spe_abi = spe_capable_cpu;
-++
-++    if (!global_options_set.x_rs6000_spe)
-++      rs6000_spe = spe_capable_cpu;
-++
-++    if (!global_options_set.x_rs6000_float_gprs)
-++      rs6000_float_gprs =
-++        (rs6000_cpu == PROCESSOR_PPC8540 ? 1
-++         : rs6000_cpu == PROCESSOR_PPC8548 ? 2
-++         : 0);
-++  }
-++
-++  if (global_options_set.x_rs6000_spe_abi
-++      && rs6000_spe_abi
-++      && !TARGET_SPE_ABI)
-++    error ("not configured for SPE ABI");
-++
-++  if (global_options_set.x_rs6000_spe
-++      && rs6000_spe
-++      && !TARGET_SPE)
-++    error ("not configured for SPE instruction set");
-++
-++  if (main_target_opt != NULL
-++      && ((main_target_opt->x_rs6000_spe_abi != rs6000_spe_abi)
-++          || (main_target_opt->x_rs6000_spe != rs6000_spe)
-++          || (main_target_opt->x_rs6000_float_gprs != rs6000_float_gprs)))
-++    error ("target attribute or pragma changes SPE ABI");
-++
-+   if (rs6000_cpu == PROCESSOR_PPCE300C2 || rs6000_cpu == PROCESSOR_PPCE300C3
-+       || rs6000_cpu == PROCESSOR_PPCE500MC || rs6000_cpu == PROCESSOR_PPCE500MC64)
-+     {
-+@@ -2938,35 +2975,44 @@
-+   SUB3TARGET_OVERRIDE_OPTIONS;
++       /* Add another newline when we are tracing the library loading.  */
++       if (__builtin_expect (GLRO_dl_debug_mask & DL_DEBUG_LIBS, 0))
++ 	_dl_debug_printf ("\n");
+diff --git a/meta/recipes-core/eglibc/eglibc-2.16/mips-rld-map-check.patch b/meta/recipes-core/eglibc/eglibc-2.16/mips-rld-map-check.patch
+new file mode 100644
+index 0000000..9b646fe
+--- /dev/null
++++ b/meta/recipes-core/eglibc/eglibc-2.16/mips-rld-map-check.patch
+@@ -0,0 +1,26 @@
++
++On mips target, binutils currently sets DT_MIPS_RLD_MAP to 0 in dynamic
++section if a --version-script sets _RLD_MAP to local. This is apparently
++a binutils bug, but libc shouldn't segfault in this case.
++
++see also: http://sourceware.org/bugilla/show_bug.cgi?id=11615
++
++Upstream-Status: Pending
++
++9/19/2010 - added by Qing He <qing.he@intel.com>
++
++
++---
++diff -ru glibc-2.10.1.orig/ports/sysdeps/mips/dl-machine.h glibc-2.10.1/ports/sysdeps/mips/dl-machine.h
++--- glibc-2.10.1.orig/ports/sysdeps/mips/dl-machine.h	2009-05-16 16:36:20.000000000 +0800
+++++ glibc-2.10.1/ports/sysdeps/mips/dl-machine.h	2010-09-19 09:11:53.000000000 +0800
++@@ -70,7 +70,8 @@
++ /* If there is a DT_MIPS_RLD_MAP entry in the dynamic section, fill it in
++    with the run-time address of the r_debug structure  */
++ #define ELF_MACHINE_DEBUG_SETUP(l,r) \
++-do { if ((l)->l_info[DT_MIPS (RLD_MAP)]) \
+++do { if ((l)->l_info[DT_MIPS (RLD_MAP)] && \
+++         (l)->l_info[DT_MIPS (RLD_MAP)]->d_un.d_ptr) \
++        *(ElfW(Addr) *)((l)->l_info[DT_MIPS (RLD_MAP)]->d_un.d_ptr) = \
++        (ElfW(Addr)) (r); \
++    } while (0)
+diff --git a/meta/recipes-core/eglibc/eglibc-2.16/multilib_readlib.patch b/meta/recipes-core/eglibc/eglibc-2.16/multilib_readlib.patch
+new file mode 100644
+index 0000000..1542b1b
+--- /dev/null
++++ b/meta/recipes-core/eglibc/eglibc-2.16/multilib_readlib.patch
+@@ -0,0 +1,17 @@
++Upstream-Status: Inappropriate [embedded specific]
++
++Replace the OECORE_KNOWN_INTERPRETER_NAMES with the value of 
++variable EGLIBC_KNOWN_INTERPRETER_NAMES.
++
++Lianhao Lu, 08/01/2011
++
++--- libc/elf/readlib.c.orig	2011-08-12 17:05:51.864470837 +0800
+++++ libc/elf/readlib.c	2011-08-12 17:06:39.346942074 +0800
++@@ -52,6 +52,7 @@
++ #ifdef SYSDEP_KNOWN_INTERPRETER_NAMES
++   SYSDEP_KNOWN_INTERPRETER_NAMES
 + #endif
+++  OECORE_KNOWN_INTERPRETER_NAMES
++ };
 + 
-+-  if (TARGET_E500 || rs6000_cpu == PROCESSOR_PPCE500MC
-+-      || rs6000_cpu == PROCESSOR_PPCE500MC64)
-++  /* For the E500 family of cores, reset the single/double FP flags to let us
-++     check that they remain constant across attributes or pragmas.  Also,
-++     clear a possible request for string instructions, not supported and which
-++     we might have silently queried above for -Os. 
-++
-++     For other families, clear ISEL in case it was set implicitly.
-++  */
-++
-++  switch (rs6000_cpu)
-+     {
-+-      /* The e500 and e500mc do not have string instructions, and we set
-+-	 MASK_STRING above when optimizing for size.  */
-+-      if ((target_flags & MASK_STRING) != 0)
-+-	target_flags = target_flags & ~MASK_STRING;
-+-    }
-+-  else if (global_options_set.x_rs6000_cpu_index)
-+-    {
-+-      /* For the powerpc-eabispe configuration, we set all these by
-+-	 default, so let's unset them if we manually set another
-+-	 CPU that is not the E500.  */
-+-      if (main_target_opt != NULL
-+-	  && ((main_target_opt->x_rs6000_spe_abi != rs6000_spe_abi)
-+-	      || (main_target_opt->x_rs6000_spe != rs6000_spe)
-+-	      || (main_target_opt->x_rs6000_float_gprs != rs6000_float_gprs)))
-+-	error ("target attribute or pragma changes SPE ABI");
-+-      else
-+-	{
-+-	  if (!global_options_set.x_rs6000_spe_abi)
-+-	    rs6000_spe_abi = 0;
-+-	  if (!global_options_set.x_rs6000_spe)
-+-	    rs6000_spe = 0;
-+-	  if (!global_options_set.x_rs6000_float_gprs)
-+-	    rs6000_float_gprs = 0;
-+-	}
-+-      if (!(target_flags_explicit & MASK_ISEL))
-++    case PROCESSOR_PPC8540:
-++    case PROCESSOR_PPC8548:
-++    case PROCESSOR_PPCE500MC:
-++    case PROCESSOR_PPCE500MC64:
-++
-++      rs6000_single_float = TARGET_E500_SINGLE || TARGET_E500_DOUBLE;
-++      rs6000_double_float = TARGET_E500_DOUBLE;
-++
-++      target_flags &= ~MASK_STRING;
-++
-++      break;
-++
-++    default:
-++
-++      if (have_cpu && !(target_flags_explicit & MASK_ISEL))
-+ 	target_flags &= ~MASK_ISEL;
-++
-++      break;
-++    }
-++
-++  if (main_target_opt)
-++    {
-++      if (main_target_opt->x_rs6000_single_float != rs6000_single_float)
-++	error ("target attribute or pragma changes single precision floating "
-++	       "point");
-++      if (main_target_opt->x_rs6000_double_float != rs6000_double_float)
-++	error ("target attribute or pragma changes double precision floating "
-++	       "point");
-+     }
-+ 
-+   /* Detect invalid option combinations with E500.  */
-+@@ -3193,6 +3239,7 @@
-+ 	break;
-+ 
-+       case PROCESSOR_PPC8540:
-++      case PROCESSOR_PPC8548:
-+ 	rs6000_cost = &ppc8540_cost;
-+ 	break;
-+ 
-+@@ -3265,26 +3312,6 @@
-+       && rs6000_single_float == 0 && rs6000_double_float == 0)
-+     rs6000_single_float = rs6000_double_float = 1;
-+ 
-+-  /* Reset single and double FP flags if target is E500. */
-+-  if (TARGET_E500) 
-+-  {
-+-    rs6000_single_float = rs6000_double_float = 0;
-+-    if (TARGET_E500_SINGLE)
-+-      rs6000_single_float = 1; 
-+-    if (TARGET_E500_DOUBLE)
-+-      rs6000_single_float = rs6000_double_float = 1;
-+-  }
-+-
-+-  if (main_target_opt)
-+-    {
-+-      if (main_target_opt->x_rs6000_single_float != rs6000_single_float)
-+-	error ("target attribute or pragma changes single precision floating "
-+-	       "point");
-+-      if (main_target_opt->x_rs6000_double_float != rs6000_double_float)
-+-	error ("target attribute or pragma changes double precision floating "
-+-	       "point");
-+-    }
-+-
-+   /* If not explicitly specified via option, decide whether to generate indexed
-+      load/store instructions.  */
-+   if (TARGET_AVOID_XFORM == -1)
-+@@ -22816,6 +22843,7 @@
-+   case CPU_PPC750:
-+   case CPU_PPC7400:
-+   case CPU_PPC8540:
-++  case CPU_PPC8548:
-+   case CPU_CELL:
-+   case CPU_PPCE300C2:
-+   case CPU_PPCE300C3:
-+@@ -22846,11 +22874,18 @@
-+ static int
-+ rs6000_use_sched_lookahead (void)
-+ {
-+-  if (rs6000_cpu_attr == CPU_PPC8540)
-+-    return 4;
-+-  if (rs6000_cpu_attr == CPU_CELL)
-+-    return (reload_completed ? 8 : 0);
-+-  return 0;
-++  switch (rs6000_cpu_attr)
-++    {
-++    case CPU_PPC8540:
-++    case CPU_PPC8548:
-++      return 4;
-++
-++    case CPU_CELL:
-++      return (reload_completed ? 8 : 0);
-++
-++    default:
-++      return 0;
-++    }
-+ }
-+ 
-+ /* We are choosing insn from the ready queue.  Return nonzero if INSN can be chosen.  */
-+Index: gcc-4_7-branch/gcc/config/rs6000/rs6000.h
-+===================================================================
-+--- gcc-4_7-branch.orig/gcc/config/rs6000/rs6000.h	2012-07-06 19:43:53.000000000 -0700
-++++ gcc-4_7-branch/gcc/config/rs6000/rs6000.h	2012-07-06 19:44:38.000000000 -0700
-+@@ -457,7 +457,6 @@
-+ 
-+ #define TARGET_SPE_ABI 0
-+ #define TARGET_SPE 0
-+-#define TARGET_E500 0
-+ #define TARGET_ISEL64 (TARGET_ISEL && TARGET_POWERPC64)
-+ #define TARGET_FPRS 1
-+ #define TARGET_E500_SINGLE 0
-+@@ -500,11 +499,11 @@
-+ 				      || TARGET_ALTIVEC			 \
-+ 				      || TARGET_VSX)))
-+ 
-++/* E500 cores only support plain "sync", not lwsync.  */
-++#define TARGET_NO_LWSYNC (rs6000_cpu == PROCESSOR_PPC8540 \
-++			  || rs6000_cpu == PROCESSOR_PPC8548)
-+ 
-+ 
-+-/* E500 processors only support plain "sync", not lwsync.  */
-+-#define TARGET_NO_LWSYNC TARGET_E500
-+-
-+ /* Which machine supports the various reciprocal estimate instructions.  */
-+ #define TARGET_FRES	(TARGET_HARD_FLOAT && TARGET_PPC_GFXOPT \
-+ 			 && TARGET_FPRS && TARGET_SINGLE_FLOAT)
-+Index: gcc-4_7-branch/gcc/config/rs6000/rs6000.md
-+===================================================================
-+--- gcc-4_7-branch.orig/gcc/config/rs6000/rs6000.md	2012-07-06 19:43:53.000000000 -0700
-++++ gcc-4_7-branch/gcc/config/rs6000/rs6000.md	2012-07-06 19:44:38.000000000 -0700
-+@@ -166,7 +166,7 @@
-+ ;; Processor type -- this attribute must exactly match the processor_type
-+ ;; enumeration in rs6000.h.
-+ 
-+-(define_attr "cpu" "rios1,rios2,rs64a,mpccore,ppc403,ppc405,ppc440,ppc476,ppc601,ppc603,ppc604,ppc604e,ppc620,ppc630,ppc750,ppc7400,ppc7450,ppc8540,ppce300c2,ppce300c3,ppce500mc,ppce500mc64,power4,power5,power6,power7,cell,ppca2,titan"
-++(define_attr "cpu" "rios1,rios2,rs64a,mpccore,ppc403,ppc405,ppc440,ppc476,ppc601,ppc603,ppc604,ppc604e,ppc620,ppc630,ppc750,ppc7400,ppc7450,ppc8540,ppc8548,ppce300c2,ppce300c3,ppce500mc,ppce500mc64,power4,power5,power6,power7,cell,ppca2,titan"
-+   (const (symbol_ref "rs6000_cpu_attr")))
-+ 
-+ 
-+Index: gcc-4_7-branch/gcc/config/rs6000/rtems.h
-+===================================================================
-+--- gcc-4_7-branch.orig/gcc/config/rs6000/rtems.h	2012-07-05 23:49:07.000000000 -0700
-++++ gcc-4_7-branch/gcc/config/rs6000/rtems.h	2012-07-06 19:44:38.470780001 -0700
-+@@ -55,17 +55,3 @@
-+ #undef  SUBSUBTARGET_EXTRA_SPECS
-+ #define SUBSUBTARGET_EXTRA_SPECS \
-+   { "cpp_os_rtems",		CPP_OS_RTEMS_SPEC }
-+-
-+-#undef SUBSUBTARGET_OVERRIDE_OPTIONS
-+-#define SUBSUBTARGET_OVERRIDE_OPTIONS                                     \
-+-  do {                                                                    \
-+-   if (TARGET_E500)                                                       \
-+-      {                                                                   \
-+-        if (TARGET_HARD_FLOAT && !global_options_set.x_rs6000_float_gprs) \
-+-          rs6000_float_gprs = 1;                                          \
-+-        if (rs6000_float_gprs != 0 && !global_options_set.x_rs6000_spe)   \
-+-          rs6000_spe = 1;                                                 \
-+-        if (rs6000_spe && !global_options_set.x_rs6000_spe_abi)           \
-+-          rs6000_spe_abi = 1;                                             \
-+-      }                                                                   \
-+-  } while(0)
-+Index: gcc-4_7-branch/gcc/config/rs6000/vxworks.h
-+===================================================================
-+--- gcc-4_7-branch.orig/gcc/config/rs6000/vxworks.h	2012-07-05 23:49:07.000000000 -0700
-++++ gcc-4_7-branch/gcc/config/rs6000/vxworks.h	2012-07-06 19:44:38.470780001 -0700
-+@@ -122,19 +122,8 @@
-+ 
-+ #undef  ABI_STACK_BOUNDARY
-+ 
-+-/* Make -mcpu=8540 imply SPE.  ISEL is automatically enabled, the
-+-   others must be done by hand.  Handle -mrtp.  Disable -fPIC
-+-   for -mrtp - the VxWorks PIC model is not compatible with it.  */
-+ #undef SUBSUBTARGET_OVERRIDE_OPTIONS
-+ #define SUBSUBTARGET_OVERRIDE_OPTIONS		\
-+-  do {						\
-+-    if (TARGET_E500)				\
-+-      {						\
-+-	rs6000_spe = 1;				\
-+-	rs6000_spe_abi = 1;			\
-+-	rs6000_float_gprs = 1;			\
-+-      }						\
-+-						\
-+   if (!global_options_set.x_g_switch_value)	\
-+     g_switch_value = SDATA_DEFAULT_SIZE;	\
-+   VXWORKS_OVERRIDE_OPTIONS;			\
-diff --git a/meta/recipes-devtools/gcc/gcc-4.7/powerpc-e5500.patch b/meta/recipes-devtools/gcc/gcc-4.7/ppce5500-e6500-support.patch
-similarity index 41%
-rename from meta/recipes-devtools/gcc/gcc-4.7/powerpc-e5500.patch
-rename to meta/recipes-devtools/gcc/gcc-4.7/ppce5500-e6500-support.patch
-index 1c9736b..e3341fc 100644
---- a/meta/recipes-devtools/gcc/gcc-4.7/powerpc-e5500.patch
-+++ b/meta/recipes-devtools/gcc/gcc-4.7/ppce5500-e6500-support.patch
-@@ -1,49 +1,91 @@
--Upstream-Status: Pending
-+Upstream-Status: Backport
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
- 
--Implements basic e5500 enablement in gcc, with a scheduler, -mcpu
--flag, etc...
-+From b770074cee13445eba1bf4e99649c5ceac9a4b5a Mon Sep 17 00:00:00 2001
-+From: edmarwjr <edmarwjr@138bc75d-0d04-0410-961f-82ee72b054a4>
-+Date: Tue, 5 Jun 2012 16:05:16 +0000
-+Subject: [PATCH] 2012-06-01  Edmar Wienskoski  <edmar@freescale.com>
- 
--Also splits the masks for popcntb, popcntd, and cmpb. Originally those
--masks would also control other instructions that e5500 does not
--support (so, we either get none or all).
-+	* config/rs6000/e5500.md: New file.
-+	* config/rs6000/e6500.md: New file.
-+	* config/rs6000/rs6000.c (processor_costs): Add new costs for
-+	e5500 and e6500.
-+	(rs6000_option_override_internal): Altivec and Spe options not
-+	allowed with e5500. Spe options not allowed with e6500. Increase
-+	move inline limit for e5500 and e6500. Disable string instructions
-+	for e5500 and e6500. Enable branch targets alignment for e5500 and
-+	e6500. Initialize rs6000_cost for e5500 and e6500.
-+	(rs6000_adjust_cost): Add extra scheduling cycles between compare
-+	and brnach for e5500 and e6500.
-+	(rs6000_issue_rate): Set issue rate for e5500 and e6500.
-+	* config/rs6000/rs6000-cpus.def: Add cpu definitions for e5500 and
-+	e6500.
-+	* config/rs6000/rs6000.h (ASM_CPU_SPEC): Add e5500 and e6500.
-+	* config/rs6000/rs6000.md (define_attr "cpu"): Add ppce5500 and
-+	ppce6500.
-+	Include e5500.md and e6500.md.
-+	* config/rs6000/rs6000-opt.h (processor_type): Add
-+	PROCESSOR_PPCE5500 and PROCESSOR_PPCE6500.
-+	* config.gcc (cpu_is_64bit): Add new cores e5500, e6500.
-+	(powerpc*-*-*): Add new cores e5500, e6500.
-+	* doc/invoke.texi: (item -mcpu): Add e5500 and e6500 to list of cpus.
- 
--For the lack of means to do tests, those instructions were never
--enabled until now. The new instructions enabled with this patch are:
--popcntb, popcntw, popcntd, bpermd, prtyw, prtyd, cmpb, ldbrx, and
--stdbrx.
-+gcc/testsuite
-+2012-06-01  Edmar Wienskoski  <edmar@freescale.com>
- 
--Signed-off-by: Edmar Wienskoski <edmar@freescale.com>
--Signed-off-by: Kumar Gala <galak@kernel.crashing.org>
-+	* gcc.dg/tree-ssa/vector-3.c: Adjust regular expression.
-+
-+
-+
-+git-svn-id: svn+ssh://gcc.gnu.org/svn/gcc/trunk@188244 138bc75d-0d04-0410-961f-82ee72b054a4
-+---
-+ gcc/ChangeLog                            |   26 ++++
-+ gcc/config.gcc                           |    6 +-
-+ gcc/config/rs6000/e5500.md               |  176 ++++++++++++++++++++++++
-+ gcc/config/rs6000/e6500.md               |  213 ++++++++++++++++++++++++++++++
-+ gcc/config/rs6000/rs6000-cpus.def        |    4 +
-+ gcc/config/rs6000/rs6000-opts.h          |    2 +
-+ gcc/config/rs6000/rs6000.c               |   68 +++++++++-
-+ gcc/config/rs6000/rs6000.h               |    2 +
-+ gcc/config/rs6000/rs6000.md              |    4 +-
-+ gcc/doc/invoke.texi                      |   12 +-
-+ gcc/testsuite/ChangeLog                  |    4 +
-+ gcc/testsuite/gcc.dg/tree-ssa/vector-3.c |    2 +-
-+ 12 files changed, 506 insertions(+), 13 deletions(-)
-+ create mode 100644 gcc/config/rs6000/e5500.md
-+ create mode 100644 gcc/config/rs6000/e6500.md
- 
- Index: gcc-4_7-branch/gcc/config.gcc
- ===================================================================
----- gcc-4_7-branch.orig/gcc/config.gcc	2012-04-10 10:32:36.823374222 -0700
--+++ gcc-4_7-branch/gcc/config.gcc	2012-04-10 10:39:32.543394369 -0700
-+--- gcc-4_7-branch.orig/gcc/config.gcc	2012-07-06 19:52:30.000000000 -0700
-++++ gcc-4_7-branch/gcc/config.gcc	2012-07-06 19:53:26.350779999 -0700
- @@ -413,7 +413,7 @@
-  	extra_headers="ppc-asm.h altivec.h spe.h ppu_intrinsics.h paired.h spu2vmx.h vec_types.h si2vmx.h"
-  	need_64bit_hwint=yes
-  	case x$with_cpu in
- -	    xpowerpc64|xdefault64|x6[23]0|x970|xG5|xpower[34567]|xpower6x|xrs64a|xcell|xa2|xe500mc64)
--+	    xpowerpc64|xdefault64|x6[23]0|x970|xG5|xpower[34567]|xpower6x|xrs64a|xcell|xa2|xe500mc64|xe5500)
-++	    xpowerpc64|xdefault64|x6[23]0|x970|xG5|xpower[34567]|xpower6x|xrs64a|xcell|xa2|xe500mc64|xe5500|Xe6500)
-  		cpu_is_64bit=yes
-  		;;
-  	esac
--@@ -3342,7 +3342,7 @@
-+@@ -3361,8 +3361,8 @@
-  			| 401 | 403 | 405 | 405fp | 440 | 440fp | 464 | 464fp \
-  			| 476 | 476fp | 505 | 601 | 602 | 603 | 603e | ec603e \
-  			| 604 | 604e | 620 | 630 | 740 | 750 | 7400 | 7450 \
- -			| a2 | e300c[23] | 854[08] | e500mc | e500mc64 | titan\
--+			| a2 | e300c[23] | 854[08] | e500mc | e500mc64 | e5500 | titan\
-- 			| 801 | 821 | 823 | 860 | 970 | G3 | G4 | G5 | cell)
-+-			| 801 | 821 | 823 | 860 | 970 | G3 | G4 | G5 | cell)
-++			| a2 | e300c[23] | 854[08] | e500mc | e500mc64 | e5500 | e6500 \
-++			| titan | 801 | 821 | 823 | 860 | 970 | G3 | G4 | G5 | cell)
-  				# OK
-  				;;
-+ 			*)
- Index: gcc-4_7-branch/gcc/config/rs6000/e5500.md
- ===================================================================
- --- /dev/null	1970-01-01 00:00:00.000000000 +0000
--+++ gcc-4_7-branch/gcc/config/rs6000/e5500.md	2012-04-10 10:39:32.543394369 -0700
-++++ gcc-4_7-branch/gcc/config/rs6000/e5500.md	2012-07-06 19:53:26.350779999 -0700
- @@ -0,0 +1,176 @@
- +;; Pipeline description for Freescale PowerPC e5500 core.
--+;;   Copyright (C) 2011 Free Software Foundation, Inc.
-++;;   Copyright (C) 2012 Free Software Foundation, Inc.
- +;;   Contributed by Edmar Wienskoski (edmar@freescale.com)
- +;;
- +;; This file is part of GCC.
-@@ -111,7 +153,7 @@ Index: gcc-4_7-branch/gcc/config/rs6000/e5500.md
- +  "e5500_decode,e5500_sfx")
- +
- +(define_insn_reservation "e5500_delayed" 2
--+  (and (eq_attr "type" "var_shift_rotate,var_delayed_compare,popcnt")
-++  (and (eq_attr "type" "var_shift_rotate,var_delayed_compare")
- +       (eq_attr "cpu" "ppce5500"))
- +  "e5500_decode,e5500_sfx*2")
- +
-@@ -218,23 +260,257 @@ Index: gcc-4_7-branch/gcc/config/rs6000/e5500.md
- +  (and (eq_attr "type" "cr_logical,delayed_cr")
- +       (eq_attr "cpu" "ppce5500"))
- +  "e5500_decode,e5500_bu")
-+Index: gcc-4_7-branch/gcc/config/rs6000/e6500.md
-+===================================================================
-+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
-++++ gcc-4_7-branch/gcc/config/rs6000/e6500.md	2012-07-06 19:53:26.354779999 -0700
-+@@ -0,0 +1,213 @@
-++;; Pipeline description for Freescale PowerPC e6500 core.
-++;;   Copyright (C) 2012 Free Software Foundation, Inc.
-++;;   Contributed by Edmar Wienskoski (edmar@freescale.com)
-++;;
-++;; This file is part of GCC.
-++;;
-++;; GCC is free software; you can redistribute it and/or modify it
-++;; under the terms of the GNU General Public License as published
-++;; by the Free Software Foundation; either version 3, or (at your
-++;; option) any later version.
-++;;
-++;; GCC is distributed in the hope that it will be useful, but WITHOUT
-++;; ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
-++;; or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public
-++;; License for more details.
-++;;
-++;; You should have received a copy of the GNU General Public License
-++;; along with GCC; see the file COPYING3.  If not see
-++;; <http://www.gnu.org/licenses/>.
-++;;
-++;; e6500 64-bit SFX(2), CFX, LSU, FPU, BU, VSFX, VCFX, VFPU, VPERM
-++;; Max issue 3 insns/clock cycle (includes 1 branch)
-++
-++(define_automaton "e6500_most,e6500_long,e6500_vec")
-++(define_cpu_unit "e6500_decode_0,e6500_decode_1" "e6500_most")
-++
-++;; SFX.
-++(define_cpu_unit "e6500_sfx_0,e6500_sfx_1" "e6500_most")
-++
-++;; CFX.
-++(define_cpu_unit "e6500_cfx_stage0,e6500_cfx_stage1" "e6500_most")
-++
-++;; Non-pipelined division.
-++(define_cpu_unit "e6500_cfx_div" "e6500_long")
-++
-++;; LSU.
-++(define_cpu_unit "e6500_lsu" "e6500_most")
-++
-++;; FPU.
-++(define_cpu_unit "e6500_fpu" "e6500_long")
-++
-++;; BU.
-++(define_cpu_unit "e6500_bu" "e6500_most")
-++
-++;; Altivec unit
-++(define_cpu_unit "e6500_vec,e6500_vecperm" "e6500_vec")
-++
-++;; The following units are used to make the automata deterministic.
-++(define_cpu_unit "present_e6500_decode_0" "e6500_most")
-++(define_cpu_unit "present_e6500_sfx_0" "e6500_most")
-++(presence_set "present_e6500_decode_0" "e6500_decode_0")
-++(presence_set "present_e6500_sfx_0" "e6500_sfx_0")
-++
-++;; Some useful abbreviations.
-++(define_reservation "e6500_decode"
-++    "e6500_decode_0|e6500_decode_1+present_e6500_decode_0")
-++(define_reservation "e6500_sfx"
-++   "e6500_sfx_0|e6500_sfx_1+present_e6500_sfx_0")
-++
-++;; SFX.
-++(define_insn_reservation "e6500_sfx" 1
-++  (and (eq_attr "type" "integer,insert_word,insert_dword,delayed_compare,\
-++	shift,cntlz,exts")
-++       (eq_attr "cpu" "ppce6500"))
-++  "e6500_decode,e6500_sfx")
-++
-++(define_insn_reservation "e6500_sfx2" 2
-++  (and (eq_attr "type" "cmp,compare,fast_compare,trap")
-++       (eq_attr "cpu" "ppce6500"))
-++  "e6500_decode,e6500_sfx")
-++
-++(define_insn_reservation "e6500_delayed" 2
-++  (and (eq_attr "type" "var_shift_rotate,var_delayed_compare")
-++       (eq_attr "cpu" "ppce6500"))
-++  "e6500_decode,e6500_sfx*2")
-++
-++(define_insn_reservation "e6500_two" 2
-++  (and (eq_attr "type" "two")
-++       (eq_attr "cpu" "ppce6500"))
-++  "e6500_decode,e6500_decode+e6500_sfx,e6500_sfx")
-++
-++(define_insn_reservation "e6500_three" 3
-++  (and (eq_attr "type" "three")
-++       (eq_attr "cpu" "ppce6500"))
-++  "e6500_decode,(e6500_decode+e6500_sfx)*2,e6500_sfx")
-++
-++;; SFX - Mfcr.
-++(define_insn_reservation "e6500_mfcr" 4
-++  (and (eq_attr "type" "mfcr")
-++       (eq_attr "cpu" "ppce6500"))
-++  "e6500_decode,e6500_sfx_0*4")
-++
-++;; SFX - Mtcrf.
-++(define_insn_reservation "e6500_mtcrf" 1
-++  (and (eq_attr "type" "mtcr")
-++       (eq_attr "cpu" "ppce6500"))
-++  "e6500_decode,e6500_sfx_0")
-++
-++;; SFX - Mtjmpr.
-++(define_insn_reservation "e6500_mtjmpr" 1
-++  (and (eq_attr "type" "mtjmpr,mfjmpr")
-++       (eq_attr "cpu" "ppce6500"))
-++  "e6500_decode,e6500_sfx")
-++
-++;; CFX - Multiply.
-++(define_insn_reservation "e6500_multiply" 4
-++  (and (eq_attr "type" "imul")
-++       (eq_attr "cpu" "ppce6500"))
-++  "e6500_decode,e6500_cfx_stage0,e6500_cfx_stage1")
-++
-++(define_insn_reservation "e6500_multiply_i" 5
-++  (and (eq_attr "type" "imul2,imul3,imul_compare")
-++       (eq_attr "cpu" "ppce6500"))
-++  "e6500_decode,e6500_cfx_stage0,\
-++   e6500_cfx_stage0+e6500_cfx_stage1,e6500_cfx_stage1")
-++
-++;; CFX - Divide.
-++(define_insn_reservation "e6500_divide" 16
-++  (and (eq_attr "type" "idiv")
-++       (eq_attr "cpu" "ppce6500"))
-++  "e6500_decode,e6500_cfx_stage0+e6500_cfx_div,\
-++   e6500_cfx_div*15")
-++
-++(define_insn_reservation "e6500_divide_d" 26
-++  (and (eq_attr "type" "ldiv")
-++       (eq_attr "cpu" "ppce6500"))
-++  "e6500_decode,e6500_cfx_stage0+e6500_cfx_div,\
-++   e6500_cfx_div*25")
-++
-++;; LSU - Loads.
-++(define_insn_reservation "e6500_load" 3
-++  (and (eq_attr "type" "load,load_ext,load_ext_u,load_ext_ux,load_ux,load_u,\
-++			load_l,sync")
-++       (eq_attr "cpu" "ppce6500"))
-++  "e6500_decode,e6500_lsu")
-++
-++(define_insn_reservation "e6500_fpload" 4
-++  (and (eq_attr "type" "fpload,fpload_ux,fpload_u")
-++       (eq_attr "cpu" "ppce6500"))
-++  "e6500_decode,e6500_lsu")
-++
-++(define_insn_reservation "e6500_vecload" 4
-++  (and (eq_attr "type" "vecload")
-++       (eq_attr "cpu" "ppce6500"))
-++  "e6500_decode,e6500_lsu")
-++
-++;; LSU - Stores.
-++(define_insn_reservation "e6500_store" 3
-++  (and (eq_attr "type" "store,store_ux,store_u,store_c")
-++       (eq_attr "cpu" "ppce6500"))
-++  "e6500_decode,e6500_lsu")
-++
-++(define_insn_reservation "e6500_fpstore" 3
-++  (and (eq_attr "type" "fpstore,fpstore_ux,fpstore_u")
-++       (eq_attr "cpu" "ppce6500"))
-++  "e6500_decode,e6500_lsu")
-++
-++(define_insn_reservation "e6500_vecstore" 4
-++  (and (eq_attr "type" "vecstore")
-++       (eq_attr "cpu" "ppce6500"))
-++  "e6500_decode,e6500_lsu")
-++
-++;; FP.
-++(define_insn_reservation "e6500_float" 7
-++  (and (eq_attr "type" "fpsimple,fp,fpcompare,dmul")
-++       (eq_attr "cpu" "ppce6500"))
-++  "e6500_decode,e6500_fpu")
-++
-++(define_insn_reservation "e6500_sdiv" 20
-++  (and (eq_attr "type" "sdiv")
-++       (eq_attr "cpu" "ppce6500"))
-++  "e6500_decode,e6500_fpu*20")
-++
-++(define_insn_reservation "e6500_ddiv" 35
-++  (and (eq_attr "type" "ddiv")
-++       (eq_attr "cpu" "ppce6500"))
-++  "e6500_decode,e6500_fpu*35")
-++
-++;; BU.
-++(define_insn_reservation "e6500_branch" 1
-++  (and (eq_attr "type" "jmpreg,branch,isync")
-++       (eq_attr "cpu" "ppce6500"))
-++  "e6500_decode,e6500_bu")
-++
-++;; BU - CR logical.
-++(define_insn_reservation "e6500_cr_logical" 1
-++  (and (eq_attr "type" "cr_logical,delayed_cr")
-++       (eq_attr "cpu" "ppce6500"))
-++  "e6500_decode,e6500_bu")
-++
-++;; VSFX.
-++(define_insn_reservation "e6500_vecsimple" 1
-++  (and (eq_attr "type" "vecsimple,veccmp")
-++       (eq_attr "cpu" "ppce6500"))
-++  "e6500_decode,e6500_vec")
-++
-++;; VCFX.
-++(define_insn_reservation "e6500_veccomplex" 4
-++  (and (eq_attr "type" "veccomplex")
-++       (eq_attr "cpu" "ppce6500"))
-++  "e6500_decode,e6500_vec")
-++
-++;; VFPU.
-++(define_insn_reservation "e6500_vecfloat" 6
-++  (and (eq_attr "type" "vecfloat")
-++       (eq_attr "cpu" "ppce6500"))
-++  "e6500_decode,e6500_vec")
-++
-++;; VPERM.
-++(define_insn_reservation "e6500_vecperm" 2
-++  (and (eq_attr "type" "vecperm")
-++       (eq_attr "cpu" "ppce6500"))
-++  "e6500_decode,e6500_vecperm")
-+Index: gcc-4_7-branch/gcc/config/rs6000/rs6000-cpus.def
-+===================================================================
-+--- gcc-4_7-branch.orig/gcc/config/rs6000/rs6000-cpus.def	2012-07-06 19:52:30.000000000 -0700
-++++ gcc-4_7-branch/gcc/config/rs6000/rs6000-cpus.def	2012-07-06 19:53:26.354779999 -0700
-+@@ -87,6 +87,10 @@
-+ 	    | MASK_ISEL)
-+ RS6000_CPU ("e500mc64", PROCESSOR_PPCE500MC64,
-+ 	    POWERPC_BASE_MASK | MASK_POWERPC64 | MASK_PPC_GFXOPT | MASK_ISEL)
-++RS6000_CPU ("e5500", PROCESSOR_PPCE5500, POWERPC_BASE_MASK | MASK_POWERPC64
-++	    | MASK_PPC_GFXOPT | MASK_ISEL)
-++RS6000_CPU ("e6500", PROCESSOR_PPCE6500, POWERPC_7400_MASK | MASK_POWERPC64
-++	    | MASK_MFCRF | MASK_ISEL)
-+ RS6000_CPU ("860", PROCESSOR_MPCCORE, POWERPC_BASE_MASK | MASK_SOFT_FLOAT)
-+ RS6000_CPU ("970", PROCESSOR_POWER4,
-+ 	    POWERPC_7400_MASK | MASK_PPC_GPOPT | MASK_MFCRF | MASK_POWERPC64)
- Index: gcc-4_7-branch/gcc/config/rs6000/rs6000-opts.h
- ===================================================================
----- gcc-4_7-branch.orig/gcc/config/rs6000/rs6000-opts.h	2012-04-10 10:17:24.283330056 -0700
--+++ gcc-4_7-branch/gcc/config/rs6000/rs6000-opts.h	2012-04-10 10:39:32.543394369 -0700
--@@ -53,6 +53,7 @@
-+--- gcc-4_7-branch.orig/gcc/config/rs6000/rs6000-opts.h	2012-07-06 19:52:30.000000000 -0700
-++++ gcc-4_7-branch/gcc/config/rs6000/rs6000-opts.h	2012-07-06 19:53:26.354779999 -0700
-+@@ -54,6 +54,8 @@
-     PROCESSOR_PPCE300C3,
-     PROCESSOR_PPCE500MC,
-     PROCESSOR_PPCE500MC64,
- +   PROCESSOR_PPCE5500,
-++   PROCESSOR_PPCE6500,
-     PROCESSOR_POWER4,
-     PROCESSOR_POWER5,
-     PROCESSOR_POWER6,
- Index: gcc-4_7-branch/gcc/config/rs6000/rs6000.c
- ===================================================================
----- gcc-4_7-branch.orig/gcc/config/rs6000/rs6000.c	2012-04-10 10:17:24.263330055 -0700
--+++ gcc-4_7-branch/gcc/config/rs6000/rs6000.c	2012-04-10 10:39:32.547394389 -0700
--@@ -755,6 +755,25 @@
-+--- gcc-4_7-branch.orig/gcc/config/rs6000/rs6000.c	2012-07-06 19:52:30.000000000 -0700
-++++ gcc-4_7-branch/gcc/config/rs6000/rs6000.c	2012-07-06 19:53:26.354779999 -0700
-+@@ -755,6 +755,44 @@
-    1,			/* prefetch streams /*/
-  };
-  
-@@ -243,7 +519,26 @@ Index: gcc-4_7-branch/gcc/config/rs6000/rs6000.c
- +struct processor_costs ppce5500_cost = {
- +  COSTS_N_INSNS (5),    /* mulsi */
- +  COSTS_N_INSNS (5),    /* mulsi_const */
--+  COSTS_N_INSNS (5),    /* mulsi_const9 */
-++  COSTS_N_INSNS (4),    /* mulsi_const9 */
-++  COSTS_N_INSNS (5),    /* muldi */
-++  COSTS_N_INSNS (14),   /* divsi */
-++  COSTS_N_INSNS (14),   /* divdi */
-++  COSTS_N_INSNS (7),    /* fp */
-++  COSTS_N_INSNS (10),   /* dmul */
-++  COSTS_N_INSNS (36),   /* sdiv */
-++  COSTS_N_INSNS (66),   /* ddiv */
-++  64,			/* cache line size */
-++  32,			/* l1 cache */
-++  128,			/* l2 cache */
-++  1,			/* prefetch streams /*/
-++};
-++
-++/* Instruction costs on PPCE6500 processors.  */
-++static const
-++struct processor_costs ppce6500_cost = {
-++  COSTS_N_INSNS (5),    /* mulsi */
-++  COSTS_N_INSNS (5),    /* mulsi_const */
-++  COSTS_N_INSNS (4),    /* mulsi_const9 */
- +  COSTS_N_INSNS (5),    /* muldi */
- +  COSTS_N_INSNS (14),   /* divsi */
- +  COSTS_N_INSNS (14),   /* divdi */
-@@ -260,8 +555,8 @@ Index: gcc-4_7-branch/gcc/config/rs6000/rs6000.c
-  /* Instruction costs on AppliedMicro Titan processors.  */
-  static const
-  struct processor_costs titan_cost = {
--@@ -2704,7 +2723,8 @@
--   rs6000_cpu = processor_target_table[tune_index].processor;
-+@@ -2741,13 +2779,19 @@
-+     error ("target attribute or pragma changes SPE ABI");
-  
-    if (rs6000_cpu == PROCESSOR_PPCE300C2 || rs6000_cpu == PROCESSOR_PPCE300C3
- -      || rs6000_cpu == PROCESSOR_PPCE500MC || rs6000_cpu == PROCESSOR_PPCE500MC64)
-@@ -270,43 +565,49 @@ Index: gcc-4_7-branch/gcc/config/rs6000/rs6000.c
-      {
-        if (TARGET_ALTIVEC)
-  	error ("AltiVec not supported in this target");
--@@ -2805,9 +2825,14 @@
-+       if (TARGET_SPE)
-+ 	error ("SPE not supported in this target");
-+     }
-++  if (rs6000_cpu == PROCESSOR_PPCE6500)
-++    {
-++      if (TARGET_SPE)
-++	error ("SPE not supported in this target");
-++    }
-+ 
-+   /* Disable Cell microcode if we are optimizing for the Cell
-+      and not optimizing for size.  */
-+@@ -2842,7 +2886,9 @@
-       user's opinion, though.  */
-    if (rs6000_block_move_inline_limit == 0
-        && (rs6000_cpu == PROCESSOR_PPCE500MC
- -	  || rs6000_cpu == PROCESSOR_PPCE500MC64))
- +	  || rs6000_cpu == PROCESSOR_PPCE500MC64
--+	  || rs6000_cpu == PROCESSOR_PPCE5500))
-++	  || rs6000_cpu == PROCESSOR_PPCE5500
-++	  || rs6000_cpu == PROCESSOR_PPCE6500))
-      rs6000_block_move_inline_limit = 128;
-  
--+  /* Those machines does not have fsqrt instruction */
--+  if (rs6000_cpu == PROCESSOR_PPCE5500)
--+    target_flags &= ~MASK_PPC_GPOPT;
--+
-    /* store_one_arg depends on expand_block_move to handle at least the
--      size of reg_parm_stack_space.  */
--   if (rs6000_block_move_inline_limit < (TARGET_POWERPC64 ? 64 : 32))
--@@ -2939,7 +2964,8 @@
-- #endif
-+@@ -2989,6 +3035,8 @@
-+     case PROCESSOR_PPC8548:
-+     case PROCESSOR_PPCE500MC:
-+     case PROCESSOR_PPCE500MC64:
-++    case PROCESSOR_PPCE5500:
-++    case PROCESSOR_PPCE6500:
-  
--   if (TARGET_E500 || rs6000_cpu == PROCESSOR_PPCE500MC
---      || rs6000_cpu == PROCESSOR_PPCE500MC64)
--+      || rs6000_cpu == PROCESSOR_PPCE500MC64
--+      || rs6000_cpu == PROCESSOR_PPCE5500)
--     {
--       /* The e500 and e500mc do not have string instructions, and we set
-- 	 MASK_STRING above when optimizing for size.  */
--@@ -2987,7 +3013,8 @@
-+       rs6000_single_float = TARGET_E500_SINGLE || TARGET_E500_DOUBLE;
-+       rs6000_double_float = TARGET_E500_DOUBLE;
-+@@ -3033,7 +3081,9 @@
-  				 || rs6000_cpu == PROCESSOR_POWER6
-  				 || rs6000_cpu == PROCESSOR_POWER7
-  				 || rs6000_cpu == PROCESSOR_PPCE500MC
- -				 || rs6000_cpu == PROCESSOR_PPCE500MC64);
- +				 || rs6000_cpu == PROCESSOR_PPCE500MC64
--+				 || rs6000_cpu == PROCESSOR_PPCE5500);
-++				 || rs6000_cpu == PROCESSOR_PPCE5500
-++				 || rs6000_cpu == PROCESSOR_PPCE6500);
-  
-    /* Allow debug switches to override the above settings.  These are set to -1
-       in rs6000.opt to indicate the user hasn't directly set the switch.  */
--@@ -3209,6 +3236,10 @@
-+@@ -3256,6 +3306,14 @@
-  	rs6000_cost = &ppce500mc64_cost;
-  	break;
-  
-@@ -314,156 +615,99 @@ Index: gcc-4_7-branch/gcc/config/rs6000/rs6000.c
- +	rs6000_cost = &ppce5500_cost;
- +	break;
- +
-++      case PROCESSOR_PPCE6500:
-++	rs6000_cost = &ppce6500_cost;
-++	break;
-++
-        case PROCESSOR_TITAN:
-  	rs6000_cost = &titan_cost;
-  	break;
--@@ -22295,6 +22326,7 @@
-+@@ -22304,6 +22362,8 @@
-                   || rs6000_cpu_attr == CPU_PPC750
-                   || rs6000_cpu_attr == CPU_PPC7400
-                   || rs6000_cpu_attr == CPU_PPC7450
- +                 || rs6000_cpu_attr == CPU_PPCE5500
-++                 || rs6000_cpu_attr == CPU_PPCE6500
-                   || rs6000_cpu_attr == CPU_POWER4
-                   || rs6000_cpu_attr == CPU_POWER5
-  		 || rs6000_cpu_attr == CPU_POWER7
--@@ -22839,6 +22871,7 @@
-+@@ -22849,6 +22909,8 @@
-    case CPU_PPCE300C3:
-    case CPU_PPCE500MC:
-    case CPU_PPCE500MC64:
- +  case CPU_PPCE5500:
-++  case CPU_PPCE6500:
-    case CPU_TITAN:
-      return 2;
-    case CPU_RIOS2:
- Index: gcc-4_7-branch/gcc/config/rs6000/rs6000.h
- ===================================================================
----- gcc-4_7-branch.orig/gcc/config/rs6000/rs6000.h	2012-04-10 10:17:24.251330055 -0700
--+++ gcc-4_7-branch/gcc/config/rs6000/rs6000.h	2012-04-10 10:39:32.551394375 -0700
--@@ -168,6 +168,7 @@
-+--- gcc-4_7-branch.orig/gcc/config/rs6000/rs6000.h	2012-07-06 19:52:30.000000000 -0700
-++++ gcc-4_7-branch/gcc/config/rs6000/rs6000.h	2012-07-06 19:53:26.358779999 -0700
-+@@ -168,6 +168,8 @@
-  %{mcpu=e300c3: -me300} \
-  %{mcpu=e500mc: -me500mc} \
-  %{mcpu=e500mc64: -me500mc64} \
- +%{mcpu=e5500: -me5500} \
-++%{mcpu=e6500: -me6500} \
-  %{maltivec: -maltivec} \
-  %{mvsx: -mvsx %{!maltivec: -maltivec} %{!mcpu*: %(asm_cpu_power7)}} \
-  -many"
--@@ -475,13 +476,13 @@
-- 
-- #define TARGET_FCTIDZ	TARGET_FCFID
-- #define TARGET_STFIWX	TARGET_PPC_GFXOPT
---#define TARGET_LFIWAX	TARGET_CMPB
---#define TARGET_LFIWZX	TARGET_POPCNTD
---#define TARGET_FCFIDS	TARGET_POPCNTD
---#define TARGET_FCFIDU	TARGET_POPCNTD
---#define TARGET_FCFIDUS	TARGET_POPCNTD
---#define TARGET_FCTIDUZ	TARGET_POPCNTD
---#define TARGET_FCTIWUZ	TARGET_POPCNTD
--+#define TARGET_LFIWAX	(TARGET_CMPB && rs6000_cpu != PROCESSOR_PPCE5500)
--+#define TARGET_LFIWZX	(TARGET_POPCNTD && rs6000_cpu != PROCESSOR_PPCE5500)
--+#define TARGET_FCFIDS	TARGET_LFIWZX
--+#define TARGET_FCFIDU	TARGET_LFIWZX
--+#define TARGET_FCFIDUS	TARGET_LFIWZX
--+#define TARGET_FCTIDUZ	TARGET_LFIWZX
--+#define TARGET_FCTIWUZ	TARGET_LFIWZX
-- 
-- /* For power systems, we want to enable Altivec and VSX builtins even if the
--    user did not use -maltivec or -mvsx to allow the builtins to be used inside
--@@ -510,10 +511,12 @@
-- 
-- #define TARGET_FRE	(TARGET_HARD_FLOAT && TARGET_FPRS \
-- 			 && TARGET_DOUBLE_FLOAT \
---			 && (TARGET_POPCNTB || VECTOR_UNIT_VSX_P (DFmode)))
--+			 && (TARGET_POPCNTB || VECTOR_UNIT_VSX_P (DFmode)) \
--+			 && rs6000_cpu != PROCESSOR_PPCE5500)
-- 
-- #define TARGET_FRSQRTES	(TARGET_HARD_FLOAT && TARGET_POPCNTB \
---			 && TARGET_FPRS && TARGET_SINGLE_FLOAT)
--+			 && TARGET_FPRS && TARGET_SINGLE_FLOAT \
--+			 && rs6000_cpu != PROCESSOR_PPCE5500)
-- 
-- #define TARGET_FRSQRTE	(TARGET_HARD_FLOAT && TARGET_FPRS \
-- 			 && TARGET_DOUBLE_FLOAT \
- Index: gcc-4_7-branch/gcc/config/rs6000/rs6000.md
- ===================================================================
----- gcc-4_7-branch.orig/gcc/config/rs6000/rs6000.md	2012-04-10 10:17:24.275330056 -0700
--+++ gcc-4_7-branch/gcc/config/rs6000/rs6000.md	2012-04-10 10:39:32.555394355 -0700
--@@ -144,7 +144,7 @@
-- 
-- ;; Define an insn type attribute.  This is used in function unit delay
-- ;; computations.
---(define_attr "type" "integer,two,three,load,load_ext,load_ext_u,load_ext_ux,load_ux,load_u,store,store_ux,store_u,fpload,fpload_ux,fpload_u,fpstore,fpstore_ux,fpstore_u,vecload,vecstore,imul,imul2,imul3,lmul,idiv,ldiv,insert_word,branch,cmp,fast_compare,compare,var_delayed_compare,delayed_compare,imul_compare,lmul_compare,fpcompare,cr_logical,delayed_cr,mfcr,mfcrf,mtcr,mfjmpr,mtjmpr,fp,fpsimple,dmul,sdiv,ddiv,ssqrt,dsqrt,jmpreg,brinc,vecsimple,veccomplex,vecdiv,veccmp,veccmpsimple,vecperm,vecfloat,vecfdiv,vecdouble,isync,sync,load_l,store_c,shift,trap,insert_dword,var_shift_rotate,cntlz,exts,mffgpr,mftgpr,isel"
--+(define_attr "type" "integer,two,three,load,load_ext,load_ext_u,load_ext_ux,load_ux,load_u,store,store_ux,store_u,fpload,fpload_ux,fpload_u,fpstore,fpstore_ux,fpstore_u,vecload,vecstore,imul,imul2,imul3,lmul,idiv,ldiv,insert_word,branch,cmp,fast_compare,compare,var_delayed_compare,delayed_compare,imul_compare,lmul_compare,fpcompare,cr_logical,delayed_cr,mfcr,mfcrf,mtcr,mfjmpr,mtjmpr,fp,fpsimple,dmul,sdiv,ddiv,ssqrt,dsqrt,jmpreg,brinc,vecsimple,veccomplex,vecdiv,veccmp,veccmpsimple,vecperm,vecfloat,vecfdiv,vecdouble,isync,sync,load_l,store_c,shift,trap,insert_dword,var_shift_rotate,cntlz,exts,mffgpr,mftgpr,isel,popcnt"
--   (const_string "integer"))
-- 
-- ;; Define floating point instruction sub-types for use with Xfpu.md
-+--- gcc-4_7-branch.orig/gcc/config/rs6000/rs6000.md	2012-07-06 19:52:32.000000000 -0700
-++++ gcc-4_7-branch/gcc/config/rs6000/rs6000.md	2012-07-06 19:53:26.358779999 -0700
- @@ -166,7 +166,7 @@
-  ;; Processor type -- this attribute must exactly match the processor_type
-  ;; enumeration in rs6000.h.
-  
---(define_attr "cpu" "rios1,rios2,rs64a,mpccore,ppc403,ppc405,ppc440,ppc476,ppc601,ppc603,ppc604,ppc604e,ppc620,ppc630,ppc750,ppc7400,ppc7450,ppc8540,ppce300c2,ppce300c3,ppce500mc,ppce500mc64,power4,power5,power6,power7,cell,ppca2,titan"
--+(define_attr "cpu" "rios1,rios2,rs64a,mpccore,ppc403,ppc405,ppc440,ppc476,ppc601,ppc603,ppc604,ppc604e,ppc620,ppc630,ppc750,ppc7400,ppc7450,ppc8540,ppce300c2,ppce300c3,ppce500mc,ppce500mc64,ppce5500,power4,power5,power6,power7,cell,ppca2,titan"
-+-(define_attr "cpu" "rios1,rios2,rs64a,mpccore,ppc403,ppc405,ppc440,ppc476,ppc601,ppc603,ppc604,ppc604e,ppc620,ppc630,ppc750,ppc7400,ppc7450,ppc8540,ppc8548,ppce300c2,ppce300c3,ppce500mc,ppce500mc64,power4,power5,power6,power7,cell,ppca2,titan"
-++(define_attr "cpu" "rios1,rios2,rs64a,mpccore,ppc403,ppc405,ppc440,ppc476,ppc601,ppc603,ppc604,ppc604e,ppc620,ppc630,ppc750,ppc7400,ppc7450,ppc8540,ppc8548,ppce300c2,ppce300c3,ppce500mc,ppce500mc64,ppce5500,ppce6500,power4,power5,power6,power7,cell,ppca2,titan"
-    (const (symbol_ref "rs6000_cpu_attr")))
-  
-  
--@@ -194,6 +194,7 @@
-+@@ -194,6 +194,8 @@
-  (include "e300c2c3.md")
-  (include "e500mc.md")
-  (include "e500mc64.md")
- +(include "e5500.md")
-++(include "e6500.md")
-  (include "power4.md")
-  (include "power5.md")
-  (include "power6.md")
--@@ -2329,13 +2330,17 @@
--         (unspec:GPR [(match_operand:GPR 1 "gpc_reg_operand" "r")]
--                      UNSPEC_POPCNTB))]
--   "TARGET_POPCNTB"
---  "popcntb %0,%1")
--+  "popcntb %0,%1"
--+  [(set_attr "length" "4")
--+   (set_attr "type" "popcnt")])
-+Index: gcc-4_7-branch/gcc/doc/invoke.texi
-+===================================================================
-+--- gcc-4_7-branch.orig/gcc/doc/invoke.texi	2012-07-06 19:43:53.000000000 -0700
-++++ gcc-4_7-branch/gcc/doc/invoke.texi	2012-07-06 19:53:26.362779999 -0700
-+@@ -16565,11 +16565,13 @@
-+ @samp{603e}, @samp{604}, @samp{604e}, @samp{620}, @samp{630}, @samp{740},
-+ @samp{7400}, @samp{7450}, @samp{750}, @samp{801}, @samp{821}, @samp{823},
-+ @samp{860}, @samp{970}, @samp{8540}, @samp{a2}, @samp{e300c2},
-+-@samp{e300c3}, @samp{e500mc}, @samp{e500mc64}, @samp{ec603e}, @samp{G3},
-+-@samp{G4}, @samp{G5}, @samp{titan}, @samp{power}, @samp{power2}, @samp{power3},
-+-@samp{power4}, @samp{power5}, @samp{power5+}, @samp{power6}, @samp{power6x},
-+-@samp{power7}, @samp{common}, @samp{powerpc}, @samp{powerpc64}, @samp{rios},
-+-@samp{rios1}, @samp{rios2}, @samp{rsc}, and @samp{rs64}.
-++@samp{e300c3}, @samp{e500mc}, @samp{e500mc64}, @samp{e5500},
-++@samp{e6500}, @samp{ec603e}, @samp{G3}, @samp{G4}, @samp{G5},
-++@samp{titan}, @samp{power}, @samp{power2}, @samp{power3},
-++@samp{power4}, @samp{power5}, @samp{power5+}, @samp{power6},
-++@samp{power6x}, @samp{power7}, @samp{common}, @samp{powerpc},
-++@samp{powerpc64}, @samp{rios}, @samp{rios1}, @samp{rios2}, @samp{rsc},
-++and @samp{rs64}.
-  
-- (define_insn "popcntd<mode>2"
--   [(set (match_operand:GPR 0 "gpc_reg_operand" "=r")
-- 	(popcount:GPR (match_operand:GPR 1 "gpc_reg_operand" "r")))]
--   "TARGET_POPCNTD"
---  "popcnt<wd> %0,%1")
--+  "popcnt<wd> %0,%1"
--+  [(set_attr "length" "4")
--+   (set_attr "type" "popcnt")])
-+ @option{-mcpu=common} selects a completely generic processor.  Code
-+ generated under this option will run on any POWER or PowerPC processor.
-+Index: gcc-4_7-branch/gcc/testsuite/gcc.dg/tree-ssa/vector-3.c
-+===================================================================
-+--- gcc-4_7-branch.orig/gcc/testsuite/gcc.dg/tree-ssa/vector-3.c	2012-07-06 19:43:53.000000000 -0700
-++++ gcc-4_7-branch/gcc/testsuite/gcc.dg/tree-ssa/vector-3.c	2012-07-06 19:53:26.362779999 -0700
-+@@ -14,7 +14,7 @@
-  
-- (define_expand "popcount<mode>2"
--   [(set (match_operand:GPR 0 "gpc_reg_operand" "")
--@@ -5984,10 +5989,10 @@
--    && ((TARGET_PPC_GFXOPT
--         && !HONOR_NANS (<MODE>mode)
--         && !HONOR_SIGNED_ZEROS (<MODE>mode))
---       || TARGET_CMPB
--+       || TARGET_LFIWAX
--        || VECTOR_UNIT_VSX_P (<MODE>mode))"
-- {
---  if (TARGET_CMPB || VECTOR_UNIT_VSX_P (<MODE>mode))
--+  if (TARGET_LFIWAX || VECTOR_UNIT_VSX_P (<MODE>mode))
--     {
--       emit_insn (gen_copysign<mode>3_fcpsgn (operands[0], operands[1],
-- 					     operands[2]));
--@@ -6006,7 +6011,7 @@
-- 	(unspec:SFDF [(match_operand:SFDF 1 "gpc_reg_operand" "<rreg2>")
-- 		      (match_operand:SFDF 2 "gpc_reg_operand" "<rreg2>")]
-- 		     UNSPEC_COPYSIGN))]
---  "TARGET_CMPB && !VECTOR_UNIT_VSX_P (<MODE>mode)"
--+  "TARGET_LFIWAX && !VECTOR_UNIT_VSX_P (<MODE>mode)"
--   "fcpsgn %0,%2,%1"
--   [(set_attr "type" "fp")])
-+ /* We should be able to optimize this to just "return 0.0;" */
-+ /* { dg-final { scan-tree-dump-times "BIT_FIELD_REF" 0 "optimized"} } */
-+-/* { dg-final { scan-tree-dump-times "0.0" 1 "optimized"} } */
-++/* { dg-final { scan-tree-dump-times "0\\\.0" 1 "optimized"} } */
-+ 
-+ /* { dg-final { cleanup-tree-dump "optimized" } } */
-  
--Index: gcc-4_7-branch/gcc/config/rs6000/rs6000-cpus.def
--===================================================================
----- gcc-4_7-branch.orig/gcc/config/rs6000/rs6000-cpus.def	2012-04-10 10:17:24.295330058 -0700
--+++ gcc-4_7-branch/gcc/config/rs6000/rs6000-cpus.def	2012-04-10 10:39:32.555394355 -0700
--@@ -88,6 +88,9 @@
-- 	    | MASK_ISEL)
-- RS6000_CPU ("e500mc64", PROCESSOR_PPCE500MC64,
-- 	    POWERPC_BASE_MASK | MASK_POWERPC64 | MASK_PPC_GFXOPT | MASK_ISEL)
--+RS6000_CPU ("e5500", PROCESSOR_PPCE5500,
--+	    POWERPC_BASE_MASK | MASK_POWERPC64 | MASK_PPC_GFXOPT | MASK_ISEL
--+	    | MASK_CMPB | MASK_POPCNTB | MASK_POPCNTD)
-- RS6000_CPU ("860", PROCESSOR_MPCCORE, POWERPC_BASE_MASK | MASK_SOFT_FLOAT)
-- RS6000_CPU ("970", PROCESSOR_POWER4,
-- 	    POWERPC_7400_MASK | MASK_PPC_GPOPT | MASK_MFCRF | MASK_POWERPC64)
-diff --git a/meta/recipes-devtools/gcc/gcc-4.7/rs6000-tables.patch b/meta/recipes-devtools/gcc/gcc-4.7/rs6000-tables.patch
++ static struct known_names known_libs[] =
+diff --git a/meta/recipes-core/eglibc/eglibc-2.16/ppc-sqrt.patch b/meta/recipes-core/eglibc/eglibc-2.16/ppc-sqrt.patch
 new file mode 100644
-index 0000000..5b8064b
+index 0000000..203040c
 --- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc-4.7/rs6000-tables.patch
-@@ -0,0 +1,135 @@
-+Upstream-Status: Backport
++++ b/meta/recipes-core/eglibc/eglibc-2.16/ppc-sqrt.patch
+@@ -0,0 +1,538 @@
++Upstream-Status: Pending
++
++2011-03-22  Joseph Myers  <joseph@codesourcery.com>
++
++        Merge from SG++ 2.11:
++
++        2010-10-05  Nathan Froyd  <froydnj@codesourcery.com>
++
++        Issue #9382
++
++        * sysdeps/powerpc/powerpc32/603e/: New directory.
++        * sysdeps/unix/sysv/linux/powerpc/powerpc32/e500mc/: New directory.
++        * sysdeps/unix/sysv/linux/powerpc/powerpc32/603e/: New directory.
++        * sysdeps/unix/sysv/linux/powerpc/powerpc32/7400/: New directory.
++        * sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrtf.c: Update.
++        * sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrt.c: Update.
++        * sysdeps/powerpc/powerpc64/e5500/fpu/Implies: New file.
++
++Index: libc/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrt.c
++===================================================================
++--- /dev/null
+++++ libc/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrt.c
++@@ -0,0 +1,134 @@
+++/* Double-precision floating point square root.
+++   Copyright (C) 2010 Free Software Foundation, Inc.
+++   This file is part of the GNU C Library.
+++
+++   The GNU C Library is free software; you can redistribute it and/or
+++   modify it under the terms of the GNU Lesser General Public
+++   License as published by the Free Software Foundation; either
+++   version 2.1 of the License, or (at your option) any later version.
+++
+++   The GNU C Library is distributed in the hope that it will be useful,
+++   but WITHOUT ANY WARRANTY; without even the implied warranty of
+++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+++   Lesser General Public License for more details.
+++
+++   You should have received a copy of the GNU Lesser General Public
+++   License along with the GNU C Library; if not, write to the Free
+++   Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+++   02111-1307 USA.  */
+++
+++#include <math.h>
+++#include <math_private.h>
+++#include <fenv_libc.h>
+++#include <inttypes.h>
+++
+++#include <sysdep.h>
+++#include <ldsodefs.h>
+++
+++static const ieee_float_shape_type a_nan = {.word = 0x7fc00000 };
+++static const ieee_float_shape_type a_inf = {.word = 0x7f800000 };
+++static const float two108 = 3.245185536584267269e+32;
+++static const float twom54 = 5.551115123125782702e-17;
+++static const float half = 0.5;
+++
+++/* The method is based on the descriptions in:
+++
+++   _The Handbook of Floating-Pointer Arithmetic_ by Muller et al., chapter 5;
+++   _IA-64 and Elementary Functions: Speed and Precision_ by Markstein, chapter 9
+++
+++   We find the actual square root and half of its reciprocal
+++   simultaneously.  */
+++
+++#ifdef __STDC__
+++double
+++__ieee754_sqrt (double b)
+++#else
+++double
+++__ieee754_sqrt (b)
+++     double b;
+++#endif
+++{
+++  if (__builtin_expect (b > 0, 1))
+++    {
+++      double y, g, h, d, r;
+++      ieee_double_shape_type u;
+++
+++      if (__builtin_expect (b != a_inf.value, 1))
+++        {
+++          fenv_t fe;
+++
+++          fe = fegetenv_register ();
+++
+++          u.value = b;
+++
+++          relax_fenv_state ();
+++
+++          __asm__ ("frsqrte %[estimate], %[x]\n"
+++                   : [estimate] "=f" (y) : [x] "f" (b));
+++
+++          /* Following Muller et al, page 168, equation 5.20.
+++
+++             h goes to 1/(2*sqrt(b))
+++             g goes to sqrt(b).
+++
+++             We need three iterations to get within 1ulp.  */
+++
+++          /* Indicate that these can be performed prior to the branch.  GCC
+++             insists on sinking them below the branch, however; it seems like
+++             they'd be better before the branch so that we can cover any latency
+++             from storing the argument and loading its high word.  Oh well.  */
+++
+++          g = b * y;
+++          h = 0.5 * y;
+++  
+++          /* Handle small numbers by scaling.  */
+++          if (__builtin_expect ((u.parts.msw & 0x7ff00000) <= 0x02000000, 0))
+++            return __ieee754_sqrt (b * two108) * twom54;
+++
+++#define FMADD(a_, c_, b_)                                               \
+++          ({ double __r;                                                \
+++          __asm__ ("fmadd %[r], %[a], %[c], %[b]\n"                     \
+++                   : [r] "=f" (__r) : [a] "f" (a_), [c] "f" (c_), [b] "f" (b_)); \
+++          __r;})
+++#define FNMSUB(a_, c_, b_)                                          \
+++          ({ double __r;                                                \
+++          __asm__ ("fnmsub %[r], %[a], %[c], %[b]\n"                     \
+++                   : [r] "=f" (__r) : [a] "f" (a_), [c] "f" (c_), [b] "f" (b_)); \
+++          __r;})
+++
+++          r = FNMSUB (g, h, half);
+++          g = FMADD (g, r, g);
+++          h = FMADD (h, r, h);
+++
+++          r = FNMSUB (g, h, half);
+++          g = FMADD (g, r, g);
+++          h = FMADD (h, r, h);
+++
+++          r = FNMSUB (g, h, half);
+++          g = FMADD (g, r, g);
+++          h = FMADD (h, r, h);
+++
+++          /* g is now +/- 1ulp, or exactly equal to, the square root of b.  */
+++
+++          /* Final refinement.  */
+++          d = FNMSUB (g, g, b);
+++
+++          fesetenv_register (fe);
+++          return FMADD (d, h, g);
+++        }
+++    }
+++  else if (b < 0)
+++    {
+++      /* For some reason, some PowerPC32 processors don't implement
+++         FE_INVALID_SQRT.  */
+++#ifdef FE_INVALID_SQRT
+++      feraiseexcept (FE_INVALID_SQRT);
+++
+++      fenv_union_t u = { .fenv = fegetenv_register () };
+++      if ((u.l[1] & FE_INVALID) == 0)
+++#endif
+++	feraiseexcept (FE_INVALID);
+++      b = a_nan.value;
+++    }
+++  return f_wash (b);
+++}
++Index: libc/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrtf.c
++===================================================================
++--- /dev/null
+++++ libc/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrtf.c
++@@ -0,0 +1,101 @@
+++/* Single-precision floating point square root.
+++   Copyright (C) 2010 Free Software Foundation, Inc.
+++   This file is part of the GNU C Library.
+++
+++   The GNU C Library is free software; you can redistribute it and/or
+++   modify it under the terms of the GNU Lesser General Public
+++   License as published by the Free Software Foundation; either
+++   version 2.1 of the License, or (at your option) any later version.
+++
+++   The GNU C Library is distributed in the hope that it will be useful,
+++   but WITHOUT ANY WARRANTY; without even the implied warranty of
+++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+++   Lesser General Public License for more details.
+++
+++   You should have received a copy of the GNU Lesser General Public
+++   License along with the GNU C Library; if not, write to the Free
+++   Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+++   02111-1307 USA.  */
+++
+++#include <math.h>
+++#include <math_private.h>
+++#include <fenv_libc.h>
+++#include <inttypes.h>
+++
+++#include <sysdep.h>
+++#include <ldsodefs.h>
+++
+++static const ieee_float_shape_type a_nan = {.word = 0x7fc00000 };
+++static const ieee_float_shape_type a_inf = {.word = 0x7f800000 };
+++static const float threehalf = 1.5;
+++
+++/* The method is based on the descriptions in:
+++
+++   _The Handbook of Floating-Pointer Arithmetic_ by Muller et al., chapter 5;
+++   _IA-64 and Elementary Functions: Speed and Precision_ by Markstein, chapter 9
+++
+++   We find the reciprocal square root and use that to compute the actual
+++   square root.  */
+++
+++#ifdef __STDC__
+++float
+++__ieee754_sqrtf (float b)
+++#else
+++float
+++__ieee754_sqrtf (b)
+++     float b;
+++#endif
+++{
+++  if (__builtin_expect (b > 0, 1))
+++    {
+++#define FMSUB(a_, c_, b_)                                               \
+++      ({ double __r;                                                    \
+++        __asm__ ("fmsub %[r], %[a], %[c], %[b]\n"                       \
+++                 : [r] "=f" (__r) : [a] "f" (a_), [c] "f" (c_), [b] "f" (b_)); \
+++        __r;})
+++#define FNMSUB(a_, c_, b_)                                              \
+++      ({ double __r;                                                    \
+++        __asm__ ("fnmsub %[r], %[a], %[c], %[b]\n"                      \
+++                 : [r] "=f" (__r) : [a] "f" (a_), [c] "f" (c_), [b] "f" (b_)); \
+++        __r;})
+++
+++      if (__builtin_expect (b != a_inf.value, 1))
+++        {
+++          double y, x;
+++          fenv_t fe;
+++
+++          fe = fegetenv_register ();
+++
+++          relax_fenv_state ();
+++
+++          /* Compute y = 1.5 * b - b.  Uses fewer constants than y = 0.5 * b.  */
+++          y = FMSUB (threehalf, b, b);
+++
+++          /* Initial estimate.  */
+++          __asm__ ("frsqrte %[x], %[b]\n" : [x] "=f" (x) : [b] "f" (b));
+++
+++          /* Iterate.  x_{n+1} = x_n * (1.5 - y * (x_n * x_n)).  */
+++          x = x * FNMSUB (y, x * x, threehalf);
+++          x = x * FNMSUB (y, x * x, threehalf);
+++          x = x * FNMSUB (y, x * x, threehalf);
+++
+++          /* All done.  */
+++          fesetenv_register (fe);
+++          return x * b;
+++        }
+++    }
+++  else if (b < 0)
+++    {
+++      /* For some reason, some PowerPC32 processors don't implement
+++         FE_INVALID_SQRT.  */
+++#ifdef FE_INVALID_SQRT
+++      feraiseexcept (FE_INVALID_SQRT);
+++
+++      fenv_union_t u = { .fenv = fegetenv_register () };
+++      if ((u.l[1] & FE_INVALID) == 0)
+++#endif
+++	feraiseexcept (FE_INVALID);
+++      b = a_nan.value;
+++    }
+++  return f_washf (b);
+++}
++Index: libc/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrt.c
++===================================================================
++--- /dev/null
+++++ libc/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrt.c
++@@ -0,0 +1,134 @@
+++/* Double-precision floating point square root.
+++   Copyright (C) 2010 Free Software Foundation, Inc.
+++   This file is part of the GNU C Library.
+++
+++   The GNU C Library is free software; you can redistribute it and/or
+++   modify it under the terms of the GNU Lesser General Public
+++   License as published by the Free Software Foundation; either
+++   version 2.1 of the License, or (at your option) any later version.
+++
+++   The GNU C Library is distributed in the hope that it will be useful,
+++   but WITHOUT ANY WARRANTY; without even the implied warranty of
+++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+++   Lesser General Public License for more details.
+++
+++   You should have received a copy of the GNU Lesser General Public
+++   License along with the GNU C Library; if not, write to the Free
+++   Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+++   02111-1307 USA.  */
+++
+++#include <math.h>
+++#include <math_private.h>
+++#include <fenv_libc.h>
+++#include <inttypes.h>
+++
+++#include <sysdep.h>
+++#include <ldsodefs.h>
+++
+++static const ieee_float_shape_type a_nan = {.word = 0x7fc00000 };
+++static const ieee_float_shape_type a_inf = {.word = 0x7f800000 };
+++static const float two108 = 3.245185536584267269e+32;
+++static const float twom54 = 5.551115123125782702e-17;
+++static const float half = 0.5;
+++
+++/* The method is based on the descriptions in:
+++
+++   _The Handbook of Floating-Pointer Arithmetic_ by Muller et al., chapter 5;
+++   _IA-64 and Elementary Functions: Speed and Precision_ by Markstein, chapter 9
+++
+++   We find the actual square root and half of its reciprocal
+++   simultaneously.  */
+++
+++#ifdef __STDC__
+++double
+++__ieee754_sqrt (double b)
+++#else
+++double
+++__ieee754_sqrt (b)
+++     double b;
+++#endif
+++{
+++  if (__builtin_expect (b > 0, 1))
+++    {
+++      double y, g, h, d, r;
+++      ieee_double_shape_type u;
+++
+++      if (__builtin_expect (b != a_inf.value, 1))
+++        {
+++          fenv_t fe;
+++
+++          fe = fegetenv_register ();
+++
+++          u.value = b;
+++
+++          relax_fenv_state ();
+++
+++          __asm__ ("frsqrte %[estimate], %[x]\n"
+++                   : [estimate] "=f" (y) : [x] "f" (b));
+++
+++          /* Following Muller et al, page 168, equation 5.20.
+++
+++             h goes to 1/(2*sqrt(b))
+++             g goes to sqrt(b).
+++
+++             We need three iterations to get within 1ulp.  */
+++
+++          /* Indicate that these can be performed prior to the branch.  GCC
+++             insists on sinking them below the branch, however; it seems like
+++             they'd be better before the branch so that we can cover any latency
+++             from storing the argument and loading its high word.  Oh well.  */
+++
+++          g = b * y;
+++          h = 0.5 * y;
+++  
+++          /* Handle small numbers by scaling.  */
+++          if (__builtin_expect ((u.parts.msw & 0x7ff00000) <= 0x02000000, 0))
+++            return __ieee754_sqrt (b * two108) * twom54;
+++
+++#define FMADD(a_, c_, b_)                                               \
+++          ({ double __r;                                                \
+++          __asm__ ("fmadd %[r], %[a], %[c], %[b]\n"                     \
+++                   : [r] "=f" (__r) : [a] "f" (a_), [c] "f" (c_), [b] "f" (b_)); \
+++          __r;})
+++#define FNMSUB(a_, c_, b_)                                          \
+++          ({ double __r;                                                \
+++          __asm__ ("fnmsub %[r], %[a], %[c], %[b]\n"                     \
+++                   : [r] "=f" (__r) : [a] "f" (a_), [c] "f" (c_), [b] "f" (b_)); \
+++          __r;})
+++
+++          r = FNMSUB (g, h, half);
+++          g = FMADD (g, r, g);
+++          h = FMADD (h, r, h);
+++
+++          r = FNMSUB (g, h, half);
+++          g = FMADD (g, r, g);
+++          h = FMADD (h, r, h);
+++
+++          r = FNMSUB (g, h, half);
+++          g = FMADD (g, r, g);
+++          h = FMADD (h, r, h);
+++
+++          /* g is now +/- 1ulp, or exactly equal to, the square root of b.  */
+++
+++          /* Final refinement.  */
+++          d = FNMSUB (g, g, b);
+++
+++          fesetenv_register (fe);
+++          return FMADD (d, h, g);
+++        }
+++    }
+++  else if (b < 0)
+++    {
+++      /* For some reason, some PowerPC32 processors don't implement
+++         FE_INVALID_SQRT.  */
+++#ifdef FE_INVALID_SQRT
+++      feraiseexcept (FE_INVALID_SQRT);
+++
+++      fenv_union_t u = { .fenv = fegetenv_register () };
+++      if ((u.l[1] & FE_INVALID) == 0)
+++#endif
+++	feraiseexcept (FE_INVALID);
+++      b = a_nan.value;
+++    }
+++  return f_wash (b);
+++}
++Index: libc/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrtf.c
++===================================================================
++--- /dev/null
+++++ libc/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrtf.c
++@@ -0,0 +1,101 @@
+++/* Single-precision floating point square root.
+++   Copyright (C) 2010 Free Software Foundation, Inc.
+++   This file is part of the GNU C Library.
+++
+++   The GNU C Library is free software; you can redistribute it and/or
+++   modify it under the terms of the GNU Lesser General Public
+++   License as published by the Free Software Foundation; either
+++   version 2.1 of the License, or (at your option) any later version.
+++
+++   The GNU C Library is distributed in the hope that it will be useful,
+++   but WITHOUT ANY WARRANTY; without even the implied warranty of
+++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+++   Lesser General Public License for more details.
+++
+++   You should have received a copy of the GNU Lesser General Public
+++   License along with the GNU C Library; if not, write to the Free
+++   Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+++   02111-1307 USA.  */
+++
+++#include <math.h>
+++#include <math_private.h>
+++#include <fenv_libc.h>
+++#include <inttypes.h>
+++
+++#include <sysdep.h>
+++#include <ldsodefs.h>
+++
+++static const ieee_float_shape_type a_nan = {.word = 0x7fc00000 };
+++static const ieee_float_shape_type a_inf = {.word = 0x7f800000 };
+++static const float threehalf = 1.5;
+++
+++/* The method is based on the descriptions in:
+++
+++   _The Handbook of Floating-Pointer Arithmetic_ by Muller et al., chapter 5;
+++   _IA-64 and Elementary Functions: Speed and Precision_ by Markstein, chapter 9
+++
+++   We find the reciprocal square root and use that to compute the actual
+++   square root.  */
+++
+++#ifdef __STDC__
+++float
+++__ieee754_sqrtf (float b)
+++#else
+++float
+++__ieee754_sqrtf (b)
+++     float b;
+++#endif
+++{
+++  if (__builtin_expect (b > 0, 1))
+++    {
+++#define FMSUB(a_, c_, b_)                                               \
+++      ({ double __r;                                                    \
+++        __asm__ ("fmsub %[r], %[a], %[c], %[b]\n"                       \
+++                 : [r] "=f" (__r) : [a] "f" (a_), [c] "f" (c_), [b] "f" (b_)); \
+++        __r;})
+++#define FNMSUB(a_, c_, b_)                                              \
+++      ({ double __r;                                                    \
+++        __asm__ ("fnmsub %[r], %[a], %[c], %[b]\n"                      \
+++                 : [r] "=f" (__r) : [a] "f" (a_), [c] "f" (c_), [b] "f" (b_)); \
+++        __r;})
+++
+++      if (__builtin_expect (b != a_inf.value, 1))
+++        {
+++          double y, x;
+++          fenv_t fe;
+++
+++          fe = fegetenv_register ();
+++
+++          relax_fenv_state ();
+++
+++          /* Compute y = 1.5 * b - b.  Uses fewer constants than y = 0.5 * b.  */
+++          y = FMSUB (threehalf, b, b);
+++
+++          /* Initial estimate.  */
+++          __asm__ ("frsqrte %[x], %[b]\n" : [x] "=f" (x) : [b] "f" (b));
+++
+++          /* Iterate.  x_{n+1} = x_n * (1.5 - y * (x_n * x_n)).  */
+++          x = x * FNMSUB (y, x * x, threehalf);
+++          x = x * FNMSUB (y, x * x, threehalf);
+++          x = x * FNMSUB (y, x * x, threehalf);
+++
+++          /* All done.  */
+++          fesetenv_register (fe);
+++          return x * b;
+++        }
+++    }
+++  else if (b < 0)
+++    {
+++      /* For some reason, some PowerPC32 processors don't implement
+++         FE_INVALID_SQRT.  */
+++#ifdef FE_INVALID_SQRT
+++      feraiseexcept (FE_INVALID_SQRT);
+++
+++      fenv_union_t u = { .fenv = fegetenv_register () };
+++      if ((u.l[1] & FE_INVALID) == 0)
+++#endif
+++	feraiseexcept (FE_INVALID);
+++      b = a_nan.value;
+++    }
+++  return f_washf (b);
+++}
++Index: libc/sysdeps/unix/sysv/linux/powerpc/powerpc32/603e/fpu/Implies
++===================================================================
++--- /dev/null
+++++ libc/sysdeps/unix/sysv/linux/powerpc/powerpc32/603e/fpu/Implies
++@@ -0,0 +1 @@
+++powerpc/powerpc32/603e/fpu
++Index: libc/sysdeps/unix/sysv/linux/powerpc/powerpc32/7400/fpu/Implies
++===================================================================
++--- /dev/null
+++++ libc/sysdeps/unix/sysv/linux/powerpc/powerpc32/7400/fpu/Implies
++@@ -0,0 +1 @@
+++powerpc/powerpc32/603e/fpu
++Index: libc/sysdeps/unix/sysv/linux/powerpc/powerpc32/e500mc/fpu/Implies
++===================================================================
++--- /dev/null
+++++ libc/sysdeps/unix/sysv/linux/powerpc/powerpc32/e500mc/fpu/Implies
++@@ -0,0 +1 @@
+++powerpc/powerpc32/603e/fpu
++Index: libc/sysdeps/unix/sysv/linux/powerpc/powerpc64/e5500/fpu/Implies
++===================================================================
++--- /dev/null
+++++ libc/sysdeps/unix/sysv/linux/powerpc/powerpc64/e5500/fpu/Implies
++@@ -0,0 +1 @@
+++powerpc/powerpc64/e5500/fpu
++Index: libc/sysdeps/unix/sysv/linux/powerpc/powerpc32/e5500/fpu/Implies
++===================================================================
++--- /dev/null
+++++ libc/sysdeps/unix/sysv/linux/powerpc/powerpc32/e5500/fpu/Implies
++@@ -0,0 +1 @@
+++powerpc/powerpc32/603e/fpu
+diff --git a/meta/recipes-core/eglibc/eglibc-2.16/ppc-sqrt_finite.patch b/meta/recipes-core/eglibc/eglibc-2.16/ppc-sqrt_finite.patch
+new file mode 100644
+index 0000000..5289051
+--- /dev/null
++++ b/meta/recipes-core/eglibc/eglibc-2.16/ppc-sqrt_finite.patch
+@@ -0,0 +1,112 @@
++on ppc fixes the errors like below
++| ./.libs/libpulsecore-1.1.so: undefined reference to `__sqrt_finite'
++| collect2: ld returned 1 exit status
++
++Upstream-Status: Pending
++
++ChangeLog
++
++2012-01-06  Khem Raj  <raj.khem@gmail.com>
++
++	* sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrtf.c: Add __*_finite alias.
++	Remove cruft.
++	* sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrt.c: Ditto.
++	* sysdeps/powerpc/powerpc32/603e/fpu/e_sqrt.c: Ditto.
++	* sysdeps/powerpc/powerpc32/603e/fpu/e_sqrtf.c: Ditto.
++ 
++Index: libc/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrt.c
++===================================================================
++--- libc.orig/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrt.c	2012-01-06 18:07:42.296909187 -0800
+++++ libc/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrt.c	2012-01-06 18:09:22.572914856 -0800
++@@ -39,14 +39,8 @@
++    We find the actual square root and half of its reciprocal
++    simultaneously.  */
++ 
++-#ifdef __STDC__
++ double
++ __ieee754_sqrt (double b)
++-#else
++-double
++-__ieee754_sqrt (b)
++-     double b;
++-#endif
++ {
++   if (__builtin_expect (b > 0, 1))
++     {
++@@ -132,3 +126,4 @@
++     }
++   return f_wash (b);
++ }
+++strong_alias (__ieee754_sqrt, __sqrt_finite)
++Index: libc/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrtf.c
++===================================================================
++--- libc.orig/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrtf.c	2012-01-06 18:10:37.068917644 -0800
+++++ libc/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrtf.c	2012-01-06 18:11:33.408920635 -0800
++@@ -37,14 +37,8 @@
++    We find the reciprocal square root and use that to compute the actual
++    square root.  */
++ 
++-#ifdef __STDC__
++ float
++ __ieee754_sqrtf (float b)
++-#else
++-float
++-__ieee754_sqrtf (b)
++-     float b;
++-#endif
++ {
++   if (__builtin_expect (b > 0, 1))
++     {
++@@ -99,3 +93,4 @@
++     }
++   return f_washf (b);
++ }
+++strong_alias (__ieee754_sqrtf, __sqrtf_finite)
++Index: libc/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrt.c
++===================================================================
++--- libc.orig/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrt.c	2012-01-06 18:11:51.460925644 -0800
+++++ libc/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrt.c	2012-01-06 18:12:39.344924405 -0800
++@@ -39,14 +39,8 @@
++    We find the actual square root and half of its reciprocal
++    simultaneously.  */
++ 
++-#ifdef __STDC__
++ double
++ __ieee754_sqrt (double b)
++-#else
++-double
++-__ieee754_sqrt (b)
++-     double b;
++-#endif
++ {
++   if (__builtin_expect (b > 0, 1))
++     {
++@@ -132,3 +126,4 @@
++     }
++   return f_wash (b);
++ }
+++strong_alias (__ieee754_sqrt, __sqrt_finite)
++Index: libc/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrtf.c
++===================================================================
++--- libc.orig/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrtf.c	2012-01-06 18:13:00.892924586 -0800
+++++ libc/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrtf.c	2012-01-06 18:15:27.992931106 -0800
++@@ -37,14 +37,8 @@
++    We find the reciprocal square root and use that to compute the actual
++    square root.  */
++ 
++-#ifdef __STDC__
++ float
++ __ieee754_sqrtf (float b)
++-#else
++-float
++-__ieee754_sqrtf (b)
++-     float b;
++-#endif
++ {
++   if (__builtin_expect (b > 0, 1))
++     {
++@@ -99,3 +93,4 @@
++     }
++   return f_washf (b);
++ }
+++strong_alias (__ieee754_sqrtf, __sqrtf_finite)
+diff --git a/meta/recipes-core/eglibc/eglibc-2.16/ppc_slow_ieee754_sqrt.patch b/meta/recipes-core/eglibc/eglibc-2.16/ppc_slow_ieee754_sqrt.patch
+new file mode 100644
+index 0000000..9a932ff
+--- /dev/null
++++ b/meta/recipes-core/eglibc/eglibc-2.16/ppc_slow_ieee754_sqrt.patch
+@@ -0,0 +1,123 @@
++ __ieee754_sqrt{,f} are now inline functions and call out __slow versions
++
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++Upstream-Status: Pending
++Index: libc/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrt.c
++===================================================================
++--- libc.orig/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrt.c	2012-07-03 22:36:01.172386436 -0700
+++++ libc/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrt.c	2012-07-03 23:04:37.396469515 -0700
++@@ -40,7 +40,7 @@
++    simultaneously.  */
++ 
++ double
++-__ieee754_sqrt (double b)
+++__slow_ieee754_sqrt (double b)
++ {
++   if (__builtin_expect (b > 0, 1))
++     {
++@@ -77,7 +77,7 @@
++   
++           /* Handle small numbers by scaling.  */
++           if (__builtin_expect ((u.parts.msw & 0x7ff00000) <= 0x02000000, 0))
++-            return __ieee754_sqrt (b * two108) * twom54;
+++            return __slow_ieee754_sqrt (b * two108) * twom54;
++ 
++ #define FMADD(a_, c_, b_)                                               \
++           ({ double __r;                                                \
++@@ -126,4 +126,12 @@
++     }
++   return f_wash (b);
++ }
+++
+++#undef __ieee754_sqrt
+++double
+++__ieee754_sqrt (double x)
+++{
+++   return __slow_ieee754_sqrt (x);
+++}
+++
++ strong_alias (__ieee754_sqrt, __sqrt_finite)
++Index: libc/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrtf.c
++===================================================================
++--- libc.orig/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrtf.c	2012-07-03 22:36:01.172386436 -0700
+++++ libc/sysdeps/powerpc/powerpc32/603e/fpu/e_sqrtf.c	2012-07-03 23:07:06.260476775 -0700
++@@ -38,7 +38,7 @@
++    square root.  */
++ 
++ float
++-__ieee754_sqrtf (float b)
+++__slow_ieee754_sqrtf (float b)
++ {
++   if (__builtin_expect (b > 0, 1))
++     {
++@@ -93,4 +93,10 @@
++     }
++   return f_washf (b);
++ }
+++#undef __ieee754_sqrtf
+++float
+++__ieee754_sqrtf (float x)
+++{
+++  return __slow_ieee754_sqrtf (x);
+++}
++ strong_alias (__ieee754_sqrtf, __sqrtf_finite)
++Index: libc/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrt.c
++===================================================================
++--- libc.orig/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrt.c	2012-07-03 22:36:01.176386435 -0700
+++++ libc/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrt.c	2012-07-03 23:14:16.328497458 -0700
++@@ -40,7 +40,7 @@
++    simultaneously.  */
++ 
++ double
++-__ieee754_sqrt (double b)
+++__slow_ieee754_sqrt (double b)
++ {
++   if (__builtin_expect (b > 0, 1))
++     {
++@@ -77,7 +77,7 @@
++   
++           /* Handle small numbers by scaling.  */
++           if (__builtin_expect ((u.parts.msw & 0x7ff00000) <= 0x02000000, 0))
++-            return __ieee754_sqrt (b * two108) * twom54;
+++            return __slow_ieee754_sqrt (b * two108) * twom54;
++ 
++ #define FMADD(a_, c_, b_)                                               \
++           ({ double __r;                                                \
++@@ -126,4 +126,12 @@
++     }
++   return f_wash (b);
++ }
+++
+++#undef __ieee754_sqrt
+++double
+++__ieee754_sqrt (double x)
+++{
+++  return __slow_ieee754_sqrt (x);
+++}
+++
++ strong_alias (__ieee754_sqrt, __sqrt_finite)
++Index: libc/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrtf.c
++===================================================================
++--- libc.orig/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrtf.c	2012-07-03 22:36:01.176386435 -0700
+++++ libc/sysdeps/powerpc/powerpc64/e5500/fpu/e_sqrtf.c	2012-07-03 23:13:52.732496373 -0700
++@@ -38,7 +38,7 @@
++    square root.  */
++ 
++ float
++-__ieee754_sqrtf (float b)
+++__slow_ieee754_sqrtf (float b)
++ {
++   if (__builtin_expect (b > 0, 1))
++     {
++@@ -93,4 +93,10 @@
++     }
++   return f_washf (b);
++ }
+++#undef __ieee754_sqrtf
+++float
+++__ieee754_sqrtf (float x)
+++{
+++  return __slow_ieee754_sqrtf (x);
+++}
++ strong_alias (__ieee754_sqrtf, __sqrtf_finite)
+diff --git a/meta/recipes-core/eglibc/eglibc-2.16/rpc-bootstrap.patch b/meta/recipes-core/eglibc/eglibc-2.16/rpc-bootstrap.patch
+new file mode 100644
+index 0000000..130a816
+--- /dev/null
++++ b/meta/recipes-core/eglibc/eglibc-2.16/rpc-bootstrap.patch
+@@ -0,0 +1,63 @@
++Upstream-Status: Pending
 +Signed-off-by: Khem Raj <raj.khem@gmail.com>
 +
-+From 98da658b6944d0bf54beb10001e567d8b8922666 Mon Sep 17 00:00:00 2001
-+From: edmarwjr <edmarwjr@138bc75d-0d04-0410-961f-82ee72b054a4>
-+Date: Wed, 6 Jun 2012 18:09:18 +0000
-+Subject: [PATCH] 2012-06-06  Edmar Wienskoski  <edmar@freescale.com>
 +
-+	* config/rs6000/rs6000-tables.opt: Regenerated.
++From libc-alpha-return-31199-listarch-libc-alpha=sources dot redhat dot com at sourceware dot org Tue Jul 03 19:54:27 2012
++Return-Path: <libc-alpha-return-31199-listarch-libc-alpha=sources dot redhat dot com at sourceware dot org>
++Delivered-To: listarch-libc-alpha at sources dot redhat dot com
++Received: (qmail 20151 invoked by alias); 3 Jul 2012 19:54:25 -0000
++Received: (qmail 20139 invoked by uid 22791); 3 Jul 2012 19:54:23 -0000
++X-SWARE-Spam-Status: No, hits=-4.8 required=5.0
++	tests=AWL,BAYES_00,KHOP_RCVD_UNTRUST,RCVD_IN_DNSWL_HI,RCVD_IN_HOSTKARMA_W,T_RP_MATCHES_RCVD
++X-Spam-Check-By: sourceware.org
++From: Mike Frysinger <vapier at gentoo dot org>
++To: libc-alpha at sourceware dot org
++Subject: [PATCH] sunrpc: fix rpc bootstrap builds
++Date: Tue,  3 Jul 2012 15:54:11 -0400
++Message-Id: <1341345251-31730-1-git-send-email-vapier@gentoo.org>
++Mailing-List: contact libc-alpha-help at sourceware dot org; run by ezmlm
++Precedence: bulk
++List-Id: <libc-alpha.sourceware.org>
++List-Subscribe: <mailto:libc-alpha-subscribe at sourceware dot org>
++List-Archive: <http://sourceware.org/ml/libc-alpha/>
++List-Post: <mailto:libc-alpha at sourceware dot org>
++List-Help: <mailto:libc-alpha-help at sourceware dot org>, <http://sourceware dot org/ml/#faqs>
++Sender: libc-alpha-owner at sourceware dot org
++Delivered-To: mailing list libc-alpha at sourceware dot org
 +
++If you build & install glibc w/rpc disabled, you no longer have headers in
++/usr/include/rpc/ (this is expected).  But if you try to build glibc w/rpc
++enabled, this gets into a bad state due to the new rpc helpers that get
++cross-compiled:
 +
++$ make
++...
++x86_64-pc-linux-gnu-gcc -m32   -D_RPC_THREAD_SAFE_ -D_GNU_SOURCE -DIS_IN_build \
++	-include $objdir/config.h rpc_clntout.c -o $objdir/sunrpc/cross-rpc_clntout.o \
++	-MMD -MP -MF $objdir/sunrpc/cross-rpc_clntout.o.dt -MT $objdir/sunrpc/cross-rpc_clntout.o -c
++rpc_clntout.c:34:23: fatal error: rpc/types.h: No such file or directory
++compilation terminated.
++make: *** [$objdir/sunrpc/cross-rpc_clntout.o] Error 1
 +
-+git-svn-id: svn+ssh://gcc.gnu.org/svn/gcc/trunk@188274 138bc75d-0d04-0410-961f-82ee72b054a4
++Signed-off-by: Mike Frysinger <vapier@gentoo.org>
++
++2012-07-03  Mike Frysinger  <vapier@gentoo.org>
++
++	* sunrpc/rpc_clntout.c: Change <rpc/types.h> to "rpc/types.h".
 +---
-+ gcc/ChangeLog                       |    4 +++
-+ gcc/config/rs6000/rs6000-tables.opt |   58 +++++++++++++++++++----------------
-+ 2 files changed, 36 insertions(+), 26 deletions(-)
++ sunrpc/rpc_clntout.c |    2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
 +
-+Index: git/gcc/config/rs6000/rs6000-tables.opt
++Index: libc/sunrpc/rpc_clntout.c
 +===================================================================
-+--- git.orig/gcc/config/rs6000/rs6000-tables.opt	2012-07-06 20:54:29.000000000 -0700
-++++ git/gcc/config/rs6000/rs6000-tables.opt	2012-07-06 20:58:12.436646819 -0700
-+@@ -126,80 +126,86 @@
-+ Enum(rs6000_cpu_opt_value) String(e500mc64) Value(32)
-+ 
-+ EnumValue
-+-Enum(rs6000_cpu_opt_value) String(860) Value(33)
-++Enum(rs6000_cpu_opt_value) String(e5500) Value(33)
-+ 
-+ EnumValue
-+-Enum(rs6000_cpu_opt_value) String(970) Value(34)
-++Enum(rs6000_cpu_opt_value) String(e6500) Value(34)
-+ 
-+ EnumValue
-+-Enum(rs6000_cpu_opt_value) String(cell) Value(35)
-++Enum(rs6000_cpu_opt_value) String(860) Value(35)
-+ 
-+ EnumValue
-+-Enum(rs6000_cpu_opt_value) String(common) Value(36)
-++Enum(rs6000_cpu_opt_value) String(970) Value(36)
-+ 
-+ EnumValue
-+-Enum(rs6000_cpu_opt_value) String(ec603e) Value(37)
-++Enum(rs6000_cpu_opt_value) String(cell) Value(37)
-+ 
-+ EnumValue
-+-Enum(rs6000_cpu_opt_value) String(G3) Value(38)
-++Enum(rs6000_cpu_opt_value) String(common) Value(38)
-+ 
-+ EnumValue
-+-Enum(rs6000_cpu_opt_value) String(G4) Value(39)
-++Enum(rs6000_cpu_opt_value) String(ec603e) Value(39)
-+ 
-+ EnumValue
-+-Enum(rs6000_cpu_opt_value) String(G5) Value(40)
-++Enum(rs6000_cpu_opt_value) String(G3) Value(40)
-+ 
-+ EnumValue
-+-Enum(rs6000_cpu_opt_value) String(titan) Value(41)
-++Enum(rs6000_cpu_opt_value) String(G4) Value(41)
-+ 
-+ EnumValue
-+-Enum(rs6000_cpu_opt_value) String(power) Value(42)
-++Enum(rs6000_cpu_opt_value) String(G5) Value(42)
-+ 
-+ EnumValue
-+-Enum(rs6000_cpu_opt_value) String(power2) Value(43)
-++Enum(rs6000_cpu_opt_value) String(titan) Value(43)
-+ 
-+ EnumValue
-+-Enum(rs6000_cpu_opt_value) String(power3) Value(44)
-++Enum(rs6000_cpu_opt_value) String(power) Value(44)
-+ 
-+ EnumValue
-+-Enum(rs6000_cpu_opt_value) String(power4) Value(45)
-++Enum(rs6000_cpu_opt_value) String(power2) Value(45)
-+ 
-+ EnumValue
-+-Enum(rs6000_cpu_opt_value) String(power5) Value(46)
-++Enum(rs6000_cpu_opt_value) String(power3) Value(46)
-+ 
-+ EnumValue
-+-Enum(rs6000_cpu_opt_value) String(power5+) Value(47)
-++Enum(rs6000_cpu_opt_value) String(power4) Value(47)
-+ 
-+ EnumValue
-+-Enum(rs6000_cpu_opt_value) String(power6) Value(48)
-++Enum(rs6000_cpu_opt_value) String(power5) Value(48)
-+ 
-+ EnumValue
-+-Enum(rs6000_cpu_opt_value) String(power6x) Value(49)
-++Enum(rs6000_cpu_opt_value) String(power5+) Value(49)
-+ 
-+ EnumValue
-+-Enum(rs6000_cpu_opt_value) String(power7) Value(50)
-++Enum(rs6000_cpu_opt_value) String(power6) Value(50)
-+ 
-+ EnumValue
-+-Enum(rs6000_cpu_opt_value) String(powerpc) Value(51)
-++Enum(rs6000_cpu_opt_value) String(power6x) Value(51)
-+ 
-+ EnumValue
-+-Enum(rs6000_cpu_opt_value) String(powerpc64) Value(52)
-++Enum(rs6000_cpu_opt_value) String(power7) Value(52)
-+ 
-+ EnumValue
-+-Enum(rs6000_cpu_opt_value) String(rios) Value(53)
-++Enum(rs6000_cpu_opt_value) String(powerpc) Value(53)
-+ 
-+ EnumValue
-+-Enum(rs6000_cpu_opt_value) String(rios1) Value(54)
-++Enum(rs6000_cpu_opt_value) String(powerpc64) Value(54)
-+ 
-+ EnumValue
-+-Enum(rs6000_cpu_opt_value) String(rios2) Value(55)
-++Enum(rs6000_cpu_opt_value) String(rios) Value(55)
-+ 
-+ EnumValue
-+-Enum(rs6000_cpu_opt_value) String(rsc) Value(56)
-++Enum(rs6000_cpu_opt_value) String(rios1) Value(56)
-+ 
-+ EnumValue
-+-Enum(rs6000_cpu_opt_value) String(rsc1) Value(57)
-++Enum(rs6000_cpu_opt_value) String(rios2) Value(57)
-+ 
-+ EnumValue
-+-Enum(rs6000_cpu_opt_value) String(rs64) Value(58)
-++Enum(rs6000_cpu_opt_value) String(rsc) Value(58)
-++
-++EnumValue
-++Enum(rs6000_cpu_opt_value) String(rsc1) Value(59)
-++
-++EnumValue
-++Enum(rs6000_cpu_opt_value) String(rs64) Value(60)
-+ 
++--- libc.orig/sunrpc/rpc_clntout.c	2012-07-04 16:09:16.000000000 -0700
+++++ libc/sunrpc/rpc_clntout.c	2012-07-04 18:04:34.498085075 -0700
++@@ -31,7 +31,7 @@
++  */
++ #include <stdio.h>
++ #include <string.h>
++-#include <rpc/types.h>
+++#include "rpc/types.h"
++ #include "rpc_parse.h"
++ #include "rpc_util.h"
++ #include "proto.h"
+diff --git a/meta/recipes-core/eglibc/eglibc-2.16/use-sysroot-cxx-headers.patch b/meta/recipes-core/eglibc/eglibc-2.16/use-sysroot-cxx-headers.patch
+new file mode 100644
+index 0000000..7f82253
+--- /dev/null
++++ b/meta/recipes-core/eglibc/eglibc-2.16/use-sysroot-cxx-headers.patch
+@@ -0,0 +1,42 @@
++build system of glibc currently adds the cxx headers path by detecting
++it using provided CXX and expects that they are installed w.r.t to standard
++installation location but in OE we install and use cxx headers from target
++sysroot therefore that code needs to be adapted for OE
++
++Upstream-Status: Inappropriate [OE-specific]
++
++-Khem
++
++
++--- a/configure.in
+++++ b/configure.in
++@@ -1094,11 +1094,10 @@ if test -n "$sysheaders"; then
++ -isystem `echo $sysheaders | sed 's/:/ -isystem /g'`"
++   if test -n "$CXX"; then
++     CXX_SYSINCLUDES=
++-    cxxversion=`$CXX -dumpversion 2>&AS_MESSAGE_LOG_FD` &&
++     cxxmachine=`$CXX -dumpmachine 2>&AS_MESSAGE_LOG_FD` &&
++     for d in include "$cxxmachine/include"; do
++-      i=../../../../$d/c++/$cxxversion
++-      cxxheaders=`$CXX -print-file-name="$i"` &&
+++      i="$prefix/$d/c++"
+++      cxxheaders=`$CXX -print-sysroot`"$i" &&
++       test "x$cxxheaders" != x && test "x$i" != "x$cxxheaders" &&
++       CXX_SYSINCLUDES="$CXX_SYSINCLUDES -isystem $cxxheaders \
++ -isystem $cxxheaders/$cxxmachine -isystem $cxxheaders/backward"
++--- a/configure
+++++ b/configure
++@@ -5618,11 +5618,10 @@ if test -n "$sysheaders"; then
++ -isystem `echo $sysheaders | sed 's/:/ -isystem /g'`"
++   if test -n "$CXX"; then
++     CXX_SYSINCLUDES=
++-    cxxversion=`$CXX -dumpversion 2>&5` &&
++     cxxmachine=`$CXX -dumpmachine 2>&5` &&
++     for d in include "$cxxmachine/include"; do
++-      i=../../../../$d/c++/$cxxversion
++-      cxxheaders=`$CXX -print-file-name="$i"` &&
+++      i="$prefix/$d/c++"
+++      cxxheaders=`$CXX -print-sysroot`"$i" &&
++       test "x$cxxheaders" != x && test "x$i" != "x$cxxheaders" &&
++       CXX_SYSINCLUDES="$CXX_SYSINCLUDES -isystem $cxxheaders \
++ -isystem $cxxheaders/$cxxmachine -isystem $cxxheaders/backward"
+diff --git a/meta/recipes-core/eglibc/eglibc-initial_2.16.bb b/meta/recipes-core/eglibc/eglibc-initial_2.16.bb
+new file mode 100644
+index 0000000..787c762
+--- /dev/null
++++ b/meta/recipes-core/eglibc/eglibc-initial_2.16.bb
+@@ -0,0 +1,6 @@
++require eglibc_${PV}.bb
++require eglibc-initial.inc
++
++do_configure_prepend () {
++        unset CFLAGS
++}
+diff --git a/meta/recipes-core/eglibc/eglibc-locale_2.16.bb b/meta/recipes-core/eglibc/eglibc-locale_2.16.bb
+new file mode 100644
+index 0000000..ce6c1d2
+--- /dev/null
++++ b/meta/recipes-core/eglibc/eglibc-locale_2.16.bb
+@@ -0,0 +1 @@
++require eglibc-locale.inc
+diff --git a/meta/recipes-core/eglibc/eglibc_2.16.bb b/meta/recipes-core/eglibc/eglibc_2.16.bb
+new file mode 100644
+index 0000000..c005889
+--- /dev/null
++++ b/meta/recipes-core/eglibc/eglibc_2.16.bb
+@@ -0,0 +1,146 @@
++require eglibc.inc
++
++SRCREV = "19383"
++
++DEPENDS += "gperf-native"
++PR = "r0"
++PR_append = "+svnr${SRCPV}"
++
++EGLIBC_BRANCH="eglibc-2_16"
++SRC_URI = "svn://www.eglibc.org/svn/branches/;module=${EGLIBC_BRANCH};proto=http \
++           file://eglibc-svn-arm-lowlevellock-include-tls.patch \
++           file://IO-acquire-lock-fix.patch \
++           file://mips-rld-map-check.patch \
++           file://etc/ld.so.conf \
++           file://generate-supported.mk \
++           file://ppc-sqrt.patch \
++           file://multilib_readlib.patch \
++           file://use-sysroot-cxx-headers.patch \
++           file://ppc-sqrt_finite.patch \
++           file://GLRO_dl_debug_mask.patch \
++           file://initgroups_keys.patch \
++           file://eglibc_fix_findidx_parameters.patch \
++           file://ppc_slow_ieee754_sqrt.patch \
++           file://rpc-bootstrap.patch \
++          "
++LIC_FILES_CHKSUM = "file://LICENSES;md5=98a1128c4b58120182cbea3b1752d8b9 \
++      file://COPYING;md5=393a5ca445f6965873eca0259a17f833 \
++      file://posix/rxspencer/COPYRIGHT;md5=dc5485bb394a13b2332ec1c785f5d83a \
++      file://COPYING.LIB;md5=bbb461211a33b134d42ed5ee802b37ff "
++
++SRC_URI_append_virtclass-nativesdk = " file://ld-search-order.patch"
++S = "${WORKDIR}/${EGLIBC_BRANCH}/libc"
++B = "${WORKDIR}/build-${TARGET_SYS}"
++
++PACKAGES_DYNAMIC = "libc6*"
++RPROVIDES_${PN}-dev = "libc6-dev virtual-libc-dev"
++PROVIDES_${PN}-dbg = "glibc-dbg"
++
++# the -isystem in bitbake.conf screws up glibc do_stage
++BUILD_CPPFLAGS = "-I${STAGING_INCDIR_NATIVE}"
++TARGET_CPPFLAGS = "-I${STAGING_DIR_TARGET}${includedir}"
++
++GLIBC_BROKEN_LOCALES = " _ER _ET so_ET yn_ER sid_ET tr_TR mn_MN gez_ET gez_ER bn_BD te_IN es_CR.ISO-8859-1"
++
++FILESPATH = "${@base_set_filespath([ '${FILE_DIRNAME}/eglibc-${PV}', '${FILE_DIRNAME}/eglibc', '${FILE_DIRNAME}/files', '${FILE_DIRNAME}' ], d)}"
++
++#
++# For now, we will skip building of a gcc package if it is a uclibc one
++# and our build is not a uclibc one, and we skip a glibc one if our build
++# is a uclibc build.
++#
++# See the note in gcc/gcc_3.4.0.oe
++#
++
++python __anonymous () {
++    import bb, re
++    uc_os = (re.match('.*uclibc$', d.getVar('TARGET_OS', True)) != None)
++    if uc_os:
++        raise bb.parse.SkipPackage("incompatible with target %s" %
++                                   d.getVar('TARGET_OS', True))
++}
++
++export libc_cv_slibdir = "${base_libdir}"
++
++EXTRA_OECONF = "--enable-kernel=${OLDEST_KERNEL} \
++                --without-cvs --disable-profile \
++                --disable-debug --without-gd \
++                --enable-clocale=gnu \
++                --enable-add-ons \
++                --with-headers=${STAGING_INCDIR} \
++                --without-selinux \
++                --enable-obsolete-rpc \
++                ${GLIBC_EXTRA_OECONF}"
++
++EXTRA_OECONF += "${@get_libc_fpu_setting(bb, d)}"
++
++do_unpack_append() {
++	bb.build.exec_func('do_move_ports', d)
++}
++
++do_move_ports() {
++        if test -d ${WORKDIR}/${EGLIBC_BRANCH}/ports ; then
++	    rm -rf ${S}/ports
++	    mv ${WORKDIR}/${EGLIBC_BRANCH}/ports ${S}/
++	fi
++}
++
++do_patch_append() {
++	bb.build.exec_func('do_fix_readlib_c', d)
++}
++
++# for mips eglibc now builds syscall tables for all abi's
++# so we make sure that we choose right march option which is
++# compatible with o32,n32 and n64 abi's
++# e.g. -march=mips32 is not compatible with n32 and n64 therefore
++# we filter it out in such case -march=from-abi which will be
++# mips1 when using o32 and mips3 when using n32/n64
++
++TUNE_CCARGS_mips := "${@oe_filter_out('-march=mips32', '${TUNE_CCARGS}', d)}"
++TUNE_CCARGS_mipsel := "${@oe_filter_out('-march=mips32', '${TUNE_CCARGS}', d)}"
++
++do_fix_readlib_c () {
++	sed -i -e 's#OECORE_KNOWN_INTERPRETER_NAMES#${EGLIBC_KNOWN_INTERPRETER_NAMES}#' ${S}/elf/readlib.c
++}
++
++do_configure () {
++# override this function to avoid the autoconf/automake/aclocal/autoheader
++# calls for now
++# don't pass CPPFLAGS into configure, since it upsets the kernel-headers
++# version check and doesn't really help with anything
++        if [ -z "`which rpcgen`" ]; then
++                echo "rpcgen not found.  Install glibc-devel."
++                exit 1
++        fi
++        (cd ${S} && gnu-configize) || die "failure in running gnu-configize"
++        find ${S} -name "configure" | xargs touch
++        CPPFLAGS="" oe_runconf
++}
++
++rpcsvc = "bootparam_prot.x nlm_prot.x rstat.x \
++	  yppasswd.x klm_prot.x rex.x sm_inter.x mount.x \
++	  rusers.x spray.x nfs_prot.x rquota.x key_prot.x"
++
++do_compile () {
++	# -Wl,-rpath-link <staging>/lib in LDFLAGS can cause breakage if another glibc is in staging
++	unset LDFLAGS
++	base_do_compile
++	(
++		cd ${S}/sunrpc/rpcsvc
++		for r in ${rpcsvc}; do
++			h=`echo $r|sed -e's,\.x$,.h,'`
++			rpcgen -h $r -o $h || bbwarn "unable to generate header for $r"
++		done
++	)
++	echo "Adjust ldd script"
++	if [ -n "${RTLDLIST}" ]
++	then
++		sed -i ${B}/elf/ldd -e 's#^\(RTLDLIST=\)"\(.*\)"$#\1\2#'
++		sed -i ${B}/elf/ldd -e 's#^\(RTLDLIST=\)\(.*\)$#\1"${RTLDLIST} \2"#'
++	fi
++
++}
++
++require eglibc-package.inc
++
++BBCLASSEXTEND = "nativesdk"
 -- 
 1.7.9.5
 
