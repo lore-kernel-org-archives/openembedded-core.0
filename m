@@ -1,32 +1,35 @@
-Received: from comal.ext.ti.com ([198.47.26.152])
+Received: from astoria.ccjclearline.com ([64.235.106.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <a0273011@sdit-build02.dal.design.ti.com>)
-	id 1SoFh5-0005eV-HU for openembedded-core@lists.openembedded.org;
-	Mon, 09 Jul 2012 17:16:11 +0200
-Received: from dlelxv30.itg.ti.com ([172.17.2.17])
-	by comal.ext.ti.com (8.13.7/8.13.7) with ESMTP id q69F2QWn011001
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 9 Jul 2012 10:02:26 -0500
-Received: from DFLE71.ent.ti.com (dfle71.ent.ti.com [128.247.5.62])
-	by dlelxv30.itg.ti.com (8.13.8/8.13.8) with ESMTP id q69F2Q5l012354
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 9 Jul 2012 10:02:26 -0500
-Received: from dlelxv22.itg.ti.com (172.17.1.197) by dfle71.ent.ti.com
-	(128.247.5.62) with Microsoft SMTP Server id 14.1.323.3; Mon, 9 Jul 2012
-	10:02:26 -0500
-Received: from sdit-build02.dal.design.ti.com (sdit-build02.dal.design.ti.com
-	[10.247.66.5])	by dlelxv22.itg.ti.com (8.13.8/8.13.8) with ESMTP id
-	q69F2PLq011137;	Mon, 9 Jul 2012 10:02:25 -0500
-Received: from a0273011 by sdit-build02.dal.design.ti.com with local (Exim
-	4.71)	(envelope-from <a0273011@sdit-build02.dal.design.ti.com>)	id
-	1SoFsJ-0007rx-Da; Mon, 09 Jul 2012 10:27:47 -0500
-From: Franklin S Cooper Jr <fcooper@ti.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 9 Jul 2012 10:27:44 -0500
-Message-ID: <1341847664-30221-1-git-send-email-fcooper@ti.com>
-X-Mailer: git-send-email 1.7.0.4
+	(envelope-from <rpjday@crashcourse.ca>) id 1SoG04-0005ow-1B
+	for openembedded-core@lists.openembedded.org;
+	Mon, 09 Jul 2012 17:35:48 +0200
+Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
+	([99.241.91.63]:45067 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.77) (envelope-from <rpjday@crashcourse.ca>)
+	id 1SoFpH-0003qS-4s for openembedded-core@lists.openembedded.org;
+	Mon, 09 Jul 2012 11:24:39 -0400
+Date: Mon, 9 Jul 2012 11:24:27 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@oneiric
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <CAK18fxFo2YtoGNQEtLNh8cVPvxKebGYYKQSEVCPxXmWsTfU3Gg@mail.gmail.com>
+Message-ID: <alpine.DEB.2.02.1207091120520.1353@oneiric>
+References: <alpine.DEB.2.02.1207071435090.25344@oneiric>
+	<CAK18fxFo2YtoGNQEtLNh8cVPvxKebGYYKQSEVCPxXmWsTfU3Gg@mail.gmail.com>
+User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
 MIME-Version: 1.0
-Subject: [PATCH] psplash - Update to latest psplash version. LIC_CHKSUM Tweak
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Subject: Re: setting EXTRA_IMAGE_FEATURES explicitly in .bb file can screw things up
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,39 +44,107 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Jul 2012 15:16:11 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 09 Jul 2012 15:35:48 -0000
+Content-Type: MULTIPART/MIXED; BOUNDARY="8323329-1605556598-1341847469=:1353"
 
-* Update psplash to the latest version.
-* Change the license checksum to use the lines in the psplash.h that contains
-  license information instead of doing a checksum on the entire file.
+--8323329-1605556598-1341847469=:1353
+Content-Type: TEXT/PLAIN; charset=ISO-8859-1
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 
-Signed-off-by: Franklin S Cooper Jr <fcooper@ti.com>
----
- meta/recipes-core/psplash/psplash_git.bb |    6 +++---
- 1 files changed, 3 insertions(+), 3 deletions(-)
+On Mon, 9 Jul 2012, Andrei Gherzan wrote:
 
-diff --git a/meta/recipes-core/psplash/psplash_git.bb b/meta/recipes-core/psplash/psplash_git.bb
-index 0d88a60..f9b77de 100644
---- a/meta/recipes-core/psplash/psplash_git.bb
-+++ b/meta/recipes-core/psplash/psplash_git.bb
-@@ -3,11 +3,11 @@ DESCRIPTION = "PSplash is a userspace graphical boot splash screen for mainly em
- HOMEPAGE = "http://git.yoctoproject.org/cgit/cgit.cgi/psplash"
- SECTION = "base"
- LICENSE = "GPLv2+"
--LIC_FILES_CHKSUM = "file://psplash.h;md5=a87c39812c1e37f3451567cc29a29c8f"
-+LIC_FILES_CHKSUM = "file://psplash.h;beginline=1;endline=16;md5=840fb2356b10a85bed78dd09dc7745c6"
- 
--SRCREV = "e05374aae945bcfc6d962ed0d7b2774b77987e1d"
-+SRCREV = "84764337a584002a92940323d374b0e417c573a6"
- PV = "0.1+git${SRCPV}"
--PR = "r2"
-+PR = "r3"
- 
- SRC_URI = "git://git.yoctoproject.org/${BPN};protocol=git \
-            file://psplash-init \
--- 
-1.7.0.4
+> On Sat, Jul 7, 2012 at 9:52 PM, Robert P. J. Day <rpjday@crashcourse.ca> =
+wrote:
+>
+>       =A0 a while back, i whined about the inconsistent usage of
+>       EXTRA_IMAGE_FEATURES, like this as a snippet:
+>
+>       meta/recipes-sato/images/core-image-sato-sdk.bb:EXTRA_IMAGE_FEATURE=
+S +=3D "tools-debug tools-profile tools-testapps
+>       debug-tweaks"
+>       meta/recipes-rt/images/core-image-rt-sdk.bb:EXTRA_IMAGE_FEATURES +=
+=3D "tools-debug tools-profile tools-testapps
+>       debug-tweaks"
+>       meta/recipes-extended/images/core-image-lsb-sdk.bb:EXTRA_IMAGE_FEAT=
+URES =3D "tools-debug tools-profile tools-testapps
+>       debug-tweaks"
+>
+>       notice the mixing of "+=3D" and "=3D", which seems messy. =A0then i=
+ ran
+>       across this in core-image-lsb-sdk.bb:
+>
+>       IMAGE_FEATURES +=3D "apps-console-core tools-sdk dev-pkgs ssh-serve=
+r-openssh"
+>       EXTRA_IMAGE_FEATURES =3D "tools-debug tools-profile tools-testapps =
+debug-tweaks"
+>
+>       =A0 that *can't* be right, can it? =A0the explicit setting of
+>       EXTRA_IMAGE_FEATURES in that recipe file will override any such
+>       setting in one's local.conf file, won't it? =A0and that's how the
+>       current manual *advises* how to add more features through your
+>       local.conf.
+>
+>       =A0 i tested this target with a standard local.conf, and checked th=
+e
+>       environment to see:
+>
+>       ... snip ...
+>       IMAGE_FEATURES=3D"apps-console-core debug-tweaks tools-sdk
+>       tools-testapps dev-pkgs tools-profile tools-debug ssh-server-openss=
+h"
+>
+>       which looks fine according to the .bb file.
+>
+>       =A0 but if i add the following to my local.conf file (as the manual
+>       suggests i do to add another feature):
+>
+>       EXTRA_IMAGE_FEATURES =3D "nfs-server"
+>
+>       i see *no* difference in the environment. =A0hasn't the setting in =
+the
+>       .bb file overridden the one in my local.conf?
+>
+>       =A0 i *can* get nfs-server added to my list of features with
+>       (predictably):
+>
+>       IMAGE_FEATURES +=3D "nfs-server"
+>
+>       but that doesn't strike me as a proper solution and will certainly
+>       come as an unpleasant surprise to someone eventually. =A0thoughts?
+>
+>
+> I agree that there is a problem with this image. Anyway the best way
+> to debug a scenario like this is to use bitbake -e and grep on the
+> thing you are interested in. I=A0tried=A0to add a feature to local conf
+> and, as i expected,=A0EXTRA_IMAGE_FEATURES ended up overwritten by
+> recipe.=A0
+>
+> So IMHO the=A0EXTRA_IMAGE_FEATURES variable in the image should be
+> merged in the IMAGE_FEATURES above. I don't see the meaning of it.=A0
 
+  yup, that was precisely the point i was making.  so given the
+potential for confusion, what should be the "best practise" here?
+based on my sketchy understanding, it seems the proper approach would
+be to let recipe files use IMAGE_FEATURES exclusively, while
+specifically reserving EXTRA_IMAGE_FEATURES for the developer's
+local.conf file, and avoid the current unpleasant mixing.
 
+  thoughts?
 
+rday
+
+--=20
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+--8323329-1605556598-1341847469=:1353--
