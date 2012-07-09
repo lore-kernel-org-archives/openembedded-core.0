@@ -1,35 +1,19 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1SoFUm-0005Nf-2d for openembedded-core@lists.openembedded.org;
-	Mon, 09 Jul 2012 17:03:28 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q69EqJhJ008377
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 9 Jul 2012 15:52:19 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 08270-01 for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Jul 2012 15:52:15 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q69EqCqM008371
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 9 Jul 2012 15:52:13 +0100
-Message-ID: <1341845534.8066.21.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Mon, 09 Jul 2012 15:52:14 +0100
-In-Reply-To: <4FFAD7C2.5040309@windriver.com>
-References: <cover.1341601764.git.mark.hatle@windriver.com>
-	<ba80d76cae689a4023327da4e38a83e1c5c88306.1341601764.git.mark.hatle@windriver.com>
-	<1341830385.8066.8.camel@ted> <4FFAD7C2.5040309@windriver.com>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 2/3] multilib: Enable multilib remapping for SDK generation
+Received: from mail.windriver.com ([147.11.1.11])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <bruce.ashfield@windriver.com>) id 1SoFbe-0005TD-0R
+	for openembedded-core@lists.openembedded.org;
+	Mon, 09 Jul 2012 17:10:34 +0200
+Received: from yow-bashfiel-l1.wrs.com (yow-bashfiel-d3.wrs.com
+	[128.224.147.67])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q69ExLVE001403;
+	Mon, 9 Jul 2012 07:59:21 -0700 (PDT)
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: richard.purdie@linuxfoundation.org
+Date: Mon,  9 Jul 2012 10:59:05 -0400
+Message-Id: <cover.1341845577.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 1.7.5.4
+Cc: openembedded-core@lists.openembedded.org, saul.wold@intel.com
+Subject: [PATCH 0/1] linux-yocto: update 3.4 SRCREVs (perf + unionfs fix)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,57 +28,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Jul 2012 15:03:28 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 09 Jul 2012 15:10:34 -0000
 
-On Mon, 2012-07-09 at 08:08 -0500, Mark Hatle wrote:
-> On 7/9/12 5:39 AM, Richard Purdie wrote:
-> > On Fri, 2012-07-06 at 14:14 -0500, Mark Hatle wrote:
-> >> Enable the remapping for SDK generation, this is required to be able to
-> >> create an SDK that targets an alternative multilib.  Note, this work does
-> >> not finish SDK/multilib support, but it is one more step toward making
-> >> it work properly.
-> >>
-> >> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
-> >> ---
-> >>   meta/classes/multilib.bbclass |    6 ++++++
-> >>   1 files changed, 6 insertions(+), 0 deletions(-)
-> >>
-> >> diff --git a/meta/classes/multilib.bbclass b/meta/classes/multilib.bbclass
-> >> index f3e7618..b92a3ff 100644
-> >> --- a/meta/classes/multilib.bbclass
-> >> +++ b/meta/classes/multilib.bbclass
-> >> @@ -54,6 +54,12 @@ python __anonymous () {
-> >>           d.setVar("LINGUAS_INSTALL", "")
-> >>           # FIXME, we need to map this to something, not delete it!
-> >>           d.setVar("PACKAGE_INSTALL_ATTEMPTONLY", "")
-> >> +
-> >> +    if bb.data.inherits_class('populate_sdk_base', d):
-> >> +        clsextend.map_depends_variable("TOOLCHAIN_TARGET_TASK")
-> >> +        clsextend.map_depends_variable("TOOLCHAIN_TARGET_TASK_ATTEMPTONLY")
-> >> +
-> >> +    if bb.data.inherits_class('image', d) or bb.data.inherits_class('populate_sdk_base', d):
-> >>           return
-> >>
-> >
-> > There is something odd going on with this patch. You've removed the
-> > earlier return but this patch doesn't show that...
-> 
-> I didn't remove it, I 'moved' it later.  Otherwise the populate_sdk_base case is 
-> never run, when the image case has already been loaded.
-> 
-> So the flow goes from:
+Saul/Richard,
 
-I understand this. Let me put this in a simpler way. Could you send a
-patch that cleanly applies against master please? There is something
-wrong with it and it doesn't apply.
+I was waiting on the resend of Tom's perf series to send the updated
+kernel parts for this. That's out, and the kernel parts now need to
+be updated.
+
+I've also staged a unionfs build fix along with the perf updates.
 
 Cheers,
 
-Richard
+Bruce
 
+cc: Tom Zanussi <tom.zanussi@intel.com>
 
+The following changes since commit f40ce3e1f4ceebc90b3c058dc82750829149c21d:
+
+  package_rpm: Avoid duplicate package generation failures (2012-07-09 11:38:02 +0100)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib zedd/kernel
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+
+Bruce Ashfield (1):
+  linux-yocto/3.4: perf scripting & unionfs fixes
+
+ meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb |    6 +++---
+ meta/recipes-kernel/linux/linux-yocto_3.4.bb    |   14 +++++++-------
+ 2 files changed, 10 insertions(+), 10 deletions(-)
+
+-- 
+1.7.5.4
 
 
 
