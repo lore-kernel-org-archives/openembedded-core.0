@@ -1,30 +1,29 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1SoCjH-0007kC-OZ for openembedded-core@lists.openembedded.org;
-	Mon, 09 Jul 2012 14:06:15 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q69Bt7Do007411
+Received: from mail.windriver.com ([147.11.1.11])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <mark.hatle@windriver.com>) id 1SoDs2-0000ot-IA
+	for openembedded-core@lists.openembedded.org;
+	Mon, 09 Jul 2012 15:19:22 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q69D8BiQ011939
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 9 Jul 2012 12:55:07 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 06451-04 for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Jul 2012 12:55:01 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q69Bt0tf007392
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 9 Jul 2012 12:55:01 +0100
-Message-ID: <1341834900.8066.9.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Mon, 09 Jul 2012 12:55:00 +0100
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: [PATCH] ccache: Ensure CCACHE_DIR is cleaned by do_clean task
+	Mon, 9 Jul 2012 06:08:11 -0700 (PDT)
+Received: from Marks-MacBook-Pro.local (172.25.36.229) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.1.255.0; Mon, 9 Jul 2012 06:08:11 -0700
+Message-ID: <4FFAD7C2.5040309@windriver.com>
+Date: Mon, 9 Jul 2012 08:08:18 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7;
+	rv:13.0) Gecko/20120614 Thunderbird/13.0.1
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1341601764.git.mark.hatle@windriver.com>
+	<ba80d76cae689a4023327da4e38a83e1c5c88306.1341601764.git.mark.hatle@windriver.com>
+	<1341830385.8066.8.camel@ted>
+In-Reply-To: <1341830385.8066.8.camel@ted>
+Subject: Re: [PATCH 2/3] multilib: Enable multilib remapping for SDK generation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,26 +38,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Jul 2012 12:06:16 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 09 Jul 2012 13:19:23 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-This ensures a rebuild does really build from scratch when ccache is in use.
+On 7/9/12 5:39 AM, Richard Purdie wrote:
+> On Fri, 2012-07-06 at 14:14 -0500, Mark Hatle wrote:
+>> Enable the remapping for SDK generation, this is required to be able to
+>> create an SDK that targets an alternative multilib.  Note, this work does
+>> not finish SDK/multilib support, but it is one more step toward making
+>> it work properly.
+>>
+>> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+>> ---
+>>   meta/classes/multilib.bbclass |    6 ++++++
+>>   1 files changed, 6 insertions(+), 0 deletions(-)
+>>
+>> diff --git a/meta/classes/multilib.bbclass b/meta/classes/multilib.bbclass
+>> index f3e7618..b92a3ff 100644
+>> --- a/meta/classes/multilib.bbclass
+>> +++ b/meta/classes/multilib.bbclass
+>> @@ -54,6 +54,12 @@ python __anonymous () {
+>>           d.setVar("LINGUAS_INSTALL", "")
+>>           # FIXME, we need to map this to something, not delete it!
+>>           d.setVar("PACKAGE_INSTALL_ATTEMPTONLY", "")
+>> +
+>> +    if bb.data.inherits_class('populate_sdk_base', d):
+>> +        clsextend.map_depends_variable("TOOLCHAIN_TARGET_TASK")
+>> +        clsextend.map_depends_variable("TOOLCHAIN_TARGET_TASK_ATTEMPTONLY")
+>> +
+>> +    if bb.data.inherits_class('image', d) or bb.data.inherits_class('populate_sdk_base', d):
+>>           return
+>>
+>
+> There is something odd going on with this patch. You've removed the
+> earlier return but this patch doesn't show that...
 
-[YOCTO #2696]
+I didn't remove it, I 'moved' it later.  Otherwise the populate_sdk_base case is 
+never run, when the image case has already been loaded.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-diff --git a/meta/classes/ccache.bbclass b/meta/classes/ccache.bbclass
-index 5aa2da2..cd06a4b 100644
---- a/meta/classes/ccache.bbclass
-+++ b/meta/classes/ccache.bbclass
-@@ -4,3 +4,5 @@ CCACHE_DISABLE[unexport] = "1"
- 
- do_configure[dirs] =+ "${CCACHE_DIR}"
- do_kernel_configme[dirs] =+ "${CCACHE_DIR}"
-+
-+do_clean[cleandirs] += "${CCACHE_DIR}"
+So the flow goes from:
+
+if image class:
+   do work
+   return
+
+do other stuff
+
+to
+
+if image class:
+   do work
+
+if sdk class:
+   do other work
+
+if either image or sdk class:
+   return
+
+do other stuff
+
+The behavior is the same for the image only class, the only new behavior is 
+adding in the remap for the SDK only (or combined w/ the image) case.
+
+--Mark
+
+> Cheers,
+>
+> Richard
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
 
 
