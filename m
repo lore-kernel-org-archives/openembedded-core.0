@@ -1,46 +1,39 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1SoKX6-0002G5-40
+	(envelope-from <ross.burton@intel.com>) id 1SoKYc-0002JR-6Q
 	for openembedded-core@lists.openembedded.org;
-	Mon, 09 Jul 2012 22:26:12 +0200
-Received: from mail-pb0-f52.google.com ([209.85.160.52])
-	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 09 Jul 2012 13:15:00 -0700
-Received: by pbbro8 with SMTP id ro8so19286684pbb.25
+	Mon, 09 Jul 2012 22:27:46 +0200
+Received: from mail-qc0-f180.google.com ([209.85.216.180])
+	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 09 Jul 2012 13:16:35 -0700
+Received: by qcmv28 with SMTP id v28so6559015qcm.25
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 09 Jul 2012 13:15:00 -0700 (PDT)
+	Mon, 09 Jul 2012 13:16:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:cc:subject
-	:references:in-reply-to:content-type:content-transfer-encoding
-	:x-gm-message-state;
-	bh=GLNf1CKMePep6NKG7Z6b6IaCdl/BlfbRDwZjhFbVjJY=;
-	b=kZcbO7V3rhRtkFjGHqcXhNxFWxiSgJT4dzNokGpXxHpWBrtxmHmjNczk6zUY5py0nI
-	wMIUR+8Di8BKV4IkY8ptxf6GBRKGyC/loxvSMjn/JazdWZvyWolS7QYQCloxNizzrt05
-	bdrJSH47rfcRI1bX/TPPoRTaRsBB1WtO+INB6bM8f2cxRJIZ5b9G/JKuhLSLQ++sxuiX
-	l8tMK/QGCWQ0J2uWFOkIG8VdmxxfN7l1VS/N4Y5ANFDMPz/G8WM9MUMf6CNODvyafIRm
-	ENXol3nR/e3/EK6Ac5Y9C6RrqOi8surkuc8Dir7LcKKy/oOZ3N0ZpSui+D8p0Y6F35k3
-	zd8g==
-Received: by 10.68.217.100 with SMTP id ox4mr62396206pbc.87.1341864900212;
-	Mon, 09 Jul 2012 13:15:00 -0700 (PDT)
-Received: from [127.0.0.1] (masterfoo.zenlinux.com. [207.192.74.254])
-	by mx.google.com with ESMTPS id qd2sm28313315pbb.29.2012.07.09.13.14.56
-	(version=SSLv3 cipher=OTHER); Mon, 09 Jul 2012 13:14:58 -0700 (PDT)
-Message-ID: <4FFB3BB8.8020308@intel.com>
-Date: Mon, 09 Jul 2012 13:14:48 -0700
-From: Scott Garman <scott.a.garman@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:13.0) Gecko/20120615 Thunderbird/13.0.1
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=624Hq+PNv1qLQqkdeM0XUY9qzfVW5XpLhSnovz4us94=;
+	b=jZD6HBdAelhy+YVo8JWQMnhi3+Gh3b6gVTGXfMtTtFvyI/0UX/U71cgGEprSu3oJRp
+	qP/k4CVRdSOovhzxuAo3kWX2TFNuOb0NpxaBDPnEa+y17KRLKbNC0mpmNZuxaf6hSN5s
+	B4iTgMS7yF9k3IzKQAGDhbjlFnaXBRkAo6HaPkFSVo115ZsdKUKnUouv8azYlirOLHGx
+	ppFrjmdhVZOS74DGaDxh2KctOmZBOdWmeQAC7YkYS4RLF7QgkbdV5RsSKqdzIZ12EpN4
+	EVTC1Ewi+OYahuo4qMi2zxhaulccJ8r1sUqyy1tFSfljm5oFNiazSffGGCPGLcNPQMYE
+	YgLQ==
+Received: by 10.229.112.3 with SMTP id u3mr22114047qcp.50.1341864994168; Mon,
+	09 Jul 2012 13:16:34 -0700 (PDT)
 MIME-Version: 1.0
-To: McClintock Matthew-B29882 <B29882@freescale.com>, 
-	Patches and discussions about the oe-core layer
+Received: by 10.229.16.207 with HTTP; Mon, 9 Jul 2012 13:16:13 -0700 (PDT)
+In-Reply-To: <20120709200357.GG6308@jama.jama.net>
+References: <20120709160054.C9FA610219@opal>
+	<20120709200357.GG6308@jama.jama.net>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 9 Jul 2012 21:16:13 +0100
+Message-ID: <CAJTo0LZBrgFmeJVV1RfA+N4z6t=vBip7PzA0bVjk=gBrzAQqGA@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1336522880.git.raj.khem@gmail.com>
-	<2c51f2017955dff27ab68c1f4165309567864ee5.1336522880.git.raj.khem@gmail.com>
-	<096c4f3ac2f83fc08064afcec5a05824bb96b94e.1336522880.git.raj.khem@gmail.com>
-	<CAEsOVNfdHeAzs3ULW0UkMYCEjOptzSeBNYA=Bva9bJmEkVPp4g@mail.gmail.com>
-In-Reply-To: <CAEsOVNfdHeAzs3ULW0UkMYCEjOptzSeBNYA=Bva9bJmEkVPp4g@mail.gmail.com>
-X-Gm-Message-State: ALoCoQn49nGrNvKoN8gb2KecesXMXbmlpIwfdK7hJkK05Se9kv4PPNUk3udEd9ILpt3ChuEnIjrn
-Subject: Re: [PATCH 3/3] xserver-xorg: Fix build on powerpc
+X-Gm-Message-State: ALoCoQkdsPoXmvaxhwe3o1DQpiPnapkuT4BHL5tdu4wHtynLuGMjBs/F99jRrYNYZbX1Hhlym7eU
+Cc: openembedded-commits@lists.openembedded.org
+Subject: Re: [oe-commits] Ross Burton : connman: ship the empty plugins directory in the connman package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -55,115 +48,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Jul 2012 20:26:12 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 09 Jul 2012 20:27:46 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 07/06/2012 08:58 AM, McClintock Matthew-B29882 wrote:
-> Scott,
->
-> Can you apply this patch to denzil branch of oe-core/poky? It fixes
-> build errors for powerpc on gcc 4.6.4 as well.
->
-> -M
+On 9 July 2012 21:03, Martin Jansa <martin.jansa@gmail.com> wrote:
+> Ross: please make sure you add them in future patches
+> sgw: maybe you're using different flow then RP for merging patches, but
+> your SOB should be there too IMHO.
 
-Hi Matthew,
+I *always* forget, sorry.  Is there a way to make git do it automatically?...
 
-I've made a note of this and am going to try getting it into my 
-sgarman/denzil-next-1.2.2 branch later today, after I sort out the merge 
-issues I encountered last week with some other commits I'd like to include.
-
-Scott
-
->
-> On Tue, May 8, 2012 at 7:27 PM, Khem Raj <raj.khem@gmail.com> wrote:
->> Signed-off-by: Khem Raj <raj.khem@gmail.com>
->> ---
->>   .../xorg-xserver/xserver-xorg-1.11.2.inc           |    9 +++--
->>   .../xserver-xorg-1.11.2/gcc-47-warning.patch       |   33 ++++++++++++++++++++
->>   2 files changed, 38 insertions(+), 4 deletions(-)
->>   create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2/gcc-47-warning.patch
->>
->> diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2.inc
->> index f5fa629..6a86af4 100644
->> --- a/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2.inc
->> +++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2.inc
->> @@ -1,10 +1,11 @@
->> -SRC_URI += "file://crosscompile.patch"
->> -
->>   # Misc build failure for master HEAD
->> -SRC_URI += "file://fix_open_max_preprocessor_error.patch"
->> +SRC_URI += "file://crosscompile.patch \
->> +            file://fix_open_max_preprocessor_error.patch \
->> +            file://gcc-47-warning.patch \
->> +           "
->>
->>   SRC_URI[md5sum] = "8796fff441e5435ee36a72579008af24"
->>   SRC_URI[sha256sum] = "fa415decf02027ca278b06254ccfbcceba2a83c2741405257ebf749da4a73cf2"
->>
->> -PR = "r1"
->> +PR = "r2"
->>
->> diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2/gcc-47-warning.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2/gcc-47-warning.patch
->> new file mode 100644
->> index 0000000..ed4eaac
->> --- /dev/null
->> +++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2/gcc-47-warning.patch
->> @@ -0,0 +1,33 @@
->> +This patch fixes errors on powerpc like below
->> +
->> +| lnx_video.c: In function 'unmapVidMem':
->> +| lnx_video.c:472:24: error: cast from pointer to integer of different size [-Werror=pointer-to-int-cast]
->> +
->> +Its in 1.12 branch
->> +
->> +http://cgit.freedesktop.org/xorg/xserver/commit/?h=server-1.12-branch&id=eb3377ffb8a7baa26c9831e56ed782d48b28fa71
->> +
->> +Upstream-Status: Backport
->> +
->> +Signed-off-by: Khem Raj <raj.khem@gmail.com>
->> +
->> +Index: xorg-server-1.11.2/hw/xfree86/os-support/linux/lnx_video.c
->> +===================================================================
->> +--- xorg-server-1.11.2.orig/hw/xfree86/os-support/linux/lnx_video.c    2012-05-01 06:32:34.186489019 -0700
->> ++++ xorg-server-1.11.2/hw/xfree86/os-support/linux/lnx_video.c 2012-05-01 06:49:14.926537452 -0700
->> +@@ -469,11 +469,11 @@
->> + static void
->> + unmapVidMem(int ScreenNum, pointer Base, unsigned long Size)
->> + {
->> +-    memType alignOff = (memType)Base
->> +-      - ((memType)Base & ~(getpagesize() - 1));
->> ++    uintptr_t alignOff = (uintptr_t)Base
->> ++      - ((uintptr_t)Base & ~(getpagesize() - 1));
->> +
->> +-    DebugF("alignment offset: %lx\n",alignOff);
->> +-    munmap((caddr_t)((memType)Base - alignOff), (Size + alignOff));
->> ++    DebugF("alignment offset: %lx\n",(unsigned long)alignOff);
->> ++    munmap((void*)((uintptr_t)Base - alignOff), (Size + alignOff));
->> + }
->> +
->> +
->> --
->> 1.7.5.4
->>
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
-
-
--- 
-Scott Garman
-Embedded Linux Engineer - Yocto Project
-Intel Open Source Technology Center
-
-
+Ross
 
 
