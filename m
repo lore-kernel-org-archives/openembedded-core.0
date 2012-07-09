@@ -1,35 +1,38 @@
-Received: from astoria.ccjclearline.com ([64.235.106.9])
+Received: from mail-wi0-f171.google.com ([209.85.212.171])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpjday@crashcourse.ca>) id 1SoKpw-0002kr-NY
-	for openembedded-core@lists.openembedded.org;
-	Mon, 09 Jul 2012 22:45:41 +0200
-Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
-	([99.241.91.63]:47109 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.77) (envelope-from <rpjday@crashcourse.ca>)
-	id 1SoKfA-0003DS-CU for openembedded-core@lists.openembedded.org;
-	Mon, 09 Jul 2012 16:34:32 -0400
-Date: Mon, 9 Jul 2012 16:34:20 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@oneiric
+	(envelope-from <martin.jansa@gmail.com>)
+	id 1SoKr6-0002nx-CU; Mon, 09 Jul 2012 22:46:52 +0200
+Received: by wibhq4 with SMTP id hq4so2947468wib.6
+	for <multiple recipients>; Mon, 09 Jul 2012 13:35:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=Df8eEz2Gtm2+CaAIxGRMQ6GJ3a2/x8ZwAPbH39fPbX4=;
+	b=FWTcSfjrKJCRbNJGbRcYtdoZ8FNWnBU3uj+tKSFBXcbQqT4ZbZ7/StxQ3Kh+X/ry+R
+	TqNeIwRiddpfgmGxSXM3raGkqQ5ZfpzQjOPN//A1PGugFGD/ugdTXfXtm62fGQ3Kpsq/
+	iCSOD+jiZENBo4dYzRIEm5lx4St7ULnvdRjzjM8semqkTHtQsIcGxnR5joPqbGbsGRVF
+	kq9nPYo64JpONYGffFM0p3Q95ENw4j4UCaUJxKJmlxFCdWZVQOaZOAFuqg08+uoGmuzx
+	B/SlTDd/9yafXaOMrKD8YT5Yo/Lit+thTXOFEF4Yop0gX3J0v9lEdkiPH5vr7kLcQu6A
+	6I+g==
+Received: by 10.180.79.229 with SMTP id m5mr32351790wix.13.1341866142768;
+	Mon, 09 Jul 2012 13:35:42 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id cl8sm25192995wib.10.2012.07.09.13.35.41
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 09 Jul 2012 13:35:41 -0700 (PDT)
+Date: Mon, 9 Jul 2012 22:35:39 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <CAK18fxFD1X6tPLsXG-vwRFu-EeEZDTdeKoTKRYAvYrKJfd-_mQ@mail.gmail.com>
-Message-ID: <alpine.DEB.2.02.1207091630380.24097@oneiric>
-References: <alpine.DEB.2.02.1207081227430.27741@oneiric>
-	<CAK18fxFD1X6tPLsXG-vwRFu-EeEZDTdeKoTKRYAvYrKJfd-_mQ@mail.gmail.com>
-User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+Message-ID: <20120709203539.GH6308@jama.jama.net>
+References: <20120709160054.C9FA610219@opal>
+	<20120709200357.GG6308@jama.jama.net>
+	<CAJTo0LZBrgFmeJVV1RfA+N4z6t=vBip7PzA0bVjk=gBrzAQqGA@mail.gmail.com>
 MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Subject: Re: more pedantry -- looking to clarify layers definition, BBPATH, BBFILES, etc.
+In-Reply-To: <CAJTo0LZBrgFmeJVV1RfA+N4z6t=vBip7PzA0bVjk=gBrzAQqGA@mail.gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-commits@lists.openembedded.org
+Subject: Re: [oe-commits] Ross Burton : connman: ship the empty plugins directory in the connman package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,82 +47,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Jul 2012 20:45:41 -0000
-Content-Type: MULTIPART/MIXED; BOUNDARY="8323329-801856245-1341866062=:24097"
+X-List-Received-Date: Mon, 09 Jul 2012 20:46:52 -0000
+X-Groupsio-MsgNum: 25012
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="OgApRN/oydYDdnYz"
+Content-Disposition: inline
 
---8323329-801856245-1341866062=:24097
-Content-Type: TEXT/PLAIN; charset=ISO-8859-1
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+--OgApRN/oydYDdnYz
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 9 Jul 2012, Andrei Gherzan wrote:
+On Mon, Jul 09, 2012 at 09:16:13PM +0100, Burton, Ross wrote:
+> On 9 July 2012 21:03, Martin Jansa <martin.jansa@gmail.com> wrote:
+> > Ross: please make sure you add them in future patches
+> > sgw: maybe you're using different flow then RP for merging patches, but
+> > your SOB should be there too IMHO.
+>=20
+> I *always* forget, sorry.  Is there a way to make git do it automatically=
+?...
 
->
-> On Sun, Jul 8, 2012 at 8:59 PM, Robert P. J. Day <rpjday@crashcourse.ca> =
-wrote:
->
->       =A0 (most of this is sort of self-evident but it's not documented a=
-s
->       well as it could be so i just want to make sure i have it exactly
->       right.)
->
->       =A0 snippets of some layer.conf files:
->
->       oe-core:
->
->       BBPATH .=3D ":${LAYERDIR}"
->       BBFILES +=3D "${LAYERDIR}/recipes-*/*/*.bb"
->
->       meta-hob:
->
->       BBPATH :=3D "${BBPATH}:${LAYERDIR}"
->       BBFILES :=3D "${BBFILES} ${LAYERDIR}/recipes-*/*/*.bb"
->
->       meta-yocto:
->
->       BBPATH :=3D "${LAYERDIR}:${BBPATH}"
->       BBFILES :=3D "${BBFILES} ${LAYERDIR}/recipes-*/*/*.bb \
->       =A0 =A0 =A0 =A0 =A0 =A0 ${LAYERDIR}/recipes-*/*/*.bbappend"
->
->       =A0 note how meta-hob *appends* itself to BBPATH, while meta-yocto
->       *prepends* itself. =A0is there no possibility that this will cause =
-some
->       confusion based on how BBPATH is used to resolve the location of cl=
-ass
->       or conf files? =A0i realize you should try to avoid that sort of
->       conflict but it still seems possible that someone might choose the
->       names of some files badly and the unpredictable ordering in BBPATH
->       will cause grief, no?
->
->
-> I don't think this can cause any problems.
+Not sure if there is smarter way. I'm using aliases for commit and
+cherry-pick to always add '-s'.
 
-  are you sure?
-
-> It's all about the order the files are searched. As long as you have
-> proper priority set nothing can go wrong.
-
-  but what if two or more layers have the same priority?  then what?
-it may be that there's no issue here, i'm just pointing out the
-possibility that, given the inconsistent way layers add themelves to
-BBPATH (either prepending or appending) and the order one lists the
-layers in bblayers.conf, is there absolutely no chance that someone
-could experience unexpected behaviour given an unusual combination of
-circumstances?
-
-rday
+Cheers,
 
 --=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
+--OgApRN/oydYDdnYz
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
 
---8323329-801856245-1341866062=:24097--
+iEYEARECAAYFAk/7QJsACgkQN1Ujt2V2gByUxgCeNX2zdY/y2wjeeLe+WA5Gfjbn
+6kgAnR72kQ4vsnvYW3cZFRVUVbmDMxBK
+=uldY
+-----END PGP SIGNATURE-----
+
+--OgApRN/oydYDdnYz--
