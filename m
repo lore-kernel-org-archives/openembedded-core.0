@@ -1,24 +1,24 @@
 Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SoGMh-00065I-LI
+	(envelope-from <sgw@linux.intel.com>) id 1SoGMh-00065Z-VW
 	for openembedded-core@lists.openembedded.org;
-	Mon, 09 Jul 2012 17:59:11 +0200
+	Mon, 09 Jul 2012 17:59:12 +0200
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
 	by fmsmga102.fm.intel.com with ESMTP; 09 Jul 2012 08:47:59 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="190292884"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="190292885"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.157])
 	by fmsmga002.fm.intel.com with ESMTP; 09 Jul 2012 08:47:58 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  9 Jul 2012 08:47:24 -0700
-Message-Id: <5221aabbe8f040f9264554febbc00e0926893beb.1341802889.git.sgw@linux.intel.com>
+Date: Mon,  9 Jul 2012 08:47:25 -0700
+Message-Id: <28d8d0e8e16b46aa79fda0296f5c97c1af5b96af.1341802889.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <cover.1341802889.git.sgw@linux.intel.com>
 References: <cover.1341802889.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1341802889.git.sgw@linux.intel.com>
 References: <cover.1341802889.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 10/41] gcc-common: Don't use "is" for comparing strings, use "=="
+Subject: [CONSOLIDATED PULL 11/41] gthumb: run make install in parallel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,34 +33,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Jul 2012 15:59:11 -0000
+X-List-Received-Date: Mon, 09 Jul 2012 15:59:12 -0000
 
-From: Kartik Mohta <kartikmohta@gmail.com>
+From: Ross Burton <ross.burton@intel.com>
 
-Needed because the equality check was failing here even though upon
-printing the LHS and RHS were the same.
-As per http://stackoverflow.com/a/2987975/64537, using "is" compares the
-memory addresses of the two objects which is not what we want here. We
-just want to compare the values.
+We used to disable parallel make install because it was live-locking.  I've
+since fixed a bug in gconf.bbclass that could have caused this, where
+gconftool was incorrectly running in make install.  It's certainly been seen
+to crash when attempting a buggy atomic rename, so I wouldn't rule out it
+live-locking too.
 
-Signed-off-by: Kartik Mohta <kartikmohta@gmail.com>
+I can't replicate the live lock in my own testing (8-way).  If it comes back
+we can revert this and have another look.
+
+[YOCTO #2319]
+
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-devtools/gcc/gcc-common.inc |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+ meta/recipes-gnome/gthumb/gthumb_2.12.4.bb |    4 +---
+ 1 files changed, 1 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-devtools/gcc/gcc-common.inc b/meta/recipes-devtools/gcc/gcc-common.inc
-index 45828bb..0a9324a 100644
---- a/meta/recipes-devtools/gcc/gcc-common.inc
-+++ b/meta/recipes-devtools/gcc/gcc-common.inc
-@@ -10,7 +10,7 @@ inherit autotools gettext
- FILESDIR = "${@os.path.dirname(d.getVar('FILE',1))}/gcc-${PV}"
+diff --git a/meta/recipes-gnome/gthumb/gthumb_2.12.4.bb b/meta/recipes-gnome/gthumb/gthumb_2.12.4.bb
+index 6ab63bb..7dfccb5 100644
+--- a/meta/recipes-gnome/gthumb/gthumb_2.12.4.bb
++++ b/meta/recipes-gnome/gthumb/gthumb_2.12.4.bb
+@@ -4,12 +4,10 @@ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552"
+ DEPENDS = "glib-2.0 gtk+ libxml2 gnome-doc-utils libunique gconf libpng gstreamer jpeg tiff gst-plugins-base"
  
- def get_gcc_fpu_setting(bb, d):
--    if d.getVar('ARMPKGSFX_EABI', True) is "hf" and  d.getVar('TRANSLATED_TARGET_ARCH', True) is "arm":
-+    if d.getVar('ARMPKGSFX_EABI', True) == "hf" and d.getVar('TRANSLATED_TARGET_ARCH', True) == "arm":
-         return "--with-float=hard"
-     if d.getVar('TARGET_FPU', True) in [ 'soft' ]:
-         return "--with-float=soft"
+-PR = "r3"
++PR = "r4"
+ 
+ EXTRA_OECONF = "--disable-gnome-keyring --disable-libsoup --disable-exiv2 --disable-clutter"
+ 
+-PARALLEL_MAKEINST=""
+-
+ inherit gnome pkgconfig
+ 
+ SRC_URI[archive.md5sum] = "97fc13221b0c5d80c27a2e25a3a3ac6f"
 -- 
 1.7.7.6
 
