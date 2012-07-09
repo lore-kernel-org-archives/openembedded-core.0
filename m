@@ -1,37 +1,39 @@
-Received: from 75-148-42-21-colorado.hfc.comcastbusiness.net ([75.148.42.21]
-	helo=judge.camp.se-eng.com) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ray.danks@se-eng.com>) id 1SoJeq-00013s-Qw
-	for openembedded-core@lists.openembedded.org;
-	Mon, 09 Jul 2012 21:30:09 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by judge.camp.se-eng.com (Postfix) with ESMTP id 49E041380BD;
-	Mon,  9 Jul 2012 13:18:57 -0600 (MDT)
-X-Virus-Scanned: amavisd-new at camp.se-eng.com
-Received: from judge.camp.se-eng.com ([127.0.0.1])
-	by localhost (judge.camp.se-eng.com [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with ESMTP id Cr0xcwXV6HkL; Mon,  9 Jul 2012 13:18:53 -0600 (MDT)
-Received: from [172.20.202.96] (beast.camp.se-eng.com [172.20.202.96])
-	by judge.camp.se-eng.com (Postfix) with ESMTPSA id ABEDC1380BC;
-	Mon,  9 Jul 2012 13:18:52 -0600 (MDT)
-Message-ID: <4FFB2EEB.5050805@se-eng.com>
-Date: Mon, 09 Jul 2012 13:20:11 -0600
-From: Raymond Danks <ray.danks@se-eng.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:10.0) Gecko/20120129 Thunderbird/10.0
+Received: from mail-wg0-f43.google.com ([74.125.82.43])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <martin.jansa@gmail.com>)
+	id 1SoKMS-00024Z-UU; Mon, 09 Jul 2012 22:15:13 +0200
+Received: by wgbdr1 with SMTP id dr1so10781827wgb.24
+	for <multiple recipients>; Mon, 09 Jul 2012 13:04:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=keyNbFaDHDbD1R4JgS2ytefFqXbbfQDf7HdO5fOjCps=;
+	b=v7KOBbc1xWwuI3eiUdj4JeDyTYfkDf9u56xl6OyUfMYfz5lU7SOhecEVKw+zfWhe0d
+	QcanJgvVVYQglJ8y/rNilOE6kGuy1dP1xEAZ++F1wNgcpEXMX1vKCfL//qrZuE1RFwPW
+	gcl6gYEocBb3cToBArExfiwxgmCfd7GrqbWBzA2Z58P4mFJWPvUPDMNib1lhgMyRrSDJ
+	1XcTTu2mqLQrB9ZWAOYiShs2LF4UPUVIS5GYMaDlmrO4q9l6Q1WhjIk/NJwls8SSjskP
+	1nBIoVezhgQ5V3jYlJS9aUgklBla2GHwuIA2fu9FyssvdnzFQn6dro5iMB/pCeTHVsdm
+	5UzQ==
+Received: by 10.180.86.106 with SMTP id o10mr32103493wiz.22.1341864242045;
+	Mon, 09 Jul 2012 13:04:02 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id cu1sm15651316wib.6.2012.07.09.13.04.00
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 09 Jul 2012 13:04:00 -0700 (PDT)
+Date: Mon, 9 Jul 2012 22:03:57 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Message-ID: <20120709200357.GG6308@jama.jama.net>
+References: <20120709160054.C9FA610219@opal>
 MIME-Version: 1.0
-To: Saul Wold <sgw@linux.intel.com>
-References: <1340396533-5386-1-git-send-email-ray.danks@se-eng.com>
-	<1340396533-5386-2-git-send-email-ray.danks@se-eng.com>
-	<4FF9FCCA.8080408@linux.intel.com>
-In-Reply-To: <4FF9FCCA.8080408@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] mkelfimage: Add stable git build (initial recipe)
+In-Reply-To: <20120709160054.C9FA610219@opal>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-commits@lists.openembedded.org
+Subject: Re: [oe-commits] Ross Burton : connman: ship the empty plugins directory in the connman package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: ray.danks@se-eng.com, Patches and discussions about the oe-core layer
+Reply-To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -42,72 +44,102 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Jul 2012 19:30:09 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 09 Jul 2012 20:15:13 -0000
+X-Groupsio-MsgNum: 25005
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="MiFvc8Vo6wRSORdP"
+Content-Disposition: inline
 
-On 07/08/2012 03:34 PM, Saul Wold wrote:
-> On 06/22/2012 01:22 PM, Raymond Danks wrote:
->> Signed-off-by: Raymond Danks <ray.danks@se-eng.com>
->> ---
->> This was originally submitted to the openembedded project:
->> http://patches.openembedded.org/patch/7687/
->>
->> Resubmitting to oe-core for review prior to commit in openembedded-core.
->>
->>   meta/recipes-devtools/mkelfimage/mkelfimage_git.bb |   18 
->> ++++++++++++++++++
->>   1 files changed, 18 insertions(+), 0 deletions(-)
->>   create mode 100644 meta/recipes-devtools/mkelfimage/mkelfimage_git.bb
->>
->> diff --git a/meta/recipes-devtools/mkelfimage/mkelfimage_git.bb 
->> b/meta/recipes-devtools/mkelfimage/mkelfimage_git.bb
->> new file mode 100644
->> index 0000000..b341213
->> --- /dev/null
->> +++ b/meta/recipes-devtools/mkelfimage/mkelfimage_git.bb
->> @@ -0,0 +1,18 @@
->> +DESCRIPTION = "A utility to create ELF boot images from Linux kernel 
->> images"
->> +HOMEPAGE = "http://www.coreboot.org/Mkelfimage"
->> +SECTION = "devel"
->> +LICENSE = "GPLv2"
->> +LIC_FILES_CHKSUM = 
->> "file://COPYING;md5=ea5bed2f60d357618ca161ad539f7c0a"
->> +
->> +SRCREV = "e13632a939e7dde8d7d44fc73e73a41dae8060c3"
->> +PV = "1.0.0+gitr${SRCPV}"
->> +PR = "r1"
->> +
->> +SRC_URI = 
->> "git://review.coreboot.org/p/coreboot;protocol=http;branch=master"
->> +
->> +S = "${WORKDIR}/git/util/mkelfImage"
->> +
->> +inherit autotools
->> +
->> +NATIVE_INSTALL_WORKS = "1"
->> +BBCLASSEXTEND = "native"
->>
->
-> I found this packaging issue:
->> ERROR: QA Issue: mkelfimage: Files/directories were installed but not 
->> shipped
->>   /usr/share/mkelfImage
->>   /usr/share/mkelfImage/elf32-i386
->
-> When I did a world build for x86
->
-> Can you please address it.
-Yes.  I'll send a patch and the corresponding patch to coreboot.
+--MiFvc8Vo6wRSORdP
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks,
-Ray
->
-> Thanks
->
-> Sau!
->
+On Mon, Jul 09, 2012 at 04:00:54PM +0000, git@git.openembedded.org wrote:
+> Module: openembedded-core.git
+> Branch: master
+> Commit: 8a307af8253a5fdff51515fe01ef7b527fdad89f
+> URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcommit=
+;h=3D8a307af8253a5fdff51515fe01ef7b527fdad89f
+>=20
+> Author: Ross Burton <ross.burton@intel.com>
+> Date:   Fri Jul  6 12:05:42 2012 +0100
+>=20
+> connman: ship the empty plugins directory in the connman package
+>=20
+> Otherwise we get a QA warning that /usr/lib/connman/packages isn't shippe=
+d.
 
+both patches from Ross in this batch are missing SOB lines.
 
+Ross: please make sure you add them in future patches
+sgw: maybe you're using different flow then RP for merging patches, but
+your SOB should be there too IMHO.
 
+Cheers,
+
+>=20
+> ---
+>=20
+>  meta/recipes-connectivity/connman/connman.inc |    5 +++--
+>  1 files changed, 3 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipes=
+-connectivity/connman/connman.inc
+> index 73e7818..12378e9 100644
+> --- a/meta/recipes-connectivity/connman/connman.inc
+> +++ b/meta/recipes-connectivity/connman/connman.inc
+> @@ -20,7 +20,7 @@ DEPENDS  =3D "dbus glib-2.0 ppp iptables gnutls \
+>              ${@base_contains('DISTRO_FEATURES', '3g','ofono', '', d)} \
+>              "
+> =20
+> -INC_PR =3D "r10"
+> +INC_PR =3D "r11"
+> =20
+>  TIST =3D "--enable-tist"
+>  TIST_powerpc =3D ""
+> @@ -99,7 +99,7 @@ python populate_packages_prepend() {
+>  	hook =3D lambda file,pkg,b,c,d:packages.append((file,pkg))
+>  	plugin_dir =3D d.expand('${libdir}/connman/plugins/')
+>  	plugin_name =3D d.expand('${PN}-plugin-%s')
+> -	do_split_packages(d, plugin_dir, '^(.*).so$', plugin_name, '${PN} plugi=
+n for %s', extra_depends=3D'', hook=3Dhook )
+> +	do_split_packages(d, plugin_dir, '^(.*).so$', plugin_name, '${PN} plugi=
+n for %s', extra_depends=3D'', hook=3Dhook, prepend=3DTrue )
+>  	for (file, package) in packages:
+>  		plugintype =3D package.split( '-' )[-1]
+>  		if plugintype in depmap:
+> @@ -116,6 +116,7 @@ FILES_${PN}-tests =3D "${bindir}/*-test ${libdir}/${B=
+PN}/test/*"
+>  RDEPENDS_${PN}-tests =3D "python-dbus"
+> =20
+>  FILES_${PN} =3D "${bindir}/* ${sbindir}/* ${libexecdir}/* ${libdir}/lib*=
+=2Eso.* \
+> +            ${libdir}/connman/plugins \
+>              ${sysconfdir} ${sharedstatedir} ${localstatedir} \
+>              ${base_bindir}/* ${base_sbindir}/* ${base_libdir}/*.so* ${da=
+tadir}/${PN} \
+>              ${datadir}/dbus-1/system-services/*"
+>=20
+>=20
+> _______________________________________________
+> Openembedded-commits mailing list
+> Openembedded-commits@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-commits
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--MiFvc8Vo6wRSORdP
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
+
+iEYEARECAAYFAk/7OS0ACgkQN1Ujt2V2gByBrgCgkgzaP/Torp6h+hRyhjgFEhnD
+dAoAoLrAjPqO0CBEX9SknwSukSmII6RT
+=4vFk
+-----END PGP SIGNATURE-----
+
+--MiFvc8Vo6wRSORdP--
