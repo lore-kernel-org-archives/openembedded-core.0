@@ -1,24 +1,24 @@
 Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1SoGys-00041S-Rr
+	(envelope-from <nitin.a.kamble@intel.com>) id 1SoGyt-00041S-I7
 	for Openembedded-core@lists.openembedded.org;
 	Mon, 09 Jul 2012 18:38:39 +0200
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
 	by fmsmga102.fm.intel.com with ESMTP; 09 Jul 2012 09:27:30 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="175108533"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="175108534"
 Received: from yocto-hm1.jf.intel.com ([10.23.232.32])
-	by fmsmga001.fm.intel.com with ESMTP; 09 Jul 2012 09:27:29 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 09 Jul 2012 09:27:30 -0700
 From: nitin.a.kamble@intel.com
 To: Openembedded-core@lists.openembedded.org
-Date: Mon,  9 Jul 2012 09:26:04 -0700
-Message-Id: <7e14d3d1191f2179b9989191bad511de28c4c8dd.1341850982.git.nitin.a.kamble@intel.com>
+Date: Mon,  9 Jul 2012 09:26:05 -0700
+Message-Id: <a55d75541619c0922f615fbe7d70945ee3d35a1a.1341850982.git.nitin.a.kamble@intel.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <8d1d42a68d5930bc374b9d6126cc1371a22a37db.1341850982.git.nitin.a.kamble@intel.com>
 References: <8d1d42a68d5930bc374b9d6126cc1371a22a37db.1341850982.git.nitin.a.kamble@intel.com>
 In-Reply-To: <cover.1341850982.git.nitin.a.kamble@intel.com>
 References: <cover.1341850982.git.nitin.a.kamble@intel.com>
-Subject: [PATCH 03/15] gnutls: Fix build with automake 1.12.1
+Subject: [PATCH 04/15] pcmanfm: fix build with automake 1.12.x
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,145 +37,82 @@ X-List-Received-Date: Mon, 09 Jul 2012 16:38:39 -0000
 
 From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-Added new patches:
-   avoid_AM_PROG_MKDIR_P_warning_error_with_automake_1.12.patch
-   gnutls_fix_for_automake_1.12.1.patch
+Added a patch:
+  pcmanfm_fix_for_automake_1.12.patch
 
-more details in patch headers.
+More information in the patch header.
 
 Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
 ---
- ..._MKDIR_P_warning_error_with_automake_1.12.patch |   51 ++++++++++++++++++++
- .../gnutls_fix_for_automake_1.12.1.patch           |   43 ++++++++++++++++
- meta/recipes-support/gnutls/gnutls_2.12.19.bb      |    4 +-
- 3 files changed, 97 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-support/gnutls/gnutls-2.12.19/avoid_AM_PROG_MKDIR_P_warning_error_with_automake_1.12.patch
- create mode 100644 meta/recipes-support/gnutls/gnutls-2.12.19/gnutls_fix_for_automake_1.12.1.patch
+ .../files/pcmanfm_fix_for_automake_1.12.patch      |   35 ++++++++++++++++++++
+ meta/recipes-sato/pcmanfm/pcmanfm_0.9.10.bb        |    5 ++-
+ 2 files changed, 38 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-sato/pcmanfm/files/pcmanfm_fix_for_automake_1.12.patch
 
-diff --git a/meta/recipes-support/gnutls/gnutls-2.12.19/avoid_AM_PROG_MKDIR_P_warning_error_with_automake_1.12.patch b/meta/recipes-support/gnutls/gnutls-2.12.19/avoid_AM_PROG_MKDIR_P_warning_error_with_automake_1.12.patch
+diff --git a/meta/recipes-sato/pcmanfm/files/pcmanfm_fix_for_automake_1.12.patch b/meta/recipes-sato/pcmanfm/files/pcmanfm_fix_for_automake_1.12.patch
 new file mode 100644
-index 0000000..dde683f
+index 0000000..1ad0ff5
 --- /dev/null
-+++ b/meta/recipes-support/gnutls/gnutls-2.12.19/avoid_AM_PROG_MKDIR_P_warning_error_with_automake_1.12.patch
-@@ -0,0 +1,51 @@
-+Upsteam-Status: Inappropriate 
++++ b/meta/recipes-sato/pcmanfm/files/pcmanfm_fix_for_automake_1.12.patch
+@@ -0,0 +1,35 @@
++Upstream-Status: Pending
 +
-+automake 1.12.x has depricated AM_PROG_MKDIR_P , and throws a warning for that,
-+and the warnings are treated as errors becuase of the -Werror parameter.
-+
-+These AM_PROG_MKDIR_P are coming from gettext, and the latest gettext code has not 
-+eliminated these depricated macros yet. So disable the treatment of warnings
-+as errors until gettext is updeated to remove the depricated macros.
-+
-+Signed-Off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
++Fix these errors:
++| automake: warnings are treated as errors
++| data/ui/Makefile.am:18: warning: '%'-style pattern rules are a GNU make extension
++| src/Makefile.am:10: warning: compiling 'pcmanfm.c' with per-target flags requires 'AM_PROG_CC_C_O' in 'configure.ac'
++| autoreconf: automake failed with exit status: 1
++| ERROR: autoreconf execution failed.
++Signed-Off-By: Nitin A Kamble <nitin.a.kamble@Intel.com>
 +2012/07/09
 +
-+Index: gnutls-2.12.19/configure.ac
++Index: pcmanfm-0.9.10/configure.ac
 +===================================================================
-+--- gnutls-2.12.19.orig/configure.ac
-++++ gnutls-2.12.19/configure.ac
-+@@ -26,7 +26,7 @@ AC_INIT([GnuTLS], [2.12.19], [bug-gnutls
-+ AC_CONFIG_AUX_DIR([build-aux])
-+ AC_CONFIG_MACRO_DIR([m4])
++--- pcmanfm-0.9.10.orig/configure.ac
+++++ pcmanfm-0.9.10/configure.ac
++@@ -13,6 +13,7 @@ AC_PROG_CC
++ AM_PROG_LIBTOOL
++ AM_PROG_CC_STDC
++ AC_HEADER_STDC
+++AM_PROG_CC_C_O
 + 
-+-AM_INIT_AUTOMAKE([1.10 no-dist-gzip dist-bzip2 -Wall -Werror -Wno-override])
-++AM_INIT_AUTOMAKE([1.10 no-dist-gzip dist-bzip2 -Wall -Wno-override])
-+ m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
-+ AM_CONFIG_HEADER(config.h)
-+ 
-+Index: gnutls-2.12.19/lib/configure.ac
++ # Checks for header files.
++ AC_HEADER_STDC
++Index: pcmanfm-0.9.10/data/ui/Makefile.am
 +===================================================================
-+--- gnutls-2.12.19.orig/lib/configure.ac
-++++ gnutls-2.12.19/lib/configure.ac
-+@@ -26,7 +26,7 @@ AC_INIT([libgnutls], [2.12.19], [bug-gnu
-+ AC_CONFIG_AUX_DIR([build-aux])
-+ AC_CONFIG_MACRO_DIR([m4])
++--- pcmanfm-0.9.10.orig/data/ui/Makefile.am
+++++ pcmanfm-0.9.10/data/ui/Makefile.am
++@@ -15,6 +15,6 @@ EXTRA_DIST = \
++ 	$(NULL)
 + 
-+-AM_INIT_AUTOMAKE([1.10 -Wall -Werror -Wno-override])
-++AM_INIT_AUTOMAKE([1.10 -Wall -Wno-override])
-+ m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
-+ AM_CONFIG_HEADER(config.h)
-+ 
-+Index: gnutls-2.12.19/libextra/configure.ac
-+===================================================================
-+--- gnutls-2.12.19.orig/libextra/configure.ac
-++++ gnutls-2.12.19/libextra/configure.ac
-+@@ -26,7 +26,7 @@ AC_INIT([libgnutls-extra], [2.12.19], [b
-+ AC_CONFIG_AUX_DIR([build-aux])
-+ AC_CONFIG_MACRO_DIR([m4])
-+ 
-+-AM_INIT_AUTOMAKE([1.10 -Wall -Werror -Wno-override])
-++AM_INIT_AUTOMAKE([1.10 -Wall -Wno-override])
-+ m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
-+ AM_CONFIG_HEADER(config.h)
-+ 
-diff --git a/meta/recipes-support/gnutls/gnutls-2.12.19/gnutls_fix_for_automake_1.12.1.patch b/meta/recipes-support/gnutls/gnutls-2.12.19/gnutls_fix_for_automake_1.12.1.patch
-new file mode 100644
-index 0000000..1625255
---- /dev/null
-+++ b/meta/recipes-support/gnutls/gnutls-2.12.19/gnutls_fix_for_automake_1.12.1.patch
-@@ -0,0 +1,43 @@
-+Upsteam-Status: Pending
-+
-+Avoids these kind of warnings:
-+Warning: 'libgnutls.la': linking libtool libraries using a non-POSIX archiver requires 'AM_PROG_AR' in 'configure.ac'
-+
-+Signed-Off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
-+Date: 2012/07/09
-+Index: gnutls-2.12.19/configure.ac
-+===================================================================
-+--- gnutls-2.12.19.orig/configure.ac
-++++ gnutls-2.12.19/configure.ac
-+@@ -28,6 +28,7 @@ AC_CONFIG_MACRO_DIR([m4])
-+ 
-+ AM_INIT_AUTOMAKE([1.10 no-dist-gzip dist-bzip2 -Wall -Wno-override])
-+ m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
-++m4_ifdef([AM_PROG_AR], [AM_PROG_AR]) # required by automake 1.12
-+ AM_CONFIG_HEADER(config.h)
-+ 
-+ AC_MSG_RESULT([***
-+Index: gnutls-2.12.19/lib/configure.ac
-+===================================================================
-+--- gnutls-2.12.19.orig/lib/configure.ac
-++++ gnutls-2.12.19/lib/configure.ac
-+@@ -28,6 +28,7 @@ AC_CONFIG_MACRO_DIR([m4])
-+ 
-+ AM_INIT_AUTOMAKE([1.10 -Wall -Wno-override])
-+ m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
-++m4_ifdef([AM_PROG_AR], [AM_PROG_AR]) # required by automake 1.12
-+ AM_CONFIG_HEADER(config.h)
-+ 
-+ AC_PROG_CC
-+Index: gnutls-2.12.19/libextra/configure.ac
-+===================================================================
-+--- gnutls-2.12.19.orig/libextra/configure.ac
-++++ gnutls-2.12.19/libextra/configure.ac
-+@@ -28,6 +28,7 @@ AC_CONFIG_MACRO_DIR([m4])
-+ 
-+ AM_INIT_AUTOMAKE([1.10 -Wall -Wno-override])
-+ m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
-++m4_ifdef([AM_PROG_AR], [AM_PROG_AR]) # required by automake 1.12
-+ AM_CONFIG_HEADER(config.h)
-+ 
-+ AC_PROG_CC
-diff --git a/meta/recipes-support/gnutls/gnutls_2.12.19.bb b/meta/recipes-support/gnutls/gnutls_2.12.19.bb
-index 7d76510..ff70c07 100644
---- a/meta/recipes-support/gnutls/gnutls_2.12.19.bb
-+++ b/meta/recipes-support/gnutls/gnutls_2.12.19.bb
-@@ -1,10 +1,12 @@
- require gnutls.inc
++ # Purge GtkBuilder UI files
++-%.ui: %.glade
+++.glade.ui:
++ 	cp $< $@
++ #	$(top_builddir)/src/xml-purge $@
+diff --git a/meta/recipes-sato/pcmanfm/pcmanfm_0.9.10.bb b/meta/recipes-sato/pcmanfm/pcmanfm_0.9.10.bb
+index 545367a..576b4ba 100644
+--- a/meta/recipes-sato/pcmanfm/pcmanfm_0.9.10.bb
++++ b/meta/recipes-sato/pcmanfm/pcmanfm_0.9.10.bb
+@@ -11,7 +11,7 @@ SECTION = "x11"
+ DEPENDS = "gtk+ startup-notification libfm"
+ DEPENDS_append_poky = " libowl"
  
--PR = "${INC_PR}.0"
-+PR = "${INC_PR}.1"
+-PR = "r0"
++PR = "r1"
  
- SRC_URI += "file://gnutls-openssl.patch \
-             file://correct_rpl_gettimeofday_signature.patch \
-             file://configure-fix.patch \
-+            file://gnutls_fix_for_automake_1.12.1.patch \
-+            file://avoid_AM_PROG_MKDIR_P_warning_error_with_automake_1.12.patch \
-            "
+ COMPATIBLE_HOST = '(x86_64.*|i.86.*|arm.*|mips.*|powerpc.*|sh.*)-(linux|freebsd.*)'
  
- SRC_URI[md5sum] = "14228b34e3d8ed176a617df40693b441"
+@@ -20,7 +20,8 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/pcmanfm/pcmanfm-${PV}.tar.gz \
+ 	   file://gnome-fs-regular.png \
+ 	   file://gnome-mime-text-plain.png \
+ 	   file://emblem-symbolic-link.png \
+-	   file://cross-compile-fix.patch" 
++	   file://cross-compile-fix.patch \
++           file://pcmanfm_fix_for_automake_1.12.patch" 
+ 
+ SRC_URI_append_poky = " file://owl-window-menu.patch"
+ 
 -- 
 1.7.3.4
 
