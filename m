@@ -1,29 +1,27 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1SoDs2-0000ot-IA
+	(envelope-from <tom.zanussi@intel.com>) id 1SoETt-0003WA-1H
 	for openembedded-core@lists.openembedded.org;
-	Mon, 09 Jul 2012 15:19:22 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q69D8BiQ011939
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 9 Jul 2012 06:08:11 -0700 (PDT)
-Received: from Marks-MacBook-Pro.local (172.25.36.229) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.1.255.0; Mon, 9 Jul 2012 06:08:11 -0700
-Message-ID: <4FFAD7C2.5040309@windriver.com>
-Date: Mon, 9 Jul 2012 08:08:18 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7;
-	rv:13.0) Gecko/20120614 Thunderbird/13.0.1
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1341601764.git.mark.hatle@windriver.com>
-	<ba80d76cae689a4023327da4e38a83e1c5c88306.1341601764.git.mark.hatle@windriver.com>
-	<1341830385.8066.8.camel@ted>
-In-Reply-To: <1341830385.8066.8.camel@ted>
-Subject: Re: [PATCH 2/3] multilib: Enable multilib remapping for SDK generation
+	Mon, 09 Jul 2012 15:58:29 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 09 Jul 2012 06:47:18 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="165760756"
+Received: from unknown (HELO [10.255.13.35]) ([10.255.13.35])
+	by azsmga001.ch.intel.com with ESMTP; 09 Jul 2012 06:47:17 -0700
+Message-ID: <1341841632.6761.216.camel@trz-ThinkPad-T420>
+From: Tom Zanussi <tom.zanussi@intel.com>
+To: Saul Wold <sgw@linux.intel.com>
+Date: Mon, 09 Jul 2012 08:47:12 -0500
+In-Reply-To: <4FFA8E6C.90504@linux.intel.com>
+References: <cover.1341606068.git.tom.zanussi@intel.com>
+	<1341724701.6761.177.camel@trz-ThinkPad-T420>
+	<4FFA8E6C.90504@linux.intel.com>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/3] perf-scripting/perf-tui features, v2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,81 +36,94 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Jul 2012 13:19:23 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Mon, 09 Jul 2012 13:58:29 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 7/9/12 5:39 AM, Richard Purdie wrote:
-> On Fri, 2012-07-06 at 14:14 -0500, Mark Hatle wrote:
->> Enable the remapping for SDK generation, this is required to be able to
->> create an SDK that targets an alternative multilib.  Note, this work does
->> not finish SDK/multilib support, but it is one more step toward making
->> it work properly.
->>
->> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
->> ---
->>   meta/classes/multilib.bbclass |    6 ++++++
->>   1 files changed, 6 insertions(+), 0 deletions(-)
->>
->> diff --git a/meta/classes/multilib.bbclass b/meta/classes/multilib.bbclass
->> index f3e7618..b92a3ff 100644
->> --- a/meta/classes/multilib.bbclass
->> +++ b/meta/classes/multilib.bbclass
->> @@ -54,6 +54,12 @@ python __anonymous () {
->>           d.setVar("LINGUAS_INSTALL", "")
->>           # FIXME, we need to map this to something, not delete it!
->>           d.setVar("PACKAGE_INSTALL_ATTEMPTONLY", "")
->> +
->> +    if bb.data.inherits_class('populate_sdk_base', d):
->> +        clsextend.map_depends_variable("TOOLCHAIN_TARGET_TASK")
->> +        clsextend.map_depends_variable("TOOLCHAIN_TARGET_TASK_ATTEMPTONLY")
->> +
->> +    if bb.data.inherits_class('image', d) or bb.data.inherits_class('populate_sdk_base', d):
->>           return
->>
->
-> There is something odd going on with this patch. You've removed the
-> earlier return but this patch doesn't show that...
+On Mon, 2012-07-09 at 00:55 -0700, Saul Wold wrote:
+> On 07/07/2012 10:18 PM, Tom Zanussi wrote:
+> > On Fri, 2012-07-06 at 15:29 -0500, tom.zanussi@intel.com wrote:
+> >> From: Tom Zanussi <tom.zanussi@intel.com>
+> >>
+> >> This patchset adds perf-scriping and perf-tui features as
+> >> a per-arch thing rather than per-machine, as suggested by
+> >> Richard Purdie.
+> >>
+> >> I just started testing this, it works so far, but thought
+> >> I'd put it out there now in case there were comments before
+> >> putting too much effort into that, and possibly giving other
+> >> people a chance to try it out.
+> >>
+> >
+> > Looks fine after more build-testing: qemux86, qemux86-64, crownbay,
+> > sugarbay, qemuarm and qemuppc both with and without perf-scripting and
+> > perf-tui, and builds without perf as well all build fine here.
+> >
+> Tom, I am sorry, I am not sure how else to say this, I have tested 
+> master with the only the following change and I am still getting the
+> the setup.py failure mentioned.
+> 
+> I am not sure what else to suspect at this point, this is Master plus 3 
+> commits, please help me understand where I have gone wrong.
+> 
+> This is the branch I have tested, which is 3 commits pasted Master:
+> 
+> http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=sgw/fail
+> 
 
-I didn't remove it, I 'moved' it later.  Otherwise the populate_sdk_base case is 
-never run, when the image case has already been loaded.
+Saul,
 
-So the flow goes from:
+It's because your kernel hasn't advanced the SRCREVs to include the new
+commits - the above patches won't work without the associated kernel
+changes.  So if you're build-testing qemux86-64 for instance, you'd want
+to change the following line in linux_yocto_3.4.bb from: 
 
-if image class:
-   do work
-   return
+SRCREV_machine_qemux86-64 ?= "d345461f0d52d1a82553c2edd845a8bee908923f"
 
-do other stuff
+to include the last commit of the associated kernel patch series i.e.the
+top of the common-pc-64 branch:
 
-to
+SRCREV_machine_qemux86-64 ?= "49f1599b2ce0288599805b5364b895f5a9febb3e"
 
-if image class:
-   do work
+That should get the kernel changes associated with the patchset into
+your kernel and everything should build nicely...
 
-if sdk class:
-   do other work
+Tom
 
-if either image or sdk class:
-   return
-
-do other stuff
-
-The behavior is the same for the image only class, the only new behavior is 
-adding in the remap for the SDK only (or combined w/ the image) case.
-
---Mark
-
-> Cheers,
->
-> Richard
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+> Thanks
+> 	Sau!
+> 
+> > Tom
+> >
+> >> The following changes since commit 5051e9837fa698e03d0a7a8a918ee7aa98409ce1:
+> >>    Robert P. J. Day (1):
+> >>          bitbake: usermanual: Fix missing markup
+> >>
+> >> are available in the git repository at:
+> >>
+> >>    git://git.yoctoproject.org/poky-contrib.git tzanussi/perf-scripting-v2
+> >>    http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=tzanussi/perf-scripting-v2
+> >>
+> >> Tom Zanussi (3):
+> >>    perf: add perf.inc
+> >>    perf: add arch-specific perf-scripting feature
+> >>    perf: add arch-specific perf-tui feature
+> >>
+> >>   meta/recipes-kernel/perf/perf.inc    |   30 ++++++++++++++++++++++++++++++
+> >>   meta/recipes-kernel/perf/perf_3.4.bb |   18 +++++++++++++++---
+> >>   2 files changed, 45 insertions(+), 3 deletions(-)
+> >>   create mode 100644 meta/recipes-kernel/perf/perf.inc
+> >>
+> >
+> >
+> >
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+> >
+> >
+> 
 
 
 
