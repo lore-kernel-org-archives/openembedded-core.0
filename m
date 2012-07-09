@@ -1,25 +1,35 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mail-qc0-f175.google.com ([209.85.216.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SoHoM-0006r4-RE
+	(envelope-from <bruce.ashfield@gmail.com>) id 1SoHoc-0006tg-8f
 	for openembedded-core@lists.openembedded.org;
-	Mon, 09 Jul 2012 19:31:52 +0200
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 09 Jul 2012 10:20:40 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="120409374"
-Received: from unknown (HELO [10.255.12.214]) ([10.255.12.214])
-	by AZSMGA002.ch.intel.com with ESMTP; 09 Jul 2012 10:20:39 -0700
-Message-ID: <4FFB12E7.60200@linux.intel.com>
-Date: Mon, 09 Jul 2012 10:20:39 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:13.0) Gecko/20120605 Thunderbird/13.0
+	Mon, 09 Jul 2012 19:32:06 +0200
+Received: by qcad10 with SMTP id d10so5328021qca.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 09 Jul 2012 10:20:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=S8JIBWHItEXNOHGR7pUJEVuf98iIwteSUu4CIqagtLo=;
+	b=y9NpbmGjVq42l0SZxr8F1cziuLvJt4ICoOrD5RGzxNJgH9Eeo1mrOVZYecC/cy9gkw
+	DivtzzYy4j0mdsBPdG6OXzFw005iuGaFVbiQoL7DRGHYWYpzysfYQCZWT1oFmmYTuF9Y
+	Hq2OM0laLqqMvcEM4OC2RHazYHrn7jPZZ0UcxybWP9GYteK5n+Z1+YcV1XWlbYXnqsL3
+	i3Cx3QXSTy2ieOXEt28Nt2rYw3Sr2OKW2wB2WLufuQY6rsxAozmn7FigUyXR6cx2Hzhm
+	ZAo+jZFQCg8NssNhPS4Zg9tNyPoiOGRD5pgQXdy/iqz3xI78CDiFsrKY3/+PNBvyfn+O
+	RzBQ==
 MIME-Version: 1.0
+Received: by 10.224.45.8 with SMTP id c8mr69740261qaf.29.1341854456197; Mon,
+	09 Jul 2012 10:20:56 -0700 (PDT)
+Received: by 10.229.41.5 with HTTP; Mon, 9 Jul 2012 10:20:56 -0700 (PDT)
+In-Reply-To: <1341853718.6761.218.camel@trz-ThinkPad-T420>
+References: <cover.1341845577.git.bruce.ashfield@windriver.com>
+	<1341853718.6761.218.camel@trz-ThinkPad-T420>
+Date: Mon, 9 Jul 2012 13:20:56 -0400
+Message-ID: <CADkTA4MoTogopyfa1C31M9A+iO8+--Ub7yMJ6eYwjhN5VBvtUQ@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <alpine.DEB.2.02.1207041501240.13342@oneiric>
-In-Reply-To: <alpine.DEB.2.02.1207041501240.13342@oneiric>
-Subject: Re: recipes.txt: Add entries for "recipes-rt" and "recipes-support"
+Cc: saul.wold@intel.com
+Subject: Re: [PATCH 0/1] linux-yocto: update 3.4 SRCREVs (perf + unionfs fix)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,33 +44,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Jul 2012 17:31:52 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 09 Jul 2012 17:32:06 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On 07/04/2012 12:02 PM, Robert P. J. Day wrote:
+On Mon, Jul 9, 2012 at 1:08 PM, Tom Zanussi <tom.zanussi@intel.com> wrote:
+> On Mon, 2012-07-09 at 10:59 -0400, Bruce Ashfield wrote:
+>> Saul/Richard,
+>>
+>> I was waiting on the resend of Tom's perf series to send the updated
+>> kernel parts for this. That's out, and the kernel parts now need to
+>> be updated.
+>>
 >
-> Signed-off-by: Robert P. J. Day <rpjday@crashcourse.ca>
->
-> ---
->
-> diff --git a/meta/recipes.txt b/meta/recipes.txt
-> index bf7f19e..6d33743 100644
-> --- a/meta/recipes.txt
-> +++ b/meta/recipes.txt
-> @@ -9,5 +9,7 @@ recipes-graphics     - X and other graphically related system libraries
->   recipes-kernel       - The kernel and generic applications/libraries with strong kernel dependencies
->   recipes-multimedia   - Codecs and support utilties for audio, images and video
->   recipes-qt           - All things related to the Qt application framework
-> +recipes-rt           - Provides package and image recipes for using and testing the PREEMPT_RT kernel
->   recipes-sato         - The Sato demo/reference UI/UX, its associated apps and configuration
-> +recipes-support      - Recipes used by other recipes but that are not directly included in images
->
->
+> There are also perf patches for 3.2 - did I miss the updates for those?
 
-Merged into OE-Core
+Nope. I got distracted and didn't fire up the git-send-email on them, doing that
+now. :)
 
-Thanks
-	Sau!
+Bruce
+
+>
+> Tom
+>
+>> I've also staged a unionfs build fix along with the perf updates.
+>>
+>> Cheers,
+>>
+>> Bruce
+>>
+>> cc: Tom Zanussi <tom.zanussi@intel.com>
+>>
+>> The following changes since commit f40ce3e1f4ceebc90b3c058dc82750829149c21d:
+>>
+>>   package_rpm: Avoid duplicate package generation failures (2012-07-09 11:38:02 +0100)
+>>
+>> are available in the git repository at:
+>>   git://git.pokylinux.org/poky-contrib zedd/kernel
+>>   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+>>
+>> Bruce Ashfield (1):
+>>   linux-yocto/3.4: perf scripting & unionfs fixes
+>>
+>>  meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb |    6 +++---
+>>  meta/recipes-kernel/linux/linux-yocto_3.4.bb    |   14 +++++++-------
+>>  2 files changed, 10 insertions(+), 10 deletions(-)
+>>
+>
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+
+
+
+-- 
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
 
