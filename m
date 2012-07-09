@@ -1,38 +1,40 @@
-Received: from mail-yx0-f175.google.com ([209.85.213.175])
+Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrei@gherzan.ro>) id 1SoKtR-0002s1-Li
+	(envelope-from <ross.burton@intel.com>) id 1SoKtl-0002v1-6b
 	for openembedded-core@lists.openembedded.org;
-	Mon, 09 Jul 2012 22:49:17 +0200
-Received: by yenl13 with SMTP id l13so9841950yen.6
+	Mon, 09 Jul 2012 22:49:37 +0200
+Received: from mail-qa0-f45.google.com ([209.85.216.45])
+	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 09 Jul 2012 13:38:26 -0700
+Received: by qaeb19 with SMTP id b19so1782691qae.4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 09 Jul 2012 13:38:07 -0700 (PDT)
+	Mon, 09 Jul 2012 13:38:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=mime-version:x-originating-ip:in-reply-to:references:from:date
-	:message-id:subject:to:content-type:x-gm-message-state;
-	bh=uGVtGTcyDdcZQJpXzH6WkoBptUdTO9VJxO8baRG8jIg=;
-	b=Txj2+sRkCyMVnJdV99jsWpPNm+XyG7zG/Mm83cxl8hB6is5KabcJ8iXm+C9jw9ntfH
-	xhDrz1jtIGG8/J0ZusfCeJE/X+upIT3CzYc2sIa+3s4iqcZgsT/MsvbeiScf7mK7QXXD
-	5gn7ahm6sH1puYcWWgUQeKwVbLcVoOFLqBwzZqCf8JMbyvvodAxZ3tR7dVhSF0c+89Bb
-	GanwpjU4xyr9dbAaPeYKBA36eD7dFMKAkz1ZigcQvLlr6/gKl2loDTIXAQf06eKK8yw4
-	LjITYknsg6Iwv/enkeSLSKBU9dw6B7O4beThYMDQYSdp0oSU8bL9r7+3xrJs0K6zU3t0
-	FkWg==
-Received: by 10.50.87.138 with SMTP id ay10mr9489016igb.43.1341866287369; Mon,
-	09 Jul 2012 13:38:07 -0700 (PDT)
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type:x-gm-message-state;
+	bh=a94KuxO+HqnGcOowApnTZrzH4qreQ5fyCbW894jApeY=;
+	b=mHWz7TPOaPBm6dQ/UgnOQLYL8pcjuc6AxsX4KKRNhdS3nebs8r7QtFOFq9hBIsZDeO
+	oZeBPJFaJtImMvbZ9l2Kw5CjDJL1ySis6R77nV4OlpVvpAnv1CX04tAJjFv6RNmWvF1m
+	gH6tCKNaGoU+4nF9BztD6TzMl+sWSAin/MKQOhqishitrKbyYdfevveXvQDmQQ7Z5FFN
+	E/EIt5YGPewoq9zVv9yv+6JD7b5pqSny1Bx3OcNwkiARpu/S2B+GB6MOP9dJPq06nd0a
+	5qM7hP52CmXukZ9vqI/8P4qHQj64QwgA2ALAMUrEk9hklzf1XNYHHM2UnVaZAGXU275N
+	73yw==
+Received: by 10.224.217.9 with SMTP id hk9mr51822976qab.58.1341866305717; Mon,
+	09 Jul 2012 13:38:25 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.64.98.162 with HTTP; Mon, 9 Jul 2012 13:37:47 -0700 (PDT)
-X-Originating-IP: [79.117.115.156]
-In-Reply-To: <alpine.DEB.2.02.1207091630380.24097@oneiric>
-References: <alpine.DEB.2.02.1207081227430.27741@oneiric>
-	<CAK18fxFD1X6tPLsXG-vwRFu-EeEZDTdeKoTKRYAvYrKJfd-_mQ@mail.gmail.com>
-	<alpine.DEB.2.02.1207091630380.24097@oneiric>
-From: Andrei Gherzan <andrei@gherzan.ro>
-Date: Mon, 9 Jul 2012 23:37:47 +0300
-Message-ID: <CAK18fxE=rCL_A6=WRGHRgqFWRwB5hKMJmDcj2t8y1GzNyU+y3w@mail.gmail.com>
+Received: by 10.229.16.207 with HTTP; Mon, 9 Jul 2012 13:38:05 -0700 (PDT)
+In-Reply-To: <20120709203539.GH6308@jama.jama.net>
+References: <20120709160054.C9FA610219@opal>
+	<20120709200357.GG6308@jama.jama.net>
+	<CAJTo0LZBrgFmeJVV1RfA+N4z6t=vBip7PzA0bVjk=gBrzAQqGA@mail.gmail.com>
+	<20120709203539.GH6308@jama.jama.net>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 9 Jul 2012 21:38:05 +0100
+Message-ID: <CAJTo0LahoJnXnUaCJJW-x75115qGL0iS=KYfpt98Y0HyLNHaoQ@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Gm-Message-State: ALoCoQl6mtKVc+LVzhQhQocaFOPaC4YrG08bAXRZzLmVsTZA89YksR5ofNfl8ZVDulH9a0zcLe2z
-Subject: Re: more pedantry -- looking to clarify layers definition, BBPATH, BBFILES, etc.
+X-Gm-Message-State: ALoCoQkkYSDUl7vFD3QY3mw8rB8ey5ocJrKG1YPnDHncBd7VuzOYVlo78EmLaUSk1fiGnZ/xwhn9
+Subject: Re: [oe-commits] Ross Burton : connman: ship the empty plugins directory in the connman package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,124 +49,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Jul 2012 20:49:18 -0000
-Content-Type: multipart/alternative; boundary=e89a8f3ba673650eff04c46b976c
+X-List-Received-Date: Mon, 09 Jul 2012 20:49:37 -0000
+Content-Type: text/plain; charset=UTF-8
 
---e89a8f3ba673650eff04c46b976c
-Content-Type: text/plain; charset=ISO-8859-1
-
-On Mon, Jul 9, 2012 at 11:34 PM, Robert P. J. Day <rpjday@crashcourse.ca>wrote:
-
-> On Mon, 9 Jul 2012, Andrei Gherzan wrote:
+On 9 July 2012 21:35, Martin Jansa <martin.jansa@gmail.com> wrote:
+> On Mon, Jul 09, 2012 at 09:16:13PM +0100, Burton, Ross wrote:
+>> On 9 July 2012 21:03, Martin Jansa <martin.jansa@gmail.com> wrote:
+>> > Ross: please make sure you add them in future patches
+>> > sgw: maybe you're using different flow then RP for merging patches, but
+>> > your SOB should be there too IMHO.
+>>
+>> I *always* forget, sorry.  Is there a way to make git do it automatically?...
 >
-> >
-> > On Sun, Jul 8, 2012 at 8:59 PM, Robert P. J. Day <rpjday@crashcourse.ca>
-> wrote:
-> >
-> >         (most of this is sort of self-evident but it's not documented as
-> >       well as it could be so i just want to make sure i have it exactly
-> >       right.)
-> >
-> >         snippets of some layer.conf files:
-> >
-> >       oe-core:
-> >
-> >       BBPATH .= ":${LAYERDIR}"
-> >       BBFILES += "${LAYERDIR}/recipes-*/*/*.bb"
-> >
-> >       meta-hob:
-> >
-> >       BBPATH := "${BBPATH}:${LAYERDIR}"
-> >       BBFILES := "${BBFILES} ${LAYERDIR}/recipes-*/*/*.bb"
-> >
-> >       meta-yocto:
-> >
-> >       BBPATH := "${LAYERDIR}:${BBPATH}"
-> >       BBFILES := "${BBFILES} ${LAYERDIR}/recipes-*/*/*.bb \
-> >                   ${LAYERDIR}/recipes-*/*/*.bbappend"
-> >
-> >         note how meta-hob *appends* itself to BBPATH, while meta-yocto
-> >       *prepends* itself.  is there no possibility that this will cause
-> some
-> >       confusion based on how BBPATH is used to resolve the location of
-> class
-> >       or conf files?  i realize you should try to avoid that sort of
-> >       conflict but it still seems possible that someone might choose the
-> >       names of some files badly and the unpredictable ordering in BBPATH
-> >       will cause grief, no?
-> >
-> >
-> > I don't think this can cause any problems.
->
->   are you sure?
->
->
-As i said, as long as PRIORITY is set accordingly.
+> Not sure if there is smarter way. I'm using aliases for commit and
+> cherry-pick to always add '-s'.
 
-@g
+The config option format.signoff will automatically sign-off when
+using format-patch, which sounds rather useful to me.
 
---e89a8f3ba673650eff04c46b976c
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+Ross
 
-<div class=3D"gmail_quote">On Mon, Jul 9, 2012 at 11:34 PM, Robert P. J. Da=
-y <span dir=3D"ltr">&lt;<a href=3D"mailto:rpjday@crashcourse.ca" target=3D"=
-_blank">rpjday@crashcourse.ca</a>&gt;</span> wrote:<br><blockquote class=3D=
-"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding=
--left:1ex">
 
-On Mon, 9 Jul 2012, Andrei Gherzan wrote:<br>
-<br>
-&gt;<br>
-&gt; On Sun, Jul 8, 2012 at 8:59 PM, Robert P. J. Day &lt;<a href=3D"mailto=
-:rpjday@crashcourse.ca">rpjday@crashcourse.ca</a>&gt; wrote:<br>
-&gt;<br>
-&gt; =A0 =A0 =A0 =A0 (most of this is sort of self-evident but it&#39;s not=
- documented as<br>
-&gt; =A0 =A0 =A0 well as it could be so i just want to make sure i have it =
-exactly<br>
-&gt; =A0 =A0 =A0 right.)<br>
-&gt;<br>
-&gt; =A0 =A0 =A0 =A0 snippets of some layer.conf files:<br>
-&gt;<br>
-&gt; =A0 =A0 =A0 oe-core:<br>
-&gt;<br>
-&gt; =A0 =A0 =A0 BBPATH .=3D &quot;:${LAYERDIR}&quot;<br>
-&gt; =A0 =A0 =A0 BBFILES +=3D &quot;${LAYERDIR}/recipes-*/*/*.bb&quot;<br>
-&gt;<br>
-&gt; =A0 =A0 =A0 meta-hob:<br>
-&gt;<br>
-&gt; =A0 =A0 =A0 BBPATH :=3D &quot;${BBPATH}:${LAYERDIR}&quot;<br>
-&gt; =A0 =A0 =A0 BBFILES :=3D &quot;${BBFILES} ${LAYERDIR}/recipes-*/*/*.bb=
-&quot;<br>
-&gt;<br>
-&gt; =A0 =A0 =A0 meta-yocto:<br>
-&gt;<br>
-&gt; =A0 =A0 =A0 BBPATH :=3D &quot;${LAYERDIR}:${BBPATH}&quot;<br>
-&gt; =A0 =A0 =A0 BBFILES :=3D &quot;${BBFILES} ${LAYERDIR}/recipes-*/*/*.bb=
- \<br>
-&gt; =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 ${LAYERDIR}/recipes-*/*/*.bbappend=
-&quot;<br>
-&gt;<br>
-&gt; =A0 =A0 =A0 =A0 note how meta-hob *appends* itself to BBPATH, while me=
-ta-yocto<br>
-&gt; =A0 =A0 =A0 *prepends* itself. =A0is there no possibility that this wi=
-ll cause some<br>
-&gt; =A0 =A0 =A0 confusion based on how BBPATH is used to resolve the locat=
-ion of class<br>
-&gt; =A0 =A0 =A0 or conf files? =A0i realize you should try to avoid that s=
-ort of<br>
-&gt; =A0 =A0 =A0 conflict but it still seems possible that someone might ch=
-oose the<br>
-&gt; =A0 =A0 =A0 names of some files badly and the unpredictable ordering i=
-n BBPATH<br>
-&gt; =A0 =A0 =A0 will cause grief, no?<br>
-&gt;<br>
-&gt;<br>
-&gt; I don&#39;t think this can cause any problems.<br>
-<br>
-=A0 are you sure?<br><br></blockquote><div><br></div><div>As i said, as lon=
-g as PRIORITY is set accordingly.=A0</div><div><br></div><div>@g=A0</div></=
-div>
-
---e89a8f3ba673650eff04c46b976c--
