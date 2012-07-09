@@ -1,24 +1,24 @@
 Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SoGMn-00065B-OH
+	(envelope-from <sgw@linux.intel.com>) id 1SoGMn-00065Z-FJ
 	for openembedded-core@lists.openembedded.org;
-	Mon, 09 Jul 2012 17:59:18 +0200
+	Mon, 09 Jul 2012 17:59:17 +0200
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
 	by fmsmga102.fm.intel.com with ESMTP; 09 Jul 2012 08:48:02 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="190292919"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="190292913"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.157])
-	by fmsmga002.fm.intel.com with ESMTP; 09 Jul 2012 08:48:02 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 09 Jul 2012 08:48:01 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  9 Jul 2012 08:47:41 -0700
-Message-Id: <5ab3bc4833c2674014b50a93f5ca323d8de5aedd.1341802889.git.sgw@linux.intel.com>
+Date: Mon,  9 Jul 2012 08:47:39 -0700
+Message-Id: <fd9992ae35020ec1132c7080ddfc9439e98bde99.1341802889.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <cover.1341802889.git.sgw@linux.intel.com>
 References: <cover.1341802889.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1341802889.git.sgw@linux.intel.com>
 References: <cover.1341802889.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 27/41] libxml-parser-perl_2.41.bb: fix MakeMaker issues with using wrong CC/LD/etc
+Subject: [CONSOLIDATED PULL 25/41] pseudo: Update to 1.3.1 (fixing chroot crash)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,55 +35,64 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 09 Jul 2012 15:59:18 -0000
 
-From: Matthew McClintock <msm@freescale.com>
+From: Peter Seebach <peter.seebach@windriver.com>
 
-MakeMaker has a bug where it does not propagate CC/LD/etc information
-down to subproject it generates Makefiles for... this recipe has has an
-Expat subproject which has issues building if we are using sstate-cache
-and it will reference the old sysroots and be unable to build properly.
-There is an upstream MakeMaker bug for this issue but we can work around
-it by fixing up the Makefiles for now
+Yocto bug #2639.  If a chroot path was long, expanding absolute
+paths within the chroot path could overrun a buffer.
 
-See:
-https://rt.cpan.org/Public/Bug/Display.html?id=28632
-
-Signed-off-by: Matthew McClintock <msm@freescale.com>
+Signed-off-by: Peter Seebach <peter.seebach@windriver.com>
 ---
- .../perl/libxml-parser-perl_2.41.bb                |   11 +++++++++--
- 1 files changed, 9 insertions(+), 2 deletions(-)
+ meta/recipes-devtools/pseudo/pseudo_1.3.1.bb |    8 ++++++++
+ meta/recipes-devtools/pseudo/pseudo_1.3.bb   |    8 --------
+ meta/recipes-devtools/pseudo/pseudo_git.bb   |    6 +++---
+ 3 files changed, 11 insertions(+), 11 deletions(-)
+ create mode 100644 meta/recipes-devtools/pseudo/pseudo_1.3.1.bb
+ delete mode 100644 meta/recipes-devtools/pseudo/pseudo_1.3.bb
 
-diff --git a/meta/recipes-devtools/perl/libxml-parser-perl_2.41.bb b/meta/recipes-devtools/perl/libxml-parser-perl_2.41.bb
-index be41578..33b4d83 100644
---- a/meta/recipes-devtools/perl/libxml-parser-perl_2.41.bb
-+++ b/meta/recipes-devtools/perl/libxml-parser-perl_2.41.bb
-@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://README;beginline=2;endline=6;md5=c8767d7516229f07b26e
- 
- DEPENDS += "expat expat-native"
- 
--PR = "r2"
-+PR = "r3"
- 
- SRC_URI = "http://www.cpan.org/modules/by-module/XML/XML-Parser-${PV}.tar.gz"
- SRC_URI[md5sum] = "c320d2ffa459e6cdc6f9f59c1185855e"
-@@ -13,10 +13,17 @@ SRC_URI[sha256sum] = "b48197cd2265a26c5f016489f11a7b450d8833cb8b3d6a46ee15975740
- 
- S = "${WORKDIR}/XML-Parser-${PV}"
- 
--EXTRA_CPANFLAGS = "EXPATLIBPATH=${STAGING_LIBDIR} EXPATINCPATH=${STAGING_INCDIR}"
-+EXTRA_CPANFLAGS = "EXPATLIBPATH=${STAGING_LIBDIR} EXPATINCPATH=${STAGING_INCDIR} CC=${CC} LD=${LD} FULL_AR=${AR}"
- 
- inherit cpan
- 
-+# fix up sub MakeMaker project as arguments don't get propagated though
-+# see https://rt.cpan.org/Public/Bug/Display.html?id=28632
-+do_configure_append() {
-+	sed 's:--sysroot=.*\(\s\|$\):--sysroot=${STAGING_DIR_TARGET} :g' -i Makefile Expat/Makefile
-+	sed 's:^FULL_AR = .*:FULL_AR = ${AR}:g' -i Expat/Makefile
-+}
+diff --git a/meta/recipes-devtools/pseudo/pseudo_1.3.1.bb b/meta/recipes-devtools/pseudo/pseudo_1.3.1.bb
+new file mode 100644
+index 0000000..d64e0e5
+--- /dev/null
++++ b/meta/recipes-devtools/pseudo/pseudo_1.3.1.bb
+@@ -0,0 +1,8 @@
++require pseudo.inc
 +
- do_compile() {
- 	export LIBC="$(find ${STAGING_DIR_TARGET}/${base_libdir}/ -name 'libc-*.so')"
- 	cpan_do_compile
++PR = "r11"
++
++SRC_URI = "http://www.yoctoproject.org/downloads/${BPN}/${BPN}-${PV}.tar.bz2"
++
++SRC_URI[md5sum] = "aa7dbe925d065187833e1171746e9a94"
++SRC_URI[sha256sum] = "dc896c06b0f5bc253faaeb21ed78157db7ef7553e3ecae15a1eb6faf64942110"
+diff --git a/meta/recipes-devtools/pseudo/pseudo_1.3.bb b/meta/recipes-devtools/pseudo/pseudo_1.3.bb
+deleted file mode 100644
+index 187b46d..0000000
+--- a/meta/recipes-devtools/pseudo/pseudo_1.3.bb
++++ /dev/null
+@@ -1,8 +0,0 @@
+-require pseudo.inc
+-
+-PR = "r10"
+-
+-SRC_URI = "http://www.yoctoproject.org/downloads/${BPN}/${BPN}-${PV}.tar.bz2"
+-
+-SRC_URI[md5sum] = "5832bb70e6dce1a17b9b33a9c5c4b923"
+-SRC_URI[sha256sum] = "2f30e2e9ec966cec3a321fc2ed80408ee77ad6c0cd73aaf36f88b98e008f8508"
+diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
+index 1852fab..2f58072 100644
+--- a/meta/recipes-devtools/pseudo/pseudo_git.bb
++++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
+@@ -1,8 +1,8 @@
+ require pseudo.inc
+ 
+-SRCREV = "f0375c9aaefbccfd41aebbf6d332bb4d9e8f980c"
+-PV = "1.3+git${SRCPV}"
+-PR = "r25"
++SRCREV = "2e0189ba5368b1e88d509d0ab82bccb15cfb3653"
++PV = "1.3.1+git${SRCPV}"
++PR = "r26"
+ 
+ DEFAULT_PREFERENCE = "-1"
+ 
 -- 
 1.7.7.6
 
