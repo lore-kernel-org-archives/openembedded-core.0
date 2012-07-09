@@ -1,54 +1,45 @@
-Received: from co1ehsobe004.messaging.microsoft.com ([216.32.180.187]
-	helo=co1outboundpool.messaging.microsoft.com)
+Received: from mail-gg0-f175.google.com ([209.85.161.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1SoKgu-0002U7-3U
+	(envelope-from <andrei@gherzan.ro>) id 1SoKol-0002hx-Cq
 	for openembedded-core@lists.openembedded.org;
-	Mon, 09 Jul 2012 22:36:20 +0200
-Received: from mail198-co1-R.bigfish.com (10.243.78.228) by
-	CO1EHSOBE005.bigfish.com (10.243.66.68) with Microsoft SMTP Server id
-	14.1.225.23; Mon, 9 Jul 2012 20:07:45 +0000
-Received: from mail198-co1 (localhost [127.0.0.1])	by
-	mail198-co1-R.bigfish.com (Postfix) with ESMTP id DFAD0D8028E;
-	Mon,  9 Jul 2012 20:07:44 +0000 (UTC)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-X-SpamScore: -1
-X-BigFish: VS-1(zz98dI9371Izz1202hzz8275bhz2dh2a8h668h839h8e2h8e3hf0ah107ahbe9i)
-Received: from mail198-co1 (localhost.localdomain [127.0.0.1]) by mail198-co1
-	(MessageSwitch) id 1341864463323794_22409;
-	Mon,  9 Jul 2012 20:07:43 +0000 (UTC)
-Received: from CO1EHSMHS031.bigfish.com (unknown [10.243.78.229])	by
-	mail198-co1.bigfish.com (Postfix) with ESMTP id 43A95240044;
-	Mon,  9 Jul 2012 20:07:43 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by CO1EHSMHS031.bigfish.com
-	(10.243.66.41) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Mon, 9 Jul 2012 20:07:43 +0000
-Received: from 039-SN1MPN1-002.039d.mgd.msft.net ([169.254.2.109]) by
-	039-SN1MMR1-002.039d.mgd.msft.net ([10.84.1.15]) with mapi id
-	14.02.0298.005; Mon, 9 Jul 2012 15:09:59 -0500
-From: McClintock Matthew-B29882 <B29882@freescale.com>
+	Mon, 09 Jul 2012 22:44:27 +0200
+Received: by ggnp4 with SMTP id p4so9830279ggn.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 09 Jul 2012 13:33:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:x-originating-ip:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type:x-gm-message-state;
+	bh=HXzRmCyaPqBrBveDw60hU+xCDspBywP1xoO15FMD0dc=;
+	b=iWSDoTCPglk0tB69TRAAWW1Vx846WFciC0DANCH5icdl/bkzXPP22NCiKFq8SZQCw0
+	sbkw/5JY9iiEJAtiymfJ0T7iMxY7v3gqrDrNnvq6bAT0ZSxN1afAgZQ9IpYSLFx91yVB
+	NMx/AAwY7hi9sIEjQpcZbu1VpJMOBmBtYEwSf1/Mjitmlc45iZxwjt/YLOW+6IhWXNwh
+	qmHR5/2AEuJbrzWhgPmP3sMCc9k1GCkxyzd7cN89J7ZbWEAjRKgcMPmam8Pn/lI227Sg
+	n76jAQETIkKTHiBw3ij+HiK94yrF6nVr7l1hGoHnpFPcTNs5zMDnAj6kL6sWKuNHOeLl
+	K5RQ==
+Received: by 10.50.160.198 with SMTP id xm6mr9705600igb.0.1341865997167; Mon,
+	09 Jul 2012 13:33:17 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.64.98.162 with HTTP; Mon, 9 Jul 2012 13:32:56 -0700 (PDT)
+X-Originating-IP: [79.117.115.156]
+In-Reply-To: <alpine.DEB.2.02.1207091224240.1542@oneiric>
+References: <alpine.DEB.2.02.1207071435090.25344@oneiric>
+	<CAK18fxFo2YtoGNQEtLNh8cVPvxKebGYYKQSEVCPxXmWsTfU3Gg@mail.gmail.com>
+	<alpine.DEB.2.02.1207091120520.1353@oneiric>
+	<1803032.sCdKSRoOHk@helios>
+	<alpine.DEB.2.02.1207091224240.1542@oneiric>
+From: Andrei Gherzan <andrei@gherzan.ro>
+Date: Mon, 9 Jul 2012 23:32:56 +0300
+Message-ID: <CAK18fxHyF2i8j-uoz7CVMGGNj3n21LUJpvkZ7kgbfGt+xeb4MQ@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH] libgomp: add libgomp (openmp) library, and
-	build for powerpc targets by default
-Thread-Index: AQHNXU8a5W1i8WJ3y0K+9ThoYsHus5cgN+iAgAF+0oA=
-Date: Mon, 9 Jul 2012 20:09:58 +0000
-Message-ID: <CAEsOVNe1zoUsMawDX4LOLWu9=gx3NBeyaCHnK0S9eBM9Xj=s+A@mail.gmail.com>
-References: <1341549155-30728-1-git-send-email-msm@freescale.com>
-	<4FF9F8F4.6050408@linux.intel.com> <4FF9F95F.8010300@linux.intel.com>
-In-Reply-To: <4FF9F95F.8010300@linux.intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [70.112.201.132]
-MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Subject: Re: [PATCH] libgomp: add libgomp (openmp) library, and build for powerpc targets by default
+X-Gm-Message-State: ALoCoQm4k0zjbb85zIoo/31YrVRI2K2VcoFgAjRRe7eVg5VOBpPp6cJpIMg5x5YE7Bpqc5R3BFky
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
+Subject: Re: setting EXTRA_IMAGE_FEATURES explicitly in .bb file can screw things up
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
-	Patches and discussions about the oe-core layer
+Reply-To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -59,21 +50,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Jul 2012 20:36:20 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <6D45395CD625F44B97FA4523BC9EF708@mgd.freescale.com>
+X-List-Received-Date: Mon, 09 Jul 2012 20:44:27 -0000
+Content-Type: multipart/alternative; boundary=14dae934103d18ebcb04c46b86b6
+
+--14dae934103d18ebcb04c46b86b6
+Content-Type: text/plain; charset=ISO-8859-1
+
+On Mon, Jul 9, 2012 at 7:25 PM, Robert P. J. Day <rpjday@crashcourse.ca>wrote:
+
+> On Mon, 9 Jul 2012, Paul Eggleton wrote:
+>
+> > On Monday 09 July 2012 11:24:27 Robert P. J. Day wrote:
+> > > On Mon, 9 Jul 2012, Andrei Gherzan wrote:
+> > > > So IMHO the EXTRA_IMAGE_FEATURES variable in the image should be
+> > > > merged in the IMAGE_FEATURES above. I don't see the meaning of it.
+> > >
+> > >   yup, that was precisely the point i was making.  so given the
+> > > potential for confusion, what should be the "best practise" here?
+> > > based on my sketchy understanding, it seems the proper approach would
+> > > be to let recipe files use IMAGE_FEATURES exclusively, while
+> > > specifically reserving EXTRA_IMAGE_FEATURES for the developer's
+> > > local.conf file, and avoid the current unpleasant mixing.
+> >
+> > Sounds like a good idea to me.
+>
+>   i'll send in a patch that does that, especially since
+> local.conf.sample specifically instructs the developer to use
+> EXTRA_IMAGE_FEATURES.   patch coming shortly.
+>
+>
+Good.
+
+@g
+
+--14dae934103d18ebcb04c46b86b6
+Content-Type: text/html; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, Jul 8, 2012 at 4:19 PM, Saul Wold <sgw@linux.intel.com> wrote:
->   /usr/share/info/dir
+<div class=3D"gmail_quote">On Mon, Jul 9, 2012 at 7:25 PM, Robert P. J. Day=
+ <span dir=3D"ltr">&lt;<a href=3D"mailto:rpjday@crashcourse.ca" target=3D"_=
+blank">rpjday@crashcourse.ca</a>&gt;</span> wrote:<br><blockquote class=3D"=
+gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-=
+left:1ex">
 
-I don't see this dir on my build... perhaps it's the specific version
-of gcc? or it's some munged text output?
+<div class=3D"im">On Mon, 9 Jul 2012, Paul Eggleton wrote:<br>
+<br>
+&gt; On Monday 09 July 2012 11:24:27 Robert P. J. Day wrote:<br>
+&gt; &gt; On Mon, 9 Jul 2012, Andrei Gherzan wrote:<br>
+&gt; &gt; &gt; So IMHO the EXTRA_IMAGE_FEATURES variable in the image shoul=
+d be<br>
+&gt; &gt; &gt; merged in the IMAGE_FEATURES above. I don&#39;t see the mean=
+ing of it.<br>
+&gt; &gt;<br>
+&gt; &gt; =A0 yup, that was precisely the point i was making. =A0so given t=
+he<br>
+&gt; &gt; potential for confusion, what should be the &quot;best practise&q=
+uot; here?<br>
+&gt; &gt; based on my sketchy understanding, it seems the proper approach w=
+ould<br>
+&gt; &gt; be to let recipe files use IMAGE_FEATURES exclusively, while<br>
+&gt; &gt; specifically reserving EXTRA_IMAGE_FEATURES for the developer&#39=
+;s<br>
+&gt; &gt; local.conf file, and avoid the current unpleasant mixing.<br>
+&gt;<br>
+&gt; Sounds like a good idea to me.<br>
+<br>
+</div>=A0 i&#39;ll send in a patch that does that, especially since<br>
+local.conf.sample specifically instructs the developer to use<br>
+EXTRA_IMAGE_FEATURES. =A0 patch coming shortly.<br>
+<div class=3D"im HOEnZb"><br></div></blockquote><div>=A0</div><div>Good.=A0=
+</div><div><br></div><div>@g</div></div>
 
-If you still see if can you add it to the patch? v2 coming shortly.
-
--M=
-
-
-
+--14dae934103d18ebcb04c46b86b6--
