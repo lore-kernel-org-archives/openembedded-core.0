@@ -1,35 +1,46 @@
-Received: from mail-wg0-f43.google.com ([74.125.82.43])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>)
-	id 1SoKMS-00024Z-UU; Mon, 09 Jul 2012 22:15:13 +0200
-Received: by wgbdr1 with SMTP id dr1so10781827wgb.24
-	for <multiple recipients>; Mon, 09 Jul 2012 13:04:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=keyNbFaDHDbD1R4JgS2ytefFqXbbfQDf7HdO5fOjCps=;
-	b=v7KOBbc1xWwuI3eiUdj4JeDyTYfkDf9u56xl6OyUfMYfz5lU7SOhecEVKw+zfWhe0d
-	QcanJgvVVYQglJ8y/rNilOE6kGuy1dP1xEAZ++F1wNgcpEXMX1vKCfL//qrZuE1RFwPW
-	gcl6gYEocBb3cToBArExfiwxgmCfd7GrqbWBzA2Z58P4mFJWPvUPDMNib1lhgMyRrSDJ
-	1XcTTu2mqLQrB9ZWAOYiShs2LF4UPUVIS5GYMaDlmrO4q9l6Q1WhjIk/NJwls8SSjskP
-	1nBIoVezhgQ5V3jYlJS9aUgklBla2GHwuIA2fu9FyssvdnzFQn6dro5iMB/pCeTHVsdm
-	5UzQ==
-Received: by 10.180.86.106 with SMTP id o10mr32103493wiz.22.1341864242045;
-	Mon, 09 Jul 2012 13:04:02 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id cu1sm15651316wib.6.2012.07.09.13.04.00
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 09 Jul 2012 13:04:00 -0700 (PDT)
-Date: Mon, 9 Jul 2012 22:03:57 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20120709200357.GG6308@jama.jama.net>
-References: <20120709160054.C9FA610219@opal>
+	(envelope-from <scott.a.garman@intel.com>) id 1SoKX6-0002G5-40
+	for openembedded-core@lists.openembedded.org;
+	Mon, 09 Jul 2012 22:26:12 +0200
+Received: from mail-pb0-f52.google.com ([209.85.160.52])
+	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 09 Jul 2012 13:15:00 -0700
+Received: by pbbro8 with SMTP id ro8so19286684pbb.25
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 09 Jul 2012 13:15:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=message-id:date:from:user-agent:mime-version:to:cc:subject
+	:references:in-reply-to:content-type:content-transfer-encoding
+	:x-gm-message-state;
+	bh=GLNf1CKMePep6NKG7Z6b6IaCdl/BlfbRDwZjhFbVjJY=;
+	b=kZcbO7V3rhRtkFjGHqcXhNxFWxiSgJT4dzNokGpXxHpWBrtxmHmjNczk6zUY5py0nI
+	wMIUR+8Di8BKV4IkY8ptxf6GBRKGyC/loxvSMjn/JazdWZvyWolS7QYQCloxNizzrt05
+	bdrJSH47rfcRI1bX/TPPoRTaRsBB1WtO+INB6bM8f2cxRJIZ5b9G/JKuhLSLQ++sxuiX
+	l8tMK/QGCWQ0J2uWFOkIG8VdmxxfN7l1VS/N4Y5ANFDMPz/G8WM9MUMf6CNODvyafIRm
+	ENXol3nR/e3/EK6Ac5Y9C6RrqOi8surkuc8Dir7LcKKy/oOZ3N0ZpSui+D8p0Y6F35k3
+	zd8g==
+Received: by 10.68.217.100 with SMTP id ox4mr62396206pbc.87.1341864900212;
+	Mon, 09 Jul 2012 13:15:00 -0700 (PDT)
+Received: from [127.0.0.1] (masterfoo.zenlinux.com. [207.192.74.254])
+	by mx.google.com with ESMTPS id qd2sm28313315pbb.29.2012.07.09.13.14.56
+	(version=SSLv3 cipher=OTHER); Mon, 09 Jul 2012 13:14:58 -0700 (PDT)
+Message-ID: <4FFB3BB8.8020308@intel.com>
+Date: Mon, 09 Jul 2012 13:14:48 -0700
+From: Scott Garman <scott.a.garman@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:13.0) Gecko/20120615 Thunderbird/13.0.1
 MIME-Version: 1.0
-In-Reply-To: <20120709160054.C9FA610219@opal>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-commits@lists.openembedded.org
-Subject: Re: [oe-commits] Ross Burton : connman: ship the empty plugins directory in the connman package
+To: McClintock Matthew-B29882 <B29882@freescale.com>, 
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1336522880.git.raj.khem@gmail.com>
+	<2c51f2017955dff27ab68c1f4165309567864ee5.1336522880.git.raj.khem@gmail.com>
+	<096c4f3ac2f83fc08064afcec5a05824bb96b94e.1336522880.git.raj.khem@gmail.com>
+	<CAEsOVNfdHeAzs3ULW0UkMYCEjOptzSeBNYA=Bva9bJmEkVPp4g@mail.gmail.com>
+In-Reply-To: <CAEsOVNfdHeAzs3ULW0UkMYCEjOptzSeBNYA=Bva9bJmEkVPp4g@mail.gmail.com>
+X-Gm-Message-State: ALoCoQn49nGrNvKoN8gb2KecesXMXbmlpIwfdK7hJkK05Se9kv4PPNUk3udEd9ILpt3ChuEnIjrn
+Subject: Re: [PATCH 3/3] xserver-xorg: Fix build on powerpc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,102 +55,115 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Jul 2012 20:15:13 -0000
-X-Groupsio-MsgNum: 25005
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="MiFvc8Vo6wRSORdP"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 09 Jul 2012 20:26:12 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
---MiFvc8Vo6wRSORdP
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 07/06/2012 08:58 AM, McClintock Matthew-B29882 wrote:
+> Scott,
+>
+> Can you apply this patch to denzil branch of oe-core/poky? It fixes
+> build errors for powerpc on gcc 4.6.4 as well.
+>
+> -M
 
-On Mon, Jul 09, 2012 at 04:00:54PM +0000, git@git.openembedded.org wrote:
-> Module: openembedded-core.git
-> Branch: master
-> Commit: 8a307af8253a5fdff51515fe01ef7b527fdad89f
-> URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcommit=
-;h=3D8a307af8253a5fdff51515fe01ef7b527fdad89f
->=20
-> Author: Ross Burton <ross.burton@intel.com>
-> Date:   Fri Jul  6 12:05:42 2012 +0100
->=20
-> connman: ship the empty plugins directory in the connman package
->=20
-> Otherwise we get a QA warning that /usr/lib/connman/packages isn't shippe=
-d.
+Hi Matthew,
 
-both patches from Ross in this batch are missing SOB lines.
+I've made a note of this and am going to try getting it into my 
+sgarman/denzil-next-1.2.2 branch later today, after I sort out the merge 
+issues I encountered last week with some other commits I'd like to include.
 
-Ross: please make sure you add them in future patches
-sgw: maybe you're using different flow then RP for merging patches, but
-your SOB should be there too IMHO.
+Scott
 
-Cheers,
-
->=20
-> ---
->=20
->  meta/recipes-connectivity/connman/connman.inc |    5 +++--
->  1 files changed, 3 insertions(+), 2 deletions(-)
->=20
-> diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipes=
--connectivity/connman/connman.inc
-> index 73e7818..12378e9 100644
-> --- a/meta/recipes-connectivity/connman/connman.inc
-> +++ b/meta/recipes-connectivity/connman/connman.inc
-> @@ -20,7 +20,7 @@ DEPENDS  =3D "dbus glib-2.0 ppp iptables gnutls \
->              ${@base_contains('DISTRO_FEATURES', '3g','ofono', '', d)} \
->              "
-> =20
-> -INC_PR =3D "r10"
-> +INC_PR =3D "r11"
-> =20
->  TIST =3D "--enable-tist"
->  TIST_powerpc =3D ""
-> @@ -99,7 +99,7 @@ python populate_packages_prepend() {
->  	hook =3D lambda file,pkg,b,c,d:packages.append((file,pkg))
->  	plugin_dir =3D d.expand('${libdir}/connman/plugins/')
->  	plugin_name =3D d.expand('${PN}-plugin-%s')
-> -	do_split_packages(d, plugin_dir, '^(.*).so$', plugin_name, '${PN} plugi=
-n for %s', extra_depends=3D'', hook=3Dhook )
-> +	do_split_packages(d, plugin_dir, '^(.*).so$', plugin_name, '${PN} plugi=
-n for %s', extra_depends=3D'', hook=3Dhook, prepend=3DTrue )
->  	for (file, package) in packages:
->  		plugintype =3D package.split( '-' )[-1]
->  		if plugintype in depmap:
-> @@ -116,6 +116,7 @@ FILES_${PN}-tests =3D "${bindir}/*-test ${libdir}/${B=
-PN}/test/*"
->  RDEPENDS_${PN}-tests =3D "python-dbus"
-> =20
->  FILES_${PN} =3D "${bindir}/* ${sbindir}/* ${libexecdir}/* ${libdir}/lib*=
-=2Eso.* \
-> +            ${libdir}/connman/plugins \
->              ${sysconfdir} ${sharedstatedir} ${localstatedir} \
->              ${base_bindir}/* ${base_sbindir}/* ${base_libdir}/*.so* ${da=
-tadir}/${PN} \
->              ${datadir}/dbus-1/system-services/*"
->=20
->=20
+>
+> On Tue, May 8, 2012 at 7:27 PM, Khem Raj <raj.khem@gmail.com> wrote:
+>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>> ---
+>>   .../xorg-xserver/xserver-xorg-1.11.2.inc           |    9 +++--
+>>   .../xserver-xorg-1.11.2/gcc-47-warning.patch       |   33 ++++++++++++++++++++
+>>   2 files changed, 38 insertions(+), 4 deletions(-)
+>>   create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2/gcc-47-warning.patch
+>>
+>> diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2.inc
+>> index f5fa629..6a86af4 100644
+>> --- a/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2.inc
+>> +++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2.inc
+>> @@ -1,10 +1,11 @@
+>> -SRC_URI += "file://crosscompile.patch"
+>> -
+>>   # Misc build failure for master HEAD
+>> -SRC_URI += "file://fix_open_max_preprocessor_error.patch"
+>> +SRC_URI += "file://crosscompile.patch \
+>> +            file://fix_open_max_preprocessor_error.patch \
+>> +            file://gcc-47-warning.patch \
+>> +           "
+>>
+>>   SRC_URI[md5sum] = "8796fff441e5435ee36a72579008af24"
+>>   SRC_URI[sha256sum] = "fa415decf02027ca278b06254ccfbcceba2a83c2741405257ebf749da4a73cf2"
+>>
+>> -PR = "r1"
+>> +PR = "r2"
+>>
+>> diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2/gcc-47-warning.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2/gcc-47-warning.patch
+>> new file mode 100644
+>> index 0000000..ed4eaac
+>> --- /dev/null
+>> +++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2/gcc-47-warning.patch
+>> @@ -0,0 +1,33 @@
+>> +This patch fixes errors on powerpc like below
+>> +
+>> +| lnx_video.c: In function 'unmapVidMem':
+>> +| lnx_video.c:472:24: error: cast from pointer to integer of different size [-Werror=pointer-to-int-cast]
+>> +
+>> +Its in 1.12 branch
+>> +
+>> +http://cgit.freedesktop.org/xorg/xserver/commit/?h=server-1.12-branch&id=eb3377ffb8a7baa26c9831e56ed782d48b28fa71
+>> +
+>> +Upstream-Status: Backport
+>> +
+>> +Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>> +
+>> +Index: xorg-server-1.11.2/hw/xfree86/os-support/linux/lnx_video.c
+>> +===================================================================
+>> +--- xorg-server-1.11.2.orig/hw/xfree86/os-support/linux/lnx_video.c    2012-05-01 06:32:34.186489019 -0700
+>> ++++ xorg-server-1.11.2/hw/xfree86/os-support/linux/lnx_video.c 2012-05-01 06:49:14.926537452 -0700
+>> +@@ -469,11 +469,11 @@
+>> + static void
+>> + unmapVidMem(int ScreenNum, pointer Base, unsigned long Size)
+>> + {
+>> +-    memType alignOff = (memType)Base
+>> +-      - ((memType)Base & ~(getpagesize() - 1));
+>> ++    uintptr_t alignOff = (uintptr_t)Base
+>> ++      - ((uintptr_t)Base & ~(getpagesize() - 1));
+>> +
+>> +-    DebugF("alignment offset: %lx\n",alignOff);
+>> +-    munmap((caddr_t)((memType)Base - alignOff), (Size + alignOff));
+>> ++    DebugF("alignment offset: %lx\n",(unsigned long)alignOff);
+>> ++    munmap((void*)((uintptr_t)Base - alignOff), (Size + alignOff));
+>> + }
+>> +
+>> +
+>> --
+>> 1.7.5.4
+>>
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 > _______________________________________________
-> Openembedded-commits mailing list
-> Openembedded-commits@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-commits
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---MiFvc8Vo6wRSORdP
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+-- 
+Scott Garman
+Embedded Linux Engineer - Yocto Project
+Intel Open Source Technology Center
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
 
-iEYEARECAAYFAk/7OS0ACgkQN1Ujt2V2gByBrgCgkgzaP/Torp6h+hRyhjgFEhnD
-dAoAoLrAjPqO0CBEX9SknwSukSmII6RT
-=4vFk
------END PGP SIGNATURE-----
 
---MiFvc8Vo6wRSORdP--
+
