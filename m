@@ -1,36 +1,23 @@
-Received: from mail-gh0-f175.google.com ([209.85.160.175])
+Received: from dd19416.kasserver.com ([85.13.139.185])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrei@gherzan.ro>) id 1SoA5j-00048E-BE
+	(envelope-from <stefan@herbrechtsmeier.net>) id 1SoAGS-0004Mw-R9
 	for openembedded-core@lists.openembedded.org;
-	Mon, 09 Jul 2012 11:17:15 +0200
-Received: by ghbz2 with SMTP id z2so9166026ghb.6
+	Mon, 09 Jul 2012 11:28:20 +0200
+Received: from [129.70.144.11] (hooge.TechFak.Uni-Bielefeld.DE [129.70.144.11])
+	by dd19416.kasserver.com (Postfix) with ESMTPSA id 7F7BE1840DAC
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 09 Jul 2012 02:06:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:x-originating-ip:in-reply-to:references:from:date
-	:message-id:subject:to:content-type:x-gm-message-state;
-	bh=uTB+1ryDVqlhTvnEutUxCLEjMVE0zMA+lE9+Oph9MKQ=;
-	b=LnpDUv0Le24740sMVpjAFNa0ycyUrY2VDmvJ+2qrOynaL0E0R/focAb56d1nxWuGTn
-	JaKQySgw4VYY6MlAFLAy52KEMq6/ssANhMWn4e6zk6WLsKRmX0bNNtnd1Xz60/LNbXw0
-	DMvKVclJCB/2YcGDw5Er1fcuIApKkPCUPksMYJ63PZUXxXu/HFDAb4aV+U88as/ry/WA
-	CMHuFuX892lRazHMGo/EB1K043Wmz/Z8gVTCraa/OAhpS7wedrHQpP4vMkEBCw25PLRP
-	TSrNR4OgOEEvyo/YX9QoPCthD0L0Ui52nMHV/hfx6o+uwIZ+vke9ut2lv/tsC+KWIDX8
-	H5aQ==
-Received: by 10.50.189.135 with SMTP id gi7mr7717280igc.8.1341824765570; Mon,
-	09 Jul 2012 02:06:05 -0700 (PDT)
+	Mon,  9 Jul 2012 11:07:42 +0200 (CEST)
+Message-ID: <4FFA9F5D.70300@herbrechtsmeier.net>
+Date: Mon, 09 Jul 2012 11:07:41 +0200
+From: Stefan Herbrechtsmeier <stefan@herbrechtsmeier.net>
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
+	rv:13.0) Gecko/20120614 Thunderbird/13.0.1
 MIME-Version: 1.0
-Received: by 10.64.98.162 with HTTP; Mon, 9 Jul 2012 02:05:45 -0700 (PDT)
-X-Originating-IP: [89.121.200.106]
-In-Reply-To: <alpine.DEB.2.02.1207081227430.27741@oneiric>
-References: <alpine.DEB.2.02.1207081227430.27741@oneiric>
-From: Andrei Gherzan <andrei@gherzan.ro>
-Date: Mon, 9 Jul 2012 12:05:45 +0300
-Message-ID: <CAK18fxFD1X6tPLsXG-vwRFu-EeEZDTdeKoTKRYAvYrKJfd-_mQ@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Gm-Message-State: ALoCoQl6Jshxz4+bTV9s3p/hqpoVSs1UTAhmBOGdTlU6NrisYb+C6zv1Lt1Tc47kDD9ytj4FG226
-Subject: Re: more pedantry -- looking to clarify layers definition, BBPATH, BBFILES, etc.
+To: openembedded-core@lists.openembedded.org
+References: <1341401643-4395-1-git-send-email-cristian.iorga@intel.com>
+	<1341401643-4395-3-git-send-email-cristian.iorga@intel.com>
+In-Reply-To: <1341401643-4395-3-git-send-email-cristian.iorga@intel.com>
+Subject: Re: [PATCH 2/5] bluez4: update to ver. 4.101
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,97 +32,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Jul 2012 09:17:15 -0000
-Content-Type: multipart/alternative; boundary=14dae934040b80acb104c461ec8e
+X-List-Received-Date: Mon, 09 Jul 2012 09:28:20 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
---14dae934040b80acb104c461ec8e
-Content-Type: text/plain; charset=ISO-8859-1
+Am 04.07.2012 13:34, schrieb Cristian Iorga:
+> Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
+> ---
+>   .../{bluez4-4.99 => bluez4-4.101}/bluetooth.conf   |    0
+>   .../{bluez4-4.99 => bluez4-4.101}/sbc_mmx.patch    |    0
+>   .../bluez/{bluez4_4.99.bb => bluez4_4.101.bb}      |    9 ++++-----
+>   3 files changed, 4 insertions(+), 5 deletions(-)
+>   rename meta/recipes-connectivity/bluez/{bluez4-4.99 => bluez4-4.101}/bluetooth.conf (100%)
+>   rename meta/recipes-connectivity/bluez/{bluez4-4.99 => bluez4-4.101}/sbc_mmx.patch (100%)
+>   rename meta/recipes-connectivity/bluez/{bluez4_4.99.bb => bluez4_4.101.bb} (83%)
+>
+> diff --git a/meta/recipes-connectivity/bluez/bluez4-4.99/bluetooth.conf b/meta/recipes-connectivity/bluez/bluez4-4.101/bluetooth.conf
+> similarity index 100%
+> rename from meta/recipes-connectivity/bluez/bluez4-4.99/bluetooth.conf
+> rename to meta/recipes-connectivity/bluez/bluez4-4.101/bluetooth.conf
+> diff --git a/meta/recipes-connectivity/bluez/bluez4-4.99/sbc_mmx.patch b/meta/recipes-connectivity/bluez/bluez4-4.101/sbc_mmx.patch
+> similarity index 100%
+> rename from meta/recipes-connectivity/bluez/bluez4-4.99/sbc_mmx.patch
+> rename to meta/recipes-connectivity/bluez/bluez4-4.101/sbc_mmx.patch
+> diff --git a/meta/recipes-connectivity/bluez/bluez4_4.99.bb b/meta/recipes-connectivity/bluez/bluez4_4.101.bb
+> similarity index 83%
+> rename from meta/recipes-connectivity/bluez/bluez4_4.99.bb
+> rename to meta/recipes-connectivity/bluez/bluez4_4.101.bb
+> index 32831e7..a2ba66f 100644
+> --- a/meta/recipes-connectivity/bluez/bluez4_4.99.bb
+> +++ b/meta/recipes-connectivity/bluez/bluez4_4.101.bb
+> @@ -1,13 +1,12 @@
+>   require bluez4.inc
+>   
+> -PR = "r2"
+> +PR = "r0"
+>   
+>   SRC_URI += "file://bluetooth.conf \
+> -            file://sbc_mmx.patch \
+> -           "
+> +            file://sbc_mmx.patch"
+>   
+> -SRC_URI[md5sum] = "570aa10692ed890aa0a4297b37824912"
+> -SRC_URI[sha256sum] = "d884b9aa5d3d9653c076b7646ca14a3e43eb84bccfe8193c49690f802bbd827c"
+> +SRC_URI[md5sum] = "fb42cb7038c380eb0e2fa208987c96ad"
+> +SRC_URI[sha256sum] = "59738410ade9f0e61a13c0f77d9aaffaafe49ba9418107e4ad75fe52846f7487"
+>   
+>   do_install_append() {
+>   	install -m 0644 ${S}/audio/audio.conf ${D}/${sysconfdir}/bluetooth/
+This patch breaks bluetooth on new images without systemd, as bluez 
+switch from udev rules to systemd service to start the bluetooth daemon.
 
-On Sun, Jul 8, 2012 at 8:59 PM, Robert P. J. Day <rpjday@crashcourse.ca>wrote:
 
->
->   (most of this is sort of self-evident but it's not documented as
-> well as it could be so i just want to make sure i have it exactly
-> right.)
->
->   snippets of some layer.conf files:
->
-> oe-core:
->
-> BBPATH .= ":${LAYERDIR}"
-> BBFILES += "${LAYERDIR}/recipes-*/*/*.bb"
->
-> meta-hob:
->
-> BBPATH := "${BBPATH}:${LAYERDIR}"
-> BBFILES := "${BBFILES} ${LAYERDIR}/recipes-*/*/*.bb"
->
-> meta-yocto:
->
-> BBPATH := "${LAYERDIR}:${BBPATH}"
-> BBFILES := "${BBFILES} ${LAYERDIR}/recipes-*/*/*.bb \
->             ${LAYERDIR}/recipes-*/*/*.bbappend"
->
->   note how meta-hob *appends* itself to BBPATH, while meta-yocto
-> *prepends* itself.  is there no possibility that this will cause some
-> confusion based on how BBPATH is used to resolve the location of class
-> or conf files?  i realize you should try to avoid that sort of
-> conflict but it still seems possible that someone might choose the
-> names of some files badly and the unpredictable ordering in BBPATH
-> will cause grief, no?
->
->
-I don't think this can cause any problems. It's all about the order the
-files are searched. As long as you have proper priority set nothing can go
-wrong.
 
-@g
-
---14dae934040b80acb104c461ec8e
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
-
-<br><div class=3D"gmail_quote">On Sun, Jul 8, 2012 at 8:59 PM, Robert P. J.=
- Day <span dir=3D"ltr">&lt;<a href=3D"mailto:rpjday@crashcourse.ca" target=
-=3D"_blank">rpjday@crashcourse.ca</a>&gt;</span> wrote:<br><blockquote clas=
-s=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;pad=
-ding-left:1ex">
-
-<br>
-=A0 (most of this is sort of self-evident but it&#39;s not documented as<br=
->
-well as it could be so i just want to make sure i have it exactly<br>
-right.)<br>
-<br>
-=A0 snippets of some layer.conf files:<br>
-<br>
-oe-core:<br>
-<br>
-BBPATH .=3D &quot;:${LAYERDIR}&quot;<br>
-BBFILES +=3D &quot;${LAYERDIR}/recipes-*/*/*.bb&quot;<br>
-<br>
-meta-hob:<br>
-<br>
-BBPATH :=3D &quot;${BBPATH}:${LAYERDIR}&quot;<br>
-BBFILES :=3D &quot;${BBFILES} ${LAYERDIR}/recipes-*/*/*.bb&quot;<br>
-<br>
-meta-yocto:<br>
-<br>
-BBPATH :=3D &quot;${LAYERDIR}:${BBPATH}&quot;<br>
-BBFILES :=3D &quot;${BBFILES} ${LAYERDIR}/recipes-*/*/*.bb \<br>
-=A0 =A0 =A0 =A0 =A0 =A0 ${LAYERDIR}/recipes-*/*/*.bbappend&quot;<br>
-<br>
-=A0 note how meta-hob *appends* itself to BBPATH, while meta-yocto<br>
-*prepends* itself. =A0is there no possibility that this will cause some<br>
-confusion based on how BBPATH is used to resolve the location of class<br>
-or conf files? =A0i realize you should try to avoid that sort of<br>
-conflict but it still seems possible that someone might choose the<br>
-names of some files badly and the unpredictable ordering in BBPATH<br>
-will cause grief, no?<br><br></blockquote><div><br></div><div>I don&#39;t t=
-hink this can cause any problems. It&#39;s all about the order the files ar=
-e searched. As long as you have proper priority set nothing can go wrong.=
-=A0</div>
-
-<div><br></div><div>@g</div></div><br>
-
---14dae934040b80acb104c461ec8e--
