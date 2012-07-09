@@ -1,21 +1,23 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <tom.zanussi@intel.com>) id 1SoHbJ-0006KQ-7O
+	(envelope-from <tom.zanussi@intel.com>) id 1SoHbL-0006KS-Ll
 	for openembedded-core@lists.openembedded.org;
-	Mon, 09 Jul 2012 19:18:21 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 09 Jul 2012 10:07:11 -0700
+	Mon, 09 Jul 2012 19:18:23 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 09 Jul 2012 10:07:13 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="175124630"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="120403856"
 Received: from unknown (HELO localhost) ([10.255.13.39])
-	by fmsmga001.fm.intel.com with ESMTP; 09 Jul 2012 10:07:10 -0700
+	by AZSMGA002.ch.intel.com with ESMTP; 09 Jul 2012 10:07:12 -0700
 From: tom.zanussi@intel.com
 To: openembedded-core@lists.openembedded.org,
 	richard.purdie@linuxfoundation.org, sgw@linux.intel.com
-Date: Mon,  9 Jul 2012 12:07:07 -0500
-Message-Id: <cover.1341852059.git.tom.zanussi@intel.com>
+Date: Mon,  9 Jul 2012 12:07:09 -0500
+Message-Id: <60e821b5a17b9199ba65f4bd6480c858cc351109.1341852059.git.tom.zanussi@intel.com>
 X-Mailer: git-send-email 1.7.0.4
-Subject: [PATCH 0/3] perf-scripting/perf-tui features, v3
+In-Reply-To: <cover.1341852059.git.tom.zanussi@intel.com>
+References: <cover.1341852059.git.tom.zanussi@intel.com>
+Subject: [PATCH 1/3] perf: add perf.inc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -30,63 +32,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Jul 2012 17:18:21 -0000
+X-List-Received-Date: Mon, 09 Jul 2012 17:18:23 -0000
 
 From: Tom Zanussi <tom.zanussi@intel.com>
 
-This patchset enables the Perl and Python bindings for perf, as well
-as the perf TUI (text-based UI).
+Add a perf.inc to contain utility functions and definitions and to
+avoid cluttering up the main recipe.
 
-These are now turned on by default via a new variable,
-PERF_FEATURES_ENABLE, which can be overridden if the default set of
-perf features aren't desired (perf-scripting and perf-tui).
-
-Because perf isn't normally enabled except in sdk builds, which
-contains most of the additional packages that these features drag
-in anyway e.g. Python and Perl, it shouldn't be too bothersome
-to unconidtionally turn the perf features on if perf itself is
-enabled.  Future work will probably allow these features to be
-disabled individually using PACKAGECONFIG for example.
-
-These changes need corresponding changes made to linux-yocto and posted
-separately on the yocto and linux-yocto mailing lists.
-
-This patchset depends on the associated kernel changes posted
-along with the original patchset:
-
-http://www.mail-archive.com/yocto@yoctoproject.org/msg07279.html
-http://www.mail-archive.com/yocto@yoctoproject.org/msg07286.html
-
-Bruce Ashfield submitted a SRCREV update for the 3.4 kernel today
-that you'll also need to build this.
-
-I just started testing this, it works so far, but thought
-I'd put it out there now in case there were comments before
-putting too much effort into that, and possibly giving other
-people a chance to try it out.
-
-This patchset has been build-tested on the following machines:
-
-qemuarm
-
-The following changes since commit 5051e9837fa698e03d0a7a8a918ee7aa98409ce1:
-  Robert P. J. Day (1):
-        bitbake: usermanual: Fix missing markup
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib.git tzanussi/perf-scripting-v3
-  http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=tzanussi/perf-scripting-v3
-
-Tom Zanussi (3):
-  perf: add perf.inc
-  perf: add perf-scripting feature
-  perf: add perf-tui feature
-
+Signed-off-by: Tom Zanussi <tom.zanussi@intel.com>
+---
  meta/recipes-kernel/perf/perf.inc    |   22 ++++++++++++++++++++++
- meta/recipes-kernel/perf/perf_3.4.bb |   18 +++++++++++++++---
- 2 files changed, 37 insertions(+), 3 deletions(-)
+ meta/recipes-kernel/perf/perf_3.4.bb |    2 ++
+ 2 files changed, 24 insertions(+), 0 deletions(-)
  create mode 100644 meta/recipes-kernel/perf/perf.inc
+
+diff --git a/meta/recipes-kernel/perf/perf.inc b/meta/recipes-kernel/perf/perf.inc
+new file mode 100644
+index 0000000..d112751
+--- /dev/null
++++ b/meta/recipes-kernel/perf/perf.inc
+@@ -0,0 +1,22 @@
++PERF_FEATURES_ENABLE ?= "perf-scripting perf-tui"
++
++def perf_feature_enabled(feature, trueval, falseval, d):
++    """
++    Check which perf features are enabled.
++
++    The PERF_FEATURES_ENABLE variable lists the perf features to
++    enable.  Override it if you want something different from what's
++    listed above, which is the default.  If empty, the build won't
++    enable any features (which may be exactly what you want, just a
++    barebones perf without any extra baggage, what you get if you
++    specify an empty feature list).
++
++    Available perf features:
++      perf-scripting: enable support for Perl and Python bindings
++      perf-tui: enable support for the perf TUI (via libnewt)
++
++    """
++    enabled_features = d.getVar("PERF_FEATURES_ENABLE", True) or ""
++    if feature in enabled_features:
++		return trueval
++    return falseval
+diff --git a/meta/recipes-kernel/perf/perf_3.4.bb b/meta/recipes-kernel/perf/perf_3.4.bb
+index 381332e..d494243 100644
+--- a/meta/recipes-kernel/perf/perf_3.4.bb
++++ b/meta/recipes-kernel/perf/perf_3.4.bb
+@@ -11,6 +11,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d7810fab7487fb0aad327b76f1be7cd7"
+ 
+ PR = "r1"
+ 
++require perf.inc
++
+ BUILDPERF_libc-uclibc = "no"
+ 
+ DEPENDS = "virtual/kernel \
+-- 
+1.7.0.4
 
 
 
