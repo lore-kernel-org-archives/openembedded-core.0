@@ -1,22 +1,24 @@
 Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1SoGyr-00041S-F4
+	(envelope-from <nitin.a.kamble@intel.com>) id 1SoGys-00041S-65
 	for Openembedded-core@lists.openembedded.org;
-	Mon, 09 Jul 2012 18:38:37 +0200
+	Mon, 09 Jul 2012 18:38:38 +0200
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
 	by fmsmga102.fm.intel.com with ESMTP; 09 Jul 2012 09:27:29 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="175108531"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="175108532"
 Received: from yocto-hm1.jf.intel.com ([10.23.232.32])
 	by fmsmga001.fm.intel.com with ESMTP; 09 Jul 2012 09:27:29 -0700
 From: nitin.a.kamble@intel.com
 To: Openembedded-core@lists.openembedded.org
-Date: Mon,  9 Jul 2012 09:26:02 -0700
-Message-Id: <8d1d42a68d5930bc374b9d6126cc1371a22a37db.1341850982.git.nitin.a.kamble@intel.com>
+Date: Mon,  9 Jul 2012 09:26:03 -0700
+Message-Id: <5223fee3f144dc5de6384dae1e635ae004d9a7bb.1341850982.git.nitin.a.kamble@intel.com>
 X-Mailer: git-send-email 1.7.3.4
+In-Reply-To: <8d1d42a68d5930bc374b9d6126cc1371a22a37db.1341850982.git.nitin.a.kamble@intel.com>
+References: <8d1d42a68d5930bc374b9d6126cc1371a22a37db.1341850982.git.nitin.a.kamble@intel.com>
 In-Reply-To: <cover.1341850982.git.nitin.a.kamble@intel.com>
 References: <cover.1341850982.git.nitin.a.kamble@intel.com>
-Subject: [PATCH 01/15] automake: upgrade from 1.11.3 to 1.12.1
+Subject: [PATCH 02/15] jpeg: fix configure with automake 1.12.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,96 +33,99 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Jul 2012 16:38:37 -0000
+X-List-Received-Date: Mon, 09 Jul 2012 16:38:38 -0000
 
 From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
----
- .../automake/automake/path_prog_fixes.patch        |   40 +++-----------------
- .../{automake_1.11.3.bb => automake_1.12.1.bb}     |    5 +-
- 2 files changed, 8 insertions(+), 37 deletions(-)
- rename meta/recipes-devtools/automake/{automake_1.11.3.bb => automake_1.12.1.bb} (93%)
+Bring back earlier jpeg fix. upstream has removed the fix from earlier release.
 
-diff --git a/meta/recipes-devtools/automake/automake/path_prog_fixes.patch b/meta/recipes-devtools/automake/automake/path_prog_fixes.patch
-index 312cec6..9ee0672 100644
---- a/meta/recipes-devtools/automake/automake/path_prog_fixes.patch
-+++ b/meta/recipes-devtools/automake/automake/path_prog_fixes.patch
-@@ -7,38 +7,10 @@ Upstream-Status: Inappropriate [embedded specific]
-  automake.in |    6 ++++--
-  4 files changed, 10 insertions(+), 6 deletions(-)
+The support for automatic de-ANSI-fication has been deprecated in
+automake 1.11.2, and will be removed altogether in automake 1.12
+
+This avoids this error:
+| configure.ac:24: automatic de-ANSI-fication support is deprecated
+| autoreconf: automake failed with exit status: 1
+| ERROR: autoreconf execution failed.
+NOTE: package jpeg-native-8c-r2: task do_configure: Failed
+
+(From OE-Core rev: 893ce9db79a5c4cca8a6b6ed6a9cec81777aba2f)
+
+Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ .../jpeg/jpeg-8d/fix_for_automake_1.12.1.patch     |   44 ++++++++++++++++++++
+ meta/recipes-core/jpeg/jpeg_8d.bb                  |    5 +-
+ 2 files changed, 47 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-core/jpeg/jpeg-8d/fix_for_automake_1.12.1.patch
+
+diff --git a/meta/recipes-core/jpeg/jpeg-8d/fix_for_automake_1.12.1.patch b/meta/recipes-core/jpeg/jpeg-8d/fix_for_automake_1.12.1.patch
+new file mode 100644
+index 0000000..3a970ea
+--- /dev/null
++++ b/meta/recipes-core/jpeg/jpeg-8d/fix_for_automake_1.12.1.patch
+@@ -0,0 +1,44 @@
++Upstream-Status: Pending
++
++The support for automatic de-ANSI-fication has been deprecated in
++automake 1.11.2, and will be removed altogether in automake 1.12
++
++This avoids this error:
++| configure.ac:24: automatic de-ANSI-fication support is deprecated
++| autoreconf: automake failed with exit status: 1
++| ERROR: autoreconf execution failed.
++NOTE: package jpeg-native-8c-r2: task do_configure: Failed
++
++Signed-Off-By: Nitin A Kamble <nitin.a.kamble@intel.com>
++2011/12/28
++
++
++Index: jpeg-8d/configure.ac
++===================================================================
++--- jpeg-8d.orig/configure.ac
+++++ jpeg-8d/configure.ac
++@@ -21,7 +21,7 @@ AC_CANONICAL_TARGET
++ 
++ # Initialize Automake
++ # Don't require all the GNU mandated files
++-AM_INIT_AUTOMAKE([-Wall -Werror -Wno-obsolete ansi2knr no-dist foreign])
+++AM_INIT_AUTOMAKE([-Wall -Werror -Wno-obsolete no-dist foreign])
++ 
++ # Make --enable-silent-rules the default.
++ # To get verbose build output you may configure
++@@ -29,7 +29,14 @@ AM_INIT_AUTOMAKE([-Wall -Werror -Wno-obs
++ AM_SILENT_RULES([yes])
++ 
++ # This is required when using the de-ANSI-fication feature.
++-AM_C_PROTOTYPES
+++#AM_C_PROTOTYPES
+++# add following to avoid this error:
+++#| automake: warnings are treated as errors
+++#| /srv/home/nitin/builds2/build0/tmp/sysroots/x86_64-linux/usr/share/automake-1.12/am/ltlibrary.am: warning: 'libjpeg.la': linking libtool libraries using a non-POSIX
+++#| /srv/home/nitin/builds2/build0/tmp/sysroots/x86_64-linux/usr/share/automake-1.12/am/ltlibrary.am: archiver requires 'AM_PROG_AR' in 'configure.ac'
+++#| Makefile.am:65:   while processing Libtool library 'libjpeg.la'
+++#| autoreconf: automake failed with exit status: 1
+++AM_PROG_AR
++ 
++ # Add configure option --enable-maintainer-mode which enables
++ # dependency checking and generation useful to package maintainers.
+diff --git a/meta/recipes-core/jpeg/jpeg_8d.bb b/meta/recipes-core/jpeg/jpeg_8d.bb
+index 61f1c2e..6781619 100644
+--- a/meta/recipes-core/jpeg/jpeg_8d.bb
++++ b/meta/recipes-core/jpeg/jpeg_8d.bb
+@@ -11,10 +11,11 @@ SECTION = "libs"
+ DEPENDS = "libtool-cross"
+ DEPENDS_virtclass-native = "libtool-native"
  
--Index: automake-1.10.1/Makefile.am
-+Index: automake-1.12.1/aclocal.in
- ===================================================================
----- automake-1.10.1.orig/Makefile.am	2008-01-21 22:28:58.000000000 +0000
--+++ automake-1.10.1/Makefile.am	2008-10-10 17:21:20.000000000 +0100
--@@ -75,7 +75,8 @@
--   -e 's,[@]SHELL[@],$(SHELL),g' \
--   -e 's,[@]VERSION[@],$(VERSION),g' \
--   -e 's,[@]configure_input[@],Generated from $@.in; do not edit by hand.,g' \
---  -e 's,[@]datadir[@],$(datadir),g'
--+  -e 's,[@]datadir[@],$(datadir),g' \
--+  -e 's,[@]bindir[@],$(bindir),g'
-- 
-- ## These files depend on Makefile so they are rebuilt if $(VERSION),
-- ## $(datadir) or other do_subst'ituted variables change.
--Index: automake-1.10.1/Makefile.in
--===================================================================
----- automake-1.10.1.orig/Makefile.in	2008-01-21 22:29:10.000000000 +0000
--+++ automake-1.10.1/Makefile.in	2008-10-10 17:22:21.000000000 +0100
--@@ -185,7 +185,8 @@
--   -e 's,[@]SHELL[@],$(SHELL),g' \
--   -e 's,[@]VERSION[@],$(VERSION),g' \
--   -e 's,[@]configure_input[@],Generated from $@.in; do not edit by hand.,g' \
---  -e 's,[@]datadir[@],$(datadir),g'
--+  -e 's,[@]datadir[@],$(datadir),g' \
--+  -e 's,[@]bindir[@],$(bindir),g'
-- 
-- WGET = wget
-- WGET_SV_CVS = $(WGET) http://savannah.gnu.org/cgi-bin/viewcvs/~checkout~/
--Index: automake-1.10.1/aclocal.in
--===================================================================
----- automake-1.10.1.orig/aclocal.in	2008-01-21 22:11:41.000000000 +0000
--+++ automake-1.10.1/aclocal.in	2008-10-10 17:21:20.000000000 +0100
-+--- automake-1.12.1.orig/aclocal.in
-++++ automake-1.12.1/aclocal.in
- @@ -1,8 +1,8 @@
- -#!@PERL@ -w
- +#!@bindir@/env perl
-@@ -50,10 +22,10 @@ Index: automake-1.10.1/aclocal.in
-      if 0;
-  
-  # aclocal - create aclocal.m4 by scanning configure.ac
--Index: automake-1.10.1/automake.in
-+Index: automake-1.12.1/automake.in
- ===================================================================
----- automake-1.10.1.orig/automake.in	2008-01-21 22:11:41.000000000 +0000
--+++ automake-1.10.1/automake.in	2008-10-10 17:21:20.000000000 +0100
-+--- automake-1.12.1.orig/automake.in
-++++ automake-1.12.1/automake.in
- @@ -1,8 +1,10 @@
- -#!@PERL@ -w
- +#!@bindir@/env perl
-diff --git a/meta/recipes-devtools/automake/automake_1.11.3.bb b/meta/recipes-devtools/automake/automake_1.12.1.bb
-similarity index 93%
-rename from meta/recipes-devtools/automake/automake_1.11.3.bb
-rename to meta/recipes-devtools/automake/automake_1.12.1.bb
-index 2008774..c2bc6a3 100644
---- a/meta/recipes-devtools/automake/automake_1.11.3.bb
-+++ b/meta/recipes-devtools/automake/automake_1.12.1.bb
-@@ -43,9 +43,8 @@ SRC_URI += "${PATHFIXPATCH} \
- 	    file://python-libdir.patch \
-             file://py-compile-compile-only-optimized-byte-code.patch"
+-PR = "r0"
++PR = "r1"
  
--
--SRC_URI[md5sum] = "93ecb319f0365cb801990b00f658d026"
--SRC_URI[sha256sum] = "921b5188057e57bdd9c0ba06e21d0b0ea7dafa61a9bd08a2b041215bcff12f55"
-+SRC_URI[md5sum] = "ec25c1855cacf47e4bdee76a776b96ba"
-+SRC_URI[sha256sum] = "24bf1640679ba4a9cbe2d36422f39a81eced7f556b576a7a2ccfc70ca85a1e2f"
+ SRC_URI = "http://www.ijg.org/files/jpegsrc.v${PV}.tar.gz \
+-	   file://debian-libjpeg7_7-1.diff"
++	   file://debian-libjpeg7_7-1.diff \
++           file://fix_for_automake_1.12.1.patch"
  
- PR = "r0"
- 
+ SRC_URI[md5sum] = "52654eb3b2e60c35731ea8fc87f1bd29"
+ SRC_URI[sha256sum] = "00029b1473f0f0ea72fbca3230e8cb25797fbb27e58ae2e46bb8bf5a806fe0b3"
 -- 
 1.7.3.4
 
