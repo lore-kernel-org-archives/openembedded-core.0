@@ -1,25 +1,20 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SoGxN-0003wm-Of
-	for openembedded-core@lists.openembedded.org;
-	Mon, 09 Jul 2012 18:37:05 +0200
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 09 Jul 2012 09:25:55 -0700
+	(envelope-from <nitin.a.kamble@intel.com>) id 1SoGyn-00041S-U4
+	for Openembedded-core@lists.openembedded.org;
+	Mon, 09 Jul 2012 18:38:34 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 09 Jul 2012 09:27:23 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="120389522"
-Received: from unknown (HELO [10.255.12.214]) ([10.255.12.214])
-	by AZSMGA002.ch.intel.com with ESMTP; 09 Jul 2012 09:25:55 -0700
-Message-ID: <4FFB0610.2040907@linux.intel.com>
-Date: Mon, 09 Jul 2012 09:25:52 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:13.0) Gecko/20120605 Thunderbird/13.0
-MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1341846614.git.mark.hatle@windriver.com>
-In-Reply-To: <cover.1341846614.git.mark.hatle@windriver.com>
-Subject: Re: [PATCH 0/1] Image/SDK multilib fixes [resend]
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="175108513"
+Received: from yocto-hm1.jf.intel.com ([10.23.232.32])
+	by fmsmga001.fm.intel.com with ESMTP; 09 Jul 2012 09:27:23 -0700
+From: nitin.a.kamble@intel.com
+To: Openembedded-core@lists.openembedded.org
+Date: Mon,  9 Jul 2012 09:26:08 -0700
+Message-Id: <cover.1341850982.git.nitin.a.kamble@intel.com>
+X-Mailer: git-send-email 1.7.3.4
+Subject: [PATCH 00/15] commits related to automake update to 1.12.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,36 +29,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Jul 2012 16:37:06 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 09 Jul 2012 16:38:34 -0000
 
-On 07/09/2012 08:11 AM, Mark Hatle wrote:
-> This is a rebased/resend of the "multilib: Enable multilib remapping for
-> SDK generation fix"
->
-> There have been no changes other then a rebase or current origin/master.
->
-> --Mark
->
-> The following changes since commit 68ea7d827710ae7c5cf402887d4c12319038e064:
->
->    package_rpm: Avoid duplicate package generation failures (2012-07-09 11:37:29 +0100)
->
-> are available in the git repository at:
->    git://git.pokylinux.org/poky-contrib mhatle/sdk
->    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=mhatle/sdk
->
-> Mark Hatle (1):
->    multilib: Enable multilib remapping for SDK generation
->
->   meta/classes/multilib.bbclass |    6 ++++++
->   1 files changed, 6 insertions(+), 0 deletions(-)
->
+From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-Merged into OE-Core
+This work is based on 1.3_M1 branch to get a stable base. These commits
+build core-image-sato-sdk & core-image-lsb images fine.
 
-Thanks
-	Sau!
+-Nitin
+
+The following changes since commit 7f017cab0b3e4d5a4fc356eccd8eb8429b0531d0:
+
+  connman: bump PR and add some comments (2012-06-13 13:11:23 +0100)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib nitin/automake_update
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=nitin/automake_update
+
+Nitin A Kamble (15):
+  automake: upgrade from 1.11.3 to 1.12.1
+  jpeg: fix configure with automake 1.12.1
+  gnutls: Fix build with automake 1.12.1
+  pcmanfm: fix build with automake 1.12.x
+  avahi: fix build with automake 1.12.1
+  dates: fix build with automake 1.12.x
+  librsvg: fix build with automake 1.12.x
+  evolution-data-server: fix build with automake 1.12.x
+  tar: fix build with automake 1.12.x
+  libgcrypt: fix build with automake 1.12.x
+  gpgme: fix build with automake 1.12.x
+  telepathy-glib: fix build with automake 1.12.x
+  xf86-video-vmware: fix build with automake 1.12.x
+  libfm: fix build with automake 1.12.x
+  pango: fix dependencies to avoid build issue
+
+ meta/recipes-connectivity/avahi/avahi.inc          |    3 +-
+ .../avahi/files/fix_for_automake_1.12.x.patch      |   34 ++++++++
+ .../telepathy/telepathy-glib_0.19.0.bb             |    6 --
+ .../jpeg/jpeg-8d/fix_for_automake_1.12.1.patch     |   44 ++++++++++
+ meta/recipes-core/jpeg/jpeg_8d.bb                  |    5 +-
+ .../automake/automake/path_prog_fixes.patch        |   40 ++--------
+ .../{automake_1.11.3.bb => automake_1.12.1.bb}     |    5 +-
+ meta/recipes-extended/tar/tar.inc                  |    2 -
+ meta/recipes-gnome/librsvg/librsvg_2.32.1.bb       |    8 +--
+ meta/recipes-graphics/pango/pango.inc              |    2 +-
+ .../xorg-driver/xf86-video-vmware_12.0.2.bb        |    5 -
+ .../avoid_automake_errors.patch                    |   83 ++++++++++++++++++++
+ .../fix_for_automake-1.12.x.patch                  |   28 +++++++
+ meta/recipes-sato/eds/evolution-data-server_git.bb |    4 +-
+ .../files/pcmanfm_fix_for_automake_1.12.patch      |   35 ++++++++
+ meta/recipes-sato/pcmanfm/pcmanfm_0.9.10.bb        |    5 +-
+ meta/recipes-sato/pimlico/dates_git.bb             |    6 +-
+ ..._MKDIR_P_warning_error_with_automake_1.12.patch |   51 ++++++++++++
+ .../gnutls_fix_for_automake_1.12.1.patch           |   43 ++++++++++
+ meta/recipes-support/gnutls/gnutls_2.12.19.bb      |    4 +-
+ meta/recipes-support/gpgme/gpgme_1.3.1.bb          |    4 -
+ meta/recipes-support/libfm/libfm_0.1.17.bb         |    5 -
+ meta/recipes-support/libgcrypt/libgcrypt.inc       |    3 -
+ 23 files changed, 344 insertions(+), 81 deletions(-)
+ create mode 100644 meta/recipes-connectivity/avahi/files/fix_for_automake_1.12.x.patch
+ create mode 100644 meta/recipes-core/jpeg/jpeg-8d/fix_for_automake_1.12.1.patch
+ rename meta/recipes-devtools/automake/{automake_1.11.3.bb => automake_1.12.1.bb} (93%)
+ create mode 100644 meta/recipes-sato/eds/evolution-data-server/avoid_automake_errors.patch
+ create mode 100644 meta/recipes-sato/eds/evolution-data-server/fix_for_automake-1.12.x.patch
+ create mode 100644 meta/recipes-sato/pcmanfm/files/pcmanfm_fix_for_automake_1.12.patch
+ create mode 100644 meta/recipes-support/gnutls/gnutls-2.12.19/avoid_AM_PROG_MKDIR_P_warning_error_with_automake_1.12.patch
+ create mode 100644 meta/recipes-support/gnutls/gnutls-2.12.19/gnutls_fix_for_automake_1.12.1.patch
+
+-- 
+1.7.3.4
+
 
 
