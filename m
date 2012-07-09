@@ -1,34 +1,38 @@
-Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1SoLKy-0003p1-7e
+	(envelope-from <rpjday@crashcourse.ca>) id 1SoLMv-0003tE-6T
 	for openembedded-core@lists.openembedded.org;
-	Mon, 09 Jul 2012 23:17:44 +0200
-Received: from mail-qa0-f52.google.com ([209.85.216.52])
-	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 09 Jul 2012 14:06:32 -0700
-Received: by qabj34 with SMTP id j34so1803028qab.4
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 09 Jul 2012 14:06:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:from:date:message-id:subject:to:content-type
-	:content-transfer-encoding:x-gm-message-state;
-	bh=HlpmB9Hk90qV3jxoUnJvqmH5tSORzlv6f6hdkEyJ5bQ=;
-	b=V+b1hrg0IU4wKZdYcMkmqLYrh0f7rIrto98yP+wMrnLtYosH4lDOX7USEl2AREX0t0
-	6yWm1LdbPpUp/jpWtb3eqIozlu5eXIB1QbtFI8H8sfwgqhtGv6txWCRP3KuT3YO/HVKp
-	MmrjhIHcA9kHzyLMgpNC/XGoJmmXh3eg1vjQD5cXcwv7uf1CAZyhyKdH64XgZemYrd37
-	4x+3vm2hmha6oVG/IOxEC/q/ynuJ4lE4+qqlDejC+xsVTYo2LXAnxrd6WP9okoHba2YG
-	OIaMgGkY4+HQjMZSDKALQYwd3vFpBE9fIvw63jw7a2fiURdjgVHyaR7XqzNwWaMGWk7y
-	JGuw==
-Received: by 10.229.136.17 with SMTP id p17mr22094076qct.86.1341867991692;
-	Mon, 09 Jul 2012 14:06:31 -0700 (PDT)
+	Mon, 09 Jul 2012 23:19:45 +0200
+Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
+	([99.241.91.63]:47347 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.77) (envelope-from <rpjday@crashcourse.ca>)
+	id 1SoLC8-0004jF-Qh for openembedded-core@lists.openembedded.org;
+	Mon, 09 Jul 2012 17:08:36 -0400
+Date: Mon, 9 Jul 2012 17:08:24 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@oneiric
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <CAK18fxEAmV=s8=S93ESD+jV1pocXMXfYXc=ukocU0cnpPT970Q@mail.gmail.com>
+Message-ID: <alpine.DEB.2.02.1207091707220.24533@oneiric>
+References: <alpine.DEB.2.02.1207070649530.18262@oneiric>
+	<CAK18fxGjWFXQ4C40QgmCnk5G3PucaN4JzDAsDhMb4m6+pxNxzg@mail.gmail.com>
+	<1341853247.8066.36.camel@ted>
+	<CAMKF1sq+DNviuMJ+ovOPTEO1Qzpg3HhE93UdKKbeq8W_JnadAA@mail.gmail.com>
+	<CAK18fxEAmV=s8=S93ESD+jV1pocXMXfYXc=ukocU0cnpPT970Q@mail.gmail.com>
+User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
 MIME-Version: 1.0
-Received: by 10.229.16.207 with HTTP; Mon, 9 Jul 2012 14:06:11 -0700 (PDT)
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 9 Jul 2012 22:06:11 +0100
-Message-ID: <CAJTo0LZ1W6mD2mdadeqdvyVubgGSozcF_Nw8xbvr4fAsRgJK8A@mail.gmail.com>
-To: OE-core <openembedded-core@lists.openembedded.org>
-X-Gm-Message-State: ALoCoQmZfkjZfHBpjq5S1qHAY0WkZ/McfyFi1IMJh3+YO5rHVRY4triXkjO7HxmnacizHXiFFz1o
-Subject: The Mythical Sato Replacement
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Subject: Re: tcf-agent, matchbox-wm-2: Correct "proto=git" to "protocol=git".
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,104 +47,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Jul 2012 21:17:44 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 09 Jul 2012 21:19:45 -0000
+Content-Type: MULTIPART/MIXED; BOUNDARY="8323329-1648350239-1341868107=:24533"
 
-Hi all,
+--8323329-1648350239-1341868107=:24533
+Content-Type: TEXT/PLAIN; charset=ISO-8859-1
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 
-I've been mulling over a replacement for the Sato environment for some
-time now, so I think it's time to talk about my thoughts and get more
-feedback from users of oe-core.
+On Mon, 9 Jul 2012, Andrei Gherzan wrote:
 
-Some background: back in 2007[1] Sato was designed to be an
-reference/demo PDA environment for mobile devices with (relatively!)
-high-DPI but physically small screens[2], such as the Sharp Zaurus and
-Nokia 770/N800/N810/etc.  It was designed to look visually distinctive
-compared to the competition at the time, and demonstrate all the
-features that a handheld PDA should have (at the time).  I think it's
-fair to say it mostly succeeded at that although it didn't exactly set
-the world on fire.
+> On Mon, Jul 9, 2012 at 8:40 PM, Khem Raj <raj.khem@gmail.com> wrote:
+>       On Mon, Jul 9, 2012 at 10:00 AM, Richard Purdie
+>       <richard.purdie@linuxfoundation.org> wrote:
+>       > On Mon, 2012-07-09 at 12:27 +0300, Andrei Gherzan wrote:
+>       >> On Sat, Jul 7, 2012 at 1:54 PM, Robert P. J. Day
+>       >> <rpjday@crashcourse.ca> wrote:
+>       >>
+>       >> =A0 =A0 =A0 =A0 "proto=3Dgit" is not a valid parameter for the g=
+it fetcher.
+>       >>
+>       >> NOTE: package matchbox-wm-2-0.1+git1
+>       >> +01fa5465743c9ee43d040350f4405d35293e4869-r1: task do_fetch:
+>       >> Succeeded
+>       >>
+>       >> Anyway, in the git.py, code is searching for "protocol" paramete=
+r:
+>       >> ud.proto =3D ud.parm['protocol']
+>       >>
+>       >> ... so your change seems legit.
+>       >>
+>       >> On another hand, svn.py is using:
+>       >> =A0proto =3D ud.parm.get('proto', 'svn')
+>       >>
+>       >> A good think would be to use the same parameter names for all
+>       >> protocols.
+>       >>
+>       > I agree but how do we do this without breaking the world? We prob=
+ably
+>       > should try and standardise it, probably to "protocol".
+>
+> so may be change the keyword to protocol and have both for this
+> release additionally give a deprecation warning on proto and then
+> after 1.3 remove proto
+>
+> Healthy approach. I can submit patches on this topic if=A0nobody=A0did
+> it already locally.=A0
 
-Fast-forward five years: Sato is still part of oe-core and showing
-it's age and unsuitability for the requirements that oe-core now has
-compared to the original design requirements for Sato.
+ i can see my work here is done.  i will go find something else to
+complain about.  :-)
 
-So, what does oe-core require from a graphical environment?  As this
-is oe-core the list should be fairly short, so how about:
-- some way of launching arbitrary applications
-- a terminal
-- a text editor
-- a web browser
-- network configuration
-- an interactive test suite for verifying that various pieces of
-hardware are working: play a media file, show touchscreen events,
-display key events, and so on.  More about this later.
-- lightweight
+rday
 
-There's also a set of anti-requirements:
-- no half-baked PIM suite
-- no games
-- no giant dependency stack or tight integration into the rest of
-oe-core.  Pulling the Sato replacement out entirely, or reusing parts
-of it, should be easily done.
+--=20
 
-Re-using an existing environment is one option but I don't think it's
-a great one.  LXDE is very minimal but the Windows 95 aesthetic isn't
-exactly attractive, XFCE is surprisingly large these days.  We don't
-really want much, so I think maintaining our own shell is a worthwhile
-investment.
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
 
-Hopefully there aren't any objections so far?  I'll assume not, and
-introduce my proposal for Project Shuku[3].
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
 
-Shuku will be a descendent of Sato, that is continue to use the
-Matchbox Window Manager, Desktop, and Panel; although the latter two
-will be updated for GTK+ 3.  All applications will be removed and
-fully reconsidered when adding back, so the text editor might well
-change from leafpad to something that had a release in two years,
-Midori is looking like a good web browser choice instead of Web, the
-PIM suite removed, and so on.
-
-The interesting bit is then the test application.  We need a graphical
-environment so that we can run applications specific to our needs (and
-the desktop handles this fine already) and verify that the system is
-in fact working correctly.  Currently this is done in an ad-hoc
-manner: using the music player to play audio files, gst-launch to play
-videos, poking at the the touchscreen to verify that it works.  I'm
-proposing a specific test application so that instead of attempting to
-use general purpose applications as test tools, we have a specific
-tool.
-
-For example, when playing back a video file it's important that any
-hardware acceleration available is actually used.  The test tool could
-play the file using GStreamer's playbin and then display the resulting
-pipeline so you can verify that VAAPI is being used, the correct audio
-sink, the correct network source, and so on.  To verify that the input
-devices are working, list them at the evdev level and let you see the
-raw events, display touches, and so on.
-
-I've also been considering the brave new world of Wayland.  Whilst
-porting to GTK+ 3 all of the X11-specific code can be logically
-separated so that a small Weston plugin can be written that integrates
-the pieces together.  This will give a Wayland-native graphical
-environment that is visually identical to the X environment.
-
-There's plenty of other things to discuss -- visual design and so on
--- but that can wait for another day.
-
-So those are my thoughts.  Any comments?
-
-Ross
-
-[1] Five years ago!
-http://www.burtonini.com/wordpress/2007/08/01/poky-linux-3-0-blinky-release=
-d/
-[2] QVGA, for example, was explicitly not a target.  The Sharp Zaurus,
-a typical test device, had a VGA screen.
-[3] In the glorious tradition of naming projects by translating words
-to other languages, I ended up with =E5=B0=97 (U+5C17) which means "younger=
- of
-brothers", and Shuku is one of the pronunciations.
-
-
+--8323329-1648350239-1341868107=:24533--
