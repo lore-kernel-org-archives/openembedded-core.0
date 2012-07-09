@@ -1,41 +1,35 @@
-Received: from mail-gg0-f175.google.com ([209.85.161.175])
+Received: from astoria.ccjclearline.com ([64.235.106.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrei@gherzan.ro>) id 1SoKol-0002hx-Cq
+	(envelope-from <rpjday@crashcourse.ca>) id 1SoKpw-0002kr-NY
 	for openembedded-core@lists.openembedded.org;
-	Mon, 09 Jul 2012 22:44:27 +0200
-Received: by ggnp4 with SMTP id p4so9830279ggn.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 09 Jul 2012 13:33:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:x-originating-ip:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type:x-gm-message-state;
-	bh=HXzRmCyaPqBrBveDw60hU+xCDspBywP1xoO15FMD0dc=;
-	b=iWSDoTCPglk0tB69TRAAWW1Vx846WFciC0DANCH5icdl/bkzXPP22NCiKFq8SZQCw0
-	sbkw/5JY9iiEJAtiymfJ0T7iMxY7v3gqrDrNnvq6bAT0ZSxN1afAgZQ9IpYSLFx91yVB
-	NMx/AAwY7hi9sIEjQpcZbu1VpJMOBmBtYEwSf1/Mjitmlc45iZxwjt/YLOW+6IhWXNwh
-	qmHR5/2AEuJbrzWhgPmP3sMCc9k1GCkxyzd7cN89J7ZbWEAjRKgcMPmam8Pn/lI227Sg
-	n76jAQETIkKTHiBw3ij+HiK94yrF6nVr7l1hGoHnpFPcTNs5zMDnAj6kL6sWKuNHOeLl
-	K5RQ==
-Received: by 10.50.160.198 with SMTP id xm6mr9705600igb.0.1341865997167; Mon,
-	09 Jul 2012 13:33:17 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.64.98.162 with HTTP; Mon, 9 Jul 2012 13:32:56 -0700 (PDT)
-X-Originating-IP: [79.117.115.156]
-In-Reply-To: <alpine.DEB.2.02.1207091224240.1542@oneiric>
-References: <alpine.DEB.2.02.1207071435090.25344@oneiric>
-	<CAK18fxFo2YtoGNQEtLNh8cVPvxKebGYYKQSEVCPxXmWsTfU3Gg@mail.gmail.com>
-	<alpine.DEB.2.02.1207091120520.1353@oneiric>
-	<1803032.sCdKSRoOHk@helios>
-	<alpine.DEB.2.02.1207091224240.1542@oneiric>
-From: Andrei Gherzan <andrei@gherzan.ro>
-Date: Mon, 9 Jul 2012 23:32:56 +0300
-Message-ID: <CAK18fxHyF2i8j-uoz7CVMGGNj3n21LUJpvkZ7kgbfGt+xeb4MQ@mail.gmail.com>
+	Mon, 09 Jul 2012 22:45:41 +0200
+Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
+	([99.241.91.63]:47109 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.77) (envelope-from <rpjday@crashcourse.ca>)
+	id 1SoKfA-0003DS-CU for openembedded-core@lists.openembedded.org;
+	Mon, 09 Jul 2012 16:34:32 -0400
+Date: Mon, 9 Jul 2012 16:34:20 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@oneiric
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Gm-Message-State: ALoCoQm4k0zjbb85zIoo/31YrVRI2K2VcoFgAjRRe7eVg5VOBpPp6cJpIMg5x5YE7Bpqc5R3BFky
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
-Subject: Re: setting EXTRA_IMAGE_FEATURES explicitly in .bb file can screw things up
+In-Reply-To: <CAK18fxFD1X6tPLsXG-vwRFu-EeEZDTdeKoTKRYAvYrKJfd-_mQ@mail.gmail.com>
+Message-ID: <alpine.DEB.2.02.1207091630380.24097@oneiric>
+References: <alpine.DEB.2.02.1207081227430.27741@oneiric>
+	<CAK18fxFD1X6tPLsXG-vwRFu-EeEZDTdeKoTKRYAvYrKJfd-_mQ@mail.gmail.com>
+User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+MIME-Version: 1.0
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Subject: Re: more pedantry -- looking to clarify layers definition, BBPATH, BBFILES, etc.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,75 +44,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Jul 2012 20:44:27 -0000
-Content-Type: multipart/alternative; boundary=14dae934103d18ebcb04c46b86b6
+X-List-Received-Date: Mon, 09 Jul 2012 20:45:41 -0000
+Content-Type: MULTIPART/MIXED; BOUNDARY="8323329-801856245-1341866062=:24097"
 
---14dae934103d18ebcb04c46b86b6
-Content-Type: text/plain; charset=ISO-8859-1
+--8323329-801856245-1341866062=:24097
+Content-Type: TEXT/PLAIN; charset=ISO-8859-1
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 
-On Mon, Jul 9, 2012 at 7:25 PM, Robert P. J. Day <rpjday@crashcourse.ca>wrote:
+On Mon, 9 Jul 2012, Andrei Gherzan wrote:
 
-> On Mon, 9 Jul 2012, Paul Eggleton wrote:
 >
-> > On Monday 09 July 2012 11:24:27 Robert P. J. Day wrote:
-> > > On Mon, 9 Jul 2012, Andrei Gherzan wrote:
-> > > > So IMHO the EXTRA_IMAGE_FEATURES variable in the image should be
-> > > > merged in the IMAGE_FEATURES above. I don't see the meaning of it.
-> > >
-> > >   yup, that was precisely the point i was making.  so given the
-> > > potential for confusion, what should be the "best practise" here?
-> > > based on my sketchy understanding, it seems the proper approach would
-> > > be to let recipe files use IMAGE_FEATURES exclusively, while
-> > > specifically reserving EXTRA_IMAGE_FEATURES for the developer's
-> > > local.conf file, and avoid the current unpleasant mixing.
-> >
-> > Sounds like a good idea to me.
+> On Sun, Jul 8, 2012 at 8:59 PM, Robert P. J. Day <rpjday@crashcourse.ca> =
+wrote:
 >
->   i'll send in a patch that does that, especially since
-> local.conf.sample specifically instructs the developer to use
-> EXTRA_IMAGE_FEATURES.   patch coming shortly.
+>       =A0 (most of this is sort of self-evident but it's not documented a=
+s
+>       well as it could be so i just want to make sure i have it exactly
+>       right.)
+>
+>       =A0 snippets of some layer.conf files:
+>
+>       oe-core:
+>
+>       BBPATH .=3D ":${LAYERDIR}"
+>       BBFILES +=3D "${LAYERDIR}/recipes-*/*/*.bb"
+>
+>       meta-hob:
+>
+>       BBPATH :=3D "${BBPATH}:${LAYERDIR}"
+>       BBFILES :=3D "${BBFILES} ${LAYERDIR}/recipes-*/*/*.bb"
+>
+>       meta-yocto:
+>
+>       BBPATH :=3D "${LAYERDIR}:${BBPATH}"
+>       BBFILES :=3D "${BBFILES} ${LAYERDIR}/recipes-*/*/*.bb \
+>       =A0 =A0 =A0 =A0 =A0 =A0 ${LAYERDIR}/recipes-*/*/*.bbappend"
+>
+>       =A0 note how meta-hob *appends* itself to BBPATH, while meta-yocto
+>       *prepends* itself. =A0is there no possibility that this will cause =
+some
+>       confusion based on how BBPATH is used to resolve the location of cl=
+ass
+>       or conf files? =A0i realize you should try to avoid that sort of
+>       conflict but it still seems possible that someone might choose the
+>       names of some files badly and the unpredictable ordering in BBPATH
+>       will cause grief, no?
 >
 >
-Good.
+> I don't think this can cause any problems.
 
-@g
+  are you sure?
 
---14dae934103d18ebcb04c46b86b6
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+> It's all about the order the files are searched. As long as you have
+> proper priority set nothing can go wrong.
 
-<div class=3D"gmail_quote">On Mon, Jul 9, 2012 at 7:25 PM, Robert P. J. Day=
- <span dir=3D"ltr">&lt;<a href=3D"mailto:rpjday@crashcourse.ca" target=3D"_=
-blank">rpjday@crashcourse.ca</a>&gt;</span> wrote:<br><blockquote class=3D"=
-gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-=
-left:1ex">
+  but what if two or more layers have the same priority?  then what?
+it may be that there's no issue here, i'm just pointing out the
+possibility that, given the inconsistent way layers add themelves to
+BBPATH (either prepending or appending) and the order one lists the
+layers in bblayers.conf, is there absolutely no chance that someone
+could experience unexpected behaviour given an unusual combination of
+circumstances?
 
-<div class=3D"im">On Mon, 9 Jul 2012, Paul Eggleton wrote:<br>
-<br>
-&gt; On Monday 09 July 2012 11:24:27 Robert P. J. Day wrote:<br>
-&gt; &gt; On Mon, 9 Jul 2012, Andrei Gherzan wrote:<br>
-&gt; &gt; &gt; So IMHO the EXTRA_IMAGE_FEATURES variable in the image shoul=
-d be<br>
-&gt; &gt; &gt; merged in the IMAGE_FEATURES above. I don&#39;t see the mean=
-ing of it.<br>
-&gt; &gt;<br>
-&gt; &gt; =A0 yup, that was precisely the point i was making. =A0so given t=
-he<br>
-&gt; &gt; potential for confusion, what should be the &quot;best practise&q=
-uot; here?<br>
-&gt; &gt; based on my sketchy understanding, it seems the proper approach w=
-ould<br>
-&gt; &gt; be to let recipe files use IMAGE_FEATURES exclusively, while<br>
-&gt; &gt; specifically reserving EXTRA_IMAGE_FEATURES for the developer&#39=
-;s<br>
-&gt; &gt; local.conf file, and avoid the current unpleasant mixing.<br>
-&gt;<br>
-&gt; Sounds like a good idea to me.<br>
-<br>
-</div>=A0 i&#39;ll send in a patch that does that, especially since<br>
-local.conf.sample specifically instructs the developer to use<br>
-EXTRA_IMAGE_FEATURES. =A0 patch coming shortly.<br>
-<div class=3D"im HOEnZb"><br></div></blockquote><div>=A0</div><div>Good.=A0=
-</div><div><br></div><div>@g</div></div>
+rday
 
---14dae934103d18ebcb04c46b86b6--
+--=20
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+--8323329-801856245-1341866062=:24097--
