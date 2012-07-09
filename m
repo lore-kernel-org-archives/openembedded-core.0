@@ -1,24 +1,24 @@
 Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SoGMn-00065I-6s
+	(envelope-from <sgw@linux.intel.com>) id 1SoGMn-00065B-OH
 	for openembedded-core@lists.openembedded.org;
-	Mon, 09 Jul 2012 17:59:17 +0200
+	Mon, 09 Jul 2012 17:59:18 +0200
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 09 Jul 2012 08:48:01 -0700
+	by fmsmga102.fm.intel.com with ESMTP; 09 Jul 2012 08:48:02 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="190292910"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="190292919"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.157])
-	by fmsmga002.fm.intel.com with ESMTP; 09 Jul 2012 08:48:01 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 09 Jul 2012 08:48:02 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  9 Jul 2012 08:47:38 -0700
-Message-Id: <6d142f4e7e8f69d0a573842ea764eb3aad2c4b21.1341802889.git.sgw@linux.intel.com>
+Date: Mon,  9 Jul 2012 08:47:41 -0700
+Message-Id: <5ab3bc4833c2674014b50a93f5ca323d8de5aedd.1341802889.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <cover.1341802889.git.sgw@linux.intel.com>
 References: <cover.1341802889.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1341802889.git.sgw@linux.intel.com>
 References: <cover.1341802889.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 24/41] grub-efi: Do not use help2man
+Subject: [CONSOLIDATED PULL 27/41] libxml-parser-perl_2.41.bb: fix MakeMaker issues with using wrong CC/LD/etc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,301 +35,55 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 09 Jul 2012 15:59:18 -0000
 
-From: Darren Hart <dvhart@linux.intel.com>
+From: Matthew McClintock <msm@freescale.com>
 
-Fixes [YOCTO #2527]
+MakeMaker has a bug where it does not propagate CC/LD/etc information
+down to subproject it generates Makefiles for... this recipe has has an
+Expat subproject which has issues building if we are using sstate-cache
+and it will reference the old sysroots and be unable to build properly.
+There is an upstream MakeMaker bug for this issue but we can work around
+it by fixing up the Makefiles for now
 
-Modify configure.ac and the generated configure script to avoid using
-help2man during the compilation process. For grub-efi we are only
-deploying the EFI payload and are not installing grub on the target
-root filesystem. Therefor, we do not need the man pages.
+See:
+https://rt.cpan.org/Public/Bug/Display.html?id=28632
 
-Cleanup the SRC_URI whitespace while we add a line to it.
-
-Signed-off-by: Darren Hart <dvhart@linux.intel.com>
-CC: Paul Eggleton <paul.eggleton@linux.intel.com>
-CC: Radu Moisan <radu.moisan@intel.com>
-
-grub-efi-native whitespace cleanup (INC)
-
-Signed-off-by: Darren Hart <dvhart@linux.intel.com>
+Signed-off-by: Matthew McClintock <msm@freescale.com>
 ---
- .../grub/files/grub-1.99-disable-help2man.patch    |  231 ++++++++++++++++++++
- meta/recipes-bsp/grub/grub-efi-native_1.99.bb      |   17 +-
- 2 files changed, 240 insertions(+), 8 deletions(-)
- create mode 100644 meta/recipes-bsp/grub/files/grub-1.99-disable-help2man.patch
+ .../perl/libxml-parser-perl_2.41.bb                |   11 +++++++++--
+ 1 files changed, 9 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-bsp/grub/files/grub-1.99-disable-help2man.patch b/meta/recipes-bsp/grub/files/grub-1.99-disable-help2man.patch
-new file mode 100644
-index 0000000..3ffefdc
---- /dev/null
-+++ b/meta/recipes-bsp/grub/files/grub-1.99-disable-help2man.patch
-@@ -0,0 +1,231 @@
-+Upstream-Status: Inappropriate (Bitbake build environment)
-+
-+We do not need the man pages when building just the EFI payload for the target,
-+all the tools are built for the host. This does not trigger GRUB's built-in
-+cross-compilation check, so force it. After the change to configure.ac,
-+autogen.sh was run in devshell and the resulting configure was used to generate
-+the configure diff. The configure diff was included to avoid having to add
-+autogen.sh to a do_configure_prepend() routine which would slow down the build
-+unnecessarily.
-+
-+Signed-off-by: Darren Hart <dvhart@linux.intel.com>
-+
-+Index: grub-1.99/configure.ac
-+===================================================================
-+--- grub-1.99.orig/configure.ac
-++++ grub-1.99/configure.ac
-+@@ -275,11 +275,12 @@ if test x$grub_cv_apple_cc = xyes ; then
-+   HOST_CFLAGS="$HOST_CFLAGS -fnested-functions"
-+ fi
-+
-+-if test "x$cross_compiling" = xyes; then
-+-  AC_MSG_WARN([cannot generate manual pages while cross compiling])
-+-else
-+-  AC_PATH_PROG(HELP2MAN, help2man)
-+-fi
-++# Force behaving as though we are cross-compiling with respect to HELP2MAN
-++#if test "x$cross_compiling" = xyes; then
-++AC_MSG_WARN([cannot generate manual pages while cross compiling])
-++#else
-++#  AC_PATH_PROG(HELP2MAN, help2man)
-++#fi
-+ 
-+ # Check for functions and headers.
-+ AC_CHECK_FUNCS(posix_memalign memalign asprintf vasprintf getextmntent)
-+Index: grub-1.99/configure
-+===================================================================
-+--- grub-1.99.orig/configure
-++++ grub-1.99/configure
-+@@ -1172,7 +1172,6 @@ GL_COND_LIBTOOL_FALSE
-+ GL_COND_LIBTOOL_TRUE
-+ BUILD_CC
-+ LIBUTIL
-+-HELP2MAN
-+ POSUB
-+ LTLIBINTL
-+ LIBINTL
-+@@ -1204,6 +1203,7 @@ LEXLIB
-+ am__fastdepCC_FALSE
-+ am__fastdepCC_TRUE
-+ CCDEPMODE
-++am__nodep
-+ AMDEPBACKSLASH
-+ AMDEP_FALSE
-+ AMDEP_TRUE
-+@@ -3011,7 +3011,6 @@ _ACEOF
-+ # Let the site file select an alternate cache file if it wants to.
-+ # Prefer an explicitly selected file to automatically selected ones.
-+ ac_site_file1=NONE
-+-ac_site_file2=NONE
-+ if test -n "$CONFIG_SITE"; then
-+   # We do not want a PATH search for config.site.
-+   case $CONFIG_SITE in #((
-+@@ -3019,14 +3018,8 @@ if test -n "$CONFIG_SITE"; then
-+     */*) ac_site_file1=$CONFIG_SITE;;
-+     *)   ac_site_file1=./$CONFIG_SITE;;
-+   esac
-+-elif test "x$prefix" != xNONE; then
-+-  ac_site_file1=$prefix/share/config.site
-+-  ac_site_file2=$prefix/etc/config.site
-+-else
-+-  ac_site_file1=$ac_default_prefix/share/config.site
-+-  ac_site_file2=$ac_default_prefix/etc/config.site
-+ fi
-+-for ac_site_file in "$ac_site_file1" "$ac_site_file2"
-++for ac_site_file in $ac_site_file1
-+ do
-+   test "x$ac_site_file" = xNONE && continue
-+   if test /dev/null != "$ac_site_file" && test -r "$ac_site_file"; then
-+@@ -3313,8 +3306,9 @@ case $target_os in *\ *) target_os=`echo
-+ # The aliases save the names the user supplied, while $host etc.
-+ # will get canonicalized.
-+ test -n "$target_alias" &&
-+-  test "$program_prefix$program_suffix$program_transform_name" = \
-+-    NONENONEs,x,x, &&
-++  test "$target_alias" != "$host_alias" &&
-++    test "$program_prefix$program_suffix$program_transform_name" = \
-++      NONENONEs,x,x, &&
-+   program_prefix=${target_alias}-
-+ 
-+ am__api_version='1.11'
-+@@ -3786,11 +3780,11 @@ MAKEINFO=${MAKEINFO-"${am_missing_run}ma
-+ 
-+ # We need awk for the "check" target.  The system "awk" is bad on
-+ # some platforms.
-+-# Always define AMTAR for backward compatibility.
-+-
-+-AMTAR=${AMTAR-"${am_missing_run}tar"}
-++# Always define AMTAR for backward compatibility.  Yes, it's still used
-++# in the wild :-(  We should find a proper way to deprecate it ...
-++AMTAR='$${TAR-tar}'
-+ 
-+-am__tar='${AMTAR} chof - "$$tardir"'; am__untar='${AMTAR} xf -'
-++am__tar='$${TAR-tar} chof - "$$tardir"' am__untar='$${TAR-tar} xf -'
-+ 
-+ 
-+ 
-+@@ -4256,6 +4250,7 @@ fi
-+ if test "x$enable_dependency_tracking" != xno; then
-+   am_depcomp="$ac_aux_dir/depcomp"
-+   AMDEPBACKSLASH='\'
-++  am__nodep='_no'
-+ fi
-+  if test "x$enable_dependency_tracking" != xno; then
-+   AMDEP_TRUE=
-+@@ -5069,6 +5064,7 @@ else
-+   # instance it was reported that on HP-UX the gcc test will end up
-+   # making a dummy file named `D' -- because `-MD' means `put the output
-+   # in D'.
-++  rm -rf conftest.dir
-+   mkdir conftest.dir
-+   # Copy depcomp to subdir because otherwise we won't find it if we're
-+   # using a relative directory.
-+@@ -5128,7 +5124,7 @@ else
-+ 	break
-+       fi
-+       ;;
-+-    msvisualcpp | msvcmsys)
-++    msvc7 | msvc7msys | msvisualcpp | msvcmsys)
-+       # This compiler won't grok `-c -o', but also, the minuso test has
-+       # not run yet.  These depmodes are late enough in the game, and
-+       # so weak that their functioning should not be impacted.
-+@@ -6044,6 +6040,7 @@ else
-+   # instance it was reported that on HP-UX the gcc test will end up
-+   # making a dummy file named `D' -- because `-MD' means `put the output
-+   # in D'.
-++  rm -rf conftest.dir
-+   mkdir conftest.dir
-+   # Copy depcomp to subdir because otherwise we won't find it if we're
-+   # using a relative directory.
-+@@ -6103,7 +6100,7 @@ else
-+ 	break
-+       fi
-+       ;;
-+-    msvisualcpp | msvcmsys)
-++    msvc7 | msvc7msys | msvisualcpp | msvcmsys)
-+       # This compiler won't grok `-c -o', but also, the minuso test has
-+       # not run yet.  These depmodes are late enough in the game, and
-+       # so weak that their functioning should not be impacted.
-+@@ -6848,6 +6845,7 @@ else
-+   # instance it was reported that on HP-UX the gcc test will end up
-+   # making a dummy file named `D' -- because `-MD' means `put the output
-+   # in D'.
-++  rm -rf conftest.dir
-+   mkdir conftest.dir
-+   # Copy depcomp to subdir because otherwise we won't find it if we're
-+   # using a relative directory.
-+@@ -6905,7 +6903,7 @@ else
-+ 	break
-+       fi
-+       ;;
-+-    msvisualcpp | msvcmsys)
-++    msvc7 | msvc7msys | msvisualcpp | msvcmsys)
-+       # This compiler won't grok `-c -o', but also, the minuso test has
-+       # not run yet.  These depmodes are late enough in the game, and
-+       # so weak that their functioning should not be impacted.
-+@@ -9529,51 +9527,13 @@ if test x$grub_cv_apple_cc = xyes ; then
-+   HOST_CFLAGS="$HOST_CFLAGS -fnested-functions"
-+ fi
-+ 
-+-if test "x$cross_compiling" = xyes; then
-+-  { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: cannot generate manual pages while cross compiling" >&5
-++# Force behaving as though we are cross-compiling with respect to HELP2MAN
-++#if test "x$cross_compiling" = xyes; then
-++{ $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: cannot generate manual pages while cross compiling" >&5
-+ $as_echo "$as_me: WARNING: cannot generate manual pages while cross compiling" >&2;}
-+-else
-+-  # Extract the first word of "help2man", so it can be a program name with args.
-+-set dummy help2man; ac_word=$2
-+-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
-+-$as_echo_n "checking for $ac_word... " >&6; }
-+-if ${ac_cv_path_HELP2MAN+:} false; then :
-+-  $as_echo_n "(cached) " >&6
-+-else
-+-  case $HELP2MAN in
-+-  [\\/]* | ?:[\\/]*)
-+-  ac_cv_path_HELP2MAN="$HELP2MAN" # Let the user override the test with a path.
-+-  ;;
-+-  *)
-+-  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
-+-for as_dir in $PATH
-+-do
-+-  IFS=$as_save_IFS
-+-  test -z "$as_dir" && as_dir=.
-+-    for ac_exec_ext in '' $ac_executable_extensions; do
-+-  if { test -f "$as_dir/$ac_word$ac_exec_ext" && $as_test_x "$as_dir/$ac_word$ac_exec_ext"; }; then
-+-    ac_cv_path_HELP2MAN="$as_dir/$ac_word$ac_exec_ext"
-+-    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
-+-    break 2
-+-  fi
-+-done
-+-  done
-+-IFS=$as_save_IFS
-+-
-+-  ;;
-+-esac
-+-fi
-+-HELP2MAN=$ac_cv_path_HELP2MAN
-+-if test -n "$HELP2MAN"; then
-+-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $HELP2MAN" >&5
-+-$as_echo "$HELP2MAN" >&6; }
-+-else
-+-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
-+-$as_echo "no" >&6; }
-+-fi
-+-
-+-
-+-fi
-++#else
-++#  AC_PATH_PROG(HELP2MAN, help2man)
-++#fi
-+ 
-+ # Check for functions and headers.
-+ for ac_func in posix_memalign memalign asprintf vasprintf getextmntent
-+@@ -20309,6 +20269,7 @@ $as_echo_n "checking whether \`$CC' gene
-+ cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-+ /* end confdefs.h.  */
-+ 
-++void g (int);
-+ void f (int (*p) (void));
-+ void g (int i)
-+ {
-diff --git a/meta/recipes-bsp/grub/grub-efi-native_1.99.bb b/meta/recipes-bsp/grub/grub-efi-native_1.99.bb
-index 20dcdb9..86a6d44 100644
---- a/meta/recipes-bsp/grub/grub-efi-native_1.99.bb
-+++ b/meta/recipes-bsp/grub/grub-efi-native_1.99.bb
-@@ -16,20 +16,21 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
- # FIXME: We should be able to optionally drop freetype as a dependency
- DEPENDS = "help2man-native autogen-native"
- RDEPENDS_${PN} = "diffutils freetype"
--PR = "r9"
-+PR = "r10"
+diff --git a/meta/recipes-devtools/perl/libxml-parser-perl_2.41.bb b/meta/recipes-devtools/perl/libxml-parser-perl_2.41.bb
+index be41578..33b4d83 100644
+--- a/meta/recipes-devtools/perl/libxml-parser-perl_2.41.bb
++++ b/meta/recipes-devtools/perl/libxml-parser-perl_2.41.bb
+@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://README;beginline=2;endline=6;md5=c8767d7516229f07b26e
  
- # Native packages do not normally rebuild when the target changes.
- # Ensure this is built once per HOST-TARGET pair.
- PN := "grub-efi-${TRANSLATED_TARGET_ARCH}-native"
+ DEPENDS += "expat expat-native"
  
- SRC_URI = "ftp://ftp.gnu.org/gnu/grub/grub-${PV}.tar.gz \
--	file://grub-1.99_fix_for_automake_1.11.2.patch \
--	file://grub-1.99-fpmath-sse-387-fix.patch \
--	file://grub-1.99-gcc-4.7.0.patch \
--	file://grub-1.99-gcc-4.7.0-uninitialized-var-errors.patch \
--	file://grub-1.99-gcc-4.7.0-strict-aliasing-errors.patch \
--        file://grub-1.99-fix-enable_execute_stack-check.patch \
--	"
-+           file://grub-1.99_fix_for_automake_1.11.2.patch \
-+           file://grub-1.99-fpmath-sse-387-fix.patch \
-+           file://grub-1.99-gcc-4.7.0.patch \
-+           file://grub-1.99-gcc-4.7.0-uninitialized-var-errors.patch \
-+           file://grub-1.99-gcc-4.7.0-strict-aliasing-errors.patch \
-+           file://grub-1.99-fix-enable_execute_stack-check.patch \
-+           file://grub-1.99-disable-help2man.patch \
-+          "
+-PR = "r2"
++PR = "r3"
  
- SRC_URI[md5sum] = "ca9f2a2d571b57fc5c53212d1d22e2b5"
- SRC_URI[sha256sum] = "b91f420f2c51f6155e088e34ff99bea09cc1fb89585cf7c0179644e57abd28ff"
+ SRC_URI = "http://www.cpan.org/modules/by-module/XML/XML-Parser-${PV}.tar.gz"
+ SRC_URI[md5sum] = "c320d2ffa459e6cdc6f9f59c1185855e"
+@@ -13,10 +13,17 @@ SRC_URI[sha256sum] = "b48197cd2265a26c5f016489f11a7b450d8833cb8b3d6a46ee15975740
+ 
+ S = "${WORKDIR}/XML-Parser-${PV}"
+ 
+-EXTRA_CPANFLAGS = "EXPATLIBPATH=${STAGING_LIBDIR} EXPATINCPATH=${STAGING_INCDIR}"
++EXTRA_CPANFLAGS = "EXPATLIBPATH=${STAGING_LIBDIR} EXPATINCPATH=${STAGING_INCDIR} CC=${CC} LD=${LD} FULL_AR=${AR}"
+ 
+ inherit cpan
+ 
++# fix up sub MakeMaker project as arguments don't get propagated though
++# see https://rt.cpan.org/Public/Bug/Display.html?id=28632
++do_configure_append() {
++	sed 's:--sysroot=.*\(\s\|$\):--sysroot=${STAGING_DIR_TARGET} :g' -i Makefile Expat/Makefile
++	sed 's:^FULL_AR = .*:FULL_AR = ${AR}:g' -i Expat/Makefile
++}
++
+ do_compile() {
+ 	export LIBC="$(find ${STAGING_DIR_TARGET}/${base_libdir}/ -name 'libc-*.so')"
+ 	cpan_do_compile
 -- 
 1.7.7.6
 
