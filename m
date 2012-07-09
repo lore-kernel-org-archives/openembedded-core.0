@@ -1,26 +1,33 @@
-Received: from mga14.intel.com ([143.182.124.37])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SoHSK-0005mE-8X
-	for openembedded-core@lists.openembedded.org;
-	Mon, 09 Jul 2012 19:09:04 +0200
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 09 Jul 2012 09:57:54 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="120399484"
-Received: from unknown (HELO [10.255.12.214]) ([10.255.12.214])
-	by AZSMGA002.ch.intel.com with ESMTP; 09 Jul 2012 09:57:49 -0700
-Message-ID: <4FFB0D8C.50702@linux.intel.com>
-Date: Mon, 09 Jul 2012 09:57:48 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:13.0) Gecko/20120605 Thunderbird/13.0
-MIME-Version: 1.0
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1SoHSY-0005oi-Dy for openembedded-core@lists.openembedded.org;
+	Mon, 09 Jul 2012 19:09:18 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q69Gw9aq009112
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 9 Jul 2012 17:58:09 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 09062-02 for <openembedded-core@lists.openembedded.org>;
+	Mon,  9 Jul 2012 17:58:04 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q69Gw1d8009106
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 9 Jul 2012 17:58:02 +0100
+Message-ID: <1341853082.8066.34.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <1341516191-31573-1-git-send-email-msm@freescale.com>
-In-Reply-To: <1341516191-31573-1-git-send-email-msm@freescale.com>
-Cc: Matthew McClintock <msm@freescale.com>
-Subject: Re: [PATCH] utils.bbclass: add helper function to add all multilib variants of a specific package
+Date: Mon, 09 Jul 2012 17:58:02 +0100
+In-Reply-To: <alpine.DEB.2.02.1207070629090.18029@oneiric>
+References: <alpine.DEB.2.02.1207070629090.18029@oneiric>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: FETCHCMD versus FETCHCOMMAND
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,51 +42,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Jul 2012 17:09:04 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Mon, 09 Jul 2012 17:09:18 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 07/05/2012 12:23 PM, Matthew McClintock wrote:
-> From: Richard Purdie <richard.purdie@linuxfoundation.org>
->
-> This is useful for the scenario where we want to add 'gcc' to
-> the root file system for all multilib variants
->
-> Signed-off-by: Matthew McClintock <msm@freescale.com>
-> ---
-> RP was the author of this patch via pastebin only... I thought
-> I would properly attribute it to him
->
->   meta/classes/utils.bbclass |    9 +++++++++
->   1 file changed, 9 insertions(+)
->
-> diff --git a/meta/classes/utils.bbclass b/meta/classes/utils.bbclass
-> index fde8f44..cc3acfa 100644
-> --- a/meta/classes/utils.bbclass
-> +++ b/meta/classes/utils.bbclass
-> @@ -351,6 +351,15 @@ def extend_variants(d, var, extend, delim=':'):
->   			variants.append(eext[1])
->   	return " ".join(variants)
->
-> +def multilib_pkg_extend(d, pkg):
-> +	variants = (d.getVar("MULTILIB_VARIANTS", True) or "").split()
-> +	if not variants:
-> +	    return pkg
-> +	pkgs = pkg
-> +	for v in variants:
-> +	    pkgs = pkgs + " " + v + "-" + pkg
-> +	return pkgs
-> +
->   def all_multilib_tune_values(d, var, unique = True, need_split = True, delim = ' '):
->   	"""Return a string of all ${var} in all multilib tune configuration"""
->   	values = []
->
+On Sat, 2012-07-07 at 06:33 -0400, Robert P. J. Day wrote:
+> just noticed the following as i was still poking around with
+> fetchers:
+> 
+> $ grep -r FETCHCMD * | grep -v pyc
+> bitbake/lib/bb/fetch2/hg.py:        basecmd = data.expand('${FETCHCMD_hg}', d)
+> bitbake/lib/bb/fetch2/svn.py:        ud.basecmd = d.getVar('FETCHCMD_svn', True)
+> bitbake/lib/bb/fetch2/osc.py:        basecmd = data.expand('${FETCHCMD_osc}', d)
+> bitbake/lib/bb/fetch2/git.py:        ud.basecmd = data.getVar("FETCHCMD_git", d, True) or "git"
+> bitbake/lib/bb/fetch2/git.py:        basecmd = data.getVar("FETCHCMD_git", d, True) or "git"
+> bitbake/lib/bb/fetch2/git.py:        basecmd = data.getVar("FETCHCMD_git", d, True) or "git"
+> bitbake/lib/bb/fetch2/bzr.py:        basecmd = data.expand('${FETCHCMD_bzr}', d)
+> bitbake/ChangeLog:	  (requires new FETCHCMD_svn definition in bitbake.conf)
+> meta/conf/bitbake.conf:FETCHCMD_svn = "/usr/bin/env svn"
+> meta/conf/bitbake.conf:FETCHCMD_cvs = "/usr/bin/env cvs"
+> meta/conf/bitbake.conf:FETCHCMD_wget = "/usr/bin/env wget -t 2 -T 30 -nv --no-check-certificate"
+> meta/conf/bitbake.conf:FETCHCMD_bzr = "/usr/bin/env bzr"
+> meta/conf/bitbake.conf:FETCHCMD_hg = "/usr/bin/env hg"
+> $
+> 
+>   i can see that FETCHCMD represent the "base" fetch command for each
+> fetcher, i also notice that there isn't a perfect correspondence
+> between the fetchers and bitbake.conf.
+> 
+>   for example, there's no definition of FETCHCMD_osc even though
+> osc.py checks for it.  conversely, bitbake.conf sets FETCHCMD_cvs even
+> though the cvs.py fetcher never bothers to check it.
+> 
+>   nothing wrong with any of that, just an observation about
+> consistency.
 
-Merged this along with the MakeMaker patch
+Thanks for the reminder. The idea was to drop the COMMAND versions in
+favour of the CMD ones. I've just sent out a series of patches which
+would complete that work.
 
-Thanks
-	Sau!
+We're probably heading to a point where the fetchers have sane defaults
+encoded and we remove the bitbake.conf settings entirely for the default
+case just allowing the user to override if ever needed.
 
+Cheers,
+
+Richard
 
 
 
