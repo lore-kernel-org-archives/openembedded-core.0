@@ -1,38 +1,59 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
+Received: from ch1ehsobe005.messaging.microsoft.com ([216.32.181.185]
+	helo=ch1outboundpool.messaging.microsoft.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1SoI7Z-0007PF-Q7
+	(envelope-from <B29882@freescale.com>) id 1SoIzZ-0008Uu-Ez
 	for openembedded-core@lists.openembedded.org;
-	Mon, 09 Jul 2012 19:51:41 +0200
-Received: by eaal1 with SMTP id l1so4162671eaa.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 09 Jul 2012 10:40:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type; bh=KIFWq/AOdJYm0bHE1m9n7f1naATeP7HfMn+7ER8WYCo=;
-	b=McINTqAkqUoihpgUqjr1rTfev69APOQM833aASwCFGX0IcPIKp8raAH8yDSUgaa3gJ
-	saybzbiVcKP4KoR/zU1FR0L/fMnbmywclEcKrpREpr2wtkB7H3iqNBoQ7wZMbnnhVFwp
-	dCOCt8/q/cHk5f7qIFuxW4utNra205LzOMC0qhWBfFD5lFa611nWHOWJUi+E+P+bFcEC
-	LabNAu2W2Ozl011zaXmWtGqdZLzR65BwhR/gpoqNPx2hudj7zyqoMf919chE7GZ2zEYV
-	lyvFyfS9bGnMAP4+KaN8ZodW/AULJB9AIrj5hBjDOne3NAuSbE9+VUme95bZDgg6OB2i
-	1IzQ==
-Received: by 10.14.99.201 with SMTP id x49mr8111202eef.142.1341855632242; Mon,
-	09 Jul 2012 10:40:32 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.14.210.199 with HTTP; Mon, 9 Jul 2012 10:40:02 -0700 (PDT)
-In-Reply-To: <1341853247.8066.36.camel@ted>
-References: <alpine.DEB.2.02.1207070649530.18262@oneiric>
-	<CAK18fxGjWFXQ4C40QgmCnk5G3PucaN4JzDAsDhMb4m6+pxNxzg@mail.gmail.com>
-	<1341853247.8066.36.camel@ted>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 9 Jul 2012 10:40:02 -0700
-Message-ID: <CAMKF1sq+DNviuMJ+ovOPTEO1Qzpg3HhE93UdKKbeq8W_JnadAA@mail.gmail.com>
+	Mon, 09 Jul 2012 20:47:29 +0200
+Received: from mail205-ch1-R.bigfish.com (10.43.68.244) by
+	CH1EHSOBE016.bigfish.com (10.43.70.66) with Microsoft SMTP Server id
+	14.1.225.23; Mon, 9 Jul 2012 18:18:56 +0000
+Received: from mail205-ch1 (localhost [127.0.0.1])	by
+	mail205-ch1-R.bigfish.com (Postfix) with ESMTP id A912F200193;
+	Mon,  9 Jul 2012 18:18:56 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-SpamScore: 0
+X-BigFish: VS0(zz98dI9371I936eI1432I9a6kzz1202hzz8275bh8275dhz2dh2a8h668h839h8e2h8e3hf0ah107ahbe9i)
+Received: from mail205-ch1 (localhost.localdomain [127.0.0.1]) by mail205-ch1
+	(MessageSwitch) id 1341857934799752_25357;
+	Mon,  9 Jul 2012 18:18:54 +0000 (UTC)
+Received: from CH1EHSMHS025.bigfish.com (snatpool2.int.messaging.microsoft.com
+	[10.43.68.236])	by mail205-ch1.bigfish.com (Postfix) with ESMTP id
+	B709B2C004D;	Mon,  9 Jul 2012 18:18:54 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by CH1EHSMHS025.bigfish.com
+	(10.43.70.25) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Mon, 9 Jul 2012 18:18:54 +0000
+Received: from 039-SN1MPN1-002.039d.mgd.msft.net ([169.254.2.109]) by
+	039-SN1MMR1-002.039d.mgd.msft.net ([10.84.1.15]) with mapi id
+	14.02.0298.005; Mon, 9 Jul 2012 13:20:58 -0500
+From: McClintock Matthew-B29882 <B29882@freescale.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: tcf-agent, matchbox-wm-2: Correct "proto=git" to "protocol=git".
+Thread-Topic: [OE-core] [PATCHv2 0/3] u-boot recipe updates
+Thread-Index: AQHNXf+VGpDDRd3rXUmQP9Focp4BrQ==
+Date: Mon, 9 Jul 2012 18:20:57 +0000
+Message-ID: <CAEsOVNfV7Ny2hqb25U4ki+AFkE2ipeL9xxfsc7QXYrXGM8GDQw@mail.gmail.com>
+References: <4FF0C930.4000104@linux.intel.com>
+	<1341207885-9463-1-git-send-email-paul.gortmaker@windriver.com>
+	<4FF33085.1070703@linux.intel.com>
+	<20120704141259.GA1817@windriver.com>
+	<20120704150005.GD1817@windriver.com>
+	<1341415765.20265.30.camel@phil-desktop>
+	<20120705161402.GA2309@windriver.com>
+	<1341849720.20265.64.camel@phil-desktop>
+In-Reply-To: <1341849720.20265.64.camel@phil-desktop>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [70.112.201.132]
+MIME-Version: 1.0
+X-OriginatorOrg: freescale.com
+Subject: Re: [PATCHv2 0/3] u-boot recipe updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -43,37 +64,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Jul 2012 17:51:41 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 09 Jul 2012 18:47:29 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <6D177329CCA29741979372001C720BFA@mgd.freescale.com>
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jul 9, 2012 at 10:00 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Mon, 2012-07-09 at 12:27 +0300, Andrei Gherzan wrote:
->> On Sat, Jul 7, 2012 at 1:54 PM, Robert P. J. Day
->> <rpjday@crashcourse.ca> wrote:
+On Mon, Jul 9, 2012 at 11:01 AM, Phil Blundell <philb@gnu.org> wrote:
+> On Thu, 2012-07-05 at 12:14 -0400, Paul Gortmaker wrote:
+>> > On Wed, 2012-07-04 at 11:00 -0400, Paul Gortmaker wrote:
+>> > > > On a related note, is it possible to fix the mailing list so that =
+it
+>> > > > does not strip To/Cc information and Message-ID strings?  [I'd hav=
+e to
+>> > > > check -- maybe it is (also) inserting a needless Reply-To: header =
+that
+>> > > > messes things up.]
 >>
->>         "proto=git" is not a valid parameter for the git fetcher.
+>> Your mail suffers the exact same problem.  My address is nowhere to be
+>> seen on the To/Cc:  I only happened to see it since I told mutt to
+>> show me all archived poky/oe mails with u-boot in the subject.
+>> Otherwise your message would have been lost in the noise, perhaps seen
+>> next week when I return from OOO.
 >>
->> NOTE: package matchbox-wm-2-0.1+git1
->> +01fa5465743c9ee43d040350f4405d35293e4869-r1: task do_fetch:
->> Succeeded
->>
->> Anyway, in the git.py, code is searching for "protocol" parameter:
->> ud.proto = ud.parm['protocol']
->>
->> ... so your change seems legit.
->>
->> On another hand, svn.py is using:
->>  proto = ud.parm.get('proto', 'svn')
->>
->> A good think would be to use the same parameter names for all
->> protocols.
->>
-> I agree but how do we do this without breaking the world? We probably
-> should try and standardise it, probably to "protocol".
+>> And when I hit reply, it won't go to you unless I tell mutt to ignore
+>> the broken Reply-To line.  It is the line right at the bottom:
+>
+> Ah, I see.  So, just to be clear, the mailing list isn't stripping
+> anything: the reason that your address doesn't appear in To/Cc is, as
+> you suggest, purely because the Reply-to: header which mailman inserts
+> tends to cause replies to be sent only to the list.
+>
+> I tend to agree with you that the Reply-to header is a bad idea and it
+> would be better off disabled, but this is a list policy decision and
+> Richard, as the administrator, would need to decide whether he wants to
+> disable it or not.
+>
+> For what it's worth, you can partially defeat this behaviour by
+> inserting your own Reply-to header in messages that you send to the
+> list.  If you tell mutt to add:
+>
+> Reply-to: Paul Gortmaker <paul.gortmaker@windriver.com>
+>
+> then mailman will translate this to:
+>
+> Reply-to: Paul Gortmaker <paul.gortmaker@windriver.com>,
+> openembedded-core@lists.openembedded.org
+>
+> which will probably produce more or less the effect that you are looking
+> for.  I realise that this is still somewhat annoying but you might find
+> it better than the behaviour you are getting at present.
+>
+> p.
 
-so may be change the keyword to protocol and have both for this
-release additionally give a deprecation warning on proto and then
-after 1.3 remove proto
+I really wish this worked like 99% of other mailing lists....
+
+-M=
+
 
 
