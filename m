@@ -1,46 +1,33 @@
-Received: from co1ehsobe005.messaging.microsoft.com ([216.32.180.188]
-	helo=co1outboundpool.messaging.microsoft.com)
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1SoMud-0006Jd-SW
+	(envelope-from <raj.khem@gmail.com>) id 1SoMvl-0006M4-SY
 	for openembedded-core@lists.openembedded.org;
-	Tue, 10 Jul 2012 00:58:40 +0200
-Received: from mail22-co1-R.bigfish.com (10.243.78.241) by
-	CO1EHSOBE016.bigfish.com (10.243.66.79) with Microsoft SMTP Server id
-	14.1.225.23; Mon, 9 Jul 2012 22:45:12 +0000
-Received: from mail22-co1 (localhost [127.0.0.1])	by mail22-co1-R.bigfish.com
-	(Postfix) with ESMTP id B9D01D40297	for
-	<openembedded-core@lists.openembedded.org>;
-	Mon,  9 Jul 2012 22:45:11 +0000 (UTC)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-X-SpamScore: 3
-X-BigFish: VS3(zzzz1202h1082kzz8275bhz2dh2a8h668h839hd24he5bhf0ah107ah)
-Received: from mail22-co1 (localhost.localdomain [127.0.0.1]) by mail22-co1
-	(MessageSwitch) id 1341873909817203_7734;
-	Mon,  9 Jul 2012 22:45:09 +0000 (UTC)
-Received: from CO1EHSMHS003.bigfish.com (unknown [10.243.78.229])	by
-	mail22-co1.bigfish.com (Postfix) with ESMTP id C5D68C4004A	for
-	<openembedded-core@lists.openembedded.org>;
-	Mon,  9 Jul 2012 22:45:09 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by CO1EHSMHS003.bigfish.com
-	(10.243.66.13) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Mon, 9 Jul 2012 22:45:09 +0000
-Received: from tx30smr01.am.freescale.net (10.81.153.31) by
-	039-SN1MMR1-001.039d.mgd.msft.net (10.84.1.13) with Microsoft SMTP
-	Server (TLS) id 14.2.298.5; Mon, 9 Jul 2012 17:47:24 -0500
-Received: from right.am.freescale.net (right.am.freescale.net [10.82.176.228])
-	by tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id
-	q69MlOGJ006814
-	for <openembedded-core@lists.openembedded.org>; Mon, 9 Jul 2012 15:47:24
-	-0700
-From: Matthew McClintock <msm@freescale.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 9 Jul 2012 17:47:24 -0500
-Message-ID: <1341874044-663-1-git-send-email-msm@freescale.com>
-X-Mailer: git-send-email 1.7.10
+	Tue, 10 Jul 2012 00:59:49 +0200
+Received: by eekc50 with SMTP id c50so16821eek.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 09 Jul 2012 15:48:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=N5mzuA2B0Crv5QUR9zLTBgkBKk0Z0Xhl+9xQqRncwo8=;
+	b=jVCdSSBIjJMQcwvlpCE4x9VJmGTqnB/TI0uOkynAeI1a5EOD+WyT57IynPbtOZTM3c
+	VUoFp97Gr4dTV+FeWNA3Owasj344ElIYVTN2ahFga4+Dg3ApWdFZwkXI66gKKoBl0Ose
+	Lu9YHWCcXfbK9j04MeHdtPlEHb4TLPVEQpVfVUXGC0IIY8WkA91OLwVPPNmUOLkfYfiX
+	tsuYNstY1ZHVCgdGGDCpwEcke3ffuMwdmTB5sBGXHY4tll8fJlpw2E0mzOeRdcYlHu+3
+	uGblq9R30Zz4JC0nDmshrrgD4O8ON7aVsDbQWr+Yp6fMFiNj1BEeDClve3HTiG01in74
+	tFxg==
+Received: by 10.14.99.201 with SMTP id x49mr8322338eef.142.1341874120013; Mon,
+	09 Jul 2012 15:48:40 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Subject: [PATCH] gcc: gcc-cross-canadian: use correct location for libraries for powerpc64
+Received: by 10.14.210.199 with HTTP; Mon, 9 Jul 2012 15:48:09 -0700 (PDT)
+In-Reply-To: <CAMKF1soHqgDKwCFBhJm62JhYK56eie2VzGFRt3p7WGeGHVHJ1A@mail.gmail.com>
+References: <cover.1341763345.git.raj.khem@gmail.com>
+	<CAMKF1soHqgDKwCFBhJm62JhYK56eie2VzGFRt3p7WGeGHVHJ1A@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 9 Jul 2012 15:48:09 -0700
+Message-ID: <CAMKF1sqeWPg=jhC4e-8yy5EU6Hu6Gt_V5EOBjO2-VGRHg4g9sg@mail.gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH V2 00/14] eglibc 2.16
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -55,47 +42,202 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Jul 2012 22:58:40 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 09 Jul 2012 22:59:50 -0000
+Content-Type: text/plain; charset=UTF-8
 
-This fixes the issue where gcc invokes the linker with an incorrect -L
-library location and gives up because it can't find libraries. It was
-looking in a /lib folder instead of /lib64
+On Sun, Jul 8, 2012 at 9:26 PM, Khem Raj <raj.khem@gmail.com> wrote:
+> On Sun, Jul 8, 2012 at 9:10 AM, Khem Raj <raj.khem@gmail.com> wrote:
+>> V2:
+>>
+>> Additionally, changed gcc to use git fetcher
+>> update E5500/E6500 patches for gcc and binutils (backported from mainline)
+>> images form p5020ds 32/64 bit built fine. (btw. it does not build with eglibc-2.15)
+>> Updated eglibc rpc patch needed for cross build from scratch
+>> Updates the gets patch for busybox now its a backport instead of
+>> home grown.
+>>
+>> bitbake world works clean for ppc/x86/x86_64 , for mips and arm
+>> the failures are prexisting.
+>> mips - webkit and pseudo fail to build
+>> arm - guile-2.0 and pseudo fail to build
+>>
+>> V1:
+>> This patch adds eglibc 2.16 recipes. I was able to build world
+>> on x86 except perf which was failing with 2.15 as well.
+>>
+>> I have also build and run core-image-sato on all qemus
+>>
+>> I did not remove 2.15 to allow some soak in time.
+>>
+>> The following changes since commit 8f16811a8d51982a8b3d70e6087aef4a41926840:
+>>
+>>   bootimg: Use STAGING_KERNEL_DIR (2012-07-06 09:38:17 +0100)
+>>
+>> are available in the git repository at:
+>>
+>>   git://git.openembedded.org/openembedded-core-contrib kraj/eglibc-2.16
+>>   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=kraj/eglibc-2.16
+>>
+>> Khem Raj (19):
+>>   mirrors: Add debian archive snapshot mirrors to search list
+>>   gdb: Replace struct siginfo with proper siginfo_t
+>>   busybox: Include sys/resource.h for rusage definition
+>>   coreutils: Fix build with eglibc 2.16
+>>   diffutils: Fix build with eglibc 2.16
+>>   udev: Fix build with eglibc 2.16
+>>   gettext,m4,augeas,gnutls: Account for removal of gets in eglibc 2.16
+>>   bison: Fix for gets being removed from eglibc 2.16
+>>   grub,guile,cpio,tar,wget: Fix gnulib for absense of gets in eglibc
+>>   boost: Upgrade recipe to 1.50.0
+>>   puzzles: Fix checksums
+>>   valgrind: Fix build with eglibc 2.16
+>>   libpam: Fix build with eglibc 2.16
+>>   gcc-cross-initial.inc: Use BFD ld as default always
+>>   gcc: Switch to git SRC_URI
+>
+> more testing shows that switching to git is causing do_unpack tasks
+> from various gcc recipes to have
+> different checksums and that triggers rerun of do_patch do_unpack
+> tasks in shared workdir and does not
+> go well. so I pulled the above commit out for now until we sort the
+> real reason why this is happening by just switching the fetcher
+>
 
-Signed-off-by: Matthew McClintock <msm@freescale.com>
----
- meta/recipes-devtools/gcc/gcc-4.7.inc               |    2 +-
- meta/recipes-devtools/gcc/gcc-cross-canadian_4.7.bb |    2 ++
- 2 files changed, 3 insertions(+), 1 deletion(-)
+with RPs help we figured out the issue and I have created a patch
+which fixed this issue the patch is here
 
-diff --git a/meta/recipes-devtools/gcc/gcc-4.7.inc b/meta/recipes-devtools/gcc/gcc-4.7.inc
-index 65153b3..c7dbc3c 100644
---- a/meta/recipes-devtools/gcc/gcc-4.7.inc
-+++ b/meta/recipes-devtools/gcc/gcc-4.7.inc
-@@ -1,6 +1,6 @@
- require gcc-common.inc
- 
--PR = "r2"
-+PR = "r3"
- 
- # Third digit in PV should be incremented after a minor release
- # happens from this branch on gcc e.g. currently its 4.7.1
-diff --git a/meta/recipes-devtools/gcc/gcc-cross-canadian_4.7.bb b/meta/recipes-devtools/gcc/gcc-cross-canadian_4.7.bb
-index efa345f..48b9b13 100644
---- a/meta/recipes-devtools/gcc/gcc-cross-canadian_4.7.bb
-+++ b/meta/recipes-devtools/gcc/gcc-cross-canadian_4.7.bb
-@@ -11,6 +11,8 @@ RDEPENDS_${PN} += "mpfr-nativesdk libmpc-nativesdk elfutils-nativesdk"
- SYSTEMHEADERS = "/usr/include"
- SYSTEMLIBS = "/lib/"
- SYSTEMLIBS1 = "/usr/lib/"
-+SYSTEMLIBS_powerpc64 = "/lib64/"
-+SYSTEMLIBS1_powerpc64 = "/usr/lib64/"
- 
- EXTRA_OECONF += "--disable-libunwind-exceptions --disable-libssp \
- 		--disable-libgomp --disable-libmudflap \
--- 
-1.7.10
+http://git.openembedded.org/openembedded-core-contrib/commit/?h=kraj/eglibc-2.16&id=3f0f25f272cc4fb0839f9c68f10d3bdd4b79fb47
 
 
+> second problem is that it messed the upgrade path since 's'vn sorts
+> after 'g'it and they appear in PV
+
+we are using 4.7.1.0 for now and will drop the .0 when we upgrade part 4.7.2
+release this should ensure upgrade paths are intact.
+
+I have updated the pull request with these two changes made in there.
+
+>
+> latest patch to switch the URI is here
+> http://git.openembedded.org/openembedded-core-contrib/commit/?h=kraj/misc&id=81b8073a82fd480e6a5d011a3c8a28ad5fbe542f
+>
+> anyone ideas ?
+>
+>>   binutils: Backport the e5500/e6500 patches from mainline
+>>   gcc: Refresh support for fsl E5500/E6500
+>>   qemu: Explicitly add --disable-gl-accel when gl is not enabled
+>>   eglibc: Add recipes for 2.16 release
+>>
+>>  meta/classes/mirrors.bbclass                       |    4 +-
+>>  meta/recipes-bsp/grub/grub-1.99/remove-gets.patch  |   20 +
+>>  meta/recipes-bsp/grub/grub_1.99.bb                 |    3 +-
+>>  .../busybox/busybox-1.19.4/sys_resource.patch      |   99 +++
+>>  meta/recipes-core/busybox/busybox_1.19.4.bb        |    3 +-
+>>  .../coreutils/coreutils-8.14/remove-gets.patch     |   23 +
+>>  meta/recipes-core/coreutils/coreutils_8.14.bb      |    3 +-
+>>  .../eglibc/cross-localedef-native_2.16.bb          |   44 +
+>>  .../eglibc/eglibc-2.16/GLRO_dl_debug_mask.patch    |  108 +++
+>>  .../eglibc/eglibc-2.16/IO-acquire-lock-fix.patch   |   17 +
+>>  .../eglibc-svn-arm-lowlevellock-include-tls.patch  |   21 +
+>>  .../eglibc_fix_findidx_parameters.patch            |   38 +
+>>  .../eglibc/eglibc-2.16/generate-supported.mk       |   11 +
+>>  .../eglibc/eglibc-2.16/initgroups_keys.patch       |   20 +
+>>  .../eglibc/eglibc-2.16/ld-search-order.patch       |   56 ++
+>>  .../eglibc/eglibc-2.16/mips-rld-map-check.patch    |   26 +
+>>  .../eglibc/eglibc-2.16/multilib_readlib.patch      |   17 +
+>>  .../recipes-core/eglibc/eglibc-2.16/ppc-sqrt.patch |  538 ++++++++++++
+>>  .../eglibc/eglibc-2.16/ppc-sqrt_finite.patch       |  112 +++
+>>  .../eglibc/eglibc-2.16/ppc_slow_ieee754_sqrt.patch |  123 +++
+>>  .../eglibc/eglibc-2.16/rpc-bootstrap.patch         |   63 ++
+>>  .../eglibc-2.16/use-sysroot-cxx-headers.patch      |   42 +
+>>  meta/recipes-core/eglibc/eglibc-initial_2.16.bb    |    6 +
+>>  meta/recipes-core/eglibc/eglibc-locale_2.16.bb     |    1 +
+>>  meta/recipes-core/eglibc/eglibc_2.16.bb            |  146 ++++
+>>  .../gettext/gettext-0.18.1.1/remove_gets.patch     |   58 ++
+>>  meta/recipes-core/gettext/gettext_0.18.1.1.bb      |    3 +-
+>>  meta/recipes-core/udev/udev/include_resource.patch |   31 +
+>>  meta/recipes-core/udev/udev_164.bb                 |    7 +-
+>>  meta/recipes-devtools/binutils/binutils-2.22.inc   |    2 +-
+>>  .../binutils/binutils/binutils-powerpc-e5500.patch |  918 +++++++++++++++++++-
+>>  .../recipes-devtools/bison/bison/remove-gets.patch |   20 +
+>>  meta/recipes-devtools/bison/bison_2.5.bb           |    6 +-
+>>  meta/recipes-devtools/gcc/gcc-4.7.inc              |   17 +-
+>>  .../gcc/gcc-4.7/define_insn_reservation.patch      |  118 +++
+>>  .../gcc/gcc-4.7/ppc_with_cpu.patch                 |  752 ++++++++++++++++
+>>  ...pc-e5500.patch => ppce5500-e6500-support.patch} |  560 ++++++++----
+>>  .../gcc/gcc-4.7/rs6000-tables.patch                |  135 +++
+>>  meta/recipes-devtools/gcc/gcc-cross-initial.inc    |    1 +
+>>  meta/recipes-devtools/gdb/gdb-common.inc           |    2 +-
+>>  meta/recipes-devtools/gdb/gdb.inc                  |    1 +
+>>  meta/recipes-devtools/gdb/gdb/siginfo_t.patch      |  403 +++++++++
+>>  .../recipes-devtools/guile/files/remove-gets.patch |   23 +
+>>  meta/recipes-devtools/guile/guile_2.0.5.bb         |    3 +-
+>>  meta/recipes-devtools/m4/m4-1.4.16.inc             |    6 +-
+>>  meta/recipes-devtools/m4/m4/remove-gets.patch      |   21 +
+>>  meta/recipes-devtools/qemu/qemu.inc                |    2 +-
+>>  .../valgrind-3.7.0/configure-with-glibc-2.16.patch |   32 +
+>>  meta/recipes-devtools/valgrind/valgrind_3.7.0.bb   |    6 +-
+>>  .../augeas/augeas/remove-gets.patch                |   20 +
+>>  meta/recipes-extended/augeas/augeas_0.10.0.bb      |    4 +-
+>>  .../cpio/cpio-2.11/remove-gets.patch               |   20 +
+>>  meta/recipes-extended/cpio/cpio_2.11.bb            |    5 +-
+>>  .../diffutils/diffutils-3.2/remove-gets.patch      |   22 +
+>>  meta/recipes-extended/diffutils/diffutils_3.2.bb   |    6 +-
+>>  .../pam/libpam/include-sys-resource.patch          |   12 +
+>>  meta/recipes-extended/pam/libpam_1.1.5.bb          |    6 +-
+>>  .../tar/tar-1.26/remove-gets.patch                 |   20 +
+>>  meta/recipes-extended/tar/tar_1.26.bb              |    5 +-
+>>  .../wget/wget-1.13.4/remove-gets.patch             |   23 +
+>>  meta/recipes-extended/wget/wget_1.13.4.bb          |    3 +-
+>>  meta/recipes-sato/puzzles/puzzles_r9561.bb         |   11 +-
+>>  .../boost/{boost_1.49.0.bb => boost_1.50.0.bb}     |    5 +-
+>>  .../gnutls/gnutls/remove-gets.patch                |   41 +
+>>  meta/recipes-support/gnutls/gnutls_2.12.20.bb      |    3 +-
+>>  65 files changed, 4629 insertions(+), 248 deletions(-)
+>>  create mode 100644 meta/recipes-bsp/grub/grub-1.99/remove-gets.patch
+>>  create mode 100644 meta/recipes-core/busybox/busybox-1.19.4/sys_resource.patch
+>>  create mode 100644 meta/recipes-core/coreutils/coreutils-8.14/remove-gets.patch
+>>  create mode 100644 meta/recipes-core/eglibc/cross-localedef-native_2.16.bb
+>>  create mode 100644 meta/recipes-core/eglibc/eglibc-2.16/GLRO_dl_debug_mask.patch
+>>  create mode 100644 meta/recipes-core/eglibc/eglibc-2.16/IO-acquire-lock-fix.patch
+>>  create mode 100644 meta/recipes-core/eglibc/eglibc-2.16/eglibc-svn-arm-lowlevellock-include-tls.patch
+>>  create mode 100644 meta/recipes-core/eglibc/eglibc-2.16/eglibc_fix_findidx_parameters.patch
+>>  create mode 100644 meta/recipes-core/eglibc/eglibc-2.16/etc/ld.so.conf
+>>  create mode 100644 meta/recipes-core/eglibc/eglibc-2.16/generate-supported.mk
+>>  create mode 100644 meta/recipes-core/eglibc/eglibc-2.16/initgroups_keys.patch
+>>  create mode 100644 meta/recipes-core/eglibc/eglibc-2.16/ld-search-order.patch
+>>  create mode 100644 meta/recipes-core/eglibc/eglibc-2.16/mips-rld-map-check.patch
+>>  create mode 100644 meta/recipes-core/eglibc/eglibc-2.16/multilib_readlib.patch
+>>  create mode 100644 meta/recipes-core/eglibc/eglibc-2.16/ppc-sqrt.patch
+>>  create mode 100644 meta/recipes-core/eglibc/eglibc-2.16/ppc-sqrt_finite.patch
+>>  create mode 100644 meta/recipes-core/eglibc/eglibc-2.16/ppc_slow_ieee754_sqrt.patch
+>>  create mode 100644 meta/recipes-core/eglibc/eglibc-2.16/rpc-bootstrap.patch
+>>  create mode 100644 meta/recipes-core/eglibc/eglibc-2.16/use-sysroot-cxx-headers.patch
+>>  create mode 100644 meta/recipes-core/eglibc/eglibc-initial_2.16.bb
+>>  create mode 100644 meta/recipes-core/eglibc/eglibc-locale_2.16.bb
+>>  create mode 100644 meta/recipes-core/eglibc/eglibc_2.16.bb
+>>  create mode 100644 meta/recipes-core/gettext/gettext-0.18.1.1/remove_gets.patch
+>>  create mode 100644 meta/recipes-core/udev/udev/include_resource.patch
+>>  create mode 100644 meta/recipes-devtools/bison/bison/remove-gets.patch
+>>  create mode 100644 meta/recipes-devtools/gcc/gcc-4.7/define_insn_reservation.patch
+>>  create mode 100644 meta/recipes-devtools/gcc/gcc-4.7/ppc_with_cpu.patch
+>>  rename meta/recipes-devtools/gcc/gcc-4.7/{powerpc-e5500.patch => ppce5500-e6500-support.patch} (41%)
+>>  create mode 100644 meta/recipes-devtools/gcc/gcc-4.7/rs6000-tables.patch
+>>  create mode 100644 meta/recipes-devtools/gdb/gdb/siginfo_t.patch
+>>  create mode 100644 meta/recipes-devtools/guile/files/remove-gets.patch
+>>  create mode 100644 meta/recipes-devtools/m4/m4/remove-gets.patch
+>>  create mode 100644 meta/recipes-devtools/valgrind/valgrind-3.7.0/configure-with-glibc-2.16.patch
+>>  create mode 100644 meta/recipes-extended/augeas/augeas/remove-gets.patch
+>>  create mode 100644 meta/recipes-extended/cpio/cpio-2.11/remove-gets.patch
+>>  create mode 100644 meta/recipes-extended/diffutils/diffutils-3.2/remove-gets.patch
+>>  create mode 100644 meta/recipes-extended/pam/libpam/include-sys-resource.patch
+>>  create mode 100644 meta/recipes-extended/tar/tar-1.26/remove-gets.patch
+>>  create mode 100644 meta/recipes-extended/wget/wget-1.13.4/remove-gets.patch
+>>  rename meta/recipes-support/boost/{boost_1.49.0.bb => boost_1.50.0.bb} (53%)
+>>  create mode 100644 meta/recipes-support/gnutls/gnutls/remove-gets.patch
+>>
+>> --
+>> 1.7.9.5
+>>
 
 
