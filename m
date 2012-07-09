@@ -1,19 +1,25 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@windriver.com>) id 1SoHyt-00078S-T0
+	(envelope-from <sgw@linux.intel.com>) id 1SoHzM-0007D6-7J
 	for openembedded-core@lists.openembedded.org;
-	Mon, 09 Jul 2012 19:42:44 +0200
-Received: from yow-bashfiel-l1.wrs.com (yow-bashfiel-d3.wrs.com
-	[128.224.147.67])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q69HVUi3025973;
-	Mon, 9 Jul 2012 10:31:30 -0700 (PDT)
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: richard.purdie@linuxfoundation.org
-Date: Mon,  9 Jul 2012 13:31:14 -0400
-Message-Id: <cover.1341854902.git.bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 1.7.5.4
-Cc: openembedded-core@lists.openembedded.org, saul.wold@intel.com
-Subject: [PATCH 0/1] linux-yocto/3.2: perf scripting changes
+	Mon, 09 Jul 2012 19:43:12 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 09 Jul 2012 10:32:02 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="169337181"
+Received: from unknown (HELO [10.255.12.214]) ([10.255.12.214])
+	by orsmga002.jf.intel.com with ESMTP; 09 Jul 2012 10:32:01 -0700
+Message-ID: <4FFB1591.6080404@linux.intel.com>
+Date: Mon, 09 Jul 2012 10:32:01 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:13.0) Gecko/20120605 Thunderbird/13.0
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1341425229.git.laurentiu.palcu@intel.com>
+In-Reply-To: <cover.1341425229.git.laurentiu.palcu@intel.com>
+Subject: Re: [PATCH 0/8] package upgrades
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -28,40 +34,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Jul 2012 17:42:44 -0000
+X-List-Received-Date: Mon, 09 Jul 2012 17:43:12 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Richard/Saul,
+On 07/04/2012 11:17 AM, Laurentiu Palcu wrote:
+> Hi all.
+>
+> This is another set of package upgrades. All packages were compiled successfully
+> for all architectures. Basic sanity tests for DirectFB were performed using
+> core-image-gtk-directfb on qemux86. The rest of the packages were tested with
+> core-image-sato on qemux86.
+>
+> Thanks,
+> Laurentiu
+>
+> The following changes since commit ee89e38d478b5f9e13dd87c9333f9c4d56d51e3e:
+>
+>    prexport.bbclass: Fix typo in warning: "AUROPR" -> "AUTOPR". (2012-07-04 17:40:38 +0100)
+>
+> are available in the git repository at:
+>
+>    git://git.yoctoproject.org/poky-contrib lpalcu/upgrades
+>    http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=lpalcu/upgrades
+>
+> Laurentiu Palcu (8):
+>    directfb: upgrade to 1.6.1
+>    directfb-examples: upgrade to 1.6.0
+>    libx11: upgrade to 1.5.0
+>    libx11-trim: upgrade to 1.5.0
+>    libx11-diet: upgrade to 1.5.0
+>    libxi: upgrade to 1.6.1
+>    xinput: upgrade to 1.6.0
+>    pixman: upgrade to 0.26.2
+>
+>   ...xamples_1.5.3.bb => directfb-examples_1.6.0.bb} |    4 +-
+>   meta/recipes-graphics/directfb/directfb.inc        |    4 +-
+>   .../directfb/fix-compilation-with-zlib.patch       |   29 +++++
+>   ...se-ARM-assembler-for-atomic-operations-on.patch |   27 ----
+>   ...ibdirect-remove-include-of-linux-config.h.patch |   29 -----
+>   meta/recipes-graphics/directfb/directfb_1.5.3.bb   |   23 ----
+>   meta/recipes-graphics/directfb/directfb_1.6.1.bb   |   23 ++++
+>   meta/recipes-graphics/xorg-app/xinput_1.5.3.bb     |   14 --
+>   meta/recipes-graphics/xorg-app/xinput_1.6.0.bb     |   15 +++
+>   ...quest-as-substitute-for-GetReq-GetReqExtr.patch |  137 --------------------
+>   .../keysymdef_include.patch                        |    0
+>   .../makekeys_crosscompile.patch                    |    0
+>   .../x11_disable_makekeys.patch                     |   13 +-
+>   .../X18NCMSstubs.diff                              |    2 +-
+>   .../fix-disable-xlocale.diff                       |    0
+>   .../fix-utf8-wrong-define.patch                    |    0
+>   .../keysymdef_include.patch                        |    0
+>   .../x11_disable_makekeys.patch                     |   13 +-
+>   .../{libx11-diet_1.4.4.bb => libx11-diet_1.5.0.bb} |    4 +-
+>   .../keysymdef_include.patch                        |    0
+>   .../makekeys_crosscompile.patch                    |    0
+>   .../x11_disable_makekeys.patch                     |   20 +--
+>   .../{libx11-trim_1.4.4.bb => libx11-trim_1.5.0.bb} |    6 +-
+>   .../xorg-lib/{libx11_1.4.4.bb => libx11_1.5.0.bb}  |    7 +-
+>   .../xorg-lib/{libxi_1.4.5.bb => libxi_1.6.1.bb}    |    4 +-
+>   .../{pixman_0.25.2.bb => pixman_0.26.2.bb}         |    9 +-
+>   26 files changed, 114 insertions(+), 269 deletions(-)
+>   rename meta/recipes-graphics/directfb/{directfb-examples_1.5.3.bb => directfb-examples_1.6.0.bb} (77%)
+>   create mode 100644 meta/recipes-graphics/directfb/directfb/fix-compilation-with-zlib.patch
+>   delete mode 100644 meta/recipes-graphics/directfb/directfb/libdirect-Use-ARM-assembler-for-atomic-operations-on.patch
+>   delete mode 100644 meta/recipes-graphics/directfb/directfb/libdirect-remove-include-of-linux-config.h.patch
+>   delete mode 100644 meta/recipes-graphics/directfb/directfb_1.5.3.bb
+>   create mode 100644 meta/recipes-graphics/directfb/directfb_1.6.1.bb
+>   delete mode 100644 meta/recipes-graphics/xorg-app/xinput_1.5.3.bb
+>   create mode 100644 meta/recipes-graphics/xorg-app/xinput_1.6.0.bb
+>   delete mode 100644 meta/recipes-graphics/xorg-lib/libx11-1.4.4/0001-Add-_XGetRequest-as-substitute-for-GetReq-GetReqExtr.patch
+>   rename meta/recipes-graphics/xorg-lib/{libx11-1.4.4 => libx11-1.5.0}/keysymdef_include.patch (100%)
+>   rename meta/recipes-graphics/xorg-lib/{libx11-1.4.4 => libx11-1.5.0}/makekeys_crosscompile.patch (100%)
+>   rename meta/recipes-graphics/xorg-lib/{libx11-1.4.4 => libx11-1.5.0}/x11_disable_makekeys.patch (74%)
+>   rename meta/recipes-graphics/xorg-lib/{libx11-diet-1.4.4 => libx11-diet-1.5.0}/X18NCMSstubs.diff (99%)
+>   rename meta/recipes-graphics/xorg-lib/{libx11-diet-1.4.4 => libx11-diet-1.5.0}/fix-disable-xlocale.diff (100%)
+>   rename meta/recipes-graphics/xorg-lib/{libx11-diet-1.4.4 => libx11-diet-1.5.0}/fix-utf8-wrong-define.patch (100%)
+>   rename meta/recipes-graphics/xorg-lib/{libx11-diet-1.4.4 => libx11-diet-1.5.0}/keysymdef_include.patch (100%)
+>   rename meta/recipes-graphics/xorg-lib/{libx11-trim-1.4.4 => libx11-diet-1.5.0}/x11_disable_makekeys.patch (74%)
+>   rename meta/recipes-graphics/xorg-lib/{libx11-diet_1.4.4.bb => libx11-diet_1.5.0.bb} (86%)
+>   rename meta/recipes-graphics/xorg-lib/{libx11-trim-1.4.4 => libx11-trim-1.5.0}/keysymdef_include.patch (100%)
+>   rename meta/recipes-graphics/xorg-lib/{libx11-trim-1.4.4 => libx11-trim-1.5.0}/makekeys_crosscompile.patch (100%)
+>   rename meta/recipes-graphics/xorg-lib/{libx11-diet-1.4.4 => libx11-trim-1.5.0}/x11_disable_makekeys.patch (62%)
+>   rename meta/recipes-graphics/xorg-lib/{libx11-trim_1.4.4.bb => libx11-trim_1.5.0.bb} (79%)
+>   rename meta/recipes-graphics/xorg-lib/{libx11_1.4.4.bb => libx11_1.5.0.bb} (67%)
+>   rename meta/recipes-graphics/xorg-lib/{libxi_1.4.5.bb => libxi_1.6.1.bb} (82%)
+>   rename meta/recipes-graphics/xorg-lib/{pixman_0.25.2.bb => pixman_0.26.2.bb} (75%)
+>
 
-I had meant to send these along with the 3.4 update, and managed to get
-distracted and miss them.
+Merged into OE-Core
 
-These are the SRCREV updates for the 3.2 kernel to support TomZ's recent
-perf scripting work.
-
-Cheers,
-
-Bruce
-
-cc: Tom Zanussi <tom.zanussi@intel.com>
-
-The following changes since commit 90ad663909c0c8a405b22a510c9f957007d02669:
-
-  upstream_tracking: update boost (2012-07-09 17:21:38 +0100)
-
-are available in the git repository at:
-  git://git.pokylinux.org/poky-contrib zedd/kernel-oe
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
-
-Bruce Ashfield (1):
-  linux-yocto/3.2: perf scripting updates
-
- meta/recipes-kernel/linux/linux-yocto-rt_3.2.bb   |    6 +++---
- meta/recipes-kernel/linux/linux-yocto-tiny_3.2.bb |    4 ++--
- meta/recipes-kernel/linux/linux-yocto_3.2.bb      |   14 +++++++-------
- 3 files changed, 12 insertions(+), 12 deletions(-)
-
--- 
-1.7.5.4
+Thanks
+	Sau!
 
 
 
