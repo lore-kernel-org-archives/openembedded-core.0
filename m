@@ -1,26 +1,31 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from astoria.ccjclearline.com ([64.235.106.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SoHdT-0006a0-IF
+	(envelope-from <rpjday@crashcourse.ca>) id 1SoHh2-0006gz-BE
 	for openembedded-core@lists.openembedded.org;
-	Mon, 09 Jul 2012 19:20:35 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 09 Jul 2012 10:09:25 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="190329237"
-Received: from unknown (HELO [10.255.12.214]) ([10.255.12.214])
-	by fmsmga002.fm.intel.com with ESMTP; 09 Jul 2012 10:09:25 -0700
-Message-ID: <4FFB1045.1010607@linux.intel.com>
-Date: Mon, 09 Jul 2012 10:09:25 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:13.0) Gecko/20120605 Thunderbird/13.0
+	Mon, 09 Jul 2012 19:24:16 +0200
+Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
+	([99.241.91.63]:45600 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.77) (envelope-from <rpjday@crashcourse.ca>)
+	id 1SoHWG-0001U3-7n for openembedded-core@lists.openembedded.org;
+	Mon, 09 Jul 2012 13:13:08 -0400
+Date: Mon, 9 Jul 2012 13:12:54 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@oneiric
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.DEB.2.02.1207091310550.23920@oneiric>
+User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1341392163.git.liezhi.yang@windriver.com>
-In-Reply-To: <cover.1341392163.git.liezhi.yang@windriver.com>
-Cc: Zhenfeng.Zhao@windriver.com
-Subject: Re: [PATCH 0/2] apt 0.7.14: runtime error fix when tmpdir is very long
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Subject: core-image-*.bb: Remove usage of EXTRA_IMAGE_FEATURES from some .bb files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,42 +40,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Jul 2012 17:20:36 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 09 Jul 2012 17:24:16 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
-On 07/04/2012 03:16 AM, Robert Yang wrote:
-> The following changes since commit a6b6df1350149c116050cb93c3c7b4802c709d31:
->
->    task-core-tools-debug: Added openssh-sftp-server. (2012-07-03 14:52:38 +0100)
->
-> are available in the git repository at:
->    git://git.pokylinux.org/poky-contrib robert/apt
->    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=robert/apt
->
-> Robert Yang (2):
->    apt 0.7.14: runtime error: filename too long (tmpdir length)
->    apt 0.7.14: runtime error: Method file has died unexpectedly
->
->   .../apt/apt-0.7.14/allocate-larger-memory.patch    |   75 ++++++++++++++++++++
->   .../apt/apt-0.7.14/truncate-filename.patch         |   35 +++++++++
->   meta/recipes-devtools/apt/apt-native_0.7.14.bb     |    2 +-
->   meta/recipes-devtools/apt/apt.inc                  |    2 +
->   meta/recipes-devtools/apt/apt_0.7.14.bb            |    2 +-
->   5 files changed, 114 insertions(+), 2 deletions(-)
->   create mode 100644 meta/recipes-devtools/apt/apt-0.7.14/allocate-larger-memory.patch
->   create mode 100644 meta/recipes-devtools/apt/apt-0.7.14/truncate-filename.patch
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
 
-Merged into OE-Core
+Replace the usage of EXTRA_IMAGE_FEATURES in a small number of .bb
+files with IMAGE_FEATURES, and leave the use of EXTRA_IMAGE_FEATURES
+for developers in their local.conf files, to avoid the possibility of
+undesirable side effects.
 
-Thanks
-	Sau!
+Signed-off-by: Robert P. J. Day <rpjday@crashcourse.ca>
+
+---
+
+  i *think* this should do it ...
+
+diff --git a/meta/recipes-extended/images/core-image-lsb-sdk.bb b/meta/recipes-extended/images/core-image-lsb-sdk.bb
+index 047d66b..7601410 100644
+--- a/meta/recipes-extended/images/core-image-lsb-sdk.bb
++++ b/meta/recipes-extended/images/core-image-lsb-sdk.bb
+@@ -2,8 +2,8 @@ DESCRIPTION = "Basic image without X support suitable for Linux Standard Base \
+ (LSB) implementations. It includes the full meta-toolchain, plus development \
+ headers and libraries to form a standalone SDK."
+
+-IMAGE_FEATURES += "apps-console-core tools-sdk dev-pkgs ssh-server-openssh"
+-EXTRA_IMAGE_FEATURES = "tools-debug tools-profile tools-testapps debug-tweaks"
++IMAGE_FEATURES += "apps-console-core tools-sdk dev-pkgs ssh-server-openssh \
++	tools-debug tools-profile tools-testapps debug-tweaks"
+
+
+ IMAGE_INSTALL = "\
+diff --git a/meta/recipes-rt/images/core-image-rt-sdk.bb b/meta/recipes-rt/images/core-image-rt-sdk.bb
+index 29512e3..e89b574 100644
+--- a/meta/recipes-rt/images/core-image-rt-sdk.bb
++++ b/meta/recipes-rt/images/core-image-rt-sdk.bb
+@@ -8,8 +8,7 @@ tools for real-time use. It includes the full meta-toolchain, development \
+ headers and libraries to form a standalone SDK."
+ DEPENDS = "linux-yocto-rt"
+
+-IMAGE_FEATURES += "dev-pkgs tools-sdk"
+-EXTRA_IMAGE_FEATURES += "tools-debug tools-profile tools-testapps debug-tweaks"
++IMAGE_FEATURES += "dev-pkgs tools-sdk tools-debug tools-profile tools-testapps debug-tweaks"
+
+ IMAGE_INSTALL += "rt-tests kernel-dev"
+
+diff --git a/meta/recipes-sato/images/core-image-sato-sdk.bb b/meta/recipes-sato/images/core-image-sato-sdk.bb
+index 39742ef..733ef7f 100644
+--- a/meta/recipes-sato/images/core-image-sato-sdk.bb
++++ b/meta/recipes-sato/images/core-image-sato-sdk.bb
+@@ -5,8 +5,8 @@ DESCRIPTION = "Image with Sato support that includes everything within \
+ core-image-sato plus meta-toolchain, development headers and libraries to \
+ form a standalone SDK."
+
+-IMAGE_FEATURES += "apps-console-core ${SATO_IMAGE_FEATURES} dev-pkgs tools-sdk qt4-pkgs"
+-EXTRA_IMAGE_FEATURES += "tools-debug tools-profile tools-testapps debug-tweaks"
++IMAGE_FEATURES += "apps-console-core ${SATO_IMAGE_FEATURES} dev-pkgs tools-sdk qt4-pkgs \
++	tools-debug tools-profile tools-testapps debug-tweaks"
+
+ SSHSERVER_IMAGE_FEATURES = "ssh-server-openssh"
+
+
+-- 
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
