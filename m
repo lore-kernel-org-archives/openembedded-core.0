@@ -1,42 +1,37 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1SoJUo-0000uD-8h for openembedded-core@lists.openembedded.org;
-	Mon, 09 Jul 2012 21:19:46 +0200
+Received: from 75-148-42-21-colorado.hfc.comcastbusiness.net ([75.148.42.21]
+	helo=judge.camp.se-eng.com) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <ray.danks@se-eng.com>) id 1SoJeq-00013s-Qw
+	for openembedded-core@lists.openembedded.org;
+	Mon, 09 Jul 2012 21:30:09 +0200
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q69J8ZUe009980;
-	Mon, 9 Jul 2012 20:08:35 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 09244-04; Mon,  9 Jul 2012 20:08:30 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q69J8OHx009974
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Mon, 9 Jul 2012 20:08:26 +0100
-Message-ID: <1341860905.22321.1.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
+	by judge.camp.se-eng.com (Postfix) with ESMTP id 49E041380BD;
+	Mon,  9 Jul 2012 13:18:57 -0600 (MDT)
+X-Virus-Scanned: amavisd-new at camp.se-eng.com
+Received: from judge.camp.se-eng.com ([127.0.0.1])
+	by localhost (judge.camp.se-eng.com [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with ESMTP id Cr0xcwXV6HkL; Mon,  9 Jul 2012 13:18:53 -0600 (MDT)
+Received: from [172.20.202.96] (beast.camp.se-eng.com [172.20.202.96])
+	by judge.camp.se-eng.com (Postfix) with ESMTPSA id ABEDC1380BC;
+	Mon,  9 Jul 2012 13:18:52 -0600 (MDT)
+Message-ID: <4FFB2EEB.5050805@se-eng.com>
+Date: Mon, 09 Jul 2012 13:20:11 -0600
+From: Raymond Danks <ray.danks@se-eng.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:10.0) Gecko/20120129 Thunderbird/10.0
+MIME-Version: 1.0
+To: Saul Wold <sgw@linux.intel.com>
+References: <1340396533-5386-1-git-send-email-ray.danks@se-eng.com>
+	<1340396533-5386-2-git-send-email-ray.danks@se-eng.com>
+	<4FF9FCCA.8080408@linux.intel.com>
+In-Reply-To: <4FF9FCCA.8080408@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Mon, 09 Jul 2012 20:08:25 +0100
-In-Reply-To: <1341849720.20265.64.camel@phil-desktop>
-References: <4FF0C930.4000104@linux.intel.com>
-	<1341207885-9463-1-git-send-email-paul.gortmaker@windriver.com>
-	<4FF33085.1070703@linux.intel.com>
-	<20120704141259.GA1817@windriver.com>
-	<20120704150005.GD1817@windriver.com>
-	<1341415765.20265.30.camel@phil-desktop>
-	<20120705161402.GA2309@windriver.com>
-	<1341849720.20265.64.camel@phil-desktop>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: Phil Blundell <philb@gnu.org>
-Subject: Re: [PATCHv2 0/3] u-boot recipe updates
+Subject: Re: [PATCH 2/2] mkelfimage: Add stable git build (initial recipe)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: ray.danks@se-eng.com, Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -47,46 +42,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Jul 2012 19:19:46 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 09 Jul 2012 19:30:09 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Mon, 2012-07-09 at 17:01 +0100, Phil Blundell wrote:
-> On Thu, 2012-07-05 at 12:14 -0400, Paul Gortmaker wrote:
-> > > On Wed, 2012-07-04 at 11:00 -0400, Paul Gortmaker wrote:
-> > > > > On a related note, is it possible to fix the mailing list so that it
-> > > > > does not strip To/Cc information and Message-ID strings?  [I'd have to
-> > > > > check -- maybe it is (also) inserting a needless Reply-To: header that
-> > > > > messes things up.]
-> > 
-> > Your mail suffers the exact same problem.  My address is nowhere to be
-> > seen on the To/Cc:  I only happened to see it since I told mutt to
-> > show me all archived poky/oe mails with u-boot in the subject.
-> > Otherwise your message would have been lost in the noise, perhaps seen
-> > next week when I return from OOO.
-> > 
-> > And when I hit reply, it won't go to you unless I tell mutt to ignore
-> > the broken Reply-To line.  It is the line right at the bottom:
-> 
-> Ah, I see.  So, just to be clear, the mailing list isn't stripping
-> anything: the reason that your address doesn't appear in To/Cc is, as
-> you suggest, purely because the Reply-to: header which mailman inserts
-> tends to cause replies to be sent only to the list.
-> 
-> I tend to agree with you that the Reply-to header is a bad idea and it
-> would be better off disabled, but this is a list policy decision and
-> Richard, as the administrator, would need to decide whether he wants to
-> disable it or not.
+On 07/08/2012 03:34 PM, Saul Wold wrote:
+> On 06/22/2012 01:22 PM, Raymond Danks wrote:
+>> Signed-off-by: Raymond Danks <ray.danks@se-eng.com>
+>> ---
+>> This was originally submitted to the openembedded project:
+>> http://patches.openembedded.org/patch/7687/
+>>
+>> Resubmitting to oe-core for review prior to commit in openembedded-core.
+>>
+>>   meta/recipes-devtools/mkelfimage/mkelfimage_git.bb |   18 
+>> ++++++++++++++++++
+>>   1 files changed, 18 insertions(+), 0 deletions(-)
+>>   create mode 100644 meta/recipes-devtools/mkelfimage/mkelfimage_git.bb
+>>
+>> diff --git a/meta/recipes-devtools/mkelfimage/mkelfimage_git.bb 
+>> b/meta/recipes-devtools/mkelfimage/mkelfimage_git.bb
+>> new file mode 100644
+>> index 0000000..b341213
+>> --- /dev/null
+>> +++ b/meta/recipes-devtools/mkelfimage/mkelfimage_git.bb
+>> @@ -0,0 +1,18 @@
+>> +DESCRIPTION = "A utility to create ELF boot images from Linux kernel 
+>> images"
+>> +HOMEPAGE = "http://www.coreboot.org/Mkelfimage"
+>> +SECTION = "devel"
+>> +LICENSE = "GPLv2"
+>> +LIC_FILES_CHKSUM = 
+>> "file://COPYING;md5=ea5bed2f60d357618ca161ad539f7c0a"
+>> +
+>> +SRCREV = "e13632a939e7dde8d7d44fc73e73a41dae8060c3"
+>> +PV = "1.0.0+gitr${SRCPV}"
+>> +PR = "r1"
+>> +
+>> +SRC_URI = 
+>> "git://review.coreboot.org/p/coreboot;protocol=http;branch=master"
+>> +
+>> +S = "${WORKDIR}/git/util/mkelfImage"
+>> +
+>> +inherit autotools
+>> +
+>> +NATIVE_INSTALL_WORKS = "1"
+>> +BBCLASSEXTEND = "native"
+>>
+>
+> I found this packaging issue:
+>> ERROR: QA Issue: mkelfimage: Files/directories were installed but not 
+>> shipped
+>>   /usr/share/mkelfImage
+>>   /usr/share/mkelfImage/elf32-i386
+>
+> When I did a world build for x86
+>
+> Can you please address it.
+Yes.  I'll send a patch and the corresponding patch to coreboot.
 
-I'm fairly indifferent about this and happy to change it unless anyone
-can think of a good reason why its list this. I would note that whilst
-in theory I might admin the list, I don't have any of the list admin
-password for this list or the tsc one for that matter, only that for
-bitbake-devel. Phil, perhaps we could discuss this offline :)
-
-Cheers,
-
-Richard
+Thanks,
+Ray
+>
+> Thanks
+>
+> Sau!
+>
 
 
 
