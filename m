@@ -1,32 +1,27 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1SoF7H-0004by-UM for openembedded-core@lists.openembedded.org;
-	Mon, 09 Jul 2012 16:39:12 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q69ES2dp008245
+Received: from mail.windriver.com ([147.11.1.11])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <mark.hatle@windriver.com>) id 1SoFAj-0004fM-VU
+	for openembedded-core@lists.openembedded.org;
+	Mon, 09 Jul 2012 16:42:46 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q69EVZWt026710
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 9 Jul 2012 15:28:02 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 08021-03 for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Jul 2012 15:27:58 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q69ERtjW008239
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 9 Jul 2012 15:27:57 +0100
-Message-ID: <1341844076.8066.17.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Mon, 09 Jul 2012 15:27:56 +0100
-In-Reply-To: <4FFAE7B7.1080804@gmail.com>
+	Mon, 9 Jul 2012 07:31:35 -0700 (PDT)
+Received: from Marks-MacBook-Pro.local (172.25.36.229) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.1.255.0; Mon, 9 Jul 2012 07:31:35 -0700
+Message-ID: <4FFAEB4F.3050806@windriver.com>
+Date: Mon, 9 Jul 2012 09:31:43 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7;
+	rv:13.0) Gecko/20120614 Thunderbird/13.0.1
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
 References: <1341834900.8066.9.camel@ted> <4FFAE7B7.1080804@gmail.com>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
+	<1341844076.8066.17.camel@ted>
+In-Reply-To: <1341844076.8066.17.camel@ted>
 Subject: Re: [PATCH] ccache: Ensure CCACHE_DIR is cleaned by do_clean task
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -42,36 +37,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Jul 2012 14:39:12 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 09 Jul 2012 14:42:46 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Mon, 2012-07-09 at 07:16 -0700, Khem Raj wrote:
-> On 7/9/2012 4:55 AM, Richard Purdie wrote:
-> > This ensures a rebuild does really build from scratch when ccache
-> > is in use.
-> > 
-> > [YOCTO #2696]
-> > 
-> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org> 
-> > --- diff --git a/meta/classes/ccache.bbclass
-> > b/meta/classes/ccache.bbclass index 5aa2da2..cd06a4b 100644 ---
-> > a/meta/classes/ccache.bbclass +++ b/meta/classes/ccache.bbclass @@
-> > -4,3 +4,5 @@ CCACHE_DISABLE[unexport] = "1"
-> > 
-> > do_configure[dirs] =+ "${CCACHE_DIR}" do_kernel_configme[dirs] =+
-> > "${CCACHE_DIR}" + +do_clean[cleandirs] += "${CCACHE_DIR}"
-> > 
-> 
-> so will this remove all contents of .ccache dir ?
-> or just the package you are cleanall'ing
+On 7/9/12 9:27 AM, Richard Purdie wrote:
+> On Mon, 2012-07-09 at 07:16 -0700, Khem Raj wrote:
+>> On 7/9/2012 4:55 AM, Richard Purdie wrote:
+>>> This ensures a rebuild does really build from scratch when ccache
+>>> is in use.
+>>>
+>>> [YOCTO #2696]
+>>>
+>>> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>>> --- diff --git a/meta/classes/ccache.bbclass
+>>> b/meta/classes/ccache.bbclass index 5aa2da2..cd06a4b 100644 ---
+>>> a/meta/classes/ccache.bbclass +++ b/meta/classes/ccache.bbclass @@
+>>> -4,3 +4,5 @@ CCACHE_DISABLE[unexport] = "1"
+>>>
+>>> do_configure[dirs] =+ "${CCACHE_DIR}" do_kernel_configme[dirs] =+
+>>> "${CCACHE_DIR}" + +do_clean[cleandirs] += "${CCACHE_DIR}"
+>>>
+>>
+>> so will this remove all contents of .ccache dir ?
+>> or just the package you are cleanall'ing
+>
+> Our default CCACHE_DIR defined above this has ${PN} in it so just the
+> package you are cleaning.
 
-Our default CCACHE_DIR defined above this has ${PN} in it so just the
-package you are cleaning.
+I'm worried about what happens if someone changes the CCACHE_DIR to a single 
+shared location.
 
-Cheers,
+--Mark
 
-Richard
+> Cheers,
+>
+> Richard
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+
 
 
 
