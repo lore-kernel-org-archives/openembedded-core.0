@@ -1,25 +1,30 @@
-Received: from mga01.intel.com ([192.55.52.88])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SoHMa-0005Tz-C1
-	for openembedded-core@lists.openembedded.org;
-	Mon, 09 Jul 2012 19:03:08 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 09 Jul 2012 09:51:56 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="175118599"
-Received: from unknown (HELO [10.255.12.214]) ([10.255.12.214])
-	by fmsmga001.fm.intel.com with ESMTP; 09 Jul 2012 09:51:56 -0700
-Message-ID: <4FFB0C2C.2080003@linux.intel.com>
-Date: Mon, 09 Jul 2012 09:51:56 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:13.0) Gecko/20120605 Thunderbird/13.0
-MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1341365770.git.peter.seebach@windriver.com>
-In-Reply-To: <cover.1341365770.git.peter.seebach@windriver.com>
-Subject: Re: [PATCH 0/1] *** SUBJECT HERE *** (huh?)
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1SoHP1-0005Yi-7u for openembedded-core@lists.openembedded.org;
+	Mon, 09 Jul 2012 19:05:39 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q69GsUFb009069
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 9 Jul 2012 17:54:30 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 08270-07 for <openembedded-core@lists.openembedded.org>;
+	Mon,  9 Jul 2012 17:54:25 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q69GsMLZ009063
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 9 Jul 2012 17:54:23 +0100
+Message-ID: <1341852863.8066.29.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Mon, 09 Jul 2012 17:54:23 +0100
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: [PATCH] bitbake.conf: Drop the old svn FETCH/UPDATE/RESUMECOMMAND variables
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,46 +39,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Jul 2012 17:03:08 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Mon, 09 Jul 2012 17:05:39 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 07/03/2012 06:37 PM, Peter Seebach wrote:
-> Robert Yang identified a crash with chroot in long directories,
-> which was a logic bug in the allocate-and-copy logic when
-> expanding paths inside a base path. Fixed in upstream pseudo,
-> along with a couple of other minor tweaks, since the crash is
-> blocking other work we should probably update.
->
-> The following changes since commit a6b6df1350149c116050cb93c3c7b4802c709d31:
->    Lianhao Lu (1):
->          task-core-tools-debug: Added openssh-sftp-server.
->
-> are available in the git repository at:
->
->    git://git.yoctoproject.org/poky-contrib seebs/pseudo
->    http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=seebs/pseudo
->
-> Peter Seebach (1):
->    pseudo: Update to 1.3.1 (fixing chroot crash)
->
->   meta/recipes-devtools/pseudo/pseudo_1.3.1.bb |    8 ++++++++
->   meta/recipes-devtools/pseudo/pseudo_1.3.bb   |    8 --------
->   meta/recipes-devtools/pseudo/pseudo_git.bb   |    6 +++---
->   3 files changed, 11 insertions(+), 11 deletions(-)
->   create mode 100644 meta/recipes-devtools/pseudo/pseudo_1.3.1.bb
->   delete mode 100644 meta/recipes-devtools/pseudo/pseudo_1.3.bb
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+The svn fetcher converted to use FETCHCMD a long time ago. This drops
+several variables which are effectively useless.
 
-Merged into OE-Core
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 3453a86..846c6c3 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -575,16 +575,12 @@ FETCHCMD_wget = "/usr/bin/env wget -t 2 -T 30 -nv --no-check-certificate"
+ FETCHCMD_bzr = "/usr/bin/env bzr"
+ FETCHCMD_hg = "/usr/bin/env hg"
+ 
+-FETCHCOMMAND = "ERROR, this must be a BitBake bug"
+ FETCHCOMMAND_wget = "/usr/bin/env wget  -t 2 -T 30 -nv --passive-ftp --no-check-certificate -P ${DL_DIR} '${URI}'"
+ FETCHCOMMAND_cvs = "/usr/bin/env cvs '-d${CVSROOT}' co ${CVSCOOPTS} ${CVSMODULE}"
+-FETCHCOMMAND_svn = "/usr/bin/env svn co ${SVNCOOPTS} ${SVNROOT} ${SVNMODULE}"
+ CHECKCOMMAND_wget = "/usr/bin/env wget --spider  -t 2 -T 30 --passive-ftp --no-check-certificate -P ${DL_DIR} '${URI}'"
+-RESUMECOMMAND = "ERROR, this must be a BitBake bug"
+ RESUMECOMMAND_wget = "/usr/bin/env wget -c -t 2 -T 30 -nv --passive-ftp --no-check-certificate -P ${DL_DIR} '${URI}'"
+-UPDATECOMMAND = "ERROR, this must be a BitBake bug"
+ UPDATECOMMAND_cvs = "/usr/bin/env cvs -d${CVSROOT} update -d -P ${CVSCOOPTS}"
+-UPDATECOMMAND_svn = "/usr/bin/env svn update ${SVNCOOPTS}"
++
+ SRCDATE = "${DATE}"
+ SRCREV ??= "INVALID"
+ AUTOREV = "${@bb.fetch2.get_autorev(d)}"
 
-Thanks
-	Sau!
+
 
 
