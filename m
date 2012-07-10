@@ -1,20 +1,22 @@
 Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1SoYsT-0000MP-1O
+	(envelope-from <nitin.a.kamble@intel.com>) id 1SoYsT-0000MP-NO
 	for Openembedded-core@lists.openembedded.org;
 	Tue, 10 Jul 2012 13:45:13 +0200
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 10 Jul 2012 04:34:01 -0700
+	by fmsmga101.fm.intel.com with ESMTP; 10 Jul 2012 04:34:03 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="175472093"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="175472102"
 Received: from yocto-hm1.jf.intel.com ([10.23.232.32])
-	by fmsmga001.fm.intel.com with ESMTP; 10 Jul 2012 04:34:01 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 10 Jul 2012 04:34:03 -0700
 From: nitin.a.kamble@intel.com
 To: Openembedded-core@lists.openembedded.org
 Date: Tue, 10 Jul 2012 04:32:49 -0700
-Message-Id: <cover.1341917396.git.nitin.a.kamble@intel.com>
+Message-Id: <c20b9f6a19c4968bcda90dc23b6abf9f5f0051c3.1341917396.git.nitin.a.kamble@intel.com>
 X-Mailer: git-send-email 1.7.3.4
-Subject: [PATCH 0/4] more commits related to automake update
+In-Reply-To: <cover.1341917396.git.nitin.a.kamble@intel.com>
+References: <cover.1341917396.git.nitin.a.kamble@intel.com>
+Subject: [PATCH 1/4] libunistring: fix build with automake 1.12
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,40 +35,125 @@ X-List-Received-Date: Tue, 10 Jul 2012 11:45:13 -0000
 
 From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-With the "world" build, found out that more recipes are failing due to automake 1.12.x
-All these remainling recipes are fixed and the world build succeeds with automake 1.12.1 now.
+Added a new patch:
+   libunistring/libunistring_fix_for_automake_1.12.patch
 
-Thanks,
-Nitin
+More comments in the patch header.
 
-The following changes since commit 45d7793f0e3092f3ba4e03c52195ea13179ad1d8:
-
-  pango: fix dependencies to avoid build issue (2012-07-09 09:22:00 -0700)
-
-are available in the git repository at:
-  git://git.pokylinux.org/poky-contrib nitin/automake_update
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=nitin/automake_update
-
-Nitin A Kamble (4):
-  libunistring: fix build with automake 1.12
-  telepathy-python: fix build with automake 1.12
-  libidn: fix build with automake 1.12
-  webgit-gtk: fix build with automake 1.12.1
-
- .../telepathy-python_fix_for_automake_1.12.patch   |   26 ++++++
- .../telepathy/telepathy-python_0.15.19.bb          |    5 +-
- ..._MKDIR_P_warning_error_with_automake_1.12.patch |   25 ++++++
- meta/recipes-extended/libidn/libidn_1.24.bb        |    5 +-
- .../webgit-gtk_fix_build_with_automake_1.12.patch  |   62 +++++++++++++++
- meta/recipes-sato/webkit/webkit-gtk_svn.bb         |    3 +-
+Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
+---
  .../libunistring_fix_for_automake_1.12.patch       |   81 ++++++++++++++++++++
  .../libunistring/libunistring_0.9.3.bb             |    5 +-
- 8 files changed, 205 insertions(+), 7 deletions(-)
- create mode 100644 meta/recipes-connectivity/telepathy/telepathy-python-0.15.19/telepathy-python_fix_for_automake_1.12.patch
- create mode 100644 meta/recipes-extended/libidn/libidn/avoid_AM_PROG_MKDIR_P_warning_error_with_automake_1.12.patch
- create mode 100644 meta/recipes-sato/webkit/files/webgit-gtk_fix_build_with_automake_1.12.patch
+ 2 files changed, 84 insertions(+), 2 deletions(-)
  create mode 100644 meta/recipes-support/libunistring/libunistring/libunistring_fix_for_automake_1.12.patch
 
+diff --git a/meta/recipes-support/libunistring/libunistring/libunistring_fix_for_automake_1.12.patch b/meta/recipes-support/libunistring/libunistring/libunistring_fix_for_automake_1.12.patch
+new file mode 100644
+index 0000000..5d831d5
+--- /dev/null
++++ b/meta/recipes-support/libunistring/libunistring/libunistring_fix_for_automake_1.12.patch
+@@ -0,0 +1,81 @@
++Upstream-Status: Pending
++
++automake 1.12 has deprecated use of mkdir_p, and it recommends
++use of MKDIR_P instead. Changed the code to avoid these kind 
++of warning-errors.
++
++| make[2]: /build/tmp/work/x86_64-linux/libunistring-native-0.9.3-r2/image/srv/home/nitin/builds2/build0/tmp/sysroots/x86_64-linux/usr/share/doc/libunistring: Command not found
++| make[2]: *** [install-html-split] Error 127
++
++Signed-Off-By: Nitin A Kamble <nitin.a.kamble@intel.com>
++2012/07/10
++
++Index: libunistring-0.9.3/doc/Makefile.am
++===================================================================
++--- libunistring-0.9.3.orig/doc/Makefile.am
+++++ libunistring-0.9.3/doc/Makefile.am
++@@ -87,7 +87,7 @@ TEXI2DVI = @TEXI2DVI@ $(TEXINCLUDES)
++ # The install-dvi target is already defined by automake.
++ 
++ installdirs-dvi:
++-	$(mkdir_p) $(DESTDIR)$(dvidir)
+++	$(MKDIR_P) $(DESTDIR)$(dvidir)
++ 
++ uninstall-dvi:
++ 	$(RM) $(DESTDIR)$(dvidir)/libunistring.dvi
++@@ -105,7 +105,7 @@ libunistring.ps: libunistring.dvi
++ # The install-ps target is already defined by automake.
++ 
++ installdirs-ps:
++-	$(mkdir_p) $(DESTDIR)$(psdir)
+++	$(MKDIR_P) $(DESTDIR)$(psdir)
++ 
++ uninstall-ps:
++ 	$(RM) $(DESTDIR)$(psdir)/libunistring.ps
++@@ -120,7 +120,7 @@ TEXI2PDF = @TEXI2DVI@ --pdf $(TEXINCLUDE
++ # The install-pdf target is already defined by automake.
++ 
++ installdirs-pdf:
++-	$(mkdir_p) $(DESTDIR)$(pdfdir)
+++	$(MKDIR_P) $(DESTDIR)$(pdfdir)
++ 
++ uninstall-pdf:
++ 	$(RM) $(DESTDIR)$(pdfdir)/libunistring.pdf
++@@ -151,17 +151,17 @@ libunistring_toc.html: libunistring.texi
++ 	   }
++ 
++ install-html-monolithic: libunistring.html
++-	$(mkdir_p) $(DESTDIR)$(htmldir)
+++	$(MKDIR_P) $(DESTDIR)$(htmldir)
++ 	$(INSTALL_DATA) `if test -f libunistring.html; then echo .; else echo $(srcdir); fi`/libunistring.html $(DESTDIR)$(htmldir)/libunistring.html
++ 
++ install-html-split: libunistring_toc.html
++-	$(mkdir_p) $(DESTDIR)$(htmldir)
+++	$(MKDIR_P) $(DESTDIR)$(htmldir)
++ 	for file in `if test -f libunistring_toc.html; then echo .; else echo $(srcdir); fi`/libunistring_*.html; do \
++ 	  $(INSTALL_DATA) $$file $(DESTDIR)$(htmldir)/`basename $$file`; \
++ 	done
++ 
++ installdirs-html:
++-	$(mkdir_p) $(DESTDIR)$(htmldir)
+++	$(MKDIR_P) $(DESTDIR)$(htmldir)
++ 
++ uninstall-html-monolithic:
++ 	$(RM) $(DESTDIR)$(htmldir)/libunistring.html
++@@ -170,14 +170,14 @@ uninstall-html-split:
++ 	$(RM) $(DESTDIR)$(htmldir)/libunistring_*.html
++ 
++ dist-html-monolithic:
++-	$(mkdir_p) $(distdir)/
+++	$(MKDIR_P) $(distdir)/
++ 	file=libunistring.html; \
++ 	if test -f $$file; then d=.; else d=$(srcdir); fi; \
++ 	cp -p $$d/$$file $(distdir)/$$file || exit 1
++ 
++ # We would like to put libunistring_*.html into EXTRA_DIST, but it doesn't work.
++ dist-html-split: libunistring_toc.html
++-	$(mkdir_p) $(distdir)/
+++	$(MKDIR_P) $(distdir)/
++ 	file=libunistring_toc.html; \
++ 	if test -f $$file; then d=.; else d=$(srcdir); fi; \
++ 	for file in `cd $$d && echo libunistring_*.html`; do \
+diff --git a/meta/recipes-support/libunistring/libunistring_0.9.3.bb b/meta/recipes-support/libunistring/libunistring_0.9.3.bb
+index 02a28f4..454a0e6 100644
+--- a/meta/recipes-support/libunistring/libunistring_0.9.3.bb
++++ b/meta/recipes-support/libunistring/libunistring_0.9.3.bb
+@@ -18,12 +18,13 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
+                     file://COPYING.LIB;md5=6a6a8e020838b23406c81b19c1d46df6" 
+ 
+ SRC_URI = "${GNU_MIRROR}/libunistring/libunistring-${PV}.tar.gz \
+-           file://parallelmake.patch"
++           file://parallelmake.patch \
++           file://libunistring_fix_for_automake_1.12.patch"
+ 
+ SRC_URI[md5sum] = "db8eca3b64163abadf8c40e5cecc261f"
+ SRC_URI[sha256sum] = "610d3ec724fbdaa654afe3cff20b9f4d504be3fd296fded2e0f7f764041006a3"
+ 
+-PR = "r2"
++PR = "r3"
+ 
+ inherit autotools
+ BBCLASSEXTEND = "native nativesdk"
 -- 
 1.7.3.4
 
