@@ -1,22 +1,24 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1Sod5P-0006rV-Pf
+	(envelope-from <nitin.a.kamble@intel.com>) id 1Sod5P-0006rU-LE
 	for Openembedded-core@lists.openembedded.org;
 	Tue, 10 Jul 2012 18:14:52 +0200
 Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 10 Jul 2012 09:03:38 -0700
+	by azsmga101.ch.intel.com with ESMTP; 10 Jul 2012 09:03:40 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="120803449"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="120803473"
 Received: from yocto-hm1.jf.intel.com ([10.23.232.32])
-	by AZSMGA002.ch.intel.com with ESMTP; 10 Jul 2012 09:03:38 -0700
+	by AZSMGA002.ch.intel.com with ESMTP; 10 Jul 2012 09:03:39 -0700
 From: nitin.a.kamble@intel.com
 To: Openembedded-core@lists.openembedded.org
-Date: Tue, 10 Jul 2012 09:02:01 -0700
-Message-Id: <b4314c7a2f9fb120c2c4affd52567fe60a96bb5a.1341935782.git.nitin.a.kamble@intel.com>
+Date: Tue, 10 Jul 2012 09:02:08 -0700
+Message-Id: <8bc8f3a36bb33bb0fb8c9ffca6cb8ebaa8e3d20c.1341935782.git.nitin.a.kamble@intel.com>
 X-Mailer: git-send-email 1.7.3.4
+In-Reply-To: <b4314c7a2f9fb120c2c4affd52567fe60a96bb5a.1341935782.git.nitin.a.kamble@intel.com>
+References: <b4314c7a2f9fb120c2c4affd52567fe60a96bb5a.1341935782.git.nitin.a.kamble@intel.com>
 In-Reply-To: <cover.1341935782.git.nitin.a.kamble@intel.com>
 References: <cover.1341935782.git.nitin.a.kamble@intel.com>
-Subject: [PATCH 01/19] automake: upgrade from 1.11.3 to 1.12.1
+Subject: [PATCH 08/19] evolution-data-server: fix build with automake 1.12.x
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,92 +37,166 @@ X-List-Received-Date: Tue, 10 Jul 2012 16:14:52 -0000
 
 From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
+Added 2 patches:
+   avoid_automake_errors.patch
+   fix_for_automake-1.12.x.patch
+
+More information in the patch headers.
+
 Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
 ---
- .../automake/automake/path_prog_fixes.patch        |   40 +++-----------------
- .../{automake_1.11.3.bb => automake_1.12.1.bb}     |    5 +-
- 2 files changed, 8 insertions(+), 37 deletions(-)
- rename meta/recipes-devtools/automake/{automake_1.11.3.bb => automake_1.12.1.bb} (93%)
+ .../avoid_automake_errors.patch                    |   83 ++++++++++++++++++++
+ .../fix_for_automake-1.12.x.patch                  |   28 +++++++
+ meta/recipes-sato/eds/evolution-data-server_git.bb |    4 +-
+ 3 files changed, 114 insertions(+), 1 deletions(-)
+ create mode 100644 meta/recipes-sato/eds/evolution-data-server/avoid_automake_errors.patch
+ create mode 100644 meta/recipes-sato/eds/evolution-data-server/fix_for_automake-1.12.x.patch
 
-diff --git a/meta/recipes-devtools/automake/automake/path_prog_fixes.patch b/meta/recipes-devtools/automake/automake/path_prog_fixes.patch
-index 312cec6..9ee0672 100644
---- a/meta/recipes-devtools/automake/automake/path_prog_fixes.patch
-+++ b/meta/recipes-devtools/automake/automake/path_prog_fixes.patch
-@@ -7,38 +7,10 @@ Upstream-Status: Inappropriate [embedded specific]
-  automake.in |    6 ++++--
-  4 files changed, 10 insertions(+), 6 deletions(-)
+diff --git a/meta/recipes-sato/eds/evolution-data-server/avoid_automake_errors.patch b/meta/recipes-sato/eds/evolution-data-server/avoid_automake_errors.patch
+new file mode 100644
+index 0000000..ebf00c3
+--- /dev/null
++++ b/meta/recipes-sato/eds/evolution-data-server/avoid_automake_errors.patch
+@@ -0,0 +1,83 @@
++Upstream-Status: Inappropriate [embedded specific]
++
++Avoid these warning-errors
++
++automake: warnings are treated as errors
++Makefile.am:15: warning: '%'-style pattern rules are a GNU make extension
++Makefile.am:21: warning: pkgconfig_DATA:-$(API_VERSION: non-POSIX variable name
++addressbook/backends/file/Makefile.am: installing './depcomp'
++addressbook/libebook/Makefile.am:55: warning: '%'-style pattern rules are a GNU make extension
++addressbook/libebook/Makefile.am:65: warning: '%'-style pattern rules are a GNU make extension
++addressbook/libebook/Makefile.am:66: warning: subst -,_,$*: non-POSIX variable name
++addressbook/libebook/Makefile.am:66: (probably a GNU make extension)
++addressbook/libebook/Makefile.am:72: warning: pkgconfig_DATA:-$(API_VERSION: non-POSIX variable name
++addressbook/libedata-book/Makefile.am:2: warning: '%'-style pattern rules are a GNU make extension
++addressbook/libedata-book/Makefile.am:3: warning: subst -,_,$*: non-POSIX variable name
++addressbook/libedata-book/Makefile.am:3: (probably a GNU make extension)
++glib-gen.mak:9: warning: '%'-style pattern rules are a GNU make extension
++addressbook/libedata-book/Makefile.am:5:   'glib-gen.mak' included from here
++glib-gen.mak:13: warning: '%'-style pattern rules are a GNU make extension
++addressbook/libedata-book/Makefile.am:5:   'glib-gen.mak' included from here
++glib-gen.mak:18: warning: '%'-style pattern rules are a GNU make extension
++addressbook/libedata-book/Makefile.am:5:   'glib-gen.mak' included from here
++glib-gen.mak:26: warning: '%'-style pattern rules are a GNU make extension
++addressbook/libedata-book/Makefile.am:5:   'glib-gen.mak' included from here
++glib-gen.mak:38: warning: '%'-style pattern rules are a GNU make extension
++addressbook/libedata-book/Makefile.am:5:   'glib-gen.mak' included from here
++glib-gen.mak:41: warning: '%'-style pattern rules are a GNU make extension
++addressbook/libedata-book/Makefile.am:5:   'glib-gen.mak' included from here
++addressbook/libedata-book/Makefile.am:86: warning: '%'-style pattern rules are a GNU make extension
++addressbook/libedata-book/Makefile.am:101: warning: pkgconfig_DATA:-$(API_VERSION: non-POSIX variable name
++calendar/backends/weather/Makefile.am:44: warning: '%'-style pattern rules are a GNU make extension
++calendar/libecal/Makefile.am:53: warning: '%'-style pattern rules are a GNU make extension
++calendar/libecal/Makefile.am:61: warning: '%'-style pattern rules are a GNU make extension
++calendar/libecal/Makefile.am:62: warning: subst -,_,$*: non-POSIX variable name
++calendar/libecal/Makefile.am:62: (probably a GNU make extension) calendar/libecal/Makefile.am:68: warning: pkgconfig_DATA:-$(API_VERSION: non-POSIX variable name
++calendar/libedata-cal/Makefile.am:5: warning: '%'-style pattern rules are a GNU make extension
++calendar/libedata-cal/Makefile.am:6: warning: subst -,_,$*: non-POSIX variable name
++calendar/libedata-cal/Makefile.am:6: (probably a GNU make extension)
++glib-gen.mak:9: warning: '%'-style pattern rules are a GNU make extension
++calendar/libedata-cal/Makefile.am:8:   'glib-gen.mak' included from here
++glib-gen.mak:13: warning: '%'-style pattern rules are a GNU make extension
++calendar/libedata-cal/Makefile.am:8:   'glib-gen.mak' included from here
++glib-gen.mak:18: warning: '%'-style pattern rules are a GNU make extension
++calendar/libedata-cal/Makefile.am:8:   'glib-gen.mak' included from here
++glib-gen.mak:26: warning: '%'-style pattern rules are a GNU make extension
++calendar/libedata-cal/Makefile.am:8:   'glib-gen.mak' included from here
++glib-gen.mak:38: warning: '%'-style pattern rules are a GNU make extension
++calendar/libedata-cal/Makefile.am:8:   'glib-gen.mak' included from here
++glib-gen.mak:41: warning: '%'-style pattern rules are a GNU make extension
++calendar/libedata-cal/Makefile.am:8:   'glib-gen.mak' included from here
++calendar/libedata-cal/Makefile.am:71: warning: '%'-style pattern rules are a GNU make extension
++calendar/libedata-cal/Makefile.am:86: warning: pkgconfig_DATA:-$(API_VERSION: non-POSIX variable name
++camel/Makefile.am:17: warning: '%'-style pattern rules are a GNU make extension
++libebackend/Makefile.am:35: warning: '%'-style pattern rules are a GNU make extension
++libebackend/Makefile.am:41: warning: pkgconfig_DATA:-$(API_VERSION: non-POSIX variable name
++libedataserver/Makefile.am:91: warning: '%'-style pattern rules are a GNU make extension
++libedataserver/Makefile.am:97: warning: pkgconfig_DATA:-$(API_VERSION: non-POSIX variable name
++libedataserverui/Makefile.am:108: warning: '%'-style pattern rules are a GNU make extension
++libedataserverui/Makefile.am:118: warning: pkgconfig_DATA:-$(API_VERSION: non-POSIX variable name
++servers/google/libgdata-google/Makefile.am:27: warning: '%'-style pattern rules are a GNU make extension
++servers/google/libgdata-google/Makefile.am:33: warning: pkgconfig_DATA:-$(API_VERSION: non-POSIX variable name
++servers/google/libgdata/Makefile.am:31: warning: '%'-style pattern rules are a GNU make extension
++servers/google/libgdata/Makefile.am:37: warning: pkgconfig_DATA:-$(API_VERSION: non-POSIX variable name
++servers/groupwise/Makefile.am:85: warning: '%'-style pattern rules are a GNU make extension
++servers/groupwise/Makefile.am:91: warning: pkgconfig_DATA:-$(API_VERSION: non-POSIX variable name
++autoreconf: automake failed with exit status: 1
++
++Signed-Off-By: Nitin A Kamble <nitin.a.kamble@intel.com>
++2012/07/09
++
++Index: git/configure.ac
++===================================================================
++--- git.orig/configure.ac
+++++ git/configure.ac
++@@ -21,7 +21,7 @@ m4_define([api_version], [1.2])
++ dnl Autoconf / Automake Initialization
++ AC_PREREQ(2.58)
++ AC_INIT([evolution-data-server],[eds_version],[http://bugzilla.gnome.org/enter_bug.cgi?product=Evolution-Data-Server])
++-AM_INIT_AUTOMAKE([gnu 1.9 tar-ustar -Wall -Werror foreign])
+++AM_INIT_AUTOMAKE([gnu 1.9 tar-ustar -Wall foreign])
++ AC_CONFIG_MACRO_DIR([m4])
++ AC_CONFIG_SRCDIR(README)
++ AC_CONFIG_HEADERS(config.h)
+diff --git a/meta/recipes-sato/eds/evolution-data-server/fix_for_automake-1.12.x.patch b/meta/recipes-sato/eds/evolution-data-server/fix_for_automake-1.12.x.patch
+new file mode 100644
+index 0000000..ac77a6d
+--- /dev/null
++++ b/meta/recipes-sato/eds/evolution-data-server/fix_for_automake-1.12.x.patch
+@@ -0,0 +1,28 @@
++Upstream-Status: Pending
++
++Fixed these kinds if warning-errors
++
++warning: 'libebookbackendfile.la': linking libtool libraries using a non-POSIX archiver requires 'AM_PROG_AR' in 'configure.ac'
++Signed-Off-By: Nitin A Kamble <nitin.a.kamble@intel.com>
++2012/07/09
++
++Index: git/configure.ac
++===================================================================
++--- git.orig/configure.ac
+++++ git/configure.ac
++@@ -17,6 +17,7 @@ dnl This number is meaningless, but we'r
++ dnl library names for backward compatibility.
++ m4_define([api_version], [1.2])
++ 
+++
++ dnl Autoconf / Automake Initialization
++ AC_PREREQ(2.58)
++ AC_INIT([evolution-data-server],[eds_version],[http://bugzilla.gnome.org/enter_bug.cgi?product=Evolution-Data-Server])
++@@ -30,6 +31,7 @@ AC_LANG(C)
++ 
++ dnl Automake 1.11 - Silent Build Rules
++ m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
+++m4_ifdef([AM_PROG_AR], [AM_PROG_AR]) # required by automake 1.12
++ 
++ dnl Required Package Versions
++ m4_define([glib_minimum_version], [2.16.1])
+diff --git a/meta/recipes-sato/eds/evolution-data-server_git.bb b/meta/recipes-sato/eds/evolution-data-server_git.bb
+index 17724ce..2ad81e4 100644
+--- a/meta/recipes-sato/eds/evolution-data-server_git.bb
++++ b/meta/recipes-sato/eds/evolution-data-server_git.bb
+@@ -13,7 +13,7 @@ DEPENDS = "intltool-native glib-2.0 gtk+ gconf dbus db gnome-common virtual/libi
+ SRCREV = "3ca578d968d09785933ebbb45b66b3bccdbd5832"
  
--Index: automake-1.10.1/Makefile.am
-+Index: automake-1.12.1/aclocal.in
- ===================================================================
----- automake-1.10.1.orig/Makefile.am	2008-01-21 22:28:58.000000000 +0000
--+++ automake-1.10.1/Makefile.am	2008-10-10 17:21:20.000000000 +0100
--@@ -75,7 +75,8 @@
--   -e 's,[@]SHELL[@],$(SHELL),g' \
--   -e 's,[@]VERSION[@],$(VERSION),g' \
--   -e 's,[@]configure_input[@],Generated from $@.in; do not edit by hand.,g' \
---  -e 's,[@]datadir[@],$(datadir),g'
--+  -e 's,[@]datadir[@],$(datadir),g' \
--+  -e 's,[@]bindir[@],$(bindir),g'
-- 
-- ## These files depend on Makefile so they are rebuilt if $(VERSION),
-- ## $(datadir) or other do_subst'ituted variables change.
--Index: automake-1.10.1/Makefile.in
--===================================================================
----- automake-1.10.1.orig/Makefile.in	2008-01-21 22:29:10.000000000 +0000
--+++ automake-1.10.1/Makefile.in	2008-10-10 17:22:21.000000000 +0100
--@@ -185,7 +185,8 @@
--   -e 's,[@]SHELL[@],$(SHELL),g' \
--   -e 's,[@]VERSION[@],$(VERSION),g' \
--   -e 's,[@]configure_input[@],Generated from $@.in; do not edit by hand.,g' \
---  -e 's,[@]datadir[@],$(datadir),g'
--+  -e 's,[@]datadir[@],$(datadir),g' \
--+  -e 's,[@]bindir[@],$(bindir),g'
-- 
-- WGET = wget
-- WGET_SV_CVS = $(WGET) http://savannah.gnu.org/cgi-bin/viewcvs/~checkout~/
--Index: automake-1.10.1/aclocal.in
--===================================================================
----- automake-1.10.1.orig/aclocal.in	2008-01-21 22:11:41.000000000 +0000
--+++ automake-1.10.1/aclocal.in	2008-10-10 17:21:20.000000000 +0100
-+--- automake-1.12.1.orig/aclocal.in
-++++ automake-1.12.1/aclocal.in
- @@ -1,8 +1,8 @@
- -#!@PERL@ -w
- +#!@bindir@/env perl
-@@ -50,10 +22,10 @@ Index: automake-1.10.1/aclocal.in
-      if 0;
-  
-  # aclocal - create aclocal.m4 by scanning configure.ac
--Index: automake-1.10.1/automake.in
-+Index: automake-1.12.1/automake.in
- ===================================================================
----- automake-1.10.1.orig/automake.in	2008-01-21 22:11:41.000000000 +0000
--+++ automake-1.10.1/automake.in	2008-10-10 17:21:20.000000000 +0100
-+--- automake-1.12.1.orig/automake.in
-++++ automake-1.12.1/automake.in
- @@ -1,8 +1,10 @@
- -#!@PERL@ -w
- +#!@bindir@/env perl
-diff --git a/meta/recipes-devtools/automake/automake_1.11.3.bb b/meta/recipes-devtools/automake/automake_1.12.1.bb
-similarity index 93%
-rename from meta/recipes-devtools/automake/automake_1.11.3.bb
-rename to meta/recipes-devtools/automake/automake_1.12.1.bb
-index 2008774..c2bc6a3 100644
---- a/meta/recipes-devtools/automake/automake_1.11.3.bb
-+++ b/meta/recipes-devtools/automake/automake_1.12.1.bb
-@@ -43,9 +43,8 @@ SRC_URI += "${PATHFIXPATCH} \
- 	    file://python-libdir.patch \
-             file://py-compile-compile-only-optimized-byte-code.patch"
+ PV = "2.30+git${SRCPV}"
+-PR = "r0"
++PR = "r1"
  
--
--SRC_URI[md5sum] = "93ecb319f0365cb801990b00f658d026"
--SRC_URI[sha256sum] = "921b5188057e57bdd9c0ba06e21d0b0ea7dafa61a9bd08a2b041215bcff12f55"
-+SRC_URI[md5sum] = "ec25c1855cacf47e4bdee76a776b96ba"
-+SRC_URI[sha256sum] = "24bf1640679ba4a9cbe2d36422f39a81eced7f556b576a7a2ccfc70ca85a1e2f"
+ SRC_URI = "git://git.gnome.org/evolution-data-server;protocol=git \
+            file://oh-contact.patch;striplevel=0 \
+@@ -22,6 +22,8 @@ SRC_URI = "git://git.gnome.org/evolution-data-server;protocol=git \
+            file://new-contact-fix.patch \
+            file://old-gdk-api.patch \
+            file://depbuildfix.patch \
++           file://fix_for_automake-1.12.x.patch \
++           file://avoid_automake_errors.patch \
+            file://iconv-detect.h"
  
- PR = "r0"
- 
+ S = "${WORKDIR}/git"
 -- 
 1.7.3.4
 
