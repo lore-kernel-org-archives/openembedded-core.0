@@ -1,29 +1,55 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from va3ehsobe006.messaging.microsoft.com ([216.32.180.16]
+	helo=va3outboundpool.messaging.microsoft.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1SohSh-0000q1-QQ
+	(envelope-from <B29882@freescale.com>) id 1SohXG-0001Th-Am
 	for openembedded-core@lists.openembedded.org;
-	Tue, 10 Jul 2012 22:55:12 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q6AKhxGd000522
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 10 Jul 2012 13:43:59 -0700 (PDT)
-Received: from localhost.localdomain (172.25.34.61) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Tue, 10 Jul 2012 13:43:59 -0700
-From: Mark Hatle <mark.hatle@windriver.com>
-To: <yocto@yoctoproject.org>, <openembedded-core@lists.openembedded.org>
-Date: Tue, 10 Jul 2012 15:54:38 -0500
-Message-ID: <a5c0682f85ac03ea09346d504843d362ab153911.1341953258.git.mark.hatle@windriver.com>
-X-Mailer: git-send-email 1.7.3.4
-In-Reply-To: <cover.1341953258.git.mark.hatle@windriver.com>
-References: <cover.1341953258.git.mark.hatle@windriver.com>
+	Tue, 10 Jul 2012 22:59:54 +0200
+Received: from mail106-va3-R.bigfish.com (10.7.14.248) by
+	VA3EHSOBE008.bigfish.com (10.7.40.28) with Microsoft SMTP Server id
+	14.1.225.23; Tue, 10 Jul 2012 20:46:22 +0000
+Received: from mail106-va3 (localhost [127.0.0.1])	by
+	mail106-va3-R.bigfish.com (Postfix) with ESMTP id D27CC160576	for
+	<openembedded-core@lists.openembedded.org>;
+	Tue, 10 Jul 2012 20:46:22 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-SpamScore: -2
+X-BigFish: VS-2(zz98dI9371I1432Izz1202hzz8275bh8275dhz2dh2a8h668h839h8e2h8e3hf0ah107ahbe9i)
+Received: from mail106-va3 (localhost.localdomain [127.0.0.1]) by mail106-va3
+	(MessageSwitch) id 134195318186083_4595;
+	Tue, 10 Jul 2012 20:46:21 +0000 (UTC)
+Received: from VA3EHSMHS037.bigfish.com (unknown [10.7.14.242])	by
+	mail106-va3.bigfish.com (Postfix) with ESMTP id 03BD0140196	for
+	<openembedded-core@lists.openembedded.org>;
+	Tue, 10 Jul 2012 20:46:21 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by VA3EHSMHS037.bigfish.com
+	(10.7.99.47) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Tue, 10 Jul 2012 20:46:19 +0000
+Received: from 039-SN1MPN1-002.039d.mgd.msft.net ([169.254.2.109]) by
+	039-SN1MMR1-003.039d.mgd.msft.net ([10.84.1.16]) with mapi id
+	14.02.0298.005; Tue, 10 Jul 2012 15:48:39 -0500
+From: McClintock Matthew-B29882 <B29882@freescale.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH 1/2] Fix hang issue when execute "shutdown
+	now" command
+Thread-Index: AQHNXt1hdBHMEqitXkaJ7jRLXkNvQA==
+Date: Tue, 10 Jul 2012 20:48:38 +0000
+Message-ID: <CAEsOVNf9Jx8ZNe2wZCmUwTumDjgHVxHbVd3iN+VDRR7Zt1+zGg@mail.gmail.com>
+References: <1341950440-19009-1-git-send-email-msm@freescale.com>
+In-Reply-To: <1341950440-19009-1-git-send-email-msm@freescale.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [70.112.201.132]
 MIME-Version: 1.0
-X-Originating-IP: [172.25.34.61]
-Subject: RFC: [PATCH 1/1] toolchain-scripts: Sync the SDK/ADT values to the build system
+X-OriginatorOrg: freescale.com
+Subject: Re: [PATCH 1/2] Fix hang issue when execute "shutdown now" command
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -34,134 +60,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Jul 2012 20:55:12 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 10 Jul 2012 20:59:54 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <BDE95F37247C6243BF107E39BC6F4B96@mgd.freescale.com>
+Content-Transfer-Encoding: quoted-printable
 
-The build system passes specific TUNE (fundamental) flag values to various
-tools instead of using a shell wrapper or similar.  It is important that the
-build system and ADT/SDK match the behaviors exactly, or we are likely to
-have differences in the way build-system and external components are built
-leading to configuration, compilation and/or run-time problems.
+Ignore this... there is one patch before this one...
 
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
----
- meta/classes/toolchain-scripts.bbclass |   63 +++++++++++++++++++++++---------
- 1 files changed, 45 insertions(+), 18 deletions(-)
+-M
 
-diff --git a/meta/classes/toolchain-scripts.bbclass b/meta/classes/toolchain-scripts.bbclass
-index bedcd61..bf37ec9 100644
---- a/meta/classes/toolchain-scripts.bbclass
-+++ b/meta/classes/toolchain-scripts.bbclass
-@@ -14,9 +14,18 @@ toolchain_create_sdk_env_script () {
- 	echo 'export PKG_CONFIG_SYSROOT_DIR=${SDKTARGETSYSROOT}' >> $script
- 	echo 'export PKG_CONFIG_PATH=${SDKTARGETSYSROOT}${libdir}/pkgconfig' >> $script
- 	echo 'export CONFIG_SITE=${SDKPATH}/site-config-${REAL_MULTIMACH_TARGET_SYS}' >> $script
--	echo 'export CC=${TARGET_PREFIX}gcc' >> $script
--	echo 'export CXX=${TARGET_PREFIX}g++' >> $script
-+	echo 'export CC="${TARGET_PREFIX}gcc ${TARGET_CC_ARCH} --sysroot=${SDKTARGETSYSROOT}"' >> $script
-+	echo 'export CXX="${TARGET_PREFIX}g++ ${TARGET_CC_ARCH} --sysroot=${SDKTARGETSYSROOT}"' >> $script
-+	echo 'export CPP="${TARGET_PREFIX}gcc -E ${TARGET_CC_ARCH} --sysroot=${SDKTARGETSYSROOT}"' >> $script
-+	echo 'export AS="${TARGET_PREFIX}as ${TARGET_AS_ARCH}"' >> $script
-+	echo 'export LD="${TARGET_PREFIX}ld ${TARGET_LD_ARCH} --sysroot=${SDKTARGETSYSROOT}"' >> $script
- 	echo 'export GDB=${TARGET_PREFIX}gdb' >> $script
-+	echo 'export STRIP=${TARGET_PREFIX}strip' >> $script
-+	echo 'export RANLIB=${TARGET_PREFIX}ranlib' >> $script
-+	echo 'export OBJCOPY=${TARGET_PREFIX}objcopy' >> $script
-+	echo 'export OBJDUMP=${TARGET_PREFIX}objdump' >> $script
-+	echo 'export AR=${TARGET_PREFIX}-ar' >> $script
-+	echo 'export NM=${TARGET_PREFIX}-nm' >> $script
- 	echo 'export TARGET_PREFIX=${TARGET_PREFIX}' >> $script
- 	echo 'export CONFIGURE_FLAGS="--target=${TARGET_SYS} --host=${TARGET_SYS} --build=${SDK_ARCH}-linux --with-libtool-sysroot=${SDKTARGETSYSROOT}"' >> $script
- 	if [ "${TARGET_OS}" = "darwin8" ]; then
-@@ -26,10 +35,10 @@ toolchain_create_sdk_env_script () {
- 		cd ${SDK_OUTPUT}${SDKTARGETSYSROOT}/usr
- 		ln -s /usr/local local
- 	fi
--	echo 'export CFLAGS="${TARGET_CC_ARCH} --sysroot=${SDKTARGETSYSROOT}"' >> $script
--	echo 'export CXXFLAGS="${TARGET_CC_ARCH} --sysroot=${SDKTARGETSYSROOT}"' >> $script
--	echo 'export LDFLAGS="${TARGET_LD_ARCH} --sysroot=${SDKTARGETSYSROOT}"' >> $script
--	echo 'export CPPFLAGS="${TARGET_CC_ARCH} --sysroot=${SDKTARGETSYSROOT}"' >> $script
-+	echo 'export CFLAGS="${TARGET_CFLAGS}"' >> $script
-+	echo 'export CXXFLAGS="${TARGET_CXXFLAGS}"' >> $script
-+	echo 'export LDFLAGS="${TARGET_LDFLAGS}"' >> $script
-+	echo 'export CPPFLAGS="${TARGET_CPPFLAGS}"' >> $script
- 	echo 'export OECORE_NATIVE_SYSROOT="${SDKPATHNATIVE}"' >> $script
- 	echo 'export OECORE_TARGET_SYSROOT="${SDKTARGETSYSROOT}"' >> $script
- 	echo 'export OECORE_ACLOCAL_OPTS="-I ${SDKPATHNATIVE}/usr/share/aclocal"' >> $script
-@@ -49,9 +58,18 @@ toolchain_create_tree_env_script () {
- 
- 	echo 'export CONFIG_SITE="${@siteinfo_get_files(d)}"' >> $script
- 
--	echo 'export CC=${TARGET_PREFIX}gcc' >> $script
--	echo 'export CXX=${TARGET_PREFIX}g++' >> $script
-+	echo 'export CC="${TARGET_PREFIX}gcc ${TARGET_CC_ARCH} --sysroot=${STAGING_DIR_TARGET}"' >> $script
-+	echo 'export CXX="${TARGET_PREFIX}g++ ${TARGET_CC_ARCH} --sysroot=${STAGING_DIR_TARGET}"' >> $script
-+	echo 'export CPP="${TARGET_PREFIX}gcc -E ${TARGET_CC_ARCH} --sysroot=${STAGING_DIR_TARGET}"' >> $script
-+	echo 'export AS="${TARGET_PREFIX}as ${TARGET_AS_ARCH}"' >> $script
-+	echo 'export LD="${TARGET_PREFIX}ld ${TARGET_LD_ARCH} --sysroot=${STAGING_DIR_TARGET}"' >> $script
- 	echo 'export GDB=${TARGET_PREFIX}gdb' >> $script
-+	echo 'export STRIP=${TARGET_PREFIX}strip' >> $script
-+	echo 'export RANLIB=${TARGET_PREFIX}ranlib' >> $script
-+	echo 'export OBJCOPY=${TARGET_PREFIX}objcopy' >> $script
-+	echo 'export OBJDUMP=${TARGET_PREFIX}objdump' >> $script
-+	echo 'export AR=${TARGET_PREFIX}-ar' >> $script
-+	echo 'export NM=${TARGET_PREFIX}-nm' >> $script
- 	echo 'export TARGET_PREFIX=${TARGET_PREFIX}' >> $script
- 	echo 'export CONFIGURE_FLAGS="--target=${TARGET_SYS} --host=${TARGET_SYS} --build=${BUILD_SYS} --with-libtool-sysroot=${STAGING_DIR_TARGET}"' >> $script
- 	if [ "${TARGET_OS}" = "darwin8" ]; then
-@@ -61,10 +79,10 @@ toolchain_create_tree_env_script () {
- 		cd ${SDK_OUTPUT}${SDKTARGETSYSROOT}/usr
- 		ln -s /usr/local local
- 	fi
--	echo 'export CFLAGS="${TARGET_CC_ARCH} --sysroot=${STAGING_DIR_TARGET}"' >> $script
--	echo 'export CXXFLAGS="${TARGET_CC_ARCH} --sysroot=${STAGING_DIR_TARGET}"' >> $script
--	echo 'export LDFLAGS="${TARGET_LD_ARCH} --sysroot=${STAGING_DIR_TARGET}"' >> $script
--	echo 'export CPPFLAGS="${TARGET_CC_ARCH} --sysroot=${STAGING_DIR_TARGET}"' >> $script
-+	echo 'export CFLAGS="${TARGET_CFLAGS}"' >> $script
-+	echo 'export CXXFLAGS="${TARGET_CXXFLAGS}"' >> $script
-+	echo 'export LDFLAGS="${TARGET_LDFLAGS}"' >> $script
-+	echo 'export CPPFLAGS="${TARGET_CPPFLAGS}"' >> $script
- 	echo 'export OECORE_NATIVE_SYSROOT="${STAGING_DIR_NATIVE}"' >> $script
- 	echo 'export OECORE_TARGET_SYSROOT="${STAGING_DIR_TARGET}"' >> $script
- 	echo 'export OECORE_ACLOCAL_OPTS="-I ${STAGING_DIR_NATIVE}/usr/share/aclocal"' >> $script
-@@ -83,9 +101,18 @@ toolchain_create_sdk_env_script_for_installer () {
- 	echo 'export PKG_CONFIG_SYSROOT_DIR=##SDKTARGETSYSROOT##' >> $script
- 	echo 'export PKG_CONFIG_PATH=##SDKTARGETSYSROOT##${target_libdir}/pkgconfig' >> $script
- 	echo 'export CONFIG_SITE=${SDKPATH}/site-config-'"${multimach_target_sys}" >> $script
--	echo 'export CC=${TARGET_PREFIX}gcc' >> $script
--	echo 'export CXX=${TARGET_PREFIX}g++' >> $script
-+	echo 'export CC="${TARGET_PREFIX}gcc ${TARGET_CC_ARCH} --sysroot=##SDKTARGETSYSROOT##"' >> $script
-+	echo 'export CXX="${TARGET_PREFIX}g++ ${TARGET_CC_ARCH} --sysroot=##SDKTARGETSYSROOT##"' >> $script
-+	echo 'export CPP="${TARGET_PREFIX}gcc -E ${TARGET_CC_ARCH} --sysroot=##SDKTARGETSYSROOT##"' >> $script
-+	echo 'export AS="${TARGET_PREFIX}as ${TARGET_AS_ARCH}"' >> $script
-+	echo 'export LD="${TARGET_PREFIX}ld ${TARGET_LD_ARCH} --sysroot=##SDKTARGETSYSROOT##"' >> $script
- 	echo 'export GDB=${TARGET_PREFIX}gdb' >> $script
-+	echo 'export STRIP=${TARGET_PREFIX}strip' >> $script
-+	echo 'export RANLIB=${TARGET_PREFIX}ranlib' >> $script
-+	echo 'export OBJCOPY=${TARGET_PREFIX}objcopy' >> $script
-+	echo 'export OBJDUMP=${TARGET_PREFIX}objdump' >> $script
-+	echo 'export AR=${TARGET_PREFIX}-ar' >> $script
-+	echo 'export NM=${TARGET_PREFIX}-nm' >> $script
- 	echo 'export TARGET_PREFIX=${TARGET_PREFIX}' >> $script
- 	echo 'export CONFIGURE_FLAGS="--target=${TARGET_SYS} --host=${TARGET_SYS} --build=${SDK_ARCH}-linux --with-libtool-sysroot=##SDKTARGETSYSROOT##"' >> $script
- 	if [ "${TARGET_OS}" = "darwin8" ]; then
-@@ -95,10 +122,10 @@ toolchain_create_sdk_env_script_for_installer () {
- 		cd ${SDK_OUTPUT}${SDKTARGETSYSROOT}/usr
- 		ln -s /usr/local local
- 	fi
--	echo 'export CFLAGS="${TARGET_CC_ARCH} --sysroot=##SDKTARGETSYSROOT##"' >> $script
--	echo 'export CXXFLAGS="${TARGET_CC_ARCH} --sysroot=##SDKTARGETSYSROOT##"' >> $script
--	echo 'export LDFLAGS="${TARGET_LD_ARCH} --sysroot=##SDKTARGETSYSROOT##"' >> $script
--	echo 'export CPPFLAGS="${TARGET_CC_ARCH} --sysroot=##SDKTARGETSYSROOT##"' >> $script
-+	echo 'export CFLAGS="${TARGET_CFLAGS}"' >> $script
-+	echo 'export CXXFLAGS="${TARGET_CXXFLAGS}"' >> $script
-+	echo 'export LDFLAGS="${TARGET_LDFLAGS}"' >> $script
-+	echo 'export CPPFLAGS="${TARGET_CPPFLAGS}"' >> $script
- 	echo 'export OECORE_NATIVE_SYSROOT="${SDKPATHNATIVE}"' >> $script
- 	echo 'export OECORE_TARGET_SYSROOT="##SDKTARGETSYSROOT##"' >> $script
-         echo 'export OECORE_ACLOCAL_OPTS="-I ${SDKPATHNATIVE}/usr/share/aclocal"' >> $script
--- 
-1.7.3.4
+On Tue, Jul 10, 2012 at 3:00 PM, Matthew McClintock <msm@freescale.com> wro=
+te:
+> From: Zhenhua Luo <b19537@freescale.com>
+>
+>     The original issue:
+>     When "shutdown now" command is typed on Linux prompt, the system trie=
+s to
+>     shut down gracefully from runlevel 5 to 1.
+>     RunLevel 1 is single-user/maintenance mode. This is the default behav=
+ior
+>     when no runlevel option is mentioned in shutdown command (like shutdo=
+wn
+>     -h now OR shutdown -r now).
+>     The startup script which starts single-user mode by initiating a new
+>     process is missing from /etc/rc1.d/...
+>     Because of this, following error appears:
+>         INIT: no more processes left in this runlevel
+>     A start-up script is needed to enables the user to log into single-us=
+er
+>     mode when "shutdown now" command is given.
+>
+> Signed-off-by: Matthew McClintock <msm@freescale.com>
+> Signed-off-by: Zhenhua Luo <b19537@freescale.com>
+> ---
+>  meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb |    5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb b/met=
+a/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
+> index 492c60c..fe1ff41 100644
+> --- a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
+> +++ b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
+> @@ -2,7 +2,7 @@ DESCRIPTION =3D "Inittab for sysvinit"
+>  LICENSE =3D "GPLv2"
+>  LIC_FILES_CHKSUM =3D "file://${COREBASE}/meta/files/common-licenses/GPL-=
+2.0;md5=3D801f80980d171dd6425610833a22dbe6"
+>
+> -PR =3D "r7"
+> +PR =3D "r8"
+>
+>  SRC_URI =3D "file://inittab"
+>
+> @@ -26,7 +26,8 @@ do_install() {
+>      for i in $tmp
+>      do
+>         j=3D`echo ${i} | sed s/\;/\ /g`
+> -        echo "${idx}:2345:respawn:${base_sbindir}/getty ${j}" >> ${D}${s=
+ysconfdir}/inittab
+> +       echo "${idx}:12345:respawn:${base_sbindir}/getty ${j}" >> ${D}${s=
+ysconfdir}/inittab
+> +
+>         idx=3D`expr $idx + 1`
+>      done
+>
+> --
+> 1.7.10
+>
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core=
 
 
 
