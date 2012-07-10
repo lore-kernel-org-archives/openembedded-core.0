@@ -1,30 +1,37 @@
-Received: from 75-148-42-21-colorado.hfc.comcastbusiness.net ([75.148.42.21]
-	helo=judge.camp.se-eng.com) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raymondd@beast.se-eng.com>) id 1Sobgf-0005cb-GN
+Received: from mail-qa0-f47.google.com ([209.85.216.47])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <andrei@gherzan.ro>) id 1Soc5M-0004gb-BF
 	for openembedded-core@lists.openembedded.org;
-	Tue, 10 Jul 2012 16:45:32 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by judge.camp.se-eng.com (Postfix) with ESMTP id 622A8138125
+	Tue, 10 Jul 2012 17:10:44 +0200
+Received: by qabg1 with SMTP id g1so2527330qab.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Jul 2012 08:34:01 -0600 (MDT)
-X-Virus-Scanned: amavisd-new at camp.se-eng.com
-Received: from judge.camp.se-eng.com ([127.0.0.1])
-	by localhost (judge.camp.se-eng.com [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with ESMTP id 6O8q+a3k0+23; Tue, 10 Jul 2012 08:34:00 -0600 (MDT)
-Received: from beast (beast.camp.se-eng.com [172.20.202.96])
-	by judge.camp.se-eng.com (Postfix) with ESMTP id E991F138205;
-	Tue, 10 Jul 2012 08:33:59 -0600 (MDT)
-Received: by beast (Postfix, from userid 1000)
-	id 299DD2149B; Tue, 10 Jul 2012 08:35:25 -0600 (MDT)
-From: Raymond Danks <ray.danks@se-eng.com>
+	Tue, 10 Jul 2012 07:59:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
+	:x-gm-message-state;
+	bh=zLmDjJDAyDQp7KHHiu4V/Vz0uOV6S4Zu5CVnMDdX7/U=;
+	b=fboySzkFwYXHM4JNRPqZbOIkBVCihvq7BnAg1lQa92sYcOqmBaSh1UZQeO2Hfx6MWs
+	87MeCQDARfD4eyp1mfpBng0TGqOVU8mDng7Se483bXkJb5Cdt+6eD2imAWKkJFtc8bdo
+	O++nAUCSZVJUnYAT8gmfBen4jPjV48CIKzX/FTGxrUV+TP4y+1bUsaLSmrzwaZUtgXPh
+	efZTjgjMSREZ+ab8E0BEroTgf/oMxp29krwMeSSNc1eIjxnun5T2S97sKgVZF2t9vaii
+	PNFKdrqH3xri+RER2137PxXUfek0VsDJucf8oM8EY2bqCqkKFdaD7enZv4Sj5BCHWO64
+	TQQA==
+Received: by 10.224.190.136 with SMTP id di8mr19762536qab.88.1341932373090;
+	Tue, 10 Jul 2012 07:59:33 -0700 (PDT)
+Received: from otp-agherzan-l1.corp.ad.wrs.com ([89.121.200.106])
+	by mx.google.com with ESMTPS id n2sm65763443qap.10.2012.07.10.07.59.31
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 10 Jul 2012 07:59:32 -0700 (PDT)
+From: Andrei Gherzan <andrei@gherzan.ro>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 10 Jul 2012 08:35:23 -0600
-Message-Id: <1341930923-26277-1-git-send-email-ray.danks@se-eng.com>
-X-Mailer: git-send-email 1.7.0.4
-In-Reply-To: <1341867108-7823-1-git-send-email-ray.danks@se-eng.com>
-References: <1341867108-7823-1-git-send-email-ray.danks@se-eng.com>
-Subject: [PATCH v2] mkelfimage: Upgrade to e1e6a91
+Date: Tue, 10 Jul 2012 17:59:18 +0300
+Message-Id: <9403579097d0430a5ce2cd3bb23925fe25917a0b.1341932186.git.andrei@gherzan.ro>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1341932186.git.andrei@gherzan.ro>
+References: <cover.1341932186.git.andrei@gherzan.ro>
+X-Gm-Message-State: ALoCoQkjydx/1P6GUYJNT1y5HqgyyydtS5joUnbrPr5AVTCRMVVr9J1IY0nxvU0Bv3vXsntbwNsl
+Subject: [PATCH 1/5] utils.py: Modify and rename distro_features_backfill python function
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,37 +46,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Jul 2012 14:46:06 -0000
+X-List-Received-Date: Tue, 10 Jul 2012 15:10:44 -0000
 
-Address QA issue: Files/directories were installed but not shipped.
-New revision contains patch to mkelfimage removing
-/usr/share/mkelfImage/elf32-i386 directory from Makefile install target.
+This function was written to be used with DISTRO_FEATURES. This behavior
+is usefull with MACHINE_FEATURES as well.
 
-http://review.coreboot.org/#/c/1195/
-
-Signed-off-by: Raymond Danks <ray.danks@se-eng.com>
+Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
 ---
-v2:
-  Reword commit log
+ meta/lib/oe/utils.py |    9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
- meta/recipes-devtools/mkelfimage/mkelfimage_git.bb |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
-
-diff --git a/meta/recipes-devtools/mkelfimage/mkelfimage_git.bb b/meta/recipes-devtools/mkelfimage/mkelfimage_git.bb
-index 1224a63..4b45c67 100644
---- a/meta/recipes-devtools/mkelfimage/mkelfimage_git.bb
-+++ b/meta/recipes-devtools/mkelfimage/mkelfimage_git.bb
-@@ -4,7 +4,7 @@ SECTION = "devel"
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=ea5bed2f60d357618ca161ad539f7c0a"
+diff --git a/meta/lib/oe/utils.py b/meta/lib/oe/utils.py
+index 8912dac..5a19a76 100644
+--- a/meta/lib/oe/utils.py
++++ b/meta/lib/oe/utils.py
+@@ -89,15 +89,18 @@ def inherits(d, *classes):
+     """Return True if the metadata inherits any of the specified classes"""
+     return any(bb.data.inherits_class(cls, d) for cls in classes)
  
--SRCREV = "e13632a939e7dde8d7d44fc73e73a41dae8060c3"
-+SRCREV = "e1e6a91ce0738400fa1615179de88ebc0df29f66"
- PV = "1.0.0+gitr${SRCPV}"
- PR = "r1"
+-def distro_features_backfill(d):
++def features_backfill(var,d):
++    # This construct allows the addition of new features to variable specified
++    # as var
++    # Example for var = "DISTRO_FEATURES"
+     # This construct allows the addition of new features to DISTRO_FEATURES
+     # that if not present would disable existing functionality, without
+     # disturbing distributions that have already set DISTRO_FEATURES.
+     # Distributions wanting to elide a value in DISTRO_FEATURES_BACKFILL should
+     # add the feature to DISTRO_FEATURES_BACKFILL_CONSIDERED
  
+-    backfill = (d.getVar("DISTRO_FEATURES_BACKFILL", True) or "").split()
+-    considered = (d.getVar("DISTRO_FEATURES_BACKFILL_CONSIDERED", True) or "").split()
++    backfill = (d.getVar(var+"_BACKFILL", True) or "").split()
++    considered = (d.getVar(var+"_BACKFILL_CONSIDERED", True) or "").split()
+ 
+     addfeatures = []
+     for feature in backfill:
 -- 
-1.7.0.4
+1.7.9.5
 
 
 
