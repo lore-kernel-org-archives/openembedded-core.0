@@ -1,28 +1,34 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-gg0-f175.google.com ([209.85.161.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Bruce.Ashfield@windriver.com>) id 1SoeGd-0002ZJ-1s
+	(envelope-from <bruce.ashfield@gmail.com>) id 1SoeIL-0003kv-Ba
 	for openembedded-core@lists.openembedded.org;
-	Tue, 10 Jul 2012 19:30:34 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q6AHJG4Z002106
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 10 Jul 2012 10:19:16 -0700 (PDT)
-Received: from [128.224.146.67] (128.224.146.67) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Tue, 10 Jul 2012 10:19:16 -0700
-Message-ID: <4FFC6403.7070702@windriver.com>
-Date: Tue, 10 Jul 2012 13:18:59 -0400
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
+	Tue, 10 Jul 2012 19:32:17 +0200
+Received: by ggnp4 with SMTP id p4so238748ggn.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 10 Jul 2012 10:21:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type; bh=QXyVxFdlxs8KRZ240ZYsAOx58gFnu13hplvI+a88GpY=;
+	b=SRaEIeF0ymTjk27uXR/Ks5A9Tf7vZ3XOrw0fcwKqb0jo41I8m39S1o+Wu0yhtkjuON
+	TG6WbLieQxzOa92LowPAvY8P0com+SCi7fRGpz49AJjcX1u/ZchA/N34gz9Z8gvo4DGJ
+	VjU080IVzcPuom+4C0jkyj8YzQhpOHU0YVakQXq/Zv77pEx1jAnICJ9J6EqA4FL/FXya
+	IJi+KLkHySfMYJcrhxKyKSU8RdwWUPP/8rqG/VNklGSIpSiB+paFl12xZjTVvBD/EVrO
+	MZB6SDoeCrtZBv/x9QC0PloUTdDyOYUQWrEiTQcIxx5oSi8tqGlsKUnMLMXOHckjhqNO
+	U/Qw==
 MIME-Version: 1.0
-To: Saul Wold <sgw@linux.intel.com>
-References: <cover.1341933187.git.bruce.ashfield@windriver.com>
-	<4FFC63CA.9070007@linux.intel.com>
-In-Reply-To: <4FFC63CA.9070007@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
+Received: by 10.50.236.71 with SMTP id us7mr12069202igc.16.1341940865996; Tue,
+	10 Jul 2012 10:21:05 -0700 (PDT)
+Received: by 10.231.20.74 with HTTP; Tue, 10 Jul 2012 10:21:05 -0700 (PDT)
+In-Reply-To: <1341940417.20265.92.camel@phil-desktop>
+References: <1341940070-27715-1-git-send-email-raj.khem@gmail.com>
+	<1341940070-27715-2-git-send-email-raj.khem@gmail.com>
+	<1341940417.20265.92.camel@phil-desktop>
+Date: Tue, 10 Jul 2012 13:21:05 -0400
+Message-ID: <CADkTA4Mg8x3BXsxu5PWsG-cv14qyQNn+i07+xpye6xoPe3HcxQ@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/2] linux-yocto: perf, unionfs, yaffs2 fixes
+Subject: Re: [PATCH 2/2] kernel.bbclass: Make tree available for cross building external modules
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,64 +43,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Jul 2012 17:30:35 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 10 Jul 2012 17:32:17 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On 12-07-10 01:18 PM, Saul Wold wrote:
-> On 07/10/2012 10:11 AM, Bruce Ashfield wrote:
->> Saul,
->>
->> Here are the SRCREV updates to activate Tom's mips perf fix (3.2
->> and 3.4).
->>
->> For 3.4, we also have a yaffs2 and unionfs fix.
->>
-> Bruce, Tom:
+On Tue, Jul 10, 2012 at 1:13 PM, Phil Blundell <philb@gnu.org> wrote:
+> On Tue, 2012-07-10 at 10:07 -0700, Khem Raj wrote:
+>> We shave too much from kernel sources for making it work
+>> for on device external kernel module development that cross
+>> development of external modules wont work from same tree
+>> anymore. This patch makes a copy of tree which will eventually
+>> be staged for building external modules
 >
-> Can you generate a single patch set that contains both the kernel update
-> and any perf recipe changes. That will avoid any further confusion.
+> Why does cross development require more of the kernel tree than
+> on-device compilation?
 
-At this point, I'd rather not. My changes are complete with perf +
-other fixes in a consolidated pull .. and I'm juggling my own set
-of integrations.
-
-I'm honestly not seeing the complexity.
+From what we were discussing on IRC yesterday it is the binary tools that
+are being stripped (and then regenerated) on the on-target builds. We can't
+package them up, since they are in a -dev package.
 
 Cheers,
 
 Bruce
 
 >
-> Thanks
-> Sau!
+> p.
 >
->> Cheers,
->>
->> Bruce
->>
->> The following changes since commit
->> 029e3cea52f86438a1d6868020b8888b5c93d623:
->>
->> bitbake: fetch2/wget: Use FETCHCMD_wget to provide the commandline and
->> options (2012-07-10 14:25:38 +0100)
->>
->> are available in the git repository at:
->> git://git.pokylinux.org/poky-contrib zedd/kernel
->> http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
->>
->> Bruce Ashfield (2):
->> linux-yocto/3.2: perf: fix mips build
->> linux-yocto/3.4: perf, unionfs and yaffs2 fixes
->>
->> meta/recipes-kernel/linux/linux-yocto-rt_3.2.bb | 4 ++--
->> meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb | 4 ++--
->> meta/recipes-kernel/linux/linux-yocto-tiny_3.2.bb | 2 +-
->> meta/recipes-kernel/linux/linux-yocto_3.2.bb | 12 ++++++------
->> meta/recipes-kernel/linux/linux-yocto_3.4.bb | 12 ++++++------
->> 5 files changed, 17 insertions(+), 17 deletions(-)
->>
 >
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
+
+
+-- 
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
 
