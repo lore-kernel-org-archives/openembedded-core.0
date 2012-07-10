@@ -1,25 +1,26 @@
 Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Soezz-0006KL-6x
+	(envelope-from <sgw@linux.intel.com>) id 1Sof0A-0006MX-E2
 	for openembedded-core@lists.openembedded.org;
-	Tue, 10 Jul 2012 20:17:23 +0200
+	Tue, 10 Jul 2012 20:17:34 +0200
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 10 Jul 2012 11:06:05 -0700
+	by fmsmga101.fm.intel.com with ESMTP; 10 Jul 2012 11:06:21 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="190871890"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="190872102"
 Received: from unknown (HELO [10.255.12.214]) ([10.255.12.214])
-	by fmsmga002.fm.intel.com with ESMTP; 10 Jul 2012 11:05:58 -0700
-Message-ID: <4FFC6F06.2090208@linux.intel.com>
-Date: Tue, 10 Jul 2012 11:05:58 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 10 Jul 2012 11:06:21 -0700
+Message-ID: <4FFC6F1D.1090507@linux.intel.com>
+Date: Tue, 10 Jul 2012 11:06:21 -0700
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:13.0) Gecko/20120605 Thunderbird/13.0
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <alpine.DEB.2.02.1207091310550.23920@oneiric>
-In-Reply-To: <alpine.DEB.2.02.1207091310550.23920@oneiric>
-Subject: Re: core-image-*.bb: Remove usage of EXTRA_IMAGE_FEATURES from some .bb files
+References: <cover.1341853333.git.paul.eggleton@linux.intel.com>
+In-Reply-To: <cover.1341853333.git.paul.eggleton@linux.intel.com>
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
+Subject: Re: [PATCH 0/3] Misc tidy-ups
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,72 +35,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Jul 2012 18:17:23 -0000
+X-List-Received-Date: Tue, 10 Jul 2012 18:17:34 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 07/09/2012 10:12 AM, Robert P. J. Day wrote:
+On 07/09/2012 10:03 AM, Paul Eggleton wrote:
+> The following changes since commit 8d8b9e77aa3403e880cbbdfefc7f24a993b3161f:
 >
-> Replace the usage of EXTRA_IMAGE_FEATURES in a small number of .bb
-> files with IMAGE_FEATURES, and leave the use of EXTRA_IMAGE_FEATURES
-> for developers in their local.conf files, to avoid the possibility of
-> undesirable side effects.
+>    linux-yocto/3.4: perf scripting & unionfs fixes (2012-07-09 17:06:09 +0100)
 >
-> Signed-off-by: Robert P. J. Day <rpjday@crashcourse.ca>
+> are available in the git repository at:
 >
-> ---
+>    git://git.openembedded.org/openembedded-core-contrib paule/cleanup2
+>    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/cleanup2
 >
->    i *think* this should do it ...
+> Paul Eggleton (3):
+>    libgsmd - remove
+>    core-image-minimal-dev: base on core-image-minimal
+>    core-image-*: remove copyright notices
 >
-> diff --git a/meta/recipes-extended/images/core-image-lsb-sdk.bb b/meta/recipes-extended/images/core-image-lsb-sdk.bb
-> index 047d66b..7601410 100644
-> --- a/meta/recipes-extended/images/core-image-lsb-sdk.bb
-> +++ b/meta/recipes-extended/images/core-image-lsb-sdk.bb
-> @@ -2,8 +2,8 @@ DESCRIPTION = "Basic image without X support suitable for Linux Standard Base \
->   (LSB) implementations. It includes the full meta-toolchain, plus development \
->   headers and libraries to form a standalone SDK."
->
-> -IMAGE_FEATURES += "apps-console-core tools-sdk dev-pkgs ssh-server-openssh"
-> -EXTRA_IMAGE_FEATURES = "tools-debug tools-profile tools-testapps debug-tweaks"
-> +IMAGE_FEATURES += "apps-console-core tools-sdk dev-pkgs ssh-server-openssh \
-> +	tools-debug tools-profile tools-testapps debug-tweaks"
->
->
->   IMAGE_INSTALL = "\
-> diff --git a/meta/recipes-rt/images/core-image-rt-sdk.bb b/meta/recipes-rt/images/core-image-rt-sdk.bb
-> index 29512e3..e89b574 100644
-> --- a/meta/recipes-rt/images/core-image-rt-sdk.bb
-> +++ b/meta/recipes-rt/images/core-image-rt-sdk.bb
-> @@ -8,8 +8,7 @@ tools for real-time use. It includes the full meta-toolchain, development \
->   headers and libraries to form a standalone SDK."
->   DEPENDS = "linux-yocto-rt"
->
-> -IMAGE_FEATURES += "dev-pkgs tools-sdk"
-> -EXTRA_IMAGE_FEATURES += "tools-debug tools-profile tools-testapps debug-tweaks"
-> +IMAGE_FEATURES += "dev-pkgs tools-sdk tools-debug tools-profile tools-testapps debug-tweaks"
->
->   IMAGE_INSTALL += "rt-tests kernel-dev"
->
-> diff --git a/meta/recipes-sato/images/core-image-sato-sdk.bb b/meta/recipes-sato/images/core-image-sato-sdk.bb
-> index 39742ef..733ef7f 100644
-> --- a/meta/recipes-sato/images/core-image-sato-sdk.bb
-> +++ b/meta/recipes-sato/images/core-image-sato-sdk.bb
-> @@ -5,8 +5,8 @@ DESCRIPTION = "Image with Sato support that includes everything within \
->   core-image-sato plus meta-toolchain, development headers and libraries to \
->   form a standalone SDK."
->
-> -IMAGE_FEATURES += "apps-console-core ${SATO_IMAGE_FEATURES} dev-pkgs tools-sdk qt4-pkgs"
-> -EXTRA_IMAGE_FEATURES += "tools-debug tools-profile tools-testapps debug-tweaks"
-> +IMAGE_FEATURES += "apps-console-core ${SATO_IMAGE_FEATURES} dev-pkgs tools-sdk qt4-pkgs \
-> +	tools-debug tools-profile tools-testapps debug-tweaks"
->
->   SSHSERVER_IMAGE_FEATURES = "ssh-server-openssh"
->
+>   meta/conf/multilib.conf                            |    1 -
+>   .../gsm/files/0001-Introduce-ports.patch           |  712 --------------------
+>   ...ending-commands-before-restarting-the-mod.patch |   76 ---
+>   ...-segment-incoming-usock-data-into-packets.patch |   79 ---
+>   .../0004-Handle-read-and-write-return-values.patch |  178 -----
+>   .../gsm/files/0005-Add-ask-ds-option-forSMS.patch  |  132 ----
+>   .../gsm/files/024_sms-text-in-bracket.patch        |   72 --
+>   .../gsm/files/025_sms-status-report.patch          |  135 ----
+>   ...027_phonebook-find-and-read-range-support.patch |  425 ------------
+>   ...ell-phonebook-find-and-read-range-support.patch |  266 --------
+>   meta/recipes-connectivity/gsm/files/default        |   59 --
+>   .../gsm/files/fix_machine_init.patch               |   28 -
+>   meta/recipes-connectivity/gsm/files/gsmd           |   47 --
+>   .../gsm/files/install-ts-headers.patch             |   13 -
+>   .../gsm/files/lgsm_send_fix_return_value.patch     |   13 -
+>   meta/recipes-connectivity/gsm/gsmd.inc             |  108 ---
+>   meta/recipes-connectivity/gsm/libgsmd_svn.bb       |    6 -
+>   meta/recipes-core/images/core-image-base.bb        |    3 -
+>   meta/recipes-core/images/core-image-core.bb        |    3 -
+>   meta/recipes-core/images/core-image-minimal-dev.bb |   15 +-
+>   .../images/core-image-minimal-mtdutils.bb          |    3 -
+>   meta/recipes-core/images/core-image-minimal.bb     |    3 -
+>   meta/recipes-core/tasks/task-base.bb               |    5 +-
+>   meta/recipes-rt/images/core-image-rt-sdk.bb        |    3 -
+>   meta/recipes-rt/images/core-image-rt.bb            |    3 -
+>   meta/recipes-sato/images/core-image-sato-dev.bb    |    3 -
+>   meta/recipes-sato/images/core-image-sato-sdk.bb    |    3 -
+>   meta/recipes-sato/images/core-image-sato.bb        |    3 -
+>   28 files changed, 4 insertions(+), 2393 deletions(-)
+>   delete mode 100644 meta/recipes-connectivity/gsm/files/0001-Introduce-ports.patch
+>   delete mode 100644 meta/recipes-connectivity/gsm/files/0002-Flush-all-pending-commands-before-restarting-the-mod.patch
+>   delete mode 100644 meta/recipes-connectivity/gsm/files/0003-Correctly-segment-incoming-usock-data-into-packets.patch
+>   delete mode 100644 meta/recipes-connectivity/gsm/files/0004-Handle-read-and-write-return-values.patch
+>   delete mode 100644 meta/recipes-connectivity/gsm/files/0005-Add-ask-ds-option-forSMS.patch
+>   delete mode 100644 meta/recipes-connectivity/gsm/files/024_sms-text-in-bracket.patch
+>   delete mode 100644 meta/recipes-connectivity/gsm/files/025_sms-status-report.patch
+>   delete mode 100644 meta/recipes-connectivity/gsm/files/027_phonebook-find-and-read-range-support.patch
+>   delete mode 100644 meta/recipes-connectivity/gsm/files/028_shell-phonebook-find-and-read-range-support.patch
+>   delete mode 100644 meta/recipes-connectivity/gsm/files/default
+>   delete mode 100644 meta/recipes-connectivity/gsm/files/fix_machine_init.patch
+>   delete mode 100644 meta/recipes-connectivity/gsm/files/gsmd
+>   delete mode 100644 meta/recipes-connectivity/gsm/files/install-ts-headers.patch
+>   delete mode 100644 meta/recipes-connectivity/gsm/files/lgsm_send_fix_return_value.patch
+>   delete mode 100644 meta/recipes-connectivity/gsm/gsmd.inc
+>   delete mode 100644 meta/recipes-connectivity/gsm/libgsmd_svn.bb
 >
 
 Merged into OE-Core
 
-Thanks
+Thanks	
 	Sau!
 
 
