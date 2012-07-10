@@ -1,37 +1,57 @@
-Received: from 75-148-42-21-colorado.hfc.comcastbusiness.net ([75.148.42.21]
-	helo=judge.camp.se-eng.com) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ray.danks@se-eng.com>) id 1SocA4-0006Tp-RC
+Received: from va3ehsobe010.messaging.microsoft.com ([216.32.180.30]
+	helo=va3outboundpool.messaging.microsoft.com)
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <B29882@freescale.com>) id 1SocDb-0007LB-Av
 	for openembedded-core@lists.openembedded.org;
-	Tue, 10 Jul 2012 17:15:37 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by judge.camp.se-eng.com (Postfix) with ESMTP id A0747138210;
-	Tue, 10 Jul 2012 09:04:24 -0600 (MDT)
-X-Virus-Scanned: amavisd-new at camp.se-eng.com
-Received: from judge.camp.se-eng.com ([127.0.0.1])
-	by localhost (judge.camp.se-eng.com [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with ESMTP id q5LkTJ0rjpKF; Tue, 10 Jul 2012 09:04:22 -0600 (MDT)
-Received: from [172.20.102.0] (vpn00.camp.se-eng.com [172.20.102.0])
-	by judge.camp.se-eng.com (Postfix) with ESMTPSA id A5A8513820F;
-	Tue, 10 Jul 2012 09:04:21 -0600 (MDT)
-Message-ID: <4FFC4472.2020403@se-eng.com>
-Date: Tue, 10 Jul 2012 09:04:18 -0600
-From: Raymond Danks <ray.danks@se-eng.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:10.0) Gecko/20120129 Thunderbird/10.0
-MIME-Version: 1.0
-To: Saul Wold <sgw@linux.intel.com>
-References: <1341867108-7823-1-git-send-email-ray.danks@se-eng.com>
-	<1341930923-26277-1-git-send-email-ray.danks@se-eng.com>
-	<4FFC43D5.7060708@linux.intel.com>
-In-Reply-To: <4FFC43D5.7060708@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
+	Tue, 10 Jul 2012 17:19:16 +0200
+Received: from mail115-va3-R.bigfish.com (10.7.14.245) by
+	VA3EHSOBE010.bigfish.com (10.7.40.12) with Microsoft SMTP Server id
+	14.1.225.22; Tue, 10 Jul 2012 14:50:37 +0000
+Received: from mail115-va3 (localhost [127.0.0.1])	by
+	mail115-va3-R.bigfish.com (Postfix) with ESMTP id 8D94EE04AE	for
+	<openembedded-core@lists.openembedded.org>;
+	Tue, 10 Jul 2012 14:50:37 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-SpamScore: -1
+X-BigFish: VS-1(zz98dI9371I1432Izz1202hzz8275eh8275bh8275dha1495iz2dh2a8h668h839h8e2h8e3hf0ah107ahbe9i)
+Received: from mail115-va3 (localhost.localdomain [127.0.0.1]) by mail115-va3
+	(MessageSwitch) id 1341931831211511_23828;
+	Tue, 10 Jul 2012 14:50:31 +0000 (UTC)
+Received: from VA3EHSMHS012.bigfish.com (unknown [10.7.14.247])	by
+	mail115-va3.bigfish.com (Postfix) with ESMTP id 29BC132003F	for
+	<openembedded-core@lists.openembedded.org>;
+	Tue, 10 Jul 2012 14:50:31 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by VA3EHSMHS012.bigfish.com
+	(10.7.99.22) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Tue, 10 Jul 2012 14:50:30 +0000
+Received: from 039-SN1MPN1-002.039d.mgd.msft.net ([169.254.2.109]) by
+	039-SN1MMR1-002.039d.mgd.msft.net ([10.84.1.15]) with mapi id
+	14.02.0298.005; Tue, 10 Jul 2012 09:52:48 -0500
+From: McClintock Matthew-B29882 <B29882@freescale.com>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] mkelfimage: Upgrade to e1e6a91
+Thread-Topic: [OE-core] [PATCH v2 2/2] libgomp: add libgomp (openmp)
+	library, and build for powerpc targets by default
+Thread-Index: AQHNXqurH5uQ7iE5lUGMIRKZkxsy1g==
+Date: Tue, 10 Jul 2012 14:52:48 +0000
+Message-ID: <CAEsOVNfy8ov=wccr2HuEP+jx6rfju3hnF1eGcXOdMuSCg8ScCg@mail.gmail.com>
+References: <1341894563-32675-1-git-send-email-msm@freescale.com>
+	<1341894563-32675-2-git-send-email-msm@freescale.com>
+	<CAMKF1spJBYKoOYnBzFRDZ3ByfY9ifewx8i46e7ifuP=haLuZrw@mail.gmail.com>
+In-Reply-To: <CAMKF1spJBYKoOYnBzFRDZ3ByfY9ifewx8i46e7ifuP=haLuZrw@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [70.112.201.132]
+MIME-Version: 1.0
+X-OriginatorOrg: freescale.com
+Subject: Re: [PATCH v2 2/2] libgomp: add libgomp (openmp) library, and build for powerpc targets by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -42,63 +62,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Jul 2012 15:15:37 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 10 Jul 2012 15:19:16 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <80C5E8527C25EA41A9F6610BBB8A29E5@mgd.freescale.com>
+Content-Transfer-Encoding: quoted-printable
 
-On 07/10/2012 09:01 AM, Saul Wold wrote:
-> On 07/10/2012 07:35 AM, Raymond Danks wrote:
->> Address QA issue: Files/directories were installed but not shipped.
->> New revision contains patch to mkelfimage removing
->> /usr/share/mkelfImage/elf32-i386 directory from Makefile install target.
->>
->> http://review.coreboot.org/#/c/1195/
->>
->> Signed-off-by: Raymond Danks <ray.danks@se-eng.com>
->> ---
->> v2:
->>    Reword commit log
->>
-> I hate to do this, but I am looking at the summary and it really does 
-> not tell me anything, a better summary would be something like:
+On Tue, Jul 10, 2012 at 12:15 AM, Khem Raj <raj.khem@gmail.com> wrote:
+> On Mon, Jul 9, 2012 at 9:29 PM, Matthew McClintock <msm@freescale.com> wr=
+ote:
+>> +
+>> +       # clean up extra libgomp files
+>> +       if [[ "${RUNTIMETARGET}" =3D~ "libgomp" ]]; then
 >
-> mkelfimage: corrected packaging issue in upstream
-Saul,
+> This seems bashism.
+>
+> if could just check the valued of $d in the loop instead something like
 
-That's basically what the comment said before it was nacked.  I'm not 
-attached to the summary or the commit log.  Feel free to do with it what 
-you want.
+v3 sent.
 
-The change to the .bb file fixes the issue.
+-M
 
-Thanks,
-Ray
 >
-> ...
 >
-> Thanks
->     Sau!
+>> +               rm -rf ${D}${datadir}/info/libgomp.info ${D}${datadir}/i=
+nfo/dir
+>> +               rmdir --ignore-fail-on-non-empty -p ${D}${libdir}/gcc/${=
+TARGET_SYS}/${BINV}/finclude
+>> +               rmdir --ignore-fail-on-non-empty -p ${D}${datadir}/info
+>> +       fi
+>> +
 >
->>   meta/recipes-devtools/mkelfimage/mkelfimage_git.bb |    2 +-
->>   1 files changed, 1 insertions(+), 1 deletions(-)
->>
->> diff --git a/meta/recipes-devtools/mkelfimage/mkelfimage_git.bb 
->> b/meta/recipes-devtools/mkelfimage/mkelfimage_git.bb
->> index 1224a63..4b45c67 100644
->> --- a/meta/recipes-devtools/mkelfimage/mkelfimage_git.bb
->> +++ b/meta/recipes-devtools/mkelfimage/mkelfimage_git.bb
->> @@ -4,7 +4,7 @@ SECTION = "devel"
->>   LICENSE = "GPLv2"
->>   LIC_FILES_CHKSUM = 
->> "file://COPYING;md5=ea5bed2f60d357618ca161ad539f7c0a"
->>
->> -SRCREV = "e13632a939e7dde8d7d44fc73e73a41dae8060c3"
->> +SRCREV = "e1e6a91ce0738400fa1615179de88ebc0df29f66"
->>   PV = "1.0.0+gitr${SRCPV}"
->>   PR = "r1"
->>
->>
->
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core=
 
 
 
