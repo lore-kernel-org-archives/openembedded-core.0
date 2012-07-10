@@ -1,23 +1,31 @@
-Received: from [78.110.170.148] (helo=tinyArch.localdomain)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ml@communistcode.co.uk>) id 1SoWPH-0006S3-V3
+	(envelope-from <rpjday@crashcourse.ca>) id 1SoWS6-0006Yx-QC
 	for openembedded-core@lists.openembedded.org;
-	Tue, 10 Jul 2012 11:06:56 +0200
-Received: from [192.168.0.54] (unknown [195.171.99.130])
-	by tinyArch.localdomain (Postfix) with ESMTPSA id 39640471EE
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Jul 2012 09:48:56 +0100 (BST)
-Message-ID: <4FFBEE58.7040101@communistcode.co.uk>
-Date: Tue, 10 Jul 2012 09:56:56 +0100
-From: Jack Mitchell <ml@communistcode.co.uk>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:13.0) Gecko/20120616 Thunderbird/13.0.1
+	Tue, 10 Jul 2012 11:09:50 +0200
+Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
+	([174.115.5.73]:50359 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.77) (envelope-from <rpjday@crashcourse.ca>)
+	id 1SoWHJ-0001rF-JK for openembedded-core@lists.openembedded.org;
+	Tue, 10 Jul 2012 04:58:41 -0400
+Date: Tue, 10 Jul 2012 04:58:28 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@oneiric
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.DEB.2.02.1207100454370.26177@oneiric>
+User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <CAJTo0LZ1W6mD2mdadeqdvyVubgGSozcF_Nw8xbvr4fAsRgJK8A@mail.gmail.com>
-	<CAMKF1spG4BHD6aHQ1WeSFt5hS0tWgoF2HHT6BFg3tbC_aFEpbA@mail.gmail.com>
-In-Reply-To: <CAMKF1spG4BHD6aHQ1WeSFt5hS0tWgoF2HHT6BFg3tbC_aFEpbA@mail.gmail.com>
-Subject: Re: The Mythical Sato Replacement
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Subject: does anything actually use BBVERSIONS?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,43 +40,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Jul 2012 09:06:56 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 10 Jul 2012 09:09:51 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
-On 09/07/12 23:36, Khem Raj wrote:
-> On Mon, Jul 9, 2012 at 2:06 PM, Burton, Ross <ross.burton@intel.com> wrote:
->>
->> Shuku will be a descendent of Sato, that is continue to use the
->> Matchbox Window Manager, Desktop, and Panel; although the latter two
->> will be updated for GTK+ 3.  All applications will be removed and
->> fully reconsidered when adding back, so the text editor might well
->> change from leafpad to something that had a release in two years,
->> Midori is looking like a good web browser choice instead of Web, the
->> PIM suite removed, and so on.
->
-> Did you consider QT instead of GTK+ ? I think having wayland would be cool.
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
-I think Wayland support would be cool also. I think it would be a 
-fantastic way to get people involved and encourage adoption.
+  perusing bitbake user manual, came across section 2.1.20 which
+mentions BBVERSIONS, but i don't see any current usage of it.  is it
+still actively used anywhere?  the only places i see it are in the
+documentation.
 
-A Raspberry Pi build for its specific architecture with Wayland and an 
-automatically populated SDK and toolchain? People would be flocking...
-
-Just my 2p!
+rday
 
 -- 
 
-   Jack Mitchell (jack@embed.me.uk)
-   Embedded Systems Engineer
-   http://www.embed.me.uk
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
 
---
-
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
