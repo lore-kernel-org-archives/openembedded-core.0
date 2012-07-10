@@ -1,40 +1,40 @@
-Received: from mail-yx0-f175.google.com ([209.85.213.175])
+Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <elvis.dowson@gmail.com>) id 1Sod78-0008Sg-8w
+	(envelope-from <ross.burton@intel.com>) id 1Sod8F-00044H-VD
 	for openembedded-core@lists.openembedded.org;
-	Tue, 10 Jul 2012 18:16:38 +0200
-Received: by yenl13 with SMTP id l13so144518yen.6
+	Tue, 10 Jul 2012 18:17:48 +0200
+Received: from mail-qc0-f180.google.com ([209.85.216.180])
+	by mga03.intel.com with ESMTP/TLS/RC4-SHA; 10 Jul 2012 09:06:35 -0700
+Received: by qcmv28 with SMTP id v28so129099qcm.25
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Jul 2012 09:05:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date
-	:content-transfer-encoding:message-id:references:to:x-mailer;
-	bh=cm4HZM/e9U9zkGEU69qdOyg2mlc0jjDGlnOPUBXemwk=;
-	b=Yy69yf0RqDcqhDuDkYXUitONUxv8ZWOUVpajOv/8yDJ5sQzj7+RqMMNQ3vxy6ns6ho
-	UhI5LrD6gHAzJAAlum0I6sONfthJgVNvcMZitAX73hhMAbrp8D/82axr0kOVPszYpZVd
-	p+9WIGIdFKsd8XTd8fHDDO06WkZILbu0+g8k+iCFmAhEyI/LaCMHLflUoikoovH/aOmz
-	OaZygcohNkA9io9QHmrfaE095BnGslFN3AqJTqWms3i1Px9vQG6yo9TOe+DRUktiMFQi
-	HnQS/FTO0b1p8IOGi6m4hLBkWENZmtvzO3DXfjW1YbHkESHSGe1OlfkNwzn1eMubuw6t
-	LCOQ==
-Received: by 10.66.87.2 with SMTP id t2mr44444107paz.22.1341936326715;
-	Tue, 10 Jul 2012 09:05:26 -0700 (PDT)
-Received: from [192.168.1.101] ([94.205.108.162])
-	by mx.google.com with ESMTPS id sy3sm30118903pbc.18.2012.07.10.09.05.25
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 10 Jul 2012 09:05:26 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1278)
-From: Elvis Dowson <elvis.dowson@gmail.com>
-In-Reply-To: <CAJTo0LY0RrMY5FbSbyK4VQm67AHHs2wgFU9G=N6_a6eVkv+d8Q@mail.gmail.com>
-Date: Tue, 10 Jul 2012 20:05:21 +0400
-Message-Id: <FAE8DEEA-AADE-4B64-941E-D023E9237511@gmail.com>
-References: <CAJTo0LZ1W6mD2mdadeqdvyVubgGSozcF_Nw8xbvr4fAsRgJK8A@mail.gmail.com>
-	<CAMKF1spG4BHD6aHQ1WeSFt5hS0tWgoF2HHT6BFg3tbC_aFEpbA@mail.gmail.com>
-	<4FFBEE58.7040101@communistcode.co.uk>
-	<CAJTo0LY0RrMY5FbSbyK4VQm67AHHs2wgFU9G=N6_a6eVkv+d8Q@mail.gmail.com>
+	Tue, 10 Jul 2012 09:06:34 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=Zh2PEMhNpgNAtRDFqhR/KNsaVzMytHy9egP12n08YyM=;
+	b=gN8y+JzeBTyeelKLQHLg0zqyi1sTAlLnSyaWbogIXxZsdD8ygne48KoABqlcsb+BFD
+	xCb7ETScT6JmHQcpYzoZ7YN8QRLdwqr8+yRqb+m+RVF+JBnjDtl0YNnH5UByVQJteTJv
+	+aafEllXJrG77tLD1ve0Je6ovjLzsjpqpJB2GNqfmx0bT+el1EJpHuwHinI+AJk2h31E
+	Gz9uXMu+FYGaKZ97wzaAebwIM7hk89+wDQopDy6AAq3TMm+BK6bTQGgMDgqLTOEVOoUF
+	ElHO1EeJTbvL4wCv+YMV7JAVqFVQqkDie2TzsZHEME/UJEvGnpPKhi+b/feoLnCuBTc5
+	L3rA==
+Received: by 10.229.135.10 with SMTP id l10mr19946793qct.103.1341936394647;
+	Tue, 10 Jul 2012 09:06:34 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.229.218.201 with HTTP; Tue, 10 Jul 2012 09:06:14 -0700 (PDT)
+In-Reply-To: <1341935849.1294.2.camel@ted>
+References: <1341927124.24837.8.camel@ted>
+	<CAEsOVNf0SDnxATQog_8Li1oeK6wkqhVH+m=Bt=L0bBbR02B05Q@mail.gmail.com>
+	<1341935849.1294.2.camel@ted>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 10 Jul 2012 17:06:14 +0100
+Message-ID: <CAJTo0LZwkTY87RHw9tBR3RHJdvSYHtczky2mxfbYXDSAR8S1kw@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1278)
-Subject: Re: The Mythical Sato Replacement
+X-Gm-Message-State: ALoCoQnjUm9Yp/aXWRASwy2xhnYDT4E8shXDU36lwO/7EDsRVscYigb3OQeq4847Ge4ct90CyAXM
+Cc: McClintock Matthew-B29882 <B29882@freescale.com>
+Subject: Re: bitbake.conf: Add git-native to ASSUME_PROVIDED
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,19 +49,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Jul 2012 16:16:38 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 10 Jul 2012 16:17:48 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Hi,
-       How about adding a meta-android layer, and creating a =
-core-image-minimal-android build?=20
+On 10 July 2012 16:57, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>> What about testing the host system for presence of certain things?
+>> Then one could
+>>
+>> 1) yum/apt/etc install the needed items
+>>
+>> or
+>>
+>> 2) Build it if it's not present
+>
+> Every time we put an if statement in like this, it basically means we
+> should double the amount of QA, one for one path and one for the other.
+>
+> So whilst I've wondered about it, do we really need to do something like
+> this?
 
-The android kernels are available, they have a qemu target for android, =
-and the android sdk will need a bbclass to download, build and create an =
-android root filesystem. A couple of targets already are compatible, =
-mostly the TI OMAP/AM series.=20
+Back in the day I used to massively set ASSUME_PROVIDED in local.conf
+to reduce the amount of -native packages built.  When it works it's
+wonderful, but then you start getting mysterious failures because it
+turns out that your system's tool has different build options, or is
+out of date as Poky updated and you didn't notice.
 
-Elvis Dowson=
+It turned out to be a false economy: by the time I'd installed and
+verified the packages from Debian I could have had Poky build them for
+me. :)
+
+Ross
 
 
