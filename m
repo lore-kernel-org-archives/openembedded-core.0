@@ -1,24 +1,34 @@
-Received: from mga01.intel.com ([192.55.52.88])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1SoYsV-0000MP-Q8
-	for Openembedded-core@lists.openembedded.org;
-	Tue, 10 Jul 2012 13:45:16 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 10 Jul 2012 04:34:04 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="175472106"
-Received: from yocto-hm1.jf.intel.com ([10.23.232.32])
-	by fmsmga001.fm.intel.com with ESMTP; 10 Jul 2012 04:34:03 -0700
-From: nitin.a.kamble@intel.com
-To: Openembedded-core@lists.openembedded.org
-Date: Tue, 10 Jul 2012 04:32:52 -0700
-Message-Id: <b609eb4264201df20589e4ec17dd468d4f23e3ee.1341917396.git.nitin.a.kamble@intel.com>
-X-Mailer: git-send-email 1.7.3.4
-In-Reply-To: <c20b9f6a19c4968bcda90dc23b6abf9f5f0051c3.1341917396.git.nitin.a.kamble@intel.com>
-References: <c20b9f6a19c4968bcda90dc23b6abf9f5f0051c3.1341917396.git.nitin.a.kamble@intel.com>
-In-Reply-To: <cover.1341917396.git.nitin.a.kamble@intel.com>
-References: <cover.1341917396.git.nitin.a.kamble@intel.com>
-Subject: [PATCH 4/4] webgit-gtk: fix build with automake 1.12.1
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1SoZTy-0001Bn-GQ for openembedded-core@lists.openembedded.org;
+	Tue, 10 Jul 2012 14:23:58 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6ACCkCM016642
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 10 Jul 2012 13:12:46 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 15604-04 for <openembedded-core@lists.openembedded.org>;
+	Tue, 10 Jul 2012 13:12:41 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6ACCcQf016631
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 10 Jul 2012 13:12:40 +0100
+Message-ID: <1341922359.24837.1.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Tue, 10 Jul 2012 13:12:39 +0100
+In-Reply-To: <45d7793f0e3092f3ba4e03c52195ea13179ad1d8.1341850982.git.nitin.a.kamble@intel.com>
+References: <8d1d42a68d5930bc374b9d6126cc1371a22a37db.1341850982.git.nitin.a.kamble@intel.com>
+	<45d7793f0e3092f3ba4e03c52195ea13179ad1d8.1341850982.git.nitin.a.kamble@intel.com>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH 15/15] pango: fix dependencies to avoid build issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,113 +43,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Jul 2012 11:45:16 -0000
+X-List-Received-Date: Tue, 10 Jul 2012 12:23:58 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Nitin A Kamble <nitin.a.kamble@intel.com>
+On Mon, 2012-07-09 at 09:26 -0700, nitin.a.kamble@intel.com wrote:
+> From: Nitin A Kamble <nitin.a.kamble@intel.com>
+> 
+> this commit avoids this build issue:
+> 
+> | /srv/home/nitin/builds/build-gcc47/tmp/sysroots/x86_64-linux/usr/libexec/i586-poky-linux/gcc/i586-poky-linux/4.7.1/ld: cannot find -lelf
+> | collect2: error: ld returned 1 exit status
+> ...
+> | make: *** [all] Error 2
+> | ERROR: oe_runmake failed
+> NOTE: package pango-1.28.4-r7: task do_compile: Failed
+> 
+> Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
+> ---
+>  meta/recipes-graphics/pango/pango.inc |    2 +-
+>  1 files changed, 1 insertions(+), 1 deletions(-)
+> 
+> diff --git a/meta/recipes-graphics/pango/pango.inc b/meta/recipes-graphics/pango/pango.inc
+> index fbf5027..754a720 100644
+> --- a/meta/recipes-graphics/pango/pango.inc
+> +++ b/meta/recipes-graphics/pango/pango.inc
+> @@ -10,7 +10,7 @@ SECTION = "libs"
+>  LICENSE = "LGPLv2.0+"
+>  
+>  X11DEPENDS = "virtual/libx11 libxft"
+> -DEPENDS = "glib-2.0 fontconfig freetype zlib virtual/libiconv gtk-doc-native cairo "
+> +DEPENDS = "glib-2.0 fontconfig freetype zlib virtual/libiconv gtk-doc-native cairo elfutils"
+>  
+>  PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'x11', 'x11', '', d)}"
+>  PACKAGECONFIG[x11] = "--with-x,--without-x,${X11DEPENDS}"
 
-Added a new patch:
-  webgit-gtk_fix_build_with_automake_1.12.patch
+I think rather than blindly adding the dependency, we need to figure out
+what this is needed for. We had a similar issue with glib-2.0:
 
-More comments in the patch header.
+http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=38da655788361e949d605bebfab45cf5830df613
 
-Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
----
- .../webgit-gtk_fix_build_with_automake_1.12.patch  |   62 ++++++++++++++++++++
- meta/recipes-sato/webkit/webkit-gtk_svn.bb         |    3 +-
- 2 files changed, 64 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-sato/webkit/files/webgit-gtk_fix_build_with_automake_1.12.patch
+so I'm leaning to disabling this here.
 
-diff --git a/meta/recipes-sato/webkit/files/webgit-gtk_fix_build_with_automake_1.12.patch b/meta/recipes-sato/webkit/files/webgit-gtk_fix_build_with_automake_1.12.patch
-new file mode 100644
-index 0000000..ad7c55f
---- /dev/null
-+++ b/meta/recipes-sato/webkit/files/webgit-gtk_fix_build_with_automake_1.12.patch
-@@ -0,0 +1,62 @@
-+Upstream-Status: Pending
-+
-+automake 1.12 has deprecated use of mkdir_p, and it recommends
-+use of MKDIR_P instead. Changed the code to avoid these kind 
-+of warning-errors.
-+
-+./.deps/DerivedSources
-+make[1]: ./.deps/DerivedSources: Command not found
-+make[1]: *** [all-local] Error 127
-+
-+Signed-Off-By: Nitin A Kamble <nitin.a.kamble@intel.com>
-+2012/07/10
-+
-+Index: webkit-gtk-1.7.2+svnr101488-r6/GNUmakefile.am
-+===================================================================
-+--- webkit-gtk-1.7.2+svnr101488-r6.orig/GNUmakefile.am
-++++ webkit-gtk-1.7.2+svnr101488-r6/GNUmakefile.am
-+@@ -255,7 +255,7 @@ MAINTAINERCLEANFILES += \
-+ # Older automake versions (1.7) place Plo files in a different place so we need
-+ # to create the output directory manually.
-+ all-local: stamp-po
-+-	$(mkdir_p) $(top_builddir)/$(DEPDIR)/DerivedSources
-++	$(MKDIR_P) $(top_builddir)/$(DEPDIR)/DerivedSources
-+ 
-+ # remove built sources and program directories
-+ clean-local:
-+Index: webkit-gtk-1.7.2+svnr101488-r6/Source/WebKit/gtk/po/GNUmakefile.am
-+===================================================================
-+--- webkit-gtk-1.7.2+svnr101488-r6.orig/Source/WebKit/gtk/po/GNUmakefile.am
-++++ webkit-gtk-1.7.2+svnr101488-r6/Source/WebKit/gtk/po/GNUmakefile.am
-+@@ -132,13 +132,13 @@ DISTCLEANFILES += \
-+ 	$(top_builddir)/Source/WebKit/gtk/po/$(DOMAIN).pot
-+ 
-+ po-install-data-local: all
-+-	$(mkdir_p) $(DESTDIR)$(datadir)
-++	$(MKDIR_P) $(DESTDIR)$(datadir)
-+ 	@catalogs='$(MOFILES)'; \
-+ 	for cat in $$catalogs; do \
-+ 	  cat=`basename $$cat`; \
-+ 	  lang=`echo $$cat | sed -e 's/\.mo$$//'`; \
-+ 	  dir=$(localedir)/$$lang/LC_MESSAGES; \
-+-	  $(mkdir_p) $(DESTDIR)$$dir; \
-++	  $(MKDIR_P) $(DESTDIR)$$dir; \
-+ 	  if test -r Source/WebKit/gtk/po/$$cat; then realcat=Source/WebKit/gtk/po/$$cat; else realcat=$(srcdir)/$$cat; fi; \
-+ 	  $(INSTALL_DATA) $$realcat $(DESTDIR)$$dir/$(DOMAIN).mo; \
-+ 	  echo "installing $$realcat as $(DESTDIR)$$dir/$(DOMAIN).mo"; \
-+@@ -173,13 +173,13 @@ po-install-data-local: all
-+ 	done
-+ 
-+ po-installdirs-data-local:
-+-	$(mkdir_p) $(DESTDIR)$(datadir)
-++	$(MKDIR_P) $(DESTDIR)$(datadir)
-+ 	@catalogs='$(MOFILES)'; \
-+ 	for cat in $$catalogs; do \
-+ 	  cat=`basename $$cat`; \
-+ 	  lang=`echo $$cat | sed -e 's/\.gmo$$//'`; \
-+ 	  dir=$(localedir)/$$lang/LC_MESSAGES; \
-+-	  $(mkdir_p) $(DESTDIR)$$dir; \
-++	  $(MKDIR_P) $(DESTDIR)$$dir; \
-+ 	  for lc in '' $(EXTRA_LOCALE_CATEGORIES); do \
-+ 	    if test -n "$$lc"; then \
-+ 	      if (cd $(DESTDIR)$(localedir)/$$lang && LC_ALL=C ls -l -d $$lc 2>/dev/null) | grep ' -> ' >/dev/null; then \
-diff --git a/meta/recipes-sato/webkit/webkit-gtk_svn.bb b/meta/recipes-sato/webkit/webkit-gtk_svn.bb
-index 716afce..1146ce1 100644
---- a/meta/recipes-sato/webkit/webkit-gtk_svn.bb
-+++ b/meta/recipes-sato/webkit/webkit-gtk_svn.bb
-@@ -19,7 +19,7 @@ SRCREV_FORMAT = "source"
- 
- SRCREV = "101488"
- PV = "1.7.2+svnr${SRCPV}"
--PR = "r5"
-+PR = "r6"
- 
- SRC_URI = "\
-   svn://svn.webkit.org/repository/webkit/trunk/;module=Source;proto=http;name=source \
-@@ -33,6 +33,7 @@ SRC_URI = "\
-   file://gtk-doc.make \
-   file://nodolt.patch \
-   file://function-scope.patch \
-+  file://webgit-gtk_fix_build_with_automake_1.12.patch \
-  "
- 
- S = "${WORKDIR}/"
--- 
-1.7.3.4
+Cheers,
+
+Richard
 
 
 
