@@ -1,24 +1,24 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1Sod5T-0006rV-GT
+	(envelope-from <nitin.a.kamble@intel.com>) id 1Sod5T-0006rk-CH
 	for Openembedded-core@lists.openembedded.org;
 	Tue, 10 Jul 2012 18:14:55 +0200
 Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 10 Jul 2012 09:03:39 -0700
+	by azsmga101.ch.intel.com with ESMTP; 10 Jul 2012 09:03:40 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="120803456"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="120803485"
 Received: from yocto-hm1.jf.intel.com ([10.23.232.32])
-	by AZSMGA002.ch.intel.com with ESMTP; 10 Jul 2012 09:03:38 -0700
+	by AZSMGA002.ch.intel.com with ESMTP; 10 Jul 2012 09:03:40 -0700
 From: nitin.a.kamble@intel.com
 To: Openembedded-core@lists.openembedded.org
-Date: Tue, 10 Jul 2012 09:02:04 -0700
-Message-Id: <828428172f740c090b01d852ba0c44d91f4d08ad.1341935782.git.nitin.a.kamble@intel.com>
+Date: Tue, 10 Jul 2012 09:02:12 -0700
+Message-Id: <9b54d54612bd6f5a2dc672440726ea68491702e9.1341935782.git.nitin.a.kamble@intel.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <b4314c7a2f9fb120c2c4affd52567fe60a96bb5a.1341935782.git.nitin.a.kamble@intel.com>
 References: <b4314c7a2f9fb120c2c4affd52567fe60a96bb5a.1341935782.git.nitin.a.kamble@intel.com>
 In-Reply-To: <cover.1341935782.git.nitin.a.kamble@intel.com>
 References: <cover.1341935782.git.nitin.a.kamble@intel.com>
-Subject: [PATCH 04/19] pcmanfm: fix build with automake 1.12.x
+Subject: [PATCH 12/19] xf86-video-vmware: fix build with automake 1.12.x
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,82 +37,38 @@ X-List-Received-Date: Tue, 10 Jul 2012 16:14:56 -0000
 
 From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-Added a patch:
-  pcmanfm_fix_for_automake_1.12.patch
+automake 1.12.x automatically deletes empty directories, so
+the additional rmdir from the do_install_append fails.
 
-More information in the patch header.
+cleanup the do_install_append for automake 1.12.x
+
+Fixes this build issue:
+
+| rmdir: failed to remove
+`/srv/home/nitin/builds/build-gcc47/tmp/work/i586-poky-linux/xf86-video-vmware-2_12.0.1-r17.1/image/usr/bin':
+No such file or directory
+NOTE: package xf86-video-vmware-2_12.0.1-r17.1: task do_install: Failed
+
+No PR bump as no change in the output.
 
 Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
 ---
- .../files/pcmanfm_fix_for_automake_1.12.patch      |   35 ++++++++++++++++++++
- meta/recipes-sato/pcmanfm/pcmanfm_0.9.10.bb        |    5 ++-
- 2 files changed, 38 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-sato/pcmanfm/files/pcmanfm_fix_for_automake_1.12.patch
+ .../xorg-driver/xf86-video-vmware_12.0.2.bb        |    5 -----
+ 1 files changed, 0 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-sato/pcmanfm/files/pcmanfm_fix_for_automake_1.12.patch b/meta/recipes-sato/pcmanfm/files/pcmanfm_fix_for_automake_1.12.patch
-new file mode 100644
-index 0000000..1ad0ff5
---- /dev/null
-+++ b/meta/recipes-sato/pcmanfm/files/pcmanfm_fix_for_automake_1.12.patch
-@@ -0,0 +1,35 @@
-+Upstream-Status: Pending
-+
-+Fix these errors:
-+| automake: warnings are treated as errors
-+| data/ui/Makefile.am:18: warning: '%'-style pattern rules are a GNU make extension
-+| src/Makefile.am:10: warning: compiling 'pcmanfm.c' with per-target flags requires 'AM_PROG_CC_C_O' in 'configure.ac'
-+| autoreconf: automake failed with exit status: 1
-+| ERROR: autoreconf execution failed.
-+Signed-Off-By: Nitin A Kamble <nitin.a.kamble@Intel.com>
-+2012/07/09
-+
-+Index: pcmanfm-0.9.10/configure.ac
-+===================================================================
-+--- pcmanfm-0.9.10.orig/configure.ac
-++++ pcmanfm-0.9.10/configure.ac
-+@@ -13,6 +13,7 @@ AC_PROG_CC
-+ AM_PROG_LIBTOOL
-+ AM_PROG_CC_STDC
-+ AC_HEADER_STDC
-++AM_PROG_CC_C_O
-+ 
-+ # Checks for header files.
-+ AC_HEADER_STDC
-+Index: pcmanfm-0.9.10/data/ui/Makefile.am
-+===================================================================
-+--- pcmanfm-0.9.10.orig/data/ui/Makefile.am
-++++ pcmanfm-0.9.10/data/ui/Makefile.am
-+@@ -15,6 +15,6 @@ EXTRA_DIST = \
-+ 	$(NULL)
-+ 
-+ # Purge GtkBuilder UI files
-+-%.ui: %.glade
-++.glade.ui:
-+ 	cp $< $@
-+ #	$(top_builddir)/src/xml-purge $@
-diff --git a/meta/recipes-sato/pcmanfm/pcmanfm_0.9.10.bb b/meta/recipes-sato/pcmanfm/pcmanfm_0.9.10.bb
-index 545367a..576b4ba 100644
---- a/meta/recipes-sato/pcmanfm/pcmanfm_0.9.10.bb
-+++ b/meta/recipes-sato/pcmanfm/pcmanfm_0.9.10.bb
-@@ -11,7 +11,7 @@ SECTION = "x11"
- DEPENDS = "gtk+ startup-notification libfm"
- DEPENDS_append_poky = " libowl"
+diff --git a/meta/recipes-graphics/xorg-driver/xf86-video-vmware_12.0.2.bb b/meta/recipes-graphics/xorg-driver/xf86-video-vmware_12.0.2.bb
+index 71f0339..4468fae 100644
+--- a/meta/recipes-graphics/xorg-driver/xf86-video-vmware_12.0.2.bb
++++ b/meta/recipes-graphics/xorg-driver/xf86-video-vmware_12.0.2.bb
+@@ -15,8 +15,3 @@ SRC_URI[md5sum] = "0743ec7c479603fba60d118858fd5783"
+ SRC_URI[sha256sum] = "c827875fd94805ec9b925fe09aaa973e7e3f9096c7ef311d449c3f134ae75147"
  
--PR = "r0"
-+PR = "r1"
- 
- COMPATIBLE_HOST = '(x86_64.*|i.86.*|arm.*|mips.*|powerpc.*|sh.*)-(linux|freebsd.*)'
- 
-@@ -20,7 +20,8 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/pcmanfm/pcmanfm-${PV}.tar.gz \
- 	   file://gnome-fs-regular.png \
- 	   file://gnome-mime-text-plain.png \
- 	   file://emblem-symbolic-link.png \
--	   file://cross-compile-fix.patch" 
-+	   file://cross-compile-fix.patch \
-+           file://pcmanfm_fix_for_automake_1.12.patch" 
- 
- SRC_URI_append_poky = " file://owl-window-menu.patch"
- 
+ COMPATIBLE_HOST = '(i.86.*-linux|x86_64.*-linux)'
+-
+-do_install_append () {
+-	# Remove useless empty directory
+-	rmdir ${D}${bindir}
+-}
 -- 
 1.7.3.4
 
