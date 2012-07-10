@@ -1,54 +1,30 @@
-Received: from co1ehsobe004.messaging.microsoft.com ([216.32.180.187]
-	helo=co1outboundpool.messaging.microsoft.com)
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1Soc67-0004ro-UM
+	(envelope-from <sgw@linux.intel.com>) id 1Soc7R-0004vE-Iu
 	for openembedded-core@lists.openembedded.org;
-	Tue, 10 Jul 2012 17:11:32 +0200
-Received: from mail142-co1-R.bigfish.com (10.243.78.243) by
-	CO1EHSOBE015.bigfish.com (10.243.66.78) with Microsoft SMTP Server id
-	14.1.225.23; Tue, 10 Jul 2012 14:58:01 +0000
-Received: from mail142-co1 (localhost [127.0.0.1])	by
-	mail142-co1-R.bigfish.com (Postfix) with ESMTP id 314FC880212	for
-	<openembedded-core@lists.openembedded.org>;
-	Tue, 10 Jul 2012 14:58:01 +0000 (UTC)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-X-SpamScore: -2
-X-BigFish: VS-2(zz98dI9371I1432Izz1202hzz8275dhz2dh2a8h668h839h8e2h8e3hf0ah107ahbe9i)
-Received: from mail142-co1 (localhost.localdomain [127.0.0.1]) by mail142-co1
-	(MessageSwitch) id 1341932279483545_2800;
-	Tue, 10 Jul 2012 14:57:59 +0000 (UTC)
-Received: from CO1EHSMHS002.bigfish.com (unknown [10.243.78.248])	by
-	mail142-co1.bigfish.com (Postfix) with ESMTP id 74319C4004F	for
-	<openembedded-core@lists.openembedded.org>;
-	Tue, 10 Jul 2012 14:57:59 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by CO1EHSMHS002.bigfish.com
-	(10.243.66.12) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Tue, 10 Jul 2012 14:57:59 +0000
-Received: from 039-SN1MPN1-002.039d.mgd.msft.net ([169.254.2.109]) by
-	039-SN1MMR1-002.039d.mgd.msft.net ([10.84.1.15]) with mapi id
-	14.02.0298.005; Tue, 10 Jul 2012 10:00:16 -0500
-From: McClintock Matthew-B29882 <B29882@freescale.com>
+	Tue, 10 Jul 2012 17:12:53 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 10 Jul 2012 08:01:41 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="166297515"
+Received: from unknown (HELO [10.255.12.214]) ([10.255.12.214])
+	by azsmga001.ch.intel.com with ESMTP; 10 Jul 2012 08:01:41 -0700
+Message-ID: <4FFC43D5.7060708@linux.intel.com>
+Date: Tue, 10 Jul 2012 08:01:41 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:13.0) Gecko/20120605 Thunderbird/13.0
+MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] bitbake.conf: Add git-native to ASSUME_PROVIDED
-Thread-Index: AQHNXqy2Cys5uAe9K0uKbTtL+17Lmw==
-Date: Tue, 10 Jul 2012 15:00:15 +0000
-Message-ID: <CAEsOVNf0SDnxATQog_8Li1oeK6wkqhVH+m=Bt=L0bBbR02B05Q@mail.gmail.com>
-References: <1341927124.24837.8.camel@ted>
-In-Reply-To: <1341927124.24837.8.camel@ted>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [70.112.201.132]
-MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Subject: Re: bitbake.conf: Add git-native to ASSUME_PROVIDED
+References: <1341867108-7823-1-git-send-email-ray.danks@se-eng.com>
+	<1341930923-26277-1-git-send-email-ray.danks@se-eng.com>
+In-Reply-To: <1341930923-26277-1-git-send-email-ray.danks@se-eng.com>
+Subject: Re: [PATCH v2] mkelfimage: Upgrade to e1e6a91
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
-	Patches and discussions about the oe-core layer
+Reply-To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -59,36 +35,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Jul 2012 15:11:32 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <85E489DE63511F4A8784A8F45ABDF482@mgd.freescale.com>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 10 Jul 2012 15:12:53 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jul 10, 2012 at 8:32 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> Originally, git was something new, not installed everywhere and had comma=
-ndline
-> stability problems. This has changed and git it no longer makes sense to
-> continually build this when the system installed version is likely suffic=
-ient.
+On 07/10/2012 07:35 AM, Raymond Danks wrote:
+> Address QA issue: Files/directories were installed but not shipped.
+> New revision contains patch to mkelfimage removing
+> /usr/share/mkelfImage/elf32-i386 directory from Makefile install target.
 >
-> This speeds up build since recipes no longer have to wait for git-native =
-to build
-> if they're fetched from a git:// SRC_URI.
+> http://review.coreboot.org/#/c/1195/
 >
-> Also add git to the sanity checks and drop the no unneeded svn reference.
+> Signed-off-by: Raymond Danks <ray.danks@se-eng.com>
+> ---
+> v2:
+>    Reword commit log
+>
+I hate to do this, but I am looking at the summary and it really does 
+not tell me anything, a better summary would be something like:
 
-What about testing the host system for presence of certain things?
-Then one could
+mkelfimage: corrected packaging issue in upstream
 
-1) yum/apt/etc install the needed items
+...
 
-or
+Thanks
+	Sau!
 
-2) Build it if it's not present
-
--M=
+>   meta/recipes-devtools/mkelfimage/mkelfimage_git.bb |    2 +-
+>   1 files changed, 1 insertions(+), 1 deletions(-)
+>
+> diff --git a/meta/recipes-devtools/mkelfimage/mkelfimage_git.bb b/meta/recipes-devtools/mkelfimage/mkelfimage_git.bb
+> index 1224a63..4b45c67 100644
+> --- a/meta/recipes-devtools/mkelfimage/mkelfimage_git.bb
+> +++ b/meta/recipes-devtools/mkelfimage/mkelfimage_git.bb
+> @@ -4,7 +4,7 @@ SECTION = "devel"
+>   LICENSE = "GPLv2"
+>   LIC_FILES_CHKSUM = "file://COPYING;md5=ea5bed2f60d357618ca161ad539f7c0a"
+>
+> -SRCREV = "e13632a939e7dde8d7d44fc73e73a41dae8060c3"
+> +SRCREV = "e1e6a91ce0738400fa1615179de88ebc0df29f66"
+>   PV = "1.0.0+gitr${SRCPV}"
+>   PR = "r1"
+>
+>
 
 
 
