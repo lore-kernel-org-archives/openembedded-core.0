@@ -1,39 +1,20 @@
-Received: from mga10.intel.com ([192.55.52.92] helo=fmsmga102.fm.intel.com)
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1SoYs0-0000K2-D9
-	for openembedded-core@lists.openembedded.org;
-	Tue, 10 Jul 2012 13:44:44 +0200
-Received: from mail-qa0-f52.google.com ([209.85.216.52])
-	by mga11.intel.com with ESMTP/TLS/RC4-SHA; 10 Jul 2012 04:33:32 -0700
-Received: by qabj34 with SMTP id j34so48218qab.4
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Jul 2012 04:33:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type:x-gm-message-state;
-	bh=wOaF6XYaOeQN6f/Squ1nqehy8ilMlODx96p8T/FO3/0=;
-	b=oUJ71yzpV11wIdVIleZg5FkIc48zxFJiZJuqXp6f8Opclgj4QxZyBqAAXSbhQ2q2K9
-	q5zb3ZXY3pB0of90XX1Qt+zA3LhUG380zgCfhCivCESZA8MEA4+1+03GTMyienE98orw
-	VSMvYCnwCsTO6Q/GLMr/vs7y8YkOz4AIVejlsuyRkFyTAR1Memfhsl3rGC5FhIj09xuP
-	YOOibYlpL9uLZQ0Bx0Xb1KbcjY2UtWSKmsvMGWuN3MihI5v41fu7FXalrzsBB8lsEoth
-	1JknJS2apw60ELz4h+V8hueiNdrNog4fBaNCldmZOplThcOqETEAyNi2vHy6UXM0J1LU
-	qDCQ==
-Received: by 10.224.39.75 with SMTP id f11mr69020686qae.70.1341920011600; Tue,
-	10 Jul 2012 04:33:31 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.229.218.201 with HTTP; Tue, 10 Jul 2012 04:33:11 -0700 (PDT)
-In-Reply-To: <4FFBEE58.7040101@communistcode.co.uk>
-References: <CAJTo0LZ1W6mD2mdadeqdvyVubgGSozcF_Nw8xbvr4fAsRgJK8A@mail.gmail.com>
-	<CAMKF1spG4BHD6aHQ1WeSFt5hS0tWgoF2HHT6BFg3tbC_aFEpbA@mail.gmail.com>
-	<4FFBEE58.7040101@communistcode.co.uk>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 10 Jul 2012 12:33:11 +0100
-Message-ID: <CAJTo0LY0RrMY5FbSbyK4VQm67AHHs2wgFU9G=N6_a6eVkv+d8Q@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Gm-Message-State: ALoCoQn0SbRcbA/inzb3so6P9IFX6iQdNSyosmlEMApVTmBJeyKqgZWkueYchlYG25fS9AKmZaJb
-Subject: Re: The Mythical Sato Replacement
+	(envelope-from <nitin.a.kamble@intel.com>) id 1SoYsT-0000MP-1O
+	for Openembedded-core@lists.openembedded.org;
+	Tue, 10 Jul 2012 13:45:13 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 10 Jul 2012 04:34:01 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="175472093"
+Received: from yocto-hm1.jf.intel.com ([10.23.232.32])
+	by fmsmga001.fm.intel.com with ESMTP; 10 Jul 2012 04:34:01 -0700
+From: nitin.a.kamble@intel.com
+To: Openembedded-core@lists.openembedded.org
+Date: Tue, 10 Jul 2012 04:32:49 -0700
+Message-Id: <cover.1341917396.git.nitin.a.kamble@intel.com>
+X-Mailer: git-send-email 1.7.3.4
+Subject: [PATCH 0/4] more commits related to automake update
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,40 +29,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Jul 2012 11:44:44 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 10 Jul 2012 11:45:13 -0000
 
-On 10 July 2012 09:56, Jack Mitchell <ml@communistcode.co.uk> wrote:
->> Did you consider QT instead of GTK+ ? I think having wayland would be
->> cool.
->
-> I think Wayland support would be cool also. I think it would be a fantastic
-> way to get people involved and encourage adoption.
+From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-Regarding Wayland, I covered that later in the email.  I really want
-to see Wayland in oe-core, and the Shuku plan includes a Wayland
-route.  I had a good chat with krh last night, the hardest bit will be
-updating GTK+ to work with the latest Wayland.
+With the "world" build, found out that more recipes are failing due to automake 1.12.x
+All these remainling recipes are fixed and the world build succeeds with automake 1.12.1 now.
 
-Regarding Qt/EFL/wxWidgets/whatever, as Richard explained the
-underlying principle is the most return on investment.  There are
-several factors:
+Thanks,
+Nitin
 
-- the toolkit must be known by the person doing the work
-- the toolkit must have a regular release cycle
-- the toolkit must have ABI/API stability so that upgrading the
-toolkit doesn't imply updating the UI
-- working on an existing UI is better than starting from scratch
+The following changes since commit 45d7793f0e3092f3ba4e03c52195ea13179ad1d8:
 
-I'm willing to step up and do the initial work, and my preferred
-toolkit is GTK+.  The Sato shell is sufficient for our requirements,
-so the Shuku proposal is a low-investment plan that should give us a
-refreshed UI for a few more years.
+  pango: fix dependencies to avoid build issue (2012-07-09 09:22:00 -0700)
 
-Sato has been on life-support for several years now, so if someone had
-a pressing urge to write a replacement in Qt or EFL they've had plenty
-of time to do it... and nobody has.
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib nitin/automake_update
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=nitin/automake_update
 
-Ross
+Nitin A Kamble (4):
+  libunistring: fix build with automake 1.12
+  telepathy-python: fix build with automake 1.12
+  libidn: fix build with automake 1.12
+  webgit-gtk: fix build with automake 1.12.1
+
+ .../telepathy-python_fix_for_automake_1.12.patch   |   26 ++++++
+ .../telepathy/telepathy-python_0.15.19.bb          |    5 +-
+ ..._MKDIR_P_warning_error_with_automake_1.12.patch |   25 ++++++
+ meta/recipes-extended/libidn/libidn_1.24.bb        |    5 +-
+ .../webgit-gtk_fix_build_with_automake_1.12.patch  |   62 +++++++++++++++
+ meta/recipes-sato/webkit/webkit-gtk_svn.bb         |    3 +-
+ .../libunistring_fix_for_automake_1.12.patch       |   81 ++++++++++++++++++++
+ .../libunistring/libunistring_0.9.3.bb             |    5 +-
+ 8 files changed, 205 insertions(+), 7 deletions(-)
+ create mode 100644 meta/recipes-connectivity/telepathy/telepathy-python-0.15.19/telepathy-python_fix_for_automake_1.12.patch
+ create mode 100644 meta/recipes-extended/libidn/libidn/avoid_AM_PROG_MKDIR_P_warning_error_with_automake_1.12.patch
+ create mode 100644 meta/recipes-sato/webkit/files/webgit-gtk_fix_build_with_automake_1.12.patch
+ create mode 100644 meta/recipes-support/libunistring/libunistring/libunistring_fix_for_automake_1.12.patch
+
+-- 
+1.7.3.4
+
 
 
