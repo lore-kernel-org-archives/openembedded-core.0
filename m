@@ -1,35 +1,34 @@
-Received: from mail-lb0-f175.google.com ([209.85.217.175])
+Received: from astoria.ccjclearline.com ([64.235.106.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1Sob86-0000KQ-R2
+	(envelope-from <rpjday@crashcourse.ca>) id 1SobCJ-0004ja-Ea
 	for openembedded-core@lists.openembedded.org;
-	Tue, 10 Jul 2012 16:09:30 +0200
-Received: by lbol5 with SMTP id l5so290751lbo.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Jul 2012 06:58:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date
-	:x-google-sender-auth:message-id:subject:to:content-type;
-	bh=JsKoq77azCFYsoBK5ehc822ge1+4ohUlC3q+Gl4pzDY=;
-	b=P8e53RQmQgqEDzrJ/wXhFLg0BIbHyTKkgJGY/pznRH4wi2flz8jsfl+yTMETGXhxz5
-	05JPrh/gHq5Y51G7qObM7mCmaBopewpi/2yO9XP0h8sW1fudQdCUMH+epz38LuH8QGke
-	82znZmkR9A/N/x13af3nbVWgq7ULyhSTN3LvnAkbJ8K7Z9OcXkeeaeHZHru/IZnlPBuO
-	wcYzlSdHu0mxW6hVv3aYmaIP7HTKbbrwxWxUMHE/tqaBZoD5AFj+TY0vUuh0Qv6bekmT
-	Lak5V5IjW33KqVpH2j/OLt9NYTqpgsqjmbq6jw6Tye+dsKdFAX23d1re1kl6cu7h9PrO
-	VW7A==
-Received: by 10.112.100.234 with SMTP id fb10mr20363421lbb.12.1341928700090;
-	Tue, 10 Jul 2012 06:58:20 -0700 (PDT)
-MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.114.64.180 with HTTP; Tue, 10 Jul 2012 06:57:59 -0700 (PDT)
-In-Reply-To: <alpine.DEB.2.02.1207100454370.26177@oneiric>
-References: <alpine.DEB.2.02.1207100454370.26177@oneiric>
-From: Chris Larson <clarson@kergoth.com>
-Date: Tue, 10 Jul 2012 06:57:59 -0700
-X-Google-Sender-Auth: LtbHhX4AP0g0r5g7Eamie35Kc9A
-Message-ID: <CABcZANkzWeZ1+yqqcLf330Ko-rMuk8C7w7FF+aH_omo1Xw2+NA@mail.gmail.com>
+	Tue, 10 Jul 2012 16:13:51 +0200
+Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
+	([174.115.5.73]:53163 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.77) (envelope-from <rpjday@crashcourse.ca>)
+	id 1Sob1V-0005BU-PP for openembedded-core@lists.openembedded.org;
+	Tue, 10 Jul 2012 10:02:42 -0400
+Date: Tue, 10 Jul 2012 10:02:26 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@oneiric
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: does anything actually use BBVERSIONS?
+In-Reply-To: <1341927124.24837.8.camel@ted>
+Message-ID: <alpine.DEB.2.02.1207101001080.2594@oneiric>
+References: <1341927124.24837.8.camel@ted>
+User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+MIME-Version: 1.0
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Subject: Re: bitbake.conf: Add git-native to ASSUME_PROVIDED
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,23 +43,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Jul 2012 14:09:30 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 10 Jul 2012 14:13:51 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
-On Tue, Jul 10, 2012 at 1:58 AM, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
->   perusing bitbake user manual, came across section 2.1.20 which
-> mentions BBVERSIONS, but i don't see any current usage of it.  is it
-> still actively used anywhere?  the only places i see it are in the
-> documentation.
+On Tue, 10 Jul 2012, Richard Purdie wrote:
 
-I don't know of any uses of it. The original intent was to allow a
-single recipe to emit multiple versions of a recipe, like
-BBCLASSEXTEND, thereby consolidating the metadata for an upstream
-project in a single place rather than it being scattered across .inc
-files, but I don't think anyone has needed to use it or tried to use
-it for anything. I still think there's value, but less so now that we
-try to keep the number of supported versions of a thing to a minimum.
+> Originally, git was something new, not installed everywhere and had commandline
+> stability problems. This has changed and git it no longer makes sense to
+> continually build this when the system installed version is likely sufficient.
+>
+> This speeds up build since recipes no longer have to wait for git-native to build
+> if they're fetched from a git:// SRC_URI.
+>
+> Also add git to the sanity checks and drop the no unneeded svn reference.
+>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+> diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+> index 6ed1e6f..ffd59e9 100644
+> --- a/meta/classes/sanity.bbclass
+> +++ b/meta/classes/sanity.bbclass
+> @@ -2,7 +2,7 @@
+>  # Sanity check the users setup for common misconfigurations
+>  #
+>
+> -SANITY_REQUIRED_UTILITIES ?= "patch diffstat texi2html makeinfo svn bzip2 tar gzip gawk chrpath wget cpio"
+> +SANITY_REQUIRED_UTILITIES ?= "patch diffstat texi2html makeinfo git bzip2 tar gzip gawk chrpath wget cpio"
+>
+>  def raise_sanity_error(msg, d):
+>      if d.getVar("SANITY_USE_EVENTS", True) == "1":
+> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+> index 76ee65f..c94012e 100644
+> --- a/meta/conf/bitbake.conf
+> +++ b/meta/conf/bitbake.conf
+> @@ -152,6 +152,7 @@ DATETIME = "${DATE}${TIME}"
+>  # its own in staging
+>  ASSUME_PROVIDED = "\
+>      bzip2-native \
+> +    git-native \
+>      grep-native \
+>      diffstat-native \
+>      patch-native \
+
+  possibly a dumb question, but is this the sort of thing one could
+extend in one's local.conf file if they were fairly sure their
+installed versions were compatible?
+
+rday
+
 -- 
-Christopher Larson
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
+
 
 
