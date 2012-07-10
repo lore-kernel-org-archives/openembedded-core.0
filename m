@@ -1,33 +1,34 @@
 Received: from mail-ee0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1SoSyw-0000M6-9K
+	(envelope-from <raj.khem@gmail.com>) id 1SoT3c-0000Pq-4x
 	for openembedded-core@lists.openembedded.org;
-	Tue, 10 Jul 2012 07:27:30 +0200
-Received: by eekc50 with SMTP id c50so63586eek.6
+	Tue, 10 Jul 2012 07:32:20 +0200
+Received: by eekc50 with SMTP id c50so64198eek.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 09 Jul 2012 22:16:20 -0700 (PDT)
+	Mon, 09 Jul 2012 22:21:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type; bh=fB/9Mj9bv2wxKj7S9u7PdRqX1DcTjFVDUkKbO5ovo04=;
-	b=DqhAsjaLgcccTTqpBYp/tNew9R9CpLrlTeElDujXK+q71J89kg/29QctRA2mdMFL72
-	69pkYF/VberiwDI3klOQu6ktwlihv4Gcj+Lx/sWmu5cHhNtcdbJ7mfDpVD7r6avwREn2
-	2l2sBsuA1RKtDuL+bbJfYhydGWO7BI3ZQAQKBBDlgwA8tm9OGRHdNm5JUIkII0WgjmC0
-	UI9L0hu3UMn8bo/ZznvmD/saP4DYug+bpxjqMxiKSEsOgllb/E3xACwswq8cVdCea6d9
-	Xl1gMG5PhhKuw2jjrPnBJA6RRCiOBsF7wjcLj1XpDBSJ3rBqnIIqJigjn82g4JnsWUDk
-	tECA==
-Received: by 10.14.95.138 with SMTP id p10mr10421907eef.110.1341897380142;
-	Mon, 09 Jul 2012 22:16:20 -0700 (PDT)
+	:content-type; bh=pUmBQJJcN46Z2Uj9gC0t6I11UptyjxS9vgC45+o/kXQ=;
+	b=LjsVImJIQfAm/B3sb4pjqO1MRYkUxg5x2jENdH4fFermAREuoGqTdhDYOEtEAnE5nI
+	djB7RxaBzR1F2TDhuXSQxAG+R7hq5OM6/E9bZUHsKTHrxwp9FD+Y7EhTLhY51dTpkr87
+	J1qyUJJxgXGFpJVQcA50x4HZ+a9RTDPbNtd49RxIK4fWv3ogsSb+I/+7ZrF9PBp6ApCa
+	t42eCKA2qD6q21C1T5gA/+RhiLCl7kMVrwbOaG8OuTlLszcTjz2+rN4itfN9rN4zz22M
+	AucjiPWU2KiivA4k/hvEep/eahFEVXbiqBVqkAQPcLZcefmOkJuCV6GbbTo+rvjHixR5
+	GACQ==
+Received: by 10.14.37.76 with SMTP id x52mr4423819eea.102.1341897670179; Mon,
+	09 Jul 2012 22:21:10 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.14.210.199 with HTTP; Mon, 9 Jul 2012 22:15:49 -0700 (PDT)
-In-Reply-To: <1341894563-32675-2-git-send-email-msm@freescale.com>
-References: <1341894563-32675-1-git-send-email-msm@freescale.com>
-	<1341894563-32675-2-git-send-email-msm@freescale.com>
+Received: by 10.14.210.199 with HTTP; Mon, 9 Jul 2012 22:20:39 -0700 (PDT)
+In-Reply-To: <45d7793f0e3092f3ba4e03c52195ea13179ad1d8.1341850982.git.nitin.a.kamble@intel.com>
+References: <cover.1341850982.git.nitin.a.kamble@intel.com>
+	<8d1d42a68d5930bc374b9d6126cc1371a22a37db.1341850982.git.nitin.a.kamble@intel.com>
+	<45d7793f0e3092f3ba4e03c52195ea13179ad1d8.1341850982.git.nitin.a.kamble@intel.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 9 Jul 2012 22:15:49 -0700
-Message-ID: <CAMKF1spJBYKoOYnBzFRDZ3ByfY9ifewx8i46e7ifuP=haLuZrw@mail.gmail.com>
+Date: Mon, 9 Jul 2012 22:20:39 -0700
+Message-ID: <CAMKF1sq3i3=Eo4NU9=WgdJHsqGw1vo5qZPJ=B+KPL0xsX4FDtQ@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 2/2] libgomp: add libgomp (openmp) library, and build for powerpc targets by default
+Subject: Re: [PATCH 15/15] pango: fix dependencies to avoid build issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,23 +43,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Jul 2012 05:27:30 -0000
+X-List-Received-Date: Tue, 10 Jul 2012 05:32:20 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Mon, Jul 9, 2012 at 9:29 PM, Matthew McClintock <msm@freescale.com> wrote:
-> +
-> +       # clean up extra libgomp files
-> +       if [[ "${RUNTIMETARGET}" =~ "libgomp" ]]; then
+On Mon, Jul 9, 2012 at 9:26 AM,  <nitin.a.kamble@intel.com> wrote:
+>
+> | /srv/home/nitin/builds/build-gcc47/tmp/sysroots/x86_64-linux/usr/libexec/i586-poky-linux/gcc/i586-poky-linux/4.7.1/ld: cannot find -lelf
+> | collect2: error: ld returned 1 exit status
 
-This seems bashism.
-
-if could just check the valued of $d in the loop instead something like
-
-
-> +               rm -rf ${D}${datadir}/info/libgomp.info ${D}${datadir}/info/dir
-> +               rmdir --ignore-fail-on-non-empty -p ${D}${libdir}/gcc/${TARGET_SYS}/${BINV}/finclude
-> +               rmdir --ignore-fail-on-non-empty -p ${D}${datadir}/info
-> +       fi
-> +
+I wonder why this is not seen generally. Is there something in your
+build box thats triggering pango to ask for libelf ?
 
 
