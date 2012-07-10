@@ -1,29 +1,36 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from astoria.ccjclearline.com ([64.235.106.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SofJN-0006EQ-9k
+	(envelope-from <rpjday@crashcourse.ca>) id 1SofSK-0006Nc-U1
 	for openembedded-core@lists.openembedded.org;
-	Tue, 10 Jul 2012 20:37:25 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 10 Jul 2012 11:26:13 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="166395655"
-Received: from unknown (HELO [10.255.12.214]) ([10.255.12.214])
-	by azsmga001.ch.intel.com with ESMTP; 10 Jul 2012 11:26:13 -0700
-Message-ID: <4FFC73C5.4080207@linux.intel.com>
-Date: Tue, 10 Jul 2012 11:26:13 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:13.0) Gecko/20120605 Thunderbird/13.0
-MIME-Version: 1.0
-To: Khem Raj <raj.khem@gmail.com>
-References: <1341871474-8719-1-git-send-email-sgw@linux.intel.com>
-	<CAMKF1sowgGneDRp61GaL10-rbsCT7ucUq_ri_GNhm4+--idKww@mail.gmail.com>
-	<4FFB6D1A.4070400@linux.intel.com>
-	<CAMKF1sr7U+mDi=5c2_C9ejW05DBQzHCY6RYoWr_L4xB3KKuYUQ@mail.gmail.com>
-In-Reply-To: <CAMKF1sr7U+mDi=5c2_C9ejW05DBQzHCY6RYoWr_L4xB3KKuYUQ@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
+	Tue, 10 Jul 2012 20:46:41 +0200
+Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
+	([174.115.5.73]:54097 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.77) (envelope-from <rpjday@crashcourse.ca>)
+	id 1SofHX-00029X-6e; Tue, 10 Jul 2012 14:35:31 -0400
+Date: Tue, 10 Jul 2012 14:35:19 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@oneiric
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gnupg: ensure deterministic build by disabling libcurl
+In-Reply-To: <1341935849.1294.2.camel@ted>
+Message-ID: <alpine.DEB.2.02.1207101433580.3587@oneiric>
+References: <1341927124.24837.8.camel@ted>
+	<CAEsOVNf0SDnxATQog_8Li1oeK6wkqhVH+m=Bt=L0bBbR02B05Q@mail.gmail.com>
+	<1341935849.1294.2.camel@ted>
+User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+MIME-Version: 1.0
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Cc: McClintock Matthew-B29882 <B29882@freescale.com>
+Subject: Re: bitbake.conf: Add git-native to ASSUME_PROVIDED
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,58 +45,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Jul 2012 18:37:25 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 10 Jul 2012 18:46:41 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
-On 07/09/2012 06:21 PM, Khem Raj wrote:
-> On Mon, Jul 9, 2012 at 4:45 PM, Saul Wold <sgw@linux.intel.com> wrote:
->> On 07/09/2012 03:43 PM, Khem Raj wrote:
->>>
->>> On Mon, Jul 9, 2012 at 3:04 PM, Saul Wold <sgw@linux.intel.com> wrote:
->>>>
->>>> gnupg has it's own fake curl, since we use gnupg with zypper, there does
->>>> not
->>>> seem to be a strong reason to add curl to the depends list.
->>>
->>>
->>> what does disabling curl has to do with gnupg being used with zypper ?
->>>
->> I was looking for where gnupg was used within oe-core and it's usage model
->> to see if it made sense to go with the extra dependency for gnupg, let me
->> know your reasoning.  Generally especially for natives we look for ways to
->> reduce the initial build time.
+On Tue, 10 Jul 2012, Richard Purdie wrote:
+
+> On Tue, 2012-07-10 at 15:00 +0000, McClintock Matthew-B29882 wrote:
+> > On Tue, Jul 10, 2012 at 8:32 AM, Richard Purdie
+> > <richard.purdie@linuxfoundation.org> wrote:
+> > > Originally, git was something new, not installed everywhere and had commandline
+> > > stability problems. This has changed and git it no longer makes sense to
+> > > continually build this when the system installed version is likely sufficient.
+> > >
+> > > This speeds up build since recipes no longer have to wait for git-native to build
+> > > if they're fetched from a git:// SRC_URI.
+> > >
+> > > Also add git to the sanity checks and drop the no unneeded svn reference.
+> >
+> > What about testing the host system for presence of certain things?
+> > Then one could
+> >
+> > 1) yum/apt/etc install the needed items
+> >
+> > or
+> >
+> > 2) Build it if it's not present
 >
-> I am all for it. I wanted to understand the context thanks for that.
-> On another note
-Do you want me to amend the commit message?
-
-
-> it would be interesting to know what are we losing if we disable curl
-> or external curl
+> Every time we put an if statement in like this, it basically means we
+> should double the amount of QA, one for one path and one for the other.
 >
-gnupg seems to use a very small subset of curl and the curl_shim that it 
-provides covers what's need in a very basic manner (including handling 
-proxy setups).  I would guess (after a cursory look) that we would lose 
-better error handling and performance for the gpgkeys_curl command line 
-interface.
+> So whilst I've wondered about it, do we really need to do something like
+> this?
 
-I think that acceptable.
+  my opinion, which is mine, is to add a script someone can run that
+tells them what appears to be safe to override from their current
+distro.  that way, it's entirely optional and the developer deals with
+the output at their own risk.
 
-Sau!
+rday
 
->>
->> Sau!
->>
->>
->>> _______________________________________________
->>> Openembedded-core mailing list
->>> Openembedded-core@lists.openembedded.org
->>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->>>
->>>
->>
->
+-- 
 
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
