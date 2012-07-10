@@ -1,24 +1,24 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1Sod5S-0006rU-Fy
+	(envelope-from <nitin.a.kamble@intel.com>) id 1Sod5S-0006rV-EZ
 	for Openembedded-core@lists.openembedded.org;
 	Tue, 10 Jul 2012 18:14:54 +0200
 Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 10 Jul 2012 09:03:40 -0700
+	by azsmga102.ch.intel.com with ESMTP; 10 Jul 2012 09:03:39 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="120803481"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="120803460"
 Received: from yocto-hm1.jf.intel.com ([10.23.232.32])
-	by AZSMGA002.ch.intel.com with ESMTP; 10 Jul 2012 09:03:40 -0700
+	by AZSMGA002.ch.intel.com with ESMTP; 10 Jul 2012 09:03:39 -0700
 From: nitin.a.kamble@intel.com
 To: Openembedded-core@lists.openembedded.org
-Date: Tue, 10 Jul 2012 09:02:11 -0700
-Message-Id: <fb847c28470359227681151602913e577380fca6.1341935782.git.nitin.a.kamble@intel.com>
+Date: Tue, 10 Jul 2012 09:02:05 -0700
+Message-Id: <8583e77cf1c3a904e2d4ccb8822cd5b545463c0c.1341935782.git.nitin.a.kamble@intel.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <b4314c7a2f9fb120c2c4affd52567fe60a96bb5a.1341935782.git.nitin.a.kamble@intel.com>
 References: <b4314c7a2f9fb120c2c4affd52567fe60a96bb5a.1341935782.git.nitin.a.kamble@intel.com>
 In-Reply-To: <cover.1341935782.git.nitin.a.kamble@intel.com>
 References: <cover.1341935782.git.nitin.a.kamble@intel.com>
-Subject: [PATCH 11/19] telepathy-glib: fix build with automake 1.12.x
+Subject: [PATCH 05/19] avahi: fix build with automake 1.12.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,36 +37,78 @@ X-List-Received-Date: Tue, 10 Jul 2012 16:14:55 -0000
 
 From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-automake 1.12.x automatically deletes empty directories, so
-the additional rmdir from the do_install_append fails.
+added a new patch : fix_for_automake_1.12.x.patch
 
-cleanup the do_install_append for automake 1.12.x
-
-avoid this issue:
-| rmdir: failed to remove `/srv/home/nitin/builds/build-gcc47/tmp/work/i586-poky-linux/telepathy-glib-0.18.1-r0/image/usr/bin': No such file or directory
-NOTE: package telepathy-glib-0.18.1-r0: task do_install: Failed
-
-no PR bump as no change in the output
+More information in the patch header.
 
 Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
 ---
- .../telepathy/telepathy-glib_0.19.2.bb             |    6 ------
- 1 files changed, 0 insertions(+), 6 deletions(-)
+ meta/recipes-connectivity/avahi/avahi.inc          |    3 +-
+ .../avahi/files/fix_for_automake_1.12.x.patch      |   34 ++++++++++++++++++++
+ 2 files changed, 36 insertions(+), 1 deletions(-)
+ create mode 100644 meta/recipes-connectivity/avahi/files/fix_for_automake_1.12.x.patch
 
-diff --git a/meta/recipes-connectivity/telepathy/telepathy-glib_0.19.2.bb b/meta/recipes-connectivity/telepathy/telepathy-glib_0.19.2.bb
-index 22f8c07..deba3bb 100644
---- a/meta/recipes-connectivity/telepathy/telepathy-glib_0.19.2.bb
-+++ b/meta/recipes-connectivity/telepathy/telepathy-glib_0.19.2.bb
-@@ -16,9 +16,3 @@ inherit autotools pkgconfig gettext
+diff --git a/meta/recipes-connectivity/avahi/avahi.inc b/meta/recipes-connectivity/avahi/avahi.inc
+index c118758..37ff70d 100644
+--- a/meta/recipes-connectivity/avahi/avahi.inc
++++ b/meta/recipes-connectivity/avahi/avahi.inc
+@@ -14,7 +14,7 @@ SECTION = "network"
+ # python scripts are under GPLv2+
+ LICENSE = "GPLv2+ & LGPLv2.1+"
  
- FILES_${PN} += "${datadir}/telepathy \
-                 ${datadir}/dbus-1"
--
--do_install_append() {
--	rmdir ${D}${bindir}
--	rmdir ${D}${libexecdir}
--	rmdir ${D}${servicedir}
--}
+-INC_PR = "r4"
++INC_PR = "r5"
+ 
+ DEPENDS = "expat libcap libdaemon dbus glib-2.0"
+ 
+@@ -23,6 +23,7 @@ SRC_URI = "http://avahi.org/download/avahi-${PV}.tar.gz \
+           file://99avahi-autoipd \
+           file://initscript.patch \
+           file://avahi_fix_install_issue.patch \
++          file://fix_for_automake_1.12.x.patch \
+           "
+ 
+ USERADD_PACKAGES = "avahi-daemon"
+diff --git a/meta/recipes-connectivity/avahi/files/fix_for_automake_1.12.x.patch b/meta/recipes-connectivity/avahi/files/fix_for_automake_1.12.x.patch
+new file mode 100644
+index 0000000..0fc4c29
+--- /dev/null
++++ b/meta/recipes-connectivity/avahi/files/fix_for_automake_1.12.x.patch
+@@ -0,0 +1,34 @@
++Upstream-Status: Pending
++
++autoamke 1.12.x has depricated use of mkdir_p , and recommends use of MKDIR_P
++instead. Fixed the automake files accordingly to avoid warning-errors.
++Signed-Off-By: Nitin A Kamble <nitin.a.kamble@intel.com>
++2012/07/09
++
++
++Index: avahi-0.6.31/avahi-daemon/Makefile.am
++===================================================================
++--- avahi-0.6.31.orig/avahi-daemon/Makefile.am
+++++ avahi-0.6.31/avahi-daemon/Makefile.am
++@@ -169,7 +169,7 @@ xmllint:
++ 	done
++ 
++ install-data-local:
++-	test -z "$(localstatedir)/run" || $(mkdir_p) "$(DESTDIR)$(localstatedir)/run"
+++	test -z "$(localstatedir)/run" || $(MKDIR_P) "$(DESTDIR)$(localstatedir)/run"
++ 
++ update-systemd:
++ 	curl http://cgit.freedesktop.org/systemd/plain/src/sd-daemon.c > sd-daemon.c
++Index: avahi-0.6.31/avahi-autoipd/Makefile.am
++===================================================================
++--- avahi-0.6.31.orig/avahi-autoipd/Makefile.am
+++++ avahi-0.6.31/avahi-autoipd/Makefile.am
++@@ -76,7 +76,7 @@ dhcliententerdir = $(sysconfdir)/dhcp/dh
++ dhclientexitdir = $(sysconfdir)/dhcp/dhclient-exit-hooks.d
++ 
++ install-exec-hook: dhclient-exit-hook dhclient-enter-hook
++-	$(mkdir_p) $(DESTDIR)$(dhcliententerdir) $(DESTDIR)$(dhclientexitdir)
+++	$(MKDIR_P) $(DESTDIR)$(dhcliententerdir) $(DESTDIR)$(dhclientexitdir)
++ 	$(INSTALL) dhclient-enter-hook $(DESTDIR)$(dhcliententerdir)/avahi-autoipd
++ 	$(INSTALL) dhclient-exit-hook $(DESTDIR)$(dhclientexitdir)/avahi-autoipd
++ 
 -- 
 1.7.3.4
 
