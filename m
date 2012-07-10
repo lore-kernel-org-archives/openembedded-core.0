@@ -1,31 +1,24 @@
-Received: from astoria.ccjclearline.com ([64.235.106.9])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpjday@crashcourse.ca>) id 1SoWS6-0006Yx-QC
+	(envelope-from <Liezhi.Yang@windriver.com>) id 1SoX28-0007Sl-Dz
 	for openembedded-core@lists.openembedded.org;
-	Tue, 10 Jul 2012 11:09:50 +0200
-Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
-	([174.115.5.73]:50359 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.77) (envelope-from <rpjday@crashcourse.ca>)
-	id 1SoWHJ-0001rF-JK for openembedded-core@lists.openembedded.org;
-	Tue, 10 Jul 2012 04:58:41 -0400
-Date: Tue, 10 Jul 2012 04:58:28 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@oneiric
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.DEB.2.02.1207100454370.26177@oneiric>
-User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+	Tue, 10 Jul 2012 11:47:04 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q6A9Zq9a008779
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 10 Jul 2012 02:35:52 -0700 (PDT)
+Received: from usp-ub10.corp.ad.wrs.com (128.224.163.69) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.1.255.0; Tue, 10 Jul 2012 02:35:53 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 10 Jul 2012 17:35:49 +0800
+Message-ID: <cover.1341909636.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.1
 MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Subject: does anything actually use BBVERSIONS?
+Cc: Zhenfeng.Zhao@windriver.com
+Subject: [PATCH 0/1] subversion: do_install failed (parallel issue)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,25 +33,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Jul 2012 09:09:51 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Tue, 10 Jul 2012 09:47:04 -0000
+Content-Type: text/plain
 
+The following changes since commit 8d8b9e77aa3403e880cbbdfefc7f24a993b3161f:
 
-  perusing bitbake user manual, came across section 2.1.20 which
-mentions BBVERSIONS, but i don't see any current usage of it.  is it
-still actively used anywhere?  the only places i see it are in the
-documentation.
+  linux-yocto/3.4: perf scripting & unionfs fixes (2012-07-09 17:06:09 +0100)
 
-rday
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib robert/svn
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=robert/svn
 
--- 
+Robert Yang (1):
+  subversion: do_install failed (parallel issue)
 
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
+ .../subversion/fix-install-depends.patch           |   45 ++++++++++++++++++++
+ .../subversion/subversion_1.6.15.bb                |    6 ++-
+ .../subversion/subversion_1.7.2.bb                 |    3 +-
+ 3 files changed, 51 insertions(+), 3 deletions(-)
+ create mode 100644 meta/recipes-devtools/subversion/subversion/fix-install-depends.patch
 
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
 
 
