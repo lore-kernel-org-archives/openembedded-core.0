@@ -1,39 +1,39 @@
 Received: from mail-qa0-f47.google.com ([209.85.216.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrei@gherzan.ro>) id 1Soc5O-0004gd-1X
+	(envelope-from <andrei@gherzan.ro>) id 1Soc5Q-0004gb-Jd
 	for openembedded-core@lists.openembedded.org;
-	Tue, 10 Jul 2012 17:10:46 +0200
-Received: by qabg1 with SMTP id g1so2527377qab.6
+	Tue, 10 Jul 2012 17:10:48 +0200
+Received: by mail-qa0-f47.google.com with SMTP id g1so2527330qab.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Jul 2012 07:59:35 -0700 (PDT)
+	Tue, 10 Jul 2012 07:59:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
 	:in-reply-to:references:x-gm-message-state;
-	bh=0KYA7m4Xrqhv9M0TFnMT7dKBmKbSFq67ULSyL0bnpxc=;
-	b=m3c1Y/1dTQmBd3lsMi6gzX/mHKiT68lf9fUWKZNxlHF1IK76a9dG3FbvCaRW8QjBmK
-	wAVgOYBMuxwczGKo9VW+cyLJYkMX52rVzyuhmcVEMR7dMjzBQ7j9hRQBOQuuwhD1qXcf
-	pLDKMm2C+PhZP+6ihuybPLBh4CoNFDee3v38Xd7ENc7AfoUvDwDDVr8jRb7oEVRahmgS
-	f3Fszq+ZCQRwkBchwwpNOX0x/6ieLXPJsr/JNxQ7OnJfB+5JPZj2kRrIupSsg0M2Y+is
-	H5YKvkup2KDIjLoDVie9V8eNFEBto2vCsdzFZ8JBsAnxkvMStxYEiGRlZg+2dky6W82g
-	4/zQ==
-Received: by 10.224.216.7 with SMTP id hg7mr28224755qab.3.1341932375160;
-	Tue, 10 Jul 2012 07:59:35 -0700 (PDT)
+	bh=5Sj7EXKjJhF9GIU7uaxBQL/x6FjmruK6uk7kCIZ212s=;
+	b=gJrPOLTtTBLx7rKjgDyRUI5fgRa5uxt7gsCIOpGfpiuWhat93ybXt7UHiDKF/JTnak
+	Gl6uTt9drobmYmaRhUl58fWd25MqHEVTTs6syj5F3TkbUPLx4OqxflsCv0X2UQ8YW3Vw
+	C8du0RuDoxykXvPmQZMNy4+yHSfKOU5b4iHJbfNUn8gS1Nxtwc9Tchi6wS0z1X6ZVwU5
+	0eOkIFcTSCvPIfCRwVVw5VxgY/wD74mxeQPm+Ro9IUWd/vaeXPbq3uJCtqrWW6tdXpb7
+	3LsipfW9BqoExoE1aGdmsbb2a3RRmqdrrJCpKBkZwX7++2IR1SamY4qCQCwRAwXvLVzS
+	BCEw==
+Received: by 10.224.35.3 with SMTP id n3mr14982943qad.93.1341932380019;
+	Tue, 10 Jul 2012 07:59:40 -0700 (PDT)
 Received: from otp-agherzan-l1.corp.ad.wrs.com ([89.121.200.106])
-	by mx.google.com with ESMTPS id n2sm65763443qap.10.2012.07.10.07.59.33
+	by mx.google.com with ESMTPS id n2sm65763443qap.10.2012.07.10.07.59.38
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 10 Jul 2012 07:59:34 -0700 (PDT)
+	Tue, 10 Jul 2012 07:59:39 -0700 (PDT)
 From: Andrei Gherzan <andrei@gherzan.ro>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 10 Jul 2012 17:59:19 +0300
-Message-Id: <efcaf4f9efe634659e0ba153751681c39a129459.1341932186.git.andrei@gherzan.ro>
+Date: Tue, 10 Jul 2012 17:59:22 +0300
+Message-Id: <d7e0c2813e4002b9dfd8e2d681b93da9ddc5870f.1341932186.git.andrei@gherzan.ro>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <9403579097d0430a5ce2cd3bb23925fe25917a0b.1341932186.git.andrei@gherzan.ro>
 References: <9403579097d0430a5ce2cd3bb23925fe25917a0b.1341932186.git.andrei@gherzan.ro>
 In-Reply-To: <cover.1341932186.git.andrei@gherzan.ro>
 References: <cover.1341932186.git.andrei@gherzan.ro>
-X-Gm-Message-State: ALoCoQnkOsnu3I3pwGIv9TaGYZDMKDBOvlPe5NiDtJxNib758GRfWv78xBeGp0eN5aH+bQxhtemK
-Subject: [PATCH 2/5] bitbake.conf: Use the new form of features_backfill function
+X-Gm-Message-State: ALoCoQl5XzU9MsurM9J4c/DRIT11Epr+dnLWSu40hwit8LMTUc3nTBmEhrvnyeqjBoflj7Ebbp1e
+Subject: [PATCH 5/5] busybox.inc: Install hwclock init script only if rtc is present in MACHINE_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,30 +48,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Jul 2012 15:10:46 -0000
-
-This function was modified in order to be used with other
-variables then DISTRO_FEATURES. Use this new function name and
-add the parameter needed.
+X-List-Received-Date: Tue, 10 Jul 2012 15:10:48 -0000
 
 Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
 ---
- meta/conf/bitbake.conf |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-core/busybox/busybox.inc |   10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 3453a86..855ba6a 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -722,7 +722,7 @@ MACHINE_ESSENTIAL_EXTRA_RRECOMMENDS ?= ""
- IMAGE_FEATURES += "${EXTRA_IMAGE_FEATURES}"
- 
- DISTRO_FEATURES_BACKFILL = "pulseaudio"
--DISTRO_FEATURES_append = "${@oe.utils.distro_features_backfill(d)}"
-+DISTRO_FEATURES_append = "${@oe.utils.features_backfill("DISTRO_FEATURES",d)}"
- 
- COMBINED_FEATURES = "\
-     ${@base_both_contain("DISTRO_FEATURES", "MACHINE_FEATURES", "alsa", d)} \
+diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
+index 82137a3..17ff442 100644
+--- a/meta/recipes-core/busybox/busybox.inc
++++ b/meta/recipes-core/busybox/busybox.inc
+@@ -180,9 +180,13 @@ do_install () {
+ 	if grep "CONFIG_UDHCPD=y" ${WORKDIR}/defconfig; then
+ 		install -m 0755 ${WORKDIR}/busybox-udhcpd ${D}${sysconfdir}/init.d/
+ 	fi
+-	if grep "CONFIG_HWCLOCK=y" ${WORKDIR}/defconfig; then
+-		install -m 0755 ${WORKDIR}/hwclock.sh ${D}${sysconfdir}/init.d/
+-	fi
++	case "${MACHINE_FEATURES}" in
++	*rtc*)
++		if grep "CONFIG_HWCLOCK=y" ${WORKDIR}/defconfig; then
++			install -m 0755 ${WORKDIR}/hwclock.sh ${D}${sysconfdir}/init.d/
++		fi
++		;;
++	esac
+ 	if grep "CONFIG_UDHCPC=y" ${WORKDIR}/defconfig; then
+ 		install -d ${D}${sysconfdir}/udhcpc.d
+ 		install -d ${D}${datadir}/udhcpc
 -- 
 1.7.9.5
 
