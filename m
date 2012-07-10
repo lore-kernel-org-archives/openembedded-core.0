@@ -1,45 +1,23 @@
-Received: from ch1ehsobe004.messaging.microsoft.com ([216.32.181.184]
-	helo=ch1outboundpool.messaging.microsoft.com)
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1Soh1b-0006Ij-SR
+	(envelope-from <mark.hatle@windriver.com>) id 1SohSh-0000pZ-9K
 	for openembedded-core@lists.openembedded.org;
-	Tue, 10 Jul 2012 22:27:12 +0200
-Received: from mail218-ch1-R.bigfish.com (10.43.68.238) by
-	CH1EHSOBE017.bigfish.com (10.43.70.67) with Microsoft SMTP Server id
-	14.1.225.23; Tue, 10 Jul 2012 19:58:26 +0000
-Received: from mail218-ch1 (localhost [127.0.0.1])	by
-	mail218-ch1-R.bigfish.com (Postfix) with ESMTP id 88F9160505	for
-	<openembedded-core@lists.openembedded.org>;
-	Tue, 10 Jul 2012 19:58:25 +0000 (UTC)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-X-SpamScore: 3
-X-BigFish: VS3(zzzz1202h1082kzz8275bhz2dh2a8h668h839hd24he5bhf0ah107ah)
-Received: from mail218-ch1 (localhost.localdomain [127.0.0.1]) by mail218-ch1
-	(MessageSwitch) id 1341950303890245_28141;
-	Tue, 10 Jul 2012 19:58:23 +0000 (UTC)
-Received: from CH1EHSMHS037.bigfish.com (snatpool1.int.messaging.microsoft.com
-	[10.43.68.244])	by mail218-ch1.bigfish.com (Postfix) with ESMTP id
-	D7E644C0048	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Jul 2012 19:58:23 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by CH1EHSMHS037.bigfish.com
-	(10.43.69.246) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Tue, 10 Jul 2012 19:58:22 +0000
-Received: from tx30smr01.am.freescale.net (10.81.153.31) by
-	039-SN1MMR1-002.039d.mgd.msft.net (10.84.1.15) with Microsoft SMTP
-	Server (TLS) id 14.2.298.5; Tue, 10 Jul 2012 15:00:40 -0500
-Received: from right.am.freescale.net (right.am.freescale.net [10.82.176.228])
-	by tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id
-	q6AK0ebn015357 for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Jul 2012 13:00:41 -0700
-From: Matthew McClintock <msm@freescale.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 10 Jul 2012 15:00:39 -0500
-Message-ID: <1341950440-19009-1-git-send-email-msm@freescale.com>
-X-Mailer: git-send-email 1.7.10
+	Tue, 10 Jul 2012 22:55:11 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q6AKhwvS022099
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 10 Jul 2012 13:43:58 -0700 (PDT)
+Received: from localhost.localdomain (172.25.34.61) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
+	Tue, 10 Jul 2012 13:43:58 -0700
+From: Mark Hatle <mark.hatle@windriver.com>
+To: <yocto@yoctoproject.org>, <openembedded-core@lists.openembedded.org>
+Date: Tue, 10 Jul 2012 15:54:37 -0500
+Message-ID: <cover.1341953258.git.mark.hatle@windriver.com>
+X-Mailer: git-send-email 1.7.3.4
 MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Subject: [PATCH 1/2] Fix hang issue when execute "shutdown now" command
+X-Originating-IP: [172.25.34.61]
+Subject: RFC: [PATCH 0/1] Build system/SDK/ADT differ in toolchain config
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -54,56 +32,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Jul 2012 20:27:12 -0000
+X-List-Received-Date: Tue, 10 Jul 2012 20:55:11 -0000
 Content-Type: text/plain
 
-From: Zhenhua Luo <b19537@freescale.com>
+(Yes this is intentionally cross posted to both the Yocto Project list and the
+oe-core list.  The code affects the generated SDK, as well as potentially
+ADT imported SDKs... so both sides need to be verified and commented on to
+say if this is a reasonable change.)
 
-    The original issue:
-    When "shutdown now" command is typed on Linux prompt, the system tries to
-    shut down gracefully from runlevel 5 to 1.
-    RunLevel 1 is single-user/maintenance mode. This is the default behavior
-    when no runlevel option is mentioned in shutdown command (like shutdown
-    -h now OR shutdown -r now).
-    The startup script which starts single-user mode by initiating a new
-    process is missing from /etc/rc1.d/...
-    Because of this, following error appears:
-        INIT: no more processes left in this runlevel
-    A start-up script is needed to enables the user to log into single-user
-    mode when "shutdown now" command is given.
+The problem we found is that if you have a tune that specifies a
+TUNE_LDARGS in such as "-m elf_x86_64", it was being added to the LDFLAGS in
+the environment script.  When you went to run configure, the LDFLAGS were
+loaded, but 'gcc' was used as ld.  Causing -m elf_x86_64 to spit out an error
+that it was invalid..
 
-Signed-off-by: Matthew McClintock <msm@freescale.com>
-Signed-off-by: Zhenhua Luo <b19537@freescale.com>
----
- meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb |    5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+Comparing the build system to the SDK/ADT export, it was clear that the
+TUNE_*ARGS were being passed directly on the CC, LD, CXX, AS, etc lines
+and not as part of their "optional" arguments.  The change in question
+syncs up the build system and the SDK/ADT exports to be the same, ensuring
+that CC= is the same within and externally to the build system.
 
-diff --git a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
-index 492c60c..fe1ff41 100644
---- a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
-+++ b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
-@@ -2,7 +2,7 @@ DESCRIPTION = "Inittab for sysvinit"
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
- 
--PR = "r7"
-+PR = "r8"
- 
- SRC_URI = "file://inittab"
- 
-@@ -26,7 +26,8 @@ do_install() {
-     for i in $tmp
-     do
- 	j=`echo ${i} | sed s/\;/\ /g`
--        echo "${idx}:2345:respawn:${base_sbindir}/getty ${j}" >> ${D}${sysconfdir}/inittab
-+	echo "${idx}:12345:respawn:${base_sbindir}/getty ${j}" >> ${D}${sysconfdir}/inittab
-+
- 	idx=`expr $idx + 1`
-     done
- 
+I tested that the following works:
+
+${CC} hello.c -o hello
+
+make CC="${CC}"  (note the " is important!)
+
+./configure ....
+make
+
+What I did -not- test was the ADT Installer/import tooling into eclipse or
+any other frameworks.
+
+The following changes since commit ce37c45abb4cf43e5009867f695982de2eb33450:
+
+  subversion: do_install failed (parallel issue) (2012-07-10 20:34:41 +0100)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib mhatle/sdk
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=mhatle/sdk
+
+Mark Hatle (1):
+  toolchain-scripts: Sync the SDK/ADT values to the build system
+
+ meta/classes/toolchain-scripts.bbclass |   63 +++++++++++++++++++++++---------
+ 1 files changed, 45 insertions(+), 18 deletions(-)
+
 -- 
-1.7.10
-
+1.7.3.4
 
 
 
