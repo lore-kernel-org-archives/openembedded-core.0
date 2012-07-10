@@ -1,35 +1,23 @@
-Received: from mail-wi0-f177.google.com ([209.85.212.177])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>)
-	id 1SoY6a-0002b4-MK; Tue, 10 Jul 2012 12:55:44 +0200
-Received: by wibhm11 with SMTP id hm11so3436213wib.6
-	for <multiple recipients>; Tue, 10 Jul 2012 03:44:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=thRbL/tzzipb1+13lAidMPFPlS0HlfxH3mDKXxJ9ek0=;
-	b=xjCV4J2QEOSyUGkU4qt0ba6lrxQBHOF6nOacRmnRDDN8Oh0ipTMs7VJDkTmS7tcOg3
-	t3usUM/uiVKuVDpFeFrX3xs76gjWh/6318BJtNguwEHbj2i6xjSEMMbqra1NURp/bm5x
-	4ubYbvpnfruXCzAKapbWC3ctbZVGwYLl6vZBh/ychqur6h9AgnJZol3lNaoe6J2JaVE5
-	1GcXvNXVdXbPDvWiYCJl5ZqiFJKzJwSqxpaJ6E3OLejnf9Q7TQVWQJdcpHt7vpTl/GGg
-	EwK2/C9+QHS+DoR6oQtZyGvFaKGj78X1aaRuoT9YpMnNnewU/YQ8f5MDDavR/RmmV9BO
-	vHeg==
-Received: by 10.180.103.4 with SMTP id fs4mr37121377wib.16.1341917074210;
-	Tue, 10 Jul 2012 03:44:34 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id d10sm42209746wiy.3.2012.07.10.03.44.32
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 10 Jul 2012 03:44:33 -0700 (PDT)
-Date: Tue, 10 Jul 2012 12:44:30 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20120710104430.GA14050@jama.jama.net>
-References: <20120709160033.D30BE10218@opal>
+	(envelope-from <Rongqing.Li@windriver.com>) id 1SoYTb-0003KI-0t
+	for openembedded-core@lists.openembedded.org;
+	Tue, 10 Jul 2012 13:19:31 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q6A9R4bZ008701
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 10 Jul 2012 02:27:04 -0700 (PDT)
+Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.163) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.1.255.0; Tue, 10 Jul 2012 02:27:04 -0700
+From: <rongqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 10 Jul 2012 17:27:00 +0800
+Message-ID: <1341912420-18131-1-git-send-email-rongqing.li@windriver.com>
+X-Mailer: git-send-email 1.7.1
 MIME-Version: 1.0
-In-Reply-To: <20120709160033.D30BE10218@opal>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-commits@lists.openembedded.org
-Subject: Re: [oe-commits] Laurentiu Palcu : libx11: upgrade to 1.5.0
+Subject: [PATCH] slang: change char type to signed char in macros
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,333 +32,263 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Jul 2012 10:55:45 -0000
-X-Groupsio-MsgNum: 25051
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="oyUTqETQ0mS9luUI"
-Content-Disposition: inline
+X-List-Received-Date: Tue, 10 Jul 2012 11:19:31 -0000
+Content-Type: text/plain
 
---oyUTqETQ0mS9luUI
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+From: Roy.Li <rongqing.li@windriver.com>
 
-On Mon, Jul 09, 2012 at 04:00:32PM +0000, git@git.openembedded.org wrote:
-> Module: openembedded-core.git
-> Branch: master
-> Commit: 52d4ff7b35602faa52360a3e7a800891ef60c739
-> URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcommit=
-;h=3D52d4ff7b35602faa52360a3e7a800891ef60c739
->=20
-> Author: Laurentiu Palcu <laurentiu.palcu@intel.com>
-> Date:   Wed Jul  4 10:28:20 2012 +0300
->=20
-> libx11: upgrade to 1.5.0
->=20
-> Removed one backported patch.
->=20
-> Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
+Fix [YOCTO 2726]
 
-This seems to break libx11 and libx11-native build:
+C language has 3 distinct char types:
+         char
+         unsigned char
+         signed char
+A char has the same range of values as signed char on X86,
+but same as unsigned char on ARM which made Slang's typecast()
+and array_sort() unable to work for char value on ARM, since
+Slang is assuming "char" as "signed char".
 
-ERROR: Function failed: do_compile (see /var/lib/jenkins/jobs/shr-core-bran=
-ches/workspace/shr-core/tmp-eglibc/work/armv4t-oe-linux-gnueabi/libx11-1_1.=
-5.0-r0/temp/log.do_compile.20371 for further information)
-ERROR: Logfile of failure stored in: /var/lib/jenkins/jobs/shr-core-branche=
-s/workspace/shr-core/tmp-eglibc/work/armv4t-oe-linux-gnueabi/libx11-1_1.5.0=
--r0/temp/log.do_compile.20371
-Log data follows:
-| DEBUG: SITE files ['endian-little', 'bit-32', 'arm-common', 'common-linux=
-', 'common-glibc', 'arm-linux', 'arm-linux-gnueabi', 'common']
-| DEBUG: Executing shell function do_compile
-| mv: cannot stat `makekeys.c.orig': No such file or directory
-| makekeys.c:33:27: fatal error: X11/Xresource.h: No such file or directory
-| compilation terminated.
-| ERROR: Function failed: do_compile (see /var/lib/jenkins/jobs/shr-core-br=
-anches/workspace/shr-core/tmp-eglibc/work/armv4t-oe-linux-gnueabi/libx11-1_=
-1.5.0-r0/temp/log.do_compile.20371 for further information)
-NOTE: package libx11-1_1.5.0-r0: task do_compile: Failed
+Now we change "char" as "signed char" explicitly in
+util/mkslarith2.sl, and use it to regenerate src/slarith2.inc
 
-> ---
->=20
->  ...quest-as-substitute-for-GetReq-GetReqExtr.patch |  137 --------------=
-------
->  .../keysymdef_include.patch                        |    0
->  .../makekeys_crosscompile.patch                    |    0
->  .../x11_disable_makekeys.patch                     |   13 +-
->  .../xorg-lib/{libx11_1.4.4.bb =3D> libx11_1.5.0.bb}  |    7 +-
->  5 files changed, 11 insertions(+), 146 deletions(-)
->=20
-> diff --git a/meta/recipes-graphics/xorg-lib/libx11-1.4.4/0001-Add-_XGetRe=
-quest-as-substitute-for-GetReq-GetReqExtr.patch b/meta/recipes-graphics/xor=
-g-lib/libx11-1.4.4/0001-Add-_XGetRequest-as-substitute-for-GetReq-GetReqExt=
-r.patch
-> deleted file mode 100644
-> index aedb5c4..0000000
-> --- a/meta/recipes-graphics/xorg-lib/libx11-1.4.4/0001-Add-_XGetRequest-a=
-s-substitute-for-GetReq-GetReqExtr.patch
-> +++ /dev/null
-> @@ -1,137 +0,0 @@
-> -From 4a060f993bf676cf21ad9784e010f54134da7b40 Mon Sep 17 00:00:00 2001
-> -From: Peter Hutterer <peter.hutterer@who-t.net>
-> -Date: Mon, 17 Oct 2011 09:45:15 +1000
-> -Subject: [PATCH] Add _XGetRequest as substitute for GetReq/GetReqExtra
-> -
-> -Signed-off-by: Peter Hutterer <peter.hutterer@who-t.net>
-> -Reviewed-by: Jamey Sharp <jamey@minilop.net>
-> ----
-> - include/X11/Xlibint.h |   49 ++++++++++++++++--------------------------=
--------
-> - src/XlibInt.c         |   31 +++++++++++++++++++++++++++++++
-> - 2 files changed, 47 insertions(+), 33 deletions(-)
-> -
-> -Upstream-Status: Backport
-> -
-> -diff --git a/include/X11/Xlibint.h b/include/X11/Xlibint.h
-> -index 2ce356d..43d1f2a 100644
-> ---- a/include/X11/Xlibint.h
-> -+++ b/include/X11/Xlibint.h
-> -@@ -420,6 +420,18 @@ extern LockInfoPtr _Xglobal_lock;
-> - #define WORD64ALIGN
-> - #endif /* WORD64 */
-> -=20
-> -+/**
-> -+ * Return a len-sized request buffer for the request type. This functio=
-n may
-> -+ * flush the output queue.
-> -+ *
-> -+ * @param dpy The display connection
-> -+ * @param type The request type
-> -+ * @param len Length of the request in bytes
-> -+ *
-> -+ * @returns A pointer to the request buffer with a few default values
-> -+ * initialized.
-> -+ */
-> -+extern void *_XGetRequest(Display *dpy, CARD8 type, size_t len);
-> -=20
-> - /*
-> -  * GetReq - Get the next available X request packet in the buffer and
-> -@@ -432,25 +444,10 @@ extern LockInfoPtr _Xglobal_lock;
-> -=20
-> - #if !defined(UNIXCPP) || defined(ANSICPP)
-> - #define GetReq(name, req) \
-> --        WORD64ALIGN\
-> --	if ((dpy->bufptr + SIZEOF(x##name##Req)) > dpy->bufmax)\
-> --		_XFlush(dpy);\
-> --	req =3D (x##name##Req *)(dpy->last_req =3D dpy->bufptr);\
-> --	req->reqType =3D X_##name;\
-> --	req->length =3D (SIZEOF(x##name##Req))>>2;\
-> --	dpy->bufptr +=3D SIZEOF(x##name##Req);\
-> --	dpy->request++
-> --
-> -+	req =3D (x##name##Req *) _XGetRequest(dpy, X_##name, SIZEOF(x##name##R=
-eq))
-> - #else  /* non-ANSI C uses empty comment instead of "##" for token conca=
-tenation */
-> - #define GetReq(name, req) \
-> --        WORD64ALIGN\
-> --	if ((dpy->bufptr + SIZEOF(x/**/name/**/Req)) > dpy->bufmax)\
-> --		_XFlush(dpy);\
-> --	req =3D (x/**/name/**/Req *)(dpy->last_req =3D dpy->bufptr);\
-> --	req->reqType =3D X_/**/name;\
-> --	req->length =3D (SIZEOF(x/**/name/**/Req))>>2;\
-> --	dpy->bufptr +=3D SIZEOF(x/**/name/**/Req);\
-> --	dpy->request++
-> -+	req =3D (x/**/name/**/Req *) _XGetRequest(dpy, X_/**/name, SIZEOF(x/**=
-/name/**/Req))
-> - #endif
-> -=20
-> - /* GetReqExtra is the same as GetReq, but allocates "n" additional
-> -@@ -458,24 +455,10 @@ extern LockInfoPtr _Xglobal_lock;
-> -=20
-> - #if !defined(UNIXCPP) || defined(ANSICPP)
-> - #define GetReqExtra(name, n, req) \
-> --        WORD64ALIGN\
-> --	if ((dpy->bufptr + SIZEOF(x##name##Req) + n) > dpy->bufmax)\
-> --		_XFlush(dpy);\
-> --	req =3D (x##name##Req *)(dpy->last_req =3D dpy->bufptr);\
-> --	req->reqType =3D X_##name;\
-> --	req->length =3D (SIZEOF(x##name##Req) + n)>>2;\
-> --	dpy->bufptr +=3D SIZEOF(x##name##Req) + n;\
-> --	dpy->request++
-> -+	req =3D (x##name##Req *) _XGetRequest(dpy, X_##name, SIZEOF(x##name##R=
-eq) + n)
-> - #else
-> - #define GetReqExtra(name, n, req) \
-> --        WORD64ALIGN\
-> --	if ((dpy->bufptr + SIZEOF(x/**/name/**/Req) + n) > dpy->bufmax)\
-> --		_XFlush(dpy);\
-> --	req =3D (x/**/name/**/Req *)(dpy->last_req =3D dpy->bufptr);\
-> --	req->reqType =3D X_/**/name;\
-> --	req->length =3D (SIZEOF(x/**/name/**/Req) + n)>>2;\
-> --	dpy->bufptr +=3D SIZEOF(x/**/name/**/Req) + n;\
-> --	dpy->request++
-> -+	req =3D (x/**/name/**/Req *) _XGetRequest(dpy, X_/**/name, SIZEOF(x/**=
-/name/**/Req) + n)
-> - #endif
-> -=20
-> -=20
-> -diff --git a/src/XlibInt.c b/src/XlibInt.c
-> -index 3db151e..a8f5d08 100644
-> ---- a/src/XlibInt.c
-> -+++ b/src/XlibInt.c
-> -@@ -1956,6 +1956,37 @@ Screen *_XScreenOfWindow(Display *dpy, Window w)
-> - }
-> -=20
-> -=20
-> -+/*
-> -+ * WARNING: This implementation's pre-conditions and post-conditions
-> -+ * must remain compatible with the old macro-based implementations of
-> -+ * GetReq, GetReqExtra, GetResReq, and GetEmptyReq. The portions of the
-> -+ * Display structure affected by those macros are part of libX11's
-> -+ * ABI.
-> -+ */
-> -+void *_XGetRequest(Display *dpy, CARD8 type, size_t len)
-> -+{
-> -+    xReq *req;
-> -+
-> -+    WORD64ALIGN
-> -+
-> -+    if (dpy->bufptr + len > dpy->bufmax)
-> -+	_XFlush(dpy);
-> -+
-> -+    if (len % 4)
-> -+	fprintf(stderr,
-> -+		"Xlib: request %d length %zd not a multiple of 4.\n",
-> -+		type, len);
-> -+
-> -+    dpy->last_req =3D dpy->bufptr;
-> -+
-> -+    req =3D (xReq*)dpy->bufptr;
-> -+    req->reqType =3D type;
-> -+    req->length =3D len / 4;
-> -+    dpy->bufptr +=3D len;
-> -+    dpy->request++;
-> -+    return req;
-> -+}
-> -+
-> - #if defined(WIN32)
-> -=20
-> - /*
-> ---=20
-> -1.7.8.3
-> -
-> diff --git a/meta/recipes-graphics/xorg-lib/libx11-1.4.4/keysymdef_includ=
-e.patch b/meta/recipes-graphics/xorg-lib/libx11-1.5.0/keysymdef_include.pat=
-ch
-> similarity index 100%
-> rename from meta/recipes-graphics/xorg-lib/libx11-1.4.4/keysymdef_include=
-=2Epatch
-> rename to meta/recipes-graphics/xorg-lib/libx11-1.5.0/keysymdef_include.p=
-atch
-> diff --git a/meta/recipes-graphics/xorg-lib/libx11-1.4.4/makekeys_crossco=
-mpile.patch b/meta/recipes-graphics/xorg-lib/libx11-1.5.0/makekeys_crosscom=
-pile.patch
-> similarity index 100%
-> rename from meta/recipes-graphics/xorg-lib/libx11-1.4.4/makekeys_crosscom=
-pile.patch
-> rename to meta/recipes-graphics/xorg-lib/libx11-1.5.0/makekeys_crosscompi=
-le.patch
-> diff --git a/meta/recipes-graphics/xorg-lib/libx11-1.4.4/x11_disable_make=
-keys.patch b/meta/recipes-graphics/xorg-lib/libx11-1.5.0/x11_disable_makeke=
-ys.patch
-> similarity index 74%
-> rename from meta/recipes-graphics/xorg-lib/libx11-1.4.4/x11_disable_makek=
-eys.patch
-> rename to meta/recipes-graphics/xorg-lib/libx11-1.5.0/x11_disable_makekey=
-s.patch
-> index e3782a5..69f9e6c 100644
-> --- a/meta/recipes-graphics/xorg-lib/libx11-1.4.4/x11_disable_makekeys.pa=
-tch
-> +++ b/meta/recipes-graphics/xorg-lib/libx11-1.5.0/x11_disable_makekeys.pa=
-tch
-> @@ -1,10 +1,10 @@
->  Upstream-Status: Pending
-> =20
-> -Index: libX11-1.3.4/src/util/Makefile.am
-> +Index: libX11-1.5.0/src/util/Makefile.am
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> ---- libX11-1.3.4.orig/src/util/Makefile.am
-> -+++ libX11-1.3.4/src/util/Makefile.am
-> -@@ -1,24 +1 @@
-> +--- libX11-1.5.0.orig/src/util/Makefile.am
-> ++++ libX11-1.5.0/src/util/Makefile.am
-> +@@ -1,27 +1,2 @@
->  -
->  -noinst_PROGRAMS=3Dmakekeys
->  -
-> @@ -12,13 +12,16 @@ Index: libX11-1.3.4/src/util/Makefile.am
->  -	$(X11_CFLAGS) \
->  -	$(CWARNFLAGS)
->  -
-> +-makekeys_CPPFLAGS =3D \
-> +-	-I$(top_srcdir)/include
-> +-
->  -CC =3D @CC_FOR_BUILD@
->  -CPPFLAGS =3D @CPPFLAGS_FOR_BUILD@
->  -CFLAGS =3D @CFLAGS_FOR_BUILD@
->  -LDFLAGS =3D @LDFLAGS_FOR_BUILD@
->  -
->   EXTRA_DIST =3D mkks.sh
-> --
-> +=20
->  -if LINT
->  -# Check source code with tools like lint & sparse
->  -
-> diff --git a/meta/recipes-graphics/xorg-lib/libx11_1.4.4.bb b/meta/recipe=
-s-graphics/xorg-lib/libx11_1.5.0.bb
-> similarity index 67%
-> rename from meta/recipes-graphics/xorg-lib/libx11_1.4.4.bb
-> rename to meta/recipes-graphics/xorg-lib/libx11_1.5.0.bb
-> index 1ad8046..04805d7 100644
-> --- a/meta/recipes-graphics/xorg-lib/libx11_1.4.4.bb
-> +++ b/meta/recipes-graphics/xorg-lib/libx11_1.5.0.bb
-> @@ -1,7 +1,7 @@
->  require libx11.inc
->  inherit gettext
-> =20
-> -PR =3D "r3"
-> +PR =3D "r0"
-> =20
->  BBCLASSEXTEND =3D "native nativesdk"
-> =20
-> @@ -14,9 +14,8 @@ DEPENDS +=3D "util-macros xtrans libxdmcp libxau \
-> =20
->  SRC_URI +=3D " file://keysymdef_include.patch \
->               file://x11_disable_makekeys.patch \
-> -             file://0001-Add-_XGetRequest-as-substitute-for-GetReq-GetRe=
-qExtr.patch \
->               file://makekeys_crosscompile.patch \
->               "
-> =20
-> -SRC_URI[md5sum] =3D "ed7c382cbf8c13425b6a66bcac0ca5d9"
-> -SRC_URI[sha256sum] =3D "7fe62180f08ef5f0a0062fb444591e349cae2ab5af6ad834=
-599f5c654e6c840d"
-> +SRC_URI[md5sum] =3D "78b4b3bab4acbdf0abcfca30a8c70cc6"
-> +SRC_URI[sha256sum] =3D "c382efd7e92bfc3cef39a4b7f1ecf2744ba4414a705e3bc1=
-e697f75502bd4d86"
->=20
->=20
-> _______________________________________________
-> Openembedded-commits mailing list
-> Openembedded-commits@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-commits
+Signed-off-by: Roy.Li <rongqing.li@windriver.com>
+---
+ ...change-char-type-to-signed-char-in-macros.patch |  202 ++++++++++++++++++++
+ meta/recipes-extended/slang/slang_2.2.4.bb         |    3 +-
+ 2 files changed, 204 insertions(+), 1 deletions(-)
+ create mode 100644 meta/recipes-extended/slang/slang/change-char-type-to-signed-char-in-macros.patch
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+diff --git a/meta/recipes-extended/slang/slang/change-char-type-to-signed-char-in-macros.patch b/meta/recipes-extended/slang/slang/change-char-type-to-signed-char-in-macros.patch
+new file mode 100644
+index 0000000..18dea13
+--- /dev/null
++++ b/meta/recipes-extended/slang/slang/change-char-type-to-signed-char-in-macros.patch
+@@ -0,0 +1,202 @@
++---
++ src/slarith2.inc       |   72 ++++++++++++++++++++++++-------------------------
++ src/util/mkslarith2.sl |    2 -
++ 2 files changed, 37 insertions(+), 37 deletions(-)
++
++--- a/src/util/mkslarith2.sl
+++++ b/src/util/mkslarith2.sl
++@@ -1,7 +1,7 @@
++ #!/usr/bin/env slsh
++ 
++ private variable CTypes =
++-  ["char", "unsigned char", "short", "unsigned short", "int", "unsigned int",
+++  ["signed char", "unsigned char", "short", "unsigned short", "int", "unsigned int",
++    "long", "unsigned long", "long long", "unsigned long long",
++    "float", "double", "long double"];
++ private variable Is_Int_Type =
++--- a/src/slarith2.inc
+++++ b/src/slarith2.inc
++@@ -1,43 +1,43 @@
++ /* DO NOT EDIT -- this file was generated by src/util/mkslarith2.sl */
++-/* ------------ char ---------- */
++-DEFUN_1(copy_char_to_char,char,char)
+++/* ------------ signed char ---------- */
+++DEFUN_1(copy_char_to_char,signed char,signed char)
++ #define char_to_char	NULL
++ #define copy_char_to_uchar	copy_char_to_char
++ #define char_to_uchar	NULL
++-DEFUN_1(copy_char_to_short,char,short)
+++DEFUN_1(copy_char_to_short,signed char,short)
++ #define char_to_short	NULL
++-DEFUN_1(copy_char_to_ushort,char,unsigned short)
+++DEFUN_1(copy_char_to_ushort,signed char,unsigned short)
++ #define char_to_ushort	NULL
++-DEFUN_1(copy_char_to_int,char,int)
++-DEFUN_2(char_to_int,char,int,copy_char_to_int)
++-DEFUN_1(copy_char_to_uint,char,unsigned int)
++-DEFUN_2(char_to_uint,char,unsigned int,copy_char_to_uint)
++-DEFUN_1(copy_char_to_long,char,long)
++-DEFUN_2(char_to_long,char,long,copy_char_to_long)
++-DEFUN_1(copy_char_to_ulong,char,unsigned long)
++-DEFUN_2(char_to_ulong,char,unsigned long,copy_char_to_ulong)
+++DEFUN_1(copy_char_to_int,signed char,int)
+++DEFUN_2(char_to_int,signed char,int,copy_char_to_int)
+++DEFUN_1(copy_char_to_uint,signed char,unsigned int)
+++DEFUN_2(char_to_uint,signed char,unsigned int,copy_char_to_uint)
+++DEFUN_1(copy_char_to_long,signed char,long)
+++DEFUN_2(char_to_long,signed char,long,copy_char_to_long)
+++DEFUN_1(copy_char_to_ulong,signed char,unsigned long)
+++DEFUN_2(char_to_ulong,signed char,unsigned long,copy_char_to_ulong)
++ #if defined(HAVE_LONG_LONG)
++-DEFUN_1(copy_char_to_llong,char,long long)
++-DEFUN_2(char_to_llong,char,long long,copy_char_to_llong)
+++DEFUN_1(copy_char_to_llong,signed char,long long)
+++DEFUN_2(char_to_llong,signed char,long long,copy_char_to_llong)
++ #endif /* defined(HAVE_LONG_LONG) */
++ #if defined(HAVE_LONG_LONG)
++-DEFUN_1(copy_char_to_ullong,char,unsigned long long)
++-DEFUN_2(char_to_ullong,char,unsigned long long,copy_char_to_ullong)
+++DEFUN_1(copy_char_to_ullong,signed char,unsigned long long)
+++DEFUN_2(char_to_ullong,signed char,unsigned long long,copy_char_to_ullong)
++ #endif /* defined(HAVE_LONG_LONG) */
++ #if SLANG_HAS_FLOAT
++-DEFUN_1(copy_char_to_float,char,float)
++-DEFUN_2(char_to_float,char,float,copy_char_to_float)
+++DEFUN_1(copy_char_to_float,signed char,float)
+++DEFUN_2(char_to_float,signed char,float,copy_char_to_float)
++ #endif /* SLANG_HAS_FLOAT */
++ #if SLANG_HAS_FLOAT
++-DEFUN_1(copy_char_to_double,char,double)
++-DEFUN_2(char_to_double,char,double,copy_char_to_double)
+++DEFUN_1(copy_char_to_double,signed char,double)
+++DEFUN_2(char_to_double,signed char,double,copy_char_to_double)
++ #endif /* SLANG_HAS_FLOAT */
++ #if defined(HAVE_LONG_DOUBLE)
++-DEFUN_1(copy_char_to_ldouble,char,long double)
++-DEFUN_2(char_to_ldouble,char,long double,copy_char_to_ldouble)
+++DEFUN_1(copy_char_to_ldouble,signed char,long double)
+++DEFUN_2(char_to_ldouble,signed char,long double,copy_char_to_ldouble)
++ #endif /* defined(HAVE_LONG_DOUBLE) */
++ #if SLANG_HAS_FLOAT
++-TO_DOUBLE_FUN(char_to_one_double,char)
+++TO_DOUBLE_FUN(char_to_one_double,signed char)
++ #endif
++ 
++ /* ------------ unsigned char ---------- */
++@@ -82,7 +82,7 @@ TO_DOUBLE_FUN(uchar_to_one_double,unsign
++ #endif
++ 
++ /* ------------ short ---------- */
++-DEFUN_1(copy_short_to_char,short,char)
+++DEFUN_1(copy_short_to_char,short,signed char)
++ #define short_to_char	NULL
++ DEFUN_1(copy_short_to_uchar,short,unsigned char)
++ #define short_to_uchar	NULL
++@@ -123,7 +123,7 @@ TO_DOUBLE_FUN(short_to_one_double,short)
++ #endif
++ 
++ /* ------------ unsigned short ---------- */
++-DEFUN_1(copy_ushort_to_char,unsigned short,char)
+++DEFUN_1(copy_ushort_to_char,unsigned short,signed char)
++ #define ushort_to_char	NULL
++ DEFUN_1(copy_ushort_to_uchar,unsigned short,unsigned char)
++ #define ushort_to_uchar	NULL
++@@ -164,7 +164,7 @@ TO_DOUBLE_FUN(ushort_to_one_double,unsig
++ #endif
++ 
++ /* ------------ int ---------- */
++-DEFUN_1(copy_int_to_char,int,char)
+++DEFUN_1(copy_int_to_char,int,signed char)
++ #define int_to_char	NULL
++ DEFUN_1(copy_int_to_uchar,int,unsigned char)
++ #define int_to_uchar	NULL
++@@ -205,7 +205,7 @@ TO_DOUBLE_FUN(int_to_one_double,int)
++ #endif
++ 
++ /* ------------ unsigned int ---------- */
++-DEFUN_1(copy_uint_to_char,unsigned int,char)
+++DEFUN_1(copy_uint_to_char,unsigned int,signed char)
++ #define uint_to_char	NULL
++ DEFUN_1(copy_uint_to_uchar,unsigned int,unsigned char)
++ #define uint_to_uchar	NULL
++@@ -246,7 +246,7 @@ TO_DOUBLE_FUN(uint_to_one_double,unsigne
++ #endif
++ 
++ /* ------------ long ---------- */
++-DEFUN_1(copy_long_to_char,long,char)
+++DEFUN_1(copy_long_to_char,long,signed char)
++ #define long_to_char	NULL
++ DEFUN_1(copy_long_to_uchar,long,unsigned char)
++ #define long_to_uchar	NULL
++@@ -287,7 +287,7 @@ TO_DOUBLE_FUN(long_to_one_double,long)
++ #endif
++ 
++ /* ------------ unsigned long ---------- */
++-DEFUN_1(copy_ulong_to_char,unsigned long,char)
+++DEFUN_1(copy_ulong_to_char,unsigned long,signed char)
++ #define ulong_to_char	NULL
++ DEFUN_1(copy_ulong_to_uchar,unsigned long,unsigned char)
++ #define ulong_to_uchar	NULL
++@@ -329,7 +329,7 @@ TO_DOUBLE_FUN(ulong_to_one_double,unsign
++ 
++ /* ------------ long long ---------- */
++ #if defined(HAVE_LONG_LONG)
++-DEFUN_1(copy_llong_to_char,long long,char)
+++DEFUN_1(copy_llong_to_char,long long,signed char)
++ #define llong_to_char	NULL
++ DEFUN_1(copy_llong_to_uchar,long long,unsigned char)
++ #define llong_to_uchar	NULL
++@@ -372,7 +372,7 @@ TO_DOUBLE_FUN(llong_to_one_double,long l
++ 
++ /* ------------ unsigned long long ---------- */
++ #if defined(HAVE_LONG_LONG)
++-DEFUN_1(copy_ullong_to_char,unsigned long long,char)
+++DEFUN_1(copy_ullong_to_char,unsigned long long,signed char)
++ #define ullong_to_char	NULL
++ DEFUN_1(copy_ullong_to_uchar,unsigned long long,unsigned char)
++ #define ullong_to_uchar	NULL
++@@ -415,7 +415,7 @@ TO_DOUBLE_FUN(ullong_to_one_double,unsig
++ 
++ /* ------------ float ---------- */
++ #if SLANG_HAS_FLOAT
++-DEFUN_1(copy_float_to_char,float,char)
+++DEFUN_1(copy_float_to_char,float,signed char)
++ #define float_to_char	NULL
++ DEFUN_1(copy_float_to_uchar,float,unsigned char)
++ #define float_to_uchar	NULL
++@@ -458,7 +458,7 @@ TO_DOUBLE_FUN(float_to_one_double,float)
++ 
++ /* ------------ double ---------- */
++ #if SLANG_HAS_FLOAT
++-DEFUN_1(copy_double_to_char,double,char)
+++DEFUN_1(copy_double_to_char,double,signed char)
++ #define double_to_char	NULL
++ DEFUN_1(copy_double_to_uchar,double,unsigned char)
++ #define double_to_uchar	NULL
++@@ -501,7 +501,7 @@ TO_DOUBLE_FUN(double_to_one_double,doubl
++ 
++ /* ------------ long double ---------- */
++ #if defined(HAVE_LONG_DOUBLE)
++-DEFUN_1(copy_ldouble_to_char,long double,char)
+++DEFUN_1(copy_ldouble_to_char,long double,signed char)
++ #define ldouble_to_char	NULL
++ DEFUN_1(copy_ldouble_to_uchar,long double,unsigned char)
++ #define ldouble_to_uchar	NULL
++@@ -545,7 +545,7 @@ TO_DOUBLE_FUN(ldouble_to_one_double,long
++ #if SLANG_HAS_FLOAT
++ static To_Double_Fun_Table_Type To_Double_Fun_Table [MAX_ARITHMETIC_TYPES] =
++ {
++-   {sizeof(char), char_to_one_double},
+++   {sizeof(signed char), char_to_one_double},
++    {sizeof(unsigned char), uchar_to_one_double},
++    {sizeof(short), short_to_one_double},
++    {sizeof(unsigned short), ushort_to_one_double},
++@@ -583,7 +583,7 @@ static To_Double_Fun_Table_Type To_Doubl
++ 
++ static Binary_Matrix_Type Binary_Matrix [MAX_ARITHMETIC_TYPES][MAX_ARITHMETIC_TYPES] =
++ {
++-   /* char */
+++   /* signed char */
++    {
++      {(FVOID_STAR)copy_char_to_char, char_to_char},
++      {(FVOID_STAR)copy_char_to_uchar, char_to_uchar},
+diff --git a/meta/recipes-extended/slang/slang_2.2.4.bb b/meta/recipes-extended/slang/slang_2.2.4.bb
+index 40f671e..44031a6 100644
+--- a/meta/recipes-extended/slang/slang_2.2.4.bb
++++ b/meta/recipes-extended/slang/slang_2.2.4.bb
+@@ -10,7 +10,7 @@ to recode S-Lang procedures in C if you need to."
+ HOMEPAGE = "http://www.jedsoft.org/slang/"
+ SECTION = "libs"
+ DEPENDS = "pcre"
+-PR = "r8"
++PR = "r9"
+ 
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=a52a18a472d4f7e45479b06563717c02"
+@@ -19,6 +19,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a52a18a472d4f7e45479b06563717c02"
+ SRC_URI = "ftp://space.mit.edu/pub/davis/slang/v2.2/slang-${PV}.tar.bz2 \
+            file://rpathfix.patch \
+           "
++SRC_URI_append_arm = " file://change-char-type-to-signed-char-in-macros.patch"
+ 
+ inherit autotools
+ 
+-- 
+1.7.1
 
---oyUTqETQ0mS9luUI
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
 
-iEYEARECAAYFAk/8B44ACgkQN1Ujt2V2gBx0DQCfeBItTgPUx6Feu0jfkAiphfps
-gEQAnRNm9r6w9m/ACfdIiiZRj4qFCLpN
-=oZZN
------END PGP SIGNATURE-----
-
---oyUTqETQ0mS9luUI--
