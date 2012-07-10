@@ -1,24 +1,24 @@
 Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1Sod5T-0006rj-66
+	(envelope-from <nitin.a.kamble@intel.com>) id 1Sod5T-0006rV-GT
 	for Openembedded-core@lists.openembedded.org;
 	Tue, 10 Jul 2012 18:14:55 +0200
 Received: from azsmga002.ch.intel.com ([10.2.17.35])
 	by azsmga102.ch.intel.com with ESMTP; 10 Jul 2012 09:03:39 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="120803467"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="120803456"
 Received: from yocto-hm1.jf.intel.com ([10.23.232.32])
-	by AZSMGA002.ch.intel.com with ESMTP; 10 Jul 2012 09:03:39 -0700
+	by AZSMGA002.ch.intel.com with ESMTP; 10 Jul 2012 09:03:38 -0700
 From: nitin.a.kamble@intel.com
 To: Openembedded-core@lists.openembedded.org
-Date: Tue, 10 Jul 2012 09:02:07 -0700
-Message-Id: <474ed6ba76e123e0943d78049b8d142c4c2b1578.1341935782.git.nitin.a.kamble@intel.com>
+Date: Tue, 10 Jul 2012 09:02:04 -0700
+Message-Id: <828428172f740c090b01d852ba0c44d91f4d08ad.1341935782.git.nitin.a.kamble@intel.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <b4314c7a2f9fb120c2c4affd52567fe60a96bb5a.1341935782.git.nitin.a.kamble@intel.com>
 References: <b4314c7a2f9fb120c2c4affd52567fe60a96bb5a.1341935782.git.nitin.a.kamble@intel.com>
 In-Reply-To: <cover.1341935782.git.nitin.a.kamble@intel.com>
 References: <cover.1341935782.git.nitin.a.kamble@intel.com>
-Subject: [PATCH 07/19] librsvg: fix build with automake 1.12.x
+Subject: [PATCH 04/19] pcmanfm: fix build with automake 1.12.x
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,50 +33,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Jul 2012 16:14:55 -0000
+X-List-Received-Date: Tue, 10 Jul 2012 16:14:56 -0000
 
 From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-automake 1.12.x automatically deletes empty directories, so
-the additional rmdir from the do_install_append fails.
+Added a patch:
+  pcmanfm_fix_for_automake_1.12.patch
 
-cleanup the do_install_append for automake 1.12.x
+More information in the patch header.
 
 Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
 ---
- meta/recipes-gnome/librsvg/librsvg_2.32.1.bb |    8 ++------
- 1 files changed, 2 insertions(+), 6 deletions(-)
+ .../files/pcmanfm_fix_for_automake_1.12.patch      |   35 ++++++++++++++++++++
+ meta/recipes-sato/pcmanfm/pcmanfm_0.9.10.bb        |    5 ++-
+ 2 files changed, 38 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-sato/pcmanfm/files/pcmanfm_fix_for_automake_1.12.patch
 
-diff --git a/meta/recipes-gnome/librsvg/librsvg_2.32.1.bb b/meta/recipes-gnome/librsvg/librsvg_2.32.1.bb
-index 4e4e339..a3e8f0f 100644
---- a/meta/recipes-gnome/librsvg/librsvg_2.32.1.bb
-+++ b/meta/recipes-gnome/librsvg/librsvg_2.32.1.bb
-@@ -11,7 +11,7 @@ DEPENDS = "gtk+ libcroco cairo libxml2 popt"
- DEPENDS_virtclass-native = "cairo-native pango-native gdk-pixbuf-native"
- BBCLASSEXTEND = "native"
+diff --git a/meta/recipes-sato/pcmanfm/files/pcmanfm_fix_for_automake_1.12.patch b/meta/recipes-sato/pcmanfm/files/pcmanfm_fix_for_automake_1.12.patch
+new file mode 100644
+index 0000000..1ad0ff5
+--- /dev/null
++++ b/meta/recipes-sato/pcmanfm/files/pcmanfm_fix_for_automake_1.12.patch
+@@ -0,0 +1,35 @@
++Upstream-Status: Pending
++
++Fix these errors:
++| automake: warnings are treated as errors
++| data/ui/Makefile.am:18: warning: '%'-style pattern rules are a GNU make extension
++| src/Makefile.am:10: warning: compiling 'pcmanfm.c' with per-target flags requires 'AM_PROG_CC_C_O' in 'configure.ac'
++| autoreconf: automake failed with exit status: 1
++| ERROR: autoreconf execution failed.
++Signed-Off-By: Nitin A Kamble <nitin.a.kamble@Intel.com>
++2012/07/09
++
++Index: pcmanfm-0.9.10/configure.ac
++===================================================================
++--- pcmanfm-0.9.10.orig/configure.ac
+++++ pcmanfm-0.9.10/configure.ac
++@@ -13,6 +13,7 @@ AC_PROG_CC
++ AM_PROG_LIBTOOL
++ AM_PROG_CC_STDC
++ AC_HEADER_STDC
+++AM_PROG_CC_C_O
++ 
++ # Checks for header files.
++ AC_HEADER_STDC
++Index: pcmanfm-0.9.10/data/ui/Makefile.am
++===================================================================
++--- pcmanfm-0.9.10.orig/data/ui/Makefile.am
+++++ pcmanfm-0.9.10/data/ui/Makefile.am
++@@ -15,6 +15,6 @@ EXTRA_DIST = \
++ 	$(NULL)
++ 
++ # Purge GtkBuilder UI files
++-%.ui: %.glade
+++.glade.ui:
++ 	cp $< $@
++ #	$(top_builddir)/src/xml-purge $@
+diff --git a/meta/recipes-sato/pcmanfm/pcmanfm_0.9.10.bb b/meta/recipes-sato/pcmanfm/pcmanfm_0.9.10.bb
+index 545367a..576b4ba 100644
+--- a/meta/recipes-sato/pcmanfm/pcmanfm_0.9.10.bb
++++ b/meta/recipes-sato/pcmanfm/pcmanfm_0.9.10.bb
+@@ -11,7 +11,7 @@ SECTION = "x11"
+ DEPENDS = "gtk+ startup-notification libfm"
+ DEPENDS_append_poky = " libowl"
  
--PR = "r5"
-+PR = "r6"
+-PR = "r0"
++PR = "r1"
  
- inherit autotools pkgconfig gnome
+ COMPATIBLE_HOST = '(x86_64.*|i.86.*|arm.*|mips.*|powerpc.*|sh.*)-(linux|freebsd.*)'
  
-@@ -27,11 +27,6 @@ do_configure_prepend () {
- 	echo "CLEANFILES=" > gtk-doc.make
- }
+@@ -20,7 +20,8 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/pcmanfm/pcmanfm-${PV}.tar.gz \
+ 	   file://gnome-fs-regular.png \
+ 	   file://gnome-mime-text-plain.png \
+ 	   file://emblem-symbolic-link.png \
+-	   file://cross-compile-fix.patch" 
++	   file://cross-compile-fix.patch \
++           file://pcmanfm_fix_for_automake_1.12.patch" 
  
--do_install_append () {
--	rmdir ${D}${libdir}/gtk-3.0/engines/
--	rmdir ${D}${libdir}/gtk-3.0/
--}
--
- PACKAGES =+ "librsvg-gtk librsvg-gtk-dbg librsvg-gtk-dev rsvg"
- FILES_${PN} = "${libdir}/*.so.*"
- FILES_${PN}-staticdev += "${libdir}/gdk-pixbuf-2.0/*.a ${libdir}/gdk-pixbuf-2.0/*/*/*.a \
-@@ -65,3 +60,4 @@ fi
- test -x ${bindir}/gdk-pixbuf-query-loaders && gdk-pixbuf-query-loaders > ${sysconfdir}/gtk-2.0/gdk-pixbuf.loaders
- test -x ${bindir}/gtk-update-icon-cache && gtk-update-icon-cache  -q ${datadir}/icons/hicolor
- }
-+PARALLEL_MAKE = ""
+ SRC_URI_append_poky = " file://owl-window-menu.patch"
+ 
 -- 
 1.7.3.4
 
