@@ -1,28 +1,27 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Bruce.Ashfield@windriver.com>) id 1SoeQ2-0005Qc-Ja
+	(envelope-from <sgw@linux.intel.com>) id 1SoewJ-0006GO-I7
 	for openembedded-core@lists.openembedded.org;
-	Tue, 10 Jul 2012 19:40:14 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q6AHT0i8003619
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 10 Jul 2012 10:29:00 -0700 (PDT)
-Received: from [128.224.146.67] (128.224.146.67) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Tue, 10 Jul 2012 10:28:59 -0700
-Message-ID: <4FFC664B.7020202@windriver.com>
-Date: Tue, 10 Jul 2012 13:28:43 -0400
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
+	Tue, 10 Jul 2012 20:13:36 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 10 Jul 2012 11:02:23 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="163893512"
+Received: from unknown (HELO [10.255.12.214]) ([10.255.12.214])
+	by orsmga001.jf.intel.com with ESMTP; 10 Jul 2012 11:02:23 -0700
+Message-ID: <4FFC6E2F.6030806@linux.intel.com>
+Date: Tue, 10 Jul 2012 11:02:23 -0700
+From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
+	rv:13.0) Gecko/20120605 Thunderbird/13.0
 MIME-Version: 1.0
-To: Saul Wold <sgw@linux.intel.com>
-References: <cover.1341933187.git.bruce.ashfield@windriver.com>
-	<4FFC63CA.9070007@linux.intel.com> <4FFC6403.7070702@windriver.com>
-In-Reply-To: <4FFC6403.7070702@windriver.com>
-Cc: Patches and discussions about the oe-core layer
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/2] linux-yocto: perf, unionfs, yaffs2 fixes
+References: <cover.1341937252.git.paul.eggleton@linux.intel.com>
+	<bf72d68147740f83d08227f37d334ac924542e3c.1341937252.git.paul.eggleton@linux.intel.com>
+In-Reply-To: <bf72d68147740f83d08227f37d334ac924542e3c.1341937252.git.paul.eggleton@linux.intel.com>
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
+Subject: Re: [PATCH 1/1] opkg: fix installation of dev / dbg packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,75 +36,153 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Jul 2012 17:40:15 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Tue, 10 Jul 2012 18:13:36 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 12-07-10 01:18 PM, Bruce Ashfield wrote:
-> On 12-07-10 01:18 PM, Saul Wold wrote:
->> On 07/10/2012 10:11 AM, Bruce Ashfield wrote:
->>> Saul,
->>>
->>> Here are the SRCREV updates to activate Tom's mips perf fix (3.2
->>> and 3.4).
->>>
->>> For 3.4, we also have a yaffs2 and unionfs fix.
->>>
->> Bruce, Tom:
->>
->> Can you generate a single patch set that contains both the kernel update
->> and any perf recipe changes. That will avoid any further confusion.
+On 07/10/2012 09:22 AM, Paul Eggleton wrote:
+> OE-Core revision ffe93e2a099e4cadb1829dc12a58a6d7bef9a5a7 moved opkg's
+> configuration file into /etc/opkg, and opkg always reads all files under
+> this directory even if -f is specified (as it is during do_rootfs in
+> order to specify our own generated config file), and this means that
+> after opkg-collateral is installed into the rootfs, this version of the
+> config is used, resulting in opkg ignoring the list of packages it has
+> already downloaded (since it now sees list_dir as /var/lib/opkg instead
+> of the default /var/lib/opkg/lists) and thus it fails to install any of
+> the "attemptonly" packages (including *-dev, *-dbg, etc.).
 >
-> At this point, I'd rather not. My changes are complete with perf +
-> other fixes in a consolidated pull .. and I'm juggling my own set
-> of integrations.
+> If we change the -f option to ignore configuration files in /etc/opkg
+> then we no longer have this problem.
 >
-> I'm honestly not seeing the complexity.
+> Fixes [YOCTO #2595].
+>
+> Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+> ---
+>   .../recipes-devtools/opkg/opkg/conf_override.patch |   91 ++++++++++++++++++++
+>   meta/recipes-devtools/opkg/opkg_svn.bb             |    3 +-
+>   2 files changed, 93 insertions(+), 1 deletion(-)
+>   create mode 100644 meta/recipes-devtools/opkg/opkg/conf_override.patch
+>
+Merged into OE-Core
 
-Any by this, I mean that my kernel update builds and works independently
-and happens to contain a fix to the perf problem you are seeing. So it
-should be merged independently, and then you can layer on any commits
-from tom.
+Thanks
+	Sau!
 
-Cheers,
-
-Bruce
-
+> diff --git a/meta/recipes-devtools/opkg/opkg/conf_override.patch b/meta/recipes-devtools/opkg/opkg/conf_override.patch
+> new file mode 100644
+> index 0000000..b1698d8
+> --- /dev/null
+> +++ b/meta/recipes-devtools/opkg/opkg/conf_override.patch
+> @@ -0,0 +1,91 @@
+> +From 45d0468f7f9e9be633b2819aa43ab9b6287b8e6a Mon Sep 17 00:00:00 2001
+> +From: Paul Eggleton <paul.eggleton@linux.intel.com>
+> +Date: Mon, 9 Jul 2012 11:01:15 +0100
+> +Subject: [PATCH] Do not read /etc/opkg/*.conf if -f is specified
+> +
+> +If a configuration file is specified on the command line, we should
+> +assume it contains all of the configuration and not try to read the
+> +configuration in /etc/opkg.
+> +
+> +Upstream-Status: Pending
+> +
+> +Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+> +---
+> + libopkg/opkg_conf.c |   55 ++++++++++++++++++++++++++-------------------------
+> + 1 file changed, 28 insertions(+), 27 deletions(-)
+> +
+> +diff --git a/libopkg/opkg_conf.c b/libopkg/opkg_conf.c
+> +index 4711ce7..1e65bad 100644
+> +--- a/libopkg/opkg_conf.c
+> ++++ b/libopkg/opkg_conf.c
+> +@@ -473,39 +473,40 @@ opkg_conf_load(void)
+> + 				&conf->pkg_src_list, &conf->dist_src_list))
+> + 			goto err1;
+> + 	}
+> +-
+> +-	if (conf->offline_root)
+> +-		sprintf_alloc(&etc_opkg_conf_pattern, "%s/etc/opkg/*.conf", conf->offline_root);
+> + 	else {
+> +-		const char *conf_file_dir = getenv("OPKG_CONF_DIR");
+> +-		if (conf_file_dir == NULL)
+> +-			conf_file_dir = OPKG_CONF_DEFAULT_CONF_FILE_DIR;
+> +-			sprintf_alloc(&etc_opkg_conf_pattern, "%s/*.conf", conf_file_dir);
+> +-	}
+> +-
+> +-	memset(&globbuf, 0, sizeof(globbuf));
+> +-	glob_ret = glob(etc_opkg_conf_pattern, 0, glob_errfunc, &globbuf);
+> +-	if (glob_ret && glob_ret != GLOB_NOMATCH) {
+> +-		free(etc_opkg_conf_pattern);
+> +-		globfree(&globbuf);
+> +-		goto err1;
+> +-	}
+> +-
+> +-	free(etc_opkg_conf_pattern);
+> ++		if (conf->offline_root)
+> ++			sprintf_alloc(&etc_opkg_conf_pattern, "%s/etc/opkg/*.conf", conf->offline_root);
+> ++		else {
+> ++			const char *conf_file_dir = getenv("OPKG_CONF_DIR");
+> ++			if (conf_file_dir == NULL)
+> ++				conf_file_dir = OPKG_CONF_DEFAULT_CONF_FILE_DIR;
+> ++				sprintf_alloc(&etc_opkg_conf_pattern, "%s/*.conf", conf_file_dir);
+> ++		}
+> +
+> +-	for (i = 0; i < globbuf.gl_pathc; i++) {
+> +-		if (globbuf.gl_pathv[i])
+> +-			if (conf->conf_file &&
+> +-					!strcmp(conf->conf_file, globbuf.gl_pathv[i]))
+> +-				continue;
+> +-		if ( opkg_conf_parse_file(globbuf.gl_pathv[i],
+> +-			&conf->pkg_src_list, &conf->dist_src_list)<0) {
+> ++		memset(&globbuf, 0, sizeof(globbuf));
+> ++		glob_ret = glob(etc_opkg_conf_pattern, 0, glob_errfunc, &globbuf);
+> ++		if (glob_ret && glob_ret != GLOB_NOMATCH) {
+> ++			free(etc_opkg_conf_pattern);
+> + 			globfree(&globbuf);
+> + 			goto err1;
+> + 		}
+> +-	}
+> +
+> +-	globfree(&globbuf);
+> ++		free(etc_opkg_conf_pattern);
+> ++
+> ++		for (i = 0; i < globbuf.gl_pathc; i++) {
+> ++			if (globbuf.gl_pathv[i])
+> ++				if (conf->conf_file &&
+> ++						!strcmp(conf->conf_file, globbuf.gl_pathv[i]))
+> ++					continue;
+> ++			if ( opkg_conf_parse_file(globbuf.gl_pathv[i],
+> ++				&conf->pkg_src_list, &conf->dist_src_list)<0) {
+> ++				globfree(&globbuf);
+> ++				goto err1;
+> ++			}
+> ++		}
+> ++
+> ++		globfree(&globbuf);
+> ++	}
+> +
+> + 	if (conf->offline_root)
+> + 		sprintf_alloc (&lock_file, "%s/%s", conf->offline_root, OPKGLOCKFILE);
+> +--
+> +1.7.9.5
+> +
+> diff --git a/meta/recipes-devtools/opkg/opkg_svn.bb b/meta/recipes-devtools/opkg/opkg_svn.bb
+> index c07d393..faf0ba3 100644
+> --- a/meta/recipes-devtools/opkg/opkg_svn.bb
+> +++ b/meta/recipes-devtools/opkg/opkg_svn.bb
+> @@ -6,6 +6,7 @@ SRC_URI = "svn://opkg.googlecode.com/svn;module=trunk;proto=http \
+>              file://fix_installorder.patch \
+>              file://offline_postinstall.patch\
+>              file://track_parents.patch \
+> +           file://conf_override.patch \
+>   "
 >
-> Cheers,
+>   S = "${WORKDIR}/trunk"
+> @@ -13,4 +14,4 @@ S = "${WORKDIR}/trunk"
+>   SRCREV = "633"
+>   PV = "0.1.8+svnr${SRCPV}"
 >
-> Bruce
->
->>
->> Thanks
->> Sau!
->>
->>> Cheers,
->>>
->>> Bruce
->>>
->>> The following changes since commit
->>> 029e3cea52f86438a1d6868020b8888b5c93d623:
->>>
->>> bitbake: fetch2/wget: Use FETCHCMD_wget to provide the commandline and
->>> options (2012-07-10 14:25:38 +0100)
->>>
->>> are available in the git repository at:
->>> git://git.pokylinux.org/poky-contrib zedd/kernel
->>> http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
->>>
->>> Bruce Ashfield (2):
->>> linux-yocto/3.2: perf: fix mips build
->>> linux-yocto/3.4: perf, unionfs and yaffs2 fixes
->>>
->>> meta/recipes-kernel/linux/linux-yocto-rt_3.2.bb | 4 ++--
->>> meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb | 4 ++--
->>> meta/recipes-kernel/linux/linux-yocto-tiny_3.2.bb | 2 +-
->>> meta/recipes-kernel/linux/linux-yocto_3.2.bb | 12 ++++++------
->>> meta/recipes-kernel/linux/linux-yocto_3.4.bb | 12 ++++++------
->>> 5 files changed, 17 insertions(+), 17 deletions(-)
->>>
->>
+> -PR = "${INC_PR}.0"
+> +PR = "${INC_PR}.1"
 >
 
 
