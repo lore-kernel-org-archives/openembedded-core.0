@@ -1,24 +1,24 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1Sod5Q-0006rU-QL
+	(envelope-from <nitin.a.kamble@intel.com>) id 1Sod5R-0006rV-E4
 	for Openembedded-core@lists.openembedded.org;
 	Tue, 10 Jul 2012 18:14:53 +0200
 Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 10 Jul 2012 09:03:40 -0700
+	by azsmga102.ch.intel.com with ESMTP; 10 Jul 2012 09:03:39 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="120803476"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="120803453"
 Received: from yocto-hm1.jf.intel.com ([10.23.232.32])
-	by AZSMGA002.ch.intel.com with ESMTP; 10 Jul 2012 09:03:40 -0700
+	by AZSMGA002.ch.intel.com with ESMTP; 10 Jul 2012 09:03:38 -0700
 From: nitin.a.kamble@intel.com
 To: Openembedded-core@lists.openembedded.org
-Date: Tue, 10 Jul 2012 09:02:09 -0700
-Message-Id: <988e8d84bfa34805c1749cfb77f64b9da2cd5e08.1341935782.git.nitin.a.kamble@intel.com>
+Date: Tue, 10 Jul 2012 09:02:03 -0700
+Message-Id: <93d0c9afdd8207ee2d9c5c16ded33a10efa4fddf.1341935782.git.nitin.a.kamble@intel.com>
 X-Mailer: git-send-email 1.7.3.4
 In-Reply-To: <b4314c7a2f9fb120c2c4affd52567fe60a96bb5a.1341935782.git.nitin.a.kamble@intel.com>
 References: <b4314c7a2f9fb120c2c4affd52567fe60a96bb5a.1341935782.git.nitin.a.kamble@intel.com>
 In-Reply-To: <cover.1341935782.git.nitin.a.kamble@intel.com>
 References: <cover.1341935782.git.nitin.a.kamble@intel.com>
-Subject: [PATCH 09/19] tar: fix build with automake 1.12.x
+Subject: [PATCH 03/19] gnutls: Fix build with automake 1.12.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,35 +37,145 @@ X-List-Received-Date: Tue, 10 Jul 2012 16:14:53 -0000
 
 From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-automake 1.12.x automatically deletes empty directories, so
-the additional rmdir from the do_install_append fails.
+Added new patches:
+   avoid_AM_PROG_MKDIR_P_warning_error_with_automake_1.12.patch
+   gnutls_fix_for_automake_1.12.1.patch
 
-cleanup the do_install_append for automake 1.12.x
-
-Avoid this error:
-| rmdir: failed to remove `/srv/home/nitin/builds/build-gcc47/tmp/work/i586-poky-linux/tar-1.26-r1/image/usr/sbin/': No such file or directory
-NOTE: package tar-1.26-r1: task do_install: Failed
-
-no PR bump as no change in the output.
+more details in patch headers.
 
 Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
 ---
- meta/recipes-extended/tar/tar.inc |    2 --
- 1 files changed, 0 insertions(+), 2 deletions(-)
+ ..._MKDIR_P_warning_error_with_automake_1.12.patch |   51 ++++++++++++++++++++
+ .../gnutls/gnutls_fix_for_automake_1.12.1.patch    |   43 ++++++++++++++++
+ meta/recipes-support/gnutls/gnutls_2.12.20.bb      |    4 +-
+ 3 files changed, 97 insertions(+), 1 deletions(-)
+ create mode 100644 meta/recipes-support/gnutls/gnutls/avoid_AM_PROG_MKDIR_P_warning_error_with_automake_1.12.patch
+ create mode 100644 meta/recipes-support/gnutls/gnutls/gnutls_fix_for_automake_1.12.1.patch
 
-diff --git a/meta/recipes-extended/tar/tar.inc b/meta/recipes-extended/tar/tar.inc
-index 8c475df..203fb97 100644
---- a/meta/recipes-extended/tar/tar.inc
-+++ b/meta/recipes-extended/tar/tar.inc
-@@ -18,8 +18,6 @@ do_install () {
- do_install_extra () {
-     install -d ${D}${base_bindir}
-     mv ${D}${bindir}/tar ${D}${base_bindir}/tar
--    rmdir ${D}${bindir}/
--    rmdir ${D}${sbindir}/
- }
+diff --git a/meta/recipes-support/gnutls/gnutls/avoid_AM_PROG_MKDIR_P_warning_error_with_automake_1.12.patch b/meta/recipes-support/gnutls/gnutls/avoid_AM_PROG_MKDIR_P_warning_error_with_automake_1.12.patch
+new file mode 100644
+index 0000000..dde683f
+--- /dev/null
++++ b/meta/recipes-support/gnutls/gnutls/avoid_AM_PROG_MKDIR_P_warning_error_with_automake_1.12.patch
+@@ -0,0 +1,51 @@
++Upsteam-Status: Inappropriate 
++
++automake 1.12.x has depricated AM_PROG_MKDIR_P , and throws a warning for that,
++and the warnings are treated as errors becuase of the -Werror parameter.
++
++These AM_PROG_MKDIR_P are coming from gettext, and the latest gettext code has not 
++eliminated these depricated macros yet. So disable the treatment of warnings
++as errors until gettext is updeated to remove the depricated macros.
++
++Signed-Off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
++2012/07/09
++
++Index: gnutls-2.12.19/configure.ac
++===================================================================
++--- gnutls-2.12.19.orig/configure.ac
+++++ gnutls-2.12.19/configure.ac
++@@ -26,7 +26,7 @@ AC_INIT([GnuTLS], [2.12.19], [bug-gnutls
++ AC_CONFIG_AUX_DIR([build-aux])
++ AC_CONFIG_MACRO_DIR([m4])
++ 
++-AM_INIT_AUTOMAKE([1.10 no-dist-gzip dist-bzip2 -Wall -Werror -Wno-override])
+++AM_INIT_AUTOMAKE([1.10 no-dist-gzip dist-bzip2 -Wall -Wno-override])
++ m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
++ AM_CONFIG_HEADER(config.h)
++ 
++Index: gnutls-2.12.19/lib/configure.ac
++===================================================================
++--- gnutls-2.12.19.orig/lib/configure.ac
+++++ gnutls-2.12.19/lib/configure.ac
++@@ -26,7 +26,7 @@ AC_INIT([libgnutls], [2.12.19], [bug-gnu
++ AC_CONFIG_AUX_DIR([build-aux])
++ AC_CONFIG_MACRO_DIR([m4])
++ 
++-AM_INIT_AUTOMAKE([1.10 -Wall -Werror -Wno-override])
+++AM_INIT_AUTOMAKE([1.10 -Wall -Wno-override])
++ m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
++ AM_CONFIG_HEADER(config.h)
++ 
++Index: gnutls-2.12.19/libextra/configure.ac
++===================================================================
++--- gnutls-2.12.19.orig/libextra/configure.ac
+++++ gnutls-2.12.19/libextra/configure.ac
++@@ -26,7 +26,7 @@ AC_INIT([libgnutls-extra], [2.12.19], [b
++ AC_CONFIG_AUX_DIR([build-aux])
++ AC_CONFIG_MACRO_DIR([m4])
++ 
++-AM_INIT_AUTOMAKE([1.10 -Wall -Werror -Wno-override])
+++AM_INIT_AUTOMAKE([1.10 -Wall -Wno-override])
++ m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
++ AM_CONFIG_HEADER(config.h)
++ 
+diff --git a/meta/recipes-support/gnutls/gnutls/gnutls_fix_for_automake_1.12.1.patch b/meta/recipes-support/gnutls/gnutls/gnutls_fix_for_automake_1.12.1.patch
+new file mode 100644
+index 0000000..1625255
+--- /dev/null
++++ b/meta/recipes-support/gnutls/gnutls/gnutls_fix_for_automake_1.12.1.patch
+@@ -0,0 +1,43 @@
++Upsteam-Status: Pending
++
++Avoids these kind of warnings:
++Warning: 'libgnutls.la': linking libtool libraries using a non-POSIX archiver requires 'AM_PROG_AR' in 'configure.ac'
++
++Signed-Off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
++Date: 2012/07/09
++Index: gnutls-2.12.19/configure.ac
++===================================================================
++--- gnutls-2.12.19.orig/configure.ac
+++++ gnutls-2.12.19/configure.ac
++@@ -28,6 +28,7 @@ AC_CONFIG_MACRO_DIR([m4])
++ 
++ AM_INIT_AUTOMAKE([1.10 no-dist-gzip dist-bzip2 -Wall -Wno-override])
++ m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
+++m4_ifdef([AM_PROG_AR], [AM_PROG_AR]) # required by automake 1.12
++ AM_CONFIG_HEADER(config.h)
++ 
++ AC_MSG_RESULT([***
++Index: gnutls-2.12.19/lib/configure.ac
++===================================================================
++--- gnutls-2.12.19.orig/lib/configure.ac
+++++ gnutls-2.12.19/lib/configure.ac
++@@ -28,6 +28,7 @@ AC_CONFIG_MACRO_DIR([m4])
++ 
++ AM_INIT_AUTOMAKE([1.10 -Wall -Wno-override])
++ m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
+++m4_ifdef([AM_PROG_AR], [AM_PROG_AR]) # required by automake 1.12
++ AM_CONFIG_HEADER(config.h)
++ 
++ AC_PROG_CC
++Index: gnutls-2.12.19/libextra/configure.ac
++===================================================================
++--- gnutls-2.12.19.orig/libextra/configure.ac
+++++ gnutls-2.12.19/libextra/configure.ac
++@@ -28,6 +28,7 @@ AC_CONFIG_MACRO_DIR([m4])
++ 
++ AM_INIT_AUTOMAKE([1.10 -Wall -Wno-override])
++ m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
+++m4_ifdef([AM_PROG_AR], [AM_PROG_AR]) # required by automake 1.12
++ AM_CONFIG_HEADER(config.h)
++ 
++ AC_PROG_CC
+diff --git a/meta/recipes-support/gnutls/gnutls_2.12.20.bb b/meta/recipes-support/gnutls/gnutls_2.12.20.bb
+index 010f179..e1a0082 100644
+--- a/meta/recipes-support/gnutls/gnutls_2.12.20.bb
++++ b/meta/recipes-support/gnutls/gnutls_2.12.20.bb
+@@ -1,10 +1,12 @@
+ require gnutls.inc
  
- inherit update-alternatives
+-PR = "${INC_PR}.0"
++PR = "${INC_PR}.1"
+ 
+ SRC_URI += "file://gnutls-openssl.patch \
+             file://correct_rpl_gettimeofday_signature.patch \
+             file://configure-fix.patch \
++            file://gnutls_fix_for_automake_1.12.1.patch \
++            file://avoid_AM_PROG_MKDIR_P_warning_error_with_automake_1.12.patch \
+             ${@['', 'file://fix-gettext-version.patch'][bb.data.inherits_class('native', d) or (not ((d.getVar("INCOMPATIBLE_LICENSE", True) or "").find("GPLv3") != -1))]} \
+            "
+ 
 -- 
 1.7.3.4
 
