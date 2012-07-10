@@ -1,57 +1,49 @@
-Received: from va3ehsobe010.messaging.microsoft.com ([216.32.180.30]
+Received: from va3ehsobe006.messaging.microsoft.com ([216.32.180.16]
 	helo=va3outboundpool.messaging.microsoft.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1SocDb-0007LB-Av
+	(envelope-from <B29882@freescale.com>) id 1SocQX-0005kw-OM
 	for openembedded-core@lists.openembedded.org;
-	Tue, 10 Jul 2012 17:19:16 +0200
-Received: from mail115-va3-R.bigfish.com (10.7.14.245) by
+	Tue, 10 Jul 2012 17:32:54 +0200
+Received: from mail47-va3-R.bigfish.com (10.7.14.250) by
 	VA3EHSOBE010.bigfish.com (10.7.40.12) with Microsoft SMTP Server id
-	14.1.225.22; Tue, 10 Jul 2012 14:50:37 +0000
-Received: from mail115-va3 (localhost [127.0.0.1])	by
-	mail115-va3-R.bigfish.com (Postfix) with ESMTP id 8D94EE04AE	for
+	14.1.225.22; Tue, 10 Jul 2012 14:48:51 +0000
+Received: from mail47-va3 (localhost [127.0.0.1])	by mail47-va3-R.bigfish.com
+	(Postfix) with ESMTP id 4AD923600EE	for
 	<openembedded-core@lists.openembedded.org>;
-	Tue, 10 Jul 2012 14:50:37 +0000 (UTC)
+	Tue, 10 Jul 2012 14:48:51 +0000 (UTC)
 X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
 	H:mail.freescale.net; RD:none; EFVD:NLI
-X-SpamScore: -1
-X-BigFish: VS-1(zz98dI9371I1432Izz1202hzz8275eh8275bh8275dha1495iz2dh2a8h668h839h8e2h8e3hf0ah107ahbe9i)
-Received: from mail115-va3 (localhost.localdomain [127.0.0.1]) by mail115-va3
-	(MessageSwitch) id 1341931831211511_23828;
-	Tue, 10 Jul 2012 14:50:31 +0000 (UTC)
-Received: from VA3EHSMHS012.bigfish.com (unknown [10.7.14.247])	by
-	mail115-va3.bigfish.com (Postfix) with ESMTP id 29BC132003F	for
+X-SpamScore: 4
+X-BigFish: VS4(zzzz1202h1082kzz8275eh8275bha1495iz2dh2a8h668h839hd24he5bhf0ah107ah)
+Received: from mail47-va3 (localhost.localdomain [127.0.0.1]) by mail47-va3
+	(MessageSwitch) id 1341931729296454_4830;
+	Tue, 10 Jul 2012 14:48:49 +0000 (UTC)
+Received: from VA3EHSMHS030.bigfish.com (unknown [10.7.14.240])	by
+	mail47-va3.bigfish.com (Postfix) with ESMTP id 3BC1CE0071	for
 	<openembedded-core@lists.openembedded.org>;
-	Tue, 10 Jul 2012 14:50:31 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by VA3EHSMHS012.bigfish.com
-	(10.7.99.22) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Tue, 10 Jul 2012 14:50:30 +0000
-Received: from 039-SN1MPN1-002.039d.mgd.msft.net ([169.254.2.109]) by
-	039-SN1MMR1-002.039d.mgd.msft.net ([10.84.1.15]) with mapi id
-	14.02.0298.005; Tue, 10 Jul 2012 09:52:48 -0500
-From: McClintock Matthew-B29882 <B29882@freescale.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH v2 2/2] libgomp: add libgomp (openmp)
-	library, and build for powerpc targets by default
-Thread-Index: AQHNXqurH5uQ7iE5lUGMIRKZkxsy1g==
-Date: Tue, 10 Jul 2012 14:52:48 +0000
-Message-ID: <CAEsOVNfy8ov=wccr2HuEP+jx6rfju3hnF1eGcXOdMuSCg8ScCg@mail.gmail.com>
-References: <1341894563-32675-1-git-send-email-msm@freescale.com>
-	<1341894563-32675-2-git-send-email-msm@freescale.com>
-	<CAMKF1spJBYKoOYnBzFRDZ3ByfY9ifewx8i46e7ifuP=haLuZrw@mail.gmail.com>
-In-Reply-To: <CAMKF1spJBYKoOYnBzFRDZ3ByfY9ifewx8i46e7ifuP=haLuZrw@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [70.112.201.132]
+	Tue, 10 Jul 2012 14:48:49 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by VA3EHSMHS030.bigfish.com
+	(10.7.99.40) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Tue, 10 Jul 2012 14:48:47 +0000
+Received: from tx30smr01.am.freescale.net (10.81.153.31) by
+	039-SN1MMR1-003.039d.mgd.msft.net (10.84.1.16) with Microsoft SMTP
+	Server (TLS) id 14.2.298.5; Tue, 10 Jul 2012 09:51:06 -0500
+Received: from right.am.freescale.net (right.am.freescale.net [10.82.176.228])
+	by tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id
+	q6AEp3sH010632 for <openembedded-core@lists.openembedded.org>;
+	Tue, 10 Jul 2012 07:51:06 -0700
+From: Matthew McClintock <msm@freescale.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 10 Jul 2012 09:50:58 -0500
+Message-ID: <1341931858-16028-1-git-send-email-msm@freescale.com>
+X-Mailer: git-send-email 1.7.10
 MIME-Version: 1.0
 X-OriginatorOrg: freescale.com
-Subject: Re: [PATCH v2 2/2] libgomp: add libgomp (openmp) library, and build for powerpc targets by default
+Subject: [PATCH v3 2/2] libgomp: add libgomp (openmp) library, and build for powerpc targets by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
-	Patches and discussions about the oe-core layer
+Reply-To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -62,41 +54,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Jul 2012 15:19:16 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <80C5E8527C25EA41A9F6610BBB8A29E5@mgd.freescale.com>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 10 Jul 2012 15:32:54 -0000
+Content-Type: text/plain
 
-On Tue, Jul 10, 2012 at 12:15 AM, Khem Raj <raj.khem@gmail.com> wrote:
-> On Mon, Jul 9, 2012 at 9:29 PM, Matthew McClintock <msm@freescale.com> wr=
-ote:
->> +
->> +       # clean up extra libgomp files
->> +       if [[ "${RUNTIMETARGET}" =3D~ "libgomp" ]]; then
->
-> This seems bashism.
->
-> if could just check the valued of $d in the loop instead something like
+Signed-off-by: Matthew McClintock <msm@freescale.com>
+---
+ meta/recipes-devtools/gcc/gcc-4.7.inc               |    2 +-
+ meta/recipes-devtools/gcc/gcc-configure-runtime.inc |    7 +++++++
+ meta/recipes-devtools/gcc/gcc-package-runtime.inc   |   14 +++++++++++++-
+ 3 files changed, 21 insertions(+), 2 deletions(-)
 
-v3 sent.
+diff --git a/meta/recipes-devtools/gcc/gcc-4.7.inc b/meta/recipes-devtools/gcc/gcc-4.7.inc
+index c7dbc3c..be142a1 100644
+--- a/meta/recipes-devtools/gcc/gcc-4.7.inc
++++ b/meta/recipes-devtools/gcc/gcc-4.7.inc
+@@ -1,6 +1,6 @@
+ require gcc-common.inc
+ 
+-PR = "r3"
++PR = "r4"
+ 
+ # Third digit in PV should be incremented after a minor release
+ # happens from this branch on gcc e.g. currently its 4.7.1
+diff --git a/meta/recipes-devtools/gcc/gcc-configure-runtime.inc b/meta/recipes-devtools/gcc/gcc-configure-runtime.inc
+index 095d6c1..acd6599 100644
+--- a/meta/recipes-devtools/gcc/gcc-configure-runtime.inc
++++ b/meta/recipes-devtools/gcc/gcc-configure-runtime.inc
+@@ -8,6 +8,8 @@ EXTRA_OECONF_PATHS = " \
+     --with-build-sysroot=${STAGING_DIR_TARGET}"
+ 
+ RUNTIMETARGET = "libssp libstdc++-v3"
++RUNTIMETARGET_append_powerpc = " libgomp"
++RUNTIMETARGET_append_powerpc64 = " libgomp"
+ #  ?
+ # libiberty
+ # libmudflap
+@@ -41,6 +43,11 @@ do_install () {
+ 	for d in ${RUNTIMETARGET}; do
+ 		cd ${B}/$target/$d/
+ 		oe_runmake 'DESTDIR=${D}' MULTIBUILDTOP=${B}/$target/$d/ install
++		if [ "$d" == "libgomp" ]; then
++			rm -rf ${D}${datadir}/info/libgomp.info ${D}${datadir}/info/dir
++			rmdir --ignore-fail-on-non-empty -p ${D}${libdir}/gcc/${TARGET_SYS}/${BINV}/finclude
++			rmdir --ignore-fail-on-non-empty -p ${D}${datadir}/info
++		fi
+ 	done
+ 	chown -R root:root ${D}
+ }
+diff --git a/meta/recipes-devtools/gcc/gcc-package-runtime.inc b/meta/recipes-devtools/gcc/gcc-package-runtime.inc
+index e0cb51b..a81e3b7 100644
+--- a/meta/recipes-devtools/gcc/gcc-package-runtime.inc
++++ b/meta/recipes-devtools/gcc/gcc-package-runtime.inc
+@@ -13,6 +13,9 @@ PACKAGES = "\
+   libgfortran-dev \
+   libmudflap \
+   libmudflap-dev \
++  libgomp \
++  libgomp-dev \
++  libgomp-staticdev \
+ "
+ # The base package doesn't exist, so we clear the recommends.
+ RRECOMMENDS_${PN}-dbg = ""
+@@ -61,7 +64,16 @@ FILES_libmudflap-dev = "\
+   ${libdir}/libmudflap*.a \
+   ${libdir}/libmudflap*.la"
+ 
++FILES_libgomp-dev = "\
++  ${libdir}/libgomp*.so \
++  ${libdir}/libgomp*.la \
++  ${libdir}/libgomp.spec \
++  ${libdir}/gcc/${TARGET_SYS}/${BINV}/include/omp.h \
++  "
++FILES_libgomp-staticdev = "\
++  ${libdir}/libgomp*.a \
++  "
++
+ do_package_write_ipk[depends] += "virtual/${MLPREFIX}libc:do_package"
+ do_package_write_deb[depends] += "virtual/${MLPREFIX}libc:do_package"
+ do_package_write_rpm[depends] += "virtual/${MLPREFIX}libc:do_package"
+-
+-- 
+1.7.10
 
--M
-
->
->
->> +               rm -rf ${D}${datadir}/info/libgomp.info ${D}${datadir}/i=
-nfo/dir
->> +               rmdir --ignore-fail-on-non-empty -p ${D}${libdir}/gcc/${=
-TARGET_SYS}/${BINV}/finclude
->> +               rmdir --ignore-fail-on-non-empty -p ${D}${datadir}/info
->> +       fi
->> +
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core=
 
 
 
