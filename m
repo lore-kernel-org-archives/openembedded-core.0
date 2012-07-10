@@ -1,32 +1,34 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Soczf-0006im-2H for openembedded-core@lists.openembedded.org;
-	Tue, 10 Jul 2012 18:08:55 +0200
+	id 1Sod4Q-0006mr-Fn for openembedded-core@lists.openembedded.org;
+	Tue, 10 Jul 2012 18:13:50 +0200
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6AFvdOH018764;
-	Tue, 10 Jul 2012 16:57:39 +0100
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6AG2d62018803
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 10 Jul 2012 17:02:39 +0100
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 18084-07; Tue, 10 Jul 2012 16:57:35 +0100 (BST)
+	id 18303-05 for <openembedded-core@lists.openembedded.org>;
+	Tue, 10 Jul 2012 17:02:35 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6AFvSYo018757
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Tue, 10 Jul 2012 16:57:31 +0100
-Message-ID: <1341935849.1294.2.camel@ted>
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6AG2Wfn018797
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 10 Jul 2012 17:02:33 +0100
+Message-ID: <1341936154.1294.3.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: McClintock Matthew-B29882 <B29882@freescale.com>, Patches and
-	discussions about the oe-core layer
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Tue, 10 Jul 2012 16:57:29 +0100
-In-Reply-To: <CAEsOVNf0SDnxATQog_8Li1oeK6wkqhVH+m=Bt=L0bBbR02B05Q@mail.gmail.com>
-References: <1341927124.24837.8.camel@ted>
-	<CAEsOVNf0SDnxATQog_8Li1oeK6wkqhVH+m=Bt=L0bBbR02B05Q@mail.gmail.com>
+Date: Tue, 10 Jul 2012 17:02:34 +0100
+In-Reply-To: <d7e0c2813e4002b9dfd8e2d681b93da9ddc5870f.1341932186.git.andrei@gherzan.ro>
+References: <9403579097d0430a5ce2cd3bb23925fe25917a0b.1341932186.git.andrei@gherzan.ro>
+	<d7e0c2813e4002b9dfd8e2d681b93da9ddc5870f.1341932186.git.andrei@gherzan.ro>
 X-Mailer: Evolution 3.2.2- 
 Mime-Version: 1.0
 X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: bitbake.conf: Add git-native to ASSUME_PROVIDED
+Subject: Re: [PATCH 5/5] busybox.inc: Install hwclock init script only if rtc is present in MACHINE_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,36 +43,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Jul 2012 16:08:55 -0000
+X-List-Received-Date: Tue, 10 Jul 2012 16:13:50 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2012-07-10 at 15:00 +0000, McClintock Matthew-B29882 wrote:
-> On Tue, Jul 10, 2012 at 8:32 AM, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> > Originally, git was something new, not installed everywhere and had commandline
-> > stability problems. This has changed and git it no longer makes sense to
-> > continually build this when the system installed version is likely sufficient.
-> >
-> > This speeds up build since recipes no longer have to wait for git-native to build
-> > if they're fetched from a git:// SRC_URI.
-> >
-> > Also add git to the sanity checks and drop the no unneeded svn reference.
+On Tue, 2012-07-10 at 17:59 +0300, Andrei Gherzan wrote:
+> Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
+> ---
+>  meta/recipes-core/busybox/busybox.inc |   10 +++++++---
+>  1 file changed, 7 insertions(+), 3 deletions(-)
 > 
-> What about testing the host system for presence of certain things?
-> Then one could
-> 
-> 1) yum/apt/etc install the needed items
-> 
-> or
-> 
-> 2) Build it if it's not present
+> diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
+> index 82137a3..17ff442 100644
+> --- a/meta/recipes-core/busybox/busybox.inc
+> +++ b/meta/recipes-core/busybox/busybox.inc
+> @@ -180,9 +180,13 @@ do_install () {
+>  	if grep "CONFIG_UDHCPD=y" ${WORKDIR}/defconfig; then
+>  		install -m 0755 ${WORKDIR}/busybox-udhcpd ${D}${sysconfdir}/init.d/
+>  	fi
+> -	if grep "CONFIG_HWCLOCK=y" ${WORKDIR}/defconfig; then
+> -		install -m 0755 ${WORKDIR}/hwclock.sh ${D}${sysconfdir}/init.d/
+> -	fi
+> +	case "${MACHINE_FEATURES}" in
+> +	*rtc*)
+> +		if grep "CONFIG_HWCLOCK=y" ${WORKDIR}/defconfig; then
+> +			install -m 0755 ${WORKDIR}/hwclock.sh ${D}${sysconfdir}/init.d/
+> +		fi
+> +		;;
+> +	esac
+>  	if grep "CONFIG_UDHCPC=y" ${WORKDIR}/defconfig; then
+>  		install -d ${D}${sysconfdir}/udhcpc.d
+>  		install -d ${D}${datadir}/udhcpc
 
-Every time we put an if statement in like this, it basically means we
-should double the amount of QA, one for one path and one for the other.
-
-So whilst I've wondered about it, do we really need to do something like
-this?
+This makes busybox machine specific? Is that really what you want to do?
 
 Cheers,
 
