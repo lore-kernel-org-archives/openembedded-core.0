@@ -1,23 +1,23 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@windriver.com>) id 1Soe8y-0007Zz-R7
+	(envelope-from <bruce.ashfield@windriver.com>) id 1Soe8z-0007aI-84
 	for openembedded-core@lists.openembedded.org;
 	Tue, 10 Jul 2012 19:22:37 +0200
 Received: from yow-bashfiel-l1.wrs.com (yow-bashfiel-d3.wrs.com
 	[128.224.147.67])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q6AHBLlC001136;
-	Tue, 10 Jul 2012 10:11:22 -0700 (PDT)
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q6AHBLlD001136;
+	Tue, 10 Jul 2012 10:11:23 -0700 (PDT)
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 To: richard.purdie@linuxfoundation.org
-Date: Tue, 10 Jul 2012 13:11:03 -0400
-Message-Id: <556fd8b9bf26277d3be395e01d732a10c447853e.1341933187.git.bruce.ashfield@windriver.com>
+Date: Tue, 10 Jul 2012 13:11:04 -0400
+Message-Id: <2500062e552883cf9b6d689f717b1d7cc9cc61f7.1341933187.git.bruce.ashfield@windriver.com>
 X-Mailer: git-send-email 1.7.5.4
 In-Reply-To: <cover.1341933187.git.bruce.ashfield@windriver.com>
 References: <cover.1341933187.git.bruce.ashfield@windriver.com>
 In-Reply-To: <cover.1341933187.git.bruce.ashfield@windriver.com>
 References: <cover.1341933187.git.bruce.ashfield@windriver.com>
 Cc: openembedded-core@lists.openembedded.org, saul.wold@intel.com
-Subject: [PATCH 1/2] linux-yocto/3.2: perf: fix mips build
+Subject: [PATCH 2/2] linux-yocto/3.4: perf, unionfs and yaffs2 fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,76 +34,57 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 10 Jul 2012 17:22:37 -0000
 
-Updating SRCREVs for the following fix:
+Updating the 3.4 SRCREVs to pickup the following changes:
 
-Author: Tom Zanussi <tom.zanussi@intel.com>
-Date:   Tue Jul 10 09:38:40 2012 -0500
-
-    perf: add sgidefs.h to for mips builds
-
-    Allow Python.h to find the definitions it needs on mips i.e. get rid
-    of the error: "_ABIN32" is not defined.
-
-    Signed-off-by: Tom Zanussi <tom.zanussi@intel.com>
+  6297e4c perf: add sgidefs.h to for mips builds
+  69b7817 yaffs: add leading underscore to mtd_info function names
+  160f1ac yaffs: change type for mode to umode_t
+  2d875e8 Unionfs: use mode_t
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 ---
- meta/recipes-kernel/linux/linux-yocto-rt_3.2.bb   |    4 ++--
- meta/recipes-kernel/linux/linux-yocto-tiny_3.2.bb |    2 +-
- meta/recipes-kernel/linux/linux-yocto_3.2.bb      |   12 ++++++------
- 3 files changed, 9 insertions(+), 9 deletions(-)
+ meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb |    4 ++--
+ meta/recipes-kernel/linux/linux-yocto_3.4.bb    |   12 ++++++------
+ 2 files changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.2.bb b/meta/recipes-kernel/linux/linux-yocto-rt_3.2.bb
-index 6b98036..bfab6ba 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_3.2.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.2.bb
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb b/meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb
+index d2ba6c9..f30f6dd 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb
 @@ -8,8 +8,8 @@ LINUX_KERNEL_TYPE = "preempt-rt"
  
  KMETA = "meta"
  
--SRCREV_machine ?= "5bc4c850a416406347ef08d1ed8cb8cf97d57f14"
--SRCREV_machine_qemuppc ?= "19c1534b244ff98a5d921bfad64ccde4f7337c3a"
-+SRCREV_machine ?= "01c5c310886e87e785db5c3bb776deb5ed2e03b2"
-+SRCREV_machine_qemuppc ?= "9f5b45a730b902ed8a0809c9542512188e8fcabf"
- SRCREV_meta ?= "07ee09b520579b9f29bd15fefb01fd28b34c6064"
+-SRCREV_machine ?= "6767c6a0821b8bb782bee9faa8aec6593a9d39dd"
+-SRCREV_machine_qemuppc ?= "575b10dd912557cce881ea519c7ac2b84fbe7b47"
++SRCREV_machine ?= "b25f7c9730e3bd3be1bf7b7982251b7459ad6579"
++SRCREV_machine_qemuppc ?= "2777125ab6f92b624ecaf11d6b1ab604e64497a8"
+ SRCREV_meta ?= "a8cf77018b0faa0d29f1483ff4e5a2034dc8edd5"
  
  PR = "${INC_PR}.0"
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_3.2.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_3.2.bb
-index f331aa8..9e130ba 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_3.2.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_3.2.bb
-@@ -11,7 +11,7 @@ LINUX_VERSION ?= "3.2.18"
+diff --git a/meta/recipes-kernel/linux/linux-yocto_3.4.bb b/meta/recipes-kernel/linux/linux-yocto_3.4.bb
+index 2ea9aa6..39b5cdf 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_3.4.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_3.4.bb
+@@ -10,12 +10,12 @@ KBRANCH_qemumips64 = "standard/mti-malta64"
+ KBRANCH_qemumips64el = "standard/mti-malta64"
+ KBRANCH_qemuarm  = "standard/arm-versatile-926ejs"
  
- KMETA = "meta"
+-SRCREV_machine_qemuarm ?= "93bb8cf97a0c5aead15a97c825d8fd504759f038"
+-SRCREV_machine_qemumips  ?= "b9b9aeb414c14f2587690d91052c9348e9ccd72a"
+-SRCREV_machine_qemuppc ?= "53ca8948fa64ee445001392a1cd03491befa9f35"
+-SRCREV_machine_qemux86 ?= "95c79fb2f965f1feb33bffe46c20ddb0b8e9da0d"
+-SRCREV_machine_qemux86-64 ?= "95c79fb2f965f1feb33bffe46c20ddb0b8e9da0d"
+-SRCREV_machine ?= "95c79fb2f965f1feb33bffe46c20ddb0b8e9da0d"
++SRCREV_machine_qemuarm ?= "9aca8fec49787efbe44d0f137f31ee59edd94c49"
++SRCREV_machine_qemumips  ?= "23fa942849b1207dbfc4528e2a5c8df0fd71870c"
++SRCREV_machine_qemuppc ?= "08732f25bc3cb404e29ae201074bcf5c1661ea83"
++SRCREV_machine_qemux86 ?= "6297e4c1d57e1063bfce297c2e12392348598559"
++SRCREV_machine_qemux86-64 ?= "6297e4c1d57e1063bfce297c2e12392348598559"
++SRCREV_machine ?= "6297e4c1d57e1063bfce297c2e12392348598559"
+ SRCREV_meta ?= "a8cf77018b0faa0d29f1483ff4e5a2034dc8edd5"
  
--SRCREV_machine ?= "6f962975e52f7ebbb5c4897aa77d76f5957a000e"
-+SRCREV_machine ?= "2f986ab91c08c16f8d201518b11be0e367eb0e14"
- SRCREV_meta ?= "07ee09b520579b9f29bd15fefb01fd28b34c6064"
- 
- PR = "${INC_PR}.0"
-diff --git a/meta/recipes-kernel/linux/linux-yocto_3.2.bb b/meta/recipes-kernel/linux/linux-yocto_3.2.bb
-index 3aa19d2..b1e8933 100644
---- a/meta/recipes-kernel/linux/linux-yocto_3.2.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_3.2.bb
-@@ -9,12 +9,12 @@ KBRANCH_qemuarm  = "standard/default/arm-versatile-926ejs"
- 
- LINUX_VERSION ?= "3.2.18"
- 
--SRCREV_machine_qemuarm ?= "50a1849ed5e180dc900471d12f41e76f6fe38fff"
--SRCREV_machine_qemumips  ?= "24a13cca4ace1cb16da0a6379514bdea82924c06"
--SRCREV_machine_qemuppc ?= "b4c41eb3dfedb80c253886451bb4c5120c547c57"
--SRCREV_machine_qemux86 ?= "0e2accb1b10421b7daac77144b11862a4bb47caa"
--SRCREV_machine_qemux86-64 ?= "6c62f352ad9ca61b0cb3e0ff9ae474d64c02e6ef"
--SRCREV_machine ?= "0ec416edf0b0cab3e919c0a1c167a883f8b344a2"
-+SRCREV_machine_qemuarm ?= "2ea2477e2965569517671ec03fa9496214e8bff1"
-+SRCREV_machine_qemumips  ?= "17eb00dec08ef91acfb6d7adca81cb6e344b6c68"
-+SRCREV_machine_qemuppc ?= "14be92545abd339033570620e84ec2ae6780be29"
-+SRCREV_machine_qemux86 ?= "34e76349ed6cb7cadbbf94a5b34712d139703c8a"
-+SRCREV_machine_qemux86-64 ?= "f3625121d459b8e38f7528c2f5d2feb6078d0de9"
-+SRCREV_machine ?= "7cc31a952f78b8f8e8469eed93c23e9675a8eeb5"
- SRCREV_meta ?= "07ee09b520579b9f29bd15fefb01fd28b34c6064"
- 
- PR = "${INC_PR}.0"
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.4.git;protocol=git;nocheckout=1;branch=${KBRANCH},meta;name=machine,meta"
 -- 
 1.7.5.4
 
