@@ -1,38 +1,45 @@
-Received: from astoria.ccjclearline.com ([64.235.106.9])
+Received: from ch1ehsobe004.messaging.microsoft.com ([216.32.181.184]
+	helo=ch1outboundpool.messaging.microsoft.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpjday@crashcourse.ca>) id 1Sogkh-0008W7-9r
+	(envelope-from <B29882@freescale.com>) id 1Soh1b-0006Ij-SR
 	for openembedded-core@lists.openembedded.org;
-	Tue, 10 Jul 2012 22:09:43 +0200
-Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
-	([174.115.5.73]:54731 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.77) (envelope-from <rpjday@crashcourse.ca>)
-	id 1SogZt-000672-It; Tue, 10 Jul 2012 15:58:33 -0400
-Date: Tue, 10 Jul 2012 15:58:20 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@oneiric
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <CAMKF1sqrf_hPLpYhY-sJzVBx5pHrV8_VWF9+6OjzKo5+Qqa+qQ@mail.gmail.com>
-Message-ID: <alpine.DEB.2.02.1207101557080.3817@oneiric>
-References: <1341927124.24837.8.camel@ted>
-	<CAEsOVNf0SDnxATQog_8Li1oeK6wkqhVH+m=Bt=L0bBbR02B05Q@mail.gmail.com>
-	<1341935849.1294.2.camel@ted>
-	<alpine.DEB.2.02.1207101433580.3587@oneiric>
-	<CAMKF1sqrf_hPLpYhY-sJzVBx5pHrV8_VWF9+6OjzKo5+Qqa+qQ@mail.gmail.com>
-User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+	Tue, 10 Jul 2012 22:27:12 +0200
+Received: from mail218-ch1-R.bigfish.com (10.43.68.238) by
+	CH1EHSOBE017.bigfish.com (10.43.70.67) with Microsoft SMTP Server id
+	14.1.225.23; Tue, 10 Jul 2012 19:58:26 +0000
+Received: from mail218-ch1 (localhost [127.0.0.1])	by
+	mail218-ch1-R.bigfish.com (Postfix) with ESMTP id 88F9160505	for
+	<openembedded-core@lists.openembedded.org>;
+	Tue, 10 Jul 2012 19:58:25 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-SpamScore: 3
+X-BigFish: VS3(zzzz1202h1082kzz8275bhz2dh2a8h668h839hd24he5bhf0ah107ah)
+Received: from mail218-ch1 (localhost.localdomain [127.0.0.1]) by mail218-ch1
+	(MessageSwitch) id 1341950303890245_28141;
+	Tue, 10 Jul 2012 19:58:23 +0000 (UTC)
+Received: from CH1EHSMHS037.bigfish.com (snatpool1.int.messaging.microsoft.com
+	[10.43.68.244])	by mail218-ch1.bigfish.com (Postfix) with ESMTP id
+	D7E644C0048	for <openembedded-core@lists.openembedded.org>;
+	Tue, 10 Jul 2012 19:58:23 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by CH1EHSMHS037.bigfish.com
+	(10.43.69.246) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Tue, 10 Jul 2012 19:58:22 +0000
+Received: from tx30smr01.am.freescale.net (10.81.153.31) by
+	039-SN1MMR1-002.039d.mgd.msft.net (10.84.1.15) with Microsoft SMTP
+	Server (TLS) id 14.2.298.5; Tue, 10 Jul 2012 15:00:40 -0500
+Received: from right.am.freescale.net (right.am.freescale.net [10.82.176.228])
+	by tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id
+	q6AK0ebn015357 for <openembedded-core@lists.openembedded.org>;
+	Tue, 10 Jul 2012 13:00:41 -0700
+From: Matthew McClintock <msm@freescale.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 10 Jul 2012 15:00:39 -0500
+Message-ID: <1341950440-19009-1-git-send-email-msm@freescale.com>
+X-Mailer: git-send-email 1.7.10
 MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Cc: McClintock Matthew-B29882 <B29882@freescale.com>
-Subject: Re: bitbake.conf: Add git-native to ASSUME_PROVIDED
+X-OriginatorOrg: freescale.com
+Subject: [PATCH 1/2] Fix hang issue when execute "shutdown now" command
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,35 +54,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Jul 2012 20:09:43 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Tue, 10 Jul 2012 20:27:12 -0000
+Content-Type: text/plain
 
-On Tue, 10 Jul 2012, Khem Raj wrote:
+From: Zhenhua Luo <b19537@freescale.com>
 
-> On Tue, Jul 10, 2012 at 11:35 AM, Robert P. J. Day
-> <rpjday@crashcourse.ca> wrote:
-> >
-> >   my opinion, which is mine, is to add a script someone can run that
-> > tells them what appears to be safe to override from their current
-> > distro.  that way, it's entirely optional and the developer deals with
-> > the output at their own risk.
->
-> who determines the safeness ? thats what double QA RP mentioned is
+    The original issue:
+    When "shutdown now" command is typed on Linux prompt, the system tries to
+    shut down gracefully from runlevel 5 to 1.
+    RunLevel 1 is single-user/maintenance mode. This is the default behavior
+    when no runlevel option is mentioned in shutdown command (like shutdown
+    -h now OR shutdown -r now).
+    The startup script which starts single-user mode by initiating a new
+    process is missing from /etc/rc1.d/...
+    Because of this, following error appears:
+        INIT: no more processes left in this runlevel
+    A start-up script is needed to enables the user to log into single-user
+    mode when "shutdown now" command is given.
 
-  there's no *guarantee* of safeness, just an advisory based on
-nothing more than the version number.  user makes their own decision
-and, if it breaks, they get to keep all the pieces.
+Signed-off-by: Matthew McClintock <msm@freescale.com>
+Signed-off-by: Zhenhua Luo <b19537@freescale.com>
+---
+ meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb |    5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-rday
-
+diff --git a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
+index 492c60c..fe1ff41 100644
+--- a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
++++ b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
+@@ -2,7 +2,7 @@ DESCRIPTION = "Inittab for sysvinit"
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
+ 
+-PR = "r7"
++PR = "r8"
+ 
+ SRC_URI = "file://inittab"
+ 
+@@ -26,7 +26,8 @@ do_install() {
+     for i in $tmp
+     do
+ 	j=`echo ${i} | sed s/\;/\ /g`
+-        echo "${idx}:2345:respawn:${base_sbindir}/getty ${j}" >> ${D}${sysconfdir}/inittab
++	echo "${idx}:12345:respawn:${base_sbindir}/getty ${j}" >> ${D}${sysconfdir}/inittab
++
+ 	idx=`expr $idx + 1`
+     done
+ 
 -- 
+1.7.10
 
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
 
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
 
 
