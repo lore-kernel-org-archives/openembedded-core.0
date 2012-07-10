@@ -1,38 +1,47 @@
-Received: from mail-yw0-f47.google.com ([209.85.213.47])
+Received: from am1ehsobe006.messaging.microsoft.com ([213.199.154.209]
+	helo=am1outboundpool.messaging.microsoft.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrei@gherzan.ro>) id 1SohcR-0001y8-9F
+	(envelope-from <B29882@freescale.com>) id 1SohjI-000258-Ia
 	for openembedded-core@lists.openembedded.org;
-	Tue, 10 Jul 2012 23:05:15 +0200
-Received: by yhjj56 with SMTP id j56so479480yhj.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Jul 2012 13:54:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:x-originating-ip:in-reply-to:references:from:date
-	:message-id:subject:to:content-type:x-gm-message-state;
-	bh=vRtwwaltCghEG2sp75fDCdy9DPVOoA3+pLiiusUkqWk=;
-	b=NOzyO2taXTbTSxiiBVPacwmdYHchIuE/kt86Do0lJaUkdsQ8Zs4R69/GmgpX4c65nk
-	s2AR2gykhbpn4Ld/fruEnkjilkAEHncJCDw1cy4kYQb6od5M2FIzgeZJqy19pB+CfoMo
-	aXKGQUEF6vv2tw5PGbsVDlzsWzkqcowDgVLa52f44en4S+DRHpP3KGZkuk0TSiJDN+He
-	R7fiH8xnQsLgsDgSyeyenWVctYwqV6OzQpSrl1SM4xwSMe2abyi8wdvsnY8D0kamL6Zk
-	t74G7D8iXoLmyMakh+uGnY0Ac5Ou8eR8mUfW8X9huWZ3wBq13Kw9t5tNZMPwC+x596cU
-	AlSA==
-Received: by 10.50.159.196 with SMTP id xe4mr12555271igb.43.1341953643337;
-	Tue, 10 Jul 2012 13:54:03 -0700 (PDT)
+	Tue, 10 Jul 2012 23:12:20 +0200
+Received: from mail31-am1-R.bigfish.com (10.3.201.234) by
+	AM1EHSOBE008.bigfish.com (10.3.204.28) with Microsoft SMTP Server id
+	14.1.225.23; Tue, 10 Jul 2012 19:58:26 +0000
+Received: from mail31-am1 (localhost [127.0.0.1])	by mail31-am1-R.bigfish.com
+	(Postfix) with ESMTP id 8BEAF20061	for
+	<openembedded-core@lists.openembedded.org>;
+	Tue, 10 Jul 2012 19:58:26 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-SpamScore: 3
+X-BigFish: VS3(zzzz1202h1082kzz8275bhz2dh2a8h668h839hd24he5bhf0ah107ah)
+Received: from mail31-am1 (localhost.localdomain [127.0.0.1]) by mail31-am1
+	(MessageSwitch) id 134195030498378_8397; Tue, 10 Jul 2012 19:58:24 +0000
+	(UTC)
+Received: from AM1EHSMHS011.bigfish.com (unknown [10.3.201.239])	by
+	mail31-am1.bigfish.com (Postfix) with ESMTP id 1689C42006B	for
+	<openembedded-core@lists.openembedded.org>;
+	Tue, 10 Jul 2012 19:58:24 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by AM1EHSMHS011.bigfish.com
+	(10.3.207.111) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Tue, 10 Jul 2012 19:58:23 +0000
+Received: from tx30smr01.am.freescale.net (10.81.153.31) by
+	039-SN1MMR1-003.039d.mgd.msft.net (10.84.1.16) with Microsoft SMTP
+	Server (TLS) id 14.2.298.5; Tue, 10 Jul 2012 15:00:41 -0500
+Received: from right.am.freescale.net (right.am.freescale.net [10.82.176.228])
+	by tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id
+	q6AK0ebo015357 for <openembedded-core@lists.openembedded.org>;
+	Tue, 10 Jul 2012 13:00:41 -0700
+From: Matthew McClintock <msm@freescale.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 10 Jul 2012 15:00:40 -0500
+Message-ID: <1341950440-19009-2-git-send-email-msm@freescale.com>
+X-Mailer: git-send-email 1.7.10
+In-Reply-To: <1341950440-19009-1-git-send-email-msm@freescale.com>
+References: <1341950440-19009-1-git-send-email-msm@freescale.com>
 MIME-Version: 1.0
-Received: by 10.64.98.162 with HTTP; Tue, 10 Jul 2012 13:53:43 -0700 (PDT)
-X-Originating-IP: [79.117.115.156]
-In-Reply-To: <1341936154.1294.3.camel@ted>
-References: <9403579097d0430a5ce2cd3bb23925fe25917a0b.1341932186.git.andrei@gherzan.ro>
-	<d7e0c2813e4002b9dfd8e2d681b93da9ddc5870f.1341932186.git.andrei@gherzan.ro>
-	<1341936154.1294.3.camel@ted>
-From: Andrei Gherzan <andrei@gherzan.ro>
-Date: Tue, 10 Jul 2012 23:53:43 +0300
-Message-ID: <CAK18fxFDoHEpzDnVwJLdPHKL48Qo7ZuwnJsQDE78U6fbcULjKw@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Gm-Message-State: ALoCoQmzOn9UvznpSbyFa6GGtASYCZ6Rpka/LXKJdHKL2wHPa8sAttutLwNYGRxNvcqUc5gUe8b7
-Subject: Re: [PATCH 5/5] busybox.inc: Install hwclock init script only if rtc is present in MACHINE_FEATURES
+X-OriginatorOrg: freescale.com
+Subject: [PATCH 2/2] sysvinit-inittab.bb: fix up dynamically removed consoles
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,103 +56,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Jul 2012 21:05:15 -0000
-Content-Type: multipart/alternative; boundary=14dae934059b37595d04c47fee6c
+X-List-Received-Date: Tue, 10 Jul 2012 21:12:20 -0000
+Content-Type: text/plain
 
---14dae934059b37595d04c47fee6c
-Content-Type: text/plain; charset=ISO-8859-1
+Using dmesg could result in removing all the serial consoles as the
+dmesg buffer might get filled up and erase the info we are looking
+for. Instead let's look at /proc/consoles
 
-On Tue, Jul 10, 2012 at 7:02 PM, Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
+Signed-off-by: Matthew McClintock <msm@freescale.com>
+---
+ meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-> On Tue, 2012-07-10 at 17:59 +0300, Andrei Gherzan wrote:
-> > Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
-> > ---
-> >  meta/recipes-core/busybox/busybox.inc |   10 +++++++---
-> >  1 file changed, 7 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/meta/recipes-core/busybox/busybox.inc
-> b/meta/recipes-core/busybox/busybox.inc
-> > index 82137a3..17ff442 100644
-> > --- a/meta/recipes-core/busybox/busybox.inc
-> > +++ b/meta/recipes-core/busybox/busybox.inc
-> > @@ -180,9 +180,13 @@ do_install () {
-> >       if grep "CONFIG_UDHCPD=y" ${WORKDIR}/defconfig; then
-> >               install -m 0755 ${WORKDIR}/busybox-udhcpd
-> ${D}${sysconfdir}/init.d/
-> >       fi
-> > -     if grep "CONFIG_HWCLOCK=y" ${WORKDIR}/defconfig; then
-> > -             install -m 0755 ${WORKDIR}/hwclock.sh
-> ${D}${sysconfdir}/init.d/
-> > -     fi
-> > +     case "${MACHINE_FEATURES}" in
-> > +     *rtc*)
-> > +             if grep "CONFIG_HWCLOCK=y" ${WORKDIR}/defconfig; then
-> > +                     install -m 0755 ${WORKDIR}/hwclock.sh
-> ${D}${sysconfdir}/init.d/
-> > +             fi
-> > +             ;;
-> > +     esac
-> >       if grep "CONFIG_UDHCPC=y" ${WORKDIR}/defconfig; then
-> >               install -d ${D}${sysconfdir}/udhcpc.d
-> >               install -d ${D}${datadir}/udhcpc
->
-> This makes busybox machine specific? Is that really what you want to do?
->
-> I want to have hwclock init script only on machines with RTC.
+diff --git a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
+index fe1ff41..fae3cac 100644
+--- a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
++++ b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
+@@ -2,7 +2,7 @@ DESCRIPTION = "Inittab for sysvinit"
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
+ 
+-PR = "r8"
++PR = "r9"
+ 
+ SRC_URI = "file://inittab"
+ 
+@@ -59,7 +59,7 @@ if [ "x$D" == "x" ]; then
+ 	for i in $tmp
+ 	do
+ 		j=`echo ${i} | sed s/^.*\;//g`
+-		if [ -z "`dmesg | grep ${j}`" ]; then
++		if [ -z "`cat /proc/consoles | grep ${j}`" ]; then
+ 			sed -i /^.*${j}$/d /etc/inittab
+ 		fi
+ 	done
+-- 
+1.7.10
 
-@g
 
---14dae934059b37595d04c47fee6c
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
 
-<div class=3D"gmail_quote">On Tue, Jul 10, 2012 at 7:02 PM, Richard Purdie =
-<span dir=3D"ltr">&lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org"=
- target=3D"_blank">richard.purdie@linuxfoundation.org</a>&gt;</span> wrote:=
-<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-lef=
-t:1px #ccc solid;padding-left:1ex">
 
-<div class=3D"HOEnZb"><div class=3D"h5">On Tue, 2012-07-10 at 17:59 +0300, =
-Andrei Gherzan wrote:<br>
-&gt; Signed-off-by: Andrei Gherzan &lt;<a href=3D"mailto:andrei@gherzan.ro"=
->andrei@gherzan.ro</a>&gt;<br>
-&gt; ---<br>
-&gt; =A0meta/recipes-core/busybox/busybox.inc | =A0 10 +++++++---<br>
-&gt; =A01 file changed, 7 insertions(+), 3 deletions(-)<br>
-&gt;<br>
-&gt; diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core=
-/busybox/busybox.inc<br>
-&gt; index 82137a3..17ff442 100644<br>
-&gt; --- a/meta/recipes-core/busybox/busybox.inc<br>
-&gt; +++ b/meta/recipes-core/busybox/busybox.inc<br>
-&gt; @@ -180,9 +180,13 @@ do_install () {<br>
-&gt; =A0 =A0 =A0 if grep &quot;CONFIG_UDHCPD=3Dy&quot; ${WORKDIR}/defconfig=
-; then<br>
-&gt; =A0 =A0 =A0 =A0 =A0 =A0 =A0 install -m 0755 ${WORKDIR}/busybox-udhcpd =
-${D}${sysconfdir}/init.d/<br>
-&gt; =A0 =A0 =A0 fi<br>
-&gt; - =A0 =A0 if grep &quot;CONFIG_HWCLOCK=3Dy&quot; ${WORKDIR}/defconfig;=
- then<br>
-&gt; - =A0 =A0 =A0 =A0 =A0 =A0 install -m 0755 ${WORKDIR}/hwclock.sh ${D}${=
-sysconfdir}/init.d/<br>
-&gt; - =A0 =A0 fi<br>
-&gt; + =A0 =A0 case &quot;${MACHINE_FEATURES}&quot; in<br>
-&gt; + =A0 =A0 *rtc*)<br>
-&gt; + =A0 =A0 =A0 =A0 =A0 =A0 if grep &quot;CONFIG_HWCLOCK=3Dy&quot; ${WOR=
-KDIR}/defconfig; then<br>
-&gt; + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 install -m 0755 ${WORKDIR}/h=
-wclock.sh ${D}${sysconfdir}/init.d/<br>
-&gt; + =A0 =A0 =A0 =A0 =A0 =A0 fi<br>
-&gt; + =A0 =A0 =A0 =A0 =A0 =A0 ;;<br>
-&gt; + =A0 =A0 esac<br>
-&gt; =A0 =A0 =A0 if grep &quot;CONFIG_UDHCPC=3Dy&quot; ${WORKDIR}/defconfig=
-; then<br>
-&gt; =A0 =A0 =A0 =A0 =A0 =A0 =A0 install -d ${D}${sysconfdir}/udhcpc.d<br>
-&gt; =A0 =A0 =A0 =A0 =A0 =A0 =A0 install -d ${D}${datadir}/udhcpc<br>
-<br>
-</div></div>This makes busybox machine specific? Is that really what you wa=
-nt to do?<br><br></blockquote><div>I want to have hwclock init script only =
-on machines with RTC.</div><div><br></div><div>@g=A0</div></div>
-
---14dae934059b37595d04c47fee6c--
