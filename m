@@ -1,23 +1,36 @@
-Received: from mail.windriver.com ([147.11.1.11])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@windriver.com>) id 1SoyKf-0004wP-9q
-	for openembedded-core@lists.openembedded.org;
-	Wed, 11 Jul 2012 16:56:02 +0200
-Received: from yow-bashfiel-l1.wrs.com (yow-bashfiel-d3.wrs.com
-	[128.224.147.67])
-	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q6BEic1t003278;
-	Wed, 11 Jul 2012 07:44:39 -0700 (PDT)
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: richard.purdie@linuxfoundation.org
-Date: Wed, 11 Jul 2012 10:44:20 -0400
-Message-Id: <fcdfa310117415fdc5ed49b93f2c4695fde8b084.1342017706.git.bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <cover.1342017706.git.bruce.ashfield@windriver.com>
-References: <cover.1342017706.git.bruce.ashfield@windriver.com>
-In-Reply-To: <cover.1342017706.git.bruce.ashfield@windriver.com>
-References: <cover.1342017706.git.bruce.ashfield@windriver.com>
-Cc: openembedded-core@lists.openembedded.org, saul.wold@intel.com
-Subject: [PATCH 1/1] linux-yocto/3.0: perf scripting support
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1SoyO6-0002xG-S2 for openembedded-core@lists.openembedded.org;
+	Wed, 11 Jul 2012 16:59:35 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6BEmNVX008590
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 11 Jul 2012 15:48:23 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 02807-10 for <openembedded-core@lists.openembedded.org>;
+	Wed, 11 Jul 2012 15:48:18 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6BEmGTO008584
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 11 Jul 2012 15:48:17 +0100
+Message-ID: <1342018098.11939.16.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Wed, 11 Jul 2012 15:48:18 +0100
+In-Reply-To: <CAMKF1sqkxxrxKU-XO4HezbfsapTDXhz-TZNx_tNGq=rsNgB=wQ@mail.gmail.com>
+References: <1341940070-27715-1-git-send-email-raj.khem@gmail.com>
+	<1341940070-27715-2-git-send-email-raj.khem@gmail.com>
+	<1342002640.7934.5.camel@ted>
+	<CAMKF1sqkxxrxKU-XO4HezbfsapTDXhz-TZNx_tNGq=rsNgB=wQ@mail.gmail.com>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH 2/2] kernel.bbclass: Make tree available for cross building external modules
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,63 +45,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Jul 2012 14:56:10 -0000
+X-List-Received-Date: Wed, 11 Jul 2012 14:59:35 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Updating the 3.0 SRCREVs to pickup the recent perf scripting fixes.
+On Wed, 2012-07-11 at 07:25 -0700, Khem Raj wrote:
+> On Wed, Jul 11, 2012 at 3:30 AM, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> > On Tue, 2012-07-10 at 10:07 -0700, Khem Raj wrote:
+> >> We shave too much from kernel sources for making it work
+> >> for on device external kernel module development that cross
+> >> development of external modules wont work from same tree
+> >> anymore. This patch makes a copy of tree which will eventually
+> >> be staged for building external modules
+> >
+> > It sounds from the further discussion that there is more to the patch
+> > than just this. Firstly, a change like this needs a more precise
+> > description.
+> >
+> > Secondly, we're copying around *way* to much data in this approach. I'd
+> > like to suggest an improvement but can't since the description above is
+> > lacking, I can't even understand what the problem is you're trying to
+> > fix.
+> 
+> alright. There are tools (especially in scripts/) which are made for
+> buildhost when compiling the kernel irrespective of cross
+> or native. The tools like fixdep, recordmcount etc. which are needed
+> to run when you build kernel itself as well as external
+> modules. Now we do 'make _mproper_scripts' which cleans all those
+> binaries. We do this because we want to ship kernel-dev
+> and packaging binaries for different host wont be allowed in a target
+> package. So we chose to delete them and then on device
+> regenerate them ( ideally I would have preferred to generate them
+> cross candian when making for target)
+> 
+> Deleting these tools also renders the cross building of modules
+> useless. Since I want to ship the sources as reference only
+> meaning people may not have write access to the kernel sources they
+> can not run make inside the kernel sources to regenerate
+> those binaries before they start building their external modules.
+> 
+> >
+> > So more discussion is needed.
+> >
+> > I have a suspicion that this fix only "happens" to work when SDKMACHINE
+> > == NATIVEMACHINE.
+> >
+> 
+> yes, for a full solution we have to generate two versions of
+> kernel-tools 1 for target and 1 for SDKMACHINE
+> however this at least brings back what we had.
 
-  cef17a1 perf: add sgidefs.h to for mips builds
-  3258da3 perf: change --root to --prefix for python install
-  1f9c25b perf: add 'libperl not found' warning
-  f2b1bf1 perf: use pkg-config instead of python-config
-  568e05f perf tools: Add support to install perf python extension
-  7e47f81 Revert "perf: hard-code NO_LIBPERL/NO_LIBPYTHON"
+s/full/non-broken/
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
----
- meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb |    4 ++--
- meta/recipes-kernel/linux/linux-yocto_3.0.bb    |   12 ++++++------
- 2 files changed, 8 insertions(+), 8 deletions(-)
+This patch adds something that is broken in several different cases and
+kills off performance as an added bonus. I'd like to get this fixed
+properly please rather than perpetuate the problem. We need to either do
+something well and correctly, or not do it at all. We could document
+"make _mproper_scripts" as a requirement for installing the kernel SDK
+in the meantime.
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb b/meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb
-index 1dd95c6..c7d6ced 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.0.bb
-@@ -7,8 +7,8 @@ LINUX_VERSION ?= "3.0.32"
- LINUX_KERNEL_TYPE = "preempt-rt"
- KMETA = "meta"
- 
--SRCREV_machine ?= "e67428d9966eecec4c081993dc64ceb5c0e64643"
--SRCREV_machine_qemuppc ?= "dcca458cb92cc287f70e4062f02460f36a881b16"
-+SRCREV_machine ?= "bbd5bfe49403fdcca294ca4b163d5f7195ea3a8e"
-+SRCREV_machine_qemuppc ?= "c3575ad0016173b6e0b953404eb6a770e75a1f11"
- SRCREV_meta ?= "d282029891bba5440630a885b940dea5e34e3e2c"
- 
- PR = "${INC_PR}.0"
-diff --git a/meta/recipes-kernel/linux/linux-yocto_3.0.bb b/meta/recipes-kernel/linux/linux-yocto_3.0.bb
-index d178cd0..2adbc46 100644
---- a/meta/recipes-kernel/linux/linux-yocto_3.0.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_3.0.bb
-@@ -11,12 +11,12 @@ KMETA = "meta"
- 
- LINUX_VERSION ?= "3.0.32"
- 
--SRCREV_machine_qemuarm ?= "b8b6c3b6b3edf129ac26a27d779dd972c36e8ebd"
--SRCREV_machine_qemumips ?= "33a643547e983adb442ff8e15645881816b17a7d"
--SRCREV_machine_qemuppc ?= "bd9a3c4c066bd4b9f52b51aaaec9b029a7abe793"
--SRCREV_machine_qemux86 ?= "70342faea067476774eb55f4e3098af0bcc48782"
--SRCREV_machine_qemux86-64 ?= "cba836a545fbeb96f6f2392c3ecbac9d7735fa65"
--SRCREV_machine ?= "bd6ad607c754dea30d91502a237870b4c45e0f1b"
-+SRCREV_machine_qemuarm ?= "f2d606dfbc61d10847783f1e7c1dcb0ecabf3220"
-+SRCREV_machine_qemumips  ?= "57f4bbfb4c65e4c8e349401b877f1661fb026ed6"
-+SRCREV_machine_qemuppc ?= "d8779a6245d13c3b56eabac36a14c8896f448566"
-+SRCREV_machine_qemux86 ?= "33d5d1ea371dad280e5bcfadd12c3a360c6bc5b8"
-+SRCREV_machine_qemux86-64 ?= "fe23c7dd94eb94dd5887028683093615ac921086"
-+SRCREV_machine ?= "cef17a18d72eae749dc78de3c83772f52815d842"
- SRCREV_meta ?= "d282029891bba5440630a885b940dea5e34e3e2c"
- 
- PR = "${INC_PR}.0"
--- 
-1.7.5.4
+I think we do need to make a kernel-tools package which correctly
+generates the tools for a given target, be it nativesdk, or the target
+device.
+
+Cheers,
+
+Richard
 
 
 
