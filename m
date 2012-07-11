@@ -1,32 +1,45 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Sp5mn-00025P-Do for openembedded-core@lists.openembedded.org;
-	Thu, 12 Jul 2012 00:53:33 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6BMgJRt013441;
-	Wed, 11 Jul 2012 23:42:19 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 11943-05; Wed, 11 Jul 2012 23:42:16 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6BMg99Z013434
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Wed, 11 Jul 2012 23:42:11 +0100
-Message-ID: <1342046531.11939.40.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Wed, 11 Jul 2012 23:42:11 +0100
-In-Reply-To: <4FFDE7B3.8050804@linux.intel.com>
-References: <1342015854-30040-1-git-send-email-koen@dominion.thruhere.net>
-	<4FFDE7B3.8050804@linux.intel.com>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: Re: [PATCH] xz: update to 5.1.2alpha
+Received: from co1ehsobe001.messaging.microsoft.com ([216.32.180.184]
+	helo=co1outboundpool.messaging.microsoft.com)
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <B29882@freescale.com>) id 1Sp6J1-0002hZ-1h
+	for openembedded-core@lists.openembedded.org;
+	Thu, 12 Jul 2012 01:26:51 +0200
+Received: from mail127-co1-R.bigfish.com (10.243.78.225) by
+	CO1EHSOBE005.bigfish.com (10.243.66.68) with Microsoft SMTP Server id
+	14.1.225.23; Wed, 11 Jul 2012 23:13:15 +0000
+Received: from mail127-co1 (localhost [127.0.0.1])	by
+	mail127-co1-R.bigfish.com (Postfix) with ESMTP id D4F4672053C	for
+	<openembedded-core@lists.openembedded.org>;
+	Wed, 11 Jul 2012 23:13:14 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-SpamScore: 3
+X-BigFish: VS3(zzzz1202h1082kzzz2dh2a8h668h839hd24he5bhf0ah107ah)
+Received: from mail127-co1 (localhost.localdomain [127.0.0.1]) by mail127-co1
+	(MessageSwitch) id 1342048392579421_22976;
+	Wed, 11 Jul 2012 23:13:12 +0000 (UTC)
+Received: from CO1EHSMHS030.bigfish.com (unknown [10.243.78.239])	by
+	mail127-co1.bigfish.com (Postfix) with ESMTP id 8BE9ABC004D	for
+	<openembedded-core@lists.openembedded.org>;
+	Wed, 11 Jul 2012 23:13:12 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by CO1EHSMHS030.bigfish.com
+	(10.243.66.40) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Wed, 11 Jul 2012 23:13:12 +0000
+Received: from tx30smr01.am.freescale.net (10.81.153.31) by
+	039-SN1MMR1-002.039d.mgd.msft.net (10.84.1.15) with Microsoft SMTP
+	Server (TLS) id 14.2.298.5; Wed, 11 Jul 2012 18:15:29 -0500
+Received: from right.am.freescale.net (right.am.freescale.net [10.82.176.228])
+	by tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id
+	q6BNFR7T002372 for <openembedded-core@lists.openembedded.org>;
+	Wed, 11 Jul 2012 16:15:29 -0700
+From: Matthew McClintock <msm@freescale.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 11 Jul 2012 18:15:27 -0500
+Message-ID: <1342048527-20262-1-git-send-email-msm@freescale.com>
+X-Mailer: git-send-email 1.7.10
+MIME-Version: 1.0
+X-OriginatorOrg: freescale.com
+Subject: [PATCH] sysvinit-inittab_2.88dsf.bb: Allow multiple serial port consoles to be defined
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,53 +54,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Jul 2012 22:53:33 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 11 Jul 2012 23:26:51 -0000
+Content-Type: text/plain
 
-On Wed, 2012-07-11 at 13:53 -0700, Saul Wold wrote:
-> On 07/11/2012 07:10 AM, Koen Kooi wrote:
-> > This contains bugfixes from the 5.0.3 and 5.0.4 releases
-> >
-> > Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
-> > ---
-> >   meta/recipes-extended/xz/{xz_5.1.1alpha.bb => xz_5.1.2alpha.bb} |    7 ++-----
-> >   1 file changed, 2 insertions(+), 5 deletions(-)
-> >   rename meta/recipes-extended/xz/{xz_5.1.1alpha.bb => xz_5.1.2alpha.bb} (86%)
-> >
-> > diff --git a/meta/recipes-extended/xz/xz_5.1.1alpha.bb b/meta/recipes-extended/xz/xz_5.1.2alpha.bb
-> > similarity index 86%
-> > rename from meta/recipes-extended/xz/xz_5.1.1alpha.bb
-> > rename to meta/recipes-extended/xz/xz_5.1.2alpha.bb
-> > index 7fa7177..9d68720 100644
-> > --- a/meta/recipes-extended/xz/xz_5.1.1alpha.bb
-> > +++ b/meta/recipes-extended/xz/xz_5.1.2alpha.bb
-> > @@ -10,11 +10,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=c475b6c7dca236740ace4bba553e8e1c \
-> >                       file://lib/getopt.c;endline=23;md5=2069b0ee710572c03bb3114e4532cd84 "
-> >
-> >   SRC_URI = "http://tukaani.org/xz/xz-${PV}.tar.gz"
-> > -
-> > -SRC_URI[md5sum] = "bb24436fa12780808e1c142980484104"
-> > -SRC_URI[sha256sum] = "54e59a83690a4a0ec88a7d7c3bdef90c6b196c892a93463863c71c24fe87951a"
-> > -
-> > -PR = "r0"
-> > +SRC_URI[md5sum] = "9bad1e249537ce69b206815cf28ca87b"
-> > +SRC_URI[sha256sum] = "70e792d2a67cfbb8f2dffd0feab6ca6e5a4a618d65070fb44a367629d1ba94e5"
-> >
-> >   inherit autotools gettext
-> >
-> >
-> 
-> How stable is this alpha release?  We don't generally take up 
-> re-releases, correct?
+Set SERIAL_CONSOLES if you want to define multiple serial consoles, also if
+you need to check for the presence of the serial consoles you can also define
+SERIAL_CONSOLES_CHECK to determine if these are present when you boot. This
+will prevent error message that pop up when the serial port is not present.
 
-We've talked about this before and I think this might be an exception to
-the rule? I don't remember any objections at least when this question
-got asked...
+SERIAL_CONSOLES = "115200;ttyS0 115200;ttyS1 115200;ttyEHV0"
+SERIAL_CONSOLES_CHECK = "${SERIAL_CONSOLES}"
 
-Cheers,
+The above lines in machine.conf or elsewhere will have the effect of having
+two serial consoles and removing any that are not present at boot
+---
+ .../sysvinit/sysvinit-inittab_2.88dsf.bb           |   22 ++++++++++++++++++--
+ 1 file changed, 20 insertions(+), 2 deletions(-)
 
-Richard
+diff --git a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
+index 9bd087c..1089edb 100644
+--- a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
++++ b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
+@@ -2,7 +2,7 @@ DESCRIPTION = "Inittab for sysvinit"
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
+ 
+-PR = "r6"
++PR = "r7"
+ 
+ SRC_URI = "file://inittab"
+ 
+@@ -26,7 +26,8 @@ do_install() {
+     for i in $tmp
+     do
+ 	j=`echo ${i} | sed s/\;/\ /g`
+-        echo "${idx}:2345:respawn:${base_sbindir}/getty ${j}" >> ${D}${sysconfdir}/inittab
++	echo "${idx}:12345:respawn:${base_sbindir}/getty ${j}" >> ${D}${sysconfdir}/inittab
++
+ 	idx=`expr $idx + 1`
+     done
+ 
+@@ -51,6 +52,23 @@ EOF
+     fi
+ }
+ 
++pkg_postinst_${PN} () {
++# run this on the target
++if [ "x$D" == "x" ]; then
++	tmp="${SERIAL_CONSOLES_CHECK}"
++	for i in $tmp
++	do
++		j=`echo ${i} | sed s/^.*\;//g`
++		if [ -z "`cat /proc/consoles | grep ${j}`" ]; then
++			sed -i /^.*${j}$/d /etc/inittab
++		fi
++	done
++	kill -HUP 1
++else
++	exit 1
++fi
++}
++
+ # USE_VT and SERIAL_CONSOLE are generally defined by the MACHINE .conf.
+ # Set PACKAGE_ARCH appropriately.
+ PACKAGE_ARCH = "${MACHINE_ARCH}"
+-- 
+1.7.10
+
 
 
 
