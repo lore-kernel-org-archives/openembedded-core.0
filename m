@@ -1,26 +1,32 @@
-Received: from mga11.intel.com ([192.55.52.93])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Sp5Mz-00086X-Fe
-	for openembedded-core@lists.openembedded.org;
-	Thu, 12 Jul 2012 00:26:53 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 11 Jul 2012 15:15:39 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="176210648"
-Received: from unknown (HELO [10.255.12.214]) ([10.255.12.214])
-	by fmsmga001.fm.intel.com with ESMTP; 11 Jul 2012 15:15:39 -0700
-Message-ID: <4FFDFB0B.5030407@linux.intel.com>
-Date: Wed, 11 Jul 2012 15:15:39 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:13.0) Gecko/20120605 Thunderbird/13.0
-MIME-Version: 1.0
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1Sp5mn-00025P-Do for openembedded-core@lists.openembedded.org;
+	Thu, 12 Jul 2012 00:53:33 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6BMgJRt013441;
+	Wed, 11 Jul 2012 23:42:19 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 11943-05; Wed, 11 Jul 2012 23:42:16 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6BMg99Z013434
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Wed, 11 Jul 2012 23:42:11 +0100
+Message-ID: <1342046531.11939.40.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <b4314c7a2f9fb120c2c4affd52567fe60a96bb5a.1341935782.git.nitin.a.kamble@intel.com>
-	<988e8d84bfa34805c1749cfb77f64b9da2cd5e08.1341935782.git.nitin.a.kamble@intel.com>
-In-Reply-To: <988e8d84bfa34805c1749cfb77f64b9da2cd5e08.1341935782.git.nitin.a.kamble@intel.com>
-Subject: Re: [PATCH 09/19] tar: fix build with automake 1.12.x
+Date: Wed, 11 Jul 2012 23:42:11 +0100
+In-Reply-To: <4FFDE7B3.8050804@linux.intel.com>
+References: <1342015854-30040-1-git-send-email-koen@dominion.thruhere.net>
+	<4FFDE7B3.8050804@linux.intel.com>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: Re: [PATCH] xz: update to 5.1.2alpha
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,51 +41,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Jul 2012 22:26:53 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Wed, 11 Jul 2012 22:53:33 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 07/10/2012 09:02 AM, nitin.a.kamble@intel.com wrote:
-> From: Nitin A Kamble <nitin.a.kamble@intel.com>
->
-> automake 1.12.x automatically deletes empty directories, so
-> the additional rmdir from the do_install_append fails.
->
-> cleanup the do_install_append for automake 1.12.x
->
-> Avoid this error:
-> | rmdir: failed to remove `/srv/home/nitin/builds/build-gcc47/tmp/work/i586-poky-linux/tar-1.26-r1/image/usr/sbin/': No such file or directory
-> NOTE: package tar-1.26-r1: task do_install: Failed
->
-> no PR bump as no change in the output.
->
-> Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
-> ---
->   meta/recipes-extended/tar/tar.inc |    2 --
->   1 files changed, 0 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/recipes-extended/tar/tar.inc b/meta/recipes-extended/tar/tar.inc
-> index 8c475df..203fb97 100644
-> --- a/meta/recipes-extended/tar/tar.inc
-> +++ b/meta/recipes-extended/tar/tar.inc
-> @@ -18,8 +18,6 @@ do_install () {
->   do_install_extra () {
->       install -d ${D}${base_bindir}
->       mv ${D}${bindir}/tar ${D}${base_bindir}/tar
-> -    rmdir ${D}${bindir}/
-This needs to stay in actually since this directory is populated by 
-default so automake will not remove it, this will cause a packaging 
-regression.
+On Wed, 2012-07-11 at 13:53 -0700, Saul Wold wrote:
+> On 07/11/2012 07:10 AM, Koen Kooi wrote:
+> > This contains bugfixes from the 5.0.3 and 5.0.4 releases
+> >
+> > Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+> > ---
+> >   meta/recipes-extended/xz/{xz_5.1.1alpha.bb => xz_5.1.2alpha.bb} |    7 ++-----
+> >   1 file changed, 2 insertions(+), 5 deletions(-)
+> >   rename meta/recipes-extended/xz/{xz_5.1.1alpha.bb => xz_5.1.2alpha.bb} (86%)
+> >
+> > diff --git a/meta/recipes-extended/xz/xz_5.1.1alpha.bb b/meta/recipes-extended/xz/xz_5.1.2alpha.bb
+> > similarity index 86%
+> > rename from meta/recipes-extended/xz/xz_5.1.1alpha.bb
+> > rename to meta/recipes-extended/xz/xz_5.1.2alpha.bb
+> > index 7fa7177..9d68720 100644
+> > --- a/meta/recipes-extended/xz/xz_5.1.1alpha.bb
+> > +++ b/meta/recipes-extended/xz/xz_5.1.2alpha.bb
+> > @@ -10,11 +10,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=c475b6c7dca236740ace4bba553e8e1c \
+> >                       file://lib/getopt.c;endline=23;md5=2069b0ee710572c03bb3114e4532cd84 "
+> >
+> >   SRC_URI = "http://tukaani.org/xz/xz-${PV}.tar.gz"
+> > -
+> > -SRC_URI[md5sum] = "bb24436fa12780808e1c142980484104"
+> > -SRC_URI[sha256sum] = "54e59a83690a4a0ec88a7d7c3bdef90c6b196c892a93463863c71c24fe87951a"
+> > -
+> > -PR = "r0"
+> > +SRC_URI[md5sum] = "9bad1e249537ce69b206815cf28ca87b"
+> > +SRC_URI[sha256sum] = "70e792d2a67cfbb8f2dffd0feab6ca6e5a4a618d65070fb44a367629d1ba94e5"
+> >
+> >   inherit autotools gettext
+> >
+> >
+> 
+> How stable is this alpha release?  We don't generally take up 
+> re-releases, correct?
 
-See 2736, which I assigned to you.
+We've talked about this before and I think this might be an exception to
+the rule? I don't remember any objections at least when this question
+got asked...
 
-Sau!
+Cheers,
 
-> -    rmdir ${D}${sbindir}/
->   }
->
->   inherit update-alternatives
->
+Richard
 
 
 
