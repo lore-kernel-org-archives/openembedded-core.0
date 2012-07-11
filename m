@@ -1,33 +1,29 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Sp2Aa-0004Km-GZ for openembedded-core@lists.openembedded.org;
-	Wed, 11 Jul 2012 21:01:52 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6BIoZT9011885;
-	Wed, 11 Jul 2012 19:50:35 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 10738-09; Wed, 11 Jul 2012 19:50:31 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6BIoRh1011879
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Wed, 11 Jul 2012 19:50:28 +0100
-Message-ID: <1342032628.11939.37.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
+Received: from mail1.windriver.com ([147.11.146.13])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <Peter.Seebach@windriver.com>) id 1Sp2Ey-0004PR-9I
+	for openembedded-core@lists.openembedded.org;
+	Wed, 11 Jul 2012 21:06:24 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q6BIt96J011769
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 11 Jul 2012 11:55:09 -0700 (PDT)
+Received: from wrlaptop (172.25.40.226) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Wed, 11 Jul 2012 11:55:08 -0700
+Date: Wed, 11 Jul 2012 13:54:55 -0500
+From: Peter Seebach <peter.seebach@windriver.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-ID: <20120711135455.72b90a06@wrlaptop>
+In-Reply-To: <1342028210.11939.35.camel@ted>
+References: <cover.1342022120.git.peter.seebach@windriver.com>
+	<22e5e5adc39fb855badc6d1260fbd4b30d966530.1342022120.git.peter.seebach@windriver.com>
+	<1342023149.11939.22.camel@ted> <20120711113333.76632780@wrlaptop>
+	<1342028210.11939.35.camel@ted>
+X-Mailer: Claws Mail 3.8.0 (GTK+ 2.24.4; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Wed, 11 Jul 2012 19:50:28 +0100
-In-Reply-To: <1625033.FUQGRG6suy@helios>
-References: <4FFD0425.7040004@intel.com> <1342004414.7934.11.camel@ted>
-	<CAEsOVNfeZBjERBFsXSWqihHccROAR3N4kRGgW8XhpJd4iKzRdw@mail.gmail.com>
-	<1625033.FUQGRG6suy@helios>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: McClintock Matthew-B29882 <B29882@freescale.com>
-Subject: Re: Upcoming Yocto 1.2.1 "denzil" release this week.
+Subject: Re: [PATCH 1/1] package.bbclass: Allow overriding of debugedit starting path
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,41 +38,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Jul 2012 19:01:52 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 11 Jul 2012 19:06:24 -0000
+Content-Type: text/plain; charset="US-ASCII"
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2012-07-11 at 19:00 +0100, Paul Eggleton wrote:
-> On Wednesday 11 July 2012 17:55:18 McClintock Matthew-B29882 wrote:
-> > On Wed, Jul 11, 2012 at 6:00 AM, Richard Purdie
-> > <richard.purdie@linuxfoundation.org> wrote:
-> > > On Wed, 2012-07-11 at 09:57 +0100, Jack Mitchell wrote:
-> > >> Are Khems eglibc patches going to make it in for this - 2.16 is playing
-> > >> havoc with my builds at the moment and surely will with everyone else
-> > >> when the major distros catch up.
-> > > 
-> > > Its too late to get those pieces into 1.2.1, they're not even in master
-> > > yet, let alone in a stable release branch.
-> > > 
-> > > I'm proposing we get 1.2.1 out, get the 2.16 pieces tested in master,
-> > > then port them to the denzil branch quickly post release so they'd make
-> > > any 1.2.2 release and are available on the git branch for people using
-> > > the stable branch.
-> > 
-> > Can you fill me in? Why would a point release include such a dramatic
-> > upgrade?
+On Wed, 11 Jul 2012 18:36:50 +0100
+Richard Purdie <richard.purdie@linuxfoundation.org> wrote:
+
+> It should all use 4 space for python functions. There is however a
+> twist which is due to the way we handle _prepend and _append. Those
+> prepends and appends have whitespace too and I seem to remember
+> issues with whitespace matching.
 > 
-> I think what we would be looking at would be just adding the fixes to allow the 
-> native packages to build against eglibc 2.16 so it can work on host distros 
-> that use it, not bringing eglibc 2.16 itself in for the target.
+> Yes, this is horrible. This is why that file hasn't been touched for
+> whitespace though.
 
-Right, this would just be to allow edison to work on systems that have a
-native eglibc 2.16. I'm not convinced we have the patches worked out yet
-though. Target eglibc would remain with whatever is in edison (2.13?).
+noooooooo
 
-Cheers,
+That hurts so much.
 
-Richard
+Okay, crazy thought.  Imagine that we were to make a modified parser,
+with the following behavior:
 
+Whenever reading a python function, count the indentation of the first
+line (N), then replace every N spaces of indentation with 4 spaces.
+
+If this worked, it would make it possible to start fixing stuff.
+
+DISCLAIMER:  Due to Reasons, I have slept about 15 minutes out of the
+last day, also I'm sick. When I say "crazy thought", I do not kid.
+
+Anyway:  Anyone have other thoughts/comments on the possible starting
+path fixup? I am pretty sure that it is sufficient for all real cases,
+with the one exception being prebuilts where the debug path names are
+unreasonably short.  (I theorize that a more advanced debugedit could
+be written which could handle those by rewriting files.  I nominate
+someone else to try to actually do it.)
+
+My initial theory that I'd need to be able to specify the destination
+path evaporates with the realization that we can always move source
+files to whatever path we want them in; it's just that it's nicer for
+everyone if the debug source files are always in the standard locations,
+give or take, no matter how they were built.
+
+-s
+-- 
+Listen, get this.  Nobody with a good compiler needs to be justified.
 
 
