@@ -1,35 +1,33 @@
-Received: from astoria.ccjclearline.com ([64.235.106.9])
+Received: from outpost1.zedat.fu-berlin.de ([130.133.4.66])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpjday@crashcourse.ca>) id 1Soty3-0003el-N8
+	(envelope-from <heinold@mi.fu-berlin.de>) id 1Sou4U-0003l7-KF
 	for openembedded-core@lists.openembedded.org;
-	Wed, 11 Jul 2012 12:16:24 +0200
-Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
-	([174.115.5.73]:58576 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.77) (envelope-from <rpjday@crashcourse.ca>)
-	id 1SotnF-0000Tf-7X for openembedded-core@lists.openembedded.org;
-	Wed, 11 Jul 2012 06:05:13 -0400
-Date: Wed, 11 Jul 2012 06:04:58 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@oneiric
+	Wed, 11 Jul 2012 12:23:02 +0200
+Received: from relay1.zedat.fu-berlin.de ([130.133.4.67])
+	by outpost1.zedat.fu-berlin.de (Exim 4.69) with esmtp
+	(envelope-from <heinold@mi.fu-berlin.de>)
+	id <1Sotth-0001Sc-4K>; Wed, 11 Jul 2012 12:11:53 +0200
+Received: from andorra.imp.fu-berlin.de ([160.45.42.84])
+	by relay1.zedat.fu-berlin.de (Exim 4.69) with esmtp
+	(envelope-from <heinold@mi.fu-berlin.de>)
+	id <1Sottf-00073c-NC>; Wed, 11 Jul 2012 12:11:51 +0200
+Received: from heinold by internal andorra.imp.fu-berlin.de with local (Exim
+	4.72) id 1Sottd-0006s1-Iw; Wed, 11 Jul 2012 12:11:49 +0200
+Date: Wed, 11 Jul 2012 12:11:49 +0200
+From: Henning Heinold <heinold@inf.fu-berlin.de>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <CABcZANkzWeZ1+yqqcLf330Ko-rMuk8C7w7FF+aH_omo1Xw2+NA@mail.gmail.com>
-Message-ID: <alpine.DEB.2.02.1207110604040.5884@oneiric>
-References: <alpine.DEB.2.02.1207100454370.26177@oneiric>
-	<CABcZANkzWeZ1+yqqcLf330Ko-rMuk8C7w7FF+aH_omo1Xw2+NA@mail.gmail.com>
-User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+Message-ID: <20120711101149.GA25297@mi.fu-berlin.de>
+References: <CAF1ZMEfHzvtM35g_PSigbyVCKysTbJY=UODmnKNU6aoncU8YfA@mail.gmail.com>
+	<4FFD24A9.10801@intel.com>
+	<CAF1ZMEf8hr8ahYjOtKOVM-uDq293dKfZKQs=2WzcppEhHY=w7A@mail.gmail.com>
+	<CAF1ZMEcu2ket9CfSck0b0RaB_KiDC57Evc86ZgLeApn-q1Va9A@mail.gmail.com>
 MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Subject: Re: does anything actually use BBVERSIONS?
+In-Reply-To: <CAF1ZMEcu2ket9CfSck0b0RaB_KiDC57Evc86ZgLeApn-q1Va9A@mail.gmail.com>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Sender: Henning Heinold <heinold@mi.fu-berlin.de>
+X-Originating-IP: 160.45.42.84
+Subject: Re: build directfb-1.6.1 fail
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,39 +42,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Jul 2012 10:16:24 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Wed, 11 Jul 2012 10:23:02 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Tue, 10 Jul 2012, Chris Larson wrote:
+On Wed, Jul 11, 2012 at 03:35:55PM +0800, Dennis.Yxun wrote:
+> Hi Palcu:
+>   One possible solution would be disable imlib2 explicitly?
 
-> On Tue, Jul 10, 2012 at 1:58 AM, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
-> >   perusing bitbake user manual, came across section 2.1.20 which
-> > mentions BBVERSIONS, but i don't see any current usage of it.  is
-> > it still actively used anywhere?  the only places i see it are in
-> > the documentation.
->
-> I don't know of any uses of it. The original intent was to allow a
-> single recipe to emit multiple versions of a recipe, like
-> BBCLASSEXTEND, thereby consolidating the metadata for an upstream
-> project in a single place rather than it being scattered across .inc
-> files, but I don't think anyone has needed to use it or tried to use
-> it for anything. I still think there's value, but less so now that
-> we try to keep the number of supported versions of a thing to a
-> minimum.
+yes.
 
-  ok, just thought i'd ask.  someone else is welcome to decide if it's
-worth keeping around.
-
-rday
-
--- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
+Bye Henning
 
 
