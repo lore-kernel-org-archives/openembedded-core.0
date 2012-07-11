@@ -1,24 +1,26 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Peter.Seebach@windriver.com>) id 1Sp3kc-0005y2-D2
+	(envelope-from <Peter.Seebach@windriver.com>) id 1Sp3kd-0005y4-El
 	for openembedded-core@lists.openembedded.org;
-	Wed, 11 Jul 2012 22:43:10 +0200
+	Wed, 11 Jul 2012 22:43:11 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q6BKVvjN013216
+	by mail.windriver.com (8.14.3/8.14.3) with ESMTP id q6BKVwvP026247
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Jul 2012 13:31:57 -0700 (PDT)
+	Wed, 11 Jul 2012 13:31:58 -0700 (PDT)
 Received: from localhost.localdomain (172.25.34.64) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Wed, 11 Jul 2012 13:31:55 -0700
+	Wed, 11 Jul 2012 13:31:57 -0700
 From: Peter Seebach <peter.seebach@windriver.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Wed, 11 Jul 2012 15:31:54 -0500
-Message-ID: <cover.1342038551.git.peter.seebach@windriver.com>
+Date: Wed, 11 Jul 2012 15:31:55 -0500
+Message-ID: <e0cae0d4228e9749d9835bf16a6154eafbdcc713.1342038551.git.peter.seebach@windriver.com>
 X-Mailer: git-send-email 1.7.0.4
+In-Reply-To: <cover.1342038551.git.peter.seebach@windriver.com>
+References: <cover.1342038551.git.peter.seebach@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/1] package.bbclass: Allow overriding of debugedit base path
+Subject: [PATCH 1/1] package.bbclass: Allow overriding of debugedit starting path
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,28 +35,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Jul 2012 20:43:10 -0000
+X-List-Received-Date: Wed, 11 Jul 2012 20:43:11 -0000
 Content-Type: text/plain
 
-As before, only with the prettier and smaller change RP suggested. This
-provides a mechanism for making the existing debugedit that gets done
-from package.bbclass work for prebuilt binaries with debug paths that
-aren't related directly to the build environment.
+In the usual case, the computed path used for debugedit to fix
+up path references for the target filesystem is correct. However,
+prebuilt binary components, such as prebuilt toolchains, can
+have debug paths that do not reflect paths within the local
+build directory. Providing an override lets us continue to use
+the standard debugedit logic in package.bbclass.
 
-The following changes since commit 20405bdab18b7a2b101f818e72863d289d5945e4:
-  Bruce Ashfield (1):
-        linux-yocto/3.0: perf scripting support
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib seebs/debugsrc
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=seebs/debugsrc
-
-Peter Seebach (1):
-  package.bbclass: Allow overriding of debugedit starting path
-
+Signed-off-by: Peter Seebach <peter.seebach@windriver.com>
+---
  meta/classes/package.bbclass |    2 +-
  1 files changed, 1 insertions(+), 1 deletions(-)
+
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index e6856cd..f0ca443 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -190,7 +190,7 @@ def splitfile(file, debugfile, debugsrcdir, d):
+     objcopy = d.getVar("OBJCOPY", True)
+     debugedit = d.expand("${STAGING_LIBDIR_NATIVE}/rpm/bin/debugedit")
+     workdir = d.getVar("WORKDIR", True)
+-    workparentdir = os.path.dirname(workdir)
++    workparentdir = d.getVar("DEBUGSRC_OVERRIDE_PATH", True) or os.path.dirname(workdir)
+     sourcefile = d.expand("${WORKDIR}/debugsources.list")
+ 
+     # We ignore kernel modules, we don't generate debug info files.
+-- 
+1.7.0.4
 
 
 
