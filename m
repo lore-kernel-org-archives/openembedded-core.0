@@ -1,45 +1,20 @@
-Received: from db3ehsobe002.messaging.microsoft.com ([213.199.154.140]
-	helo=db3outboundpool.messaging.microsoft.com)
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B19537@freescale.com>) id 1SowEK-00067R-PE
+	(envelope-from <bogdan.a.marinescu@intel.com>) id 1SowhW-0000Wu-PT
 	for openembedded-core@lists.openembedded.org;
-	Wed, 11 Jul 2012 14:41:20 +0200
-Received: from mail105-db3-R.bigfish.com (10.3.81.227) by
-	DB3EHSOBE006.bigfish.com (10.3.84.26) with Microsoft SMTP Server id
-	14.1.225.23; Wed, 11 Jul 2012 11:42:31 +0000
-Received: from mail105-db3 (localhost [127.0.0.1])	by
-	mail105-db3-R.bigfish.com (Postfix) with ESMTP id A6E4626042A	for
-	<openembedded-core@lists.openembedded.org>;
-	Wed, 11 Jul 2012 11:42:31 +0000 (UTC)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-X-SpamScore: 0
-X-BigFish: VS0(zzzz1202hzz8275bhz2dh2a8h668h839hd24he5bhf0ah107ah)
-Received: from mail105-db3 (localhost.localdomain [127.0.0.1]) by mail105-db3
-	(MessageSwitch) id 1342006949935377_31159;
-	Wed, 11 Jul 2012 11:42:29 +0000 (UTC)
-Received: from DB3EHSMHS008.bigfish.com (unknown [10.3.81.245])	by
-	mail105-db3.bigfish.com (Postfix) with ESMTP id E2BC61A0046	for
-	<openembedded-core@lists.openembedded.org>;
-	Wed, 11 Jul 2012 11:42:29 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by DB3EHSMHS008.bigfish.com
-	(10.3.87.108) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Wed, 11 Jul 2012 11:42:29 +0000
-Received: from az84smr01.freescale.net (10.64.34.197) by
-	039-SN1MMR1-002.039d.mgd.msft.net (10.84.1.15) with Microsoft SMTP
-	Server (TLS) id 14.2.298.5; Wed, 11 Jul 2012 06:44:47 -0500
-Received: from localhost.localdomain
-	(bjsimics-desktop-010192208197.ap.freescale.net [10.192.208.197])	by
-	az84smr01.freescale.net (8.14.3/8.14.0) with ESMTP id q6BBiieb030832;
-	Wed, 11 Jul 2012 04:44:45 -0700
-From: <b19537@freescale.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 11 Jul 2012 20:01:51 +0800
-Message-ID: <1342008111-24810-1-git-send-email-b19537@freescale.com>
-X-Mailer: git-send-email 1.7.0.4
-MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Subject: [PATCH] task-core-sdk.bb: add libgomp and libgomp-dev
+	Wed, 11 Jul 2012 15:11:30 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 11 Jul 2012 06:00:18 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="164249595"
+Received: from bogdanm (HELO localhost.localdomain) ([10.237.105.145])
+	by orsmga001.jf.intel.com with ESMTP; 11 Jul 2012 06:00:17 -0700
+From: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 11 Jul 2012 16:02:19 +0300
+Message-Id: <1342011739-6416-1-git-send-email-bogdan.a.marinescu@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] linux-libc-headers: updated to 3.4.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -54,41 +29,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Jul 2012 12:41:20 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 11 Jul 2012 13:11:31 -0000
 
-From: Zhenhua Luo <b19537@freescale.com>
+Tested by building core-image-sato-sdk.
 
-Signed-off-by: Zhenhua Luo <b19537@freescale.com>
+Signed-off-by: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
 ---
- meta/recipes-core/tasks/task-core-sdk.bb |    4 +++-
- 1 files changed, 3 insertions(+), 1 deletions(-)
+ meta/conf/distro/include/tcmode-default.inc        |    2 +-
+ .../linux-libc-headers/linux-libc-headers_3.4.3.bb |    6 ++++++
+ .../linux-libc-headers/linux-libc-headers_3.4.bb   |    6 ------
+ 3 files changed, 7 insertions(+), 7 deletions(-)
+ create mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.4.3.bb
+ delete mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.4.bb
 
-diff --git a/meta/recipes-core/tasks/task-core-sdk.bb b/meta/recipes-core/tasks/task-core-sdk.bb
-index ec6cdcc..3ee29ce 100644
---- a/meta/recipes-core/tasks/task-core-sdk.bb
-+++ b/meta/recipes-core/tasks/task-core-sdk.bb
-@@ -7,7 +7,7 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58 \
-                     file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
- DEPENDS = "task-core-console"
--PR = "r7"
-+PR = "r8"
+diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
+index f11e687..0a068be 100644
+--- a/meta/conf/distro/include/tcmode-default.inc
++++ b/meta/conf/distro/include/tcmode-default.inc
+@@ -22,7 +22,7 @@ SDKGCCVERSION ?= "${GCCVERSION}"
+ BINUVERSION ?= "2.22"
+ EGLIBCVERSION ?= "2.15"
+ UCLIBCVERSION ?= "0.9.33"
+-LINUXLIBCVERSION ?= "3.4"
++LINUXLIBCVERSION ?= "3.4.3"
  
- ALLOW_EMPTY = "1"
- #PACKAGEFUNCS =+ 'generate_sdk_pkgs'
-@@ -34,6 +34,8 @@ RDEPENDS_task-core-sdk = "\
-     gettext \
-     make \
-     intltool \
-+    libgomp \
-+    libgomp-dev \
-     libstdc++ \
-     libstdc++-dev \
-     libtool \
+ PREFERRED_VERSION_gcc ?= "${GCCVERSION}"
+ PREFERRED_VERSION_gcc-cross ?= "${GCCVERSION}"
+diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.4.3.bb b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.4.3.bb
+new file mode 100644
+index 0000000..6f8d9e8
+--- /dev/null
++++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.4.3.bb
+@@ -0,0 +1,6 @@
++require linux-libc-headers.inc
++
++PR = "r0"
++
++SRC_URI[md5sum] = "3aefa02db55715d627ed23a01667057d"
++SRC_URI[sha256sum] = "17f1256daa289dde1a0a587c9753556d37a52770f7c4efcf2666fd4796a6eacc"
+diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.4.bb b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.4.bb
+deleted file mode 100644
+index 9e8c88f..0000000
+--- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.4.bb
++++ /dev/null
+@@ -1,6 +0,0 @@
+-require linux-libc-headers.inc
+-
+-PR = "r0"
+-
+-SRC_URI[md5sum] = "146af0160fc7a60cf9acf44aec13482b"
+-SRC_URI[sha256sum] = "a797a15d0b6228381507c14ecf4eec4a6cc5c77cfd521ba3b3e1325e85b5b16d"
 -- 
-1.7.0.4
-
+1.7.9.5
 
 
 
