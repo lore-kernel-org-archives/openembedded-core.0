@@ -1,24 +1,36 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+Received: from mail.cvg.de ([62.153.82.30])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1Sovi7-0005nr-94
+	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1Sow7j-00061K-IS
 	for openembedded-core@lists.openembedded.org;
-	Wed, 11 Jul 2012 14:08:03 +0200
-Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
-	helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1SovXJ-00051W-JJ
+	Wed, 11 Jul 2012 14:34:31 +0200
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id q6BCNHqG015472
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 11 Jul 2012 14:23:19 +0200
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.76) (envelope-from <ensc@sigma-chemnitz.de>) id 1Sovwr-0006nV-M4
 	for openembedded-core@lists.openembedded.org;
-	Wed, 11 Jul 2012 13:56:53 +0200
-From: Phil Blundell <philb@gnu.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Wed, 11 Jul 2012 12:56:52 +0100
-In-Reply-To: <CAF1ZMEfHzvtM35g_PSigbyVCKysTbJY=UODmnKNU6aoncU8YfA@mail.gmail.com>
-References: <CAF1ZMEfHzvtM35g_PSigbyVCKysTbJY=UODmnKNU6aoncU8YfA@mail.gmail.com>
-X-Mailer: Evolution 3.0.2- 
-Message-ID: <1342007813.20265.102.camel@phil-desktop>
-Mime-Version: 1.0
-Subject: Re: build directfb-1.6.1 fail
+	Wed, 11 Jul 2012 14:23:17 +0200
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To: openembedded-core@lists.openembedded.org
+References: <1341927124.24837.8.camel@ted>
+Date: Wed, 11 Jul 2012 14:23:17 +0200
+In-Reply-To: <1341927124.24837.8.camel@ted> (Richard Purdie's message of "Tue, 
+	10 Jul 2012 14:32:04 +0100")
+Message-ID: <lysjcypjuy.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.1 (gnu/linux)
+MIME-Version: 1.0
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 0.84
+X-Spam-Score: -5.3
+X-Spam-Level: -----
+X-Spam-Tests: AWL,BAYES_00,SPF_NEUTRAL,T_RP_MATCHES_RCVD,DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.73
+Subject: Re: bitbake.conf: Add git-native to ASSUME_PROVIDED
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,18 +45,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Jul 2012 12:08:03 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 11 Jul 2012 12:34:31 -0000
+Content-Type: text/plain
 
-On Wed, 2012-07-11 at 12:34 +0800, Dennis.Yxun wrote:
->  Have problem build directfb, seems imlib2 library is missing
->  Attached file is full compile log
+Richard Purdie
+<richard.purdie-hQyY1W1yCW8ekmWlsbkhG0B+6BGkLq7r@public.gmane.org>
+writes:
 
---disable-imlib2?
+> Originally, git was something new, not installed everywhere and had
+> commandline stability problems. This has changed and git it no longer
+> makes sense to continually build this when the system installed version
+> is likely sufficient.
 
-p.
+Can this really be assumed? Recent bitbake use something like 
+
+ | git remote add --mirror=fetch
+
+The git version in RHEL 6 or Ubuntu 10 are too old for this and support
+'--mirror' without a value only.
 
 
+Enrico
 
 
