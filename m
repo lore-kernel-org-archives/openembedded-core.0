@@ -1,36 +1,45 @@
-Received: from mail.cvg.de ([62.153.82.30])
+Received: from db3ehsobe002.messaging.microsoft.com ([213.199.154.140]
+	helo=db3outboundpool.messaging.microsoft.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1Sow7j-00061K-IS
+	(envelope-from <B19537@freescale.com>) id 1SowEK-00067R-PE
 	for openembedded-core@lists.openembedded.org;
-	Wed, 11 Jul 2012 14:34:31 +0200
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id q6BCNHqG015472
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Jul 2012 14:23:19 +0200
-Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
-	4.76) (envelope-from <ensc@sigma-chemnitz.de>) id 1Sovwr-0006nV-M4
-	for openembedded-core@lists.openembedded.org;
-	Wed, 11 Jul 2012 14:23:17 +0200
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-To: openembedded-core@lists.openembedded.org
-References: <1341927124.24837.8.camel@ted>
-Date: Wed, 11 Jul 2012 14:23:17 +0200
-In-Reply-To: <1341927124.24837.8.camel@ted> (Richard Purdie's message of "Tue, 
-	10 Jul 2012 14:32:04 +0100")
-Message-ID: <lysjcypjuy.fsf@ensc-virt.intern.sigma-chemnitz.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.1 (gnu/linux)
+	Wed, 11 Jul 2012 14:41:20 +0200
+Received: from mail105-db3-R.bigfish.com (10.3.81.227) by
+	DB3EHSOBE006.bigfish.com (10.3.84.26) with Microsoft SMTP Server id
+	14.1.225.23; Wed, 11 Jul 2012 11:42:31 +0000
+Received: from mail105-db3 (localhost [127.0.0.1])	by
+	mail105-db3-R.bigfish.com (Postfix) with ESMTP id A6E4626042A	for
+	<openembedded-core@lists.openembedded.org>;
+	Wed, 11 Jul 2012 11:42:31 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-SpamScore: 0
+X-BigFish: VS0(zzzz1202hzz8275bhz2dh2a8h668h839hd24he5bhf0ah107ah)
+Received: from mail105-db3 (localhost.localdomain [127.0.0.1]) by mail105-db3
+	(MessageSwitch) id 1342006949935377_31159;
+	Wed, 11 Jul 2012 11:42:29 +0000 (UTC)
+Received: from DB3EHSMHS008.bigfish.com (unknown [10.3.81.245])	by
+	mail105-db3.bigfish.com (Postfix) with ESMTP id E2BC61A0046	for
+	<openembedded-core@lists.openembedded.org>;
+	Wed, 11 Jul 2012 11:42:29 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by DB3EHSMHS008.bigfish.com
+	(10.3.87.108) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Wed, 11 Jul 2012 11:42:29 +0000
+Received: from az84smr01.freescale.net (10.64.34.197) by
+	039-SN1MMR1-002.039d.mgd.msft.net (10.84.1.15) with Microsoft SMTP
+	Server (TLS) id 14.2.298.5; Wed, 11 Jul 2012 06:44:47 -0500
+Received: from localhost.localdomain
+	(bjsimics-desktop-010192208197.ap.freescale.net [10.192.208.197])	by
+	az84smr01.freescale.net (8.14.3/8.14.0) with ESMTP id q6BBiieb030832;
+	Wed, 11 Jul 2012 04:44:45 -0700
+From: <b19537@freescale.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 11 Jul 2012 20:01:51 +0800
+Message-ID: <1342008111-24810-1-git-send-email-b19537@freescale.com>
+X-Mailer: git-send-email 1.7.0.4
 MIME-Version: 1.0
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-X-DSPAM-Result: Innocent
-X-DSPAM-Probability: 0
-X-DSPAM-Confidence: 0.84
-X-Spam-Score: -5.3
-X-Spam-Level: -----
-X-Spam-Tests: AWL,BAYES_00,SPF_NEUTRAL,T_RP_MATCHES_RCVD,DSPAM_INNOCENT
-X-Scanned-By: MIMEDefang 2.73
-Subject: Re: bitbake.conf: Add git-native to ASSUME_PROVIDED
+X-OriginatorOrg: freescale.com
+Subject: [PATCH] task-core-sdk.bb: add libgomp and libgomp-dev
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,26 +54,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Jul 2012 12:34:31 -0000
+X-List-Received-Date: Wed, 11 Jul 2012 12:41:20 -0000
 Content-Type: text/plain
 
-Richard Purdie
-<richard.purdie-hQyY1W1yCW8ekmWlsbkhG0B+6BGkLq7r@public.gmane.org>
-writes:
+From: Zhenhua Luo <b19537@freescale.com>
 
-> Originally, git was something new, not installed everywhere and had
-> commandline stability problems. This has changed and git it no longer
-> makes sense to continually build this when the system installed version
-> is likely sufficient.
+Signed-off-by: Zhenhua Luo <b19537@freescale.com>
+---
+ meta/recipes-core/tasks/task-core-sdk.bb |    4 +++-
+ 1 files changed, 3 insertions(+), 1 deletions(-)
 
-Can this really be assumed? Recent bitbake use something like 
+diff --git a/meta/recipes-core/tasks/task-core-sdk.bb b/meta/recipes-core/tasks/task-core-sdk.bb
+index ec6cdcc..3ee29ce 100644
+--- a/meta/recipes-core/tasks/task-core-sdk.bb
++++ b/meta/recipes-core/tasks/task-core-sdk.bb
+@@ -7,7 +7,7 @@ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58 \
+                     file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+ DEPENDS = "task-core-console"
+-PR = "r7"
++PR = "r8"
+ 
+ ALLOW_EMPTY = "1"
+ #PACKAGEFUNCS =+ 'generate_sdk_pkgs'
+@@ -34,6 +34,8 @@ RDEPENDS_task-core-sdk = "\
+     gettext \
+     make \
+     intltool \
++    libgomp \
++    libgomp-dev \
+     libstdc++ \
+     libstdc++-dev \
+     libtool \
+-- 
+1.7.0.4
 
- | git remote add --mirror=fetch
 
-The git version in RHEL 6 or Ubuntu 10 are too old for this and support
-'--mirror' without a value only.
-
-
-Enrico
 
 
