@@ -1,27 +1,36 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail-lb0-f175.google.com ([209.85.217.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Peter.Seebach@windriver.com>) id 1Sp2Ey-0004PR-9I
+	(envelope-from <kergoth@gmail.com>) id 1Sp2Le-0004WU-8C
 	for openembedded-core@lists.openembedded.org;
-	Wed, 11 Jul 2012 21:06:24 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q6BIt96J011769
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 11 Jul 2012 11:55:09 -0700 (PDT)
-Received: from wrlaptop (172.25.40.226) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Wed, 11 Jul 2012 11:55:08 -0700
-Date: Wed, 11 Jul 2012 13:54:55 -0500
-From: Peter Seebach <peter.seebach@windriver.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20120711135455.72b90a06@wrlaptop>
-In-Reply-To: <1342028210.11939.35.camel@ted>
+	Wed, 11 Jul 2012 21:13:18 +0200
+Received: by lbol5 with SMTP id l5so2075408lbo.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 11 Jul 2012 12:02:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date
+	:x-google-sender-auth:message-id:subject:to:cc:content-type;
+	bh=7Spi0nAFSRF4A2ZpIJTnPs58HGtpWt/vlXjh+p7B5iw=;
+	b=Z4IxVsgdDkFywC4OZv+XQfL7bgPFJii/lXddnvyqY7i67f0nBzIqz+TYye57+dEg/u
+	cxqZMBse4pKxa5KGihr4tyvIFkccv00ffRxCcny/jeA62x1xIUuvaFH49mG+c2ziJ8Xe
+	4BnlGY+JXpCsOW6bnZW1uuPVKJO9VRKsC+MuhGXbZIJyHUc6YvRAK3oV96UrxMjzQ766
+	qzTmqmtnyzmakIsnECHR6HvOAzHuMNrRMxQQqqsHQu2qQ8dLFdsz2bgKjt3gpBIlXmpf
+	lAaHPJKEV/7mUVzf1AThRQsTrTI40GnV3rpsJVRarILbKzV7XUJ1Wz4Rcc/ZGs6uF1QY
+	O8GA==
+Received: by 10.152.104.47 with SMTP id gb15mr49956209lab.45.1342033326123;
+	Wed, 11 Jul 2012 12:02:06 -0700 (PDT)
+MIME-Version: 1.0
+Sender: kergoth@gmail.com
+Received: by 10.114.64.180 with HTTP; Wed, 11 Jul 2012 12:01:45 -0700 (PDT)
+In-Reply-To: <20120711135455.72b90a06@wrlaptop>
 References: <cover.1342022120.git.peter.seebach@windriver.com>
 	<22e5e5adc39fb855badc6d1260fbd4b30d966530.1342022120.git.peter.seebach@windriver.com>
 	<1342023149.11939.22.camel@ted> <20120711113333.76632780@wrlaptop>
-	<1342028210.11939.35.camel@ted>
-X-Mailer: Claws Mail 3.8.0 (GTK+ 2.24.4; x86_64-pc-linux-gnu)
-MIME-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
+	<1342028210.11939.35.camel@ted> <20120711135455.72b90a06@wrlaptop>
+From: Chris Larson <clarson@kergoth.com>
+Date: Wed, 11 Jul 2012 12:01:45 -0700
+X-Google-Sender-Auth: FEZWYUbIbqnyP3tIXU6Du25CUsM
+Message-ID: <CABcZANmXGq8kccKxaqtwG7ekBqSsEzCwmwjTHSbXo9c5VsS-Pg@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 1/1] package.bbclass: Allow overriding of debugedit starting path
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -38,51 +47,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Jul 2012 19:06:24 -0000
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 11 Jul 2012 19:13:18 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Wed, 11 Jul 2012 18:36:50 +0100
-Richard Purdie <richard.purdie@linuxfoundation.org> wrote:
+On Wed, Jul 11, 2012 at 11:54 AM, Peter Seebach
+<peter.seebach@windriver.com> wrote:
+> Okay, crazy thought.  Imagine that we were to make a modified parser,
+> with the following behavior:
+>
+> Whenever reading a python function, count the indentation of the first
+> line (N), then replace every N spaces of indentation with 4 spaces.
+>
+> If this worked, it would make it possible to start fixing stuff.
 
-> It should all use 4 space for python functions. There is however a
-> twist which is due to the way we handle _prepend and _append. Those
-> prepends and appends have whitespace too and I seem to remember
-> issues with whitespace matching.
-> 
-> Yes, this is horrible. This is why that file hasn't been touched for
-> whitespace though.
-
-noooooooo
-
-That hurts so much.
-
-Okay, crazy thought.  Imagine that we were to make a modified parser,
-with the following behavior:
-
-Whenever reading a python function, count the indentation of the first
-line (N), then replace every N spaces of indentation with 4 spaces.
-
-If this worked, it would make it possible to start fixing stuff.
-
-DISCLAIMER:  Due to Reasons, I have slept about 15 minutes out of the
-last day, also I'm sick. When I say "crazy thought", I do not kid.
-
-Anyway:  Anyone have other thoughts/comments on the possible starting
-path fixup? I am pretty sure that it is sufficient for all real cases,
-with the one exception being prebuilts where the debug path names are
-unreasonably short.  (I theorize that a more advanced debugedit could
-be written which could handle those by rewriting files.  I nominate
-someone else to try to actually do it.)
-
-My initial theory that I'd need to be able to specify the destination
-path evaporates with the realization that we can always move source
-files to whatever path we want them in; it's just that it's nicer for
-everyone if the debug source files are always in the standard locations,
-give or take, no matter how they were built.
-
--s
+That's one possibility. The other would be to treat _append/_prepended
+functions as independent entities. Rather than concatenating
+functions, it'd add them to the prefuncs/postfuncs or equivalent.
+Without concatenation, there'd be no issues with mismatches.
 -- 
-Listen, get this.  Nobody with a good compiler needs to be justified.
+Christopher Larson
 
 
