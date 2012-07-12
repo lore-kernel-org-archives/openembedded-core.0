@@ -1,37 +1,39 @@
-Received: from mail-yw0-f47.google.com ([209.85.213.47])
+Received: from mail-yx0-f175.google.com ([209.85.213.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrei@gherzan.ro>) id 1SpO4G-00027W-0b
+	(envelope-from <andrei@gherzan.ro>) id 1SpO4S-00029W-UU
 	for openembedded-core@lists.openembedded.org;
-	Thu, 12 Jul 2012 20:24:54 +0200
-Received: by yhjj56 with SMTP id j56so3014239yhj.6
+	Thu, 12 Jul 2012 20:25:05 +0200
+Received: by yenl13 with SMTP id l13so2529080yen.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Jul 2012 11:13:32 -0700 (PDT)
+	Thu, 12 Jul 2012 11:13:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer:mime-version
-	:content-type:content-transfer-encoding:x-gm-message-state;
-	bh=5mZ7h3KiIaZqPGyiJFY8hfApvDgrF8dLrm8cpIA6qY0=;
-	b=Zvzg/eYNGMN3BNeh9sypGNzXIt6UBX2hZ6HPVD4ItMeGqg1e/eX6SwZodECnkW5MDU
-	X4DleTXEUGc6A1Nj6yLY+7TBuUFURCcU2+J1HGBVD+casN6itYvmcd+RS1pyzYtIlq1K
-	kWNfdRDh2NhZFgRyMlITaOHj3auyGYrKpqRBS43mgjpl0NoxS79zLgzqoM/kGEXGLOsL
-	32kb4tYdyqpDeQIIFQ0BwwcRCjHRflfJIGkvTDxQzf+4hd+8+0NGBwVuFPE+duLnXWKy
-	9aT3op2qeAYzqd2ZK9hoRe/INwe4KbGAHkfmv29C3J+Gg3GK9iu4CvtciTF+1w462dMZ
-	eEUQ==
-Received: by 10.50.203.41 with SMTP id kn9mr18634164igc.72.1342116812152;
-	Thu, 12 Jul 2012 11:13:32 -0700 (PDT)
+	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
+	:in-reply-to:references:x-gm-message-state;
+	bh=8X4s4LIPuEMIdqit4skjAD9IB5CMxFs4JtFaHyYCkSM=;
+	b=bh4sGl6iMDFEHJOfrsCl7VfaxRglwgQK5g+5mbNv0PJAX/dpUyEGo+GM0+f2ZJpDO0
+	75kJThaJ29m2HEu4Dt3cuo1jILYhJ51B8d+sia7M+cl9gBM3o3dBGydVxXmxxNVTVBlb
+	NA6V2S71Yp4u7HsulYrQP4kqtovSBPuVKyIHQjahh2Od86v/1SX/DDSrgwNvSeQhTDl5
+	jaL8zVEtIClZW3fUtJDZURLu16u1NoGVbDMCw005BgZD2rmuya2t1FLAnH7/FcleblQj
+	EHe8w1RqJk6IJwobpSatczZ3iuQlTt5VWkRaTlvsTsbiEM06vQ3JXVFi7nboW/ZP5sn0
+	tOQA==
+Received: by 10.50.217.193 with SMTP id pa1mr18270591igc.39.1342116827059;
+	Thu, 12 Jul 2012 11:13:47 -0700 (PDT)
 Received: from otp-agherzan-l1.corp.ad.wrs.com ([89.121.200.106])
-	by mx.google.com with ESMTPS id nh1sm33376igc.11.2012.07.12.11.13.30
+	by mx.google.com with ESMTPS id if4sm35476igc.10.2012.07.12.11.13.45
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 12 Jul 2012 11:13:31 -0700 (PDT)
+	Thu, 12 Jul 2012 11:13:46 -0700 (PDT)
 From: Andrei Gherzan <andrei@gherzan.ro>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 12 Jul 2012 21:13:22 +0300
-Message-Id: <cover.1342116650.git.andrei@gherzan.ro>
+Date: Thu, 12 Jul 2012 21:13:36 +0300
+Message-Id: <065917316a9ae48c5cee6f11bedfd2df38e85a7a.1342116650.git.andrei@gherzan.ro>
 X-Mailer: git-send-email 1.7.9.5
-MIME-Version: 1.0
-X-Gm-Message-State: ALoCoQkiUFQW8vXSIFG0VIa/if0DqEUZVEL4be9Qd7za/1azRZdM35tPxLIvmg5fiIbVpOl1LKPc
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: [PATCH 0/3] Fix xz compression command and optimize compression time
+In-Reply-To: <5f8d84b63b15ef27f5bad8187db54cdd7d55fea6.1342116650.git.andrei@gherzan.ro>
+References: <5f8d84b63b15ef27f5bad8187db54cdd7d55fea6.1342116650.git.andrei@gherzan.ro>
+In-Reply-To: <cover.1342116650.git.andrei@gherzan.ro>
+References: <cover.1342116650.git.andrei@gherzan.ro>
+X-Gm-Message-State: ALoCoQmWRclIjWIvxyABbT6uOpXpu6a8+hPMU7kGKD7ZkTN/K3gYxU7WHHrb8dX86Uc1SyHcVGW3
+Subject: [PATCH 2/3] image_types.bbclass: Add XZ variable to set number of threads to be used while compressing
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,72 +48,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Jul 2012 18:24:54 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 12 Jul 2012 18:25:05 -0000
 
-Koen suggested to add -T to xz commands. We have this option implemented in our current version .1alpha. 
+Default this variable to 0. This will make xz use as many threads as there are CPU
+cores on the system.
 
--T threads, --threads=threads
-              Specify the number of worker threads to use.  Setting threads to
-              a special value 0 makes xz use as many threads as there are  CPU
-              cores  on  the system.  The actual number of threads can be less
-              than threads if the input file is not big enough  for  threading
-              with  the  given  settings or if using more threads would exceed
-              the memory usage limit.
+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
+---
+ meta/classes/image_types.bbclass |    3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
--------------------
-
-Memory: 7.8 GiB
-Processor:: Intel® Core™ i5-2540M CPU @ 2.60GHz × 4
-
-File to compress: 1.9G
-
-xz -f -k -e -9 --check=crc32 (current configuration)
-Memory: 673Mb
-real    6m37.170s
-user    6m35.389s
-sys     0m0.884s
-Compressed file size: 3.4Mb
-
-xz -f -k -e -9 -T 4 --check=crc32
-Memory: Cannot allocate memory
-
-xz -f -k -e -8 -T 4 --check=crc32
-Memory: 1.8G
-real    3m24.462s
-user    12m8.502s
-sys     0m2.180s
-Compressed file size: 3.4Mb
-
-xz -f -k -T 4 --check=crc32 (-e defaults to -6)
-Memory: 471Mb
-real    1m9.265s
-user    4m8.972s
-sys     0m0.944s
-Compressed file size: 3.4Mb
-
-So my conclusion would be to use the default -e -6 with -T 0.
-
-The following changes since commit 90ad663909c0c8a405b22a510c9f957007d02669:
-
-  upstream_tracking: update boost (2012-07-09 17:21:38 +0100)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib ag/xz
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ag/xz
-
-Andrei Gherzan (3):
-  image_types.bbclass: Fix COMPRESS_CMD for xz to redirect compressed
-    data to file
-  image_types.bbclass: Add XZ variable to set number of threads to be
-    used while compressing
-  image_types.bbclass: Default XZ_COMPRESSION_LEVEL to -e -6
-
- meta/classes/image_types.bbclass |    5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
-
+diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+index 0e79820..b19ad3b 100644
+--- a/meta/classes/image_types.bbclass
++++ b/meta/classes/image_types.bbclass
+@@ -124,6 +124,7 @@ def imagetypes_getdepends(d):
+ 
+ XZ_COMPRESSION_LEVEL ?= "-e -9"
+ XZ_INTEGRITY_CHECK ?= "crc32"
++XZ_THREADS ?= "-T 0"
+ 
+ IMAGE_CMD_jffs2 = "mkfs.jffs2 --root=${IMAGE_ROOTFS} --faketime --output=${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.jffs2 -n ${EXTRA_IMAGECMD}"
+ IMAGE_CMD_sum.jffs2 = "${IMAGE_CMD_jffs2} && sumtool -i ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.jffs2 \
+@@ -236,7 +237,7 @@ COMPRESSIONTYPES = "gz bz2 lzma xz"
+ COMPRESS_CMD_lzma = "lzma -k -f -7 ${IMAGE_NAME}.rootfs.${type}"
+ COMPRESS_CMD_gz = "gzip -f -9 -c ${IMAGE_NAME}.rootfs.${type} > ${IMAGE_NAME}.rootfs.${type}.gz"
+ COMPRESS_CMD_bz2 = "bzip2 -f -k ${IMAGE_NAME}.rootfs.${type}"
+-COMPRESS_CMD_xz = "xz -f -k -c ${XZ_COMPRESSION_LEVEL} --check=${XZ_INTEGRITY_CHECK} ${IMAGE_NAME}.rootfs.${type} > ${IMAGE_NAME}.rootfs.${type}.xz"
++COMPRESS_CMD_xz = "xz -f -k -c ${XZ_COMPRESSION_LEVEL} ${XZ_THREADS} --check=${XZ_INTEGRITY_CHECK} ${IMAGE_NAME}.rootfs.${type} > ${IMAGE_NAME}.rootfs.${type}.xz"
+ COMPRESS_DEPENDS_lzma = "xz-native"
+ COMPRESS_DEPENDS_gz = ""
+ COMPRESS_DEPENDS_bz2 = ""
 -- 
 1.7.9.5
 
