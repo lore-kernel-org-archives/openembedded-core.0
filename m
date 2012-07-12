@@ -1,45 +1,31 @@
-Received: from co1ehsobe001.messaging.microsoft.com ([216.32.180.184]
-	helo=co1outboundpool.messaging.microsoft.com)
+Received: from mail-pb0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1Sp6J1-0002hZ-1h
+	(envelope-from <dennis.yxun@gmail.com>) id 1Sp9wY-0002io-Cw
 	for openembedded-core@lists.openembedded.org;
-	Thu, 12 Jul 2012 01:26:51 +0200
-Received: from mail127-co1-R.bigfish.com (10.243.78.225) by
-	CO1EHSOBE005.bigfish.com (10.243.66.68) with Microsoft SMTP Server id
-	14.1.225.23; Wed, 11 Jul 2012 23:13:15 +0000
-Received: from mail127-co1 (localhost [127.0.0.1])	by
-	mail127-co1-R.bigfish.com (Postfix) with ESMTP id D4F4672053C	for
-	<openembedded-core@lists.openembedded.org>;
-	Wed, 11 Jul 2012 23:13:14 +0000 (UTC)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-X-SpamScore: 3
-X-BigFish: VS3(zzzz1202h1082kzzz2dh2a8h668h839hd24he5bhf0ah107ah)
-Received: from mail127-co1 (localhost.localdomain [127.0.0.1]) by mail127-co1
-	(MessageSwitch) id 1342048392579421_22976;
-	Wed, 11 Jul 2012 23:13:12 +0000 (UTC)
-Received: from CO1EHSMHS030.bigfish.com (unknown [10.243.78.239])	by
-	mail127-co1.bigfish.com (Postfix) with ESMTP id 8BE9ABC004D	for
-	<openembedded-core@lists.openembedded.org>;
-	Wed, 11 Jul 2012 23:13:12 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by CO1EHSMHS030.bigfish.com
-	(10.243.66.40) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Wed, 11 Jul 2012 23:13:12 +0000
-Received: from tx30smr01.am.freescale.net (10.81.153.31) by
-	039-SN1MMR1-002.039d.mgd.msft.net (10.84.1.15) with Microsoft SMTP
-	Server (TLS) id 14.2.298.5; Wed, 11 Jul 2012 18:15:29 -0500
-Received: from right.am.freescale.net (right.am.freescale.net [10.82.176.228])
-	by tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id
-	q6BNFR7T002372 for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Jul 2012 16:15:29 -0700
-From: Matthew McClintock <msm@freescale.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 11 Jul 2012 18:15:27 -0500
-Message-ID: <1342048527-20262-1-git-send-email-msm@freescale.com>
-X-Mailer: git-send-email 1.7.10
+	Thu, 12 Jul 2012 05:19:54 +0200
+Received: by pbbrq2 with SMTP id rq2so2810068pbb.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 11 Jul 2012 20:08:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type; bh=yKbkm6Wf/4B1rj6qmHH+SB6invyd4KWVy/0xNuwAV7I=;
+	b=WTka8RsYRZNJJsJuZoI8owVCedZffUyQeNTg44TA7LKi3fQIGMcV4JsuI8res68FBf
+	UzIWn4BcBqLmxX4kTIzTw5EAK7XrxfaYoWc6VAA1HUrSOU/k4ZAbqXFgflYPaNkyU5TZ
+	KJNwqg7aqqetYVZ9r4v5wNd38K8h8z0Od3vHnB6fTtSbRL7rqjXRzxKw1nPmLS+pS81w
+	l8p4zFa+3l7V1xByVuTPxwwuEFAqobB2Nef4uaDjnKnFjDx086K5ZF2KyIVfT6ezE4T1
+	Ia0G6TspcZExmt22WPDtgIbaX84ZoYo9d2EFiPUjQ1CCDijnWseVVrjbHQDl/P2hNQbB
+	U36A==
 MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Subject: [PATCH] sysvinit-inittab_2.88dsf.bb: Allow multiple serial port consoles to be defined
+Received: by 10.68.190.97 with SMTP id gp1mr1503392pbc.76.1342062520857; Wed,
+	11 Jul 2012 20:08:40 -0700 (PDT)
+Received: by 10.68.230.69 with HTTP; Wed, 11 Jul 2012 20:08:40 -0700 (PDT)
+In-Reply-To: <1341990302-30459-1-git-send-email-dennis.yxun@gmail.com>
+References: <1341990302-30459-1-git-send-email-dennis.yxun@gmail.com>
+Date: Thu, 12 Jul 2012 11:08:40 +0800
+Message-ID: <CAF1ZMEfMmkx9q8H1-TY9h3-Bc=Ljxq=5SfHHjokEaKs-FC25Pw@mail.gmail.com>
+From: "Dennis.Yxun" <dennis.yxun@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] runqemu/mips: adjust runqemu script to support mipsel machine
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -54,73 +40,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Jul 2012 23:26:51 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 12 Jul 2012 03:19:54 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Set SERIAL_CONSOLES if you want to define multiple serial consoles, also if
-you need to check for the presence of the serial consoles you can also define
-SERIAL_CONSOLES_CHECK to determine if these are present when you boot. This
-will prevent error message that pop up when the serial port is not present.
+On Wed, Jul 11, 2012 at 3:05 PM, Dennis Lan <dennis.yxun@gmail.com> wrote:
+> Signed-off-by: Dennis Lan <dennis.yxun@gmail.com>
+> ---
+>  scripts/runqemu          |    5 ++++-
+>  scripts/runqemu-internal |    9 +++------
+>  2 files changed, 7 insertions(+), 7 deletions(-)
+>
+> diff --git a/scripts/runqemu b/scripts/runqemu
+> index 8d149a2..650d1df 100755
+> --- a/scripts/runqemu
+> +++ b/scripts/runqemu
+> @@ -94,7 +94,7 @@ KVM_ENABLED="no"
+>  while true; do
+>      arg=${1}
+>      case "$arg" in
+> -        "qemux86" | "qemux86-64" | "qemuarm" | "qemumips" | "qemumips64" | "qemush4"  | "qemuppc")
+> +        "qemux86" | "qemux86-64" | "qemuarm" | "qemumips" | "qemumipsel" | "qemumips64" | "qemush4"  | "qemuppc")
+>              [ -z "$MACHINE" ] && MACHINE=$arg || \
+>                  error "conflicting MACHINE types [$MACHINE] and [$arg]"
+>              ;;
+> @@ -245,6 +245,9 @@ QEMUARM_DEFAULT_FSTYPE=ext3
+>  QEMUMIPS_DEFAULT_KERNEL=vmlinux-qemumips.bin
+>  QEMUMIPS_DEFAULT_FSTYPE=ext3
+>
+> +QEMUMIPSEL_DEFAULT_KERNEL=vmlinux-qemumipsel.bin
+> +QEMUMIPSEL_DEFAULT_FSTYPE=ext3
+> +
+>  QEMUMIPS64_DEFAULT_KERNEL=vmlinux-qemumips64.bin
+>  QEMUMIPS64_DEFAULT_FSTYPE=ext3
+>
+> diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
+> index 041464d..bdf1a37 100755
+> --- a/scripts/runqemu-internal
+> +++ b/scripts/runqemu-internal
+> @@ -236,6 +236,7 @@ fi
+>  case "$MACHINE" in
+>      "qemuarm") ;;
+>      "qemumips") ;;
+> +    "qemumipsel") ;;
+>      "qemumips64") ;;
+>      "qemush4") ;;
+>      "qemuppc") ;;
+> @@ -375,12 +376,8 @@ if [ "$MACHINE" = "spitz" ]; then
+>      fi
+>  fi
+>
+> -if [ "$MACHINE" = "qemumips" -o "$MACHINE" = "qemumips64" ]; then
+> -    if [ "$MACHINE" = "qemumips64" ]; then
+> -       QEMU=qemu-system-mips64
+> -    else
+> -       QEMU=qemu-system-mips
+> -    fi
+> +if [ "$MACHINE" = "qemumips" -o "$MACHINE" = "qemumipsel" -o "$MACHINE" = "qemumips64" ]; then
+> +    QEMU=${MACHINE/qemu/qemu-system-}
+>      MACHINE_SUBTYPE=malta
+>      QEMU_UI_OPTIONS="-vga cirrus $QEMU_UI_OPTIONS"
+>      if [ "$FSTYPE" = "ext3" -o "$FSTYPE" = "btrfs" ]; then
+> --
+> 1.7.9.rc2
+>
 
-SERIAL_CONSOLES = "115200;ttyS0 115200;ttyS1 115200;ttyEHV0"
-SERIAL_CONSOLES_CHECK = "${SERIAL_CONSOLES}"
+hi all:
+  any comment? suggestion or rejection?
 
-The above lines in machine.conf or elsewhere will have the effect of having
-two serial consoles and removing any that are not present at boot
----
- .../sysvinit/sysvinit-inittab_2.88dsf.bb           |   22 ++++++++++++++++++--
- 1 file changed, 20 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
-index 9bd087c..1089edb 100644
---- a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
-+++ b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
-@@ -2,7 +2,7 @@ DESCRIPTION = "Inittab for sysvinit"
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
- 
--PR = "r6"
-+PR = "r7"
- 
- SRC_URI = "file://inittab"
- 
-@@ -26,7 +26,8 @@ do_install() {
-     for i in $tmp
-     do
- 	j=`echo ${i} | sed s/\;/\ /g`
--        echo "${idx}:2345:respawn:${base_sbindir}/getty ${j}" >> ${D}${sysconfdir}/inittab
-+	echo "${idx}:12345:respawn:${base_sbindir}/getty ${j}" >> ${D}${sysconfdir}/inittab
-+
- 	idx=`expr $idx + 1`
-     done
- 
-@@ -51,6 +52,23 @@ EOF
-     fi
- }
- 
-+pkg_postinst_${PN} () {
-+# run this on the target
-+if [ "x$D" == "x" ]; then
-+	tmp="${SERIAL_CONSOLES_CHECK}"
-+	for i in $tmp
-+	do
-+		j=`echo ${i} | sed s/^.*\;//g`
-+		if [ -z "`cat /proc/consoles | grep ${j}`" ]; then
-+			sed -i /^.*${j}$/d /etc/inittab
-+		fi
-+	done
-+	kill -HUP 1
-+else
-+	exit 1
-+fi
-+}
-+
- # USE_VT and SERIAL_CONSOLE are generally defined by the MACHINE .conf.
- # Set PACKAGE_ARCH appropriately.
- PACKAGE_ARCH = "${MACHINE_ARCH}"
--- 
-1.7.10
-
-
+Dennis
 
 
