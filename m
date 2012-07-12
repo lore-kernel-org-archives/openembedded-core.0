@@ -1,39 +1,37 @@
-Received: from mail-gg0-f175.google.com ([209.85.161.175])
+Received: from mail-yw0-f47.google.com ([209.85.213.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrei@gherzan.ro>) id 1SpNps-0003kC-PO
+	(envelope-from <andrei@gherzan.ro>) id 1SpO4G-00027W-0b
 	for openembedded-core@lists.openembedded.org;
-	Thu, 12 Jul 2012 20:09:56 +0200
-Received: by ggnp4 with SMTP id p4so2530236ggn.6
+	Thu, 12 Jul 2012 20:24:54 +0200
+Received: by yhjj56 with SMTP id j56so3014239yhj.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Jul 2012 10:58:43 -0700 (PDT)
+	Thu, 12 Jul 2012 11:13:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
-	:in-reply-to:references:x-gm-message-state;
-	bh=HV1TS/9Pr9pOSxBoZhMrkDLjo96A5X0rzmUjrcpN+/I=;
-	b=MyBwwOHWuDQmiyr9XF/oUg6+gDxQl/WmUjXprEOir1qsugia00wbD/XJrWd6BPh97U
-	kVrGFwFoyQx5kIn30ecjbpp997tbKtavIvs06S7ilWHxZh1tXfHehwsbHjvhX2wNztok
-	6vEbBv64Sc/DocswaLl4GwlvAAx29N6H4/p0dURwZrsyoE4IzXdlO6exa5RMcWLuawFC
-	MxuMOUX3nc3ccfF9eQsqdCLnt1pxF7XfeMnl9VDN/czOx9H2OSd7OBwehuDOJiZb2txp
-	qzG7M2RZ4QYhDrNy+B0gklC3CHqdYcJRvRKQAzKpb2cF0zgg6PmvqDGaASWubYvbMrNL
-	gb8Q==
-Received: by 10.50.186.196 with SMTP id fm4mr18328454igc.34.1342115921848;
-	Thu, 12 Jul 2012 10:58:41 -0700 (PDT)
+	h=from:to:cc:subject:date:message-id:x-mailer:mime-version
+	:content-type:content-transfer-encoding:x-gm-message-state;
+	bh=5mZ7h3KiIaZqPGyiJFY8hfApvDgrF8dLrm8cpIA6qY0=;
+	b=Zvzg/eYNGMN3BNeh9sypGNzXIt6UBX2hZ6HPVD4ItMeGqg1e/eX6SwZodECnkW5MDU
+	X4DleTXEUGc6A1Nj6yLY+7TBuUFURCcU2+J1HGBVD+casN6itYvmcd+RS1pyzYtIlq1K
+	kWNfdRDh2NhZFgRyMlITaOHj3auyGYrKpqRBS43mgjpl0NoxS79zLgzqoM/kGEXGLOsL
+	32kb4tYdyqpDeQIIFQ0BwwcRCjHRflfJIGkvTDxQzf+4hd+8+0NGBwVuFPE+duLnXWKy
+	9aT3op2qeAYzqd2ZK9hoRe/INwe4KbGAHkfmv29C3J+Gg3GK9iu4CvtciTF+1w462dMZ
+	eEUQ==
+Received: by 10.50.203.41 with SMTP id kn9mr18634164igc.72.1342116812152;
+	Thu, 12 Jul 2012 11:13:32 -0700 (PDT)
 Received: from otp-agherzan-l1.corp.ad.wrs.com ([89.121.200.106])
-	by mx.google.com with ESMTPS id dw5sm12369igc.6.2012.07.12.10.58.40
+	by mx.google.com with ESMTPS id nh1sm33376igc.11.2012.07.12.11.13.30
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 12 Jul 2012 10:58:41 -0700 (PDT)
-From: andrei@gherzan.ro
+	Thu, 12 Jul 2012 11:13:31 -0700 (PDT)
+From: Andrei Gherzan <andrei@gherzan.ro>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 12 Jul 2012 20:58:30 +0300
-Message-Id: <48e46c28bc9fb10fc5fe491d48a769bdf1d93361.1342115559.git.andrei@gherzan.ro>
+Date: Thu, 12 Jul 2012 21:13:22 +0300
+Message-Id: <cover.1342116650.git.andrei@gherzan.ro>
 X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <16418209b96e9a5d79efe74290d13a67c9aed91f.1342115559.git.andrei@gherzan.ro>
-References: <16418209b96e9a5d79efe74290d13a67c9aed91f.1342115559.git.andrei@gherzan.ro>
-In-Reply-To: <cover.1342115559.git.andrei@gherzan.ro>
-References: <cover.1342115559.git.andrei@gherzan.ro>
-X-Gm-Message-State: ALoCoQmPz5u3n6Zpg0Ev3xXPjEdKLKva/yoOrjWMC6+2h7/dqsYhQFyQr7xrgpCP1L++LahqBUvP
-Subject: [PATCH 2/2] connman.inc: Add missing dependencies needed by some tests
+MIME-Version: 1.0
+X-Gm-Message-State: ALoCoQkiUFQW8vXSIFG0VIa/if0DqEUZVEL4be9Qd7za/1azRZdM35tPxLIvmg5fiIbVpOl1LKPc
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: [PATCH 0/3] Fix xz compression command and optimize compression time
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,42 +46,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Jul 2012 18:09:57 -0000
+X-List-Received-Date: Thu, 12 Jul 2012 18:24:54 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-From: Andrei Gherzan <andrei.gherzan@windriver.com>
+Koen suggested to add -T to xz commands. We have this option implemented in our current version .1alpha. 
 
-Some tests need:
-* gobject and optparse module (ex: test-session)
-* subprocess and fnctl module (ex: backtrace)
-* urllib module (ex: get-proxy-autoconfig)
+-T threads, --threads=threads
+              Specify the number of worker threads to use.  Setting threads to
+              a special value 0 makes xz use as many threads as there are  CPU
+              cores  on  the system.  The actual number of threads can be less
+              than threads if the input file is not big enough  for  threading
+              with  the  given  settings or if using more threads would exceed
+              the memory usage limit.
 
-Signed-off-by: Andrei Gherzan <andrei.gherzan@windriver.com>
----
- meta/recipes-connectivity/connman/connman.inc |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+-------------------
 
-diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipes-connectivity/connman/connman.inc
-index 12378e9..58cac0b 100644
---- a/meta/recipes-connectivity/connman/connman.inc
-+++ b/meta/recipes-connectivity/connman/connman.inc
-@@ -20,7 +20,7 @@ DEPENDS  = "dbus glib-2.0 ppp iptables gnutls \
-             ${@base_contains('DISTRO_FEATURES', '3g','ofono', '', d)} \
-             "
- 
--INC_PR = "r11"
-+INC_PR = "r12"
- 
- TIST = "--enable-tist"
- TIST_powerpc = ""
-@@ -113,7 +113,7 @@ PACKAGES =+ "${PN}-tools ${PN}-tests"
- FILES_${PN}-tools = "${bindir}/wispr"
- 
- FILES_${PN}-tests = "${bindir}/*-test ${libdir}/${BPN}/test/*"
--RDEPENDS_${PN}-tests = "python-dbus"
-+RDEPENDS_${PN}-tests = "python-dbus python-pygobject python-textutils python-subprocess python-fcntl python-netclient"
- 
- FILES_${PN} = "${bindir}/* ${sbindir}/* ${libexecdir}/* ${libdir}/lib*.so.* \
-             ${libdir}/connman/plugins \
+Memory: 7.8 GiB
+Processor:: Intel® Core™ i5-2540M CPU @ 2.60GHz × 4
+
+File to compress: 1.9G
+
+xz -f -k -e -9 --check=crc32 (current configuration)
+Memory: 673Mb
+real    6m37.170s
+user    6m35.389s
+sys     0m0.884s
+Compressed file size: 3.4Mb
+
+xz -f -k -e -9 -T 4 --check=crc32
+Memory: Cannot allocate memory
+
+xz -f -k -e -8 -T 4 --check=crc32
+Memory: 1.8G
+real    3m24.462s
+user    12m8.502s
+sys     0m2.180s
+Compressed file size: 3.4Mb
+
+xz -f -k -T 4 --check=crc32 (-e defaults to -6)
+Memory: 471Mb
+real    1m9.265s
+user    4m8.972s
+sys     0m0.944s
+Compressed file size: 3.4Mb
+
+So my conclusion would be to use the default -e -6 with -T 0.
+
+The following changes since commit 90ad663909c0c8a405b22a510c9f957007d02669:
+
+  upstream_tracking: update boost (2012-07-09 17:21:38 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib ag/xz
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ag/xz
+
+Andrei Gherzan (3):
+  image_types.bbclass: Fix COMPRESS_CMD for xz to redirect compressed
+    data to file
+  image_types.bbclass: Add XZ variable to set number of threads to be
+    used while compressing
+  image_types.bbclass: Default XZ_COMPRESSION_LEVEL to -e -6
+
+ meta/classes/image_types.bbclass |    5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
 -- 
 1.7.9.5
 
