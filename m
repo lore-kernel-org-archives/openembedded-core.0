@@ -1,34 +1,39 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1SpMJT-0001gq-5z
+	(envelope-from <jessica.zhang@intel.com>) id 1SpN9K-00082a-Mn
 	for openembedded-core@lists.openembedded.org;
-	Thu, 12 Jul 2012 18:32:23 +0200
-Received: by eeit10 with SMTP id t10so228602eei.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Jul 2012 09:21:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:content-transfer-encoding;
-	bh=EXYiUlZJoBA660ClYtvJn00+nrEqPjzEQHrMqhaFagg=;
-	b=V8ggSGy4fGJUfGY/+ra8Fkdn4WdbbVL6w9vYA4p06cCvDizlf3Irphairdq0GJr4aj
-	zPs7q8nUz8x1MZsDDgV9vInpmhUby0Fj0BDVHbZWG2jyuJR93rlMVkr8BaaVAwuethhc
-	jK8R7tghFCgCmP1lQAwolnmRDKfr9gKQmPFBGoUsopYIIwk7iNGU90Pf+7xw6rm3Ivjz
-	9ePZB5CXX6axXU1Y0XmyBi3dyWNqhCUBQ0hn1OIedGsxfz60Go4wsLs/QPc1NegSJDK3
-	G9J0KaSxbc9E0KaYs0WnQ1kt2w8WfKmgcYFVNXqHBy3rBDpG5C32XRFaHFVODDxNmeLB
-	O2nQ==
-Received: by 10.14.37.76 with SMTP id x52mr7095640eea.102.1342110070087; Thu,
-	12 Jul 2012 09:21:10 -0700 (PDT)
+	Thu, 12 Jul 2012 19:25:59 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 12 Jul 2012 10:13:40 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="176564231"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.226.49])
+	by fmsmga001.fm.intel.com with ESMTP; 12 Jul 2012 10:13:39 -0700
+Received: from orsmsx152.amr.corp.intel.com (10.22.226.39) by
+	orsmsx603.amr.corp.intel.com (10.22.226.49) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Thu, 12 Jul 2012 10:13:37 -0700
+Received: from orsmsx101.amr.corp.intel.com ([169.254.8.93]) by
+	ORSMSX152.amr.corp.intel.com ([169.254.8.91]) with mapi id
+	14.01.0355.002; Thu, 12 Jul 2012 10:13:37 -0700
+From: "Zhang, Jessica" <jessica.zhang@intel.com>
+To: McClintock Matthew-B29882 <B29882@freescale.com>, Patches and discussions
+	about the oe-core layer <openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] Upcoming Yocto 1.2.1 "denzil" release this week.
+Thread-Index: AQHNXx+jipu+yOCzh0iR/rCdkETaNJckPXUAgAAiVgCAAHP4AIAAAYAAgAAN6gCAAB21AIAAAcKAgADgCIA=
+Date: Thu, 12 Jul 2012 17:13:35 +0000
+Message-ID: <C6510F6D410BB64A8C15398EDC6B847C46AA7586@ORSMSX101.amr.corp.intel.com>
+References: <4FFD0425.7040004@intel.com> <1342004414.7934.11.camel@ted>
+	<CAEsOVNfeZBjERBFsXSWqihHccROAR3N4kRGgW8XhpJd4iKzRdw@mail.gmail.com>
+	<1625033.FUQGRG6suy@helios> <1342032628.11939.37.camel@ted>
+	<4FFDE3E0.2040900@linux.intel.com>
+	<CAEsOVNd9FejzyyXSEV-H8-3Aiir+-KsB76t0NV=j65S_zsjLYA@mail.gmail.com>
+In-Reply-To: <CAEsOVNd9FejzyyXSEV-H8-3Aiir+-KsB76t0NV=j65S_zsjLYA@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.22.254.139]
 MIME-Version: 1.0
-Received: by 10.14.210.199 with HTTP; Thu, 12 Jul 2012 09:20:39 -0700 (PDT)
-In-Reply-To: <A23DB6C9-DD03-4F4B-A113-AD718A57B086@dominion.thruhere.net>
-References: <CAK18fxF=EiFyWywDQhL=vFd1xv1J33MOwwDG8W7GJLyNZzMVVg@mail.gmail.com>
-	<A23DB6C9-DD03-4F4B-A113-AD718A57B086@dominion.thruhere.net>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 12 Jul 2012 09:20:39 -0700
-Message-ID: <CAMKF1srbpfjbmBegfBvKAEye8U9FwQ4Z-rjFdk1C7SqBSG4Lkw@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Results for xz compression with different -T and and -e
+Subject: Re: Upcoming Yocto 1.2.1 "denzil" release this week.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,85 +48,105 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Jul 2012 16:32:23 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 12 Jul 2012 17:25:59 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jul 12, 2012 at 8:40 AM, Koen Kooi <koen@dominion.thruhere.net> wro=
-te:
->
->
-> Op 12 jul. 2012 om 17:29 heeft Andrei Gherzan <andrei@gherzan.ro> het vol=
-gende geschreven:
->
->> Hello,
->>
->> Koen suggested to add -T to xz commands. We have this option implemented=
- in our current version .1alpha.
->>
->> -T threads, --threads=3Dthreads
->>               Specify the number of worker threads to use.  Setting thre=
-ads to
->>               a special value 0 makes xz use as many threads as there ar=
-e  CPU
->>               cores  on  the system.  The actual number of threads can b=
-e less
->>               than threads if the input file is not big enough  for  thr=
-eading
->>               with  the  given  settings or if using more threads would =
-exceed
->>               the memory usage limit.
->>
->> -------------------
->>
->> Memory: 7.8 GiB
->> Processor:: Intel=C2=AE Core=E2=84=A2 i5-2540M CPU @ 2.60GHz =C3=97 4
->>
->> File to compress: 1.9G
->>
->> xz -f -k -e -9 --check=3Dcrc32 (current configuration)
->> Memory: 673Mb
->> real    6m37.170s
->> user    6m35.389s
->> sys     0m0.884s
->> Compressed file size: 3.4Mb
->>
->> xz -f -k -e -9 -T 4 --check=3Dcrc32
->> Memory: Cannot allocate memory
->>
->> xz -f -k -e -8 -T 4 --check=3Dcrc32
->> Memory: 1.8G
->> real    3m24.462s
->> user    12m8.502s
->> sys     0m2.180s
->> Compressed file size: 3.4Mb
->>
->> xz -f -k -T 4 --check=3Dcrc32 (-e defaults to -6)
->> Memory: 471Mb
->> real    1m9.265s
->> user    4m8.972s
->> sys     0m0.944s
->> Compressed file size: 3.4Mb
->>
->> So my conclusion would be to use the default -e -6 with -T 4.
->
-> Out of curiousity, what does -T0 give you?
->
+Just a general update for 1.1.2 (Edison).  We're planning to release it nex=
+t week and currently it is under QA testing.  There're bugs(10+) filed agai=
+nst it which are marked WON'T FIX (lots of them relate to multilib) due to =
+the facts of resources and amount of work involved to back port certain pat=
+ches, etc.  We'll add detailed information about these bugs in the release =
+note. Also, as always, the community are welcome to step up and maintain it=
+ going forward.
 
-if we have to use a default it should be -T0 IMO since everyone dont
-have same number of CPUs
+Thanks,
+Jessica
 
-> regards,
->
-> koen
->
->
+-----Original Message-----
+From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded=
+-core-bounces@lists.openembedded.org] On Behalf Of McClintock Matthew-B2988=
+2
+Sent: Wednesday, July 11, 2012 1:43 PM
+To: Patches and discussions about the oe-core layer
+Cc: McClintock Matthew-B29882
+Subject: Re: [OE-core] Upcoming Yocto 1.2.1 "denzil" release this week.
+
+On Wed, Jul 11, 2012 at 3:36 PM, Saul Wold <sgw@linux.intel.com> wrote:
+> On 07/11/2012 11:50 AM, Richard Purdie wrote:
 >>
->> @g
+>> On Wed, 2012-07-11 at 19:00 +0100, Paul Eggleton wrote:
+>>>
+>>> On Wednesday 11 July 2012 17:55:18 McClintock Matthew-B29882 wrote:
+>>>>
+>>>> On Wed, Jul 11, 2012 at 6:00 AM, Richard Purdie
+>>>> <richard.purdie@linuxfoundation.org> wrote:
+>>>>>
+>>>>> On Wed, 2012-07-11 at 09:57 +0100, Jack Mitchell wrote:
+>>>>>>
+>>>>>> Are Khems eglibc patches going to make it in for this - 2.16 is
+>>>>>> playing havoc with my builds at the moment and surely will with
+>>>>>> everyone else when the major distros catch up.
+>>>>>
+>>>>>
+>>>>> Its too late to get those pieces into 1.2.1, they're not even in
+>>>>> master yet, let alone in a stable release branch.
+>>>>>
+>>>>> I'm proposing we get 1.2.1 out, get the 2.16 pieces tested in
+>>>>> master, then port them to the denzil branch quickly post release
+>>>>> so they'd make any 1.2.2 release and are available on the git
+>>>>> branch for people using the stable branch.
+>>>>
+>>>>
+>>>> Can you fill me in? Why would a point release include such a
+>>>> dramatic upgrade?
+>>>
+>>>
+>>> I think what we would be looking at would be just adding the fixes
+>>> to allow the native packages to build against eglibc 2.16 so it can
+>>> work on host distros that use it, not bringing eglibc 2.16 itself in
+>>> for the target.
+>>
+>>
+>> Right, this would just be to allow edison to work on systems that
+>> have a native eglibc 2.16. I'm not convinced we have the patches
+>> worked out yet though. Target eglibc would remain with whatever is in ed=
+ison (2.13?).
+>>
+> I assume you mean denzil, not edison, or do we also need to be
+> planning a 1.1.3?
+
+Personally, I'm hoping we at least keep accepted patches to the edison bran=
+ch... and decide about a release later.
+
+-M
+
+>
+> Sau!
+>
+>
+>> Cheers,
+>>
+>> Richard
+>>
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>>
+>>
+>
 >
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+
+_______________________________________________
+Openembedded-core mailing list
+Openembedded-core@lists.openembedded.org
+http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
