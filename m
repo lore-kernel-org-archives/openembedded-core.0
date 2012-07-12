@@ -1,35 +1,45 @@
-Received: from mail-ob0-f175.google.com ([209.85.214.175])
+Received: from ch1ehsobe004.messaging.microsoft.com ([216.32.181.184]
+	helo=ch1outboundpool.messaging.microsoft.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dennis.yxun@gmail.com>) id 1SpGND-0007hW-IU
+	(envelope-from <B28495@freescale.com>) id 1SpGPP-0007wP-4M
 	for openembedded-core@lists.openembedded.org;
-	Thu, 12 Jul 2012 12:11:51 +0200
-Received: by obcva7 with SMTP id va7so2773294obc.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Jul 2012 03:00:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=S0imG3zHEJ0ZTmcvsHxv1AnhJHUghUGREqu2PwzbkDY=;
-	b=PzeMPuFxtC3zxoT93d8wQ2oq3A6sKWqC9NhbPIfR9Rkp4EXlNW0B4o3itFySSByq2h
-	6u+GUTXMYSFTP52CCWtgAd0nuptOUv6BDWMaybDain6j5luK/WWTHPTcOGjm0RrAbDEC
-	EAC8RwkBPCbHPXHwOupPzdBl0SCrU8tNhW/k+WJwK1nIJakFLiijCamMYbTRxIT1XuDX
-	CUTDkTpvqeV17SzuuehnLKsYXqoGQH48G2XbDI7ZsIR/mYF758IMfq+Rqrk0GzA0fF/0
-	lCFOU3jlb13R5TJNMBhiG8ue8mO0ObxD+375mmQt1lckeJycSRUcg5M8IdRzH1p2d8/m
-	wLsg==
+	Thu, 12 Jul 2012 12:14:07 +0200
+Received: from mail73-ch1-R.bigfish.com (10.43.68.225) by
+	CH1EHSOBE018.bigfish.com (10.43.70.68) with Microsoft SMTP Server id
+	14.1.225.23; Thu, 12 Jul 2012 09:17:32 +0000
+Received: from mail73-ch1 (localhost [127.0.0.1])	by mail73-ch1-R.bigfish.com
+	(Postfix) with ESMTP id A4950380226	for
+	<openembedded-core@lists.openembedded.org>;
+	Thu, 12 Jul 2012 09:17:32 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-SpamScore: 0
+X-BigFish: VS0(zzzz1202hzz8275bhz2dh2a8h668h839hd24he5bhf0ah107ah)
+Received: from mail73-ch1 (localhost.localdomain [127.0.0.1]) by mail73-ch1
+	(MessageSwitch) id 1342084651145011_18779;
+	Thu, 12 Jul 2012 09:17:31 +0000 (UTC)
+Received: from CH1EHSMHS019.bigfish.com (snatpool1.int.messaging.microsoft.com
+	[10.43.68.240])	by mail73-ch1.bigfish.com (Postfix) with ESMTP id
+	21E23A0048 for <openembedded-core@lists.openembedded.org>;
+	Thu, 12 Jul 2012 09:17:31 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by CH1EHSMHS019.bigfish.com
+	(10.43.70.19) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Thu, 12 Jul 2012 09:17:29 +0000
+Received: from tx30smr01.am.freescale.net (10.81.153.31) by
+	039-SN1MMR1-001.039d.mgd.msft.net (10.84.1.13) with Microsoft SMTP
+	Server (TLS) id 14.2.298.5; Thu, 12 Jul 2012 04:17:29 -0500
+Received: from right.am.freescale.net (right.am.freescale.net [10.82.176.228])
+	by tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id
+	q6C9HSrW015572; Thu, 12 Jul 2012 02:17:28 -0700
+From: <b28495@freescale.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 12 Jul 2012 04:17:25 -0500
+Message-ID: <1342084646-23822-1-git-send-email-b28495@freescale.com>
+X-Mailer: git-send-email 1.7.3.4
 MIME-Version: 1.0
-Received: by 10.182.116.2 with SMTP id js2mr18191447obb.38.1342087237883; Thu,
-	12 Jul 2012 03:00:37 -0700 (PDT)
-Received: by 10.182.37.134 with HTTP; Thu, 12 Jul 2012 03:00:37 -0700 (PDT)
-In-Reply-To: <1603531.7in6lz8L8l@helios>
-References: <1341990302-30459-1-git-send-email-dennis.yxun@gmail.com>
-	<CAF1ZMEfMmkx9q8H1-TY9h3-Bc=Ljxq=5SfHHjokEaKs-FC25Pw@mail.gmail.com>
-	<1603531.7in6lz8L8l@helios>
-Date: Thu, 12 Jul 2012 18:00:37 +0800
-Message-ID: <CAF1ZMEcvoa_pHgAtHVOf1xvUmFMr=KXAMO8Fmy7A4-+02GXy5w@mail.gmail.com>
-From: "Dennis.Yxun" <dennis.yxun@gmail.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] runqemu/mips: adjust runqemu script to support mipsel machine
+X-OriginatorOrg: freescale.com
+Cc: b29882@freescale.com
+Subject: [PATCH] kernel.bbclass: update image name to keep it same in D and DEPLOYDIR
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,33 +54,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Jul 2012 10:11:51 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 12 Jul 2012 10:14:07 -0000
+Content-Type: text/plain
 
-On Thu, Jul 12, 2012 at 5:46 PM, Paul Eggleton
-<paul.eggleton@linux.intel.com> wrote:
-> On Thursday 12 July 2012 11:08:40 Dennis.Yxun wrote:
->> On Wed, Jul 11, 2012 at 3:05 PM, Dennis Lan <dennis.yxun@gmail.com> wrote:
->> > -if [ "$MACHINE" = "qemumips" -o "$MACHINE" = "qemumips64" ]; then
->> > -    if [ "$MACHINE" = "qemumips64" ]; then
->> > -       QEMU=qemu-system-mips64
->> > -    else
->> > -       QEMU=qemu-system-mips
->> > -    fi
->> > +if [ "$MACHINE" = "qemumips" -o "$MACHINE" = "qemumipsel" -o "$MACHINE" = "qemumips64" ]; then
->> > +    QEMU=${MACHINE/qemu/qemu-system-}
->
-> Unfortunately substitution like this is a bashism (i.e. does not work in
-> purely POSIX-compliant shells such as dash). Can you rework this?
->
-> Thanks,
-> Paul
->
-> --
->
-> Paul Eggleton
-> Intel Open Source Technology Centre
+From: Ting Liu <b28495@freescale.com>
 
-re-sent with patch v2
+Signed-off-by: Ting Liu <b28495@freescale.com>
+---
+ meta/classes/kernel.bbclass |    7 ++++++-
+ 1 files changed, 6 insertions(+), 1 deletions(-)
+
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index 81c334b..420a1ec 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -122,7 +122,12 @@ kernel_do_install() {
+ 	#
+ 	install -d ${D}/${KERNEL_IMAGEDEST}
+ 	install -d ${D}/boot
+-	install -m 0644 ${KERNEL_OUTPUT} ${D}/${KERNEL_IMAGEDEST}/${KERNEL_IMAGETYPE}-${KERNEL_VERSION}
++        install -m 0644 ${KERNEL_OUTPUT} ${D}/${KERNEL_IMAGEDEST}/${KERNEL_IMAGE_BASE_NAME}.bin
++        cd ${D}/${KERNEL_IMAGEDEST}/
++        rm -f ${KERNEL_IMAGE_SYMLINK_NAME}.bin
++        ln -sf ${KERNEL_IMAGE_BASE_NAME}.bin ${KERNEL_IMAGE_SYMLINK_NAME}.bin
++        ln -sf ${KERNEL_IMAGE_BASE_NAME}.bin ${KERNEL_IMAGETYPE}
++	cd -
+ 	install -m 0644 System.map ${D}/boot/System.map-${KERNEL_VERSION}
+ 	install -m 0644 .config ${D}/boot/config-${KERNEL_VERSION}
+ 	install -m 0644 vmlinux ${D}/boot/vmlinux-${KERNEL_VERSION}
+-- 
+1.7.3.4
+
+
 
 
