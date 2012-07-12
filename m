@@ -1,33 +1,35 @@
-Received: from mail-lb0-f175.google.com ([209.85.217.175])
+Received: from mail-ob0-f175.google.com ([209.85.214.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dennis.yxun@gmail.com>) id 1SpGLp-0007dF-Db
+	(envelope-from <dennis.yxun@gmail.com>) id 1SpGND-0007hW-IU
 	for openembedded-core@lists.openembedded.org;
-	Thu, 12 Jul 2012 12:10:25 +0200
-Received: by lbol5 with SMTP id l5so2901167lbo.6
+	Thu, 12 Jul 2012 12:11:51 +0200
+Received: by obcva7 with SMTP id va7so2773294obc.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Jul 2012 02:59:12 -0700 (PDT)
+	Thu, 12 Jul 2012 03:00:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=nvxJbK4ZvCRMXsqN9hUAWq2hx6ls/i+ckDWNbmz0BWA=;
-	b=1Jx8lWc5y3kmdT05eoIcRJQ/0y7yUSFllemPuxETCUrVq5DeJBIf0T2GU3NO9JG+BE
-	6YWdY4zTGyWdcDKaq1N/P4MOOQ0Q2lEuDhHfcPfNuR/k+fI7lrxuB0BSsP7ZUGejE4oJ
-	9u5IZOz58U/r6EHsm3Wi7T4W7vFVoubJ6lNktQDuTxPn5qoql7DYRX7D/jM3nTegaU1O
-	qtYwC4g6nhAY4B7Cpbn625WV+ug8P63mr1Ut7tgcEtneikOYFzC2Pn1p0H21cypj1ZMR
-	hKr04VReKff8t4YvK+8YJHKSA6i1a0Rhir2izpKSMMYWInjaQp+DfojRmOBngSTJtx9P
-	KFQw==
-Received: by 10.152.102.137 with SMTP id fo9mr53024113lab.35.1342087152400;
-	Thu, 12 Jul 2012 02:59:12 -0700 (PDT)
-Received: from localhost.localdomain ([64.191.99.80])
-	by mx.google.com with ESMTPS id xx8sm4261636lab.10.2012.07.12.02.59.10
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 12 Jul 2012 02:59:11 -0700 (PDT)
-From: Dennis Lan <dennis.yxun@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 12 Jul 2012 09:58:51 +0000
-Message-Id: <1342087131-14277-1-git-send-email-dennis.yxun@gmail.com>
-X-Mailer: git-send-email 1.7.7
-Cc: paul.eggleton@linux.intel.com
-Subject: [PATCH v2] runqemu/mips: adjust runqemu script to support mipsel machine
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=S0imG3zHEJ0ZTmcvsHxv1AnhJHUghUGREqu2PwzbkDY=;
+	b=PzeMPuFxtC3zxoT93d8wQ2oq3A6sKWqC9NhbPIfR9Rkp4EXlNW0B4o3itFySSByq2h
+	6u+GUTXMYSFTP52CCWtgAd0nuptOUv6BDWMaybDain6j5luK/WWTHPTcOGjm0RrAbDEC
+	EAC8RwkBPCbHPXHwOupPzdBl0SCrU8tNhW/k+WJwK1nIJakFLiijCamMYbTRxIT1XuDX
+	CUTDkTpvqeV17SzuuehnLKsYXqoGQH48G2XbDI7ZsIR/mYF758IMfq+Rqrk0GzA0fF/0
+	lCFOU3jlb13R5TJNMBhiG8ue8mO0ObxD+375mmQt1lckeJycSRUcg5M8IdRzH1p2d8/m
+	wLsg==
+MIME-Version: 1.0
+Received: by 10.182.116.2 with SMTP id js2mr18191447obb.38.1342087237883; Thu,
+	12 Jul 2012 03:00:37 -0700 (PDT)
+Received: by 10.182.37.134 with HTTP; Thu, 12 Jul 2012 03:00:37 -0700 (PDT)
+In-Reply-To: <1603531.7in6lz8L8l@helios>
+References: <1341990302-30459-1-git-send-email-dennis.yxun@gmail.com>
+	<CAF1ZMEfMmkx9q8H1-TY9h3-Bc=Ljxq=5SfHHjokEaKs-FC25Pw@mail.gmail.com>
+	<1603531.7in6lz8L8l@helios>
+Date: Thu, 12 Jul 2012 18:00:37 +0800
+Message-ID: <CAF1ZMEcvoa_pHgAtHVOf1xvUmFMr=KXAMO8Fmy7A4-+02GXy5w@mail.gmail.com>
+From: "Dennis.Yxun" <dennis.yxun@gmail.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] runqemu/mips: adjust runqemu script to support mipsel machine
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,70 +44,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Jul 2012 10:10:25 -0000
+X-List-Received-Date: Thu, 12 Jul 2012 10:11:51 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Dennis Lan <dennis.yxun@gmail.com>
----
- scripts/runqemu          |    5 ++++-
- scripts/runqemu-internal |   13 +++++++------
- 2 files changed, 11 insertions(+), 7 deletions(-)
+On Thu, Jul 12, 2012 at 5:46 PM, Paul Eggleton
+<paul.eggleton@linux.intel.com> wrote:
+> On Thursday 12 July 2012 11:08:40 Dennis.Yxun wrote:
+>> On Wed, Jul 11, 2012 at 3:05 PM, Dennis Lan <dennis.yxun@gmail.com> wrote:
+>> > -if [ "$MACHINE" = "qemumips" -o "$MACHINE" = "qemumips64" ]; then
+>> > -    if [ "$MACHINE" = "qemumips64" ]; then
+>> > -       QEMU=qemu-system-mips64
+>> > -    else
+>> > -       QEMU=qemu-system-mips
+>> > -    fi
+>> > +if [ "$MACHINE" = "qemumips" -o "$MACHINE" = "qemumipsel" -o "$MACHINE" = "qemumips64" ]; then
+>> > +    QEMU=${MACHINE/qemu/qemu-system-}
+>
+> Unfortunately substitution like this is a bashism (i.e. does not work in
+> purely POSIX-compliant shells such as dash). Can you rework this?
+>
+> Thanks,
+> Paul
+>
+> --
+>
+> Paul Eggleton
+> Intel Open Source Technology Centre
 
-diff --git a/scripts/runqemu b/scripts/runqemu
-index 8d149a2..650d1df 100755
---- a/scripts/runqemu
-+++ b/scripts/runqemu
-@@ -94,7 +94,7 @@ KVM_ENABLED="no"
- while true; do
-     arg=${1}
-     case "$arg" in
--        "qemux86" | "qemux86-64" | "qemuarm" | "qemumips" | "qemumips64" | "qemush4"  | "qemuppc")
-+        "qemux86" | "qemux86-64" | "qemuarm" | "qemumips" | "qemumipsel" | "qemumips64" | "qemush4"  | "qemuppc")
-             [ -z "$MACHINE" ] && MACHINE=$arg || \
-                 error "conflicting MACHINE types [$MACHINE] and [$arg]"
-             ;;
-@@ -245,6 +245,9 @@ QEMUARM_DEFAULT_FSTYPE=ext3
- QEMUMIPS_DEFAULT_KERNEL=vmlinux-qemumips.bin
- QEMUMIPS_DEFAULT_FSTYPE=ext3
- 
-+QEMUMIPSEL_DEFAULT_KERNEL=vmlinux-qemumipsel.bin
-+QEMUMIPSEL_DEFAULT_FSTYPE=ext3
-+
- QEMUMIPS64_DEFAULT_KERNEL=vmlinux-qemumips64.bin
- QEMUMIPS64_DEFAULT_FSTYPE=ext3
- 
-diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
-index 041464d..a21ea93 100755
---- a/scripts/runqemu-internal
-+++ b/scripts/runqemu-internal
-@@ -236,6 +236,7 @@ fi
- case "$MACHINE" in
-     "qemuarm") ;;
-     "qemumips") ;;
-+    "qemumipsel") ;;
-     "qemumips64") ;;
-     "qemush4") ;;
-     "qemuppc") ;;
-@@ -375,12 +376,12 @@ if [ "$MACHINE" = "spitz" ]; then
-     fi
- fi
- 
--if [ "$MACHINE" = "qemumips" -o "$MACHINE" = "qemumips64" ]; then
--    if [ "$MACHINE" = "qemumips64" ]; then
--	QEMU=qemu-system-mips64
--    else
--	QEMU=qemu-system-mips
--    fi
-+if [ "$MACHINE" = "qemumips" -o "$MACHINE" = "qemumipsel" -o "$MACHINE" = "qemumips64" ]; then
-+    case "$MACHINE" in
-+       qemumips)   QEMU=qemu-system-mips ;;
-+       qemumipsel) QEMU=qemu-system-mipsel ;;
-+       qemumips64) QEMU=qemu-system-mips64 ;;
-+    esac
-     MACHINE_SUBTYPE=malta
-     QEMU_UI_OPTIONS="-vga cirrus $QEMU_UI_OPTIONS"
-     if [ "$FSTYPE" = "ext3" -o "$FSTYPE" = "btrfs" ]; then
--- 
-1.7.9.rc2
-
+re-sent with patch v2
 
 
