@@ -1,39 +1,20 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <jessica.zhang@intel.com>) id 1SpN9K-00082a-Mn
+	(envelope-from <sgw@linux.intel.com>) id 1SpNSz-0008Ot-OU
 	for openembedded-core@lists.openembedded.org;
-	Thu, 12 Jul 2012 19:25:59 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 12 Jul 2012 10:13:40 -0700
+	Thu, 12 Jul 2012 19:46:18 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 12 Jul 2012 10:35:03 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="176564231"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.226.49])
-	by fmsmga001.fm.intel.com with ESMTP; 12 Jul 2012 10:13:39 -0700
-Received: from orsmsx152.amr.corp.intel.com (10.22.226.39) by
-	orsmsx603.amr.corp.intel.com (10.22.226.49) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Thu, 12 Jul 2012 10:13:37 -0700
-Received: from orsmsx101.amr.corp.intel.com ([169.254.8.93]) by
-	ORSMSX152.amr.corp.intel.com ([169.254.8.91]) with mapi id
-	14.01.0355.002; Thu, 12 Jul 2012 10:13:37 -0700
-From: "Zhang, Jessica" <jessica.zhang@intel.com>
-To: McClintock Matthew-B29882 <B29882@freescale.com>, Patches and discussions
-	about the oe-core layer <openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] Upcoming Yocto 1.2.1 "denzil" release this week.
-Thread-Index: AQHNXx+jipu+yOCzh0iR/rCdkETaNJckPXUAgAAiVgCAAHP4AIAAAYAAgAAN6gCAAB21AIAAAcKAgADgCIA=
-Date: Thu, 12 Jul 2012 17:13:35 +0000
-Message-ID: <C6510F6D410BB64A8C15398EDC6B847C46AA7586@ORSMSX101.amr.corp.intel.com>
-References: <4FFD0425.7040004@intel.com> <1342004414.7934.11.camel@ted>
-	<CAEsOVNfeZBjERBFsXSWqihHccROAR3N4kRGgW8XhpJd4iKzRdw@mail.gmail.com>
-	<1625033.FUQGRG6suy@helios> <1342032628.11939.37.camel@ted>
-	<4FFDE3E0.2040900@linux.intel.com>
-	<CAEsOVNd9FejzyyXSEV-H8-3Aiir+-KsB76t0NV=j65S_zsjLYA@mail.gmail.com>
-In-Reply-To: <CAEsOVNd9FejzyyXSEV-H8-3Aiir+-KsB76t0NV=j65S_zsjLYA@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.22.254.139]
-MIME-Version: 1.0
-Subject: Re: Upcoming Yocto 1.2.1 "denzil" release this week.
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="171067388"
+Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.214])
+	by orsmga002.jf.intel.com with ESMTP; 12 Jul 2012 10:35:03 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 12 Jul 2012 10:35:02 -0700
+Message-Id: <1342114502-31881-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 1.7.7.6
+Subject: [PATCH] Update proto -> protocol for recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,105 +29,143 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Jul 2012 17:25:59 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 12 Jul 2012 17:46:18 -0000
 
-Just a general update for 1.1.2 (Edison).  We're planning to release it nex=
-t week and currently it is under QA testing.  There're bugs(10+) filed agai=
-nst it which are marked WON'T FIX (lots of them relate to multilib) due to =
-the facts of resources and amount of work involved to back port certain pat=
-ches, etc.  We'll add detailed information about these bugs in the release =
-note. Also, as always, the community are welcome to step up and maintain it=
- going forward.
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+---
+ meta/recipes-core/eglibc/eglibc_2.15.bb            |    2 +-
+ meta/recipes-devtools/gcc/gcc-4.7.inc              |    2 +-
+ .../installer/adt-installer_1.0.bb                 |    2 +-
+ meta/recipes-devtools/opkg/opkg_svn.bb             |    2 +-
+ meta/recipes-devtools/tcf-agent/tcf-agent_git.bb   |    2 +-
+ meta/recipes-devtools/ubootchart/ubootchart_svn.bb |    2 +-
+ meta/recipes-gnome/gtkhtml2/gtkhtml2_svn.bb        |    2 +-
+ .../matchbox-wm-2/matchbox-wm-2_git.bb             |    2 +-
+ meta/recipes-sato/webkit/webkit-gtk_svn.bb         |    6 +++---
+ 9 files changed, 11 insertions(+), 11 deletions(-)
 
-Thanks,
-Jessica
+diff --git a/meta/recipes-core/eglibc/eglibc_2.15.bb b/meta/recipes-core/eglibc/eglibc_2.15.bb
+index 7dd9810..110febf 100644
+--- a/meta/recipes-core/eglibc/eglibc_2.15.bb
++++ b/meta/recipes-core/eglibc/eglibc_2.15.bb
+@@ -7,7 +7,7 @@ PR = "r12"
+ PR_append = "+svnr${SRCPV}"
+ 
+ EGLIBC_BRANCH="eglibc-2_15"
+-SRC_URI = "svn://www.eglibc.org/svn/branches/;module=${EGLIBC_BRANCH};proto=http \
++SRC_URI = "svn://www.eglibc.org/svn/branches/;module=${EGLIBC_BRANCH};protocol=http \
+            file://eglibc-svn-arm-lowlevellock-include-tls.patch \
+            file://IO-acquire-lock-fix.patch \
+            file://mips-rld-map-check.patch \
+diff --git a/meta/recipes-devtools/gcc/gcc-4.7.inc b/meta/recipes-devtools/gcc/gcc-4.7.inc
+index 0e40533..a2e9ae0 100644
+--- a/meta/recipes-devtools/gcc/gcc-4.7.inc
++++ b/meta/recipes-devtools/gcc/gcc-4.7.inc
+@@ -33,7 +33,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
+                    file://COPYING.LIB;md5=2d5025d4aa3495befef8f17206a5b0a1 \
+ 		   file://COPYING.RUNTIME;md5=fe60d87048567d4fe8c8a0ed2448bcc8"
+ 
+-SRC_URI = "svn://gcc.gnu.org/svn/gcc/branches;module=${BRANCH};proto=http \
++SRC_URI = "svn://gcc.gnu.org/svn/gcc/branches;module=${BRANCH};protocol=http \
+ 	   file://gcc-4.3.1-ARCH_FLAGS_FOR_TARGET.patch \
+ 	   file://100-uclibc-conf.patch \
+            file://gcc-uclibc-locale-ctype_touplow_t.patch \
+diff --git a/meta/recipes-devtools/installer/adt-installer_1.0.bb b/meta/recipes-devtools/installer/adt-installer_1.0.bb
+index 5dc0896..e1edf2f 100644
+--- a/meta/recipes-devtools/installer/adt-installer_1.0.bb
++++ b/meta/recipes-devtools/installer/adt-installer_1.0.bb
+@@ -39,7 +39,7 @@ S = "${WORKDIR}/trunk"
+ 
+ SRCREV = "596"
+ PV = "0.1.8+svnr${SRCPV}"
+-SRC_URI = "svn://opkg.googlecode.com/svn;module=trunk;proto=http \
++SRC_URI = "svn://opkg.googlecode.com/svn;module=trunk;protocol=http \
+            file://wget_cache.patch \
+            file://adt_installer \
+            file://scripts/adt_installer_internal \
+diff --git a/meta/recipes-devtools/opkg/opkg_svn.bb b/meta/recipes-devtools/opkg/opkg_svn.bb
+index faf0ba3..a0667ac 100644
+--- a/meta/recipes-devtools/opkg/opkg_svn.bb
++++ b/meta/recipes-devtools/opkg/opkg_svn.bb
+@@ -1,6 +1,6 @@
+ require opkg.inc
+ 
+-SRC_URI = "svn://opkg.googlecode.com/svn;module=trunk;proto=http \
++SRC_URI = "svn://opkg.googlecode.com/svn;module=trunk;protocol=http \
+            file://add_vercmp.patch \
+            file://add_uname_support.patch \
+            file://fix_installorder.patch \
+diff --git a/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb b/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
+index 8ac8022..25fccaf 100644
+--- a/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
++++ b/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
+@@ -10,7 +10,7 @@ SRCREV = "4ef94ecb927a8912c3d79ce137182247786cff8f"
+ PV = "0.4.0+git${SRCPV}"
+ PR = "r0"
+ 
+-SRC_URI = "git://git.eclipse.org/gitroot/tcf/org.eclipse.tcf.agent.git;proto=git \
++SRC_URI = "git://git.eclipse.org/gitroot/tcf/org.eclipse.tcf.agent.git;protocol=git \
+            http://www.eclipse.org/legal/epl-v10.html;name=epl \
+            file://fix_ranlib.patch \
+            file://fix_tcf-agent.init.patch \
+diff --git a/meta/recipes-devtools/ubootchart/ubootchart_svn.bb b/meta/recipes-devtools/ubootchart/ubootchart_svn.bb
+index d8c9760..b49e94a 100644
+--- a/meta/recipes-devtools/ubootchart/ubootchart_svn.bb
++++ b/meta/recipes-devtools/ubootchart/ubootchart_svn.bb
+@@ -8,7 +8,7 @@ PR = "r5"
+ 
+ #RRECOMMENDS_${PN} = "acct"
+ 
+-SRC_URI = "svn://ubootchart.googlecode.com/svn/;proto=http;module=trunk \
++SRC_URI = "svn://ubootchart.googlecode.com/svn/;protocol=http;module=trunk \
+         file://sysvinit.patch;striplevel=0 \
+         file://ubootchart-stop \
+         file://ubootchart.desktop"
+diff --git a/meta/recipes-gnome/gtkhtml2/gtkhtml2_svn.bb b/meta/recipes-gnome/gtkhtml2/gtkhtml2_svn.bb
+index 7635e7a..da74a82 100644
+--- a/meta/recipes-gnome/gtkhtml2/gtkhtml2_svn.bb
++++ b/meta/recipes-gnome/gtkhtml2/gtkhtml2_svn.bb
+@@ -8,7 +8,7 @@ SRCREV = "1161"
+ PV = "2.11.0+svnr${SRCPV}"
+ PR = "r3"
+ 
+-SRC_URI = "svn://svn.gnome.org/svn/gtkhtml2/;module=trunk;proto=http \
++SRC_URI = "svn://svn.gnome.org/svn/gtkhtml2/;module=trunk;protocol=http \
+            http://git.yoctoproject.org/cgit/cgit.cgi/web-patches/plain/css-stylesheet-user.patch;striplevel=0;name=patch2 \
+            http://git.yoctoproject.org/cgit/cgit.cgi/web-patches/plain/css-media.patch;striplevel=0;name=patch3 \
+            http://git.yoctoproject.org/cgit/cgit.cgi/web-patches/plain/add-end-element-signal.patch;striplevel=0;name=patch4 \
+diff --git a/meta/recipes-graphics/matchbox-wm-2/matchbox-wm-2_git.bb b/meta/recipes-graphics/matchbox-wm-2/matchbox-wm-2_git.bb
+index 4aad3a9..8b162be 100644
+--- a/meta/recipes-graphics/matchbox-wm-2/matchbox-wm-2_git.bb
++++ b/meta/recipes-graphics/matchbox-wm-2/matchbox-wm-2_git.bb
+@@ -9,7 +9,7 @@ SRCREV = "01fa5465743c9ee43d040350f4405d35293e4869"
+ PV = "0.1+git${SRCPV}"
+ PR = "r1"
+ 
+-SRC_URI = "git://git.yoctoproject.org/matchbox-window-manager-2;proto=git \
++SRC_URI = "git://git.yoctoproject.org/matchbox-window-manager-2;protocol=git \
+ 	file://fix_makefile.patch \
+ 	  "
+ 
+diff --git a/meta/recipes-sato/webkit/webkit-gtk_svn.bb b/meta/recipes-sato/webkit/webkit-gtk_svn.bb
+index 7d0aae9..6a6839d 100644
+--- a/meta/recipes-sato/webkit/webkit-gtk_svn.bb
++++ b/meta/recipes-sato/webkit/webkit-gtk_svn.bb
+@@ -22,9 +22,9 @@ PV = "1.7.2+svnr${SRCPV}"
+ PR = "r6"
+ 
+ SRC_URI = "\
+-  svn://svn.webkit.org/repository/webkit/trunk/;module=Source;proto=http;name=source \
+-  svn://svn.webkit.org/repository/webkit/trunk/;module=WebKitLibraries;proto=http \
+-  svn://svn.webkit.org/repository/webkit/trunk/;module=Tools;proto=http \
++  svn://svn.webkit.org/repository/webkit/trunk/;module=Source;protocol=http;name=source \
++  svn://svn.webkit.org/repository/webkit/trunk/;module=WebKitLibraries;protocol=http \
++  svn://svn.webkit.org/repository/webkit/trunk/;module=Tools;protocol=http \
+   file://Makefile \
+   file://Makefile.shared \
+   file://autogen.sh \
+-- 
+1.7.7.6
 
------Original Message-----
-From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded=
--core-bounces@lists.openembedded.org] On Behalf Of McClintock Matthew-B2988=
-2
-Sent: Wednesday, July 11, 2012 1:43 PM
-To: Patches and discussions about the oe-core layer
-Cc: McClintock Matthew-B29882
-Subject: Re: [OE-core] Upcoming Yocto 1.2.1 "denzil" release this week.
-
-On Wed, Jul 11, 2012 at 3:36 PM, Saul Wold <sgw@linux.intel.com> wrote:
-> On 07/11/2012 11:50 AM, Richard Purdie wrote:
->>
->> On Wed, 2012-07-11 at 19:00 +0100, Paul Eggleton wrote:
->>>
->>> On Wednesday 11 July 2012 17:55:18 McClintock Matthew-B29882 wrote:
->>>>
->>>> On Wed, Jul 11, 2012 at 6:00 AM, Richard Purdie
->>>> <richard.purdie@linuxfoundation.org> wrote:
->>>>>
->>>>> On Wed, 2012-07-11 at 09:57 +0100, Jack Mitchell wrote:
->>>>>>
->>>>>> Are Khems eglibc patches going to make it in for this - 2.16 is
->>>>>> playing havoc with my builds at the moment and surely will with
->>>>>> everyone else when the major distros catch up.
->>>>>
->>>>>
->>>>> Its too late to get those pieces into 1.2.1, they're not even in
->>>>> master yet, let alone in a stable release branch.
->>>>>
->>>>> I'm proposing we get 1.2.1 out, get the 2.16 pieces tested in
->>>>> master, then port them to the denzil branch quickly post release
->>>>> so they'd make any 1.2.2 release and are available on the git
->>>>> branch for people using the stable branch.
->>>>
->>>>
->>>> Can you fill me in? Why would a point release include such a
->>>> dramatic upgrade?
->>>
->>>
->>> I think what we would be looking at would be just adding the fixes
->>> to allow the native packages to build against eglibc 2.16 so it can
->>> work on host distros that use it, not bringing eglibc 2.16 itself in
->>> for the target.
->>
->>
->> Right, this would just be to allow edison to work on systems that
->> have a native eglibc 2.16. I'm not convinced we have the patches
->> worked out yet though. Target eglibc would remain with whatever is in ed=
-ison (2.13?).
->>
-> I assume you mean denzil, not edison, or do we also need to be
-> planning a 1.1.3?
-
-Personally, I'm hoping we at least keep accepted patches to the edison bran=
-ch... and decide about a release later.
-
--M
-
->
-> Sau!
->
->
->> Cheers,
->>
->> Richard
->>
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->>
->>
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-
-_______________________________________________
-Openembedded-core mailing list
-Openembedded-core@lists.openembedded.org
-http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
