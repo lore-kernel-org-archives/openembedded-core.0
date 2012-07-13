@@ -1,23 +1,25 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Morgan.Little@windriver.com>) id 1SphXA-00074k-LH
+	(envelope-from <Morgan.Little@windriver.com>) id 1SphWp-00074r-2N
 	for openembedded-core@lists.openembedded.org;
-	Fri, 13 Jul 2012 17:11:57 +0200
+	Fri, 13 Jul 2012 17:11:36 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q6DDtAgD018623
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q6DDtCWv001580
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Jul 2012 06:55:10 -0700 (PDT)
+	Fri, 13 Jul 2012 06:55:12 -0700 (PDT)
 Received: from localhost.localdomain (128.224.147.201) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.1.255.0; Fri, 13 Jul 2012 06:55:10 -0700
+	14.1.255.0; Fri, 13 Jul 2012 06:55:12 -0700
 From: Morgan Little <morgan.little@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 13 Jul 2012 09:54:49 -0400
-Message-ID: <1342187709-19368-1-git-send-email-morgan.little@windriver.com>
+Date: Fri, 13 Jul 2012 09:54:52 -0400
+Message-ID: <1342187709-19368-4-git-send-email-morgan.little@windriver.com>
 X-Mailer: git-send-email 1.7.0.4
+In-Reply-To: <1342187709-19368-1-git-send-email-morgan.little@windriver.com>
+References: <1342187709-19368-1-git-send-email-morgan.little@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 00/20] Change python-native path
+Subject: [PATCH 03/20] python-dbus: Update for python-native changes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,72 +37,37 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 X-List-Received-Date: Fri, 13 Jul 2012 15:12:54 -0000
 Content-Type: text/plain
 
-I updated python-native like it was suggest by Richard here:
-http://lists.linuxtogo.org/pipermail/openembedded-core/2012-June/024644.html
+Add pythonnative to the inherits list
 
-It is to resolve an issue that comes up when python-native is building and 
-autoconf finds the binary but not the libraries. This fix moves where the 
-binaries are installed to remove this issue and use the system's python.
+Signed-off-by: Morgan Little <morgan.little@windriver.com>
+---
+ meta/recipes-devtools/python/python-dbus_1.0.0.bb |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
 
-I have used bitbake world to build to make sure most things are build and 
-have added all of the recipes that I found were affected. I will be building 
-more to make sure I managed to get all of them.
+diff --git a/meta/recipes-devtools/python/python-dbus_1.0.0.bb b/meta/recipes-devtools/python/python-dbus_1.0.0.bb
+index 1b174eb..ad7c4bf 100644
+--- a/meta/recipes-devtools/python/python-dbus_1.0.0.bb
++++ b/meta/recipes-devtools/python/python-dbus_1.0.0.bb
+@@ -4,7 +4,7 @@ HOMEPAGE = "http://www.freedesktop.org/Software/dbus"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=f5612614133e9a2f2dad527d97554670"
+ DEPENDS = "expat dbus dbus-glib virtual/libintl python-pyrex-native"
+-PR = "r1"
++PR = "r2"
+ 
+ SRC_URI = "http://dbus.freedesktop.org/releases/dbus-python/dbus-python-${PV}.tar.gz"
+ 
+@@ -12,7 +12,7 @@ SRC_URI[md5sum] = "775a8235736bf760cdd96e2d76546469"
+ SRC_URI[sha256sum] = "9e46f97d739dde8a5ab33ec6b11da58794c4c20804aacdad2880b7d3bc05187a"
+ S = "${WORKDIR}/dbus-python-${PV}"
+ 
+-inherit distutils-base autotools pkgconfig
++inherit distutils-base autotools pkgconfig pythonnative
+ 
+ export BUILD_SYS
+ export HOST_SYS
+-- 
+1.7.0.4
 
-
-The following changes since commit 1b40dac2c501ae8c8d812cf2866fe7917f144a19:
-  Tom Zanussi (1):
-        perf: add perl, python to DEPENDS
-
-are available in the git repository at:
-
-  git@github.com:morganlittle/oe-core.git master
-
-Morgan Little (20):
-      python-native: Put binaries in seperate directory
-      python: Update for python-native changes
-      python-dbus: Update for python-native changes
-      python-gst: Update for python-native changes
-      python-pygobject: Update for python-native changes
-      python-pygtk: Update for python-native changes
-      python-pyrex-native:Update for python-native changes
-      python-scons-native: Update for python-native changes
-      python-setuptools: Update for python-native changes
-      telepathy-glib: Update for python-native changes
-      telepathy-python: Update for python-native changes
-      libxml2: Update for python-native changes
-      mklibs-native: Update for python-native changes
-      gnome-doc-utils: Update for python-native changes
-      mesa-common: Update for python-native changes
-      libxcb: Update for python-native changes
-      xcb-proto: Update for python-native changes
-      kernelshark: Update for python-native changes
-      trace-cmd: Update for python-native changes
-      gobject-introspection: Update for python-native changes
-
- meta/classes/distutils.bbclass                     |   14 +++++++++-----
- meta/classes/pythonnative.bbclass                  |    3 +++
- .../telepathy/telepathy-glib_0.19.2.bb             |    4 ++--
- .../telepathy/telepathy-python_0.15.19.bb          |    4 ++--
- meta/recipes-core/libxml/libxml2.inc               |    2 +-
- .../mklibs/mklibs-native_0.1.34.bb                 |    4 ++--
- meta/recipes-devtools/python/python-dbus_1.0.0.bb  |    4 ++--
- meta/recipes-devtools/python/python-gst_0.10.22.bb |    4 ++--
- .../recipes-devtools/python/python-native_2.7.3.bb |    9 ++++++---
- .../python/python-pygobject_2.27.91.bb             |    4 ++--
- .../recipes-devtools/python/python-pygtk_2.17.0.bb |    4 ++--
- .../python/python-pyrex-native_0.9.9.bb            |    4 ++--
- .../python/python-scons-native_2.1.0.bb            |    4 ++--
- .../python/python-setuptools_0.6c11.bb             |    4 ++--
- meta/recipes-devtools/python/python_2.7.3.bb       |   18 +++++++++---------
- meta/recipes-gnome/gnome/gnome-doc-utils.inc       |    2 +-
- .../gnome/gobject-introspection_1.32.1.bb          |    2 +-
- .../gnome/gobject-introspection_git.bb             |    2 +-
- meta/recipes-graphics/mesa/mesa-common.inc         |    4 ++--
- meta/recipes-graphics/xcb/libxcb.inc               |    2 +-
- meta/recipes-graphics/xcb/xcb-proto.inc            |    2 +-
- meta/recipes-kernel/trace-cmd/kernelshark_1.2.bb   |    4 ++--
- meta/recipes-kernel/trace-cmd/trace-cmd_1.2.bb     |    4 ++--
- 23 files changed, 59 insertions(+), 49 deletions(-)
- create mode 100644 meta/classes/pythonnative.bbclass
 
 
