@@ -1,25 +1,25 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Morgan.Little@windriver.com>) id 1SphWy-00074k-HC
+	(envelope-from <Morgan.Little@windriver.com>) id 1SphX9-00074r-2r
 	for openembedded-core@lists.openembedded.org;
-	Fri, 13 Jul 2012 17:11:45 +0200
+	Fri, 13 Jul 2012 17:11:55 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q6DDtDVY018629
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q6DDtO4V001629
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Jul 2012 06:55:13 -0700 (PDT)
+	Fri, 13 Jul 2012 06:55:24 -0700 (PDT)
 Received: from localhost.localdomain (128.224.147.201) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.1.255.0; Fri, 13 Jul 2012 06:55:12 -0700
+	14.1.255.0; Fri, 13 Jul 2012 06:55:24 -0700
 From: Morgan Little <morgan.little@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 13 Jul 2012 09:54:53 -0400
-Message-ID: <1342187709-19368-5-git-send-email-morgan.little@windriver.com>
+Date: Fri, 13 Jul 2012 09:55:09 -0400
+Message-ID: <1342187709-19368-21-git-send-email-morgan.little@windriver.com>
 X-Mailer: git-send-email 1.7.0.4
 In-Reply-To: <1342187709-19368-1-git-send-email-morgan.little@windriver.com>
 References: <1342187709-19368-1-git-send-email-morgan.little@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 04/20] python-gst: Update for python-native changes
+Subject: [PATCH 20/20] gobject-introspection: Update for python-native changes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,30 +41,35 @@ Add pythonnative to the inherits list
 
 Signed-off-by: Morgan Little <morgan.little@windriver.com>
 ---
- meta/recipes-devtools/python/python-gst_0.10.22.bb |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
+ .../gnome/gobject-introspection_1.32.1.bb          |    2 +-
+ .../gnome/gobject-introspection_git.bb             |    2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python-gst_0.10.22.bb b/meta/recipes-devtools/python/python-gst_0.10.22.bb
-index 7bd6d06..dfdab2d 100644
---- a/meta/recipes-devtools/python/python-gst_0.10.22.bb
-+++ b/meta/recipes-devtools/python/python-gst_0.10.22.bb
-@@ -3,7 +3,7 @@ SECTION = "devel/python"
- LICENSE = "LGPLv2.1"
- DEPENDS = "gstreamer gst-plugins-base python-pygobject"
- RDEPENDS_${PN} += "python-pygtk"
--PR = "r1"
-+PR = "r2"
+diff --git a/meta/recipes-gnome/gnome/gobject-introspection_1.32.1.bb b/meta/recipes-gnome/gnome/gobject-introspection_1.32.1.bb
+index f51e83e..8e30df6 100644
+--- a/meta/recipes-gnome/gnome/gobject-introspection_1.32.1.bb
++++ b/meta/recipes-gnome/gnome/gobject-introspection_1.32.1.bb
+@@ -17,7 +17,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=90d577535a3898e1ae5dbf0ae3509a8c \
+                     file://COPYING.GPL;md5=94d55d512a9ba36caa9b7df079bae19f \
+                     file://COPYING.LGPL;md5=3bf50002aefd002f49e7bb854063f7e7"
  
- SRC_URI = "http://gstreamer.freedesktop.org/src/gst-python/gst-python-${PV}.tar.bz2 \
-            file://python-path.patch"
-@@ -14,7 +14,7 @@ S = "${WORKDIR}/gst-python-${PV}"
+-inherit autotools
++inherit autotools pythonnative
  
- LIC_FILES_CHKSUM = "file://COPYING;md5=39ff67e932b7bdfa9b78bad67151690b"
+ do_configure_prepend () {
+         echo "EXTRA_DIST = " > ${S}/gtk-doc.make
+diff --git a/meta/recipes-gnome/gnome/gobject-introspection_git.bb b/meta/recipes-gnome/gnome/gobject-introspection_git.bb
+index 8352384..eb3b7e4 100644
+--- a/meta/recipes-gnome/gnome/gobject-introspection_git.bb
++++ b/meta/recipes-gnome/gnome/gobject-introspection_git.bb
+@@ -17,7 +17,7 @@ DEFAULT_PREFERENCE = "-1"
  
--inherit autotools distutils-base pkgconfig
-+inherit autotools distutils-base pkgconfig pythonnative
+ S = "${WORKDIR}/git"
  
- EXTRA_OECONF += "--with-python-includes=${STAGING_INCDIR}/../"
+-inherit autotools
++inherit autotools pythonnative
+ 
+ BBCLASSEXTEND = "native"
  
 -- 
 1.7.0.4
