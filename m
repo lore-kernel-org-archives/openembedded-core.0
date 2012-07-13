@@ -1,29 +1,45 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from db3ehsobe003.messaging.microsoft.com ([213.199.154.141]
+	helo=db3outboundpool.messaging.microsoft.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SplBl-0001EF-CN
+	(envelope-from <B29882@freescale.com>) id 1Splki-00078x-9q
 	for openembedded-core@lists.openembedded.org;
-	Fri, 13 Jul 2012 21:06:05 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 13 Jul 2012 11:54:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="167831191"
-Received: from unknown (HELO [10.255.12.178]) ([10.255.12.178])
-	by azsmga001.ch.intel.com with ESMTP; 13 Jul 2012 11:54:49 -0700
-Message-ID: <50006EF8.7070808@linux.intel.com>
-Date: Fri, 13 Jul 2012 11:54:48 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:13.0) Gecko/20120615 Thunderbird/13.0.1
+	Fri, 13 Jul 2012 21:42:12 +0200
+Received: from mail30-db3-R.bigfish.com (10.3.81.236) by
+	DB3EHSOBE006.bigfish.com (10.3.84.26) with Microsoft SMTP Server id
+	14.1.225.23; Fri, 13 Jul 2012 19:15:51 +0000
+Received: from mail30-db3 (localhost [127.0.0.1])	by mail30-db3-R.bigfish.com
+	(Postfix) with ESMTP id DE860240516	for
+	<openembedded-core@lists.openembedded.org>;
+	Fri, 13 Jul 2012 19:15:51 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-SpamScore: 3
+X-BigFish: VS3(zzzz1202h1082kzz8275bhz2dh2a8h668h839hd24he5bhf0ah107ah)
+Received: from mail30-db3 (localhost.localdomain [127.0.0.1]) by mail30-db3
+	(MessageSwitch) id 1342206950682213_4465;
+	Fri, 13 Jul 2012 19:15:50 +0000 (UTC)
+Received: from DB3EHSMHS001.bigfish.com (unknown [10.3.81.231])	by
+	mail30-db3.bigfish.com (Postfix) with ESMTP id A2BE32E0046	for
+	<openembedded-core@lists.openembedded.org>;
+	Fri, 13 Jul 2012 19:15:50 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by DB3EHSMHS001.bigfish.com
+	(10.3.87.101) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Fri, 13 Jul 2012 19:15:49 +0000
+Received: from tx30smr01.am.freescale.net (10.81.153.31) by
+	039-SN1MMR1-001.039d.mgd.msft.net (10.84.1.13) with Microsoft SMTP
+	Server (TLS) id 14.2.298.5; Fri, 13 Jul 2012 14:15:47 -0500
+Received: from right.am.freescale.net (right.am.freescale.net [10.82.176.228])
+	by tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id
+	q6DJFlWM003291 for <openembedded-core@lists.openembedded.org>;
+	Fri, 13 Jul 2012 12:15:47 -0700
+From: Matthew McClintock <msm@freescale.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 13 Jul 2012 14:15:47 -0500
+Message-ID: <1342206947-22186-1-git-send-email-msm@freescale.com>
+X-Mailer: git-send-email 1.7.10
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <1342204577-9605-1-git-send-email-msm@freescale.com>
-	<CAMKF1sq6g7uidfS5NXZ7xxujAjSz9vk7WFSreG1y2P1KUmLvcQ@mail.gmail.com>
-	<CAEsOVNccp+nLyn7U=-Oz3=eMawi1r4haxkTQW6ROU+zD=pZdzw@mail.gmail.com>
-	<CAMKF1sqEe-_gHEkVOcUs8tv6k+dmZNdGW7CbS1gxoX9q6jQtCg@mail.gmail.com>
-In-Reply-To: <CAMKF1sqEe-_gHEkVOcUs8tv6k+dmZNdGW7CbS1gxoX9q6jQtCg@mail.gmail.com>
-Cc: McClintock Matthew-B29882 <B29882@freescale.com>
-Subject: Re: [PATCH] gcc-package-runtime.inc: Fix QA warning
+X-OriginatorOrg: freescale.com
+Subject: [PATCH v2] gcc-package-runtime.inc: Fix QA warning
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,70 +54,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Jul 2012 19:06:05 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 13 Jul 2012 19:42:13 -0000
+Content-Type: text/plain
 
-On 07/13/2012 11:47 AM, Khem Raj wrote:
-> On Fri, Jul 13, 2012 at 11:43 AM, McClintock Matthew-B29882
-> <B29882@freescale.com> wrote:
->> On Fri, Jul 13, 2012 at 1:40 PM, Khem Raj <raj.khem@gmail.com> wrote:
->>> On Fri, Jul 13, 2012 at 11:36 AM, Matthew McClintock <msm@freescale.com> wrote:
->>>>> ERROR: QA Issue: gcc-runtime: Files/directories were installed but not shipped
->>>>>    /usr/lib/libgomp.so.1.0.0
->>>>>    /usr/lib/libgomp.so.1
->>>>
->>>
->>> that should go into the real libgomp package not -dev package
->>
->> Err... all the so files? Or just the new ones?
->
-> the ones that end with .so.* especially the above two.
-> .so will go into -dev
->
-Yes, Khem is right, I thought you had them originally in the -dev for a 
-reason, so that's where the SOLIBDEV and SOLIB extension can used as 
-they define .so and .so.* respectively
+> ERROR: QA Issue: gcc-runtime: Files/directories were installed but not shipped
+>   /usr/lib/libgomp.so.1.0.0
+>   /usr/lib/libgomp.so.1
 
-Sau!
+Signed-off-by: Matthew McClintock <msm@freescale.com>
+---
+v2: - use SOLIBS and SOLIBSDEV
 
->>
->> -M
->>
->>>
->>>
->>>>   FILES_libgomp-dev = "\
->>>> -  ${libdir}/libgomp*.so \
->>>> +  ${libdir}/libgomp*.so* \
->>>>     ${libdir}/libgomp*.la \
->>>>     ${libdir}/libgomp.spec \
->>>>     ${libdir}/gcc/${TARGET_SYS}/${BINV}/include/omp.h \
->>>> --
->>>> 1.7.10
->>>>
->>>>
->>>>
->>>> _______________________________________________
->>>> Openembedded-core mailing list
->>>> Openembedded-core@lists.openembedded.org
->>>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->>>
->>> _______________________________________________
->>> Openembedded-core mailing list
->>> Openembedded-core@lists.openembedded.org
->>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
->
+ meta/recipes-devtools/gcc/gcc-4.7.inc             |    2 +-
+ meta/recipes-devtools/gcc/gcc-package-runtime.inc |    3 ++-
+ 2 files changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/meta/recipes-devtools/gcc/gcc-4.7.inc b/meta/recipes-devtools/gcc/gcc-4.7.inc
+index 0e40533..b3012d7 100644
+--- a/meta/recipes-devtools/gcc/gcc-4.7.inc
++++ b/meta/recipes-devtools/gcc/gcc-4.7.inc
+@@ -1,6 +1,6 @@
+ require gcc-common.inc
+ 
+-PR = "r5"
++PR = "r6"
+ 
+ # Third digit in PV should be incremented after a minor release
+ # happens from this branch on gcc e.g. currently its 4.7.1
+diff --git a/meta/recipes-devtools/gcc/gcc-package-runtime.inc b/meta/recipes-devtools/gcc/gcc-package-runtime.inc
+index a81e3b7..75847b6 100644
+--- a/meta/recipes-devtools/gcc/gcc-package-runtime.inc
++++ b/meta/recipes-devtools/gcc/gcc-package-runtime.inc
+@@ -64,8 +64,9 @@ FILES_libmudflap-dev = "\
+   ${libdir}/libmudflap*.a \
+   ${libdir}/libmudflap*.la"
+ 
++FILES_libgomp = "${libdir}/libgomp*${SOLIBS}"
+ FILES_libgomp-dev = "\
+-  ${libdir}/libgomp*.so \
++  ${libdir}/libgomp*${SOLIBSDEV} \
+   ${libdir}/libgomp*.la \
+   ${libdir}/libgomp.spec \
+   ${libdir}/gcc/${TARGET_SYS}/${BINV}/include/omp.h \
+-- 
+1.7.10
+
 
 
 
