@@ -1,24 +1,36 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mail-gh0-f175.google.com ([209.85.160.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1SpbBt-0006qR-Ah
-	for Openembedded-core@lists.openembedded.org;
-	Fri, 13 Jul 2012 10:25:33 +0200
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 13 Jul 2012 01:14:17 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="121896853"
-Received: from yocto-hm1.jf.intel.com ([10.23.232.32])
-	by AZSMGA002.ch.intel.com with ESMTP; 13 Jul 2012 01:14:17 -0700
-From: nitin.a.kamble@intel.com
-To: Openembedded-core@lists.openembedded.org
-Date: Fri, 13 Jul 2012 01:12:58 -0700
-Message-Id: <af667a7a2947ddb0bb25c306f656fbc784296f87.1342167069.git.nitin.a.kamble@intel.com>
-X-Mailer: git-send-email 1.7.3.4
-In-Reply-To: <575ff760b303fcbf2a8f41a557451d1937d44112.1342167069.git.nitin.a.kamble@intel.com>
-References: <575ff760b303fcbf2a8f41a557451d1937d44112.1342167069.git.nitin.a.kamble@intel.com>
-In-Reply-To: <cover.1342167069.git.nitin.a.kamble@intel.com>
-References: <cover.1342167069.git.nitin.a.kamble@intel.com>
-Subject: [PATCH 3/3] lame: fix build with automake 1.12.x
+	(envelope-from <andrea.adami@gmail.com>) id 1SpbHG-00074G-Uy
+	for openembedded-core@lists.openembedded.org;
+	Fri, 13 Jul 2012 10:31:07 +0200
+Received: by ghbz2 with SMTP id z2so3072162ghb.6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 13 Jul 2012 01:19:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type:content-transfer-encoding;
+	bh=oa/PstzowJvllIfDkLOtCCV+q66eyE+PoDWZaH4dRrY=;
+	b=iZGYpQyn+niqeaKRbMzJdbW2MVdHlliZX4cYjW2zEYaHFaLg/IgIJjwBUs0qFLK87O
+	1DrT8TlrzDObXF6uWIoPDyciZEuporyZ5uuZxu7J7Qool36WRnfJuYNoY9Ev3IqFyhgj
+	CaESGyT5DIIZ9bAQp7z0vf1lkIoC+GArp2DOJ36lXgI0f/WwlbIpVEIt208GBuCPdsAX
+	2JARlGbH3c9Hqip22BEjDuimkHQATAWcJS6g0CnMEEMtoeMCwKZbv1bvMDsFQd4DcxVy
+	uCfNezvCpexrrY2AoJtmIZ1Ptym6Bz3SqaMBNKEDE1DzgIZHRXPV30SsOgM2T/A6oNTJ
+	oTaw==
+MIME-Version: 1.0
+Received: by 10.50.216.167 with SMTP id or7mr140966igc.32.1342167592130; Fri,
+	13 Jul 2012 01:19:52 -0700 (PDT)
+Received: by 10.64.35.109 with HTTP; Fri, 13 Jul 2012 01:19:52 -0700 (PDT)
+In-Reply-To: <54ABEC81-9673-446D-AD9A-79394DEEA6E8@dominion.thruhere.net>
+References: <cover.1342116650.git.andrei@gherzan.ro>
+	<8586287A-0F78-4778-8491-B8E1C70644B1@dominion.thruhere.net>
+	<4FFF23E2.5040007@linux.intel.com>
+	<54ABEC81-9673-446D-AD9A-79394DEEA6E8@dominion.thruhere.net>
+Date: Fri, 13 Jul 2012 10:19:52 +0200
+Message-ID: <CAAQYJAv0Zigzx2JrqOhd9_jNN8gFryw4ikhqsRK0e74Fim6=wA@mail.gmail.com>
+From: Andrea Adami <andrea.adami@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/3] Fix xz compression command and optimize compression time
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,121 +45,155 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Jul 2012 08:25:33 -0000
+X-List-Received-Date: Fri, 13 Jul 2012 08:31:07 -0000
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: quoted-printable
 
-From: Nitin A Kamble <nitin.a.kamble@intel.com>
+On Fri, Jul 13, 2012 at 8:45 AM, Koen Kooi <koen@dominion.thruhere.net> wro=
+te:
+>
+> Op 12 jul. 2012, om 21:22 heeft Saul Wold het volgende geschreven:
+>
+>> On 07/12/2012 11:58 AM, Koen Kooi wrote:
+>>> Any volunteers to test this on a system with >4 real cores?
+>>>
+>>
+>> Koen,
+>>
+>> Does OE-Core or Poky have an image setup for using .xz by default?
+>
+> No, and as you can see from Andrei's patches, it would have never worked =
+:)
+>
+> regards,
+>
+> Koen
+>
 
-automake 1.12.x has deprecated automatic de-ANSI-fication support.
-Fix sources to work with automake 1.12.x
+This leads to a similar remark for lzma:
 
-Added a new patch:
-   lame-3.99.5_fix_for_automake-1.12.x.patch
+The xz/lzma have been added with commit  38334ac and at that time both
+where using XZ_COMPRESSION_LEVEL.
 
-Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
----
- .../lame/lame-3.99.5_fix_for_automake-1.12.x.patch |   59 ++++++++++++++++++++
- meta/recipes-multimedia/lame/lame_3.99.5.bb        |   14 +----
- 2 files changed, 62 insertions(+), 11 deletions(-)
- create mode 100644 meta/recipes-multimedia/lame/lame/lame-3.99.5_fix_for_automake-1.12.x.patch
+The code has been refactored afterwards and what happened is that lzma
+now defaults to compression 7 (the default) while xz is way too high
+(default is 6).
 
-diff --git a/meta/recipes-multimedia/lame/lame/lame-3.99.5_fix_for_automake-1.12.x.patch b/meta/recipes-multimedia/lame/lame/lame-3.99.5_fix_for_automake-1.12.x.patch
-new file mode 100644
-index 0000000..571a1d0
---- /dev/null
-+++ b/meta/recipes-multimedia/lame/lame/lame-3.99.5_fix_for_automake-1.12.x.patch
-@@ -0,0 +1,59 @@
-+Upstream-Status: Pending
-+
-+Fix this kind of errors with automake 1.12.x:
-+| doc/man/Makefile.am:3: error: automatic de-ANSI-fication support has been removed
-+| autoreconf: automake failed with exit status: 1
-+
-+Signed-Off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
-+2012/07/13
-+
-+Index: lame-3.99.5/configure.in
-+===================================================================
-+--- lame-3.99.5.orig/configure.in
-++++ lame-3.99.5/configure.in
-+@@ -77,9 +77,6 @@ if test "${GCC}" = "yes"; then
-+ 	AC_MSG_RESULT(${GCC_version})
-+ fi
-+ 
-+-dnl more automake stuff
-+-AM_C_PROTOTYPES
-+-
-+ AC_CHECK_HEADER(dmalloc.h)
-+ if test "${ac_cv_header_dmalloc_h}" = "yes"; then
-+ 	AM_WITH_DMALLOC
-+Index: lame-3.99.5/doc/html/Makefile.am
-+===================================================================
-+--- lame-3.99.5.orig/doc/html/Makefile.am
-++++ lame-3.99.5/doc/html/Makefile.am
-+@@ -1,6 +1,6 @@
-+ ## $Id: Makefile.am,v 1.7 2010/09/30 20:58:40 jaz001 Exp $
-+ 
-+-AUTOMAKE_OPTIONS = foreign ansi2knr
-++AUTOMAKE_OPTIONS = foreign
-+ 
-+ docdir = $(datadir)/doc
-+ pkgdocdir = $(docdir)/$(PACKAGE)
-+Index: lame-3.99.5/libmp3lame/i386/Makefile.am
-+===================================================================
-+--- lame-3.99.5.orig/libmp3lame/i386/Makefile.am
-++++ lame-3.99.5/libmp3lame/i386/Makefile.am
-+@@ -1,6 +1,6 @@
-+ ## $Id: Makefile.am,v 1.26 2011/04/04 09:42:34 aleidinger Exp $
-+ 
-+-AUTOMAKE_OPTIONS = foreign $(top_srcdir)/ansi2knr
-++AUTOMAKE_OPTIONS = foreign
-+ 
-+ DEFS = @DEFS@ @CONFIG_DEFS@
-+ 
-+Index: lame-3.99.5/doc/man/Makefile.am
-+===================================================================
-+--- lame-3.99.5.orig/doc/man/Makefile.am
-++++ lame-3.99.5/doc/man/Makefile.am
-+@@ -1,6 +1,6 @@
-+ ## $Id: Makefile.am,v 1.1 2000/10/22 11:39:44 aleidinger Exp $
-+ 
-+-AUTOMAKE_OPTIONS = foreign ansi2knr
-++AUTOMAKE_OPTIONS = foreign
-+ 
-+ man_MANS = lame.1
-+ EXTRA_DIST = ${man_MANS}
-diff --git a/meta/recipes-multimedia/lame/lame_3.99.5.bb b/meta/recipes-multimedia/lame/lame_3.99.5.bb
-index a0c4cf5..764fcc1 100644
---- a/meta/recipes-multimedia/lame/lame_3.99.5.bb
-+++ b/meta/recipes-multimedia/lame/lame_3.99.5.bb
-@@ -8,10 +8,11 @@ LICENSE_FLAGS = "commercial"
- LIC_FILES_CHKSUM = "file://COPYING;md5=c46bda00ffbb0ba1dac22f8d087f54d9 \
-                     file://include/lame.h;beginline=1;endline=20;md5=a2258182c593c398d15a48262130a92b \
- "
--PR = "r0"
-+PR = "r1"
- 
- SRC_URI = "${SOURCEFORGE_MIRROR}/lame/lame-${PV}.tar.gz \
--           file://no-gtk1.patch"
-+           file://no-gtk1.patch \
-+           file://lame-3.99.5_fix_for_automake-1.12.x.patch "
- 
- SRC_URI[md5sum] = "84835b313d4a8b68f5349816d33e07ce"
- SRC_URI[sha256sum] = "24346b4158e4af3bd9f2e194bb23eb473c75fb7377011523353196b19b9a23ff"
-@@ -23,12 +24,3 @@ FILES_${PN} = "${bindir}/lame"
- FILES_libmp3lame = "${libdir}/libmp3lame.so.*"
- FILES_libmp3lame-dev = "${includedir} ${libdir}/*"
- FILES_${PN}-dev = ""
--
--do_configure() {
--	# no autoreconf please
--	aclocal
--	autoconf
--	libtoolize --force
--	gnu-configize --force
--	oe_runconf
--}
--- 
-1.7.3.4
+There is a well hidden pitfall with that, being that any image,
+including the initramfs, will use that compression factor.
 
+As you can notice in that (old) man xz [2]  the memory requirements
+are very high and what did happen to me was that the cpio.lzma could
+not be decompressed thus kernel could not boot (we override now the
+value setting "-e2" in our BSP).
+
+Adding more threads will multiply that figures.
+
+My 2 cents
+
+Andrea
+
+[1] http://cgit.openembedded.org/openembedded-core/log/meta/classes/image_t=
+ypes.bbclass
+[2] http://www.linuxcertif.com/man/1/xz
+
+>>
+>> I will run it on a machine I have, just want to make sure I am doing the=
+ same tests that Andrei is running.
+>>
+>> I was about to ask what msm asked about the Memory info.
+>>
+>>
+>> Sau!
+>>
+>>> Op 12 jul. 2012, om 20:13 heeft Andrei Gherzan het volgende geschreven:
+>>>
+>>>> Koen suggested to add -T to xz commands. We have this option implement=
+ed in our current version .1alpha.
+>>>>
+>>>> -T threads, --threads=3Dthreads
+>>>>              Specify the number of worker threads to use.  Setting thr=
+eads to
+>>>>              a special value 0 makes xz use as many threads as there a=
+re  CPU
+>>>>              cores  on  the system.  The actual number of threads can =
+be less
+>>>>              than threads if the input file is not big enough  for  th=
+reading
+>>>>              with  the  given  settings or if using more threads would=
+ exceed
+>>>>              the memory usage limit.
+>>>>
+>>>> -------------------
+>>>>
+>>>> Memory: 7.8 GiB
+>>>> Processor:: Intel=AE Core=99 i5-2540M CPU @ 2.60GHz =D7 4
+>>>>
+>>>> File to compress: 1.9G
+>>>>
+>>>> xz -f -k -e -9 --check=3Dcrc32 (current configuration)
+>>>> Memory: 673Mb
+>>>> real    6m37.170s
+>>>> user    6m35.389s
+>>>> sys     0m0.884s
+>>>> Compressed file size: 3.4Mb
+>>>>
+>>>> xz -f -k -e -9 -T 4 --check=3Dcrc32
+>>>> Memory: Cannot allocate memory
+>>>>
+>>>> xz -f -k -e -8 -T 4 --check=3Dcrc32
+>>>> Memory: 1.8G
+>>>> real    3m24.462s
+>>>> user    12m8.502s
+>>>> sys     0m2.180s
+>>>> Compressed file size: 3.4Mb
+>>>>
+>>>> xz -f -k -T 4 --check=3Dcrc32 (-e defaults to -6)
+>>>> Memory: 471Mb
+>>>> real    1m9.265s
+>>>> user    4m8.972s
+>>>> sys     0m0.944s
+>>>> Compressed file size: 3.4Mb
+>>>>
+>>>> So my conclusion would be to use the default -e -6 with -T 0.
+>>>>
+>>>> The following changes since commit 90ad663909c0c8a405b22a510c9f957007d=
+02669:
+>>>>
+>>>>  upstream_tracking: update boost (2012-07-09 17:21:38 +0100)
+>>>>
+>>>> are available in the git repository at:
+>>>>
+>>>>  git://git.yoctoproject.org/poky-contrib ag/xz
+>>>>  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=3Dag/xz
+>>>>
+>>>> Andrei Gherzan (3):
+>>>>  image_types.bbclass: Fix COMPRESS_CMD for xz to redirect compressed
+>>>>    data to file
+>>>>  image_types.bbclass: Add XZ variable to set number of threads to be
+>>>>    used while compressing
+>>>>  image_types.bbclass: Default XZ_COMPRESSION_LEVEL to -e -6
+>>>>
+>>>> meta/classes/image_types.bbclass |    5 +++--
+>>>> 1 file changed, 3 insertions(+), 2 deletions(-)
+>>>>
+>>>> --
+>>>> 1.7.9.5
+>>>>
+>>>
+>>>
+>>> _______________________________________________
+>>> Openembedded-core mailing list
+>>> Openembedded-core@lists.openembedded.org
+>>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>>>
+>>>
+>>
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
