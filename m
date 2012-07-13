@@ -1,50 +1,28 @@
-Received: from va3ehsobe010.messaging.microsoft.com ([216.32.180.30]
-	helo=va3outboundpool.messaging.microsoft.com)
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B28495@freescale.com>) id 1SpXZn-0005Og-Kf
+	(envelope-from <sgw@linux.intel.com>) id 1SpXgk-0005Uv-GS
 	for openembedded-core@lists.openembedded.org;
-	Fri, 13 Jul 2012 06:34:01 +0200
-Received: from mail127-va3-R.bigfish.com (10.7.14.249) by
-	VA3EHSOBE012.bigfish.com (10.7.40.62) with Microsoft SMTP Server id
-	14.1.225.23; Fri, 13 Jul 2012 03:37:23 +0000
-Received: from mail127-va3 (localhost [127.0.0.1])	by
-	mail127-va3-R.bigfish.com (Postfix) with ESMTP id 6EC9F1600DC;
-	Fri, 13 Jul 2012 03:37:23 +0000 (UTC)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-X-SpamScore: -8
-X-BigFish: VS-8(zzbb2dI98dI9371I542M1432Izz1202hzz8275bhz2dh2a8h668h839h8e2h8e3h944hd25hf0ah107ahbe9i)
-Received: from mail127-va3 (localhost.localdomain [127.0.0.1]) by mail127-va3
-	(MessageSwitch) id 1342150641844262_9886;
-	Fri, 13 Jul 2012 03:37:21 +0000 (UTC)
-Received: from VA3EHSMHS041.bigfish.com (unknown [10.7.14.236])	by
-	mail127-va3.bigfish.com (Postfix) with ESMTP id CA056E0088;
-	Fri, 13 Jul 2012 03:37:21 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by VA3EHSMHS041.bigfish.com
-	(10.7.99.51) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Fri, 13 Jul 2012 03:37:21 +0000
-Received: from 039-SN2MPN1-021.039d.mgd.msft.net ([169.254.1.250]) by
-	039-SN1MMR1-002.039d.mgd.msft.net ([10.84.1.15]) with mapi id
-	14.02.0298.005; Thu, 12 Jul 2012 22:37:21 -0500
-From: Liu Ting-B28495 <B28495@freescale.com>
-To: Saul Wold <sgw@linux.intel.com>, Patches and discussions about the oe-core
-	layer <openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH] lsof: define linux C library type when using
-	eglibc
-Thread-Index: AQHNX/YElAMCie4Vl0KjIbhHPCIda5cmXZcAgAAl0eCAAAuw0A==
-Date: Fri, 13 Jul 2012 03:37:19 +0000
-Message-ID: <AF604684617F454390621992F367F1690119F903@039-SN2MPN1-021.039d.mgd.msft.net>
-References: <1342073846-23047-1-git-send-email-b28495@freescale.com>
-	<4FFF25EC.70002@linux.intel.com> 
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.192.208.96]
+	Fri, 13 Jul 2012 06:41:11 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 12 Jul 2012 21:29:55 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="165261220"
+Received: from unknown (HELO [10.255.12.214]) ([10.255.12.214])
+	by orsmga001.jf.intel.com with ESMTP; 12 Jul 2012 21:29:55 -0700
+Message-ID: <4FFFA443.9090004@linux.intel.com>
+Date: Thu, 12 Jul 2012 21:29:55 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:13.0) Gecko/20120605 Thunderbird/13.0
 MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Cc: McClintock Matthew-B29882 <B29882@freescale.com>,
-	Liu Ting-B28495 <B28495@freescale.com>
-Subject: Re: [PATCH] lsof: define linux C library type when using eglibc
+To: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
+References: <cover.1341935782.git.nitin.a.kamble@intel.com>
+	<4FFF5969.8060709@linux.intel.com>
+	<ADD6A3980E8C39419A432FF422031B4C0316FABD@ORSMSX106.amr.corp.intel.com>
+In-Reply-To: <ADD6A3980E8C39419A432FF422031B4C0316FABD@ORSMSX106.amr.corp.intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 00/19] automake update related commits on master
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -59,117 +37,162 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Jul 2012 04:34:01 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 13 Jul 2012 04:41:11 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
------Original Message-----
-From: Liu Ting-B28495=20
-Sent: Friday, July 13, 2012 10:47 AM
-To: 'Saul Wold'; Patches and discussions about the oe-core layer
-Cc: McClintock Matthew-B29882
-Subject: RE: [OE-core] [PATCH] lsof: define linux C library type when using=
- eglibc
+On 07/12/2012 09:05 PM, Kamble, Nitin A wrote:
+>
+>
+>> -----Original Message-----
+>> From: Saul Wold [mailto:sgw@linux.intel.com]
+>> Sent: Friday, July 13, 2012 4:41 AM
+>> To: Patches and discussions about the oe-core layer
+>> Cc: Kamble, Nitin A
+>> Subject: Re: [OE-core] [PATCH 00/19] automake update related commits on
+>> master
+>>
+>> On 07/10/2012 08:58 AM, nitin.a.kamble@intel.com wrote:
+>>> From: Nitin A Kamble <nitin.a.kamble@intel.com>
+>>>
+>>> These are same commits which I made for M1 branch, now rebased to the
+>> current master.
+>>>
+>>
+>> Nitin,
+>>
+>> What builds did you do and did you include commercial in the
+>> LICENSE_FLAGS_WHITELIST?
+>>
+>> Also did you do a non-gplv3 build by setting INCOMPATIBLE_LICENSE?
+>
+> Saul,
+>     I did not test these settings yet. Thanks for reporting these. I will try with these settings. If you can open bugs for these, it will be easier for me to track these.
+> Is master a good branch to test automake commits, or is there any other branch which can work better.
+>
+I will open 2 general bugs against these 2 build targets.
 
------Original Message-----
-From: Saul Wold [mailto:sgw@linux.intel.com]
-Sent: Friday, July 13, 2012 3:31 AM
-To: Patches and discussions about the oe-core layer
-Cc: Liu Ting-B28495; McClintock Matthew-B29882
-Subject: Re: [OE-core] [PATCH] lsof: define linux C library type when using=
- eglibc
-
-On 07/11/2012 11:17 PM, b28495@freescale.com wrote:
-> From: Ting Liu <b28495@freescale.com>
->
-> lsof tries to compile a temp c source file and execute the binary to=20
-> determine linux C library type (file Configure, line 2689-2717).
-> It is inpracticable for cross-compilation and may have build issue on=20
-> some distros since it depends on host settings.
->
-> Fix below error when building for 64bit target on 64bit host:
-> [...]
-> | dsock.c:481:44: error: 'TCP_LISTEN' undeclared (first use in this
-> | function)
-> | dsock.c:482:45: error: 'TCP_CLOSING' undeclared (first use in this
-> | function)
-> [...]
-> | make: *** [dsock.o] Error 1
->
-> The actual issue exists in do_configure:
-> [...]
-> Testing C library type with cc ... done Cannot determine C library=20
-> type; assuming it is not glibc.
->
-> Which is in turn caused by missing 'gnu/stubs-32.h" when compiling the=20
-> temp c source file on host:
-> [...]
-> fatal error: gnu/stubs-32.h: No such file or directory compilation termin=
-ated.
->
-> file gnu/stubs-32.h is provided by 32bit glibc.
->
-> Signed-off-by: Ting Liu <b28495@freescale.com>
-> ---
->   meta/recipes-extended/lsof/lsof_4.85.bb |    7 ++++++-
->   1 files changed, 6 insertions(+), 1 deletions(-)
->
-> diff --git a/meta/recipes-extended/lsof/lsof_4.85.bb
-> b/meta/recipes-extended/lsof/lsof_4.85.bb
-> index 5823725..d28d2cb 100644
-> --- a/meta/recipes-extended/lsof/lsof_4.85.bb
-> +++ b/meta/recipes-extended/lsof/lsof_4.85.bb
-> @@ -3,7 +3,7 @@ DESCRIPTION =3D "Lsof is a Unix-specific diagnostic tool.=
- \
->   Its name stands for LiSt Open Files, and it does just that."
->   SECTION =3D "devel"
->   LICENSE =3D "BSD"
-> -PR =3D "r1"
-> +PR =3D "r2"
->
->   SRC_URI =3D "ftp://lsof.itap.purdue.edu/pub/tools/unix/lsof/lsof_${PV}.=
-tar.bz2"
->
-> @@ -31,6 +31,11 @@ export LSOF_INCLUDE =3D "${STAGING_INCDIR}"
->   do_configure () {
->   	export LSOF_AR=3D"${AR} cr"
->   	export LSOF_RANLIB=3D"${RANLIB}"
-> +        if [ "x${EGLIBCVERSION}" !=3D "x" ];then
-> +                LINUX_CLIB=3D${EGLIBCVERSION/\./}
-> +                LINUX_CLIB=3D"-DGLIBCV=3D${LINUX_CLIB}"
-Does this really do what you intent it to?
-
-why not set the EGLIBCVERSION directly on the second line, what's the purpo=
-se of the /\./?  It renders the version empty in my tests.
+Your changes are not in master yet, but if you start with the current 
+master and then rebase before you push your updates, that should get 
+most of the issues.
 
 Sau!
 
-[Liu Ting-B28495] LINUX_CLIB is set to "-DGLIBCV=3D213" when lsof can figur=
-e out the right Linux c library type. String 213 corresponds to the eglibc =
-version 2.13. the purpose of /\./ is to get rid of '.'.
-Here is my test:
--bash-3.2$ EGLIBCVERSION=3D"2.13"
--bash-3.2$ echo ${EGLIBCVERSION/\./}
-213
--bash-3.2$
-
-[Liu Ting-B28495] ok, I find why it renders the version empty:
-In temp/run.configure:
-....
-export BUILD_STRIP=3D"strip"
-do_configure() {
-        if [ "x2.13" !=3D "x" ];then
-                LINUX_CLIB=3D${EGLIBCVERSION/\./}
-                LINUX_CLIB=3D"-DGLIBCV=3D${LINUX_CLIB}"
-                export LINUX_CLIB
-        fi
-        yes | ./Configure linux
-
-}
-
-Variable EGLIBCVERSION is expanded instead of exported.=20
-
+> Thanks,
+> Nitin
+>
+>>
+>> Please see the autobuilder:
+>>
+>> http://autobuilder.yoctoproject.org:8010/builders/nightly-non-
+>> gpl3/builds/155/steps/shell_23/logs/stdio
+>>
+>> Sau!
+>>
+>>
+>>> Thanks,
+>>> Nitin
+>>>
+>>> The following changes since commit
+>> 029e3cea52f86438a1d6868020b8888b5c93d623:
+>>>
+>>>     bitbake: fetch2/wget: Use FETCHCMD_wget to provide the commandline
+>>> and options (2012-07-10 14:25:38 +0100)
+>>>
+>>> are available in the git repository at:
+>>>     git://git.pokylinux.org/poky-contrib nitin/automake_update_on_master
+>>>
+>>> http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=nitin/automake_u
+>>> pdate_on_master
+>>>
+>>> Nitin A Kamble (19):
+>>>     automake: upgrade from 1.11.3 to 1.12.1
+>>>     jpeg: fix configure with automake 1.12.1
+>>>     gnutls: Fix build with automake 1.12.1
+>>>     pcmanfm: fix build with automake 1.12.x
+>>>     avahi: fix build with automake 1.12.1
+>>>     dates: fix build with automake 1.12.x
+>>>     librsvg: fix build with automake 1.12.x
+>>>     evolution-data-server: fix build with automake 1.12.x
+>>>     tar: fix build with automake 1.12.x
+>>>     libgcrypt: fix build with automake 1.12.x
+>>>     telepathy-glib: fix build with automake 1.12.x
+>>>     xf86-video-vmware: fix build with automake 1.12.x
+>>>     libfm: fix build with automake 1.12.x
+>>>     pango: fix dependencies to avoid build issue
+>>>     libunistring: fix build with automake 1.12
+>>>     telepathy-python: fix build with automake 1.12
+>>>     libidn: fix build with automake 1.12
+>>>     webgit-gtk: fix build with automake 1.12.1
+>>>     gpgme: fix build with automake 1.12.x
+>>>
+>>>    meta/recipes-connectivity/avahi/avahi.inc          |    3 +-
+>>>    .../avahi/files/fix_for_automake_1.12.x.patch      |   34 ++++++++
+>>>    .../telepathy/telepathy-glib_0.19.2.bb             |    6 --
+>>>    .../telepathy-python_fix_for_automake_1.12.patch   |   26 ++++++
+>>>    .../telepathy/telepathy-python_0.15.19.bb          |    5 +-
+>>>    .../jpeg/jpeg-8d/fix_for_automake_1.12.1.patch     |   44 ++++++++++
+>>>    meta/recipes-core/jpeg/jpeg_8d.bb                  |    5 +-
+>>>    .../automake/automake/path_prog_fixes.patch        |   40 ++--------
+>>>    .../{automake_1.11.3.bb => automake_1.12.1.bb}     |    5 +-
+>>>    ..._MKDIR_P_warning_error_with_automake_1.12.patch |   25 ++++++
+>>>    meta/recipes-extended/libidn/libidn_1.25.bb        |    5 +-
+>>>    meta/recipes-extended/tar/tar.inc                  |    2 -
+>>>    meta/recipes-gnome/librsvg/librsvg_2.32.1.bb       |    8 +--
+>>>    meta/recipes-graphics/pango/pango.inc              |    2 +-
+>>>    .../xorg-driver/xf86-video-vmware_12.0.2.bb        |    5 -
+>>>    .../avoid_automake_errors.patch                    |   83
+>> ++++++++++++++++++++
+>>>    .../fix_for_automake-1.12.x.patch                  |   28 +++++++
+>>>    meta/recipes-sato/eds/evolution-data-server_git.bb |    4 +-
+>>>    .../files/pcmanfm_fix_for_automake_1.12.patch      |   35 ++++++++
+>>>    meta/recipes-sato/pcmanfm/pcmanfm_0.9.10.bb        |    5 +-
+>>>    meta/recipes-sato/pimlico/dates_git.bb             |    6 +-
+>>>    .../webgit-gtk_fix_build_with_automake_1.12.patch  |   62
+>> +++++++++++++++
+>>>    meta/recipes-sato/webkit/webkit-gtk_svn.bb         |    1 +
+>>>    ..._MKDIR_P_warning_error_with_automake_1.12.patch |   51
+>> ++++++++++++
+>>>    .../gnutls/gnutls_fix_for_automake_1.12.1.patch    |   43 ++++++++++
+>>>    meta/recipes-support/gnutls/gnutls_2.12.20.bb      |    4 +-
+>>>    meta/recipes-support/gpgme/gpgme_1.3.2.bb          |    6 +-
+>>>    meta/recipes-support/libfm/libfm_0.1.17.bb         |    5 -
+>>>    meta/recipes-support/libgcrypt/libgcrypt.inc       |    3 -
+>>>    .../libunistring_fix_for_automake_1.12.patch       |   81
+>> +++++++++++++++++++
+>>>    .../libunistring/libunistring_0.9.3.bb             |    5 +-
+>>>    31 files changed, 549 insertions(+), 88 deletions(-)
+>>>    create mode 100644 meta/recipes-
+>> connectivity/avahi/files/fix_for_automake_1.12.x.patch
+>>>    create mode 100644 meta/recipes-connectivity/telepathy/telepathy-
+>> python-0.15.19/telepathy-python_fix_for_automake_1.12.patch
+>>>    create mode 100644 meta/recipes-core/jpeg/jpeg-
+>> 8d/fix_for_automake_1.12.1.patch
+>>>    rename meta/recipes-devtools/automake/{automake_1.11.3.bb =>
+>> automake_1.12.1.bb} (93%)
+>>>    create mode 100644 meta/recipes-
+>> extended/libidn/libidn/avoid_AM_PROG_MKDIR_P_warning_error_with_a
+>> utomake_1.12.patch
+>>>    create mode 100644 meta/recipes-sato/eds/evolution-data-
+>> server/avoid_automake_errors.patch
+>>>    create mode 100644 meta/recipes-sato/eds/evolution-data-
+>> server/fix_for_automake-1.12.x.patch
+>>>    create mode 100644 meta/recipes-
+>> sato/pcmanfm/files/pcmanfm_fix_for_automake_1.12.patch
+>>>    create mode 100644 meta/recipes-sato/webkit/files/webgit-
+>> gtk_fix_build_with_automake_1.12.patch
+>>>    create mode 100644 meta/recipes-
+>> support/gnutls/gnutls/avoid_AM_PROG_MKDIR_P_warning_error_with_au
+>> tomake_1.12.patch
+>>>    create mode 100644 meta/recipes-
+>> support/gnutls/gnutls/gnutls_fix_for_automake_1.12.1.patch
+>>>    create mode 100644
+>>> meta/recipes-support/libunistring/libunistring/libunistring_fix_for_au
+>>> tomake_1.12.patch
+>>>
+>
+>
+>
 
 
 
