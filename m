@@ -1,33 +1,29 @@
-Received: from mail-ob0-f175.google.com ([209.85.214.175])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrei@gherzan.ro>) id 1Spl9j-00082n-Vk
+	(envelope-from <sgw@linux.intel.com>) id 1SplBl-0001EF-CN
 	for openembedded-core@lists.openembedded.org;
-	Fri, 13 Jul 2012 21:04:00 +0200
-Received: by obcva7 with SMTP id va7so4818248obc.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Jul 2012 11:52:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:x-originating-ip:from:date:message-id:subject:to
-	:content-type:x-gm-message-state;
-	bh=UAK3SXZUe7hpka9NQp2aWi+WJA817C3v+sU8PEdCpTI=;
-	b=N2b+wrTmwPc80oLD+ONRJ6PrNt1mBm39ytQ+Yt999/+NrrySAGtLxgTZbaBaF1BAay
-	ZX8nTSEPjMLUyxhNDKIbQPTjx3Jh94xCGLExLnBUyQzgfW66+a1LQTZgDyKcqQaDmhrf
-	+dd0dIecjSRx2nFLSJgSLO7yYaG5trHsjYv7a3Am3at2FTq4MxJyQCtW3Pnvh8WxIgzB
-	ogt7IQSe2TNCo5+P3ZfND8Wfgn31lcpRMOnVQmwHWL56C41PT5ghfWhMzo50Bh/DXKny
-	szIhxBQXoOrT4xK7vkHLxms5tmhUC/nnzOEw25YcEszr7LJjQxCac7tNOTFM3mziwKtg
-	BQug==
-Received: by 10.182.124.100 with SMTP id mh4mr3169856obb.42.1342205564361;
-	Fri, 13 Jul 2012 11:52:44 -0700 (PDT)
+	Fri, 13 Jul 2012 21:06:05 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 13 Jul 2012 11:54:49 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="167831191"
+Received: from unknown (HELO [10.255.12.178]) ([10.255.12.178])
+	by azsmga001.ch.intel.com with ESMTP; 13 Jul 2012 11:54:49 -0700
+Message-ID: <50006EF8.7070808@linux.intel.com>
+Date: Fri, 13 Jul 2012 11:54:48 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:13.0) Gecko/20120615 Thunderbird/13.0.1
 MIME-Version: 1.0
-Received: by 10.76.81.37 with HTTP; Fri, 13 Jul 2012 11:52:24 -0700 (PDT)
-X-Originating-IP: [79.117.115.156]
-From: Andrei Gherzan <andrei@gherzan.ro>
-Date: Fri, 13 Jul 2012 21:52:24 +0300
-Message-ID: <CAK18fxFBi0=eFEPPrr=O0FXNnivTSUvPe04pnqxpOKDSvT2ehw@mail.gmail.com>
-To: openembedded <openembedded-core@lists.openembedded.org>
-X-Gm-Message-State: ALoCoQkQr21M6FSVaiHumIGphiE+6BGMrsrAtHDcnSLCzjRhLJP1YC6l4GL6G716WTEg2Mxnxrf1
-Subject: http://xorg.freedesktop.org/ down
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <1342204577-9605-1-git-send-email-msm@freescale.com>
+	<CAMKF1sq6g7uidfS5NXZ7xxujAjSz9vk7WFSreG1y2P1KUmLvcQ@mail.gmail.com>
+	<CAEsOVNccp+nLyn7U=-Oz3=eMawi1r4haxkTQW6ROU+zD=pZdzw@mail.gmail.com>
+	<CAMKF1sqEe-_gHEkVOcUs8tv6k+dmZNdGW7CbS1gxoX9q6jQtCg@mail.gmail.com>
+In-Reply-To: <CAMKF1sqEe-_gHEkVOcUs8tv6k+dmZNdGW7CbS1gxoX9q6jQtCg@mail.gmail.com>
+Cc: McClintock Matthew-B29882 <B29882@freescale.com>
+Subject: Re: [PATCH] gcc-package-runtime.inc: Fix QA warning
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,40 +38,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Jul 2012 19:04:00 -0000
-Content-Type: multipart/alternative; boundary=f46d0444ef49e11b0204c4ba95f3
+X-List-Received-Date: Fri, 13 Jul 2012 19:06:05 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
---f46d0444ef49e11b0204c4ba95f3
-Content-Type: text/plain; charset=ISO-8859-1
+On 07/13/2012 11:47 AM, Khem Raj wrote:
+> On Fri, Jul 13, 2012 at 11:43 AM, McClintock Matthew-B29882
+> <B29882@freescale.com> wrote:
+>> On Fri, Jul 13, 2012 at 1:40 PM, Khem Raj <raj.khem@gmail.com> wrote:
+>>> On Fri, Jul 13, 2012 at 11:36 AM, Matthew McClintock <msm@freescale.com> wrote:
+>>>>> ERROR: QA Issue: gcc-runtime: Files/directories were installed but not shipped
+>>>>>    /usr/lib/libgomp.so.1.0.0
+>>>>>    /usr/lib/libgomp.so.1
+>>>>
+>>>
+>>> that should go into the real libgomp package not -dev package
+>>
+>> Err... all the so files? Or just the new ones?
+>
+> the ones that end with .so.* especially the above two.
+> .so will go into -dev
+>
+Yes, Khem is right, I thought you had them originally in the -dev for a 
+reason, so that's where the SOLIBDEV and SOLIB extension can used as 
+they define .so and .so.* respectively
 
-http://xorg.freedesktop.org/ is down so libx11-trim will fail at fetch.
+Sau!
 
-Use
-http://ftp.x.org/pub/individual/lib/
-temporary.
-
-ag
-
---f46d0444ef49e11b0204c4ba95f3
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
-
-<div><a href=3D"http://xorg.freedesktop.org/">http://xorg.freedesktop.org/<=
-/a>=A0is down so libx11-trim will fail at fetch.</div><div><br></div><div>U=
-se=A0</div><a href=3D"http://ftp.x.org/pub/individual/lib/">http://ftp.x.or=
-g/pub/individual/lib/</a><br clear=3D"all">
-
-<div style=3D"text-align:center"></div><div style=3D"text-align:center"><di=
-v align=3D"left" style=3D"font-family:&#39;Times New Roman&#39;;font-size:m=
-edium"><span style=3D"color:rgb(51,51,51);font-family:Arial;font-size:small=
-;text-align:center">temporary.</span></div>
-
-<div align=3D"left" style=3D"font-family:&#39;Times New Roman&#39;;font-siz=
-e:medium"><font face=3D"Arial" color=3D"#333333" size=3D"-1"><br></font></d=
-iv><div align=3D"left" style=3D"font-family:&#39;Times New Roman&#39;;font-=
-size:medium">
-
-<font face=3D"Arial" color=3D"#333333" size=3D"-1">ag</font></div></div><br=
+>>
+>> -M
+>>
+>>>
+>>>
+>>>>   FILES_libgomp-dev = "\
+>>>> -  ${libdir}/libgomp*.so \
+>>>> +  ${libdir}/libgomp*.so* \
+>>>>     ${libdir}/libgomp*.la \
+>>>>     ${libdir}/libgomp.spec \
+>>>>     ${libdir}/gcc/${TARGET_SYS}/${BINV}/include/omp.h \
+>>>> --
+>>>> 1.7.10
+>>>>
+>>>>
+>>>>
+>>>> _______________________________________________
+>>>> Openembedded-core mailing list
+>>>> Openembedded-core@lists.openembedded.org
+>>>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>>>
+>>> _______________________________________________
+>>> Openembedded-core mailing list
+>>> Openembedded-core@lists.openembedded.org
+>>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 >
 
---f46d0444ef49e11b0204c4ba95f3--
+
+
