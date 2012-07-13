@@ -1,52 +1,29 @@
-Received: from db3ehsobe003.messaging.microsoft.com ([213.199.154.141]
-	helo=db3outboundpool.messaging.microsoft.com)
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1Sph1r-0005sH-JV
+	(envelope-from <Morgan.Little@windriver.com>) id 1SphWW-00074k-JW
 	for openembedded-core@lists.openembedded.org;
-	Fri, 13 Jul 2012 16:39:35 +0200
-Received: from mail116-db3-R.bigfish.com (10.3.81.246) by
-	DB3EHSOBE005.bigfish.com (10.3.84.25) with Microsoft SMTP Server id
-	14.1.225.23; Fri, 13 Jul 2012 14:28:20 +0000
-Received: from mail116-db3 (localhost [127.0.0.1])	by
-	mail116-db3-R.bigfish.com (Postfix) with ESMTP id 5CBDE4043A;
-	Fri, 13 Jul 2012 14:28:20 +0000 (UTC)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-X-SpamScore: -8
-X-BigFish: VS-8(zz98dI9371I1443I1432I14e3Mzz1202hzz8275dhz2dh2a8h668h839h8e2h8e3hf0ah107ahbe9i)
-Received: from mail116-db3 (localhost.localdomain [127.0.0.1]) by mail116-db3
-	(MessageSwitch) id 1342189699536769_19320;
-	Fri, 13 Jul 2012 14:28:19 +0000 (UTC)
-Received: from DB3EHSMHS009.bigfish.com (unknown [10.3.81.252])	by
-	mail116-db3.bigfish.com (Postfix) with ESMTP id 8140F40004A;
-	Fri, 13 Jul 2012 14:28:19 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by DB3EHSMHS009.bigfish.com
-	(10.3.87.109) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Fri, 13 Jul 2012 14:28:17 +0000
-Received: from 039-SN1MPN1-002.039d.mgd.msft.net ([169.254.2.109]) by
-	039-SN1MMR1-001.039d.mgd.msft.net ([10.84.1.13]) with mapi id
-	14.02.0298.005; Fri, 13 Jul 2012 09:28:16 -0500
-From: McClintock Matthew-B29882 <B29882@freescale.com>
-To: Bincy K Philip <bincy_k_philip@yahoo.co.in>, Patches and discussions about
-	the oe-core layer <openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] Error in rpm bitbake
-Thread-Index: AQHNYQO9ZmW3yY65BUipm5vODNsTsg==
-Date: Fri, 13 Jul 2012 14:28:15 +0000
-Message-ID: <CAEsOVNdaBGNy2rDbqfA8ym+S7uMd3DA9FRAGunX0-MLRpuzcqg@mail.gmail.com>
-References: <1342182619.93150.YahooMailNeo@web192606.mail.sg3.yahoo.com>
-In-Reply-To: <1342182619.93150.YahooMailNeo@web192606.mail.sg3.yahoo.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [70.112.201.132]
+	Fri, 13 Jul 2012 17:11:17 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q6DDtMGh018650
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 13 Jul 2012 06:55:22 -0700 (PDT)
+Received: from localhost.localdomain (128.224.147.201) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.1.255.0; Fri, 13 Jul 2012 06:55:22 -0700
+From: Morgan Little <morgan.little@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 13 Jul 2012 09:55:06 -0400
+Message-ID: <1342187709-19368-18-git-send-email-morgan.little@windriver.com>
+X-Mailer: git-send-email 1.7.0.4
+In-Reply-To: <1342187709-19368-1-git-send-email-morgan.little@windriver.com>
+References: <1342187709-19368-1-git-send-email-morgan.little@windriver.com>
 MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Subject: Re: Error in rpm bitbake
+Subject: [PATCH 17/20] xcb-proto: Update for python-native changes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
-	Patches and discussions about the oe-core layer
+Reply-To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -57,53 +34,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Jul 2012 14:39:35 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <7016EC8275AFAC41BCD60FDB0EEE64FD@mgd.freescale.com>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 13 Jul 2012 15:11:17 -0000
+Content-Type: text/plain
 
-On Fri, Jul 13, 2012 at 7:30 AM, Bincy K Philip
-<bincy_k_philip@yahoo.co.in> wrote:
-> Dear all,
->
-> I have started to work with open embedded only 3 months back.
->
-> I got attached error log while trying for " bitbake rpm". This rpm failur=
-e
-> causes my bitbake core-image-minimal to fail.
->
->
-> I have gone through some Google posts and understood dbconver.c causes th=
-is
-> error & need to exclude this file from compiling.I am not aware of how to=
- do
-> that.Can anyone answer this?
->
-> Also I have seen that there is one dbconvert.patch work in progress. But
-> couldn't find out this file in open embedded git repository.
->
-> Please help me to sort out this issue.This is really blocking me.
->
-> Thanks in advance...
+Add pythonnative to the inherits list
 
-Bincy,
+Signed-off-by: Morgan Little <morgan.little@windriver.com>
+---
+ meta/recipes-graphics/xcb/xcb-proto.inc |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-I submitted a patch for this a few days ago. Waiting for it to be
-applied or for feedback:
-
-http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=3Dmattsm/m=
-aster&id=3D9cd3f21ab41c039ddcc6bbff521f9d7b284813ae
-
--M
-
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->=
+diff --git a/meta/recipes-graphics/xcb/xcb-proto.inc b/meta/recipes-graphics/xcb/xcb-proto.inc
+index e93b1a2..feb9e4d 100644
+--- a/meta/recipes-graphics/xcb/xcb-proto.inc
++++ b/meta/recipes-graphics/xcb/xcb-proto.inc
+@@ -11,7 +11,7 @@ LICENSE = "MIT-X"
+ 
+ SRC_URI = "http://xcb.freedesktop.org/dist/xcb-proto-${PV}.tar.bz2"
+ 
+-inherit autotools pkgconfig
++inherit autotools pkgconfig pythonnative
+ 
+ PACKAGES += "python-xcbgen"
+ 
+-- 
+1.7.0.4
 
 
 
