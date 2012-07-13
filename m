@@ -1,20 +1,22 @@
 Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1SpbBr-0006qR-09
+	(envelope-from <nitin.a.kamble@intel.com>) id 1SpbBr-0006qR-P8
 	for Openembedded-core@lists.openembedded.org;
-	Fri, 13 Jul 2012 10:25:31 +0200
+	Fri, 13 Jul 2012 10:25:32 +0200
 Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 13 Jul 2012 01:14:15 -0700
+	by azsmga101.ch.intel.com with ESMTP; 13 Jul 2012 01:14:17 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="121896843"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="121896848"
 Received: from yocto-hm1.jf.intel.com ([10.23.232.32])
-	by AZSMGA002.ch.intel.com with ESMTP; 13 Jul 2012 01:14:15 -0700
+	by AZSMGA002.ch.intel.com with ESMTP; 13 Jul 2012 01:14:17 -0700
 From: nitin.a.kamble@intel.com
 To: Openembedded-core@lists.openembedded.org
-Date: Fri, 13 Jul 2012 01:12:53 -0700
-Message-Id: <cover.1342167069.git.nitin.a.kamble@intel.com>
+Date: Fri, 13 Jul 2012 01:12:56 -0700
+Message-Id: <575ff760b303fcbf2a8f41a557451d1937d44112.1342167069.git.nitin.a.kamble@intel.com>
 X-Mailer: git-send-email 1.7.3.4
-Subject: [PATCH 0/3] more automake 1.12.x related fixes
+In-Reply-To: <cover.1342167069.git.nitin.a.kamble@intel.com>
+References: <cover.1342167069.git.nitin.a.kamble@intel.com>
+Subject: [PATCH 1/3] gawk-3.1.5: fix build with automake 1.12.x
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,39 +31,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Jul 2012 08:25:31 -0000
+X-List-Received-Date: Fri, 13 Jul 2012 08:25:32 -0000
 
 From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-nongplv3 & commercial licence recipe testing revelaed more issue, and the fixes
-for these are here.
-Thanks,
-Nitin
+Add the gawk-3.1.5_fix_for_automake-1.12.patch in SRC_URI.
 
-The following changes since commit 581d9dc2d148b67332a255cc1e7ce0679ff82c23:
-
-  tar: fix build with automake 1.12.x (2012-07-12 21:13:42 -0700)
-
-are available in the git repository at:
-  git://git.pokylinux.org/poky-contrib nitin/automake_update_on_master
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=nitin/automake_update_on_master
-
-Nitin A Kamble (3):
-  gawk-3.1.5: fix build with automake 1.12.x
-  sed-4.1.2: fix build with automake 1.12.x
-  lame: fix build with automake 1.12.x
-
+Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
+---
  ...atch => gawk-3.1.5_fix_for_automake-1.12.patch} |    0
- meta/recipes-extended/gawk/gawk_3.1.5.bb           |    5 +-
- .../sed-4.1.2_fix_for_automake-1.12.patch          |   37 ++++++++++++
- meta/recipes-extended/sed/sed_4.1.2.bb             |    5 +-
- .../lame/lame-3.99.5_fix_for_automake-1.12.x.patch |   59 ++++++++++++++++++++
- meta/recipes-multimedia/lame/lame_3.99.5.bb        |   14 +----
- 6 files changed, 105 insertions(+), 15 deletions(-)
+ meta/recipes-extended/gawk/gawk_3.1.5.bb           |    5 +++--
+ 2 files changed, 3 insertions(+), 2 deletions(-)
  rename meta/recipes-extended/gawk/gawk-3.1.5/{gawk_fix_for_automake-1.12.patch => gawk-3.1.5_fix_for_automake-1.12.patch} (100%)
- create mode 100644 meta/recipes-extended/sed/sed-4.1.2/sed-4.1.2_fix_for_automake-1.12.patch
- create mode 100644 meta/recipes-multimedia/lame/lame/lame-3.99.5_fix_for_automake-1.12.x.patch
 
+diff --git a/meta/recipes-extended/gawk/gawk-3.1.5/gawk_fix_for_automake-1.12.patch b/meta/recipes-extended/gawk/gawk-3.1.5/gawk-3.1.5_fix_for_automake-1.12.patch
+similarity index 100%
+rename from meta/recipes-extended/gawk/gawk-3.1.5/gawk_fix_for_automake-1.12.patch
+rename to meta/recipes-extended/gawk/gawk-3.1.5/gawk-3.1.5_fix_for_automake-1.12.patch
+diff --git a/meta/recipes-extended/gawk/gawk_3.1.5.bb b/meta/recipes-extended/gawk/gawk_3.1.5.bb
+index 4c7cdf3..89dd01c 100644
+--- a/meta/recipes-extended/gawk/gawk_3.1.5.bb
++++ b/meta/recipes-extended/gawk/gawk_3.1.5.bb
+@@ -13,9 +13,10 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552"
+ 
+ RDEPENDS_gawk += "gawk-common"
+ RDEPENDS_pgawk += "gawk-common"
+-PR = "r0"
++PR = "r1"
+ 
+-SRC_URI = "${GNU_MIRROR}/gawk/gawk-${PV}.tar.gz"
++SRC_URI = "${GNU_MIRROR}/gawk/gawk-${PV}.tar.gz \
++	file://gawk-3.1.5_fix_for_automake-1.12.patch"
+ 
+ SRC_URI[md5sum] = "4760325489479cac17fe0114b8f62f30"
+ SRC_URI[sha256sum] = "463dcb9d0ca398b1d4f5a332f6cd9cec56441265fca616f2ea1b44d459e9f0f8"
 -- 
 1.7.3.4
 
