@@ -1,25 +1,25 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Morgan.Little@windriver.com>) id 1SphWp-00074r-2N
+	(envelope-from <Morgan.Little@windriver.com>) id 1SphX9-00074k-CA
 	for openembedded-core@lists.openembedded.org;
-	Fri, 13 Jul 2012 17:11:36 +0200
+	Fri, 13 Jul 2012 17:11:55 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q6DDtCWv001580
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q6DDtBRM018626
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 13 Jul 2012 06:55:12 -0700 (PDT)
 Received: from localhost.localdomain (128.224.147.201) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.1.255.0; Fri, 13 Jul 2012 06:55:12 -0700
+	14.1.255.0; Fri, 13 Jul 2012 06:55:11 -0700
 From: Morgan Little <morgan.little@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 13 Jul 2012 09:54:52 -0400
-Message-ID: <1342187709-19368-4-git-send-email-morgan.little@windriver.com>
+Date: Fri, 13 Jul 2012 09:54:51 -0400
+Message-ID: <1342187709-19368-3-git-send-email-morgan.little@windriver.com>
 X-Mailer: git-send-email 1.7.0.4
 In-Reply-To: <1342187709-19368-1-git-send-email-morgan.little@windriver.com>
 References: <1342187709-19368-1-git-send-email-morgan.little@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 03/20] python-dbus: Update for python-native changes
+Subject: [PATCH 02/20] python: Update for python-native changes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,35 +37,77 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 X-List-Received-Date: Fri, 13 Jul 2012 15:12:54 -0000
 Content-Type: text/plain
 
-Add pythonnative to the inherits list
+Add pythonnative onto the list of inherits and update the paths to the binaries
+referenced in the recipe to the new paths.
 
 Signed-off-by: Morgan Little <morgan.little@windriver.com>
 ---
- meta/recipes-devtools/python/python-dbus_1.0.0.bb |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-devtools/python/python_2.7.3.bb |   18 +++++++++---------
+ 1 files changed, 9 insertions(+), 9 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python-dbus_1.0.0.bb b/meta/recipes-devtools/python/python-dbus_1.0.0.bb
-index 1b174eb..ad7c4bf 100644
---- a/meta/recipes-devtools/python/python-dbus_1.0.0.bb
-+++ b/meta/recipes-devtools/python/python-dbus_1.0.0.bb
-@@ -4,7 +4,7 @@ HOMEPAGE = "http://www.freedesktop.org/Software/dbus"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://COPYING;md5=f5612614133e9a2f2dad527d97554670"
- DEPENDS = "expat dbus dbus-glib virtual/libintl python-pyrex-native"
--PR = "r1"
-+PR = "r2"
+diff --git a/meta/recipes-devtools/python/python_2.7.3.bb b/meta/recipes-devtools/python/python_2.7.3.bb
+index b06d7b7..fd0e2f7 100644
+--- a/meta/recipes-devtools/python/python_2.7.3.bb
++++ b/meta/recipes-devtools/python/python_2.7.3.bb
+@@ -1,6 +1,6 @@
+ require python.inc
+ DEPENDS = "python-native bzip2 db gdbm openssl readline sqlite3 zlib"
+-PR = "${INC_PR}.0"
++PR = "${INC_PR}.1"
  
- SRC_URI = "http://dbus.freedesktop.org/releases/dbus-python/dbus-python-${PV}.tar.gz"
+ DISTRO_SRC_URI ?= "file://sitecustomize.py"
+ DISTRO_SRC_URI_linuxstdbase = ""
+@@ -30,7 +30,7 @@ SRC_URI += "\
  
-@@ -12,7 +12,7 @@ SRC_URI[md5sum] = "775a8235736bf760cdd96e2d76546469"
- SRC_URI[sha256sum] = "9e46f97d739dde8a5ab33ec6b11da58794c4c20804aacdad2880b7d3bc05187a"
- S = "${WORKDIR}/dbus-python-${PV}"
+ S = "${WORKDIR}/Python-${PV}"
  
--inherit distutils-base autotools pkgconfig
-+inherit distutils-base autotools pkgconfig pythonnative
+-inherit autotools multilib_header
++inherit autotools multilib_header pythonnative
  
- export BUILD_SYS
- export HOST_SYS
+ # The 3 lines below are copied from the libffi recipe, ctypes ships its own copy of the libffi sources
+ #Somehow gcc doesn't set __SOFTFP__ when passing -mfloatabi=softp :(
+@@ -45,7 +45,7 @@ do_configure_prepend() {
+ do_compile() {
+         # regenerate platform specific files, because they depend on system headers
+         cd Lib/plat-linux2
+-        include=${STAGING_INCDIR} ${STAGING_BINDIR_NATIVE}/python \
++        include=${STAGING_INCDIR} ${STAGING_BINDIR_NATIVE}/python-native/python \
+                 ${S}/Tools/scripts/h2py.py -i '(u_long)' \
+                 ${STAGING_INCDIR}/dlfcn.h \
+                 ${STAGING_INCDIR}/linux/cdrom.h \
+@@ -89,8 +89,8 @@ do_compile() {
+ 
+ 	export CROSS_COMPILE="${TARGET_PREFIX}"
+ 
+-	oe_runmake HOSTPGEN=${STAGING_BINDIR_NATIVE}/pgen \
+-		HOSTPYTHON=${STAGING_BINDIR_NATIVE}/python \
++	oe_runmake HOSTPGEN=${STAGING_BINDIR_NATIVE}/python-native/pgen \
++		HOSTPYTHON=${STAGING_BINDIR_NATIVE}/python-native/python \
+ 		STAGING_LIBDIR=${STAGING_LIBDIR} \
+ 		STAGING_BASELIBDIR=${STAGING_BASELIBDIR} \
+ 		STAGING_INCDIR=${STAGING_INCDIR} \
+@@ -99,8 +99,8 @@ do_compile() {
+ 
+ 	oe_libinstall -so libpython${PYTHON_MAJMIN} ${STAGING_LIBDIR}
+ 
+-	oe_runmake HOSTPGEN=${STAGING_BINDIR_NATIVE}/pgen \
+-		HOSTPYTHON=${STAGING_BINDIR_NATIVE}/python \
++	oe_runmake HOSTPGEN=${STAGING_BINDIR_NATIVE}/python-native/pgen \
++		HOSTPYTHON=${STAGING_BINDIR_NATIVE}/python-native/python \
+ 		STAGING_LIBDIR=${STAGING_LIBDIR} \
+ 		STAGING_INCDIR=${STAGING_INCDIR} \
+ 		STAGING_BASELIBDIR=${STAGING_BASELIBDIR} \
+@@ -115,8 +115,8 @@ do_install() {
+ 
+ 	export CROSS_COMPILE="${TARGET_PREFIX}"
+ 	
+-	oe_runmake HOSTPGEN=${STAGING_BINDIR_NATIVE}/pgen \
+-		HOSTPYTHON=${STAGING_BINDIR_NATIVE}/python \
++	oe_runmake HOSTPGEN=${STAGING_BINDIR_NATIVE}/python-native/pgen \
++		HOSTPYTHON=${STAGING_BINDIR_NATIVE}/python-native/python \
+ 		CROSSPYTHONPATH=${STAGING_LIBDIR_NATIVE}/python${PYTHON_MAJMIN}/lib-dynload/ \
+ 		STAGING_LIBDIR=${STAGING_LIBDIR} \
+ 		STAGING_INCDIR=${STAGING_INCDIR} \
 -- 
 1.7.0.4
 
