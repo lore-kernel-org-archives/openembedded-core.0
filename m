@@ -1,41 +1,41 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1Sphlc-0001nt-J5
+	(envelope-from <ross.burton@intel.com>) id 1Sphld-0001nu-8C
 	for openembedded-core@lists.openembedded.org;
-	Fri, 13 Jul 2012 17:26:52 +0200
-Received: from mail-wg0-f42.google.com ([74.125.82.42])
-	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 13 Jul 2012 08:15:39 -0700
-Received: by wgbfm10 with SMTP id fm10so663895wgb.1
+	Fri, 13 Jul 2012 17:26:53 +0200
+Received: from mail-wi0-f172.google.com ([209.85.212.172])
+	by mga03.intel.com with ESMTP/TLS/RC4-SHA; 13 Jul 2012 08:15:36 -0700
+Received: by wibhm11 with SMTP id hm11so576904wib.13
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Jul 2012 08:15:37 -0700 (PDT)
+	Fri, 13 Jul 2012 08:15:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
 	:in-reply-to:references:x-gm-message-state;
-	bh=LhWIvDRtZiHEU8tSGPB+fErsx17TF6SPjcZEw/YivHU=;
-	b=k9gcdGZeZVWA+849VNH+mLDJuz5meEKuzB4kVWVe7lV07/zJbz/h2BlOYSg8/N2L/9
-	MqyN+5c+fyXaYwxKUlU3RVMVnWhPdkx7km16R0vIBkPGagBB1btFdcJhYNZj0l3jaHzi
-	eMTRkAuGcO5+4T4IbTct9t35ziWEcVbL/dDxu74Ptpm0m6WDWqPCXrWGbXVFulCMKkDU
-	AAqszteyp4AEW0CMD6IpKVqNNL6qdQVdy0ccY0d3EesZkSFGtrK86Rc1f+pA/b3nl5b2
-	u4+zMYkodBk3PquaRxai1SSM6POPPD9EpkRa15cBgm/cwJpKXJGeEdI13eFyBlGVbXGq
-	RfMQ==
-Received: by 10.216.179.205 with SMTP id h55mr891456wem.100.1342192537550;
-	Fri, 13 Jul 2012 08:15:37 -0700 (PDT)
+	bh=sK/VdW0bNRpOE+4xj+pIEJ3S+khGhGgrYd2LPHd1oVE=;
+	b=byuhs9d5BNp/MzWu0p5Cb7k5iHOS1hFaxnALEm4vwrq04OXytX4QayYsQ6fp/0VIZc
+	F4zQqxEVrdeAuTlqpGU5BzVmLz6fXK9G9emBgg6MZFCESg1fQz87ipvh5FrqnmgGQeyJ
+	qpnPEV1zZ9JOvyJkJdVEUOgh3wweOiQKafsFtvuSSgV2XNCyTiZm4GokGwNa0XO4U1Eg
+	SykkIrhwImO5fEdx9j3seJ0K0YSQv+gXHSq8jKIX8wVYxSgO6RpyAjAtDX82HNl/F9im
+	YSjs2RERxOTRudX7ohAMVbV1aeKCXM8Yeqj9F2ypvNlZW516T/o5SdfqS/P7RbYdo6F6
+	wSlA==
+Received: by 10.180.98.200 with SMTP id ek8mr3538129wib.0.1342192535073;
+	Fri, 13 Jul 2012 08:15:35 -0700 (PDT)
 Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id el6sm3780926wib.8.2012.07.13.08.15.36
+	by mx.google.com with ESMTPS id el6sm3780926wib.8.2012.07.13.08.15.33
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 13 Jul 2012 08:15:36 -0700 (PDT)
+	Fri, 13 Jul 2012 08:15:34 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 13 Jul 2012 16:15:20 +0100
-Message-Id: <d48782c50edd6fc4018b8144050922bd439abea1.1342192478.git.ross.burton@intel.com>
+Date: Fri, 13 Jul 2012 16:15:18 +0100
+Message-Id: <241fc978817b8b9a527e41a2102c9669701573de.1342192478.git.ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10
 In-Reply-To: <cover.1342192478.git.ross.burton@intel.com>
 References: <cover.1342192478.git.ross.burton@intel.com>
 In-Reply-To: <cover.1342192478.git.ross.burton@intel.com>
 References: <cover.1342192478.git.ross.burton@intel.com>
-X-Gm-Message-State: ALoCoQlUtKAC0hCx2YY5j3+E1Fr4wUq08RPKvnYBzCCsOn80qMtowhuQFr240IanMk9brAg0RO9q
-Subject: [PATCH 3/3] web-webkit: don't link using g++, it's not needed anymore
+X-Gm-Message-State: ALoCoQnuBsfzk+SsUUcVRkDyeYp35Leh2TqwG4iumZlWOFcMWimSQimAy6/O7a+/Q6hyBjaUU0Te
+Subject: [PATCH 1/3] web-webkit: remove unused dependencies (taken from the gecko-based recipe)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -54,78 +54,31 @@ X-List-Received-Date: Fri, 13 Jul 2012 15:26:53 -0000
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- .../web/web-webkit/link-with-g++.patch             |   35 --------------------
- meta/recipes-sato/web/web-webkit_git.bb            |    9 ++---
- 2 files changed, 2 insertions(+), 42 deletions(-)
- delete mode 100644 meta/recipes-sato/web/web-webkit/link-with-g++.patch
+ meta/recipes-sato/web/web-webkit_git.bb |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-sato/web/web-webkit/link-with-g++.patch b/meta/recipes-sato/web/web-webkit/link-with-g++.patch
-deleted file mode 100644
-index e0c6784..0000000
---- a/meta/recipes-sato/web/web-webkit/link-with-g++.patch
-+++ /dev/null
-@@ -1,35 +0,0 @@
--The main webkit library links against stdc++ so we need to use g++ for 
--linking. The easiest way to achieve this is to add a dummy cpp file.
--This also means we have to add AC_PROG_CXX else libtool 2.2.2 gets upset.
--
--RP - 14/4/08 
--
--Upstream-Status: Inappropriate [configuration]
--
----- webkit.orig/src/Makefile.am
--+++ webkit/src/Makefile.am
--@@ -1,11 +1,11 @@
-- AM_CPPFLAGS=-DPKGDATADIR=\"$(pkgdatadir)\"
-- AM_CFLAGS = -Wall -export-dynamic $(WEB_CFLAGS)
-- 
-- bin_PROGRAMS = web2
-- 
---web2_SOURCES = web2.h web2-main.c web2-utils.c web2-utils.h
--+web2_SOURCES = web2.h web2-main.c web2-utils.c web2-utils.h dummy.cpp
-- web2_LDADD   = $(WEB_LIBS)
-- 
-- MAINTAINERCLEANFILES = config.h.in Makefile.in
-- 
-- uidir = $(pkgdatadir)
--Index: webkit/configure.ac
--===================================================================
----- webkit.orig/configure.ac	2008-04-14 22:15:25.000000000 +0100
--+++ webkit/configure.ac	2008-04-14 22:16:31.000000000 +0100
--@@ -7,6 +7,7 @@
-- 
-- AC_ISC_POSIX
-- AC_PROG_CC
--+AC_PROG_CXX
-- AC_STDC_HEADERS
-- AC_PROG_LIBTOOL
-- 
 diff --git a/meta/recipes-sato/web/web-webkit_git.bb b/meta/recipes-sato/web/web-webkit_git.bb
-index dae7faf..0c79324 100644
+index 2af12bc..57cd545 100644
 --- a/meta/recipes-sato/web/web-webkit_git.bb
 +++ b/meta/recipes-sato/web/web-webkit_git.bb
-@@ -13,10 +13,9 @@ RRECOMMENDS_${PN} += "glib-networking"
+@@ -6,7 +6,7 @@ LICENSE = "LGPLv2.1"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=7fbc338309ac38fefcd64b04bb903e34"
  
- SRCREV = "b0676c190f876cbdb1df202fbcec42f212374503"
- PV = "0.1+git${SRCPV}"
--PR = "r1"
-+PR = "r2"
+ SECTION = "x11"
+-DEPENDS = "libxml2 glib-2.0 gtk+ libglade webkit-gtk curl gconf js libowl"
++DEPENDS = "glib-2.0 gtk+ webkit-gtk libowl"
  
--SRC_URI = "git://git.yoctoproject.org/${BPN};protocol=git \
--           file://link-with-g++.patch"
-+SRC_URI = "git://git.yoctoproject.org/${BPN};protocol=git"
+ # To access https web pages
+ RRECOMMENDS_${PN} += "glib-networking"
+@@ -23,7 +23,7 @@ S = "${WORKDIR}/git"
  
- S = "${WORKDIR}/git"
+ EXTRA_OECONF = "--enable-libowl"
  
-@@ -24,8 +23,4 @@ EXTRA_OECONF = "--enable-libowl"
+-inherit autotools pkgconfig gconf
++inherit autotools pkgconfig
  
- inherit autotools pkgconfig
- 
--do_configure_prepend() {
--    touch ${S}/src/dummy.cpp
--}
--
- FILES_${PN} += "${datadir}/web2"
+ do_configure_prepend() {
+     touch ${S}/src/dummy.cpp
 -- 
 1.7.10
 
