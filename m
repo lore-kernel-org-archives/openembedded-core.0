@@ -1,35 +1,39 @@
-Received: from mail-gh0-f175.google.com ([209.85.160.175])
+Received: from mail-yx0-f175.google.com ([209.85.213.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrea.adami@gmail.com>) id 1SpbHG-00074G-Uy
+	(envelope-from <andrei@gherzan.ro>) id 1SpcbM-0001XH-05
 	for openembedded-core@lists.openembedded.org;
-	Fri, 13 Jul 2012 10:31:07 +0200
-Received: by ghbz2 with SMTP id z2so3072162ghb.6
+	Fri, 13 Jul 2012 11:55:56 +0200
+Received: by yenl13 with SMTP id l13so3110152yen.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Jul 2012 01:19:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type:content-transfer-encoding;
-	bh=oa/PstzowJvllIfDkLOtCCV+q66eyE+PoDWZaH4dRrY=;
-	b=iZGYpQyn+niqeaKRbMzJdbW2MVdHlliZX4cYjW2zEYaHFaLg/IgIJjwBUs0qFLK87O
-	1DrT8TlrzDObXF6uWIoPDyciZEuporyZ5uuZxu7J7Qool36WRnfJuYNoY9Ev3IqFyhgj
-	CaESGyT5DIIZ9bAQp7z0vf1lkIoC+GArp2DOJ36lXgI0f/WwlbIpVEIt208GBuCPdsAX
-	2JARlGbH3c9Hqip22BEjDuimkHQATAWcJS6g0CnMEEMtoeMCwKZbv1bvMDsFQd4DcxVy
-	uCfNezvCpexrrY2AoJtmIZ1Ptym6Bz3SqaMBNKEDE1DzgIZHRXPV30SsOgM2T/A6oNTJ
-	oTaw==
+	Fri, 13 Jul 2012 02:44:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:x-originating-ip:in-reply-to:references:from:date
+	:message-id:subject:to:content-type:x-gm-message-state;
+	bh=RwJR9r8YxsGjKEKdUBud3faMyCsl5cEK0XC9jrjrcxE=;
+	b=Rzhq2TKxA0YIEzoJOE4k+quEe6dLmLVrvtUPqyeD8KzHWM4XIDlOOIdw4OBmGcKP1E
+	OK+3DxL/QMmHgXPCDnUJrq8qIUeJSuXni689EFK11t3jFu2HKHZy+s2xpp3mh0obNFBb
+	xYbEML8Am0B51BLa2akYxWZX1h5GovsT13yDX6MlQm6uKcAbj+jBCuaJectnltEyC+yb
+	ITdVwFQ+4dAyxuIRZ07RqE3nlZCz5pSzodi0GiLKdf/i0xh8V1r2tbeTPRuF39jloUzL
+	Rd4n3h2jwpbYVU25jfClto9b9/XRHezacN0rlmx4nhSMjbeHzvm9CX0qMJkKH7bfAQV5
+	+Vcw==
+Received: by 10.50.40.193 with SMTP id z1mr368732igk.0.1342172681256; Fri, 13
+	Jul 2012 02:44:41 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.50.216.167 with SMTP id or7mr140966igc.32.1342167592130; Fri,
-	13 Jul 2012 01:19:52 -0700 (PDT)
-Received: by 10.64.35.109 with HTTP; Fri, 13 Jul 2012 01:19:52 -0700 (PDT)
-In-Reply-To: <54ABEC81-9673-446D-AD9A-79394DEEA6E8@dominion.thruhere.net>
+Received: by 10.64.98.162 with HTTP; Fri, 13 Jul 2012 02:44:21 -0700 (PDT)
+X-Originating-IP: [89.121.200.106]
+In-Reply-To: <CAAQYJAv0Zigzx2JrqOhd9_jNN8gFryw4ikhqsRK0e74Fim6=wA@mail.gmail.com>
 References: <cover.1342116650.git.andrei@gherzan.ro>
 	<8586287A-0F78-4778-8491-B8E1C70644B1@dominion.thruhere.net>
 	<4FFF23E2.5040007@linux.intel.com>
 	<54ABEC81-9673-446D-AD9A-79394DEEA6E8@dominion.thruhere.net>
-Date: Fri, 13 Jul 2012 10:19:52 +0200
-Message-ID: <CAAQYJAv0Zigzx2JrqOhd9_jNN8gFryw4ikhqsRK0e74Fim6=wA@mail.gmail.com>
-From: Andrea Adami <andrea.adami@gmail.com>
+	<CAAQYJAv0Zigzx2JrqOhd9_jNN8gFryw4ikhqsRK0e74Fim6=wA@mail.gmail.com>
+From: Andrei Gherzan <andrei@gherzan.ro>
+Date: Fri, 13 Jul 2012 12:44:21 +0300
+Message-ID: <CAK18fxErPLi5685HPfL8HtvF7fziHHBc0cc+=MKWnec4Lurgug@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
+X-Gm-Message-State: ALoCoQmt8vN9jBYcP4YwFyp5r4gliUyqbLefnECp9o7MNFc9vRrt9hy/7lbRyg4h0tv5R7d/gF+1
 Subject: Re: [PATCH 0/3] Fix xz compression command and optimize compression time
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -45,155 +49,140 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Jul 2012 08:31:07 -0000
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 13 Jul 2012 09:55:56 -0000
+Content-Type: multipart/alternative; boundary=14dae9340c41e4bd1b04c4b2edf7
 
-On Fri, Jul 13, 2012 at 8:45 AM, Koen Kooi <koen@dominion.thruhere.net> wro=
-te:
+--14dae9340c41e4bd1b04c4b2edf7
+Content-Type: text/plain; charset=ISO-8859-1
+
+On Fri, Jul 13, 2012 at 11:19 AM, Andrea Adami <andrea.adami@gmail.com>wrote:
+
+> On Fri, Jul 13, 2012 at 8:45 AM, Koen Kooi <koen@dominion.thruhere.net>
+> wrote:
+> >
+> > Op 12 jul. 2012, om 21:22 heeft Saul Wold het volgende geschreven:
+> >
+> >> On 07/12/2012 11:58 AM, Koen Kooi wrote:
+> >>> Any volunteers to test this on a system with >4 real cores?
+> >>>
+> >>
+> >> Koen,
+> >>
+> >> Does OE-Core or Poky have an image setup for using .xz by default?
+> >
+> > No, and as you can see from Andrei's patches, it would have never worked
+> :)
+> >
+> > regards,
+> >
+> > Koen
+> >
 >
-> Op 12 jul. 2012, om 21:22 heeft Saul Wold het volgende geschreven:
+> This leads to a similar remark for lzma:
 >
->> On 07/12/2012 11:58 AM, Koen Kooi wrote:
->>> Any volunteers to test this on a system with >4 real cores?
->>>
->>
->> Koen,
->>
->> Does OE-Core or Poky have an image setup for using .xz by default?
+> The xz/lzma have been added with commit  38334ac and at that time both
+> where using XZ_COMPRESSION_LEVEL.
 >
-> No, and as you can see from Andrei's patches, it would have never worked =
-:)
+> The code has been refactored afterwards and what happened is that lzma
+> now defaults to compression 7 (the default) while xz is way too high
+> (default is 6).
 >
-> regards,
 >
-> Koen
+Nope. It's default value is -9.
+
+
+> There is a well hidden pitfall with that, being that any image,
+> including the initramfs, will use that compression factor.
+>
+> As you can notice in that (old) man xz [2]  the memory requirements
 >
 
-This leads to a similar remark for lzma:
+What old version?
 
-The xz/lzma have been added with commit  38334ac and at that time both
-where using XZ_COMPRESSION_LEVEL.
 
-The code has been refactored afterwards and what happened is that lzma
-now defaults to compression 7 (the default) while xz is way too high
-(default is 6).
-
-There is a well hidden pitfall with that, being that any image,
-including the initramfs, will use that compression factor.
-
-As you can notice in that (old) man xz [2]  the memory requirements
-are very high and what did happen to me was that the cpio.lzma could
-not be decompressed thus kernel could not boot (we override now the
-value setting "-e2" in our BSP).
+> are very high and what did happen to me was that the cpio.lzma could
+> not be decompressed thus kernel could not boot (we override now the
+> value setting "-e2" in our BSP).
+>
+>
+Without threads, memory demand was around 700mb. So it should be ok for
+most of machines.
 
 Adding more threads will multiply that figures.
-
-My 2 cents
-
-Andrea
-
-[1] http://cgit.openembedded.org/openembedded-core/log/meta/classes/image_t=
-ypes.bbclass
-[2] http://www.linuxcertif.com/man/1/xz
-
->>
->> I will run it on a machine I have, just want to make sure I am doing the=
- same tests that Andrei is running.
->>
->> I was about to ask what msm asked about the Memory info.
->>
->>
->> Sau!
->>
->>> Op 12 jul. 2012, om 20:13 heeft Andrei Gherzan het volgende geschreven:
->>>
->>>> Koen suggested to add -T to xz commands. We have this option implement=
-ed in our current version .1alpha.
->>>>
->>>> -T threads, --threads=3Dthreads
->>>>              Specify the number of worker threads to use.  Setting thr=
-eads to
->>>>              a special value 0 makes xz use as many threads as there a=
-re  CPU
->>>>              cores  on  the system.  The actual number of threads can =
-be less
->>>>              than threads if the input file is not big enough  for  th=
-reading
->>>>              with  the  given  settings or if using more threads would=
- exceed
->>>>              the memory usage limit.
->>>>
->>>> -------------------
->>>>
->>>> Memory: 7.8 GiB
->>>> Processor:: Intel=AE Core=99 i5-2540M CPU @ 2.60GHz =D7 4
->>>>
->>>> File to compress: 1.9G
->>>>
->>>> xz -f -k -e -9 --check=3Dcrc32 (current configuration)
->>>> Memory: 673Mb
->>>> real    6m37.170s
->>>> user    6m35.389s
->>>> sys     0m0.884s
->>>> Compressed file size: 3.4Mb
->>>>
->>>> xz -f -k -e -9 -T 4 --check=3Dcrc32
->>>> Memory: Cannot allocate memory
->>>>
->>>> xz -f -k -e -8 -T 4 --check=3Dcrc32
->>>> Memory: 1.8G
->>>> real    3m24.462s
->>>> user    12m8.502s
->>>> sys     0m2.180s
->>>> Compressed file size: 3.4Mb
->>>>
->>>> xz -f -k -T 4 --check=3Dcrc32 (-e defaults to -6)
->>>> Memory: 471Mb
->>>> real    1m9.265s
->>>> user    4m8.972s
->>>> sys     0m0.944s
->>>> Compressed file size: 3.4Mb
->>>>
->>>> So my conclusion would be to use the default -e -6 with -T 0.
->>>>
->>>> The following changes since commit 90ad663909c0c8a405b22a510c9f957007d=
-02669:
->>>>
->>>>  upstream_tracking: update boost (2012-07-09 17:21:38 +0100)
->>>>
->>>> are available in the git repository at:
->>>>
->>>>  git://git.yoctoproject.org/poky-contrib ag/xz
->>>>  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=3Dag/xz
->>>>
->>>> Andrei Gherzan (3):
->>>>  image_types.bbclass: Fix COMPRESS_CMD for xz to redirect compressed
->>>>    data to file
->>>>  image_types.bbclass: Add XZ variable to set number of threads to be
->>>>    used while compressing
->>>>  image_types.bbclass: Default XZ_COMPRESSION_LEVEL to -e -6
->>>>
->>>> meta/classes/image_types.bbclass |    5 +++--
->>>> 1 file changed, 3 insertions(+), 2 deletions(-)
->>>>
->>>> --
->>>> 1.7.9.5
->>>>
->>>
->>>
->>> _______________________________________________
->>> Openembedded-core mailing list
->>> Openembedded-core@lists.openembedded.org
->>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->>>
->>>
->>
 >
 >
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+Indeed. With 8GB memory at my disposal i couldn't compress an image with -e
+-9 and -T 0 (-T 4)/
+
+@g
+
+--14dae9340c41e4bd1b04c4b2edf7
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
+
+<div class=3D"gmail_quote">On Fri, Jul 13, 2012 at 11:19 AM, Andrea Adami <=
+span dir=3D"ltr">&lt;<a href=3D"mailto:andrea.adami@gmail.com" target=3D"_b=
+lank">andrea.adami@gmail.com</a>&gt;</span> wrote:<br><blockquote class=3D"=
+gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-=
+left:1ex">
+
+<div class=3D"im">On Fri, Jul 13, 2012 at 8:45 AM, Koen Kooi &lt;<a href=3D=
+"mailto:koen@dominion.thruhere.net">koen@dominion.thruhere.net</a>&gt; wrot=
+e:<br>
+&gt;<br>
+&gt; Op 12 jul. 2012, om 21:22 heeft Saul Wold het volgende geschreven:<br>
+&gt;<br>
+&gt;&gt; On 07/12/2012 11:58 AM, Koen Kooi wrote:<br>
+&gt;&gt;&gt; Any volunteers to test this on a system with &gt;4 real cores?=
+<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;<br>
+&gt;&gt; Koen,<br>
+&gt;&gt;<br>
+&gt;&gt; Does OE-Core or Poky have an image setup for using .xz by default?=
+<br>
+&gt;<br>
+&gt; No, and as you can see from Andrei&#39;s patches, it would have never =
+worked :)<br>
+&gt;<br>
+&gt; regards,<br>
+&gt;<br>
+&gt; Koen<br>
+&gt;<br>
+<br>
+</div>This leads to a similar remark for lzma:<br>
+<br>
+The xz/lzma have been added with commit =A038334ac and at that time both<br=
+>
+where using XZ_COMPRESSION_LEVEL.<br>
+<br>
+The code has been refactored afterwards and what happened is that lzma<br>
+now defaults to compression 7 (the default) while xz is way too high<br>
+(default is 6).<br>
+<br></blockquote><div><br></div><div>Nope. It&#39;s default value is -9.</d=
+iv><div>=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
+ex;border-left:1px #ccc solid;padding-left:1ex">
+There is a well hidden pitfall with that, being that any image,<br>
+including the initramfs, will use that compression factor.<br>
+<br>
+As you can notice in that (old) man xz [2] =A0the memory requirements<br></=
+blockquote><div><br></div><div>What old version?</div><div>=A0</div><blockq=
+uote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc =
+solid;padding-left:1ex">
 
 
+are very high and what did happen to me was that the cpio.lzma could<br>
+not be decompressed thus kernel could not boot (we override now the<br>
+value setting &quot;-e2&quot; in our BSP).<br>
+<br></blockquote><div>=A0</div><div>Without threads, memory demand was arou=
+nd 700mb. So it should be ok for most of machines.=A0</div><div><br></div><=
+blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px=
+ #ccc solid;padding-left:1ex">
+
+
+Adding more threads will multiply that figures.<br>
+<br></blockquote><div><br></div><div>Indeed. With 8GB memory at my disposal=
+ i couldn&#39;t compress an image with -e -9 and -T 0 (-T 4)/</div><div><br=
+></div><div>@g</div></div>
+
+--14dae9340c41e4bd1b04c4b2edf7--
