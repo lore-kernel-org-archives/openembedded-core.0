@@ -1,42 +1,36 @@
-Received: from mail-gh0-f175.google.com ([209.85.160.175])
+Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrei@gherzan.ro>) id 1Spcq2-0003Zi-OI
+	(envelope-from <ross.burton@intel.com>) id 1Spdnt-0005PF-4w
 	for openembedded-core@lists.openembedded.org;
-	Fri, 13 Jul 2012 12:11:06 +0200
-Received: by ghbz2 with SMTP id z2so3125767ghb.6
+	Fri, 13 Jul 2012 13:12:57 +0200
+Received: from mail-wg0-f42.google.com ([74.125.82.42])
+	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 13 Jul 2012 04:01:41 -0700
+Received: by wgbfm10 with SMTP id fm10so462997wgb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Jul 2012 02:59:52 -0700 (PDT)
+	Fri, 13 Jul 2012 04:01:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=mime-version:x-originating-ip:in-reply-to:references:from:date
-	:message-id:subject:to:content-type:x-gm-message-state;
-	bh=0MjgY5PN0/H/Tzfig2jn0TjN7Wj+i4ZgEIZV1url3kk=;
-	b=cSHrelDeHaQrKa76scy6J6Xsp2OegNlPEgcK0zFpuKuQCXP97L/umZxGTa9rvmZc75
-	vmCjzJjyFqHbILP9Cp7Nii9HTcc1ymZpu6Q+G5R0y5hRfoULxpwh3qornzC/QgDvu4pX
-	XlS73eLG62T6rWV/oNrdyFrrfMrTOWEp8FBCTUrDoGw749mmEhkpqKB6QwwgObld73NO
-	5ZHJ4I66KQ2HzVFfno+JJSf+ZRZwwIb1I0c6mqmsUMipFWpBB9T2kdmaMx0gmCL7n/PY
-	90XRdni3x8O/bQdBlnRtKQTmRHq8zS+se2s6ctiBnBXNJ2UKyxx2owGbuMxGzIAw/kbA
-	3AGw==
-Received: by 10.50.11.129 with SMTP id q1mr383860igb.8.1342173592070; Fri, 13
-	Jul 2012 02:59:52 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.64.98.162 with HTTP; Fri, 13 Jul 2012 02:59:30 -0700 (PDT)
-X-Originating-IP: [89.121.200.106]
-In-Reply-To: <CAAQYJAsNv_R_GXrXY2OjU8Y-ft52V9Wzp6Y24sZX=d-hn=Zcig@mail.gmail.com>
-References: <cover.1342116650.git.andrei@gherzan.ro>
-	<8586287A-0F78-4778-8491-B8E1C70644B1@dominion.thruhere.net>
-	<4FFF23E2.5040007@linux.intel.com>
-	<54ABEC81-9673-446D-AD9A-79394DEEA6E8@dominion.thruhere.net>
-	<CAAQYJAv0Zigzx2JrqOhd9_jNN8gFryw4ikhqsRK0e74Fim6=wA@mail.gmail.com>
-	<CAK18fxErPLi5685HPfL8HtvF7fziHHBc0cc+=MKWnec4Lurgug@mail.gmail.com>
-	<CAAQYJAsNv_R_GXrXY2OjU8Y-ft52V9Wzp6Y24sZX=d-hn=Zcig@mail.gmail.com>
-From: Andrei Gherzan <andrei@gherzan.ro>
-Date: Fri, 13 Jul 2012 12:59:30 +0300
-Message-ID: <CAK18fxGBFDsgXLJ4oDLge-=C9s=KpGN0aBE8hd7fjjBgHd+fKA@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Gm-Message-State: ALoCoQkxUyEZCPKrUDu0omnnmvHt5wJj3S4ZqxDx4ImcejpKPaQKfgo5zox78aVUJZQo0/4cyng5
-Subject: Re: [PATCH 0/3] Fix xz compression command and optimize compression time
+	h=from:to:subject:date:message-id:x-mailer:x-gm-message-state;
+	bh=YRWujkhFPfQHRPZdD/TZgfEhccCbdlxvPk8NHp+TkqM=;
+	b=mCpkzPnoyBpHwmunCeafCf2aOt7m9/9aQZbA+Z4QNbrOpQWvWHf+7RuTXEEEITkPNh
+	tmk26BaB+5D5i32Z+VuPUOuwACxsK7gRiohNesj5Og+DJQranw5oDDWPxOIRs7JQC8Sr
+	ovGBBVYiNrNqkzCeJYUuV0JOx/PFNFo00lMmeFVd+dCxnVJoc1gcZDv+8nrwmHhuGGPh
+	w3USHGeh5/30BIh8uKy4fmoM+OoL4Nx/BJBy5zkQAS+FQLZXpIqWyMlxmZFW7NKdRhXh
+	mrRl85scXPf2cjbU2//DOU/qCxq+mTqjRn8mW7OIfmWFVS8t7ncA11ExSf4o3SV7D/0G
+	girg==
+Received: by 10.180.106.137 with SMTP id gu9mr1682740wib.20.1342177299335;
+	Fri, 13 Jul 2012 04:01:39 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPS id w7sm2795746wiz.0.2012.07.13.04.01.37
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 13 Jul 2012 04:01:38 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 13 Jul 2012 12:01:27 +0100
+Message-Id: <1342177287-4348-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10
+X-Gm-Message-State: ALoCoQnNkhCM/TDBoUgZmSU5NLPMOzYA2+g9oBsMCKLg1vlov1MQerd11FhIrrZSuU4ZMaJ7BRjY
+Subject: [PATCH] base.bbclass: add GNUmakefile to the list of possible makefile names
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -51,39 +45,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Jul 2012 10:11:06 -0000
-Content-Type: multipart/alternative; boundary=e89a8f50320c2ea9ed04c4b3247a
+X-List-Received-Date: Fri, 13 Jul 2012 11:12:57 -0000
 
---e89a8f50320c2ea9ed04c4b3247a
-Content-Type: text/plain; charset=ISO-8859-1
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/classes/base.bbclass |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
->
->
-> Well, in oe-core maybe.
-> Upstream they are more conservative, see that man.
->
-> "The default preset level in LZMA Utils is -7 while in XZ Utils it is
-> -6, so both use 8 MiB dictionary by default."
->
->
-So you were talking about upstream. Ok got that.
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index 08065c6..f691799 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -280,7 +280,7 @@ base_do_configure() {
+ addtask compile after do_configure
+ do_compile[dirs] = "${S} ${B}"
+ base_do_compile() {
+-	if [ -e Makefile -o -e makefile ]; then
++	if [ -e Makefile -o -e makefile -o -e GNUmakefile ]; then
+ 		oe_runmake || die "make failed"
+ 	else
+ 		bbnote "nothing to compile"
+-- 
+1.7.10
 
-@g
 
---e89a8f50320c2ea9ed04c4b3247a
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
 
-<div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margi=
-n:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div class=3D"im"=
-><br>
-</div>Well, in oe-core maybe.<br>
-Upstream they are more conservative, see that man.<br>
-<br>
-&quot;The default preset level in LZMA Utils is -7 while in XZ Utils it is<=
-br>
--6, so both use 8 MiB dictionary by default.&quot;<br><br></blockquote><div=
->=A0</div><div>So you were talking about upstream. Ok got that.=A0</div><di=
-v><br></div><div>@g</div></div>
-
---e89a8f50320c2ea9ed04c4b3247a--
