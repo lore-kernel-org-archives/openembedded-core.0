@@ -1,45 +1,43 @@
-Received: from co1ehsobe003.messaging.microsoft.com ([216.32.180.186]
-	helo=co1outboundpool.messaging.microsoft.com)
+Received: from mail-wi0-f177.google.com ([209.85.212.177])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B28495@freescale.com>) id 1SpYcY-0006u6-7p
+	(envelope-from <koen@dominion.thruhere.net>) id 1SpZnc-0004Ac-1O
 	for openembedded-core@lists.openembedded.org;
-	Fri, 13 Jul 2012 07:40:54 +0200
-Received: from mail55-co1-R.bigfish.com (10.243.78.227) by
-	CO1EHSOBE013.bigfish.com (10.243.66.76) with Microsoft SMTP Server id
-	14.1.225.23; Fri, 13 Jul 2012 05:14:33 +0000
-Received: from mail55-co1 (localhost [127.0.0.1])	by mail55-co1-R.bigfish.com
-	(Postfix) with ESMTP id 9356B7C0423	for
-	<openembedded-core@lists.openembedded.org>;
-	Fri, 13 Jul 2012 05:14:33 +0000 (UTC)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-X-SpamScore: 0
-X-BigFish: VS0(zzzz1202hzz8275bhz2dh2a8h668h839hd24he5bhf0ah107ah)
-Received: from mail55-co1 (localhost.localdomain [127.0.0.1]) by mail55-co1
-	(MessageSwitch) id 1342156472471270_15227;
-	Fri, 13 Jul 2012 05:14:32 +0000 (UTC)
-Received: from CO1EHSMHS026.bigfish.com (unknown [10.243.78.252])	by
-	mail55-co1.bigfish.com (Postfix) with ESMTP id 717951C0048	for
-	<openembedded-core@lists.openembedded.org>;
-	Fri, 13 Jul 2012 05:14:32 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by CO1EHSMHS026.bigfish.com
-	(10.243.66.36) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Fri, 13 Jul 2012 05:14:32 +0000
-Received: from tx30smr01.am.freescale.net (10.81.153.31) by
-	039-SN1MMR1-001.039d.mgd.msft.net (10.84.1.13) with Microsoft SMTP
-	Server (TLS) id 14.2.298.5; Fri, 13 Jul 2012 00:14:31 -0500
-Received: from right.am.freescale.net (right.am.freescale.net [10.82.176.228])
-	by tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id
-	q6D5EUlI013740; Thu, 12 Jul 2012 22:14:30 -0700
-From: <b28495@freescale.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 13 Jul 2012 00:14:25 -0500
-Message-ID: <1342156465-15052-1-git-send-email-b28495@freescale.com>
-X-Mailer: git-send-email 1.7.3.4
-MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Cc: b29882@freescale.com
-Subject: [PATCH v2] lsof: define linux C library type when using eglibc
+	Fri, 13 Jul 2012 08:57:09 +0200
+Received: by wibhm11 with SMTP id hm11so241909wib.6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 12 Jul 2012 23:45:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=subject:mime-version:content-type:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to:x-mailer
+	:x-gm-message-state;
+	bh=N8fwgkWPZf5+uOiml8xqDB5XHoEj1KyPHVFFd9fMW54=;
+	b=SYC5R2bV9cOC9ru/wV5Tf3z38PQOQIYqDbFptElkWfRv4HauF1kj3uPqhXnsRt4S8w
+	rXquQ2vafbIVzL1+LYoETyuZx3ptszRxqC/fWwJHfvd7gG/5JOBeM2MixdYCW35TIrBp
+	MKtN+bliRoffJR1H4grC6SLO8znFDxgWlH2xv7MjcCwogyHONKDwCJcq9F5D1kn3ajjr
+	DiP3gJY4k63d4cx/sYIStTKfI0W4gchB7SG5dz4/121iTDyzZCuNc4hFpILQnrfwRWEc
+	NUxyGok46izn9gHLmH8NL3IJveadIwaBMo9bVLZgcqXqLs48YsBCbeY5imAF7wlB2pLf
+	/Pzw==
+Received: by 10.216.101.1 with SMTP id a1mr616321weg.216.1342161908803;
+	Thu, 12 Jul 2012 23:45:08 -0700 (PDT)
+Received: from [192.168.2.8] ([188.207.89.201])
+	by mx.google.com with ESMTPS id b7sm2791756wiz.9.2012.07.12.23.45.06
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 12 Jul 2012 23:45:07 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1278)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <4FFF23E2.5040007@linux.intel.com>
+Date: Fri, 13 Jul 2012 08:45:12 +0200
+Message-Id: <54ABEC81-9673-446D-AD9A-79394DEEA6E8@dominion.thruhere.net>
+References: <cover.1342116650.git.andrei@gherzan.ro>
+	<8586287A-0F78-4778-8491-B8E1C70644B1@dominion.thruhere.net>
+	<4FFF23E2.5040007@linux.intel.com>
+To: Saul Wold <sgw@linux.intel.com>
+X-Mailer: Apple Mail (2.1278)
+X-Gm-Message-State: ALoCoQkPkgT/o1aPdHMggrI1ugpeXWxyNtSj9bciGb0zhPs7HAg2swbhLB8AJhjUumTDV5VRvx6g
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/3] Fix xz compression command and optimize compression time
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -54,68 +52,121 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Jul 2012 05:40:54 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 13 Jul 2012 06:57:41 -0000
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: quoted-printable
 
-From: Ting Liu <b28495@freescale.com>
 
-lsof tries to compile a temp c source file and execute the binary to
-determine linux C library type (file Configure, line 2689-2717).
-It is inpracticable for cross-compilation and may have build issue on
-some distros since it depends on host settings.
+Op 12 jul. 2012, om 21:22 heeft Saul Wold het volgende geschreven:
 
-Fix below error when building for 64bit target on 64bit host:
-[...]
-| dsock.c:481:44: error: 'TCP_LISTEN' undeclared (first use in this function)
-| dsock.c:482:45: error: 'TCP_CLOSING' undeclared (first use in this function)
-[...]
-| make: *** [dsock.o] Error 1
+> On 07/12/2012 11:58 AM, Koen Kooi wrote:
+>> Any volunteers to test this on a system with >4 real cores?
+>>=20
+>=20
+> Koen,
+>=20
+> Does OE-Core or Poky have an image setup for using .xz by default?
 
-The actual issue exists in do_configure:
-[...]
-Testing C library type with cc ... done
-Cannot determine C library type; assuming it is not glibc.
+No, and as you can see from Andrei's patches, it would have never worked =
+:)
 
-Which is in turn caused by missing 'gnu/stubs-32.h" when compiling
-the temp c source file on host:
-[...]
-fatal error: gnu/stubs-32.h: No such file or directory compilation terminated.
+regards,
 
-file gnu/stubs-32.h is provided by 32bit glibc.
+Koen
 
-Signed-off-by: Ting Liu <b28495@freescale.com>
----
- meta/recipes-extended/lsof/lsof_4.85.bb |    7 ++++++-
- 1 files changed, 6 insertions(+), 1 deletions(-)
-
-diff --git a/meta/recipes-extended/lsof/lsof_4.85.bb b/meta/recipes-extended/lsof/lsof_4.85.bb
-index 5823725..de7ff68 100644
---- a/meta/recipes-extended/lsof/lsof_4.85.bb
-+++ b/meta/recipes-extended/lsof/lsof_4.85.bb
-@@ -3,7 +3,7 @@ DESCRIPTION = "Lsof is a Unix-specific diagnostic tool. \
- Its name stands for LiSt Open Files, and it does just that."
- SECTION = "devel"
- LICENSE = "BSD"
--PR = "r1"
-+PR = "r2"
- 
- SRC_URI = "ftp://lsof.itap.purdue.edu/pub/tools/unix/lsof/lsof_${PV}.tar.bz2"
- 
-@@ -31,6 +31,11 @@ export LSOF_INCLUDE = "${STAGING_INCDIR}"
- do_configure () {
- 	export LSOF_AR="${AR} cr"
- 	export LSOF_RANLIB="${RANLIB}"
-+        if [ "x${EGLIBCVERSION}" != "x" ];then
-+                LINUX_CLIB=`echo ${EGLIBCVERSION} |sed -e 's,\.,,g'`
-+                LINUX_CLIB="-DGLIBCV=${LINUX_CLIB}"
-+                export LINUX_CLIB
-+        fi
- 	yes | ./Configure ${LSOF_OS}
- }
- 
--- 
-1.7.3.4
-
+>=20
+> I will run it on a machine I have, just want to make sure I am doing =
+the same tests that Andrei is running.
+>=20
+> I was about to ask what msm asked about the Memory info.
+>=20
+>=20
+> Sau!
+>=20
+>> Op 12 jul. 2012, om 20:13 heeft Andrei Gherzan het volgende =
+geschreven:
+>>=20
+>>> Koen suggested to add -T to xz commands. We have this option =
+implemented in our current version .1alpha.
+>>>=20
+>>> -T threads, --threads=3Dthreads
+>>>              Specify the number of worker threads to use.  Setting =
+threads to
+>>>              a special value 0 makes xz use as many threads as there =
+are  CPU
+>>>              cores  on  the system.  The actual number of threads =
+can be less
+>>>              than threads if the input file is not big enough  for  =
+threading
+>>>              with  the  given  settings or if using more threads =
+would exceed
+>>>              the memory usage limit.
+>>>=20
+>>> -------------------
+>>>=20
+>>> Memory: 7.8 GiB
+>>> Processor:: Intel=AE Core=99 i5-2540M CPU @ 2.60GHz =D7 4
+>>>=20
+>>> File to compress: 1.9G
+>>>=20
+>>> xz -f -k -e -9 --check=3Dcrc32 (current configuration)
+>>> Memory: 673Mb
+>>> real    6m37.170s
+>>> user    6m35.389s
+>>> sys     0m0.884s
+>>> Compressed file size: 3.4Mb
+>>>=20
+>>> xz -f -k -e -9 -T 4 --check=3Dcrc32
+>>> Memory: Cannot allocate memory
+>>>=20
+>>> xz -f -k -e -8 -T 4 --check=3Dcrc32
+>>> Memory: 1.8G
+>>> real    3m24.462s
+>>> user    12m8.502s
+>>> sys     0m2.180s
+>>> Compressed file size: 3.4Mb
+>>>=20
+>>> xz -f -k -T 4 --check=3Dcrc32 (-e defaults to -6)
+>>> Memory: 471Mb
+>>> real    1m9.265s
+>>> user    4m8.972s
+>>> sys     0m0.944s
+>>> Compressed file size: 3.4Mb
+>>>=20
+>>> So my conclusion would be to use the default -e -6 with -T 0.
+>>>=20
+>>> The following changes since commit =
+90ad663909c0c8a405b22a510c9f957007d02669:
+>>>=20
+>>>  upstream_tracking: update boost (2012-07-09 17:21:38 +0100)
+>>>=20
+>>> are available in the git repository at:
+>>>=20
+>>>  git://git.yoctoproject.org/poky-contrib ag/xz
+>>>  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=3Dag/xz
+>>>=20
+>>> Andrei Gherzan (3):
+>>>  image_types.bbclass: Fix COMPRESS_CMD for xz to redirect compressed
+>>>    data to file
+>>>  image_types.bbclass: Add XZ variable to set number of threads to be
+>>>    used while compressing
+>>>  image_types.bbclass: Default XZ_COMPRESSION_LEVEL to -e -6
+>>>=20
+>>> meta/classes/image_types.bbclass |    5 +++--
+>>> 1 file changed, 3 insertions(+), 2 deletions(-)
+>>>=20
+>>> --
+>>> 1.7.9.5
+>>>=20
+>>=20
+>>=20
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>>=20
+>>=20
+>=20
 
 
 
