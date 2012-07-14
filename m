@@ -1,58 +1,36 @@
-Received: from co1ehsobe006.messaging.microsoft.com ([216.32.180.189]
-	helo=co1outboundpool.messaging.microsoft.com)
+Received: from mail-qa0-f47.google.com ([209.85.216.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1Sq9z3-0002Cb-KP
+	(envelope-from <bruce.ashfield@gmail.com>) id 1SqA2Q-0002KK-JK
 	for openembedded-core@lists.openembedded.org;
-	Sat, 14 Jul 2012 23:34:37 +0200
-Received: from mail128-co1-R.bigfish.com (10.243.78.239) by
-	CO1EHSOBE015.bigfish.com (10.243.66.78) with Microsoft SMTP Server id
-	14.1.225.23; Sat, 14 Jul 2012 20:53:07 +0000
-Received: from mail128-co1 (localhost [127.0.0.1])	by
-	mail128-co1-R.bigfish.com (Postfix) with ESMTP id 5CA71203E6;
-	Sat, 14 Jul 2012 20:53:07 +0000 (UTC)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-X-SpamScore: -14
-X-BigFish: VS-14(zz98dI9371I1443I1432I14e3M11f6Nzz1202hzz8275bh8275dhz2dh2a8h668h839h8e2h8e3hf0ah107ahbe9i)
-Received: from mail128-co1 (localhost.localdomain [127.0.0.1]) by mail128-co1
-	(MessageSwitch) id 1342299184881341_889;
-	Sat, 14 Jul 2012 20:53:04 +0000 (UTC)
-Received: from CO1EHSMHS029.bigfish.com (unknown [10.243.78.232])	by
-	mail128-co1.bigfish.com (Postfix) with ESMTP id D5781A80046;
-	Sat, 14 Jul 2012 20:53:04 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by CO1EHSMHS029.bigfish.com
-	(10.243.66.39) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Sat, 14 Jul 2012 20:53:05 +0000
-Received: from 039-SN1MPN1-002.039d.mgd.msft.net ([169.254.2.109]) by
-	039-SN1MMR1-001.039d.mgd.msft.net ([10.84.1.13]) with mapi id
-	14.02.0298.005; Sat, 14 Jul 2012 15:53:03 -0500
-From: McClintock Matthew-B29882 <B29882@freescale.com>
-To: Bincy K Philip <bincy_k_philip@yahoo.co.in>, Patches and discussions about
-	the oe-core layer <openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] Error in rpm bitbake
-Thread-Index: AQHNYQO9ZmW3yY65BUipm5vODNsTsg==
-Date: Sat, 14 Jul 2012 20:53:03 +0000
-Message-ID: <CAEsOVNeLasnMNMHp3fbFhjpMe1sULHDS5OydYeECXgUeXYE-Jw@mail.gmail.com>
-References: <1342182619.93150.YahooMailNeo@web192606.mail.sg3.yahoo.com>
-	<CAEsOVNdaBGNy2rDbqfA8ym+S7uMd3DA9FRAGunX0-MLRpuzcqg@mail.gmail.com>
-	<1342200594.69949.YahooMailNeo@web192606.mail.sg3.yahoo.com>
-	<CAEsOVNf1JGCiztMALddGMpV2qkhe_0LemrLA0yKvqyV9Nv07BQ@mail.gmail.com>
-	<1342283369.62528.YahooMailNeo@web192604.mail.sg3.yahoo.com>
-	<CAEsOVNftXUBgAh=FCa0a5qihWkzrAO+_vMbkOrcjQz60vqHoMQ@mail.gmail.com>
-	<1342291749.27854.YahooMailNeo@web192604.mail.sg3.yahoo.com>
-In-Reply-To: <1342291749.27854.YahooMailNeo@web192604.mail.sg3.yahoo.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [70.112.201.132]
+	Sat, 14 Jul 2012 23:38:06 +0200
+Received: by qabg1 with SMTP id g1so985000qab.6
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 14 Jul 2012 14:26:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type; bh=1OFdOS3mgViuj8nKyxi98qKBldx//lgdkaXPxJU2bpU=;
+	b=hy07zntdKEsE0EdrBHg+HffSrHTo6/m6C9Xq/GfAiyMfT1ZdsvKbQJVWm5c+v7abPj
+	fRShq+fxg7VTDk4YznVpQ5DpOYwUOd8X9hwtFQJGT3vwxKs4wWZJK7Dmc3y394NGoEop
+	qUY1LKTBgf6UXMlL4mRBV8CCU4/lg1Y/gTzLeobMwu7qovGpHhMflHQDbLy1nr/aquV0
+	tStCOiJSebP6Q7OMzYhLdVLKTZD58+mvFfbTZ2aTF10xaWJFEH6hfi9zT4CanGojAdp9
+	YniujDgiccSsChTK8fJN3+/ToIm6/QfWrxZ8Pj8eTX9KWrNrPpi6SJIBDICCjPVNJUIu
+	aDxg==
 MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Subject: Re: Error in rpm bitbake
+Received: by 10.224.204.131 with SMTP id fm3mr11831445qab.75.1342301209831;
+	Sat, 14 Jul 2012 14:26:49 -0700 (PDT)
+Received: by 10.229.8.78 with HTTP; Sat, 14 Jul 2012 14:26:49 -0700 (PDT)
+In-Reply-To: <alpine.DEB.2.02.1207141456190.13961@oneiric>
+References: <alpine.DEB.2.02.1207141456190.13961@oneiric>
+Date: Sat, 14 Jul 2012 17:26:49 -0400
+Message-ID: <CADkTA4Nah089oYXaHo3JDF_kmV-LQKz+hm8T6U9PBjtBvVDtxg@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: is "LINUX_VERSION" actually needed for a kernel checkout?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
-	Patches and discussions about the oe-core layer
+Reply-To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -63,154 +41,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 14 Jul 2012 21:34:38 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <20760AC5D07E7045ACA7DDBA8CC70181@mgd.freescale.com>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Sat, 14 Jul 2012 21:38:06 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On Sat, Jul 14, 2012 at 1:49 PM, Bincy K Philip
-<bincy_k_philip@yahoo.co.in> wrote:
+On Sat, Jul 14, 2012 at 3:07 PM, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
 >
-> Could you please explain a little more on this.
-> Thank you
+>   pawing my way through the kernel recipe file and checkout code so i
+> understand it once and for all, and i'm curious about the setting of:
+>
+> LINUX_VERSION ?= "3.4.4"
+>
+> in linux-yocto_3.4.bb.
+>
+>   for my example, i'm testing with straight oe-core and building for
+> qemuarm, so i can see the following relevant lines from the kernel
+> recipe file that will affect my kernel checkout:
+>
+> KBRANCH_qemuarm  = "standard/arm-versatile-926ejs"
+> SRCREV_machine_qemuarm ?= "9aca8fec49787efbe44d0f137f31ee59edd94c49"
+> SRCREV_meta ?= "a8cf77018b0faa0d29f1483ff4e5a2034dc8edd5"
+>
+> SRC_URI =
+> "git://git.yoctoproject.org/linux-yocto-3.4.git;protocol=git;nocheckout=1;branch=${KBRANCH},meta;name=machine,meta"
+>
+> LINUX_VERSION ?= "3.4.4"
+>
+>   as i read the docs (and i could be totally off-base), the KBRANCH
+> variable identifies the branch i want for my checkout, while the
+> SRCREV_machine variable identifies the particular commit on that
+> branch that i want (typically, it's a merge of standard/base into that
+> branch).  and of course, SRCREV_meta is the state of the meta branch i
+> want for further configuration.
+>
+>   but at no time did i need to know the tagged kernel version that my
+> machine branch was based on, did i?  so for the purposes of what
+> happened above, i didn't *require* the value of LINUX_VERSION, did i?
+>
+>   i can see that it will be handy in, say, creating meaningful
+> directory names for building.  but beyond that, what else is it used
+> for?  (i haven't got to the meta/ directory processing yet, so i have
+> no idea whether it's suddenly necessary there.)
 
-My patch is not applying to your tree - can you show the conflicts?
-Show us the output of git diff after running the patch command.
+The kernel itself doesn't care .. but the rest of the system does,
+since that is used
+for setting PV.
 
--M
+Cheers,
 
+Bruce
 
-> From: McClintock Matthew-B29882 <B29882@freescale.com>
-> To: Bincy K Philip <bincy_k_philip@yahoo.co.in>
-> Cc: McClintock Matthew-B29882 <B29882@freescale.com>
-> Sent: Saturday, 14 July 2012 10:58 PM
 >
-> Subject: Re: [OE-core] Error in rpm bitbake
+> rday
 >
-> You need to send all your replies to the list. And it's from an older
-> libc version. That patch should apply with a little bit of work.
+> --
 >
-> -M
+> ========================================================================
+> Robert P. J. Day                                 Ottawa, Ontario, CANADA
+>                         http://crashcourse.ca
 >
-> On Sat, Jul 14, 2012 at 11:29 AM, Bincy K Philip
-> <bincy_k_philip@yahoo.co.in> wrote:
->> Hi Mathew,
->>
->> Is this problem specific to OS or kernel version..?
->> |T|hanks for the help.
->>
->> Regards
->> Bincy
->>
->> From: McClintock Matthew-B29882 <B29882@freescale.com>
->> To: Bincy K Philip <bincy_k_philip@yahoo.co.in>
->> Cc: McClintock Matthew-B29882 <B29882@freescale.com>
->> Sent: Saturday, 14 July 2012 12:12 AM
->> Subject: Re: [OE-core] Error in rpm bitbake
->>
->> On Fri, Jul 13, 2012 at 12:29 PM, Bincy K Philip
->> <bincy_k_philip@yahoo.co.in> wrote:
->>> Hi Mathew,
->>>
->>> Thank you very much for the reply.
->>>
->>> I have tried out following steps.
->>>
->>> 1.Copied the patch contents into one file called dbconvert.patch
->>> 2.Copied the dbconvert.patch in tmp/layers/openembeddedcore
->>> 3.Gave the command patch -p1< dbconvert.patch
->>> 4.I got following error mesage
->>>
->>>
->>> patching file meta/recipes-devtools/rpm/rpm/dbconvert.patch
->>> patching file meta/recipes-devtools/rpm/rpm_5.4.9.bb
->>> Hunk #1 FAILED at 43.
->>> Hunk #2 FAILED at 75.
->>> I am not able to sortout this issue.Can you please suggest on this.
->>>
->>> Also in my bitbake I am getting this error.
->>>
->>> Summary: 1 task failed:
->>>
->>>
->>> virtual:native:/local/jenkins/build_project/mvldir_ggg/tmp/layers/opene=
-mbedded-core-030712/openembedded-core-030712//meta/recipes-devtools/rpm/rpm=
-_5.4.9.bb,
->>> do_patch
->>
->> My patch did not apply cleanly to the version of poky you are using -
->> this needs to be fixed.
->>
->> -M
->>
->>>
->>> Could you please guide me.
->>> Thank you
->>> From: McClintock Matthew-B29882 <B29882@freescale.com>
->>> To: Bincy K Philip <bincy_k_philip@yahoo.co.in>; Patches and discussion=
-s
->>> about the oe-core layer <openembedded-core@lists.openembedded.org>
->>> Sent: Friday, 13 July 2012 7:58 PM
->>> Subject: Re: [OE-core] Error in rpm bitbake
->>>
->>> On Fri, Jul 13, 2012 at 7:30 AM, Bincy K Philip
->>> <bincy_k_philip@yahoo.co.in> wrote:
->>>> Dear all,
->>>>
->>>> I have started to work with open embedded only 3 months back.
->>>>
->>>> I got attached error log while trying for " bitbake rpm". This rpm
->>>> failure
->>>> causes my bitbake core-image-minimal to fail.
->>>>
->>>>
->>>> I have gone through some Google posts and understood dbconver.c causes
->>>> this
->>>> error & need to exclude this file from compiling.I am not aware of how
->>>> to
->>>> do
->>>> that.Can anyone answer this?
->>>>
->>>> Also I have seen that there is one dbconvert.patch work in progress. B=
-ut
->>>> couldn't find out this file in open embedded git repository.
->>>>
->>>> Please help me to sort out this issue.This is really blocking me.
->>>>
->>>> Thanks in advance...
->>>
->>> Bincy,
->>>
->>> I submitted a patch for this a few days ago. Waiting for it to be
->>> applied or for feedback:
->>>
->>>
->>>
->>> http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=3Dmatt=
-sm/master&id=3D9cd3f21ab41c039ddcc6bbff521f9d7b284813ae
->>>
->>> -M
->>>
->>>>
->>>>
->>>> _______________________________________________
->>>> Openembedded-core mailing list
->>>> Openembedded-core@lists.openembedded.org
->>>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->>>>
->>>
->>>
->>
->>
->
->
+> Twitter:                                       http://twitter.com/rpjday
+> LinkedIn:                               http://ca.linkedin.com/in/rpjday
+> ========================================================================
 >
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->=
 
+
+
+-- 
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
 
