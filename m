@@ -1,40 +1,31 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
+Received: from astoria.ccjclearline.com ([64.235.106.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1Sq0z0-0005ZD-V8
+	(envelope-from <rpjday@crashcourse.ca>) id 1Sq1CG-00069Z-6F
 	for openembedded-core@lists.openembedded.org;
-	Sat, 14 Jul 2012 13:57:59 +0200
-Received: by eaal1 with SMTP id l1so1131525eaa.6
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 14 Jul 2012 04:46:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date
-	:content-transfer-encoding:message-id:references:to:x-mailer
-	:x-gm-message-state;
-	bh=WC9b64DUMy59vFtSOBCAxu3v4nzg/86uF6+ExLfi/h8=;
-	b=C+QRRQjWvqOP9LrP8DMn5l2ByW/LjmuwuDJfp6XMg9DGONW7GuuvUxwTJIysoa7TA3
-	PtEIzzgiLThVd0j35G+devBs00D2Pz0rJB6kFH8LIh0e90wA5bAaP2XIl4EplXzKpH4n
-	Ah1Gtvlnngpup/SeOerYtOR9pBHUXJ7gCCdHQWtWoN/ZvP5YaRh6QwJOMGS1fU2zRdeH
-	BOAd4pMo72Y0bKZX18Mmr2nVVnP0E+Txy3CfekjiCqg/Ik8RxUtSh9IKbuGrVBkXJi4H
-	SpDsuULIcb6L0JiDvMtmmUINv+MxAMc1+8kXE+qFuq8J+U5Pcd29y5xX8OMr20okEfSx
-	UOZw==
-Received: by 10.14.204.72 with SMTP id g48mr1814381eeo.36.1342266403473;
-	Sat, 14 Jul 2012 04:46:43 -0700 (PDT)
-Received: from [172.20.3.200] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id k48sm3376144een.10.2012.07.14.04.46.41
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sat, 14 Jul 2012 04:46:42 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1278)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1342259955-8875-1-git-send-email-koen@dominion.thruhere.net>
-Date: Sat, 14 Jul 2012 13:46:37 +0200
-Message-Id: <626657ED-D451-4139-9580-953373E4620C@dominion.thruhere.net>
-References: <1342259955-8875-1-git-send-email-koen@dominion.thruhere.net>
-To: openembedded-core@lists.openembedded.org
-X-Mailer: Apple Mail (2.1278)
-X-Gm-Message-State: ALoCoQkLZoRfapnmu8IZnCUJLwU4rTIPQXPWWCOfR3UEBNXLzf7w0CE0a4QFR092wbEquiaBLx4a
-Subject: Re: [PATCH] powertop: update to 2.0+git
+	Sat, 14 Jul 2012 14:11:40 +0200
+Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
+	([174.115.5.73]:36885 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.77) (envelope-from <rpjday@crashcourse.ca>)
+	id 1Sq11N-0005Pz-RK for openembedded-core@lists.openembedded.org;
+	Sat, 14 Jul 2012 08:00:25 -0400
+Date: Sat, 14 Jul 2012 08:00:22 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@oneiric
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.DEB.2.02.1207140756410.8123@oneiric>
+User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+MIME-Version: 1.0
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Subject: should linux-yocto_3.4.bb have a "bareclone=1" parameter?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,21 +40,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 14 Jul 2012 11:57:59 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Sat, 14 Jul 2012 12:11:40 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
 
-Op 14 jul. 2012, om 11:59 heeft Koen Kooi het volgende geschreven:
+  building for qemuarm and noticed that the log.do_kernel_checkout
+file warned me about SRC_URI not including "bareclone=1", which is
+true -- unlike all of the rest of the kernel recipe files, it
+includes "nocheckout=1" instead.  any reason for this?  should i
+submit a patch to change that to bareclone?
 
-> The recipe is autotools based now, the COPYING file was replaced with =
-the complete GPLv2 license text.
-> No more 'lspci' needed ad runtime, but zlib and libnl are needed =
-nowadays.
-> Add 2 patches, one to fix cross builds and one from Linaro to fix C =
-state parsing on !x86.
+rday
 
-Please ignore this one, it needs a few more patches to work properly on =
-ARM.=
+p.s.  under meta-skeleton, linux-yocto-custom.bb also includes
+nocheckout instead of bareclone.  just an observation.
+
+-- 
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
