@@ -1,23 +1,37 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mail-yw0-f47.google.com ([209.85.213.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <tom.zanussi@intel.com>) id 1SqXU5-00067C-F0
+	(envelope-from <andrei@gherzan.ro>) id 1SqXtw-0003dj-8x
 	for openembedded-core@lists.openembedded.org;
-	Mon, 16 Jul 2012 00:40:13 +0200
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 15 Jul 2012 15:28:54 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="122790076"
-Received: from unknown (HELO [10.255.12.216]) ([10.255.12.216])
-	by AZSMGA002.ch.intel.com with ESMTP; 15 Jul 2012 15:28:54 -0700
-Message-ID: <1342391327.2338.123.camel@trz-ThinkPad-T420>
-From: Tom Zanussi <tom.zanussi@intel.com>
+	Mon, 16 Jul 2012 01:06:57 +0200
+Received: by yhjj56 with SMTP id j56so1276961yhj.6
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 15 Jul 2012 15:55:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:x-originating-ip:in-reply-to:references:date
+	:message-id:subject:from:to:content-type:x-gm-message-state;
+	bh=0pVOvf81JfP3srFFj8PQrfc0I3oXlLxiM9L3iphQXSE=;
+	b=GfrRpd9kmIfQKaXvsWxFnPKoWeIH1dygGrNzX5XJuJFb4MJ0f40JClU40kU27Fff4U
+	w61LNeuPDVzAvdn0CMULF2Ccr32wu6plyt3xuM79XZd4hWIGouTkhV8YMHdY42plU71G
+	Ihaidv+8DY8sBJmwOYn6F6h28Cgd5QHLxRkjRKdGV15NBritmM4CVzr/LDDbMihSYu/9
+	pd5hcsek0KQx1v0p73To11tcY1pjtFQU6/W2SXD1FCyZI/ZE5kfTP69GQ8Qul92OohCU
+	E3peMCHRzdKzh5LYhx+TTQZGltPZJ8pfO++76w4HMPT2dEa+nG57uu10xu91Fd+ioGRw
+	RePA==
+MIME-Version: 1.0
+Received: by 10.50.11.129 with SMTP id q1mr3927911igb.8.1342392938152; Sun, 15
+	Jul 2012 15:55:38 -0700 (PDT)
+Received: by 10.64.98.162 with HTTP; Sun, 15 Jul 2012 15:55:37 -0700 (PDT)
+X-Originating-IP: [79.117.115.156]
+Received: by 10.64.98.162 with HTTP; Sun, 15 Jul 2012 15:55:37 -0700 (PDT)
+In-Reply-To: <1342391327.2338.123.camel@trz-ThinkPad-T420>
+References: <CAK18fxFZ-FdNbtc7-qMWDV4AAxUFdKJRmQDNrKkqDPQ6BL0ipQ@mail.gmail.com>
+	<1342391327.2338.123.camel@trz-ThinkPad-T420>
+Date: Mon, 16 Jul 2012 01:55:37 +0300
+Message-ID: <CAK18fxG++qfAzNxv+ahNvwkk8VHQbwNJnChJNS6Y3u_R+evL5w@mail.gmail.com>
+From: Andrei Gherzan <andrei@gherzan.ro>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Sun, 15 Jul 2012 17:28:47 -0500
-In-Reply-To: <CAK18fxFZ-FdNbtc7-qMWDV4AAxUFdKJRmQDNrKkqDPQ6BL0ipQ@mail.gmail.com>
-References: <CAK18fxFZ-FdNbtc7-qMWDV4AAxUFdKJRmQDNrKkqDPQ6BL0ipQ@mail.gmail.com>
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
+X-Gm-Message-State: ALoCoQm48Lnxlh3AVr9aPWwflCNZYEh19fpctzIFv5IA4RzBGxH6DzhErqapVxe8ubqNvieTb/TR
 Subject: Re: Perf fail on mips
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -33,75 +47,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 15 Jul 2012 22:40:13 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 15 Jul 2012 23:06:57 -0000
+Content-Type: multipart/alternative; boundary=e89a8f50320c3a411c04c4e63638
 
-On Sun, 2012-07-15 at 23:19 +0300, Andrei Gherzan wrote:
-> Any fast ideas on this? 
+--e89a8f50320c3a411c04c4e63638
+Content-Type: text/plain; charset=ISO-8859-1
 
-There was a recent fix added to the 3.0 kernel for this problem:
+On Jul 16, 2012 1:29 AM, "Tom Zanussi" <tom.zanussi@intel.com> wrote:
+>
+> On Sun, 2012-07-15 at 23:19 +0300, Andrei Gherzan wrote:
+> > Any fast ideas on this?
+>
+> There was a recent fix added to the 3.0 kernel for this problem:
+>
+>     cef17a1 perf: add sgidefs.h to for mips builds
+>
 
-    cef17a1 perf: add sgidefs.h to for mips builds
+I was sure it was a new problem. Didn't know if it was fixed already and
+had no time for digging. :) Thank you for your fast reply.
 
-The above should have been picked up as a result of this commit:
+Ag
 
-http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?id=89008d4fedb253184d9e651243cd98fe8c29d52f
+--e89a8f50320c3a411c04c4e63638
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-Maybe updating your sources will fix it...
+<p>On Jul 16, 2012 1:29 AM, &quot;Tom Zanussi&quot; &lt;<a href=3D"mailto:t=
+om.zanussi@intel.com">tom.zanussi@intel.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; On Sun, 2012-07-15 at 23:19 +0300, Andrei Gherzan wrote:<br>
+&gt; &gt; Any fast ideas on this?<br>
+&gt;<br>
+&gt; There was a recent fix added to the 3.0 kernel for this problem:<br>
+&gt;<br>
+&gt; =A0 =A0 cef17a1 perf: add sgidefs.h to for mips builds<br>
+&gt;</p>
+<p>I was sure it was a new problem. Didn&#39;t know if it was fixed already=
+ and had no time for digging. :) Thank you for your fast reply.</p>
+<p>Ag</p>
 
-Tom
-
-> qemu mips / core-image-sato-sdk / master
-> 
-> 
-> CC /home/agherzan/work/personal/yocto/2012-07-13-qemumips/tmp/work/qemumips-poky-linux/perf-3.4-r1/perf-3.4/util/scripting-engines/trace-event-perl.o
-> 
-> CC /home/agherzan/work/personal/yocto/2012-07-13-qemumips/tmp/work/qemumips-poky-linux/perf-3.4-r1/perf-3.4/scripts/perl/Perf-Trace-Util/Context.o
-> 
-> CC /home/agherzan/work/personal/yocto/2012-07-13-qemumips/tmp/work/qemumips-poky-linux/perf-3.4-r1/perf-3.4/util/scripting-engines/trace-event-python.o
-> In file included
-> from /home/agherzan/work/personal/yocto/2012-07-13-qemumips/tmp/sysroots/qemumips/usr/include/python2.7/Python.h:8:0,
->                  from util/scripting-engines/trace-event-python.c:22:
-> /home/agherzan/work/personal/yocto/2012-07-13-qemumips/tmp/sysroots/qemumips/usr/include/python2.7/pyconfig.h:34:20: error: "_ABIN32" is not defined [-Werror=undef]
-> In file included
-> from /home/agherzan/work/personal/yocto/2012-07-13-qemumips/tmp/sysroots/qemumips/usr/include/python2.7/pyport.h:4:0,
-> 
->  from /home/agherzan/work/personal/yocto/2012-07-13-qemumips/tmp/sysroots/qemumips/usr/include/python2.7/Python.h:58,
->                  from util/scripting-engines/trace-event-python.c:22:
-> /home/agherzan/work/personal/yocto/2012-07-13-qemumips/tmp/sysroots/qemumips/usr/include/python2.7/pyconfig.h:34:20: error: "_ABIN32" is not defined [-Werror=undef]
-> cc1: all warnings being treated as errors
-> 
-> CC /home/agherzan/work/personal/yocto/2012-07-13-qemumips/tmp/work/qemumips-poky-linux/perf-3.4-r1/perf-3.4/scripts/python/Perf-Trace-Util/Context.o
-> make: ***
-> [/home/agherzan/work/personal/yocto/2012-07-13-qemumips/tmp/work/qemumips-poky-linux/perf-3.4-r1/perf-3.4/util/scripting-engines/trace-event-python.o] Error 1
-> make: *** Waiting for unfinished jobs....
-> In file included
-> from /home/agherzan/work/personal/yocto/2012-07-13-qemumips/tmp/sysroots/qemumips/usr/include/python2.7/Python.h:8:0,
->                  from scripts/python/Perf-Trace-Util/Context.c:22:
-> /home/agherzan/work/personal/yocto/2012-07-13-qemumips/tmp/sysroots/qemumips/usr/include/python2.7/pyconfig.h:34:20: error: "_ABIN32" is not defined [-Werror=undef]
-> In file included
-> from /home/agherzan/work/personal/yocto/2012-07-13-qemumips/tmp/sysroots/qemumips/usr/include/python2.7/pyport.h:4:0,
-> 
->  from /home/agherzan/work/personal/yocto/2012-07-13-qemumips/tmp/sysroots/qemumips/usr/include/python2.7/Python.h:58,
->                  from scripts/python/Perf-Trace-Util/Context.c:22:
-> /home/agherzan/work/personal/yocto/2012-07-13-qemumips/tmp/sysroots/qemumips/usr/include/python2.7/pyconfig.h:34:20: error: "_ABIN32" is not defined [-Werror=undef]
-> cc1: all warnings being treated as errors
-> make: ***
-> [/home/agherzan/work/personal/yocto/2012-07-13-qemumips/tmp/work/qemumips-poky-linux/perf-3.4-r1/perf-3.4/scripts/python/Perf-Trace-Util/Context.o] Error 1
-> make: Leaving directory
-> `/home/agherzan/work/personal/yocto/2012-07-13-qemumips/tmp/sysroots/qemumips/usr/src/kernel/tools/perf'
-> ERROR: oe_runmake failed
-> ERROR: Function failed: do_compile
-> (see /home/agherzan/work/personal/yocto/2012-07-13-qemumips/tmp/work/qemumips-poky-linux/perf-3.4-r1/temp/log.do_compile.6311 for further information)
-> 
-> 
-> ag
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-
-
-
-
+--e89a8f50320c3a411c04c4e63638--
