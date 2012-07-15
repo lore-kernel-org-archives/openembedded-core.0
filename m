@@ -1,34 +1,29 @@
-Received: from mail-qc0-f175.google.com ([209.85.216.175])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@gmail.com>) id 1SqDQd-00081G-VE
+	(envelope-from <Randy.MacLeod@windriver.com>) id 1SqFKj-00023P-Fl
 	for openembedded-core@lists.openembedded.org;
-	Sun, 15 Jul 2012 03:15:20 +0200
-Received: by qcad10 with SMTP id d10so2517403qca.6
+	Sun, 15 Jul 2012 05:17:24 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q6F363gU009578
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 14 Jul 2012 18:04:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type; bh=YgRUfYkJUEyKzeRbf+0v12tDRBQvuvqPJZgFjFKSsKU=;
-	b=AfFn+hQv3xZSObvr2Ho4YatKULXA9ReGyDMyx7o8Oz851+gqEwu/s/QjYfbwQ2eTHc
-	Tg9WrLn0tMSoVOgzkK1VeC7Iv6UbMkHFpSQ7OcwiUv6OPSH/8JqGOkoQJ+e9O3SRokU/
-	YsA+NMoTBYNDGhzQroLowyiVGj8UBUbuDepgPCOvbP2TihGiHvvaFwmtOnBZd1Cn7vLW
-	m+oyPssxqxYophuaBwpxNpYdVu/4385qbh+gS7pCOEb5RE7R2hTAbBgBCw8c45oyQp5a
-	gTNLTntO1ZC9X0ESO5XvcbA+90a8ieWW3P2V+poyuluaWjalZ0Nq6wuqxAR/GhYIphS7
-	J+fA==
+	Sat, 14 Jul 2012 20:06:03 -0700 (PDT)
+Received: from [128.224.22.51] (128.224.22.51) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Sat, 14 Jul 2012 20:06:02 -0700
+Message-ID: <50023399.8030603@windriver.com>
+Date: Sat, 14 Jul 2012 23:06:01 -0400
+From: Randy MacLeod <randy.macleod@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:13.0) Gecko/20120615 Thunderbird/13.0.1
 MIME-Version: 1.0
-Received: by 10.229.69.30 with SMTP id x30mr3583551qci.13.1342314243035; Sat,
-	14 Jul 2012 18:04:03 -0700 (PDT)
-Received: by 10.229.8.78 with HTTP; Sat, 14 Jul 2012 18:04:02 -0700 (PDT)
-In-Reply-To: <5001EAB7.4080106@gmail.com>
-References: <alpine.DEB.2.02.1207141456190.13961@oneiric>
-	<CADkTA4Nah089oYXaHo3JDF_kmV-LQKz+hm8T6U9PBjtBvVDtxg@mail.gmail.com>
-	<5001EAB7.4080106@gmail.com>
-Date: Sat, 14 Jul 2012 21:04:02 -0400
-Message-ID: <CADkTA4MK7Gd+dO_9Pw2nipdKJoAn5_brNEw1e1LYkOp0A9yC9w@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: is "LINUX_VERSION" actually needed for a kernel checkout?
+To: <openembedded-core@lists.openembedded.org>, Morgan Little
+	<morgan.little@windriver.com>
+References: <1342187709-19368-1-git-send-email-morgan.little@windriver.com>
+	<1342187709-19368-2-git-send-email-morgan.little@windriver.com>
+In-Reply-To: <1342187709-19368-2-git-send-email-morgan.little@windriver.com>
+X-Originating-IP: [128.224.22.51]
+Subject: Re: [PATCH 01/20] python-native: Put binaries in seperate directory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,98 +38,140 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 15 Jul 2012 01:15:20 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Sun, 15 Jul 2012 03:17:24 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Sat, Jul 14, 2012 at 5:55 PM, Khem Raj <raj.khem@gmail.com> wrote:
-> -----BEGIN PGP SIGNED MESSAGE-----
-> Hash: SHA1
+On 12-07-13 09:54 AM, Morgan Little wrote:
+> Update python-native to install the binaries in the python-native directory,
+> add pythonnative.bbclass to let recipes that need python-native use the
+> binaries and update disutils access the new binaries.
 >
-> On 7/14/2012 2:26 PM, Bruce Ashfield wrote:
->> On Sat, Jul 14, 2012 at 3:07 PM, Robert P. J. Day
->> <rpjday@crashcourse.ca> wrote:
->>>
->>> pawing my way through the kernel recipe file and checkout code so
->>> i understand it once and for all, and i'm curious about the
->>> setting of:
->>>
->>> LINUX_VERSION ?= "3.4.4"
->>>
->>> in linux-yocto_3.4.bb.
->>>
->>> for my example, i'm testing with straight oe-core and building
->>> for qemuarm, so i can see the following relevant lines from the
->>> kernel recipe file that will affect my kernel checkout:
->>>
->>> KBRANCH_qemuarm  = "standard/arm-versatile-926ejs"
->>> SRCREV_machine_qemuarm ?=
->>> "9aca8fec49787efbe44d0f137f31ee59edd94c49" SRCREV_meta ?=
->>> "a8cf77018b0faa0d29f1483ff4e5a2034dc8edd5"
->>>
->>> SRC_URI =
->>> "git://git.yoctoproject.org/linux-yocto-3.4.git;protocol=git;nocheckout=1;branch=${KBRANCH},meta;name=machine,meta"
->>>
->>>
->>>
-> LINUX_VERSION ?= "3.4.4"
->>>
->>> as i read the docs (and i could be totally off-base), the
->>> KBRANCH variable identifies the branch i want for my checkout,
->>> while the SRCREV_machine variable identifies the particular
->>> commit on that branch that i want (typically, it's a merge of
->>> standard/base into that branch).  and of course, SRCREV_meta is
->>> the state of the meta branch i want for further configuration.
->>>
->>> but at no time did i need to know the tagged kernel version that
->>> my machine branch was based on, did i?  so for the purposes of
->>> what happened above, i didn't *require* the value of
->>> LINUX_VERSION, did i?
->>>
->>> i can see that it will be handy in, say, creating meaningful
->>> directory names for building.  but beyond that, what else is it
->>> used for?  (i haven't got to the meta/ directory processing yet,
->>> so i have no idea whether it's suddenly necessary there.)
->>
->> The kernel itself doesn't care .. but the rest of the system does,
->> since that is used for setting PV.
->>
+> Signed-off-by: Morgan Little <morgan.little@windriver.com>
+> ---
+>   meta/classes/distutils.bbclass                     |   14 +++++++++-----
+>   meta/classes/pythonnative.bbclass                  |    3 +++
+>   .../recipes-devtools/python/python-native_2.7.3.bb |    9 ++++++---
+>   3 files changed, 18 insertions(+), 8 deletions(-)
+>   create mode 100644 meta/classes/pythonnative.bbclass
 >
-> I think we only have 1 recipe per release e.g. 3.2, 3.4 and so on so
-> adding an additional minor is confusing there may be it can be avoided
-> and when we say 3.4 it means 3.4 release branch of kernel.
+> diff --git a/meta/classes/distutils.bbclass b/meta/classes/distutils.bbclass
+> index bcddf8d..f731257 100644
+> --- a/meta/classes/distutils.bbclass
+> +++ b/meta/classes/distutils.bbclass
+> @@ -1,4 +1,4 @@
+> -inherit distutils-base
+> +inherit distutils-base pythonnative
 >
-> unless we plan to have it selectable for users to use 3.4.1 and 3.4.2
-> it probably loses the significance
+>   DISTUTILS_BUILD_ARGS ?= ""
+>   DISTUTILS_STAGE_HEADERS_ARGS ?= "--install-dir=${STAGING_INCDIR}/${PYTHON_DIR}"
+> @@ -11,14 +11,14 @@ distutils_do_compile() {
+>            STAGING_INCDIR=${STAGING_INCDIR} \
+>            STAGING_LIBDIR=${STAGING_LIBDIR} \
+>            BUILD_SYS=${BUILD_SYS} HOST_SYS=${HOST_SYS} \
+> -         ${STAGING_BINDIR_NATIVE}/python setup.py build ${DISTUTILS_BUILD_ARGS} || \
+> +         ${STAGING_BINDIR_NATIVE}/python-native/python setup.py build ${DISTUTILS_BUILD_ARGS} || \
+>            bbfatal "python setup.py build_ext execution failed."
+>   }
+>
+>   distutils_stage_headers() {
+>           install -d ${STAGING_DIR_HOST}${PYTHON_SITEPACKAGES_DIR}
+>           BUILD_SYS=${BUILD_SYS} HOST_SYS=${HOST_SYS} \
+> -        ${STAGING_BINDIR_NATIVE}/python setup.py install_headers ${DISTUTILS_STAGE_HEADERS_ARGS} || \
+> +        ${STAGING_BINDIR_NATIVE}/python-native/python setup.py install_headers ${DISTUTILS_STAGE_HEADERS_ARGS} || \
+>           bbfatal "python setup.py install_headers execution failed."
+>   }
+>
+> @@ -28,7 +28,7 @@ distutils_stage_all() {
+>           install -d ${STAGING_DIR_HOST}${PYTHON_SITEPACKAGES_DIR}
+>           PYTHONPATH=${STAGING_DIR_HOST}${PYTHON_SITEPACKAGES_DIR} \
+>           BUILD_SYS=${BUILD_SYS} HOST_SYS=${HOST_SYS} \
+> -        ${STAGING_BINDIR_NATIVE}/python setup.py install ${DISTUTILS_STAGE_ALL_ARGS} || \
+> +        ${STAGING_BINDIR_NATIVE}/python-native/python setup.py install ${DISTUTILS_STAGE_ALL_ARGS} || \
+>           bbfatal "python setup.py install (stage) execution failed."
+>   }
+>
+> @@ -38,7 +38,7 @@ distutils_do_install() {
+>           STAGING_LIBDIR=${STAGING_LIBDIR} \
+>           PYTHONPATH=${D}/${PYTHON_SITEPACKAGES_DIR} \
+>           BUILD_SYS=${BUILD_SYS} HOST_SYS=${HOST_SYS} \
+> -        ${STAGING_BINDIR_NATIVE}/python setup.py install ${DISTUTILS_INSTALL_ARGS} || \
+> +        ${STAGING_BINDIR_NATIVE}/python-native/python setup.py install ${DISTUTILS_INSTALL_ARGS} || \
+>           bbfatal "python setup.py install execution failed."
+>
+>           for i in `find ${D} -name "*.py"` ; do \
+> @@ -65,6 +65,10 @@ distutils_do_install() {
+>           if test -e ${D}${datadir}/share; then
+>               mv -f ${D}${datadir}/share/* ${D}${datadir}/
+>           fi
+> +
+> +        # These are generated files, on really slow systems the storage/speed trade off
+> +        # might be worth it, but in general it isn't
+> +        find ${D}${libdir}/${PYTHON_DIR}/site-packages -iname '*.pyo' -exec rm {} \;
 
-selectable no .. but useful none the less. It's clear information (that does no
-harm), that has it's users and use cases, so I have no plans to abandon it.
+It may be true that in general it's not worth keeping .pyo files but
+it's should be done as a separate commit. Also, if people agree that
+we don't need those files, can we avoid generating them to begin with?
 
-Cheers,
+The rest of the commits look fine to me.
 
-Bruce
+// Randy
 
->
->>
->
->
-> -----BEGIN PGP SIGNATURE-----
-> Version: GnuPG v1.4.12 (MingW32)
-> Comment: Using GnuPG with Mozilla - http://enigmail.mozdev.org/
->
-> iEYEARECAAYFAlAB6rcACgkQuwUzVZGdMxSIxQCfcFYddR+x8FIhH18Ae7lNYAma
-> nF0AnimKPeYQ/cKVDpr5ckrAIibr4dYa
-> =qNRw
-> -----END PGP SIGNATURE-----
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
+>   }
+>
+>   EXPORT_FUNCTIONS do_compile do_install
+> diff --git a/meta/classes/pythonnative.bbclass b/meta/classes/pythonnative.bbclass
+> new file mode 100644
+> index 0000000..bc346da
+> --- /dev/null
+> +++ b/meta/classes/pythonnative.bbclass
+> @@ -0,0 +1,3 @@
+> +PYTHON="${STAGING_BINDIR_NATIVE}/python-native/python"
+> +PATH_prepend = "${STAGING_BINDIR_NATIVE}/python-native:"
+> +DEPENDS += " python-native "
+> diff --git a/meta/recipes-devtools/python/python-native_2.7.3.bb b/meta/recipes-devtools/python/python-native_2.7.3.bb
+> index 50bf894..a4cbdcd 100644
+> --- a/meta/recipes-devtools/python/python-native_2.7.3.bb
+> +++ b/meta/recipes-devtools/python/python-native_2.7.3.bb
+> @@ -1,6 +1,6 @@
+>   require python.inc
+>   DEPENDS = "openssl-native bzip2-full-native zlib-native readline-native sqlite3-native"
+> -PR = "${INC_PR}.0"
+> +PR = "${INC_PR}.1"
+>
+>   SRC_URI += "file://04-default-is-optimized.patch \
+>              file://05-enable-ctypes-cross-build.patch \
+> @@ -20,6 +20,8 @@ inherit native
+>
+>   RPROVIDES += "python-distutils-native python-compression-native python-textutils-native python-core-native"
+>
+> +EXTRA_OECONF += " --bindir=${bindir}/${PN}"
+> +
+>   EXTRA_OEMAKE = '\
+>     BUILD_SYS="" \
+>     HOST_SYS="" \
+> @@ -35,10 +37,11 @@ do_configure_prepend() {
+>   do_install() {
+>   	oe_runmake 'DESTDIR=${D}' install
+>   	install -d ${D}${bindir}/
+> -	install -m 0755 Parser/pgen ${D}${bindir}/
+> +	install -d ${D}${bindir}/${PN}
+> +	install -m 0755 Parser/pgen ${D}${bindir}/${PN}
+>
+>   	# Make sure we use /usr/bin/env python
+> -	for PYTHSCRIPT in `grep -rIl ${bindir}/python ${D}${bindir}`; do
+> +	for PYTHSCRIPT in `grep -rIl ${bindir}/${PN}/python ${D}${bindir}/${PN}`; do
+>   		sed -i -e '1s|^#!.*|#!/usr/bin/env python|' $PYTHSCRIPT
+>   	done
+>   }
+>
 
 
 -- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+# Randy MacLeod. MTS, Linux, Wind River
+Direct: 613.963.1350
+
+
 
 
