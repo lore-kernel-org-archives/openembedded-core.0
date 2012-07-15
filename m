@@ -1,32 +1,26 @@
-Received: from mail-qa0-f47.google.com ([209.85.216.47])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@gmail.com>) id 1SqRUG-0005lk-Hh
+	(envelope-from <sgw@linux.intel.com>) id 1SqSi0-0007lL-S3
 	for openembedded-core@lists.openembedded.org;
-	Sun, 15 Jul 2012 18:16:00 +0200
-Received: by qabg1 with SMTP id g1so1182132qab.6
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 15 Jul 2012 09:04:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type; bh=N0bNvDNo1NqYpFqmIZy7cstGKw6p/iOjVa/Nnp0SUKU=;
-	b=UoULdaWd1YZzUrdh4UdsCAGV62sqw/O5EJUdQhp/SMs3ovee2OAqnchXFRS8va8kBg
-	9yqG6zm4oWlWWbHxiks2FTwqh5SpMIp1HCeNVGf9hyoOgWURvvMjU992SOh53bXXa/Yr
-	Yv0ovig90B2qxc2vpIHro0RkCVddYjqKSTW3hpN/WAqtgLnTUAlaDa4fuxIfKR9Qx80r
-	Na2qJQeXwjHmm4DreiM8SPJJxAPUGryzHHg8e3OQMFJBmnSr2PPeJUzHLH+VaFS8Dad/
-	neGgjuu17ouBP0YSw0ZXYJ5OpiO3muBOOj/uNCTAAVdDQQLxFjvxfzTucxFrQ64HYVgN
-	aI4Q==
+	Sun, 15 Jul 2012 19:34:17 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 15 Jul 2012 10:22:58 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="177669275"
+Received: from unknown (HELO [10.255.12.178]) ([10.255.12.178])
+	by fmsmga001.fm.intel.com with ESMTP; 15 Jul 2012 10:22:58 -0700
+Message-ID: <5002FC72.5000502@linux.intel.com>
+Date: Sun, 15 Jul 2012 10:22:58 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:13.0) Gecko/20120615 Thunderbird/13.0.1
 MIME-Version: 1.0
-Received: by 10.224.204.131 with SMTP id fm3mr15807066qab.75.1342368283004;
-	Sun, 15 Jul 2012 09:04:43 -0700 (PDT)
-Received: by 10.229.8.78 with HTTP; Sun, 15 Jul 2012 09:04:42 -0700 (PDT)
-In-Reply-To: <alpine.DEB.2.02.1207150506210.31191@oneiric>
-References: <alpine.DEB.2.02.1207150506210.31191@oneiric>
-Date: Sun, 15 Jul 2012 12:04:42 -0400
-Message-ID: <CADkTA4NO70zH0g3je-WXNHRMUnY4+zQ0dVVTrG19=hpXyx3udA@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: kernel-yocto.bbclass: Fix some obvious typoes in comments.
+References: <cover.1342115559.git.andrei@gherzan.ro>
+In-Reply-To: <cover.1342115559.git.andrei@gherzan.ro>
+Cc: Andrei Gherzan <andrei.gherzan@windriver.com>
+Subject: Re: [PATCH 0/2] Update connman to v1.3 and fix dependencies for some tests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,74 +35,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 15 Jul 2012 16:16:00 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Sun, 15 Jul 2012 17:34:17 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Sun, Jul 15, 2012 at 5:07 AM, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
+On 07/12/2012 10:54 AM, andrei@gherzan.ro wrote:
+> From: Andrei Gherzan <andrei@gherzan.ro>
+>
+> Machine tested: qemux86
+>
+> Tests done on connman-gnome
+> 	OnlineMode / OfflineMode
+> 	Enable / Disable Wired Networks
+> 	Set manual IP configuration
+>
+> Tests on connman v.1.3
+> 	addr-test
+> 	iptables-test
+> 	polkit-test
+> 	get-global-timeservers
+> 	get-proxy-autoconfig
+> 	get-services
+> 	get-state
+> 	list-services
+> 	show-introspection
+> 	test-clock
+> 	test-connman
+> 	test-counter
+> 	test-manager
+> 	test-session
+>
+> The following changes since commit 90ad663909c0c8a405b22a510c9f957007d02669:
+>
+>    upstream_tracking: update boost (2012-07-09 17:21:38 +0100)
+>
+> are available in the git repository at:
+>
+>    git://git.yoctoproject.org/poky-contrib ag/connman
+>    http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ag/connman
+>
+> Andrei Gherzan (2):
+>    connman: Update to version 1.3
+>    connman.inc: Add missing dependencies needed by some tests
+>
+>   meta/recipes-connectivity/connman/connman.inc      |    4 ++--
+>   .../connman/{connman_1.0.bb => connman_1.3.bb}     |    4 ++--
+>   2 files changed, 4 insertions(+), 4 deletions(-)
+>   rename meta/recipes-connectivity/connman/{connman_1.0.bb => connman_1.3.bb} (82%)
 >
 
-As I mentioned in the other threads, you need to cc them maintainer on patches
-to a particular recipe.
+I am seeing connman fail to start across the Autobuilder sanity tests, I 
+know you are investigating a mips failure, but there might be something 
+else going on also.
 
-I've queued and rebased this onto my stack (those comments are different in
-my local) tree.
+I do not have anything more specific.
 
-Thanks for the update.
-
-Bruce
-
-> Signed-off-by: Robert P. J. Day <rpjday@crashcourse.ca>
->
-> ---
->
-> diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
-> index 48c8974..ca2e837 100644
-> --- a/meta/classes/kernel-yocto.bbclass
-> +++ b/meta/classes/kernel-yocto.bbclass
-> @@ -147,10 +147,10 @@ do_kernel_checkout() {
->                 fi
->         done
->
-> -       # Create a working tree copy of the kernel by checkout out a branch
-> +       # Create a working tree copy of the kernel by checking out a branch
->         git show-ref --quiet --verify -- "refs/heads/${KBRANCH}"
->         if [ $? -eq 0 ]; then
-> -               # checkout and clobber and unimportant files
-> +               # checkout and clobber any unimportant files
->                 git checkout -f ${KBRANCH}
->         else
->                 echo "Not checking out ${KBRANCH}, it will be created later"
-> @@ -200,7 +200,7 @@ python do_kernel_configcheck() {
->  }
->
->
-> -# Ensure that the branches (BSP and meta) are on the locatios specified by
-> +# Ensure that the branches (BSP and meta) are on the locations specified by
->  # their SRCREV values. If they are NOT on the right commits, the branches
->  # are reset to the correct commit.
->  do_validate_branches() {
->
-> rday
->
-> --
->
-> ========================================================================
-> Robert P. J. Day                                 Ottawa, Ontario, CANADA
->                         http://crashcourse.ca
->
-> Twitter:                                       http://twitter.com/rpjday
-> LinkedIn:                               http://ca.linkedin.com/in/rpjday
-> ========================================================================
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+Thanks
+	Sau!
 
 
-
--- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
 
 
