@@ -1,37 +1,32 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from mail-qa0-f47.google.com ([209.85.216.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1SqRSF-0005i7-Tf
+	(envelope-from <bruce.ashfield@gmail.com>) id 1SqRUG-0005lk-Hh
 	for openembedded-core@lists.openembedded.org;
-	Sun, 15 Jul 2012 18:13:57 +0200
-Received: by eeit10 with SMTP id t10so709014eei.6
+	Sun, 15 Jul 2012 18:16:00 +0200
+Received: by qabg1 with SMTP id g1so1182132qab.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 15 Jul 2012 09:02:39 -0700 (PDT)
+	Sun, 15 Jul 2012 09:04:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:content-transfer-encoding;
-	bh=ea3BhFxiJA9ybCN2ylii2vQ1FdIznPVnpFBcW7H6U/E=;
-	b=DoZAWPuXXHQ1wYVGAmS6yi82wps3S+1o3YiDmcDnga6tHX/AYlg7tpQmLF7grk9XcH
-	4UitbziOUctG8Qrk/E3Y8Y8A1m8Wl4j6vZR325zcuYf86JxEYPHUA/1dnq8Yf2j//VUy
-	8/+Aawk3a1djI2WfpfjlszMrZRC04VB4+x5nEaEz2SoonyroMq3Aowj9u9ajmGn8ezhX
-	OLfENKT/NCrgGGsqiJgpWPd3EDIgiSTanB9azm6kHVyKDiwL1yeGeNQf1a/pT3oH7YA8
-	bjOYg9mXE+aV20aiCL/EEUlq7Br/MEPmMZnuxiLd8nRWfDVL67fcUi9eEh2p1iich4Iu
-	IDxQ==
-Received: by 10.14.211.132 with SMTP id w4mr5406045eeo.39.1342368158847; Sun,
-	15 Jul 2012 09:02:38 -0700 (PDT)
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type; bh=N0bNvDNo1NqYpFqmIZy7cstGKw6p/iOjVa/Nnp0SUKU=;
+	b=UoULdaWd1YZzUrdh4UdsCAGV62sqw/O5EJUdQhp/SMs3ovee2OAqnchXFRS8va8kBg
+	9yqG6zm4oWlWWbHxiks2FTwqh5SpMIp1HCeNVGf9hyoOgWURvvMjU992SOh53bXXa/Yr
+	Yv0ovig90B2qxc2vpIHro0RkCVddYjqKSTW3hpN/WAqtgLnTUAlaDa4fuxIfKR9Qx80r
+	Na2qJQeXwjHmm4DreiM8SPJJxAPUGryzHHg8e3OQMFJBmnSr2PPeJUzHLH+VaFS8Dad/
+	neGgjuu17ouBP0YSw0ZXYJ5OpiO3muBOOj/uNCTAAVdDQQLxFjvxfzTucxFrQ64HYVgN
+	aI4Q==
 MIME-Version: 1.0
-Received: by 10.14.210.199 with HTTP; Sun, 15 Jul 2012 09:02:08 -0700 (PDT)
-In-Reply-To: <AF604684617F454390621992F367F169011A007D@039-SN2MPN1-021.039d.mgd.msft.net>
-References: <1342084646-23822-1-git-send-email-b28495@freescale.com>
-	<1342090978.22262.7.camel@ted>
-	<AF604684617F454390621992F367F169011A007D@039-SN2MPN1-021.039d.mgd.msft.net>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sun, 15 Jul 2012 09:02:08 -0700
-Message-ID: <CAMKF1soCkrVRrkWbr9Sx+2JEtXajwPeORAN_mNkzS4KXWcgzTg@mail.gmail.com>
+Received: by 10.224.204.131 with SMTP id fm3mr15807066qab.75.1342368283004;
+	Sun, 15 Jul 2012 09:04:43 -0700 (PDT)
+Received: by 10.229.8.78 with HTTP; Sun, 15 Jul 2012 09:04:42 -0700 (PDT)
+In-Reply-To: <alpine.DEB.2.02.1207150506210.31191@oneiric>
+References: <alpine.DEB.2.02.1207150506210.31191@oneiric>
+Date: Sun, 15 Jul 2012 12:04:42 -0400
+Message-ID: <CADkTA4NO70zH0g3je-WXNHRMUnY4+zQ0dVVTrG19=hpXyx3udA@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Cc: McClintock Matthew-B29882 <B29882@freescale.com>,
-	Luo Zhenhua-B19537 <B19537@freescale.com>
-Subject: Re: [PATCH] kernel.bbclass: update image name to keep it same in D and DEPLOYDIR
+Subject: Re: kernel-yocto.bbclass: Fix some obvious typoes in comments.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,74 +41,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 15 Jul 2012 16:13:57 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Sun, 15 Jul 2012 16:16:00 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On Sun, Jul 15, 2012 at 4:18 AM, Liu Ting-B28495 <B28495@freescale.com> wro=
-te:
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedd=
-ed-core-bounces@lists.openembedded.org] On Behalf Of Richard Purdie
-> Sent: Thursday, July 12, 2012 7:03 PM
-> To: Patches and discussions about the oe-core layer
-> Cc: McClintock Matthew-B29882
-> Subject: Re: [OE-core] [PATCH] kernel.bbclass: update image name to keep =
-it same in D and DEPLOYDIR
+On Sun, Jul 15, 2012 at 5:07 AM, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
 >
-> On Thu, 2012-07-12 at 04:17 -0500, b28495@freescale.com wrote:
->> From: Ting Liu <b28495@freescale.com>
->>
->> Signed-off-by: Ting Liu <b28495@freescale.com>
->> ---
->>  meta/classes/kernel.bbclass |    7 ++++++-
->>  1 files changed, 6 insertions(+), 1 deletions(-)
->>
->> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
->> index 81c334b..420a1ec 100644
->> --- a/meta/classes/kernel.bbclass
->> +++ b/meta/classes/kernel.bbclass
->> @@ -122,7 +122,12 @@ kernel_do_install() {
->>       #
->>       install -d ${D}/${KERNEL_IMAGEDEST}
->>       install -d ${D}/boot
->> -     install -m 0644 ${KERNEL_OUTPUT} ${D}/${KERNEL_IMAGEDEST}/${KERNEL=
-_IMAGETYPE}-${KERNEL_VERSION}
->> +        install -m 0644 ${KERNEL_OUTPUT} ${D}/${KERNEL_IMAGEDEST}/${KER=
-NEL_IMAGE_BASE_NAME}.bin
->> +        cd ${D}/${KERNEL_IMAGEDEST}/
->> +        rm -f ${KERNEL_IMAGE_SYMLINK_NAME}.bin
->> +        ln -sf ${KERNEL_IMAGE_BASE_NAME}.bin ${KERNEL_IMAGE_SYMLINK_NAM=
-E}.bin
->> +        ln -sf ${KERNEL_IMAGE_BASE_NAME}.bin ${KERNEL_IMAGETYPE}
->> +     cd -
->>       install -m 0644 System.map ${D}/boot/System.map-${KERNEL_VERSION}
->>       install -m 0644 .config ${D}/boot/config-${KERNEL_VERSION}
->>       install -m 0644 vmlinux ${D}/boot/vmlinux-${KERNEL_VERSION}
->
-> This is going to break users who rely on the existing naming/layout.
->
-> The patch description is lacking on why we need to do this too, it just s=
-ays what you're doing and not why.
->
-> Cheers,
->
-> Richard
->
->
-> [Liu Ting-B28495] on our side, we used two ways to load the kernel images=
-. 1) load from Ethernet 2) load from hard disk which deployed with the root=
-fs image containing kernel image (installing the package 'kernel-image'). W=
-e cannot use the same bootargs in u-boot due to the mismatched name.
 
-so define two macros nfsboot and diskboot which take care of setting all
-required parameters as well as other env vars.
+As I mentioned in the other threads, you need to cc them maintainer on patches
+to a particular recipe.
 
+I've queued and rebased this onto my stack (those comments are different in
+my local) tree.
+
+Thanks for the update.
+
+Bruce
+
+> Signed-off-by: Robert P. J. Day <rpjday@crashcourse.ca>
 >
+> ---
+>
+> diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
+> index 48c8974..ca2e837 100644
+> --- a/meta/classes/kernel-yocto.bbclass
+> +++ b/meta/classes/kernel-yocto.bbclass
+> @@ -147,10 +147,10 @@ do_kernel_checkout() {
+>                 fi
+>         done
+>
+> -       # Create a working tree copy of the kernel by checkout out a branch
+> +       # Create a working tree copy of the kernel by checking out a branch
+>         git show-ref --quiet --verify -- "refs/heads/${KBRANCH}"
+>         if [ $? -eq 0 ]; then
+> -               # checkout and clobber and unimportant files
+> +               # checkout and clobber any unimportant files
+>                 git checkout -f ${KBRANCH}
+>         else
+>                 echo "Not checking out ${KBRANCH}, it will be created later"
+> @@ -200,7 +200,7 @@ python do_kernel_configcheck() {
+>  }
+>
+>
+> -# Ensure that the branches (BSP and meta) are on the locatios specified by
+> +# Ensure that the branches (BSP and meta) are on the locations specified by
+>  # their SRCREV values. If they are NOT on the right commits, the branches
+>  # are reset to the correct commit.
+>  do_validate_branches() {
+>
+> rday
+>
+> --
+>
+> ========================================================================
+> Robert P. J. Day                                 Ottawa, Ontario, CANADA
+>                         http://crashcourse.ca
+>
+> Twitter:                                       http://twitter.com/rpjday
+> LinkedIn:                               http://ca.linkedin.com/in/rpjday
+> ========================================================================
 >
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+
+
+
+-- 
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
 
