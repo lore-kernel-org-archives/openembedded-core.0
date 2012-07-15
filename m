@@ -1,27 +1,31 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from astoria.ccjclearline.com ([64.235.106.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SqHdK-0007HS-BE
+	(envelope-from <rpjday@crashcourse.ca>) id 1SqKyb-0003mP-Ln
 	for openembedded-core@lists.openembedded.org;
-	Sun, 15 Jul 2012 07:44:42 +0200
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 14 Jul 2012 22:33:24 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="122504454"
-Received: from unknown (HELO [10.255.12.178]) ([10.255.12.178])
-	by AZSMGA002.ch.intel.com with ESMTP; 14 Jul 2012 22:33:24 -0700
-Message-ID: <50025624.2060406@linux.intel.com>
-Date: Sat, 14 Jul 2012 22:33:24 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:13.0) Gecko/20120615 Thunderbird/13.0.1
+	Sun, 15 Jul 2012 11:18:53 +0200
+Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
+	([174.115.5.73]:44524 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.77) (envelope-from <rpjday@crashcourse.ca>)
+	id 1SqKni-0005Zh-0M for openembedded-core@lists.openembedded.org;
+	Sun, 15 Jul 2012 05:07:38 -0400
+Date: Sun, 15 Jul 2012 05:07:28 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@oneiric
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.DEB.2.02.1207150506210.31191@oneiric>
+User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
 MIME-Version: 1.0
-To: Khem Raj <raj.khem@gmail.com>
-References: <5002527B.30207@linux.intel.com>
-	<BB6F3D69-30B0-4EEA-95E8-353E6204C774@gmail.com>
-In-Reply-To: <BB6F3D69-30B0-4EEA-95E8-353E6204C774@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: eglibc update status?
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Subject: kernel-yocto.bbclass: Fix some obvious typoes in comments.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,49 +40,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 15 Jul 2012 05:44:42 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 15 Jul 2012 09:18:53 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
-On 07/14/2012 10:30 PM, Khem Raj wrote:
->
->
-> -Khem
->
-> On Jul 14, 2012, at 10:17 PM, Saul Wold <sgw@linux.intel.com> wrote:
->
->>
->> Khem,
->>
->> Where are you with the update, I have noticed various updates to your eglibc branch, one recent one had a change to the mkelfimage svn variant, while it seems there is not a git variant.
->>
->> Please let me know what your plans are here.
->
-> It's ready, I updated eglibc 2.16 recipe to use protocol instead of proto in src uri
-> And I updated any recipes that were failing for world build with 2.16 or otherwise if I could find time fixing them
->
-> I plan no more updates to this branch now
->
-Thanks for the update, I am pulling together a bigger pull request and 
-trying to figure out if your is ready.  I saw some merge failures that's 
-why I asked.
 
-It's a shame we are both online at this late hour!  Although I just got 
-done watching "Alien"!
+Signed-off-by: Robert P. J. Day <rpjday@crashcourse.ca>
 
-Sau!
+---
 
->>
->> Thanks
->>
->> --
->>     Sau!
->>
->> Saul Wold
->> Yocto Component Wrangler @ Intel
->> Yocto Project / Poky Build System
->>
->>
+diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
+index 48c8974..ca2e837 100644
+--- a/meta/classes/kernel-yocto.bbclass
++++ b/meta/classes/kernel-yocto.bbclass
+@@ -147,10 +147,10 @@ do_kernel_checkout() {
+ 		fi
+ 	done
 
+-	# Create a working tree copy of the kernel by checkout out a branch
++	# Create a working tree copy of the kernel by checking out a branch
+ 	git show-ref --quiet --verify -- "refs/heads/${KBRANCH}"
+ 	if [ $? -eq 0 ]; then
+-		# checkout and clobber and unimportant files
++		# checkout and clobber any unimportant files
+ 		git checkout -f ${KBRANCH}
+ 	else
+ 		echo "Not checking out ${KBRANCH}, it will be created later"
+@@ -200,7 +200,7 @@ python do_kernel_configcheck() {
+ }
+
+
+-# Ensure that the branches (BSP and meta) are on the locatios specified by
++# Ensure that the branches (BSP and meta) are on the locations specified by
+ # their SRCREV values. If they are NOT on the right commits, the branches
+ # are reset to the correct commit.
+ do_validate_branches() {
+
+rday
+
+-- 
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
