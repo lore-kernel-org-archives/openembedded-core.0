@@ -1,38 +1,33 @@
-Received: from mail-yw0-f47.google.com ([209.85.213.47])
+Received: from mail-qa0-f54.google.com ([209.85.216.54])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrei@gherzan.ro>) id 1SqXtw-0003dj-8x
+	(envelope-from <bruce.ashfield@gmail.com>) id 1SqbOm-0001HJ-Nt
 	for openembedded-core@lists.openembedded.org;
-	Mon, 16 Jul 2012 01:06:57 +0200
-Received: by yhjj56 with SMTP id j56so1276961yhj.6
+	Mon, 16 Jul 2012 04:51:00 +0200
+Received: by qaat11 with SMTP id t11so1339870qaa.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 15 Jul 2012 15:55:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:x-originating-ip:in-reply-to:references:date
-	:message-id:subject:from:to:content-type:x-gm-message-state;
-	bh=0pVOvf81JfP3srFFj8PQrfc0I3oXlLxiM9L3iphQXSE=;
-	b=GfrRpd9kmIfQKaXvsWxFnPKoWeIH1dygGrNzX5XJuJFb4MJ0f40JClU40kU27Fff4U
-	w61LNeuPDVzAvdn0CMULF2Ccr32wu6plyt3xuM79XZd4hWIGouTkhV8YMHdY42plU71G
-	Ihaidv+8DY8sBJmwOYn6F6h28Cgd5QHLxRkjRKdGV15NBritmM4CVzr/LDDbMihSYu/9
-	pd5hcsek0KQx1v0p73To11tcY1pjtFQU6/W2SXD1FCyZI/ZE5kfTP69GQ8Qul92OohCU
-	E3peMCHRzdKzh5LYhx+TTQZGltPZJ8pfO++76w4HMPT2dEa+nG57uu10xu91Fd+ioGRw
-	RePA==
+	Sun, 15 Jul 2012 19:39:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=WeD69tXSIWUqNvUMVNBLym771J8J3+qi8YauGsYk7O0=;
+	b=uLRWVuHDViTT85KKT7iyWm/upbKmPLOPg2KoKcoj4jk2GihJ5C+Y6dcJapsQraPLh6
+	+tYHwtTxyZ4z1wHsy903T4DTG2iPJU9eCrHYYPSVeUXCi+4Wgr+71D/ivanUFsujdph5
+	OXDZRAAplE4zOIrvsfh4YlVuf21aEXDoI4+KbqvZmbgO5WyoQUACF8iQQRgV5b8h1DhH
+	0tSvJpi/vZS2WPLKvNlX9ulPHe1qrFUkwhksy/00wutt4+zkH5U75rmN3n4146yryyqy
+	wulPKzuJDFy+aUEPgb0Um4EXM+fXN5G/vHRaBXcvnQTS5IzbfSPwXWZXviR6oN2ChQrQ
+	L2Hg==
 MIME-Version: 1.0
-Received: by 10.50.11.129 with SMTP id q1mr3927911igb.8.1342392938152; Sun, 15
-	Jul 2012 15:55:38 -0700 (PDT)
-Received: by 10.64.98.162 with HTTP; Sun, 15 Jul 2012 15:55:37 -0700 (PDT)
-X-Originating-IP: [79.117.115.156]
-Received: by 10.64.98.162 with HTTP; Sun, 15 Jul 2012 15:55:37 -0700 (PDT)
-In-Reply-To: <1342391327.2338.123.camel@trz-ThinkPad-T420>
-References: <CAK18fxFZ-FdNbtc7-qMWDV4AAxUFdKJRmQDNrKkqDPQ6BL0ipQ@mail.gmail.com>
-	<1342391327.2338.123.camel@trz-ThinkPad-T420>
-Date: Mon, 16 Jul 2012 01:55:37 +0300
-Message-ID: <CAK18fxG++qfAzNxv+ahNvwkk8VHQbwNJnChJNS6Y3u_R+evL5w@mail.gmail.com>
-From: Andrei Gherzan <andrei@gherzan.ro>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Gm-Message-State: ALoCoQm48Lnxlh3AVr9aPWwflCNZYEh19fpctzIFv5IA4RzBGxH6DzhErqapVxe8ubqNvieTb/TR
-Subject: Re: Perf fail on mips
+Received: by 10.224.203.8 with SMTP id fg8mr18396518qab.38.1342406382493; Sun,
+	15 Jul 2012 19:39:42 -0700 (PDT)
+Received: by 10.229.8.78 with HTTP; Sun, 15 Jul 2012 19:39:42 -0700 (PDT)
+In-Reply-To: <alpine.DEB.2.02.1207151647040.1884@oneiric>
+References: <alpine.DEB.2.02.1207151647040.1884@oneiric>
+Date: Sun, 15 Jul 2012 22:39:42 -0400
+Message-ID: <CADkTA4NfjZhS=VzsHF3qKxGc+x0LK85gdcf=meQ2JWLTyu5FbA@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: kernel-yocto.bbclass: Delete superfluous creation of ${S}/.git directory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,43 +42,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 15 Jul 2012 23:06:57 -0000
-Content-Type: multipart/alternative; boundary=e89a8f50320c3a411c04c4e63638
-
---e89a8f50320c3a411c04c4e63638
+X-List-Received-Date: Mon, 16 Jul 2012 02:51:00 -0000
 Content-Type: text/plain; charset=ISO-8859-1
 
-On Jul 16, 2012 1:29 AM, "Tom Zanussi" <tom.zanussi@intel.com> wrote:
+On Sun, Jul 15, 2012 at 4:55 PM, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
 >
-> On Sun, 2012-07-15 at 23:19 +0300, Andrei Gherzan wrote:
-> > Any fast ideas on this?
+> In do_kernel_checkout(), replace the creation of ${S}/.git with just
+> the creation of ${S} since the .git subdirectory is created only a few
+> lines later using a "mv".  Here's the original code:
 >
-> There was a recent fix added to the 3.0 kernel for this problem:
+>   rm -rf ${S}
+>   mkdir -p ${S}/.git
 >
->     cef17a1 perf: add sgidefs.h to for mips builds
+>   echo "WARNING. ${WORKDIR}/git is not a bare clone."
+>   echo "Ensure that the SRC_URI includes the 'bareclone=1' option."
 >
+>   # we can fix up the kernel repository, but at the least the meta
+>   # branch must be present. The machine branch may be created later.
+>   mv ${WORKDIR}/git/.git ${S}    <-- See?  There it is.
+>
+> There's no functional change here, it's just less confusing.
+>
+> Signed-off-by: Robert P. J. Day <rpjday@crashcourse.ca>
+>
+> ---
+>
+>   yes, i realize this doesn't change anything, but it's potentially
+> confusing for the code to explicitly create ${S}/.git, shortly before
+> it whomps over top of that directory anyway.  i spent a couple minutes
+> puzzling over the above trying to figure out if there was something
+> subtle happening i didn't understand.
 
-I was sure it was a new problem. Didn't know if it was fixed already and
-had no time for digging. :) Thank you for your fast reply.
+That block of code, and the one below it used to be the same .. so the extra
+mv and create just happened to stay.
 
-Ag
+There is no need for it, so I've applied your patch.
 
---e89a8f50320c3a411c04c4e63638
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+Cheers,
 
-<p>On Jul 16, 2012 1:29 AM, &quot;Tom Zanussi&quot; &lt;<a href=3D"mailto:t=
-om.zanussi@intel.com">tom.zanussi@intel.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; On Sun, 2012-07-15 at 23:19 +0300, Andrei Gherzan wrote:<br>
-&gt; &gt; Any fast ideas on this?<br>
-&gt;<br>
-&gt; There was a recent fix added to the 3.0 kernel for this problem:<br>
-&gt;<br>
-&gt; =A0 =A0 cef17a1 perf: add sgidefs.h to for mips builds<br>
-&gt;</p>
-<p>I was sure it was a new problem. Didn&#39;t know if it was fixed already=
- and had no time for digging. :) Thank you for your fast reply.</p>
-<p>Ag</p>
+Bruce
 
---e89a8f50320c3a411c04c4e63638--
+>
+>
+> diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
+> index 48c8974..8e010e0 100644
+> --- a/meta/classes/kernel-yocto.bbclass
+> +++ b/meta/classes/kernel-yocto.bbclass
+> @@ -106,7 +106,7 @@ do_kernel_checkout() {
+>         if [ -d "${WORKDIR}/git/" ] && [ -d "${WORKDIR}/git/.git" ]; then
+>                 # we build out of {S}, so ensure that ${S} is clean and present
+>                 rm -rf ${S}
+> -               mkdir -p ${S}/.git
+> +               mkdir -p ${S}
+>
+>                 echo "WARNING. ${WORKDIR}/git is not a bare clone."
+>                 echo "Ensure that the SRC_URI includes the 'bareclone=1' option."
+>
+> rday
+>
+> --
+>
+> ========================================================================
+> Robert P. J. Day                                 Ottawa, Ontario, CANADA
+>                         http://crashcourse.ca
+>
+> Twitter:                                       http://twitter.com/rpjday
+> LinkedIn:                               http://ca.linkedin.com/in/rpjday
+> ========================================================================
+
+
+
+-- 
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
+
+
