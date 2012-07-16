@@ -1,24 +1,24 @@
 Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SqnhN-0006tH-TF
+	(envelope-from <sgw@linux.intel.com>) id 1SqnhN-0006sq-SC
 	for openembedded-core@lists.openembedded.org;
 	Mon, 16 Jul 2012 17:59:02 +0200
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 16 Jul 2012 08:47:40 -0700
+	by fmsmga102.fm.intel.com with ESMTP; 16 Jul 2012 08:47:39 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="193443326"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="193443324"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.178])
 	by fmsmga002.fm.intel.com with ESMTP; 16 Jul 2012 08:47:39 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 16 Jul 2012 08:47:17 -0700
-Message-Id: <39b2a455ab6b7c38b782e1b3e2811c3d9e4de7af.1342453118.git.sgw@linux.intel.com>
+Date: Mon, 16 Jul 2012 08:47:16 -0700
+Message-Id: <ac62761a9cacdfd0225d2db5a75584e6c85469a8.1342453118.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <cover.1342453118.git.sgw@linux.intel.com>
 References: <cover.1342453118.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1342453118.git.sgw@linux.intel.com>
 References: <cover.1342453118.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 11/30] python-dbus: upgrade to 1.1.0
+Subject: [CONSOLIDATED PULL 10/30] classes/rootfs_deb: use more reliable check for package existence
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,40 +35,32 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 16 Jul 2012 15:59:04 -0000
 
-From: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
 
-Tested by compiling core-image-basic
+It turns out "apt-cache showpkg" does return some information when a
+package does not exist but another package recommends it, which can
+occur for empty *-dev packages; so use "apt-cache policy" with a
+different line count instead.
 
-Signed-off-by: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- .../{python-dbus_1.0.0.bb => python-dbus_1.1.0.bb} |    6 +++---
- 1 files changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-devtools/python/{python-dbus_1.0.0.bb => python-dbus_1.1.0.bb} (82%)
+ meta/classes/rootfs_deb.bbclass |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python-dbus_1.0.0.bb b/meta/recipes-devtools/python/python-dbus_1.1.0.bb
-similarity index 82%
-rename from meta/recipes-devtools/python/python-dbus_1.0.0.bb
-rename to meta/recipes-devtools/python/python-dbus_1.1.0.bb
-index 1b174eb..a10fda3 100644
---- a/meta/recipes-devtools/python/python-dbus_1.0.0.bb
-+++ b/meta/recipes-devtools/python/python-dbus_1.1.0.bb
-@@ -4,12 +4,12 @@ HOMEPAGE = "http://www.freedesktop.org/Software/dbus"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://COPYING;md5=f5612614133e9a2f2dad527d97554670"
- DEPENDS = "expat dbus dbus-glib virtual/libintl python-pyrex-native"
--PR = "r1"
-+PR = "r0"
+diff --git a/meta/classes/rootfs_deb.bbclass b/meta/classes/rootfs_deb.bbclass
+index 4ea71da..67871a9 100644
+--- a/meta/classes/rootfs_deb.bbclass
++++ b/meta/classes/rootfs_deb.bbclass
+@@ -111,7 +111,7 @@ list_package_recommends() {
+ }
  
- SRC_URI = "http://dbus.freedesktop.org/releases/dbus-python/dbus-python-${PV}.tar.gz"
- 
--SRC_URI[md5sum] = "775a8235736bf760cdd96e2d76546469"
--SRC_URI[sha256sum] = "9e46f97d739dde8a5ab33ec6b11da58794c4c20804aacdad2880b7d3bc05187a"
-+SRC_URI[md5sum] = "41a459bbbb5fd92eeebd632623af0bd7"
-+SRC_URI[sha256sum] = "2dc30b53cdb2e20f8d0265af3be878e9da68745cf9ccc72f75de869094c4fc60"
- S = "${WORKDIR}/dbus-python-${PV}"
- 
- inherit distutils-base autotools pkgconfig
+ rootfs_check_package_exists() {
+-	if [ `apt-cache showpkg $1 | wc -l` -gt 2 ]; then
++	if [ `apt-cache policy $1 | wc -l` -gt 4 ]; then
+ 		echo $1
+ 	fi
+ }
 -- 
 1.7.7.6
 
