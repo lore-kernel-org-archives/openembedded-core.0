@@ -1,40 +1,35 @@
-Received: from mail-vc0-f175.google.com ([209.85.220.175])
+Received: from astoria.ccjclearline.com ([64.235.106.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1SqlcY-0002Fw-0O
+	(envelope-from <rpjday@crashcourse.ca>) id 1Sqlii-0002NZ-6A
 	for openembedded-core@lists.openembedded.org;
-	Mon, 16 Jul 2012 15:45:54 +0200
-Received: by vcbfy27 with SMTP id fy27so2895340vcb.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Jul 2012 06:34:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=0niIfCsCgchvFZa/FuBb6d5AAWfXWaQwRRTQLNfjNs0=;
-	b=TlljnQDj4tElv30gplAmNvgFI9McXvw93HOJREVwI3P7kUh4Rq0IR9vZLAeXTkhR10
-	/3zDmIPEUhM3Gn+zF71f+Iga2bRA3JjGqgHPkV5RMJ4WLxDpNO00256itDbDI4ocUEzf
-	C4ZXcYh8qgQQM6f7nYZu7W+aptqM6wNsL4Nz5rjvqkwMVuaV7pwe4k0w5L9yFirCFUUv
-	YMPX95I6sqaIoe74AeMFdC355Cp6oj+LAdUv+msCuxtCBSxzFAcnlXnGbZfA1X8H7kr/
-	0uvFZYtIRoEN3zBj6wXKX6PLcq56opioqFlu7jAvf5v+GsUWoeOaaUzWYL7/ENxtyke1
-	d5XA==
-MIME-Version: 1.0
-Received: by 10.220.16.8 with SMTP id m8mr5286245vca.10.1342445675575; Mon, 16
-	Jul 2012 06:34:35 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.220.220.196 with HTTP; Mon, 16 Jul 2012 06:34:35 -0700 (PDT)
-In-Reply-To: <E5F016E0-45BD-4F23-8B53-01E45EB25AFB@dominion.thruhere.net>
-References: <1342259955-8875-1-git-send-email-koen@dominion.thruhere.net>
-	<CAP9ODKpJLfsbmfPnjL2zZMddeDXO9sWV4+-ZhHmzESQMFu=woQ@mail.gmail.com>
-	<29D9FA58-0AB0-4ADF-B67E-0541BC7DA14C@dominion.thruhere.net>
-	<CAP9ODKrBnzOM7rfhRr5KC-L_EjuwZ73NkpHcyg1hiOxKXD+6Rg@mail.gmail.com>
-	<E5F016E0-45BD-4F23-8B53-01E45EB25AFB@dominion.thruhere.net>
-Date: Mon, 16 Jul 2012 10:34:35 -0300
-X-Google-Sender-Auth: 4lBeo4ji7CW_uI6hoOmb8LUTmxQ
-Message-ID: <CAP9ODKo3gqTjcYwnZuNJ9yq6G_CYh54A8JtngBA78hyREURTqw@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Koen Kooi <koen@dominion.thruhere.net>
-Cc: Patches and discussions about the oe-core layer
+	Mon, 16 Jul 2012 15:52:16 +0200
+Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
+	([174.115.5.73]:55675 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.77) (envelope-from <rpjday@crashcourse.ca>)
+	id 1SqlXn-0003gy-Ch for openembedded-core@lists.openembedded.org;
+	Mon, 16 Jul 2012 09:40:59 -0400
+Date: Mon, 16 Jul 2012 09:40:53 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@oneiric
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] powertop: update to 2.0+git
+In-Reply-To: <CADkTA4NC4EtDMPdSdZG98z0yXo4JVwvbMXx4688w1grgx28sQw@mail.gmail.com>
+Message-ID: <alpine.DEB.2.02.1207160940200.30068@oneiric>
+References: <alpine.DEB.2.02.1207160844430.29289@oneiric>
+	<CADkTA4NC4EtDMPdSdZG98z0yXo4JVwvbMXx4688w1grgx28sQw@mail.gmail.com>
+User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+MIME-Version: 1.0
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Subject: Re: apparently superfluous 'do_kernel_checkout[dirs] = "${S}"'
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,20 +44,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Jul 2012 13:45:54 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Mon, 16 Jul 2012 13:52:16 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
-On Mon, Jul 16, 2012 at 10:22 AM, Koen Kooi <koen@dominion.thruhere.net> wrote:
->> From what I read, those are backports; so you can use Backport
->> [applied in version X.Y]
+On Mon, 16 Jul 2012, Bruce Ashfield wrote:
+
+> On Mon, Jul 16, 2012 at 8:49 AM, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
+> >
+> >   yes, more pedantry ... just to make sure i'm (again) not missing
+> > anything subtle, but it seems that this line in kernel-yocto.bbclass:
+> >
+> >   do_kernel_checkout[dirs] = "${S}"
+> >
+> > is unnecessary since kernel_checkout() explicitly removes and
+> > recreates that directory anyway.  no, i'm not going to submit a patch
+> > for that :-), just want to know that i'm understanding this correctly.
+> >
+> >   i guess the same could be said for the line below that:
+> >
+> >   do_kernel_configme[dirs] = "${S} ${B}"
+> >
+> > since that step happens after the kernel checkout and one would think
+> > that at least ${S} must exist at that point or something's gone
+> > horribly wrong.
 >
-> No, they were pulled of the powertop mailinglist and git-am'ed :)
+> These are required. git is your friend on these ones, they are all
+> related to making sure that the right directories always exist for
+> sstate, and other task ordering problems. Richard and Saul added
+> most of them to fix various corner cases .. so it's not a matter of
+> unnecessary, it's a matter of safety, and they do no harm .. so I
+> won't touch them with a 10 foot pole :)
 
-So it is pending.
+  ok, i'll start using "git log" as a matter of course from now on.
+
+rday
 
 -- 
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
