@@ -1,25 +1,33 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Peter.Seebach@windriver.com>) id 1Sqpja-0004jE-JJ
+	(envelope-from <raj.khem@gmail.com>) id 1SqpoA-00052s-7u
 	for openembedded-core@lists.openembedded.org;
-	Mon, 16 Jul 2012 20:09:26 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q6GHw7LD017721
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Mon, 16 Jul 2012 20:14:10 +0200
+Received: by eeit10 with SMTP id t10so994536eei.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Jul 2012 10:58:07 -0700 (PDT)
-Received: from localhost.localdomain (172.25.34.64) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Mon, 16 Jul 2012 10:58:06 -0700
-From: Peter Seebach <peter.seebach@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 16 Jul 2012 12:58:05 -0500
-Message-ID: <3b3a4d03862a624e300d93fdae7bbce2d6b80475.1342461305.git.peter.seebach@windriver.com>
-X-Mailer: git-send-email 1.7.0.4
-In-Reply-To: <cover.1342461305.git.peter.seebach@windriver.com>
-References: <cover.1342461305.git.peter.seebach@windriver.com>
+	Mon, 16 Jul 2012 11:02:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type; bh=j99WsNODF8xv3FU27GnF2Rzk+YHMqJE9KzZsE8p3Q+8=;
+	b=MmY/0R2aBJXbjp7DtHsutW1F/KV6kE1OSzPU+G6HV9i41I74pyd71jO979gfcUPzO3
+	L6zp5m6a0n1DuiBzDLAiIur16vH07qaOxZLKb9t6NSYcFC4wrCDLzFwAhwOqRQEMV+HI
+	0vrWWNJRd0CVGtgLjnQDEi8PwXePjn7Wc/U0Y2KoH7WPumMcuij+1MotEnFjp/khCk9M
+	RXh+fGR2sJveWmVlZhgYquFLZltyYmnqIsbfh06Qqh9MbGUMetnZkKRO0mkA2r5tHTbk
+	Uu0Bv7EUC4YwHkESNjbAmOnDUKchMlJACYUJhuus44kXjwVsJaYJ2xLcGTHAjrXs12FJ
+	xVyQ==
+Received: by 10.14.179.198 with SMTP id h46mr10412054eem.45.1342461772032;
+	Mon, 16 Jul 2012 11:02:52 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH 1/1] tune-ppc476.inc: Support ppc476
+Received: by 10.14.210.199 with HTTP; Mon, 16 Jul 2012 11:02:21 -0700 (PDT)
+In-Reply-To: <3b3a4d03862a624e300d93fdae7bbce2d6b80475.1342461305.git.peter.seebach@windriver.com>
+References: <cover.1342461305.git.peter.seebach@windriver.com>
+	<3b3a4d03862a624e300d93fdae7bbce2d6b80475.1342461305.git.peter.seebach@windriver.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 16 Jul 2012 11:02:21 -0700
+Message-ID: <CAMKF1sq0pvpAFJhss_KE86BtSLXu_9Ccp8y8opkeVbbp9zkanA@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] tune-ppc476.inc: Support ppc476
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,41 +42,13 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Jul 2012 18:09:27 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 16 Jul 2012 18:14:10 -0000
+Content-Type: text/plain; charset=UTF-8
 
-A couple of boards use chips which perform noticably better
-when optimized for the 476. Add a trivial tune file to let
-them run better.
+On Mon, Jul 16, 2012 at 10:58 AM, Peter Seebach
+<peter.seebach@windriver.com> wrote:
+> +GLIBC_EXTRA_OECONF += "${@bb.utils.contains("TUNE_FEATURES", "ppc476", "-with-cpu=476", "", d)}"
 
-Signed-off-by: Peter Seebach <peter.seebach@windriver.com>
----
- meta/conf/machine/include/tune-ppc476.inc |   14 ++++++++++++++
- 1 files changed, 14 insertions(+), 0 deletions(-)
- create mode 100644 meta/conf/machine/include/tune-ppc476.inc
-
-diff --git a/meta/conf/machine/include/tune-ppc476.inc b/meta/conf/machine/include/tune-ppc476.inc
-new file mode 100644
-index 0000000..5d10261
---- /dev/null
-+++ b/meta/conf/machine/include/tune-ppc476.inc
-@@ -0,0 +1,14 @@
-+DEFAULTTUNE ?= "ppc476"
-+
-+require conf/machine/include/powerpc/arch-powerpc.inc
-+
-+TUNEVALID[ppc476] = "Enable ppc476 specific processor optimizations"
-+TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "ppc476", "-mcpu=476", "", d)}"
-+
-+AVAILTUNES += "ppc476"
-+TUNE_FEATURES_tune-ppc476 = "m32 fpu-hard ppc476"
-+TUNE_PKGARCH_tune-ppc476 = "ppc476"
-+PACKAGE_EXTRA_ARCHS_tune-ppc476 = "${PACKAGE_EXTRA_ARCHS_tune-powerpc} ppc476"
-+
-+# glibc configure options to get 476 specific library (for sqrt)
-+GLIBC_EXTRA_OECONF += "${@bb.utils.contains("TUNE_FEATURES", "ppc476", "-with-cpu=476", "", d)}"
--- 
-1.7.0.4
-
+have you built an OE internal toolchain with this successfully.?
 
 
