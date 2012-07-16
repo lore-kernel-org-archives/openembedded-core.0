@@ -1,41 +1,36 @@
-Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
+Received: from out3-smtp.messagingengine.com ([66.111.4.27])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1SqqHJ-0005s0-V8
+	(envelope-from <walters@verbum.org>) id 1SqtcA-0002Yp-9H
 	for openembedded-core@lists.openembedded.org;
-	Mon, 16 Jul 2012 20:44:18 +0200
-Received: from mail-pb0-f52.google.com ([209.85.160.52])
-	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 16 Jul 2012 11:32:58 -0700
-Received: by pbbro8 with SMTP id ro8so10607486pbb.25
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Jul 2012 11:32:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:subject:references
-	:in-reply-to:content-type:content-transfer-encoding
-	:x-gm-message-state;
-	bh=7XmgtCAe9ERxevOd9MODKMltpSSyJGBdiOR2/VmmuJA=;
-	b=jIC3OGno9vZ3QyKZRhv+Bi5Cbrq7DHhcLsTAT7WGeVHxr2bJTba9XsWLamG1rbpFHk
-	bEauOhS7Q6VlA13Ga+lRld4HUIZNQyMin4Ll1X74x7SiBxnEBz+HO2vTPYEFXBIImVsj
-	tZ9RfFEYS169dmkTjsgTDY0lT10qO+mBhAr6ohTAuL0vXXG9lur8AMZBED3eKOXbG8S/
-	dsFSGXyr0/qsN6FEz2iv4Buvw29s9FLz7Rc4cWvSVY0bEO+kJlBN/5GLaNV9wfflXiuf
-	8A2yr8QLUJ8N/VRKbRczYC8ZZ0GR6WedEHpPnoHbBvxzP5UwtZgsX/rxxAwp9LALRpDD
-	1Q1g==
-Received: by 10.68.130.163 with SMTP id of3mr29125619pbb.108.1342463577913;
-	Mon, 16 Jul 2012 11:32:57 -0700 (PDT)
-Received: from [127.0.0.1] (masterfoo.zenlinux.com. [207.192.74.254])
-	by mx.google.com with ESMTPS id he9sm12356961pbc.68.2012.07.16.11.32.55
-	(version=SSLv3 cipher=OTHER); Mon, 16 Jul 2012 11:32:56 -0700 (PDT)
-Message-ID: <50045E4B.7070202@intel.com>
-Date: Mon, 16 Jul 2012 11:32:43 -0700
-From: Scott Garman <scott.a.garman@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:13.0) Gecko/20120615 Thunderbird/13.0.1
-MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <1342449862-26387-1-git-send-email-koen@dominion.thruhere.net>
-In-Reply-To: <1342449862-26387-1-git-send-email-koen@dominion.thruhere.net>
-X-Gm-Message-State: ALoCoQmnZs4e7Vs0P9JgfKVdcpkPixuJKXVPse7JXabg2VlkeLHHC4V5eWQyaf2HymNi/zMnrDCh
-Subject: Re: [for-denzil][PATCH 1/2] curl: enable ssl support
+	Tue, 17 Jul 2012 00:18:02 +0200
+Received: from compute1.internal (compute1.nyi.mail.srv.osa [10.202.2.41])
+	by gateway1.nyi.mail.srv.osa (Postfix) with ESMTP id 9911220A1E;
+	Mon, 16 Jul 2012 18:06:45 -0400 (EDT)
+Received: from frontend1.nyi.mail.srv.osa ([10.202.2.160])
+	by compute1.internal (MEProxy); Mon, 16 Jul 2012 18:06:45 -0400
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
+	messagingengine.com; h=message-id:subject:from:to:date
+	:in-reply-to:references:content-type:mime-version
+	:content-transfer-encoding; s=smtpout; bh=gbUsatLd7h+6ZK0DUjCUmr
+	w0pJM=; b=c4vjp71YL1CaG1OAUw8f4id5AUm2dBUcmiTvq0HIzhoFxdHF+PSeZF
+	jQkY1wsIfWBu1rkHUGMQ8+63qwp1dowucRvVr60O/Apx+3PvfZNbFSLUwBqIVpmM
+	fhWbzV16AJLDHm7fJcd7OxWBzDANs2aBV5BXPQjVpBBtThqYXN43M=
+X-Sasl-enc: tslNOrc9+sAEaSDhOZghZQ9x12D4ezIwjIo47NLMmNMu 1342476405
+Received: from [192.168.43.202] (unknown [166.248.8.148])
+	by mail.messagingengine.com (Postfix) with ESMTPA id 3073F8E01F4;
+	Mon, 16 Jul 2012 18:06:45 -0400 (EDT)
+Message-ID: <1342476368.29989.2.camel@lenny>
+From: Colin Walters <walters@verbum.org>
+To: McClintock Matthew-B29882 <B29882@freescale.com>, Patches and
+	discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Mon, 16 Jul 2012 18:06:08 -0400
+In-Reply-To: <CAEsOVNf0SDnxATQog_8Li1oeK6wkqhVH+m=Bt=L0bBbR02B05Q@mail.gmail.com>
+References: <1341927124.24837.8.camel@ted>
+	<CAEsOVNf0SDnxATQog_8Li1oeK6wkqhVH+m=Bt=L0bBbR02B05Q@mail.gmail.com>
+X-Mailer: Evolution 3.4.3 (3.4.3-1.fc17) 
+Mime-Version: 1.0
+Subject: Re: bitbake.conf: Add git-native to ASSUME_PROVIDED
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,31 +45,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Jul 2012 18:44:18 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Mon, 16 Jul 2012 22:18:02 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 07/16/2012 07:44 AM, Koen Kooi wrote:
-> From: Saul Wold <sgw@linux.intel.com>
->
-> This patch enables ssl support for curl to allow git to clone from
-> https / ssl sites. We do not want to enable gnutls for native or
-> nativesdk, as it adds additional dependency and increase build time
->
-> [YOCTO #2532]
->
-> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+On Tue, 2012-07-10 at 15:00 +0000, McClintock Matthew-B29882 wrote:
+> On Tue, Jul 10, 2012 at 8:32 AM, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> > Originally, git was something new, not installed everywhere and had commandline
+> > stability problems. This has changed and git it no longer makes sense to
+> > continually build this when the system installed version is likely sufficient.
+> >
+> > This speeds up build since recipes no longer have to wait for git-native to build
+> > if they're fetched from a git:// SRC_URI.
+> >
+> > Also add git to the sanity checks and drop the no unneeded svn reference.
+> 
+> What about testing the host system for presence of certain things?
+> Then one could
+> 
+> 1) yum/apt/etc install the needed items
 
-Thanks, please ping me by the end of Wednesday if you don't see this in:
+We do something like this in GNOME/jhbuild, but there's no version
+comparison:
 
-http://git.openembedded.org/openembedded-core-contrib/log/?h=sgarman/denzil-next-1.2.2
+https://bugzilla.gnome.org/show_bug.cgi?id=564373
 
-Scott
+This is mainly targeted for system libraries which have pkg-config
+files, but we're discussing extending it to executables and
+non-pkg-config headers:
 
--- 
-Scott Garman
-Embedded Linux Engineer - Yocto Project
-Intel Open Source Technology Center
+https://bugzilla.gnome.org/show_bug.cgi?id=671042
 
 
 
