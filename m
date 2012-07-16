@@ -1,24 +1,24 @@
 Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SqnhN-0006st-45
+	(envelope-from <sgw@linux.intel.com>) id 1SqnhO-0006st-0P
 	for openembedded-core@lists.openembedded.org;
-	Mon, 16 Jul 2012 17:59:01 +0200
+	Mon, 16 Jul 2012 17:59:02 +0200
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 16 Jul 2012 08:47:39 -0700
+	by fmsmga102.fm.intel.com with ESMTP; 16 Jul 2012 08:47:40 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="193443321"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="193443329"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.178])
-	by fmsmga002.fm.intel.com with ESMTP; 16 Jul 2012 08:47:39 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 16 Jul 2012 08:47:40 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 16 Jul 2012 08:47:14 -0700
-Message-Id: <32b1fde106bf423873a4a56e1111f230494e2d4a.1342453118.git.sgw@linux.intel.com>
+Date: Mon, 16 Jul 2012 08:47:18 -0700
+Message-Id: <b2b682331cc1ec54448b5002ff94672d09fe9e7c.1342453118.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <cover.1342453118.git.sgw@linux.intel.com>
 References: <cover.1342453118.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1342453118.git.sgw@linux.intel.com>
 References: <cover.1342453118.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 08/30] package.bbclass: Allow overriding of debugedit starting path
+Subject: [CONSOLIDATED PULL 12/30] task-core-sdk.bb: add libgomp and libgomp-dev by RECOMMENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,36 +33,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Jul 2012 15:59:01 -0000
+X-List-Received-Date: Mon, 16 Jul 2012 15:59:04 -0000
 
-From: Peter Seebach <peter.seebach@windriver.com>
+From: Zhenhua Luo <b19537@freescale.com>
 
-In the usual case, the computed path used for debugedit to fix
-up path references for the target filesystem is correct. However,
-prebuilt binary components, such as prebuilt toolchains, can
-have debug paths that do not reflect paths within the local
-build directory. Providing an override lets us continue to use
-the standard debugedit logic in package.bbclass.
-
-Signed-off-by: Peter Seebach <peter.seebach@windriver.com>
+Signed-off-by: Zhenhua Luo <b19537@freescale.com>
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/classes/package.bbclass |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+ meta/recipes-core/tasks/task-core-sdk.bb |    6 +++++-
+ 1 files changed, 5 insertions(+), 1 deletions(-)
 
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index ec7de2c..dfd4211 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -190,7 +190,7 @@ def splitfile(file, debugfile, debugsrcdir, d):
-     objcopy = d.getVar("OBJCOPY", True)
-     debugedit = d.expand("${STAGING_LIBDIR_NATIVE}/rpm/bin/debugedit")
-     workdir = d.getVar("WORKDIR", True)
--    workparentdir = os.path.dirname(workdir)
-+    workparentdir = d.getVar("DEBUGSRC_OVERRIDE_PATH", True) or os.path.dirname(workdir)
-     sourcefile = d.expand("${WORKDIR}/debugsources.list")
+diff --git a/meta/recipes-core/tasks/task-core-sdk.bb b/meta/recipes-core/tasks/task-core-sdk.bb
+index ec6cdcc..fe95236 100644
+--- a/meta/recipes-core/tasks/task-core-sdk.bb
++++ b/meta/recipes-core/tasks/task-core-sdk.bb
+@@ -7,7 +7,7 @@ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58 \
+                     file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+ DEPENDS = "task-core-console"
+-PR = "r7"
++PR = "r8"
  
-     # We ignore kernel modules, we don't generate debug info files.
+ ALLOW_EMPTY = "1"
+ #PACKAGEFUNCS =+ 'generate_sdk_pkgs'
+@@ -48,6 +48,10 @@ RDEPENDS_task-core-sdk = "\
+     file \
+     tcl"
+ 
++RRECOMMENDS_task-core-sdk = "\
++    libgomp \
++    libgomp-dev"
++
+ #python generate_sdk_pkgs () {
+ #    poky_pkgs = read_pkgdata('task-core', d)['PACKAGES']
+ #    pkgs = d.getVar('PACKAGES', True).split()
 -- 
 1.7.7.6
 
