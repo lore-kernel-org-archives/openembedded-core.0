@@ -1,24 +1,33 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mail-qa0-f47.google.com ([209.85.216.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SqnhV-0006sq-Km
+	(envelope-from <bruce.ashfield@gmail.com>) id 1SqnsA-0000e4-P8
 	for openembedded-core@lists.openembedded.org;
-	Mon, 16 Jul 2012 17:59:10 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 16 Jul 2012 08:47:43 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="193443380"
-Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.178])
-	by fmsmga002.fm.intel.com with ESMTP; 16 Jul 2012 08:47:43 -0700
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 16 Jul 2012 08:47:35 -0700
-Message-Id: <1598e8b6f8448c83e41b9b5ee78f68aa0b98d3fa.1342453118.git.sgw@linux.intel.com>
-X-Mailer: git-send-email 1.7.7.6
-In-Reply-To: <cover.1342453118.git.sgw@linux.intel.com>
+	Mon, 16 Jul 2012 18:10:10 +0200
+Received: by qabg1 with SMTP id g1so1737342qab.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 16 Jul 2012 08:58:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type; bh=GKLlaOuy3fukdQf7j9YCvUleqoB/kw3dC0cEZW3hs+0=;
+	b=okHtz21Ldb0BWDP2/WXqzoqeCuEgVuTGOWiU8QFK7h1NaPoubIYdZhyH3QpqY6aDMs
+	MGzPXl7jKSY/dioGmHEm7hdd8795AcAu+koJqqh0fZeWIB4p6hAzys6mGx6H5oHStI4/
+	AYBf8R8i/FszyktbFPOwD/G8ftsCU7bUKXojvgwY3//Fb9GRdY6VH/0nv8ZXJK//1Ph7
+	DLx8DDgyFHsSjj2B5YL7TLSQRQFBqSva4G6N1wpf9/F4upgnEvA4tfHaGyuZGHcsFLnP
+	yy0VsLECBsQBe830WtURIJptGzq9OCeVf7EYzyr5Uv6jTXIXyR4lG6LEWqMINBFNwrEK
+	G87A==
+MIME-Version: 1.0
+Received: by 10.229.106.225 with SMTP id y33mr6349009qco.76.1342454332080;
+	Mon, 16 Jul 2012 08:58:52 -0700 (PDT)
+Received: by 10.229.8.78 with HTTP; Mon, 16 Jul 2012 08:58:52 -0700 (PDT)
+In-Reply-To: <d67e47bd457de90b19428245644dc64ecf4ba11a.1342453118.git.sgw@linux.intel.com>
 References: <cover.1342453118.git.sgw@linux.intel.com>
-In-Reply-To: <cover.1342453118.git.sgw@linux.intel.com>
-References: <cover.1342453118.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 29/30] gdb: Replace struct siginfo with proper siginfo_t
+	<d67e47bd457de90b19428245644dc64ecf4ba11a.1342453118.git.sgw@linux.intel.com>
+Date: Mon, 16 Jul 2012 11:58:52 -0400
+Message-ID: <CADkTA4PU2FTrOkiKFL=+imfddD+Do-kpD0K9a+BuNyG041LgnA@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [CONSOLIDATED PULL 09/30] linux-libc-headers: updated to 3.4.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,460 +42,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Jul 2012 16:03:06 -0000
+X-List-Received-Date: Mon, 16 Jul 2012 16:10:11 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-From: Khem Raj <raj.khem@gmail.com>
+On Mon, Jul 16, 2012 at 11:47 AM, Saul Wold <sgw@linux.intel.com> wrote:
+> From: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
+>
+> Tested by building core-image-sato-sdk.
 
-Fixes errors like
+We've never gone to this level of granularity in the past, since
+-stable updates to
+the kernel are not going to change something in the libc-headers exports.
 
-/home/kraj/work/angstrom/sources/openembedded-core/build/tmp-eglibc/work/armv5te-oe-linux-gnueabi/gdb-7.4.1-r0.0/gdb-7.4.1/gdb/linux-nat.h:79:18:
-error: field 'siginfo' has incomplete type
+As far as I'm concerned, bumping this for each stable release is too much churn.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- meta/recipes-devtools/gdb/gdb-common.inc      |    2 +-
- meta/recipes-devtools/gdb/gdb.inc             |    1 +
- meta/recipes-devtools/gdb/gdb/siginfo_t.patch |  403 +++++++++++++++++++++++++
- 3 files changed, 405 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-devtools/gdb/gdb/siginfo_t.patch
+Sorry I missed this during the original review/posting.
 
-diff --git a/meta/recipes-devtools/gdb/gdb-common.inc b/meta/recipes-devtools/gdb/gdb-common.inc
-index be4d77a..348bdee 100644
---- a/meta/recipes-devtools/gdb/gdb-common.inc
-+++ b/meta/recipes-devtools/gdb/gdb-common.inc
-@@ -12,7 +12,7 @@ LTTNGUST_mips64 = ""
- LTTNGUST_mips64el = ""
- LTTNGUST_sh4 = ""
- 
--INC_PR = "r0"
-+INC_PR = "r1"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
- 		file://COPYING.LIB;md5=9f604d8a4f8e74f4f5140845a21b6674 \
-diff --git a/meta/recipes-devtools/gdb/gdb.inc b/meta/recipes-devtools/gdb/gdb.inc
-index a620eca..c1ad83a 100644
---- a/meta/recipes-devtools/gdb/gdb.inc
-+++ b/meta/recipes-devtools/gdb/gdb.inc
-@@ -5,6 +5,7 @@ inherit gettext
- SRC_URI += "file://kill_arm_map_symbols.patch \
-             file://gdbserver-cflags-last.diff;striplevel=0 \
- 	    file://renesas-sh-native-support.patch \
-+	    file://siginfo_t.patch \
-            "
- #LDFLAGS_append = " -s"
- #export CFLAGS_append=" -L${STAGING_LIBDIR}"
-diff --git a/meta/recipes-devtools/gdb/gdb/siginfo_t.patch b/meta/recipes-devtools/gdb/gdb/siginfo_t.patch
-new file mode 100644
-index 0000000..465645d
---- /dev/null
-+++ b/meta/recipes-devtools/gdb/gdb/siginfo_t.patch
-@@ -0,0 +1,403 @@
-+POSIX says you get "siginto_t" *not* "struct siginfo
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+
-+Index: gdb-7.4.1/gdb/alpha-linux-tdep.c
-+===================================================================
-+--- gdb-7.4.1.orig/gdb/alpha-linux-tdep.c	2012-01-05 20:43:04.000000000 -0800
-++++ gdb-7.4.1/gdb/alpha-linux-tdep.c	2012-07-03 10:12:30.154227388 -0700
-+@@ -114,7 +114,7 @@
-+   /* __NR_rt_sigreturn has a couple of structures on the stack.  This is:
-+ 
-+ 	struct rt_sigframe {
-+-	  struct siginfo info;
-++	  siginfo_t info;
-+ 	  struct ucontext uc;
-+         };
-+ 
-+Index: gdb-7.4.1/gdb/amd64-linux-nat.c
-+===================================================================
-+--- gdb-7.4.1.orig/gdb/amd64-linux-nat.c	2012-01-05 20:43:04.000000000 -0800
-++++ gdb-7.4.1/gdb/amd64-linux-nat.c	2012-07-03 10:12:30.154227388 -0700
-+@@ -671,13 +671,13 @@
-+    INF.  */
-+ 
-+ static int
-+-amd64_linux_siginfo_fixup (struct siginfo *native, gdb_byte *inf, int direction)
-++amd64_linux_siginfo_fixup (siginfo_t *native, gdb_byte *inf, int direction)
-+ {
-+   /* Is the inferior 32-bit?  If so, then do fixup the siginfo
-+      object.  */
-+   if (gdbarch_addr_bit (get_frame_arch (get_current_frame ())) == 32)
-+     {
-+-      gdb_assert (sizeof (struct siginfo) == sizeof (compat_siginfo_t));
-++      gdb_assert (sizeof (siginfo_t) == sizeof (compat_siginfo_t));
-+ 
-+       if (direction == 0)
-+ 	compat_siginfo_from_siginfo ((struct compat_siginfo *) inf, native);
-+Index: gdb-7.4.1/gdb/arm-linux-nat.c
-+===================================================================
-+--- gdb-7.4.1.orig/gdb/arm-linux-nat.c	2012-01-05 20:43:04.000000000 -0800
-++++ gdb-7.4.1/gdb/arm-linux-nat.c	2012-07-03 10:12:30.154227388 -0700
-+@@ -1137,7 +1137,7 @@
-+ static int
-+ arm_linux_stopped_data_address (struct target_ops *target, CORE_ADDR *addr_p)
-+ {
-+-  struct siginfo *siginfo_p = linux_nat_get_siginfo (inferior_ptid);
-++  siginfo_t *siginfo_p = linux_nat_get_siginfo (inferior_ptid);
-+   int slot = siginfo_p->si_errno;
-+ 
-+   /* This must be a hardware breakpoint.  */
-+Index: gdb-7.4.1/gdb/arm-linux-tdep.c
-+===================================================================
-+--- gdb-7.4.1.orig/gdb/arm-linux-tdep.c	2012-01-05 20:43:04.000000000 -0800
-++++ gdb-7.4.1/gdb/arm-linux-tdep.c	2012-07-03 10:12:30.154227388 -0700
-+@@ -301,7 +301,7 @@
-+ 
-+ /* There are three elements in an rt_sigframe before the ucontext:
-+    pinfo, puc, and info.  The first two are pointers and the third
-+-   is a struct siginfo, with size 128 bytes.  We could follow puc
-++   is a siginfo_t, with size 128 bytes.  We could follow puc
-+    to the ucontext, but it's simpler to skip the whole thing.  */
-+ #define ARM_OLD_RT_SIGFRAME_SIGINFO 0x8
-+ #define ARM_OLD_RT_SIGFRAME_UCONTEXT 0x88
-+Index: gdb-7.4.1/gdb/frv-linux-tdep.c
-+===================================================================
-+--- gdb-7.4.1.orig/gdb/frv-linux-tdep.c	2012-01-05 20:43:12.000000000 -0800
-++++ gdb-7.4.1/gdb/frv-linux-tdep.c	2012-07-03 10:12:30.154227388 -0700
-+@@ -94,9 +94,9 @@
-+       {
-+ 	      void (*pretcode)(void);
-+ 	      int sig;
-+-	      struct siginfo *pinfo;
-++	      siginfo_t *pinfo;
-+ 	      void *puc;
-+-	      struct siginfo info;
-++	      siginfo_t info;
-+ 	      struct ucontext uc;
-+ 	      uint32_t retcode[2];
-+       };
-+Index: gdb-7.4.1/gdb/gdbserver/linux-arm-low.c
-+===================================================================
-+--- gdb-7.4.1.orig/gdb/gdbserver/linux-arm-low.c	2012-01-05 20:43:37.000000000 -0800
-++++ gdb-7.4.1/gdb/gdbserver/linux-arm-low.c	2012-07-03 10:12:30.154227388 -0700
-+@@ -631,7 +631,7 @@
-+ arm_stopped_by_watchpoint (void)
-+ {
-+   struct lwp_info *lwp = get_thread_lwp (current_inferior);
-+-  struct siginfo siginfo;
-++  siginfo_t siginfo;
-+ 
-+   /* We must be able to set hardware watchpoints.  */
-+   if (arm_linux_get_hw_watchpoint_count () == 0)
-+Index: gdb-7.4.1/gdb/gdbserver/linux-low.c
-+===================================================================
-+--- gdb-7.4.1.orig/gdb/gdbserver/linux-low.c	2012-01-05 20:43:37.000000000 -0800
-++++ gdb-7.4.1/gdb/gdbserver/linux-low.c	2012-07-03 10:12:30.154227388 -0700
-+@@ -4522,7 +4522,7 @@
-+    layout of the inferiors' architecture.  */
-+ 
-+ static void
-+-siginfo_fixup (struct siginfo *siginfo, void *inf_siginfo, int direction)
-++siginfo_fixup (siginfo_t *siginfo, void *inf_siginfo, int direction)
-+ {
-+   int done = 0;
-+ 
-+@@ -4534,9 +4534,9 @@
-+   if (!done)
-+     {
-+       if (direction == 1)
-+-	memcpy (siginfo, inf_siginfo, sizeof (struct siginfo));
-++	memcpy (siginfo, inf_siginfo, sizeof (siginfo_t));
-+       else
-+-	memcpy (inf_siginfo, siginfo, sizeof (struct siginfo));
-++	memcpy (inf_siginfo, siginfo, sizeof (siginfo_t));
-+     }
-+ }
-+ 
-+@@ -4545,8 +4545,8 @@
-+ 		    unsigned const char *writebuf, CORE_ADDR offset, int len)
-+ {
-+   int pid;
-+-  struct siginfo siginfo;
-+-  char inf_siginfo[sizeof (struct siginfo)];
-++  siginfo_t siginfo;
-++  char inf_siginfo[sizeof (siginfo_t)];
-+ 
-+   if (current_inferior == NULL)
-+     return -1;
-+Index: gdb-7.4.1/gdb/gdbserver/linux-low.h
-+===================================================================
-+--- gdb-7.4.1.orig/gdb/gdbserver/linux-low.h	2012-01-05 20:43:37.000000000 -0800
-++++ gdb-7.4.1/gdb/gdbserver/linux-low.h	2012-07-03 10:20:28.554250548 -0700
-+@@ -22,6 +22,7 @@
-+ #endif
-+ 
-+ #include "gdb_proc_service.h"
-++#include <signal.h>
-+ 
-+ #ifdef HAVE_LINUX_REGSETS
-+ typedef void (*regset_fill_func) (struct regcache *, void *);
-+@@ -46,8 +47,6 @@
-+ extern struct regset_info target_regsets[];
-+ #endif
-+ 
-+-struct siginfo;
-+-
-+ struct process_info_private
-+ {
-+   /* Arch-specific additions.  */
-+@@ -103,7 +102,7 @@
-+      Returns true if any conversion was done; false otherwise.
-+      If DIRECTION is 1, then copy from INF to NATIVE.
-+      If DIRECTION is 0, copy from NATIVE to INF.  */
-+-  int (*siginfo_fixup) (struct siginfo *native, void *inf, int direction);
-++  int (*siginfo_fixup) (siginfo_t *native, void *inf, int direction);
-+ 
-+   /* Hook to call when a new process is created or attached to.
-+      If extra per-process architecture-specific data is needed,
-+Index: gdb-7.4.1/gdb/gdbserver/linux-x86-low.c
-+===================================================================
-+--- gdb-7.4.1.orig/gdb/gdbserver/linux-x86-low.c	2012-01-05 20:43:37.000000000 -0800
-++++ gdb-7.4.1/gdb/gdbserver/linux-x86-low.c	2012-07-03 10:12:30.154227388 -0700
-+@@ -906,13 +906,13 @@
-+    INF.  */
-+ 
-+ static int
-+-x86_siginfo_fixup (struct siginfo *native, void *inf, int direction)
-++x86_siginfo_fixup (siginfo_t *native, void *inf, int direction)
-+ {
-+ #ifdef __x86_64__
-+   /* Is the inferior 32-bit?  If so, then fixup the siginfo object.  */
-+   if (register_size (0) == 4)
-+     {
-+-      if (sizeof (struct siginfo) != sizeof (compat_siginfo_t))
-++      if (sizeof (siginfo_t) != sizeof (compat_siginfo_t))
-+ 	fatal ("unexpected difference in siginfo");
-+ 
-+       if (direction == 0)
-+Index: gdb-7.4.1/gdb/hppa-linux-tdep.c
-+===================================================================
-+--- gdb-7.4.1.orig/gdb/hppa-linux-tdep.c	2012-01-05 20:43:15.000000000 -0800
-++++ gdb-7.4.1/gdb/hppa-linux-tdep.c	2012-07-03 10:12:30.158227388 -0700
-+@@ -181,10 +181,10 @@
-+     }
-+ 
-+   /* sp + sfoffs[try] points to a struct rt_sigframe, which contains
-+-     a struct siginfo and a struct ucontext.  struct ucontext contains
-++     a siginfo_t and a struct ucontext.  struct ucontext contains
-+      a struct sigcontext.  Return an offset to this sigcontext here.  Too 
-+      bad we cannot include system specific headers :-(.
-+-     sizeof(struct siginfo) == 128
-++     sizeof(siginfo_t) == 128
-+      offsetof(struct ucontext, uc_mcontext) == 24.  */
-+   return sp + sfoffs[try] + 128 + 24;
-+ }
-+Index: gdb-7.4.1/gdb/ia64-linux-nat.c
-+===================================================================
-+--- gdb-7.4.1.orig/gdb/ia64-linux-nat.c	2012-01-05 20:43:16.000000000 -0800
-++++ gdb-7.4.1/gdb/ia64-linux-nat.c	2012-07-03 10:12:30.158227388 -0700
-+@@ -637,7 +637,7 @@
-+ ia64_linux_stopped_data_address (struct target_ops *ops, CORE_ADDR *addr_p)
-+ {
-+   CORE_ADDR psr;
-+-  struct siginfo *siginfo_p;
-++  siginfo_t *siginfo_p;
-+   struct regcache *regcache = get_current_regcache ();
-+ 
-+   siginfo_p = linux_nat_get_siginfo (inferior_ptid);
-+Index: gdb-7.4.1/gdb/linux-nat.c
-+===================================================================
-+--- gdb-7.4.1.orig/gdb/linux-nat.c	2012-01-05 20:43:19.000000000 -0800
-++++ gdb-7.4.1/gdb/linux-nat.c	2012-07-03 10:12:30.158227388 -0700
-+@@ -179,7 +179,7 @@
-+ /* The method to call, if any, when the siginfo object needs to be
-+    converted between the layout returned by ptrace, and the layout in
-+    the architecture of the inferior.  */
-+-static int (*linux_nat_siginfo_fixup) (struct siginfo *,
-++static int (*linux_nat_siginfo_fixup) (siginfo_t *,
-+ 				       gdb_byte *,
-+ 				       int);
-+ 
-+@@ -4138,7 +4138,7 @@
-+    layout of the inferiors' architecture.  */
-+ 
-+ static void
-+-siginfo_fixup (struct siginfo *siginfo, gdb_byte *inf_siginfo, int direction)
-++siginfo_fixup (siginfo_t *siginfo, gdb_byte *inf_siginfo, int direction)
-+ {
-+   int done = 0;
-+ 
-+@@ -4150,9 +4150,9 @@
-+   if (!done)
-+     {
-+       if (direction == 1)
-+-	memcpy (siginfo, inf_siginfo, sizeof (struct siginfo));
-++	memcpy (siginfo, inf_siginfo, sizeof (siginfo_t));
-+       else
-+-	memcpy (inf_siginfo, siginfo, sizeof (struct siginfo));
-++	memcpy (inf_siginfo, siginfo, sizeof (siginfo_t));
-+     }
-+ }
-+ 
-+@@ -4162,8 +4162,8 @@
-+ 		    const gdb_byte *writebuf, ULONGEST offset, LONGEST len)
-+ {
-+   int pid;
-+-  struct siginfo siginfo;
-+-  gdb_byte inf_siginfo[sizeof (struct siginfo)];
-++  siginfo_t siginfo;
-++  gdb_byte inf_siginfo[sizeof (siginfo_t)];
-+ 
-+   gdb_assert (object == TARGET_OBJECT_SIGNAL_INFO);
-+   gdb_assert (readbuf || writebuf);
-+@@ -5852,7 +5852,7 @@
-+    inferior.  */
-+ void
-+ linux_nat_set_siginfo_fixup (struct target_ops *t,
-+-			     int (*siginfo_fixup) (struct siginfo *,
-++			     int (*siginfo_fixup) (siginfo_t *,
-+ 						   gdb_byte *,
-+ 						   int))
-+ {
-+@@ -5861,7 +5861,7 @@
-+ }
-+ 
-+ /* Return the saved siginfo associated with PTID.  */
-+-struct siginfo *
-++siginfo_t *
-+ linux_nat_get_siginfo (ptid_t ptid)
-+ {
-+   struct lwp_info *lp = find_lwp_pid (ptid);
-+Index: gdb-7.4.1/gdb/linux-nat.h
-+===================================================================
-+--- gdb-7.4.1.orig/gdb/linux-nat.h	2012-01-05 20:43:19.000000000 -0800
-++++ gdb-7.4.1/gdb/linux-nat.h	2012-07-03 10:12:30.158227388 -0700
-+@@ -76,7 +76,7 @@
-+ 
-+   /* Non-zero si_signo if this LWP stopped with a trap.  si_addr may
-+      be the address of a hardware watchpoint.  */
-+-  struct siginfo siginfo;
-++  siginfo_t siginfo;
-+ 
-+   /* STOPPED_BY_WATCHPOINT is non-zero if this LWP stopped with a data
-+      watchpoint trap.  */
-+@@ -171,7 +171,7 @@
-+    that ptrace returns, and the layout in the architecture of the
-+    inferior.  */
-+ void linux_nat_set_siginfo_fixup (struct target_ops *,
-+-				  int (*) (struct siginfo *,
-++				  int (*) (siginfo_t *,
-+ 					   gdb_byte *,
-+ 					   int));
-+ 
-+@@ -180,7 +180,7 @@
-+ void linux_nat_switch_fork (ptid_t new_ptid);
-+ 
-+ /* Return the saved siginfo associated with PTID.  */
-+-struct siginfo *linux_nat_get_siginfo (ptid_t ptid);
-++siginfo_t *linux_nat_get_siginfo (ptid_t ptid);
-+ 
-+ /* Compute and return the processor core of a given thread.  */
-+ int linux_nat_core_of_thread_1 (ptid_t ptid);
-+Index: gdb-7.4.1/gdb/linux-tdep.c
-+===================================================================
-+--- gdb-7.4.1.orig/gdb/linux-tdep.c	2012-01-05 20:43:19.000000000 -0800
-++++ gdb-7.4.1/gdb/linux-tdep.c	2012-07-03 10:12:30.158227388 -0700
-+@@ -150,7 +150,7 @@
-+   append_composite_type_field (type, "si_fd", int_type);
-+   append_composite_type_field (sifields_type, "_sigpoll", type);
-+ 
-+-  /* struct siginfo */
-++  /* siginfo_t */
-+   siginfo_type = arch_composite_type (gdbarch, NULL, TYPE_CODE_STRUCT);
-+   TYPE_NAME (siginfo_type) = xstrdup ("siginfo");
-+   append_composite_type_field (siginfo_type, "si_signo", int_type);
-+Index: gdb-7.4.1/gdb/mips-linux-tdep.c
-+===================================================================
-+--- gdb-7.4.1.orig/gdb/mips-linux-tdep.c	2012-01-05 20:43:20.000000000 -0800
-++++ gdb-7.4.1/gdb/mips-linux-tdep.c	2012-07-03 10:12:30.158227388 -0700
-+@@ -905,7 +905,7 @@
-+    struct rt_sigframe {
-+      u32 rs_ass[4];            [argument save space for o32]
-+      u32 rs_code[2]            [signal trampoline or fill]
-+-     struct siginfo rs_info;
-++     siginfo_t rs_info;
-+      struct ucontext rs_uc;
-+    };
-+ 
-+@@ -1033,7 +1033,7 @@
-+   struct rt_sigframe_n32 {
-+     u32 rs_ass[4];                  [ argument save space for o32 ]
-+     u32 rs_code[2];                 [ signal trampoline or fill ]
-+-    struct siginfo rs_info;
-++    siginfo_t rs_info;
-+     struct ucontextn32 rs_uc;
-+   };
-+ 
-+@@ -1048,7 +1048,7 @@
-+   struct rt_sigframe {
-+     u32 rs_ass[4];                  [ argument save space for o32 ]
-+     u32 rs_code[2];                 [ signal trampoline ]
-+-    struct siginfo rs_info;
-++    siginfo_t rs_info;
-+     struct ucontext rs_uc;
-+   };
-+ 
-+Index: gdb-7.4.1/gdb/mn10300-linux-tdep.c
-+===================================================================
-+--- gdb-7.4.1.orig/gdb/mn10300-linux-tdep.c	2012-01-05 20:43:20.000000000 -0800
-++++ gdb-7.4.1/gdb/mn10300-linux-tdep.c	2012-07-03 10:12:30.158227388 -0700
-+@@ -528,9 +528,9 @@
-+ {
-+ 	void (*pretcode)(void);
-+ 	int sig;
-+-	struct siginfo *pinfo;
-++	siginfo_t *pinfo;
-+ 	void *puc;
-+-	struct siginfo info;
-++	siginfo_t info;
-+ 	struct ucontext uc;
-+ 	struct fpucontext fpuctx;
-+ 	char retcode[8];
-+Index: gdb-7.4.1/gdb/ppc-linux-nat.c
-+===================================================================
-+--- gdb-7.4.1.orig/gdb/ppc-linux-nat.c	2012-01-05 20:43:22.000000000 -0800
-++++ gdb-7.4.1/gdb/ppc-linux-nat.c	2012-07-03 10:12:30.158227388 -0700
-+@@ -2213,7 +2213,7 @@
-+ static int
-+ ppc_linux_stopped_data_address (struct target_ops *target, CORE_ADDR *addr_p)
-+ {
-+-  struct siginfo *siginfo_p;
-++  siginfo_t *siginfo_p;
-+ 
-+   siginfo_p = linux_nat_get_siginfo (inferior_ptid);
-+ 
-+Index: gdb-7.4.1/gdb/procfs.c
-+===================================================================
-+--- gdb-7.4.1.orig/gdb/procfs.c	2012-01-05 20:43:25.000000000 -0800
-++++ gdb-7.4.1/gdb/procfs.c	2012-07-03 10:12:30.158227388 -0700
-+@@ -262,7 +262,7 @@
-+ #ifdef HAVE_PR_SIGINFO64_T
-+ typedef pr_siginfo64_t gdb_siginfo_t;
-+ #else
-+-typedef struct siginfo gdb_siginfo_t;
-++typedef siginfo_t gdb_siginfo_t;
-+ #endif
-+ 
-+ /* On mips-irix, praddset and prdelset are defined in such a way that
-+Index: gdb-7.4.1/gdb/tic6x-linux-tdep.c
-+===================================================================
-+--- gdb-7.4.1.orig/gdb/tic6x-linux-tdep.c	2012-01-05 20:54:31.000000000 -0800
-++++ gdb-7.4.1/gdb/tic6x-linux-tdep.c	2012-07-03 10:12:30.158227388 -0700
-+@@ -34,7 +34,7 @@
-+ 
-+ /* The offset from rt_sigframe pointer to SP register.  */
-+ #define TIC6X_SP_RT_SIGFRAME 8
-+-/* Size of struct siginfo info.  */
-++/* Size of siginfo_t info.  */
-+ #define TIC6X_SIGINFO_SIZE 128
-+ /* Size of type stack_t, which contains three fields of type void*, int, and
-+    size_t respectively.  */
+Cheers,
+
+Bruce
+
+>
+> Signed-off-by: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
+> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> ---
+>  meta/conf/distro/include/tcmode-default.inc        |    2 +-
+>  .../linux-libc-headers/linux-libc-headers_3.4.3.bb |    6 ++++++
+>  .../linux-libc-headers/linux-libc-headers_3.4.bb   |    6 ------
+>  3 files changed, 7 insertions(+), 7 deletions(-)
+>  create mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.4.3.bb
+>  delete mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.4.bb
+>
+> diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
+> index f11e687..0a068be 100644
+> --- a/meta/conf/distro/include/tcmode-default.inc
+> +++ b/meta/conf/distro/include/tcmode-default.inc
+> @@ -22,7 +22,7 @@ SDKGCCVERSION ?= "${GCCVERSION}"
+>  BINUVERSION ?= "2.22"
+>  EGLIBCVERSION ?= "2.15"
+>  UCLIBCVERSION ?= "0.9.33"
+> -LINUXLIBCVERSION ?= "3.4"
+> +LINUXLIBCVERSION ?= "3.4.3"
+>
+>  PREFERRED_VERSION_gcc ?= "${GCCVERSION}"
+>  PREFERRED_VERSION_gcc-cross ?= "${GCCVERSION}"
+> diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.4.3.bb b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.4.3.bb
+> new file mode 100644
+> index 0000000..6f8d9e8
+> --- /dev/null
+> +++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.4.3.bb
+> @@ -0,0 +1,6 @@
+> +require linux-libc-headers.inc
+> +
+> +PR = "r0"
+> +
+> +SRC_URI[md5sum] = "3aefa02db55715d627ed23a01667057d"
+> +SRC_URI[sha256sum] = "17f1256daa289dde1a0a587c9753556d37a52770f7c4efcf2666fd4796a6eacc"
+> diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.4.bb b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.4.bb
+> deleted file mode 100644
+> index 9e8c88f..0000000
+> --- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.4.bb
+> +++ /dev/null
+> @@ -1,6 +0,0 @@
+> -require linux-libc-headers.inc
+> -
+> -PR = "r0"
+> -
+> -SRC_URI[md5sum] = "146af0160fc7a60cf9acf44aec13482b"
+> -SRC_URI[sha256sum] = "a797a15d0b6228381507c14ecf4eec4a6cc5c77cfd521ba3b3e1325e85b5b16d"
+> --
+> 1.7.7.6
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+
+
+
 -- 
-1.7.7.6
-
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
 
