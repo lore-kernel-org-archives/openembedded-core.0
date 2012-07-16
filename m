@@ -1,24 +1,24 @@
 Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SqnhN-0006t0-NK
+	(envelope-from <sgw@linux.intel.com>) id 1SqnhP-0006sq-Uq
 	for openembedded-core@lists.openembedded.org;
-	Mon, 16 Jul 2012 17:59:02 +0200
+	Mon, 16 Jul 2012 17:59:04 +0200
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 16 Jul 2012 08:47:39 -0700
+	by fmsmga102.fm.intel.com with ESMTP; 16 Jul 2012 08:47:40 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="193443322"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="193443332"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.178])
-	by fmsmga002.fm.intel.com with ESMTP; 16 Jul 2012 08:47:39 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 16 Jul 2012 08:47:40 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 16 Jul 2012 08:47:15 -0700
-Message-Id: <d67e47bd457de90b19428245644dc64ecf4ba11a.1342453118.git.sgw@linux.intel.com>
+Date: Mon, 16 Jul 2012 08:47:19 -0700
+Message-Id: <bbdbb70192e16fe351f9cf8f781110faf839be51.1342453118.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <cover.1342453118.git.sgw@linux.intel.com>
 References: <cover.1342453118.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1342453118.git.sgw@linux.intel.com>
 References: <cover.1342453118.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 09/30] linux-libc-headers: updated to 3.4.3
+Subject: [CONSOLIDATED PULL 13/30] xz: update to 5.1.2alpha
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,59 +33,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Jul 2012 15:59:04 -0000
+X-List-Received-Date: Mon, 16 Jul 2012 15:59:05 -0000
 
-From: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
+From: Koen Kooi <koen@dominion.thruhere.net>
 
-Tested by building core-image-sato-sdk.
+This contains bugfixes from the 5.0.3 and 5.0.4 releases
 
-Signed-off-by: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/conf/distro/include/tcmode-default.inc        |    2 +-
- .../linux-libc-headers/linux-libc-headers_3.4.3.bb |    6 ++++++
- .../linux-libc-headers/linux-libc-headers_3.4.bb   |    6 ------
- 3 files changed, 7 insertions(+), 7 deletions(-)
- create mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.4.3.bb
- delete mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.4.bb
+ .../xz/{xz_5.1.1alpha.bb => xz_5.1.2alpha.bb}      |    7 ++-----
+ 1 files changed, 2 insertions(+), 5 deletions(-)
+ rename meta/recipes-extended/xz/{xz_5.1.1alpha.bb => xz_5.1.2alpha.bb} (86%)
 
-diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
-index f11e687..0a068be 100644
---- a/meta/conf/distro/include/tcmode-default.inc
-+++ b/meta/conf/distro/include/tcmode-default.inc
-@@ -22,7 +22,7 @@ SDKGCCVERSION ?= "${GCCVERSION}"
- BINUVERSION ?= "2.22"
- EGLIBCVERSION ?= "2.15"
- UCLIBCVERSION ?= "0.9.33"
--LINUXLIBCVERSION ?= "3.4"
-+LINUXLIBCVERSION ?= "3.4.3"
+diff --git a/meta/recipes-extended/xz/xz_5.1.1alpha.bb b/meta/recipes-extended/xz/xz_5.1.2alpha.bb
+similarity index 86%
+rename from meta/recipes-extended/xz/xz_5.1.1alpha.bb
+rename to meta/recipes-extended/xz/xz_5.1.2alpha.bb
+index 7fa7177..9d68720 100644
+--- a/meta/recipes-extended/xz/xz_5.1.1alpha.bb
++++ b/meta/recipes-extended/xz/xz_5.1.2alpha.bb
+@@ -10,11 +10,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=c475b6c7dca236740ace4bba553e8e1c \
+                     file://lib/getopt.c;endline=23;md5=2069b0ee710572c03bb3114e4532cd84 "
  
- PREFERRED_VERSION_gcc ?= "${GCCVERSION}"
- PREFERRED_VERSION_gcc-cross ?= "${GCCVERSION}"
-diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.4.3.bb b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.4.3.bb
-new file mode 100644
-index 0000000..6f8d9e8
---- /dev/null
-+++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.4.3.bb
-@@ -0,0 +1,6 @@
-+require linux-libc-headers.inc
-+
-+PR = "r0"
-+
-+SRC_URI[md5sum] = "3aefa02db55715d627ed23a01667057d"
-+SRC_URI[sha256sum] = "17f1256daa289dde1a0a587c9753556d37a52770f7c4efcf2666fd4796a6eacc"
-diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.4.bb b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.4.bb
-deleted file mode 100644
-index 9e8c88f..0000000
---- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.4.bb
-+++ /dev/null
-@@ -1,6 +0,0 @@
--require linux-libc-headers.inc
+ SRC_URI = "http://tukaani.org/xz/xz-${PV}.tar.gz"
+-
+-SRC_URI[md5sum] = "bb24436fa12780808e1c142980484104"
+-SRC_URI[sha256sum] = "54e59a83690a4a0ec88a7d7c3bdef90c6b196c892a93463863c71c24fe87951a"
 -
 -PR = "r0"
--
--SRC_URI[md5sum] = "146af0160fc7a60cf9acf44aec13482b"
--SRC_URI[sha256sum] = "a797a15d0b6228381507c14ecf4eec4a6cc5c77cfd521ba3b3e1325e85b5b16d"
++SRC_URI[md5sum] = "9bad1e249537ce69b206815cf28ca87b"
++SRC_URI[sha256sum] = "70e792d2a67cfbb8f2dffd0feab6ca6e5a4a618d65070fb44a367629d1ba94e5"
+ 
+ inherit autotools gettext
+ 
 -- 
 1.7.7.6
 
