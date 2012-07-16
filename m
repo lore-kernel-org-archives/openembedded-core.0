@@ -1,34 +1,37 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1SqkG2-0008Kx-DP for openembedded-core@lists.openembedded.org;
-	Mon, 16 Jul 2012 14:18:34 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6GC7E3K031377;
-	Mon, 16 Jul 2012 13:07:14 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 30472-06; Mon, 16 Jul 2012 13:07:09 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6GC73Vf031365
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Mon, 16 Jul 2012 13:07:04 +0100
-Message-ID: <1342440426.5019.18.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Mon, 16 Jul 2012 13:07:06 +0100
-In-Reply-To: <DF70393F-E648-48B8-98DA-ECFFDF724666@dominion.thruhere.net>
+Received: from mail-vb0-f47.google.com ([209.85.212.47])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <otavio.salvador@gmail.com>) id 1SqkaS-0000T0-GQ
+	for openembedded-core@lists.openembedded.org;
+	Mon, 16 Jul 2012 14:39:40 +0200
+Received: by vbbfr13 with SMTP id fr13so3447483vbb.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 16 Jul 2012 05:28:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
+	bh=x3wjNhguRVPLeD76Ff3IwxamHr5oY0ZJhjKzKpxCw3A=;
+	b=Jt31XAqYb/hIqCiPUuJ1qWyS7CShIDdVjQ3sF20xASnvT4gA3yuvC0+28T0UxJkanm
+	/XxWufvgmakIcc5yCSbS6QfL2PNmm2wTwyTL5HJ7DpzRYrbsAvEoWG1fn5AW8Mt+eGhx
+	I6B28YAP4XS4pMXh7QQ5tAWdHJM2G3JzSa0RWbsEuIL/Gceb/oQ/HOIVCOVa8/w80zCx
+	ZCmxjnL/Zk1pk8Uivyy6CBKthrPIx8sEr+g5YPklfbCSovJpYhku0yuEEBOK06ftEug9
+	5O4/ySeCTPq6bu+Xxd5KFznR1BKrO/CF4BTTIwMjEQtO7jySgWK4Tcspuewt25qRH61x
+	bPfA==
+MIME-Version: 1.0
+Received: by 10.220.221.7 with SMTP id ia7mr5237908vcb.31.1342441701918; Mon,
+	16 Jul 2012 05:28:21 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.220.220.196 with HTTP; Mon, 16 Jul 2012 05:28:21 -0700 (PDT)
+In-Reply-To: <29D9FA58-0AB0-4ADF-B67E-0541BC7DA14C@dominion.thruhere.net>
 References: <1342259955-8875-1-git-send-email-koen@dominion.thruhere.net>
-	<CAJTo0Laa4jNytbBv1ozJWE9kf=-4hSE4_gsZN+VA2N5C1MJVeQ@mail.gmail.com>
-	<8F9AE1A6-06B6-432B-B336-B8F72D3C2697@dominion.thruhere.net>
-	<5766114.d2laZrfaXp@helios>
-	<DF70393F-E648-48B8-98DA-ECFFDF724666@dominion.thruhere.net>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
+	<CAP9ODKpJLfsbmfPnjL2zZMddeDXO9sWV4+-ZhHmzESQMFu=woQ@mail.gmail.com>
+	<29D9FA58-0AB0-4ADF-B67E-0541BC7DA14C@dominion.thruhere.net>
+Date: Mon, 16 Jul 2012 09:28:21 -0300
+X-Google-Sender-Auth: PE9-EQkjBkxt7K6oPQaPDRQzIEU
+Message-ID: <CAP9ODKrBnzOM7rfhRr5KC-L_EjuwZ73NkpHcyg1hiOxKXD+6Rg@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Koen Kooi <koen@dominion.thruhere.net>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] powertop: update to 2.0+git
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -44,61 +47,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Jul 2012 12:18:34 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 16 Jul 2012 12:39:40 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On Mon, 2012-07-16 at 13:25 +0200, Koen Kooi wrote:
-> Op 16 jul. 2012, om 12:36 heeft Paul Eggleton het volgende geschreven:
-> 
-> > On Monday 16 July 2012 12:33:00 Koen Kooi wrote:
-> >> Op 16 jul. 2012, om 10:47 heeft Burton, Ross het volgende geschreven:
-> >>> On 16 July 2012 07:11, Koen Kooi <koen@dominion.thruhere.net> wrote:
-> >>>>> Please add proper Upstream-Status for the patches; it is nice to have
-> >>>>> those to track the pending patches.
-> >>>> 
-> >>>> Isn't that field only used to put in "pending" and then backslap each
-> >>>> other on doing such a good job?> 
-> >>> Personally I find it incredibly useful to differentiate between
-> >>> patches that should be going upstream and patches that are OE-specific
-> >>> for various reasons.
-> >> 
-> >> I'm not debating the usefulness of the U-S field, I'm debating the
-> >> usefulness of using 'Pending' as a catch-all. I can do:
-> >> 
-> >> for patch in *.patch ; do
-> >> 	echo "Upstream-Status: Pending" >> $patch
-> >> done
-> >> 
-> >> And it will get accepted, but is ultimately useless.
-> > 
-> > No, it is not. It signifies that the patch is considered appropriate by the 
-> > submitter for upstreaming.
-> 
-> That's not true according to http://wiki.openembedded.org/index.php/Commit_Patch_Message_Guidelines#Patch_Header_Recommendations :
-> 
->   Pending
->   - No determination has been made yet or not yet submitted to upstream
-> 
-> I've argued before that 'Pending' should be renamed to 'Unknown' (as we already do in the meta-openembedded layers) to avoid exactly this confusion.
+On Mon, Jul 16, 2012 at 3:11 AM, Koen Kooi <koen@dominion.thruhere.net> wrote:
+>
+> Op 15 jul. 2012, om 23:25 heeft Otavio Salvador het volgende geschreven:
+>
+>> On Sat, Jul 14, 2012 at 6:59 AM, Koen Kooi <koen@dominion.thruhere.net> wrote:
+>>> The recipe is autotools based now, the COPYING file was replaced with the complete GPLv2 license text.
+>>> No more 'lspci' needed ad runtime, but zlib and libnl are needed nowadays.
+>>> Add 2 patches, one to fix cross builds and one from Linaro to fix C state parsing on !x86.
+>>
+>> Please add proper Upstream-Status for the patches; it is nice to have
+>> those to track the pending patches.
+>
+> Isn't that field only used to put in "pending" and then backslap each other on doing such a good job?
 
-I think when this was originally discussed "Pending" was taken to mean
-that it had not been submitted upstream but probably could be which ties
-in with Paul's view of this too. When it was documented, it looks like
-the meaning got changed slightly.
+From what I read, those are backports; so you can use Backport
+[applied in version X.Y]
 
-The idea was the totally inappropriate ones had been filtered out and we
-could generate a list of patches where attention could be focused with
-reference to upstreaming. This is different to "Unknown".
-
-I'd therefore suggest we update the meaning of Pending in the
-documentation.
-
-Cheers,
-
-Richard
-
-
-
+-- 
+Otavio Salvador                             O.S. Systems
+E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
+Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
 
 
