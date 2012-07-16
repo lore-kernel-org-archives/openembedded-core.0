@@ -1,24 +1,24 @@
 Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SqnhP-0006sq-Uq
+	(envelope-from <sgw@linux.intel.com>) id 1SqnhQ-0006t0-Dg
 	for openembedded-core@lists.openembedded.org;
 	Mon, 16 Jul 2012 17:59:04 +0200
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
 	by fmsmga102.fm.intel.com with ESMTP; 16 Jul 2012 08:47:40 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="193443332"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="193443335"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.178])
 	by fmsmga002.fm.intel.com with ESMTP; 16 Jul 2012 08:47:40 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 16 Jul 2012 08:47:19 -0700
-Message-Id: <bbdbb70192e16fe351f9cf8f781110faf839be51.1342453118.git.sgw@linux.intel.com>
+Date: Mon, 16 Jul 2012 08:47:20 -0700
+Message-Id: <247fbed5a93800c44dc36e403f13bdc8dd704553.1342453118.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <cover.1342453118.git.sgw@linux.intel.com>
 References: <cover.1342453118.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1342453118.git.sgw@linux.intel.com>
 References: <cover.1342453118.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 13/30] xz: update to 5.1.2alpha
+Subject: [CONSOLIDATED PULL 14/30] Update proto -> protocol for recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,38 +35,139 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 16 Jul 2012 15:59:05 -0000
 
-From: Koen Kooi <koen@dominion.thruhere.net>
-
-This contains bugfixes from the 5.0.3 and 5.0.4 releases
-
-Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- .../xz/{xz_5.1.1alpha.bb => xz_5.1.2alpha.bb}      |    7 ++-----
- 1 files changed, 2 insertions(+), 5 deletions(-)
- rename meta/recipes-extended/xz/{xz_5.1.1alpha.bb => xz_5.1.2alpha.bb} (86%)
+ meta/recipes-core/eglibc/eglibc_2.15.bb            |    2 +-
+ meta/recipes-devtools/gcc/gcc-4.7.inc              |    2 +-
+ .../installer/adt-installer_1.0.bb                 |    2 +-
+ meta/recipes-devtools/opkg/opkg_svn.bb             |    2 +-
+ meta/recipes-devtools/tcf-agent/tcf-agent_git.bb   |    2 +-
+ meta/recipes-devtools/ubootchart/ubootchart_svn.bb |    2 +-
+ meta/recipes-gnome/gtkhtml2/gtkhtml2_svn.bb        |    2 +-
+ .../matchbox-wm-2/matchbox-wm-2_git.bb             |    2 +-
+ meta/recipes-sato/webkit/webkit-gtk_svn.bb         |    6 +++---
+ 9 files changed, 11 insertions(+), 11 deletions(-)
 
-diff --git a/meta/recipes-extended/xz/xz_5.1.1alpha.bb b/meta/recipes-extended/xz/xz_5.1.2alpha.bb
-similarity index 86%
-rename from meta/recipes-extended/xz/xz_5.1.1alpha.bb
-rename to meta/recipes-extended/xz/xz_5.1.2alpha.bb
-index 7fa7177..9d68720 100644
---- a/meta/recipes-extended/xz/xz_5.1.1alpha.bb
-+++ b/meta/recipes-extended/xz/xz_5.1.2alpha.bb
-@@ -10,11 +10,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=c475b6c7dca236740ace4bba553e8e1c \
-                     file://lib/getopt.c;endline=23;md5=2069b0ee710572c03bb3114e4532cd84 "
+diff --git a/meta/recipes-core/eglibc/eglibc_2.15.bb b/meta/recipes-core/eglibc/eglibc_2.15.bb
+index 7dd9810..110febf 100644
+--- a/meta/recipes-core/eglibc/eglibc_2.15.bb
++++ b/meta/recipes-core/eglibc/eglibc_2.15.bb
+@@ -7,7 +7,7 @@ PR = "r12"
+ PR_append = "+svnr${SRCPV}"
  
- SRC_URI = "http://tukaani.org/xz/xz-${PV}.tar.gz"
--
--SRC_URI[md5sum] = "bb24436fa12780808e1c142980484104"
--SRC_URI[sha256sum] = "54e59a83690a4a0ec88a7d7c3bdef90c6b196c892a93463863c71c24fe87951a"
--
--PR = "r0"
-+SRC_URI[md5sum] = "9bad1e249537ce69b206815cf28ca87b"
-+SRC_URI[sha256sum] = "70e792d2a67cfbb8f2dffd0feab6ca6e5a4a618d65070fb44a367629d1ba94e5"
+ EGLIBC_BRANCH="eglibc-2_15"
+-SRC_URI = "svn://www.eglibc.org/svn/branches/;module=${EGLIBC_BRANCH};proto=http \
++SRC_URI = "svn://www.eglibc.org/svn/branches/;module=${EGLIBC_BRANCH};protocol=http \
+            file://eglibc-svn-arm-lowlevellock-include-tls.patch \
+            file://IO-acquire-lock-fix.patch \
+            file://mips-rld-map-check.patch \
+diff --git a/meta/recipes-devtools/gcc/gcc-4.7.inc b/meta/recipes-devtools/gcc/gcc-4.7.inc
+index 0e40533..a2e9ae0 100644
+--- a/meta/recipes-devtools/gcc/gcc-4.7.inc
++++ b/meta/recipes-devtools/gcc/gcc-4.7.inc
+@@ -33,7 +33,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
+                    file://COPYING.LIB;md5=2d5025d4aa3495befef8f17206a5b0a1 \
+ 		   file://COPYING.RUNTIME;md5=fe60d87048567d4fe8c8a0ed2448bcc8"
  
- inherit autotools gettext
+-SRC_URI = "svn://gcc.gnu.org/svn/gcc/branches;module=${BRANCH};proto=http \
++SRC_URI = "svn://gcc.gnu.org/svn/gcc/branches;module=${BRANCH};protocol=http \
+ 	   file://gcc-4.3.1-ARCH_FLAGS_FOR_TARGET.patch \
+ 	   file://100-uclibc-conf.patch \
+            file://gcc-uclibc-locale-ctype_touplow_t.patch \
+diff --git a/meta/recipes-devtools/installer/adt-installer_1.0.bb b/meta/recipes-devtools/installer/adt-installer_1.0.bb
+index 5dc0896..e1edf2f 100644
+--- a/meta/recipes-devtools/installer/adt-installer_1.0.bb
++++ b/meta/recipes-devtools/installer/adt-installer_1.0.bb
+@@ -39,7 +39,7 @@ S = "${WORKDIR}/trunk"
  
+ SRCREV = "596"
+ PV = "0.1.8+svnr${SRCPV}"
+-SRC_URI = "svn://opkg.googlecode.com/svn;module=trunk;proto=http \
++SRC_URI = "svn://opkg.googlecode.com/svn;module=trunk;protocol=http \
+            file://wget_cache.patch \
+            file://adt_installer \
+            file://scripts/adt_installer_internal \
+diff --git a/meta/recipes-devtools/opkg/opkg_svn.bb b/meta/recipes-devtools/opkg/opkg_svn.bb
+index faf0ba3..a0667ac 100644
+--- a/meta/recipes-devtools/opkg/opkg_svn.bb
++++ b/meta/recipes-devtools/opkg/opkg_svn.bb
+@@ -1,6 +1,6 @@
+ require opkg.inc
+ 
+-SRC_URI = "svn://opkg.googlecode.com/svn;module=trunk;proto=http \
++SRC_URI = "svn://opkg.googlecode.com/svn;module=trunk;protocol=http \
+            file://add_vercmp.patch \
+            file://add_uname_support.patch \
+            file://fix_installorder.patch \
+diff --git a/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb b/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
+index 8ac8022..25fccaf 100644
+--- a/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
++++ b/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
+@@ -10,7 +10,7 @@ SRCREV = "4ef94ecb927a8912c3d79ce137182247786cff8f"
+ PV = "0.4.0+git${SRCPV}"
+ PR = "r0"
+ 
+-SRC_URI = "git://git.eclipse.org/gitroot/tcf/org.eclipse.tcf.agent.git;proto=git \
++SRC_URI = "git://git.eclipse.org/gitroot/tcf/org.eclipse.tcf.agent.git;protocol=git \
+            http://www.eclipse.org/legal/epl-v10.html;name=epl \
+            file://fix_ranlib.patch \
+            file://fix_tcf-agent.init.patch \
+diff --git a/meta/recipes-devtools/ubootchart/ubootchart_svn.bb b/meta/recipes-devtools/ubootchart/ubootchart_svn.bb
+index d8c9760..b49e94a 100644
+--- a/meta/recipes-devtools/ubootchart/ubootchart_svn.bb
++++ b/meta/recipes-devtools/ubootchart/ubootchart_svn.bb
+@@ -8,7 +8,7 @@ PR = "r5"
+ 
+ #RRECOMMENDS_${PN} = "acct"
+ 
+-SRC_URI = "svn://ubootchart.googlecode.com/svn/;proto=http;module=trunk \
++SRC_URI = "svn://ubootchart.googlecode.com/svn/;protocol=http;module=trunk \
+         file://sysvinit.patch;striplevel=0 \
+         file://ubootchart-stop \
+         file://ubootchart.desktop"
+diff --git a/meta/recipes-gnome/gtkhtml2/gtkhtml2_svn.bb b/meta/recipes-gnome/gtkhtml2/gtkhtml2_svn.bb
+index 7635e7a..da74a82 100644
+--- a/meta/recipes-gnome/gtkhtml2/gtkhtml2_svn.bb
++++ b/meta/recipes-gnome/gtkhtml2/gtkhtml2_svn.bb
+@@ -8,7 +8,7 @@ SRCREV = "1161"
+ PV = "2.11.0+svnr${SRCPV}"
+ PR = "r3"
+ 
+-SRC_URI = "svn://svn.gnome.org/svn/gtkhtml2/;module=trunk;proto=http \
++SRC_URI = "svn://svn.gnome.org/svn/gtkhtml2/;module=trunk;protocol=http \
+            http://git.yoctoproject.org/cgit/cgit.cgi/web-patches/plain/css-stylesheet-user.patch;striplevel=0;name=patch2 \
+            http://git.yoctoproject.org/cgit/cgit.cgi/web-patches/plain/css-media.patch;striplevel=0;name=patch3 \
+            http://git.yoctoproject.org/cgit/cgit.cgi/web-patches/plain/add-end-element-signal.patch;striplevel=0;name=patch4 \
+diff --git a/meta/recipes-graphics/matchbox-wm-2/matchbox-wm-2_git.bb b/meta/recipes-graphics/matchbox-wm-2/matchbox-wm-2_git.bb
+index 4aad3a9..8b162be 100644
+--- a/meta/recipes-graphics/matchbox-wm-2/matchbox-wm-2_git.bb
++++ b/meta/recipes-graphics/matchbox-wm-2/matchbox-wm-2_git.bb
+@@ -9,7 +9,7 @@ SRCREV = "01fa5465743c9ee43d040350f4405d35293e4869"
+ PV = "0.1+git${SRCPV}"
+ PR = "r1"
+ 
+-SRC_URI = "git://git.yoctoproject.org/matchbox-window-manager-2;proto=git \
++SRC_URI = "git://git.yoctoproject.org/matchbox-window-manager-2;protocol=git \
+ 	file://fix_makefile.patch \
+ 	  "
+ 
+diff --git a/meta/recipes-sato/webkit/webkit-gtk_svn.bb b/meta/recipes-sato/webkit/webkit-gtk_svn.bb
+index 7d0aae9..6a6839d 100644
+--- a/meta/recipes-sato/webkit/webkit-gtk_svn.bb
++++ b/meta/recipes-sato/webkit/webkit-gtk_svn.bb
+@@ -22,9 +22,9 @@ PV = "1.7.2+svnr${SRCPV}"
+ PR = "r6"
+ 
+ SRC_URI = "\
+-  svn://svn.webkit.org/repository/webkit/trunk/;module=Source;proto=http;name=source \
+-  svn://svn.webkit.org/repository/webkit/trunk/;module=WebKitLibraries;proto=http \
+-  svn://svn.webkit.org/repository/webkit/trunk/;module=Tools;proto=http \
++  svn://svn.webkit.org/repository/webkit/trunk/;module=Source;protocol=http;name=source \
++  svn://svn.webkit.org/repository/webkit/trunk/;module=WebKitLibraries;protocol=http \
++  svn://svn.webkit.org/repository/webkit/trunk/;module=Tools;protocol=http \
+   file://Makefile \
+   file://Makefile.shared \
+   file://autogen.sh \
 -- 
 1.7.7.6
 
