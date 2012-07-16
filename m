@@ -1,31 +1,43 @@
-Received: from astoria.ccjclearline.com ([64.235.106.9])
+Received: from mail-wi0-f169.google.com ([209.85.212.169])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpjday@crashcourse.ca>) id 1SqjRg-00021O-3C
+	(envelope-from <koen@dominion.thruhere.net>) id 1Sqjbe-0002Jx-43
 	for openembedded-core@lists.openembedded.org;
-	Mon, 16 Jul 2012 13:26:32 +0200
-Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
-	([174.115.5.73]:54892 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.77) (envelope-from <rpjday@crashcourse.ca>)
-	id 1SqjGl-00028k-6W for openembedded-core@lists.openembedded.org;
-	Mon, 16 Jul 2012 07:15:15 -0400
-Date: Mon, 16 Jul 2012 07:15:09 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@oneiric
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.DEB.2.02.1207160700490.1036@oneiric>
-User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
-MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Subject: why are native kern tools both generated and on the meta branch?
+	Mon, 16 Jul 2012 13:36:50 +0200
+Received: by wibhm2 with SMTP id hm2so2127640wib.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 16 Jul 2012 04:25:32 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=subject:mime-version:content-type:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to:x-mailer
+	:x-gm-message-state;
+	bh=nnpCAal/mK17EeXzwbb4yx9Ir3Ty+ngkfYzXz03JMPc=;
+	b=nGXEL/9ql0kE8flP52uo9MfUiQl5de77xr6Z6YkqtxeBxKNAt/d+wR0+8gRI+eTAhY
+	HraiEr1zFn1c01tlWZKE/xsmtwyZy8nJOxbnvSxxK4GLzuPHtezuJME9lb7liHyBMxrC
+	wO4rWf0HWWx68CZjs2ND9UTLxTzyVMH4H6nj1OCus9NMextVL17qT79NbV6oNRTzPytU
+	teVti+QXLO2VqY3HbSoddp6l8wFDYqQwtrC+9XP0KNsmo/dcxDUcERXW129wimbzOGuY
+	FLjcFmGwfeyWxEi7yqL1OMkEmSxjxMlQYyqGztfabfxrME53FACR+PWRlbuMG0vTAho+
+	0nEA==
+Received: by 10.180.81.193 with SMTP id c1mr17424266wiy.12.1342437932152;
+	Mon, 16 Jul 2012 04:25:32 -0700 (PDT)
+Received: from [10.47.217.41] ([188.207.89.201])
+	by mx.google.com with ESMTPS id b7sm31136107wiz.9.2012.07.16.04.25.28
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 16 Jul 2012 04:25:30 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1278)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <5766114.d2laZrfaXp@helios>
+Date: Mon, 16 Jul 2012 13:25:26 +0200
+Message-Id: <DF70393F-E648-48B8-98DA-ECFFDF724666@dominion.thruhere.net>
+References: <1342259955-8875-1-git-send-email-koen@dominion.thruhere.net>
+	<CAJTo0Laa4jNytbBv1ozJWE9kf=-4hSE4_gsZN+VA2N5C1MJVeQ@mail.gmail.com>
+	<8F9AE1A6-06B6-432B-B336-B8F72D3C2697@dominion.thruhere.net>
+	<5766114.d2laZrfaXp@helios>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+X-Mailer: Apple Mail (2.1278)
+X-Gm-Message-State: ALoCoQk0aP4SstChMwMByVDonx8jIOY+VDin0pTTqSRNa2G04211qXIfUOml549Hf5Y18jO0q2gX
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] powertop: update to 2.0+git
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,82 +52,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Jul 2012 11:26:32 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Mon, 16 Jul 2012 11:36:50 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
 
-  side note: for the next little while, for pedagogical reasons, i'm
-stepping through each phase of the OE kernel build process and
-documenting what happens and what gets generated at each step, as in:
+Op 16 jul. 2012, om 12:36 heeft Paul Eggleton het volgende geschreven:
 
-  $ bitbake -c fetch linux-yocto
-  $ bitbake -c unpack linux-yocto
-  $ bitbake -c kernel_checkout linux-yocto
-  $ bitbake -c validate_branches linux-yocto
-  $ bitbake -c patch linux-yocto
-  ... etc etc ...
+> On Monday 16 July 2012 12:33:00 Koen Kooi wrote:
+>> Op 16 jul. 2012, om 10:47 heeft Burton, Ross het volgende geschreven:
+>>> On 16 July 2012 07:11, Koen Kooi <koen@dominion.thruhere.net> wrote:
+>>>>> Please add proper Upstream-Status for the patches; it is nice to =
+have
+>>>>> those to track the pending patches.
+>>>>=20
+>>>> Isn't that field only used to put in "pending" and then backslap =
+each
+>>>> other on doing such a good job?>=20
+>>> Personally I find it incredibly useful to differentiate between
+>>> patches that should be going upstream and patches that are =
+OE-specific
+>>> for various reasons.
+>>=20
+>> I'm not debating the usefulness of the U-S field, I'm debating the
+>> usefulness of using 'Pending' as a catch-all. I can do:
+>>=20
+>> for patch in *.patch ; do
+>> 	echo "Upstream-Status: Pending" >> $patch
+>> done
+>>=20
+>> And it will get accepted, but is ultimately useless.
+>=20
+> No, it is not. It signifies that the patch is considered appropriate =
+by the=20
+> submitter for upstreaming.
 
-so, yes, upcoming questions will almost certainly be as pedantic as
-ever.  you've been warned. :-P
+That's not true according to =
+http://wiki.openembedded.org/index.php/Commit_Patch_Message_Guidelines#Pat=
+ch_Header_Recommendations :
 
-  at this point, i've done the validate_branches step and am about to
-do the patch, and i notice from linux-yocto.inc:
+  Pending
+  - No determination has been made yet or not yet submitted to upstream
 
-  do_patch[depends] = "kern-tools-native:do_populate_sysroot"
+I've argued before that 'Pending' should be renamed to 'Unknown' (as we =
+already do in the meta-openembedded layers) to avoid exactly this =
+confusion.
 
-ok, i can accept that, and performing the patch should first build
-and install the native kern-tools in my x86_64 sysroots directory ,
-which i'm pretty sure is on my PATH so the new utilities like
-createme, updateme, configme and so on will be available for the
-subsequent do_patch() step.  so far, so good.
+regards,
 
-  but in the do_patch() routine itself, we have:
-
-=====
-
-do_patch() {
-        cd ${S}
-
-        # if kernel tools are available in-tree, they are preferred
-        # and are placed on the path before any external tools. Unless
-        # the external tools flag is set, in that case we do nothing.
-        if [ -f "${S}/scripts/util/configme" ]; then
-                if [ -z "${EXTERNAL_KERNEL_TOOLS}" ]; then
-                        PATH=${S}/scripts/util:${PATH}
-                fi
-        fi
-
-        kbranch=${KBRANCH}
-
-        # if we have a defined/set meta branch we should not be generating
-        # any meta data. The passed branch has what we need.
-        if [ -n "${KMETA}" ]; then
-                createme_flags="--disable-meta-gen"
-        fi
-        createme ${createme_flags} ${ARCH} ${kbranch}
-	... snip ...
-
-=====
-
-in my case, i have a meta branch which just happens to include a
-scripts/ directory containing what appears to be all of those
-kern-tools.
-
-  is there a reason for that duplication?  as i read it (and i could
-be confused), the do_patch() generates and installs the necessary
-native kern-tools, even as my meta branch (which is not checked out
-yet) already contains all of those tools.  should i care?
-
-rday
-
--- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
+Koen=
 
 
