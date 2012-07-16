@@ -1,24 +1,24 @@
 Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SqnhM-0006st-CZ
+	(envelope-from <sgw@linux.intel.com>) id 1SqnhM-0006t0-Lr
 	for openembedded-core@lists.openembedded.org;
-	Mon, 16 Jul 2012 17:59:00 +0200
+	Mon, 16 Jul 2012 17:59:01 +0200
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 16 Jul 2012 08:47:38 -0700
+	by fmsmga102.fm.intel.com with ESMTP; 16 Jul 2012 08:47:39 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="193443308"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="193443316"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.178])
-	by fmsmga002.fm.intel.com with ESMTP; 16 Jul 2012 08:47:38 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 16 Jul 2012 08:47:39 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 16 Jul 2012 08:47:11 -0700
-Message-Id: <6facee8443966b646cd1e72f14ae13e58a13f621.1342453118.git.sgw@linux.intel.com>
+Date: Mon, 16 Jul 2012 08:47:13 -0700
+Message-Id: <a12e2409af246d4c1d0e0c9a2457fb9c850bd8ca.1342453118.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <cover.1342453118.git.sgw@linux.intel.com>
 References: <cover.1342453118.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1342453118.git.sgw@linux.intel.com>
 References: <cover.1342453118.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 05/30] gconf: Disable gtk support
+Subject: [CONSOLIDATED PULL 07/30] runqemu/mips: adjust runqemu script to support mipsel machine
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,50 +33,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Jul 2012 15:59:00 -0000
+X-List-Received-Date: Mon, 16 Jul 2012 15:59:01 -0000
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Dennis Lan <dennis.yxun@gmail.com>
 
-There are only a couple of helper utilities within gconf that need gtk+ as a
-dependency and those are unused and pretty useless. We might as well drop
-the dependency on gtk and allow more parallel builds by reducing dependency
-bottlenecks.
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Dennis Lan <dennis.yxun@gmail.com>
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/recipes-gnome/gnome/gconf_3.2.3.bb |    8 +++-----
- 1 files changed, 3 insertions(+), 5 deletions(-)
+ scripts/runqemu          |    5 ++++-
+ scripts/runqemu-internal |   13 +++++++------
+ 2 files changed, 11 insertions(+), 7 deletions(-)
 
-diff --git a/meta/recipes-gnome/gnome/gconf_3.2.3.bb b/meta/recipes-gnome/gnome/gconf_3.2.3.bb
-index ccbc24e..1da7203 100644
---- a/meta/recipes-gnome/gnome/gconf_3.2.3.bb
-+++ b/meta/recipes-gnome/gnome/gconf_3.2.3.bb
-@@ -6,10 +6,10 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=55ca817ccb7d5b5b66355690e9abc605"
- POLKIT = "polkit"
- POLKIT_libc-uclibc = ""
+diff --git a/scripts/runqemu b/scripts/runqemu
+index 8d149a2..650d1df 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -94,7 +94,7 @@ KVM_ENABLED="no"
+ while true; do
+     arg=${1}
+     case "$arg" in
+-        "qemux86" | "qemux86-64" | "qemuarm" | "qemumips" | "qemumips64" | "qemush4"  | "qemuppc")
++        "qemux86" | "qemux86-64" | "qemuarm" | "qemumips" | "qemumipsel" | "qemumips64" | "qemush4"  | "qemuppc")
+             [ -z "$MACHINE" ] && MACHINE=$arg || \
+                 error "conflicting MACHINE types [$MACHINE] and [$arg]"
+             ;;
+@@ -245,6 +245,9 @@ QEMUARM_DEFAULT_FSTYPE=ext3
+ QEMUMIPS_DEFAULT_KERNEL=vmlinux-qemumips.bin
+ QEMUMIPS_DEFAULT_FSTYPE=ext3
  
--DEPENDS = "glib-2.0 gtk+ dbus dbus-glib libxml2 intltool-native ${POLKIT}"
-+DEPENDS = "glib-2.0 dbus dbus-glib libxml2 intltool-native ${POLKIT}"
- DEPENDS_virtclass-native = "glib-2.0-native dbus-native dbus-glib-native libxml2-native intltool-native gnome-common-native"
++QEMUMIPSEL_DEFAULT_KERNEL=vmlinux-qemumipsel.bin
++QEMUMIPSEL_DEFAULT_FSTYPE=ext3
++
+ QEMUMIPS64_DEFAULT_KERNEL=vmlinux-qemumips64.bin
+ QEMUMIPS64_DEFAULT_FSTYPE=ext3
  
--PR = "r8"
-+PR = "r9"
+diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
+index 041464d..a21ea93 100755
+--- a/scripts/runqemu-internal
++++ b/scripts/runqemu-internal
+@@ -236,6 +236,7 @@ fi
+ case "$MACHINE" in
+     "qemuarm") ;;
+     "qemumips") ;;
++    "qemumipsel") ;;
+     "qemumips64") ;;
+     "qemush4") ;;
+     "qemuppc") ;;
+@@ -375,12 +376,12 @@ if [ "$MACHINE" = "spitz" ]; then
+     fi
+ fi
  
- inherit gnomebase
- 
-@@ -26,10 +26,8 @@ POLKIT_OECONF = "--enable-defaults-service"
- POLKIT_OECONF_virtclass-native = "--disable-defaults-service"
- POLKIT_OECONF_libc-uclibc = "--disable-default-service"
- 
--GTKOECONF = "--with-gtk=2.0 --enable-gtk"
--GTKOECONF_virtclass-native = "--disable-gtk"
- EXTRA_OECONF = "--disable-gtk-doc --enable-shared --disable-static --enable-debug=yes \
--                --disable-introspection --disable-orbit --with-openldap=no ${POLKIT_OECONF} ${GTKOECONF}"
-+                --disable-introspection --disable-orbit --with-openldap=no ${POLKIT_OECONF} --disable-gtk"
- 
- do_configure_prepend () {
- 	touch gtk-doc.make
+-if [ "$MACHINE" = "qemumips" -o "$MACHINE" = "qemumips64" ]; then
+-    if [ "$MACHINE" = "qemumips64" ]; then
+-	QEMU=qemu-system-mips64
+-    else
+-	QEMU=qemu-system-mips
+-    fi
++if [ "$MACHINE" = "qemumips" -o "$MACHINE" = "qemumipsel" -o "$MACHINE" = "qemumips64" ]; then
++    case "$MACHINE" in
++       qemumips)   QEMU=qemu-system-mips ;;
++       qemumipsel) QEMU=qemu-system-mipsel ;;
++       qemumips64) QEMU=qemu-system-mips64 ;;
++    esac
+     MACHINE_SUBTYPE=malta
+     QEMU_UI_OPTIONS="-vga cirrus $QEMU_UI_OPTIONS"
+     if [ "$FSTYPE" = "ext3" -o "$FSTYPE" = "btrfs" ]; then
 -- 
 1.7.7.6
 
