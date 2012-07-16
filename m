@@ -1,32 +1,37 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1SqiGM-0008SW-0Q for openembedded-core@lists.openembedded.org;
-	Mon, 16 Jul 2012 12:10:46 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6G9xTXw029297;
-	Mon, 16 Jul 2012 10:59:29 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 28362-03; Mon, 16 Jul 2012 10:59:25 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6G9xKct029291
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Mon, 16 Jul 2012 10:59:21 +0100
-Message-ID: <1342432762.5019.9.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <ross.burton@intel.com>) id 1SqiiV-0000XV-IV
+	for openembedded-core@lists.openembedded.org;
+	Mon, 16 Jul 2012 12:39:51 +0200
+Received: from mail-qc0-f180.google.com ([209.85.216.180])
+	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 16 Jul 2012 03:28:30 -0700
+Received: by qcmv28 with SMTP id v28so2894318qcm.25
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 16 Jul 2012 03:28:30 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type:x-gm-message-state;
+	bh=m2aI5rl86g/zfOMetED8A20FbOnijgWlerv7LNxQ58Y=;
+	b=NQg0MtkXvS0Cz7Jqa6q/JISwl6KVzKfKKSQaFNrSwESTgpTLZMWbYBqq2l/p1AXKhX
+	ue4NeEgwK/01HBaO+/2Ml1QPhVIjBKLFPUxebxCWZhUejMFB9hk2WVU43NE2OLQfBJyt
+	wIDbMh8toLIlL1/SvvNF2NVjVaAMHSX3GFKrz7oBWvpCDTFYankPE9IsSzgXZwpgg3zb
+	gi7t7MzuxZJZjGy/7wswEqeOC37PtMvsLj86TEysVUibk6xJ3EI3LfJ7pcPblI5E/LGU
+	QKmO+bkkHXReQI+yZWofg7Wd8RSaEdANkxownh3k4HhKLHqfSbwuPVqKE+wR6wx7bDME
+	MnPw==
+Received: by 10.229.135.10 with SMTP id l10mr5844605qct.103.1342434509732;
+	Mon, 16 Jul 2012 03:28:29 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.229.218.201 with HTTP; Mon, 16 Jul 2012 03:28:09 -0700 (PDT)
+In-Reply-To: <500089F4.9010607@windriver.com>
+References: <500089F4.9010607@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 16 Jul 2012 11:28:09 +0100
+Message-ID: <CAJTo0LbKiJzw5Ns3z7YNn0LxtDFAeKany_mPthRKf8UbrUZDOg@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Mon, 16 Jul 2012 10:59:22 +0100
-In-Reply-To: <29D9FA58-0AB0-4ADF-B67E-0541BC7DA14C@dominion.thruhere.net>
-References: <1342259955-8875-1-git-send-email-koen@dominion.thruhere.net>
-	<CAP9ODKpJLfsbmfPnjL2zZMddeDXO9sWV4+-ZhHmzESQMFu=woQ@mail.gmail.com>
-	<29D9FA58-0AB0-4ADF-B67E-0541BC7DA14C@dominion.thruhere.net>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH] powertop: update to 2.0+git
+X-Gm-Message-State: ALoCoQnM4CpX5kOZl+lxe9H9MfxyYH/cjanh7iTI6vPJ/jnhBpsHa9Jzwmbphbe2pnGy8c+tH+Lj
+Subject: Re: [PATCH] dbus-glib: support unit tests compile and install
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,44 +46,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Jul 2012 10:10:46 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 16 Jul 2012 10:39:51 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Mon, 2012-07-16 at 08:11 +0200, Koen Kooi wrote:
-> Op 15 jul. 2012, om 23:25 heeft Otavio Salvador het volgende geschreven:
-> 
-> > On Sat, Jul 14, 2012 at 6:59 AM, Koen Kooi <koen@dominion.thruhere.net> wrote:
-> >> The recipe is autotools based now, the COPYING file was replaced with the complete GPLv2 license text.
-> >> No more 'lspci' needed ad runtime, but zlib and libnl are needed nowadays.
-> >> Add 2 patches, one to fix cross builds and one from Linaro to fix C state parsing on !x86.
-> > 
-> > Please add proper Upstream-Status for the patches; it is nice to have
-> > those to track the pending patches.
-> 
-> Isn't that field only used to put in "pending" and then backslap each
-> other on doing such a good job?
+On 13 July 2012 21:49, Yao Zhao <yao.zhao@windriver.com> wrote:
+> +-noinst_PROGRAMS= $(TEST_BINARIES)
+> ++testdir = /opt/@PACKAGE@-tests
+> ++test_PROGRAMS= $(TEST_BINARIES)
 
-I think that having the combination of knowing where the patch came
-from, a description of what it does and some idea of how hacky it is
-makes a significant difference to anyone subsequently looking at the
-patch.
+/opt is not for package-managed files, please install into /usr/ somewhere.
 
-Over time I also believe we can make a significant change in the amount
-of patches we're carrying around and the field will help with that.
+> +PACKAGECONFIG ??= ""
+> +PACKAGECONFIG[tests] = "--enable-tests,,,"
 
-If you want a concrete real world example now, when upgrading a recipe,
-if you see the string "backport", maybe along with a commit ID, it means
-you have to do much less work in verifying it is no longer required. It
-also helps me review things when I see people removing patches.
+It took me a while to figure out that the -tests packages will be
+dropped as they are empty by default, and I presume your intention is
+that people who want the tests can set
+PACKAGECONFIG_pn-dbus-glib="tests" in a configuration file somewhere.
 
-Cheers,
+A little documentation inline would be very useful.
 
-Richard
+Probably worth splitting the gquark compile fix out as a separate commit too.
 
-
-
-
-
+Ross
 
 
