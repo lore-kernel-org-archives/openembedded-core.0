@@ -1,39 +1,34 @@
-Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1Sqh96-0005um-CO
-	for openembedded-core@lists.openembedded.org;
-	Mon, 16 Jul 2012 10:59:12 +0200
-Received: from mail-qc0-f180.google.com ([209.85.216.180])
-	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 16 Jul 2012 01:47:52 -0700
-Received: by qcmv28 with SMTP id v28so2865874qcm.25
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1SqhBs-0006Nv-I4 for openembedded-core@lists.openembedded.org;
+	Mon, 16 Jul 2012 11:02:04 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6G8ojbk028933
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Jul 2012 01:47:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=unGoVtrIV33HwEw+lQvXGhHtVRJ69RRUvLukoJqjgY0=;
-	b=Z/F8OhnEI4ts6TgHt58wLSpDI0SKSqbgC3KVjTPP3sHSzeWDxxbJroD2ORGwOJJ2LJ
-	OIA5JSmXuXtTmVFgzclJidhLFxg+vn/+hWFCa3v8PJoIvXc1I9vHXKJzITXXcOuPcXyd
-	WIpLOJyQZfvpuSKRXRKyd1SMpUncZEcHxyh/V1t6+WTT2SSoF/0GMC9/2KWcu/ZKvcLs
-	osvY0DyEe/H3eLYMEDVu+B9PRmfFD7yoKVoGpQX78IuEzzOheBrUn3Z3pCs6j3Q40nzF
-	+da/PbqeXyx2bV5z4kPoNI5WrOa6I4+qi4WTMtUBSBRDHdQQg4xp9jmZzKVn/DdA/AD0
-	+vGA==
-Received: by 10.224.196.135 with SMTP id eg7mr19518411qab.24.1342428471817;
-	Mon, 16 Jul 2012 01:47:51 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.229.218.201 with HTTP; Mon, 16 Jul 2012 01:47:31 -0700 (PDT)
-In-Reply-To: <29D9FA58-0AB0-4ADF-B67E-0541BC7DA14C@dominion.thruhere.net>
-References: <1342259955-8875-1-git-send-email-koen@dominion.thruhere.net>
-	<CAP9ODKpJLfsbmfPnjL2zZMddeDXO9sWV4+-ZhHmzESQMFu=woQ@mail.gmail.com>
-	<29D9FA58-0AB0-4ADF-B67E-0541BC7DA14C@dominion.thruhere.net>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 16 Jul 2012 09:47:31 +0100
-Message-ID: <CAJTo0Laa4jNytbBv1ozJWE9kf=-4hSE4_gsZN+VA2N5C1MJVeQ@mail.gmail.com>
+	Mon, 16 Jul 2012 09:50:45 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 28381-03 for <openembedded-core@lists.openembedded.org>;
+	Mon, 16 Jul 2012 09:50:39 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6G8oYV5028927
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 16 Jul 2012 09:50:35 +0100
+Message-ID: <1342428637.5019.2.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Gm-Message-State: ALoCoQlQkXU/AdsvY2GZx2FJSQUTb/8N5zdBwZAh7oKr9SnZcFOBBeu5wLx78/DXKABY6jzq3hz6
-Subject: Re: [PATCH] powertop: update to 2.0+git
+Date: Mon, 16 Jul 2012 09:50:37 +0100
+In-Reply-To: <1342187709-19368-10-git-send-email-morgan.little@windriver.com>
+References: <1342187709-19368-1-git-send-email-morgan.little@windriver.com>
+	<1342187709-19368-10-git-send-email-morgan.little@windriver.com>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH 09/20] python-setuptools: Update for python-native changes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,19 +43,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Jul 2012 08:59:12 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 16 Jul 2012 09:02:04 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 16 July 2012 07:11, Koen Kooi <koen@dominion.thruhere.net> wrote:
->> Please add proper Upstream-Status for the patches; it is nice to have
->> those to track the pending patches.
->
-> Isn't that field only used to put in "pending" and then backslap each other on doing such a good job?
+On Fri, 2012-07-13 at 09:54 -0400, Morgan Little wrote:
+> Add pythonnative to the inherits list
+> 
+> Signed-off-by: Morgan Little <morgan.little@windriver.com>
+> ---
+>  .../python/python-setuptools_0.6c11.bb             |    4 ++--
+>  1 files changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/meta/recipes-devtools/python/python-setuptools_0.6c11.bb b/meta/recipes-devtools/python/python-setuptools_0.6c11.bb
+> index a769714..dbbc4dc 100644
+> --- a/meta/recipes-devtools/python/python-setuptools_0.6c11.bb
+> +++ b/meta/recipes-devtools/python/python-setuptools_0.6c11.bb
+> @@ -5,7 +5,7 @@ LICENSE = "PSF"
+>  LIC_FILES_CHKSUM = "file://setup.py;beginline=23;endline=23;md5=8a314270dd7a8dbca741775415f1716e"
+>  
+>  SRCNAME = "setuptools"
+> -PR = "ml4"
+> +PR = "ml3"
+>  DEPENDS += "python"
+>  DEPENDS_virtclass-native += "python-native"
+>  
+> @@ -14,7 +14,7 @@ SRC_URI = "\
+>  "
+>  S = "${WORKDIR}/${SRCNAME}-${PV}"
+>  
+> -inherit distutils
+> +inherit distutils pythonnative
 
-Personally I find it incredibly useful to differentiate between
-patches that should be going upstream and patches that are OE-specific
-for various reasons.
+Rather than do this with every user of distutils, would it make sense to
+inherit pythonnative in the distutils class? Is there a case we wouldn't
+want that inherit?
 
-Ross
+Cheers,
+
+Richard
+
+
 
 
