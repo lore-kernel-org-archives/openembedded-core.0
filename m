@@ -1,24 +1,24 @@
 Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SqnhK-0006sq-Uu
+	(envelope-from <sgw@linux.intel.com>) id 1SqnhL-0006st-KB
 	for openembedded-core@lists.openembedded.org;
 	Mon, 16 Jul 2012 17:58:59 +0200
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
 	by fmsmga102.fm.intel.com with ESMTP; 16 Jul 2012 08:47:38 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="193443302"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="193443304"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.178])
 	by fmsmga002.fm.intel.com with ESMTP; 16 Jul 2012 08:47:38 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 16 Jul 2012 08:47:08 -0700
-Message-Id: <3f85ab6d0d05a4e34fe73fa343d2b3b942fc69b7.1342453118.git.sgw@linux.intel.com>
+Date: Mon, 16 Jul 2012 08:47:09 -0700
+Message-Id: <7dd161816ccbb03db4f86902f96d3e86e09ccb64.1342453118.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <cover.1342453118.git.sgw@linux.intel.com>
 References: <cover.1342453118.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1342453118.git.sgw@linux.intel.com>
 References: <cover.1342453118.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 02/30] package install failure on systems without /sbin/ldconfig
+Subject: [CONSOLIDATED PULL 03/30] mkelfimage: Upstream fixed packaging issue so upgrade to e1e6a91
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,46 +35,33 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 16 Jul 2012 15:58:59 -0000
 
-From: Amy Fong <amy.fong@windriver.com>
+From: Raymond Danks <ray.danks@se-eng.com>
 
-Package install failures due to issues in post install rules.
+Address QA issue: Files/directories were installed but not shipped.
+New revision contains patch to mkelfimage removing
+/usr/share/mkelfImage/elf32-i386 directory from Makefile install target.
 
-package_do_shlibs only looks for libraries in a directory "lib", this should be
-modified to the variable baselib.
+http://review.coreboot.org/#/c/1195/
 
-ldconfig_postinst_fragment failure observed on systems without /sbin/ldconfig
-        [ -x /sbin/ldconfig ] && /sbin/ldconfig
-results in the post install rule returning a failure. Modify to
-        if [ -x /sbin/ldconfig ]; then /sbin/ldconfig; fi
-
-Signed-off-by: Amy Fong <amy.fong@windriver.com>
+Signed-off-by: Raymond Danks <ray.danks@se-eng.com>
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/classes/package.bbclass |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-devtools/mkelfimage/mkelfimage_git.bb |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index e6856cd..ec7de2c 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -1141,7 +1141,7 @@ emit_pkgdata[dirs] = "${PKGDESTWORK}/runtime"
+diff --git a/meta/recipes-devtools/mkelfimage/mkelfimage_git.bb b/meta/recipes-devtools/mkelfimage/mkelfimage_git.bb
+index 1224a63..4b45c67 100644
+--- a/meta/recipes-devtools/mkelfimage/mkelfimage_git.bb
++++ b/meta/recipes-devtools/mkelfimage/mkelfimage_git.bb
+@@ -4,7 +4,7 @@ SECTION = "devel"
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=ea5bed2f60d357618ca161ad539f7c0a"
  
- ldconfig_postinst_fragment() {
- if [ x"$D" = "x" ]; then
--	[ -x /sbin/ldconfig ] && /sbin/ldconfig
-+	if [ -x /sbin/ldconfig ]; then /sbin/ldconfig ; fi
- fi
- }
+-SRCREV = "e13632a939e7dde8d7d44fc73e73a41dae8060c3"
++SRCREV = "e1e6a91ce0738400fa1615179de88ebc0df29f66"
+ PV = "1.0.0+gitr${SRCPV}"
+ PR = "r1"
  
-@@ -1251,7 +1251,7 @@ python package_do_shlibs() {
- 		return
- 		
- 	lib_re = re.compile("^.*\.so")
--	libdir_re = re.compile(".*/lib$")
-+	libdir_re = re.compile(".*/%s$" % d.getVar('baselib', True))
- 
- 	packages = d.getVar('PACKAGES', True)
- 	targetos = d.getVar('TARGET_OS', True)
 -- 
 1.7.7.6
 
