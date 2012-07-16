@@ -1,37 +1,61 @@
-Received: from mail-qa0-f54.google.com ([209.85.216.54])
+Received: from co1ehsobe001.messaging.microsoft.com ([216.32.180.184]
+	helo=co1outboundpool.messaging.microsoft.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@gmail.com>) id 1SqbOm-0001HJ-Nt
+	(envelope-from <B29882@freescale.com>) id 1SqdBV-0007ZN-Fi
 	for openembedded-core@lists.openembedded.org;
-	Mon, 16 Jul 2012 04:51:00 +0200
-Received: by qaat11 with SMTP id t11so1339870qaa.6
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 15 Jul 2012 19:39:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=WeD69tXSIWUqNvUMVNBLym771J8J3+qi8YauGsYk7O0=;
-	b=uLRWVuHDViTT85KKT7iyWm/upbKmPLOPg2KoKcoj4jk2GihJ5C+Y6dcJapsQraPLh6
-	+tYHwtTxyZ4z1wHsy903T4DTG2iPJU9eCrHYYPSVeUXCi+4Wgr+71D/ivanUFsujdph5
-	OXDZRAAplE4zOIrvsfh4YlVuf21aEXDoI4+KbqvZmbgO5WyoQUACF8iQQRgV5b8h1DhH
-	0tSvJpi/vZS2WPLKvNlX9ulPHe1qrFUkwhksy/00wutt4+zkH5U75rmN3n4146yryyqy
-	wulPKzuJDFy+aUEPgb0Um4EXM+fXN5G/vHRaBXcvnQTS5IzbfSPwXWZXviR6oN2ChQrQ
-	L2Hg==
+	Mon, 16 Jul 2012 06:45:25 +0200
+Received: from mail168-co1-R.bigfish.com (10.243.78.230) by
+	CO1EHSOBE016.bigfish.com (10.243.66.79) with Microsoft SMTP Server id
+	14.1.225.23; Mon, 16 Jul 2012 04:34:06 +0000
+Received: from mail168-co1 (localhost [127.0.0.1])	by
+	mail168-co1-R.bigfish.com (Postfix) with ESMTP id 38077180203;
+	Mon, 16 Jul 2012 04:34:06 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-SpamScore: -14
+X-BigFish: VS-14(zz98dI9371I1443I1432I14e3M11f6Nzz1202hzz8275bh8275dhz2dh2a8h668h839h8e2h8e3hf0ah107ahbe9i)
+Received: from mail168-co1 (localhost.localdomain [127.0.0.1]) by mail168-co1
+	(MessageSwitch) id 1342413244304717_19139;
+	Mon, 16 Jul 2012 04:34:04 +0000 (UTC)
+Received: from CO1EHSMHS010.bigfish.com (unknown [10.243.78.253])	by
+	mail168-co1.bigfish.com (Postfix) with ESMTP id 3EE48C8009B;
+	Mon, 16 Jul 2012 04:34:04 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by CO1EHSMHS010.bigfish.com
+	(10.243.66.20) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Mon, 16 Jul 2012 04:34:04 +0000
+Received: from 039-SN1MPN1-002.039d.mgd.msft.net ([169.254.2.109]) by
+	039-SN1MMR1-002.039d.mgd.msft.net ([10.84.1.15]) with mapi id
+	14.02.0298.005; Sun, 15 Jul 2012 23:34:03 -0500
+From: McClintock Matthew-B29882 <B29882@freescale.com>
+To: Bincy K Philip <bincy_k_philip@yahoo.co.in>, Patches and discussions about
+	the oe-core layer <openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] Error in rpm bitbake
+Thread-Index: AQHNYQO9ZmW3yY65BUipm5vODNsTspcqqlkAgAD/y4A=
+Date: Mon, 16 Jul 2012 04:34:02 +0000
+Message-ID: <CAEsOVNcruG7TTqQukCd32FVfXOPbPPxj59uQfrKEA8ySQmzCEQ@mail.gmail.com>
+References: <1342182619.93150.YahooMailNeo@web192606.mail.sg3.yahoo.com>
+	<CAEsOVNdaBGNy2rDbqfA8ym+S7uMd3DA9FRAGunX0-MLRpuzcqg@mail.gmail.com>
+	<1342200594.69949.YahooMailNeo@web192606.mail.sg3.yahoo.com>
+	<CAEsOVNf1JGCiztMALddGMpV2qkhe_0LemrLA0yKvqyV9Nv07BQ@mail.gmail.com>
+	<1342283369.62528.YahooMailNeo@web192604.mail.sg3.yahoo.com>
+	<CAEsOVNftXUBgAh=FCa0a5qihWkzrAO+_vMbkOrcjQz60vqHoMQ@mail.gmail.com>
+	<1342291749.27854.YahooMailNeo@web192604.mail.sg3.yahoo.com>
+	<CAEsOVNeLasnMNMHp3fbFhjpMe1sULHDS5OydYeECXgUeXYE-Jw@mail.gmail.com>
+	<1342358290.15023.YahooMailNeo@web192605.mail.sg3.yahoo.com>
+In-Reply-To: <1342358290.15023.YahooMailNeo@web192605.mail.sg3.yahoo.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [70.112.201.132]
 MIME-Version: 1.0
-Received: by 10.224.203.8 with SMTP id fg8mr18396518qab.38.1342406382493; Sun,
-	15 Jul 2012 19:39:42 -0700 (PDT)
-Received: by 10.229.8.78 with HTTP; Sun, 15 Jul 2012 19:39:42 -0700 (PDT)
-In-Reply-To: <alpine.DEB.2.02.1207151647040.1884@oneiric>
-References: <alpine.DEB.2.02.1207151647040.1884@oneiric>
-Date: Sun, 15 Jul 2012 22:39:42 -0400
-Message-ID: <CADkTA4NfjZhS=VzsHF3qKxGc+x0LK85gdcf=meQ2JWLTyu5FbA@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: kernel-yocto.bbclass: Delete superfluous creation of ${S}/.git directory
+X-OriginatorOrg: freescale.com
+Cc: McClintock Matthew-B29882 <B29882@freescale.com>
+Subject: Re: Error in rpm bitbake
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -42,78 +66,198 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Jul 2012 02:51:00 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Mon, 16 Jul 2012 04:45:25 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <1E8C71F7B75BB744A055C0AE867D60D8@mgd.freescale.com>
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, Jul 15, 2012 at 4:55 PM, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
+On Sun, Jul 15, 2012 at 8:18 AM, Bincy K Philip
+<bincy_k_philip@yahoo.co.in> wrote:
 >
-> In do_kernel_checkout(), replace the creation of ${S}/.git with just
-> the creation of ${S} since the .git subdirectory is created only a few
-> lines later using a "mv".  Here's the original code:
+> Hi,  after applying the patch, I got the error message as follows.
 >
->   rm -rf ${S}
->   mkdir -p ${S}/.git
+>  patching file meta/recipes-devtools/rpm/rpm/dbconvert.patch
+>> patching file meta/recipes-devtools/rpm/rpm_5.4.9.bb
+>> Hunk #1 FAILED at 43.
+>> Hunk #2 FAILED at 75.
 >
->   echo "WARNING. ${WORKDIR}/git is not a bare clone."
->   echo "Ensure that the SRC_URI includes the 'bareclone=1' option."
+> My rpm_5.4.9.rej is attached.
 >
->   # we can fix up the kernel repository, but at the least the meta
->   # branch must be present. The machine branch may be created later.
->   mv ${WORKDIR}/git/.git ${S}    <-- See?  There it is.
->
-> There's no functional change here, it's just less confusing.
->
-> Signed-off-by: Robert P. J. Day <rpjday@crashcourse.ca>
->
-> ---
->
->   yes, i realize this doesn't change anything, but it's potentially
-> confusing for the code to explicitly create ${S}/.git, shortly before
-> it whomps over top of that directory anyway.  i spent a couple minutes
-> puzzling over the above trying to figure out if there was something
-> subtle happening i didn't understand.
+> Please look into this
 
-That block of code, and the one below it used to be the same .. so the extra
-mv and create just happened to stay.
+Bincy,
 
-There is no need for it, so I've applied your patch.
+This is a trivial patch to fix to apply cleanly. Give it a shot.
+Google around for more help with patches and resolving patches.
 
-Cheers,
-
-Bruce
+-M
 
 >
+> Regards
+> Bincy
+> From: McClintock Matthew-B29882 <B29882@freescale.com>
 >
-> diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
-> index 48c8974..8e010e0 100644
-> --- a/meta/classes/kernel-yocto.bbclass
-> +++ b/meta/classes/kernel-yocto.bbclass
-> @@ -106,7 +106,7 @@ do_kernel_checkout() {
->         if [ -d "${WORKDIR}/git/" ] && [ -d "${WORKDIR}/git/.git" ]; then
->                 # we build out of {S}, so ensure that ${S} is clean and present
->                 rm -rf ${S}
-> -               mkdir -p ${S}/.git
-> +               mkdir -p ${S}
+> To: Bincy K Philip <bincy_k_philip@yahoo.co.in>; Patches and discussions
+> about the oe-core layer <openembedded-core@lists.openembedded.org>
+> Sent: Sunday, 15 July 2012 2:23 AM
 >
->                 echo "WARNING. ${WORKDIR}/git is not a bare clone."
->                 echo "Ensure that the SRC_URI includes the 'bareclone=1' option."
+> Subject: Re: [OE-core] Error in rpm bitbake
 >
-> rday
+> On Sat, Jul 14, 2012 at 1:49 PM, Bincy K Philip
+> <bincy_k_philip@yahoo.co.in> wrote:
+>>
+>> Could you please explain a little more on this.
+>> Thank you
 >
-> --
+> My patch is not applying to your tree - can you show the conflicts?
+> Show us the output of git diff after running the patch command.
 >
-> ========================================================================
-> Robert P. J. Day                                 Ottawa, Ontario, CANADA
->                         http://crashcourse.ca
+> -M
 >
-> Twitter:                                       http://twitter.com/rpjday
-> LinkedIn:                               http://ca.linkedin.com/in/rpjday
-> ========================================================================
+>
+>> From: McClintock Matthew-B29882 <B29882@freescale.com>
+>> To: Bincy K Philip <bincy_k_philip@yahoo.co.in>
+>> Cc: McClintock Matthew-B29882 <B29882@freescale.com>
+>> Sent: Saturday, 14 July 2012 10:58 PM
+>>
+>> Subject: Re: [OE-core] Error in rpm bitbake
+>>
+>> You need to send all your replies to the list. And it's from an older
+>> libc version. That patch should apply with a little bit of work.
+>>
+>> -M
+>>
+>> On Sat, Jul 14, 2012 at 11:29 AM, Bincy K Philip
+>> <bincy_k_philip@yahoo.co.in> wrote:
+>>> Hi Mathew,
+>>>
+>>> Is this problem specific to OS or kernel version..?
+>>> |T|hanks for the help.
+>>>
+>>> Regards
+>>> Bincy
+>>>
+>>> From: McClintock Matthew-B29882 <B29882@freescale.com>
+>>> To: Bincy K Philip <bincy_k_philip@yahoo.co.in>
+>>> Cc: McClintock Matthew-B29882 <B29882@freescale.com>
+>>> Sent: Saturday, 14 July 2012 12:12 AM
+>>> Subject: Re: [OE-core] Error in rpm bitbake
+>>>
+>>> On Fri, Jul 13, 2012 at 12:29 PM, Bincy K Philip
+>>> <bincy_k_philip@yahoo.co.in> wrote:
+>>>> Hi Mathew,
+>>>>
+>>>> Thank you very much for the reply.
+>>>>
+>>>> I have tried out following steps.
+>>>>
+>>>> 1.Copied the patch contents into one file called dbconvert.patch
+>>>> 2.Copied the dbconvert.patch in tmp/layers/openembeddedcore
+>>>> 3.Gave the command patch -p1< dbconvert.patch
+>>>> 4.I got following error mesage
+>>>>
+>>>>
+>>>> patching file meta/recipes-devtools/rpm/rpm/dbconvert.patch
+>>>> patching file meta/recipes-devtools/rpm/rpm_5.4.9.bb
+>>>> Hunk #1 FAILED at 43.
+>>>> Hunk #2 FAILED at 75.
+>>>> I am not able to sortout this issue.Can you please suggest on this.
+>>>>
+>>>> Also in my bitbake I am getting this error.
+>>>>
+>>>> Summary: 1 task failed:
+>>>>
+>>>>
+>>>>
+>>>> virtual:native:/local/jenkins/build_project/mvldir_ggg/tmp/layers/open=
+embedded-core-030712/openembedded-core-030712//meta/recipes-devtools/rpm/rp=
+m_5.4.9.bb,
+>>>> do_patch
+>>>
+>>> My patch did not apply cleanly to the version of poky you are using -
+>>> this needs to be fixed.
+>>>
+>>> -M
+>>>
+>>>>
+>>>> Could you please guide me.
+>>>> Thank you
+>>>> From: McClintock Matthew-B29882 <B29882@freescale.com>
+>>>> To: Bincy K Philip <bincy_k_philip@yahoo.co.in>; Patches and discussio=
+ns
+>>>> about the oe-core layer <openembedded-core@lists.openembedded.org>
+>>>> Sent: Friday, 13 July 2012 7:58 PM
+>>>> Subject: Re: [OE-core] Error in rpm bitbake
+>>>>
+>>>> On Fri, Jul 13, 2012 at 7:30 AM, Bincy K Philip
+>>>> <bincy_k_philip@yahoo.co.in> wrote:
+>>>>> Dear all,
+>>>>>
+>>>>> I have started to work with open embedded only 3 months back.
+>>>>>
+>>>>> I got attached error log while trying for " bitbake rpm". This rpm
+>>>>> failure
+>>>>> causes my bitbake core-image-minimal to fail.
+>>>>>
+>>>>>
+>>>>> I have gone through some Google posts and understood dbconver.c cause=
+s
+>>>>> this
+>>>>> error & need to exclude this file from compiling.I am not aware of ho=
+w
+>>>>> to
+>>>>> do
+>>>>> that.Can anyone answer this?
+>>>>>
+>>>>> Also I have seen that there is one dbconvert.patch work in progress.
+>>>>> But
+>>>>> couldn't find out this file in open embedded git repository.
+>>>>>
+>>>>> Please help me to sort out this issue.This is really blocking me.
+>>>>>
+>>>>> Thanks in advance...
+>>>>
+>>>> Bincy,
+>>>>
+>>>> I submitted a patch for this a few days ago. Waiting for it to be
+>>>> applied or for feedback:
+>>>>
+>>>>
+>>>>
+>>>>
+>>>> http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=3Dmat=
+tsm/master&id=3D9cd3f21ab41c039ddcc6bbff521f9d7b284813ae
+>>>>
+>>>> -M
+>>>>
+>>>>>
+>>>>>
+>>>>> _______________________________________________
+>>>>> Openembedded-core mailing list
+>>>>> Openembedded-core@lists.openembedded.org
+>>>>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>>>>>
+>>>>
+>>>>
+>>>
+>>>
+>>
+>>
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>>
+>
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>=
 
-
-
--- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
 
 
