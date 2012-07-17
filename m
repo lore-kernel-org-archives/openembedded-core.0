@@ -1,32 +1,37 @@
-Received: from mail-wg0-f41.google.com ([74.125.82.41])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1Sr4On-0004YD-7p
+	(envelope-from <ross.burton@intel.com>) id 1Sr4On-0004YC-Cd
 	for openembedded-core@lists.openembedded.org;
 	Tue, 17 Jul 2012 11:48:58 +0200
-Received: by wgbds1 with SMTP id ds1so2888804wgb.0
+Received: from mail-qa0-f45.google.com ([209.85.216.45])
+	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 17 Jul 2012 02:37:36 -0700
+Received: by qaeb19 with SMTP id b19so2021722qae.4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Jul 2012 02:37:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=US4DBzF/feZXAtDIFInZL/WauI1oBl52ioT6S25MQAA=;
-	b=S9jIVn9Rutte729w5JhRs0HmHzhuig5YtjFx5DS7+ADG9o4PPTMSWtmAc8wFFCIGr+
-	5TjNDFtJKZjEuSrCaTlBW9rWuVEaYYVIO2bXuJRF2VYUpHZ7D/ZiErRASAjBmZIrtvqK
-	Sqw71j2PK8WKUcz1gxuAhLnzVtRKCRvBv9IiwhrJgXpz5+N5O/qIs1PcL9b8s27fOvn0
-	0LUiiLd1hRFGslFjFz3EPLLwgqCuPd5QulNNgsMFQfAQjrfQjmXwbA1Pfm6gFViDZFQf
-	hLgxvllK5jR8pjTpm3GgOkYJtAf59Rp+5qrOofgXrEofjJ7xzY69Iw8gOSv78Bv5ot12
-	WHVQ==
-Received: by 10.216.134.169 with SMTP id s41mr967517wei.183.1342517857909;
-	Tue, 17 Jul 2012 02:37:37 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id df4sm26167830wib.4.2012.07.17.02.37.35
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 17 Jul 2012 02:37:36 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 17 Jul 2012 11:37:43 +0200
-Message-Id: <1342517864-26972-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.7.8.6
-Subject: [PATCH 1/2] netbase: remove networkmanager handling for qemu machines
+	Tue, 17 Jul 2012 02:37:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type:x-gm-message-state;
+	bh=NA/jDpiPtIUJaxgVnt/gb9tAbJ8jUGiHn4oAKeYQSHg=;
+	b=ByLK2BQECOeTaD1dbncL7dcS7AfEiavzYvgkEr5kzFEbqNt/0UUmGV4kwYOdIwG5Am
+	c9aClWLuPN4jQDOwNXbn9r1KQujfFTkkwFitHMdgiZwpsMO9JwOaFttKMtXnURA6gk5O
+	UPEGGzWVwgO+Y87PfmONRdiyA0g0ho/JlhYkqit1SIzf7HeUlg5zui4HWTna3uwtD3nN
+	AK1sN6Fs2LZP2+x/yG77EHjl3Pq8G1AfToFbIickV+YbMVGaZnhbxUlnikF4fWokdqwm
+	v/rjFmSHXYjBnuH7JZu2ZQL5yD0/F2m6QExBUJfh8Q4SEd7cjpe+4VwPYsu20jsxYb8p
+	MR2g==
+Received: by 10.224.177.1 with SMTP id bg1mr3133443qab.68.1342517855265; Tue,
+	17 Jul 2012 02:37:35 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.229.82.74 with HTTP; Tue, 17 Jul 2012 02:37:14 -0700 (PDT)
+In-Reply-To: <cover.1342505369.git.sgw@linux.intel.com>
+References: <cover.1342505369.git.sgw@linux.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 17 Jul 2012 10:37:14 +0100
+Message-ID: <CAJTo0LZsPrQWb+M2sdQdBzez-igd8Sb1H-wRFosmxZZz9vT+Rg@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Gm-Message-State: ALoCoQn+dlhoNT2NPprLe/ghC3+fC1EQOw0/cBKhyV9GBJWUJgi/No1VhSOnYfpLo8DcHFhQvYRS
+Subject: Re: [CONSOLIDATED PULL 00/45] Eglic, Automake (cover letter Only)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,36 +47,18 @@ List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 17 Jul 2012 09:48:59 -0000
+Content-Type: text/plain; charset=UTF-8
 
-* see http://lists.linuxtogo.org/pipermail/openembedded-core/2012-February/018279.html thread
+Richard,
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/recipes-core/netbase/netbase_5.0.bb |    9 ---------
- 1 files changed, 0 insertions(+), 9 deletions(-)
+On 17 July 2012 07:14, Saul Wold <sgw@linux.intel.com> wrote:
+> I have continued to wokr on this get of changes from Khem and Nitin
+> and Ross.
 
-diff --git a/meta/recipes-core/netbase/netbase_5.0.bb b/meta/recipes-core/netbase/netbase_5.0.bb
-index 3aea874..7c609af 100644
---- a/meta/recipes-core/netbase/netbase_5.0.bb
-+++ b/meta/recipes-core/netbase/netbase_5.0.bb
-@@ -34,15 +34,6 @@ do_install () {
- 	install -m 0644 etc-services ${D}${sysconfdir}/services
- 	install -m 0644 ${WORKDIR}/interfaces ${D}${sysconfdir}/network/interfaces
- 	install -m 0755 ${WORKDIR}/nfsroot ${D}${sysconfdir}/network/if-pre-up.d
--
--	# Disable network manager on machines that commonly do NFS booting
--	case "${MACHINE}" in
--		"qemuarm*" | "qemux86" | "qemux86-64" | "qemumips*" | "qemuppc" | "qemush*")
--			touch ${D}${sysconfdir}/network/nm-disabled-eth0
--			;;
--		*)
--			;;
--	esac
- }
- 
- CONFFILES_${PN} = "${sysconfdir}/hosts ${sysconfdir}/network/interfaces"
--- 
-1.7.8.6
+My two webkit commits are unrelated to the automake/eglibc changes and
+I'm just test-building some further revisions now, so feel free to
+leave those out for now.
 
+Ross
 
 
