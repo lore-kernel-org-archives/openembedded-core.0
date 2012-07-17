@@ -1,32 +1,33 @@
-Received: from mail-wi0-f169.google.com ([209.85.212.169])
+Received: from mail-wi0-f171.google.com ([209.85.212.171])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nate.ewest@gmail.com>) id 1SrGFH-0002Hn-4u
+	(envelope-from <damien.lespiau@gmail.com>) id 1SrGLl-0002OF-Hm
 	for openembedded-core@lists.openembedded.org;
-	Wed, 18 Jul 2012 00:27:55 +0200
-Received: by wibhm2 with SMTP id hm2so3393037wib.0
+	Wed, 18 Jul 2012 00:34:37 +0200
+Received: by wibhq4 with SMTP id hq4so3701084wib.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Jul 2012 15:16:35 -0700 (PDT)
+	Tue, 17 Jul 2012 15:23:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:date:x-google-sender-auth:message-id:subject
-	:from:to:content-type;
-	bh=hjXKXhcZ0r2zxjKiXKCgntWFTO/cK3u9Tx1ldVltctA=;
-	b=k37SMzR5PswiX8dMDtGDXAPlYZgcf3hSef5jIos9ypenJs6z4sT0cjHxqeP1yp14TX
-	nmc96CbkK9R75uAAVqbRxxnOn19FwX8utVl/gpmvEVFeG7JKSHClG+lTHjMZceM2Z/Rf
-	jySIC3BS2KyCZ3BCQ1b0s5Kq7DMSjJ34fLzC9qiYONGEx0lVBNzkFHuMps/s3ZHjk8E4
-	y5+4HCaw3l4UmS7Lw4J4tVVN24kuMavqpylTeXMHge3rfVKOWBv7nL6vyyovmWq28afc
-	twUduKYglFTE98ivcUAqxrSaJf1QBUln7VRWl6+VUb5XdKGpa9lZnN7o3YRHFFFUdBBM
-	4OTw==
-MIME-Version: 1.0
-Received: by 10.217.1.202 with SMTP id n52mr314028wes.21.1342563395400; Tue,
-	17 Jul 2012 15:16:35 -0700 (PDT)
-Sender: nate.ewest@gmail.com
-Received: by 10.194.47.42 with HTTP; Tue, 17 Jul 2012 15:16:35 -0700 (PDT)
-Date: Tue, 17 Jul 2012 18:16:35 -0400
-X-Google-Sender-Auth: J0XZ9dyFApmS685Om15tzKCM-fc
-Message-ID: <CACFtY++ekHacLd5VLvfEabKxkdTFxSzfa6oU+aRbS5br_PzDxA@mail.gmail.com>
-From: Nathan West <nathan.west@okstate.edu>
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=3B4gvSm50GaNIC21vOSMlP25v0xv/7WXjy/3j5X5NZs=;
+	b=Ip9qXndXhXlNijtZbfKyINx9XnSX+qZr1nRBrsXo2SrvqPUXCMyDmBiPyEMz3ecasY
+	cQ2VL15n+QbKydMz4ZSKPGvP7egfr93ApH3jXd0IBWE5xxN0KbIgSRNA3/LS3iNAky4K
+	Ho51TEnEKeFZeVAWaEl4/FcNj1ApxsEfMZg3AC2QWpaAZ01JAiQIBDIze+UC2eEMToLi
+	ztVeNm6ZCQeFW/g6/8wcy6eVq/uu1FBQbafuBSXvjArKV+SP89JJlzhJYljJZjouk+0D
+	ulPSmkLnPEj+1hSj1QJ1/2v1sPXoC96b/j2D/vUBFym40XHgqRZk4LRR3jXOUHBH9Hug
+	3nGQ==
+Received: by 10.216.136.230 with SMTP id w80mr369410wei.199.1342563797893;
+	Tue, 17 Jul 2012 15:23:17 -0700 (PDT)
+Received: from localhost.localdomain ([83.217.123.106])
+	by mx.google.com with ESMTPS id h9sm29260931wiz.1.2012.07.17.15.23.16
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 17 Jul 2012 15:23:17 -0700 (PDT)
+From: Damien Lespiau <damien.lespiau@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] point prelink.conf to ${IMAGE_ROOTFS}
+Date: Tue, 17 Jul 2012 23:23:12 +0100
+Message-Id: <1342563792-17634-1-git-send-email-damien.lespiau@gmail.com>
+X-Mailer: git-send-email 1.7.10.4
+Cc: Damien Lespiau <damien.lespiau@intel.com>
+Subject: [PATCH] eglic: Update the svn URL
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,114 +42,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Jul 2012 22:27:55 -0000
-Content-Type: multipart/alternative; boundary=20cf301e2e7d45723e04c50de63c
+X-List-Received-Date: Tue, 17 Jul 2012 22:34:37 -0000
 
---20cf301e2e7d45723e04c50de63c
-Content-Type: text/plain; charset=ISO-8859-1
+From: Damien Lespiau <damien.lespiau@intel.com>
 
-Hopefully I do this right. First time patching (ever! this is exciting :-) )
+Apparently, you can't be checkout eglibc at this URL anymore:
 
-The --root option doesn't work and isn't documented anywhere I could find,
-and without the ${IMAGE_ROOTFS} before the config file it was point to my
-native /etc/prelink.conf (which doesn't exist and probably would be useful
-if it did)
+STDERR: svn: E170000: URL 'svn://www.eglibc.org/svn/branches/eglibc-2_15' doesn't exist
 
-Be gentle if I screwed up!
--Nathan
+eglibc.org does give http access to the repository, but you have to use
+the http:// scheme.
 
+So let's change both 2.15 and 2.16 recipes.
 
-
+Signed-off-by: Damien Lespiau <damien.lespiau@intel.com>
 ---
- meta/classes/image-prelink.bbclass |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-core/eglibc/eglibc_2.15.bb |    2 +-
+ meta/recipes-core/eglibc/eglibc_2.16.bb |    2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/image-prelink.bbclass
-b/meta/classes/image-prelink.bbclass
-index 53ef47e..2d62f03 100644
---- a/meta/classes/image-prelink.bbclass
-+++ b/meta/classes/image-prelink.bbclass
-@@ -21,7 +21,7 @@ prelink_image () {
-  fi
-
-  # prelink!
-- ${STAGING_DIR_NATIVE}${sbindir_native}/prelink --root ${IMAGE_ROOTFS}
--amR -N -c ${sysconfdir}/prelink.conf
-+ ${STAGING_DIR_NATIVE}${sbindir_native}/prelink ${IMAGE_ROOTFS} -amR -N -c
-${IMAGE_ROOTFS}${sysconfdir}/prelink.conf
-
-  # Remove the prelink.conf if we had to add it.
-  if [ "$dummy_prelink_conf" = "true" ]; then
+diff --git a/meta/recipes-core/eglibc/eglibc_2.15.bb b/meta/recipes-core/eglibc/eglibc_2.15.bb
+index 110febf..16b3fa1 100644
+--- a/meta/recipes-core/eglibc/eglibc_2.15.bb
++++ b/meta/recipes-core/eglibc/eglibc_2.15.bb
+@@ -7,7 +7,7 @@ PR = "r12"
+ PR_append = "+svnr${SRCPV}"
+ 
+ EGLIBC_BRANCH="eglibc-2_15"
+-SRC_URI = "svn://www.eglibc.org/svn/branches/;module=${EGLIBC_BRANCH};protocol=http \
++SRC_URI = "http://www.eglibc.org/svn/branches/;module=${EGLIBC_BRANCH};protocol=http \
+            file://eglibc-svn-arm-lowlevellock-include-tls.patch \
+            file://IO-acquire-lock-fix.patch \
+            file://mips-rld-map-check.patch \
+diff --git a/meta/recipes-core/eglibc/eglibc_2.16.bb b/meta/recipes-core/eglibc/eglibc_2.16.bb
+index 09f5dbb..bec39cf 100644
+--- a/meta/recipes-core/eglibc/eglibc_2.16.bb
++++ b/meta/recipes-core/eglibc/eglibc_2.16.bb
+@@ -7,7 +7,7 @@ PR = "r0"
+ PR_append = "+svnr${SRCPV}"
+ 
+ EGLIBC_BRANCH="eglibc-2_16"
+-SRC_URI = "svn://www.eglibc.org/svn/branches/;module=${EGLIBC_BRANCH};protocol=http \
++SRC_URI = "http://www.eglibc.org/svn/branches/;module=${EGLIBC_BRANCH};protocol=http \
+            file://eglibc-svn-arm-lowlevellock-include-tls.patch \
+            file://IO-acquire-lock-fix.patch \
+            file://mips-rld-map-check.patch \
 -- 
-1.7.9.5
+1.7.10.4
 
---20cf301e2e7d45723e04c50de63c
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
 
-<div style=3D"color:rgb(34,34,34);font-family:arial,sans-serif;font-size:13=
-px;background-color:rgb(255,255,255)"><div>Hopefully I do this right. First=
- time patching (ever! this is exciting :-) )</div><div><br></div><div>The -=
--root option doesn&#39;t work and isn&#39;t documented anywhere I could fin=
-d, and without the ${IMAGE_ROOTFS} before the config file it was point to m=
-y native /etc/prelink.conf (which doesn&#39;t exist and probably would be u=
-seful if it did)</div>
-<div><br></div><div>Be gentle if I screwed up!</div><div>-Nathan</div></div=
-><div style=3D"color:rgb(34,34,34);font-family:arial,sans-serif;font-size:1=
-3px;background-color:rgb(255,255,255)"><br></div><div style=3D"color:rgb(34=
-,34,34);font-family:arial,sans-serif;font-size:13px;background-color:rgb(25=
-5,255,255)">
-<br></div><div style=3D"color:rgb(34,34,34);font-family:arial,sans-serif;fo=
-nt-size:13px;background-color:rgb(255,255,255)"><br></div><div style=3D"col=
-or:rgb(34,34,34);font-family:arial,sans-serif;font-size:13px;background-col=
-or:rgb(255,255,255)">
----</div><div style=3D"color:rgb(34,34,34);font-family:arial,sans-serif;fon=
-t-size:13px;background-color:rgb(255,255,255)">=A0meta/classes/image-prelin=
-k.bbclass | =A0 =A02 +-</div><div style=3D"color:rgb(34,34,34);font-family:=
-arial,sans-serif;font-size:13px;background-color:rgb(255,255,255)">
-=A01 file changed, 1 insertion(+), 1 deletion(-)</div><div style=3D"color:r=
-gb(34,34,34);font-family:arial,sans-serif;font-size:13px;background-color:r=
-gb(255,255,255)"><br></div><div style=3D"color:rgb(34,34,34);font-family:ar=
-ial,sans-serif;font-size:13px;background-color:rgb(255,255,255)">
-diff --git a/meta/classes/image-prelink.bbclass b/meta/classes/image-prelin=
-k.bbclass</div><div style=3D"color:rgb(34,34,34);font-family:arial,sans-ser=
-if;font-size:13px;background-color:rgb(255,255,255)">index 53ef47e..2d62f03=
- 100644</div>
-<div style=3D"color:rgb(34,34,34);font-family:arial,sans-serif;font-size:13=
-px;background-color:rgb(255,255,255)">--- a/meta/classes/image-prelink.bbcl=
-ass</div><div style=3D"color:rgb(34,34,34);font-family:arial,sans-serif;fon=
-t-size:13px;background-color:rgb(255,255,255)">
-+++ b/meta/classes/image-prelink.bbclass</div><div style=3D"color:rgb(34,34=
-,34);font-family:arial,sans-serif;font-size:13px;background-color:rgb(255,2=
-55,255)">@@ -21,7 +21,7 @@ prelink_image () {</div><div style=3D"color:rgb(=
-34,34,34);font-family:arial,sans-serif;font-size:13px;background-color:rgb(=
-255,255,255)">
-=A0<span style=3D"white-space:pre-wrap">	</span>fi</div><div style=3D"color=
-:rgb(34,34,34);font-family:arial,sans-serif;font-size:13px;background-color=
-:rgb(255,255,255)">=A0</div><div style=3D"color:rgb(34,34,34);font-family:a=
-rial,sans-serif;font-size:13px;background-color:rgb(255,255,255)">
-=A0<span style=3D"white-space:pre-wrap">	</span># prelink!</div><div style=
-=3D"color:rgb(34,34,34);font-family:arial,sans-serif;font-size:13px;backgro=
-und-color:rgb(255,255,255)">-<span style=3D"white-space:pre-wrap">	</span>$=
-{STAGING_DIR_NATIVE}${sbindir_native}/prelink --root ${IMAGE_ROOTFS} -amR -=
-N -c ${sysconfdir}/prelink.conf</div>
-<div style=3D"color:rgb(34,34,34);font-family:arial,sans-serif;font-size:13=
-px;background-color:rgb(255,255,255)">+<span style=3D"white-space:pre-wrap"=
->	</span>${STAGING_DIR_NATIVE}${sbindir_native}/prelink ${IMAGE_ROOTFS} -am=
-R -N -c ${IMAGE_ROOTFS}${sysconfdir}/prelink.conf</div>
-<div style=3D"color:rgb(34,34,34);font-family:arial,sans-serif;font-size:13=
-px;background-color:rgb(255,255,255)">=A0</div><div style=3D"color:rgb(34,3=
-4,34);font-family:arial,sans-serif;font-size:13px;background-color:rgb(255,=
-255,255)">
-=A0<span style=3D"white-space:pre-wrap">	</span># Remove the prelink.conf i=
-f we had to add it.</div><div style=3D"color:rgb(34,34,34);font-family:aria=
-l,sans-serif;font-size:13px;background-color:rgb(255,255,255)">=A0<span sty=
-le=3D"white-space:pre-wrap">	</span>if [ &quot;$dummy_prelink_conf&quot; =
-=3D &quot;true&quot; ]; then</div>
-<div style=3D"color:rgb(34,34,34);font-family:arial,sans-serif;font-size:13=
-px;background-color:rgb(255,255,255)">--=A0</div><div style=3D"color:rgb(34=
-,34,34);font-family:arial,sans-serif;font-size:13px;background-color:rgb(25=
-5,255,255)">
-1.7.9.5</div>
 
---20cf301e2e7d45723e04c50de63c--
