@@ -1,32 +1,20 @@
-Received: from mail-wi0-f177.google.com ([209.85.212.177])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1Sr2Qn-0001b6-0I
+	(envelope-from <cristian.iorga@intel.com>) id 1Sr3KB-0006O0-DY
 	for openembedded-core@lists.openembedded.org;
-	Tue, 17 Jul 2012 09:42:53 +0200
-Received: by wibhm11 with SMTP id hm11so89148wib.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Jul 2012 00:31:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=KA5lk24C7eOAqMMcFHp/nXWkT2cNwK4SoubTxXfn9J4=;
-	b=fvoFmWI0+mC2zhdqDsuzxKXsk18We9YO7GnG+ylKKu8N7e81ovc4KO1OPJ3zEVh2Pg
-	2zalaM2SmsPLX1ihUDNylBQiv7CClfh5iiYKjHANyeM/HoYZjbKrfZAyjQ1Y0bdqSMHl
-	634+ESKKSRT13ZMvkc+Lo7mxF8bxbITGrB9N26MUWYFUxZ+nJn+XxHJAoVtn9DaFUvrt
-	+iFIJcoD3fR3a8IotXAqDl05drpFeLjO0TyHmfH/lsGh/FXAQ2+LuZT4NdpMEkApVAeh
-	sUOXKyUpSJK75z/HZOGCSrKRhSCU4GKWiWp9ijEUOBiK8o95aZMGMtlSzzRF31fLMM2x
-	M52w==
-Received: by 10.180.100.131 with SMTP id ey3mr1725923wib.15.1342510293983;
-	Tue, 17 Jul 2012 00:31:33 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id df4sm25706771wib.4.2012.07.17.00.31.32
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 17 Jul 2012 00:31:33 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
+	Tue, 17 Jul 2012 10:40:07 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 17 Jul 2012 01:28:47 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="178556504"
+Received: from sentry (HELO localhost.localdomain) ([10.237.105.53])
+	by fmsmga001.fm.intel.com with ESMTP; 17 Jul 2012 01:28:46 -0700
+From: Cristian Iorga <cristian.iorga@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 17 Jul 2012 09:31:34 +0200
-Message-Id: <1342510294-23477-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.7.8.6
-Subject: [PATCH] qt-mobility, xserver-xorg, ofono, bluez4, gst-plugins-good: bump PR to rebuild after libudev0 soname change to libudev1
+Date: Tue, 17 Jul 2012 11:28:54 +0300
+Message-Id: <1342513736-468-1-git-send-email-cristian.iorga@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH 1/3] iproute2: upgrade to 3.4.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,96 +29,242 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Jul 2012 07:42:53 -0000
+X-List-Received-Date: Tue, 17 Jul 2012 08:40:08 -0000
 
-* this patch depends on http://patchwork.openembedded.org/patch/32085/
-
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
 ---
- meta/recipes-connectivity/bluez/bluez4_4.101.bb    |    2 +-
- meta/recipes-connectivity/ofono/ofono_1.8.bb       |    1 +
- meta/recipes-connectivity/ofono/ofono_git.bb       |    2 +-
- .../xorg-xserver/xserver-xorg-1.11.2.inc           |    2 +-
- .../gstreamer/gst-plugins-good_0.10.31.bb          |    2 +-
- meta/recipes-qt/qt4/qt-mobility_1.2.0.inc          |    2 +-
- 6 files changed, 6 insertions(+), 5 deletions(-)
+ .../iproute2/iproute2-3.2.0/configure-cross.patch  |   76 -------------------
+ .../iproute2/iproute2-3.4.0/configure-cross.patch  |   77 ++++++++++++++++++++
+ meta/recipes-connectivity/iproute2/iproute2.inc    |   10 +--
+ .../iproute2/iproute2_3.2.0.bb                     |   11 ---
+ .../iproute2/iproute2_3.4.0.bb                     |    9 +++
+ 5 files changed, 91 insertions(+), 92 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/iproute2/iproute2-3.2.0/configure-cross.patch
+ create mode 100644 meta/recipes-connectivity/iproute2/iproute2-3.4.0/configure-cross.patch
+ delete mode 100644 meta/recipes-connectivity/iproute2/iproute2_3.2.0.bb
+ create mode 100644 meta/recipes-connectivity/iproute2/iproute2_3.4.0.bb
 
-diff --git a/meta/recipes-connectivity/bluez/bluez4_4.101.bb b/meta/recipes-connectivity/bluez/bluez4_4.101.bb
-index 4a360b6..e26d4ea 100644
---- a/meta/recipes-connectivity/bluez/bluez4_4.101.bb
-+++ b/meta/recipes-connectivity/bluez/bluez4_4.101.bb
-@@ -1,6 +1,6 @@
- require bluez4.inc
+diff --git a/meta/recipes-connectivity/iproute2/iproute2-3.2.0/configure-cross.patch b/meta/recipes-connectivity/iproute2/iproute2-3.2.0/configure-cross.patch
+deleted file mode 100644
+index bed7b84..0000000
+--- a/meta/recipes-connectivity/iproute2/iproute2-3.2.0/configure-cross.patch
++++ /dev/null
+@@ -1,76 +0,0 @@
+-From 85b0589b4843c03e8e6fd9416d71ea449a73c5c0 Mon Sep 17 00:00:00 2001
+-From: Koen Kooi <koen@dominion.thruhere.net>
+-Date: Thu, 3 Nov 2011 10:46:16 +0100
+-Subject: [PATCH] make configure cross compile safe
+-
+-According to Kevin Tian:
+-Upstream-Status: Pending
+-
+-Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+-Signed-off-by: Shane Wang <shane.wang@intel.com>
+-
+-diff -r e4e1b14b9c4a configure
+---- a/configure	Sun Jan 22 15:26:47 2012 +0800
+-+++ b/configure	Sun Jan 22 15:29:38 2012 +0800
+-@@ -2,6 +2,7 @@
+- # This is not an autconf generated configure
+- #
+- INCLUDE=${1:-"$PWD/include"}
+-+SYSROOT=$1
+- 
+- check_atm()
+- {
+-@@ -13,7 +14,7 @@
+- 	return 0;
+- }
+- EOF
+--gcc -I$INCLUDE -o /tmp/atmtest /tmp/atmtest.c -latm >/dev/null 2>&1 
+-+$CC -I$INCLUDE -o /tmp/atmtest /tmp/atmtest.c -latm >/dev/null 2>&1 
+- if [ $? -eq 0 ]
+- then
+-     echo "TC_CONFIG_ATM:=y" >>Config
+-@@ -47,7 +48,7 @@
+- 
+- EOF
+- 
+--if gcc -I$INCLUDE $IPTC -o /tmp/ipttest /tmp/ipttest.c $IPTL $(pkg-config xtables --cflags --libs) -ldl >/dev/null 2>&1
+-+if $CC -I$INCLUDE $IPTC -o /tmp/ipttest /tmp/ipttest.c $IPTL $(pkg-config xtables --cflags --libs) -ldl >/dev/null 2>&1
+- then
+- 	echo "TC_CONFIG_XT:=y" >>Config
+- 	echo "using xtables"
+-@@ -84,7 +85,7 @@
+- }
+- 
+- EOF
+--gcc -I$INCLUDE $IPTC -o /tmp/ipttest /tmp/ipttest.c $IPTL -ldl >/dev/null 2>&1
+-+$CC -I$INCLUDE $IPTC -o /tmp/ipttest /tmp/ipttest.c $IPTL -ldl >/dev/null 2>&1
+- 
+- if [ $? -eq 0 ]
+- then
+-@@ -124,7 +125,7 @@
+- }
+- 
+- EOF
+--gcc -I$INCLUDE $IPTC -o /tmp/ipttest /tmp/ipttest.c $IPTL -ldl >/dev/null 2>&1
+-+$CC -I$INCLUDE $IPTC -o /tmp/ipttest /tmp/ipttest.c $IPTL -ldl >/dev/null 2>&1
+- 
+- if [ $? -eq 0 ]
+- then
+-@@ -145,7 +146,7 @@
+- check_ipt_lib_dir()
+- {
+- 	IPT_LIB_DIR=""
+--	for dir in /lib /usr/lib /usr/local/lib
+-+	for dir in $SYSROOT/lib $SYSROOT/usr/lib $SYSROOT/usr/local/lib
+- 	do
+- 		for file in $dir/{xtables,iptables}/lib*t_*so ; do
+- 			if [ -f $file ]; then
+-@@ -168,7 +169,7 @@
+- 	return 0;
+- }
+- EOF
+--gcc -I$INCLUDE -o /tmp/setnstest /tmp/setnstest.c >/dev/null 2>&1
+-+$CC -I$INCLUDE -o /tmp/setnstest /tmp/setnstest.c >/dev/null 2>&1
+- if [ $? -eq 0 ]
+- then
+- 	echo "IP_CONFIG_SETNS:=y" >>Config
+diff --git a/meta/recipes-connectivity/iproute2/iproute2-3.4.0/configure-cross.patch b/meta/recipes-connectivity/iproute2/iproute2-3.4.0/configure-cross.patch
+new file mode 100644
+index 0000000..42f591a
+--- /dev/null
++++ b/meta/recipes-connectivity/iproute2/iproute2-3.4.0/configure-cross.patch
+@@ -0,0 +1,77 @@
++From 85b0589b4843c03e8e6fd9416d71ea449a73c5c0 Mon Sep 17 00:00:00 2001
++From: Koen Kooi <koen@dominion.thruhere.net>
++Date: Thu, 3 Nov 2011 10:46:16 +0100
++Subject: [PATCH] make configure cross compile safe
++
++According to Kevin Tian:
++Upstream-Status: Pending
++
++Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
++Signed-off-by: Shane Wang <shane.wang@intel.com>
++
++Index: iproute2-3.4.0/configure
++===================================================================
++--- iproute2-3.4.0.orig/configure
+++++ iproute2-3.4.0/configure
++@@ -2,6 +2,7 @@
++ # This is not an autconf generated configure
++ #
++ INCLUDE=${1:-"$PWD/include"}
+++SYSROOT=$1
++ 
++ # Make a temp directory in build tree.
++ TMPDIR=$(mktemp -d config.XXXXXX)
++@@ -17,7 +18,7 @@ int main(int argc, char **argv) {
++ 	return 0;
++ }
++ EOF
++-gcc -I$INCLUDE -o $TMPDIR/atmtest $TMPDIR/atmtest.c -latm >/dev/null 2>&1 
+++$CC -I$INCLUDE -o $TMPDIR/atmtest $TMPDIR/atmtest.c -latm >/dev/null 2>&1
++ if [ $? -eq 0 ]
++ then
++     echo "TC_CONFIG_ATM:=y" >>Config
++@@ -51,7 +52,7 @@ int main(int argc, char **argv)
++ 
++ EOF
++ 
++-if gcc -I$INCLUDE $IPTC -o $TMPDIR/ipttest $TMPDIR/ipttest.c $IPTL $(pkg-config xtables --cflags --libs) -ldl >/dev/null 2>&1
+++if $CC -I$INCLUDE $IPTC -o $TMPDIR/ipttest $TMPDIR/ipttest.c $IPTL $(pkg-config xtables --cflags --libs) -ldl >/dev/null 2>&1
++ then
++ 	echo "TC_CONFIG_XT:=y" >>Config
++ 	echo "using xtables"
++@@ -88,7 +89,7 @@ int main(int argc, char **argv) {
++ }
++ 
++ EOF
++-gcc -I$INCLUDE $IPTC -o $TMPDIR/ipttest $TMPDIR/ipttest.c $IPTL -ldl >/dev/null 2>&1
+++$CC -I$INCLUDE $IPTC -o $TMPDIR/ipttest $TMPDIR/ipttest.c $IPTL -ldl >/dev/null 2>&1
++ 
++ if [ $? -eq 0 ]
++ then
++@@ -128,7 +129,7 @@ int main(int argc, char **argv) {
++ }
++ 
++ EOF
++-gcc -I$INCLUDE $IPTC -o $TMPDIR/ipttest $TMPDIR/ipttest.c $IPTL -ldl >/dev/null 2>&1
+++$CC -I$INCLUDE $IPTC -o $TMPDIR/ipttest $TMPDIR/ipttest.c $IPTL -ldl >/dev/null 2>&1
++ 
++ if [ $? -eq 0 ]
++ then
++@@ -149,7 +150,7 @@ check_ipt()
++ check_ipt_lib_dir()
++ {
++ 	IPT_LIB_DIR=""
++-	for dir in /lib /usr/lib /usr/local/lib
+++	for dir in $SYSROOT/lib $SYSROOT/usr/lib $SYSROOT/usr/local/lib
++ 	do
++ 		for file in $dir/{xtables,iptables}/lib*t_*so ; do
++ 			if [ -f $file ]; then
++@@ -172,7 +173,7 @@ int main(int argc, char **argv)
++ 	return 0;
++ }
++ EOF
++-gcc -I$INCLUDE -o $TMPDIR/setnstest $TMPDIR/setnstest.c >/dev/null 2>&1
+++$CC -I$INCLUDE -o $TMPDIR/setnstest $TMPDIR/setnstest.c >/dev/null 2>&1
++ if [ $? -eq 0 ]
++ then
++ 	echo "IP_CONFIG_SETNS:=y" >>Config
+diff --git a/meta/recipes-connectivity/iproute2/iproute2.inc b/meta/recipes-connectivity/iproute2/iproute2.inc
+index 86847ef..7caf7d0 100644
+--- a/meta/recipes-connectivity/iproute2/iproute2.inc
++++ b/meta/recipes-connectivity/iproute2/iproute2.inc
+@@ -26,12 +26,12 @@ do_install () {
+ # There are only .so files in iproute2
+ INSANE_SKIP_${PN} = "dev-so"
  
+-FILES_${PN} += "${base_libdir}/tc"
+-FILES_${PN}-dbg += "${base_libdir}/tc/.debug"
++FILES_${PN} += "${libdir}/tc"
++FILES_${PN}-dbg += "${libdir}/tc/.debug"
+ 
+-ALTERNATIVE_NAME = "ip"
+-ALTERNATIVE_PATH = "${base_sbindir}/ip.iproute2"
+-ALTERNATIVE_LINK = "${base_bindir}/ip"
++ALTERNATIVE_${PN} = "ip"
++ALTERNATIVE_TARGET[ip] = "${base_sbindir}/ip.${BPN}"
++ALTERNATIVE_LINK_NAME[ip] = "${base_bindir}/ip"
+ ALTERNATIVE_PRIORITY = "100"
+ 
+ PARALLEL_MAKE = ""
+diff --git a/meta/recipes-connectivity/iproute2/iproute2_3.2.0.bb b/meta/recipes-connectivity/iproute2/iproute2_3.2.0.bb
+deleted file mode 100644
+index 5af12af..0000000
+--- a/meta/recipes-connectivity/iproute2/iproute2_3.2.0.bb
++++ /dev/null
+@@ -1,11 +0,0 @@
+-require iproute2.inc
+-
 -PR = "r1"
-+PR = "r2"
- 
- SRC_URI += "file://bluetooth.conf \
-             file://sbc_mmx.patch"
-diff --git a/meta/recipes-connectivity/ofono/ofono_1.8.bb b/meta/recipes-connectivity/ofono/ofono_1.8.bb
-index e2d97f0..86767f1 100644
---- a/meta/recipes-connectivity/ofono/ofono_1.8.bb
-+++ b/meta/recipes-connectivity/ofono/ofono_1.8.bb
-@@ -4,6 +4,7 @@ SRC_URI  = "\
-   ${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.bz2 \
-   file://ofono \
- "
-+PR = "r1"
- 
- SRC_URI[md5sum] = "e457ea13db22bb2de77767c867dcc4d3"
- SRC_URI[sha256sum] = "164b413068e810281a5e6c9bb90d5002d80f1c30bef2f3ffdbe70f963079524d"
-diff --git a/meta/recipes-connectivity/ofono/ofono_git.bb b/meta/recipes-connectivity/ofono/ofono_git.bb
-index a44b411..0a69fff 100644
---- a/meta/recipes-connectivity/ofono/ofono_git.bb
-+++ b/meta/recipes-connectivity/ofono/ofono_git.bb
-@@ -3,7 +3,7 @@ require ofono.inc
- S	 = "${WORKDIR}/git"
- SRCREV = "14544d5996836f628613c2ce544380ee6fc8f514"
- PV	 = "0.12-git${SRCPV}"
--PR = "r3"
-+PR = "r4"
- 
- SRC_URI  = "git://git.kernel.org/pub/scm/network/ofono/ofono.git;protocol=git \
- 	    file://ofono"
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2.inc
-index 595ab77..017ac91 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2.inc
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2.inc
-@@ -8,5 +8,5 @@ SRC_URI += "file://crosscompile.patch \
- SRC_URI[md5sum] = "8796fff441e5435ee36a72579008af24"
- SRC_URI[sha256sum] = "fa415decf02027ca278b06254ccfbcceba2a83c2741405257ebf749da4a73cf2"
- 
--PR = "r3"
-+PR = "r4"
- 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.31.bb b/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.31.bb
-index e0eaf7b..ac63f94 100644
---- a/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.31.bb
-+++ b/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.31.bb
-@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343 \
- 
- DEPENDS += "gst-plugins-base gconf cairo jpeg libpng gtk+ zlib libid3tag flac \
- 	    speex libsoup-2.4 pulseaudio"
--PR = "r1"
-+PR = "r2"
- 
- inherit gettext gconf
- 
-diff --git a/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc b/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc
-index e612adb..7f0af9f 100644
---- a/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc
-+++ b/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc
-@@ -16,7 +16,7 @@ SRC_URI = "http://get.qt.nokia.com/qt/add-ons/qt-mobility-opensource-src-${PV}.t
- SRC_URI[md5sum]="ea5db5a8d3dd4709c2926dceda646bd8"
- SRC_URI[sha256sum]="ee3c88975e04139ac9589f76d4be646d44fcbc4c8c1cf2db621abc154cf0ba44"
- 
--PR = "r5"
-+PR = "r6"
- 
- S = "${WORKDIR}/qt-mobility-opensource-src-${PV}"
- 
+-
+-#v3.2.0 tag is "447c118f138171b260ad045ad6e1b17f9ef462e2"
+-#but it was not fully tested and had build error, and the next commit fixed it.
+-SRCREV = "13603f6a9e46f08576f6284a0ef1ce1fbf94ffe0"
+-SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/shemminger/iproute2.git \
+-           file://configure-cross.patch"
+-S = "${WORKDIR}/git"
+-
+diff --git a/meta/recipes-connectivity/iproute2/iproute2_3.4.0.bb b/meta/recipes-connectivity/iproute2/iproute2_3.4.0.bb
+new file mode 100644
+index 0000000..cf1d521
+--- /dev/null
++++ b/meta/recipes-connectivity/iproute2/iproute2_3.4.0.bb
+@@ -0,0 +1,9 @@
++require iproute2.inc
++
++PR = "r0"
++
++SRC_URI = "${KERNELORG_MIRROR}/linux/utils/net/${BPN}/${BPN}-${PV}.tar.xz \
++           file://configure-cross.patch"
++
++SRC_URI[md5sum] = "879d3fac4e90809598b2864ec4a0cbf8"
++SRC_URI[sha256sum] = "38e846e412b2fa235a447b50c20ad1e9770d1b3ed4d3ab18ca0b18c6e8b79ba4"
 -- 
-1.7.8.6
+1.7.9.5
 
 
 
