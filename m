@@ -1,55 +1,40 @@
-Received: from va3ehsobe002.messaging.microsoft.com ([216.32.180.12]
-	helo=va3outboundpool.messaging.microsoft.com)
+Received: from mail-yw0-f47.google.com ([209.85.213.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1SrEuJ-0007lM-TR
+	(envelope-from <dennis.yxun@gmail.com>) id 1SrFFR-00051b-QW
 	for openembedded-core@lists.openembedded.org;
-	Tue, 17 Jul 2012 23:02:12 +0200
-Received: from mail151-va3-R.bigfish.com (10.7.14.254) by
-	VA3EHSOBE007.bigfish.com (10.7.40.11) with Microsoft SMTP Server id
-	14.1.225.23; Tue, 17 Jul 2012 20:50:51 +0000
-Received: from mail151-va3 (localhost [127.0.0.1])	by
-	mail151-va3-R.bigfish.com (Postfix) with ESMTP id 670FD3A022A;
-	Tue, 17 Jul 2012 20:50:51 +0000 (UTC)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-X-SpamScore: -2
-X-BigFish: VS-2(zz98dI9371I1432Izz1202hzz8275ch8275bh8275dhz2dh2a8h668h839h8e2h8e3hf0ah107ah10d2hbe9i)
-Received: from mail151-va3 (localhost.localdomain [127.0.0.1]) by mail151-va3
-	(MessageSwitch) id 1342558249990836_408;
-	Tue, 17 Jul 2012 20:50:49 +0000 (UTC)
-Received: from VA3EHSMHS001.bigfish.com (unknown [10.7.14.252])	by
-	mail151-va3.bigfish.com (Postfix) with ESMTP id ECFE9201BB;
-	Tue, 17 Jul 2012 20:50:49 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by VA3EHSMHS001.bigfish.com
-	(10.7.99.11) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Tue, 17 Jul 2012 20:50:45 +0000
-Received: from 039-SN1MPN1-002.039d.mgd.msft.net ([169.254.2.109]) by
-	039-SN1MMR1-001.039d.mgd.msft.net ([10.84.1.13]) with mapi id
-	14.02.0298.005; Tue, 17 Jul 2012 15:50:45 -0500
-From: McClintock Matthew-B29882 <B29882@freescale.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>, Scott Garman
-	<scott.a.garman@intel.com>
-Thread-Topic: [OE-core] [CONSOLIDATED PULL 01/43] augeas: Add libxml2
-	dependency
-Thread-Index: AQHNZF3VBpDKnBag20Gzfp5EVXwEDw==
-Date: Tue, 17 Jul 2012 20:50:44 +0000
-Message-ID: <CAEsOVNcQjab=W948TM+wLdAPMHgebpC8B1inKXej0vXye4cNRw@mail.gmail.com>
-References: <cover.1334940120.git.sgw@linux.intel.com>
-	<eba75c041a60939d158a949742574cffc0e4a204.1334940120.git.sgw@linux.intel.com>
-In-Reply-To: <eba75c041a60939d158a949742574cffc0e4a204.1334940120.git.sgw@linux.intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [70.112.201.132]
+	Tue, 17 Jul 2012 23:24:01 +0200
+Received: by yhjj56 with SMTP id j56so858336yhj.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 17 Jul 2012 14:12:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=F1VUEjaxmjdVXlL/okXOkfd2CAPu9ph+/hCEsVlMXd4=;
+	b=XFw1A+EGjwoh/RD3K879yL9Un7uaknCT+i3T/roDigBbpo00Ck+pA5E71RVzReM564
+	hVMqZiMQcfV8cO54M3SG0/uVyvcdGiMe5kujG9X3y8JAzQCeQmtyDImqJuU4HmscpAZl
+	hxbHJKh2IRtQW1Y0HnRMH2SmfuG5X9wPlmLhl9lGsYx6EKYDcW4ixsWNO/ZTeudarw08
+	TcEdZzW2Gc6Tg6uWb9/FpGda74LpXfVJnQPw30mmYNwv5/tDB5UPgVw1oqj8nLzd0f9b
+	OeaP00XV2gLoMuM3yphgWBFm36DqQTS2MrEYZud+3JW4xHvrasn0IuF4CKcS0e+bSEe/
+	v2Nw==
 MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Subject: Re: [CONSOLIDATED PULL 01/43] augeas: Add libxml2 dependency
+Received: by 10.60.24.4 with SMTP id q4mr5473127oef.50.1342559561271; Tue, 17
+	Jul 2012 14:12:41 -0700 (PDT)
+Received: by 10.182.37.134 with HTTP; Tue, 17 Jul 2012 14:12:41 -0700 (PDT)
+In-Reply-To: <500590B7.1060308@linux.intel.com>
+References: <1342087131-14277-1-git-send-email-dennis.yxun@gmail.com>
+	<500590B7.1060308@linux.intel.com>
+Date: Wed, 18 Jul 2012 05:12:41 +0800
+Message-ID: <CAF1ZMEeGZCtH5t7=MVwKByvxyD+4_JdyrEfXKHZQX5V4j4vt7g@mail.gmail.com>
+From: "Dennis.Yxun" <dennis.yxun@gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
+Cc: paul.eggleton@linux.intel.com,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] runqemu/mips: adjust runqemu script to support mipsel machine
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
-	Patches and discussions about the oe-core layer
+Reply-To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -60,65 +45,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Jul 2012 21:02:12 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <12ABD75A7FEE554B8B3C72D2EB918E2A@mgd.freescale.com>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 17 Jul 2012 21:24:02 -0000
+Content-Type: text/plain; charset=UTF-8
 
-denzil needs this commit to get build order right. I've added it too:
+hi saul:
+   thanks for taking this
 
-http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=3Dmattsm/denz=
-il
+Dennis
 
--M
-
-On Fri, Apr 20, 2012 at 11:44 AM, Saul Wold <sgw@linux.intel.com> wrote:
-> From: Martin Donnelly <martin.donnelly@ge.com>
+On Wed, Jul 18, 2012 at 12:20 AM, Saul Wold <sgw@linux.intel.com> wrote:
+> On 07/12/2012 02:58 AM, Dennis Lan wrote:
+>>
+>> Signed-off-by: Dennis Lan <dennis.yxun@gmail.com>
+>> ---
+>>   scripts/runqemu          |    5 ++++-
+>>   scripts/runqemu-internal |   13 +++++++------
+>>   2 files changed, 11 insertions(+), 7 deletions(-)
+>>
+>> diff --git a/scripts/runqemu b/scripts/runqemu
+>> index 8d149a2..650d1df 100755
+>> --- a/scripts/runqemu
+>> +++ b/scripts/runqemu
+>> @@ -94,7 +94,7 @@ KVM_ENABLED="no"
+>>   while true; do
+>>       arg=${1}
+>>       case "$arg" in
+>> -        "qemux86" | "qemux86-64" | "qemuarm" | "qemumips" | "qemumips64"
+>> | "qemush4"  | "qemuppc")
+>> +        "qemux86" | "qemux86-64" | "qemuarm" | "qemumips" | "qemumipsel"
+>> | "qemumips64" | "qemush4"  | "qemuppc")
+>>               [ -z "$MACHINE" ] && MACHINE=$arg || \
+>>                   error "conflicting MACHINE types [$MACHINE] and [$arg]"
+>>               ;;
+>> @@ -245,6 +245,9 @@ QEMUARM_DEFAULT_FSTYPE=ext3
+>>   QEMUMIPS_DEFAULT_KERNEL=vmlinux-qemumips.bin
+>>   QEMUMIPS_DEFAULT_FSTYPE=ext3
+>>
+>> +QEMUMIPSEL_DEFAULT_KERNEL=vmlinux-qemumipsel.bin
+>> +QEMUMIPSEL_DEFAULT_FSTYPE=ext3
+>> +
+>>   QEMUMIPS64_DEFAULT_KERNEL=vmlinux-qemumips64.bin
+>>   QEMUMIPS64_DEFAULT_FSTYPE=ext3
+>>
+>> diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
+>> index 041464d..a21ea93 100755
+>> --- a/scripts/runqemu-internal
+>> +++ b/scripts/runqemu-internal
+>> @@ -236,6 +236,7 @@ fi
+>>   case "$MACHINE" in
+>>       "qemuarm") ;;
+>>       "qemumips") ;;
+>> +    "qemumipsel") ;;
+>>       "qemumips64") ;;
+>>       "qemush4") ;;
+>>       "qemuppc") ;;
+>> @@ -375,12 +376,12 @@ if [ "$MACHINE" = "spitz" ]; then
+>>       fi
+>>   fi
+>>
+>> -if [ "$MACHINE" = "qemumips" -o "$MACHINE" = "qemumips64" ]; then
+>> -    if [ "$MACHINE" = "qemumips64" ]; then
+>> -       QEMU=qemu-system-mips64
+>> -    else
+>> -       QEMU=qemu-system-mips
+>> -    fi
+>> +if [ "$MACHINE" = "qemumips" -o "$MACHINE" = "qemumipsel" -o "$MACHINE" =
+>> "qemumips64" ]; then
+>> +    case "$MACHINE" in
+>> +       qemumips)   QEMU=qemu-system-mips ;;
+>> +       qemumipsel) QEMU=qemu-system-mipsel ;;
+>> +       qemumips64) QEMU=qemu-system-mips64 ;;
+>> +    esac
+>>       MACHINE_SUBTYPE=malta
+>>       QEMU_UI_OPTIONS="-vga cirrus $QEMU_UI_OPTIONS"
+>>       if [ "$FSTYPE" = "ext3" -o "$FSTYPE" = "btrfs" ]; then
+>>
 >
-> This patch fixes the following Augeas configure error.
+> Merged into OE-Core
 >
-> | checking for LIBXML... no
-> | configure: error: Package requirements (libxml-2.0) were not met:
-> |
-> | No package 'libxml-2.0' found
-> |
-> | Consider adjusting the PKG_CONFIG_PATH environment variable if you
-> | installed software in a non-standard prefix.
-> |
-> | Alternatively, you may set the environment variables LIBXML_CFLAGS
-> | and LIBXML_LIBS to avoid the need to call pkg-config.
-> | See the pkg-config man page for more details.
-> | ERROR: oe_runconf failed
->
-> Signed-off-by: Martin Donnelly <martin.donnelly@ge.com>
-> ---
->  meta/recipes-extended/augeas/augeas.inc |    2 +-
->  1 files changed, 1 insertions(+), 1 deletions(-)
->
-> diff --git a/meta/recipes-extended/augeas/augeas.inc b/meta/recipes-exten=
-ded/augeas/augeas.inc
-> index 40be762..9fe864d 100644
-> --- a/meta/recipes-extended/augeas/augeas.inc
-> +++ b/meta/recipes-extended/augeas/augeas.inc
-> @@ -7,7 +7,7 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Dbbb461211a33b1=
-34d42ed5ee802b37ff"
->
->  SRC_URI =3D "http://augeas.net/download/${BP}.tar.gz"
->
-> -DEPENDS =3D "readline"
-> +DEPENDS =3D "readline libxml2"
->
->  inherit autotools
->
-> --
-> 1.7.7.6
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core=
-
+> Thanks
+>         Sau!
 
 
