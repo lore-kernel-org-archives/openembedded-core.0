@@ -1,22 +1,22 @@
 Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <cristian.iorga@intel.com>) id 1Sr3KC-0006O0-G2
+	(envelope-from <cristian.iorga@intel.com>) id 1Sr3KD-0006O0-7G
 	for openembedded-core@lists.openembedded.org;
-	Tue, 17 Jul 2012 10:40:08 +0200
+	Tue, 17 Jul 2012 10:40:09 +0200
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 17 Jul 2012 01:28:48 -0700
+	by fmsmga102.fm.intel.com with ESMTP; 17 Jul 2012 01:28:49 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="178556513"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="178556521"
 Received: from sentry (HELO localhost.localdomain) ([10.237.105.53])
-	by fmsmga001.fm.intel.com with ESMTP; 17 Jul 2012 01:28:47 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 17 Jul 2012 01:28:48 -0700
 From: Cristian Iorga <cristian.iorga@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 17 Jul 2012 11:28:55 +0300
-Message-Id: <1342513736-468-2-git-send-email-cristian.iorga@intel.com>
+Date: Tue, 17 Jul 2012 11:28:56 +0300
+Message-Id: <1342513736-468-3-git-send-email-cristian.iorga@intel.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <1342513736-468-1-git-send-email-cristian.iorga@intel.com>
 References: <1342513736-468-1-git-send-email-cristian.iorga@intel.com>
-Subject: [PATCH 2/3] pulseaudio: upgrade to 2.0
+Subject: [PATCH 3/3] wpa-supplicant: upgrade to 1.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,97 +31,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Jul 2012 08:40:08 -0000
+X-List-Received-Date: Tue, 17 Jul 2012 08:40:09 -0000
 
 Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
 ---
- .../{libcanberra_0.28.bb => libcanberra_0.29.bb}   |   14 +++++++-------
- meta/recipes-multimedia/pulseaudio/pulseaudio.inc  |    2 +-
- .../{pulseaudio_1.1.bb => pulseaudio_2.0.bb}       |    7 +++----
- 3 files changed, 11 insertions(+), 12 deletions(-)
- rename meta/recipes-multimedia/pulseaudio/{libcanberra_0.28.bb => libcanberra_0.29.bb} (76%)
- rename meta/recipes-multimedia/pulseaudio/{pulseaudio_1.1.bb => pulseaudio_2.0.bb} (64%)
+ ...a-supplicant-0.7.inc => wpa-supplicant-1.0.inc} |    4 ++--
+ .../99_wpa_supplicant                              |    0
+ .../defconfig-gnutls                               |    0
+ .../wpa-supplicant.sh                              |    0
+ .../wpa_supplicant.conf                            |    0
+ .../wpa_supplicant.conf-sane                       |    0
+ .../wpa-supplicant/wpa-supplicant_0.7.3.bb         |    6 ------
+ .../wpa-supplicant/wpa-supplicant_1.0.bb           |    6 ++++++
+ 8 files changed, 8 insertions(+), 8 deletions(-)
+ rename meta/recipes-connectivity/wpa-supplicant/{wpa-supplicant-0.7.inc => wpa-supplicant-1.0.inc} (95%)
+ rename meta/recipes-connectivity/wpa-supplicant/{wpa-supplicant-0.7.3 => wpa-supplicant-1.0}/99_wpa_supplicant (100%)
+ rename meta/recipes-connectivity/wpa-supplicant/{wpa-supplicant-0.7.3 => wpa-supplicant-1.0}/defconfig-gnutls (100%)
+ rename meta/recipes-connectivity/wpa-supplicant/{wpa-supplicant-0.7.3 => wpa-supplicant-1.0}/wpa-supplicant.sh (100%)
+ rename meta/recipes-connectivity/wpa-supplicant/{wpa-supplicant-0.7.3 => wpa-supplicant-1.0}/wpa_supplicant.conf (100%)
+ rename meta/recipes-connectivity/wpa-supplicant/{wpa-supplicant-0.7.3 => wpa-supplicant-1.0}/wpa_supplicant.conf-sane (100%)
+ delete mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.7.3.bb
+ create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_1.0.bb
 
-diff --git a/meta/recipes-multimedia/pulseaudio/libcanberra_0.28.bb b/meta/recipes-multimedia/pulseaudio/libcanberra_0.29.bb
-similarity index 76%
-rename from meta/recipes-multimedia/pulseaudio/libcanberra_0.28.bb
-rename to meta/recipes-multimedia/pulseaudio/libcanberra_0.29.bb
-index e69c89d..b3c0e3d 100644
---- a/meta/recipes-multimedia/pulseaudio/libcanberra_0.28.bb
-+++ b/meta/recipes-multimedia/pulseaudio/libcanberra_0.29.bb
-@@ -5,14 +5,14 @@ LIC_FILES_CHKSUM = "file://LGPL;md5=2d5025d4aa3495befef8f17206a5b0a1 \
-                     file://src/canberra.h;beginline=7;endline=24;md5=c616c687cf8da540a14f917e0d23ab03"
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.inc b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-1.0.inc
+similarity index 95%
+rename from meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.inc
+rename to meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-1.0.inc
+index 6c84202..0c18b30 100644
+--- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.inc
++++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-1.0.inc
+@@ -4,8 +4,8 @@ BUGTRACKER = "http://hostap.epitest.fi/bugz/"
+ SECTION = "network"
+ LICENSE = "GPLv2 | BSD"
+ LIC_FILES_CHKSUM = "file://../COPYING;md5=c54ce9345727175ff66d17b67ff51f58 \
+-                    file://../README;md5=54cfc88015d3ce83f7156e63c6bb1738 \
+-                    file://wpa_supplicant.c;beginline=1;endline=17;md5=acdc5a4b0d6345f21f136eace747260e"
++                    file://../README;md5=9bee93996fecdb70f807baceb29d84b9 \
++                    file://wpa_supplicant.c;beginline=1;endline=17;md5=372fb65dc23b228aec4e40e64de3e467"
+ DEPENDS = "gnutls dbus libnl"
+ RRECOMMENDS_${PN} = "wpa-supplicant-passphrase wpa-supplicant-cli"
  
- DEPENDS = "gtk+ pulseaudio alsa-lib libtool libvorbis"
--PR = "r1"
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.3/99_wpa_supplicant b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-1.0/99_wpa_supplicant
+similarity index 100%
+rename from meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.3/99_wpa_supplicant
+rename to meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-1.0/99_wpa_supplicant
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.3/defconfig-gnutls b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-1.0/defconfig-gnutls
+similarity index 100%
+rename from meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.3/defconfig-gnutls
+rename to meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-1.0/defconfig-gnutls
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.3/wpa-supplicant.sh b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-1.0/wpa-supplicant.sh
+similarity index 100%
+rename from meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.3/wpa-supplicant.sh
+rename to meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-1.0/wpa-supplicant.sh
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.3/wpa_supplicant.conf b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-1.0/wpa_supplicant.conf
+similarity index 100%
+rename from meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.3/wpa_supplicant.conf
+rename to meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-1.0/wpa_supplicant.conf
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.3/wpa_supplicant.conf-sane b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-1.0/wpa_supplicant.conf-sane
+similarity index 100%
+rename from meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.3/wpa_supplicant.conf-sane
+rename to meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-1.0/wpa_supplicant.conf-sane
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.7.3.bb b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.7.3.bb
+deleted file mode 100644
+index 6f6378b..0000000
+--- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.7.3.bb
++++ /dev/null
+@@ -1,6 +0,0 @@
+-require wpa-supplicant-0.7.inc
+-
+-PR = "r12"
+-
+-SRC_URI[md5sum] = "f516f191384a9a546e3f5145c08addda"
+-SRC_URI[sha256sum] = "d0cd50caa85346ccc376dcda5ed3c258eef19a93b3cade39d25760118ad59443"
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_1.0.bb b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_1.0.bb
+new file mode 100644
+index 0000000..8ede3e5
+--- /dev/null
++++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_1.0.bb
+@@ -0,0 +1,6 @@
++require wpa-supplicant-1.0.inc
++
 +PR = "r0"
- 
- inherit gconf autotools
- 
--SRC_URI = "http://0pointer.de/lennart/projects/libcanberra/libcanberra-${PV}.tar.gz"
-+SRC_URI = "http://0pointer.de/lennart/projects/libcanberra/libcanberra-${PV}.tar.xz"
- 
--SRC_URI[md5sum] = "c198b4811598c4c161ff505e4531b02c"
--SRC_URI[sha256sum] = "eb1f8b2cabad7f07b6e44d606a91d73e1efca4b46daf92bd553e7222bc68868c"
-+SRC_URI[md5sum] = "2594093a5d61047bd9cc87e955f86df8"
-+SRC_URI[sha256sum] = "127a5ef07805856d63758e5180ebfb241d1f80094fd301c287591a15b8cfcd72"
- 
- EXTRA_OECONF = " --disable-oss --disable-ltdl-install" 
- 
-@@ -25,8 +25,8 @@ PACKAGES += "${PN}-gnome"
- FILES_${PN} += "${libdir}/gtk-2.0/modules/ ${datadir}/gnome"
- FILES_${PN}-gnome += "${datadir}/gdm/autostart/LoginWindow/libcanberra-ready-sound.desktop \
- 	              ${libdir}/gnome-settings-daemon-3.0/gtk-modules/canberra-gtk-module.desktop"
--FILES_${PN}-dev += "${libdir}/libcanberra-0.28/libcanberra-*.so \
--		    ${libdir}/libcanberra-0.28/libcanberra-*.la \
-+FILES_${PN}-dev += "${libdir}/libcanberra-0.29/libcanberra-*.so \
-+		    ${libdir}/libcanberra-0.29/libcanberra-*.la \
- 		    ${datadir}/vala/vapi"
--FILES_${PN}-dbg += "${libdir}/gtk-2.0/modules/.debug ${libdir}/libcanberra-0.28/.debug"
-+FILES_${PN}-dbg += "${libdir}/gtk-2.0/modules/.debug ${libdir}/libcanberra-0.29/.debug"
- 
-diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-index c3d6d98..cd09940 100644
---- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-+++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-@@ -6,7 +6,7 @@ LICENSE = "GPLv2+ & LGPLv2.1"
- LIC_FILES_CHKSUM = "file://GPL;md5=4325afd396febcb659c36b49533135d4 \
-                     file://LGPL;md5=2d5025d4aa3495befef8f17206a5b0a1 \
-                     file://src/modules/bluetooth/proximity-helper.c;beginline=1;endline=25;md5=e4cc710e40a4d900c2c294167bc58270 \
--                    file://src/pulsecore/vector.h;beginline=1;endline=21;md5=1b561f0a2ca47b1fa49862a6ccaacff1"
-+                    file://src/pulsecore/resampler.h;beginline=4;endline=23;md5=c3d539b93f8c82a1780bfa3cfa544a95"
- DEPENDS = "libatomics-ops liboil avahi libsamplerate0 libsndfile1 libtool \
-            ${@base_contains('DISTRO_FEATURES', 'x11', 'virtual/libx11 libxtst libice libsm libxcb gtk+', '', d)}"
- # optional
-diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio_1.1.bb b/meta/recipes-multimedia/pulseaudio/pulseaudio_2.0.bb
-similarity index 64%
-rename from meta/recipes-multimedia/pulseaudio/pulseaudio_1.1.bb
-rename to meta/recipes-multimedia/pulseaudio/pulseaudio_2.0.bb
-index e88a3a5..7e57e5e 100644
---- a/meta/recipes-multimedia/pulseaudio/pulseaudio_1.1.bb
-+++ b/meta/recipes-multimedia/pulseaudio/pulseaudio_2.0.bb
-@@ -1,6 +1,6 @@
- require pulseaudio.inc
- 
--PR = "r10"
-+PR = "r0"
- 
- DEPENDS += "libjson gdbm speex libxml-parser-perl-native"
- 
-@@ -8,11 +8,10 @@ inherit gettext perlnative
- 
- SRC_URI = "http://freedesktop.org/software/pulseaudio/releases/pulseaudio-${PV}.tar.xz \
-   file://volatiles.04_pulse \
--  file://pulseaudio_fix_for_x32.patch \
- "
- 
--SRC_URI[md5sum] = "17d21df798cee407b769c6355fae397a"
--SRC_URI[sha256sum] = "6fe531136f6ebce2d35872a2d2c914278cdc5dcdd5eea516dc52c81f9001f5ee"
-+SRC_URI[md5sum] = "9bbde657c353fe675c3b693054175a8e"
-+SRC_URI[sha256sum] = "28b42edd42f4879a6884af5f0ec11801ac001eb7582881215b36649aa37e2061"
- 
- do_compile_prepend() {
-     cd ${S}
++
++SRC_URI[md5sum] = "8650f6aa23646ef634402552d0669640"
++SRC_URI[sha256sum] = "91d41d473a5aafa2e25dd6577ebda975c4d4a3188850a53e31feaf7c04482b9c"
 -- 
 1.7.9.5
 
