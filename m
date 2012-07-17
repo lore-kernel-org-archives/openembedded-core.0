@@ -1,36 +1,32 @@
-Received: from mail-wi0-f171.google.com ([209.85.212.171])
+Received: from mail-wg0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1Sr4Pk-0004d4-KF
+	(envelope-from <martin.jansa@gmail.com>) id 1Sr4Ps-0004ds-1A
 	for openembedded-core@lists.openembedded.org;
-	Tue, 17 Jul 2012 11:49:56 +0200
-Received: by wibhq4 with SMTP id hq4so3142485wib.6
+	Tue, 17 Jul 2012 11:50:04 +0200
+Received: by wgbdr1 with SMTP id dr1so187107wgb.24
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Jul 2012 02:38:37 -0700 (PDT)
+	Tue, 17 Jul 2012 02:38:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=JAVrrtGOxffsNV9K/aVU+h9+hc3DDINY6cjTLR9IWgg=;
-	b=k1rnI2qjjDnOpPHLLdMH5Ps/3CmdwWTl3PYi7EUyr/dBVFKrxnYNU+kustON4fzTfm
-	DhhSbYCiGs+TzHbn11MT4t/ZSuSs03HIeE+xPCaMm1W7udBExe298yG0CnicCQEpmNtc
-	Xkv3fLlBtA/0l4nw92KTqojfQ3qlDSQzDFUvYpalnJUexaLUhbMKogs/zx190YsmAUe5
-	SThOU/nuzjudzcRAHVqBJUoDj9IggmNY2yzXvM00kGn85lCDSgzc2pKjOH8ZIrdHrgJ0
-	gZZ6pcUyMAWDPicqHbx5mQOI95+VFNn3+z6GkRzP08clt/hH+hq2FlYTQsarTHL2MkXu
-	7bBg==
-Received: by 10.216.211.131 with SMTP id w3mr936336weo.163.1342517917642;
-	Tue, 17 Jul 2012 02:38:37 -0700 (PDT)
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=leT/60jCKPUlSfvumraD+8iTmXg+st/ABYUwYsXkc90=;
+	b=x6U5ozlGjYTtkJTo2F3hhZ/dbp6dfSX9VeaK1ct13HJHP1lrQAQlWAbz5yS6PZL6ob
+	E8Iv6uYdL3afZnSBsXW/ABFVg+9cGuNzjk4cJPBwseaEILEQ12+nED2P8EIaXV+S19Pf
+	gwpl8XnengDACFQ6UTmdoi6pzY9FknBa2aQDrdjtN4ObH46dinXFSPYBsfFu1T0dHhMg
+	m9N/hhZo+j7nPd0K2tWLmemfcFt0TWTkeEBhxZWjCHw+DIMZKrUd4Al+Mtmaa5tmH56L
+	+fiL4GWf9Lg7m+16/pC297FuXXgyN6SPjfU3GFdUkXVgM7I2gut+Ij+9xr45SevOzP2b
+	kOkg==
+Received: by 10.180.82.39 with SMTP id f7mr2701244wiy.2.1342517925046;
+	Tue, 17 Jul 2012 02:38:45 -0700 (PDT)
 Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id bc2sm38721158wib.0.2012.07.17.02.38.36
+	by mx.google.com with ESMTPS id j6sm38729148wiy.4.2012.07.17.02.38.43
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 17 Jul 2012 02:38:36 -0700 (PDT)
-Date: Tue, 17 Jul 2012 11:38:46 +0200
+	Tue, 17 Jul 2012 02:38:44 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Message-ID: <20120717093846.GB3390@jama.jama.net>
-References: <1342517864-26972-1-git-send-email-Martin.Jansa@gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <1342517864-26972-1-git-send-email-Martin.Jansa@gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: [PATCH 1/2] netbase: remove networkmanager handling for qemu machines
+Date: Tue, 17 Jul 2012 11:38:52 +0200
+Message-Id: <1342517932-27013-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.7.8.6
+Subject: [PATCH] recipes: svn SRC_URI s/proto=/protocol=/g
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,70 +41,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Jul 2012 09:49:57 -0000
-X-Groupsio-MsgNum: 25465
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="aM3YZ0Iwxop3KEKx"
-Content-Disposition: inline
+X-List-Received-Date: Tue, 17 Jul 2012 09:50:05 -0000
 
---aM3YZ0Iwxop3KEKx
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ .../eglibc/cross-localedef-native_2.15.bb          |    2 +-
+ meta/recipes-multimedia/tremor/tremor_20120314.bb  |    2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-On Tue, Jul 17, 2012 at 11:37:43AM +0200, Martin Jansa wrote:
-> * see http://lists.linuxtogo.org/pipermail/openembedded-core/2012-Februar=
-y/018279.html thread
+diff --git a/meta/recipes-core/eglibc/cross-localedef-native_2.15.bb b/meta/recipes-core/eglibc/cross-localedef-native_2.15.bb
+index 6f311fc..493eb61 100644
+--- a/meta/recipes-core/eglibc/cross-localedef-native_2.15.bb
++++ b/meta/recipes-core/eglibc/cross-localedef-native_2.15.bb
+@@ -16,7 +16,7 @@ inherit autotools
+ PR = "r0"
+ SRCREV="15225"
+ EGLIBC_BRANCH="eglibc-2_14"
+-SRC_URI = "svn://www.eglibc.org/svn/branches/;module=${EGLIBC_BRANCH};proto=http "
++SRC_URI = "svn://www.eglibc.org/svn/branches/;module=${EGLIBC_BRANCH};protocol=http "
+ S = "${WORKDIR}/${EGLIBC_BRANCH}/localedef"
+ 
+ do_unpack_append() {
+diff --git a/meta/recipes-multimedia/tremor/tremor_20120314.bb b/meta/recipes-multimedia/tremor/tremor_20120314.bb
+index 19d03d6..cf51983 100644
+--- a/meta/recipes-multimedia/tremor/tremor_20120314.bb
++++ b/meta/recipes-multimedia/tremor/tremor_20120314.bb
+@@ -8,7 +8,7 @@ DEPENDS = "libogg"
+ SRCDATE = "${PV}"
+ PR = "r0"
+ 
+-SRC_URI = "svn://svn.xiph.org/trunk;module=Tremor;rev=18221;proto=http"
++SRC_URI = "svn://svn.xiph.org/trunk;module=Tremor;rev=18221;protocol=http"
+ 
+ S = "${WORKDIR}/Tremor"
+ 
+-- 
+1.7.8.6
 
-Sorry this was sent by accident..=20
 
->=20
-> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> ---
->  meta/recipes-core/netbase/netbase_5.0.bb |    9 ---------
->  1 files changed, 0 insertions(+), 9 deletions(-)
->=20
-> diff --git a/meta/recipes-core/netbase/netbase_5.0.bb b/meta/recipes-core=
-/netbase/netbase_5.0.bb
-> index 3aea874..7c609af 100644
-> --- a/meta/recipes-core/netbase/netbase_5.0.bb
-> +++ b/meta/recipes-core/netbase/netbase_5.0.bb
-> @@ -34,15 +34,6 @@ do_install () {
->  	install -m 0644 etc-services ${D}${sysconfdir}/services
->  	install -m 0644 ${WORKDIR}/interfaces ${D}${sysconfdir}/network/interfa=
-ces
->  	install -m 0755 ${WORKDIR}/nfsroot ${D}${sysconfdir}/network/if-pre-up.d
-> -
-> -	# Disable network manager on machines that commonly do NFS booting
-> -	case "${MACHINE}" in
-> -		"qemuarm*" | "qemux86" | "qemux86-64" | "qemumips*" | "qemuppc" | "qem=
-ush*")
-> -			touch ${D}${sysconfdir}/network/nm-disabled-eth0
-> -			;;
-> -		*)
-> -			;;
-> -	esac
->  }
-> =20
->  CONFFILES_${PN} =3D "${sysconfdir}/hosts ${sysconfdir}/network/interface=
-s"
-> --=20
-> 1.7.8.6
->=20
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---aM3YZ0Iwxop3KEKx
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
-
-iEYEARECAAYFAlAFMqYACgkQN1Ujt2V2gByBWgCfeCcaHZDWmKbtYdpS4ZRVcisi
-woAAn1xJhLUSQcF+4uO8cgGxiuTYK/Wy
-=whE3
------END PGP SIGNATURE-----
-
---aM3YZ0Iwxop3KEKx--
