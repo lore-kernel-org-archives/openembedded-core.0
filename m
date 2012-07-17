@@ -1,33 +1,32 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Sr4Fm-0003te-ER for openembedded-core@lists.openembedded.org;
-	Tue, 17 Jul 2012 11:39:38 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6H9SH4Y009226
+Received: from mail-wg0-f41.google.com ([74.125.82.41])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <martin.jansa@gmail.com>) id 1Sr4On-0004YD-7p
+	for openembedded-core@lists.openembedded.org;
+	Tue, 17 Jul 2012 11:48:58 +0200
+Received: by wgbds1 with SMTP id ds1so2888804wgb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Jul 2012 10:28:17 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 08793-04 for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Jul 2012 10:28:11 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6H9S6dU009220
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Jul 2012 10:28:08 +0100
-Message-ID: <1342517288.10484.0.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Tue, 17 Jul 2012 10:28:08 +0100
-In-Reply-To: <cover.1342453118.git.sgw@linux.intel.com>
-References: <cover.1342453118.git.sgw@linux.intel.com>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [CONSOLIDATED PULL 00/30] Fixes and Updates
+	Tue, 17 Jul 2012 02:37:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=US4DBzF/feZXAtDIFInZL/WauI1oBl52ioT6S25MQAA=;
+	b=S9jIVn9Rutte729w5JhRs0HmHzhuig5YtjFx5DS7+ADG9o4PPTMSWtmAc8wFFCIGr+
+	5TjNDFtJKZjEuSrCaTlBW9rWuVEaYYVIO2bXuJRF2VYUpHZ7D/ZiErRASAjBmZIrtvqK
+	Sqw71j2PK8WKUcz1gxuAhLnzVtRKCRvBv9IiwhrJgXpz5+N5O/qIs1PcL9b8s27fOvn0
+	0LUiiLd1hRFGslFjFz3EPLLwgqCuPd5QulNNgsMFQfAQjrfQjmXwbA1Pfm6gFViDZFQf
+	hLgxvllK5jR8pjTpm3GgOkYJtAf59Rp+5qrOofgXrEofjJ7xzY69Iw8gOSv78Bv5ot12
+	WHVQ==
+Received: by 10.216.134.169 with SMTP id s41mr967517wei.183.1342517857909;
+	Tue, 17 Jul 2012 02:37:37 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id df4sm26167830wib.4.2012.07.17.02.37.35
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 17 Jul 2012 02:37:36 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 17 Jul 2012 11:37:43 +0200
+Message-Id: <1342517864-26972-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.7.8.6
+Subject: [PATCH 1/2] netbase: remove networkmanager handling for qemu machines
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,35 +41,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Jul 2012 09:39:38 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 17 Jul 2012 09:48:59 -0000
 
-On Mon, 2012-07-16 at 08:47 -0700, Saul Wold wrote:
-> Richard,
-> 
-> This is a load of tested changes from the last week. It's
-> been a long time coming since I had tried to pull in Khem's
-> Eglibc changes with Nitin's automake changes.
-> 
-> I have seperated those out and will test them again as they
-> were a bit of a moving target last week.
-> 
-> I did have to tweak on of your patches as it did not apply 
-> correctly.
-> 
-> I have also started to add my own Signed-off-by as noted by a 
-> couple of people that I should be doing that.
-> 
-> Thanks
-> 	Sau!
+* see http://lists.linuxtogo.org/pipermail/openembedded-core/2012-February/018279.html thread
 
-I've merged these. The patch of mine you tweaked ended up corrupted
-(mixed in some of Khem's changes) but I fixed it :).
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/recipes-core/netbase/netbase_5.0.bb |    9 ---------
+ 1 files changed, 0 insertions(+), 9 deletions(-)
 
-Cheers,
-
-Richard
+diff --git a/meta/recipes-core/netbase/netbase_5.0.bb b/meta/recipes-core/netbase/netbase_5.0.bb
+index 3aea874..7c609af 100644
+--- a/meta/recipes-core/netbase/netbase_5.0.bb
++++ b/meta/recipes-core/netbase/netbase_5.0.bb
+@@ -34,15 +34,6 @@ do_install () {
+ 	install -m 0644 etc-services ${D}${sysconfdir}/services
+ 	install -m 0644 ${WORKDIR}/interfaces ${D}${sysconfdir}/network/interfaces
+ 	install -m 0755 ${WORKDIR}/nfsroot ${D}${sysconfdir}/network/if-pre-up.d
+-
+-	# Disable network manager on machines that commonly do NFS booting
+-	case "${MACHINE}" in
+-		"qemuarm*" | "qemux86" | "qemux86-64" | "qemumips*" | "qemuppc" | "qemush*")
+-			touch ${D}${sysconfdir}/network/nm-disabled-eth0
+-			;;
+-		*)
+-			;;
+-	esac
+ }
+ 
+ CONFFILES_${PN} = "${sysconfdir}/hosts ${sysconfdir}/network/interfaces"
+-- 
+1.7.8.6
 
 
 
