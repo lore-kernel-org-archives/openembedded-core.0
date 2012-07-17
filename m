@@ -1,25 +1,25 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Sr9hG-0000I5-Pr
+	(envelope-from <sgw@linux.intel.com>) id 1SrAFn-0000x2-Et
 	for openembedded-core@lists.openembedded.org;
-	Tue, 17 Jul 2012 17:28:23 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 17 Jul 2012 08:17:02 -0700
+	Tue, 17 Jul 2012 18:04:03 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 17 Jul 2012 08:52:42 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="193958519"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="167478481"
 Received: from unknown (HELO [10.255.12.178]) ([10.255.12.178])
-	by fmsmga002.fm.intel.com with ESMTP; 17 Jul 2012 08:17:02 -0700
-Message-ID: <500581EE.2080709@linux.intel.com>
-Date: Tue, 17 Jul 2012 08:17:02 -0700
+	by orsmga001.jf.intel.com with ESMTP; 17 Jul 2012 08:52:42 -0700
+Message-ID: <50058A4A.7090806@linux.intel.com>
+Date: Tue, 17 Jul 2012 08:52:42 -0700
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:13.0) Gecko/20120615 Thunderbird/13.0.1
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <1341912420-18131-1-git-send-email-rongqing.li@windriver.com>
-In-Reply-To: <1341912420-18131-1-git-send-email-rongqing.li@windriver.com>
-Subject: Re: [PATCH] slang: change char type to signed char in macros
+References: <20120709185017.GA22808@windriver.com>
+In-Reply-To: <20120709185017.GA22808@windriver.com>
+Subject: Re: [PATCH] package install failure on systems without /sbin/ldconfig
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,269 +34,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Jul 2012 15:28:23 -0000
+X-List-Received-Date: Tue, 17 Jul 2012 16:04:03 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 07/10/2012 02:27 AM, rongqing.li@windriver.com wrote:
-> From: Roy.Li <rongqing.li@windriver.com>
+On 07/09/2012 11:50 AM, Amy Fong wrote:
+> Package install failures due to issues in post install rules.
 >
-> Fix [YOCTO 2726]
+> package_do_shlibs only looks for libraries in a directory "lib", this should be
+> modified to the variable baselib.
 >
-> C language has 3 distinct char types:
->           char
->           unsigned char
->           signed char
-> A char has the same range of values as signed char on X86,
-> but same as unsigned char on ARM which made Slang's typecast()
-> and array_sort() unable to work for char value on ARM, since
-> Slang is assuming "char" as "signed char".
+> ldconfig_postinst_fragment failure observed on systems without /sbin/ldconfig
+>          [ -x /sbin/ldconfig ] && /sbin/ldconfig
+> results in the post install rule returning a failure. Modify to
+>          if [ -x /sbin/ldconfig ]; then /sbin/ldconfig; fi
 >
-> Now we change "char" as "signed char" explicitly in
-> util/mkslarith2.sl, and use it to regenerate src/slarith2.inc
->
-> Signed-off-by: Roy.Li <rongqing.li@windriver.com>
+> Signed-off-by: Amy Fong <amy.fong@windriver.com>
 > ---
->   ...change-char-type-to-signed-char-in-macros.patch |  202 ++++++++++++++++++++
->   meta/recipes-extended/slang/slang_2.2.4.bb         |    3 +-
->   2 files changed, 204 insertions(+), 1 deletions(-)
->   create mode 100644 meta/recipes-extended/slang/slang/change-char-type-to-signed-char-in-macros.patch
+>   package.bbclass |    4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
 >
+> diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+> index 56ab25c..28a263c 100644
+> --- a/meta/classes/package.bbclass
+> +++ b/meta/classes/package.bbclass
+> @@ -1151,7 +1151,7 @@ emit_pkgdata[dirs] = "${PKGDESTWORK}/runtime"
+>
+>   ldconfig_postinst_fragment() {
+>   if [ x"$D" = "x" ]; then
+> -	[ -x /sbin/ldconfig ] && /sbin/ldconfig
+> +	if [ -x /sbin/ldconfig ]; then /sbin/ldconfig ; fi
+>   fi
+>   }
+>
+> @@ -1261,7 +1261,7 @@ python package_do_shlibs() {
+>   		return
+>   		
+>   	lib_re = re.compile("^.*\.so")
+> -	libdir_re = re.compile(".*/lib$")
+> +	libdir_re = re.compile(".*/%s$" % d.getVar('baselib', True))
+>
+>   	packages = d.getVar('PACKAGES', True)
+>   	targetos = d.getVar('TARGET_OS', True)
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+>
+
 Merged into OE-Core
 
-Thanks
+Thanks	
 	Sau!
-
-> diff --git a/meta/recipes-extended/slang/slang/change-char-type-to-signed-char-in-macros.patch b/meta/recipes-extended/slang/slang/change-char-type-to-signed-char-in-macros.patch
-> new file mode 100644
-> index 0000000..18dea13
-> --- /dev/null
-> +++ b/meta/recipes-extended/slang/slang/change-char-type-to-signed-char-in-macros.patch
-> @@ -0,0 +1,202 @@
-> +---
-> + src/slarith2.inc       |   72 ++++++++++++++++++++++++-------------------------
-> + src/util/mkslarith2.sl |    2 -
-> + 2 files changed, 37 insertions(+), 37 deletions(-)
-> +
-> +--- a/src/util/mkslarith2.sl
-> ++++ b/src/util/mkslarith2.sl
-> +@@ -1,7 +1,7 @@
-> + #!/usr/bin/env slsh
-> +
-> + private variable CTypes =
-> +-  ["char", "unsigned char", "short", "unsigned short", "int", "unsigned int",
-> ++  ["signed char", "unsigned char", "short", "unsigned short", "int", "unsigned int",
-> +    "long", "unsigned long", "long long", "unsigned long long",
-> +    "float", "double", "long double"];
-> + private variable Is_Int_Type =
-> +--- a/src/slarith2.inc
-> ++++ b/src/slarith2.inc
-> +@@ -1,43 +1,43 @@
-> + /* DO NOT EDIT -- this file was generated by src/util/mkslarith2.sl */
-> +-/* ------------ char ---------- */
-> +-DEFUN_1(copy_char_to_char,char,char)
-> ++/* ------------ signed char ---------- */
-> ++DEFUN_1(copy_char_to_char,signed char,signed char)
-> + #define char_to_char	NULL
-> + #define copy_char_to_uchar	copy_char_to_char
-> + #define char_to_uchar	NULL
-> +-DEFUN_1(copy_char_to_short,char,short)
-> ++DEFUN_1(copy_char_to_short,signed char,short)
-> + #define char_to_short	NULL
-> +-DEFUN_1(copy_char_to_ushort,char,unsigned short)
-> ++DEFUN_1(copy_char_to_ushort,signed char,unsigned short)
-> + #define char_to_ushort	NULL
-> +-DEFUN_1(copy_char_to_int,char,int)
-> +-DEFUN_2(char_to_int,char,int,copy_char_to_int)
-> +-DEFUN_1(copy_char_to_uint,char,unsigned int)
-> +-DEFUN_2(char_to_uint,char,unsigned int,copy_char_to_uint)
-> +-DEFUN_1(copy_char_to_long,char,long)
-> +-DEFUN_2(char_to_long,char,long,copy_char_to_long)
-> +-DEFUN_1(copy_char_to_ulong,char,unsigned long)
-> +-DEFUN_2(char_to_ulong,char,unsigned long,copy_char_to_ulong)
-> ++DEFUN_1(copy_char_to_int,signed char,int)
-> ++DEFUN_2(char_to_int,signed char,int,copy_char_to_int)
-> ++DEFUN_1(copy_char_to_uint,signed char,unsigned int)
-> ++DEFUN_2(char_to_uint,signed char,unsigned int,copy_char_to_uint)
-> ++DEFUN_1(copy_char_to_long,signed char,long)
-> ++DEFUN_2(char_to_long,signed char,long,copy_char_to_long)
-> ++DEFUN_1(copy_char_to_ulong,signed char,unsigned long)
-> ++DEFUN_2(char_to_ulong,signed char,unsigned long,copy_char_to_ulong)
-> + #if defined(HAVE_LONG_LONG)
-> +-DEFUN_1(copy_char_to_llong,char,long long)
-> +-DEFUN_2(char_to_llong,char,long long,copy_char_to_llong)
-> ++DEFUN_1(copy_char_to_llong,signed char,long long)
-> ++DEFUN_2(char_to_llong,signed char,long long,copy_char_to_llong)
-> + #endif /* defined(HAVE_LONG_LONG) */
-> + #if defined(HAVE_LONG_LONG)
-> +-DEFUN_1(copy_char_to_ullong,char,unsigned long long)
-> +-DEFUN_2(char_to_ullong,char,unsigned long long,copy_char_to_ullong)
-> ++DEFUN_1(copy_char_to_ullong,signed char,unsigned long long)
-> ++DEFUN_2(char_to_ullong,signed char,unsigned long long,copy_char_to_ullong)
-> + #endif /* defined(HAVE_LONG_LONG) */
-> + #if SLANG_HAS_FLOAT
-> +-DEFUN_1(copy_char_to_float,char,float)
-> +-DEFUN_2(char_to_float,char,float,copy_char_to_float)
-> ++DEFUN_1(copy_char_to_float,signed char,float)
-> ++DEFUN_2(char_to_float,signed char,float,copy_char_to_float)
-> + #endif /* SLANG_HAS_FLOAT */
-> + #if SLANG_HAS_FLOAT
-> +-DEFUN_1(copy_char_to_double,char,double)
-> +-DEFUN_2(char_to_double,char,double,copy_char_to_double)
-> ++DEFUN_1(copy_char_to_double,signed char,double)
-> ++DEFUN_2(char_to_double,signed char,double,copy_char_to_double)
-> + #endif /* SLANG_HAS_FLOAT */
-> + #if defined(HAVE_LONG_DOUBLE)
-> +-DEFUN_1(copy_char_to_ldouble,char,long double)
-> +-DEFUN_2(char_to_ldouble,char,long double,copy_char_to_ldouble)
-> ++DEFUN_1(copy_char_to_ldouble,signed char,long double)
-> ++DEFUN_2(char_to_ldouble,signed char,long double,copy_char_to_ldouble)
-> + #endif /* defined(HAVE_LONG_DOUBLE) */
-> + #if SLANG_HAS_FLOAT
-> +-TO_DOUBLE_FUN(char_to_one_double,char)
-> ++TO_DOUBLE_FUN(char_to_one_double,signed char)
-> + #endif
-> +
-> + /* ------------ unsigned char ---------- */
-> +@@ -82,7 +82,7 @@ TO_DOUBLE_FUN(uchar_to_one_double,unsign
-> + #endif
-> +
-> + /* ------------ short ---------- */
-> +-DEFUN_1(copy_short_to_char,short,char)
-> ++DEFUN_1(copy_short_to_char,short,signed char)
-> + #define short_to_char	NULL
-> + DEFUN_1(copy_short_to_uchar,short,unsigned char)
-> + #define short_to_uchar	NULL
-> +@@ -123,7 +123,7 @@ TO_DOUBLE_FUN(short_to_one_double,short)
-> + #endif
-> +
-> + /* ------------ unsigned short ---------- */
-> +-DEFUN_1(copy_ushort_to_char,unsigned short,char)
-> ++DEFUN_1(copy_ushort_to_char,unsigned short,signed char)
-> + #define ushort_to_char	NULL
-> + DEFUN_1(copy_ushort_to_uchar,unsigned short,unsigned char)
-> + #define ushort_to_uchar	NULL
-> +@@ -164,7 +164,7 @@ TO_DOUBLE_FUN(ushort_to_one_double,unsig
-> + #endif
-> +
-> + /* ------------ int ---------- */
-> +-DEFUN_1(copy_int_to_char,int,char)
-> ++DEFUN_1(copy_int_to_char,int,signed char)
-> + #define int_to_char	NULL
-> + DEFUN_1(copy_int_to_uchar,int,unsigned char)
-> + #define int_to_uchar	NULL
-> +@@ -205,7 +205,7 @@ TO_DOUBLE_FUN(int_to_one_double,int)
-> + #endif
-> +
-> + /* ------------ unsigned int ---------- */
-> +-DEFUN_1(copy_uint_to_char,unsigned int,char)
-> ++DEFUN_1(copy_uint_to_char,unsigned int,signed char)
-> + #define uint_to_char	NULL
-> + DEFUN_1(copy_uint_to_uchar,unsigned int,unsigned char)
-> + #define uint_to_uchar	NULL
-> +@@ -246,7 +246,7 @@ TO_DOUBLE_FUN(uint_to_one_double,unsigne
-> + #endif
-> +
-> + /* ------------ long ---------- */
-> +-DEFUN_1(copy_long_to_char,long,char)
-> ++DEFUN_1(copy_long_to_char,long,signed char)
-> + #define long_to_char	NULL
-> + DEFUN_1(copy_long_to_uchar,long,unsigned char)
-> + #define long_to_uchar	NULL
-> +@@ -287,7 +287,7 @@ TO_DOUBLE_FUN(long_to_one_double,long)
-> + #endif
-> +
-> + /* ------------ unsigned long ---------- */
-> +-DEFUN_1(copy_ulong_to_char,unsigned long,char)
-> ++DEFUN_1(copy_ulong_to_char,unsigned long,signed char)
-> + #define ulong_to_char	NULL
-> + DEFUN_1(copy_ulong_to_uchar,unsigned long,unsigned char)
-> + #define ulong_to_uchar	NULL
-> +@@ -329,7 +329,7 @@ TO_DOUBLE_FUN(ulong_to_one_double,unsign
-> +
-> + /* ------------ long long ---------- */
-> + #if defined(HAVE_LONG_LONG)
-> +-DEFUN_1(copy_llong_to_char,long long,char)
-> ++DEFUN_1(copy_llong_to_char,long long,signed char)
-> + #define llong_to_char	NULL
-> + DEFUN_1(copy_llong_to_uchar,long long,unsigned char)
-> + #define llong_to_uchar	NULL
-> +@@ -372,7 +372,7 @@ TO_DOUBLE_FUN(llong_to_one_double,long l
-> +
-> + /* ------------ unsigned long long ---------- */
-> + #if defined(HAVE_LONG_LONG)
-> +-DEFUN_1(copy_ullong_to_char,unsigned long long,char)
-> ++DEFUN_1(copy_ullong_to_char,unsigned long long,signed char)
-> + #define ullong_to_char	NULL
-> + DEFUN_1(copy_ullong_to_uchar,unsigned long long,unsigned char)
-> + #define ullong_to_uchar	NULL
-> +@@ -415,7 +415,7 @@ TO_DOUBLE_FUN(ullong_to_one_double,unsig
-> +
-> + /* ------------ float ---------- */
-> + #if SLANG_HAS_FLOAT
-> +-DEFUN_1(copy_float_to_char,float,char)
-> ++DEFUN_1(copy_float_to_char,float,signed char)
-> + #define float_to_char	NULL
-> + DEFUN_1(copy_float_to_uchar,float,unsigned char)
-> + #define float_to_uchar	NULL
-> +@@ -458,7 +458,7 @@ TO_DOUBLE_FUN(float_to_one_double,float)
-> +
-> + /* ------------ double ---------- */
-> + #if SLANG_HAS_FLOAT
-> +-DEFUN_1(copy_double_to_char,double,char)
-> ++DEFUN_1(copy_double_to_char,double,signed char)
-> + #define double_to_char	NULL
-> + DEFUN_1(copy_double_to_uchar,double,unsigned char)
-> + #define double_to_uchar	NULL
-> +@@ -501,7 +501,7 @@ TO_DOUBLE_FUN(double_to_one_double,doubl
-> +
-> + /* ------------ long double ---------- */
-> + #if defined(HAVE_LONG_DOUBLE)
-> +-DEFUN_1(copy_ldouble_to_char,long double,char)
-> ++DEFUN_1(copy_ldouble_to_char,long double,signed char)
-> + #define ldouble_to_char	NULL
-> + DEFUN_1(copy_ldouble_to_uchar,long double,unsigned char)
-> + #define ldouble_to_uchar	NULL
-> +@@ -545,7 +545,7 @@ TO_DOUBLE_FUN(ldouble_to_one_double,long
-> + #if SLANG_HAS_FLOAT
-> + static To_Double_Fun_Table_Type To_Double_Fun_Table [MAX_ARITHMETIC_TYPES] =
-> + {
-> +-   {sizeof(char), char_to_one_double},
-> ++   {sizeof(signed char), char_to_one_double},
-> +    {sizeof(unsigned char), uchar_to_one_double},
-> +    {sizeof(short), short_to_one_double},
-> +    {sizeof(unsigned short), ushort_to_one_double},
-> +@@ -583,7 +583,7 @@ static To_Double_Fun_Table_Type To_Doubl
-> +
-> + static Binary_Matrix_Type Binary_Matrix [MAX_ARITHMETIC_TYPES][MAX_ARITHMETIC_TYPES] =
-> + {
-> +-   /* char */
-> ++   /* signed char */
-> +    {
-> +      {(FVOID_STAR)copy_char_to_char, char_to_char},
-> +      {(FVOID_STAR)copy_char_to_uchar, char_to_uchar},
-> diff --git a/meta/recipes-extended/slang/slang_2.2.4.bb b/meta/recipes-extended/slang/slang_2.2.4.bb
-> index 40f671e..44031a6 100644
-> --- a/meta/recipes-extended/slang/slang_2.2.4.bb
-> +++ b/meta/recipes-extended/slang/slang_2.2.4.bb
-> @@ -10,7 +10,7 @@ to recode S-Lang procedures in C if you need to."
->   HOMEPAGE = "http://www.jedsoft.org/slang/"
->   SECTION = "libs"
->   DEPENDS = "pcre"
-> -PR = "r8"
-> +PR = "r9"
->
->   LICENSE = "GPLv2"
->   LIC_FILES_CHKSUM = "file://COPYING;md5=a52a18a472d4f7e45479b06563717c02"
-> @@ -19,6 +19,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a52a18a472d4f7e45479b06563717c02"
->   SRC_URI = "ftp://space.mit.edu/pub/davis/slang/v2.2/slang-${PV}.tar.bz2 \
->              file://rpathfix.patch \
->             "
-> +SRC_URI_append_arm = " file://change-char-type-to-signed-char-in-macros.patch"
->
->   inherit autotools
->
->
-
 
 
