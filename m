@@ -1,24 +1,31 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <jessica.zhang@intel.com>) id 1Sqv3I-0006og-Te
+	(envelope-from <jeffrey.honig@windriver.com>) id 1SqyCJ-0003rM-Ja
 	for openembedded-core@lists.openembedded.org;
-	Tue, 17 Jul 2012 01:50:09 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 16 Jul 2012 16:38:45 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="167153179"
-Received: from jzhang-desktop.jf.intel.com (HELO localhost) ([10.7.201.83])
-	by orsmga001.jf.intel.com with ESMTP; 16 Jul 2012 16:38:45 -0700
-From: Jessica Zhang <jessica.zhang@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 16 Jul 2012 16:49:44 -0700
-Message-Id: <4917bd6d87259841522529052a765d1664bf0d20.1342482042.git.jessica.zhang@intel.com>
-X-Mailer: git-send-email 1.7.4.1
-In-Reply-To: <cover.1342482042.git.jessica.zhang@intel.com>
-References: <cover.1342482042.git.jessica.zhang@intel.com>
-In-Reply-To: <cover.1342482042.git.jessica.zhang@intel.com>
-References: <cover.1342482042.git.jessica.zhang@intel.com>
-Subject: [PATCH 1/1] meta-ide-support: Add native qemu support for meta-ide-support
+	Tue, 17 Jul 2012 05:11:39 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q6H07w9m000276
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 16 Jul 2012 17:07:58 -0700 (PDT)
+Received: from jch-schlepp.wrs.com (172.25.32.253) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
+	Mon, 16 Jul 2012 17:07:58 -0700
+Received: from schlepp.honig.net (schlepp.honig.net [127.0.0.1])	by
+	jch-schlepp.wrs.com (8.14.4/8.14.4/Debian-2ubuntu2) with ESMTP id
+	q6H07vUw000826	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256
+	verify=NOT)	for <openembedded-core@lists.openembedded.org>;
+	Mon, 16 Jul 2012 20:07:57 -0400
+Received: (from jch@localhost)	by schlepp.honig.net (8.14.4/8.14.4/Submit) id
+	q6H07vW9000825	for openembedded-core@lists.openembedded.org;
+	Mon, 16 Jul 2012 20:07:57 -0400
+From: Jeffrey C Honig <jeffrey.honig@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 16 Jul 2012 20:07:57 -0400
+Message-ID: <1342483677-789-1-git-send-email-jeffrey.honig@windriver.com>
+X-Mailer: git-send-email 1.7.5.4
+MIME-Version: 1.0
+Subject: [PATCH] terminal.py: Fix Xfce on ubuntu/debian; some cleanup
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,48 +40,146 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Jul 2012 23:50:09 -0000
+X-List-Received-Date: Tue, 17 Jul 2012 03:11:40 -0000
+Content-Type: text/plain
 
-[YOCTO #2761]
+  * Xfce class was setting and passing wrong variable for ubuntu/debian.
+  * Clean up local and instance/class variables with same name but different usage.
+  * Remove side-effect and directly return formatted command for clarity.
 
-This patch fixed the issue that after "bitbake meta-ide-support" and try to start qemu and it will fail.  This is due to the meta-ide-support lacking dependency for qemu native and ended up using qemu under /usr/bin.  Fix the issue by adding dependency for qemu native in meta-ide-support and also add the path info in the environment-setup script.
-
-Signed-off-by: Jessica Zhang <jessica.zhang@intel.com>
+Signed-off-by: Jeffrey C Honig <jeffrey.honig@windriver.com>
 ---
- meta/classes/toolchain-scripts.bbclass     |    2 +-
- meta/recipes-core/meta/meta-ide-support.bb |    4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ meta/lib/oe/terminal.py |   47 ++++++++++++++++++++++-------------------------
+ 1 files changed, 22 insertions(+), 25 deletions(-)
 
-diff --git a/meta/classes/toolchain-scripts.bbclass b/meta/classes/toolchain-scripts.bbclass
-index bedcd61..0a0ac47 100644
---- a/meta/classes/toolchain-scripts.bbclass
-+++ b/meta/classes/toolchain-scripts.bbclass
-@@ -43,7 +43,7 @@ toolchain_create_tree_env_script () {
- 	script=${TMPDIR}/environment-setup-${REAL_MULTIMACH_TARGET_SYS}
- 	rm -f $script
- 	touch $script
--	echo 'export PATH=${PATH}' >> $script
-+	echo 'export PATH=${STAGING_DIR_NATIVE}/usr/bin:${PATH}' >> $script
- 	echo 'export PKG_CONFIG_SYSROOT_DIR=${PKG_CONFIG_SYSROOT_DIR}' >> $script
- 	echo 'export PKG_CONFIG_PATH=${PKG_CONFIG_PATH}' >> $script
+diff --git a/meta/lib/oe/terminal.py b/meta/lib/oe/terminal.py
+index 43639d5..9128664 100644
+--- a/meta/lib/oe/terminal.py
++++ b/meta/lib/oe/terminal.py
+@@ -28,11 +28,10 @@ class Registry(oe.classutils.ClassRegistry):
+ class Terminal(Popen):
+     __metaclass__ = Registry
  
-diff --git a/meta/recipes-core/meta/meta-ide-support.bb b/meta/recipes-core/meta/meta-ide-support.bb
-index 326b25a..130b1c9 100644
---- a/meta/recipes-core/meta/meta-ide-support.bb
-+++ b/meta/recipes-core/meta/meta-ide-support.bb
-@@ -3,8 +3,8 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58 \
-                     file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+-    def __init__(self, command, title=None, env=None):
+-        self.format_command(command, title)
+-
++    def __init__(self, sh_cmd, title=None, env=None):
++        fmt_sh_cmd = self.format_command(sh_cmd, title)
+         try:
+-            Popen.__init__(self, self.command, env=env)
++            Popen.__init__(self, fmt_sh_cmd, env=env)
+         except OSError as exc:
+             import errno
+             if exc.errno == errno.ENOENT:
+@@ -40,16 +39,16 @@ class Terminal(Popen):
+             else:
+                 raise
  
--DEPENDS = "virtual/libc gdb-cross qemu-helper-native unfs-server-native"
--PR = "r2"
-+DEPENDS = "virtual/libc gdb-cross qemu-native qemu-helper-native unfs-server-native"
-+PR = "r3"
+-    def format_command(self, command, title):
+-        fmt = {'title': title or 'Terminal', 'command': command}
++    def format_command(self, sh_cmd, title):
++        fmt = {'title': title or 'Terminal', 'command': sh_cmd}
+         if isinstance(self.command, basestring):
+-            self.command = shlex.split(self.command.format(**fmt))
++            return shlex.split(self.command.format(**fmt))
+         else:
+-            self.command = [element.format(**fmt) for element in self.command]
++            return [element.format(**fmt) for element in self.command]
  
- inherit meta toolchain-scripts
+ class XTerminal(Terminal):
+-    def __init__(self, command, title=None, env=None):
+-        Terminal.__init__(self, command, title, env)
++    def __init__(self, sh_cmd, title=None, env=None):
++        Terminal.__init__(self, sh_cmd, title, env)
+         if not os.environ.get('DISPLAY'):
+             raise UnsupportedTerminal(self.name)
  
+@@ -58,31 +57,29 @@ class Gnome(XTerminal):
+     priority = 2
+ 
+ class Xfce(XTerminal):
+-    command = 'Terminal -T "{title}" -e "{command}"'
++    command = 'Terminal -T "{title}" -x {command}'
+     priority = 2
+ 
+-    def __init__(self, command, title=None, env=None):
++    def __init__(self, sh_cmd, title=None, env=None):
+         # Upstream binary name is Terminal but Debian/Ubuntu use
+         # xfce4-terminal to avoid possible(?) conflicts
+         distro = distro_name()
+         if distro == 'ubuntu' or distro == 'debian':
+-            cmd = 'xfce4-terminal -T "{title}" -e "{command}"'
+-        else:
+-            cmd = command
+-        XTerminal.__init__(self, cmd, title, env)
++            Xfce.command = 'xfce4-terminal -T "{title}" -x {command}'
++        XTerminal.__init__(self, sh_cmd, title, env)
+ 
+ class Konsole(XTerminal):
+     command = 'konsole -T "{title}" -e {command}'
+     priority = 2
+ 
+-    def __init__(self, command, title=None, env=None):
++    def __init__(self, sh_cmd, title=None, env=None):
+         # Check version
+         vernum = check_konsole_version("konsole")
+         if vernum:
+             if vernum.split('.')[0] == "2":
+                 logger.debug(1, 'Konsole from KDE 4.x will not work as devshell, skipping')
+                 raise UnsupportedTerminal(self.name)
+-        XTerminal.__init__(self, command, title, env)
++        XTerminal.__init__(self, sh_cmd, title, env)
+ 
+ class XTerm(XTerminal):
+     command = 'xterm -T "{title}" -e {command}'
+@@ -95,8 +92,8 @@ class Rxvt(XTerminal):
+ class Screen(Terminal):
+     command = 'screen -D -m -t "{title}" -S devshell {command}'
+ 
+-    def __init__(self, command, title=None, env=None):
+-        Terminal.__init__(self, command, title, env)
++    def __init__(self, sh_cmd, title=None, env=None):
++        Terminal.__init__(self, sh_cmd, title, env)
+         logger.warn('Screen started. Please connect in another terminal with '
+                     '"screen -r devshell"')
+ 
+@@ -104,18 +101,18 @@ class Screen(Terminal):
+ def prioritized():
+     return Registry.prioritized()
+ 
+-def spawn_preferred(command, title=None, env=None):
++def spawn_preferred(sh_cmd, title=None, env=None):
+     """Spawn the first supported terminal, by priority"""
+     for terminal in prioritized():
+         try:
+-            spawn(terminal.name, command, title, env)
++            spawn(terminal.name, sh_cmd, title, env)
+             break
+         except UnsupportedTerminal:
+             continue
+     else:
+         raise NoSupportedTerminals()
+ 
+-def spawn(name, command, title=None, env=None):
++def spawn(name, sh_cmd, title=None, env=None):
+     """Spawn the specified terminal, by name"""
+     logger.debug(1, 'Attempting to spawn terminal "%s"', name)
+     try:
+@@ -123,10 +120,10 @@ def spawn(name, command, title=None, env=None):
+     except KeyError:
+         raise UnsupportedTerminal(name)
+ 
+-    pipe = terminal(command, title, env)
++    pipe = terminal(sh_cmd, title, env)
+     output = pipe.communicate()[0]
+     if pipe.returncode != 0:
+-        raise ExecutionError(pipe.command, pipe.returncode, output)
++        raise ExecutionError(pipe.sh_cmd, pipe.returncode, output)
+ 
+ def check_konsole_version(konsole):
+     import subprocess as sub
 -- 
-1.7.7
+1.7.5.4
 
 
 
