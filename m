@@ -1,41 +1,25 @@
-Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1SrAim-0002JS-K4
+	(envelope-from <sgw@linux.intel.com>) id 1SrAjD-0002PX-Lu
 	for openembedded-core@lists.openembedded.org;
-	Tue, 17 Jul 2012 18:34:00 +0200
-Received: from mail-we0-f180.google.com ([74.125.82.180])
-	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 17 Jul 2012 09:22:32 -0700
-Received: by mail-we0-f180.google.com with SMTP id t11so361045wey.25
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Jul 2012 09:22:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
-	:in-reply-to:references:x-gm-message-state;
-	bh=LhWIvDRtZiHEU8tSGPB+fErsx17TF6SPjcZEw/YivHU=;
-	b=haaiDbQlJbhQBzy48SPbOcTSiRvG0DzMYZcVvdIWkvNq7x+0hNKJMwAQiAycCISfvO
-	UmYBdPwhsLEgSiUrQ0vPA6B2QE9agvb65ITm+lFdJ9WHefii6LeArujO9BDWDbEhnVBD
-	qCL7Ph44cPDK1Ix5YvESzfFEu+x7l3I6d9xmX+yEOq+zySNijyIZtIjaDZ5WXmBGVbkj
-	vgSmIitY5kBJE8FC4Gv0VWCiD85lKVrLVak5viF+ZTyYTqjFNsvsbGDONidHpz0fFTDD
-	ak9BIHfiuLgvc3icO7jYUMtE+8vPRuM6lLN0YFWe1hude4NONGigKiWkThulUfh69UOS
-	LA0Q==
-Received: by 10.180.83.106 with SMTP id p10mr5486237wiy.21.1342542152721;
-	Tue, 17 Jul 2012 09:22:32 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id cl8sm27732790wib.10.2012.07.17.09.22.31
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 17 Jul 2012 09:22:32 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 17 Jul 2012 17:22:10 +0100
-Message-Id: <245f335b9d6103daba1c90403a94a50eec80e64d.1342542040.git.ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10
-In-Reply-To: <cover.1342542040.git.ross.burton@intel.com>
-References: <cover.1342542040.git.ross.burton@intel.com>
-In-Reply-To: <cover.1342542040.git.ross.burton@intel.com>
-References: <cover.1342542040.git.ross.burton@intel.com>
-X-Gm-Message-State: ALoCoQlAMZ6ch9K7VLM1GYDRM59EqV83rtgakHaTq9qjCHMZ0MVqTQRF9r8M/stkB/SJR+oyDddc
-Subject: [PATCH 3/3] web-webkit: don't link using g++, it's not needed anymore
+	Tue, 17 Jul 2012 18:34:28 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 17 Jul 2012 09:23:07 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="193990877"
+Received: from unknown (HELO [10.255.12.178]) ([10.255.12.178])
+	by fmsmga002.fm.intel.com with ESMTP; 17 Jul 2012 09:23:07 -0700
+Message-ID: <5005916B.3030005@linux.intel.com>
+Date: Tue, 17 Jul 2012 09:23:07 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:13.0) Gecko/20120615 Thunderbird/13.0.1
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1341935782.git.nitin.a.kamble@intel.com>
+In-Reply-To: <cover.1341935782.git.nitin.a.kamble@intel.com>
+Subject: Re: [PATCH 00/19] automake update related commits on master
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,84 +34,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Jul 2012 16:34:00 -0000
+X-List-Received-Date: Tue, 17 Jul 2012 16:34:28 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- .../web/web-webkit/link-with-g++.patch             |   35 --------------------
- meta/recipes-sato/web/web-webkit_git.bb            |    9 ++---
- 2 files changed, 2 insertions(+), 42 deletions(-)
- delete mode 100644 meta/recipes-sato/web/web-webkit/link-with-g++.patch
+On 07/10/2012 08:58 AM, nitin.a.kamble@intel.com wrote:
+> From: Nitin A Kamble <nitin.a.kamble@intel.com>
+>
+> These are same commits which I made for M1 branch, now rebased to the current master.
+>
+> Thanks,
+> Nitin
+>
+> The following changes since commit 029e3cea52f86438a1d6868020b8888b5c93d623:
+>
+>    bitbake: fetch2/wget: Use FETCHCMD_wget to provide the commandline and options (2012-07-10 14:25:38 +0100)
+>
+> are available in the git repository at:
+>    git://git.pokylinux.org/poky-contrib nitin/automake_update_on_master
+>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=nitin/automake_update_on_master
+>
+> Nitin A Kamble (19):
+>    automake: upgrade from 1.11.3 to 1.12.1
+>    jpeg: fix configure with automake 1.12.1
+>    gnutls: Fix build with automake 1.12.1
+>    pcmanfm: fix build with automake 1.12.x
+>    avahi: fix build with automake 1.12.1
+>    dates: fix build with automake 1.12.x
+>    librsvg: fix build with automake 1.12.x
+>    evolution-data-server: fix build with automake 1.12.x
+>    tar: fix build with automake 1.12.x
+>    libgcrypt: fix build with automake 1.12.x
+>    telepathy-glib: fix build with automake 1.12.x
+>    xf86-video-vmware: fix build with automake 1.12.x
+>    libfm: fix build with automake 1.12.x
+>    pango: fix dependencies to avoid build issue
+>    libunistring: fix build with automake 1.12
+>    telepathy-python: fix build with automake 1.12
+>    libidn: fix build with automake 1.12
+>    webgit-gtk: fix build with automake 1.12.1
+>    gpgme: fix build with automake 1.12.x
+>
+>   meta/recipes-connectivity/avahi/avahi.inc          |    3 +-
+>   .../avahi/files/fix_for_automake_1.12.x.patch      |   34 ++++++++
+>   .../telepathy/telepathy-glib_0.19.2.bb             |    6 --
+>   .../telepathy-python_fix_for_automake_1.12.patch   |   26 ++++++
+>   .../telepathy/telepathy-python_0.15.19.bb          |    5 +-
+>   .../jpeg/jpeg-8d/fix_for_automake_1.12.1.patch     |   44 ++++++++++
+>   meta/recipes-core/jpeg/jpeg_8d.bb                  |    5 +-
+>   .../automake/automake/path_prog_fixes.patch        |   40 ++--------
+>   .../{automake_1.11.3.bb => automake_1.12.1.bb}     |    5 +-
+>   ..._MKDIR_P_warning_error_with_automake_1.12.patch |   25 ++++++
+>   meta/recipes-extended/libidn/libidn_1.25.bb        |    5 +-
+>   meta/recipes-extended/tar/tar.inc                  |    2 -
+>   meta/recipes-gnome/librsvg/librsvg_2.32.1.bb       |    8 +--
+>   meta/recipes-graphics/pango/pango.inc              |    2 +-
+>   .../xorg-driver/xf86-video-vmware_12.0.2.bb        |    5 -
+>   .../avoid_automake_errors.patch                    |   83 ++++++++++++++++++++
+>   .../fix_for_automake-1.12.x.patch                  |   28 +++++++
+>   meta/recipes-sato/eds/evolution-data-server_git.bb |    4 +-
+>   .../files/pcmanfm_fix_for_automake_1.12.patch      |   35 ++++++++
+>   meta/recipes-sato/pcmanfm/pcmanfm_0.9.10.bb        |    5 +-
+>   meta/recipes-sato/pimlico/dates_git.bb             |    6 +-
+>   .../webgit-gtk_fix_build_with_automake_1.12.patch  |   62 +++++++++++++++
+>   meta/recipes-sato/webkit/webkit-gtk_svn.bb         |    1 +
+>   ..._MKDIR_P_warning_error_with_automake_1.12.patch |   51 ++++++++++++
+>   .../gnutls/gnutls_fix_for_automake_1.12.1.patch    |   43 ++++++++++
+>   meta/recipes-support/gnutls/gnutls_2.12.20.bb      |    4 +-
+>   meta/recipes-support/gpgme/gpgme_1.3.2.bb          |    6 +-
+>   meta/recipes-support/libfm/libfm_0.1.17.bb         |    5 -
+>   meta/recipes-support/libgcrypt/libgcrypt.inc       |    3 -
+>   .../libunistring_fix_for_automake_1.12.patch       |   81 +++++++++++++++++++
+>   .../libunistring/libunistring_0.9.3.bb             |    5 +-
+>   31 files changed, 549 insertions(+), 88 deletions(-)
+>   create mode 100644 meta/recipes-connectivity/avahi/files/fix_for_automake_1.12.x.patch
+>   create mode 100644 meta/recipes-connectivity/telepathy/telepathy-python-0.15.19/telepathy-python_fix_for_automake_1.12.patch
+>   create mode 100644 meta/recipes-core/jpeg/jpeg-8d/fix_for_automake_1.12.1.patch
+>   rename meta/recipes-devtools/automake/{automake_1.11.3.bb => automake_1.12.1.bb} (93%)
+>   create mode 100644 meta/recipes-extended/libidn/libidn/avoid_AM_PROG_MKDIR_P_warning_error_with_automake_1.12.patch
+>   create mode 100644 meta/recipes-sato/eds/evolution-data-server/avoid_automake_errors.patch
+>   create mode 100644 meta/recipes-sato/eds/evolution-data-server/fix_for_automake-1.12.x.patch
+>   create mode 100644 meta/recipes-sato/pcmanfm/files/pcmanfm_fix_for_automake_1.12.patch
+>   create mode 100644 meta/recipes-sato/webkit/files/webgit-gtk_fix_build_with_automake_1.12.patch
+>   create mode 100644 meta/recipes-support/gnutls/gnutls/avoid_AM_PROG_MKDIR_P_warning_error_with_automake_1.12.patch
+>   create mode 100644 meta/recipes-support/gnutls/gnutls/gnutls_fix_for_automake_1.12.1.patch
+>   create mode 100644 meta/recipes-support/libunistring/libunistring/libunistring_fix_for_automake_1.12.patch
+>
 
-diff --git a/meta/recipes-sato/web/web-webkit/link-with-g++.patch b/meta/recipes-sato/web/web-webkit/link-with-g++.patch
-deleted file mode 100644
-index e0c6784..0000000
---- a/meta/recipes-sato/web/web-webkit/link-with-g++.patch
-+++ /dev/null
-@@ -1,35 +0,0 @@
--The main webkit library links against stdc++ so we need to use g++ for 
--linking. The easiest way to achieve this is to add a dummy cpp file.
--This also means we have to add AC_PROG_CXX else libtool 2.2.2 gets upset.
--
--RP - 14/4/08 
--
--Upstream-Status: Inappropriate [configuration]
--
----- webkit.orig/src/Makefile.am
--+++ webkit/src/Makefile.am
--@@ -1,11 +1,11 @@
-- AM_CPPFLAGS=-DPKGDATADIR=\"$(pkgdatadir)\"
-- AM_CFLAGS = -Wall -export-dynamic $(WEB_CFLAGS)
-- 
-- bin_PROGRAMS = web2
-- 
---web2_SOURCES = web2.h web2-main.c web2-utils.c web2-utils.h
--+web2_SOURCES = web2.h web2-main.c web2-utils.c web2-utils.h dummy.cpp
-- web2_LDADD   = $(WEB_LIBS)
-- 
-- MAINTAINERCLEANFILES = config.h.in Makefile.in
-- 
-- uidir = $(pkgdatadir)
--Index: webkit/configure.ac
--===================================================================
----- webkit.orig/configure.ac	2008-04-14 22:15:25.000000000 +0100
--+++ webkit/configure.ac	2008-04-14 22:16:31.000000000 +0100
--@@ -7,6 +7,7 @@
-- 
-- AC_ISC_POSIX
-- AC_PROG_CC
--+AC_PROG_CXX
-- AC_STDC_HEADERS
-- AC_PROG_LIBTOOL
-- 
-diff --git a/meta/recipes-sato/web/web-webkit_git.bb b/meta/recipes-sato/web/web-webkit_git.bb
-index dae7faf..0c79324 100644
---- a/meta/recipes-sato/web/web-webkit_git.bb
-+++ b/meta/recipes-sato/web/web-webkit_git.bb
-@@ -13,10 +13,9 @@ RRECOMMENDS_${PN} += "glib-networking"
- 
- SRCREV = "b0676c190f876cbdb1df202fbcec42f212374503"
- PV = "0.1+git${SRCPV}"
--PR = "r1"
-+PR = "r2"
- 
--SRC_URI = "git://git.yoctoproject.org/${BPN};protocol=git \
--           file://link-with-g++.patch"
-+SRC_URI = "git://git.yoctoproject.org/${BPN};protocol=git"
- 
- S = "${WORKDIR}/git"
- 
-@@ -24,8 +23,4 @@ EXTRA_OECONF = "--enable-libowl"
- 
- inherit autotools pkgconfig
- 
--do_configure_prepend() {
--    touch ${S}/src/dummy.cpp
--}
--
- FILES_${PN} += "${datadir}/web2"
--- 
-1.7.10
+Merged into OE-Core
+
+Thanks
+	Sau!
 
 
 
