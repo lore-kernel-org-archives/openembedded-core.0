@@ -1,31 +1,33 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <jeffrey.honig@windriver.com>) id 1SqyCJ-0003rM-Ja
+	(envelope-from <jeffrey.honig@windriver.com>) id 1SqzBx-0005UY-A0
 	for openembedded-core@lists.openembedded.org;
-	Tue, 17 Jul 2012 05:11:39 +0200
+	Tue, 17 Jul 2012 06:15:21 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q6H07w9m000276
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q6H441Y2024515
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Jul 2012 17:07:58 -0700 (PDT)
+	Mon, 16 Jul 2012 21:04:01 -0700 (PDT)
 Received: from jch-schlepp.wrs.com (172.25.32.253) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Mon, 16 Jul 2012 17:07:58 -0700
+	Mon, 16 Jul 2012 21:04:00 -0700
 Received: from schlepp.honig.net (schlepp.honig.net [127.0.0.1])	by
 	jch-schlepp.wrs.com (8.14.4/8.14.4/Debian-2ubuntu2) with ESMTP id
-	q6H07vUw000826	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256
+	q6H43xNT006011	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256
 	verify=NOT)	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Jul 2012 20:07:57 -0400
+	Tue, 17 Jul 2012 00:03:59 -0400
 Received: (from jch@localhost)	by schlepp.honig.net (8.14.4/8.14.4/Submit) id
-	q6H07vW9000825	for openembedded-core@lists.openembedded.org;
-	Mon, 16 Jul 2012 20:07:57 -0400
+	q6H43xwQ006010	for openembedded-core@lists.openembedded.org;
+	Tue, 17 Jul 2012 00:03:59 -0400
 From: Jeffrey C Honig <jeffrey.honig@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 16 Jul 2012 20:07:57 -0400
-Message-ID: <1342483677-789-1-git-send-email-jeffrey.honig@windriver.com>
+Date: Tue, 17 Jul 2012 00:03:59 -0400
+Message-ID: <1342497839-5973-1-git-send-email-jeffrey.honig@windriver.com>
 X-Mailer: git-send-email 1.7.5.4
+In-Reply-To: <1342483677-789-1-git-send-email-jeffrey.honig@windriver.com>
+References: <1342483677-789-1-git-send-email-jeffrey.honig@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH] terminal.py: Fix Xfce on ubuntu/debian; some cleanup
+Subject: [PATCH v2] terminal.py: Fix Xfce on ubuntu/debian; some cleanup
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,20 +42,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Jul 2012 03:11:40 -0000
+X-List-Received-Date: Tue, 17 Jul 2012 04:15:21 -0000
 Content-Type: text/plain
 
-  * Xfce class was setting and passing wrong variable for ubuntu/debian.
-  * Clean up local and instance/class variables with same name but different usage.
-  * Remove side-effect and directly return formatted command for clarity.
+    * Xfce class was setting and passing wrong variable for ubuntu/debian.
+    * Xfce class was using -e instead of -x for passing command.  The former creates
+      a shell escape nightmare
+    * Clean up local and instance/class variables with same name but different usage.
+    * Remove side-effect and directly return formatted command for clarity.
 
 Signed-off-by: Jeffrey C Honig <jeffrey.honig@windriver.com>
 ---
- meta/lib/oe/terminal.py |   47 ++++++++++++++++++++++-------------------------
- 1 files changed, 22 insertions(+), 25 deletions(-)
+ meta/lib/oe/terminal.py |   37 ++++++++++++++++++-------------------
+ 1 files changed, 18 insertions(+), 19 deletions(-)
 
 diff --git a/meta/lib/oe/terminal.py b/meta/lib/oe/terminal.py
-index 43639d5..9128664 100644
+index 43639d5..28abf14 100644
 --- a/meta/lib/oe/terminal.py
 +++ b/meta/lib/oe/terminal.py
 @@ -28,11 +28,10 @@ class Registry(oe.classutils.ClassRegistry):
@@ -94,28 +98,7 @@ index 43639d5..9128664 100644
          if not os.environ.get('DISPLAY'):
              raise UnsupportedTerminal(self.name)
  
-@@ -58,31 +57,29 @@ class Gnome(XTerminal):
-     priority = 2
- 
- class Xfce(XTerminal):
--    command = 'Terminal -T "{title}" -e "{command}"'
-+    command = 'Terminal -T "{title}" -x {command}'
-     priority = 2
- 
--    def __init__(self, command, title=None, env=None):
-+    def __init__(self, sh_cmd, title=None, env=None):
-         # Upstream binary name is Terminal but Debian/Ubuntu use
-         # xfce4-terminal to avoid possible(?) conflicts
-         distro = distro_name()
-         if distro == 'ubuntu' or distro == 'debian':
--            cmd = 'xfce4-terminal -T "{title}" -e "{command}"'
--        else:
--            cmd = command
--        XTerminal.__init__(self, cmd, title, env)
-+            Xfce.command = 'xfce4-terminal -T "{title}" -x {command}'
-+        XTerminal.__init__(self, sh_cmd, title, env)
- 
- class Konsole(XTerminal):
+@@ -75,14 +74,14 @@ class Konsole(XTerminal):
      command = 'konsole -T "{title}" -e {command}'
      priority = 2
  
@@ -132,7 +115,7 @@ index 43639d5..9128664 100644
  
  class XTerm(XTerminal):
      command = 'xterm -T "{title}" -e {command}'
-@@ -95,8 +92,8 @@ class Rxvt(XTerminal):
+@@ -95,8 +94,8 @@ class Rxvt(XTerminal):
  class Screen(Terminal):
      command = 'screen -D -m -t "{title}" -S devshell {command}'
  
@@ -143,7 +126,7 @@ index 43639d5..9128664 100644
          logger.warn('Screen started. Please connect in another terminal with '
                      '"screen -r devshell"')
  
-@@ -104,18 +101,18 @@ class Screen(Terminal):
+@@ -104,18 +103,18 @@ class Screen(Terminal):
  def prioritized():
      return Registry.prioritized()
  
@@ -165,7 +148,7 @@ index 43639d5..9128664 100644
      """Spawn the specified terminal, by name"""
      logger.debug(1, 'Attempting to spawn terminal "%s"', name)
      try:
-@@ -123,10 +120,10 @@ def spawn(name, command, title=None, env=None):
+@@ -123,10 +122,10 @@ def spawn(name, command, title=None, env=None):
      except KeyError:
          raise UnsupportedTerminal(name)
  
@@ -174,7 +157,7 @@ index 43639d5..9128664 100644
      output = pipe.communicate()[0]
      if pipe.returncode != 0:
 -        raise ExecutionError(pipe.command, pipe.returncode, output)
-+        raise ExecutionError(pipe.sh_cmd, pipe.returncode, output)
++        raise ExecutionError(sh_cmd, pipe.returncode, output)
  
  def check_konsole_version(konsole):
      import subprocess as sub
