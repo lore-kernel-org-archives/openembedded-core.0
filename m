@@ -1,35 +1,37 @@
 Received: from mail-bk0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrei@gherzan.ro>) id 1SrAgA-00021K-Ag
+	(envelope-from <andrei@gherzan.ro>) id 1SrAgJ-00021K-Dl
 	for openembedded-core@lists.openembedded.org;
-	Tue, 17 Jul 2012 18:31:18 +0200
-Received: by bkcik5 with SMTP id ik5so466300bkc.6
+	Tue, 17 Jul 2012 18:31:27 +0200
+Received: by mail-bk0-f47.google.com with SMTP id ik5so466300bkc.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Jul 2012 09:19:59 -0700 (PDT)
+	Tue, 17 Jul 2012 09:20:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer:x-gm-message-state;
-	bh=F8jIbZh5cZMK2DRw81HJu7nSMsejVP2FVyN99UV/2vY=;
-	b=CAG8Yk9HdQwBqjrqyPFUVtsxzy3+3RBAhI4U/0KsgUPTAnvX+3aOdQegRSEfl784Sw
-	b5d/EoB1KqDHPg8gncY95653Y98lp7B+fIOCepEuciQKJqLTyfS3laU/v0EnB4HcIZNp
-	v5hBX0lnd0hLepiBLOxMEUtijeqctz0A5WoPpZVNwtVryoYA4nR2dwuydLXcYG9OSf+2
-	ubat3gVu92lSWSfgymoua9M3guHYqT9LeJw15tKWe4xWiNr0PteEVM3jbaRoTVc9m5Nb
-	kG/fxhebTdy0tbIgNYR+cwcj2YcHfqpZByz5wDJaBGzHxyVrS+cO1hXwfPrurAk34jI+
-	LC7A==
-Received: by 10.205.126.14 with SMTP id gu14mr1674811bkc.137.1342541998677;
-	Tue, 17 Jul 2012 09:19:58 -0700 (PDT)
+	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
+	:x-gm-message-state;
+	bh=9GlI7toUpyr9m9sgJz8YoTrMBQ1WNHUewbJo9yvv+bA=;
+	b=Kp8Rts/VjwpNvvf4pmNfy6E2KwYWgoN48X4ORuJgxwoy+12Ki83kz8+y7lvHqQgbXI
+	nB7hbNNC5GE1iF7UclW20yNt4tbVdwH3QtLz2QQDljDtbNr70cPVqQsn0iEhoezQbV42
+	m2wUFBDlJIxCJSMMuR09pOzWNSWicGitTDo5kk5bkzzuFLiMH0s5k+icg8su79OdbM+f
+	QMf1+oLAtj8+Q9RoLbygl+D/JAdcfZ+3xuF9OG+IhjSeDTDrqQahHI1uT0AyLvGnawt8
+	xd3Ec+F9RO64yFSUu4Li+OyBEtoxq18QdV4xnvMjmYoAKqZXbg1McmoNwtlqKmB/Bkz+
+	+FHw==
+Received: by 10.204.152.19 with SMTP id e19mr1686005bkw.8.1342542010018;
+	Tue, 17 Jul 2012 09:20:10 -0700 (PDT)
 Received: from otp-agherzan-l1.corp.ad.wrs.com ([89.121.200.106])
-	by mx.google.com with ESMTPS id n5sm5711378bkv.14.2012.07.17.09.19.57
+	by mx.google.com with ESMTPS id 14sm10358424bkq.12.2012.07.17.09.20.08
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 17 Jul 2012 09:19:57 -0700 (PDT)
+	Tue, 17 Jul 2012 09:20:08 -0700 (PDT)
 From: Andrei Gherzan <andrei@gherzan.ro>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 17 Jul 2012 19:19:50 +0300
-Message-Id: <cover.1342541736.git.andrei@gherzan.ro>
+Date: Tue, 17 Jul 2012 19:20:00 +0300
+Message-Id: <8afb1ea6ef0d40d68203d164a6ad1d0cf45793fd.1342541736.git.andrei@gherzan.ro>
 X-Mailer: git-send-email 1.7.9.5
-X-Gm-Message-State: ALoCoQkc2PPvXzLDXMCM9OQe9ndD8UFch8jHlR3xgmBn7EsWypYoV8jAUFxjGbN/gYI5gQG87e5e
-Cc: Andrei Gherzan <andrei.gherzan@windriver.com>
-Subject: [PATCH V3 0/3] Minor typos in commit and patches messages
+In-Reply-To: <cover.1342541736.git.andrei@gherzan.ro>
+References: <cover.1342541736.git.andrei@gherzan.ro>
+X-Gm-Message-State: ALoCoQkueGzJ/v4Is8wz5HsJnTEWfnTunF5sn+hF0MW6UJAfkF1N3Bb5KkotT7wUjVGsMbso8zWh
+Subject: [PATCH V3 1/3] connman: Update to version 1.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,68 +46,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Jul 2012 16:31:18 -0000
+X-List-Received-Date: Tue, 17 Jul 2012 16:31:27 -0000
 
-Changes from V2: minor typos in messages for commits and patches.
+From: Andrei Gherzan <andrei.gherzan@windriver.com>
 
-Update connman to v1.3.
-Fix dependencies needed for tests.
-Add patches to fix runtime segfault on mips and ppc architecture.
+Signed-off-by: Andrei Gherzan <andrei.gherzan@windriver.com>
+---
+ .../connman/{connman_1.0.bb => connman_1.3.bb}     |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-connectivity/connman/{connman_1.0.bb => connman_1.3.bb} (82%)
 
-Machine tested: qemux86 / qemumips
-
-Tests done on connman-gnome
-        OnlineMode / OfflineMode
-        Enable / Disable Wired Networks
-        Set manual IP configuration
-
-Tests on connman v.1.3
-        addr-test
-        iptables-test
-        polkit-test
-        get-global-timeservers
-        get-proxy-autoconfig
-        get-services
-        get-state
-        list-services
-        show-introspection
-        test-clock
-        test-connman
-        test-counter
-        test-manager
-        test-session
-
-The following changes since commit 90ad663909c0c8a405b22a510c9f957007d02669:
-
-  upstream_tracking: update boost (2012-07-09 17:21:38 +0100)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib ag/connman1.3
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ag/connman1.3
-
-Andrei Gherzan (3):
-  connman: Update to version 1.3
-  connman.inc: Add missing dependencies needed by some tests
-  connman: Add patches to fix connman on fs with no d_type support
-
- meta/recipes-connectivity/connman/connman.inc      |    4 +-
- ....c-If-there-is-no-d_type-support-use-stat.patch |   42 ++++++
- ....c-If-there-is-no-d_type-support-use-stat.patch |   56 ++++++++
- .../connman/{connman_1.0.bb => connman_1.3.bb}     |   10 +-
- pull-5566/0000-cover-letter.patch                  |   60 ++++++++
- pull-5566/0001-connman-Update-to-version-1.3.patch |   34 +++++
- ...-Add-missing-dependencies-needed-by-some-.patch |   44 ++++++
- ...-patches-to-fix-connman-on-fs-with-no-d_t.patch |  152 ++++++++++++++++++++
- 8 files changed, 396 insertions(+), 6 deletions(-)
- create mode 100644 meta/recipes-connectivity/connman/connman/0001-storage.c-If-there-is-no-d_type-support-use-stat.patch
- create mode 100644 meta/recipes-connectivity/connman/connman/0002-timezone.c-If-there-is-no-d_type-support-use-stat.patch
- rename meta/recipes-connectivity/connman/{connman_1.0.bb => connman_1.3.bb} (47%)
- create mode 100644 pull-5566/0000-cover-letter.patch
- create mode 100644 pull-5566/0001-connman-Update-to-version-1.3.patch
- create mode 100644 pull-5566/0002-connman.inc-Add-missing-dependencies-needed-by-some-.patch
- create mode 100644 pull-5566/0003-connman-Add-patches-to-fix-connman-on-fs-with-no-d_t.patch
-
+diff --git a/meta/recipes-connectivity/connman/connman_1.0.bb b/meta/recipes-connectivity/connman/connman_1.3.bb
+similarity index 82%
+rename from meta/recipes-connectivity/connman/connman_1.0.bb
+rename to meta/recipes-connectivity/connman/connman_1.3.bb
+index 926d22e..1e3d138 100644
+--- a/meta/recipes-connectivity/connman/connman_1.0.bb
++++ b/meta/recipes-connectivity/connman/connman_1.3.bb
+@@ -1,7 +1,7 @@
+ require connman.inc
+ 
+-# 1.0 tag
+-SRCREV = "6d6f312fb2b751b4cf7037f2a526c7785364732f"
++# 1.3 tag
++SRCREV = "3c0fa84091524c7cd6237744f2088ffee2f1d5ad"
+ SRC_URI  = "git://git.kernel.org/pub/scm/network/connman/connman.git \
+             file://0001-plugin.h-Change-visibility-to-default-for-debug-symb.patch \
+             file://add_xuser_dbus_permission.patch \
 -- 
 1.7.9.5
 
