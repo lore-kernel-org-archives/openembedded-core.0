@@ -1,31 +1,25 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1SrCs7-0005DD-Nr
+	(envelope-from <sgw@linux.intel.com>) id 1SrCsv-0005Fy-Mi
 	for openembedded-core@lists.openembedded.org;
-	Tue, 17 Jul 2012 20:51:48 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q6HIeQuo025593
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Jul 2012 11:40:27 -0700 (PDT)
-Received: from Marks-MacBook-Pro.local (172.25.36.233) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.1.255.0; Tue, 17 Jul 2012 11:40:26 -0700
-Message-ID: <5005B1AD.1050709@windriver.com>
-Date: Tue, 17 Jul 2012 13:40:45 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7;
-	rv:13.0) Gecko/20120614 Thunderbird/13.0.1
+	Tue, 17 Jul 2012 20:52:37 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 17 Jul 2012 11:41:16 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="169499357"
+Received: from unknown (HELO [10.255.12.178]) ([10.255.12.178])
+	by azsmga001.ch.intel.com with ESMTP; 17 Jul 2012 11:41:16 -0700
+Message-ID: <5005B1CC.1020907@linux.intel.com>
+Date: Tue, 17 Jul 2012 11:41:16 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:13.0) Gecko/20120615 Thunderbird/13.0.1
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <alpine.DEB.2.02.1207171053310.6162@oneiric>
-	<50059D18.2050100@windriver.com>
-	<alpine.DEB.2.02.1207171340560.7173@oneiric>
-	<5005A56E.2090300@windriver.com>
-	<alpine.DEB.2.02.1207171402460.7400@oneiric>
-In-Reply-To: <alpine.DEB.2.02.1207171402460.7400@oneiric>
-Subject: Re: is there really a "fakeroot" task flag?
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <1342510138-21888-1-git-send-email-sen.zhang@windriver.com>
+In-Reply-To: <1342510138-21888-1-git-send-email-sen.zhang@windriver.com>
+Subject: Re: [PATCH 0/2] grub: two backported patch for bug 2777
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,51 +34,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Jul 2012 18:51:48 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Tue, 17 Jul 2012 18:52:37 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 7/17/12 1:08 PM, Robert P. J. Day wrote:
-> On Tue, 17 Jul 2012, Mark Hatle wrote:
+On 07/17/2012 12:28 AM, Jesse Zhang wrote:
+> Hi,
 >
->> On 7/17/12 12:41 PM, Robert P. J. Day wrote:
->>> On Tue, 17 Jul 2012, Mark Hatle wrote:
->>>
->>>> On 7/17/12 9:55 AM, Robert P. J. Day wrote:
->>>>>
->>>>>      perusing bitbake user manual and in section 2.1.18, "Task
->>>>> Flags", there's mention of "fakeroot".  that's not really a
->>>>> task flag, is it? i thought that that's (now?) a keyword
->>>>> that's used to define a task with that property.
->>>>>
->>>>>      is that line in the user manual incorrect?
->>>>
->>>> My understanding is this is a key word that gets turned into a
->>>> task flag.
->>>
->>>     ok, that makes sense.  that's just not clear from that section
->>> in the bitbake manual.  are there any other special cases like
->>> that?
->>
->> I believe that both "fakeroot" and "python" are the two only two
->> inline "task flags".
+> Here are two backported patch from upstream for grub.
 >
->    i'm reading bitbake's "build.py", and that looks right.  only one
-> other observation -- i see another what looks like a task flag,
-> "lockfiles", that's not mentioned in the bitbake user manual.  is that
-> actually a task flag?  should it be mentioned in that section?
+> Fixed two errors:
 >
->    i think that's all of my whining about task flags.
-
-It is a task flag.  It's a lockfile that is used on a task-level basis.  If the 
-lock is held, then the task will wait until the lock clears.
-
---Mark
-
+>      # grub-mkconfig
+>      /usr/sbin/grub-mkconfig: line 98: /usr/lib/grub/grub-mkconfig_lib: No such file or directory
 >
-> rday
+>      # grub-mkconfig
+>      /usr/sbin/grub-probe: error: cannot stat `/dev/root'.
 >
+> The first patch is not exactly the same as upstream, since the upstream commit
+> contains a lot of trivial aesthetic edits.
+>
+Why can't it be the same, then we don't need to carry it?
 
 
+> The second patch is taken from debian instead of directly from upstream, since
+> the code base has changed.
+>
+> Jesse Zhang (2):
+>    grub: fix grub-mkconfig_lib install dir
+>    grub: fix error stating the root device
+>
+>   .../files/grub-1.99_fix_for_automake_1.11.2.patch  |  203 +++++++++++++++-----
+>   .../grub/grub-1.99/grub-1.99-lazy_stat.patch       |   64 ++++++
+>   meta/recipes-bsp/grub/grub_1.99.bb                 |    3 +-
+>   3 files changed, 217 insertions(+), 53 deletions(-)
+>   create mode 100644 meta/recipes-bsp/grub/grub-1.99/grub-1.99-lazy_stat.patch
+>
+
+This patch set may need to be rebased based on the new automake 1.12.x 
+updated.
+
+Please double check.
+
+Thanks	
+	Sau!
 
 
