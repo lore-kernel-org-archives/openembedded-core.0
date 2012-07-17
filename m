@@ -1,41 +1,37 @@
-Received: from mail-wi0-f171.google.com ([209.85.212.171])
+Received: from mail-qc0-f179.google.com ([209.85.216.179])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1Sr7ys-0006R3-V8
+	(envelope-from <andrei@gherzan.ro>) id 1Sr81k-0006Vf-JG
 	for openembedded-core@lists.openembedded.org;
-	Tue, 17 Jul 2012 15:38:27 +0200
-Received: by wibhq4 with SMTP id hq4so3321513wib.6
+	Tue, 17 Jul 2012 15:41:24 +0200
+Received: by qcse14 with SMTP id e14so174440qcs.10
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Jul 2012 06:27:07 -0700 (PDT)
+	Tue, 17 Jul 2012 06:30:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date
-	:content-transfer-encoding:message-id:references:to:x-mailer
-	:x-gm-message-state;
-	bh=sKyRq3EsvbiYdlUlw4OeUydiXdl89x+mF1pPBkpD0ng=;
-	b=I3ddRQBqumcKGvuCdz49D5hcjDiNckR/VtR+L+Ee/sBcmVp5o3CNYvowbF5ayOTvh5
-	pUAjg8eXG8kIPi/OM40Y5gaozLuVQ1BDeXg3eUk3SpVvwWps2mb0cz5L/ZDJBs+CLQyW
-	3VOdkMG20tnpHLxjAmcURCdrjGr2kXiAIsvmy1kDnx/htXXgxw4mFRjhWkg3jgenqZcT
-	6igaBF0qvXhc50gpoP7JubBsq6bpZC1ATNqME5jZ3UV6PDHSuOgjDxE1Tvvdm/2BEzEg
-	2O99Y9PdRb1kTI9r+3YZzSjZX0VmpXr1HMKx5GWcDjs61pzXgXD3xT1UU7+4EHSSDaom
-	1YHA==
-Received: by 10.216.139.145 with SMTP id c17mr1374546wej.175.1342531627647;
-	Tue, 17 Jul 2012 06:27:07 -0700 (PDT)
-Received: from [10.47.217.41] ([188.207.89.201])
-	by mx.google.com with ESMTPS id ep14sm27771412wid.0.2012.07.17.06.27.03
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 17 Jul 2012 06:27:06 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1278)
-From: Koen Kooi <koen@dominion.thruhere.net>
+	h=mime-version:x-originating-ip:in-reply-to:references:from:date
+	:message-id:subject:to:content-type:x-gm-message-state;
+	bh=9WpywQb1JZDvcp8qcqKMXItUo4PRrMoJkog7CcktxFY=;
+	b=JyL/JzGD0aeBMHOdSJcjvusQH3hgz9ek2If13wdeuOugzsNtcKlK2mAvRn5zCcmA69
+	poajSHyNFt7liG2WuY+QRVp1j1bK6stngWgra5AZihYFp95Os8U0moXISKSiue3SOrNo
+	EkbaswGZPQXKIXMZsV+NkF2WT6kY6MrytjKKHseSPSBW1ogHBe/6RSThLgOEyXcphQx1
+	sdS+8/RvnXb/SHwb8Z/phNPn/Nj7zBJOZN5VoHkjMl6DZ7M77L86qXSFw05OKohwWLbA
+	AvJOFqyCVd4lfauXneNFwDOQY0JBNZ0fFXd2iwhJGcYOAxviL/ZvTZydQ8zwNCZQ5DtG
+	BXtg==
+Received: by 10.50.11.129 with SMTP id q1mr1307900igb.8.1342531804301; Tue, 17
+	Jul 2012 06:30:04 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.64.98.162 with HTTP; Tue, 17 Jul 2012 06:29:44 -0700 (PDT)
+X-Originating-IP: [89.121.200.106]
 In-Reply-To: <1880207.FUrsv2Gi0U@helios>
-Date: Tue, 17 Jul 2012 15:27:01 +0200
-Message-Id: <19F41A1C-D530-4725-AB58-4193025996BB@dominion.thruhere.net>
 References: <1342513736-468-1-git-send-email-cristian.iorga@intel.com>
 	<CAK18fxG7KJvUfL+LN8r42+Px2=adL9Su9ry+0gup0m1RC_u2rw@mail.gmail.com>
 	<1880207.FUrsv2Gi0U@helios>
+From: Andrei Gherzan <andrei@gherzan.ro>
+Date: Tue, 17 Jul 2012 16:29:44 +0300
+Message-ID: <CAK18fxEVXhOJkAZ6m+9Q+CbtNgbSesWgPCO6=GzcbxdRecKtRQ@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1278)
-X-Gm-Message-State: ALoCoQmUbNycnThobCTU1s/BZp+C4XnkOm6q7vEaJFdHDcasi8Tg2AAbcXQ0Z/Dh17UmtBuG9Q2J
+X-Gm-Message-State: ALoCoQnKtqHCwisZWKCM434xUOOgGUjeObrGlrDQDacshTYU2D3M8ndjK0X9it7lo2Pz3YWYQirw
 Subject: Re: [PATCH 1/3] iproute2: upgrade to 3.4.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -51,23 +47,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Jul 2012 13:38:27 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 17 Jul 2012 13:41:24 -0000
+Content-Type: multipart/alternative; boundary=e89a8f50320c4b88f404c5068bf8
 
+--e89a8f50320c4b88f404c5068bf8
+Content-Type: text/plain; charset=ISO-8859-1
 
-Op 17 jul. 2012, om 15:08 heeft Paul Eggleton het volgende geschreven:
+On Tue, Jul 17, 2012 at 4:08 PM, Paul Eggleton <
+paul.eggleton@linux.intel.com> wrote:
 
 > On Tuesday 17 July 2012 12:24:41 Andrei Gherzan wrote:
->> On Tue, Jul 17, 2012 at 11:28 AM, Cristian Iorga
->> <cristian.iorga@intel.com>wrote:
->>> +PR =3D "r0"
->>=20
->> Not needed anymore. (The same mention for wpa-s. and pulseaudio.)
->=20
+> > On Tue, Jul 17, 2012 at 11:28 AM, Cristian Iorga
+> > <cristian.iorga@intel.com>wrote:
+> > > +PR = "r0"
+> >
+> > Not needed anymore. (The same mention for wpa-s. and pulseaudio.)
+>
 > This is not a hard-and-fast rule for OE-Core AFAIK.
+>
+>
+Indeed but as we have this it's a good thing to use it and clean a little
+bit the recipes.
 
-It would be *very* nice to get rid of all PR =3D r0 instances in the =
-complete oe metaverse.=
+ag
+
+--e89a8f50320c4b88f404c5068bf8
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
+
+<div class=3D"gmail_quote">On Tue, Jul 17, 2012 at 4:08 PM, Paul Eggleton <=
+span dir=3D"ltr">&lt;<a href=3D"mailto:paul.eggleton@linux.intel.com" targe=
+t=3D"_blank">paul.eggleton@linux.intel.com</a>&gt;</span> wrote:<br><blockq=
+uote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc =
+solid;padding-left:1ex">
+
+On Tuesday 17 July 2012 12:24:41 Andrei Gherzan wrote:<br>
+&gt; On Tue, Jul 17, 2012 at 11:28 AM, Cristian Iorga<br>
+&gt; &lt;<a href=3D"mailto:cristian.iorga@intel.com">cristian.iorga@intel.c=
+om</a>&gt;wrote:<br>
+&gt; &gt; +PR =3D &quot;r0&quot;<br>
+&gt;<br>
+&gt; Not needed anymore. (The same mention for wpa-s. and pulseaudio.)<br>
+<br>
+This is not a hard-and-fast rule for OE-Core AFAIK.<br><br></blockquote><di=
+v>=A0</div><div>Indeed but as we have this it&#39;s a good thing to use it =
+and clean a little bit the recipes.</div><div><br></div><div>ag</div></div>
 
 
+--e89a8f50320c4b88f404c5068bf8--
