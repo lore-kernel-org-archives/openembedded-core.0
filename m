@@ -1,31 +1,25 @@
-Received: from astoria.ccjclearline.com ([64.235.106.9])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpjday@crashcourse.ca>) id 1Sr9Mg-0008DW-5S
+	(envelope-from <sgw@linux.intel.com>) id 1Sr9QZ-0008Ub-Dc
 	for openembedded-core@lists.openembedded.org;
-	Tue, 17 Jul 2012 17:07:06 +0200
-Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
-	([174.115.5.73]:51192 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.77) (envelope-from <rpjday@crashcourse.ca>)
-	id 1Sr9Bk-00068E-1e for openembedded-core@lists.openembedded.org;
-	Tue, 17 Jul 2012 10:55:48 -0400
-Date: Tue, 17 Jul 2012 10:55:40 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@oneiric
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.DEB.2.02.1207171053310.6162@oneiric>
-User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+	Tue, 17 Jul 2012 17:11:07 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 17 Jul 2012 07:59:34 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="167452786"
+Received: from unknown (HELO [10.255.12.178]) ([10.255.12.178])
+	by orsmga001.jf.intel.com with ESMTP; 17 Jul 2012 07:59:34 -0700
+Message-ID: <50057DD6.1080104@linux.intel.com>
+Date: Tue, 17 Jul 2012 07:59:34 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:13.0) Gecko/20120615 Thunderbird/13.0.1
 MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Subject: is there really a "fakeroot" task flag?
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1341498745.git.raj.khem@gmail.com>
+In-Reply-To: <cover.1341498745.git.raj.khem@gmail.com>
+Subject: Re: [PATCH 00/14] eglibc 2.16
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,27 +34,147 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Jul 2012 15:07:06 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Tue, 17 Jul 2012 15:11:07 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
+On 07/05/2012 07:35 AM, Khem Raj wrote:
+> This patch adds eglibc 2.16 recipes. I was able to build world
+> on x86 except perf which was failing with 2.15 as well.
+>
+> I have also build and run core-image-sato on all qemus
+>
+> I did not remove 2.15 to allow some soak in time.
+>
+> The following changes since commit 5beb7176d361d4bfa279bbfab5a17b8fe4fa3b73:
+>
+>    netbase: update to ver. 5.0 (2012-07-05 14:18:19 +0100)
+>
+> are available in the git repository at:
+>
+>    git://git.openembedded.org/openembedded-core-contrib kraj/eglibc-2.16
+>    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=kraj/eglibc-2.16
+>
+> Khem Raj (14):
+>    mirrors: Add debian archive snapshot mirrors to search list
+>    gdb: Replace struct siginfo with proper siginfo_t
+>    busybox: Include sys/resource.h for rusage definition
+>    coreutils: Fix build with eglibc 2.16
+>    diffutils: Fix build with eglibc 2.16
+>    udev: Fix build with eglibc 2.16
+>    gettext,m4,augeas,gnutls: Account for removal of gets in eglibc 2.16
+>    bison: Fix for gets being removed from eglibc 2.16
+>    grub,guile,cpio,tar,wget: Fix gnulib for absense of gets in eglibc
+>    boost: Upgrade recipe to 1.50.0
+>    puzzles: Fix checksums
+>    valgrind: Fix build with eglibc 2.16
+>    libpam: Fix build with eglibc 2.16
+>    eglibc: Add recipes for 2.16 release
+>
 
-  perusing bitbake user manual and in section 2.1.18, "Task Flags",
-there's mention of "fakeroot".  that's not really a task flag, is it?
-i thought that that's (now?) a keyword that's used to define a task
-with that property.
+Merged this branch (along with the other changes) into OE-Core
 
-  is that line in the user manual incorrect?
+I dropped the puzzles change in favor of using the SVN version due to 
+the potential of checksums changing again, he rebuilds the tarball daily!
 
-rday
+Thanks
+	Sau!
 
--- 
+>   meta/classes/mirrors.bbclass                       |    4 +-
+>   meta/recipes-bsp/grub/grub-1.99/remove-gets.patch  |   20 +
+>   meta/recipes-bsp/grub/grub_1.99.bb                 |    3 +-
+>   .../busybox/busybox-1.19.4/sys_resource.patch      |   18 +
+>   meta/recipes-core/busybox/busybox_1.19.4.bb        |    3 +-
+>   .../coreutils/coreutils-8.14/remove-gets.patch     |   23 +
+>   meta/recipes-core/coreutils/coreutils_8.14.bb      |    3 +-
+>   .../eglibc/cross-localedef-native_2.16.bb          |   44 ++
+>   .../eglibc/eglibc-2.16/GLRO_dl_debug_mask.patch    |  108 ++++
+>   .../eglibc/eglibc-2.16/IO-acquire-lock-fix.patch   |   17 +
+>   .../eglibc-svn-arm-lowlevellock-include-tls.patch  |   21 +
+>   .../eglibc_fix_findidx_parameters.patch            |   38 ++
+>   .../eglibc/eglibc-2.16/generate-supported.mk       |   11 +
+>   .../eglibc/eglibc-2.16/initgroups_keys.patch       |   20 +
+>   .../eglibc/eglibc-2.16/ld-search-order.patch       |   56 ++
+>   .../eglibc/eglibc-2.16/mips-rld-map-check.patch    |   26 +
+>   .../eglibc/eglibc-2.16/multilib_readlib.patch      |   17 +
+>   .../recipes-core/eglibc/eglibc-2.16/ppc-sqrt.patch |  538 ++++++++++++++++++++
+>   .../eglibc/eglibc-2.16/ppc-sqrt_finite.patch       |  112 ++++
+>   .../eglibc/eglibc-2.16/ppc_slow_ieee754_sqrt.patch |  123 +++++
+>   .../eglibc/eglibc-2.16/rpc-bootstrap.patch         |   63 +++
+>   .../eglibc-2.16/use-sysroot-cxx-headers.patch      |   42 ++
+>   meta/recipes-core/eglibc/eglibc-initial_2.16.bb    |    6 +
+>   meta/recipes-core/eglibc/eglibc-locale_2.16.bb     |    1 +
+>   meta/recipes-core/eglibc/eglibc_2.16.bb            |  146 ++++++
+>   .../gettext/gettext-0.18.1.1/remove_gets.patch     |   58 +++
+>   meta/recipes-core/gettext/gettext_0.18.1.1.bb      |    3 +-
+>   meta/recipes-core/udev/udev/include_resource.patch |   31 ++
+>   meta/recipes-core/udev/udev_164.bb                 |    7 +-
+>   .../recipes-devtools/bison/bison/remove-gets.patch |   20 +
+>   meta/recipes-devtools/bison/bison_2.5.bb           |    6 +-
+>   meta/recipes-devtools/gdb/gdb-common.inc           |    2 +-
+>   meta/recipes-devtools/gdb/gdb.inc                  |    1 +
+>   meta/recipes-devtools/gdb/gdb/siginfo_t.patch      |  403 +++++++++++++++
+>   .../recipes-devtools/guile/files/remove-gets.patch |   23 +
+>   meta/recipes-devtools/guile/guile_2.0.5.bb         |    3 +-
+>   meta/recipes-devtools/m4/m4-1.4.16.inc             |    6 +-
+>   meta/recipes-devtools/m4/m4/remove-gets.patch      |   21 +
+>   .../valgrind-3.7.0/configure-with-glibc-2.16.patch |   32 ++
+>   meta/recipes-devtools/valgrind/valgrind_3.7.0.bb   |    6 +-
+>   .../augeas/augeas/remove-gets.patch                |   20 +
+>   meta/recipes-extended/augeas/augeas_0.10.0.bb      |    4 +-
+>   .../cpio/cpio-2.11/remove-gets.patch               |   20 +
+>   meta/recipes-extended/cpio/cpio_2.11.bb            |    5 +-
+>   .../diffutils/diffutils-3.2/remove-gets.patch      |   22 +
+>   meta/recipes-extended/diffutils/diffutils_3.2.bb   |    6 +-
+>   .../pam/libpam/include-sys-resource.patch          |   12 +
+>   meta/recipes-extended/pam/libpam_1.1.5.bb          |    6 +-
+>   .../tar/tar-1.26/remove-gets.patch                 |   20 +
+>   meta/recipes-extended/tar/tar_1.26.bb              |    5 +-
+>   .../wget/wget-1.13.4/remove-gets.patch             |   23 +
+>   meta/recipes-extended/wget/wget_1.13.4.bb          |    3 +-
+>   meta/recipes-sato/puzzles/puzzles_r9561.bb         |    5 +-
+>   .../boost/{boost_1.49.0.bb => boost_1.50.0.bb}     |    5 +-
+>   .../gnutls/gnutls/remove-gets.patch                |   41 ++
+>   meta/recipes-support/gnutls/gnutls_2.12.20.bb      |    3 +-
+>   56 files changed, 2254 insertions(+), 31 deletions(-)
+>   create mode 100644 meta/recipes-bsp/grub/grub-1.99/remove-gets.patch
+>   create mode 100644 meta/recipes-core/busybox/busybox-1.19.4/sys_resource.patch
+>   create mode 100644 meta/recipes-core/coreutils/coreutils-8.14/remove-gets.patch
+>   create mode 100644 meta/recipes-core/eglibc/cross-localedef-native_2.16.bb
+>   create mode 100644 meta/recipes-core/eglibc/eglibc-2.16/GLRO_dl_debug_mask.patch
+>   create mode 100644 meta/recipes-core/eglibc/eglibc-2.16/IO-acquire-lock-fix.patch
+>   create mode 100644 meta/recipes-core/eglibc/eglibc-2.16/eglibc-svn-arm-lowlevellock-include-tls.patch
+>   create mode 100644 meta/recipes-core/eglibc/eglibc-2.16/eglibc_fix_findidx_parameters.patch
+>   create mode 100644 meta/recipes-core/eglibc/eglibc-2.16/etc/ld.so.conf
+>   create mode 100644 meta/recipes-core/eglibc/eglibc-2.16/generate-supported.mk
+>   create mode 100644 meta/recipes-core/eglibc/eglibc-2.16/initgroups_keys.patch
+>   create mode 100644 meta/recipes-core/eglibc/eglibc-2.16/ld-search-order.patch
+>   create mode 100644 meta/recipes-core/eglibc/eglibc-2.16/mips-rld-map-check.patch
+>   create mode 100644 meta/recipes-core/eglibc/eglibc-2.16/multilib_readlib.patch
+>   create mode 100644 meta/recipes-core/eglibc/eglibc-2.16/ppc-sqrt.patch
+>   create mode 100644 meta/recipes-core/eglibc/eglibc-2.16/ppc-sqrt_finite.patch
+>   create mode 100644 meta/recipes-core/eglibc/eglibc-2.16/ppc_slow_ieee754_sqrt.patch
+>   create mode 100644 meta/recipes-core/eglibc/eglibc-2.16/rpc-bootstrap.patch
+>   create mode 100644 meta/recipes-core/eglibc/eglibc-2.16/use-sysroot-cxx-headers.patch
+>   create mode 100644 meta/recipes-core/eglibc/eglibc-initial_2.16.bb
+>   create mode 100644 meta/recipes-core/eglibc/eglibc-locale_2.16.bb
+>   create mode 100644 meta/recipes-core/eglibc/eglibc_2.16.bb
+>   create mode 100644 meta/recipes-core/gettext/gettext-0.18.1.1/remove_gets.patch
+>   create mode 100644 meta/recipes-core/udev/udev/include_resource.patch
+>   create mode 100644 meta/recipes-devtools/bison/bison/remove-gets.patch
+>   create mode 100644 meta/recipes-devtools/gdb/gdb/siginfo_t.patch
+>   create mode 100644 meta/recipes-devtools/guile/files/remove-gets.patch
+>   create mode 100644 meta/recipes-devtools/m4/m4/remove-gets.patch
+>   create mode 100644 meta/recipes-devtools/valgrind/valgrind-3.7.0/configure-with-glibc-2.16.patch
+>   create mode 100644 meta/recipes-extended/augeas/augeas/remove-gets.patch
+>   create mode 100644 meta/recipes-extended/cpio/cpio-2.11/remove-gets.patch
+>   create mode 100644 meta/recipes-extended/diffutils/diffutils-3.2/remove-gets.patch
+>   create mode 100644 meta/recipes-extended/pam/libpam/include-sys-resource.patch
+>   create mode 100644 meta/recipes-extended/tar/tar-1.26/remove-gets.patch
+>   create mode 100644 meta/recipes-extended/wget/wget-1.13.4/remove-gets.patch
+>   rename meta/recipes-support/boost/{boost_1.49.0.bb => boost_1.50.0.bb} (53%)
+>   create mode 100644 meta/recipes-support/gnutls/gnutls/remove-gets.patch
+>
 
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
 
 
