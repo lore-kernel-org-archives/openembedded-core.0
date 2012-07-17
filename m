@@ -1,23 +1,55 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from va3ehsobe002.messaging.microsoft.com ([216.32.180.12]
+	helo=va3outboundpool.messaging.microsoft.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <yao.zhao@windriver.com>) id 1SrEq9-0007K2-NY
+	(envelope-from <B29882@freescale.com>) id 1SrEuJ-0007lM-TR
 	for openembedded-core@lists.openembedded.org;
-	Tue, 17 Jul 2012 22:57:54 +0200
-Received: from yzhao2-OptiPlex-990.corp.ad.wrs.com
-	(yzhao2-optiplex-990.corp.ad.wrs.com [128.224.147.210])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q6HKkWQP012588
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Jul 2012 13:46:33 -0700 (PDT)
-From: Yao Zhao <yao.zhao@windriver.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 17 Jul 2012 16:46:30 -0400
-Message-Id: <1342557990-15381-1-git-send-email-yao.zhao@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH v2] dbus-glib: add support for install regression tests
+	Tue, 17 Jul 2012 23:02:12 +0200
+Received: from mail151-va3-R.bigfish.com (10.7.14.254) by
+	VA3EHSOBE007.bigfish.com (10.7.40.11) with Microsoft SMTP Server id
+	14.1.225.23; Tue, 17 Jul 2012 20:50:51 +0000
+Received: from mail151-va3 (localhost [127.0.0.1])	by
+	mail151-va3-R.bigfish.com (Postfix) with ESMTP id 670FD3A022A;
+	Tue, 17 Jul 2012 20:50:51 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-SpamScore: -2
+X-BigFish: VS-2(zz98dI9371I1432Izz1202hzz8275ch8275bh8275dhz2dh2a8h668h839h8e2h8e3hf0ah107ah10d2hbe9i)
+Received: from mail151-va3 (localhost.localdomain [127.0.0.1]) by mail151-va3
+	(MessageSwitch) id 1342558249990836_408;
+	Tue, 17 Jul 2012 20:50:49 +0000 (UTC)
+Received: from VA3EHSMHS001.bigfish.com (unknown [10.7.14.252])	by
+	mail151-va3.bigfish.com (Postfix) with ESMTP id ECFE9201BB;
+	Tue, 17 Jul 2012 20:50:49 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by VA3EHSMHS001.bigfish.com
+	(10.7.99.11) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Tue, 17 Jul 2012 20:50:45 +0000
+Received: from 039-SN1MPN1-002.039d.mgd.msft.net ([169.254.2.109]) by
+	039-SN1MMR1-001.039d.mgd.msft.net ([10.84.1.13]) with mapi id
+	14.02.0298.005; Tue, 17 Jul 2012 15:50:45 -0500
+From: McClintock Matthew-B29882 <B29882@freescale.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>, Scott Garman
+	<scott.a.garman@intel.com>
+Thread-Topic: [OE-core] [CONSOLIDATED PULL 01/43] augeas: Add libxml2
+	dependency
+Thread-Index: AQHNZF3VBpDKnBag20Gzfp5EVXwEDw==
+Date: Tue, 17 Jul 2012 20:50:44 +0000
+Message-ID: <CAEsOVNcQjab=W948TM+wLdAPMHgebpC8B1inKXej0vXye4cNRw@mail.gmail.com>
+References: <cover.1334940120.git.sgw@linux.intel.com>
+	<eba75c041a60939d158a949742574cffc0e4a204.1334940120.git.sgw@linux.intel.com>
+In-Reply-To: <eba75c041a60939d158a949742574cffc0e4a204.1334940120.git.sgw@linux.intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [70.112.201.132]
+MIME-Version: 1.0
+X-OriginatorOrg: freescale.com
+Subject: Re: [CONSOLIDATED PULL 01/43] augeas: Add libxml2 dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -28,118 +60,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Jul 2012 20:57:54 -0000
+X-List-Received-Date: Tue, 17 Jul 2012 21:02:12 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <12ABD75A7FEE554B8B3C72D2EB918E2A@mgd.freescale.com>
+Content-Transfer-Encoding: quoted-printable
 
-dbus-glib.inc: default turn off unit test as libdbus-glib-1.so.2.2.2 will
-have unit test code if DBUS_BUILD_TESTS enabled. User can turn it on with
-PACKAGECONFIG_pn-dbus-glib = "tests" in local.conf or
-PACKAGECONFIG ??= "tests" in recipe itself.
+denzil needs this commit to get build order right. I've added it too:
 
-test-install-makefile.patch: install unit tests for test purpose
+http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=3Dmattsm/denz=
+il
 
-Add tests and tests-dbg package.
+-M
 
-Signed-off-by: Yao Zhao <yao.zhao@windriver.com>
----
- .../dbus-glib-0.98/test-install-makefile.patch     |   48 ++++++++++++++++++++
- meta/recipes-core/dbus/dbus-glib.inc               |   14 +++++-
- 2 files changed, 61 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-core/dbus/dbus-glib-0.98/test-install-makefile.patch
-
-diff --git a/meta/recipes-core/dbus/dbus-glib-0.98/test-install-makefile.patch b/meta/recipes-core/dbus/dbus-glib-0.98/test-install-makefile.patch
-new file mode 100644
-index 0000000..2e8e178
---- /dev/null
-+++ b/meta/recipes-core/dbus/dbus-glib-0.98/test-install-makefile.patch
-@@ -0,0 +1,48 @@
-+Change Makefile.am to install regression tests for test package purpose.
-+
-+Upstream-Status: Inappropriate [test not install is for purpose from upstream]
-+
-+Signed-off-by: Yao Zhao <yao.zhao@windriver.com>
-+
-+diff --git a/test/Makefile.am b/test/Makefile.am
-+index 7ba11a8..249f0e7 100644
-+--- a/test/Makefile.am
-++++ b/test/Makefile.am
-+@@ -13,7 +13,8 @@ else
-+ TEST_BINARIES=
-+ endif
-+ 
-+-noinst_PROGRAMS= $(TEST_BINARIES)
-++testdir = $(datadir)/@PACKAGE@/tests
-++test_PROGRAMS= $(TEST_BINARIES)
-+ 
-+ test_service_SOURCES=				\
-+ 	test-service.c
-+diff --git a/test/interfaces/Makefile.am b/test/interfaces/Makefile.am
-+index 3cb2c39..e6de67d 100644
-+--- a/test/interfaces/Makefile.am
-++++ b/test/interfaces/Makefile.am
-+@@ -39,7 +39,8 @@ if DBUS_BUILD_TESTS
-+ 
-+ ## we use noinst_PROGRAMS not check_PROGRAMS for TESTS so that we
-+ ## build even when not doing "make check"
-+-noinst_PROGRAMS = test-service test-client
-++testdir = $(datadir)/@PACKAGE@/tests/interfaces
-++test_PROGRAMS = test-service test-client
-+ 
-+ test_service_SOURCES = \
-+ 	test-interfaces.c \
-+diff --git a/test/core/Makefile.am b/test/core/Makefile.am
-+index ef6cb26..9786c3a 100644
-+--- a/test/core/Makefile.am
-++++ b/test/core/Makefile.am
-+@@ -46,7 +46,8 @@ endif
-+ 
-+ ## we use noinst_PROGRAMS not check_PROGRAMS for TESTS so that we
-+ ## build even when not doing "make check"
-+-noinst_PROGRAMS = \
-++testdir = $(datadir)/@PACKAGE@/tests/core
-++test_PROGRAMS = \
-+ 	test-dbus-glib \
-+ 	test-service-glib \
-+ 	$(THREAD_APPS) \
-diff --git a/meta/recipes-core/dbus/dbus-glib.inc b/meta/recipes-core/dbus/dbus-glib.inc
-index f554ce8..a8e6d42 100644
---- a/meta/recipes-core/dbus/dbus-glib.inc
-+++ b/meta/recipes-core/dbus/dbus-glib.inc
-@@ -13,15 +13,21 @@ DEPENDS_virtclass-native = "glib-2.0-native dbus-native"
- SRC_URI = "http://dbus.freedesktop.org/releases/dbus-glib/dbus-glib-${PV}.tar.gz \
-            file://no-examples.patch \
-            file://test-service-glib-include-glib-only.patch \
-+           file://test-install-makefile.patch \
- "
- 
- inherit autotools pkgconfig gettext
- 
-+#default disable regression tests, some unit test code in non testing code
-+#PACKAGECONFIG_pn-${PN} = "tests" enable regression tests local.conf
-+PACKAGECONFIG ??= ""
-+PACKAGECONFIG[tests] = "--enable-tests,,,"
-+
- EXTRA_OECONF = "--with-introspect-xml=${STAGING_DATADIR_NATIVE}/dbus/dbus-bus-introspect.xml \
-                 --with-dbus-binding-tool=${STAGING_BINDIR_NATIVE}/dbus-binding-tool"
- EXTRA_OECONF_virtclass-native = "--with-introspect-xml=${STAGING_DATADIR_NATIVE}/dbus/dbus-bus-introspect.xml"
- 
--PACKAGES += "${PN}-bash-completion"
-+PACKAGES += "${PN}-bash-completion ${PN}-tests-dbg ${PN}-tests"
- 
- FILES_${PN} = "${libdir}/lib*${SOLIBS}"
- FILES_${PN}-bash-completion = "${sysconfdir}/bash_completion.d/dbus-bash-completion.sh \
-@@ -29,4 +35,10 @@ FILES_${PN}-bash-completion = "${sysconfdir}/bash_completion.d/dbus-bash-complet
- FILES_${PN}-dev += "${libdir}/dbus-1.0/include ${bindir}/dbus-glib-tool"
- FILES_${PN}-dev += "${bindir}/dbus-binding-tool"
- 
-+RDEPENDS_${PN}-tests += "dbus-x11"
-+FILES_${PN}-tests = "${datadir}/${PN}/tests"
-+FILES_${PN}-tests-dbg = "${datadir}/${PN}/tests/.debug/* \
-+                         ${datadir}/${PN}/tests/core/.debug/* \
-+                         ${datadir}/${PN}/tests/interfaces/.debug/*"
-+
- BBCLASSEXTEND = "native"
--- 
-1.7.9.5
+On Fri, Apr 20, 2012 at 11:44 AM, Saul Wold <sgw@linux.intel.com> wrote:
+> From: Martin Donnelly <martin.donnelly@ge.com>
+>
+> This patch fixes the following Augeas configure error.
+>
+> | checking for LIBXML... no
+> | configure: error: Package requirements (libxml-2.0) were not met:
+> |
+> | No package 'libxml-2.0' found
+> |
+> | Consider adjusting the PKG_CONFIG_PATH environment variable if you
+> | installed software in a non-standard prefix.
+> |
+> | Alternatively, you may set the environment variables LIBXML_CFLAGS
+> | and LIBXML_LIBS to avoid the need to call pkg-config.
+> | See the pkg-config man page for more details.
+> | ERROR: oe_runconf failed
+>
+> Signed-off-by: Martin Donnelly <martin.donnelly@ge.com>
+> ---
+>  meta/recipes-extended/augeas/augeas.inc |    2 +-
+>  1 files changed, 1 insertions(+), 1 deletions(-)
+>
+> diff --git a/meta/recipes-extended/augeas/augeas.inc b/meta/recipes-exten=
+ded/augeas/augeas.inc
+> index 40be762..9fe864d 100644
+> --- a/meta/recipes-extended/augeas/augeas.inc
+> +++ b/meta/recipes-extended/augeas/augeas.inc
+> @@ -7,7 +7,7 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Dbbb461211a33b1=
+34d42ed5ee802b37ff"
+>
+>  SRC_URI =3D "http://augeas.net/download/${BP}.tar.gz"
+>
+> -DEPENDS =3D "readline"
+> +DEPENDS =3D "readline libxml2"
+>
+>  inherit autotools
+>
+> --
+> 1.7.7.6
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core=
 
 
 
