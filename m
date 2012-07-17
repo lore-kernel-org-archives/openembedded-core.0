@@ -1,28 +1,36 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from astoria.ccjclearline.com ([64.235.106.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1SrC3Y-0004Fd-H8
+	(envelope-from <rpjday@crashcourse.ca>) id 1SrCNC-0004qD-Gs
 	for openembedded-core@lists.openembedded.org;
-	Tue, 17 Jul 2012 19:59:32 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q6HHmC44018295
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Jul 2012 10:48:12 -0700 (PDT)
-Received: from Marks-MacBook-Pro.local (172.25.36.233) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.1.255.0; Tue, 17 Jul 2012 10:48:11 -0700
-Message-ID: <5005A56E.2090300@windriver.com>
-Date: Tue, 17 Jul 2012 12:48:30 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7;
-	rv:13.0) Gecko/20120614 Thunderbird/13.0.1
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
+	Tue, 17 Jul 2012 20:19:50 +0200
+Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
+	([174.115.5.73]:56832 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.77) (envelope-from <rpjday@crashcourse.ca>)
+	id 1SrCCG-0005KF-Cc for openembedded-core@lists.openembedded.org;
+	Tue, 17 Jul 2012 14:08:32 -0400
+Date: Tue, 17 Jul 2012 14:08:25 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@oneiric
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <5005A56E.2090300@windriver.com>
+Message-ID: <alpine.DEB.2.02.1207171402460.7400@oneiric>
 References: <alpine.DEB.2.02.1207171053310.6162@oneiric>
 	<50059D18.2050100@windriver.com>
 	<alpine.DEB.2.02.1207171340560.7173@oneiric>
-In-Reply-To: <alpine.DEB.2.02.1207171340560.7173@oneiric>
+	<5005A56E.2090300@windriver.com>
+User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+MIME-Version: 1.0
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 Subject: Re: is there really a "fakeroot" task flag?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -38,36 +46,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Jul 2012 17:59:32 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 17 Jul 2012 18:19:50 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
-On 7/17/12 12:41 PM, Robert P. J. Day wrote:
-> On Tue, 17 Jul 2012, Mark Hatle wrote:
+On Tue, 17 Jul 2012, Mark Hatle wrote:
+
+> On 7/17/12 12:41 PM, Robert P. J. Day wrote:
+> > On Tue, 17 Jul 2012, Mark Hatle wrote:
+> >
+> > > On 7/17/12 9:55 AM, Robert P. J. Day wrote:
+> > > >
+> > > >     perusing bitbake user manual and in section 2.1.18, "Task
+> > > > Flags", there's mention of "fakeroot".  that's not really a
+> > > > task flag, is it? i thought that that's (now?) a keyword
+> > > > that's used to define a task with that property.
+> > > >
+> > > >     is that line in the user manual incorrect?
+> > >
+> > > My understanding is this is a key word that gets turned into a
+> > > task flag.
+> >
+> >    ok, that makes sense.  that's just not clear from that section
+> > in the bitbake manual.  are there any other special cases like
+> > that?
 >
->> On 7/17/12 9:55 AM, Robert P. J. Day wrote:
->>>
->>>     perusing bitbake user manual and in section 2.1.18, "Task Flags",
->>> there's mention of "fakeroot".  that's not really a task flag, is it?
->>> i thought that that's (now?) a keyword that's used to define a task
->>> with that property.
->>>
->>>     is that line in the user manual incorrect?
->>
->> My understanding is this is a key word that gets turned into a task
->> flag.
->
->    ok, that makes sense.  that's just not clear from that section in
-> the bitbake manual.  are there any other special cases like that?
+> I believe that both "fakeroot" and "python" are the two only two
+> inline "task flags".
 
-I believe that both "fakeroot" and "python" are the two only two inline "task 
-flags".
+  i'm reading bitbake's "build.py", and that looks right.  only one
+other observation -- i see another what looks like a task flag,
+"lockfiles", that's not mentioned in the bitbake user manual.  is that
+actually a task flag?  should it be mentioned in that section?
 
---Mark
+  i think that's all of my whining about task flags.
 
-> rday
->
+rday
 
+-- 
 
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
