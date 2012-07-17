@@ -1,29 +1,19 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1SrDwQ-0003sC-IN
+	(envelope-from <yao.zhao@windriver.com>) id 1SrEGv-0008Kh-6o
 	for openembedded-core@lists.openembedded.org;
-	Tue, 17 Jul 2012 22:00:20 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 17 Jul 2012 12:48:39 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="167575434"
-Received: from btwarden-mobl1.amr.corp.intel.com (HELO envy.home)
-	([10.7.199.60])
-	by orsmga001.jf.intel.com with ESMTP; 17 Jul 2012 12:48:36 -0700
-Message-ID: <5005C134.4080805@linux.intel.com>
-Date: Tue, 17 Jul 2012 12:47:00 -0700
-From: Darren Hart <dvhart@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:13.0) Gecko/20120615 Thunderbird/13.0.1
-MIME-Version: 1.0
-To: Saul Wold <sgw@linux.intel.com>
-References: <cover.1342549867.git.dvhart@linux.intel.com>
-	<da4bea17ffc6284a462e33b142ec17bd6f15f2ac.1342549867.git.dvhart@linux.intel.com>
-	<5005BFA6.5050809@linux.intel.com>
-In-Reply-To: <5005BFA6.5050809@linux.intel.com>
-X-Enigmail-Version: 1.4.2
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] EFI: Make installer EFI aware
+	Tue, 17 Jul 2012 22:21:29 +0200
+Received: from yzhao2-OptiPlex-990.corp.ad.wrs.com
+	(yzhao2-optiplex-990.corp.ad.wrs.com [128.224.147.210])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q6HKA7qo008075
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 17 Jul 2012 13:10:07 -0700 (PDT)
+From: Yao Zhao <yao.zhao@windriver.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 17 Jul 2012 16:10:05 -0400
+Message-Id: <1342555805-3291-1-git-send-email-yao.zhao@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH v3] dbus-glib: fix compile error when enable-tests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,58 +28,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Jul 2012 20:00:23 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 17 Jul 2012 20:21:29 -0000
 
+test-service-glib-include-glib-only.patch: fixes the compiling failure
+that test-service-glib.c includes glib/gquark.h not glib.h directly.
 
+[YOCTO #2762]
 
-On 07/17/2012 12:40 PM, Saul Wold wrote:
-> On 07/17/2012 12:29 PM, Darren Hart wrote:
+Signed-off-by: Yao Zhao <yao.zhao@windriver.com>
+---
+ .../test-service-glib-include-glib-only.patch      |   20 ++++++++++++++++++++
+ meta/recipes-core/dbus/dbus-glib.inc               |    4 +++-
+ 2 files changed, 23 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-core/dbus/dbus-glib-0.98/test-service-glib-include-glib-only.patch
 
->> --- a/meta/recipes-core/images/core-image-minimal-initramfs.bb
->> +++ b/meta/recipes-core/images/core-image-minimal-initramfs.bb
->> @@ -3,7 +3,7 @@ DESCRIPTION = "Small image capable of booting a device. The kernel includes \
->>   the Minimal RAM-based Initial Root Filesystem (initramfs), which finds the \
->>   first “init” program more efficiently."
->>
->> -IMAGE_INSTALL = "initramfs-live-boot initramfs-live-install busybox udev base-passwd"
->> +IMAGE_INSTALL = "initramfs-live-boot initramfs-live-install initramfs-live-install-efi busybox udev base-passwd"
->>
->>   # Do not pollute the initrd image with rootfs features
->>   IMAGE_FEATURES = ""
-> 
-> Does this now need a PR bump also?
-
-I didn't think so as this recipe is rebuilt for every image anyway.
-There is no PR in this recipe.
-
->> diff --git a/meta/recipes-core/initrdscripts/initramfs-live-install-efi_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-live-install-efi_1.0.bb
->> new file mode 100644
->> index 0000000..6696d94
->> --- /dev/null
->> +++ b/meta/recipes-core/initrdscripts/initramfs-live-install-efi_1.0.bb
->> @@ -0,0 +1,22 @@
->> +DESCRIPTION = "A live image init script for grub-efi"
->> +LICENSE = "MIT"
->> +LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
->> +SRC_URI = "file://init-install-efi.sh"
->> +
->> +PR = "r7"
->> +
-> Why PR = r7 for a new recipe, there should be no PR as it defaults to r0?
-
-Good catch, just my forcing rebuilds during development, or perhaps a
-left-over copy from the initramfs-live-install_1.0.bb I based it on.
-Updated as r0 in the branch.
-
-Thanks,
-
+diff --git a/meta/recipes-core/dbus/dbus-glib-0.98/test-service-glib-include-glib-only.patch b/meta/recipes-core/dbus/dbus-glib-0.98/test-service-glib-include-glib-only.patch
+new file mode 100644
+index 0000000..27780e7
+--- /dev/null
++++ b/meta/recipes-core/dbus/dbus-glib-0.98/test-service-glib-include-glib-only.patch
+@@ -0,0 +1,20 @@
++Fix the compiling error that not include glib.h directly.
++
++upstream bugzilla link: https://bugs.freedesktop.org/show_bug.cgi?id=52210
++Upstream-Status: Submitted
++
++Signed-off-by: Yao Zhao <yao.zhao@windriver.com>
++
++diff --git a/test/core/test-service-glib.c b/test/core/test-service-glib.c
++index 3355890..7291f35 100644
++--- a/test/core/test-service-glib.c
+++++ b/test/core/test-service-glib.c
++@@ -11,7 +11,7 @@
++ #include <string.h>
++ #include <glib/gi18n.h>
++ #include <glib-object.h>
++-#include <glib/gquark.h>
+++#include <glib.h>
++ 
++ #include "my-object.h"
++ #include "my-object-subclass.h"
+diff --git a/meta/recipes-core/dbus/dbus-glib.inc b/meta/recipes-core/dbus/dbus-glib.inc
+index da2845a..f554ce8 100644
+--- a/meta/recipes-core/dbus/dbus-glib.inc
++++ b/meta/recipes-core/dbus/dbus-glib.inc
+@@ -11,7 +11,9 @@ DEPENDS = "expat glib-2.0 virtual/libintl dbus-glib-native dbus"
+ DEPENDS_virtclass-native = "glib-2.0-native dbus-native"
+ 
+ SRC_URI = "http://dbus.freedesktop.org/releases/dbus-glib/dbus-glib-${PV}.tar.gz \
+-           file://no-examples.patch"
++           file://no-examples.patch \
++           file://test-service-glib-include-glib-only.patch \
++"
+ 
+ inherit autotools pkgconfig gettext
+ 
 -- 
-Darren Hart
-Intel Open Source Technology Center
-Yocto Project - Linux Kernel
-
+1.7.9.5
 
 
 
