@@ -1,31 +1,30 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1Sr8DH-0006en-GD
+	(envelope-from <amy.fong@windriver.com>) id 1Sr8h3-0007Iy-KI
 	for openembedded-core@lists.openembedded.org;
-	Tue, 17 Jul 2012 15:53:19 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 17 Jul 2012 06:41:52 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="173171335"
-Received: from unknown (HELO helios.localnet) ([10.252.121.35])
-	by orsmga002.jf.intel.com with ESMTP; 17 Jul 2012 06:41:52 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Koen Kooi <koen@dominion.thruhere.net>
-Date: Tue, 17 Jul 2012 14:41:51 +0100
-Message-ID: <1997389.yhY4ZDbdgv@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.8.4 (Linux/3.2.0-26-generic-pae; KDE/4.8.4; i686; ; )
-In-Reply-To: <19F41A1C-D530-4725-AB58-4193025996BB@dominion.thruhere.net>
-References: <1342513736-468-1-git-send-email-cristian.iorga@intel.com>
-	<1880207.FUrsv2Gi0U@helios>
-	<19F41A1C-D530-4725-AB58-4193025996BB@dominion.thruhere.net>
+	Tue, 17 Jul 2012 16:24:05 +0200
+Received: from yow-afong-lx2.ottawa.windriver.com (yow-afong-lx2.wrs.com
+	[128.224.146.164])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q6HECiSX013759
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 17 Jul 2012 07:12:44 -0700 (PDT)
+Received: from afong by yow-afong-lx2.ottawa.windriver.com with local (Exim
+	4.80) (envelope-from <amy.fong@windriver.com>) id 1Sr8W1-0005cn-I0
+	for openembedded-core@lists.openembedded.org;
+	Tue, 17 Jul 2012 10:12:41 -0400
+Date: Tue, 17 Jul 2012 10:12:41 -0400
+From: Amy Fong <amy.fong@windriver.com>
+To: openembedded-core@lists.openembedded.org
+Message-ID: <20120717141241.GA21603@windriver.com>
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/3] iproute2: upgrade to 3.4.0
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Subject: [PATCH] busybox: busybox wget -P option ignored
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: amy.fong@windriver.com,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -36,38 +35,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Jul 2012 13:53:19 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 17 Jul 2012 14:24:06 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Tuesday 17 July 2012 15:27:01 Koen Kooi wrote:
-> Op 17 jul. 2012, om 15:08 heeft Paul Eggleton het volgende geschreven:
-> > On Tuesday 17 July 2012 12:24:41 Andrei Gherzan wrote:
-> >> On Tue, Jul 17, 2012 at 11:28 AM, Cristian Iorga
-> >> 
-> >> <cristian.iorga@intel.com>wrote:
-> >>> +PR = "r0"
-> >> 
-> >> Not needed anymore. (The same mention for wpa-s. and pulseaudio.)
-> > 
-> > This is not a hard-and-fast rule for OE-Core AFAIK.
-> 
-> It would be *very* nice to get rid of all PR = r0 instances in the complete
-> oe metaverse. 
+busybox wget -P option ignored
+    
+In cases where busybox wget is invoked with -P <...> and the url ends
+in "/", the download directory is ignored (ie the file index.html is
+implied), this change enables the -P option for those urls.
+    
+Signed-off-by: Amy Fong <amy.fong@windriver.com>
+---
+ busybox-1.19.4/wget_dl_dir_fix.patch |   24 ++++++++++++++++++++++++
+ busybox_1.19.4.bb                    |    3 ++-
+ 2 files changed, 26 insertions(+), 1 deletion(-)
 
-I haven't yet heard a compelling argument as to why it's such a great idea to 
-keep removing it. For my part, leaving PR = "r0" just means the PR line stays 
-in the same place instead of jumping around when people remove and add it in 
-different locations within the recipe.
-
-Of course, once we move to using the PR server this is a moot point.
-
-Cheers,
-Paul
-
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+diff --git a/meta/recipes-core/busybox/busybox-1.19.4/wget_dl_dir_fix.patch b/meta/recipes-core/busybox/busybox-1.19.4/wget_dl_dir_fix.patch
+new file mode 100644
+index 0000000..5f46fed
+--- /dev/null
++++ b/meta/recipes-core/busybox/busybox-1.19.4/wget_dl_dir_fix.patch
+@@ -0,0 +1,24 @@
++---
++ networking/wget.c |   10 +++++++---
++ 1 file changed, 7 insertions(+), 3 deletions(-)
++
++--- a/networking/wget.c
+++++ b/networking/wget.c
++@@ -589,10 +589,14 @@
++ 	if (!(option_mask32 & WGET_OPT_OUTNAME)) {
++ 		G.fname_out = bb_get_last_path_component_nostrip(target.path);
++ 		/* handle "wget http://kernel.org//" */
++-		if (G.fname_out[0] == '/' || !G.fname_out[0])
++-			G.fname_out = (char*)"index.html";
+++		if (G.fname_out[0] == '/' || !G.fname_out[0]) {
+++			/* bug: if we provide a default name, we should still look at -P option */
+++			if (G.dir_prefix)
+++				G.fname_out = fname_out_alloc = concat_path_file(G.dir_prefix, "index.html");
+++			else
+++				G.fname_out = (char*)"index.html";
++ 		/* -P DIR is considered only if there was no -O FILE */
++-		else {
+++		} else {
++ 			if (G.dir_prefix)
++ 				G.fname_out = fname_out_alloc = concat_path_file(G.dir_prefix, G.fname_out);
++ 			else {
+diff --git a/meta/recipes-core/busybox/busybox_1.19.4.bb b/meta/recipes-core/busybox/busybox_1.19.4.bb
+index 5b3f356..8a06497 100644
+--- a/meta/recipes-core/busybox/busybox_1.19.4.bb
++++ b/meta/recipes-core/busybox/busybox_1.19.4.bb
+@@ -1,5 +1,5 @@
+ require busybox.inc
+-PR = "r7"
++PR = "r8"
+ 
+ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
+            file://B921600.patch \
+@@ -8,6 +8,7 @@ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
+            file://run-parts.in.usr-bin.patch \
+            file://watch.in.usr-bin.patch \
+            file://busybox-udhcpc-no_deconfig.patch \
++           file://wget_dl_dir_fix.patch \
+            file://find-touchscreen.sh \
+            file://busybox-cron \
+            file://busybox-httpd \
 
 
