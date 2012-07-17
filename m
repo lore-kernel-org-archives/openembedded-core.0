@@ -1,29 +1,31 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SrD9M-0005xI-3Y
-	for openembedded-core@lists.openembedded.org;
-	Tue, 17 Jul 2012 21:09:36 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 17 Jul 2012 11:58:15 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="169506171"
-Received: from unknown (HELO [10.255.12.178]) ([10.255.12.178])
-	by azsmga001.ch.intel.com with ESMTP; 17 Jul 2012 11:58:14 -0700
-Message-ID: <5005B5C6.6080103@linux.intel.com>
-Date: Tue, 17 Jul 2012 11:58:14 -0700
-From: Saul Wold <sgw@linux.intel.com>
+	(envelope-from <Aws.Ismail@windriver.com>) id 1SrDB6-00060N-CK
+	for Openembedded-core@lists.openembedded.org;
+	Tue, 17 Jul 2012 21:11:24 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q6HG6e5m002939
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <Openembedded-core@lists.openembedded.org>;
+	Tue, 17 Jul 2012 09:06:40 -0700 (PDT)
+Received: from [128.224.147.212] (128.224.147.212) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
+	Tue, 17 Jul 2012 09:06:39 -0700
+Message-ID: <50058D26.1060004@windriver.com>
+Date: Tue, 17 Jul 2012 12:04:54 -0400
+From: Aws Ismail <aws.ismail@windriver.com>
+Organization: Wind River Systems
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:13.0) Gecko/20120615 Thunderbird/13.0.1
+	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <1342513736-468-1-git-send-email-cristian.iorga@intel.com>
-In-Reply-To: <1342513736-468-1-git-send-email-cristian.iorga@intel.com>
-Subject: Re: [PATCH 1/3] iproute2: upgrade to 3.4.0
+To: oe-core list <Openembedded-core@lists.openembedded.org>
+X-Originating-IP: [128.224.147.212]
+Subject: [PATCH] Fix for psplash segmentation fault
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: Aws Ismail <Aws.Ismail@windriver.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -34,249 +36,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Jul 2012 19:09:36 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Tue, 17 Jul 2012 19:11:25 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 07/17/2012 01:28 AM, Cristian Iorga wrote:
-> Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
-> ---
->   .../iproute2/iproute2-3.2.0/configure-cross.patch  |   76 -------------------
->   .../iproute2/iproute2-3.4.0/configure-cross.patch  |   77 ++++++++++++++++++++
->   meta/recipes-connectivity/iproute2/iproute2.inc    |   10 +--
->   .../iproute2/iproute2_3.2.0.bb                     |   11 ---
->   .../iproute2/iproute2_3.4.0.bb                     |    9 +++
->   5 files changed, 91 insertions(+), 92 deletions(-)
->   delete mode 100644 meta/recipes-connectivity/iproute2/iproute2-3.2.0/configure-cross.patch
->   create mode 100644 meta/recipes-connectivity/iproute2/iproute2-3.4.0/configure-cross.patch
->   delete mode 100644 meta/recipes-connectivity/iproute2/iproute2_3.2.0.bb
->   create mode 100644 meta/recipes-connectivity/iproute2/iproute2_3.4.0.bb
->
-> diff --git a/meta/recipes-connectivity/iproute2/iproute2-3.2.0/configure-cross.patch b/meta/recipes-connectivity/iproute2/iproute2-3.2.0/configure-cross.patch
-> deleted file mode 100644
-> index bed7b84..0000000
-> --- a/meta/recipes-connectivity/iproute2/iproute2-3.2.0/configure-cross.patch
-> +++ /dev/null
-> @@ -1,76 +0,0 @@
-> -From 85b0589b4843c03e8e6fd9416d71ea449a73c5c0 Mon Sep 17 00:00:00 2001
-> -From: Koen Kooi <koen@dominion.thruhere.net>
-> -Date: Thu, 3 Nov 2011 10:46:16 +0100
-> -Subject: [PATCH] make configure cross compile safe
-> -
-> -According to Kevin Tian:
-> -Upstream-Status: Pending
-> -
-> -Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
-> -Signed-off-by: Shane Wang <shane.wang@intel.com>
-> -
-> -diff -r e4e1b14b9c4a configure
-> ---- a/configure	Sun Jan 22 15:26:47 2012 +0800
-> -+++ b/configure	Sun Jan 22 15:29:38 2012 +0800
-> -@@ -2,6 +2,7 @@
-> - # This is not an autconf generated configure
-> - #
-> - INCLUDE=${1:-"$PWD/include"}
-> -+SYSROOT=$1
-> -
-> - check_atm()
-> - {
-> -@@ -13,7 +14,7 @@
-> - 	return 0;
-> - }
-> - EOF
-> --gcc -I$INCLUDE -o /tmp/atmtest /tmp/atmtest.c -latm >/dev/null 2>&1
-> -+$CC -I$INCLUDE -o /tmp/atmtest /tmp/atmtest.c -latm >/dev/null 2>&1
-> - if [ $? -eq 0 ]
-> - then
-> -     echo "TC_CONFIG_ATM:=y" >>Config
-> -@@ -47,7 +48,7 @@
-> -
-> - EOF
-> -
-> --if gcc -I$INCLUDE $IPTC -o /tmp/ipttest /tmp/ipttest.c $IPTL $(pkg-config xtables --cflags --libs) -ldl >/dev/null 2>&1
-> -+if $CC -I$INCLUDE $IPTC -o /tmp/ipttest /tmp/ipttest.c $IPTL $(pkg-config xtables --cflags --libs) -ldl >/dev/null 2>&1
-> - then
-> - 	echo "TC_CONFIG_XT:=y" >>Config
-> - 	echo "using xtables"
-> -@@ -84,7 +85,7 @@
-> - }
-> -
-> - EOF
-> --gcc -I$INCLUDE $IPTC -o /tmp/ipttest /tmp/ipttest.c $IPTL -ldl >/dev/null 2>&1
-> -+$CC -I$INCLUDE $IPTC -o /tmp/ipttest /tmp/ipttest.c $IPTL -ldl >/dev/null 2>&1
-> -
-> - if [ $? -eq 0 ]
-> - then
-> -@@ -124,7 +125,7 @@
-> - }
-> -
-> - EOF
-> --gcc -I$INCLUDE $IPTC -o /tmp/ipttest /tmp/ipttest.c $IPTL -ldl >/dev/null 2>&1
-> -+$CC -I$INCLUDE $IPTC -o /tmp/ipttest /tmp/ipttest.c $IPTL -ldl >/dev/null 2>&1
-> -
-> - if [ $? -eq 0 ]
-> - then
-> -@@ -145,7 +146,7 @@
-> - check_ipt_lib_dir()
-> - {
-> - 	IPT_LIB_DIR=""
-> --	for dir in /lib /usr/lib /usr/local/lib
-> -+	for dir in $SYSROOT/lib $SYSROOT/usr/lib $SYSROOT/usr/local/lib
-> - 	do
-> - 		for file in $dir/{xtables,iptables}/lib*t_*so ; do
-> - 			if [ -f $file ]; then
-> -@@ -168,7 +169,7 @@
-> - 	return 0;
-> - }
-> - EOF
-> --gcc -I$INCLUDE -o /tmp/setnstest /tmp/setnstest.c >/dev/null 2>&1
-> -+$CC -I$INCLUDE -o /tmp/setnstest /tmp/setnstest.c >/dev/null 2>&1
-> - if [ $? -eq 0 ]
-> - then
-> - 	echo "IP_CONFIG_SETNS:=y" >>Config
-> diff --git a/meta/recipes-connectivity/iproute2/iproute2-3.4.0/configure-cross.patch b/meta/recipes-connectivity/iproute2/iproute2-3.4.0/configure-cross.patch
-> new file mode 100644
-> index 0000000..42f591a
-> --- /dev/null
-> +++ b/meta/recipes-connectivity/iproute2/iproute2-3.4.0/configure-cross.patch
-> @@ -0,0 +1,77 @@
-> +From 85b0589b4843c03e8e6fd9416d71ea449a73c5c0 Mon Sep 17 00:00:00 2001
-> +From: Koen Kooi <koen@dominion.thruhere.net>
-> +Date: Thu, 3 Nov 2011 10:46:16 +0100
-> +Subject: [PATCH] make configure cross compile safe
-> +
-> +According to Kevin Tian:
-> +Upstream-Status: Pending
-> +
-> +Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
-> +Signed-off-by: Shane Wang <shane.wang@intel.com>
-> +
-> +Index: iproute2-3.4.0/configure
-> +===================================================================
-> +--- iproute2-3.4.0.orig/configure
-> ++++ iproute2-3.4.0/configure
-> +@@ -2,6 +2,7 @@
-> + # This is not an autconf generated configure
-> + #
-> + INCLUDE=${1:-"$PWD/include"}
-> ++SYSROOT=$1
-> +
-> + # Make a temp directory in build tree.
-> + TMPDIR=$(mktemp -d config.XXXXXX)
-> +@@ -17,7 +18,7 @@ int main(int argc, char **argv) {
-> + 	return 0;
-> + }
-> + EOF
-> +-gcc -I$INCLUDE -o $TMPDIR/atmtest $TMPDIR/atmtest.c -latm >/dev/null 2>&1
-> ++$CC -I$INCLUDE -o $TMPDIR/atmtest $TMPDIR/atmtest.c -latm >/dev/null 2>&1
-> + if [ $? -eq 0 ]
-> + then
-> +     echo "TC_CONFIG_ATM:=y" >>Config
-> +@@ -51,7 +52,7 @@ int main(int argc, char **argv)
-> +
-> + EOF
-> +
-> +-if gcc -I$INCLUDE $IPTC -o $TMPDIR/ipttest $TMPDIR/ipttest.c $IPTL $(pkg-config xtables --cflags --libs) -ldl >/dev/null 2>&1
-> ++if $CC -I$INCLUDE $IPTC -o $TMPDIR/ipttest $TMPDIR/ipttest.c $IPTL $(pkg-config xtables --cflags --libs) -ldl >/dev/null 2>&1
-> + then
-> + 	echo "TC_CONFIG_XT:=y" >>Config
-> + 	echo "using xtables"
-> +@@ -88,7 +89,7 @@ int main(int argc, char **argv) {
-> + }
-> +
-> + EOF
-> +-gcc -I$INCLUDE $IPTC -o $TMPDIR/ipttest $TMPDIR/ipttest.c $IPTL -ldl >/dev/null 2>&1
-> ++$CC -I$INCLUDE $IPTC -o $TMPDIR/ipttest $TMPDIR/ipttest.c $IPTL -ldl >/dev/null 2>&1
-> +
-> + if [ $? -eq 0 ]
-> + then
-> +@@ -128,7 +129,7 @@ int main(int argc, char **argv) {
-> + }
-> +
-> + EOF
-> +-gcc -I$INCLUDE $IPTC -o $TMPDIR/ipttest $TMPDIR/ipttest.c $IPTL -ldl >/dev/null 2>&1
-> ++$CC -I$INCLUDE $IPTC -o $TMPDIR/ipttest $TMPDIR/ipttest.c $IPTL -ldl >/dev/null 2>&1
-> +
-> + if [ $? -eq 0 ]
-> + then
-> +@@ -149,7 +150,7 @@ check_ipt()
-> + check_ipt_lib_dir()
-> + {
-> + 	IPT_LIB_DIR=""
-> +-	for dir in /lib /usr/lib /usr/local/lib
-> ++	for dir in $SYSROOT/lib $SYSROOT/usr/lib $SYSROOT/usr/local/lib
-> + 	do
-> + 		for file in $dir/{xtables,iptables}/lib*t_*so ; do
-> + 			if [ -f $file ]; then
-> +@@ -172,7 +173,7 @@ int main(int argc, char **argv)
-> + 	return 0;
-> + }
-> + EOF
-> +-gcc -I$INCLUDE -o $TMPDIR/setnstest $TMPDIR/setnstest.c >/dev/null 2>&1
-> ++$CC -I$INCLUDE -o $TMPDIR/setnstest $TMPDIR/setnstest.c >/dev/null 2>&1
-> + if [ $? -eq 0 ]
-> + then
-> + 	echo "IP_CONFIG_SETNS:=y" >>Config
-> diff --git a/meta/recipes-connectivity/iproute2/iproute2.inc b/meta/recipes-connectivity/iproute2/iproute2.inc
-> index 86847ef..7caf7d0 100644
-> --- a/meta/recipes-connectivity/iproute2/iproute2.inc
-> +++ b/meta/recipes-connectivity/iproute2/iproute2.inc
-> @@ -26,12 +26,12 @@ do_install () {
->   # There are only .so files in iproute2
->   INSANE_SKIP_${PN} = "dev-so"
->
-> -FILES_${PN} += "${base_libdir}/tc"
-> -FILES_${PN}-dbg += "${base_libdir}/tc/.debug"
-> +FILES_${PN} += "${libdir}/tc"
-> +FILES_${PN}-dbg += "${libdir}/tc/.debug"
->
-> -ALTERNATIVE_NAME = "ip"
-> -ALTERNATIVE_PATH = "${base_sbindir}/ip.iproute2"
-> -ALTERNATIVE_LINK = "${base_bindir}/ip"
-> +ALTERNATIVE_${PN} = "ip"
-> +ALTERNATIVE_TARGET[ip] = "${base_sbindir}/ip.${BPN}"
-> +ALTERNATIVE_LINK_NAME[ip] = "${base_bindir}/ip"
->   ALTERNATIVE_PRIORITY = "100"
->
+Fix psplash segmentation fault
 
-Did you use buildhistory to compare the changes to the package?
+This fixes the segmentation fault when calling:
+psplash -a
 
-Sau!
+The -a option requires a rotation angle to be given
+and if it is missing then the user is shown the correct usage.
 
->   PARALLEL_MAKE = ""
-> diff --git a/meta/recipes-connectivity/iproute2/iproute2_3.2.0.bb b/meta/recipes-connectivity/iproute2/iproute2_3.2.0.bb
-> deleted file mode 100644
-> index 5af12af..0000000
-> --- a/meta/recipes-connectivity/iproute2/iproute2_3.2.0.bb
-> +++ /dev/null
-> @@ -1,11 +0,0 @@
-> -require iproute2.inc
-> -
-> -PR = "r1"
-> -
-> -#v3.2.0 tag is "447c118f138171b260ad045ad6e1b17f9ef462e2"
-> -#but it was not fully tested and had build error, and the next commit fixed it.
-> -SRCREV = "13603f6a9e46f08576f6284a0ef1ce1fbf94ffe0"
-> -SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/shemminger/iproute2.git \
-> -           file://configure-cross.patch"
-> -S = "${WORKDIR}/git"
-> -
-> diff --git a/meta/recipes-connectivity/iproute2/iproute2_3.4.0.bb b/meta/recipes-connectivity/iproute2/iproute2_3.4.0.bb
-> new file mode 100644
-> index 0000000..cf1d521
-> --- /dev/null
-> +++ b/meta/recipes-connectivity/iproute2/iproute2_3.4.0.bb
-> @@ -0,0 +1,9 @@
-> +require iproute2.inc
-> +
-> +PR = "r0"
-> +
-> +SRC_URI = "${KERNELORG_MIRROR}/linux/utils/net/${BPN}/${BPN}-${PV}.tar.xz \
-> +           file://configure-cross.patch"
-> +
-> +SRC_URI[md5sum] = "879d3fac4e90809598b2864ec4a0cbf8"
-> +SRC_URI[sha256sum] = "38e846e412b2fa235a447b50c20ad1e9770d1b3ed4d3ab18ca0b18c6e8b79ba4"
->
+Signed-off-by: Aws Ismail <aws.ismail@windriver.com>
+
+diff --git 
+a/meta/recipes-core/psplash/files/psplash-fix-angle-argv-segfault.patch 
+b/meta/recipes-core/psplash/files/psplash-fix-angle-argv-s
+new file mode 100644
+index 0000000..797fe48
+--- /dev/null
++++ b/meta/recipes-core/psplash/files/psplash-fix-angle-argv-segfault.patch
+@@ -0,0 +1,27 @@
++Fix psplash segmentation fault
++
++This fixes the segmentation fault when calling:
++psplash -a
++
++The -a option requires a rotation angle to be given
++and if it is missing then the user is shown the correct usage.
++
++From: git://git.yoctoproject.org/psplash
++
++Upstream-Status: Submitted
++
++Signed-off-by: Aws Ismail <aws.ismail@windriver.com>
++
++diff --git a/psplash.c b/psplash.c
++index 0158628..09cf0d0 100644
++--- a/psplash.c
+++++ b/psplash.c
++@@ -219,7 +219,7 @@ main (int argc, char** argv)
++
++       if (!strcmp(argv[i],"-a") || !strcmp(argv[i],"--angle"))
++         {
++-        if (++i > argc) goto fail;
+++        if (++i >= argc) goto fail;
++         angle = atoi(argv[i]);
++         continue;
++       }
+diff --git a/meta/recipes-core/psplash/psplash_git.bb 
+b/meta/recipes-core/psplash/psplash_git.bb
+index 0d88a60..06f8a9c 100644
+--- a/meta/recipes-core/psplash/psplash_git.bb
++++ b/meta/recipes-core/psplash/psplash_git.bb
+@@ -11,6 +11,7 @@ PR = "r2"
+
+  SRC_URI = "git://git.yoctoproject.org/${BPN};protocol=git \
+             file://psplash-init \
++           file://psplash-fix-angle-argv-segfault.patch \
+             ${SPLASH_IMAGES}"
+
+  SPLASH_IMAGES = "file://psplash-poky-img.h;outsuffix=default"
 
 
 
