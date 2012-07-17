@@ -1,25 +1,40 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail-we0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1Sr7ii-0006BJ-TM
+	(envelope-from <koen@dominion.thruhere.net>) id 1Sr7xz-0006Oi-9c
 	for openembedded-core@lists.openembedded.org;
-	Tue, 17 Jul 2012 15:21:45 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 17 Jul 2012 06:08:15 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="173158311"
-Received: from unknown (HELO helios.localnet) ([10.252.121.35])
-	by orsmga002.jf.intel.com with ESMTP; 17 Jul 2012 06:08:14 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 17 Jul 2012 14:08:13 +0100
-Message-ID: <1880207.FUrsv2Gi0U@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.8.4 (Linux/3.2.0-26-generic-pae; KDE/4.8.4; i686; ; )
-In-Reply-To: <CAK18fxG7KJvUfL+LN8r42+Px2=adL9Su9ry+0gup0m1RC_u2rw@mail.gmail.com>
-References: <1342513736-468-1-git-send-email-cristian.iorga@intel.com>
-	<CAK18fxG7KJvUfL+LN8r42+Px2=adL9Su9ry+0gup0m1RC_u2rw@mail.gmail.com>
-MIME-Version: 1.0
-Subject: Re: [PATCH 1/3] iproute2: upgrade to 3.4.0
+	Tue, 17 Jul 2012 15:37:31 +0200
+Received: by weyr6 with SMTP id r6so255193wey.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 17 Jul 2012 06:26:12 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=content-type:mime-version:subject:from:in-reply-to:date
+	:content-transfer-encoding:message-id:references:to:x-mailer
+	:x-gm-message-state;
+	bh=VMNO3OVIbrZShk238M9X6U7DWrIgZfudz30aQGWCRsA=;
+	b=Me0FopsLxPtKiibowT2oQGsjS6o+5fvNYmYjaSMmPFicH9Vmk7/mtHAm04uvWgs+OQ
+	xYgXha7e6PfY2zv3gFK3DUX5g7HHv/6vPf5XLq0T5qk4fMgGHm7vxaqCnXqGlScA1VQJ
+	iV7+pwYGExXcuycdom1H+qYqExR+bwpvGmG2UJVEO5hm8UKXZV4gV7lbxWzggq/QoeE8
+	IMyz9LwOvfvzoPFf8fJtgZfshuU4/xtkfCdrWkT10ITxXZBKnbtHKxjiGZJxsGBASAls
+	Fn17rcpgMqVqTP7EZPN4zzcAF3OOIjGSFTugQGlWWAPbYI1H7GQhFjJcanJ14WZJuOkr
+	ndhg==
+Received: by 10.216.154.69 with SMTP id g47mr1469130wek.171.1342531571922;
+	Tue, 17 Jul 2012 06:26:11 -0700 (PDT)
+Received: from [10.47.217.41] ([188.207.89.201])
+	by mx.google.com with ESMTPS id ep14sm27771412wid.0.2012.07.17.06.26.10
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 17 Jul 2012 06:26:11 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1278)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <1342519612-24566-1-git-send-email-alexandru.damian@intel.com>
+Date: Tue, 17 Jul 2012 15:26:06 +0200
+Message-Id: <522F00C1-E54D-4588-9B05-982CCCCB1AAB@dominion.thruhere.net>
+References: <1342519612-24566-1-git-send-email-alexandru.damian@intel.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1278)
+X-Gm-Message-State: ALoCoQlnfz+Xz9hfD8x6fOkKvHzPAVCs9djMA22iIX8rICTZLcGHxADqsJmAl5cE5+NXMlLBseqQ
+Subject: Re: [PATCH] udev: upgrade to 182
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,25 +49,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Jul 2012 13:21:45 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 17 Jul 2012 13:37:31 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 
-On Tuesday 17 July 2012 12:24:41 Andrei Gherzan wrote:
-> On Tue, Jul 17, 2012 at 11:28 AM, Cristian Iorga
-> <cristian.iorga@intel.com>wrote:
-> > +PR = "r0"
+
+Op 17 jul. 2012, om 12:06 heeft Alex DAMIAN het volgende geschreven:
+
+> From: Alexandru DAMIAN <alexandru.damian@intel.com>
 > 
-> Not needed anymore. (The same mention for wpa-s. and pulseaudio.)
+> This is the final upgrade of udev. Futher upgrades will only
+> come in conjunction with systemd.
+> 
+> The v4l1 removal patch is deprecated as the bug is fixed inside udev.
+> There is a new patch fixing the path for default sh interpreter.
+> New debug binaries are generated, and udev.inc is modified to package
+> those correctly.
+> The install locations changed for udevd and udevadm, so the scripts
+> are updated accordingly.
 
-This is not a hard-and-fast rule for OE-Core AFAIK.
-
-Cheers,
-Paul
-
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+Have you compared this to the udev 182 recipe in meta-oe?
 
 
