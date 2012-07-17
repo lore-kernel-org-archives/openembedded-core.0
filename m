@@ -1,23 +1,30 @@
-Received: from mga11.intel.com ([192.55.52.93])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ddalex@adamian-desktop>) id 1Sr4pk-00005K-E8
-	for openembedded-core@lists.openembedded.org;
-	Tue, 17 Jul 2012 12:16:49 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 17 Jul 2012 03:05:28 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="193833252"
-Received: from adamian-desktop.rb.intel.com (HELO adamian-desktop)
-	([10.237.105.143])
-	by fmsmga002.fm.intel.com with ESMTP; 17 Jul 2012 03:05:26 -0700
-Received: by adamian-desktop (Postfix, from userid 1000)
-	id 5ACC184A37B; Tue, 17 Jul 2012 13:06:58 +0300 (EEST)
-From: Alex DAMIAN <alexandru.damian@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 17 Jul 2012 13:06:52 +0300
-Message-Id: <1342519612-24566-1-git-send-email-alexandru.damian@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] udev: upgrade to 182
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1Sr6c6-0002jY-Hy for openembedded-core@lists.openembedded.org;
+	Tue, 17 Jul 2012 14:10:50 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6HBxVfL011025
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 17 Jul 2012 12:59:31 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 10807-02 for <openembedded-core@lists.openembedded.org>;
+	Tue, 17 Jul 2012 12:59:27 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6HBxPOm011019
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 17 Jul 2012 12:59:26 +0100
+Message-ID: <1342526368.10484.4.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Tue, 17 Jul 2012 12:59:28 +0100
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: [PATCH] scripts/bitbake: Check the git-native version and build it if necessary
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,262 +39,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Jul 2012 10:16:49 -0000
+X-List-Received-Date: Tue, 17 Jul 2012 12:10:50 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Alexandru DAMIAN <alexandru.damian@intel.com>
+We require git version 1.7.5 or later for the git remote --mirror=xxx syntax.
+If we have an older version of git, this patch ensure we build git-replacement-native.
+We add an alternative PROVIDES in the same way as tar-native to allow this script
+to trigger the build whilst still allowing git-native in ASSUME_PROVIDED.
 
-This is the final upgrade of udev. Futher upgrades will only
-come in conjunction with systemd.
-
-The v4l1 removal patch is deprecated as the bug is fixed inside udev.
-There is a new patch fixing the path for default sh interpreter.
-New debug binaries are generated, and udev.inc is modified to package
-those correctly.
-The install locations changed for udevd and udevadm, so the scripts
-are updated accordingly.
-
-Signed-off-by: Alexandru DAMIAN <alexandru.damian@intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../initscripts/initscripts-1.0/volatiles          |    2 +-
- meta/recipes-core/udev/udev.inc                    |   13 +++--
- ...yboard_force_release.sh-shell-script-path.patch |   30 ++++++++++++
- meta/recipes-core/udev/udev/init                   |   14 +++---
- meta/recipes-core/udev/udev/udev-166-v4l1-1.patch  |   50 --------------------
- meta/recipes-core/udev/udev/udev-cache             |    2 +-
- meta/recipes-core/udev/udev_164.bb                 |    8 ----
- meta/recipes-core/udev/udev_182.bb                 |    9 ++++
- 8 files changed, 57 insertions(+), 71 deletions(-)
- create mode 100644 meta/recipes-core/udev/udev/0001-Fixing-keyboard_force_release.sh-shell-script-path.patch
- delete mode 100644 meta/recipes-core/udev/udev/udev-166-v4l1-1.patch
- delete mode 100644 meta/recipes-core/udev/udev_164.bb
- create mode 100644 meta/recipes-core/udev/udev_182.bb
-
-diff --git a/meta/recipes-core/initscripts/initscripts-1.0/volatiles b/meta/recipes-core/initscripts/initscripts-1.0/volatiles
-index b2ae279..e0741aa 100644
---- a/meta/recipes-core/initscripts/initscripts-1.0/volatiles
-+++ b/meta/recipes-core/initscripts/initscripts-1.0/volatiles
-@@ -36,4 +36,4 @@ f root root 0664 /var/log/wtmp none
- f root root 0664 /var/run/utmp none
- l root root 0644 /etc/resolv.conf /var/run/resolv.conf
- f root root 0644 /var/run/resolv.conf none
--
-+l root root 0755 /run /var/run
-diff --git a/meta/recipes-core/udev/udev.inc b/meta/recipes-core/udev/udev.inc
-index 3e72515..ebd760b 100644
---- a/meta/recipes-core/udev/udev.inc
-+++ b/meta/recipes-core/udev/udev.inc
-@@ -6,9 +6,10 @@ LICENSE = "GPLv2.0+ & LGPLv2.1+"
- LICENSE_${PN} = "GPLv2.0+"
- LICENSE_libudev = "LGPLv2.1+"
- LICENSE_libgudev = "LGPLv2.1+"
--LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
--                    file://libudev/COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343 \
--                    file://extras/gudev/COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
-+                    file://src/COPYING;md5=17c4e5fb495e6707ac92a3864926f979 \
-+                    file://src/gudev/COPYING;md5=fb494485a7d0505308cb68e4997cc266"
-+                    
+diff --git a/meta/recipes-devtools/git/git.inc b/meta/recipes-devtools/git/git.inc
+index ce2f574..6748b70 100644
+--- a/meta/recipes-devtools/git/git.inc
++++ b/meta/recipes-devtools/git/git.inc
+@@ -3,6 +3,8 @@ SECTION = "console/utils"
+ LICENSE = "GPLv2"
+ DEPENDS = "openssl curl zlib expat"
  
- DEPENDS = "acl glib-2.0 libusb usbutils pciutils gperf-native libxslt-native"
- RPROVIDES_${PN} = "hotplug"
-@@ -16,6 +17,7 @@ RRECOMMENDS_${PN} += "udev-extraconf usbutils-ids pciutils-ids"
- RDEPENDS_libudev = "${PN} (= ${EXTENDPKGV})"
- 
- SRC_URI = "${KERNELORG_MIRROR}/linux/utils/kernel/hotplug/udev-${PV}.tar.gz \
-+           file://0001-Fixing-keyboard_force_release.sh-shell-script-path.patch \
-            file://run.rules \
-            file://udev.rules \
-            file://devfs-udev.rules \
-@@ -32,7 +34,8 @@ inherit autotools pkgconfig update-rc.d
- 
- # udevd/udevadm -> /sbin/, libudev.so.* -> /lib/
- sbindir = "${base_sbindir}"
--libexecdir = "${base_libdir}/udev"
-+#adamian - now udev appends the /udev for itself
-+libexecdir = "${base_libdir}" 
- EXTRA_OECONF = "--disable-introspection --with-rootlibdir=${base_libdir} \
-                 --with-pci-ids-path=${datadir}/pci.ids"
- 
-@@ -50,6 +53,8 @@ FILES_${PN} += "${libexecdir} ${libdir}/ConsoleKit"
- RRECOMMENDS_${PN} += "udev-utils"
- 
- FILES_${PN}-dbg += "${libexecdir}/.debug"
-+FILES_${PN}-dbg += "${base_libdir}/udev/.debug/"
-+FILES_${PN}-dbg += "${base_libdir}/udev/.debug/*"
- FILES_${PN}-dev = "${datadir}/pkgconfig/udev.pc"
- FILES_libudev = "${base_libdir}/libudev.so.*"
- FILES_libudev-dbg = "${base_libdir}/.debug/libudev.so.*"
-diff --git a/meta/recipes-core/udev/udev/0001-Fixing-keyboard_force_release.sh-shell-script-path.patch b/meta/recipes-core/udev/udev/0001-Fixing-keyboard_force_release.sh-shell-script-path.patch
-new file mode 100644
-index 0000000..cbd807f
---- /dev/null
-+++ b/meta/recipes-core/udev/udev/0001-Fixing-keyboard_force_release.sh-shell-script-path.patch
-@@ -0,0 +1,30 @@
-+From 0f8290c943da298abd269ca60fd8375dfb219971 Mon Sep 17 00:00:00 2001
-+From: Alexandru DAMIAN <alexandru.damian@intel.com>
-+Date: Thu, 12 Jul 2012 12:54:48 +0300
-+Subject: [PATCH] Fixing keyboard_force_release.sh shell script path
++PROVIDES_append_virtclass-native = " git-replacement-native"
 +
-+With the introduction of rootprefix, the keyboard-force-release.sh.in
-+was modified to be executed with @rootprefix@/bin/sh, which is wrong
-+because @rootprefix@ defaults to /usr (which is correct), but the
-+shell is always at /bin/sh (IEEE Std 1003.2-1992).
-+
-+Therefore the interpreter for shell scripts needs to be /bin/sh at all times.
-+
-+Signed-off-by: Alexandru DAMIAN <alexandru.damian@intel.com>
-+---
-+ src/keymap/keyboard-force-release.sh.in |    2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/src/keymap/keyboard-force-release.sh.in b/src/keymap/keyboard-force-release.sh.in
-+index dd040ce..597a3a6 100755
-+--- a/src/keymap/keyboard-force-release.sh.in
-++++ b/src/keymap/keyboard-force-release.sh.in
-+@@ -1,4 +1,4 @@
-+-#!@rootprefix@/bin/sh -e
-++#!/bin/sh -e
-+ # read list of scancodes, convert hex to decimal and
-+ # append to the atkbd force_release sysfs attribute
-+ # $1 sysfs devpath for serioX
-+-- 
-+1.7.9.5
-+
-diff --git a/meta/recipes-core/udev/udev/init b/meta/recipes-core/udev/udev/init
-index d521685..ca02abb 100644
---- a/meta/recipes-core/udev/udev/init
-+++ b/meta/recipes-core/udev/udev/init
-@@ -13,7 +13,7 @@ export TZ=/etc/localtime
+ SRC_URI = "${KERNELORG_MIRROR}/software/scm/git/git-${PV}.tar.bz2 "
+ S = "${WORKDIR}/git-${PV}"
  
- [ -d /sys/class ] || exit 1
- [ -r /proc/mounts ] || exit 1
--[ -x /sbin/udevd ] || exit 1
-+[ -x /lib/udev/udevd ] || exit 1
- [ -f /etc/default/udev-cache ] && . /etc/default/udev-cache
- [ -f /etc/udev/udev.conf ] && . /etc/udev/udev.conf
- 
-@@ -70,15 +70,15 @@ kill_udevd > "/dev/null" 2>&1
- 
- # trigger the sorted events
- echo -e '\000\000\000\000' > /proc/sys/kernel/hotplug
--/sbin/udevd -d
-+/lib/udev/udevd -d
- 
--/sbin/udevadm control --env=STARTUP=1
-+/usr/bin/udevadm control --env=STARTUP=1
- if [ "$not_first_boot" != "" ];then
--	/sbin/udevadm trigger --action=add --subsystem-nomatch=tty --subsystem-nomatch=mem --subsystem-nomatch=vc --subsystem-nomatch=vtconsole --subsystem-nomatch=misc --subsystem-nomatch=dcon --subsystem-nomatch=pci_bus  --subsystem-nomatch=graphics	 --subsystem-nomatch=backlight --subsystem-nomatch=video4linux	--subsystem-nomatch=platform
--	(/sbin/udevadm settle --timeout=3; /sbin/udevadm control --env=STARTUP=)&
-+	/usr/bin/udevadm trigger --action=add --subsystem-nomatch=tty --subsystem-nomatch=mem --subsystem-nomatch=vc --subsystem-nomatch=vtconsole --subsystem-nomatch=misc --subsystem-nomatch=dcon --subsystem-nomatch=pci_bus  --subsystem-nomatch=graphics	 --subsystem-nomatch=backlight --subsystem-nomatch=video4linux	--subsystem-nomatch=platform
-+	(/usr/bin/udevadm settle --timeout=3; /usr/bin/udevadm control --env=STARTUP=)&
- else
--	/sbin/udevadm trigger --action=add
--	/sbin/udevadm settle
-+	/usr/bin/udevadm trigger --action=add
-+	/usr/bin/udevadm settle
+diff --git a/scripts/bitbake b/scripts/bitbake
+index 3772d82..580f377 100755
+--- a/scripts/bitbake
++++ b/scripts/bitbake
+@@ -58,7 +58,9 @@ elif [ -z "$BUILDDIR" ] ; then
  fi
  
- exit 0
-diff --git a/meta/recipes-core/udev/udev/udev-166-v4l1-1.patch b/meta/recipes-core/udev/udev/udev-166-v4l1-1.patch
-deleted file mode 100644
-index 2086fe1..0000000
---- a/meta/recipes-core/udev/udev/udev-166-v4l1-1.patch
-+++ /dev/null
-@@ -1,50 +0,0 @@
--Upstream-Status: Backport
--
--Submitted By:            Matt Burgess <matthew_at_linuxfromscratch_dot_org>
--Date:                    2011-03-26
--Initial Package Version: 166
--Upstream Status:         From upstream
--Origin:                  http://git.kernel.org/?p=linux/hotplug/udev.git;a=commitdiff;h=4ace8a43ac2cbbd4d6f5c29fc461c3caa8f8545b
--Description:             Fixes a compilation error caused by the removal of the
--                         Video for Linux 1 API from Linux kernels from 2.6.38
--                         onwards.
--
--diff -Naur udev-166.orig/extras/v4l_id/v4l_id.c udev-166/extras/v4l_id/v4l_id.c
----- udev-166.orig/extras/v4l_id/v4l_id.c	2009-12-03 12:45:03.000000000 +0000
--+++ udev-166/extras/v4l_id/v4l_id.c	2011-03-25 20:26:33.000000000 +0000
--@@ -28,7 +28,6 @@
-- #include <sys/types.h>
-- #include <sys/time.h>
-- #include <sys/ioctl.h>
---#include <linux/videodev.h>
-- #include <linux/videodev2.h>
-- 
-- int main (int argc, char *argv[])
--@@ -39,7 +38,6 @@
-- 	};
-- 	int fd;
-- 	char *device;
---	struct video_capability v1cap;
-- 	struct v4l2_capability v2cap;
-- 
-- 	while (1) {
--@@ -82,19 +80,6 @@
-- 		if ((v2cap.capabilities & V4L2_CAP_RADIO) > 0)
-- 			printf("radio:");
-- 		printf("\n");
---	} else if (ioctl (fd, VIDIOCGCAP, &v1cap) == 0) {
---		printf("ID_V4L_VERSION=1\n");
---		printf("ID_V4L_PRODUCT=%s\n", v1cap.name);
---		printf("ID_V4L_CAPABILITIES=:");
---		if ((v1cap.type & VID_TYPE_CAPTURE) > 0)
---			printf("capture:");
---		if ((v1cap.type & VID_TYPE_OVERLAY) > 0)
---			printf("video_overlay:");
---		if (v1cap.audios > 0)
---			printf("audio:");
---		if ((v1cap.type & VID_TYPE_TUNER) > 0)
---			printf("tuner:");
---		printf("\n");
-- 	}
-- 
-- 	close (fd);
-diff --git a/meta/recipes-core/udev/udev/udev-cache b/meta/recipes-core/udev/udev/udev-cache
-index 9c24e76..0f3d7cd 100644
---- a/meta/recipes-core/udev/udev/udev-cache
-+++ b/meta/recipes-core/udev/udev/udev-cache
-@@ -12,7 +12,7 @@
- export TZ=/etc/localtime
+ needtar="1"
++needgit="1"
+ TARVERSION=`tar --version | head -n 1 | cut -d ' ' -f 4`
++GITVERSION=`git --version | cut -d ' ' -f 3`
+ float_test() {
+      echo | awk 'END { exit ( !( '"$1"')); }'
+ }
+@@ -67,6 +69,10 @@ float_test() {
+ # but earlier versions do not; this needs to work properly for sstate
+ float_test "$TARVERSION > 1.23" && needtar="0"
  
- [ -r /proc/mounts ] || exit 1
--[ -x /sbin/udevd ] || exit 1
-+[ -x /lib/udev/udevd ] || exit 1
- [ -d /sys/class ] || exit 1
++# Need git >= 1.7.5 for git-remote --mirror=xxx syntax
++float_test "$GITVERSION >= 1.7.5" && needgit="0"
++
++
+ buildpseudo="1"
+ if [ $needpseudo = "1" ]; then
+     if [ -e "$BUILDDIR/pseudodone" ]; then
+@@ -97,6 +103,10 @@ fi
+ if [ -e "$PSEUDOBINDIR/tar" -a "$needtar" = "1" ]; then
+     needtar="0"
+ fi
++# If git is already built, we don't want to do it again...
++if [ -e "$PSEUDOBINDIR/git" -a "$needgit" = "1" ]; then
++    needgit="0"
++fi
  
- [ -f /etc/default/udev-cache ] && . /etc/default/udev-cache
-diff --git a/meta/recipes-core/udev/udev_164.bb b/meta/recipes-core/udev/udev_164.bb
-deleted file mode 100644
-index c5813ec..0000000
---- a/meta/recipes-core/udev/udev_164.bb
-+++ /dev/null
-@@ -1,8 +0,0 @@
--include udev.inc
--
--PR = "r13"
--
--SRC_URI += "file://udev-166-v4l1-1.patch"
--
--SRC_URI[md5sum] = "fddac2d54761ea34865af9467377ca9f"
--SRC_URI[sha256sum] = "c12e66280b5e1465f6587a8cfa47d7405c4caa7e52ce5dd13478d04f6ec05e5c"
-diff --git a/meta/recipes-core/udev/udev_182.bb b/meta/recipes-core/udev/udev_182.bb
-new file mode 100644
-index 0000000..6678fe1
---- /dev/null
-+++ b/meta/recipes-core/udev/udev_182.bb
-@@ -0,0 +1,9 @@
-+include udev.inc
+ if [ $needpseudo = "0" ]; then
+     buildpseudo="0"
+@@ -123,6 +133,11 @@ if [ $buildpseudo -gt 0 ]; then
+     if [ $needtar = "0" ]; then
+         TARTARGET=""
+     fi
++    GITTARGET="git-replacement-native"
++    if [ $needgit = "0" ]; then
++        GITTARGET=""
++    fi
 +
-+PR = "r0"
-+
-+# module-init-tools from kmod_git will provide libkmod runtime
-+DEPENDS = "module-init-tools"
-+
-+SRC_URI[md5sum] = "1b964456177fbf48023dfee7db3a708d"
-+SRC_URI[sha256sum] = "7857ed19fafd8f3ca8de410194e8c7336e9eb8a20626ea8a4ba6449b017faba4"
--- 
-1.7.9.5
+     # Pass through debug options
+     additionalopts=""
+     for opt in $@; do
+@@ -134,7 +149,7 @@ if [ $buildpseudo -gt 0 ]; then
+             fi
+         done
+     done
+-    bitbake pseudo-native $TARTARGET $additionalopts -c populate_sysroot
++    bitbake pseudo-native $TARTARGET $GITTARGET $additionalopts -c populate_sysroot
+     ret=$?
+     if [ "$ret" != "0" ]; then
+         exit 1
+
 
 
 
