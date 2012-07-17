@@ -1,32 +1,55 @@
-Received: from mail-wg0-f43.google.com ([74.125.82.43])
+Received: from am1ehsobe003.messaging.microsoft.com ([213.199.154.206]
+	helo=am1outboundpool.messaging.microsoft.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1Sr4Ps-0004ds-1A
+	(envelope-from <B28495@freescale.com>) id 1Sr4X8-0006fb-UF
 	for openembedded-core@lists.openembedded.org;
-	Tue, 17 Jul 2012 11:50:04 +0200
-Received: by wgbdr1 with SMTP id dr1so187107wgb.24
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Jul 2012 02:38:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=leT/60jCKPUlSfvumraD+8iTmXg+st/ABYUwYsXkc90=;
-	b=x6U5ozlGjYTtkJTo2F3hhZ/dbp6dfSX9VeaK1ct13HJHP1lrQAQlWAbz5yS6PZL6ob
-	E8Iv6uYdL3afZnSBsXW/ABFVg+9cGuNzjk4cJPBwseaEILEQ12+nED2P8EIaXV+S19Pf
-	gwpl8XnengDACFQ6UTmdoi6pzY9FknBa2aQDrdjtN4ObH46dinXFSPYBsfFu1T0dHhMg
-	m9N/hhZo+j7nPd0K2tWLmemfcFt0TWTkeEBhxZWjCHw+DIMZKrUd4Al+Mtmaa5tmH56L
-	+fiL4GWf9Lg7m+16/pC297FuXXgyN6SPjfU3GFdUkXVgM7I2gut+Ij+9xr45SevOzP2b
-	kOkg==
-Received: by 10.180.82.39 with SMTP id f7mr2701244wiy.2.1342517925046;
-	Tue, 17 Jul 2012 02:38:45 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id j6sm38729148wiy.4.2012.07.17.02.38.43
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 17 Jul 2012 02:38:44 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 17 Jul 2012 11:38:52 +0200
-Message-Id: <1342517932-27013-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.7.8.6
-Subject: [PATCH] recipes: svn SRC_URI s/proto=/protocol=/g
+	Tue, 17 Jul 2012 11:57:35 +0200
+Received: from mail56-am1-R.bigfish.com (10.3.201.237) by
+	AM1EHSOBE008.bigfish.com (10.3.204.28) with Microsoft SMTP Server id
+	14.1.225.23; Tue, 17 Jul 2012 08:30:55 +0000
+Received: from mail56-am1 (localhost [127.0.0.1])	by mail56-am1-R.bigfish.com
+	(Postfix) with ESMTP id C9C7C4E04EE	for
+	<openembedded-core@lists.openembedded.org>;
+	Tue, 17 Jul 2012 08:30:55 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-SpamScore: -9
+X-BigFish: VS-9(zz98dI9371I936eI1102I542M1432Izz1202hzz8275bh8275dhz2dh2a8h668h839h8e2h8e3h944hd25hf0ah107ahbe9i)
+Received: from mail56-am1 (localhost.localdomain [127.0.0.1]) by mail56-am1
+	(MessageSwitch) id 1342513855464399_25756;
+	Tue, 17 Jul 2012 08:30:55 +0000 (UTC)
+Received: from AM1EHSMHS016.bigfish.com (unknown [10.3.201.242])	by
+	mail56-am1.bigfish.com (Postfix) with ESMTP id 6F4E04C004E	for
+	<openembedded-core@lists.openembedded.org>;
+	Tue, 17 Jul 2012 08:30:55 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by AM1EHSMHS016.bigfish.com
+	(10.3.207.154) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Tue, 17 Jul 2012 08:30:55 +0000
+Received: from 039-SN2MPN1-021.039d.mgd.msft.net ([169.254.1.250]) by
+	039-SN1MMR1-001.039d.mgd.msft.net ([10.84.1.13]) with mapi id
+	14.02.0298.005; Tue, 17 Jul 2012 03:30:53 -0500
+From: Liu Ting-B28495 <B28495@freescale.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH] kernel.bbclass: update image name to keep it
+	same in D and DEPLOYDIR
+Thread-Index: AQHNYA8p99xYXlwyIE28jo2qSUrTopclz30AgARkl7CAAKX+AIACTysQ
+Date: Tue, 17 Jul 2012 08:30:52 +0000
+Message-ID: <AF604684617F454390621992F367F169011A0AD9@039-SN2MPN1-021.039d.mgd.msft.net>
+References: <1342084646-23822-1-git-send-email-b28495@freescale.com>
+	<1342090978.22262.7.camel@ted>
+	<AF604684617F454390621992F367F169011A007D@039-SN2MPN1-021.039d.mgd.msft.net>
+	<CAMKF1soCkrVRrkWbr9Sx+2JEtXajwPeORAN_mNkzS4KXWcgzTg@mail.gmail.com>
+In-Reply-To: <CAMKF1soCkrVRrkWbr9Sx+2JEtXajwPeORAN_mNkzS4KXWcgzTg@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.192.208.96]
+MIME-Version: 1.0
+X-OriginatorOrg: freescale.com
+Cc: McClintock Matthew-B29882 <B29882@freescale.com>,
+	Luo Zhenhua-B19537 <B19537@freescale.com>
+Subject: Re: [PATCH] kernel.bbclass: update image name to keep it same in D and DEPLOYDIR
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,42 +64,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Jul 2012 09:50:05 -0000
+X-List-Received-Date: Tue, 17 Jul 2012 09:57:35 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- .../eglibc/cross-localedef-native_2.15.bb          |    2 +-
- meta/recipes-multimedia/tremor/tremor_20120314.bb  |    2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org
+> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
+> Khem Raj
+> Sent: Monday, July 16, 2012 12:02 AM
+> To: Patches and discussions about the oe-core layer
+> Cc: McClintock Matthew-B29882; Luo Zhenhua-B19537
+> Subject: Re: [OE-core] [PATCH] kernel.bbclass: update image name to keep
+> it same in D and DEPLOYDIR
+>=20
+> On Sun, Jul 15, 2012 at 4:18 AM, Liu Ting-B28495 <B28495@freescale.com>
+> wrote:
+> > -----Original Message-----
+> > From: openembedded-core-bounces@lists.openembedded.org
+> > [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
+> > Richard Purdie
+> > Sent: Thursday, July 12, 2012 7:03 PM
+> > To: Patches and discussions about the oe-core layer
+> > Cc: McClintock Matthew-B29882
+> > Subject: Re: [OE-core] [PATCH] kernel.bbclass: update image name to
+> > keep it same in D and DEPLOYDIR
+> >
+> > On Thu, 2012-07-12 at 04:17 -0500, b28495@freescale.com wrote:
+> >> From: Ting Liu <b28495@freescale.com>
+> >>
+> >> Signed-off-by: Ting Liu <b28495@freescale.com>
+> >> ---
+> >>  meta/classes/kernel.bbclass |    7 ++++++-
+> >>  1 files changed, 6 insertions(+), 1 deletions(-)
+> >>
+> >> diff --git a/meta/classes/kernel.bbclass
+> >> b/meta/classes/kernel.bbclass index 81c334b..420a1ec 100644
+> >> --- a/meta/classes/kernel.bbclass
+> >> +++ b/meta/classes/kernel.bbclass
+> >> @@ -122,7 +122,12 @@ kernel_do_install() {
+> >>       #
+> >>       install -d ${D}/${KERNEL_IMAGEDEST}
+> >>       install -d ${D}/boot
+> >> -     install -m 0644 ${KERNEL_OUTPUT}
+> ${D}/${KERNEL_IMAGEDEST}/${KERNEL_IMAGETYPE}-${KERNEL_VERSION}
+> >> +        install -m 0644 ${KERNEL_OUTPUT}
+> ${D}/${KERNEL_IMAGEDEST}/${KERNEL_IMAGE_BASE_NAME}.bin
+> >> +        cd ${D}/${KERNEL_IMAGEDEST}/
+> >> +        rm -f ${KERNEL_IMAGE_SYMLINK_NAME}.bin
+> >> +        ln -sf ${KERNEL_IMAGE_BASE_NAME}.bin
+> ${KERNEL_IMAGE_SYMLINK_NAME}.bin
+> >> +        ln -sf ${KERNEL_IMAGE_BASE_NAME}.bin ${KERNEL_IMAGETYPE}
+> >> +     cd -
+> >>       install -m 0644 System.map ${D}/boot/System.map-${KERNEL_VERSION=
+}
+> >>       install -m 0644 .config ${D}/boot/config-${KERNEL_VERSION}
+> >>       install -m 0644 vmlinux ${D}/boot/vmlinux-${KERNEL_VERSION}
+> >
+> > This is going to break users who rely on the existing naming/layout.
+> >
+> > The patch description is lacking on why we need to do this too, it just
+> says what you're doing and not why.
+> >
+> > Cheers,
+> >
+> > Richard
+> >
+> >
+> > [Liu Ting-B28495] on our side, we used two ways to load the kernel
+> images. 1) load from Ethernet 2) load from hard disk which deployed with
+> the rootfs image containing kernel image (installing the package 'kernel-
+> image'). We cannot use the same bootargs in u-boot due to the mismatched
+> name.
+>=20
+> so define two macros nfsboot and diskboot which take care of setting all
+> required parameters as well as other env vars.
+>=20
 
-diff --git a/meta/recipes-core/eglibc/cross-localedef-native_2.15.bb b/meta/recipes-core/eglibc/cross-localedef-native_2.15.bb
-index 6f311fc..493eb61 100644
---- a/meta/recipes-core/eglibc/cross-localedef-native_2.15.bb
-+++ b/meta/recipes-core/eglibc/cross-localedef-native_2.15.bb
-@@ -16,7 +16,7 @@ inherit autotools
- PR = "r0"
- SRCREV="15225"
- EGLIBC_BRANCH="eglibc-2_14"
--SRC_URI = "svn://www.eglibc.org/svn/branches/;module=${EGLIBC_BRANCH};proto=http "
-+SRC_URI = "svn://www.eglibc.org/svn/branches/;module=${EGLIBC_BRANCH};protocol=http "
- S = "${WORKDIR}/${EGLIBC_BRANCH}/localedef"
- 
- do_unpack_append() {
-diff --git a/meta/recipes-multimedia/tremor/tremor_20120314.bb b/meta/recipes-multimedia/tremor/tremor_20120314.bb
-index 19d03d6..cf51983 100644
---- a/meta/recipes-multimedia/tremor/tremor_20120314.bb
-+++ b/meta/recipes-multimedia/tremor/tremor_20120314.bb
-@@ -8,7 +8,7 @@ DEPENDS = "libogg"
- SRCDATE = "${PV}"
- PR = "r0"
- 
--SRC_URI = "svn://svn.xiph.org/trunk;module=Tremor;rev=18221;proto=http"
-+SRC_URI = "svn://svn.xiph.org/trunk;module=Tremor;rev=18221;protocol=http"
- 
- S = "${WORKDIR}/Tremor"
- 
--- 
-1.7.8.6
+[Liu Ting-B28495] Maybe I made a misunderstanding here. The problem is that=
+:
+for the same kernel image, the one get deployed has a name, and the one=20
+contained in rootfs has another name. It will be helpful if we can unify th=
+em.
+
+
 
 
 
