@@ -1,25 +1,26 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SrAjD-0002PX-Lu
+	(envelope-from <sgw@linux.intel.com>) id 1SrAnf-0002Um-Jk
 	for openembedded-core@lists.openembedded.org;
-	Tue, 17 Jul 2012 18:34:28 +0200
+	Tue, 17 Jul 2012 18:39:04 +0200
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 17 Jul 2012 09:23:07 -0700
+	by fmsmga101.fm.intel.com with ESMTP; 17 Jul 2012 09:27:43 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="193990877"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="193992884"
 Received: from unknown (HELO [10.255.12.178]) ([10.255.12.178])
-	by fmsmga002.fm.intel.com with ESMTP; 17 Jul 2012 09:23:07 -0700
-Message-ID: <5005916B.3030005@linux.intel.com>
-Date: Tue, 17 Jul 2012 09:23:07 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 17 Jul 2012 09:27:43 -0700
+Message-ID: <5005927E.6000509@linux.intel.com>
+Date: Tue, 17 Jul 2012 09:27:42 -0700
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:13.0) Gecko/20120615 Thunderbird/13.0.1
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1341935782.git.nitin.a.kamble@intel.com>
-In-Reply-To: <cover.1341935782.git.nitin.a.kamble@intel.com>
-Subject: Re: [PATCH 00/19] automake update related commits on master
+References: <cover.1342116650.git.andrei@gherzan.ro>
+In-Reply-To: <cover.1342116650.git.andrei@gherzan.ro>
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: Re: [PATCH 0/3] Fix xz compression command and optimize compression time
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,97 +35,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Jul 2012 16:34:28 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 17 Jul 2012 16:39:04 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 07/10/2012 08:58 AM, nitin.a.kamble@intel.com wrote:
-> From: Nitin A Kamble <nitin.a.kamble@intel.com>
+On 07/12/2012 11:13 AM, Andrei Gherzan wrote:
+> Koen suggested to add -T to xz commands. We have this option implemented in our current version .1alpha.
 >
-> These are same commits which I made for M1 branch, now rebased to the current master.
+> -T threads, --threads=threads
+>                Specify the number of worker threads to use.  Setting threads to
+>                a special value 0 makes xz use as many threads as there are  CPU
+>                cores  on  the system.  The actual number of threads can be less
+>                than threads if the input file is not big enough  for  threading
+>                with  the  given  settings or if using more threads would exceed
+>                the memory usage limit.
 >
-> Thanks,
-> Nitin
+> -------------------
 >
-> The following changes since commit 029e3cea52f86438a1d6868020b8888b5c93d623:
+> Memory: 7.8 GiB
+> Processor:: Intel® Core™ i5-2540M CPU @ 2.60GHz × 4
 >
->    bitbake: fetch2/wget: Use FETCHCMD_wget to provide the commandline and options (2012-07-10 14:25:38 +0100)
+> File to compress: 1.9G
+>
+> xz -f -k -e -9 --check=crc32 (current configuration)
+> Memory: 673Mb
+> real    6m37.170s
+> user    6m35.389s
+> sys     0m0.884s
+> Compressed file size: 3.4Mb
+>
+> xz -f -k -e -9 -T 4 --check=crc32
+> Memory: Cannot allocate memory
+>
+> xz -f -k -e -8 -T 4 --check=crc32
+> Memory: 1.8G
+> real    3m24.462s
+> user    12m8.502s
+> sys     0m2.180s
+> Compressed file size: 3.4Mb
+>
+> xz -f -k -T 4 --check=crc32 (-e defaults to -6)
+> Memory: 471Mb
+> real    1m9.265s
+> user    4m8.972s
+> sys     0m0.944s
+> Compressed file size: 3.4Mb
+>
+> So my conclusion would be to use the default -e -6 with -T 0.
+>
+> The following changes since commit 90ad663909c0c8a405b22a510c9f957007d02669:
+>
+>    upstream_tracking: update boost (2012-07-09 17:21:38 +0100)
 >
 > are available in the git repository at:
->    git://git.pokylinux.org/poky-contrib nitin/automake_update_on_master
->    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=nitin/automake_update_on_master
 >
-> Nitin A Kamble (19):
->    automake: upgrade from 1.11.3 to 1.12.1
->    jpeg: fix configure with automake 1.12.1
->    gnutls: Fix build with automake 1.12.1
->    pcmanfm: fix build with automake 1.12.x
->    avahi: fix build with automake 1.12.1
->    dates: fix build with automake 1.12.x
->    librsvg: fix build with automake 1.12.x
->    evolution-data-server: fix build with automake 1.12.x
->    tar: fix build with automake 1.12.x
->    libgcrypt: fix build with automake 1.12.x
->    telepathy-glib: fix build with automake 1.12.x
->    xf86-video-vmware: fix build with automake 1.12.x
->    libfm: fix build with automake 1.12.x
->    pango: fix dependencies to avoid build issue
->    libunistring: fix build with automake 1.12
->    telepathy-python: fix build with automake 1.12
->    libidn: fix build with automake 1.12
->    webgit-gtk: fix build with automake 1.12.1
->    gpgme: fix build with automake 1.12.x
+>    git://git.yoctoproject.org/poky-contrib ag/xz
+>    http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ag/xz
 >
->   meta/recipes-connectivity/avahi/avahi.inc          |    3 +-
->   .../avahi/files/fix_for_automake_1.12.x.patch      |   34 ++++++++
->   .../telepathy/telepathy-glib_0.19.2.bb             |    6 --
->   .../telepathy-python_fix_for_automake_1.12.patch   |   26 ++++++
->   .../telepathy/telepathy-python_0.15.19.bb          |    5 +-
->   .../jpeg/jpeg-8d/fix_for_automake_1.12.1.patch     |   44 ++++++++++
->   meta/recipes-core/jpeg/jpeg_8d.bb                  |    5 +-
->   .../automake/automake/path_prog_fixes.patch        |   40 ++--------
->   .../{automake_1.11.3.bb => automake_1.12.1.bb}     |    5 +-
->   ..._MKDIR_P_warning_error_with_automake_1.12.patch |   25 ++++++
->   meta/recipes-extended/libidn/libidn_1.25.bb        |    5 +-
->   meta/recipes-extended/tar/tar.inc                  |    2 -
->   meta/recipes-gnome/librsvg/librsvg_2.32.1.bb       |    8 +--
->   meta/recipes-graphics/pango/pango.inc              |    2 +-
->   .../xorg-driver/xf86-video-vmware_12.0.2.bb        |    5 -
->   .../avoid_automake_errors.patch                    |   83 ++++++++++++++++++++
->   .../fix_for_automake-1.12.x.patch                  |   28 +++++++
->   meta/recipes-sato/eds/evolution-data-server_git.bb |    4 +-
->   .../files/pcmanfm_fix_for_automake_1.12.patch      |   35 ++++++++
->   meta/recipes-sato/pcmanfm/pcmanfm_0.9.10.bb        |    5 +-
->   meta/recipes-sato/pimlico/dates_git.bb             |    6 +-
->   .../webgit-gtk_fix_build_with_automake_1.12.patch  |   62 +++++++++++++++
->   meta/recipes-sato/webkit/webkit-gtk_svn.bb         |    1 +
->   ..._MKDIR_P_warning_error_with_automake_1.12.patch |   51 ++++++++++++
->   .../gnutls/gnutls_fix_for_automake_1.12.1.patch    |   43 ++++++++++
->   meta/recipes-support/gnutls/gnutls_2.12.20.bb      |    4 +-
->   meta/recipes-support/gpgme/gpgme_1.3.2.bb          |    6 +-
->   meta/recipes-support/libfm/libfm_0.1.17.bb         |    5 -
->   meta/recipes-support/libgcrypt/libgcrypt.inc       |    3 -
->   .../libunistring_fix_for_automake_1.12.patch       |   81 +++++++++++++++++++
->   .../libunistring/libunistring_0.9.3.bb             |    5 +-
->   31 files changed, 549 insertions(+), 88 deletions(-)
->   create mode 100644 meta/recipes-connectivity/avahi/files/fix_for_automake_1.12.x.patch
->   create mode 100644 meta/recipes-connectivity/telepathy/telepathy-python-0.15.19/telepathy-python_fix_for_automake_1.12.patch
->   create mode 100644 meta/recipes-core/jpeg/jpeg-8d/fix_for_automake_1.12.1.patch
->   rename meta/recipes-devtools/automake/{automake_1.11.3.bb => automake_1.12.1.bb} (93%)
->   create mode 100644 meta/recipes-extended/libidn/libidn/avoid_AM_PROG_MKDIR_P_warning_error_with_automake_1.12.patch
->   create mode 100644 meta/recipes-sato/eds/evolution-data-server/avoid_automake_errors.patch
->   create mode 100644 meta/recipes-sato/eds/evolution-data-server/fix_for_automake-1.12.x.patch
->   create mode 100644 meta/recipes-sato/pcmanfm/files/pcmanfm_fix_for_automake_1.12.patch
->   create mode 100644 meta/recipes-sato/webkit/files/webgit-gtk_fix_build_with_automake_1.12.patch
->   create mode 100644 meta/recipes-support/gnutls/gnutls/avoid_AM_PROG_MKDIR_P_warning_error_with_automake_1.12.patch
->   create mode 100644 meta/recipes-support/gnutls/gnutls/gnutls_fix_for_automake_1.12.1.patch
->   create mode 100644 meta/recipes-support/libunistring/libunistring/libunistring_fix_for_automake_1.12.patch
+> Andrei Gherzan (3):
+>    image_types.bbclass: Fix COMPRESS_CMD for xz to redirect compressed
+>      data to file
+>    image_types.bbclass: Add XZ variable to set number of threads to be
+>      used while compressing
+>    image_types.bbclass: Default XZ_COMPRESSION_LEVEL to -e -6
+>
+>   meta/classes/image_types.bbclass |    5 +++--
+>   1 file changed, 3 insertions(+), 2 deletions(-)
 >
 
 Merged into OE-Core
 
 Thanks
 	Sau!
+
 
 
 
