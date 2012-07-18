@@ -1,33 +1,39 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1SrTJC-0002mH-9N for openembedded-core@lists.openembedded.org;
-	Wed, 18 Jul 2012 14:24:50 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6ICDUHV024599
+Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <ross.burton@intel.com>) id 1SrTLm-0002qB-1U
+	for openembedded-core@lists.openembedded.org;
+	Wed, 18 Jul 2012 14:27:31 +0200
+Received: from mail-qc0-f180.google.com ([209.85.216.180])
+	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 18 Jul 2012 05:15:54 -0700
+Received: by qcmv28 with SMTP id v28so797451qcm.25
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Jul 2012 13:13:30 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 24227-03 for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Jul 2012 13:13:27 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6ICDNKp024592
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Jul 2012 13:13:24 +0100
-Message-ID: <1342613606.30680.25.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Wed, 18 Jul 2012 13:13:26 +0100
-In-Reply-To: <20120718112359.GC29030@mi.fu-berlin.de>
+	Wed, 18 Jul 2012 05:15:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type:x-gm-message-state;
+	bh=acXEQ8sKMBYdbz5LpXI36Ez4CHv28J16OxTv5gSol8U=;
+	b=AE9x9g2cW6pJOCGyCqSJ8jvZD76vdANfVPooQT1Eij7Sfy2eOHVj/SU0ZU+aJY4yeu
+	4yVbUYAO5kDkDnQ0D+3QDJ+j7H7c2FcGxn3WAxYxIyq8baeIi1XViQVnU5xUqAE+XFWR
+	aftTbzLfLVT0U9tR5nFzQRbnKkkJImOT9TLTJWhot3PaTU9KCnOp6oC/V6GCIT0P6x8l
+	FZohyJ2k+4et+6vaBb6eRtlh/8Lv/1wchINPIY7lDtPb2ffACAv7OYXEJM7pz7j8+QGA
+	TmROMKkET/MhXAGRTIG4kPBEz478Uxi6oj2fq22abyAB6y3LXtXnEFOesdT5d1m1WBju
+	1o0g==
+Received: by 10.224.177.1 with SMTP id bg1mr5467906qab.68.1342613754077; Wed,
+	18 Jul 2012 05:15:54 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.229.82.74 with HTTP; Wed, 18 Jul 2012 05:15:33 -0700 (PDT)
+In-Reply-To: <CAJTo0LYn58DZcjxDnR_iLHd8pF+Km9+5ph8Y2s7vnpqE-+hTkg@mail.gmail.com>
 References: <CAJTo0LY9WbxAW35NS-C1M4_rpDDD6SCXcRPw7OtdoR5WkFZirA@mail.gmail.com>
 	<20120718112359.GC29030@mi.fu-berlin.de>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
+	<CAJTo0LYO9xT3sfBR_cQw6=76HqEaYaOzktG861_QXaVwsV5c0Q@mail.gmail.com>
+	<CAJTo0LYn58DZcjxDnR_iLHd8pF+Km9+5ph8Y2s7vnpqE-+hTkg@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 18 Jul 2012 13:15:33 +0100
+Message-ID: <CAJTo0LaXvBNHKmSjU8JgrjA-2SB3Uu1S6XnzXugbBxgVYGXvLw@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Gm-Message-State: ALoCoQmYkCDDWjQ7LpDa1aVmGBAwZsDGFbHWywmyklodnWKXCmM1+qeNXiex8chZKUzHJ2Dg05Qs
 Subject: Re: eglibc-initial trying to remove files in /usr
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -43,55 +49,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Jul 2012 12:24:50 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 18 Jul 2012 12:27:31 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Wed, 2012-07-18 at 13:23 +0200, Henning Heinold wrote:
-> On Wed, Jul 18, 2012 at 10:41:13AM +0100, Burton, Ross wrote:
-> > Hi,
-> > 
-> > My nightly run of master failed last night, but not in a way that the
-> > autobuilder is seeing...
-> > 
-> > ERROR: Function failed: do_install (see
-> > /data/nightly-build-Uju/build/tmp/work/i586-poky-linux/eglibc-initial-2.15-r12+svnr19294/temp/log.do_install.10450
-> > for further information)
-> > ERROR: Logfile of failure stored in:
-> > /data/nightly-build-Uju/build/tmp/work/i586-poky-linux/eglibc-initial-2.15-r12+svnr19294/temp/log.do_install.10450
-> > Log data follows:
-> > | DEBUG: SITE files ['endian-little', 'bit-32', 'ix86-common',
-> > 'common-linux', 'common-glibc', 'i586-linux', 'common']
-> > | DEBUG: Executing shell function do_install
-> > | NOTE: make PARALLELMFLAGS=-j 8 cross-compiling=yes
-> > install_root=/data/nightly-build-Uju/build/tmp/work/i586-poky-linux/eglibc-initial-2.15-r12+svnr19294/image
-> > includedir=/usr/include prefix=/usr install-bootstrap-headers=yes
-> > install-headers
-> > ...
-> > | make[1]: Entering directory
-> > `/data/nightly-build-Uju/build/tmp/work/i586-poky-linux/eglibc-initial-2.15-r12+svnr19294/eglibc-2_15/libc'
-> > | /usr/bin/install -c -m 644 include/limits.h /usr/include/limits.h
-> > | /usr/bin/install: cannot remove `/usr/include/limits.h': Permission denied
-> > | make[1]: *** [/usr/include/limits.h] Error 1
-> > | make[1]: Leaving directory
-> > `/data/nightly-build-Uju/build/tmp/work/i586-poky-linux/eglibc-initial-2.15-r12+svnr19294/eglibc-2_15/libc'
-> > | make: *** [install-headers] Error 2
-> > | ERROR: oe_runmake failed
-> > 
-> > Any ideas?
-> > 
-> > Ross
-> 
-> NOTE: make PARALLELMFLAGS=-j 8 cross-compiling=yes prefix=/usr
-> 
-> So it tries to install eglibc to the host dirs which is of course failing.
+On 18 July 2012 13:10, Burton, Ross <ross.burton@intel.com> wrote:
+> So I reverted to GNU Make 3.82 (debian experimental) to 3.81 (debian
+> unstable), and eglibc-initial builds.
 
-install_root is also set though so it shouldn't be installing to host
-dirs...
+*from* 3.82 *to* 3.81, whoops.
 
-Cheers,
-
-Richard
-
+Ross
 
 
