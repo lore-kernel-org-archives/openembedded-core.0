@@ -1,25 +1,31 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from astoria.ccjclearline.com ([64.235.106.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <amy.fong@windriver.com>) id 1SrYOb-0004f5-Nb
+	(envelope-from <rpjday@crashcourse.ca>) id 1SrYlW-0005Eb-Th
 	for openembedded-core@lists.openembedded.org;
-	Wed, 18 Jul 2012 19:50:46 +0200
-Received: from yow-afong-lx2.ottawa.windriver.com (yow-afong-lx2.wrs.com
-	[128.224.146.164])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q6IHdMI0022408
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Jul 2012 10:39:23 -0700 (PDT)
-Received: from afong by yow-afong-lx2.ottawa.windriver.com with local (Exim
-	4.80) (envelope-from <amy.fong@windriver.com>) id 1SrYDa-0005Jj-HK
-	for openembedded-core@lists.openembedded.org;
-	Wed, 18 Jul 2012 13:39:22 -0400
-Date: Wed, 18 Jul 2012 13:39:22 -0400
-From: Amy Fong <amy.fong@windriver.com>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20120718173922.GA20427@windriver.com>
+	Wed, 18 Jul 2012 20:14:27 +0200
+Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
+	([174.115.5.73]:42130 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.77) (envelope-from <rpjday@crashcourse.ca>)
+	id 1SrYaY-0007Yu-Gx for openembedded-core@lists.openembedded.org;
+	Wed, 18 Jul 2012 14:03:07 -0400
+Date: Wed, 18 Jul 2012 14:02:56 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@oneiric
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.DEB.2.02.1207181358290.23450@oneiric>
+User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
 MIME-Version: 1.0
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: [PATCH] nasm: nasm has a build dependency on groff-native
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Subject: any easy way to run kern-tools verbosely?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,35 +40,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Jul 2012 17:50:46 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Wed, 18 Jul 2012 18:14:27 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
-nasm has a build dependency on groff-native
-    
-In one incident, there was a case where nasm-native compile phase failed
-with the following:
-    
-      +troff: can't find `DESC' file
-      +troff: fatal error: sorry, I can't continue
-    
-During this, groff-native was in the sysroot install phase.
-To remedy this, adding groff-native in nasm's dependency list.
-    
-Signed-off-by: Amy Fong <amy.fong@windriver.com>
----
- nasm_2.07.bb |    2 ++
- 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-devtools/nasm/nasm_2.07.bb b/meta/recipes-devtools/nasm/nasm_2.07.bb
-index fc2d531..d3e3f5b 100644
---- a/meta/recipes-devtools/nasm/nasm_2.07.bb
-+++ b/meta/recipes-devtools/nasm/nasm_2.07.bb
-@@ -27,3 +27,5 @@ do_install() {
- }
- 
- BBCLASSEXTEND = "native"
-+
-+DEPENDS = "groff-native"
+  if there's a way to do this, i'm going to be so embarrassed.
+perusing kernel do_patch() routine, which eventually calls:
+
+        if [ -n "${KMETA}" ]; then
+                createme_flags="--disable-meta-gen"
+        fi
+        createme ${createme_flags} ${ARCH} ${kbranch}
+
+  but checking out "createme" in the sysroots/ directory shows:
+
+usage()
+{
+cat << EOF
+
+    createme [-v] [--disable-meta-gen] --meta=<branch name> <arch> <branch> [defconfig]
+
+      --disable-meta-gen: do not automatically create meta data
+                          if not already present in the source tree.
+      --meta: the branch name for meta data. default is 'meta'
+      -v: verbose processing
+      ... snip ...
+
+so "createme" accepts "-v" for verbose, but i see no trivially easy
+way to pass that option given the hardcoding of the call in
+do_patch().  are you just expected to manually edit createme to do
+that?
+
+rday
+
+-- 
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
