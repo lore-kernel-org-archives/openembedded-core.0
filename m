@@ -1,34 +1,39 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Srbvy-00022x-OU for openembedded-core@lists.openembedded.org;
-	Wed, 18 Jul 2012 23:37:26 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6ILQ6Yk029173
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Jul 2012 22:26:06 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 28111-05 for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Jul 2012 22:26:01 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6ILPuFX029166
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Jul 2012 22:25:57 +0100
-Message-ID: <1342646759.513.54.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
+Received: from mail-wi0-f171.google.com ([209.85.212.171])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <martin.jansa@gmail.com>)
+	id 1SrcD7-0002Cl-8K; Wed, 18 Jul 2012 23:55:09 +0200
+Received: by wibhq4 with SMTP id hq4so4587715wib.6
+	for <multiple recipients>; Wed, 18 Jul 2012 14:43:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=uiLBapECz82tXb7HTrC1V6Tkev6XxdnnE8WqCpwUjPI=;
+	b=oaR7HGTKe7PReFKh1iPQBqlRpyn0NsXmhADYo2XnudusH45PBaajZd3MDZMxB++Yus
+	aVmMbJc2dsZTq4V+9CifYvYyEIUhzMkShmS1cU6/nnnpbMdVeckyR5cmpMG0Q08ZbAAW
+	1JeWRp+SwHsaxvGuNKYs4y2tbogO9TVd+k+i0iJjPMlS4mAf5zKk4ISlLRx51dQeQMr7
+	whNrUCMrdvihe0Ey4zdc8qCx+Z2Kl2X+KjSWx0ROS+sYsinKodCDlTYqfH+8fJuayA6r
+	OToCoGY/izSvimvpx7CHjYd138b6o5kdR/pb+K1mgTslvl7IxrDgwWytiIyLof+XhWdq
+	iWWg==
+Received: by 10.180.78.35 with SMTP id y3mr9838738wiw.16.1342647828329;
+	Wed, 18 Jul 2012 14:43:48 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id cu1sm34757903wib.6.2012.07.18.14.43.46
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 18 Jul 2012 14:43:47 -0700 (PDT)
+Date: Wed, 18 Jul 2012 23:43:58 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-ID: <20120718214358.GT22569@jama.jama.net>
+References: <1342606005.30680.17.camel@ted>
+	<CAJTo0LbkkXkJH-mbxwqKK7KM1PWDdF4mD+K8omTF4SQ9_WDogQ@mail.gmail.com>
+	<1342611618.30680.24.camel@ted>
+MIME-Version: 1.0
+In-Reply-To: <1342611618.30680.24.camel@ted>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: bitbake-devel <bitbake-devel@lists.openembedded.org>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Wed, 18 Jul 2012 22:25:59 +0100
-In-Reply-To: <1342603039-6608-1-git-send-email-Martin.Jansa@gmail.com>
-References: <20120718010511.GH22569@jama.jama.net>
-	<1342603039-6608-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH] glib-2.0: revert one commit in target recipe
+Subject: Re: [bitbake-devel] PLEASE READ: Major change landing shortly (python whitespace)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,27 +48,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Jul 2012 21:37:27 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 18 Jul 2012 21:55:09 -0000
+X-Groupsio-MsgNum: 25676
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="7mIJwGTFTwAlEXlA"
+Content-Disposition: inline
 
-On Wed, 2012-07-18 at 11:17 +0200, Martin Jansa wrote:
-> * it was causing staged python to be used as shebang
-> 
-> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> ---
->  ...-the-same-Python-as-we-found-in-configure.patch |   39 ++++++++++++++++++++
->  meta/recipes-core/glib-2.0/glib-2.0_2.32.4.bb      |    5 ++-
->  2 files changed, 42 insertions(+), 2 deletions(-)
->  create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0001-Revert-Use-the-same-Python-as-we-found-in-configure.patch
+--7mIJwGTFTwAlEXlA
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I've applied a different patch using sed to address the problem. I've
-consolidated all the other code doing this and also fixed the nativesdk
-case which this version potentially doesn't.
+On Wed, Jul 18, 2012 at 12:40:18PM +0100, Richard Purdie wrote:
+> On Wed, 2012-07-18 at 11:17 +0100, Burton, Ross wrote:
+> > On 18 July 2012 11:06, Richard Purdie
+> > <richard.purdie@linuxfoundation.org> wrote:
+> > > I put a proposal to the TSC, that we have bitbake warn/error whenever=
+ it
+> > > finds tab characters in any python function. The advantage of this is
+> > > that we give the user a clear definitive error. The downside is that
+> > > we'll have to go through all the metadata and scrub it for the proble=
+m.
+> >=20
+> > Have you ran that warning over oe-core to check that there are not any
+> > legitimate uses of \t, not for indentation but inside strings?  I
+> > can't think of any realistic use but you never know (construct a
+> > Makefile in a python function?).
+>=20
+> The check is for actual tab characters, not "\t". There are some
+> legitimate users of tab characters which I've replaced with \t in
+> strings.
+>=20
+> My current patch work in progress for the conversion is:
+>=20
+> http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=3Drpurdie/t14=
+&id=3D49d3d01f3d61a0eb19b6852229fa8fc26712f653
+
+Would be great if someone updates
+
+bitbake/contrib/vim to highlight tabs, so that every tab would be easily
+spotted in recipe/bbclass.
+
+And maybe also meta-openembedded/contrib/oe-stylize.py, but that seems
+to expand tabs to spaces already.
 
 Cheers,
 
-Richard
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--7mIJwGTFTwAlEXlA
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
 
+iEYEARECAAYFAlAHLh4ACgkQN1Ujt2V2gBxPxwCeM5VAAoC8EVqEr4BFj2ia7CHo
+KPUAoKFgPY+MjKoO2pzTsV7KgzYBwCxl
+=SEzB
+-----END PGP SIGNATURE-----
+
+--7mIJwGTFTwAlEXlA--
