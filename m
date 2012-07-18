@@ -1,22 +1,33 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mail-pb0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1SrMRF-0006rA-Pi
-	for Openembedded-core@lists.openembedded.org;
-	Wed, 18 Jul 2012 07:04:41 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 17 Jul 2012 21:53:04 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="169685140"
-Received: from yocto-hm1.jf.intel.com ([10.23.232.32])
-	by azsmga001.ch.intel.com with ESMTP; 17 Jul 2012 21:53:04 -0700
-From: nitin.a.kamble@intel.com
-To: Openembedded-core@lists.openembedded.org
-Date: Mon, 16 Jul 2012 21:52:49 -0700
-Message-Id: <5b014eae151a1584df4e3d3b96d18f9df3e55665.1342500638.git.nitin.a.kamble@intel.com>
-X-Mailer: git-send-email 1.7.3.4
-In-Reply-To: <cover.1342500638.git.nitin.a.kamble@intel.com>
-References: <cover.1342500638.git.nitin.a.kamble@intel.com>
-Subject: [PATCH 1/1] fix my typos in patch headers
+	(envelope-from <raj.khem@gmail.com>) id 1SrO6h-0003L0-ER
+	for openembedded-core@lists.openembedded.org;
+	Wed, 18 Jul 2012 08:51:35 +0200
+Received: by pbbrq2 with SMTP id rq2so1867165pbb.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 17 Jul 2012 23:40:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=cjtJqyj2jwMY/azy7lP4CK2pxDz0BVQZL+2iyDEbPlY=;
+	b=PUKFBwrAPTPqI4jjjWIGXVjMbpEJoH72H+cBhW322d/+zDIuC31LoDC0/dttFlsBN1
+	3bfeD/0KtHERrshinhMax8ReK/yAP7HuzbzdLgUxfC1rXgVy7yKA4FYm6IZnPbkZdFBM
+	yPxPtgNaREZmWW3Z4Pg21Mm/VEop+HZylqu3NvF5Ot3iaPvkj7YBW/3b/gq3xIa+kHRr
+	kkW0EDSWFXmvFqEgoXPfil07/431GovCOnF3/AVMJO9cjabTxILYlLOfcpCCqTJucSJV
+	qEOArrBfdIBl3BLMVYjrgZv3dH9Sqrv5LI/8Pa5/XnMFgswx9bKH/5CKLFjKxDY1DXO3
+	vJZQ==
+Received: by 10.68.223.138 with SMTP id qu10mr4540746pbc.50.1342593614387;
+	Tue, 17 Jul 2012 23:40:14 -0700 (PDT)
+Received: from agate.agate.openembedded.org (oldbuilder.nslu2-linux.org.
+	[140.211.169.168])
+	by mx.google.com with ESMTPS id of4sm15585711pbb.51.2012.07.17.23.40.12
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 17 Jul 2012 23:40:13 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 17 Jul 2012 23:39:28 -0700
+Message-Id: <cover.1342593440.git.raj.khem@gmail.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH 0/2] more eglibc 2.16 fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,71 +42,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Jul 2012 05:04:42 -0000
+X-List-Received-Date: Wed, 18 Jul 2012 06:51:35 -0000
 
-From: Nitin A Kamble <nitin.a.kamble@intel.com>
+This patchset is a followup to eglibc update
+It cleans up the use of 'proto' in SRC_URI of
+svn recipes
 
-Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
----
- ..._MKDIR_P_warning_error_with_automake_1.12.patch |   10 +++++-----
- ..._MKDIR_P_warning_error_with_automake_1.12.patch |   10 +++++-----
- .../gnutls/gnutls_fix_for_automake_1.12.1.patch    |    2 +-
- 3 files changed, 11 insertions(+), 11 deletions(-)
+Fixes eglibc 2.16 build on ppc e500v1 and e500v2 cores
 
-diff --git a/meta/recipes-extended/libidn/libidn/avoid_AM_PROG_MKDIR_P_warning_error_with_automake_1.12.patch b/meta/recipes-extended/libidn/libidn/avoid_AM_PROG_MKDIR_P_warning_error_with_automake_1.12.patch
-index d3a9211..3476bb9 100644
---- a/meta/recipes-extended/libidn/libidn/avoid_AM_PROG_MKDIR_P_warning_error_with_automake_1.12.patch
-+++ b/meta/recipes-extended/libidn/libidn/avoid_AM_PROG_MKDIR_P_warning_error_with_automake_1.12.patch
-@@ -1,11 +1,11 @@
--Upsteam-Status: Inappropriate 
-+Upstream-Status: Inappropriate 
- 
--automake 1.12.x has depricated AM_PROG_MKDIR_P , and throws a warning for that,
--and the warnings are treated as errors becuase of the -Werror parameter.
-+automake 1.12.x has deprecated AM_PROG_MKDIR_P , and throws a warning for that,
-+and the warnings are treated as errors because of the -Werror parameter.
- 
- These AM_PROG_MKDIR_P are coming from gettext, and the latest gettext code has not 
--eliminated these depricated macros yet. So disable the treatment of warnings
--as errors until gettext is updeated to remove the depricated macros.
-+eliminated these deprecated macros yet. So disable the treatment of warnings
-+as errors until gettext is updated to remove the deprecated macros.
- 
- Signed-Off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
- 2012/07/10
-diff --git a/meta/recipes-support/gnutls/gnutls/avoid_AM_PROG_MKDIR_P_warning_error_with_automake_1.12.patch b/meta/recipes-support/gnutls/gnutls/avoid_AM_PROG_MKDIR_P_warning_error_with_automake_1.12.patch
-index dde683f..479596e 100644
---- a/meta/recipes-support/gnutls/gnutls/avoid_AM_PROG_MKDIR_P_warning_error_with_automake_1.12.patch
-+++ b/meta/recipes-support/gnutls/gnutls/avoid_AM_PROG_MKDIR_P_warning_error_with_automake_1.12.patch
-@@ -1,11 +1,11 @@
--Upsteam-Status: Inappropriate 
-+Upstream-Status: Inappropriate 
- 
--automake 1.12.x has depricated AM_PROG_MKDIR_P , and throws a warning for that,
--and the warnings are treated as errors becuase of the -Werror parameter.
-+automake 1.12.x has deprecated AM_PROG_MKDIR_P , and throws a warning for that,
-+and the warnings are treated as errors because of the -Werror parameter.
- 
- These AM_PROG_MKDIR_P are coming from gettext, and the latest gettext code has not 
--eliminated these depricated macros yet. So disable the treatment of warnings
--as errors until gettext is updeated to remove the depricated macros.
-+eliminated these deprecated macros yet. So disable the treatment of warnings
-+as errors until gettext is updated to remove the deprecated macros.
- 
- Signed-Off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
- 2012/07/09
-diff --git a/meta/recipes-support/gnutls/gnutls/gnutls_fix_for_automake_1.12.1.patch b/meta/recipes-support/gnutls/gnutls/gnutls_fix_for_automake_1.12.1.patch
-index 1625255..c742e6c 100644
---- a/meta/recipes-support/gnutls/gnutls/gnutls_fix_for_automake_1.12.1.patch
-+++ b/meta/recipes-support/gnutls/gnutls/gnutls_fix_for_automake_1.12.1.patch
-@@ -1,4 +1,4 @@
--Upsteam-Status: Pending
-+Upstream-Status: Pending
- 
- Avoids these kind of warnings:
- Warning: 'libgnutls.la': linking libtool libraries using a non-POSIX archiver requires 'AM_PROG_AR' in 'configure.ac'
+The following changes since commit 2bd0aaf98c5d586638d82f5f22c1c24122a889a3:
+
+  toolchain-scripts: Sync the SDK/ADT values to the build system (2012-07-17 18:02:10 +0100)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib kraj/eglibc-2.16
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=kraj/eglibc-2.16
+
+Khem Raj (2):
+  eglibc: Fix build for e500 cores
+  recipes: Change 'proto' to 'protocol' in SRC_URI
+
+ .../eglibc/cross-localedef-native_2.15.bb          |    2 +-
+ .../eglibc/cross-localedef-native_2.16.bb          |    2 +-
+ .../eglibc/eglibc-2.16/e500-math_private.patch     |   31 ++++++++++++++++++++
+ meta/recipes-core/eglibc/eglibc_2.16.bb            |    3 +-
+ meta/recipes-multimedia/tremor/tremor_20120314.bb  |    2 +-
+ 5 files changed, 36 insertions(+), 4 deletions(-)
+ create mode 100644 meta/recipes-core/eglibc/eglibc-2.16/e500-math_private.patch
+
 -- 
-1.7.3.4
+1.7.9.5
 
 
 
