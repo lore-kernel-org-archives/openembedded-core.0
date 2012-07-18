@@ -1,39 +1,38 @@
-Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
+Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1SrVAk-0005q0-OK
+	(envelope-from <ross.burton@intel.com>) id 1SrVBj-0005vH-KF
 	for openembedded-core@lists.openembedded.org;
-	Wed, 18 Jul 2012 16:24:14 +0200
-Received: from mail-we0-f180.google.com ([74.125.82.180])
-	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 18 Jul 2012 07:12:53 -0700
-Received: by weyt11 with SMTP id t11so901401wey.25
+	Wed, 18 Jul 2012 16:25:15 +0200
+Received: from mail-qc0-f180.google.com ([209.85.216.180])
+	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 18 Jul 2012 07:13:53 -0700
+Received: by qcmv28 with SMTP id v28so867184qcm.25
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Jul 2012 07:12:51 -0700 (PDT)
+	Wed, 18 Jul 2012 07:13:52 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
-	:x-gm-message-state;
-	bh=0Y35k/1HL2qW9GTyAsUXMpii/WMN0Sc4g4rCC6Kv5zo=;
-	b=KbwZ1t3cBq0kf937BeMEzIiDN+JUWewovjQBeN2ytrX4gaQDKX9wDHoCcb/Muk9D+e
-	uDIK7aMt+6lKOHjRqcUx4BpwLHbXiuGf8W4cswhDJIrbfTS9nIu0mhAkud0+q9x5Yn9n
-	Wv3l/rTK8gblos9wSSqEtCmPiODWCeKfyrOyJ7MjO+ejXAiUv2+UGouG/VuUkN2/w15s
-	cmb1tDd8TyzeluDmQg3tBu2+XRpfKkAUmeAj0GhXJB8tMk7RgEytgL9+VtJ9/PUy00Gc
-	Zwvt7gGKu964lbRhlD95TOlCy1ZFDF+KFGyETYdkO++gGKwKUmqEs2Reu+p/ZS8Jlxgv
-	kcNA==
-Received: by 10.216.123.135 with SMTP id v7mr742505weh.47.1342620770880;
-	Wed, 18 Jul 2012 07:12:50 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id y5sm32763984wiw.9.2012.07.18.07.12.49
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 18 Jul 2012 07:12:50 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 18 Jul 2012 15:12:30 +0100
-Message-Id: <1342620750-2552-2-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10
-In-Reply-To: <1342620750-2552-1-git-send-email-ross.burton@intel.com>
-References: <1342620750-2552-1-git-send-email-ross.burton@intel.com>
-X-Gm-Message-State: ALoCoQmK8b5hWrnvUZpGOuOx0vfv6cBbApwcbV+P4Ix9JmMrkuhWOsW50bbYl/+kJR5KIJNqRxqP
-Subject: [PATCH] sanity: display the parsed PATH/BBPATH when complaining about CWD elements
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type:x-gm-message-state;
+	bh=djJjLnkB1hC+NTb2geFdgZEue9e5LU7OCLn6IcK4rpw=;
+	b=b/Ksxx3Mu8fX0Q8zYchq0/Vih0vXUUMGhNv7LtE/EkvftfjFQ0GZW/wpHPtCS3ZWK0
+	VpMOiWWqs2hoa8u2qPwnTfA9vccvwv1J5yHF3Jztcmt2prSIdyW+Lat3oxMMfp8h4ZvS
+	BDDs2uZB7pFYBfETpvE+IVD1jXsec7KPEbuEjPRuVn9EBQnLkCEJBBoEWqO5IGhjIY3c
+	YR8IrW68VH41A3tvgKw+oaeybm0IcSZyViUs0gMgq06XkXdE3ETu8UlniwI/kw2LrAZo
+	ZChf43PIzecVehq/ahx7O7q4KfQ0jU8Vk18pUobym06+NUjz31QJgieDguITIxWWYIg5
+	vYfQ==
+Received: by 10.224.185.148 with SMTP id co20mr6352905qab.4.1342620832548;
+	Wed, 18 Jul 2012 07:13:52 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.229.82.74 with HTTP; Wed, 18 Jul 2012 07:13:32 -0700 (PDT)
+In-Reply-To: <20120718134507.GP22569@jama.jama.net>
+References: <1342618950-1081-1-git-send-email-ross.burton@intel.com>
+	<20120718134507.GP22569@jama.jama.net>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 18 Jul 2012 15:13:32 +0100
+Message-ID: <CAJTo0LaUN-DpRo2xKuUOM1ujLu6C-fc-6WZmxGyOjj4O8C2qsQ@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Gm-Message-State: ALoCoQndiloT/byHzh1FqkAFXSYZVh+3Jkp+qvCDtHdTpgiuHsPvRq637w0haDpguV1MBIYcNY94
+Subject: Re: [PATCH] sanity: display the parsed PATH when complaining about CWD elements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,40 +47,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Jul 2012 14:24:15 -0000
+X-List-Received-Date: Wed, 18 Jul 2012 14:25:15 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Many people don't understand the nuances of PATH/BBPATH, so help them by clarifying
-the warning and displaying the parsed list element-by-element.
+On 18 July 2012 14:45, Martin Jansa <martin.jansa@gmail.com> wrote:
+> Maybe the same should be added to BBPATH test bellow?
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/classes/sanity.bbclass |    4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+Yes, good point, I didn't notice that.  V2 sent.
 
-diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-index 765958e..52226f1 100644
---- a/meta/classes/sanity.bbclass
-+++ b/meta/classes/sanity.bbclass
-@@ -390,7 +390,8 @@ def check_sanity(sanity_data):
- 
-     paths = sanity_data.getVar('PATH', True).split(":")
-     if "." in paths or "" in paths:
--        messages = messages + "PATH contains '.' or '', which will break the build, please remove this."
-+        messages = messages + "PATH contains '.' or '' (empty element), which will break the build, please remove this.\n"
-+        messages = messages + "Parsed PATH is " + str(paths) + "\n"
- 
-     bbpaths = sanity_data.getVar('BBPATH', True).split(":")
-     if "." in bbpaths or "" in bbpaths:
-@@ -402,6 +403,7 @@ def check_sanity(sanity_data):
-                 "Please check your layer.conf files and other BBPATH "        \
-                 "settings to remove the current working directory "           \
-                 "references.");
-+        bb.warn("Parsed BBPATH is" + str(bbpaths));
- 
-     if sanity_data.getVar('TARGET_ARCH', True) == "arm":
-         # This path is no longer user-readable in modern (very recent) Linux
--- 
-1.7.10
-
+Ross
 
 
