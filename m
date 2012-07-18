@@ -1,31 +1,35 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1SrUDC-0003tl-As; Wed, 18 Jul 2012 15:22:42 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6IDBIkg025030;
-	Wed, 18 Jul 2012 14:11:18 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 23940-06; Wed, 18 Jul 2012 14:11:14 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6IDBAVv025023
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Wed, 18 Jul 2012 14:11:12 +0100
-Message-ID: <1342617074.30680.26.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Martin Jansa <martin.jansa@gmail.com>
-Date: Wed, 18 Jul 2012 14:11:14 +0100
-In-Reply-To: <20120718104012.GJ22569@jama.jama.net>
-References: <1342606005.30680.17.camel@ted>
-	<20120718104012.GJ22569@jama.jama.net>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: bitbake-devel <bitbake-devel@lists.openembedded.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [bitbake-devel] PLEASE READ: Major change landing shortly (python whitespace)
+Received: from mail-bk0-f47.google.com ([209.85.214.47])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <andrei@gherzan.ro>) id 1SrUEJ-0003x6-G3
+	for openembedded-core@lists.openembedded.org;
+	Wed, 18 Jul 2012 15:23:51 +0200
+Received: by bkcik5 with SMTP id ik5so1115574bkc.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 18 Jul 2012 06:12:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer:x-gm-message-state;
+	bh=G4qy3l+Cs/OvVQr5i5himchr0pdztfKoKLs0CVM2vWc=;
+	b=lwO2W/C6W43zPKzoV3TVrJeo4ppExu+hkkn9WX53IFrD2rUJYAFThEo/ZVE2mCQV/d
+	HyHYhbPZv67t//da+QCmrD7SzkAVJiB/ghrtK6q+Zaa9KBwOoWMkDtHIy7g9ykaxlqVH
+	pE0pjvnc6VVHjHTK91wCQo7fG4pDD2CjUsMGRH5uPd+rOVO2ZjYPOTby8i5F/zwf5+2G
+	d/BzobhGVyGIJ4Au5aRkw68rZ1Jio5MJDGLxkMPWaOfroH9aXEbPj+l/68Glm584n+wW
+	7KdKHWQ3lEJ3YfjHyqLrXmIUyj8inlpirlpsmrvHcU1MWk7cdlAaZtpqO59fiw9/99JQ
+	ydpQ==
+Received: by 10.205.123.8 with SMTP id gi8mr1518960bkc.92.1342617150769;
+	Wed, 18 Jul 2012 06:12:30 -0700 (PDT)
+Received: from otp-agherzan-l1.corp.ad.wrs.com ([89.121.200.106])
+	by mx.google.com with ESMTPS id g6sm11855333bkg.2.2012.07.18.06.12.27
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 18 Jul 2012 06:12:28 -0700 (PDT)
+From: Andrei Gherzan <andrei@gherzan.ro>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 18 Jul 2012 16:12:19 +0300
+Message-Id: <cover.1342616605.git.andrei@gherzan.ro>
+X-Mailer: git-send-email 1.7.9.5
+X-Gm-Message-State: ALoCoQkAhK0LodNZ0jGl/WEXVFvFpi0Ro8pyiQEqFvOzhgRMPMzi9n6uWvr++UD8pscZRWJek5RW
+Cc: Andrei Gherzan <andrei.gherzan@windriver.com>
+Subject: [PATCH V5 0/4] Modified the references to stat function in the patch's comments (only cover)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,58 +44,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Jul 2012 13:22:42 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 18 Jul 2012 13:23:51 -0000
 
-On Wed, 2012-07-18 at 12:40 +0200, Martin Jansa wrote:
-> On Wed, Jul 18, 2012 at 11:06:45AM +0100, Richard Purdie wrote:
-> > It's become clear we have a horrible mixture of whitespace (tabs and
-> > space) in python functions. At first glance this sounds trivial but
-> > there is a serious problem if pieces of code get mixed together with
-> > different whitespace since they may or may not work as intended.
-> > 
-> > The documented standard for python functions is four space indentation
-> > although we have a mixture. Fixing this sounds simple at first, we just
-> > go through and change tabs to spaces. The problem comes with _append and
-> > _prepend to python functions since both need their whitespace changed at
-> > the same time. populate_packages() is the real problem child in that
-> > regard but its the less common examples I worry about.
-> > 
-> > I did some research and we have inconsistencies, even in existing
-> > functions since people are editing files and getting confused
-> > (understandably).
-> > 
-> > So the question becomes, how do we get ourselves out of this mess?
-> > 
-> > I put a proposal to the TSC, that we have bitbake warn/error whenever it
-> > finds tab characters in any python function. The advantage of this is
-> > that we give the user a clear definitive error. The downside is that
-> > we'll have to go through all the metadata and scrub it for the problem.
-> > 
-> > The TSC agrees we should do something about this rather than perpetuate
-> > the problem and that this is as good a solution as any of us can come up
-> > with. We also agreed that we should do it sooner than later before it
-> > gets any later in this release cycle. Putting it off until the next
-> > release cycle didn't seem to offer any advantage, we might as well get
-> > on with it.
-> > 
-> > So I am going to:
-> > 
-> > a) Try and flush through as many pending patches as I can.
-> > b) Check in a warning into bitbake master and increase its version
-> > c) Require that version in OE-Core
-> 
-> Great.. this is usefull also for latest change from proto to protocol
-> param in fetcher, but please make sure that the svn.py patch I've sent
-> yesterday is also in before release..
+Changes from V4:
+Added SoB and Upstream-Status to patches.
+Modified the references to "stat" function in the patch's comments.
+Modified Ross's patch name in SRC_URI.
 
-I was aware of this issue too which was at the back of my mind when I
-proposed this. The svn patch is in now.
+Changes from V3: Messed up my patches. As well, added Ross Burton's patch:
+[OE-core] [PATCH 2/2] connman: fix crashes on startup on PPC/MIPS
 
-Cheers,
+Update connman to v1.3.
+Fix dependencies needed for tests.
+Add patches to fix runtime segfault on mips and ppc architecture.
 
-Richard
+Machine tested: qemux86 / qemumips
+
+Tests done on connman-gnome
+        OnlineMode / OfflineMode
+        Enable / Disable Wired Networks
+        Set manual IP configuration
+
+Tests on connman v.1.3
+        addr-test
+        iptables-test
+        polkit-test
+        get-global-timeservers
+        get-proxy-autoconfig
+        get-services
+        get-state
+        list-services
+        show-introspection
+        test-clock
+        test-connman
+        test-counter
+        test-manager
+        test-session
+
+The following changes since commit 90ad663909c0c8a405b22a510c9f957007d02669:
+
+  upstream_tracking: update boost (2012-07-09 17:21:38 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib ag/connman1.3
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ag/connman1.3
+
+Andrei Gherzan (3):
+  connman: Update to version 1.3
+  connman.inc: Add missing dependencies needed by some tests
+  connman: Add patches to fix connman on fs with no d_type support
+
+Ross Burton (1):
+  connman: fix crashes on startup on PPC/MIPS
+
+ meta/recipes-connectivity/connman/connman.inc      |    4 +-
+ ...ck-that-the-string-isn-t-empty-before-spl.patch |   37 ++++++++++++
+ ...If-there-is-no-d_type-support-use-fstatat.patch |   61 ++++++++++++++++++++
+ ...If-there-is-no-d_type-support-use-fstatat.patch |   49 ++++++++++++++++
+ .../connman/{connman_1.0.bb => connman_1.3.bb}     |   11 ++--
+ 5 files changed, 156 insertions(+), 6 deletions(-)
+ create mode 100644 meta/recipes-connectivity/connman/connman/0001-storage-check-that-the-string-isn-t-empty-before-spl.patch
+ create mode 100644 meta/recipes-connectivity/connman/connman/0001-timezone.c-If-there-is-no-d_type-support-use-fstatat.patch
+ create mode 100644 meta/recipes-connectivity/connman/connman/0002-storage.c-If-there-is-no-d_type-support-use-fstatat.patch
+ rename meta/recipes-connectivity/connman/{connman_1.0.bb => connman_1.3.bb} (40%)
+
+-- 
+1.7.9.5
 
 
 
