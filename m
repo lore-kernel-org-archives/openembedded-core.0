@@ -1,37 +1,38 @@
-Received: from mail-bk0-f47.google.com ([209.85.214.47])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1SrUji-0004tw-81
-	for openembedded-core@lists.openembedded.org;
-	Wed, 18 Jul 2012 15:56:18 +0200
-Received: by bkcik5 with SMTP id ik5so1150846bkc.6
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1SrUox-0005QK-1g for openembedded-core@lists.openembedded.org;
+	Wed, 18 Jul 2012 16:01:43 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6IDoMKB025409
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Jul 2012 06:44:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=vjYkUGNoCLuvRrTYyTVuwBM4Q9+fD9iPca1LcvlQfg0=;
-	b=i1dvu+wPouiTxUoNjykFlvmWC3UQOVtxpOazdoKZb3IIPNoO/vQKjkoU18Qyy1jAKH
-	/T28c3Ockrs/2eUZwMaONSLfs+X89lkj9vT0hu/HYxmoLhz8zfJTOS69329Ef0QRCcwl
-	OxniSrkLG2K/7hVsxN0nhnwz3jEetdVDJUtZA6s1UaK9WF/mORNI4Mp8ecS/KV1h2UPb
-	WZU8BzlrYDZ6DiuQqHqOIolL7BjH0WWz05QF/vgvDFkiyH61gighkt26jur6SAZfQYQK
-	Fsg5tYmnHpe4PUSXI/T+hKUN4N8Uz8IYkDMkFJajbcnNocbwpHBI1eblcz57AsK43G9W
-	TS8w==
-Received: by 10.204.151.81 with SMTP id b17mr1685495bkw.95.1342619097506;
-	Wed, 18 Jul 2012 06:44:57 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id t23sm11925410bks.4.2012.07.18.06.44.55
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 18 Jul 2012 06:44:56 -0700 (PDT)
-Date: Wed, 18 Jul 2012 15:45:07 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
+	Wed, 18 Jul 2012 14:50:22 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 24227-10 for <openembedded-core@lists.openembedded.org>;
+	Wed, 18 Jul 2012 14:50:19 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6IDoC6h025403
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 18 Jul 2012 14:50:14 +0100
+Message-ID: <1342619416.513.7.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Message-ID: <20120718134507.GP22569@jama.jama.net>
-References: <1342618950-1081-1-git-send-email-ross.burton@intel.com>
-MIME-Version: 1.0
-In-Reply-To: <1342618950-1081-1-git-send-email-ross.burton@intel.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: [PATCH] sanity: display the parsed PATH when complaining about CWD elements
+Date: Wed, 18 Jul 2012 14:50:16 +0100
+In-Reply-To: <CADkTA4NTBME99-JMBy1+22iwqV7nxpsB=CSsLNuT8wDKgQY-eA@mail.gmail.com>
+References: <1342011739-6416-1-git-send-email-bogdan.a.marinescu@intel.com>
+	<CAMKF1sq_D4nDSSOctRRht=_93yacfMNfnO9AENCg-aTGyPNreg@mail.gmail.com>
+	<CAMZjud0ZtRDiE-kpNw6mZz33BQEBJN3LzG5shHEzMn6wk5+sSA@mail.gmail.com>
+	<CADkTA4OkYB6ZsA81mz1YUrYeukVjrtSTph8b5mJ9jiomPibMKg@mail.gmail.com>
+	<CAMZjud1JPfU7pfd2C+gQEmEpY_8ePSvrsMiyUMOAH4SnMd-pqg@mail.gmail.com>
+	<CADkTA4NTBME99-JMBy1+22iwqV7nxpsB=CSsLNuT8wDKgQY-eA@mail.gmail.com>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH] linux-libc-headers: updated to 3.4.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,61 +47,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Jul 2012 13:56:18 -0000
-X-Groupsio-MsgNum: 25648
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="MXxcbiX/Q4+iy5U7"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 18 Jul 2012 14:01:43 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---MXxcbiX/Q4+iy5U7
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Wed, 2012-07-18 at 09:23 -0400, Bruce Ashfield wrote:
+> On Wed, Jul 18, 2012 at 9:17 AM, Marinescu, Bogdan A
+> <bogdan.a.marinescu@intel.com> wrote:
+> > On Wed, Jul 18, 2012 at 4:03 PM, Bruce Ashfield
+> > <bruce.ashfield@gmail.com> wrote:
+> >> On Wed, Jul 18, 2012 at 7:30 AM, Marinescu, Bogdan A
+> >> <bogdan.a.marinescu@intel.com> wrote:
+> >>> On Tue, Jul 17, 2012 at 7:54 PM, Khem Raj <raj.khem@gmail.com> wrote:
+> >>>> Why is recipe renamed
+> >>>
+> >>> Wasn't I supposed to do that when I upgraded the package from 3.4 to 3.4.3 ?
+> >>
+> >> No one replied to my other question (or at least no one replied that I
+> >> noticed), about
+> >> why we even bothered to bump it to 3.4.3 ...
+> >
+> > Quite simply, I'm the owner of the recipe and I'm supposed to upgrade
+> > it when a new version appears :)
+> 
+> I must have missed that .. because I'd disagree with both counts.
+> 
+>  - libc-headers does not need to be upgraded with every korg stable update
+>  - it is coupled to the kernel, and I've done it in the past, and had planned to
+>    leave it a 3.4.
 
-On Wed, Jul 18, 2012 at 02:42:30PM +0100, Ross Burton wrote:
-> Many people don't understand the nuances of PATH, so help them by clarify=
-ing
-> the warning and displaying the parsed PATH element-by-element.
->=20
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
->  meta/classes/sanity.bbclass |    3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->=20
-> diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-> index 765958e..5c69d54 100644
-> --- a/meta/classes/sanity.bbclass
-> +++ b/meta/classes/sanity.bbclass
-> @@ -390,7 +390,8 @@ def check_sanity(sanity_data):
-> =20
->      paths =3D sanity_data.getVar('PATH', True).split(":")
->      if "." in paths or "" in paths:
-> -        messages =3D messages + "PATH contains '.' or '', which will bre=
-ak the build, please remove this."
-> +        messages =3D messages + "PATH contains '.' or '' (empty element)=
-, which will break the build, please remove this.\n"
-> +        messages =3D messages + "Parsed PATH is " + str(paths) + "\n"
-> =20
->      bbpaths =3D sanity_data.getVar('BBPATH', True).split(":")
->      if "." in bbpaths or "" in bbpaths:
+Bogdan: This is probably one of the cases we shouldn't automatically
+update just based on the output of the version checking scripts. We
+should only change the point release version here if there is a change
+to the kernel headers that we need.
 
-Maybe the same should be added to BBPATH test bellow?
+As for the recipe owner, this one may be best owned by Bruce but I'm
+open minded on that.
+
 
 Cheers,
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+Richard
 
---MXxcbiX/Q4+iy5U7
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
 
-iEYEARECAAYFAlAGveMACgkQN1Ujt2V2gBz0iwCgh03Ycs6yNGpNmNEMxiVgws0Z
-jrMAn04SomKdm+OKLL8A8wHd+PY+Mwny
-=3vrv
------END PGP SIGNATURE-----
-
---MXxcbiX/Q4+iy5U7--
