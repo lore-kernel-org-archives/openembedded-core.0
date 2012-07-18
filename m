@@ -1,34 +1,34 @@
-Received: from mail.windriver.com ([147.11.1.11])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Morgan.Little@windriver.com>) id 1Srahc-0008EL-M8
-	for openembedded-core@lists.openembedded.org;
-	Wed, 18 Jul 2012 22:18:33 +0200
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb [147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q6IK7Au1011881
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Jul 2012 13:07:10 -0700 (PDT)
-Received: from ALA-MBA.corp.ad.wrs.com ([169.254.1.236]) by
-	ALA-HCB.corp.ad.wrs.com ([147.11.189.41]) with mapi id 14.01.0255.000;
-	Wed, 18 Jul 2012 13:07:10 -0700
-From: "Little, Morgan" <Morgan.Little@windriver.com>
-To: Patches and discussions about the oe-core layer
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1Srbqt-0001h0-1H for openembedded-core@lists.openembedded.org;
+	Wed, 18 Jul 2012 23:32:11 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6ILKn1X029128;
+	Wed, 18 Jul 2012 22:20:49 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 28111-04; Wed, 18 Jul 2012 22:20:45 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6ILKcHh029122
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Wed, 18 Jul 2012 22:20:40 +0100
+Message-ID: <1342646442.513.52.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Colin Walters <walters@verbum.org>
+Date: Wed, 18 Jul 2012 22:20:42 +0100
+In-Reply-To: <1342635512.5148.0.camel@lenny>
+References: <1342454838-31263-1-git-send-email-Martin.Jansa@gmail.com>
+	<5006049E.40509@linux.intel.com> <1342572457.2860.11.camel@lenny>
+	<1342635209.513.50.camel@ted> <1342635512.5148.0.camel@lenny>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: Martin Jansa <martin.jansa@gmail.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH 09/20] python-setuptools: Update for
-	python-native changes
-Thread-Index: AQHNYzAiqZZjwsJLWUuMJKlVQMd0cpcve1tO
-Date: Wed, 18 Jul 2012 20:07:09 +0000
-Message-ID: <FCBA1E696337B442ADB5A7C30428F0684E79AC@ALA-MBA.corp.ad.wrs.com>
-References: <1342187709-19368-1-git-send-email-morgan.little@windriver.com>
-	<1342187709-19368-10-git-send-email-morgan.little@windriver.com>,
-	<1342428637.5019.2.camel@ted>
-In-Reply-To: <1342428637.5019.2.camel@ted>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [128.224.140.224]
-MIME-Version: 1.0
-Subject: Re: [PATCH 09/20] python-setuptools: Update for python-native changes
+Subject: Re: [RFC 1/2] glib: upgrade to 2.32.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,67 +43,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Jul 2012 20:18:33 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 18 Jul 2012 21:32:11 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 12-07-16 04:50 AM, Richard Purdie wrote:=0A=
-> On Fri, 2012-07-13 at 09:54 -0400, Morgan Little wrote:=0A=
->> Add pythonnative to the inherits list=0A=
->>=0A=
->> Signed-off-by: Morgan Little <morgan.little@windriver.com>=0A=
->> ---=0A=
->>  .../python/python-setuptools_0.6c11.bb             |    4 ++--=0A=
->>  1 files changed, 2 insertions(+), 2 deletions(-)=0A=
->>=0A=
->> diff --git a/meta/recipes-devtools/python/python-setuptools_0.6c11.bb b/=
-meta/recipes-devtools/python/python-setuptools_0.6c11.bb=0A=
->> index a769714..dbbc4dc 100644=0A=
->> --- a/meta/recipes-devtools/python/python-setuptools_0.6c11.bb=0A=
->> +++ b/meta/recipes-devtools/python/python-setuptools_0.6c11.bb=0A=
->> @@ -5,7 +5,7 @@ LICENSE =3D "PSF"=0A=
->>  LIC_FILES_CHKSUM =3D "file://setup.py;beginline=3D23;endline=3D23;md5=
-=3D8a314270dd7a8dbca741775415f1716e"=0A=
->>  =0A=
->>  SRCNAME =3D "setuptools"=0A=
->> -PR =3D "ml4"=0A=
->> +PR =3D "ml3"=0A=
->>  DEPENDS +=3D "python"=0A=
->>  DEPENDS_virtclass-native +=3D "python-native"=0A=
->>  =0A=
->> @@ -14,7 +14,7 @@ SRC_URI =3D "\=0A=
->>  "=0A=
->>  S =3D "${WORKDIR}/${SRCNAME}-${PV}"=0A=
->>  =0A=
->> -inherit distutils=0A=
->> +inherit distutils pythonnative=0A=
->=0A=
-> Rather than do this with every user of distutils, would it make sense to=
-=0A=
-> inherit pythonnative in the distutils class? Is there a case we wouldn't=
-=0A=
-> want that inherit?=0A=
->=0A=
-> Cheers,=0A=
->=0A=
-> Richard=0A=
->=0A=
->=0A=
->=0A=
-> _______________________________________________=0A=
-> Openembedded-core mailing list=0A=
-> Openembedded-core@lists.openembedded.org=0A=
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core=0A=
-=0A=
-It does make sense. That was a small carry over from when I was going throu=
-gh and fixing issues as they came up.=0A=
-=0A=
-I've made some changes to distutils and distutils-base and found another re=
-cipe that needed to be changed so I'll send a V2 today as long as everythin=
-g builds without errors.=0A=
-=0A=
-//Morgan=0A=
-=0A=
+On Wed, 2012-07-18 at 14:18 -0400, Colin Walters wrote:
+> On Wed, 2012-07-18 at 19:13 +0100, Richard Purdie wrote:
+> 
+> > Generally we kind of cheat and encode "/usr/bin/env xxx" into
+> > native/nativesdk scripts and ${bindir}/env xxx into target scripts.
+> 
+> How is that accomplished?  Can you link me an example?
+
+Basically using sed. I didn't claim it was pretty, it does get out of
+various immediate problems. You can see the scope of the problem in:
+
+http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=ac7a0311825e20c544d17bfd8be63546ad36e665
+
+We're pretty sensitive to picking up that kind of issue.
+
+Cheers,
+
+Richard
+
 
 
