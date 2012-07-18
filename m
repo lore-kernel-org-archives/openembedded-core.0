@@ -1,36 +1,26 @@
-Received: from out3-smtp.messagingengine.com ([66.111.4.27])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <walters@verbum.org>) id 1SrIc0-0006Nx-9h
+	(envelope-from <sgw@linux.intel.com>) id 1SrIcQ-0006QD-LV
 	for openembedded-core@lists.openembedded.org;
-	Wed, 18 Jul 2012 02:59:32 +0200
-Received: from compute3.internal (compute3.nyi.mail.srv.osa [10.202.2.43])
-	by gateway1.nyi.mail.srv.osa (Postfix) with ESMTP id DF85620BB7;
-	Tue, 17 Jul 2012 20:48:13 -0400 (EDT)
-Received: from frontend1.nyi.mail.srv.osa ([10.202.2.160])
-	by compute3.internal (MEProxy); Tue, 17 Jul 2012 20:48:13 -0400
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
-	messagingengine.com; h=message-id:subject:from:to:cc:date
-	:in-reply-to:references:content-type:mime-version
-	:content-transfer-encoding; s=smtpout; bh=ysLv3A5FhjNATlkfVlYCcU
-	Vg6uo=; b=A6lC1EZP2V3NQ0Ptn1MPYy631FOI5zWBup5lyaZirzFdHPDbQlMHeZ
-	jhzNXHvkWAj5KzcIsunSQZaaXBvRob2J63cfXiDvz2SOrx/10dkOr6R9CIhqiraz
-	TcgPtsNBqDsN6n/GqQd0DVWgmIZeNXJ1unanmmT25RXcROTC0Fn7M=
-X-Sasl-enc: apyiUGekbTI4xIFjsfsdDCv7CqQ8FrBThEFLOoLaG4PM 1342572493
-Received: from [192.168.1.6] (unknown [50.138.225.153])
-	by mail.messagingengine.com (Postfix) with ESMTPA id 8C63A8E0152;
-	Tue, 17 Jul 2012 20:48:13 -0400 (EDT)
-Message-ID: <1342572457.2860.11.camel@lenny>
-From: Colin Walters <walters@verbum.org>
+	Wed, 18 Jul 2012 03:00:00 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 17 Jul 2012 17:48:19 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="123671771"
+Received: from unknown (HELO [10.255.12.178]) ([10.255.12.178])
+	by AZSMGA002.ch.intel.com with ESMTP; 17 Jul 2012 17:48:17 -0700
+Message-ID: <500607D1.1010009@linux.intel.com>
+Date: Tue, 17 Jul 2012 17:48:17 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:13.0) Gecko/20120615 Thunderbird/13.0.1
+MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Tue, 17 Jul 2012 20:47:37 -0400
-In-Reply-To: <5006049E.40509@linux.intel.com>
-References: <1342454838-31263-1-git-send-email-Martin.Jansa@gmail.com>
-	<5006049E.40509@linux.intel.com>
-X-Mailer: Evolution 3.4.3 (3.4.3-1.fc17) 
-Mime-Version: 1.0
-Cc: Martin Jansa <martin.jansa@gmail.com>
-Subject: Re: [RFC 1/2] glib: upgrade to 2.32.4
+References: <CACFtY++ekHacLd5VLvfEabKxkdTFxSzfa6oU+aRbS5br_PzDxA@mail.gmail.com>
+In-Reply-To: <CACFtY++ekHacLd5VLvfEabKxkdTFxSzfa6oU+aRbS5br_PzDxA@mail.gmail.com>
+Cc: Nathan West <nathan.west@okstate.edu>
+Subject: Re: [PATCH] point prelink.conf to ${IMAGE_ROOTFS}
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,33 +35,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Jul 2012 00:59:32 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 18 Jul 2012 01:00:00 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2012-07-17 at 17:34 -0700, Saul Wold wrote:
+On 07/17/2012 03:16 PM, Nathan West wrote:
+> Hopefully I do this right. First time patching (ever! this is exciting :-) )
+>
+Welcome to the wonderful world of patching!
 
-> It seems to be getting the native sysroot python instead of the more 
-> correct "#! /usr/bin/env python", this is causing a dependency failure.
-> 
-> If you could look at this please.
+> The --root option doesn't work and isn't documented anywhere I could
+> find, and without the ${IMAGE_ROOTFS} before the config file it was
+> point to my native /etc/prelink.conf (which doesn't exist and probably
+> would be useful if it did)
+>
+Which prelink are you using, it's possible you did not look at the 
+correct one.
 
-I ran into this a while ago with flex/bison:
+There should be a tmp/sysroot/x86_64-linux/usr/sbin/prelink (if you are 
+building on a 64bit machine, otherwise i586-linux), that's the prelink 
+binary and a --help to that will show the --root option.
 
-https://lists.yoctoproject.org/pipermail/poky/2012-January/007403.html
+It should not be using your host's /etc/prelink.conf, but the sysroot 
+version.
 
-Apparently the "correct" fix is to set an environment variable like e.g.
-PYTHON="/usr/bin/env python" ./configure --prefix=foo ?
+The --root option should take care of it as it's described as follows:
 
-That seems fairly gross though.  Some more generic solution would be
-nice...I don't have any great ideas offhand though.  I wonder if there's
-any actual use case for hardcoding the paths found at build time into
-the generated binaries.
+      --root=ROOT_PATH       Prefix all paths with ROOT_PATH
 
-See also:
-https://bugzilla.gnome.org/show_bug.cgi?id=650763
-https://bugzilla.gnome.org/show_bug.cgi?id=670718
+So, the next question is what's going on to cause it to use your host's 
+prelinker instead of the native version that should be build as part of 
+the native tools?
 
+
+> Be gentle if I screwed up!
+No worries.
+> -Nathan
+>
+
+Hope that was not too painful, let see how we can help you accomplish 
+what you are trying to do.
+
+Sau!
+
+
+>
+>
+> ---
+>   meta/classes/image-prelink.bbclass |    2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/classes/image-prelink.bbclass
+> b/meta/classes/image-prelink.bbclass
+> index 53ef47e..2d62f03 100644
+> --- a/meta/classes/image-prelink.bbclass
+> +++ b/meta/classes/image-prelink.bbclass
+> @@ -21,7 +21,7 @@ prelink_image () {
+> fi
+> # prelink!
+> -${STAGING_DIR_NATIVE}${sbindir_native}/prelink --root ${IMAGE_ROOTFS}
+> -amR -N -c ${sysconfdir}/prelink.conf
+> +${STAGING_DIR_NATIVE}${sbindir_native}/prelink ${IMAGE_ROOTFS} -amR -N
+> -c ${IMAGE_ROOTFS}${sysconfdir}/prelink.conf
+> # Remove the prelink.conf if we had to add it.
+> if [ "$dummy_prelink_conf" = "true" ]; then
+> --
+> 1.7.9.5
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
 
 
