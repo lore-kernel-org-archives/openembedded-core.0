@@ -1,24 +1,24 @@
 Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SrP5M-0004Vi-Si
+	(envelope-from <sgw@linux.intel.com>) id 1SrP5N-0004Vi-L4
 	for openembedded-core@lists.openembedded.org;
 	Wed, 18 Jul 2012 09:54:17 +0200
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
 	by azsmga102.ch.intel.com with ESMTP; 18 Jul 2012 00:42:58 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="169736795"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="169736800"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.178])
 	by azsmga001.ch.intel.com with ESMTP; 18 Jul 2012 00:42:57 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 18 Jul 2012 00:42:35 -0700
-Message-Id: <cd9a97c063a6c58b022d95ca9de8bcce784f1d3a.1342597081.git.sgw@linux.intel.com>
+Date: Wed, 18 Jul 2012 00:42:36 -0700
+Message-Id: <9ac6da9d0e0b9f7678752ff7b9c91e39c140b4e7.1342597081.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <fee3def2ca49e3349758d9cd9a9cf5645f03cf18.1342597081.git.sgw@linux.intel.com>
 References: <fee3def2ca49e3349758d9cd9a9cf5645f03cf18.1342597081.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1342597081.git.sgw@linux.intel.com>
 References: <cover.1342597081.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 06/18] web-webkit: don't link using g++, it's not needed anymore
+Subject: [CONSOLIDATED PULL 07/18] tune-ppc476.inc: Support ppc476
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,85 +33,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Jul 2012 07:54:17 -0000
+X-List-Received-Date: Wed, 18 Jul 2012 07:54:18 -0000
 
-From: Ross Burton <ross.burton@intel.com>
+From: Peter Seebach <peter.seebach@windriver.com>
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+A couple of boards use chips which perform noticably better
+when optimized for the 476. Add a trivial tune file to let
+them run better.
+
+Signed-off-by: Peter Seebach <peter.seebach@windriver.com>
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- .../web/web-webkit/link-with-g++.patch             |   35 --------------------
- meta/recipes-sato/web/web-webkit_git.bb            |    9 +----
- 2 files changed, 2 insertions(+), 42 deletions(-)
- delete mode 100644 meta/recipes-sato/web/web-webkit/link-with-g++.patch
+ meta/conf/machine/include/tune-ppc476.inc |   14 ++++++++++++++
+ 1 files changed, 14 insertions(+), 0 deletions(-)
+ create mode 100644 meta/conf/machine/include/tune-ppc476.inc
 
-diff --git a/meta/recipes-sato/web/web-webkit/link-with-g++.patch b/meta/recipes-sato/web/web-webkit/link-with-g++.patch
-deleted file mode 100644
-index e0c6784..0000000
---- a/meta/recipes-sato/web/web-webkit/link-with-g++.patch
-+++ /dev/null
-@@ -1,35 +0,0 @@
--The main webkit library links against stdc++ so we need to use g++ for 
--linking. The easiest way to achieve this is to add a dummy cpp file.
--This also means we have to add AC_PROG_CXX else libtool 2.2.2 gets upset.
--
--RP - 14/4/08 
--
--Upstream-Status: Inappropriate [configuration]
--
----- webkit.orig/src/Makefile.am
--+++ webkit/src/Makefile.am
--@@ -1,11 +1,11 @@
-- AM_CPPFLAGS=-DPKGDATADIR=\"$(pkgdatadir)\"
-- AM_CFLAGS = -Wall -export-dynamic $(WEB_CFLAGS)
-- 
-- bin_PROGRAMS = web2
-- 
---web2_SOURCES = web2.h web2-main.c web2-utils.c web2-utils.h
--+web2_SOURCES = web2.h web2-main.c web2-utils.c web2-utils.h dummy.cpp
-- web2_LDADD   = $(WEB_LIBS)
-- 
-- MAINTAINERCLEANFILES = config.h.in Makefile.in
-- 
-- uidir = $(pkgdatadir)
--Index: webkit/configure.ac
--===================================================================
----- webkit.orig/configure.ac	2008-04-14 22:15:25.000000000 +0100
--+++ webkit/configure.ac	2008-04-14 22:16:31.000000000 +0100
--@@ -7,6 +7,7 @@
-- 
-- AC_ISC_POSIX
-- AC_PROG_CC
--+AC_PROG_CXX
-- AC_STDC_HEADERS
-- AC_PROG_LIBTOOL
-- 
-diff --git a/meta/recipes-sato/web/web-webkit_git.bb b/meta/recipes-sato/web/web-webkit_git.bb
-index dae7faf..0c79324 100644
---- a/meta/recipes-sato/web/web-webkit_git.bb
-+++ b/meta/recipes-sato/web/web-webkit_git.bb
-@@ -13,10 +13,9 @@ RRECOMMENDS_${PN} += "glib-networking"
- 
- SRCREV = "b0676c190f876cbdb1df202fbcec42f212374503"
- PV = "0.1+git${SRCPV}"
--PR = "r1"
-+PR = "r2"
- 
--SRC_URI = "git://git.yoctoproject.org/${BPN};protocol=git \
--           file://link-with-g++.patch"
-+SRC_URI = "git://git.yoctoproject.org/${BPN};protocol=git"
- 
- S = "${WORKDIR}/git"
- 
-@@ -24,8 +23,4 @@ EXTRA_OECONF = "--enable-libowl"
- 
- inherit autotools pkgconfig
- 
--do_configure_prepend() {
--    touch ${S}/src/dummy.cpp
--}
--
- FILES_${PN} += "${datadir}/web2"
+diff --git a/meta/conf/machine/include/tune-ppc476.inc b/meta/conf/machine/include/tune-ppc476.inc
+new file mode 100644
+index 0000000..5d10261
+--- /dev/null
++++ b/meta/conf/machine/include/tune-ppc476.inc
+@@ -0,0 +1,14 @@
++DEFAULTTUNE ?= "ppc476"
++
++require conf/machine/include/powerpc/arch-powerpc.inc
++
++TUNEVALID[ppc476] = "Enable ppc476 specific processor optimizations"
++TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "ppc476", "-mcpu=476", "", d)}"
++
++AVAILTUNES += "ppc476"
++TUNE_FEATURES_tune-ppc476 = "m32 fpu-hard ppc476"
++TUNE_PKGARCH_tune-ppc476 = "ppc476"
++PACKAGE_EXTRA_ARCHS_tune-ppc476 = "${PACKAGE_EXTRA_ARCHS_tune-powerpc} ppc476"
++
++# glibc configure options to get 476 specific library (for sqrt)
++GLIBC_EXTRA_OECONF += "${@bb.utils.contains("TUNE_FEATURES", "ppc476", "-with-cpu=476", "", d)}"
 -- 
 1.7.7.6
 
