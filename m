@@ -1,24 +1,24 @@
 Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SrP5Q-0004Vi-SB
+	(envelope-from <sgw@linux.intel.com>) id 1SrP5R-0004Vz-Dj
 	for openembedded-core@lists.openembedded.org;
 	Wed, 18 Jul 2012 09:54:21 +0200
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 18 Jul 2012 00:42:59 -0700
+	by azsmga102.ch.intel.com with ESMTP; 18 Jul 2012 00:43:00 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="169736807"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="169736812"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.178])
-	by azsmga001.ch.intel.com with ESMTP; 18 Jul 2012 00:42:59 -0700
+	by azsmga001.ch.intel.com with ESMTP; 18 Jul 2012 00:43:00 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 18 Jul 2012 00:42:40 -0700
-Message-Id: <b87625a4ca37b539f7f33e26b12318538e38321e.1342597081.git.sgw@linux.intel.com>
+Date: Wed, 18 Jul 2012 00:42:42 -0700
+Message-Id: <ee4a44d60de9535a6aca59a6177494fb1717cb40.1342597081.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <fee3def2ca49e3349758d9cd9a9cf5645f03cf18.1342597081.git.sgw@linux.intel.com>
 References: <fee3def2ca49e3349758d9cd9a9cf5645f03cf18.1342597081.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1342597081.git.sgw@linux.intel.com>
 References: <cover.1342597081.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 11/18] recipes: svn SRC_URI s/proto=/protocol=/g
+Subject: [CONSOLIDATED PULL 13/18] webkit-gtk: remove no-parallel bodge
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,55 +35,38 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 18 Jul 2012 07:54:23 -0000
 
-From: Martin Jansa <martin.jansa@gmail.com>
+From: Ross Burton <ross.burton@intel.com>
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+This workaround was originally for GNU Make 3.82 which upstream was blaming
+for a parallel build failure.  Since then I've changed numerous variables
+and now parallel builds are working with 3.82 (and succeed in 20 minutes
+instead of 2 hours).
+
+Revert the change until we've more data about what causes the breakage, then
+we can bring it back with more finesse.
+
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- .../eglibc/cross-localedef-native_2.15.bb          |    2 +-
- .../eglibc/cross-localedef-native_2.16.bb          |    2 +-
- meta/recipes-multimedia/tremor/tremor_20120314.bb  |    2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ meta/recipes-sato/webkit/webkit-gtk_1.8.1.bb |    5 -----
+ 1 files changed, 0 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-core/eglibc/cross-localedef-native_2.15.bb b/meta/recipes-core/eglibc/cross-localedef-native_2.15.bb
-index 6f311fc..493eb61 100644
---- a/meta/recipes-core/eglibc/cross-localedef-native_2.15.bb
-+++ b/meta/recipes-core/eglibc/cross-localedef-native_2.15.bb
-@@ -16,7 +16,7 @@ inherit autotools
- PR = "r0"
- SRCREV="15225"
- EGLIBC_BRANCH="eglibc-2_14"
--SRC_URI = "svn://www.eglibc.org/svn/branches/;module=${EGLIBC_BRANCH};proto=http "
-+SRC_URI = "svn://www.eglibc.org/svn/branches/;module=${EGLIBC_BRANCH};protocol=http "
- S = "${WORKDIR}/${EGLIBC_BRANCH}/localedef"
+diff --git a/meta/recipes-sato/webkit/webkit-gtk_1.8.1.bb b/meta/recipes-sato/webkit/webkit-gtk_1.8.1.bb
+index b2bfd24..3cef0e4 100644
+--- a/meta/recipes-sato/webkit/webkit-gtk_1.8.1.bb
++++ b/meta/recipes-sato/webkit/webkit-gtk_1.8.1.bb
+@@ -29,11 +29,6 @@ inherit autotools lib_package pkgconfig
  
- do_unpack_append() {
-diff --git a/meta/recipes-core/eglibc/cross-localedef-native_2.16.bb b/meta/recipes-core/eglibc/cross-localedef-native_2.16.bb
-index 88c701e..0f870be 100644
---- a/meta/recipes-core/eglibc/cross-localedef-native_2.16.bb
-+++ b/meta/recipes-core/eglibc/cross-localedef-native_2.16.bb
-@@ -16,7 +16,7 @@ inherit autotools
- PR = "r0"
- SRCREV="19383"
- EGLIBC_BRANCH="eglibc-2_16"
--SRC_URI = "svn://www.eglibc.org/svn/branches/;module=${EGLIBC_BRANCH};proto=http "
-+SRC_URI = "svn://www.eglibc.org/svn/branches/;module=${EGLIBC_BRANCH};protocol=http "
- S = "${WORKDIR}/${EGLIBC_BRANCH}/localedef"
+ S = "${WORKDIR}/webkit-${PV}/"
  
- do_unpack_append() {
-diff --git a/meta/recipes-multimedia/tremor/tremor_20120314.bb b/meta/recipes-multimedia/tremor/tremor_20120314.bb
-index 19d03d6..cf51983 100644
---- a/meta/recipes-multimedia/tremor/tremor_20120314.bb
-+++ b/meta/recipes-multimedia/tremor/tremor_20120314.bb
-@@ -8,7 +8,7 @@ DEPENDS = "libogg"
- SRCDATE = "${PV}"
- PR = "r0"
- 
--SRC_URI = "svn://svn.xiph.org/trunk;module=Tremor;rev=18221;proto=http"
-+SRC_URI = "svn://svn.xiph.org/trunk;module=Tremor;rev=18221;protocol=http"
- 
- S = "${WORKDIR}/Tremor"
- 
+-# GNU Make 3.82 has a bug where it incorrectly prunes intermediate targets in
+-# parallel builds.  See https://bugs.webkit.org/show_bug.cgi?id=79498 for the
+-# WebKitGTK bug, and savannah.gnu.org/bugs/?30653 for the upstream bug.
+-PARALLEL_MAKE = ""
+-
+ EXTRA_OECONF = "\
+                 --enable-debug=no \
+                 --enable-svg \
 -- 
 1.7.7.6
 
