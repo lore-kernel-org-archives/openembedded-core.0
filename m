@@ -1,26 +1,34 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mail-bk0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SrPEt-0005j7-6z
+	(envelope-from <martin.jansa@gmail.com>) id 1SrQYa-0006Gh-EL
 	for openembedded-core@lists.openembedded.org;
-	Wed, 18 Jul 2012 10:04:07 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 18 Jul 2012 00:52:46 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="194322309"
-Received: from unknown (HELO [10.255.12.178]) ([10.255.12.178])
-	by fmsmga002.fm.intel.com with ESMTP; 18 Jul 2012 00:52:45 -0700
-Message-ID: <50066B4D.2000002@linux.intel.com>
-Date: Wed, 18 Jul 2012 00:52:45 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:13.0) Gecko/20120615 Thunderbird/13.0.1
-MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1341953258.git.mark.hatle@windriver.com>
-	<a5c0682f85ac03ea09346d504843d362ab153911.1341953258.git.mark.hatle@windriver.com>
-In-Reply-To: <a5c0682f85ac03ea09346d504843d362ab153911.1341953258.git.mark.hatle@windriver.com>
-Subject: Re: RFC: [PATCH 1/1] toolchain-scripts: Sync the SDK/ADT values to the build system
+	Wed, 18 Jul 2012 11:28:32 +0200
+Received: by bkcik5 with SMTP id ik5so961249bkc.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 18 Jul 2012 02:17:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
+	bh=vNzx6lI14ba9R51JDNdOW1y+jnaS0Xg4a9rdh41AoTY=;
+	b=uVJjL8YQEqwdoA0eZ/5pibOJh5GSlbgyLcNtlWJHa2WLeWTb8ELO4LUr2MSVc4LCi0
+	jljMbvqQ4klxnPBe/VOnPiN5Qyt9iAHpzjkvuZnsk4vhG5z1Cgp4VZrbFOsN7UbUPsF+
+	Q11RcG9FEhQqjSVpWHukX2VQsloBYjEmLvC7XgyRLufZQXsEVEYOFmxJ5y1btkkBWwQQ
+	+0jOJI0mERAl7Mp2jOpwb2vQHA1A/im3eNGFfxGGpNl6sRUx9dFAjJwCJnxBTgNfoB0r
+	7My2nMHlcsl9+horpcrGlwm+LHrdJEeV8KazYZ6iMY9Ce+zOs8isdK9u0rU9/JQcBkSN
+	pKhg==
+Received: by 10.205.118.14 with SMTP id fo14mr945570bkc.130.1342603032049;
+	Wed, 18 Jul 2012 02:17:12 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id n5sm6661024bkv.14.2012.07.18.02.17.10
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 18 Jul 2012 02:17:11 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 18 Jul 2012 11:17:19 +0200
+Message-Id: <1342603039-6608-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.7.8.6
+In-Reply-To: <20120718010511.GH22569@jama.jama.net>
+References: <20120718010511.GH22569@jama.jama.net>
+Subject: [PATCH] glib-2.0: revert one commit in target recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,140 +43,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Jul 2012 08:04:07 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 18 Jul 2012 09:28:32 -0000
 
-On 07/10/2012 01:54 PM, Mark Hatle wrote:
-> The build system passes specific TUNE (fundamental) flag values to various
-> tools instead of using a shell wrapper or similar.  It is important that the
-> build system and ADT/SDK match the behaviors exactly, or we are likely to
-> have differences in the way build-system and external components are built
-> leading to configuration, compilation and/or run-time problems.
->
-> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
-> ---
->   meta/classes/toolchain-scripts.bbclass |   63 +++++++++++++++++++++++---------
->   1 files changed, 45 insertions(+), 18 deletions(-)
->
-> diff --git a/meta/classes/toolchain-scripts.bbclass b/meta/classes/toolchain-scripts.bbclass
-> index bedcd61..bf37ec9 100644
-> --- a/meta/classes/toolchain-scripts.bbclass
-> +++ b/meta/classes/toolchain-scripts.bbclass
-> @@ -14,9 +14,18 @@ toolchain_create_sdk_env_script () {
->   	echo 'export PKG_CONFIG_SYSROOT_DIR=${SDKTARGETSYSROOT}' >> $script
->   	echo 'export PKG_CONFIG_PATH=${SDKTARGETSYSROOT}${libdir}/pkgconfig' >> $script
->   	echo 'export CONFIG_SITE=${SDKPATH}/site-config-${REAL_MULTIMACH_TARGET_SYS}' >> $script
-> -	echo 'export CC=${TARGET_PREFIX}gcc' >> $script
-> -	echo 'export CXX=${TARGET_PREFIX}g++' >> $script
-> +	echo 'export CC="${TARGET_PREFIX}gcc ${TARGET_CC_ARCH} --sysroot=${SDKTARGETSYSROOT}"' >> $script
-> +	echo 'export CXX="${TARGET_PREFIX}g++ ${TARGET_CC_ARCH} --sysroot=${SDKTARGETSYSROOT}"' >> $script
-> +	echo 'export CPP="${TARGET_PREFIX}gcc -E ${TARGET_CC_ARCH} --sysroot=${SDKTARGETSYSROOT}"' >> $script
-> +	echo 'export AS="${TARGET_PREFIX}as ${TARGET_AS_ARCH}"' >> $script
-> +	echo 'export LD="${TARGET_PREFIX}ld ${TARGET_LD_ARCH} --sysroot=${SDKTARGETSYSROOT}"' >> $script
->   	echo 'export GDB=${TARGET_PREFIX}gdb' >> $script
-> +	echo 'export STRIP=${TARGET_PREFIX}strip' >> $script
-> +	echo 'export RANLIB=${TARGET_PREFIX}ranlib' >> $script
-> +	echo 'export OBJCOPY=${TARGET_PREFIX}objcopy' >> $script
-> +	echo 'export OBJDUMP=${TARGET_PREFIX}objdump' >> $script
-> +	echo 'export AR=${TARGET_PREFIX}-ar' >> $script
-> +	echo 'export NM=${TARGET_PREFIX}-nm' >> $script
->   	echo 'export TARGET_PREFIX=${TARGET_PREFIX}' >> $script
->   	echo 'export CONFIGURE_FLAGS="--target=${TARGET_SYS} --host=${TARGET_SYS} --build=${SDK_ARCH}-linux --with-libtool-sysroot=${SDKTARGETSYSROOT}"' >> $script
->   	if [ "${TARGET_OS}" = "darwin8" ]; then
-> @@ -26,10 +35,10 @@ toolchain_create_sdk_env_script () {
->   		cd ${SDK_OUTPUT}${SDKTARGETSYSROOT}/usr
->   		ln -s /usr/local local
->   	fi
-> -	echo 'export CFLAGS="${TARGET_CC_ARCH} --sysroot=${SDKTARGETSYSROOT}"' >> $script
-> -	echo 'export CXXFLAGS="${TARGET_CC_ARCH} --sysroot=${SDKTARGETSYSROOT}"' >> $script
-> -	echo 'export LDFLAGS="${TARGET_LD_ARCH} --sysroot=${SDKTARGETSYSROOT}"' >> $script
-> -	echo 'export CPPFLAGS="${TARGET_CC_ARCH} --sysroot=${SDKTARGETSYSROOT}"' >> $script
-> +	echo 'export CFLAGS="${TARGET_CFLAGS}"' >> $script
-> +	echo 'export CXXFLAGS="${TARGET_CXXFLAGS}"' >> $script
-> +	echo 'export LDFLAGS="${TARGET_LDFLAGS}"' >> $script
-> +	echo 'export CPPFLAGS="${TARGET_CPPFLAGS}"' >> $script
->   	echo 'export OECORE_NATIVE_SYSROOT="${SDKPATHNATIVE}"' >> $script
->   	echo 'export OECORE_TARGET_SYSROOT="${SDKTARGETSYSROOT}"' >> $script
->   	echo 'export OECORE_ACLOCAL_OPTS="-I ${SDKPATHNATIVE}/usr/share/aclocal"' >> $script
-> @@ -49,9 +58,18 @@ toolchain_create_tree_env_script () {
->
->   	echo 'export CONFIG_SITE="${@siteinfo_get_files(d)}"' >> $script
->
-> -	echo 'export CC=${TARGET_PREFIX}gcc' >> $script
-> -	echo 'export CXX=${TARGET_PREFIX}g++' >> $script
-> +	echo 'export CC="${TARGET_PREFIX}gcc ${TARGET_CC_ARCH} --sysroot=${STAGING_DIR_TARGET}"' >> $script
-> +	echo 'export CXX="${TARGET_PREFIX}g++ ${TARGET_CC_ARCH} --sysroot=${STAGING_DIR_TARGET}"' >> $script
-> +	echo 'export CPP="${TARGET_PREFIX}gcc -E ${TARGET_CC_ARCH} --sysroot=${STAGING_DIR_TARGET}"' >> $script
-> +	echo 'export AS="${TARGET_PREFIX}as ${TARGET_AS_ARCH}"' >> $script
-> +	echo 'export LD="${TARGET_PREFIX}ld ${TARGET_LD_ARCH} --sysroot=${STAGING_DIR_TARGET}"' >> $script
->   	echo 'export GDB=${TARGET_PREFIX}gdb' >> $script
-> +	echo 'export STRIP=${TARGET_PREFIX}strip' >> $script
-> +	echo 'export RANLIB=${TARGET_PREFIX}ranlib' >> $script
-> +	echo 'export OBJCOPY=${TARGET_PREFIX}objcopy' >> $script
-> +	echo 'export OBJDUMP=${TARGET_PREFIX}objdump' >> $script
-> +	echo 'export AR=${TARGET_PREFIX}-ar' >> $script
-> +	echo 'export NM=${TARGET_PREFIX}-nm' >> $script
->   	echo 'export TARGET_PREFIX=${TARGET_PREFIX}' >> $script
->   	echo 'export CONFIGURE_FLAGS="--target=${TARGET_SYS} --host=${TARGET_SYS} --build=${BUILD_SYS} --with-libtool-sysroot=${STAGING_DIR_TARGET}"' >> $script
->   	if [ "${TARGET_OS}" = "darwin8" ]; then
-> @@ -61,10 +79,10 @@ toolchain_create_tree_env_script () {
->   		cd ${SDK_OUTPUT}${SDKTARGETSYSROOT}/usr
->   		ln -s /usr/local local
->   	fi
-> -	echo 'export CFLAGS="${TARGET_CC_ARCH} --sysroot=${STAGING_DIR_TARGET}"' >> $script
-> -	echo 'export CXXFLAGS="${TARGET_CC_ARCH} --sysroot=${STAGING_DIR_TARGET}"' >> $script
-> -	echo 'export LDFLAGS="${TARGET_LD_ARCH} --sysroot=${STAGING_DIR_TARGET}"' >> $script
-> -	echo 'export CPPFLAGS="${TARGET_CC_ARCH} --sysroot=${STAGING_DIR_TARGET}"' >> $script
-> +	echo 'export CFLAGS="${TARGET_CFLAGS}"' >> $script
-> +	echo 'export CXXFLAGS="${TARGET_CXXFLAGS}"' >> $script
-> +	echo 'export LDFLAGS="${TARGET_LDFLAGS}"' >> $script
-> +	echo 'export CPPFLAGS="${TARGET_CPPFLAGS}"' >> $script
->   	echo 'export OECORE_NATIVE_SYSROOT="${STAGING_DIR_NATIVE}"' >> $script
->   	echo 'export OECORE_TARGET_SYSROOT="${STAGING_DIR_TARGET}"' >> $script
->   	echo 'export OECORE_ACLOCAL_OPTS="-I ${STAGING_DIR_NATIVE}/usr/share/aclocal"' >> $script
-> @@ -83,9 +101,18 @@ toolchain_create_sdk_env_script_for_installer () {
->   	echo 'export PKG_CONFIG_SYSROOT_DIR=##SDKTARGETSYSROOT##' >> $script
->   	echo 'export PKG_CONFIG_PATH=##SDKTARGETSYSROOT##${target_libdir}/pkgconfig' >> $script
->   	echo 'export CONFIG_SITE=${SDKPATH}/site-config-'"${multimach_target_sys}" >> $script
-> -	echo 'export CC=${TARGET_PREFIX}gcc' >> $script
-> -	echo 'export CXX=${TARGET_PREFIX}g++' >> $script
-> +	echo 'export CC="${TARGET_PREFIX}gcc ${TARGET_CC_ARCH} --sysroot=##SDKTARGETSYSROOT##"' >> $script
-> +	echo 'export CXX="${TARGET_PREFIX}g++ ${TARGET_CC_ARCH} --sysroot=##SDKTARGETSYSROOT##"' >> $script
-> +	echo 'export CPP="${TARGET_PREFIX}gcc -E ${TARGET_CC_ARCH} --sysroot=##SDKTARGETSYSROOT##"' >> $script
-> +	echo 'export AS="${TARGET_PREFIX}as ${TARGET_AS_ARCH}"' >> $script
-> +	echo 'export LD="${TARGET_PREFIX}ld ${TARGET_LD_ARCH} --sysroot=##SDKTARGETSYSROOT##"' >> $script
->   	echo 'export GDB=${TARGET_PREFIX}gdb' >> $script
-> +	echo 'export STRIP=${TARGET_PREFIX}strip' >> $script
-> +	echo 'export RANLIB=${TARGET_PREFIX}ranlib' >> $script
-> +	echo 'export OBJCOPY=${TARGET_PREFIX}objcopy' >> $script
-> +	echo 'export OBJDUMP=${TARGET_PREFIX}objdump' >> $script
-> +	echo 'export AR=${TARGET_PREFIX}-ar' >> $script
-> +	echo 'export NM=${TARGET_PREFIX}-nm' >> $script
->   	echo 'export TARGET_PREFIX=${TARGET_PREFIX}' >> $script
->   	echo 'export CONFIGURE_FLAGS="--target=${TARGET_SYS} --host=${TARGET_SYS} --build=${SDK_ARCH}-linux --with-libtool-sysroot=##SDKTARGETSYSROOT##"' >> $script
->   	if [ "${TARGET_OS}" = "darwin8" ]; then
-> @@ -95,10 +122,10 @@ toolchain_create_sdk_env_script_for_installer () {
->   		cd ${SDK_OUTPUT}${SDKTARGETSYSROOT}/usr
->   		ln -s /usr/local local
->   	fi
-> -	echo 'export CFLAGS="${TARGET_CC_ARCH} --sysroot=##SDKTARGETSYSROOT##"' >> $script
-> -	echo 'export CXXFLAGS="${TARGET_CC_ARCH} --sysroot=##SDKTARGETSYSROOT##"' >> $script
-> -	echo 'export LDFLAGS="${TARGET_LD_ARCH} --sysroot=##SDKTARGETSYSROOT##"' >> $script
-> -	echo 'export CPPFLAGS="${TARGET_CC_ARCH} --sysroot=##SDKTARGETSYSROOT##"' >> $script
-> +	echo 'export CFLAGS="${TARGET_CFLAGS}"' >> $script
-> +	echo 'export CXXFLAGS="${TARGET_CXXFLAGS}"' >> $script
-> +	echo 'export LDFLAGS="${TARGET_LDFLAGS}"' >> $script
-> +	echo 'export CPPFLAGS="${TARGET_CPPFLAGS}"' >> $script
->   	echo 'export OECORE_NATIVE_SYSROOT="${SDKPATHNATIVE}"' >> $script
->   	echo 'export OECORE_TARGET_SYSROOT="##SDKTARGETSYSROOT##"' >> $script
->           echo 'export OECORE_ACLOCAL_OPTS="-I ${SDKPATHNATIVE}/usr/share/aclocal"' >> $script
->
+* it was causing staged python to be used as shebang
 
-Merged into OE-Core
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ ...-the-same-Python-as-we-found-in-configure.patch |   39 ++++++++++++++++++++
+ meta/recipes-core/glib-2.0/glib-2.0_2.32.4.bb      |    5 ++-
+ 2 files changed, 42 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0001-Revert-Use-the-same-Python-as-we-found-in-configure.patch
 
-Thanks
-	Sau!
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-Revert-Use-the-same-Python-as-we-found-in-configure.patch b/meta/recipes-core/glib-2.0/glib-2.0/0001-Revert-Use-the-same-Python-as-we-found-in-configure.patch
+new file mode 100644
+index 0000000..e472680
+--- /dev/null
++++ b/meta/recipes-core/glib-2.0/glib-2.0/0001-Revert-Use-the-same-Python-as-we-found-in-configure.patch
+@@ -0,0 +1,39 @@
++From cfafe51d344a9889e9ba041572fe20b582187a86 Mon Sep 17 00:00:00 2001
++From: Martin Jansa <Martin.Jansa@gmail.com>
++Date: Wed, 18 Jul 2012 09:49:07 +0200
++Subject: [PATCH] Revert "Use the same Python as we found in configure"
++
++Upstream-Status: Pending
++
++This reverts commit c147bd5b1a0462fc9b107d1718826c6cad2a8ba5.
++---
++ gio/gdbus-2.0/codegen/Makefile.am      |    2 +-
++ gio/gdbus-2.0/codegen/gdbus-codegen.in |    2 +-
++ 2 files changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/gio/gdbus-2.0/codegen/Makefile.am b/gio/gdbus-2.0/codegen/Makefile.am
++index 9974005..cd9983e 100644
++--- a/gio/gdbus-2.0/codegen/Makefile.am
+++++ b/gio/gdbus-2.0/codegen/Makefile.am
++@@ -23,7 +23,7 @@ CLEANFILES += gdbus-codegen
++ EXTRA_DIST += gdbus-codegen.in
++ 
++ gdbus-codegen: gdbus-codegen.in Makefile $(codegen_PYTHON)
++-	$(AM_V_GEN) sed -e 's,@libdir\@,$(libdir),' -e 's,@PYTHON\@,$(PYTHON),' $< > $@.tmp && mv $@.tmp $@
+++	$(AM_V_GEN) sed -e 's,@libdir\@,$(libdir),' $< > $@.tmp && mv $@.tmp $@
++ 	@chmod a+x $@
++ 
++ clean-local:
++diff --git a/gio/gdbus-2.0/codegen/gdbus-codegen.in b/gio/gdbus-2.0/codegen/gdbus-codegen.in
++index 217c755..ae900bb 100644
++--- a/gio/gdbus-2.0/codegen/gdbus-codegen.in
+++++ b/gio/gdbus-2.0/codegen/gdbus-codegen.in
++@@ -1,4 +1,4 @@
++-#!@PYTHON@
+++#!/usr/bin/env python
++ 
++ # GDBus - GLib D-Bus Library
++ #
++-- 
++1.7.8.6
++
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.32.4.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.32.4.bb
+index 85352ed..58eaa23 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0_2.32.4.bb
++++ b/meta/recipes-core/glib-2.0/glib-2.0_2.32.4.bb
+@@ -1,6 +1,6 @@
+ require glib.inc
+ 
+-PR = "r1"
++PR = "r2"
+ PE = "1"
+ 
+ DEPENDS += "libffi python-argparse-native zlib"
+@@ -19,7 +19,8 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
+ SRC_URI[md5sum] = "bf84fefd9c1a5b5a7a38736f4ddd674a"
+ SRC_URI[sha256sum] = "a5d742a4fda22fb6975a8c0cfcd2499dd1c809b8afd4ef709bda4d11b167fae2"
+ 
+-SRC_URI_append_virtclass-native = " file://glib-gettextize-dir.patch"
++SRC_URI_append_class-native = " file://glib-gettextize-dir.patch"
++SRC_URI_append_class-target = " file://0001-Revert-Use-the-same-Python-as-we-found-in-configure.patch"
+ BBCLASSEXTEND = "native nativesdk"
+ 
+ PERLPATH = "${bindir}/env perl"
+-- 
+1.7.8.6
 
 
 
