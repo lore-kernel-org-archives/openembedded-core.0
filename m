@@ -1,39 +1,33 @@
-Received: from mail-bk0-f47.google.com ([209.85.214.47])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1SrTIp-0002k4-Ba
-	for openembedded-core@lists.openembedded.org;
-	Wed, 18 Jul 2012 14:24:27 +0200
-Received: by bkcik5 with SMTP id ik5so1061658bkc.6
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1SrTJC-0002mH-9N for openembedded-core@lists.openembedded.org;
+	Wed, 18 Jul 2012 14:24:50 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6ICDUHV024599
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Jul 2012 05:13:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=vU+OlcJd+QJMJ2RachzJUthzi26eWd3t/mzQWDOtoKw=;
-	b=COX/a+hnT4zP9/ZLxfWjLAamip+ZY1qutT+3zPbHBiVFQHjv/gkvqNkY0AExD6ld7d
-	079/ykq1D5qqQpxpIK+c2LbYqf3IEjmZueBd4jF1BgrudSgPfxi6AjqlLktx7pqrCT3V
-	9GM6YOZTY6DpgHR/7fVBNWyUutD+dCTQfriFUjWIa9Sdmne+40RSsVtDZ9f12vld9xvw
-	Q3HWkppuhmQd4O0weiE0qFsEUv3o4yN16uz9znHCJN1BPdAgFSkL69Akj/JUHMrD473O
-	TzYVdAraQgxNvkN0jbxgFTnJYz4wDq8Z7w+mS8zk8KIJKDWn+RQRATL165M/wMTCTBH+
-	v9iw==
-Received: by 10.204.155.146 with SMTP id s18mr1449092bkw.23.1342613586890;
-	Wed, 18 Jul 2012 05:13:06 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id c18sm11724139bkv.8.2012.07.18.05.13.05
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 18 Jul 2012 05:13:05 -0700 (PDT)
-Date: Wed, 18 Jul 2012 14:13:16 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
+	Wed, 18 Jul 2012 13:13:30 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 24227-03 for <openembedded-core@lists.openembedded.org>;
+	Wed, 18 Jul 2012 13:13:27 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6ICDNKp024592
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 18 Jul 2012 13:13:24 +0100
+Message-ID: <1342613606.30680.25.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Message-ID: <20120718121316.GL22569@jama.jama.net>
+Date: Wed, 18 Jul 2012 13:13:26 +0100
+In-Reply-To: <20120718112359.GC29030@mi.fu-berlin.de>
 References: <CAJTo0LY9WbxAW35NS-C1M4_rpDDD6SCXcRPw7OtdoR5WkFZirA@mail.gmail.com>
 	<20120718112359.GC29030@mi.fu-berlin.de>
-	<CAJTo0LYO9xT3sfBR_cQw6=76HqEaYaOzktG861_QXaVwsV5c0Q@mail.gmail.com>
-	<CAJTo0LYn58DZcjxDnR_iLHd8pF+Km9+5ph8Y2s7vnpqE-+hTkg@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0LYn58DZcjxDnR_iLHd8pF+Km9+5ph8Y2s7vnpqE-+hTkg@mail.gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
 Subject: Re: eglibc-initial trying to remove files in /usr
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -49,54 +43,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Jul 2012 12:24:27 -0000
-X-Groupsio-MsgNum: 25631
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="TxukmIqg3MmZ0Kmh"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 18 Jul 2012 12:24:50 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---TxukmIqg3MmZ0Kmh
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, Jul 18, 2012 at 01:10:07PM +0100, Burton, Ross wrote:
-> On 18 July 2012 12:40, Burton, Ross <ross.burton@intel.com> wrote:
-> > On 18 July 2012 12:23, Henning Heinold <heinold@inf.fu-berlin.de> wrote:
-> >> NOTE: make PARALLELMFLAGS=3D-j 8 cross-compiling=3Dyes prefix=3D/usr
-> >>
-> >> So it tries to install eglibc to the host dirs which is of course fail=
-ing.
-> >
-> > The mechanics of building eglibc is beyond me -- yesterday's clean
-> > build worked fine so something in the last day must have broken it.
+On Wed, 2012-07-18 at 13:23 +0200, Henning Heinold wrote:
+> On Wed, Jul 18, 2012 at 10:41:13AM +0100, Burton, Ross wrote:
+> > Hi,
+> > 
+> > My nightly run of master failed last night, but not in a way that the
+> > autobuilder is seeing...
+> > 
+> > ERROR: Function failed: do_install (see
+> > /data/nightly-build-Uju/build/tmp/work/i586-poky-linux/eglibc-initial-2.15-r12+svnr19294/temp/log.do_install.10450
+> > for further information)
+> > ERROR: Logfile of failure stored in:
+> > /data/nightly-build-Uju/build/tmp/work/i586-poky-linux/eglibc-initial-2.15-r12+svnr19294/temp/log.do_install.10450
+> > Log data follows:
+> > | DEBUG: SITE files ['endian-little', 'bit-32', 'ix86-common',
+> > 'common-linux', 'common-glibc', 'i586-linux', 'common']
+> > | DEBUG: Executing shell function do_install
+> > | NOTE: make PARALLELMFLAGS=-j 8 cross-compiling=yes
+> > install_root=/data/nightly-build-Uju/build/tmp/work/i586-poky-linux/eglibc-initial-2.15-r12+svnr19294/image
+> > includedir=/usr/include prefix=/usr install-bootstrap-headers=yes
+> > install-headers
+> > ...
+> > | make[1]: Entering directory
+> > `/data/nightly-build-Uju/build/tmp/work/i586-poky-linux/eglibc-initial-2.15-r12+svnr19294/eglibc-2_15/libc'
+> > | /usr/bin/install -c -m 644 include/limits.h /usr/include/limits.h
+> > | /usr/bin/install: cannot remove `/usr/include/limits.h': Permission denied
+> > | make[1]: *** [/usr/include/limits.h] Error 1
+> > | make[1]: Leaving directory
+> > `/data/nightly-build-Uju/build/tmp/work/i586-poky-linux/eglibc-initial-2.15-r12+svnr19294/eglibc-2_15/libc'
+> > | make: *** [install-headers] Error 2
+> > | ERROR: oe_runmake failed
+> > 
 > > Any ideas?
->=20
-> So I reverted to GNU Make 3.82 (debian experimental) to 3.81 (debian
-> unstable), and eglibc-initial builds.
->=20
-> I'm just going to pretend this never happened. :)
+> > 
+> > Ross
+> 
+> NOTE: make PARALLELMFLAGS=-j 8 cross-compiling=yes prefix=/usr
+> 
+> So it tries to install eglibc to the host dirs which is of course failing.
 
-with make-3.81 eglibc-2.15 was sometimes failing for me..
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D2314
-
-Haven't failed like this since I've upgraded make to 3.82..
+install_root is also set though so it shouldn't be installing to host
+dirs...
 
 Cheers,
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+Richard
 
---TxukmIqg3MmZ0Kmh
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
 
-iEYEARECAAYFAlAGqFwACgkQN1Ujt2V2gByWwACfavmFsAtFAmAl9viwt0NTipgl
-sgwAn0feSZ+55KMsK5IHxtopTrLdPoQE
-=9d3v
------END PGP SIGNATURE-----
-
---TxukmIqg3MmZ0Kmh--
