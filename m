@@ -1,38 +1,22 @@
-Received: from mail-pb0-f47.google.com ([209.85.160.47])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1SrO6p-0003L0-VP
+	(envelope-from <sgw@linux.intel.com>) id 1SrP5E-0004Vi-Ft
 	for openembedded-core@lists.openembedded.org;
-	Wed, 18 Jul 2012 08:51:44 +0200
-Received: by mail-pb0-f47.google.com with SMTP id rq2so1867165pbb.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Jul 2012 23:40:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
-	:in-reply-to:references;
-	bh=raufTfh9/KbI4BPYyeR8UA8u1Pp1JW2818KHKWsnbsQ=;
-	b=Ln/NS2bugBADX2NBFwkSQDfnSE2Q5zNhF/3My6WfEpIRfPPLVyNtlV6tSwLvOUMGft
-	MWD1y5eN3I51W9My/fQ51TGl1yefMLZlyiaj79HSdY0FSitz1HEdh/JKFLXj7ZC24Ynu
-	DhuKV/j15ROf6UEDuZStvJ3Ey9q3KS9JDrqmoEPj2L5nSi9E2HEpWSgDswvgyK/5VTWU
-	XO+uYF+ZONVuiwAO7DN49On++n/CXdGLfRreaUt5e+mG0stEN0JKToQNAbaMXCWvkFUZ
-	qc/TU2XWrTjdY4SlX6SIg+5bO+iQgKgX77D7gDu614MXQxjBD99hjjVdy0+2AimBmj5l
-	sS0g==
-Received: by 10.68.228.2 with SMTP id se2mr4800738pbc.109.1342593625549;
-	Tue, 17 Jul 2012 23:40:25 -0700 (PDT)
-Received: from agate.agate.openembedded.org (oldbuilder.nslu2-linux.org.
-	[140.211.169.168])
-	by mx.google.com with ESMTPS id nu5sm12312410pbb.53.2012.07.17.23.40.24
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 17 Jul 2012 23:40:24 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
+	Wed, 18 Jul 2012 09:54:08 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 18 Jul 2012 00:42:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="123776712"
+Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.178])
+	by AZSMGA002.ch.intel.com with ESMTP; 18 Jul 2012 00:42:45 -0700
+From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 17 Jul 2012 23:39:41 -0700
-Message-Id: <2c267bc1b21789757917a79db314843f92ffbc54.1342593440.git.raj.khem@gmail.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <5b71a358dafc84c8ac1ed6dd48a48eefaf0328b1.1342593440.git.raj.khem@gmail.com>
-References: <5b71a358dafc84c8ac1ed6dd48a48eefaf0328b1.1342593440.git.raj.khem@gmail.com>
-In-Reply-To: <cover.1342593440.git.raj.khem@gmail.com>
-References: <cover.1342593440.git.raj.khem@gmail.com>
-Subject: [PATCH 2/2] recipes: Change 'proto' to 'protocol' in SRC_URI
+Date: Wed, 18 Jul 2012 00:42:44 -0700
+Message-Id: <cover.1342597081.git.sgw@linux.intel.com>
+X-Mailer: git-send-email 1.7.7.6
+Cc: Jeffrey C Honig <jeffrey.honig@windriver.com>,
+	Matthew McClintock <msm@freescale.com>
+Subject: [CONSOLIDATED PULL 00/18] Typos and cleanups
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,56 +31,111 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Jul 2012 06:51:44 -0000
+X-List-Received-Date: Wed, 18 Jul 2012 07:54:08 -0000
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
+Richard,
+
+This set contains a bunch of patch header cleanups and
+updates to webkit.
+
+I built world and ppc since that seemed to be where most of 
+the changes where.
+
+Sau!
+
+The following changes since commit 2bd0aaf98c5d586638d82f5f22c1c24122a889a3:
+
+  toolchain-scripts: Sync the SDK/ADT values to the build system (2012-07-17 18:02:10 +0100)
+
+are available in the git repository at:
+  git://git.openembedded.org/openembedded-core-contrib sgw/stage
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
+
+Andrea Adami (1):
+  psplash: use default OE vga logo (from kernel bootlogo)
+
+Jeffrey C Honig (1):
+  terminal.py: Fix Xfce on ubuntu/debian; some cleanup
+
+Jessica Zhang (1):
+  meta-ide-support: Add native qemu support for meta-ide-support
+
+Khem Raj (1):
+  eglibc: Fix build for e500 cores
+
+Martin Jansa (2):
+  qt-mobility, xserver-xorg, ofono, bluez4, gst-plugins-good: bump PR
+    to rebuild after libudev0 soname change to libudev1
+  recipes: svn SRC_URI s/proto=/protocol=/g
+
+Matthew McClintock (2):
+  gcc-package-runtime.inc: Fix QA warning
+  task-core-tools-testapps.bb: kexec-tools does not work on e5500-64b
+    parts
+
+Nitin A Kamble (1):
+  fix my typos in patch headers
+
+Peter Seebach (1):
+  tune-ppc476.inc: Support ppc476
+
+Richard Purdie (1):
+  scripts/bitbake: Check the git-native version and build it if
+    necessary
+
+Ross Burton (5):
+  web-webkit: remove unused dependencies (taken from the gecko-based
+    recipe)
+  web-webkit: push make whitespace fix upstream
+  web-webkit: don't link using g++, it's not needed anymore
+  webkit-gtk: remove no-parallel bodge
+  webkit-gtk: remove spurious install_prepend hack
+
+Roy.Li (1):
+  slang: add header to patch
+
+Saul Wold (1):
+  puzzles, mkelfimage: Add protocol=http
+
+ meta/classes/toolchain-scripts.bbclass             |    2 +-
+ meta/conf/machine/include/tune-ppc476.inc          |   14 +
+ meta/lib/oe/terminal.py                            |   37 +-
+ meta/recipes-connectivity/bluez/bluez4_4.101.bb    |    2 +-
+ meta/recipes-connectivity/ofono/ofono_1.8.bb       |    1 +
+ meta/recipes-connectivity/ofono/ofono_git.bb       |    2 +-
  .../eglibc/cross-localedef-native_2.15.bb          |    2 +-
  .../eglibc/cross-localedef-native_2.16.bb          |    2 +-
+ .../eglibc/eglibc-2.16/e500-math_private.patch     |   31 +
+ meta/recipes-core/eglibc/eglibc_2.16.bb            |    3 +-
+ meta/recipes-core/meta/meta-ide-support.bb         |    4 +-
+ meta/recipes-core/psplash/files/psplash-poky-img.h | 2313 +++++++++++---------
+ meta/recipes-core/psplash/psplash_git.bb           |    2 +-
+ .../recipes-core/tasks/task-core-tools-testapps.bb |    1 +
+ meta/recipes-devtools/gcc/gcc-package-runtime.inc  |    3 +-
+ meta/recipes-devtools/git/git.inc                  |    2 +
+ meta/recipes-devtools/mkelfimage/mkelfimage_svn.bb |    2 +-
+ ..._MKDIR_P_warning_error_with_automake_1.12.patch |   10 +-
+ ...change-char-type-to-signed-char-in-macros.patch |   16 +
+ .../xorg-xserver/xserver-xorg-1.11.2.inc           |    2 +-
+ .../gstreamer/gst-plugins-good_0.10.31.bb          |    2 +-
  meta/recipes-multimedia/tremor/tremor_20120314.bb  |    2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ meta/recipes-qt/qt4/qt-mobility_1.2.0.inc          |    2 +-
+ meta/recipes-sato/puzzles/puzzles_r9561.bb         |    2 +-
+ .../web/web-webkit/link-with-g++.patch             |   35 -
+ meta/recipes-sato/web/web-webkit/make-382.patch    |   17 -
+ meta/recipes-sato/web/web-webkit_git.bb            |   16 +-
+ meta/recipes-sato/webkit/webkit-gtk_1.8.1.bb       |    9 -
+ ..._MKDIR_P_warning_error_with_automake_1.12.patch |   10 +-
+ .../gnutls/gnutls_fix_for_automake_1.12.1.patch    |    2 +-
+ scripts/bitbake                                    |   17 +-
+ 31 files changed, 1388 insertions(+), 1177 deletions(-)
+ create mode 100644 meta/conf/machine/include/tune-ppc476.inc
+ create mode 100644 meta/recipes-core/eglibc/eglibc-2.16/e500-math_private.patch
+ delete mode 100644 meta/recipes-sato/web/web-webkit/link-with-g++.patch
+ delete mode 100644 meta/recipes-sato/web/web-webkit/make-382.patch
 
-diff --git a/meta/recipes-core/eglibc/cross-localedef-native_2.15.bb b/meta/recipes-core/eglibc/cross-localedef-native_2.15.bb
-index 6f311fc..493eb61 100644
---- a/meta/recipes-core/eglibc/cross-localedef-native_2.15.bb
-+++ b/meta/recipes-core/eglibc/cross-localedef-native_2.15.bb
-@@ -16,7 +16,7 @@ inherit autotools
- PR = "r0"
- SRCREV="15225"
- EGLIBC_BRANCH="eglibc-2_14"
--SRC_URI = "svn://www.eglibc.org/svn/branches/;module=${EGLIBC_BRANCH};proto=http "
-+SRC_URI = "svn://www.eglibc.org/svn/branches/;module=${EGLIBC_BRANCH};protocol=http "
- S = "${WORKDIR}/${EGLIBC_BRANCH}/localedef"
- 
- do_unpack_append() {
-diff --git a/meta/recipes-core/eglibc/cross-localedef-native_2.16.bb b/meta/recipes-core/eglibc/cross-localedef-native_2.16.bb
-index 88c701e..0f870be 100644
---- a/meta/recipes-core/eglibc/cross-localedef-native_2.16.bb
-+++ b/meta/recipes-core/eglibc/cross-localedef-native_2.16.bb
-@@ -16,7 +16,7 @@ inherit autotools
- PR = "r0"
- SRCREV="19383"
- EGLIBC_BRANCH="eglibc-2_16"
--SRC_URI = "svn://www.eglibc.org/svn/branches/;module=${EGLIBC_BRANCH};proto=http "
-+SRC_URI = "svn://www.eglibc.org/svn/branches/;module=${EGLIBC_BRANCH};protocol=http "
- S = "${WORKDIR}/${EGLIBC_BRANCH}/localedef"
- 
- do_unpack_append() {
-diff --git a/meta/recipes-multimedia/tremor/tremor_20120314.bb b/meta/recipes-multimedia/tremor/tremor_20120314.bb
-index 19d03d6..cf51983 100644
---- a/meta/recipes-multimedia/tremor/tremor_20120314.bb
-+++ b/meta/recipes-multimedia/tremor/tremor_20120314.bb
-@@ -8,7 +8,7 @@ DEPENDS = "libogg"
- SRCDATE = "${PV}"
- PR = "r0"
- 
--SRC_URI = "svn://svn.xiph.org/trunk;module=Tremor;rev=18221;proto=http"
-+SRC_URI = "svn://svn.xiph.org/trunk;module=Tremor;rev=18221;protocol=http"
- 
- S = "${WORKDIR}/Tremor"
- 
 -- 
-1.7.9.5
+1.7.7.6
 
 
 
