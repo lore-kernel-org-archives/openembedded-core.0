@@ -1,34 +1,27 @@
-Received: from mga09.intel.com ([134.134.136.24])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1SrQwC-0006ff-G2
-	for openembedded-core@lists.openembedded.org;
-	Wed, 18 Jul 2012 11:52:56 +0200
-Received: from mail-qc0-f180.google.com ([209.85.216.180])
-	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 18 Jul 2012 02:41:35 -0700
-Received: by qcmv28 with SMTP id v28so752171qcm.25
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Jul 2012 02:41:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:from:date:message-id:subject:to:content-type
-	:x-gm-message-state;
-	bh=krVhZ8gY1hZV1+DW694BuL6QSf0I+cw4zIimbu+V19U=;
-	b=f6IHQ+wrEw4BGRW4NCwbkN0MPSpnYI2y81oliQUrWuvJ7UNxfeatrciSKTG4nHCd84
-	PL+RDkZBdByNTx4QnAfnLECgmFZc1MA/nK9cPKnwwchEPztA20V5+7gImZsFrNz+QKEw
-	GejI/XguyGNv1VcwTE1BH52tdQj9BCumO40a2f8eJMyPSJCCoNxr7i8FYKgUkyrCO0/v
-	ZJsg8Ek08HpkTLPQvtz8FEMHrXbIIHI/PsBhanvQJ9BMgRSk706HgGz5r//gM5KlaU74
-	ZZ1qKGBDLSx6Y7L+Hz+Nu6DwejFqB9txhLcjYdQ29/Tb7TEZ8ahRDjeBzqwWamvKMyyD
-	q42A==
-Received: by 10.224.182.136 with SMTP id cc8mr4670683qab.60.1342604494098;
-	Wed, 18 Jul 2012 02:41:34 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.229.82.74 with HTTP; Wed, 18 Jul 2012 02:41:13 -0700 (PDT)
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 18 Jul 2012 10:41:13 +0100
-Message-ID: <CAJTo0LY9WbxAW35NS-C1M4_rpDDD6SCXcRPw7OtdoR5WkFZirA@mail.gmail.com>
-To: OE-core <openembedded-core@lists.openembedded.org>
-X-Gm-Message-State: ALoCoQk+HLHi4tkl9UKxjaOK6cuBzv5PsYLY6QAeipo+h4DnYQp3PxYMUpL30Bs2ysSfxtHm2tXL
-Subject: eglibc-initial trying to remove files in /usr
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1SrRKd-0007el-Tt; Wed, 18 Jul 2012 12:18:12 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6IA6pBD023642;
+	Wed, 18 Jul 2012 11:06:51 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 21945-08; Wed, 18 Jul 2012 11:06:47 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6IA6fpi023635
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Wed, 18 Jul 2012 11:06:42 +0100
+Message-ID: <1342606005.30680.17.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Wed, 18 Jul 2012 11:06:45 +0100
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: bitbake-devel <bitbake-devel@lists.openembedded.org>
+Subject: PLEASE READ: Major change landing shortly (python whitespace)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,40 +36,103 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Jul 2012 09:52:56 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 18 Jul 2012 10:18:12 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Hi,
+It's become clear we have a horrible mixture of whitespace (tabs and
+space) in python functions. At first glance this sounds trivial but
+there is a serious problem if pieces of code get mixed together with
+different whitespace since they may or may not work as intended.
 
-My nightly run of master failed last night, but not in a way that the
-autobuilder is seeing...
+The documented standard for python functions is four space indentation
+although we have a mixture. Fixing this sounds simple at first, we just
+go through and change tabs to spaces. The problem comes with _append and
+_prepend to python functions since both need their whitespace changed at
+the same time. populate_packages() is the real problem child in that
+regard but its the less common examples I worry about.
 
-ERROR: Function failed: do_install (see
-/data/nightly-build-Uju/build/tmp/work/i586-poky-linux/eglibc-initial-2.15-r12+svnr19294/temp/log.do_install.10450
-for further information)
-ERROR: Logfile of failure stored in:
-/data/nightly-build-Uju/build/tmp/work/i586-poky-linux/eglibc-initial-2.15-r12+svnr19294/temp/log.do_install.10450
-Log data follows:
-| DEBUG: SITE files ['endian-little', 'bit-32', 'ix86-common',
-'common-linux', 'common-glibc', 'i586-linux', 'common']
-| DEBUG: Executing shell function do_install
-| NOTE: make PARALLELMFLAGS=-j 8 cross-compiling=yes
-install_root=/data/nightly-build-Uju/build/tmp/work/i586-poky-linux/eglibc-initial-2.15-r12+svnr19294/image
-includedir=/usr/include prefix=/usr install-bootstrap-headers=yes
-install-headers
-...
-| make[1]: Entering directory
-`/data/nightly-build-Uju/build/tmp/work/i586-poky-linux/eglibc-initial-2.15-r12+svnr19294/eglibc-2_15/libc'
-| /usr/bin/install -c -m 644 include/limits.h /usr/include/limits.h
-| /usr/bin/install: cannot remove `/usr/include/limits.h': Permission denied
-| make[1]: *** [/usr/include/limits.h] Error 1
-| make[1]: Leaving directory
-`/data/nightly-build-Uju/build/tmp/work/i586-poky-linux/eglibc-initial-2.15-r12+svnr19294/eglibc-2_15/libc'
-| make: *** [install-headers] Error 2
-| ERROR: oe_runmake failed
+I did some research and we have inconsistencies, even in existing
+functions since people are editing files and getting confused
+(understandably).
 
-Any ideas?
+So the question becomes, how do we get ourselves out of this mess?
 
-Ross
+I put a proposal to the TSC, that we have bitbake warn/error whenever it
+finds tab characters in any python function. The advantage of this is
+that we give the user a clear definitive error. The downside is that
+we'll have to go through all the metadata and scrub it for the problem.
+
+The TSC agrees we should do something about this rather than perpetuate
+the problem and that this is as good a solution as any of us can come up
+with. We also agreed that we should do it sooner than later before it
+gets any later in this release cycle. Putting it off until the next
+release cycle didn't seem to offer any advantage, we might as well get
+on with it.
+
+So I am going to:
+
+a) Try and flush through as many pending patches as I can.
+b) Check in a warning into bitbake master and increase its version
+c) Require that version in OE-Core
+d) Commit a significant set of whitespace changes to OE-Core, resolving
+all the warnings for OE-Core.
+
+I plan to do this, tomorrow, Thursday.
+
+The reason for getting on with it is that the patches are horrible to
+carry around and that any other patches made against OE-Core will likely
+need to be remade to apply after these changes. I therefore don't want a
+week of waiting around discussing it, this is something I believe we
+need to do now and be done with it. I'm also not going to post the
+whitespace patches for review, I'll write+merge them and then be
+responsive for accepting fixes for anything that gets broken. They will
+only be whitespace changes.
+
+I appreciate this is going to cause some disruption but I think there is
+a problem worth solving here and this is the best way to do it. If
+anyone has any strong objections I'm open to alternative ideas.
+
+The bitbake patch to error on tab whitespace is included below. I'll try
+and post a branch with the whitespace fixes on later today.
+
+Cheers,
+
+Richard
+
+
+
+
+diff --git a/bitbake/lib/bb/data.py b/bitbake/lib/bb/data.py
+index e3ffefe..4b653a5 100644
+--- a/bitbake/lib/bb/data.py
++++ b/bitbake/lib/bb/data.py
+@@ -291,6 +291,8 @@ def build_dependencies(key, keys, shelldeps, vardepvals, d):
+             if d.getVarFlag(key, "python"):
+                 parsedvar = d.expandWithRefs(value, key)
+                 parser = bb.codeparser.PythonParser(key, logger)
++                if parsedvar.value and "\t" in parsedvar.value:
++                    bb.warn("Variable %s contains tabs, please remove these" % key)
+                 parser.parse_python(parsedvar.value)
+                 deps = deps | parser.references
+             else:
+diff --git a/bitbake/lib/bb/parse/ast.py b/bitbake/lib/bb/parse/ast.py
+index eae840f..86f9463 100644
+--- a/bitbake/lib/bb/parse/ast.py
++++ b/bitbake/lib/bb/parse/ast.py
+@@ -212,9 +212,9 @@ class ExportFuncsNode(AstNode):
+                         data.setVarFlag(calledvar, flag, data.getVarFlag(var, flag))
+ 
+                 if data.getVarFlag(calledvar, "python"):
+-                    data.setVar(var, "\tbb.build.exec_func('" + calledvar + "', d)\n")
++                    data.setVar(var, "    bb.build.exec_func('" + calledvar + "', d)\n")
+                 else:
+-                    data.setVar(var, "\t" + calledvar + "\n")
++                    data.setVar(var, "    " + calledvar + "\n")
+                 data.setVarFlag(var, 'export_func', '1')
+ 
+ class AddTaskNode(AstNode):
+
+
 
 
