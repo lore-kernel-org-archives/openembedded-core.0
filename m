@@ -1,35 +1,35 @@
-Received: from mail-qa0-f47.google.com ([209.85.216.47])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@gmail.com>) id 1SrUOr-0004CT-Be
-	for openembedded-core@lists.openembedded.org;
-	Wed, 18 Jul 2012 15:34:46 +0200
-Received: by qabg1 with SMTP id g1so3111689qab.6
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1SrUPL-0004Ew-1J for openembedded-core@lists.openembedded.org;
+	Wed, 18 Jul 2012 15:35:15 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6IDNsRt025201
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Jul 2012 06:23:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type; bh=V/zU+AFPzkmFhAL5jinCJzFRWl+eY5pb2J513wJ8/d8=;
-	b=nB2yZsm69BM51QFCjVrL3jQ+Du3HR6gYvny7vmzF5CkbWA5CpZ9IEZTLppokCgltr7
-	0bFTBMLDCj4tzwBKeQzN2WqjHN+bdekJMKclJwaNyHcxmU4VIyC/ClLHp2OnQTza4aa2
-	IM4z5CodAQa+4uq6/1ikIRZarUTYvPtYh7uQLyEnE3UEZShrF+FaYlWwgrmJGGvszMI7
-	iE+jhoR98saqqK95ZyYA1I9K1U3UqrlzFjfuv4zYmENgUtbzBaX6XqpbULsRv1q01EIs
-	ILBeAshDsa/m62aAu0sbmn4uo8c7Brg1vIig2Md4a1fFKGPl4VJ6xpROJB9On7WHfTNV
-	lmFw==
-MIME-Version: 1.0
-Received: by 10.224.111.144 with SMTP id s16mr5750734qap.75.1342617803110;
-	Wed, 18 Jul 2012 06:23:23 -0700 (PDT)
-Received: by 10.229.8.78 with HTTP; Wed, 18 Jul 2012 06:23:22 -0700 (PDT)
-In-Reply-To: <CAMZjud1JPfU7pfd2C+gQEmEpY_8ePSvrsMiyUMOAH4SnMd-pqg@mail.gmail.com>
+	Wed, 18 Jul 2012 14:23:54 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 23940-09 for <openembedded-core@lists.openembedded.org>;
+	Wed, 18 Jul 2012 14:23:49 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6IDNjwi025194
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 18 Jul 2012 14:23:46 +0100
+Message-ID: <1342617829.513.3.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Wed, 18 Jul 2012 14:23:49 +0100
+In-Reply-To: <CADkTA4OkYB6ZsA81mz1YUrYeukVjrtSTph8b5mJ9jiomPibMKg@mail.gmail.com>
 References: <1342011739-6416-1-git-send-email-bogdan.a.marinescu@intel.com>
 	<CAMKF1sq_D4nDSSOctRRht=_93yacfMNfnO9AENCg-aTGyPNreg@mail.gmail.com>
 	<CAMZjud0ZtRDiE-kpNw6mZz33BQEBJN3LzG5shHEzMn6wk5+sSA@mail.gmail.com>
 	<CADkTA4OkYB6ZsA81mz1YUrYeukVjrtSTph8b5mJ9jiomPibMKg@mail.gmail.com>
-	<CAMZjud1JPfU7pfd2C+gQEmEpY_8ePSvrsMiyUMOAH4SnMd-pqg@mail.gmail.com>
-Date: Wed, 18 Jul 2012 09:23:22 -0400
-Message-ID: <CADkTA4NTBME99-JMBy1+22iwqV7nxpsB=CSsLNuT8wDKgQY-eA@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
 Subject: Re: [PATCH] linux-libc-headers: updated to 3.4.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -45,150 +45,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Jul 2012 13:34:46 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Wed, 18 Jul 2012 13:35:15 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jul 18, 2012 at 9:17 AM, Marinescu, Bogdan A
-<bogdan.a.marinescu@intel.com> wrote:
-> On Wed, Jul 18, 2012 at 4:03 PM, Bruce Ashfield
-> <bruce.ashfield@gmail.com> wrote:
->> On Wed, Jul 18, 2012 at 7:30 AM, Marinescu, Bogdan A
->> <bogdan.a.marinescu@intel.com> wrote:
->>> On Tue, Jul 17, 2012 at 7:54 PM, Khem Raj <raj.khem@gmail.com> wrote:
->>>> Why is recipe renamed
->>>
->>> Wasn't I supposed to do that when I upgraded the package from 3.4 to 3.4.3 ?
->>
->> No one replied to my other question (or at least no one replied that I
->> noticed), about
->> why we even bothered to bump it to 3.4.3 ...
->
-> Quite simply, I'm the owner of the recipe and I'm supposed to upgrade
-> it when a new version appears :)
+On Wed, 2012-07-18 at 09:03 -0400, Bruce Ashfield wrote:
+> On Wed, Jul 18, 2012 at 7:30 AM, Marinescu, Bogdan A
+> <bogdan.a.marinescu@intel.com> wrote:
+> > On Tue, Jul 17, 2012 at 7:54 PM, Khem Raj <raj.khem@gmail.com> wrote:
+> >> Why is recipe renamed
+> >
+> > Wasn't I supposed to do that when I upgraded the package from 3.4 to 3.4.3 ?
+> 
+> No one replied to my other question (or at least no one replied that I
+> noticed), about
+> why we even bothered to bump it to 3.4.3 ...
+> 
+> I have the same elements in that question .. but from a different angle.
 
-I must have missed that .. because I'd disagree with both counts.
+I think Khem's question is a little vague and I'm not sure how I'd
+answer that.
 
- - libc-headers does not need to be upgraded with every korg stable update
- - it is coupled to the kernel, and I've done it in the past, and had planned to
-   leave it a 3.4.
+As for policy of updating the kernel headers against stable releases, it
+can't hurt and we needed to bump PV or PR anyway as Martin mentioned so
+that was the main reason I took the patch.
+
+I think there could be a perception issue if we don't update, on the
+other hand it could be considered unnecessary churn. So I think in
+future this will be on a case by case basis. If there was a header fix
+in the stable series (which is conceivable), we would want to take that
+for example.
 
 Cheers,
 
-Bruce
+Richard
 
->
-> Best,
-> Bogdan
->
->>
->> I have the same elements in that question .. but from a different angle.
->>
->> Cheers,
->>
->> Bruce
->>
->>>
->>>>
->>>>
->>>> On Wednesday, July 11, 2012, Bogdan Marinescu <bogdan.a.marinescu@intel.com>
->>>> wrote:
->>>>> Tested by building core-image-sato-sdk.
->>>>>
->>>>> Signed-off-by: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
->>>>> ---
->>>>>  meta/conf/distro/include/tcmode-default.inc        |    2 +-
->>>>>  .../linux-libc-headers/linux-libc-headers_3.4.3.bb |    6 ++++++
->>>>>  .../linux-libc-headers/linux-libc-headers_3.4.bb   |    6 ------
->>>>>  3 files changed, 7 insertions(+), 7 deletions(-)
->>>>>  create mode 100644
->>>>> meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.4.3.bb
->>>>>  delete mode 100644
->>>>> meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.4.bb
->>>>>
->>>>> diff --git a/meta/conf/distro/include/tcmode-default.inc
->>>>> b/meta/conf/distro/include/tcmode-default.inc
->>>>> index f11e687..0a068be 100644
->>>>> --- a/meta/conf/distro/include/tcmode-default.inc
->>>>> +++ b/meta/conf/distro/include/tcmode-default.inc
->>>>> @@ -22,7 +22,7 @@ SDKGCCVERSION ?= "${GCCVERSION}"
->>>>>  BINUVERSION ?= "2.22"
->>>>>  EGLIBCVERSION ?= "2.15"
->>>>>  UCLIBCVERSION ?= "0.9.33"
->>>>> -LINUXLIBCVERSION ?= "3.4"
->>>>> +LINUXLIBCVERSION ?= "3.4.3"
->>>>>
->>>>>  PREFERRED_VERSION_gcc ?= "${GCCVERSION}"
->>>>>  PREFERRED_VERSION_gcc-cross ?= "${GCCVERSION}"
->>>>> diff --git
->>>>> a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.4.3.bb
->>>>> b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.4.3.bb
->>>>> new file mode 100644
->>>>> index 0000000..6f8d9e8
->>>>> --- /dev/null
->>>>> +++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.4.3.bb
->>>>> @@ -0,0 +1,6 @@
->>>>> +require linux-libc-headers.inc
->>>>> +
->>>>> +PR = "r0"
->>>>> +
->>>>> +SRC_URI[md5sum] = "3aefa02db55715d627ed23a01667057d"
->>>>> +SRC_URI[sha256sum] =
->>>>> "17f1256daa289dde1a0a587c9753556d37a52770f7c4efcf2666fd4796a6eacc"
->>>>> diff --git
->>>>> a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.4.bb
->>>>> b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.4.bb
->>>>> deleted file mode 100644
->>>>> index 9e8c88f..0000000
->>>>> --- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.4.bb
->>>>> +++ /dev/null
->>>>> @@ -1,6 +0,0 @@
->>>>> -require linux-libc-headers.inc
->>>>> -
->>>>> -PR = "r0"
->>>>> -
->>>>> -SRC_URI[md5sum] = "146af0160fc7a60cf9acf44aec13482b"
->>>>> -SRC_URI[sha256sum] =
->>>>> "a797a15d0b6228381507c14ecf4eec4a6cc5c77cfd521ba3b3e1325e85b5b16d"
->>>>> --
->>>>> 1.7.9.5
->>>>>
->>>>>
->>>>> _______________________________________________
->>>>> Openembedded-core mailing list
->>>>> Openembedded-core@lists.openembedded.org
->>>>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->>>>>
->>>> _______________________________________________
->>>> Openembedded-core mailing list
->>>> Openembedded-core@lists.openembedded.org
->>>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->>>>
->>>
->>> _______________________________________________
->>> Openembedded-core mailing list
->>> Openembedded-core@lists.openembedded.org
->>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->>
->>
->>
->> --
->> "Thou shalt not follow the NULL pointer, for chaos and madness await
->> thee at its end"
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-
-
-
--- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
 
 
