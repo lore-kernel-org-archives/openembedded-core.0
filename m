@@ -1,24 +1,24 @@
 Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SrP5O-0004XN-LU
+	(envelope-from <sgw@linux.intel.com>) id 1SrP5Q-0004Vz-0Y
 	for openembedded-core@lists.openembedded.org;
-	Wed, 18 Jul 2012 09:54:19 +0200
+	Wed, 18 Jul 2012 09:54:20 +0200
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 18 Jul 2012 00:42:58 -0700
+	by azsmga102.ch.intel.com with ESMTP; 18 Jul 2012 00:42:59 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="169736804"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="169736806"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.178])
 	by azsmga001.ch.intel.com with ESMTP; 18 Jul 2012 00:42:58 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 18 Jul 2012 00:42:38 -0700
-Message-Id: <b2ee5c5e34cdc3d65ca7b5da3486360a74d6c500.1342597081.git.sgw@linux.intel.com>
+Date: Wed, 18 Jul 2012 00:42:39 -0700
+Message-Id: <036a017187e4d75a994b3eb9c0e5d1a8dd61432c.1342597081.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <fee3def2ca49e3349758d9cd9a9cf5645f03cf18.1342597081.git.sgw@linux.intel.com>
 References: <fee3def2ca49e3349758d9cd9a9cf5645f03cf18.1342597081.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1342597081.git.sgw@linux.intel.com>
 References: <cover.1342597081.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 09/18] terminal.py: Fix Xfce on ubuntu/debian; some cleanup
+Subject: [CONSOLIDATED PULL 10/18] qt-mobility, xserver-xorg, ofono, bluez4, gst-plugins-good: bump PR to rebuild after libudev0 soname change to libudev1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,127 +33,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Jul 2012 07:54:20 -0000
+X-List-Received-Date: Wed, 18 Jul 2012 07:54:21 -0000
 
-From: Jeffrey C Honig <jeffrey.honig@windriver.com>
+From: Martin Jansa <martin.jansa@gmail.com>
 
-    * Xfce class was setting and passing wrong variable for ubuntu/debian.
-    * Xfce class was using -e instead of -x for passing command.  The former creates
-      a shell escape nightmare
-    * Clean up local and instance/class variables with same name but different usage.
-    * Remove side-effect and directly return formatted command for clarity.
+* this patch depends on http://patchwork.openembedded.org/patch/32085/
 
-Signed-off-by: Jeffrey C Honig <jeffrey.honig@windriver.com>
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/lib/oe/terminal.py |   37 ++++++++++++++++++-------------------
- 1 files changed, 18 insertions(+), 19 deletions(-)
+ meta/recipes-connectivity/bluez/bluez4_4.101.bb    |    2 +-
+ meta/recipes-connectivity/ofono/ofono_1.8.bb       |    1 +
+ meta/recipes-connectivity/ofono/ofono_git.bb       |    2 +-
+ .../xorg-xserver/xserver-xorg-1.11.2.inc           |    2 +-
+ .../gstreamer/gst-plugins-good_0.10.31.bb          |    2 +-
+ meta/recipes-qt/qt4/qt-mobility_1.2.0.inc          |    2 +-
+ 6 files changed, 6 insertions(+), 5 deletions(-)
 
-diff --git a/meta/lib/oe/terminal.py b/meta/lib/oe/terminal.py
-index 43639d5..28abf14 100644
---- a/meta/lib/oe/terminal.py
-+++ b/meta/lib/oe/terminal.py
-@@ -28,11 +28,10 @@ class Registry(oe.classutils.ClassRegistry):
- class Terminal(Popen):
-     __metaclass__ = Registry
+diff --git a/meta/recipes-connectivity/bluez/bluez4_4.101.bb b/meta/recipes-connectivity/bluez/bluez4_4.101.bb
+index 4a360b6..e26d4ea 100644
+--- a/meta/recipes-connectivity/bluez/bluez4_4.101.bb
++++ b/meta/recipes-connectivity/bluez/bluez4_4.101.bb
+@@ -1,6 +1,6 @@
+ require bluez4.inc
  
--    def __init__(self, command, title=None, env=None):
--        self.format_command(command, title)
--
-+    def __init__(self, sh_cmd, title=None, env=None):
-+        fmt_sh_cmd = self.format_command(sh_cmd, title)
-         try:
--            Popen.__init__(self, self.command, env=env)
-+            Popen.__init__(self, fmt_sh_cmd, env=env)
-         except OSError as exc:
-             import errno
-             if exc.errno == errno.ENOENT:
-@@ -40,16 +39,16 @@ class Terminal(Popen):
-             else:
-                 raise
+-PR = "r1"
++PR = "r2"
  
--    def format_command(self, command, title):
--        fmt = {'title': title or 'Terminal', 'command': command}
-+    def format_command(self, sh_cmd, title):
-+        fmt = {'title': title or 'Terminal', 'command': sh_cmd}
-         if isinstance(self.command, basestring):
--            self.command = shlex.split(self.command.format(**fmt))
-+            return shlex.split(self.command.format(**fmt))
-         else:
--            self.command = [element.format(**fmt) for element in self.command]
-+            return [element.format(**fmt) for element in self.command]
+ SRC_URI += "file://bluetooth.conf \
+             file://sbc_mmx.patch"
+diff --git a/meta/recipes-connectivity/ofono/ofono_1.8.bb b/meta/recipes-connectivity/ofono/ofono_1.8.bb
+index e2d97f0..86767f1 100644
+--- a/meta/recipes-connectivity/ofono/ofono_1.8.bb
++++ b/meta/recipes-connectivity/ofono/ofono_1.8.bb
+@@ -4,6 +4,7 @@ SRC_URI  = "\
+   ${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.bz2 \
+   file://ofono \
+ "
++PR = "r1"
  
- class XTerminal(Terminal):
--    def __init__(self, command, title=None, env=None):
--        Terminal.__init__(self, command, title, env)
-+    def __init__(self, sh_cmd, title=None, env=None):
-+        Terminal.__init__(self, sh_cmd, title, env)
-         if not os.environ.get('DISPLAY'):
-             raise UnsupportedTerminal(self.name)
+ SRC_URI[md5sum] = "e457ea13db22bb2de77767c867dcc4d3"
+ SRC_URI[sha256sum] = "164b413068e810281a5e6c9bb90d5002d80f1c30bef2f3ffdbe70f963079524d"
+diff --git a/meta/recipes-connectivity/ofono/ofono_git.bb b/meta/recipes-connectivity/ofono/ofono_git.bb
+index a44b411..0a69fff 100644
+--- a/meta/recipes-connectivity/ofono/ofono_git.bb
++++ b/meta/recipes-connectivity/ofono/ofono_git.bb
+@@ -3,7 +3,7 @@ require ofono.inc
+ S	 = "${WORKDIR}/git"
+ SRCREV = "14544d5996836f628613c2ce544380ee6fc8f514"
+ PV	 = "0.12-git${SRCPV}"
+-PR = "r3"
++PR = "r4"
  
-@@ -75,14 +74,14 @@ class Konsole(XTerminal):
-     command = 'konsole -T "{title}" -e {command}'
-     priority = 2
+ SRC_URI  = "git://git.kernel.org/pub/scm/network/ofono/ofono.git;protocol=git \
+ 	    file://ofono"
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2.inc
+index 595ab77..017ac91 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2.inc
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2.inc
+@@ -8,5 +8,5 @@ SRC_URI += "file://crosscompile.patch \
+ SRC_URI[md5sum] = "8796fff441e5435ee36a72579008af24"
+ SRC_URI[sha256sum] = "fa415decf02027ca278b06254ccfbcceba2a83c2741405257ebf749da4a73cf2"
  
--    def __init__(self, command, title=None, env=None):
-+    def __init__(self, sh_cmd, title=None, env=None):
-         # Check version
-         vernum = check_konsole_version("konsole")
-         if vernum:
-             if vernum.split('.')[0] == "2":
-                 logger.debug(1, 'Konsole from KDE 4.x will not work as devshell, skipping')
-                 raise UnsupportedTerminal(self.name)
--        XTerminal.__init__(self, command, title, env)
-+        XTerminal.__init__(self, sh_cmd, title, env)
+-PR = "r3"
++PR = "r4"
  
- class XTerm(XTerminal):
-     command = 'xterm -T "{title}" -e {command}'
-@@ -95,8 +94,8 @@ class Rxvt(XTerminal):
- class Screen(Terminal):
-     command = 'screen -D -m -t "{title}" -S devshell {command}'
+diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.31.bb b/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.31.bb
+index e0eaf7b..ac63f94 100644
+--- a/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.31.bb
++++ b/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.31.bb
+@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343 \
  
--    def __init__(self, command, title=None, env=None):
--        Terminal.__init__(self, command, title, env)
-+    def __init__(self, sh_cmd, title=None, env=None):
-+        Terminal.__init__(self, sh_cmd, title, env)
-         logger.warn('Screen started. Please connect in another terminal with '
-                     '"screen -r devshell"')
+ DEPENDS += "gst-plugins-base gconf cairo jpeg libpng gtk+ zlib libid3tag flac \
+ 	    speex libsoup-2.4 pulseaudio"
+-PR = "r1"
++PR = "r2"
  
-@@ -104,18 +103,18 @@ class Screen(Terminal):
- def prioritized():
-     return Registry.prioritized()
+ inherit gettext gconf
  
--def spawn_preferred(command, title=None, env=None):
-+def spawn_preferred(sh_cmd, title=None, env=None):
-     """Spawn the first supported terminal, by priority"""
-     for terminal in prioritized():
-         try:
--            spawn(terminal.name, command, title, env)
-+            spawn(terminal.name, sh_cmd, title, env)
-             break
-         except UnsupportedTerminal:
-             continue
-     else:
-         raise NoSupportedTerminals()
+diff --git a/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc b/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc
+index e612adb..7f0af9f 100644
+--- a/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc
++++ b/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc
+@@ -16,7 +16,7 @@ SRC_URI = "http://get.qt.nokia.com/qt/add-ons/qt-mobility-opensource-src-${PV}.t
+ SRC_URI[md5sum]="ea5db5a8d3dd4709c2926dceda646bd8"
+ SRC_URI[sha256sum]="ee3c88975e04139ac9589f76d4be646d44fcbc4c8c1cf2db621abc154cf0ba44"
  
--def spawn(name, command, title=None, env=None):
-+def spawn(name, sh_cmd, title=None, env=None):
-     """Spawn the specified terminal, by name"""
-     logger.debug(1, 'Attempting to spawn terminal "%s"', name)
-     try:
-@@ -123,10 +122,10 @@ def spawn(name, command, title=None, env=None):
-     except KeyError:
-         raise UnsupportedTerminal(name)
+-PR = "r5"
++PR = "r6"
  
--    pipe = terminal(command, title, env)
-+    pipe = terminal(sh_cmd, title, env)
-     output = pipe.communicate()[0]
-     if pipe.returncode != 0:
--        raise ExecutionError(pipe.command, pipe.returncode, output)
-+        raise ExecutionError(sh_cmd, pipe.returncode, output)
+ S = "${WORKDIR}/qt-mobility-opensource-src-${PV}"
  
- def check_konsole_version(konsole):
-     import subprocess as sub
 -- 
 1.7.7.6
 
