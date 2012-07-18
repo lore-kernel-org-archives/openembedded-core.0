@@ -1,38 +1,30 @@
-Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
+Received: from mail-yx0-f175.google.com ([209.85.213.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1SrVBj-0005vH-KF
+	(envelope-from <schnitzeltony@googlemail.com>) id 1SrVo3-0006yc-3r
 	for openembedded-core@lists.openembedded.org;
-	Wed, 18 Jul 2012 16:25:15 +0200
-Received: from mail-qc0-f180.google.com ([209.85.216.180])
-	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 18 Jul 2012 07:13:53 -0700
-Received: by qcmv28 with SMTP id v28so867184qcm.25
+	Wed, 18 Jul 2012 17:04:51 +0200
+Received: by yenl13 with SMTP id l13so1525594yen.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Jul 2012 07:13:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type:x-gm-message-state;
-	bh=djJjLnkB1hC+NTb2geFdgZEue9e5LU7OCLn6IcK4rpw=;
-	b=b/Ksxx3Mu8fX0Q8zYchq0/Vih0vXUUMGhNv7LtE/EkvftfjFQ0GZW/wpHPtCS3ZWK0
-	VpMOiWWqs2hoa8u2qPwnTfA9vccvwv1J5yHF3Jztcmt2prSIdyW+Lat3oxMMfp8h4ZvS
-	BDDs2uZB7pFYBfETpvE+IVD1jXsec7KPEbuEjPRuVn9EBQnLkCEJBBoEWqO5IGhjIY3c
-	YR8IrW68VH41A3tvgKw+oaeybm0IcSZyViUs0gMgq06XkXdE3ETu8UlniwI/kw2LrAZo
-	ZChf43PIzecVehq/ahx7O7q4KfQ0jU8Vk18pUobym06+NUjz31QJgieDguITIxWWYIg5
-	vYfQ==
-Received: by 10.224.185.148 with SMTP id co20mr6352905qab.4.1342620832548;
-	Wed, 18 Jul 2012 07:13:52 -0700 (PDT)
+	Wed, 18 Jul 2012 07:53:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=mime-version:date:message-id:subject:from:to:content-type;
+	bh=Avyj1F59VSdpjkl0LoaR9YcVvsY0O31fGjGzfFZF5t8=;
+	b=dY+HFAwUiCOBOnifEePwKedtJeiB5bF3DIw+LMrPPKADfHp3EBVO3Xf74S6rfNY7aY
+	F4hsxYCpxUo8T/ffvsGl62kYVDQqGV249LHaRrmo2Qq9SbyBftCCOjMibK17xNNLkK/E
+	+/Gw3ZBSHwQip7lfv8P/R9J+2q8dXw3OhxBJLSwc1FgK8/ObNodJfXpkngTKUs2HYSsm
+	G6fNiuIddsIHlL5n++jY6BzrjrxVF/Jf/bO4MuE05nxaiKj12R8MWPro8xZSWMFWzsA2
+	SHey8st3mlf7dDOI5SvvLFEC2LIJQL+6aQXWdp0BS/MNZlH3IosUWi/1QARyyGtIfN5+
+	zTig==
 MIME-Version: 1.0
-Received: by 10.229.82.74 with HTTP; Wed, 18 Jul 2012 07:13:32 -0700 (PDT)
-In-Reply-To: <20120718134507.GP22569@jama.jama.net>
-References: <1342618950-1081-1-git-send-email-ross.burton@intel.com>
-	<20120718134507.GP22569@jama.jama.net>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 18 Jul 2012 15:13:32 +0100
-Message-ID: <CAJTo0LaUN-DpRo2xKuUOM1ujLu6C-fc-6WZmxGyOjj4O8C2qsQ@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Gm-Message-State: ALoCoQndiloT/byHzh1FqkAFXSYZVh+3Jkp+qvCDtHdTpgiuHsPvRq637w0haDpguV1MBIYcNY94
-Subject: Re: [PATCH] sanity: display the parsed PATH when complaining about CWD elements
+Received: by 10.50.192.170 with SMTP id hh10mr2341598igc.36.1342623209796;
+	Wed, 18 Jul 2012 07:53:29 -0700 (PDT)
+Received: by 10.64.9.165 with HTTP; Wed, 18 Jul 2012 07:53:29 -0700 (PDT)
+Date: Wed, 18 Jul 2012 16:53:29 +0200
+Message-ID: <CALbNGRSSusDKWfdEMVH5hY1fA2gpxhLrJ2dTE7SEHx1o7QU+3Q@mail.gmail.com>
+From: =?ISO-8859-1?Q?Andreas_M=FCller?= <schnitzeltony@googlemail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: build crashes immediately at build clean sstate/tmp dir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,14 +39,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Jul 2012 14:25:15 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 18 Jul 2012 15:04:51 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On 18 July 2012 14:45, Martin Jansa <martin.jansa@gmail.com> wrote:
-> Maybe the same should be added to BBPATH test bellow?
+Hi,
 
-Yes, good point, I didn't notice that.  V2 sent.
+I just updated all repos / deleted all tmp / sstate and get
 
-Ross
+ERROR: Only one copy of bitbake should be run against a build directory
+
+Any ideas?
+
+Andreas
 
 
