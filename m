@@ -1,19 +1,25 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <yao.zhao@windriver.com>) id 1SrXVh-0003sN-VK
+	(envelope-from <amy.fong@windriver.com>) id 1SrYOb-0004f5-Nb
 	for openembedded-core@lists.openembedded.org;
-	Wed, 18 Jul 2012 18:54:02 +0200
-Received: from yzhao2-OptiPlex-990.corp.ad.wrs.com
-	(yzhao2-optiplex-990.corp.ad.wrs.com [128.224.147.210])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q6IGgdBg014123
+	Wed, 18 Jul 2012 19:50:46 +0200
+Received: from yow-afong-lx2.ottawa.windriver.com (yow-afong-lx2.wrs.com
+	[128.224.146.164])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q6IHdMI0022408
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Jul 2012 09:42:39 -0700 (PDT)
-From: Yao Zhao <yao.zhao@windriver.com>
+	Wed, 18 Jul 2012 10:39:23 -0700 (PDT)
+Received: from afong by yow-afong-lx2.ottawa.windriver.com with local (Exim
+	4.80) (envelope-from <amy.fong@windriver.com>) id 1SrYDa-0005Jj-HK
+	for openembedded-core@lists.openembedded.org;
+	Wed, 18 Jul 2012 13:39:22 -0400
+Date: Wed, 18 Jul 2012 13:39:22 -0400
+From: Amy Fong <amy.fong@windriver.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 18 Jul 2012 12:42:35 -0400
-Message-Id: <1342629755-23841-1-git-send-email-yao.zhao@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] tcl: fix tcl INCLUDE_SPEC and LIB_SPEC
+Message-ID: <20120718173922.GA20427@windriver.com>
+MIME-Version: 1.0
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Subject: [PATCH] nasm: nasm has a build dependency on groff-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -28,34 +34,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Jul 2012 16:54:02 -0000
+X-List-Received-Date: Wed, 18 Jul 2012 17:50:46 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-TCL_INCLUDE_SPEC -I/usr/include will cause problems cross configure/compile
-TCL_LIB_SPEC -L${libdir} will cause problems too when link.
-
-Signed-off-by: Yao Zhao <yao.zhao@windriver.com>
+nasm has a build dependency on groff-native
+    
+In one incident, there was a case where nasm-native compile phase failed
+with the following:
+    
+      +troff: can't find `DESC' file
+      +troff: fatal error: sorry, I can't continue
+    
+During this, groff-native was in the sysroot install phase.
+To remedy this, adding groff-native in nasm's dependency list.
+    
+Signed-off-by: Amy Fong <amy.fong@windriver.com>
 ---
- meta/recipes-devtools/tcltk/tcl_8.5.11.bb |    5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ nasm_2.07.bb |    2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-devtools/tcltk/tcl_8.5.11.bb b/meta/recipes-devtools/tcltk/tcl_8.5.11.bb
-index 1d43371..d5cf6dc 100644
---- a/meta/recipes-devtools/tcltk/tcl_8.5.11.bb
-+++ b/meta/recipes-devtools/tcltk/tcl_8.5.11.bb
-@@ -46,8 +46,9 @@ do_install() {
- 	autotools_do_install
- 	oe_libinstall -so libtcl8.5 ${STAGING_LIBDIR}
- 	ln -sf ./tclsh8.5 ${D}${bindir}/tclsh
--	sed -i "s+${WORKDIR}+${STAGING_INCDIR}+g" tclConfig.sh
--	sed -i "s,-L${libdir},," tclConfig.sh
-+	#sed -i "s+${WORKDIR}+${STAGING_INCDIR}+g" tclConfig.sh
-+	sed -i "s,-L${libdir},-L=${libdir},g" tclConfig.sh
-+	sed -i "s,-I${includedir},-I=${includedir},g" tclConfig.sh 
- 	install -d ${STAGING_BINDIR_CROSS}/
- 	install -m 0755 tclConfig.sh ${STAGING_BINDIR_CROSS}
- 	cd ..
--- 
-1.7.9.5
-
+diff --git a/meta/recipes-devtools/nasm/nasm_2.07.bb b/meta/recipes-devtools/nasm/nasm_2.07.bb
+index fc2d531..d3e3f5b 100644
+--- a/meta/recipes-devtools/nasm/nasm_2.07.bb
++++ b/meta/recipes-devtools/nasm/nasm_2.07.bb
+@@ -27,3 +27,5 @@ do_install() {
+ }
+ 
+ BBCLASSEXTEND = "native"
++
++DEPENDS = "groff-native"
 
 
