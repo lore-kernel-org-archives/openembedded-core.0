@@ -1,25 +1,20 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Morgan.Little@windriver.com>) id 1Sruz6-0004Dm-DQ
-	for openembedded-core@lists.openembedded.org;
-	Thu, 19 Jul 2012 19:57:59 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q6JHkXoo002471
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Jul 2012 10:46:33 -0700 (PDT)
-Received: from localhost.localdomain (128.224.147.201) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.1.255.0; Thu, 19 Jul 2012 10:46:33 -0700
-From: Morgan Little <morgan.little@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 19 Jul 2012 13:46:20 -0400
-Message-ID: <1342719981-1324-16-git-send-email-morgan.little@windriver.com>
-X-Mailer: git-send-email 1.7.0.4
-In-Reply-To: <1342719981-1324-1-git-send-email-morgan.little@windriver.com>
-References: <1342719981-1324-1-git-send-email-morgan.little@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH v2 15/16] kernelshark: Update for python-native changes
+	(envelope-from <nitin.a.kamble@intel.com>) id 1SrvQW-0005Qn-4M
+	for Openembedded-core@lists.openembedded.org;
+	Thu, 19 Jul 2012 20:26:16 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 19 Jul 2012 11:14:28 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="168595134"
+Received: from yocto-hm1.jf.intel.com ([10.23.232.32])
+	by orsmga001.jf.intel.com with ESMTP; 19 Jul 2012 11:14:28 -0700
+From: nitin.a.kamble@intel.com
+To: Openembedded-core@lists.openembedded.org
+Date: Wed, 18 Jul 2012 11:14:01 -0700
+Message-Id: <cover.1342635153.git.nitin.a.kamble@intel.com>
+X-Mailer: git-send-email 1.7.3.4
+Subject: [PATCH 0/1] add downloadfilename parameter to bitbake wget fetcher
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,36 +29,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Jul 2012 17:58:01 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 19 Jul 2012 18:26:16 -0000
 
-Add pythonnative to the inherits list
----
- meta/recipes-kernel/trace-cmd/kernelshark_1.2.bb |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
+From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-diff --git a/meta/recipes-kernel/trace-cmd/kernelshark_1.2.bb b/meta/recipes-kernel/trace-cmd/kernelshark_1.2.bb
-index d18cb6a..21f4576 100644
---- a/meta/recipes-kernel/trace-cmd/kernelshark_1.2.bb
-+++ b/meta/recipes-kernel/trace-cmd/kernelshark_1.2.bb
-@@ -4,13 +4,13 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
-                     file://kernel-shark.c;beginline=6;endline=8;md5=2c22c965a649ddd7973d7913c5634a5e"
- 
- SRCREV = "7055ffd37beeb44714e86a4abc703f7e175a0db5"
--PR = "r1"
-+PR = "r2"
- PV = "1.2+git${SRCPV}"
- 
- DEPENDS = "gtk+"
- RDEPENDS_${PN} = "trace-cmd"
- 
--inherit pkgconfig
-+inherit pkgconfig pythonnative
- 
- SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/rostedt/trace-cmd.git;protocol=git \
-            file://addldflags.patch \
+The following changes since commit 5b014eae151a1584df4e3d3b96d18f9df3e55665:
+
+  fix my typos in patch headers (2012-07-16 21:45:01 -0700)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib nitin/misc
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=nitin/misc
+
+Nitin A Kamble (1):
+  bitbake wget fetcher: add parameter: downloadfilename
+
+ bitbake/lib/bb/fetch2/__init__.py |    4 ++++
+ bitbake/lib/bb/fetch2/wget.py     |    9 ++++++++-
+ 2 files changed, 12 insertions(+), 1 deletions(-)
+
 -- 
-1.7.0.4
+1.7.3.4
 
 
 
