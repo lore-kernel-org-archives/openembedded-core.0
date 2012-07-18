@@ -1,40 +1,20 @@
-Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1SrTLm-0002qB-1U
+	(envelope-from <cristian.iorga@intel.com>) id 1SrTfI-00036j-DH
 	for openembedded-core@lists.openembedded.org;
-	Wed, 18 Jul 2012 14:27:31 +0200
-Received: from mail-qc0-f180.google.com ([209.85.216.180])
-	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 18 Jul 2012 05:15:54 -0700
-Received: by qcmv28 with SMTP id v28so797451qcm.25
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Jul 2012 05:15:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type:x-gm-message-state;
-	bh=acXEQ8sKMBYdbz5LpXI36Ez4CHv28J16OxTv5gSol8U=;
-	b=AE9x9g2cW6pJOCGyCqSJ8jvZD76vdANfVPooQT1Eij7Sfy2eOHVj/SU0ZU+aJY4yeu
-	4yVbUYAO5kDkDnQ0D+3QDJ+j7H7c2FcGxn3WAxYxIyq8baeIi1XViQVnU5xUqAE+XFWR
-	aftTbzLfLVT0U9tR5nFzQRbnKkkJImOT9TLTJWhot3PaTU9KCnOp6oC/V6GCIT0P6x8l
-	FZohyJ2k+4et+6vaBb6eRtlh/8Lv/1wchINPIY7lDtPb2ffACAv7OYXEJM7pz7j8+QGA
-	TmROMKkET/MhXAGRTIG4kPBEz478Uxi6oj2fq22abyAB6y3LXtXnEFOesdT5d1m1WBju
-	1o0g==
-Received: by 10.224.177.1 with SMTP id bg1mr5467906qab.68.1342613754077; Wed,
-	18 Jul 2012 05:15:54 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.229.82.74 with HTTP; Wed, 18 Jul 2012 05:15:33 -0700 (PDT)
-In-Reply-To: <CAJTo0LYn58DZcjxDnR_iLHd8pF+Km9+5ph8Y2s7vnpqE-+hTkg@mail.gmail.com>
-References: <CAJTo0LY9WbxAW35NS-C1M4_rpDDD6SCXcRPw7OtdoR5WkFZirA@mail.gmail.com>
-	<20120718112359.GC29030@mi.fu-berlin.de>
-	<CAJTo0LYO9xT3sfBR_cQw6=76HqEaYaOzktG861_QXaVwsV5c0Q@mail.gmail.com>
-	<CAJTo0LYn58DZcjxDnR_iLHd8pF+Km9+5ph8Y2s7vnpqE-+hTkg@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 18 Jul 2012 13:15:33 +0100
-Message-ID: <CAJTo0LaXvBNHKmSjU8JgrjA-2SB3Uu1S6XnzXugbBxgVYGXvLw@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Gm-Message-State: ALoCoQmYkCDDWjQ7LpDa1aVmGBAwZsDGFbHWywmyklodnWKXCmM1+qeNXiex8chZKUzHJ2Dg05Qs
-Subject: Re: eglibc-initial trying to remove files in /usr
+	Wed, 18 Jul 2012 14:47:40 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 18 Jul 2012 05:36:19 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="179588640"
+Received: from sentry (HELO localhost.localdomain) ([10.237.105.53])
+	by fmsmga001.fm.intel.com with ESMTP; 18 Jul 2012 05:36:17 -0700
+From: Cristian Iorga <cristian.iorga@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 18 Jul 2012 15:36:28 +0300
+Message-Id: <1342614989-31488-1-git-send-email-cristian.iorga@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH v2] wpa-supplicant: upgrade to 1.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,15 +29,100 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Jul 2012 12:27:31 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 18 Jul 2012 12:47:40 -0000
 
-On 18 July 2012 13:10, Burton, Ross <ross.burton@intel.com> wrote:
-> So I reverted to GNU Make 3.82 (debian experimental) to 3.81 (debian
-> unstable), and eglibc-initial builds.
+README file is changed.
+Some phrases were reformulated, but the semanthics are the same.
+Copyright has been renewed.
+Both licenses (GPL v2 and BSD) have been added explicitly.
 
-*from* 3.82 *to* 3.81, whoops.
+wpa_supplicant.c is changed regarding licenses body.
+Copyright has been renewed.
 
-Ross
+Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
+---
+ ...a-supplicant-0.7.inc => wpa-supplicant-1.0.inc} |    4 ++--
+ .../99_wpa_supplicant                              |    0
+ .../defconfig-gnutls                               |    0
+ .../wpa-supplicant.sh                              |    0
+ .../wpa_supplicant.conf                            |    0
+ .../wpa_supplicant.conf-sane                       |    0
+ .../wpa-supplicant/wpa-supplicant_0.7.3.bb         |    6 ------
+ .../wpa-supplicant/wpa-supplicant_1.0.bb           |    6 ++++++
+ 8 files changed, 8 insertions(+), 8 deletions(-)
+ rename meta/recipes-connectivity/wpa-supplicant/{wpa-supplicant-0.7.inc => wpa-supplicant-1.0.inc} (95%)
+ rename meta/recipes-connectivity/wpa-supplicant/{wpa-supplicant-0.7.3 => wpa-supplicant-1.0}/99_wpa_supplicant (100%)
+ rename meta/recipes-connectivity/wpa-supplicant/{wpa-supplicant-0.7.3 => wpa-supplicant-1.0}/defconfig-gnutls (100%)
+ rename meta/recipes-connectivity/wpa-supplicant/{wpa-supplicant-0.7.3 => wpa-supplicant-1.0}/wpa-supplicant.sh (100%)
+ rename meta/recipes-connectivity/wpa-supplicant/{wpa-supplicant-0.7.3 => wpa-supplicant-1.0}/wpa_supplicant.conf (100%)
+ rename meta/recipes-connectivity/wpa-supplicant/{wpa-supplicant-0.7.3 => wpa-supplicant-1.0}/wpa_supplicant.conf-sane (100%)
+ delete mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.7.3.bb
+ create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_1.0.bb
+
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.inc b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-1.0.inc
+similarity index 95%
+rename from meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.inc
+rename to meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-1.0.inc
+index 6c84202..0c18b30 100644
+--- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.inc
++++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-1.0.inc
+@@ -4,8 +4,8 @@ BUGTRACKER = "http://hostap.epitest.fi/bugz/"
+ SECTION = "network"
+ LICENSE = "GPLv2 | BSD"
+ LIC_FILES_CHKSUM = "file://../COPYING;md5=c54ce9345727175ff66d17b67ff51f58 \
+-                    file://../README;md5=54cfc88015d3ce83f7156e63c6bb1738 \
+-                    file://wpa_supplicant.c;beginline=1;endline=17;md5=acdc5a4b0d6345f21f136eace747260e"
++                    file://../README;md5=9bee93996fecdb70f807baceb29d84b9 \
++                    file://wpa_supplicant.c;beginline=1;endline=17;md5=372fb65dc23b228aec4e40e64de3e467"
+ DEPENDS = "gnutls dbus libnl"
+ RRECOMMENDS_${PN} = "wpa-supplicant-passphrase wpa-supplicant-cli"
+ 
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.3/99_wpa_supplicant b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-1.0/99_wpa_supplicant
+similarity index 100%
+rename from meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.3/99_wpa_supplicant
+rename to meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-1.0/99_wpa_supplicant
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.3/defconfig-gnutls b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-1.0/defconfig-gnutls
+similarity index 100%
+rename from meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.3/defconfig-gnutls
+rename to meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-1.0/defconfig-gnutls
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.3/wpa-supplicant.sh b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-1.0/wpa-supplicant.sh
+similarity index 100%
+rename from meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.3/wpa-supplicant.sh
+rename to meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-1.0/wpa-supplicant.sh
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.3/wpa_supplicant.conf b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-1.0/wpa_supplicant.conf
+similarity index 100%
+rename from meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.3/wpa_supplicant.conf
+rename to meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-1.0/wpa_supplicant.conf
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.3/wpa_supplicant.conf-sane b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-1.0/wpa_supplicant.conf-sane
+similarity index 100%
+rename from meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-0.7.3/wpa_supplicant.conf-sane
+rename to meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-1.0/wpa_supplicant.conf-sane
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.7.3.bb b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.7.3.bb
+deleted file mode 100644
+index 6f6378b..0000000
+--- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_0.7.3.bb
++++ /dev/null
+@@ -1,6 +0,0 @@
+-require wpa-supplicant-0.7.inc
+-
+-PR = "r12"
+-
+-SRC_URI[md5sum] = "f516f191384a9a546e3f5145c08addda"
+-SRC_URI[sha256sum] = "d0cd50caa85346ccc376dcda5ed3c258eef19a93b3cade39d25760118ad59443"
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_1.0.bb b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_1.0.bb
+new file mode 100644
+index 0000000..8ede3e5
+--- /dev/null
++++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_1.0.bb
+@@ -0,0 +1,6 @@
++require wpa-supplicant-1.0.inc
++
++PR = "r0"
++
++SRC_URI[md5sum] = "8650f6aa23646ef634402552d0669640"
++SRC_URI[sha256sum] = "91d41d473a5aafa2e25dd6577ebda975c4d4a3188850a53e31feaf7c04482b9c"
+-- 
+1.7.9.5
+
 
 
