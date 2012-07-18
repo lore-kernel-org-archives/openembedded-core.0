@@ -1,23 +1,30 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-ob0-f175.google.com ([209.85.214.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Rongqing.Li@windriver.com>) id 1SrJyw-00009g-Jz
+	(envelope-from <dennis.yxun@gmail.com>) id 1SrL6K-0001jw-US
 	for openembedded-core@lists.openembedded.org;
-	Wed, 18 Jul 2012 04:27:18 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q6I2Fvhr020216
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 18 Jul 2012 05:39:01 +0200
+Received: by obcva7 with SMTP id va7so1466009obc.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Jul 2012 19:15:57 -0700 (PDT)
-Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.163) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.1.255.0; Tue, 17 Jul 2012 19:15:57 -0700
-From: <rongqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 18 Jul 2012 10:15:56 +0800
-Message-ID: <1342577756-11891-1-git-send-email-rongqing.li@windriver.com>
-X-Mailer: git-send-email 1.7.4.1
+	Tue, 17 Jul 2012 20:27:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:date:message-id:subject:from:to:content-type;
+	bh=YVtSdsbHaSuAmYo8mxwWqJzmzUw+VHAbWsm0ektv/4s=;
+	b=oPkJA6fatLeLeXBuA9Fmmv9EhJQJUVmCHR76Hxs0WMXZuCEIX8iv4LptO5fu1rRPm7
+	aam7MuMwYqMiyv3OI8o9PMGGKtE/52LASXWDnrDHIAbiTjAa7rh3EXGQZ98iz2216fEh
+	xYiWvivLVHW1O+zCJxyIHyy+IdjdZZd4AMKe/54BW+iBDLpuPN3fC/teFcf6FZp9/j6k
+	EtDTKGLQF+CVZKwramqk69uzSesVOl7xn/g8oX6fOBw11ly2m1w6EPPiNm33K+35bsog
+	ZErY4MS3dQFLu2Ra/cADjWuMJMXp4BZX7ElcHSsBRQGRF1TF/hV6ER7zbNoB54SxG555
+	R5dw==
 MIME-Version: 1.0
-Subject: [PATCH] slang: add header to patch
+Received: by 10.182.160.10 with SMTP id xg10mr6637213obb.76.1342582060239;
+	Tue, 17 Jul 2012 20:27:40 -0700 (PDT)
+Received: by 10.182.37.134 with HTTP; Tue, 17 Jul 2012 20:27:40 -0700 (PDT)
+Date: Wed, 18 Jul 2012 11:27:40 +0800
+Message-ID: <CAF1ZMEdcbw78ViHnxiFH2BY4rweS8nzQoTG_=5EcUTjqPw8G+g@mail.gmail.com>
+From: "Dennis.Yxun" <dennis.yxun@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: core-image-sato fetchall fail due to circular dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,45 +39,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Jul 2012 02:27:19 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 18 Jul 2012 03:39:01 -0000
+Content-Type: text/plain; charset=UTF-8
 
-From: Roy.Li <rongqing.li@windriver.com>
+hi ALL:
+ hit following error, any ideas?
 
-Add description, Signed-off-by and Upstream-Status to
-change-char-type-to-signed-char-in-macros.patch
+Dennis
 
-Signed-off-by: Roy.Li <rongqing.li@windriver.com>
----
- ...change-char-type-to-signed-char-in-macros.patch |   16 ++++++++++++++++
- 1 files changed, 16 insertions(+), 0 deletions(-)
+ $ bitbake -c fetchall core-image-sato
+Parsing recipes: 100% |#########################################| Time: 00:00:38
+Parsing of 833 .bb files complete (0 cached, 833 parsed). 1132
+targets, 19 skipped, 0 masked, 0 errors.
 
-diff --git a/meta/recipes-extended/slang/slang/change-char-type-to-signed-char-in-macros.patch b/meta/recipes-extended/slang/slang/change-char-type-to-signed-char-in-macros.patch
-index 18dea13..2ea1ffd 100644
---- a/meta/recipes-extended/slang/slang/change-char-type-to-signed-char-in-macros.patch
-+++ b/meta/recipes-extended/slang/slang/change-char-type-to-signed-char-in-macros.patch
-@@ -1,3 +1,19 @@
-+slang: change char type to signed char in macros
-+
-+C language has 3 distinct char types:
-+         char
-+         unsigned char
-+         signed char
-+A char has the same range of values as signed char on X86,
-+but same as unsigned char on ARM which made Slang's typecast()
-+and array_sort() unable to work for char value on ARM, since
-+Slang is assuming "char" as "signed char".
-+
-+Now we change "char" as "signed char" explicitly in
-+util/mkslarith2.sl, and use it to regenerate src/slarith2.inc
-+
-+Upstream-Status: Submitted
-+Signed-off-by: Roy.Li <rongqing.li@windriver.com>
- ---
-  src/slarith2.inc       |   72 ++++++++++++++++++++++++-------------------------
-  src/util/mkslarith2.sl |    2 -
--- 
-1.7.4.1
+Build Configuration:
+BB_VERSION        = "1.15.2"
+TARGET_ARCH       = "i586"
+TARGET_OS         = "linux"
+MACHINE           = "qemux86"
+DISTRO_VERSION    = "oe-core.0"
+TUNE_FEATURES     = "m32 i586"
+TARGET_FPU        = ""
+meta              = "master:2bd0aaf98c5d586638d82f5f22c1c24122a889a3"
 
+NOTE: Resolving any missing task queue dependencies
+NOTE: Preparing runqueue
+ERROR: Task /mnt/work/oe/oe-core/meta/recipes-core/ncurses/ncurses_5.9.bb
+(do_fetchall) has circular dependency on
+/mnt/work/oe/oe-core/meta/recipes-core/eglibc/eglibc_2.15.bb
+(do_fetchall)
+
+Summary: There was 1 ERROR message shown, returning a non-zero exit code.
 
 
