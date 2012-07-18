@@ -1,33 +1,32 @@
-Received: from mail-lb0-f175.google.com ([209.85.217.175])
+Received: from mail-yx0-f175.google.com ([209.85.213.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1SrVpr-00073y-IS
+	(envelope-from <schnitzeltony@googlemail.com>) id 1SrWCU-0000ax-77
 	for openembedded-core@lists.openembedded.org;
-	Wed, 18 Jul 2012 17:06:43 +0200
-Received: by lbol5 with SMTP id l5so2154960lbo.6
+	Wed, 18 Jul 2012 17:30:06 +0200
+Received: by yenl13 with SMTP id l13so1554199yen.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Jul 2012 07:55:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date
-	:x-google-sender-auth:message-id:subject:to:content-type
-	:content-transfer-encoding;
-	bh=cL+Ik/KoXnXUL4wXXQMPkmkur4wfYtt3imcmO3NYMUA=;
-	b=YDRfApPwTD+7WZ14eSntd3s/AQkduemWIW+q8aWp1Vphy04y5svnK8RUfIUC860HDO
-	Pozk/7jlbI/ar0eYxw3/e42CqiT7Q4ozsfybv22lnHcFT+kqJ3gHMAbcKkJE793RWbSx
-	Y2q3zQ7CEa5WmJWRpZUCX7tcPZcrqK3tUCk0NHZx7jK58XKi9zzJmXTk8m39mCyKrqNB
-	kuR4+czTcIT9yC0+yxniZS3o9JVforyMZ1yesR83a9GbZ4B6owKilx4ZDj/xowDj4X7a
-	jJMhx4PRwQtHr8lLAtwhF9T5d4lJTGpjdy0x7zxaraEWLcJ1vE67/oQESUse1/Uuxyup
-	pImQ==
-Received: by 10.112.85.225 with SMTP id k1mr1972245lbz.38.1342623322720; Wed,
-	18 Jul 2012 07:55:22 -0700 (PDT)
+	Wed, 18 Jul 2012 08:18:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type:content-transfer-encoding;
+	bh=pbzN6GxmL41s1aD3xek0bDp5XG0cj1ffgb3QkWhFr8I=;
+	b=f/hv9AFcZL7k5Y8RqR4tVxrGLH/q41W3JbE9RDpuCBDL2tekTX+CCUC0TK87BwJHOE
+	naKRzT0nnog5Fn08droN7rjvWpDNL0a94PuMwVOhahz4SpBiRhzmap7iuO56HHaJAjTd
+	80KH/cLW64dhuoaKHCHhFK8rb+ki5zekMzB+GIkE1mGQ7PVvjmFN4mCc/TFRQ2cWdosq
+	Rg0ncFGmzcQd/v7WiUm10zwFrckLgAk6Y0xWcGJuN+OfCBYNNmQlN9okhUMcKcorxRii
+	mjzuSbVjg4EzUzvp4rCfbm+wu+dAhNcaO1gqD5LI7xpWgRCq9EK19vQn9x9MACbxVUcR
+	yWug==
 MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.114.64.180 with HTTP; Wed, 18 Jul 2012 07:55:02 -0700 (PDT)
-In-Reply-To: <CALbNGRSSusDKWfdEMVH5hY1fA2gpxhLrJ2dTE7SEHx1o7QU+3Q@mail.gmail.com>
+Received: by 10.42.148.196 with SMTP id s4mr670712icv.19.1342624724772; Wed,
+	18 Jul 2012 08:18:44 -0700 (PDT)
+Received: by 10.64.9.165 with HTTP; Wed, 18 Jul 2012 08:18:44 -0700 (PDT)
+In-Reply-To: <CABcZANm5a+VFPwDjaPZFmy4vQtQX=_os+SOycxfuAnqaEzbfnA@mail.gmail.com>
 References: <CALbNGRSSusDKWfdEMVH5hY1fA2gpxhLrJ2dTE7SEHx1o7QU+3Q@mail.gmail.com>
-From: Chris Larson <clarson@kergoth.com>
-Date: Wed, 18 Jul 2012 07:55:02 -0700
-X-Google-Sender-Auth: rX7YQsUjDav-YnZqcwOwaFDKljk
-Message-ID: <CABcZANm5a+VFPwDjaPZFmy4vQtQX=_os+SOycxfuAnqaEzbfnA@mail.gmail.com>
+	<CABcZANm5a+VFPwDjaPZFmy4vQtQX=_os+SOycxfuAnqaEzbfnA@mail.gmail.com>
+Date: Wed, 18 Jul 2012 17:18:44 +0200
+Message-ID: <CALbNGRTUacOieZCmTD2g0x=-3Bp-b9aLAg5SZN9gR+hQ0_yz3w@mail.gmail.com>
+From: =?ISO-8859-1?Q?Andreas_M=FCller?= <schnitzeltony@googlemail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: build crashes immediately at build clean sstate/tmp dir
@@ -45,18 +44,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Jul 2012 15:06:43 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 18 Jul 2012 15:30:06 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jul 18, 2012 at 7:53 AM, Andreas M=C3=BCller
-<schnitzeltony@googlemail.com> wrote:
-> I just updated all repos / deleted all tmp / sstate and get
+On Wed, Jul 18, 2012 at 4:55 PM, Chris Larson <clarson@kergoth.com> wrote:
+> On Wed, Jul 18, 2012 at 7:53 AM, Andreas M=FCller
+> <schnitzeltony@googlemail.com> wrote:
+>> I just updated all repos / deleted all tmp / sstate and get
+>>
+>> ERROR: Only one copy of bitbake should be run against a build directory
 >
-> ERROR: Only one copy of bitbake should be run against a build directory
+> ps -ef|grep bitbake
+> --
+Aargh - some old processes around - sorry for the noise
 
-ps -ef|grep bitbake
---=20
-Christopher Larson
+Andreas
 
 
