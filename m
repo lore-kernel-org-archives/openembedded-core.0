@@ -1,24 +1,24 @@
 Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SrP5O-0004Vi-F7
+	(envelope-from <sgw@linux.intel.com>) id 1SrP5O-0004XN-LU
 	for openembedded-core@lists.openembedded.org;
-	Wed, 18 Jul 2012 09:54:18 +0200
+	Wed, 18 Jul 2012 09:54:19 +0200
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
 	by azsmga102.ch.intel.com with ESMTP; 18 Jul 2012 00:42:58 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="169736803"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="169736804"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.178])
 	by azsmga001.ch.intel.com with ESMTP; 18 Jul 2012 00:42:58 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 18 Jul 2012 00:42:37 -0700
-Message-Id: <3ea597249c18d73417abe7d7a9d32bba00499914.1342597081.git.sgw@linux.intel.com>
+Date: Wed, 18 Jul 2012 00:42:38 -0700
+Message-Id: <b2ee5c5e34cdc3d65ca7b5da3486360a74d6c500.1342597081.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <fee3def2ca49e3349758d9cd9a9cf5645f03cf18.1342597081.git.sgw@linux.intel.com>
 References: <fee3def2ca49e3349758d9cd9a9cf5645f03cf18.1342597081.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1342597081.git.sgw@linux.intel.com>
 References: <cover.1342597081.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 08/18] meta-ide-support: Add native qemu support for meta-ide-support
+Subject: [CONSOLIDATED PULL 09/18] terminal.py: Fix Xfce on ubuntu/debian; some cleanup
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,47 +35,125 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 18 Jul 2012 07:54:20 -0000
 
-From: Jessica Zhang <jessica.zhang@intel.com>
+From: Jeffrey C Honig <jeffrey.honig@windriver.com>
 
-[YOCTO #2761]
+    * Xfce class was setting and passing wrong variable for ubuntu/debian.
+    * Xfce class was using -e instead of -x for passing command.  The former creates
+      a shell escape nightmare
+    * Clean up local and instance/class variables with same name but different usage.
+    * Remove side-effect and directly return formatted command for clarity.
 
-This patch fixed the issue that after "bitbake meta-ide-support" and try to start qemu and it will fail.  This is due to the meta-ide-support lacking dependency for qemu native and ended up using qemu under /usr/bin.  Fix the issue by adding dependency for qemu native in meta-ide-support and also add the path info in the environment-setup script.
-
-Signed-off-by: Jessica Zhang <jessica.zhang@intel.com>
+Signed-off-by: Jeffrey C Honig <jeffrey.honig@windriver.com>
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/classes/toolchain-scripts.bbclass     |    2 +-
- meta/recipes-core/meta/meta-ide-support.bb |    4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ meta/lib/oe/terminal.py |   37 ++++++++++++++++++-------------------
+ 1 files changed, 18 insertions(+), 19 deletions(-)
 
-diff --git a/meta/classes/toolchain-scripts.bbclass b/meta/classes/toolchain-scripts.bbclass
-index bf37ec9..e5e5e96 100644
---- a/meta/classes/toolchain-scripts.bbclass
-+++ b/meta/classes/toolchain-scripts.bbclass
-@@ -52,7 +52,7 @@ toolchain_create_tree_env_script () {
- 	script=${TMPDIR}/environment-setup-${REAL_MULTIMACH_TARGET_SYS}
- 	rm -f $script
- 	touch $script
--	echo 'export PATH=${PATH}' >> $script
-+	echo 'export PATH=${STAGING_DIR_NATIVE}/usr/bin:${PATH}' >> $script
- 	echo 'export PKG_CONFIG_SYSROOT_DIR=${PKG_CONFIG_SYSROOT_DIR}' >> $script
- 	echo 'export PKG_CONFIG_PATH=${PKG_CONFIG_PATH}' >> $script
+diff --git a/meta/lib/oe/terminal.py b/meta/lib/oe/terminal.py
+index 43639d5..28abf14 100644
+--- a/meta/lib/oe/terminal.py
++++ b/meta/lib/oe/terminal.py
+@@ -28,11 +28,10 @@ class Registry(oe.classutils.ClassRegistry):
+ class Terminal(Popen):
+     __metaclass__ = Registry
  
-diff --git a/meta/recipes-core/meta/meta-ide-support.bb b/meta/recipes-core/meta/meta-ide-support.bb
-index 326b25a..130b1c9 100644
---- a/meta/recipes-core/meta/meta-ide-support.bb
-+++ b/meta/recipes-core/meta/meta-ide-support.bb
-@@ -3,8 +3,8 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58 \
-                     file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+-    def __init__(self, command, title=None, env=None):
+-        self.format_command(command, title)
+-
++    def __init__(self, sh_cmd, title=None, env=None):
++        fmt_sh_cmd = self.format_command(sh_cmd, title)
+         try:
+-            Popen.__init__(self, self.command, env=env)
++            Popen.__init__(self, fmt_sh_cmd, env=env)
+         except OSError as exc:
+             import errno
+             if exc.errno == errno.ENOENT:
+@@ -40,16 +39,16 @@ class Terminal(Popen):
+             else:
+                 raise
  
--DEPENDS = "virtual/libc gdb-cross qemu-helper-native unfs-server-native"
--PR = "r2"
-+DEPENDS = "virtual/libc gdb-cross qemu-native qemu-helper-native unfs-server-native"
-+PR = "r3"
+-    def format_command(self, command, title):
+-        fmt = {'title': title or 'Terminal', 'command': command}
++    def format_command(self, sh_cmd, title):
++        fmt = {'title': title or 'Terminal', 'command': sh_cmd}
+         if isinstance(self.command, basestring):
+-            self.command = shlex.split(self.command.format(**fmt))
++            return shlex.split(self.command.format(**fmt))
+         else:
+-            self.command = [element.format(**fmt) for element in self.command]
++            return [element.format(**fmt) for element in self.command]
  
- inherit meta toolchain-scripts
+ class XTerminal(Terminal):
+-    def __init__(self, command, title=None, env=None):
+-        Terminal.__init__(self, command, title, env)
++    def __init__(self, sh_cmd, title=None, env=None):
++        Terminal.__init__(self, sh_cmd, title, env)
+         if not os.environ.get('DISPLAY'):
+             raise UnsupportedTerminal(self.name)
  
+@@ -75,14 +74,14 @@ class Konsole(XTerminal):
+     command = 'konsole -T "{title}" -e {command}'
+     priority = 2
+ 
+-    def __init__(self, command, title=None, env=None):
++    def __init__(self, sh_cmd, title=None, env=None):
+         # Check version
+         vernum = check_konsole_version("konsole")
+         if vernum:
+             if vernum.split('.')[0] == "2":
+                 logger.debug(1, 'Konsole from KDE 4.x will not work as devshell, skipping')
+                 raise UnsupportedTerminal(self.name)
+-        XTerminal.__init__(self, command, title, env)
++        XTerminal.__init__(self, sh_cmd, title, env)
+ 
+ class XTerm(XTerminal):
+     command = 'xterm -T "{title}" -e {command}'
+@@ -95,8 +94,8 @@ class Rxvt(XTerminal):
+ class Screen(Terminal):
+     command = 'screen -D -m -t "{title}" -S devshell {command}'
+ 
+-    def __init__(self, command, title=None, env=None):
+-        Terminal.__init__(self, command, title, env)
++    def __init__(self, sh_cmd, title=None, env=None):
++        Terminal.__init__(self, sh_cmd, title, env)
+         logger.warn('Screen started. Please connect in another terminal with '
+                     '"screen -r devshell"')
+ 
+@@ -104,18 +103,18 @@ class Screen(Terminal):
+ def prioritized():
+     return Registry.prioritized()
+ 
+-def spawn_preferred(command, title=None, env=None):
++def spawn_preferred(sh_cmd, title=None, env=None):
+     """Spawn the first supported terminal, by priority"""
+     for terminal in prioritized():
+         try:
+-            spawn(terminal.name, command, title, env)
++            spawn(terminal.name, sh_cmd, title, env)
+             break
+         except UnsupportedTerminal:
+             continue
+     else:
+         raise NoSupportedTerminals()
+ 
+-def spawn(name, command, title=None, env=None):
++def spawn(name, sh_cmd, title=None, env=None):
+     """Spawn the specified terminal, by name"""
+     logger.debug(1, 'Attempting to spawn terminal "%s"', name)
+     try:
+@@ -123,10 +122,10 @@ def spawn(name, command, title=None, env=None):
+     except KeyError:
+         raise UnsupportedTerminal(name)
+ 
+-    pipe = terminal(command, title, env)
++    pipe = terminal(sh_cmd, title, env)
+     output = pipe.communicate()[0]
+     if pipe.returncode != 0:
+-        raise ExecutionError(pipe.command, pipe.returncode, output)
++        raise ExecutionError(sh_cmd, pipe.returncode, output)
+ 
+ def check_konsole_version(konsole):
+     import subprocess as sub
 -- 
 1.7.7.6
 
