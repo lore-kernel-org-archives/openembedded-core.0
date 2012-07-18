@@ -1,36 +1,37 @@
-Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
+Received: from mail-bk0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1SrUhe-0004qc-39
+	(envelope-from <martin.jansa@gmail.com>) id 1SrUji-0004tw-81
 	for openembedded-core@lists.openembedded.org;
-	Wed, 18 Jul 2012 15:54:10 +0200
-Received: from mail-wi0-f178.google.com ([209.85.212.178])
-	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 18 Jul 2012 06:42:47 -0700
-Received: by wibhr14 with SMTP id hr14so1158694wib.13
+	Wed, 18 Jul 2012 15:56:18 +0200
+Received: by bkcik5 with SMTP id ik5so1150846bkc.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Jul 2012 06:42:46 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:x-gm-message-state;
-	bh=JK5rqIEg7IklBffP6x7YHZqM706v9jlzJBZHgBLwIpY=;
-	b=IdZezf1WUaRbpbr0wSTG7wrmjWmG7UD0oyPdQXTXtnjGgTPjhLBm5KvrsyeXAyK1iC
-	HfCD07rn8ZhvnSzE4NDB45jOTRCvFjkUPf5Ip/bI06XCEuO4qtAs1M8myud7mhsuwQC+
-	PsfXjwPJ/UOvCyT313/xWD8/5EijsUgx4uICg9xU+Zm2o4Ur6xvkgKdD9RtSykQNM+dK
-	ZZ2qv4XDL78o7JG1rjwv+fU0K0z6wOMGspPNP5/zO1bfTSwX6Bf5SEczYIsMeVO1kKYH
-	JSD3lIfsgFP9S0bOd3RkAToHqK0epGx+EncMYwtki/ewyDD9SpSodiaIWqwBsdHh9NCa
-	h60A==
-Received: by 10.217.6.194 with SMTP id y44mr622558wes.27.1342618966077;
-	Wed, 18 Jul 2012 06:42:46 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id ef5sm48387363wib.3.2012.07.18.06.42.44
+	Wed, 18 Jul 2012 06:44:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=vjYkUGNoCLuvRrTYyTVuwBM4Q9+fD9iPca1LcvlQfg0=;
+	b=i1dvu+wPouiTxUoNjykFlvmWC3UQOVtxpOazdoKZb3IIPNoO/vQKjkoU18Qyy1jAKH
+	/T28c3Ockrs/2eUZwMaONSLfs+X89lkj9vT0hu/HYxmoLhz8zfJTOS69329Ef0QRCcwl
+	OxniSrkLG2K/7hVsxN0nhnwz3jEetdVDJUtZA6s1UaK9WF/mORNI4Mp8ecS/KV1h2UPb
+	WZU8BzlrYDZ6DiuQqHqOIolL7BjH0WWz05QF/vgvDFkiyH61gighkt26jur6SAZfQYQK
+	Fsg5tYmnHpe4PUSXI/T+hKUN4N8Uz8IYkDMkFJajbcnNocbwpHBI1eblcz57AsK43G9W
+	TS8w==
+Received: by 10.204.151.81 with SMTP id b17mr1685495bkw.95.1342619097506;
+	Wed, 18 Jul 2012 06:44:57 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id t23sm11925410bks.4.2012.07.18.06.44.55
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 18 Jul 2012 06:42:45 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 18 Jul 2012 14:42:30 +0100
-Message-Id: <1342618950-1081-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10
-X-Gm-Message-State: ALoCoQmLBpL7z82e6v26Gcg3Aysn9C/HN9PdBfY+auDlhbGYz3OmR7zgqv/CDoZ7ttuuGNTU4o5g
-Subject: [PATCH] sanity: display the parsed PATH when complaining about CWD elements
+	Wed, 18 Jul 2012 06:44:56 -0700 (PDT)
+Date: Wed, 18 Jul 2012 15:45:07 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Message-ID: <20120718134507.GP22569@jama.jama.net>
+References: <1342618950-1081-1-git-send-email-ross.burton@intel.com>
+MIME-Version: 1.0
+In-Reply-To: <1342618950-1081-1-git-send-email-ross.burton@intel.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Subject: Re: [PATCH] sanity: display the parsed PATH when complaining about CWD elements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,32 +46,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Jul 2012 13:54:10 -0000
+X-List-Received-Date: Wed, 18 Jul 2012 13:56:18 -0000
+X-Groupsio-MsgNum: 25648
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="MXxcbiX/Q4+iy5U7"
+Content-Disposition: inline
 
-Many people don't understand the nuances of PATH, so help them by clarifying
-the warning and displaying the parsed PATH element-by-element.
+--MXxcbiX/Q4+iy5U7
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/classes/sanity.bbclass |    3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+On Wed, Jul 18, 2012 at 02:42:30PM +0100, Ross Burton wrote:
+> Many people don't understand the nuances of PATH, so help them by clarify=
+ing
+> the warning and displaying the parsed PATH element-by-element.
+>=20
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> ---
+>  meta/classes/sanity.bbclass |    3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+> index 765958e..5c69d54 100644
+> --- a/meta/classes/sanity.bbclass
+> +++ b/meta/classes/sanity.bbclass
+> @@ -390,7 +390,8 @@ def check_sanity(sanity_data):
+> =20
+>      paths =3D sanity_data.getVar('PATH', True).split(":")
+>      if "." in paths or "" in paths:
+> -        messages =3D messages + "PATH contains '.' or '', which will bre=
+ak the build, please remove this."
+> +        messages =3D messages + "PATH contains '.' or '' (empty element)=
+, which will break the build, please remove this.\n"
+> +        messages =3D messages + "Parsed PATH is " + str(paths) + "\n"
+> =20
+>      bbpaths =3D sanity_data.getVar('BBPATH', True).split(":")
+>      if "." in bbpaths or "" in bbpaths:
 
-diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-index 765958e..5c69d54 100644
---- a/meta/classes/sanity.bbclass
-+++ b/meta/classes/sanity.bbclass
-@@ -390,7 +390,8 @@ def check_sanity(sanity_data):
- 
-     paths = sanity_data.getVar('PATH', True).split(":")
-     if "." in paths or "" in paths:
--        messages = messages + "PATH contains '.' or '', which will break the build, please remove this."
-+        messages = messages + "PATH contains '.' or '' (empty element), which will break the build, please remove this.\n"
-+        messages = messages + "Parsed PATH is " + str(paths) + "\n"
- 
-     bbpaths = sanity_data.getVar('BBPATH', True).split(":")
-     if "." in bbpaths or "" in bbpaths:
--- 
-1.7.10
+Maybe the same should be added to BBPATH test bellow?
 
+Cheers,
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--MXxcbiX/Q4+iy5U7
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
+
+iEYEARECAAYFAlAGveMACgkQN1Ujt2V2gBz0iwCgh03Ycs6yNGpNmNEMxiVgws0Z
+jrMAn04SomKdm+OKLL8A8wHd+PY+Mwny
+=3vrv
+-----END PGP SIGNATURE-----
+
+--MXxcbiX/Q4+iy5U7--
