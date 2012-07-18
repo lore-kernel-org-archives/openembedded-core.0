@@ -1,32 +1,34 @@
-Received: from mail-we0-f175.google.com ([74.125.82.175])
+Received: from outpost1.zedat.fu-berlin.de ([130.133.4.66])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1SrSEP-0001Pm-8k
+	(envelope-from <heinold@mi.fu-berlin.de>) id 1SrSXG-0001eJ-TD
 	for openembedded-core@lists.openembedded.org;
-	Wed, 18 Jul 2012 13:15:49 +0200
-Received: by weyr6 with SMTP id r6so849443wey.6
+	Wed, 18 Jul 2012 13:35:18 +0200
+Received: from relay1.zedat.fu-berlin.de ([130.133.4.67])
+	by outpost1.zedat.fu-berlin.de (Exim 4.69)
+	for openembedded-core@lists.openembedded.org with esmtp
+	(envelope-from <heinold@mi.fu-berlin.de>)
+	id <1SrSMK-0005Dj-Ju>; Wed, 18 Jul 2012 13:24:00 +0200
+Received: from andorra.imp.fu-berlin.de ([160.45.42.84])
+	by relay1.zedat.fu-berlin.de (Exim 4.69)
+	for openembedded-core@lists.openembedded.org with esmtp
+	(envelope-from <heinold@mi.fu-berlin.de>)
+	id <1SrSMK-0004CR-HB>; Wed, 18 Jul 2012 13:24:00 +0200
+Received: from heinold by internal andorra.imp.fu-berlin.de with local (Exim
+	4.72) id 1SrSMJ-00084Z-EM
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Jul 2012 04:04:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=RXRBHyBBGenocvEPPL+vbk07klM3nakqDkkwKg071G4=;
-	b=jKxdx54iPglkC75DLIejUVzSBVJM/56mavra5D4uzQcs113P0dZ94eTawBtGWIkZq7
-	HIEo2PL/ddtZDrcuFmOiowQkIexBqbPzZulm5yi1nhu+2AL64hagu2qgoTN3tWXOvvPz
-	g2hcPXahC+RQfabfVuIxpqwEi0enxsMeIabTM2NG47nAbMWO76483ik4pgVPONGWGuuX
-	VsMhW33WEusLzxKupMMPV+SBqqQquH6b17ZpSbgTIia0K6CFLzBOX35yqpQn0aBRpXlJ
-	6ViHpk5qCehSb2eCt3L5aNrvQDPBuGBKg7gXSXVAIxgKNXX5muXeuqAK0m6iPPJxKzZu
-	E0FA==
-Received: by 10.216.193.166 with SMTP id k38mr236122wen.200.1342609463845;
-	Wed, 18 Jul 2012 04:04:23 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id j6sm47490381wiy.4.2012.07.18.04.04.22
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 18 Jul 2012 04:04:23 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 18 Jul 2012 13:04:32 +0200
-Message-Id: <1342609472-5729-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.7.8.6
-Subject: [PATCH] binutils: package ld.gold symlink
+	Wed, 18 Jul 2012 13:23:59 +0200
+Date: Wed, 18 Jul 2012 13:23:59 +0200
+From: Henning Heinold <heinold@inf.fu-berlin.de>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Message-ID: <20120718112359.GC29030@mi.fu-berlin.de>
+References: <CAJTo0LY9WbxAW35NS-C1M4_rpDDD6SCXcRPw7OtdoR5WkFZirA@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LY9WbxAW35NS-C1M4_rpDDD6SCXcRPw7OtdoR5WkFZirA@mail.gmail.com>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Sender: Henning Heinold <heinold@mi.fu-berlin.de>
+X-Originating-IP: 160.45.42.84
+Subject: Re: eglibc-initial trying to remove files in /usr
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,44 +43,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Jul 2012 11:15:49 -0000
+X-List-Received-Date: Wed, 18 Jul 2012 11:35:19 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-* fixes:
-  NOTE: package binutils-2.22-r11: task do_package: Started
-  WARNING: QA Issue: binutils: Files/directories were installed but not shipped
-    /usr/bin/ld.gold
-  NOTE: package binutils-2.22-r11: task do_package: Succeeded
+On Wed, Jul 18, 2012 at 10:41:13AM +0100, Burton, Ross wrote:
+> Hi,
+> 
+> My nightly run of master failed last night, but not in a way that the
+> autobuilder is seeing...
+> 
+> ERROR: Function failed: do_install (see
+> /data/nightly-build-Uju/build/tmp/work/i586-poky-linux/eglibc-initial-2.15-r12+svnr19294/temp/log.do_install.10450
+> for further information)
+> ERROR: Logfile of failure stored in:
+> /data/nightly-build-Uju/build/tmp/work/i586-poky-linux/eglibc-initial-2.15-r12+svnr19294/temp/log.do_install.10450
+> Log data follows:
+> | DEBUG: SITE files ['endian-little', 'bit-32', 'ix86-common',
+> 'common-linux', 'common-glibc', 'i586-linux', 'common']
+> | DEBUG: Executing shell function do_install
+> | NOTE: make PARALLELMFLAGS=-j 8 cross-compiling=yes
+> install_root=/data/nightly-build-Uju/build/tmp/work/i586-poky-linux/eglibc-initial-2.15-r12+svnr19294/image
+> includedir=/usr/include prefix=/usr install-bootstrap-headers=yes
+> install-headers
+> ...
+> | make[1]: Entering directory
+> `/data/nightly-build-Uju/build/tmp/work/i586-poky-linux/eglibc-initial-2.15-r12+svnr19294/eglibc-2_15/libc'
+> | /usr/bin/install -c -m 644 include/limits.h /usr/include/limits.h
+> | /usr/bin/install: cannot remove `/usr/include/limits.h': Permission denied
+> | make[1]: *** [/usr/include/limits.h] Error 1
+> | make[1]: Leaving directory
+> `/data/nightly-build-Uju/build/tmp/work/i586-poky-linux/eglibc-initial-2.15-r12+svnr19294/eglibc-2_15/libc'
+> | make: *** [install-headers] Error 2
+> | ERROR: oe_runmake failed
+> 
+> Any ideas?
+> 
+> Ross
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/recipes-devtools/binutils/binutils-2.22.inc |    2 +-
- meta/recipes-devtools/binutils/binutils.inc      |    1 +
- 2 files changed, 2 insertions(+), 1 deletions(-)
+NOTE: make PARALLELMFLAGS=-j 8 cross-compiling=yes prefix=/usr
 
-diff --git a/meta/recipes-devtools/binutils/binutils-2.22.inc b/meta/recipes-devtools/binutils/binutils-2.22.inc
-index ca2d30e..e776985 100644
---- a/meta/recipes-devtools/binutils/binutils-2.22.inc
-+++ b/meta/recipes-devtools/binutils/binutils-2.22.inc
-@@ -1,4 +1,4 @@
--PR = "r11"
-+PR = "r12"
- 
- LIC_FILES_CHKSUM="\
-     file://src-release;endline=17;md5=4830a9ef968f3b18dd5e9f2c00db2d35\
-diff --git a/meta/recipes-devtools/binutils/binutils.inc b/meta/recipes-devtools/binutils/binutils.inc
-index 5c8e55b..cd923bd 100644
---- a/meta/recipes-devtools/binutils/binutils.inc
-+++ b/meta/recipes-devtools/binutils/binutils.inc
-@@ -36,6 +36,7 @@ FILES_${PN}-symlinks = " \
- 	${bindir}/gprof \
- 	${bindir}/ld \
- 	${bindir}/ld.bfd \
-+	${bindir}/ld.gold \
- 	${bindir}/nm \
- 	${bindir}/objcopy \
- 	${bindir}/objdump \
--- 
-1.7.8.6
+So it tries to install eglibc to the host dirs which is of course failing.
 
+Bye Henning
 
 
