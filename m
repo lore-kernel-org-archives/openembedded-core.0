@@ -1,36 +1,36 @@
-Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
+Received: from mga10.intel.com ([192.55.52.92] helo=fmsmga102.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1SrtZo-0004t0-OM
+	(envelope-from <ross.burton@intel.com>) id 1SrtbR-0005Dr-Pw
 	for openembedded-core@lists.openembedded.org;
-	Thu, 19 Jul 2012 18:27:45 +0200
-Received: from mail-wi0-f178.google.com ([209.85.212.178])
-	by mga03.intel.com with ESMTP/TLS/RC4-SHA; 19 Jul 2012 09:16:07 -0700
-Received: by wibhr14 with SMTP id hr14so2259215wib.13
+	Thu, 19 Jul 2012 18:29:25 +0200
+Received: from mail-wg0-f44.google.com ([74.125.82.44])
+	by mga11.intel.com with ESMTP/TLS/RC4-SHA; 19 Jul 2012 09:18:02 -0700
+Received: by wgbdr13 with SMTP id dr13so1879356wgb.13
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Jul 2012 09:16:05 -0700 (PDT)
+	Thu, 19 Jul 2012 09:18:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=from:to:subject:date:message-id:x-mailer:x-gm-message-state;
-	bh=yRFJeFq3rEqgi5zjJV/qPnNEiEWmkIDLahqfAIxSczw=;
-	b=jCd3q/dbS/KI9e3p4tDLF3Q3RVTi5MV+GL8ReT6navJ+IZmhWxWmFYd4feIbx08C8f
-	SQQpjY8bE+EbsEwf7xKSvB5/jjxsAzd+LDIuDCFF6oR4H4OHJeuKco4/U5M/ZaoIvgNx
-	kGV4LsyipsTlZVzaEjdSHi/W4CNeY8GcVQfrPWUrKp5kE1c2zFfC/iNRWJdXEy70cLkN
-	p0ihswBHqhoty9UH9my9I7B6231/U6UyvcYrVdma6iDU9pd3GkpXSKlaTL1t0j1mfIq4
-	BH2zTEr845LB3SxOpuc4N9bMTSCDUOAWWBWS8QviQC2zMfCsyQ41JxXmwQEdSolG3TpM
-	V7cQ==
-Received: by 10.216.199.167 with SMTP id x39mr1546401wen.148.1342714548854;
-	Thu, 19 Jul 2012 09:15:48 -0700 (PDT)
+	bh=MJilSBV9w/gsHEqIHMwwOmFG3uV3J1pi/33kzTNP7Bo=;
+	b=hU+axQXHx63FequG0GM81z9SX6NBlpt2UrQRxs5x/xcfhMGoDr+gw7DpvUlfm3lU+z
+	i/62C/1MdCshecK2GosjeonrG881xGh6LOIl5Wvqghfk0a0AFRJISAsI/laMHjBvnZVL
+	ZM/zAHGpR7+MDu8uR0oTy/5xYredsPuEPeZ4U3SgBLEJg7Iv2oL/0KzZhuRzag5YR8YH
+	8dnm0i7tJK1NFZ6hPBKOwmoMbZfvaZSUFpW7zjlUszZp2nJZMqmpm01Fki0413PNoTXL
+	4lktIm7pJCK8HOKx2IrFSaTqLUlYw0q4VmMkvOC7XzogDKBkyh0PKLdiTpo+oq5y0jMc
+	KKKA==
+Received: by 10.180.82.164 with SMTP id j4mr6132174wiy.18.1342714680673;
+	Thu, 19 Jul 2012 09:18:00 -0700 (PDT)
 Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id ex20sm7103056wid.7.2012.07.19.09.15.47
+	by mx.google.com with ESMTPS id j6sm7124654wiy.4.2012.07.19.09.17.59
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 19 Jul 2012 09:15:48 -0700 (PDT)
+	Thu, 19 Jul 2012 09:18:00 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 19 Jul 2012 17:15:34 +0100
-Message-Id: <1342714534-7032-1-git-send-email-ross.burton@intel.com>
+Date: Thu, 19 Jul 2012 17:17:46 +0100
+Message-Id: <1342714666-7951-1-git-send-email-ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10
-X-Gm-Message-State: ALoCoQkUg1E5/EY7tlaZP6/IGeiYzGqrBTSSfjvzNJkcC5toIO95E4p9aLsPwkM6pW15Ql+2b9I6
-Subject: [PATCH] sanity: display the parsed BBPATH when complaining about CWD elements
+X-Gm-Message-State: ALoCoQm/tqCrTfw5cxepRt0LIdizGDzAnOKWBa58REDdgik36llCyqfzeY3BuWVcESKsXHKTK5UR
+Subject: [PATCH] webkit-gtk: bump PR
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,28 +45,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Jul 2012 16:27:46 -0000
+X-List-Received-Date: Thu, 19 Jul 2012 16:29:26 -0000
 
-Many people don't understand the nuances of PATH/BBPATH, so help them by clarifying
-the warning and displaying the parsed list element-by-element.
+Accidently ommitted the PR bump from the previous patches, which change the
+build.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/classes/sanity.bbclass |    1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-sato/webkit/webkit-gtk_1.8.1.bb |    2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-index 6ef5450..575ce15 100644
---- a/meta/classes/sanity.bbclass
-+++ b/meta/classes/sanity.bbclass
-@@ -400,6 +400,7 @@ def check_sanity(sanity_data):
-                 "Please check your layer.conf files and other BBPATH "        \
-                 "settings to remove the current working directory "           \
-                 "references.");
-+        bb.warn("Parsed BBPATH is" + str(bbpaths));
+diff --git a/meta/recipes-sato/webkit/webkit-gtk_1.8.1.bb b/meta/recipes-sato/webkit/webkit-gtk_1.8.1.bb
+index 180861e..0cc167b 100644
+--- a/meta/recipes-sato/webkit/webkit-gtk_1.8.1.bb
++++ b/meta/recipes-sato/webkit/webkit-gtk_1.8.1.bb
+@@ -15,6 +15,8 @@ DEPENDS = "zlib enchant gnome-keyring libsoup-2.4 curl libxml2 cairo libxslt lib
+            gtk+ gstreamer gst-plugins-base flex-native gperf-native perl-native-runtime sqlite3 ${ICU_LIB}"
+ DEPENDS += " ${@base_contains('DISTRO_FEATURES', 'opengl', 'virtual/libgl', '', d)}"
  
-     if sanity_data.getVar('TARGET_ARCH', True) == "arm":
-         # This path is no longer user-readable in modern (very recent) Linux
++PR = "r1"
++
+ SRC_URI = "\
+   http://www.webkitgtk.org/releases/webkit-${PV}.tar.xz \
+   file://nodolt.patch \
 -- 
 1.7.10
 
