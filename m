@@ -1,41 +1,41 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1SrtVC-0000pw-SH
+	(envelope-from <ross.burton@intel.com>) id 1SrtVD-0000r8-Cm
 	for openembedded-core@lists.openembedded.org;
 	Thu, 19 Jul 2012 18:22:59 +0200
-Received: from mail-wi0-f172.google.com ([209.85.212.172])
+Received: from mail-wi0-f170.google.com ([209.85.212.170])
 	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 19 Jul 2012 09:11:36 -0700
-Received: by mail-wi0-f172.google.com with SMTP id hm11so5006402wib.13
+Received: by wibhq12 with SMTP id hq12so5246627wib.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Jul 2012 09:11:36 -0700 (PDT)
+	Thu, 19 Jul 2012 09:11:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
 	:in-reply-to:references:x-gm-message-state;
-	bh=FmBPZ5RW1tnW+0fLiDbAtqZBJlatJwPX7NesQeoZIzU=;
-	b=ZhOYmjG8KEy9EketSrl5BeBWU55YKrtr9jFtt8V/Ha+L8hAvKzF51IJRlPbQSABXOb
-	zLbdne5gCN+4CopDDAUq4NGi/yZ4vXRm0pBpoPtno77lTEliQdL+O6E6Ka4a3HTZBkgM
-	BNVGR1s/s2GYTlh0tbrtWygdNRuYcOOHnbweUfz9r5ynrzFeOPGXWME1laXuf2vYCVBc
-	4x9BQ5rckBwH9EUsUkFH03eKujD7grSLUYVFOKJnugNZlZjP9XgpKAN9W30qho7gEWbi
-	YdN9W6sgpfIhqUL83fdFY5wTfFF58ek2WRseHtpJ0LcrlfMrEkhNal8KbCaNIYVdmvES
-	jyQg==
-Received: by 10.180.19.169 with SMTP id g9mr17694818wie.9.1342714295752;
-	Thu, 19 Jul 2012 09:11:35 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id cl8sm39193462wib.10.2012.07.19.09.11.34
-	(version=TLSv1/SSLv3 cipher=OTHER);
+	bh=fOp22Eab5laFdA+vrR6tMWHU9MJFl2sSgBj2/pbjkHY=;
+	b=W96bvs2SKsbBMTe/9jvO4ecS/QMuc/Hn3X64RsNhgYBSLUehxwJIkC2zE6OQALyWb3
+	B6CqXawtkHcnAaRmMNb+DpweggmVbQo0yrumJ336zprtH6A6GETe7+LKExCKxvT4dYgZ
+	3196yo7i02PqTWqRnKM3M1Rj23ME2BU3EMSKd946sky5++m3Uq3u3dqTN+pbv+8kUzcM
+	N1cgMwhYso3b0haU1Fl57f6kt+Ycsn/j7QHBtttBHWrrGgZ5wdaiDa7BU+WokMXRjCF4
+	mDsJWSuSy0EGaJlqz7owUIZKz8+Zf9Cq7MVPwVAG1HcrJes44skCaZQh69druGxoe9JV
+	FL1g==
+Received: by 10.216.236.163 with SMTP id w35mr1600855weq.13.1342714294326;
 	Thu, 19 Jul 2012 09:11:34 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPS id cl8sm39193462wib.10.2012.07.19.09.11.33
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 19 Jul 2012 09:11:33 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 19 Jul 2012 17:10:50 +0100
-Message-Id: <c13a55b5bf714f92da433a47df6fde8d25d2f79b.1342713965.git.ross.burton@intel.com>
+Date: Thu, 19 Jul 2012 17:10:49 +0100
+Message-Id: <24f8f05067f1d4ac201dbda0247ffc7cc521b7b6.1342713965.git.ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10
 In-Reply-To: <cover.1342713965.git.ross.burton@intel.com>
 References: <cover.1342713965.git.ross.burton@intel.com>
 In-Reply-To: <cover.1342713965.git.ross.burton@intel.com>
 References: <cover.1342713965.git.ross.burton@intel.com>
-X-Gm-Message-State: ALoCoQlb7VqHE1X4swYzCQhqHe7CG1gq7O8LJ8SiKU8CD3BEEakcyljaJPJI0roitgnr28NWe5a8
-Subject: [PATCH 03/26] glib-2.0: cleanup thanks to new gtk-doc.bbclass
+X-Gm-Message-State: ALoCoQl9XYCbEykZXujmpFYLiSBwesqkHA03KH96TOtJavIQZUGx+2SDyuavNHkHxm8TjgIdi5V7
+Subject: [PATCH 02/26] change gtk-doc.bbclass to pull in depends and oeconf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -55,55 +55,34 @@ X-List-Received-Date: Thu, 19 Jul 2012 16:22:59 -0000
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-core/glib-2.0/glib-2.0_2.32.4.bb |    5 +----
- meta/recipes-core/glib-2.0/glib.inc           |    6 +++---
- 2 files changed, 4 insertions(+), 7 deletions(-)
+ meta/classes/gtk-doc.bbclass |   20 ++++++++++++++++----
+ 1 file changed, 16 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.32.4.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.32.4.bb
-index 1f8ad7d..988494b 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0_2.32.4.bb
-+++ b/meta/recipes-core/glib-2.0/glib-2.0_2.32.4.bb
-@@ -1,6 +1,6 @@
- require glib.inc
- 
--PR = "r2"
-+PR = "r3"
- PE = "1"
- 
- DEPENDS += "libffi python-argparse-native zlib"
-@@ -23,9 +23,6 @@ SRC_URI_append_virtclass-native = " file://glib-gettextize-dir.patch"
- BBCLASSEXTEND = "native nativesdk"
- 
- do_configure_prepend() {
--	# missing ${topdir}/gtk-doc.make and --disable-gtk-doc* is not enough, because it calls gtkdocize (not provided by gtk-doc-native)
--	sed -i '/^docs/d' ${S}/configure.ac
--	sed -i 's/SUBDIRS = . m4macros glib gmodule gthread gobject gio tests po docs/SUBDIRS = . m4macros glib gmodule gthread gobject gio tests po/g' ${S}/Makefile.am
- 	sed -i -e "s:TEST_PROGS += gdbus-serialization::g"  ${S}/gio/tests/Makefile.am
- 	sed -i -e '1s,#!.*,#!${USRBINPATH}/env python,' ${S}/gio/gdbus-2.0/codegen/gdbus-codegen.in
- }
-diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
-index 2f48e27..3540cd5 100644
---- a/meta/recipes-core/glib-2.0/glib.inc
-+++ b/meta/recipes-core/glib-2.0/glib.inc
-@@ -13,15 +13,15 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=3bf50002aefd002f49e7bb854063f7e7 \
- BUGTRACKER = "http://bugzilla.gnome.org"
- SECTION = "libs"
- 
--DEPENDS = "glib-2.0-native gtk-doc-native zip virtual/libiconv"
--DEPENDS_virtclass-native = "gtk-doc-native pkgconfig-native gettext-native"
-+DEPENDS = "glib-2.0-native zip virtual/libiconv"
-+DEPENDS_virtclass-native = "pkgconfig-native gettext-native"
- DEPENDS_virtclass-nativesdk = "libtool-nativesdk"
- PACKAGES =+ "${PN}-utils ${PN}-bash-completion ${PN}-codegen"
- 
- LEAD_SONAME = "libglib-2.0.*"
- FILES_${PN}-utils = "${bindir}/* ${datadir}/glib-2.0/gettext"
- 
--inherit autotools pkgconfig gettext
-+inherit autotools gettext gtk-doc pkgconfig
- 
- S = "${WORKDIR}/glib-${PV}"
- 
+diff --git a/meta/classes/gtk-doc.bbclass b/meta/classes/gtk-doc.bbclass
+index 58daaf3..6a3854f 100644
+--- a/meta/classes/gtk-doc.bbclass
++++ b/meta/classes/gtk-doc.bbclass
+@@ -1,4 +1,16 @@
+-# We don't have gtk-doc so disable it
+-do_configure_prepend() {
+-	echo "EXTRA_DIST=">> ${S}/gtk-doc.make
+-}
++# Helper class to pull in the right gtk-doc dependencies and disable
++# gtk-doc.
++#
++# Long-term it would be great if this class could be toggled between
++# gtk-doc-stub-native and the real gtk-doc-native, which would enable
++# re-generation of documentation.  For now, we'll make do with this which
++# packages up any existing documentation (so from tarball builds).
++
++DEPENDS += "gtk-doc-stub-native"
++DEPENDS_virtclass-native += "gtk-doc-stub-native"
++
++EXTRA_OECONF_append = "\
++  --disable-gtk-doc \
++  --disable-gtk-doc-html \
++  --disable-gtk-doc-pdf \
++"
 -- 
 1.7.10
 
