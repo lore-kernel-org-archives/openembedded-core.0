@@ -1,25 +1,29 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mail-wg0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Srw8H-0005rP-T6
+	(envelope-from <manuel.bessler@gmail.com>) id 1SryDe-0005UT-Iv
 	for openembedded-core@lists.openembedded.org;
-	Thu, 19 Jul 2012 21:11:30 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 19 Jul 2012 12:00:06 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="170509960"
-Received: from unknown (HELO [10.255.12.214]) ([10.255.12.214])
-	by azsmga001.ch.intel.com with ESMTP; 19 Jul 2012 12:00:04 -0700
-Message-ID: <50085933.8080801@linux.intel.com>
-Date: Thu, 19 Jul 2012 12:00:03 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:13.0) Gecko/20120615 Thunderbird/13.0.1
+	Thu, 19 Jul 2012 23:25:10 +0200
+Received: by wgbdr1 with SMTP id dr1so2771278wgb.24
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 19 Jul 2012 14:13:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:date:message-id:subject:from:to:content-type;
+	bh=75JkM3xC6AbxEX6pvZmqdM93aFFz+tPgLVep7+dU2qY=;
+	b=fAkP2pTIIaI2Lp3pP6t8ohRPuOkgIPwRrpru5sA41SkMomJ2MsXhxqDgKtC4uTyNmh
+	L+yV1UB4K2FT8HMceU4lTirlFk4G7QLGrOe+s/Md6fazZqFVNYZnCoiRr9HrFia5p4LK
+	K72Z8pQiL6CuNQRWC2ElpTogjRyPoRd6c0uO8jrQiqrE9lyvjgY2TCi/2pwW0sTy/G09
+	yhbb+MRBPNIw3kF6lLrNFbsQXkwfyc/LSjqL70wATIztWVV94/8FYWwK+6NCw+6zWHh3
+	e3u9yGzwN8/7kVceP3gT/dJNsWEWxZZENh4b2wZDcOyL+rrKDfXBhyeddbdXzUPG4QXI
+	ibJA==
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1342635547.git.nitin.a.kamble@intel.com>
-In-Reply-To: <cover.1342635547.git.nitin.a.kamble@intel.com>
-Subject: Re: [PATCH 0/1] V2 add downloadfilename to wget fetcher
+Received: by 10.180.105.130 with SMTP id gm2mr19558477wib.6.1342732428219;
+	Thu, 19 Jul 2012 14:13:48 -0700 (PDT)
+Received: by 10.216.93.142 with HTTP; Thu, 19 Jul 2012 14:13:48 -0700 (PDT)
+Date: Thu, 19 Jul 2012 17:13:48 -0400
+Message-ID: <CAKSdS8L32A5wB4fzuc-EQTBX9_GXLhLO_gt4HgzgJk=UC+XZKw@mail.gmail.com>
+From: Manuel Bessler <manuel.bessler@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: meta-toolchain type SDK containing external toolchain possible?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,37 +38,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Jul 2012 19:11:30 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 19 Jul 2012 21:25:10 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
+Hi all,
 
-This should go to the bitbake-devel@lists.openembedded.org
+I'm using a vendor-supplied external (pre-built) toolchain in my build
+(poky-denzil).
+Is it possible to setup my toolchain such that it will be part of the
+SDK package instead of the default {gcc,binutils}-cross-canadian?
 
-Sau!
+I'm modeling my SDK after the meta-toolchain type SDK.
 
+Right now when I build my image, all target code is built using my
+pre-built external toolchain,
+but when I 'bitbake <mysdk>', the toolchain built and distributed in
+the SDK tarball is one built by bitbake.
 
-On 07/18/2012 11:21 AM, nitin.a.kamble@intel.com wrote:
-> From: Nitin A Kamble <nitin.a.kamble@intel.com>
->
-> In this V2 commit, not required changes from __init__.py are removed.
-> Thanks,
-> Nitin
->
-> The following changes since commit 5b014eae151a1584df4e3d3b96d18f9df3e55665:
->
->    fix my typos in patch headers (2012-07-16 21:45:01 -0700)
->
-> are available in the git repository at:
->    git://git.pokylinux.org/poky-contrib nitin/misc
->    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=nitin/misc
->
-> Nitin A Kamble (1):
->    bitbake wget fetcher: add parameter: downloadfilename
->
->   bitbake/lib/bb/fetch2/wget.py |    9 ++++++++-
->   1 files changed, 8 insertions(+), 1 deletions(-)
->
+That, in effect, makes my SDK unusable as the toolchain inside is
+based on a different GCC/Binutils versions.
 
+From my digging around in the recipes and classes, I think if I could
+somehow make my toolchain
+look like it provides gcc-cross-canadian and binutils-cross-canadian,
+it might work. However I'm not
+quite sure what I need to set to make this happen.
+
+I tried to add this to conf/distro/include/tcmode-external-xxx.inc in my layer:
+PREFERRED_PROVIDER_gcc-cross-canadian-${TRANSLATED_TARGET_ARCH} =
+"external-xxx-toolchain"
+PREFERRED_PROVIDER_binutils-cross-canadian-${TRANSLATED_TARGET_ARCH} =
+"external-xxx-toolchain"
+
+That alone did not change anything.
+
+Then I tried adding the following to
+recipes-core/meta/external-xxx-toolchain_4.5.3.bb in my layer:
+PROVIDES += " gcc-cross-canadian-${TRANSLATED_TARGET_ARCH} "
+PROVIDES += " binutils-cross-canadian-${TRANSLATED_TARGET_ARCH} "
+
+to which bitbake complained:
+ERROR: Multiple .bb files are due to be built which each provide
+gcc-cross-canadian-mipsel
+(xxx/recipes-core/meta/external-xxx-toolchain_4.5.3.bb
+xxx/meta/recipes-devtools/gcc/gcc-cross-canadian_4.6.bb).
+ This usually means one provides something the other doesn't and should.
+(and the same for binutils).
+
+All I want is to dump the external toolchain tree into the SDK output.
+
+Any clues as to what I might be missing, or am I on the wrong path?
+
+Thanks,
+Manuel
 
 
