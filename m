@@ -1,25 +1,25 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Morgan.Little@windriver.com>) id 1Sruz2-00040y-Oc
+	(envelope-from <Morgan.Little@windriver.com>) id 1Sruz3-00042G-Gy
 	for openembedded-core@lists.openembedded.org;
 	Thu, 19 Jul 2012 19:57:54 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q6JHkTvb010917
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q6JHkUI1002463
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Jul 2012 10:46:29 -0700 (PDT)
+	Thu, 19 Jul 2012 10:46:30 -0700 (PDT)
 Received: from localhost.localdomain (128.224.147.201) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.1.255.0; Thu, 19 Jul 2012 10:46:29 -0700
+	14.1.255.0; Thu, 19 Jul 2012 10:46:30 -0700
 From: Morgan Little <morgan.little@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 19 Jul 2012 13:46:15 -0400
-Message-ID: <1342719981-1324-11-git-send-email-morgan.little@windriver.com>
+Date: Thu, 19 Jul 2012 13:46:16 -0400
+Message-ID: <1342719981-1324-12-git-send-email-morgan.little@windriver.com>
 X-Mailer: git-send-email 1.7.0.4
 In-Reply-To: <1342719981-1324-1-git-send-email-morgan.little@windriver.com>
 References: <1342719981-1324-1-git-send-email-morgan.little@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH v2 10/16] gobject-introspection: Update for python-native changes
+Subject: [PATCH v2 11/16] mesa-common: Update for python-native changes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,41 +34,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Jul 2012 17:57:59 -0000
+X-List-Received-Date: Thu, 19 Jul 2012 17:58:00 -0000
 Content-Type: text/plain
 
 Add pythonnative to the inherits list
 ---
- .../gnome/gobject-introspection_1.32.1.bb          |    2 +-
- .../gnome/gobject-introspection_git.bb             |    2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-graphics/mesa/mesa-common.inc |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-gnome/gnome/gobject-introspection_1.32.1.bb b/meta/recipes-gnome/gnome/gobject-introspection_1.32.1.bb
-index f51e83e..8e30df6 100644
---- a/meta/recipes-gnome/gnome/gobject-introspection_1.32.1.bb
-+++ b/meta/recipes-gnome/gnome/gobject-introspection_1.32.1.bb
-@@ -17,7 +17,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=90d577535a3898e1ae5dbf0ae3509a8c \
-                     file://COPYING.GPL;md5=94d55d512a9ba36caa9b7df079bae19f \
-                     file://COPYING.LGPL;md5=3bf50002aefd002f49e7bb854063f7e7"
+diff --git a/meta/recipes-graphics/mesa/mesa-common.inc b/meta/recipes-graphics/mesa/mesa-common.inc
+index f697e67..120a256 100644
+--- a/meta/recipes-graphics/mesa/mesa-common.inc
++++ b/meta/recipes-graphics/mesa/mesa-common.inc
+@@ -12,7 +12,7 @@ SECTION = "x11"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://docs/license.html;md5=7a3373c039b6b925c427755a4f779c1d"
  
--inherit autotools
-+inherit autotools pythonnative
+-INC_PR = "r14"
++INC_PR = "r15"
+ PE = "2"
  
- do_configure_prepend () {
-         echo "EXTRA_DIST = " > ${S}/gtk-doc.make
-diff --git a/meta/recipes-gnome/gnome/gobject-introspection_git.bb b/meta/recipes-gnome/gnome/gobject-introspection_git.bb
-index 8352384..eb3b7e4 100644
---- a/meta/recipes-gnome/gnome/gobject-introspection_git.bb
-+++ b/meta/recipes-gnome/gnome/gobject-introspection_git.bb
-@@ -17,7 +17,7 @@ DEFAULT_PREFERENCE = "-1"
  
- S = "${WORKDIR}/git"
+@@ -26,7 +26,7 @@ PROVIDES = "virtual/libgl"
+ # for mesa-dri and mesa-xlib
+ FILESEXTRAPATHS_append := "${THISDIR}/mesa:"
  
--inherit autotools
-+inherit autotools pythonnative
+-inherit autotools pkgconfig
++inherit autotools pkgconfig pythonnative
  
- BBCLASSEXTEND = "native"
- 
+ EXTRA_OECONF = "--enable-glu \
+                 --disable-glw \
 -- 
 1.7.0.4
 
