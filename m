@@ -1,41 +1,41 @@
-Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
+Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1Srpf5-0003iI-N7
+	(envelope-from <ross.burton@intel.com>) id 1Srpf5-0003iK-TX
 	for openembedded-core@lists.openembedded.org;
-	Thu, 19 Jul 2012 14:16:55 +0200
-Received: from mail-we0-f180.google.com ([74.125.82.180])
-	by mga03.intel.com with ESMTP/TLS/RC4-SHA; 19 Jul 2012 05:05:31 -0700
-Received: by mail-we0-f180.google.com with SMTP id t11so1520407wey.25
+	Thu, 19 Jul 2012 14:16:56 +0200
+Received: from mail-wg0-f44.google.com ([74.125.82.44])
+	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 19 Jul 2012 05:05:32 -0700
+Received: by wgbdr13 with SMTP id dr13so1656385wgb.13
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Jul 2012 05:05:31 -0700 (PDT)
+	Thu, 19 Jul 2012 05:05:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
 	:in-reply-to:references:x-gm-message-state;
-	bh=x4jJVImaVu8v0vRRJa6TwiAi6JB69q02H+aCPxV4COE=;
-	b=kSUqAboptSEsOOfRIQ0OrVzPIzN7/bZISJ2TqJDdr0WNdBbOIBPlx8Oob4UXQK7tJm
-	drC+CPPsmWC1YhYHTJjQIlArINNnJBJak5TlEk6rodRXNlf7kWgSt3v0CQBrQW4pKAvs
-	Tnkvs/xCzVqLxlsWGrqpbEwaSg+5OPaSIW1DVfJzNG9ChY/TyRlqEgca8GzogLX9KdFv
-	dGZvv1fKEmmcoH0sT30g2zaFekI4NiB+Z5ScsDyFgaPjNsgMeI4chnoZ7jML/2MW23uY
-	NhDYrLJfFGqFbxEBHNRCV6G7rIQiBTzfNMcHjT1bH8U8twB5KT3JVy4UD1TUpKZOxp8s
-	Y3lA==
-Received: by 10.180.99.232 with SMTP id et8mr4173986wib.11.1342699531785;
-	Thu, 19 Jul 2012 05:05:31 -0700 (PDT)
+	bh=wjIOBQnwN+tVRBp9cUWBYWDJ4QWrrXbw7fCxtNPIuhI=;
+	b=BrNb6UYjdj//oUvfJ5i02+noXT0s9pGt2tyse3vzMgd2B8udcMNgsrIed1FU0ryOZO
+	N9m1f1yuzVPquvg2AuI2+UcUkI+5J6MZZ6I1BkyczAZRA1Sx84wIYXaraI7gyoud2uah
+	ZXET2/xWDx3VFjDLZeV8tmwvLBT33/9pOwlob+oSf+slTRRSNhqrqYAGiMdDCICCMwH4
+	J5eDaus7Z4GUi9XKyibmrg+L3h4lxnDQBXL/x29UhhrTDgTYDz5PcC7c7pjL/B6jWJgF
+	tUXwtjwrTzwPuoFdVdTNu+qawemIlrrIxDj3AlY3+jVjjbsBTBS7v/ORSmt3wohxS2fw
+	jeoA==
+Received: by 10.217.6.194 with SMTP id y44mr1048175wes.27.1342699530570;
+	Thu, 19 Jul 2012 05:05:30 -0700 (PDT)
 Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id t8sm38149972wiy.3.2012.07.19.05.05.30
+	by mx.google.com with ESMTPS id t8sm38149972wiy.3.2012.07.19.05.05.29
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 19 Jul 2012 05:05:31 -0700 (PDT)
+	Thu, 19 Jul 2012 05:05:29 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 19 Jul 2012 13:05:08 +0100
-Message-Id: <837112fce0a98e18f39ef992dca191fd0b6ecd17.1342699470.git.ross.burton@intel.com>
+Date: Thu, 19 Jul 2012 13:05:07 +0100
+Message-Id: <79b77d1a833a1539e4edd76a608d6e20a659b41a.1342699470.git.ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10
 In-Reply-To: <cover.1342699470.git.ross.burton@intel.com>
 References: <cover.1342699470.git.ross.burton@intel.com>
 In-Reply-To: <cover.1342699470.git.ross.burton@intel.com>
 References: <cover.1342699470.git.ross.burton@intel.com>
-X-Gm-Message-State: ALoCoQmN2N+4pbvyeeOGdhhzfsmg19gz830t3bRb4iO1EGMIxa+WYaFTlGI92nwtVIrZB+/x5IZX
-Subject: [PATCH 2/3] polkit: remove dbus-glib and eggdbus dependencies, polkit uses gio for DBus
+X-Gm-Message-State: ALoCoQnzlUAeSQRJmZGENkNIhwtDC+do/TaNrN+YiViKywaSCi2zllTaWqhwuTnXjIsA/J1oz9CJ
+Subject: [PATCH 1/3] libgnome-keyring: remove eggdbus dependency, it has an in-tree copy
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -55,28 +55,27 @@ X-List-Received-Date: Thu, 19 Jul 2012 12:16:56 -0000
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-extended/polkit/polkit_0.104.bb |    4 ++--
+ meta/recipes-gnome/gnome/libgnome-keyring_2.32.0.bb |    4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-extended/polkit/polkit_0.104.bb b/meta/recipes-extended/polkit/polkit_0.104.bb
-index 6a8fdd6..2462741 100644
---- a/meta/recipes-extended/polkit/polkit_0.104.bb
-+++ b/meta/recipes-extended/polkit/polkit_0.104.bb
-@@ -6,12 +6,12 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=155db86cdbafa7532b41f390409283eb \
-                     file://src/polkit/polkit.h;beginline=1;endline=20;md5=0a8630b0133176d0504c87a0ded39db4 \
-                     file://docs/polkit/html/license.html;md5=d85a36709a446c10f4ee123f9dda0e38"
+diff --git a/meta/recipes-gnome/gnome/libgnome-keyring_2.32.0.bb b/meta/recipes-gnome/gnome/libgnome-keyring_2.32.0.bb
+index 53e583e..a6576db 100644
+--- a/meta/recipes-gnome/gnome/libgnome-keyring_2.32.0.bb
++++ b/meta/recipes-gnome/gnome/libgnome-keyring_2.32.0.bb
+@@ -9,11 +9,11 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=0914b9d3ebaba41ef2e3e0ae16f296cf \
+                     file://egg/egg-dh.h;endline=22;md5=1626c16af2a8da1f88324cf3ced33f08"
  
--DEPENDS = "expat dbus-glib eggdbus intltool-native"
-+DEPENDS = "expat glib-2.0 intltool-native"
+ SECTION = "x11/gnome/libs"
+-PR = "r1"
++PR = "r2"
  
- PACKAGECONFIG = "${@base_contains('DISTRO_FEATURES', 'pam', 'pam', '', d)}"
- PACKAGECONFIG[pam] = "--with-authfw=pam,--with-authfw=shadow,libpam,libpam"
+ inherit gnome
  
--PR = "r5"
-+PR = "r6"
+-DEPENDS = "dbus eggdbus libgcrypt"
++DEPENDS = "dbus libgcrypt"
  
- PAM_SRC_URI = "file://polkit-1_pam.patch"
- SRC_URI = "http://hal.freedesktop.org/releases/polkit-${PV}.tar.gz \
+ EXTRA_OECONF = "--disable-gtk-doc"
+ 
 -- 
 1.7.10
 
