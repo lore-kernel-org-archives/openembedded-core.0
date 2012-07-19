@@ -1,10 +1,10 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Morgan.Little@windriver.com>) id 1Sruz2-00040T-19
+	(envelope-from <Morgan.Little@windriver.com>) id 1Sruz2-00040y-Oc
 	for openembedded-core@lists.openembedded.org;
-	Thu, 19 Jul 2012 19:57:53 +0200
+	Thu, 19 Jul 2012 19:57:54 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q6JHkTfI002460
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q6JHkTvb010917
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 19 Jul 2012 10:46:29 -0700 (PDT)
@@ -13,13 +13,13 @@ Received: from localhost.localdomain (128.224.147.201) by
 	14.1.255.0; Thu, 19 Jul 2012 10:46:29 -0700
 From: Morgan Little <morgan.little@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 19 Jul 2012 13:46:14 -0400
-Message-ID: <1342719981-1324-10-git-send-email-morgan.little@windriver.com>
+Date: Thu, 19 Jul 2012 13:46:15 -0400
+Message-ID: <1342719981-1324-11-git-send-email-morgan.little@windriver.com>
 X-Mailer: git-send-email 1.7.0.4
 In-Reply-To: <1342719981-1324-1-git-send-email-morgan.little@windriver.com>
 References: <1342719981-1324-1-git-send-email-morgan.little@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH v2 09/16] gnome-doc-utils: Update for python-native changes
+Subject: [PATCH v2 10/16] gobject-introspection: Update for python-native changes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,21 +39,35 @@ Content-Type: text/plain
 
 Add pythonnative to the inherits list
 ---
- meta/recipes-gnome/gnome/gnome-doc-utils.inc |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+ .../gnome/gobject-introspection_1.32.1.bb          |    2 +-
+ .../gnome/gobject-introspection_git.bb             |    2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-gnome/gnome/gnome-doc-utils.inc b/meta/recipes-gnome/gnome/gnome-doc-utils.inc
-index 08333db..3c9a50d 100644
---- a/meta/recipes-gnome/gnome/gnome-doc-utils.inc
-+++ b/meta/recipes-gnome/gnome/gnome-doc-utils.inc
-@@ -2,7 +2,7 @@ LICENSE = "GPLv2 & LGPLv2.1"
- DEPENDS = "libxml2 libxslt libxslt-native gnome-doc-utils-native glib-2.0"
- DEPENDS_virtclass-native = "libxml2-native libxslt-native intltool-native glib-2.0-native"
+diff --git a/meta/recipes-gnome/gnome/gobject-introspection_1.32.1.bb b/meta/recipes-gnome/gnome/gobject-introspection_1.32.1.bb
+index f51e83e..8e30df6 100644
+--- a/meta/recipes-gnome/gnome/gobject-introspection_1.32.1.bb
++++ b/meta/recipes-gnome/gnome/gobject-introspection_1.32.1.bb
+@@ -17,7 +17,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=90d577535a3898e1ae5dbf0ae3509a8c \
+                     file://COPYING.GPL;md5=94d55d512a9ba36caa9b7df079bae19f \
+                     file://COPYING.LGPL;md5=3bf50002aefd002f49e7bb854063f7e7"
  
--inherit gnome gettext python-dir
-+inherit gnome gettext python-dir pythonnative
+-inherit autotools
++inherit autotools pythonnative
  
- EXTRA_OECONF += "--disable-scrollkeeper"
+ do_configure_prepend () {
+         echo "EXTRA_DIST = " > ${S}/gtk-doc.make
+diff --git a/meta/recipes-gnome/gnome/gobject-introspection_git.bb b/meta/recipes-gnome/gnome/gobject-introspection_git.bb
+index 8352384..eb3b7e4 100644
+--- a/meta/recipes-gnome/gnome/gobject-introspection_git.bb
++++ b/meta/recipes-gnome/gnome/gobject-introspection_git.bb
+@@ -17,7 +17,7 @@ DEFAULT_PREFERENCE = "-1"
+ 
+ S = "${WORKDIR}/git"
+ 
+-inherit autotools
++inherit autotools pythonnative
+ 
+ BBCLASSEXTEND = "native"
  
 -- 
 1.7.0.4
