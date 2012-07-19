@@ -1,41 +1,41 @@
 Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1SrtVp-0001ch-TG
+	(envelope-from <ross.burton@intel.com>) id 1SrtVr-00025t-0L
 	for openembedded-core@lists.openembedded.org;
-	Thu, 19 Jul 2012 18:23:38 +0200
-Received: from mail-wi0-f178.google.com ([209.85.212.178])
-	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 19 Jul 2012 09:12:15 -0700
-Received: by mail-wi0-f178.google.com with SMTP id hr14so2255271wib.13
+	Thu, 19 Jul 2012 18:23:39 +0200
+Received: from mail-wg0-f44.google.com ([74.125.82.44])
+	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 19 Jul 2012 09:12:16 -0700
+Received: by mail-wg0-f44.google.com with SMTP id dr13so1873962wgb.13
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Jul 2012 09:12:15 -0700 (PDT)
+	Thu, 19 Jul 2012 09:12:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
 	:in-reply-to:references:x-gm-message-state;
-	bh=jCsZ/GWOXjP7VJ2/jydXRyYNvOOsFhEppRmxUWLJv8A=;
-	b=SDoqaIhK8ClcbdKN4AGcNO2kT/3Nvd6vaEc5+zCIcZKVPGQexWriJplgswlMhed54P
-	vpqb33aaoD1v7eE0eqBDTzJAoY2rC2p5hSq8N7cQrfvQDv8bOm5RJTGauiR2yBuUdop3
-	Ae63ywes+/nqzOKAFJ+vE0vG3onvAldHbHG7WoLu6+oNgXh5//SZlesY7ahAuNPfjsW7
-	/TMe/f5Ygvhh8t1wJVGJkzMyKebUI0iIqEpr+893GqTNntDi9+NVEPcDHHhUirqTBON6
-	KKb2T31oyyDMKnD1miull37vHUUq8Qtg6TXw51cAom7O8DKFXgW1nujYcoZY/cHMsQJK
-	VwuA==
-Received: by 10.180.19.162 with SMTP id g2mr6064227wie.22.1342714327467;
-	Thu, 19 Jul 2012 09:12:07 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id cl8sm39193462wib.10.2012.07.19.09.12.06
-	(version=TLSv1/SSLv3 cipher=OTHER);
+	bh=MnAegNxyT89BCWXgwEH1IJfiPvntDBpNK8gGbpoq2HA=;
+	b=TSJ0GVLmY5D8QShvDL3HLcKInlMaB4AkURYZIWk85SEyMhiHX13XACn4IqudHncDNc
+	uy+0xwhN1mYk3T3QlisupOqYTelnBhBWi9zaUV5YoIA0AhUp///5WSAvwOxFpLaHhbjl
+	KYAnn3mJDAr08QvDcHxWAEENZTsz/vFgQytU2u5KgZwDuUWxWcQBW/qTi2dXsGrtOPCY
+	qxALdYUv/UvC0yIy8O6z08qtSWHPAHrxa9oJXwUggeMV6Q+bXImDuv8qcBmP0r7S1cot
+	CphZrARKQWlDDp+C6KISULbVvVFRY3oes3pYl/04X3xJ1B8B2z9NGtDecPeJ3YdixUpp
+	yFUw==
+Received: by 10.216.95.74 with SMTP id o52mr1462869wef.123.1342714326202;
 	Thu, 19 Jul 2012 09:12:06 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPS id cl8sm39193462wib.10.2012.07.19.09.12.05
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 19 Jul 2012 09:12:05 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 19 Jul 2012 17:11:13 +0100
-Message-Id: <7c586b3b9b06e0f9f50f085419083c63830b7900.1342713965.git.ross.burton@intel.com>
+Date: Thu, 19 Jul 2012 17:11:12 +0100
+Message-Id: <d80d95e269f0faab654665dcf45c7295e9ce88c4.1342713965.git.ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10
 In-Reply-To: <cover.1342713965.git.ross.burton@intel.com>
 References: <cover.1342713965.git.ross.burton@intel.com>
 In-Reply-To: <cover.1342713965.git.ross.burton@intel.com>
 References: <cover.1342713965.git.ross.burton@intel.com>
-X-Gm-Message-State: ALoCoQm3JufACsIaFVWrnHf2xudRU3MpRGhCDIZuJB3JCxvwLC/BeMDuISDxXTe4H8+Y3UEQqfCX
-Subject: [PATCH 26/26] Remove gtk-doc
+X-Gm-Message-State: ALoCoQmE2BwRYDciHW0NYDoQRhtxDNNLBuSGykdKFQsWZeqfrhjX3wZ7MQbCPRBQEhDXdhkClNIm
+Subject: [PATCH 25/26] vte: cleanup thanks to new gtk-doc.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,109 +50,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Jul 2012 16:23:39 -0000
+X-List-Received-Date: Thu, 19 Jul 2012 16:23:40 -0000
 
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-gnome/gtk-doc/gtk-doc.bb |   19 ----------
- meta/recipes-gnome/gtk-doc/gtk-doc.m4 |   61 ---------------------------------
- 2 files changed, 80 deletions(-)
- delete mode 100644 meta/recipes-gnome/gtk-doc/gtk-doc.bb
- delete mode 100644 meta/recipes-gnome/gtk-doc/gtk-doc.m4
+ meta/recipes-support/vte/vte.inc       |    4 ++--
+ meta/recipes-support/vte/vte_0.28.2.bb |    2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-gnome/gtk-doc/gtk-doc.bb b/meta/recipes-gnome/gtk-doc/gtk-doc.bb
-deleted file mode 100644
-index 3147d4a..0000000
---- a/meta/recipes-gnome/gtk-doc/gtk-doc.bb
-+++ /dev/null
-@@ -1,19 +0,0 @@
--SUMMARY = "API documentation generation tool for GTK+ and GNOME"
--DESCRIPTION = "gtk-doc is a tool for generating API reference documentation. \
--It is used for generating the documentation for GTK+, GLib \
--and GNOME."
--SECTION = "x11/base"
--SRC_URI = "file://gtk-doc.m4"
--LICENSE = "GPLv2"
--LIC_FILES_CHKSUM = "file://../gtk-doc.m4;endline=10;md5=868a952d8bb2d825d724854cfaf8f14e"
--
--PR = "r4"
--
--ALLOW_EMPTY_${PN} = "1"
--
--BBCLASSEXTEND = "native"
--
--do_install () {
--	install -d ${D}${datadir}/aclocal/
--	install -m 0644 ${WORKDIR}/gtk-doc.m4 ${D}${datadir}/aclocal/
--}
-diff --git a/meta/recipes-gnome/gtk-doc/gtk-doc.m4 b/meta/recipes-gnome/gtk-doc/gtk-doc.m4
-deleted file mode 100644
-index 2cfa1e7..0000000
---- a/meta/recipes-gnome/gtk-doc/gtk-doc.m4
-+++ /dev/null
-@@ -1,61 +0,0 @@
--dnl -*- mode: autoconf -*-
--
--# serial 1
--
--dnl Usage:
--dnl   GTK_DOC_CHECK([minimum-gtk-doc-version])
--AC_DEFUN([GTK_DOC_CHECK],
--[
--  AC_BEFORE([AC_PROG_LIBTOOL],[$0])dnl setup libtool first
--  AC_BEFORE([AM_PROG_LIBTOOL],[$0])dnl setup libtool first
--
--  dnl check for tools we added during development
--  AC_PATH_PROG([GTKDOC_CHECK],[gtkdoc-check])
--  AC_PATH_PROGS([GTKDOC_REBASE],[gtkdoc-rebase],[true])
--  AC_PATH_PROG([GTKDOC_MKPDF],[gtkdoc-mkpdf])
--
--  dnl for overriding the documentation installation directory
--  AC_ARG_WITH([html-dir],
--    AS_HELP_STRING([--with-html-dir=PATH], [path to installed docs]),,
--    [with_html_dir='${datadir}/gtk-doc/html'])
--  HTML_DIR="$with_html_dir"
--  AC_SUBST([HTML_DIR])
--
--  dnl enable/disable documentation building
--  AC_ARG_ENABLE([gtk-doc],
--    AS_HELP_STRING([--enable-gtk-doc],
--                   [use gtk-doc to build documentation [[default=no]]]),,
--    [enable_gtk_doc=no])
--
--  if test x$enable_gtk_doc = xyes; then
--    ifelse([$1],[],
--      [PKG_CHECK_EXISTS([gtk-doc],,
--                        AC_MSG_ERROR([gtk-doc not installed and --enable-gtk-doc requested]))],
--      [PKG_CHECK_EXISTS([gtk-doc >= $1],,
--                        AC_MSG_ERROR([You need to have gtk-doc >= $1 installed to build $PACKAGE_NAME]))])
--  fi
--
--  AC_MSG_CHECKING([whether to build gtk-doc documentation])
--  AC_MSG_RESULT($enable_gtk_doc)
--
--  dnl enable/disable output formats
--  AC_ARG_ENABLE([gtk-doc-html],
--    AS_HELP_STRING([--enable-gtk-doc-html],
--                   [build documentation in html format [[default=yes]]]),,
--    [enable_gtk_doc_html=yes])
--    AC_ARG_ENABLE([gtk-doc-pdf],
--      AS_HELP_STRING([--enable-gtk-doc-pdf],
--                     [build documentation in pdf format [[default=no]]]),,
--      [enable_gtk_doc_pdf=no])
--
--  if test -z "$GTKDOC_MKPDF"; then
--    enable_gtk_doc_pdf=no
--  fi
--
--
--  AM_CONDITIONAL([ENABLE_GTK_DOC], [test x$enable_gtk_doc = xyes])
--  AM_CONDITIONAL([GTK_DOC_BUILD_HTML], [test x$enable_gtk_doc_html = xyes])
--  AM_CONDITIONAL([GTK_DOC_BUILD_PDF], [test x$enable_gtk_doc_pdf = xyes])
--  AM_CONDITIONAL([GTK_DOC_USE_LIBTOOL], [test -n "$LIBTOOL"])
--  AM_CONDITIONAL([GTK_DOC_USE_REBASE], [test -n "$GTKDOC_REBASE"])
--])
+diff --git a/meta/recipes-support/vte/vte.inc b/meta/recipes-support/vte/vte.inc
+index 7971673..9fe7956 100644
+--- a/meta/recipes-support/vte/vte.inc
++++ b/meta/recipes-support/vte/vte.inc
+@@ -4,11 +4,11 @@ LICENSE = "LGPLv2.1+"
+ DEPENDS = " glib-2.0 gtk+ intltool-native ncurses"
+ RDEPENDS_libvte = "vte-termcap"
+ 
+-inherit gnome
++inherit gnome gtk-doc
+ 
+ SRC_URI += "file://introspection.patch"
+ 
+-EXTRA_OECONF = "--disable-gtk-doc --disable-python --disable-introspection"
++EXTRA_OECONF = "--disable-python --disable-introspection"
+ 
+ PACKAGES =+ "libvte vte-termcap"
+ FILES_libvte = "${libdir}/*.so.* ${libexecdir}/gnome-pty-helper"
+diff --git a/meta/recipes-support/vte/vte_0.28.2.bb b/meta/recipes-support/vte/vte_0.28.2.bb
+index 6111ccf..2cb1871 100644
+--- a/meta/recipes-support/vte/vte_0.28.2.bb
++++ b/meta/recipes-support/vte/vte_0.28.2.bb
+@@ -2,7 +2,7 @@ require vte.inc
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=3bf50002aefd002f49e7bb854063f7e7"
+ 
+-PR = "r3"
++PR = "r4"
+ 
+ SRC_URI[archive.md5sum] = "f07a4bf943194f94b7f142db8f7f36dc"
+ SRC_URI[archive.sha256sum] = "8d04e202b617373dfb47689e5e628febe2c58840b34cccc4af4feb88c48df903"
 -- 
 1.7.10
 
