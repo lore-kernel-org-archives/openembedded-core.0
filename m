@@ -1,26 +1,27 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SrlNX-0006CC-Nc
+	(envelope-from <sgw@linux.intel.com>) id 1SrlTs-0006Hk-7j
 	for openembedded-core@lists.openembedded.org;
-	Thu, 19 Jul 2012 09:42:31 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 19 Jul 2012 00:30:52 -0700
+	Thu, 19 Jul 2012 09:49:04 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 19 Jul 2012 00:37:41 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="180293475"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="168350828"
 Received: from unknown (HELO [10.255.12.217]) ([10.255.12.217])
-	by fmsmga001.fm.intel.com with ESMTP; 19 Jul 2012 00:30:50 -0700
-Message-ID: <5007B7AA.5060102@linux.intel.com>
-Date: Thu, 19 Jul 2012 00:30:50 -0700
+	by orsmga001.jf.intel.com with ESMTP; 19 Jul 2012 00:37:41 -0700
+Message-ID: <5007B944.9090101@linux.intel.com>
+Date: Thu, 19 Jul 2012 00:37:40 -0700
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:13.0) Gecko/20120615 Thunderbird/13.0.1
 MIME-Version: 1.0
-To: Koen Kooi <koen@dominion.thruhere.net>
-References: <1342680286-12886-1-git-send-email-koen@dominion.thruhere.net>
-	<1342680286-12886-2-git-send-email-koen@dominion.thruhere.net>
-In-Reply-To: <1342680286-12886-2-git-send-email-koen@dominion.thruhere.net>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [for-denzil][PATCH 2/5] xz: update to 5.1.2alpha
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <1342483677-789-1-git-send-email-jeffrey.honig@windriver.com>
+	<1342497839-5973-1-git-send-email-jeffrey.honig@windriver.com>
+In-Reply-To: <1342497839-5973-1-git-send-email-jeffrey.honig@windriver.com>
+Cc: Jeffrey C Honig <jeffrey.honig@windriver.com>
+Subject: Re: [PATCH v2] terminal.py: Fix Xfce on ubuntu/debian; some cleanup
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,97 +36,134 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Jul 2012 07:42:32 -0000
+X-List-Received-Date: Thu, 19 Jul 2012 07:49:04 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 07/18/2012 11:44 PM, Koen Kooi wrote:
-> This contains bugfixes from the 5.0.3 and 5.0.4 releases
+On 07/16/2012 09:03 PM, Jeffrey C Honig wrote:
+>      * Xfce class was setting and passing wrong variable for ubuntu/debian.
+>      * Xfce class was using -e instead of -x for passing command.  The former creates
+>        a shell escape nightmare
+>      * Clean up local and instance/class variables with same name but different usage.
+>      * Remove side-effect and directly return formatted command for clarity.
 >
-Koen,
-
-Normally package updates are not part of minor releases, can you provide 
-additional justification why this update should be included in a minor 
-release?  You mention bugfixes, is there a specific bug that affects the 
-compression operation in 1.1?
-
-Sau!
-
-> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
-> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> Signed-off-by: Jeffrey C Honig <jeffrey.honig@windriver.com>
 > ---
->   meta/recipes-extended/xz/xz_5.1.1alpha.bb |   28 ----------------------------
->   meta/recipes-extended/xz/xz_5.1.2alpha.bb |   25 +++++++++++++++++++++++++
->   2 files changed, 25 insertions(+), 28 deletions(-)
->   delete mode 100644 meta/recipes-extended/xz/xz_5.1.1alpha.bb
->   create mode 100644 meta/recipes-extended/xz/xz_5.1.2alpha.bb
+>   meta/lib/oe/terminal.py |   37 ++++++++++++++++++-------------------
+>   1 files changed, 18 insertions(+), 19 deletions(-)
 >
-> diff --git a/meta/recipes-extended/xz/xz_5.1.1alpha.bb b/meta/recipes-extended/xz/xz_5.1.1alpha.bb
-> deleted file mode 100644
-> index 7fa7177..0000000
-> --- a/meta/recipes-extended/xz/xz_5.1.1alpha.bb
-> +++ /dev/null
-> @@ -1,28 +0,0 @@
-> -DESCRIPTION = "utils for managing LZMA compressed files"
-> -HOMEPAGE = "http://tukaani.org/xz/"
-> -SECTION = "base"
-> -
-> -LICENSE = "GPLv2+ & GPLv3+ & LGPLv2.1+"
-> -LIC_FILES_CHKSUM = "file://COPYING;md5=c475b6c7dca236740ace4bba553e8e1c \
-> -                    file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
-> -                    file://COPYING.GPLv3;md5=d32239bcb673463ab874e80d47fae504 \
-> -                    file://COPYING.LGPLv2.1;md5=4fbd65380cdd255951079008b364516c \
-> -                    file://lib/getopt.c;endline=23;md5=2069b0ee710572c03bb3114e4532cd84 "
-> -
-> -SRC_URI = "http://tukaani.org/xz/xz-${PV}.tar.gz"
-> -
-> -SRC_URI[md5sum] = "bb24436fa12780808e1c142980484104"
-> -SRC_URI[sha256sum] = "54e59a83690a4a0ec88a7d7c3bdef90c6b196c892a93463863c71c24fe87951a"
-> -
-> -PR = "r0"
-> -
-> -inherit autotools gettext
-> -
-> -PACKAGES =+ "liblzma liblzma-dev liblzma-staticdev liblzma-dbg"
-> -
-> -FILES_liblzma = "${libdir}/liblzma*${SOLIBS}"
-> -FILES_liblzma-dev = "${includedir}/lzma* ${libdir}/liblzma*${SOLIBSDEV} ${libdir}/liblzma.la ${libdir}/pkgconfig/liblzma.pc"
-> -FILES_liblzma-staticdev = "${libdir}/liblzma.a"
-> -FILES_liblzma-dbg = "${libdir}/.debug/liblzma*"
-> -
-> -BBCLASSEXTEND = "native"
-> diff --git a/meta/recipes-extended/xz/xz_5.1.2alpha.bb b/meta/recipes-extended/xz/xz_5.1.2alpha.bb
-> new file mode 100644
-> index 0000000..9d68720
-> --- /dev/null
-> +++ b/meta/recipes-extended/xz/xz_5.1.2alpha.bb
-> @@ -0,0 +1,25 @@
-> +DESCRIPTION = "utils for managing LZMA compressed files"
-> +HOMEPAGE = "http://tukaani.org/xz/"
-> +SECTION = "base"
-> +
-> +LICENSE = "GPLv2+ & GPLv3+ & LGPLv2.1+"
-> +LIC_FILES_CHKSUM = "file://COPYING;md5=c475b6c7dca236740ace4bba553e8e1c \
-> +                    file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
-> +                    file://COPYING.GPLv3;md5=d32239bcb673463ab874e80d47fae504 \
-> +                    file://COPYING.LGPLv2.1;md5=4fbd65380cdd255951079008b364516c \
-> +                    file://lib/getopt.c;endline=23;md5=2069b0ee710572c03bb3114e4532cd84 "
-> +
-> +SRC_URI = "http://tukaani.org/xz/xz-${PV}.tar.gz"
-> +SRC_URI[md5sum] = "9bad1e249537ce69b206815cf28ca87b"
-> +SRC_URI[sha256sum] = "70e792d2a67cfbb8f2dffd0feab6ca6e5a4a618d65070fb44a367629d1ba94e5"
-> +
-> +inherit autotools gettext
-> +
-> +PACKAGES =+ "liblzma liblzma-dev liblzma-staticdev liblzma-dbg"
-> +
-> +FILES_liblzma = "${libdir}/liblzma*${SOLIBS}"
-> +FILES_liblzma-dev = "${includedir}/lzma* ${libdir}/liblzma*${SOLIBSDEV} ${libdir}/liblzma.la ${libdir}/pkgconfig/liblzma.pc"
-> +FILES_liblzma-staticdev = "${libdir}/liblzma.a"
-> +FILES_liblzma-dbg = "${libdir}/.debug/liblzma*"
-> +
-> +BBCLASSEXTEND = "native"
+> diff --git a/meta/lib/oe/terminal.py b/meta/lib/oe/terminal.py
+> index 43639d5..28abf14 100644
+> --- a/meta/lib/oe/terminal.py
+> +++ b/meta/lib/oe/terminal.py
+> @@ -28,11 +28,10 @@ class Registry(oe.classutils.ClassRegistry):
+>   class Terminal(Popen):
+>       __metaclass__ = Registry
 >
+> -    def __init__(self, command, title=None, env=None):
+> -        self.format_command(command, title)
+> -
+> +    def __init__(self, sh_cmd, title=None, env=None):
+> +        fmt_sh_cmd = self.format_command(sh_cmd, title)
+>           try:
+> -            Popen.__init__(self, self.command, env=env)
+> +            Popen.__init__(self, fmt_sh_cmd, env=env)
+>           except OSError as exc:
+>               import errno
+>               if exc.errno == errno.ENOENT:
+> @@ -40,16 +39,16 @@ class Terminal(Popen):
+>               else:
+>                   raise
+>
+> -    def format_command(self, command, title):
+> -        fmt = {'title': title or 'Terminal', 'command': command}
+> +    def format_command(self, sh_cmd, title):
+> +        fmt = {'title': title or 'Terminal', 'command': sh_cmd}
+>           if isinstance(self.command, basestring):
+> -            self.command = shlex.split(self.command.format(**fmt))
+> +            return shlex.split(self.command.format(**fmt))
+>           else:
+> -            self.command = [element.format(**fmt) for element in self.command]
+> +            return [element.format(**fmt) for element in self.command]
+>
+>   class XTerminal(Terminal):
+> -    def __init__(self, command, title=None, env=None):
+> -        Terminal.__init__(self, command, title, env)
+> +    def __init__(self, sh_cmd, title=None, env=None):
+> +        Terminal.__init__(self, sh_cmd, title, env)
+>           if not os.environ.get('DISPLAY'):
+>               raise UnsupportedTerminal(self.name)
+>
+> @@ -75,14 +74,14 @@ class Konsole(XTerminal):
+>       command = 'konsole -T "{title}" -e {command}'
+>       priority = 2
+>
+> -    def __init__(self, command, title=None, env=None):
+> +    def __init__(self, sh_cmd, title=None, env=None):
+>           # Check version
+>           vernum = check_konsole_version("konsole")
+>           if vernum:
+>               if vernum.split('.')[0] == "2":
+>                   logger.debug(1, 'Konsole from KDE 4.x will not work as devshell, skipping')
+>                   raise UnsupportedTerminal(self.name)
+> -        XTerminal.__init__(self, command, title, env)
+> +        XTerminal.__init__(self, sh_cmd, title, env)
+>
+>   class XTerm(XTerminal):
+>       command = 'xterm -T "{title}" -e {command}'
+> @@ -95,8 +94,8 @@ class Rxvt(XTerminal):
+>   class Screen(Terminal):
+>       command = 'screen -D -m -t "{title}" -S devshell {command}'
+>
+> -    def __init__(self, command, title=None, env=None):
+> -        Terminal.__init__(self, command, title, env)
+> +    def __init__(self, sh_cmd, title=None, env=None):
+> +        Terminal.__init__(self, sh_cmd, title, env)
+>           logger.warn('Screen started. Please connect in another terminal with '
+>                       '"screen -r devshell"')
+>
+> @@ -104,18 +103,18 @@ class Screen(Terminal):
+>   def prioritized():
+>       return Registry.prioritized()
+>
+> -def spawn_preferred(command, title=None, env=None):
+> +def spawn_preferred(sh_cmd, title=None, env=None):
+>       """Spawn the first supported terminal, by priority"""
+>       for terminal in prioritized():
+>           try:
+> -            spawn(terminal.name, command, title, env)
+> +            spawn(terminal.name, sh_cmd, title, env)
+>               break
+>           except UnsupportedTerminal:
+>               continue
+>       else:
+>           raise NoSupportedTerminals()
+>
+> -def spawn(name, command, title=None, env=None):
+> +def spawn(name, sh_cmd, title=None, env=None):
+>       """Spawn the specified terminal, by name"""
+>       logger.debug(1, 'Attempting to spawn terminal "%s"', name)
+>       try:
+> @@ -123,10 +122,10 @@ def spawn(name, command, title=None, env=None):
+>       except KeyError:
+>           raise UnsupportedTerminal(name)
+>
+> -    pipe = terminal(command, title, env)
+> +    pipe = terminal(sh_cmd, title, env)
+>       output = pipe.communicate()[0]
+>       if pipe.returncode != 0:
+> -        raise ExecutionError(pipe.command, pipe.returncode, output)
+> +        raise ExecutionError(sh_cmd, pipe.returncode, output)
+>
+>   def check_konsole_version(konsole):
+>       import subprocess as sub
+>
+
+Merged into OE-Core
+
+Thanks
+	Sau!
+
 
 
 
