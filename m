@@ -1,37 +1,40 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Srs7Y-0008Fn-8X for openembedded-core@lists.openembedded.org;
-	Thu, 19 Jul 2012 16:54:28 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6JEh6m4003333
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Jul 2012 15:43:06 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 02557-06 for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Jul 2012 15:43:02 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6JEgwp1003324
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Jul 2012 15:42:59 +0100
-Message-ID: <1342708981.7940.14.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Thu, 19 Jul 2012 15:43:01 +0100
-In-Reply-To: <1340871186-20545-1-git-send-email-andrei@gherzan.ro>
-References: <1340871186-20545-1-git-send-email-andrei@gherzan.ro>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH] package.bbclass: Create symlinks for packages with different packaged name
+Received: from eumx.net ([91.82.101.43])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <ml@communistcode.co.uk>) id 1SrsaK-0001Bt-UU
+	for openembedded-core@lists.openembedded.org;
+	Thu, 19 Jul 2012 17:24:13 +0200
+Received: from localhost ([127.0.0.1]:42733 helo=eumx.net)
+	by eumx.net with esmtp (Exim 4.72)
+	(envelope-from <ml@communistcode.co.uk>) id 1Srs1v-00024e-7W
+	for openembedded-core@lists.openembedded.org;
+	Thu, 19 Jul 2012 14:48:39 +0000
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=eumx.net; h=message-id
+	:date:from:reply-to:mime-version:to:subject:references
+	:in-reply-to:content-type:content-transfer-encoding; s=default;
+	bh=ZxVpcrtQW1r0Y16PaLW97+nkS+k=; b=LkH3PzE5f3mAMF3txF6+TXCewYPq
+	25rspluW9gbVGfWPXQxgk08mFzMBvwL/KA/15C1AZaX5LXMR9Mk1f+e2VtlXpG61
+	+qxaPczkXLuWW4aR/MCMusafTcFeybBqkBNGgOXlu8uUcUKWqXy+3QHqtmQ3Y+pR
+	Qy39ZHhkT+0SpKs=
+Received: from [195.171.99.130] (port=22888 helo=[192.168.0.42])
+	by eumx.net with esmtpa (Exim 4.72)
+	(envelope-from <ml@communistcode.co.uk>) id 1Srrx4-0001vJ-N9
+	for openembedded-core@lists.openembedded.org;
+	Thu, 19 Jul 2012 14:43:38 +0000
+Message-ID: <50081D62.9000204@communistcode.co.uk>
+Date: Thu, 19 Jul 2012 15:44:50 +0100
+From: Jack Mitchell <ml@communistcode.co.uk>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:14.0) Gecko/20120717 Thunderbird/14.0
+MIME-Version: 1.0
+To: openembedded-core@lists.openembedded.org
+References: <1342606005.30680.17.camel@ted>
+In-Reply-To: <1342606005.30680.17.camel@ted>
+Subject: Re: PLEASE READ: Major change landing shortly (python whitespace)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: ml@communistcode.co.uk,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -42,49 +45,107 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Jul 2012 14:54:28 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 19 Jul 2012 15:24:13 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2012-06-28 at 11:13 +0300, Andrei Gherzan wrote:
-> While generating license.manifest package information is searched in:
-> filename=`ls ${TMPDIR}/pkgdata/*/runtime/${pkg}| head -1`
-> This is ok as long as package name is the same as the package name
-> after packaging.
-> For example dbus is packaged as dbus-1. So, searching
-> ls ${TMPDIR}/pkgdata/*/runtime/dbus-1 will fail because there is no file
-> with this package name.
-> 
-> Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
-> ---
->  meta/classes/package.bbclass |    5 +++++
->  1 file changed, 5 insertions(+)
-> 
-> diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-> index 10c2f0a..460b351 100644
-> --- a/meta/classes/package.bbclass
-> +++ b/meta/classes/package.bbclass
-> @@ -1120,6 +1120,11 @@ python emit_pkgdata() {
->  		sf.write('%s_%s: %s\n' % ('PKGSIZE', pkg, get_directory_size(pkgdest + "/%s" % pkg)))
->  		sf.close()
->  
-> +		# Symlinks needed while generating manifest
-> +		pkgval = d.getVar('PKG_%s' % (pkg), True)
-> +		if pkgval != pkg:
-> +			subdata_sym = pkgdatadir + "/runtime/%s" % pkgval
-> +			os.symlink(pkg,subdata_sym)
->  
->  		allow_empty = d.getVar('ALLOW_EMPTY_%s' % pkg, True)
->  		if not allow_empty:
+On 18/07/12 11:06, Richard Purdie wrote:
+> snip
+>
+> So I am going to:
+>
+> a) Try and flush through as many pending patches as I can.
+> b) Check in a warning into bitbake master and increase its version
+> c) Require that version in OE-Core
+> d) Commit a significant set of whitespace changes to OE-Core, resolving
+> all the warnings for OE-Core.
+>
+> I plan to do this, tomorrow, Thursday.
+>
 
-I think this is the right idea, I'm just worried about having things in
-the same directory. Could we do this but create the symlinks in a
-"runtime-renamed" directory instead, then alter licence.bbclass to look
-there?
+Richard,
+
+I think I've hit an issue with the white spaces today:
+
+    NOTE: Resolving any missing task queue dependencies
+    NOTE: Preparing runqueue
+    NOTE: Executing RunQueue Tasks
+    NOTE: Running task 1 of 2 (ID: 0,
+virtual:native:/mnt/storage/yoctoBuilds/poky-vanilla.git/meta/recipes-devtools/bison/bison_2.5.bb,
+    do_clean)
+    NOTE: package bison-native-2.5-r2: task do_clean: Started
+    ERROR: Error executing a python function in
+/mnt/storage/yoctoBuilds/poky-vanilla.git/meta/recipes-devtools/bison/bison_2.5.bb:
+    OSError: [Errno 39] Directory not empty:
+'/mnt/storage/yoctoBuilds/poky-vanilla.git/build/tmp/work/x86_64-linux/bison-native-2.5-r2/temp'
+
+    ERROR: The stack trace of python calls that resulted in this
+    exception/failure was:
+    ERROR:   File "do_clean", line 16, in <module>
+    ERROR:
+    ERROR:   File "do_clean", line 6, in do_clean
+    ERROR:
+    ERROR:   File
+"/mnt/storage/yoctoBuilds/poky-vanilla.git/meta/lib/oe/path.py",
+    line 94, in remove
+    ERROR:     shutil.rmtree(name)
+    ERROR:
+    ERROR:   File "/usr/lib/python2.7/shutil.py", line 245, in rmtree
+    ERROR:     rmtree(fullname, ignore_errors, onerror)
+    ERROR:
+    ERROR:   File "/usr/lib/python2.7/shutil.py", line 254, in rmtree
+    ERROR:     onerror(os.rmdir, path, sys.exc_info())
+    ERROR:
+    ERROR:   File "/usr/lib/python2.7/shutil.py", line 252, in rmtree
+    ERROR:     os.rmdir(path)
+    ERROR:
+    ERROR: The code that was being executed was:
+    ERROR:      0012:    for f in (d.getVar('CLEANFUNCS', True) or
+    '').split():
+    ERROR:      0013:        bb.build.exec_func(f, d)
+    ERROR:      0014:
+    ERROR:      0015:
+    ERROR:  *** 0016:do_clean(d)
+    ERROR:      0017:
+    ERROR: (file: 'do_clean', lineno: 16, function: <module>)
+    ERROR:      0002:def do_clean(d):
+    ERROR:      0003:    """clear the build and temp directories"""
+    ERROR:      0004:    dir =
+d.expand("/mnt/storage/yoctoBuilds/poky-vanilla.git/build/tmp/work/x86_64-linux/bison-native-2.5-r2")
+    ERROR:      0005:    bb.note("Removing " + dir)
+    ERROR:  *** 0006:    oe.path.remove(dir)
+    ERROR:      0007:
+    ERROR:      0008:    dir = "%s.*" % 
+bb.data.expand(d.getVar('STAMP'), d)
+    ERROR:      0009:    bb.note("Removing " + dir)
+    ERROR:      0010:    oe.path.remove(dir)
+    ERROR: (file: 'do_clean', lineno: 6, function: do_clean)
+    ERROR: Function failed: do_clean
+    NOTE: package bison-native-2.5-r2: task do_clean: Failed
+    ERROR: Task 0
+(virtual:native:/mnt/storage/yoctoBuilds/poky-vanilla.git/meta/recipes-devtools/bison/bison_2.5.bb,
+    do_clean) failed with exit code '1'
+    NOTE: Tasks Summary: Attempted 1 tasks of which 0 didn't need to be
+    rerun and 1 failed.
+
+    Summary: 1 task failed:
+virtual:native:/mnt/storage/yoctoBuilds/poky-vanilla.git/meta/recipes-devtools/bison/bison_2.5.bb,
+    do_clean
+    Summary: There was 1 WARNING message shown.
+    Summary: There were 37 ERROR messages shown, returning a non-zero
+    exit code.
+
 
 Cheers,
+Jack.
 
-Richard
+-- 
+
+   Jack Mitchell (jack@embed.me.uk)
+   Embedded Systems Engineer
+   http://www.embed.me.uk
+
+--
 
 
 
