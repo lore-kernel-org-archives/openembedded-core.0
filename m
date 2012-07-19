@@ -1,54 +1,31 @@
-Received: from co1ehsobe001.messaging.microsoft.com ([216.32.180.184]
-	helo=co1outboundpool.messaging.microsoft.com)
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1SrtMh-0007rT-4i
+	(envelope-from <sgw@linux.intel.com>) id 1SrtOQ-0003Gs-Qv
 	for openembedded-core@lists.openembedded.org;
-	Thu, 19 Jul 2012 18:14:11 +0200
-Received: from mail165-co1-R.bigfish.com (10.243.78.236) by
-	CO1EHSOBE011.bigfish.com (10.243.66.74) with Microsoft SMTP Server id
-	14.1.225.23; Thu, 19 Jul 2012 16:02:48 +0000
-Received: from mail165-co1 (localhost [127.0.0.1])	by
-	mail165-co1-R.bigfish.com (Postfix) with ESMTP id 217ED6C01A2;
-	Thu, 19 Jul 2012 16:02:48 +0000 (UTC)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-X-SpamScore: -3
-X-BigFish: VS-3(zzbb2dI98dI9371I1432Izz1202hzz8275bh8275dhz2dh2a8h668h839h8e2h8e3hf0ah107ah10d2hbe9i)
-Received: from mail165-co1 (localhost.localdomain [127.0.0.1]) by mail165-co1
-	(MessageSwitch) id 1342713765495747_26375;
-	Thu, 19 Jul 2012 16:02:45 +0000 (UTC)
-Received: from CO1EHSMHS021.bigfish.com (unknown [10.243.78.241])	by
-	mail165-co1.bigfish.com (Postfix) with ESMTP id 772CD340049;
-	Thu, 19 Jul 2012 16:02:45 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by CO1EHSMHS021.bigfish.com
-	(10.243.66.31) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Thu, 19 Jul 2012 16:02:43 +0000
-Received: from 039-SN1MPN1-002.039d.mgd.msft.net ([169.254.2.109]) by
-	039-SN1MMR1-002.039d.mgd.msft.net ([10.84.1.15]) with mapi id
-	14.02.0298.005; Thu, 19 Jul 2012 11:02:42 -0500
-From: McClintock Matthew-B29882 <B29882@freescale.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>, Saul Wold <sgw@linux.intel.com>
-Thread-Topic: [OE-core] [PATCH] rpm_5.4.9.bb: fix builds on systems with
-	older libc
-Thread-Index: AQHNZcTSpSpT5w4p5kOnblPn3teCCZcxGAgA
-Date: Thu, 19 Jul 2012 16:02:41 +0000
-Message-ID: <CAEsOVNeJfG1mSUwyQeczuYxE-V=NyBZ8J0soFH1Q+zNa37NvPg@mail.gmail.com>
-References: <1341940460-5784-1-git-send-email-msm@freescale.com>
-	<50082A6C.3020002@linux.intel.com>
-In-Reply-To: <50082A6C.3020002@linux.intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [70.112.201.132]
+	Thu, 19 Jul 2012 18:15:59 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 19 Jul 2012 09:04:20 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="168539299"
+Received: from unknown (HELO [10.255.12.214]) ([10.255.12.214])
+	by orsmga001.jf.intel.com with ESMTP; 19 Jul 2012 09:04:19 -0700
+Message-ID: <50082FE9.6040105@linux.intel.com>
+Date: Thu, 19 Jul 2012 09:03:53 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:13.0) Gecko/20120615 Thunderbird/13.0.1
 MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Subject: Re: [PATCH] rpm_5.4.9.bb: fix builds on systems with older libc
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <1342517932-27013-1-git-send-email-Martin.Jansa@gmail.com>
+	<1342518742-14636-1-git-send-email-Martin.Jansa@gmail.com>
+In-Reply-To: <1342518742-14636-1-git-send-email-Martin.Jansa@gmail.com>
+Cc: Martin Jansa <martin.jansa@gmail.com>
+Subject: Re: [PATCHv2] recipes: svn SRC_URI s/proto=/protocol=/g
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
-	Patches and discussions about the oe-core layer
+Reply-To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -59,135 +36,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Jul 2012 16:14:11 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <31E5B5B018255C46906F715F5AB25ACB@mgd.freescale.com>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 19 Jul 2012 16:15:59 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, Jul 19, 2012 at 10:40 AM, Saul Wold <sgw@linux.intel.com> wrote:
-> On 07/10/2012 10:14 AM, Matthew McClintock wrote:
->>
->> | dbconvert.o: In function `rpmdb_convert':
->> |
->> /local/jenkins/jobs/yocto-upstream/workspace/label/master/machine/p4080d=
-s/poky/master/tmp/work/x86_64-linux/rpm-native-5.4.9-r45/rpm-5.4.9/tools/db=
-convert.c:126:
->> warning: the use of `tempnam' is dangerous, better use `mkstemp'
->> | dbconvert.o: In function `main':
->> | dbconvert.c:(.text+0x923): undefined reference to `htobe32'
->> | dbconvert.c:(.text+0xaa4): undefined reference to `htole32'
->> | dbconvert.c:(.text+0xac9): undefined reference to `htole32'
->>
+On 07/17/2012 02:52 AM, Martin Jansa wrote:
+> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> ---
+>   .../eglibc/cross-localedef-native_2.15.bb          |    2 +-
+>   .../eglibc/cross-localedef-native_2.16.bb          |    2 +-
+>   meta/recipes-multimedia/tremor/tremor_20120314.bb  |    2 +-
+>   3 files changed, 3 insertions(+), 3 deletions(-)
 >
-> Matthew,
+> diff --git a/meta/recipes-core/eglibc/cross-localedef-native_2.15.bb b/meta/recipes-core/eglibc/cross-localedef-native_2.15.bb
+> index 6f311fc..493eb61 100644
+> --- a/meta/recipes-core/eglibc/cross-localedef-native_2.15.bb
+> +++ b/meta/recipes-core/eglibc/cross-localedef-native_2.15.bb
+> @@ -16,7 +16,7 @@ inherit autotools
+>   PR = "r0"
+>   SRCREV="15225"
+>   EGLIBC_BRANCH="eglibc-2_14"
+> -SRC_URI = "svn://www.eglibc.org/svn/branches/;module=${EGLIBC_BRANCH};proto=http "
+> +SRC_URI = "svn://www.eglibc.org/svn/branches/;module=${EGLIBC_BRANCH};protocol=http "
+>   S = "${WORKDIR}/${EGLIBC_BRANCH}/localedef"
 >
-> Some how this patch has introduced a problem with the package-index proce=
-ss,
-> as can be seen by the recent autobuilder nightly failures. I know this pa=
-tch
-> seems to remove dbconvert, but that causes problems for the package-index
-> task.
+>   do_unpack_append() {
+> diff --git a/meta/recipes-core/eglibc/cross-localedef-native_2.16.bb b/meta/recipes-core/eglibc/cross-localedef-native_2.16.bb
+> index 88c701e..0f870be 100644
+> --- a/meta/recipes-core/eglibc/cross-localedef-native_2.16.bb
+> +++ b/meta/recipes-core/eglibc/cross-localedef-native_2.16.bb
+> @@ -16,7 +16,7 @@ inherit autotools
+>   PR = "r0"
+>   SRCREV="19383"
+>   EGLIBC_BRANCH="eglibc-2_16"
+> -SRC_URI = "svn://www.eglibc.org/svn/branches/;module=${EGLIBC_BRANCH};proto=http "
+> +SRC_URI = "svn://www.eglibc.org/svn/branches/;module=${EGLIBC_BRANCH};protocol=http "
+>   S = "${WORKDIR}/${EGLIBC_BRANCH}/localedef"
 >
-> We have filed a bug #2753
-> (https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D2753), to track this=
-.
-> Can you take a look into this?
+>   do_unpack_append() {
+> diff --git a/meta/recipes-multimedia/tremor/tremor_20120314.bb b/meta/recipes-multimedia/tremor/tremor_20120314.bb
+> index 19d03d6..cf51983 100644
+> --- a/meta/recipes-multimedia/tremor/tremor_20120314.bb
+> +++ b/meta/recipes-multimedia/tremor/tremor_20120314.bb
+> @@ -8,7 +8,7 @@ DEPENDS = "libogg"
+>   SRCDATE = "${PV}"
+>   PR = "r0"
 >
-> Since it is causing the AB to fail, we would like to get this resolved,
-> Robert Yang is also looking at the issue. We will likely revert this patc=
-h
-> tomorrow if we don't get a resolution sooner.
+> -SRC_URI = "svn://svn.xiph.org/trunk;module=Tremor;rev=18221;proto=http"
+> +SRC_URI = "svn://svn.xiph.org/trunk;module=Tremor;rev=18221;protocol=http"
+>
+>   S = "${WORKDIR}/Tremor"
+>
+>
 
-The intent of this patch is to disable building one object file. It's
-possible I borked something else along the way?
+Merged into OE-Core
 
--M
-
->
-> Thanks
->         Sau!
->
->
->> Signed-off-by: Matthew McClintock <msm@freescale.com>
->> ---
->>   meta/recipes-devtools/rpm/rpm/dbconvert.patch |   27
->> +++++++++++++++++++++++++
->>   meta/recipes-devtools/rpm/rpm_5.4.9.bb        |    3 ++-
->>   2 files changed, 29 insertions(+), 1 deletion(-)
->>   create mode 100644 meta/recipes-devtools/rpm/rpm/dbconvert.patch
->>
->> diff --git a/meta/recipes-devtools/rpm/rpm/dbconvert.patch
->> b/meta/recipes-devtools/rpm/rpm/dbconvert.patch
->> new file mode 100644
->> index 0000000..27dba8c
->> --- /dev/null
->> +++ b/meta/recipes-devtools/rpm/rpm/dbconvert.patch
->> @@ -0,0 +1,27 @@
->> +Upstream-Status: Not applicable
->> +
->> +Hack to prevent unneeded demo app from building on older libc
->> +where it will break the build
->> +
->> +Index: rpm-5.4.9/tools/Makefile.am
->> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->> +--- rpm-5.4.9.orig/tools/Makefile.am
->> ++++ rpm-5.4.9/tools/Makefile.am
->> +@@ -24,7 +24,7 @@ AM_CFLAGS =3D $(OPENMP_CFLAGS)
->> +
->> + EXTRA_DIST =3D  hashtab.h bsdiff.1 bspatch.1 dotgraph.hh
->> +
->> +-EXTRA_PROGRAMS =3D augtool cudftool dbconvert debugedit \
->> ++EXTRA_PROGRAMS =3D augtool cudftool debugedit \
->> +       nix-build nix-channel nix-collect-garbage nix-copy-closure \
->> +       nix-env nix-hash nix-install-package nix-instantiate \
->> +       nix-log2xml nix-prefetch-url nix-pull nix-push nix-store
->> nix-worker \
->> +@@ -60,7 +60,7 @@ pkgbin_PROGRAMS =3D    \
->> +       rpmcache rpmdigest rpmrepo rpmspecdump \
->> +       rpmcmp rpmdeps rpmdeps-oecore sqlite3 @WITH_KEYUTILS_RPMKEY@
->> @WITH_LIBELF_DEBUGEDIT@
->> + if WITH_DB
->> +-pkgbin_PROGRAMS +=3D    dbconvert
->> ++pkgbin_PROGRAMS +=3D
->> + endif
->> + dist_man_MANS =3D               rpmgrep.1
->> +
->> diff --git a/meta/recipes-devtools/rpm/rpm_5.4.9.bb
->> b/meta/recipes-devtools/rpm/rpm_5.4.9.bb
->> index 6ef1aae..e276cc3 100644
->> --- a/meta/recipes-devtools/rpm/rpm_5.4.9.bb
->> +++ b/meta/recipes-devtools/rpm/rpm_5.4.9.bb
->> @@ -43,7 +43,7 @@ LICENSE =3D "LGPLv2.1"
->>   LIC_FILES_CHKSUM =3D
->> "file://COPYING.LIB;md5=3D2d5025d4aa3495befef8f17206a5b0a1"
->>
->>   DEPENDS =3D "libpcre attr acl popt ossp-uuid file"
->> -PR =3D "r45"
->> +PR =3D "r46"
->>
->>   # rpm2cpio is a shell script, which is part of the rpm src.rpm.  It is
->> needed
->>   # in order to extract the distribution SRPM into a format we can
->> extract...
->> @@ -75,6 +75,7 @@ SRC_URI =3D
->> "http://www.rpm5.org/files/rpm/rpm-5.4/rpm-5.4.9-0.20120508.src.rpm;ex
->>            file://uclibc-support.patch \
->>            file://rpmatch.patch \
->>            file://fstack-protector-configure-check.patch \
->> +          file://dbconvert.patch \
->>           "
->>
->>   SRC_URI[md5sum] =3D "60d56ace884340c1b3fcac6a1d58e768"
->>
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core=
-
+Thanks
+	Sau!
 
 
