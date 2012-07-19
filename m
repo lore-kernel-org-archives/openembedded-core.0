@@ -1,25 +1,41 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SrtVD-0000r9-Iv
+	(envelope-from <ross.burton@intel.com>) id 1SrtVD-0000pw-JS
 	for openembedded-core@lists.openembedded.org;
 	Thu, 19 Jul 2012 18:22:59 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 19 Jul 2012 09:11:36 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="195104115"
-Received: from unknown (HELO [10.255.12.214]) ([10.255.12.214])
-	by fmsmga002.fm.intel.com with ESMTP; 19 Jul 2012 09:11:36 -0700
-Message-ID: <500831B8.2040201@linux.intel.com>
-Date: Thu, 19 Jul 2012 09:11:36 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:13.0) Gecko/20120615 Thunderbird/13.0.1
-MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1342500638.git.nitin.a.kamble@intel.com>
-In-Reply-To: <cover.1342500638.git.nitin.a.kamble@intel.com>
-Subject: Re: [PATCH 0/1] some typo fixes in patch headers
+Received: from mail-wg0-f42.google.com ([74.125.82.42])
+	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 19 Jul 2012 09:11:38 -0700
+Received: by wgbfm10 with SMTP id fm10so5237070wgb.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 19 Jul 2012 09:11:37 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
+	:in-reply-to:references:x-gm-message-state;
+	bh=fZrV2c0z8joIVfdLsTP38z3Skzk+JanfmOjcOpU9sUQ=;
+	b=O7jGNaF1ZSCwl8ZNHVvffUGdhzyb8LWKRhVflbqDT9m9a1mzWdThDrlxSRGJYIMQ2W
+	eMQzYYpAisR1hQlD+xqnUrc4wzuSTBS9IuHW9xnEjXfRfN3TUJ1jFw2lwoI/GNvKKbn2
+	ArUTOoG+Jy0en4nT8xx3iQiGET3AJ8g7ZmGvx5pQ86unrezzIYSgPzxMOsEDH6FhneB4
+	ndeVryd/SpFewQXYc00xX2zZtNZ5CaId9BKH0cn0QZayojN92UuTEqcdPfXfuV1a/vhd
+	iQSX7Rpz4z8iAf3UkXb3L6fK7+6dq4jsfH9GXPkNhD5qq8o7kFms2vgRjrAyO6L3Oiu1
+	Iv3A==
+Received: by 10.180.103.136 with SMTP id fw8mr6068770wib.20.1342714296964;
+	Thu, 19 Jul 2012 09:11:36 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPS id cl8sm39193462wib.10.2012.07.19.09.11.35
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 19 Jul 2012 09:11:36 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 19 Jul 2012 17:10:51 +0100
+Message-Id: <96ac72c6b65675842abe6ad842a642126c3bf90b.1342713965.git.ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10
+In-Reply-To: <cover.1342713965.git.ross.burton@intel.com>
+References: <cover.1342713965.git.ross.burton@intel.com>
+In-Reply-To: <cover.1342713965.git.ross.burton@intel.com>
+References: <cover.1342713965.git.ross.burton@intel.com>
+X-Gm-Message-State: ALoCoQktWUj7txXrJrahnDjIK5I8H2E2MprXjp3C6vIFlyIl6AdEQmI9IYDCRkrSUkETKyhunPq/
+Subject: [PATCH 04/26] gconf: cleanup thanks to new gtk-doc.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,32 +51,42 @@ List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 19 Jul 2012 16:22:59 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
 
-On 07/16/2012 09:52 PM, nitin.a.kamble@intel.com wrote:
-> From: Nitin A Kamble <nitin.a.kamble@intel.com>
->
-> The following changes since commit 5ed19a40f407efa1e6a2043bd8e36d729968c446:
->
->    toolchain-scripts: Sync the SDK/ADT values to the build system (2012-07-17 18:02:55 +0100)
->
-> are available in the git repository at:
->    git://git.pokylinux.org/poky-contrib nitin/misc
->    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=nitin/misc
->
-> Nitin A Kamble (1):
->    fix my typos in patch headers
->
->   ..._MKDIR_P_warning_error_with_automake_1.12.patch |   10 +++++-----
->   ..._MKDIR_P_warning_error_with_automake_1.12.patch |   10 +++++-----
->   .../gnutls/gnutls_fix_for_automake_1.12.1.patch    |    2 +-
->   3 files changed, 11 insertions(+), 11 deletions(-)
->
 
-Merged into OE-Core
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-gnome/gnome/gconf_3.2.3.bb |    8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
 
-Thanks
-	Sau!
+diff --git a/meta/recipes-gnome/gnome/gconf_3.2.3.bb b/meta/recipes-gnome/gnome/gconf_3.2.3.bb
+index 1da7203..d84f981 100644
+--- a/meta/recipes-gnome/gnome/gconf_3.2.3.bb
++++ b/meta/recipes-gnome/gnome/gconf_3.2.3.bb
+@@ -9,9 +9,9 @@ POLKIT_libc-uclibc = ""
+ DEPENDS = "glib-2.0 dbus dbus-glib libxml2 intltool-native ${POLKIT}"
+ DEPENDS_virtclass-native = "glib-2.0-native dbus-native dbus-glib-native libxml2-native intltool-native gnome-common-native"
+ 
+-PR = "r9"
++PR = "r10"
+ 
+-inherit gnomebase
++inherit gnomebase gtk-doc
+ 
+ SRC_URI = "${GNOME_MIRROR}/GConf/${@gnome_verdir("${PV}")}/GConf-${PV}.tar.bz2;name=archive \
+ 	   file://nointro.patch \
+@@ -29,10 +29,6 @@ POLKIT_OECONF_libc-uclibc = "--disable-default-service"
+ EXTRA_OECONF = "--disable-gtk-doc --enable-shared --disable-static --enable-debug=yes \
+                 --disable-introspection --disable-orbit --with-openldap=no ${POLKIT_OECONF} --disable-gtk"
+ 
+-do_configure_prepend () {
+-	touch gtk-doc.make
+-}
+-
+ do_install_append() {
+ 	# this directory need to be created to avoid an Error 256 at gdm launch
+ 	install -d ${D}${sysconfdir}/gconf/gconf.xml.system
+-- 
+1.7.10
+
 
 
