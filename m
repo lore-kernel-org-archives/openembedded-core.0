@@ -1,27 +1,31 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from astoria.ccjclearline.com ([64.235.106.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1SryLC-0005gs-Hj
+	(envelope-from <rpjday@crashcourse.ca>) id 1SrynC-0006ft-Fx
 	for openembedded-core@lists.openembedded.org;
-	Thu, 19 Jul 2012 23:32:58 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q6JLLVYT014658
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Jul 2012 14:21:34 -0700 (PDT)
-Received: from Marks-MacBook-Pro.local (172.25.35.110) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.1.255.0; Thu, 19 Jul 2012 14:21:31 -0700
-Message-ID: <50087A5B.9030905@windriver.com>
-Date: Thu, 19 Jul 2012 15:21:31 -0600
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7;
-	rv:13.0) Gecko/20120614 Thunderbird/13.0.1
+	Fri, 20 Jul 2012 00:01:54 +0200
+Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
+	([174.115.5.73]:33683 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.77) (envelope-from <rpjday@crashcourse.ca>)
+	id 1SrycD-0005kd-GL for openembedded-core@lists.openembedded.org;
+	Thu, 19 Jul 2012 17:50:33 -0400
+Date: Thu, 19 Jul 2012 17:50:21 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@oneiric
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.DEB.2.02.1207191738300.22542@oneiric>
+User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <CAKSdS8L32A5wB4fzuc-EQTBX9_GXLhLO_gt4HgzgJk=UC+XZKw@mail.gmail.com>
-In-Reply-To: <CAKSdS8L32A5wB4fzuc-EQTBX9_GXLhLO_gt4HgzgJk=UC+XZKw@mail.gmail.com>
-Subject: Re: meta-toolchain type SDK containing external toolchain possible?
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Subject: what are the major phases of do_patch() for the kernel?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,89 +40,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Jul 2012 21:32:59 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
-
-On 7/19/12 3:13 PM, Manuel Bessler wrote:
-> Hi all,
->
-> I'm using a vendor-supplied external (pre-built) toolchain in my build
-> (poky-denzil).
-> Is it possible to setup my toolchain such that it will be part of the
-> SDK package instead of the default {gcc,binutils}-cross-canadian?
-
-It is possible, but the external toolchain needs to be provided via a 
-crosssdk/cross-canadian binary.  The external-csl-toolchain.bb can be used as a 
-model for how to do this.
-
-PREFERRED_PROVIDER and similar may also be needed to ensure you get the correct 
-version, and not rebuilt from source versions.
-
-> I'm modeling my SDK after the meta-toolchain type SDK.
->
-> Right now when I build my image, all target code is built using my
-> pre-built external toolchain,
-> but when I 'bitbake <mysdk>', the toolchain built and distributed in
-> the SDK tarball is one built by bitbake.
->
-> That, in effect, makes my SDK unusable as the toolchain inside is
-> based on a different GCC/Binutils versions.
->
->  From my digging around in the recipes and classes, I think if I could
-> somehow make my toolchain
-> look like it provides gcc-cross-canadian and binutils-cross-canadian,
-> it might work. However I'm not
-> quite sure what I need to set to make this happen.
->
-> I tried to add this to conf/distro/include/tcmode-external-xxx.inc in my layer:
-> PREFERRED_PROVIDER_gcc-cross-canadian-${TRANSLATED_TARGET_ARCH} =
-> "external-xxx-toolchain"
-> PREFERRED_PROVIDER_binutils-cross-canadian-${TRANSLATED_TARGET_ARCH} =
-> "external-xxx-toolchain"
-
-For my stuff I did;
-
-PREFERRED_PROVIDER_binutils-cross-canadian-${TRANSLATED_TARGET_ARCH} = 
-"external-csl-toolchain-cross-canadian-${TRANSLATED_TARGET_ARCH}"
-
-PREFERRED_PROVIDER_gcc-cross-canadian-${TRANSLATED_TARGET_ARCH} = 
-"external-csl-toolchain-cross-canadian-${TRANSLATED_TARGET_ARCH}"
-
-PREFERRED_PROVIDER_gdb-cross-canadian-${TRANSLATED_TARGET_ARCH} = 
-"external-csl-toolchain-cross-canadian-${TRANSLATED_TARGET_ARCH}"
+X-List-Received-Date: Thu, 19 Jul 2012 22:01:54 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
 
-> That alone did not change anything.
->
-> Then I tried adding the following to
-> recipes-core/meta/external-xxx-toolchain_4.5.3.bb in my layer:
-> PROVIDES += " gcc-cross-canadian-${TRANSLATED_TARGET_ARCH} "
-> PROVIDES += " binutils-cross-canadian-${TRANSLATED_TARGET_ARCH} "
+  short version: what happens during each major processing step of the
+do_patch function for the kernel?
 
-Within the external-cs-toolchain-cross-canadian.bb I had similar provides as well..
+  longer version: i'm stepping through what happens when i do a
+"bitbake linux-yocto", and documenting what happens at each step --
+currently looking at do_patch().
 
-> to which bitbake complained:
-> ERROR: Multiple .bb files are due to be built which each provide
-> gcc-cross-canadian-mipsel
-> (xxx/recipes-core/meta/external-xxx-toolchain_4.5.3.bb
-> xxx/meta/recipes-devtools/gcc/gcc-cross-canadian_4.6.bb).
->   This usually means one provides something the other doesn't and should.
-> (and the same for binutils).
->
-> All I want is to dump the external toolchain tree into the SDK output.
->
-> Any clues as to what I might be missing, or am I on the wrong path?
->
-> Thanks,
-> Manuel
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+  after having run the previous validate_branches target, what i
+appear to have is the source directory containing the kernel source
+with the (for me) standard/arm-versatile-926ejs branch checked out,
+and no top-level "meta" directory.  so far, so good.
 
+  now, i'm building core-image-minimal for qemuarm, so i'm being as
+unexciting and non-exotic as possible -- not selecting any special
+parameters or corner cases or anything.
 
+  so as i peruse do_patch() in kernel-yocto.bbclass, i'm following
+along to functions like createme and updateme and patchme, and with
+createme, further into decheckpoint and check_defconfig and ... you
+get the idea.  and i'm kind of getting lost in the weeds of details.
+
+  given that i'm building an absolutely stock target with a supported
+machine, all i really need for the moment is a very high-level
+explanation of what each of those main routines does.
+
+  so if my initial understanding is correct (that before i start
+do_patch), i have the stock yocto kernel checked out to the
+appropriate machine branch and nothing else), what does each
+subsequent step accomplish?
+
+  don't need horrific detail, just one line or less as to what's
+accomplished by each step like:
+
+  * createme
+    * decheckpoint
+    * checkdefconfig
+    * check_branch
+    * metaize
+  * updateme
+
+... etc, etc.  and at the end of the patch step, i know that i'll have
+that untracked top-level "meta" directory, still not sure what will
+have been done with it yet.  i guess that's for the next step, which
+appears to be "kernel_configme".  but one thing at a time.
+
+rday
+
+-- 
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
