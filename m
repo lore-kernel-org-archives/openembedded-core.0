@@ -1,41 +1,37 @@
-Received: from mail-wg0-f41.google.com ([74.125.82.41])
+Received: from mail-bk0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>)
-	id 1Srp3k-0002fP-Ki; Thu, 19 Jul 2012 13:38:20 +0200
-Received: by wgbds1 with SMTP id ds1so4674815wgb.0
-	for <multiple recipients>; Thu, 19 Jul 2012 04:26:59 -0700 (PDT)
+	(envelope-from <martin.jansa@gmail.com>) id 1SrpBX-0002sl-N4
+	for openembedded-core@lists.openembedded.org;
+	Thu, 19 Jul 2012 13:46:23 +0200
+Received: by bkcik5 with SMTP id ik5so1887837bkc.6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 19 Jul 2012 04:35:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=date:from:to:cc:subject:message-id:references:mime-version
 	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=YOZT99fU+eqgaWAnn+QLReoWFrT01bLoyzpdwdyyDbU=;
-	b=KEpiYBVtlR2ce3SW2dd/y6EjiafIXYzPo0W2HjmGJQtZgG0HKl50/UBwzFlRUhvwF9
-	68sFcZOSBwzaqWpbyLmS/M/3TjsQKa5IfXdcITcxPqA8Hy9gKQFc7ELF/o0X5BOsYBBw
-	5NPl9EkYLDJ3o1Rc5sT2QefEbVrVUmN/eCnQOcIlRACYDw3seZaG3XLGhK0b+FNtPjnG
-	IxW0Ab3JBf3SkCzvdUGbfosYmCUDFo/AXt+TMfc07i6wWeGOw2oKljocssH4oK+RNz9y
-	vA5iToAcuiSKKG+3DNg6o1M/B6kqFWuAbIVHj2NJjjE6lhb6rugxNCFIrmHie3XSYbcO
-	sR1Q==
-Received: by 10.180.103.136 with SMTP id fw8mr3808530wib.20.1342697218936;
-	Thu, 19 Jul 2012 04:26:58 -0700 (PDT)
+	bh=Aon7m9ONgIco025Zz7KPYCsJYIUG1tZte9YGSqcZ/+Q=;
+	b=gMHd4/cNq7VlCYMd8MSbHhSGTWI5vd2xK/MNDRHR53p/5jfqhbt4COSvV+7Qs+6Wgv
+	Zxnu14Qh6TzBvPutgxLWIjbwTLlT+xY1/8ViL9+bIcxAPOmII2JKUR89behTIXzdhG/f
+	E6LP0FJTqSwjB1p0mI5FXNcHI14+fQ3dOKK2y9DlE5d+cCv+KHLCEwUobWiSdyJiuIup
+	9c2o2NI0H7tWOVack5vFkWe7D6f3LGpfmv0Cy/AtnDTdrnRAlik91hTg6+FOC7XMzUXn
+	TCfi3wG+DHYGeIfYYJ6TgIJ7YiuwLwa9Ef9Lp/5FTYgtPwVH6IOhKaohd3CBMV15KJNW
+	JSkA==
+Received: by 10.204.129.14 with SMTP id m14mr723253bks.7.1342697701898;
+	Thu, 19 Jul 2012 04:35:01 -0700 (PDT)
 Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id eu4sm37989411wib.2.2012.07.19.04.26.57
+	by mx.google.com with ESMTPS id y20sm948049bkv.11.2012.07.19.04.35.00
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 19 Jul 2012 04:26:58 -0700 (PDT)
-Date: Thu, 19 Jul 2012 13:27:09 +0200
+	Thu, 19 Jul 2012 04:35:01 -0700 (PDT)
+Date: Thu, 19 Jul 2012 13:35:12 +0200
 From: Martin Jansa <martin.jansa@gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20120719112709.GI3331@jama.jama.net>
-References: <1342606005.30680.17.camel@ted>
-	<CAJTo0LbkkXkJH-mbxwqKK7KM1PWDdF4mD+K8omTF4SQ9_WDogQ@mail.gmail.com>
-	<1342611618.30680.24.camel@ted>
-	<20120719094954.GF3331@jama.jama.net> <1342692948.7940.4.camel@ted>
-	<20120719111812.GH3331@jama.jama.net>
-MIME-Version: 1.0
-In-Reply-To: <20120719111812.GH3331@jama.jama.net>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: bitbake-devel <bitbake-devel@lists.openembedded.org>,
-	Patches and discussions about the oe-core layer
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [bitbake-devel] PLEASE READ: Major change landing shortly (python whitespace)
+Message-ID: <20120719113512.GK3331@jama.jama.net>
+References: <1342696517-28149-1-git-send-email-mertsas@cisco.com>
+MIME-Version: 1.0
+In-Reply-To: <1342696517-28149-1-git-send-email-mertsas@cisco.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Subject: Re: [PATCH] Changed SRC_URI for eglibc repo.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,103 +46,120 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Jul 2012 11:38:20 -0000
-X-Groupsio-MsgNum: 25705
+X-List-Received-Date: Thu, 19 Jul 2012 11:46:23 -0000
+X-Groupsio-MsgNum: 25706
 Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="4LwthZj+AV2mq5CX"
+	protocol="application/pgp-signature"; boundary="C7Ke/meiCZutM6I/"
 Content-Disposition: inline
 
---4LwthZj+AV2mq5CX
+--C7Ke/meiCZutM6I/
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jul 19, 2012 at 01:18:12PM +0200, Martin Jansa wrote:
-> On Thu, Jul 19, 2012 at 11:15:48AM +0100, Richard Purdie wrote:
-> > On Thu, 2012-07-19 at 11:49 +0200, Martin Jansa wrote:
-> > > On Wed, Jul 18, 2012 at 12:40:18PM +0100, Richard Purdie wrote:
-> > > > On Wed, 2012-07-18 at 11:17 +0100, Burton, Ross wrote:
-> > > > > On 18 July 2012 11:06, Richard Purdie
-> > > > > <richard.purdie@linuxfoundation.org> wrote:
-> > > > > > I put a proposal to the TSC, that we have bitbake warn/error wh=
-enever it
-> > > > > > finds tab characters in any python function. The advantage of t=
-his is
-> > > > > > that we give the user a clear definitive error. The downside is=
- that
-> > > > > > we'll have to go through all the metadata and scrub it for the =
-problem.
-> > > > >=20
-> > > > > Have you ran that warning over oe-core to check that there are no=
-t any
-> > > > > legitimate uses of \t, not for indentation but inside strings?  I
-> > > > > can't think of any realistic use but you never know (construct a
-> > > > > Makefile in a python function?).
-> > > >=20
-> > > > The check is for actual tab characters, not "\t". There are some
-> > > > legitimate users of tab characters which I've replaced with \t in
-> > > > strings.
-> > > >=20
-> > > > My current patch work in progress for the conversion is:
-> > > >=20
-> > > > http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=3Drpurd=
-ie/t14&id=3D49d3d01f3d61a0eb19b6852229fa8fc26712f653
-> > >=20
-> > > from those 2 patches which were just merged I see that you're convert=
-ing
-> > > strictly python functions, can we extend this tabs->spaces rule also =
-to
-> > > bash tasks like do_install etc?
-> >=20
-> > Shell tasks should be tabs according to the style guide. Its harder to
-> > check the indentation in those and if the indentation is wrong, it
-> > doesn't matter since they're not whitespace sensitive.
-> >=20
-> > So whilst I'd welcome fixing them up, I don't think they need bitbake
-> > enforcing policy in the same way as python functions.
->=20
-> Agreed about not forcing the check or updating all .bb/.inc files with
-> this now, but maybe style guide should be updated now?
->=20
-> I really don't like files with mixed indentation (even when it doesn't
-> hurt) especially with a lot of files not conforming to style guide now,
-> using even mix of tabs/spaces on the same line..
->=20
-> FWIW: I've prepared patch for whole meta-smartphone to unify that and
-> I've sent RFC for few bbclasses in meta-oe too.
+On Thu, Jul 19, 2012 at 01:15:17PM +0200, Martin Ertsaas wrote:
+> The branches repo for eglibc is /branches, not /svn/branches.
 
-I know you've sent me link do different style guide last time I've
-asked, but first google hit (for openembedded style guide):
-http://www.openembedded.org/wiki/Styleguide
-
-says about tabs only this:
-- Use spaces for indentation as developers tends to use different amount
-  of spaces per one tab.
-
-So only in yocto wiki there are 2 more bullets after that
-https://wiki.yoctoproject.org/wiki/Recipe_%26_Patch_Style_Guide
-- Use spaces for indentation as developers tends to use different amount
-  of spaces per one tab.
-- Shell functions should use tabs
-- Python functions should use spaces (4 spaces per indent).
-
-And yocto style guide is not in first 5 pages of result when searching
-for "openembedded style guide".
+Are you sure? wasn't this tested on broken bitbake where protocol param
+was ignored and default svn:// protocol was used instead http://?
 
 Cheers,
+
+>=20
+> Signed-off-by: Martin Ertsaas <mertsas@cisco.com>
+> ---
+>  .../eglibc/cross-localedef-native_2.15.bb          |    2 +-
+>  .../eglibc/cross-localedef-native_2.16.bb          |    2 +-
+>  meta/recipes-core/eglibc/eglibc_2.15.bb            |    2 +-
+>  meta/recipes-core/eglibc/eglibc_2.16.bb            |    2 +-
+>  4 files changed, 4 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/meta/recipes-core/eglibc/cross-localedef-native_2.15.bb b/me=
+ta/recipes-core/eglibc/cross-localedef-native_2.15.bb
+> index 422e0bb..4301174 100644
+> --- a/meta/recipes-core/eglibc/cross-localedef-native_2.15.bb
+> +++ b/meta/recipes-core/eglibc/cross-localedef-native_2.15.bb
+> @@ -16,7 +16,7 @@ inherit autotools
+>  PR =3D "r0"
+>  SRCREV=3D"15225"
+>  EGLIBC_BRANCH=3D"eglibc-2_14"
+> -SRC_URI =3D "svn://www.eglibc.org/svn/branches/;module=3D${EGLIBC_BRANCH=
+};protocol=3Dhttp "
+> +SRC_URI =3D "svn://www.eglibc.org/branches/;module=3D${EGLIBC_BRANCH};pr=
+otocol=3Dhttp "
+>  S =3D "${WORKDIR}/${EGLIBC_BRANCH}/localedef"
+> =20
+>  do_unpack_append() {
+> diff --git a/meta/recipes-core/eglibc/cross-localedef-native_2.16.bb b/me=
+ta/recipes-core/eglibc/cross-localedef-native_2.16.bb
+> index 47f0834..12f1d8b 100644
+> --- a/meta/recipes-core/eglibc/cross-localedef-native_2.16.bb
+> +++ b/meta/recipes-core/eglibc/cross-localedef-native_2.16.bb
+> @@ -16,7 +16,7 @@ inherit autotools
+>  PR =3D "r0"
+>  SRCREV=3D"19383"
+>  EGLIBC_BRANCH=3D"eglibc-2_16"
+> -SRC_URI =3D "svn://www.eglibc.org/svn/branches/;module=3D${EGLIBC_BRANCH=
+};protocol=3Dhttp "
+> +SRC_URI =3D "svn://www.eglibc.org/branches/;module=3D${EGLIBC_BRANCH};pr=
+otocol=3Dhttp "
+>  S =3D "${WORKDIR}/${EGLIBC_BRANCH}/localedef"
+> =20
+>  do_unpack_append() {
+> diff --git a/meta/recipes-core/eglibc/eglibc_2.15.bb b/meta/recipes-core/=
+eglibc/eglibc_2.15.bb
+> index 4d4d2cf..a72b076 100644
+> --- a/meta/recipes-core/eglibc/eglibc_2.15.bb
+> +++ b/meta/recipes-core/eglibc/eglibc_2.15.bb
+> @@ -7,7 +7,7 @@ PR =3D "r12"
+>  PR_append =3D "+svnr${SRCPV}"
+> =20
+>  EGLIBC_BRANCH=3D"eglibc-2_15"
+> -SRC_URI =3D "svn://www.eglibc.org/svn/branches/;module=3D${EGLIBC_BRANCH=
+};protocol=3Dhttp \
+> +SRC_URI =3D "svn://www.eglibc.org/branches/;module=3D${EGLIBC_BRANCH};pr=
+otocol=3Dhttp \
+>             file://eglibc-svn-arm-lowlevellock-include-tls.patch \
+>             file://IO-acquire-lock-fix.patch \
+>             file://mips-rld-map-check.patch \
+> diff --git a/meta/recipes-core/eglibc/eglibc_2.16.bb b/meta/recipes-core/=
+eglibc/eglibc_2.16.bb
+> index 7e7d68b..d0cdd68 100644
+> --- a/meta/recipes-core/eglibc/eglibc_2.16.bb
+> +++ b/meta/recipes-core/eglibc/eglibc_2.16.bb
+> @@ -7,7 +7,7 @@ PR =3D "r1"
+>  PR_append =3D "+svnr${SRCPV}"
+> =20
+>  EGLIBC_BRANCH=3D"eglibc-2_16"
+> -SRC_URI =3D "svn://www.eglibc.org/svn/branches/;module=3D${EGLIBC_BRANCH=
+};protocol=3Dhttp \
+> +SRC_URI =3D "svn://www.eglibc.org/branches/;module=3D${EGLIBC_BRANCH};pr=
+otocol=3Dhttp \
+>             file://eglibc-svn-arm-lowlevellock-include-tls.patch \
+>             file://IO-acquire-lock-fix.patch \
+>             file://mips-rld-map-check.patch \
+> --=20
+> 1.7.8.6
+>=20
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+
 --=20
 Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---4LwthZj+AV2mq5CX
+--C7Ke/meiCZutM6I/
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: Digital signature
 
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v2.0.19 (GNU/Linux)
 
-iEYEARECAAYFAlAH7w0ACgkQN1Ujt2V2gBxqWgCfQhQpOVEgUDEKNtuqEXgfEqb6
-2q4AoLcR+nwnhMkb6a0qOgky03JagLWJ
-=SY1i
+iEYEARECAAYFAlAH8PAACgkQN1Ujt2V2gBzSdgCfRlwJDr2mHb+5jw8C6Y+TkFRs
+ce4AoISUBKdwIIgJa+Nazz9gjWBmVAHY
+=XWIE
 -----END PGP SIGNATURE-----
 
---4LwthZj+AV2mq5CX--
+--C7Ke/meiCZutM6I/--
