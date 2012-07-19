@@ -1,41 +1,41 @@
-Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
+Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1SrtVJ-00013I-8B
+	(envelope-from <ross.burton@intel.com>) id 1SrtVI-0000wg-Dt
 	for openembedded-core@lists.openembedded.org;
 	Thu, 19 Jul 2012 18:23:05 +0200
-Received: from mail-wg0-f44.google.com ([74.125.82.44])
-	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 19 Jul 2012 09:11:42 -0700
-Received: by mail-wg0-f44.google.com with SMTP id dr13so1873962wgb.13
+Received: from mail-we0-f180.google.com ([74.125.82.180])
+	by mga03.intel.com with ESMTP/TLS/RC4-SHA; 19 Jul 2012 09:11:40 -0700
+Received: by weyt11 with SMTP id t11so1708114wey.25
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Jul 2012 09:11:42 -0700 (PDT)
+	Thu, 19 Jul 2012 09:11:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
 	:in-reply-to:references:x-gm-message-state;
-	bh=XYog7jqiqo9Zf+fAeZ0ZSJzuIspf5E1D1Asv4iaa6hQ=;
-	b=entpyhfBRjm0uNloWIuqKSXClyRLu00HDB0YIHQZXGnpzGlnhfKdCQ+Qj1shfLGpmQ
-	gQ6Dxq3bDRSyAH5AdsgUYGt3N4lrLj/aDe/v5vLHCHY6Td5sDThMqyS8W9x9C/pK4Hat
-	vbQf5C14nF4J/sxQ93cSwCGG7UWGHuU/ZgmLDRyVeJQf9p4MSKibBi1DuCf7lLpcyJgd
-	oh5ONxwZkHLiSAXR2368BLC8622xY/+p64P6W9NJJBbxgpEJHgFFErrEd4lYkgrtFeLz
-	QY80lQAF9+Ka17r5G80DC+dNSb939p0cmK9Z+58IQxjN1SidkFIt1zNtfp/nWNhCMLYI
-	Jhqg==
-Received: by 10.216.136.227 with SMTP id w77mr1452828wei.111.1342714302203;
-	Thu, 19 Jul 2012 09:11:42 -0700 (PDT)
+	bh=MuzvbFmZ/Gd5/CFBe+Y9B3pEH6qTdQkOHklg3nj/T1c=;
+	b=gMaqMFmgMQnpcG2V5PksgvBYaYsuhIl1GtYwMVuAZ45QjkazD2jDoGqw7EbbLgGoAA
+	mzlzbJ6JS47FrMfuMPwZH24+PopoQU7DbtLSNWsl17R3iq3xQ0NW2SVnhxR+2cAHlAjT
+	UJTwA+BhtRJCKMCqa/Sxt/dG1y80pUZiuLkCBEMjWlTiXOVcWAz8xRE4rzcLSn7JBJKw
+	uTTQtGDTg7suHKbnID5SzAsjEKCXRbLMe/TeT7fhDbsYPHNyIU+oS2VdM9EHCed571sI
+	D6/gEXZmvyhW5HR/DO6gqe8fY0AUmYul6uq4hWktgNIWcVqkA1lll/cyZG95lVvyUQIy
+	zjJQ==
+Received: by 10.180.90.207 with SMTP id by15mr17600533wib.22.1342714298395;
+	Thu, 19 Jul 2012 09:11:38 -0700 (PDT)
 Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id cl8sm39193462wib.10.2012.07.19.09.11.40
+	by mx.google.com with ESMTPS id cl8sm39193462wib.10.2012.07.19.09.11.37
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 19 Jul 2012 09:11:40 -0700 (PDT)
+	Thu, 19 Jul 2012 09:11:37 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 19 Jul 2012 17:10:54 +0100
-Message-Id: <f6e846cb92317be29635570ad6b432440e688b38.1342713965.git.ross.burton@intel.com>
+Date: Thu, 19 Jul 2012 17:10:52 +0100
+Message-Id: <9c169397de27be11dc775b6f21a30c4cd234cb6a.1342713965.git.ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10
 In-Reply-To: <cover.1342713965.git.ross.burton@intel.com>
 References: <cover.1342713965.git.ross.burton@intel.com>
 In-Reply-To: <cover.1342713965.git.ross.burton@intel.com>
 References: <cover.1342713965.git.ross.burton@intel.com>
-X-Gm-Message-State: ALoCoQnKkiFwlaTbhq4BQXI2OjSPGzLjVmx5ZML6+4QTp6eyJuNnFF2H4OWyZl1zcV+qI+tGGNVB
-Subject: [PATCH 07/26] gypsy: inherit gtk-doc
+X-Gm-Message-State: ALoCoQk2Hmksp6ydVc46ZryyYmMf+e7wZNyWbeiU8V30p0I5KvxtsJfazaWbXoerOvIuxSSCwLZ8
+Subject: [PATCH 05/26] gobject-introspection: cleanup thanks to new gtk-doc.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -55,55 +55,70 @@ X-List-Received-Date: Thu, 19 Jul 2012 16:23:07 -0000
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-connectivity/gypsy/gypsy.inc    |    6 +-----
- meta/recipes-connectivity/gypsy/gypsy_0.8.bb |    2 +-
- meta/recipes-connectivity/gypsy/gypsy_git.bb |    2 ++
- 3 files changed, 4 insertions(+), 6 deletions(-)
+ meta/recipes-gnome/gnome/gobject-introspection_1.32.1.bb |   11 ++++-------
+ meta/recipes-gnome/gnome/gobject-introspection_git.bb    |   11 +++--------
+ 2 files changed, 7 insertions(+), 15 deletions(-)
 
-diff --git a/meta/recipes-connectivity/gypsy/gypsy.inc b/meta/recipes-connectivity/gypsy/gypsy.inc
-index 11a7204..0c1735e 100644
---- a/meta/recipes-connectivity/gypsy/gypsy.inc
-+++ b/meta/recipes-connectivity/gypsy/gypsy.inc
-@@ -8,12 +8,8 @@ LICENSE = "GPLv2.0 & LGPLv2.1"
- SECTION = "x11"
- DEPENDS = "glib-2.0 dbus bluez4 dbus-glib"
+diff --git a/meta/recipes-gnome/gnome/gobject-introspection_1.32.1.bb b/meta/recipes-gnome/gnome/gobject-introspection_1.32.1.bb
+index f51e83e..2be10be 100644
+--- a/meta/recipes-gnome/gnome/gobject-introspection_1.32.1.bb
++++ b/meta/recipes-gnome/gnome/gobject-introspection_1.32.1.bb
+@@ -3,6 +3,8 @@ DEPENDS = "glib-2.0 libffi python-native gobject-introspection-native"
+ DEPENDS_virtclass-native = "glib-2.0-native libffi-native python-native bison-native flex-native"
+ BBCLASSEXTEND = "native"
  
--inherit autotools pkgconfig
-+inherit autotools pkgconfig gtk-doc
- 
- EXTRA_OECONF += "--with-distro=debian"
- 
--do_configure_prepend () {
--	touch ${S}/gtk-doc.make
--}
--
- FILES_${PN} += "/usr/share/dbus-1/services/"
-diff --git a/meta/recipes-connectivity/gypsy/gypsy_0.8.bb b/meta/recipes-connectivity/gypsy/gypsy_0.8.bb
-index 59a34fa..e701838 100644
---- a/meta/recipes-connectivity/gypsy/gypsy_0.8.bb
-+++ b/meta/recipes-connectivity/gypsy/gypsy_0.8.bb
-@@ -16,7 +16,7 @@ DEPENDS = "glib-2.0 dbus bluez4 dbus-glib libxslt"
- SRC_URI = "http://gypsy.freedesktop.org/releases/gypsy-${PV}.tar.gz \
-            file://fix-unused-but-set-variable-warning.patch \
-           "
--PR = "r2"
-+PR = "r3"
- 
- inherit autotools pkgconfig
- 
-diff --git a/meta/recipes-connectivity/gypsy/gypsy_git.bb b/meta/recipes-connectivity/gypsy/gypsy_git.bb
-index b123e11..495467e 100644
---- a/meta/recipes-connectivity/gypsy/gypsy_git.bb
-+++ b/meta/recipes-connectivity/gypsy/gypsy_git.bb
-@@ -4,6 +4,8 @@ DEFAULT_PREFERENCE = "-1"
- 
- SRCREV = "3652e1f37e82b8e63983e30fda3482cd099a8cf5"
- PV = "0.8+git${SRCPV}"
 +PR = "r1"
 +
+ SHRT_VER = "${@d.getVar('PV',1).split('.')[0]}.${@d.getVar('PV',1).split('.')[1]}"
+ SRC_URI = "\
+   ${GNOME_MIRROR}/${BPN}/${SHRT_VER}/${BP}.tar.xz \
+@@ -17,15 +19,10 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=90d577535a3898e1ae5dbf0ae3509a8c \
+                     file://COPYING.GPL;md5=94d55d512a9ba36caa9b7df079bae19f \
+                     file://COPYING.LGPL;md5=3bf50002aefd002f49e7bb854063f7e7"
+ 
+-inherit autotools
++inherit autotools gtk-doc
+ 
+ do_configure_prepend () {
+         echo "EXTRA_DIST = " > ${S}/gtk-doc.make
+ }
+ 
+-EXTRA_OECONF = "\
+-  --disable-gtk-doc \
+-  --disable-gtk-doc-html \
+-  --disable-gtk-doc-pdf \
+-  --disable-tests \
+-"
++EXTRA_OECONF = "--disable-tests"
+diff --git a/meta/recipes-gnome/gnome/gobject-introspection_git.bb b/meta/recipes-gnome/gnome/gobject-introspection_git.bb
+index 8352384..1e0dd61 100644
+--- a/meta/recipes-gnome/gnome/gobject-introspection_git.bb
++++ b/meta/recipes-gnome/gnome/gobject-introspection_git.bb
+@@ -13,21 +13,16 @@ LIC_FILES_CHKSUM = "file://COPYING.tools;md5=94d55d512a9ba36caa9b7df079bae19f \
+ 
+ SRCREV = "8d64bc23d2b837421ecf9c7b0e4b8d5d95ca0d21"
+ PV = "1.29.0+gitr${SRCPV}"
++PR = "r1"
++
+ DEFAULT_PREFERENCE = "-1"
+ 
  S = "${WORKDIR}/git"
  
- LICENSE = "GPLv2+ & LGPLv2+"
+-inherit autotools
++inherit autotools gtk-doc
+ 
+ BBCLASSEXTEND = "native"
+ 
+-do_configure_prepend () {
+-        echo "EXTRA_DIST = " > ${S}/gtk-doc.make
+-}
+-
+ EXTRA_OECONF = "\
+-  --disable-gtk-doc \
+-  --disable-gtk-doc-html \
+-  --disable-gtk-doc-pdf \
+   --disable-tests \
+ "
 -- 
 1.7.10
 
