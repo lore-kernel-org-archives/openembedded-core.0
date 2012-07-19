@@ -1,38 +1,34 @@
-Received: from mail-bk0-f47.google.com ([209.85.214.47])
+Received: from outpost1.zedat.fu-berlin.de ([130.133.4.66])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1SrlgZ-0006vy-PH
+	(envelope-from <heinold@mi.fu-berlin.de>) id 1SrmEq-0007Ef-0C
 	for openembedded-core@lists.openembedded.org;
-	Thu, 19 Jul 2012 10:02:11 +0200
-Received: by bkcik5 with SMTP id ik5so1760726bkc.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Jul 2012 00:50:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=pNHAN8cidSrbctFbLfLOJJGkRLDILIRrFQf1XMFEuME=;
-	b=M9JLlA/PTbcp3ng/ESd7Xl4DWEfrruGiFaVyeD43ZP8THkRQgJ77oeNywkzzL89Ni/
-	+oZ5QEzJIZjVfnWkT4NuMJ/nZcif/y/5uF99Tb7iienPX26EmK6iEyyWIfcvQRRjCV1r
-	MKJ26su5HtSjNDMcqYydPIGY+VxZMAyw0VG9tEcKpEH9Yrmczju1gN/sYhWbyKTb+xHy
-	W0bTmh+u5izO714nGplI4YpCIgGwKe7qcjfrZhw0UuZKkdhmF2l+xx9pTuBGTTP0W7cy
-	kSKBTgj6d2d/sMq5xf9+rosEO2XPNL1KP01xmoyfLUiw1mw08xFFU6G6ZmG0e15itZSQ
-	PA7Q==
-Received: by 10.204.129.27 with SMTP id m27mr261201bks.115.1342684250249;
-	Thu, 19 Jul 2012 00:50:50 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id g6sm437215bkg.2.2012.07.19.00.50.48
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 19 Jul 2012 00:50:49 -0700 (PDT)
-Date: Thu, 19 Jul 2012 09:51:00 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
+	Thu, 19 Jul 2012 10:37:36 +0200
+Received: from relay1.zedat.fu-berlin.de ([130.133.4.67])
+	by outpost1.zedat.fu-berlin.de (Exim 4.69) with esmtp
+	(envelope-from <heinold@mi.fu-berlin.de>)
+	id <1Srm3s-0007iX-IA>; Thu, 19 Jul 2012 10:26:16 +0200
+Received: from andorra.imp.fu-berlin.de ([160.45.42.84])
+	by relay1.zedat.fu-berlin.de (Exim 4.69) with esmtp
+	(envelope-from <heinold@mi.fu-berlin.de>)
+	id <1Srm3s-00016d-8r>; Thu, 19 Jul 2012 10:26:16 +0200
+Received: from heinold by internal andorra.imp.fu-berlin.de with local (Exim
+	4.72) id 1Srm3p-0001ig-61; Thu, 19 Jul 2012 10:26:13 +0200
+Date: Thu, 19 Jul 2012 10:26:13 +0200
+From: Henning Heinold <heinold@inf.fu-berlin.de>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Message-ID: <20120719075100.GD3331@jama.jama.net>
-References: <1341940070-27715-1-git-send-email-raj.khem@gmail.com>
-	<1341940070-27715-2-git-send-email-raj.khem@gmail.com>
+Message-ID: <20120719082613.GA5979@mi.fu-berlin.de>
+References: <1342606005.30680.17.camel@ted>
+	<CAJTo0LbkkXkJH-mbxwqKK7KM1PWDdF4mD+K8omTF4SQ9_WDogQ@mail.gmail.com>
+	<1342611618.30680.24.camel@ted>
+	<20120718214358.GT22569@jama.jama.net>
 MIME-Version: 1.0
-In-Reply-To: <1341940070-27715-2-git-send-email-raj.khem@gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: [PATCH 2/2] kernel.bbclass: Make tree available for cross building external modules
+In-Reply-To: <20120718214358.GT22569@jama.jama.net>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Sender: Henning Heinold <heinold@mi.fu-berlin.de>
+X-Originating-IP: 160.45.42.84
+Cc: bitbake-devel <bitbake-devel@lists.openembedded.org>
+Subject: Re: [bitbake-devel] PLEASE READ: Major change landing shortly (python whitespace)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,118 +43,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Jul 2012 08:02:11 -0000
-X-Groupsio-MsgNum: 25694
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="ZJcv+A0YCCLh2VIg"
-Content-Disposition: inline
-
---ZJcv+A0YCCLh2VIg
+X-List-Received-Date: Thu, 19 Jul 2012 08:37:36 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jul 10, 2012 at 10:07:50AM -0700, Khem Raj wrote:
-> We shave too much from kernel sources for making it work
-> for on device external kernel module development that cross
-> development of external modules wont work from same tree
-> anymore. This patch makes a copy of tree which will eventually
-> be staged for building external modules
+On Wed, Jul 18, 2012 at 11:43:58PM +0200, Martin Jansa wrote:
+> On Wed, Jul 18, 2012 at 12:40:18PM +0100, Richard Purdie wrote:
+> > On Wed, 2012-07-18 at 11:17 +0100, Burton, Ross wrote:
+> > > On 18 July 2012 11:06, Richard Purdie
+> > > <richard.purdie@linuxfoundation.org> wrote:
+> > > > I put a proposal to the TSC, that we have bitbake warn/error whenever it
+> > > > finds tab characters in any python function. The advantage of this is
+> > > > that we give the user a clear definitive error. The downside is that
+> > > > we'll have to go through all the metadata and scrub it for the problem.
+> > > 
+> > > Have you ran that warning over oe-core to check that there are not any
+> > > legitimate uses of \t, not for indentation but inside strings?  I
+> > > can't think of any realistic use but you never know (construct a
+> > > Makefile in a python function?).
+> > 
+> > The check is for actual tab characters, not "\t". There are some
+> > legitimate users of tab characters which I've replaced with \t in
+> > strings.
+> > 
+> > My current patch work in progress for the conversion is:
+> > 
+> > http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=rpurdie/t14&id=49d3d01f3d61a0eb19b6852229fa8fc26712f653
+> 
+> Would be great if someone updates
+> 
+> bitbake/contrib/vim to highlight tabs, so that every tab would be easily
+> spotted in recipe/bbclass.
+> 
+> And maybe also meta-openembedded/contrib/oe-stylize.py, but that seems
+> to expand tabs to spaces already.
+> 
+> Cheers,
+> 
+> -- 
+> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-Does this solve also this issue?
-http://lists.linuxtogo.org/pipermail/openembedded-devel/2012-July/040584.ht=
-ml
+Hi,
 
-Cheers,
+should we enable the vim unwanted spaces/tabs higlighting too?
 
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
->  meta/classes/kernel.bbclass |   15 +++++++++++++--
->  1 files changed, 13 insertions(+), 2 deletions(-)
->=20
-> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> index 81c334b..b2b6fcd 100644
-> --- a/meta/classes/kernel.bbclass
-> +++ b/meta/classes/kernel.bbclass
-> @@ -80,6 +80,7 @@ KERNEL_ALT_IMAGETYPE ??=3D ""
->  # Define where the kernel headers are installed on the target as well as=
- where
->  # they are staged.
->  KERNEL_SRC_PATH =3D "/usr/src/kernel"
-> +UNPRUNED_KERNEL_SRC_PATH =3D "/usr/src/kernel-unpruned"
-> =20
->  KERNEL_IMAGETYPE_FOR_MAKE =3D "${@(lambda s: s[:-3] if s[-3:] =3D=3D ".g=
-z" else s)(d.getVar('KERNEL_IMAGETYPE', True))}"
-> =20
-> @@ -135,7 +136,9 @@ kernel_do_install() {
->  	# kernel source tree.
->  	#
->  	kerneldir=3D${D}${KERNEL_SRC_PATH}
-> +	unrprunedkerneldir=3D${D}${UNPRUNED_KERNEL_SRC_PATH}
->  	install -d $kerneldir
-> +	install -d $unrprunedkerneldir
-> =20
->  	#
->  	# Store the kernel version in sysroots for module-base.bbclass
-> @@ -176,7 +179,6 @@ kernel_do_install() {
->  	# and include files.
->  	#
->  	oe_runmake -C $kerneldir CC=3D"${KERNEL_CC}" LD=3D"${KERNEL_LD}" clean
-> -	make -C $kerneldir _mrproper_scripts
->  	find $kerneldir -path $kerneldir/lib -prune -o -path $kerneldir/tools -=
-prune -o -path $kerneldir/scripts -prune -o -name "*.[csS]" -exec rm '{}' \;
->  	find $kerneldir/Documentation -name "*.txt" -exec rm '{}' \;
-> =20
-> @@ -186,6 +188,9 @@ kernel_do_install() {
->  	if [ ${ARCH} =3D "powerpc" ]; then
->  		cp arch/powerpc/lib/crtsavres.o $kerneldir/arch/powerpc/lib/crtsavres.o
->  	fi
-> +	# make a copy of unpruned kernel tree
-> +	cp -fR $kerneldir/* $unrprunedkerneldir
-> +	make -C $kerneldir _mrproper_scripts
-> =20
->  	# Remove the following binaries which cause strip or arch QA errors
->  	# during do_package for cross-compiled platforms
-> @@ -197,8 +202,14 @@ kernel_do_install() {
->  	done
->  }
-> =20
-> +PACKAGE_PREPROCESS_FUNCS +=3D "kernel_package_preprocess"
-> +
-> +kernel_package_preprocess () {
-> +	rm -rf ${PKGD}/${UNPRUNED_KERNEL_SRC_PATH}
-> +}
-> +
->  sysroot_stage_all_append() {
-> -	sysroot_stage_dir ${D}${KERNEL_SRC_PATH} ${SYSROOT_DESTDIR}${KERNEL_SRC=
-_PATH}
-> +	sysroot_stage_dir ${D}${UNPRUNED_KERNEL_SRC_PATH} ${SYSROOT_DESTDIR}${K=
-ERNEL_SRC_PATH}
->  }
-> =20
->  kernel_do_configure() {
-> --=20
-> 1.7.5.4
->=20
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+Bye Henning
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---ZJcv+A0YCCLh2VIg
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
-
-iEYEARECAAYFAlAHvGQACgkQN1Ujt2V2gBxLxgCdGLGNrXaSgIF8tCxlkw8v+MRh
-mqIAn2gsxXXpBcc5SXhZ9LyXgy3Cmgci
-=Bs3v
------END PGP SIGNATURE-----
-
---ZJcv+A0YCCLh2VIg--
