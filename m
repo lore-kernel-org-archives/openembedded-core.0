@@ -1,37 +1,34 @@
 Received: from mail-we0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1SrjQd-0004GA-TG
+	(envelope-from <koen@dominion.thruhere.net>) id 1SrkfA-0004r9-44
 	for openembedded-core@lists.openembedded.org;
-	Thu, 19 Jul 2012 07:37:35 +0200
-Received: by weyr6 with SMTP id r6so1398396wey.6
+	Thu, 19 Jul 2012 08:56:40 +0200
+Received: by weyr6 with SMTP id r6so1431924wey.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Jul 2012 22:26:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=XhHEN0OpEM1mYbnXLx6pHoYbytIzQWut0eMCXYeRRXg=;
-	b=HgXqcsHrGC525IrTy6KBRe/JCsHhU7Z7O0L6a8pmuedLBuCFpo+P9Iyx2jZHKXbE3V
-	UdOhqxdalSnGKqcVbK0d8WJMZ1+Cv5yS6WCwWBZgVLLtpqLy68H3i8ED/U1JzM+jJ3ok
-	YsH2b3bD53eWywjmZi0RxfXlC5tcybkKCoNKxtRd4UtXbvn/y8k9ZLExT7CE1R/zWyYw
-	1ZmDUOfKu2BG7MzoC2/6ySOqwqoK5rtw4/rQJCAFgX7m/LsObLDYRmU2J2NJxipKhgPI
-	CAjt/kXcJclMvR2Vg9AvYBitnUV0oomiZ3Cu0qgkIzElxM2MVB0VkmN/lC5dYKjfmQZw
-	7HpA==
-Received: by 10.180.107.2 with SMTP id gy2mr12752418wib.2.1342675574414;
-	Wed, 18 Jul 2012 22:26:14 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id k20sm36573994wiv.11.2012.07.18.22.26.12
+	Wed, 18 Jul 2012 23:45:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer:x-gm-message-state;
+	bh=Y3ECZfxtHpSI3+bskkHqv7dEhZZKR8kQdbeq1r/YGHw=;
+	b=Tk0kkHn57ZPwvPwdQ9RqoVrNsKJwGPiv3QUfN7EXFnZEyn00ucLEQ7LTkygKn8BZ/O
+	MP/IP1NgfA1ti6iXuoYXFo43CX7qNeJejD5vp4QZp97LTDO8S1goM1Rc4Xw2jeMtu506
+	jsqhLMkkV0ACXXIKzpPQeqTxfGtRhZUlju3/37Ry2g5ROSa1OQ4Vb32mEqdkoB5kFsDg
+	JZGZHG1AWF9QOYAv399Q66XH6jZ2oWh3JLEBBUMM0rD6y3V9IXKwNo/TZHysHYOmHo+M
+	t7Wg5wdryJYP316wA9JgpJC/N808zKgCrew9qg7EnqBQ0RKk2n9Z4hkXDk2/R7LxR/8d
+	/vrQ==
+Received: by 10.216.59.7 with SMTP id r7mr467116wec.19.1342680318584;
+	Wed, 18 Jul 2012 23:45:18 -0700 (PDT)
+Received: from localhost (cl-267.ams-05.nl.sixxs.net. [2001:610:600:10a::2])
+	by mx.google.com with ESMTPS id g42sm2943789eem.14.2012.07.18.23.45.16
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 18 Jul 2012 22:26:13 -0700 (PDT)
-Date: Thu, 19 Jul 2012 07:26:24 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20120719052624.GB3331@jama.jama.net>
-References: <007BD92917A2324FA403BCF9A464CF841FF701EF@ALA-MBB.corp.ad.wrs.com>
-MIME-Version: 1.0
-In-Reply-To: <007BD92917A2324FA403BCF9A464CF841FF701EF@ALA-MBB.corp.ad.wrs.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: modifying inittab (for example)
+	Wed, 18 Jul 2012 23:45:17 -0700 (PDT)
+From: Koen Kooi <koen@dominion.thruhere.net>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 19 Jul 2012 08:44:42 +0200
+Message-Id: <1342680286-12886-1-git-send-email-koen@dominion.thruhere.net>
+X-Mailer: git-send-email 1.7.10
+X-Gm-Message-State: ALoCoQlzOpxl2V2rrEDy39gwxGzV65SbNv6N8qpLfddZmT+CYP4O/rLyunC5/BMOIp60FpUxVYqC
+Subject: [for-denzil][PATCH 1/5] xz: updated to version 5.1.1alpha
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,66 +43,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Jul 2012 05:37:36 -0000
-X-Groupsio-MsgNum: 25682
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="Bn2rw/3z4jIqBvZU"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 19 Jul 2012 06:56:40 -0000
 
---Bn2rw/3z4jIqBvZU
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+From: Valentin Popa <valentin.popa@intel.com>
 
-On Wed, Jul 18, 2012 at 11:29:43PM +0000, Slater, Joseph wrote:
-> Suppose we want to boot to different runlevels for different images.  We =
-could modify the default inittab
-> to reflect that.  We could modify it in various ways, but I don't think t=
-he exact mechanism much matters.
->=20
-> What is an interesting question is WHEN we modify it.
->=20
-> One way would be to  have a small piece of code and invoke it during imag=
-e creation using
-> something like
->=20
-> ROOTFS_POSTPROCESS_COMMAND +=3D "sato_image_pp ; "
->=20
-> in our sato-image.bb recipe.  This doesn't require creating any new featu=
-res.
+The licenses are the same, only some white spaces added/removed.
 
-This doesn't work very well for images with package management, when user=
-=20
-upgrades installed packages, he can get new sysvinit-inittab which will
-reset runlevel in all types of images to same value.
+Signed-off-by: Valentin Popa <valentin.popa@intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/recipes-extended/xz/xz_5.0.3.bb      |   28 ----------------------------
+ meta/recipes-extended/xz/xz_5.1.1alpha.bb |   28 ++++++++++++++++++++++++++++
+ 2 files changed, 28 insertions(+), 28 deletions(-)
+ delete mode 100644 meta/recipes-extended/xz/xz_5.0.3.bb
+ create mode 100644 meta/recipes-extended/xz/xz_5.1.1alpha.bb
 
-> But, we could also do it when we build sysvinit-inittab.  I think, if we =
-did that, we would need a feature,
-> probably a DISTRO_FEATURE, that was set in some conf file.
+diff --git a/meta/recipes-extended/xz/xz_5.0.3.bb b/meta/recipes-extended/xz/xz_5.0.3.bb
+deleted file mode 100644
+index e8f96b6..0000000
+--- a/meta/recipes-extended/xz/xz_5.0.3.bb
++++ /dev/null
+@@ -1,28 +0,0 @@
+-DESCRIPTION = "utils for managing LZMA compressed files"
+-HOMEPAGE = "http://tukaani.org/xz/"
+-SECTION = "base"
+-
+-LICENSE = "GPLv2+ & GPLv3+ & LGPLv2.1+"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=c475b6c7dca236740ace4bba553e8e1c \
+-                    file://COPYING.GPLv2;md5=751419260aa954499f7abaabaa882bbe \
+-                    file://COPYING.GPLv3;md5=d32239bcb673463ab874e80d47fae504 \
+-                    file://COPYING.LGPLv2.1;md5=fbc093901857fcd118f065f900982c24 \
+-                    file://lib/getopt.c;endline=23;md5=2069b0ee710572c03bb3114e4532cd84 "
+-
+-SRC_URI = "http://tukaani.org/xz/xz-${PV}.tar.gz"
+-
+-SRC_URI[md5sum] = "fefe52f9ecd521de2a8ce38c21a27574"
+-SRC_URI[sha256sum] = "10eb4df72dffb2fb14c3d2d82b450e72282ffcb9ee3908a8e5b392b8f09681bf"
+-
+-PR = "r1"
+-
+-inherit autotools gettext
+-
+-PACKAGES =+ "liblzma liblzma-dev liblzma-staticdev liblzma-dbg"
+-
+-FILES_liblzma = "${libdir}/liblzma*${SOLIBS}"
+-FILES_liblzma-dev = "${includedir}/lzma* ${libdir}/liblzma*${SOLIBSDEV} ${libdir}/liblzma.la ${libdir}/pkgconfig/liblzma.pc"
+-FILES_liblzma-staticdev = "${libdir}/liblzma.a"
+-FILES_liblzma-dbg = "${libdir}/.debug/liblzma*"
+-
+-BBCLASSEXTEND = "native"
+diff --git a/meta/recipes-extended/xz/xz_5.1.1alpha.bb b/meta/recipes-extended/xz/xz_5.1.1alpha.bb
+new file mode 100644
+index 0000000..7fa7177
+--- /dev/null
++++ b/meta/recipes-extended/xz/xz_5.1.1alpha.bb
+@@ -0,0 +1,28 @@
++DESCRIPTION = "utils for managing LZMA compressed files"
++HOMEPAGE = "http://tukaani.org/xz/"
++SECTION = "base"
++
++LICENSE = "GPLv2+ & GPLv3+ & LGPLv2.1+"
++LIC_FILES_CHKSUM = "file://COPYING;md5=c475b6c7dca236740ace4bba553e8e1c \
++                    file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
++                    file://COPYING.GPLv3;md5=d32239bcb673463ab874e80d47fae504 \
++                    file://COPYING.LGPLv2.1;md5=4fbd65380cdd255951079008b364516c \
++                    file://lib/getopt.c;endline=23;md5=2069b0ee710572c03bb3114e4532cd84 "
++
++SRC_URI = "http://tukaani.org/xz/xz-${PV}.tar.gz"
++
++SRC_URI[md5sum] = "bb24436fa12780808e1c142980484104"
++SRC_URI[sha256sum] = "54e59a83690a4a0ec88a7d7c3bdef90c6b196c892a93463863c71c24fe87951a"
++
++PR = "r0"
++
++inherit autotools gettext
++
++PACKAGES =+ "liblzma liblzma-dev liblzma-staticdev liblzma-dbg"
++
++FILES_liblzma = "${libdir}/liblzma*${SOLIBS}"
++FILES_liblzma-dev = "${includedir}/lzma* ${libdir}/liblzma*${SOLIBSDEV} ${libdir}/liblzma.la ${libdir}/pkgconfig/liblzma.pc"
++FILES_liblzma-staticdev = "${libdir}/liblzma.a"
++FILES_liblzma-dbg = "${libdir}/.debug/liblzma*"
++
++BBCLASSEXTEND = "native"
+-- 
+1.7.10
 
-This doesn't work too, if you have just one sysvinit-inittab recipe then
-it's used for all images -> so again same runlevel in all.
 
-> Is there a preference for one way or the other?
 
-You can create different inittab recipes for each runlevel you want and
-then make sure that only right inittab package is pulled to each image.
-
-Cheers,
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---Bn2rw/3z4jIqBvZU
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
-
-iEYEARECAAYFAlAHmoAACgkQN1Ujt2V2gBzP5QCfTdOvpHOpnito4aufZc+T6Voj
-O6gAn3EgdWRInMz0KJ9lHeT4zkOphd4u
-=Y3JZ
------END PGP SIGNATURE-----
-
---Bn2rw/3z4jIqBvZU--
