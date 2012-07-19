@@ -1,29 +1,33 @@
-Received: from ams-iport-2.cisco.com ([144.254.224.141])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mertsas@cisco.com>) id 1Srnnx-00010S-Qr
-	for openembedded-core@lists.openembedded.org;
-	Thu, 19 Jul 2012 12:17:57 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=cisco.com; i=mertsas@cisco.com; l=1088; q=dns/txt;
-	s=iport; t=1342692398; x=1343901998;
-	h=from:to:cc:subject:date:message-id;
-	bh=dQBiG36VHSdEX00kU7L4m+HorYUJmANF5NfVs5XujTs=;
-	b=by6V9Rzg5gyNXol6nGkGf1ZQoIPNJOZWKipXv4hsgNF1va2xbv+0NcHM
-	Qj9MDjT3o7awkceJ80Kk3iIeldGk6gInaP5qbloOnvFSDAkfkPTEApiPI
-	i74QKDpPElOPWtdZPuzLob61N5rErcmF40bCZE88YBp/MSU5VG2iPBoa8 Q=;
-X-IronPort-AV: E=Sophos;i="4.77,615,1336348800"; d="scan'208";a="75409020"
-Received: from ams-core-3.cisco.com ([144.254.72.76])
-	by ams-iport-2.cisco.com with ESMTP; 19 Jul 2012 10:05:32 +0000
-Received: from Lan.cisco.com (dhcp-10-54-74-11.cisco.com [10.54.74.11])
-	by ams-core-3.cisco.com (8.14.5/8.14.5) with ESMTP id q6JA5WIQ020840;
-	Thu, 19 Jul 2012 10:05:32 GMT
-From: Martin Ertsaas <mertsas@cisco.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 19 Jul 2012 12:00:51 +0200
-Message-Id: <1342692051-5963-1-git-send-email-mertsas@cisco.com>
-X-Mailer: git-send-email 1.7.8.6
-Cc: Martin Ertsaas <mertsas@cisco.com>
-Subject: [PATCH] Remove the - between ${TARGET_PREFIX} and ar/nm for the env script, as this will make autotools look for arm-none-linux-gnueabi--ar instead of arm-none-linux-gnueabi-ar.
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1Srnwz-00017z-TT; Thu, 19 Jul 2012 12:27:18 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6JAFsZ1001261;
+	Thu, 19 Jul 2012 11:15:54 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 00340-03; Thu, 19 Jul 2012 11:15:50 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6JAFisI001255
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Thu, 19 Jul 2012 11:15:45 +0100
+Message-ID: <1342692948.7940.4.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Martin Jansa <martin.jansa@gmail.com>
+Date: Thu, 19 Jul 2012 11:15:48 +0100
+In-Reply-To: <20120719094954.GF3331@jama.jama.net>
+References: <1342606005.30680.17.camel@ted>
+	<CAJTo0LbkkXkJH-mbxwqKK7KM1PWDdF4mD+K8omTF4SQ9_WDogQ@mail.gmail.com>
+	<1342611618.30680.24.camel@ted> <20120719094954.GF3331@jama.jama.net>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: bitbake-devel <bitbake-devel@lists.openembedded.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [bitbake-devel] PLEASE READ: Major change landing shortly (python whitespace)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,30 +42,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Jul 2012 10:17:57 -0000
+X-List-Received-Date: Thu, 19 Jul 2012 10:27:18 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Martin Ertsaas <mertsas@cisco.com>
----
- meta/classes/toolchain-scripts.bbclass |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
+On Thu, 2012-07-19 at 11:49 +0200, Martin Jansa wrote:
+> On Wed, Jul 18, 2012 at 12:40:18PM +0100, Richard Purdie wrote:
+> > On Wed, 2012-07-18 at 11:17 +0100, Burton, Ross wrote:
+> > > On 18 July 2012 11:06, Richard Purdie
+> > > <richard.purdie@linuxfoundation.org> wrote:
+> > > > I put a proposal to the TSC, that we have bitbake warn/error whenever it
+> > > > finds tab characters in any python function. The advantage of this is
+> > > > that we give the user a clear definitive error. The downside is that
+> > > > we'll have to go through all the metadata and scrub it for the problem.
+> > > 
+> > > Have you ran that warning over oe-core to check that there are not any
+> > > legitimate uses of \t, not for indentation but inside strings?  I
+> > > can't think of any realistic use but you never know (construct a
+> > > Makefile in a python function?).
+> > 
+> > The check is for actual tab characters, not "\t". There are some
+> > legitimate users of tab characters which I've replaced with \t in
+> > strings.
+> > 
+> > My current patch work in progress for the conversion is:
+> > 
+> > http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=rpurdie/t14&id=49d3d01f3d61a0eb19b6852229fa8fc26712f653
+> 
+> from those 2 patches which were just merged I see that you're converting
+> strictly python functions, can we extend this tabs->spaces rule also to
+> bash tasks like do_install etc?
 
-diff --git a/meta/classes/toolchain-scripts.bbclass b/meta/classes/toolchain-scripts.bbclass
-index bf37ec9..8f7c644 100644
---- a/meta/classes/toolchain-scripts.bbclass
-+++ b/meta/classes/toolchain-scripts.bbclass
-@@ -68,8 +68,8 @@ toolchain_create_tree_env_script () {
- 	echo 'export RANLIB=${TARGET_PREFIX}ranlib' >> $script
- 	echo 'export OBJCOPY=${TARGET_PREFIX}objcopy' >> $script
- 	echo 'export OBJDUMP=${TARGET_PREFIX}objdump' >> $script
--	echo 'export AR=${TARGET_PREFIX}-ar' >> $script
--	echo 'export NM=${TARGET_PREFIX}-nm' >> $script
-+	echo 'export AR=${TARGET_PREFIX}ar' >> $script
-+	echo 'export NM=${TARGET_PREFIX}nm' >> $script
- 	echo 'export TARGET_PREFIX=${TARGET_PREFIX}' >> $script
- 	echo 'export CONFIGURE_FLAGS="--target=${TARGET_SYS} --host=${TARGET_SYS} --build=${BUILD_SYS} --with-libtool-sysroot=${STAGING_DIR_TARGET}"' >> $script
- 	if [ "${TARGET_OS}" = "darwin8" ]; then
--- 
-1.7.8.6
+Shell tasks should be tabs according to the style guide. Its harder to
+check the indentation in those and if the indentation is wrong, it
+doesn't matter since they're not whitespace sensitive.
+
+So whilst I'd welcome fixing them up, I don't think they need bitbake
+enforcing policy in the same way as python functions.
+
+Cheers,
+
+Richard
 
 
 
