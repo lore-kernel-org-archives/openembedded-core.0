@@ -1,41 +1,41 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1SrtVP-0000tD-Rh
+	(envelope-from <ross.burton@intel.com>) id 1SrtVQ-0001Gq-Rv
 	for openembedded-core@lists.openembedded.org;
-	Thu, 19 Jul 2012 18:23:12 +0200
-Received: from mail-wi0-f170.google.com ([209.85.212.170])
-	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 19 Jul 2012 09:11:51 -0700
-Received: by mail-wi0-f170.google.com with SMTP id hq12so5246627wib.1
+	Thu, 19 Jul 2012 18:23:13 +0200
+Received: from mail-wg0-f44.google.com ([74.125.82.44])
+	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 19 Jul 2012 09:11:49 -0700
+Received: by mail-wg0-f44.google.com with SMTP id dr13so1873962wgb.13
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Jul 2012 09:11:51 -0700 (PDT)
+	Thu, 19 Jul 2012 09:11:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
 	:in-reply-to:references:x-gm-message-state;
-	bh=5BLvNFievqD5ooOreCzk1zncvLfQC/1jHwW8LF37srE=;
-	b=GQFSyi39WQbe/xmdRf09J5jRcNm2Nrm00LzS9Nl8Cr4QtJb3xFD/x223DOD/UIFN1h
-	CDwC+2ncrt1AB29lewWF8Wy2ZamSd9d7pHwvaeMMPx2+Hzs5p+LA/UdrqnZOYNrCTUjP
-	iDkXnsNYQPCN98HxBsRA4H2MnjXdsxCYBDtScuKDEKz9zflEF9lkETzRUXgqMehBNw75
-	F4xQct8ayuUJN/6UBKBWOE1RuUkBpx2AFsFHdddKYrIHLIN8sklggrNwqq8dXFZPz96l
-	Ve3oarTAca3/76uoieOmpdFZv0KjRShGAGtdle0AY1SERLAmvjw8mott1THk8SGhmWsz
-	I0/g==
-Received: by 10.216.218.95 with SMTP id j73mr1409366wep.193.1342714304963;
-	Thu, 19 Jul 2012 09:11:44 -0700 (PDT)
+	bh=jNqE28jjKpc98XRhZp7jZ5K+Mv3YLA52AGI/T8uwhpM=;
+	b=UL+sblYFnLkeVlger1325pCEd2YgmrmPhFV0YWULAwVoELgYBdSG05NksZ65r0atWW
+	DlhnKItaBWws8By6y94kgjEyN8kkMz3Z9qpwel6jPAw2QovOjqkFT9dXM2NcKkt69Iu3
+	hnILbObnSZdUfniN1lZ8L5zQ8Pu14BDqUvBBD2i67jaVlpAKyx1fP+abSTWF+yaUXsDZ
+	HKuaW8yTKJBTuJf9irqaY2pfru9DpAo90LBjJpzKrWFbHtT5/wRcT9tLXmyxLdvHEeEX
+	ED+vwBLtWxGsA7d6ah9vCs/PRn7qZHnvSWgPi+C2m8ySlhR5rq2meOYBg19dW1nuVSN6
+	5NIQ==
+Received: by 10.216.113.4 with SMTP id z4mr1410364weg.201.1342714309535;
+	Thu, 19 Jul 2012 09:11:49 -0700 (PDT)
 Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id cl8sm39193462wib.10.2012.07.19.09.11.43
+	by mx.google.com with ESMTPS id cl8sm39193462wib.10.2012.07.19.09.11.47
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 19 Jul 2012 09:11:44 -0700 (PDT)
+	Thu, 19 Jul 2012 09:11:48 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 19 Jul 2012 17:10:56 +0100
-Message-Id: <4ee4aaf7fefc26690137c2516761401faa0ca520.1342713965.git.ross.burton@intel.com>
+Date: Thu, 19 Jul 2012 17:10:59 +0100
+Message-Id: <6461a14d2e281da1ec6cb1df6ddf9a92e1f99944.1342713965.git.ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10
 In-Reply-To: <cover.1342713965.git.ross.burton@intel.com>
 References: <cover.1342713965.git.ross.burton@intel.com>
 In-Reply-To: <cover.1342713965.git.ross.burton@intel.com>
 References: <cover.1342713965.git.ross.burton@intel.com>
-X-Gm-Message-State: ALoCoQkVEjDOPNILU9yI/UUXNSndAGkpmyWcuaqM11L9jRPWvt7Va5JMSsfq1EaybHwH3FpsjemN
-Subject: [PATCH 09/26] connman: cleanup thanks to new gtk-doc.bbclass
+X-Gm-Message-State: ALoCoQn6tPpFvLy9x5EDjcbP2iHzVraztLwJnSR42BKbO7zRCWaF2xrQBWo2SsaZZe672k3esKHh
+Subject: [PATCH 12/26] gail: cleanup thanks to new gtk-doc.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,44 +50,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Jul 2012 16:23:14 -0000
+X-List-Received-Date: Thu, 19 Jul 2012 16:23:15 -0000
 
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-connectivity/connman/connman.inc |    5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ meta/recipes-gnome/gnome/gail_1.20.2.bb |    6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipes-connectivity/connman/connman.inc
-index 9966f87..11ac0e4 100644
---- a/meta/recipes-connectivity/connman/connman.inc
-+++ b/meta/recipes-connectivity/connman/connman.inc
-@@ -20,7 +20,7 @@ DEPENDS  = "dbus glib-2.0 ppp iptables gnutls \
-             ${@base_contains('DISTRO_FEATURES', '3g','ofono', '', d)} \
-             "
+diff --git a/meta/recipes-gnome/gnome/gail_1.20.2.bb b/meta/recipes-gnome/gnome/gail_1.20.2.bb
+index 32ef6c5..df6cd03 100644
+--- a/meta/recipes-gnome/gnome/gail_1.20.2.bb
++++ b/meta/recipes-gnome/gnome/gail_1.20.2.bb
+@@ -7,15 +7,13 @@ PROVIDES = "virtual/gail"
+ LICENSE = "LGPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=3bf50002aefd002f49e7bb854063f7e7"
  
--INC_PR = "r12"
-+INC_PR = "r13"
+-PR = "r1"
++PR = "r2"
  
- TIST = "--enable-tist"
- TIST_powerpc = ""
-@@ -28,7 +28,6 @@ TIST_powerpc = ""
- EXTRA_OECONF += "\
-     ac_cv_path_WPASUPPLICANT=${sbindir}/wpa_supplicant \
-     ac_cv_path_PPPD=${sbindir}/pppd \
--    --disable-gtk-doc \
-     --enable-debug \
-     --enable-threads \
-     --enable-loopback \
-@@ -53,7 +52,7 @@ USERADD_PARAM_${PN} = "--create-home \
-                        --groups video,tty,audio \
-                        --user-group xuser"
+-inherit gnome
++inherit gnome gtk-doc
  
--inherit autotools pkgconfig update-rc.d useradd
-+inherit autotools gtk-doc pkgconfig update-rc.d useradd
+ SRC_URI[archive.md5sum] = "e805806f897cf6040e1f3e9c0cd2151b"
+ SRC_URI[archive.sha256sum] = "5025b13a4f3b960c8ab7c3e5c7d6d86082e2e1af6ee18e61e37fd4ce3dcc0153"
  
- # This allows *everyone* to access ConnMan over DBus, without any access
- # control.  Really the at_console flag should work, which would mean that
+-EXTRA_OECONF = "--disable-gtk-doc"
+-
+ FILES_${PN} += "${libdir}/gtk-2.0/modules/*.so"
+ FILES_${PN}-dbg += "${libdir}/gtk-2.0/modules/.debug"
+ 
 -- 
 1.7.10
 
