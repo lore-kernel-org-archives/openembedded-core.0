@@ -1,41 +1,41 @@
-Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
+Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1SrtVl-0001rH-1o
+	(envelope-from <ross.burton@intel.com>) id 1SrtVm-0001ch-U2
 	for openembedded-core@lists.openembedded.org;
-	Thu, 19 Jul 2012 18:23:33 +0200
+	Thu, 19 Jul 2012 18:23:35 +0200
 Received: from mail-we0-f180.google.com ([74.125.82.180])
-	by mga03.intel.com with ESMTP/TLS/RC4-SHA; 19 Jul 2012 09:12:07 -0700
-Received: by mail-we0-f180.google.com with SMTP id t11so1708114wey.25
+	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 19 Jul 2012 09:12:14 -0700
+Received: by mail-we0-f180.google.com with SMTP id t11so1708130wey.25
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Jul 2012 09:12:07 -0700 (PDT)
+	Thu, 19 Jul 2012 09:12:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
 	:in-reply-to:references:x-gm-message-state;
-	bh=RLA7IT6h32HOv75EPiA6gW+BlH85u2+m8AgDCatvrCc=;
-	b=fT3CcC/C+isQTxr/5mUMO/7QeC9M7bNRSrZwryi1L9FCxOyQSMf+aFe6FEyjKOvKcr
-	94a5U7bHqsXuFBVi8qT72vwzIWqi8SP4YaO9eJO4ikEJxbKPk0knSdo8GtFakBeHoHJb
-	/Gi61Ks4HWhVQ4eTVNbXGfaPUkiMWOe0c+Mi0B922edRabBH+dWPaMssuyMA127mOjh6
-	pjWgJM/j2mGKsnsyh6qgxsAfl5XE+BiACpcvLdZH/wd2uDmYBE3Ma9ckmtPmwGqQdxTa
-	O0kxbFOLfzi7T+Xu7sAlyTYkfMmKh9G6qmefIRZ6SPanyyCIRlXW78QrmZ1/Vgkqo/n9
-	+DBQ==
-Received: by 10.216.139.196 with SMTP id c46mr1540039wej.220.1342714322281;
-	Thu, 19 Jul 2012 09:12:02 -0700 (PDT)
+	bh=iGqVIDLZ8/lPN3JyGBPZYxT902patu7hQH9MNsi5SdM=;
+	b=ScumzVObMOr+2aChOx35GoVf35ZhkwY2PHUI6+inYtLQVANn+Odf9IoGeRjcpIgZQG
+	t0liTC4t8YYw5C0o6ktGJrMy+EonikcZdergH1s8GNAVWXu9jZPWs/vxiqeN5SNESfdw
+	4PNF/14dude5whS4zfSB+kMKJfgHgWAXMNQWzbFWH5XPP2cZLgP9LofjGvJUQnyOEco3
+	D1NVUQvUsQaO3xGMMFbVV3bNA+OZkQ1mu9lq1Z/1y3n09RnAcpwbypz/CgJlBuQ++AXu
+	CnIpT/HCVnae9y2qGx+7a81zaQgH/QlGItRtGKBrM6AfkHTQzvLYwpT1cgv009e9ZIIO
+	krzg==
+Received: by 10.180.106.97 with SMTP id gt1mr17714787wib.5.1342714323727;
+	Thu, 19 Jul 2012 09:12:03 -0700 (PDT)
 Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id cl8sm39193462wib.10.2012.07.19.09.12.01
+	by mx.google.com with ESMTPS id cl8sm39193462wib.10.2012.07.19.09.12.02
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 19 Jul 2012 09:12:01 -0700 (PDT)
+	Thu, 19 Jul 2012 09:12:03 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 19 Jul 2012 17:11:09 +0100
-Message-Id: <7037d046b43ab7162e224bf65a31a6cfda2510b1.1342713965.git.ross.burton@intel.com>
+Date: Thu, 19 Jul 2012 17:11:10 +0100
+Message-Id: <fc17428639f26c7d402f012d550957b67d6c5a2b.1342713965.git.ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10
 In-Reply-To: <cover.1342713965.git.ross.burton@intel.com>
 References: <cover.1342713965.git.ross.burton@intel.com>
 In-Reply-To: <cover.1342713965.git.ross.burton@intel.com>
 References: <cover.1342713965.git.ross.burton@intel.com>
-X-Gm-Message-State: ALoCoQlC28hyG6ghwqqK51d/2GVAYR8rkDybsMP10WcUOwJ8o7cjopx37EG+1Q6Twg+75DVpUbJ+
-Subject: [PATCH 22/26] evolution-data-server: cleanup thanks to new gtk-doc.bbclass
+X-Gm-Message-State: ALoCoQmcM1P+5FAxUN+i8ttavHlwSOfyTpMbSB1D1UDs/QnRYvfnnxNc64k7F6IdDWDn3j4aMKMj
+Subject: [PATCH 23/26] webkit-gtk: cleanup thanks to new gtk-doc.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,56 +50,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Jul 2012 16:23:33 -0000
+X-List-Received-Date: Thu, 19 Jul 2012 16:23:38 -0000
 
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-sato/eds/evolution-data-server_git.bb |   10 +++-------
- 1 file changed, 3 insertions(+), 7 deletions(-)
+ meta/recipes-sato/webkit/webkit-gtk_1.8.1.bb |    5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-sato/eds/evolution-data-server_git.bb b/meta/recipes-sato/eds/evolution-data-server_git.bb
-index 2ad81e4..c114c0e 100644
---- a/meta/recipes-sato/eds/evolution-data-server_git.bb
-+++ b/meta/recipes-sato/eds/evolution-data-server_git.bb
-@@ -13,7 +13,7 @@ DEPENDS = "intltool-native glib-2.0 gtk+ gconf dbus db gnome-common virtual/libi
- SRCREV = "3ca578d968d09785933ebbb45b66b3bccdbd5832"
+diff --git a/meta/recipes-sato/webkit/webkit-gtk_1.8.1.bb b/meta/recipes-sato/webkit/webkit-gtk_1.8.1.bb
+index 180861e..58f467c 100644
+--- a/meta/recipes-sato/webkit/webkit-gtk_1.8.1.bb
++++ b/meta/recipes-sato/webkit/webkit-gtk_1.8.1.bb
+@@ -7,6 +7,8 @@ LIC_FILES_CHKSUM = "file://Source/WebCore/rendering/RenderApplet.h;endline=22;md
+                     file://Source/WebKit/gtk/webkit/webkit.h;endline=21;md5=b4fbe9f4a944f1d071dba1d2c76b3351 \
+                     file://Source/JavaScriptCore/parser/Parser.h;endline=23;md5=b57c8a2952a8d0e655988fa0ecb2bf7f"
  
- PV = "2.30+git${SRCPV}"
--PR = "r1"
-+PR = "r2"
++PR = "r1"
++
+ # Choice of language backends - icu has issues on Big Endian machines so use pango
+ ICU_LIB = "icu"
+ ICU_LIB_powerpc = "pango"
+@@ -25,7 +27,7 @@ SRC_URI = "\
+ SRC_URI[md5sum] = "f2f01b1fdc7262a2eede81ebed0970b2"
+ SRC_URI[sha256sum] = "9a126a76b40ca61adb1f1626e1567f976740af2332948cc5189489dbd01e3b28"
  
- SRC_URI = "git://git.gnome.org/evolution-data-server;protocol=git \
-            file://oh-contact.patch;striplevel=0 \
-@@ -28,7 +28,7 @@ SRC_URI = "git://git.gnome.org/evolution-data-server;protocol=git \
+-inherit autotools lib_package pkgconfig
++inherit autotools lib_package gtk-doc pkgconfig
  
- S = "${WORKDIR}/git"
+ S = "${WORKDIR}/webkit-${PV}/"
  
--inherit autotools pkgconfig
-+inherit autotools gtk-doc pkgconfig
- 
- # -ldb needs this on some platforms
- LDFLAGS += "-lpthread"
-@@ -38,10 +38,6 @@ LDFLAGS += "-lpthread"
- # directories by make resulting in truncated/corrupt .la files
- #PARALLEL_MAKE = ""
- 
--do_configure_prepend () {
--        echo "EXTRA_DIST = " > ${S}/gtk-doc.make
--}
--
- do_configure_append () {
-         cp ${WORKDIR}/iconv-detect.h ${S}
-         sed -i 's/-DG_DISABLE_DEPRECATED//g' ${S}/libedataserver/Makefile
-@@ -49,7 +45,7 @@ do_configure_append () {
- 
- EXTRA_OECONF = "--without-openldap --with-dbus --without-bug-buddy \
-                 --with-soup --with-libdb=${STAGING_DIR_HOST}${prefix} \
--                --disable-smime --disable-ssl --disable-nntp --disable-gtk-doc --without-weather"
-+                --disable-smime --disable-ssl --disable-nntp --without-weather"
- 
- PACKAGES =+ "libcamel libcamel-dev libebook libebook-dev libecal libecal-dev \
-              libedata-book libedata-book-dev libedata-cal libedata-cal-dev \
+@@ -38,7 +40,6 @@ EXTRA_OECONF = "\
+                 --enable-link-prefetch \
+                 --with-gtk=2.0 \
+                 --disable-geolocation \
+-                --disable-gtk-doc \
+                 ${@base_contains('DISTRO_FEATURES', 'opengl', '--enable-webgl', '--disable-webgl', d)} \
+                 UNICODE_CFLAGS=-D_REENTRANT \
+                "
 -- 
 1.7.10
 
