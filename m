@@ -1,38 +1,20 @@
-Received: from ams-iport-2.cisco.com ([144.254.224.141])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mertsas@cisco.com>) id 1SrpJZ-00032y-Pm
+	(envelope-from <radu.moisan@intel.com>) id 1SrpSK-0003Xb-KY
 	for openembedded-core@lists.openembedded.org;
-	Thu, 19 Jul 2012 13:54:41 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=cisco.com; i=mertsas@cisco.com; l=1028; q=dns/txt;
-	s=iport; t=1342698202; x=1343907802;
-	h=message-id:date:from:mime-version:to:subject:references:
-	in-reply-to:content-transfer-encoding;
-	bh=uRRQ0c6luKy9hdWYeI9jsf2aFmFdLqgNvI+4fZA2G4A=;
-	b=JFH3rqjOEN/JuDnaGtWNjhkd3HYK/YlGDWODZ3gVqUDJIjz/4I4S7Cx8
-	XvqlzbYEvRe5oGzCVY/RxrcamPBK2i4WTiPTrzeGUY7WYOO/v+y7mntoE
-	MBz4dNWz4ydVSDMIjHy2h2NWXWpTZgS6+N76rxnSwTIkCAOoL2i4cpThu s=;
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: AgEFAFLwB1CQ/khR/2dsb2JhbABFhW2zWoEHgiABAQEEAQEBDwEQDwE7ChELGAICBRYLAgIJAwIBAgEVAS8TBgIBAR6HawueLY0Zkm6BIIogg3SCCoESA5MbgimBE4RGg1CEeoFmgmE
-X-IronPort-AV: E=Sophos;i="4.77,615,1336348800"; d="scan'208";a="75411708"
-Received: from ams-core-1.cisco.com ([144.254.72.81])
-	by ams-iport-2.cisco.com with ESMTP; 19 Jul 2012 11:43:19 +0000
-Received: from [10.54.74.11] (dhcp-10-54-74-11.cisco.com [10.54.74.11])
-	by ams-core-1.cisco.com (8.14.5/8.14.5) with ESMTP id q6JBhJQE009389
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Jul 2012 11:43:20 GMT
-Message-ID: <5007F1BF.5050102@cisco.com>
-Date: Thu, 19 Jul 2012 13:38:39 +0200
-From: =?UTF-8?B?TWFydGluIEVydHPDpXM=?= <mertsas@cisco.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:10.0.5) Gecko/20120628 Thunderbird/10.0.5
-MIME-Version: 1.0
+	Thu, 19 Jul 2012 14:03:44 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 19 Jul 2012 04:52:22 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="180428851"
+Received: from dell-desktop (HELO localhost.localdomain) ([10.237.105.32])
+	by fmsmga001.fm.intel.com with ESMTP; 19 Jul 2012 04:52:21 -0700
+From: Radu Moisan <radu.moisan@intel.com>
 To: openembedded-core@lists.openembedded.org
-References: <1342696517-28149-1-git-send-email-mertsas@cisco.com>
-	<20120719113512.GK3331@jama.jama.net>
-	<5007F0C7.90605@cisco.com> <1342698109.7940.7.camel@ted>
-In-Reply-To: <1342698109.7940.7.camel@ted>
-Subject: Re: [PATCH] Changed SRC_URI for eglibc repo.
+Date: Thu, 19 Jul 2012 14:59:52 +0300
+Message-Id: <1342699192-14294-1-git-send-email-radu.moisan@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] Add console kernel options
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,36 +29,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Jul 2012 11:54:41 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 19 Jul 2012 12:03:44 -0000
 
-On 07/19/12 13:41, Richard Purdie wrote:
-> On Thu, 2012-07-19 at 13:34 +0200, Martin Ertsås wrote:
->> On 07/19/12 13:35, Martin Jansa wrote:
->>> On Thu, Jul 19, 2012 at 01:15:17PM +0200, Martin Ertsaas wrote:
->>>> The branches repo for eglibc is /branches, not /svn/branches.
->>> Are you sure? wasn't this tested on broken bitbake where protocol param
->>> was ignored and default svn:// protocol was used instead http://?
->>>
->>> Cheers,
->> when was bitbake fixed for this? I have commit number
->> a93a58b7cea2ddb9596cb4d718c0801db5d1a295 from two days ago now. Was it a
->> broken bitbake?
-> The commit immediately after that,
-> http://git.openembedded.org/bitbake/commit/?id=b2017f493ab730d804ae44ec5a168d464626d046
-> is the fix referred to.
->
-> Cheers,
-That fixed the problem. Thanks.
->
-> Richard
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+Live image installer did not preserve BSP specified console= kernel parameter.
+This patch updates the init scripts that are responsible for grub.cfg creation
+so that options like console= are passed allong from installer to installed img
+
+[YOCTO #2426]
+
+Signed-off-by: Radu Moisan <radu.moisan@intel.com>
+---
+ meta/recipes-bsp/grub/grub-1.99/40_custom          |    2 +-
+ .../initrdscripts/files/init-install.sh            |    1 +
+ meta/recipes-core/initrdscripts/files/init-live.sh |    8 +++++++-
+ 3 files changed, 9 insertions(+), 2 deletions(-)
+
+diff --git a/meta/recipes-bsp/grub/grub-1.99/40_custom b/meta/recipes-bsp/grub/grub-1.99/40_custom
+index 0d80854..ba48830 100755
+--- a/meta/recipes-bsp/grub/grub-1.99/40_custom
++++ b/meta/recipes-bsp/grub/grub-1.99/40_custom
+@@ -5,5 +5,5 @@ exec tail -n +3 $0
+ # the 'exec tail' line above.
+ menuentry "Linux" {
+     set root=(hd0,1)
+-    linux /boot/vmlinuz root=__ROOTFS__ rw __VIDEO_MODE__ __VGA_MODE__ quiet
++    linux /boot/vmlinuz root=__ROOTFS__ rw __CONSOLE__ __VIDEO_MODE__ __VGA_MODE__ quiet
+ }
+diff --git a/meta/recipes-core/initrdscripts/files/init-install.sh b/meta/recipes-core/initrdscripts/files/init-install.sh
+index 0ac4949..c1f8cba 100644
+--- a/meta/recipes-core/initrdscripts/files/init-install.sh
++++ b/meta/recipes-core/initrdscripts/files/init-install.sh
+@@ -156,6 +156,7 @@ if [ -f /ssd/etc/grub.d/40_custom ] ; then
+     sed -i "s@__ROOTFS__@$rootfs $rootwait@g" /ssd/etc/grub.d/40_custom
+     sed -i "s/__VIDEO_MODE__/$3/g" /ssd/etc/grub.d/40_custom
+     sed -i "s/__VGA_MODE__/$4/g" /ssd/etc/grub.d/40_custom
++    sed -i "s/__CONSOLE__/$5/g" /ssd/etc/grub.d/40_custom
+     mount $bootfs /bootmnt
+     cp /ssd/etc/grub.d/40_custom /bootmnt/40_custom
+     umount /bootmnt
+diff --git a/meta/recipes-core/initrdscripts/files/init-live.sh b/meta/recipes-core/initrdscripts/files/init-live.sh
+index 737dae4..d5e241a 100644
+--- a/meta/recipes-core/initrdscripts/files/init-live.sh
++++ b/meta/recipes-core/initrdscripts/files/init-live.sh
+@@ -38,6 +38,12 @@ read_args() {
+                 video_mode=$arg ;;
+             vga=*)
+                 vga_mode=$arg ;;
++            console=*)
++                if [ -z "${console_params}" ]; then
++                    console_params=$arg
++                else
++                    console_params="$console_params $arg"
++                fi
+         esac
+     done
+ }
+@@ -112,7 +118,7 @@ case $label in
+ 	;;
+     install)
+ 	if [ -f /media/$i/$ISOLINUX/$ROOT_IMAGE ] ; then
+-	    ./install.sh $i/$ISOLINUX $ROOT_IMAGE $video_mode $vga_mode
++	    ./install.sh $i/$ISOLINUX $ROOT_IMAGE $video_mode $vga_mode $console_params
+ 	else
+ 	    fatal "Could not find install script"
+ 	fi
+-- 
+1.7.9.5
 
 
 
