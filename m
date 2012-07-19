@@ -1,20 +1,30 @@
-Received: from mga14.intel.com ([143.182.124.37])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <radu.moisan@intel.com>) id 1SrqkY-00057X-25
-	for openembedded-core@lists.openembedded.org;
-	Thu, 19 Jul 2012 15:26:38 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 19 Jul 2012 06:15:14 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="170371555"
-Received: from dell-desktop (HELO localhost.localdomain) ([10.237.105.32])
-	by azsmga001.ch.intel.com with ESMTP; 19 Jul 2012 06:15:13 -0700
-From: Radu Moisan <radu.moisan@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 19 Jul 2012 16:22:47 +0300
-Message-Id: <1342704167-16196-1-git-send-email-radu.moisan@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] Upadate upstream_tracking.inc
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1SrqrX-0005GD-Ex for openembedded-core@lists.openembedded.org;
+	Thu, 19 Jul 2012 15:33:51 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6JDMT4T002515
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 19 Jul 2012 14:22:29 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 32466-10 for <openembedded-core@lists.openembedded.org>;
+	Thu, 19 Jul 2012 14:22:25 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6JDMJd2002509
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 19 Jul 2012 14:22:20 +0100
+Message-ID: <1342704143.7940.8.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Thu, 19 Jul 2012 14:22:23 +0100
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: [PATCH] staging.bbclass: Don't stage doc/manpage/info files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,32 +39,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Jul 2012 13:26:38 -0000
+X-List-Received-Date: Thu, 19 Jul 2012 13:33:51 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Added new info for tinylogin.
+There is no point in having doc, manpage or info files in the staging directory. They
+just bloat the sstate package size and waste time as they're copied around.
 
-Signed-off-by: Radu Moisan <radu.moisan@intel.com>
+We never used to stage these but it crept in when we started staging $datadir. This
+patch corrects that so they're removed and stop making it into the sysroot.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../conf/distro/include/upstream_tracking.inc      |    3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+diff --git a/meta/classes/staging.bbclass b/meta/classes/staging.bbclass
+index ee5a025..6540349 100644
+--- a/meta/classes/staging.bbclass
++++ b/meta/classes/staging.bbclass
+@@ -51,6 +51,8 @@ sysroot_stage_dirs() {
+ 		sysroot_stage_libdir $from${base_libdir} $to${base_libdir}
+ 	fi
+ 	sysroot_stage_dir $from${datadir} $to${datadir}
++	# We don't care about docs/info/manpages
++	rm -rf $to${mandir}/ $to${docdir}/ $to${infodir}/
+ }
+ 
+ sysroot_stage_all() {
 
-diff --git a/meta-yocto/conf/distro/include/upstream_tracking.inc b/meta-yocto/conf/distro/include/upstream_tracking.inc
-index e795895..98e7d16 100644
---- a/meta-yocto/conf/distro/include/upstream_tracking.inc
-+++ b/meta-yocto/conf/distro/include/upstream_tracking.inc
-@@ -941,8 +941,9 @@ CHECK_DATE_pn-tiff = "Feb 27, 2012"
- RECIPE_UPSTREAM_VERSION_pn-time = "1.7"
- RECIPE_UPSTREAM_DATE_pn-time = "Jul 01, 1996"
- RECIPE_UPSTREAM_VERSION_pn-tinylogin = "1.4"
--CHECK_DATE_pn-tinylogin = "Dec 24, 2011"
-+CHECK_DATE_pn-tinylogin = "Jul 19, 2012"
- RECIPE_UPSTREAM_DATE_pn-tinylogin = "Jan 03, 2003"
-+RECIPE_NO_UPDATE_REASON_pn-tinylogin = "TinyLogin was merged into BusyBox."
- RECIPE_UPSTREAM_DATE_pn-trace-cmd = "Nov 7, 2011"
- RECIPE_UPSTREAM_VERSION_pn-transfig = "3.2.5d"
- RECIPE_UPSTREAM_DATE_pn-transfig = "Jul 23, 2010"
--- 
-1.7.9.5
 
 
 
