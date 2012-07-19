@@ -1,33 +1,37 @@
-Received: from mail-gh0-f175.google.com ([209.85.160.175])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1Srse9-0001Jp-KI
+	(envelope-from <ross.burton@intel.com>) id 1SrsiV-0001S7-Mg
 	for openembedded-core@lists.openembedded.org;
-	Thu, 19 Jul 2012 17:28:09 +0200
-Received: by ghbz2 with SMTP id z2so2662302ghb.6
+	Thu, 19 Jul 2012 17:32:39 +0200
+Received: from mail-qc0-f180.google.com ([209.85.216.180])
+	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 19 Jul 2012 08:21:16 -0700
+Received: by qcmv28 with SMTP id v28so1604702qcm.25
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Jul 2012 08:16:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:from:to:cc:subject:date:message-id:x-mailer;
-	bh=gXAwpXzLxvxGRvy1qca9Z02Ck+m+CsmRNN2/tJx+wHw=;
-	b=OP+AKOvDyBxb5sGx5xBrUbMTOJ8NkrwwLO0cDTBqzzkOHzDVKPQMjzoBi+sfSysO9d
-	CaKwYbBLceiXDztR0TagZeW+0jSr9/yCZSxp8Di3O8R2ju3rlJnHHwBGWsmaxI1GwD0J
-	SGZBsAKNZuBOcotGYDhAzPBk2+9HcnEFjbffaVEyXxa+rlBTm5cLMLn1mbGVFtuQJKPA
-	UgosuHO/h1XDA1zYZUdHuv9e2sFmTe5xkxsUrTNtUNU/LovucWPEiOZZG6NsxjciRIKK
-	u8pX4AjIbsxpik7IznVY0ehaspg3tb7Q4tIyYKZSCakjzPkrfSwcsYHFVI7st2PZN4EN
-	6ITA==
-Received: by 10.236.200.167 with SMTP id z27mr1779052yhn.131.1342711007260;
-	Thu, 19 Jul 2012 08:16:47 -0700 (PDT)
-Received: from localhost.localdomain ([177.100.163.15])
-	by mx.google.com with ESMTPS id x4sm4126570yhh.2.2012.07.19.08.16.44
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 19 Jul 2012 08:16:45 -0700 (PDT)
-Sender: Otavio Salvador <otavio.salvador@gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 19 Jul 2012 12:16:38 -0300
-Message-Id: <1342710998-15446-1-git-send-email-otavio@ossystems.com.br>
-X-Mailer: git-send-email 1.7.2.5
-Subject: [PATCH] bash: fix warning about bashbug reference /usr/bin when installed in /bin
+	Thu, 19 Jul 2012 08:21:15 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type:x-gm-message-state;
+	bh=GuUg/kP+MlkbYKLztpxvvM6Rbqn6hDF0RN0kaxsfghg=;
+	b=cCTTZZa3HstjdESxaGK3yq5KYKfE7k4OQWfqYlWxjhrSJ7CcjtCGdn6PNU5zB6HBh9
+	Ow3a/6jVozUAjQpqZ+n+RzcrdBKCsFWVrSxlgXbE27dELuBRfreCB2jTwb43SYK6MP4m
+	ddIZVNve0CmE+rtdOoOEZDe3B08V7/PxpwHLYcIaS3yxhMB/55ZSkpHFImoILWk9V3Xs
+	jIxZgy9a3sIDHoIvYwNuDw8dzLccNLGWXtMRCvKbgW+uCzRIF+tW4RNX3CZbXY/P371b
+	SvE+Ht8BCZEiXNW1MBFdfb8a2QmrNN5rRvqRjLBNRLyS0n5BWjYXRuPQtogWPaX9jx1+
+	04Ug==
+Received: by 10.224.182.136 with SMTP id cc8mr4411137qab.60.1342711275558;
+	Thu, 19 Jul 2012 08:21:15 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.229.82.74 with HTTP; Thu, 19 Jul 2012 08:20:55 -0700 (PDT)
+In-Reply-To: <1342710998-15446-1-git-send-email-otavio@ossystems.com.br>
+References: <1342710998-15446-1-git-send-email-otavio@ossystems.com.br>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 19 Jul 2012 16:20:55 +0100
+Message-ID: <CAJTo0LaVqK2KJUVcn1=HXPSuV7cyDEyxGaiDFreUTgE0sdbM0Q@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Gm-Message-State: ALoCoQnpB2b3zzqfUxxLt5SDD5/Tcy2K/k3yIgMucpqrRB8pGmefkNQjzd4HwhmSJfwKIq3PIgRp
+Subject: Re: [PATCH] bash: fix warning about bashbug reference /usr/bin when installed in /bin
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,64 +46,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Jul 2012 15:28:09 -0000
+X-List-Received-Date: Thu, 19 Jul 2012 15:32:39 -0000
+Content-Type: text/plain; charset=UTF-8
 
-We change the installation process so we have bashbug in ${bindir} and
-bash at ${base_bindir}; we also build tested it many times in a 8 CPU
-machine and had no problem building it in parallel so we dropped
-PARALLEL_MAKE override.
+On 19 July 2012 16:16, Otavio Salvador <otavio@ossystems.com.br> wrote:
+> We change the installation process so we have bashbug in ${bindir} and
+> bash at ${base_bindir}; we also build tested it many times in a 8 CPU
+> machine and had no problem building it in parallel so we dropped
+> PARALLEL_MAKE override.
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
----
- meta/recipes-extended/bash/bash.inc    |   13 ++++++++-----
- meta/recipes-extended/bash/bash_4.2.bb |    2 +-
- 2 files changed, 9 insertions(+), 6 deletions(-)
+I'd really like to see those split out as separate commits...
 
-diff --git a/meta/recipes-extended/bash/bash.inc b/meta/recipes-extended/bash/bash.inc
-index ff9b0ce..a7f5f8f 100644
---- a/meta/recipes-extended/bash/bash.inc
-+++ b/meta/recipes-extended/bash/bash.inc
-@@ -9,11 +9,6 @@ DEPENDS = "ncurses bison-native"
- 
- inherit autotools gettext update-alternatives
- 
--PARALLEL_MAKE = ""
--
--bindir = "/bin"
--sbindir = "/sbin"
--
- EXTRA_OECONF = "--enable-job-control"
- export CC_FOR_BUILD = "${BUILD_CC}"
- 
-@@ -30,6 +25,14 @@ do_configure_prepend () {
- 	fi
- }
- 
-+do_install_append () {
-+	# Move /usr/bin/bash to /bin/bash, if need
-+	if [ "${base_bindir}" != "${bindir}" ]; then
-+		mkdir -p ${D}${base_bindir}
-+		mv ${D}${bindir}/bash ${D}${base_bindir}
-+	fi
-+}
-+
- pkg_postinst_${PN} () {
- 	touch $D${sysconfdir}/shells
- 	grep -q "bin/bash" $D${sysconfdir}/shells || echo /bin/bash >> $D${sysconfdir}/shells
-diff --git a/meta/recipes-extended/bash/bash_4.2.bb b/meta/recipes-extended/bash/bash_4.2.bb
-index e96709a..a28279e 100644
---- a/meta/recipes-extended/bash/bash_4.2.bb
-+++ b/meta/recipes-extended/bash/bash_4.2.bb
-@@ -1,6 +1,6 @@
- require bash.inc
- 
--PR = "r2"
-+PR = "r3"
- 
- SRC_URI = "${GNU_MIRROR}/bash/${BPN}-${PV}.tar.gz;name=tarball \
-            ${GNU_MIRROR}/bash/bash-4.2-patches/bash42-001;apply=yes;striplevel=0;name=patch001 \
--- 
-1.7.2.5
-
+Ross
 
 
