@@ -1,36 +1,23 @@
-Received: from mail-pb0-f47.google.com ([209.85.160.47])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1SruCI-0002Ns-G5
+	(envelope-from <Morgan.Little@windriver.com>) id 1Sruyw-0003zV-C7
 	for openembedded-core@lists.openembedded.org;
-	Thu, 19 Jul 2012 19:07:30 +0200
-Received: by pbbrq2 with SMTP id rq2so4128719pbb.6
+	Thu, 19 Jul 2012 19:57:46 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q6JHkMhr002434
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Jul 2012 09:56:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:content-type;
-	bh=KZmxApL0qB7V9xGqEj6ZEbfQH/Dp6q/COeQDC//BJcc=;
-	b=gdW+OSyLqy++GyY0ssbnEZT1Y4zvKHPha/vnXxg1T8mmMoVDtXx8MVwQCsDK+GFP0W
-	3FoloOPmHJy8yM6QR1EN4n4Vpp0c3rmQWTP+iUSz06gE7EXftMVR6mNyP6OsK2CLlStw
-	Eg/TpOpOnNRv/TdEj24jkJrKnpDgUY3gz99ujJjFfQN/nlitG2s6YnBPXa0Cl7hQ8dmh
-	qKllVK4irYXT2u9/Ix+7HeQ6jytTBZCtPBfBRceRh5R5NBgf/3vKYkk03enCSrpyCetv
-	v4EYTdrUAGD7gBqGoPJh3wh78vszDBgTCtqRzwolcLV28obDGYPBXL9dL86ZOKzGkU8B
-	l41Q==
+	Thu, 19 Jul 2012 10:46:22 -0700 (PDT)
+Received: from localhost.localdomain (128.224.147.201) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.1.255.0; Thu, 19 Jul 2012 10:46:22 -0700
+From: Morgan Little <morgan.little@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 19 Jul 2012 13:46:05 -0400
+Message-ID: <1342719981-1324-1-git-send-email-morgan.little@windriver.com>
+X-Mailer: git-send-email 1.7.0.4
 MIME-Version: 1.0
-Received: by 10.68.129.168 with SMTP id nx8mr6677999pbb.112.1342716967227;
-	Thu, 19 Jul 2012 09:56:07 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.68.63.102 with HTTP; Thu, 19 Jul 2012 09:56:07 -0700 (PDT)
-In-Reply-To: <CAJTo0LaVqK2KJUVcn1=HXPSuV7cyDEyxGaiDFreUTgE0sdbM0Q@mail.gmail.com>
-References: <1342710998-15446-1-git-send-email-otavio@ossystems.com.br>
-	<CAJTo0LaVqK2KJUVcn1=HXPSuV7cyDEyxGaiDFreUTgE0sdbM0Q@mail.gmail.com>
-Date: Thu, 19 Jul 2012 13:56:07 -0300
-X-Google-Sender-Auth: SJjNMS5LUSIx1L6A74MGh21MwA8
-Message-ID: <CAP9ODKr_sUz_zUK+0exu+7+k1gfto1ndCZ+x0XJyKtX_2d2X=Q@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] bash: fix warning about bashbug reference /usr/bin when installed in /bin
+Subject: [PATCH v2 00/16] python-native: Put binaries in seperate directory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,23 +32,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Jul 2012 17:07:30 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Thu, 19 Jul 2012 17:57:46 -0000
+Content-Type: text/plain
 
-On Thu, Jul 19, 2012 at 12:20 PM, Burton, Ross <ross.burton@intel.com> wrote:
-> On 19 July 2012 16:16, Otavio Salvador <otavio@ossystems.com.br> wrote:
->> We change the installation process so we have bashbug in ${bindir} and
->> bash at ${base_bindir}; we also build tested it many times in a 8 CPU
->> machine and had no problem building it in parallel so we dropped
->> PARALLEL_MAKE override.
->
-> I'd really like to see those split out as separate commits...
+I updated python-native like it was suggest by Richard here:
+http://lists.linuxtogo.org/pipermail/openembedded-core/2012-June/024644.html
 
-Ok; I will rework it and send it once again.
+It is to resolve an issue that comes up when python-native is building and 
+autoconf finds the binary but not the libraries. This fix moves where the 
+binaries are installed to remove this issue and use the system's python.
 
--- 
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
+I have used bitbake world to build to make sure most things are build and 
+have added all of the recipes that I found were affected. I will be building 
+more to make sure I managed to get all of them.
+
+-----V2 Change-----
+Updated distutils-base to inherit pythonnative
+
+Removed added pythonnative inherit in distutils
+
+Removed added inherit for pythonnative from python-dbus, python-pygtk,
+python-setuptools, python-gst, python-pygobject since they get the inherit from
+distutils-base
+
+Updated perf for the change
+
+
+The following changes since commit 28715eff6dff3415b1d7b0be8cbb465c417e307f:
+  Richard Purdie (1):
+        boot-directdisk: Fix kernel location after STAGING_KERNEL_DIR change
+
+are available in the git repository at:
+
+  git@github.com:morganlittle/oe-core.git master
+
+Morgan Little (16):
+      python-native: Put binaries in seperate directory
+      python: Update for python-native changes
+      python-scons-native: Update for python-native changes
+      python-pyrex-native: Update for python-native changes
+      mklibs-native: Update for python-native changes
+      telepathy-glib: Update for python-native changes
+      telepathy-python: Update for python-native changes
+      libxml2: Update for python-native changes
+      gnome-doc-utils: Update for python-native changes
+      gobject-introspection: Update for python-native changes
+      mesa-common: Update for python-native changes
+      libxcb: Update for python-native changes
+      xcb-proto: Update for python-native changes
+      perf: Update for python-native changes
+      kernelshark: Update for python-native changes
+      trace-cmd: Update for python-native changes
+
+ meta/classes/distutils-base.bbclass                |    2 +-
+ meta/classes/distutils.bbclass                     |    8 ++++----
+ meta/classes/pythonnative.bbclass                  |    3 +++
+ .../telepathy/telepathy-glib_0.19.2.bb             |    4 ++--
+ .../telepathy/telepathy-python_0.15.19.bb          |    4 ++--
+ meta/recipes-core/libxml/libxml2.inc               |    2 +-
+ .../mklibs/mklibs-native_0.1.34.bb                 |    4 ++--
+ .../recipes-devtools/python/python-native_2.7.3.bb |   10 ++++++----
+ .../python/python-pyrex-native_0.9.9.bb            |    4 ++--
+ .../python/python-scons-native_2.1.0.bb            |    4 ++--
+ meta/recipes-devtools/python/python_2.7.3.bb       |   18 +++++++++---------
+ meta/recipes-gnome/gnome/gnome-doc-utils.inc       |    2 +-
+ .../gnome/gobject-introspection_1.32.1.bb          |    2 +-
+ .../gnome/gobject-introspection_git.bb             |    2 +-
+ meta/recipes-graphics/mesa/mesa-common.inc         |    4 ++--
+ meta/recipes-graphics/xcb/libxcb.inc               |    2 +-
+ meta/recipes-graphics/xcb/xcb-proto.inc            |    2 +-
+ meta/recipes-kernel/perf/perf_3.4.bb               |    2 +-
+ meta/recipes-kernel/trace-cmd/kernelshark_1.2.bb   |    4 ++--
+ meta/recipes-kernel/trace-cmd/trace-cmd_1.2.bb     |    4 ++--
+ 20 files changed, 46 insertions(+), 41 deletions(-)
+ create mode 100644 meta/classes/pythonnative.bbclass
 
 
