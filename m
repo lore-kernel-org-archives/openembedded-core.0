@@ -1,38 +1,37 @@
-Received: from mail-wi0-f177.google.com ([209.85.212.177])
+Received: from mail-we0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1SrkfD-0004rG-76
+	(envelope-from <koen@dominion.thruhere.net>) id 1SrkfE-0004r9-2Y
 	for openembedded-core@lists.openembedded.org;
-	Thu, 19 Jul 2012 08:56:43 +0200
-Received: by wibhm11 with SMTP id hm11so1897111wib.6
+	Thu, 19 Jul 2012 08:56:44 +0200
+Received: by mail-we0-f175.google.com with SMTP id r6so1431924wey.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Jul 2012 23:45:21 -0700 (PDT)
+	Wed, 18 Jul 2012 23:45:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references
 	:x-gm-message-state;
-	bh=nFo7wdQGiZlvhoFnfLJRXZaX+5R5jiM9VWWdf4l+GBc=;
-	b=RGLX9fI3hJPXL1vRVCIrwOfIZEXiUUZOK0UbGl5kQdWv+mFPV/ZbxiAt09C61K2YUK
-	4VCBomsNrctOIRtXVCsxwYSsZ/sa/jT/Y7yzeotwXxSIjmiwkyyTsEBvQaNrpd9uo8D0
-	WXoAQinB/rpa5spzVd3MvbX7DNLV4gxTJVvUml5vfCMVA3rq3qQV0ERtgRtWHTCcPls8
-	ZuwzPcDd/ZY6Rwvkao+50uUH9pRPXcmVSGKIzcVPakvO0O3WEO5bDzO0bZGuk8yCGwVu
-	KDOGBlE9ShxC94HhnuBz1HixM45hRq/MVvAX+rBqsjKy7Z+YekvgrvyiZG5MM5c+z/GZ
-	Rpwg==
-Received: by 10.216.41.195 with SMTP id h45mr311132web.192.1342680321820;
-	Wed, 18 Jul 2012 23:45:21 -0700 (PDT)
+	bh=fxRgSJ+St4mfznPXMGxmk3I8h7g3NA58BFOAOL6F0xo=;
+	b=HwT10zTlho0DSHbCc5rj60O+yMGe3PwMJiQpgaUYQn+lbcph43+mUX7TX9rk0JJTkb
+	M3+iU6nPVVEkWXmfyqzncHtcnRbcy1fBfXz1Ji3Zy+ijtWp3TiwU2Xtham3qaoc5e4Pu
+	1KCgpweQZuIv9WIwAG0uoSG7R1ZhMiVApAlkl7B/DNKpDT2G6hjDqRxbooMJTZM4uYx5
+	+zZ15ps/odepUViYB5s9P8Ii6MDuA8hXpaeee5ZEUMPjBlvgi+/4RxwKe+VBaRMym/Lu
+	LzDLtXrRnjJ34+HLBjscw9j9H9HfhaNr82Ao52ZncuS5nZGvNFC4tXmDah0/d6lVfeUS
+	RAkw==
+Received: by 10.216.90.19 with SMTP id d19mr410399wef.113.1342680324774;
+	Wed, 18 Jul 2012 23:45:24 -0700 (PDT)
 Received: from localhost (cl-267.ams-05.nl.sixxs.net. [2001:610:600:10a::2])
-	by mx.google.com with ESMTPS id c1sm2990443eeo.5.2012.07.18.23.45.19
+	by mx.google.com with ESMTPS id k48sm2964193een.10.2012.07.18.23.45.22
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 18 Jul 2012 23:45:20 -0700 (PDT)
+	Wed, 18 Jul 2012 23:45:23 -0700 (PDT)
 From: Koen Kooi <koen@dominion.thruhere.net>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 19 Jul 2012 08:44:43 +0200
-Message-Id: <1342680286-12886-2-git-send-email-koen@dominion.thruhere.net>
+Date: Thu, 19 Jul 2012 08:44:44 +0200
+Message-Id: <1342680286-12886-3-git-send-email-koen@dominion.thruhere.net>
 X-Mailer: git-send-email 1.7.10
 In-Reply-To: <1342680286-12886-1-git-send-email-koen@dominion.thruhere.net>
 References: <1342680286-12886-1-git-send-email-koen@dominion.thruhere.net>
-X-Gm-Message-State: ALoCoQndF2dh6oQ/Ebhpf6khj3BUYDKzUK5rD3H9Z4+5VgzhF946GcPJQm6BiQNIrs+lZUfR/oGX
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: [for-denzil][PATCH 2/5] xz: update to 5.1.2alpha
+X-Gm-Message-State: ALoCoQm+IzhZhpJXoGIPhaoVeHuBsAChjqgGL5bxI5vakmS/F9stSAAniwgexApjdewG/GpeKM10
+Subject: [for-denzil][PATCH 3/5] image_types.bbclass: Fix COMPRESS_CMD for xz to redirect compressed data to file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,84 +46,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Jul 2012 06:56:43 -0000
+X-List-Received-Date: Thu, 19 Jul 2012 06:56:44 -0000
 
-This contains bugfixes from the 5.0.3 and 5.0.4 releases
+From: Andrei Gherzan <andrei@gherzan.ro>
 
-Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+Having -c modifier makes xz to output the compressed data to stdout. In this
+way the needed data will be in the do_rootfs log.
+Redirect data to ${IMAGE_NAME}.rootfs.${type}.xz .
+
+Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/recipes-extended/xz/xz_5.1.1alpha.bb |   28 ----------------------------
- meta/recipes-extended/xz/xz_5.1.2alpha.bb |   25 +++++++++++++++++++++++++
- 2 files changed, 25 insertions(+), 28 deletions(-)
- delete mode 100644 meta/recipes-extended/xz/xz_5.1.1alpha.bb
- create mode 100644 meta/recipes-extended/xz/xz_5.1.2alpha.bb
+ meta/classes/image_types.bbclass |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-extended/xz/xz_5.1.1alpha.bb b/meta/recipes-extended/xz/xz_5.1.1alpha.bb
-deleted file mode 100644
-index 7fa7177..0000000
---- a/meta/recipes-extended/xz/xz_5.1.1alpha.bb
-+++ /dev/null
-@@ -1,28 +0,0 @@
--DESCRIPTION = "utils for managing LZMA compressed files"
--HOMEPAGE = "http://tukaani.org/xz/"
--SECTION = "base"
--
--LICENSE = "GPLv2+ & GPLv3+ & LGPLv2.1+"
--LIC_FILES_CHKSUM = "file://COPYING;md5=c475b6c7dca236740ace4bba553e8e1c \
--                    file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
--                    file://COPYING.GPLv3;md5=d32239bcb673463ab874e80d47fae504 \
--                    file://COPYING.LGPLv2.1;md5=4fbd65380cdd255951079008b364516c \
--                    file://lib/getopt.c;endline=23;md5=2069b0ee710572c03bb3114e4532cd84 "
--
--SRC_URI = "http://tukaani.org/xz/xz-${PV}.tar.gz"
--
--SRC_URI[md5sum] = "bb24436fa12780808e1c142980484104"
--SRC_URI[sha256sum] = "54e59a83690a4a0ec88a7d7c3bdef90c6b196c892a93463863c71c24fe87951a"
--
--PR = "r0"
--
--inherit autotools gettext
--
--PACKAGES =+ "liblzma liblzma-dev liblzma-staticdev liblzma-dbg"
--
--FILES_liblzma = "${libdir}/liblzma*${SOLIBS}"
--FILES_liblzma-dev = "${includedir}/lzma* ${libdir}/liblzma*${SOLIBSDEV} ${libdir}/liblzma.la ${libdir}/pkgconfig/liblzma.pc"
--FILES_liblzma-staticdev = "${libdir}/liblzma.a"
--FILES_liblzma-dbg = "${libdir}/.debug/liblzma*"
--
--BBCLASSEXTEND = "native"
-diff --git a/meta/recipes-extended/xz/xz_5.1.2alpha.bb b/meta/recipes-extended/xz/xz_5.1.2alpha.bb
-new file mode 100644
-index 0000000..9d68720
---- /dev/null
-+++ b/meta/recipes-extended/xz/xz_5.1.2alpha.bb
-@@ -0,0 +1,25 @@
-+DESCRIPTION = "utils for managing LZMA compressed files"
-+HOMEPAGE = "http://tukaani.org/xz/"
-+SECTION = "base"
-+
-+LICENSE = "GPLv2+ & GPLv3+ & LGPLv2.1+"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=c475b6c7dca236740ace4bba553e8e1c \
-+                    file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
-+                    file://COPYING.GPLv3;md5=d32239bcb673463ab874e80d47fae504 \
-+                    file://COPYING.LGPLv2.1;md5=4fbd65380cdd255951079008b364516c \
-+                    file://lib/getopt.c;endline=23;md5=2069b0ee710572c03bb3114e4532cd84 "
-+
-+SRC_URI = "http://tukaani.org/xz/xz-${PV}.tar.gz"
-+SRC_URI[md5sum] = "9bad1e249537ce69b206815cf28ca87b"
-+SRC_URI[sha256sum] = "70e792d2a67cfbb8f2dffd0feab6ca6e5a4a618d65070fb44a367629d1ba94e5"
-+
-+inherit autotools gettext
-+
-+PACKAGES =+ "liblzma liblzma-dev liblzma-staticdev liblzma-dbg"
-+
-+FILES_liblzma = "${libdir}/liblzma*${SOLIBS}"
-+FILES_liblzma-dev = "${includedir}/lzma* ${libdir}/liblzma*${SOLIBSDEV} ${libdir}/liblzma.la ${libdir}/pkgconfig/liblzma.pc"
-+FILES_liblzma-staticdev = "${libdir}/liblzma.a"
-+FILES_liblzma-dbg = "${libdir}/.debug/liblzma*"
-+
-+BBCLASSEXTEND = "native"
+diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+index b590ae1..007c8a5 100644
+--- a/meta/classes/image_types.bbclass
++++ b/meta/classes/image_types.bbclass
+@@ -215,7 +215,7 @@ COMPRESSIONTYPES = "gz bz2 lzma xz"
+ COMPRESS_CMD_lzma = "lzma -k -f -7 ${IMAGE_NAME}.rootfs.${type}"
+ COMPRESS_CMD_gz = "gzip -f -9 -c ${IMAGE_NAME}.rootfs.${type} > ${IMAGE_NAME}.rootfs.${type}.gz"
+ COMPRESS_CMD_bz2 = "bzip2 -f -k ${IMAGE_NAME}.rootfs.${type}"
+-COMPRESS_CMD_xz = "xz -f -k -c ${XZ_COMPRESSION_LEVEL} --check=${XZ_INTEGRITY_CHECK} ${IMAGE_NAME}.rootfs.${type}"
++COMPRESS_CMD_xz = "xz -f -k -c ${XZ_COMPRESSION_LEVEL} --check=${XZ_INTEGRITY_CHECK} ${IMAGE_NAME}.rootfs.${type} > ${IMAGE_NAME}.rootfs.${type}.xz"
+ COMPRESS_DEPENDS_lzma = "xz-native"
+ COMPRESS_DEPENDS_gz = ""
+ COMPRESS_DEPENDS_bz2 = ""
 -- 
 1.7.10
 
