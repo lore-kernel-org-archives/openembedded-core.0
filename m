@@ -1,41 +1,41 @@
-Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1SrtVJ-00012y-43
+	(envelope-from <ross.burton@intel.com>) id 1SrtVI-0000tD-Fo
 	for openembedded-core@lists.openembedded.org;
 	Thu, 19 Jul 2012 18:23:05 +0200
-Received: from mail-we0-f180.google.com ([74.125.82.180])
-	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 19 Jul 2012 09:11:42 -0700
-Received: by weyt11 with SMTP id t11so1708130wey.25
+Received: from mail-wi0-f172.google.com ([209.85.212.172])
+	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 19 Jul 2012 09:11:43 -0700
+Received: by mail-wi0-f172.google.com with SMTP id hm11so5006402wib.13
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Jul 2012 09:11:40 -0700 (PDT)
+	Thu, 19 Jul 2012 09:11:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
 	:in-reply-to:references:x-gm-message-state;
-	bh=WfsmD57enejAst3e705F/7rkcly6hf8iDr8jYAT3C3Y=;
-	b=BK8NDFEsPRo+C8X/SBhtIW5XEmzMD/MSP9quKpEECUhGUpmwxTPAWecaimQMY5tfpJ
-	MbZ3IXTgc6SHGgZQHV4as2bzHCMDRKO2A8iWArF+Rm8RH2O4nvfGXTzasDfmmq4HIH60
-	sR3i6J9n09GMx9i0s2aI/YMzPR17bFRn5RIeglsJ8rtKm5zuQu7QcxOtzA2yFRJkr83w
-	gUlbpioZd9wE8jBsjkSJsFfq449teQySULG2ugjnb/mrskWzEvl0M7KTVA0lJrWbPupG
-	ytckOUp/D6ZPeGp3ZNGz8LY3qKQLlfqJDmZu6tTZ9pN4wIEy8AE6/d2Nc5mMysm+dMmI
-	ouVg==
-Received: by 10.180.92.7 with SMTP id ci7mr2635330wib.1.1342714300112;
-	Thu, 19 Jul 2012 09:11:40 -0700 (PDT)
+	bh=ZOnkX59dCGItPVvVFJxA72il8P+/ceRiOaYGsotyW8g=;
+	b=RGHIXqhIIKmVAaHgmMcEBd531CInj/IVEg7/R9q7cbvUM+DhfBQXoz+nCn+d60dt2V
+	549e7xhr3YYAk3su/E57hqHjyB/exJz0J/schQXf1bHzOLtn89eyQY6md6cKGabX7zcl
+	/Tm80Zt/ttP9Mm4mDdnaPxhPzjPgtVXkgvBB97RKRa+Scq9sXslAVz2LjIkmUOnQgXR5
+	5wCfHJZOF8kR/204FRovzLnGaMw/ubCEQMIGAW0YQPedXWJjzxXrA5AsNYRms7l15TVy
+	+I8V7487OH+1OGKsTbfq3w8sjR7sPW+Gya6u9XMyiGUE1iBtn8ZSwPu/wd5luk69C8kQ
+	XOBA==
+Received: by 10.217.2.133 with SMTP id p5mr1577958wes.143.1342714303726;
+	Thu, 19 Jul 2012 09:11:43 -0700 (PDT)
 Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id cl8sm39193462wib.10.2012.07.19.09.11.38
+	by mx.google.com with ESMTPS id cl8sm39193462wib.10.2012.07.19.09.11.42
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 19 Jul 2012 09:11:39 -0700 (PDT)
+	Thu, 19 Jul 2012 09:11:42 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 19 Jul 2012 17:10:53 +0100
-Message-Id: <744e40a32471e2ec5fd5effd5a6177083e20e40c.1342713965.git.ross.burton@intel.com>
+Date: Thu, 19 Jul 2012 17:10:55 +0100
+Message-Id: <5f1df530552e7c020bfa1d9a7db66adb83e5262f.1342713965.git.ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10
 In-Reply-To: <cover.1342713965.git.ross.burton@intel.com>
 References: <cover.1342713965.git.ross.burton@intel.com>
 In-Reply-To: <cover.1342713965.git.ross.burton@intel.com>
 References: <cover.1342713965.git.ross.burton@intel.com>
-X-Gm-Message-State: ALoCoQnnM/heJX67H4mC/Gi1RmhnLzpGWLEYQ1mIyH9nJvku+BYidD62lX8Yz4COE/yzfeRPK7Ok
-Subject: [PATCH 06/26] cogl: cleanup thanks to new gtk-doc.bbclass
+X-Gm-Message-State: ALoCoQkI+2lARliQNrY2fSjCzJaZWo841V/f6tkZHIPmTw9F6W/qrxaQGESKInvECsqCgaVwNMHa
+Subject: [PATCH 08/26] gconf: cleanup thanks to new gtk-doc.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -55,51 +55,31 @@ X-List-Received-Date: Thu, 19 Jul 2012 16:23:07 -0000
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-graphics/clutter/cogl.inc      |    4 ++--
- meta/recipes-graphics/clutter/cogl_1.8.2.bb |    2 +-
- meta/recipes-graphics/clutter/cogl_git.bb   |    2 +-
- 3 files changed, 4 insertions(+), 4 deletions(-)
+ meta/recipes-gnome/gnome/gconf_3.2.3.bb |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-graphics/clutter/cogl.inc b/meta/recipes-graphics/clutter/cogl.inc
-index f2ad6d1..7d840be 100644
---- a/meta/recipes-graphics/clutter/cogl.inc
-+++ b/meta/recipes-graphics/clutter/cogl.inc
-@@ -2,8 +2,8 @@ DESCRIPTION = "a modern 3D graphics API with associated utility APIs"
- HOMEPAGE = "http://wiki.clutter-project.org/wiki/Cogl"
- LICENSE = "LGPLv2.1+"
+diff --git a/meta/recipes-gnome/gnome/gconf_3.2.3.bb b/meta/recipes-gnome/gnome/gconf_3.2.3.bb
+index d84f981..60c2be2 100644
+--- a/meta/recipes-gnome/gnome/gconf_3.2.3.bb
++++ b/meta/recipes-gnome/gnome/gconf_3.2.3.bb
+@@ -9,7 +9,7 @@ POLKIT_libc-uclibc = ""
+ DEPENDS = "glib-2.0 dbus dbus-glib libxml2 intltool-native ${POLKIT}"
+ DEPENDS_virtclass-native = "glib-2.0-native dbus-native dbus-glib-native libxml2-native intltool-native gnome-common-native"
  
--STDDEPENDS = "virtual/libx11 gtk-doc-native pango glib-2.0 libxfixes gdk-pixbuf libxi"
--BASE_CONF = "--disable-gtk-doc ${@get_clutter_fpu_setting(bb, d)}"
-+STDDEPENDS = "virtual/libx11 pango glib-2.0 libxfixes gdk-pixbuf libxi"
-+BASE_CONF = "${@get_clutter_fpu_setting(bb, d)}"
+-PR = "r10"
++PR = "r11"
  
- DEPENDS = "${STDDEPENDS} virtual/libgl libxcomposite"
- EXTRA_OECONF = "${BASE_CONF} --with-flavour=glx"
-diff --git a/meta/recipes-graphics/clutter/cogl_1.8.2.bb b/meta/recipes-graphics/clutter/cogl_1.8.2.bb
-index 25875f3..f733598 100644
---- a/meta/recipes-graphics/clutter/cogl_1.8.2.bb
-+++ b/meta/recipes-graphics/clutter/cogl_1.8.2.bb
-@@ -1,6 +1,6 @@
- require cogl.inc
+ inherit gnomebase gtk-doc
  
--PR = "r1"
-+PR = "r2"
+@@ -26,7 +26,7 @@ POLKIT_OECONF = "--enable-defaults-service"
+ POLKIT_OECONF_virtclass-native = "--disable-defaults-service"
+ POLKIT_OECONF_libc-uclibc = "--disable-default-service"
  
- LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
+-EXTRA_OECONF = "--disable-gtk-doc --enable-shared --disable-static --enable-debug=yes \
++EXTRA_OECONF = "--enable-shared --disable-static --enable-debug=yes \
+                 --disable-introspection --disable-orbit --with-openldap=no ${POLKIT_OECONF} --disable-gtk"
  
-diff --git a/meta/recipes-graphics/clutter/cogl_git.bb b/meta/recipes-graphics/clutter/cogl_git.bb
-index 689b965..682f931 100644
---- a/meta/recipes-graphics/clutter/cogl_git.bb
-+++ b/meta/recipes-graphics/clutter/cogl_git.bb
-@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
- # the 1.8.2 tag
- SRCREV = "e398e374e2ff0e88bc1d63577a192f8ca04a1cb5"
- PV = "1.8.2+git${SRCPV}"
--PR = "r1"
-+PR = "r2"
- 
- DEFAULT_PREFERENCE = "-1"
- 
+ do_install_append() {
 -- 
 1.7.10
 
