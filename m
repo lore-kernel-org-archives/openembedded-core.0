@@ -1,41 +1,41 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1SrtVI-0000tD-Fo
+	(envelope-from <ross.burton@intel.com>) id 1SrtVN-0000wg-4i
 	for openembedded-core@lists.openembedded.org;
-	Thu, 19 Jul 2012 18:23:05 +0200
-Received: from mail-wi0-f172.google.com ([209.85.212.172])
-	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 19 Jul 2012 09:11:43 -0700
-Received: by mail-wi0-f172.google.com with SMTP id hm11so5006402wib.13
+	Thu, 19 Jul 2012 18:23:09 +0200
+Received: from mail-we0-f180.google.com ([74.125.82.180])
+	by mga03.intel.com with ESMTP/TLS/RC4-SHA; 19 Jul 2012 09:11:47 -0700
+Received: by mail-we0-f180.google.com with SMTP id t11so1708114wey.25
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Jul 2012 09:11:43 -0700 (PDT)
+	Thu, 19 Jul 2012 09:11:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
 	:in-reply-to:references:x-gm-message-state;
-	bh=ZOnkX59dCGItPVvVFJxA72il8P+/ceRiOaYGsotyW8g=;
-	b=RGHIXqhIIKmVAaHgmMcEBd531CInj/IVEg7/R9q7cbvUM+DhfBQXoz+nCn+d60dt2V
-	549e7xhr3YYAk3su/E57hqHjyB/exJz0J/schQXf1bHzOLtn89eyQY6md6cKGabX7zcl
-	/Tm80Zt/ttP9Mm4mDdnaPxhPzjPgtVXkgvBB97RKRa+Scq9sXslAVz2LjIkmUOnQgXR5
-	5wCfHJZOF8kR/204FRovzLnGaMw/ubCEQMIGAW0YQPedXWJjzxXrA5AsNYRms7l15TVy
-	+I8V7487OH+1OGKsTbfq3w8sjR7sPW+Gya6u9XMyiGUE1iBtn8ZSwPu/wd5luk69C8kQ
-	XOBA==
-Received: by 10.217.2.133 with SMTP id p5mr1577958wes.143.1342714303726;
-	Thu, 19 Jul 2012 09:11:43 -0700 (PDT)
+	bh=NkZk/ma274iEhNtU6v6+1GDJs4oFkkJQg+EJQkIlcHA=;
+	b=mnvGaHtzZDk7avknsYIVgBAZzqMSmdfoQHFYFZFW1YwogBq6R1qsZQMOeS3uVmOXYK
+	aZLx5A/pGFJ8Xf3S/J+XUBaWYWt4cscNywvp/iZYrq8ukEN2Nj6WihmcmY45k8AiFSSg
+	UeVu/A57OpPlPcXCm6RDRbxuG+e4ND09I3UxUX2FuMz7ohsbmeKIfyqFUgSTy38MK+5S
+	81y5mbeGl/2Le6hXuagddbyHBBjqvui4cLtPNhQfnNQChwwFwYP7wYnsao8kb+YpW5KV
+	9bIMIHmnn2KAN+W8MGJRq9WhPqnaztg78iVs+DK+TTqEu4NLLiq9aLbbwi/fxm3Djr4j
+	9+bA==
+Received: by 10.216.195.40 with SMTP id o40mr1642461wen.36.1342714307644;
+	Thu, 19 Jul 2012 09:11:47 -0700 (PDT)
 Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id cl8sm39193462wib.10.2012.07.19.09.11.42
+	by mx.google.com with ESMTPS id cl8sm39193462wib.10.2012.07.19.09.11.46
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 19 Jul 2012 09:11:42 -0700 (PDT)
+	Thu, 19 Jul 2012 09:11:46 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 19 Jul 2012 17:10:55 +0100
-Message-Id: <5f1df530552e7c020bfa1d9a7db66adb83e5262f.1342713965.git.ross.burton@intel.com>
+Date: Thu, 19 Jul 2012 17:10:58 +0100
+Message-Id: <944d0d1b30d1016afeea0908625ab8b6c9cf15b0.1342713965.git.ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10
 In-Reply-To: <cover.1342713965.git.ross.burton@intel.com>
 References: <cover.1342713965.git.ross.burton@intel.com>
 In-Reply-To: <cover.1342713965.git.ross.burton@intel.com>
 References: <cover.1342713965.git.ross.burton@intel.com>
-X-Gm-Message-State: ALoCoQkI+2lARliQNrY2fSjCzJaZWo841V/f6tkZHIPmTw9F6W/qrxaQGESKInvECsqCgaVwNMHa
-Subject: [PATCH 08/26] gconf: cleanup thanks to new gtk-doc.bbclass
+X-Gm-Message-State: ALoCoQk7Q9uRxHPIrRkcYq5xxVdrIxDSV0UvvdTLGNwBHwke1DZOFZfwDmSLLoIXJeOpH75OCrSR
+Subject: [PATCH 11/26] polkit-gnome: cleanup thanks to new gtk-doc.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,36 +50,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Jul 2012 16:23:07 -0000
+X-List-Received-Date: Thu, 19 Jul 2012 16:23:09 -0000
 
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-gnome/gnome/gconf_3.2.3.bb |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-extended/polkit/polkit-gnome_0.102.bb |    5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-gnome/gnome/gconf_3.2.3.bb b/meta/recipes-gnome/gnome/gconf_3.2.3.bb
-index d84f981..60c2be2 100644
---- a/meta/recipes-gnome/gnome/gconf_3.2.3.bb
-+++ b/meta/recipes-gnome/gnome/gconf_3.2.3.bb
-@@ -9,7 +9,7 @@ POLKIT_libc-uclibc = ""
- DEPENDS = "glib-2.0 dbus dbus-glib libxml2 intltool-native ${POLKIT}"
- DEPENDS_virtclass-native = "glib-2.0-native dbus-native dbus-glib-native libxml2-native intltool-native gnome-common-native"
+diff --git a/meta/recipes-extended/polkit/polkit-gnome_0.102.bb b/meta/recipes-extended/polkit/polkit-gnome_0.102.bb
+index bba917c..7e9fc2b 100644
+--- a/meta/recipes-extended/polkit/polkit-gnome_0.102.bb
++++ b/meta/recipes-extended/polkit/polkit-gnome_0.102.bb
+@@ -10,15 +10,14 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=74579fab173e4c5e12aac0cd83ee98ec \
+ SRC_URI = "http://hal.freedesktop.org/releases/polkit-gnome-${PV}.tar.bz2 \
+           "
  
--PR = "r10"
-+PR = "r11"
+-PR = "r1"
++PR = "r2"
  
- inherit gnomebase gtk-doc
+ EXTRA_OECONF = " --disable-scrollkeeper \
+                  --disable-man-pages \
+                  --disable-examples \
+-                 --disable-gtk-doc \
+                  --disable-introspection "
  
-@@ -26,7 +26,7 @@ POLKIT_OECONF = "--enable-defaults-service"
- POLKIT_OECONF_virtclass-native = "--disable-defaults-service"
- POLKIT_OECONF_libc-uclibc = "--disable-default-service"
+-inherit autotools pkgconfig
++inherit autotools gtk-doc pkgconfig
  
--EXTRA_OECONF = "--disable-gtk-doc --enable-shared --disable-static --enable-debug=yes \
-+EXTRA_OECONF = "--enable-shared --disable-static --enable-debug=yes \
-                 --disable-introspection --disable-orbit --with-openldap=no ${POLKIT_OECONF} --disable-gtk"
- 
- do_install_append() {
+ FILES_${PN} += " ${datadir}/dbus-1 \
+                  ${datadir}/PolicyKit \
 -- 
 1.7.10
 
