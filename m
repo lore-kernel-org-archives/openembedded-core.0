@@ -1,30 +1,32 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail-yw0-f47.google.com ([209.85.213.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1SrtmH-0001Vp-Al
+	(envelope-from <bruce.ashfield@gmail.com>) id 1Srtoc-0001Zp-NE
 	for openembedded-core@lists.openembedded.org;
-	Thu, 19 Jul 2012 18:40:37 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 19 Jul 2012 09:28:53 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="168549968"
-Received: from srifenb-mobl.amr.corp.intel.com (HELO envy.home)
-	([10.7.199.145])
-	by orsmga001.jf.intel.com with ESMTP; 19 Jul 2012 09:28:53 -0700
-Message-ID: <50083564.3020200@linux.intel.com>
-Date: Thu, 19 Jul 2012 09:27:16 -0700
-From: Darren Hart <dvhart@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:13.0) Gecko/20120615 Thunderbird/13.0.1
+	Thu, 19 Jul 2012 18:43:02 +0200
+Received: by yhjj56 with SMTP id j56so2747967yhj.6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 19 Jul 2012 09:31:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type; bh=X/c/Obj7lugr/C30JAFx4MqiTevAa5oW/5NYuvGAxkQ=;
+	b=zcnbPYfS0RWcChgZG67hOu17gj3y/v/P+LStBbss5c1ze1VN30hx7A6N18qanendNu
+	ZFoM/qPnpWTg7IYHMXJLQ7WcDYCJlSbYA6FDSb4K2lW8TOwk8FM/N9HR9egM9kTJAZaq
+	7+OWA2hu3rfDjqv2fdSA0audyd4KNLhriApMoFyKgpgDgUBigw13wei8SDaSt2wTDlMe
+	xxLuGFgAnPh3Zyd4Qf60S6LXu2nbAdB0K2q47sxgFv4rp5b1LuaOkJFFjjZy+OOUOgIs
+	evWwaflg3fHVdpCieSTZoVqBTyGrKZjT0oBWwAZRuDuibZLJOU5Ewa22Lo/cAuahl4Km
+	R1OA==
 MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <cover.1342549867.git.dvhart@linux.intel.com>
-	<da4bea17ffc6284a462e33b142ec17bd6f15f2ac.1342549867.git.dvhart@linux.intel.com>
-	<5005BFA6.5050809@linux.intel.com>
-	<5005C134.4080805@linux.intel.com> <1342714551.7940.15.camel@ted>
-In-Reply-To: <1342714551.7940.15.camel@ted>
-X-Enigmail-Version: 1.4.3
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] EFI: Make installer EFI aware
+Received: by 10.50.161.234 with SMTP id xv10mr19594igb.66.1342715499886; Thu,
+	19 Jul 2012 09:31:39 -0700 (PDT)
+Received: by 10.231.239.131 with HTTP; Thu, 19 Jul 2012 09:31:39 -0700 (PDT)
+In-Reply-To: <alpine.DEB.2.02.1207191213190.13512@oneiric>
+References: <alpine.DEB.2.02.1207191213190.13512@oneiric>
+Date: Thu, 19 Jul 2012 12:31:39 -0400
+Message-ID: <CADkTA4P+z4SCiH80WGszFe5ttFHksKbc5Nt6v5F0RHyHDOzjzA@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: possible typo in kgit-checkpoint
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,63 +41,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Jul 2012 16:40:37 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 19 Jul 2012 16:43:02 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+
+On Thu, Jul 19, 2012 at 12:16 PM, Robert P. J. Day
+<rpjday@crashcourse.ca> wrote:
+>
+> if [ -n "$check_refs" ]; then
+>     checkpoint_branch=`echo $check_refs | cut -d- -f2`
+>     verify_branch=`git show-ref $checkpoint_branch`
+>     checkpoint_tag_name=$check_refs
+>     if [ -z "verify_branch" ]; then
+>     ... snip ...
+>
+>   should that last line read
+>
+>     if [ -z "${verify_branch}" ]; then
+>
+> instead?
+
+Yep. I can just fix it here, or you can send patch, either works.
+
+Cheers,
+
+Bruce
+
+>
+> rday
+>
+> --
+>
+> ========================================================================
+> Robert P. J. Day                                 Ottawa, Ontario, CANADA
+>                         http://crashcourse.ca
+>
+> Twitter:                                       http://twitter.com/rpjday
+> LinkedIn:                               http://ca.linkedin.com/in/rpjday
+> ========================================================================
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
-
-On 07/19/2012 09:15 AM, Richard Purdie wrote:
-> On Tue, 2012-07-17 at 12:47 -0700, Darren Hart wrote:
->>
->> On 07/17/2012 12:40 PM, Saul Wold wrote:
->>> On 07/17/2012 12:29 PM, Darren Hart wrote:
->>
->>>> --- a/meta/recipes-core/images/core-image-minimal-initramfs.bb
->>>> +++ b/meta/recipes-core/images/core-image-minimal-initramfs.bb
->>>> @@ -3,7 +3,7 @@ DESCRIPTION = "Small image capable of booting a device. The kernel includes \
->>>>   the Minimal RAM-based Initial Root Filesystem (initramfs), which finds the \
->>>>   first “init” program more efficiently."
->>>>
->>>> -IMAGE_INSTALL = "initramfs-live-boot initramfs-live-install busybox udev base-passwd"
->>>> +IMAGE_INSTALL = "initramfs-live-boot initramfs-live-install initramfs-live-install-efi busybox udev base-passwd"
->>>>
->>>>   # Do not pollute the initrd image with rootfs features
->>>>   IMAGE_FEATURES = ""
->>>
->>> Does this now need a PR bump also?
->>
->> I didn't think so as this recipe is rebuilt for every image anyway.
->> There is no PR in this recipe.
->>
->>>> diff --git a/meta/recipes-core/initrdscripts/initramfs-live-install-efi_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-live-install-efi_1.0.bb
->>>> new file mode 100644
->>>> index 0000000..6696d94
->>>> --- /dev/null
->>>> +++ b/meta/recipes-core/initrdscripts/initramfs-live-install-efi_1.0.bb
->>>> @@ -0,0 +1,22 @@
->>>> +DESCRIPTION = "A live image init script for grub-efi"
->>>> +LICENSE = "MIT"
->>>> +LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
->>>> +SRC_URI = "file://init-install-efi.sh"
->>>> +
->>>> +PR = "r7"
->>>> +
->>> Why PR = r7 for a new recipe, there should be no PR as it defaults to r0?
->>
->> Good catch, just my forcing rebuilds during development, or perhaps a
->> left-over copy from the initramfs-live-install_1.0.bb I based it on.
->> Updated as r0 in the branch.
-> 
-> Could I ask you to update this on top of Radu's fix please?
-
-Will do.
 
 -- 
-Darren Hart
-Intel Open Source Technology Center
-Yocto Project - Linux Kernel
-
-
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
 
