@@ -1,36 +1,42 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1SsCUW-0003XQ-J7 for openembedded-core@lists.openembedded.org;
-	Fri, 20 Jul 2012 14:39:32 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6KCS9IR012127
+Received: from mail-wg0-f43.google.com ([74.125.82.43])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <martin.jansa@gmail.com>) id 1SsCWG-0003aC-Ul
+	for openembedded-core@lists.openembedded.org;
+	Fri, 20 Jul 2012 14:41:21 +0200
+Received: by wgbdr1 with SMTP id dr1so3379132wgb.24
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jul 2012 13:28:09 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 10396-04 for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jul 2012 13:28:05 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6KCRxVR012121
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jul 2012 13:28:01 +0100
-Message-ID: <1342787283.21788.13.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Fri, 20 Jul 2012 05:29:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=+1T6bNPZAmeW6xvnENEI91BsbdvDGuQ0aNlmwoxp7vw=;
+	b=CB5oRztXLHQSgk0s0qSATo7T7Jdf0u/58N1y+qXD/g5HNgbfTlThHzRr96mqTspZmV
+	BEmvDZws7oVBZMRGFreUtFV7EFNfqrR/jKgxsbTk04POWYirH2QY+Ft6/xAOA3FrpbPO
+	iS0tuCKaEBXaqx1HySKw4pWlp2E8Gr+tPTgyF0za8XJVU8cXlKADoeXHNSs2d2oNoHix
+	Vpyjyeo8IMd29oqccPc/Mg6kn0yYsSdxmcHGMa4jS7YvzQ3j88jzmGzk71E73nHYJiIO
+	GufLxU+pmFVtkfAFOHArManKDZtCE4i+8tDNO12b9ooshfBSbVjhBb2SeZu084etnra9
+	Mzow==
+Received: by 10.216.220.89 with SMTP id n67mr3993256wep.73.1342787397789;
+	Fri, 20 Jul 2012 05:29:57 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id bc2sm14708610wib.0.2012.07.20.05.29.56
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 20 Jul 2012 05:29:56 -0700 (PDT)
+Date: Fri, 20 Jul 2012 14:30:08 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Fri, 20 Jul 2012 13:28:03 +0100
-In-Reply-To: <ly1uk67hna.fsf@ensc-virt.intern.sigma-chemnitz.de>
+Message-ID: <20120720123008.GF3534@jama.jama.net>
 References: <lyk3xy7mlu.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<20120720104117.GE3534@jama.jama.net> <1342782398.21788.7.camel@ted>
+	<20120720104117.GE3534@jama.jama.net>
+	<1342782398.21788.7.camel@ted>
 	<ly629i7inz.fsf@ensc-virt.intern.sigma-chemnitz.de>
 	<1342785890.21788.10.camel@ted>
 	<ly1uk67hna.fsf@ensc-virt.intern.sigma-chemnitz.de>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
+	<1342787283.21788.13.camel@ted>
+MIME-Version: 1.0
+In-Reply-To: <1342787283.21788.13.camel@ted>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Subject: Re: Broken parallel build of gcc*
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -46,37 +52,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Jul 2012 12:39:32 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 20 Jul 2012 12:41:21 -0000
+X-Groupsio-MsgNum: 25852
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="IvGM3kKqwtniy32b"
+Content-Disposition: inline
 
-On Fri, 2012-07-20 at 14:15 +0200, Enrico Scholz wrote:
-> Richard Purdie
-> <richard.purdie-hQyY1W1yCW8ekmWlsbkhG0B+6BGkLq7r@public.gmane.org>
-> writes:
-> 
-> >> Is there a way to exclude such tasks from the signature handling?
-> >
-> > The easiest option is probably something like:
-> >
-> > do_rm_old_works[vardepexclude] = "PN"
-> 
-> I tried this but it is not really an option because there must be added
-> a lot of completely unrelated variables:
-> 
->  $ bitbake-diffsigs gcc-runtime*do_rm_old_work.sigdata* libgcc*do_rm_old_work.sigdata*
-> 
->  Dependency on variable gcc_cv_collect2_libs was added
->  Variable CPPFLAGS value changed from  to ${TARGET_CPPFLAGS}
-> 
-> (none of these is used within do_rm_old_works).
+--IvGM3kKqwtniy32b
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Can you point me at a copy of the class your using and the full diffsigs
-output please?
+On Fri, Jul 20, 2012 at 01:28:03PM +0100, Richard Purdie wrote:
+> On Fri, 2012-07-20 at 14:15 +0200, Enrico Scholz wrote:
+> > Richard Purdie
+> > <richard.purdie-hQyY1W1yCW8ekmWlsbkhG0B+6BGkLq7r@public.gmane.org>
+> > writes:
+> >=20
+> > >> Is there a way to exclude such tasks from the signature handling?
+> > >
+> > > The easiest option is probably something like:
+> > >
+> > > do_rm_old_works[vardepexclude] =3D "PN"
+> >=20
+> > I tried this but it is not really an option because there must be added
+> > a lot of completely unrelated variables:
+> >=20
+> >  $ bitbake-diffsigs gcc-runtime*do_rm_old_work.sigdata* libgcc*do_rm_ol=
+d_work.sigdata*
+> >=20
+> >  Dependency on variable gcc_cv_collect2_libs was added
+> >  Variable CPPFLAGS value changed from  to ${TARGET_CPPFLAGS}
+> >=20
+> > (none of these is used within do_rm_old_works).
+>=20
+> Can you point me at a copy of the class your using and the full diffsigs
+> output please?
 
-Thanks,
+Mine is here
+http://git.shr-project.org/git/?p=3Dmeta-smartphone.git;a=3Dblob;f=3Dmeta-s=
+hr/classes/rm_old_work.bbclass;h=3Ddb13aa677958a52cd2c1b9efd6b90e38eadba41d=
+;hb=3Drefs/heads/shr
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-Richard
+--IvGM3kKqwtniy32b
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
 
+iEYEARECAAYFAlAJT1AACgkQN1Ujt2V2gBySegCfbAt/AAGosbP4SAQZzIlSFdVs
+gOcAoI3kNDEuTLNZgsONVkwCOMyHD8DT
+=eeQi
+-----END PGP SIGNATURE-----
 
+--IvGM3kKqwtniy32b--
