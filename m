@@ -1,25 +1,25 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Ss4fi-0000ja-EV
+	(envelope-from <sgw@linux.intel.com>) id 1Ss4gw-0000mH-4s
 	for openembedded-core@lists.openembedded.org;
-	Fri, 20 Jul 2012 06:18:34 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 19 Jul 2012 21:07:10 -0700
+	Fri, 20 Jul 2012 06:19:50 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 19 Jul 2012 21:08:26 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="170667267"
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="174593049"
 Received: from unknown (HELO [10.255.12.214]) ([10.255.12.214])
-	by azsmga001.ch.intel.com with ESMTP; 19 Jul 2012 21:07:10 -0700
-Message-ID: <5008D96E.30702@linux.intel.com>
-Date: Thu, 19 Jul 2012 21:07:10 -0700
+	by orsmga002.jf.intel.com with ESMTP; 19 Jul 2012 21:08:26 -0700
+Message-ID: <5008D9BA.6030205@linux.intel.com>
+Date: Thu, 19 Jul 2012 21:08:26 -0700
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:13.0) Gecko/20120615 Thunderbird/13.0.1
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <1342557990-15381-1-git-send-email-yao.zhao@windriver.com>
-In-Reply-To: <1342557990-15381-1-git-send-email-yao.zhao@windriver.com>
-Subject: Re: [PATCH v2] dbus-glib: add support for install regression tests
+References: <1342704167-16196-1-git-send-email-radu.moisan@intel.com>
+In-Reply-To: <1342704167-16196-1-git-send-email-radu.moisan@intel.com>
+Subject: Re: [PATCH] Upadate upstream_tracking.inc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,126 +34,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Jul 2012 04:18:34 -0000
+X-List-Received-Date: Fri, 20 Jul 2012 04:19:50 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 07/17/2012 01:46 PM, Yao Zhao wrote:
-> dbus-glib.inc: default turn off unit test as libdbus-glib-1.so.2.2.2 will
-> have unit test code if DBUS_BUILD_TESTS enabled. User can turn it on with
-> PACKAGECONFIG_pn-dbus-glib = "tests" in local.conf or
-> PACKAGECONFIG ??= "tests" in recipe itself.
+On 07/19/2012 06:22 AM, Radu Moisan wrote:
+> Added new info for tinylogin.
 >
-> test-install-makefile.patch: install unit tests for test purpose
->
-> Add tests and tests-dbg package.
->
-> Signed-off-by: Yao Zhao <yao.zhao@windriver.com>
+> Signed-off-by: Radu Moisan <radu.moisan@intel.com>
 > ---
->   .../dbus-glib-0.98/test-install-makefile.patch     |   48 ++++++++++++++++++++
->   meta/recipes-core/dbus/dbus-glib.inc               |   14 +++++-
->   2 files changed, 61 insertions(+), 1 deletion(-)
->   create mode 100644 meta/recipes-core/dbus/dbus-glib-0.98/test-install-makefile.patch
+>   .../conf/distro/include/upstream_tracking.inc      |    3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
 >
-> diff --git a/meta/recipes-core/dbus/dbus-glib-0.98/test-install-makefile.patch b/meta/recipes-core/dbus/dbus-glib-0.98/test-install-makefile.patch
-> new file mode 100644
-> index 0000000..2e8e178
-> --- /dev/null
-> +++ b/meta/recipes-core/dbus/dbus-glib-0.98/test-install-makefile.patch
-> @@ -0,0 +1,48 @@
-> +Change Makefile.am to install regression tests for test package purpose.
-> +
-> +Upstream-Status: Inappropriate [test not install is for purpose from upstream]
-> +
-> +Signed-off-by: Yao Zhao <yao.zhao@windriver.com>
-> +
-> +diff --git a/test/Makefile.am b/test/Makefile.am
-> +index 7ba11a8..249f0e7 100644
-> +--- a/test/Makefile.am
-> ++++ b/test/Makefile.am
-> +@@ -13,7 +13,8 @@ else
-> + TEST_BINARIES=
-> + endif
-> +
-> +-noinst_PROGRAMS= $(TEST_BINARIES)
-> ++testdir = $(datadir)/@PACKAGE@/tests
-> ++test_PROGRAMS= $(TEST_BINARIES)
-> +
-> + test_service_SOURCES=				\
-> + 	test-service.c
-> +diff --git a/test/interfaces/Makefile.am b/test/interfaces/Makefile.am
-> +index 3cb2c39..e6de67d 100644
-> +--- a/test/interfaces/Makefile.am
-> ++++ b/test/interfaces/Makefile.am
-> +@@ -39,7 +39,8 @@ if DBUS_BUILD_TESTS
-> +
-> + ## we use noinst_PROGRAMS not check_PROGRAMS for TESTS so that we
-> + ## build even when not doing "make check"
-> +-noinst_PROGRAMS = test-service test-client
-> ++testdir = $(datadir)/@PACKAGE@/tests/interfaces
-> ++test_PROGRAMS = test-service test-client
-> +
-> + test_service_SOURCES = \
-> + 	test-interfaces.c \
-> +diff --git a/test/core/Makefile.am b/test/core/Makefile.am
-> +index ef6cb26..9786c3a 100644
-> +--- a/test/core/Makefile.am
-> ++++ b/test/core/Makefile.am
-> +@@ -46,7 +46,8 @@ endif
-> +
-> + ## we use noinst_PROGRAMS not check_PROGRAMS for TESTS so that we
-> + ## build even when not doing "make check"
-> +-noinst_PROGRAMS = \
-> ++testdir = $(datadir)/@PACKAGE@/tests/core
-> ++test_PROGRAMS = \
-> + 	test-dbus-glib \
-> + 	test-service-glib \
-> + 	$(THREAD_APPS) \
-> diff --git a/meta/recipes-core/dbus/dbus-glib.inc b/meta/recipes-core/dbus/dbus-glib.inc
-> index f554ce8..a8e6d42 100644
-> --- a/meta/recipes-core/dbus/dbus-glib.inc
-> +++ b/meta/recipes-core/dbus/dbus-glib.inc
-> @@ -13,15 +13,21 @@ DEPENDS_virtclass-native = "glib-2.0-native dbus-native"
->   SRC_URI = "http://dbus.freedesktop.org/releases/dbus-glib/dbus-glib-${PV}.tar.gz \
->              file://no-examples.patch \
->              file://test-service-glib-include-glib-only.patch \
-> +           file://test-install-makefile.patch \
->   "
->
->   inherit autotools pkgconfig gettext
->
-> +#default disable regression tests, some unit test code in non testing code
-> +#PACKAGECONFIG_pn-${PN} = "tests" enable regression tests local.conf
-> +PACKAGECONFIG ??= ""
-> +PACKAGECONFIG[tests] = "--enable-tests,,,"
-> +
->   EXTRA_OECONF = "--with-introspect-xml=${STAGING_DATADIR_NATIVE}/dbus/dbus-bus-introspect.xml \
->                   --with-dbus-binding-tool=${STAGING_BINDIR_NATIVE}/dbus-binding-tool"
->   EXTRA_OECONF_virtclass-native = "--with-introspect-xml=${STAGING_DATADIR_NATIVE}/dbus/dbus-bus-introspect.xml"
->
-> -PACKAGES += "${PN}-bash-completion"
-> +PACKAGES += "${PN}-bash-completion ${PN}-tests-dbg ${PN}-tests"
->
->   FILES_${PN} = "${libdir}/lib*${SOLIBS}"
->   FILES_${PN}-bash-completion = "${sysconfdir}/bash_completion.d/dbus-bash-completion.sh \
-> @@ -29,4 +35,10 @@ FILES_${PN}-bash-completion = "${sysconfdir}/bash_completion.d/dbus-bash-complet
->   FILES_${PN}-dev += "${libdir}/dbus-1.0/include ${bindir}/dbus-glib-tool"
->   FILES_${PN}-dev += "${bindir}/dbus-binding-tool"
->
-> +RDEPENDS_${PN}-tests += "dbus-x11"
-> +FILES_${PN}-tests = "${datadir}/${PN}/tests"
-> +FILES_${PN}-tests-dbg = "${datadir}/${PN}/tests/.debug/* \
-> +                         ${datadir}/${PN}/tests/core/.debug/* \
-> +                         ${datadir}/${PN}/tests/interfaces/.debug/*"
-> +
->   BBCLASSEXTEND = "native"
+> diff --git a/meta-yocto/conf/distro/include/upstream_tracking.inc b/meta-yocto/conf/distro/include/upstream_tracking.inc
+> index e795895..98e7d16 100644
+> --- a/meta-yocto/conf/distro/include/upstream_tracking.inc
+> +++ b/meta-yocto/conf/distro/include/upstream_tracking.inc
+> @@ -941,8 +941,9 @@ CHECK_DATE_pn-tiff = "Feb 27, 2012"
+>   RECIPE_UPSTREAM_VERSION_pn-time = "1.7"
+>   RECIPE_UPSTREAM_DATE_pn-time = "Jul 01, 1996"
+>   RECIPE_UPSTREAM_VERSION_pn-tinylogin = "1.4"
+> -CHECK_DATE_pn-tinylogin = "Dec 24, 2011"
+> +CHECK_DATE_pn-tinylogin = "Jul 19, 2012"
+>   RECIPE_UPSTREAM_DATE_pn-tinylogin = "Jan 03, 2003"
+> +RECIPE_NO_UPDATE_REASON_pn-tinylogin = "TinyLogin was merged into BusyBox."
+>   RECIPE_UPSTREAM_DATE_pn-trace-cmd = "Nov 7, 2011"
+>   RECIPE_UPSTREAM_VERSION_pn-transfig = "3.2.5d"
+>   RECIPE_UPSTREAM_DATE_pn-transfig = "Jul 23, 2010"
 >
 
-Merged into OE-Core
+Merged into Poky/Master
+
+In the future changes to meta-yocto should go to poky@yoctoproject.org
 
 Thanks
 	Sau!
-
-
 
 
