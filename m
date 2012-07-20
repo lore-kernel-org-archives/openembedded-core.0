@@ -1,32 +1,27 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <joe.slater@windriver.com>) id 1Ss3ci-00080D-7d
+	(envelope-from <sgw@linux.intel.com>) id 1Ss4TY-0000Pk-LG
 	for openembedded-core@lists.openembedded.org;
-	Fri, 20 Jul 2012 05:11:24 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q6K1fha8018548
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Jul 2012 18:41:44 -0700 (PDT)
-Received: from ALA-MBB.corp.ad.wrs.com ([169.254.2.203]) by
-	ALA-HCA.corp.ad.wrs.com ([147.11.189.40]) with mapi id 14.01.0255.000;
-	Thu, 19 Jul 2012 18:41:42 -0700
-From: "Slater, Joseph" <joe.slater@windriver.com>
+	Fri, 20 Jul 2012 06:06:00 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 19 Jul 2012 20:54:37 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="181037096"
+Received: from unknown (HELO [10.255.12.214]) ([10.255.12.214])
+	by fmsmga001.fm.intel.com with ESMTP; 19 Jul 2012 20:54:36 -0700
+Message-ID: <5008D67C.6020509@linux.intel.com>
+Date: Thu, 19 Jul 2012 20:54:36 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:13.0) Gecko/20120615 Thunderbird/13.0.1
+MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] modifying inittab (for example)
-Thread-Index: Ac1lO3LorVUQ50xMRU6biMXWSeTsigAbkMIAABtmyaA=
-Date: Fri, 20 Jul 2012 01:41:42 +0000
-Message-ID: <007BD92917A2324FA403BCF9A464CF841FF715DA@ALA-MBB.corp.ad.wrs.com>
-References: <007BD92917A2324FA403BCF9A464CF841FF701EF@ALA-MBB.corp.ad.wrs.com>
-	<20120719052624.GB3331@jama.jama.net>
-In-Reply-To: <20120719052624.GB3331@jama.jama.net>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [147.11.152.80]
-MIME-Version: 1.0
-Subject: Re: modifying inittab (for example)
+References: <20120717141241.GA21603@windriver.com> <5890853.sDQ4cHnidx@helios>
+	<20120717143034.GA21707@windriver.com>
+In-Reply-To: <20120717143034.GA21707@windriver.com>
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
+Subject: Re: [PATCH] busybox: busybox wget -P option ignored
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,73 +36,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Jul 2012 03:11:24 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 20 Jul 2012 04:06:00 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
+On 07/17/2012 07:30 AM, Amy Fong wrote:
+> busybox wget testing fails
+>
+> In cases where busybox wget is invoked with -P <...> and the url ends
+> in "/", the download directory is ignored (ie the file index.html is
+> implied), this change enables the -P option for those urls.
+>
+> Signed-off-by: Amy Fong <amy.fong@windriver.com>
+> ---
+>   busybox-1.19.4/wget_dl_dir_fix.patch |   30 ++++++++++++++++++++++++++++++
+>   busybox_1.19.4.bb                    |    3 ++-
+>   2 files changed, 32 insertions(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-core/busybox/busybox-1.19.4/wget_dl_dir_fix.patch b/meta/recipes-core/busybox/busybox-1.19.4/wget_dl_dir_fix.patch
+> new file mode 100644
+> index 0000000..3003965
+> --- /dev/null
+> +++ b/meta/recipes-core/busybox/busybox-1.19.4/wget_dl_dir_fix.patch
+> @@ -0,0 +1,30 @@
+> +In cases where busybox wget is invoked with -P <...> and the url ends
+> +in "/", the download directory is ignored (ie the file index.html is
+> +implied), this change enables the -P option for those urls.
+> +
+> +Signed-off-by: Amy Fong <amy.fong@windriver.com>
+> +Upstream-Status: Submitted
+> +---
+> + networking/wget.c |   10 +++++++---
+> + 1 file changed, 7 insertions(+), 3 deletions(-)
+> +
+> +--- a/networking/wget.c
+> ++++ b/networking/wget.c
+> +@@ -589,10 +589,14 @@
+> + 	if (!(option_mask32 & WGET_OPT_OUTNAME)) {
+> + 		G.fname_out = bb_get_last_path_component_nostrip(target.path);
+> + 		/* handle "wget http://kernel.org//" */
+> +-		if (G.fname_out[0] == '/' || !G.fname_out[0])
+> +-			G.fname_out = (char*)"index.html";
+> ++		if (G.fname_out[0] == '/' || !G.fname_out[0]) {
+> ++			/* bug: if we provide a default name, we should still look at -P option */
+> ++			if (G.dir_prefix)
+> ++				G.fname_out = fname_out_alloc = concat_path_file(G.dir_prefix, "index.html");
+> ++			else
+> ++				G.fname_out = (char*)"index.html";
+> + 		/* -P DIR is considered only if there was no -O FILE */
+> +-		else {
+> ++		} else {
+> + 			if (G.dir_prefix)
+> + 				G.fname_out = fname_out_alloc = concat_path_file(G.dir_prefix, G.fname_out);
+> + 			else {
+> diff --git a/meta/recipes-core/busybox/busybox_1.19.4.bb b/meta/recipes-core/busybox/busybox_1.19.4.bb
+> index 5b3f356..8a06497 100644
+> --- a/meta/recipes-core/busybox/busybox_1.19.4.bb
+> +++ b/meta/recipes-core/busybox/busybox_1.19.4.bb
+> @@ -1,5 +1,5 @@
+>   require busybox.inc
+> -PR = "r7"
+> +PR = "r8"
+>
+>   SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
+>              file://B921600.patch \
+> @@ -8,6 +8,7 @@ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
+>              file://run-parts.in.usr-bin.patch \
+>              file://watch.in.usr-bin.patch \
+>              file://busybox-udhcpc-no_deconfig.patch \
+> +           file://wget_dl_dir_fix.patch \
+>              file://find-touchscreen.sh \
+>              file://busybox-cron \
+>              file://busybox-httpd \
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+>
 
+Merged into OE-Core
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedd=
-ed-core-
-> bounces@lists.openembedded.org] On Behalf Of Martin Jansa
-> Sent: Wednesday, July 18, 2012 10:26 PM
-> To: Patches and discussions about the oe-core layer
-> Subject: Re: [OE-core] modifying inittab (for example)
->=20
-> On Wed, Jul 18, 2012 at 11:29:43PM +0000, Slater, Joseph wrote:
-> > Suppose we want to boot to different runlevels for different images.  W=
-e could modify
-> the default inittab
-> > to reflect that.  We could modify it in various ways, but I don't think=
- the exact
-> mechanism much matters.
-> >
-> > What is an interesting question is WHEN we modify it.
-> >
-> > One way would be to  have a small piece of code and invoke it during im=
-age creation
-> using
-> > something like
-> >
-> > ROOTFS_POSTPROCESS_COMMAND +=3D "sato_image_pp ; "
-> >
-> > in our sato-image.bb recipe.  This doesn't require creating any new fea=
-tures.
->=20
-> This doesn't work very well for images with package management, when user
-> upgrades installed packages, he can get new sysvinit-inittab which will
-> reset runlevel in all types of images to same value.
-
-In this particular case, I found there is a CONFFILES set in the recipe tha=
-t prohibits
-updating inittab when updating the package using package management (if you=
-'re lucky).
-
-I have to admit that there are more of these "variables" lying around than =
-a simple mind
-would imagine.
-
-Joe
-
->=20
-> > But, we could also do it when we build sysvinit-inittab.  I think, if w=
-e did that, we
-> would need a feature,
-> > probably a DISTRO_FEATURE, that was set in some conf file.
->=20
-> This doesn't work too, if you have just one sysvinit-inittab recipe then
-> it's used for all images -> so again same runlevel in all.
->=20
-> > Is there a preference for one way or the other?
->=20
-> You can create different inittab recipes for each runlevel you want and
-> then make sure that only right inittab package is pulled to each image.
->=20
-> Cheers,
->=20
-> --
-> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+Thanks
+	Sau!
 
 
