@@ -1,61 +1,37 @@
-Received: from co1ehsobe001.messaging.microsoft.com ([216.32.180.184]
-	helo=co1outboundpool.messaging.microsoft.com)
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1SsEbW-0000Cj-LU
-	for openembedded-core@lists.openembedded.org;
-	Fri, 20 Jul 2012 16:54:55 +0200
-Received: from mail7-co1-R.bigfish.com (10.243.78.232) by
-	CO1EHSOBE004.bigfish.com (10.243.66.67) with Microsoft SMTP Server id
-	14.1.225.23; Fri, 20 Jul 2012 14:43:30 +0000
-Received: from mail7-co1 (localhost [127.0.0.1])	by mail7-co1-R.bigfish.com
-	(Postfix) with ESMTP id 650FBD00445;
-	Fri, 20 Jul 2012 14:43:30 +0000 (UTC)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-X-SpamScore: -3
-X-BigFish: VS-3(zzbb2dI98dI9371I1432Izz1202hzz8275bh8275dhz2dh2a8h668h839h8e2h8e3hf0ah107ah10d2hbe9i)
-Received: from mail7-co1 (localhost.localdomain [127.0.0.1]) by mail7-co1
-	(MessageSwitch) id 1342795409327849_22312;
-	Fri, 20 Jul 2012 14:43:29 +0000 (UTC)
-Received: from CO1EHSMHS012.bigfish.com (unknown [10.243.78.254])	by
-	mail7-co1.bigfish.com (Postfix) with ESMTP id 4207A660091;
-	Fri, 20 Jul 2012 14:43:29 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by CO1EHSMHS012.bigfish.com
-	(10.243.66.22) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Fri, 20 Jul 2012 14:43:28 +0000
-Received: from 039-SN1MPN1-002.039d.mgd.msft.net ([169.254.2.109]) by
-	039-SN1MMR1-001.039d.mgd.msft.net ([10.84.1.13]) with mapi id
-	14.02.0298.005; Fri, 20 Jul 2012 09:43:27 -0500
-From: McClintock Matthew-B29882 <B29882@freescale.com>
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1SsExp-0000uS-LK for openembedded-core@lists.openembedded.org;
+	Fri, 20 Jul 2012 17:17:57 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6KF6ZfP013043
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 20 Jul 2012 16:06:35 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 09727-08 for <openembedded-core@lists.openembedded.org>;
+	Fri, 20 Jul 2012 16:06:30 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6KF6QtT013037
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 20 Jul 2012 16:06:28 +0100
+Message-ID: <1342796791.21788.30.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>, Scott Garman
-	<scott.a.garman@intel.com>, Khem Raj <raj.khem@gmail.com>, Liu Ting-B28495
-	<B28495@freescale.com>
-Thread-Topic: [OE-core] [oe-core] linux-dtb: add multi-dtb build support
-Thread-Index: AQHNWtwtIn2bs/LK9UedJs65xGih+A==
-Date: Fri, 20 Jul 2012 14:43:26 +0000
-Message-ID: <CAEsOVNfn0+nzcmJAgHKk1Ei44BAZjxHw4AtVK9n7PasUMqSqgg@mail.gmail.com>
-References: <1340682796-11569-1-git-send-email-b19537@freescale.com>
-	<4FEC908A.3000205@linux.intel.com>
-	<CAEsOVNerdO8m=0LHYUy8sn+6W=aOiEQS18vOQy8DYqWQeDxA+Q@mail.gmail.com>
-	<4FF5F219.8000103@intel.com>
-	<CAEsOVNf0s+QBs_NYiquUTU8zew052PKx6uEwUEwPBBHzbnVLUA@mail.gmail.com>
-	<4FF60815.4040909@intel.com>
-	<CAEsOVNeMe1CQEj4V6et+uUsEct0HEETLs6yFL03YteBQyywT_A@mail.gmail.com>
-	<4FF6101C.1070104@intel.com>
-In-Reply-To: <4FF6101C.1070104@intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [70.112.201.132]
-MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Subject: Re: linux-dtb: add multi-dtb build support
+	<openembedded-core@lists.openembedded.org>
+Date: Fri, 20 Jul 2012 16:06:31 +0100
+In-Reply-To: <D9D7124626ED1E43963D86B2657D5CCD03A17BC8@FRSNPREXC1.usr.ingenico.loc>
+References: <D9D7124626ED1E43963D86B2657D5CCD03A17BC8@FRSNPREXC1.usr.ingenico.loc>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: Broken gettext/gdbm
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
-	Patches and discussions about the oe-core layer
+Reply-To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -66,112 +42,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Jul 2012 14:54:55 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <EF45549558E8AB48A1CC58A0F9DA4B96@mgd.freescale.com>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 20 Jul 2012 15:17:57 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Thu, Jul 5, 2012 at 5:07 PM, Scott Garman <scott.a.garman@intel.com> wro=
-te:
-> On 07/05/2012 02:37 PM, McClintock Matthew-B29882 wrote:
->>
->> On Thu, Jul 5, 2012 at 4:33 PM, Scott Garman <scott.a.garman@intel.com>
->> wrote:
->>>
->>> On 07/05/2012 01:52 PM, McClintock Matthew-B29882 wrote:
->>>>
->>>>
->>>> On Thu, Jul 5, 2012 at 2:59 PM, Scott Garman <scott.a.garman@intel.com=
->
->>>> wrote:
->>>>>
->>>>>
->>>>> On 07/05/2012 11:29 AM, McClintock Matthew-B29882 wrote:
->>>>>>
->>>>>>
->>>>>>
->>>>>> Can we add this to denzil branch? (post 1.2.1 is fine) - I realize
->>>>>> this is somewhat a new feature though but it would be helpful to hav=
-e
->>>>>> it in denzil.
->>>>>
->>>>>
->>>>>
->>>>>
->>>>> Ok, I've now created a contrib branch to start tracking changes for
->>>>> 1.2.2,
->>>>> and have included this commit:
->>>>>
->>>>>
->>>>>
->>>>> http://git.openembedded.org/openembedded-core-contrib/log/?h=3Dsgarma=
-n/denzil-next-1.2.2
->>>>>
->>>>> The usual caveats apply - I can rebase this branch at any time, etc.
->>>>
->>>>
->>>>
->>>> Are you missing a patch on this series? ChecksumError class does not
->>>> exist...
->>>>
->>>> commit 2f009e5b?
->>>
->>>
->>>
->>> What is the title of that commit? I'm not seeing it.
->>
->>
->> $ git show 2f009e5b
->> commit 2f009e5b1e4e0a4148ab7d5c60bf0e7a193faa2e
->> Author: Richard Purdie <richard.purdie@linuxfoundation.org>
->> Date:   Sun May 13 12:00:45 2012 +0000
->>
->>      bitbake/fetch2: Improve visibility of checksum warnings when
->> fetching from mirrors
->>
->>      When fetching from mirrors, checksum errors would get buried in the
->>      logs. This raises their profile so a warning is logged on the conso=
-le
->>      when fetcher checksum issues are encountered, even if other attempt=
-s
->>      are made to get the file (which may or may not have the same issue)=
-.
->>
->>      (Bitbake rev: d43fafd7f01b5534499b45213197d8ccececdbc4)
->>
->>      Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->
->
-> Ok, this applies then to the poky-based tree, not the oe-core one.
->
-> I just tried merging this in but I get conflicts with one of Khem's patch=
-es.
-> I'm leaving imminently for vacation so I will take a closer look at this
-> early next week.
+On Fri, 2012-07-20 at 15:10 +0200, Matthieu CRAPET wrote:
+> Greetings,
+> 
+> I updated my OE-core and bitbake today (2012.07.20). Build from scratch
+> fails:
+> 
+> <code>
+> NOTE: package gdbm-1.10-r3: task do_configure: Started
+> ERROR: Function failed: do_configure (see
+> /home/.../build/tmp-eglibc/work/armv5te-ing-linux-gnueabi/gdbm-1.10-r3/t
+> emp/log.do_configure.31222 for further information)
+> ERROR: Logfile of failure stored in:
+> /home/.../build/tmp-eglibc/work/armv5te-ing-linux-gnueabi/gdbm-1.10-r3/t
+> emp/log.do_configure.31222
+> Log data follows:
+> | DEBUG: Executing python function sysroot_cleansstate
+> | DEBUG: Python function sysroot_cleansstate finished
+> | DEBUG: SITE files ['endian-little', 'bit-32', 'arm-common',
+> 'common-linux', 'common-glibc', 'arm-linux', 'arm-linux-gnueabi',
+> 'common']
+> | DEBUG: Executing shell function do_configure
+> | automake (GNU automake) 1.12.1
+> | Copyright (C) 2012 Free Software Foundation, Inc.
+> | License GPLv2+: GNU GPL version 2 or later
+> <http://gnu.org/licenses/gpl-2.0.html>
+> | This is free software: you are free to change and redistribute it.
+> | There is NO WARRANTY, to the extent permitted by law.
+> |
+> | Written by Tom Tromey <tromey@redhat.com>
+> |        and Alexandre Duret-Lutz <adl@gnu.org>.
+> | AUTOV is 1.12
+> | cp: cannot stat
+> `/home/.../build/tmp-eglibc/sysroots/rp02/usr/share/gettext/config.rpath
+> ': No such file or directory
+> | ERROR: Function failed: do_configure (see
+> /home/.../build/tmp-eglibc/work/armv5te-ing-linux-gnueabi/gdbm-1.10-r3/t
+> emp/log.do_configure.31222 for further information)
+> NOTE: package gdbm-1.10-r3: task do_configure: Failed
+> </code>
+> 
+> gdbm needs gettext to have config.rpath. But gettext is not built, but
+> gettext-native & gettext-minimal-native are built.
+> 
+> Issue comes from  "meta/classes/autotools.bbclass":
+> 
+> <code>
+>         else if grep "^[[:space:]]*AM_GNU_GETTEXT" $CONFIGURE_AC
+> >/dev/null; then
+>                             # We'd call gettextize here if it wasn't so
+> broken...
+>           cp ${STAGING_DATADIR}/gettext/config.rpath
+> ${AUTOTOOLS_AUXDIR}/
+> </code>
+> 
+> What would be the best workaround to take config.rpath from
+> gettext-native?
 
-Scott,
+This is odd since gdbm inherits gettext and therefore should have a
+DEPENDS on virtual/gettext. gettext should therefore have been built.
 
-Any update on the missing ChecksumError class?
+Any idea why gettext wasn't built?
 
--M
+bitbake gdbm -e | grep ^DEPENDS
 
+shows virtual/gettext here...
 
->
->
-> Scott
->
-> --
-> Scott Garman
-> Embedded Linux Engineer - Yocto Project
-> Intel Open Source Technology Center
->
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core=
+Cheers,
+
+Richard
 
 
 
