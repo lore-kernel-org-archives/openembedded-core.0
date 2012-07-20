@@ -1,33 +1,33 @@
-Received: from mail-we0-f175.google.com ([74.125.82.175])
+Received: from mail-yw0-f47.google.com ([209.85.213.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <manuel.bessler@gmail.com>) id 1SsGVG-0003KQ-3H
+	(envelope-from <otavio.salvador@gmail.com>) id 1SsGvW-0004Di-6h
 	for openembedded-core@lists.openembedded.org;
-	Fri, 20 Jul 2012 18:56:34 +0200
-Received: by weyr6 with SMTP id r6so2667343wey.6
+	Fri, 20 Jul 2012 19:23:42 +0200
+Received: by yhjj56 with SMTP id j56so3914828yhj.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jul 2012 09:45:10 -0700 (PDT)
+	Fri, 20 Jul 2012 10:12:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type; bh=tCnFre0txk4I49OebAYFNNWJKM81CRNgW9cyPDdLpQc=;
-	b=unJdYWzMADDi2de4c3O6ZJ4UQtCcwRrLbF2rm6zwqpGmQIZbpUF2toGqMMU0wM4Saw
-	VVQjMRLVvM3tB62nLed/NeOg9fc44nPAWYoDfTbDXMMNPRqsrYybq+C0FWN6h9Xb70iC
-	XaI5bJKeZDp6v09aMU4FNU2RDdKq6GKzRhL7/+XbsjE40mAAcCarEA364H37CnSF3OZs
-	8TojGchB1EC1y5zipQr6vo2uqBXMPnbbG6wgQZGKxeDlvDj4SMOnZ5Z6LJt/GnLRM1Wd
-	ZoPcY4ayXrKe6VFmJ4EH16v+HEaujmo6XMXUNjsFI+kkqUpJhk+nBRWcCje/gcpj3Y6O
-	O6Qg==
-MIME-Version: 1.0
-Received: by 10.216.198.10 with SMTP id u10mr4123845wen.80.1342802710618; Fri,
-	20 Jul 2012 09:45:10 -0700 (PDT)
-Received: by 10.216.93.142 with HTTP; Fri, 20 Jul 2012 09:45:10 -0700 (PDT)
-In-Reply-To: <50087A5B.9030905@windriver.com>
-References: <CAKSdS8L32A5wB4fzuc-EQTBX9_GXLhLO_gt4HgzgJk=UC+XZKw@mail.gmail.com>
-	<50087A5B.9030905@windriver.com>
-Date: Fri, 20 Jul 2012 12:45:10 -0400
-Message-ID: <CAKSdS8LB0=8RieBGJSAyxyw9APPEksCKZ1WVz0EWwMZ49-SRow@mail.gmail.com>
-From: Manuel Bessler <manuel.bessler@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: meta-toolchain type SDK containing external toolchain possible?
+	h=sender:from:to:cc:subject:date:message-id:x-mailer;
+	bh=pNxOgfrNP/EiIYhNvXF18fcAfwnqWYnoP7dFobviqXs=;
+	b=Lwn/td64CVsu43MMQc5IZyRtLKImmwsAC37PBdbAFRkRW8b1/Aw4BkNMTlM8sQqMpo
+	9QEZ3k54nbewSV0GoURVodGb5g/RhHD14QBcYYK9ol+F2W+IV5MFkXJPpknfaVyedSRC
+	8zQest/35oXgcbIYvkpFJ0ImF7l4Zi0d32UbZbjsV+StscHViTNK5sawrokSNeZMFeKb
+	YZUVSCnYpMwKyZS2nNCssS4Obz3CtDXImiTzA5vFG74conWsKLcIz12I98WlyWqE9rsn
+	KjTFpQ38RC9TjWxMRM8GpgS0J2sehQjsGZZ6XX+0gUFvSJN+7EEgDycCc8tR/hHgBxCn
+	nZhw==
+Received: by 10.236.173.34 with SMTP id u22mr6291525yhl.100.1342804338342;
+	Fri, 20 Jul 2012 10:12:18 -0700 (PDT)
+Received: from localhost.localdomain ([177.100.163.15])
+	by mx.google.com with ESMTPS id u23sm10411397yhl.21.2012.07.20.10.12.16
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 20 Jul 2012 10:12:17 -0700 (PDT)
+Sender: Otavio Salvador <otavio.salvador@gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 20 Jul 2012 14:12:08 -0300
+Message-Id: <1342804329-5791-1-git-send-email-otavio@ossystems.com.br>
+X-Mailer: git-send-email 1.7.2.5
+Subject: [PATCH 1/2] bash: enable parallel build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,54 +42,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Jul 2012 16:56:34 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Fri, 20 Jul 2012 17:23:42 -0000
 
-Hi Mark,
+I've build it several times in a 8 core machine without problem so it
+seems safe to use parallel build now.
 
-On Thu, Jul 19, 2012 at 5:21 PM, Mark Hatle <mark.hatle@windriver.com> wrote:
-> On 7/19/12 3:13 PM, Manuel Bessler wrote:
->> Is it possible to setup my toolchain such that it will be part of the
->> SDK package instead of the default {gcc,binutils}-cross-canadian?
->
->
-> It is possible, but the external toolchain needs to be provided via a
-> crosssdk/cross-canadian binary.  The external-csl-toolchain.bb can be used
-> as a model for how to do this.
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
+ meta/recipes-extended/bash/bash.inc    |    2 --
+ meta/recipes-extended/bash/bash_4.2.bb |    2 +-
+ 2 files changed, 1 insertions(+), 3 deletions(-)
 
-What do you mean by "via a crosssdk/cross-canadian binary"? Built by
-bitbake using the *-cross-canadian recipes?
+diff --git a/meta/recipes-extended/bash/bash.inc b/meta/recipes-extended/bash/bash.inc
+index ff9b0ce..6d7e930 100644
+--- a/meta/recipes-extended/bash/bash.inc
++++ b/meta/recipes-extended/bash/bash.inc
+@@ -9,8 +9,6 @@ DEPENDS = "ncurses bison-native"
+ 
+ inherit autotools gettext update-alternatives
+ 
+-PARALLEL_MAKE = ""
+-
+ bindir = "/bin"
+ sbindir = "/sbin"
+ 
+diff --git a/meta/recipes-extended/bash/bash_4.2.bb b/meta/recipes-extended/bash/bash_4.2.bb
+index e96709a..a28279e 100644
+--- a/meta/recipes-extended/bash/bash_4.2.bb
++++ b/meta/recipes-extended/bash/bash_4.2.bb
+@@ -1,6 +1,6 @@
+ require bash.inc
+ 
+-PR = "r2"
++PR = "r3"
+ 
+ SRC_URI = "${GNU_MIRROR}/bash/${BPN}-${PV}.tar.gz;name=tarball \
+            ${GNU_MIRROR}/bash/bash-4.2-patches/bash42-001;apply=yes;striplevel=0;name=patch001 \
+-- 
+1.7.2.5
 
-
-
-> For my stuff I did;
->
-> PREFERRED_PROVIDER_binutils-cross-canadian-${TRANSLATED_TARGET_ARCH} =
-> "external-csl-toolchain-cross-canadian-${TRANSLATED_TARGET_ARCH}"
->
-> PREFERRED_PROVIDER_gcc-cross-canadian-${TRANSLATED_TARGET_ARCH} =
-> "external-csl-toolchain-cross-canadian-${TRANSLATED_TARGET_ARCH}"
->
-> PREFERRED_PROVIDER_gdb-cross-canadian-${TRANSLATED_TARGET_ARCH} =
-> "external-csl-toolchain-cross-canadian-${TRANSLATED_TARGET_ARCH}"
->
->
->
->> That alone did not change anything.
->>
->> Then I tried adding the following to
->> recipes-core/meta/external-xxx-toolchain_4.5.3.bb in my layer:
->> PROVIDES += " gcc-cross-canadian-${TRANSLATED_TARGET_ARCH} "
->> PROVIDES += " binutils-cross-canadian-${TRANSLATED_TARGET_ARCH} "
->
->
-> Within the external-cs-toolchain-cross-canadian.bb I had similar provides as
-> well..
-
-So you have a separate recipe to satisfy cross-canadian ? I tried
-finding this file but had no luck...
-
-Thanks,
-Manuel
 
 
