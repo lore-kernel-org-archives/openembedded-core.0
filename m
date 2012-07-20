@@ -1,41 +1,23 @@
-Received: from mail.cvg.de ([62.153.82.30])
+Received: from smtp1.ingenico.com ([217.108.148.240])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1SsCkh-0003mr-NV
+	(envelope-from <Matthieu.CRAPET@ingenico.com>) id 1SsDB1-000770-1w
 	for openembedded-core@lists.openembedded.org;
-	Fri, 20 Jul 2012 14:56:15 +0200
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id q6KCioqZ028433
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jul 2012 14:44:52 +0200
-Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
-	4.76) (envelope-from <ensc@sigma-chemnitz.de>) id 1SsCZe-0001So-8P
-	for openembedded-core@lists.openembedded.org;
-	Fri, 20 Jul 2012 14:44:50 +0200
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-To: openembedded-core@lists.openembedded.org
-References: <lyk3xy7mlu.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<20120720104117.GE3534@jama.jama.net> <1342782398.21788.7.camel@ted>
-	<ly629i7inz.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<1342785890.21788.10.camel@ted>
-	<ly1uk67hna.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<1342787283.21788.13.camel@ted>
-Date: Fri, 20 Jul 2012 14:44:50 +0200
-In-Reply-To: <1342787283.21788.13.camel@ted> (Richard Purdie's message of
-	"Fri, 20 Jul 2012 13:28:03 +0100")
-Message-ID: <lywr1y61q5.fsf@ensc-virt.intern.sigma-chemnitz.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.1 (gnu/linux)
+	Fri, 20 Jul 2012 15:23:27 +0200
+X-IronPort-AV: E=Sophos;i="4.77,623,1336341600"; d="scan'208";a="13337783"
+Received: from frsnprexc1.usr.ingenico.loc ([10.23.2.11])
+	by antispam1.usr.ingenico.loc with ESMTP; 20 Jul 2012 15:10:56 +0200
+X-MimeOLE: Produced By Microsoft Exchange V6.5
 MIME-Version: 1.0
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-X-DSPAM-Result: Innocent
-X-DSPAM-Probability: 0
-X-DSPAM-Confidence: 0.99
-X-Spam-Score: -5.2
-X-Spam-Level: -----
-X-Spam-Tests: AWL,BAYES_00,SPF_NEUTRAL,T_RP_MATCHES_RCVD,DSPAM_INNOCENT
-X-Scanned-By: MIMEDefang 2.73
-Subject: Re: Broken parallel build of gcc*
+Date: Fri, 20 Jul 2012 15:10:55 +0200
+Message-ID: <D9D7124626ED1E43963D86B2657D5CCD03A17BC8@FRSNPREXC1.usr.ingenico.loc>
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+Thread-Topic: Broken gettext/gdbm
+Thread-Index: Ac1md/BvJw0tZocSTg6A1Ajz/crgfw==
+From: "Matthieu CRAPET" <Matthieu.CRAPET@ingenico.com>
+To: "Patches and discussions about the oe-core layer"
+	<openembedded-core@lists.openembedded.org>
+Subject: Broken gettext/gdbm
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,39 +32,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Jul 2012 12:56:15 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 20 Jul 2012 13:23:27 -0000
+Content-class: urn:content-classes:message
+Content-Type: text/plain;
+	charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Richard Purdie
-<richard.purdie-hQyY1W1yCW8ekmWlsbkhG0B+6BGkLq7r@public.gmane.org>
-writes:
+Greetings,
 
->> >> Is there a way to exclude such tasks from the signature handling?
->> >
->> > The easiest option is probably something like:
->> >
->> > do_rm_old_works[vardepexclude] = "PN"
->> 
->> I tried this but it is not really an option...
-> 
-> Can you point me at a copy of the class your using and the full diffsigs
-> output please?
+I updated my OE-core and bitbake today (2012.07.20). Build from scratch
+fails:
 
----
-do_rm_old_work() {
-  :
-}
-addtask rm_old_work before do_unpack
----
+<code>
+NOTE: package gdbm-1.10-r3: task do_configure: Started
+ERROR: Function failed: do_configure (see
+/home/.../build/tmp-eglibc/work/armv5te-ing-linux-gnueabi/gdbm-1.10-r3/t
+emp/log.do_configure.31222 for further information)
+ERROR: Logfile of failure stored in:
+/home/.../build/tmp-eglibc/work/armv5te-ing-linux-gnueabi/gdbm-1.10-r3/t
+emp/log.do_configure.31222
+Log data follows:
+| DEBUG: Executing python function sysroot_cleansstate
+| DEBUG: Python function sysroot_cleansstate finished
+| DEBUG: SITE files ['endian-little', 'bit-32', 'arm-common',
+'common-linux', 'common-glibc', 'arm-linux', 'arm-linux-gnueabi',
+'common']
+| DEBUG: Executing shell function do_configure
+| automake (GNU automake) 1.12.1
+| Copyright (C) 2012 Free Software Foundation, Inc.
+| License GPLv2+: GNU GPL version 2 or later
+<http://gnu.org/licenses/gpl-2.0.html>
+| This is free software: you are free to change and redistribute it.
+| There is NO WARRANTY, to the extent permitted by law.
+|
+| Written by Tom Tromey <tromey@redhat.com>
+|        and Alexandre Duret-Lutz <adl@gnu.org>.
+| AUTOV is 1.12
+| cp: cannot stat
+`/home/.../build/tmp-eglibc/sysroots/rp02/usr/share/gettext/config.rpath
+': No such file or directory
+| ERROR: Function failed: do_configure (see
+/home/.../build/tmp-eglibc/work/armv5te-ing-linux-gnueabi/gdbm-1.10-r3/t
+emp/log.do_configure.31222 for further information)
+NOTE: package gdbm-1.10-r3: task do_configure: Failed
+</code>
 
-suffices; the diffsigs difference is caused by different sh environment
-between target, -native and -cross recipes.
+gdbm needs gettext to have config.rpath. But gettext is not built, but
+gettext-native & gettext-minimal-native are built.
 
-I solved it for now by modifying sstatesig.py but a more generic way
-would be nice.
+Issue comes from  "meta/classes/autotools.bbclass":
 
+<code>
+        else if grep "^[[:space:]]*AM_GNU_GETTEXT" $CONFIGURE_AC
+>/dev/null; then
+                            # We'd call gettextize here if it wasn't so
+broken...
+          cp ${STAGING_DATADIR}/gettext/config.rpath
+${AUTOTOOLS_AUXDIR}/
+</code>
 
+What would be the best workaround to take config.rpath from
+gettext-native?
 
-Enrico
+Thanks for support.
+
+Regards,
+Matthieu
 
 
