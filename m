@@ -1,43 +1,34 @@
-Received: from mail-wg0-f43.google.com ([74.125.82.43])
+Received: from mail-qa0-f54.google.com ([209.85.216.54])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1SsCWG-0003aC-Ul
+	(envelope-from <bruce.ashfield@gmail.com>) id 1SsCZ0-0003dX-81
 	for openembedded-core@lists.openembedded.org;
-	Fri, 20 Jul 2012 14:41:21 +0200
-Received: by wgbdr1 with SMTP id dr1so3379132wgb.24
+	Fri, 20 Jul 2012 14:44:10 +0200
+Received: by qaat11 with SMTP id t11so168539qaa.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jul 2012 05:29:57 -0700 (PDT)
+	Fri, 20 Jul 2012 05:32:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=+1T6bNPZAmeW6xvnENEI91BsbdvDGuQ0aNlmwoxp7vw=;
-	b=CB5oRztXLHQSgk0s0qSATo7T7Jdf0u/58N1y+qXD/g5HNgbfTlThHzRr96mqTspZmV
-	BEmvDZws7oVBZMRGFreUtFV7EFNfqrR/jKgxsbTk04POWYirH2QY+Ft6/xAOA3FrpbPO
-	iS0tuCKaEBXaqx1HySKw4pWlp2E8Gr+tPTgyF0za8XJVU8cXlKADoeXHNSs2d2oNoHix
-	Vpyjyeo8IMd29oqccPc/Mg6kn0yYsSdxmcHGMa4jS7YvzQ3j88jzmGzk71E73nHYJiIO
-	GufLxU+pmFVtkfAFOHArManKDZtCE4i+8tDNO12b9ooshfBSbVjhBb2SeZu084etnra9
-	Mzow==
-Received: by 10.216.220.89 with SMTP id n67mr3993256wep.73.1342787397789;
-	Fri, 20 Jul 2012 05:29:57 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id bc2sm14708610wib.0.2012.07.20.05.29.56
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 20 Jul 2012 05:29:56 -0700 (PDT)
-Date: Fri, 20 Jul 2012 14:30:08 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20120720123008.GF3534@jama.jama.net>
-References: <lyk3xy7mlu.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<20120720104117.GE3534@jama.jama.net>
-	<1342782398.21788.7.camel@ted>
-	<ly629i7inz.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<1342785890.21788.10.camel@ted>
-	<ly1uk67hna.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<1342787283.21788.13.camel@ted>
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=VyTDg1u3fNQeQIY8XYyVz3UQr6wFe34BLoIE9ziZZnA=;
+	b=aSitzywHSdWoDCtRi5YfE2K3/Ns2qGqk39Q5flVxW22vzdY111oQlvVg76qqeCHvXz
+	R/Hr4TkRUHzovxen39tH4SM+0QUhuwYVS1aPxfRPwuT+ZQ/dJjpujwfWhlCRJNOFh8/P
+	fJ2DoEyOGnLLtCr0mWrpbv4YYCVuOJGUF5vxyi9wScB2dSogSzre3ePT/NiSSjtlv+px
+	Kmz0V+XmNtLkjM0DJHzs84xqNNMb5njfdf2A8X0/WQolsoVVwwVmX4hklJ0l5IIRU3H7
+	x3JBET6Hwi7spZLRPcCEMwM6C+dNleCdtIvNpZiPFHpkMYd0Y+59F468XPd6zIxZk7CA
+	3odA==
 MIME-Version: 1.0
-In-Reply-To: <1342787283.21788.13.camel@ted>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: Broken parallel build of gcc*
+Received: by 10.229.105.140 with SMTP id t12mr2558453qco.18.1342787566503;
+	Fri, 20 Jul 2012 05:32:46 -0700 (PDT)
+Received: by 10.229.8.78 with HTTP; Fri, 20 Jul 2012 05:32:46 -0700 (PDT)
+In-Reply-To: <1342763803-32218-1-git-send-email-raj.khem@gmail.com>
+References: <1342763803-32218-1-git-send-email-raj.khem@gmail.com>
+Date: Fri, 20 Jul 2012 08:32:46 -0400
+Message-ID: <CADkTA4PTYSPN-rJtoeroFrF93ZLz7dOcaeqL=iMq0rqfoHF+ew@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Koen Kooi <koen@dominion.thruhere.net>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] kernel bbclass: recreate uImage unless KEEPUIMAGE is set
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -52,60 +43,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Jul 2012 12:41:21 -0000
-X-Groupsio-MsgNum: 25852
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="IvGM3kKqwtniy32b"
-Content-Disposition: inline
+X-List-Received-Date: Fri, 20 Jul 2012 12:44:10 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
---IvGM3kKqwtniy32b
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Fri, Jul 20, 2012 at 1:56 AM, Khem Raj <raj.khem@gmail.com> wrote:
+> From: Koen Kooi <koen@dominion.thruhere.net>
+>
+> The intent of the uImage code in this class includes the following
+>
+> 1) be able to specify custom load addresses without needing to patch the kernel
+> 2) add better information to the uImage description field
+>
+> The current state is a NOP anyway, the kernel will always build a uImage when you tell it to 'make uImage'.
+>
+> weakly Set KEEPUIMAGE in default-distrovars.inc which preserve the
+> current OE-Core behavior. Machines which are being ported from oe.dev and need to
+> regenerate uImage can set this to be empty
 
-On Fri, Jul 20, 2012 at 01:28:03PM +0100, Richard Purdie wrote:
-> On Fri, 2012-07-20 at 14:15 +0200, Enrico Scholz wrote:
-> > Richard Purdie
-> > <richard.purdie-hQyY1W1yCW8ekmWlsbkhG0B+6BGkLq7r@public.gmane.org>
-> > writes:
-> >=20
-> > >> Is there a way to exclude such tasks from the signature handling?
-> > >
-> > > The easiest option is probably something like:
-> > >
-> > > do_rm_old_works[vardepexclude] =3D "PN"
-> >=20
-> > I tried this but it is not really an option because there must be added
-> > a lot of completely unrelated variables:
-> >=20
-> >  $ bitbake-diffsigs gcc-runtime*do_rm_old_work.sigdata* libgcc*do_rm_ol=
-d_work.sigdata*
-> >=20
-> >  Dependency on variable gcc_cv_collect2_libs was added
-> >  Variable CPPFLAGS value changed from  to ${TARGET_CPPFLAGS}
-> >=20
-> > (none of these is used within do_rm_old_works).
->=20
-> Can you point me at a copy of the class your using and the full diffsigs
-> output please?
+Fine with me, either with the existing test or the "1" as suggested Koen.
 
-Mine is here
-http://git.shr-project.org/git/?p=3Dmeta-smartphone.git;a=3Dblob;f=3Dmeta-s=
-hr/classes/rm_old_work.bbclass;h=3Ddb13aa677958a52cd2c1b9efd6b90e38eadba41d=
-;hb=3Drefs/heads/shr
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+Acked-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 
---IvGM3kKqwtniy32b
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+>
+> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>  meta/classes/kernel.bbclass                     |    2 +-
+>  meta/conf/distro/include/default-distrovars.inc |    1 +
+>  2 files changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+> index ce4d7de..efe4a9f 100644
+> --- a/meta/classes/kernel.bbclass
+> +++ b/meta/classes/kernel.bbclass
+> @@ -507,7 +507,7 @@ KERNEL_IMAGE_SYMLINK_NAME ?= "${KERNEL_IMAGETYPE}-${MACHINE}"
+>
+>  do_uboot_mkimage() {
+>         if test "x${KERNEL_IMAGETYPE}" = "xuImage" ; then
+> -               if test ! -e arch/${ARCH}/boot/uImage ; then
+> +               if test "x${KEEPUIMAGE}" = "x" ; then
+>                         ENTRYPOINT=${UBOOT_ENTRYPOINT}
+>                         if test -n "${UBOOT_ENTRYSYMBOL}"; then
+>                                 ENTRYPOINT=`${HOST_PREFIX}nm ${S}/vmlinux | \
+> diff --git a/meta/conf/distro/include/default-distrovars.inc b/meta/conf/distro/include/default-distrovars.inc
+> index f770919..7448415 100644
+> --- a/meta/conf/distro/include/default-distrovars.inc
+> +++ b/meta/conf/distro/include/default-distrovars.inc
+> @@ -2,6 +2,7 @@ QA_LOGFILE = "${TMPDIR}/qa.log"
+>
+>  OEINCLUDELOGS ?= "yes"
+>  KERNEL_CONSOLE ?= "ttyS0"
+> +KEEPUIMAGE ?? = "1"
+>
+>  PCMCIA_MANAGER ?= "pcmciautils"
+>
+> --
+> 1.7.9.5
+>
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
 
-iEYEARECAAYFAlAJT1AACgkQN1Ujt2V2gBySegCfbAt/AAGosbP4SAQZzIlSFdVs
-gOcAoI3kNDEuTLNZgsONVkwCOMyHD8DT
-=eeQi
------END PGP SIGNATURE-----
 
---IvGM3kKqwtniy32b--
+-- 
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
+
+
