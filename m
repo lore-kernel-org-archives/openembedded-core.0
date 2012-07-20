@@ -1,38 +1,27 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from masterfoo.zenlinux.com ([207.192.74.254])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <nitin.a.kamble@intel.com>) id 1SsFOZ-0001PM-UE
+	(envelope-from <scott.a.garman@intel.com>) id 1SsFSv-0001Tm-Ro
 	for openembedded-core@lists.openembedded.org;
-	Fri, 20 Jul 2012 17:45:36 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 20 Jul 2012 08:34:11 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="181423489"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.226.49])
-	by fmsmga001.fm.intel.com with ESMTP; 20 Jul 2012 08:34:11 -0700
-Received: from orsmsx104.amr.corp.intel.com (10.22.225.131) by
-	orsmsx603.amr.corp.intel.com (10.22.226.49) with Microsoft SMTP Server
-	(TLS) id 8.2.255.0; Fri, 20 Jul 2012 08:34:11 -0700
-Received: from orsmsx106.amr.corp.intel.com ([169.254.5.44]) by
-	ORSMSX104.amr.corp.intel.com ([169.254.3.210]) with mapi id
-	14.01.0355.002; Fri, 20 Jul 2012 08:34:10 -0700
-From: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
-To: Bruce Ashfield <bruce.ashfield@windriver.com>,
-	"richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>
-Thread-Topic: [PATCH 0/3] linux-yocto: consolidated pull
-Thread-Index: AQHNZostkb89UUEamE+XTvyWPgrk1pcyS5og
-Date: Fri, 20 Jul 2012 15:34:09 +0000
-Message-ID: <ADD6A3980E8C39419A432FF422031B4C0318C688@ORSMSX106.amr.corp.intel.com>
-References: <cover.1342796935.git.bruce.ashfield@windriver.com>
-In-Reply-To: <cover.1342796935.git.bruce.ashfield@windriver.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.22.254.140]
-MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, "Wold,
-	Saul" <saul.wold@intel.com>
-Subject: Re: [PATCH 0/3] linux-yocto: consolidated pull
+	Fri, 20 Jul 2012 17:50:06 +0200
+Received: from localhost (c-76-105-137-48.hsd1.or.comcast.net [76.105.137.48])
+	(using TLSv1 with cipher DHE-RSA-AES128-SHA (128/128 bits))
+	(No client certificate requested)
+	by masterfoo.zenlinux.com (Postfix) with ESMTP id B4E6C3041D
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 20 Jul 2012 11:38:38 -0400 (EDT)
+From: Scott Garman <scott.a.garman@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 20 Jul 2012 08:38:33 -0700
+Message-Id: <cover.1342798565.git.scott.a.garman@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+X-MasterFoo-MailScanner-Information: Please contact the ISP for more
+	information
+X-MailScanner-ID: B4E6C3041D.86D39
+X-MasterFoo-MailScanner: Found to be clean
+X-MasterFoo-MailScanner-SpamCheck: not spam
+X-MasterFoo-MailScanner-From: scott.a.garman@intel.com
+X-Spam-Status: No
+Subject: [PATCH 0/1] openssl upgrade
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,83 +36,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Jul 2012 15:45:36 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 20 Jul 2012 15:50:06 -0000
 
+Hello,
 
+This pull request upgrades openssl to 1.0.0j to address a security
+vulnerability.
 
-> -----Original Message-----
-> From: Bruce Ashfield [mailto:bruce.ashfield@windriver.com]
-> Sent: Friday, July 20, 2012 8:49 PM
-> To: richard.purdie@linuxfoundation.org
-> Cc: Wold, Saul; Zanussi, Tom; Kamble, Nitin A; andrea.adami@gmail.com;
-> rpjday@crashcourse.ca; openembedded-core@lists.openembedded.org
-> Subject: [PATCH 0/3] linux-yocto: consolidated pull
->=20
-> Richard/Saul,
->=20
-> I've got some -stable updates, -rt updates and other changes that are alm=
-ost
-> done, but I wanted to get these smaller patches out of my queue first.
->=20
-> We have some cleanup patches from Robert P. J. Day and a meta branch
-> update for EMGD, CONFIG_MTD_NAND_VERIFY_WRITE and kmemcheck.
->=20
-> I've gone ahead and pushed the emgd update from Nitin, if it requires re-
-> work, we'll just add more commits to the branch.
->=20
-> Tom/Nitin: speak up if there's a problem with this!
->=20
-Bruce,
-   I notice that in the meta branch you also created patches for commits fr=
-om the emgd-1.14 branch such as meta/cfg/kernel-cache/features/emgd/yocto-e=
-mgd-emgd-1.14-driver.patch. So emgd-1.14 support is available by 2 ways now=
-. 1: By enabling these patches & 2: by merging the emgd-1.14 branch. For cr=
-ownbay it is merging the emgd-1.14 branch, so these patches from meta direc=
-tory can not be used.=20
-  I don't see any functional issue with this layout, but I am curious why t=
-hese patches in meta branch when emgd-1.14 branch can be merged to get the =
-same effect.
+This pull request is intended for both master and denzil.
+
+It has been build-tested on all 5 of our QEMU architectures and
+run through our buildhistory system without problems.
 
 Thanks,
-Nitin
 
-> Cheers,
->=20
-> Bruce
->=20
-> cc: Nitin A Kamble <nitin.a.kamble@intel.com>
-> cc: Tom Zanussi <tom.zanussi@intel.com>
-> cc: Andrea Adami <andrea.adami@gmail.com>
-> cc: Robert P. J. Day <rpjday@crashcourse.ca>
->=20
-> The following changes since commit
-> 98a1fd1e734db50380a3a37d35767ccb4cc21f7c:
->=20
->   documentation: Config fragment sections updated (2012-07-20 12:32:54
-> +0100)
->=20
-> are available in the git repository at:
->   git://git.pokylinux.org/poky-contrib zedd/kernel
->   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=3Dzedd/kernel
->=20
-> Bruce Ashfield (1):
->   linux-yocto/3.4: emgd, mtd nand and kmemcheck fixes
->=20
-> Robert P. J. Day (2):
->   kernel-yocto.bbclass: Fix some obvious typoes in comments.
->   kernel-yocto.bbclass: Delete superfluous creation of ${S}/.git
->     directory
->=20
->  meta/classes/kernel-yocto.bbclass               |    8 ++++----
->  meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb |    2 +-
->  meta/recipes-kernel/linux/linux-yocto_3.4.bb    |    2 +-
->  3 files changed, 6 insertions(+), 6 deletions(-)
->=20
-> --
-> 1.7.5.4
+Scott
+
+The following changes since commit ef637e417ae1c2dff7fc0ad6cb30989e72ac35ab:
+
+  grub-efi-native: remove help2man dependency (2012-07-20 12:32:13 +0100)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib sgarman/openssl-upgrade-oe
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=sgarman/openssl-upgrade-oe
+
+Scott Garman (1):
+  openssl: upgrade to 1.0.0j
+
+ .../configure-targets.patch                        |    0
+ .../debian/c_rehash-compat.patch                   |    0
+ .../debian/ca.patch                                |    0
+ .../debian/debian-targets.patch                    |    0
+ .../debian/make-targets.patch                      |    0
+ .../debian/man-dir.patch                           |    0
+ .../debian/man-section.patch                       |    0
+ .../debian/no-rpath.patch                          |    0
+ .../debian/no-symbolic.patch                       |    0
+ .../debian/pic.patch                               |    0
+ .../debian/version-script.patch                    |    0
+ .../engines-install-in-libdir-ssl.patch            |    0
+ .../{openssl-1.0.0i => openssl-1.0.0j}/find.pl     |    0
+ .../oe-ldflags.patch                               |    0
+ .../openssl-fix-link.patch                         |    0
+ .../openssl_fix_for_x32.patch                      |    0
+ .../shared-libs.patch                              |    0
+ .../{openssl_1.0.0i.bb => openssl_1.0.0j.bb}       |    4 ++--
+ 18 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.0i => openssl-1.0.0j}/configure-targets.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.0i => openssl-1.0.0j}/debian/c_rehash-compat.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.0i => openssl-1.0.0j}/debian/ca.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.0i => openssl-1.0.0j}/debian/debian-targets.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.0i => openssl-1.0.0j}/debian/make-targets.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.0i => openssl-1.0.0j}/debian/man-dir.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.0i => openssl-1.0.0j}/debian/man-section.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.0i => openssl-1.0.0j}/debian/no-rpath.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.0i => openssl-1.0.0j}/debian/no-symbolic.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.0i => openssl-1.0.0j}/debian/pic.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.0i => openssl-1.0.0j}/debian/version-script.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.0i => openssl-1.0.0j}/engines-install-in-libdir-ssl.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.0i => openssl-1.0.0j}/find.pl (100%)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.0i => openssl-1.0.0j}/oe-ldflags.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.0i => openssl-1.0.0j}/openssl-fix-link.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.0i => openssl-1.0.0j}/openssl_fix_for_x32.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl-1.0.0i => openssl-1.0.0j}/shared-libs.patch (100%)
+ rename meta/recipes-connectivity/openssl/{openssl_1.0.0i.bb => openssl_1.0.0j.bb} (90%)
+
+-- 
+1.7.9.5
 
 
 
