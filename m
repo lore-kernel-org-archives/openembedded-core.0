@@ -1,23 +1,33 @@
-Received: from smtp1.ingenico.com ([217.108.148.240])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Matthieu.CRAPET@ingenico.com>) id 1SsDB1-000770-1w
-	for openembedded-core@lists.openembedded.org;
-	Fri, 20 Jul 2012 15:23:27 +0200
-X-IronPort-AV: E=Sophos;i="4.77,623,1336341600"; d="scan'208";a="13337783"
-Received: from frsnprexc1.usr.ingenico.loc ([10.23.2.11])
-	by antispam1.usr.ingenico.loc with ESMTP; 20 Jul 2012 15:10:56 +0200
-X-MimeOLE: Produced By Microsoft Exchange V6.5
-MIME-Version: 1.0
-Date: Fri, 20 Jul 2012 15:10:55 +0200
-Message-ID: <D9D7124626ED1E43963D86B2657D5CCD03A17BC8@FRSNPREXC1.usr.ingenico.loc>
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-Thread-Topic: Broken gettext/gdbm
-Thread-Index: Ac1md/BvJw0tZocSTg6A1Ajz/crgfw==
-From: "Matthieu CRAPET" <Matthieu.CRAPET@ingenico.com>
-To: "Patches and discussions about the oe-core layer"
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1SsDrc-0007xE-8T for openembedded-core@lists.openembedded.org;
+	Fri, 20 Jul 2012 16:07:28 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6KDu5Yg012628
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 20 Jul 2012 14:56:05 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 09727-07 for <openembedded-core@lists.openembedded.org>;
+	Fri, 20 Jul 2012 14:56:01 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6KDtv0e012622
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 20 Jul 2012 14:55:59 +0100
+Message-ID: <1342792561.21788.17.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Broken gettext/gdbm
+Date: Fri, 20 Jul 2012 14:56:01 +0100
+In-Reply-To: <20120720093208.GD3534@jama.jama.net>
+References: <20120720093208.GD3534@jama.jama.net>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: Yocto style guide change proposal
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,71 +42,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Jul 2012 13:23:27 -0000
-Content-class: urn:content-classes:message
-Content-Type: text/plain;
-	charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 20 Jul 2012 14:07:28 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Greetings,
+On Fri, 2012-07-20 at 11:32 +0200, Martin Jansa wrote:
+> Now we have horrible mixture of whitespaces (tabs and space) only in 
+> recipe files, because yocto style guide recommends tabs in shell
+> functions. So if recipe has e.g. do_install_append as well as
+> populate_packages_prepend (not so uncommon combination as tabs fixing
+> patches show), then according to yocto style guide it should look like
+> this:
+> 
+> do_install_append() {
+> 	foo
+> }
+> python populate_packages_prepend () {
+>     libdir = bb.data.expand('${libdir}', d)
+>     do_split_packages(d, libdir, '^lib(.*)\.so\.*', 'lib%s', 'ORC %s library', extra_depends='', allow_links=True)
+> }
+> 
+> especially with default tab width 8 spaces it's ugly and because it
+> is inconsistent, many devs used spaces in shell functions too. Now when
+> someone accidentaly use tab also in python function it will show warning
+> or fail to parse. Some devs are using mix of tabs and spaces even on the
+> same line (e.g. to indent SRC_URI multiline entries).
 
-I updated my OE-core and bitbake today (2012.07.20). Build from scratch
-fails:
+We've said tabs for shell functions for *years*. I'm sure if I were to
+look at the mailing list archives, that would be clear.
 
-<code>
-NOTE: package gdbm-1.10-r3: task do_configure: Started
-ERROR: Function failed: do_configure (see
-/home/.../build/tmp-eglibc/work/armv5te-ing-linux-gnueabi/gdbm-1.10-r3/t
-emp/log.do_configure.31222 for further information)
-ERROR: Logfile of failure stored in:
-/home/.../build/tmp-eglibc/work/armv5te-ing-linux-gnueabi/gdbm-1.10-r3/t
-emp/log.do_configure.31222
-Log data follows:
-| DEBUG: Executing python function sysroot_cleansstate
-| DEBUG: Python function sysroot_cleansstate finished
-| DEBUG: SITE files ['endian-little', 'bit-32', 'arm-common',
-'common-linux', 'common-glibc', 'arm-linux', 'arm-linux-gnueabi',
-'common']
-| DEBUG: Executing shell function do_configure
-| automake (GNU automake) 1.12.1
-| Copyright (C) 2012 Free Software Foundation, Inc.
-| License GPLv2+: GNU GPL version 2 or later
-<http://gnu.org/licenses/gpl-2.0.html>
-| This is free software: you are free to change and redistribute it.
-| There is NO WARRANTY, to the extent permitted by law.
-|
-| Written by Tom Tromey <tromey@redhat.com>
-|        and Alexandre Duret-Lutz <adl@gnu.org>.
-| AUTOV is 1.12
-| cp: cannot stat
-`/home/.../build/tmp-eglibc/sysroots/rp02/usr/share/gettext/config.rpath
-': No such file or directory
-| ERROR: Function failed: do_configure (see
-/home/.../build/tmp-eglibc/work/armv5te-ing-linux-gnueabi/gdbm-1.10-r3/t
-emp/log.do_configure.31222 for further information)
-NOTE: package gdbm-1.10-r3: task do_configure: Failed
-</code>
+In summary, I agree we need to make the style guides consistent and have
+one version of them. I disagree with spaces for everything though,m
+particularly as we have said to use tabs for as long and many of the
+recipes do this (certainly more than use spaces).
 
-gdbm needs gettext to have config.rpath. But gettext is not built, but
-gettext-native & gettext-minimal-native are built.
+Cheers,
 
-Issue comes from  "meta/classes/autotools.bbclass":
+Richard
 
-<code>
-        else if grep "^[[:space:]]*AM_GNU_GETTEXT" $CONFIGURE_AC
->/dev/null; then
-                            # We'd call gettextize here if it wasn't so
-broken...
-          cp ${STAGING_DATADIR}/gettext/config.rpath
-${AUTOTOOLS_AUXDIR}/
-</code>
-
-What would be the best workaround to take config.rpath from
-gettext-native?
-
-Thanks for support.
-
-Regards,
-Matthieu
 
 
