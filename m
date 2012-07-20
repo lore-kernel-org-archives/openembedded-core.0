@@ -1,30 +1,30 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1SsFhj-0002Dp-Gl for openembedded-core@lists.openembedded.org;
-	Fri, 20 Jul 2012 18:05:23 +0200
+	id 1SsFiF-0002GE-EV for openembedded-core@lists.openembedded.org;
+	Fri, 20 Jul 2012 18:05:56 +0200
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6KFs05P013340
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6KFsVi7013351
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jul 2012 16:54:00 +0100
+	Fri, 20 Jul 2012 16:54:31 +0100
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 09727-10 for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jul 2012 16:53:56 +0100 (BST)
+	id 10396-08 for <openembedded-core@lists.openembedded.org>;
+	Fri, 20 Jul 2012 16:54:26 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6KFrpCf013334
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6KFsNMH013345
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jul 2012 16:53:52 +0100
-Message-ID: <1342799634.21788.34.camel@ted>
+	Fri, 20 Jul 2012 16:54:25 +0100
+Message-ID: <1342799667.21788.35.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Fri, 20 Jul 2012 16:53:54 +0100
+Date: Fri, 20 Jul 2012 16:54:27 +0100
 X-Mailer: Evolution 3.2.2- 
 Mime-Version: 1.0
 X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: kmod: Add missing DEPENDS on pkgconfig-native
+Subject: libgnome-keyring: Add missing DEPENDS on glib-2.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,27 +39,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Jul 2012 16:05:23 -0000
+X-List-Received-Date: Fri, 20 Jul 2012 16:05:56 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-Without this it can't reautoconf or run configure since it depends on pkg-config.
-
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
-diff --git a/meta/recipes-kernel/kmod/kmod.inc b/meta/recipes-kernel/kmod/kmod.inc
-index 4723ee3..adba4d4 100644
---- a/meta/recipes-kernel/kmod/kmod.inc
-+++ b/meta/recipes-kernel/kmod/kmod.inc
-@@ -10,6 +10,8 @@ SECTION = "base"
- PV = "8"
- INC_PR = "r1"
+diff --git a/meta/recipes-gnome/gnome/libgnome-keyring_2.32.0.bb b/meta/recipes-gnome/gnome/libgnome-keyring_2.32.0.bb
+index 423080a..cf18732 100644
+--- a/meta/recipes-gnome/gnome/libgnome-keyring_2.32.0.bb
++++ b/meta/recipes-gnome/gnome/libgnome-keyring_2.32.0.bb
+@@ -13,7 +13,7 @@ PR = "r2"
  
-+DEPENDS += "pkgconfig-native"
-+
- LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
-                     file://libkmod/COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343 \
-                    "
+ inherit gnome gtk-doc
+ 
+-DEPENDS = "dbus libgcrypt"
++DEPENDS = "dbus libgcrypt glib-2.0"
+ 
+ SRC_URI[archive.md5sum] = "c42b2ca66204835d901d3dbfc1fa5ae6"
+ SRC_URI[archive.sha256sum] = "56388c0d81ddfdb57d30e4963c83ecc1c18498aab99395420e0fff69929a0f0c"
 
 
 
