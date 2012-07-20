@@ -1,33 +1,34 @@
-Received: from mail-pb0-f47.google.com ([209.85.160.47])
+Received: from mail-yx0-f175.google.com ([209.85.213.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1Ss5rd-000698-OJ
+	(envelope-from <raj.khem@gmail.com>) id 1Ss64b-0006Px-5m
 	for openembedded-core@lists.openembedded.org;
-	Fri, 20 Jul 2012 07:34:57 +0200
-Received: by mail-pb0-f47.google.com with SMTP id rq2so4958454pbb.6
+	Fri, 20 Jul 2012 07:48:21 +0200
+Received: by yenl13 with SMTP id l13so3375525yen.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Jul 2012 22:23:36 -0700 (PDT)
+	Thu, 19 Jul 2012 22:36:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	bh=j9UGwodrqO5tnlXwhwCJS+KTc5l4NbfRuZG/Vi31g8I=;
-	b=ql9KkN7BB9dRwuIXiO5Vx2jx7qqZQSTjHf7Ln4EjpP8W4Ybuda77XtdePkFUlulvO1
-	CwZohTly2n0dWf559RRt5IOEi3yH8qsdYnlP/mAGdE9kJ/Cc/2EwRamEAVmEH8Rrwe8x
-	cCJg4Eh2sZWkJipqaHcWS0tQC3tw8nN+ZYx9xXLsekeJxo1udTgSs7zCIOEqQ1dalqTE
-	zDoU/w4Iau3ectONTOo4Vzb6IxNscJW8I2IQJ01Dt0kiD3cZcCivCVoo83l/Ik3BoxG6
-	QG9zc+TQR3PhvRAGAGDGxzDQR+JQu50Dtq7gks7A0KVPmXS+nP2RNMR3Gd8NZpV5gkMm
-	nCQQ==
-Received: by 10.68.203.98 with SMTP id kp2mr10649815pbc.132.1342761816576;
-	Thu, 19 Jul 2012 22:23:36 -0700 (PDT)
-Received: from kraj-lnx.juniper.net (natint3.juniper.net. [66.129.224.36])
-	by mx.google.com with ESMTPS id ny4sm3215080pbb.57.2012.07.19.22.23.35
-	(version=SSLv3 cipher=OTHER); Thu, 19 Jul 2012 22:23:35 -0700 (PDT)
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=HnAxH+t8bu9Yl7LmWHVwqMVlqIhPnpOw84zFmgfuKWk=;
+	b=EsBFP1MR/Hkfl71VTSGlKMLI0fkTYHWjRzQW7Q/cWXS1lUuBT2zGt/MckZPIHCvmao
+	WISq3REcPzpy5tsFaxN/OP1Lh7pjzMlEQAZr3PIXWv1rq+tZNDysPNhGnFrdSuyFbCtY
+	xdk6UNqURY4qOANMJMuDsTwCZbqM7Fr3yY56okY895pcl42D0jq99pXZSmdZDvD7Y1sw
+	cAs71M6n0yxTfb0JZpKsotfPfFBHn63CnF7eZmgHt81Txq4NWOt2Vj5HQiGymUrJA6HN
+	WVqfvKITwykgJB0oPqydKYu4hLENolcLMd9uQG+JMp+cw3exJSLK43tjREOSEVR4TsvJ
+	6SQQ==
+Received: by 10.66.79.8 with SMTP id f8mr8680831pax.81.1342762617819;
+	Thu, 19 Jul 2012 22:36:57 -0700 (PDT)
+Received: from agate.agate.openembedded.org (oldbuilder.nslu2-linux.org.
+	[140.211.169.168])
+	by mx.google.com with ESMTPS id sy3sm3248824pbc.18.2012.07.19.22.36.56
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 19 Jul 2012 22:36:56 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 19 Jul 2012 22:23:00 -0700
-Message-Id: <1342761780-20215-3-git-send-email-raj.khem@gmail.com>
+Date: Thu, 19 Jul 2012 22:36:10 -0700
+Message-Id: <1342762570-29343-1-git-send-email-raj.khem@gmail.com>
 X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <1342761780-20215-1-git-send-email-raj.khem@gmail.com>
-References: <1342761780-20215-1-git-send-email-raj.khem@gmail.com>
-Subject: [PATCH 3/3] puzzles, mkelfimage: Use svn protocol instead of http
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: [PATCH] kernel.bbclass: fix external module building
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,42 +43,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Jul 2012 05:34:58 -0000
+X-List-Received-Date: Fri, 20 Jul 2012 05:48:21 -0000
 
-These repos are not setup to serve through http protocol
+From: Denis Carikli <GNUtoo@no-log.org>
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Without that fix we have the following while compiling compat-wireless.
+  include/linux/mmzone.h:18:30: fatal error: generated/bounds.h: No such file or directory
+
+Note that the compat-wireless recipe will be added in another commit.
+
+Signed-off-by: Denis 'GNUtoo' Carikli <GNUtoo@no-log.org>
+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
 ---
- meta/recipes-devtools/mkelfimage/mkelfimage_svn.bb |    2 +-
- meta/recipes-sato/puzzles/puzzles_r9561.bb         |    2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ meta/classes/kernel.bbclass |    3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-devtools/mkelfimage/mkelfimage_svn.bb b/meta/recipes-devtools/mkelfimage/mkelfimage_svn.bb
-index eb6aa71..ca145ff 100644
---- a/meta/recipes-devtools/mkelfimage/mkelfimage_svn.bb
-+++ b/meta/recipes-devtools/mkelfimage/mkelfimage_svn.bb
-@@ -10,7 +10,7 @@ PR = "r1"
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index 08b5e61..ce4d7de 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -187,6 +187,9 @@ kernel_do_install() {
+ 		cp arch/powerpc/lib/crtsavres.o $kerneldir/arch/powerpc/lib/crtsavres.o
+ 	fi
  
- DEPENDS += "zlib"
- 
--SRC_URI = "svn://coreboot.org/coreboot/trunk/util;module=mkelfImage;protocol=http \
-+SRC_URI = "svn://coreboot.org/coreboot/trunk/util;module=mkelfImage;protocol=svn \
-            file://cross-compile.patch \
-           "
- 
-diff --git a/meta/recipes-sato/puzzles/puzzles_r9561.bb b/meta/recipes-sato/puzzles/puzzles_r9561.bb
-index 7c18421..310798d 100644
---- a/meta/recipes-sato/puzzles/puzzles_r9561.bb
-+++ b/meta/recipes-sato/puzzles/puzzles_r9561.bb
-@@ -9,7 +9,7 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENCE;md5=453de74d749439762ef4814f7bee1fec"
- 
- # Upstream updates puzzles.tar.gz for the new release, so checksums seem to be changing regularly right now
--SRC_URI = "svn://svn.tartarus.org/sgt;module=puzzles;rev=${MOD_PV};protocol=http"
-+SRC_URI = "svn://svn.tartarus.org/sgt;module=puzzles;rev=${MOD_PV};protocol=svn"
- S = "${WORKDIR}/${BPN}"
- 
- #SRC_URI = "http://www.chiark.greenend.org.uk/~sgtatham/puzzles/puzzles-${PV}.tar.gz"
++	# Necessary for building modules like compat-wireless.
++	cp include/generated/bounds.h $kerneldir/include/generated/bounds.h
++
+ 	# Remove the following binaries which cause strip or arch QA errors
+ 	# during do_package for cross-compiled platforms
+ 	bin_files="arch/powerpc/boot/addnote arch/powerpc/boot/hack-coff \
 -- 
 1.7.9.5
 
