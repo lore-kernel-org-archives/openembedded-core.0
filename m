@@ -1,27 +1,33 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail.cvg.de ([62.153.82.30])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1SsAIq-0003dK-PB
+	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1SsAcl-0003rx-8I
 	for openembedded-core@lists.openembedded.org;
-	Fri, 20 Jul 2012 12:19:20 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 20 Jul 2012 03:07:56 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="168865673"
-Received: from unknown (HELO helios.localnet) ([10.252.121.25])
-	by orsmga001.jf.intel.com with ESMTP; 20 Jul 2012 03:07:55 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 20 Jul 2012 11:07:54 +0100
-Message-ID: <3319777.TyI30YKFDu@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.8.4 (Linux/3.2.0-26-generic-pae; KDE/4.8.4; i686; ; )
-In-Reply-To: <500906A1.8000600@linux.intel.com>
-References: <1342762570-29343-1-git-send-email-raj.khem@gmail.com>
-	<500906A1.8000600@linux.intel.com>
+	Fri, 20 Jul 2012 12:39:55 +0200
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id q6KASTlt027934
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 20 Jul 2012 12:28:31 +0200
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.76) (envelope-from <ensc@sigma-chemnitz.de>) id 1SsARh-0001AU-Ae
+	for openembedded-core@lists.openembedded.org;
+	Fri, 20 Jul 2012 12:28:29 +0200
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 20 Jul 2012 12:28:29 +0200
+Message-ID: <lyk3xy7mlu.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.1 (gnu/linux)
 MIME-Version: 1.0
-Cc: Darren Hart <dvhart@linux.intel.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] kernel.bbclass: fix external module building
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 0.99
+X-Spam-Score: -5.3
+X-Spam-Level: -----
+X-Spam-Tests: AWL,BAYES_00,SPF_NEUTRAL,T_RP_MATCHES_RCVD,DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.73
+Subject: Broken parallel build of gcc*
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,67 +42,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Jul 2012 10:19:21 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Fri, 20 Jul 2012 10:39:55 -0000
+Content-Type: text/plain
 
-On Friday 20 July 2012 00:20:01 Darren Hart wrote:
-> On 07/19/2012 10:36 PM, Khem Raj wrote:
-> > From: Denis Carikli <GNUtoo@no-log.org>
-> > 
-> > Without that fix we have the following while compiling compat-wireless.
-> > 
-> >   include/linux/mmzone.h:18:30: fatal error: generated/bounds.h: No such
-> >   file or directory> 
-> > Note that the compat-wireless recipe will be added in another commit.
-> > 
-> > Signed-off-by: Denis 'GNUtoo' Carikli <GNUtoo@no-log.org>
-> > Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
-> > ---
-> > 
-> >  meta/classes/kernel.bbclass |    3 +++
-> >  1 file changed, 3 insertions(+)
-> > 
-> > diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> > index 08b5e61..ce4d7de 100644
-> > --- a/meta/classes/kernel.bbclass
-> > +++ b/meta/classes/kernel.bbclass
-> > @@ -187,6 +187,9 @@ kernel_do_install() {
-> > 
-> >  		cp arch/powerpc/lib/crtsavres.o 
-$kerneldir/arch/powerpc/lib/crtsavres.o
-> >  	
-> >  	fi
-> > 
-> > +	# Necessary for building modules like compat-wireless.
-> > +	cp include/generated/bounds.h $kerneldir/include/generated/bounds.h
-> > +
-> 
-> Hrm... I'm not clear on why this is necessary. I understand why you need
-> bounds.h... but I don't see why it isn't there already.
-> 
-> A few lines up we do:
-> 
-> cp -fR * $kerneldir
-> 
-> Which should cover include/generated/bounds.h...
-> 
-> Perhaps "make -C $kerneldir _mrproper_scripts" clears that out... Ah,
-> yes, that seems to be the case. Grumble.
-> 
-> OK,
-> 
-> Signed-off-by: Darren Hart <dvhart@linux.intel.com>
+Hi,
 
-Having established why this is needed, could the commit message and/or comment 
-clearly state the reason so that there's something to refer to in future?
+some of the recent changes seem to break the parallel build of the gcc*
+recipes which are sharing a same source directory:
 
-Thanks,
-Paul
+| $ ./bitbake gcc-cross-initial gcc-cross-intermediate gcc-cross -c cleansstate
+| $ BB_NUMBER_THREADS=3 ./bitbake gcc-cross-initial gcc-cross-intermediate gcc-cross
+| ...
+| NOTE: package gcc-cross-initial-4.7.1.0+git1+d07e24f4ab59f264d68d21838795349faab5dede-r7: task do_unpack: Started
+| NOTE: package gcc-cross-4.7.1.0+git1+d07e24f4ab59f264d68d21838795349faab5dede-r7: task do_unpack: Started
+| NOTE: package gcc-cross-initial-4.7.1.0+git1+d07e24f4ab59f264d68d21838795349faab5dede-r7: task do_unpack: Succeeded
+| ERROR: Error executing a python function in ...recipes-devtools/gcc/gcc-cross_4.7.bb:
+| OSError: [Errno 39] Directory not empty: '...tmp/work-shared/gcc-4.7.1.0+git1+d07e24f4ab59f264d68d21838795349faab5dede-r7/git/'
+| NOTE: package gcc-cross-4.7.1.0+git1+d07e24f4ab59f264d68d21838795349faab5dede-r7: task do_unpack: Failed
 
--- 
+It seems that the work-shared/ directory is not locked and cleaned when
+starting the second unpack.
 
-Paul Eggleton
-Intel Open Source Technology Centre
+
+
+Enrico
 
 
