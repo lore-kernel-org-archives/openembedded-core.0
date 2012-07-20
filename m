@@ -1,35 +1,29 @@
-Received: from mail-yx0-f175.google.com ([209.85.213.175])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1SsGvY-0004Dm-8e
+	(envelope-from <mark.hatle@windriver.com>) id 1SsHbA-0005JO-Rs
 	for openembedded-core@lists.openembedded.org;
-	Fri, 20 Jul 2012 19:23:44 +0200
-Received: by yenl13 with SMTP id l13so3917902yen.6
+	Fri, 20 Jul 2012 20:06:45 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q6KHtJ65028176
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jul 2012 10:12:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:from:to:cc:subject:date:message-id:x-mailer:in-reply-to
-	:references; bh=l4d7PiGSpcUqAXBR7jrxi3RN2yQJCwzJ1q+jeJtwTnU=;
-	b=E0+98Bf2GWTTcLJuTlf2zcvp4jwYfR3XDSK1yqwmCooJ/yGcXDMRxfBnmp53o1QSdx
-	yDDCwKkGYZfMU/p9MSNn2cEk4ZH3MeEl0zE2CDWTlx++es1kZH6IW9xqFPd+7gofko8t
-	OJaqpLrPaDQSZ06eq99pnUNz5nRdcgTAXDV922+UWwx1zzkJ9VzZr2Ko+qJnZXLazXNV
-	x9HQlixP3cnbG4LF3HxN0gm3eLh3eLrtUmZD0SdDFBfafOy3yJV2PLc8XRIT8AZpV960
-	hzEBQISUecnGp1UvVo81FWgu3uG8Tz1VlvBOJbNs5PsUYQALHaz4c7eLNYp0C9pimRr5
-	N2Yg==
-Received: by 10.101.142.31 with SMTP id u31mr1901566ann.85.1342804340539;
-	Fri, 20 Jul 2012 10:12:20 -0700 (PDT)
-Received: from localhost.localdomain ([177.100.163.15])
-	by mx.google.com with ESMTPS id u23sm10411397yhl.21.2012.07.20.10.12.18
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 20 Jul 2012 10:12:19 -0700 (PDT)
-Sender: Otavio Salvador <otavio.salvador@gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 20 Jul 2012 14:12:09 -0300
-Message-Id: <1342804329-5791-2-git-send-email-otavio@ossystems.com.br>
-X-Mailer: git-send-email 1.7.2.5
-In-Reply-To: <1342804329-5791-1-git-send-email-otavio@ossystems.com.br>
-References: <1342804329-5791-1-git-send-email-otavio@ossystems.com.br>
-Subject: [PATCH 2/2] bash: fix warning about bashbug reference /usr/bin when installed in /bin
+	Fri, 20 Jul 2012 10:55:19 -0700 (PDT)
+Received: from Marks-MacBook-Pro.local (172.25.35.110) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.1.255.0; Fri, 20 Jul 2012 10:55:19 -0700
+Message-ID: <50099B89.7060308@windriver.com>
+Date: Fri, 20 Jul 2012 11:55:21 -0600
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7;
+	rv:13.0) Gecko/20120614 Thunderbird/13.0.1
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <CAKSdS8L32A5wB4fzuc-EQTBX9_GXLhLO_gt4HgzgJk=UC+XZKw@mail.gmail.com>
+	<50087A5B.9030905@windriver.com>
+	<CAKSdS8LB0=8RieBGJSAyxyw9APPEksCKZ1WVz0EWwMZ49-SRow@mail.gmail.com>
+In-Reply-To: <CAKSdS8LB0=8RieBGJSAyxyw9APPEksCKZ1WVz0EWwMZ49-SRow@mail.gmail.com>
+Subject: Re: meta-toolchain type SDK containing external toolchain possible?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,60 +38,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Jul 2012 17:23:44 -0000
+X-List-Received-Date: Fri, 20 Jul 2012 18:06:45 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Change the installation process so we have bashbug in ${bindir} and
-bash at ${base_bindir}.
+On 7/20/12 10:45 AM, Manuel Bessler wrote:
+> Hi Mark,
+>
+> On Thu, Jul 19, 2012 at 5:21 PM, Mark Hatle <mark.hatle@windriver.com> wrote:
+>> On 7/19/12 3:13 PM, Manuel Bessler wrote:
+>>> Is it possible to setup my toolchain such that it will be part of the
+>>> SDK package instead of the default {gcc,binutils}-cross-canadian?
+>>
+>>
+>> It is possible, but the external toolchain needs to be provided via a
+>> crosssdk/cross-canadian binary.  The external-csl-toolchain.bb can be used
+>> as a model for how to do this.
+>
+> What do you mean by "via a crosssdk/cross-canadian binary"? Built by
+> bitbake using the *-cross-canadian recipes?
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
----
- meta/recipes-extended/bash/bash.inc    |   11 ++++++++---
- meta/recipes-extended/bash/bash_4.2.bb |    2 +-
- 2 files changed, 9 insertions(+), 4 deletions(-)
+You need to create a crosssdk/cross-canadian recipe that copies the binary 
+toolchain into the right SDK location(s).  Using external-csl-toolchain (or 
+similar) as a guide.
 
-diff --git a/meta/recipes-extended/bash/bash.inc b/meta/recipes-extended/bash/bash.inc
-index 6d7e930..a7f5f8f 100644
---- a/meta/recipes-extended/bash/bash.inc
-+++ b/meta/recipes-extended/bash/bash.inc
-@@ -9,9 +9,6 @@ DEPENDS = "ncurses bison-native"
- 
- inherit autotools gettext update-alternatives
- 
--bindir = "/bin"
--sbindir = "/sbin"
--
- EXTRA_OECONF = "--enable-job-control"
- export CC_FOR_BUILD = "${BUILD_CC}"
- 
-@@ -28,6 +25,14 @@ do_configure_prepend () {
- 	fi
- }
- 
-+do_install_append () {
-+	# Move /usr/bin/bash to /bin/bash, if need
-+	if [ "${base_bindir}" != "${bindir}" ]; then
-+		mkdir -p ${D}${base_bindir}
-+		mv ${D}${bindir}/bash ${D}${base_bindir}
-+	fi
-+}
-+
- pkg_postinst_${PN} () {
- 	touch $D${sysconfdir}/shells
- 	grep -q "bin/bash" $D${sysconfdir}/shells || echo /bin/bash >> $D${sysconfdir}/shells
-diff --git a/meta/recipes-extended/bash/bash_4.2.bb b/meta/recipes-extended/bash/bash_4.2.bb
-index a28279e..50f2ff6 100644
---- a/meta/recipes-extended/bash/bash_4.2.bb
-+++ b/meta/recipes-extended/bash/bash_4.2.bb
-@@ -1,6 +1,6 @@
- require bash.inc
- 
--PR = "r3"
-+PR = "r4"
- 
- SRC_URI = "${GNU_MIRROR}/bash/${BPN}-${PV}.tar.gz;name=tarball \
-            ${GNU_MIRROR}/bash/bash-4.2-patches/bash42-001;apply=yes;striplevel=0;name=patch001 \
--- 
-1.7.2.5
+>
+>
+>> For my stuff I did;
+>>
+>> PREFERRED_PROVIDER_binutils-cross-canadian-${TRANSLATED_TARGET_ARCH} =
+>> "external-csl-toolchain-cross-canadian-${TRANSLATED_TARGET_ARCH}"
+>>
+>> PREFERRED_PROVIDER_gcc-cross-canadian-${TRANSLATED_TARGET_ARCH} =
+>> "external-csl-toolchain-cross-canadian-${TRANSLATED_TARGET_ARCH}"
+>>
+>> PREFERRED_PROVIDER_gdb-cross-canadian-${TRANSLATED_TARGET_ARCH} =
+>> "external-csl-toolchain-cross-canadian-${TRANSLATED_TARGET_ARCH}"
+>>
+>>
+>>
+>>> That alone did not change anything.
+>>>
+>>> Then I tried adding the following to
+>>> recipes-core/meta/external-xxx-toolchain_4.5.3.bb in my layer:
+>>> PROVIDES += " gcc-cross-canadian-${TRANSLATED_TARGET_ARCH} "
+>>> PROVIDES += " binutils-cross-canadian-${TRANSLATED_TARGET_ARCH} "
+>>
+>>
+>> Within the external-cs-toolchain-cross-canadian.bb I had similar provides as
+>> well..
+>
+> So you have a separate recipe to satisfy cross-canadian ? I tried
+> finding this file but had no luck...
+
+Yes, I have external-cs-toolchain.bb, and 
+external-cs-toolchain-cross-canadian.bb, which is based on the former.
+
+(most of it is generic, so a single ".inc" version used by both should be 
+possible as well..)
+
+--Mark
+
+>
+> Thanks,
+> Manuel
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+
 
 
 
