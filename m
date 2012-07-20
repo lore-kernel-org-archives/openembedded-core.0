@@ -1,34 +1,35 @@
 Received: from mail-pb0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1SsHva-0005Yn-EP
+	(envelope-from <otavio.salvador@gmail.com>) id 1SsHvx-0005Yn-DB
 	for openembedded-core@lists.openembedded.org;
-	Fri, 20 Jul 2012 20:27:50 +0200
-Received: by pbbrq2 with SMTP id rq2so5831435pbb.6
+	Fri, 20 Jul 2012 20:28:13 +0200
+Received: by mail-pb0-f47.google.com with SMTP id rq2so5831435pbb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jul 2012 11:16:26 -0700 (PDT)
+	Fri, 20 Jul 2012 11:16:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:sender:in-reply-to:references:date
 	:x-google-sender-auth:message-id:subject:from:to:content-type;
-	bh=43TE/Jcj8K8r75fHTuSQ3IhoTKNuhHl5uVpxAagxJdE=;
-	b=TtDECNETk0R7nU6pyil7XBQVePsxA+3YxyO1n2yLRJjG9GeFh8+ac1aw9zonaHssIt
-	1Z2ul1iD6P0fY1cDBF2QUZFPOTrI9f6N13B1sGoGEJ0NJIO07tfsNji3TftucBk/VnUg
-	l5jIJPNAdDkmeSIhoiKFQTrfnrnzWoqJAPWOlM82wo20OZlmLpYcdmyCwHP09Wz/YlSl
-	BZSEREO0gkMnyHSbR71rOrJpFH+lPSDnMSGuAilQsnDMx/gz+IHwggk7bPScO9xKSPtW
-	P+/qhA+qUsts15MSMLAYH+ijK1eIeV+DWSMHnf2j8hlyhpon7g3a8HKbFmlx5kU1TkGK
-	lFNw==
+	bh=ThbIjGt1ZCQJKd4J4HzILK72WxoLxnpyChDRs7QCPFs=;
+	b=ZYKx1dckUKi4yyzxyUEluIccsdFHk51LUOrrzOlMcND77PNMFMwZ/hEMhHsx1MEQm4
+	B9OQ0TtG1u9+4Lllr6sHOffuOi7x7tRarhFYvilRuMmvsKZJqstVLc9qvRnjiw+kcAct
+	tfGhrKylvkJ9jivjhuKh7iX9tGPXAzFxBH3X9cprB5ZEaxK4l49FGobqlVyUKGNvRpTW
+	tbCRAwFHpEgW2okKf2Tzvq64elzkJ/Y5iKCgzc742PhH1cYOSrBWgO+kCEU9hio/sXix
+	uIeTNNHFIcZ5vxoXc//1UYIpDZxoUe+I4Nq3e2KZv2n0tMIu+9Ap3FTvMwDh80I/zUe2
+	qYAg==
 MIME-Version: 1.0
-Received: by 10.68.129.168 with SMTP id nx8mr15711193pbb.112.1342808186071;
-	Fri, 20 Jul 2012 11:16:26 -0700 (PDT)
+Received: by 10.68.231.233 with SMTP id tj9mr15834566pbc.39.1342808211836;
+	Fri, 20 Jul 2012 11:16:51 -0700 (PDT)
 Sender: otavio.salvador@gmail.com
-Received: by 10.68.63.102 with HTTP; Fri, 20 Jul 2012 11:16:26 -0700 (PDT)
-In-Reply-To: <1342808031-21564-1-git-send-email-otavio@ossystems.com.br>
+Received: by 10.68.63.102 with HTTP; Fri, 20 Jul 2012 11:16:51 -0700 (PDT)
+In-Reply-To: <1342808031-21564-2-git-send-email-otavio@ossystems.com.br>
 References: <1342808031-21564-1-git-send-email-otavio@ossystems.com.br>
-Date: Fri, 20 Jul 2012 15:16:26 -0300
-X-Google-Sender-Auth: 43kO05v1PKF30lwX015vZxUSqNc
-Message-ID: <CAP9ODKoxif5tj9mZR4opLJ4H=y0BqV+TSq8kFxx4KvxwjxxbPg@mail.gmail.com>
+	<1342808031-21564-2-git-send-email-otavio@ossystems.com.br>
+Date: Fri, 20 Jul 2012 15:16:51 -0300
+X-Google-Sender-Auth: FiDKgx0N5SuIP4LBaUuP6pFDOlE
+Message-ID: <CAP9ODKq0_7mjdG-g6QMTeqjJcgrud6TeFcmkeGAwRr-cY1vhqA@mail.gmail.com>
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/2] shadow-native: use 'users' group by default
+Subject: Re: [PATCH 2/2] shadow: use 'users' group by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,14 +44,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Jul 2012 18:27:50 -0000
+X-List-Received-Date: Fri, 20 Jul 2012 18:28:13 -0000
 Content-Type: text/plain; charset=ISO-8859-1
 
 On Fri, Jul 20, 2012 at 3:13 PM, Otavio Salvador
 <otavio@ossystems.com.br> wrote:
 > Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 
-This would be nice to be included in next denzil.
+This would be nice to have included in next denzil.
 
 -- 
 Otavio Salvador                             O.S. Systems
