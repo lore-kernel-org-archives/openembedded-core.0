@@ -1,34 +1,41 @@
-Received: from mail-yx0-f175.google.com ([209.85.213.175])
+Received: from mail-wg0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1Ss6Oc-0007BE-TB
+	(envelope-from <koen@dominion.thruhere.net>) id 1Ss7Oq-0005yV-Gd
 	for openembedded-core@lists.openembedded.org;
-	Fri, 20 Jul 2012 08:09:03 +0200
-Received: by yenl13 with SMTP id l13so3383446yen.6
+	Fri, 20 Jul 2012 09:13:22 +0200
+Received: by wgbdr1 with SMTP id dr1so3079862wgb.24
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Jul 2012 22:57:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=GwgWbfJCdVjLcPT5p6VJcl+dXCWbPTAiU8oZs2K8kq4=;
-	b=Cbhk1RCzeCi/nviLFw0DjKzakqIMGwvNkeNpKXVtfVmfwgZvqcalFpDZGZa38wX+pQ
-	jWOPO1qNr/TqkQqO2Zu2DiRrIk6qfYsAyjePK9165Zcn20h6m0ceCQVULaM5FUufPLnv
-	LcQCIVqoep+vsq6a/5EWv0W2v30cHXjgI037ED8zm/8eobk1LRcWJ+Et6Aaq8EXWlhwe
-	AIO198vBsBrmvRuanjto76YGZXTbXk9qhqANd8JG4crJQQvmqYrjQKlvfDW8a2tVIAH0
-	LYcEvpiDTBGEs6niSG4aF/LqEsXcdlCd0jh97UnmuAIBDV+lOET0KOs7GEy3UdYVRJ66
-	UJVA==
-Received: by 10.66.81.202 with SMTP id c10mr1965490pay.20.1342763859391;
-	Thu, 19 Jul 2012 22:57:39 -0700 (PDT)
-Received: from agate.agate.openembedded.org (oldbuilder.nslu2-linux.org.
-	[140.211.169.168])
-	by mx.google.com with ESMTPS id tj4sm3281116pbc.33.2012.07.19.22.57.37
+	Fri, 20 Jul 2012 00:01:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=subject:mime-version:content-type:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to:x-mailer
+	:x-gm-message-state;
+	bh=3FZ9FQh086wM2lmnEOl2luHexPCTORMqq1ugH4eY6YQ=;
+	b=F9XzqDwhfvnTWrCrAg4QopH/3Sb4orvNn3cO+1DDvEUvbXgK6y3eI3BuUIUWlx3Suu
+	ubpaLqp0plCb/UmtC8EjrqtYrNYr6r9QoZyj03JzbIxeXihcOfjJCZrRwX8RU6qeC4OJ
+	LW38k1tkqd8qZ8FKfQMxPYyy5w7lhOuQXd2wb+WQM0KwecZZpOUnRrhi999AvEQfJj/f
+	nmGWzeYhda8QZQ9iaTFvfshXfsvd0UNKa8wUll/BAuzyRZUmj5EoV4qf4dqvspmcA2gb
+	M3sQRUwx0STJ59mG0M6Ql94zA+fAzpIABe1zHCFO4NNHQim7Q4Ii9Kph9j32L3XfkTei
+	BGMw==
+Received: by 10.180.76.135 with SMTP id k7mr22965621wiw.7.1342767717750;
+	Fri, 20 Jul 2012 00:01:57 -0700 (PDT)
+Received: from [172.20.3.200] (ip545070eb.adsl-surfen.hetnet.nl.
+	[84.80.112.235])
+	by mx.google.com with ESMTPS id k48sm11695747een.10.2012.07.20.00.01.53
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 19 Jul 2012 22:57:38 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 19 Jul 2012 22:56:43 -0700
-Message-Id: <1342763803-32218-1-git-send-email-raj.khem@gmail.com>
-X-Mailer: git-send-email 1.7.9.5
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: [PATCH] kernel bbclass: recreate uImage unless KEEPUIMAGE is set
+	Fri, 20 Jul 2012 00:01:55 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1278)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <1342763803-32218-1-git-send-email-raj.khem@gmail.com>
+Date: Fri, 20 Jul 2012 09:01:51 +0200
+Message-Id: <A91F8513-AC11-4CF6-833B-F26DC5D945C8@dominion.thruhere.net>
+References: <1342763803-32218-1-git-send-email-raj.khem@gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+X-Mailer: Apple Mail (2.1278)
+X-Gm-Message-State: ALoCoQkT9VqOPUTTLJMH6s7CFZbSoA6KXqqNx7U5WJlaianblKwrsPgZyWl2dKyZFFLs56SynX1I
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] kernel bbclass: recreate uImage unless KEEPUIMAGE is set
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,55 +50,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Jul 2012 06:09:03 -0000
+X-List-Received-Date: Fri, 20 Jul 2012 07:13:22 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-From: Koen Kooi <koen@dominion.thruhere.net>
 
-The intent of the uImage code in this class includes the following
+Op 20 jul. 2012, om 07:56 heeft Khem Raj het volgende geschreven:
 
-1) be able to specify custom load addresses without needing to patch the kernel
-2) add better information to the uImage description field
+> From: Koen Kooi <koen@dominion.thruhere.net>
+>=20
+> The intent of the uImage code in this class includes the following
+>=20
+> 1) be able to specify custom load addresses without needing to patch =
+the kernel
+> 2) add better information to the uImage description field
+>=20
+> The current state is a NOP anyway, the kernel will always build a =
+uImage when you tell it to 'make uImage'.
+>=20
+> weakly Set KEEPUIMAGE in default-distrovars.inc which preserve the
+> current OE-Core behavior. Machines which are being ported from oe.dev =
+and need to
+> regenerate uImage can set this to be empty
+>=20
+> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+> meta/classes/kernel.bbclass                     |    2 +-
+> meta/conf/distro/include/default-distrovars.inc |    1 +
+> 2 files changed, 2 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+> index ce4d7de..efe4a9f 100644
+> --- a/meta/classes/kernel.bbclass
+> +++ b/meta/classes/kernel.bbclass
+> @@ -507,7 +507,7 @@ KERNEL_IMAGE_SYMLINK_NAME ?=3D =
+"${KERNEL_IMAGETYPE}-${MACHINE}"
+>=20
+> do_uboot_mkimage() {
+> 	if test "x${KERNEL_IMAGETYPE}" =3D "xuImage" ; then=20
+> -		if test ! -e arch/${ARCH}/boot/uImage ; then
+> +		if test "x${KEEPUIMAGE}" =3D "x" ; then
+> 			ENTRYPOINT=3D${UBOOT_ENTRYPOINT}
+> 			if test -n "${UBOOT_ENTRYSYMBOL}"; then
+> 				ENTRYPOINT=3D`${HOST_PREFIX}nm =
+${S}/vmlinux | \
+> diff --git a/meta/conf/distro/include/default-distrovars.inc =
+b/meta/conf/distro/include/default-distrovars.inc
+> index f770919..7448415 100644
+> --- a/meta/conf/distro/include/default-distrovars.inc
+> +++ b/meta/conf/distro/include/default-distrovars.inc
+> @@ -2,6 +2,7 @@ QA_LOGFILE =3D "${TMPDIR}/qa.log"
+>=20
+> OEINCLUDELOGS ?=3D "yes"
+> KERNEL_CONSOLE ?=3D "ttyS0"
+> +KEEPUIMAGE ?? =3D "1"
 
-The current state is a NOP anyway, the kernel will always build a uImage when you tell it to 'make uImage'.
-
-weakly Set KEEPUIMAGE in default-distrovars.inc which preserve the
-current OE-Core behavior. Machines which are being ported from oe.dev and need to
-regenerate uImage can set this to be empty
-
-Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/classes/kernel.bbclass                     |    2 +-
- meta/conf/distro/include/default-distrovars.inc |    1 +
- 2 files changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index ce4d7de..efe4a9f 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -507,7 +507,7 @@ KERNEL_IMAGE_SYMLINK_NAME ?= "${KERNEL_IMAGETYPE}-${MACHINE}"
- 
- do_uboot_mkimage() {
- 	if test "x${KERNEL_IMAGETYPE}" = "xuImage" ; then 
--		if test ! -e arch/${ARCH}/boot/uImage ; then
-+		if test "x${KEEPUIMAGE}" = "x" ; then
- 			ENTRYPOINT=${UBOOT_ENTRYPOINT}
- 			if test -n "${UBOOT_ENTRYSYMBOL}"; then
- 				ENTRYPOINT=`${HOST_PREFIX}nm ${S}/vmlinux | \
-diff --git a/meta/conf/distro/include/default-distrovars.inc b/meta/conf/distro/include/default-distrovars.inc
-index f770919..7448415 100644
---- a/meta/conf/distro/include/default-distrovars.inc
-+++ b/meta/conf/distro/include/default-distrovars.inc
-@@ -2,6 +2,7 @@ QA_LOGFILE = "${TMPDIR}/qa.log"
- 
- OEINCLUDELOGS ?= "yes"
- KERNEL_CONSOLE ?= "ttyS0"
-+KEEPUIMAGE ?? = "1"
- 
- PCMCIA_MANAGER ?= "pcmciautils"
- 
--- 
-1.7.9.5
-
+If you're going this way then explicitly test for '1' in the =
+kernel.bbclass code, since KEEPUIMAGE =3D 0 won't do what people expect.=
 
 
