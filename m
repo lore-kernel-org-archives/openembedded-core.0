@@ -1,35 +1,33 @@
-Received: from mail-pb0-f47.google.com ([209.85.160.47])
+Received: from mail-yx0-f175.google.com ([209.85.213.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1SsHvx-0005Yn-DB
+	(envelope-from <otavio.salvador@gmail.com>) id 1SsIso-0006W1-My
 	for openembedded-core@lists.openembedded.org;
-	Fri, 20 Jul 2012 20:28:13 +0200
-Received: by mail-pb0-f47.google.com with SMTP id rq2so5831435pbb.6
+	Fri, 20 Jul 2012 21:29:02 +0200
+Received: by yenl13 with SMTP id l13so4038292yen.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jul 2012 11:16:51 -0700 (PDT)
+	Fri, 20 Jul 2012 12:17:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:content-type;
-	bh=ThbIjGt1ZCQJKd4J4HzILK72WxoLxnpyChDRs7QCPFs=;
-	b=ZYKx1dckUKi4yyzxyUEluIccsdFHk51LUOrrzOlMcND77PNMFMwZ/hEMhHsx1MEQm4
-	B9OQ0TtG1u9+4Lllr6sHOffuOi7x7tRarhFYvilRuMmvsKZJqstVLc9qvRnjiw+kcAct
-	tfGhrKylvkJ9jivjhuKh7iX9tGPXAzFxBH3X9cprB5ZEaxK4l49FGobqlVyUKGNvRpTW
-	tbCRAwFHpEgW2okKf2Tzvq64elzkJ/Y5iKCgzc742PhH1cYOSrBWgO+kCEU9hio/sXix
-	uIeTNNHFIcZ5vxoXc//1UYIpDZxoUe+I4Nq3e2KZv2n0tMIu+9Ap3FTvMwDh80I/zUe2
-	qYAg==
-MIME-Version: 1.0
-Received: by 10.68.231.233 with SMTP id tj9mr15834566pbc.39.1342808211836;
-	Fri, 20 Jul 2012 11:16:51 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.68.63.102 with HTTP; Fri, 20 Jul 2012 11:16:51 -0700 (PDT)
-In-Reply-To: <1342808031-21564-2-git-send-email-otavio@ossystems.com.br>
-References: <1342808031-21564-1-git-send-email-otavio@ossystems.com.br>
-	<1342808031-21564-2-git-send-email-otavio@ossystems.com.br>
-Date: Fri, 20 Jul 2012 15:16:51 -0300
-X-Google-Sender-Auth: FiDKgx0N5SuIP4LBaUuP6pFDOlE
-Message-ID: <CAP9ODKq0_7mjdG-g6QMTeqjJcgrud6TeFcmkeGAwRr-cY1vhqA@mail.gmail.com>
+	h=sender:from:to:cc:subject:date:message-id:x-mailer;
+	bh=Iz5urPSTuTd/EiwQUAjLFi4wAMcrL8Izz6E9XH5vxZI=;
+	b=H573l3CHPv6YujI8jLJ5rnMq1TsehvlhdNdwfqCEsRdZeaz//r3BAgY3oucdJSAcbz
+	arncp+AbVThStZGCPH1tYDUs53o1UPlvb2oHFtPuz9LcT84Q6SADEVD4iFZyXcoN6S2H
+	rxCHkkwbR253ourTSLntGZ+GMyMQWxjNGlB2fCMZGmRBig5cwJBSuQAbk3SmKUMcZq2e
+	sCMVfNeHqA0d4xPbcEZfYgZecIvZ8L3focqu/J6hbNVvKIV8o94DuSZwwRm1tl3yvdgD
+	XXitCPwsrC7GHbytekuxUDKMDjnhVdRrnoZgAbZVBOC05VSHLD8+L0DRskxuqBMElxMT
+	liYQ==
+Received: by 10.101.136.7 with SMTP id o7mr1964345ann.58.1342811858492;
+	Fri, 20 Jul 2012 12:17:38 -0700 (PDT)
+Received: from localhost.localdomain ([177.100.163.15])
+	by mx.google.com with ESMTPS id b8sm5763262anm.4.2012.07.20.12.17.36
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 20 Jul 2012 12:17:37 -0700 (PDT)
+Sender: Otavio Salvador <otavio.salvador@gmail.com>
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/2] shadow: use 'users' group by default
+Date: Fri, 20 Jul 2012 16:17:28 -0300
+Message-Id: <1342811849-11556-1-git-send-email-otavio@ossystems.com.br>
+X-Mailer: git-send-email 1.7.2.5
+Subject: [PATCH v2 1/2] shadow-native: use 'users' group by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,18 +42,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Jul 2012 18:28:13 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Fri, 20 Jul 2012 19:29:02 -0000
 
-On Fri, Jul 20, 2012 at 3:13 PM, Otavio Salvador
-<otavio@ossystems.com.br> wrote:
-> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
+ .../shadow/shadow-native_4.1.4.3.bb                |    5 ++++-
+ 1 files changed, 4 insertions(+), 1 deletions(-)
 
-This would be nice to have included in next denzil.
-
+diff --git a/meta/recipes-extended/shadow/shadow-native_4.1.4.3.bb b/meta/recipes-extended/shadow/shadow-native_4.1.4.3.bb
+index 1e071f1..cd5605f 100644
+--- a/meta/recipes-extended/shadow/shadow-native_4.1.4.3.bb
++++ b/meta/recipes-extended/shadow/shadow-native_4.1.4.3.bb
+@@ -7,7 +7,7 @@ LICENSE = "BSD | Artistic-1.0"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=08c553a87d4e51bbed50b20e0adcaede \
+                     file://src/passwd.c;firstline=8;endline=30;md5=2899a045e90511d0e043b85a7db7e2fe"
+ 
+-PR = "r6"
++PR = "r7"
+ 
+ SRC_URI = "http://pkg-shadow.alioth.debian.org/releases/${BPN}-${PV}.tar.bz2 \
+            file://shadow.automake-1.11.patch \
+@@ -46,4 +46,7 @@ do_install_append() {
+ 	# Now we don't have a mail system. Disable mail creation for now.
+ 	sed -i 's:/bin/bash:/bin/sh:g' ${D}${sysconfdir}/default/useradd
+ 	sed -i '/^CREATE_MAIL_SPOOL/ s:^:#:' ${D}${sysconfdir}/default/useradd
++
++	# Use users group by default
++	sed -i 's,^GROUP=1000,GROUP=100,g' ${D}${sysconfdir}/default/useradd
+ }
 -- 
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
+1.7.2.5
+
 
 
