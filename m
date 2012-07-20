@@ -1,20 +1,37 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mail.cvg.de ([62.153.82.30])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <radu.moisan@intel.com>) id 1SsBWT-0002UU-13
+	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1SsBxB-0006p2-Se
 	for openembedded-core@lists.openembedded.org;
-	Fri, 20 Jul 2012 13:37:29 +0200
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 20 Jul 2012 04:26:05 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="124735710"
-Received: from dell-desktop (HELO localhost.localdomain) ([10.237.105.32])
-	by AZSMGA002.ch.intel.com with ESMTP; 20 Jul 2012 04:26:03 -0700
-From: Radu Moisan <radu.moisan@intel.com>
+	Fri, 20 Jul 2012 14:05:06 +0200
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id q6KBrb8G021063
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 20 Jul 2012 13:53:38 +0200
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.76) (envelope-from <ensc@sigma-chemnitz.de>) id 1SsBm5-0003pL-1U
+	for openembedded-core@lists.openembedded.org;
+	Fri, 20 Jul 2012 13:53:37 +0200
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 20 Jul 2012 14:33:38 +0300
-Message-Id: <1342784018-4081-1-git-send-email-radu.moisan@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] grub-efi-native: remove help2man dependency
+References: <lyk3xy7mlu.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	<20120720104117.GE3534@jama.jama.net> <1342782398.21788.7.camel@ted>
+Date: Fri, 20 Jul 2012 13:53:36 +0200
+In-Reply-To: <1342782398.21788.7.camel@ted> (Richard Purdie's message of "Fri, 
+	20 Jul 2012 12:06:38 +0100")
+Message-ID: <ly629i7inz.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.1 (gnu/linux)
+MIME-Version: 1.0
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 0.99
+X-Spam-Score: -5.2
+X-Spam-Level: -----
+X-Spam-Tests: AWL,BAYES_00,SPF_NEUTRAL,T_RP_MATCHES_RCVD,DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.73
+Subject: Re: Broken parallel build of gcc*
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,33 +46,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Jul 2012 11:37:29 -0000
+X-List-Received-Date: Fri, 20 Jul 2012 12:05:06 -0000
+Content-Type: text/plain
 
-As suggested in 70067f082af279b58247467ec29283b310a1575e we do not
-need this dependency.
+Richard Purdie
+<richard.purdie-hQyY1W1yCW8ekmWlsbkhG0B+6BGkLq7r@public.gmane.org>
+writes:
 
-[YOCTO #2527]
+> Encrico: Which DISTRO are you using and do you use rm_work*.bbclass?
 
-Signed-off-by: Radu Moisan <radu.moisan@intel.com>
----
- meta/recipes-bsp/grub/grub-efi-native_1.99.bb |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+yes; rm_old_work seems to cause the problem.  Task uses ${PN} and was
+declared with
 
-diff --git a/meta/recipes-bsp/grub/grub-efi-native_1.99.bb b/meta/recipes-bsp/grub/grub-efi-native_1.99.bb
-index 86a6d44..9e923bd 100644
---- a/meta/recipes-bsp/grub/grub-efi-native_1.99.bb
-+++ b/meta/recipes-bsp/grub/grub-efi-native_1.99.bb
-@@ -14,7 +14,7 @@ LICENSE = "GPLv3"
- LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
- 
- # FIXME: We should be able to optionally drop freetype as a dependency
--DEPENDS = "help2man-native autogen-native"
-+DEPENDS = "autogen-native"
- RDEPENDS_${PN} = "diffutils freetype"
- PR = "r10"
- 
--- 
-1.7.9.5
+  addtask rm_old_work before do_unpack
 
+which causes different base hashes.
+
+
+Is there a way to exclude such tasks from the signature handling?
+
+
+
+Enrico
 
 
