@@ -1,25 +1,25 @@
 Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Ss4eI-0000gg-Mt
+	(envelope-from <sgw@linux.intel.com>) id 1Ss4fi-0000ja-EV
 	for openembedded-core@lists.openembedded.org;
-	Fri, 20 Jul 2012 06:17:06 +0200
+	Fri, 20 Jul 2012 06:18:34 +0200
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 19 Jul 2012 21:05:43 -0700
+	by azsmga101.ch.intel.com with ESMTP; 19 Jul 2012 21:07:10 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="170666935"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="170667267"
 Received: from unknown (HELO [10.255.12.214]) ([10.255.12.214])
-	by azsmga001.ch.intel.com with ESMTP; 19 Jul 2012 21:05:42 -0700
-Message-ID: <5008D916.60008@linux.intel.com>
-Date: Thu, 19 Jul 2012 21:05:42 -0700
+	by azsmga001.ch.intel.com with ESMTP; 19 Jul 2012 21:07:10 -0700
+Message-ID: <5008D96E.30702@linux.intel.com>
+Date: Thu, 19 Jul 2012 21:07:10 -0700
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:13.0) Gecko/20120615 Thunderbird/13.0.1
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <1342699213-435-1-git-send-email-bogdan.a.marinescu@intel.com>
-In-Reply-To: <1342699213-435-1-git-send-email-bogdan.a.marinescu@intel.com>
-Subject: Re: [PATCH] Multilib build fixes
+References: <1342557990-15381-1-git-send-email-yao.zhao@windriver.com>
+In-Reply-To: <1342557990-15381-1-git-send-email-yao.zhao@windriver.com>
+Subject: Re: [PATCH v2] dbus-glib: add support for install regression tests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,42 +34,126 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Jul 2012 04:17:06 -0000
+X-List-Received-Date: Fri, 20 Jul 2012 04:18:34 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 07/19/2012 05:00 AM, Bogdan Marinescu wrote:
-> 1. STAGING_KERNEL_DIR was getting an invalid MLPREFIX. Fix this by forcing the expansion in multilib.conf.
-> 2. Added multilib rule for 'perf'.
+On 07/17/2012 01:46 PM, Yao Zhao wrote:
+> dbus-glib.inc: default turn off unit test as libdbus-glib-1.so.2.2.2 will
+> have unit test code if DBUS_BUILD_TESTS enabled. User can turn it on with
+> PACKAGECONFIG_pn-dbus-glib = "tests" in local.conf or
+> PACKAGECONFIG ??= "tests" in recipe itself.
+>
+> test-install-makefile.patch: install unit tests for test purpose
+>
+> Add tests and tests-dbg package.
+>
+> Signed-off-by: Yao Zhao <yao.zhao@windriver.com>
 > ---
->   meta/conf/multilib.conf |    2 ++
->   1 file changed, 2 insertions(+)
+>   .../dbus-glib-0.98/test-install-makefile.patch     |   48 ++++++++++++++++++++
+>   meta/recipes-core/dbus/dbus-glib.inc               |   14 +++++-
+>   2 files changed, 61 insertions(+), 1 deletion(-)
+>   create mode 100644 meta/recipes-core/dbus/dbus-glib-0.98/test-install-makefile.patch
 >
-> diff --git a/meta/conf/multilib.conf b/meta/conf/multilib.conf
-> index bb21815..6a89a53 100644
-> --- a/meta/conf/multilib.conf
-> +++ b/meta/conf/multilib.conf
-> @@ -6,6 +6,7 @@ MULTILIB_SAVE_VARNAME = "DEFAULTTUNE"
+> diff --git a/meta/recipes-core/dbus/dbus-glib-0.98/test-install-makefile.patch b/meta/recipes-core/dbus/dbus-glib-0.98/test-install-makefile.patch
+> new file mode 100644
+> index 0000000..2e8e178
+> --- /dev/null
+> +++ b/meta/recipes-core/dbus/dbus-glib-0.98/test-install-makefile.patch
+> @@ -0,0 +1,48 @@
+> +Change Makefile.am to install regression tests for test package purpose.
+> +
+> +Upstream-Status: Inappropriate [test not install is for purpose from upstream]
+> +
+> +Signed-off-by: Yao Zhao <yao.zhao@windriver.com>
+> +
+> +diff --git a/test/Makefile.am b/test/Makefile.am
+> +index 7ba11a8..249f0e7 100644
+> +--- a/test/Makefile.am
+> ++++ b/test/Makefile.am
+> +@@ -13,7 +13,8 @@ else
+> + TEST_BINARIES=
+> + endif
+> +
+> +-noinst_PROGRAMS= $(TEST_BINARIES)
+> ++testdir = $(datadir)/@PACKAGE@/tests
+> ++test_PROGRAMS= $(TEST_BINARIES)
+> +
+> + test_service_SOURCES=				\
+> + 	test-service.c
+> +diff --git a/test/interfaces/Makefile.am b/test/interfaces/Makefile.am
+> +index 3cb2c39..e6de67d 100644
+> +--- a/test/interfaces/Makefile.am
+> ++++ b/test/interfaces/Makefile.am
+> +@@ -39,7 +39,8 @@ if DBUS_BUILD_TESTS
+> +
+> + ## we use noinst_PROGRAMS not check_PROGRAMS for TESTS so that we
+> + ## build even when not doing "make check"
+> +-noinst_PROGRAMS = test-service test-client
+> ++testdir = $(datadir)/@PACKAGE@/tests/interfaces
+> ++test_PROGRAMS = test-service test-client
+> +
+> + test_service_SOURCES = \
+> + 	test-interfaces.c \
+> +diff --git a/test/core/Makefile.am b/test/core/Makefile.am
+> +index ef6cb26..9786c3a 100644
+> +--- a/test/core/Makefile.am
+> ++++ b/test/core/Makefile.am
+> +@@ -46,7 +46,8 @@ endif
+> +
+> + ## we use noinst_PROGRAMS not check_PROGRAMS for TESTS so that we
+> + ## build even when not doing "make check"
+> +-noinst_PROGRAMS = \
+> ++testdir = $(datadir)/@PACKAGE@/tests/core
+> ++test_PROGRAMS = \
+> + 	test-dbus-glib \
+> + 	test-service-glib \
+> + 	$(THREAD_APPS) \
+> diff --git a/meta/recipes-core/dbus/dbus-glib.inc b/meta/recipes-core/dbus/dbus-glib.inc
+> index f554ce8..a8e6d42 100644
+> --- a/meta/recipes-core/dbus/dbus-glib.inc
+> +++ b/meta/recipes-core/dbus/dbus-glib.inc
+> @@ -13,15 +13,21 @@ DEPENDS_virtclass-native = "glib-2.0-native dbus-native"
+>   SRC_URI = "http://dbus.freedesktop.org/releases/dbus-glib/dbus-glib-${PV}.tar.gz \
+>              file://no-examples.patch \
+>              file://test-service-glib-include-glib-only.patch \
+> +           file://test-install-makefile.patch \
+>   "
 >
->   MULTILIBS ??= "multilib:lib32"
+>   inherit autotools pkgconfig gettext
 >
-> +STAGING_KERNEL_DIR := "${STAGING_KERNEL_DIR}"
->   STAGING_DIR_HOST = "${STAGING_DIR}/${MLPREFIX}${MACHINE}"
->   STAGING_DIR_TARGET = "${STAGING_DIR}/${MLPREFIX}${MACHINE}"
+> +#default disable regression tests, some unit test code in non testing code
+> +#PACKAGECONFIG_pn-${PN} = "tests" enable regression tests local.conf
+> +PACKAGECONFIG ??= ""
+> +PACKAGECONFIG[tests] = "--enable-tests,,,"
+> +
+>   EXTRA_OECONF = "--with-introspect-xml=${STAGING_DATADIR_NATIVE}/dbus/dbus-bus-introspect.xml \
+>                   --with-dbus-binding-tool=${STAGING_BINDIR_NATIVE}/dbus-binding-tool"
+>   EXTRA_OECONF_virtclass-native = "--with-introspect-xml=${STAGING_DATADIR_NATIVE}/dbus/dbus-bus-introspect.xml"
 >
-> @@ -512,6 +513,7 @@ BBCLASSEXTEND_append_pn-pax-utils = " ${MULTILIBS}"
->   BBCLASSEXTEND_append_pn-pciutils = " ${MULTILIBS}"
->   BBCLASSEXTEND_append_pn-pcmanfm = " ${MULTILIBS}"
->   BBCLASSEXTEND_append_pn-pcmciautils = " ${MULTILIBS}"
-> +BBCLASSEXTEND_append_pn-perf = " ${MULTILIBS}"
->   BBCLASSEXTEND_append_pn-perl = " ${MULTILIBS}"
->   BBCLASSEXTEND_append_pn-pixman = " ${MULTILIBS}"
->   BBCLASSEXTEND_append_pn-pkgconfig = " ${MULTILIBS}"
+> -PACKAGES += "${PN}-bash-completion"
+> +PACKAGES += "${PN}-bash-completion ${PN}-tests-dbg ${PN}-tests"
 >
+>   FILES_${PN} = "${libdir}/lib*${SOLIBS}"
+>   FILES_${PN}-bash-completion = "${sysconfdir}/bash_completion.d/dbus-bash-completion.sh \
+> @@ -29,4 +35,10 @@ FILES_${PN}-bash-completion = "${sysconfdir}/bash_completion.d/dbus-bash-complet
+>   FILES_${PN}-dev += "${libdir}/dbus-1.0/include ${bindir}/dbus-glib-tool"
+>   FILES_${PN}-dev += "${bindir}/dbus-binding-tool"
+>
+> +RDEPENDS_${PN}-tests += "dbus-x11"
+> +FILES_${PN}-tests = "${datadir}/${PN}/tests"
+> +FILES_${PN}-tests-dbg = "${datadir}/${PN}/tests/.debug/* \
+> +                         ${datadir}/${PN}/tests/core/.debug/* \
+> +                         ${datadir}/${PN}/tests/interfaces/.debug/*"
+> +
+>   BBCLASSEXTEND = "native"
+>
+
 Merged into OE-Core
 
 Thanks
 	Sau!
+
 
 
 
