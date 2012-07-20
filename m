@@ -1,27 +1,25 @@
 Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Ss4TY-0000Pk-LG
+	(envelope-from <sgw@linux.intel.com>) id 1Ss4WA-0000Sj-Eg
 	for openembedded-core@lists.openembedded.org;
-	Fri, 20 Jul 2012 06:06:00 +0200
+	Fri, 20 Jul 2012 06:08:42 +0200
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 19 Jul 2012 20:54:37 -0700
+	by fmsmga101.fm.intel.com with ESMTP; 19 Jul 2012 20:57:19 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="181037096"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="181038379"
 Received: from unknown (HELO [10.255.12.214]) ([10.255.12.214])
-	by fmsmga001.fm.intel.com with ESMTP; 19 Jul 2012 20:54:36 -0700
-Message-ID: <5008D67C.6020509@linux.intel.com>
-Date: Thu, 19 Jul 2012 20:54:36 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 19 Jul 2012 20:57:18 -0700
+Message-ID: <5008D71E.1000809@linux.intel.com>
+Date: Thu, 19 Jul 2012 20:57:18 -0700
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:13.0) Gecko/20120615 Thunderbird/13.0.1
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <20120717141241.GA21603@windriver.com> <5890853.sDQ4cHnidx@helios>
-	<20120717143034.GA21707@windriver.com>
-In-Reply-To: <20120717143034.GA21707@windriver.com>
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
-Subject: Re: [PATCH] busybox: busybox wget -P option ignored
+References: <1342575703-10784-1-git-send-email-rongqing.li@windriver.com>
+In-Reply-To: <1342575703-10784-1-git-send-email-rongqing.li@windriver.com>
+Subject: Re: [v2 PATCH] watchdog: fix ping mode failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,84 +34,145 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Jul 2012 04:06:00 -0000
+X-List-Received-Date: Fri, 20 Jul 2012 04:08:42 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 07/17/2012 07:30 AM, Amy Fong wrote:
-> busybox wget testing fails
+On 07/17/2012 06:41 PM, rongqing.li@windriver.com wrote:
+> From: Roy.Li <rongqing.li@windriver.com>
 >
-> In cases where busybox wget is invoked with -P <...> and the url ends
-> in "/", the download directory is ignored (ie the file index.html is
-> implied), this change enables the -P option for those urls.
+> [YOCTO #2755]
 >
-> Signed-off-by: Amy Fong <amy.fong@windriver.com>
+> When watchdog works on ping mode, the system will be rebooted since
+> watchdog can not receive the expected ECOREPLY on a setting interval.
+>
+> Ping mode uses a raw socket to send a ECO packet, then uses select()
+> to wait and recvfrom() to receive the ECOREPLY packet, if select()
+> shows the data is ready, and the data is not the expected ECOREPLY,
+> and waiting time is not overdue, it will continue use select() and
+> recvfrom().
+>
+> Problem is that the raw socket can receive any icmp packets, if we do
+> not set filters, and there are many icmp packets on socket, this
+> program will not find its interested ECOREPLY packet in a special
+> interval, which makes the ping mode fail.
+>
+> Other program is that watchdog sometime can not reach the call of
+> recvfrom to try to receive packets since tv_sec of struct timeval
+> of select parameter is 0.
+>
+> The timeout of select() is the result of ping interval minusing the
+> time of calling gettimeofday spending, when ping interval is 1 second,
+> and the call of gettimeofday() spends several useconds, the tv_sec of
+> struct timeval of select parameter must be 0, at that condition, we
+> should think it is valid of tv_sec of struct timeval of select parameter
+> be 0
+>
+> Signed-off-by: Roy.Li <rongqing.li@windriver.com>
 > ---
->   busybox-1.19.4/wget_dl_dir_fix.patch |   30 ++++++++++++++++++++++++++++++
->   busybox_1.19.4.bb                    |    3 ++-
->   2 files changed, 32 insertions(+), 1 deletion(-)
+>   .../watchdog/files/fix-ping-failure.patch          |   74 ++++++++++++++++++++
+>   meta/recipes-extended/watchdog/watchdog_5.11.bb    |    6 +-
+>   2 files changed, 78 insertions(+), 2 deletions(-)
+>   create mode 100644 meta/recipes-extended/watchdog/files/fix-ping-failure.patch
 >
-> diff --git a/meta/recipes-core/busybox/busybox-1.19.4/wget_dl_dir_fix.patch b/meta/recipes-core/busybox/busybox-1.19.4/wget_dl_dir_fix.patch
+> diff --git a/meta/recipes-extended/watchdog/files/fix-ping-failure.patch b/meta/recipes-extended/watchdog/files/fix-ping-failure.patch
 > new file mode 100644
-> index 0000000..3003965
+> index 0000000..c6ee843
 > --- /dev/null
-> +++ b/meta/recipes-core/busybox/busybox-1.19.4/wget_dl_dir_fix.patch
-> @@ -0,0 +1,30 @@
-> +In cases where busybox wget is invoked with -P <...> and the url ends
-> +in "/", the download directory is ignored (ie the file index.html is
-> +implied), this change enables the -P option for those urls.
+> +++ b/meta/recipes-extended/watchdog/files/fix-ping-failure.patch
+> @@ -0,0 +1,74 @@
+> +Fix ping mode failure
 > +
-> +Signed-off-by: Amy Fong <amy.fong@windriver.com>
-> +Upstream-Status: Submitted
+> +Upstream-Status: Pending
+> +
+> +When watchdog works on ping mode, the system will be rebooted since
+> +watchdog can not receive the expected ECOREPLY on a setting interval.
+> +
+> +Ping mode uses a raw socket to send a ECO packet, then uses select()
+> +to wait and recvfrom() to receive the ECOREPLY packet, if select()
+> +shows the data is ready, and the data is not the expected ECOREPLY,
+> +and waiting time is not overdue, it will continue use select() and
+> +recvfrom().
+> +
+> +Problem is that the raw socket can receive any icmp packets, if we do
+> +not set filters, and there are many icmp packets on socket, this
+> +program will not find its interested ECOREPLY packet in a special
+> +interval, which makes the ping mode fail.
+> +
+> +
+> +Other program is that watchdog sometime can not reach the call of
+> +recvfrom to try to receive packets since tv_sec of struct timeval
+> +of select parameter is 0.
+> +
+> +The timeout of select() is the result of ping interval minusing the
+> +time of calling gettimeofday spending, when ping interval is 1 second,
+> +and the call of gettimeofday() spends several useconds, the tv_sec of
+> +struct timeval of select parameter must be 0, at that condition, we
+> +should it is valid of tv_sec of struct timeval of select parameter be 0
+> +
+> +Signed-off-by: Roy.Li <rongqing.li@windriver.com>
 > +---
-> + networking/wget.c |   10 +++++++---
-> + 1 file changed, 7 insertions(+), 3 deletions(-)
+> + src/net.c      |    2 +-
+> + src/watchdog.c |    5 ++++-
+> + 2 files changed, 5 insertions(+), 2 deletions(-)
 > +
-> +--- a/networking/wget.c
-> ++++ b/networking/wget.c
-> +@@ -589,10 +589,14 @@
-> + 	if (!(option_mask32 & WGET_OPT_OUTNAME)) {
-> + 		G.fname_out = bb_get_last_path_component_nostrip(target.path);
-> + 		/* handle "wget http://kernel.org//" */
-> +-		if (G.fname_out[0] == '/' || !G.fname_out[0])
-> +-			G.fname_out = (char*)"index.html";
-> ++		if (G.fname_out[0] == '/' || !G.fname_out[0]) {
-> ++			/* bug: if we provide a default name, we should still look at -P option */
-> ++			if (G.dir_prefix)
-> ++				G.fname_out = fname_out_alloc = concat_path_file(G.dir_prefix, "index.html");
-> ++			else
-> ++				G.fname_out = (char*)"index.html";
-> + 		/* -P DIR is considered only if there was no -O FILE */
-> +-		else {
-> ++		} else {
-> + 			if (G.dir_prefix)
-> + 				G.fname_out = fname_out_alloc = concat_path_file(G.dir_prefix, G.fname_out);
-> + 			else {
-> diff --git a/meta/recipes-core/busybox/busybox_1.19.4.bb b/meta/recipes-core/busybox/busybox_1.19.4.bb
-> index 5b3f356..8a06497 100644
-> --- a/meta/recipes-core/busybox/busybox_1.19.4.bb
-> +++ b/meta/recipes-core/busybox/busybox_1.19.4.bb
-> @@ -1,5 +1,5 @@
->   require busybox.inc
-> -PR = "r7"
-> +PR = "r8"
+> +--- a/src/net.c
+> ++++ b/src/net.c
+> +@@ -118,7 +118,7 @@ int check_net(char *target, int sock_fp,
+> + 		    dtimeout.tv_usec -= 1000000;
+> + 		    dtimeout.tv_sec++;
+> + 		}
+> +-		if (dtimeout.tv_sec <= 0)
+> ++		if (dtimeout.tv_sec < 0)
+> + 		    break;
+> + #if USE_SYSLOG
+> + 		if (verbose && logtick && ticker == 1)
+> +--- a/src/watchdog.c
+> ++++ b/src/watchdog.c
+> +@@ -28,6 +28,7 @@
+> + #include <sys/types.h>
+> + #include <sys/ioctl.h>
+> + #include <linux/oom.h>
+> ++#include <linux/icmp.h>
+> + #include <linux/watchdog.h>
+> + #include <string.h>
+> +
+> +@@ -567,6 +568,8 @@ int main(int argc, char *const argv[])
+> +     pid_t child_pid;
+> +     int oom_adjusted = 0;
+> +     struct stat s;
+> ++    struct icmp_filter filt;
+> ++    filt.data = ~(1<<ICMP_ECHOREPLY);
+> +
+> + #if USE_SYSLOG
+> +     char *opts = "d:i:n:Ffsvbql:p:t:c:r:m:a:";
+> +@@ -703,7 +706,7 @@ int main(int argc, char *const argv[])
+> + 		perror(progname);
+> + 		exit(1);
+> + 	    }
+> +-	
+> ++	    setsockopt(net->sock_fp, SOL_RAW, ICMP_FILTER, (char*)&filt, sizeof(filt));
+> + 	    /* this is necessary for broadcast pings to work */
+> + 	    (void) setsockopt(net->sock_fp, SOL_SOCKET, SO_BROADCAST, (char *)&hold, sizeof(hold));
+> +
+> diff --git a/meta/recipes-extended/watchdog/watchdog_5.11.bb b/meta/recipes-extended/watchdog/watchdog_5.11.bb
+> index 3c4f77b..6a611c9 100644
+> --- a/meta/recipes-extended/watchdog/watchdog_5.11.bb
+> +++ b/meta/recipes-extended/watchdog/watchdog_5.11.bb
+> @@ -8,9 +8,11 @@ BUGTRACKER = "http://sourceforge.net/tracker/?group_id=172030&atid=860194"
+>   LICENSE = "GPL-1.0+"
+>   LIC_FILES_CHKSUM = "file://COPYING;md5=8a7258c60a71a2f04b67fb01f495889c"
 >
->   SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
->              file://B921600.patch \
-> @@ -8,6 +8,7 @@ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
->              file://run-parts.in.usr-bin.patch \
->              file://watch.in.usr-bin.patch \
->              file://busybox-udhcpc-no_deconfig.patch \
-> +           file://wget_dl_dir_fix.patch \
->              file://find-touchscreen.sh \
->              file://busybox-cron \
->              file://busybox-httpd \
+> -PR = "r0"
+> +PR = "r1"
+> +
+> +SRC_URI = "${SOURCEFORGE_MIRROR}/watchdog/watchdog_${PV}.tar.gz \
+> +	   file://fix-ping-failure.patch"
 >
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+> -SRC_URI = "${SOURCEFORGE_MIRROR}/watchdog/watchdog_${PV}.tar.gz"
 >
+>   SRC_URI[md5sum] = "02c764219b3bdb2373091cbd67109eb6"
+>   SRC_URI[sha256sum] = "723a7966e0c3d58e3f4df20943a5c9aa1553381f46aa0dbcf832016756e62792"
 >
 
 Merged into OE-Core
