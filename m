@@ -1,38 +1,24 @@
-Received: from eumx.net ([91.82.101.43])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ml@communistcode.co.uk>) id 1SsA9y-0003S1-76
+	(envelope-from <cristian.iorga@intel.com>) id 1SsAIU-0003YY-Ub
 	for openembedded-core@lists.openembedded.org;
-	Fri, 20 Jul 2012 12:10:10 +0200
-Received: from localhost ([127.0.0.1]:44990 helo=eumx.net)
-	by eumx.net with esmtp (Exim 4.72)
-	(envelope-from <ml@communistcode.co.uk>) id 1Ss9yx-0005XT-AP
-	for openembedded-core@lists.openembedded.org;
-	Fri, 20 Jul 2012 09:58:47 +0000
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=eumx.net; h=message-id
-	:date:from:reply-to:mime-version:to:subject:content-type
-	:content-transfer-encoding; s=default; bh=YSKpztHO+o3zhjP+l57zXB
-	b2H1A=; b=CeiNszQO5SC908AAhGvbnRdZZdfSvscRlRudhwIRgBt5veyUUmlRqK
-	S/mG1U94iQw3ALkl5bt3xjaU5gpfe/eXCdwdKxltwgifIZWJEgJv3oeh0inZnLU2
-	ieN/OJpm+c6dEVtxuwUW+mbCrMeX2xv7msXHraLMI5NkgxIR6SrNI=
-Received: from [195.171.99.130] (port=47940 helo=[192.168.0.42])
-	by eumx.net with esmtpa (Exim 4.72)
-	(envelope-from <ml@communistcode.co.uk>) id 1Ss9u7-0005R2-56
-	for openembedded-core@lists.openembedded.org;
-	Fri, 20 Jul 2012 09:53:47 +0000
-Message-ID: <50092AF0.9020403@communistcode.co.uk>
-Date: Fri, 20 Jul 2012 10:54:56 +0100
-From: Jack Mitchell <ml@communistcode.co.uk>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:14.0) Gecko/20120717 Thunderbird/14.0
-MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: bison-native cleansstate failing
+	Fri, 20 Jul 2012 12:18:59 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 20 Jul 2012 03:07:34 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="170754639"
+Received: from sentry (HELO localhost.localdomain) ([10.237.105.53])
+	by azsmga001.ch.intel.com with ESMTP; 20 Jul 2012 03:07:32 -0700
+From: Cristian Iorga <cristian.iorga@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 20 Jul 2012 13:07:41 +0300
+Message-Id: <1342778862-503-1-git-send-email-cristian.iorga@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH 1/2] libcanberra: upgrade to ver. 0.29
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: ml@communistcode.co.uk,
-	Patches and discussions about the oe-core layer
+Reply-To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -43,94 +29,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Jul 2012 10:10:10 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 20 Jul 2012 10:18:59 -0000
 
-I thought this was a python whitespace issue but it turns out not to be, 
-when I try to cleansstate bison-native I get the trace:
+Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
+---
+ .../{libcanberra_0.28.bb => libcanberra_0.29.bb}   |   14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
+ rename meta/recipes-multimedia/pulseaudio/{libcanberra_0.28.bb => libcanberra_0.29.bb} (76%)
 
-    NOTE: Running task 1 of 2 (ID: 0,
-    virtual:native:/mnt/storage/yoctoBuilds/poky-vanilla.git/meta/recipes-devtools/bison/bison_2.5.bb,
-    do_clean)
-    NOTE: package bison-native-2.5-r2: task do_clean: Started
-    ERROR: Error executing a python function in
-    /mnt/storage/yoctoBuilds/poky-vanilla.git/meta/recipes-devtools/bison/bison_2.5.bb:
-    OSError: [Errno 39] Directory not empty:
-    '/mnt/storage/yoctoBuilds/poky-vanilla.git/build/tmp/work/x86_64-linux/bison-native-2.5-r2/temp'
-
-    ERROR: The stack trace of python calls that resulted in this
-    exception/failure was:
-    ERROR:   File "do_clean", line 16, in <module>
-    ERROR:
-    ERROR:   File "do_clean", line 6, in do_clean
-    ERROR:
-    ERROR:   File
-    "/mnt/storage/yoctoBuilds/poky-vanilla.git/meta/lib/oe/path.py",
-    line 94, in remove
-    ERROR:     shutil.rmtree(name)
-    ERROR:
-    ERROR:   File "/usr/lib/python2.7/shutil.py", line 245, in rmtree
-    ERROR:     rmtree(fullname, ignore_errors, onerror)
-    ERROR:
-    ERROR:   File "/usr/lib/python2.7/shutil.py", line 254, in rmtree
-    ERROR:     onerror(os.rmdir, path, sys.exc_info())
-    ERROR:
-    ERROR:   File "/usr/lib/python2.7/shutil.py", line 252, in rmtree
-    ERROR:     os.rmdir(path)
-    ERROR:
-    ERROR: The code that was being executed was:
-    ERROR:      0012:    for f in (d.getVar('CLEANFUNCS', True) or
-    '').split():
-    ERROR:      0013:        bb.build.exec_func(f, d)
-    ERROR:      0014:
-    ERROR:      0015:
-    ERROR:  *** 0016:do_clean(d)
-    ERROR:      0017:
-    ERROR: (file: 'do_clean', lineno: 16, function: <module>)
-    ERROR:      0002:def do_clean(d):
-    ERROR:      0003:    """clear the build and temp directories"""
-    ERROR:      0004:    dir =
-    d.expand("/mnt/storage/yoctoBuilds/poky-vanilla.git/build/tmp/work/x86_64-linux/bison-native-2.5-r2")
-    ERROR:      0005:    bb.note("Removing " + dir)
-    ERROR:  *** 0006:    oe.path.remove(dir)
-    ERROR:      0007:
-    ERROR:      0008:    dir = "%s.*" % bb.data.expand(d.getVar('STAMP'), d)
-    ERROR:      0009:    bb.note("Removing " + dir)
-    ERROR:      0010:    oe.path.remove(dir)
-    ERROR: (file: 'do_clean', lineno: 6, function: do_clean)
-    ERROR: Function failed: do_clean
-    NOTE: package bison-native-2.5-r2: task do_clean: Failed
-    ERROR: Task 0
-    (virtual:native:/mnt/storage/yoctoBuilds/poky-vanilla.git/meta/recipes-devtools/bison/bison_2.5.bb,
-    do_clean) failed with exit code '1'
-    NOTE: Tasks Summary: Attempted 1 tasks of which 0 didn't need to be
-    rerun and 1 failed.
-
-
-However when I check the bison-native temp directory:
-
-    [build@yoctoBuilder x86_64-linux]$ cd bison-native-2.5-r2/
-    [build@yoctoBuilder bison-native-2.5-r2]$ ls
-    temp
-    [build@yoctoBuilder bison-native-2.5-r2]$ cd temp/
-    [build@yoctoBuilder temp]$ ls -la
-    total 8
-    drwxr-sr-x 2 build storage 4096 Jul 20 10:50 .
-    drwxr-sr-x 3 build storage 4096 Jul 20 10:50 ..
-    [build@yoctoBuilder temp]$
-
-Any ideas?
-
-Cheers,
-
+diff --git a/meta/recipes-multimedia/pulseaudio/libcanberra_0.28.bb b/meta/recipes-multimedia/pulseaudio/libcanberra_0.29.bb
+similarity index 76%
+rename from meta/recipes-multimedia/pulseaudio/libcanberra_0.28.bb
+rename to meta/recipes-multimedia/pulseaudio/libcanberra_0.29.bb
+index e69c89d..27020c5 100644
+--- a/meta/recipes-multimedia/pulseaudio/libcanberra_0.28.bb
++++ b/meta/recipes-multimedia/pulseaudio/libcanberra_0.29.bb
+@@ -5,14 +5,14 @@ LIC_FILES_CHKSUM = "file://LGPL;md5=2d5025d4aa3495befef8f17206a5b0a1 \
+                     file://src/canberra.h;beginline=7;endline=24;md5=c616c687cf8da540a14f917e0d23ab03"
+ 
+ DEPENDS = "gtk+ pulseaudio alsa-lib libtool libvorbis"
+-PR = "r1"
++PR = "r0"
+ 
+ inherit gconf autotools
+ 
+-SRC_URI = "http://0pointer.de/lennart/projects/libcanberra/libcanberra-${PV}.tar.gz"
++SRC_URI = "http://0pointer.de/lennart/projects/libcanberra/libcanberra-${PV}.tar.xz"
+ 
+-SRC_URI[md5sum] = "c198b4811598c4c161ff505e4531b02c"
+-SRC_URI[sha256sum] = "eb1f8b2cabad7f07b6e44d606a91d73e1efca4b46daf92bd553e7222bc68868c"
++SRC_URI[md5sum] = "2594093a5d61047bd9cc87e955f86df8"
++SRC_URI[sha256sum] = "127a5ef07805856d63758e5180ebfb241d1f80094fd301c287591a15b8cfcd72"
+ 
+ EXTRA_OECONF = " --disable-oss --disable-ltdl-install" 
+ 
+@@ -25,8 +25,8 @@ PACKAGES += "${PN}-gnome"
+ FILES_${PN} += "${libdir}/gtk-2.0/modules/ ${datadir}/gnome"
+ FILES_${PN}-gnome += "${datadir}/gdm/autostart/LoginWindow/libcanberra-ready-sound.desktop \
+ 	              ${libdir}/gnome-settings-daemon-3.0/gtk-modules/canberra-gtk-module.desktop"
+-FILES_${PN}-dev += "${libdir}/libcanberra-0.28/libcanberra-*.so \
+-		    ${libdir}/libcanberra-0.28/libcanberra-*.la \
++FILES_${PN}-dev += "${libdir}/libcanberra-${PV}/libcanberra-*.so \
++		    ${libdir}/libcanberra-${PV}/libcanberra-*.la \
+ 		    ${datadir}/vala/vapi"
+-FILES_${PN}-dbg += "${libdir}/gtk-2.0/modules/.debug ${libdir}/libcanberra-0.28/.debug"
++FILES_${PN}-dbg += "${libdir}/gtk-2.0/modules/.debug ${libdir}/libcanberra-${PV}/.debug"
+ 
 -- 
-
-   Jack Mitchell (jack@embed.me.uk)
-   Embedded Systems Engineer
-   http://www.embed.me.uk
-
---
+1.7.9.5
 
 
 
