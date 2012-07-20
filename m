@@ -1,27 +1,31 @@
 Received: from masterfoo.zenlinux.com ([207.192.74.254])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1SsFSv-0001Tm-Ro
+	(envelope-from <scott.a.garman@intel.com>) id 1SsFSz-0001U5-BA
 	for openembedded-core@lists.openembedded.org;
-	Fri, 20 Jul 2012 17:50:06 +0200
+	Fri, 20 Jul 2012 17:50:09 +0200
 Received: from localhost (c-76-105-137-48.hsd1.or.comcast.net [76.105.137.48])
 	(using TLSv1 with cipher DHE-RSA-AES128-SHA (128/128 bits))
 	(No client certificate requested)
-	by masterfoo.zenlinux.com (Postfix) with ESMTP id B4E6C3041D
+	by masterfoo.zenlinux.com (Postfix) with ESMTP id 3717A3041E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jul 2012 11:38:38 -0400 (EDT)
+	Fri, 20 Jul 2012 11:38:42 -0400 (EDT)
 From: Scott Garman <scott.a.garman@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 20 Jul 2012 08:38:33 -0700
-Message-Id: <cover.1342798565.git.scott.a.garman@intel.com>
+Date: Fri, 20 Jul 2012 08:38:34 -0700
+Message-Id: <f173a01e48771440a03cafad988496fb20d720ee.1342798565.git.scott.a.garman@intel.com>
 X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1342798565.git.scott.a.garman@intel.com>
+References: <cover.1342798565.git.scott.a.garman@intel.com>
+In-Reply-To: <cover.1342798565.git.scott.a.garman@intel.com>
+References: <cover.1342798565.git.scott.a.garman@intel.com>
 X-MasterFoo-MailScanner-Information: Please contact the ISP for more
 	information
-X-MailScanner-ID: B4E6C3041D.86D39
+X-MailScanner-ID: 3717A3041E.3F8F3
 X-MasterFoo-MailScanner: Found to be clean
 X-MasterFoo-MailScanner-SpamCheck: not spam
 X-MasterFoo-MailScanner-From: scott.a.garman@intel.com
 X-Spam-Status: No
-Subject: [PATCH 0/1] openssl upgrade
+Subject: [PATCH 1/1] openssl: upgrade to 1.0.0j
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,34 +40,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Jul 2012 15:50:06 -0000
+X-List-Received-Date: Fri, 20 Jul 2012 15:50:09 -0000
 
-Hello,
+Addresses CVE-2012-2333
 
-This pull request upgrades openssl to 1.0.0j to address a security
-vulnerability.
+Fixes [YOCTO #2682]
 
-This pull request is intended for both master and denzil.
-
-It has been build-tested on all 5 of our QEMU architectures and
-run through our buildhistory system without problems.
-
-Thanks,
-
-Scott
-
-The following changes since commit ef637e417ae1c2dff7fc0ad6cb30989e72ac35ab:
-
-  grub-efi-native: remove help2man dependency (2012-07-20 12:32:13 +0100)
-
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib sgarman/openssl-upgrade-oe
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=sgarman/openssl-upgrade-oe
-
-Scott Garman (1):
-  openssl: upgrade to 1.0.0j
-
+Signed-off-by: Scott Garman <scott.a.garman@intel.com>
+---
  .../configure-targets.patch                        |    0
  .../debian/c_rehash-compat.patch                   |    0
  .../debian/ca.patch                                |    0
@@ -102,6 +86,92 @@ Scott Garman (1):
  rename meta/recipes-connectivity/openssl/{openssl-1.0.0i => openssl-1.0.0j}/shared-libs.patch (100%)
  rename meta/recipes-connectivity/openssl/{openssl_1.0.0i.bb => openssl_1.0.0j.bb} (90%)
 
+diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0i/configure-targets.patch b/meta/recipes-connectivity/openssl/openssl-1.0.0j/configure-targets.patch
+similarity index 100%
+rename from meta/recipes-connectivity/openssl/openssl-1.0.0i/configure-targets.patch
+rename to meta/recipes-connectivity/openssl/openssl-1.0.0j/configure-targets.patch
+diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0i/debian/c_rehash-compat.patch b/meta/recipes-connectivity/openssl/openssl-1.0.0j/debian/c_rehash-compat.patch
+similarity index 100%
+rename from meta/recipes-connectivity/openssl/openssl-1.0.0i/debian/c_rehash-compat.patch
+rename to meta/recipes-connectivity/openssl/openssl-1.0.0j/debian/c_rehash-compat.patch
+diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0i/debian/ca.patch b/meta/recipes-connectivity/openssl/openssl-1.0.0j/debian/ca.patch
+similarity index 100%
+rename from meta/recipes-connectivity/openssl/openssl-1.0.0i/debian/ca.patch
+rename to meta/recipes-connectivity/openssl/openssl-1.0.0j/debian/ca.patch
+diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0i/debian/debian-targets.patch b/meta/recipes-connectivity/openssl/openssl-1.0.0j/debian/debian-targets.patch
+similarity index 100%
+rename from meta/recipes-connectivity/openssl/openssl-1.0.0i/debian/debian-targets.patch
+rename to meta/recipes-connectivity/openssl/openssl-1.0.0j/debian/debian-targets.patch
+diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0i/debian/make-targets.patch b/meta/recipes-connectivity/openssl/openssl-1.0.0j/debian/make-targets.patch
+similarity index 100%
+rename from meta/recipes-connectivity/openssl/openssl-1.0.0i/debian/make-targets.patch
+rename to meta/recipes-connectivity/openssl/openssl-1.0.0j/debian/make-targets.patch
+diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0i/debian/man-dir.patch b/meta/recipes-connectivity/openssl/openssl-1.0.0j/debian/man-dir.patch
+similarity index 100%
+rename from meta/recipes-connectivity/openssl/openssl-1.0.0i/debian/man-dir.patch
+rename to meta/recipes-connectivity/openssl/openssl-1.0.0j/debian/man-dir.patch
+diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0i/debian/man-section.patch b/meta/recipes-connectivity/openssl/openssl-1.0.0j/debian/man-section.patch
+similarity index 100%
+rename from meta/recipes-connectivity/openssl/openssl-1.0.0i/debian/man-section.patch
+rename to meta/recipes-connectivity/openssl/openssl-1.0.0j/debian/man-section.patch
+diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0i/debian/no-rpath.patch b/meta/recipes-connectivity/openssl/openssl-1.0.0j/debian/no-rpath.patch
+similarity index 100%
+rename from meta/recipes-connectivity/openssl/openssl-1.0.0i/debian/no-rpath.patch
+rename to meta/recipes-connectivity/openssl/openssl-1.0.0j/debian/no-rpath.patch
+diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0i/debian/no-symbolic.patch b/meta/recipes-connectivity/openssl/openssl-1.0.0j/debian/no-symbolic.patch
+similarity index 100%
+rename from meta/recipes-connectivity/openssl/openssl-1.0.0i/debian/no-symbolic.patch
+rename to meta/recipes-connectivity/openssl/openssl-1.0.0j/debian/no-symbolic.patch
+diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0i/debian/pic.patch b/meta/recipes-connectivity/openssl/openssl-1.0.0j/debian/pic.patch
+similarity index 100%
+rename from meta/recipes-connectivity/openssl/openssl-1.0.0i/debian/pic.patch
+rename to meta/recipes-connectivity/openssl/openssl-1.0.0j/debian/pic.patch
+diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0i/debian/version-script.patch b/meta/recipes-connectivity/openssl/openssl-1.0.0j/debian/version-script.patch
+similarity index 100%
+rename from meta/recipes-connectivity/openssl/openssl-1.0.0i/debian/version-script.patch
+rename to meta/recipes-connectivity/openssl/openssl-1.0.0j/debian/version-script.patch
+diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0i/engines-install-in-libdir-ssl.patch b/meta/recipes-connectivity/openssl/openssl-1.0.0j/engines-install-in-libdir-ssl.patch
+similarity index 100%
+rename from meta/recipes-connectivity/openssl/openssl-1.0.0i/engines-install-in-libdir-ssl.patch
+rename to meta/recipes-connectivity/openssl/openssl-1.0.0j/engines-install-in-libdir-ssl.patch
+diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0i/find.pl b/meta/recipes-connectivity/openssl/openssl-1.0.0j/find.pl
+similarity index 100%
+rename from meta/recipes-connectivity/openssl/openssl-1.0.0i/find.pl
+rename to meta/recipes-connectivity/openssl/openssl-1.0.0j/find.pl
+diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0i/oe-ldflags.patch b/meta/recipes-connectivity/openssl/openssl-1.0.0j/oe-ldflags.patch
+similarity index 100%
+rename from meta/recipes-connectivity/openssl/openssl-1.0.0i/oe-ldflags.patch
+rename to meta/recipes-connectivity/openssl/openssl-1.0.0j/oe-ldflags.patch
+diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0i/openssl-fix-link.patch b/meta/recipes-connectivity/openssl/openssl-1.0.0j/openssl-fix-link.patch
+similarity index 100%
+rename from meta/recipes-connectivity/openssl/openssl-1.0.0i/openssl-fix-link.patch
+rename to meta/recipes-connectivity/openssl/openssl-1.0.0j/openssl-fix-link.patch
+diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0i/openssl_fix_for_x32.patch b/meta/recipes-connectivity/openssl/openssl-1.0.0j/openssl_fix_for_x32.patch
+similarity index 100%
+rename from meta/recipes-connectivity/openssl/openssl-1.0.0i/openssl_fix_for_x32.patch
+rename to meta/recipes-connectivity/openssl/openssl-1.0.0j/openssl_fix_for_x32.patch
+diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0i/shared-libs.patch b/meta/recipes-connectivity/openssl/openssl-1.0.0j/shared-libs.patch
+similarity index 100%
+rename from meta/recipes-connectivity/openssl/openssl-1.0.0i/shared-libs.patch
+rename to meta/recipes-connectivity/openssl/openssl-1.0.0j/shared-libs.patch
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.0i.bb b/meta/recipes-connectivity/openssl/openssl_1.0.0j.bb
+similarity index 90%
+rename from meta/recipes-connectivity/openssl/openssl_1.0.0i.bb
+rename to meta/recipes-connectivity/openssl/openssl_1.0.0j.bb
+index c233ba1..7dac79c 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.0.0i.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.0.0j.bb
+@@ -32,8 +32,8 @@ SRC_URI += "file://configure-targets.patch \
+             file://find.pl \
+            "
+ 
+-SRC_URI[md5sum] = "b4df9c11af454fd68178c85a1d5f328f"
+-SRC_URI[sha256sum] = "548262d15777c504be1ab9bb8fabef1e14a3de54837a6593c8f403dd843d5e57"
++SRC_URI[md5sum] = "cbe4ac0d8f598680f68a951e04b0996b"
++SRC_URI[sha256sum] = "626fb8fcb3eb7e966edbe71553ff993d137f6e8a87b05051a3695e621098b8af"
+ 
+ PACKAGES =+ " \
+ 	${PN}-engines \
 -- 
 1.7.9.5
 
