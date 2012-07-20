@@ -1,36 +1,34 @@
-Received: from mail.cvg.de ([62.153.82.30])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1SsBxB-0006p2-Se
-	for openembedded-core@lists.openembedded.org;
-	Fri, 20 Jul 2012 14:05:06 +0200
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id q6KBrb8G021063
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1SsC80-0000hz-I8 for openembedded-core@lists.openembedded.org;
+	Fri, 20 Jul 2012 14:16:18 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6KC4riV011990
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 20 Jul 2012 13:04:53 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 10396-03 for <openembedded-core@lists.openembedded.org>;
+	Fri, 20 Jul 2012 13:04:49 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6KC4k3x011984
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jul 2012 13:53:38 +0200
-Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
-	4.76) (envelope-from <ensc@sigma-chemnitz.de>) id 1SsBm5-0003pL-1U
-	for openembedded-core@lists.openembedded.org;
-	Fri, 20 Jul 2012 13:53:37 +0200
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-To: openembedded-core@lists.openembedded.org
+	Fri, 20 Jul 2012 13:04:47 +0100
+Message-ID: <1342785890.21788.10.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Fri, 20 Jul 2012 13:04:50 +0100
+In-Reply-To: <ly629i7inz.fsf@ensc-virt.intern.sigma-chemnitz.de>
 References: <lyk3xy7mlu.fsf@ensc-virt.intern.sigma-chemnitz.de>
 	<20120720104117.GE3534@jama.jama.net> <1342782398.21788.7.camel@ted>
-Date: Fri, 20 Jul 2012 13:53:36 +0200
-In-Reply-To: <1342782398.21788.7.camel@ted> (Richard Purdie's message of "Fri, 
-	20 Jul 2012 12:06:38 +0100")
-Message-ID: <ly629i7inz.fsf@ensc-virt.intern.sigma-chemnitz.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.1 (gnu/linux)
-MIME-Version: 1.0
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-X-DSPAM-Result: Innocent
-X-DSPAM-Probability: 0
-X-DSPAM-Confidence: 0.99
-X-Spam-Score: -5.2
-X-Spam-Level: -----
-X-Spam-Tests: AWL,BAYES_00,SPF_NEUTRAL,T_RP_MATCHES_RCVD,DSPAM_INNOCENT
-X-Scanned-By: MIMEDefang 2.73
+	<ly629i7inz.fsf@ensc-virt.intern.sigma-chemnitz.de>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
 Subject: Re: Broken parallel build of gcc*
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -46,27 +44,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Jul 2012 12:05:06 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 20 Jul 2012 12:16:20 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Richard Purdie
-<richard.purdie-hQyY1W1yCW8ekmWlsbkhG0B+6BGkLq7r@public.gmane.org>
-writes:
+On Fri, 2012-07-20 at 13:53 +0200, Enrico Scholz wrote:
+> Richard Purdie
+> <richard.purdie-hQyY1W1yCW8ekmWlsbkhG0B+6BGkLq7r@public.gmane.org>
+> writes:
+> 
+> > Encrico: Which DISTRO are you using and do you use rm_work*.bbclass?
+> 
+> yes; rm_old_work seems to cause the problem.  Task uses ${PN} and was
+> declared with
+> 
+>   addtask rm_old_work before do_unpack
+> 
+> which causes different base hashes.
+> 
+> 
+> Is there a way to exclude such tasks from the signature handling?
 
-> Encrico: Which DISTRO are you using and do you use rm_work*.bbclass?
+The easiest option is probably something like:
 
-yes; rm_old_work seems to cause the problem.  Task uses ${PN} and was
-declared with
+do_rm_old_works[vardepexclude] = "PN"
 
-  addtask rm_old_work before do_unpack
+but this will trigger rebuilds depending on whether rm_work_old is
+turned on or off.
 
-which causes different base hashes.
+The more advanced way to fix this would be in:
 
+http://git.yoctoproject.org/cgit.cgi/poky/tree/meta/lib/oe/sstatesig.py
 
-Is there a way to exclude such tasks from the signature handling?
+probably something like:
 
+if dep.endswith("do_rm_old_works"):
+    return False
 
+before the first check.
 
-Enrico
+Cheers,
+
+Richard
+
 
 
