@@ -1,32 +1,33 @@
 Received: from mail-pb0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1SsMHQ-0003s7-If
+	(envelope-from <raj.khem@gmail.com>) id 1SsMHR-0003sC-Mv
 	for openembedded-core@lists.openembedded.org;
-	Sat, 21 Jul 2012 01:06:40 +0200
-Received: by pbbrq2 with SMTP id rq2so6138963pbb.6
+	Sat, 21 Jul 2012 01:06:42 +0200
+Received: by pbbrq2 with SMTP id rq2so6138996pbb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jul 2012 15:55:15 -0700 (PDT)
+	Fri, 20 Jul 2012 15:55:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=/ddGD9WhVhCiSc49TKhhj2GhUBmyljvO8t4+zVN4Vc0=;
-	b=d8ihqKE2U+2PbW3zzBdq7SKeAXkIBYWcB7NVcuffWk1pfN2ojhTqV/aSMNOPRSF3Mo
-	ictmkB8lXtnI7cpuzYAG+s8QjbOhkr4iHY9d2EYzxr7ovIKzo7IS29hnMQ76DDTDgD5y
-	gC2vwo82ihuOsVQXMs0EqpyTV9x4359BhtdaOsQETi7Fx+9gOkpnJjziU6+9vG7qoHXZ
-	SauONXKb267mwwvuNex/wcPnlZqGxfDPrwXQfhJCTDoRw16SmCzwEDs12bJxKNlOCXaF
-	Q94rjzE4pkQfF8ms5Ei9DWAKjoGm2PCq1cfgAp3C+KyZBl+BNIuGUVCVZ4dr3X0o2ffZ
-	ReTQ==
-Received: by 10.66.75.168 with SMTP id d8mr14520405paw.63.1342824915743;
-	Fri, 20 Jul 2012 15:55:15 -0700 (PDT)
+	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
+	bh=ka61dzU6MrBb+q1LFPW2C5YJgGk5+uxqFZarbv/o4x4=;
+	b=0S2wizDNeApL8W0qOZN7ksBX28rw/4K4hwOlwyZGUZ+lZFySpmBgncIr4/47c4dwHQ
+	x3ptMmYQhGiUPwkleoaTTmG2nKxqJS994oCXS9aejGYpZSwrtP/WSXal5rmW+a7YJo83
+	7m6dTPp9TWpfako2N+RPiqkPm5H0Jhgy1yoaYAA+cK2kdLrQgOf5XoxNCzeBMMpykB0s
+	zL1aJQdlF1p+1BBSHpEKFSLEInvDXbSbaAPqn1//6gb7wjdk/dNKMvG/dcNMvlVyNswl
+	Z/eQhyv8PXX3Tw6I+8yEMEVQblcCH2gOP97Eu5bJrQWQGt4ebYnJqhx4JbD7pL6J9AzF
+	eBjg==
+Received: by 10.66.78.73 with SMTP id z9mr14810560paw.9.1342824917368;
+	Fri, 20 Jul 2012 15:55:17 -0700 (PDT)
 Received: from kraj-lnx.juniper.net (natint3.juniper.net. [66.129.224.36])
-	by mx.google.com with ESMTPS id ot4sm4775373pbb.65.2012.07.20.15.55.14
-	(version=SSLv3 cipher=OTHER); Fri, 20 Jul 2012 15:55:14 -0700 (PDT)
+	by mx.google.com with ESMTPS id ot4sm4775373pbb.65.2012.07.20.15.55.15
+	(version=SSLv3 cipher=OTHER); Fri, 20 Jul 2012 15:55:16 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 20 Jul 2012 15:55:12 -0700
-Message-Id: <1342824914-24712-1-git-send-email-raj.khem@gmail.com>
+Date: Fri, 20 Jul 2012 15:55:13 -0700
+Message-Id: <1342824914-24712-2-git-send-email-raj.khem@gmail.com>
 X-Mailer: git-send-email 1.7.9.5
-Cc: Khem Raj <kraj@juniper.net>
-Subject: [PATCH 1/3] cmake: Upgrade recipes to 2.8.8
+In-Reply-To: <1342824914-24712-1-git-send-email-raj.khem@gmail.com>
+References: <1342824914-24712-1-git-send-email-raj.khem@gmail.com>
+Subject: [PATCH 2/3] qemu: Fix illegal instruction errors on e500 emulation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,167 +42,658 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Jul 2012 23:06:41 -0000
+X-List-Received-Date: Fri, 20 Jul 2012 23:06:42 -0000
 
-From: Khem Raj <kraj@juniper.net>
+I caught this when running user mode qemu for ppc/e500 applications
+which had SPE instructions in them will abort with illegal instruction
+error all the time.
 
-Copyright year change means a change in checksum
-...
-
- CMake - Cross Platform Makefile Generator
--Copyright 2000-2009 Kitware, Inc., Insight Software Consortium
-+Copyright 2000-2011 Kitware, Inc., Insight Software Consortium
- All rights reserved.
+The patch is already applied upstream we needed a backport into 0.15.x
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-devtools/cmake/cmake-native_2.8.5.bb |    7 ----
- meta/recipes-devtools/cmake/cmake-native_2.8.8.bb |    8 +++++
- meta/recipes-devtools/cmake/cmake.inc             |    4 +--
- meta/recipes-devtools/cmake/cmake_2.8.5.bb        |   40 ---------------------
- meta/recipes-devtools/cmake/cmake_2.8.8.bb        |   40 +++++++++++++++++++++
- 5 files changed, 50 insertions(+), 49 deletions(-)
- delete mode 100644 meta/recipes-devtools/cmake/cmake-native_2.8.5.bb
- create mode 100644 meta/recipes-devtools/cmake/cmake-native_2.8.8.bb
- delete mode 100644 meta/recipes-devtools/cmake/cmake_2.8.5.bb
- create mode 100644 meta/recipes-devtools/cmake/cmake_2.8.8.bb
+ .../qemu-0.15.1/ppc-s500-set-invalid-mask.patch    |  610 ++++++++++++++++++++
+ meta/recipes-devtools/qemu/qemu_0.15.1.bb          |    3 +-
+ 2 files changed, 612 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/qemu/qemu-0.15.1/ppc-s500-set-invalid-mask.patch
 
-diff --git a/meta/recipes-devtools/cmake/cmake-native_2.8.5.bb b/meta/recipes-devtools/cmake/cmake-native_2.8.5.bb
-deleted file mode 100644
-index 3fe0c2e..0000000
---- a/meta/recipes-devtools/cmake/cmake-native_2.8.5.bb
-+++ /dev/null
-@@ -1,7 +0,0 @@
--require cmake.inc
--inherit native
--
--PR = "${INC_PR}.1"
--
--SRC_URI[md5sum] = "3c5d32cec0f4c2dc45f4c2e84f4a20c5"
--SRC_URI[sha256sum] = "5e18bff75f01656c64f553412a8905527e1b85efaf3163c6fb81ea5aaced0b91"
-diff --git a/meta/recipes-devtools/cmake/cmake-native_2.8.8.bb b/meta/recipes-devtools/cmake/cmake-native_2.8.8.bb
+diff --git a/meta/recipes-devtools/qemu/qemu-0.15.1/ppc-s500-set-invalid-mask.patch b/meta/recipes-devtools/qemu/qemu-0.15.1/ppc-s500-set-invalid-mask.patch
 new file mode 100644
-index 0000000..03d57d1
+index 0000000..4c2134b
 --- /dev/null
-+++ b/meta/recipes-devtools/cmake/cmake-native_2.8.8.bb
-@@ -0,0 +1,8 @@
-+require cmake.inc
-+inherit native
++++ b/meta/recipes-devtools/qemu/qemu-0.15.1/ppc-s500-set-invalid-mask.patch
+@@ -0,0 +1,610 @@
++Upstream-Status: Backport
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
 +
-+PR = "${INC_PR}.0"
++X-Git-Url: http://git.qemu.org/?p=qemu.git;a=blobdiff_plain;f=target-ppc%2Ftranslate.c;h=99e995c7b6094b0651d176f9b813525b44b7a74e;hp=1e362fc2385faeca53d0c1de37ccd7a7379202da;hb=70560da79d5be611bd7867f9c590847702c61fb5;hpb=bdcf9d6cd4ff987e58ba4f311ba7b1a33cf3ce5e
 +
-+SRC_URI[md5sum] = "ba74b22c788a0c8547976b880cd02b17"
-+SRC_URI[sha256sum] = "2b59897864d6220ff20aa8eac64cac8994e004898a1c0f899c8cb4d7b7570b46"
-+
-diff --git a/meta/recipes-devtools/cmake/cmake.inc b/meta/recipes-devtools/cmake/cmake.inc
-index d080e50..6dc319c 100644
---- a/meta/recipes-devtools/cmake/cmake.inc
-+++ b/meta/recipes-devtools/cmake/cmake.inc
-@@ -6,10 +6,10 @@ HOMEPAGE = "http://www.cmake.org/"
- BUGTRACKER = "http://public.kitware.com/Bug/my_view_page.php"
- SECTION = "console/utils"
- LICENSE = "BSD"
--LIC_FILES_CHKSUM = "file://Copyright.txt;md5=f372516292ff7c33337bf16a74a5f9a8 \
-+LIC_FILES_CHKSUM = "file://Copyright.txt;md5=bb2fa3a08736b842556f6171bb9e8ae1 \
-                     file://Source/cmake.h;beginline=1;endline=10;md5=341736dae83c9e344b53eeb1bc7d7bc2"
++Index: qemu-0.15.1/target-ppc/translate.c
++===================================================================
++--- qemu-0.15.1.orig/target-ppc/translate.c	2011-10-12 09:41:43.000000000 -0700
+++++ qemu-0.15.1/target-ppc/translate.c	2012-07-20 08:14:33.192405920 -0700
++@@ -196,8 +196,10 @@
++ } DisasContext;
++ 
++ struct opc_handler_t {
++-    /* invalid bits */
++-    uint32_t inval;
+++    /* invalid bits for instruction 1 (Rc(opcode) == 0) */
+++    uint32_t inval1;
+++    /* invalid bits for instruction 2 (Rc(opcode) == 1) */
+++    uint32_t inval2;
++     /* instruction type */
++     uint64_t type;
++     /* extended instruction type */
++@@ -469,7 +471,23 @@
++     .opc3 = op3,                                                              \
++     .pad  = { 0, },                                                           \
++     .handler = {                                                              \
++-        .inval   = invl,                                                      \
+++        .inval1  = invl,                                                      \
+++        .type = _typ,                                                         \
+++        .type2 = _typ2,                                                       \
+++        .handler = &gen_##name,                                               \
+++        .oname = stringify(name),                                             \
+++    },                                                                        \
+++    .oname = stringify(name),                                                 \
+++}
+++#define GEN_OPCODE_DUAL(name, op1, op2, op3, invl1, invl2, _typ, _typ2)       \
+++{                                                                             \
+++    .opc1 = op1,                                                              \
+++    .opc2 = op2,                                                              \
+++    .opc3 = op3,                                                              \
+++    .pad  = { 0, },                                                           \
+++    .handler = {                                                              \
+++        .inval1  = invl1,                                                     \
+++        .inval2  = invl2,                                                     \
++         .type = _typ,                                                         \
++         .type2 = _typ2,                                                       \
++         .handler = &gen_##name,                                               \
++@@ -484,7 +502,7 @@
++     .opc3 = op3,                                                              \
++     .pad  = { 0, },                                                           \
++     .handler = {                                                              \
++-        .inval   = invl,                                                      \
+++        .inval1  = invl,                                                      \
++         .type = _typ,                                                         \
++         .type2 = _typ2,                                                       \
++         .handler = &gen_##name,                                               \
++@@ -500,7 +518,22 @@
++     .opc3 = op3,                                                              \
++     .pad  = { 0, },                                                           \
++     .handler = {                                                              \
++-        .inval   = invl,                                                      \
+++        .inval1  = invl,                                                      \
+++        .type = _typ,                                                         \
+++        .type2 = _typ2,                                                       \
+++        .handler = &gen_##name,                                               \
+++    },                                                                        \
+++    .oname = stringify(name),                                                 \
+++}
+++#define GEN_OPCODE_DUAL(name, op1, op2, op3, invl1, invl2, _typ, _typ2)       \
+++{                                                                             \
+++    .opc1 = op1,                                                              \
+++    .opc2 = op2,                                                              \
+++    .opc3 = op3,                                                              \
+++    .pad  = { 0, },                                                           \
+++    .handler = {                                                              \
+++        .inval1  = invl1,                                                     \
+++        .inval2  = invl2,                                                     \
++         .type = _typ,                                                         \
++         .type2 = _typ2,                                                       \
++         .handler = &gen_##name,                                               \
++@@ -514,7 +547,7 @@
++     .opc3 = op3,                                                              \
++     .pad  = { 0, },                                                           \
++     .handler = {                                                              \
++-        .inval   = invl,                                                      \
+++        .inval1  = invl,                                                      \
++         .type = _typ,                                                         \
++         .type2 = _typ2,                                                       \
++         .handler = &gen_##name,                                               \
++@@ -541,7 +574,8 @@
++ }
++ 
++ static opc_handler_t invalid_handler = {
++-    .inval   = 0xFFFFFFFF,
+++    .inval1  = 0xFFFFFFFF,
+++    .inval2  = 0xFFFFFFFF,
++     .type    = PPC_NONE,
++     .type2   = PPC_NONE,
++     .handler = gen_invalid,
++@@ -6672,7 +6706,7 @@
++ #endif
++ }
++ 
++-#define GEN_SPE(name0, name1, opc2, opc3, inval, type)                        \
+++#define GEN_SPE(name0, name1, opc2, opc3, inval0, inval1, type)         \
++ static void glue(gen_, name0##_##name1)(DisasContext *ctx)                    \
++ {                                                                             \
++     if (Rc(ctx->opcode))                                                      \
++@@ -7395,35 +7429,35 @@
++     tcg_temp_free_i64(tmp);
++ }
++ 
++-GEN_SPE(evaddw,         speundef,      0x00, 0x08, 0x00000000, PPC_SPE); ////
++-GEN_SPE(evaddiw,        speundef,      0x01, 0x08, 0x00000000, PPC_SPE);
++-GEN_SPE(evsubfw,        speundef,      0x02, 0x08, 0x00000000, PPC_SPE); ////
++-GEN_SPE(evsubifw,       speundef,      0x03, 0x08, 0x00000000, PPC_SPE);
++-GEN_SPE(evabs,          evneg,         0x04, 0x08, 0x0000F800, PPC_SPE); ////
++-GEN_SPE(evextsb,        evextsh,       0x05, 0x08, 0x0000F800, PPC_SPE); ////
++-GEN_SPE(evrndw,         evcntlzw,      0x06, 0x08, 0x0000F800, PPC_SPE); ////
++-GEN_SPE(evcntlsw,       brinc,         0x07, 0x08, 0x00000000, PPC_SPE); //
++-GEN_SPE(evmra,          speundef,      0x02, 0x13, 0x0000F800, PPC_SPE);
++-GEN_SPE(speundef,       evand,         0x08, 0x08, 0x00000000, PPC_SPE); ////
++-GEN_SPE(evandc,         speundef,      0x09, 0x08, 0x00000000, PPC_SPE); ////
++-GEN_SPE(evxor,          evor,          0x0B, 0x08, 0x00000000, PPC_SPE); ////
++-GEN_SPE(evnor,          eveqv,         0x0C, 0x08, 0x00000000, PPC_SPE); ////
++-GEN_SPE(evmwumi,        evmwsmi,       0x0C, 0x11, 0x00000000, PPC_SPE);
++-GEN_SPE(evmwumia,       evmwsmia,      0x1C, 0x11, 0x00000000, PPC_SPE);
++-GEN_SPE(evmwumiaa,      evmwsmiaa,     0x0C, 0x15, 0x00000000, PPC_SPE);
++-GEN_SPE(speundef,       evorc,         0x0D, 0x08, 0x00000000, PPC_SPE); ////
++-GEN_SPE(evnand,         speundef,      0x0F, 0x08, 0x00000000, PPC_SPE); ////
++-GEN_SPE(evsrwu,         evsrws,        0x10, 0x08, 0x00000000, PPC_SPE); ////
++-GEN_SPE(evsrwiu,        evsrwis,       0x11, 0x08, 0x00000000, PPC_SPE);
++-GEN_SPE(evslw,          speundef,      0x12, 0x08, 0x00000000, PPC_SPE); ////
++-GEN_SPE(evslwi,         speundef,      0x13, 0x08, 0x00000000, PPC_SPE);
++-GEN_SPE(evrlw,          evsplati,      0x14, 0x08, 0x00000000, PPC_SPE); //
++-GEN_SPE(evrlwi,         evsplatfi,     0x15, 0x08, 0x00000000, PPC_SPE);
++-GEN_SPE(evmergehi,      evmergelo,     0x16, 0x08, 0x00000000, PPC_SPE); ////
++-GEN_SPE(evmergehilo,    evmergelohi,   0x17, 0x08, 0x00000000, PPC_SPE); ////
++-GEN_SPE(evcmpgtu,       evcmpgts,      0x18, 0x08, 0x00600000, PPC_SPE); ////
++-GEN_SPE(evcmpltu,       evcmplts,      0x19, 0x08, 0x00600000, PPC_SPE); ////
++-GEN_SPE(evcmpeq,        speundef,      0x1A, 0x08, 0x00600000, PPC_SPE); ////
+++GEN_SPE(evaddw,      speundef,    0x00, 0x08, 0x00000000, 0xFFFFFFFF, PPC_SPE); ////
+++GEN_SPE(evaddiw,     speundef,    0x01, 0x08, 0x00000000, 0xFFFFFFFF, PPC_SPE);
+++GEN_SPE(evsubfw,     speundef,    0x02, 0x08, 0x00000000, 0xFFFFFFFF, PPC_SPE); ////
+++GEN_SPE(evsubifw,    speundef,    0x03, 0x08, 0x00000000, 0xFFFFFFFF, PPC_SPE);
+++GEN_SPE(evabs,       evneg,       0x04, 0x08, 0x0000F800, 0x0000F800, PPC_SPE); ////
+++GEN_SPE(evextsb,     evextsh,     0x05, 0x08, 0x0000F800, 0x0000F800, PPC_SPE); ////
+++GEN_SPE(evrndw,      evcntlzw,    0x06, 0x08, 0x0000F800, 0x0000F800, PPC_SPE); ////
+++GEN_SPE(evcntlsw,    brinc,       0x07, 0x08, 0x0000F800, 0x00000000, PPC_SPE); //
+++GEN_SPE(evmra,       speundef,    0x02, 0x13, 0x0000F800, 0xFFFFFFFF, PPC_SPE);
+++GEN_SPE(speundef,    evand,       0x08, 0x08, 0xFFFFFFFF, 0x00000000, PPC_SPE); ////
+++GEN_SPE(evandc,      speundef,    0x09, 0x08, 0x00000000, 0xFFFFFFFF, PPC_SPE); ////
+++GEN_SPE(evxor,       evor,        0x0B, 0x08, 0x00000000, 0x00000000, PPC_SPE); ////
+++GEN_SPE(evnor,       eveqv,       0x0C, 0x08, 0x00000000, 0x00000000, PPC_SPE); ////
+++GEN_SPE(evmwumi,     evmwsmi,     0x0C, 0x11, 0x00000000, 0x00000000, PPC_SPE);
+++GEN_SPE(evmwumia,    evmwsmia,    0x1C, 0x11, 0x00000000, 0x00000000, PPC_SPE);
+++GEN_SPE(evmwumiaa,   evmwsmiaa,   0x0C, 0x15, 0x00000000, 0x00000000, PPC_SPE);
+++GEN_SPE(speundef,    evorc,       0x0D, 0x08, 0xFFFFFFFF, 0x00000000, PPC_SPE); ////
+++GEN_SPE(evnand,      speundef,    0x0F, 0x08, 0x00000000, 0xFFFFFFFF, PPC_SPE); ////
+++GEN_SPE(evsrwu,      evsrws,      0x10, 0x08, 0x00000000, 0x00000000, PPC_SPE); ////
+++GEN_SPE(evsrwiu,     evsrwis,     0x11, 0x08, 0x00000000, 0x00000000, PPC_SPE);
+++GEN_SPE(evslw,       speundef,    0x12, 0x08, 0x00000000, 0xFFFFFFFF, PPC_SPE); ////
+++GEN_SPE(evslwi,      speundef,    0x13, 0x08, 0x00000000, 0xFFFFFFFF, PPC_SPE);
+++GEN_SPE(evrlw,       evsplati,    0x14, 0x08, 0x00000000, 0x0000F800, PPC_SPE); //
+++GEN_SPE(evrlwi,      evsplatfi,   0x15, 0x08, 0x00000000, 0x0000F800, PPC_SPE);
+++GEN_SPE(evmergehi,   evmergelo,   0x16, 0x08, 0x00000000, 0x00000000, PPC_SPE); ////
+++GEN_SPE(evmergehilo, evmergelohi, 0x17, 0x08, 0x00000000, 0x00000000, PPC_SPE); ////
+++GEN_SPE(evcmpgtu,    evcmpgts,    0x18, 0x08, 0x00600000, 0x00600000, PPC_SPE); ////
+++GEN_SPE(evcmpltu,    evcmplts,    0x19, 0x08, 0x00600000, 0x00600000, PPC_SPE); ////
+++GEN_SPE(evcmpeq,     speundef,    0x1A, 0x08, 0x00600000, 0xFFFFFFFF, PPC_SPE); ////
++ 
++ /* SPE load and stores */
++ static inline void gen_addr_spe_imm_index(DisasContext *ctx, TCGv EA, int sh)
++@@ -7782,74 +7816,74 @@
++ 
++ /* Multiply and add - TODO */
++ #if 0
++-GEN_SPE(speundef,       evmhessf,      0x01, 0x10, 0x00000000, PPC_SPE);
++-GEN_SPE(speundef,       evmhossf,      0x03, 0x10, 0x00000000, PPC_SPE);
++-GEN_SPE(evmheumi,       evmhesmi,      0x04, 0x10, 0x00000000, PPC_SPE);
++-GEN_SPE(speundef,       evmhesmf,      0x05, 0x10, 0x00000000, PPC_SPE);
++-GEN_SPE(evmhoumi,       evmhosmi,      0x06, 0x10, 0x00000000, PPC_SPE);
++-GEN_SPE(speundef,       evmhosmf,      0x07, 0x10, 0x00000000, PPC_SPE);
++-GEN_SPE(speundef,       evmhessfa,     0x11, 0x10, 0x00000000, PPC_SPE);
++-GEN_SPE(speundef,       evmhossfa,     0x13, 0x10, 0x00000000, PPC_SPE);
++-GEN_SPE(evmheumia,      evmhesmia,     0x14, 0x10, 0x00000000, PPC_SPE);
++-GEN_SPE(speundef,       evmhesmfa,     0x15, 0x10, 0x00000000, PPC_SPE);
++-GEN_SPE(evmhoumia,      evmhosmia,     0x16, 0x10, 0x00000000, PPC_SPE);
++-GEN_SPE(speundef,       evmhosmfa,     0x17, 0x10, 0x00000000, PPC_SPE);
++-
++-GEN_SPE(speundef,       evmwhssf,      0x03, 0x11, 0x00000000, PPC_SPE);
++-GEN_SPE(evmwlumi,       speundef,      0x04, 0x11, 0x00000000, PPC_SPE);
++-GEN_SPE(evmwhumi,       evmwhsmi,      0x06, 0x11, 0x00000000, PPC_SPE);
++-GEN_SPE(speundef,       evmwhsmf,      0x07, 0x11, 0x00000000, PPC_SPE);
++-GEN_SPE(speundef,       evmwssf,       0x09, 0x11, 0x00000000, PPC_SPE);
++-GEN_SPE(speundef,       evmwsmf,       0x0D, 0x11, 0x00000000, PPC_SPE);
++-GEN_SPE(speundef,       evmwhssfa,     0x13, 0x11, 0x00000000, PPC_SPE);
++-GEN_SPE(evmwlumia,      speundef,      0x14, 0x11, 0x00000000, PPC_SPE);
++-GEN_SPE(evmwhumia,      evmwhsmia,     0x16, 0x11, 0x00000000, PPC_SPE);
++-GEN_SPE(speundef,       evmwhsmfa,     0x17, 0x11, 0x00000000, PPC_SPE);
++-GEN_SPE(speundef,       evmwssfa,      0x19, 0x11, 0x00000000, PPC_SPE);
++-GEN_SPE(speundef,       evmwsmfa,      0x1D, 0x11, 0x00000000, PPC_SPE);
++-
++-GEN_SPE(evadduiaaw,     evaddsiaaw,    0x00, 0x13, 0x0000F800, PPC_SPE);
++-GEN_SPE(evsubfusiaaw,   evsubfssiaaw,  0x01, 0x13, 0x0000F800, PPC_SPE);
++-GEN_SPE(evaddumiaaw,    evaddsmiaaw,   0x04, 0x13, 0x0000F800, PPC_SPE);
++-GEN_SPE(evsubfumiaaw,   evsubfsmiaaw,  0x05, 0x13, 0x0000F800, PPC_SPE);
++-GEN_SPE(evdivws,        evdivwu,       0x06, 0x13, 0x00000000, PPC_SPE);
++-
++-GEN_SPE(evmheusiaaw,    evmhessiaaw,   0x00, 0x14, 0x00000000, PPC_SPE);
++-GEN_SPE(speundef,       evmhessfaaw,   0x01, 0x14, 0x00000000, PPC_SPE);
++-GEN_SPE(evmhousiaaw,    evmhossiaaw,   0x02, 0x14, 0x00000000, PPC_SPE);
++-GEN_SPE(speundef,       evmhossfaaw,   0x03, 0x14, 0x00000000, PPC_SPE);
++-GEN_SPE(evmheumiaaw,    evmhesmiaaw,   0x04, 0x14, 0x00000000, PPC_SPE);
++-GEN_SPE(speundef,       evmhesmfaaw,   0x05, 0x14, 0x00000000, PPC_SPE);
++-GEN_SPE(evmhoumiaaw,    evmhosmiaaw,   0x06, 0x14, 0x00000000, PPC_SPE);
++-GEN_SPE(speundef,       evmhosmfaaw,   0x07, 0x14, 0x00000000, PPC_SPE);
++-GEN_SPE(evmhegumiaa,    evmhegsmiaa,   0x14, 0x14, 0x00000000, PPC_SPE);
++-GEN_SPE(speundef,       evmhegsmfaa,   0x15, 0x14, 0x00000000, PPC_SPE);
++-GEN_SPE(evmhogumiaa,    evmhogsmiaa,   0x16, 0x14, 0x00000000, PPC_SPE);
++-GEN_SPE(speundef,       evmhogsmfaa,   0x17, 0x14, 0x00000000, PPC_SPE);
++-
++-GEN_SPE(evmwlusiaaw,    evmwlssiaaw,   0x00, 0x15, 0x00000000, PPC_SPE);
++-GEN_SPE(evmwlumiaaw,    evmwlsmiaaw,   0x04, 0x15, 0x00000000, PPC_SPE);
++-GEN_SPE(speundef,       evmwssfaa,     0x09, 0x15, 0x00000000, PPC_SPE);
++-GEN_SPE(speundef,       evmwsmfaa,     0x0D, 0x15, 0x00000000, PPC_SPE);
++-
++-GEN_SPE(evmheusianw,    evmhessianw,   0x00, 0x16, 0x00000000, PPC_SPE);
++-GEN_SPE(speundef,       evmhessfanw,   0x01, 0x16, 0x00000000, PPC_SPE);
++-GEN_SPE(evmhousianw,    evmhossianw,   0x02, 0x16, 0x00000000, PPC_SPE);
++-GEN_SPE(speundef,       evmhossfanw,   0x03, 0x16, 0x00000000, PPC_SPE);
++-GEN_SPE(evmheumianw,    evmhesmianw,   0x04, 0x16, 0x00000000, PPC_SPE);
++-GEN_SPE(speundef,       evmhesmfanw,   0x05, 0x16, 0x00000000, PPC_SPE);
++-GEN_SPE(evmhoumianw,    evmhosmianw,   0x06, 0x16, 0x00000000, PPC_SPE);
++-GEN_SPE(speundef,       evmhosmfanw,   0x07, 0x16, 0x00000000, PPC_SPE);
++-GEN_SPE(evmhegumian,    evmhegsmian,   0x14, 0x16, 0x00000000, PPC_SPE);
++-GEN_SPE(speundef,       evmhegsmfan,   0x15, 0x16, 0x00000000, PPC_SPE);
++-GEN_SPE(evmhigumian,    evmhigsmian,   0x16, 0x16, 0x00000000, PPC_SPE);
++-GEN_SPE(speundef,       evmhogsmfan,   0x17, 0x16, 0x00000000, PPC_SPE);
++-
++-GEN_SPE(evmwlusianw,    evmwlssianw,   0x00, 0x17, 0x00000000, PPC_SPE);
++-GEN_SPE(evmwlumianw,    evmwlsmianw,   0x04, 0x17, 0x00000000, PPC_SPE);
++-GEN_SPE(speundef,       evmwssfan,     0x09, 0x17, 0x00000000, PPC_SPE);
++-GEN_SPE(evmwumian,      evmwsmian,     0x0C, 0x17, 0x00000000, PPC_SPE);
++-GEN_SPE(speundef,       evmwsmfan,     0x0D, 0x17, 0x00000000, PPC_SPE);
+++GEN_SPE(speundef,       evmhessf,      0x01, 0x10, 0xFFFFFFFF, 0x00000000, PPC_SPE);//
+++GEN_SPE(speundef,       evmhossf,      0x03, 0x10, 0xFFFFFFFF, 0x00000000, PPC_SPE);
+++GEN_SPE(evmheumi,       evmhesmi,      0x04, 0x10, 0x00000000, 0x00000000, PPC_SPE);
+++GEN_SPE(speundef,       evmhesmf,      0x05, 0x10, 0xFFFFFFFF, 0x00000000, PPC_SPE);
+++GEN_SPE(evmhoumi,       evmhosmi,      0x06, 0x10, 0x00000000, 0x00000000, PPC_SPE);
+++GEN_SPE(speundef,       evmhosmf,      0x07, 0x10, 0xFFFFFFFF, 0x00000000, PPC_SPE);
+++GEN_SPE(speundef,       evmhessfa,     0x11, 0x10, 0xFFFFFFFF, 0x00000000, PPC_SPE);
+++GEN_SPE(speundef,       evmhossfa,     0x13, 0x10, 0xFFFFFFFF, 0x00000000, PPC_SPE);
+++GEN_SPE(evmheumia,      evmhesmia,     0x14, 0x10, 0x00000000, 0x00000000, PPC_SPE);
+++GEN_SPE(speundef,       evmhesmfa,     0x15, 0x10, 0xFFFFFFFF, 0x00000000, PPC_SPE);
+++GEN_SPE(evmhoumia,      evmhosmia,     0x16, 0x10, 0x00000000, 0x00000000, PPC_SPE);
+++GEN_SPE(speundef,       evmhosmfa,     0x17, 0x10, 0xFFFFFFFF, 0x00000000, PPC_SPE);
+++
+++GEN_SPE(speundef,       evmwhssf,      0x03, 0x11, 0xFFFFFFFF, 0x00000000, PPC_SPE);
+++GEN_SPE(evmwlumi,       speundef,      0x04, 0x11, 0x00000000, 0xFFFFFFFF, PPC_SPE);
+++GEN_SPE(evmwhumi,       evmwhsmi,      0x06, 0x11, 0x00000000, 0x00000000, PPC_SPE);
+++GEN_SPE(speundef,       evmwhsmf,      0x07, 0x11, 0xFFFFFFFF, 0x00000000, PPC_SPE);
+++GEN_SPE(speundef,       evmwssf,       0x09, 0x11, 0xFFFFFFFF, 0x00000000, PPC_SPE);
+++GEN_SPE(speundef,       evmwsmf,       0x0D, 0x11, 0xFFFFFFFF, 0x00000000, PPC_SPE);
+++GEN_SPE(speundef,       evmwhssfa,     0x13, 0x11, 0xFFFFFFFF, 0x00000000, PPC_SPE);
+++GEN_SPE(evmwlumia,      speundef,      0x14, 0x11, 0x00000000, 0xFFFFFFFF, PPC_SPE);
+++GEN_SPE(evmwhumia,      evmwhsmia,     0x16, 0x11, 0x00000000, 0x00000000, PPC_SPE);
+++GEN_SPE(speundef,       evmwhsmfa,     0x17, 0x11, 0xFFFFFFFF, 0x00000000, PPC_SPE);
+++GEN_SPE(speundef,       evmwssfa,      0x19, 0x11, 0xFFFFFFFF, 0x00000000, PPC_SPE);
+++GEN_SPE(speundef,       evmwsmfa,      0x1D, 0x11, 0xFFFFFFFF, 0x00000000, PPC_SPE);
+++
+++GEN_SPE(evadduiaaw,     evaddsiaaw,    0x00, 0x13, 0x0000F800, 0x0000F800, PPC_SPE);
+++GEN_SPE(evsubfusiaaw,   evsubfssiaaw,  0x01, 0x13, 0x0000F800, 0x0000F800, PPC_SPE);
+++GEN_SPE(evaddumiaaw,    evaddsmiaaw,   0x04, 0x13, 0x0000F800, 0x0000F800, PPC_SPE);
+++GEN_SPE(evsubfumiaaw,   evsubfsmiaaw,  0x05, 0x13, 0x0000F800, 0x0000F800, PPC_SPE);
+++GEN_SPE(evdivws,        evdivwu,       0x06, 0x13, 0x00000000, 0x00000000, PPC_SPE);
+++
+++GEN_SPE(evmheusiaaw,    evmhessiaaw,   0x00, 0x14, 0x00000000, 0x00000000, PPC_SPE);
+++GEN_SPE(speundef,       evmhessfaaw,   0x01, 0x14, 0xFFFFFFFF, 0x00000000, PPC_SPE);
+++GEN_SPE(evmhousiaaw,    evmhossiaaw,   0x02, 0x14, 0x00000000, 0x00000000, PPC_SPE);
+++GEN_SPE(speundef,       evmhossfaaw,   0x03, 0x14, 0xFFFFFFFF, 0x00000000, PPC_SPE);
+++GEN_SPE(evmheumiaaw,    evmhesmiaaw,   0x04, 0x14, 0x00000000, 0x00000000, PPC_SPE);
+++GEN_SPE(speundef,       evmhesmfaaw,   0x05, 0x14, 0xFFFFFFFF, 0x00000000, PPC_SPE);
+++GEN_SPE(evmhoumiaaw,    evmhosmiaaw,   0x06, 0x14, 0x00000000, 0x00000000, PPC_SPE);
+++GEN_SPE(speundef,       evmhosmfaaw,   0x07, 0x14, 0xFFFFFFFF, 0x00000000, PPC_SPE);
+++GEN_SPE(evmhegumiaa,    evmhegsmiaa,   0x14, 0x14, 0x00000000, 0x00000000, PPC_SPE);
+++GEN_SPE(speundef,       evmhegsmfaa,   0x15, 0x14, 0xFFFFFFFF, 0x00000000, PPC_SPE);
+++GEN_SPE(evmhogumiaa,    evmhogsmiaa,   0x16, 0x14, 0x00000000, 0x00000000, PPC_SPE);
+++GEN_SPE(speundef,       evmhogsmfaa,   0x17, 0x14, 0xFFFFFFFF, 0x00000000, PPC_SPE);
+++
+++GEN_SPE(evmwlusiaaw,    evmwlssiaaw,   0x00, 0x15, 0x00000000, 0x00000000, PPC_SPE);
+++GEN_SPE(evmwlumiaaw,    evmwlsmiaaw,   0x04, 0x15, 0x00000000, 0x00000000, PPC_SPE);
+++GEN_SPE(speundef,       evmwssfaa,     0x09, 0x15, 0xFFFFFFFF, 0x00000000, PPC_SPE);
+++GEN_SPE(speundef,       evmwsmfaa,     0x0D, 0x15, 0xFFFFFFFF, 0x00000000, PPC_SPE);
+++
+++GEN_SPE(evmheusianw,    evmhessianw,   0x00, 0x16, 0x00000000, 0x00000000, PPC_SPE);
+++GEN_SPE(speundef,       evmhessfanw,   0x01, 0x16, 0xFFFFFFFF, 0x00000000, PPC_SPE);
+++GEN_SPE(evmhousianw,    evmhossianw,   0x02, 0x16, 0x00000000, 0x00000000, PPC_SPE);
+++GEN_SPE(speundef,       evmhossfanw,   0x03, 0x16, 0xFFFFFFFF, 0x00000000, PPC_SPE);
+++GEN_SPE(evmheumianw,    evmhesmianw,   0x04, 0x16, 0x00000000, 0x00000000, PPC_SPE);
+++GEN_SPE(speundef,       evmhesmfanw,   0x05, 0x16, 0xFFFFFFFF, 0x00000000, PPC_SPE);
+++GEN_SPE(evmhoumianw,    evmhosmianw,   0x06, 0x16, 0x00000000, 0x00000000, PPC_SPE);
+++GEN_SPE(speundef,       evmhosmfanw,   0x07, 0x16, 0xFFFFFFFF, 0x00000000, PPC_SPE);
+++GEN_SPE(evmhegumian,    evmhegsmian,   0x14, 0x16, 0x00000000, 0x00000000, PPC_SPE);
+++GEN_SPE(speundef,       evmhegsmfan,   0x15, 0x16, 0xFFFFFFFF, 0x00000000, PPC_SPE);
+++GEN_SPE(evmhigumian,    evmhigsmian,   0x16, 0x16, 0x00000000, 0x00000000, PPC_SPE);
+++GEN_SPE(speundef,       evmhogsmfan,   0x17, 0x16, 0xFFFFFFFF, 0x00000000, PPC_SPE);
+++
+++GEN_SPE(evmwlusianw,    evmwlssianw,   0x00, 0x17, 0x00000000, 0x00000000, PPC_SPE);
+++GEN_SPE(evmwlumianw,    evmwlsmianw,   0x04, 0x17, 0x00000000, 0x00000000, PPC_SPE);
+++GEN_SPE(speundef,       evmwssfan,     0x09, 0x17, 0xFFFFFFFF, 0x00000000, PPC_SPE);
+++GEN_SPE(evmwumian,      evmwsmian,     0x0C, 0x17, 0x00000000, 0x00000000, PPC_SPE);
+++GEN_SPE(speundef,       evmwsmfan,     0x0D, 0x17, 0xFFFFFFFF, 0x00000000, PPC_SPE);
++ #endif
++ 
++ /***                      SPE floating-point extension                     ***/
++@@ -8110,20 +8144,20 @@
++ GEN_SPEFPUOP_COMP_64(evfststeq);
++ 
++ /* Opcodes definitions */
++-GEN_SPE(evfsadd,        evfssub,       0x00, 0x0A, 0x00000000, PPC_SPE_SINGLE); //
++-GEN_SPE(evfsabs,        evfsnabs,      0x02, 0x0A, 0x0000F800, PPC_SPE_SINGLE); //
++-GEN_SPE(evfsneg,        speundef,      0x03, 0x0A, 0x0000F800, PPC_SPE_SINGLE); //
++-GEN_SPE(evfsmul,        evfsdiv,       0x04, 0x0A, 0x00000000, PPC_SPE_SINGLE); //
++-GEN_SPE(evfscmpgt,      evfscmplt,     0x06, 0x0A, 0x00600000, PPC_SPE_SINGLE); //
++-GEN_SPE(evfscmpeq,      speundef,      0x07, 0x0A, 0x00600000, PPC_SPE_SINGLE); //
++-GEN_SPE(evfscfui,       evfscfsi,      0x08, 0x0A, 0x00180000, PPC_SPE_SINGLE); //
++-GEN_SPE(evfscfuf,       evfscfsf,      0x09, 0x0A, 0x00180000, PPC_SPE_SINGLE); //
++-GEN_SPE(evfsctui,       evfsctsi,      0x0A, 0x0A, 0x00180000, PPC_SPE_SINGLE); //
++-GEN_SPE(evfsctuf,       evfsctsf,      0x0B, 0x0A, 0x00180000, PPC_SPE_SINGLE); //
++-GEN_SPE(evfsctuiz,      speundef,      0x0C, 0x0A, 0x00180000, PPC_SPE_SINGLE); //
++-GEN_SPE(evfsctsiz,      speundef,      0x0D, 0x0A, 0x00180000, PPC_SPE_SINGLE); //
++-GEN_SPE(evfststgt,      evfststlt,     0x0E, 0x0A, 0x00600000, PPC_SPE_SINGLE); //
++-GEN_SPE(evfststeq,      speundef,      0x0F, 0x0A, 0x00600000, PPC_SPE_SINGLE); //
+++GEN_SPE(evfsadd,   evfssub,   0x00, 0x0A, 0x00000000, 0x00000000, PPC_SPE_SINGLE); //
+++GEN_SPE(evfsabs,   evfsnabs,  0x02, 0x0A, 0x0000F800, 0x0000F800, PPC_SPE_SINGLE); //
+++GEN_SPE(evfsneg,   speundef,  0x03, 0x0A, 0x0000F800, 0xFFFFFFFF, PPC_SPE_SINGLE); //
+++GEN_SPE(evfsmul,   evfsdiv,   0x04, 0x0A, 0x00000000, 0x00000000, PPC_SPE_SINGLE); //
+++GEN_SPE(evfscmpgt, evfscmplt, 0x06, 0x0A, 0x00600000, 0x00600000, PPC_SPE_SINGLE); //
+++GEN_SPE(evfscmpeq, speundef,  0x07, 0x0A, 0x00600000, 0xFFFFFFFF, PPC_SPE_SINGLE); //
+++GEN_SPE(evfscfui,  evfscfsi,  0x08, 0x0A, 0x00180000, 0x00180000, PPC_SPE_SINGLE); //
+++GEN_SPE(evfscfuf,  evfscfsf,  0x09, 0x0A, 0x00180000, 0x00180000, PPC_SPE_SINGLE); //
+++GEN_SPE(evfsctui,  evfsctsi,  0x0A, 0x0A, 0x00180000, 0x00180000, PPC_SPE_SINGLE); //
+++GEN_SPE(evfsctuf,  evfsctsf,  0x0B, 0x0A, 0x00180000, 0x00180000, PPC_SPE_SINGLE); //
+++GEN_SPE(evfsctuiz, speundef,  0x0C, 0x0A, 0x00180000, 0xFFFFFFFF, PPC_SPE_SINGLE); //
+++GEN_SPE(evfsctsiz, speundef,  0x0D, 0x0A, 0x00180000, 0xFFFFFFFF, PPC_SPE_SINGLE); //
+++GEN_SPE(evfststgt, evfststlt, 0x0E, 0x0A, 0x00600000, 0x00600000, PPC_SPE_SINGLE); //
+++GEN_SPE(evfststeq, speundef,  0x0F, 0x0A, 0x00600000, 0xFFFFFFFF, PPC_SPE_SINGLE); //
++ 
++ /* Single precision floating-point operations */
++ /* Arithmetic */
++@@ -8178,20 +8212,20 @@
++ GEN_SPEFPUOP_COMP_32(efststeq);
++ 
++ /* Opcodes definitions */
++-GEN_SPE(efsadd,         efssub,        0x00, 0x0B, 0x00000000, PPC_SPE_SINGLE); //
++-GEN_SPE(efsabs,         efsnabs,       0x02, 0x0B, 0x0000F800, PPC_SPE_SINGLE); //
++-GEN_SPE(efsneg,         speundef,      0x03, 0x0B, 0x0000F800, PPC_SPE_SINGLE); //
++-GEN_SPE(efsmul,         efsdiv,        0x04, 0x0B, 0x00000000, PPC_SPE_SINGLE); //
++-GEN_SPE(efscmpgt,       efscmplt,      0x06, 0x0B, 0x00600000, PPC_SPE_SINGLE); //
++-GEN_SPE(efscmpeq,       efscfd,        0x07, 0x0B, 0x00600000, PPC_SPE_SINGLE); //
++-GEN_SPE(efscfui,        efscfsi,       0x08, 0x0B, 0x00180000, PPC_SPE_SINGLE); //
++-GEN_SPE(efscfuf,        efscfsf,       0x09, 0x0B, 0x00180000, PPC_SPE_SINGLE); //
++-GEN_SPE(efsctui,        efsctsi,       0x0A, 0x0B, 0x00180000, PPC_SPE_SINGLE); //
++-GEN_SPE(efsctuf,        efsctsf,       0x0B, 0x0B, 0x00180000, PPC_SPE_SINGLE); //
++-GEN_SPE(efsctuiz,       speundef,      0x0C, 0x0B, 0x00180000, PPC_SPE_SINGLE); //
++-GEN_SPE(efsctsiz,       speundef,      0x0D, 0x0B, 0x00180000, PPC_SPE_SINGLE); //
++-GEN_SPE(efststgt,       efststlt,      0x0E, 0x0B, 0x00600000, PPC_SPE_SINGLE); //
++-GEN_SPE(efststeq,       speundef,      0x0F, 0x0B, 0x00600000, PPC_SPE_SINGLE); //
+++GEN_SPE(efsadd,   efssub,   0x00, 0x0B, 0x00000000, 0x00000000, PPC_SPE_SINGLE); //
+++GEN_SPE(efsabs,   efsnabs,  0x02, 0x0B, 0x0000F800, 0x0000F800, PPC_SPE_SINGLE); //
+++GEN_SPE(efsneg,   speundef, 0x03, 0x0B, 0x0000F800, 0xFFFFFFFF, PPC_SPE_SINGLE); //
+++GEN_SPE(efsmul,   efsdiv,   0x04, 0x0B, 0x00000000, 0x00000000, PPC_SPE_SINGLE); //
+++GEN_SPE(efscmpgt, efscmplt, 0x06, 0x0B, 0x00600000, 0x00600000, PPC_SPE_SINGLE); //
+++GEN_SPE(efscmpeq, efscfd,   0x07, 0x0B, 0x00600000, 0x00180000, PPC_SPE_SINGLE); //
+++GEN_SPE(efscfui,  efscfsi,  0x08, 0x0B, 0x00180000, 0x00180000, PPC_SPE_SINGLE); //
+++GEN_SPE(efscfuf,  efscfsf,  0x09, 0x0B, 0x00180000, 0x00180000, PPC_SPE_SINGLE); //
+++GEN_SPE(efsctui,  efsctsi,  0x0A, 0x0B, 0x00180000, 0x00180000, PPC_SPE_SINGLE); //
+++GEN_SPE(efsctuf,  efsctsf,  0x0B, 0x0B, 0x00180000, 0x00180000, PPC_SPE_SINGLE); //
+++GEN_SPE(efsctuiz, speundef, 0x0C, 0x0B, 0x00180000, 0xFFFFFFFF, PPC_SPE_SINGLE); //
+++GEN_SPE(efsctsiz, speundef, 0x0D, 0x0B, 0x00180000, 0xFFFFFFFF, PPC_SPE_SINGLE); //
+++GEN_SPE(efststgt, efststlt, 0x0E, 0x0B, 0x00600000, 0x00600000, PPC_SPE_SINGLE); //
+++GEN_SPE(efststeq, speundef, 0x0F, 0x0B, 0x00600000, 0xFFFFFFFF, PPC_SPE_SINGLE); //
++ 
++ /* Double precision floating-point operations */
++ /* Arithmetic */
++@@ -8265,22 +8299,22 @@
++ GEN_SPEFPUOP_COMP_64(efdtsteq);
++ 
++ /* Opcodes definitions */
++-GEN_SPE(efdadd,         efdsub,        0x10, 0x0B, 0x00000000, PPC_SPE_DOUBLE); //
++-GEN_SPE(efdcfuid,       efdcfsid,      0x11, 0x0B, 0x00180000, PPC_SPE_DOUBLE); //
++-GEN_SPE(efdabs,         efdnabs,       0x12, 0x0B, 0x0000F800, PPC_SPE_DOUBLE); //
++-GEN_SPE(efdneg,         speundef,      0x13, 0x0B, 0x0000F800, PPC_SPE_DOUBLE); //
++-GEN_SPE(efdmul,         efddiv,        0x14, 0x0B, 0x00000000, PPC_SPE_DOUBLE); //
++-GEN_SPE(efdctuidz,      efdctsidz,     0x15, 0x0B, 0x00180000, PPC_SPE_DOUBLE); //
++-GEN_SPE(efdcmpgt,       efdcmplt,      0x16, 0x0B, 0x00600000, PPC_SPE_DOUBLE); //
++-GEN_SPE(efdcmpeq,       efdcfs,        0x17, 0x0B, 0x00600000, PPC_SPE_DOUBLE); //
++-GEN_SPE(efdcfui,        efdcfsi,       0x18, 0x0B, 0x00180000, PPC_SPE_DOUBLE); //
++-GEN_SPE(efdcfuf,        efdcfsf,       0x19, 0x0B, 0x00180000, PPC_SPE_DOUBLE); //
++-GEN_SPE(efdctui,        efdctsi,       0x1A, 0x0B, 0x00180000, PPC_SPE_DOUBLE); //
++-GEN_SPE(efdctuf,        efdctsf,       0x1B, 0x0B, 0x00180000, PPC_SPE_DOUBLE); //
++-GEN_SPE(efdctuiz,       speundef,      0x1C, 0x0B, 0x00180000, PPC_SPE_DOUBLE); //
++-GEN_SPE(efdctsiz,       speundef,      0x1D, 0x0B, 0x00180000, PPC_SPE_DOUBLE); //
++-GEN_SPE(efdtstgt,       efdtstlt,      0x1E, 0x0B, 0x00600000, PPC_SPE_DOUBLE); //
++-GEN_SPE(efdtsteq,       speundef,      0x1F, 0x0B, 0x00600000, PPC_SPE_DOUBLE); //
+++GEN_SPE(efdadd,    efdsub,    0x10, 0x0B, 0x00000000, 0x00000000, PPC_SPE_DOUBLE); //
+++GEN_SPE(efdcfuid,  efdcfsid,  0x11, 0x0B, 0x00180000, 0x00180000, PPC_SPE_DOUBLE); //
+++GEN_SPE(efdabs,    efdnabs,   0x12, 0x0B, 0x0000F800, 0x0000F800, PPC_SPE_DOUBLE); //
+++GEN_SPE(efdneg,    speundef,  0x13, 0x0B, 0x0000F800, 0xFFFFFFFF, PPC_SPE_DOUBLE); //
+++GEN_SPE(efdmul,    efddiv,    0x14, 0x0B, 0x00000000, 0x00000000, PPC_SPE_DOUBLE); //
+++GEN_SPE(efdctuidz, efdctsidz, 0x15, 0x0B, 0x00180000, 0x00180000, PPC_SPE_DOUBLE); //
+++GEN_SPE(efdcmpgt,  efdcmplt,  0x16, 0x0B, 0x00600000, 0x00600000, PPC_SPE_DOUBLE); //
+++GEN_SPE(efdcmpeq,  efdcfs,    0x17, 0x0B, 0x00600000, 0x00180000, PPC_SPE_DOUBLE); //
+++GEN_SPE(efdcfui,   efdcfsi,   0x18, 0x0B, 0x00180000, 0x00180000, PPC_SPE_DOUBLE); //
+++GEN_SPE(efdcfuf,   efdcfsf,   0x19, 0x0B, 0x00180000, 0x00180000, PPC_SPE_DOUBLE); //
+++GEN_SPE(efdctui,   efdctsi,   0x1A, 0x0B, 0x00180000, 0x00180000, PPC_SPE_DOUBLE); //
+++GEN_SPE(efdctuf,   efdctsf,   0x1B, 0x0B, 0x00180000, 0x00180000, PPC_SPE_DOUBLE); //
+++GEN_SPE(efdctuiz,  speundef,  0x1C, 0x0B, 0x00180000, 0xFFFFFFFF, PPC_SPE_DOUBLE); //
+++GEN_SPE(efdctsiz,  speundef,  0x1D, 0x0B, 0x00180000, 0xFFFFFFFF, PPC_SPE_DOUBLE); //
+++GEN_SPE(efdtstgt,  efdtstlt,  0x1E, 0x0B, 0x00600000, 0x00600000, PPC_SPE_DOUBLE); //
+++GEN_SPE(efdtsteq,  speundef,  0x1F, 0x0B, 0x00600000, 0xFFFFFFFF, PPC_SPE_DOUBLE); //
++ 
++ static opcode_t opcodes[] = {
++ GEN_HANDLER(invalid, 0x00, 0x00, 0x00, 0xFFFFFFFF, PPC_NONE),
++@@ -9049,84 +9083,84 @@
++ GEN_VAFORM_PAIRED(vmaddfp, vnmsubfp, 23),
++ 
++ #undef GEN_SPE
++-#define GEN_SPE(name0, name1, opc2, opc3, inval, type)                        \
++-GEN_HANDLER(name0##_##name1, 0x04, opc2, opc3, inval, type)
++-GEN_SPE(evaddw,         speundef,      0x00, 0x08, 0x00000000, PPC_SPE),
++-GEN_SPE(evaddiw,        speundef,      0x01, 0x08, 0x00000000, PPC_SPE),
++-GEN_SPE(evsubfw,        speundef,      0x02, 0x08, 0x00000000, PPC_SPE),
++-GEN_SPE(evsubifw,       speundef,      0x03, 0x08, 0x00000000, PPC_SPE),
++-GEN_SPE(evabs,          evneg,         0x04, 0x08, 0x0000F800, PPC_SPE),
++-GEN_SPE(evextsb,        evextsh,       0x05, 0x08, 0x0000F800, PPC_SPE),
++-GEN_SPE(evrndw,         evcntlzw,      0x06, 0x08, 0x0000F800, PPC_SPE),
++-GEN_SPE(evcntlsw,       brinc,         0x07, 0x08, 0x00000000, PPC_SPE),
++-GEN_SPE(evmra,          speundef,      0x02, 0x13, 0x0000F800, PPC_SPE),
++-GEN_SPE(speundef,       evand,         0x08, 0x08, 0x00000000, PPC_SPE),
++-GEN_SPE(evandc,         speundef,      0x09, 0x08, 0x00000000, PPC_SPE),
++-GEN_SPE(evxor,          evor,          0x0B, 0x08, 0x00000000, PPC_SPE),
++-GEN_SPE(evnor,          eveqv,         0x0C, 0x08, 0x00000000, PPC_SPE),
++-GEN_SPE(evmwumi,        evmwsmi,       0x0C, 0x11, 0x00000000, PPC_SPE),
++-GEN_SPE(evmwumia,       evmwsmia,      0x1C, 0x11, 0x00000000, PPC_SPE),
++-GEN_SPE(evmwumiaa,      evmwsmiaa,     0x0C, 0x15, 0x00000000, PPC_SPE),
++-GEN_SPE(speundef,       evorc,         0x0D, 0x08, 0x00000000, PPC_SPE),
++-GEN_SPE(evnand,         speundef,      0x0F, 0x08, 0x00000000, PPC_SPE),
++-GEN_SPE(evsrwu,         evsrws,        0x10, 0x08, 0x00000000, PPC_SPE),
++-GEN_SPE(evsrwiu,        evsrwis,       0x11, 0x08, 0x00000000, PPC_SPE),
++-GEN_SPE(evslw,          speundef,      0x12, 0x08, 0x00000000, PPC_SPE),
++-GEN_SPE(evslwi,         speundef,      0x13, 0x08, 0x00000000, PPC_SPE),
++-GEN_SPE(evrlw,          evsplati,      0x14, 0x08, 0x00000000, PPC_SPE),
++-GEN_SPE(evrlwi,         evsplatfi,     0x15, 0x08, 0x00000000, PPC_SPE),
++-GEN_SPE(evmergehi,      evmergelo,     0x16, 0x08, 0x00000000, PPC_SPE),
++-GEN_SPE(evmergehilo,    evmergelohi,   0x17, 0x08, 0x00000000, PPC_SPE),
++-GEN_SPE(evcmpgtu,       evcmpgts,      0x18, 0x08, 0x00600000, PPC_SPE),
++-GEN_SPE(evcmpltu,       evcmplts,      0x19, 0x08, 0x00600000, PPC_SPE),
++-GEN_SPE(evcmpeq,        speundef,      0x1A, 0x08, 0x00600000, PPC_SPE),
++-
++-GEN_SPE(evfsadd,        evfssub,       0x00, 0x0A, 0x00000000, PPC_SPE_SINGLE),
++-GEN_SPE(evfsabs,        evfsnabs,      0x02, 0x0A, 0x0000F800, PPC_SPE_SINGLE),
++-GEN_SPE(evfsneg,        speundef,      0x03, 0x0A, 0x0000F800, PPC_SPE_SINGLE),
++-GEN_SPE(evfsmul,        evfsdiv,       0x04, 0x0A, 0x00000000, PPC_SPE_SINGLE),
++-GEN_SPE(evfscmpgt,      evfscmplt,     0x06, 0x0A, 0x00600000, PPC_SPE_SINGLE),
++-GEN_SPE(evfscmpeq,      speundef,      0x07, 0x0A, 0x00600000, PPC_SPE_SINGLE),
++-GEN_SPE(evfscfui,       evfscfsi,      0x08, 0x0A, 0x00180000, PPC_SPE_SINGLE),
++-GEN_SPE(evfscfuf,       evfscfsf,      0x09, 0x0A, 0x00180000, PPC_SPE_SINGLE),
++-GEN_SPE(evfsctui,       evfsctsi,      0x0A, 0x0A, 0x00180000, PPC_SPE_SINGLE),
++-GEN_SPE(evfsctuf,       evfsctsf,      0x0B, 0x0A, 0x00180000, PPC_SPE_SINGLE),
++-GEN_SPE(evfsctuiz,      speundef,      0x0C, 0x0A, 0x00180000, PPC_SPE_SINGLE),
++-GEN_SPE(evfsctsiz,      speundef,      0x0D, 0x0A, 0x00180000, PPC_SPE_SINGLE),
++-GEN_SPE(evfststgt,      evfststlt,     0x0E, 0x0A, 0x00600000, PPC_SPE_SINGLE),
++-GEN_SPE(evfststeq,      speundef,      0x0F, 0x0A, 0x00600000, PPC_SPE_SINGLE),
++-
++-GEN_SPE(efsadd,         efssub,        0x00, 0x0B, 0x00000000, PPC_SPE_SINGLE),
++-GEN_SPE(efsabs,         efsnabs,       0x02, 0x0B, 0x0000F800, PPC_SPE_SINGLE),
++-GEN_SPE(efsneg,         speundef,      0x03, 0x0B, 0x0000F800, PPC_SPE_SINGLE),
++-GEN_SPE(efsmul,         efsdiv,        0x04, 0x0B, 0x00000000, PPC_SPE_SINGLE),
++-GEN_SPE(efscmpgt,       efscmplt,      0x06, 0x0B, 0x00600000, PPC_SPE_SINGLE),
++-GEN_SPE(efscmpeq,       efscfd,        0x07, 0x0B, 0x00600000, PPC_SPE_SINGLE),
++-GEN_SPE(efscfui,        efscfsi,       0x08, 0x0B, 0x00180000, PPC_SPE_SINGLE),
++-GEN_SPE(efscfuf,        efscfsf,       0x09, 0x0B, 0x00180000, PPC_SPE_SINGLE),
++-GEN_SPE(efsctui,        efsctsi,       0x0A, 0x0B, 0x00180000, PPC_SPE_SINGLE),
++-GEN_SPE(efsctuf,        efsctsf,       0x0B, 0x0B, 0x00180000, PPC_SPE_SINGLE),
++-GEN_SPE(efsctuiz,       speundef,      0x0C, 0x0B, 0x00180000, PPC_SPE_SINGLE),
++-GEN_SPE(efsctsiz,       speundef,      0x0D, 0x0B, 0x00180000, PPC_SPE_SINGLE),
++-GEN_SPE(efststgt,       efststlt,      0x0E, 0x0B, 0x00600000, PPC_SPE_SINGLE),
++-GEN_SPE(efststeq,       speundef,      0x0F, 0x0B, 0x00600000, PPC_SPE_SINGLE),
++-
++-GEN_SPE(efdadd,         efdsub,        0x10, 0x0B, 0x00000000, PPC_SPE_DOUBLE),
++-GEN_SPE(efdcfuid,       efdcfsid,      0x11, 0x0B, 0x00180000, PPC_SPE_DOUBLE),
++-GEN_SPE(efdabs,         efdnabs,       0x12, 0x0B, 0x0000F800, PPC_SPE_DOUBLE),
++-GEN_SPE(efdneg,         speundef,      0x13, 0x0B, 0x0000F800, PPC_SPE_DOUBLE),
++-GEN_SPE(efdmul,         efddiv,        0x14, 0x0B, 0x00000000, PPC_SPE_DOUBLE),
++-GEN_SPE(efdctuidz,      efdctsidz,     0x15, 0x0B, 0x00180000, PPC_SPE_DOUBLE),
++-GEN_SPE(efdcmpgt,       efdcmplt,      0x16, 0x0B, 0x00600000, PPC_SPE_DOUBLE),
++-GEN_SPE(efdcmpeq,       efdcfs,        0x17, 0x0B, 0x00600000, PPC_SPE_DOUBLE),
++-GEN_SPE(efdcfui,        efdcfsi,       0x18, 0x0B, 0x00180000, PPC_SPE_DOUBLE),
++-GEN_SPE(efdcfuf,        efdcfsf,       0x19, 0x0B, 0x00180000, PPC_SPE_DOUBLE),
++-GEN_SPE(efdctui,        efdctsi,       0x1A, 0x0B, 0x00180000, PPC_SPE_DOUBLE),
++-GEN_SPE(efdctuf,        efdctsf,       0x1B, 0x0B, 0x00180000, PPC_SPE_DOUBLE),
++-GEN_SPE(efdctuiz,       speundef,      0x1C, 0x0B, 0x00180000, PPC_SPE_DOUBLE),
++-GEN_SPE(efdctsiz,       speundef,      0x1D, 0x0B, 0x00180000, PPC_SPE_DOUBLE),
++-GEN_SPE(efdtstgt,       efdtstlt,      0x1E, 0x0B, 0x00600000, PPC_SPE_DOUBLE),
++-GEN_SPE(efdtsteq,       speundef,      0x1F, 0x0B, 0x00600000, PPC_SPE_DOUBLE),
+++#define GEN_SPE(name0, name1, opc2, opc3, inval0, inval1, type) \
+++    GEN_OPCODE_DUAL(name0##_##name1, 0x04, opc2, opc3, inval0, inval1, type, PPC_NONE)
+++GEN_SPE(evaddw,      speundef,    0x00, 0x08, 0x00000000, 0xFFFFFFFF, PPC_SPE),
+++GEN_SPE(evaddiw,     speundef,    0x01, 0x08, 0x00000000, 0xFFFFFFFF, PPC_SPE),
+++GEN_SPE(evsubfw,     speundef,    0x02, 0x08, 0x00000000, 0xFFFFFFFF, PPC_SPE),
+++GEN_SPE(evsubifw,    speundef,    0x03, 0x08, 0x00000000, 0xFFFFFFFF, PPC_SPE),
+++GEN_SPE(evabs,       evneg,       0x04, 0x08, 0x0000F800, 0x0000F800, PPC_SPE),
+++GEN_SPE(evextsb,     evextsh,     0x05, 0x08, 0x0000F800, 0x0000F800, PPC_SPE),
+++GEN_SPE(evrndw,      evcntlzw,    0x06, 0x08, 0x0000F800, 0x0000F800, PPC_SPE),
+++GEN_SPE(evcntlsw,    brinc,       0x07, 0x08, 0x0000F800, 0x00000000, PPC_SPE),
+++GEN_SPE(evmra,       speundef,    0x02, 0x13, 0x0000F800, 0xFFFFFFFF, PPC_SPE),
+++GEN_SPE(speundef,    evand,       0x08, 0x08, 0xFFFFFFFF, 0x00000000, PPC_SPE),
+++GEN_SPE(evandc,      speundef,    0x09, 0x08, 0x00000000, 0xFFFFFFFF, PPC_SPE),
+++GEN_SPE(evxor,       evor,        0x0B, 0x08, 0x00000000, 0x00000000, PPC_SPE),
+++GEN_SPE(evnor,       eveqv,       0x0C, 0x08, 0x00000000, 0x00000000, PPC_SPE),
+++GEN_SPE(evmwumi,     evmwsmi,     0x0C, 0x11, 0x00000000, 0x00000000, PPC_SPE),
+++GEN_SPE(evmwumia,    evmwsmia,    0x1C, 0x11, 0x00000000, 0x00000000, PPC_SPE),
+++GEN_SPE(evmwumiaa,   evmwsmiaa,   0x0C, 0x15, 0x00000000, 0x00000000, PPC_SPE),
+++GEN_SPE(speundef,    evorc,       0x0D, 0x08, 0xFFFFFFFF, 0x00000000, PPC_SPE),
+++GEN_SPE(evnand,      speundef,    0x0F, 0x08, 0x00000000, 0xFFFFFFFF, PPC_SPE),
+++GEN_SPE(evsrwu,      evsrws,      0x10, 0x08, 0x00000000, 0x00000000, PPC_SPE),
+++GEN_SPE(evsrwiu,     evsrwis,     0x11, 0x08, 0x00000000, 0x00000000, PPC_SPE),
+++GEN_SPE(evslw,       speundef,    0x12, 0x08, 0x00000000, 0xFFFFFFFF, PPC_SPE),
+++GEN_SPE(evslwi,      speundef,    0x13, 0x08, 0x00000000, 0xFFFFFFFF, PPC_SPE),
+++GEN_SPE(evrlw,       evsplati,    0x14, 0x08, 0x00000000, 0x0000F800, PPC_SPE),
+++GEN_SPE(evrlwi,      evsplatfi,   0x15, 0x08, 0x00000000, 0x0000F800, PPC_SPE),
+++GEN_SPE(evmergehi,   evmergelo,   0x16, 0x08, 0x00000000, 0x00000000, PPC_SPE),
+++GEN_SPE(evmergehilo, evmergelohi, 0x17, 0x08, 0x00000000, 0x00000000, PPC_SPE),
+++GEN_SPE(evcmpgtu,    evcmpgts,    0x18, 0x08, 0x00600000, 0x00600000, PPC_SPE),
+++GEN_SPE(evcmpltu,    evcmplts,    0x19, 0x08, 0x00600000, 0x00600000, PPC_SPE),
+++GEN_SPE(evcmpeq,     speundef,    0x1A, 0x08, 0x00600000, 0xFFFFFFFF, PPC_SPE),
+++
+++GEN_SPE(evfsadd,     evfssub,     0x00, 0x0A, 0x00000000, 0x00000000, PPC_SPE_SINGLE),
+++GEN_SPE(evfsabs,     evfsnabs,    0x02, 0x0A, 0x0000F800, 0x0000F800, PPC_SPE_SINGLE),
+++GEN_SPE(evfsneg,     speundef,    0x03, 0x0A, 0x0000F800, 0xFFFFFFFF, PPC_SPE_SINGLE),
+++GEN_SPE(evfsmul,     evfsdiv,     0x04, 0x0A, 0x00000000, 0x00000000, PPC_SPE_SINGLE),
+++GEN_SPE(evfscmpgt,   evfscmplt,   0x06, 0x0A, 0x00600000, 0x00600000, PPC_SPE_SINGLE),
+++GEN_SPE(evfscmpeq,   speundef,    0x07, 0x0A, 0x00600000, 0xFFFFFFFF, PPC_SPE_SINGLE),
+++GEN_SPE(evfscfui,    evfscfsi,    0x08, 0x0A, 0x00180000, 0x00180000, PPC_SPE_SINGLE),
+++GEN_SPE(evfscfuf,    evfscfsf,    0x09, 0x0A, 0x00180000, 0x00180000, PPC_SPE_SINGLE),
+++GEN_SPE(evfsctui,    evfsctsi,    0x0A, 0x0A, 0x00180000, 0x00180000, PPC_SPE_SINGLE),
+++GEN_SPE(evfsctuf,    evfsctsf,    0x0B, 0x0A, 0x00180000, 0x00180000, PPC_SPE_SINGLE),
+++GEN_SPE(evfsctuiz,   speundef,    0x0C, 0x0A, 0x00180000, 0xFFFFFFFF, PPC_SPE_SINGLE),
+++GEN_SPE(evfsctsiz,   speundef,    0x0D, 0x0A, 0x00180000, 0xFFFFFFFF, PPC_SPE_SINGLE),
+++GEN_SPE(evfststgt,   evfststlt,   0x0E, 0x0A, 0x00600000, 0x00600000, PPC_SPE_SINGLE),
+++GEN_SPE(evfststeq,   speundef,    0x0F, 0x0A, 0x00600000, 0xFFFFFFFF, PPC_SPE_SINGLE),
+++
+++GEN_SPE(efsadd,      efssub,      0x00, 0x0B, 0x00000000, 0x00000000, PPC_SPE_SINGLE),
+++GEN_SPE(efsabs,      efsnabs,     0x02, 0x0B, 0x0000F800, 0x0000F800, PPC_SPE_SINGLE),
+++GEN_SPE(efsneg,      speundef,    0x03, 0x0B, 0x0000F800, 0xFFFFFFFF, PPC_SPE_SINGLE),
+++GEN_SPE(efsmul,      efsdiv,      0x04, 0x0B, 0x00000000, 0x00000000, PPC_SPE_SINGLE),
+++GEN_SPE(efscmpgt,    efscmplt,    0x06, 0x0B, 0x00600000, 0x00600000, PPC_SPE_SINGLE),
+++GEN_SPE(efscmpeq,    efscfd,      0x07, 0x0B, 0x00600000, 0x00180000, PPC_SPE_SINGLE),
+++GEN_SPE(efscfui,     efscfsi,     0x08, 0x0B, 0x00180000, 0x00180000, PPC_SPE_SINGLE),
+++GEN_SPE(efscfuf,     efscfsf,     0x09, 0x0B, 0x00180000, 0x00180000, PPC_SPE_SINGLE),
+++GEN_SPE(efsctui,     efsctsi,     0x0A, 0x0B, 0x00180000, 0x00180000, PPC_SPE_SINGLE),
+++GEN_SPE(efsctuf,     efsctsf,     0x0B, 0x0B, 0x00180000, 0x00180000, PPC_SPE_SINGLE),
+++GEN_SPE(efsctuiz,    speundef,    0x0C, 0x0B, 0x00180000, 0xFFFFFFFF, PPC_SPE_SINGLE),
+++GEN_SPE(efsctsiz,    speundef,    0x0D, 0x0B, 0x00180000, 0xFFFFFFFF, PPC_SPE_SINGLE),
+++GEN_SPE(efststgt,    efststlt,    0x0E, 0x0B, 0x00600000, 0x00600000, PPC_SPE_SINGLE),
+++GEN_SPE(efststeq,    speundef,    0x0F, 0x0B, 0x00600000, 0xFFFFFFFF, PPC_SPE_SINGLE),
+++
+++GEN_SPE(efdadd,      efdsub,      0x10, 0x0B, 0x00000000, 0x00000000, PPC_SPE_DOUBLE),
+++GEN_SPE(efdcfuid,    efdcfsid,    0x11, 0x0B, 0x00180000, 0x00180000, PPC_SPE_DOUBLE),
+++GEN_SPE(efdabs,      efdnabs,     0x12, 0x0B, 0x0000F800, 0x0000F800, PPC_SPE_DOUBLE),
+++GEN_SPE(efdneg,      speundef,    0x13, 0x0B, 0x0000F800, 0xFFFFFFFF, PPC_SPE_DOUBLE),
+++GEN_SPE(efdmul,      efddiv,      0x14, 0x0B, 0x00000000, 0x00000000, PPC_SPE_DOUBLE),
+++GEN_SPE(efdctuidz,   efdctsidz,   0x15, 0x0B, 0x00180000, 0x00180000, PPC_SPE_DOUBLE),
+++GEN_SPE(efdcmpgt,    efdcmplt,    0x16, 0x0B, 0x00600000, 0x00600000, PPC_SPE_DOUBLE),
+++GEN_SPE(efdcmpeq,    efdcfs,      0x17, 0x0B, 0x00600000, 0x00180000, PPC_SPE_DOUBLE),
+++GEN_SPE(efdcfui,     efdcfsi,     0x18, 0x0B, 0x00180000, 0x00180000, PPC_SPE_DOUBLE),
+++GEN_SPE(efdcfuf,     efdcfsf,     0x19, 0x0B, 0x00180000, 0x00180000, PPC_SPE_DOUBLE),
+++GEN_SPE(efdctui,     efdctsi,     0x1A, 0x0B, 0x00180000, 0x00180000, PPC_SPE_DOUBLE),
+++GEN_SPE(efdctuf,     efdctsf,     0x1B, 0x0B, 0x00180000, 0x00180000, PPC_SPE_DOUBLE),
+++GEN_SPE(efdctuiz,    speundef,    0x1C, 0x0B, 0x00180000, 0xFFFFFFFF, PPC_SPE_DOUBLE),
+++GEN_SPE(efdctsiz,    speundef,    0x1D, 0x0B, 0x00180000, 0xFFFFFFFF, PPC_SPE_DOUBLE),
+++GEN_SPE(efdtstgt,    efdtstlt,    0x1E, 0x0B, 0x00600000, 0x00600000, PPC_SPE_DOUBLE),
+++GEN_SPE(efdtsteq,    speundef,    0x1F, 0x0B, 0x00600000, 0xFFFFFFFF, PPC_SPE_DOUBLE),
++ 
++ #undef GEN_SPEOP_LDST
++ #define GEN_SPEOP_LDST(name, opc2, sh)                                        \
++@@ -9456,11 +9490,19 @@
++                          opc3(ctx.opcode), ctx.opcode, ctx.nip - 4, (int)msr_ir);
++             }
++         } else {
++-            if (unlikely((ctx.opcode & handler->inval) != 0)) {
+++            uint32_t inval;
+++
+++            if (unlikely(handler->type & (PPC_SPE | PPC_SPE_SINGLE | PPC_SPE_DOUBLE) && Rc(ctx.opcode))) {
+++                inval = handler->inval2;
+++            } else {
+++                inval = handler->inval1;
+++            }
+++
+++            if (unlikely((ctx.opcode & inval) != 0)) {
++                 if (qemu_log_enabled()) {
++                     qemu_log("invalid bits: %08x for opcode: "
++                              "%02x - %02x - %02x (%08x) " TARGET_FMT_lx "\n",
++-                             ctx.opcode & handler->inval, opc1(ctx.opcode),
+++                             ctx.opcode & inval, opc1(ctx.opcode),
++                              opc2(ctx.opcode), opc3(ctx.opcode),
++                              ctx.opcode, ctx.nip - 4);
++                 }
+diff --git a/meta/recipes-devtools/qemu/qemu_0.15.1.bb b/meta/recipes-devtools/qemu/qemu_0.15.1.bb
+index 2cc59f6..983e831 100644
+--- a/meta/recipes-devtools/qemu/qemu_0.15.1.bb
++++ b/meta/recipes-devtools/qemu/qemu_0.15.1.bb
+@@ -3,7 +3,7 @@ require qemu.inc
+ LIC_FILES_CHKSUM = "file://COPYING;md5=441c28d2cf86e15a37fa47e15a72fbac \
+                     file://COPYING.LIB;endline=24;md5=c04def7ae38850e7d3ef548588159913"
  
--INC_PR = "r2"
-+INC_PR = "r0"
+-PR = "r9"
++PR = "r10"
  
- CMAKE_MAJOR_VERSION = "${@'.'.join(d.getVar('PV',1).split('.')[0:2])}"
+ FILESPATH = "${FILE_DIRNAME}/qemu-${PV}"
+ FILESDIR = "${WORKDIR}"
+@@ -21,6 +21,7 @@ SRC_URI = "\
+     file://a4d1f142542935b90d2eb30f3aead4edcf455fe6.patch \
+     file://dummy-gl-config.patch \
+     file://0001-ppc64-Fix-linker-script.patch \
++    file://ppc-s500-set-invalid-mask.patch \
+     "
  
-diff --git a/meta/recipes-devtools/cmake/cmake_2.8.5.bb b/meta/recipes-devtools/cmake/cmake_2.8.5.bb
-deleted file mode 100644
-index 6145345..0000000
---- a/meta/recipes-devtools/cmake/cmake_2.8.5.bb
-+++ /dev/null
-@@ -1,40 +0,0 @@
--require cmake.inc
--
--inherit cmake
--
--DEPENDS += "curl expat zlib libarchive ncurses"
--
--PR = "${INC_PR}.3"
--
--SRC_URI += "file://dont-run-cross-binaries.patch"
--
--SRC_URI[md5sum] = "3c5d32cec0f4c2dc45f4c2e84f4a20c5"
--SRC_URI[sha256sum] = "5e18bff75f01656c64f553412a8905527e1b85efaf3163c6fb81ea5aaced0b91"
--
--# Strip ${prefix} from ${docdir}, set result into docdir_stripped
--python () {
--    prefix=d.getVar("prefix", True)
--    docdir=d.getVar("docdir", True)
--
--    if not docdir.startswith(prefix):
--	raise bb.build.FuncFailed('docdir must contain prefix as its prefix')
--
--    docdir_stripped = docdir[len(prefix):]
--    if len(docdir_stripped) > 0 and docdir_stripped[0] == '/':
--	docdir_stripped = docdir_stripped[1:]
--
--    d.setVar("docdir_stripped", docdir_stripped)
--}
--
--EXTRA_OECMAKE=" \
--    -DCMAKE_DOC_DIR=${docdir_stripped}/cmake-${CMAKE_MAJOR_VERSION} \
--    -DCMAKE_USE_SYSTEM_LIBRARIES=1 \
--    -DKWSYS_CHAR_IS_SIGNED=1 \
--    -DBUILD_CursesDialog=0 \
--    ${@base_contains('DISTRO_FEATURES', 'largefile', '-DKWSYS_LFS_WORKS=1', '-DKWSYS_LFS_DISABLE=1', d)} \
--"
--
--FILES_${PN} += "${datadir}/cmake-${CMAKE_MAJOR_VERSION}"
--FILES_${PN}-doc += "${docdir}/cmake-${CMAKE_MAJOR_VERSION}"
--
--BBCLASSEXTEND = "nativesdk"
-diff --git a/meta/recipes-devtools/cmake/cmake_2.8.8.bb b/meta/recipes-devtools/cmake/cmake_2.8.8.bb
-new file mode 100644
-index 0000000..8665dc3
---- /dev/null
-+++ b/meta/recipes-devtools/cmake/cmake_2.8.8.bb
-@@ -0,0 +1,40 @@
-+require cmake.inc
-+
-+inherit cmake
-+
-+DEPENDS += "curl expat zlib libarchive ncurses"
-+
-+PR = "${INC_PR}.0"
-+
-+SRC_URI += "file://dont-run-cross-binaries.patch"
-+
-+SRC_URI[md5sum] = "ba74b22c788a0c8547976b880cd02b17"
-+SRC_URI[sha256sum] = "2b59897864d6220ff20aa8eac64cac8994e004898a1c0f899c8cb4d7b7570b46"
-+
-+# Strip ${prefix} from ${docdir}, set result into docdir_stripped
-+python () {
-+    prefix=d.getVar("prefix", True)
-+    docdir=d.getVar("docdir", True)
-+
-+    if not docdir.startswith(prefix):
-+	raise bb.build.FuncFailed('docdir must contain prefix as its prefix')
-+
-+    docdir_stripped = docdir[len(prefix):]
-+    if len(docdir_stripped) > 0 and docdir_stripped[0] == '/':
-+	docdir_stripped = docdir_stripped[1:]
-+
-+    d.setVar("docdir_stripped", docdir_stripped)
-+}
-+
-+EXTRA_OECMAKE=" \
-+    -DCMAKE_DOC_DIR=${docdir_stripped}/cmake-${CMAKE_MAJOR_VERSION} \
-+    -DCMAKE_USE_SYSTEM_LIBRARIES=1 \
-+    -DKWSYS_CHAR_IS_SIGNED=1 \
-+    -DBUILD_CursesDialog=0 \
-+    ${@base_contains('DISTRO_FEATURES', 'largefile', '-DKWSYS_LFS_WORKS=1', '-DKWSYS_LFS_DISABLE=1', d)} \
-+"
-+
-+FILES_${PN} += "${datadir}/cmake-${CMAKE_MAJOR_VERSION}"
-+FILES_${PN}-doc += "${docdir}/cmake-${CMAKE_MAJOR_VERSION}"
-+
-+BBCLASSEXTEND = "nativesdk"
+ # Only use the GL passthrough patches for native/nativesdk versions
 -- 
 1.7.9.5
 
