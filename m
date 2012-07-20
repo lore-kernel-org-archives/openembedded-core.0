@@ -1,31 +1,35 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Ss82T-0004Fk-Mb for openembedded-core@lists.openembedded.org;
-	Fri, 20 Jul 2012 09:54:17 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6K7gq4e010393;
-	Fri, 20 Jul 2012 08:42:52 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 06231-10; Fri, 20 Jul 2012 08:42:47 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6K7gihF010387
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Fri, 20 Jul 2012 08:42:46 +0100
-Message-ID: <1342770168.21788.5.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Fri, 20 Jul 2012 08:42:48 +0100
-In-Reply-To: <1342761780-20215-1-git-send-email-raj.khem@gmail.com>
-References: <1342761780-20215-1-git-send-email-raj.khem@gmail.com>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: Khem Raj <kraj@juniper.net>
-Subject: Re: [PATCH 1/3] cmake-native: Fix build on ubuntu
+Received: from mail-wg0-f43.google.com ([74.125.82.43])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <martin.jansa@gmail.com>)
+	id 1Ss859-0004KF-PC; Fri, 20 Jul 2012 09:57:03 +0200
+Received: by wgbdr1 with SMTP id dr1so3116498wgb.24
+	for <multiple recipients>; Fri, 20 Jul 2012 00:45:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=O4OJAnMywPf/LUXCtO39orZTTl5fFutYvGbSRjbg5l4=;
+	b=P+m7dUcWOkvXMCEIphBl9Sl2p1zfrNYPgO7CPlMPVcpxxN9NW4LJiRFPlsMCAbdPnp
+	f+ZtvWCAI3nmQ3b85Bvi/ZV9D0Wn5eM2gjRODSmkAAoNc2b3paCFPi77NFf+/fa1JprN
+	9R/zc5rmmtK9TlVDwGbOHv7TtwiP6FGzJ+YNxVrnc6vM6MO3ztj1cGqpSJqID3HXNvMG
+	Y9nv0+MYctunfUMCrAbEI7qZyNqXeac5vZ1gHenQ/YWAcC3SlFBUDLdKe+qIY0Vsey2W
+	x+pXbYkWsu1FkBsiyVfEgOBX6jRBT+DYd7FVSdyFDbpYonT8XJUs65OJaQlAJVKcomtX
+	dcJA==
+Received: by 10.216.29.74 with SMTP id h52mr3158398wea.146.1342770340901;
+	Fri, 20 Jul 2012 00:45:40 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id fb20sm12972701wid.1.2012.07.20.00.45.39
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 20 Jul 2012 00:45:39 -0700 (PDT)
+Date: Fri, 20 Jul 2012 09:45:51 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Message-ID: <20120720074551.GC3534@jama.jama.net>
+References: <20120717095159.1190C10333@opal>
+MIME-Version: 1.0
+In-Reply-To: <20120717095159.1190C10333@opal>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-commits@lists.openembedded.org
+Subject: Re: [oe-commits] Khem Raj : lib/oe/sstatesig.py: Exclude git-native from sstate checksum
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,45 +44,131 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Jul 2012 07:54:18 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 20 Jul 2012 07:57:03 -0000
+X-Groupsio-MsgNum: 25831
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="WplhKdTI2c8ulnbP"
+Content-Disposition: inline
 
-On Thu, 2012-07-19 at 22:22 -0700, Khem Raj wrote:
-> From: Khem Raj <kraj@juniper.net>
-> 
-> Fixes errors like
-> 
-> /yocto/poky/build/tmp/work/x86_64-linux/cmake-native-2.8.5-r2.1/cmake-2.8.5/Utilities/cmlibarchive/libarchive/archive_entry.c:56:55:
-> fatal error: ext2fs/ext2_fs.h: No such file or directory
-> 
-> Signed-off-by: Khem Raj <kraj@juniper.net>
-> ---
->  meta/recipes-devtools/cmake/cmake-native_2.8.5.bb |    4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/meta/recipes-devtools/cmake/cmake-native_2.8.5.bb b/meta/recipes-devtools/cmake/cmake-native_2.8.5.bb
-> index 3fe0c2e..98ae300 100644
-> --- a/meta/recipes-devtools/cmake/cmake-native_2.8.5.bb
-> +++ b/meta/recipes-devtools/cmake/cmake-native_2.8.5.bb
-> @@ -1,7 +1,9 @@
->  require cmake.inc
->  inherit native
->  
-> -PR = "${INC_PR}.1"
-> +DEPENDS += "e2fsprogs-native"
-> +
-> +PR = "${INC_PR}.2"
->  
->  SRC_URI[md5sum] = "3c5d32cec0f4c2dc45f4c2e84f4a20c5"
->  SRC_URI[sha256sum] = "5e18bff75f01656c64f553412a8905527e1b85efaf3163c6fb81ea5aaced0b91"
+--WplhKdTI2c8ulnbP
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Does cmake really need e2fsprogs? Can we disable that dependency
-instead? What would we lose?
+On Tue, Jul 17, 2012 at 09:51:57AM +0000, git@git.openembedded.org wrote:
+> Module: openembedded-core.git
+> Branch: master
+> Commit: 72cc3df204c4b838cc0358a7ac989adfdd5c1760
+> URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcommit=
+;h=3D72cc3df204c4b838cc0358a7ac989adfdd5c1760
+>=20
+> Author: Khem Raj <raj.khem@gmail.com>
+> Date:   Mon Jul  9 12:31:38 2012 -0700
+>=20
+> lib/oe/sstatesig.py: Exclude git-native from sstate checksum
+>=20
+> gcc exposed this issue where cross gcc recipes were not having
+> same task checksums as libgcc or gcc-runtime the target recipes
+> which use same shared workdir and it was triggering the unpack
+> fetch and patch tasks to reexecute and hence the trouble
+>=20
+> Now that we have more than 1 package to consider lets combine
+> the check
+>=20
+> Thanks RP for help and this is on the line of patch
+> 793ce6cd9aa632e0f13789c8293770a86085d28d
+>=20
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+
+I still see this behavior with latest oe-core
+
+Complete cooker.log + do_compile error:
+http://build.shr-project.org/tests/jama/gcc-parallel-unpack/
+
+interesting part from cooker.log (stripped eglibc tasks between)
+
+NOTE: package gcc-crosssdk-initial-4.7.1.0+git1+d07e24f4ab59f264d68d2183879=
+5349faab5dede-r7: task do_compile: Started
+NOTE: Running task 608 of 5331 (ID: 1559, /OE/shr-core/openembedded-core/me=
+ta/recipes-devtools/gcc/gcc-crosssdk-intermediate_4.7.bb, do_rm_old_works)
+NOTE: package gcc-crosssdk-intermediate-4.7.1.0+git1+d07e24f4ab59f264d68d21=
+838795349faab5dede-r7: task do_rm_old_works: Started
+NOTE: package gcc-crosssdk-intermediate-4.7.1.0+git1+d07e24f4ab59f264d68d21=
+838795349faab5dede-r7: task do_rm_old_works: Succeeded
+NOTE: Running task 610 of 5331 (ID: 1554, /OE/shr-core/openembedded-core/me=
+ta/recipes-devtools/gcc/gcc-crosssdk-intermediate_4.7.bb, do_unpack)
+NOTE: package gcc-crosssdk-intermediate-4.7.1.0+git1+d07e24f4ab59f264d68d21=
+838795349faab5dede-r7: task do_unpack: Started
+ERROR: Function failed: do_compile (see /OE/shr-core/tmp-eglibc/work/i686-o=
+esdk-linux/gcc-crosssdk-initial/gcc-crosssdk-initial-4.7.1.0+git1+d07e24f4a=
+b59f264d68d21838795349faab5dede-r7/temp/log.do_compile.19681 for further in=
+formation)
+NOTE: package gcc-crosssdk-initial-4.7.1.0+git1+d07e24f4ab59f264d68d2183879=
+5349faab5dede-r7: task do_compile: Failed
+ERROR: Task 4532 (/OE/shr-core/openembedded-core/meta/recipes-devtools/gcc/=
+gcc-crosssdk-initial_4.7.bb, do_compile) failed with exit code '1'
+NOTE: package gcc-crosssdk-intermediate-4.7.1.0+git1+d07e24f4ab59f264d68d21=
+838795349faab5dede-r7: task do_unpack: Succeeded
+NOTE: Running task 614 of 5331 (ID: 1555, /OE/shr-core/openembedded-core/me=
+ta/recipes-devtools/gcc/gcc-crosssdk-intermediate_4.7.bb, do_patch)
+NOTE: package gcc-crosssdk-intermediate-4.7.1.0+git1+d07e24f4ab59f264d68d21=
+838795349faab5dede-r7: task do_patch: Started
+NOTE: Running task 627 of 5331 (ID: 529, /OE/shr-core/openembedded-core/met=
+a/recipes-devtools/gcc/gcc-crosssdk_4.7.bb, do_rm_old_works)
+NOTE: package gcc-crosssdk-intermediate-4.7.1.0+git1+d07e24f4ab59f264d68d21=
+838795349faab5dede-r7: task do_patch: Succeeded
+
+Maybe it's caused by rm_old_works.bbclass..
 
 Cheers,
 
-Richard
+>=20
+> ---
+>=20
+>  meta/lib/oe/sstatesig.py |    6 ++----
+>  1 files changed, 2 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
+> index 4cd1221..20d94b2 100644
+> --- a/meta/lib/oe/sstatesig.py
+> +++ b/meta/lib/oe/sstatesig.py
+> @@ -17,10 +17,8 @@ def sstate_rundepfilter(siggen, fn, recipename, task, =
+dep, depname, dataCache):
+>          return True
+> =20
+>      # Quilt (patch application) changing isn't likely to affect anything
+> -    if depname =3D=3D "quilt-native" and recipename !=3D "quilt-native":
+> -        return False
+> -    # Subversion also isn't likely to affect anything
+> -    if depname =3D=3D "subversion-native" and recipename !=3D "subversio=
+n-native":
+> +    excludelist =3D ['quilt-native', 'subversion-native', 'git-native']
+> +    if depname in excludelist and recipename !=3D depname:
+>          return False
+> =20
+>      # Don't change native/cross/nativesdk recipe dependencies any further
+>=20
+>=20
+> _______________________________________________
+> Openembedded-commits mailing list
+> Openembedded-commits@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-commits
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--WplhKdTI2c8ulnbP
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
+
+iEYEARECAAYFAlAJDK8ACgkQN1Ujt2V2gBwcLgCfZ/J+phlF1ia1oHMDiIgACVhQ
+sUMAmgPOg2A6V9NtiFQ8Bp0BgplvqP0t
+=Vwi+
+-----END PGP SIGNATURE-----
+
+--WplhKdTI2c8ulnbP--
