@@ -1,34 +1,34 @@
-Received: from mail-bk0-f47.google.com ([209.85.214.47])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1SsAwc-0000KH-RH
-	for openembedded-core@lists.openembedded.org;
-	Fri, 20 Jul 2012 13:00:27 +0200
-Received: by bkcik5 with SMTP id ik5so2633504bkc.6
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1SsBDu-0001Wx-2V for openembedded-core@lists.openembedded.org;
+	Fri, 20 Jul 2012 13:18:19 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6KB6sKJ011669
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jul 2012 03:48:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	bh=DuxPofjkbsLX2ZjCacLkN13E6lRkd1zLwjqMSt4xEPk=;
-	b=gRxSr5GLd07TFVz4ZXD1PPkBrVB1de6+A8l/POSfL+YCWjhvtr98RaQnI/aGmLkGBX
-	Tc+mNDd+3i2xbfsEbxn25I2qy9OxtId2M0nf6a5MIyLMpm38Eb3XaUKSiTzcflfqF4EY
-	N2WCJjy7iIMk1mhvljBSi2H4aAaAEHVUlbU/AZURF7vDf/A3b9uzfF/MzyKPJiTqeLdZ
-	utwI3WsfIvfDI/whwSRKvJFA1jsYpkiG6jbk290fsf5RPszyzUSpROBgm3dS6yckjBGZ
-	1T9wS/ixb1NHjDjFLpekTj93aJPVLO1x5UcspY0UyvwR4Wzjog5sH774QlJxqoBDvhhi
-	8WPw==
-Received: by 10.204.157.146 with SMTP id b18mr2604204bkx.108.1342781334444;
-	Fri, 20 Jul 2012 03:48:54 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id z19sm2566730bkw.10.2012.07.20.03.48.52
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 20 Jul 2012 03:48:52 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 20 Jul 2012 12:49:03 +0200
-Message-Id: <1342781343-16277-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.7.8.6
-In-Reply-To: <20120628191246.GA5532@localhost.jama.net>
-References: <20120628191246.GA5532@localhost.jama.net>
-Subject: [PATCH] util-linux: register reset u-a to bindir like busybox does
+	Fri, 20 Jul 2012 12:06:54 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 09727-05 for <openembedded-core@lists.openembedded.org>;
+	Fri, 20 Jul 2012 12:06:50 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6KB6ksp011659
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 20 Jul 2012 12:06:48 +0100
+Message-ID: <1342782398.21788.7.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Fri, 20 Jul 2012 12:06:38 +0100
+In-Reply-To: <20120720104117.GE3534@jama.jama.net>
+References: <lyk3xy7mlu.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	<20120720104117.GE3534@jama.jama.net>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: Broken parallel build of gcc*
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,43 +43,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Jul 2012 11:00:28 -0000
+X-List-Received-Date: Fri, 20 Jul 2012 11:18:19 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-* fixes http://lists.linuxtogo.org/pipermail/openembedded-core/2012-June/024586.html
+On Fri, 2012-07-20 at 12:41 +0200, Martin Jansa wrote:
+> On Fri, Jul 20, 2012 at 12:28:29PM +0200, Enrico Scholz wrote:
+> > Hi,
+> > 
+> > some of the recent changes seem to break the parallel build of the gcc*
+> > recipes which are sharing a same source directory:
+> > 
+> > | $ ./bitbake gcc-cross-initial gcc-cross-intermediate gcc-cross -c cleansstate
+> > | $ BB_NUMBER_THREADS=3 ./bitbake gcc-cross-initial gcc-cross-intermediate gcc-cross
+> > | ...
+> > | NOTE: package gcc-cross-initial-4.7.1.0+git1+d07e24f4ab59f264d68d21838795349faab5dede-r7: task do_unpack: Started
+> > | NOTE: package gcc-cross-4.7.1.0+git1+d07e24f4ab59f264d68d21838795349faab5dede-r7: task do_unpack: Started
+> > | NOTE: package gcc-cross-initial-4.7.1.0+git1+d07e24f4ab59f264d68d21838795349faab5dede-r7: task do_unpack: Succeeded
+> > | ERROR: Error executing a python function in ...recipes-devtools/gcc/gcc-cross_4.7.bb:
+> > | OSError: [Errno 39] Directory not empty: '...tmp/work-shared/gcc-4.7.1.0+git1+d07e24f4ab59f264d68d21838795349faab5dede-r7/git/'
+> > | NOTE: package gcc-cross-4.7.1.0+git1+d07e24f4ab59f264d68d21838795349faab5dede-r7: task do_unpack: Failed
+> > 
+> > It seems that the work-shared/ directory is not locked and cleaned when
+> > starting the second unpack.
+> 
+> I can confirm the same
+> http://lists.linuxtogo.org/pipermail/openembedded-core/2012-July/026174.html
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/recipes-core/util-linux/util-linux.inc       |    3 ++-
- meta/recipes-core/util-linux/util-linux_2.21.2.bb |    2 +-
- 2 files changed, 3 insertions(+), 2 deletions(-)
+The autobuilder is not seeing this and I'm not seeing it locally either.
 
-diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-index 688a5be..00e5d7c 100644
---- a/meta/recipes-core/util-linux/util-linux.inc
-+++ b/meta/recipes-core/util-linux/util-linux.inc
-@@ -136,7 +136,8 @@ ALTERNATIVE_${PN} += "setsid chrt flock hwclock"
- ALTERNATIVE_LINK_NAME[dmesg] = "${base_bindir}/dmesg"
- ALTERNATIVE_LINK_NAME[kill] = "${base_bindir}/kill"
- ALTERNATIVE_LINK_NAME[more] = "${base_bindir}/more"
--ALTERNATIVE_LINK_NAME[reset] = "${base_bindir}/reset"
-+ALTERNATIVE_LINK_NAME[reset] = "${bindir}/reset"
-+ALTERNATIVE_TARGET[reset] = "${base_bindir}/reset"
- ALTERNATIVE_LINK_NAME[mkswap] = "${base_sbindir}/mkswap"
- ALTERNATIVE_LINK_NAME[blockdev] = "${base_sbindir}/blockdev"
- ALTERNATIVE_LINK_NAME[pivot_root] = "${base_sbindir}/pivot_root"
-diff --git a/meta/recipes-core/util-linux/util-linux_2.21.2.bb b/meta/recipes-core/util-linux/util-linux_2.21.2.bb
-index 7f2c2a9..0f5fdc6 100644
---- a/meta/recipes-core/util-linux/util-linux_2.21.2.bb
-+++ b/meta/recipes-core/util-linux/util-linux_2.21.2.bb
-@@ -1,5 +1,5 @@
- MAJOR_VERSION = "2.21"
--PR = "r0"
-+PR = "r1"
- require util-linux.inc
- 
- # note that `lscpu' is under GPLv3+
--- 
-1.7.8.6
+This would imply there is some difference in configuration which is
+triggering it. rm_work* is a possibility, as could ASSUME_PROVIDED
+settings potentially although unlikely.
+
+Encrico: Which DISTRO are you using and do you use rm_work*.bbclass?
+
+Cheers,
+
+Richard
+
+
 
 
 
