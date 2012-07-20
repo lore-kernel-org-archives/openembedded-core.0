@@ -1,41 +1,32 @@
-Received: from mail-we0-f175.google.com ([74.125.82.175])
+Received: from mail-pb0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1SsKO2-0000NJ-3k
+	(envelope-from <raj.khem@gmail.com>) id 1SsMHQ-0003s7-If
 	for openembedded-core@lists.openembedded.org;
-	Fri, 20 Jul 2012 23:05:22 +0200
-Received: by weyr6 with SMTP id r6so2800672wey.6
+	Sat, 21 Jul 2012 01:06:40 +0200
+Received: by pbbrq2 with SMTP id rq2so6138963pbb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jul 2012 13:53:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date
-	:content-transfer-encoding:message-id:references:to:x-mailer
-	:x-gm-message-state;
-	bh=AsMb93cwFreRrV8MamnM5D0yUjxPbeXDhcPBVDVFyhI=;
-	b=A2Atfl9xDs7kidBmWGpUfmsXVCnYkP7T4tiBNSzhA6zqq4/BK109jJAKi3PznoFvHJ
-	o/REg9KBgau8LRwd68/1SOxce9ogcg7Oo7fuVOM0fHkwh8GiKbB3/zieTQAoSh1emE2q
-	2HzToPcrBraL6CvU6nEavfDo9tOORGJ77PvcDnPyS+4Gp8HPuj6Cv/u//wlihZqkDdtA
-	tuX6vMZh2Kq/vff+/VWqs1/1lsP6aa7BTVjiTTu7OQReL6LsxvG2OG2EweJtSm5lePet
-	Adq6U7+jbYp+I3DDIHm4KLIkHumNjJkL2ugytLeHQeg7qxwVf2/l7/yQt0HXkqu91GG+
-	uh2Q==
-Received: by 10.217.6.194 with SMTP id y44mr4349942wes.27.1342817638510;
-	Fri, 20 Jul 2012 13:53:58 -0700 (PDT)
-Received: from [10.47.213.33] ([92.69.199.181])
-	by mx.google.com with ESMTPS id cl8sm46980612wib.10.2012.07.20.13.53.56
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 20 Jul 2012 13:53:57 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1278)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1342801883.21788.44.camel@ted>
-Date: Fri, 20 Jul 2012 22:53:54 +0200
-Message-Id: <C5CB359C-0454-4C3C-B97E-417BF85218B1@dominion.thruhere.net>
-References: <ABA95944-0903-4822-8B44-B2B2922F4028@dominion.thruhere.net>
-	<1342801883.21788.44.camel@ted>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1278)
-X-Gm-Message-State: ALoCoQlHKqcFjVZrL/ln5PEenAlF+sPlcV6+03V5GoXpPaYfiyyWVCJpb5M2oylcdeOMoFzxvJog
-Subject: Re: TUNE_FEATURES not reported correctly in pre-build summary
+	Fri, 20 Jul 2012 15:55:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=/ddGD9WhVhCiSc49TKhhj2GhUBmyljvO8t4+zVN4Vc0=;
+	b=d8ihqKE2U+2PbW3zzBdq7SKeAXkIBYWcB7NVcuffWk1pfN2ojhTqV/aSMNOPRSF3Mo
+	ictmkB8lXtnI7cpuzYAG+s8QjbOhkr4iHY9d2EYzxr7ovIKzo7IS29hnMQ76DDTDgD5y
+	gC2vwo82ihuOsVQXMs0EqpyTV9x4359BhtdaOsQETi7Fx+9gOkpnJjziU6+9vG7qoHXZ
+	SauONXKb267mwwvuNex/wcPnlZqGxfDPrwXQfhJCTDoRw16SmCzwEDs12bJxKNlOCXaF
+	Q94rjzE4pkQfF8ms5Ei9DWAKjoGm2PCq1cfgAp3C+KyZBl+BNIuGUVCVZ4dr3X0o2ffZ
+	ReTQ==
+Received: by 10.66.75.168 with SMTP id d8mr14520405paw.63.1342824915743;
+	Fri, 20 Jul 2012 15:55:15 -0700 (PDT)
+Received: from kraj-lnx.juniper.net (natint3.juniper.net. [66.129.224.36])
+	by mx.google.com with ESMTPS id ot4sm4775373pbb.65.2012.07.20.15.55.14
+	(version=SSLv3 cipher=OTHER); Fri, 20 Jul 2012 15:55:14 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 20 Jul 2012 15:55:12 -0700
+Message-Id: <1342824914-24712-1-git-send-email-raj.khem@gmail.com>
+X-Mailer: git-send-email 1.7.9.5
+Cc: Khem Raj <kraj@juniper.net>
+Subject: [PATCH 1/3] cmake: Upgrade recipes to 2.8.8
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,54 +41,169 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Jul 2012 21:05:22 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 20 Jul 2012 23:06:41 -0000
 
+From: Khem Raj <kraj@juniper.net>
 
-Op 20 jul. 2012, om 18:31 heeft Richard Purdie het volgende geschreven:
+Copyright year change means a change in checksum
+...
 
-> On Fri, 2012-07-20 at 09:08 +0200, Koen Kooi wrote:
->> Hi,
->>=20
->> I've been experimenting with hardfloat in oe-core (all the previous =
-hf angstrom builds were still using oe-classic) and I noticed that the =
-build summary at the start is incorrect:
->>=20
->> [koen@revo Angstrom]$ MACHINE=3Dbeaglebone bitbake -u knotty2 bash
->> [..]
->> Build Configuration:
->> BB_VERSION        =3D "1.15.3"
->> TARGET_ARCH       =3D "arm"
->> TARGET_OS         =3D "linux-gnueabi"
->> MACHINE           =3D "beaglebone"
->> DISTRO            =3D "angstrom"
->> DISTRO_VERSION    =3D "v2012.07-core"
->> TUNE_FEATURES     =3D "armv7a vfp neon cortexa8"
->> TARGET_FPU        =3D "vfp-neon"
->>=20
->> [koen@revo Angstrom]$ MACHINE=3Dbeaglebone bitbake -u knotty2 bash -e =
-| grep TUNE_FEATURES\=3D
->> # TUNE_FEATURES=3D${TUNE_FEATURES_tune-${DEFAULTTUNE}}
->> TUNE_FEATURES=3D"armv7a vfp neon callconvention-hard cortexa8"
->>=20
->> It does seem to build the right things:
->>=20
->> [koen@revo Angstrom]$ dpkg-deb -c =
-build/tmp-angstrom_v2012_x-eglibc/deploy/ipk/armv7ahf-vfp-neon/libc6_2.15-=
-r12+svnr19294_armv7ahf-vfp-neon.ipk  | grep hf
->> lrwxrwxrwx root/root         0 2012-07-20 03:22 =
-./lib/ld-linux-armhf.so.3 -> ld-2.15.so
->>=20
->> So why is TUNE_FEATURES not reported correctly in the build banner?
->=20
-> Good question. How are you selecting callconvention-hard?
+ CMake - Cross Platform Makefile Generator
+-Copyright 2000-2009 Kitware, Inc., Insight Software Consortium
++Copyright 2000-2011 Kitware, Inc., Insight Software Consortium
+ All rights reserved.
 
-=46rom memory, the router on the other end crashed: =
-DEFAULTTUNE_beaglebone =3D "cortexa8hf" in local.conf
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-devtools/cmake/cmake-native_2.8.5.bb |    7 ----
+ meta/recipes-devtools/cmake/cmake-native_2.8.8.bb |    8 +++++
+ meta/recipes-devtools/cmake/cmake.inc             |    4 +--
+ meta/recipes-devtools/cmake/cmake_2.8.5.bb        |   40 ---------------------
+ meta/recipes-devtools/cmake/cmake_2.8.8.bb        |   40 +++++++++++++++++++++
+ 5 files changed, 50 insertions(+), 49 deletions(-)
+ delete mode 100644 meta/recipes-devtools/cmake/cmake-native_2.8.5.bb
+ create mode 100644 meta/recipes-devtools/cmake/cmake-native_2.8.8.bb
+ delete mode 100644 meta/recipes-devtools/cmake/cmake_2.8.5.bb
+ create mode 100644 meta/recipes-devtools/cmake/cmake_2.8.8.bb
 
-regards,
+diff --git a/meta/recipes-devtools/cmake/cmake-native_2.8.5.bb b/meta/recipes-devtools/cmake/cmake-native_2.8.5.bb
+deleted file mode 100644
+index 3fe0c2e..0000000
+--- a/meta/recipes-devtools/cmake/cmake-native_2.8.5.bb
++++ /dev/null
+@@ -1,7 +0,0 @@
+-require cmake.inc
+-inherit native
+-
+-PR = "${INC_PR}.1"
+-
+-SRC_URI[md5sum] = "3c5d32cec0f4c2dc45f4c2e84f4a20c5"
+-SRC_URI[sha256sum] = "5e18bff75f01656c64f553412a8905527e1b85efaf3163c6fb81ea5aaced0b91"
+diff --git a/meta/recipes-devtools/cmake/cmake-native_2.8.8.bb b/meta/recipes-devtools/cmake/cmake-native_2.8.8.bb
+new file mode 100644
+index 0000000..03d57d1
+--- /dev/null
++++ b/meta/recipes-devtools/cmake/cmake-native_2.8.8.bb
+@@ -0,0 +1,8 @@
++require cmake.inc
++inherit native
++
++PR = "${INC_PR}.0"
++
++SRC_URI[md5sum] = "ba74b22c788a0c8547976b880cd02b17"
++SRC_URI[sha256sum] = "2b59897864d6220ff20aa8eac64cac8994e004898a1c0f899c8cb4d7b7570b46"
++
+diff --git a/meta/recipes-devtools/cmake/cmake.inc b/meta/recipes-devtools/cmake/cmake.inc
+index d080e50..6dc319c 100644
+--- a/meta/recipes-devtools/cmake/cmake.inc
++++ b/meta/recipes-devtools/cmake/cmake.inc
+@@ -6,10 +6,10 @@ HOMEPAGE = "http://www.cmake.org/"
+ BUGTRACKER = "http://public.kitware.com/Bug/my_view_page.php"
+ SECTION = "console/utils"
+ LICENSE = "BSD"
+-LIC_FILES_CHKSUM = "file://Copyright.txt;md5=f372516292ff7c33337bf16a74a5f9a8 \
++LIC_FILES_CHKSUM = "file://Copyright.txt;md5=bb2fa3a08736b842556f6171bb9e8ae1 \
+                     file://Source/cmake.h;beginline=1;endline=10;md5=341736dae83c9e344b53eeb1bc7d7bc2"
+ 
+-INC_PR = "r2"
++INC_PR = "r0"
+ 
+ CMAKE_MAJOR_VERSION = "${@'.'.join(d.getVar('PV',1).split('.')[0:2])}"
+ 
+diff --git a/meta/recipes-devtools/cmake/cmake_2.8.5.bb b/meta/recipes-devtools/cmake/cmake_2.8.5.bb
+deleted file mode 100644
+index 6145345..0000000
+--- a/meta/recipes-devtools/cmake/cmake_2.8.5.bb
++++ /dev/null
+@@ -1,40 +0,0 @@
+-require cmake.inc
+-
+-inherit cmake
+-
+-DEPENDS += "curl expat zlib libarchive ncurses"
+-
+-PR = "${INC_PR}.3"
+-
+-SRC_URI += "file://dont-run-cross-binaries.patch"
+-
+-SRC_URI[md5sum] = "3c5d32cec0f4c2dc45f4c2e84f4a20c5"
+-SRC_URI[sha256sum] = "5e18bff75f01656c64f553412a8905527e1b85efaf3163c6fb81ea5aaced0b91"
+-
+-# Strip ${prefix} from ${docdir}, set result into docdir_stripped
+-python () {
+-    prefix=d.getVar("prefix", True)
+-    docdir=d.getVar("docdir", True)
+-
+-    if not docdir.startswith(prefix):
+-	raise bb.build.FuncFailed('docdir must contain prefix as its prefix')
+-
+-    docdir_stripped = docdir[len(prefix):]
+-    if len(docdir_stripped) > 0 and docdir_stripped[0] == '/':
+-	docdir_stripped = docdir_stripped[1:]
+-
+-    d.setVar("docdir_stripped", docdir_stripped)
+-}
+-
+-EXTRA_OECMAKE=" \
+-    -DCMAKE_DOC_DIR=${docdir_stripped}/cmake-${CMAKE_MAJOR_VERSION} \
+-    -DCMAKE_USE_SYSTEM_LIBRARIES=1 \
+-    -DKWSYS_CHAR_IS_SIGNED=1 \
+-    -DBUILD_CursesDialog=0 \
+-    ${@base_contains('DISTRO_FEATURES', 'largefile', '-DKWSYS_LFS_WORKS=1', '-DKWSYS_LFS_DISABLE=1', d)} \
+-"
+-
+-FILES_${PN} += "${datadir}/cmake-${CMAKE_MAJOR_VERSION}"
+-FILES_${PN}-doc += "${docdir}/cmake-${CMAKE_MAJOR_VERSION}"
+-
+-BBCLASSEXTEND = "nativesdk"
+diff --git a/meta/recipes-devtools/cmake/cmake_2.8.8.bb b/meta/recipes-devtools/cmake/cmake_2.8.8.bb
+new file mode 100644
+index 0000000..8665dc3
+--- /dev/null
++++ b/meta/recipes-devtools/cmake/cmake_2.8.8.bb
+@@ -0,0 +1,40 @@
++require cmake.inc
++
++inherit cmake
++
++DEPENDS += "curl expat zlib libarchive ncurses"
++
++PR = "${INC_PR}.0"
++
++SRC_URI += "file://dont-run-cross-binaries.patch"
++
++SRC_URI[md5sum] = "ba74b22c788a0c8547976b880cd02b17"
++SRC_URI[sha256sum] = "2b59897864d6220ff20aa8eac64cac8994e004898a1c0f899c8cb4d7b7570b46"
++
++# Strip ${prefix} from ${docdir}, set result into docdir_stripped
++python () {
++    prefix=d.getVar("prefix", True)
++    docdir=d.getVar("docdir", True)
++
++    if not docdir.startswith(prefix):
++	raise bb.build.FuncFailed('docdir must contain prefix as its prefix')
++
++    docdir_stripped = docdir[len(prefix):]
++    if len(docdir_stripped) > 0 and docdir_stripped[0] == '/':
++	docdir_stripped = docdir_stripped[1:]
++
++    d.setVar("docdir_stripped", docdir_stripped)
++}
++
++EXTRA_OECMAKE=" \
++    -DCMAKE_DOC_DIR=${docdir_stripped}/cmake-${CMAKE_MAJOR_VERSION} \
++    -DCMAKE_USE_SYSTEM_LIBRARIES=1 \
++    -DKWSYS_CHAR_IS_SIGNED=1 \
++    -DBUILD_CursesDialog=0 \
++    ${@base_contains('DISTRO_FEATURES', 'largefile', '-DKWSYS_LFS_WORKS=1', '-DKWSYS_LFS_DISABLE=1', d)} \
++"
++
++FILES_${PN} += "${datadir}/cmake-${CMAKE_MAJOR_VERSION}"
++FILES_${PN}-doc += "${docdir}/cmake-${CMAKE_MAJOR_VERSION}"
++
++BBCLASSEXTEND = "nativesdk"
+-- 
+1.7.9.5
 
-Koen=
 
 
