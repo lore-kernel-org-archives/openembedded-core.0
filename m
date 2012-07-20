@@ -1,37 +1,26 @@
-Received: from mail-lb0-f175.google.com ([209.85.217.175])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1SsEAi-0008JV-7O
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1SsEPW-0008UL-1m
 	for openembedded-core@lists.openembedded.org;
-	Fri, 20 Jul 2012 16:27:12 +0200
-Received: by lbol5 with SMTP id l5so4941260lbo.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jul 2012 07:15:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date
-	:x-google-sender-auth:message-id:subject:to:content-type;
-	bh=7f+SzOummx6bCFe63kYgUdKiZJJLMzEWJLgsrLHG37o=;
-	b=eKUNv4yLwbi66BlV3DeRR8I9FshxYoeBQ2kl72R7bgD1AWoNFmlLgvgT23dVd4SCte
-	nHJqmp0Ju4S2osgUJZ3RQocWBi4zAgNHz9+9MwePNLHYa63vRNnhsIJIyJj/8YGJ+3Zm
-	Zp0TwDXBF6MsYcfJayP84jR+f9GpEfMdoQJ4y1RKwi6LJXAsPG2FO8bLO7vka/p7bsqp
-	42b8iB7izS/ramqHh7MP2WGaMtAlxU5P+TykW+6AofRMFetcloONPvsW29nP8iYJ6YNT
-	hZ9jjn3Msvq8bm9psyCe89G50Phgy59ba79z9W5iw5AU2SiIf5hxKVcgTZImXSAadNwH
-	VEnQ==
-Received: by 10.112.11.38 with SMTP id n6mr3020474lbb.82.1342793748985; Fri,
-	20 Jul 2012 07:15:48 -0700 (PDT)
-MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.114.64.180 with HTTP; Fri, 20 Jul 2012 07:15:28 -0700 (PDT)
-In-Reply-To: <1342793560.21788.27.camel@ted>
+	Fri, 20 Jul 2012 16:42:30 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 20 Jul 2012 07:31:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="124781812"
+Received: from unknown (HELO helios.localnet) ([10.252.121.25])
+	by AZSMGA002.ch.intel.com with ESMTP; 20 Jul 2012 07:31:05 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Chris Larson <clarson@kergoth.com>
+Date: Fri, 20 Jul 2012 15:31:04 +0100
+Message-ID: <4851908.FI1zozqsjq@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.8.4 (Linux/3.2.0-26-generic-pae; KDE/4.8.4; i686; ; )
+In-Reply-To: <CABcZANm_becV-qGHud3=kbyoBMuG9xqcTTLNdT5RCu-MZMGn1g@mail.gmail.com>
 References: <20120720093208.GD3534@jama.jama.net>
-	<1342792561.21788.17.camel@ted>
-	<CABcZANkMioYyrY-+eMbkT5Dbsfs5LJEJQaHj31mgv8jd0Z2qiw@mail.gmail.com>
 	<1342793560.21788.27.camel@ted>
-From: Chris Larson <clarson@kergoth.com>
-Date: Fri, 20 Jul 2012 07:15:28 -0700
-X-Google-Sender-Auth: XKX_Cl89Lzb3gMmIa8XBygJCT1U
-Message-ID: <CABcZANm_becV-qGHud3=kbyoBMuG9xqcTTLNdT5RCu-MZMGn1g@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
+	<CABcZANm_becV-qGHud3=kbyoBMuG9xqcTTLNdT5RCu-MZMGn1g@mail.gmail.com>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
 Subject: Re: Yocto style guide change proposal
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -47,59 +36,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Jul 2012 14:27:12 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 20 Jul 2012 14:42:30 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Fri, Jul 20, 2012 at 7:12 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Fri, 2012-07-20 at 06:57 -0700, Chris Larson wrote:
->> On Fri, Jul 20, 2012 at 6:56 AM, Richard Purdie
->> <richard.purdie@linuxfoundation.org> wrote:
->> > On Fri, 2012-07-20 at 11:32 +0200, Martin Jansa wrote:
->> >> Now we have horrible mixture of whitespaces (tabs and space) only in
->> >> recipe files, because yocto style guide recommends tabs in shell
->> >> functions. So if recipe has e.g. do_install_append as well as
->> >> populate_packages_prepend (not so uncommon combination as tabs fixing
->> >> patches show), then according to yocto style guide it should look like
->> >> this:
->> >>
->> >> do_install_append() {
->> >>       foo
->> >> }
->> >> python populate_packages_prepend () {
->> >>     libdir = bb.data.expand('${libdir}', d)
->> >>     do_split_packages(d, libdir, '^lib(.*)\.so\.*', 'lib%s', 'ORC %s library', extra_depends='', allow_links=True)
->> >> }
->> >>
->> >> especially with default tab width 8 spaces it's ugly and because it
->> >> is inconsistent, many devs used spaces in shell functions too. Now when
->> >> someone accidentaly use tab also in python function it will show warning
->> >> or fail to parse. Some devs are using mix of tabs and spaces even on the
->> >> same line (e.g. to indent SRC_URI multiline entries).
->> >
->> > We've said tabs for shell functions for *years*. I'm sure if I were to
->> > look at the mailing list archives, that would be clear.
->> >
->> > In summary, I agree we need to make the style guides consistent and have
->> > one version of them. I disagree with spaces for everything though,m
->> > particularly as we have said to use tabs for as long and many of the
->> > recipes do this (certainly more than use spaces).
->>
->> I don't think history is a particularly good reason to keep our
->> metadata inconsistent, especially with bitbake becoming picky about
->> it.
->
-> I don't see it as inconsistent. I think python needed some special
-> handling since the language itself uses whitespace for structure and
-> we're now following standard python practise and have a way to ensure
-> some kinds of bugs don't creep in in future. It was already the agreed
-> convention, it just wasn't getting well followed, or we had some issues
-> migrating old mixed code to any one format without enforcing one.
+On Friday 20 July 2012 07:15:28 Chris Larson wrote:
+> If you don't see two different types of indentation in one file as
+> inconsistent, I think you need to look up consistency in a dictionary.
 
+You're not wrong - but that's not the point. Personally I'd really prefer we 
+had four spaces everywhere; I'm not entirely sure why we chose this convention 
+in the first place. However, it's the convention we have now and changing it 
+has serious implications - almost every recipe will have to be changed; 
+backporting changes to stable releases will be made more difficult; submitted 
+patches crossing the switch will be difficult to apply, history will be 
+polluted, etc.
 
-If you don't see two different types of indentation in one file as
-inconsistent, I think you need to look up consistency in a dictionary.
+Changing this is not a small undertaking.
+
+Cheers,
+Paul
+
 -- 
-Christopher Larson
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
