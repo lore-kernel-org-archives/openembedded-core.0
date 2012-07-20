@@ -1,33 +1,41 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1SsExp-0000uS-LK for openembedded-core@lists.openembedded.org;
-	Fri, 20 Jul 2012 17:17:57 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6KF6ZfP013043
+Received: from mail-wg0-f43.google.com ([74.125.82.43])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <martin.jansa@gmail.com>) id 1SsEyE-0000wr-Fb
+	for openembedded-core@lists.openembedded.org;
+	Fri, 20 Jul 2012 17:18:22 +0200
+Received: by wgbdr1 with SMTP id dr1so3539390wgb.24
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jul 2012 16:06:35 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 09727-08 for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jul 2012 16:06:30 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6KF6QtT013037
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jul 2012 16:06:28 +0100
-Message-ID: <1342796791.21788.30.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Fri, 20 Jul 2012 08:06:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=fouQu8qapfhR82Hfa+FpGABauDrcqhkb9M0kG6AWSdA=;
+	b=OuAK3QuMVkVWX27EOHe+kvAb5aEERGBnVEPMpzYMLDWmYE3UC1UI88gAP084X+NSJk
+	sO0pY4n7nRhpcJOH6PCxH/76NFEFHpTJBcPS+AvUgrKxXzDE3WHAwb96SMXBNcsnBQFf
+	Niag0yK6EFd2JkpMcKVPqjhFL1kJwSB14IfCEHhW3kfa2gD0Ja2sZdHNw4cZut/HTtl/
+	9nMz/f8GaipyA87LpMdNUR4UYZggD4KsBjzQJbaFhdhOm/XeIhp84y+JiKkedZfewIke
+	AuvuFsdAxLIi2+wtxLVYTBSxy8lt48TD2iiSqp6Ej0FxzIuYcUEss/zFqlG/QRmr9DxG
+	6cdg==
+Received: by 10.180.78.99 with SMTP id a3mr26829970wix.15.1342796819216;
+	Fri, 20 Jul 2012 08:06:59 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id t7sm15692382wix.6.2012.07.20.08.06.56
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 20 Jul 2012 08:06:57 -0700 (PDT)
+Date: Fri, 20 Jul 2012 17:07:09 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Fri, 20 Jul 2012 16:06:31 +0100
-In-Reply-To: <D9D7124626ED1E43963D86B2657D5CCD03A17BC8@FRSNPREXC1.usr.ingenico.loc>
-References: <D9D7124626ED1E43963D86B2657D5CCD03A17BC8@FRSNPREXC1.usr.ingenico.loc>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: Broken gettext/gdbm
+Message-ID: <20120720150709.GG3534@jama.jama.net>
+References: <20120720093208.GD3534@jama.jama.net>
+	<1342793560.21788.27.camel@ted>
+	<CABcZANm_becV-qGHud3=kbyoBMuG9xqcTTLNdT5RCu-MZMGn1g@mail.gmail.com>
+	<4851908.FI1zozqsjq@helios>
+MIME-Version: 1.0
+In-Reply-To: <4851908.FI1zozqsjq@helios>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: Chris Larson <clarson@kergoth.com>
+Subject: Re: Yocto style guide change proposal
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,79 +50,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Jul 2012 15:17:57 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 20 Jul 2012 15:18:22 -0000
+X-Groupsio-MsgNum: 25865
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="oXNgvKVxGWJ0RPMJ"
+Content-Disposition: inline
 
-On Fri, 2012-07-20 at 15:10 +0200, Matthieu CRAPET wrote:
-> Greetings,
-> 
-> I updated my OE-core and bitbake today (2012.07.20). Build from scratch
-> fails:
-> 
-> <code>
-> NOTE: package gdbm-1.10-r3: task do_configure: Started
-> ERROR: Function failed: do_configure (see
-> /home/.../build/tmp-eglibc/work/armv5te-ing-linux-gnueabi/gdbm-1.10-r3/t
-> emp/log.do_configure.31222 for further information)
-> ERROR: Logfile of failure stored in:
-> /home/.../build/tmp-eglibc/work/armv5te-ing-linux-gnueabi/gdbm-1.10-r3/t
-> emp/log.do_configure.31222
-> Log data follows:
-> | DEBUG: Executing python function sysroot_cleansstate
-> | DEBUG: Python function sysroot_cleansstate finished
-> | DEBUG: SITE files ['endian-little', 'bit-32', 'arm-common',
-> 'common-linux', 'common-glibc', 'arm-linux', 'arm-linux-gnueabi',
-> 'common']
-> | DEBUG: Executing shell function do_configure
-> | automake (GNU automake) 1.12.1
-> | Copyright (C) 2012 Free Software Foundation, Inc.
-> | License GPLv2+: GNU GPL version 2 or later
-> <http://gnu.org/licenses/gpl-2.0.html>
-> | This is free software: you are free to change and redistribute it.
-> | There is NO WARRANTY, to the extent permitted by law.
-> |
-> | Written by Tom Tromey <tromey@redhat.com>
-> |        and Alexandre Duret-Lutz <adl@gnu.org>.
-> | AUTOV is 1.12
-> | cp: cannot stat
-> `/home/.../build/tmp-eglibc/sysroots/rp02/usr/share/gettext/config.rpath
-> ': No such file or directory
-> | ERROR: Function failed: do_configure (see
-> /home/.../build/tmp-eglibc/work/armv5te-ing-linux-gnueabi/gdbm-1.10-r3/t
-> emp/log.do_configure.31222 for further information)
-> NOTE: package gdbm-1.10-r3: task do_configure: Failed
-> </code>
-> 
-> gdbm needs gettext to have config.rpath. But gettext is not built, but
-> gettext-native & gettext-minimal-native are built.
-> 
-> Issue comes from  "meta/classes/autotools.bbclass":
-> 
-> <code>
->         else if grep "^[[:space:]]*AM_GNU_GETTEXT" $CONFIGURE_AC
-> >/dev/null; then
->                             # We'd call gettextize here if it wasn't so
-> broken...
->           cp ${STAGING_DATADIR}/gettext/config.rpath
-> ${AUTOTOOLS_AUXDIR}/
-> </code>
-> 
-> What would be the best workaround to take config.rpath from
-> gettext-native?
+--oXNgvKVxGWJ0RPMJ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-This is odd since gdbm inherits gettext and therefore should have a
-DEPENDS on virtual/gettext. gettext should therefore have been built.
+On Fri, Jul 20, 2012 at 03:31:04PM +0100, Paul Eggleton wrote:
+> On Friday 20 July 2012 07:15:28 Chris Larson wrote:
+> > If you don't see two different types of indentation in one file as
+> > inconsistent, I think you need to look up consistency in a dictionary.
+>=20
+> You're not wrong - but that's not the point. Personally I'd really prefer=
+ we=20
+> had four spaces everywhere; I'm not entirely sure why we chose this conve=
+ntion=20
+> in the first place. However, it's the convention we have now and changing=
+ it=20
+> has serious implications - almost every recipe will have to be changed;=
+=20
 
-Any idea why gettext wasn't built?
+It doesn't need to be changed now everywhere, recipe maintainers can
+change it if they want e.g. when upgrading recipe (preferably in
+separate commit). Tabs highlight will help with that..
 
-bitbake gdbm -e | grep ^DEPENDS
+> backporting changes to stable releases will be made more difficult; submi=
+tted=20
+> patches crossing the switch will be difficult to apply, history will be=
+=20
+> polluted, etc.
+>=20
+> Changing this is not a small undertaking.
 
-shows virtual/gettext here...
+meta-efl + meta-smartphone size is about 1/2 of oe-core (counting .bb +
+=2Einc) and it took only about 1 hour to replace all tabs with 8 spaces=20
+(when it was used to indent e.g. SRC_URI) or 4 spaces (when it was used=20
+in shell functions).
+
+In many cases I had to replace 8 spaces with 4 when those shell
+functions were indented with spaces already or with tabs/spaces mix.
+
+Yes it's only aesthetics, but that's what "style guide" usually does.
 
 Cheers,
 
-Richard
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--oXNgvKVxGWJ0RPMJ
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
 
+iEYEARECAAYFAlAJdB0ACgkQN1Ujt2V2gBzBPACgn0fXt0X5PWugmo+bON26svTb
+LNUAoIsMEM78hZb7WDm6nZi8B/V95j8S
+=J71i
+-----END PGP SIGNATURE-----
+
+--oXNgvKVxGWJ0RPMJ--
