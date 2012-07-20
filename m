@@ -1,32 +1,32 @@
-Received: from mail-yw0-f47.google.com ([209.85.213.47])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@gmail.com>) id 1Ss0m3-0005Lv-PX
+	(envelope-from <joe.slater@windriver.com>) id 1Ss3ci-00080D-7d
 	for openembedded-core@lists.openembedded.org;
-	Fri, 20 Jul 2012 02:08:51 +0200
-Received: by yhjj56 with SMTP id j56so3219751yhj.6
+	Fri, 20 Jul 2012 05:11:24 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q6K1fha8018548
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Jul 2012 16:57:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type; bh=R8lwuaBRCaBfjPA+D56nWZnHtcBAjVcTk3DjCU2OljY=;
-	b=r5DfgGXigknTafQQOpetKyJhJ8Ymbmoi2bcG9Ah4H/0RDGoDz0kEdAxHc2/2/wCzuC
-	t9g0SOg343r39FBefmR1gBwz7x4kPQi56X6sYDvp18+Rf6jUVv1f7oBrd6F0cTLPHlfB
-	Up1OjclQngGzClXUzFwzkuiSPHOLx8gE7j16P/o2S7cVJ43l5MS74NfUJil2hae9nkjJ
-	/CBMvGz6q2mTfHMbvg1SYnkrvDhi10w8/yAvoHsR63R20LaVIkP1k19obayq6RRORNBh
-	HkREVIBrjd/VGc0TMXam4EoKFD0B81qkBp9cRkproSHgTy65aDW67nAjwL1+BX5ob0aI
-	5rDQ==
-MIME-Version: 1.0
-Received: by 10.50.203.41 with SMTP id kn9mr2968155igc.72.1342742248631; Thu,
-	19 Jul 2012 16:57:28 -0700 (PDT)
-Received: by 10.231.239.131 with HTTP; Thu, 19 Jul 2012 16:57:28 -0700 (PDT)
-In-Reply-To: <alpine.DEB.2.02.1207191738300.22542@oneiric>
-References: <alpine.DEB.2.02.1207191738300.22542@oneiric>
-Date: Thu, 19 Jul 2012 19:57:28 -0400
-Message-ID: <CADkTA4MBfe8uW4k8t-975hixqPCT5Q-_t4wXYh0vKvk7B8W_QA@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+	Thu, 19 Jul 2012 18:41:44 -0700 (PDT)
+Received: from ALA-MBB.corp.ad.wrs.com ([169.254.2.203]) by
+	ALA-HCA.corp.ad.wrs.com ([147.11.189.40]) with mapi id 14.01.0255.000;
+	Thu, 19 Jul 2012 18:41:42 -0700
+From: "Slater, Joseph" <joe.slater@windriver.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: what are the major phases of do_patch() for the kernel?
+Thread-Topic: [OE-core] modifying inittab (for example)
+Thread-Index: Ac1lO3LorVUQ50xMRU6biMXWSeTsigAbkMIAABtmyaA=
+Date: Fri, 20 Jul 2012 01:41:42 +0000
+Message-ID: <007BD92917A2324FA403BCF9A464CF841FF715DA@ALA-MBB.corp.ad.wrs.com>
+References: <007BD92917A2324FA403BCF9A464CF841FF701EF@ALA-MBB.corp.ad.wrs.com>
+	<20120719052624.GB3331@jama.jama.net>
+In-Reply-To: <20120719052624.GB3331@jama.jama.net>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [147.11.152.80]
+MIME-Version: 1.0
+Subject: Re: modifying inittab (for example)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,88 +41,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Jul 2012 00:08:52 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Fri, 20 Jul 2012 03:11:24 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jul 19, 2012 at 5:50 PM, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
->
->   short version: what happens during each major processing step of the
-> do_patch function for the kernel?
->
->   longer version: i'm stepping through what happens when i do a
-> "bitbake linux-yocto", and documenting what happens at each step --
-> currently looking at do_patch().
->
->   after having run the previous validate_branches target, what i
-> appear to have is the source directory containing the kernel source
-> with the (for me) standard/arm-versatile-926ejs branch checked out,
-> and no top-level "meta" directory.  so far, so good.
->
->   now, i'm building core-image-minimal for qemuarm, so i'm being as
-> unexciting and non-exotic as possible -- not selecting any special
-> parameters or corner cases or anything.
->
->   so as i peruse do_patch() in kernel-yocto.bbclass, i'm following
-> along to functions like createme and updateme and patchme, and with
-> createme, further into decheckpoint and check_defconfig and ... you
-> get the idea.  and i'm kind of getting lost in the weeds of details.
->
->   given that i'm building an absolutely stock target with a supported
-> machine, all i really need for the moment is a very high-level
-> explanation of what each of those main routines does.
->
->   so if my initial understanding is correct (that before i start
-> do_patch), i have the stock yocto kernel checked out to the
-> appropriate machine branch and nothing else), what does each
-> subsequent step accomplish?
->
->   don't need horrific detail, just one line or less as to what's
-> accomplished by each step like:
->
->   * createme
->     * decheckpoint
->     * checkdefconfig
->     * check_branch
->     * metaize
->   * updateme
 
-Most of this is already covered in the kernel architecture manual that you
-can find on the yocto pages .. I'd suggest starting there.
 
-This is all significantly more detail than anyone needs, and we've moved
-these docs from being the first thing that people see ..
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedd=
+ed-core-
+> bounces@lists.openembedded.org] On Behalf Of Martin Jansa
+> Sent: Wednesday, July 18, 2012 10:26 PM
+> To: Patches and discussions about the oe-core layer
+> Subject: Re: [OE-core] modifying inittab (for example)
+>=20
+> On Wed, Jul 18, 2012 at 11:29:43PM +0000, Slater, Joseph wrote:
+> > Suppose we want to boot to different runlevels for different images.  W=
+e could modify
+> the default inittab
+> > to reflect that.  We could modify it in various ways, but I don't think=
+ the exact
+> mechanism much matters.
+> >
+> > What is an interesting question is WHEN we modify it.
+> >
+> > One way would be to  have a small piece of code and invoke it during im=
+age creation
+> using
+> > something like
+> >
+> > ROOTFS_POSTPROCESS_COMMAND +=3D "sato_image_pp ; "
+> >
+> > in our sato-image.bb recipe.  This doesn't require creating any new fea=
+tures.
+>=20
+> This doesn't work very well for images with package management, when user
+> upgrades installed packages, he can get new sysvinit-inittab which will
+> reset runlevel in all types of images to same value.
 
-Cheers,
+In this particular case, I found there is a CONFFILES set in the recipe tha=
+t prohibits
+updating inittab when updating the package using package management (if you=
+'re lucky).
 
-Bruce
+I have to admit that there are more of these "variables" lying around than =
+a simple mind
+would imagine.
 
->
-> ... etc, etc.  and at the end of the patch step, i know that i'll have
-> that untracked top-level "meta" directory, still not sure what will
-> have been done with it yet.  i guess that's for the next step, which
-> appears to be "kernel_configme".  but one thing at a time.
->
-> rday
->
+Joe
+
+>=20
+> > But, we could also do it when we build sysvinit-inittab.  I think, if w=
+e did that, we
+> would need a feature,
+> > probably a DISTRO_FEATURE, that was set in some conf file.
+>=20
+> This doesn't work too, if you have just one sysvinit-inittab recipe then
+> it's used for all images -> so again same runlevel in all.
+>=20
+> > Is there a preference for one way or the other?
+>=20
+> You can create different inittab recipes for each runlevel you want and
+> then make sure that only right inittab package is pulled to each image.
+>=20
+> Cheers,
+>=20
 > --
->
-> ========================================================================
-> Robert P. J. Day                                 Ottawa, Ontario, CANADA
->                         http://crashcourse.ca
->
-> Twitter:                                       http://twitter.com/rpjday
-> LinkedIn:                               http://ca.linkedin.com/in/rpjday
-> ========================================================================
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-
-
-
--- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
 
