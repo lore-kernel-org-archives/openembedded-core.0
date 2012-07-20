@@ -1,31 +1,29 @@
-Received: from masterfoo.zenlinux.com ([207.192.74.254])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1SsFSz-0001U5-BA
+	(envelope-from <Bruce.Ashfield@windriver.com>) id 1SsFUS-0001YO-GE
 	for openembedded-core@lists.openembedded.org;
-	Fri, 20 Jul 2012 17:50:09 +0200
-Received: from localhost (c-76-105-137-48.hsd1.or.comcast.net [76.105.137.48])
-	(using TLSv1 with cipher DHE-RSA-AES128-SHA (128/128 bits))
-	(No client certificate requested)
-	by masterfoo.zenlinux.com (Postfix) with ESMTP id 3717A3041E
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jul 2012 11:38:42 -0400 (EDT)
-From: Scott Garman <scott.a.garman@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 20 Jul 2012 08:38:34 -0700
-Message-Id: <f173a01e48771440a03cafad988496fb20d720ee.1342798565.git.scott.a.garman@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1342798565.git.scott.a.garman@intel.com>
-References: <cover.1342798565.git.scott.a.garman@intel.com>
-In-Reply-To: <cover.1342798565.git.scott.a.garman@intel.com>
-References: <cover.1342798565.git.scott.a.garman@intel.com>
-X-MasterFoo-MailScanner-Information: Please contact the ISP for more
-	information
-X-MailScanner-ID: 3717A3041E.3F8F3
-X-MasterFoo-MailScanner: Found to be clean
-X-MasterFoo-MailScanner-SpamCheck: not spam
-X-MasterFoo-MailScanner-From: scott.a.garman@intel.com
-X-Spam-Status: No
-Subject: [PATCH 1/1] openssl: upgrade to 1.0.0j
+	Fri, 20 Jul 2012 17:51:40 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q6KFeBNd010555
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 20 Jul 2012 08:40:11 -0700 (PDT)
+Received: from [128.224.146.67] (128.224.146.67) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Fri, 20 Jul 2012 08:40:11 -0700
+Message-ID: <50097BC7.9020501@windriver.com>
+Date: Fri, 20 Jul 2012 11:39:51 -0400
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
+MIME-Version: 1.0
+To: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
+References: <cover.1342796935.git.bruce.ashfield@windriver.com>
+	<ADD6A3980E8C39419A432FF422031B4C0318C688@ORSMSX106.amr.corp.intel.com>
+In-Reply-To: <ADD6A3980E8C39419A432FF422031B4C0318C688@ORSMSX106.amr.corp.intel.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, "Wold,
+	Saul" <saul.wold@intel.com>
+Subject: Re: [PATCH 0/3] linux-yocto: consolidated pull
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,140 +38,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Jul 2012 15:50:09 -0000
+X-List-Received-Date: Fri, 20 Jul 2012 15:51:40 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Addresses CVE-2012-2333
+On 12-07-20 11:34 AM, Kamble, Nitin A wrote:
+>
+>
+>> -----Original Message-----
+>> From: Bruce Ashfield [mailto:bruce.ashfield@windriver.com]
+>> Sent: Friday, July 20, 2012 8:49 PM
+>> To: richard.purdie@linuxfoundation.org
+>> Cc: Wold, Saul; Zanussi, Tom; Kamble, Nitin A; andrea.adami@gmail.com;
+>> rpjday@crashcourse.ca; openembedded-core@lists.openembedded.org
+>> Subject: [PATCH 0/3] linux-yocto: consolidated pull
+>>
+>> Richard/Saul,
+>>
+>> I've got some -stable updates, -rt updates and other changes that are almost
+>> done, but I wanted to get these smaller patches out of my queue first.
+>>
+>> We have some cleanup patches from Robert P. J. Day and a meta branch
+>> update for EMGD, CONFIG_MTD_NAND_VERIFY_WRITE and kmemcheck.
+>>
+>> I've gone ahead and pushed the emgd update from Nitin, if it requires re-
+>> work, we'll just add more commits to the branch.
+>>
+>> Tom/Nitin: speak up if there's a problem with this!
+>>
+> Bruce,
+>     I notice that in the meta branch you also created patches for commits from the emgd-1.14 branch such as meta/cfg/kernel-cache/features/emgd/yocto-emgd-emgd-1.14-driver.patch. So emgd-1.14 support is available by 2 ways now. 1: By enabling these patches&  2: by merging the emgd-1.14 branch. For crownbay it is merging the emgd-1.14 branch, so these patches from meta directory can not be used.
 
-Fixes [YOCTO #2682]
+.. and they aren't supposed to be used, are there any BSPs actively
+including the emgd-1.14 feature ? I didn't see any, so I left the
+patches in the feature description. If a BSP does a git merge of the
+branch, it shouldn't include the feature, since as you mention, that
+would push the patches again.
 
-Signed-off-by: Scott Garman <scott.a.garman@intel.com>
----
- .../configure-targets.patch                        |    0
- .../debian/c_rehash-compat.patch                   |    0
- .../debian/ca.patch                                |    0
- .../debian/debian-targets.patch                    |    0
- .../debian/make-targets.patch                      |    0
- .../debian/man-dir.patch                           |    0
- .../debian/man-section.patch                       |    0
- .../debian/no-rpath.patch                          |    0
- .../debian/no-symbolic.patch                       |    0
- .../debian/pic.patch                               |    0
- .../debian/version-script.patch                    |    0
- .../engines-install-in-libdir-ssl.patch            |    0
- .../{openssl-1.0.0i => openssl-1.0.0j}/find.pl     |    0
- .../oe-ldflags.patch                               |    0
- .../openssl-fix-link.patch                         |    0
- .../openssl_fix_for_x32.patch                      |    0
- .../shared-libs.patch                              |    0
- .../{openssl_1.0.0i.bb => openssl_1.0.0j.bb}       |    4 ++--
- 18 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.0i => openssl-1.0.0j}/configure-targets.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.0i => openssl-1.0.0j}/debian/c_rehash-compat.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.0i => openssl-1.0.0j}/debian/ca.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.0i => openssl-1.0.0j}/debian/debian-targets.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.0i => openssl-1.0.0j}/debian/make-targets.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.0i => openssl-1.0.0j}/debian/man-dir.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.0i => openssl-1.0.0j}/debian/man-section.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.0i => openssl-1.0.0j}/debian/no-rpath.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.0i => openssl-1.0.0j}/debian/no-symbolic.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.0i => openssl-1.0.0j}/debian/pic.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.0i => openssl-1.0.0j}/debian/version-script.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.0i => openssl-1.0.0j}/engines-install-in-libdir-ssl.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.0i => openssl-1.0.0j}/find.pl (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.0i => openssl-1.0.0j}/oe-ldflags.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.0i => openssl-1.0.0j}/openssl-fix-link.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.0i => openssl-1.0.0j}/openssl_fix_for_x32.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl-1.0.0i => openssl-1.0.0j}/shared-libs.patch (100%)
- rename meta/recipes-connectivity/openssl/{openssl_1.0.0i.bb => openssl_1.0.0j.bb} (90%)
+It's just providing options, since merging branches isn't always
+possible.
 
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0i/configure-targets.patch b/meta/recipes-connectivity/openssl/openssl-1.0.0j/configure-targets.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.0i/configure-targets.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.0j/configure-targets.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0i/debian/c_rehash-compat.patch b/meta/recipes-connectivity/openssl/openssl-1.0.0j/debian/c_rehash-compat.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.0i/debian/c_rehash-compat.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.0j/debian/c_rehash-compat.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0i/debian/ca.patch b/meta/recipes-connectivity/openssl/openssl-1.0.0j/debian/ca.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.0i/debian/ca.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.0j/debian/ca.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0i/debian/debian-targets.patch b/meta/recipes-connectivity/openssl/openssl-1.0.0j/debian/debian-targets.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.0i/debian/debian-targets.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.0j/debian/debian-targets.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0i/debian/make-targets.patch b/meta/recipes-connectivity/openssl/openssl-1.0.0j/debian/make-targets.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.0i/debian/make-targets.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.0j/debian/make-targets.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0i/debian/man-dir.patch b/meta/recipes-connectivity/openssl/openssl-1.0.0j/debian/man-dir.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.0i/debian/man-dir.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.0j/debian/man-dir.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0i/debian/man-section.patch b/meta/recipes-connectivity/openssl/openssl-1.0.0j/debian/man-section.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.0i/debian/man-section.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.0j/debian/man-section.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0i/debian/no-rpath.patch b/meta/recipes-connectivity/openssl/openssl-1.0.0j/debian/no-rpath.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.0i/debian/no-rpath.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.0j/debian/no-rpath.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0i/debian/no-symbolic.patch b/meta/recipes-connectivity/openssl/openssl-1.0.0j/debian/no-symbolic.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.0i/debian/no-symbolic.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.0j/debian/no-symbolic.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0i/debian/pic.patch b/meta/recipes-connectivity/openssl/openssl-1.0.0j/debian/pic.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.0i/debian/pic.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.0j/debian/pic.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0i/debian/version-script.patch b/meta/recipes-connectivity/openssl/openssl-1.0.0j/debian/version-script.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.0i/debian/version-script.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.0j/debian/version-script.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0i/engines-install-in-libdir-ssl.patch b/meta/recipes-connectivity/openssl/openssl-1.0.0j/engines-install-in-libdir-ssl.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.0i/engines-install-in-libdir-ssl.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.0j/engines-install-in-libdir-ssl.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0i/find.pl b/meta/recipes-connectivity/openssl/openssl-1.0.0j/find.pl
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.0i/find.pl
-rename to meta/recipes-connectivity/openssl/openssl-1.0.0j/find.pl
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0i/oe-ldflags.patch b/meta/recipes-connectivity/openssl/openssl-1.0.0j/oe-ldflags.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.0i/oe-ldflags.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.0j/oe-ldflags.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0i/openssl-fix-link.patch b/meta/recipes-connectivity/openssl/openssl-1.0.0j/openssl-fix-link.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.0i/openssl-fix-link.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.0j/openssl-fix-link.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0i/openssl_fix_for_x32.patch b/meta/recipes-connectivity/openssl/openssl-1.0.0j/openssl_fix_for_x32.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.0i/openssl_fix_for_x32.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.0j/openssl_fix_for_x32.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0i/shared-libs.patch b/meta/recipes-connectivity/openssl/openssl-1.0.0j/shared-libs.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssl/openssl-1.0.0i/shared-libs.patch
-rename to meta/recipes-connectivity/openssl/openssl-1.0.0j/shared-libs.patch
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.0i.bb b/meta/recipes-connectivity/openssl/openssl_1.0.0j.bb
-similarity index 90%
-rename from meta/recipes-connectivity/openssl/openssl_1.0.0i.bb
-rename to meta/recipes-connectivity/openssl/openssl_1.0.0j.bb
-index c233ba1..7dac79c 100644
---- a/meta/recipes-connectivity/openssl/openssl_1.0.0i.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_1.0.0j.bb
-@@ -32,8 +32,8 @@ SRC_URI += "file://configure-targets.patch \
-             file://find.pl \
-            "
- 
--SRC_URI[md5sum] = "b4df9c11af454fd68178c85a1d5f328f"
--SRC_URI[sha256sum] = "548262d15777c504be1ab9bb8fabef1e14a3de54837a6593c8f403dd843d5e57"
-+SRC_URI[md5sum] = "cbe4ac0d8f598680f68a951e04b0996b"
-+SRC_URI[sha256sum] = "626fb8fcb3eb7e966edbe71553ff993d137f6e8a87b05051a3695e621098b8af"
- 
- PACKAGES =+ " \
- 	${PN}-engines \
--- 
-1.7.9.5
+>    I don't see any functional issue with this layout, but I am curious why these patches in meta branch when emgd-1.14 branch can be merged to get the same effect.
+
+The kernel-cache should always have the raw patches that you find
+on the branches. Some prefer the patches (and don't want to dump the
+from the branches) and they document the commits on the branches.
+
+I for one always use the merge, and prefer the branch only commits, but
+my inbox is full from people requesting the raw patches over the years :)
+
+Cheers,
+
+Bruce
+
+>
+> Thanks,
+> Nitin
+>
+>> Cheers,
+>>
+>> Bruce
+>>
+>> cc: Nitin A Kamble<nitin.a.kamble@intel.com>
+>> cc: Tom Zanussi<tom.zanussi@intel.com>
+>> cc: Andrea Adami<andrea.adami@gmail.com>
+>> cc: Robert P. J. Day<rpjday@crashcourse.ca>
+>>
+>> The following changes since commit
+>> 98a1fd1e734db50380a3a37d35767ccb4cc21f7c:
+>>
+>>    documentation: Config fragment sections updated (2012-07-20 12:32:54
+>> +0100)
+>>
+>> are available in the git repository at:
+>>    git://git.pokylinux.org/poky-contrib zedd/kernel
+>>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+>>
+>> Bruce Ashfield (1):
+>>    linux-yocto/3.4: emgd, mtd nand and kmemcheck fixes
+>>
+>> Robert P. J. Day (2):
+>>    kernel-yocto.bbclass: Fix some obvious typoes in comments.
+>>    kernel-yocto.bbclass: Delete superfluous creation of ${S}/.git
+>>      directory
+>>
+>>   meta/classes/kernel-yocto.bbclass               |    8 ++++----
+>>   meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb |    2 +-
+>>   meta/recipes-kernel/linux/linux-yocto_3.4.bb    |    2 +-
+>>   3 files changed, 6 insertions(+), 6 deletions(-)
+>>
+>> --
+>> 1.7.5.4
+>
 
 
 
