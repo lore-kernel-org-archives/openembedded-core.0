@@ -1,29 +1,33 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-gh0-f175.google.com ([209.85.160.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1SsHbA-0005JO-Rs
+	(envelope-from <otavio.salvador@gmail.com>) id 1SsHtH-0005T3-N7
 	for openembedded-core@lists.openembedded.org;
-	Fri, 20 Jul 2012 20:06:45 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q6KHtJ65028176
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Fri, 20 Jul 2012 20:25:27 +0200
+Received: by ghbz2 with SMTP id z2so3976693ghb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jul 2012 10:55:19 -0700 (PDT)
-Received: from Marks-MacBook-Pro.local (172.25.35.110) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.1.255.0; Fri, 20 Jul 2012 10:55:19 -0700
-Message-ID: <50099B89.7060308@windriver.com>
-Date: Fri, 20 Jul 2012 11:55:21 -0600
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7;
-	rv:13.0) Gecko/20120614 Thunderbird/13.0.1
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <CAKSdS8L32A5wB4fzuc-EQTBX9_GXLhLO_gt4HgzgJk=UC+XZKw@mail.gmail.com>
-	<50087A5B.9030905@windriver.com>
-	<CAKSdS8LB0=8RieBGJSAyxyw9APPEksCKZ1WVz0EWwMZ49-SRow@mail.gmail.com>
-In-Reply-To: <CAKSdS8LB0=8RieBGJSAyxyw9APPEksCKZ1WVz0EWwMZ49-SRow@mail.gmail.com>
-Subject: Re: meta-toolchain type SDK containing external toolchain possible?
+	Fri, 20 Jul 2012 11:14:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=sender:from:to:cc:subject:date:message-id:x-mailer;
+	bh=xupSRQNwF68V5l86Yvxl8p135ygthtHDXc8WWKFbMgo=;
+	b=hnKtQXewH21Z+EUp/Fg/hFf3JUDeGWVMRVLbtJXMl+ggAR/zSFfJAAACwgQBAGjmJY
+	ryW62lnsopE16ZVSXXEozW/sFO7mr+toQjJS+3UgxYOwfW15JHewNYvnGFBoFxtwlLt1
+	5w/fcduDLT9+lEDeRk2GXieXe4VWY9gozqRUx9zRHUsdh8YxAoXHocr1zSGsmb5oMnw/
+	ZTbCT/EK7E8QXnMhdMJxtzN/hVVy1CQVEZ9dq0EeMnq61q62Ew5+wxRG7veDS8E8Yarh
+	EIFBCowld6f9VvD7yAGgSaWyfI1nmFAEGBJukLXhKqt7SPF7pULgSPCnNd4EElRqEvxx
+	8yOw==
+Received: by 10.236.170.36 with SMTP id o24mr6510220yhl.40.1342808043848;
+	Fri, 20 Jul 2012 11:14:03 -0700 (PDT)
+Received: from localhost.localdomain ([177.100.163.15])
+	by mx.google.com with ESMTPS id s1sm5609408anl.8.2012.07.20.11.14.01
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 20 Jul 2012 11:14:02 -0700 (PDT)
+Sender: Otavio Salvador <otavio.salvador@gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 20 Jul 2012 15:13:50 -0300
+Message-Id: <1342808031-21564-1-git-send-email-otavio@ossystems.com.br>
+X-Mailer: git-send-email 1.7.2.5
+Subject: [PATCH 1/2] shadow-native: use 'users' group by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,77 +42,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Jul 2012 18:06:45 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 20 Jul 2012 18:25:27 -0000
 
-On 7/20/12 10:45 AM, Manuel Bessler wrote:
-> Hi Mark,
->
-> On Thu, Jul 19, 2012 at 5:21 PM, Mark Hatle <mark.hatle@windriver.com> wrote:
->> On 7/19/12 3:13 PM, Manuel Bessler wrote:
->>> Is it possible to setup my toolchain such that it will be part of the
->>> SDK package instead of the default {gcc,binutils}-cross-canadian?
->>
->>
->> It is possible, but the external toolchain needs to be provided via a
->> crosssdk/cross-canadian binary.  The external-csl-toolchain.bb can be used
->> as a model for how to do this.
->
-> What do you mean by "via a crosssdk/cross-canadian binary"? Built by
-> bitbake using the *-cross-canadian recipes?
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
+ .../shadow/shadow-native_4.1.4.3.bb                |    5 ++++-
+ 1 files changed, 4 insertions(+), 1 deletions(-)
 
-You need to create a crosssdk/cross-canadian recipe that copies the binary 
-toolchain into the right SDK location(s).  Using external-csl-toolchain (or 
-similar) as a guide.
-
->
->
->> For my stuff I did;
->>
->> PREFERRED_PROVIDER_binutils-cross-canadian-${TRANSLATED_TARGET_ARCH} =
->> "external-csl-toolchain-cross-canadian-${TRANSLATED_TARGET_ARCH}"
->>
->> PREFERRED_PROVIDER_gcc-cross-canadian-${TRANSLATED_TARGET_ARCH} =
->> "external-csl-toolchain-cross-canadian-${TRANSLATED_TARGET_ARCH}"
->>
->> PREFERRED_PROVIDER_gdb-cross-canadian-${TRANSLATED_TARGET_ARCH} =
->> "external-csl-toolchain-cross-canadian-${TRANSLATED_TARGET_ARCH}"
->>
->>
->>
->>> That alone did not change anything.
->>>
->>> Then I tried adding the following to
->>> recipes-core/meta/external-xxx-toolchain_4.5.3.bb in my layer:
->>> PROVIDES += " gcc-cross-canadian-${TRANSLATED_TARGET_ARCH} "
->>> PROVIDES += " binutils-cross-canadian-${TRANSLATED_TARGET_ARCH} "
->>
->>
->> Within the external-cs-toolchain-cross-canadian.bb I had similar provides as
->> well..
->
-> So you have a separate recipe to satisfy cross-canadian ? I tried
-> finding this file but had no luck...
-
-Yes, I have external-cs-toolchain.bb, and 
-external-cs-toolchain-cross-canadian.bb, which is based on the former.
-
-(most of it is generic, so a single ".inc" version used by both should be 
-possible as well..)
-
---Mark
-
->
-> Thanks,
-> Manuel
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
-
+diff --git a/meta/recipes-extended/shadow/shadow-native_4.1.4.3.bb b/meta/recipes-extended/shadow/shadow-native_4.1.4.3.bb
+index 1e071f1..8115328 100644
+--- a/meta/recipes-extended/shadow/shadow-native_4.1.4.3.bb
++++ b/meta/recipes-extended/shadow/shadow-native_4.1.4.3.bb
+@@ -7,7 +7,7 @@ LICENSE = "BSD | Artistic-1.0"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=08c553a87d4e51bbed50b20e0adcaede \
+                     file://src/passwd.c;firstline=8;endline=30;md5=2899a045e90511d0e043b85a7db7e2fe"
+ 
+-PR = "r6"
++PR = "r7"
+ 
+ SRC_URI = "http://pkg-shadow.alioth.debian.org/releases/${BPN}-${PV}.tar.bz2 \
+            file://shadow.automake-1.11.patch \
+@@ -46,4 +46,7 @@ do_install_append() {
+ 	# Now we don't have a mail system. Disable mail creation for now.
+ 	sed -i 's:/bin/bash:/bin/sh:g' ${D}${sysconfdir}/default/useradd
+ 	sed -i '/^CREATE_MAIL_SPOOL/ s:^:#:' ${D}${sysconfdir}/default/useradd
++
++	# Use users group by default
++	sed -i sed 's,^GROUP=1000,GROUP=100,g' ${D}${sysconfdir}/default/useradd
+ }
+-- 
+1.7.2.5
 
 
 
