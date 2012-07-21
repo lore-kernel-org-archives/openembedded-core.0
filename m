@@ -1,16 +1,16 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SsNZW-0005R2-JT
+	(envelope-from <sgw@linux.intel.com>) id 1SsNbM-0005Ua-I2
 	for openembedded-core@lists.openembedded.org;
-	Sat, 21 Jul 2012 02:29:26 +0200
+	Sat, 21 Jul 2012 02:31:20 +0200
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 20 Jul 2012 17:18:01 -0700
+	by azsmga102.ch.intel.com with ESMTP; 20 Jul 2012 17:19:55 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="171027282"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="171027767"
 Received: from unknown (HELO [10.255.12.214]) ([10.255.12.214])
-	by azsmga001.ch.intel.com with ESMTP; 20 Jul 2012 17:18:01 -0700
-Message-ID: <5009F538.6090007@linux.intel.com>
-Date: Fri, 20 Jul 2012 17:18:00 -0700
+	by azsmga001.ch.intel.com with ESMTP; 20 Jul 2012 17:19:55 -0700
+Message-ID: <5009F5AB.1080707@linux.intel.com>
+Date: Fri, 20 Jul 2012 17:19:55 -0700
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:13.0) Gecko/20120615 Thunderbird/13.0.1
@@ -18,10 +18,9 @@ MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 References: <cover.1342772908.git.liezhi.yang@windriver.com>
-	<5735964eb9bdb685cf35d2ecdbb1694f5f6a5036.1342772908.git.liezhi.yang@windriver.com>
-In-Reply-To: <5735964eb9bdb685cf35d2ecdbb1694f5f6a5036.1342772908.git.liezhi.yang@windriver.com>
+In-Reply-To: <cover.1342772908.git.liezhi.yang@windriver.com>
 Cc: Zhenfeng.Zhao@windriver.com
-Subject: Re: [PATCH 2/2] createrepo 0.4.11: fix the RDEPENDS
+Subject: Re: [PATCH 0/2] package_rpm and createrepo fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,56 +35,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 21 Jul 2012 00:29:26 -0000
+X-List-Received-Date: Sat, 21 Jul 2012 00:31:20 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
 On 07/20/2012 02:49 AM, Robert Yang wrote:
-> The libxml2-native and rpm-native should be ready before createrepo
-> runs since it needs "import libxml2 rpm".
+> Hi Saul,
 >
-> The target createrepo needs libxml2-python when run, but the libxml2
-> doesn't generate the python module (disabled). We may need to fix it
-> or rename the recipe to createrepo-native_0.4.11.bb.
+> For the error:
 >
-> This recipe is only for the rpm backend system.
+> dbconfig.c:493: db3New: Assertion `dbOpts != ((void *)0) && *dbOpts != '\0'' failed.
 >
-> [YOCTO #2753]
+> The dbOpts is the value of _dbi_config_ or _dbi_config which are defined
+> in tmp/sysroots/i686-linux/usr/lib/rpm/macros, I can't reproduce it in
+> a normal build (on Ubuntu 10.10, Fedora 17 64bit, Ubuntu 12.04 64bit),
+> the error would happen when manually remove i686-linux/usr/lib/rpm/macros,
+> (but it should be there since the librpmdb-5.4.so is ready in a normal
+> build).
 >
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> ---
+> These two patches are used for fixing other issues of createrepo.
+>
+Turns out the real problem is that one machine was running Suse and the 
+other Fedora and mixing the binaries via nfs and sstate was causing the 
+real problem.
+
+I made a note about the DEPENDS for createrepo, really should be part of 
+package_rpm.bbclass
+
+> // Robert
+>
+> The following changes since commit 64f7feb5c37d06e1985c59106cf2f7cd286fd0b8:
+>
+>    EFI: Make installer EFI aware (2012-07-19 17:49:48 +0100)
+>
+> are available in the git repository at:
+>    git://git.pokylinux.org/poky-contrib robert/createrepo
+>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=robert/createrepo
+>
+> Robert Yang (2):
+>    package_rpm: DEPLOY_DIR_RPM must exist before make index
+>    createrepo 0.4.11: fix the RDEPENDS
+>
+>   meta/classes/package_rpm.bbclass                   |    4 ++--
 >   .../createrepo/createrepo_0.4.11.bb                |    4 +++-
->   1 files changed, 3 insertions(+), 1 deletions(-)
+>   2 files changed, 5 insertions(+), 3 deletions(-)
 >
-> diff --git a/meta/recipes-support/createrepo/createrepo_0.4.11.bb b/meta/recipes-support/createrepo/createrepo_0.4.11.bb
-> index 060ed59..7a4d059 100644
-> --- a/meta/recipes-support/createrepo/createrepo_0.4.11.bb
-> +++ b/meta/recipes-support/createrepo/createrepo_0.4.11.bb
-> @@ -4,7 +4,9 @@ HOMEPAGE = "http://createrepo.baseurl.org/"
->   LICENSE = "GPLv2+"
->   LIC_FILES_CHKSUM = "file://COPYING;md5=18810669f13b87348459e611d31ab760"
 >
-> -PR = "r3"
-> +RDEPENDS_${PN}_virtclass-native += "libxml2-native rpm-native"
-> +
-This should not be required here since the package_rpm.bbclass contains 
-a line:
-PACKAGEINDEXDEPS += "rpm-native:do_populate_sysroot"
-
-We might need to add libxml2-native to the PACKAGEINDEXDEPS
-
-This was merged into OE-0Core, but the real issue turned out to be 
-sstate across different distros.
-
-Sau!
-
-
-
-> +PR = "r4"
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 >
->   SRC_URI= "http://createrepo.baseurl.org/download/${BP}.tar.gz \
->             file://fix-native-install.patch \
 >
+Merged into OE-Core
+
+Thanks
+	Sau!
 
 
 
