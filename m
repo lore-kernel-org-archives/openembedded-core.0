@@ -1,30 +1,38 @@
-Received: from astoria.ccjclearline.com ([64.235.106.9])
+Received: from mail.cvg.de ([62.153.82.30])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpjday@crashcourse.ca>) id 1SsawG-0001GY-UH
+	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1Ssb0p-0001L3-VC
 	for openembedded-core@lists.openembedded.org;
-	Sat, 21 Jul 2012 16:45:49 +0200
-Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
-	([174.115.5.73]:52354 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.77) (envelope-from <rpjday@crashcourse.ca>)
-	id 1SsalF-0003dU-JN; Sat, 21 Jul 2012 10:34:25 -0400
-Date: Sat, 21 Jul 2012 10:34:14 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@oneiric
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.DEB.2.02.1207211030490.13090@oneiric>
-User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+	Sat, 21 Jul 2012 16:50:32 +0200
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id q6LEd6E2026658
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 21 Jul 2012 16:39:07 +0200
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.76) (envelope-from <ensc@sigma-chemnitz.de>) id 1Ssapl-0001KN-Bx
+	for openembedded-core@lists.openembedded.org;
+	Sat, 21 Jul 2012 16:39:05 +0200
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To: openembedded-core@lists.openembedded.org
+References: <lyk3xy7mlu.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	<20120720104117.GE3534@jama.jama.net> <1342782398.21788.7.camel@ted>
+	<ly629i7inz.fsf@ensc-virt.intern.sigma-chemnitz.de>
+Date: Sat, 21 Jul 2012 16:39:05 +0200
+In-Reply-To: <ly629i7inz.fsf@ensc-virt.intern.sigma-chemnitz.de> (Enrico
+	Scholz's message of "Fri, 20 Jul 2012 13:53:36 +0200")
+Message-ID: <lyipdhp4ae.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.1 (gnu/linux)
 MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Subject: kern-tools: Remove superfluous references to "defconfig" from the "createme" script.
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 0.99
+X-Spam-Score: -5.2
+X-Spam-Level: -----
+X-Spam-Tests: AWL,BAYES_00,SPF_NEUTRAL,T_RP_MATCHES_RCVD,DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.73
+Subject: Re: Broken parallel build of gcc*
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,69 +47,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 21 Jul 2012 14:45:49 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Sat, 21 Jul 2012 14:50:32 -0000
+Content-Type: text/plain
+
+Enrico Scholz
+<enrico.scholz-wttK6gPy29v+Hn7q9Vec/7NAH6kLmebB@public.gmane.org>
+writes:
+
+>> Encrico: Which DISTRO are you using and do you use rm_work*.bbclass?
+>
+> yes; rm_old_work seems to cause the problem. 
+
+The signature stuff was one problem; there is another, more trivial (but
+probably more difficult) one:
+
+Adding a task like
+
+| addtask do_rm_old_work before do_unpack
+
+causes stampfile dependencies for the shared gcc like
+
+gcc.do_unpack ->  gcc-initial.do_rm_old_work
+gcc.do_unpack ->  gcc-intermediate.do_rm_old_work
+
+E.g. the earlier 'do_rm_old_work' stamps are recipe dependent but the
+later 'do_unpack' are shared between recipes. Bitbake reexecutes do_unpack
+when the corresponding do_rm_old_work is newer which is causing the seen
+errors.
+
+For now, I will declare the task as 'before do_compile'.
 
 
-Since the only current call to "createme" from do_patch() doesn't pass
-a defconfig argument, remove the apparently superfluous references to
-defconfig from createme, but leave the check_defconfig() function in
-just in case it ever becomes useful.
-
-Signed-off-by: Robert P. J. Day <rpjday@crashcourse.ca>
-
----
-
-  not sure if this is the right list for kern-tools patches ... should
-these things go to the new kernel mailing list?
-
-
-diff --git a/tools/createme b/tools/createme
-index 78e98ac..219e92d 100755
---- a/tools/createme
-+++ b/tools/createme
-@@ -19,7 +19,7 @@ usage()
- {
- cat << EOF
-
--    createme [-v] [--disable-meta-gen] --meta=<branch name> <arch> <branch> [defconfig]
-+    createme [-v] [--disable-meta-gen] --meta=<branch name> <arch> <branch>
-
-       --disable-meta-gen: do not automatically create meta data
-                           if not already present in the source tree.
-@@ -62,7 +62,6 @@ done
-
- arch=$1
- branch=$2
--defconfig=$3 # might be empty
- CURRENT=`git branch |grep \*|sed 's/^\* //'`
- repo=
-
-@@ -194,7 +193,6 @@ check_defconfig() {
- # being built
- check_branch() {
- 	branch=$1
--	defconfig=$2
-
- 	ktgt=$branch
-
-@@ -217,6 +215,5 @@ check_branch() {
-
-
- decheckpoint
--check_defconfig $defconfig
--check_branch $branch $defconfig
-+check_branch $branch
- metaize $branch
-
--- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
+Enrico
 
 
