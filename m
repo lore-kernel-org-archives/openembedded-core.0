@@ -1,25 +1,27 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SsNcf-0005X6-Tq
+	(envelope-from <sgw@linux.intel.com>) id 1SsNe0-0005Zg-Br
 	for openembedded-core@lists.openembedded.org;
-	Sat, 21 Jul 2012 02:32:42 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 20 Jul 2012 17:21:17 -0700
+	Sat, 21 Jul 2012 02:34:04 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 20 Jul 2012 17:22:39 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="171028077"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="169161847"
 Received: from unknown (HELO [10.255.12.214]) ([10.255.12.214])
-	by azsmga001.ch.intel.com with ESMTP; 20 Jul 2012 17:21:17 -0700
-Message-ID: <5009F5FC.5020409@linux.intel.com>
-Date: Fri, 20 Jul 2012 17:21:16 -0700
+	by orsmga001.jf.intel.com with ESMTP; 20 Jul 2012 17:22:39 -0700
+Message-ID: <5009F64F.9020508@linux.intel.com>
+Date: Fri, 20 Jul 2012 17:22:39 -0700
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:13.0) Gecko/20120615 Thunderbird/13.0.1
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <1342778862-503-1-git-send-email-cristian.iorga@intel.com>
-In-Reply-To: <1342778862-503-1-git-send-email-cristian.iorga@intel.com>
-Subject: Re: [PATCH 1/2] libcanberra: upgrade to ver. 0.29
+References: <20120628191246.GA5532@localhost.jama.net>
+	<1342781343-16277-1-git-send-email-Martin.Jansa@gmail.com>
+In-Reply-To: <1342781343-16277-1-git-send-email-Martin.Jansa@gmail.com>
+Cc: Martin Jansa <martin.jansa@gmail.com>
+Subject: Re: [PATCH] util-linux: register reset u-a to bindir like busybox does
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,62 +36,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 21 Jul 2012 00:32:42 -0000
+X-List-Received-Date: Sat, 21 Jul 2012 00:34:04 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 07/20/2012 03:07 AM, Cristian Iorga wrote:
-> Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
+On 07/20/2012 03:49 AM, Martin Jansa wrote:
+> * fixes http://lists.linuxtogo.org/pipermail/openembedded-core/2012-June/024586.html
+>
+> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 > ---
->   .../{libcanberra_0.28.bb => libcanberra_0.29.bb}   |   14 +++++++-------
->   1 file changed, 7 insertions(+), 7 deletions(-)
->   rename meta/recipes-multimedia/pulseaudio/{libcanberra_0.28.bb => libcanberra_0.29.bb} (76%)
+>   meta/recipes-core/util-linux/util-linux.inc       |    3 ++-
+>   meta/recipes-core/util-linux/util-linux_2.21.2.bb |    2 +-
+>   2 files changed, 3 insertions(+), 2 deletions(-)
 >
-> diff --git a/meta/recipes-multimedia/pulseaudio/libcanberra_0.28.bb b/meta/recipes-multimedia/pulseaudio/libcanberra_0.29.bb
-> similarity index 76%
-> rename from meta/recipes-multimedia/pulseaudio/libcanberra_0.28.bb
-> rename to meta/recipes-multimedia/pulseaudio/libcanberra_0.29.bb
-> index e69c89d..27020c5 100644
-> --- a/meta/recipes-multimedia/pulseaudio/libcanberra_0.28.bb
-> +++ b/meta/recipes-multimedia/pulseaudio/libcanberra_0.29.bb
-> @@ -5,14 +5,14 @@ LIC_FILES_CHKSUM = "file://LGPL;md5=2d5025d4aa3495befef8f17206a5b0a1 \
->                       file://src/canberra.h;beginline=7;endline=24;md5=c616c687cf8da540a14f917e0d23ab03"
+> diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
+> index 688a5be..00e5d7c 100644
+> --- a/meta/recipes-core/util-linux/util-linux.inc
+> +++ b/meta/recipes-core/util-linux/util-linux.inc
+> @@ -136,7 +136,8 @@ ALTERNATIVE_${PN} += "setsid chrt flock hwclock"
+>   ALTERNATIVE_LINK_NAME[dmesg] = "${base_bindir}/dmesg"
+>   ALTERNATIVE_LINK_NAME[kill] = "${base_bindir}/kill"
+>   ALTERNATIVE_LINK_NAME[more] = "${base_bindir}/more"
+> -ALTERNATIVE_LINK_NAME[reset] = "${base_bindir}/reset"
+> +ALTERNATIVE_LINK_NAME[reset] = "${bindir}/reset"
+> +ALTERNATIVE_TARGET[reset] = "${base_bindir}/reset"
+>   ALTERNATIVE_LINK_NAME[mkswap] = "${base_sbindir}/mkswap"
+>   ALTERNATIVE_LINK_NAME[blockdev] = "${base_sbindir}/blockdev"
+>   ALTERNATIVE_LINK_NAME[pivot_root] = "${base_sbindir}/pivot_root"
+> diff --git a/meta/recipes-core/util-linux/util-linux_2.21.2.bb b/meta/recipes-core/util-linux/util-linux_2.21.2.bb
+> index 7f2c2a9..0f5fdc6 100644
+> --- a/meta/recipes-core/util-linux/util-linux_2.21.2.bb
+> +++ b/meta/recipes-core/util-linux/util-linux_2.21.2.bb
+> @@ -1,5 +1,5 @@
+>   MAJOR_VERSION = "2.21"
+> -PR = "r0"
+> +PR = "r1"
+>   require util-linux.inc
 >
->   DEPENDS = "gtk+ pulseaudio alsa-lib libtool libvorbis"
-> -PR = "r1"
-> +PR = "r0"
->
->   inherit gconf autotools
->
-> -SRC_URI = "http://0pointer.de/lennart/projects/libcanberra/libcanberra-${PV}.tar.gz"
-> +SRC_URI = "http://0pointer.de/lennart/projects/libcanberra/libcanberra-${PV}.tar.xz"
->
-> -SRC_URI[md5sum] = "c198b4811598c4c161ff505e4531b02c"
-> -SRC_URI[sha256sum] = "eb1f8b2cabad7f07b6e44d606a91d73e1efca4b46daf92bd553e7222bc68868c"
-> +SRC_URI[md5sum] = "2594093a5d61047bd9cc87e955f86df8"
-> +SRC_URI[sha256sum] = "127a5ef07805856d63758e5180ebfb241d1f80094fd301c287591a15b8cfcd72"
->
->   EXTRA_OECONF = " --disable-oss --disable-ltdl-install"
->
-> @@ -25,8 +25,8 @@ PACKAGES += "${PN}-gnome"
->   FILES_${PN} += "${libdir}/gtk-2.0/modules/ ${datadir}/gnome"
->   FILES_${PN}-gnome += "${datadir}/gdm/autostart/LoginWindow/libcanberra-ready-sound.desktop \
->   	              ${libdir}/gnome-settings-daemon-3.0/gtk-modules/canberra-gtk-module.desktop"
-> -FILES_${PN}-dev += "${libdir}/libcanberra-0.28/libcanberra-*.so \
-> -		    ${libdir}/libcanberra-0.28/libcanberra-*.la \
-> +FILES_${PN}-dev += "${libdir}/libcanberra-${PV}/libcanberra-*.so \
-> +		    ${libdir}/libcanberra-${PV}/libcanberra-*.la \
->   		    ${datadir}/vala/vapi"
-> -FILES_${PN}-dbg += "${libdir}/gtk-2.0/modules/.debug ${libdir}/libcanberra-0.28/.debug"
-> +FILES_${PN}-dbg += "${libdir}/gtk-2.0/modules/.debug ${libdir}/libcanberra-${PV}/.debug"
->
+>   # note that `lscpu' is under GPLv3+
 >
 
-
-Richard merged earlier verions of both these patches, please verify if 
-you need to rebase and make any additional changes and re-submit.
-
-Sorry about the confusion
+Merged into OE-Core
 
 Thanks
 	Sau!
