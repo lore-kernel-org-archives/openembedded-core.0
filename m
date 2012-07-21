@@ -1,38 +1,27 @@
-Received: from mail-ob0-f175.google.com ([209.85.214.175])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1SsN5V-0004gQ-JD
+	(envelope-from <sgw@linux.intel.com>) id 1SsNZW-0005R2-JT
 	for openembedded-core@lists.openembedded.org;
-	Sat, 21 Jul 2012 01:58:25 +0200
-Received: by mail-ob0-f175.google.com with SMTP id va7so5510458obc.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Jul 2012 16:47:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references
-	:in-reply-to:references;
-	bh=FSJZRf6u40G8nnaBf8N5aj9zOFA7r/+IRE9HX5TIgyE=;
-	b=g/lpGTaZz2+CbCg2UIh2R+vhP3qs/L7BPfdy7a1bo30xGdB7z4/N7nbj7Op1CulCoG
-	055u18FLfDIKwsJwS2JMboWmXwDnIv6n9O0uUWNoZJcTbNx9Z1c4I/TIqxKucnenorNV
-	uYFzXOtKqpdWTiiTsEP7DqUCg2ZxBVojADnnBKBv2uQWmsu3bewaxECepF3+pYB15J0z
-	dIdpD+NGwCV7sDwIQuMJWZDEoC/oa442PByfrQ8bZJfGfJG+BYz3GOqklITY6QMPd6BJ
-	Fxr479plvkPAxsu+FqYmB7+mQJx4jCKARBxP+h8n0nrbtUDPmxaKx8vYC2YYkpHLPCaV
-	3i6w==
-Received: by 10.182.160.10 with SMTP id xg10mr9309410obb.76.1342828023873;
-	Fri, 20 Jul 2012 16:47:03 -0700 (PDT)
-Received: from precise64.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
-	by mx.google.com with ESMTPS id i5sm3448352oei.4.2012.07.20.16.47.02
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 20 Jul 2012 16:47:03 -0700 (PDT)
-From: Christopher Larson <kergoth@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 20 Jul 2012 16:46:41 -0700
-Message-Id: <7fceb93ca1b5b53effc47efe423e798498fae904.1342827927.git.chris_larson@mentor.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1342827927.git.chris_larson@mentor.com>
-References: <cover.1342827927.git.chris_larson@mentor.com>
-In-Reply-To: <cover.1342827927.git.chris_larson@mentor.com>
-References: <cover.1342827927.git.chris_larson@mentor.com>
-Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCH 3/3] libpcap: fix pcap-config to not return -Wl, -rpath
+	Sat, 21 Jul 2012 02:29:26 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 20 Jul 2012 17:18:01 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="171027282"
+Received: from unknown (HELO [10.255.12.214]) ([10.255.12.214])
+	by azsmga001.ch.intel.com with ESMTP; 20 Jul 2012 17:18:01 -0700
+Message-ID: <5009F538.6090007@linux.intel.com>
+Date: Fri, 20 Jul 2012 17:18:00 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:13.0) Gecko/20120615 Thunderbird/13.0.1
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1342772908.git.liezhi.yang@windriver.com>
+	<5735964eb9bdb685cf35d2ecdbb1694f5f6a5036.1342772908.git.liezhi.yang@windriver.com>
+In-Reply-To: <5735964eb9bdb685cf35d2ecdbb1694f5f6a5036.1342772908.git.liezhi.yang@windriver.com>
+Cc: Zhenfeng.Zhao@windriver.com
+Subject: Re: [PATCH 2/2] createrepo 0.4.11: fix the RDEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,36 +36,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Jul 2012 23:58:25 -0000
+X-List-Received-Date: Sat, 21 Jul 2012 00:29:26 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Christopher Larson <chris_larson@mentor.com>
+On 07/20/2012 02:49 AM, Robert Yang wrote:
+> The libxml2-native and rpm-native should be ready before createrepo
+> runs since it needs "import libxml2 rpm".
+>
+> The target createrepo needs libxml2-python when run, but the libxml2
+> doesn't generate the python module (disabled). We may need to fix it
+> or rename the recipe to createrepo-native_0.4.11.bb.
+>
+> This recipe is only for the rpm backend system.
+>
+> [YOCTO #2753]
+>
+> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> ---
+>   .../createrepo/createrepo_0.4.11.bb                |    4 +++-
+>   1 files changed, 3 insertions(+), 1 deletions(-)
+>
+> diff --git a/meta/recipes-support/createrepo/createrepo_0.4.11.bb b/meta/recipes-support/createrepo/createrepo_0.4.11.bb
+> index 060ed59..7a4d059 100644
+> --- a/meta/recipes-support/createrepo/createrepo_0.4.11.bb
+> +++ b/meta/recipes-support/createrepo/createrepo_0.4.11.bb
+> @@ -4,7 +4,9 @@ HOMEPAGE = "http://createrepo.baseurl.org/"
+>   LICENSE = "GPLv2+"
+>   LIC_FILES_CHKSUM = "file://COPYING;md5=18810669f13b87348459e611d31ab760"
+>
+> -PR = "r3"
+> +RDEPENDS_${PN}_virtclass-native += "libxml2-native rpm-native"
+> +
+This should not be required here since the package_rpm.bbclass contains 
+a line:
+PACKAGEINDEXDEPS += "rpm-native:do_populate_sysroot"
 
-Signed-off-by: Christopher Larson <chris_larson@mentor.com>
----
- meta/recipes-connectivity/libpcap/libpcap.inc |    3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+We might need to add libxml2-native to the PACKAGEINDEXDEPS
 
-diff --git a/meta/recipes-connectivity/libpcap/libpcap.inc b/meta/recipes-connectivity/libpcap/libpcap.inc
-index 427078f..7d4e841 100644
---- a/meta/recipes-connectivity/libpcap/libpcap.inc
-+++ b/meta/recipes-connectivity/libpcap/libpcap.inc
-@@ -13,7 +13,7 @@ DEPENDS = "flex-native bison-native"
- PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'bluetooth', 'bluetooth', '', d)}"
- PACKAGECONFIG[bluetooth] = "--enable-bluetooth,--disable-bluetooth,bluez4"
- 
--INC_PR = "r1"
-+INC_PR = "r2"
- 
- SRC_URI = "http://www.tcpdump.org/release/libpcap-${PV}.tar.gz"
- 
-@@ -29,4 +29,5 @@ do_configure_prepend () {
-     if [ ! -e acinclude.m4 ]; then
-         cat aclocal.m4 > acinclude.m4
-     fi
-+    sed -i -e's,^V_RPATH_OPT=.*$,V_RPATH_OPT=,' ${S}/pcap-config.in
- }
--- 
-1.7.9.5
+This was merged into OE-0Core, but the real issue turned out to be 
+sstate across different distros.
+
+Sau!
+
+
+
+> +PR = "r4"
+>
+>   SRC_URI= "http://createrepo.baseurl.org/download/${BP}.tar.gz \
+>             file://fix-native-install.patch \
+>
 
 
 
