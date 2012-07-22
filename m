@@ -1,20 +1,23 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Ssn9p-00047I-OC
+	(envelope-from <Jackie.Huang@windriver.com>) id 1SsqDb-0001TE-4e
 	for openembedded-core@lists.openembedded.org;
-	Sun, 22 Jul 2012 05:48:37 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 21 Jul 2012 20:37:11 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="196160356"
-Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.13.17])
-	by fmsmga002.fm.intel.com with ESMTP; 21 Jul 2012 20:37:10 -0700
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 21 Jul 2012 20:37:10 -0700
-Message-Id: <1342928230-3900-1-git-send-email-sgw@linux.intel.com>
-X-Mailer: git-send-email 1.7.7.6
-Subject: [PATCH] libart-lgpl: Does not require gtk-doc
+	Sun, 22 Jul 2012 09:04:43 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q6M6rGiW011007
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 21 Jul 2012 23:53:16 -0700 (PDT)
+Received: from pek-cc-pb05l.wrs.com (128.224.157.65) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.1.255.0; Sat, 21 Jul 2012 23:53:15 -0700
+From: <jackie.huang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Sun, 22 Jul 2012 14:53:02 +0800
+Message-ID: <cover.1342939738.git.jackie.huang@windriver.com>
+X-Mailer: git-send-email 1.7.4
+MIME-Version: 1.0
+Subject: [PATCH 0/1] useradd.bbclass: use locking of bb.utils to avoid lock race issue of useradd/groupadd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,28 +32,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 22 Jul 2012 03:48:38 -0000
+X-List-Received-Date: Sun, 22 Jul 2012 07:04:43 -0000
+Content-Type: text/plain
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
+From: Jackie Huang <jackie.huang@windriver.com>
+
+A race condition can occur when adding users and groups to the
+passwd and group files, in [YOCTO #1794], 10 times retry added
+but it is not fixed completely.
+
+This fix re-writes the useradd_preinst and useradd_sysroot with
+python and use locking of bb.utils to lock the passwd and group
+files before executing useradd/groupadd commands to avoid the
+lock race themselves.
+
+[YOCTO #2779]
+
+Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
 ---
- meta/recipes-gnome/gnome/libart-lgpl_2.3.21.bb |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+The following changes since commit 4bce3417917a3e88ba6529db394525fba82e0699:
 
-diff --git a/meta/recipes-gnome/gnome/libart-lgpl_2.3.21.bb b/meta/recipes-gnome/gnome/libart-lgpl_2.3.21.bb
-index d0bfe28..934ef10 100644
---- a/meta/recipes-gnome/gnome/libart-lgpl_2.3.21.bb
-+++ b/meta/recipes-gnome/gnome/libart-lgpl_2.3.21.bb
-@@ -14,7 +14,7 @@ SRC_URI = "${GNOME_MIRROR}/libart_lgpl/2.3/libart_lgpl-${PV}.tar.bz2 \
- SRC_URI[md5sum] = "08559ff3c67fd95d57b0c5e91a6b4302"
- SRC_URI[sha256sum] = "fdc11e74c10fc9ffe4188537e2b370c0abacca7d89021d4d303afdf7fd7476fa"
- 
--inherit autotools gtk-doc pkgconfig
-+inherit autotools pkgconfig
- 
- DEPENDS = ""
- 
+  EFI: Make installer EFI aware (2012-07-19 17:48:53 +0100)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib jhuang0/yocto_2779_groupadd_0722
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=jhuang0/yocto_2779_groupadd_0722
+
+Jackie Huang (1):
+  useradd.bbclass: use locking of bb.utils to avoid lock race issue of
+    useradd/groupadd
+
+ meta/classes/useradd.bbclass |  284 ++++++++++++++++++------------------------
+ 1 files changed, 124 insertions(+), 160 deletions(-)
+
 -- 
-1.7.7.6
+1.7.4
 
 
 
