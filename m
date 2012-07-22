@@ -1,37 +1,23 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Ssugw-0008Jg-35 for openembedded-core@lists.openembedded.org;
-	Sun, 22 Jul 2012 13:51:18 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6MBdqcr027734
+Received: from mail.windriver.com ([147.11.1.11])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <Jackie.Huang@windriver.com>) id 1Ssv1w-0000lE-AR
+	for openembedded-core@lists.openembedded.org;
+	Sun, 22 Jul 2012 14:13:00 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q6MC1X1k008083
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 22 Jul 2012 12:39:52 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 19932-10 for <openembedded-core@lists.openembedded.org>;
-	Sun, 22 Jul 2012 12:39:48 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6MBdhwP027728
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 22 Jul 2012 12:39:45 +0100
-Message-ID: <1342957188.21788.72.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Sun, 22 Jul 2012 12:39:48 +0100
-In-Reply-To: <ly7gtw83cp.fsf@ensc-virt.intern.sigma-chemnitz.de>
-References: <1342871746-14583-1-git-send-email-enrico.scholz@sigma-chemnitz.de>
-	<1342946469.21788.54.camel@ted>
-	<lyipdg878m.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<1342953152.21788.59.camel@ted>
-	<ly7gtw83cp.fsf@ensc-virt.intern.sigma-chemnitz.de>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH] bitbake: do not set CCACHE_DISABLE=0
+	Sun, 22 Jul 2012 05:01:33 -0700 (PDT)
+Received: from pek-cc-pb05l.wrs.com (128.224.157.65) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.1.255.0; Sun, 22 Jul 2012 05:01:32 -0700
+From: <jackie.huang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Sun, 22 Jul 2012 20:01:25 +0800
+Message-ID: <cover.1342958140.git.jackie.huang@windriver.com>
+X-Mailer: git-send-email 1.7.4
+MIME-Version: 1.0
+Subject: [PATCH 0/1] useradd.bbclass: use locking of bb.utils to avoid lock race issue of useradd/groupadd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,61 +32,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 22 Jul 2012 11:51:18 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 22 Jul 2012 12:13:00 -0000
+Content-Type: text/plain
 
-On Sun, 2012-07-22 at 13:03 +0200, Enrico Scholz wrote:
-> Richard Purdie
-> <richard.purdie-hQyY1W1yCW8ekmWlsbkhG0B+6BGkLq7r@public.gmane.org>
-> writes:
-> 
-> >> and requesting explicitly that user specifies
-> >> 
-> >>  | CCACHE_DISABLE[unexport] = "1"
-> >> 
-> >> in his .conf?  Sounds hacky and inconsistent and makes it impossible to
-> >> set CCACHE_DISABLE by external environment.
-> >
-> > The idea is that anyone enabling ccache would inherit the bbclass.
-> 
-> afais, the ccache.bbclass class is for assigning and cleaning some
-> (imho) strange CCACHE_DIR only which lowers efficiency significantly.
-> 
-> Normal ccache usage with a single CCACHE_DIR works fine (and much better)
-> without this class.
+From: Jackie Huang <jackie.huang@windriver.com>
 
-There are the following concerns that others have raised over time:
+A race condition can occur when adding users and groups to the
+passwd and group files, in [YOCTO #1794], 10 times retry added
+but it is not fixed completely.
 
-a) That the central ccache directory in the user's homedir can get
-filled very easily and this isn't something that most users expect.
-b) There is reuse of that directory between different architectures
-which isn't desired
-c) That a clean of a recipe does not remove the ccache objects
-d) That CCACHE_DIR might not exist when ccache is called raising errors
-e) that ccache has bugs/risk but making it recipe specific alleviates
-some of the risk/contamination issues
+This fix re-writes the useradd_preinst and useradd_sysroot with
+python and use locking of bb.utils to lock the passwd and group
+files before executing useradd/groupadd commands to avoid the
+lock race themselves.
 
-I neither claim these are good or bad reasons but they are all dealt
-with by the class. Its a question of which issues you want to run into
-and what behaviour you want. If you strongly dislike the way CCACHE_DIR
-is set, that can be overridden.
+[YOCTO #2779]
 
-Personally speaking, I dislike ccache and would love to just remove all
-the code related to it and disable it for everyone. Yes, it has some
-performance wins in some corner case situations but it is of marginal
-utility IMO.
+Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+---
+The following changes since commit 1eae5b6c87cd4f825dba9d2526b34231d33b1e92:
 
-> > The above could therefore be simplified to a hard ??= 1
-> 
-> for what is the '??=' ?  The value does not matter so it makes no sense
-> that the user can assign a value.
+  python-native: Use append instead of += so the lsb override for EXTRA_OECONF works as expected (2012-07-22 12:07:53 +0100)
 
-Ok, we can just use = there...
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib jhuang0/yocto_2779_groupadd_0722_v2
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=jhuang0/yocto_2779_groupadd_0722_v2
 
-Cheers,
+Jackie Huang (1):
+  useradd.bbclass: use locking of bb.utils to avoid lock race issue of
+    useradd/groupadd
 
-Richard
+ meta/classes/useradd.bbclass |  200 +++++++++++++++++------------------------
+ 1 files changed, 83 insertions(+), 117 deletions(-)
+
+-- 
+1.7.4
 
 
 
