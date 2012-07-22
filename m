@@ -1,31 +1,23 @@
-Received: from astoria.ccjclearline.com ([64.235.106.9])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpjday@crashcourse.ca>) id 1Sshqb-000249-SL
+	(envelope-from <Rongqing.Li@windriver.com>) id 1SskUF-0005PC-Le
 	for openembedded-core@lists.openembedded.org;
-	Sun, 22 Jul 2012 00:08:26 +0200
-Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
-	([174.115.5.73]:59286 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.77) (envelope-from <rpjday@crashcourse.ca>)
-	id 1SshfZ-00060U-RJ for openembedded-core@lists.openembedded.org;
-	Sat, 21 Jul 2012 17:57:01 -0400
-Date: Sat, 21 Jul 2012 17:56:48 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@oneiric
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.DEB.2.02.1207211747410.15197@oneiric>
-User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+	Sun, 22 Jul 2012 02:57:32 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q6M0k5EK020340
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 21 Jul 2012 17:46:05 -0700 (PDT)
+Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.163) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.1.255.0; Sat, 21 Jul 2012 17:46:04 -0700
+From: <rongqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Sun, 22 Jul 2012 08:46:03 +0800
+Message-ID: <1342917963-2253-1-git-send-email-rongqing.li@windriver.com>
+X-Mailer: git-send-email 1.7.4.1
 MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Subject: "bitbake -v core-image-minimal" for qemuarm hangs on building qemu
+Subject: [PATCH] busybox:udhcpc: fix the root_is_nfs() function
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,40 +32,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 21 Jul 2012 22:08:26 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Sun, 22 Jul 2012 00:57:32 -0000
+Content-Type: text/plain
 
+From: Roy.Li <rongqing.li@windriver.com>
 
-  sadly, i must run off for socializing so i can't debug for a few
-hours but, from scratch, i tried to build a core-image-minimal for
-qemuarm on my 64-bit, fully-updated ubuntu 12.04 system, and for the
-second straight time, it's hung at:
+[YOCTO #2788]
 
-NOTE: package qemu-native-0.15.1-r9: task do_populate_sysroot: Succeeded
-NOTE: Running noexec task 1194 of 1561 (ID: 71, virtual:native:/home/rpjday/oe/oe-core/meta/recipes-devtools/qemu/qemu_0.15.1.bb, do_build)
+The system will be hung when udhcpc starts, if nfs is mounted
+at "/" directory and default route is different after starting
+udhcpc.
 
-(hang)
+The cause is that root_is_nfs() does not work after kernel-2.6.37,
+since the device name has been changed from /dev/root to
+${IPADDR}:${NFSDIR} on /proc/mounts. which leads to remove
+the default routes to nfs server,
 
-  i've configured for 4 threads and that level of parallel make.  this
-has always worked before.  i have a fully git-pulled oe-core and
-bitbake.
+Now we use a loose match to check if rootfs is nfs.
 
-  "top" shows a couple git processes running, but i've configured
-local.conf to allow fetching from the network so i'm not sure what
-it's after, if that's the issue.
+Signed-off-by: Roy.Li <rongqing.li@windriver.com>
+---
+ meta/recipes-core/busybox/files/simple.script |    3 ++-
+ 1 files changed, 2 insertions(+), 1 deletions(-)
 
-  i'm sure it's something annoyingly simple.  back in a while.
-
-rday
-
+diff --git a/meta/recipes-core/busybox/files/simple.script b/meta/recipes-core/busybox/files/simple.script
+index 27368f0..dc2121d 100644
+--- a/meta/recipes-core/busybox/files/simple.script
++++ b/meta/recipes-core/busybox/files/simple.script
+@@ -10,7 +10,8 @@ RESOLV_CONF="/etc/resolv.conf"
+ 
+ # return 0 if root is mounted on a network filesystem
+ root_is_nfs() {
+-	grep -qe '^/dev/root.*\(nfs\|smbfs\|ncp\|coda\) .*' /proc/mounts
++	sed -n 's/^[^ ]* \([^ ]*\) \([^ ]*\) .*$/\1 \2/p' /proc/mounts |
++	grep -q "^/ \(nfs\|smbfs\|ncp\|coda\)$"
+ }
+ 
+ have_bin_ip=0
 -- 
+1.7.4.1
 
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
 
 
