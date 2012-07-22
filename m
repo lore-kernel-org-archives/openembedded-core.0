@@ -1,26 +1,29 @@
 Received: from mail.cvg.de ([62.153.82.30])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1Sssoe-0004cL-NQ
+	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1Sssrt-0004fX-5N
 	for openembedded-core@lists.openembedded.org;
-	Sun, 22 Jul 2012 11:51:08 +0200
+	Sun, 22 Jul 2012 11:54:29 +0200
 Received: from ensc-virt.intern.sigma-chemnitz.de
 	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id q6M9dbEh017552
+	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id q6M9h1d9018032
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 22 Jul 2012 11:39:38 +0200
+	Sun, 22 Jul 2012 11:43:03 +0200
 Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
-	4.76) (envelope-from <ensc@sigma-chemnitz.de>) id 1SssdV-0005tg-Hy
+	4.76) (envelope-from <ensc@sigma-chemnitz.de>) id 1Sssgn-0005tz-OM
 	for openembedded-core@lists.openembedded.org;
-	Sun, 22 Jul 2012 11:39:37 +0200
+	Sun, 22 Jul 2012 11:43:01 +0200
 From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
 To: openembedded-core@lists.openembedded.org
-References: <1342871746-14583-1-git-send-email-enrico.scholz@sigma-chemnitz.de>
-	<1342946469.21788.54.camel@ted>
-Date: Sun, 22 Jul 2012 11:39:37 +0200
-In-Reply-To: <1342946469.21788.54.camel@ted> (Richard Purdie's message of
-	"Sun, 22 Jul 2012 09:41:09 +0100")
-Message-ID: <lyipdg878m.fsf@ensc-virt.intern.sigma-chemnitz.de>
+References: <lyk3xy7mlu.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	<20120720104117.GE3534@jama.jama.net> <1342782398.21788.7.camel@ted>
+	<ly629i7inz.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	<lyipdhp4ae.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	<1342946604.21788.56.camel@ted>
+Date: Sun, 22 Jul 2012 11:43:01 +0200
+In-Reply-To: <1342946604.21788.56.camel@ted> (Richard Purdie's message of
+	"Sun, 22 Jul 2012 09:43:24 +0100")
+Message-ID: <lyeho4872y.fsf@ensc-virt.intern.sigma-chemnitz.de>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.1 (gnu/linux)
 MIME-Version: 1.0
 Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
@@ -31,7 +34,7 @@ X-Spam-Score: -5.2
 X-Spam-Level: -----
 X-Spam-Tests: AWL,BAYES_00,SPF_NEUTRAL,T_RP_MATCHES_RCVD,DSPAM_INNOCENT
 X-Scanned-By: MIMEDefang 2.73
-Subject: Re: [PATCH] bitbake: do not set CCACHE_DISABLE=0
+Subject: Re: Broken parallel build of gcc*
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,37 +49,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 22 Jul 2012 09:51:08 -0000
+X-List-Received-Date: Sun, 22 Jul 2012 09:54:29 -0000
 Content-Type: text/plain
 
 Richard Purdie
 <richard.purdie-hQyY1W1yCW8ekmWlsbkhG0B+6BGkLq7r@public.gmane.org>
 writes:
 
->> ccache checks for existence of environment; not for its value:
->> ...
->> Hence, avoid setting of $CCACHE_DISABLE instead of assigning '0'.
->
-> Why doesn't CCACHE_DISABLE[unexport] = "1" help here?
+> do_rm_old_work[stamp-base] = "${SS}"
 
-You mean, keeping the
-
- | export CCACHE_DISABLE ??= "${@[0,1][d.getVar('CCACHE', True) == '']}"
-
-and requesting explicitly that user specifies
-
- | CCACHE_DISABLE[unexport] = "1"
-
-in his .conf?  Sounds hacky and inconsistent and makes it impossible to
-set CCACHE_DISABLE by external environment.
-
-
-> Doesn't the unexport flag stop this entering the environment?
-
-Perhaps.  In the current bitbake, 'unexport' takes precedence over
-'export'.  But is this specified somewhere and will perhaps be changed
-in a later version.
-
+will not work because do_rm_old_work depends on ${PN} (it cleans the
+packages + packages-split directories of previously built packages in
+${WORKDIR}).  Executing it for only one gcc* recipe will keep the
+directories of the other recipes.
 
 
 Enrico
