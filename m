@@ -1,23 +1,20 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Rongqing.Li@windriver.com>) id 1SskUF-0005PC-Le
+	(envelope-from <sgw@linux.intel.com>) id 1Ssn9p-00047I-OC
 	for openembedded-core@lists.openembedded.org;
-	Sun, 22 Jul 2012 02:57:32 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q6M0k5EK020340
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 21 Jul 2012 17:46:05 -0700 (PDT)
-Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.163) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.1.255.0; Sat, 21 Jul 2012 17:46:04 -0700
-From: <rongqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Sun, 22 Jul 2012 08:46:03 +0800
-Message-ID: <1342917963-2253-1-git-send-email-rongqing.li@windriver.com>
-X-Mailer: git-send-email 1.7.4.1
-MIME-Version: 1.0
-Subject: [PATCH] busybox:udhcpc: fix the root_is_nfs() function
+	Sun, 22 Jul 2012 05:48:37 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 21 Jul 2012 20:37:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="196160356"
+Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.13.17])
+	by fmsmga002.fm.intel.com with ESMTP; 21 Jul 2012 20:37:10 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 21 Jul 2012 20:37:10 -0700
+Message-Id: <1342928230-3900-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 1.7.7.6
+Subject: [PATCH] libart-lgpl: Does not require gtk-doc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,45 +29,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 22 Jul 2012 00:57:32 -0000
-Content-Type: text/plain
+X-List-Received-Date: Sun, 22 Jul 2012 03:48:38 -0000
 
-From: Roy.Li <rongqing.li@windriver.com>
-
-[YOCTO #2788]
-
-The system will be hung when udhcpc starts, if nfs is mounted
-at "/" directory and default route is different after starting
-udhcpc.
-
-The cause is that root_is_nfs() does not work after kernel-2.6.37,
-since the device name has been changed from /dev/root to
-${IPADDR}:${NFSDIR} on /proc/mounts. which leads to remove
-the default routes to nfs server,
-
-Now we use a loose match to check if rootfs is nfs.
-
-Signed-off-by: Roy.Li <rongqing.li@windriver.com>
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/recipes-core/busybox/files/simple.script |    3 ++-
- 1 files changed, 2 insertions(+), 1 deletions(-)
+ meta/recipes-gnome/gnome/libart-lgpl_2.3.21.bb |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-core/busybox/files/simple.script b/meta/recipes-core/busybox/files/simple.script
-index 27368f0..dc2121d 100644
---- a/meta/recipes-core/busybox/files/simple.script
-+++ b/meta/recipes-core/busybox/files/simple.script
-@@ -10,7 +10,8 @@ RESOLV_CONF="/etc/resolv.conf"
+diff --git a/meta/recipes-gnome/gnome/libart-lgpl_2.3.21.bb b/meta/recipes-gnome/gnome/libart-lgpl_2.3.21.bb
+index d0bfe28..934ef10 100644
+--- a/meta/recipes-gnome/gnome/libart-lgpl_2.3.21.bb
++++ b/meta/recipes-gnome/gnome/libart-lgpl_2.3.21.bb
+@@ -14,7 +14,7 @@ SRC_URI = "${GNOME_MIRROR}/libart_lgpl/2.3/libart_lgpl-${PV}.tar.bz2 \
+ SRC_URI[md5sum] = "08559ff3c67fd95d57b0c5e91a6b4302"
+ SRC_URI[sha256sum] = "fdc11e74c10fc9ffe4188537e2b370c0abacca7d89021d4d303afdf7fd7476fa"
  
- # return 0 if root is mounted on a network filesystem
- root_is_nfs() {
--	grep -qe '^/dev/root.*\(nfs\|smbfs\|ncp\|coda\) .*' /proc/mounts
-+	sed -n 's/^[^ ]* \([^ ]*\) \([^ ]*\) .*$/\1 \2/p' /proc/mounts |
-+	grep -q "^/ \(nfs\|smbfs\|ncp\|coda\)$"
- }
+-inherit autotools gtk-doc pkgconfig
++inherit autotools pkgconfig
  
- have_bin_ip=0
+ DEPENDS = ""
+ 
 -- 
-1.7.4.1
+1.7.7.6
 
 
 
