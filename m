@@ -1,31 +1,31 @@
-Received: from astoria.ccjclearline.com ([64.235.106.9])
+Received: from mail-pb0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpjday@crashcourse.ca>) id 1St545-0003iv-Iv
+	(envelope-from <raj.khem@gmail.com>) id 1St69g-0005oT-GI
 	for openembedded-core@lists.openembedded.org;
-	Mon, 23 Jul 2012 00:55:53 +0200
-Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
-	([174.115.5.73]:45174 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.77) (envelope-from <rpjday@crashcourse.ca>)
-	id 1St4t2-0002Ng-E8 for openembedded-core@lists.openembedded.org;
-	Sun, 22 Jul 2012 18:44:28 -0400
-Date: Sun, 22 Jul 2012 18:44:16 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@oneiric
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.DEB.2.02.1207221827200.3110@oneiric>
-User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
-MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Subject: how to see the *effect* of changing the configuration for a build?
+	Mon, 23 Jul 2012 02:05:44 +0200
+Received: by pbbrq2 with SMTP id rq2so8714813pbb.6
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 22 Jul 2012 16:54:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=KQz981umj0o7t6ig8dC08sg5e7QIBUf58gRndA3H60I=;
+	b=OGzAjqhOglguzrBUxX6M92HwPNE5li8skyVMPcQWXoQWTAwRtd2UaOWP8K7HAKloDr
+	KMl0PNjhEj7TAbiSq3+WIfAykmH+hayGQpwqw7qkYUsyshErFEX3SFjQrsIZJ6kWE/9S
+	NPnpMdUi0CzMg3EURKJtO3vl23Tc1S7cZcOXFiI8oIFUTAj92ebxL55/5zbGDQOatuht
+	IR/uHzXe1VgQxOJOZv5W45CpuJ/iO5CWIDkg8DmW4g1jrTMf0LV6sIJtNQ29pppBZtvU
+	24Fy3fDZEmU/fq5Mr4D6ZqzllBKe7BrzTZ94aDsqfI0UY7L3mleJLUMjFEPOl5QF+moy
+	LIQQ==
+Received: by 10.68.194.6 with SMTP id hs6mr31169153pbc.133.1343001257566;
+	Sun, 22 Jul 2012 16:54:17 -0700 (PDT)
+Received: from kraj-lnx.juniper.net (natint3.juniper.net. [66.129.224.36])
+	by mx.google.com with ESMTPS id og4sm8706078pbb.48.2012.07.22.16.54.15
+	(version=SSLv3 cipher=OTHER); Sun, 22 Jul 2012 16:54:16 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 22 Jul 2012 16:54:16 -0700
+Message-Id: <1343001258-19551-1-git-send-email-raj.khem@gmail.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH 1/3] qemu.bbclass: Map the qemu binary name for powerpc64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,58 +40,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 22 Jul 2012 22:55:53 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Mon, 23 Jul 2012 00:05:44 -0000
 
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/classes/qemu.bbclass |    2 ++
+ 1 files changed, 2 insertions(+), 0 deletions(-)
 
-  ok, i'm just going to ask for piles of advice on what (bitbake)
-commands and options i can use to see the effect of various changes to
-a build's configuration as part of a tutorial.
-
-  as a starting point, i've built a core-image-minimal target for a
-qemuarm machine, just to keep things simple so this doesn't require
-any hardware.
-
-  i realize i can use variations of "bitbake -e" to see the
-environment, but i'm curious if there are shorter ways.  for instance,
-if i want to demonstrate how to add a single package to a build, i can
-add the following to local.conf:
-
-  IMAGE_INSTALL_append = " strace"
-
-but what's the easiest way to verify that that package will be
-incorporated into a new build without actually doing the build?  one
-option is to simply do a dry run of fetchall, to see what would need
-to be fetched:
-
-$ bitbake -n -c fetchall core-image-minimal
-... snip ...
-NOTE: Running task 279 of 286 (ID: 21, /home/rpjday/oe/oe-core/meta/recipes-devtools/strace/strace_4.7.bb, do_fetch)
-NOTE: Running task 286 of 286 (ID: 1, /home/rpjday/oe/oe-core/meta/recipes-core/images/core-image-minimal.bb, do_fetchall)
-NOTE: Tasks Summary: Attempted 286 tasks of which 284 didn't need to be rerun and all succeeded.
-$
-
-but that's a bit messy (and if, for some reason, strace has already
-been fetched, it wouldn't be listed).  i could also check the bitbake
-environment, which i can see has numerous references to "strace".
-but is there a cleaner way?  i'd then work my way up to adding more
-packages, then IMAGE_FEATURES and so on, showing the effect at each
-step, ideally without having to spend time doing a rebuild every time.
-
-  with layers, it's easier as i can use bitbake-layers, so i'm good
-with that.  anyway, suggestions as to how to display configuration
-changes appreciated.
-
-rday
-
+diff --git a/meta/classes/qemu.bbclass b/meta/classes/qemu.bbclass
+index 68896ce..aead8e2 100644
+--- a/meta/classes/qemu.bbclass
++++ b/meta/classes/qemu.bbclass
+@@ -9,5 +9,7 @@ def qemu_target_binary(data):
+         target_arch = "i386"
+     elif target_arch == "powerpc":
+         target_arch = "ppc"
++    elif target_arch == "powerpc64":
++        target_arch = "ppc64"
+ 
+     return "qemu-" + target_arch
 -- 
+1.7.5.4
 
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
 
 
