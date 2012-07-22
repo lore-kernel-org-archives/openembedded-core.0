@@ -1,38 +1,36 @@
-Received: from mail.cvg.de ([62.153.82.30])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1Ssu7r-0007gY-7i
-	for openembedded-core@lists.openembedded.org;
-	Sun, 22 Jul 2012 13:15:03 +0200
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id q6MB3Y79027768
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1Ssugw-0008Jg-35 for openembedded-core@lists.openembedded.org;
+	Sun, 22 Jul 2012 13:51:18 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6MBdqcr027734
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 22 Jul 2012 12:39:52 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 19932-10 for <openembedded-core@lists.openembedded.org>;
+	Sun, 22 Jul 2012 12:39:48 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6MBdhwP027728
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 22 Jul 2012 13:03:36 +0200
-Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
-	4.76) (envelope-from <ensc@sigma-chemnitz.de>) id 1Sstwk-0006FN-E8
-	for openembedded-core@lists.openembedded.org;
-	Sun, 22 Jul 2012 13:03:34 +0200
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-To: openembedded-core@lists.openembedded.org
+	Sun, 22 Jul 2012 12:39:45 +0100
+Message-ID: <1342957188.21788.72.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Sun, 22 Jul 2012 12:39:48 +0100
+In-Reply-To: <ly7gtw83cp.fsf@ensc-virt.intern.sigma-chemnitz.de>
 References: <1342871746-14583-1-git-send-email-enrico.scholz@sigma-chemnitz.de>
 	<1342946469.21788.54.camel@ted>
 	<lyipdg878m.fsf@ensc-virt.intern.sigma-chemnitz.de>
 	<1342953152.21788.59.camel@ted>
-Date: Sun, 22 Jul 2012 13:03:34 +0200
-In-Reply-To: <1342953152.21788.59.camel@ted> (Richard Purdie's message of
-	"Sun, 22 Jul 2012 11:32:32 +0100")
-Message-ID: <ly7gtw83cp.fsf@ensc-virt.intern.sigma-chemnitz.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.1 (gnu/linux)
-MIME-Version: 1.0
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-X-DSPAM-Result: Innocent
-X-DSPAM-Probability: 0
-X-DSPAM-Confidence: 0.76
-X-Spam-Score: -5.2
-X-Spam-Level: -----
-X-Spam-Tests: AWL,BAYES_00,SPF_NEUTRAL,T_RP_MATCHES_RCVD,DSPAM_INNOCENT
-X-Scanned-By: MIMEDefang 2.73
+	<ly7gtw83cp.fsf@ensc-virt.intern.sigma-chemnitz.de>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
 Subject: Re: [PATCH] bitbake: do not set CCACHE_DISABLE=0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -48,35 +46,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 22 Jul 2012 11:15:03 -0000
-Content-Type: text/plain
+X-List-Received-Date: Sun, 22 Jul 2012 11:51:18 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Richard Purdie
-<richard.purdie-hQyY1W1yCW8ekmWlsbkhG0B+6BGkLq7r@public.gmane.org>
-writes:
+On Sun, 2012-07-22 at 13:03 +0200, Enrico Scholz wrote:
+> Richard Purdie
+> <richard.purdie-hQyY1W1yCW8ekmWlsbkhG0B+6BGkLq7r@public.gmane.org>
+> writes:
+> 
+> >> and requesting explicitly that user specifies
+> >> 
+> >>  | CCACHE_DISABLE[unexport] = "1"
+> >> 
+> >> in his .conf?  Sounds hacky and inconsistent and makes it impossible to
+> >> set CCACHE_DISABLE by external environment.
+> >
+> > The idea is that anyone enabling ccache would inherit the bbclass.
+> 
+> afais, the ccache.bbclass class is for assigning and cleaning some
+> (imho) strange CCACHE_DIR only which lowers efficiency significantly.
+> 
+> Normal ccache usage with a single CCACHE_DIR works fine (and much better)
+> without this class.
 
->> and requesting explicitly that user specifies
->> 
->>  | CCACHE_DISABLE[unexport] = "1"
->> 
->> in his .conf?  Sounds hacky and inconsistent and makes it impossible to
->> set CCACHE_DISABLE by external environment.
->
-> The idea is that anyone enabling ccache would inherit the bbclass.
+There are the following concerns that others have raised over time:
 
-afais, the ccache.bbclass class is for assigning and cleaning some
-(imho) strange CCACHE_DIR only which lowers efficiency significantly.
+a) That the central ccache directory in the user's homedir can get
+filled very easily and this isn't something that most users expect.
+b) There is reuse of that directory between different architectures
+which isn't desired
+c) That a clean of a recipe does not remove the ccache objects
+d) That CCACHE_DIR might not exist when ccache is called raising errors
+e) that ccache has bugs/risk but making it recipe specific alleviates
+some of the risk/contamination issues
 
-Normal ccache usage with a single CCACHE_DIR works fine (and much better)
-without this class.
+I neither claim these are good or bad reasons but they are all dealt
+with by the class. Its a question of which issues you want to run into
+and what behaviour you want. If you strongly dislike the way CCACHE_DIR
+is set, that can be overridden.
 
+Personally speaking, I dislike ccache and would love to just remove all
+the code related to it and disable it for everyone. Yes, it has some
+performance wins in some corner case situations but it is of marginal
+utility IMO.
 
-> The above could therefore be simplified to a hard ??= 1
+> > The above could therefore be simplified to a hard ??= 1
+> 
+> for what is the '??=' ?  The value does not matter so it makes no sense
+> that the user can assign a value.
 
-for what is the '??=' ?  The value does not matter so it makes no sense
-that the user can assign a value.
+Ok, we can just use = there...
 
+Cheers,
 
-Enrico
+Richard
+
 
 
