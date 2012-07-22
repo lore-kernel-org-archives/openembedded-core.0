@@ -1,34 +1,31 @@
-Received: from mail.windriver.com ([147.11.1.11])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Jackie.Huang@windriver.com>) id 1SsvAL-000133-ON
-	for openembedded-core@lists.openembedded.org;
-	Sun, 22 Jul 2012 14:21:42 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q6MCAFXj008910
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 22 Jul 2012 05:10:15 -0700 (PDT)
-Received: from ALA-MBA.corp.ad.wrs.com ([169.254.1.236]) by
-	ALA-HCA.corp.ad.wrs.com ([147.11.189.40]) with mapi id 14.01.0255.000;
-	Sun, 22 Jul 2012 05:10:15 -0700
-From: "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH 1/1] useradd.bbclass: use locking of bb.utils
-	to avoid lock race issue of useradd/groupadd
-Thread-Index: AQHNZ9asg7sAMWIwoECJxat90ybqYpc1b/eA///FA14=
-Date: Sun, 22 Jul 2012 12:10:14 +0000
-Message-ID: <1B858668EC6A94408DCA5225FDFA85AA575F4CD3@ALA-MBA.corp.ad.wrs.com>
-References: <cover.1342939738.git.jackie.huang@windriver.com>
-	<9c2d0c1746a945290b6c64551fc6ca2e5e043028.1342939738.git.jackie.huang@windriver.com>,
-	<1342946215.21788.53.camel@ted>
-In-Reply-To: <1342946215.21788.53.camel@ted>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [128.224.16.96]
-MIME-Version: 1.0
-Subject: Re: [PATCH 1/1] useradd.bbclass: use locking of bb.utils to avoid lock race issue of useradd/groupadd
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1SsvDP-00018O-Fn for openembedded-core@lists.openembedded.org;
+	Sun, 22 Jul 2012 14:24:51 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6MCDOsT027953;
+	Sun, 22 Jul 2012 13:13:24 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 19951-10; Sun, 22 Jul 2012 13:13:20 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6MCDGhl027947
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Sun, 22 Jul 2012 13:13:17 +0100
+Message-ID: <1342959200.21788.74.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Ross Burton <ross.burton@intel.com>
+Date: Sun, 22 Jul 2012 13:13:20 +0100
+In-Reply-To: <35FBB7A8207843A5AFC9AF27326C7ABC@intel.com>
+References: <1342799746.21788.37.camel@ted>
+	<35FBB7A8207843A5AFC9AF27326C7ABC@intel.com>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] gtk-doc: Ensure we run gtkdocize else we could see build failures (e.g. evolution-data-server)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,50 +40,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 22 Jul 2012 12:21:42 -0000
-Content-Language: zh-CN
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Sun, 22 Jul 2012 12:24:51 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-=0A=
-=0A=
->On Sun, 2012-07-22 at 14:53 +0800, jackie.huang@windriver.com wrote:=0A=
->> From: Jackie Huang <jackie.huang@windriver.com>=0A=
->>=0A=
->> A race condition can occur when adding users and groups to the=0A=
->>passwd and group files, in [YOCTO #1794], 10 times retry added=0A=
->> but it is not fixed completely.=0A=
->>=0A=
->> This fix re-writes the useradd_preinst and useradd_sysroot with=0A=
->> python and use locking of bb.utils to lock the passwd and group=0A=
->> files before executing useradd/groupadd commands to avoid the=0A=
->> lock race themselves.=0A=
->>=0A=
->> [YOCTO #2779]=0A=
->>=0A=
->> Signed-off-by: Jackie Huang <jackie.huang@windriver.com>=0A=
->> ---=0A=
->>  meta/classes/useradd.bbclass |  284 ++++++++++++++++++-----------------=
--------=0A=
->>  1 files changed, 124 insertions(+), 160 deletions(-)=0A=
->=0A=
->Please resend this with the whitespace issues resolved. Its near=0A=
->impossible to review as it stands :(=0A=
-=0A=
-Re-sent, sorry about that.=0A=
-=0A=
-Thanks,=0A=
-Jackie=0A=
-=0A=
->=0A=
->Cheers,=0A=
->=0A=
->Richard=0A=
-=0A=
-=0A=
-_______________________________________________=0A=
-Openembedded-core mailing list=0A=
-Openembedded-core@lists.openembedded.org=0A=
-http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core=0A=
+On Fri, 2012-07-20 at 20:29 +0100, Ross Burton wrote:
+> On Friday, 20 July 2012 at 16:55, Richard Purdie wrote:
+> > This is a fix to Ross' series, we need to run gtkdocize in case anything
+> > was built from source control and the appropriate files are missing.
+> 
+> Good point but I'm curious how the build was succeeding/what broke before this.
+
+Probably you used an existing build which already had the gtk-doc.make
+file touched and your didn't bump PR. The file therefore hung around. It
+would only happen on something built from SCM (evolution-data-server is
+a git recipe).
+
+I'm guessing if you clean eds, it would show up.
+
+Cheers,
+
+Richard
+
 
 
