@@ -1,30 +1,26 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from smtp1.ingenico.com ([217.108.148.240])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Liezhi.Yang@windriver.com>) id 1St8ST-0004Lu-1K
+	(envelope-from <Matthieu.CRAPET@ingenico.com>) id 1StCep-0002K6-E5
 	for openembedded-core@lists.openembedded.org;
-	Mon, 23 Jul 2012 04:33:17 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q6N2Lnmd001681
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 22 Jul 2012 19:21:49 -0700 (PDT)
-Received: from [128.224.163.142] (128.224.163.142) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Sun, 22 Jul 2012 19:21:49 -0700
-Message-ID: <500CB53B.70205@windriver.com>
-Date: Mon, 23 Jul 2012 10:21:47 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:13.0) Gecko/20120615 Thunderbird/13.0.1
+	Mon, 23 Jul 2012 09:02:20 +0200
+X-IronPort-AV: E=Sophos;i="4.77,637,1336341600"; d="scan'208";a="13378284"
+Received: from frsnprexc1.usr.ingenico.loc ([10.23.2.11])
+	by antispam1.usr.ingenico.loc with ESMTP; 23 Jul 2012 08:50:55 +0200
+x-mimeole: Produced By Microsoft Exchange V6.5
 MIME-Version: 1.0
-References: <cover.1342772908.git.liezhi.yang@windriver.com>
-	<5735964eb9bdb685cf35d2ecdbb1694f5f6a5036.1342772908.git.liezhi.yang@windriver.com>
-	<5009F538.6090007@linux.intel.com>
-In-Reply-To: <5009F538.6090007@linux.intel.com>
-Cc: Zhenfeng.Zhao@windriver.com,
-	Patches and discussions about the oe-core layer
+Date: Mon, 23 Jul 2012 08:50:52 +0200
+Message-ID: <D9D7124626ED1E43963D86B2657D5CCD03A17E72@FRSNPREXC1.usr.ingenico.loc>
+In-Reply-To: <1342796791.21788.30.camel@ted>
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+Thread-Topic: [OE-core] Broken gettext/gdbm
+Thread-Index: Ac1miUjhYXXZkDrYS96CCIud8DZOvACC0sag
+References: <D9D7124626ED1E43963D86B2657D5CCD03A17BC8@FRSNPREXC1.usr.ingenico.loc>
+	<1342796791.21788.30.camel@ted>
+From: "Matthieu CRAPET" <Matthieu.CRAPET@ingenico.com>
+To: "Patches and discussions about the oe-core layer"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] createrepo 0.4.11: fix the RDEPENDS
+Subject: Re: Broken gettext/gdbm
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,73 +35,140 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Jul 2012 02:33:17 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 23 Jul 2012 07:02:21 -0000
+Content-class: urn:content-classes:message
+Content-Type: text/plain;
+	charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+Hi,
+
+$ bitbake gdbm -e | grep ^DEPENDS
+DEPENDS_GETTEXT=3D"virtual/gettext gettext-native"
+DEPENDS=3D"autoconf-native automake-native libtool-native libtool-cross =
+gnu-config-native virtual/gettext gettext-native  =
+virtual/arm-ingenico-linux-gnueabi-gcc =
+virtual/arm-ingenico-linux-gnueabi-compilerlibs virtual/libc"
+
+$ bitbake gettext -e | grep ^DEPENDS
+DEPENDS_virtclass-native=3D"libxml2-native gettext-minimal-native"
+DEPENDS=3D"autoconf-native automake-native libtool-native libtool-cross =
+gnu-config-native  virtual/arm-ingenico-linux-gnueabi-gcc =
+virtual/arm-ingenico-linux-gnueabi-compilerlibs virtual/libc  =
+libxml2-native gettext-native virtual/libiconv ncurses expat"
+
+Note: We are using our own external toolchain.
+
+I wasn't clear enough in my previous post. It appear to be a circular =
+dependency.
+
+Since my update I have this log:
+NOTE: Resolving any missing task queue dependencies
+NOTE: multiple providers are available for virtual/gettext =
+(proxy-libintl, gettext)
+NOTE: consider defining a PREFERRED_PROVIDER entry to match =
+virtual/gettext
+
+When I just try to build gettext, It wants to build gdbm.. which depends =
+of gettext too.
+
+gettext-minimal-native doesn't have config.rpath, gettext-native has it.
+
+But config.rpath is taken from ${STAGING_DATADIR}/gettext/config.rpath" =
+and not ${STAGING_DATADIR_NATIVE}/gettext/config.rpath".
+Patching "meta/classes/autotools.bbclass" would be a proper fix ?
+
+Cheers,
+Matthieu
 
 
+-----Message d'origine-----
+De=A0: openembedded-core-bounces@lists.openembedded.org =
+[mailto:openembedded-core-bounces@lists.openembedded.org] De la part de =
+Richard Purdie
+Envoy=E9=A0: vendredi 20 juillet 2012 17:07
+=C0=A0: Patches and discussions about the oe-core layer
+Objet=A0: Re: [OE-core] Broken gettext/gdbm
 
-On 07/21/2012 08:18 AM, Saul Wold wrote:
-> On 07/20/2012 02:49 AM, Robert Yang wrote:
->> The libxml2-native and rpm-native should be ready before createrepo
->> runs since it needs "import libxml2 rpm".
->>
->> The target createrepo needs libxml2-python when run, but the libxml2
->> doesn't generate the python module (disabled). We may need to fix it
->> or rename the recipe to createrepo-native_0.4.11.bb.
->>
->> This recipe is only for the rpm backend system.
->>
->> [YOCTO #2753]
->>
->> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
->> ---
->>   .../createrepo/createrepo_0.4.11.bb                |    4 +++-
->>   1 files changed, 3 insertions(+), 1 deletions(-)
->>
->> diff --git a/meta/recipes-support/createrepo/createrepo_0.4.11.bb
->> b/meta/recipes-support/createrepo/createrepo_0.4.11.bb
->> index 060ed59..7a4d059 100644
->> --- a/meta/recipes-support/createrepo/createrepo_0.4.11.bb
->> +++ b/meta/recipes-support/createrepo/createrepo_0.4.11.bb
->> @@ -4,7 +4,9 @@ HOMEPAGE = "http://createrepo.baseurl.org/"
->>   LICENSE = "GPLv2+"
->>   LIC_FILES_CHKSUM = "file://COPYING;md5=18810669f13b87348459e611d31ab760"
->>
->> -PR = "r3"
->> +RDEPENDS_${PN}_virtclass-native += "libxml2-native rpm-native"
->> +
-> This should not be required here since the package_rpm.bbclass contains a line:
-> PACKAGEINDEXDEPS += "rpm-native:do_populate_sysroot"
->
-> We might need to add libxml2-native to the PACKAGEINDEXDEPS
->
+On Fri, 2012-07-20 at 15:10 +0200, Matthieu CRAPET wrote:
+> Greetings,
+>=20
+> I updated my OE-core and bitbake today (2012.07.20). Build from=20
+> scratch
+> fails:
+>=20
+> <code>
+> NOTE: package gdbm-1.10-r3: task do_configure: Started
+> ERROR: Function failed: do_configure (see=20
+> /home/.../build/tmp-eglibc/work/armv5te-ing-linux-gnueabi/gdbm-1.10-r3
+> /t
+> emp/log.do_configure.31222 for further information)
+> ERROR: Logfile of failure stored in:
+> /home/.../build/tmp-eglibc/work/armv5te-ing-linux-gnueabi/gdbm-1.10-r3
+> /t
+> emp/log.do_configure.31222
+> Log data follows:
+> | DEBUG: Executing python function sysroot_cleansstate
+> | DEBUG: Python function sysroot_cleansstate finished
+> | DEBUG: SITE files ['endian-little', 'bit-32', 'arm-common',
+> 'common-linux', 'common-glibc', 'arm-linux', 'arm-linux-gnueabi',=20
+> 'common']
+> | DEBUG: Executing shell function do_configure automake (GNU automake) =
 
-Thanks, but we may manually run createrepo, if we just "bitbake createrepo" and
-manually run createrepo, it would be failed if rpm-native is not ready.
+> | 1.12.1 Copyright (C) 2012 Free Software Foundation, Inc.
+> | License GPLv2+: GNU GPL version 2 or later
+> <http://gnu.org/licenses/gpl-2.0.html>
+> | This is free software: you are free to change and redistribute it.
+> | There is NO WARRANTY, to the extent permitted by law.
+> |
+> | Written by Tom Tromey <tromey@redhat.com>
+> |        and Alexandre Duret-Lutz <adl@gnu.org>.
+> | AUTOV is 1.12
+> | cp: cannot stat
+> `/home/.../build/tmp-eglibc/sysroots/rp02/usr/share/gettext/config.rpa
+> th
+> ': No such file or directory
+> | ERROR: Function failed: do_configure (see
+> /home/.../build/tmp-eglibc/work/armv5te-ing-linux-gnueabi/gdbm-1.10-r3
+> /t
+> emp/log.do_configure.31222 for further information)
+> NOTE: package gdbm-1.10-r3: task do_configure: Failed </code>
+>=20
+> gdbm needs gettext to have config.rpath. But gettext is not built, but =
 
-> This was merged into OE-0Core, but the real issue turned out to be sstate across
-> different distros.
->
+> gettext-native & gettext-minimal-native are built.
+>=20
+> Issue comes from  "meta/classes/autotools.bbclass":
+>=20
+> <code>
+>         else if grep "^[[:space:]]*AM_GNU_GETTEXT" $CONFIGURE_AC
+> >/dev/null; then
+>                             # We'd call gettextize here if it wasn't=20
+> so broken...
+>           cp ${STAGING_DATADIR}/gettext/config.rpath
+> ${AUTOTOOLS_AUXDIR}/
+> </code>
+>=20
+> What would be the best workaround to take config.rpath from=20
+> gettext-native?
 
-I had tried to use sstate across different distros (ubuntu 12.04 64bit and FC 17 
-64 bit),
-there were strange errors.
+This is odd since gdbm inherits gettext and therefore should have a =
+DEPENDS on virtual/gettext. gettext should therefore have been built.
 
-// Robert
+Any idea why gettext wasn't built?
 
-> Sau!
->
->
->
->> +PR = "r4"
->>
->>   SRC_URI= "http://createrepo.baseurl.org/download/${BP}.tar.gz \
->>             file://fix-native-install.patch \
->>
->
->
->
+bitbake gdbm -e | grep ^DEPENDS
 
+shows virtual/gettext here...
+
+Cheers,
+
+Richard
+
+
+_______________________________________________
+Openembedded-core mailing list
+Openembedded-core@lists.openembedded.org
+http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
