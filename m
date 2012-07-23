@@ -1,36 +1,30 @@
-Received: from mail.cvg.de ([62.153.82.30])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1StJtV-0004Rb-GC
-	for openembedded-core@lists.openembedded.org;
-	Mon, 23 Jul 2012 16:45:57 +0200
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id q6NEYS6c013808
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1StKCL-0005Mn-Ov for openembedded-core@lists.openembedded.org;
+	Mon, 23 Jul 2012 17:05:25 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6NErxAj022333
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 23 Jul 2012 15:53:59 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 04261-08 for <openembedded-core@lists.openembedded.org>;
+	Mon, 23 Jul 2012 15:53:54 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6NEronq022327
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Jul 2012 16:34:30 +0200
-Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
-	4.76) (envelope-from <ensc@sigma-chemnitz.de>) id 1StJiO-0007pN-Da
-	for openembedded-core@lists.openembedded.org;
-	Mon, 23 Jul 2012 16:34:28 +0200
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-To: openembedded-core@lists.openembedded.org
-References: <1343052252-4154-1-git-send-email-radu.moisan@intel.com>
-Date: Mon, 23 Jul 2012 16:34:28 +0200
-In-Reply-To: <1343052252-4154-1-git-send-email-radu.moisan@intel.com> (Radu
-	Moisan's message of "Mon, 23 Jul 2012 17:04:12 +0300")
-Message-ID: <lywr1uzguj.fsf@ensc-virt.intern.sigma-chemnitz.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.1 (gnu/linux)
-MIME-Version: 1.0
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-X-DSPAM-Result: Innocent
-X-DSPAM-Probability: 0
-X-DSPAM-Confidence: 0.99
-X-Spam-Score: -5.2
-X-Spam-Level: -----
-X-Spam-Tests: AWL,BAYES_00,SPF_NEUTRAL,T_RP_MATCHES_RCVD,DSPAM_INNOCENT
-X-Scanned-By: MIMEDefang 2.73
-Subject: Re: [PATCH v2] kmod: Handle undefined O_CLOEXEC
+	Mon, 23 Jul 2012 15:53:52 +0100
+Message-ID: <1343055229.21788.97.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Mon, 23 Jul 2012 15:53:49 +0100
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: [PATCH] libgcc: Add missing dependency on libc:do_package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,19 +39,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Jul 2012 14:45:57 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 23 Jul 2012 15:05:26 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Radu Moisan <radu.moisan-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
-writes:
+do_package writes out shlibs data and libgcc can depend on the values
+there. We therefore need to express the depdency so that sstate can account
+for it for example.
 
-> Close-on-exec seems to be unsuported on some architectures like CentOS 5.8
-> and thus causing some packages to fail to build successfully. 
+Without this a version change in eglibc can "psersist" in the sstate cache
+and corrupt builds.
 
-Have you verified that making O_CLOEXEC a noop does not break the
-applications?
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+diff --git a/meta/recipes-devtools/gcc/libgcc_4.7.bb b/meta/recipes-devtools/gcc/libgcc_4.7.bb
+index 55aa03c..c796253 100644
+--- a/meta/recipes-devtools/gcc/libgcc_4.7.bb
++++ b/meta/recipes-devtools/gcc/libgcc_4.7.bb
+@@ -64,6 +64,7 @@ do_install () {
+ 	rm -rf ${D}${libdir}/${TARGET_SYS}/${BINV}/include
+ }
+ 
++do_package[depends] += "virtual/${MLPREFIX}libc:do_package"
+ do_package_write_ipk[depends] += "virtual/${MLPREFIX}libc:do_package"
+ do_package_write_deb[depends] += "virtual/${MLPREFIX}libc:do_package"
+ do_package_write_rpm[depends] += "virtual/${MLPREFIX}libc:do_package"
 
 
-Enrico
 
 
