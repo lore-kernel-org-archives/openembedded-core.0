@@ -1,32 +1,35 @@
-Received: from mail1.windriver.com ([147.11.146.13])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Randy.MacLeod@windriver.com>) id 1StCnv-000521-4G
-	for openembedded-core@lists.openembedded.org;
-	Mon, 23 Jul 2012 09:11:46 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q6N3OTJH002275
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1StD6E-0007tx-HJ for openembedded-core@lists.openembedded.org;
+	Mon, 23 Jul 2012 09:30:38 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6N7JBm1001602
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 22 Jul 2012 20:24:29 -0700 (PDT)
-Received: from [128.224.22.136] (128.224.22.136) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Sun, 22 Jul 2012 20:24:28 -0700
-Message-ID: <500CC3EA.2030000@windriver.com>
-Date: Sun, 22 Jul 2012 23:24:26 -0400
-From: Randy MacLeod <randy.macleod@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:14.0) Gecko/20120714 Thunderbird/14.0
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>, "Huang, Jie (Jackie)"
-	<Jackie.Huang@windriver.com>
-References: <cover.1342939738.git.jackie.huang@windriver.com>
-	<9c2d0c1746a945290b6c64551fc6ca2e5e043028.1342939738.git.jackie.huang@windriver.com>,
-	<1342946215.21788.53.camel@ted>
-	<1B858668EC6A94408DCA5225FDFA85AA575F4CD3@ALA-MBA.corp.ad.wrs.com>
-	<500CAF3B.1020001@windriver.com>
-In-Reply-To: <500CAF3B.1020001@windriver.com>
-X-Originating-IP: [128.224.22.136]
-Subject: Re: [PATCH 1/1] useradd.bbclass: use locking of bb.utils to avoid lock race issue of useradd/groupadd
+	Mon, 23 Jul 2012 08:19:11 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 27737-04 for <openembedded-core@lists.openembedded.org>;
+	Mon, 23 Jul 2012 08:19:06 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6N7J0at001596
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 23 Jul 2012 08:19:03 +0100
+Message-ID: <1343027945.21788.81.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Mon, 23 Jul 2012 08:19:05 +0100
+In-Reply-To: <D9D7124626ED1E43963D86B2657D5CCD03A17E72@FRSNPREXC1.usr.ingenico.loc>
+References: <D9D7124626ED1E43963D86B2657D5CCD03A17BC8@FRSNPREXC1.usr.ingenico.loc>
+	<1342796791.21788.30.camel@ted>
+	<D9D7124626ED1E43963D86B2657D5CCD03A17E72@FRSNPREXC1.usr.ingenico.loc>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: Broken gettext/gdbm
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,129 +44,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Jul 2012 07:11:46 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Mon, 23 Jul 2012 07:30:38 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 12-07-22 09:56 PM, Randy MacLeod wrote:
-> On 12-07-22 08:10 AM, Huang, j (Jackie) wrote:
->>
->>
->>> On Sun, 2012-07-22 at 14:53 +0800, jackie.huang@windriver.com wrote:
->>>> From: Jackie Huang <jackie.huang@windriver.com>
->>>>
->>>> A race condition can occur when adding users and groups to the
->>>> passwd and group files, in [YOCTO #1794], 10 times retry added
->>>> but it is not fixed completely.
->>>>
->>>> This fix re-writes the useradd_preinst and useradd_sysroot with
->>>> python and use locking of bb.utils to lock the passwd and group
->>>> files before executing useradd/groupadd commands to avoid the
->>>> lock race themselves.
->>>>
->>>> [YOCTO #2779]
->>>>
->>>> Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
->>>> ---
->>>>   meta/classes/useradd.bbclass |  284
->>>> ++++++++++++++++++------------------------
->>>>   1 files changed, 124 insertions(+), 160 deletions(-)
->>>
->>> Please resend this with the whitespace issues resolved. Its near
->>> impossible to review as it stands :(
->>
->> Re-sent, sorry about that.
->
-> Hi Jackie,
->
-> I don't see that your new version sent at 8:01 is any better
-> but I could be wrong...
->
-> Robert,
-> Please take a look and help Jackie with formatting
-> and perhaps small single purpose commits as needed -
-> i.e. separate the whitespace changes from the functional changes.
+On Mon, 2012-07-23 at 08:50 +0200, Matthieu CRAPET wrote:
+> Hi,
+> 
+> $ bitbake gdbm -e | grep ^DEPENDS
+> DEPENDS_GETTEXT="virtual/gettext gettext-native"
+> DEPENDS="autoconf-native automake-native libtool-native libtool-cross gnu-config-native virtual/gettext gettext-native  virtual/arm-ingenico-linux-gnueabi-gcc virtual/arm-ingenico-linux-gnueabi-compilerlibs virtual/libc"
+> 
+> $ bitbake gettext -e | grep ^DEPENDS
+> DEPENDS_virtclass-native="libxml2-native gettext-minimal-native"
+> DEPENDS="autoconf-native automake-native libtool-native libtool-cross gnu-config-native  virtual/arm-ingenico-linux-gnueabi-gcc virtual/arm-ingenico-linux-gnueabi-compilerlibs virtual/libc  libxml2-native gettext-native virtual/libiconv ncurses expat"
+> 
+> Note: We are using our own external toolchain.
 
-Summary:
-    Jackie did the right thing; I need to read more carefully. ;-)
+That is an important detail!
 
-// Randy
+> I wasn't clear enough in my previous post. It appear to be a circular dependency.
 
-Details:
+A circular dependency on what?
 
-I've looked at the two emails more closely now and see the
-white space problem lines and saw that Jackie did fix those up
-in the new patch. Specifically:
+> Since my update I have this log:
+> NOTE: Resolving any missing task queue dependencies
+> NOTE: multiple providers are available for virtual/gettext (proxy-libintl, gettext)
+> NOTE: consider defining a PREFERRED_PROVIDER entry to match virtual/gettext
 
--USERADDSETSCENEDEPS = "${MLPREFIX}base-passwd:do_populate_sy
-+USERADDSETSCENEDEPS = "base-passwd:do_populate_sysroot_setsc
-  USERADDSETSCENEDEPS_virtclass-cross = ""
-  USERADDSETSCENEDEPS_virtclass-native = ""
-  USERADDSETSCENEDEPS_virtclass-nativesdk = ""
-@@ -154,61 +118,61 @@ do_package_setscene[depends] = "${USERA
+Have you tried setting:
 
-  # Recipe parse-time sanity checks
-  def update_useradd_after_parse(d):
--    useradd_packages = d.getVar('USERADD_PACKAGES', True)
-+       useradd_packages = d.getVar('USERADD_PACKAGES', True)
+PREFERRED_PROVIDER_virtual/gettext = "gettext"
 
--    if not useradd_packages:
--        raise bb.build.FuncFailed, "%s inherits useradd but
-+       if not useradd_packages:
-+               raise bb.build.FuncFailed, "%s inherits usera
+?
 
--    for pkg in useradd_packages.split():
--        if not d.getVar('USERADD_PARAM_%s' % pkg, True) and
--            raise bb.build.FuncFailed, "%s inherits useradd
-+       for pkg in useradd_packages.split():
-+               if not d.getVar('USERADD_PARAM_%s' % pkg, Tru
-+                       raise bb.build.FuncFailed, "%s inheri
+> When I just try to build gettext, It wants to build gdbm.. which depends of gettext too.
+> 
+> gettext-minimal-native doesn't have config.rpath, gettext-native has it.
+> 
+> But config.rpath is taken from ${STAGING_DATADIR}/gettext/config.rpath" and not ${STAGING_DATADIR_NATIVE}/gettext/config.rpath".
+> Patching "meta/classes/autotools.bbclass" would be a proper fix ?
 
-  python __anonymous() {
--    update_useradd_after_parse(d)
-+       update_useradd_after_parse(d)
-  }
+No, that doesn't sound right.
 
-Sorry for the noise.
+I think the problem is that the system is thinking virtual/gettext is
+provided by proxy-libintl. Adding the line above should convince it
+otherwise and then things should work better.
 
-// Randy
+Cheers,
 
+Richard
 
-
->
-> This problem is happening frequently so I'd like to get this
-> worked out upstream.
->
-> Thanks,
-> // Randy
->
->
->>
->> Thanks,
->> Jackie
->>
->>>
->>> Cheers,
->>>
->>> Richard
->>
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->>
->
->
-
-
--- 
-# Randy MacLeod. MTS, Linux, Wind River
-Direct: 613.963.1350
 
 
