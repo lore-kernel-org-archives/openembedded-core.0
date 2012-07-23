@@ -1,26 +1,26 @@
-Received: from smtp1.ingenico.com ([217.108.148.240])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Matthieu.CRAPET@ingenico.com>) id 1StCep-0002K6-E5
+	(envelope-from <Wenzong.Fan@windriver.com>) id 1StCnm-0004zq-Bl
 	for openembedded-core@lists.openembedded.org;
-	Mon, 23 Jul 2012 09:02:20 +0200
-X-IronPort-AV: E=Sophos;i="4.77,637,1336341600"; d="scan'208";a="13378284"
-Received: from frsnprexc1.usr.ingenico.loc ([10.23.2.11])
-	by antispam1.usr.ingenico.loc with ESMTP; 23 Jul 2012 08:50:55 +0200
-x-mimeole: Produced By Microsoft Exchange V6.5
+	Mon, 23 Jul 2012 09:11:34 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q6N5pIAP024388
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 22 Jul 2012 22:51:18 -0700 (PDT)
+Received: from usp-ub1204-64.corp.ad.wrs.com (128.224.162.28) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.1.255.0; Sun, 22 Jul 2012 22:51:17 -0700
+From: <wenzong.fan@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 23 Jul 2012 13:50:53 +0800
+Message-ID: <3d42be087d89558631512f873efd68f7057fd9f8.1343022482.git.wenzong.fan@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1343022482.git.wenzong.fan@windriver.com>
+References: <cover.1343022482.git.wenzong.fan@windriver.com>
 MIME-Version: 1.0
-Date: Mon, 23 Jul 2012 08:50:52 +0200
-Message-ID: <D9D7124626ED1E43963D86B2657D5CCD03A17E72@FRSNPREXC1.usr.ingenico.loc>
-In-Reply-To: <1342796791.21788.30.camel@ted>
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-Thread-Topic: [OE-core] Broken gettext/gdbm
-Thread-Index: Ac1miUjhYXXZkDrYS96CCIud8DZOvACC0sag
-References: <D9D7124626ED1E43963D86B2657D5CCD03A17BC8@FRSNPREXC1.usr.ingenico.loc>
-	<1342796791.21788.30.camel@ted>
-From: "Matthieu CRAPET" <Matthieu.CRAPET@ingenico.com>
-To: "Patches and discussions about the oe-core layer"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Broken gettext/gdbm
+Cc: Zhenfeng.Zhao@windriver.com
+Subject: [PATCH 1/1] remake: Add remake-native and remake
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,140 +35,104 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Jul 2012 07:02:21 -0000
-Content-class: urn:content-classes:message
-Content-Type: text/plain;
-	charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 23 Jul 2012 07:11:34 -0000
+Content-Type: text/plain
 
-Hi,
+From: Wenzong Fan <wenzong.fan@windriver.com>
 
-$ bitbake gdbm -e | grep ^DEPENDS
-DEPENDS_GETTEXT=3D"virtual/gettext gettext-native"
-DEPENDS=3D"autoconf-native automake-native libtool-native libtool-cross =
-gnu-config-native virtual/gettext gettext-native  =
-virtual/arm-ingenico-linux-gnueabi-gcc =
-virtual/arm-ingenico-linux-gnueabi-compilerlibs virtual/libc"
+remake is a patched version of GNU Make that adds improved error
+reporting, the ability to trace execution in a comprehensible way,
+and a debugger.
 
-$ bitbake gettext -e | grep ^DEPENDS
-DEPENDS_virtclass-native=3D"libxml2-native gettext-minimal-native"
-DEPENDS=3D"autoconf-native automake-native libtool-native libtool-cross =
-gnu-config-native  virtual/arm-ingenico-linux-gnueabi-gcc =
-virtual/arm-ingenico-linux-gnueabi-compilerlibs virtual/libc  =
-libxml2-native gettext-native virtual/libiconv ncurses expat"
+[YOCTO #2402]
 
-Note: We are using our own external toolchain.
+Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
+---
+ meta/recipes-devtools/remake/remake.inc            |   16 +++++++++++++
+ .../remake/remake/version-remake.texi.patch        |   16 +++++++++++++
+ meta/recipes-devtools/remake/remake_git.bb         |   25 ++++++++++++++++++++
+ 3 files changed, 57 insertions(+)
+ create mode 100644 meta/recipes-devtools/remake/remake.inc
+ create mode 100644 meta/recipes-devtools/remake/remake/version-remake.texi.patch
+ create mode 100644 meta/recipes-devtools/remake/remake_git.bb
 
-I wasn't clear enough in my previous post. It appear to be a circular =
-dependency.
+diff --git a/meta/recipes-devtools/remake/remake.inc b/meta/recipes-devtools/remake/remake.inc
+new file mode 100644
+index 0000000..6ac833e
+--- /dev/null
++++ b/meta/recipes-devtools/remake/remake.inc
+@@ -0,0 +1,16 @@
++SUMMARY = "Makefile debugger which is gnumake 3.81 compatible"
++DESCRIPTION = "remake is a patched and modernized version of GNU make \
++utility that adds improved error reporting, the ability to trace \
++execution in a comprehensible way, and a debugger."
++
++HOMEPAGE = "http://bashdb.sourceforge.net/remake/"
++SECTION = "devel"
++
++SRC_URI = "git://github.com/rocky/remake.git"
++
++inherit autotools gettext update-alternatives
++
++ALTERNATIVE_${PN} = "make"
++ALTERNATIVE_LINK_NAME[make] = "${bindir}/make"
++ALTERNATIVE_TARGET[make] = "${bindir}/remake"
++ALTERNATIVE_PRIORITY = "100"
+diff --git a/meta/recipes-devtools/remake/remake/version-remake.texi.patch b/meta/recipes-devtools/remake/remake/version-remake.texi.patch
+new file mode 100644
+index 0000000..fa6329e
+--- /dev/null
++++ b/meta/recipes-devtools/remake/remake/version-remake.texi.patch
+@@ -0,0 +1,16 @@
++Upstream-Status: Pending
++
++version-remake.texi is not there but it is required by remake.texi,
++just add it for getting the 'make remake.info' works.
++
++==============================================================
++diff --git a/doc/version-remake.texi b/doc/version-remake.texi
++new file mode 100644
++index 0000000..2a3b72b
++--- /dev/null
+++++ b/doc/version-remake.texi
++@@ -0,0 +1,4 @@
+++@set UPDATED 10 June 2012
+++@set UPDATED-MONTH June 2012
+++@set EDITION 3.82+dbg-0.9git
+++@set VERSION 3.82+dbg-0.9git
+diff --git a/meta/recipes-devtools/remake/remake_git.bb b/meta/recipes-devtools/remake/remake_git.bb
+new file mode 100644
+index 0000000..7e9857e9
+--- /dev/null
++++ b/meta/recipes-devtools/remake/remake_git.bb
+@@ -0,0 +1,25 @@
++PR = "r0"
++LICENSE = "GPLv2"
++LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
++                    file://tests/COPYING;md5=d32239bcb673463ab874e80d47fae504 \
++                    file://glob/COPYING.LIB;md5=4a770b67e6be0f60da244beb2de0fce4"
++require remake.inc
++
++SRC_URI += "file://version-remake.texi.patch"
++SRCREV = "414d6e84121c6740ff5079370c905dea0f0e1ddb"
++S = "${WORKDIR}/git"
++
++DEPENDS += "readline"
++PROVIDES += "make"
++
++do_configure_prepend() {
++    # create config.rpath which required by configure.ac
++    autopoint || touch config.rpath
++}
++
++do_compile_prepend() {
++    # updating .po and other gnu build files
++    make update
++}
++
++BBCLASSEXTEND = "native"
+-- 
+1.7.9.5
 
-Since my update I have this log:
-NOTE: Resolving any missing task queue dependencies
-NOTE: multiple providers are available for virtual/gettext =
-(proxy-libintl, gettext)
-NOTE: consider defining a PREFERRED_PROVIDER entry to match =
-virtual/gettext
-
-When I just try to build gettext, It wants to build gdbm.. which depends =
-of gettext too.
-
-gettext-minimal-native doesn't have config.rpath, gettext-native has it.
-
-But config.rpath is taken from ${STAGING_DATADIR}/gettext/config.rpath" =
-and not ${STAGING_DATADIR_NATIVE}/gettext/config.rpath".
-Patching "meta/classes/autotools.bbclass" would be a proper fix ?
-
-Cheers,
-Matthieu
-
-
------Message d'origine-----
-De=A0: openembedded-core-bounces@lists.openembedded.org =
-[mailto:openembedded-core-bounces@lists.openembedded.org] De la part de =
-Richard Purdie
-Envoy=E9=A0: vendredi 20 juillet 2012 17:07
-=C0=A0: Patches and discussions about the oe-core layer
-Objet=A0: Re: [OE-core] Broken gettext/gdbm
-
-On Fri, 2012-07-20 at 15:10 +0200, Matthieu CRAPET wrote:
-> Greetings,
->=20
-> I updated my OE-core and bitbake today (2012.07.20). Build from=20
-> scratch
-> fails:
->=20
-> <code>
-> NOTE: package gdbm-1.10-r3: task do_configure: Started
-> ERROR: Function failed: do_configure (see=20
-> /home/.../build/tmp-eglibc/work/armv5te-ing-linux-gnueabi/gdbm-1.10-r3
-> /t
-> emp/log.do_configure.31222 for further information)
-> ERROR: Logfile of failure stored in:
-> /home/.../build/tmp-eglibc/work/armv5te-ing-linux-gnueabi/gdbm-1.10-r3
-> /t
-> emp/log.do_configure.31222
-> Log data follows:
-> | DEBUG: Executing python function sysroot_cleansstate
-> | DEBUG: Python function sysroot_cleansstate finished
-> | DEBUG: SITE files ['endian-little', 'bit-32', 'arm-common',
-> 'common-linux', 'common-glibc', 'arm-linux', 'arm-linux-gnueabi',=20
-> 'common']
-> | DEBUG: Executing shell function do_configure automake (GNU automake) =
-
-> | 1.12.1 Copyright (C) 2012 Free Software Foundation, Inc.
-> | License GPLv2+: GNU GPL version 2 or later
-> <http://gnu.org/licenses/gpl-2.0.html>
-> | This is free software: you are free to change and redistribute it.
-> | There is NO WARRANTY, to the extent permitted by law.
-> |
-> | Written by Tom Tromey <tromey@redhat.com>
-> |        and Alexandre Duret-Lutz <adl@gnu.org>.
-> | AUTOV is 1.12
-> | cp: cannot stat
-> `/home/.../build/tmp-eglibc/sysroots/rp02/usr/share/gettext/config.rpa
-> th
-> ': No such file or directory
-> | ERROR: Function failed: do_configure (see
-> /home/.../build/tmp-eglibc/work/armv5te-ing-linux-gnueabi/gdbm-1.10-r3
-> /t
-> emp/log.do_configure.31222 for further information)
-> NOTE: package gdbm-1.10-r3: task do_configure: Failed </code>
->=20
-> gdbm needs gettext to have config.rpath. But gettext is not built, but =
-
-> gettext-native & gettext-minimal-native are built.
->=20
-> Issue comes from  "meta/classes/autotools.bbclass":
->=20
-> <code>
->         else if grep "^[[:space:]]*AM_GNU_GETTEXT" $CONFIGURE_AC
-> >/dev/null; then
->                             # We'd call gettextize here if it wasn't=20
-> so broken...
->           cp ${STAGING_DATADIR}/gettext/config.rpath
-> ${AUTOTOOLS_AUXDIR}/
-> </code>
->=20
-> What would be the best workaround to take config.rpath from=20
-> gettext-native?
-
-This is odd since gdbm inherits gettext and therefore should have a =
-DEPENDS on virtual/gettext. gettext should therefore have been built.
-
-Any idea why gettext wasn't built?
-
-bitbake gdbm -e | grep ^DEPENDS
-
-shows virtual/gettext here...
-
-Cheers,
-
-Richard
-
-
-_______________________________________________
-Openembedded-core mailing list
-Openembedded-core@lists.openembedded.org
-http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
