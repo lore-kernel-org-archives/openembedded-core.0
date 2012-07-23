@@ -1,34 +1,34 @@
-Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpjday@crashcourse.ca>) id 1StFjj-000853-UO
-	for openembedded-core@lists.openembedded.org;
-	Mon, 23 Jul 2012 12:19:36 +0200
-Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
-	([174.115.5.73]:49183 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.77) (envelope-from <rpjday@crashcourse.ca>)
-	id 1StFYg-0003sw-OK; Mon, 23 Jul 2012 06:08:10 -0400
-Date: Mon, 23 Jul 2012 06:07:58 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@oneiric
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-In-Reply-To: <1965034.biL4ROLyBP@helios>
-Message-ID: <alpine.DEB.2.02.1207230606590.20207@oneiric>
-References: <alpine.DEB.2.02.1207221512360.968@oneiric>
-	<1965034.biL4ROLyBP@helios>
-User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
-MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: any current standard on avoiding use of both "_append" and "+="?
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1StFkg-00088e-Ge for openembedded-core@lists.openembedded.org;
+	Mon, 23 Jul 2012 12:20:34 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6NA97Jt003028
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 23 Jul 2012 11:09:07 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 01847-07 for <openembedded-core@lists.openembedded.org>;
+	Mon, 23 Jul 2012 11:09:03 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6NA8vOJ003022
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 23 Jul 2012 11:08:59 +0100
+Message-ID: <1343038142.21788.88.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Mon, 23 Jul 2012 11:09:02 +0100
+In-Reply-To: <9c2d0c1746a945290b6c64551fc6ca2e5e043028.1342939738.git.jackie.huang@windriver.com>
+References: <cover.1342939738.git.jackie.huang@windriver.com>
+	<9c2d0c1746a945290b6c64551fc6ca2e5e043028.1342939738.git.jackie.huang@windriver.com>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH 1/1] useradd.bbclass: use locking of bb.utils to avoid lock race issue of useradd/groupadd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,43 +43,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Jul 2012 10:19:36 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Mon, 23 Jul 2012 10:20:34 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Mon, 23 Jul 2012, Paul Eggleton wrote:
+On Sun, 2012-07-22 at 14:53 +0800, jackie.huang@windriver.com wrote:
+> From: Jackie Huang <jackie.huang@windriver.com>
+> 
+> A race condition can occur when adding users and groups to the
+> passwd and group files, in [YOCTO #1794], 10 times retry added
+> but it is not fixed completely.
+> 
+> This fix re-writes the useradd_preinst and useradd_sysroot with
+> python and use locking of bb.utils to lock the passwd and group
+> files before executing useradd/groupadd commands to avoid the
+> lock race themselves.
+> 
+> [YOCTO #2779]
+> 
+> Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+> ---
+>  meta/classes/useradd.bbclass |  284 ++++++++++++++++++------------------------
+>  1 files changed, 124 insertions(+), 160 deletions(-)
+> 
+> diff --git a/meta/classes/useradd.bbclass b/meta/classes/useradd.bbclass
+> index bb8f42b..ed5ed69 100644
+> --- a/meta/classes/useradd.bbclass
+> +++ b/meta/classes/useradd.bbclass
+> @@ -14,126 +14,90 @@ USERADDDEPENDS_virtclass-nativesdk = ""
+>  # c) As the preinst script in the target package at do_rootfs time
+>  # d) As the preinst script in the target package on device as a package upgrade
+>  #
+> -useradd_preinst () {
+> -OPT=""
+> -SYSROOT=""
+> -
+> -if test "x$D" != "x"; then
 
-> On Sunday 22 July 2012 15:12:51 Robert P. J. Day wrote:
-> >   quick check shows this:
-> >
-> > recipes-graphics/xorg-lib/libxp_1.0.1.bb:CFLAGS_append += " -I
-> > ${S}/include/X11/XprintUtil -I ${S}/include/X11/extensions"
-> > recipes-sato/webkit/webkit-gtk_1.8.1.bb:EXTRA_OECONF_append_powerpc +=
-> > "--with-unicode-backend=glib"
-> > recipes-sato/webkit/webkit-gtk_1.8.1.bb:CPPFLAGS_append_powerpc +=
-> > "-I${STAGING_INCDIR}/pango-1.0 \
-> >
-> >   was there going to be any effort to avoid combining "_append" with
-> > "+=" in recipe files, simply for the sake of clarity?
->
-> It's fine for these to be cleaned up as long as a leading space is added for
-> the second and third (since += will be doing this at the moment).
+[...]
 
-  is this valid?
+> -	done
+> -fi
+> +def useradd_preinst(d):
+> +	import re
+> +
 
-meta/classes/rootfs_rpm.bbclass:IMAGE_ROOTFS_EXTRA_SPACE_append = "${@base_contains("PACKAGE_INSTALL", "zypper", " + 51200", "" ,d)}"
+[...]
 
-does one not need the leading space in this context?
 
-rday
+> -    # Add the user/group preinstall scripts and RDEPENDS requirements
+> -    # to packages specified by USERADD_PACKAGES
+> -    if not bb.data.inherits_class('nativesdk', d):
+> -        useradd_packages = d.getVar('USERADD_PACKAGES', True) or ""
+> -        for pkg in useradd_packages.split():
+> -            update_useradd_package(pkg)
+> +	def update_useradd_package(pkg):
+> +		bb.debug(1, 'adding user/group calls to preinst for %s' % pkg)
+> +
+> +		"""
+> +		useradd preinst is appended here because pkg_preinst may be
+> +		required to execute on the target. Not doing so may cause
+> +		useradd preinst to be invoked twice, causing unwanted warnings.
+> +		"""
+> +		preinst = d.getVar('pkg_preinst_%s' % pkg, True) or d.getVar('pkg_preinst', True)
+> +		if not preinst:
+> +			preinst = '#!/bin/sh\n'
+> +		preinst += d.getVar('useradd_preinst', True)
 
--- 
 
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
+This looks like we're adding the contents of the useradd_preinst
+function (changed from shell to python) to a script headed with
+"#!/bin/sh"? Python script with a /bin/sh header isn't a good idea.
 
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
+We can't really depend on python being on the target device to add users
+in the postinstall script either.
+
+So in summary, this patch needs a lot more thought and hasn't been well
+tested.
+
+python functions should also be 4 space indented.
+
+Cheers,
+
+Richard
+
+
+
 
 
