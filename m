@@ -1,36 +1,25 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <cristian.iorga@intel.com>) id 1StFyW-0000Cj-Cx
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1StG4M-0000QR-Vb
 	for openembedded-core@lists.openembedded.org;
-	Mon, 23 Jul 2012 12:34:52 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 23 Jul 2012 03:23:24 -0700
+	Mon, 23 Jul 2012 12:40:55 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 23 Jul 2012 03:29:27 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="196663880"
-Received: from irsmsx103.ger.corp.intel.com ([163.33.3.157])
-	by fmsmga002.fm.intel.com with ESMTP; 23 Jul 2012 03:23:23 -0700
-Received: from irsmsx151.ger.corp.intel.com (163.33.192.59) by
-	IRSMSX103.ger.corp.intel.com (163.33.3.157) with Microsoft SMTP Server
-	(TLS) id 14.1.355.2; Mon, 23 Jul 2012 11:23:23 +0100
-Received: from irsmsx102.ger.corp.intel.com ([169.254.2.176]) by
-	IRSMSX151.ger.corp.intel.com ([169.254.4.108]) with mapi id
-	14.01.0355.002; Mon, 23 Jul 2012 11:23:22 +0100
-From: "Iorga, Cristian" <cristian.iorga@intel.com>
-To: Saul Wold <sgw@linux.intel.com>, Patches and discussions about the oe-core
-	layer <openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH 1/2] libcanberra: upgrade to ver. 0.29
-Thread-Index: AQHNZtbF0gBv5qocoEqppvaSfJ26Zpc2qJsQ
-Date: Mon, 23 Jul 2012 10:23:21 +0000
-Message-ID: <969F26A8BAB325438E7EB80D3C3134FB1617413B@IRSMSX102.ger.corp.intel.com>
-References: <1342778862-503-1-git-send-email-cristian.iorga@intel.com>
-	<5009F5FC.5020409@linux.intel.com>
-In-Reply-To: <5009F5FC.5020409@linux.intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [163.33.239.182]
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="170103015"
+Received: from unknown (HELO helios.localnet) ([10.252.121.29])
+	by orsmga001.jf.intel.com with ESMTP; 23 Jul 2012 03:29:26 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 23 Jul 2012 11:29:26 +0100
+Message-ID: <1532317.TE5c1Jzpbs@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.8.4 (Linux/3.2.0-26-generic-pae; KDE/4.8.4; i686; ; )
+In-Reply-To: <50058C43.7090105@linux.intel.com>
+References: <cover.1342011575.git.paul.eggleton@linux.intel.com>
+	<50058C43.7090105@linux.intel.com>
 MIME-Version: 1.0
-Subject: Re: [PATCH 1/2] libcanberra: upgrade to ver. 0.29
+Subject: Re: [PATCH 0/3] rootfs generation improvements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,93 +34,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Jul 2012 10:34:52 -0000
-Content-Language: en-US
+X-List-Received-Date: Mon, 23 Jul 2012 10:40:55 -0000
+Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
 
-Hi Saul,
+On Tuesday 17 July 2012 09:01:07 Saul Wold wrote:
+> On 07/11/2012 06:04 AM, Paul Eggleton wrote:
+> > Fix up handling of "complementary" package installation (dev, dbg, doc,
+> > etc.) and introduce a staticdev-pkgs IMAGE_FEATURES feature.
+> > 
+> > I've tested this with all backends using buildhistory to examine the
+> > changes to the image contents, and compared the lists of files in the
+> > SDK-from-image output with the rpm backend. Unfortunately it does
+> > increase the do_rootfs time slightly; one of my next tasks will be to
+> > try to do some optimisation here.
+> > 
+> > The following changes since commit 
+b76a7bc8dcb7aed7d6f026e77a226837004c50af:
+> >    libgomp: add libgomp (openmp) library, and build for powerpc targets by
+> >    default (2012-07-11 11:35:16 +0100)> 
+> > are available in the git repository at:
+> >    git://git.openembedded.org/openembedded-core-contrib paule/rootfs
+> >    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=
+> >    paule/rootfs> 
+> > Paul Eggleton (3):
+> >    classes/rootfs_deb: use more reliable check for package existence
+> 
+> Merged this one into OE-Core
+> 
+> >    Rework installation of dev, dbg, doc, and locale packages
+> >    classes/image: add staticdev-pkgs IMAGE_FEATURES feature
+> 
+> There was an issue with either one or both of these during build
+> testing, I know you are looking into it.
 
-I think everything is ok now.
-Thanks.
-It is already merged, with the right versions.
+Indeed, this triggered some kind of environment size limit and has exposed a 
+few other lurking issues as well. It also failed to handle debian package 
+renaming. I have a reworked and extended patchset coming, please disregard the 
+unmerged part of this one.
 
-/Cristian
+Cheers,
+Paul
 
------Original Message-----
-From: Saul Wold [mailto:sgw@linux.intel.com]=20
-Sent: Saturday, July 21, 2012 3:21 AM
-To: Patches and discussions about the oe-core layer
-Cc: Iorga, Cristian
-Subject: Re: [OE-core] [PATCH 1/2] libcanberra: upgrade to ver. 0.29
+-- 
 
-On 07/20/2012 03:07 AM, Cristian Iorga wrote:
-> Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
-> ---
->   .../{libcanberra_0.28.bb =3D> libcanberra_0.29.bb}   |   14 +++++++----=
----
->   1 file changed, 7 insertions(+), 7 deletions(-)
->   rename meta/recipes-multimedia/pulseaudio/{libcanberra_0.28.bb =3D>=20
-> libcanberra_0.29.bb} (76%)
->
-> diff --git a/meta/recipes-multimedia/pulseaudio/libcanberra_0.28.bb=20
-> b/meta/recipes-multimedia/pulseaudio/libcanberra_0.29.bb
-> similarity index 76%
-> rename from meta/recipes-multimedia/pulseaudio/libcanberra_0.28.bb
-> rename to meta/recipes-multimedia/pulseaudio/libcanberra_0.29.bb
-> index e69c89d..27020c5 100644
-> --- a/meta/recipes-multimedia/pulseaudio/libcanberra_0.28.bb
-> +++ b/meta/recipes-multimedia/pulseaudio/libcanberra_0.29.bb
-> @@ -5,14 +5,14 @@ LIC_FILES_CHKSUM =3D "file://LGPL;md5=3D2d5025d4aa3495b=
-efef8f17206a5b0a1 \
->                       file://src/canberra.h;beginline=3D7;endline=3D24;md=
-5=3Dc616c687cf8da540a14f917e0d23ab03"
->
->   DEPENDS =3D "gtk+ pulseaudio alsa-lib libtool libvorbis"
-> -PR =3D "r1"
-> +PR =3D "r0"
->
->   inherit gconf autotools
->
-> -SRC_URI =3D "http://0pointer.de/lennart/projects/libcanberra/libcanberra=
--${PV}.tar.gz"
-> +SRC_URI =3D "http://0pointer.de/lennart/projects/libcanberra/libcanberra=
--${PV}.tar.xz"
->
-> -SRC_URI[md5sum] =3D "c198b4811598c4c161ff505e4531b02c"
-> -SRC_URI[sha256sum] =3D "eb1f8b2cabad7f07b6e44d606a91d73e1efca4b46daf92bd=
-553e7222bc68868c"
-> +SRC_URI[md5sum] =3D "2594093a5d61047bd9cc87e955f86df8"
-> +SRC_URI[sha256sum] =3D "127a5ef07805856d63758e5180ebfb241d1f80094fd301c2=
-87591a15b8cfcd72"
->
->   EXTRA_OECONF =3D " --disable-oss --disable-ltdl-install"
->
-> @@ -25,8 +25,8 @@ PACKAGES +=3D "${PN}-gnome"
->   FILES_${PN} +=3D "${libdir}/gtk-2.0/modules/ ${datadir}/gnome"
->   FILES_${PN}-gnome +=3D "${datadir}/gdm/autostart/LoginWindow/libcanberr=
-a-ready-sound.desktop \
->   	              ${libdir}/gnome-settings-daemon-3.0/gtk-modules/canberra=
--gtk-module.desktop"
-> -FILES_${PN}-dev +=3D "${libdir}/libcanberra-0.28/libcanberra-*.so \
-> -		    ${libdir}/libcanberra-0.28/libcanberra-*.la \
-> +FILES_${PN}-dev +=3D "${libdir}/libcanberra-${PV}/libcanberra-*.so \
-> +		    ${libdir}/libcanberra-${PV}/libcanberra-*.la \
->   		    ${datadir}/vala/vapi"
-> -FILES_${PN}-dbg +=3D "${libdir}/gtk-2.0/modules/.debug ${libdir}/libcanb=
-erra-0.28/.debug"
-> +FILES_${PN}-dbg +=3D "${libdir}/gtk-2.0/modules/.debug ${libdir}/libcanb=
-erra-${PV}/.debug"
->
->
-
-
-Richard merged earlier verions of both these patches, please verify if you =
-need to rebase and make any additional changes and re-submit.
-
-Sorry about the confusion
-
-Thanks
-	Sau!
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
