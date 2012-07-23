@@ -1,26 +1,36 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mail-wg0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1StOKZ-0007n4-PQ
+	(envelope-from <raj.khem@gmail.com>) id 1StPdD-0002F0-2F
 	for openembedded-core@lists.openembedded.org;
-	Mon, 23 Jul 2012 21:30:12 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 23 Jul 2012 12:18:43 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="172111637"
-Received: from unknown (HELO [10.255.12.231]) ([10.255.12.231])
-	by azsmga001.ch.intel.com with ESMTP; 23 Jul 2012 12:18:43 -0700
-Message-ID: <500DA392.2070104@linux.intel.com>
-Date: Mon, 23 Jul 2012 12:18:42 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:13.0) Gecko/20120615 Thunderbird/13.0.1
+	Mon, 23 Jul 2012 22:53:37 +0200
+Received: by wgbdr1 with SMTP id dr1so5784986wgb.24
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 23 Jul 2012 13:42:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=XTe7mGDk6GIn+U5G3kIw50EzYpC+6qS+LCRX/O8vf5I=;
+	b=0L/gBa0dbD/nqdmZzpQR4Iyfa/S3KepvWGL0/GOehppnlvW9pCH8crjegBxOQHdDtQ
+	A2HpmwbtuulTNzO3PA4peLwV0hh30sjhe+JimTGWKidhNSgrWJC7ll648tLCAK3NnK/Y
+	wo+vwPuWeS4EM8jN2XxVHBA52ua/y8350IwIiHjYuvSghJ0s9zVX6kBwPxeFoQ5gtOKA
+	WTN1mVDpg3XpTM2Jt3OXbaCG7yTkG5yoOtqKQ/epAQoDpN71FolRGPkJ0i01cCpxLgTU
+	cBlGwt8zfHsgtjhdwMdZGIFGJpvQPaWoqq0ck1aNfvHLR5T/LMX8fhFLJocq0dTMMSTG
+	pCqQ==
+Received: by 10.180.96.3 with SMTP id do3mr803051wib.5.1343076122441; Mon, 23
+	Jul 2012 13:42:02 -0700 (PDT)
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
+Received: by 10.194.18.98 with HTTP; Mon, 23 Jul 2012 13:41:32 -0700 (PDT)
+In-Reply-To: <500DA392.2070104@linux.intel.com>
 References: <1342826543-23508-1-git-send-email-raj.khem@gmail.com>
 	<1342826543-23508-2-git-send-email-raj.khem@gmail.com>
-In-Reply-To: <1342826543-23508-2-git-send-email-raj.khem@gmail.com>
-Cc: Koen Kooi <koen@dominion.thruhere.net>
+	<500DA392.2070104@linux.intel.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 23 Jul 2012 13:41:32 -0700
+Message-ID: <CAMKF1srdV_AY8mGeG-ZV-8Qa4AWciaicNUAgmdDKPJFJxr_x+A@mail.gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
+Cc: Koen Kooi <koen@dominion.thruhere.net>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH V2 2/2] kernel bbclass: Recreate uImage only when KEEPUIMAGE != "yes"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -36,65 +46,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Jul 2012 19:30:12 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 23 Jul 2012 20:53:47 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 07/20/2012 04:22 PM, Khem Raj wrote:
-> From: Koen Kooi <koen@dominion.thruhere.net>
->
-> The intent of the uImage code in this class includes the following
->
-> 1) be able to specify custom load addresses without needing to patch the kernel
-> 2) add better information to the uImage description field
->
-> The current state is a NOP anyway, the kernel will always build a uImage when you tell it to 'make uImage'.
->
-> weakly Set KEEPUIMAGE to 'yes' in default-distrovars.inc which preserve the
-> current OE-Core behavior. Machines which are being ported from oe.dev and need to
-> regenerate uImage can set this to be empty
->
-> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
->
-> xx
->
-????
+On Mon, Jul 23, 2012 at 12:18 PM, Saul Wold <sgw@linux.intel.com> wrote:
+>>
+>> +KEEPUIMAGE ?? = "yes"
+>>
+> this really worked? (note the space between ?? = )
 
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
->   meta/classes/kernel.bbclass                     |    2 +-
->   meta/conf/distro/include/default-distrovars.inc |    1 +
->   2 files changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> index ce4d7de..ab984e3 100644
-> --- a/meta/classes/kernel.bbclass
-> +++ b/meta/classes/kernel.bbclass
-> @@ -507,7 +507,7 @@ KERNEL_IMAGE_SYMLINK_NAME ?= "${KERNEL_IMAGETYPE}-${MACHINE}"
->
->   do_uboot_mkimage() {
->   	if test "x${KERNEL_IMAGETYPE}" = "xuImage" ; then
-> -		if test ! -e arch/${ARCH}/boot/uImage ; then
-> +		if test "x${KEEPUIMAGE}" != "xyes" ; then
->   			ENTRYPOINT=${UBOOT_ENTRYPOINT}
->   			if test -n "${UBOOT_ENTRYSYMBOL}"; then
->   				ENTRYPOINT=`${HOST_PREFIX}nm ${S}/vmlinux | \
-> diff --git a/meta/conf/distro/include/default-distrovars.inc b/meta/conf/distro/include/default-distrovars.inc
-> index f770919..b72221f 100644
-> --- a/meta/conf/distro/include/default-distrovars.inc
-> +++ b/meta/conf/distro/include/default-distrovars.inc
-> @@ -2,6 +2,7 @@ QA_LOGFILE = "${TMPDIR}/qa.log"
->
->   OEINCLUDELOGS ?= "yes"
->   KERNEL_CONSOLE ?= "ttyS0"
-> +KEEPUIMAGE ?? = "yes"
->
-this really worked? (note the space between ?? = )
-
->   PCMCIA_MANAGER ?= "pcmciautils"
->
->
-
+No it did not once I switched the testing branch to really what I
+wanted to test. Thanks I will send out a v3 soon
 
 
