@@ -1,28 +1,23 @@
-Received: from mail.mlbassoc.com ([65.100.170.105] helo=mail.chez-thomas.org)
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <gary@mlbassoc.com>) id 1StLG7-0007Wx-SW
+	(envelope-from <bruce.ashfield@windriver.com>) id 1StML0-00013d-Qu
 	for openembedded-core@lists.openembedded.org;
-	Mon, 23 Jul 2012 18:13:24 +0200
-Received: by mail.chez-thomas.org (Postfix, from userid 1998)
-	id 0E3B9F8121C; Mon, 23 Jul 2012 09:52:16 -0600 (MDT)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	hermes.chez-thomas.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=unavailable version=3.3.2
-Received: from [192.168.1.114] (zeus [192.168.1.114])
-	by mail.chez-thomas.org (Postfix) with ESMTP id 79C66F81208;
-	Mon, 23 Jul 2012 09:52:14 -0600 (MDT)
-Message-ID: <500D733F.6080708@mlbassoc.com>
-Date: Mon, 23 Jul 2012 09:52:31 -0600
-From: Gary Thomas <gary@mlbassoc.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:14.0) Gecko/20120714 Thunderbird/14.0
-MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <1343052163-4060-1-git-send-email-radu.moisan@intel.com>
-In-Reply-To: <1343052163-4060-1-git-send-email-radu.moisan@intel.com>
-Subject: Re: [PATCH] kmod: Handle undefined O_CLOEXEC
+	Mon, 23 Jul 2012 19:22:31 +0200
+Received: from yow-bashfiel-l1.wrs.com (yow-bashfiel-d3.wrs.com
+	[128.224.147.67])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q6NHAxFX029551;
+	Mon, 23 Jul 2012 10:11:00 -0700 (PDT)
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: richard.purdie@linuxfoundation.org
+Date: Mon, 23 Jul 2012 13:10:24 -0400
+Message-Id: <0c0c1063e61b7344720bf563f692696efcb5d3f1.1343063241.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 1.7.5.4
+In-Reply-To: <cover.1343063241.git.bruce.ashfield@windriver.com>
+References: <cover.1343063241.git.bruce.ashfield@windriver.com>
+In-Reply-To: <cover.1343063241.git.bruce.ashfield@windriver.com>
+References: <cover.1343063241.git.bruce.ashfield@windriver.com>
+Cc: openembedded-core@lists.openembedded.org, saul.wold@intel.com
+Subject: [PATCH 1/1] linux-yocto/3.4: 3.4.6 and 3.4.x-rt14
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,119 +32,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Jul 2012 16:13:24 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 23 Jul 2012 17:22:31 -0000
 
-On 2012-07-23 08:02, Radu Moisan wrote:
-> Close-on-exec seems to be unsuported on some architectures like CentOS 5.8
-> and thus causing some packages to fail to build successfully. Future kernel
-> version will probably fix this, but for now this patch works around this
-> problem.
->
-> Signed-off-by: Radu Moisan <radu.moisan@intel.com>
-> ---
->   meta/recipes-kernel/kmod/kmod.inc                  |    3 +-
->   .../Handle-unsupported-close-on-exec-flag.patch    |   60 ++++++++++++++++++++
->   2 files changed, 62 insertions(+), 1 deletion(-)
->   create mode 100644 meta/recipes-kernel/kmod/kmod/Handle-unsupported-close-on-exec-flag.patch
->
-> diff --git a/meta/recipes-kernel/kmod/kmod.inc b/meta/recipes-kernel/kmod/kmod.inc
-> index adba4d4..c992ad8 100644
-> --- a/meta/recipes-kernel/kmod/kmod.inc
-> +++ b/meta/recipes-kernel/kmod/kmod.inc
-> @@ -8,7 +8,7 @@ LICENSE = "GPL-2.0+ & LGPL-2.1+"
->   LICENSE_libkmod = "LGPL-2.1+"
->   SECTION = "base"
->   PV = "8"
-> -INC_PR = "r1"
-> +INC_PR = "r2"
->
->   DEPENDS += "pkgconfig-native"
->
-> @@ -20,6 +20,7 @@ inherit autotools gtk-doc
->   SRC_URI = "git://git.profusion.mobi/kmod.git;protocol=git;branch=master \
->              file://depmod-search.conf \
->              file://0001-man-disable-man-page-generation-because-we-don-t-hav.patch \
-> +           file://Handle-unsupported-close-on-exec-flag.patch \
->             "
->
->   SRCREV = "819f79a24d58e3c8429f1631df2f8f85a2f95d4a"
-> diff --git a/meta/recipes-kernel/kmod/kmod/Handle-unsupported-close-on-exec-flag.patch b/meta/recipes-kernel/kmod/kmod/Handle-unsupported-close-on-exec-flag.patch
-> new file mode 100644
-> index 0000000..f0820d9
-> --- /dev/null
-> +++ b/meta/recipes-kernel/kmod/kmod/Handle-unsupported-close-on-exec-flag.patch
-> @@ -0,0 +1,60 @@
-> +Index: git/libkmod/libkmod-config.c
-> +===================================================================
-> +--- git.orig/libkmod/libkmod-config.c	2012-07-23 16:13:44.000000000 +0300
-> ++++ git/libkmod/libkmod-config.c	2012-07-23 16:15:53.000000000 +0300
-> +@@ -33,6 +33,10 @@
-> + #include "libkmod.h"
-> + #include "libkmod-private.h"
-> +
-> ++#ifndef O_CLOEXEC
-> ++#define O_CLOEXEC 0
-> ++#endif
-> ++
-> + struct kmod_alias {
-> + 	char *name;
-> + 	char modname[];
-> +Index: git/libkmod/libkmod-file.c
-> +===================================================================
-> +--- git.orig/libkmod/libkmod-file.c	2012-07-23 16:13:44.000000000 +0300
-> ++++ git/libkmod/libkmod-file.c	2012-07-23 16:15:57.000000000 +0300
-> +@@ -31,6 +31,10 @@
-> + #include "libkmod.h"
-> + #include "libkmod-private.h"
-> +
-> ++#ifndef O_CLOEXEC
-> ++#define O_CLOEXEC 0
-> ++#endif
-> ++
-> + #ifdef ENABLE_XZ
-> + #include <lzma.h>
-> + #endif
-> +Index: git/libkmod/libkmod-index.c
-> +===================================================================
-> +--- git.orig/libkmod/libkmod-index.c	2012-07-23 16:13:44.000000000 +0300
-> ++++ git/libkmod/libkmod-index.c	2012-07-23 16:16:00.000000000 +0300
-> +@@ -31,6 +31,10 @@
-> + #include "libkmod-index.h"
-> + #include "macro.h"
-> +
-> ++#ifndef O_CLOEXEC
-> ++#define O_CLOEXEC 0
-> ++#endif
-> ++
-> + /* index.c: module index file shared functions for modprobe and depmod */
-> +
-> + #define INDEX_CHILDMAX 128
-> +Index: git/libkmod/libkmod-module.c
-> +===================================================================
-> +--- git.orig/libkmod/libkmod-module.c	2012-07-23 16:13:44.000000000 +0300
-> ++++ git/libkmod/libkmod-module.c	2012-07-23 16:16:04.000000000 +0300
-> +@@ -40,6 +40,10 @@
-> + #include "libkmod.h"
-> + #include "libkmod-private.h"
-> +
-> ++#ifndef O_CLOEXEC
-> ++#define O_CLOEXEC 0
-> ++#endif
-> ++
-> + /**
-> +  * SECTION:libkmod-module
-> +  * @short_description: operate on kernel modules
->
+Updating the 3.4 kernel to the latest -stable release and updating preempt-rt
+to 3.4.4-rt14.
 
-Why didn't you put this change in 'libkmod.h' - then you'd only have
-to change a single file.
+Tested on qemu*
 
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+---
+ meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb |    8 ++++----
+ meta/recipes-kernel/linux/linux-yocto_3.4.bb    |   16 ++++++++--------
+ 2 files changed, 12 insertions(+), 12 deletions(-)
+
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb b/meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb
+index 97a1a19..3e7952d 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb
+@@ -3,14 +3,14 @@ require recipes-kernel/linux/linux-yocto.inc
+ KBRANCH = "standard/preempt-rt/base"
+ KBRANCH_qemuppc = "standard/preempt-rt/qemuppc"
+ 
+-LINUX_VERSION ?= "3.4.4"
++LINUX_VERSION ?= "3.4.6"
+ LINUX_KERNEL_TYPE = "preempt-rt"
+ 
+ KMETA = "meta"
+ 
+-SRCREV_machine ?= "b25f7c9730e3bd3be1bf7b7982251b7459ad6579"
+-SRCREV_machine_qemuppc ?= "2777125ab6f92b624ecaf11d6b1ab604e64497a8"
+-SRCREV_meta ?= "949fddda61053cc15e46c015e8f7db17e7b33360"
++SRCREV_machine ?= "2d008a6dcbf565878cee14c5f050eca53897316f"
++SRCREV_machine_qemuppc ?= "94d25f958b6dfb1e8009a0feea7ab4c9a8f54a99"
++SRCREV_meta ?= "d7a96809a585e06933d8c08adb9b9f66b21efb4c"
+ 
+ PR = "${INC_PR}.0"
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+diff --git a/meta/recipes-kernel/linux/linux-yocto_3.4.bb b/meta/recipes-kernel/linux/linux-yocto_3.4.bb
+index f031e1b..f3867f7 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_3.4.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_3.4.bb
+@@ -10,17 +10,17 @@ KBRANCH_qemumips64 = "standard/mti-malta64"
+ KBRANCH_qemumips64el = "standard/mti-malta64"
+ KBRANCH_qemuarm  = "standard/arm-versatile-926ejs"
+ 
+-SRCREV_machine_qemuarm ?= "9aca8fec49787efbe44d0f137f31ee59edd94c49"
+-SRCREV_machine_qemumips  ?= "23fa942849b1207dbfc4528e2a5c8df0fd71870c"
+-SRCREV_machine_qemuppc ?= "08732f25bc3cb404e29ae201074bcf5c1661ea83"
+-SRCREV_machine_qemux86 ?= "6297e4c1d57e1063bfce297c2e12392348598559"
+-SRCREV_machine_qemux86-64 ?= "6297e4c1d57e1063bfce297c2e12392348598559"
+-SRCREV_machine ?= "6297e4c1d57e1063bfce297c2e12392348598559"
+-SRCREV_meta ?= "949fddda61053cc15e46c015e8f7db17e7b33360"
++SRCREV_machine_qemuarm ?= "b57548a29e44655e27cfbdf3a0642d682401b835"
++SRCREV_machine_qemumips  ?= "633d487b0f6e5d328400b47f0d69d9dac7354c84"
++SRCREV_machine_qemuppc ?= "6229fc0f62283e0dc9f8b5d2be01b048a92867f3"
++SRCREV_machine_qemux86 ?= "19f7e43b54aef08d58135ed2a897d77b624b320a"
++SRCREV_machine_qemux86-64 ?= "19f7e43b54aef08d58135ed2a897d77b624b320a"
++SRCREV_machine ?= "19f7e43b54aef08d58135ed2a897d77b624b320a"
++SRCREV_meta ?= "d7a96809a585e06933d8c08adb9b9f66b21efb4c"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.4.git;protocol=git;nocheckout=1;branch=${KBRANCH},meta;name=machine,meta"
+ 
+-LINUX_VERSION ?= "3.4.4"
++LINUX_VERSION ?= "3.4.6"
+ 
+ PR = "${INC_PR}.0"
+ PV = "${LINUX_VERSION}+git${SRCPV}"
 -- 
-------------------------------------------------------------
-Gary Thomas                 |  Consulting for the
-MLB Associates              |    Embedded world
-------------------------------------------------------------
+1.7.5.4
+
 
 
