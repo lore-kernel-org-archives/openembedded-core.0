@@ -1,24 +1,35 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mail-wg0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1StQa1-0004et-Es
+	(envelope-from <manuel.bessler@gmail.com>) id 1StQmF-0005do-S7
 	for openembedded-core@lists.openembedded.org;
-	Mon, 23 Jul 2012 23:54:18 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 23 Jul 2012 14:42:42 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="196972525"
-Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.121.58])
-	by fmsmga002.fm.intel.com with ESMTP; 23 Jul 2012 14:42:41 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 23 Jul 2012 22:42:29 +0100
-Message-Id: <e9472b6971d56a95f585d1ca7f65fc9a5f201222.1343079550.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1343079550.git.paul.eggleton@linux.intel.com>
-References: <cover.1343079550.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1343079550.git.paul.eggleton@linux.intel.com>
-References: <cover.1343079550.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 6/6] buildhistory: improve performance of image info collection
+	Tue, 24 Jul 2012 00:06:55 +0200
+Received: by wgbdr1 with SMTP id dr1so5832103wgb.24
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 23 Jul 2012 14:55:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type; bh=iH8/hhclboZdgyv0v92VZsk/AcGNY2NHXk7TB5IS1sE=;
+	b=hjUqoB4JCsp+n2Pcja9f56QLzGPdhp/CVAbHmGe8Sr7BUs3bdQwp6ydTmHGFlRlylR
+	8t8tdWgDgnbYw2t3I/jgUCNGREUv23HKqloV5cJqxKlW3T9rS/ohxH6GbHAIHKw9dCMB
+	Pahoz/65AE9Q4+pczpyYAMYMlzMA2Dh9SFAhovW4G6aPFDOOMIJTFlcUVOvq2x1q2Fng
+	wNlStr8SI/vo0nb55jyr0f4XkyR1qHHokFsH6RURFmhCxKpFf2NAqkx1Tq04DbGbCePA
+	e4//eV5/AWzAQDLujZrABfhRVh3YhwK8P5vcc31viuREsY+A3F4Ja1UpqCY2kySxFj5g
+	90Og==
+MIME-Version: 1.0
+Received: by 10.180.103.136 with SMTP id fw8mr1067396wib.20.1343080528518;
+	Mon, 23 Jul 2012 14:55:28 -0700 (PDT)
+Received: by 10.216.93.142 with HTTP; Mon, 23 Jul 2012 14:55:28 -0700 (PDT)
+In-Reply-To: <50099B89.7060308@windriver.com>
+References: <CAKSdS8L32A5wB4fzuc-EQTBX9_GXLhLO_gt4HgzgJk=UC+XZKw@mail.gmail.com>
+	<50087A5B.9030905@windriver.com>
+	<CAKSdS8LB0=8RieBGJSAyxyw9APPEksCKZ1WVz0EWwMZ49-SRow@mail.gmail.com>
+	<50099B89.7060308@windriver.com>
+Date: Mon, 23 Jul 2012 17:55:28 -0400
+Message-ID: <CAKSdS8LuVR_ehn9+Qt0=gz3WGNg1gkb7YYE-V4t=P-t-Jf1L+w@mail.gmail.com>
+From: Manuel Bessler <manuel.bessler@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: meta-toolchain type SDK containing external toolchain possible?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,394 +44,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Jul 2012 21:54:18 -0000
+X-List-Received-Date: Mon, 23 Jul 2012 22:06:55 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-Reduce the number of calls to the packaging tool, especially in the case
-of rpm, using helper utilities to gather the required information more
-efficiently where possible.
+On Fri, Jul 20, 2012 at 1:55 PM, Mark Hatle <mark.hatle@windriver.com> wrote:
+>> What do you mean by "via a crosssdk/cross-canadian binary"? Built by
+>> bitbake using the *-cross-canadian recipes?
+>
+>
+> You need to create a crosssdk/cross-canadian recipe that copies the binary
+> toolchain into the right SDK location(s).  Using external-csl-toolchain (or
+> similar) as a guide.
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- meta/classes/buildhistory.bbclass                 |   51 ++++-----
- meta/classes/rootfs_deb.bbclass                   |   28 +++--
- meta/classes/rootfs_ipk.bbclass                   |   34 +++---
- meta/classes/rootfs_rpm.bbclass                   |   33 +-----
- meta/recipes-devtools/rpm/rpmresolve/rpmresolve.c |  117 +++++++++++++++++++--
- 5 files changed, 162 insertions(+), 101 deletions(-)
+I'm looking at external-csl-toolchain and others I've found as examples,
+and I've had this working for regular builds for a while, but I'm missing
+examples showing how this translates for SDKs, ie. cross-canadian.
 
-diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
-index f0bf849..ddb76e8 100644
---- a/meta/classes/buildhistory.bbclass
-+++ b/meta/classes/buildhistory.bbclass
-@@ -285,48 +285,43 @@ buildhistory_get_image_installed() {
- 	mkdir -p ${BUILDHISTORY_DIR_IMAGE}
- 
- 	# Get list of installed packages
--	list_installed_packages | sort > ${BUILDHISTORY_DIR_IMAGE}/installed-package-names.txt
--	INSTALLED_PKGS=`cat ${BUILDHISTORY_DIR_IMAGE}/installed-package-names.txt`
-+	pkgcache="${BUILDHISTORY_DIR_IMAGE}/installed-packages.tmp"
-+	list_installed_packages file | sort > $pkgcache
-+
-+	cat $pkgcache | awk '{ print $1 }' > ${BUILDHISTORY_DIR_IMAGE}/installed-package-names.txt
-+	cat $pkgcache | awk '{ print $2 }' | xargs -n1 basename > ${BUILDHISTORY_DIR_IMAGE}/installed-packages.txt
-+
-+	# Produce dependency graph
-+	# First, filter out characters that cause issues for dot
-+	rootfs_list_installed_depends | sed -e 's:-:_:g' -e 's:\.:_:g' -e 's:+::g' > ${BUILDHISTORY_DIR_IMAGE}/depends.tmp
-+	# Change delimiter from pipe to -> and set style for recommend lines
-+	sed -i -e 's:|: -> :' -e 's:\[REC\]:[style=dotted]:' -e 's:$:;:' ${BUILDHISTORY_DIR_IMAGE}/depends.tmp
-+	# Add header, sorted and de-duped contents and footer and then delete the temp file
-+	echo -e "digraph depends {\n    node [shape=plaintext]" > ${BUILDHISTORY_DIR_IMAGE}/depends.dot
-+	cat ${BUILDHISTORY_DIR_IMAGE}/depends.tmp | sort | uniq >> ${BUILDHISTORY_DIR_IMAGE}/depends.dot
-+	echo "}" >>  ${BUILDHISTORY_DIR_IMAGE}/depends.dot
-+	rm ${BUILDHISTORY_DIR_IMAGE}/depends.tmp
- 
--	# Produce installed package file and size lists and dependency graph
--	echo -n > ${BUILDHISTORY_DIR_IMAGE}/installed-packages.txt
-+	# Produce installed package sizes list
- 	echo -n > ${BUILDHISTORY_DIR_IMAGE}/installed-package-sizes.tmp
--	echo -e "digraph depends {\n    node [shape=plaintext]" > ${BUILDHISTORY_DIR_IMAGE}/depends.dot
--	for pkg in $INSTALLED_PKGS; do
--		pkgfile=`get_package_filename $pkg`
--		echo `basename $pkgfile` >> ${BUILDHISTORY_DIR_IMAGE}/installed-packages.txt
-+	cat $pkgcache | while read pkg pkgfile
-+	do
- 		if [ -f $pkgfile ] ; then
- 			pkgsize=`du -k $pkgfile | head -n1 | awk '{ print $1 }'`
- 			echo $pkgsize $pkg >> ${BUILDHISTORY_DIR_IMAGE}/installed-package-sizes.tmp
- 		fi
--
--		deps=`list_package_depends $pkg`
--		for dep in $deps ; do
--			echo "$pkg OPP $dep;" | sed -e 's:-:_:g' -e 's:\.:_:g' -e 's:+::g' | sed 's:OPP:->:g'
--		done
--
--		recs=`list_package_recommends $pkg`
--		for rec in $recs ; do
--			echo "$pkg OPP $rec [style=dotted];" | sed -e 's:-:_:g' -e 's:\.:_:g' -e 's:+::g' | sed 's:OPP:->:g'
--		done
--	done | sort | uniq >> ${BUILDHISTORY_DIR_IMAGE}/depends.dot
--	echo "}" >>  ${BUILDHISTORY_DIR_IMAGE}/depends.dot
--
-+	done
- 	cat ${BUILDHISTORY_DIR_IMAGE}/installed-package-sizes.tmp | sort -n -r | awk '{print $1 "\tKiB " $2}' > ${BUILDHISTORY_DIR_IMAGE}/installed-package-sizes.txt
- 	rm ${BUILDHISTORY_DIR_IMAGE}/installed-package-sizes.tmp
- 
-+	# We're now done with the cache, delete it
-+	rm $pkgcache
-+
- 	# Produce some cut-down graphs (for readability)
- 	grep -v kernel_image ${BUILDHISTORY_DIR_IMAGE}/depends.dot | grep -v kernel_2 | grep -v kernel_3 > ${BUILDHISTORY_DIR_IMAGE}/depends-nokernel.dot
- 	grep -v libc6 ${BUILDHISTORY_DIR_IMAGE}/depends-nokernel.dot | grep -v libgcc > ${BUILDHISTORY_DIR_IMAGE}/depends-nokernel-nolibc.dot
- 	grep -v update_ ${BUILDHISTORY_DIR_IMAGE}/depends-nokernel-nolibc.dot > ${BUILDHISTORY_DIR_IMAGE}/depends-nokernel-nolibc-noupdate.dot
- 	grep -v kernel_module ${BUILDHISTORY_DIR_IMAGE}/depends-nokernel-nolibc-noupdate.dot > ${BUILDHISTORY_DIR_IMAGE}/depends-nokernel-nolibc-noupdate-nomodules.dot
--
--	# Workaround for broken shell function dependencies
--	if false ; then
--		get_package_filename
--		list_package_depends
--		list_package_recommends
--	fi
- }
- 
- buildhistory_get_imageinfo() {
-diff --git a/meta/classes/rootfs_deb.bbclass b/meta/classes/rootfs_deb.bbclass
-index a002b1e..750a8ca 100644
---- a/meta/classes/rootfs_deb.bbclass
-+++ b/meta/classes/rootfs_deb.bbclass
-@@ -96,26 +96,24 @@ list_installed_packages() {
- 	if [ "$1" = "arch" ] ; then
- 		# Here we want the PACKAGE_ARCH not the deb architecture
- 		${DPKG_QUERY_COMMAND} -W -f='${Package} ${PackageArch}\n'
-+	elif [ "$1" = "file" ] ; then
-+		${DPKG_QUERY_COMMAND} -W -f='${Package} ${Package}_${Version}_${Architecture}.deb\n' | while read pkg pkgfile
-+		do
-+			fullpath=`find ${DEPLOY_DIR_DEB} -name "$pkgfile" || true`
-+			if [ "$fullpath" = "" ] ; then
-+				echo "$pkg $pkgfile"
-+			else
-+				echo "$pkg $fullpath"
-+			fi
-+		done
- 	else
- 		${DPKG_QUERY_COMMAND} -W -f='${Package}\n'
- 	fi
- }
- 
--get_package_filename() {
--	fullname=`find ${DEPLOY_DIR_DEB} -name "$1_*.deb" || true`
--	if [ "$fullname" = "" ] ; then
--		echo $name
--	else
--		echo $fullname
--	fi
--}
--
--list_package_depends() {
--	${DPKG_QUERY_COMMAND} -s $1 | grep ^Depends | sed -e 's/^Depends: //' -e 's/,//g' -e 's:([=<>]* [^ )]*)::g'
--}
--
--list_package_recommends() {
--	${DPKG_QUERY_COMMAND} -s $1 | grep ^Recommends | sed -e 's/^Recommends: //' -e 's/,//g' -e 's:([=<>]* [^ )]*)::g'
-+rootfs_list_installed_depends() {
-+	# Cheat here a little bit by using the opkg query helper util
-+	${DPKG_QUERY_COMMAND} -W -f='Package: ${Package}\nDepends: ${Depends}\nRecommends: ${Recommends}\n\n' | opkg-query-helper.py
- }
- 
- rootfs_install_packages() {
-diff --git a/meta/classes/rootfs_ipk.bbclass b/meta/classes/rootfs_ipk.bbclass
-index 7df97a0..6cdd8f6 100644
---- a/meta/classes/rootfs_ipk.bbclass
-+++ b/meta/classes/rootfs_ipk.bbclass
-@@ -131,33 +131,23 @@ remove_packaging_data_files() {
- list_installed_packages() {
- 	if [ "$1" = "arch" ] ; then
- 		opkg-cl ${IPKG_ARGS_POST} status | opkg-query-helper.py -a
-+	elif [ "$1" = "file" ] ; then
-+		opkg-cl ${IPKG_ARGS_POST} status | opkg-query-helper.py -f | while read pkg pkgfile
-+		do
-+			fullpath=`find ${DEPLOY_DIR_IPK} -name "$pkgfile" || true`
-+			if [ "$fullpath" = "" ] ; then
-+				echo "$pkg $pkgfile"
-+			else
-+				echo "$pkg $fullpath"
-+			fi
-+		done
- 	else
- 		opkg-cl ${IPKG_ARGS_POST} list_installed | awk '{ print $1 }'
- 	fi
- }
- 
--get_package_filename() {
--	set +x
--	info=`opkg-cl ${IPKG_ARGS_POST} info $1 | grep -B 7 -A 7 "^Status.* \(\(installed\)\|\(unpacked\)\)" || true`
--	name=`echo "${info}" | awk '/^Package/ {printf $2"_"}'`
--	name=$name`echo "${info}" | awk -F: '/^Version/ {printf $NF"_"}' | sed 's/^\s*//g'`
--	name=$name`echo "${info}" | awk '/^Archi/ {print $2".ipk"}'`
--	set -x
--
--	fullname=`find ${DEPLOY_DIR_IPK} -name "$name" || true`
--	if [ "$fullname" = "" ] ; then
--		echo $name
--	else
--		echo $fullname
--	fi
--}
--
--list_package_depends() {
--	opkg-cl ${IPKG_ARGS_POST} info $1 | grep ^Depends | sed -e 's/^Depends: //' -e 's/,//g' -e 's:([=<>]* [^ )]*)::g'
--}
--
--list_package_recommends() {
--	opkg-cl ${IPKG_ARGS_POST} info $1 | grep ^Recommends | sed -e 's/^Recommends: //' -e 's/,//g' -e 's:([=<>]* [^ )]*)::g'
-+rootfs_list_installed_depends() {
-+	opkg-cl ${IPKG_ARGS_POST} status | opkg-query-helper.py
- }
- 
- rootfs_install_packages() {
-diff --git a/meta/classes/rootfs_rpm.bbclass b/meta/classes/rootfs_rpm.bbclass
-index 1cc4a84..c9258df 100644
---- a/meta/classes/rootfs_rpm.bbclass
-+++ b/meta/classes/rootfs_rpm.bbclass
-@@ -143,40 +143,15 @@ RPM_QUERY_CMD = '${RPM} --root $INSTALL_ROOTFS_RPM -D "_dbpath ${rpmlibdir}" \
- list_installed_packages() {
- 	if [ "$1" = "arch" ] ; then
- 		${RPM_QUERY_CMD} -qa --qf "[%{NAME} %{ARCH}\n]"
-+	elif [ "$1" = "file" ] ; then
-+		${RPM_QUERY_CMD} -qa --qf "[%{NAME} %{PACKAGEORIGIN}\n]"
- 	else
- 		${RPM_QUERY_CMD} -qa --qf "[%{NAME}\n]"
- 	fi
- }
- 
--get_package_filename() {
--	resolve_package_rpm ${RPMCONF_TARGET_BASE}-base_archs.conf $1
--}
--
--list_package_depends() {
--	pkglist=`list_installed_packages`
--
--	# REQUIRE* lists "soft" requirements (which we know as recommends and RPM refers to
--	# as "suggests") so filter these out with the help of awk
--	for req in `${RPM_QUERY_CMD} -q --qf "[%{REQUIRENAME} %{REQUIREFLAGS}\n]" $1 | awk '{ if( and($2, 0x80000) == 0) print $1 }'`; do
--		if echo "$req" | grep -q "^rpmlib" ; then continue ; fi
--
--		realpkg=""
--		for dep in $pkglist; do
--			if [ "$dep" = "$req" ] ; then
--				realpkg="1"
--				echo $req
--				break
--			fi
--		done
--
--		if [ "$realdep" = "" ] ; then
--			${RPM_QUERY_CMD} -q --whatprovides $req --qf "%{NAME}\n"
--		fi
--	done
--}
--
--list_package_recommends() {
--	${RPM_QUERY_CMD} -q --suggests $1
-+rootfs_list_installed_depends() {
-+	rpmresolve -d $INSTALL_ROOTFS_RPM/${rpmlibdir}
- }
- 
- rootfs_install_packages() {
-diff --git a/meta/recipes-devtools/rpm/rpmresolve/rpmresolve.c b/meta/recipes-devtools/rpm/rpmresolve/rpmresolve.c
-index 9f6cdf2..2d9ed14 100644
---- a/meta/recipes-devtools/rpm/rpmresolve/rpmresolve.c
-+++ b/meta/recipes-devtools/rpm/rpmresolve/rpmresolve.c
-@@ -204,10 +204,104 @@ int processPackages(rpmts *ts, int tscount, const char *packagelistfn, int ignor
-     return rc;
- }
- 
-+int lookupProvider(rpmts ts, const char *req, char **provider)
-+{
-+    int rc = 0;
-+    rpmmi provmi = rpmtsInitIterator(ts, RPMTAG_PROVIDENAME, req, 0);
-+    if(provmi) {
-+        Header h;
-+        if ((h = rpmmiNext(provmi)) != NULL) {
-+            HE_t he = (HE_t) memset(alloca(sizeof(*he)), 0, sizeof(*he));
-+            he->tag = RPMTAG_NAME;
-+            rc = (headerGet(h, he, 0) != 1);
-+            if(rc==0)
-+                *provider = strdup((char *)he->p.ptr);
-+        }
-+        (void)rpmmiFree(provmi);
-+    }
-+    else {
-+        rc = -1;
-+    }
-+    return rc;
-+}
-+
-+int printDepList(rpmts *ts, int tscount)
-+{
-+    int rc = 0;
-+
-+    if( tscount > 1 )
-+        printf(">1 database specified with dependency list, using first only\n");
-+
-+    /* Get list of names */
-+    rpmdb db = rpmtsGetRdb(ts[0]);
-+    ARGV_t names = NULL;
-+    rc = rpmdbMireApply(db, RPMTAG_NAME,
-+                RPMMIRE_STRCMP, NULL, &names);
-+    int nnames = argvCount(names);
-+
-+    /* Get list of NVRAs */
-+    ARGV_t keys = NULL;
-+    rc = rpmdbMireApply(db, RPMTAG_NVRA,
-+                RPMMIRE_STRCMP, NULL, &keys);
-+    if (keys) {
-+        int i, j;
-+        HE_t he = (HE_t) memset(alloca(sizeof(*he)), 0, sizeof(*he));
-+        int nkeys = argvCount(keys);
-+        for(i=0; i<nkeys; i++) {
-+            rpmmi mi = rpmtsInitIterator(ts[0], RPMTAG_NVRA, keys[i], 0);
-+            Header h;
-+            if ((h = rpmmiNext(mi)) != NULL) {
-+                /* Get name of package */
-+                he->tag = RPMTAG_NAME;
-+                rc = (headerGet(h, he, 0) != 1);
-+                char *name = strdup((char *)he->p.ptr);
-+                /* Get its requires */
-+                he->tag = RPMTAG_REQUIRENAME;
-+                rc = (headerGet(h, he, 0) != 1);
-+                ARGV_t reqs = (ARGV_t)he->p.ptr;
-+                /* Get its requireflags */
-+                he->tag = RPMTAG_REQUIREFLAGS;
-+                rc = (headerGet(h, he, 0) != 1);
-+                rpmuint32_t *reqflags = (rpmuint32_t *)he->p.ui32p;
-+                for(j=0; j<he->c; j++) {
-+                    int k;
-+                    char *prov = NULL;
-+                    for(k=0; k<nnames; k++) {
-+                        if(strcmp(names[k], reqs[j]) == 0) {
-+                            prov = names[k];
-+                            break;
-+                        }
-+                    }
-+                    if(prov) {
-+                        if((int)reqflags[j] & 0x80000)
-+                            printf("%s|%s [REC]\n", name, prov);
-+                        else
-+                            printf("%s|%s\n", name, prov);
-+                    }
-+                    else {
-+                        rc = lookupProvider(ts[0], reqs[j], &prov);
-+                        if(rc==0 && prov) {
-+                            if((int)reqflags[j] & 0x80000)
-+                                printf("%s|%s [REC]\n", name, prov);
-+                            else
-+                                printf("%s|%s\n", name, prov);
-+                            free(prov);
-+                        }
-+                    }
-+                }
-+                free(name);
-+            }
-+            (void)rpmmiFree(mi);
-+        }
-+    }
-+
-+    return rc;
-+}
-+
- void usage()
- {
-     fprintf(stderr, "OpenEmbedded rpm resolver utility\n");
--    fprintf(stderr, "syntax: rpmresolve [-i] <dblistfile> <packagelistfile>\n");
-+    fprintf(stderr, "syntax: rpmresolve [-i] [-d] <dblistfile> <packagelistfile>\n");
- }
- 
- int main(int argc, char **argv)
-@@ -218,13 +312,17 @@ int main(int argc, char **argv)
-     int i;
-     int c;
-     int ignoremissing = 0;
-+    int deplistmode = 0;
- 
-     opterr = 0;
--    while ((c = getopt (argc, argv, "i")) != -1) {
-+    while ((c = getopt (argc, argv, "id")) != -1) {
-         switch (c) {
-             case 'i':
-                 ignoremissing = 1;
-                 break;
-+            case 'd':
-+                deplistmode = 1;
-+                break;
-             case '?':
-                 if(isprint(optopt))
-                     fprintf(stderr, "Unknown option `-%c'.\n", optopt);
-@@ -258,12 +356,17 @@ int main(int argc, char **argv)
-         return 1;
-     }
- 
--    if( argc - optind < 2 ) {
--        fprintf(stderr, "Please specify package list file\n");
--        return 1;
-+    if(deplistmode) {
-+        rc = printDepList(ts, tscount);
-+    }
-+    else {
-+        if( argc - optind < 2 ) {
-+            fprintf(stderr, "Please specify package list file\n");
-+            return 1;
-+        }
-+        const char *pkglistfn = argv[optind+1];
-+        rc = processPackages(ts, tscount, pkglistfn, ignoremissing);
-     }
--    const char *pkglistfn = argv[optind+1];
--    rc = processPackages(ts, tscount, pkglistfn, ignoremissing);
- 
-     for(i=0; i<tscount; i++)
-         (void) rpmtsCloseDB(ts[i]);
--- 
-1.7.9.5
+> Yes, I have external-cs-toolchain.bb, and
+> external-cs-toolchain-cross-canadian.bb, which is based on the former.
+>
+> (most of it is generic, so a single ".inc" version used by both should be
+> possible as well..)
 
+I'm slowly working on something like that, but if you have done this somewhere,
+I'd really appreciate if I could take a look at an example thats known
+to work...
+
+Thanks,
+Manuel
 
 
