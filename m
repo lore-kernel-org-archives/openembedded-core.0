@@ -1,20 +1,20 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <radu.moisan@intel.com>) id 1StJHL-0000uT-BC
+	(envelope-from <radu.moisan@intel.com>) id 1StJIm-0001An-Pt
 	for openembedded-core@lists.openembedded.org;
-	Mon, 23 Jul 2012 16:06:31 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 23 Jul 2012 06:55:03 -0700
+	Mon, 23 Jul 2012 16:08:00 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 23 Jul 2012 06:56:33 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="196747038"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="170176082"
 Received: from dell-desktop (HELO localhost.localdomain) ([10.237.105.32])
-	by fmsmga002.fm.intel.com with ESMTP; 23 Jul 2012 06:55:02 -0700
+	by orsmga001.jf.intel.com with ESMTP; 23 Jul 2012 06:56:31 -0700
 From: Radu Moisan <radu.moisan@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 23 Jul 2012 17:02:42 +0300
-Message-Id: <1343052163-4060-1-git-send-email-radu.moisan@intel.com>
+Date: Mon, 23 Jul 2012 17:04:12 +0300
+Message-Id: <1343052252-4154-1-git-send-email-radu.moisan@intel.com>
 X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] kmod: Handle undefined O_CLOEXEC
+Subject: [PATCH v2] kmod: Handle undefined O_CLOEXEC
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,7 +29,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Jul 2012 14:06:31 -0000
+X-List-Received-Date: Mon, 23 Jul 2012 14:08:01 -0000
 
 Close-on-exec seems to be unsuported on some architectures like CentOS 5.8
 and thus causing some packages to fail to build successfully. Future kernel
