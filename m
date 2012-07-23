@@ -1,19 +1,33 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-gh0-f175.google.com ([209.85.160.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@windriver.com>) id 1StML0-00013c-Qh
+	(envelope-from <otavio.salvador@gmail.com>) id 1StMkY-0003yu-2b
 	for openembedded-core@lists.openembedded.org;
-	Mon, 23 Jul 2012 19:22:35 +0200
-Received: from yow-bashfiel-l1.wrs.com (yow-bashfiel-d3.wrs.com
-	[128.224.147.67])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q6NHAxFW029551;
-	Mon, 23 Jul 2012 10:10:59 -0700 (PDT)
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: richard.purdie@linuxfoundation.org
-Date: Mon, 23 Jul 2012 13:10:23 -0400
-Message-Id: <cover.1343063241.git.bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 1.7.5.4
-Cc: openembedded-core@lists.openembedded.org, saul.wold@intel.com
-Subject: [PATCH 0/1] linux-yocto/3.4: -stable and -rt updates
+	Mon, 23 Jul 2012 19:48:54 +0200
+Received: by ghbz2 with SMTP id z2so5301708ghb.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 23 Jul 2012 10:37:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=sender:from:to:cc:subject:date:message-id:x-mailer;
+	bh=wvlTuThbwezv3O2RKqBUmqL0Atc4BpU0pOKi85dxCKA=;
+	b=OQJQhWD0F8ynrfvtJo6o1MrcdlVxmXP/ulWLp7sB4/YymA0Bdj4JRZbEzV6CtTJwL3
+	mYyrBxtIim3HcZBPJRMuJP1vUjKvj3uc6lE7zP7D7N/Ppna/2HxM/sKfa3kgizt0oH4S
+	7NX4qkVM9TKm+MHSSAruS+o4y9qVsJ0uZzBoEQfLHzZoM0z3pmFkk3rwAHtDaDRC0sbo
+	PYOTBAPRInQD7SDplf2Jhpihh2zMMvwlWvgQy+5SV+KruZ0FhcCZulWKnIAROWbt+15O
+	y6ZQ7kY1UxcgMLvC27VCnX1odgJpkiRgDRQjDpdamBEYd909mt2dMu7CbVf9/UzWst+U
+	UP1w==
+Received: by 10.236.170.135 with SMTP id p7mr15775576yhl.109.1343065046411;
+	Mon, 23 Jul 2012 10:37:26 -0700 (PDT)
+Received: from localhost.localdomain ([177.100.163.15])
+	by mx.google.com with ESMTPS id r9sm9104936anj.9.2012.07.23.10.37.24
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 23 Jul 2012 10:37:25 -0700 (PDT)
+Sender: Otavio Salvador <otavio.salvador@gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 23 Jul 2012 14:37:16 -0300
+Message-Id: <1343065037-13851-1-git-send-email-otavio@ossystems.com.br>
+X-Mailer: git-send-email 1.7.2.5
+Subject: [PATCH v2 1/2] shadow-native: use 'users' group by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -28,36 +42,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Jul 2012 17:22:35 -0000
+X-List-Received-Date: Mon, 23 Jul 2012 17:48:54 -0000
 
-Richard/Saul,
+The rootfs has 'users' group at number 100 and without this fix it
+would assign to a non-existent group and if a group with gid as 1000
+is created later it would own all files for users created.
 
-A fairly simple refresh of the 3.4 kernel to pickup 3.4.6 and update
-the -rt patch to -rt14.
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
+ .../shadow/shadow-native_4.1.4.3.bb                |    5 ++++-
+ 1 files changed, 4 insertions(+), 1 deletions(-)
 
-Tested on qemu* locally. Updates to other layers will follow later.
-
-Cheers,
-
-Bruce
-
-The following changes since commit 315d52934693b14f08b62f3f5f361d834484e180:
-
-  Pyphon-native: Fix typo (2012-07-22 14:20:57 +0100)
-
-are available in the git repository at:
-  git://git.pokylinux.org/poky-contrib zedd/kernel
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
-
-Bruce Ashfield (1):
-  linux-yocto/3.4: 3.4.6 and 3.4.x-rt14
-
- meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb |    8 ++++----
- meta/recipes-kernel/linux/linux-yocto_3.4.bb    |   16 ++++++++--------
- 2 files changed, 12 insertions(+), 12 deletions(-)
-
+diff --git a/meta/recipes-extended/shadow/shadow-native_4.1.4.3.bb b/meta/recipes-extended/shadow/shadow-native_4.1.4.3.bb
+index 1e071f1..cd5605f 100644
+--- a/meta/recipes-extended/shadow/shadow-native_4.1.4.3.bb
++++ b/meta/recipes-extended/shadow/shadow-native_4.1.4.3.bb
+@@ -7,7 +7,7 @@ LICENSE = "BSD | Artistic-1.0"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=08c553a87d4e51bbed50b20e0adcaede \
+                     file://src/passwd.c;firstline=8;endline=30;md5=2899a045e90511d0e043b85a7db7e2fe"
+ 
+-PR = "r6"
++PR = "r7"
+ 
+ SRC_URI = "http://pkg-shadow.alioth.debian.org/releases/${BPN}-${PV}.tar.bz2 \
+            file://shadow.automake-1.11.patch \
+@@ -46,4 +46,7 @@ do_install_append() {
+ 	# Now we don't have a mail system. Disable mail creation for now.
+ 	sed -i 's:/bin/bash:/bin/sh:g' ${D}${sysconfdir}/default/useradd
+ 	sed -i '/^CREATE_MAIL_SPOOL/ s:^:#:' ${D}${sysconfdir}/default/useradd
++
++	# Use users group by default
++	sed -i 's,^GROUP=1000,GROUP=100,g' ${D}${sysconfdir}/default/useradd
+ }
 -- 
-1.7.5.4
+1.7.2.5
 
 
 
