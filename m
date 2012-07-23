@@ -1,32 +1,30 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Randy.MacLeod@windriver.com>) id 1St83g-0003c1-U6
+	(envelope-from <Liezhi.Yang@windriver.com>) id 1St8ST-0004Lu-1K
 	for openembedded-core@lists.openembedded.org;
-	Mon, 23 Jul 2012 04:07:41 +0200
+	Mon, 23 Jul 2012 04:33:17 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q6N1uD5a003935
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q6N2Lnmd001681
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 22 Jul 2012 18:56:13 -0700 (PDT)
-Received: from [128.224.22.136] (128.224.22.136) by ALA-HCA.corp.ad.wrs.com
+	Sun, 22 Jul 2012 19:21:49 -0700 (PDT)
+Received: from [128.224.163.142] (128.224.163.142) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Sun, 22 Jul 2012 18:56:12 -0700
-Message-ID: <500CAF3B.1020001@windriver.com>
-Date: Sun, 22 Jul 2012 21:56:11 -0400
-From: Randy MacLeod <randy.macleod@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:14.0) Gecko/20120714 Thunderbird/14.0
+	Sun, 22 Jul 2012 19:21:49 -0700
+Message-ID: <500CB53B.70205@windriver.com>
+Date: Mon, 23 Jul 2012 10:21:47 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:13.0) Gecko/20120615 Thunderbird/13.0.1
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>, Robert Yang
-	<liezhi.yang@windriver.com>
-References: <cover.1342939738.git.jackie.huang@windriver.com>
-	<9c2d0c1746a945290b6c64551fc6ca2e5e043028.1342939738.git.jackie.huang@windriver.com>,
-	<1342946215.21788.53.camel@ted>
-	<1B858668EC6A94408DCA5225FDFA85AA575F4CD3@ALA-MBA.corp.ad.wrs.com>
-In-Reply-To: <1B858668EC6A94408DCA5225FDFA85AA575F4CD3@ALA-MBA.corp.ad.wrs.com>
-X-Originating-IP: [128.224.22.136]
-Subject: Re: [PATCH 1/1] useradd.bbclass: use locking of bb.utils to avoid lock race issue of useradd/groupadd
+References: <cover.1342772908.git.liezhi.yang@windriver.com>
+	<5735964eb9bdb685cf35d2ecdbb1694f5f6a5036.1342772908.git.liezhi.yang@windriver.com>
+	<5009F538.6090007@linux.intel.com>
+In-Reply-To: <5009F538.6090007@linux.intel.com>
+Cc: Zhenfeng.Zhao@windriver.com,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] createrepo 0.4.11: fix the RDEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,78 +39,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Jul 2012 02:07:41 -0000
+X-List-Received-Date: Mon, 23 Jul 2012 02:33:17 -0000
 Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 12-07-22 08:10 AM, Huang, j (Jackie) wrote:
->
->
->> On Sun, 2012-07-22 at 14:53 +0800, jackie.huang@windriver.com wrote:
->>> From: Jackie Huang <jackie.huang@windriver.com>
->>>
->>> A race condition can occur when adding users and groups to the
->>> passwd and group files, in [YOCTO #1794], 10 times retry added
->>> but it is not fixed completely.
->>>
->>> This fix re-writes the useradd_preinst and useradd_sysroot with
->>> python and use locking of bb.utils to lock the passwd and group
->>> files before executing useradd/groupadd commands to avoid the
->>> lock race themselves.
->>>
->>> [YOCTO #2779]
->>>
->>> Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
->>> ---
->>>   meta/classes/useradd.bbclass |  284 ++++++++++++++++++------------------------
->>>   1 files changed, 124 insertions(+), 160 deletions(-)
+
+
+On 07/21/2012 08:18 AM, Saul Wold wrote:
+> On 07/20/2012 02:49 AM, Robert Yang wrote:
+>> The libxml2-native and rpm-native should be ready before createrepo
+>> runs since it needs "import libxml2 rpm".
 >>
->> Please resend this with the whitespace issues resolved. Its near
->> impossible to review as it stands :(
->
-> Re-sent, sorry about that.
-
-Hi Jackie,
-
-I don't see that your new version sent at 8:01 is any better
-but I could be wrong...
-
-Robert,
-Please take a look and help Jackie with formatting
-and perhaps small single purpose commits as needed -
-i.e. separate the whitespace changes from the functional changes.
-
-This problem is happening frequently so I'd like to get this
-worked out upstream.
-
-Thanks,
-// Randy
-
-
->
-> Thanks,
-> Jackie
->
+>> The target createrepo needs libxml2-python when run, but the libxml2
+>> doesn't generate the python module (disabled). We may need to fix it
+>> or rename the recipe to createrepo-native_0.4.11.bb.
 >>
->> Cheers,
+>> This recipe is only for the rpm backend system.
 >>
->> Richard
+>> [YOCTO #2753]
+>>
+>> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+>> ---
+>>   .../createrepo/createrepo_0.4.11.bb                |    4 +++-
+>>   1 files changed, 3 insertions(+), 1 deletions(-)
+>>
+>> diff --git a/meta/recipes-support/createrepo/createrepo_0.4.11.bb
+>> b/meta/recipes-support/createrepo/createrepo_0.4.11.bb
+>> index 060ed59..7a4d059 100644
+>> --- a/meta/recipes-support/createrepo/createrepo_0.4.11.bb
+>> +++ b/meta/recipes-support/createrepo/createrepo_0.4.11.bb
+>> @@ -4,7 +4,9 @@ HOMEPAGE = "http://createrepo.baseurl.org/"
+>>   LICENSE = "GPLv2+"
+>>   LIC_FILES_CHKSUM = "file://COPYING;md5=18810669f13b87348459e611d31ab760"
+>>
+>> -PR = "r3"
+>> +RDEPENDS_${PN}_virtclass-native += "libxml2-native rpm-native"
+>> +
+> This should not be required here since the package_rpm.bbclass contains a line:
+> PACKAGEINDEXDEPS += "rpm-native:do_populate_sysroot"
 >
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+> We might need to add libxml2-native to the PACKAGEINDEXDEPS
 >
 
+Thanks, but we may manually run createrepo, if we just "bitbake createrepo" and
+manually run createrepo, it would be failed if rpm-native is not ready.
 
--- 
-# Randy MacLeod. MTS, Linux, Wind River
-Direct: 613.963.1350
+> This was merged into OE-0Core, but the real issue turned out to be sstate across
+> different distros.
+>
+
+I had tried to use sstate across different distros (ubuntu 12.04 64bit and FC 17 
+64 bit),
+there were strange errors.
+
+// Robert
+
+> Sau!
+>
+>
+>
+>> +PR = "r4"
+>>
+>>   SRC_URI= "http://createrepo.baseurl.org/download/${BP}.tar.gz \
+>>             file://fix-native-install.patch \
+>>
+>
+>
+>
+
 
 
