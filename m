@@ -1,37 +1,28 @@
-Received: from mail-lb0-f175.google.com ([209.85.217.175])
+Received: from mail.mlbassoc.com ([65.100.170.105] helo=mail.chez-thomas.org)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1StL3n-00079R-N8
+	(envelope-from <gary@mlbassoc.com>) id 1StLG7-0007Wx-SW
 	for openembedded-core@lists.openembedded.org;
-	Mon, 23 Jul 2012 18:00:39 +0200
-Received: by lbol5 with SMTP id l5so7694707lbo.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Jul 2012 08:49:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date
-	:x-google-sender-auth:message-id:subject:to:content-type
-	:content-transfer-encoding;
-	bh=JOucxDehy+jZcqfncTUJS0gfUuBROF/QdN/BTBh/bkI=;
-	b=QX2odnaKR7nbh57+wJZoQLop2VSYMn/lQ7hhBQQOc2wCN5UR2O3uX2aahn7CEXAkJ+
-	Jxvn4Zvah5wEcr+i5Fv+/B+BCMUTKP+vKV4pmMusUV/i8ij/DFX93SJmEx6PkuYcYFEe
-	wwg2B7PenN8ksk3wEFFt6VfLyWa62N6RruVjX853mKd+8vIwFOJ+K/tbVY5rkDFOuSpe
-	k3BwM62rMTAh5goYGq4qyID7E1q6AOSYFZxe35qOwMkus3c7c12+qpYDAAvRuJdWHToI
-	4yL6okXEO5NFfbVkuTTzQ4SKIGoHdjJVthl1ROBZQZr0W7KeoI/Gmq+0uHS2HX2WW/nB
-	aXcQ==
-Received: by 10.112.100.234 with SMTP id fb10mr8013126lbb.12.1343058552571;
-	Mon, 23 Jul 2012 08:49:12 -0700 (PDT)
+	Mon, 23 Jul 2012 18:13:24 +0200
+Received: by mail.chez-thomas.org (Postfix, from userid 1998)
+	id 0E3B9F8121C; Mon, 23 Jul 2012 09:52:16 -0600 (MDT)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	hermes.chez-thomas.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=unavailable version=3.3.2
+Received: from [192.168.1.114] (zeus [192.168.1.114])
+	by mail.chez-thomas.org (Postfix) with ESMTP id 79C66F81208;
+	Mon, 23 Jul 2012 09:52:14 -0600 (MDT)
+Message-ID: <500D733F.6080708@mlbassoc.com>
+Date: Mon, 23 Jul 2012 09:52:31 -0600
+From: Gary Thomas <gary@mlbassoc.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:14.0) Gecko/20120714 Thunderbird/14.0
 MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.114.64.180 with HTTP; Mon, 23 Jul 2012 08:48:52 -0700 (PDT)
-In-Reply-To: <1343058327.21788.98.camel@ted>
-References: <1343053509-5931-1-git-send-email-Martin.Jansa@gmail.com>
-	<1343058327.21788.98.camel@ted>
-From: Chris Larson <clarson@kergoth.com>
-Date: Mon, 23 Jul 2012 08:48:52 -0700
-X-Google-Sender-Auth: gEtFOiuWrVJC4DGmwzN8djV6d1Q
-Message-ID: <CABcZAN=CieCpsFCQ7Gsv=kF6MMy_W6T=itU6FtewXf-kPCz61w@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC] bitbake.conf: exclude whole MACHINEOVERRIDES from OVERRIDES vardeps
+To: openembedded-core@lists.openembedded.org
+References: <1343052163-4060-1-git-send-email-radu.moisan@intel.com>
+In-Reply-To: <1343052163-4060-1-git-send-email-radu.moisan@intel.com>
+Subject: Re: [PATCH] kmod: Handle undefined O_CLOEXEC
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,40 +37,119 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Jul 2012 16:00:39 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 23 Jul 2012 16:13:24 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Jul 23, 2012 at 8:45 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Mon, 2012-07-23 at 16:25 +0200, Martin Jansa wrote:
->> * whole MACHINEOVERRIDES can change e.g. between MACHINES with different=
- arm architecture, causing allarch packages to reexecute do_package
->>   bitbake-diffsigs ../shr-core/tmp-eglibc/stamps/all-oe-linux/xserver-no=
-dm-init-2.0-r16.do_package.sigdata.90e760a8f6cecbd87cb2e95f1237e3cc ../shr-=
-core/tmp-eglibc/stamps/all-oe-linux/xserver-nodm-init-2.0-r16.do_package.si=
-gdata.9eeccfd15f25032b3b6b132534660fff
->>   basehash changed from 7618e17d3fda05d1f15246e6800ca0f0 to 97bc4dc8c152=
-1c535bd96b2aa62d8a03
->>   Variable MACHINEOVERRIDES value changed from ${MACHINE}${@bb.utils.con=
-tains("TUNE_FEATURES", "armv5", ":armv5", "" ,d)}${@bb.utils.contains("TUNE=
-_FEATURES", "armv4", ":armv4", "" ,d)}:${MACHINE_CLASS} to ${MACHINE}${@bb.=
-utils.contains("TUNE_FEATURES", "armv7a", ":armv7a", "" ,d)}${@bb.utils.con=
-tains("TUNE_FEATURES", "armv6", ":armv6", "" ,d)}${@bb.utils.contains("TUNE=
-_FEATURES", "armv5", ":armv5", "" ,d)}${@bb.utils.contains("TUNE_FEATURES",=
- "armv4", ":armv4", "" ,d)}:${MACHINE_CLASS}
->>
->> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
->> ---
->>  meta/conf/bitbake.conf |    1 +
->>  1 files changed, 1 insertions(+), 0 deletions(-)
+On 2012-07-23 08:02, Radu Moisan wrote:
+> Close-on-exec seems to be unsuported on some architectures like CentOS 5.8
+> and thus causing some packages to fail to build successfully. Future kernel
+> version will probably fix this, but for now this patch works around this
+> problem.
 >
-> Won't this hide genuine changes where things should get rebuilt too?
+> Signed-off-by: Radu Moisan <radu.moisan@intel.com>
+> ---
+>   meta/recipes-kernel/kmod/kmod.inc                  |    3 +-
+>   .../Handle-unsupported-close-on-exec-flag.patch    |   60 ++++++++++++++++++++
+>   2 files changed, 62 insertions(+), 1 deletion(-)
+>   create mode 100644 meta/recipes-kernel/kmod/kmod/Handle-unsupported-close-on-exec-flag.patch
+>
+> diff --git a/meta/recipes-kernel/kmod/kmod.inc b/meta/recipes-kernel/kmod/kmod.inc
+> index adba4d4..c992ad8 100644
+> --- a/meta/recipes-kernel/kmod/kmod.inc
+> +++ b/meta/recipes-kernel/kmod/kmod.inc
+> @@ -8,7 +8,7 @@ LICENSE = "GPL-2.0+ & LGPL-2.1+"
+>   LICENSE_libkmod = "LGPL-2.1+"
+>   SECTION = "base"
+>   PV = "8"
+> -INC_PR = "r1"
+> +INC_PR = "r2"
+>
+>   DEPENDS += "pkgconfig-native"
+>
+> @@ -20,6 +20,7 @@ inherit autotools gtk-doc
+>   SRC_URI = "git://git.profusion.mobi/kmod.git;protocol=git;branch=master \
+>              file://depmod-search.conf \
+>              file://0001-man-disable-man-page-generation-because-we-don-t-hav.patch \
+> +           file://Handle-unsupported-close-on-exec-flag.patch \
+>             "
+>
+>   SRCREV = "819f79a24d58e3c8429f1631df2f8f85a2f95d4a"
+> diff --git a/meta/recipes-kernel/kmod/kmod/Handle-unsupported-close-on-exec-flag.patch b/meta/recipes-kernel/kmod/kmod/Handle-unsupported-close-on-exec-flag.patch
+> new file mode 100644
+> index 0000000..f0820d9
+> --- /dev/null
+> +++ b/meta/recipes-kernel/kmod/kmod/Handle-unsupported-close-on-exec-flag.patch
+> @@ -0,0 +1,60 @@
+> +Index: git/libkmod/libkmod-config.c
+> +===================================================================
+> +--- git.orig/libkmod/libkmod-config.c	2012-07-23 16:13:44.000000000 +0300
+> ++++ git/libkmod/libkmod-config.c	2012-07-23 16:15:53.000000000 +0300
+> +@@ -33,6 +33,10 @@
+> + #include "libkmod.h"
+> + #include "libkmod-private.h"
+> +
+> ++#ifndef O_CLOEXEC
+> ++#define O_CLOEXEC 0
+> ++#endif
+> ++
+> + struct kmod_alias {
+> + 	char *name;
+> + 	char modname[];
+> +Index: git/libkmod/libkmod-file.c
+> +===================================================================
+> +--- git.orig/libkmod/libkmod-file.c	2012-07-23 16:13:44.000000000 +0300
+> ++++ git/libkmod/libkmod-file.c	2012-07-23 16:15:57.000000000 +0300
+> +@@ -31,6 +31,10 @@
+> + #include "libkmod.h"
+> + #include "libkmod-private.h"
+> +
+> ++#ifndef O_CLOEXEC
+> ++#define O_CLOEXEC 0
+> ++#endif
+> ++
+> + #ifdef ENABLE_XZ
+> + #include <lzma.h>
+> + #endif
+> +Index: git/libkmod/libkmod-index.c
+> +===================================================================
+> +--- git.orig/libkmod/libkmod-index.c	2012-07-23 16:13:44.000000000 +0300
+> ++++ git/libkmod/libkmod-index.c	2012-07-23 16:16:00.000000000 +0300
+> +@@ -31,6 +31,10 @@
+> + #include "libkmod-index.h"
+> + #include "macro.h"
+> +
+> ++#ifndef O_CLOEXEC
+> ++#define O_CLOEXEC 0
+> ++#endif
+> ++
+> + /* index.c: module index file shared functions for modprobe and depmod */
+> +
+> + #define INDEX_CHILDMAX 128
+> +Index: git/libkmod/libkmod-module.c
+> +===================================================================
+> +--- git.orig/libkmod/libkmod-module.c	2012-07-23 16:13:44.000000000 +0300
+> ++++ git/libkmod/libkmod-module.c	2012-07-23 16:16:04.000000000 +0300
+> +@@ -40,6 +40,10 @@
+> + #include "libkmod.h"
+> + #include "libkmod-private.h"
+> +
+> ++#ifndef O_CLOEXEC
+> ++#define O_CLOEXEC 0
+> ++#endif
+> ++
+> + /**
+> +  * SECTION:libkmod-module
+> +  * @short_description: operate on kernel modules
+>
 
-If something uses a machine override, won't the overridden value for
-that variable be the one which is stored in the checksum? So any
-effects of this will result in checksum modification anyway, no?
---=20
-Christopher Larson
+Why didn't you put this change in 'libkmod.h' - then you'd only have
+to change a single file.
+
+-- 
+------------------------------------------------------------
+Gary Thomas                 |  Consulting for the
+MLB Associates              |    Embedded world
+------------------------------------------------------------
 
 
