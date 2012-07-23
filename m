@@ -1,44 +1,25 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <saul.wold@intel.com>) id 1StNDz-0005Ep-Fq
+	(envelope-from <sgw@linux.intel.com>) id 1StNFv-0005P8-22
 	for openembedded-core@lists.openembedded.org;
-	Mon, 23 Jul 2012 20:19:19 +0200
-Received: from mail-pb0-f52.google.com ([209.85.160.52])
-	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 23 Jul 2012 11:07:51 -0700
-Received: by pbbro8 with SMTP id ro8so11218692pbb.25
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Jul 2012 11:07:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=message-id:date:from:organization:user-agent:mime-version:to:cc
-	:subject:references:in-reply-to:content-type
-	:content-transfer-encoding:x-gm-message-state;
-	bh=WkbPceB9XC3sB+hVWD8SUbzDOMuddNcd/YnTlZPrTgE=;
-	b=GQ6B0MzAXdX1OwPxfUAK8/l2GlI9EIgtnItO8HPZc7Qe/SENcXmyWjeVOZEwslKnMH
-	u+/exG/L2FzBpGk+mfIjVy3caEqOyCw/MVz9ZLxcnR3E7kjtycm1KuDz9a8nyPDNqoCh
-	dskmNNsDA4sCsB04fiF+f67PBuzL6vOHHTcKrG9kCGHFPN8xHw6Zm628aLAlTuA4J71L
-	+r2NC8SOO9C5ZQztGyO8CAzzuTykKGDzKN6QatMF2eNnrcfF5PGSMIHB7LNtbnlPSCQJ
-	3c6BlrXyP5z3+RVYd6LxxMQi/atC3WZVdV+XqIKMDyHb6qVbv6oxFPCbQnfxMImghgPb
-	hUcg==
-Received: by 10.68.217.100 with SMTP id ox4mr37200201pbc.87.1343066869144;
-	Mon, 23 Jul 2012 11:07:49 -0700 (PDT)
-Received: from [10.6.18.71] (c-71-193-189-117.hsd1.wa.comcast.net.
-	[71.193.189.117])
-	by mx.google.com with ESMTPS id qd2sm6794101pbb.29.2012.07.23.11.07.47
-	(version=SSLv3 cipher=OTHER); Mon, 23 Jul 2012 11:07:47 -0700 (PDT)
-Message-ID: <500D92F2.3090707@intel.com>
-Date: Mon, 23 Jul 2012 11:07:46 -0700
-From: Saul Wold <saul.wold@intel.com>
-Organization: Intel
+	Mon, 23 Jul 2012 20:21:19 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 23 Jul 2012 11:09:51 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="176153969"
+Received: from unknown (HELO [10.255.12.231]) ([10.255.12.231])
+	by orsmga002.jf.intel.com with ESMTP; 23 Jul 2012 11:09:50 -0700
+Message-ID: <500D936E.3000509@linux.intel.com>
+Date: Mon, 23 Jul 2012 11:09:50 -0700
+From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:13.0) Gecko/20120615 Thunderbird/13.0.1
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1342796935.git.bruce.ashfield@windriver.com>
-In-Reply-To: <cover.1342796935.git.bruce.ashfield@windriver.com>
-X-Gm-Message-State: ALoCoQkxfpFlfqRGqg8saAYM9sHGRQrN5aIS5AT8l72p3hBkhRwP9kf6qLs0Wg9SD4Jff2/hbaZu
-Subject: Re: [PATCH 0/3] linux-yocto: consolidated pull
+References: <1342694032-31936-1-git-send-email-bogdan.a.marinescu@intel.com>
+In-Reply-To: <1342694032-31936-1-git-send-email-bogdan.a.marinescu@intel.com>
+Subject: Re: [PATCH] autoconf: updated to 2.69
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -53,56 +34,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Jul 2012 18:19:19 -0000
+X-List-Received-Date: Mon, 23 Jul 2012 18:21:19 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 07/20/2012 08:19 AM, Bruce Ashfield wrote:
-> Richard/Saul,
+On 07/19/2012 03:33 AM, Bogdan Marinescu wrote:
+> Tested with core-image-sato-sdk and lib32-core-image-sato-sdk.
+> This update was done mainly because multilib builds failed on master with this error:
 >
-> I've got some -stable updates, -rt updates and other changes
-> that are almost done, but I wanted to get these smaller patches
-> out of my queue first.
+> | autoreconf: running: aclocal -I /poky/build/tmp/work/x86-pokymllib32-linux/lib32-automake-1.12.1-r0/automake-1.12.1/m4/ -I /poky/build/tmp/sysroots/x86_64-linux/usr/share/aclocal-1.12 -I /poky/build/tmp/work/x86-pokymllib32-linux/lib32-automake-1.12.1-r0/automake-1.12.1/aclocal-copy/ -I /poky/build/tmp/work/x86-pokymllib32-linux/lib32-automake-1.12.1-r0/automake-1.12.1/m4/ -I /poky/build/tmp/sysroots/x86_64-linux/usr/share/aclocal-1.12 -I /poky/build/tmp/work/x86-pokymllib32-linux/lib32-automake-1.12.1-r0/automake-1.12.1/aclocal-copy/ --force --warnings=cross
+> | aclocal: warning: unknown warning category 'cross'
+> | configure.ac:18: error: Autoconf version 2.69 or higher is required
 >
-> We have some cleanup patches from Robert P. J. Day and a meta
-> branch update for EMGD, CONFIG_MTD_NAND_VERIFY_WRITE and kmemcheck.
+> Signed-off-by: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
+> ---
+>   meta/recipes-devtools/autoconf/autoconf.inc        |    2 +-
+>   .../{autoconf_2.68.bb => autoconf_2.69.bb}         |    4 ++--
+>   2 files changed, 3 insertions(+), 3 deletions(-)
+>   rename meta/recipes-devtools/autoconf/{autoconf_2.68.bb => autoconf_2.69.bb} (85%)
 >
-> I've gone ahead and pushed the emgd update from Nitin, if it requires
-> re-work, we'll just add more commits to the branch.
+> diff --git a/meta/recipes-devtools/autoconf/autoconf.inc b/meta/recipes-devtools/autoconf/autoconf.inc
+> index 3ae98c8..778c9a1 100644
+> --- a/meta/recipes-devtools/autoconf/autoconf.inc
+> +++ b/meta/recipes-devtools/autoconf/autoconf.inc
+> @@ -12,7 +12,7 @@ RDEPENDS_${PN} = "m4 gnu-config"
+>   RDEPENDS_${PN}_virtclass-native = "m4-native gnu-config-native"
+>   RDEPENDS_${PN}_virtclass-nativesdk = "m4-nativesdk gnu-config-nativesdk"
 >
-> Tom/Nitin: speak up if there's a problem with this!
+> -SRC_URI = "${GNU_MIRROR}/autoconf/autoconf-${PV}.tar.bz2 \
+> +SRC_URI = "${GNU_MIRROR}/autoconf/autoconf-${PV}.tar.gz \
+>   	   file://program_prefix.patch"
 >
-> Cheers,
+>   inherit autotools
+> diff --git a/meta/recipes-devtools/autoconf/autoconf_2.68.bb b/meta/recipes-devtools/autoconf/autoconf_2.69.bb
+> similarity index 85%
+> rename from meta/recipes-devtools/autoconf/autoconf_2.68.bb
+> rename to meta/recipes-devtools/autoconf/autoconf_2.69.bb
+> index 8d466e0..478f8ed 100644
+> --- a/meta/recipes-devtools/autoconf/autoconf_2.68.bb
+> +++ b/meta/recipes-devtools/autoconf/autoconf_2.69.bb
+> @@ -17,8 +17,8 @@ SRC_URI += "file://autoreconf-include.patch \
+>               file://remove-usr-local-lib-from-m4.patch \
+>              "
 >
-> Bruce
+> -SRC_URI[md5sum] = "864d785215aa60d627c91fcb21b05b07"
+> -SRC_URI[sha256sum] = "c491fb273fd6d4ca925e26ceed3d177920233c76d542b150ff35e571454332c8"
+> +SRC_URI[md5sum] = "82d05e03b93e45f5a39b828dc9c6c29b"
+> +SRC_URI[sha256sum] = "954bd69b391edc12d6a4a51a2dd1476543da5c6bbf05a95b59dc0dd6fd4c2969"
 >
-> cc: Nitin A Kamble <nitin.a.kamble@intel.com>
-> cc: Tom Zanussi <tom.zanussi@intel.com>
-> cc: Andrea Adami <andrea.adami@gmail.com>
-> cc: Robert P. J. Day <rpjday@crashcourse.ca>
+>   SRC_URI_append_virtclass-native = " file://fix_path_xtra.patch"
 >
-> The following changes since commit 98a1fd1e734db50380a3a37d35767ccb4cc21f7c:
 >
->    documentation: Config fragment sections updated (2012-07-20 12:32:54 +0100)
->
-> are available in the git repository at:
->    git://git.pokylinux.org/poky-contrib zedd/kernel
->    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
->
-> Bruce Ashfield (1):
->    linux-yocto/3.4: emgd, mtd nand and kmemcheck fixes
->
-> Robert P. J. Day (2):
->    kernel-yocto.bbclass: Fix some obvious typoes in comments.
->    kernel-yocto.bbclass: Delete superfluous creation of ${S}/.git
->      directory
->
->   meta/classes/kernel-yocto.bbclass               |    8 ++++----
->   meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb |    2 +-
->   meta/recipes-kernel/linux/linux-yocto_3.4.bb    |    2 +-
->   3 files changed, 6 insertions(+), 6 deletions(-)
->
-
 
 Merged into OE-Core
 
