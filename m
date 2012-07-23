@@ -1,26 +1,38 @@
-Received: from smtp1.ingenico.com ([217.108.148.240])
+Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Matthieu.CRAPET@ingenico.com>) id 1StDCJ-00086X-NG
+	(envelope-from <bogdan.a.marinescu@intel.com>) id 1StDDh-000895-6Q
 	for openembedded-core@lists.openembedded.org;
-	Mon, 23 Jul 2012 09:36:55 +0200
-X-IronPort-AV: E=Sophos;i="4.77,638,1336341600"; d="scan'208";a="13379700"
-Received: from frsnprexc1.usr.ingenico.loc ([10.23.2.11])
-	by antispam1.usr.ingenico.loc with ESMTP; 23 Jul 2012 09:25:31 +0200
-x-mimeole: Produced By Microsoft Exchange V6.5
+	Mon, 23 Jul 2012 09:38:21 +0200
+Received: from mail-qc0-f180.google.com ([209.85.216.180])
+	by mga03.intel.com with ESMTP/TLS/RC4-SHA; 23 Jul 2012 00:25:48 -0700
+Received: by qcmv28 with SMTP id v28so2861931qcm.25
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 23 Jul 2012 00:25:47 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type:x-gm-message-state;
+	bh=mUC/nbSXPDTH8wbhcd1moLdvzKDlvu7LxzXAnqY1WHo=;
+	b=cncQzVFSiHVWGJ5P5Ok8C8IFVj7gumkCA8aJwPK4xZGKoWKKXveu/JzJWlbK5lzgfD
+	lBLUBJ8Uu5OFz3mFpZI5yc3+OACx+KQcNwSHOhEf2PFSLQXp8WEAb4NOZFKsMv3NWL6M
+	zRsMYzmyJlByaYcPfMIsHpmbPBDE49qzBurGlDBEDIS6wIevD3XrSYTLnnVajEUEpRDd
+	yr6P046ioOSOGJWtRvpqZeBdlc6xrHJtXKDB5H1Fs/U7y42DJvV14zIsgCJq0WOemsLZ
+	c2TzlHGowKszkeXlAoHjjfD046Flc3c4aOtS8NRp8h+9nM58Dv9hbxm1qrI+OpSOAQHt
+	XMGQ==
+Received: by 10.224.42.68 with SMTP id r4mr23130434qae.84.1343028346724; Mon,
+	23 Jul 2012 00:25:46 -0700 (PDT)
 MIME-Version: 1.0
-Date: Mon, 23 Jul 2012 09:25:29 +0200
-Message-ID: <D9D7124626ED1E43963D86B2657D5CCD03A17EB3@FRSNPREXC1.usr.ingenico.loc>
-In-Reply-To: <1343027945.21788.81.camel@ted>
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-Thread-Topic: [OE-core] Broken gettext/gdbm
-Thread-Index: Ac1oo3pZdwmfLRuORwaGhaUE7x+F0wAAK0XA
-References: <D9D7124626ED1E43963D86B2657D5CCD03A17BC8@FRSNPREXC1.usr.ingenico.loc><1342796791.21788.30.camel@ted><D9D7124626ED1E43963D86B2657D5CCD03A17E72@FRSNPREXC1.usr.ingenico.loc>
-	<1343027945.21788.81.camel@ted>
-From: "Matthieu CRAPET" <Matthieu.CRAPET@ingenico.com>
-To: "Patches and discussions about the oe-core layer"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Broken gettext/gdbm
+Received: by 10.229.178.233 with HTTP; Mon, 23 Jul 2012 00:25:26 -0700 (PDT)
+In-Reply-To: <CAMZjud2sBaiWWzMWFygJHaKqdQCd7bPr2RUHpv7nNW6mdHwb6w@mail.gmail.com>
+References: <1342694032-31936-1-git-send-email-bogdan.a.marinescu@intel.com>
+	<5008DFBE.4020707@linux.intel.com>
+	<CAMZjud2sBaiWWzMWFygJHaKqdQCd7bPr2RUHpv7nNW6mdHwb6w@mail.gmail.com>
+From: "Marinescu, Bogdan A" <bogdan.a.marinescu@intel.com>
+Date: Mon, 23 Jul 2012 10:25:26 +0300
+Message-ID: <CAMZjud0YdFRnE5k9jmQFxPz5j3rJEak7vU115p1GukVHSr52hQ@mail.gmail.com>
+To: openembedded-core@lists.openembedded.org
+X-Gm-Message-State: ALoCoQlRV7v/m4PpjCy5JWn67N7o5RDnOXwZAtG4Ex//DzfAM8WeVcX5DTJUP5HWJePZsQgxkQib
+Subject: [PATCH] autoconf: updated to 2.69
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,93 +47,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Jul 2012 07:36:55 -0000
-Content-class: urn:content-classes:message
-Content-Type: text/plain;
-	charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 23 Jul 2012 07:38:21 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-PREFERRED_PROVIDER_virtual/gettext =3D "gettext" fixes the issue!
-
-So something is wrong with proxy-libintl.
-Thanks for help!
-
-Regards,
-Matthieu
+Resending to list (hit "reply" instead of "reply all" by mistake).
 
 
------Message d'origine-----
-De=A0: openembedded-core-bounces@lists.openembedded.org =
-[mailto:openembedded-core-bounces@lists.openembedded.org] De la part de =
-Richard Purdie
-Envoy=E9=A0: lundi 23 juillet 2012 09:19
-=C0=A0: Patches and discussions about the oe-core layer
-Objet=A0: Re: [OE-core] Broken gettext/gdbm
-
-On Mon, 2012-07-23 at 08:50 +0200, Matthieu CRAPET wrote:
-> Hi,
->=20
-> $ bitbake gdbm -e | grep ^DEPENDS
-> DEPENDS_GETTEXT=3D"virtual/gettext gettext-native"
-> DEPENDS=3D"autoconf-native automake-native libtool-native =
-libtool-cross gnu-config-native virtual/gettext gettext-native  =
-virtual/arm-ingenico-linux-gnueabi-gcc =
-virtual/arm-ingenico-linux-gnueabi-compilerlibs virtual/libc"
->=20
-> $ bitbake gettext -e | grep ^DEPENDS
-> DEPENDS_virtclass-native=3D"libxml2-native gettext-minimal-native"
-> DEPENDS=3D"autoconf-native automake-native libtool-native =
-libtool-cross gnu-config-native  virtual/arm-ingenico-linux-gnueabi-gcc =
-virtual/arm-ingenico-linux-gnueabi-compilerlibs virtual/libc  =
-libxml2-native gettext-native virtual/libiconv ncurses expat"
->=20
-> Note: We are using our own external toolchain.
-
-That is an important detail!
-
-> I wasn't clear enough in my previous post. It appear to be a circular =
-dependency.
-
-A circular dependency on what?
-
-> Since my update I have this log:
-> NOTE: Resolving any missing task queue dependencies
-> NOTE: multiple providers are available for virtual/gettext=20
-> (proxy-libintl, gettext)
-> NOTE: consider defining a PREFERRED_PROVIDER entry to match=20
-> virtual/gettext
-
-Have you tried setting:
-
-PREFERRED_PROVIDER_virtual/gettext =3D "gettext"
-
-?
-
-> When I just try to build gettext, It wants to build gdbm.. which =
-depends of gettext too.
->=20
-> gettext-minimal-native doesn't have config.rpath, gettext-native has =
-it.
->=20
-> But config.rpath is taken from =
-${STAGING_DATADIR}/gettext/config.rpath" and not =
-${STAGING_DATADIR_NATIVE}/gettext/config.rpath".
-> Patching "meta/classes/autotools.bbclass" would be a proper fix ?
-
-No, that doesn't sound right.
-
-I think the problem is that the system is thinking virtual/gettext is =
-provided by proxy-libintl. Adding the line above should convince it =
-otherwise and then things should work better.
-
-Cheers,
-
-Richard
+---------- Forwarded message ----------
+From: Marinescu, Bogdan A <bogdan.a.marinescu@intel.com>
+Date: Fri, Jul 20, 2012 at 10:46 AM
+Subject: Re: [OE-core] [PATCH] autoconf: updated to 2.69
+To: Saul Wold <sgw@linux.intel.com>
 
 
-_______________________________________________
-Openembedded-core mailing list
-Openembedded-core@lists.openembedded.org
-http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+On Fri, Jul 20, 2012 at 7:34 AM, Saul Wold <sgw@linux.intel.com> wrote:
+> On 07/19/2012 03:33 AM, Bogdan Marinescu wrote:
+>>
+>> Tested with core-image-sato-sdk and lib32-core-image-sato-sdk.
+>> This update was done mainly because multilib builds failed on master with
+>> this error:
+>>
+>> | autoreconf: running: aclocal -I
+>> /poky/build/tmp/work/x86-pokymllib32-linux/lib32-automake-1.12.1-r0/automake-1.12.1/m4/
+>> -I /poky/build/tmp/sysroots/x86_64-linux/usr/share/aclocal-1.12 -I
+>> /poky/build/tmp/work/x86-pokymllib32-linux/lib32-automake-1.12.1-r0/automake-1.12.1/aclocal-copy/
+>> -I
+>> /poky/build/tmp/work/x86-pokymllib32-linux/lib32-automake-1.12.1-r0/automake-1.12.1/m4/
+>> -I /poky/build/tmp/sysroots/x86_64-linux/usr/share/aclocal-1.12 -I
+>> /poky/build/tmp/work/x86-pokymllib32-linux/lib32-automake-1.12.1-r0/automake-1.12.1/aclocal-copy/
+>> --force --warnings=cross
+>> | aclocal: warning: unknown warning category 'cross'
+>> | configure.ac:18: error: Autoconf version 2.69 or higher is required
+>>
+>> Signed-off-by: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
+>> ---
+>>   meta/recipes-devtools/autoconf/autoconf.inc        |    2 +-
+>>   .../{autoconf_2.68.bb => autoconf_2.69.bb}         |    4 ++--
+>>   2 files changed, 3 insertions(+), 3 deletions(-)
+>>   rename meta/recipes-devtools/autoconf/{autoconf_2.68.bb =>
+>> autoconf_2.69.bb} (85%)
+>>
+>> diff --git a/meta/recipes-devtools/autoconf/autoconf.inc
+>> b/meta/recipes-devtools/autoconf/autoconf.inc
+>> index 3ae98c8..778c9a1 100644
+>> --- a/meta/recipes-devtools/autoconf/autoconf.inc
+>> +++ b/meta/recipes-devtools/autoconf/autoconf.inc
+>> @@ -12,7 +12,7 @@ RDEPENDS_${PN} = "m4 gnu-config"
+>>   RDEPENDS_${PN}_virtclass-native = "m4-native gnu-config-native"
+>>   RDEPENDS_${PN}_virtclass-nativesdk = "m4-nativesdk gnu-config-nativesdk"
+>>
+>> -SRC_URI = "${GNU_MIRROR}/autoconf/autoconf-${PV}.tar.bz2 \
+>> +SRC_URI = "${GNU_MIRROR}/autoconf/autoconf-${PV}.tar.gz \
+>
+>
+> We support the .xz format also which is a tighter compression, why not use
+> that one instead?  1.8M vs 1.2M (xz)
+
+Using xz for autoconf leads to a chain of circular dependencies.
+.tar.gz doesn't have this problem.
+
+Thanks,
+Bogdan
+
+>
+> Sau!
+>
+>
+>>            file://program_prefix.patch"
+>>
+>>   inherit autotools
+>> diff --git a/meta/recipes-devtools/autoconf/autoconf_2.68.bb
+>> b/meta/recipes-devtools/autoconf/autoconf_2.69.bb
+>> similarity index 85%
+>> rename from meta/recipes-devtools/autoconf/autoconf_2.68.bb
+>> rename to meta/recipes-devtools/autoconf/autoconf_2.69.bb
+>> index 8d466e0..478f8ed 100644
+>> --- a/meta/recipes-devtools/autoconf/autoconf_2.68.bb
+>> +++ b/meta/recipes-devtools/autoconf/autoconf_2.69.bb
+>> @@ -17,8 +17,8 @@ SRC_URI += "file://autoreconf-include.patch \
+>>               file://remove-usr-local-lib-from-m4.patch \
+>>              "
+>>
+>> -SRC_URI[md5sum] = "864d785215aa60d627c91fcb21b05b07"
+>> -SRC_URI[sha256sum] =
+>> "c491fb273fd6d4ca925e26ceed3d177920233c76d542b150ff35e571454332c8"
+>> +SRC_URI[md5sum] = "82d05e03b93e45f5a39b828dc9c6c29b"
+>> +SRC_URI[sha256sum] =
+>> "954bd69b391edc12d6a4a51a2dd1476543da5c6bbf05a95b59dc0dd6fd4c2969"
+>>
+>>   SRC_URI_append_virtclass-native = " file://fix_path_xtra.patch"
+>>
+>>
+>
 
 
