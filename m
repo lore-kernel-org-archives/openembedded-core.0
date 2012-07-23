@@ -1,38 +1,43 @@
-Received: from mail-bk0-f47.google.com ([209.85.214.47])
+Received: from mga10.intel.com ([192.55.52.92] helo=fmsmga102.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>)
-	id 1StH7w-0002rK-Jh; Mon, 23 Jul 2012 13:48:40 +0200
-Received: by bkcik5 with SMTP id ik5so3987750bkc.6
-	for <multiple recipients>; Mon, 23 Jul 2012 04:37:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=Zno+BQSykcHnfVwSmNzZPKFOQl3mb0E9B+kCvzsuQHk=;
-	b=P3JxHDBJtXdtL4NqM4odR+b9GGw7ipM0Nzdvc3Jeb9+xTdVi8guCK/HoNbsSHbo9JA
-	F3ocro2Dx8WJhyQgQg+fpZd9gNblrMYtdtvuYM3Am+1FR9XQ1knOFtQwboR6gJNlY0CT
-	5+gQx2XByKP9sQe+pDYfOM3PuOwHIM0ec4iP+Oitw30krndCWWsZIHB3/BfPL1Af1kW6
-	+3/AtOe5ObhNU8rZPqXCdNjZHRNSWIfjpdFZzDEISohBNgXQdvH0MmMRJlvDFLtkzw+l
-	q/ZGG1hc4Adh6u3YDA29c67oCMYxIXZDvhVESSKJTfGwQf7occm8TufbGgEsXele8FQw
-	ypoA==
-Received: by 10.204.129.4 with SMTP id m4mr7364102bks.55.1343043433751;
-	Mon, 23 Jul 2012 04:37:13 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id he8sm7110276bkc.3.2012.07.23.04.37.11
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 23 Jul 2012 04:37:12 -0700 (PDT)
-Date: Mon, 23 Jul 2012 13:37:12 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
+	(envelope-from <ross.burton@intel.com>) id 1StHnM-0004Le-Ls
+	for openembedded-core@lists.openembedded.org;
+	Mon, 23 Jul 2012 14:31:28 +0200
+Received: from mail-ob0-f180.google.com ([209.85.214.180])
+	by mga11.intel.com with ESMTP/TLS/RC4-SHA; 23 Jul 2012 05:20:00 -0700
+Received: by obbuo19 with SMTP id uo19so8201386obb.25
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 23 Jul 2012 05:20:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=dFWIZjzpSKxnhCnogXuMb2oBMdEukHwn52Cm2rkCh74=;
+	b=Wol6WXnhv8MjBGsmUyDl5F7byimw7GIlRu2lHloILrU3i3OtsjVZ+90GjZ+0hQOBct
+	vpiqK2yt4NXvMIMDsPuZE6tIz9MWx+sOD7/9sBAEsT0cutQoMV4S1ATZ40xJZUU87lgp
+	LBvSueDL0tmhvnqPrfpCBcpIpXoifOmbOETdO1y18wM0jYd4yZds78kvtO+/A2JdIygd
+	s2uRhBeSN+jsRlW2GVP7V+xYxws4slDArWJ63OSLoikuKEIu/VIGHAPXrpvz2fYDigaJ
+	YXBk5s/iVQju5QgKRcxmT+MRN9cHO6kS5EPLLoU7uyQGnMDdkwzyYqCUTDMDTYQGdsOr
+	lX+A==
+Received: by 10.182.146.84 with SMTP id ta20mr20560241obb.19.1343045999870;
+	Mon, 23 Jul 2012 05:19:59 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.182.33.4 with HTTP; Mon, 23 Jul 2012 05:19:39 -0700 (PDT)
+In-Reply-To: <20120723113034.GD3271@jama.jama.net>
+References: <20120722104320.C057610218@opal>
+	<20120723081543.GA3271@jama.jama.net>
+	<CAJTo0LYK43FiO-iJ3wQf3Dsid14ckSkW9cAGhKtBUV8sDACd2Q@mail.gmail.com>
+	<20120723091809.GC3271@jama.jama.net>
+	<CAJTo0LbGnXz1UeVv6etPOsTVpi_mtFhBNLSDHeKK1Ci10zKOwg@mail.gmail.com>
+	<20120723113034.GD3271@jama.jama.net>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 23 Jul 2012 13:19:39 +0100
+Message-ID: <CAJTo0LYZ+mc=xnYDgzi4i3POveZe3s1Z46ME=wb+MHYsBYmJjg@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Message-ID: <20120723113712.GE3271@jama.jama.net>
-References: <20120722104358.0339C10217@opal>
-	<20120723111829.GA20311@jama.jama.net>
-	<1343043175.21788.91.camel@ted>
-MIME-Version: 1.0
-In-Reply-To: <1343043175.21788.91.camel@ted>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Gm-Message-State: ALoCoQlDdkyl+icrolSHOI8lmIY6qvftxqRgUkkk4LRG4jpAPcY2Qj+pCvOuO+yD/11WAcK0LLAR
 Cc: openembedded-commits@lists.openembedded.org
-Subject: Re: [oe-commits] Morgan Little : python: Update for python-native changes
+Subject: Re: [oe-commits] Ross Burton : Add gtk-doc-stub
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,105 +52,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Jul 2012 11:48:40 -0000
-X-Groupsio-MsgNum: 25994
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="N1GIdlSm9i+YlY4t"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 23 Jul 2012 12:31:28 -0000
+Content-Type: text/plain; charset=UTF-8
 
---N1GIdlSm9i+YlY4t
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 23 July 2012 12:30, Martin Jansa <martin.jansa@gmail.com> wrote:
+> That's probably because of one of those:
+> OE @ ~/meta-openembedded $ git grep DEPENDS.*gtk-doc
+> meta-gnome/recipes-gnome/bonobo/libbonoboui_2.24.3.bb:DEPENDS = "libgnomecanvas libbonobo libgnome glib-2.0 gtk-doc gconf libxml2 libglade"
+> meta-gnome/recipes-gnome/orbit2/orbit2_2.14.17.bb:DEPENDS = "libidl popt gtk-doc ${IDL_COMPILER_DEPENDS}"
+> meta-gnome/recipes-gnome/orbit2/orbit2_2.14.17.bb:DEPENDS_virtclass-native = "libidl-native popt-native gtk-doc-native"
+> meta-gpe/recipes-graphics/libgpewidget/libgpewidget_0.117.bb:DEPENDS = "gtk+ cairo libxinerama libxcomposite libxrender gtk-doc"
 
-On Mon, Jul 23, 2012 at 12:32:55PM +0100, Richard Purdie wrote:
-> On Mon, 2012-07-23 at 13:18 +0200, Martin Jansa wrote:
-> > On Sun, Jul 22, 2012 at 10:43:53AM +0000, git@git.openembedded.org wrot=
-e:
-> > > Module: openembedded-core.git
-> > > Branch: master
-> > > Commit: 284a65d55f0ffad0f4f7f32d72da0f9410578643
-> > > URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dco=
-mmit;h=3D284a65d55f0ffad0f4f7f32d72da0f9410578643
-> > >=20
-> > > Author: Morgan Little <morgan.little@windriver.com>
-> > > Date:   Thu Jul 19 13:46:07 2012 -0400
-> > >=20
-> > > python: Update for python-native changes
-> > >=20
-> > > Add pythonnative onto the list of inherits and update the paths to th=
-e binaries
-> > > referenced in the recipe to the new paths.
-> > >=20
-> > > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> > >=20
-> >=20
-> > Any idea why is opkg package-index now failing _sometimes_ ?
-> >=20
-> > | + '[' -e /var/lib/jenkins/jobs/shr-core/workspace/shr-core/tmp-eglibc=
-/deploy/ipk/ ']'
-> > | + touch /var/lib/jenkins/jobs/shr-core/workspace/shr-core/tmp-eglibc/=
-deploy/ipk/Packages
-> > | + flock /var/lib/jenkins/jobs/shr-core/workspace/shr-core/tmp-eglibc/=
-deploy/ipk/Packages.flock -c 'opkg-make-index -r /var/lib/jenkins/jobs/shr-=
-core/workspace/shr-core/tmp-eglibc/deploy/ipk/Packages -p /var/lib/jenkins/=
-jobs/shr-core/workspace/shr-core/tmp-eglibc/deploy/ipk/Packages -m /var/lib=
-/jenkins/jobs/shr-core/workspace/shr-core/tmp-eglibc/deploy/ipk/'
-> > | Traceback (most recent call last):
-> > |   File "/var/lib/jenkins/jobs/shr-core/workspace/shr-core/tmp-eglibc/=
-sysroots/x86_64-linux/usr/lib/python2.7/site.py", line 569, in <module>
-> > |     main()
-> > |   File "/var/lib/jenkins/jobs/shr-core/workspace/shr-core/tmp-eglibc/=
-sysroots/x86_64-linux/usr/lib/python2.7/site.py", line 552, in main
-> > |     known_paths =3D addsitepackages(known_paths)
-> > |   File "/var/lib/jenkins/jobs/shr-core/workspace/shr-core/tmp-eglibc/=
-sysroots/x86_64-linux/usr/lib/python2.7/site.py", line 329, in addsitepacka=
-ges
-> > |     for sitedir in getsitepackages():
-> > |   File "/var/lib/jenkins/jobs/shr-core/workspace/shr-core/tmp-eglibc/=
-sysroots/x86_64-linux/usr/lib/python2.7/site.py", line 303, in getsitepacka=
-ges
-> > |     sitepackages.append(os.path.join(prefix, sys.lib,
-> > | AttributeError: 'module' object has no attribute 'lib'
-> > | ERROR: Function failed: do_package_index (see /var/lib/jenkins/jobs/s=
-hr-core/workspace/shr-core/tmp-eglibc/work/armv4t-oe-linux-gnueabi/package-=
-index-1.0-r0/temp/log.do_package_index.17223 for further information)
-> > NOTE: package package-index-1.0-r0: task do_package_index: Failed
->=20
-> What is the header of opkg-make-index? Is it a path to python or
-> a /usr/bin/env python?
+They are all wrong.  You'll never DEPEND on gtk-doc, it's a build tool
+so you'll DEPEND on gtk-doc-native (indirectly, inherit gtkdoc
+instead) and maybe (say a build tools metapackage) RDEPEND on gtk-doc.
 
-$ head -n1 jobs/shr-core/workspace/shr-core/tmp-eglibc/sysroots/x86_64-linu=
-x/usr/bin/opkg-make-index
-#!/usr/bin/env python
+Ross
 
-Cheers,
 
->=20
-> Cheers,
->=20
-> Richard
->=20
->=20
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---N1GIdlSm9i+YlY4t
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
-
-iEYEARECAAYFAlANN2gACgkQN1Ujt2V2gByqKgCdGzPXPEPFiB8Wb+KlSrmsHgM3
-aeIAni4xY+fqYwRFBsDDCQoTJubV/2qE
-=kU/+
------END PGP SIGNATURE-----
-
---N1GIdlSm9i+YlY4t--
