@@ -1,24 +1,28 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1SthVm-0005pQ-6g
+	(envelope-from <Yao.Zhao@windriver.com>) id 1Sthiq-0003H4-Bw
 	for openembedded-core@lists.openembedded.org;
-	Tue, 24 Jul 2012 17:59:02 +0200
-Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
-	helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1SthKi-0005VM-3g
-	for openembedded-core@lists.openembedded.org;
-	Tue, 24 Jul 2012 17:47:36 +0200
-From: Phil Blundell <philb@gnu.org>
+	Tue, 24 Jul 2012 18:12:32 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q6OG11aw019152
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 24 Jul 2012 09:01:01 -0700 (PDT)
+Received: from [128.224.147.210] (128.224.147.210) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
+	Tue, 24 Jul 2012 09:01:01 -0700
+Message-ID: <500EC6B0.60103@windriver.com>
+Date: Tue, 24 Jul 2012 12:00:48 -0400
+From: Yao Zhao <yao.zhao@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:13.0) Gecko/20120615 Thunderbird/13.0.1
+MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Tue, 24 Jul 2012 16:47:35 +0100
-In-Reply-To: <500EC30C.30503@windriver.com>
 References: <1343137799-12032-1-git-send-email-yao.zhao@windriver.com>
-	<1343144355.5878.18.camel@phil-desktop> <500EC30C.30503@windriver.com>
-X-Mailer: Evolution 3.0.2- 
-Message-ID: <1343144856.5878.19.camel@phil-desktop>
-Mime-Version: 1.0
+	<CAJTo0LYuuOvzPSW6g8HSr8_6bPHgP8A0jD5Rb3wbRneNEkdUQg@mail.gmail.com>
+	<1343144070.22222.14.camel@ted>
+In-Reply-To: <1343144070.22222.14.camel@ted>
+X-Originating-IP: [128.224.147.210]
 Subject: Re: [PATCH] bzip2-native: fix problems when bzip2-native is installed in parallel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -34,18 +38,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Jul 2012 15:59:02 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 24 Jul 2012 16:12:32 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2012-07-24 at 11:45 -0400, Yao Zhao wrote:
-> In the Makefile, libbz2.so.0 is installed before bzip2, but the 
-> installation is "make -j xxx install". Then this could happen.
+On 12-07-24 11:34 AM, Richard Purdie wrote:
+> On Tue, 2012-07-24 at 14:57 +0100, Burton, Ross wrote:
+>> On 24 July 2012 14:49, Yao Zhao <yao.zhao@windriver.com> wrote:
+>>> when bzip2-native is installed in parallel to sysroot, it is possible that
+>>> some packages are using bzip2 to unpack, there are chances that bzip2 is
+>>> installed to sysroot but libbz2.so.0 not installed yet because parallel
+>>> installation.
+>>> link bzip2 and bzip2recover statically to avoid this problem and don't lose
+>>> parallel installation. libbz2.so is still available.
+>> Is it me, or is this officially getting silly?  This probably happens
+>> for *every* binary in the sysroot that links to a library, which is
+>> probably a fair proportion of them.  Statically linking every single
+>> one and then special-casing further problems where a static link isn't
+>> sufficient (see pythonnative) just isn't going to scale.
+> It happens for things in ASSUME_PROVIDED so there is only a finite list
+> of these issues. I'm curious what is actually triggering bzip2-native to
+> build given its in ASSUME_PROVIDED...
+Yeah, it is in the ASSUME_PROVIDED but somehow it was built too. I will 
+take a further look at why it was built.
 
-Well, yes, but you could fix that by adding an appropriate dependency.
-Right?
-
-p.
+thanks,
+yao
+> Cheers,
+>
+> Richard
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
 
