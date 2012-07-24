@@ -1,32 +1,38 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Stcry-0000BZ-Aj for openembedded-core@lists.openembedded.org;
-	Tue, 24 Jul 2012 13:01:38 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6OAoAhZ029565;
-	Tue, 24 Jul 2012 11:50:10 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 28768-04; Tue, 24 Jul 2012 11:50:06 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6OAnusA029552
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Tue, 24 Jul 2012 11:50:01 +0100
-Message-ID: <1343126992.22222.11.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <ross.burton@intel.com>) id 1StdG8-0003vw-4y
+	for openembedded-core@lists.openembedded.org;
+	Tue, 24 Jul 2012 13:26:42 +0200
+Received: from mail-yw0-f52.google.com ([209.85.213.52])
+	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 24 Jul 2012 04:15:06 -0700
+Received: by yhpp61 with SMTP id p61so5902255yhp.25
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 24 Jul 2012 04:15:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type:x-gm-message-state;
+	bh=jeXCi8QQ5X0xVbGXu15wkZF/tNHdhnOgvWqZKGnRG08=;
+	b=AoJ32tY9SMVsJi/xgW0xRKouXzYA3ha7XvU2GN0/ltd8qOZ3EadyG94U3Kg8OD3qZ9
+	xPYIShkdVqWfJCz0mp0tN9B8XT+/8NzhwXvzEoVqgyytvqCs2dAvjvdUgIzfwysMrpE4
+	Qze70hA8hgjs9lBw7g4NEnqPzAvRtYMQ/rYO3xQuXO5+4QJ468Q8oulk9dqW2vpjc49J
+	ixWD/UaUPccDyr2ErZPVvhw6rBOLfiUA+kP8OgBgugH71jGKznF0MnfQGO/2gnjwgTVy
+	LENhVtOK/YTtRnjeyXA3TXS/qQrHWWwpGs4WRBZS72fWWqOLTcyCTJuUBHAIq4OurGVI
+	/8pw==
+Received: by 10.42.38.83 with SMTP id b19mr14398952ice.10.1343128505588; Tue,
+	24 Jul 2012 04:15:05 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.64.70.229 with HTTP; Tue, 24 Jul 2012 04:14:45 -0700 (PDT)
+In-Reply-To: <1343108218-7108-2-git-send-email-cristian.iorga@intel.com>
+References: <1343108218-7108-1-git-send-email-cristian.iorga@intel.com>
+	<1343108218-7108-2-git-send-email-cristian.iorga@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 24 Jul 2012 12:14:45 +0100
+Message-ID: <CAJTo0LbP6AhnPAUjxQ7i8Gjgxjvz-wA2Yv6cFdMb6481xd_wJg@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Tue, 24 Jul 2012 11:49:52 +0100
-In-Reply-To: <7affb352c173c353df0b69002f3ca0f5ee0502cf.1343124846.git.liezhi.yang@windriver.com>
-References: <cover.1343124846.git.liezhi.yang@windriver.com>
-	<7affb352c173c353df0b69002f3ca0f5ee0502cf.1343124846.git.liezhi.yang@windriver.com>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: Zhenfeng.Zhao@windriver.com
-Subject: Re: [PATCH 1/1] package-index: inherit pythonnative
+X-Gm-Message-State: ALoCoQmR8zVR/Klp4Hl/KW66oKip9kq3nZw2NteFMg3RpBbA16KyxnY/QY+VHxViowovb6pVwmbM
+Subject: Re: [PATCH 1/5] telepathy-glib: upgrade to ver. 0.19.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,30 +47,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Jul 2012 11:01:38 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 24 Jul 2012 11:26:43 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Tue, 2012-07-24 at 18:19 +0800, Robert Yang wrote:
-> The native python binary has been moved from usr/bin/python to
-> usr/bin/python-native/python, the recipe which needs python-native
-> should "inherit pythonnative", otherwise there would be errors when the
-> python script runs.
-> 
-> [YOCTO #2822]
-> 
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> ---
->  meta/recipes-core/meta/package-index.bb |    2 ++
->  1 files changed, 2 insertions(+), 0 deletions(-)
+On 24 July 2012 06:36, Cristian Iorga <cristian.iorga@intel.com> wrote:
+>  rename meta/recipes-connectivity/telepathy/{telepathy-glib_0.19.2.bb => telepathy-glib_0.19.4.bb} (80%)
 
-Which part of this recipe needs python-native? Shouldn't scripts which
-need pythonnative be using the path to the python interpreter
-explicitly?
+I only just noticed that we're shipping the development series of
+telepathy-glib, which is a bold statement.  Telepathy follows the
+GNOME versioning, so even=release, odd=development.  For telepathy,
+development really can mean it -- new interfaces and aggressively
+increased dependencies are quite likely.  Once 0.20 is released it's
+probably best to stick with stable releases.
 
-Cheers,
-
-Richard
-
+Ross
 
 
