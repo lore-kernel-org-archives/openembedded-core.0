@@ -1,31 +1,24 @@
-Received: from astoria.ccjclearline.com ([64.235.106.9])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpjday@crashcourse.ca>) id 1StbzW-0005ZS-HY
+	(envelope-from <Liezhi.Yang@windriver.com>) id 1StcPS-0006xK-Qo
 	for openembedded-core@lists.openembedded.org;
-	Tue, 24 Jul 2012 12:05:22 +0200
-Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
-	([174.115.5.73]:33776 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.77) (envelope-from <rpjday@crashcourse.ca>)
-	id 1StboQ-0005En-Os for openembedded-core@lists.openembedded.org;
-	Tue, 24 Jul 2012 05:53:54 -0400
-Date: Tue, 24 Jul 2012 05:53:40 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@oneiric
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.DEB.2.02.1207240539570.19401@oneiric>
-User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+	Tue, 24 Jul 2012 12:32:11 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q6OAKgcx001870
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 24 Jul 2012 03:20:42 -0700 (PDT)
+Received: from usp-ub10.corp.ad.wrs.com (128.224.163.69) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.1.255.0; Tue, 24 Jul 2012 03:20:41 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 24 Jul 2012 18:19:57 +0800
+Message-ID: <cover.1343124846.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.1
 MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Subject: "bitbake-layers show-overlayed" doesn't match its "help" message
+Cc: Zhenfeng.Zhao@windriver.com
+Subject: [PATCH 0/1] package-index: inherit pythonnative
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,55 +33,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Jul 2012 10:05:22 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Tue, 24 Jul 2012 10:32:11 -0000
+Content-Type: text/plain
 
+This is used for fixing the rpm-createsolvedb.py error:
 
-  (wasn't sure whether this belonged with current layers thread, it
-seemed appropriate to start a new one since it's fairly specific.)
+'import site' failed; use -v for traceback
+Traceback (most recent call last):
+File "/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly/build/scripts/rpm-createsolvedb.py", line 14, in 
+import sys, os
+ImportError: No module named os
 
-$ bitbake-layers help
-... snip ...
-  show-overlayed
-    list overlayed recipes (where the same recipe exists in another layer that has a higher layer priority)
-... snip ...
+// Robert
 
-  tested with with a yocto checkout and, sure enough, there's no
-overlays:
+The following changes since commit 0ffb02eec2beaea27ff0ec9d3d31b0a09e675a4c:
 
-$ bitbake-layers show-overlayed
-Parsing recipes..done.
-No overlayed files found.
-$
+  documentation: Updated the h6 style to use a larger font (2012-07-24 10:35:34 +0100)
 
-  so as a test, i copied the "tiny-init" recipe from
-meta-yocto/recipes-core to meta/recipes-core, and:
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib robert/package_index
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=robert/package_index
 
-$ bitbake-layers show-overlayed
-Parsing recipes..done.
-=== Overlayed recipes ===
-tiny-init:
-  meta-yocto           1.0
-  meta                 1.0
-$
+Robert Yang (1):
+  package-index: inherit pythonnative
 
-  those two layers have the same priority, but the help suggests that
-you'll only see instances of recipes from layers that have a
-*different* priority -- not quite true.
+ meta/recipes-core/meta/package-index.bb |    2 ++
+ 1 files changed, 2 insertions(+), 0 deletions(-)
 
-rday
-
-p.s.  i'm assuming that overlaid recipes are just a bad idea anyway,
-and should be used only in unusual circumstances, yes?
-
--- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
 
 
