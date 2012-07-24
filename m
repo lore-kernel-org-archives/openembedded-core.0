@@ -1,29 +1,20 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Jackie.Huang@windriver.com>) id 1StXgR-0007Jo-HQ
+	(envelope-from <cristian.iorga@intel.com>) id 1StXyn-0007o2-Q3
 	for openembedded-core@lists.openembedded.org;
-	Tue, 24 Jul 2012 07:29:23 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q6O5HqFN025367
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 23 Jul 2012 22:17:52 -0700 (PDT)
-Received: from [128.224.162.173] (128.224.162.173) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Mon, 23 Jul 2012 22:17:52 -0700
-Message-ID: <500E2FFF.2050202@windriver.com>
-Date: Tue, 24 Jul 2012 13:17:51 +0800
-From: jhuang0 <jackie.huang@windriver.com>
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
-	rv:12.0) Gecko/20120428 Thunderbird/12.0.1
-MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>, Richard Purdie
-	<richard.purdie@linuxfoundation.org>
-References: <cover.1343032359.git.jackie.huang@windriver.com>
-	<5e873b2c99606b089ed82777f64049837a30beb0.1343032359.git.jackie.huang@windriver.com>
-	<1343037628.21788.83.camel@ted>
-In-Reply-To: <1343037628.21788.83.camel@ted>
-Subject: Re: [PATCH 1/1] quota 4.00: add DEPENDS gettext-native
+	Tue, 24 Jul 2012 07:48:22 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 23 Jul 2012 22:36:53 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="172328323"
+Received: from sentry (HELO localhost.localdomain) ([10.237.105.53])
+	by azsmga001.ch.intel.com with ESMTP; 23 Jul 2012 22:36:52 -0700
+From: Cristian Iorga <cristian.iorga@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 24 Jul 2012 08:36:53 +0300
+Message-Id: <1343108218-7108-1-git-send-email-cristian.iorga@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH 0/5] Connectivity and base packages updates.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,66 +29,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Jul 2012 05:29:23 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 24 Jul 2012 05:48:22 -0000
 
+Multiple package updates, see below for details.
+Packages and core-image-sato target build on all architectures.
+Basic sanity tests performed in core-image-sato under qemux86.
+No obvious issues observed.
 
+Cristian Iorga (5):
+  telepathy-glib: upgrade to ver. 0.19.4
+  iptables: upgrade to ver. 1.4.14
+  telepathy-mission-control: upgrade to ver. 5.13
+  libpcap: upgrade to ver. 1.3
+  byacc: upgrade to ver. 20120526
 
-On 7/23/2012 6:00 PM, Richard Purdie wrote:
-> On Mon, 2012-07-23 at 16:38 +0800, jackie.huang@windriver.com wrote:
->> From: Jackie Huang<jackie.huang@windriver.com>
->>
->> do_install needs command 'msgfmt', it would fail if the command
->> doesn't exist on the host, add DEPENDS gettext-native to fix this.
->>
->> [YOCTO #2811]
->>
->> Signed-off-by: Jackie Huang<jackie.huang@windriver.com>
->> ---
->>   meta/recipes-extended/quota/quota_4.00.bb |    2 ++
->>   1 files changed, 2 insertions(+), 0 deletions(-)
->>
->> diff --git a/meta/recipes-extended/quota/quota_4.00.bb b/meta/recipes-extended/quota/quota_4.00.bb
->> index 5fef9cb..25f6381 100644
->> --- a/meta/recipes-extended/quota/quota_4.00.bb
->> +++ b/meta/recipes-extended/quota/quota_4.00.bb
->> @@ -15,6 +15,8 @@ SRC_URI[sha256sum] = "eb2b045f58b98299edc568b8607b95b10735b4a131fa5196f41c89b51f
->>
->>   S = "${WORKDIR}/quota-tools"
->>
->> +DEPENDS = "gettext-native"
->> +
->>   inherit autotools
->>
->>   EXTRA_OEMAKE += 'STRIP=""'
->
-> Shouldn't this be "inherit gettext" ?
-
-No, quota doesn't depend on gettext at runtime, so I don't think we need 
-'inherit gettext'.
-
-Thanks,
-Jackie
-
->
-> Cheers,
->
-> Richard
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
->
+ .../{libpcap-1.2.1 => libpcap-1.3.0}/aclocal.patch |    0
+ .../ieee80215-arphrd.patch                         |    0
+ .../libpcap/{libpcap_1.2.1.bb => libpcap_1.3.0.bb} |    4 ++--
+ ...thy-glib_0.19.2.bb => telepathy-glib_0.19.4.bb} |    4 ++--
+ ...12.0.bb => telepathy-mission-control_5.13.0.bb} |    4 ++--
+ .../byacc/{byacc_20120115.bb => byacc_20120526.bb} |    4 ++--
+ .../{iptables_1.4.13.bb => iptables_1.4.14.bb}     |    4 ++--
+ 7 files changed, 10 insertions(+), 10 deletions(-)
+ rename meta/recipes-connectivity/libpcap/{libpcap-1.2.1 => libpcap-1.3.0}/aclocal.patch (100%)
+ rename meta/recipes-connectivity/libpcap/{libpcap-1.2.1 => libpcap-1.3.0}/ieee80215-arphrd.patch (100%)
+ rename meta/recipes-connectivity/libpcap/{libpcap_1.2.1.bb => libpcap_1.3.0.bb} (73%)
+ rename meta/recipes-connectivity/telepathy/{telepathy-glib_0.19.2.bb => telepathy-glib_0.19.4.bb} (80%)
+ rename meta/recipes-connectivity/telepathy/{telepathy-mission-control_5.12.0.bb => telepathy-mission-control_5.13.0.bb} (92%)
+ rename meta/recipes-extended/byacc/{byacc_20120115.bb => byacc_20120526.bb} (75%)
+ rename meta/recipes-extended/iptables/{iptables_1.4.13.bb => iptables_1.4.14.bb} (91%)
 
 -- 
-Jackie Huang
-WIND RIVER | China Development Center
-MSN:jackielily@hotmail.com
-Tel: +86 8477 8594
-Mobile: +86 138 1027 4745
+1.7.9.5
+
 
 
