@@ -1,25 +1,36 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1StdkP-0002qD-1g
+	(envelope-from <ross.burton@intel.com>) id 1StdxY-0004sT-Ic
 	for openembedded-core@lists.openembedded.org;
-	Tue, 24 Jul 2012 13:57:53 +0200
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 24 Jul 2012 04:46:23 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="126236140"
-Received: from unknown (HELO helios.localnet) ([10.252.121.60])
-	by AZSMGA002.ch.intel.com with ESMTP; 24 Jul 2012 04:46:22 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>
-Date: Tue, 24 Jul 2012 12:46:22 +0100
-Message-ID: <1783304.g0GBo72QxG@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.8.4 (Linux/3.2.0-26-generic-pae; KDE/4.8.4; i686; ; )
-In-Reply-To: <alpine.DEB.2.02.1207240539570.19401@oneiric>
-References: <alpine.DEB.2.02.1207240539570.19401@oneiric>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: "bitbake-layers show-overlayed" doesn't match its "help" message
+	Tue, 24 Jul 2012 14:11:30 +0200
+Received: from mail-wg0-f44.google.com ([74.125.82.44])
+	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 24 Jul 2012 04:59:58 -0700
+Received: by wgbdr13 with SMTP id dr13so4772282wgb.13
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 24 Jul 2012 04:59:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=from:to:subject:date:message-id:x-mailer:x-gm-message-state;
+	bh=eGYx+TbmCLc3axKxoFwAIzwd/vxd0nyANDRpQic2CwE=;
+	b=U3GQw2ebC2nad0mqxIQVcQ853nWfOJmvtkYCjE9PXshY7eZZ90j7iQ61mPqleIA/r4
+	O/x/AHHQgMLwrFUZx6KwkUhj8zskzGKdSHsfm+b33l+SgrsfuWNwh3jS9e1tpR36nbTG
+	zIcxz6N/VCtY/H1SFQgZqQlStj7yv5Fg7WGuapWlCmGPpGbDyIGIM4pX66kpnoSgGcKH
+	iAyzFPqwyxEzNyryN0IFLWnbS8+HMhWJdLKcbSbN4qwR3S59ca7sgEPFtpn6pgjYRn+Q
+	hNLIQV1kw9gW8k8OQUKNB6Aj0+XPwE/T4HDVSEGbUqllO+FtWZFQe99JZU2uTSLurVhk
+	x//g==
+Received: by 10.180.81.133 with SMTP id a5mr6315293wiy.17.1343131197224;
+	Tue, 24 Jul 2012 04:59:57 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPS id o2sm6247762wiz.11.2012.07.24.04.59.54
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 24 Jul 2012 04:59:55 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 24 Jul 2012 12:59:37 +0100
+Message-Id: <1343131177-18517-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10
+X-Gm-Message-State: ALoCoQmwDcYaJCtmi9nY0NYs/ck2nvodj1TOsqzuEv2XmoXtvJQywE1ooAkqbxUrakHm3xcew5+9
+Subject: [PATCH] core-image: remove x11-netbook package group, it's unused
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,34 +45,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Jul 2012 11:57:53 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 24 Jul 2012 12:11:30 -0000
+X-List-Received-Date: Tue, 24 Jul 2012 12:11:30 -0000
 
-On Tuesday 24 July 2012 05:53:40 Robert P. J. Day wrote:
->   those two layers have the same priority, but the help suggests that
-> you'll only see instances of recipes from layers that have a
-> *different* priority -- not quite true.
 
-Agreed - the intent was to try to indicate that the recipes that were 
-"overlayed" were the ones "underneath" but priority is not always the only 
-factor in which one is preferred. I've sent a patch to remove the "confusing" 
-bit of description.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/classes/core-image.bbclass |    2 --
+ 1 file changed, 2 deletions(-)
 
-> p.s.  i'm assuming that overlaid recipes are just a bad idea anyway,
-> and should be used only in unusual circumstances, yes?
-
-Yes; much better to use a bbappend. It's difficult to avoid if you are 
-introducing a newer/older version in your layer, but if it's layer intended 
-for public consumption and is not a distro layer, you should still think twice 
-about doing it.
-
-Cheers,
-Paul
-
+diff --git a/meta/classes/core-image.bbclass b/meta/classes/core-image.bbclass
+index 6b207d7..13e45aa 100644
+--- a/meta/classes/core-image.bbclass
++++ b/meta/classes/core-image.bbclass
+@@ -16,7 +16,6 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3
+ # - x11-mini            - minimal environment for X11 server 
+ # - x11-base            - X11 server + minimal desktop	
+ # - x11-sato            - OpenedHand Sato environment
+-# - x11-netbook         - Metacity based environment for netbooks
+ # - apps-x11-core       - X Terminal, file manager, file editor
+ # - apps-x11-games
+ # - apps-x11-pimlico    - OpenedHand Pimlico apps
+@@ -33,7 +32,6 @@ PACKAGE_GROUP_apps-console-core = "task-core-apps-console"
+ PACKAGE_GROUP_x11-mini = "task-core-x11-mini"
+ PACKAGE_GROUP_x11-base = "task-core-x11-base"
+ PACKAGE_GROUP_x11-sato = "task-core-x11-sato"
+-PACKAGE_GROUP_x11-netbook = "task-core-x11-netbook"
+ PACKAGE_GROUP_apps-x11-core = "task-core-apps-x11-core"
+ PACKAGE_GROUP_apps-x11-games = "task-core-apps-x11-games"
+ PACKAGE_GROUP_apps-x11-pimlico = "task-core-apps-x11-pimlico"
 -- 
+1.7.10
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
 
