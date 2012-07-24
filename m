@@ -1,36 +1,37 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpurdie@rpsys.net>) id 1Stl5c-0006V2-MG
+Received: from mail-yw0-f47.google.com ([209.85.213.47])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <andrei@gherzan.ro>) id 1Stlxu-0003cc-Jp
 	for openembedded-core@lists.openembedded.org;
-	Tue, 24 Jul 2012 21:48:16 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6OJ8Hdm000679
+	Tue, 24 Jul 2012 22:44:22 +0200
+Received: by yhjj56 with SMTP id j56so6624103yhj.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Jul 2012 20:08:17 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 30630-10 for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Jul 2012 20:08:13 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6OJ865t000673
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Jul 2012 20:08:08 +0100
-Message-ID: <1343156885.22222.21.camel@ted>
-From: Richard Purdie <rpurdie@rpsys.net>
+	Tue, 24 Jul 2012 13:32:53 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:x-originating-ip:in-reply-to:references:from:date
+	:message-id:subject:to:content-type:x-gm-message-state;
+	bh=bWEhAmLS3HCqpCvS5SvO1Tbl/6xF4E7OI7KQg+xQ6zo=;
+	b=PytvHNSDqTVttiO6OuUFhxCqngzoIQ+WgSsoDWDj0LiAmoI4QdecVAzcxYE3FdQY9E
+	MtspimDoZ+UuRUrdcl86JCV+piIPhzocZoAcrP+yPr3KUUxEAbp0OwVrU/87NG53EnWy
+	SY51SBKnFdGP7f7aRU3lYg8agFGKM7Mv+K+TJGSS+t/siHhUSPuyfGO/EEng/3UzUX86
+	2elSpF6pfzjP629mXgnXx4CenityDDOB1Vr5SHqsj/LpkzCznZZTqQdfwMzjRe1zNCAn
+	D++An1Y5Z+GQ5yzD4Q5BmhE7s4BN4k8ahvipkKvHVYNwBG3m+2ok5V6I1Fj7InwxMWD7
+	v24A==
+Received: by 10.42.154.199 with SMTP id r7mr18072002icw.55.1343161973409; Tue,
+	24 Jul 2012 13:32:53 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.64.139.164 with HTTP; Tue, 24 Jul 2012 13:32:32 -0700 (PDT)
+X-Originating-IP: [79.117.115.156]
+In-Reply-To: <1342620750-2552-2-git-send-email-ross.burton@intel.com>
+References: <1342620750-2552-1-git-send-email-ross.burton@intel.com>
+	<1342620750-2552-2-git-send-email-ross.burton@intel.com>
+From: Andrei Gherzan <andrei@gherzan.ro>
+Date: Tue, 24 Jul 2012 23:32:32 +0300
+Message-ID: <CAK18fxGbS1WiEtdTkUagyOGHrsCEaAG5Ruh4pzb5agg57GwZYQ@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Tue, 24 Jul 2012 20:08:05 +0100
-In-Reply-To: <500EEA46.9000507@windriver.com>
-References: <1343137799-12032-1-git-send-email-yao.zhao@windriver.com>
-	<CAJTo0LYuuOvzPSW6g8HSr8_6bPHgP8A0jD5Rb3wbRneNEkdUQg@mail.gmail.com>
-	<1343144070.22222.14.camel@ted> <500EC6B0.60103@windriver.com>
-	<500EEA46.9000507@windriver.com>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH] bzip2-native: fix problems when bzip2-native is installed in parallel
+X-Gm-Message-State: ALoCoQkBparq7Imj8f5emcyJOWdc1L7yj10Uzq9eG9UDtgIsz9pzj8auqFivgVmM5EB21Ayu/s+k
+Subject: Re: [PATCH] sanity: display the parsed PATH/BBPATH when complaining about CWD elements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,47 +46,108 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Jul 2012 19:48:16 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 24 Jul 2012 20:44:23 -0000
+Content-Type: multipart/alternative; boundary=90e6ba6e89ea4d086504c5994423
 
-On Tue, 2012-07-24 at 14:32 -0400, Yao Zhao wrote:
-> On 12-07-24 12:00 PM, Yao Zhao wrote:
-> > On 12-07-24 11:34 AM, Richard Purdie wrote:
-> >> On Tue, 2012-07-24 at 14:57 +0100, Burton, Ross wrote:
-> >>> On 24 July 2012 14:49, Yao Zhao <yao.zhao@windriver.com> wrote:
-> >>>> when bzip2-native is installed in parallel to sysroot, it is 
-> >>>> possible that
-> >>>> some packages are using bzip2 to unpack, there are chances that 
-> >>>> bzip2 is
-> >>>> installed to sysroot but libbz2.so.0 not installed yet because 
-> >>>> parallel
-> >>>> installation.
-> >>>> link bzip2 and bzip2recover statically to avoid this problem and 
-> >>>> don't lose
-> >>>> parallel installation. libbz2.so is still available.
-> >>> Is it me, or is this officially getting silly?  This probably happens
-> >>> for *every* binary in the sysroot that links to a library, which is
-> >>> probably a fair proportion of them.  Statically linking every single
-> >>> one and then special-casing further problems where a static link isn't
-> >>> sufficient (see pythonnative) just isn't going to scale.
-> >> It happens for things in ASSUME_PROVIDED so there is only a finite list
-> >> of these issues. I'm curious what is actually triggering bzip2-native to
-> >> build given its in ASSUME_PROVIDED...
-> > Yeah, it is in the ASSUME_PROVIDED but somehow it was built too. I 
-> > will take a further look at why it was built.
-> >
-> It seems that python-native is depending on "bzip2-full-native" and 
-> bzip2 does provide this "bzip2-full-native".
-> Change it from "bzip2-full-native" to "bzip2-native" , bzip2-native is 
-> not built any more. The code may not check the
-> Why we need the bzip2-full-native? any idea?
+--90e6ba6e89ea4d086504c5994423
+Content-Type: text/plain; charset=ISO-8859-1
 
-See my other reply but I think its libbz2 that it wants.
+On Wed, Jul 18, 2012 at 5:12 PM, Ross Burton <ross.burton@intel.com> wrote:
 
-Cheers,
+> Many people don't understand the nuances of PATH/BBPATH, so help them by
+> clarifying
+> the warning and displaying the parsed list element-by-element.
+>
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> ---
+>  meta/classes/sanity.bbclass |    4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+>
+> diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+> index 765958e..52226f1 100644
+> --- a/meta/classes/sanity.bbclass
+> +++ b/meta/classes/sanity.bbclass
+> @@ -390,7 +390,8 @@ def check_sanity(sanity_data):
+>
+>      paths = sanity_data.getVar('PATH', True).split(":")
+>      if "." in paths or "" in paths:
+> -        messages = messages + "PATH contains '.' or '', which will break
+> the build, please remove this."
+> +        messages = messages + "PATH contains '.' or '' (empty element),
+> which will break the build, please remove this.\n"
+> +        messages = messages + "Parsed PATH is " + str(paths) + "\n"
+>
+>      bbpaths = sanity_data.getVar('BBPATH', True).split(":")
+>      if "." in bbpaths or "" in bbpaths:
+> @@ -402,6 +403,7 @@ def check_sanity(sanity_data):
+>                  "Please check your layer.conf files and other BBPATH "
+>      \
+>                  "settings to remove the current working directory "
+>     \
+>                  "references.");
+> +        bb.warn("Parsed BBPATH is" + str(bbpaths));
+>
+>      if sanity_data.getVar('TARGET_ARCH', True) == "arm":
+>          # This path is no longer user-readable in modern (very recent)
+> Linux
+>
 
-Richard
+Good change.
 
+ag
 
+--90e6ba6e89ea4d086504c5994423
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
+<div class=3D"gmail_quote">On Wed, Jul 18, 2012 at 5:12 PM, Ross Burton <sp=
+an dir=3D"ltr">&lt;<a href=3D"mailto:ross.burton@intel.com" target=3D"_blan=
+k">ross.burton@intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmai=
+l_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left=
+:1ex">
+
+Many people don&#39;t understand the nuances of PATH/BBPATH, so help them b=
+y clarifying<br>
+the warning and displaying the parsed list element-by-element.<br>
+<br>
+Signed-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@intel.com">ros=
+s.burton@intel.com</a>&gt;<br>
+---<br>
+=A0meta/classes/sanity.bbclass | =A0 =A04 +++-<br>
+=A01 file changed, 3 insertions(+), 1 deletion(-)<br>
+<br>
+diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass<br>
+index 765958e..52226f1 100644<br>
+--- a/meta/classes/sanity.bbclass<br>
++++ b/meta/classes/sanity.bbclass<br>
+@@ -390,7 +390,8 @@ def check_sanity(sanity_data):<br>
+<br>
+=A0 =A0 =A0paths =3D sanity_data.getVar(&#39;PATH&#39;, True).split(&quot;:=
+&quot;)<br>
+=A0 =A0 =A0if &quot;.&quot; in paths or &quot;&quot; in paths:<br>
+- =A0 =A0 =A0 =A0messages =3D messages + &quot;PATH contains &#39;.&#39; or=
+ &#39;&#39;, which will break the build, please remove this.&quot;<br>
++ =A0 =A0 =A0 =A0messages =3D messages + &quot;PATH contains &#39;.&#39; or=
+ &#39;&#39; (empty element), which will break the build, please remove this=
+.\n&quot;<br>
++ =A0 =A0 =A0 =A0messages =3D messages + &quot;Parsed PATH is &quot; + str(=
+paths) + &quot;\n&quot;<br>
+<br>
+=A0 =A0 =A0bbpaths =3D sanity_data.getVar(&#39;BBPATH&#39;, True).split(&qu=
+ot;:&quot;)<br>
+=A0 =A0 =A0if &quot;.&quot; in bbpaths or &quot;&quot; in bbpaths:<br>
+@@ -402,6 +403,7 @@ def check_sanity(sanity_data):<br>
+=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0&quot;Please check your layer.conf files=
+ and other BBPATH &quot; =A0 =A0 =A0 =A0\<br>
+=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0&quot;settings to remove the current wor=
+king directory &quot; =A0 =A0 =A0 =A0 =A0 \<br>
+=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0&quot;references.&quot;);<br>
++ =A0 =A0 =A0 =A0bb.warn(&quot;Parsed BBPATH is&quot; + str(bbpaths));<br>
+<br>
+=A0 =A0 =A0if sanity_data.getVar(&#39;TARGET_ARCH&#39;, True) =3D=3D &quot;=
+arm&quot;:<br>
+=A0 =A0 =A0 =A0 =A0# This path is no longer user-readable in modern (very r=
+ecent) Linux<br></blockquote><div><br></div><div>Good change.=A0</div><div>=
+<br></div><div>ag=A0</div></div>
+
+--90e6ba6e89ea4d086504c5994423--
