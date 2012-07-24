@@ -1,43 +1,31 @@
-Received: from mail-bk0-f47.google.com ([209.85.214.47])
+Received: from astoria.ccjclearline.com ([64.235.106.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>)
-	id 1Stabu-0005OU-DJ; Tue, 24 Jul 2012 10:36:54 +0200
-Received: by bkcik5 with SMTP id ik5so4739276bkc.6
-	for <multiple recipients>; Tue, 24 Jul 2012 01:25:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=yW86OtGSPj8fdgzEFdxEqUBD6sYHLhAsxnwu7iePPpM=;
-	b=bzjqups9SlRvXU/yEmxCy4rXaTbPXMR7XNmADAPjU+gcytDLlJBPLjxslFuyLyr7Pr
-	4HzTs6nsameQvWSaSN2dUJnA+Vqqgc0/5zhzOPhRti0vgo/8+1PDUM269fUlKRzhNGMX
-	Zuafiho/viFWkjqQR8CNqp1uvFPzCr4ElP2azZli/Cn6vPlD0iMOr0cckyBcSOpteuaI
-	9Gn4tvLj+gNsnVN+0WA2Nz/PYCVL5CqtUqbq52Zb3dh/3pPcUeKq7ifkCwYqyC8DrQg/
-	TqlEbDkIipvwmTySiTWaaaU12USi0KJ+o3b2gPy0JH3Rbr3J9An2VI+YK+k0TX7bB4kh
-	Hm1A==
-Received: by 10.204.154.215 with SMTP id p23mr9578693bkw.53.1343118326579;
-	Tue, 24 Jul 2012 01:25:26 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id n17sm9733167bks.6.2012.07.24.01.25.24
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 24 Jul 2012 01:25:25 -0700 (PDT)
-Date: Tue, 24 Jul 2012 10:25:27 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20120724082527.GH3271@jama.jama.net>
-References: <20120722104358.0339C10217@opal>
-	<20120723111829.GA20311@jama.jama.net>
-	<1343043175.21788.91.camel@ted>
-	<20120723113712.GE3271@jama.jama.net>
-	<1343048532.21788.95.camel@ted>
-	<20120723130612.GF3271@jama.jama.net>
-	<20120724075740.GG3271@jama.jama.net>
-	<1343117846.21788.116.camel@ted>
+	(envelope-from <rpjday@crashcourse.ca>) id 1StbDs-0003JY-Hx
+	for openembedded-core@lists.openembedded.org;
+	Tue, 24 Jul 2012 11:16:08 +0200
+Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
+	([174.115.5.73]:33504 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.77) (envelope-from <rpjday@crashcourse.ca>)
+	id 1Stb2l-0003Wk-Hd for openembedded-core@lists.openembedded.org;
+	Tue, 24 Jul 2012 05:04:39 -0400
+Date: Tue, 24 Jul 2012 05:04:25 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@oneiric
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.DEB.2.02.1207240455440.18822@oneiric>
+User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
 MIME-Version: 1.0
-In-Reply-To: <1343117846.21788.116.camel@ted>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-commits@lists.openembedded.org
-Subject: Re: [oe-commits] Morgan Little : python: Update for python-native changes
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Subject: more pedantry: inconsistent presentation of how to introduce layers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -52,95 +40,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Jul 2012 08:36:54 -0000
-X-Groupsio-MsgNum: 26052
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="SUk9VBj82R8Xhb8H"
-Content-Disposition: inline
+X-List-Received-Date: Tue, 24 Jul 2012 09:16:08 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
---SUk9VBj82R8Xhb8H
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jul 24, 2012 at 09:17:26AM +0100, Richard Purdie wrote:
-> On Tue, 2012-07-24 at 09:57 +0200, Martin Jansa wrote:
-> > On Mon, Jul 23, 2012 at 03:06:12PM +0200, Martin Jansa wrote:
-> > > On Mon, Jul 23, 2012 at 02:02:12PM +0100, Richard Purdie wrote:
-> > > > On Mon, 2012-07-23 at 13:37 +0200, Martin Jansa wrote:
-> > > > > On Mon, Jul 23, 2012 at 12:32:55PM +0100, Richard Purdie wrote:
-> > > > package-index doesn't inherit pythonnative. The python found from e=
-nv
-> > > > would therefore be the host system python but its using files from =
-the
-> > > > sysroot. Mixing the two is a bad idea.
-> > > >=20
-> > > > The question is how is it mixing these up, the host system python
-> > > > shouldn't be looking there for modules.
-> > > >=20
-> > > > So I'm not sure why they're getting mixed up but its likely the pro=
-blem.
-> > > > Does anything jump out at you on the machine in question with the a=
-bove
-> > > > in mind?
-> > >=20
-> > > Not really and it happens only in some builds (all today - haven't se=
-en
-> > > this error before) and sofar it failed in 4/10 image/feed builds and
-> > > worked in remaining 6.
-> > >=20
-> > > Even for the same combination of MACHINE and target it once worked an=
-d once
-> > > failed without any metadata changes or host distro changes between.
-> >=20
-> > env doesn't show anything interesting related to python
-> >=20
-> > changing shebang to
-> > path/tmp-eglibc/sysroots/x86_64-linux/usr/bin/python-native/python
-> >=20
-> > made all currently failing builds to succeed again, but the issue is
-> > still there..
->=20
-> Is this on the same build machine? There must be something in common
-> with the failed builds. Do they always fail if you
+  i asked about this not that long ago but i'm still a bit puzzled --
+what's the best practice for adding new layers in terms of how
+bblayers.conf and the various layer.conf files are defined?
 
-Yes, same machine same builddir..
+  the default layer.conf for oe-core contains:
 
-One failing image succeeded later, the remaining 3 are: 1 image
-(bitbake shr-image) and 2 bitbake package-index tasks (which are called aft=
-er
-bitbake task-shr-feed is finished).
+BBPATH .= ":${LAYERDIR}"
+...
+BBFILE_PRIORITY_normal = "5"
 
-I'm doing 8 image builds + 4 feed builds in 2 separate builddirs there.
-All about 3 times already since yesterday.
+so, clearly, the oe-core layer is being *appended* to whatever is in
+BBPATH.  ok, let's go with that.
 
-So I don't see anything special on those 3 failing :/.
+  on the other hand, that same file for the meta-yocto layer contains:
 
-> hardcode /usr/bin/python in there? If so, can we figure out why the host
+BBPATH := "${LAYERDIR}:${BBPATH}"
+...
+BBFILE_PRIORITY_yocto = "5"
 
-With hardcoded /usr/bin/python it was failing, then I've tried to
-hardcode that python-native which worked.
+so it's being *prepended*.  is that deliberate?  the end result is
+that my BBPATH is:
 
-> python is looking at files in the sysroot? LD_LIBRARY_PATH isn't set or
-> something odd like that?
+/home/rpjday/yocto/git/meta-yocto:/home/rpjday/yocto/builds/bbc4:/home/rpjday/yocto/git/meta
 
-LD_LIBRARY_PATH is set to empty in setup-env script.
+which clearly represents:
 
-Cheers,
+ * the yocto layer
+ * my build layer
+ * the oe-core layer
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+with both the yocto and oe-core layer having priority 5.  is there no
+chance of confusion here?
 
---SUk9VBj82R8Xhb8H
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+  in addition, the yocto development manual itself, in section 4.1.2
+on layers, stresses the use of:
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
+BBPATH := "${LAYERDIR}:${BBPATH}"
 
-iEYEARECAAYFAlAOW/cACgkQN1Ujt2V2gByiywCeMPr+frDQCJAqBCddxN7MDo6G
-EwIAoJVTSNsnCQ2wmL5HHNYqXTD/Vwj5
-=T/fb
------END PGP SIGNATURE-----
+but every single meta-openembedded sub-layer uses the *other* form:
 
---SUk9VBj82R8Xhb8H--
+BBPATH .= ":${LAYERDIR}"
+
+  anyone reading the manual and trying to match it up to the code is
+bound to get confused.  thoughts?
+
+rday
+
+-- 
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
+
+
