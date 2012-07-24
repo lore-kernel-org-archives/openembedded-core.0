@@ -1,37 +1,26 @@
-Received: from mail-yw0-f47.google.com ([209.85.213.47])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrei@gherzan.ro>) id 1Stlxu-0003cc-Jp
+	(envelope-from <mark.hatle@windriver.com>) id 1StlyO-0003es-6A
 	for openembedded-core@lists.openembedded.org;
-	Tue, 24 Jul 2012 22:44:22 +0200
-Received: by yhjj56 with SMTP id j56so6624103yhj.6
+	Tue, 24 Jul 2012 22:44:52 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q6OKXLNj013148
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Jul 2012 13:32:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:x-originating-ip:in-reply-to:references:from:date
-	:message-id:subject:to:content-type:x-gm-message-state;
-	bh=bWEhAmLS3HCqpCvS5SvO1Tbl/6xF4E7OI7KQg+xQ6zo=;
-	b=PytvHNSDqTVttiO6OuUFhxCqngzoIQ+WgSsoDWDj0LiAmoI4QdecVAzcxYE3FdQY9E
-	MtspimDoZ+UuRUrdcl86JCV+piIPhzocZoAcrP+yPr3KUUxEAbp0OwVrU/87NG53EnWy
-	SY51SBKnFdGP7f7aRU3lYg8agFGKM7Mv+K+TJGSS+t/siHhUSPuyfGO/EEng/3UzUX86
-	2elSpF6pfzjP629mXgnXx4CenityDDOB1Vr5SHqsj/LpkzCznZZTqQdfwMzjRe1zNCAn
-	D++An1Y5Z+GQ5yzD4Q5BmhE7s4BN4k8ahvipkKvHVYNwBG3m+2ok5V6I1Fj7InwxMWD7
-	v24A==
-Received: by 10.42.154.199 with SMTP id r7mr18072002icw.55.1343161973409; Tue,
-	24 Jul 2012 13:32:53 -0700 (PDT)
+	Tue, 24 Jul 2012 13:33:21 -0700 (PDT)
+Received: from localhost.localdomain (172.25.34.61) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
+	Tue, 24 Jul 2012 13:33:21 -0700
+From: Mark Hatle <mark.hatle@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 24 Jul 2012 15:46:01 -0500
+Message-ID: <f867cc4d907723467c5a8a7c58120144175144dd.1343162715.git.mark.hatle@windriver.com>
+X-Mailer: git-send-email 1.7.3.4
+In-Reply-To: <cover.1343162715.git.mark.hatle@windriver.com>
+References: <cover.1343162715.git.mark.hatle@windriver.com>
 MIME-Version: 1.0
-Received: by 10.64.139.164 with HTTP; Tue, 24 Jul 2012 13:32:32 -0700 (PDT)
-X-Originating-IP: [79.117.115.156]
-In-Reply-To: <1342620750-2552-2-git-send-email-ross.burton@intel.com>
-References: <1342620750-2552-1-git-send-email-ross.burton@intel.com>
-	<1342620750-2552-2-git-send-email-ross.burton@intel.com>
-From: Andrei Gherzan <andrei@gherzan.ro>
-Date: Tue, 24 Jul 2012 23:32:32 +0300
-Message-ID: <CAK18fxGbS1WiEtdTkUagyOGHrsCEaAG5Ruh4pzb5agg57GwZYQ@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Gm-Message-State: ALoCoQkBparq7Imj8f5emcyJOWdc1L7yj10Uzq9eG9UDtgIsz9pzj8auqFivgVmM5EB21Ayu/s+k
-Subject: Re: [PATCH] sanity: display the parsed PATH/BBPATH when complaining about CWD elements
+X-Originating-IP: [172.25.34.61]
+Subject: [PATCH 1/1] Add missing Upstream-Status to various patches.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,108 +35,263 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Jul 2012 20:44:23 -0000
-Content-Type: multipart/alternative; boundary=90e6ba6e89ea4d086504c5994423
+X-List-Received-Date: Tue, 24 Jul 2012 20:44:52 -0000
+Content-Type: text/plain
 
---90e6ba6e89ea4d086504c5994423
-Content-Type: text/plain; charset=ISO-8859-1
+Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+---
+ .../binutils/binutils/binutils-armv5e.patch        |    4 ++++
+ .../ossp-uuid/0001-Change-library-name.patch       |    7 +++++++
+ ...erve-m-option-status-in-v-option-handling.patch |    7 +++++++
+ .../ossp-uuid/0003-Fix-whatis-entries.patch        |    7 +++++++
+ .../ossp-uuid/0004-fix-data-uuid-from-string.patch |    7 +++++++
+ .../ossp-uuid/ossp-uuid/uuid-libtool.patch         |    3 +++
+ .../ossp-uuid/ossp-uuid/uuid-nostrip.patch         |    3 +++
+ meta/recipes-devtools/rpm/rpm/rpm-lua.patch        |    2 ++
+ meta/recipes-devtools/rpm/rpm/rpm-macros.patch     |    2 ++
+ .../rpm/rpm/rpm-no-perl-urpm.patch                 |    2 ++
+ meta/recipes-devtools/rpm/rpm/rpm-ossp-uuid.patch  |    2 ++
+ .../rpm/rpm/rpm-packageorigin.patch                |    2 ++
+ .../rpm/rpm/rpm-pkgconfigdeps.patch                |    2 ++
+ meta/recipes-devtools/rpm/rpm/rpm-resolvedep.patch |    2 ++
+ .../libzypp/libzypp/libzypp-rpm549.patch           |    4 ++++
+ .../createrepo/createrepo/createrepo-rpm549.patch  |    3 +++
+ 16 files changed, 59 insertions(+), 0 deletions(-)
 
-On Wed, Jul 18, 2012 at 5:12 PM, Ross Burton <ross.burton@intel.com> wrote:
+diff --git a/meta/recipes-devtools/binutils/binutils/binutils-armv5e.patch b/meta/recipes-devtools/binutils/binutils/binutils-armv5e.patch
+index 4ac1a9c..c95eed6 100644
+--- a/meta/recipes-devtools/binutils/binutils/binutils-armv5e.patch
++++ b/meta/recipes-devtools/binutils/binutils/binutils-armv5e.patch
+@@ -5,6 +5,10 @@ the support "-march=" settings, but it was lacking the armv5e setting.  This
+ was a simple way to add it, as thumb instructions shouldn't be generated by
+ the compiler anyway.
+ 
++Upstream-Status: Denied
++Upstream maintainer indicated that we should not be using armv5e, even though
++it is a legal archicture defined by our gcc.
++
+ Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+ 
+ diff -urN binutils-2.22.orig/gas/config/tc-arm.c binutils-2.22/gas/config/tc-arm.c
+diff --git a/meta/recipes-devtools/ossp-uuid/ossp-uuid/0001-Change-library-name.patch b/meta/recipes-devtools/ossp-uuid/ossp-uuid/0001-Change-library-name.patch
+index a46e244..ed67c50 100644
+--- a/meta/recipes-devtools/ossp-uuid/ossp-uuid/0001-Change-library-name.patch
++++ b/meta/recipes-devtools/ossp-uuid/ossp-uuid/0001-Change-library-name.patch
+@@ -12,6 +12,13 @@ uuid library.
+  uuid.pc.in       |    4 ++--
+  5 files changed, 13 insertions(+), 13 deletions(-)
+ 
++----
++Upstream-Status: Inappropriate [not author]
++
++This patch is from debian ossp-uuid 1.6.2 integration.
++
++Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
++
+ diff --git a/Makefile.in b/Makefile.in
+ index d28f4be..c2ba99d 100644
+ --- a/Makefile.in
+diff --git a/meta/recipes-devtools/ossp-uuid/ossp-uuid/0002-uuid-preserve-m-option-status-in-v-option-handling.patch b/meta/recipes-devtools/ossp-uuid/ossp-uuid/0002-uuid-preserve-m-option-status-in-v-option-handling.patch
+index 1467207..804a627 100644
+--- a/meta/recipes-devtools/ossp-uuid/ossp-uuid/0002-uuid-preserve-m-option-status-in-v-option-handling.patch
++++ b/meta/recipes-devtools/ossp-uuid/ossp-uuid/0002-uuid-preserve-m-option-status-in-v-option-handling.patch
+@@ -7,6 +7,13 @@ Bug: 531396
+  uuid_cli.c |   19 ++++++++++---------
+  1 files changed, 10 insertions(+), 9 deletions(-)
+ 
++----
++Upstream-Status: Inappropriate [not author]
++
++This patch is from debian ossp-uuid 1.6.2 integration.
++
++Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
++
+ diff --git a/uuid_cli.c b/uuid_cli.c
+ index d1b0b11..14a67fe 100644
+ --- a/uuid_cli.c
+diff --git a/meta/recipes-devtools/ossp-uuid/ossp-uuid/0003-Fix-whatis-entries.patch b/meta/recipes-devtools/ossp-uuid/ossp-uuid/0003-Fix-whatis-entries.patch
+index 060a754..13cbb59 100644
+--- a/meta/recipes-devtools/ossp-uuid/ossp-uuid/0003-Fix-whatis-entries.patch
++++ b/meta/recipes-devtools/ossp-uuid/ossp-uuid/0003-Fix-whatis-entries.patch
+@@ -9,6 +9,13 @@ Fix whatis entry of uuid.1, uuid.3ossp and uuid++.3ossp manpages
+  uuid_cli.pod |    2 +-
+  3 files changed, 3 insertions(+), 3 deletions(-)
+ 
++----
++Upstream-Status: Inappropriate [not author]
++
++This patch is from debian ossp-uuid 1.6.2 integration.
++
++Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
++
+ diff --git a/uuid++.pod b/uuid++.pod
+ index 8b5a4b1..89c5efb 100644
+ --- a/uuid++.pod
+diff --git a/meta/recipes-devtools/ossp-uuid/ossp-uuid/0004-fix-data-uuid-from-string.patch b/meta/recipes-devtools/ossp-uuid/ossp-uuid/0004-fix-data-uuid-from-string.patch
+index 1f92cea..bc5e111 100644
+--- a/meta/recipes-devtools/ossp-uuid/ossp-uuid/0004-fix-data-uuid-from-string.patch
++++ b/meta/recipes-devtools/ossp-uuid/ossp-uuid/0004-fix-data-uuid-from-string.patch
+@@ -4,6 +4,13 @@ Bug-Debian: http://bugs.debian.org/635607
+ 
+ The module Data::GUID depends on Data::UUID supporting this behaviour.
+ 
++----
++Upstream-Status: Inappropriate [not author]
++
++This patch is from debian ossp-uuid 1.6.2 integration.
++
++Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
++
+ --- a/perl/uuid_compat.pm
+ +++ b/perl/uuid_compat.pm
+ @@ -93,7 +93,9 @@
+diff --git a/meta/recipes-devtools/ossp-uuid/ossp-uuid/uuid-libtool.patch b/meta/recipes-devtools/ossp-uuid/ossp-uuid/uuid-libtool.patch
+index 97daca4..4bc91b8 100644
+--- a/meta/recipes-devtools/ossp-uuid/ossp-uuid/uuid-libtool.patch
++++ b/meta/recipes-devtools/ossp-uuid/ossp-uuid/uuid-libtool.patch
+@@ -1,5 +1,8 @@
+ Remove hardcoded libtool name, fall back to generated name
+ 
++Upstream-Status: Inappropriate [no upstream]
++The project appears to no longer be accepting changes.
++
+ Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+ 
+ diff -ur uuid-1.6.2.orig/Makefile.in uuid-1.6.2/Makefile.in
+diff --git a/meta/recipes-devtools/ossp-uuid/ossp-uuid/uuid-nostrip.patch b/meta/recipes-devtools/ossp-uuid/ossp-uuid/uuid-nostrip.patch
+index 78f3c94..d806b5f 100644
+--- a/meta/recipes-devtools/ossp-uuid/ossp-uuid/uuid-nostrip.patch
++++ b/meta/recipes-devtools/ossp-uuid/ossp-uuid/uuid-nostrip.patch
+@@ -1,5 +1,8 @@
+ We don't want anything stripped
+ 
++Upstream-Status: Inappropriate [no upstream]
++The project appears to no longer be accepting changes.
++
+ Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+ 
+ diff -ur uuid-1.6.2.orig/Makefile.in uuid-1.6.2/Makefile.in
+diff --git a/meta/recipes-devtools/rpm/rpm/rpm-lua.patch b/meta/recipes-devtools/rpm/rpm/rpm-lua.patch
+index 980e1b1..348a919 100644
+--- a/meta/recipes-devtools/rpm/rpm/rpm-lua.patch
++++ b/meta/recipes-devtools/rpm/rpm/rpm-lua.patch
+@@ -1,5 +1,7 @@
+ Add support for cross compiling lua
+ 
++Upstream-Status: Pending
++
+ Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+ 
+ diff -ur rpm-5.4.9.orig/configure.ac rpm-5.4.9/configure.ac
+diff --git a/meta/recipes-devtools/rpm/rpm/rpm-macros.patch b/meta/recipes-devtools/rpm/rpm/rpm-macros.patch
+index f25656a..c1516a4 100644
+--- a/meta/recipes-devtools/rpm/rpm/rpm-macros.patch
++++ b/meta/recipes-devtools/rpm/rpm/rpm-macros.patch
+@@ -3,6 +3,8 @@ macros/macros.in: Revert settings to the same as RPM 5.4.0
+ Enable a reasonable set of rpmdeps dependency helper macros.  These sets
+ were used by RPM 5.4.0.
+ 
++Upstream-Status: Inappropriate [configuration]
++
+ Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+ 
+ diff -ur rpm-5.4.8.orig/macros/macros.in rpm-5.4.8/macros/macros.in
+diff --git a/meta/recipes-devtools/rpm/rpm/rpm-no-perl-urpm.patch b/meta/recipes-devtools/rpm/rpm/rpm-no-perl-urpm.patch
+index 90fee35..442afbc 100644
+--- a/meta/recipes-devtools/rpm/rpm/rpm-no-perl-urpm.patch
++++ b/meta/recipes-devtools/rpm/rpm/rpm-no-perl-urpm.patch
+@@ -5,6 +5,8 @@ This causes a configure failure when perl-URPM is not used.
+ | configure.ac:1159: required file `perl-URPM/Makefile.PL.in' not found
+ | configure.ac:1159: required file `perl-URPM/Makefile.in' not found
+ 
++Upstream-Status: Inappropriate [disable feature]
++
+ Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+ 
+ --- rpm-5.4.8/configure.ac.orig	2012-04-24 09:10:01.856749153 -0500
+diff --git a/meta/recipes-devtools/rpm/rpm/rpm-ossp-uuid.patch b/meta/recipes-devtools/rpm/rpm/rpm-ossp-uuid.patch
+index 1f4ba98..db424b8 100644
+--- a/meta/recipes-devtools/rpm/rpm/rpm-ossp-uuid.patch
++++ b/meta/recipes-devtools/rpm/rpm/rpm-ossp-uuid.patch
+@@ -4,6 +4,8 @@ We need to avoid including the util-linux uuid library, instead
+ we need ossp-uuid.  There is a related hack in do_configure to
+ make sure that we use the right .pc file as well.
+ 
++Upstream-Status: Inappropriate [disable feature]
++
+ Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+ 
+ diff -ur rpm-5.4.9.orig/configure.ac rpm-5.4.9/configure.ac
+diff --git a/meta/recipes-devtools/rpm/rpm/rpm-packageorigin.patch b/meta/recipes-devtools/rpm/rpm/rpm-packageorigin.patch
+index 3c6dad4..7e090a3 100644
+--- a/meta/recipes-devtools/rpm/rpm/rpm-packageorigin.patch
++++ b/meta/recipes-devtools/rpm/rpm/rpm-packageorigin.patch
+@@ -2,6 +2,8 @@ Add the ability to query the packageorigin
+ 
+ Written by jbj at rpm5.org
+ 
++Upstream-Status: Inappropriate [not author]
++
+ Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+ 
+ Index: rpm-5.4.8/rpmdb/hdrfmt.c
+diff --git a/meta/recipes-devtools/rpm/rpm/rpm-pkgconfigdeps.patch b/meta/recipes-devtools/rpm/rpm/rpm-pkgconfigdeps.patch
+index 4aba400..f192545 100644
+--- a/meta/recipes-devtools/rpm/rpm/rpm-pkgconfigdeps.patch
++++ b/meta/recipes-devtools/rpm/rpm/rpm-pkgconfigdeps.patch
+@@ -5,6 +5,8 @@ we don't want this as it may lead to inaccurate results in some corner cases.
+ 
+ PKG_CONFIG_LIBDIR will ensure pkg-config stays within the install directory.
+ 
++Upstream-Status: Inappropriate [configuration]
++
+ Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+ 
+ diff -ur rpm-5.4.9.orig/scripts/pkgconfigdeps.sh rpm-5.4.9/scripts/pkgconfigdeps.sh
+diff --git a/meta/recipes-devtools/rpm/rpm/rpm-resolvedep.patch b/meta/recipes-devtools/rpm/rpm/rpm-resolvedep.patch
+index 8c01a30..d272fe9 100644
+--- a/meta/recipes-devtools/rpm/rpm/rpm-resolvedep.patch
++++ b/meta/recipes-devtools/rpm/rpm/rpm-resolvedep.patch
+@@ -3,6 +3,8 @@ lib/rpmts.c: Ensure that we check both providename and filepaths
+ When looking up a missing dependencies, such as /bin/sh, we need to lookup
+ in both the providename and filepaths DB, not just the filepaths DB.
+ 
++Upstream-Status: Pending
++
+ Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+ 
+ --- rpm-5.4.0.orig/lib/rpmts.c	2010-12-27 16:08:25.000000000 -0600
+diff --git a/meta/recipes-extended/libzypp/libzypp/libzypp-rpm549.patch b/meta/recipes-extended/libzypp/libzypp/libzypp-rpm549.patch
+index 8268a2d..7244284 100644
+--- a/meta/recipes-extended/libzypp/libzypp/libzypp-rpm549.patch
++++ b/meta/recipes-extended/libzypp/libzypp/libzypp-rpm549.patch
+@@ -6,6 +6,10 @@ Date:   Fri May 11 19:05:09 2012 -0500
+     
+     _RPMVSF_xxx - NODIGEST, NOSIGNATURES, NOHEADER, and NOPAYLOAD
+     are now obsolete and no longer supported.
++
++    Upstream-Status: Inappropriate [other]
++      OE version is too old, when we uprev if this patch is still need it
++      should be sent upstream at that time.
+     
+     Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+ 
+diff --git a/meta/recipes-support/createrepo/createrepo/createrepo-rpm549.patch b/meta/recipes-support/createrepo/createrepo/createrepo-rpm549.patch
+index 3423c44..bc7200d 100644
+--- a/meta/recipes-support/createrepo/createrepo/createrepo-rpm549.patch
++++ b/meta/recipes-support/createrepo/createrepo/createrepo-rpm549.patch
+@@ -3,6 +3,9 @@ dumpMetadata.py: Fix for RPM5 - 5.4.9 integration
+ RPM5 no longer has a switch to disable signature validation.  (Due to security
+ validation concerns.)
+ 
++Upstream-Status: Inappropriate [other]
++  createrepo does not support RPM5 upstream
++
+ Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+ 
+ diff -u createrepo-0.4.11.orig/dumpMetadata.py createrepo-0.4.11/dumpMetadata.py
+-- 
+1.7.3.4
 
-> Many people don't understand the nuances of PATH/BBPATH, so help them by
-> clarifying
-> the warning and displaying the parsed list element-by-element.
->
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
->  meta/classes/sanity.bbclass |    4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-> index 765958e..52226f1 100644
-> --- a/meta/classes/sanity.bbclass
-> +++ b/meta/classes/sanity.bbclass
-> @@ -390,7 +390,8 @@ def check_sanity(sanity_data):
->
->      paths = sanity_data.getVar('PATH', True).split(":")
->      if "." in paths or "" in paths:
-> -        messages = messages + "PATH contains '.' or '', which will break
-> the build, please remove this."
-> +        messages = messages + "PATH contains '.' or '' (empty element),
-> which will break the build, please remove this.\n"
-> +        messages = messages + "Parsed PATH is " + str(paths) + "\n"
->
->      bbpaths = sanity_data.getVar('BBPATH', True).split(":")
->      if "." in bbpaths or "" in bbpaths:
-> @@ -402,6 +403,7 @@ def check_sanity(sanity_data):
->                  "Please check your layer.conf files and other BBPATH "
->      \
->                  "settings to remove the current working directory "
->     \
->                  "references.");
-> +        bb.warn("Parsed BBPATH is" + str(bbpaths));
->
->      if sanity_data.getVar('TARGET_ARCH', True) == "arm":
->          # This path is no longer user-readable in modern (very recent)
-> Linux
->
 
-Good change.
 
-ag
-
---90e6ba6e89ea4d086504c5994423
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
-
-<div class=3D"gmail_quote">On Wed, Jul 18, 2012 at 5:12 PM, Ross Burton <sp=
-an dir=3D"ltr">&lt;<a href=3D"mailto:ross.burton@intel.com" target=3D"_blan=
-k">ross.burton@intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmai=
-l_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left=
-:1ex">
-
-Many people don&#39;t understand the nuances of PATH/BBPATH, so help them b=
-y clarifying<br>
-the warning and displaying the parsed list element-by-element.<br>
-<br>
-Signed-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@intel.com">ros=
-s.burton@intel.com</a>&gt;<br>
----<br>
-=A0meta/classes/sanity.bbclass | =A0 =A04 +++-<br>
-=A01 file changed, 3 insertions(+), 1 deletion(-)<br>
-<br>
-diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass<br>
-index 765958e..52226f1 100644<br>
---- a/meta/classes/sanity.bbclass<br>
-+++ b/meta/classes/sanity.bbclass<br>
-@@ -390,7 +390,8 @@ def check_sanity(sanity_data):<br>
-<br>
-=A0 =A0 =A0paths =3D sanity_data.getVar(&#39;PATH&#39;, True).split(&quot;:=
-&quot;)<br>
-=A0 =A0 =A0if &quot;.&quot; in paths or &quot;&quot; in paths:<br>
-- =A0 =A0 =A0 =A0messages =3D messages + &quot;PATH contains &#39;.&#39; or=
- &#39;&#39;, which will break the build, please remove this.&quot;<br>
-+ =A0 =A0 =A0 =A0messages =3D messages + &quot;PATH contains &#39;.&#39; or=
- &#39;&#39; (empty element), which will break the build, please remove this=
-.\n&quot;<br>
-+ =A0 =A0 =A0 =A0messages =3D messages + &quot;Parsed PATH is &quot; + str(=
-paths) + &quot;\n&quot;<br>
-<br>
-=A0 =A0 =A0bbpaths =3D sanity_data.getVar(&#39;BBPATH&#39;, True).split(&qu=
-ot;:&quot;)<br>
-=A0 =A0 =A0if &quot;.&quot; in bbpaths or &quot;&quot; in bbpaths:<br>
-@@ -402,6 +403,7 @@ def check_sanity(sanity_data):<br>
-=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0&quot;Please check your layer.conf files=
- and other BBPATH &quot; =A0 =A0 =A0 =A0\<br>
-=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0&quot;settings to remove the current wor=
-king directory &quot; =A0 =A0 =A0 =A0 =A0 \<br>
-=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0&quot;references.&quot;);<br>
-+ =A0 =A0 =A0 =A0bb.warn(&quot;Parsed BBPATH is&quot; + str(bbpaths));<br>
-<br>
-=A0 =A0 =A0if sanity_data.getVar(&#39;TARGET_ARCH&#39;, True) =3D=3D &quot;=
-arm&quot;:<br>
-=A0 =A0 =A0 =A0 =A0# This path is no longer user-readable in modern (very r=
-ecent) Linux<br></blockquote><div><br></div><div>Good change.=A0</div><div>=
-<br></div><div>ag=A0</div></div>
-
---90e6ba6e89ea4d086504c5994423--
