@@ -1,25 +1,41 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mail-we0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <radu.moisan@intel.com>) id 1StZlH-0002zh-E3
-	for openembedded-core@lists.openembedded.org;
-	Tue, 24 Jul 2012 09:42:31 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 24 Jul 2012 00:29:58 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="197224979"
-Received: from dell-desktop (HELO [10.237.105.32]) ([10.237.105.32])
-	by fmsmga002.fm.intel.com with ESMTP; 24 Jul 2012 00:29:57 -0700
-Message-ID: <500E50C5.8000403@intel.com>
-Date: Tue, 24 Jul 2012 10:37:41 +0300
-From: Radu Moisan <radu.moisan@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:13.0) Gecko/20120615 Thunderbird/13.0.1
+	(envelope-from <martin.jansa@gmail.com>)
+	id 1StaB2-00041j-1T; Tue, 24 Jul 2012 10:09:08 +0200
+Received: by weyr6 with SMTP id r6so4562225wey.6
+	for <multiple recipients>; Tue, 24 Jul 2012 00:57:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=1WY/Pxq+B7ILwrCCPB2CWcFXVqHgF30urCPfOG1w3fk=;
+	b=nR+DoeqNYAv3HFOjGBr9wvSWRdgC64G7p3dV9r4hrWlc2mrqfczkVLAZlRH9rkjUx3
+	xe6Sq8ubmMwo5MGubLFLSF37IPa5AJ/bjv22YYih/m0dsfK4qGzkcnD9d7Q/7YC3DMpa
+	YWeltN4OU33wzwPEYYUh0r6wiQ4CJ7uwSGy2UDvqy0rBsvdd9AXSoM9Z/dO8yM+ZQSoY
+	RLg/pjdN+85k4BEf9K9VpsMTafx2UGHwpuLMKD5vetGnk7KGFZzIQNzK1IOYGf7owJjM
+	CflXDr54C/UYBfu3uEPqwu9QIo4Z96e30psJ/oeiji0oaErghM8nrO8iU83KrJV+Lt+p
+	Apag==
+Received: by 10.180.87.199 with SMTP id ba7mr4580197wib.10.1343116659914;
+	Tue, 24 Jul 2012 00:57:39 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id fb20sm4880217wid.1.2012.07.24.00.57.37
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 24 Jul 2012 00:57:38 -0700 (PDT)
+Date: Tue, 24 Jul 2012 09:57:40 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Message-ID: <20120724075740.GG3271@jama.jama.net>
+References: <20120722104358.0339C10217@opal>
+	<20120723111829.GA20311@jama.jama.net>
+	<1343043175.21788.91.camel@ted>
+	<20120723113712.GE3271@jama.jama.net>
+	<1343048532.21788.95.camel@ted>
+	<20120723130612.GF3271@jama.jama.net>
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <1343052252-4154-1-git-send-email-radu.moisan@intel.com>
-	<lywr1uzguj.fsf@ensc-virt.intern.sigma-chemnitz.de>
-In-Reply-To: <lywr1uzguj.fsf@ensc-virt.intern.sigma-chemnitz.de>
-Subject: Re: [PATCH v2] kmod: Handle undefined O_CLOEXEC
+In-Reply-To: <20120723130612.GF3271@jama.jama.net>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-commits@lists.openembedded.org
+Subject: Re: [oe-commits] Morgan Little : python: Update for python-native changes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,41 +50,125 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Jul 2012 07:42:31 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 24 Jul 2012 08:09:08 -0000
+X-Groupsio-MsgNum: 26050
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="QWpDgw58+k1mSFBj"
+Content-Disposition: inline
 
-As far as kmod package is concerned O_CLOEXEC is used in constructs like 
-"O_RDONLY|O_CLOEXEC". O_CLOEXEC can be used (is defined) starting with 
-Linux kernel ≥2.6.23 and glibc ≥2.7 case in which the patch does not 
-logically changing anything. However, prior Linux kernel ≥2.6.23 
-O_CLOEXEC is not defined (the case for CentOS 5.8 - kernel 2.6.18) and 
-using it in code will cause build errors. My patch provides a workaround 
-for those distributions that do not have O_CLOEXEC define, just to be 
-able to build stuff. I have not tested on CentOS 5.8 if the applications 
-are not broken in some way, but that's not in the scope of this patch. 
-If something does indeed break, then a totally different patch is 
-required, targeting a backport of kmod for kernel older than 2.6.23.
+--QWpDgw58+k1mSFBj
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Radu
+On Mon, Jul 23, 2012 at 03:06:12PM +0200, Martin Jansa wrote:
+> On Mon, Jul 23, 2012 at 02:02:12PM +0100, Richard Purdie wrote:
+> > On Mon, 2012-07-23 at 13:37 +0200, Martin Jansa wrote:
+> > > On Mon, Jul 23, 2012 at 12:32:55PM +0100, Richard Purdie wrote:
+> > > > On Mon, 2012-07-23 at 13:18 +0200, Martin Jansa wrote:
+> > > > > On Sun, Jul 22, 2012 at 10:43:53AM +0000, git@git.openembedded.or=
+g wrote:
+> > > > > > Module: openembedded-core.git
+> > > > > > Branch: master
+> > > > > > Commit: 284a65d55f0ffad0f4f7f32d72da0f9410578643
+> > > > > > URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&=
+a=3Dcommit;h=3D284a65d55f0ffad0f4f7f32d72da0f9410578643
+> > > > > >=20
+> > > > > > Author: Morgan Little <morgan.little@windriver.com>
+> > > > > > Date:   Thu Jul 19 13:46:07 2012 -0400
+> > > > > >=20
+> > > > > > python: Update for python-native changes
+> > > > > >=20
+> > > > > > Add pythonnative onto the list of inherits and update the paths=
+ to the binaries
+> > > > > > referenced in the recipe to the new paths.
+> > > > > >=20
+> > > > > > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.o=
+rg>
+> > > > > >=20
+> > > > >=20
+> > > > > Any idea why is opkg package-index now failing _sometimes_ ?
+> > > > >=20
+> > > > > | + '[' -e /var/lib/jenkins/jobs/shr-core/workspace/shr-core/tmp-=
+eglibc/deploy/ipk/ ']'
+> > > > > | + touch /var/lib/jenkins/jobs/shr-core/workspace/shr-core/tmp-e=
+glibc/deploy/ipk/Packages
+> > > > > | + flock /var/lib/jenkins/jobs/shr-core/workspace/shr-core/tmp-e=
+glibc/deploy/ipk/Packages.flock -c 'opkg-make-index -r /var/lib/jenkins/job=
+s/shr-core/workspace/shr-core/tmp-eglibc/deploy/ipk/Packages -p /var/lib/je=
+nkins/jobs/shr-core/workspace/shr-core/tmp-eglibc/deploy/ipk/Packages -m /v=
+ar/lib/jenkins/jobs/shr-core/workspace/shr-core/tmp-eglibc/deploy/ipk/'
+> > > > > | Traceback (most recent call last):
+> > > > > |   File "/var/lib/jenkins/jobs/shr-core/workspace/shr-core/tmp-e=
+glibc/sysroots/x86_64-linux/usr/lib/python2.7/site.py", line 569, in <modul=
+e>
+> > > > > |     main()
+> > > > > |   File "/var/lib/jenkins/jobs/shr-core/workspace/shr-core/tmp-e=
+glibc/sysroots/x86_64-linux/usr/lib/python2.7/site.py", line 552, in main
+> > > > > |     known_paths =3D addsitepackages(known_paths)
+> > > > > |   File "/var/lib/jenkins/jobs/shr-core/workspace/shr-core/tmp-e=
+glibc/sysroots/x86_64-linux/usr/lib/python2.7/site.py", line 329, in addsit=
+epackages
+> > > > > |     for sitedir in getsitepackages():
+> > > > > |   File "/var/lib/jenkins/jobs/shr-core/workspace/shr-core/tmp-e=
+glibc/sysroots/x86_64-linux/usr/lib/python2.7/site.py", line 303, in getsit=
+epackages
+> > > > > |     sitepackages.append(os.path.join(prefix, sys.lib,
+> > > > > | AttributeError: 'module' object has no attribute 'lib'
+> > > > > | ERROR: Function failed: do_package_index (see /var/lib/jenkins/=
+jobs/shr-core/workspace/shr-core/tmp-eglibc/work/armv4t-oe-linux-gnueabi/pa=
+ckage-index-1.0-r0/temp/log.do_package_index.17223 for further information)
+> > > > > NOTE: package package-index-1.0-r0: task do_package_index: Failed
+> > > >=20
+> > > > What is the header of opkg-make-index? Is it a path to python or
+> > > > a /usr/bin/env python?
+> > >=20
+> > > $ head -n1 jobs/shr-core/workspace/shr-core/tmp-eglibc/sysroots/x86_6=
+4-linux/usr/bin/opkg-make-index
+> > > #!/usr/bin/env python
+> >=20
+> > package-index doesn't inherit pythonnative. The python found from env
+> > would therefore be the host system python but its using files from the
+> > sysroot. Mixing the two is a bad idea.
+> >=20
+> > The question is how is it mixing these up, the host system python
+> > shouldn't be looking there for modules.
+> >=20
+> > So I'm not sure why they're getting mixed up but its likely the problem.
+> > Does anything jump out at you on the machine in question with the above
+> > in mind?
+>=20
+> Not really and it happens only in some builds (all today - haven't seen
+> this error before) and sofar it failed in 4/10 image/feed builds and
+> worked in remaining 6.
+>=20
+> Even for the same combination of MACHINE and target it once worked and on=
+ce
+> failed without any metadata changes or host distro changes between.
 
-On 07/23/2012 05:34 PM, Enrico Scholz wrote:
-> Radu Moisan <radu.moisan-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
-> writes:
->
->> Close-on-exec seems to be unsuported on some architectures like CentOS 5.8
->> and thus causing some packages to fail to build successfully.
-> Have you verified that making O_CLOEXEC a noop does not break the
-> applications?
->
->
-> Enrico
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+env doesn't show anything interesting related to python
 
+changing shebang to
+path/tmp-eglibc/sysroots/x86_64-linux/usr/bin/python-native/python
 
+made all currently failing builds to succeed again, but the issue is
+still there..
 
+Cheers,
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--QWpDgw58+k1mSFBj
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
+
+iEYEARECAAYFAlAOVXQACgkQN1Ujt2V2gByu/QCgoIzIRiQgmrNzXxkelBAZO0iJ
+7YEAoKbWKEDZjTmXc6UZ4B9cTJGCOcMO
+=xi7E
+-----END PGP SIGNATURE-----
+
+--QWpDgw58+k1mSFBj--
