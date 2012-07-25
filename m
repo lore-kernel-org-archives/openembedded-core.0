@@ -1,20 +1,24 @@
 Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1Su6j9-0008FU-8r
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1Su6jA-0008FU-2z
 	for openembedded-core@lists.openembedded.org;
-	Wed, 25 Jul 2012 20:54:31 +0200
+	Wed, 25 Jul 2012 20:54:32 +0200
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 25 Jul 2012 11:43:00 -0700
+	by azsmga102.ch.intel.com with ESMTP; 25 Jul 2012 11:43:01 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="173137522"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="173137527"
 Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.121.21])
-	by azsmga001.ch.intel.com with ESMTP; 25 Jul 2012 11:42:59 -0700
+	by azsmga001.ch.intel.com with ESMTP; 25 Jul 2012 11:43:00 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 25 Jul 2012 19:42:50 +0100
-Message-Id: <cover.1343241383.git.paul.eggleton@linux.intel.com>
+Date: Wed, 25 Jul 2012 19:42:51 +0100
+Message-Id: <de0f1c0fc3729917e883ba17e46fa0b16c3d5164.1343241383.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH 0/7] rootfs generation improvements v3
+In-Reply-To: <cover.1343241383.git.paul.eggleton@linux.intel.com>
+References: <cover.1343241383.git.paul.eggleton@linux.intel.com>
+In-Reply-To: <cover.1343241383.git.paul.eggleton@linux.intel.com>
+References: <cover.1343241383.git.paul.eggleton@linux.intel.com>
+Subject: [PATCH 1/7] package.bbclass: Create symlinks for packages with different packaged name
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,65 +33,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Jul 2012 18:54:31 -0000
+X-List-Received-Date: Wed, 25 Jul 2012 18:54:32 -0000
 
-Fix up handling of "complementary" package installation (dev, dbg, doc,
-etc.) and introduce a staticdev-pkgs IMAGE_FEATURES feature.
+From: Andrei Gherzan <andrei@gherzan.ro>
 
-Changes since v2:
+While generating license.manifest package information is searched in:
+filename=`ls ${TMPDIR}/pkgdata/*/runtime/${pkg}| head -1`
+This is ok as long as package name is the same as the package name
+after packaging.
+For example dbus is packaged as dbus-1. So, searching
+ls ${TMPDIR}/pkgdata/*/runtime/dbus-1 will fail because there is no file
+with this package name.
 
-* Clear IMAGE_FEATURES in core-image-minimal so that it doesn't
-  have dev/dbg packages added (since the default value of IMAGE_FEATURES
-  contains dev-pkgs and dbg-pkgs and this will now apply to any image).
-* Fix errors with the ipk and deb backends if no complementary packages
-  need to be installed
-* Add DEPENDS on rpm to rpmresolve
+Create a symlink to the pkgdata file in a runtime-reverse directory so
+that these reverse lookups are possible.
 
+Fixes [YOCTO #2638].
 
-The following changes since commit 4148bc80c008d25c8a536c7c7dfdeac1669a6662:
+Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+---
+ meta/classes/license.bbclass |    2 +-
+ meta/classes/package.bbclass |    6 +++++-
+ 2 files changed, 6 insertions(+), 2 deletions(-)
 
-  libgcc: Add missing dependency on libc:do_package (2012-07-24 10:12:08 +0100)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib paule/rootfs2
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/rootfs2
-
-Andrei Gherzan (1):
-  package.bbclass: Create symlinks for packages with different packaged
-    name
-
-Paul Eggleton (6):
-  classes/rootfs_rpm: improve speed of RPM rootfs construction
-  classes/package_deb: add PackageArch field
-  Rework installation of dev, dbg, doc, and locale packages
-  core-image-minimal: clear IMAGE_FEATURES
-  classes/image: add staticdev-pkgs IMAGE_FEATURES feature
-  buildhistory: improve performance of image info collection
-
- meta/classes/buildhistory.bbclass                 |   51 ++-
- meta/classes/image.bbclass                        |   93 ++---
- meta/classes/license.bbclass                      |    2 +-
- meta/classes/package.bbclass                      |    6 +-
- meta/classes/package_deb.bbclass                  |    1 +
- meta/classes/package_rpm.bbclass                  |  183 +++++-----
- meta/classes/populate_sdk_deb.bbclass             |    2 +
- meta/classes/populate_sdk_ipk.bbclass             |    2 +
- meta/classes/populate_sdk_rpm.bbclass             |    3 +
- meta/classes/rootfs_deb.bbclass                   |   51 ++-
- meta/classes/rootfs_ipk.bbclass                   |   50 ++-
- meta/classes/rootfs_rpm.bbclass                   |   69 ++--
- meta/recipes-core/images/core-image-minimal.bb    |    1 +
- meta/recipes-devtools/rpm/rpmresolve/rpmresolve.c |  376 +++++++++++++++++++++
- meta/recipes-devtools/rpm/rpmresolve_1.0.bb       |   22 ++
- scripts/oe-pkgdata-util                           |  167 +++++++++
- scripts/opkg-query-helper.py                      |   76 +++++
- 17 files changed, 890 insertions(+), 265 deletions(-)
- create mode 100644 meta/recipes-devtools/rpm/rpmresolve/rpmresolve.c
- create mode 100644 meta/recipes-devtools/rpm/rpmresolve_1.0.bb
- create mode 100755 scripts/oe-pkgdata-util
- create mode 100755 scripts/opkg-query-helper.py
-
+diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
+index a2721ab..231b4a3 100644
+--- a/meta/classes/license.bbclass
++++ b/meta/classes/license.bbclass
+@@ -86,7 +86,7 @@ license_create_manifest() {
+ 	# list of installed packages is broken for deb
+ 	for pkg in ${INSTALLED_PKGS}; do
+ 		# not the best way to do this but licenses are not arch dependant iirc
+-		filename=`ls ${TMPDIR}/pkgdata/*/runtime/${pkg}| head -1`
++		filename=`ls ${TMPDIR}/pkgdata/*/runtime-reverse/${pkg}| head -1`
+ 		pkged_pn="$(sed -n 's/^PN: //p' ${filename})"
+ 		pkged_lic="$(sed -n '/^LICENSE: /{ s/^LICENSE: //; s/[+|&()*]/ /g; s/  */ /g; p }' ${filename})"
+ 		pkged_pv="$(sed -n 's/^PV: //p' ${filename})"
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index fc83424..ea199d3 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -1124,6 +1124,10 @@ python emit_pkgdata() {
+         sf.write('%s_%s: %s\n' % ('PKGSIZE', pkg, get_directory_size(pkgdest + "/%s" % pkg)))
+         sf.close()
+ 
++        # Symlinks needed for reverse lookups (from the final package name)
++        pkgval = d.getVar('PKG_%s' % (pkg), True)
++        subdata_sym = pkgdatadir + "/runtime-reverse/%s" % pkgval
++        oe.path.symlink("../runtime/%s" % pkg, subdata_sym, True)
+ 
+         allow_empty = d.getVar('ALLOW_EMPTY_%s' % pkg, True)
+         if not allow_empty:
+@@ -1137,7 +1141,7 @@ python emit_pkgdata() {
+ 
+     bb.utils.unlockfile(lf)
+ }
+-emit_pkgdata[dirs] = "${PKGDESTWORK}/runtime"
++emit_pkgdata[dirs] = "${PKGDESTWORK}/runtime ${PKGDESTWORK}/runtime-reverse"
+ 
+ ldconfig_postinst_fragment() {
+ if [ x"$D" = "x" ]; then
 -- 
 1.7.9.5
 
