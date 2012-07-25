@@ -1,36 +1,35 @@
-Received: from mail-vb0-f47.google.com ([209.85.212.47])
+Received: from mail-bk0-f47.google.com ([209.85.214.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1Su0cj-0007Ei-4w
-	for openembedded-core@lists.openembedded.org;
-	Wed, 25 Jul 2012 14:23:29 +0200
-Received: by vbbfr13 with SMTP id fr13so453093vbb.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Jul 2012 05:11:59 -0700 (PDT)
+	(envelope-from <martin.jansa@gmail.com>)
+	id 1Su0ig-0007Ms-FW; Wed, 25 Jul 2012 14:29:38 +0200
+Received: by bkcik5 with SMTP id ik5so336366bkc.6
+	for <multiple recipients>; Wed, 25 Jul 2012 05:18:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:content-type;
-	bh=52kzxvFnOaptZIhvZ1LorY+j0W575zsjH9S4Fx8oh5M=;
-	b=OrXtqD7QmBKYbFyWzmcSMNX08XCbawr+7EUlZFCG0/tzoJzkCLtjG+T75ChI4PDGjj
-	7SxXO6OBkWVYyD7mk7aiotaOO4ifi2iLbI1aCYSmsUfoyNDhsU4yovqscTxGtCXkiczR
-	Q3nTSKBA1SdabAV8zusEyytZpCneiMoJJfTZuxFtlBoSo4V/XxrIV6jK5wo4S6ghTq2N
-	2zrbzPvCGX/7R62fmTNcU/7C6XmfL8hczOQBvy9oMSXXUNmvxJnqXxRQokvca7qAEe7A
-	hnUQOvI6tykYtBaE0mJbwr+p0Rgc+TIewNWS3sWGvnJogvD25ae3FLaud3NUrAOdZOnN
-	urBQ==
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=D/uAfEIZg1TUVhijwqOO8GRHmJMpaQB9/I/EsJg8ELo=;
+	b=0rmKmjGamlIcKTRvKm9ueYrJl1Jc/C816Ur02zk9LssQRgH6yNP7AuatLR+fpVWXVP
+	Ykqg3Ptph3pQWjWZ7NTIixWw8QQxMh73F/WPMtZVcJIn6QX13RDPYx1tLEg5wMV9VxlJ
+	aGlTQvgU4BowDd2tdlq8yfQRr5aPN2QfqKRcM8A82x6/AZQHvnaBERd7p2bdBSridgIF
+	wy9JRbaQCZRuHlvbjajEMzOfD4rNINj4FWzpjR0rSIlSYCwhUgIP2ETsIk0geP6+dYwe
+	VkH+X0bXgBuNfhmetVJMiwhAL2ZHe+Hv862II3TmuR13yBrMZbID/z/umsjn6oc0jZTO
+	o2NA==
+Received: by 10.204.145.82 with SMTP id c18mr11673715bkv.133.1343218688784;
+	Wed, 25 Jul 2012 05:18:08 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id fu8sm12711618bkc.5.2012.07.25.05.18.06
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 25 Jul 2012 05:18:07 -0700 (PDT)
+Date: Wed, 25 Jul 2012 14:18:11 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Message-ID: <20120725121811.GA20145@jama.jama.net>
+References: <20120722104406.D46AB10330@opal>
 MIME-Version: 1.0
-Received: by 10.220.154.79 with SMTP id n15mr17964547vcw.61.1343218319004;
-	Wed, 25 Jul 2012 05:11:59 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.220.220.196 with HTTP; Wed, 25 Jul 2012 05:11:58 -0700 (PDT)
-In-Reply-To: <1343206296.22222.24.camel@ted>
-References: <1342804329-5791-1-git-send-email-otavio@ossystems.com.br>
-	<1343206296.22222.24.camel@ted>
-Date: Wed, 25 Jul 2012 09:11:58 -0300
-X-Google-Sender-Auth: S1CkUjvpjBAgLT56hPdyKpeHwoQ
-Message-ID: <CAP9ODKpaH_RNunGH+zvmp5TFS0PnBA59__pdaoLywy8nMdq+Zw@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] bash: enable parallel build
+In-Reply-To: <20120722104406.D46AB10330@opal>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-commits@lists.openembedded.org
+Subject: Re: [oe-commits] Bogdan Marinescu : autoconf: updated to 2.69
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,27 +44,122 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Jul 2012 12:23:29 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Wed, 25 Jul 2012 12:29:38 -0000
+X-Groupsio-MsgNum: 26149
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="RnlQjJ0d97Da+TV1"
+Content-Disposition: inline
 
-On Wed, Jul 25, 2012 at 5:51 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Fri, 2012-07-20 at 14:12 -0300, Otavio Salvador wrote:
->> I've build it several times in a 8 core machine without problem so it
->> seems safe to use parallel build now.
->
-> Sadly its not:
->
-> http://autobuilder.yoctoproject.org:8010/builders/nightly-multilib/builds/174/steps/shell_23/logs/stdio
+--RnlQjJ0d97Da+TV1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Good that it has been catch but I am pondering why this worked fine here...
+On Sun, Jul 22, 2012 at 10:44:06AM +0000, git@git.openembedded.org wrote:
+> Module: openembedded-core.git
+> Branch: master
+> Commit: effb75d42098b3e367d393215fd5d52a0191e954
+> URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcommit=
+;h=3Deffb75d42098b3e367d393215fd5d52a0191e954
+>=20
+> Author: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
+> Date:   Thu Jul 19 13:33:52 2012 +0300
+>=20
+> autoconf: updated to 2.69
+>=20
+> Tested with core-image-sato-sdk and lib32-core-image-sato-sdk.
+> This update was done mainly because multilib builds failed on master with=
+ this error:
+>=20
+> | autoreconf: running: aclocal -I /poky/build/tmp/work/x86-pokymllib32-li=
+nux/lib32-automake-1.12.1-r0/automake-1.12.1/m4/ -I /poky/build/tmp/sysroot=
+s/x86_64-linux/usr/share/aclocal-1.12 -I /poky/build/tmp/work/x86-pokymllib=
+32-linux/lib32-automake-1.12.1-r0/automake-1.12.1/aclocal-copy/ -I /poky/bu=
+ild/tmp/work/x86-pokymllib32-linux/lib32-automake-1.12.1-r0/automake-1.12.1=
+/m4/ -I /poky/build/tmp/sysroots/x86_64-linux/usr/share/aclocal-1.12 -I /po=
+ky/build/tmp/work/x86-pokymllib32-linux/lib32-automake-1.12.1-r0/automake-1=
+=2E12.1/aclocal-copy/ --force --warnings=3Dcross
+> | aclocal: warning: unknown warning category 'cross'
+> | configure.ac:18: error: Autoconf version 2.69 or higher is required
 
-Please drop this patch then ... if it has been applied, I can send a
-reversing patch if you want.
+since this upgrade I see autom4te segfaulting when building webkit-efl
+autom4te[8513]: segfault at 29e782688 ip 00007f7c52a96e23 sp 00007fff077310=
+20 error 4 in Dumper.so[7f7c52a90000+8000]
 
--- 
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
+webkit-efl build finishes fine and is usable afaik but someone would
+expect tools like autoconf to behave better and not segfault.
 
+This happens on 2 different builders each with different webkit-efl
+version.
 
+Cheers,
+
+>=20
+> Signed-off-by: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>=20
+> ---
+>=20
+>  meta/recipes-devtools/autoconf/autoconf.inc        |    2 +-
+>  .../{autoconf_2.68.bb =3D> autoconf_2.69.bb}         |    4 ++--
+>  2 files changed, 3 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/meta/recipes-devtools/autoconf/autoconf.inc b/meta/recipes-d=
+evtools/autoconf/autoconf.inc
+> index 2c07701..4f5a5b2 100644
+> --- a/meta/recipes-devtools/autoconf/autoconf.inc
+> +++ b/meta/recipes-devtools/autoconf/autoconf.inc
+> @@ -12,7 +12,7 @@ RDEPENDS_${PN} =3D "m4 gnu-config"
+>  RDEPENDS_${PN}_virtclass-native =3D "m4-native gnu-config-native"
+>  RDEPENDS_${PN}_virtclass-nativesdk =3D "m4-nativesdk gnu-config-nativesd=
+k"
+> =20
+> -SRC_URI =3D "${GNU_MIRROR}/autoconf/autoconf-${PV}.tar.bz2 \
+> +SRC_URI =3D "${GNU_MIRROR}/autoconf/autoconf-${PV}.tar.gz \
+>  	   file://program_prefix.patch"
+> =20
+>  inherit autotools
+> diff --git a/meta/recipes-devtools/autoconf/autoconf_2.68.bb b/meta/recip=
+es-devtools/autoconf/autoconf_2.69.bb
+> similarity index 85%
+> rename from meta/recipes-devtools/autoconf/autoconf_2.68.bb
+> rename to meta/recipes-devtools/autoconf/autoconf_2.69.bb
+> index 8d466e0..478f8ed 100644
+> --- a/meta/recipes-devtools/autoconf/autoconf_2.68.bb
+> +++ b/meta/recipes-devtools/autoconf/autoconf_2.69.bb
+> @@ -17,8 +17,8 @@ SRC_URI +=3D "file://autoreconf-include.patch \
+>              file://remove-usr-local-lib-from-m4.patch \
+>             "
+> =20
+> -SRC_URI[md5sum] =3D "864d785215aa60d627c91fcb21b05b07"
+> -SRC_URI[sha256sum] =3D "c491fb273fd6d4ca925e26ceed3d177920233c76d542b150=
+ff35e571454332c8"
+> +SRC_URI[md5sum] =3D "82d05e03b93e45f5a39b828dc9c6c29b"
+> +SRC_URI[sha256sum] =3D "954bd69b391edc12d6a4a51a2dd1476543da5c6bbf05a95b=
+59dc0dd6fd4c2969"
+> =20
+>  SRC_URI_append_virtclass-native =3D " file://fix_path_xtra.patch"
+> =20
+>=20
+>=20
+> _______________________________________________
+> Openembedded-commits mailing list
+> Openembedded-commits@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-commits
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--RnlQjJ0d97Da+TV1
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
+
+iEYEARECAAYFAlAP5AMACgkQN1Ujt2V2gBy9FQCfU9KRH9GJPgblZdce7JH85py7
+V/AAn1D/iNZR4aRAAfHplu6hI0AAWaZ/
+=Bm7B
+-----END PGP SIGNATURE-----
+
+--RnlQjJ0d97Da+TV1--
