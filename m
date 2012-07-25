@@ -1,20 +1,37 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail-lb0-f175.google.com ([209.85.217.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1Su1Eu-00087O-R6
+	(envelope-from <kergoth@gmail.com>) id 1Su27y-0008Lx-SC
 	for openembedded-core@lists.openembedded.org;
-	Wed, 25 Jul 2012 15:02:57 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 25 Jul 2012 05:51:26 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="171214697"
-Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.121.26])
-	by orsmga001.jf.intel.com with ESMTP; 25 Jul 2012 05:51:25 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 25 Jul 2012 13:51:23 +0100
-Message-Id: <1343220683-9012-1-git-send-email-paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] meta/lib: remove test.py
+	Wed, 25 Jul 2012 15:59:50 +0200
+Received: by lbol5 with SMTP id l5so578773lbo.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 25 Jul 2012 06:48:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date
+	:x-google-sender-auth:message-id:subject:to:cc:content-type;
+	bh=HjQ6Jq8cEXMuniRQaIiske4NgDriNCPSgxRZdLZAcyQ=;
+	b=oJoX8jNEYbnHeCImGeV++Wq1cVhcRes1zkxNbqZlxzL3HzD0xqIN80BQxY+JJUTQhH
+	0tEPhfVigcwcr0K+lavEAu8boCzZibIc3dd0wSM8iqiScnqh21iHnMEJ1URwh6g3kPKp
+	/VVL6Y0q6j10aeyjxKGN5h0NJfGCPfYJBdyoM2dyvR9Cdw/zoP8mhWtP/DkvO54HrWJ0
+	WteRi8QG+mpniWrCZZffHszPGSgBS5XKIYrrxUJz68yKvKZkQzNIw4BHlknrfFVpKvVH
+	fkW/4XBkjXH3FXPSJzZcmbSVWjR83OJuHFDFNXijb1uYRjIjFlvYewix9HqYTEM3M8xE
+	efXw==
+Received: by 10.152.148.1 with SMTP id to1mr25836974lab.34.1343224101148; Wed,
+	25 Jul 2012 06:48:21 -0700 (PDT)
+MIME-Version: 1.0
+Sender: kergoth@gmail.com
+Received: by 10.114.64.180 with HTTP; Wed, 25 Jul 2012 06:48:00 -0700 (PDT)
+In-Reply-To: <17225760.ocbdZxpBHY@helios>
+References: <cover.1343199345.git.Xin.Ouyang@windriver.com>
+	<969F26A8BAB325438E7EB80D3C3134FB16174E03@IRSMSX102.ger.corp.intel.com>
+	<17225760.ocbdZxpBHY@helios>
+From: Chris Larson <clarson@kergoth.com>
+Date: Wed, 25 Jul 2012 06:48:00 -0700
+X-Google-Sender-Auth: pKwmJMtIrF8PSpY5U7mCQkKug7Y
+Message-ID: <CABcZANkFVqWFAD9YWMcR+QWC3ap85Ua8Bi7_bk_tYAub535dtA@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Package recipes change proposal (system-wide) - name wise
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,28 +46,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Jul 2012 13:02:57 -0000
+X-List-Received-Date: Wed, 25 Jul 2012 13:59:51 -0000
+Content-Type: text/plain; charset=UTF-8
 
-This looks like it was added by accident in OE-Core revision
-7903433898b4683a1c09cc9a6a379421bc9bbd58.
+On Wed, Jul 25, 2012 at 3:09 AM, Paul Eggleton
+<paul.eggleton@linux.intel.com> wrote:
+> On Wednesday 25 July 2012 07:23:31 Iorga, Cristian wrote:
+>> For me, having the version number contained in the name of package recipe is
+>> a little bit puzzling. For example: libpcre/libpcre_8.31.bb
+>>
+>> Is there a solid technical reason to not have it like this?
+>>
+>> libpcre/libpcre.bb
+>> and inside the recipe to have a PV variable defined:
+>> PV="8.31"
+>
+> The benefit of having PV in the recipe file name is that you can then easily
+> have different recipes for different versions of the same piece of software,
+> which is particularly useful when those different versions may need to be built
+> slightly differently.
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- meta/lib/test.py |    3 ---
- 1 file changed, 3 deletions(-)
- delete mode 100644 meta/lib/test.py
-
-diff --git a/meta/lib/test.py b/meta/lib/test.py
-deleted file mode 100644
-index 12f4d83..0000000
---- a/meta/lib/test.py
-+++ /dev/null
-@@ -1,3 +0,0 @@
--import oe.license
--
--print(oe.license.is_included('LGPLv2.1 | GPLv3', ['*'], []))
+It's worth noting that that can still be done by leveraging
+BBVERSIONS. Not that I'm advocating that approach necessarily, but
+noting that it can still be done without using multiple recipes with
+version in the filename.
 -- 
-1.7.9.5
-
+Christopher Larson
 
 
