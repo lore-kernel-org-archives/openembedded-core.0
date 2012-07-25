@@ -1,38 +1,35 @@
-Received: from mail-we0-f175.google.com ([74.125.82.175])
+Received: from mail-wg0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1Su5iQ-0006cc-GM
+	(envelope-from <martin.jansa@gmail.com>) id 1Su6FI-0007Fv-GS
 	for openembedded-core@lists.openembedded.org;
-	Wed, 25 Jul 2012 19:49:42 +0200
-Received: by weyr6 with SMTP id r6so666470wey.6
+	Wed, 25 Jul 2012 20:23:40 +0200
+Received: by wgbdr1 with SMTP id dr1so925077wgb.24
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Jul 2012 10:38:12 -0700 (PDT)
+	Wed, 25 Jul 2012 11:12:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=linD0s5Knueu4ZuKBbleJ7L+/anbB2KADtcX3+vefeE=;
-	b=v8goO96gvkRHge3sP367lYFgsc2eVCdI6y6Wg8sARSUxS/mmnNA+EKc7QYg5/8vvtG
-	+Kgg8nClMwDZ+i534Bvp6joTUDBaidi00DTkeHnTYQrSdPr91THJSBkUFe6hrlLcw259
-	Dc7tDvfdQyUC2FmymzqmmtFgOIRxoze7HlalTgWDMzGoraBj/9gR+/4e+mv4JEy7Ze/e
-	3RPCzPvfiL7GM4iK7m+T/cFVAElLr4nt+OBjAjPnjslJzADhHnyrXXBwOO/4vfop0seN
-	fXgM5z+//g7+3CvfwJs/q7Bp70lt/Ii9dXbJutLxsdTPLyVeZ2ffxJE5o/KcUh228rIZ
-	JiRg==
-Received: by 10.180.98.138 with SMTP id ei10mr6536879wib.1.1343237892889;
-	Wed, 25 Jul 2012 10:38:12 -0700 (PDT)
+	h=date:from:to:subject:message-id:mime-version:content-type
+	:content-disposition:user-agent;
+	bh=dYBJIFaSgEjOHoBGXsam0PpwV3hNstPBirLYj6Q6Ovs=;
+	b=k3tsWyyEu6NEyBy+bQSQ7R1jMRjCadeTsOm0sXOpinHzYO7Nui3THrJojnfsGQcJBR
+	ycGGouiCuuKc6a7gljxRuYtGvUx6Bjsi0sK4WxuJ4j+5/vbmviQb4HnG5OqlQT8LxWby
+	nqaUnCWsYnbHCrg+FomKj6Qfc8tL4toK2udFqdEEWbqnTmTYoNleG93SWfn1nOqAKe+3
+	/32l25afUmtIxBCTM7yPU5RRehd9+OfWy6678mc75B49oKUjs/2A5DVdDOGKReQBlJ3P
+	30UKs3YMjWhD08NPvSb1eilBodc8ljBvsqGnvEsJTJA23Tft2eSBmFJoVEOH3gS2MEVy
+	s4kA==
+Received: by 10.180.90.207 with SMTP id by15mr6641689wib.22.1343239930777;
+	Wed, 25 Jul 2012 11:12:10 -0700 (PDT)
 Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id w7sm3602372wiz.0.2012.07.25.10.38.11
+	by mx.google.com with ESMTPS id t8sm3748139wiy.3.2012.07.25.11.12.09
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 25 Jul 2012 10:38:12 -0700 (PDT)
-Date: Wed, 25 Jul 2012 19:38:17 +0200
+	Wed, 25 Jul 2012 11:12:10 -0700 (PDT)
+Date: Wed, 25 Jul 2012 20:12:15 +0200
 From: Martin Jansa <martin.jansa@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Message-ID: <20120725173817.GD20145@jama.jama.net>
-References: <CAJTo0LYgXx4camSSmap_HpitQ+gMOhshDLbJDDEr71=kfYnyUQ@mail.gmail.com>
-	<1343234476-22803-1-git-send-email-ross.burton@intel.com>
+Message-ID: <20120725181215.GA16245@jama.jama.net>
 MIME-Version: 1.0
-In-Reply-To: <1343234476-22803-1-git-send-email-ross.burton@intel.com>
 User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: [PATCH] package.bbclass: don't error when the root doesn't exist in do_split_packages
+Subject: AttributeError: 'CoreRecipeInfo' object has no attribute 'task_deps'
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,80 +44,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Jul 2012 17:49:42 -0000
-X-Groupsio-MsgNum: 26164
+X-List-Received-Date: Wed, 25 Jul 2012 18:23:40 -0000
+X-Groupsio-MsgNum: 26165
 Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="+KJYzRxRHjYqLGl5"
+	protocol="application/pgp-signature"; boundary="BOKacYhQ+x31HxR3"
 Content-Disposition: inline
 
---+KJYzRxRHjYqLGl5
+--BOKacYhQ+x31HxR3
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jul 25, 2012 at 05:41:16PM +0100, Ross Burton wrote:
-> If nothing has been installed in the root automake 1.12 won't install the
-> directory, which means os.walk will throw a file not found exception.
->=20
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
->  meta/classes/package.bbclass |    8 ++++++--
->  1 file changed, 6 insertions(+), 2 deletions(-)
->=20
-> diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-> index fc83424..85d6e81 100644
-> --- a/meta/classes/package.bbclass
-> +++ b/meta/classes/package.bbclass
-> @@ -74,6 +74,12 @@ def do_split_packages(d, root, file_regex, output_patt=
-ern, description, postinst
->      given package, usually plugins or modules.
->      """
-> =20
-> +    dvar =3D d.getVar('PKGD', True)
-> +
-> +    # If the root doesn't exist, return early
-> +    if not os.path.exists(dvar + root):
-> +        return
-> +
->      ml =3D d.getVar("MLPREFIX", True)
->      if ml:
->          if not output_pattern.startswith(ml):
-> @@ -88,8 +94,6 @@ def do_split_packages(d, root, file_regex, output_patte=
-rn, description, postinst
->          if newdeps:
->              extra_depends =3D " ".join(newdeps)
-> =20
-> -    dvar =3D d.getVar('PKGD', True)
-> -
->      packages =3D d.getVar('PACKAGES', True).split()
-> =20
->      if postinst:
+This error is shown when someone tries to bitbake -b foo.bb with MACHINE
+set to something incompatible with foo.bb:COMPATIBLE_MACHINE
 
-Isn't this real error which shouldn't be covered by this?
+OE om-gta04@shr ~/shr-core $ grep COMPATIBLE /OE/shr-core/meta-smartphone/m=
+eta-openmoko/recipes-kernel/linux/linux-gta04_git.bb
+COMPATIBLE_MACHINE =3D "om-gta04"
 
-e.g. if someone removes or loose tmp-eglibc/work/foo/image (happens
-to me all the time because tmp-eglibc is on tmpfs) then do_package is
-reexecuted when sstate checksum is changed (even with
-BB_SIGNATURE_HANDLER =3D "OEBasic") and in some cases it successfully
-repackage .ipk files which are now empty and in some cases it fails
-(e.g. with systemd.bbclass checking that requested .service files are
-available in package during do_package).
+OE om-gta04@shr ~/shr-core $ export MACHINE=3Dom-gta02
+OE om-gta02@shr ~/shr-core $ bitbake -b meta-smartphone/meta-openmoko/recip=
+es-kernel/linux/linux-gta04_git.bb -c cleansstate
+WARNING: Buildfile specified, dependencies will not be handled. If this is =
+not what you want, do not use -b / --buildfile.
+ERROR: Command execution failed: Traceback (most recent call last):
+  File "/usr/lib64/python2.7/site-packages/bb/command.py", line 87, in runA=
+syncCommand
+    commandmethod(self.cmds_async, self, options)
+  File "/usr/lib64/python2.7/site-packages/bb/command.py", line 203, in bui=
+ldFile
+    command.cooker.buildFile(bfile, task)
+  File "/usr/lib64/python2.7/site-packages/bb/cooker.py", line 1060, in bui=
+ldFile
+    self.status.add_from_recipeinfo(fn, info_array)
+  File "/usr/lib64/python2.7/site-packages/bb/cache.py", line 712, in add_f=
+rom_recipeinfo
+    info.add_cacheData(self, fn)
+  File "/usr/lib64/python2.7/site-packages/bb/cache.py", line 186, in add_c=
+acheData
+    cachedata.task_deps[fn] =3D self.task_deps
+AttributeError: 'CoreRecipeInfo' object has no attribute 'task_deps'
+
+
+Summary: There was 1 WARNING message shown.
+Summary: There was 1 ERROR message shown, returning a non-zero exit code.
+
+Better error message would be nice.
 
 Cheers,
 
 --=20
 Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---+KJYzRxRHjYqLGl5
+--BOKacYhQ+x31HxR3
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: Digital signature
 
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v2.0.19 (GNU/Linux)
 
-iEYEARECAAYFAlAQLwkACgkQN1Ujt2V2gBw7ewCgi4rmouzI5IgIdyAapHTvHb3v
-hYMAoLmucC37nea3JhiZ2j4J2A0D0rd+
-=6OG5
+iEYEARECAAYFAlAQNv8ACgkQN1Ujt2V2gBxd/ACfZtlwGP8T92l84tDbCVIAOZgG
+lEoAoKWHAl5Pr6DE1leX1BAocp6wm3Kf
+=/efL
 -----END PGP SIGNATURE-----
 
---+KJYzRxRHjYqLGl5--
+--BOKacYhQ+x31HxR3--
