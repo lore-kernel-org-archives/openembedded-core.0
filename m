@@ -1,24 +1,24 @@
 Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Stw3h-0004Xt-4O
+	(envelope-from <sgw@linux.intel.com>) id 1Stw3h-0004Xl-7Y
 	for openembedded-core@lists.openembedded.org;
 	Wed, 25 Jul 2012 09:31:01 +0200
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
 	by azsmga102.ch.intel.com with ESMTP; 25 Jul 2012 00:19:29 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="172897579"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="172897581"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.97])
 	by azsmga001.ch.intel.com with ESMTP; 25 Jul 2012 00:19:29 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 25 Jul 2012 00:19:09 -0700
-Message-Id: <628f394ac4d2f87418149d4fdf71ccae11111274.1343200454.git.sgw@linux.intel.com>
+Date: Wed, 25 Jul 2012 00:19:10 -0700
+Message-Id: <510b7d3426e99c4b77c4f44a47d3d24bec0058c5.1343200454.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <cover.1343200454.git.sgw@linux.intel.com>
 References: <cover.1343200454.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1343200454.git.sgw@linux.intel.com>
 References: <cover.1343200454.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 15/28] remake: Add remake-native and remake
+Subject: [CONSOLIDATED PULL 16/28] libcgroup_0.37.1.bb: Add recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,100 +35,52 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 25 Jul 2012 07:31:02 -0000
 
-From: Wenzong Fan <wenzong.fan@windriver.com>
+From: Khem Raj <raj.khem@gmail.com>
 
-remake is a patched version of GNU Make that adds improved error
-reporting, the ability to trace execution in a comprehensible way,
-and a debugger.
+This recipe is imported from meta-oe its a requirement for
+systemd to work. Now that systemd is living in a layer of
+its own. Lets have this recipe into core metadata
 
-[YOCTO #2402]
-
-Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/recipes-devtools/remake/remake.inc            |   16 ++++++++++++
- .../remake/remake/version-remake.texi.patch        |   16 ++++++++++++
- meta/recipes-devtools/remake/remake_git.bb         |   25 ++++++++++++++++++++
- 3 files changed, 57 insertions(+), 0 deletions(-)
- create mode 100644 meta/recipes-devtools/remake/remake.inc
- create mode 100644 meta/recipes-devtools/remake/remake/version-remake.texi.patch
- create mode 100644 meta/recipes-devtools/remake/remake_git.bb
+ meta/recipes-core/libcgroup/libcgroup_0.37.1.bb |   27 +++++++++++++++++++++++
+ 1 files changed, 27 insertions(+), 0 deletions(-)
+ create mode 100644 meta/recipes-core/libcgroup/libcgroup_0.37.1.bb
 
-diff --git a/meta/recipes-devtools/remake/remake.inc b/meta/recipes-devtools/remake/remake.inc
+diff --git a/meta/recipes-core/libcgroup/libcgroup_0.37.1.bb b/meta/recipes-core/libcgroup/libcgroup_0.37.1.bb
 new file mode 100644
-index 0000000..6ac833e
+index 0000000..a99d7ac
 --- /dev/null
-+++ b/meta/recipes-devtools/remake/remake.inc
-@@ -0,0 +1,16 @@
-+SUMMARY = "Makefile debugger which is gnumake 3.81 compatible"
-+DESCRIPTION = "remake is a patched and modernized version of GNU make \
-+utility that adds improved error reporting, the ability to trace \
-+execution in a comprehensible way, and a debugger."
++++ b/meta/recipes-core/libcgroup/libcgroup_0.37.1.bb
+@@ -0,0 +1,27 @@
++DESCRIPTION = "Libcgroup"
++SECTION = "libs"
++LICENSE = "LGPLv2.1"
++LIC_FILES_CHKSUM = "file://COPYING;md5=2d5025d4aa3495befef8f17206a5b0a1"
 +
-+HOMEPAGE = "http://bashdb.sourceforge.net/remake/"
-+SECTION = "devel"
++PR = "r1"
 +
-+SRC_URI = "git://github.com/rocky/remake.git"
++inherit autotools pkgconfig
 +
-+inherit autotools gettext update-alternatives
++DEPENDS = "${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
 +
-+ALTERNATIVE_${PN} = "make"
-+ALTERNATIVE_LINK_NAME[make] = "${bindir}/make"
-+ALTERNATIVE_TARGET[make] = "${bindir}/remake"
-+ALTERNATIVE_PRIORITY = "100"
-diff --git a/meta/recipes-devtools/remake/remake/version-remake.texi.patch b/meta/recipes-devtools/remake/remake/version-remake.texi.patch
-new file mode 100644
-index 0000000..fa6329e
---- /dev/null
-+++ b/meta/recipes-devtools/remake/remake/version-remake.texi.patch
-@@ -0,0 +1,16 @@
-+Upstream-Status: Pending
++SRC_URI = "${SOURCEFORGE_MIRROR}/project/libcg/${PN}/v${PV}/${PN}-${PV}.tar.bz2"
++SRC_URI[md5sum] = "24a41b18de112e8d085bb1f7d9e82af7"
++SRC_URI[sha256sum] = "0b08632de5d3641aa554b422d02a77d9367e57933328a8765204ad9588cd5c0d"
 +
-+version-remake.texi is not there but it is required by remake.texi,
-+just add it for getting the 'make remake.info' works.
++EXTRA_OECONF = "${@base_contains('DISTRO_FEATURES', 'pam', '--enable-pam-module-dir=${base_libdir}/security --enable-pam=yes', '--enable-pam=no', d)}"
 +
-+==============================================================
-+diff --git a/doc/version-remake.texi b/doc/version-remake.texi
-+new file mode 100644
-+index 0000000..2a3b72b
-+--- /dev/null
-++++ b/doc/version-remake.texi
-+@@ -0,0 +1,4 @@
-++@set UPDATED 10 June 2012
-++@set UPDATED-MONTH June 2012
-++@set EDITION 3.82+dbg-0.9git
-++@set VERSION 3.82+dbg-0.9git
-diff --git a/meta/recipes-devtools/remake/remake_git.bb b/meta/recipes-devtools/remake/remake_git.bb
-new file mode 100644
-index 0000000..7e9857e9
---- /dev/null
-+++ b/meta/recipes-devtools/remake/remake_git.bb
-@@ -0,0 +1,25 @@
-+PR = "r0"
-+LICENSE = "GPLv2"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
-+                    file://tests/COPYING;md5=d32239bcb673463ab874e80d47fae504 \
-+                    file://glob/COPYING.LIB;md5=4a770b67e6be0f60da244beb2de0fce4"
-+require remake.inc
++# http://www.mail-archive.com/openembedded-devel@lists.openembedded.org/msg21444.html
++PARALLEL_MAKE = ""
 +
-+SRC_URI += "file://version-remake.texi.patch"
-+SRCREV = "414d6e84121c6740ff5079370c905dea0f0e1ddb"
-+S = "${WORKDIR}/git"
++PACKAGES =+ "cgroups-pam-plugin"
++FILES_cgroups-pam-plugin = "${base_libdir}/security/pam_cgroup.so*"
++FILES_${PN}-dbg += "${base_libdir}/security/.debug"
++FILES_${PN}-dev += "${base_libdir}/security/*.la"
 +
-+DEPENDS += "readline"
-+PROVIDES += "make"
-+
-+do_configure_prepend() {
-+    # create config.rpath which required by configure.ac
-+    autopoint || touch config.rpath
-+}
-+
-+do_compile_prepend() {
-+    # updating .po and other gnu build files
-+    make update
-+}
-+
-+BBCLASSEXTEND = "native"
++# We really need the symlink so :(
++INSANE_SKIP_${PN} = "dev-so"
 -- 
 1.7.7.6
 
