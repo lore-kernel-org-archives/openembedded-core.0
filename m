@@ -1,24 +1,24 @@
 Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Stw3g-0004Xn-8e
+	(envelope-from <sgw@linux.intel.com>) id 1Stw3h-0004Xt-4O
 	for openembedded-core@lists.openembedded.org;
-	Wed, 25 Jul 2012 09:31:00 +0200
+	Wed, 25 Jul 2012 09:31:01 +0200
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
 	by azsmga102.ch.intel.com with ESMTP; 25 Jul 2012 00:19:29 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="172897576"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="172897579"
 Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.97])
-	by azsmga001.ch.intel.com with ESMTP; 25 Jul 2012 00:19:28 -0700
+	by azsmga001.ch.intel.com with ESMTP; 25 Jul 2012 00:19:29 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 25 Jul 2012 00:19:08 -0700
-Message-Id: <f6f60b6a4cdd2b1206007205147bca95b8466ac8.1343200454.git.sgw@linux.intel.com>
+Date: Wed, 25 Jul 2012 00:19:09 -0700
+Message-Id: <628f394ac4d2f87418149d4fdf71ccae11111274.1343200454.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <cover.1343200454.git.sgw@linux.intel.com>
 References: <cover.1343200454.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1343200454.git.sgw@linux.intel.com>
 References: <cover.1343200454.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED PULL 14/28] cups_1.4.6.bb: Fix build on ppc64
+Subject: [CONSOLIDATED PULL 15/28] remake: Add remake-native and remake
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,132 +33,102 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Jul 2012 07:31:00 -0000
+X-List-Received-Date: Wed, 25 Jul 2012 07:31:02 -0000
 
-From: Khem Raj <raj.khem@gmail.com>
+From: Wenzong Fan <wenzong.fan@windriver.com>
 
-ppc64 uses lib64 and usr/lib64 for library paths
-so we need to train cups build system
+remake is a patched version of GNU Make that adds improved error
+reporting, the ability to trace execution in a comprehensible way,
+and a debugger.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+[YOCTO #2402]
+
+Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- .../cups/cups-1.4.6/cups_serverbin.patch           |   32 ++++++++++++++++++++
- meta/recipes-extended/cups/cups14.inc              |   26 ++++++++--------
- meta/recipes-extended/cups/cups_1.4.6.bb           |    7 ++--
- 3 files changed, 49 insertions(+), 16 deletions(-)
- create mode 100644 meta/recipes-extended/cups/cups-1.4.6/cups_serverbin.patch
+ meta/recipes-devtools/remake/remake.inc            |   16 ++++++++++++
+ .../remake/remake/version-remake.texi.patch        |   16 ++++++++++++
+ meta/recipes-devtools/remake/remake_git.bb         |   25 ++++++++++++++++++++
+ 3 files changed, 57 insertions(+), 0 deletions(-)
+ create mode 100644 meta/recipes-devtools/remake/remake.inc
+ create mode 100644 meta/recipes-devtools/remake/remake/version-remake.texi.patch
+ create mode 100644 meta/recipes-devtools/remake/remake_git.bb
 
-diff --git a/meta/recipes-extended/cups/cups-1.4.6/cups_serverbin.patch b/meta/recipes-extended/cups/cups-1.4.6/cups_serverbin.patch
+diff --git a/meta/recipes-devtools/remake/remake.inc b/meta/recipes-devtools/remake/remake.inc
 new file mode 100644
-index 0000000..f7b44a7
+index 0000000..6ac833e
 --- /dev/null
-+++ b/meta/recipes-extended/cups/cups-1.4.6/cups_serverbin.patch
-@@ -0,0 +1,32 @@
-+Make CUPS_SERVERBIN relative to libdir otherwise on 64bit arches
-+e.g. ppc64 where base libdir is lib64 this does not go well
++++ b/meta/recipes-devtools/remake/remake.inc
+@@ -0,0 +1,16 @@
++SUMMARY = "Makefile debugger which is gnumake 3.81 compatible"
++DESCRIPTION = "remake is a patched and modernized version of GNU make \
++utility that adds improved error reporting, the ability to trace \
++execution in a comprehensible way, and a debugger."
 +
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+Upstream-Status: Inappropriate [OE config specific]
++HOMEPAGE = "http://bashdb.sourceforge.net/remake/"
++SECTION = "devel"
 +
-+Index: cups-1.4.6/config-scripts/cups-directories.m4
-+===================================================================
-+--- cups-1.4.6.orig/config-scripts/cups-directories.m4	2009-04-12 16:04:51.000000000 -0700
-++++ cups-1.4.6/config-scripts/cups-directories.m4	2012-07-21 12:12:05.896405923 -0700
-+@@ -397,7 +397,7 @@
-+ 	*)
-+ 		# All others
-+ 		INSTALL_SYSV="install-sysv"
-+-		CUPS_SERVERBIN="$exec_prefix/lib/cups"
-++		CUPS_SERVERBIN="$libdir/cups"
-+ 		;;
-+ esac
-+ 
-+Index: cups-1.4.6/configure
-+===================================================================
-+--- cups-1.4.6.orig/configure	2012-07-21 12:13:34.512405950 -0700
-++++ cups-1.4.6/configure	2012-07-21 12:14:05.724406017 -0700
-+@@ -11181,7 +11181,7 @@
-+ 	*)
-+ 		# All others
-+ 		INSTALL_SYSV="install-sysv"
-+-		CUPS_SERVERBIN="$exec_prefix/lib/cups"
-++		CUPS_SERVERBIN="$libdir/cups"
-+ 		;;
-+ esac
-+ 
-diff --git a/meta/recipes-extended/cups/cups14.inc b/meta/recipes-extended/cups/cups14.inc
-index 4f2b0a1..0517007 100644
---- a/meta/recipes-extended/cups/cups14.inc
-+++ b/meta/recipes-extended/cups/cups14.inc
-@@ -27,7 +27,7 @@ EXTRA_OECONF = " \
- do_configure() {
- 	gnu-configize
- 	libtoolize --force
--	DSOFLAGS="${LDFLAGS}" oe_runconf
-+	DSOFLAGS="${LDFLAGS}" SERVERBIN="${libdir}/cups" oe_runconf
- }
- 
- do_compile () {
-@@ -66,24 +66,24 @@ python do_package_append() {
- 
- PACKAGES =+ "${PN}-lib ${PN}-libimage"
- 
--FILES_${PN} += "${exec_prefix}/lib/cups/backend \
--		${exec_prefix}/lib/cups/cgi-bin \
--		${exec_prefix}/lib/cups/filter \
--		${exec_prefix}/lib/cups/monitor \
--		${exec_prefix}/lib/cups/notifier \
--		${exec_prefix}/lib/cups/daemon \
-+FILES_${PN} += "${libdir}/cups/backend \
-+		${libdir}/cups/cgi-bin \
-+		${libdir}/cups/filter \
-+		${libdir}/cups/monitor \
-+		${libdir}/cups/notifier \
-+		${libdir}/cups/daemon \
- 	       "
- 
- FILES_${PN}-lib = "${libdir}/libcups.so.*"
- 
- FILES_${PN}-libimage = "${libdir}/libcupsimage.so.*"
- 
--FILES_${PN}-dbg += "${exec_prefix}/lib/cups/backend/.debug \
--                    ${exec_prefix}/lib/cups/cgi-bin/.debug \
--                    ${exec_prefix}/lib/cups/filter/.debug \
--                    ${exec_prefix}/lib/cups/monitor/.debug \
--                    ${exec_prefix}/lib/cups/notifier/.debug \
--                    ${exec_prefix}/lib/cups/daemon/.debug \
-+FILES_${PN}-dbg += "${libdir}/cups/backend/.debug \
-+                    ${libdir}/cups/cgi-bin/.debug \
-+                    ${libdir}/cups/filter/.debug \
-+                    ${libdir}/cups/monitor/.debug \
-+                    ${libdir}/cups/notifier/.debug \
-+                    ${libdir}/cups/daemon/.debug \
-                    "
- 
- #package the html for the webgui inside the main packages (~1MB uncompressed)
-diff --git a/meta/recipes-extended/cups/cups_1.4.6.bb b/meta/recipes-extended/cups/cups_1.4.6.bb
-index 9825138..8485180 100644
---- a/meta/recipes-extended/cups/cups_1.4.6.bb
-+++ b/meta/recipes-extended/cups/cups_1.4.6.bb
-@@ -1,13 +1,14 @@
- require cups14.inc
- 
--PR = "r4"
-+PR = "r5"
- DEPENDS += "libusb \
-        ${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
- 
- LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=956e7600195e6139f12de8c2a5bbefa9"
- SRC_URI += " \
--	file://use_echo_only_in_init.patch \
--    file://0001-don-t-try-to-run-generated-binaries.patch \
-+            file://use_echo_only_in_init.patch \
-+            file://0001-don-t-try-to-run-generated-binaries.patch \
-+            file://cups_serverbin.patch \
- 	"
- 
- SRC_URI[md5sum] = "de8fb5a29c36554925c0c6a6e2c0dae1"
++SRC_URI = "git://github.com/rocky/remake.git"
++
++inherit autotools gettext update-alternatives
++
++ALTERNATIVE_${PN} = "make"
++ALTERNATIVE_LINK_NAME[make] = "${bindir}/make"
++ALTERNATIVE_TARGET[make] = "${bindir}/remake"
++ALTERNATIVE_PRIORITY = "100"
+diff --git a/meta/recipes-devtools/remake/remake/version-remake.texi.patch b/meta/recipes-devtools/remake/remake/version-remake.texi.patch
+new file mode 100644
+index 0000000..fa6329e
+--- /dev/null
++++ b/meta/recipes-devtools/remake/remake/version-remake.texi.patch
+@@ -0,0 +1,16 @@
++Upstream-Status: Pending
++
++version-remake.texi is not there but it is required by remake.texi,
++just add it for getting the 'make remake.info' works.
++
++==============================================================
++diff --git a/doc/version-remake.texi b/doc/version-remake.texi
++new file mode 100644
++index 0000000..2a3b72b
++--- /dev/null
+++++ b/doc/version-remake.texi
++@@ -0,0 +1,4 @@
+++@set UPDATED 10 June 2012
+++@set UPDATED-MONTH June 2012
+++@set EDITION 3.82+dbg-0.9git
+++@set VERSION 3.82+dbg-0.9git
+diff --git a/meta/recipes-devtools/remake/remake_git.bb b/meta/recipes-devtools/remake/remake_git.bb
+new file mode 100644
+index 0000000..7e9857e9
+--- /dev/null
++++ b/meta/recipes-devtools/remake/remake_git.bb
+@@ -0,0 +1,25 @@
++PR = "r0"
++LICENSE = "GPLv2"
++LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
++                    file://tests/COPYING;md5=d32239bcb673463ab874e80d47fae504 \
++                    file://glob/COPYING.LIB;md5=4a770b67e6be0f60da244beb2de0fce4"
++require remake.inc
++
++SRC_URI += "file://version-remake.texi.patch"
++SRCREV = "414d6e84121c6740ff5079370c905dea0f0e1ddb"
++S = "${WORKDIR}/git"
++
++DEPENDS += "readline"
++PROVIDES += "make"
++
++do_configure_prepend() {
++    # create config.rpath which required by configure.ac
++    autopoint || touch config.rpath
++}
++
++do_compile_prepend() {
++    # updating .po and other gnu build files
++    make update
++}
++
++BBCLASSEXTEND = "native"
 -- 
 1.7.7.6
 
