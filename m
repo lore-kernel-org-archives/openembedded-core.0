@@ -1,33 +1,24 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1StxUz-0003zn-Cj for openembedded-core@lists.openembedded.org;
-	Wed, 25 Jul 2012 11:03:17 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6P8pmpc009202
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Jul 2012 09:51:48 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 07718-06 for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Jul 2012 09:51:45 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6P8pceo009196
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Jul 2012 09:51:40 +0100
-Message-ID: <1343206296.22222.24.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Wed, 25 Jul 2012 09:51:36 +0100
-In-Reply-To: <1342804329-5791-1-git-send-email-otavio@ossystems.com.br>
-References: <1342804329-5791-1-git-send-email-otavio@ossystems.com.br>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 1/2] bash: enable parallel build
+Received: from mail1.windriver.com ([147.11.146.13])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <Kai.Kang@windriver.com>) id 1StyIP-0004at-Ce
+	for openembedded-core@lists.openembedded.org;
+	Wed, 25 Jul 2012 11:54:21 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q6P9go5k021861
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 25 Jul 2012 02:42:50 -0700 (PDT)
+Received: from localhost.localdomain (128.224.162.164) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
+	(TLS) id 14.1.255.0; Wed, 25 Jul 2012 02:42:49 -0700
+From: Kang Kai <kai.kang@windriver.com>
+To: <saul.wold@intel.com>
+Date: Wed, 25 Jul 2012 17:42:41 +0800
+Message-ID: <cover.1343209283.git.kai.kang@windriver.com>
+X-Mailer: git-send-email 1.7.5.4
+MIME-Version: 1.0
+X-Originating-IP: [128.224.162.164]
+Cc: Zhenfeng.Zhao@windriver.com, openembedded-core@lists.openembedded.org
+Subject: [PATCH 0/3] Update packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,54 +33,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Jul 2012 09:03:17 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 25 Jul 2012 09:54:21 -0000
+Content-Type: text/plain
 
-On Fri, 2012-07-20 at 14:12 -0300, Otavio Salvador wrote:
-> I've build it several times in a 8 core machine without problem so it
-> seems safe to use parallel build now.
+Hi Saul,
 
-Sadly its not:
+These patches update liburi-perl, qmmp and ltp.
 
-http://autobuilder.yoctoproject.org:8010/builders/nightly-multilib/builds/174/steps/shell_23/logs/stdio
+Regards,
+Kai
 
-Cheers,
+The following changes since commit 0ffb02eec2beaea27ff0ec9d3d31b0a09e675a4c:
 
-Richard
+  documentation: Updated the h6 style to use a larger font (2012-07-24 10:35:34 +0100)
 
-> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-> ---
->  meta/recipes-extended/bash/bash.inc    |    2 --
->  meta/recipes-extended/bash/bash_4.2.bb |    2 +-
->  2 files changed, 1 insertions(+), 3 deletions(-)
-> 
-> diff --git a/meta/recipes-extended/bash/bash.inc b/meta/recipes-extended/bash/bash.inc
-> index ff9b0ce..6d7e930 100644
-> --- a/meta/recipes-extended/bash/bash.inc
-> +++ b/meta/recipes-extended/bash/bash.inc
-> @@ -9,8 +9,6 @@ DEPENDS = "ncurses bison-native"
->  
->  inherit autotools gettext update-alternatives
->  
-> -PARALLEL_MAKE = ""
-> -
->  bindir = "/bin"
->  sbindir = "/sbin"
->  
-> diff --git a/meta/recipes-extended/bash/bash_4.2.bb b/meta/recipes-extended/bash/bash_4.2.bb
-> index e96709a..a28279e 100644
-> --- a/meta/recipes-extended/bash/bash_4.2.bb
-> +++ b/meta/recipes-extended/bash/bash_4.2.bb
-> @@ -1,6 +1,6 @@
->  require bash.inc
->  
-> -PR = "r2"
-> +PR = "r3"
->  
->  SRC_URI = "${GNU_MIRROR}/bash/${BPN}-${PV}.tar.gz;name=tarball \
->             ${GNU_MIRROR}/bash/bash-4.2-patches/bash42-001;apply=yes;striplevel=0;name=patch001 \
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib kangkai/update-pkgs
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/update-pkgs
 
+Kang Kai (3):
+  ltp: update to version 20120614
+  qmmp: update 0.6.1
+  liburi-perl: update to 1.60
+
+ .../{liburi-perl_1.59.bb => liburi-perl_1.60.bb}   |    7 +++----
+ .../ltp/ltp/fix_building_fom_archive.patch         |   13 -------------
+ .../ltp/{ltp_20120401.bb => ltp_20120614.bb}       |   12 +++++-------
+ .../qt-apps/{qmmp_0.5.2.bb => qmmp_0.6.1.bb}       |    8 ++++----
+ 4 files changed, 12 insertions(+), 28 deletions(-)
+ rename meta/recipes-devtools/perl/{liburi-perl_1.59.bb => liburi-perl_1.60.bb} (81%)
+ delete mode 100644 meta/recipes-extended/ltp/ltp/fix_building_fom_archive.patch
+ rename meta/recipes-extended/ltp/{ltp_20120401.bb => ltp_20120614.bb} (91%)
+ rename meta/recipes-qt/qt-apps/{qmmp_0.5.2.bb => qmmp_0.6.1.bb} (90%)
+
+-- 
+1.7.5.4
 
 
 
