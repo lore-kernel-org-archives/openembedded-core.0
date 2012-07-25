@@ -1,33 +1,36 @@
-Received: from mail-gg0-f175.google.com ([209.85.161.175])
+Received: from mail-vb0-f47.google.com ([209.85.212.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <schnitzeltony@googlemail.com>) id 1Su0XJ-0007A3-SQ
+	(envelope-from <otavio.salvador@gmail.com>) id 1Su0cj-0007Ei-4w
 	for openembedded-core@lists.openembedded.org;
-	Wed, 25 Jul 2012 14:17:54 +0200
-Received: by ggnp4 with SMTP id p4so521846ggn.6
+	Wed, 25 Jul 2012 14:23:29 +0200
+Received: by vbbfr13 with SMTP id fr13so453093vbb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Jul 2012 05:06:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type; bh=RoVzmD7KPct43W9QZ34W/6hm/CIsuK6JfPfN2Ak+/pM=;
-	b=kDkY4FjxywUdcMqBh6l/BDtWv+vTxQiuKwZe4SZZ1gLjt3rUcbzHlYeM9rMz1mVe1J
-	an3za5ZeOJ5drU8OH5C4jDAkRRkM0CItYlgyEP3ovpEW36tijHhzQpmXvsNCLC/mrM6h
-	hKFnUB8Y9JtCd7CRX4sPjarBZVlZsrT3CJa8RzqcPuBZKR4xbeaiTLUKBZRTY5FFNnvT
-	sd0SNAaBTQf3k3vid5nGMsVdaE6tmQ8bR91yoDSZcO6wxGvdUZ05ICRD1qKFuhUgwz5S
-	Ri1gwMd6lGWRJZYdPoAbupAsukJbpMp5YhvchwBKh2/S4oDcGXj9oHOlBBW1H7dW/5Ey
-	3VgA==
+	Wed, 25 Jul 2012 05:11:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:content-type;
+	bh=52kzxvFnOaptZIhvZ1LorY+j0W575zsjH9S4Fx8oh5M=;
+	b=OrXtqD7QmBKYbFyWzmcSMNX08XCbawr+7EUlZFCG0/tzoJzkCLtjG+T75ChI4PDGjj
+	7SxXO6OBkWVYyD7mk7aiotaOO4ifi2iLbI1aCYSmsUfoyNDhsU4yovqscTxGtCXkiczR
+	Q3nTSKBA1SdabAV8zusEyytZpCneiMoJJfTZuxFtlBoSo4V/XxrIV6jK5wo4S6ghTq2N
+	2zrbzPvCGX/7R62fmTNcU/7C6XmfL8hczOQBvy9oMSXXUNmvxJnqXxRQokvca7qAEe7A
+	hnUQOvI6tykYtBaE0mJbwr+p0Rgc+TIewNWS3sWGvnJogvD25ae3FLaud3NUrAOdZOnN
+	urBQ==
 MIME-Version: 1.0
-Received: by 10.43.52.198 with SMTP id vn6mr23905574icb.42.1343217983865; Wed,
-	25 Jul 2012 05:06:23 -0700 (PDT)
-Received: by 10.64.9.165 with HTTP; Wed, 25 Jul 2012 05:06:23 -0700 (PDT)
-In-Reply-To: <20120720231539.GB3576@jama.jama.net>
-References: <20120718133146.0C2B910217@opal>
-	<20120720231539.GB3576@jama.jama.net>
-Date: Wed, 25 Jul 2012 14:06:23 +0200
-Message-ID: <CALbNGRSkEhgOeEE1EZ05riyxB+mLQLvwfGNuNNdCTWZhKZ0KCg@mail.gmail.com>
-From: =?ISO-8859-1?Q?Andreas_M=FCller?= <schnitzeltony@googlemail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: Re: [oe-commits] Ross Burton : webkit-gtk: remove no-parallel bodge
+Received: by 10.220.154.79 with SMTP id n15mr17964547vcw.61.1343218319004;
+	Wed, 25 Jul 2012 05:11:59 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.220.220.196 with HTTP; Wed, 25 Jul 2012 05:11:58 -0700 (PDT)
+In-Reply-To: <1343206296.22222.24.camel@ted>
+References: <1342804329-5791-1-git-send-email-otavio@ossystems.com.br>
+	<1343206296.22222.24.camel@ted>
+Date: Wed, 25 Jul 2012 09:11:58 -0300
+X-Google-Sender-Auth: S1CkUjvpjBAgLT56hPdyKpeHwoQ
+Message-ID: <CAP9ODKpaH_RNunGH+zvmp5TFS0PnBA59__pdaoLywy8nMdq+Zw@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] bash: enable parallel build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,59 +45,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Jul 2012 12:17:54 -0000
+X-List-Received-Date: Wed, 25 Jul 2012 12:23:29 -0000
 Content-Type: text/plain; charset=ISO-8859-1
 
-On Sat, Jul 21, 2012 at 1:15 AM, Martin Jansa <martin.jansa@gmail.com> wrote:
->> This workaround was originally for GNU Make 3.82 which upstream was blaming
->> for a parallel build failure.  Since then I've changed numerous variables
->> and now parallel builds are working with 3.82 (and succeed in 20 minutes
->> instead of 2 hours).
->>
->> Revert the change until we've more data about what causes the breakage, then
->> we can bring it back with more finesse.
-> Now it failed on one of my builders:
+On Wed, Jul 25, 2012 at 5:51 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Fri, 2012-07-20 at 14:12 -0300, Otavio Salvador wrote:
+>> I've build it several times in a 8 core machine without problem so it
+>> seems safe to use parallel build now.
 >
-> | arm-oe-linux-gnueabi-libtool: link: arm-oe-linux-gnueabi-ranlib
-> .libs/libWebCoreGtk.a
-> | mv -f
-> Tools/DumpRenderTree/gtk/.deps/Programs_DumpRenderTree-TextInputController.Tpo
-> Tools/DumpRenderTree/gtk/.deps/Programs_DumpRenderTree-TextInputController.Po
-> | arm-oe-linux-gnueabi-libtool: link: ( cd "TestNetscapePlugin/.libs" &&
-> rm -f "libtestnetscapeplugin.la" && ln -s "../libtestnetscapeplugin.la"
-> "libtestnetscapeplugin.la"
-> )
-> | arm-oe-linux-gnueabi-libtool: link: cannot find the library
-> `libjavascriptcoregtk-1.0.la' or unhandled argument
-> `libjavascriptcoregtk-1.0.la'
-> | make[1]: *** [Programs/minidom] Error 1
-> | arm-oe-linux-gnueabi-libtool: link: ( cd ".libs" && rm -f
-> "libWebCoreGtk.la" && ln -s "../libWebCoreGtk.la" "libWebCoreGtk.la" )
+> Sadly its not:
 >
-> GNU Make 3.82
->
-> I've built it without PARALLEL_MAKE about 8 times already and this is
-> first time it failed.. so the race condition is probably still there.
->
-> Cheers,
->
-> --
-> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-I have tried 3 times (with cleansstate) and got 100% failure - similar
-to Martin's:
+> http://autobuilder.yoctoproject.org:8010/builders/nightly-multilib/builds/174/steps/shell_23/logs/stdio
 
-| arm-angstrom-linux-gnueabi-libtool: link: cannot find the library
-`libjavascriptcoregtk-1.0.la' or unhandled argument
-`libjavascriptcoregtk-1.0.la'
-| make[1]: *** [Programs/unittests/testdomdomwindow] Error 1
-| make[1]: *** Waiting for unfinished jobs....
-| arm-angstrom-linux-gnueabi-libtool: link: cannot find the library
-`libjavascriptcoregtk-1.0.la' or unhandled argument
-`libjavascriptcoregtk-1.0.la'
-| make[1]: *** [Programs/unittests/testdomdocument] Error 1
+Good that it has been catch but I am pondering why this worked fine here...
 
-I reverted this patch and build is fine.
+Please drop this patch then ... if it has been applied, I can send a
+reversing patch if you want.
 
-Andreas
+-- 
+Otavio Salvador                             O.S. Systems
+E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
+Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
 
 
