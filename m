@@ -1,37 +1,20 @@
-Received: from mail-lb0-f175.google.com ([209.85.217.175])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1Su27y-0008Lx-SC
+	(envelope-from <radu.moisan@intel.com>) id 1Su2Fe-0000Oi-Iq
 	for openembedded-core@lists.openembedded.org;
-	Wed, 25 Jul 2012 15:59:50 +0200
-Received: by lbol5 with SMTP id l5so578773lbo.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Jul 2012 06:48:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date
-	:x-google-sender-auth:message-id:subject:to:cc:content-type;
-	bh=HjQ6Jq8cEXMuniRQaIiske4NgDriNCPSgxRZdLZAcyQ=;
-	b=oJoX8jNEYbnHeCImGeV++Wq1cVhcRes1zkxNbqZlxzL3HzD0xqIN80BQxY+JJUTQhH
-	0tEPhfVigcwcr0K+lavEAu8boCzZibIc3dd0wSM8iqiScnqh21iHnMEJ1URwh6g3kPKp
-	/VVL6Y0q6j10aeyjxKGN5h0NJfGCPfYJBdyoM2dyvR9Cdw/zoP8mhWtP/DkvO54HrWJ0
-	WteRi8QG+mpniWrCZZffHszPGSgBS5XKIYrrxUJz68yKvKZkQzNIw4BHlknrfFVpKvVH
-	fkW/4XBkjXH3FXPSJzZcmbSVWjR83OJuHFDFNXijb1uYRjIjFlvYewix9HqYTEM3M8xE
-	efXw==
-Received: by 10.152.148.1 with SMTP id to1mr25836974lab.34.1343224101148; Wed,
-	25 Jul 2012 06:48:21 -0700 (PDT)
-MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.114.64.180 with HTTP; Wed, 25 Jul 2012 06:48:00 -0700 (PDT)
-In-Reply-To: <17225760.ocbdZxpBHY@helios>
-References: <cover.1343199345.git.Xin.Ouyang@windriver.com>
-	<969F26A8BAB325438E7EB80D3C3134FB16174E03@IRSMSX102.ger.corp.intel.com>
-	<17225760.ocbdZxpBHY@helios>
-From: Chris Larson <clarson@kergoth.com>
-Date: Wed, 25 Jul 2012 06:48:00 -0700
-X-Google-Sender-Auth: pKwmJMtIrF8PSpY5U7mCQkKug7Y
-Message-ID: <CABcZANkFVqWFAD9YWMcR+QWC3ap85Ua8Bi7_bk_tYAub535dtA@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Package recipes change proposal (system-wide) - name wise
+	Wed, 25 Jul 2012 16:07:46 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 25 Jul 2012 06:56:08 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="197908159"
+Received: from dell-desktop (HELO localhost.localdomain) ([10.237.105.32])
+	by fmsmga002.fm.intel.com with ESMTP; 25 Jul 2012 06:56:07 -0700
+From: Radu Moisan <radu.moisan@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 25 Jul 2012 17:03:51 +0300
+Message-Id: <1343225031-19107-1-git-send-email-radu.moisan@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] dbus: include dbus-launch in the main dbus package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,31 +29,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Jul 2012 13:59:51 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 25 Jul 2012 14:07:46 -0000
 
-On Wed, Jul 25, 2012 at 3:09 AM, Paul Eggleton
-<paul.eggleton@linux.intel.com> wrote:
-> On Wednesday 25 July 2012 07:23:31 Iorga, Cristian wrote:
->> For me, having the version number contained in the name of package recipe is
->> a little bit puzzling. For example: libpcre/libpcre_8.31.bb
->>
->> Is there a solid technical reason to not have it like this?
->>
->> libpcre/libpcre.bb
->> and inside the recipe to have a PV variable defined:
->> PV="8.31"
->
-> The benefit of having PV in the recipe file name is that you can then easily
-> have different recipes for different versions of the same piece of software,
-> which is particularly useful when those different versions may need to be built
-> slightly differently.
+Followed suggestions from Bugz 2261:
 
-It's worth noting that that can still be done by leveraging
-BBVERSIONS. Not that I'm advocating that approach necessarily, but
-noting that it can still be done without using multiple recipes with
-version in the filename.
+1) remove the --with-x/--without-x configure arguments. If you want to force
+no-discovery for native builds the correct argument is --disable-x11-autolaunch.
+This ensures that DBus looks at the build environment to determine whether to
+enable X11 bus discovery or not.
+
+2) make the virtual/libx11 DEPENDS conditional based on the x11 distro feature.
+This makes the build dependencies reflect the feature list.
+
+3) remove dbus-x11, meaning that dbus-launch with its potential X11 dependency
+is now back in dbus where is belongs.
+
+4) Potentially make dbus provide dbus-x11, for compatibility.
+
+Fixes [Yocto #2261]
+
+Signed-off-by: Radu Moisan <radu.moisan@intel.com>
+---
+ meta/recipes-core/dbus/dbus.inc |   12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/meta/recipes-core/dbus/dbus.inc b/meta/recipes-core/dbus/dbus.inc
+index a75583d..903f232 100644
+--- a/meta/recipes-core/dbus/dbus.inc
++++ b/meta/recipes-core/dbus/dbus.inc
+@@ -31,10 +31,9 @@ CONFFILES_${PN} = "${sysconfdir}/dbus-1/system.conf ${sysconfdir}/dbus-1/session
+ 
+ DEBIANNAME_${PN} = "dbus-1"
+ 
+-PACKAGES =+ "${PN}-lib ${PN}-systemd ${@base_contains('DISTRO_FEATURES', 'x11', '${PN}-x11', '', d)}"
+-
+-FILES_${PN}-x11 = "${bindir}/dbus-launch"
+-RDEPENDS_${PN}-x11 = "${PN}"
++PACKAGES =+ "${PN}-lib ${PN}-systemd"
++# for compatibility
++RPROVIDES = "${PN}-x11"
+ 
+ FILES_${PN}-systemd = "${systemd_unitdir}/system/"
+ 
+@@ -43,6 +42,7 @@ FILES_${PN} = "${bindir}/dbus-daemon* \
+                ${bindir}/dbus-cleanup-sockets \
+                ${bindir}/dbus-send \
+                ${bindir}/dbus-monitor \
++               ${bindir}/dbus-launch \
+                ${libexecdir}/dbus* \
+                ${sysconfdir} \
+                ${localstatedir} \
+@@ -58,8 +58,8 @@ pkg_postinst_dbus() {
+ 	fi
+ }
+ 
+-EXTRA_OECONF_X = "${@base_contains('DISTRO_FEATURES', 'x11', '--with-x', '--without-x', d)}"
+-EXTRA_OECONF_X_virtclass-native = "--without-x"
++EXTRA_OECONF_X = ""
++EXTRA_OECONF_X_virtclass-native = "--disable-x11-autolaunch"
+ 
+ EXTRA_OECONF = "--disable-tests \
+                 --disable-checks \
 -- 
-Christopher Larson
+1.7.9.5
+
 
 
