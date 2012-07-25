@@ -1,20 +1,23 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <cristian.iorga@intel.com>) id 1StvTv-00012Q-8T
+	(envelope-from <Xin.Ouyang@windriver.com>) id 1Stvnk-0001d5-8E
 	for openembedded-core@lists.openembedded.org;
-	Wed, 25 Jul 2012 08:54:03 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 24 Jul 2012 23:42:33 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="177175995"
-Received: from sentry (HELO localhost.localdomain) ([10.237.105.53])
-	by orsmga002.jf.intel.com with ESMTP; 24 Jul 2012 23:42:32 -0700
-From: Cristian Iorga <cristian.iorga@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 25 Jul 2012 09:42:39 +0300
-Message-Id: <1343198559-3548-1-git-send-email-cristian.iorga@intel.com>
+	Wed, 25 Jul 2012 09:14:32 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q6P731eY020119
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 25 Jul 2012 00:03:01 -0700 (PDT)
+Received: from Xouyang-Ubuntu.corp.ad.wrs.com (128.224.162.231) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.1.255.0; Wed, 25 Jul 2012 00:03:01 -0700
+From: <xin.ouyang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 25 Jul 2012 15:02:57 +0800
+Message-ID: <cover.1343199345.git.Xin.Ouyang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] libpcre: upgrade to ver. 8.31
+MIME-Version: 1.0
+Subject: [PATCH 0/1] mtools: add glibc-gconv-* to RDEPENDS/RRECOMMENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,40 +32,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Jul 2012 06:54:03 -0000
+X-List-Received-Date: Wed, 25 Jul 2012 07:14:32 -0000
+Content-Type: text/plain
 
-Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
----
- .../libpcre/{libpcre_8.30.bb => libpcre_8.31.bb}   |    6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-support/libpcre/{libpcre_8.30.bb => libpcre_8.31.bb} (93%)
+From: Xin Ouyang <Xin.Ouyang@windriver.com>
 
-diff --git a/meta/recipes-support/libpcre/libpcre_8.30.bb b/meta/recipes-support/libpcre/libpcre_8.31.bb
-similarity index 93%
-rename from meta/recipes-support/libpcre/libpcre_8.30.bb
-rename to meta/recipes-support/libpcre/libpcre_8.31.bb
-index 4c6dfae..e1dad8b 100644
---- a/meta/recipes-support/libpcre/libpcre_8.30.bb
-+++ b/meta/recipes-support/libpcre/libpcre_8.31.bb
-@@ -5,15 +5,15 @@ provides a POSIX calling interface to PCRE; the regular expressions \
- themselves still follow Perl syntax and semantics. The header file for \
- the POSIX-style functions is called pcreposix.h."
- SECTION = "devel"
--PR = "r2"
-+PR = "r0"
- LICENSE = "BSD"
- LIC_FILES_CHKSUM = "file://LICENCE;md5=115e2bee152e2e23e838a29136094877"
- SRC_URI = "${SOURCEFORGE_MIRROR}/project/pcre/pcre/${PV}/pcre-${PV}.tar.bz2 \
-            file://pcre-cross.patch \
-            file://fix-pcre-name-collision.patch"
- 
--SRC_URI[md5sum] = "98e8928cccc945d04279581e778fbdff"
--SRC_URI[sha256sum] = "c1113fd7db934e97ad8b3917d432e5b642e9eb9afd127eb797804937c965f4ac"
-+SRC_URI[md5sum] = "1c9a276af932b5599157f96e945391f0"
-+SRC_URI[sha256sum] = "5778a02535473c7ee7838ea598c19f451e63cf5eec0bf0307a688301c9078c3c"
- 
- S = "${WORKDIR}/pcre-${PV}"
- 
+[YOCTO #2829] 
+
+mtools commands use cp850 as the "mtools_default_codepage", they would
+use this to do some coverting tasks. 
+
+So, add glibc-gconv-ibm850 to RDEPENDS for mtools commands to run 
+correctly.
+
+
+
+
+The following changes since commit 0ffb02eec2beaea27ff0ec9d3d31b0a09e675a4c:
+
+  documentation: Updated the h6 style to use a larger font (2012-07-24 10:35:34 +0100)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib xouyang/master
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=xouyang/master
+
+Xin Ouyang (1):
+  mtools: add glibc-gconv-* to RDEPENDS/RRECOMMENDS
+
+ meta/recipes-devtools/mtools/mtools_3.9.9.bb  |   20 +++++++++++++++++++-
+ meta/recipes-devtools/mtools/mtools_4.0.17.bb |   20 +++++++++++++++++++-
+ 2 files changed, 38 insertions(+), 2 deletions(-)
+
 -- 
 1.7.9.5
 
