@@ -1,44 +1,36 @@
-Received: from mail-wg0-f43.google.com ([74.125.82.43])
+Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1Su35Y-0004gD-Gh
+	(envelope-from <ross.burton@intel.com>) id 1Su4lN-0005bT-F2
 	for openembedded-core@lists.openembedded.org;
-	Wed, 25 Jul 2012 17:01:24 +0200
-Received: by wgbdr1 with SMTP id dr1so749172wgb.24
+	Wed, 25 Jul 2012 18:48:41 +0200
+Received: from mail-wi0-f172.google.com ([209.85.212.172])
+	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 25 Jul 2012 09:37:10 -0700
+Received: by wibhm11 with SMTP id hm11so4302798wib.13
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Jul 2012 07:49:55 -0700 (PDT)
+	Wed, 25 Jul 2012 09:37:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date
-	:content-transfer-encoding:message-id:references:to:x-mailer
-	:x-gm-message-state;
-	bh=ytSaVHOhyuvYGV9Od9Y7u57VOV6koRc83VyDlG/tiBY=;
-	b=Oo9BbVqJtP2WhYf6wpvt80C/OTpFdbyzNqa7gCnni9OOmmpxFsJ2G+f3O6J7z+pOAO
-	WqqS+6bl1+L0ceMd7ygMhPKojYAQvZTvHIL8J61L63w+kVvQ7j8gdYekD+jMmkGz9zx1
-	PP/DKVZN1MrofRSk0ZSBQxDkVtXfSOaffoo98AxUzfFrHbL/ixlviGuRV0U8oiTDCmtr
-	/8aVo38WKIr17QWgVjQfM2lTfXb+jRR1TlM5+8JvIjK1+5sfDHlzT66PHEWtNifFdygD
-	DV+DY3XU+RqB0xhy/4lObmdvMbkjM12w6kXTTVkKJDL4mB0yrGyqDkoV2pq9bfWkvtGH
-	Ap0Q==
-Received: by 10.180.100.37 with SMTP id ev5mr5337488wib.5.1343227795055;
-	Wed, 25 Jul 2012 07:49:55 -0700 (PDT)
-Received: from [172.20.3.201] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id fb20sm4549249wid.1.2012.07.25.07.49.50
+	h=from:to:subject:date:message-id:x-mailer:x-gm-message-state;
+	bh=CwoFYFDwpwC37sr9cowm/+i0wHk40Ky2G4vcoAMlMIg=;
+	b=VjnJRNNjDvftPTwqunijm5ZxkG/WISiZTv86aAMe8z3iR66tMxIdGCJj+z2B9xtIvI
+	dShJ0nsY0bgP2wxUqwwkeb6+FssdKFw43wELdJ3gwAOp5RQQiXBC0WJemeeZjf/Ls785
+	Pzd8zREtvpjXcT7dXEWW3i+u6kjYwVhoQWe+t2Jyvt2OoTDegDYz4nKJP+hIrn4f/2q8
+	EiTN3JIuACum/Ixx3MHSLKaTLyAbygsvbJa60qrfNsXoNZAoZm4gUQMub5pGMvgoVBok
+	dcVZl2DJV6szbJAB2hUafvgApf7tgi3i3S11qYL/amyzLpSh4U3ou3dsUl1IfzGiFz3V
+	CD0w==
+Received: by 10.180.100.131 with SMTP id ey3mr6051226wib.15.1343234228407;
+	Wed, 25 Jul 2012 09:37:08 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPS id y5sm3323874wiw.9.2012.07.25.09.37.04
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 25 Jul 2012 07:49:52 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1278)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1528039.fg9dttDzQG@helios>
-Date: Wed, 25 Jul 2012 16:49:46 +0200
-Message-Id: <08A955C9-B5DA-4A79-A9DA-86653116D8E9@dominion.thruhere.net>
-References: <1343225031-19107-1-git-send-email-radu.moisan@intel.com>
-	<E1C8B862-C08F-4098-93A4-9C7E6262038B@dominion.thruhere.net>
-	<CAJTo0LbFcZYhBzgO4wEhnS4Dq+msQP9pu8Biagiy3cPGUoPGkA@mail.gmail.com>
-	<1528039.fg9dttDzQG@helios>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1278)
-X-Gm-Message-State: ALoCoQklYDUniEsLVLyM8MbiA4LcvLE968R8cVwfp53f4yQHiB5GmlXR83kkkZJo+oqdE1NWCaLc
-Subject: Re: [PATCH] dbus: include dbus-launch in the main dbus package
+	Wed, 25 Jul 2012 09:37:05 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 25 Jul 2012 17:36:39 +0100
+Message-Id: <1343234199-21520-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10
+X-Gm-Message-State: ALoCoQkBxgYoNlIYkpJoFoTDvMG1VL3HAlOStsPNLCSOy6AKzmm0/4P4qATL3kxwjygS4qHk6Eoi
+Subject: [PATCH] package.bbclass: don't error when the root doesn't exist in do_split_packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -53,22 +45,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Jul 2012 15:01:24 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 25 Jul 2012 16:48:41 -0000
 
+If nothing has been installed in the root automake 1.12 won't install the
+directory, which means os.walk will throw a file not found exception.
 
-Op 25 jul. 2012, om 16:23 heeft Paul Eggleton het volgende geschreven:
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/classes/package.bbclass |    4 ++++
+ 1 file changed, 4 insertions(+)
 
-> On Wednesday 25 July 2012 15:19:10 Burton, Ross wrote:
->> On 25 July 2012 15:17, Koen Kooi <koen@dominion.thruhere.net> wrote:
->>> This breaks the upgrade path
->> 
->> So how would the upgrade path be unbroken?  A dummy dbus-x11 package
->> that pulls in dbus, I suspect.
-> 
-> RREPLACES_${PN} += "dbus-x11" ought to be enough...
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index fc83424..0ddf788 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -74,6 +74,10 @@ def do_split_packages(d, root, file_regex, output_pattern, description, postinst
+     given package, usually plugins or modules.
+     """
+ 
++    # If the root doesn't exist, return early
++    if not os.path.exists(dvar + root):
++        return
++
+     ml = d.getVar("MLPREFIX", True)
+     if ml:
+         if not output_pattern.startswith(ml):
+-- 
+1.7.10
 
-Right, but since that's missing -> broken upgrade path
 
 
