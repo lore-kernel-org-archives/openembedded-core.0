@@ -1,42 +1,37 @@
-Received: from mail-gg0-f175.google.com ([209.85.161.175])
+Received: from mail-yw0-f47.google.com ([209.85.213.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrei@gherzan.ro>) id 1Su6GT-0007Im-O3
+	(envelope-from <andrei@gherzan.ro>) id 1Su6It-0007MX-58
 	for openembedded-core@lists.openembedded.org;
-	Wed, 25 Jul 2012 20:24:53 +0200
-Received: by ggnp4 with SMTP id p4so936885ggn.6
+	Wed, 25 Jul 2012 20:27:23 +0200
+Received: by yhjj56 with SMTP id j56so975163yhj.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Jul 2012 11:13:23 -0700 (PDT)
+	Wed, 25 Jul 2012 11:15:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=mime-version:x-originating-ip:in-reply-to:references:from:date
 	:message-id:subject:to:content-type:x-gm-message-state;
-	bh=xxL22L28gdlYFZxxbYi9eVLa82UpvX1bvr2VZxtAUC0=;
-	b=L1jva6d5F5PhLn9kLjeETuWCg70bZI2Z7HtORxxozO0h6iuab2zeiK7I++r9FOT7Bf
-	MqIDr6g3glOv0NN4euCmD2LMMzJB4Fcs1Gil1ECa+HhNIhfJVqLjrioZzR4HxCThMjq7
-	kvUS3454gZmX5b8dGtYqFM82ApP9QAbY/6BlwPj1+GemDuWduAaPccfh78zlT+n/FDUn
-	LcQ88JC+q8eBr0t0V0dEP3Cik+aVvHQAdNutHgv4ZQyF0X4lxwvGnpPqNheQYc4mcGmc
-	sFrCDpt7YdSgITvw/hLKSMcJ8S4RExq73RigwBfcVns/8kmSn8b6Xp9Z/HU/g+fr0jwC
-	Z5AA==
-Received: by 10.43.70.71 with SMTP id yf7mr26236961icb.14.1343240002780; Wed,
-	25 Jul 2012 11:13:22 -0700 (PDT)
+	bh=sNH7h9P/Csp8vq8JNXnwZYQzmeKGSyVZDc44GtAK7YI=;
+	b=nl5JiOuwOeOS57nt5DOW8S6uz7xt0Csop36d9el/M1G2PQax2ExsqPTN0S1iWmGCY5
+	1RRRM5wHoV0MEMX32zdH+2fh+Y+AoZqklVGWOYRDYBvXrUNQCu5eHjZVWcpRw2BHDI5w
+	e0qDKkoWMjSZopQqUz/nSTyGL4lrPkmxnB1LgLQ/g4mYc0mt46YHxppMuIIJt/qE6kJo
+	NcNqg1x3kwntCZMn/5hMqRtZ5WZKlotQcNo5h8O/bPSOcJpphiwCUSmIhbbcdsSuWRvH
+	Bmro++vy5Hg0Kw/zQ7g5dFoMLGmd9LHlNKdZJorJ0u9I+OxHqcQUQhfYj/QilUaFZmrU
+	/Eww==
+Received: by 10.42.132.1 with SMTP id b1mr19091775ict.8.1343240152959; Wed, 25
+	Jul 2012 11:15:52 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.64.139.164 with HTTP; Wed, 25 Jul 2012 11:13:02 -0700 (PDT)
+Received: by 10.64.139.164 with HTTP; Wed, 25 Jul 2012 11:15:32 -0700 (PDT)
 X-Originating-IP: [79.117.115.156]
-In-Reply-To: <20120711091137.GA4190@jama.jama.net>
-References: <9403579097d0430a5ce2cd3bb23925fe25917a0b.1341932186.git.andrei@gherzan.ro>
-	<d7e0c2813e4002b9dfd8e2d681b93da9ddc5870f.1341932186.git.andrei@gherzan.ro>
-	<1341936154.1294.3.camel@ted>
-	<CAK18fxFDoHEpzDnVwJLdPHKL48Qo7ZuwnJsQDE78U6fbcULjKw@mail.gmail.com>
-	<CAK18fxH2w_0hSQscbm6sad-a+=kk2eyQkOtJLMnsZRe8jaf8KA@mail.gmail.com>
-	<1341960238.2786.103.camel@x121e.pbcl.net>
-	<20120711091137.GA4190@jama.jama.net>
+In-Reply-To: <1342708981.7940.14.camel@ted>
+References: <1340871186-20545-1-git-send-email-andrei@gherzan.ro>
+	<1342708981.7940.14.camel@ted>
 From: Andrei Gherzan <andrei@gherzan.ro>
-Date: Wed, 25 Jul 2012 21:13:02 +0300
-Message-ID: <CAK18fxFyb7BHBTwV_BnaGbF7TJehNRXweQpyynY1y8hdN5OkqA@mail.gmail.com>
+Date: Wed, 25 Jul 2012 21:15:32 +0300
+Message-ID: <CAK18fxFqwi7-9+xG9mJaP4izg88hozvZ6zn8+OHLnHSs8QSHGw@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Gm-Message-State: ALoCoQlWkr7Fh9HUiOEUegdpe9OS+T/RHOQN0R37PHDE42JDwkNn7Xa1hqnUWtARF998xFKd/4VX
-Subject: Re: [PATCH 5/5] busybox.inc: Install hwclock init script only if rtc is present in MACHINE_FEATURES
+X-Gm-Message-State: ALoCoQnycPhxhncbgQUhM7Z+miuypFvlYwNO3axJKxe3UtqmbMuROP/cpCgdhIcsy73vPhPX6i7d
+Subject: Re: [PATCH] package.bbclass: Create symlinks for packages with different packaged name
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -51,85 +46,128 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Jul 2012 18:24:53 -0000
-Content-Type: multipart/alternative; boundary=bcaec51d221236bfc204c5ab6f46
+X-List-Received-Date: Wed, 25 Jul 2012 18:27:23 -0000
+Content-Type: multipart/alternative; boundary=90e6ba3fd4f92a4a0e04c5ab7867
 
---bcaec51d221236bfc204c5ab6f46
+--90e6ba3fd4f92a4a0e04c5ab7867
 Content-Type: text/plain; charset=ISO-8859-1
 
-On Wed, Jul 11, 2012 at 12:11 PM, Martin Jansa <martin.jansa@gmail.com>wrote:
+On Thu, Jul 19, 2012 at 5:43 PM, Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
 
-> On Tue, Jul 10, 2012 at 11:43:58PM +0100, Phil Blundell wrote:
-> > On Wed, 2012-07-11 at 01:15 +0300, Andrei Gherzan wrote:
-> > > And to move a little further, busybox should be configured with
-> > > CONFIG_HWCLOCK=y only if it makes sense for that MACHINE. In my
-> > > opinion this is machine specific.
+> On Thu, 2012-06-28 at 11:13 +0300, Andrei Gherzan wrote:
+> > While generating license.manifest package information is searched in:
+> > filename=`ls ${TMPDIR}/pkgdata/*/runtime/${pkg}| head -1`
+> > This is ok as long as package name is the same as the package name
+> > after packaging.
+> > For example dbus is packaged as dbus-1. So, searching
+> > ls ${TMPDIR}/pkgdata/*/runtime/dbus-1 will fail because there is no file
+> > with this package name.
 > >
-> > That's a DISTRO decision.  I suspect most that have binary feeds would
-> > prefer to have a single busybox binary per architecture, and accept the
-> > few wasted bytes on machines without RTC, than to make it MACHINE
-> > specific and end up building it multiple times.
+> > Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
+> > ---
+> >  meta/classes/package.bbclass |    5 +++++
+> >  1 file changed, 5 insertions(+)
+> >
+> > diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+> > index 10c2f0a..460b351 100644
+> > --- a/meta/classes/package.bbclass
+> > +++ b/meta/classes/package.bbclass
+> > @@ -1120,6 +1120,11 @@ python emit_pkgdata() {
+> >               sf.write('%s_%s: %s\n' % ('PKGSIZE', pkg,
+> get_directory_size(pkgdest + "/%s" % pkg)))
+> >               sf.close()
+> >
+> > +             # Symlinks needed while generating manifest
+> > +             pkgval = d.getVar('PKG_%s' % (pkg), True)
+> > +             if pkgval != pkg:
+> > +                     subdata_sym = pkgdatadir + "/runtime/%s" % pkgval
+> > +                     os.symlink(pkg,subdata_sym)
+> >
+> >               allow_empty = d.getVar('ALLOW_EMPTY_%s' % pkg, True)
+> >               if not allow_empty:
 >
-> Agreed.
+> I think this is the right idea, I'm just worried about having things in
+> the same directory. Could we do this but create the symlinks in a
+> "runtime-renamed" directory instead, then alter licence.bbclass to look
+> there?
 >
-> It would be better to package initscript + hwclock to separate packages
-> and then pull it to image only for machines with RTC.. but not making
-> whole busybox machine specific.
+> Cheers,
 >
-> Another advantage of this would be option to use busybox-hwclock as utility
-> and hwclock-systemd instead of busybox-hwclock-init for images which are
-> using systemd.
+> Richard
 >
 >
-Thank you all. It makes sense to keep busybox machine independent. I agree.
-Now if i package this init script separately how would it be pulled in by
-images? Think this could brake some image which now relay on this being
-pulled in by busybox.
+> Paul reworked this.
+http://patchwork.openembedded.org/patch/32871/
 
+Thank you,
 ag
 
---bcaec51d221236bfc204c5ab6f46
+--90e6ba3fd4f92a4a0e04c5ab7867
 Content-Type: text/html; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
-<div class=3D"gmail_quote">On Wed, Jul 11, 2012 at 12:11 PM, Martin Jansa <=
-span dir=3D"ltr">&lt;<a href=3D"mailto:martin.jansa@gmail.com" target=3D"_b=
-lank">martin.jansa@gmail.com</a>&gt;</span> wrote:<br><blockquote class=3D"=
-gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-=
-left:1ex">
+<div class=3D"gmail_quote">On Thu, Jul 19, 2012 at 5:43 PM, Richard Purdie =
+<span dir=3D"ltr">&lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org"=
+ target=3D"_blank">richard.purdie@linuxfoundation.org</a>&gt;</span> wrote:=
+<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-lef=
+t:1px #ccc solid;padding-left:1ex">
 
-<div class=3D"im">On Tue, Jul 10, 2012 at 11:43:58PM +0100, Phil Blundell w=
-rote:<br>
-&gt; On Wed, 2012-07-11 at 01:15 +0300, Andrei Gherzan wrote:<br>
-&gt; &gt; And to move a little further, busybox should be configured with<b=
-r>
-&gt; &gt; CONFIG_HWCLOCK=3Dy only if it makes sense for that MACHINE. In my=
-<br>
-&gt; &gt; opinion this is machine specific.<br>
+On Thu, 2012-06-28 at 11:13 +0300, Andrei Gherzan wrote:<br>
+&gt; While generating license.manifest package information is searched in:<=
+br>
+&gt; filename=3D`ls ${TMPDIR}/pkgdata/*/runtime/${pkg}| head -1`<br>
+&gt; This is ok as long as package name is the same as the package name<br>
+&gt; after packaging.<br>
+&gt; For example dbus is packaged as dbus-1. So, searching<br>
+&gt; ls ${TMPDIR}/pkgdata/*/runtime/dbus-1 will fail because there is no fi=
+le<br>
+&gt; with this package name.<br>
 &gt;<br>
-&gt; That&#39;s a DISTRO decision. =A0I suspect most that have binary feeds=
- would<br>
-&gt; prefer to have a single busybox binary per architecture, and accept th=
-e<br>
-&gt; few wasted bytes on machines without RTC, than to make it MACHINE<br>
-&gt; specific and end up building it multiple times.<br>
+&gt; Signed-off-by: Andrei Gherzan &lt;<a href=3D"mailto:andrei@gherzan.ro"=
+>andrei@gherzan.ro</a>&gt;<br>
+&gt; ---<br>
+&gt; =A0meta/classes/package.bbclass | =A0 =A05 +++++<br>
+&gt; =A01 file changed, 5 insertions(+)<br>
+&gt;<br>
+&gt; diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbcla=
+ss<br>
+&gt; index 10c2f0a..460b351 100644<br>
+&gt; --- a/meta/classes/package.bbclass<br>
+&gt; +++ b/meta/classes/package.bbclass<br>
+&gt; @@ -1120,6 +1120,11 @@ python emit_pkgdata() {<br>
+&gt; =A0 =A0 =A0 =A0 =A0 =A0 =A0 sf.write(&#39;%s_%s: %s\n&#39; % (&#39;PKG=
+SIZE&#39;, pkg, get_directory_size(pkgdest + &quot;/%s&quot; % pkg)))<br>
+&gt; =A0 =A0 =A0 =A0 =A0 =A0 =A0 sf.close()<br>
+&gt;<br>
+&gt; + =A0 =A0 =A0 =A0 =A0 =A0 # Symlinks needed while generating manifest<=
+br>
+&gt; + =A0 =A0 =A0 =A0 =A0 =A0 pkgval =3D d.getVar(&#39;PKG_%s&#39; % (pkg)=
+, True)<br>
+&gt; + =A0 =A0 =A0 =A0 =A0 =A0 if pkgval !=3D pkg:<br>
+&gt; + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 subdata_sym =3D pkgdatadir +=
+ &quot;/runtime/%s&quot; % pkgval<br>
+&gt; + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 os.symlink(pkg,subdata_sym)<=
+br>
+&gt;<br>
+&gt; =A0 =A0 =A0 =A0 =A0 =A0 =A0 allow_empty =3D d.getVar(&#39;ALLOW_EMPTY_=
+%s&#39; % pkg, True)<br>
+&gt; =A0 =A0 =A0 =A0 =A0 =A0 =A0 if not allow_empty:<br>
 <br>
-</div>Agreed.<br>
+I think this is the right idea, I&#39;m just worried about having things in=
 <br>
-It would be better to package initscript + hwclock to separate packages<br>
-and then pull it to image only for machines with RTC.. but not making<br>
-whole busybox machine specific.<br>
+the same directory. Could we do this but create the symlinks in a<br>
+&quot;runtime-renamed&quot; directory instead, then alter licence.bbclass t=
+o look<br>
+there?<br>
 <br>
-Another advantage of this would be option to use busybox-hwclock as utility=
+Cheers,<br>
 <br>
-and hwclock-systemd instead of busybox-hwclock-init for images which are<br=
->
-using systemd.<br><br></blockquote><div><br></div><div>Thank=A0you all. It =
-makes sense to keep busybox machine independent. I agree. Now if i package =
-this init script separately how would it be pulled in by images? Think this=
- could brake some image which now relay on this being pulled in by busybox.=
-=A0</div>
+Richard<br>
+<br>
+<br></blockquote><div>Paul reworked this.</div><div><a href=3D"http://patch=
+work.openembedded.org/patch/32871/">http://patchwork.openembedded.org/patch=
+/32871/</a></div><div><br></div><div>Thank you,</div><div>ag</div></div>
 
-<div><br></div><div>ag</div></div>
 
---bcaec51d221236bfc204c5ab6f46--
+--90e6ba3fd4f92a4a0e04c5ab7867--
