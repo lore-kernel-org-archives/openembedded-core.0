@@ -1,35 +1,36 @@
-Received: from mail-bk0-f47.google.com ([209.85.214.47])
+Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>)
-	id 1Su0ig-0007Ms-FW; Wed, 25 Jul 2012 14:29:38 +0200
-Received: by bkcik5 with SMTP id ik5so336366bkc.6
-	for <multiple recipients>; Wed, 25 Jul 2012 05:18:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=D/uAfEIZg1TUVhijwqOO8GRHmJMpaQB9/I/EsJg8ELo=;
-	b=0rmKmjGamlIcKTRvKm9ueYrJl1Jc/C816Ur02zk9LssQRgH6yNP7AuatLR+fpVWXVP
-	Ykqg3Ptph3pQWjWZ7NTIixWw8QQxMh73F/WPMtZVcJIn6QX13RDPYx1tLEg5wMV9VxlJ
-	aGlTQvgU4BowDd2tdlq8yfQRr5aPN2QfqKRcM8A82x6/AZQHvnaBERd7p2bdBSridgIF
-	wy9JRbaQCZRuHlvbjajEMzOfD4rNINj4FWzpjR0rSIlSYCwhUgIP2ETsIk0geP6+dYwe
-	VkH+X0bXgBuNfhmetVJMiwhAL2ZHe+Hv862II3TmuR13yBrMZbID/z/umsjn6oc0jZTO
-	o2NA==
-Received: by 10.204.145.82 with SMTP id c18mr11673715bkv.133.1343218688784;
-	Wed, 25 Jul 2012 05:18:08 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id fu8sm12711618bkc.5.2012.07.25.05.18.06
+	(envelope-from <ross.burton@intel.com>) id 1Su0m7-0007RK-WD
+	for openembedded-core@lists.openembedded.org;
+	Wed, 25 Jul 2012 14:33:12 +0200
+Received: from mail-we0-f180.google.com ([74.125.82.180])
+	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 25 Jul 2012 05:21:40 -0700
+Received: by weyt11 with SMTP id t11so426552wey.25
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 25 Jul 2012 05:21:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=from:to:subject:date:message-id:x-mailer:x-gm-message-state;
+	bh=uP6h3CCndlUKMDtM8Z8SF0aswmm+Y32cYVYxGL029C4=;
+	b=PrQ5ZOsWeLcJRzWpBVa/qVbei4RHgRHVthqx2Pyf/oRv/FMmoJzwsHYRMNPnXmt6Mj
+	e9NovzrntFnsZCCZmZoHFr7WWS7XPnJhucRaYswg4CMgebijtPnS+iAHIuoI4sXhnc5g
+	EarYookYpA7iZ3qk5jLW1T6HSBJIrRbhhPJ2YMV+yq79X0q4vglep8dnBZtq6TtLvaA9
+	KcjgR88mW2g/K3tevy5/VCV0rCWpVWBPXIAewJiT9C+x8OnoCyNj48P3UNlH1kUi61V7
+	Kf+7q9Ko7tDcelmtwNl63Sq3kUqwfJ35sNSzBLHKfzrZ4mlnYah5OxQ5lEdMlWMoOjlz
+	3QmA==
+Received: by 10.180.105.6 with SMTP id gi6mr4249578wib.4.1343218898973;
+	Wed, 25 Jul 2012 05:21:38 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPS id dc3sm945979wib.7.2012.07.25.05.21.37
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 25 Jul 2012 05:18:07 -0700 (PDT)
-Date: Wed, 25 Jul 2012 14:18:11 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
+	Wed, 25 Jul 2012 05:21:38 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Message-ID: <20120725121811.GA20145@jama.jama.net>
-References: <20120722104406.D46AB10330@opal>
-MIME-Version: 1.0
-In-Reply-To: <20120722104406.D46AB10330@opal>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-commits@lists.openembedded.org
-Subject: Re: [oe-commits] Bogdan Marinescu : autoconf: updated to 2.69
+Date: Wed, 25 Jul 2012 13:21:18 +0100
+Message-Id: <1343218878-2088-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10
+X-Gm-Message-State: ALoCoQn2/pGlQIU9btTyuT56u6+c3ioNmGipXguvBywNF2KDrJWqCZBc0vyNZg/qINznG5kh0N1+
+Subject: [PATCH] telepathy-glib: fix a build race
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,122 +45,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Jul 2012 12:29:38 -0000
-X-Groupsio-MsgNum: 26149
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="RnlQjJ0d97Da+TV1"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 25 Jul 2012 12:33:12 -0000
 
---RnlQjJ0d97Da+TV1
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+[YOCTO #2462]
 
-On Sun, Jul 22, 2012 at 10:44:06AM +0000, git@git.openembedded.org wrote:
-> Module: openembedded-core.git
-> Branch: master
-> Commit: effb75d42098b3e367d393215fd5d52a0191e954
-> URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcommit=
-;h=3Deffb75d42098b3e367d393215fd5d52a0191e954
->=20
-> Author: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
-> Date:   Thu Jul 19 13:33:52 2012 +0300
->=20
-> autoconf: updated to 2.69
->=20
-> Tested with core-image-sato-sdk and lib32-core-image-sato-sdk.
-> This update was done mainly because multilib builds failed on master with=
- this error:
->=20
-> | autoreconf: running: aclocal -I /poky/build/tmp/work/x86-pokymllib32-li=
-nux/lib32-automake-1.12.1-r0/automake-1.12.1/m4/ -I /poky/build/tmp/sysroot=
-s/x86_64-linux/usr/share/aclocal-1.12 -I /poky/build/tmp/work/x86-pokymllib=
-32-linux/lib32-automake-1.12.1-r0/automake-1.12.1/aclocal-copy/ -I /poky/bu=
-ild/tmp/work/x86-pokymllib32-linux/lib32-automake-1.12.1-r0/automake-1.12.1=
-/m4/ -I /poky/build/tmp/sysroots/x86_64-linux/usr/share/aclocal-1.12 -I /po=
-ky/build/tmp/work/x86-pokymllib32-linux/lib32-automake-1.12.1-r0/automake-1=
-=2E12.1/aclocal-copy/ --force --warnings=3Dcross
-> | aclocal: warning: unknown warning category 'cross'
-> | configure.ac:18: error: Autoconf version 2.69 or higher is required
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ ...Fix-a-race-in-_gen-reentrant-methods.list.patch |   42 ++++++++++++++++++++
+ .../telepathy/telepathy-glib_0.19.2.bb             |    5 ++-
+ 2 files changed, 45 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-connectivity/telepathy/telepathy-glib/0001-Fix-a-race-in-_gen-reentrant-methods.list.patch
 
-since this upgrade I see autom4te segfaulting when building webkit-efl
-autom4te[8513]: segfault at 29e782688 ip 00007f7c52a96e23 sp 00007fff077310=
-20 error 4 in Dumper.so[7f7c52a90000+8000]
+diff --git a/meta/recipes-connectivity/telepathy/telepathy-glib/0001-Fix-a-race-in-_gen-reentrant-methods.list.patch b/meta/recipes-connectivity/telepathy/telepathy-glib/0001-Fix-a-race-in-_gen-reentrant-methods.list.patch
+new file mode 100644
+index 0000000..4f8ed2b
+--- /dev/null
++++ b/meta/recipes-connectivity/telepathy/telepathy-glib/0001-Fix-a-race-in-_gen-reentrant-methods.list.patch
+@@ -0,0 +1,42 @@
++From 8ff62dc34961e997fb0224517aef0f12d455a82b Mon Sep 17 00:00:00 2001
++From: Ross Burton <ross.burton@intel.com>
++Date: Wed, 25 Jul 2012 12:58:16 +0100
++Subject: [PATCH] Fix a race in _gen/reentrant-methods.list
++
++Very occasionally, a parallel build will fail like this:
++
++| Making all in telepathy-glib
++| make[2]: Entering directory `/buildarea1/yocto-autobuilder/yocto-slave/nightly-x86/build/build/tmp/work/i586-poky-linux/telepathy-glib-0.19.2-r0/telepathy-glib-0.19.2/telepathy-glib'
++| /bin/mkdir -p _gen
++| ( cd . && cat versions/0.7.0.abi [...] versions/0.19.2.abi  ) | \
++| 		/bin/grep '^tp_cli_.*_run_.*' > _gen/reentrant-methods.list.tmp
++| /bin/sh: line 1: _gen/reentrant-methods.list.tmp: No such file or directory
++| make[2]: *** [_gen/reentrant-methods.list] Error 1
++
++It's doing the mkdir and the subshell in parallel, when the mkdir should be done
++first.  Add an explicit dependency on spec-stamp to reentrant-methods.list to
++ensure the ordering.
++
++https://bugs.freedesktop.org/show_bug.cgi?id=52480
++
++Upstream-Status: Submitted
++---
++ telepathy-glib/codegen.am |    2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/telepathy-glib/codegen.am b/telepathy-glib/codegen.am
++index 26caaef..6ad3ec5 100644
++--- a/telepathy-glib/codegen.am
+++++ b/telepathy-glib/codegen.am
++@@ -149,7 +149,7 @@ _gen/stable-spec.xml: stable-interfaces.xml _gen/stable-stamp $(tools_dir)/xincl
++ # Grab a list of re-entrant tp_cli_*_run_* methods we are committed to
++ # generating for backwards compatibility.
++ # grep --no-filename is not portable :-(
++-_gen/reentrant-methods.list: $(ABI_LISTS) codegen.am
+++_gen/reentrant-methods.list: _gen/spec-stamp $(ABI_LISTS) codegen.am
++ 	$(AM_V_GEN)( cd $(srcdir) && cat $(ABI_LISTS) ) | \
++ 		$(GREP) '^tp_cli_.*_run_.*' > $@.tmp
++ 	@mv $@.tmp $@
++-- 
++1.7.10.4
++
+diff --git a/meta/recipes-connectivity/telepathy/telepathy-glib_0.19.2.bb b/meta/recipes-connectivity/telepathy/telepathy-glib_0.19.2.bb
+index deba3bb..9dbc5be 100644
+--- a/meta/recipes-connectivity/telepathy/telepathy-glib_0.19.2.bb
++++ b/meta/recipes-connectivity/telepathy/telepathy-glib_0.19.2.bb
+@@ -3,9 +3,10 @@ DESCRIPTION = "Telepathy Framework: GLib-based helper library for connection man
+ HOMEPAGE = "http://telepathy.freedesktop.org/wiki/"
+ DEPENDS = "glib-2.0 dbus python-native-runtime dbus-native dbus-glib"
+ LICENSE = "LGPLv2.1+"
+-PR = "r0"
++PR = "r1"
+ 
+-SRC_URI = "http://telepathy.freedesktop.org/releases/telepathy-glib/${BPN}-${PV}.tar.gz"
++SRC_URI = "http://telepathy.freedesktop.org/releases/telepathy-glib/${BPN}-${PV}.tar.gz \
++           file://0001-Fix-a-race-in-_gen-reentrant-methods.list.patch"
+ 
+ SRC_URI[md5sum] = "af2b33c1215f189e637bd59cc9139255"
+ SRC_URI[sha256sum] = "7e3c313ed08e26339deb603a615cec62a370131075514439f79f473f92ab84c3"
+-- 
+1.7.10
 
-webkit-efl build finishes fine and is usable afaik but someone would
-expect tools like autoconf to behave better and not segfault.
 
-This happens on 2 different builders each with different webkit-efl
-version.
 
-Cheers,
-
->=20
-> Signed-off-by: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->=20
-> ---
->=20
->  meta/recipes-devtools/autoconf/autoconf.inc        |    2 +-
->  .../{autoconf_2.68.bb =3D> autoconf_2.69.bb}         |    4 ++--
->  2 files changed, 3 insertions(+), 3 deletions(-)
->=20
-> diff --git a/meta/recipes-devtools/autoconf/autoconf.inc b/meta/recipes-d=
-evtools/autoconf/autoconf.inc
-> index 2c07701..4f5a5b2 100644
-> --- a/meta/recipes-devtools/autoconf/autoconf.inc
-> +++ b/meta/recipes-devtools/autoconf/autoconf.inc
-> @@ -12,7 +12,7 @@ RDEPENDS_${PN} =3D "m4 gnu-config"
->  RDEPENDS_${PN}_virtclass-native =3D "m4-native gnu-config-native"
->  RDEPENDS_${PN}_virtclass-nativesdk =3D "m4-nativesdk gnu-config-nativesd=
-k"
-> =20
-> -SRC_URI =3D "${GNU_MIRROR}/autoconf/autoconf-${PV}.tar.bz2 \
-> +SRC_URI =3D "${GNU_MIRROR}/autoconf/autoconf-${PV}.tar.gz \
->  	   file://program_prefix.patch"
-> =20
->  inherit autotools
-> diff --git a/meta/recipes-devtools/autoconf/autoconf_2.68.bb b/meta/recip=
-es-devtools/autoconf/autoconf_2.69.bb
-> similarity index 85%
-> rename from meta/recipes-devtools/autoconf/autoconf_2.68.bb
-> rename to meta/recipes-devtools/autoconf/autoconf_2.69.bb
-> index 8d466e0..478f8ed 100644
-> --- a/meta/recipes-devtools/autoconf/autoconf_2.68.bb
-> +++ b/meta/recipes-devtools/autoconf/autoconf_2.69.bb
-> @@ -17,8 +17,8 @@ SRC_URI +=3D "file://autoreconf-include.patch \
->              file://remove-usr-local-lib-from-m4.patch \
->             "
-> =20
-> -SRC_URI[md5sum] =3D "864d785215aa60d627c91fcb21b05b07"
-> -SRC_URI[sha256sum] =3D "c491fb273fd6d4ca925e26ceed3d177920233c76d542b150=
-ff35e571454332c8"
-> +SRC_URI[md5sum] =3D "82d05e03b93e45f5a39b828dc9c6c29b"
-> +SRC_URI[sha256sum] =3D "954bd69b391edc12d6a4a51a2dd1476543da5c6bbf05a95b=
-59dc0dd6fd4c2969"
-> =20
->  SRC_URI_append_virtclass-native =3D " file://fix_path_xtra.patch"
-> =20
->=20
->=20
-> _______________________________________________
-> Openembedded-commits mailing list
-> Openembedded-commits@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-commits
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---RnlQjJ0d97Da+TV1
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
-
-iEYEARECAAYFAlAP5AMACgkQN1Ujt2V2gBy9FQCfU9KRH9GJPgblZdce7JH85py7
-V/AAn1D/iNZR4aRAAfHplu6hI0AAWaZ/
-=Bm7B
------END PGP SIGNATURE-----
-
---RnlQjJ0d97Da+TV1--
