@@ -1,25 +1,25 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SuToz-00008J-9K
+	(envelope-from <sgw@linux.intel.com>) id 1SuTq4-0000Au-9m
 	for openembedded-core@lists.openembedded.org;
-	Thu, 26 Jul 2012 21:34:05 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 26 Jul 2012 12:22:33 -0700
+	Thu, 26 Jul 2012 21:35:12 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 26 Jul 2012 12:23:40 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="173620555"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="187010359"
 Received: from unknown (HELO [10.255.12.157]) ([10.255.12.157])
-	by azsmga001.ch.intel.com with ESMTP; 26 Jul 2012 12:22:33 -0700
-Message-ID: <501198F8.3020907@linux.intel.com>
-Date: Thu, 26 Jul 2012 12:22:32 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 26 Jul 2012 12:23:40 -0700
+Message-ID: <5011993C.9050502@linux.intel.com>
+Date: Thu, 26 Jul 2012 12:23:40 -0700
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:13.0) Gecko/20120615 Thunderbird/13.0.1
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <1343092999-27374-1-git-send-email-rongqing.li@windriver.com>
-In-Reply-To: <1343092999-27374-1-git-send-email-rongqing.li@windriver.com>
-Subject: Re: [PATCH v2] busybox:udhcpc: fix the root_is_nfs() function
+References: <1343065037-13851-1-git-send-email-otavio@ossystems.com.br>
+In-Reply-To: <1343065037-13851-1-git-send-email-otavio@ossystems.com.br>
+Subject: Re: [PATCH v2 1/2] shadow-native: use 'users' group by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,60 +34,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Jul 2012 19:34:05 -0000
+X-List-Received-Date: Thu, 26 Jul 2012 19:35:13 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 07/23/2012 06:23 PM, rongqing.li@windriver.com wrote:
-> From: Roy.Li <rongqing.li@windriver.com>
+On 07/23/2012 10:37 AM, Otavio Salvador wrote:
+> The rootfs has 'users' group at number 100 and without this fix it
+> would assign to a non-existent group and if a group with gid as 1000
+> is created later it would own all files for users created.
 >
-> [YOCTO #2788]
->
-> The system will be hung when udhcpc starts, if nfs is mounted
-> at "/" directory and default route is different after starting
-> udhcpc.
->
-> The cause is that root_is_nfs() does not work after kernel-2.6.37,
-> since the device name has been changed from /dev/root to
-> ${IPADDR}:${NFSDIR} on /proc/mounts. which leads to remove
-> the default routes to nfs server,
->
-> Now we use a loose match to check if rootfs is nfs.
->
-> Signed-off-by: Roy.Li <rongqing.li@windriver.com>
+> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 > ---
->   meta/recipes-core/busybox/busybox_1.19.4.bb   |    2 +-
->   meta/recipes-core/busybox/files/simple.script |    3 ++-
->   2 files changed, 3 insertions(+), 2 deletions(-)
+>   .../shadow/shadow-native_4.1.4.3.bb                |    5 ++++-
+>   1 files changed, 4 insertions(+), 1 deletions(-)
 >
-> diff --git a/meta/recipes-core/busybox/busybox_1.19.4.bb b/meta/recipes-core/busybox/busybox_1.19.4.bb
-> index 6e69d22..c72f39b 100644
-> --- a/meta/recipes-core/busybox/busybox_1.19.4.bb
-> +++ b/meta/recipes-core/busybox/busybox_1.19.4.bb
-> @@ -1,5 +1,5 @@
->   require busybox.inc
-> -PR = "r10"
-> +PR = "r11"
+> diff --git a/meta/recipes-extended/shadow/shadow-native_4.1.4.3.bb b/meta/recipes-extended/shadow/shadow-native_4.1.4.3.bb
+> index 1e071f1..cd5605f 100644
+> --- a/meta/recipes-extended/shadow/shadow-native_4.1.4.3.bb
+> +++ b/meta/recipes-extended/shadow/shadow-native_4.1.4.3.bb
+> @@ -7,7 +7,7 @@ LICENSE = "BSD | Artistic-1.0"
+>   LIC_FILES_CHKSUM = "file://COPYING;md5=08c553a87d4e51bbed50b20e0adcaede \
+>                       file://src/passwd.c;firstline=8;endline=30;md5=2899a045e90511d0e043b85a7db7e2fe"
 >
->   SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
->              file://B921600.patch \
-> diff --git a/meta/recipes-core/busybox/files/simple.script b/meta/recipes-core/busybox/files/simple.script
-> index 27368f0..6973985 100644
-> --- a/meta/recipes-core/busybox/files/simple.script
-> +++ b/meta/recipes-core/busybox/files/simple.script
-> @@ -10,7 +10,8 @@ RESOLV_CONF="/etc/resolv.conf"
+> -PR = "r6"
+> +PR = "r7"
 >
->   # return 0 if root is mounted on a network filesystem
->   root_is_nfs() {
-> -	grep -qe '^/dev/root.*\(nfs\|smbfs\|ncp\|coda\) .*' /proc/mounts
-> +	sed -n 's/^[^ ]* \([^ ]*\) \([^ ]*\) .*$/\1 \2/p' /proc/mounts |
-> +	grep -q "^/ \(nfs\|smbfs\|ncp\|coda\)$"
+>   SRC_URI = "http://pkg-shadow.alioth.debian.org/releases/${BPN}-${PV}.tar.bz2 \
+>              file://shadow.automake-1.11.patch \
+> @@ -46,4 +46,7 @@ do_install_append() {
+>   	# Now we don't have a mail system. Disable mail creation for now.
+>   	sed -i 's:/bin/bash:/bin/sh:g' ${D}${sysconfdir}/default/useradd
+>   	sed -i '/^CREATE_MAIL_SPOOL/ s:^:#:' ${D}${sysconfdir}/default/useradd
+> +
+> +	# Use users group by default
+> +	sed -i 's,^GROUP=1000,GROUP=100,g' ${D}${sysconfdir}/default/useradd
 >   }
 >
->   have_bin_ip=0
->
 
-Merged into OE-Core
+Merged these 2 into OE-Core
 
 Thanks
 	Sau!
