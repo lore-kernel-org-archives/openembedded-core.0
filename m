@@ -1,35 +1,26 @@
-Received: from astoria.ccjclearline.com ([64.235.106.9])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpjday@crashcourse.ca>) id 1SuBpo-0007rE-0g
+	(envelope-from <Sen.Zhang@windriver.com>) id 1SuECe-0004QT-6D
 	for openembedded-core@lists.openembedded.org;
-	Thu, 26 Jul 2012 02:21:44 +0200
-Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
-	([174.115.5.73]:58305 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.77) (envelope-from <rpjday@crashcourse.ca>)
-	id 1SuBeh-0002wh-2C for openembedded-core@lists.openembedded.org;
-	Wed, 25 Jul 2012 20:10:15 -0400
-Date: Wed, 25 Jul 2012 20:10:08 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@oneiric
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <1343251261.29991.4.camel@ted>
-Message-ID: <alpine.DEB.2.02.1207252009070.14124@oneiric>
-References: <alpine.DEB.2.02.1207251558160.15120@oneiric>
-	<1343251261.29991.4.camel@ted>
-User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+	Thu, 26 Jul 2012 04:53:30 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q6Q2fvJO009789
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 25 Jul 2012 19:41:57 -0700 (PDT)
+Received: from [128.224.162.230] (128.224.162.230) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
+	Wed, 25 Jul 2012 19:41:56 -0700
+Message-ID: <5010AE26.5010908@windriver.com>
+Date: Thu, 26 Jul 2012 10:40:38 +0800
+From: Jesse Zhang <sen.zhang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:14.0) Gecko/20120717 Thunderbird/14.0
 MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Subject: Re: how to properly use "EXTRA_ASSUME_PROVIDED"?
+To: <openembedded-core@lists.openembedded.org>, Mark Hatle
+	<mark.hatle@windriver.com>
+X-Originating-IP: [128.224.162.230]
+Subject: removing /etc/init.d/busybox-udhcpc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,67 +35,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Jul 2012 00:21:44 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Thu, 26 Jul 2012 02:53:30 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Wed, 25 Jul 2012, Richard Purdie wrote:
+Hi,
 
-> On Wed, 2012-07-25 at 16:06 -0400, Robert P. J. Day wrote:
-> > what is the proper way to use EXTRA_ASSUME_PROVIDED, and is the
-> > effect of that visible in the bitbake environment?
-> >
-> >   as in, based on the current version of bitbake.conf, i can see this
-> > with "bitbake -e":
-> >
-> > ASSUME_PROVIDED="bzip2-native git-native grep-native diffstat-native
-> > patch-native perl-native-runtime python-native-runtime tar-native
-> > virtual/libintl-native"
-> >
-> >   if i add the following silliness to my local.conf,
-> >
-> > ASSUME_PROVIDED += "rday-native"
-> >
-> > i can see that in the env as well:
-> >
-> > ASSUME_PROVIDED="bzip2-native git-native grep-native diffstat-native
-> > patch-native perl-native-runtime python-native-runtime tar-native
-> > virtual/libintl-native  rday-native"
-> >
-> >   but is it correct to run the following:
-> >
-> > $ bitbake -I EXTRA_ASSUME_PROVIDED="rday-native" -e core-image-minimal
-> >
-> > and if it is, should i be able to verify that anywhere in the
-> > environment?  doesn't seem so.  from bitbake/lib/bb/cooker.py, it
-> > looks like whatever i put there is being processed thusly:
-> >
-> >   ignore = self.configuration.data.getVar("ASSUME_PROVIDED", True) or ""
-> >   self.status.ignored_dependencies = set(ignore.split())
-> >
-> >   for dep in self.configuration.extra_assume_provided:
-> >       self.status.ignored_dependencies.add(dep)
-> >
-> > so is there any way to see that?  thanks.
->
-> Where did you come to believe EXTRA_ASSUME_PROVIDED did anything?
+I recently found that if "ip=dhcp" is specified in the kernel cmdline,
+there would be some strange behaviour of udhcpc.
 
-  um ... from the output of "bitbake -h":
+1. udhcpc is started two times during bootup.
 
- -I EXTRA_ASSUME_PROVIDED, --ignore-deps=EXTRA_ASSUME_PROVIDED
-                        Assume these dependencies don't exist and are already
-                        provided (equivalent to ASSUME_PROVIDED). Useful to
-                        make dependency graphs more appealing
+    Starting Bootlog daemon: bootlogd.
+    Configuring network interfaces... udhcpc (v1.19.4) started
+    Sending discover...
+    Sending select for 128.224.162.132...
+    Lease of 128.224.162.132 obtained, lease time 172800
+    /etc/udhcpc.d/50default: Adding DNS 128.224.160.11
+    /etc/udhcpc.d/50default: Adding DNS 147.11.100.30
+    /etc/udhcpc.d/50default: Adding DNS 147.11.1.11
+    done.
+    Starting portmap daemon...
+    [...]
+    Starting domain name service: named.
+    udhcpc (v1.19.4) started
+    Sending discover...
+    Sending select for 128.224.162.132...
+    Lease of 128.224.162.132 obtained, lease time 172800
+    RTNETLINK answers: File exists
+    /etc/udhcpc.d/50default: Adding DNS 128.224.160.11
+    /etc/udhcpc.d/50default: Adding DNS 147.11.100.30
+    /etc/udhcpc.d/50default: Adding DNS 147.11.1.11
+    creating NFS state directory: done
 
-rday
+2. udhcpc is *started* when system is being shutdown.
 
--- 
+    Stopping domain name service: namedrndc: neither /etc/bind/rndc.conf nor /etc/bind/rndc.key wd
+    .
+    udhcpc (v1.19.4) started
+    Sending discover...
+    Sending select for 128.224.162.132...
+    Lease of 128.224.162.132 obtained, lease time 172800
+    RTNETLINK answers: File exists
+    /etc/udhcpc.d/50default: Adding DNS 128.224.160.11
+    /etc/udhcpc.d/50default: Adding DNS 147.11.100.30
+    /etc/udhcpc.d/50default: Adding DNS 147.11.1.11
+    Stopping system message bus: dbus.
+    stopping statd: done
 
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
+The reason is busybox installs a busybox-udhcpc init script, which would
+start udhcpc when "ip=dhcp" is specified, but udhcpc is also invoked by
+the networking service (as specified through /etc/network/interfaces).
+That's why udhcpc is started twice.
 
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
+And since the init script doesn't actually support "stop" actions, it
+will start udhcpc again during system shutdown.
+
+The obvious fix is to remove the busybox-udhcpc init script; all configs
+should go through /etc/network/interfaces. But I'm wondering if anyone
+has problems with that.
+
+If no one objects, I will send the patch shortly.
+
+jesse
+
+P.S. it only happens for non-qemu targets since they have different
+configs. I used an intel emenlow.
 
 
