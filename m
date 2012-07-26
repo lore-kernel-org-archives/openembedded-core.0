@@ -1,30 +1,43 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1SuNxu-0008HW-TJ for openembedded-core@lists.openembedded.org;
-	Thu, 26 Jul 2012 15:18:55 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6QD7Np7021454
+Received: from mail-we0-f175.google.com ([74.125.82.175])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <koen@dominion.thruhere.net>) id 1SuNyG-0008K8-Hr
+	for openembedded-core@lists.openembedded.org;
+	Thu, 26 Jul 2012 15:19:16 +0200
+Received: by weyr6 with SMTP id r6so1186441wey.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jul 2012 14:07:23 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 21192-03 for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jul 2012 14:07:18 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6QD7Ec2021447
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jul 2012 14:07:15 +0100
-Message-ID: <1343308034.29991.29.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Thu, 26 Jul 2012 14:07:14 +0100
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: [PATCH] sstate.bbclass: Add a string representing the lsb release to native/cross sstate
+	Thu, 26 Jul 2012 06:07:46 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=subject:mime-version:content-type:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to:x-mailer
+	:x-gm-message-state;
+	bh=pYFol4VapeVsmKu6Y5lyHgcbPgR019WMR+EbzLLUo8E=;
+	b=ACH9OcoXL6tholb2d0SpuhsLxqc2O+8BRSVAC93FIoVGW9klI9XXYe2f5aRJl9nq+a
+	3Om7OvgoN197JtdPWWDWbNOqUCkgQ5T8ctD/rcFjq5WYlnneHhJ3K883+6MrPVMXy7Wu
+	jSv6K9Qr6Kv7T2PdAbCp12exyMpNf0lxj6fHsNsZUhdq8hcB3qWW2zcAJp2vqqWPoMQS
+	ELZ8Co20hBpY8435001rsUDcGocNjzFw1i0ingExiZpRfVpxhc9Lc10YW+mhJydGlqLa
+	/FW2w3JgtJ1rb2umvzwN1Ho5KJPDGhiO6e1/G5G31qNDnLKKNByw7tEuIexa7ZARj9+X
+	bITw==
+Received: by 10.180.98.138 with SMTP id ei10mr13443555wib.1.1343308065985;
+	Thu, 26 Jul 2012 06:07:45 -0700 (PDT)
+Received: from [172.20.0.6] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
+	by mx.google.com with ESMTPS id ef5sm12466248wib.3.2012.07.26.06.07.43
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 26 Jul 2012 06:07:44 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1278)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <6492036.bctPLCmjO3@helios>
+Date: Thu, 26 Jul 2012 15:07:42 +0200
+Message-Id: <C722676A-6FBA-4987-9B97-849BF27AEDA4@dominion.thruhere.net>
+References: <1343283462-25435-1-git-send-email-radu.moisan@intel.com>
+	<1515360.HL1K52tqqg@helios>
+	<0F8A947F-5465-4350-9700-5E0457EB1A38@dominion.thruhere.net>
+	<6492036.bctPLCmjO3@helios>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+X-Mailer: Apple Mail (2.1278)
+X-Gm-Message-State: ALoCoQl++ISBSX7DDnjI77PjkNbDgH1GQ5IegGjkbwynlBAwVlH6215pMWKEz/8uAVh8Y2P6ZFIH
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v3] dbus: include dbus-launch in the main dbus package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,85 +52,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Jul 2012 13:18:55 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-
-This patch adds the lsb name and revision to the path used for sstate files.
-This means that reuse of sstate files between different distributions is restricted
-by default. The behaviour can be configured using mirror urls, for example:
-
-SSTATE_MIRRORS = "file://Ubuntu-11.10/(.*) file://Ubuntu/\1 \n"
-
-would map Ubuntu 11.10 to a more generic "Ubuntu" named sstate feed.
-
-Usually, more modern distros have increased libc versions for example
-so whilst more older native/cross sstate packages will usually work on newer
-distros, the opposite is not true. This patch allows development of policy
-to better handle this although no default policy is currently being used.
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index d00779a..e87f3c0 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -11,14 +11,17 @@ def generate_sstatefn(spec, hash, d):
- 
- SSTATE_PKGARCH    = "${PACKAGE_ARCH}"
- SSTATE_PKGSPEC    = "sstate-${PN}-${PACKAGE_ARCH}${TARGET_VENDOR}-${TARGET_OS}-${PV}-${PR}-${SSTATE_PKGARCH}-${SSTATE_VERSION}-"
--SSTATE_PKGNAME    = "${@generate_sstatefn(d.getVar('SSTATE_PKGSPEC', True), d.getVar('BB_TASKHASH', True), d)}"
-+SSTATE_PKGNAME    = "${SSTATE_EXTRAPATH}${@generate_sstatefn(d.getVar('SSTATE_PKGSPEC', True), d.getVar('BB_TASKHASH', True), d)}"
- SSTATE_PKG        = "${SSTATE_DIR}/${SSTATE_PKGNAME}"
--SSTATE_PATHSPEC   = "${SSTATE_DIR}/*/${SSTATE_PKGSPEC}"
-+SSTATE_EXTRAPATH   = ""
-+SSTATE_EXTRAPATHWILDCARD = ""
-+SSTATE_PATHSPEC   = "${SSTATE_DIR}/${SSTATE_EXTRAPATHWILDCARD}*/${SSTATE_PKGSPEC}"
-+
- 
- SSTATE_SCAN_FILES ?= "*.la *-config *_config"
- SSTATE_SCAN_CMD ?= 'find ${SSTATE_BUILDDIR} \( -name "${@"\" -o -name \"".join(d.getVar("SSTATE_SCAN_FILES", True).split())}" \) -type f'
- 
--BB_HASHFILENAME = "${SSTATE_PKGSPEC}"
-+BB_HASHFILENAME = "${SSTATE_EXTRAPATH} ${SSTATE_PKGSPEC}"
- 
- SSTATE_MANMACH ?= "${SSTATE_PKGARCH}"
- 
-@@ -43,6 +46,10 @@ python () {
-     else:
-         d.setVar('SSTATE_MANMACH', d.expand("${MACHINE}"))
- 
-+    if bb.data.inherits_class('native', d) or bb.data.inherits_class('crosssdk', d) or bb.data.inherits_class('cross', d):
-+        d.setVar('SSTATE_EXTRAPATH', "${NATIVELSBSTRING}/")
-+        d.setVar('SSTATE_EXTRAPATHWILDCARD', "*/")
-+
-     # These classes encode staging paths into their scripts data so can only be
-     # reused if we manipulate the paths
-     if bb.data.inherits_class('native', d) or bb.data.inherits_class('cross', d) or bb.data.inherits_class('sdk', d) or bb.data.inherits_class('crosssdk', d):
-@@ -524,7 +531,10 @@ def sstate_checkhashes(sq_fn, sq_task, sq_hash, sq_hashfn, d):
-     }
- 
-     for task in range(len(sq_fn)):
--        sstatefile = d.expand("${SSTATE_DIR}/" + generate_sstatefn(sq_hashfn[task], sq_hash[task], d) + "_" + mapping[sq_task[task]] + ".tgz")
-+        spec = sq_hashfn[task].split(" ")[1]
-+        extrapath = sq_hashfn[task].split(" ")[0]
-+
-+        sstatefile = d.expand("${SSTATE_DIR}/" + extrapath + generate_sstatefn(spec, sq_hash[task], d) + "_" + mapping[sq_task[task]] + ".tgz")
-         if os.path.exists(sstatefile):
-             bb.debug(2, "SState: Found valid sstate file %s" % sstatefile)
-             ret.append(task)
-@@ -548,7 +558,9 @@ def sstate_checkhashes(sq_fn, sq_task, sq_hash, sq_hashfn, d):
-             if task in ret:
-                 continue
- 
--            sstatefile = d.expand(generate_sstatefn(sq_hashfn[task], sq_hash[task], d) + "_" + mapping[sq_task[task]] + ".tgz")
-+            spec = sq_hashfn[task].split(" ")[1]
-+            extrapath = sq_hashfn[task].split(" ")[0]
-+            sstatefile = d.expand(extrapath + generate_sstatefn(spec, sq_hash[task], d) + "_" + mapping[sq_task[task]] + ".tgz")
- 
-             srcuri = "file://" + sstatefile
-             localdata.setVar('SRC_URI', srcuri)
+X-List-Received-Date: Thu, 26 Jul 2012 13:19:16 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
 
+Op 26 jul. 2012, om 14:56 heeft Paul Eggleton het volgende geschreven:
+
+> On Thursday 26 July 2012 14:38:59 Koen Kooi wrote:
+>> Op 26 jul. 2012, om 14:32 heeft Paul Eggleton het volgende =
+geschreven:
+>>> On Thursday 26 July 2012 14:29:14 Koen Kooi wrote:
+>>>> Op 26 jul. 2012, om 14:00 heeft Burton, Ross het volgende =
+geschreven:
+>>>>> On 26 July 2012 12:55, Koen Kooi <koen@dominion.thruhere.net> =
+wrote:
+>>>>>> It would be nice if other layers that have RDEPENDS_foo =3D =
+"dbus-x11"
+>>>>>> keep
+>>>>>> working till their maintainers get around fixing them. Note that =
+you
+>>>>>> might need to do a -c cleansstate on dbus first to trigger any =
+errors.>
+>>>>>=20
+>>>>> Yes, and isn't that what the RPROVIDES is for?
+>>>>=20
+>>>> I'm not sure if bitbake can map RPROVIDES to PROVIDES, I vaguely =
+remember
+>>>> that it doesn't, but it will pick it up *after* do_package has run. =
+I
+>>>> broke
+>>>> OE way too many times doing things like that :)
+>>>=20
+>>> Why would it need to if we're talking about RDEPENDS and more =
+specifically
+>>> RDEPENDS defined before do_package?
+>>=20
+>> Because AIUI RDEPENDS get resolved to build the runqueue, so you =
+can't do
+>> RDEPENDS_foo =3D "I-don't-exist". If that's not the case I'll shut up =
+:)
+>=20
+> Without being too concerned with implementation details, I think it's =
+as=20
+> simple as this: if recipe A has foo in RDEPENDS_${PN} and recipe B has =
+foo in=20
+> RPROVIDES_${PN} then the runtime dependency is considered satisfied =
+and things=20
+> will work. You don't have to specify foo in PROVIDES unless something =
+else has=20
+> foo in DEPENDS.
+
+If that's so, great, but please check :)=
 
 
