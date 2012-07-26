@@ -1,31 +1,27 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <radu.moisan@intel.com>) id 1SuLaU-000557-Sv
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1SuLdS-00058O-L0
 	for openembedded-core@lists.openembedded.org;
-	Thu, 26 Jul 2012 12:46:35 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 26 Jul 2012 03:35:03 -0700
+	Thu, 26 Jul 2012 12:49:38 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 26 Jul 2012 03:38:04 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="173419277"
-Received: from dell-desktop (HELO [10.237.105.32]) ([10.237.105.32])
-	by azsmga001.ch.intel.com with ESMTP; 26 Jul 2012 03:35:02 -0700
-Message-ID: <50111DB6.5040506@intel.com>
-Date: Thu, 26 Jul 2012 13:36:38 +0300
-From: Radu Moisan <radu.moisan@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:14.0) Gecko/20120714 Thunderbird/14.0
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="186682988"
+Received: from unknown (HELO helios.localnet) ([10.252.121.37])
+	by fmsmga001.fm.intel.com with ESMTP; 26 Jul 2012 03:38:04 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Koen Kooi <koen@dominion.thruhere.net>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Thu, 26 Jul 2012 11:38:03 +0100
+Message-ID: <1348620.0mAYnT0NtN@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.8.4 (Linux/3.2.0-27-generic-pae; KDE/4.8.4; i686; ; )
+In-Reply-To: <98409DD0-BDE3-4F7D-B766-7B7B3E29F6AB@dominion.thruhere.net>
+References: <1343297075-29312-1-git-send-email-paul.eggleton@linux.intel.com>
+	<98409DD0-BDE3-4F7D-B766-7B7B3E29F6AB@dominion.thruhere.net>
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <1343283462-25435-1-git-send-email-radu.moisan@intel.com>
-	<5010E3CF.3060709@intel.com>
-	<919CF905-E475-44CE-8050-94A39C204208@dominion.thruhere.net>
-	<1756274.ud5AYazWdz@helios>
-	<F0E3167B-ECF8-494D-83E8-0D31CC826E65@dominion.thruhere.net>
-	<50110B50.3030900@intel.com>
-	<446507ED-01C5-4006-B9AE-C8D77B61C213@dominion.thruhere.net>
-	<CAJTo0LZOq=8kZVZoebfMTauCb=zcdm2ORbq5M4O-GWKETtHJ_Q@mail.gmail.com>
-In-Reply-To: <CAJTo0LZOq=8kZVZoebfMTauCb=zcdm2ORbq5M4O-GWKETtHJ_Q@mail.gmail.com>
-Subject: Re: [PATCH v3] dbus: include dbus-launch in the main dbus package
+Subject: Re: [PATCH] usbutils: avoid dependency on bash
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,36 +36,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Jul 2012 10:46:35 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 26 Jul 2012 10:49:38 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-should I create a single patch that changes dbus-x11 to dbus, or one for 
-each package?
+On Thursday 26 July 2012 12:24:44 Koen Kooi wrote:
+> Op 26 jul. 2012, om 12:04 heeft Paul Eggleton het volgende geschreven:
+> > By virtue of having #!/bin/bash, the usb-devices script declared that it
+> > requires bash, however manual examinasion, checkbashisms and tests with
+> > dash and busybox show that it doesn't contain any bashisms, so change
+> > the script's header and remove the RDEPENDS on bash.
+> 
+> Is the update-usbids ash/dash safe as well nowadays?
 
-Radu
+Manual examination shows no bashisms, checkbashisms reports nothing, and it 
+works fine with ash here.
 
-On 07/26/2012 01:23 PM, Burton, Ross wrote:
-> On 26 July 2012 10:51, Koen Kooi <koen@dominion.thruhere.net> wrote:
->>> What's the point of PROVIDES += dbus-x11, it build fine without it (I'm not questioning the correctness of this, just want to understand the need for it).
->> This morning you said:
->>
->> "it does not build, it complains about nothing providing dbus-x11"
->>
->> That's what the PROVIDES is for.
-> Without seeing the logs, I expect the error was when building the
-> image.  Nothing will build-depend on dbus-x11 because it isn't a
-> source package.
->
-> Radu, as a follow-up patch please remove all instances of dbus-x11,
-> replacing with dbus if required.
->
-> Ross
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+Cheers,
+Paul
 
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
