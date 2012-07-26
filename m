@@ -1,41 +1,42 @@
-Received: from mail-wi0-f171.google.com ([209.85.212.171])
+Received: from mail-wg0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1SuJHl-0002ps-Pc
+	(envelope-from <koen@dominion.thruhere.net>) id 1SuJJ3-0002vB-5G
 	for openembedded-core@lists.openembedded.org;
-	Thu, 26 Jul 2012 10:19:05 +0200
-Received: by wibhq4 with SMTP id hq4so5340800wib.6
+	Thu, 26 Jul 2012 10:20:25 +0200
+Received: by wgbdr1 with SMTP id dr1so1365779wgb.24
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jul 2012 01:07:35 -0700 (PDT)
+	Thu, 26 Jul 2012 01:08:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=content-type:mime-version:subject:from:in-reply-to:date
 	:content-transfer-encoding:message-id:references:to:x-mailer
 	:x-gm-message-state;
-	bh=8f5TVJCG7fcJuRKpU0iCfbgNade9KTWmMW90Nzq03p0=;
-	b=OJ4guqSWgYn13hBSF+z2wfqGv6gHNNjAM3Mkd3OqpZNw8xEZHiooWEGMNMrAHswhn1
-	Hut6u4yIVUafPutTjQZCUjNtJuGa7iK+G6aYgmgHjXFhBLr9iShspF6TlB6Rge9rNtse
-	dCeMtebHjk+c2LNgVrTNG8JAT6CsSKXP5dU8SshOoJ61boabYy7QU7MwckFrOm+3BH3t
-	S8RW8+QcEqYAJgy3QEwvHH0JGHmdrJkQQF4ww+IiF+6MteWCc6f+/HQccBeBfJEAQIha
-	EAHZBt3ETIG+avNZL51DmNwTrJwn916J0Uf0gtlUrsEPGa+nwNeYdEMPXQUZ3zfRNXDu
-	dHdg==
-Received: by 10.216.255.146 with SMTP id j18mr8206676wes.163.1343290055417;
-	Thu, 26 Jul 2012 01:07:35 -0700 (PDT)
+	bh=9FbxB5eK0OmO5hkM/YGYGWqY8lVexBF0CxP7gBy20aE=;
+	b=mmn+qelrqLw+fDvXLRuVu8FnBFgO783FMS7qVOEbgrlozGJkFCWkQfOzalpEvjLrzU
+	A2AqMbSihaHoEWLuAi7rdwBh/N8DbNbItcub5HYA0FjI7juOQ8hZEcjiFS7Qroj3KPEV
+	iKxGfjP0GZEb3g3MzP3ZFS1BcD882CmaM4lkmbTTFH0Nb1akAnUcUK5IAbYgwrQJmwnK
+	i57r68bR6EqmrsPnv2lyjbeAJOBIAvXfbC6pN4A8yPvVLCgM+bmCK0s3emFd+FCt6gYG
+	sjTgQxNuJEi1438X/IPmEhBGLrvghsgYqmJvwamKqb4rw9OFOQDAqWOn7VEtFSkGQWKp
+	DG1Q==
+Received: by 10.180.98.138 with SMTP id ei10mr11326295wib.1.1343290134809;
+	Thu, 26 Jul 2012 01:08:54 -0700 (PDT)
 Received: from [172.20.3.202] (ip545070eb.adsl-surfen.hetnet.nl.
 	[84.80.112.235])
-	by mx.google.com with ESMTPS id fu3sm10745802wib.10.2012.07.26.01.07.32
+	by mx.google.com with ESMTPS id b7sm10755551wiz.9.2012.07.26.01.08.52
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 26 Jul 2012 01:07:33 -0700 (PDT)
+	Thu, 26 Jul 2012 01:08:54 -0700 (PDT)
 Mime-Version: 1.0 (Mac OS X Mail 6.0 \(1485\))
 From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1343288380-11588-1-git-send-email-sgw@linux.intel.com>
-Date: Thu, 26 Jul 2012 10:07:29 +0200
-Message-Id: <136870DB-6E6F-4A3D-B92C-4FF290AEF03F@dominion.thruhere.net>
-References: <1343288380-11588-1-git-send-email-sgw@linux.intel.com>
+In-Reply-To: <5010E3CF.3060709@intel.com>
+Date: Thu, 26 Jul 2012 10:08:49 +0200
+Message-Id: <919CF905-E475-44CE-8050-94A39C204208@dominion.thruhere.net>
+References: <1343283462-25435-1-git-send-email-radu.moisan@intel.com>
+	<5010E3CF.3060709@intel.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 X-Mailer: Apple Mail (2.1485)
-X-Gm-Message-State: ALoCoQkY2MFyfj/NRnCSW8yWQ0Js+jwO8wxD6GH6Pz63jLjNTEM4vKYeDdhmYShobXAdlBuSgWl3
-Subject: Re: [PATCH] pkgconfig: Fix packaging issue
+X-Gm-Message-State: ALoCoQnpdDOFCHRlc8qVLVqOQdyg4yk6PMol8YSXxycCkP2bBgeHCgmxY9aNV5N8PQbpfmivKO/t
+Subject: Re: [PATCH v3] dbus: include dbus-launch in the main dbus package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,38 +51,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Jul 2012 08:19:05 -0000
+X-List-Received-Date: Thu, 26 Jul 2012 08:20:25 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
 
-Op 26 jul. 2012, om 09:39 heeft Saul Wold <sgw@linux.intel.com> het =
+Op 26 jul. 2012, om 08:29 heeft Radu Moisan <radu.moisan@intel.com> het =
 volgende geschreven:
 
-> [YOCTO #1908]
+> it does not build, it complains about nothing providing dbus-x11
 >=20
-> Signed-off-by: Saul Wold <sgw@linux.intel.com>
-> ---
-> meta/recipes-devtools/pkgconfig/pkgconfig.inc |    4 ++++
-> 1 file changed, 4 insertions(+)
+> Radu
 >=20
-> diff --git a/meta/recipes-devtools/pkgconfig/pkgconfig.inc =
-b/meta/recipes-devtools/pkgconfig/pkgconfig.inc
-> index 00c23d7..8a8320e 100644
-> --- a/meta/recipes-devtools/pkgconfig/pkgconfig.inc
-> +++ b/meta/recipes-devtools/pkgconfig/pkgconfig.inc
-> @@ -32,4 +32,8 @@ do_configure_prepend () {
->=20
-> BBCLASSEXTEND =3D "native nativesdk"
->=20
-> +# Set an empty dev package to ensure the base PN package gets
-> +# the pkg.m4 macros, pkgconfig does not deliver any other -dev
-> +# files.
-> +FILES_${PN}-dev =3D ""
-> FILES_${PN} +=3D "${datadir}/aclocal/pkg.m4"
+> On 07/26/2012 09:17 AM, Radu Moisan wrote:
+>> Followed suggestions from Bugz 2261:
+>>=20
+>> 1) remove the --with-x/--without-x configure arguments. If you want =
+to force
+>> no-discovery for native builds the correct argument is =
+--disable-x11-autolaunch.
+>> This ensures that DBus looks at the build environment to determine =
+whether to
+>> enable X11 bus discovery or not.
+>>=20
+>> 2) make the virtual/libx11 DEPENDS conditional based on the x11 =
+distro feature.
+>> This makes the build dependencies reflect the feature list.
+>>=20
+>> 3) remove dbus-x11, meaning that dbus-launch with its potential X11 =
+dependency
+>> is now back in dbus where is belongs.
+>>=20
+>> 4) Potentially make dbus provide dbus-x11, for compatibility.
+>>=20
+>> Fixes [Yocto #2261]
+>>=20
+>> Signed-off-by: Radu Moisan <radu.moisan@intel.com>
+>> ---
+>>  meta/recipes-core/dbus/dbus.inc |   11 ++++++-----
+>>  1 file changed, 6 insertions(+), 5 deletions(-)
+>>=20
+>> diff --git a/meta/recipes-core/dbus/dbus.inc =
+b/meta/recipes-core/dbus/dbus.inc
+>> index a75583d..9559f6f 100644
+>> --- a/meta/recipes-core/dbus/dbus.inc
+>> +++ b/meta/recipes-core/dbus/dbus.inc
+>> @@ -31,10 +31,10 @@ CONFFILES_${PN} =3D =
+"${sysconfdir}/dbus-1/system.conf ${sysconfdir}/dbus-1/session
+>>    DEBIANNAME_${PN} =3D "dbus-1"
+>>  -PACKAGES =3D+ "${PN}-lib ${PN}-systemd =
+${@base_contains('DISTRO_FEATURES', 'x11', '${PN}-x11', '', d)}"
+>> +PACKAGES =3D+ "${PN}-lib ${PN}-systemd"
+>>  -FILES_${PN}-x11 =3D "${bindir}/dbus-launch"
+>> -RDEPENDS_${PN}-x11 =3D "${PN}"
+>> +# for compatibility
 
-Missing PR bump and broken upgrade path due to files moving around and =
-no RREPLACES_foo. And I suspect you'll want ALLOW_EMPTY_${PN}-dev in =
-there as well :)=
+PROVIDES +=3D "dbus-x11"
+
+>> +RREPLACES_${PN} +=3D "dbus-x11"
+
+RPROVIDES_${PN} +=3D "dbus-x11"
+
+
 
 
