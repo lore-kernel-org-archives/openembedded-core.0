@@ -1,45 +1,20 @@
-Received: from mail-wg0-f43.google.com ([74.125.82.43])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1SuKuM-0004wG-Nn
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1SuL7e-0001np-Ra
 	for openembedded-core@lists.openembedded.org;
-	Thu, 26 Jul 2012 12:03:02 +0200
-Received: by wgbdr1 with SMTP id dr1so1445137wgb.24
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jul 2012 02:51:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date
-	:content-transfer-encoding:message-id:references:to:x-mailer
-	:x-gm-message-state;
-	bh=DalWRlsFUF9ALu36yVUkuX8iOEF1tITVoUXGvHNHFwQ=;
-	b=Kn3ASCj6g4s7+9bfp6GgzQa8a3P6Bqr8UOiFKpGbRQKpYOqpqDsrp7HgO+Qr65meyW
-	9idFB5mbgf8vAHtoPZ3o9LhLAIsAPLBoiDmJMRs0epdh9tbXAlhWliRQR723MuIi/bQc
-	iuZhDk+O0qgAXK2z2XeY8h8puFoODvS0uMAqOtBrjG1IeQAoi3y28YVd8IfovSdGonYX
-	Bzsmzx448xU28rgrD+EJFcaQ81LMpRbMjPZ0e8HOvMqDNQdZ+KLhMILIkjnTw+vg4jt5
-	yZ9/WlSPVwrY7ItsjnW/yys1WJnwqSsLzPHCJ55/nGf8dJ5S2CjK6A0R5KyBvakwgDLE
-	ofmQ==
-Received: by 10.180.106.97 with SMTP id gt1mr12048627wib.5.1343296292190;
-	Thu, 26 Jul 2012 02:51:32 -0700 (PDT)
-Received: from [172.20.0.6] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
-	by mx.google.com with ESMTPS id bc2sm11353143wib.0.2012.07.26.02.51.29
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 26 Jul 2012 02:51:31 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1278)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <50110B50.3030900@intel.com>
-Date: Thu, 26 Jul 2012 11:51:28 +0200
-Message-Id: <446507ED-01C5-4006-B9AE-C8D77B61C213@dominion.thruhere.net>
-References: <1343283462-25435-1-git-send-email-radu.moisan@intel.com>
-	<5010E3CF.3060709@intel.com>
-	<919CF905-E475-44CE-8050-94A39C204208@dominion.thruhere.net>
-	<1756274.ud5AYazWdz@helios>
-	<F0E3167B-ECF8-494D-83E8-0D31CC826E65@dominion.thruhere.net>
-	<50110B50.3030900@intel.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1278)
-X-Gm-Message-State: ALoCoQmiZkVKwHHUdKhBq1gTqDcCdGjCrBW7RzHgoEo/6tFSQTyU8O7MmpMyCk9lL0lQf7onalqG
-Subject: Re: [PATCH v3] dbus: include dbus-launch in the main dbus package
+	Thu, 26 Jul 2012 12:16:48 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 26 Jul 2012 03:05:06 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="127096729"
+Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.121.37])
+	by AZSMGA002.ch.intel.com with ESMTP; 26 Jul 2012 03:04:46 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 26 Jul 2012 11:04:35 +0100
+Message-Id: <1343297075-29312-1-git-send-email-paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] usbutils: avoid dependency on bash
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -54,105 +29,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Jul 2012 10:03:03 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 26 Jul 2012 10:16:48 -0000
 
+By virtue of having #!/bin/bash, the usb-devices script declared that it
+requires bash, however manual examinasion, checkbashisms and tests with
+dash and busybox show that it doesn't contain any bashisms, so change
+the script's header and remove the RDEPENDS on bash.
 
-Op 26 jul. 2012, om 11:18 heeft Radu Moisan het volgende geschreven:
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+---
+ .../usb-devices-avoid-dependency-on-bash.patch     |   30 ++++++++++++++++++++
+ meta/recipes-bsp/usbutils/usbutils_0.91.bb         |    7 +++--
+ 2 files changed, 34 insertions(+), 3 deletions(-)
+ create mode 100644 meta/recipes-bsp/usbutils/usbutils/usb-devices-avoid-dependency-on-bash.patch
 
-> What's the point of PROVIDES +=3D dbus-x11, it build fine without it =
-(I'm not questioning the correctness of this, just want to understand =
-the need for it).
-
-This morning you said:
-
-"it does not build, it complains about nothing providing dbus-x11"
-
-That's what the PROVIDES is for.
-
-
->=20
-> Radu
->=20
-> On 07/26/2012 11:43 AM, Koen Kooi wrote:
->> Op 26 jul. 2012, om 10:42 heeft Paul Eggleton =
-<paul.eggleton@linux.intel.com> het volgende geschreven:
->>=20
->>> On Thursday 26 July 2012 10:08:49 Koen Kooi wrote:
->>>> Op 26 jul. 2012, om 08:29 heeft Radu Moisan <radu.moisan@intel.com> =
-het
->>>>> volgende geschreven:
->>>>> it does not build, it complains about nothing providing dbus-x11
->>>>>=20
->>>>> Radu
->>>>>=20
->>>>> On 07/26/2012 09:17 AM, Radu Moisan wrote:
->>>>>> Followed suggestions from Bugz 2261:
->>>>>>=20
->>>>>> 1) remove the --with-x/--without-x configure arguments. If you =
-want to
->>>>>> force no-discovery for native builds the correct argument is
->>>>>> --disable-x11-autolaunch. This ensures that DBus looks at the =
-build
->>>>>> environment to determine whether to enable X11 bus discovery or =
-not.
->>>>>>=20
->>>>>> 2) make the virtual/libx11 DEPENDS conditional based on the x11 =
-distro
->>>>>> feature. This makes the build dependencies reflect the feature =
-list.
->>>>>>=20
->>>>>> 3) remove dbus-x11, meaning that dbus-launch with its potential =
-X11
->>>>>> dependency is now back in dbus where is belongs.
->>>>>>=20
->>>>>> 4) Potentially make dbus provide dbus-x11, for compatibility.
->>>>>>=20
->>>>>> Fixes [Yocto #2261]
->>>>>>=20
->>>>>> Signed-off-by: Radu Moisan <radu.moisan@intel.com>
->>>>>> ---
->>>>>>=20
->>>>>> meta/recipes-core/dbus/dbus.inc |   11 ++++++-----
->>>>>> 1 file changed, 6 insertions(+), 5 deletions(-)
->>>>>>=20
->>>>>> diff --git a/meta/recipes-core/dbus/dbus.inc
->>>>>> b/meta/recipes-core/dbus/dbus.inc index a75583d..9559f6f 100644
->>>>>> --- a/meta/recipes-core/dbus/dbus.inc
->>>>>> +++ b/meta/recipes-core/dbus/dbus.inc
->>>>>> @@ -31,10 +31,10 @@ CONFFILES_${PN} =3D =
-"${sysconfdir}/dbus-1/system.conf
->>>>>> ${sysconfdir}/dbus-1/session>>
->>>>>>   DEBIANNAME_${PN} =3D "dbus-1"
->>>>>>=20
->>>>>> -PACKAGES =3D+ "${PN}-lib ${PN}-systemd
->>>>>> ${@base_contains('DISTRO_FEATURES', 'x11', '${PN}-x11', '', =
-d)}">>
->>>>>> +PACKAGES =3D+ "${PN}-lib ${PN}-systemd"
->>>>>>=20
->>>>>> -FILES_${PN}-x11 =3D "${bindir}/dbus-launch"
->>>>>>=20
->>>>>> -RDEPENDS_${PN}-x11 =3D "${PN}"
->>>>>> +# for compatibility
->>>> PROVIDES +=3D "dbus-x11"
->>>>=20
->>>>>> +RREPLACES_${PN} +=3D "dbus-x11"
->>>> RPROVIDES_${PN} +=3D "dbus-x11"
->>> For the sake of clarity, you mean both of these, not RPROVIDES =
-instead of
->>> adding RREPLACES - right?
->> Correct, you need both (or rather all 3 if you include PROVIDES).
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->=20
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+diff --git a/meta/recipes-bsp/usbutils/usbutils/usb-devices-avoid-dependency-on-bash.patch b/meta/recipes-bsp/usbutils/usbutils/usb-devices-avoid-dependency-on-bash.patch
+new file mode 100644
+index 0000000..e3872ad
+--- /dev/null
++++ b/meta/recipes-bsp/usbutils/usbutils/usb-devices-avoid-dependency-on-bash.patch
+@@ -0,0 +1,30 @@
++From 333d5fbbc03481f1aa222bd68c2609db168ae3e0 Mon Sep 17 00:00:00 2001
++From: Paul Eggleton <paul.eggleton@linux.intel.com>
++Date: Thu, 26 Jul 2012 10:37:32 +0100
++Subject: [PATCH] usb-devices: avoid dependency on bash
++
++By virtue of having #!/bin/bash this script declared that it requires
++bash, however manual examinasion, checkbashisms and tests with dash
++and busybox show that it doesn't contain any bashisms, so change the
++header to avoid the dependency.
++
++Upstream-Status: Pending
++
++Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
++---
++ usb-devices |    2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/usb-devices b/usb-devices
++index b2052e2..14a5358 100755
++--- a/usb-devices
+++++ b/usb-devices
++@@ -1,4 +1,4 @@
++-#!/bin/bash
+++#!/bin/sh
++ 
++ # Copyright: 2009 Greg Kroah-Hartman <greg@kroah.com>
++ #            2009 Randy Dunlap <rdunlap@xenotime.net>
++-- 
++1.7.9.5
++
+diff --git a/meta/recipes-bsp/usbutils/usbutils_0.91.bb b/meta/recipes-bsp/usbutils/usbutils_0.91.bb
+index 490b05a..04d1681 100644
+--- a/meta/recipes-bsp/usbutils/usbutils_0.91.bb
++++ b/meta/recipes-bsp/usbutils/usbutils_0.91.bb
+@@ -7,9 +7,10 @@ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
+ 
+ DEPENDS = "libusb zlib"
+-PR = "r3"
++PR = "r4"
+ 
+-SRC_URI = "${KERNELORG_MIRROR}/linux/utils/usb/usbutils/usbutils-${PV}.tar.gz"
++SRC_URI = "${KERNELORG_MIRROR}/linux/utils/usb/usbutils/usbutils-${PV}.tar.gz \
++           file://usb-devices-avoid-dependency-on-bash.patch"
+ 
+ SRC_URI[md5sum] = "49de2403b40bf3a9863faaa8d3858deb"
+ SRC_URI[sha256sum] = "c122346b0225121bcf159abf804116f826a4a3462c94ce7b8871f7559e6b3a46"
+@@ -26,4 +27,4 @@ PACKAGES += "${PN}-ids"
+ FILES_${PN}-dev += "${datadir}/pkgconfig"
+ FILES_${PN}-ids = "${datadir}/usb*"
+ 
+-RDEPENDS_${PN} = "${PN}-ids bash"
++RDEPENDS_${PN} = "${PN}-ids"
+-- 
+1.7.9.5
 
 
 
