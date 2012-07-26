@@ -1,50 +1,26 @@
-Received: from mail-wg0-f43.google.com ([74.125.82.43])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1SuNiT-0007xE-1s
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1SuNn6-00080X-8G
 	for openembedded-core@lists.openembedded.org;
-	Thu, 26 Jul 2012 15:02:57 +0200
-Received: by wgbdr1 with SMTP id dr1so1587702wgb.24
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jul 2012 05:51:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date
-	:content-transfer-encoding:message-id:references:to:x-mailer
-	:x-gm-message-state;
-	bh=PvJ+6Qwh4K+WOoKmR/8GwcLRBvp0Hi0O0dVLMBKUoEw=;
-	b=SYpljF7S5M8Q/WbqTg+h9gD4IIgM20qja93jmEF8XF6E4Z85qx05MbB18ahGrGpi80
-	FTOTb3y5BuDI2BVl/ZZTZckQlQOsiml4olpwRuKQIzrH29B0UKAvdVv8vgq55IzTLdmv
-	c/+b/kzmETWRrXZCXCWRdj9aYzTkMIM552OHQI6SVA/1tw0N6zmcq3CTXzGf4ZeaptXS
-	Bf5cfxvEDjerIZ+H22B/5c/xxNjCUyzFdX/KjFRUVL9hKC0WtIL/87jfA03/JBJ4YkQs
-	KG2X1zlM8wR4iazmsHzIx3mIYXmLk+V42G1/3HGHilzDScauiifgQjrwwj0awRK8akQJ
-	TjtA==
-Received: by 10.180.86.226 with SMTP id s2mr13304537wiz.9.1343307086362;
-	Thu, 26 Jul 2012 05:51:26 -0700 (PDT)
-Received: from [172.20.0.6] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
-	by mx.google.com with ESMTPS id ep14sm8547603wid.0.2012.07.26.05.51.23
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 26 Jul 2012 05:51:25 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1278)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <501139E2.1020003@intel.com>
-Date: Thu, 26 Jul 2012 14:51:22 +0200
-Message-Id: <7438F5F4-0D14-463F-ABCF-1884F9DCB7C7@dominion.thruhere.net>
+	Thu, 26 Jul 2012 15:07:44 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 26 Jul 2012 05:56:12 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="171718041"
+Received: from unknown (HELO helios.localnet) ([10.252.121.37])
+	by orsmga001.jf.intel.com with ESMTP; 26 Jul 2012 05:56:12 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Koen Kooi <koen@dominion.thruhere.net>
+Date: Thu, 26 Jul 2012 13:56:11 +0100
+Message-ID: <6492036.bctPLCmjO3@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.8.4 (Linux/3.2.0-27-generic-pae; KDE/4.8.4; i686; ; )
+In-Reply-To: <0F8A947F-5465-4350-9700-5E0457EB1A38@dominion.thruhere.net>
 References: <1343283462-25435-1-git-send-email-radu.moisan@intel.com>
-	<5010E3CF.3060709@intel.com>
-	<919CF905-E475-44CE-8050-94A39C204208@dominion.thruhere.net>
-	<1756274.ud5AYazWdz@helios>
-	<F0E3167B-ECF8-494D-83E8-0D31CC826E65@dominion.thruhere.net>
-	<50110B50.3030900@intel.com>
-	<446507ED-01C5-4006-B9AE-C8D77B61C213@dominion.thruhere.net>
-	<50111C7C.8080904@intel.com> <50112207.3060709@intel.com>
-	<CAJTo0LYeKt+KypnrVq50tSbjqfK8XyvUnZp0xvz=KRmMx7dXzQ@mail.gmail.com>
-	<C132AEAF-467E-450E-A86F-7A68BE96F917@dominion.thruhere.net>
-	<CAJTo0LZx5E7tcvLUMrjPdH2B5p+DnFxU63tbtL6tsDX5dVfVSQ@mail.gmail.com>
-	<501139E2.1020003@intel.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1278)
-X-Gm-Message-State: ALoCoQmNt0wxE4jLraCW6D4wruLsi8G4s6vbZhOKzUBs99qZb6L2COl0ayNbBQq+FxP0jotmkoAA
+	<1515360.HL1K52tqqg@helios>
+	<0F8A947F-5465-4350-9700-5E0457EB1A38@dominion.thruhere.net>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH v3] dbus: include dbus-launch in the main dbus package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -60,17 +36,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Jul 2012 13:02:57 -0000
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 26 Jul 2012 13:07:44 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
+On Thursday 26 July 2012 14:38:59 Koen Kooi wrote:
+> Op 26 jul. 2012, om 14:32 heeft Paul Eggleton het volgende geschreven:
+> > On Thursday 26 July 2012 14:29:14 Koen Kooi wrote:
+> >> Op 26 jul. 2012, om 14:00 heeft Burton, Ross het volgende geschreven:
+> >>> On 26 July 2012 12:55, Koen Kooi <koen@dominion.thruhere.net> wrote:
+> >>>> It would be nice if other layers that have RDEPENDS_foo = "dbus-x11"
+> >>>> keep
+> >>>> working till their maintainers get around fixing them. Note that you
+> >>>> might need to do a -c cleansstate on dbus first to trigger any errors.>
+> >>> 
+> >>> Yes, and isn't that what the RPROVIDES is for?
+> >> 
+> >> I'm not sure if bitbake can map RPROVIDES to PROVIDES, I vaguely remember
+> >> that it doesn't, but it will pick it up *after* do_package has run. I
+> >> broke
+> >> OE way too many times doing things like that :)
+> > 
+> > Why would it need to if we're talking about RDEPENDS and more specifically
+> > RDEPENDS defined before do_package?
+> 
+> Because AIUI RDEPENDS get resolved to build the runqueue, so you can't do
+> RDEPENDS_foo = "I-don't-exist". If that's not the case I'll shut up :)
 
-Op 26 jul. 2012, om 14:36 heeft Radu Moisan het volgende geschreven:
+Without being too concerned with implementation details, I think it's as 
+simple as this: if recipe A has foo in RDEPENDS_${PN} and recipe B has foo in 
+RPROVIDES_${PN} then the runtime dependency is considered satisfied and things 
+will work. You don't have to specify foo in PROVIDES unless something else has 
+foo in DEPENDS.
 
-> I understand the reasoning behind RPROVIDES. I've grep'ed the sources =
-and none of the packages that depend on dbus-x11 have build time =
-dependencies on it,=20
+Cheers,
+Paul
 
-You grepped all the layers out there for 'dbus-x11' or only oe-core?=
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
