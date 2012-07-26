@@ -1,40 +1,31 @@
-Received: from eumx.net ([91.82.101.43])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ml@communistcode.co.uk>) id 1SuJbY-0003Fo-Py
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1SuJph-0003On-Lf
 	for openembedded-core@lists.openembedded.org;
-	Thu, 26 Jul 2012 10:39:32 +0200
-Received: from localhost ([127.0.0.1]:57087 helo=eumx.net)
-	by eumx.net with esmtp (Exim 4.72)
-	(envelope-from <ml@communistcode.co.uk>) id 1SuJQQ-0000TG-5X
-	for openembedded-core@lists.openembedded.org;
-	Thu, 26 Jul 2012 08:28:02 +0000
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=eumx.net; h=message-id
-	:date:from:reply-to:mime-version:to:subject:references
-	:in-reply-to:content-type:content-transfer-encoding; s=default;
-	bh=nZii5QlcnzW4tN5ldGWoSbKho+s=; b=lHWWd3caiGfOPF0U54JloZK7gVtN
-	pdgd4QGPvi4fLn08VciGlzm+PmvOtspjafZ/XY+feRlFeFB1nphWZQdr23e7d2Ej
-	HJNDr1kXrVSZUgbSIAqDwacT9NZkkAl4AIKHk/v3ANQ8ENOUrArbmkA4IpZsiyrS
-	l9cjDhbJ3M+0gwY=
-Received: from [195.171.99.130] (port=18551 helo=[192.168.0.53])
-	by eumx.net with esmtpa (Exim 4.72)
-	(envelope-from <ml@communistcode.co.uk>) id 1SuJLa-0000It-0p
-	for openembedded-core@lists.openembedded.org;
-	Thu, 26 Jul 2012 08:23:02 +0000
-Message-ID: <5010FEA9.1080806@communistcode.co.uk>
-Date: Thu, 26 Jul 2012 09:24:09 +0100
-From: Jack Mitchell <ml@communistcode.co.uk>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:14.0) Gecko/20120717 Thunderbird/14.0
+	Thu, 26 Jul 2012 10:54:09 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 26 Jul 2012 01:42:37 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="186606033"
+Received: from unknown (HELO helios.localnet) ([10.252.121.37])
+	by fmsmga001.fm.intel.com with ESMTP; 26 Jul 2012 01:42:37 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Koen Kooi <koen@dominion.thruhere.net>
+Date: Thu, 26 Jul 2012 09:42:36 +0100
+Message-ID: <1756274.ud5AYazWdz@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.8.4 (Linux/3.2.0-27-generic-pae; KDE/4.8.4; i686; ; )
+In-Reply-To: <919CF905-E475-44CE-8050-94A39C204208@dominion.thruhere.net>
+References: <1343283462-25435-1-git-send-email-radu.moisan@intel.com>
+	<5010E3CF.3060709@intel.com>
+	<919CF905-E475-44CE-8050-94A39C204208@dominion.thruhere.net>
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <5010AE26.5010908@windriver.com>
-In-Reply-To: <5010AE26.5010908@windriver.com>
-Subject: Re: removing /etc/init.d/busybox-udhcpc
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v3] dbus: include dbus-launch in the main dbus package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: ml@communistcode.co.uk,
-	Patches and discussions about the oe-core layer
+Reply-To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -45,36 +36,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Jul 2012 08:39:32 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 26 Jul 2012 08:54:09 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On 26/07/12 03:40, Jesse Zhang wrote:
-> Hi,
->
-> I recently found that if "ip=dhcp" is specified in the kernel cmdline,
-> there would be some strange behaviour of udhcpc.
->
-> 1. udhcpc is started two times during bootup.
->
-> snip...
+On Thursday 26 July 2012 10:08:49 Koen Kooi wrote:
+> Op 26 jul. 2012, om 08:29 heeft Radu Moisan <radu.moisan@intel.com> het
+> > volgende geschreven:
+> > it does not build, it complains about nothing providing dbus-x11
+> > 
+> > Radu
+> > 
+> > On 07/26/2012 09:17 AM, Radu Moisan wrote:
+> >> Followed suggestions from Bugz 2261:
+> >> 
+> >> 1) remove the --with-x/--without-x configure arguments. If you want to
+> >> force no-discovery for native builds the correct argument is
+> >> --disable-x11-autolaunch. This ensures that DBus looks at the build
+> >> environment to determine whether to enable X11 bus discovery or not.
+> >> 
+> >> 2) make the virtual/libx11 DEPENDS conditional based on the x11 distro
+> >> feature. This makes the build dependencies reflect the feature list.
+> >> 
+> >> 3) remove dbus-x11, meaning that dbus-launch with its potential X11
+> >> dependency is now back in dbus where is belongs.
+> >> 
+> >> 4) Potentially make dbus provide dbus-x11, for compatibility.
+> >> 
+> >> Fixes [Yocto #2261]
+> >> 
+> >> Signed-off-by: Radu Moisan <radu.moisan@intel.com>
+> >> ---
+> >> 
+> >>  meta/recipes-core/dbus/dbus.inc |   11 ++++++-----
+> >>  1 file changed, 6 insertions(+), 5 deletions(-)
+> >> 
+> >> diff --git a/meta/recipes-core/dbus/dbus.inc
+> >> b/meta/recipes-core/dbus/dbus.inc index a75583d..9559f6f 100644
+> >> --- a/meta/recipes-core/dbus/dbus.inc
+> >> +++ b/meta/recipes-core/dbus/dbus.inc
+> >> @@ -31,10 +31,10 @@ CONFFILES_${PN} = "${sysconfdir}/dbus-1/system.conf
+> >> ${sysconfdir}/dbus-1/session>> 
+> >>    DEBIANNAME_${PN} = "dbus-1"
+> >>  
+> >>  -PACKAGES =+ "${PN}-lib ${PN}-systemd
+> >>  ${@base_contains('DISTRO_FEATURES', 'x11', '${PN}-x11', '', d)}">> 
+> >> +PACKAGES =+ "${PN}-lib ${PN}-systemd"
+> >> 
+> >>  -FILES_${PN}-x11 = "${bindir}/dbus-launch"
+> >> 
+> >> -RDEPENDS_${PN}-x11 = "${PN}"
+> >> +# for compatibility
+> 
+> PROVIDES += "dbus-x11"
+> 
+> >> +RREPLACES_${PN} += "dbus-x11"
+> 
+> RPROVIDES_${PN} += "dbus-x11"
 
-I've also seen this happen on the beaglebone with meta-ti and poky under 
-core-image-minimal configuration.
+For the sake of clarity, you mean both of these, not RPROVIDES instead of 
+adding RREPLACES - right?
 
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+Cheers,
+Paul
 
 -- 
 
-   Jack Mitchell (jack@embed.me.uk)
-   Embedded Systems Engineer
-   http://www.embed.me.uk
-
---
-
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
