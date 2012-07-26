@@ -1,33 +1,34 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1SuOmD-00020H-HI for openembedded-core@lists.openembedded.org;
-	Thu, 26 Jul 2012 16:10:53 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6QDxMmi021806
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jul 2012 14:59:22 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 21246-05 for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jul 2012 14:59:18 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6QDxDQp021800
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jul 2012 14:59:15 +0100
-Message-ID: <1343311153.29991.33.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
+Received: from ams-iport-1.cisco.com ([144.254.224.140])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <mertsas@cisco.com>)
+	id 1SuOqY-000256-91; Thu, 26 Jul 2012 16:15:22 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=cisco.com; i=mertsas@cisco.com; l=580; q=dns/txt;
+	s=iport; t=1343311433; x=1344521033;
+	h=message-id:date:from:mime-version:to:subject:
+	content-transfer-encoding;
+	bh=5jCBJ4QTwzpwmd5eheb34NxrNIV7E5vkXkZmErp0VpE=;
+	b=K6+AmP7D2l0jd/LhhslTk788ieTUqc4afbL9SSWMGe425jR0IGOlUpSY
+	1vxi73TrC8TwNF2f2zH7ONeZPFNpKE0KyRS3uOFpwlkSAL/8DV+vjGAq0
+	a2hcdaONvviA9P2u1Ntx6ErCO9Zbmd/zBYd/4wIPolu+WT84bS8rcGUND o=;
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-Anti-Spam-Result: AgsFAI9NEVCQ/khN/2dsb2JhbABFhS20DoEHgjkBZT0WGAMCAQIBSw0IAQEeh2uaNoEooEOSQwOVSIEUhEeITIFmgmE
+X-IronPort-AV: E=Sophos;i="4.77,659,1336348800"; d="scan'208";a="141639983"
+Received: from ams-core-4.cisco.com ([144.254.72.77])
+	by ams-iport-1.cisco.com with ESMTP; 26 Jul 2012 14:02:47 +0000
+Received: from [10.54.74.11] (dhcp-10-54-74-11.cisco.com [10.54.74.11])
+	by ams-core-4.cisco.com (8.14.5/8.14.5) with ESMTP id q6QE2j3R003631;
+	Thu, 26 Jul 2012 14:02:46 GMT
+Message-ID: <50114E06.2050305@cisco.com>
+Date: Thu, 26 Jul 2012 16:02:46 +0200
+From: =?ISO-8859-1?Q?Martin_Erts=E5s?= <mertsas@cisco.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:10.0.5) Gecko/20120628 Thunderbird/10.0.5
+MIME-Version: 1.0
+To: openembedded-devel@lists.openembedded.org,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Thu, 26 Jul 2012 14:59:13 +0100
-In-Reply-To: <cover.1343200454.git.sgw@linux.intel.com>
-References: <cover.1343200454.git.sgw@linux.intel.com>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [CONSOLIDATED PULL 00/28] Fixes & eglibc 2.16
+Subject: meta-qt5 available
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,89 +43,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Jul 2012 14:10:54 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 26 Jul 2012 14:15:22 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2012-07-25 at 00:18 -0700, Saul Wold wrote:
-> Andrei Gherzan (1):
->   package.bbclass: Create symlinks for packages with different packaged
->     name
-> 
-> Bruce Ashfield (1):
->   linux-yocto/3.4: 3.4.6 and 3.4.x-rt14
-> 
-> Christopher Larson (2):
->   initscripts: don't bg mk_dirs in populate-volatile
->   libpcap: fix pcap-config to not return -Wl,-rpath
-> 
-> Denis Carikli (1):
->   kernel.bbclass: fix external module building
-> 
-> Khem Raj (6):
->   qemu.bbclass: Map the qemu binary name for powerpc64
->   cups_1.4.6.bb: Fix build on ppc64
->   libcgroup_0.37.1.bb: Add recipe
->   eglibc-initial: Fix build failure due to missing limits.h
->   gcc-cross-initial: Stage self sufficient fixed limits.h
->   eglibc: Fix build when OPTION_POSIX_WIDE_CHAR_DEVICE_IO is not set
-> 
-> Koen Kooi (1):
->   kernel bbclass: Recreate uImage only when KEEPUIMAGE != "yes"
-> 
-> Mark Hatle (1):
->   Add missing Upstream-Status to various patches.
-> 
-> Otavio Salvador (4):
->   bash: enable parallel build
+Hi.
 
-I didn't take the above due to the build failures it seemed to cause.
+I have just made a new layer, for qt5 recipes. This contains work in
+progress recipes, but should be working. In the (not so) long run, qt5
+recipes will hopefully be added to oe-core, but in the meantime these
+are available.
 
->   bash: fix warning about bashbug reference /usr/bin when installed in
->     /bin
->   shadow-native: use 'users' group by default
->   shadow: use 'users' group by default
-> 
-> Paul Eggleton (2):
->   dhcp: remove dependency of dev/staticdev packages on main package
->   classes/package_deb: add PackageArch field
-> 
-> Robert P. J. Day (3):
->   libxp: Change superfluous "+=" to simple "=" when using _append
->   webkit-gtk: Replace superfluous "+=" with "=", and add leading space
->   xinit_1.3.2: Remove broken, superfluous 'FILES_${PN} +=
->     "${libdir}X11/xinit"'
-> 
-> Robert Yang (1):
->   package-index: inherit pythonnative
+The recipes are based on the qt4 recipes in oe-core from 4-5 months ago,
+and some of them might be a bit messy. If anyone feels the urge to help
+out with this layer, and make these recipes as good as humanly possible,
+feel free to do so.
 
-I didn't take the above since I have some unanswered questions about
-this one.
+The project is located at git://github.com/martiert/meta-qt5.git
 
-> Ross Burton (1):
->   core-image: remove x11-netbook package group, it's unused
-> 
-> Roy.Li (1):
->   busybox:udhcpc: fix the root_is_nfs() function
-> 
-> Saul Wold (1):
->   tcmode-default: Bump EGLIBC Version to 2.16
-
-I didn't take the above yet as again I think there are some remaining
-issues I want to ensure we merge the right pieces for.
-
-> Wenzong Fan (1):
->   remake: Add remake-native and remake
-> 
-> Yao Zhao (1):
->   busybox: fix the problem that mkfs.minix.tests fails on big endian
->     platform
-
-I merged the others.
-
-Cheers,
-
-Richard
-
+Best Regards
+Martin Ertsaas
 
 
