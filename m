@@ -1,20 +1,20 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <radu.moisan@intel.com>) id 1SuHXE-0004zR-Au
+	(envelope-from <radu.moisan@intel.com>) id 1SuHXw-00051h-Kt
 	for openembedded-core@lists.openembedded.org;
-	Thu, 26 Jul 2012 08:26:56 +0200
+	Thu, 26 Jul 2012 08:27:40 +0200
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 25 Jul 2012 23:15:24 -0700
+	by fmsmga101.fm.intel.com with ESMTP; 25 Jul 2012 23:16:09 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="186509143"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="186509621"
 Received: from dell-desktop (HELO localhost.localdomain) ([10.237.105.32])
-	by fmsmga001.fm.intel.com with ESMTP; 25 Jul 2012 23:15:23 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 25 Jul 2012 23:16:08 -0700
 From: Radu Moisan <radu.moisan@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 26 Jul 2012 09:16:57 +0300
-Message-Id: <1343283417-25388-1-git-send-email-radu.moisan@intel.com>
+Date: Thu, 26 Jul 2012 09:17:42 +0300
+Message-Id: <1343283462-25435-1-git-send-email-radu.moisan@intel.com>
 X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH v2] dbus: include dbus-launch in the main dbus package
+Subject: [PATCH v3] dbus: include dbus-launch in the main dbus package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,7 +29,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Jul 2012 06:26:56 -0000
+X-List-Received-Date: Thu, 26 Jul 2012 06:27:40 -0000
 
 Followed suggestions from Bugz 2261:
 
