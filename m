@@ -1,31 +1,35 @@
-Received: from astoria.ccjclearline.com ([64.235.106.9])
+Received: from mail-lb0-f175.google.com ([209.85.217.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpjday@crashcourse.ca>) id 1SuWJj-000601-Mw
+	(envelope-from <kergoth@gmail.com>) id 1SuWOV-00066D-6e
 	for openembedded-core@lists.openembedded.org;
-	Fri, 27 Jul 2012 00:13:59 +0200
-Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
-	([174.115.5.73]:44700 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.77) (envelope-from <rpjday@crashcourse.ca>)
-	id 1SuW8b-0000iS-M2 for openembedded-core@lists.openembedded.org;
-	Thu, 26 Jul 2012 18:02:29 -0400
-Date: Thu, 26 Jul 2012 18:02:20 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@oneiric
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.DEB.2.02.1207261800480.15478@oneiric>
-User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+	Fri, 27 Jul 2012 00:18:55 +0200
+Received: by lbol5 with SMTP id l5so1611778lbo.6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 26 Jul 2012 15:07:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date
+	:x-google-sender-auth:message-id:subject:to:content-type;
+	bh=qm0kyY3gf7xcm74z77t5/IF7Juusb5ib0Bk7ggstIHo=;
+	b=v8BeyKnr4zJMD1TxfgyOMOUr8aw5kVgmywmmy3+7CLsdybz2k1/mYp8dv/EMFZ25zn
+	Bgt0pXX3n8C2/1kwiKaq3sXPQv8FsT+czqa6avKqCsUydIuWZU2YiiNzTs0l5qpKpBO2
+	a3e8dYkpMm51OoQ9sLjyrlFCp7OkxyxkQ5DsL5YFirmr1gMnszh6ul0wrAkjiJTXPpLp
+	RdNthF5i/GFcVEf35N4yLeMw/6Z/BSr/tw+r83CsjLAoq6khXmNI6mD6sxo2dx/OTljJ
+	ltgvX02zQtUYrNqZH+QTEef3wd+LmUSEwh0nM8ulWa/UAjrYWT7ajkUiSyCYHdFZqmhD
+	wt+A==
+Received: by 10.112.85.225 with SMTP id k1mr407903lbz.38.1343340443905; Thu,
+	26 Jul 2012 15:07:23 -0700 (PDT)
 MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Subject: is "export IMAGE_BASENAME" currently supported or not?
+Sender: kergoth@gmail.com
+Received: by 10.114.64.180 with HTTP; Thu, 26 Jul 2012 15:07:03 -0700 (PDT)
+In-Reply-To: <CAKSdS8LwF4XvBcuAoJ=36tOMMGF=VRLPoar5Tp9dCf+69JtiOw@mail.gmail.com>
+References: <CAKSdS8LwF4XvBcuAoJ=36tOMMGF=VRLPoar5Tp9dCf+69JtiOw@mail.gmail.com>
+From: Chris Larson <clarson@kergoth.com>
+Date: Thu, 26 Jul 2012 15:07:03 -0700
+X-Google-Sender-Auth: Rp-8J7AFzJE0zcF8NxpPLCLyM44
+Message-ID: <CABcZANkzOGiVmzyP-3YDwSSieiMTE03SyaL-bTe6a+6FGnGRnA@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: libc-common.bbclass and uclibc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,34 +44,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Jul 2012 22:13:59 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Thu, 26 Jul 2012 22:18:55 -0000
+Content-Type: text/plain; charset=UTF-8
 
+On Thu, Jul 26, 2012 at 2:51 PM, Manuel Bessler
+<manuel.bessler@gmail.com> wrote:
+> It does not seem to care about uclibc.
+> Maybe libc-common.bbclass is only for eglibc and might need a better name?
+> Since this is checking for "DEBIAN_NAMES" and I guess debian is not
+> uclibc based,
+> maybe this code is not really the issue...
+>
+> Do I just need to create a uclibc-common.bbclass ?
 
-from image.bbclass:
-
-# "export IMAGE_BASENAME" not supported at this time
-IMAGE_INSTALL ?= ""
-IMAGE_INSTALL[type] = "list"
-IMAGE_BASENAME[export] = "1"
-
-but there's this:
-
-meta/recipes-core/images/core-image-minimal-initramfs.bb:export IMAGE_BASENAME = "core-image-minimal-initramfs"
-
-
-just an observation.
-
-rday
-
+Debian-originated shared library-based package renaming occurs
+regardless of what C library you use, and isn't relevant.
 -- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
+Christopher Larson
 
 
