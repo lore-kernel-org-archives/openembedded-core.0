@@ -1,26 +1,24 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SuTRO-0007fn-Ee
+	(envelope-from <philb@gnu.org>) id 1SuTSx-0007jL-9P
 	for openembedded-core@lists.openembedded.org;
-	Thu, 26 Jul 2012 21:09:42 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 26 Jul 2012 11:58:10 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="177968685"
-Received: from unknown (HELO [10.255.12.157]) ([10.255.12.157])
-	by orsmga002.jf.intel.com with ESMTP; 26 Jul 2012 11:58:10 -0700
-Message-ID: <50119342.1030003@linux.intel.com>
-Date: Thu, 26 Jul 2012 11:58:10 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:13.0) Gecko/20120615 Thunderbird/13.0.1
-MIME-Version: 1.0
+	Thu, 26 Jul 2012 21:11:19 +0200
+Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
+	helo=[192.168.114.6])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1SuTHq-0007kF-FJ
+	for openembedded-core@lists.openembedded.org;
+	Thu, 26 Jul 2012 20:59:50 +0200
+Message-ID: <1343329086.4470.56.camel@x121e.pbcl.net>
+From: Phil Blundell <philb@gnu.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <1343299888-30141-1-git-send-email-paul.eggleton@linux.intel.com>
-In-Reply-To: <1343299888-30141-1-git-send-email-paul.eggleton@linux.intel.com>
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
-Subject: Re: [PATCH v2] usbutils: avoid dependency on bash
+Date: Thu, 26 Jul 2012 19:58:06 +0100
+In-Reply-To: <1343328564-3644-1-git-send-email-sgw@linux.intel.com>
+References: <1343328564-3644-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: Evolution 3.4.3-1 
+Mime-Version: 1.0
+Subject: Re: [PATCH] package.bbclass: Let pn be eglibc for eglibc-locale
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,91 +33,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Jul 2012 19:09:42 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Thu, 26 Jul 2012 19:11:19 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 07/26/2012 03:51 AM, Paul Eggleton wrote:
-> By virtue of having #!/bin/bash, the usb-devices script declared that it
-> requires bash, however manual examination, checkbashisms and tests with
-> dash and busybox show that it doesn't contain any bashisms, so change
-> the script's header and remove the RDEPENDS on bash.
->
-> Additionally, update-usbids.sh was manually checked for bashisms, run
-> through checkbashisms and tested with busybox (although it did not have
-> a bash-specific header).
->
-> Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
-> ---
->   .../usb-devices-avoid-dependency-on-bash.patch     |   30 ++++++++++++++++++++
->   meta/recipes-bsp/usbutils/usbutils_0.91.bb         |    7 +++--
->   2 files changed, 34 insertions(+), 3 deletions(-)
->   create mode 100644 meta/recipes-bsp/usbutils/usbutils/usb-devices-avoid-dependency-on-bash.patch
->
-> diff --git a/meta/recipes-bsp/usbutils/usbutils/usb-devices-avoid-dependency-on-bash.patch b/meta/recipes-bsp/usbutils/usbutils/usb-devices-avoid-dependency-on-bash.patch
-> new file mode 100644
-> index 0000000..a6b241f
-> --- /dev/null
-> +++ b/meta/recipes-bsp/usbutils/usbutils/usb-devices-avoid-dependency-on-bash.patch
-> @@ -0,0 +1,30 @@
-> +From 333d5fbbc03481f1aa222bd68c2609db168ae3e0 Mon Sep 17 00:00:00 2001
-> +From: Paul Eggleton <paul.eggleton@linux.intel.com>
-> +Date: Thu, 26 Jul 2012 10:37:32 +0100
-> +Subject: [PATCH] usb-devices: avoid dependency on bash
-> +
-> +By virtue of having #!/bin/bash this script declared that it requires
-> +bash, however manual examination, checkbashisms and tests with dash
-> +and busybox show that it doesn't contain any bashisms, so change the
-> +header to avoid the dependency.
-> +
-> +Upstream-Status: Pending
-> +
-> +Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
-> +---
-> + usb-devices |    2 +-
-> + 1 file changed, 1 insertion(+), 1 deletion(-)
-> +
-> +diff --git a/usb-devices b/usb-devices
-> +index b2052e2..14a5358 100755
-> +--- a/usb-devices
-> ++++ b/usb-devices
-> +@@ -1,4 +1,4 @@
-> +-#!/bin/bash
-> ++#!/bin/sh
-> +
-> + # Copyright: 2009 Greg Kroah-Hartman <greg@kroah.com>
-> + #            2009 Randy Dunlap <rdunlap@xenotime.net>
-> +--
-> +1.7.9.5
-> +
-> diff --git a/meta/recipes-bsp/usbutils/usbutils_0.91.bb b/meta/recipes-bsp/usbutils/usbutils_0.91.bb
-> index 490b05a..04d1681 100644
-> --- a/meta/recipes-bsp/usbutils/usbutils_0.91.bb
-> +++ b/meta/recipes-bsp/usbutils/usbutils_0.91.bb
-> @@ -7,9 +7,10 @@ LICENSE = "GPLv2+"
->   LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
->
->   DEPENDS = "libusb zlib"
-> -PR = "r3"
-> +PR = "r4"
->
-> -SRC_URI = "${KERNELORG_MIRROR}/linux/utils/usb/usbutils/usbutils-${PV}.tar.gz"
-> +SRC_URI = "${KERNELORG_MIRROR}/linux/utils/usb/usbutils/usbutils-${PV}.tar.gz \
-> +           file://usb-devices-avoid-dependency-on-bash.patch"
->
->   SRC_URI[md5sum] = "49de2403b40bf3a9863faaa8d3858deb"
->   SRC_URI[sha256sum] = "c122346b0225121bcf159abf804116f826a4a3462c94ce7b8871f7559e6b3a46"
-> @@ -26,4 +27,4 @@ PACKAGES += "${PN}-ids"
->   FILES_${PN}-dev += "${datadir}/pkgconfig"
->   FILES_${PN}-ids = "${datadir}/usb*"
->
-> -RDEPENDS_${PN} = "${PN}-ids bash"
-> +RDEPENDS_${PN} = "${PN}-ids"
->
+On Thu, 2012-07-26 at 11:49 -0700, Saul Wold wrote:
+> diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+> index 0c7fe80..06e2e04 100644
+> --- a/meta/classes/package.bbclass
+> +++ b/meta/classes/package.bbclass
+> @@ -389,6 +389,8 @@ python package_do_split_locales() {
+>  
+>      dvar = d.getVar('PKGD', True)
+>      pn = d.getVar('PN', True)
+> +    if pn == "eglibc-locale":
+> +        pn = "eglibc"
 
-Merged into OE-Core
+Bletch!  There must surely be some way to solve this problem without
+hacking recipe names into package.bbclass.
 
-Thanks
-	Sau!
+p.
+
+
 
 
