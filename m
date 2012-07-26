@@ -1,49 +1,26 @@
-Received: from mail-we0-f175.google.com ([74.125.82.175])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1SuNNB-0007H9-3c
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1SuNQX-0007KG-8h
 	for openembedded-core@lists.openembedded.org;
-	Thu, 26 Jul 2012 14:40:57 +0200
-Received: by weyr6 with SMTP id r6so1163510wey.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jul 2012 05:29:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date
-	:content-transfer-encoding:message-id:references:to:x-mailer
-	:x-gm-message-state;
-	bh=MPkdS37XQg5ILT7yG9+13rkcg+gz6fsp73Br1rC7wi8=;
-	b=eN/LJKuRmFyJSHRpHNQsUSO/lAfJ7HNPCh9zXi62jQehr8PO56pMqchOELx4R5cU3K
-	g+9TnYyq+nMtrU+FHLxn6mGkZC0Pfukt0xxxCHTWd8IoX7TJd1/KbHinB+bJysawFIDm
-	zzmq1tP9OTvKin174Xxb0Fy309O0Rru657D6XwWqQmJ1OI2U5F3U9iGBlV93YWWzTBan
-	W9yId1Wt5R+KsQG0ZGETOLOHtr4LOVeLa/NGPxVBSZypbo8nnC6iYZI2mdnh0ykp6Q5H
-	P133MxL5VApPZjh8VP7bu04x1GAXgvx4cluJvh5EVhLTYgBs3CuqN1reaOqsiy5s3wLm
-	UEIg==
-Received: by 10.216.119.6 with SMTP id m6mr6448019weh.215.1343305766509;
-	Thu, 26 Jul 2012 05:29:26 -0700 (PDT)
-Received: from [172.20.0.6] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
-	by mx.google.com with ESMTPS id y5sm7991935wiw.9.2012.07.26.05.29.15
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 26 Jul 2012 05:29:25 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1278)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <CAJTo0LZx5E7tcvLUMrjPdH2B5p+DnFxU63tbtL6tsDX5dVfVSQ@mail.gmail.com>
-Date: Thu, 26 Jul 2012 14:29:14 +0200
-Message-Id: <2CA706BF-4D5B-4488-B128-B665F32A0DD3@dominion.thruhere.net>
+	Thu, 26 Jul 2012 14:44:25 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 26 Jul 2012 05:32:53 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="173454540"
+Received: from unknown (HELO helios.localnet) ([10.252.121.37])
+	by azsmga001.ch.intel.com with ESMTP; 26 Jul 2012 05:32:52 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Koen Kooi <koen@dominion.thruhere.net>
+Date: Thu, 26 Jul 2012 13:32:51 +0100
+Message-ID: <1515360.HL1K52tqqg@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.8.4 (Linux/3.2.0-27-generic-pae; KDE/4.8.4; i686; ; )
+In-Reply-To: <2CA706BF-4D5B-4488-B128-B665F32A0DD3@dominion.thruhere.net>
 References: <1343283462-25435-1-git-send-email-radu.moisan@intel.com>
-	<5010E3CF.3060709@intel.com>
-	<919CF905-E475-44CE-8050-94A39C204208@dominion.thruhere.net>
-	<1756274.ud5AYazWdz@helios>
-	<F0E3167B-ECF8-494D-83E8-0D31CC826E65@dominion.thruhere.net>
-	<50110B50.3030900@intel.com>
-	<446507ED-01C5-4006-B9AE-C8D77B61C213@dominion.thruhere.net>
-	<50111C7C.8080904@intel.com> <50112207.3060709@intel.com>
-	<CAJTo0LYeKt+KypnrVq50tSbjqfK8XyvUnZp0xvz=KRmMx7dXzQ@mail.gmail.com>
-	<C132AEAF-467E-450E-A86F-7A68BE96F917@dominion.thruhere.net>
 	<CAJTo0LZx5E7tcvLUMrjPdH2B5p+DnFxU63tbtL6tsDX5dVfVSQ@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1278)
-X-Gm-Message-State: ALoCoQn1xp895yvVuRAU/nqCF2Ojmm3M0ckwyQ2Z/DNzGw+vfKlpSkFLBA29kXd4RraWIuaXOs34
+	<2CA706BF-4D5B-4488-B128-B665F32A0DD3@dominion.thruhere.net>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH v3] dbus: include dbus-launch in the main dbus package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -59,23 +36,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Jul 2012 12:40:57 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 26 Jul 2012 12:44:25 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
+On Thursday 26 July 2012 14:29:14 Koen Kooi wrote:
+> Op 26 jul. 2012, om 14:00 heeft Burton, Ross het volgende geschreven:
+> > On 26 July 2012 12:55, Koen Kooi <koen@dominion.thruhere.net> wrote:
+> >> It would be nice if other layers that have RDEPENDS_foo = "dbus-x11" keep
+> >> working till their maintainers get around fixing them. Note that you
+> >> might need to do a -c cleansstate on dbus first to trigger any errors.> 
+> > Yes, and isn't that what the RPROVIDES is for?
+> 
+> I'm not sure if bitbake can map RPROVIDES to PROVIDES, I vaguely remember
+> that it doesn't, but it will pick it up *after* do_package has run. I broke
+> OE way too many times doing things like that :)
 
-Op 26 jul. 2012, om 14:00 heeft Burton, Ross het volgende geschreven:
+Why would it need to if we're talking about RDEPENDS and more specifically 
+RDEPENDS defined before do_package?
 
-> On 26 July 2012 12:55, Koen Kooi <koen@dominion.thruhere.net> wrote:
->> It would be nice if other layers that have RDEPENDS_foo =3D =
-"dbus-x11" keep working till their maintainers get around fixing them. =
-Note that you might need to do a -c cleansstate on dbus first to trigger =
-any errors.
->=20
-> Yes, and isn't that what the RPROVIDES is for?
+Cheers,
+Paul
 
-I'm not sure if bitbake can map RPROVIDES to PROVIDES, I vaguely =
-remember that it doesn't, but it will pick it up *after* do_package has =
-run. I broke OE way too many times doing things like that :)=
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
