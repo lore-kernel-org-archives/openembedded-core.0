@@ -1,23 +1,35 @@
-Received: from smtp1.ingenico.com ([217.108.148.240])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Matthieu.CRAPET@ingenico.com>) id 1SuISk-0001yX-CW
-	for openembedded-core@lists.openembedded.org;
-	Thu, 26 Jul 2012 09:26:22 +0200
-X-IronPort-AV: E=Sophos;i="4.77,657,1336341600"; d="scan'208";a="13511308"
-Received: from frsnprexc1.usr.ingenico.loc ([10.23.2.11])
-	by antispam1.usr.ingenico.loc with ESMTP; 26 Jul 2012 09:14:54 +0200
-X-MimeOLE: Produced By Microsoft Exchange V6.5
-MIME-Version: 1.0
-Date: Thu, 26 Jul 2012 09:14:52 +0200
-Message-ID: <D9D7124626ED1E43963D86B2657D5CCD03A69B7A@FRSNPREXC1.usr.ingenico.loc>
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-Thread-Topic: SDK and external toolchain
-Thread-Index: Ac1q/f/sI5ypejjKTkK7XBagW7wdzw==
-From: "Matthieu CRAPET" <Matthieu.CRAPET@ingenico.com>
-To: "Patches and discussions about the oe-core layer"
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1SuIog-00029f-5O for openembedded-core@lists.openembedded.org;
+	Thu, 26 Jul 2012 09:49:02 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6Q7bWET018910
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 26 Jul 2012 08:37:32 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 17674-03 for <openembedded-core@lists.openembedded.org>;
+	Thu, 26 Jul 2012 08:37:27 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6Q7bJiP018904
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 26 Jul 2012 08:37:22 +0100
+Message-ID: <1343288238.29991.21.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: SDK and external toolchain
+Date: Thu, 26 Jul 2012 08:37:18 +0100
+In-Reply-To: <alpine.DEB.2.02.1207252009070.14124@oneiric>
+References: <alpine.DEB.2.02.1207251558160.15120@oneiric>
+	<1343251261.29991.4.camel@ted>
+	<alpine.DEB.2.02.1207252009070.14124@oneiric>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: how to properly use "EXTRA_ASSUME_PROVIDED"?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,78 +44,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Jul 2012 07:26:22 -0000
-Content-class: urn:content-classes:message
-Content-Type: text/plain;
-	charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 26 Jul 2012 07:49:02 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Greetings,
+On Wed, 2012-07-25 at 20:10 -0400, Robert P. J. Day wrote:
+> On Wed, 25 Jul 2012, Richard Purdie wrote:
+> 
+> > On Wed, 2012-07-25 at 16:06 -0400, Robert P. J. Day wrote:
+> > > what is the proper way to use EXTRA_ASSUME_PROVIDED, and is the
+> > > effect of that visible in the bitbake environment?
+> > >
+> > >   as in, based on the current version of bitbake.conf, i can see this
+> > > with "bitbake -e":
+> > >
+> > > ASSUME_PROVIDED="bzip2-native git-native grep-native diffstat-native
+> > > patch-native perl-native-runtime python-native-runtime tar-native
+> > > virtual/libintl-native"
+> > >
+> > >   if i add the following silliness to my local.conf,
+> > >
+> > > ASSUME_PROVIDED += "rday-native"
+> > >
+> > > i can see that in the env as well:
+> > >
+> > > ASSUME_PROVIDED="bzip2-native git-native grep-native diffstat-native
+> > > patch-native perl-native-runtime python-native-runtime tar-native
+> > > virtual/libintl-native  rday-native"
+> > >
+> > >   but is it correct to run the following:
+> > >
+> > > $ bitbake -I EXTRA_ASSUME_PROVIDED="rday-native" -e core-image-minimal
+> > >
+> > > and if it is, should i be able to verify that anywhere in the
+> > > environment?  doesn't seem so.  from bitbake/lib/bb/cooker.py, it
+> > > looks like whatever i put there is being processed thusly:
+> > >
+> > >   ignore = self.configuration.data.getVar("ASSUME_PROVIDED", True) or ""
+> > >   self.status.ignored_dependencies = set(ignore.split())
+> > >
+> > >   for dep in self.configuration.extra_assume_provided:
+> > >       self.status.ignored_dependencies.add(dep)
+> > >
+> > > so is there any way to see that?  thanks.
+> >
+> > Where did you come to believe EXTRA_ASSUME_PROVIDED did anything?
+> 
+>   um ... from the output of "bitbake -h":
+> 
+>  -I EXTRA_ASSUME_PROVIDED, --ignore-deps=EXTRA_ASSUME_PROVIDED
+>                         Assume these dependencies don't exist and are already
+>                         provided (equivalent to ASSUME_PROVIDED). Useful to
+>                         make dependency graphs more appealing
 
-Updated recently my oe-core and faced an unwanted side effect.
-You need to know that I'm using an externel (linaro) toolchain (my
-.bb/.inc are a clone of "sourcery" toolchain example).
-My toolchain is compiled against a custom (external) eglibc 2.15.
+So its not a variable, its a parameter. You probably mean to run
+something like:
 
-Since commit a0de2a56f19ae4d8cd88e46e96917a7a019fe1ab --
-image.bbclass: Add support to build the SDK in parallel with the image
-http://cgit.openembedded.org/openembedded-core/commit/?id=3Da0de2a56f19ae=
-4
-d8cd88e46e96917a7a019fe1ab
+bitbake -I rday-native -e core-image-minimal
+or
+bitbake --ignore-deps=rday-native -e core-image-minimal
 
-my images generation are failing because it tries to compile eglib 2.16
-and do_configure fails. I have also 3 errors:
-ERROR: Multiple .bb files are due to be built which each provide
-virtual/libc (.../meta/recipes-core/eglibc/eglibc_2.15.bb
-.../meta-ingenico/recipes/external-linaro-toolchain/external-linaro-tool
-chain.bb).
- This usually means one provides something the other doesn't and should.
-ERROR: Multiple .bb files are due to be built which each provide
-virtual/arm-ingenico-linux-gnueabi-libc-for-gcc
-(.../meta/recipes-core/eglibc/eglibc_2.15.bb
-.../meta-ingenico/recipes/external-linaro-toolchain/external-linaro-tool
-chain.bb).
- This usually means one provides something the other doesn't and should.
-ERROR: Multiple .bb files are due to be built which each provide
-virtual/libiconv (.../meta/recipes-core/eglibc/eglibc_2.15.bb
-.../meta-ingenico/recipes/external-linaro-toolchain/external-linaro-tool
-chain.bb).
- This usually means one provides something the other doesn't and should.
+Cheers,
 
-Notice that "PREFERRED_PROVIDER"s are correctly defined (like in
-distro/include/tcmode-external-sourcery.inc). And I use bitbake 1.15.3.
+Richard
 
-For now I fixed it crudely, because I don't need SDK.
-
-diff --git a/meta/classes/toolchain-scripts.bbclass
-b/meta/classes/toolchain-scripts.bbclass
-index 44284c3..f5fd4d7 100644
---- a/meta/classes/toolchain-scripts.bbclass
-+++ b/meta/classes/toolchain-scripts.bbclass
-@@ -136,7 +136,7 @@ toolchain_create_sdk_env_script_for_installer () {
- #we get the cached site config in the runtime
- TOOLCHAIN_CONFIGSITE_NOCACHE =3D "${@siteinfo_get_files(d, True)}"
- TOOLCHAIN_CONFIGSITE_SYSROOTCACHE =3D
-"${STAGING_DATADIR}/${TARGET_SYS}_config_site.d"
--TOOLCHAIN_NEED_CONFIGSITE_CACHE =3D "${TCLIBC} ncurses"
-+TOOLCHAIN_NEED_CONFIGSITE_CACHE =3D "ncurses"
-
- #This function create a site config file
- toolchain_create_sdk_siteconfig () {
----
-
-populate_sdk_base.bbclass inheric toolchain-scripts which adds the
-(unwanted) eglibc dependency.
-Maybe this should be conditional from TOOLCHAIN_TARGET_TASK value?  Or
-dependencies should be added only when calling
-task-core-standalone-sdk-target?
-In my use case, when I bitbake an image recipe, I don't want to deal
-with SDK.
-
-Concerning errors, is there a way to see what's not provided in order to
-fix virtual/libc message (bitbake -e) ?
-
-Best regards,
-Matthieu
 
 
