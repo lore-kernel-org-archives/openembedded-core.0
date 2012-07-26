@@ -1,35 +1,36 @@
-Received: from mail-yw0-f47.google.com ([209.85.213.47])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@gmail.com>) id 1SuUII-0003EY-VG
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <rpurdie@rpsys.net>) id 1SuUON-0003Jb-0K
 	for openembedded-core@lists.openembedded.org;
-	Thu, 26 Jul 2012 22:04:23 +0200
-Received: by yhjj56 with SMTP id j56so2231359yhj.6
+	Thu, 26 Jul 2012 22:10:39 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6QJx7nc025374
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jul 2012 12:52:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=2Abl5bZ4LoXc/34oiDoohl39sv1UTEUV8/pPTo1A1tg=;
-	b=AZHZKn4TZ7j/bwkeQLrNG5XdG+sZCuGR9q412w40qdONcLfi13ioYcqWNgN/pRjp9M
-	+hzJZeUlVAEKA5e/HmKy0Iaaifv59IPC3EV5t1vTDJa6Zmr6XBASkHIKsMJZhcZpaEoW
-	stE7EpwIRhk+gmPiFkM+spqg6eazpYInyQt6q0NjS7fX2bkPmx2iOLYucHfrvD69ixj1
-	BCQmwbPNmjaKsodJXQ+Go2Ip3oJ6yp9jq0rfrQKplgp8D7IXRSsKcQCFNokqZRf35RCm
-	TFw5PweFgvKuJY9SzImeug3ratO6zyV59RafKhMDrx7vJtmBCbxFOhi2nGqz2GmtKWf1
-	WsnQ==
-MIME-Version: 1.0
-Received: by 10.50.209.73 with SMTP id mk9mr2648360igc.66.1343332371296; Thu,
-	26 Jul 2012 12:52:51 -0700 (PDT)
-Received: by 10.231.239.131 with HTTP; Thu, 26 Jul 2012 12:52:51 -0700 (PDT)
-In-Reply-To: <17225760.ocbdZxpBHY@helios>
-References: <cover.1343199345.git.Xin.Ouyang@windriver.com>
-	<969F26A8BAB325438E7EB80D3C3134FB16174E03@IRSMSX102.ger.corp.intel.com>
-	<17225760.ocbdZxpBHY@helios>
-Date: Thu, 26 Jul 2012 15:52:51 -0400
-Message-ID: <CADkTA4PRY7TqEcMpTNHF2tf40x_30CC2aHvxi0WtnHoqRhQk9Q@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+	Thu, 26 Jul 2012 20:59:07 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 24456-05 for <openembedded-core@lists.openembedded.org>;
+	Thu, 26 Jul 2012 20:59:03 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6QJwpNV025365
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 26 Jul 2012 20:59:01 +0100
+Message-ID: <1343332730.9574.4.camel@ted>
+From: Richard Purdie <rpurdie@rpsys.net>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: Package recipes change proposal (system-wide) - name wise
+Date: Thu, 26 Jul 2012 20:58:50 +0100
+In-Reply-To: <50118D35.6070105@windriver.com>
+References: <D9D7124626ED1E43963D86B2657D5CCD03A69B7A@FRSNPREXC1.usr.ingenico.loc>
+	<50117246.2030502@windriver.com>
+	<CABcZAN=nH-rkHyVm8QwaFMyXmGPe=H3cAkM0kJkPsMLp82PEKw@mail.gmail.com>
+	<50118D35.6070105@windriver.com>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: SDK and external toolchain
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,57 +45,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Jul 2012 20:04:23 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Thu, 26 Jul 2012 20:10:39 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jul 25, 2012 at 6:09 AM, Paul Eggleton
-<paul.eggleton@linux.intel.com> wrote:
-> On Wednesday 25 July 2012 07:23:31 Iorga, Cristian wrote:
->> For me, having the version number contained in the name of package recipe is
->> a little bit puzzling. For example: libpcre/libpcre_8.31.bb
->>
->> Is there a solid technical reason to not have it like this?
->>
->> libpcre/libpcre.bb
->> and inside the recipe to have a PV variable defined:
->> PV="8.31"
->
-> The benefit of having PV in the recipe file name is that you can then easily
-> have different recipes for different versions of the same piece of software,
-> which is particularly useful when those different versions may need to be built
-> slightly differently.
+On Thu, 2012-07-26 at 13:32 -0500, Mark Hatle wrote:
+> On 7/26/12 1:14 PM, Chris Larson wrote:
+> > On Thu, Jul 26, 2012 at 9:37 AM, Mark Hatle <mark.hatle@windriver.com> wrote:
+> >>> index 44284c3..f5fd4d7 100644
+> >>> --- a/meta/classes/toolchain-scripts.bbclass
+> >>> +++ b/meta/classes/toolchain-scripts.bbclass
+> >>> @@ -136,7 +136,7 @@ toolchain_create_sdk_env_script_for_installer () {
+> >>>    #we get the cached site config in the runtime
+> >>>    TOOLCHAIN_CONFIGSITE_NOCACHE = "${@siteinfo_get_files(d, True)}"
+> >>>    TOOLCHAIN_CONFIGSITE_SYSROOTCACHE =
+> >>> "${STAGING_DATADIR}/${TARGET_SYS}_config_site.d"
+> >>> -TOOLCHAIN_NEED_CONFIGSITE_CACHE = "${TCLIBC} ncurses"
+> >>> +TOOLCHAIN_NEED_CONFIGSITE_CACHE = "ncurses"
+> >>
+> >>
+> >> That is incorrect.. the CONFIGSITE_CACHE should be generated for the TCLIBC.
+> >> If you don't do that, then you will be running the same configure steps --
+> >> looking for basic glibc information over and over and over, causing a fairly
+> >> expensive performance penalty.
+> >
+> > No, he's right, this is a bug in toolchain-scripts.bbclass. We could
+> > work around it in the recipe via RPROVIDES_${PN}, but
+> > TOOLCHAIN_NEED_CONFIGSITE_CACHE feeds directly into task 'depends', so
+> > it's pulling in ${TCLIBC} explicitly rather than the more accurate
+> > 'virtual/libc'.
+> >
+> 
+> The config site file though isn't called "virtual/libc".  My understanding what 
+> that all that variable did was set the list of config site files, but didn't 
+> directly affect the dependency mapping.  If it does, then there is a definite 
+> issue w/ dependency vs file mappings.
 
-And an example would be the three linux-yocto kernel versions. We'd have
-to break them out into separate layers if the version wasn't in the filename.
+The trouble as I understand it is we need to know both the dependency
+name and the config/site cache name.
 
-That being said, the linux-yocto-dev recipe doesn't have a version in it's name
-for the same reason, it's simpler to keep it moving forward constantly without
-the version in the name.
+We'll probably have to change siteconfig.bbclass to generate libc_config
+instead of ${PN}_config (create an intermediate variable the libc
+recipes override).
 
-.. just chiming in from the kernel point of view :)
+We can then specify something like virtual/libc:libc in
+TOOLCHAIN_NEED_CONFIGSITE_CACHE. Of course that probably still won't
+work if you actually try and build meta-toolchain, we might just have to
+skip things that don't exist...
 
 Cheers,
 
-Bruce
+Richard 
 
->
-> Cheers,
-> Paul
->
-> --
->
-> Paul Eggleton
-> Intel Open Source Technology Centre
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-
-
-
--- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
 
 
