@@ -1,24 +1,33 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1SuWaA-0006F6-Gc
-	for openembedded-core@lists.openembedded.org;
-	Fri, 27 Jul 2012 00:30:58 +0200
-Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
-	helo=[192.168.114.6])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1SuWP3-0008Af-I8
-	for openembedded-core@lists.openembedded.org;
-	Fri, 27 Jul 2012 00:19:29 +0200
-Message-ID: <1343341065.4470.79.camel@x121e.pbcl.net>
-From: Phil Blundell <philb@gnu.org>
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1SuWoJ-0006Mx-G3 for openembedded-core@lists.openembedded.org;
+	Fri, 27 Jul 2012 00:45:35 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6QMY5uK027718
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 26 Jul 2012 23:34:05 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 26762-10 for <openembedded-core@lists.openembedded.org>;
+	Thu, 26 Jul 2012 23:34:01 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6QMXuYx027711
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 26 Jul 2012 23:33:58 +0100
+Message-ID: <1343342035.9574.107.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Thu, 26 Jul 2012 23:17:45 +0100
-In-Reply-To: <CAKSdS8LwF4XvBcuAoJ=36tOMMGF=VRLPoar5Tp9dCf+69JtiOw@mail.gmail.com>
-References: <CAKSdS8LwF4XvBcuAoJ=36tOMMGF=VRLPoar5Tp9dCf+69JtiOw@mail.gmail.com>
-X-Mailer: Evolution 3.4.3-1 
+Date: Thu, 26 Jul 2012 23:33:55 +0100
+In-Reply-To: <alpine.DEB.2.02.1207261800480.15478@oneiric>
+References: <alpine.DEB.2.02.1207261800480.15478@oneiric>
+X-Mailer: Evolution 3.2.2- 
 Mime-Version: 1.0
-Subject: Re: libc-common.bbclass and uclibc
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: is "export IMAGE_BASENAME" currently supported or not?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,27 +42,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Jul 2012 22:30:59 -0000
+X-List-Received-Date: Thu, 26 Jul 2012 22:45:35 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2012-07-26 at 17:51 -0400, Manuel Bessler wrote:
-> =========================================
-> python populate_packages_prepend () {
->         if d.getVar('DEBIAN_NAMES', True):
->                 bpn = d.getVar('BPN', True)
->                 d.setVar('PKG_'+bpn, 'libc6')
-> ...
-> =========================================
+On Thu, 2012-07-26 at 18:02 -0400, Robert P. J. Day wrote:
+> from image.bbclass:
+> 
+> # "export IMAGE_BASENAME" not supported at this time
+> IMAGE_INSTALL ?= ""
+> IMAGE_INSTALL[type] = "list"
+> IMAGE_BASENAME[export] = "1"
 
-That particular piece of code does seem bogus for many reasons and
-should probably go away.  I think it is a historical relic.
+I suspect back in time this looked like:
 
-But, that said, libc-common.bbclass is poorly named and is really
-specific to (e)glibc.  You don't want to use that for uclibc.
+# "export IMAGE_BASENAME" not supported at this time
+IMAGE_BASENAME[export] = "1"
 
-p.
+and what the person wanted to do was:
 
+export IMAGE_BASENAME
+
+i.e. export and already set variable. At that time, the syntax was not
+supported, I believe that it now is and has been for a while.
+
+So a nice cleanup would be to change it to the above and remove the
+comment.
+
+> but there's this:
+> 
+> meta/recipes-core/images/core-image-minimal-initramfs.bb:export IMAGE_BASENAME = "core-image-minimal-initramfs"
+
+so we can drop the "export" from there since the core does it.
+
+Whether the export is needed at all these days, I don't know.
+
+Cheers,
+
+Richard
 
 
 
