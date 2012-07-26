@@ -1,40 +1,36 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1SuPuB-0003Q0-NB for openembedded-core@lists.openembedded.org;
-	Thu, 26 Jul 2012 17:23:11 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6QFBgjs022413
+Received: from mail-bk0-f47.google.com ([209.85.214.47])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <schnitzeltony@googlemail.com>) id 1SuPyr-0003Ua-US
+	for openembedded-core@lists.openembedded.org;
+	Thu, 26 Jul 2012 17:28:01 +0200
+Received: by bkcik5 with SMTP id ik5so983595bkc.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jul 2012 16:11:42 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 21192-10 for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jul 2012 16:11:38 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6QFBWJ5022407
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jul 2012 16:11:33 +0100
-Message-ID: <1343315490.7600.3.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Thu, 26 Jul 2012 16:11:30 +0100
-In-Reply-To: <CALbNGRSutt-hFJHahbXaCrK0=mKXuRydkw8Z7Ju5tSNUokJHPg@mail.gmail.com>
-References: <CALbNGRS3ZaawmC1+pt_ja2+90qyan1XC3V-9s8gsKyr-PsHWwQ@mail.gmail.com>
-	<CALbNGRSztH9aBbW7BeLm0YwdGZ-mEvbVMUJJNUa5bLweCXCbmg@mail.gmail.com>
-	<1343308890.29991.30.camel@ted>
-	<CALbNGRSSkQKgys-2u=dJ4TmYmnwyV6XTsTQ6HFDSACX5hzWYYw@mail.gmail.com>
-	<20120726144748.GD3621@jama.jama.net>
-	<CALbNGRSutt-hFJHahbXaCrK0=mKXuRydkw8Z7Ju5tSNUokJHPg@mail.gmail.com>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-X-MIME-Autoconverted: from 8bit to quoted-printable by tim.rpsys.net id
-	q6QFBgjs022413
-Subject: Re: autoconf broken? (was [oe] gtk+-native configure fails)
+	Thu, 26 Jul 2012 08:16:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=from:to:subject:date:message-id:x-mailer:mime-version:content-type
+	:content-transfer-encoding;
+	bh=zmBWpu7ZoTBMezaafosuxMt86Njt3VPtsfRY6TE72ZM=;
+	b=hsLj0OtcuSNkdRbbJUz5wa0/zxMzTZzPiitg2QiQ5ev7JPeGnT9MOvRySCpgam9x72
+	JcY5dNj4QMp8NAlEIbwJikrvpC5hClrb1OyQkpvU4gL/EcovPgKXM/v8YEp9bsynIAeU
+	Vwb+7vBtRR6YO11ApiRNxOyNcEh/70DAQKs7xVwvaCqMlkrNQ+7C9lCMn10r1/dppd6X
+	6qH2F7ttnt9qzele/UD8u3297rdS7U0nPplawpwY0VgDy+wd38OCv2e2MjP7qLD+Sgvs
+	ieH/29qrrP4JDbXT2oWEOjh+mfCgB8qdfgCVS5xULGQHyn1zdMk00nUdxsEggiP4X8NE
+	ssDg==
+Received: by 10.205.134.139 with SMTP id ic11mr14095039bkc.40.1343315791158;
+	Thu, 26 Jul 2012 08:16:31 -0700 (PDT)
+Received: from localhost.localdomain (ip-95-222-160-112.unitymediagroup.de.
+	[95.222.160.112])
+	by mx.google.com with ESMTPS id t23sm14802645bks.4.2012.07.26.08.16.29
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 26 Jul 2012 08:16:30 -0700 (PDT)
+From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 26 Jul 2012 17:16:01 +0200
+Message-Id: <1343315761-6314-1-git-send-email-schnitzeltony@googlemail.com>
+X-Mailer: git-send-email 1.7.6.5
+MIME-Version: 1.0
+Subject: [PATCH] gtk-doc.bbclass: unbreak dependency-chain for native recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,32 +45,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Jul 2012 15:23:11 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 26 Jul 2012 15:28:02 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Thu, 2012-07-26 at 17:02 +0200, Andreas M=C3=BCller wrote:
-> bitbake -e atk-native | grep ^DEPENDS
->=20
-> says
->=20
-> DEPENDS_GETTEXT=3D"gettext-native"
-> DEPENDS=3D"gtk-doc-stub-native"
->=20
-> Is it possible that
->=20
-> DEPENDS_virtclass-native_append =3D " gtk-doc-stub-native"
->=20
-> in gtk-doc.bbclass breaks dependency-chain?
 
-Its entirely possible unfortunately :(
+Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
+---
+ meta/classes/gtk-doc.bbclass |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-I'm not entirely sure how to fix this right now but I'm thinking about
-it. I'm hoping droping that line in the class might be enough.
-
-Cheers,
-
-Richard
+diff --git a/meta/classes/gtk-doc.bbclass b/meta/classes/gtk-doc.bbclass
+index 8a312f5..be10c75 100644
+--- a/meta/classes/gtk-doc.bbclass
++++ b/meta/classes/gtk-doc.bbclass
+@@ -7,7 +7,7 @@
+ # packages up any existing documentation (so from tarball builds).
+ 
+ DEPENDS_append = " gtk-doc-stub-native"
+-DEPENDS_virtclass-native_append = " gtk-doc-stub-native"
++DEPENDS_append_virtclass-native = " gtk-doc-stub-native"
+ 
+ EXTRA_OECONF_append = "\
+   --disable-gtk-doc \
+-- 
+1.7.6.5
 
 
 
