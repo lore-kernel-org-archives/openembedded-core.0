@@ -1,42 +1,29 @@
-Received: from mail-wg0-f43.google.com ([74.125.82.43])
+Received: from ams-iport-3.cisco.com ([144.254.224.146])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1SuJJ3-0002vB-5G
+	(envelope-from <mertsas@cisco.com>) id 1SuJLl-00030i-Nh
 	for openembedded-core@lists.openembedded.org;
-	Thu, 26 Jul 2012 10:20:25 +0200
-Received: by wgbdr1 with SMTP id dr1so1365779wgb.24
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jul 2012 01:08:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date
-	:content-transfer-encoding:message-id:references:to:x-mailer
-	:x-gm-message-state;
-	bh=9FbxB5eK0OmO5hkM/YGYGWqY8lVexBF0CxP7gBy20aE=;
-	b=mmn+qelrqLw+fDvXLRuVu8FnBFgO783FMS7qVOEbgrlozGJkFCWkQfOzalpEvjLrzU
-	A2AqMbSihaHoEWLuAi7rdwBh/N8DbNbItcub5HYA0FjI7juOQ8hZEcjiFS7Qroj3KPEV
-	iKxGfjP0GZEb3g3MzP3ZFS1BcD882CmaM4lkmbTTFH0Nb1akAnUcUK5IAbYgwrQJmwnK
-	i57r68bR6EqmrsPnv2lyjbeAJOBIAvXfbC6pN4A8yPvVLCgM+bmCK0s3emFd+FCt6gYG
-	sjTgQxNuJEi1438X/IPmEhBGLrvghsgYqmJvwamKqb4rw9OFOQDAqWOn7VEtFSkGQWKp
-	DG1Q==
-Received: by 10.180.98.138 with SMTP id ei10mr11326295wib.1.1343290134809;
-	Thu, 26 Jul 2012 01:08:54 -0700 (PDT)
-Received: from [172.20.3.202] (ip545070eb.adsl-surfen.hetnet.nl.
-	[84.80.112.235])
-	by mx.google.com with ESMTPS id b7sm10755551wiz.9.2012.07.26.01.08.52
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 26 Jul 2012 01:08:54 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 6.0 \(1485\))
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <5010E3CF.3060709@intel.com>
-Date: Thu, 26 Jul 2012 10:08:49 +0200
-Message-Id: <919CF905-E475-44CE-8050-94A39C204208@dominion.thruhere.net>
-References: <1343283462-25435-1-git-send-email-radu.moisan@intel.com>
-	<5010E3CF.3060709@intel.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1485)
-X-Gm-Message-State: ALoCoQnpdDOFCHRlc8qVLVqOQdyg4yk6PMol8YSXxycCkP2bBgeHCgmxY9aNV5N8PQbpfmivKO/t
-Subject: Re: [PATCH v3] dbus: include dbus-launch in the main dbus package
+	Thu, 26 Jul 2012 10:23:14 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=cisco.com; i=mertsas@cisco.com; l=2615; q=dns/txt;
+	s=iport; t=1343290305; x=1344499905;
+	h=from:to:cc:subject:date:message-id;
+	bh=RZRmOmf0N2aOhRaIwZOBk+x5qhOyCYkAZlhu8wG3qKI=;
+	b=BYnVJnlNy/rX65G6jLwgHUSqrjI1CINoYByuItXSR4y9X9y4XQrkCtmb
+	bVBSqhQF4i+iZfZRkhwEjPaWbIDlxdBg9yAB6XlZ5npzrDAKmEn9zxqOv
+	BqA/CivAUyKrMbz27bTi74LRkO1hjmNx3q33rPC+59kVYH/vF5Ff4I04j 0=;
+X-IronPort-AV: E=Sophos;i="4.77,659,1336348800"; 
+   d="scan'208";a="6901856"
+Received: from ams-core-2.cisco.com ([144.254.72.75])
+	by ams-iport-3.cisco.com with ESMTP; 26 Jul 2012 08:11:42 +0000
+Received: from Lan.cisco.com (dhcp-10-54-74-11.cisco.com [10.54.74.11])
+	by ams-core-2.cisco.com (8.14.5/8.14.5) with ESMTP id q6Q8BgO0011906;
+	Thu, 26 Jul 2012 08:11:42 GMT
+From: Martin Ertsaas <mertsas@cisco.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 26 Jul 2012 10:11:25 +0200
+Message-Id: <1343290285-7095-1-git-send-email-mertsas@cisco.com>
+X-Mailer: git-send-email 1.7.8.6
+Subject: [PATCH] gcc: Make it possbile for armcc and gcc to coexist.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -51,67 +38,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Jul 2012 08:20:25 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 26 Jul 2012 08:23:14 -0000
 
+Signed-off-by: Martin Ertsaas <mertsas@cisco.com>
+---
+ meta/recipes-devtools/gcc/gcc-4.7.inc              |    2 +-
+ .../gcc/gcc-4.7/armcc-coexistence.patch.txt        |   12 ++++++++++++
+ .../recipes-devtools/gcc/gcc-configure-runtime.inc |    6 ++++++
+ 3 files changed, 19 insertions(+), 1 deletions(-)
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.7/armcc-coexistence.patch.txt
 
-Op 26 jul. 2012, om 08:29 heeft Radu Moisan <radu.moisan@intel.com> het =
-volgende geschreven:
-
-> it does not build, it complains about nothing providing dbus-x11
->=20
-> Radu
->=20
-> On 07/26/2012 09:17 AM, Radu Moisan wrote:
->> Followed suggestions from Bugz 2261:
->>=20
->> 1) remove the --with-x/--without-x configure arguments. If you want =
-to force
->> no-discovery for native builds the correct argument is =
---disable-x11-autolaunch.
->> This ensures that DBus looks at the build environment to determine =
-whether to
->> enable X11 bus discovery or not.
->>=20
->> 2) make the virtual/libx11 DEPENDS conditional based on the x11 =
-distro feature.
->> This makes the build dependencies reflect the feature list.
->>=20
->> 3) remove dbus-x11, meaning that dbus-launch with its potential X11 =
-dependency
->> is now back in dbus where is belongs.
->>=20
->> 4) Potentially make dbus provide dbus-x11, for compatibility.
->>=20
->> Fixes [Yocto #2261]
->>=20
->> Signed-off-by: Radu Moisan <radu.moisan@intel.com>
->> ---
->>  meta/recipes-core/dbus/dbus.inc |   11 ++++++-----
->>  1 file changed, 6 insertions(+), 5 deletions(-)
->>=20
->> diff --git a/meta/recipes-core/dbus/dbus.inc =
-b/meta/recipes-core/dbus/dbus.inc
->> index a75583d..9559f6f 100644
->> --- a/meta/recipes-core/dbus/dbus.inc
->> +++ b/meta/recipes-core/dbus/dbus.inc
->> @@ -31,10 +31,10 @@ CONFFILES_${PN} =3D =
-"${sysconfdir}/dbus-1/system.conf ${sysconfdir}/dbus-1/session
->>    DEBIANNAME_${PN} =3D "dbus-1"
->>  -PACKAGES =3D+ "${PN}-lib ${PN}-systemd =
-${@base_contains('DISTRO_FEATURES', 'x11', '${PN}-x11', '', d)}"
->> +PACKAGES =3D+ "${PN}-lib ${PN}-systemd"
->>  -FILES_${PN}-x11 =3D "${bindir}/dbus-launch"
->> -RDEPENDS_${PN}-x11 =3D "${PN}"
->> +# for compatibility
-
-PROVIDES +=3D "dbus-x11"
-
->> +RREPLACES_${PN} +=3D "dbus-x11"
-
-RPROVIDES_${PN} +=3D "dbus-x11"
-
+diff --git a/meta/recipes-devtools/gcc/gcc-4.7.inc b/meta/recipes-devtools/gcc/gcc-4.7.inc
+index 43d77ec..709d7d8 100644
+--- a/meta/recipes-devtools/gcc/gcc-4.7.inc
++++ b/meta/recipes-devtools/gcc/gcc-4.7.inc
+@@ -1,6 +1,6 @@
+ require gcc-common.inc
+ 
+-PR = "r7"
++PR = "r8"
+ 
+ # Third digit in PV should be incremented after a minor release
+ # happens from this branch on gcc e.g. currently its 4.7.1
+diff --git a/meta/recipes-devtools/gcc/gcc-4.7/armcc-coexistence.patch.txt b/meta/recipes-devtools/gcc/gcc-4.7/armcc-coexistence.patch.txt
+new file mode 100644
+index 0000000..61c04ac
+--- /dev/null
++++ b/meta/recipes-devtools/gcc/gcc-4.7/armcc-coexistence.patch.txt
+@@ -0,0 +1,12 @@
++--- /usr/local/oecore-x86_64/sysroots/armv7ahf-vfp-neon-nimbus-linux-gnueabi/usr/include/c++/OE_TARGET_SYS/bits/c++config.h~	2012-06-15 11:47:57.000000000 +0200
+++++ /usr/local/oecore-x86_64/sysroots/armv7ahf-vfp-neon-nimbus-linux-gnueabi/usr/include/c++/OE_TARGET_SYS/bits/c++config.h	2012-06-29 11:57:10.000000000 +0200
++@@ -1147,7 +1147,9 @@ namespace std
++ /* #undef _GLIBCXX_VERSION */
++ 
++ /* Define if the compiler supports C++11 atomics. */
+++#ifndef __ARMCC_VERSION
++ #define _GLIBCXX_ATOMIC_BUILTINS 1
+++#endif
++ 
++ /* Define to use concept checking code from the boost libraries. */
++ /* #undef _GLIBCXX_CONCEPT_CHECKS */
+diff --git a/meta/recipes-devtools/gcc/gcc-configure-runtime.inc b/meta/recipes-devtools/gcc/gcc-configure-runtime.inc
+index d40383c..cdb69bf 100644
+--- a/meta/recipes-devtools/gcc/gcc-configure-runtime.inc
++++ b/meta/recipes-devtools/gcc/gcc-configure-runtime.inc
+@@ -2,6 +2,8 @@ require gcc-configure-common.inc
+ 
+ CXXFLAGS := "${@oe_filter_out('-fvisibility-inlines-hidden', '${CXXFLAGS}', d)}"
+ 
++SRC_URI += "file://armcc-coexistence.patch.txt"
++
+ EXTRA_OECONF_PATHS = " \
+     --with-gxx-include-dir=${includedir}/c++/ \
+     --with-sysroot=${STAGING_DIR_TARGET} \
+@@ -49,6 +51,10 @@ do_install () {
+ 			rmdir --ignore-fail-on-non-empty -p ${D}${datadir}/info
+ 		fi
+ 	done
++	cd ${D}${prefix}
++	cat ${S}/../armcc-coexistence.patch.txt \
++		| sed -e "s|OE_TARGET_SYS|${TARGET_SYS}|g" \
++		| patch -p7
+ 	chown -R root:root ${D}
+ }
+ 
+-- 
+1.7.8.6
 
 
 
