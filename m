@@ -1,26 +1,23 @@
 Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Sen.Zhang@windriver.com>) id 1SuECe-0004QT-6D
+	(envelope-from <Song.Li@windriver.com>) id 1SuEbM-00057f-Rj
 	for openembedded-core@lists.openembedded.org;
-	Thu, 26 Jul 2012 04:53:30 +0200
+	Thu, 26 Jul 2012 05:19:01 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q6Q2fvJO009789
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q6Q2Wctw009668
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Jul 2012 19:41:57 -0700 (PDT)
-Received: from [128.224.162.230] (128.224.162.230) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.1.255.0;
-	Wed, 25 Jul 2012 19:41:56 -0700
-Message-ID: <5010AE26.5010908@windriver.com>
-Date: Thu, 26 Jul 2012 10:40:38 +0800
-From: Jesse Zhang <sen.zhang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:14.0) Gecko/20120717 Thunderbird/14.0
+	Wed, 25 Jul 2012 19:32:39 -0700 (PDT)
+Received: from localhost.localdomain (128.224.163.66) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.1.255.0; Wed, 25 Jul 2012 19:32:38 -0700
+From: <Song.Li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 26 Jul 2012 10:32:21 +0800
+Message-ID: <1343269941-18349-1-git-send-email-Song.Li@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>, Mark Hatle
-	<mark.hatle@windriver.com>
-X-Originating-IP: [128.224.162.230]
-Subject: removing /etc/init.d/busybox-udhcpc
+Subject: [PATCH V2] sysstat:use a new way to remove -s option of LFLAGS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,71 +32,106 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Jul 2012 02:53:30 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 26 Jul 2012 03:19:01 -0000
+Content-Type: text/plain
 
-Hi,
+From: "Song.Li" <Song.Li@windriver.com>
 
-I recently found that if "ip=dhcp" is specified in the kernel cmdline,
-there would be some strange behaviour of udhcpc.
+sysstat Makefile shouldn't use -s option to strip binary
+because we need debug info for dbg package.
+The old way to remove -s option is passing LFLAGS=''
+in make command line to clean all the LFLAGS variable in Makefile.
+That will cause build failure when sensors lib is needed.
+In fact,Only the "-s" should be removed, others LFLAGS should be kept.
 
-1. udhcpc is started two times during bootup.
+[YOCTO #2740]
 
-    Starting Bootlog daemon: bootlogd.
-    Configuring network interfaces... udhcpc (v1.19.4) started
-    Sending discover...
-    Sending select for 128.224.162.132...
-    Lease of 128.224.162.132 obtained, lease time 172800
-    /etc/udhcpc.d/50default: Adding DNS 128.224.160.11
-    /etc/udhcpc.d/50default: Adding DNS 147.11.100.30
-    /etc/udhcpc.d/50default: Adding DNS 147.11.1.11
-    done.
-    Starting portmap daemon...
-    [...]
-    Starting domain name service: named.
-    udhcpc (v1.19.4) started
-    Sending discover...
-    Sending select for 128.224.162.132...
-    Lease of 128.224.162.132 obtained, lease time 172800
-    RTNETLINK answers: File exists
-    /etc/udhcpc.d/50default: Adding DNS 128.224.160.11
-    /etc/udhcpc.d/50default: Adding DNS 147.11.100.30
-    /etc/udhcpc.d/50default: Adding DNS 147.11.1.11
-    creating NFS state directory: done
+(LOCAL PATCH: NOT UPSTREAM)
 
-2. udhcpc is *started* when system is being shutdown.
+Signed-off-by: Song.Li <Song.Li@windriver.com>
+---
+ .../sysstat/files/remove-s-option-of-LFLAGS.patch  |   36 ++++++++++++++++++++
+ meta/recipes-extended/sysstat/sysstat.inc          |    5 +--
+ meta/recipes-extended/sysstat/sysstat_10.0.3.bb    |    2 +-
+ 3 files changed, 40 insertions(+), 3 deletions(-)
+ create mode 100644 meta/recipes-extended/sysstat/files/remove-s-option-of-LFLAGS.patch
 
-    Stopping domain name service: namedrndc: neither /etc/bind/rndc.conf nor /etc/bind/rndc.key wd
-    .
-    udhcpc (v1.19.4) started
-    Sending discover...
-    Sending select for 128.224.162.132...
-    Lease of 128.224.162.132 obtained, lease time 172800
-    RTNETLINK answers: File exists
-    /etc/udhcpc.d/50default: Adding DNS 128.224.160.11
-    /etc/udhcpc.d/50default: Adding DNS 147.11.100.30
-    /etc/udhcpc.d/50default: Adding DNS 147.11.1.11
-    Stopping system message bus: dbus.
-    stopping statd: done
+diff --git a/meta/recipes-extended/sysstat/files/remove-s-option-of-LFLAGS.patch b/meta/recipes-extended/sysstat/files/remove-s-option-of-LFLAGS.patch
+new file mode 100644
+index 0000000..5345c3e
+--- /dev/null
++++ b/meta/recipes-extended/sysstat/files/remove-s-option-of-LFLAGS.patch
+@@ -0,0 +1,36 @@
++From 69f0088cbe300628f5d94b66505ac8ed07565229 Mon Sep 17 00:00:00 2001
++From: "Song.Li" <Song.Li@windriver.com>
++Date: Fri, 13 Jul 2012 13:51:13 +0800
++Subject: [PATCH] remove -s option of LFLAGS
++
++sysstat Makefile shouldn't use -s option to strip binary
++because we need debug info for dbg package.
++The old way to remove -s option is passing LFLAGS=''
++in make command line to clean all the LFLAGS variable in Makefile.
++That will cause build failure when sensors lib is needed.
++In fact,only "-s" should be removeed, others LFLAGS should be kept.
++
++[YOCTO #2740]
++
++Upstream-Status:Pending
++
++(LOCAL PATCH: NOT UPSTREAM)
++
++Signed-off-by: Song.Li <Song.Li@windriver.com>
++---
++ Makefile.in |    1 -
++ 1 file changed, 1 deletion(-)
++
++diff --git a/Makefile.in b/Makefile.in
++index d1ea853..ee6cbc1 100644
++--- a/Makefile.in
+++++ b/Makefile.in
++@@ -71,7 +71,6 @@ SYSCONFIG_DIR = @SYSCONFIG_DIR@
++ # Compiler flags
++ CFLAGS = @CFLAGS@ -Wall -Wstrict-prototypes -pipe -O2
++ DFLAGS = @DFLAGS@
++-LFLAGS =  -s
++ DFLAGS += -DSA_DIR=\"$(SA_DIR)\" -DSADC_PATH=\"$(SADC_PATH)\"
++ DFLAGS += $(DFSENSORS)
++ 
++-- 
+diff --git a/meta/recipes-extended/sysstat/sysstat.inc b/meta/recipes-extended/sysstat/sysstat.inc
+index 9da40a7..1c98101 100644
+--- a/meta/recipes-extended/sysstat/sysstat.inc
++++ b/meta/recipes-extended/sysstat/sysstat.inc
+@@ -5,11 +5,12 @@ LICENSE = "GPLv2+"
+ SECTION = "console/utils"
+ 
+ SRC_URI = "http://pagesperso-orange.fr/sebastien.godard/sysstat-${PV}.tar.gz \
+-		   file://99_sysstat"
++		   file://99_sysstat \
++		   file://remove-s-option-of-LFLAGS.patch \
++          "
+ 
+ inherit autotools gettext
+ 
+-EXTRA_OEMAKE += 'LFLAGS=""'
+ 
+ do_install() {
+ 	autotools_do_install
+diff --git a/meta/recipes-extended/sysstat/sysstat_10.0.3.bb b/meta/recipes-extended/sysstat/sysstat_10.0.3.bb
+index 7ef6c60..93fbe21 100644
+--- a/meta/recipes-extended/sysstat/sysstat_10.0.3.bb
++++ b/meta/recipes-extended/sysstat/sysstat_10.0.3.bb
+@@ -2,7 +2,7 @@ require sysstat.inc
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=8ca43cbc842c2336e835926c2166c28b"
+ 
+-PR = "r1"
++PR = "r2"
+ 
+ SRC_URI[md5sum] = "0e1ed5200f31f69a3b90ff1e81c07745"
+ SRC_URI[sha256sum] = "7c0dd172f09edaff100b33db29ef502e15e71867b505c6d519f76a24fabcc1f5"
+-- 
+1.7.9.5
 
-The reason is busybox installs a busybox-udhcpc init script, which would
-start udhcpc when "ip=dhcp" is specified, but udhcpc is also invoked by
-the networking service (as specified through /etc/network/interfaces).
-That's why udhcpc is started twice.
-
-And since the init script doesn't actually support "stop" actions, it
-will start udhcpc again during system shutdown.
-
-The obvious fix is to remove the busybox-udhcpc init script; all configs
-should go through /etc/network/interfaces. But I'm wondering if anyone
-has problems with that.
-
-If no one objects, I will send the patch shortly.
-
-jesse
-
-P.S. it only happens for non-qemu targets since they have different
-configs. I used an intel emenlow.
 
 
