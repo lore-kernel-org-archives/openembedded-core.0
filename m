@@ -1,32 +1,33 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-ey0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <joe.slater@windriver.com>) id 1SuUfR-0003dx-A5
+	(envelope-from <raj.khem@gmail.com>) id 1SuUfR-0003dy-QF
 	for openembedded-core@lists.openembedded.org;
 	Thu, 26 Jul 2012 22:28:17 +0200
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb [147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q6QKGj3x006223
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+Received: by eaaq10 with SMTP id q10so287993eaa.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jul 2012 13:16:45 -0700 (PDT)
-Received: from ALA-MBB.corp.ad.wrs.com ([169.254.2.203]) by
-	ALA-HCB.corp.ad.wrs.com ([147.11.189.41]) with mapi id 14.01.0255.000;
-	Thu, 26 Jul 2012 13:16:44 -0700
-From: "Slater, Joseph" <joe.slater@windriver.com>
+	Thu, 26 Jul 2012 13:16:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type; bh=fHNsk8Qj+cU9xYlouHoDWlO/vOi6wFi313MRu14UggU=;
+	b=NA3UehwdNmj4d4DdSYu1A7qCU6WQKncUwBcigk9fcVdKp5W1iMf/mLKqVlN6iz++/9
+	1txNdXvp7pq86D+7UZwZtcYa7WXMMasyHkBO08jdeShsvvMejm6cZallmoNQSfFdSBM/
+	jpNpqxhOQJork6hxzM24vmINlm73ak3gCAbDIccLGGJoVkVCURfQnDxCES9GhkRSPs3I
+	op3uNZFu0iGpiLv6dNp9xdmnodYjXOzk2z0PtZTSm+IkHk0M1SGFZTuDhMd75pcuVmGg
+	e04mP3qOOwRpDSjDfnVV43wyF9XqwSzuE/DidoGT1pkQRUcJ+GdXxyI5vBby7U/rCA8r
+	wKYw==
+Received: by 10.14.180.67 with SMTP id i43mr77184eem.23.1343333806957; Thu, 26
+	Jul 2012 13:16:46 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.14.97.141 with HTTP; Thu, 26 Jul 2012 13:16:16 -0700 (PDT)
+In-Reply-To: <1343329086.4470.56.camel@x121e.pbcl.net>
+References: <1343328564-3644-1-git-send-email-sgw@linux.intel.com>
+	<1343329086.4470.56.camel@x121e.pbcl.net>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 26 Jul 2012 13:16:16 -0700
+Message-ID: <CAMKF1so+OJTjN+fRP8DJK2zCNKUyTFYJ==zUMkRm1+-6FkYCvg@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] EXCLUDE_FROM_WORLD
-Thread-Index: Ac1rXXJgZ1SXUA3UTPSRnt48UNUAsgAPxq6AAAxmE2A=
-Date: Thu, 26 Jul 2012 20:16:44 +0000
-Message-ID: <007BD92917A2324FA403BCF9A464CF841FF7DD2E@ALA-MBB.corp.ad.wrs.com>
-References: <007BD92917A2324FA403BCF9A464CF841FF7D6FA@ALA-MBB.corp.ad.wrs.com>
-	<1343329639.7600.13.camel@ted>
-In-Reply-To: <1343329639.7600.13.camel@ted>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [147.11.152.80]
-MIME-Version: 1.0
-Subject: Re: EXCLUDE_FROM_WORLD
+Subject: Re: [PATCH] package.bbclass: Let pn be eglibc for eglibc-locale
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,65 +43,14 @@ List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 26 Jul 2012 20:28:17 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
 
+On Thu, Jul 26, 2012 at 11:58 AM, Phil Blundell <philb@gnu.org> wrote:
+>
+> Bletch!  There must surely be some way to solve this problem without
+> hacking recipe names into package.bbclass.
 
-
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedd=
-ed-core-
-> bounces@lists.openembedded.org] On Behalf Of Richard Purdie
-> Sent: Thursday, July 26, 2012 12:07 PM
-> To: Patches and discussions about the oe-core layer
-> Subject: Re: [OE-core] EXCLUDE_FROM_WORLD
->=20
-> On Thu, 2012-07-26 at 18:45 +0000, Slater, Joseph wrote:
-> > Could somebody clarify excluding things from world?  I see
-> > EXCLUDE_FROM_WORLD =3D "1" in
-> >
-> > many places, including libx11.inc, and I'm sure there's plenty of
-> > libx11 stuff in world.
->=20
-> The issue is that there are multiple providers of libx11 and when you
-> bitbake world, we don't want them all to build. For that reason it gets
-> excluded and then the correct version will get built as needed.
->=20
-> There are plans afoot to merge those different libx11 recipes at which
-> point the exclude from world will get dropped.
->=20
-> > I also see package specific exclusions in world-broken.inc.
->=20
-> This was originally a list of known problematic packages and used to be
-> quite large. Looking at the list:
->=20
-> gobject-introspection: Totally broken recipe, I'm tempted to delete it.
-> eds-tools: Again, I'm tempted to delete the recipe
-> clutter-box2d: This should build, not sure why its on the broken list.
-
-Thanks for the clarifications.  I would think that there would be packages
-that you'd want to exclude conditionally.  Like i-only-build-for-x86.bb wou=
-ld
-not be part of world for ppc builds.  Maybe such packages just cannot ever
-be in world, or maybe we do something where EXCLUDE_FROM_WORLD gets compute=
-d
-from, say, MACHINE_FEATURES?
-
-Joe
-
->=20
-> Chris replied about the other bits...
->=20
-> Cheers,
->=20
-> Richard
->=20
->=20
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+Yes making eglibc-locale base package to be non empty. So if we put in
+something there that it never turns out to be empty is one way
 
 
