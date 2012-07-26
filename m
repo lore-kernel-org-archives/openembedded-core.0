@@ -1,36 +1,37 @@
-Received: from mail-bk0-f47.google.com ([209.85.214.47])
+Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <schnitzeltony@googlemail.com>) id 1SuPyr-0003Ua-US
+	(envelope-from <ross.burton@intel.com>) id 1SuQ2M-0003Xv-LA
 	for openembedded-core@lists.openembedded.org;
-	Thu, 26 Jul 2012 17:28:01 +0200
-Received: by bkcik5 with SMTP id ik5so983595bkc.6
+	Thu, 26 Jul 2012 17:31:38 +0200
+Received: from mail-ob0-f180.google.com ([209.85.214.180])
+	by mga03.intel.com with ESMTP/TLS/RC4-SHA; 26 Jul 2012 08:20:06 -0700
+Received: by obbuo19 with SMTP id uo19so2463509obb.25
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jul 2012 08:16:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:mime-version:content-type
-	:content-transfer-encoding;
-	bh=zmBWpu7ZoTBMezaafosuxMt86Njt3VPtsfRY6TE72ZM=;
-	b=hsLj0OtcuSNkdRbbJUz5wa0/zxMzTZzPiitg2QiQ5ev7JPeGnT9MOvRySCpgam9x72
-	JcY5dNj4QMp8NAlEIbwJikrvpC5hClrb1OyQkpvU4gL/EcovPgKXM/v8YEp9bsynIAeU
-	Vwb+7vBtRR6YO11ApiRNxOyNcEh/70DAQKs7xVwvaCqMlkrNQ+7C9lCMn10r1/dppd6X
-	6qH2F7ttnt9qzele/UD8u3297rdS7U0nPplawpwY0VgDy+wd38OCv2e2MjP7qLD+Sgvs
-	ieH/29qrrP4JDbXT2oWEOjh+mfCgB8qdfgCVS5xULGQHyn1zdMk00nUdxsEggiP4X8NE
-	ssDg==
-Received: by 10.205.134.139 with SMTP id ic11mr14095039bkc.40.1343315791158;
-	Thu, 26 Jul 2012 08:16:31 -0700 (PDT)
-Received: from localhost.localdomain (ip-95-222-160-112.unitymediagroup.de.
-	[95.222.160.112])
-	by mx.google.com with ESMTPS id t23sm14802645bks.4.2012.07.26.08.16.29
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 26 Jul 2012 08:16:30 -0700 (PDT)
-From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 26 Jul 2012 17:16:01 +0200
-Message-Id: <1343315761-6314-1-git-send-email-schnitzeltony@googlemail.com>
-X-Mailer: git-send-email 1.7.6.5
+	Thu, 26 Jul 2012 08:20:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type:content-transfer-encoding:x-gm-message-state;
+	bh=Q2zuMrw1QnPQynP95F/PjGvxP5TUKq0Rs5/n9sslRgE=;
+	b=DRj9A3E+mY3tqLizAlcN5ndvZXIIvOaPK23hBOVrfU1BIRbFmPuSeyMD5NKZPtfT3s
+	zRcUw//LoxPwMAGeyPjK90EfBT2o8CaI8hAS/zRQbp8Bd5VywdiVt5r7/Fy5D7VB+885
+	443GaZ19aYS0w22EdR0RvqIisBj0FTJEDIs/PdrAyVp5wf0uRfA1a+cJtOE/yeexPvV4
+	gNveJkU2BKC9192MPcX5vhc7lhbLbQxIUvCzXxiG9uFqkf+Y7edDA+NWKyv1wYUD3UA0
+	BL5295WX4BhFr40vNtM7MxQw/vBGyusST9zGQ5kV+pFLKolcRwKXsZAFaiEwTU+1j1jS
+	9DLA==
+Received: by 10.182.51.37 with SMTP id h5mr42226734obo.35.1343316005517; Thu,
+	26 Jul 2012 08:20:05 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH] gtk-doc.bbclass: unbreak dependency-chain for native recipes
+Received: by 10.182.33.4 with HTTP; Thu, 26 Jul 2012 08:19:45 -0700 (PDT)
+In-Reply-To: <1343315761-6314-1-git-send-email-schnitzeltony@googlemail.com>
+References: <1343315761-6314-1-git-send-email-schnitzeltony@googlemail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 26 Jul 2012 16:19:45 +0100
+Message-ID: <CAJTo0La41DbcZMFm-T5dH-_u52ZA4rL7i2LsHs-NLfZX8Nz6nQ@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Gm-Message-State: ALoCoQl/zpBTLW/jdsP5m9aEDSLXu4HQtCIcuO0moInioEOkQupUt5/YdDt2kagNo9Y2Wumqn6A0
+Subject: Re: [PATCH] gtk-doc.bbclass: unbreak dependency-chain for native recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,31 +46,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Jul 2012 15:28:02 -0000
+X-List-Received-Date: Thu, 26 Jul 2012 15:31:38 -0000
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 
+On 26 July 2012 16:16, Andreas M=C3=BCller <schnitzeltony@googlemail.com> w=
+rote:
+> -DEPENDS_virtclass-native_append =3D " gtk-doc-stub-native"
+> +DEPENDS_append_virtclass-native =3D " gtk-doc-stub-native"
 
-Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
----
- meta/classes/gtk-doc.bbclass |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+Was this a typo on my part, or is there a semantic difference between those=
+?
 
-diff --git a/meta/classes/gtk-doc.bbclass b/meta/classes/gtk-doc.bbclass
-index 8a312f5..be10c75 100644
---- a/meta/classes/gtk-doc.bbclass
-+++ b/meta/classes/gtk-doc.bbclass
-@@ -7,7 +7,7 @@
- # packages up any existing documentation (so from tarball builds).
- 
- DEPENDS_append = " gtk-doc-stub-native"
--DEPENDS_virtclass-native_append = " gtk-doc-stub-native"
-+DEPENDS_append_virtclass-native = " gtk-doc-stub-native"
- 
- EXTRA_OECONF_append = "\
-   --disable-gtk-doc \
--- 
-1.7.6.5
-
+Ross
 
 
