@@ -1,42 +1,27 @@
-Received: from mail-wi0-f171.google.com ([209.85.212.171])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1SuOBl-00009c-Gt
+	(envelope-from <radu.moisan@intel.com>) id 1SuOCg-0000Dx-Ci
 	for openembedded-core@lists.openembedded.org;
-	Thu, 26 Jul 2012 15:33:13 +0200
-Received: by wibhq4 with SMTP id hq4so5581812wib.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jul 2012 06:21:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=subject:mime-version:content-type:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to:x-mailer
-	:x-gm-message-state;
-	bh=G+AKleAFSJV4eZAKHVJFoQD8+ynHOD7V61YOs4zMW80=;
-	b=T0D0oitH/4Lx6ZI0sRBWmTuTo+OLUhthgIT7s06B448ah9RXdfJLiugXIVe2Cmdv0q
-	bHDJWL7JOF1JkkZIUCfQM+zGrtJETgKvipYBKLuvnR+rW0cx51o+I2iRPMdhQ/3qoXht
-	Ra2ntri4PC0qQKU+ffXef3/Ocs0UZqdQCHCTMwEoMikpZQ0ezT+UHYk8eqjyZKBGDKzz
-	FwzGcyb8wCfLoOvuhvj72Q7ugpWIM7Ye4U5YUyqQbkvNGlvj0P5af22p81qhqI/lOs/u
-	x4F/bYysyojjJcauG0Izd/ZisGl5AjEDppQuLcor5a21rL+SHbWUH4LS3lNV50TBeIL0
-	sdBA==
-Received: by 10.180.97.106 with SMTP id dz10mr13435625wib.21.1343308902942;
-	Thu, 26 Jul 2012 06:21:42 -0700 (PDT)
-Received: from [172.20.0.6] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
-	by mx.google.com with ESMTPS id k20sm8202954wiv.11.2012.07.26.06.21.40
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 26 Jul 2012 06:21:41 -0700 (PDT)
-Mime-Version: 1.0 (Apple Message framework v1278)
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1428646.vB6tdydMPR@helios>
-Date: Thu, 26 Jul 2012 15:21:39 +0200
-Message-Id: <03A607C1-3BC7-42F5-B93E-AB735D42D913@dominion.thruhere.net>
+	Thu, 26 Jul 2012 15:34:10 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 26 Jul 2012 06:22:38 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; 
+	d="scan'208,217";a="186776477"
+Received: from dell-desktop (HELO [10.237.105.32]) ([10.237.105.32])
+	by fmsmga001.fm.intel.com with ESMTP; 26 Jul 2012 06:22:38 -0700
+Message-ID: <501144FE.4040201@intel.com>
+Date: Thu, 26 Jul 2012 16:24:14 +0300
+From: Radu Moisan <radu.moisan@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:14.0) Gecko/20120714 Thunderbird/14.0
+MIME-Version: 1.0
+To: openembedded-core@lists.openembedded.org
 References: <1343283462-25435-1-git-send-email-radu.moisan@intel.com>
-	<6492036.bctPLCmjO3@helios>
-	<C722676A-6FBA-4987-9B97-849BF27AEDA4@dominion.thruhere.net>
-	<1428646.vB6tdydMPR@helios>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-X-Mailer: Apple Mail (2.1278)
-X-Gm-Message-State: ALoCoQkyiMBDgzhLQKXMv7uCRSzzPKNcunqzIOhR/GK32Y3Gy59dbHZ97OHVWxshMQhwSHJyXy6N
-Cc: openembedded-core@lists.openembedded.org
+	<5010E3CF.3060709@intel.com>
+	<919CF905-E475-44CE-8050-94A39C204208@dominion.thruhere.net>
+	<lymx2mvfe8.fsf@ensc-virt.intern.sigma-chemnitz.de>
+In-Reply-To: <lymx2mvfe8.fsf@ensc-virt.intern.sigma-chemnitz.de>
 Subject: Re: [PATCH v3] dbus: include dbus-launch in the main dbus package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -52,28 +37,96 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Jul 2012 13:33:13 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 26 Jul 2012 13:34:10 -0000
+Content-Type: multipart/alternative;
+	boundary="------------060109060201050205050500"
+
+--------------060109060201050205050500
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
+
+it does not crash at runtime. You can try
+
+dbus-launch --auto-syntax
+
+it'll start a bus and print out the information like:
+
+DBUS_SESSION_BUS_ADDRESS='unix:abstract=/tmp/dbus-N48lpeD2TP,guid=0f3cd66fdbdc2f436a9356790002eaa1';
+export DBUS_SESSION_BUS_ADDRESS;
+DBUS_SESSION_BUS_PID=23640;
+
+Radu
+
+On 07/26/2012 04:08 PM, Enrico Scholz wrote:
+> Koen Kooi <koen-QLwJDigV5abLmq1fohREcCpxlwaOVQ5f@public.gmane.org>
+> writes:
+>
+>> RPROVIDES_${PN} += "dbus-x11"
+> This is wrong because 'dbus' does not provide dbus-x11 when x11 is
+> disabled by distro.  Packages which require dbus-launch from 'dbus-x11'
+> will install fine but will fail at runtime.
+>
+>
+> Enrico
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
-Op 26 jul. 2012, om 15:12 heeft Paul Eggleton het volgende geschreven:
+--------------060109060201050205050500
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-> On Thursday 26 July 2012 15:07:42 Koen Kooi wrote:
->>> Without being too concerned with implementation details, I think =
-it's as
->>> simple as this: if recipe A has foo in RDEPENDS_${PN} and recipe B =
-has foo
->>> in RPROVIDES_${PN} then the runtime dependency is considered =
-satisfied
->>> and things will work. You don't have to specify foo in PROVIDES =
-unless
->>> something else has foo in DEPENDS.
->>=20
->> If that's so, great, but please check :)
->=20
-> I did, prior to sending that... :)
+<html>
+  <head>
+    <meta content="text/html; charset=ISO-8859-1"
+      http-equiv="Content-Type">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    it does not crash at runtime. You can try <br>
+    <br>
+    dbus-launch --auto-syntax<br>
+    <br>
+    it'll start a bus and print out the information like:<br>
+    <br>
+    <font face="Droid Sans Mono"><small>DBUS_SESSION_BUS_ADDRESS='unix:abstract=/tmp/dbus-N48lpeD2TP,guid=0f3cd66fdbdc2f436a9356790002eaa1';<br>
+        export DBUS_SESSION_BUS_ADDRESS;<br>
+        DBUS_SESSION_BUS_PID=23640;<br>
+      </small></font><br>
+    Radu<br>
+    <br>
+    <div class="moz-cite-prefix">On 07/26/2012 04:08 PM, Enrico Scholz
+      wrote:<br>
+    </div>
+    <blockquote
+      cite="mid:lymx2mvfe8.fsf@ensc-virt.intern.sigma-chemnitz.de"
+      type="cite">
+      <pre wrap="">Koen Kooi <a class="moz-txt-link-rfc2396E" href="mailto:koen-QLwJDigV5abLmq1fohREcCpxlwaOVQ5f@public.gmane.org">&lt;koen-QLwJDigV5abLmq1fohREcCpxlwaOVQ5f@public.gmane.org&gt;</a>
+writes:
 
-great, I'll shut up now :)=
+</pre>
+      <blockquote type="cite">
+        <pre wrap="">RPROVIDES_${PN} += "dbus-x11"
+</pre>
+      </blockquote>
+      <pre wrap="">
+This is wrong because 'dbus' does not provide dbus-x11 when x11 is
+disabled by distro.  Packages which require dbus-launch from 'dbus-x11'
+will install fine but will fail at runtime.
 
 
+Enrico
+
+_______________________________________________
+Openembedded-core mailing list
+<a class="moz-txt-link-abbreviated" href="mailto:Openembedded-core@lists.openembedded.org">Openembedded-core@lists.openembedded.org</a>
+<a class="moz-txt-link-freetext" href="http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core">http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core</a>
+</pre>
+    </blockquote>
+    <br>
+  </body>
+</html>
+
+--------------060109060201050205050500--
