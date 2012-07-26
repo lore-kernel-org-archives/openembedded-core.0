@@ -1,33 +1,31 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1SuWoJ-0006Mx-G3 for openembedded-core@lists.openembedded.org;
-	Fri, 27 Jul 2012 00:45:35 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6QMY5uK027718
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jul 2012 23:34:05 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 26762-10 for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jul 2012 23:34:01 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6QMXuYx027711
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jul 2012 23:33:58 +0100
-Message-ID: <1343342035.9574.107.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Thu, 26 Jul 2012 23:33:55 +0100
-In-Reply-To: <alpine.DEB.2.02.1207261800480.15478@oneiric>
-References: <alpine.DEB.2.02.1207261800480.15478@oneiric>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: is "export IMAGE_BASENAME" currently supported or not?
+Received: from astoria.ccjclearline.com ([64.235.106.9])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <rpjday@crashcourse.ca>) id 1SuXJx-00071a-38
+	for openembedded-core@lists.openembedded.org;
+	Fri, 27 Jul 2012 01:18:17 +0200
+Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
+	([174.115.5.73]:45036 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.77) (envelope-from <rpjday@crashcourse.ca>)
+	id 1SuX8p-0002qP-4K for openembedded-core@lists.openembedded.org;
+	Thu, 26 Jul 2012 19:06:47 -0400
+Date: Thu, 26 Jul 2012 19:06:37 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@oneiric
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.DEB.2.02.1207261904590.18831@oneiric>
+User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+MIME-Version: 1.0
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Subject: image.bbclass: Update outdated reference to "export IMAGE_BASENAME"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,44 +40,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Jul 2012 22:45:35 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 26 Jul 2012 23:18:17 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
-On Thu, 2012-07-26 at 18:02 -0400, Robert P. J. Day wrote:
-> from image.bbclass:
-> 
-> # "export IMAGE_BASENAME" not supported at this time
-> IMAGE_INSTALL ?= ""
-> IMAGE_INSTALL[type] = "list"
-> IMAGE_BASENAME[export] = "1"
 
-I suspect back in time this looked like:
+Signed-off-by: Robert P. J. Day <rpjday@crashcourse.ca>
 
-# "export IMAGE_BASENAME" not supported at this time
-IMAGE_BASENAME[export] = "1"
+---
 
-and what the person wanted to do was:
+  does this look about right?
 
-export IMAGE_BASENAME
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index 1799bf1..b0b476f 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -58,10 +58,9 @@ PACKAGE_GROUP_dev-pkgs[optional] = "1"
+ PACKAGE_GROUP_doc-pkgs = "${@' '.join('%s-doc' % pkg for pkg in normal_pkgs_to_install(d))}"
+ PACKAGE_GROUP_doc-pkgs[optional] = "1"
 
-i.e. export and already set variable. At that time, the syntax was not
-supported, I believe that it now is and has been for a while.
+-# "export IMAGE_BASENAME" not supported at this time
+ IMAGE_INSTALL ?= ""
+ IMAGE_INSTALL[type] = "list"
+-IMAGE_BASENAME[export] = "1"
++export IMAGE_BASENAME
+ export PACKAGE_INSTALL ?= "${IMAGE_INSTALL} ${ROOTFS_BOOTSTRAP_INSTALL} ${FEATURE_INSTALL}"
+ PACKAGE_INSTALL_ATTEMPTONLY ?= "${FEATURE_INSTALL_OPTIONAL}"
 
-So a nice cleanup would be to change it to the above and remove the
-comment.
+diff --git a/meta/recipes-core/images/core-image-minimal-initramfs.bb b/meta/recipes-core/images/core-image-minimal-initramfs.bb
+index 7f6826c..ddc2142 100644
+--- a/meta/recipes-core/images/core-image-minimal-initramfs.bb
++++ b/meta/recipes-core/images/core-image-minimal-initramfs.bb
+@@ -8,7 +8,6 @@ IMAGE_INSTALL = "initramfs-live-boot initramfs-live-install initramfs-live-insta
+ # Do not pollute the initrd image with rootfs features
+ IMAGE_FEATURES = ""
 
-> but there's this:
-> 
-> meta/recipes-core/images/core-image-minimal-initramfs.bb:export IMAGE_BASENAME = "core-image-minimal-initramfs"
+-export IMAGE_BASENAME = "core-image-minimal-initramfs"
+ IMAGE_LINGUAS = ""
 
-so we can drop the "export" from there since the core does it.
+ LICENSE = "MIT"
 
-Whether the export is needed at all these days, I don't know.
+rday
 
-Cheers,
+-- 
 
-Richard
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
 
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
