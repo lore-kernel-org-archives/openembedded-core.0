@@ -1,44 +1,39 @@
-Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
+Received: from mga10.intel.com ([192.55.52.92] helo=fmsmga102.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1SuMPZ-0006ET-4t
+	(envelope-from <ross.burton@intel.com>) id 1SuMdR-0006Of-CZ
 	for openembedded-core@lists.openembedded.org;
-	Thu, 26 Jul 2012 13:39:21 +0200
-Received: from mail-gh0-f180.google.com ([209.85.160.180])
-	by mga03.intel.com with ESMTP/TLS/RC4-SHA; 26 Jul 2012 04:27:49 -0700
-Received: by ghbz12 with SMTP id z12so1646104ghb.25
+	Thu, 26 Jul 2012 13:53:41 +0200
+Received: from mail-yx0-f180.google.com ([209.85.213.180])
+	by mga11.intel.com with ESMTP/TLS/RC4-SHA; 26 Jul 2012 04:42:09 -0700
+Received: by yenq6 with SMTP id q6so1640890yen.25
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jul 2012 04:27:48 -0700 (PDT)
+	Thu, 26 Jul 2012 04:42:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
 	:content-type:x-gm-message-state;
-	bh=uPbq10/uUokwxf/G3xfOYrNL9K+fwg95LUGouacINm4=;
-	b=VlMossn3aKLQ+OhMIOHRENrfoj+ogEC00uyuLMa8i6865hV5Gyz8m4HQ4fodfftYPV
-	+LVdGWH1nuR6f+uIowaN+C05Z1KJG7Pwll8K8x/m7VaD3SYF1GbaHKZXGYTk9j+7hAtS
-	TsBllEpgHJaI/p/BcnFf5IwWWbGa4n37tWwsjMOyRylLqvAfYAzhx5E3aHmJIX84AEF3
-	0MmemCI4HjtYGKPQURPfqLq9h5CA6+cDDdWsz0HTX9ynTPz7PJncePVqJVxlKLWoEGVH
-	LmrvLngKJKgqF5uwlWq5X+/Bo0V25g4sIZHy3qNbDh7hXGOqvUijoi/FpKUYyk6rmtxb
-	6LbQ==
-Received: by 10.50.100.137 with SMTP id ey9mr1275102igb.61.1343302067909; Thu,
-	26 Jul 2012 04:27:47 -0700 (PDT)
+	bh=a0iwBMhh9uVoF9fXeFexIgeZPhVLQCE0ENo2kd3BVpg=;
+	b=Wz6ni3+G8emfbn9jniRdw8/7zADOOs66ZcdsvbasPWvlX9KczQKc8oM6Sc1nrjR9tg
+	kdQxLs2/eR/+JD8kopkP4GMUEidLshtYT8xdeyrz0TMLsjjKQBdX/GWiPFBHV3Byuw39
+	gZnHAnzLkZ/YynyllrbgJ32RQ4Fhd5DJp/qmJ94zQWOJyaU4n3ss+Mme1j4utENxS66d
+	bM/sL+BQthnDuftc4R16PcfPShFj+dNnfe2/ZGLm5fQZpKrdyA5v0hx/kv01A4ODZrzc
+	ojWw7g9VtXJ7K7n+Fv7VvBiGHzAEka2xAaLxhxHypOwyewtUDrGwXP3prHoXE4DNoGb+
+	Ok5Q==
+Received: by 10.50.179.74 with SMTP id de10mr1304384igc.61.1343302928028; Thu,
+	26 Jul 2012 04:42:08 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.64.70.229 with HTTP; Thu, 26 Jul 2012 04:27:27 -0700 (PDT)
-In-Reply-To: <50112207.3060709@intel.com>
-References: <1343283462-25435-1-git-send-email-radu.moisan@intel.com>
-	<5010E3CF.3060709@intel.com>
-	<919CF905-E475-44CE-8050-94A39C204208@dominion.thruhere.net>
-	<1756274.ud5AYazWdz@helios>
-	<F0E3167B-ECF8-494D-83E8-0D31CC826E65@dominion.thruhere.net>
-	<50110B50.3030900@intel.com>
-	<446507ED-01C5-4006-B9AE-C8D77B61C213@dominion.thruhere.net>
-	<50111C7C.8080904@intel.com> <50112207.3060709@intel.com>
+Received: by 10.64.70.229 with HTTP; Thu, 26 Jul 2012 04:41:46 -0700 (PDT)
+In-Reply-To: <20120725173817.GD20145@jama.jama.net>
+References: <CAJTo0LYgXx4camSSmap_HpitQ+gMOhshDLbJDDEr71=kfYnyUQ@mail.gmail.com>
+	<1343234476-22803-1-git-send-email-ross.burton@intel.com>
+	<20120725173817.GD20145@jama.jama.net>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 26 Jul 2012 12:27:27 +0100
-Message-ID: <CAJTo0LYeKt+KypnrVq50tSbjqfK8XyvUnZp0xvz=KRmMx7dXzQ@mail.gmail.com>
+Date: Thu, 26 Jul 2012 12:41:46 +0100
+Message-ID: <CAJTo0LZWC3qE=OFHJThzmiA-kJ5ipniY+WbNiw-_smac3HnBjA@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Gm-Message-State: ALoCoQnonSiJzci4g2P7uGjSI00e91AXQDEw96+k6yCtAfUUCQ3ghGtg2a7nKwhp2+Ud9rTr91n+
-Subject: Re: [PATCH v3] dbus: include dbus-launch in the main dbus package
+X-Gm-Message-State: ALoCoQnz6lxCqii2a709mo88P3A4haOxzK8PD+2RpG8PYJZCLOAcRHGcy9l1Vzmzwb7McoJJ8LQ7
+Subject: Re: [PATCH] package.bbclass: don't error when the root doesn't exist in do_split_packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -53,15 +48,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Jul 2012 11:39:21 -0000
+X-List-Received-Date: Thu, 26 Jul 2012 11:53:41 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 26 July 2012 11:55, Radu Moisan <radu.moisan@intel.com> wrote:
-> I see no build-time dependencies on dbus-x11 (only runtime dependencies),
-> so, assuming PROVIDES is used at build-time, I don't see it's point.
+On 25 July 2012 18:38, Martin Jansa <martin.jansa@gmail.com> wrote:
+> Isn't this real error which shouldn't be covered by this?
+>
+> e.g. if someone removes or loose tmp-eglibc/work/foo/image (happens
+> to me all the time because tmp-eglibc is on tmpfs) then do_package is
+> reexecuted when sstate checksum is changed (even with
+> BB_SIGNATURE_HANDLER = "OEBasic") and in some cases it successfully
+> repackage .ipk files which are now empty and in some cases it fails
+> (e.g. with systemd.bbclass checking that requested .service files are
+> available in package during do_package).
 
-We've just removed dbus-x11 because it's pointless, the provides is
-only for compatibility.
+In that case it really should fail before do_split_packages() is called, surely?
 
 Ross
 
