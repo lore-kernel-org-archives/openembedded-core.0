@@ -1,19 +1,25 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <yao.zhao@windriver.com>) id 1SuTUy-0007li-I9
+	(envelope-from <sgw@linux.intel.com>) id 1SuTVM-0007nt-7C
 	for openembedded-core@lists.openembedded.org;
-	Thu, 26 Jul 2012 21:13:24 +0200
-Received: from yzhao2-OptiPlex-990.corp.ad.wrs.com
-	(yzhao2-optiplex-990.corp.ad.wrs.com [128.224.147.210])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q6QJ1qCw024849
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jul 2012 12:01:52 -0700 (PDT)
-From: Yao Zhao <yao.zhao@windriver.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 26 Jul 2012 15:01:38 -0400
-Message-Id: <1343329298-29586-1-git-send-email-yao.zhao@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH v2] bzip2-native: handling native path issue
+	Thu, 26 Jul 2012 21:13:48 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 26 Jul 2012 12:02:16 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="177970570"
+Received: from unknown (HELO [10.255.12.157]) ([10.255.12.157])
+	by orsmga002.jf.intel.com with ESMTP; 26 Jul 2012 12:02:06 -0700
+Message-ID: <5011941E.2060003@linux.intel.com>
+Date: Thu, 26 Jul 2012 12:01:50 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:13.0) Gecko/20120615 Thunderbird/13.0.1
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1343199345.git.Xin.Ouyang@windriver.com>
+In-Reply-To: <cover.1343199345.git.Xin.Ouyang@windriver.com>
+Subject: Re: [PATCH 0/1] mtools: add glibc-gconv-* to RDEPENDS/RRECOMMENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -28,77 +34,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Jul 2012 19:13:25 -0000
+X-List-Received-Date: Thu, 26 Jul 2012 19:13:48 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-follow Richard's approach, modify bzip2-native recipe to install bzip2 package
-binaries to STAGING_BINDIR_NATIVE/bzip2-native to avoid problems when other
-package is doing upack to reference bzip2. libbz2.so* still installs to
-STAGING_LIBDIR_NATIVE.
+On 07/25/2012 12:02 AM, xin.ouyang@windriver.com wrote:
+> From: Xin Ouyang <Xin.Ouyang@windriver.com>
+>
+> [YOCTO #2829]
+>
+> mtools commands use cp850 as the "mtools_default_codepage", they would
+> use this to do some coverting tasks.
+>
+> So, add glibc-gconv-ibm850 to RDEPENDS for mtools commands to run
+> correctly.
+>
+>
+>
+>
+> The following changes since commit 0ffb02eec2beaea27ff0ec9d3d31b0a09e675a4c:
+>
+>    documentation: Updated the h6 style to use a larger font (2012-07-24 10:35:34 +0100)
+>
+> are available in the git repository at:
+>
+>    git://git.pokylinux.org/poky-contrib xouyang/master
+>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=xouyang/master
+>
+> Xin Ouyang (1):
+>    mtools: add glibc-gconv-* to RDEPENDS/RRECOMMENDS
+>
+>   meta/recipes-devtools/mtools/mtools_3.9.9.bb  |   20 +++++++++++++++++++-
+>   meta/recipes-devtools/mtools/mtools_4.0.17.bb |   20 +++++++++++++++++++-
+>   2 files changed, 38 insertions(+), 2 deletions(-)
+>
+Merged into OE-Core
 
-add bzip2native.bbclass to let other packages to inherit and add dependency
-to bzip2-replacement-native.
-
-change python-native to inherit bzip2native class and remove the old
-bzip2-full-native dependency.
-
-Signed-off-by: Yao Zhao <yao.zhao@windriver.com>
----
- meta/classes/bzip2native.bbclass                   |    2 ++
- .../recipes-devtools/python/python-native_2.7.3.bb |    4 ++--
- meta/recipes-extended/bzip2/bzip2_1.0.6.bb         |    4 +++-
- 3 files changed, 7 insertions(+), 3 deletions(-)
- create mode 100644 meta/classes/bzip2native.bbclass
-
-diff --git a/meta/classes/bzip2native.bbclass b/meta/classes/bzip2native.bbclass
-new file mode 100644
-index 0000000..a2a7b31
---- /dev/null
-+++ b/meta/classes/bzip2native.bbclass
-@@ -0,0 +1,2 @@
-+EXTRANATIVEPATH += "bzip2-native"
-+DEPENDS += "bzip2-replacement-native"
-diff --git a/meta/recipes-devtools/python/python-native_2.7.3.bb b/meta/recipes-devtools/python/python-native_2.7.3.bb
-index c89f9f9..904dc80 100644
---- a/meta/recipes-devtools/python/python-native_2.7.3.bb
-+++ b/meta/recipes-devtools/python/python-native_2.7.3.bb
-@@ -1,5 +1,5 @@
- require python.inc
--DEPENDS = "openssl-native bzip2-full-native zlib-native readline-native sqlite3-native"
-+DEPENDS = "openssl-native zlib-native readline-native sqlite3-native"
- PR = "${INC_PR}.1"
- 
- SRC_URI += "file://04-default-is-optimized.patch \
-@@ -16,7 +16,7 @@ SRC_URI += "file://04-default-is-optimized.patch \
-            "
- S = "${WORKDIR}/Python-${PV}"
- 
--inherit native
-+inherit native bzip2native
- 
- RPROVIDES += "python-distutils-native python-compression-native python-textutils-native python-core-native"
- 
-diff --git a/meta/recipes-extended/bzip2/bzip2_1.0.6.bb b/meta/recipes-extended/bzip2/bzip2_1.0.6.bb
-index 43b462a..e0c710b 100644
---- a/meta/recipes-extended/bzip2/bzip2_1.0.6.bb
-+++ b/meta/recipes-extended/bzip2/bzip2_1.0.6.bb
-@@ -24,6 +24,8 @@ inherit autotools update-alternatives
- ALTERNATIVE_PRIORITY = "100"
- ALTERNATIVE_${PN} = "bunzip2 bzcat"
- 
-+#install binaries to bzip2-native under sysroot for replacement-native
-+EXTRA_OECONF_virtclass-native += "--bindir=${STAGING_BINDIR_NATIVE}/${PN}"
- do_configure_prepend () {
- 	cp ${WORKDIR}/configure.ac ${S}/
- 	cp ${WORKDIR}/Makefile.am ${S}/
-@@ -40,5 +42,5 @@ FILES_libbz2-staticdev = "${libdir}/*.a"
- SECTION_libbz2-staticdev = "devel"
- RDEPENDS_libbz2-staticdev = "libbz2-dev (= ${EXTENDPKGV})"
- 
--PROVIDES_append_virtclass-native = " bzip2-full-native"
-+PROVIDES_append_virtclass-native = " bzip2-replacement-native"
- BBCLASSEXTEND = "native"
--- 
-1.7.9.5
+Thanks
+	Sau!
 
 
 
