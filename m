@@ -1,36 +1,43 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1SuOBh-00009K-Kp for openembedded-core@lists.openembedded.org;
-	Thu, 26 Jul 2012 15:33:09 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6QDLdTq021534
+Received: from mail-wi0-f171.google.com ([209.85.212.171])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <koen@dominion.thruhere.net>) id 1SuOBl-00009c-Gt
+	for openembedded-core@lists.openembedded.org;
+	Thu, 26 Jul 2012 15:33:13 +0200
+Received: by wibhq4 with SMTP id hq4so5581812wib.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jul 2012 14:21:39 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 21246-03 for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jul 2012 14:21:35 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6QDLUaT021528
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jul 2012 14:21:31 +0100
-Message-ID: <1343308890.29991.30.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Thu, 26 Jul 2012 14:21:30 +0100
-In-Reply-To: <CALbNGRSztH9aBbW7BeLm0YwdGZ-mEvbVMUJJNUa5bLweCXCbmg@mail.gmail.com>
-References: <CALbNGRS3ZaawmC1+pt_ja2+90qyan1XC3V-9s8gsKyr-PsHWwQ@mail.gmail.com>
-	<CALbNGRSztH9aBbW7BeLm0YwdGZ-mEvbVMUJJNUa5bLweCXCbmg@mail.gmail.com>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-X-MIME-Autoconverted: from 8bit to quoted-printable by tim.rpsys.net id
-	q6QDLdTq021534
-Subject: Re: autoconf broken? (was [oe] gtk+-native configure fails)
+	Thu, 26 Jul 2012 06:21:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=subject:mime-version:content-type:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to:x-mailer
+	:x-gm-message-state;
+	bh=G+AKleAFSJV4eZAKHVJFoQD8+ynHOD7V61YOs4zMW80=;
+	b=T0D0oitH/4Lx6ZI0sRBWmTuTo+OLUhthgIT7s06B448ah9RXdfJLiugXIVe2Cmdv0q
+	bHDJWL7JOF1JkkZIUCfQM+zGrtJETgKvipYBKLuvnR+rW0cx51o+I2iRPMdhQ/3qoXht
+	Ra2ntri4PC0qQKU+ffXef3/Ocs0UZqdQCHCTMwEoMikpZQ0ezT+UHYk8eqjyZKBGDKzz
+	FwzGcyb8wCfLoOvuhvj72Q7ugpWIM7Ye4U5YUyqQbkvNGlvj0P5af22p81qhqI/lOs/u
+	x4F/bYysyojjJcauG0Izd/ZisGl5AjEDppQuLcor5a21rL+SHbWUH4LS3lNV50TBeIL0
+	sdBA==
+Received: by 10.180.97.106 with SMTP id dz10mr13435625wib.21.1343308902942;
+	Thu, 26 Jul 2012 06:21:42 -0700 (PDT)
+Received: from [172.20.0.6] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
+	by mx.google.com with ESMTPS id k20sm8202954wiv.11.2012.07.26.06.21.40
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 26 Jul 2012 06:21:41 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1278)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <1428646.vB6tdydMPR@helios>
+Date: Thu, 26 Jul 2012 15:21:39 +0200
+Message-Id: <03A607C1-3BC7-42F5-B93E-AB735D42D913@dominion.thruhere.net>
+References: <1343283462-25435-1-git-send-email-radu.moisan@intel.com>
+	<6492036.bctPLCmjO3@helios>
+	<C722676A-6FBA-4987-9B97-849BF27AEDA4@dominion.thruhere.net>
+	<1428646.vB6tdydMPR@helios>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+X-Mailer: Apple Mail (2.1278)
+X-Gm-Message-State: ALoCoQkyiMBDgzhLQKXMv7uCRSzzPKNcunqzIOhR/GK32Y3Gy59dbHZ97OHVWxshMQhwSHJyXy6N
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v3] dbus: include dbus-launch in the main dbus package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,89 +52,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Jul 2012 13:33:09 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 26 Jul 2012 13:33:13 -0000
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, 2012-07-26 at 14:59 +0200, Andreas M=C3=BCller wrote:
-> On Thu, Jul 26, 2012 at 1:24 PM, Andreas M=C3=BCller
-> <schnitzeltony@googlemail.com> wrote:
-> > I think it is not gtk+-native specific but some autoconf trouble. I
-> > tried a build from scratch and get:
-> >
-> > | configure.ac:171: warning: macro 'AM_PATH_GLIB_2_0' not found in li=
-brary
-> > | configure.ac:195: warning: macro 'AM_GLIB_GNU_GETTEXT' not found in=
- library
-> > | autoreconf: running:
-> > /home/andreas/tmp/oe-core-eglibc/sysroots/x86_64-linux/usr/bin/autoco=
-nf
-> > --include=3D/home/andreas/tmp/oe-core-eglibc/work/x86_64-linux/atk-na=
-tive-2.2.0-r3/atk-2.2.0/m4/
-> > --include=3D/home/andreas/tmp/oe-core-eglibc/sysroots/x86_64-linux/us=
-r/share/aclocal-1.12
-> > --include=3D/home/andreas/tmp/oe-core-eglibc/work/x86_64-linux/atk-na=
-tive-2.2.0-r3/atk-2.2.0/aclocal-copy/
-> > --force --warnings=3Dcross
-> > | configure.ac:171: error: possibly undefined macro: AM_PATH_GLIB_2_0
-> > |       If this token and others are legitimate, please use m4_patter=
-n_allow.
-> > |       See the Autoconf documentation.
-> > | configure.ac:195: error: possibly undefined macro: AM_GLIB_GNU_GETT=
-EXT
-> > | autoreconf: /home/andreas/tmp/oe-core-eglibc/sysroots/x86_64-linux/=
-usr/bin/autoconf
-> > failed with exit status: 1
-> > | ERROR: autoreconf execution failed.
-> > | ERROR: Function failed: do_configure (see
-> > /home/andreas/tmp/oe-core-eglibc/work/x86_64-linux/atk-native-2.2.0-r=
-3/temp/log.do_configure.24422
-> > for further information)
-> > NOTE: package atk-native-2.2.0-r3: task do_configure: Failed
-> >
-> > | configure.ac:171: warning: macro 'AM_PATH_GLIB_2_0' not found in li=
-brary
-> > | configure.ac:195: warning: macro 'AM_GLIB_GNU_GETTEXT' not found in=
- library
-> > | autoreconf: running:
-> > /home/andreas/tmp/oe-core-eglibc/sysroots/x86_64-linux/usr/bin/autoco=
-nf
-> > --include=3D/home/andreas/tmp/oe-core-eglibc/work/x86_64-linux/atk-na=
-tive-2.2.0-r3/atk-2.2.0/m4/
-> > --include=3D/home/andreas/tmp/oe-core-eglibc/sysroots/x86_64-linux/us=
-r/share/aclocal-1.12
-> > --include=3D/home/andreas/tmp/oe-core-eglibc/work/x86_64-linux/atk-na=
-tive-2.2.0-r3/atk-2.2.0/aclocal-copy/
-> > --force --warnings=3Dcross
-> > | configure.ac:171: error: possibly undefined macro: AM_PATH_GLIB_2_0
-> > |       If this token and others are legitimate, please use m4_patter=
-n_allow.
-> > |       See the Autoconf documentation.
-> > | configure.ac:195: error: possibly undefined macro: AM_GLIB_GNU_GETT=
-EXT
-> > | autoreconf: /home/andreas/tmp/oe-core-eglibc/sysroots/x86_64-linux/=
-usr/bin/autoconf
-> > failed with exit status: 1
-> > | ERROR: autoreconf execution failed.
-> > | ERROR: Function failed: do_configure (see
-> > /home/andreas/tmp/oe-core-eglibc/work/x86_64-linux/atk-native-2.2.0-r=
-3/temp/log.do_configure.24422
-> > for further information)
-> > NOTE: package atk-native-2.2.0-r3: task do_configure: Failed
-> >
-> > Suggestions?
-> >
-> > Andreas
+
+Op 26 jul. 2012, om 15:12 heeft Paul Eggleton het volgende geschreven:
+
+> On Thursday 26 July 2012 15:07:42 Koen Kooi wrote:
+>>> Without being too concerned with implementation details, I think =
+it's as
+>>> simple as this: if recipe A has foo in RDEPENDS_${PN} and recipe B =
+has foo
+>>> in RPROVIDES_${PN} then the runtime dependency is considered =
+satisfied
+>>> and things will work. You don't have to specify foo in PROVIDES =
+unless
+>>> something else has foo in DEPENDS.
+>>=20
+>> If that's so, great, but please check :)
 >=20
-> FYI I reverted the autoconf 2.68 -> 2.69 patch
-> (effb75d42098b3e367d393215fd5d52a0191e954) / start build from scratch
-> but the error is still same.
+> I did, prior to sending that... :)
 
-A missing glib-2-0-native dependency for atk-native?
-
-Cheers,
-
-Richard
-
+great, I'll shut up now :)=
 
 
