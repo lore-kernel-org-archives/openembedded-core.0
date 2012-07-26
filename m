@@ -1,34 +1,26 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1SuU6C-0002bU-6G for openembedded-core@lists.openembedded.org;
-	Thu, 26 Jul 2012 21:51:52 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6QJeLta025211
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jul 2012 20:40:21 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 24456-04 for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jul 2012 20:40:17 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6QJeDK7025202
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jul 2012 20:40:15 +0100
-Message-ID: <1343331612.7600.19.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Received: from mga14.intel.com ([143.182.124.37])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <sgw@linux.intel.com>) id 1SuU6M-0002de-FT
+	for openembedded-core@lists.openembedded.org;
+	Thu, 26 Jul 2012 21:52:02 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 26 Jul 2012 12:40:30 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="173627810"
+Received: from unknown (HELO [10.255.12.157]) ([10.255.12.157])
+	by azsmga001.ch.intel.com with ESMTP; 26 Jul 2012 12:40:30 -0700
+Message-ID: <50119D2E.2050301@linux.intel.com>
+Date: Thu, 26 Jul 2012 12:40:30 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:13.0) Gecko/20120615 Thunderbird/13.0.1
+MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Thu, 26 Jul 2012 20:40:12 +0100
-In-Reply-To: <969F26A8BAB325438E7EB80D3C3134FB16174E03@IRSMSX102.ger.corp.intel.com>
-References: <cover.1343199345.git.Xin.Ouyang@windriver.com>
-	<969F26A8BAB325438E7EB80D3C3134FB16174E03@IRSMSX102.ger.corp.intel.com>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: Package recipes change proposal (system-wide) - name wise
+References: <cover.1342827927.git.chris_larson@mentor.com>
+In-Reply-To: <cover.1342827927.git.chris_larson@mentor.com>
+Cc: Christopher Larson <chris_larson@mentor.com>
+Subject: Re: [PATCH 0/3] A few random pending fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,41 +35,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Jul 2012 19:51:52 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 26 Jul 2012 19:52:02 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2012-07-25 at 07:23 +0000, Iorga, Cristian wrote:
-> For me, having the version number contained in the name of package recipe is a little bit puzzling.
-> For example: libpcre/libpcre_8.31.bb
-> 
-> Is there a solid technical reason to not have it like this?
-> 
-> libpcre/libpcre.bb
-> and inside the recipe to have a PV variable defined:
-> PV="8.31"
+On 07/20/2012 04:46 PM, Christopher Larson wrote:
+> From: Christopher Larson <chris_larson@mentor.com>
+>
+> The following changes since commit ef637e417ae1c2dff7fc0ad6cb30989e72ac35ab:
+>
+>    grub-efi-native: remove help2man dependency (2012-07-20 12:32:13 +0100)
+>
+> are available in the git repository at:
+>
+>    git://github.com/kergoth/oe-core.git misc
+>
+> Christopher Larson (3):
+>    bluez4: use PACKAGECONFIG to control 'pie'
+Not Merged, was not in my list for some reason, will double check
 
-FWIW, you can do that and it will just work, even today. Its just not
-the convention we've "grown up" with.
+>    initscripts: don't bg mk_dirs in populate-volatile
+>    libpcap: fix pcap-config to not return -Wl,-rpath
+>
+Merged these 2 into OE-Core
 
-> In that case, the upgrade/update process would not involve performing a "git move" operation.
-> In my opinion, this "git move" operation is something to be avoided, as it puzzles a little bit the versioning system and complicates the review process.
-> 
-> Of course, some changes in the bitbake system would be involved, but I guess would not be too complicated.
-> Also, there will be a volume of work to be performed for changing the name of recipes and adding the PV variable inside the recipe.
-> But I guess that a script could solve that, followed by some manual review.
+Thanks
+	Sau!
 
-The original idea was that updating to new versions was easy, it was a
-mv operation. The checksums have of course complicated this idea but the
-principle still applies. It also lets you see versions without having to
-view the files themselves which I know I personally find very useful.
 
-Also, as others have mentioned, git can detect move operations if you
-tell it to.
-
-Cheers,
-
-Richard
+>   meta/recipes-connectivity/bluez/bluez4.inc         |    6 +++++-
+>   meta/recipes-connectivity/bluez/bluez4_4.101.bb    |    2 +-
+>   meta/recipes-connectivity/libpcap/libpcap.inc      |    3 ++-
+>   .../initscripts-1.0/populate-volatile.sh           |    4 ++--
+>   meta/recipes-core/initscripts/initscripts_1.0.bb   |    2 +-
+>   5 files changed, 11 insertions(+), 6 deletions(-)
+>
 
 
 
