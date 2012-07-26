@@ -1,33 +1,19 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1SuUfR-0003dy-QF
+	(envelope-from <yao.zhao@windriver.com>) id 1SuUwg-0003vn-AO
 	for openembedded-core@lists.openembedded.org;
-	Thu, 26 Jul 2012 22:28:17 +0200
-Received: by eaaq10 with SMTP id q10so287993eaa.6
+	Thu, 26 Jul 2012 22:46:06 +0200
+Received: from yzhao2-OptiPlex-990.corp.ad.wrs.com
+	(yzhao2-optiplex-990.corp.ad.wrs.com [128.224.147.210])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q6QKYY8P008453
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jul 2012 13:16:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type; bh=fHNsk8Qj+cU9xYlouHoDWlO/vOi6wFi313MRu14UggU=;
-	b=NA3UehwdNmj4d4DdSYu1A7qCU6WQKncUwBcigk9fcVdKp5W1iMf/mLKqVlN6iz++/9
-	1txNdXvp7pq86D+7UZwZtcYa7WXMMasyHkBO08jdeShsvvMejm6cZallmoNQSfFdSBM/
-	jpNpqxhOQJork6hxzM24vmINlm73ak3gCAbDIccLGGJoVkVCURfQnDxCES9GhkRSPs3I
-	op3uNZFu0iGpiLv6dNp9xdmnodYjXOzk2z0PtZTSm+IkHk0M1SGFZTuDhMd75pcuVmGg
-	e04mP3qOOwRpDSjDfnVV43wyF9XqwSzuE/DidoGT1pkQRUcJ+GdXxyI5vBby7U/rCA8r
-	wKYw==
-Received: by 10.14.180.67 with SMTP id i43mr77184eem.23.1343333806957; Thu, 26
-	Jul 2012 13:16:46 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.14.97.141 with HTTP; Thu, 26 Jul 2012 13:16:16 -0700 (PDT)
-In-Reply-To: <1343329086.4470.56.camel@x121e.pbcl.net>
-References: <1343328564-3644-1-git-send-email-sgw@linux.intel.com>
-	<1343329086.4470.56.camel@x121e.pbcl.net>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 26 Jul 2012 13:16:16 -0700
-Message-ID: <CAMKF1so+OJTjN+fRP8DJK2zCNKUyTFYJ==zUMkRm1+-6FkYCvg@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] package.bbclass: Let pn be eglibc for eglibc-locale
+	Thu, 26 Jul 2012 13:34:34 -0700 (PDT)
+From: Yao Zhao <yao.zhao@windriver.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 26 Jul 2012 16:34:19 -0400
+Message-Id: <1343334859-21249-1-git-send-email-yao.zhao@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH v3] bzip2-native: handling native path issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,15 +28,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Jul 2012 20:28:17 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 26 Jul 2012 20:46:06 -0000
 
-On Thu, Jul 26, 2012 at 11:58 AM, Phil Blundell <philb@gnu.org> wrote:
->
-> Bletch!  There must surely be some way to solve this problem without
-> hacking recipe names into package.bbclass.
+follow Richard's approach, modify bzip2-native recipe to install bzip2 package
+binaries to STAGING_BINDIR_NATIVE/bzip2-native to avoid problems when other
+package is doing upack to reference bzip2. libbz2.so* still installs to
+STAGING_LIBDIR_NATIVE.
 
-Yes making eglibc-locale base package to be non empty. So if we put in
-something there that it never turns out to be empty is one way
+change python-native to depends on bzip2-replacement-native instead of
+bzip2-full-native and add EXTRANATIVEPATH for bzip2-native.
+
+Didn't add bzip2native.bbclass as python-native is the only user so far.
+
+Signed-off-by: Yao Zhao <yao.zhao@windriver.com>
+---
+ .../recipes-devtools/python/python-native_2.7.3.bb |    4 +++-
+ meta/recipes-extended/bzip2/bzip2_1.0.6.bb         |    4 +++-
+ 2 files changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/meta/recipes-devtools/python/python-native_2.7.3.bb b/meta/recipes-devtools/python/python-native_2.7.3.bb
+index c89f9f9..d450949 100644
+--- a/meta/recipes-devtools/python/python-native_2.7.3.bb
++++ b/meta/recipes-devtools/python/python-native_2.7.3.bb
+@@ -1,5 +1,7 @@
+ require python.inc
+-DEPENDS = "openssl-native bzip2-full-native zlib-native readline-native sqlite3-native"
++
++EXTRANATIVEPATH += "bzip2-native"
++DEPENDS = "openssl-native bzip2-replacement-native zlib-native readline-native sqlite3-native"
+ PR = "${INC_PR}.1"
+ 
+ SRC_URI += "file://04-default-is-optimized.patch \
+diff --git a/meta/recipes-extended/bzip2/bzip2_1.0.6.bb b/meta/recipes-extended/bzip2/bzip2_1.0.6.bb
+index 43b462a..e0c710b 100644
+--- a/meta/recipes-extended/bzip2/bzip2_1.0.6.bb
++++ b/meta/recipes-extended/bzip2/bzip2_1.0.6.bb
+@@ -24,6 +24,8 @@ inherit autotools update-alternatives
+ ALTERNATIVE_PRIORITY = "100"
+ ALTERNATIVE_${PN} = "bunzip2 bzcat"
+ 
++#install binaries to bzip2-native under sysroot for replacement-native
++EXTRA_OECONF_virtclass-native += "--bindir=${STAGING_BINDIR_NATIVE}/${PN}"
+ do_configure_prepend () {
+ 	cp ${WORKDIR}/configure.ac ${S}/
+ 	cp ${WORKDIR}/Makefile.am ${S}/
+@@ -40,5 +42,5 @@ FILES_libbz2-staticdev = "${libdir}/*.a"
+ SECTION_libbz2-staticdev = "devel"
+ RDEPENDS_libbz2-staticdev = "libbz2-dev (= ${EXTENDPKGV})"
+ 
+-PROVIDES_append_virtclass-native = " bzip2-full-native"
++PROVIDES_append_virtclass-native = " bzip2-replacement-native"
+ BBCLASSEXTEND = "native"
+-- 
+1.7.9.5
+
 
 
