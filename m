@@ -1,35 +1,20 @@
-Received: from ams-iport-3.cisco.com ([144.254.224.146])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mertsas@cisco.com>) id 1SuPId-0002Vg-VW
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1SuPKl-0002Ym-31
 	for openembedded-core@lists.openembedded.org;
-	Thu, 26 Jul 2012 16:44:24 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=cisco.com; i=mertsas@cisco.com; l=3748; q=dns/txt;
-	s=iport; t=1343313175; x=1344522775;
-	h=message-id:date:from:mime-version:to:subject:references:
-	in-reply-to; bh=t/5d7t9TA9Qk36VmPlU4ZiC1VJNit6/OTOM1O3wNbfI=;
-	b=JocnRgI7GyeFq9KMgfQqRRFIM2JUB1aUcKUgGtG/1vS8CTrU0bwBoJ2M
-	NFCWtnkwaqSYk3Jt9eR7A2jungnsZqzTBzhY5+0j/S/dfXkvnsy0xmrQD
-	mTjMufeKHga3kY95fCccjjIMYBI6Nth1mlQAcrw4+l8udN6bXgfE6F4py 8=;
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: AgEFANlTEVCQ/khR/2dsb2JhbABFhXGzSoEHgiABAQEDAQEBAQ8BEEsKBgsLBBQJFgsCAgkDAgECARUBLxMGAgEBHodlBgubWI0ZkyqPJ4IKgRIDkxyCLIEUhEeITIFmgmE
-X-IronPort-AV: E=Sophos;i="4.77,659,1336348800"; d="scan'208,217";a="6912404"
-Received: from ams-core-1.cisco.com ([144.254.72.81])
-	by ams-iport-3.cisco.com with ESMTP; 26 Jul 2012 14:32:52 +0000
-Received: from [10.54.74.11] (dhcp-10-54-74-11.cisco.com [10.54.74.11])
-	by ams-core-1.cisco.com (8.14.5/8.14.5) with ESMTP id q6QEWqDQ011246
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jul 2012 14:32:52 GMT
-Message-ID: <50115514.6070401@cisco.com>
-Date: Thu, 26 Jul 2012 16:32:52 +0200
-From: =?UTF-8?B?TWFydGluIEVydHPDpXM=?= <mertsas@cisco.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:10.0.5) Gecko/20120628 Thunderbird/10.0.5
-MIME-Version: 1.0
+	Thu, 26 Jul 2012 16:46:35 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 26 Jul 2012 07:35:03 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="127179854"
+Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.121.37])
+	by AZSMGA002.ch.intel.com with ESMTP; 26 Jul 2012 07:35:02 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-References: <50114E06.2050305@cisco.com> <jurj08$sku$1@dough.gmane.org>
-In-Reply-To: <jurj08$sku$1@dough.gmane.org>
-Subject: Re: meta-qt5 available
+Date: Thu, 26 Jul 2012 15:34:58 +0100
+Message-Id: <cover.1343313237.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH 0/2] dbg/dev package dependency improvements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,111 +29,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Jul 2012 14:44:24 -0000
-Content-Type: multipart/alternative;
-	boundary="------------030809040907070801060604"
+X-List-Received-Date: Thu, 26 Jul 2012 14:46:35 -0000
 
---------------030809040907070801060604
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+The following changes since commit 14b70cd222519e5bccaca955334787f123d9fc54:
 
-Thanks, added now.
+  base/perlnative/pythonnative/gzipnative: Add a new variable to enable easier handling of native path issues (2012-07-26 14:55:35 +0100)
 
-Hope it will be helpfull. Not sure how much work I will do in that layer
-myself. Just updating when I need to I guess. I will however try to add
-pull requests from you guys when you give me a patch.
+are available in the git repository at:
 
-This have only been tested to work on Pandaboard ES, so it's likely it
-will break on non-armv7a chips.
+  git://git.openembedded.org/openembedded-core-contrib paule/dbgdeps
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/dbgdeps
 
-- Martin
+Paul Eggleton (2):
+  classes/package: do not add self-dependencies to dev/dbg packages
+  classes/package: reduce dbg package dependencies
 
-On 07/26/12 16:08, Koen Kooi wrote:
-> Op 26-07-12 16:02, Martin Ertsås schreef:
-> > Hi.
->
-> > I have just made a new layer, for qt5 recipes. This contains work in
-> > progress recipes, but should be working. In the (not so) long run, qt5
-> > recipes will hopefully be added to oe-core, but in the meantime
-> these are
-> > available.
->
-> > The recipes are based on the qt4 recipes in oe-core from 4-5 months
-> ago,
-> > and some of them might be a bit messy. If anyone feels the urge to help
-> > out with this layer, and make these recipes as good as humanly
-> possible,
-> > feel free to do so.
->
-> > The project is located at git://github.com/martiert/meta-qt5.git
->
-> Don't forget the COPYING.MIT file :)
->
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+ meta/classes/package.bbclass |   36 +++++++++++++++++++++++++++++-------
+ meta/classes/task.bbclass    |    3 +++
+ 2 files changed, 32 insertions(+), 7 deletions(-)
+
+-- 
+1.7.9.5
 
 
 
---------------030809040907070801060604
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
-  </head>
-  <body bgcolor="#FFFFFF" text="#000000">
-    Thanks, added now.<br>
-    <br>
-    Hope it will be helpfull. Not sure how much work I will do in that
-    layer myself. Just updating when I need to I guess. I will however
-    try to add pull requests from you guys when you give me a patch.<br>
-    <br>
-    This have only been tested to work on Pandaboard ES, so it's likely
-    it will break on non-armv7a chips.<br>
-    <br>
-    - Martin<br>
-    <br>
-    On 07/26/12 16:08, Koen Kooi wrote:<br>
-    <blockquote type="cite">Op 26-07-12 16:02, Martin Ertsås schreef:<br>
-      &gt; Hi.<br>
-      <br>
-      &gt; I have just made a new layer, for qt5 recipes. This contains
-      work in <br>
-      &gt; progress recipes, but should be working. In the (not so) long
-      run, qt5 <br>
-      &gt; recipes will hopefully be added to oe-core, but in the
-      meantime these are<br>
-      &gt; available.<br>
-      <br>
-      &gt; The recipes are based on the qt4 recipes in oe-core from 4-5
-      months ago, <br>
-      &gt; and some of them might be a bit messy. If anyone feels the
-      urge to help <br>
-      &gt; out with this layer, and make these recipes as good as
-      humanly possible, <br>
-      &gt; feel free to do so.<br>
-      <br>
-      &gt; The project is located at
-      git://github.com/martiert/meta-qt5.git<br>
-      <br>
-      Don't forget the COPYING.MIT file :)<br>
-      <br>
-    </blockquote>
-    <span style="white-space: pre;">&gt;<br>
-      &gt;<br>
-      &gt; _______________________________________________<br>
-      &gt; Openembedded-core mailing list<br>
-      &gt; <a class="moz-txt-link-abbreviated" href="mailto:Openembedded-core@lists.openembedded.org">Openembedded-core@lists.openembedded.org</a><br>
-      &gt;
-      <a class="moz-txt-link-freetext" href="http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core">http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core</a></span><br>
-    <br>
-    <br>
-  </body>
-</html>
-
---------------030809040907070801060604--
