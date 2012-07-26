@@ -1,28 +1,35 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mail-yw0-f47.google.com ([209.85.213.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SuU6v-0002i5-Vy
+	(envelope-from <bruce.ashfield@gmail.com>) id 1SuUII-0003EY-VG
 	for openembedded-core@lists.openembedded.org;
-	Thu, 26 Jul 2012 21:52:38 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 26 Jul 2012 12:41:06 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="173628062"
-Received: from unknown (HELO [10.255.12.157]) ([10.255.12.157])
-	by azsmga001.ch.intel.com with ESMTP; 26 Jul 2012 12:41:05 -0700
-Message-ID: <50119D51.6040602@linux.intel.com>
-Date: Thu, 26 Jul 2012 12:41:05 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:13.0) Gecko/20120615 Thunderbird/13.0.1
+	Thu, 26 Jul 2012 22:04:23 +0200
+Received: by yhjj56 with SMTP id j56so2231359yhj.6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 26 Jul 2012 12:52:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=2Abl5bZ4LoXc/34oiDoohl39sv1UTEUV8/pPTo1A1tg=;
+	b=AZHZKn4TZ7j/bwkeQLrNG5XdG+sZCuGR9q412w40qdONcLfi13ioYcqWNgN/pRjp9M
+	+hzJZeUlVAEKA5e/HmKy0Iaaifv59IPC3EV5t1vTDJa6Zmr6XBASkHIKsMJZhcZpaEoW
+	stE7EpwIRhk+gmPiFkM+spqg6eazpYInyQt6q0NjS7fX2bkPmx2iOLYucHfrvD69ixj1
+	BCQmwbPNmjaKsodJXQ+Go2Ip3oJ6yp9jq0rfrQKplgp8D7IXRSsKcQCFNokqZRf35RCm
+	TFw5PweFgvKuJY9SzImeug3ratO6zyV59RafKhMDrx7vJtmBCbxFOhi2nGqz2GmtKWf1
+	WsnQ==
 MIME-Version: 1.0
+Received: by 10.50.209.73 with SMTP id mk9mr2648360igc.66.1343332371296; Thu,
+	26 Jul 2012 12:52:51 -0700 (PDT)
+Received: by 10.231.239.131 with HTTP; Thu, 26 Jul 2012 12:52:51 -0700 (PDT)
+In-Reply-To: <17225760.ocbdZxpBHY@helios>
+References: <cover.1343199345.git.Xin.Ouyang@windriver.com>
+	<969F26A8BAB325438E7EB80D3C3134FB16174E03@IRSMSX102.ger.corp.intel.com>
+	<17225760.ocbdZxpBHY@helios>
+Date: Thu, 26 Jul 2012 15:52:51 -0400
+Message-ID: <CADkTA4PRY7TqEcMpTNHF2tf40x_30CC2aHvxi0WtnHoqRhQk9Q@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <alpine.DEB.2.02.1207230557520.20099@oneiric>
-	<50119A1B.5050403@linux.intel.com>
-	<CABcZAN=ovSNo96CmpA7jygJPTxD6Vp_QE80buXQxc4x4+NnnMg@mail.gmail.com>
-In-Reply-To: <CABcZAN=ovSNo96CmpA7jygJPTxD6Vp_QE80buXQxc4x4+NnnMg@mail.gmail.com>
-Cc: Chris Larson <clarson@kergoth.com>
-Subject: Re: libxp: Change superfluous "+=" to simple "=" when using _append
+Subject: Re: Package recipes change proposal (system-wide) - name wise
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,47 +44,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Jul 2012 19:52:38 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 26 Jul 2012 20:04:23 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On 07/26/2012 12:34 PM, Chris Larson wrote:
-> On Thu, Jul 26, 2012 at 12:27 PM, Saul Wold <sgw@linux.intel.com> wrote:
->> On 07/23/2012 02:59 AM, Robert P. J. Day wrote:
->>>
->>>
->>> Signed-off-by: Robert P. J. Day <rpjday@crashcourse.ca>
->>>
->>> ---
->>>
->>> diff --git a/meta/recipes-graphics/xorg-lib/libxp_1.0.1.bb
->>> b/meta/recipes-graphics/xorg-lib/libxp_1.0.1.bb
->>> index 349dad1..dbd4609 100644
->>> --- a/meta/recipes-graphics/xorg-lib/libxp_1.0.1.bb
->>> +++ b/meta/recipes-graphics/xorg-lib/libxp_1.0.1.bb
->>> @@ -15,7 +15,7 @@ PE = "1"
->>>
->>>    XORG_PN = "libXp"
->>>
->>> -CFLAGS_append += " -I ${S}/include/X11/XprintUtil -I
->>> ${S}/include/X11/extensions"
->>> +CFLAGS_append = " -I ${S}/include/X11/XprintUtil -I
->>> ${S}/include/X11/extensions"
->>>
->>>    SRC_URI += "file://fix-cast-error.patch"
->>>
->>>
->> Merged into OE-Core
+On Wed, Jul 25, 2012 at 6:09 AM, Paul Eggleton
+<paul.eggleton@linux.intel.com> wrote:
+> On Wednesday 25 July 2012 07:23:31 Iorga, Cristian wrote:
+>> For me, having the version number contained in the name of package recipe is
+>> a little bit puzzling. For example: libpcre/libpcre_8.31.bb
+>>
+>> Is there a solid technical reason to not have it like this?
+>>
+>> libpcre/libpcre.bb
+>> and inside the recipe to have a PV variable defined:
+>> PV="8.31"
 >
-> A second janitorial-type task would be to find and remove unnecessary
-> uses of _append entirely. This one for example, it's highly unlikely a
-> += wouldn't do the job here. :)
+> The benefit of having PV in the recipe file name is that you can then easily
+> have different recipes for different versions of the same piece of software,
+> which is particularly useful when those different versions may need to be built
+> slightly differently.
 
-Mind filing that as a Janitor bug?
+And an example would be the three linux-yocto kernel versions. We'd have
+to break them out into separate layers if the version wasn't in the filename.
 
-Sau!
+That being said, the linux-yocto-dev recipe doesn't have a version in it's name
+for the same reason, it's simpler to keep it moving forward constantly without
+the version in the name.
+
+.. just chiming in from the kernel point of view :)
+
+Cheers,
+
+Bruce
 
 >
+> Cheers,
+> Paul
+>
+> --
+>
+> Paul Eggleton
+> Intel Open Source Technology Centre
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
+
+
+-- 
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
 
