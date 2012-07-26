@@ -1,40 +1,35 @@
-Received: from mail.cvg.de ([62.153.82.30])
+Received: from ams-iport-3.cisco.com ([144.254.224.146])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1SuPHy-0002TM-MY
+	(envelope-from <mertsas@cisco.com>) id 1SuPId-0002Vg-VW
 	for openembedded-core@lists.openembedded.org;
-	Thu, 26 Jul 2012 16:43:42 +0200
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id q6QEW9C5011903
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	Thu, 26 Jul 2012 16:44:24 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=cisco.com; i=mertsas@cisco.com; l=3748; q=dns/txt;
+	s=iport; t=1343313175; x=1344522775;
+	h=message-id:date:from:mime-version:to:subject:references:
+	in-reply-to; bh=t/5d7t9TA9Qk36VmPlU4ZiC1VJNit6/OTOM1O3wNbfI=;
+	b=JocnRgI7GyeFq9KMgfQqRRFIM2JUB1aUcKUgGtG/1vS8CTrU0bwBoJ2M
+	NFCWtnkwaqSYk3Jt9eR7A2jungnsZqzTBzhY5+0j/S/dfXkvnsy0xmrQD
+	mTjMufeKHga3kY95fCccjjIMYBI6Nth1mlQAcrw4+l8udN6bXgfE6F4py 8=;
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-Anti-Spam-Result: AgEFANlTEVCQ/khR/2dsb2JhbABFhXGzSoEHgiABAQEDAQEBAQ8BEEsKBgsLBBQJFgsCAgkDAgECARUBLxMGAgEBHodlBgubWI0ZkyqPJ4IKgRIDkxyCLIEUhEeITIFmgmE
+X-IronPort-AV: E=Sophos;i="4.77,659,1336348800"; d="scan'208,217";a="6912404"
+Received: from ams-core-1.cisco.com ([144.254.72.81])
+	by ams-iport-3.cisco.com with ESMTP; 26 Jul 2012 14:32:52 +0000
+Received: from [10.54.74.11] (dhcp-10-54-74-11.cisco.com [10.54.74.11])
+	by ams-core-1.cisco.com (8.14.5/8.14.5) with ESMTP id q6QEWqDQ011246
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jul 2012 16:32:11 +0200
-Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
-	4.76) (envelope-from <ensc@sigma-chemnitz.de>) id 1SuP6n-0006Kk-EE
-	for openembedded-core@lists.openembedded.org;
-	Thu, 26 Jul 2012 16:32:09 +0200
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-To: openembedded-core@lists.openembedded.org
-References: <1343283462-25435-1-git-send-email-radu.moisan@intel.com>
-	<5010E3CF.3060709@intel.com>
-	<919CF905-E475-44CE-8050-94A39C204208@dominion.thruhere.net>
-	<lymx2mvfe8.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<501144FE.4040201@intel.com>
-Date: Thu, 26 Jul 2012 16:32:09 +0200
-In-Reply-To: <501144FE.4040201@intel.com> (Radu Moisan's message of "Thu, 26
-	Jul 2012 16:24:14 +0300")
-Message-ID: <lyehnyvbiu.fsf@ensc-virt.intern.sigma-chemnitz.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.1 (gnu/linux)
+	Thu, 26 Jul 2012 14:32:52 GMT
+Message-ID: <50115514.6070401@cisco.com>
+Date: Thu, 26 Jul 2012 16:32:52 +0200
+From: =?UTF-8?B?TWFydGluIEVydHPDpXM=?= <mertsas@cisco.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:10.0.5) Gecko/20120628 Thunderbird/10.0.5
 MIME-Version: 1.0
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-X-DSPAM-Result: Innocent
-X-DSPAM-Probability: 0
-X-DSPAM-Confidence: 0.99
-X-Spam-Score: -5.2
-X-Spam-Level: -----
-X-Spam-Tests: AWL,BAYES_00,SPF_NEUTRAL,T_RP_MATCHES_RCVD,DSPAM_INNOCENT
-X-Scanned-By: MIMEDefang 2.73
-Subject: Re: [PATCH v3] dbus: include dbus-launch in the main dbus package
+To: openembedded-core@lists.openembedded.org
+References: <50114E06.2050305@cisco.com> <jurj08$sku$1@dough.gmane.org>
+In-Reply-To: <jurj08$sku$1@dough.gmane.org>
+Subject: Re: meta-qt5 available
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,23 +44,111 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Jul 2012 14:43:42 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 26 Jul 2012 14:44:24 -0000
+Content-Type: multipart/alternative;
+	boundary="------------030809040907070801060604"
 
-Radu Moisan <radu.moisan-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
-writes:
+--------------030809040907070801060604
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-> it does not crash at runtime.
+Thanks, added now.
 
-I do not speak about crash; I guess 'dbus-launch' has some extra
-functionality when compiled with x11 support, and packages which
-depend on dbus-x11 might expect this functionality.
+Hope it will be helpfull. Not sure how much work I will do in that layer
+myself. Just updating when I need to I guess. I will however try to add
+pull requests from you guys when you give me a patch.
 
-Providing 'dbus-x11' although no x11 functionality is provided sounds
-wrong to me.  Either remove the 'dbus-x11' property completely or provide
-it only when x11 support is built in.
+This have only been tested to work on Pandaboard ES, so it's likely it
+will break on non-armv7a chips.
+
+- Martin
+
+On 07/26/12 16:08, Koen Kooi wrote:
+> Op 26-07-12 16:02, Martin Ertsås schreef:
+> > Hi.
+>
+> > I have just made a new layer, for qt5 recipes. This contains work in
+> > progress recipes, but should be working. In the (not so) long run, qt5
+> > recipes will hopefully be added to oe-core, but in the meantime
+> these are
+> > available.
+>
+> > The recipes are based on the qt4 recipes in oe-core from 4-5 months
+> ago,
+> > and some of them might be a bit messy. If anyone feels the urge to help
+> > out with this layer, and make these recipes as good as humanly
+> possible,
+> > feel free to do so.
+>
+> > The project is located at git://github.com/martiert/meta-qt5.git
+>
+> Don't forget the COPYING.MIT file :)
+>
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
-Enrico
 
+--------------030809040907070801060604
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    Thanks, added now.<br>
+    <br>
+    Hope it will be helpfull. Not sure how much work I will do in that
+    layer myself. Just updating when I need to I guess. I will however
+    try to add pull requests from you guys when you give me a patch.<br>
+    <br>
+    This have only been tested to work on Pandaboard ES, so it's likely
+    it will break on non-armv7a chips.<br>
+    <br>
+    - Martin<br>
+    <br>
+    On 07/26/12 16:08, Koen Kooi wrote:<br>
+    <blockquote type="cite">Op 26-07-12 16:02, Martin Ertsås schreef:<br>
+      &gt; Hi.<br>
+      <br>
+      &gt; I have just made a new layer, for qt5 recipes. This contains
+      work in <br>
+      &gt; progress recipes, but should be working. In the (not so) long
+      run, qt5 <br>
+      &gt; recipes will hopefully be added to oe-core, but in the
+      meantime these are<br>
+      &gt; available.<br>
+      <br>
+      &gt; The recipes are based on the qt4 recipes in oe-core from 4-5
+      months ago, <br>
+      &gt; and some of them might be a bit messy. If anyone feels the
+      urge to help <br>
+      &gt; out with this layer, and make these recipes as good as
+      humanly possible, <br>
+      &gt; feel free to do so.<br>
+      <br>
+      &gt; The project is located at
+      git://github.com/martiert/meta-qt5.git<br>
+      <br>
+      Don't forget the COPYING.MIT file :)<br>
+      <br>
+    </blockquote>
+    <span style="white-space: pre;">&gt;<br>
+      &gt;<br>
+      &gt; _______________________________________________<br>
+      &gt; Openembedded-core mailing list<br>
+      &gt; <a class="moz-txt-link-abbreviated" href="mailto:Openembedded-core@lists.openembedded.org">Openembedded-core@lists.openembedded.org</a><br>
+      &gt;
+      <a class="moz-txt-link-freetext" href="http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core">http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core</a></span><br>
+    <br>
+    <br>
+  </body>
+</html>
+
+--------------030809040907070801060604--
