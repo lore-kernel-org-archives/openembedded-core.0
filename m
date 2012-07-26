@@ -1,28 +1,20 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SuTG6-000765-Qp
+	(envelope-from <sgw@linux.intel.com>) id 1SuTIv-0007X3-35
 	for openembedded-core@lists.openembedded.org;
-	Thu, 26 Jul 2012 20:58:03 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 26 Jul 2012 11:46:30 -0700
+	Thu, 26 Jul 2012 21:00:57 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 26 Jul 2012 11:49:25 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="177965324"
-Received: from unknown (HELO [10.255.12.157]) ([10.255.12.157])
-	by orsmga002.jf.intel.com with ESMTP; 26 Jul 2012 11:46:30 -0700
-Message-ID: <50119086.6030205@linux.intel.com>
-Date: Thu, 26 Jul 2012 11:46:30 -0700
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="171868454"
+Received: from unknown (HELO swold-mobl.bigsur.com) ([10.255.12.157])
+	by orsmga001.jf.intel.com with ESMTP; 26 Jul 2012 11:49:25 -0700
 From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:13.0) Gecko/20120615 Thunderbird/13.0.1
-MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1343200454.git.sgw@linux.intel.com>
-	<5f5ffa09c545046fc2e798494c61022574424645.1343200454.git.sgw@linux.intel.com>
-	<CAMvUbCwxD=W4sVhrGJHgedpBbdmmmtOZ_6mHqToUKTjEohFZ0g@mail.gmail.com>
-In-Reply-To: <CAMvUbCwxD=W4sVhrGJHgedpBbdmmmtOZ_6mHqToUKTjEohFZ0g@mail.gmail.com>
-Cc: "Garman, Scott A" <scott.a.garman@intel.com>
-Subject: Re: [CONSOLIDATED PULL 06/28] kernel.bbclass: fix external module building
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 26 Jul 2012 11:49:24 -0700
+Message-Id: <1343328564-3644-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 1.7.7.6
+Subject: [PATCH] package.bbclass: Let pn be eglibc for eglibc-locale
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,41 +29,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Jul 2012 18:58:03 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 26 Jul 2012 19:00:57 -0000
 
-On 07/26/2012 10:21 AM, Leon Woestenberg wrote:
-> Hello Saul,
->
-Please check with Scott Garman (cc'ed) he is the stable maintainer for 
-1.2.1 (Denzil).
+From: Khem Raj <raj.khem@gmail.com>
 
-Sau!
+eglibc-locale is creating the individual locale files which have
+runtime dependency on ${PN} which is 'eglibc-locale' but problem
+is that eglibc-locale is an empty package and does not get created
+so when one asks for adding locales to image then due to the missing
+dependency in the feeds root file system can not be created.
 
-> On Wed, Jul 25, 2012 at 9:19 AM, Saul Wold <sgw@linux.intel.com
-> <mailto:sgw@linux.intel.com>> wrote:
->
->     +       # Necessary for building modules like compat-wireless.
->     +       cp include/generated/bounds.h
->     $kerneldir/include/generated/bounds.h
->     +
->
->
-> Thanks, can we get this merged into the Denzil branch as well?
->
-> In general, how are commits selected for release branches?
->
-> Regards,
->
-> Leon 'likewise' Woestenberg
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+This patch treates eglibc-locale as if it was eglibc and hence
+the dependency then is created on libc6 and not not existing
+eglibc-locale package.
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+---
+ meta/classes/package.bbclass |    2 ++
+ 1 files changed, 2 insertions(+), 0 deletions(-)
+
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index 0c7fe80..06e2e04 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -389,6 +389,8 @@ python package_do_split_locales() {
+ 
+     dvar = d.getVar('PKGD', True)
+     pn = d.getVar('PN', True)
++    if pn == "eglibc-locale":
++        pn = "eglibc"
+ 
+     if pn + '-locale' in packages:
+         packages.remove(pn + '-locale')
+-- 
+1.7.7.6
 
 
 
