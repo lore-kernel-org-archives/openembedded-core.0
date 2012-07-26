@@ -1,26 +1,33 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mail-yw0-f47.google.com ([209.85.213.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SuU6M-0002de-FT
+	(envelope-from <kergoth@gmail.com>) id 1SuU6i-0002ft-Gx
 	for openembedded-core@lists.openembedded.org;
-	Thu, 26 Jul 2012 21:52:02 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 26 Jul 2012 12:40:30 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="173627810"
-Received: from unknown (HELO [10.255.12.157]) ([10.255.12.157])
-	by azsmga001.ch.intel.com with ESMTP; 26 Jul 2012 12:40:30 -0700
-Message-ID: <50119D2E.2050301@linux.intel.com>
-Date: Thu, 26 Jul 2012 12:40:30 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:13.0) Gecko/20120615 Thunderbird/13.0.1
-MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1342827927.git.chris_larson@mentor.com>
-In-Reply-To: <cover.1342827927.git.chris_larson@mentor.com>
+	Thu, 26 Jul 2012 21:52:24 +0200
+Received: by yhjj56 with SMTP id j56so2217636yhj.6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 26 Jul 2012 12:40:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=v1KaXP3wVqYWYJPjB8y7FRKMJPlGbHAivMMRTMEXRkg=;
+	b=PxTdc9Ppsy3hZmyys1mbWxKRNfL6EF4o4f3jGOQt1kSxZ6xfQGpGvhpZvV2G2wc1hZ
+	BGL9Q2dKfNzcbepxRh6HXXDTXffHpSPoGh8CvGF7wwiR17NyUmWQKosZM/Y9DsDNxb0Q
+	VKkZXzXMFRa6Q7dCkX6kOtqnDMhA5TsbnAaw11DbnvqiM4tySoMvSEgIk4vEF5ggwhXT
+	AA4xKbKJ+K7ktgVEi8BiABXNXFn5y7XprY3qX/xjwmhwcSuUBgB5kzXokIxrfJlJB7LH
+	vJeXUDiQpEvYJwtFTkhJhNHU75G6JAIfKXEiNIT5Zp+JtwlwHh/MPL7+AqapySnmf+rw
+	itcA==
+Received: by 10.60.18.168 with SMTP id x8mr42711916oed.18.1343331652921;
+	Thu, 26 Jul 2012 12:40:52 -0700 (PDT)
+Received: from precise64.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
+	by mx.google.com with ESMTPS id bp7sm92017obc.12.2012.07.26.12.40.51
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 26 Jul 2012 12:40:52 -0700 (PDT)
+From: Christopher Larson <kergoth@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 26 Jul 2012 12:40:48 -0700
+Message-Id: <1343331648-19882-1-git-send-email-kergoth@gmail.com>
+X-Mailer: git-send-email 1.7.9.5
 Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: Re: [PATCH 0/3] A few random pending fixes
+Subject: [PATCH] toolchain-scripts: separate dependencies from site file naming
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,41 +42,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Jul 2012 19:52:02 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 26 Jul 2012 19:52:24 -0000
 
-On 07/20/2012 04:46 PM, Christopher Larson wrote:
-> From: Christopher Larson <chris_larson@mentor.com>
->
-> The following changes since commit ef637e417ae1c2dff7fc0ad6cb30989e72ac35ab:
->
->    grub-efi-native: remove help2man dependency (2012-07-20 12:32:13 +0100)
->
-> are available in the git repository at:
->
->    git://github.com/kergoth/oe-core.git misc
->
-> Christopher Larson (3):
->    bluez4: use PACKAGECONFIG to control 'pie'
-Not Merged, was not in my list for some reason, will double check
+From: Christopher Larson <chris_larson@mentor.com>
 
->    initscripts: don't bg mk_dirs in populate-volatile
->    libpcap: fix pcap-config to not return -Wl,-rpath
->
-Merged these 2 into OE-Core
+Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+---
+ meta/classes/toolchain-scripts.bbclass |    3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Thanks
-	Sau!
-
-
->   meta/recipes-connectivity/bluez/bluez4.inc         |    6 +++++-
->   meta/recipes-connectivity/bluez/bluez4_4.101.bb    |    2 +-
->   meta/recipes-connectivity/libpcap/libpcap.inc      |    3 ++-
->   .../initscripts-1.0/populate-volatile.sh           |    4 ++--
->   meta/recipes-core/initscripts/initscripts_1.0.bb   |    2 +-
->   5 files changed, 11 insertions(+), 6 deletions(-)
->
+diff --git a/meta/classes/toolchain-scripts.bbclass b/meta/classes/toolchain-scripts.bbclass
+index 44284c3..68bb661 100644
+--- a/meta/classes/toolchain-scripts.bbclass
++++ b/meta/classes/toolchain-scripts.bbclass
+@@ -137,6 +137,7 @@ toolchain_create_sdk_env_script_for_installer () {
+ TOOLCHAIN_CONFIGSITE_NOCACHE = "${@siteinfo_get_files(d, True)}"
+ TOOLCHAIN_CONFIGSITE_SYSROOTCACHE = "${STAGING_DATADIR}/${TARGET_SYS}_config_site.d"
+ TOOLCHAIN_NEED_CONFIGSITE_CACHE = "${TCLIBC} ncurses"
++TOOLCHAIN_CONFIGSITE_DEPENDS = "virtual/libc ncurses"
+ 
+ #This function create a site config file
+ toolchain_create_sdk_siteconfig () {
+@@ -173,7 +174,7 @@ toolchain_create_sdk_version[vardepsexclude] = "DATETIME"
+ 
+ python __anonymous () {
+     deps = ""
+-    for dep in (d.getVar('TOOLCHAIN_NEED_CONFIGSITE_CACHE', True) or "").split():
++    for dep in (d.getVar('TOOLCHAIN_CONFIGSITE_DEPENDS', True) or "").split():
+         deps += " %s:do_populate_sysroot" % dep
+     d.appendVarFlag('do_configure', 'depends', deps)
+ }
+-- 
+1.7.9.5
 
 
 
