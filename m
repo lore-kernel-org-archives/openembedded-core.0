@@ -1,34 +1,42 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail-wg0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <radu.moisan@intel.com>) id 1SuNT1-0007NF-RP
+	(envelope-from <koen@dominion.thruhere.net>) id 1SuNWU-0007Qs-BF
 	for openembedded-core@lists.openembedded.org;
-	Thu, 26 Jul 2012 14:47:00 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 26 Jul 2012 05:35:23 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; 
-	d="scan'208,217";a="177805713"
-Received: from dell-desktop (HELO [10.237.105.32]) ([10.237.105.32])
-	by orsmga002.jf.intel.com with ESMTP; 26 Jul 2012 05:35:14 -0700
-Message-ID: <501139E2.1020003@intel.com>
-Date: Thu, 26 Jul 2012 15:36:50 +0300
-From: Radu Moisan <radu.moisan@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:14.0) Gecko/20120714 Thunderbird/14.0
-MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
+	Thu, 26 Jul 2012 14:50:34 +0200
+Received: by wgbdr1 with SMTP id dr1so1577630wgb.24
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 26 Jul 2012 05:39:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=subject:mime-version:content-type:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to:x-mailer
+	:x-gm-message-state;
+	bh=lIWQrzJXE8QNSzqobl7k6DfxKuHybA1V0xMXZ9ivPx8=;
+	b=p043Dit344PQEu0rVa5BR1GTesx9P1hCkmgBNvgcxRnqwx2qxWqTJaL0OvruzFwXZ6
+	jekcBwvdFmeh/axrDP+w5dIQyIyHPQMM66DKlJ8CbQfffr6zNz9cii9T/Z4sNQBgyNaP
+	tRp668CWgyOXTFMTgpuQsWTHBhAH7xyzqz+ptCDiKb/nMWkbCmUuWmbm8kD9mBR9wDmA
+	b//S0/78sZYkG9yzxf2dXoDSjrsmCTKROXwcjCp3XFbqid1dhNtHRZ2xR721zSsJUm9k
+	+pVVgdqlUhYHKbS4eG81J5JCg/i0mlTXdplpTKK9kV866d1aHUEChtZyL3CDrTeDjkIx
+	IoRw==
+Received: by 10.216.90.19 with SMTP id d19mr14407187wef.113.1343306343649;
+	Thu, 26 Jul 2012 05:39:03 -0700 (PDT)
+Received: from [172.20.0.6] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
+	by mx.google.com with ESMTPS id fu3sm12275523wib.10.2012.07.26.05.39.00
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 26 Jul 2012 05:39:01 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1278)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <1515360.HL1K52tqqg@helios>
+Date: Thu, 26 Jul 2012 14:38:59 +0200
+Message-Id: <0F8A947F-5465-4350-9700-5E0457EB1A38@dominion.thruhere.net>
 References: <1343283462-25435-1-git-send-email-radu.moisan@intel.com>
-	<5010E3CF.3060709@intel.com>
-	<919CF905-E475-44CE-8050-94A39C204208@dominion.thruhere.net>
-	<1756274.ud5AYazWdz@helios>
-	<F0E3167B-ECF8-494D-83E8-0D31CC826E65@dominion.thruhere.net>
-	<50110B50.3030900@intel.com>
-	<446507ED-01C5-4006-B9AE-C8D77B61C213@dominion.thruhere.net>
-	<50111C7C.8080904@intel.com> <50112207.3060709@intel.com>
-	<CAJTo0LYeKt+KypnrVq50tSbjqfK8XyvUnZp0xvz=KRmMx7dXzQ@mail.gmail.com>
-	<C132AEAF-467E-450E-A86F-7A68BE96F917@dominion.thruhere.net>
 	<CAJTo0LZx5E7tcvLUMrjPdH2B5p+DnFxU63tbtL6tsDX5dVfVSQ@mail.gmail.com>
-In-Reply-To: <CAJTo0LZx5E7tcvLUMrjPdH2B5p+DnFxU63tbtL6tsDX5dVfVSQ@mail.gmail.com>
+	<2CA706BF-4D5B-4488-B128-B665F32A0DD3@dominion.thruhere.net>
+	<1515360.HL1K52tqqg@helios>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+X-Mailer: Apple Mail (2.1278)
+X-Gm-Message-State: ALoCoQlruPfz2Ecsx+RPISmpL2q2OAyJ1IsI7hquW/H6qUikKrswmTSNCE43b/d87DWyd61dRYoU
+Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH v3] dbus: include dbus-launch in the main dbus package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -44,101 +52,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Jul 2012 12:47:00 -0000
-Content-Type: multipart/alternative;
-	boundary="------------070301050003030108080608"
-
---------------070301050003030108080608
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
-
-I understand the reasoning behind RPROVIDES. I've grep'ed the sources 
-and none of the packages that depend on dbus-x11 have build time 
-dependencies on it, so the question arises "what's the point of 
-PROVIDES?". I understand the compatibility argument, but it seems to me 
-more like an argument when dependencies are not clear, but in this case 
-they are clear. The following packages depend on dbus-x11, at run-time:
-
-radu@dell-desktop>grep . -re dbus-x11
-./recipes-bsp/qemu-config/*qemu-config.bb*:RDEPENDS_${PN} = "distcc 
-${@base_contains('DISTRO_FEATURES', 'x11', 'dbus-x11', '', d)} 
-task-core-nfs-server oprofileui-server rsync bash"
-./recipes-gnome/gnome/*gconf_3.2.3.bb*:RDEPENDS_${PN} += 
-"${@base_contains('DISTRO_FEATURES', 'x11', 'dbus-x11', '', d)}"
-./recipes-graphics/x11-common/*x11-common_0.1.bb*:RDEPENDS_${PN} = 
-"dbus-x11 xmodmap xdpyinfo xtscal xinit formfactor"
-
-Rephrasing my question, what would happen (potentially bad) if I don't 
-have PROVIDES="dbus-x11" line in my recipe?
-
-Also, I've done a clean build without PROVIDES="dbus-x11" line in 
-dbus.inc and the build finished successfully, as if it were there (tried 
-that as well).
-
-Radu
-
-On 07/26/2012 03:00 PM, Burton, Ross wrote:
-> On 26 July 2012 12:55, Koen Kooi <koen@dominion.thruhere.net> wrote:
->> It would be nice if other layers that have RDEPENDS_foo = "dbus-x11" keep working till their maintainers get around fixing them. Note that you might need to do a -c cleansstate on dbus first to trigger any errors.
-> Yes, and isn't that what the RPROVIDES is for?
+X-List-Received-Date: Thu, 26 Jul 2012 12:50:34 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
 
+Op 26 jul. 2012, om 14:32 heeft Paul Eggleton het volgende geschreven:
 
---------------070301050003030108080608
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+> On Thursday 26 July 2012 14:29:14 Koen Kooi wrote:
+>> Op 26 jul. 2012, om 14:00 heeft Burton, Ross het volgende geschreven:
+>>> On 26 July 2012 12:55, Koen Kooi <koen@dominion.thruhere.net> wrote:
+>>>> It would be nice if other layers that have RDEPENDS_foo =3D =
+"dbus-x11" keep
+>>>> working till their maintainers get around fixing them. Note that =
+you
+>>>> might need to do a -c cleansstate on dbus first to trigger any =
+errors.>=20
+>>> Yes, and isn't that what the RPROVIDES is for?
+>>=20
+>> I'm not sure if bitbake can map RPROVIDES to PROVIDES, I vaguely =
+remember
+>> that it doesn't, but it will pick it up *after* do_package has run. I =
+broke
+>> OE way too many times doing things like that :)
+>=20
+> Why would it need to if we're talking about RDEPENDS and more =
+specifically=20
+> RDEPENDS defined before do_package?
 
-<html>
-  <head>
-    <meta content="text/html; charset=ISO-8859-1"
-      http-equiv="Content-Type">
-  </head>
-  <body bgcolor="#FFFFFF" text="#000000">
-    I understand the reasoning behind RPROVIDES. I've grep'ed the
-    sources and none of the packages that depend on dbus-x11 have build
-    time dependencies on it, so the question arises "what's the point of
-    PROVIDES?". I understand the compatibility argument, but it seems to
-    me more like an argument when dependencies are not clear, but in
-    this case they are clear. The following packages depend on dbus-x11,
-    at run-time:<br>
-    <br>
-    <small><font face="Droid Sans Mono">radu@dell-desktop&gt;grep . -re
-        dbus-x11<br>
-        ./recipes-bsp/qemu-config/<b>qemu-config.bb</b>:RDEPENDS_${PN} =
-        "distcc ${@base_contains('DISTRO_FEATURES', 'x11', 'dbus-x11',
-        '', d)} task-core-nfs-server oprofileui-server rsync bash"<br>
-        ./recipes-gnome/gnome/<b>gconf_3.2.3.bb</b>:RDEPENDS_${PN} +=
-        "${@base_contains('DISTRO_FEATURES', 'x11', 'dbus-x11', '', d)}"<br>
-        ./recipes-graphics/x11-common/<b>x11-common_0.1.bb</b>:RDEPENDS_${PN}
-        = "dbus-x11 xmodmap xdpyinfo xtscal xinit formfactor"</font></small><br>
-    <br>
-    Rephrasing my question, what would happen (potentially bad) if I
-    don't have PROVIDES="dbus-x11" line in my recipe?<br>
-    <br>
-    Also, I've done a clean build without PROVIDES="dbus-x11" line in
-    dbus.inc and the build finished successfully, as if it were there
-    (tried that as well).<br>
-    <br>
-    Radu<br>
-    <br>
-    <div class="moz-cite-prefix">On 07/26/2012 03:00 PM, Burton, Ross
-      wrote:<br>
-    </div>
-    <blockquote
-cite="mid:CAJTo0LZx5E7tcvLUMrjPdH2B5p+DnFxU63tbtL6tsDX5dVfVSQ@mail.gmail.com"
-      type="cite">
-      <pre wrap="">On 26 July 2012 12:55, Koen Kooi <a class="moz-txt-link-rfc2396E" href="mailto:koen@dominion.thruhere.net">&lt;koen@dominion.thruhere.net&gt;</a> wrote:
-</pre>
-      <blockquote type="cite">
-        <pre wrap="">It would be nice if other layers that have RDEPENDS_foo = "dbus-x11" keep working till their maintainers get around fixing them. Note that you might need to do a -c cleansstate on dbus first to trigger any errors.
-</pre>
-      </blockquote>
-      <pre wrap="">
-Yes, and isn't that what the RPROVIDES is for?</pre>
-    </blockquote>
-    <br>
-    <br>
-  </body>
-</html>
+Because AIUI RDEPENDS get resolved to build the runqueue, so you can't =
+do RDEPENDS_foo =3D "I-don't-exist". If that's not the case I'll shut up =
+:)
 
---------------070301050003030108080608--
+regards,
+
+Koen=
+
+
