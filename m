@@ -1,26 +1,20 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1SuLlJ-0005HM-MZ
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1SuLqi-0005je-Kq
 	for openembedded-core@lists.openembedded.org;
-	Thu, 26 Jul 2012 12:57:45 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 26 Jul 2012 03:46:14 -0700
+	Thu, 26 Jul 2012 13:03:20 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 26 Jul 2012 03:51:40 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="177770726"
-Received: from unknown (HELO helios.localnet) ([10.252.121.37])
-	by orsmga002.jf.intel.com with ESMTP; 26 Jul 2012 03:46:13 -0700
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="186688025"
+Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.121.37])
+	by fmsmga001.fm.intel.com with ESMTP; 26 Jul 2012 03:51:39 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 26 Jul 2012 11:46:13 +0100
-Message-ID: <1753997.KifeUqhHux@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.8.4 (Linux/3.2.0-27-generic-pae; KDE/4.8.4; i686; ; )
-In-Reply-To: <AC7B240E-2E23-4103-AE46-DF04C92CCFA9@dominion.thruhere.net>
-References: <1343297075-29312-1-git-send-email-paul.eggleton@linux.intel.com>
-	<1348620.0mAYnT0NtN@helios>
-	<AC7B240E-2E23-4103-AE46-DF04C92CCFA9@dominion.thruhere.net>
-MIME-Version: 1.0
-Subject: Re: [PATCH] usbutils: avoid dependency on bash
+Date: Thu, 26 Jul 2012 11:51:28 +0100
+Message-Id: <1343299888-30141-1-git-send-email-paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH v2] usbutils: avoid dependency on bash
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,36 +29,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Jul 2012 10:57:45 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Thu, 26 Jul 2012 11:03:20 -0000
 
-On Thursday 26 July 2012 12:42:47 Koen Kooi wrote:
-> Op 26 jul. 2012, om 12:38 heeft Paul Eggleton het volgende geschreven:
-> > On Thursday 26 July 2012 12:24:44 Koen Kooi wrote:
-> >> Op 26 jul. 2012, om 12:04 heeft Paul Eggleton het volgende geschreven:
-> >>> By virtue of having #!/bin/bash, the usb-devices script declared that it
-> >>> requires bash, however manual examinasion, checkbashisms and tests with
-> >>> dash and busybox show that it doesn't contain any bashisms, so change
-> >>> the script's header and remove the RDEPENDS on bash.
-> >> 
-> >> Is the update-usbids ash/dash safe as well nowadays?
-> > 
-> > Manual examination shows no bashisms, checkbashisms reports nothing, and
-> > it
-> > works fine with ash here.
-> 
-> Awesome! Thanks for checking!
+By virtue of having #!/bin/bash, the usb-devices script declared that it
+requires bash, however manual examination, checkbashisms and tests with
+dash and busybox show that it doesn't contain any bashisms, so change
+the script's header and remove the RDEPENDS on bash.
 
-Since I also made a spelling mistake in the original commit message let me 
-make a v2 also noting that this has been checked as well.
+Additionally, update-usbids.sh was manually checked for bashisms, run
+through checkbashisms and tested with busybox (although it did not have
+a bash-specific header).
 
-Cheers,
-Paul
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+---
+ .../usb-devices-avoid-dependency-on-bash.patch     |   30 ++++++++++++++++++++
+ meta/recipes-bsp/usbutils/usbutils_0.91.bb         |    7 +++--
+ 2 files changed, 34 insertions(+), 3 deletions(-)
+ create mode 100644 meta/recipes-bsp/usbutils/usbutils/usb-devices-avoid-dependency-on-bash.patch
 
+diff --git a/meta/recipes-bsp/usbutils/usbutils/usb-devices-avoid-dependency-on-bash.patch b/meta/recipes-bsp/usbutils/usbutils/usb-devices-avoid-dependency-on-bash.patch
+new file mode 100644
+index 0000000..a6b241f
+--- /dev/null
++++ b/meta/recipes-bsp/usbutils/usbutils/usb-devices-avoid-dependency-on-bash.patch
+@@ -0,0 +1,30 @@
++From 333d5fbbc03481f1aa222bd68c2609db168ae3e0 Mon Sep 17 00:00:00 2001
++From: Paul Eggleton <paul.eggleton@linux.intel.com>
++Date: Thu, 26 Jul 2012 10:37:32 +0100
++Subject: [PATCH] usb-devices: avoid dependency on bash
++
++By virtue of having #!/bin/bash this script declared that it requires
++bash, however manual examination, checkbashisms and tests with dash
++and busybox show that it doesn't contain any bashisms, so change the
++header to avoid the dependency.
++
++Upstream-Status: Pending
++
++Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
++---
++ usb-devices |    2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/usb-devices b/usb-devices
++index b2052e2..14a5358 100755
++--- a/usb-devices
+++++ b/usb-devices
++@@ -1,4 +1,4 @@
++-#!/bin/bash
+++#!/bin/sh
++ 
++ # Copyright: 2009 Greg Kroah-Hartman <greg@kroah.com>
++ #            2009 Randy Dunlap <rdunlap@xenotime.net>
++-- 
++1.7.9.5
++
+diff --git a/meta/recipes-bsp/usbutils/usbutils_0.91.bb b/meta/recipes-bsp/usbutils/usbutils_0.91.bb
+index 490b05a..04d1681 100644
+--- a/meta/recipes-bsp/usbutils/usbutils_0.91.bb
++++ b/meta/recipes-bsp/usbutils/usbutils_0.91.bb
+@@ -7,9 +7,10 @@ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
+ 
+ DEPENDS = "libusb zlib"
+-PR = "r3"
++PR = "r4"
+ 
+-SRC_URI = "${KERNELORG_MIRROR}/linux/utils/usb/usbutils/usbutils-${PV}.tar.gz"
++SRC_URI = "${KERNELORG_MIRROR}/linux/utils/usb/usbutils/usbutils-${PV}.tar.gz \
++           file://usb-devices-avoid-dependency-on-bash.patch"
+ 
+ SRC_URI[md5sum] = "49de2403b40bf3a9863faaa8d3858deb"
+ SRC_URI[sha256sum] = "c122346b0225121bcf159abf804116f826a4a3462c94ce7b8871f7559e6b3a46"
+@@ -26,4 +27,4 @@ PACKAGES += "${PN}-ids"
+ FILES_${PN}-dev += "${datadir}/pkgconfig"
+ FILES_${PN}-ids = "${datadir}/usb*"
+ 
+-RDEPENDS_${PN} = "${PN}-ids bash"
++RDEPENDS_${PN} = "${PN}-ids"
 -- 
+1.7.9.5
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
 
