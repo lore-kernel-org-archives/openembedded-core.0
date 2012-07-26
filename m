@@ -1,35 +1,40 @@
-Received: from plane.gmane.org ([80.91.229.3])
+Received: from mail.cvg.de ([62.153.82.30])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <gchoc-openembedded-core@m.gmane.org>)
-	id 1SuP9Q-0002MM-Fy for openembedded-core@lists.openembedded.org;
-	Thu, 26 Jul 2012 16:34:52 +0200
-Received: from list by plane.gmane.org with local (Exim 4.69)
-	(envelope-from <gchoc-openembedded-core@m.gmane.org>)
-	id 1SuOjm-0001B7-Gh for openembedded-core@lists.openembedded.org;
-	Thu, 26 Jul 2012 16:08:22 +0200
-Received: from ip4da2a5ae.direct-adsl.nl ([77.162.165.174])
-	by main.gmane.org with esmtp (Gmexim 0.1 (Debian))
-	id 1AlnuQ-0007hv-00 for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jul 2012 16:08:22 +0200
-Received: from koen by ip4da2a5ae.direct-adsl.nl with local (Gmexim 0.1
-	(Debian)) id 1AlnuQ-0007hv-00
+	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1SuPHy-0002TM-MY
+	for openembedded-core@lists.openembedded.org;
+	Thu, 26 Jul 2012 16:43:42 +0200
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id q6QEW9C5011903
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jul 2012 16:08:22 +0200
-X-Injected-Via-Gmane: http://gmane.org/
+	Thu, 26 Jul 2012 16:32:11 +0200
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.76) (envelope-from <ensc@sigma-chemnitz.de>) id 1SuP6n-0006Kk-EE
+	for openembedded-core@lists.openembedded.org;
+	Thu, 26 Jul 2012 16:32:09 +0200
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
 To: openembedded-core@lists.openembedded.org
-From: Koen Kooi <koen@dominion.thruhere.net>
-Date: Thu, 26 Jul 2012 16:08:08 +0200
-Message-ID: <jurj08$sku$1@dough.gmane.org>
-References: <50114E06.2050305@cisco.com>
-Mime-Version: 1.0
-X-Complaints-To: usenet@dough.gmane.org
-X-Gmane-NNTP-Posting-Host: ip4da2a5ae.direct-adsl.nl
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7;
-	rv:14.0) Gecko/20120713 Thunderbird/14.0
-In-Reply-To: <50114E06.2050305@cisco.com>
-X-Enigmail-Version: 1.4.3
-Cc: openembedded-devel@lists.openembedded.org
-Subject: Re: meta-qt5 available
+References: <1343283462-25435-1-git-send-email-radu.moisan@intel.com>
+	<5010E3CF.3060709@intel.com>
+	<919CF905-E475-44CE-8050-94A39C204208@dominion.thruhere.net>
+	<lymx2mvfe8.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	<501144FE.4040201@intel.com>
+Date: Thu, 26 Jul 2012 16:32:09 +0200
+In-Reply-To: <501144FE.4040201@intel.com> (Radu Moisan's message of "Thu, 26
+	Jul 2012 16:24:14 +0300")
+Message-ID: <lyehnyvbiu.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.1 (gnu/linux)
+MIME-Version: 1.0
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 0.99
+X-Spam-Score: -5.2
+X-Spam-Level: -----
+X-Spam-Tests: AWL,BAYES_00,SPF_NEUTRAL,T_RP_MATCHES_RCVD,DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.73
+Subject: Re: [PATCH v3] dbus: include dbus-launch in the main dbus package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,38 +49,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Jul 2012 14:34:52 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 26 Jul 2012 14:43:42 -0000
+Content-Type: text/plain
 
------BEGIN PGP SIGNED MESSAGE-----
-Hash: SHA1
+Radu Moisan <radu.moisan-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+writes:
 
-Op 26-07-12 16:02, Martin Ertsås schreef:
-> Hi.
-> 
-> I have just made a new layer, for qt5 recipes. This contains work in 
-> progress recipes, but should be working. In the (not so) long run, qt5 
-> recipes will hopefully be added to oe-core, but in the meantime these are
-> available.
-> 
-> The recipes are based on the qt4 recipes in oe-core from 4-5 months ago, 
-> and some of them might be a bit messy. If anyone feels the urge to help 
-> out with this layer, and make these recipes as good as humanly possible, 
-> feel free to do so.
-> 
-> The project is located at git://github.com/martiert/meta-qt5.git
+> it does not crash at runtime.
 
-Don't forget the COPYING.MIT file :)
+I do not speak about crash; I guess 'dbus-launch' has some extra
+functionality when compiled with x11 support, and packages which
+depend on dbus-x11 might expect this functionality.
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.5 (Darwin)
-Comment: GPGTools - http://gpgtools.org
+Providing 'dbus-x11' although no x11 functionality is provided sounds
+wrong to me.  Either remove the 'dbus-x11' property completely or provide
+it only when x11 support is built in.
 
-iD8DBQFQEU9IMkyGM64RGpERAtDzAJ9X74fNwlGsxruEellxucwDpy2d2wCgrZhO
-8qktY2prXTDT51hF9CQ3l5E=
-=8o1Z
------END PGP SIGNATURE-----
 
+Enrico
 
 
