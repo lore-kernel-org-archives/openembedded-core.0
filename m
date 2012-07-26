@@ -1,39 +1,48 @@
-Received: from mga10.intel.com ([192.55.52.92] helo=fmsmga102.fm.intel.com)
+Received: from mail-wg0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1SuMdR-0006Of-CZ
+	(envelope-from <koen@dominion.thruhere.net>) id 1SuMqf-0006ws-ER
 	for openembedded-core@lists.openembedded.org;
-	Thu, 26 Jul 2012 13:53:41 +0200
-Received: from mail-yx0-f180.google.com ([209.85.213.180])
-	by mga11.intel.com with ESMTP/TLS/RC4-SHA; 26 Jul 2012 04:42:09 -0700
-Received: by yenq6 with SMTP id q6so1640890yen.25
+	Thu, 26 Jul 2012 14:07:21 +0200
+Received: by wgbdr1 with SMTP id dr1so1543073wgb.24
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Jul 2012 04:42:08 -0700 (PDT)
+	Thu, 26 Jul 2012 04:55:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type:x-gm-message-state;
-	bh=a0iwBMhh9uVoF9fXeFexIgeZPhVLQCE0ENo2kd3BVpg=;
-	b=Wz6ni3+G8emfbn9jniRdw8/7zADOOs66ZcdsvbasPWvlX9KczQKc8oM6Sc1nrjR9tg
-	kdQxLs2/eR/+JD8kopkP4GMUEidLshtYT8xdeyrz0TMLsjjKQBdX/GWiPFBHV3Byuw39
-	gZnHAnzLkZ/YynyllrbgJ32RQ4Fhd5DJp/qmJ94zQWOJyaU4n3ss+Mme1j4utENxS66d
-	bM/sL+BQthnDuftc4R16PcfPShFj+dNnfe2/ZGLm5fQZpKrdyA5v0hx/kv01A4ODZrzc
-	ojWw7g9VtXJ7K7n+Fv7VvBiGHzAEka2xAaLxhxHypOwyewtUDrGwXP3prHoXE4DNoGb+
-	Ok5Q==
-Received: by 10.50.179.74 with SMTP id de10mr1304384igc.61.1343302928028; Thu,
-	26 Jul 2012 04:42:08 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.64.70.229 with HTTP; Thu, 26 Jul 2012 04:41:46 -0700 (PDT)
-In-Reply-To: <20120725173817.GD20145@jama.jama.net>
-References: <CAJTo0LYgXx4camSSmap_HpitQ+gMOhshDLbJDDEr71=kfYnyUQ@mail.gmail.com>
-	<1343234476-22803-1-git-send-email-ross.burton@intel.com>
-	<20120725173817.GD20145@jama.jama.net>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 26 Jul 2012 12:41:46 +0100
-Message-ID: <CAJTo0LZWC3qE=OFHJThzmiA-kJ5ipniY+WbNiw-_smac3HnBjA@mail.gmail.com>
+	h=content-type:mime-version:subject:from:in-reply-to:date
+	:content-transfer-encoding:message-id:references:to:x-mailer
+	:x-gm-message-state;
+	bh=bkUL6YVr7o338hUeN/Wc6UyBW5xS/WSKssrshWVTAV8=;
+	b=j+yjYYGsvI8h8BWRaVav+Tu1lIGvB1R/s5K/JZrKI4sEWWKQZ92H05+jYzoBEh4Zlz
+	gs58orUNFPT5MSsqnhLwzzHgAfc3sxq7EefbatbHxZQ/TBI/DHWzVqs4BB/ziYPGrbOj
+	yVDtQJatTKKc1zYvHU2W7aV5+iCY5KtQtt4rkioG8DwbN4ok9kvl6wG7vXcKHyAjdcns
+	HLiJJm4J59dFvhULncpHMBeh5/zbEbLhFLSOxuLjImJCl+O8X+IGsGWVYRZa0EgqUd63
+	VnaKAfXOK2Q+UrsExlH1LueGcfFqrHWCpjKWM/iyW1WNzCE5A5D0YdtzsZWnZVj3ugm3
+	KJtw==
+Received: by 10.217.1.136 with SMTP id n8mr13343060wes.10.1343303750883;
+	Thu, 26 Jul 2012 04:55:50 -0700 (PDT)
+Received: from [172.20.0.6] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
+	by mx.google.com with ESMTPS id eu4sm7876667wib.2.2012.07.26.04.55.48
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 26 Jul 2012 04:55:49 -0700 (PDT)
+Mime-Version: 1.0 (Apple Message framework v1278)
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <CAJTo0LYeKt+KypnrVq50tSbjqfK8XyvUnZp0xvz=KRmMx7dXzQ@mail.gmail.com>
+Date: Thu, 26 Jul 2012 13:55:47 +0200
+Message-Id: <C132AEAF-467E-450E-A86F-7A68BE96F917@dominion.thruhere.net>
+References: <1343283462-25435-1-git-send-email-radu.moisan@intel.com>
+	<5010E3CF.3060709@intel.com>
+	<919CF905-E475-44CE-8050-94A39C204208@dominion.thruhere.net>
+	<1756274.ud5AYazWdz@helios>
+	<F0E3167B-ECF8-494D-83E8-0D31CC826E65@dominion.thruhere.net>
+	<50110B50.3030900@intel.com>
+	<446507ED-01C5-4006-B9AE-C8D77B61C213@dominion.thruhere.net>
+	<50111C7C.8080904@intel.com> <50112207.3060709@intel.com>
+	<CAJTo0LYeKt+KypnrVq50tSbjqfK8XyvUnZp0xvz=KRmMx7dXzQ@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Gm-Message-State: ALoCoQnz6lxCqii2a709mo88P3A4haOxzK8PD+2RpG8PYJZCLOAcRHGcy9l1Vzmzwb7McoJJ8LQ7
-Subject: Re: [PATCH] package.bbclass: don't error when the root doesn't exist in do_split_packages
+X-Mailer: Apple Mail (2.1278)
+X-Gm-Message-State: ALoCoQnixp+t22OOFn53pFZoHm6vaXi6crvY8UmHVl2twI5MnGjNsCkcBe5+RmLE1vzaZa8/lsRL
+Subject: Re: [PATCH v3] dbus: include dbus-launch in the main dbus package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,22 +57,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Jul 2012 11:53:41 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 26 Jul 2012 12:07:21 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-On 25 July 2012 18:38, Martin Jansa <martin.jansa@gmail.com> wrote:
-> Isn't this real error which shouldn't be covered by this?
->
-> e.g. if someone removes or loose tmp-eglibc/work/foo/image (happens
-> to me all the time because tmp-eglibc is on tmpfs) then do_package is
-> reexecuted when sstate checksum is changed (even with
-> BB_SIGNATURE_HANDLER = "OEBasic") and in some cases it successfully
-> repackage .ipk files which are now empty and in some cases it fails
-> (e.g. with systemd.bbclass checking that requested .service files are
-> available in package during do_package).
 
-In that case it really should fail before do_split_packages() is called, surely?
+Op 26 jul. 2012, om 13:27 heeft Burton, Ross het volgende geschreven:
 
-Ross
+> On 26 July 2012 11:55, Radu Moisan <radu.moisan@intel.com> wrote:
+>> I see no build-time dependencies on dbus-x11 (only runtime =
+dependencies),
+>> so, assuming PROVIDES is used at build-time, I don't see it's point.
+>=20
+> We've just removed dbus-x11 because it's pointless, the provides is
+> only for compatibility.
+
+It would be nice if other layers that have RDEPENDS_foo =3D "dbus-x11" =
+keep working till their maintainers get around fixing them. Note that =
+you might need to do a -c cleansstate on dbus first to trigger any =
+errors.=
 
 
