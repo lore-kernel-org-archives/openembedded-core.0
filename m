@@ -1,20 +1,33 @@
-Received: from mga03.intel.com ([143.182.124.21])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <radu.moisan@intel.com>) id 1SuOFs-0000HF-Fe
-	for openembedded-core@lists.openembedded.org;
-	Thu, 26 Jul 2012 15:37:28 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 26 Jul 2012 06:25:56 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="173472468"
-Received: from dell-desktop (HELO localhost.localdomain) ([10.237.105.32])
-	by azsmga001.ch.intel.com with ESMTP; 26 Jul 2012 06:25:55 -0700
-From: Radu Moisan <radu.moisan@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 26 Jul 2012 16:27:12 +0300
-Message-Id: <1343309232-23680-1-git-send-email-radu.moisan@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH v4] dbus: include dbus-launch in the main dbus package
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1SuOJm-0000Ly-1B for openembedded-core@lists.openembedded.org;
+	Thu, 26 Jul 2012 15:41:30 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6QDTxoa021575
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 26 Jul 2012 14:29:59 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 21192-04 for <openembedded-core@lists.openembedded.org>;
+	Thu, 26 Jul 2012 14:29:55 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6QDTmnV021569
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 26 Jul 2012 14:29:50 +0100
+Message-ID: <1343309388.29991.31.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Thu, 26 Jul 2012 14:29:48 +0100
+In-Reply-To: <alpine.DEB.2.02.1207260717280.8530@oneiric>
+References: <alpine.DEB.2.02.1207260717280.8530@oneiric>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: proper way to report fetch failure?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,71 +42,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Jul 2012 13:37:28 -0000
+X-List-Received-Date: Thu, 26 Jul 2012 13:41:30 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Followed suggestions from Bugz 2261:
+On Thu, 2012-07-26 at 07:20 -0400, Robert P. J. Day wrote:
+> to stock up on tarballs, i just ran:
+> 
+>   $ bitbake -c fetchall world
+> 
+> and got:
+> 
+> NOTE: package kbd-1.15.2-r3: task do_fetch: Started
+> WARNING: Failed to fetch URL
+> http://kernel.org/pub/linux/utils/kbd/kbd-1.15.2.tar.bz2, attempting
+> MIRRORS if available
+> ...
+> 
+> and, sure enough, that current tarball is not at that location:
+> 
+> http://kernel.org/pub/linux/utils/kbd/
+> 
+> is there a proper way to report this?
 
-1) remove the --with-x/--without-x configure arguments. If you want to force
-no-discovery for native builds the correct argument is --disable-x11-autolaunch.
-This ensures that DBus looks at the build environment to determine whether to
-enable X11 bus discovery or not.
+Using the bugzilla?
 
-2) make the virtual/libx11 DEPENDS conditional based on the x11 distro feature.
-This makes the build dependencies reflect the feature list.
+Cheers,
 
-3) remove dbus-x11, meaning that dbus-launch with its potential X11 dependency
-is now back in dbus where is belongs.
-
-4) Potentially make dbus provide dbus-x11, for compatibility.
-
-Fixes [Yocto #2261]
-
-Signed-off-by: Radu Moisan <radu.moisan@intel.com>
----
- meta/recipes-core/dbus/dbus.inc |   13 ++++++++-----
- 1 file changed, 8 insertions(+), 5 deletions(-)
-
-diff --git a/meta/recipes-core/dbus/dbus.inc b/meta/recipes-core/dbus/dbus.inc
-index a75583d..83299c4 100644
---- a/meta/recipes-core/dbus/dbus.inc
-+++ b/meta/recipes-core/dbus/dbus.inc
-@@ -31,10 +31,12 @@ CONFFILES_${PN} = "${sysconfdir}/dbus-1/system.conf ${sysconfdir}/dbus-1/session
- 
- DEBIANNAME_${PN} = "dbus-1"
- 
--PACKAGES =+ "${PN}-lib ${PN}-systemd ${@base_contains('DISTRO_FEATURES', 'x11', '${PN}-x11', '', d)}"
-+PACKAGES =+ "${PN}-lib ${PN}-systemd"
- 
--FILES_${PN}-x11 = "${bindir}/dbus-launch"
--RDEPENDS_${PN}-x11 = "${PN}"
-+# for compatibility
-+PROVIDES = "dbus-x11"
-+RPROVIDES_${PN} = "dbus-x11"
-+RREPLACES_${PN} += "dbus-x11"
- 
- FILES_${PN}-systemd = "${systemd_unitdir}/system/"
- 
-@@ -43,6 +45,7 @@ FILES_${PN} = "${bindir}/dbus-daemon* \
-                ${bindir}/dbus-cleanup-sockets \
-                ${bindir}/dbus-send \
-                ${bindir}/dbus-monitor \
-+               ${bindir}/dbus-launch \
-                ${libexecdir}/dbus* \
-                ${sysconfdir} \
-                ${localstatedir} \
-@@ -58,8 +61,8 @@ pkg_postinst_dbus() {
- 	fi
- }
- 
--EXTRA_OECONF_X = "${@base_contains('DISTRO_FEATURES', 'x11', '--with-x', '--without-x', d)}"
--EXTRA_OECONF_X_virtclass-native = "--without-x"
-+EXTRA_OECONF_X = ""
-+EXTRA_OECONF_X_virtclass-native = "--disable-x11-autolaunch"
- 
- EXTRA_OECONF = "--disable-tests \
-                 --disable-checks \
--- 
-1.7.9.5
+Richard
 
 
 
