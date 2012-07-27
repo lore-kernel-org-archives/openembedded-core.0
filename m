@@ -1,25 +1,33 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from arroyo.ext.ti.com ([192.94.94.40])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Peter.Seebach@windriver.com>) id 1Susfv-0008Qx-UT
-	for openembedded-core@lists.openembedded.org;
-	Sat, 28 Jul 2012 00:06:24 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q6RLsoR1009593
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	(envelope-from <a0273011@sdit-build02.dal.design.ti.com>)
+	id 1Sussf-000098-Ue for openembedded-core@lists.openembedded.org;
+	Sat, 28 Jul 2012 00:19:34 +0200
+Received: from dlelxv30.itg.ti.com ([172.17.2.17])
+	by arroyo.ext.ti.com (8.13.7/8.13.7) with ESMTP id q6RM80sL001460
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Jul 2012 14:54:50 -0700 (PDT)
-Received: from localhost.localdomain (172.25.34.64) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
-	Fri, 27 Jul 2012 14:54:50 -0700
-From: Peter Seebach <peter.seebach@windriver.com>
+	Fri, 27 Jul 2012 17:08:00 -0500
+Received: from DFLE72.ent.ti.com (dfle72.ent.ti.com [128.247.5.109])
+	by dlelxv30.itg.ti.com (8.13.8/8.13.8) with ESMTP id q6RM80pX016623
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 27 Jul 2012 17:08:00 -0500
+Received: from dlelxv22.itg.ti.com (172.17.1.197) by dfle72.ent.ti.com
+	(128.247.5.109) with Microsoft SMTP Server id 14.1.323.3;
+	Fri, 27 Jul 2012 17:08:00 -0500
+Received: from sdit-build02.dal.design.ti.com (sdit-build02.dal.design.ti.com
+	[10.247.66.5])	by dlelxv22.itg.ti.com (8.13.8/8.13.8) with ESMTP id
+	q6RM805c020587;	Fri, 27 Jul 2012 17:08:00 -0500
+Received: from a0273011 by sdit-build02.dal.design.ti.com with local (Exim
+	4.71)	(envelope-from <a0273011@sdit-build02.dal.design.ti.com>)	id
+	1Susjx-0003y9-CF; Fri, 27 Jul 2012 17:10:33 -0500
+From: Franklin S Cooper Jr <fcooper@ti.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 27 Jul 2012 16:54:48 -0500
-Message-ID: <46e10fa82df93bea00d11334830c05fff662334c.1343425855.git.peter.seebach@windriver.com>
+Date: Fri, 27 Jul 2012 17:10:31 -0500
+Message-ID: <1343427031-15212-1-git-send-email-fcooper@ti.com>
 X-Mailer: git-send-email 1.7.0.4
-In-Reply-To: <cover.1343425855.git.peter.seebach@windriver.com>
-References: <cover.1343425855.git.peter.seebach@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/1] pseudo.inc/pseudo_1.4.bb: update pseudo to 1.4
+Cc: Franklin S Cooper Jr <fcooper@ti.com>
+Subject: [branch: denzil] [PATCH] busybox: Add inetd related files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,135 +42,122 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Jul 2012 22:06:24 -0000
+X-List-Received-Date: Fri, 27 Jul 2012 22:19:34 -0000
 Content-Type: text/plain
 
-This update replaces the half-baked --arch logic with the use
-of $CFLAGS to pick compiler flags, on the grounds that it makes
-a lot more sense for the build system to pick flags than for
-pseudo to try to guess what they should be; this should allow
-pseudo to at least compile for targets, and possibly run on
-them.
+* Add back inetd and inetd.conf files which are needed if
+  CONFIG_INETD is enabled in the defconfig. Grabbed these files
+  from oe-classic
 
-This doesn't solve the problem of guessing how to forcibly
-build the 32-bit variant on hosts, because we really don't
-have a general solution for that. There's no idiom for "given
-this set of compiler flags and this architecture, what flags
-would you use to request a 32-bit compile instead?" So we
-basically ignore that for now. If someone comes along trying
-to use the build system to build pseudo-native on a 64-bit
-host that also supports 32-bit binaries and isn't x86, we
-will revisit this.
+Signed-off-by: Franklin S Cooper Jr <fcooper@ti.com>
 ---
- meta/recipes-devtools/pseudo/pseudo.inc      |   12 +++++++++---
- meta/recipes-devtools/pseudo/pseudo_1.3.1.bb |    8 --------
- meta/recipes-devtools/pseudo/pseudo_1.4.bb   |    8 ++++++++
- meta/recipes-devtools/pseudo/pseudo_git.bb   |    8 ++++----
- 4 files changed, 21 insertions(+), 15 deletions(-)
- delete mode 100644 meta/recipes-devtools/pseudo/pseudo_1.3.1.bb
- create mode 100644 meta/recipes-devtools/pseudo/pseudo_1.4.bb
+ meta/recipes-core/busybox/busybox.inc       |    1 +
+ meta/recipes-core/busybox/busybox_1.19.4.bb |    6 +++-
+ meta/recipes-core/busybox/files/inetd       |   33 +++++++++++++++++++++++++++
+ meta/recipes-core/busybox/files/inetd.conf  |   20 ++++++++++++++++
+ 4 files changed, 58 insertions(+), 2 deletions(-)
+ create mode 100755 meta/recipes-core/busybox/files/inetd
+ create mode 100644 meta/recipes-core/busybox/files/inetd.conf
 
-diff --git a/meta/recipes-devtools/pseudo/pseudo.inc b/meta/recipes-devtools/pseudo/pseudo.inc
-index 8798018..ac898d2 100644
---- a/meta/recipes-devtools/pseudo/pseudo.inc
-+++ b/meta/recipes-devtools/pseudo/pseudo.inc
-@@ -3,7 +3,7 @@
- # BBFETCH2=True PSEUDO_BUILD=1 ../bitbake/bin/bitbake pseudo-native [-c CMD]
- 
- DESCRIPTION = "Pseudo gives fake root capabilities to a normal user"
--HOMEPAGE = "http://wiki.github.com/wrpseudo/pseudo/"
-+HOMEPAGE = "http://git.yoctoproject.org/cgit/cgit.cgi/pseudo"
- LIC_FILES_CHKSUM = "file://COPYING;md5=243b725d71bb5df4a1e5920b344b86ad"
- SECTION = "base"
- LICENSE = "LGPL2.1"
-@@ -11,6 +11,8 @@ DEPENDS = "sqlite3"
- 
- SRC_URI_append_virtclass-nativesdk = " file://symver.patch"
- 
-+SRC_URI_append_virtclass-native = " file://symver.patch"
-+
- FILES_${PN} = "${libdir}/pseudo/lib*/libpseudo.so ${bindir}/* ${localstatedir}/pseudo ${prefix}/var/pseudo"
- FILES_${PN}-dbg += "${libdir}/pseudo/lib*/.debug"
- PROVIDES += "virtual/fakeroot"
-@@ -28,9 +30,9 @@ NO32LIBS ??= "1"
- # Compile for the local machine arch...
- do_compile () {
- 	if [ "${SITEINFO_BITS}" = "64" ]; then
--	  ${S}/configure --prefix=${prefix} --libdir=${prefix}/lib/pseudo/lib${SITEINFO_BITS} --with-sqlite=${STAGING_DIR_TARGET}${exec_prefix} --bits=${SITEINFO_BITS} --enable-static-sqlite --without-rpath
-+	  ${S}/configure --prefix=${prefix} --libdir=${prefix}/lib/pseudo/lib${SITEINFO_BITS} --with-sqlite=${STAGING_DIR_TARGET}${exec_prefix} --cflags="${CFLAGS}" --bits=${SITEINFO_BITS} --enable-static-sqlite --without-rpath
- 	else
--	  ${S}/configure --prefix=${prefix} --libdir=${prefix}/lib/pseudo/lib --with-sqlite=${STAGING_DIR_TARGET}${exec_prefix} --bits=${SITEINFO_BITS} --enable-static-sqlite --without-rpath
-+	  ${S}/configure --prefix=${prefix} --libdir=${prefix}/lib/pseudo/lib --with-sqlite=${STAGING_DIR_TARGET}${exec_prefix} --cflags="${CFLAGS}" --bits=${SITEINFO_BITS} --enable-static-sqlite --without-rpath
+diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
+index ec76ad2..89c51d3 100644
+--- a/meta/recipes-core/busybox/busybox.inc
++++ b/meta/recipes-core/busybox/busybox.inc
+@@ -190,6 +190,7 @@ do_install () {
  	fi
- 	oe_runmake ${MAKEOPTS}
- }
-@@ -41,6 +43,8 @@ do_compile () {
- do_compile_prepend_virtclass-native () {
- 	if [ "${SITEINFO_BITS}" = "64" -a -e "/usr/include/gnu/stubs-32.h" -a "${PN}" = "pseudo-native" -a "${NO32LIBS}" != "1" ]; then
- 		# We need the 32-bit libpseudo on a 64-bit machine...
-+                # ... and we really, really, hope that the native host is
-+                # x86, or else --bits may not work.
- 		./configure --prefix=${prefix} --libdir=${prefix}/lib/pseudo/lib --with-sqlite=${STAGING_DIR_TARGET}${exec_prefix} --bits=32 --without-rpath
- 		oe_runmake ${MAKEOPTS} libpseudo
- 		# prevent it from removing the lib, but remove everything else
-@@ -51,6 +55,8 @@ do_compile_prepend_virtclass-native () {
- do_compile_prepend_virtclass-nativesdk () {
- 	if [ "${SITEINFO_BITS}" = "64" -a -e "/usr/include/gnu/stubs-32.h" -a "${PN}" = "pseudo-native" -a "${NO32LIBS}" != "1" ]; then
- 		# We need the 32-bit libpseudo on a 64-bit machine...
-+                # ... and we really, really, hope that the native host is
-+                # x86, or else --bits may not work.
- 		./configure --prefix=${prefix} --libdir=${prefix}/lib/pseudo/lib --with-sqlite=${STAGING_DIR_TARGET}${exec_prefix} --bits=32 --without-rpath
- 		oe_runmake ${MAKEOPTS} libpseudo
- 		# prevent it from removing the lib, but remove everything else
-diff --git a/meta/recipes-devtools/pseudo/pseudo_1.3.1.bb b/meta/recipes-devtools/pseudo/pseudo_1.3.1.bb
-deleted file mode 100644
-index d64e0e5..0000000
---- a/meta/recipes-devtools/pseudo/pseudo_1.3.1.bb
-+++ /dev/null
-@@ -1,8 +0,0 @@
--require pseudo.inc
--
--PR = "r11"
--
--SRC_URI = "http://www.yoctoproject.org/downloads/${BPN}/${BPN}-${PV}.tar.bz2"
--
--SRC_URI[md5sum] = "aa7dbe925d065187833e1171746e9a94"
--SRC_URI[sha256sum] = "dc896c06b0f5bc253faaeb21ed78157db7ef7553e3ecae15a1eb6faf64942110"
-diff --git a/meta/recipes-devtools/pseudo/pseudo_1.4.bb b/meta/recipes-devtools/pseudo/pseudo_1.4.bb
-new file mode 100644
-index 0000000..e1e1f6f
+ 	if grep "CONFIG_INETD=y" ${WORKDIR}/defconfig; then
+ 		install -m 0755 ${WORKDIR}/inetd ${D}${sysconfdir}/init.d/inetd.${BPN}
++        sed -i "s:/usr/sbin/:${sbindir}/:" ${D}${sysconfdir}/init.d/inetd.${BPN}
+ 		install -m 0644 ${WORKDIR}/inetd.conf ${D}${sysconfdir}/
+ 	fi
+         if grep "CONFIG_MDEV=y" ${WORKDIR}/defconfig; then
+diff --git a/meta/recipes-core/busybox/busybox_1.19.4.bb b/meta/recipes-core/busybox/busybox_1.19.4.bb
+index ad8297e..3093f01 100644
+--- a/meta/recipes-core/busybox/busybox_1.19.4.bb
++++ b/meta/recipes-core/busybox/busybox_1.19.4.bb
+@@ -1,5 +1,5 @@
+ require busybox.inc
+-PR = "r2"
++PR = "r3"
+ 
+ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
+            file://udhcpscript.patch \
+@@ -24,7 +24,9 @@ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
+            file://mdev \
+            file://mdev.conf \
+            file://umount.busybox \
+-           file://defconfig"
++           file://defconfig \
++           file://inetd.conf \
++           file://inetd"
+ 
+ SRC_URI[tarball.md5sum] = "9c0cae5a0379228e7b55e5b29528df8e"
+ SRC_URI[tarball.sha256sum] = "9b853406da61ffb59eb488495fe99cbb7fb3dd29a31307fcfa9cf070543710ee"
+diff --git a/meta/recipes-core/busybox/files/inetd b/meta/recipes-core/busybox/files/inetd
+new file mode 100755
+index 0000000..cf50bcd
 --- /dev/null
-+++ b/meta/recipes-devtools/pseudo/pseudo_1.4.bb
-@@ -0,0 +1,8 @@
-+require pseudo.inc
++++ b/meta/recipes-core/busybox/files/inetd
+@@ -0,0 +1,33 @@
++#!/bin/sh
++#
++# start/stop inetd super server.
 +
-+PR = "r12"
++if ! [ -x /usr/sbin/inetd ]; then
++	exit 0
++fi
 +
-+SRC_URI = "http://www.yoctoproject.org/downloads/${BPN}/${BPN}-${PV}.tar.bz2"
++case "$1" in
++    start)
++	echo -n "Starting internet superserver:"
++	echo -n " inetd" ; start-stop-daemon -S -x /usr/sbin/inetd > /dev/null
++	echo "."
++	;;
++    stop)
++	echo -n "Stopping internet superserver:"
++	echo -n " inetd" ; start-stop-daemon -K -x /usr/sbin/inetd > /dev/null
++	echo "."
++	;;
++    restart)
++	echo -n "Restarting internet superserver:"
++	echo -n " inetd "
++	killall -HUP inetd
++	echo "."
++	;;
++    *)
++	echo "Usage: /etc/init.d/inetd {start|stop|restart}"
++	exit 1
++	;;
++esac
 +
-+SRC_URI[md5sum] = "bc04c6c9d13cfdb789ffc2f3cca9ab08"
-+SRC_URI[sha256sum] = "147fa7b177061a145d330b9e159529a185be94550f123c6acb0d3b75d480c5b4"
-diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
-index 2f58072..27ae4b2 100644
---- a/meta/recipes-devtools/pseudo/pseudo_git.bb
-+++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
-@@ -1,12 +1,12 @@
- require pseudo.inc
- 
--SRCREV = "2e0189ba5368b1e88d509d0ab82bccb15cfb3653"
--PV = "1.3.1+git${SRCPV}"
--PR = "r26"
-+SRCREV = "9b792e4cb91bc22374f47d0b0902dbc4ecd7d6dd"
-+PV = "1.4+git${SRCPV}"
-+PR = "r27"
- 
- DEFAULT_PREFERENCE = "-1"
- 
--SRC_URI = "git://github.com/wrpseudo/pseudo.git;protocol=git"
-+SRC_URI = "git://git.yoctoproject.org/pseudo;protocol=git"
- 
- S = "${WORKDIR}/git"
- 
++exit 0
++
+diff --git a/meta/recipes-core/busybox/files/inetd.conf b/meta/recipes-core/busybox/files/inetd.conf
+new file mode 100644
+index 0000000..b02fe85
+--- /dev/null
++++ b/meta/recipes-core/busybox/files/inetd.conf
+@@ -0,0 +1,20 @@
++# /etc/inetd.conf:  see inetd(8) for further informations.
++#
++# Internet server configuration database
++#
++# If you want to disable an entry so it isn't touched during
++# package updates just comment it out with a single '#' character.
++#
++# <service_name> <sock_type> <proto> <flags> <user> <server_path> <args>
++#
++#:INTERNAL: Internal services
++#echo		stream	tcp	nowait	root	internal
++#echo		dgram	udp	wait	root	internal
++#chargen	stream	tcp	nowait	root	internal
++#chargen	dgram	udp	wait	root	internal
++#discard		stream	tcp	nowait	root	internal
++#discard		dgram	udp	wait	root	internal
++#daytime		stream	tcp	nowait	root	internal
++#daytime	dgram	udp	wait	root	internal
++#time		stream	tcp	nowait	root	internal
++#time		dgram	udp	wait	root	internal
 -- 
 1.7.0.4
 
