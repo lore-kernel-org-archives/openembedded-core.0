@@ -1,25 +1,24 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Sen.Zhang@windriver.com>) id 1SugfD-00005c-Eo
+	(envelope-from <ddalex@adamian-desktop>) id 1SuhCn-0000LJ-LW
 	for openembedded-core@lists.openembedded.org;
-	Fri, 27 Jul 2012 11:16:56 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q6R95BFK003559
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Jul 2012 02:05:11 -0700 (PDT)
-Received: from jesse-wrs-desktop.corp.ad.wrs.com (128.224.162.230) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.1.255.0; Fri, 27 Jul 2012 02:05:11 -0700
-From: Jesse Zhang <sen.zhang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 27 Jul 2012 17:03:51 +0800
-Message-ID: <1343379832-13421-1-git-send-email-sen.zhang@windriver.com>
-X-Mailer: git-send-email 1.7.11.2
-In-Reply-To: <5010AE26.5010908@windriver.com>
-References: <5010AE26.5010908@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH] busybox: udhcpc shouldn't be a service
+	Fri, 27 Jul 2012 11:51:34 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 27 Jul 2012 02:38:56 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="198861571"
+Received: from adamian-desktop.rb.intel.com (HELO adamian-desktop)
+	([10.237.105.143])
+	by fmsmga002.fm.intel.com with ESMTP; 27 Jul 2012 02:38:54 -0700
+Received: by adamian-desktop (Postfix, from userid 1000)
+	id A5E2A5637DD; Fri, 27 Jul 2012 12:40:54 +0300 (EEST)
+From: Alex DAMIAN <alexandru.damian@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 27 Jul 2012 12:40:42 +0300
+Message-Id: <1343382042-27618-1-git-send-email-alexandru.damian@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Cc: koen@dominion.thruhere.net
+Subject: [PATCH v2] udev: upgrade to 182
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,22 +33,320 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Jul 2012 09:16:56 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 27 Jul 2012 09:51:34 -0000
 
-Fixed Bug 2840 - busybox: udhcpc misbehavior when "ip=dhcp".
+From: Alexandru DAMIAN <alexandru.damian@intel.com>
 
-Jesse Zhang (1):
-  busybox: udhcpc shouldn't be a service
+This is the final upgrade of udev. Futher upgrades will only
+come in conjunction with systemd.
 
- meta/recipes-core/busybox/busybox.inc          |    6 +---
- meta/recipes-core/busybox/busybox_1.19.4.bb    |    3 +-
- meta/recipes-core/busybox/files/busybox-udhcpc |   25 ------------------------
- 3 files changed, 3 insertions(+), 31 deletions(-)
- delete mode 100755 meta/recipes-core/busybox/files/busybox-udhcpc
+The v4l1 removal patch is deprecated as the bug is fixed inside udev.
+There is a new patch fixing the path for default sh interpreter.
+New debug binaries are generated, and udev.inc is modified to package
+those correctly.
+The install locations changed for udevd and udevadm, so the scripts
+are updated accordingly.
 
+Signed-off-by: Alexandru DAMIAN <alexandru.damian@intel.com>
+---
+ .../initscripts/initscripts-1.0/volatiles          |    2 +-
+ meta/recipes-core/initscripts/initscripts_1.0.bb   |    2 +-
+ meta/recipes-core/udev/udev.inc                    |   12 +++--
+ ...yboard_force_release.sh-shell-script-path.patch |   35 ++++++++++++++
+ meta/recipes-core/udev/udev/include_resource.patch |   31 ------------
+ meta/recipes-core/udev/udev/init                   |   14 +++---
+ meta/recipes-core/udev/udev/udev-166-v4l1-1.patch  |   50 --------------------
+ meta/recipes-core/udev/udev/udev-cache             |    2 +-
+ meta/recipes-core/udev/udev_164.bb                 |    9 ----
+ meta/recipes-core/udev/udev_182.bb                 |    9 ++++
+ 10 files changed, 62 insertions(+), 104 deletions(-)
+ create mode 100644 meta/recipes-core/udev/udev/0001-Fixing-keyboard_force_release.sh-shell-script-path.patch
+ delete mode 100644 meta/recipes-core/udev/udev/include_resource.patch
+ delete mode 100644 meta/recipes-core/udev/udev/udev-166-v4l1-1.patch
+ delete mode 100644 meta/recipes-core/udev/udev_164.bb
+ create mode 100644 meta/recipes-core/udev/udev_182.bb
+
+diff --git a/meta/recipes-core/initscripts/initscripts-1.0/volatiles b/meta/recipes-core/initscripts/initscripts-1.0/volatiles
+index b2ae279..e0741aa 100644
+--- a/meta/recipes-core/initscripts/initscripts-1.0/volatiles
++++ b/meta/recipes-core/initscripts/initscripts-1.0/volatiles
+@@ -36,4 +36,4 @@ f root root 0664 /var/log/wtmp none
+ f root root 0664 /var/run/utmp none
+ l root root 0644 /etc/resolv.conf /var/run/resolv.conf
+ f root root 0644 /var/run/resolv.conf none
+-
++l root root 0755 /run /var/run
+diff --git a/meta/recipes-core/initscripts/initscripts_1.0.bb b/meta/recipes-core/initscripts/initscripts_1.0.bb
+index 1d80c55..b741b61 100644
+--- a/meta/recipes-core/initscripts/initscripts_1.0.bb
++++ b/meta/recipes-core/initscripts/initscripts_1.0.bb
+@@ -3,7 +3,7 @@ DESCRIPTION = "Initscripts provide the basic system startup initialization scrip
+ SECTION = "base"
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
+-PR = "r135"
++PR = "r136"
+ 
+ INHIBIT_DEFAULT_DEPS = "1"
+ 
+diff --git a/meta/recipes-core/udev/udev.inc b/meta/recipes-core/udev/udev.inc
+index 3e72515..6242fcc 100644
+--- a/meta/recipes-core/udev/udev.inc
++++ b/meta/recipes-core/udev/udev.inc
+@@ -6,9 +6,10 @@ LICENSE = "GPLv2.0+ & LGPLv2.1+"
+ LICENSE_${PN} = "GPLv2.0+"
+ LICENSE_libudev = "LGPLv2.1+"
+ LICENSE_libgudev = "LGPLv2.1+"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
+-                    file://libudev/COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343 \
+-                    file://extras/gudev/COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343"
++LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
++                    file://src/COPYING;md5=17c4e5fb495e6707ac92a3864926f979 \
++                    file://src/gudev/COPYING;md5=fb494485a7d0505308cb68e4997cc266"
++                    
+ 
+ DEPENDS = "acl glib-2.0 libusb usbutils pciutils gperf-native libxslt-native"
+ RPROVIDES_${PN} = "hotplug"
+@@ -16,6 +17,7 @@ RRECOMMENDS_${PN} += "udev-extraconf usbutils-ids pciutils-ids"
+ RDEPENDS_libudev = "${PN} (= ${EXTENDPKGV})"
+ 
+ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/kernel/hotplug/udev-${PV}.tar.gz \
++           file://0001-Fixing-keyboard_force_release.sh-shell-script-path.patch \
+            file://run.rules \
+            file://udev.rules \
+            file://devfs-udev.rules \
+@@ -32,7 +34,7 @@ inherit autotools pkgconfig update-rc.d
+ 
+ # udevd/udevadm -> /sbin/, libudev.so.* -> /lib/
+ sbindir = "${base_sbindir}"
+-libexecdir = "${base_libdir}/udev"
++libexecdir = "${base_libdir}" 
+ EXTRA_OECONF = "--disable-introspection --with-rootlibdir=${base_libdir} \
+                 --with-pci-ids-path=${datadir}/pci.ids"
+ 
+@@ -50,6 +52,8 @@ FILES_${PN} += "${libexecdir} ${libdir}/ConsoleKit"
+ RRECOMMENDS_${PN} += "udev-utils"
+ 
+ FILES_${PN}-dbg += "${libexecdir}/.debug"
++FILES_${PN}-dbg += "${base_libdir}/udev/.debug/"
++FILES_${PN}-dbg += "${base_libdir}/udev/.debug/*"
+ FILES_${PN}-dev = "${datadir}/pkgconfig/udev.pc"
+ FILES_libudev = "${base_libdir}/libudev.so.*"
+ FILES_libudev-dbg = "${base_libdir}/.debug/libudev.so.*"
+diff --git a/meta/recipes-core/udev/udev/0001-Fixing-keyboard_force_release.sh-shell-script-path.patch b/meta/recipes-core/udev/udev/0001-Fixing-keyboard_force_release.sh-shell-script-path.patch
+new file mode 100644
+index 0000000..41deafa
+--- /dev/null
++++ b/meta/recipes-core/udev/udev/0001-Fixing-keyboard_force_release.sh-shell-script-path.patch
+@@ -0,0 +1,35 @@
++From 0f8290c943da298abd269ca60fd8375dfb219971 Mon Sep 17 00:00:00 2001
++From: Alexandru DAMIAN <alexandru.damian@intel.com>
++Date: Thu, 12 Jul 2012 12:54:48 +0300
++Subject: [PATCH] Fixing keyboard_force_release.sh shell script path
++
++With the introduction of rootprefix, the keyboard-force-release.sh.in
++was modified to be executed with @rootprefix@/bin/sh, which is wrong
++because @rootprefix@ defaults to /usr (which is correct), but the
++shell is always at /bin/sh (IEEE Std 1003.2-1992).
++
++Therefore the interpreter for shell scripts needs to be /bin/sh at all times.
++
++The upstream moved to configurable root prefix, this patch taclkes a 
++transition bug, and will not be applied upstream.
++
++Upstream-Status: Inappropriate [legacy version]
++
++Signed-off-by: Alexandru DAMIAN <alexandru.damian@intel.com>
++---
++ src/keymap/keyboard-force-release.sh.in |    2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/src/keymap/keyboard-force-release.sh.in b/src/keymap/keyboard-force-release.sh.in
++index dd040ce..597a3a6 100755
++--- a/src/keymap/keyboard-force-release.sh.in
+++++ b/src/keymap/keyboard-force-release.sh.in
++@@ -1,4 +1,4 @@
++-#!@rootprefix@/bin/sh -e
+++#!/bin/sh -e
++ # read list of scancodes, convert hex to decimal and
++ # append to the atkbd force_release sysfs attribute
++ # $1 sysfs devpath for serioX
++-- 
++1.7.9.5
++
+diff --git a/meta/recipes-core/udev/udev/include_resource.patch b/meta/recipes-core/udev/udev/include_resource.patch
+deleted file mode 100644
+index a46ce59..0000000
+--- a/meta/recipes-core/udev/udev/include_resource.patch
++++ /dev/null
+@@ -1,31 +0,0 @@
+-Fixes errors like below with eglibc 2.16
+-
+-libudev/libudev-util-private.c:348:16: error: 'PRIO_PROCESS' undeclared (first use in this function)
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-Upstream-Status: Pending
+-
+-Index: udev-164/libudev/libudev-util-private.c
+-===================================================================
+---- udev-164.orig/libudev/libudev-util-private.c	2010-08-03 02:42:26.000000000 -0700
+-+++ udev-164/libudev/libudev-util-private.c	2012-07-03 10:53:35.082346684 -0700
+-@@ -21,6 +21,7 @@
+- #include <grp.h>
+- #include <sys/wait.h>
+- #include <sys/param.h>
+-+#include <sys/resource.h>
+- 
+- #include "libudev.h"
+- #include "libudev-private.h"
+-Index: udev-164/udev/udevd.c
+-===================================================================
+---- udev-164.orig/udev/udevd.c	2010-10-13 04:08:29.000000000 -0700
+-+++ udev-164/udev/udevd.c	2012-07-03 10:53:19.214345914 -0700
+-@@ -43,6 +43,7 @@
+- #include <sys/ioctl.h>
+- #include <sys/inotify.h>
+- #include <sys/utsname.h>
+-+#include <sys/resource.h>
+- 
+- #include "udev.h"
+- #include "sd-daemon.h"
+diff --git a/meta/recipes-core/udev/udev/init b/meta/recipes-core/udev/udev/init
+index d521685..ca02abb 100644
+--- a/meta/recipes-core/udev/udev/init
++++ b/meta/recipes-core/udev/udev/init
+@@ -13,7 +13,7 @@ export TZ=/etc/localtime
+ 
+ [ -d /sys/class ] || exit 1
+ [ -r /proc/mounts ] || exit 1
+-[ -x /sbin/udevd ] || exit 1
++[ -x /lib/udev/udevd ] || exit 1
+ [ -f /etc/default/udev-cache ] && . /etc/default/udev-cache
+ [ -f /etc/udev/udev.conf ] && . /etc/udev/udev.conf
+ 
+@@ -70,15 +70,15 @@ kill_udevd > "/dev/null" 2>&1
+ 
+ # trigger the sorted events
+ echo -e '\000\000\000\000' > /proc/sys/kernel/hotplug
+-/sbin/udevd -d
++/lib/udev/udevd -d
+ 
+-/sbin/udevadm control --env=STARTUP=1
++/usr/bin/udevadm control --env=STARTUP=1
+ if [ "$not_first_boot" != "" ];then
+-	/sbin/udevadm trigger --action=add --subsystem-nomatch=tty --subsystem-nomatch=mem --subsystem-nomatch=vc --subsystem-nomatch=vtconsole --subsystem-nomatch=misc --subsystem-nomatch=dcon --subsystem-nomatch=pci_bus  --subsystem-nomatch=graphics	 --subsystem-nomatch=backlight --subsystem-nomatch=video4linux	--subsystem-nomatch=platform
+-	(/sbin/udevadm settle --timeout=3; /sbin/udevadm control --env=STARTUP=)&
++	/usr/bin/udevadm trigger --action=add --subsystem-nomatch=tty --subsystem-nomatch=mem --subsystem-nomatch=vc --subsystem-nomatch=vtconsole --subsystem-nomatch=misc --subsystem-nomatch=dcon --subsystem-nomatch=pci_bus  --subsystem-nomatch=graphics	 --subsystem-nomatch=backlight --subsystem-nomatch=video4linux	--subsystem-nomatch=platform
++	(/usr/bin/udevadm settle --timeout=3; /usr/bin/udevadm control --env=STARTUP=)&
+ else
+-	/sbin/udevadm trigger --action=add
+-	/sbin/udevadm settle
++	/usr/bin/udevadm trigger --action=add
++	/usr/bin/udevadm settle
+ fi
+ 
+ exit 0
+diff --git a/meta/recipes-core/udev/udev/udev-166-v4l1-1.patch b/meta/recipes-core/udev/udev/udev-166-v4l1-1.patch
+deleted file mode 100644
+index 2086fe1..0000000
+--- a/meta/recipes-core/udev/udev/udev-166-v4l1-1.patch
++++ /dev/null
+@@ -1,50 +0,0 @@
+-Upstream-Status: Backport
+-
+-Submitted By:            Matt Burgess <matthew_at_linuxfromscratch_dot_org>
+-Date:                    2011-03-26
+-Initial Package Version: 166
+-Upstream Status:         From upstream
+-Origin:                  http://git.kernel.org/?p=linux/hotplug/udev.git;a=commitdiff;h=4ace8a43ac2cbbd4d6f5c29fc461c3caa8f8545b
+-Description:             Fixes a compilation error caused by the removal of the
+-                         Video for Linux 1 API from Linux kernels from 2.6.38
+-                         onwards.
+-
+-diff -Naur udev-166.orig/extras/v4l_id/v4l_id.c udev-166/extras/v4l_id/v4l_id.c
+---- udev-166.orig/extras/v4l_id/v4l_id.c	2009-12-03 12:45:03.000000000 +0000
+-+++ udev-166/extras/v4l_id/v4l_id.c	2011-03-25 20:26:33.000000000 +0000
+-@@ -28,7 +28,6 @@
+- #include <sys/types.h>
+- #include <sys/time.h>
+- #include <sys/ioctl.h>
+--#include <linux/videodev.h>
+- #include <linux/videodev2.h>
+- 
+- int main (int argc, char *argv[])
+-@@ -39,7 +38,6 @@
+- 	};
+- 	int fd;
+- 	char *device;
+--	struct video_capability v1cap;
+- 	struct v4l2_capability v2cap;
+- 
+- 	while (1) {
+-@@ -82,19 +80,6 @@
+- 		if ((v2cap.capabilities & V4L2_CAP_RADIO) > 0)
+- 			printf("radio:");
+- 		printf("\n");
+--	} else if (ioctl (fd, VIDIOCGCAP, &v1cap) == 0) {
+--		printf("ID_V4L_VERSION=1\n");
+--		printf("ID_V4L_PRODUCT=%s\n", v1cap.name);
+--		printf("ID_V4L_CAPABILITIES=:");
+--		if ((v1cap.type & VID_TYPE_CAPTURE) > 0)
+--			printf("capture:");
+--		if ((v1cap.type & VID_TYPE_OVERLAY) > 0)
+--			printf("video_overlay:");
+--		if (v1cap.audios > 0)
+--			printf("audio:");
+--		if ((v1cap.type & VID_TYPE_TUNER) > 0)
+--			printf("tuner:");
+--		printf("\n");
+- 	}
+- 
+- 	close (fd);
+diff --git a/meta/recipes-core/udev/udev/udev-cache b/meta/recipes-core/udev/udev/udev-cache
+index 9c24e76..0f3d7cd 100644
+--- a/meta/recipes-core/udev/udev/udev-cache
++++ b/meta/recipes-core/udev/udev/udev-cache
+@@ -12,7 +12,7 @@
+ export TZ=/etc/localtime
+ 
+ [ -r /proc/mounts ] || exit 1
+-[ -x /sbin/udevd ] || exit 1
++[ -x /lib/udev/udevd ] || exit 1
+ [ -d /sys/class ] || exit 1
+ 
+ [ -f /etc/default/udev-cache ] && . /etc/default/udev-cache
+diff --git a/meta/recipes-core/udev/udev_164.bb b/meta/recipes-core/udev/udev_164.bb
+deleted file mode 100644
+index 6aa5599..0000000
+--- a/meta/recipes-core/udev/udev_164.bb
++++ /dev/null
+@@ -1,9 +0,0 @@
+-include udev.inc
+-
+-PR = "r15"
+-
+-SRC_URI += "file://udev-166-v4l1-1.patch \
+-            file://include_resource.patch \
+-           "
+-SRC_URI[md5sum] = "fddac2d54761ea34865af9467377ca9f"
+-SRC_URI[sha256sum] = "c12e66280b5e1465f6587a8cfa47d7405c4caa7e52ce5dd13478d04f6ec05e5c"
+diff --git a/meta/recipes-core/udev/udev_182.bb b/meta/recipes-core/udev/udev_182.bb
+new file mode 100644
+index 0000000..6678fe1
+--- /dev/null
++++ b/meta/recipes-core/udev/udev_182.bb
+@@ -0,0 +1,9 @@
++include udev.inc
++
++PR = "r0"
++
++# module-init-tools from kmod_git will provide libkmod runtime
++DEPENDS = "module-init-tools"
++
++SRC_URI[md5sum] = "1b964456177fbf48023dfee7db3a708d"
++SRC_URI[sha256sum] = "7857ed19fafd8f3ca8de410194e8c7336e9eb8a20626ea8a4ba6449b017faba4"
 -- 
-1.7.7
+1.7.9.5
 
 
 
