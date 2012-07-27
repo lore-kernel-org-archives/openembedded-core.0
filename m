@@ -1,40 +1,33 @@
-Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1SuhZB-0000xx-2n
-	for openembedded-core@lists.openembedded.org;
-	Fri, 27 Jul 2012 12:14:41 +0200
-Received: from mail-ob0-f180.google.com ([209.85.214.180])
-	by mga03.intel.com with ESMTP/TLS/RC4-SHA; 27 Jul 2012 03:03:07 -0700
-Received: by obbuo19 with SMTP id uo19so3534356obb.25
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1Suhnj-00016c-Kx for openembedded-core@lists.openembedded.org;
+	Fri, 27 Jul 2012 12:29:43 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6RAIDwa005273
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Jul 2012 03:03:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type:x-gm-message-state;
-	bh=1RSP+vcXbVJ09Q2OfAHh+qLncSuV68C44HVR+L6nYww=;
-	b=AVy9YPJQITHCP0XdGjBB6Hqs1T05cy8NUtdnE+6IA08FN3RUxSdryhU8uGTYf570BW
-	sCuzMTC3bNS+UH48jzjjY3D4ozhGzuR/s+4IsvthgJrr1FQrLHJh7PCtaOvEqUeaoEed
-	3aqoW5lUC8lNux6zrG+up3RPLYO+qzteT1ncyFyykELvUJFTOo7ZgmQMhzaXPwUiok4+
-	MUy1XD/7wlkZi+lf1E5p/1g+oRIu1L18c0d8BtLJp+WeRwlitNXGn02GFVT9H8CxM4te
-	Ya5zn8VkjsTbegTVDzVAy2s1gb2h4sBiJuhoHCKVAXPDsKUzpsuVsOypJA2TupiicIIz
-	S9/A==
-Received: by 10.60.2.99 with SMTP id 3mr2789148oet.20.1343383386833; Fri, 27
-	Jul 2012 03:03:06 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.182.43.99 with HTTP; Fri, 27 Jul 2012 03:02:46 -0700 (PDT)
-In-Reply-To: <501230CF.6090000@intel.com>
-References: <1343283462-25435-1-git-send-email-radu.moisan@intel.com>
-	<lyipdavezy.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<CAJTo0LZKHiL75khHuircKy7Xv0aVW29DJjGaCSxXh+K1p6F1oQ@mail.gmail.com>
-	<501230CF.6090000@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 27 Jul 2012 11:02:46 +0100
-Message-ID: <CAJTo0LaYBnXtHs7ST+HhzSNaTopyxBe3d05YSmwJ6L3e=Yj+aA@mail.gmail.com>
+	Fri, 27 Jul 2012 11:18:13 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 03016-10 for <openembedded-core@lists.openembedded.org>;
+	Fri, 27 Jul 2012 11:18:09 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6RAI2p4005267
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 27 Jul 2012 11:18:04 +0100
+Message-ID: <1343384281.9574.117.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Gm-Message-State: ALoCoQnb9Z6IyqzUWYacgh7iGJGuJ4HLtHHzJdQ0qKBkNu/449nONZLyWjzuqOFSkzJJum8OQKb7
-Subject: Re: [PATCH v3] dbus: include dbus-launch in the main dbus package
+Date: Fri, 27 Jul 2012 11:18:01 +0100
+In-Reply-To: <1343290285-7095-1-git-send-email-mertsas@cisco.com>
+References: <1343290285-7095-1-git-send-email-mertsas@cisco.com>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH] gcc: Make it possbile for armcc and gcc to coexist.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,20 +42,100 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Jul 2012 10:14:41 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 27 Jul 2012 10:29:43 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 27 July 2012 07:10, Radu Moisan <radu.moisan@intel.com> wrote:
-> I've looked into the configure script and found that autolaunch feature is
-> depending on x11, in other words using --with-x/--without-x implies
-> --enable-x11-autolaunch/--disable-x11-autolaunch, so I guess the initial
-> EXTRA_OECONF_X line will do pretty much the same thing.
+On Thu, 2012-07-26 at 10:11 +0200, Martin Ertsaas wrote:
+> Signed-off-by: Martin Ertsaas <mertsas@cisco.com>
+> ---
+>  meta/recipes-devtools/gcc/gcc-4.7.inc              |    2 +-
+>  .../gcc/gcc-4.7/armcc-coexistence.patch.txt        |   12 ++++++++++++
+>  .../recipes-devtools/gcc/gcc-configure-runtime.inc |    6 ++++++
+>  3 files changed, 19 insertions(+), 1 deletions(-)
+>  create mode 100644 meta/recipes-devtools/gcc/gcc-4.7/armcc-coexistence.patch.txt
 
-Using --enable-x11-autolaunch (and --disable) make it obvious what the
-intention is, and is the option exposed by DBus.  --with-x is an
-artifact of using AC_PATH_XTRA, so if dbus decided to use pkg-config
-to find the X headers --with-x will disappear.
+I'm afraid this patch caused some build failures on the automated
+regression testing. Most of the red columns on the autobuilder:
 
-Ross
+http://autobuilder.yoctoproject.org:8010/waterfall
+
+are due to this, e.g.:
+
+http://autobuilder.yoctoproject.org:8010/builders/nightly-non-gpl3/builds/177/steps/shell_23/logs/stdio
+
+The problem is we share a work directory between all the gcc component
+builds (gcc-cross-initial, gcc-cross-intermediate, gcc-cross, libgcc and
+gcc-runtime). For this to work, they all need to have matching SRC_URIs
+which is an assumption this patch breaks. We'll therefore need to find a
+different way to do this. Patches should really be applied by do_patch
+anyway, it confuses things not to do that as if every recipe did this,
+we'd end up in a huge mess.
+
+The patch is also missing an Upstream-Status field, author information
+and a description  of what it does.
+
+Cheers,
+
+Richard
+
+
+
+> diff --git a/meta/recipes-devtools/gcc/gcc-4.7.inc b/meta/recipes-devtools/gcc/gcc-4.7.inc
+> index 43d77ec..709d7d8 100644
+> --- a/meta/recipes-devtools/gcc/gcc-4.7.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-4.7.inc
+> @@ -1,6 +1,6 @@
+>  require gcc-common.inc
+>  
+> -PR = "r7"
+> +PR = "r8"
+>  
+>  # Third digit in PV should be incremented after a minor release
+>  # happens from this branch on gcc e.g. currently its 4.7.1
+> diff --git a/meta/recipes-devtools/gcc/gcc-4.7/armcc-coexistence.patch.txt b/meta/recipes-devtools/gcc/gcc-4.7/armcc-coexistence.patch.txt
+> new file mode 100644
+> index 0000000..61c04ac
+> --- /dev/null
+> +++ b/meta/recipes-devtools/gcc/gcc-4.7/armcc-coexistence.patch.txt
+> @@ -0,0 +1,12 @@
+> +--- /usr/local/oecore-x86_64/sysroots/armv7ahf-vfp-neon-nimbus-linux-gnueabi/usr/include/c++/OE_TARGET_SYS/bits/c++config.h~	2012-06-15 11:47:57.000000000 +0200
+> ++++ /usr/local/oecore-x86_64/sysroots/armv7ahf-vfp-neon-nimbus-linux-gnueabi/usr/include/c++/OE_TARGET_SYS/bits/c++config.h	2012-06-29 11:57:10.000000000 +0200
+> +@@ -1147,7 +1147,9 @@ namespace std
+> + /* #undef _GLIBCXX_VERSION */
+> + 
+> + /* Define if the compiler supports C++11 atomics. */
+> ++#ifndef __ARMCC_VERSION
+> + #define _GLIBCXX_ATOMIC_BUILTINS 1
+> ++#endif
+> + 
+> + /* Define to use concept checking code from the boost libraries. */
+> + /* #undef _GLIBCXX_CONCEPT_CHECKS */
+> diff --git a/meta/recipes-devtools/gcc/gcc-configure-runtime.inc b/meta/recipes-devtools/gcc/gcc-configure-runtime.inc
+> index d40383c..cdb69bf 100644
+> --- a/meta/recipes-devtools/gcc/gcc-configure-runtime.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-configure-runtime.inc
+> @@ -2,6 +2,8 @@ require gcc-configure-common.inc
+>  
+>  CXXFLAGS := "${@oe_filter_out('-fvisibility-inlines-hidden', '${CXXFLAGS}', d)}"
+>  
+> +SRC_URI += "file://armcc-coexistence.patch.txt"
+> +
+>  EXTRA_OECONF_PATHS = " \
+>      --with-gxx-include-dir=${includedir}/c++/ \
+>      --with-sysroot=${STAGING_DIR_TARGET} \
+> @@ -49,6 +51,10 @@ do_install () {
+>  			rmdir --ignore-fail-on-non-empty -p ${D}${datadir}/info
+>  		fi
+>  	done
+> +	cd ${D}${prefix}
+> +	cat ${S}/../armcc-coexistence.patch.txt \
+> +		| sed -e "s|OE_TARGET_SYS|${TARGET_SYS}|g" \
+> +		| patch -p7
+>  	chown -R root:root ${D}
+>  }
+>  
+
+
 
 
