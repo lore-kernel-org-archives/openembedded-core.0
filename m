@@ -1,25 +1,36 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-gg0-f175.google.com ([209.85.161.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <amy.fong@windriver.com>) id 1Sumab-0008Lc-0F
+	(envelope-from <andrea.adami@gmail.com>) id 1Sun6Q-0000Yi-6p
 	for openembedded-core@lists.openembedded.org;
-	Fri, 27 Jul 2012 17:36:29 +0200
-Received: from yow-afong-lx2.ottawa.windriver.com (yow-afong-lx2.wrs.com
-	[128.224.146.164])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q6RFOt2B022485
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NO)
+	Fri, 27 Jul 2012 18:09:22 +0200
+Received: by ggnp4 with SMTP id p4so3034769ggn.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Jul 2012 08:24:56 -0700 (PDT)
-Received: from afong by yow-afong-lx2.ottawa.windriver.com with local (Exim
-	4.80) (envelope-from <amy.fong@windriver.com>) id 1SumPO-0001U9-Mp
-	for openembedded-core@lists.openembedded.org;
-	Fri, 27 Jul 2012 11:24:54 -0400
-Date: Fri, 27 Jul 2012 11:24:54 -0400
-From: Amy Fong <amy.fong@windriver.com>
-To: Openembedded core <openembedded-core@lists.openembedded.org>
-Message-ID: <20120727152454.GA5706@windriver.com>
+	Fri, 27 Jul 2012 08:57:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type; bh=A4uDlGstN5z+LhIK867lenm2DJH2r0JrubXfWSFwwb4=;
+	b=ZDbNZTZfx1vGCI8HJvc8AJxPJFj0LZ5eKcIfFoAw5xPlmtHnWkMVOiA5G3Q8n6Oy9z
+	tqGtju0agvUhM1xHnh377yB+6nk76ifc/2EHhsLUpHPZ+kpE80okZsZ/FeRpcEg7g2WE
+	cl15S5ZHISUr64NUeWg5bXEzTdjN6YwGZkYAyRnElKLKyxQDbjVlafrPWQuhzvygsMhA
+	jcPubd5jho2FiKap8nG3IzoOKmmJ9mwH89puaQ63P5iVPCnrKtbp3TbYpnxgcqj3g4wg
+	BD3go+98BV2kMiUCm/pAwyLsNzKGR1MH5C00jtNjTcGBOg8EeESGvrORQRpE2zeyEAdg
+	8WnA==
 MIME-Version: 1.0
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: [PATCH] openssh: package testing
+Received: by 10.50.170.39 with SMTP id aj7mr5165555igc.32.1343404669068; Fri,
+	27 Jul 2012 08:57:49 -0700 (PDT)
+Received: by 10.64.35.109 with HTTP; Fri, 27 Jul 2012 08:57:49 -0700 (PDT)
+In-Reply-To: <1343394922.9574.135.camel@ted>
+References: <alpine.DEB.2.02.1207261904590.18831@oneiric>
+	<1343388304.9574.118.camel@ted>
+	<alpine.DEB.2.02.1207270801210.14507@oneiric>
+	<CAAQYJAvVkEcV=Bjfwp7JZWeXcrss6vUC3Amts5GGzdUrRBWwEw@mail.gmail.com>
+	<1343394922.9574.135.camel@ted>
+Date: Fri, 27 Jul 2012 17:57:49 +0200
+Message-ID: <CAAQYJAvXzxviPMxLJPe84K=6gAOPhjQ18JTaY6rzazJfe1vsQw@mail.gmail.com>
+From: Andrea Adami <andrea.adami@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: image.bbclass: Update outdated reference to "export IMAGE_BASENAME"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,88 +45,117 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Jul 2012 15:36:29 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Fri, 27 Jul 2012 16:09:22 -0000
+Content-Type: multipart/alternative; boundary=e89a8f23541116e60604c5d1c62c
 
-openssh: package testing
-    
-Package openssh's regression tests
-    
-Signed-off-by: Amy Fong <amy.fong@windriver.com>
----
- openssh-5.9p1/runtests.sh |   29 +++++++++++++++++++++++++++++
- openssh_5.9p1.bb          |    9 +++++++++
- 2 files changed, 38 insertions(+)
+--e89a8f23541116e60604c5d1c62c
+Content-Type: text/plain; charset=ISO-8859-1
 
-diff --git a/meta/recipes-connectivity/openssh/openssh-5.9p1/runtests.sh b/meta/recipes-connectivity/openssh/openssh-5.9p1/runtests.sh
-new file mode 100755
-index 0000000..bb99a05
---- /dev/null
-+++ b/meta/recipes-connectivity/openssh/openssh-5.9p1/runtests.sh
-@@ -0,0 +1,29 @@
-+#!/bin/sh
-+
-+cd regress
-+
-+make \
-+	.OBJDIR=`pwd` \
-+	.CURDIR=`pwd` \
-+	BUILDDIR=`pwd` \
-+	OBJ=`pwd` \
-+	PATH=$PATH:. \
-+	TEST_SHELL=sh \
-+	TEST_SSH_SSH=`which ssh` \
-+	TEST_SSH_SSHD=`which sshd` \
-+	TEST_SSH_SSHAGENT=`which ssh-agent` \
-+	TEST_SSH_SSHADD=`which ssh-add` \
-+	TEST_SSH_SSHKEYGEN=`which ssh-keygen` \
-+	TEST_SSH_SSHPKCS11HELPER="/usr/libexec/ssh-pkcs11-helper" \
-+	TEST_SSH_SSHKEYSCAN=`which ssh-keyscan` \
-+	TEST_SSH_SFTP=`which sftp` \
-+	TEST_SSH_SFTPSERVER="/usr/libexec/sftp-server" \
-+	TEST_SSH_PLINK="plink" \
-+	TEST_SSH_PUTTYGEN="puttygen" \
-+	TEST_SSH_CONCH="conch" \
-+	TEST_SSH_IPV6="yes" \
-+	TEST_SSH_ECC="yes" \
-+	TEST_SSH_SHA256="yes" \
-+	EXEEXT="" \
-+	tests
-+
-diff --git a/meta/recipes-connectivity/openssh/openssh_5.9p1.bb b/meta/recipes-connectivity/openssh/openssh_5.9p1.bb
-index 749f89e..f0880c0 100644
---- a/meta/recipes-connectivity/openssh/openssh_5.9p1.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_5.9p1.bb
-@@ -23,6 +23,7 @@ SRC_URI = "ftp://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar.
-            file://sshd_config \
-            file://ssh_config \
-            file://init \
-+           file://runtests.sh \
-            ${@base_contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)}"
- 
- PAM_SRC_URI = "file://sshd"
-@@ -81,6 +82,9 @@ do_install_append () {
- 	mv ${D}${bindir}/ssh ${D}${bindir}/ssh.${PN}
- 	rm -f ${D}${bindir}/slogin ${D}${datadir}/Ssh.bin
- 	rmdir ${D}/var/run/sshd ${D}/var/run ${D}/var
-+	if [ ! -d ${D}/opt/${PN}-tests/ ]; then mkdir -p ${D}/opt/${PN}-tests/; fi
-+	install -m 755 ${WORKDIR}/runtests.sh ${D}/opt/${PN}-tests/
-+	cp -ra ${S}/regress ${D}/opt/${PN}-tests/
- }
- 
- ALLOW_EMPTY_${PN} = "1"
-@@ -95,6 +99,11 @@ FILES_${PN}-sftp-server = "${libexecdir}/sftp-server"
- FILES_${PN}-misc = "${bindir}/ssh* ${libexecdir}/ssh*"
- FILES_${PN}-keygen = "${bindir}/ssh-keygen"
- 
-+PACKAGES += "${PN}-testing"
-+DEPENDS_${PN}-testing += "${PN}-keygen ${PN}-scp ${PN}-ssh ${PN}-sshd ${PN}-sftp ${PN}-misc ${PN}-sftp-server"
-+FILES_${PN}-testing += "/opt/${PN}-tests/*"
-+FILES_${PN}-dbg += "/opt/${PN}-tests/.debug/*"
-+
- RDEPENDS_${PN} += "${PN}-scp ${PN}-ssh ${PN}-sshd ${PN}-keygen"
- DEPENDS_${PN}-sshd += "update-rc.d"
- RDEPENDS_${PN}-sshd += "update-rc.d ${PN}-keygen"
+On Fri, Jul 27, 2012 at 3:15 PM, Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
+
+> On Fri, 2012-07-27 at 14:53 +0200, Andrea Adami wrote:
+>
+> >
+> > By the way,
+> >
+> > we have followed pedissequally and re-introduced 'export
+> > IMAGE_BASENAME' [1] when we adapted our initramfs image for oe-core,
+> > even though we had built whitout until then, both in oe-classic and in
+> > oe-core.
+> >
+> > Regards
+> >
+> > Andrea
+> >
+> > [1]
+> >
+> http://cgit.openembedded.org/meta-handheld/commit/?id=3021e1fc380067666a63fa5b2bdfc5fd16282973
+>
+> At this point I don't know if this is necessary or not. It might be
+> unnecessary but we would need someone to confirm that before we remove
+> it.
+>
+> Cheers,
+>
+> Richard
+>
+>
+>
+I see in bitbake.conf   IMAGE_BASENAME = "${PN}"
+
+This is enough in the default case.
+
+Cheers
+Andrea
 
 
+
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+
+--e89a8f23541116e60604c5d1c62c
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
+
+<div class=3D"gmail_quote">On Fri, Jul 27, 2012 at 3:15 PM, Richard Purdie =
+<span dir=3D"ltr">&lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org"=
+ target=3D"_blank">richard.purdie@linuxfoundation.org</a>&gt;</span> wrote:=
+<br><blockquote class=3D"gmail_quote" style=3D"margin-top:0px;margin-right:=
+0px;margin-bottom:0px;margin-left:0.8ex;border-left-width:1px;border-left-c=
+olor:rgb(204,204,204);border-left-style:solid;padding-left:1ex">
+<div class=3D"im">On Fri, 2012-07-27 at 14:53 +0200, Andrea Adami wrote:<br=
+>
+<br>
+&gt;<br>
+&gt; By the way,<br>
+&gt;<br>
+&gt; we have followed pedissequally and re-introduced &#39;export<br>
+&gt; IMAGE_BASENAME&#39; [1] when we adapted our initramfs image for oe-cor=
+e,<br>
+&gt; even though we had built whitout until then, both in oe-classic and in=
+<br>
+&gt; oe-core.<br>
+&gt;<br>
+&gt; Regards<br>
+&gt;<br>
+&gt; Andrea<br>
+&gt;<br>
+&gt; [1]<br>
+&gt; <a href=3D"http://cgit.openembedded.org/meta-handheld/commit/?id=3D302=
+1e1fc380067666a63fa5b2bdfc5fd16282973" target=3D"_blank">http://cgit.openem=
+bedded.org/meta-handheld/commit/?id=3D3021e1fc380067666a63fa5b2bdfc5fd16282=
+973</a><br>
+
+<br>
+</div>At this point I don&#39;t know if this is necessary or not. It might =
+be<br>
+unnecessary but we would need someone to confirm that before we remove<br>
+it.<br>
+<br>
+Cheers,<br>
+<br>
+Richard<br>
+<div class=3D"HOEnZb"><div class=3D"h5"><br>
+<br></div></div></blockquote><div><br></div><div>I see in bitbake.conf =A0=
+=A0IMAGE_BASENAME =3D &quot;${PN}&quot;</div><div><br></div><div>This is en=
+ough in the default case.</div><div><br></div><div>Cheers</div><div>Andrea<=
+/div>
+<div><br></div><div>=A0</div><blockquote class=3D"gmail_quote" style=3D"mar=
+gin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:0.8ex;border-lef=
+t-width:1px;border-left-color:rgb(204,204,204);border-left-style:solid;padd=
+ing-left:1ex">
+<div class=3D"HOEnZb"><div class=3D"h5">
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
+re@lists.openembedded.org</a><br>
+<a href=3D"http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded=
+-core" target=3D"_blank">http://lists.linuxtogo.org/cgi-bin/mailman/listinf=
+o/openembedded-core</a><br>
+</div></div></blockquote></div><br>
+
+--e89a8f23541116e60604c5d1c62c--
