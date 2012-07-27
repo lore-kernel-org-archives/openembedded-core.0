@@ -1,33 +1,30 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Suhnj-00016c-Kx for openembedded-core@lists.openembedded.org;
-	Fri, 27 Jul 2012 12:29:43 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6RAIDwa005273
+Received: from mail.windriver.com ([147.11.1.11])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <Liezhi.Yang@windriver.com>) id 1Sui1F-0001Fx-TF
+	for openembedded-core@lists.openembedded.org;
+	Fri, 27 Jul 2012 12:43:46 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q6RAW9cS016372
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Jul 2012 11:18:13 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 03016-10 for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Jul 2012 11:18:09 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6RAI2p4005267
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Jul 2012 11:18:04 +0100
-Message-ID: <1343384281.9574.117.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Fri, 27 Jul 2012 03:32:09 -0700 (PDT)
+Received: from [128.224.163.142] (128.224.163.142) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.1.255.0;
+	Fri, 27 Jul 2012 03:32:08 -0700
+Message-ID: <50126E27.4060906@windriver.com>
+Date: Fri, 27 Jul 2012 18:32:07 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:13.0) Gecko/20120615 Thunderbird/13.0.1
+MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Fri, 27 Jul 2012 11:18:01 +0100
-In-Reply-To: <1343290285-7095-1-git-send-email-mertsas@cisco.com>
-References: <1343290285-7095-1-git-send-email-mertsas@cisco.com>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH] gcc: Make it possbile for armcc and gcc to coexist.
+References: <cover.1343124846.git.liezhi.yang@windriver.com>
+	<7affb352c173c353df0b69002f3ca0f5ee0502cf.1343124846.git.liezhi.yang@windriver.com>
+	<1343126992.22222.11.camel@ted> <5011EC61.3050006@windriver.com>
+In-Reply-To: <5011EC61.3050006@windriver.com>
+Cc: Zhenfeng.Zhao@windriver.com
+Subject: Re: [PATCH 1/1] package-index: inherit pythonnative
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,100 +39,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Jul 2012 10:29:43 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 27 Jul 2012 10:43:46 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2012-07-26 at 10:11 +0200, Martin Ertsaas wrote:
-> Signed-off-by: Martin Ertsaas <mertsas@cisco.com>
-> ---
->  meta/recipes-devtools/gcc/gcc-4.7.inc              |    2 +-
->  .../gcc/gcc-4.7/armcc-coexistence.patch.txt        |   12 ++++++++++++
->  .../recipes-devtools/gcc/gcc-configure-runtime.inc |    6 ++++++
->  3 files changed, 19 insertions(+), 1 deletions(-)
->  create mode 100644 meta/recipes-devtools/gcc/gcc-4.7/armcc-coexistence.patch.txt
 
-I'm afraid this patch caused some build failures on the automated
-regression testing. Most of the red columns on the autobuilder:
+After talk with Richard, we'd better move the scripts/rpm-createsolvedb.py to
+meta/recipes-support/createrepo/createrepo_0.4.11.bb, I will send an update
+sooner, the current fix can be a workaround.
 
-http://autobuilder.yoctoproject.org:8010/waterfall
+// Robert
 
-are due to this, e.g.:
-
-http://autobuilder.yoctoproject.org:8010/builders/nightly-non-gpl3/builds/177/steps/shell_23/logs/stdio
-
-The problem is we share a work directory between all the gcc component
-builds (gcc-cross-initial, gcc-cross-intermediate, gcc-cross, libgcc and
-gcc-runtime). For this to work, they all need to have matching SRC_URIs
-which is an assumption this patch breaks. We'll therefore need to find a
-different way to do this. Patches should really be applied by do_patch
-anyway, it confuses things not to do that as if every recipe did this,
-we'd end up in a huge mess.
-
-The patch is also missing an Upstream-Status field, author information
-and a description  of what it does.
-
-Cheers,
-
-Richard
-
-
-
-> diff --git a/meta/recipes-devtools/gcc/gcc-4.7.inc b/meta/recipes-devtools/gcc/gcc-4.7.inc
-> index 43d77ec..709d7d8 100644
-> --- a/meta/recipes-devtools/gcc/gcc-4.7.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-4.7.inc
-> @@ -1,6 +1,6 @@
->  require gcc-common.inc
->  
-> -PR = "r7"
-> +PR = "r8"
->  
->  # Third digit in PV should be incremented after a minor release
->  # happens from this branch on gcc e.g. currently its 4.7.1
-> diff --git a/meta/recipes-devtools/gcc/gcc-4.7/armcc-coexistence.patch.txt b/meta/recipes-devtools/gcc/gcc-4.7/armcc-coexistence.patch.txt
-> new file mode 100644
-> index 0000000..61c04ac
-> --- /dev/null
-> +++ b/meta/recipes-devtools/gcc/gcc-4.7/armcc-coexistence.patch.txt
-> @@ -0,0 +1,12 @@
-> +--- /usr/local/oecore-x86_64/sysroots/armv7ahf-vfp-neon-nimbus-linux-gnueabi/usr/include/c++/OE_TARGET_SYS/bits/c++config.h~	2012-06-15 11:47:57.000000000 +0200
-> ++++ /usr/local/oecore-x86_64/sysroots/armv7ahf-vfp-neon-nimbus-linux-gnueabi/usr/include/c++/OE_TARGET_SYS/bits/c++config.h	2012-06-29 11:57:10.000000000 +0200
-> +@@ -1147,7 +1147,9 @@ namespace std
-> + /* #undef _GLIBCXX_VERSION */
-> + 
-> + /* Define if the compiler supports C++11 atomics. */
-> ++#ifndef __ARMCC_VERSION
-> + #define _GLIBCXX_ATOMIC_BUILTINS 1
-> ++#endif
-> + 
-> + /* Define to use concept checking code from the boost libraries. */
-> + /* #undef _GLIBCXX_CONCEPT_CHECKS */
-> diff --git a/meta/recipes-devtools/gcc/gcc-configure-runtime.inc b/meta/recipes-devtools/gcc/gcc-configure-runtime.inc
-> index d40383c..cdb69bf 100644
-> --- a/meta/recipes-devtools/gcc/gcc-configure-runtime.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-configure-runtime.inc
-> @@ -2,6 +2,8 @@ require gcc-configure-common.inc
->  
->  CXXFLAGS := "${@oe_filter_out('-fvisibility-inlines-hidden', '${CXXFLAGS}', d)}"
->  
-> +SRC_URI += "file://armcc-coexistence.patch.txt"
-> +
->  EXTRA_OECONF_PATHS = " \
->      --with-gxx-include-dir=${includedir}/c++/ \
->      --with-sysroot=${STAGING_DIR_TARGET} \
-> @@ -49,6 +51,10 @@ do_install () {
->  			rmdir --ignore-fail-on-non-empty -p ${D}${datadir}/info
->  		fi
->  	done
-> +	cd ${D}${prefix}
-> +	cat ${S}/../armcc-coexistence.patch.txt \
-> +		| sed -e "s|OE_TARGET_SYS|${TARGET_SYS}|g" \
-> +		| patch -p7
->  	chown -R root:root ${D}
->  }
->  
-
+On 07/27/2012 09:18 AM, Robert Yang wrote:
+>
+> Hi Richard,
+>
+> There was something wrong with my mail sever, I resend the answer now.
+>
+> On 07/24/2012 06:49 PM, Richard Purdie wrote:
+>> On Tue, 2012-07-24 at 18:19 +0800, Robert Yang wrote:
+>>> The native python binary has been moved from usr/bin/python to
+>>> usr/bin/python-native/python, the recipe which needs python-native
+>>> should "inherit pythonnative", otherwise there would be errors when the
+>>> python script runs.
+>>>
+>>> [YOCTO #2822]
+>>>
+>>> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+>>> ---
+>>>   meta/recipes-core/meta/package-index.bb |    2 ++
+>>>   1 files changed, 2 insertions(+), 0 deletions(-)
+>>
+>> Which part of this recipe needs python-native? Shouldn't scripts which
+>> need pythonnative be using the path to the python interpreter
+>> explicitly?
+>>
+>
+> It is the poky/scripts/rpm-createsolvedb.py which needs python-native,
+> I think that if we want to use /path/to/python-native/python to run
+> rpm-createsolvedb.py or create a wrapper for it, we should put the
+> rpm-createsolvedb.py into a recipe. So I just inherit pythonnative
+> in package-index.bb to make it work. I wonder whether this will cause
+> something wrong, please?
+>
+> // Robert
+>
+>
+>> Cheers,
+>>
+>> Richard
+>>
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>>
+>>
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+>
 
 
 
