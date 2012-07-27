@@ -1,30 +1,23 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1SujR1-00048p-9S for openembedded-core@lists.openembedded.org;
-	Fri, 27 Jul 2012 14:14:24 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6RC2pRq005889
+Received: from mail.windriver.com ([147.11.1.11])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <Rongqing.Li@windriver.com>) id 1SujRI-0004BP-Ps
+	for openembedded-core@lists.openembedded.org;
+	Fri, 27 Jul 2012 14:14:41 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q6RC37Ut025788
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Jul 2012 13:02:51 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 04762-08 for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Jul 2012 13:02:47 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6RC2fvM005883
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Jul 2012 13:02:42 +0100
-Message-ID: <1343390561.9574.129.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Fri, 27 Jul 2012 13:02:41 +0100
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: [PATCH] polkit/vte/gupnp/gssdp: Replace introspection hacks with gobject-introspection-stub
+	Fri, 27 Jul 2012 05:03:07 -0700 (PDT)
+Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.163) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.1.255.0; Fri, 27 Jul 2012 05:03:06 -0700
+From: <rongqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 27 Jul 2012 20:03:07 +0800
+Message-ID: <1343390587-27506-1-git-send-email-rongqing.li@windriver.com>
+X-Mailer: git-send-email 1.7.4.1
+MIME-Version: 1.0
+Subject: [PATCH 1/1] usbutils 0.91: Fix NULL pointer crash.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,530 +32,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Jul 2012 12:14:24 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 27 Jul 2012 12:14:41 -0000
+Content-Type: text/plain
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Roy.Li <rongqing.li@windriver.com>
+
+[YOCTO #2847]
+
+Before use usbbuslist, we should check if it is valid.
+
+Signed-off-by: Roy.Li <rongqing.li@windriver.com>
 ---
-diff --git a/meta/recipes-connectivity/gupnp/gssdp-0.10.0/introspection.patch b/meta/recipes-connectivity/gupnp/gssdp-0.10.0/introspection.patch
-deleted file mode 100644
-index 39c1502..0000000
---- a/meta/recipes-connectivity/gupnp/gssdp-0.10.0/introspection.patch
-+++ b/dev/null
-@@ -1,104 +0,0 @@
--Copied from gobject-introspection/m4/introspection.m4
--
--Upstream-Status: Inappropriate [configuration]
--
--Signed-off-By: Dongxiao Xu <dongxiao.xu@intel.com>
--
--diff -ruN gssdp-0.9.0-orig/m4/introspection.m4 gssdp-0.9.0/m4/introspection.m4
----- gssdp-0.9.0-orig/m4/introspection.m4	1970-01-01 08:00:00.000000000 +0800
--+++ gssdp-0.9.0/m4/introspection.m4	2010-12-06 11:08:16.000000000 +0800
--@@ -0,0 +1,94 @@
--+dnl -*- mode: autoconf -*-
--+dnl Copyright 2009 Johan Dahlin
--+dnl
--+dnl This file is free software; the author(s) gives unlimited
--+dnl permission to copy and/or distribute it, with or without
--+dnl modifications, as long as this notice is preserved.
--+dnl
--+
--+# serial 1
--+
--+m4_define([_GOBJECT_INTROSPECTION_CHECK_INTERNAL],
--+[
--+    AC_BEFORE([AC_PROG_LIBTOOL],[$0])dnl setup libtool first
--+    AC_BEFORE([AM_PROG_LIBTOOL],[$0])dnl setup libtool first
--+    AC_BEFORE([LT_INIT],[$0])dnl setup libtool first
--+
--+    dnl enable/disable introspection
--+    m4_if([$2], [require],
--+    [dnl
--+        enable_introspection=yes
--+    ],[dnl
--+        AC_ARG_ENABLE(introspection,
--+                  AS_HELP_STRING([--enable-introspection[=@<:@no/auto/yes@:>@]],
--+                                 [Enable introspection for this build]),, 
--+                                 [enable_introspection=auto])
--+    ])dnl
--+
--+    AC_MSG_CHECKING([for gobject-introspection])
--+
--+    dnl presence/version checking
--+    AS_CASE([$enable_introspection],
--+    [no], [dnl
--+        found_introspection="no (disabled, use --enable-introspection to enable)"
--+    ],dnl
--+    [yes],[dnl
--+        PKG_CHECK_EXISTS([gobject-introspection-1.0],,
--+                         AC_MSG_ERROR([gobject-introspection-1.0 is not installed]))
--+        PKG_CHECK_EXISTS([gobject-introspection-1.0 >= $1],
--+                         found_introspection=yes,
--+                         AC_MSG_ERROR([You need to have gobject-introspection >= $1 installed to build AC_PACKAGE_NAME]))
--+    ],dnl
--+    [auto],[dnl
--+        PKG_CHECK_EXISTS([gobject-introspection-1.0 >= $1], found_introspection=yes, found_introspection=no)
--+    ],dnl
--+    [dnl	
--+        AC_MSG_ERROR([invalid argument passed to --enable-introspection, should be one of @<:@no/auto/yes@:>@])
--+    ])dnl
--+
--+    AC_MSG_RESULT([$found_introspection])
--+
--+    INTROSPECTION_SCANNER=
--+    INTROSPECTION_COMPILER=
--+    INTROSPECTION_GENERATE=
--+    INTROSPECTION_GIRDIR=
--+    INTROSPECTION_TYPELIBDIR=
--+    if test "x$found_introspection" = "xyes"; then
--+       INTROSPECTION_SCANNER=`$PKG_CONFIG --variable=g_ir_scanner gobject-introspection-1.0`
--+       INTROSPECTION_COMPILER=`$PKG_CONFIG --variable=g_ir_compiler gobject-introspection-1.0`
--+       INTROSPECTION_GENERATE=`$PKG_CONFIG --variable=g_ir_generate gobject-introspection-1.0`
--+       INTROSPECTION_GIRDIR=`$PKG_CONFIG --variable=girdir gobject-introspection-1.0`
--+       INTROSPECTION_TYPELIBDIR="$($PKG_CONFIG --variable=typelibdir gobject-introspection-1.0)"
--+       INTROSPECTION_CFLAGS=`$PKG_CONFIG --cflags gobject-introspection-1.0`
--+       INTROSPECTION_LIBS=`$PKG_CONFIG --libs gobject-introspection-1.0`
--+       INTROSPECTION_MAKEFILE=`$PKG_CONFIG --variable=datadir gobject-introspection-1.0`/gobject-introspection-1.0/Makefile.introspection
--+    fi
--+    AC_SUBST(INTROSPECTION_SCANNER)
--+    AC_SUBST(INTROSPECTION_COMPILER)
--+    AC_SUBST(INTROSPECTION_GENERATE)
--+    AC_SUBST(INTROSPECTION_GIRDIR)
--+    AC_SUBST(INTROSPECTION_TYPELIBDIR)
--+    AC_SUBST(INTROSPECTION_CFLAGS)
--+    AC_SUBST(INTROSPECTION_LIBS)
--+    AC_SUBST(INTROSPECTION_MAKEFILE)
--+
--+    AM_CONDITIONAL(HAVE_INTROSPECTION, test "x$found_introspection" = "xyes")
--+])
--+
--+
--+dnl Usage:
--+dnl   GOBJECT_INTROSPECTION_CHECK([minimum-g-i-version])
--+
--+AC_DEFUN([GOBJECT_INTROSPECTION_CHECK],
--+[
--+  _GOBJECT_INTROSPECTION_CHECK_INTERNAL([$1])
--+])
--+
--+dnl Usage:
--+dnl   GOBJECT_INTROSPECTION_REQUIRE([minimum-g-i-version])
--+
--+
--+AC_DEFUN([GOBJECT_INTROSPECTION_REQUIRE],
--+[
--+  _GOBJECT_INTROSPECTION_CHECK_INTERNAL([$1], [require])
--+])
-diff --git a/meta/recipes-connectivity/gupnp/gssdp_0.10.0.bb b/meta/recipes-connectivity/gupnp/gssdp_0.10.0.bb
-index dcc40b8..f3494e7 100644
---- a/meta/recipes-connectivity/gupnp/gssdp_0.10.0.bb
-+++ b/meta/recipes-connectivity/gupnp/gssdp_0.10.0.bb
-@@ -2,10 +2,9 @@ SUMMARY = "Resource discovery and announcement over SSDP"
- DESCRIPTION = "GSSDP implements resource discovery and announcement over SSDP (Simpe Service Discovery Protocol)."
- LICENSE = "LGPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=3bf50002aefd002f49e7bb854063f7e7"
--DEPENDS = "glib-2.0 libsoup-2.4 libglade"
-+DEPENDS = "glib-2.0 libsoup-2.4 libglade gobject-introspection-stub"
- 
--SRC_URI = "http://gupnp.org/sites/all/files/sources/${BPN}-${PV}.tar.gz \
--           file://introspection.patch"
-+SRC_URI = "http://gupnp.org/sites/all/files/sources/${BPN}-${PV}.tar.gz"
- 
- SRC_URI[md5sum] = "725c32e8f92a072cc34f0e091937df2a"
- SRC_URI[sha256sum] = "8eaab799f699836770ec2fcc08abfef2f824a82ae959c6af7b39ffb6968b9fd7"
-diff --git a/meta/recipes-connectivity/gupnp/gupnp-0.16.1/introspection.patch b/meta/recipes-connectivity/gupnp/gupnp-0.16.1/introspection.patch
-deleted file mode 100644
-index 86d57a7..0000000
---- a/meta/recipes-connectivity/gupnp/gupnp-0.16.1/introspection.patch
-+++ b/dev/null
-@@ -1,104 +0,0 @@
--Copied from gobject-introspection/m4/introspection.m4
--
--Upstream-Status: Inappropriate [configuration]
--
--Signed-off-By: Dongxiao Xu <dongxiao.xu@intel.com>
--
--diff -ruN gupnp-0.16.1-orig/m4/introspection.m4 gupnp-0.16.1/m4/introspection.m4
----- gupnp-0.16.1-orig/m4/introspection.m4	1970-01-01 08:00:00.000000000 +0800
--+++ gupnp-0.16.1/m4/introspection.m4	2010-12-06 11:08:16.000000000 +0800
--@@ -0,0 +1,94 @@
--+dnl -*- mode: autoconf -*-
--+dnl Copyright 2009 Johan Dahlin
--+dnl
--+dnl This file is free software; the author(s) gives unlimited
--+dnl permission to copy and/or distribute it, with or without
--+dnl modifications, as long as this notice is preserved.
--+dnl
--+
--+# serial 1
--+
--+m4_define([_GOBJECT_INTROSPECTION_CHECK_INTERNAL],
--+[
--+    AC_BEFORE([AC_PROG_LIBTOOL],[$0])dnl setup libtool first
--+    AC_BEFORE([AM_PROG_LIBTOOL],[$0])dnl setup libtool first
--+    AC_BEFORE([LT_INIT],[$0])dnl setup libtool first
--+
--+    dnl enable/disable introspection
--+    m4_if([$2], [require],
--+    [dnl
--+        enable_introspection=yes
--+    ],[dnl
--+        AC_ARG_ENABLE(introspection,
--+                  AS_HELP_STRING([--enable-introspection[=@<:@no/auto/yes@:>@]],
--+                                 [Enable introspection for this build]),, 
--+                                 [enable_introspection=auto])
--+    ])dnl
--+
--+    AC_MSG_CHECKING([for gobject-introspection])
--+
--+    dnl presence/version checking
--+    AS_CASE([$enable_introspection],
--+    [no], [dnl
--+        found_introspection="no (disabled, use --enable-introspection to enable)"
--+    ],dnl
--+    [yes],[dnl
--+        PKG_CHECK_EXISTS([gobject-introspection-1.0],,
--+                         AC_MSG_ERROR([gobject-introspection-1.0 is not installed]))
--+        PKG_CHECK_EXISTS([gobject-introspection-1.0 >= $1],
--+                         found_introspection=yes,
--+                         AC_MSG_ERROR([You need to have gobject-introspection >= $1 installed to build AC_PACKAGE_NAME]))
--+    ],dnl
--+    [auto],[dnl
--+        PKG_CHECK_EXISTS([gobject-introspection-1.0 >= $1], found_introspection=yes, found_introspection=no)
--+    ],dnl
--+    [dnl	
--+        AC_MSG_ERROR([invalid argument passed to --enable-introspection, should be one of @<:@no/auto/yes@:>@])
--+    ])dnl
--+
--+    AC_MSG_RESULT([$found_introspection])
--+
--+    INTROSPECTION_SCANNER=
--+    INTROSPECTION_COMPILER=
--+    INTROSPECTION_GENERATE=
--+    INTROSPECTION_GIRDIR=
--+    INTROSPECTION_TYPELIBDIR=
--+    if test "x$found_introspection" = "xyes"; then
--+       INTROSPECTION_SCANNER=`$PKG_CONFIG --variable=g_ir_scanner gobject-introspection-1.0`
--+       INTROSPECTION_COMPILER=`$PKG_CONFIG --variable=g_ir_compiler gobject-introspection-1.0`
--+       INTROSPECTION_GENERATE=`$PKG_CONFIG --variable=g_ir_generate gobject-introspection-1.0`
--+       INTROSPECTION_GIRDIR=`$PKG_CONFIG --variable=girdir gobject-introspection-1.0`
--+       INTROSPECTION_TYPELIBDIR="$($PKG_CONFIG --variable=typelibdir gobject-introspection-1.0)"
--+       INTROSPECTION_CFLAGS=`$PKG_CONFIG --cflags gobject-introspection-1.0`
--+       INTROSPECTION_LIBS=`$PKG_CONFIG --libs gobject-introspection-1.0`
--+       INTROSPECTION_MAKEFILE=`$PKG_CONFIG --variable=datadir gobject-introspection-1.0`/gobject-introspection-1.0/Makefile.introspection
--+    fi
--+    AC_SUBST(INTROSPECTION_SCANNER)
--+    AC_SUBST(INTROSPECTION_COMPILER)
--+    AC_SUBST(INTROSPECTION_GENERATE)
--+    AC_SUBST(INTROSPECTION_GIRDIR)
--+    AC_SUBST(INTROSPECTION_TYPELIBDIR)
--+    AC_SUBST(INTROSPECTION_CFLAGS)
--+    AC_SUBST(INTROSPECTION_LIBS)
--+    AC_SUBST(INTROSPECTION_MAKEFILE)
--+
--+    AM_CONDITIONAL(HAVE_INTROSPECTION, test "x$found_introspection" = "xyes")
--+])
--+
--+
--+dnl Usage:
--+dnl   GOBJECT_INTROSPECTION_CHECK([minimum-g-i-version])
--+
--+AC_DEFUN([GOBJECT_INTROSPECTION_CHECK],
--+[
--+  _GOBJECT_INTROSPECTION_CHECK_INTERNAL([$1])
--+])
--+
--+dnl Usage:
--+dnl   GOBJECT_INTROSPECTION_REQUIRE([minimum-g-i-version])
--+
--+
--+AC_DEFUN([GOBJECT_INTROSPECTION_REQUIRE],
--+[
--+  _GOBJECT_INTROSPECTION_CHECK_INTERNAL([$1], [require])
--+])
-diff --git a/meta/recipes-connectivity/gupnp/gupnp_0.16.1.bb b/meta/recipes-connectivity/gupnp/gupnp_0.16.1.bb
-index 8460c16..84e0679 100644
---- a/meta/recipes-connectivity/gupnp/gupnp_0.16.1.bb
-+++ b/meta/recipes-connectivity/gupnp/gupnp_0.16.1.bb
-@@ -3,10 +3,9 @@ DESCRIPTION = "GUPnP is an elegant, object-oriented open source framework for cr
- LICENSE = "LGPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=3bf50002aefd002f49e7bb854063f7e7 \
-                     file://libgupnp/gupnp.h;beginline=1;endline=20;md5=28c49b17d623afc3335efc2e511879e1"
--DEPENDS = "e2fsprogs gssdp libsoup-2.4 libxml2 gnome-icon-theme"
-+DEPENDS = "e2fsprogs gssdp libsoup-2.4 libxml2 gnome-icon-theme gobject-introspection-stub"
- 
--SRC_URI = "http://gupnp.org/sites/all/files/sources/${BPN}-${PV}.tar.gz \
--           file://introspection.patch"
-+SRC_URI = "http://gupnp.org/sites/all/files/sources/${BPN}-${PV}.tar.gz"
- 
- SRC_URI[md5sum] = "021bb237741532af4bca50157ff326e4"
- SRC_URI[sha256sum] = "f01a1f4fd36ce161a3df29fa83e1a0a2fb40d3c9f30f6b403e7791688ad24cfe"
-diff --git a/meta/recipes-extended/polkit/polkit-0.104/introspection.patch b/meta/recipes-extended/polkit/polkit-0.104/introspection.patch
-deleted file mode 100644
-index 58c27ab..0000000
---- a/meta/recipes-extended/polkit/polkit-0.104/introspection.patch
-+++ b/dev/null
-@@ -1,104 +0,0 @@
--Copied from gobject-introspection/m4/introspection.m4
--
--Upstream-Status: Inappropriate [configuration]
--
--Signed-off-By: Dongxiao Xu <dongxiao.xu@intel.com>
--
--diff -ruN polkit-0.101-orig/m4/introspection.m4 polkit-0.101/m4/introspection.m4
----- polkit-0.101-orig/m4/introspection.m4	1970-01-01 08:00:00.000000000 +0800
--+++ polkit-0.101/m4/introspection.m4	2010-12-06 11:08:16.000000000 +0800
--@@ -0,0 +1,94 @@
--+dnl -*- mode: autoconf -*-
--+dnl Copyright 2009 Johan Dahlin
--+dnl
--+dnl This file is free software; the author(s) gives unlimited
--+dnl permission to copy and/or distribute it, with or without
--+dnl modifications, as long as this notice is preserved.
--+dnl
--+
--+# serial 1
--+
--+m4_define([_GOBJECT_INTROSPECTION_CHECK_INTERNAL],
--+[
--+    AC_BEFORE([AC_PROG_LIBTOOL],[$0])dnl setup libtool first
--+    AC_BEFORE([AM_PROG_LIBTOOL],[$0])dnl setup libtool first
--+    AC_BEFORE([LT_INIT],[$0])dnl setup libtool first
--+
--+    dnl enable/disable introspection
--+    m4_if([$2], [require],
--+    [dnl
--+        enable_introspection=yes
--+    ],[dnl
--+        AC_ARG_ENABLE(introspection,
--+                  AS_HELP_STRING([--enable-introspection[=@<:@no/auto/yes@:>@]],
--+                                 [Enable introspection for this build]),, 
--+                                 [enable_introspection=auto])
--+    ])dnl
--+
--+    AC_MSG_CHECKING([for gobject-introspection])
--+
--+    dnl presence/version checking
--+    AS_CASE([$enable_introspection],
--+    [no], [dnl
--+        found_introspection="no (disabled, use --enable-introspection to enable)"
--+    ],dnl
--+    [yes],[dnl
--+        PKG_CHECK_EXISTS([gobject-introspection-1.0],,
--+                         AC_MSG_ERROR([gobject-introspection-1.0 is not installed]))
--+        PKG_CHECK_EXISTS([gobject-introspection-1.0 >= $1],
--+                         found_introspection=yes,
--+                         AC_MSG_ERROR([You need to have gobject-introspection >= $1 installed to build AC_PACKAGE_NAME]))
--+    ],dnl
--+    [auto],[dnl
--+        PKG_CHECK_EXISTS([gobject-introspection-1.0 >= $1], found_introspection=yes, found_introspection=no)
--+    ],dnl
--+    [dnl	
--+        AC_MSG_ERROR([invalid argument passed to --enable-introspection, should be one of @<:@no/auto/yes@:>@])
--+    ])dnl
--+
--+    AC_MSG_RESULT([$found_introspection])
--+
--+    INTROSPECTION_SCANNER=
--+    INTROSPECTION_COMPILER=
--+    INTROSPECTION_GENERATE=
--+    INTROSPECTION_GIRDIR=
--+    INTROSPECTION_TYPELIBDIR=
--+    if test "x$found_introspection" = "xyes"; then
--+       INTROSPECTION_SCANNER=`$PKG_CONFIG --variable=g_ir_scanner gobject-introspection-1.0`
--+       INTROSPECTION_COMPILER=`$PKG_CONFIG --variable=g_ir_compiler gobject-introspection-1.0`
--+       INTROSPECTION_GENERATE=`$PKG_CONFIG --variable=g_ir_generate gobject-introspection-1.0`
--+       INTROSPECTION_GIRDIR=`$PKG_CONFIG --variable=girdir gobject-introspection-1.0`
--+       INTROSPECTION_TYPELIBDIR="$($PKG_CONFIG --variable=typelibdir gobject-introspection-1.0)"
--+       INTROSPECTION_CFLAGS=`$PKG_CONFIG --cflags gobject-introspection-1.0`
--+       INTROSPECTION_LIBS=`$PKG_CONFIG --libs gobject-introspection-1.0`
--+       INTROSPECTION_MAKEFILE=`$PKG_CONFIG --variable=datadir gobject-introspection-1.0`/gobject-introspection-1.0/Makefile.introspection
--+    fi
--+    AC_SUBST(INTROSPECTION_SCANNER)
--+    AC_SUBST(INTROSPECTION_COMPILER)
--+    AC_SUBST(INTROSPECTION_GENERATE)
--+    AC_SUBST(INTROSPECTION_GIRDIR)
--+    AC_SUBST(INTROSPECTION_TYPELIBDIR)
--+    AC_SUBST(INTROSPECTION_CFLAGS)
--+    AC_SUBST(INTROSPECTION_LIBS)
--+    AC_SUBST(INTROSPECTION_MAKEFILE)
--+
--+    AM_CONDITIONAL(HAVE_INTROSPECTION, test "x$found_introspection" = "xyes")
--+])
--+
--+
--+dnl Usage:
--+dnl   GOBJECT_INTROSPECTION_CHECK([minimum-g-i-version])
--+
--+AC_DEFUN([GOBJECT_INTROSPECTION_CHECK],
--+[
--+  _GOBJECT_INTROSPECTION_CHECK_INTERNAL([$1])
--+])
--+
--+dnl Usage:
--+dnl   GOBJECT_INTROSPECTION_REQUIRE([minimum-g-i-version])
--+
--+
--+AC_DEFUN([GOBJECT_INTROSPECTION_REQUIRE],
--+[
--+  _GOBJECT_INTROSPECTION_CHECK_INTERNAL([$1], [require])
--+])
-diff --git a/meta/recipes-extended/polkit/polkit_0.104.bb b/meta/recipes-extended/polkit/polkit_0.104.bb
-index cd03898..e548cbc 100644
---- a/meta/recipes-extended/polkit/polkit_0.104.bb
-+++ b/meta/recipes-extended/polkit/polkit_0.104.bb
-@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=155db86cdbafa7532b41f390409283eb \
-                     file://src/polkit/polkit.h;beginline=1;endline=20;md5=0a8630b0133176d0504c87a0ded39db4 \
-                     file://docs/polkit/html/license.html;md5=d85a36709a446c10f4ee123f9dda0e38"
- 
--DEPENDS = "expat glib-2.0 intltool-native"
-+DEPENDS = "expat glib-2.0 intltool-native gobject-introspection-stub"
- 
- PACKAGECONFIG = "${@base_contains('DISTRO_FEATURES', 'pam', 'pam', '', d)}"
- PACKAGECONFIG[pam] = "--with-authfw=pam,--with-authfw=shadow,libpam,libpam"
-@@ -15,7 +15,6 @@ PR = "r6"
- 
- PAM_SRC_URI = "file://polkit-1_pam.patch"
- SRC_URI = "http://hal.freedesktop.org/releases/polkit-${PV}.tar.gz \
--           file://introspection.patch \
-            ${@base_contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)} \
-            file://0001-PolkitUnixSession-Set-error-if-we-cannot-find-a-sess.patch \
-            file://0002-PolkitUnixSession-Actually-return-TRUE-if-a-session-.patch \
-diff --git a/meta/recipes-support/vte/vte.inc b/meta/recipes-support/vte/vte.inc
-index 9fe7956..0766da7 100644
---- a/meta/recipes-support/vte/vte.inc
-+++ b/meta/recipes-support/vte/vte.inc
-@@ -1,13 +1,11 @@
- DESCRIPTION = "vte is a virtual terminal emulator"
- BUGTRACKER = "https://bugzilla.gnome.org/buglist.cgi?product=vte"
- LICENSE = "LGPLv2.1+"
--DEPENDS = " glib-2.0 gtk+ intltool-native ncurses"
-+DEPENDS = " glib-2.0 gtk+ intltool-native ncurses gobject-introspection-stub"
- RDEPENDS_libvte = "vte-termcap"
- 
- inherit gnome gtk-doc
- 
--SRC_URI += "file://introspection.patch"
--
- EXTRA_OECONF = "--disable-python --disable-introspection"
- 
- PACKAGES =+ "libvte vte-termcap"
-diff --git a/meta/recipes-support/vte/vte/introspection.patch b/meta/recipes-support/vte/vte/introspection.patch
-deleted file mode 100644
-index 890ba31..0000000
---- a/meta/recipes-support/vte/vte/introspection.patch
-+++ b/dev/null
-@@ -1,107 +0,0 @@
--Upstream-Status:  Inappropriate [configuration]
--
--Get this m4 file from introspection, so that we can configure without
--depending on the introspection package.
--
--Signed-Off-By: Nitin A Kamble <nitin.a.kamble@intel.com>
--2011/01/03
--
--Index: vte-0.28.2/m4/introspection.m4
--===================================================================
----- /dev/null
--+++ vte-0.28.2/m4/introspection.m4
--@@ -0,0 +1,94 @@
--+dnl -*- mode: autoconf -*-
--+dnl Copyright 2009 Johan Dahlin
--+dnl
--+dnl This file is free software; the author(s) gives unlimited
--+dnl permission to copy and/or distribute it, with or without
--+dnl modifications, as long as this notice is preserved.
--+dnl
--+
--+# serial 1
--+
--+m4_define([_GOBJECT_INTROSPECTION_CHECK_INTERNAL],
--+[
--+    AC_BEFORE([AC_PROG_LIBTOOL],[$0])dnl setup libtool first
--+    AC_BEFORE([AM_PROG_LIBTOOL],[$0])dnl setup libtool first
--+    AC_BEFORE([LT_INIT],[$0])dnl setup libtool first
--+
--+    dnl enable/disable introspection
--+    m4_if([$2], [require],
--+    [dnl
--+        enable_introspection=yes
--+    ],[dnl
--+        AC_ARG_ENABLE(introspection,
--+                  AS_HELP_STRING([--enable-introspection[=@<:@no/auto/yes@:>@]],
--+                                 [Enable introspection for this build]),,
--+                                 [enable_introspection=auto])
--+    ])dnl
--+
--+    AC_MSG_CHECKING([for gobject-introspection])
--+
--+    dnl presence/version checking
--+    AS_CASE([$enable_introspection],
--+    [no], [dnl
--+        found_introspection="no (disabled, use --enable-introspection to enable)"
--+    ],dnl
--+    [yes],[dnl
--+        PKG_CHECK_EXISTS([gobject-introspection-1.0],,
--+                         AC_MSG_ERROR([gobject-introspection-1.0 is not installed]))
--+        PKG_CHECK_EXISTS([gobject-introspection-1.0 >= $1],
--+                         found_introspection=yes,
--+                         AC_MSG_ERROR([You need to have gobject-introspection >= $1 installed to build AC_PACKAGE_NAME]))
--+    ],dnl
--+    [auto],[dnl
--+        PKG_CHECK_EXISTS([gobject-introspection-1.0 >= $1], found_introspection=yes, found_introspection=no)
--+    ],dnl
--+    [dnl
--+        AC_MSG_ERROR([invalid argument passed to --enable-introspection, should be one of @<:@no/auto/yes@:>@])
--+    ])dnl
--+
--+    AC_MSG_RESULT([$found_introspection])
--+
--+    INTROSPECTION_SCANNER=
--+    INTROSPECTION_COMPILER=
--+    INTROSPECTION_GENERATE=
--+    INTROSPECTION_GIRDIR=
--+    INTROSPECTION_TYPELIBDIR=
--+    if test "x$found_introspection" = "xyes"; then
--+       INTROSPECTION_SCANNER=`$PKG_CONFIG --variable=g_ir_scanner gobject-introspection-1.0`
--+       INTROSPECTION_COMPILER=`$PKG_CONFIG --variable=g_ir_compiler gobject-introspection-1.0`
--+       INTROSPECTION_GENERATE=`$PKG_CONFIG --variable=g_ir_generate gobject-introspection-1.0`
--+       INTROSPECTION_GIRDIR=`$PKG_CONFIG --variable=girdir gobject-introspection-1.0`
--+       INTROSPECTION_TYPELIBDIR="$($PKG_CONFIG --variable=typelibdir gobject-introspection-1.0)"
--+       INTROSPECTION_CFLAGS=`$PKG_CONFIG --cflags gobject-introspection-1.0`
--+       INTROSPECTION_LIBS=`$PKG_CONFIG --libs gobject-introspection-1.0`
--+       INTROSPECTION_MAKEFILE=`$PKG_CONFIG --variable=datadir gobject-introspection-1.0`/gobject-introspection-1.0/Makefile.introspection
--+    fi
--+    AC_SUBST(INTROSPECTION_SCANNER)
--+    AC_SUBST(INTROSPECTION_COMPILER)
--+    AC_SUBST(INTROSPECTION_GENERATE)
--+    AC_SUBST(INTROSPECTION_GIRDIR)
--+    AC_SUBST(INTROSPECTION_TYPELIBDIR)
--+    AC_SUBST(INTROSPECTION_CFLAGS)
--+    AC_SUBST(INTROSPECTION_LIBS)
--+    AC_SUBST(INTROSPECTION_MAKEFILE)
--+
--+    AM_CONDITIONAL(HAVE_INTROSPECTION, test "x$found_introspection" = "xyes")
--+])
--+
--+
--+dnl Usage:
--+dnl   GOBJECT_INTROSPECTION_CHECK([minimum-g-i-version])
--+
--+AC_DEFUN([GOBJECT_INTROSPECTION_CHECK],
--+[
--+  _GOBJECT_INTROSPECTION_CHECK_INTERNAL([$1])
--+])
--+
--+dnl Usage:
--+dnl   GOBJECT_INTROSPECTION_REQUIRE([minimum-g-i-version])
--+
--+
--+AC_DEFUN([GOBJECT_INTROSPECTION_REQUIRE],
--+[
--+  _GOBJECT_INTROSPECTION_CHECK_INTERNAL([$1], [require])
--+])
+ .../usbutils/usbutils/Fix-NULL-pointer-crash.patch |   28 ++++++++++++++++++++
+ meta/recipes-bsp/usbutils/usbutils_0.91.bb         |    5 ++-
+ 2 files changed, 31 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-bsp/usbutils/usbutils/Fix-NULL-pointer-crash.patch
 
+diff --git a/meta/recipes-bsp/usbutils/usbutils/Fix-NULL-pointer-crash.patch b/meta/recipes-bsp/usbutils/usbutils/Fix-NULL-pointer-crash.patch
+new file mode 100644
+index 0000000..f5ad2b2
+--- /dev/null
++++ b/meta/recipes-bsp/usbutils/usbutils/Fix-NULL-pointer-crash.patch
+@@ -0,0 +1,28 @@
++Fix NULL pointer crash.
++
++Before use usbbuslist, we should check if it is valid.
++
++Upstream-Status: Pending
++Signed-off-by: Roy.Li <rongqing.li@windriver.com>
++---
++ lsusb-t.c |    4 ++++
++ 1 files changed, 4 insertions(+), 0 deletions(-)
++
++diff --git a/lsusb-t.c b/lsusb-t.c
++index f604155..583a46a 100644
++--- a/lsusb-t.c
+++++ b/lsusb-t.c
++@@ -643,6 +643,10 @@ static void sort_busses(void)
++ 	/* need to reverse sort bus numbers */
++ 	struct usbbusnode *t, *p, **pp;
++ 	int swapped;
+++
+++	if (!usbbuslist)
+++		return;
+++
++ 	do {
++ 		p = usbbuslist;
++ 		pp = &usbbuslist;
++-- 
++1.7.4.1
++
+diff --git a/meta/recipes-bsp/usbutils/usbutils_0.91.bb b/meta/recipes-bsp/usbutils/usbutils_0.91.bb
+index 04d1681..abe807c 100644
+--- a/meta/recipes-bsp/usbutils/usbutils_0.91.bb
++++ b/meta/recipes-bsp/usbutils/usbutils_0.91.bb
+@@ -7,10 +7,11 @@ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
+ 
+ DEPENDS = "libusb zlib"
+-PR = "r4"
++PR = "r5"
+ 
+ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/usb/usbutils/usbutils-${PV}.tar.gz \
+-           file://usb-devices-avoid-dependency-on-bash.patch"
++           file://usb-devices-avoid-dependency-on-bash.patch \
++           file://Fix-NULL-pointer-crash.patch"
+ 
+ SRC_URI[md5sum] = "49de2403b40bf3a9863faaa8d3858deb"
+ SRC_URI[sha256sum] = "c122346b0225121bcf159abf804116f826a4a3462c94ce7b8871f7559e6b3a46"
+-- 
+1.7.4.1
 
 
 
