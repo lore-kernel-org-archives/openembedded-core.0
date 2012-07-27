@@ -1,25 +1,28 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Sup6F-0004gT-OA
+	(envelope-from <mark.hatle@windriver.com>) id 1SupFO-00056o-6X
 	for openembedded-core@lists.openembedded.org;
-	Fri, 27 Jul 2012 20:17:20 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 27 Jul 2012 11:05:24 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="172302360"
-Received: from unknown (HELO [10.255.12.157]) ([10.255.12.157])
-	by orsmga001.jf.intel.com with ESMTP; 27 Jul 2012 11:05:24 -0700
-Message-ID: <5012D864.1090208@linux.intel.com>
-Date: Fri, 27 Jul 2012 11:05:24 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:14.0) Gecko/20120717 Thunderbird/14.0
+	Fri, 27 Jul 2012 20:26:46 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q6RIFCNT017001
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 27 Jul 2012 11:15:12 -0700 (PDT)
+Received: from Marks-MacBook-Pro.local (172.25.34.34) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.1.255.0; Fri, 27 Jul 2012 11:15:12 -0700
+Message-ID: <5012DAAF.8050303@windriver.com>
+Date: Fri, 27 Jul 2012 13:15:11 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7;
+	rv:14.0) Gecko/20120713 Thunderbird/14.0
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1343387245.git.laurentiu.palcu@intel.com>
-In-Reply-To: <cover.1343387245.git.laurentiu.palcu@intel.com>
-Subject: Re: [PATCH 0/6] relocatable SDK
+To: <openembedded-core@lists.openembedded.org>
+References: <20120727152454.GA5706@windriver.com>
+	<5012C356.6090100@linux.intel.com>
+In-Reply-To: <5012C356.6090100@linux.intel.com>
+Subject: Re: [PATCH] openssh: package testing
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,68 +37,120 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Jul 2012 18:17:20 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Fri, 27 Jul 2012 18:26:46 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 07/27/2012 04:21 AM, Laurentiu Palcu wrote:
-> Hi,
->
-> This patchset adds relocatable SDK functionality. Instead of a tarball, the
-> output of "bitbake meta-toolchain/meta-toolchain-sdk" will be a self extracting
-> archive.
->
-> The user will then execute the .sh script and give it the target
-> directory for SDK installation (default is /opt/poky). The installer will then
-> extract the embedded tarball to the user provided location and will set up the
-> SDK: change the paths in the environment script, change the dynamic loader path
-> in all binaries and, also, change the ls.so.cache path in the dynamic loader
-> itself, together with the SYSDIR paths/lengths.
->
-> With that, no more root privileges are needed in order to install the SDK.
->
-> Thanks,
-> Laurentiu
->
-> The following changes since commit 651b223c5fc93c7504e304e954b9ae4640ed47c6:
->
->    usbutils: avoid dependency on bash (2012-07-26 18:52:00 +0100)
->
-> are available in the git repository at:
->
->    git://git.yoctoproject.org/poky-contrib lpalcu/relocatable_sdk
->    http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=lpalcu/relocatable_sdk
->
-> Laurentiu Palcu (6):
->    eglibc: relocatable SDK changes
->    binutils: relocatable SDK: change PT_INTERP section size
->    scripts: add script for relocating the SDK
->    populate_sdk_base.bbclass: create self-extracting archive
->    relocatable.bbclass: split it up, to reuse code
->    package.bbclass: change RPATHs for nativesdk packages
->
->   meta/classes/chrpath.bbclass                       |   89 +++++++++
->   meta/classes/package.bbclass                       |    5 +
->   meta/classes/populate_sdk_base.bbclass             |   82 ++++++++
->   meta/classes/relocatable.bbclass                   |   91 +--------
->   .../eglibc/eglibc-2.15/relocatable_sdk.patch       |   70 +++++++
->   meta/recipes-core/eglibc/eglibc_2.15.bb            |    6 +-
->   .../binutils/binutils-crosssdk_2.22.bb             |    5 +
->   .../binutils/binutils/relocatable_sdk.patch        |   13 ++
->   scripts/relocate_sdk.py                            |  200 ++++++++++++++++++++
->   9 files changed, 470 insertions(+), 91 deletions(-)
->   create mode 100644 meta/classes/chrpath.bbclass
->   create mode 100644 meta/recipes-core/eglibc/eglibc-2.15/relocatable_sdk.patch
->   create mode 100644 meta/recipes-devtools/binutils/binutils/relocatable_sdk.patch
->   create mode 100755 scripts/relocate_sdk.py
->
-Your patches need to have Upstream-Status and Signed-off-by: added along 
-with a header explaining why the patch is needed.
+On 7/27/12 11:35 AM, Saul Wold wrote:
+> On 07/27/2012 08:24 AM, Amy Fong wrote:
+>> openssh: package testing
+>>
+>> Package openssh's regression tests
+>>
+>> Signed-off-by: Amy Fong <amy.fong@windriver.com>
+>> ---
+>>    openssh-5.9p1/runtests.sh |   29 +++++++++++++++++++++++++++++
+>>    openssh_5.9p1.bb          |    9 +++++++++
+>>    2 files changed, 38 insertions(+)
+>>
+>> diff --git a/meta/recipes-connectivity/openssh/openssh-5.9p1/runtests.sh b/meta/recipes-connectivity/openssh/openssh-5.9p1/runtests.sh
+>> new file mode 100755
+>> index 0000000..bb99a05
+>> --- /dev/null
+>> +++ b/meta/recipes-connectivity/openssh/openssh-5.9p1/runtests.sh
+>> @@ -0,0 +1,29 @@
+>> +#!/bin/sh
+>> +
+>> +cd regress
+>> +
+>> +make \
+>> +	.OBJDIR=`pwd` \
+>> +	.CURDIR=`pwd` \
+>> +	BUILDDIR=`pwd` \
+>> +	OBJ=`pwd` \
+>> +	PATH=$PATH:. \
+>> +	TEST_SHELL=sh \
+>> +	TEST_SSH_SSH=`which ssh` \
+>> +	TEST_SSH_SSHD=`which sshd` \
+>> +	TEST_SSH_SSHAGENT=`which ssh-agent` \
+>> +	TEST_SSH_SSHADD=`which ssh-add` \
+>> +	TEST_SSH_SSHKEYGEN=`which ssh-keygen` \
+>> +	TEST_SSH_SSHPKCS11HELPER="/usr/libexec/ssh-pkcs11-helper" \
+>> +	TEST_SSH_SSHKEYSCAN=`which ssh-keyscan` \
+>> +	TEST_SSH_SFTP=`which sftp` \
+>> +	TEST_SSH_SFTPSERVER="/usr/libexec/sftp-server" \
+>> +	TEST_SSH_PLINK="plink" \
+>> +	TEST_SSH_PUTTYGEN="puttygen" \
+>> +	TEST_SSH_CONCH="conch" \
+>> +	TEST_SSH_IPV6="yes" \
+>> +	TEST_SSH_ECC="yes" \
+>> +	TEST_SSH_SHA256="yes" \
+>> +	EXEEXT="" \
+>> +	tests
+>> +
+>> diff --git a/meta/recipes-connectivity/openssh/openssh_5.9p1.bb b/meta/recipes-connectivity/openssh/openssh_5.9p1.bb
+>> index 749f89e..f0880c0 100644
+>> --- a/meta/recipes-connectivity/openssh/openssh_5.9p1.bb
+>> +++ b/meta/recipes-connectivity/openssh/openssh_5.9p1.bb
+>> @@ -23,6 +23,7 @@ SRC_URI = "ftp://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar.
+>>               file://sshd_config \
+>>               file://ssh_config \
+>>               file://init \
+>> +           file://runtests.sh \
+>>               ${@base_contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)}"
+>>
+>>    PAM_SRC_URI = "file://sshd"
+>> @@ -81,6 +82,9 @@ do_install_append () {
+>>    	mv ${D}${bindir}/ssh ${D}${bindir}/ssh.${PN}
+>>    	rm -f ${D}${bindir}/slogin ${D}${datadir}/Ssh.bin
+>>    	rmdir ${D}/var/run/sshd ${D}/var/run ${D}/var
+>> +	if [ ! -d ${D}/opt/${PN}-tests/ ]; then mkdir -p ${D}/opt/${PN}-tests/; fi
+>> +	install -m 755 ${WORKDIR}/runtests.sh ${D}/opt/${PN}-tests/
+>> +	cp -ra ${S}/regress ${D}/opt/${PN}-tests/
+>>    }
+>>
+> I think these needs to be conditional on PACKAGECONFIG having "tests" to
+> include tests and test scripts.  Also, I am not sure we should be
+> putting them in opt, probably better to have them in ${datadir}/${PN}/tests
 
-Just a quick first pass review, there may be more comments as I review 
-deeper.
+With a separate test package, it doesn't seem to me there is a reason to have 
+the PACKAGECONFIG, either install the tests or don't.. (default being don't of 
+course.)
 
-Sau!
+As for the install location, I've seen it done both ways.  I'm not sure we have 
+a standard in OE on where tests should be located.
+
+--Mark
+
+>
+>>    ALLOW_EMPTY_${PN} = "1"
+>> @@ -95,6 +99,11 @@ FILES_${PN}-sftp-server = "${libexecdir}/sftp-server"
+>>    FILES_${PN}-misc = "${bindir}/ssh* ${libexecdir}/ssh*"
+>>    FILES_${PN}-keygen = "${bindir}/ssh-keygen"
+>>
+>> +PACKAGES += "${PN}-testing"
+> This should also be triggered by a PACKAGECONFIG check.
+>
+>> +DEPENDS_${PN}-testing += "${PN}-keygen ${PN}-scp ${PN}-ssh ${PN}-sshd ${PN}-sftp ${PN}-misc ${PN}-sftp-server"
+>> +FILES_${PN}-testing += "/opt/${PN}-tests/*"
+>> +FILES_${PN}-dbg += "/opt/${PN}-tests/.debug/*"
+>> +
+>>    RDEPENDS_${PN} += "${PN}-scp ${PN}-ssh ${PN}-sshd ${PN}-keygen"
+>>    DEPENDS_${PN}-sshd += "update-rc.d"
+>>    RDEPENDS_${PN}-sshd += "update-rc.d ${PN}-keygen"
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>>
+>>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
 
 
