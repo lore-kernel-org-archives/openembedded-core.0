@@ -1,36 +1,35 @@
-Received: from astoria.ccjclearline.com ([64.235.106.9])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpjday@crashcourse.ca>) id 1SukTe-0005sD-G9
-	for openembedded-core@lists.openembedded.org;
-	Fri, 27 Jul 2012 15:21:10 +0200
-Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
-	([174.115.5.73]:49251 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.77) (envelope-from <rpjday@crashcourse.ca>)
-	id 1SukIV-0004yo-PI for openembedded-core@lists.openembedded.org;
-	Fri, 27 Jul 2012 09:09:39 -0400
-Date: Fri, 27 Jul 2012 09:09:24 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@oneiric
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1SukZK-000605-3Z for openembedded-core@lists.openembedded.org;
+	Fri, 27 Jul 2012 15:27:02 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6RDFUGD006308
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 27 Jul 2012 14:15:30 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 06244-02 for <openembedded-core@lists.openembedded.org>;
+	Fri, 27 Jul 2012 14:15:26 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6RDFNmJ006302
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 27 Jul 2012 14:15:24 +0100
+Message-ID: <1343394922.9574.135.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
+Date: Fri, 27 Jul 2012 14:15:22 +0100
 In-Reply-To: <CAAQYJAvVkEcV=Bjfwp7JZWeXcrss6vUC3Amts5GGzdUrRBWwEw@mail.gmail.com>
-Message-ID: <alpine.DEB.2.02.1207270902140.15041@oneiric>
 References: <alpine.DEB.2.02.1207261904590.18831@oneiric>
 	<1343388304.9574.118.camel@ted>
 	<alpine.DEB.2.02.1207270801210.14507@oneiric>
 	<CAAQYJAvVkEcV=Bjfwp7JZWeXcrss6vUC3Amts5GGzdUrRBWwEw@mail.gmail.com>
-User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
-MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
 Subject: Re: image.bbclass: Update outdated reference to "export IMAGE_BASENAME"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -46,47 +45,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Jul 2012 13:21:10 -0000
-Content-Type: MULTIPART/MIXED; BOUNDARY="8323329-1523863891-1343394571=:15041"
+X-List-Received-Date: Fri, 27 Jul 2012 13:27:02 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---8323329-1523863891-1343394571=:15041
-Content-Type: TEXT/PLAIN; charset=ISO-8859-1
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+On Fri, 2012-07-27 at 14:53 +0200, Andrea Adami wrote:
 
-On Fri, 27 Jul 2012, Andrea Adami wrote:
-
+> 
 > By the way,
->
-> we have followed pedissequally and re-introduced 'export IMAGE_BASENAME' =
-[1] when we adapted our
-> initramfs image for oe-core,=A0 even though we had built whitout until th=
-en, both in oe-classic and in
-> oe-core.
->
+> 
+> we have followed pedissequally and re-introduced 'export
+> IMAGE_BASENAME' [1] when we adapted our initramfs image for oe-core,
+> even though we had built whitout until then, both in oe-classic and in
+> oe-core. 
+> 
 > Regards
->
+> 
 > Andrea
->
-> [1] http://cgit.openembedded.org/meta-handheld/commit/?id=3D3021e1fc38006=
-7666a63fa5b2bdfc5fd16282973
+> 
+> [1]
+> http://cgit.openembedded.org/meta-handheld/commit/?id=3021e1fc380067666a63fa5b2bdfc5fd16282973
 
-  i think i'll just leave this for someone else higher up the food
-chain to deal with if they think it's worth it.
+At this point I don't know if this is necessary or not. It might be
+unnecessary but we would need someone to confirm that before we remove
+it.
 
-rday
+Cheers,
 
---=20
+Richard
 
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
 
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
 
---8323329-1523863891-1343394571=:15041--
