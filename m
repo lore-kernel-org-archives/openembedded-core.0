@@ -1,26 +1,26 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1SuqyP-0006lb-00
+	(envelope-from <sgw@linux.intel.com>) id 1SurJ3-0006wE-Dt
 	for openembedded-core@lists.openembedded.org;
-	Fri, 27 Jul 2012 22:17:21 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 27 Jul 2012 13:05:41 -0700
+	Fri, 27 Jul 2012 22:38:42 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 27 Jul 2012 13:27:07 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="178465856"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="174085151"
 Received: from unknown (HELO [10.255.12.157]) ([10.255.12.157])
-	by orsmga002.jf.intel.com with ESMTP; 27 Jul 2012 13:05:40 -0700
-Message-ID: <5012F494.5060500@linux.intel.com>
-Date: Fri, 27 Jul 2012 13:05:40 -0700
+	by azsmga001.ch.intel.com with ESMTP; 27 Jul 2012 13:27:07 -0700
+Message-ID: <5012F99B.6050809@linux.intel.com>
+Date: Fri, 27 Jul 2012 13:27:07 -0700
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:14.0) Gecko/20120717 Thunderbird/14.0
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <20120727152454.GA5706@windriver.com>
-	<5012C356.6090100@linux.intel.com> <5012DAAF.8050303@windriver.com>
-In-Reply-To: <5012DAAF.8050303@windriver.com>
-Subject: Re: [PATCH] openssh: package testing
+References: <1343374256-22697-1-git-send-email-fahad.usman@gmail.com>
+	<CAJ2CSBsP1hcG=CJaWPxC2p19JM3YosJT9atyg7wtJTpeq6vvYQ@mail.gmail.com>
+In-Reply-To: <CAJ2CSBsP1hcG=CJaWPxC2p19JM3YosJT9atyg7wtJTpeq6vvYQ@mail.gmail.com>
+Subject: Re: [PATCH] lttng-2.0: update to the latest version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,152 +35,516 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Jul 2012 20:17:22 -0000
+X-List-Received-Date: Fri, 27 Jul 2012 20:38:42 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 07/27/2012 11:15 AM, Mark Hatle wrote:
-> On 7/27/12 11:35 AM, Saul Wold wrote:
->> On 07/27/2012 08:24 AM, Amy Fong wrote:
->>> openssh: package testing
->>>
->>> Package openssh's regression tests
->>>
->>> Signed-off-by: Amy Fong <amy.fong@windriver.com>
->>> ---
->>>    openssh-5.9p1/runtests.sh |   29 +++++++++++++++++++++++++++++
->>>    openssh_5.9p1.bb          |    9 +++++++++
->>>    2 files changed, 38 insertions(+)
->>>
->>> diff --git
->>> a/meta/recipes-connectivity/openssh/openssh-5.9p1/runtests.sh
->>> b/meta/recipes-connectivity/openssh/openssh-5.9p1/runtests.sh
->>> new file mode 100755
->>> index 0000000..bb99a05
->>> --- /dev/null
->>> +++ b/meta/recipes-connectivity/openssh/openssh-5.9p1/runtests.sh
->>> @@ -0,0 +1,29 @@
->>> +#!/bin/sh
->>> +
->>> +cd regress
->>> +
->>> +make \
->>> +    .OBJDIR=`pwd` \
->>> +    .CURDIR=`pwd` \
->>> +    BUILDDIR=`pwd` \
->>> +    OBJ=`pwd` \
->>> +    PATH=$PATH:. \
->>> +    TEST_SHELL=sh \
->>> +    TEST_SSH_SSH=`which ssh` \
->>> +    TEST_SSH_SSHD=`which sshd` \
->>> +    TEST_SSH_SSHAGENT=`which ssh-agent` \
->>> +    TEST_SSH_SSHADD=`which ssh-add` \
->>> +    TEST_SSH_SSHKEYGEN=`which ssh-keygen` \
->>> +    TEST_SSH_SSHPKCS11HELPER="/usr/libexec/ssh-pkcs11-helper" \
->>> +    TEST_SSH_SSHKEYSCAN=`which ssh-keyscan` \
->>> +    TEST_SSH_SFTP=`which sftp` \
->>> +    TEST_SSH_SFTPSERVER="/usr/libexec/sftp-server" \
->>> +    TEST_SSH_PLINK="plink" \
->>> +    TEST_SSH_PUTTYGEN="puttygen" \
->>> +    TEST_SSH_CONCH="conch" \
->>> +    TEST_SSH_IPV6="yes" \
->>> +    TEST_SSH_ECC="yes" \
->>> +    TEST_SSH_SHA256="yes" \
->>> +    EXEEXT="" \
->>> +    tests
->>> +
->>> diff --git a/meta/recipes-connectivity/openssh/openssh_5.9p1.bb
->>> b/meta/recipes-connectivity/openssh/openssh_5.9p1.bb
->>> index 749f89e..f0880c0 100644
->>> --- a/meta/recipes-connectivity/openssh/openssh_5.9p1.bb
->>> +++ b/meta/recipes-connectivity/openssh/openssh_5.9p1.bb
->>> @@ -23,6 +23,7 @@ SRC_URI =
->>> "ftp://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar.
->>>               file://sshd_config \
->>>               file://ssh_config \
->>>               file://init \
->>> +           file://runtests.sh \
->>>               ${@base_contains('DISTRO_FEATURES', 'pam',
->>> '${PAM_SRC_URI}', '', d)}"
->>>
->>>    PAM_SRC_URI = "file://sshd"
->>> @@ -81,6 +82,9 @@ do_install_append () {
->>>        mv ${D}${bindir}/ssh ${D}${bindir}/ssh.${PN}
->>>        rm -f ${D}${bindir}/slogin ${D}${datadir}/Ssh.bin
->>>        rmdir ${D}/var/run/sshd ${D}/var/run ${D}/var
->>> +    if [ ! -d ${D}/opt/${PN}-tests/ ]; then mkdir -p
->>> ${D}/opt/${PN}-tests/; fi
->>> +    install -m 755 ${WORKDIR}/runtests.sh ${D}/opt/${PN}-tests/
->>> +    cp -ra ${S}/regress ${D}/opt/${PN}-tests/
->>>    }
->>>
->> I think these needs to be conditional on PACKAGECONFIG having "tests" to
->> include tests and test scripts.  Also, I am not sure we should be
->> putting them in opt, probably better to have them in
->> ${datadir}/${PN}/tests
+On 07/27/2012 01:39 AM, Damian, Alexandru wrote:
+> Hi,
 >
-> With a separate test package, it doesn't seem to me there is a reason to
-> have the PACKAGECONFIG, either install the tests or don't.. (default
-> being don't of course.)
+> I recommend changing the liburcu licence as follows,  following a GPLv3
+> file addition in the build macros:
 >
-I was thinking about build time and setting a standard on how we should 
-do it. Clearly in this case build time is not directly a factor, but 
-think of a case that has numerous tests that need to get compiled and 
-linked and then have a bunch of packages with those tests enabled, build 
-time will increase.
-
-> As for the install location, I've seen it done both ways.  I'm not sure
-> we have a standard in OE on where tests should be located.
 >
-Again, starting the discussion to get a stake in the ground, I think 
-that having them in ${datadir} (/usr/share) works well and leaves /opt 
-free of anything OE installs there (ie OE-core should not install 
-anything in /opt), leave it for layers to use.
-
-
-Sau!
-
-
-
-> --Mark
+> LICENSE = "LGPLv2.1+ & MIT-style & GPLv3"
+> LICENSE_${PN} = "LGPLv2.1+ & MIT-style"
 >
->>
->>>    ALLOW_EMPTY_${PN} = "1"
->>> @@ -95,6 +99,11 @@ FILES_${PN}-sftp-server = "${libexecdir}/sftp-server"
->>>    FILES_${PN}-misc = "${bindir}/ssh* ${libexecdir}/ssh*"
->>>    FILES_${PN}-keygen = "${bindir}/ssh-keygen"
->>>
->>> +PACKAGES += "${PN}-testing"
->> This should also be triggered by a PACKAGECONFIG check.
->>
->>> +DEPENDS_${PN}-testing += "${PN}-keygen ${PN}-scp ${PN}-ssh
->>> ${PN}-sshd ${PN}-sftp ${PN}-misc ${PN}-sftp-server"
->>> +FILES_${PN}-testing += "/opt/${PN}-tests/*"
->>> +FILES_${PN}-dbg += "/opt/${PN}-tests/.debug/*"
->>> +
->>>    RDEPENDS_${PN} += "${PN}-scp ${PN}-ssh ${PN}-sshd ${PN}-keygen"
->>>    DEPENDS_${PN}-sshd += "update-rc.d"
->>>    RDEPENDS_${PN}-sshd += "update-rc.d ${PN}-keygen"
->>>
->>> _______________________________________________
->>> Openembedded-core mailing list
->>> Openembedded-core@lists.openembedded.org
->>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->>>
->>>
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->>
+Alex,
+
+Please what what you are replying to, I am not sure this has anything to 
+do with the LTTNG update.
+
+Thanks
+	Sau!
+>
+> Cheers,
+> Alex
+>
+> On Fri, Jul 27, 2012 at 10:30 AM, <fahad.usman@gmail.com
+> <mailto:fahad.usman@gmail.com>> wrote:
+>
+>     From: Fahad Usman <fahad_usman@mentor.com
+>     <mailto:fahad_usman@mentor.com>>
+>
+>     update lttng-modules-2.0, lttng-tools-2.0 lttng-ust-2.0 and liburcu
+>     to the
+>     latest stable released versions by lttng community
+>
+>     remove the
+>     lttng-sycalls-protect-is_compat_task-from-redefiniti.patch because
+>     the problem is handled in the latest version of lttng-modules
+>
+>     Signed-off-by: Fahad Usman <fahad_usman@mentor.com
+>     <mailto:fahad_usman@mentor.com>>
+>     ---
+>       ...ls-protect-is_compat_task-from-redefiniti.patch |   41
+>     --------------------
+>       .../lttng-2.0/lttng-modules_2.0.4.bb
+>     <http://lttng-modules_2.0.4.bb>               |   26 ++++++++++++
+>       .../lttng-2.0/lttng-modules_2.0.pre11.bb
+>     <http://lttng-modules_2.0.pre11.bb>           |   30 --------------
+>       meta/recipes-kernel/lttng-2.0/lttng-tools_2.0.1.bb
+>     <http://lttng-tools_2.0.1.bb> |   32 ---------------
+>       meta/recipes-kernel/lttng-2.0/lttng-tools_2.0.3.bb
+>     <http://lttng-tools_2.0.3.bb> |   30 ++++++++++++++
+>       meta/recipes-kernel/lttng-2.0/lttng2-ust_2.0.2.bb
+>     <http://lttng2-ust_2.0.2.bb>  |   30 --------------
+>       meta/recipes-kernel/lttng-2.0/lttng2-ust_2.0.4.bb
+>     <http://lttng2-ust_2.0.4.bb>  |   30 ++++++++++++++
+>       meta/recipes-support/liburcu/liburcu_0.6.7.bb
+>     <http://liburcu_0.6.7.bb>      |   24 -----------
+>       meta/recipes-support/liburcu/liburcu_0.7.3.bb
+>     <http://liburcu_0.7.3.bb>      |   24 +++++++++++
+>       9 files changed, 110 insertions(+), 157 deletions(-)
+>       delete mode 100644
+>     meta/recipes-kernel/lttng-2.0/lttng-modules/lttng-sycalls-protect-is_compat_task-from-redefiniti.patch
+>       create mode 100644
+>     meta/recipes-kernel/lttng-2.0/lttng-modules_2.0.4.bb
+>     <http://lttng-modules_2.0.4.bb>
+>       delete mode 100644
+>     meta/recipes-kernel/lttng-2.0/lttng-modules_2.0.pre11.bb
+>     <http://lttng-modules_2.0.pre11.bb>
+>       delete mode 100644
+>     meta/recipes-kernel/lttng-2.0/lttng-tools_2.0.1.bb
+>     <http://lttng-tools_2.0.1.bb>
+>       create mode 100644
+>     meta/recipes-kernel/lttng-2.0/lttng-tools_2.0.3.bb
+>     <http://lttng-tools_2.0.3.bb>
+>       delete mode 100644
+>     meta/recipes-kernel/lttng-2.0/lttng2-ust_2.0.2.bb
+>     <http://lttng2-ust_2.0.2.bb>
+>       create mode 100644
+>     meta/recipes-kernel/lttng-2.0/lttng2-ust_2.0.4.bb
+>     <http://lttng2-ust_2.0.4.bb>
+>       delete mode 100644 meta/recipes-support/liburcu/liburcu_0.6.7.bb
+>     <http://liburcu_0.6.7.bb>
+>       create mode 100644 meta/recipes-support/liburcu/liburcu_0.7.3.bb
+>     <http://liburcu_0.7.3.bb>
+>
+>     diff --git
+>     a/meta/recipes-kernel/lttng-2.0/lttng-modules/lttng-sycalls-protect-is_compat_task-from-redefiniti.patch
+>     b/meta/recipes-kernel/lttng-2.0/lttng-modules/lttng-sycalls-protect-is_compat_task-from-redefiniti.patch
+>     deleted file mode 100644
+>     index 0056633..0000000
+>     ---
+>     a/meta/recipes-kernel/lttng-2.0/lttng-modules/lttng-sycalls-protect-is_compat_task-from-redefiniti.patch
+>     +++ /dev/null
+>     @@ -1,41 +0,0 @@
+>     -From 415a1a678cb2fcf603f9777f2c7b71c1e38f8101 Mon Sep 17 00:00:00 2001
+>     -From: Bruce Ashfield <bruce.ashfield@windriver.com
+>     <mailto:bruce.ashfield@windriver.com>>
+>     -Date: Mon, 19 Mar 2012 13:30:31 -0400
+>     -Subject: [PATCH] lttng-sycalls: protect is_compat_task from
+>     redefinition
+>     -
+>     -recent -stable kernels have their own fallback definition of
+>     is_compat_task
+>     -
+>     -   #define is_compat_task() (0)
+>     -
+>     -To protect against this double definition of is_compat_task we can
+>     check
+>     -to see if it is already defined, and skip the lttng variant.
+>     -
+>     -Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com
+>     <mailto:bruce.ashfield@windriver.com>>
+>     ----
+>     - lttng-syscalls.c |    4 ++++
+>     - 1 files changed, 4 insertions(+), 0 deletions(-)
+>     -
+>     -diff --git a/lttng-syscalls.c b/lttng-syscalls.c
+>     -index 9de3c07..80d0f05 100644
+>     ---- a/lttng-syscalls.c
+>     -+++ b/lttng-syscalls.c
+>     -@@ -17,12 +17,16 @@
+>     - #include "ltt-events.h"
+>     -
+>     - #ifndef CONFIG_COMPAT
+>     -+
+>     -+#ifndef is_compat_task
+>     - static inline int is_compat_task(void)
+>     - {
+>     -       return 0;
+>     - }
+>     - #endif
+>     -
+>     -+#endif
+>     -+
+>     - static
+>     - void syscall_entry_probe(void *__data, struct pt_regs *regs, long id);
+>     -
+>     ---
+>     -1.7.5.4
+>     -
+>     diff --git a/meta/recipes-kernel/lttng-2.0/lttng-modules_2.0.4.bb
+>     <http://lttng-modules_2.0.4.bb>
+>     b/meta/recipes-kernel/lttng-2.0/lttng-modules_2.0.4.bb
+>     <http://lttng-modules_2.0.4.bb>
+>     new file mode 100644
+>     index 0000000..d40c99b
+>     --- /dev/null
+>     +++ b/meta/recipes-kernel/lttng-2.0/lttng-modules_2.0.4.bb
+>     <http://lttng-modules_2.0.4.bb>
+>     @@ -0,0 +1,26 @@
+>     +SECTION = "devel"
+>     +SUMMARY = "Linux Trace Toolkit KERNEL MODULE"
+>     +DESCRIPTION = "The lttng-modules 2.0 package contains the kernel
+>     tracer modules"
+>     +LICENSE = "LGPLv2.1 & GPLv2"
+>     +LIC_FILES_CHKSUM =
+>     "file://LICENSE;md5=1eb086682a7c65a45acd9bcdf6877b3e \
+>     +
+>       file://gpl-2.0.txt;md5=751419260aa954499f7abaabaa882bbe \
+>     +
+>       file://lgpl-2.1.txt;md5=243b725d71bb5df4a1e5920b344b86ad"
+>     +
+>     +DEPENDS = "virtual/kernel"
+>     +
+>     +inherit module
+>     +
+>     +PR = "r0"
+>     +
+>     +SRC_URI = "http://lttng.org/files/${PN}/${PN}-${PV}.tar.bz2\
+>     <http://lttng.org/files/$%7BPN%7D/$%7BPN%7D-$%7BPV%7D.tar.bz2%5C>
+>     +
+>     file://lttng-modules-replace-KERNELDIR-with-KERNEL_SRC.patch"
+>     +SRC_URI[md5sum] = "e2f07c0eb40a0d8027de17f4dd7ebe12"
+>     +SRC_URI[sha256sum] =
+>     "f00116c388289192774c774581a651832be094aeb6da2f2c0f9c9e275fed2d14"
+>     +
+>     +export INSTALL_MOD_DIR="kernel/lttng-modules"
+>     +export KERNEL_SRC="${STAGING_KERNEL_DIR}"
+>     +
+>     +# Due to liburcu not building for MIPS currently this recipe needs to
+>     +# be limited also.
+>     +# So here let us first suppport x86/arm/powerpc platforms now.
+>     +COMPATIBLE_HOST = '(x86_64.*|i.86.*|arm.*|powerpc.*)-linux'
+>     diff --git
+>     a/meta/recipes-kernel/lttng-2.0/lttng-modules_2.0.pre11.bb
+>     <http://lttng-modules_2.0.pre11.bb>
+>     b/meta/recipes-kernel/lttng-2.0/lttng-modules_2.0.pre11.bb
+>     <http://lttng-modules_2.0.pre11.bb>
+>     deleted file mode 100644
+>     index 4c78f36..0000000
+>     --- a/meta/recipes-kernel/lttng-2.0/lttng-modules_2.0.pre11.bb
+>     <http://lttng-modules_2.0.pre11.bb>
+>     +++ /dev/null
+>     @@ -1,30 +0,0 @@
+>     -SECTION = "devel"
+>     -SUMMARY = "Linux Trace Toolkit KERNEL MODULE"
+>     -DESCRIPTION = "The lttng-modules 2.0 package contains the kernel
+>     tracer modules"
+>     -LICENSE = "LGPLv2.1 & GPLv2"
+>     -LIC_FILES_CHKSUM =
+>     "file://LICENSE;md5=1eb086682a7c65a45acd9bcdf6877b3e \
+>     -
+>       file://gpl-2.0.txt;md5=751419260aa954499f7abaabaa882bbe \
+>     -
+>       file://lgpl-2.1.txt;md5=243b725d71bb5df4a1e5920b344b86ad"
+>     -
+>     -DEPENDS = "virtual/kernel"
+>     -
+>     -inherit module
+>     -
+>     -SRCREV = "4d3e89e379fc66480d729abe8daa5c86eb585400"
+>     -PV = "2.0.pre11+git${SRCREV}"
+>     -PR = "r0"
+>     -
+>     -SRC_URI = "git://git.lttng.org/lttng-modules.git;protocol=git
+>     <http://git.lttng.org/lttng-modules.git;protocol=git> \
+>     -
+>     file://lttng-modules-replace-KERNELDIR-with-KERNEL_SRC.patch \
+>     -
+>     file://lttng-sycalls-protect-is_compat_task-from-redefiniti.patch"
+>     -
+>     -export INSTALL_MOD_DIR="kernel/lttng-modules"
+>     -export KERNEL_SRC="${STAGING_KERNEL_DIR}"
+>     -
+>     -
+>     -S = "${WORKDIR}/git"
+>     -
+>     -# Due to liburcu not building for MIPS currently this recipe needs to
+>     -# be limited also.
+>     -# So here let us first suppport x86/arm/powerpc platforms now.
+>     -COMPATIBLE_HOST = '(x86_64.*|i.86.*|arm.*|powerpc.*)-linux'
+>     diff --git a/meta/recipes-kernel/lttng-2.0/lttng-tools_2.0.1.bb
+>     <http://lttng-tools_2.0.1.bb>
+>     b/meta/recipes-kernel/lttng-2.0/lttng-tools_2.0.1.bb
+>     <http://lttng-tools_2.0.1.bb>
+>     deleted file mode 100644
+>     index e7f1016..0000000
+>     --- a/meta/recipes-kernel/lttng-2.0/lttng-tools_2.0.1.bb
+>     <http://lttng-tools_2.0.1.bb>
+>     +++ /dev/null
+>     @@ -1,32 +0,0 @@
+>     -SECTION = "devel"
+>     -SUMMARY = "Linux Trace Toolkit Control"
+>     -DESCRIPTION = "The Linux trace toolkit is a suite of tools designed \
+>     -to extract program execution details from the Linux operating system \
+>     -and interpret them."
+>     -
+>     -LICENSE = "GPLv2 & LGPLv2.1"
+>     -LIC_FILES_CHKSUM =
+>     "file://LICENSE;md5=61273c2e3f60dd38a74b01beb5f51fbd \
+>     -
+>       file://gpl-2.0.txt;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+>     -
+>       file://lgpl-2.1.txt;md5=0f0d71500e6a57fd24d825f33242b9ca"
+>     -
+>     -DEPENDS = "liburcu popt lttng2-ust"
+>     -
+>     -SRCREV = "8c3919ea2dc77fdd47fb1c90e41490a20bb4d478"
+>     -PV = "v2.0.1+git${SRCREV}"
+>     -PR = "r0"
+>     -
+>     -SRC_URI = "git://git.lttng.org/lttng-tools.git;protocol=git
+>     <http://git.lttng.org/lttng-tools.git;protocol=git>"
+>     -
+>     -S = "${WORKDIR}/git"
+>     -
+>     -inherit autotools
+>     -
+>     -export KERNELDIR="${STAGING_KERNEL_DIR}"
+>     -
+>     -FILES_${PN} += "${libdir}/lttng/libexec/*"
+>     -FILES_${PN}-dbg += "${libdir}/lttng/libexec/.debug"
+>     -
+>     -# Due to liburcu not building for MIPS currently this recipe needs to
+>     -# be limited also.
+>     -# So here let us first suppport x86/arm/powerpc platforms now.
+>     -COMPATIBLE_HOST = '(x86_64.*|i.86.*|arm.*|powerpc.*)-linux'
+>     diff --git a/meta/recipes-kernel/lttng-2.0/lttng-tools_2.0.3.bb
+>     <http://lttng-tools_2.0.3.bb>
+>     b/meta/recipes-kernel/lttng-2.0/lttng-tools_2.0.3.bb
+>     <http://lttng-tools_2.0.3.bb>
+>     new file mode 100644
+>     index 0000000..ef39b30
+>     --- /dev/null
+>     +++ b/meta/recipes-kernel/lttng-2.0/lttng-tools_2.0.3.bb
+>     <http://lttng-tools_2.0.3.bb>
+>     @@ -0,0 +1,30 @@
+>     +SECTION = "devel"
+>     +SUMMARY = "Linux Trace Toolkit Control"
+>     +DESCRIPTION = "The Linux trace toolkit is a suite of tools designed \
+>     +to extract program execution details from the Linux operating system \
+>     +and interpret them."
+>     +
+>     +LICENSE = "GPLv2 & LGPLv2.1"
+>     +LIC_FILES_CHKSUM =
+>     "file://LICENSE;md5=61273c2e3f60dd38a74b01beb5f51fbd \
+>     +
+>       file://gpl-2.0.txt;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+>     +
+>       file://lgpl-2.1.txt;md5=0f0d71500e6a57fd24d825f33242b9ca"
+>     +
+>     +DEPENDS = "liburcu popt lttng2-ust"
+>     +
+>     +PR = "r0"
+>     +
+>     +SRC_URI = "http://lttng.org/files/${PN}/${PN}-${PV}.tar.bz2
+>     <http://lttng.org/files/$%7BPN%7D/$%7BPN%7D-$%7BPV%7D.tar.bz2>"
+>     +SRC_URI[md5sum] = "360d0e0e70ed11eda5aa1570ebc9c155"
+>     +SRC_URI[sha256sum] =
+>     "cc538f420bfe716220169e41b572d0cb8a345afb552faef924bfb2c625d92b0d"
+>     +
+>     +inherit autotools
+>     +
+>     +export KERNELDIR="${STAGING_KERNEL_DIR}"
+>     +
+>     +FILES_${PN} += "${libdir}/lttng/libexec/*"
+>     +FILES_${PN}-dbg += "${libdir}/lttng/libexec/.debug"
+>     +
+>     +# Due to liburcu not building for MIPS currently this recipe needs to
+>     +# be limited also.
+>     +# So here let us first suppport x86/arm/powerpc platforms now.
+>     +COMPATIBLE_HOST = '(x86_64.*|i.86.*|arm.*|powerpc.*)-linux'
+>     diff --git a/meta/recipes-kernel/lttng-2.0/lttng2-ust_2.0.2.bb
+>     <http://lttng2-ust_2.0.2.bb>
+>     b/meta/recipes-kernel/lttng-2.0/lttng2-ust_2.0.2.bb
+>     <http://lttng2-ust_2.0.2.bb>
+>     deleted file mode 100644
+>     index 8f650a4..0000000
+>     --- a/meta/recipes-kernel/lttng-2.0/lttng2-ust_2.0.2.bb
+>     <http://lttng2-ust_2.0.2.bb>
+>     +++ /dev/null
+>     @@ -1,30 +0,0 @@
+>     -SUMMARY = "Linux Trace Toolkit Userspace Tracer 2.0"
+>     -DESCRIPTION = "The LTTng UST 2.0 package contains the userspace
+>     tracer library to trace userspace codes."
+>     -HOMEPAGE = "http://lttng.org/lttng2.0"
+>     -BUGTRACKER = "n/a"
+>     -
+>     -LICENSE = "LGPLv2.1+ & BSD & GPLv2"
+>     -LIC_FILES_CHKSUM =
+>     "file://COPYING;md5=c963eb366b781252b0bf0fdf1624d9e9 \
+>     -
+>       file://snprintf/snprintf.c;endline=32;md5=d3d544959d8a3782b2e07451be0a903c \
+>     -
+>       file://snprintf/various.h;endline=31;md5=89f2509b6b4682c4fc95255eec4abe44"
+>     -
+>     -inherit autotools
+>     -
+>     -DEPENDS = "liburcu util-linux"
+>     -
+>     -SRCREV = "a367ee66aad3ffd21ef64d1b24efc6f862e09562"
+>     -PV = "2.0.2+git${SRCPV}"
+>     -PR = "r0"
+>     -
+>     -SRC_URI = "git://git.lttng.org/lttng-ust.git;protocol=git
+>     <http://git.lttng.org/lttng-ust.git;protocol=git>"
+>     -
+>     -S = "${WORKDIR}/git"
+>     -
+>     -do_configure_prepend () {
+>     -       ${S}/bootstrap
+>     -}
+>     -
+>     -# Due to liburcu not building for MIPS currently this recipe needs to
+>     -# be limited also.
+>     -# So here let us first suppport x86/arm/powerpc platforms now.
+>     -COMPATIBLE_HOST = '(x86_64.*|i.86.*|arm.*|powerpc.*)-linux'
+>     diff --git a/meta/recipes-kernel/lttng-2.0/lttng2-ust_2.0.4.bb
+>     <http://lttng2-ust_2.0.4.bb>
+>     b/meta/recipes-kernel/lttng-2.0/lttng2-ust_2.0.4.bb
+>     <http://lttng2-ust_2.0.4.bb>
+>     new file mode 100644
+>     index 0000000..a5f8cec
+>     --- /dev/null
+>     +++ b/meta/recipes-kernel/lttng-2.0/lttng2-ust_2.0.4.bb
+>     <http://lttng2-ust_2.0.4.bb>
+>     @@ -0,0 +1,30 @@
+>     +SUMMARY = "Linux Trace Toolkit Userspace Tracer 2.0"
+>     +DESCRIPTION = "The LTTng UST 2.0 package contains the userspace
+>     tracer library to trace userspace codes."
+>     +HOMEPAGE = "http://lttng.org/lttng2.0"
+>     +BUGTRACKER = "n/a"
+>     +
+>     +LICENSE = "LGPLv2.1+ & BSD & GPLv2"
+>     +LIC_FILES_CHKSUM =
+>     "file://COPYING;md5=c963eb366b781252b0bf0fdf1624d9e9 \
+>     +
+>       file://snprintf/snprintf.c;endline=32;md5=d3d544959d8a3782b2e07451be0a903c \
+>     +
+>       file://snprintf/various.h;endline=31;md5=89f2509b6b4682c4fc95255eec4abe44"
+>     +
+>     +inherit autotools
+>     +
+>     +DEPENDS = "liburcu util-linux"
+>     +
+>     +SRCREV = "f8b934136d431621e3e85457ac2875e8bd9c3387"
+>     +PV = "2.0.4+git${SRCPV}"
+>     +PR = "r0"
+>     +
+>     +SRC_URI = "git://git.lttng.org/lttng-ust.git;protocol=git
+>     <http://git.lttng.org/lttng-ust.git;protocol=git>"
+>     +
+>     +S = "${WORKDIR}/git"
+>     +
+>     +do_configure_prepend () {
+>     +       ${S}/bootstrap
+>     +}
+>     +
+>     +# Due to liburcu not building for MIPS currently this recipe needs to
+>     +# be limited also.
+>     +# So here let us first suppport x86/arm/powerpc platforms now.
+>     +COMPATIBLE_HOST = '(x86_64.*|i.86.*|arm.*|powerpc.*)-linux'
+>     diff --git a/meta/recipes-support/liburcu/liburcu_0.6.7.bb
+>     <http://liburcu_0.6.7.bb>
+>     b/meta/recipes-support/liburcu/liburcu_0.6.7.bb
+>     <http://liburcu_0.6.7.bb>
+>     deleted file mode 100644
+>     index be73856..0000000
+>     --- a/meta/recipes-support/liburcu/liburcu_0.6.7.bb
+>     <http://liburcu_0.6.7.bb>
+>     +++ /dev/null
+>     @@ -1,24 +0,0 @@
+>     -DESCRIPTION = "The userspace read-copy update library by Mathieu
+>     Desnoyers"
+>     -HOMEPAGE = "http://lttng.org/urcu"
+>     -BUGTRACKER = "http://lttng.org/project/issues"
+>     -
+>     -LICENSE = "LGPLv2.1+ & MIT-style"
+>     -LIC_FILES_CHKSUM =
+>     "file://LICENSE;md5=b472dc110d38774921e1d5ccb0065fff \
+>     -
+>       file://urcu.h;beginline=4;endline=32;md5=4de0d68d3a997643715036d2209ae1d9 \
+>     -
+>       file://urcu/uatomic/x86.h;beginline=4;endline=21;md5=220552f72c55b102f2ee35929734ef42"
+>     -
+>     -PR = "r0"
+>     -
+>     -SRC_URI = "http://lttng.org/files/urcu/userspace-rcu-${PV}.tar.bz2
+>     <http://lttng.org/files/urcu/userspace-rcu-$%7BPV%7D.tar.bz2>"
+>     -
+>     -SRC_URI[md5sum] = "2705dadd65beda8e8960472c082e44b3"
+>     -SRC_URI[sha256sum] =
+>     "b0b09aead6fbcb4d5efb4270e12f84ffd115b99b55b2c745e052b2d87a47e75f"
+>     -
+>     -S = "${WORKDIR}/userspace-rcu-${PV}"
+>     -CFLAGS_append_libc-uclibc = " -D_GNU_SOURCE"
+>     -inherit autotools
+>     -
+>     -# liburcu, which is only used by lttng-ust, may not build on other
+>     -# platforms, like MIPS.
+>     -COMPATIBLE_HOST = '(x86_64.*|i.86.*|arm.*|powerpc.*)-linux'
+>     -
+>     diff --git a/meta/recipes-support/liburcu/liburcu_0.7.3.bb
+>     <http://liburcu_0.7.3.bb>
+>     b/meta/recipes-support/liburcu/liburcu_0.7.3.bb
+>     <http://liburcu_0.7.3.bb>
+>     new file mode 100644
+>     index 0000000..86f29be
+>     --- /dev/null
+>     +++ b/meta/recipes-support/liburcu/liburcu_0.7.3.bb
+>     <http://liburcu_0.7.3.bb>
+>     @@ -0,0 +1,24 @@
+>     +DESCRIPTION = "The userspace read-copy update library by Mathieu
+>     Desnoyers"
+>     +HOMEPAGE = "http://lttng.org/urcu"
+>     +BUGTRACKER = "http://lttng.org/project/issues"
+>     +
+>     +LICENSE = "LGPLv2.1+ & MIT-style"
+>     +LIC_FILES_CHKSUM =
+>     "file://LICENSE;md5=95dfea59eeaa41a4057faa07a58f5f89 \
+>     +
+>       file://urcu.h;beginline=4;endline=32;md5=4de0d68d3a997643715036d2209ae1d9 \
+>     +
+>       file://urcu/uatomic/x86.h;beginline=4;endline=21;md5=220552f72c55b102f2ee35929734ef42"
+>     +
+>     +PR = "r0"
+>     +
+>     +SRC_URI = "http://lttng.org/files/urcu/userspace-rcu-${PV}.tar.bz2
+>     <http://lttng.org/files/urcu/userspace-rcu-$%7BPV%7D.tar.bz2>"
+>     +
+>     +SRC_URI[md5sum] = "c40b726f13bff80982c1ffa1bc2db31d"
+>     +SRC_URI[sha256sum] =
+>     "63f540a5d3c947fa3739711099fb87a66036d3c9560f26da763e500da296a1af"
+>     +
+>     +S = "${WORKDIR}/userspace-rcu-${PV}"
+>     +CFLAGS_append_libc-uclibc = " -D_GNU_SOURCE"
+>     +inherit autotools
+>     +
+>     +# liburcu, which is only used by lttng-ust, may not build on other
+>     +# platforms, like MIPS.
+>     +COMPATIBLE_HOST = '(x86_64.*|i.86.*|arm.*|powerpc.*)-linux'
+>     +
+>     --
+>     1.7.1
+>
+>
+>     _______________________________________________
+>     Openembedded-core mailing list
+>     Openembedded-core@lists.openembedded.org
+>     <mailto:Openembedded-core@lists.openembedded.org>
+>     http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+>
 >
 >
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
 >
 
 
