@@ -1,26 +1,36 @@
-Received: from smtp1.ingenico.com ([217.108.148.240])
+Received: from relay1.mentorg.com ([192.94.38.131])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Matthieu.CRAPET@ingenico.com>) id 1SukiB-00067Q-3v
+	(envelope-from <Noor_Ahsan@mentor.com>) id 1SukkQ-0006AQ-3P
 	for openembedded-core@lists.openembedded.org;
-	Fri, 27 Jul 2012 15:36:11 +0200
-X-IronPort-AV: E=Sophos;i="4.77,667,1336341600"; d="scan'208";a="13576304"
-Received: from frsnprexc1.usr.ingenico.loc ([10.23.2.11])
-	by antispam1.usr.ingenico.loc with ESMTP; 27 Jul 2012 15:24:41 +0200
-X-MimeOLE: Produced By Microsoft Exchange V6.5
-MIME-Version: 1.0
-Date: Fri, 27 Jul 2012 15:24:05 +0200
-Message-ID: <D9D7124626ED1E43963D86B2657D5CCD03A6A552@FRSNPREXC1.usr.ingenico.loc>
-In-Reply-To: <50117246.2030502@windriver.com>
+	Fri, 27 Jul 2012 15:38:30 +0200
+Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
+	by relay1.mentorg.com with esmtp 
+	id 1SukIw-0007AZ-7B from Noor_Ahsan@mentor.com 
+	for openembedded-core@lists.openembedded.org;
+	Fri, 27 Jul 2012 06:10:06 -0700
+Received: from SVR-IES-FEM-04.mgc.mentorg.com ([137.202.0.110]) by
+	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
+	SMTPSVC(6.0.3790.4675); Fri, 27 Jul 2012 06:10:06 -0700
+Received: from EU-MBX-03.mgc.mentorg.com ([169.254.2.57]) by
+	SVR-IES-FEM-04.mgc.mentorg.com ([137.202.0.110]) with mapi id
+	14.01.0289.001; Fri, 27 Jul 2012 14:10:04 +0100
+From: "Ahsan, Noor" <Noor_Ahsan@mentor.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [PATCH] dbus-glib: Conditionaly adds dbus-x11 to
+	RDEPENDS_${PN}-tests
+Thread-Index: Ac1r+LG+eXzIYFPAR2qUaAO9eEr3fQ==
+Date: Fri, 27 Jul 2012 13:10:04 +0000
+Message-ID: <365E1805BC95084CBE82381A0B8699945BD9B9B0@EU-MBX-03.mgc.mentorg.com>
+Accept-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-Thread-Topic: [OE-core] SDK and external toolchain
-Thread-Index: Ac1rTPhgZ6JxHrcDTd2qFsLydg3Z2wArNXCA
-References: <D9D7124626ED1E43963D86B2657D5CCD03A69B7A@FRSNPREXC1.usr.ingenico.loc>
-	<50117246.2030502@windriver.com>
-From: "Matthieu CRAPET" <Matthieu.CRAPET@ingenico.com>
-To: "Patches and discussions about the oe-core layer"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: SDK and external toolchain
+x-originating-ip: [137.202.0.76]
+MIME-Version: 1.0
+X-OriginalArrivalTime: 27 Jul 2012 13:10:06.0059 (UTC)
+	FILETIME=[241E0BB0:01CD6BF9]
+Cc: "Ahsan, Noor" <Noor_Ahsan@mentor.com>
+Subject: [PATCH] dbus-glib: Conditionaly adds dbus-x11 to RDEPENDS_${PN}-tests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,198 +45,148 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Jul 2012 13:36:11 -0000
-Content-class: urn:content-classes:message
-Content-Type: text/plain;
-	charset="iso-8859-1"
+X-List-Received-Date: Fri, 27 Jul 2012 13:38:30 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_365E1805BC95084CBE82381A0B8699945BD9B9B0EUMBX03mgcmento_"
+
+--_000_365E1805BC95084CBE82381A0B8699945BD9B9B0EUMBX03mgcmento_
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
+From: Noor Ahsan <noor_ahsan@mentor.com<mailto:noor_ahsan@mentor.com>>
 
-@Mark
+*  Build was hitting an error "Nothing RPROVIDES 'dbus-x11'". dbus-glib RDE=
+PENDS on it and
+dbus was providing dbus-x11 when x11 was present in DISTRO FEATURES. So con=
+ditionally
+added dbus-x11 to RDEPENDS_${PN}-tests in dbus-glib recipe.
+* Verified on qemuppc.
 
-Still have the 3 errors. I added to my tcmode include file (without =
-success):
+Signed-off-by: Noor Ahsan <noor_ahsan@mentor.com>
+---
+meta/recipes-core/dbus/dbus-glib.inc |    2 +-
+1 file changed, 1 insertion(+), 1 deletion(-)
 
-PREFERRED_PROVIDER_eglibc =3D "external-linaro-toolchain"
-PREFERRED_PROVIDER_binutils-cross =3D "external-linaro-toolchain"
-PREFERRED_PROVIDER_gcc-cross =3D "external-linaro-toolchain"
-# eglibc-locale
-PREFERRED_PROVIDER_virtual/libc-locale =3D "external-linaro-toolchain"
-# eglibc-nativesdk
-PREFERRED_PROVIDER_virtual/libc-nativesdk =3D =
-"external-linaro-toolchain"
-PREFERRED_PROVIDER_virtual/libiconv-nativesdk =3D  =
-"external-linaro-toolchain"
+diff --git a/meta/recipes-core/dbus/dbus-glib.inc b/meta/recipes-core/dbus/=
+dbus-glib.inc
+index a8e6d42..9cfe796 100644
+--- a/meta/recipes-core/dbus/dbus-glib.inc
++++ b/meta/recipes-core/dbus/dbus-glib.inc
+@@ -35,7 +35,7 @@ FILES_${PN}-bash-completion =3D "${sysconfdir}/bash_compl=
+etion.d/dbus-bash-complet
+FILES_${PN}-dev +=3D "${libdir}/dbus-1.0/include ${bindir}/dbus-glib-tool"
+FILES_${PN}-dev +=3D "${bindir}/dbus-binding-tool"
+-RDEPENDS_${PN}-tests +=3D "dbus-x11"
++RDEPENDS_${PN}-tests +=3D "${@base_contains('DISTRO_FEATURES', 'x11', 'dbu=
+s-x11', '', d)}"
+FILES_${PN}-tests =3D "${datadir}/${PN}/tests"
+FILES_${PN}-tests-dbg =3D "${datadir}/${PN}/tests/.debug/* \
+                          ${datadir}/${PN}/tests/core/.debug/* \
+--
+1.7.10.4
 
-This is not so important now, as I patched toolchain-scripts.bbclass.
+--_000_365E1805BC95084CBE82381A0B8699945BD9B9B0EUMBX03mgcmento_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-@Christopher
-
-http://lists.linuxtogo.org/pipermail/openembedded-core/2012-July/026659.h=
-tml
-Tried it, this is just fine here!
-
-Thanks for your support guys.
-
-Best regards,
-Matthieu
-
-
------Message d'origine-----
-De=A0: openembedded-core-bounces@lists.openembedded.org =
-[mailto:openembedded-core-bounces@lists.openembedded.org] De la part de =
-Mark Hatle
-Envoy=E9=A0: jeudi 26 juillet 2012 18:37
-=C0=A0: openembedded-core@lists.openembedded.org
-Objet=A0: Re: [OE-core] SDK and external toolchain
-
-On 7/26/12 2:14 AM, Matthieu CRAPET wrote:
-> Greetings,
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
+osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
+//www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
 >
-> Updated recently my oe-core and faced an unwanted side effect.
-> You need to know that I'm using an externel (linaro) toolchain (my=20
-> .bb/.inc are a clone of "sourcery" toolchain example).
-> My toolchain is compiled against a custom (external) eglibc 2.15.
->
-> Since commit a0de2a56f19ae4d8cd88e46e96917a7a019fe1ab --
-> image.bbclass: Add support to build the SDK in parallel with the image
-> =
-http://cgit.openembedded.org/openembedded-core/commit/?id=3Da0de2a56f19a
-> e4
-> d8cd88e46e96917a7a019fe1ab
+<meta name=3D"Generator" content=3D"Microsoft Word 14 (filtered medium)">
+<style><!--
+/* Font Definitions */
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:blue;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-priority:99;
+	color:purple;
+	text-decoration:underline;}
+span.EmailStyle17
+	{mso-style-type:personal-compose;
+	font-family:"Calibri","sans-serif";
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-family:"Calibri","sans-serif";}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]-->
+</head>
+<body lang=3D"EN-US" link=3D"blue" vlink=3D"purple">
+<div class=3D"WordSection1">
+<p class=3D"MsoNormal">From: Noor Ahsan &lt;<a href=3D"mailto:noor_ahsan@me=
+ntor.com">noor_ahsan@mentor.com</a>&gt;<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">*&nbsp; Build was hitting an error &quot;Nothing RPR=
+OVIDES 'dbus-x11'&quot;. dbus-glib RDEPENDS on it and<o:p></o:p></p>
+<p class=3D"MsoNormal">dbus was providing dbus-x11 when x11 was present in =
+DISTRO FEATURES. So conditionally<o:p></o:p></p>
+<p class=3D"MsoNormal">added dbus-x11 to RDEPENDS_${PN}-tests in dbus-glib =
+recipe.<o:p></o:p></p>
+<p class=3D"MsoNormal">* Verified on qemuppc.<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Signed-off-by: Noor Ahsan &lt;noor_ahsan@mentor.com&=
+gt;<o:p></o:p></p>
+<p class=3D"MsoNormal">---<o:p></o:p></p>
+<p class=3D"MsoNormal">meta/recipes-core/dbus/dbus-glib.inc |&nbsp;&nbsp;&n=
+bsp; 2 &#43;-<o:p></o:p></p>
+<p class=3D"MsoNormal">1 file changed, 1 insertion(&#43;), 1 deletion(-)<o:=
+p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">diff --git a/meta/recipes-core/dbus/dbus-glib.inc b/=
+meta/recipes-core/dbus/dbus-glib.inc<o:p></o:p></p>
+<p class=3D"MsoNormal">index a8e6d42..9cfe796 100644<o:p></o:p></p>
+<p class=3D"MsoNormal">--- a/meta/recipes-core/dbus/dbus-glib.inc<o:p></o:p=
+></p>
+<p class=3D"MsoNormal">&#43;&#43;&#43; b/meta/recipes-core/dbus/dbus-glib.i=
+nc<o:p></o:p></p>
+<p class=3D"MsoNormal">@@ -35,7 &#43;35,7 @@ FILES_${PN}-bash-completion =
+=3D &quot;${sysconfdir}/bash_completion.d/dbus-bash-complet<o:p></o:p></p>
+<p class=3D"MsoNormal">FILES_${PN}-dev &#43;=3D &quot;${libdir}/dbus-1.0/in=
+clude ${bindir}/dbus-glib-tool&quot;<o:p></o:p></p>
+<p class=3D"MsoNormal">FILES_${PN}-dev &#43;=3D &quot;${bindir}/dbus-bindin=
+g-tool&quot;<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p></o:p></p>
+<p class=3D"MsoNormal">-RDEPENDS_${PN}-tests &#43;=3D &quot;dbus-x11&quot;<=
+o:p></o:p></p>
+<p class=3D"MsoNormal">&#43;RDEPENDS_${PN}-tests &#43;=3D &quot;${@base_con=
+tains('DISTRO_FEATURES', 'x11', 'dbus-x11', '', d)}&quot;<o:p></o:p></p>
+<p class=3D"MsoNormal">FILES_${PN}-tests =3D &quot;${datadir}/${PN}/tests&q=
+uot;<o:p></o:p></p>
+<p class=3D"MsoNormal">FILES_${PN}-tests-dbg =3D &quot;${datadir}/${PN}/tes=
+ts/.debug/* \<o:p></o:p></p>
+<p class=3D"MsoNormal">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp; ${datadir}/${PN}/tests/core/.debug/* \<o:p></o:p></=
+p>
+<p class=3D"MsoNormal">-- <o:p></o:p></p>
+<p class=3D"MsoNormal">1.7.10.4<o:p></o:p></p>
+</div>
+</body>
+</html>
 
-I have run into similar failures.  Your are missing some items in the =
-PROVIDES most likely, and as for the multiple providers the =
-PREFERRED_PROVIDER is the right answer.
-
-We list a preferred provider for:
-
-linux-libc-headers, linux-libc-headers-dev, virtual/${TARGET_PREFIX}gcc, =
-virtual/${TARGET_PREFIX}gcc-initial, =
-virtual/${TARGET_PREFIX}gcc-intermediate,
-virtual/${TARGET_PREFIX}g++, virtual/${TARGET_PREFIX}binutils, =
-virtual/${TARGET_PREFIX}libc-for-gcc, =
-virtual/${TARGET_PREFIX}compilerlibs,
-libgcc, virtual/libc, virtual/libintl, virtual/libiconv, =
-glibc-thread-db, virtual/linux-libc-headers, eglibc, binutils-cross, =
-gcc-cross
-
-(We have some more, but they are only useful when building an SDK with a =
-custom import script...)
-
-> my images generation are failing because it tries to compile eglib=20
-> 2.16 and do_configure fails. I have also 3 errors:
-> ERROR: Multiple .bb files are due to be built which each provide=20
-> virtual/libc (.../meta/recipes-core/eglibc/eglibc_2.15.bb
-> .../meta-ingenico/recipes/external-linaro-toolchain/external-linaro-to
-> ol
-> chain.bb).
-
-virtual/libc is the item for the above
-
->   This usually means one provides something the other doesn't and =
-should.
-> ERROR: Multiple .bb files are due to be built which each provide=20
-> virtual/arm-ingenico-linux-gnueabi-libc-for-gcc
-> (.../meta/recipes-core/eglibc/eglibc_2.15.bb
-> .../meta-ingenico/recipes/external-linaro-toolchain/external-linaro-to
-> ol
-> chain.bb).
-
-virtual/${TARGET_PREFIX}libc-for-gcc is the item for the above
-
->   This usually means one provides something the other doesn't and =
-should.
-> ERROR: Multiple .bb files are due to be built which each provide=20
-> virtual/libiconv (.../meta/recipes-core/eglibc/eglibc_2.15.bb
-> .../meta-ingenico/recipes/external-linaro-toolchain/external-linaro-to
-> ol
-> chain.bb).
->   This usually means one provides something the other doesn't and =
-should.
-
-and virtual/libiconv is the item for the above...
-
-> Notice that "PREFERRED_PROVIDER"s are correctly defined (like in=20
-> distro/include/tcmode-external-sourcery.inc). And I use bitbake =
-1.15.3.
-
-We had to add additional preferred_providers to the =
-tcmode-external-sourcey.inc.=20
-  We (similar to you) have a custom binary toolchain... so the tailoring =
-was required to get our stuff to work right.
-
-> For now I fixed it crudely, because I don't need SDK.
->
-> diff --git a/meta/classes/toolchain-scripts.bbclass
-> b/meta/classes/toolchain-scripts.bbclass
-> index 44284c3..f5fd4d7 100644
-> --- a/meta/classes/toolchain-scripts.bbclass
-> +++ b/meta/classes/toolchain-scripts.bbclass
-> @@ -136,7 +136,7 @@ toolchain_create_sdk_env_script_for_installer () {
->   #we get the cached site config in the runtime
->   TOOLCHAIN_CONFIGSITE_NOCACHE =3D "${@siteinfo_get_files(d, True)}"
->   TOOLCHAIN_CONFIGSITE_SYSROOTCACHE =3D
-> "${STAGING_DATADIR}/${TARGET_SYS}_config_site.d"
-> -TOOLCHAIN_NEED_CONFIGSITE_CACHE =3D "${TCLIBC} ncurses"
-> +TOOLCHAIN_NEED_CONFIGSITE_CACHE =3D "ncurses"
-
-That is incorrect.. the CONFIGSITE_CACHE should be generated for the =
-TCLIBC.  If you don't do that, then you will be running the same =
-configure steps -- looking for basic glibc information over and over and =
-over, causing a fairly expensive performance penalty.
-
->
->   #This function create a site config file
->   toolchain_create_sdk_siteconfig () {
-> ---
->
-> populate_sdk_base.bbclass inheric toolchain-scripts which adds the
-> (unwanted) eglibc dependency.
-
-It's not an "eglibc" dependency, it's a libc dependency.  You definitely =
-want that!  Otherwise you can end up with an SDK w/o a libc...
-
-> Maybe this should be conditional from TOOLCHAIN_TARGET_TASK value?  Or =
-
-> dependencies should be added only when calling=20
-> task-core-standalone-sdk-target?
-> In my use case, when I bitbake an image recipe, I don't want to deal=20
-> with SDK.
-
-I don't know the exact bitbake version numbers, but a fairly recent =
-bitbake change (approx the same time as the patch you referred to) =
-resolves an issue where un-used tasks were adding in build dependencies =
-and causing the system to take longer to execute.)  So as long as you =
-have a recent bitbake to match the recent oe-core, you should be ok.
-
-> Concerning errors, is there a way to see what's not provided in order=20
-> to fix virtual/libc message (bitbake -e) ?
-
-bitbake -e, grep for PREFERRED_PROVIDER to see what you -do- have =
-listed..=20
-Otherwise no, you just have to go off of the error messages and add =
-things until you've listed everything.
-
-General rule of thumb, anything thats listed in the PROVIDES of the =
-recipe will be needed in the PREFERRED_PROVIDER as well.
-
---Mark
-
-> Best regards,
-> Matthieu
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
-
-
-_______________________________________________
-Openembedded-core mailing list
-Openembedded-core@lists.openembedded.org
-http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-
-
+--_000_365E1805BC95084CBE82381A0B8699945BD9B9B0EUMBX03mgcmento_--
