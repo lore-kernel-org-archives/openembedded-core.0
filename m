@@ -1,33 +1,32 @@
-Received: from mail-vb0-f47.google.com ([209.85.212.47])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <manuel.bessler@gmail.com>) id 1SulEz-00076D-B9
-	for openembedded-core@lists.openembedded.org;
-	Fri, 27 Jul 2012 16:10:05 +0200
-Received: by vbbfr13 with SMTP id fr13so2626987vbb.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Jul 2012 06:58:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type; bh=gQj+VyEMjLCYXbqEL0f+MPJ1foiVl+0+S3ny8h4oeVU=;
-	b=DSM98mMuAw6eeV6Uix3Ha1skfuiCRVfILO3DieMaLCcraiSmdAEzLN++ijp6FRXsc6
-	P3pvNVFeWAKhKCDzBHNuFkMtYrLhz6uKUorUJG1owRhRGih8MOt3sJSVgA83tFwt7Tpu
-	gufLH7T4jPrSCdkPDQL3NQqnMyMM7WMq8CH3cRkmO10hTxVfZ79EwxoN7N6okmxaOLUn
-	FhKeTyu8Tc6cszFl50wvTncRTLqze0ENW/8KEMnRSgJiv4uQRAVzZ25biRW4KTgBJ40S
-	IzGbNbxlUFqWSIjaIDfGsLx4LeP6Zgczt7w/qyz0K/JDN6zChuip1w9qVJx83A1rO9rf
-	/5kQ==
-MIME-Version: 1.0
-Received: by 10.220.107.15 with SMTP id z15mr2529764vco.36.1343397512731; Fri,
-	27 Jul 2012 06:58:32 -0700 (PDT)
-Received: by 10.220.35.132 with HTTP; Fri, 27 Jul 2012 06:58:32 -0700 (PDT)
-In-Reply-To: <1343341065.4470.79.camel@x121e.pbcl.net>
-References: <CAKSdS8LwF4XvBcuAoJ=36tOMMGF=VRLPoar5Tp9dCf+69JtiOw@mail.gmail.com>
-	<1343341065.4470.79.camel@x121e.pbcl.net>
-Date: Fri, 27 Jul 2012 09:58:32 -0400
-Message-ID: <CAKSdS8+nnK0+0LTCn0yb0=-5Ye+9p=ab6MtTbFT5Uwv5qWTP=Q@mail.gmail.com>
-From: Manuel Bessler <manuel.bessler@gmail.com>
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1SulRB-0007ER-BD for openembedded-core@lists.openembedded.org;
+	Fri, 27 Jul 2012 16:22:41 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6REBAVG006626;
+	Fri, 27 Jul 2012 15:11:10 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 06353-01; Fri, 27 Jul 2012 15:11:05 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6REB0eP006601
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Fri, 27 Jul 2012 15:11:02 +0100
+Message-ID: <1343398257.9574.139.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: libc-common.bbclass and uclibc
+Date: Fri, 27 Jul 2012 15:10:57 +0100
+In-Reply-To: <1343396986.18260.10.camel@lenny>
+References: <1343389394.9574.127.camel@ted>
+	<20120727114631.GJ3621@jama.jama.net> <1343391537.9574.132.camel@ted>
+	<1343396986.18260.10.camel@lenny>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH] gobject-introspection: Drop the recipe, it has never worked and if it does cross compile, we can add it back
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,29 +41,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Jul 2012 14:10:05 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Fri, 27 Jul 2012 14:22:41 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Thu, Jul 26, 2012 at 6:17 PM, Phil Blundell <philb@gnu.org> wrote:
-> On Thu, 2012-07-26 at 17:51 -0400, Manuel Bessler wrote:
->> =========================================
->> python populate_packages_prepend () {
->>         if d.getVar('DEBIAN_NAMES', True):
->>                 bpn = d.getVar('BPN', True)
->>                 d.setVar('PKG_'+bpn, 'libc6')
->> ...
->> =========================================
->
-> That particular piece of code does seem bogus for many reasons and
-> should probably go away.  I think it is a historical relic.
->
-> But, that said, libc-common.bbclass is poorly named and is really
-> specific to (e)glibc.  You don't want to use that for uclibc.
+On Fri, 2012-07-27 at 09:49 -0400, Colin Walters wrote:
+> Hi Richard,
+> 
+> On Fri, 2012-07-27 at 13:18 +0100, Richard Purdie wrote:
+> 
+> > If the latter, add "gobject-introspection-stub" to DEPENDS and this
+> > should resolve it. See the patches I just sent doing this for OE-Core.
+> 
+> Just want to say thanks for picking this up and running with it; it'll
+> reduce the delta between how we currently build GNOME components and
+> what OE needs, which is a big win.
 
-Ok, thanks, good to know. I just confirmed that my build indeed
-succeeds without it.
+Thanks for writing the stubs! :)
 
-Thanks,
-Manuel
+I've been wanting this for a while. Since Ross had sorted out gtk-doc,
+this seemed like the next logical step and I think things look much
+better in general!
+
+Cheers,
+
+Richard
+
 
 
