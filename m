@@ -1,25 +1,24 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1Sungy-0003Hx-RX
+	(envelope-from <philb@gnu.org>) id 1SuoB0-0003tW-II
 	for openembedded-core@lists.openembedded.org;
-	Fri, 27 Jul 2012 18:47:09 +0200
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 27 Jul 2012 09:35:35 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="127637072"
-Received: from unknown (HELO [10.255.12.157]) ([10.255.12.157])
-	by AZSMGA002.ch.intel.com with ESMTP; 27 Jul 2012 09:35:35 -0700
-Message-ID: <5012C356.6090100@linux.intel.com>
-Date: Fri, 27 Jul 2012 09:35:34 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:14.0) Gecko/20120717 Thunderbird/14.0
-MIME-Version: 1.0
+	Fri, 27 Jul 2012 19:18:10 +0200
+Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
+	helo=[172.30.1.145])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1Sunzs-0000Nv-HD
+	for openembedded-core@lists.openembedded.org;
+	Fri, 27 Jul 2012 19:06:40 +0200
+From: Phil Blundell <philb@gnu.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <20120727152454.GA5706@windriver.com>
-In-Reply-To: <20120727152454.GA5706@windriver.com>
-Subject: Re: [PATCH] openssh: package testing
+Date: Fri, 27 Jul 2012 18:06:24 +0100
+In-Reply-To: <1343370137-30705-1-git-send-email-radu.moisan@intel.com>
+References: <1343370137-30705-1-git-send-email-radu.moisan@intel.com>
+X-Mailer: Evolution 3.0.2- 
+Message-ID: <1343408800.5878.112.camel@phil-desktop>
+Mime-Version: 1.0
+Subject: Re: [PATCH v5] dbus: include dbus-launch in the main dbus package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,103 +33,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Jul 2012 16:47:09 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Fri, 27 Jul 2012 17:18:10 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 07/27/2012 08:24 AM, Amy Fong wrote:
-> openssh: package testing
->
-> Package openssh's regression tests
->
-> Signed-off-by: Amy Fong <amy.fong@windriver.com>
-> ---
->   openssh-5.9p1/runtests.sh |   29 +++++++++++++++++++++++++++++
->   openssh_5.9p1.bb          |    9 +++++++++
->   2 files changed, 38 insertions(+)
->
-> diff --git a/meta/recipes-connectivity/openssh/openssh-5.9p1/runtests.sh b/meta/recipes-connectivity/openssh/openssh-5.9p1/runtests.sh
-> new file mode 100755
-> index 0000000..bb99a05
-> --- /dev/null
-> +++ b/meta/recipes-connectivity/openssh/openssh-5.9p1/runtests.sh
-> @@ -0,0 +1,29 @@
-> +#!/bin/sh
-> +
-> +cd regress
-> +
-> +make \
-> +	.OBJDIR=`pwd` \
-> +	.CURDIR=`pwd` \
-> +	BUILDDIR=`pwd` \
-> +	OBJ=`pwd` \
-> +	PATH=$PATH:. \
-> +	TEST_SHELL=sh \
-> +	TEST_SSH_SSH=`which ssh` \
-> +	TEST_SSH_SSHD=`which sshd` \
-> +	TEST_SSH_SSHAGENT=`which ssh-agent` \
-> +	TEST_SSH_SSHADD=`which ssh-add` \
-> +	TEST_SSH_SSHKEYGEN=`which ssh-keygen` \
-> +	TEST_SSH_SSHPKCS11HELPER="/usr/libexec/ssh-pkcs11-helper" \
-> +	TEST_SSH_SSHKEYSCAN=`which ssh-keyscan` \
-> +	TEST_SSH_SFTP=`which sftp` \
-> +	TEST_SSH_SFTPSERVER="/usr/libexec/sftp-server" \
-> +	TEST_SSH_PLINK="plink" \
-> +	TEST_SSH_PUTTYGEN="puttygen" \
-> +	TEST_SSH_CONCH="conch" \
-> +	TEST_SSH_IPV6="yes" \
-> +	TEST_SSH_ECC="yes" \
-> +	TEST_SSH_SHA256="yes" \
-> +	EXEEXT="" \
-> +	tests
-> +
-> diff --git a/meta/recipes-connectivity/openssh/openssh_5.9p1.bb b/meta/recipes-connectivity/openssh/openssh_5.9p1.bb
-> index 749f89e..f0880c0 100644
-> --- a/meta/recipes-connectivity/openssh/openssh_5.9p1.bb
-> +++ b/meta/recipes-connectivity/openssh/openssh_5.9p1.bb
-> @@ -23,6 +23,7 @@ SRC_URI = "ftp://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar.
->              file://sshd_config \
->              file://ssh_config \
->              file://init \
-> +           file://runtests.sh \
->              ${@base_contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)}"
->
->   PAM_SRC_URI = "file://sshd"
-> @@ -81,6 +82,9 @@ do_install_append () {
->   	mv ${D}${bindir}/ssh ${D}${bindir}/ssh.${PN}
->   	rm -f ${D}${bindir}/slogin ${D}${datadir}/Ssh.bin
->   	rmdir ${D}/var/run/sshd ${D}/var/run ${D}/var
-> +	if [ ! -d ${D}/opt/${PN}-tests/ ]; then mkdir -p ${D}/opt/${PN}-tests/; fi
-> +	install -m 755 ${WORKDIR}/runtests.sh ${D}/opt/${PN}-tests/
-> +	cp -ra ${S}/regress ${D}/opt/${PN}-tests/
->   }
->
-I think these needs to be conditional on PACKAGECONFIG having "tests" to 
-include tests and test scripts.  Also, I am not sure we should be 
-putting them in opt, probably better to have them in ${datadir}/${PN}/tests
+On Fri, 2012-07-27 at 09:22 +0300, Radu Moisan wrote:
+> Followed suggestions from Bugz 2261:
+> 
+> 2) make the virtual/libx11 DEPENDS conditional based on the x11 distro feature.
+> This makes the build dependencies reflect the feature list.
+> 
+> 3) remove dbus-x11, meaning that dbus-launch with its potential X11 dependency
+> is now back in dbus where is belongs.
+> 
+> 4) Potentially make dbus provide dbus-x11, for compatibility.
+
+I'm not quite sure I understand what's "potential" about this last item.
+The patch below seems to do that unconditionally.
+
+> +# for compatibility
+> +PROVIDES = "dbus-x11"
+> +RPROVIDES_${PN} = "dbus-x11"
+> +RREPLACES_${PN} += "dbus-x11"
+
+You probably want RCONFLICTS_${PN} there for completeness.  Also, as I
+think was already noted, that PROVIDES is most likely superfluous.
+
+p.
 
 
->   ALLOW_EMPTY_${PN} = "1"
-> @@ -95,6 +99,11 @@ FILES_${PN}-sftp-server = "${libexecdir}/sftp-server"
->   FILES_${PN}-misc = "${bindir}/ssh* ${libexecdir}/ssh*"
->   FILES_${PN}-keygen = "${bindir}/ssh-keygen"
->
-> +PACKAGES += "${PN}-testing"
-This should also be triggered by a PACKAGECONFIG check.
-
-> +DEPENDS_${PN}-testing += "${PN}-keygen ${PN}-scp ${PN}-ssh ${PN}-sshd ${PN}-sftp ${PN}-misc ${PN}-sftp-server"
-> +FILES_${PN}-testing += "/opt/${PN}-tests/*"
-> +FILES_${PN}-dbg += "/opt/${PN}-tests/.debug/*"
-> +
->   RDEPENDS_${PN} += "${PN}-scp ${PN}-ssh ${PN}-sshd ${PN}-keygen"
->   DEPENDS_${PN}-sshd += "update-rc.d"
->   RDEPENDS_${PN}-sshd += "update-rc.d ${PN}-keygen"
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
->
 
 
