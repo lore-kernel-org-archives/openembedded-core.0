@@ -1,40 +1,30 @@
-Received: from mail-we0-f175.google.com ([74.125.82.175])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1SujbT-0004Ke-S3
-	for openembedded-core@lists.openembedded.org;
-	Fri, 27 Jul 2012 14:25:11 +0200
-Received: by weyr6 with SMTP id r6so1843662wey.6
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1Sujd3-0004NI-Pg for openembedded-core@lists.openembedded.org;
+	Fri, 27 Jul 2012 14:26:50 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6RCFILG005950
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Jul 2012 05:13:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=PmKpfgg9wkB+7PTdVt6VcLeEgEIsStWG+zI/MbL0SLM=;
-	b=MzHdV0ZuTHEUttlMP5vyCd/KdgkuBSVZOE0NFH4JFF2gOPykowkQqsvsU74Lc0Khr/
-	wscwSJPC9uCFrLij3hD9MTJ+wBqwZ0g50hAgKL+ZQz+WaBFpH03IO2Cl5rRzbjyEoFQw
-	h794AcGmO4GWWSWPwppNoQllpzmAxCD4L+ln6SEQUsCqbs5NtGB+vFS5Gyw5sA8yz26G
-	8ZoozzI1+ZoXH6bQDQGDThifRGVV4uyz9z6FZlRGF39iAxIKVVtD7Z+LswAgfPvxOubL
-	h/SiP+NqpSfLVAqaZVRPz1yQKEB4/Pf50ouWkenh9SicaqasthyRaifp6E8o6HCDmP5Y
-	n0OA==
-Received: by 10.180.86.133 with SMTP id p5mr5667963wiz.17.1343391220054;
-	Fri, 27 Jul 2012 05:13:40 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id t7sm6084075wix.6.2012.07.27.05.13.37
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 27 Jul 2012 05:13:37 -0700 (PDT)
-Date: Fri, 27 Jul 2012 14:13:44 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20120727121344.GL3621@jama.jama.net>
-References: <20120726135324.6971710217@opal>
-	<20120727110521.GH3621@jama.jama.net>
-	<20120727115256.GK3621@jama.jama.net>
-	<1343390744.5878.101.camel@phil-desktop>
-MIME-Version: 1.0
-In-Reply-To: <1343390744.5878.101.camel@phil-desktop>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: [oe-commits] Cristian Iorga : libpcap: upgrade to ver. 1.3
+	Fri, 27 Jul 2012 13:15:18 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 05276-06 for <openembedded-core@lists.openembedded.org>;
+	Fri, 27 Jul 2012 13:15:13 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6RCF7Qe005941
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 27 Jul 2012 13:15:11 +0100
+Message-ID: <1343391306.9574.130.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Fri, 27 Jul 2012 13:15:06 +0100
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: [PATCH] gconf: Clean up introspection disabling by using gobject-introspection-stub
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,58 +39,100 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Jul 2012 12:25:11 -0000
-X-Groupsio-MsgNum: 26390
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="sCNd3Ivk/oijKKf1"
-Content-Disposition: inline
+X-List-Received-Date: Fri, 27 Jul 2012 12:26:50 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---sCNd3Ivk/oijKKf1
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+diff --git a/meta/recipes-gnome/gnome/gconf-3.2.3/nointro.patch b/meta/recipes-gnome/gnome/gconf-3.2.3/nointro.patch
+deleted file mode 100644
+index 29181e3..0000000
+--- a/meta/recipes-gnome/gnome/gconf-3.2.3/nointro.patch
++++ b/dev/null
+@@ -1,59 +0,0 @@
+-This is a hacky way to prevent GConf from trying to build the introspection related pieces.
+-Clearly not appropriate for upstream.
+-
+-Upstream-Status: Inappropriate
+-
+-Signed-off-by: Joshua Lock <josh@linux.intel.com>
+-
+-Index: GConf-3.2.2/gconf/Makefile.am
+-===================================================================
+---- GConf-3.2.2.orig/gconf/Makefile.am
+-+++ GConf-3.2.2/gconf/Makefile.am
+-@@ -145,34 +145,6 @@ libgconf_2_la_LDFLAGS = -version-info $(
+- 
+- libgconf_2_la_LIBADD = $(INTLLIBS) $(DEPENDENT_LIBS) $(DEPENDENT_DBUS_LIBS) $(DEPENDENT_ORBIT_LIBS)
+- 
+---include $(INTROSPECTION_MAKEFILE)
+--INTROSPECTION_GIRS =
+--INTROSPECTION_SCANNER_ARGS = --warn-all --add-include-path=$(srcdir)
+--INTROSPECTION_COMPILER_ARGS= --includedir=$(srcdir)
+--
+--if HAVE_INTROSPECTION
+--introspection_files =				\
+--	$(gconfinclude_HEADERS)			\
+--	$(filter-out $(CORBA_SOURCECODE), $(filter %.c,$(libgconf_2_la_SOURCES)))
+--GConf-2.0.gir: libgconf-2.la Makefile
+--GConf_2_0_gir_INCLUDES = GObject-2.0
+--GConf_2_0_gir_CFLAGS = \
+--	$(INCLUDES)
+--GConf_2_0_gir_LIBS = libgconf-2.la
+--GConf_2_0_gir_FILES = $(addprefix $(srcdir)/, $(introspection_files))
+--GConf_2_0_gir_SCANNERFLAGS = --identifier-prefix=GConf --symbol-prefix=gconf --c-include "gconf/gconf.h"
+--GConf_2_0_gir_EXPORT_PACKAGES = gconf-2.0
+--INTROSPECTION_GIRS += GConf-2.0.gir
+--
+--girdir = $(datadir)/gir-1.0/
+--gir_DATA = $(INTROSPECTION_GIRS)
+--
+--typelibsdir = $(libdir)/girepository-1.0/
+--typelibs_DATA = $(INTROSPECTION_GIRS:.gir=.typelib)
+--
+--CLEANFILES += $(gir_DATA) $(typelibs_DATA)
+--endif
+--
+- EXTRA_DIST=GConfX.idl default.path.in org.gnome.GConf.service.in gconfmarshal.list regenerate-enum-header.sh regenerate-enum-footer.sh
+- 
+- default.path: $(srcdir)/default.path.in
+-Index: GConf-3.2.2/configure.in
+-===================================================================
+---- GConf-3.2.2.orig/configure.in
+-+++ GConf-3.2.2/configure.in
+-@@ -354,8 +354,6 @@ AM_GLIB_GNU_GETTEXT
+- 
+- AC_CHECK_FUNCS(bind_textdomain_codeset)
+- 
+--GOBJECT_INTROSPECTION_CHECK([0.9.5])
+--
+- AC_SUBST(CFLAGS)
+- AC_SUBST(CPPFLAGS)
+- AC_SUBST(LDFLAGS)
+diff --git a/meta/recipes-gnome/gnome/gconf_3.2.3.bb b/meta/recipes-gnome/gnome/gconf_3.2.3.bb
+index 60c2be2..8388684 100644
+--- a/meta/recipes-gnome/gnome/gconf_3.2.3.bb
++++ b/meta/recipes-gnome/gnome/gconf_3.2.3.bb
+@@ -6,15 +6,14 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=55ca817ccb7d5b5b66355690e9abc605"
+ POLKIT = "polkit"
+ POLKIT_libc-uclibc = ""
+ 
+-DEPENDS = "glib-2.0 dbus dbus-glib libxml2 intltool-native ${POLKIT}"
+-DEPENDS_virtclass-native = "glib-2.0-native dbus-native dbus-glib-native libxml2-native intltool-native gnome-common-native"
++DEPENDS = "glib-2.0 dbus dbus-glib libxml2 intltool-native ${POLKIT} gobject-introspection-stub"
++DEPENDS_virtclass-native = "glib-2.0-native dbus-native dbus-glib-native libxml2-native intltool-native gnome-common-native gobject-introspection-stub-native"
+ 
+ PR = "r11"
+ 
+ inherit gnomebase gtk-doc
+ 
+ SRC_URI = "${GNOME_MIRROR}/GConf/${@gnome_verdir("${PV}")}/GConf-${PV}.tar.bz2;name=archive \
+-	   file://nointro.patch \
+ 	   file://backenddir.patch"
+ 
+ SRC_URI[archive.md5sum] = "f80329173cd9d134ad07e36002dd2a15"
 
-On Fri, Jul 27, 2012 at 01:05:43PM +0100, Phil Blundell wrote:
-> On Fri, 2012-07-27 at 13:52 +0200, Martin Jansa wrote:
-> >  * check_data_file_clashes: Package libpcap1 wants to install file /usr=
-/lib/libpcap.so.1
-> >         But that file is already provided by package  * libpcap
-> >  * check_data_file_clashes: Package libpcap1 wants to install file /usr=
-/lib/libpcap.so.1
-> >         But that file is already provided by package  * libpcap
->=20
-> If the old library was also libpcap.so.1, why has the package name
-> changed?  You said in your first mail that the patch "changes .so
-> version" but if that was the case then there oughtn't to have been a
-> file conflict here.
 
-True, I haven't seen this error before sending my first reply. So I've
-assumed that it was libpcap0 before and I was wrong.=20
 
-The real reason for package rename was that before this upgrade libpcap=20
-package contained also pcap-config (so debian naming wasn't used):
 
-http://git.shr-project.org/git/?p=3Dbuildhistory.git;a=3Dcommitdiff;h=3D85d=
-ae3abafee082905ffb5b9f1a2072e8f3eb047#patch190
-
-Once again https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D2787 proves
-to be usefull..
-
-Cheers,
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---sCNd3Ivk/oijKKf1
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
-
-iEYEARECAAYFAlAShfgACgkQN1Ujt2V2gByUUQCfTBZCfwQozPHD+iLRGJoBPj3o
-wJcAnRpYSdCZ31C90W9wo7cXlhyE2Sro
-=aZfZ
------END PGP SIGNATURE-----
-
---sCNd3Ivk/oijKKf1--
