@@ -1,35 +1,34 @@
-Received: from mail-wg0-f43.google.com ([74.125.82.43])
+Received: from mail-ey0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1Sv55q-00017u-Cs
+	(envelope-from <raj.khem@gmail.com>) id 1SvCCv-0000Fi-B1
 	for openembedded-core@lists.openembedded.org;
-	Sat, 28 Jul 2012 13:21:58 +0200
-Received: by wgbdr1 with SMTP id dr1so3111948wgb.24
+	Sat, 28 Jul 2012 20:57:45 +0200
+Received: by eaaq10 with SMTP id q10so627467eaa.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 28 Jul 2012 04:10:25 -0700 (PDT)
+	Sat, 28 Jul 2012 11:46:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	bh=kM6Ul1i9cgNs0zRSpeDiEJS//p0f06MJIxtHvR7bdXo=;
-	b=ZcapG7Dv1NMbgq22DjdEOoTD3qcFmrF06RweeHxlvG3MLLGCHfgVur8noei69wEOdD
-	7WRDwgRj+2v0bA7EKMXwDykanYrS39oPtBAuVTfwen4LlGspBOb6g+I8WZTj7ojVGL4W
-	UMrIqCkmJ1qPs0xXyRUQdYcJBxEaUsiurBioS41xBL6YXTKI1ymZMCY8SggLK2rwPanC
-	uva35CIQXmnA5DnC4Wd/E/18FK46LlsVVEqhf2WD0W7kF5P0UiHKJO81yqEpBySpui/W
-	bFDU3zC9DR6MdQtCgN+xHZsNnXhDxSBLoCLpd7JQ4bDzZLtiS+YrX61QUZLVXwN6FJcV
-	yzoQ==
-Received: by 10.216.45.211 with SMTP id p61mr596048web.188.1343473825218;
-	Sat, 28 Jul 2012 04:10:25 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id fr4sm5469196wib.8.2012.07.28.04.10.23
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sat, 28 Jul 2012 04:10:24 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 28 Jul 2012 13:10:29 +0200
-Message-Id: <1343473829-19737-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.7.8.6
-In-Reply-To: <20120728110453.GF3742@jama.jama.net>
-References: <20120728110453.GF3742@jama.jama.net>
-Cc: Martin Jansa <martin.jansa@gmail.com>
-Subject: [PATCHv2] qt-mobility, xserver-xorg, ofono, bluez4, gst-plugins-good: bump PR to rebuild after libudev0 soname change to libudev1
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type; bh=3Kt4exDkTkaptcFiI01fd0f6KLz4i/zuypq+dUuIwEc=;
+	b=kSZtYce8NyFmtaykTWw+qYE8sWj1OlRBiuAk8Ms3PmEcu5/Jlu/JE5CdGsVaifLvwF
+	JqJPzIJpCe548Xts31XgM444HuMBsOaxyLfSmh65Pk7ovJm14CCVQWDhp+PCZ7y+qxuD
+	KWAZRE9A1sXjl9MMwHSUYpeKPrb4FuloA5mfqDpQeeT0785PTC2qAERbwQtKUyaivXpg
+	5fblCzdQGkP+l9aHFuvrigQ13ad6FRPx2HE9aQASYvoIqwNN0X+597mlw4cq+Qx0xMlv
+	sChT/VBpS3j7O5kIm9GYAzykDrBwFNC93QV6WC82qtqQsKuhDnLZtoEOjua3y/p4f68U
+	42qw==
+Received: by 10.14.173.71 with SMTP id u47mr6765092eel.22.1343501171883; Sat,
+	28 Jul 2012 11:46:11 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.14.97.141 with HTTP; Sat, 28 Jul 2012 11:45:41 -0700 (PDT)
+In-Reply-To: <5013C1BB.9020504@communistcode.co.uk>
+References: <8e3806df2f45dfaf6bf86ce7591b8d09b873c27e.1341763346.git.raj.khem@gmail.com>
+	<4d738395bf7cd05c924a9facf9677bab784cb1b6.1341763346.git.raj.khem@gmail.com>
+	<5013C1BB.9020504@communistcode.co.uk>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sat, 28 Jul 2012 11:45:41 -0700
+Message-ID: <CAMKF1spLQ5M7fpjninE_Gbyq=faW9V0psMN1Hb9NZKfXGDTMBg@mail.gmail.com>
+To: ml@communistcode.co.uk, Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 08/19] bison: Fix for gets being removed from eglibc 2.16
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,102 +43,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 28 Jul 2012 11:21:58 -0000
+X-List-Received-Date: Sat, 28 Jul 2012 18:57:45 -0000
+Content-Type: text/plain; charset=UTF-8
 
-From: Martin Jansa <martin.jansa@gmail.com>
+On Sat, Jul 28, 2012 at 3:40 AM, Jack Mitchell <ml@communistcode.co.uk> wrote:
+> On 08/07/2012 17:10, Khem Raj wrote:
+>>
+>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>> ---
+>>   .../recipes-devtools/bison/bison/remove-gets.patch |   20
+>> ++++++++++++++++++++
+>>   meta/recipes-devtools/bison/bison_2.5.bb           |    6 ++++--
+>>   2 files changed, 24 insertions(+), 2 deletions(-)
+>>   create mode 100644 meta/recipes-devtools/bison/bison/remove-gets.patch
+>>
+>> diff --git a/meta/recipes-devtools/bison/bison/remove-gets.patch
+>> b/meta/recipes-devtools/bison/bison/remove-gets.patch
+>> new file mode 100644
+>> index 0000000..2dfa00f
+>> --- /dev/null
+>> +++ b/meta/recipes-devtools/bison/bison/remove-gets.patch
+>> @@ -0,0 +1,20 @@
+>> +gets has been removed from eglibc 2.16
+>> +
+>> +Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>> +
+>> +Upstream-Status: Pending
+>> +Index: bison-2.5/lib/stdio.in.h
+>> +===================================================================
+>> +--- bison-2.5.orig/lib/stdio.in.h      2012-07-04 09:09:48.336532195
+>> -0700
+>> ++++ bison-2.5/lib/stdio.in.h   2012-07-04 09:10:22.868533884 -0700
+>> +@@ -180,8 +180,10 @@
+>> + /* It is very rare that the developer ever has full control of stdin,
+>> +    so any use of gets warrants an unconditional warning.  Assume it is
+>> +    always declared, since it is required by C89.  */
+>> ++#if defined gets
+>> + #undef gets
+>> + _GL_WARN_ON_USE (gets, "gets is a security hole - use fgets instead");
+>> ++#endif
+>> +
+>> + #if @GNULIB_FOPEN@
+>> + # if @REPLACE_FOPEN@
+>> diff --git a/meta/recipes-devtools/bison/bison_2.5.bb
+>> b/meta/recipes-devtools/bison/bison_2.5.bb
+>> index fc3bb6d..687f06a 100644
+>> --- a/meta/recipes-devtools/bison/bison_2.5.bb
+>> +++ b/meta/recipes-devtools/bison/bison_2.5.bb
+>> @@ -9,14 +9,16 @@ LIC_FILES_CHKSUM =
+>> "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+>>   SECTION = "devel"
+>>   DEPENDS = "bison-native flex-native"
+>>   -PR = "r1"
+>> +PR = "r2"
+>>     BASE_SRC_URI = "${GNU_MIRROR}/bison/bison-${PV}.tar.gz \
+>>            file://m4.patch \
+>>           "
+>>     SRC_URI = "${BASE_SRC_URI} \
+>> -        file://fix_cross_manpage_building.patch "
+>> +           file://fix_cross_manpage_building.patch \
+>> +           file://remove-gets.patch \
+>> +          "
+>>     SRC_URI[md5sum] = "687e1dcd29452789d34eaeea4c25abe4"
+>>   SRC_URI[sha256sum] =
+>> "722def46e4a19a5b7a579ef30db1965f86c37c1a20a5f0113743a2e4399f7c99"
+>
+>
+> Hi Khem,
+>
+> This patch doesn't fix the Bison gets issue for me, I had to create a patch
+> that removed the line altogether to get it to compile successfully. Even
+> though gets isn't present on my system it still matches the #if defined gets
+> and tries to #undef gets which results in an error.
+>
+> However, I don't think removing the line altogether is the correct fix for
+> the global userbase...
+>
 
-* this patch depends on http://patchwork.openembedded.org/patch/32085/
+send me the preprocessed output.
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-
----
-v2: rebased bluez4 PR bump
-
----
- meta/recipes-connectivity/bluez/bluez4_4.101.bb    |    2 +-
- meta/recipes-connectivity/ofono/ofono_1.8.bb       |    1 +
- meta/recipes-connectivity/ofono/ofono_git.bb       |    2 +-
- .../xorg-xserver/xserver-xorg-1.11.2.inc           |    2 +-
- .../gstreamer/gst-plugins-good_0.10.31.bb          |    2 +-
- meta/recipes-qt/qt4/qt-mobility_1.2.0.inc          |    2 +-
- 6 files changed, 6 insertions(+), 5 deletions(-)
-
-diff --git a/meta/recipes-connectivity/bluez/bluez4_4.101.bb b/meta/recipes-connectivity/bluez/bluez4_4.101.bb
-index e26d4ea..f1a2fe7 100644
---- a/meta/recipes-connectivity/bluez/bluez4_4.101.bb
-+++ b/meta/recipes-connectivity/bluez/bluez4_4.101.bb
-@@ -1,6 +1,6 @@
- require bluez4.inc
- 
--PR = "r2"
-+PR = "r3"
- 
- SRC_URI += "file://bluetooth.conf \
-             file://sbc_mmx.patch"
-diff --git a/meta/recipes-connectivity/ofono/ofono_1.8.bb b/meta/recipes-connectivity/ofono/ofono_1.8.bb
-index e2d97f0..86767f1 100644
---- a/meta/recipes-connectivity/ofono/ofono_1.8.bb
-+++ b/meta/recipes-connectivity/ofono/ofono_1.8.bb
-@@ -4,6 +4,7 @@ SRC_URI  = "\
-   ${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.bz2 \
-   file://ofono \
- "
-+PR = "r1"
- 
- SRC_URI[md5sum] = "e457ea13db22bb2de77767c867dcc4d3"
- SRC_URI[sha256sum] = "164b413068e810281a5e6c9bb90d5002d80f1c30bef2f3ffdbe70f963079524d"
-diff --git a/meta/recipes-connectivity/ofono/ofono_git.bb b/meta/recipes-connectivity/ofono/ofono_git.bb
-index a44b411..0a69fff 100644
---- a/meta/recipes-connectivity/ofono/ofono_git.bb
-+++ b/meta/recipes-connectivity/ofono/ofono_git.bb
-@@ -3,7 +3,7 @@ require ofono.inc
- S	 = "${WORKDIR}/git"
- SRCREV = "14544d5996836f628613c2ce544380ee6fc8f514"
- PV	 = "0.12-git${SRCPV}"
--PR = "r3"
-+PR = "r4"
- 
- SRC_URI  = "git://git.kernel.org/pub/scm/network/ofono/ofono.git;protocol=git \
- 	    file://ofono"
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2.inc
-index 595ab77..017ac91 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2.inc
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg-1.11.2.inc
-@@ -8,5 +8,5 @@ SRC_URI += "file://crosscompile.patch \
- SRC_URI[md5sum] = "8796fff441e5435ee36a72579008af24"
- SRC_URI[sha256sum] = "fa415decf02027ca278b06254ccfbcceba2a83c2741405257ebf749da4a73cf2"
- 
--PR = "r3"
-+PR = "r4"
- 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.31.bb b/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.31.bb
-index e0eaf7b..ac63f94 100644
---- a/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.31.bb
-+++ b/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.31.bb
-@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343 \
- 
- DEPENDS += "gst-plugins-base gconf cairo jpeg libpng gtk+ zlib libid3tag flac \
- 	    speex libsoup-2.4 pulseaudio"
--PR = "r1"
-+PR = "r2"
- 
- inherit gettext gconf
- 
-diff --git a/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc b/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc
-index e612adb..7f0af9f 100644
---- a/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc
-+++ b/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc
-@@ -16,7 +16,7 @@ SRC_URI = "http://get.qt.nokia.com/qt/add-ons/qt-mobility-opensource-src-${PV}.t
- SRC_URI[md5sum]="ea5db5a8d3dd4709c2926dceda646bd8"
- SRC_URI[sha256sum]="ee3c88975e04139ac9589f76d4be646d44fcbc4c8c1cf2db621abc154cf0ba44"
- 
--PR = "r5"
-+PR = "r6"
- 
- S = "${WORKDIR}/qt-mobility-opensource-src-${PV}"
- 
--- 
-1.7.8.6
-
+> Regards,
+> Jack.
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
