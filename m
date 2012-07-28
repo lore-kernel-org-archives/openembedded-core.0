@@ -1,40 +1,41 @@
-Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
+Received: from eumx.net ([91.82.101.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1Suu4T-0001ZU-BH
+	(envelope-from <ml@communistcode.co.uk>) id 1Sv3Bb-0007UA-2v
 	for openembedded-core@lists.openembedded.org;
-	Sat, 28 Jul 2012 01:35:49 +0200
-Received: by lags15 with SMTP id s15so2161814lag.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Jul 2012 16:24:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date
-	:x-google-sender-auth:message-id:subject:to:cc:content-type;
-	bh=hIB6bmMoLdCpqBebiIkFjW8675d8cNVACtIVWy7qKQk=;
-	b=KsGkzCWZ3yjXmzjVNeT0s2+Psk1ufHNscFSpDMEu6tTLl26ZZEajL2HcZtAHiezHCy
-	EJuOjLXN6Ui1YL7tgjNIzKhX29HWiTgXeBO+DHYS/xZJtsUvxcX88pmkrXI1UPjm7DFQ
-	Y/Fn9gdUKOcQUTNsVuKV7SeMhZD0pNRo923l4Gy0t685cPQSygrN/KPQNt5D5tBlLC+r
-	1maMZxfDzbypTlcSzop6AcQjtkhcRWLGNqgv38Mzz/+vEVXmYAYumJouz3r8cccrnSd3
-	S7sB5CHsc5u4m24zCESqALQVI9fo34W5sGx6efjspVCy9gScTNEykh6iFfq7Y3tUkvot
-	xWXg==
-Received: by 10.152.148.1 with SMTP id to1mr4139569lab.34.1343431456557; Fri,
-	27 Jul 2012 16:24:16 -0700 (PDT)
+	Sat, 28 Jul 2012 11:19:48 +0200
+Received: from localhost ([127.0.0.1]:48359 helo=eumx.net)
+	by eumx.net with esmtp (Exim 4.72)
+	(envelope-from <ml@communistcode.co.uk>) id 1Sv30P-00070R-NM
+	for openembedded-core@lists.openembedded.org;
+	Sat, 28 Jul 2012 09:08:13 +0000
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=eumx.net; h=message-id
+	:date:from:reply-to:mime-version:to:subject:references
+	:in-reply-to:content-type:content-transfer-encoding; s=default;
+	bh=4TsgeoFWwvOUGx0J2Csrr8ib8FY=; b=UddYVgTzyRgR8Z/em18A9gw8F/uK
+	6kF/sQQDlKtSly36zn/5lilBKW8DRazphsKGnFS9hkv8MhsXrrF4vcVmsD5kCgbg
+	HPfnv27rzYC1mSrGD0k+tTJ1BWredJsKKXkiw33/KQVm8+wJ8CIRpuyllFI7WJ4l
+	muuwt2X641RrbLg=
+Received: from cpc2-cmbg15-2-0-cust171.5-4.cable.virginmedia.com
+	([86.26.12.172]:49220 helo=[192.168.1.113])
+	by eumx.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <ml@communistcode.co.uk>)
+	id 1Sv2vZ-0006vj-IR for openembedded-core@lists.openembedded.org;
+	Sat, 28 Jul 2012 09:03:13 +0000
+Message-ID: <5013AACF.2010807@communistcode.co.uk>
+Date: Sat, 28 Jul 2012 10:03:11 +0100
+From: Jack Mitchell <ml@communistcode.co.uk>
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
+	rv:14.0) Gecko/20120713 Thunderbird/14.0
 MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.114.64.180 with HTTP; Fri, 27 Jul 2012 16:23:56 -0700 (PDT)
-In-Reply-To: <1342826543-23508-1-git-send-email-raj.khem@gmail.com>
-References: <1342826543-23508-1-git-send-email-raj.khem@gmail.com>
-From: Chris Larson <clarson@kergoth.com>
-Date: Fri, 27 Jul 2012 16:23:56 -0700
-X-Google-Sender-Auth: OfVRzAgphxr6EpEv_HBIr4eZFQQ
-Message-ID: <CABcZAN=5+3sCySjmpRcK_MYDCAF2BsuWcVWJu5u1PitdQZBn0A@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: Re: [PATCH V2 1/2] kernel.bbclass: fix external module building
+To: openembedded-core@lists.openembedded.org
+References: <1343307951.29991.27.camel@ted>
+In-Reply-To: <1343307951.29991.27.camel@ted>
+Subject: Re: [PATCH] lib/oe/lsb: Add basic LSB functions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: ml@communistcode.co.uk,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -45,46 +46,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Jul 2012 23:35:49 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Sat, 28 Jul 2012 09:19:48 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, Jul 20, 2012 at 4:22 PM, Khem Raj <raj.khem@gmail.com> wrote:
-> From: Denis Carikli <GNUtoo@no-log.org>
+On 26/07/2012 14:05, Richard Purdie wrote:
+> This code was written by Christopher Larson <chris_larson@mentor.com> and
+> allows generation of the LSB release data based upon the lsb_release
+> command. It also includes a helper function to generate a string
+> representing a given distribution.
 >
-> Without that fix we have the following while compiling compat-wireless.
->   include/linux/mmzone.h:18:30: fatal error: generated/bounds.h: No such file or directory
->
-> Note that the compat-wireless recipe will be added in another commit.
->
-> make -C $kerneldir _mrproper_scripts deleted this file along with
-> other things so we resurrect it with this patch.
->
-> Signed-off-by: Denis 'GNUtoo' Carikli <GNUtoo@no-log.org>
-> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 > ---
->  meta/classes/kernel.bbclass |    3 +++
->  1 file changed, 3 insertions(+)
->
-> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> index 08b5e61..ce4d7de 100644
-> --- a/meta/classes/kernel.bbclass
-> +++ b/meta/classes/kernel.bbclass
-> @@ -187,6 +187,9 @@ kernel_do_install() {
->                 cp arch/powerpc/lib/crtsavres.o $kerneldir/arch/powerpc/lib/crtsavres.o
->         fi
->
-> +       # Necessary for building modules like compat-wireless.
-> +       cp include/generated/bounds.h $kerneldir/include/generated/bounds.h
+> diff --git a/meta/lib/oe/lsb.py b/meta/lib/oe/lsb.py
+> new file mode 100644
+> index 0000000..a774169
+> --- a/dev/null
+> +++ b/meta/lib/oe/lsb.py
+> @@ -0,0 +1,28 @@
+> +def release_dict():
+> +    """Return the output of lsb_release -a as a dictionary"""
+> +    from subprocess import PIPE
 > +
->         # Remove the following binaries which cause strip or arch QA errors
->         # during do_package for cross-compiled platforms
->         bin_files="arch/powerpc/boot/addnote arch/powerpc/boot/hack-coff \
-> --
-> 1.7.9.5
+> +    try:
+> +        output, err = bb.process.run(['lsb_release', '-a'], stderr=PIPE)
+> +    except bb.process.CmdError as exc:
+> +        return
+> +
+> +    data = {}
+> +    for line in output.splitlines():
+> +        try:
+> +            key, value = line.split(":\t", 1)
+> +        except ValueError:
+> +            continue
+> +        else:
+> +            data[key] = value
+> +    return data
+> +
+> +def distro_identifier(adjust_hook=None):
+> +    """Return a distro identifier string based upon lsb_release -ri,
+> +       with optional adjustment via a hook"""
+> +
+> +    lsb_data = release_dict()
+> +    distro_id, release = lsb_data['Distributor ID'], lsb_data['Release']
+> +    if adjust_hook:
+> +        distro_id, release = adjust_hook(distro_id, release)
+> +    return '{0}-{1}'.format(distro_id, release)
+>
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
-As an fyi, this seems to have broken compatibility with 2.6 kernel
-recipes, as bounds.h doesn't live in generated/ there.
--- 
-Christopher Larson
+There is an unchecked error case here. I just had to fix this issue:
+
+ERROR: Execution of event handler 'oe_import_eh' failed
+Traceback (most recent call last):
+   File "oe_import_eh(e)", line 4, in 
+oe_import_eh(e=<bb.event.ConfigParsed object at 0x3834f90>)
+   File "/mnt/yocto/poky.git/meta/lib/oe/lsb.py", line 25, in 
+distro_identifier(adjust_hook=None):
+          lsb_data = release_dict()
+     >    distro_id, release = lsb_data['Distributor ID'], 
+lsb_data['Release']
+          if adjust_hook:
+TypeError: 'NoneType' object has no attribute '__getitem__'
+
+
+by installing lsb_release. Archlinux 64.
+
+Should it check to see if it installed first and error otherwise? It 
+looks like it tries to do it here:
+
++    try:
++        output, err = bb.process.run(['lsb_release', '-a'], stderr=PIPE)
++    except bb.process.CmdError as exc:
++        return
+
+
+but it must be missing something.
+
+Regards,
+Jack
 
 
