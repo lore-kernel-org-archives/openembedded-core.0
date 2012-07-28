@@ -1,34 +1,41 @@
-Received: from mail-wi0-f169.google.com ([209.85.212.169])
+Received: from mail-we0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1SvDfy-0003w9-3a
+	(envelope-from <martin.jansa@gmail.com>) id 1SvDjv-00040i-3l
 	for openembedded-core@lists.openembedded.org;
-	Sat, 28 Jul 2012 22:31:50 +0200
-Received: by wibhm2 with SMTP id hm2so1472979wib.0
+	Sat, 28 Jul 2012 22:35:55 +0200
+Received: by weyr6 with SMTP id r6so2549084wey.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 28 Jul 2012 13:20:16 -0700 (PDT)
+	Sat, 28 Jul 2012 13:24:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	bh=V+cFRarfGyLwSUX0gue0367tfrpXksZnxUcSeUzxYc4=;
-	b=t1yr22BJ7dZK+kbT9E7iVRg3O7hR8g7czBD7HO/AuEvinCJukEIV/ypKEkTEryONXn
-	Fcy2gwVO0+X6xuo1ZXlUcndCCGQSbHMHzEbEL7SyWExGobVyu8vYzKL0yrKa1R2+0E5O
-	D74zEqmBE/y/R0zjYSp+3kYtttDMHIgY8x6WE9aAbN3qkF/9HChhEoyeBfulvOPCinWc
-	s1+nFLn9k+tV8pSWeIr0rKVHbVas1IpR3AnTR6x+0cbsnzstE3sDkrmnUhOZLyLyqlj4
-	DS90mbFhL+etucTzoTZv7phf+Zirqqi9Gi7VSb6BT9IXTsDrO26icqfG1e5y385iyp1y
-	Mbow==
-Received: by 10.180.94.164 with SMTP id dd4mr31284517wib.1.1343506816486;
-	Sat, 28 Jul 2012 13:20:16 -0700 (PDT)
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=vFDxU/tK09DggDK/1Kajg8ex11nfs+Ix4hqdywV7FUM=;
+	b=HS/i/dhthoXY/zlK+TCW8pBZOtJEMZ37MjcXP/TOORoeqBWlWEX7WfuYDX663fWQgk
+	d+vCY/3y3ePk2qYb6WQGlXPaRoM1kJQSNjzPs6AWNNqJ5D/7GPVJGNNKbdi/WbYESiQt
+	bKo20HXdPfuWETa9os6hX+Sm9C2tg8ZTKO57cQEZyXR2Y98dOXs+A4Yukm3ZTLm7gquN
+	6KXdh3/+qRr1s0YYPIUnGywovpYWJEFdVRbJHL4rNUDOGAftf0pVwxb65g0/BzZfPQnq
+	fvo/Jq53GsrD26By5GAFSIxGrHBQPS72VXpqmk9Dpdy5bonrJrzlUnDdBQdkglm9KomB
+	BGnQ==
+Received: by 10.217.2.146 with SMTP id p18mr3401089wes.224.1343507061686;
+	Sat, 28 Jul 2012 13:24:21 -0700 (PDT)
 Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id cu1sm6400912wib.6.2012.07.28.13.20.14
+	by mx.google.com with ESMTPS id o2sm9315663wiz.11.2012.07.28.13.24.20
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sat, 28 Jul 2012 13:20:15 -0700 (PDT)
+	Sat, 28 Jul 2012 13:24:20 -0700 (PDT)
+Date: Sat, 28 Jul 2012 22:24:14 +0200
 From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 28 Jul 2012 22:20:07 +0200
-Message-Id: <1343506807-24935-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.7.8.6
+To: ml@communistcode.co.uk, Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Message-ID: <20120728202414.GA3261@jama.jama.net>
+References: <8e3806df2f45dfaf6bf86ce7591b8d09b873c27e.1341763346.git.raj.khem@gmail.com>
+	<4d738395bf7cd05c924a9facf9677bab784cb1b6.1341763346.git.raj.khem@gmail.com>
+	<5013C1BB.9020504@communistcode.co.uk>
+	<CAMKF1spLQ5M7fpjninE_Gbyq=faW9V0psMN1Hb9NZKfXGDTMBg@mail.gmail.com>
+	<5014425C.3090506@communistcode.co.uk>
+MIME-Version: 1.0
 In-Reply-To: <5014425C.3090506@communistcode.co.uk>
-References: <5014425C.3090506@communistcode.co.uk>
-Subject: [PATCH] bison: move remove-gets.patch to BASE_SRC_URI, it's needed for bison-native too if host has (e)glibc-2.16
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Subject: Re: [PATCH 08/19] bison: Fix for gets being removed from eglibc 2.16
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,37 +50,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 28 Jul 2012 20:31:50 -0000
+X-List-Received-Date: Sat, 28 Jul 2012 20:35:55 -0000
+X-Groupsio-MsgNum: 26439
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="pf9I7BMVVzbSWLtt"
+Content-Disposition: inline
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/recipes-devtools/bison/bison_2.5.bb |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
+--pf9I7BMVVzbSWLtt
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/meta/recipes-devtools/bison/bison_2.5.bb b/meta/recipes-devtools/bison/bison_2.5.bb
-index 687f06a..5028300 100644
---- a/meta/recipes-devtools/bison/bison_2.5.bb
-+++ b/meta/recipes-devtools/bison/bison_2.5.bb
-@@ -9,15 +9,15 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
- SECTION = "devel"
- DEPENDS = "bison-native flex-native"
- 
--PR = "r2"
-+PR = "r3"
- 
- BASE_SRC_URI = "${GNU_MIRROR}/bison/bison-${PV}.tar.gz \
- 	   file://m4.patch \
-+           file://remove-gets.patch \
- 	  "
- 
- SRC_URI = "${BASE_SRC_URI} \
-            file://fix_cross_manpage_building.patch \
--           file://remove-gets.patch \
-           "
- 
- SRC_URI[md5sum] = "687e1dcd29452789d34eaeea4c25abe4"
--- 
-1.7.8.6
+On Sat, Jul 28, 2012 at 08:49:48PM +0100, Jack Mitchell wrote:
+> I'm not sure quite what you mean by pre-processed output but here is my=
+=20
+> do_compile log which is where it fails.
 
+He meant C source code after processing by preprocessor (-E option for
+gcc), but it's not needed, see following patch.
 
+The problem was that patch was applied only for target recipe not
+-native which is failing for you (I guess you have (e)glibc-2.16 on host
+like I do)
 
+Cheers,
+
+--pf9I7BMVVzbSWLtt
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
+
+iEYEARECAAYFAlAUSm4ACgkQN1Ujt2V2gBwFTwCeJfgQ3Oi6klRfgoJ5rI6fnQBy
+8/YAnRGr7r7fMXNptFMr62Od70upyzza
+=argp
+-----END PGP SIGNATURE-----
+
+--pf9I7BMVVzbSWLtt--
