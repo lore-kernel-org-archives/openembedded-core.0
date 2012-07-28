@@ -1,24 +1,39 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-wi0-f177.google.com ([209.85.212.177])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Song.Li@windriver.com>) id 1Sv3Yg-0007kC-6R
+	(envelope-from <martin.jansa@gmail.com>) id 1Sv3e6-0007s9-Hw
 	for openembedded-core@lists.openembedded.org;
-	Sat, 28 Jul 2012 11:43:38 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q6S9W29p003246
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Sat, 28 Jul 2012 11:49:14 +0200
+Received: by wibhm11 with SMTP id hm11so311681wib.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 28 Jul 2012 02:32:03 -0700 (PDT)
-Received: from localhost.localdomain (128.224.163.66) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.309.2; Sat, 28 Jul 2012 02:32:02 -0700
-From: <Song.Li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Sat, 28 Jul 2012 17:31:45 +0800
-Message-ID: <1343467905-10228-1-git-send-email-Song.Li@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
+	Sat, 28 Jul 2012 02:37:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=EMnjLkayISgbnmENLcA+KVl8zNIIoColHrQ44YdqRRQ=;
+	b=rdjwAaGge73ukxZYzA1aCj5X8sqPMLKCjYFz9OV+0EgDgdbOVZ9axOl9HYmJIbLuRu
+	TdReG2pdjlxu451caWsTf+0NKcZk0GnY7BPV3DrFlTz2bgG+g6EDXjGdOJoTZ3tQUSn6
+	OZ2OIfQEAKoxRvvzZTnfy/0rmf022NDtYe1qoK+uFSzhElg1M3l5I9TZvSutg/Bj0GqF
+	zsvLYug3+tnEYuBmK3jAmbRii7cSrxPpLOossXpk/TtI4I+9szgc1yX5losUwHQV/RnE
+	kq8kmbEgZrJ1xMSpRzHBAn5QF8wqlHUaOGSA/qhpJJTaoK+sIKRYh2WFuYbp4s0Oo2rr
+	wfLw==
+Received: by 10.180.100.131 with SMTP id ey3mr12482721wib.15.1343468261643;
+	Sat, 28 Jul 2012 02:37:41 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id t8sm3167345wiy.3.2012.07.28.02.37.39
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Sat, 28 Jul 2012 02:37:40 -0700 (PDT)
+Date: Sat, 28 Jul 2012 11:37:46 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: ml@communistcode.co.uk, Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Message-ID: <20120728093746.GE3742@jama.jama.net>
+References: <1343307951.29991.27.camel@ted>
+	<5013AACF.2010807@communistcode.co.uk>
+	<20120728091614.GD3742@jama.jama.net>
 MIME-Version: 1.0
-Cc: Zhenfeng.Zhao@windriver.com
-Subject: [PATCH V2] guile:meta/Makefile change install-data-hook to install-exec-hook
+In-Reply-To: <20120728091614.GD3742@jama.jama.net>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Subject: Re: [PATCH] lib/oe/lsb: Add basic LSB functions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,95 +48,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 28 Jul 2012 09:43:38 -0000
-Content-Type: text/plain
+X-List-Received-Date: Sat, 28 Jul 2012 09:49:14 -0000
+X-Groupsio-MsgNum: 26431
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="19uQFt6ulqmgNgg1"
+Content-Disposition: inline
 
-From: "Song.Li" <Song.Li@windriver.com>
+--19uQFt6ulqmgNgg1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-In guile meta/Makefile, what install-data-hook do
-must be run after install-binSCRIPTS.so it's a exec hook, not a data hook.
-If keep these exec-hook in data-hook,when we run make with multi-jobbing ,
-install-data-hook and install-binSCRIPTS will be separately
-processed in different thread, no any dependence.
-that will cause error sometimes.
+On Sat, Jul 28, 2012 at 11:16:14AM +0200, Martin Jansa wrote:
+> > by installing lsb_release. Archlinux 64.
+> >=20
+> > Should it check to see if it installed first and error otherwise? It=20
+> > looks like it tries to do it here:
+> >=20
+> > +    try:
+> > +        output, err =3D bb.process.run(['lsb_release', '-a'], stderr=
+=3DPIPE)
+> > +    except bb.process.CmdError as exc:
+> > +        return
+> >=20
+> >=20
+> > but it must be missing something.
+>=20
+> Same here, interesting is that it failed only during 2nd build, 1st
+> with this commit applied finished fine.
 
-[YOCTO #2796]
+Ah no, it was there also first time I've overlooked it as it's not
+fatal.
 
-Signed-off-by: Song.Li <Song.Li@windriver.com>
----
- ...all-data-hook-to-install-exec-hook-in-gui.patch |   39 ++++++++++++++++++++
- meta/recipes-devtools/guile/guile_2.0.5.bb         |    3 +-
- 2 files changed, 41 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/guile/files/change-install-data-hook-to-install-exec-hook-in-gui.patch
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-diff --git a/meta/recipes-devtools/guile/files/change-install-data-hook-to-install-exec-hook-in-gui.patch b/meta/recipes-devtools/guile/files/change-install-data-hook-to-install-exec-hook-in-gui.patch
-new file mode 100644
-index 0000000..9445fca
---- /dev/null
-+++ b/meta/recipes-devtools/guile/files/change-install-data-hook-to-install-exec-hook-in-gui.patch
-@@ -0,0 +1,39 @@
-+From 687e5a6598f89b97c89afb94d6ac3ec024dc08e2 Mon Sep 17 00:00:00 2001
-+From: "Song.Li" <Song.Li@windriver.com>
-+Date: Thu, 26 Jul 2012 14:19:46 +0800
-+Subject: [PATCH] guile:meta/Makefile change install-data-hook to install-exec-hook
-+
-+In guile meta/Makefile, what install-data-hook do
-+must be run after install-binSCRIPTS.so it's a exec hook, not a data hook.
-+If keep these exec-hook in data-hook,when we run make with multi-jobbing ,
-+install-data-hook and install-binSCRIPTS will be separately
-+processed in different thread, no any dependence.
-+that will cause error sometimes.
-+
-+[YOCTO #2796]
-+
-+Upstream Status:Submitted
-+Upstream Bugid :12015 email:12015@debbugs.gnu.org
-+guile bug maillist: bug-guile@gnu.org
-+
-+Signed-off-by: Song.Li <Song.Li@windriver.com>
-+---
-+ meta/Makefile.am |    2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/meta/Makefile.am b/meta/Makefile.am
-+index f26fc44..e603e5c 100644
-+--- a/meta/Makefile.am
-++++ b/meta/Makefile.am
-+@@ -27,7 +27,7 @@ EXTRA_DIST= \
-+   guild.in guile-config.in
-+ 
-+ # What we now call `guild' used to be known as `guile-tools'.
-+-install-data-hook:
-++install-exec-hook:
-+ 	cd $(DESTDIR)$(bindir) && rm -f guile-tools$(EXEEXT) && \
-+ 	$(LN_S) guild$(EXEEXT) guile-tools$(EXEEXT)
-+ 
-+-- 
-+1.7.9.5
-+
-diff --git a/meta/recipes-devtools/guile/guile_2.0.5.bb b/meta/recipes-devtools/guile/guile_2.0.5.bb
-index 0e21d5e..8fae712 100644
---- a/meta/recipes-devtools/guile/guile_2.0.5.bb
-+++ b/meta/recipes-devtools/guile/guile_2.0.5.bb
-@@ -22,6 +22,7 @@ SRC_URI = "${GNU_MIRROR}/guile/guile-${PV}.tar.gz \
-            file://guile_2.0.5_fix_cross_compilation.patch \
-            file://remove-gets.patch \
-            file://arm_endianness.patch \
-+           file://change-install-data-hook-to-install-exec-hook-in-gui.patch \
-            "
- 
- #           file://debian/0001-Change-guile-to-guile-X.Y-for-info-pages.patch
-@@ -30,7 +31,7 @@ SRC_URI = "${GNU_MIRROR}/guile/guile-${PV}.tar.gz \
- SRC_URI[md5sum] = "bcf70d54b44c99cb9acd3f63c5486b4b"
- SRC_URI[sha256sum] = "2a026ea6cdbc51ca71bcd9787839debfa45ac5db1e26dc00b30ca9b128b10956"
- 
--PR = "r4"
-+PR = "r5"
- 
- inherit autotools gettext
- BBCLASSEXTEND = "native"
--- 
-1.7.9.5
+--19uQFt6ulqmgNgg1
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
 
+iEYEARECAAYFAlATsuoACgkQN1Ujt2V2gByQFwCfdNV/wLFYbdhpCFbcsQcGBZD0
+sSUAnjj6Llzhynrfv7RtlP20dQsmnyvy
+=CHDz
+-----END PGP SIGNATURE-----
 
+--19uQFt6ulqmgNgg1--
