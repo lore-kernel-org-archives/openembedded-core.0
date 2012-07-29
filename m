@@ -1,33 +1,34 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1SvQ3r-0002QR-Vn for openembedded-core@lists.openembedded.org;
-	Sun, 29 Jul 2012 11:45:20 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6T9XkTG027043
+Received: from mail-we0-f175.google.com ([74.125.82.175])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <martin.jansa@gmail.com>) id 1SvQ9X-0002VD-IU
+	for openembedded-core@lists.openembedded.org;
+	Sun, 29 Jul 2012 11:51:11 +0200
+Received: by weyr6 with SMTP id r6so2718317wey.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 29 Jul 2012 10:33:46 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 26918-05 for <openembedded-core@lists.openembedded.org>;
-	Sun, 29 Jul 2012 10:33:42 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6T9XTlJ027037
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 29 Jul 2012 10:33:35 +0100
-Message-ID: <1343554409.16998.37.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Sun, 29 Jul 2012 10:33:29 +0100
-In-Reply-To: <cover.1343256969.git.paul.eggleton@linux.intel.com>
-References: <cover.1343256969.git.paul.eggleton@linux.intel.com>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 0/6] rootfs generation improvements v4
+	Sun, 29 Jul 2012 02:39:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
+	bh=6WqPGazLfzWsT5GrGV3pEsf25d5e0C63AL5vU37FItQ=;
+	b=j5wpKjbzSsI5mun8KEvaAaM2eK1nlY1UbjizeHFBjHegemFa/SIp1fY12Fx5OrAq0q
+	sMW4tXJX2qt8uaHBml6MHPC7CYsQYDQfd3w2EQME4KFlOwwCSyONTEoPHHlxygo+iXo9
+	9pVopUjQFglS535d/AR35b0yu1909jlUb0fGk2QDTW9ZXEVX6vpeRJANjHJ4hN/Zrbk/
+	f8rEgK/mA8ByHLPOj5pDSkh4j3Zv5hzsYUNnd8PasJRJIYP7fByvQ6lv0qvqJI1F4JmY
+	JwdlpplcwAH1UdGE2WFN4yuAJpgdSaO8s5R4BKsLqk3MY6LFXFeHaHrNnkjEW/g/qCBl
+	unhA==
+Received: by 10.180.79.69 with SMTP id h5mr18425392wix.6.1343554777316;
+	Sun, 29 Jul 2012 02:39:37 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id fu8sm9414416wib.5.2012.07.29.02.39.35
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Sun, 29 Jul 2012 02:39:36 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 29 Jul 2012 11:39:29 +0200
+Message-Id: <1343554769-22112-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.7.8.6
+In-Reply-To: <cae0f7ba7693529116ae5e21cdddc35bf96aa8fe.1343389943.git.ross.burton@intel.com>
+References: <cae0f7ba7693529116ae5e21cdddc35bf96aa8fe.1343389943.git.ross.burton@intel.com>
+Subject: [PATCH] libdrm: add DEFAULT_PREFERENCE = -1 to git recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,45 +43,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 29 Jul 2012 09:45:20 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 29 Jul 2012 09:51:11 -0000
 
-On Thu, 2012-07-26 at 00:03 +0100, Paul Eggleton wrote:
-> Fix up handling of "complementary" package installation (dev, dbg, doc,
-> etc.) and introduce a staticdev-pkgs IMAGE_FEATURES feature.
-> 
-> Changes since the brown paper bag patchset that was v3:
-> 
-> * Remove bogus clearing of IMAGE_FEATURES in core-image-minimal
-> * Fix broken fix for errors with the ipk and deb backends if no
->   complementary packages need to be installed that prevented it from
->   actually installing anything (!)
-> 
-> 
-> The following changes since commit 4148bc80c008d25c8a536c7c7dfdeac1669a6662:
-> 
->   libgcc: Add missing dependency on libc:do_package (2012-07-24 10:12:08 +0100)
-> 
-> are available in the git repository at:
-> 
->   git://git.openembedded.org/openembedded-core-contrib paule/rootfs2
->   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/rootfs2
-> 
-> Andrei Gherzan (1):
->   package.bbclass: Create symlinks for packages with different packaged
->     name
-> 
-> Paul Eggleton (5):
->   classes/rootfs_rpm: improve speed of RPM rootfs construction
->   classes/package_deb: add PackageArch field
->   Rework installation of dev, dbg, doc, and locale packages
->   classes/image: add staticdev-pkgs IMAGE_FEATURES feature
->   buildhistory: improve performance of image info collection
+* recipe from tarball should be default version
 
-Merged to master, thanks.
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/recipes-graphics/drm/libdrm_git.bb |    2 ++
+ 1 files changed, 2 insertions(+), 0 deletions(-)
 
-Richard
+diff --git a/meta/recipes-graphics/drm/libdrm_git.bb b/meta/recipes-graphics/drm/libdrm_git.bb
+index 2b3ef47..4f4d4f7 100644
+--- a/meta/recipes-graphics/drm/libdrm_git.bb
++++ b/meta/recipes-graphics/drm/libdrm_git.bb
+@@ -4,6 +4,8 @@ SRC_URI = "git://anongit.freedesktop.org/git/mesa/drm;protocol=git"
+ 
+ S = "${WORKDIR}/git"
+ 
++DEFAULT_PREFERENCE = "-1"
++
+ SRCREV = "1b1a4f0a779f7ab2ba5673b9c9fe2a37047fe765"
+ PV = "2.4.37+git${SRCPV}"
+ PR = "${INC_PR}.0"
+-- 
+1.7.8.6
 
 
 
