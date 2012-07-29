@@ -1,34 +1,33 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1SvPqS-0001qc-LB for openembedded-core@lists.openembedded.org;
-	Sun, 29 Jul 2012 11:31:28 +0200
+	id 1SvPsP-0001tM-3l for openembedded-core@lists.openembedded.org;
+	Sun, 29 Jul 2012 11:33:29 +0200
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6T9JtLE026877
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6T9Ltf5026906
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 29 Jul 2012 10:19:55 +0100
+	Sun, 29 Jul 2012 10:21:55 +0100
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 18628-09 for <openembedded-core@lists.openembedded.org>;
-	Sun, 29 Jul 2012 10:19:51 +0100 (BST)
+	id 26851-01 for <openembedded-core@lists.openembedded.org>;
+	Sun, 29 Jul 2012 10:21:51 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6T9JW1v026871
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6T9LkqN026900
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 29 Jul 2012 10:19:44 +0100
-Message-ID: <1343553570.16998.25.camel@ted>
+	Sun, 29 Jul 2012 10:21:47 +0100
+Message-ID: <1343553706.16998.26.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Sun, 29 Jul 2012 10:19:30 +0100
-In-Reply-To: <46e10fa82df93bea00d11334830c05fff662334c.1343425855.git.peter.seebach@windriver.com>
-References: <cover.1343425855.git.peter.seebach@windriver.com>
-	<46e10fa82df93bea00d11334830c05fff662334c.1343425855.git.peter.seebach@windriver.com>
+Date: Sun, 29 Jul 2012 10:21:46 +0100
+In-Reply-To: <cover.1343389943.git.ross.burton@intel.com>
+References: <cover.1343389943.git.ross.burton@intel.com>
 X-Mailer: Evolution 3.2.2- 
 Mime-Version: 1.0
 X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 1/1] pseudo.inc/pseudo_1.4.bb: update pseudo to 1.4
+Subject: Re: [PATCH 0/4] drm updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,36 +42,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 29 Jul 2012 09:31:29 -0000
+X-List-Received-Date: Sun, 29 Jul 2012 09:33:29 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2012-07-27 at 16:54 -0500, Peter Seebach wrote:
-> This update replaces the half-baked --arch logic with the use
-> of $CFLAGS to pick compiler flags, on the grounds that it makes
-> a lot more sense for the build system to pick flags than for
-> pseudo to try to guess what they should be; this should allow
-> pseudo to at least compile for targets, and possibly run on
-> them.
+On Fri, 2012-07-27 at 12:53 +0100, Ross Burton wrote:
+> Forwarding some patches to libdrm.  More mesa-related changes later.
 > 
-> This doesn't solve the problem of guessing how to forcibly
-> build the 32-bit variant on hosts, because we really don't
-> have a general solution for that. There's no idiom for "given
-> this set of compiler flags and this architecture, what flags
-> would you use to request a 32-bit compile instead?" So we
-> basically ignore that for now. If someone comes along trying
-> to use the build system to build pseudo-native on a 64-bit
-> host that also supports 32-bit binaries and isn't x86, we
-> will revisit this.
-> ---
->  meta/recipes-devtools/pseudo/pseudo.inc      |   12 +++++++++---
->  meta/recipes-devtools/pseudo/pseudo_1.3.1.bb |    8 --------
->  meta/recipes-devtools/pseudo/pseudo_1.4.bb   |    8 ++++++++
->  meta/recipes-devtools/pseudo/pseudo_git.bb   |    8 ++++----
->  4 files changed, 21 insertions(+), 15 deletions(-)
->  delete mode 100644 meta/recipes-devtools/pseudo/pseudo_1.3.1.bb
->  create mode 100644 meta/recipes-devtools/pseudo/pseudo_1.4.bb
-
+> The following changes since commit fb53d69d9c726e6a663ea276cc440676e20f8326:
+> 
+>   documentation/dev-manual/dev-manual-intro.xml: typo fixed. (2012-07-26 18:53:04 +0100)
+> 
+> are available in the git repository at:
+> 
+>   git://git.yoctoproject.org/poky-contrib ross/mesa
+> 
+> for you to fetch changes up to cae0f7ba7693529116ae5e21cdddc35bf96aa8fe:
+> 
+>   libdrm: Bump libdrm_git to 2.4.37 (2012-07-27 12:51:29 +0100)
+> 
+> ----------------------------------------------------------------
+> Damien Lespiau (3):
+>       libdrm: libdrm does not depend on xcb any more
+>       libdrm: Put the license md5sum in the common include
+>       libdrm: Bump libdrm_git to 2.4.37
+> 
+> Ross Burton (1):
+>       drm: move to PR/INC_PR, starting at r1 as libdrm_git was at r1
+> 
+>  meta/recipes-graphics/drm/libdrm.inc       |    5 ++++-
+>  meta/recipes-graphics/drm/libdrm_2.4.35.bb |    4 +---
+>  meta/recipes-graphics/drm/libdrm_git.bb    |    7 ++++---
+>  3 files changed, 9 insertions(+), 7 deletions(-)
+> 
+> Damien Lespiau (3):
+>   libdrm: libdrm does not depend on xcb any more
+>   libdrm: Put the license md5sum in the common include
+>   libdrm: Bump libdrm_git to 2.4.37
+> 
+> Ross Burton (1):
+>   drm: move to PR/INC_PR, starting at r1 as libdrm_git was at r1
 
 Merged to master, thanks.
 
