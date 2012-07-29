@@ -1,31 +1,25 @@
-Received: from mail-pb0-f47.google.com ([209.85.160.47])
+Received: from starfish.geekisp.com ([216.168.135.166])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1SvbCK-0007hE-Ue
+	(envelope-from <philip@balister.org>) id 1SvbH2-0007od-Kj
 	for openembedded-core@lists.openembedded.org;
-	Sun, 29 Jul 2012 23:38:49 +0200
-Received: by pbbrq2 with SMTP id rq2so7606095pbb.6
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 29 Jul 2012 14:27:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=ZuUCJQPxgjtvdDAGAcue0L2ECXtXTyT3qTUJnAyjRbI=;
-	b=BaXavPjVOzJPylwc6ggiYC+u1lWY5tJKmQX4no+TmftE1Qu1+MDyJ85+ZXM7UhVflG
-	Tv2LjxTM0rkzN3dcGVIVjKkh2ClY0j/u9PI+pddaCcBGlHJe39HKaJBTtbN8c2liHn1s
-	p+WmlJ58flpHtnI0fatQfG2AOP+vOBvYUSoNTT7A+6w8nn4aHonvJfhZRVam/dv5JDpy
-	pAp4NXNXg2LTAk/PncvEDMC5Kaim2pbm7tL9V4w52qIz6VTTGWY7QXYCBZGmWzxREepp
-	/FaxaLNuPNUCXQo6UDOJf1VVWt6FQ8+hIp90K9xiuJ4fEjFn5mHDhAMnzaSFufLH+Oj9
-	zBkQ==
-Received: by 10.68.219.162 with SMTP id pp2mr30093833pbc.85.1343597232812;
-	Sun, 29 Jul 2012 14:27:12 -0700 (PDT)
-Received: from kraj-lnx.juniper.net (natint3.juniper.net. [66.129.224.36])
-	by mx.google.com with ESMTPS id sh3sm6455778pbc.16.2012.07.29.14.27.11
-	(version=SSLv3 cipher=OTHER); Sun, 29 Jul 2012 14:27:11 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 29 Jul 2012 14:27:05 -0700
-Message-Id: <1343597225-9805-1-git-send-email-raj.khem@gmail.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] package_rpm.bbclass: Accomodate dash when using arrays
+	Sun, 29 Jul 2012 23:43:40 +0200
+Received: (qmail 3045 invoked by uid 1003); 29 Jul 2012 21:32:05 -0000
+Received: from unknown (HELO ?192.168.1.105?)
+	(philip@opensdr.com@96.240.160.48)
+	by mail.geekisp.com with (DHE-RSA-AES256-SHA encrypted) SMTP;
+	29 Jul 2012 21:32:05 -0000
+Message-ID: <50152759.4080202@balister.org>
+Date: Sun, 29 Jul 2012 08:06:49 -0400
+From: Philip Balister <philip@balister.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:14.0) Gecko/20120717 Thunderbird/14.0
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1343387245.git.laurentiu.palcu@intel.com>
+	<5012D864.1090208@linux.intel.com>
+In-Reply-To: <5012D864.1090208@linux.intel.com>
+Subject: Re: [PATCH 0/6] relocatable SDK
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,49 +34,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 29 Jul 2012 21:38:49 -0000
+X-List-Received-Date: Sun, 29 Jul 2012 21:43:40 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-we were assigning local variable to an array coming through
-positional arguments. local is a non posix contruct thats
-also supported by dash luckily but operates differently in this
-case it exapnds the array before assignment. so
+On 07/27/2012 02:05 PM, Saul Wold wrote:
+> On 07/27/2012 04:21 AM, Laurentiu Palcu wrote:
+>> Hi,
+>>
+>> This patchset adds relocatable SDK functionality. Instead of a
+>> tarball, the
+>> output of "bitbake meta-toolchain/meta-toolchain-sdk" will be a self
+>> extracting
+>> archive.
+>>
+>> The user will then execute the .sh script and give it the target
+>> directory for SDK installation (default is /opt/poky). The installer
 
-local pkgs="$@"
+For oe-core the default should be something like /opt/oe-core, not 
+/opt/some-distro.
 
-turns into pkgs=locale-base-en-us locale-base-en-gb
+Philip
 
-ant we see errors
-
-run.do_rootfs.25593: 932: local: locale-base-en-gb: bad variable name
-
-So lets not use defining and assigning local in one go
-first define a local and then the assignment
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/classes/package_rpm.bbclass |    7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
-
-diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
-index b4bc52e..50e9b31 100644
---- a/meta/classes/package_rpm.bbclass
-+++ b/meta/classes/package_rpm.bbclass
-@@ -200,7 +200,12 @@ rpm_update_pkg () {
- process_pkg_list_rpm() {
- 	local insttype=$1
- 	shift
--	local pkgs="$@"
-+	# $@ is special POSIX linear array can not be assigned
-+	# to a local variable directly in dash since its separated by
-+	# space and dash expands it before assignment
-+	# and local x=1 2 3 and not x="1 2 3"
-+	local pkgs
-+	pkgs="$@"
- 	local confbase=${INSTALL_CONFBASE_RPM}
- 
- 	echo -n > ${target_rootfs}/install/base_archs.pkglist
--- 
-1.7.9.5
-
+>> will then
+>> extract the embedded tarball to the user provided location and will
+>> set up the
+>> SDK: change the paths in the environment script, change the dynamic
+>> loader path
+>> in all binaries and, also, change the ls.so.cache path in the dynamic
+>> loader
+>> itself, together with the SYSDIR paths/lengths.
+>>
+>> With that, no more root privileges are needed in order to install the
+>> SDK.
+>>
+>> Thanks,
+>> Laurentiu
+>>
+>> The following changes since commit
+>> 651b223c5fc93c7504e304e954b9ae4640ed47c6:
+>>
+>>    usbutils: avoid dependency on bash (2012-07-26 18:52:00 +0100)
+>>
+>> are available in the git repository at:
+>>
+>>    git://git.yoctoproject.org/poky-contrib lpalcu/relocatable_sdk
+>>
+>> http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=lpalcu/relocatable_sdk
+>>
+>>
+>> Laurentiu Palcu (6):
+>>    eglibc: relocatable SDK changes
+>>    binutils: relocatable SDK: change PT_INTERP section size
+>>    scripts: add script for relocating the SDK
+>>    populate_sdk_base.bbclass: create self-extracting archive
+>>    relocatable.bbclass: split it up, to reuse code
+>>    package.bbclass: change RPATHs for nativesdk packages
+>>
+>>   meta/classes/chrpath.bbclass                       |   89 +++++++++
+>>   meta/classes/package.bbclass                       |    5 +
+>>   meta/classes/populate_sdk_base.bbclass             |   82 ++++++++
+>>   meta/classes/relocatable.bbclass                   |   91 +--------
+>>   .../eglibc/eglibc-2.15/relocatable_sdk.patch       |   70 +++++++
+>>   meta/recipes-core/eglibc/eglibc_2.15.bb            |    6 +-
+>>   .../binutils/binutils-crosssdk_2.22.bb             |    5 +
+>>   .../binutils/binutils/relocatable_sdk.patch        |   13 ++
+>>   scripts/relocate_sdk.py                            |  200
+>> ++++++++++++++++++++
+>>   9 files changed, 470 insertions(+), 91 deletions(-)
+>>   create mode 100644 meta/classes/chrpath.bbclass
+>>   create mode 100644
+>> meta/recipes-core/eglibc/eglibc-2.15/relocatable_sdk.patch
+>>   create mode 100644
+>> meta/recipes-devtools/binutils/binutils/relocatable_sdk.patch
+>>   create mode 100755 scripts/relocate_sdk.py
+>>
+> Your patches need to have Upstream-Status and Signed-off-by: added along
+> with a header explaining why the patch is needed.
+>
+> Just a quick first pass review, there may be more comments as I review
+> deeper.
+>
+> Sau!
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+>
 
 
