@@ -1,35 +1,32 @@
-Received: from mail-yx0-f175.google.com ([209.85.213.175])
+Received: from mail-wi0-f171.google.com ([209.85.212.171])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <schnitzeltony@googlemail.com>) id 1Svqph-0007ZP-S7
+	(envelope-from <martin.jansa@gmail.com>) id 1SvrgQ-0002WG-5g
 	for openembedded-core@lists.openembedded.org;
-	Mon, 30 Jul 2012 16:20:53 +0200
-Received: by yenl13 with SMTP id l13so4320975yen.6
+	Mon, 30 Jul 2012 17:14:58 +0200
+Received: by wibhq4 with SMTP id hq4so1678582wib.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Jul 2012 07:08:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type:content-transfer-encoding;
-	bh=BZApB68Jo0Na7JeuXoWHNYuYyp1TNV2bKZGSshRkZZw=;
-	b=sLaAsalG8YF9aZUNz7VWhK30gDfrXQ6Gtexrkq52tnbLix8zUw44kjeNQOPouzdrxd
-	5Nn+/ZhaLfybbw+TCqEtUcZpkkSpvYGRxh09237bvHnqyfDf0NmY3qiEqFB9A0xcBSJW
-	RSnTcbqIEhxeWfzjj47W76Xn4cnizVsF/zCNlQ/pd6eVG94WQQRwp9k+2Bf9JPkIdK+c
-	FqeIJgFVA9RQOa7BJGM4RjSZ0Et8Hpt31h0wmmuy8fQPE/tvY9Zxpbb/yYI1RereND/8
-	i2aQ2f2Ulx3SpAs/18uhoZQAjDNn2UiBtjlbKjteEhQ4GDw7BaKR9aXCffEh8ajM9O+U
-	2nCw==
-MIME-Version: 1.0
-Received: by 10.50.208.34 with SMTP id mb2mr11134700igc.5.1343657333208; Mon,
-	30 Jul 2012 07:08:53 -0700 (PDT)
-Received: by 10.64.142.201 with HTTP; Mon, 30 Jul 2012 07:08:53 -0700 (PDT)
-In-Reply-To: <CALbNGRQdsaP8JOc91DJxD2wtvSV9KaL2LX4f-6ff2jubdGWgYQ@mail.gmail.com>
-References: <20120722104353.A204B1032B@opal>
-	<CALbNGRTJjTZZG=ysG3m+gnv0YqfaBhUEZkLF5WUJxg7-hSLGDg@mail.gmail.com>
-	<CALbNGRQdsaP8JOc91DJxD2wtvSV9KaL2LX4f-6ff2jubdGWgYQ@mail.gmail.com>
-Date: Mon, 30 Jul 2012 16:08:53 +0200
-Message-ID: <CALbNGRQCETb5Q9WpoJDzmGwmUB7YPYhgjD21ZUUOmjwkBNGC8g@mail.gmail.com>
-From: =?ISO-8859-1?Q?Andreas_M=FCller?= <schnitzeltony@googlemail.com>
+	Mon, 30 Jul 2012 08:03:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=ghGz5+NypEFkWOuC9UDXT8RX0u/tPpp3jkLOB9ELuuc=;
+	b=KB+tvc2eKajP+2tRukNTsZIb1CIuSDSX2RcDAWr7L+9hnkxnCxueg1H4g+pduYy6rc
+	LSNyE+tdEI2IZYCgWLJ0FAdtjIV3QA14rAm3kAdYR+kEFR3FIehGXADnf5zQgTYmOScp
+	IybWkadoD6lbw+FARzue7VSOeb12O4lCFcLGExlMtdKIM7PMK+Ki80I+pKJYSKkmV+bc
+	NQlsmv9u5oPjob0Yzdw5qWhPN3HeSHq21czLdms3LJSVQzUQkkvj/vT0BjNqCY9qIo4D
+	+kK30eX/rph8VNtfhjup4zSpZ3o5YkYYM39V8o0GzCpQalazEdUeoKsr3N9+fj0hjMmP
+	1uVw==
+Received: by 10.216.132.76 with SMTP id n54mr5650619wei.135.1343660597627;
+	Mon, 30 Jul 2012 08:03:17 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id bc2sm24807650wib.0.2012.07.30.08.03.15
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 30 Jul 2012 08:03:16 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: Re: [oe-commits] Morgan Little : python-native: Put binaries in seperate directory
+Date: Mon, 30 Jul 2012 17:03:14 +0200
+Message-Id: <1343660594-16583-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.7.8.6
+Subject: [PATCH] udev-extraconf: merge with udev-extra-rules from meta-oe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,163 +41,315 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Jul 2012 14:21:39 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 30 Jul 2012 15:14:58 -0000
 
-On Mon, Jul 30, 2012 at 4:02 PM, Andreas M=FCller
-<schnitzeltony@googlemail.com> wrote:
-> On Sun, Jul 22, 2012 at 12:43 PM,  <git@git.openembedded.org> wrote:
->> Module: openembedded-core.git
->> Branch: master
->> Commit: a2e554f731437545e9483a7a73e6847c03f6f48a
->> URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcommi=
-t;h=3Da2e554f731437545e9483a7a73e6847c03f6f48a
->>
->> Author: Morgan Little <morgan.little@windriver.com>
->> Date:   Thu Jul 19 13:46:06 2012 -0400
->>
->> python-native: Put binaries in seperate directory
->>
->> Update python-native to install the binaries in the python-native direct=
-ory,
->> add pythonnative.bbclass to let recipes that need python-native use the
->> binaries and update disutils access the new binaries. Update distutils-b=
-ase
->> to inherit pythonnative.
->>
->> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->>
->> ---
->>
->>  meta/classes/distutils-base.bbclass                |    2 +-
->>  meta/classes/distutils.bbclass                     |    8 ++++----
->>  meta/classes/pythonnative.bbclass                  |    3 +++
->>  .../recipes-devtools/python/python-native_2.7.3.bb |   10 ++++++----
->>  4 files changed, 14 insertions(+), 9 deletions(-)
->>
->> diff --git a/meta/classes/distutils-base.bbclass b/meta/classes/distutil=
-s-base.bbclass
->> index 6d18e08..c761b36 100644
->> --- a/meta/classes/distutils-base.bbclass
->> +++ b/meta/classes/distutils-base.bbclass
->> @@ -1,5 +1,5 @@
->>  DEPENDS  +=3D "${@["python-native python", ""][(d.getVar('PACKAGES', Tr=
-ue) =3D=3D '')]}"
->>  RDEPENDS_${PN} +=3D "${@['', 'python-core']['${PN}' =3D=3D '${BPN}']}"
->>
->> -inherit distutils-common-base
->> +inherit distutils-common-base pythonnative
->>
->> diff --git a/meta/classes/distutils.bbclass b/meta/classes/distutils.bbc=
-lass
->> index bcddf8d..690df73 100644
->> --- a/meta/classes/distutils.bbclass
->> +++ b/meta/classes/distutils.bbclass
->> @@ -11,14 +11,14 @@ distutils_do_compile() {
->>           STAGING_INCDIR=3D${STAGING_INCDIR} \
->>           STAGING_LIBDIR=3D${STAGING_LIBDIR} \
->>           BUILD_SYS=3D${BUILD_SYS} HOST_SYS=3D${HOST_SYS} \
->> -         ${STAGING_BINDIR_NATIVE}/python setup.py build ${DISTUTILS_BUI=
-LD_ARGS} || \
->> +         ${STAGING_BINDIR_NATIVE}/python-native/python setup.py build $=
-{DISTUTILS_BUILD_ARGS} || \
->>           bbfatal "python setup.py build_ext execution failed."
->>  }
->>
->>  distutils_stage_headers() {
->>          install -d ${STAGING_DIR_HOST}${PYTHON_SITEPACKAGES_DIR}
->>          BUILD_SYS=3D${BUILD_SYS} HOST_SYS=3D${HOST_SYS} \
->> -        ${STAGING_BINDIR_NATIVE}/python setup.py install_headers ${DIST=
-UTILS_STAGE_HEADERS_ARGS} || \
->> +        ${STAGING_BINDIR_NATIVE}/python-native/python setup.py install_=
-headers ${DISTUTILS_STAGE_HEADERS_ARGS} || \
->>          bbfatal "python setup.py install_headers execution failed."
->>  }
->>
->> @@ -28,7 +28,7 @@ distutils_stage_all() {
->>          install -d ${STAGING_DIR_HOST}${PYTHON_SITEPACKAGES_DIR}
->>          PYTHONPATH=3D${STAGING_DIR_HOST}${PYTHON_SITEPACKAGES_DIR} \
->>          BUILD_SYS=3D${BUILD_SYS} HOST_SYS=3D${HOST_SYS} \
->> -        ${STAGING_BINDIR_NATIVE}/python setup.py install ${DISTUTILS_ST=
-AGE_ALL_ARGS} || \
->> +        ${STAGING_BINDIR_NATIVE}/python-native/python setup.py install =
-${DISTUTILS_STAGE_ALL_ARGS} || \
->>          bbfatal "python setup.py install (stage) execution failed."
->>  }
->>
->> @@ -38,7 +38,7 @@ distutils_do_install() {
->>          STAGING_LIBDIR=3D${STAGING_LIBDIR} \
->>          PYTHONPATH=3D${D}/${PYTHON_SITEPACKAGES_DIR} \
->>          BUILD_SYS=3D${BUILD_SYS} HOST_SYS=3D${HOST_SYS} \
->> -        ${STAGING_BINDIR_NATIVE}/python setup.py install ${DISTUTILS_IN=
-STALL_ARGS} || \
->> +        ${STAGING_BINDIR_NATIVE}/python-native/python setup.py install =
-${DISTUTILS_INSTALL_ARGS} || \
->>          bbfatal "python setup.py install execution failed."
->>
->>          for i in `find ${D} -name "*.py"` ; do \
->> diff --git a/meta/classes/pythonnative.bbclass b/meta/classes/pythonnati=
-ve.bbclass
->> new file mode 100644
->> index 0000000..bc346da
->> --- /dev/null
->> +++ b/meta/classes/pythonnative.bbclass
->> @@ -0,0 +1,3 @@
->> +PYTHON=3D"${STAGING_BINDIR_NATIVE}/python-native/python"
->> +PATH_prepend =3D "${STAGING_BINDIR_NATIVE}/python-native:"
->> +DEPENDS +=3D " python-native "
->> diff --git a/meta/recipes-devtools/python/python-native_2.7.3.bb b/meta/=
-recipes-devtools/python/python-native_2.7.3.bb
->> index 50bf894..bfdcd12 100644
->> --- a/meta/recipes-devtools/python/python-native_2.7.3.bb
->> +++ b/meta/recipes-devtools/python/python-native_2.7.3.bb
->> @@ -1,6 +1,6 @@
->>  require python.inc
->>  DEPENDS =3D "openssl-native bzip2-full-native zlib-native readline-nati=
-ve sqlite3-native"
->> -PR =3D "${INC_PR}.0"
->> +PR =3D "${INC_PR}.1"
->>
->>  SRC_URI +=3D "file://04-default-is-optimized.patch \
->>             file://05-enable-ctypes-cross-build.patch \
->> @@ -20,6 +20,8 @@ inherit native
->>
->>  RPROVIDES +=3D "python-distutils-native python-compression-native pytho=
-n-textutils-native python-core-native"
->>
->> +EXTRA_OECONF +=3D " --bindir=3D${bindir}/${PN}"
->> +
->>  EXTRA_OEMAKE =3D '\
->>    BUILD_SYS=3D"" \
->>    HOST_SYS=3D"" \
->> @@ -34,11 +36,11 @@ do_configure_prepend() {
->>
->>  do_install() {
->>         oe_runmake 'DESTDIR=3D${D}' install
->> -       install -d ${D}${bindir}/
->> -       install -m 0755 Parser/pgen ${D}${bindir}/
->> +       install -d ${D}${bindir}/${PN}
->> +       install -m 0755 Parser/pgen ${D}${bindir}/${PN}
->>
->>         # Make sure we use /usr/bin/env python
->> -       for PYTHSCRIPT in `grep -rIl ${bindir}/python ${D}${bindir}`; do
->> +       for PYTHSCRIPT in `grep -rIl ${bindir}/${PN}/python ${D}${bindir=
-}/${PN}`; do
->>                 sed -i -e '1s|^#!.*|#!/usr/bin/env python|' $PYTHSCRIPT
->>         done
->>  }
->>
->>
-> Could somebody enlighten me please: What is the benefit in moving
-> python-native into a subdirectory and causing tons of recipe changes?
-> The commit message does not help me much.
-> To me it is just another build breaker after gobject-introspection &
-> gtk-doc. Please tell me how many further weeks we have to suffer for
-> innovations like this so I can come back then.
->
-I forgot webkit-gtk PARALLEL_MAKE in my list
+* license in meta-oe was MIT, in oe-core it was GPLv2, everyone fine with this?
+* add mount.blacklist to CONFFILES
+* add more rules and scripts from meta-oe
+* change PV to 1.0 and bump PR to provide upgrade path from meta-oe's udev-extra-rules
+  including RREPLACE/RPROVIDES/RCONFLICTS trio
 
-Andreas
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ .../udev/udev-extraconf/automount.rules            |   19 ++++++
+ .../recipes-core/udev/udev-extraconf/autonet.rules |   19 ++++++
+ meta/recipes-core/udev/udev-extraconf/local.rules  |   21 +++++++
+ meta/recipes-core/udev/udev-extraconf/mount.sh     |   64 ++++++++++++++++++++
+ meta/recipes-core/udev/udev-extraconf/network.sh   |   58 ++++++++++++++++++
+ meta/recipes-core/udev/udev-extraconf_0.0.bb       |   15 -----
+ meta/recipes-core/udev/udev-extraconf_1.0.bb       |   43 +++++++++++++
+ 7 files changed, 224 insertions(+), 15 deletions(-)
+ create mode 100644 meta/recipes-core/udev/udev-extraconf/automount.rules
+ create mode 100644 meta/recipes-core/udev/udev-extraconf/autonet.rules
+ create mode 100644 meta/recipes-core/udev/udev-extraconf/local.rules
+ create mode 100644 meta/recipes-core/udev/udev-extraconf/mount.sh
+ create mode 100644 meta/recipes-core/udev/udev-extraconf/network.sh
+ delete mode 100644 meta/recipes-core/udev/udev-extraconf_0.0.bb
+ create mode 100644 meta/recipes-core/udev/udev-extraconf_1.0.bb
+
+diff --git a/meta/recipes-core/udev/udev-extraconf/automount.rules b/meta/recipes-core/udev/udev-extraconf/automount.rules
+new file mode 100644
+index 0000000..7e844c3
+--- /dev/null
++++ b/meta/recipes-core/udev/udev-extraconf/automount.rules
+@@ -0,0 +1,19 @@
++# There are a number of modifiers that are allowed to be used in some
++# of the different fields. They provide the following subsitutions:
++#
++# %n the "kernel number" of the device.
++#    For example, 'sda3' has a "kernel number" of '3'
++# %e the smallest number for that name which does not matches an existing node
++# %k the kernel name for the device
++# %M the kernel major number for the device
++# %m the kernel minor number for the device
++# %b the bus id for the device
++# %c the string returned by the PROGRAM
++# %s{filename} the content of a sysfs attribute
++# %% the '%' char itself
++#
++
++# Media automounting
++SUBSYSTEM=="block", ACTION=="add"    RUN+="/etc/udev/scripts/mount.sh"
++SUBSYSTEM=="block", ACTION=="remove" RUN+="/etc/udev/scripts/mount.sh"
++
+diff --git a/meta/recipes-core/udev/udev-extraconf/autonet.rules b/meta/recipes-core/udev/udev-extraconf/autonet.rules
+new file mode 100644
+index 0000000..19676aa
+--- /dev/null
++++ b/meta/recipes-core/udev/udev-extraconf/autonet.rules
+@@ -0,0 +1,19 @@
++# There are a number of modifiers that are allowed to be used in some
++# of the different fields. They provide the following subsitutions:
++#
++# %n the "kernel number" of the device.
++#    For example, 'sda3' has a "kernel number" of '3'
++# %e the smallest number for that name which does not matches an existing node
++# %k the kernel name for the device
++# %M the kernel major number for the device
++# %m the kernel minor number for the device
++# %b the bus id for the device
++# %c the string returned by the PROGRAM
++# %s{filename} the content of a sysfs attribute
++# %% the '%' char itself
++#
++
++# Handle network interface setup
++SUBSYSTEM=="net", ACTION=="add" RUN+="/etc/udev/scripts/network.sh"
++SUBSYSTEM=="net", ACTION=="remove" RUN+="/etc/udev/scripts/network.sh"
++
+diff --git a/meta/recipes-core/udev/udev-extraconf/local.rules b/meta/recipes-core/udev/udev-extraconf/local.rules
+new file mode 100644
+index 0000000..4eaa8ca
+--- /dev/null
++++ b/meta/recipes-core/udev/udev-extraconf/local.rules
+@@ -0,0 +1,21 @@
++# There are a number of modifiers that are allowed to be used in some
++# of the different fields. They provide the following subsitutions:
++#
++# %n the "kernel number" of the device.
++#    For example, 'sda3' has a "kernel number" of '3'
++# %e the smallest number for that name which does not matches an existing node
++# %k the kernel name for the device
++# %M the kernel major number for the device
++# %m the kernel minor number for the device
++# %b the bus id for the device
++# %c the string returned by the PROGRAM
++# %s{filename} the content of a sysfs attribute
++# %% the '%' char itself
++#
++
++# The first rtc device is symlinked to /dev/rtc
++KERNEL=="rtc0", SYMLINK+="rtc"
++
++#The first framebuffer is symlinked to /dev/fb
++KERNEL=="fb0",  SYMLINK+="fb"
++
+diff --git a/meta/recipes-core/udev/udev-extraconf/mount.sh b/meta/recipes-core/udev/udev-extraconf/mount.sh
+new file mode 100644
+index 0000000..67c2b4b
+--- /dev/null
++++ b/meta/recipes-core/udev/udev-extraconf/mount.sh
+@@ -0,0 +1,64 @@
++#!/bin/sh
++#
++# Called from udev
++# Attemp to mount any added block devices
++# and remove any removed devices
++#
++
++MOUNT="/bin/mount"
++PMOUNT="/usr/bin/pmount"
++UMOUNT="/bin/umount"
++name="`basename "$DEVNAME"`"
++
++for line in `grep -v ^# /etc/udev/mount.blacklist`
++do
++	if ( echo "$DEVNAME" | grep -q "$line" )
++	then
++		logger "udev/mount.sh" "[$DEVNAME] is blacklisted, ignoring"
++		exit 0
++	fi
++done
++
++automount() {
++	! test -d "/media/$name" && mkdir -p "/media/$name"
++
++	if ! $MOUNT -t auto -o async,relatime $DEVNAME "/media/$name"
++	then
++		#logger "mount.sh/automount" "$MOUNT -t auto $DEVNAME \"/media/$name\" failed!"
++		rm_dir "/media/$name"
++	else
++		logger "mount.sh/automount" "Auto-mount of [/media/$name] successful"
++		touch "/tmp/.automount-$name"
++	fi
++}
++
++rm_dir() {
++	# We do not want to rm -r populated directories
++	if test "`find "$1" | wc -l | tr -d " "`" -lt 2 -a -d "$1"
++	then
++		! test -z "$1" && rm -r "$1"
++	else
++		logger "mount.sh/automount" "Not removing non-empty directory [$1]"
++	fi
++}
++
++if [ "$ACTION" = "add" ] && [ -n "$DEVNAME" ]; then
++	if [ -x "$PMOUNT" ]; then
++		$PMOUNT $DEVNAME 2> /dev/null
++	elif [ -x $MOUNT ]; then
++			$MOUNT $DEVNAME 2> /dev/null
++	fi
++
++	# Avoid remounting devices (e.g: rootfs)
++	awk '{print $1}' /proc/mounts | grep -q "^$DEVNAME$" || automount
++fi
++
++if [ "$ACTION" = "remove" ] && [ -x "$UMOUNT" ] && [ -n "$DEVNAME" ]; then
++	for mnt in `grep "$DEVNAME" /proc/mounts | cut -f 2 -d " " `
++	do
++		$UMOUNT -l $mnt
++	done
++
++	# Remove empty directories from auto-mounter
++	test -e "/tmp/.automount-$name" && rm_dir "/media/$name"
++fi
+diff --git a/meta/recipes-core/udev/udev-extraconf/network.sh b/meta/recipes-core/udev/udev-extraconf/network.sh
+new file mode 100644
+index 0000000..182c26d
+--- /dev/null
++++ b/meta/recipes-core/udev/udev-extraconf/network.sh
+@@ -0,0 +1,58 @@
++#!/bin/sh
++
++# udevd does clearenv(). Export shell PATH to children.
++export PATH
++
++# Do not run when pcmcia-cs is installed
++test -x /sbin/cardctl && exit 0
++
++# We get two "add" events for hostap cards due to wifi0
++echo "$INTERFACE" | grep -q wifi && exit 0
++
++
++# Check if /etc/init.d/network has been run yet to see if we are 
++# called by starting /etc/rcS.d/S03udev and not by hotplugging a device
++#
++# At this stage, network interfaces should not be brought up
++# automatically because:
++# a)	/etc/init.d/network has not been run yet (security issue)
++# b) 	/var has not been populated yet so /etc/resolv,conf points to 
++#	oblivion, making the network unusable
++#
++
++spoofp="`grep ^spoofprotect /etc/network/options`"
++if test -z "$spoofp"
++then
++	# This is the default from /etc/init.d/network
++	spoofp_val=yes
++else
++	spoofp_val=${spoofp#spoofprotect=}
++fi
++
++test "$spoofp_val" = yes && spoofp_val=1 || spoofp_val=0
++
++# I think it is safe to assume that "lo" will always be there ;)
++if test "`cat /proc/sys/net/ipv4/conf/lo/rp_filter`" != "$spoofp_val" -a -n "$spoofp_val"
++then
++	echo "$INTERFACE" >> /dev/udev_network_queue	
++	exit 0
++fi
++
++#
++# Code taken from pcmcia-cs:/etc/pcmcia/network
++#
++
++# if this interface has an entry in /etc/network/interfaces, let ifupdown
++# handle it
++if grep -q "iface \+$INTERFACE" /etc/network/interfaces; then
++  case $ACTION in
++    add)
++    	ifconfig | grep -q "^$INTERFACE" || ifup $INTERFACE
++    	;;
++    remove)
++    	ifdown $INTERFACE
++    	;;
++  esac
++  
++  exit 0
++fi
+diff --git a/meta/recipes-core/udev/udev-extraconf_0.0.bb b/meta/recipes-core/udev/udev-extraconf_0.0.bb
+deleted file mode 100644
+index d0d0e84..0000000
+--- a/meta/recipes-core/udev/udev-extraconf_0.0.bb
++++ /dev/null
+@@ -1,15 +0,0 @@
+-SUMMARY = "Extra machine specific configuration files"
+-DESCRIPTION = "Extra machine specific configuration files for udev, specifically blacklist information."
+-LICENSE = "GPLv2"
+-LIC_FILES_CHKSUM = "file://${WORKDIR}/COPYING.GPL;md5=751419260aa954499f7abaabaa882bbe"
+-
+-PR = "r2"
+-
+-SRC_URI = "file://mount.blacklist \
+-           file://COPYING.GPL"
+-
+-do_install () {
+-	install -d ${D}${sysconfdir}/udev/
+-
+-	install -m 0644 ${WORKDIR}/mount.blacklist     ${D}${sysconfdir}/udev/
+-}
+diff --git a/meta/recipes-core/udev/udev-extraconf_1.0.bb b/meta/recipes-core/udev/udev-extraconf_1.0.bb
+new file mode 100644
+index 0000000..940e7d0
+--- /dev/null
++++ b/meta/recipes-core/udev/udev-extraconf_1.0.bb
+@@ -0,0 +1,43 @@
++SUMMARY = "Extra machine specific configuration files"
++DESCRIPTION = "Extra machine specific configuration files for udev, specifically blacklist information."
++LICENSE = "GPLv2"
++LIC_FILES_CHKSUM = "file://${WORKDIR}/COPYING.GPL;md5=751419260aa954499f7abaabaa882bbe"
++
++inherit allarch
++
++PR = "r5"
++
++SRC_URI = " \
++       file://automount.rules \
++       file://mount.sh \
++       file://mount.blacklist \
++       file://autonet.rules \
++       file://network.sh \
++       file://local.rules \
++       file://COPYING.GPL \
++"
++
++
++do_install() {
++    install -d ${D}${sysconfdir}/udev/rules.d
++
++    install -m 0644 ${WORKDIR}/automount.rules     ${D}${sysconfdir}/udev/rules.d/automount.rules
++    install -m 0644 ${WORKDIR}/autonet.rules       ${D}${sysconfdir}/udev/rules.d/autonet.rules
++    install -m 0644 ${WORKDIR}/local.rules         ${D}${sysconfdir}/udev/rules.d/local.rules
++
++    install -m 0644 ${WORKDIR}/mount.blacklist     ${D}${sysconfdir}/udev/
++
++    install -d ${D}${sysconfdir}/udev/scripts/
++
++    install -m 0755 ${WORKDIR}/mount.sh ${D}${sysconfdir}/udev/scripts/mount.sh
++    install -m 0755 ${WORKDIR}/network.sh ${D}${sysconfdir}/udev/scripts
++}
++
++FILES_${PN} = "${sysconfdir}/udev"
++RDEPENDS_${PN} = "udev"
++CONFFILES_${PN} = "${sysconfdir}/udev/mount.blacklist"
++
++# to replace udev-extra-rules from meta-oe
++RPROVIDES_${PN} = "udev-extra-rules"
++RREPLACES_${PN} = "udev-extra-rules"
++RCONFLICTS_${PN} = "udev-extra-rules"
+-- 
+1.7.8.6
+
 
 
