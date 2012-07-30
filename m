@@ -1,25 +1,39 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Xin.Ouyang@windriver.com>) id 1SvpDi-0002Yx-7L
+	(envelope-from <ross.burton@intel.com>) id 1SvpDs-0002qU-0V
 	for openembedded-core@lists.openembedded.org;
-	Mon, 30 Jul 2012 14:37:10 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q6UCPXVt029021
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Mon, 30 Jul 2012 14:37:40 +0200
+Received: from mail-yw0-f52.google.com ([209.85.213.52])
+	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 30 Jul 2012 05:25:42 -0700
+Received: by yhpp61 with SMTP id p61so4151090yhp.25
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Jul 2012 05:25:33 -0700 (PDT)
-Received: from Xouyang-Ubuntu.corp.ad.wrs.com (128.224.162.231) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.309.2; Mon, 30 Jul 2012 05:25:32 -0700
-From: <xin.ouyang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 30 Jul 2012 20:25:30 +0800
-Message-ID: <3baaa2a825c7fc5445019704e16dbc135d09a930.1343650679.git.Xin.Ouyang@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1343650679.git.Xin.Ouyang@windriver.com>
-References: <cover.1343650679.git.Xin.Ouyang@windriver.com>
+	Mon, 30 Jul 2012 05:25:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=tgn6EKYU2piNtAKA5aYnfVVpJiNiyEU1FO23UPLIkro=;
+	b=ZN/tPT1RXEGl34jw1axdNuyd8pL4ETR8BhyojEZynHutzFhGqWVdfKgmHS5RjapfBX
+	SH8G/OiLk1qqYEabkfuAYhcLItkHgFyTZKmGk4WdAxvCCr6UFRfgDBLj0xDgtNKlEEA4
+	H/URTWEh1NW7CsgmLAQ3+wrkyJJbdWYdCLb4iFzoGTrriShjKyoyv3KzKtbl8xQLPSRT
+	5+BFOciaVnr3NGfPTyUKhRIzu65AVrmDf+v2jPnMrQcKZl7S1CD5VZYvqNbxxKIbuBa6
+	LOqVn7gg6NNCulWgVncAu+STVR1q2n15MjFHg/ekvr9UWGE63IKrW2coYWiUhLJrjiSN
+	GOkA==
+Received: by 10.50.217.163 with SMTP id oz3mr8187359igc.5.1343651141634; Mon,
+	30 Jul 2012 05:25:41 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH 1/1] findutils-4.4.2: add bison-native to DEPENDS
+Received: by 10.64.70.229 with HTTP; Mon, 30 Jul 2012 05:25:21 -0700 (PDT)
+In-Reply-To: <1791255.KrCA1u10OF@helios>
+References: <1343650687-2307-1-git-send-email-ross.burton@intel.com>
+	<1343650687-2307-2-git-send-email-ross.burton@intel.com>
+	<1791255.KrCA1u10OF@helios>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 30 Jul 2012 13:25:21 +0100
+Message-ID: <CAJTo0LbQgCFKHbCHV8SLjMhD16hyWd=6ng=9iTLKb4h4Vuka7A@mail.gmail.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+X-Gm-Message-State: ALoCoQm5H97KvqVkHffChhLhOm+B6EjNYRyn66iZAuPmZc78U687hJNY7icsFQ00aIzn/3hWIuiP
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/2] buildhistory: reduce the numeric delta to 10%
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,41 +48,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Jul 2012 12:37:10 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 30 Jul 2012 12:37:43 -0000
+Content-Type: text/plain; charset=UTF-8
 
-From: Xin Ouyang <Xin.Ouyang@windriver.com>
+On 30 July 2012 13:22, Paul Eggleton <paul.eggleton@linux.intel.com> wrote:
+> I don't think I picked 20% completely out of thin air but I wasn't especially
+> scientific about it either, so:
 
-[YOCTO #2858]
+FWIW, my situation was that I was messing around with the Mesa
+packaging and it wasn't reporting a package size reduction due to
+package re-arrangement. 20% is fairly large for a "not significant"
+change IMHO, I'd be interested to see what sort of "false positives"
+it threw up with 5%.
 
-Signed-off-by: Xin Ouyang <Xin.Ouyang@windriver.com>
----
- meta/recipes-extended/findutils/findutils_4.4.2.bb |    4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/meta/recipes-extended/findutils/findutils_4.4.2.bb b/meta/recipes-extended/findutils/findutils_4.4.2.bb
-index 218bf83..34e53d2 100644
---- a/meta/recipes-extended/findutils/findutils_4.4.2.bb
-+++ b/meta/recipes-extended/findutils/findutils_4.4.2.bb
-@@ -1,6 +1,6 @@
- require findutils.inc
- 
--PR = "r5"
-+PR = "r6"
- 
- SRC_URI += "file://01-27017.patch \
-             file://02-28824.patch \
-@@ -12,6 +12,8 @@ SRC_URI += "file://01-27017.patch \
- SRC_URI[md5sum] = "351cc4adb07d54877fa15f75fb77d39f"
- SRC_URI[sha256sum] = "434f32d171cbc0a5e72cfc5372c6fc4cb0e681f8dce566a0de5b6fccd702b62a"
- 
-+DEPENDS = "bison-native"
-+
- # http://savannah.gnu.org/bugs/?27299
- CACHED_CONFIGUREVARS += "${@base_contains('DISTRO_FEATURES', 'libc-posix-clang-wchar', 'gl_cv_func_wcwidth_works=yes', '', d)}"
- 
--- 
-1.7.9.5
-
+Ross
 
 
