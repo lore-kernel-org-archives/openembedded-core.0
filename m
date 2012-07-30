@@ -1,25 +1,36 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mail.cvg.de ([62.153.82.30])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1SvmQ2-0002xB-SU
+	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1Svmgf-00064L-MR
 	for openembedded-core@lists.openembedded.org;
-	Mon, 30 Jul 2012 11:37:44 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 30 Jul 2012 02:26:06 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="199878581"
-Received: from unknown (HELO helios.localnet) ([10.252.121.40])
-	by fmsmga002.fm.intel.com with ESMTP; 30 Jul 2012 02:26:05 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 30 Jul 2012 10:26:04 +0100
-Message-ID: <1649088.OayoHGzzEP@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.8.4 (Linux/3.2.0-27-generic-pae; KDE/4.8.4; i686; ; )
-In-Reply-To: <1343597225-9805-1-git-send-email-raj.khem@gmail.com>
-References: <1343597225-9805-1-git-send-email-raj.khem@gmail.com>
+	Mon, 30 Jul 2012 11:55:05 +0200
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id q6U9hELR032649
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 30 Jul 2012 11:43:15 +0200
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.76) (envelope-from <ensc@sigma-chemnitz.de>) id 1SvmVO-0001gv-9Q
+	for openembedded-core@lists.openembedded.org;
+	Mon, 30 Jul 2012 11:43:14 +0200
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To: openembedded-core@lists.openembedded.org
+References: <1343639174-29579-1-git-send-email-rongqing.li@windriver.com>
+Date: Mon, 30 Jul 2012 11:43:14 +0200
+In-Reply-To: <1343639174-29579-1-git-send-email-rongqing.li@windriver.com>
+	(rongqing's message of "Mon, 30 Jul 2012 17:06:14 +0800")
+Message-ID: <lyk3xlfutp.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.1 (gnu/linux)
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] package_rpm.bbclass: Accomodate dash when using arrays
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 0.99
+X-Spam-Score: -5.2
+X-Spam-Level: -----
+X-Spam-Tests: AWL,BAYES_00,SPF_NEUTRAL,T_RP_MATCHES_RCVD,DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.73
+Subject: Re: [PATCH] perf-3.4: fix hardcoded slang include dir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,38 +45,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Jul 2012 09:37:46 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Mon, 30 Jul 2012 09:55:06 -0000
+Content-Type: text/plain
 
-On Sunday 29 July 2012 14:27:05 Khem Raj wrote:
-> we were assigning local variable to an array coming through
-> positional arguments. local is a non posix contruct thats
-> also supported by dash luckily but operates differently in this
-> case it exapnds the array before assignment. so
-> 
-> local pkgs="$@"
-> 
-> turns into pkgs=locale-base-en-us locale-base-en-gb
-> 
-> ant we see errors
-> 
-> run.do_rootfs.25593: 932: local: locale-base-en-gb: bad variable name
-> 
-> So lets not use defining and assigning local in one go
-> first define a local and then the assignment
+<rongqing.li-CWA4WttNNZF54TAoqtyWWQ@public.gmane.org> writes:
 
-Oops, sorry about that.
+> +++ b/meta/recipes-kernel/perf/perf_3.4.bb
+> ...
+> +	sed -i "s:-I/usr/include/slang:-I${STAGING_INCDIR}:" ${S}/tools/perf/Makefile
 
-However, in the other thread you said package_rpm.bbclass was "full of 
-bashisms" - is there only this one?
+You are patching an already staged file here:
 
-Cheers,
-Paul
+ | S = "${STAGING_KERNEL_DIR}"
 
--- 
+When want to fix it in this way (another workaround might be adding
+'WERROR=0' to EXTRA_OEMAKE), it must be done in kernel.bbclass.
 
-Paul Eggleton
-Intel Open Source Technology Centre
+
+Enrico
 
 
