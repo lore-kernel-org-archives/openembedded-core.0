@@ -1,37 +1,36 @@
-Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
+Received: from mail-wg0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1SvrlS-0002aB-Ih
+	(envelope-from <martin.jansa@gmail.com>) id 1Svrpe-0002fp-Qr
 	for openembedded-core@lists.openembedded.org;
-	Mon, 30 Jul 2012 17:20:10 +0200
-Received: from mail-ob0-f180.google.com ([209.85.214.180])
-	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 30 Jul 2012 08:08:11 -0700
-Received: by obbuo19 with SMTP id uo19so7761743obb.25
+	Mon, 30 Jul 2012 17:24:30 +0200
+Received: by wgbdr1 with SMTP id dr1so4372919wgb.24
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Jul 2012 08:08:11 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type:x-gm-message-state;
-	bh=5tRgJL0uKatR9aFPWmyZwAGw610gz1qslvFNtvquKzs=;
-	b=lqBhciL1sc8FRxp54chuAivqMC2kJ7QNwmnONwTJCeNf49B23B76EExINgSMR6f9EZ
-	9imAXATlzZyY6seb+QfKv7U45cRJGF9mC0YI/bpr7Jrm/8gqnKBwWNYP/WUpDFa2NZSh
-	9KDtwDTU63/5h43jkEW3qhy6PivWjV69zv+TmADbHkSnjR6Nsx5ej2S+nS0vJwq8B5Dr
-	kPP3c1kz/ZrMtbGyzY804dEXxEESwx1uTrn4WwARu3itrrNhxPOQRKjnMkNf6hnKcWfp
-	cBYwLF9T+lgjVcADqbutZlz2yV21USxM1x9JijQth7VLal55FsXxzWUVE/KECIpmx3uv
-	5h7Q==
-Received: by 10.182.51.37 with SMTP id h5mr18086138obo.35.1343660891313; Mon,
-	30 Jul 2012 08:08:11 -0700 (PDT)
+	Mon, 30 Jul 2012 08:12:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=gcY9UGyCEHg9VglmrJ/nWRP9sMV50Tr5OPHcFzcd9HQ=;
+	b=Gvd5Rx29dlaJn/wNZpBlbxdzPvVFaMCtxLKl+bspM310XZt6x/ILCGJhbFTT8I4PKu
+	8dBAdSJLHbaataRoJGiNSoZ7bGJvuiPi0BntkEQQRrmtkJ6iPGHZypxFFf0tJ821J8PK
+	niHkvGukqH+BIlKSlAm3LIBdRra8O0t8vT0FT7hU70/q/6mZGt5dPVh/yZytB7+RsbKd
+	GNY8hHu8Y3i84/N+jPwOnbRC9so88OWW4NeLcjU/WK0N5h6E/hmN9XDn7pdMoVMkV9/E
+	UcnSKaxvufDeEnPWvVqMUKHOAtH/Q9dvRrt+B4EXhijCJYuFBAOcbWsIW2L2yZCjg1US
+	bWcw==
+Received: by 10.216.134.169 with SMTP id s41mr3862946wei.183.1343661174942;
+	Mon, 30 Jul 2012 08:12:54 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id l6sm1306642wiz.4.2012.07.30.08.12.52
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 30 Jul 2012 08:12:53 -0700 (PDT)
+Date: Mon, 30 Jul 2012 17:12:49 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Message-ID: <20120730151249.GK3261@jama.jama.net>
+References: <1343660594-16583-1-git-send-email-Martin.Jansa@gmail.com>
 MIME-Version: 1.0
-Received: by 10.182.43.99 with HTTP; Mon, 30 Jul 2012 08:07:51 -0700 (PDT)
-In-Reply-To: <1343647468-25684-1-git-send-email-radu.moisan@intel.com>
-References: <1343647468-25684-1-git-send-email-radu.moisan@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 30 Jul 2012 16:07:51 +0100
-Message-ID: <CAJTo0LY+wc2ZdknHen4FhdxbDvL8u1q-Qh_+-YrdbPUXMSx-kg@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Gm-Message-State: ALoCoQl8YH5dNAMAJWzVns2Nd9oZI8iMVfvQ1jmurFFw/aHosAVWxlGolysl6rnAJmdL0NPleOlg
-Subject: Re: [PATCH] dbus: include dbus-launch in the main dbus package
+In-Reply-To: <1343660594-16583-1-git-send-email-Martin.Jansa@gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Subject: Re: [PATCH] udev-extraconf: merge with udev-extra-rules from meta-oe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,16 +45,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Jul 2012 15:20:10 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 30 Jul 2012 15:24:30 -0000
+X-Groupsio-MsgNum: 26494
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="/0P/MvzTfyTu5j9Q"
+Content-Disposition: inline
 
-On 30 July 2012 12:24, Radu Moisan <radu.moisan@intel.com> wrote:
-> +PROVIDES = "dbus-x11"
+--/0P/MvzTfyTu5j9Q
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-The provides that provide comparability were RPROVIDES/RREPLACES, this
-doesn't do anything because nothing should be DEPENDing on dbus-x11,
-so you can remove it.
+On Mon, Jul 30, 2012 at 05:03:14PM +0200, Martin Jansa wrote:
+> * license in meta-oe was MIT, in oe-core it was GPLv2, everyone fine with this?
+> * add mount.blacklist to CONFFILES
+> * add more rules and scripts from meta-oe
+> * change PV to 1.0 and bump PR to provide upgrade path from meta-oe's udev-extra-rules
+>   including RREPLACE/RPROVIDES/RCONFLICTS trio
 
-Ross
+BTW: this shows bug in opkg file owner tracking code:
+
+Similar to http://code.google.com/p/opkg/issues/detail?id=51
+
+Upgrading udev-extraconf (1.0-r5) to root...
+Downloading http://jama.dyndns-home.com/org.openembedded.shr-core//all/udev-extraconf_1.0-r5_all.ipk.
+Removing package udev-extra-rules from root...
+Configuring udev-extraconf.
+
+SHR root@Nokia-N900 / $ opkg files udev-extraconf
+Package udev-extraconf (1.0-r5) is installed on root and has the following files:
+
+But the files are there:
+SHR root@Nokia-N900 / $ ll /etc/udev/rules.d/
+total 20
+-rw-r--r-- 1 root root 748 Jul 30 14:57 automount.rules
+-rw-r--r-- 1 root root 757 Jul 30 14:57 autonet.rules
+-rw-r--r-- 1 root root 742 Jul 30 14:57 local.rules
+-rw-r--r-- 1 root root 728 Jul 25 09:33 modprobe.rules
+-rw-r--r-- 1 root root 855 Jul 25 09:33 touchscreen.rules
+
+Next install shows them properly:
+SHR root@Nokia-N900 / $ opkg install -force-reinstall udev-extraconf
+Removing package udev-extraconf from root...
+Installing udev-extraconf (1.0-r5) to root...
+Downloading http://jama.dyndns-home.com/org.openembedded.shr-core//all/udev-extraconf_1.0-r5_all.ipk.
+Configuring udev-extraconf.
+
+SHR root@Nokia-N900 / $ opkg files udev-extraconf
+Package udev-extraconf (1.0-r5) is installed on root and has the
+following files:
+/etc/udev/rules.d/local.rules
+/etc/udev/rules.d/automount.rules
+/etc/udev/scripts/network.sh
+/etc/udev/rules.d/autonet.rules
+/etc/udev/scripts/
+/etc/udev/scripts/mount.sh
+/etc/udev/mount.blacklist
 
 
+--/0P/MvzTfyTu5j9Q
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
+
+iEYEARECAAYFAlAWpHEACgkQN1Ujt2V2gBym4gCfSHZccPe3YuI1c9IUpJMz+1CR
+6NwAn0zU6vu1FSP032VC8VmUDRSb0dea
+=YSOy
+-----END PGP SIGNATURE-----
+
+--/0P/MvzTfyTu5j9Q--
