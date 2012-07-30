@@ -1,25 +1,20 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <laurentiu.palcu@intel.com>) id 1Svlrk-0005tT-Hu
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1Svlt6-0005w2-9K
 	for openembedded-core@lists.openembedded.org;
-	Mon, 30 Jul 2012 11:02:16 +0200
+	Mon, 30 Jul 2012 11:03:40 +0200
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 30 Jul 2012 01:50:40 -0700
+	by azsmga101.ch.intel.com with ESMTP; 30 Jul 2012 01:52:03 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="174757690"
-Received: from lpalcu-linux (HELO [10.237.105.41]) ([10.237.105.41])
-	by azsmga001.ch.intel.com with ESMTP; 30 Jul 2012 01:50:39 -0700
-Message-ID: <50164ADE.9030603@intel.com>
-Date: Mon, 30 Jul 2012 11:50:38 +0300
-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:14.0) Gecko/20120714 Thunderbird/14.0
-MIME-Version: 1.0
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="174758028"
+Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.121.40])
+	by azsmga001.ch.intel.com with ESMTP; 30 Jul 2012 01:52:02 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-References: <cover.1343387245.git.laurentiu.palcu@intel.com>
-	<5012D864.1090208@linux.intel.com> <50152759.4080202@balister.org>
-In-Reply-To: <50152759.4080202@balister.org>
-Subject: Re: [PATCH 0/6] relocatable SDK
+Date: Mon, 30 Jul 2012 09:52:01 +0100
+Message-Id: <1343638321-25398-1-git-send-email-paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] scripts/oe-pkgdata-util: exclude unpackaged in glob output
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,28 +29,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Jul 2012 09:02:16 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 30 Jul 2012 09:03:40 -0000
 
-Hi Philip,
+Check for .packaged file and exclude packages if this file does not
+exist - this avoids attempting to install empty packages during
+complementary package installation within do_rootfs that didn't end up
+being created (and failing as a result).
 
->>> The user will then execute the .sh script and give it the target
->>> directory for SDK installation (default is /opt/poky). The installer
-> 
-> For oe-core the default should be something like /opt/oe-core, not 
-> /opt/some-distro.
-This a good observation.
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+---
+ scripts/oe-pkgdata-util |    4 ++++
+ 1 file changed, 4 insertions(+)
 
-SDKPATH = "/opt/${DISTRO}/${SDK_VERSION}"
+diff --git a/scripts/oe-pkgdata-util b/scripts/oe-pkgdata-util
+index 2427f10..900c27a 100755
+--- a/scripts/oe-pkgdata-util
++++ b/scripts/oe-pkgdata-util
+@@ -112,6 +112,8 @@ def glob(args):
+                     fwdfile = fwdpkgdata(mappedpkg)
+                     if os.path.exists(fwdfile):
+                         mappedpkg = readrenamed(fwdfile)
++                    if not os.path.exists(fwdfile + ".packaged"):
++                        mappedpkg = ""
+                 else:
+                     # That didn't work, so now get the PN, substitute that, then map in the other direction
+                     revlink = revpkgdata(pkg)
+@@ -121,6 +123,8 @@ def glob(args):
+                         fwdfile = fwdpkgdata(newpkg)
+                         if os.path.exists(fwdfile):
+                             mappedpkg = readrenamed(fwdfile)
++                        if not os.path.exists(fwdfile + ".packaged"):
++                            mappedpkg = ""
+                     else:
+                         # Package doesn't even exist...
+                         if debug:
+-- 
+1.7.9.5
 
-I will change the installer/setup scripts so that the default SDK
-installation directory takes into account the DISTRO variable.
-
-Thanks,
-Laurentiu
-
-> 
-> Philip
 
 
