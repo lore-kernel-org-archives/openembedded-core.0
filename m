@@ -1,24 +1,20 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1SvzIM-0003D0-Mb
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1Svzca-0003TG-Dc
 	for openembedded-core@lists.openembedded.org;
-	Tue, 31 Jul 2012 01:22:38 +0200
+	Tue, 31 Jul 2012 01:43:32 +0200
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 30 Jul 2012 16:11:01 -0700
+	by orsmga102.jf.intel.com with ESMTP; 30 Jul 2012 16:31:55 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="173355728"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="173360904"
 Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.121.49])
-	by orsmga001.jf.intel.com with ESMTP; 30 Jul 2012 16:11:00 -0700
+	by orsmga001.jf.intel.com with ESMTP; 30 Jul 2012 16:31:54 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 31 Jul 2012 00:10:56 +0100
-Message-Id: <d0884e86101c81977e67f506b67f92c056687444.1343689827.git.paul.eggleton@linux.intel.com>
+Date: Tue, 31 Jul 2012 00:30:59 +0100
+Message-Id: <cover.1343691019.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1343689827.git.paul.eggleton@linux.intel.com>
-References: <cover.1343689827.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1343689827.git.paul.eggleton@linux.intel.com>
-References: <cover.1343689827.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 2/2] classes/populate_sdk_rpm: add depends on rpmresolve-native
+Subject: [PATCH 0/2] Qt 4 fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,27 +29,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Jul 2012 23:22:39 -0000
+X-List-Received-Date: Mon, 30 Jul 2012 23:43:32 -0000
 
-As of OE-Core revision 72d1048a8381fa4a8c4c0d082047536727b4be47,
-rpmresolve is now required for complementary package installation during
-do_populate_sdk.
+The following changes since commit ab0187c13b2b0a041bf3d98c3a53bd3f45a624de:
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- meta/classes/populate_sdk_rpm.bbclass |    1 +
- 1 file changed, 1 insertion(+)
+  libxcb: Update for python-native changes (2012-07-30 16:53:49 +0100)
 
-diff --git a/meta/classes/populate_sdk_rpm.bbclass b/meta/classes/populate_sdk_rpm.bbclass
-index fac653b..b4b27ba 100644
---- a/meta/classes/populate_sdk_rpm.bbclass
-+++ b/meta/classes/populate_sdk_rpm.bbclass
-@@ -1,4 +1,5 @@
- do_populate_sdk[depends] += "rpm-native:do_populate_sysroot"
-+do_populate_sdk[depends] += "rpmresolve-native:do_populate_sysroot"
- do_populate_sdk[recrdeptask] += "do_package_write_rpm"
- 
- rpmlibdir = "/var/lib/rpm"
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib paule/qt4-fixes-1
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/qt4-fixes-1
+
+Paul Eggleton (2):
+  qt4: allow recipes building commercial edition
+  qt4: make font packaging specific to embedded version
+
+ meta/classes/qt4x11.bbclass          |    2 +-
+ meta/recipes-qt/qt4/qt4-embedded.inc |   32 +++++++++++++++++++++++++++++++-
+ meta/recipes-qt/qt4/qt4-x11-free.inc |    3 ++-
+ meta/recipes-qt/qt4/qt4.inc          |   32 +++++++-------------------------
+ 4 files changed, 41 insertions(+), 28 deletions(-)
+
 -- 
 1.7.9.5
 
