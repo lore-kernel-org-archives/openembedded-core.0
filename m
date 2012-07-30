@@ -1,23 +1,23 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Rongqing.Li@windriver.com>) id 1Svm6p-00065T-33
+	(envelope-from <Rongqing.Li@windriver.com>) id 1Svm9H-00068f-PJ
 	for openembedded-core@lists.openembedded.org;
-	Mon, 30 Jul 2012 11:17:51 +0200
+	Mon, 30 Jul 2012 11:20:24 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q6U96EMX017735
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q6U98kCc004872
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Jul 2012 02:06:14 -0700 (PDT)
+	Mon, 30 Jul 2012 02:08:47 -0700 (PDT)
 Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.163) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.309.2; Mon, 30 Jul 2012 02:06:14 -0700
+	14.2.309.2; Mon, 30 Jul 2012 02:08:46 -0700
 From: <rongqing.li@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 30 Jul 2012 17:06:14 +0800
-Message-ID: <1343639174-29579-1-git-send-email-rongqing.li@windriver.com>
+Date: Mon, 30 Jul 2012 17:08:46 +0800
+Message-ID: <1343639326-29842-1-git-send-email-rongqing.li@windriver.com>
 X-Mailer: git-send-email 1.7.4.1
 MIME-Version: 1.0
-Subject: [PATCH] perf-3.4: fix hardcoded slang include dir
+Subject: [PATCH] slang: change char type to signed char in macros
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,54 +32,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Jul 2012 09:17:51 -0000
+X-List-Received-Date: Mon, 30 Jul 2012 09:20:24 -0000
 Content-Type: text/plain
 
 From: Roy.Li <rongqing.li@windriver.com>
 
-[YOCTO #2853]
+[YOCTO 2726]
 
-Sysroot in CFLAGS can not pass into Makefile, and slang include
-dir becomes the hardcoded host dir, fix it by using STAGING_INCDIR.
-
-And add dependency on slang
+The patch of converting char type to signed char is only applied to arm,
+in fact it should be applied to powerpc too since powerpc has the same
+assumption for char type. To x86 and mips, this patch has not impact.
 
 Signed-off-by: Roy.Li <rongqing.li@windriver.com>
 ---
- meta/recipes-kernel/perf/perf_3.4.bb |    6 +++++-
- 1 files changed, 5 insertions(+), 1 deletions(-)
+ meta/recipes-extended/slang/slang_2.2.4.bb |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-kernel/perf/perf_3.4.bb b/meta/recipes-kernel/perf/perf_3.4.bb
-index 505c7b8..da746f4 100644
---- a/meta/recipes-kernel/perf/perf_3.4.bb
-+++ b/meta/recipes-kernel/perf/perf_3.4.bb
-@@ -9,7 +9,7 @@ as well."
+diff --git a/meta/recipes-extended/slang/slang_2.2.4.bb b/meta/recipes-extended/slang/slang_2.2.4.bb
+index 7082611..e7d804c 100644
+--- a/meta/recipes-extended/slang/slang_2.2.4.bb
++++ b/meta/recipes-extended/slang/slang_2.2.4.bb
+@@ -10,7 +10,7 @@ to recode S-Lang procedures in C if you need to."
+ HOMEPAGE = "http://www.jedsoft.org/slang/"
+ SECTION = "libs"
+ DEPENDS = "pcre"
+-PR = "r10"
++PR = "r11"
+ 
  LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=d7810fab7487fb0aad327b76f1be7cd7"
- 
--PR = "r4"
-+PR = "r5"
- 
- require perf.inc
- 
-@@ -24,6 +24,7 @@ DEPENDS = "virtual/kernel \
-            ${MLPREFIX}binutils \
-            ${TUI_DEPENDS} \
-            ${SCRIPTING_DEPENDS} \
-+           slang \
+ LIC_FILES_CHKSUM = "file://COPYING;md5=a52a18a472d4f7e45479b06563717c02"
+@@ -20,7 +20,7 @@ SRC_URI = "ftp://space.mit.edu/pub/davis/slang/v2.2/slang-${PV}.tar.bz2 \
+            file://rpathfix.patch \
+            file://fix-check-pcre.patch \
            "
+-SRC_URI_append_arm = " file://change-char-type-to-signed-char-in-macros.patch"
++SRC_URI_append = " file://change-char-type-to-signed-char-in-macros.patch"
  
- SCRIPTING_RDEPENDS = "${@perf_feature_enabled('perf-scripting', 'perl perl-modules python', '',d)}"
-@@ -64,6 +65,9 @@ EXTRA_OEMAKE = \
- 		prefix=/usr \
- 		NO_GTK2=1 ${TUI_DEFINES} NO_DWARF=1 ${SCRIPTING_DEFINES} \
- 		'
-+do_compile_prepend() {
-+	sed -i "s:-I/usr/include/slang:-I${STAGING_INCDIR}:" ${S}/tools/perf/Makefile
-+}
+ inherit autotools
  
- do_compile() {
- 	oe_runmake all
 -- 
 1.7.4.1
 
