@@ -1,23 +1,25 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Rongqing.Li@windriver.com>) id 1Svm9H-00068f-PJ
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1SvmQ2-0002xB-SU
 	for openembedded-core@lists.openembedded.org;
-	Mon, 30 Jul 2012 11:20:24 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q6U98kCc004872
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Jul 2012 02:08:47 -0700 (PDT)
-Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.163) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.309.2; Mon, 30 Jul 2012 02:08:46 -0700
-From: <rongqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 30 Jul 2012 17:08:46 +0800
-Message-ID: <1343639326-29842-1-git-send-email-rongqing.li@windriver.com>
-X-Mailer: git-send-email 1.7.4.1
+	Mon, 30 Jul 2012 11:37:44 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 30 Jul 2012 02:26:06 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="199878581"
+Received: from unknown (HELO helios.localnet) ([10.252.121.40])
+	by fmsmga002.fm.intel.com with ESMTP; 30 Jul 2012 02:26:05 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 30 Jul 2012 10:26:04 +0100
+Message-ID: <1649088.OayoHGzzEP@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.8.4 (Linux/3.2.0-27-generic-pae; KDE/4.8.4; i686; ; )
+In-Reply-To: <1343597225-9805-1-git-send-email-raj.khem@gmail.com>
+References: <1343597225-9805-1-git-send-email-raj.khem@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH] slang: change char type to signed char in macros
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] package_rpm.bbclass: Accomodate dash when using arrays
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,46 +34,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Jul 2012 09:20:24 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 30 Jul 2012 09:37:46 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-From: Roy.Li <rongqing.li@windriver.com>
+On Sunday 29 July 2012 14:27:05 Khem Raj wrote:
+> we were assigning local variable to an array coming through
+> positional arguments. local is a non posix contruct thats
+> also supported by dash luckily but operates differently in this
+> case it exapnds the array before assignment. so
+> 
+> local pkgs="$@"
+> 
+> turns into pkgs=locale-base-en-us locale-base-en-gb
+> 
+> ant we see errors
+> 
+> run.do_rootfs.25593: 932: local: locale-base-en-gb: bad variable name
+> 
+> So lets not use defining and assigning local in one go
+> first define a local and then the assignment
 
-[YOCTO 2726]
+Oops, sorry about that.
 
-The patch of converting char type to signed char is only applied to arm,
-in fact it should be applied to powerpc too since powerpc has the same
-assumption for char type. To x86 and mips, this patch has not impact.
+However, in the other thread you said package_rpm.bbclass was "full of 
+bashisms" - is there only this one?
 
-Signed-off-by: Roy.Li <rongqing.li@windriver.com>
----
- meta/recipes-extended/slang/slang_2.2.4.bb |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
+Cheers,
+Paul
 
-diff --git a/meta/recipes-extended/slang/slang_2.2.4.bb b/meta/recipes-extended/slang/slang_2.2.4.bb
-index 7082611..e7d804c 100644
---- a/meta/recipes-extended/slang/slang_2.2.4.bb
-+++ b/meta/recipes-extended/slang/slang_2.2.4.bb
-@@ -10,7 +10,7 @@ to recode S-Lang procedures in C if you need to."
- HOMEPAGE = "http://www.jedsoft.org/slang/"
- SECTION = "libs"
- DEPENDS = "pcre"
--PR = "r10"
-+PR = "r11"
- 
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=a52a18a472d4f7e45479b06563717c02"
-@@ -20,7 +20,7 @@ SRC_URI = "ftp://space.mit.edu/pub/davis/slang/v2.2/slang-${PV}.tar.bz2 \
-            file://rpathfix.patch \
-            file://fix-check-pcre.patch \
-           "
--SRC_URI_append_arm = " file://change-char-type-to-signed-char-in-macros.patch"
-+SRC_URI_append = " file://change-char-type-to-signed-char-in-macros.patch"
- 
- inherit autotools
- 
 -- 
-1.7.4.1
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
