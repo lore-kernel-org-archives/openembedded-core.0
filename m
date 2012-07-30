@@ -1,36 +1,20 @@
-Received: from mail.cvg.de ([62.153.82.30])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1Svmgf-00064L-MR
+	(envelope-from <radu.moisan@intel.com>) id 1SvoEz-0007uK-DG
 	for openembedded-core@lists.openembedded.org;
-	Mon, 30 Jul 2012 11:55:05 +0200
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id q6U9hELR032649
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Jul 2012 11:43:15 +0200
-Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
-	4.76) (envelope-from <ensc@sigma-chemnitz.de>) id 1SvmVO-0001gv-9Q
-	for openembedded-core@lists.openembedded.org;
-	Mon, 30 Jul 2012 11:43:14 +0200
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+	Mon, 30 Jul 2012 13:34:25 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 30 Jul 2012 04:22:48 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="199912228"
+Received: from dell-desktop (HELO localhost.localdomain) ([10.237.105.32])
+	by fmsmga002.fm.intel.com with ESMTP; 30 Jul 2012 04:22:47 -0700
+From: Radu Moisan <radu.moisan@intel.com>
 To: openembedded-core@lists.openembedded.org
-References: <1343639174-29579-1-git-send-email-rongqing.li@windriver.com>
-Date: Mon, 30 Jul 2012 11:43:14 +0200
-In-Reply-To: <1343639174-29579-1-git-send-email-rongqing.li@windriver.com>
-	(rongqing's message of "Mon, 30 Jul 2012 17:06:14 +0800")
-Message-ID: <lyk3xlfutp.fsf@ensc-virt.intern.sigma-chemnitz.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.1 (gnu/linux)
-MIME-Version: 1.0
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-X-DSPAM-Result: Innocent
-X-DSPAM-Probability: 0
-X-DSPAM-Confidence: 0.99
-X-Spam-Score: -5.2
-X-Spam-Level: -----
-X-Spam-Tests: AWL,BAYES_00,SPF_NEUTRAL,T_RP_MATCHES_RCVD,DSPAM_INNOCENT
-X-Scanned-By: MIMEDefang 2.73
-Subject: Re: [PATCH] perf-3.4: fix hardcoded slang include dir
+Date: Mon, 30 Jul 2012 14:24:28 +0300
+Message-Id: <1343647468-25684-1-git-send-email-radu.moisan@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] dbus: include dbus-launch in the main dbus package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,23 +29,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Jul 2012 09:55:06 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 30 Jul 2012 11:34:25 -0000
 
-<rongqing.li-CWA4WttNNZF54TAoqtyWWQ@public.gmane.org> writes:
+Followed suggestions from Bugz 2261:
 
-> +++ b/meta/recipes-kernel/perf/perf_3.4.bb
-> ...
-> +	sed -i "s:-I/usr/include/slang:-I${STAGING_INCDIR}:" ${S}/tools/perf/Makefile
+2) make the virtual/libx11 DEPENDS conditional based on the x11 distro feature.
+This makes the build dependencies reflect the feature list.
 
-You are patching an already staged file here:
+3) remove dbus-x11, meaning that dbus-launch with its potential X11 dependency
+is now back in dbus where is belongs.
 
- | S = "${STAGING_KERNEL_DIR}"
+4) make dbus provide dbus-x11, for compatibility.
 
-When want to fix it in this way (another workaround might be adding
-'WERROR=0' to EXTRA_OEMAKE), it must be done in kernel.bbclass.
+Fixes [Yocto #2261]
 
+Signed-off-by: Radu Moisan <radu.moisan@intel.com>
+---
+ meta/recipes-core/dbus/dbus.inc |   11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
-Enrico
+diff --git a/meta/recipes-core/dbus/dbus.inc b/meta/recipes-core/dbus/dbus.inc
+index a75583d..8a9edaa 100644
+--- a/meta/recipes-core/dbus/dbus.inc
++++ b/meta/recipes-core/dbus/dbus.inc
+@@ -31,10 +31,12 @@ CONFFILES_${PN} = "${sysconfdir}/dbus-1/system.conf ${sysconfdir}/dbus-1/session
+ 
+ DEBIANNAME_${PN} = "dbus-1"
+ 
+-PACKAGES =+ "${PN}-lib ${PN}-systemd ${@base_contains('DISTRO_FEATURES', 'x11', '${PN}-x11', '', d)}"
++PACKAGES =+ "${PN}-lib ${PN}-systemd"
+ 
+-FILES_${PN}-x11 = "${bindir}/dbus-launch"
+-RDEPENDS_${PN}-x11 = "${PN}"
++# for compatibility
++PROVIDES = "dbus-x11"
++RPROVIDES_${PN} = "dbus-x11"
++RREPLACES_${PN} += "dbus-x11"
+ 
+ FILES_${PN}-systemd = "${systemd_unitdir}/system/"
+ 
+@@ -43,6 +45,7 @@ FILES_${PN} = "${bindir}/dbus-daemon* \
+                ${bindir}/dbus-cleanup-sockets \
+                ${bindir}/dbus-send \
+                ${bindir}/dbus-monitor \
++               ${bindir}/dbus-launch \
+                ${libexecdir}/dbus* \
+                ${sysconfdir} \
+                ${localstatedir} \
+@@ -59,7 +62,7 @@ pkg_postinst_dbus() {
+ }
+ 
+ EXTRA_OECONF_X = "${@base_contains('DISTRO_FEATURES', 'x11', '--with-x', '--without-x', d)}"
+-EXTRA_OECONF_X_virtclass-native = "--without-x"
++EXTRA_OECONF_X_virtclass-native = "--disable-x11-autolaunch"
+ 
+ EXTRA_OECONF = "--disable-tests \
+                 --disable-checks \
+-- 
+1.7.9.5
+
 
 
