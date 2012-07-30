@@ -1,20 +1,20 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <radu.moisan@intel.com>) id 1SvoEz-0007uK-DG
+	(envelope-from <radu.moisan@intel.com>) id 1SvoFT-0007wf-Nw
 	for openembedded-core@lists.openembedded.org;
-	Mon, 30 Jul 2012 13:34:25 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 30 Jul 2012 04:22:48 -0700
+	Mon, 30 Jul 2012 13:34:57 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 30 Jul 2012 04:23:18 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="199912228"
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="173110642"
 Received: from dell-desktop (HELO localhost.localdomain) ([10.237.105.32])
-	by fmsmga002.fm.intel.com with ESMTP; 30 Jul 2012 04:22:47 -0700
+	by orsmga001.jf.intel.com with ESMTP; 30 Jul 2012 04:23:17 -0700
 From: Radu Moisan <radu.moisan@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 30 Jul 2012 14:24:28 +0300
-Message-Id: <1343647468-25684-1-git-send-email-radu.moisan@intel.com>
+Date: Mon, 30 Jul 2012 14:24:58 +0300
+Message-Id: <1343647498-25738-1-git-send-email-radu.moisan@intel.com>
 X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] dbus: include dbus-launch in the main dbus package
+Subject: [PATCH v6] dbus: include dbus-launch in the main dbus package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,7 +29,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Jul 2012 11:34:25 -0000
+X-List-Received-Date: Mon, 30 Jul 2012 11:34:57 -0000
 
 Followed suggestions from Bugz 2261:
 
