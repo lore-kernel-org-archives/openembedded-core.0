@@ -1,25 +1,23 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1SvpAm-0007Gj-7h
+	(envelope-from <Xin.Ouyang@windriver.com>) id 1SvpDg-0002Yw-Qm
 	for openembedded-core@lists.openembedded.org;
-	Mon, 30 Jul 2012 14:34:09 +0200
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 30 Jul 2012 05:22:31 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="128416523"
-Received: from unknown (HELO helios.localnet) ([10.252.121.40])
-	by AZSMGA002.ch.intel.com with ESMTP; 30 Jul 2012 05:22:30 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 30 Jul 2012 13:22:29 +0100
-Message-ID: <1791255.KrCA1u10OF@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.8.4 (Linux/3.2.0-27-generic-pae; KDE/4.8.4; i686; ; )
-In-Reply-To: <1343650687-2307-2-git-send-email-ross.burton@intel.com>
-References: <1343650687-2307-1-git-send-email-ross.burton@intel.com>
-	<1343650687-2307-2-git-send-email-ross.burton@intel.com>
+	Mon, 30 Jul 2012 14:37:09 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q6UCPWkq022239
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 30 Jul 2012 05:25:32 -0700 (PDT)
+Received: from Xouyang-Ubuntu.corp.ad.wrs.com (128.224.162.231) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.309.2; Mon, 30 Jul 2012 05:25:31 -0700
+From: <xin.ouyang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 30 Jul 2012 20:25:29 +0800
+Message-ID: <cover.1343650679.git.Xin.Ouyang@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-Subject: Re: [PATCH 2/2] buildhistory: reduce the numeric delta to 10%
+Subject: [PATCH 0/1] findutils-4.4.2: add bison-native to DEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,42 +32,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Jul 2012 12:34:10 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Mon, 30 Jul 2012 12:37:09 -0000
+Content-Type: text/plain
 
-On Monday 30 July 2012 13:18:07 Ross Burton wrote:
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
->  meta/lib/oe/buildhistory_analysis.py |    2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/meta/lib/oe/buildhistory_analysis.py
-> b/meta/lib/oe/buildhistory_analysis.py index d0e0808..0a50432 100644
-> --- a/meta/lib/oe/buildhistory_analysis.py
-> +++ b/meta/lib/oe/buildhistory_analysis.py
-> @@ -23,7 +23,7 @@ numeric_fields = ['PKGSIZE', 'IMAGESIZE']
->  # Fields to monitor
->  monitor_fields = ['RDEPENDS', 'RRECOMMENDS', 'PACKAGES', 'FILELIST',
-> 'PKGSIZE', 'IMAGESIZE'] # Percentage change to alert for numeric fields
-> -monitor_numeric_threshold = 20
-> +monitor_numeric_threshold = 10
->  # Image files to monitor (note that image-info.txt is handled separately)
->  img_monitor_files = ['installed-package-names.txt', 'files-in-image.txt']
->  # Related context fields for reporting (note: PE, PV & PR are always
-> reported for monitored package fields)
+From: Xin Ouyang <Xin.Ouyang@windriver.com>
 
-I don't think I picked 20% completely out of thin air but I wasn't especially 
-scientific about it either, so:
+[YOCTO #2858]
 
-Acked-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+The following changes since commit 7411158e1f980cd71c432026fa2f68ab80e3541e:
 
-Cheers,
-Paul
+  xcb-proto: Update for python-native changes (2012-07-29 17:17:38 +0100)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib xouyang/2858
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=xouyang/2858
+
+Xin Ouyang (1):
+  findutils-4.4.2: add bison-native to DEPENDS
+
+ meta/recipes-extended/findutils/findutils_4.4.2.bb |    4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
 -- 
+1.7.9.5
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
 
