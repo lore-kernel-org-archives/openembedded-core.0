@@ -1,39 +1,37 @@
-Received: from mail-we0-f175.google.com ([74.125.82.175])
+Received: from mail-wg0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1SvuA5-00060D-54
+	(envelope-from <martin.jansa@gmail.com>) id 1SvuQW-0006bs-Cq
 	for openembedded-core@lists.openembedded.org;
-	Mon, 30 Jul 2012 19:53:45 +0200
-Received: by weyr6 with SMTP id r6so3439955wey.6
+	Mon, 30 Jul 2012 20:10:44 +0200
+Received: by wgbdr1 with SMTP id dr1so4506920wgb.24
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Jul 2012 10:42:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date
-	:content-transfer-encoding:message-id:references:to:x-mailer
-	:x-gm-message-state;
-	bh=q37zF+4vzzHQC/KTWI/yRulVUibpehQKyPBwNCqufaY=;
-	b=Tw+FWFzl6Kf5ks2Fjt4sLlXif/WjA3W3Mbx5VYesm27QhTSgZSp4AaLLszNvoZlFyM
-	gYx7ncnqpKEDnkh0Z1/1tNZj5pIz0u8iOYHalytQmOZG6NoyX9NjQKeVbCyk0M/DQeG9
-	00xj8WYrlCM1HbHVoX5XFiDrAE9nGVYzZ6zKQKNfHNowaWo8c0uDdLI7cxQ7XchmBsDo
-	iw+G2t3pSTpP3wDKAqXo2b3/DiqC6QFqXpzdID1eVXE2gqAcGD4Bc075w4O1ZyYq8iv6
-	t6d+TZAKjJjFtoqFI8twXQLtmdczUDhvZNtjUm7/69ofVw/mVzM46aAfxlXFhRD8UPD1
-	Tvlg==
-Received: by 10.180.14.34 with SMTP id m2mr28231946wic.21.1343670129371;
-	Mon, 30 Jul 2012 10:42:09 -0700 (PDT)
-Received: from [172.20.0.6] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
-	by mx.google.com with ESMTPS id z11sm25755309wiv.10.2012.07.30.10.42.07
+	Mon, 30 Jul 2012 10:59:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=zQA/js/+X/6+RVb1A9gKcRMZ0LrpkfHQ65Fm1dpkwXc=;
+	b=Eo7xxIXzvn/cFkzLcFI1xB0aH4FZ9xGP+t+y/Z2h1rzjr+1ZMBevi0sekenkORXr2J
+	+CTO4iaZ6crlF+C6FghkaQY0YYWNGBfWKfvBGc3rmnspkXHjv8++6/HT8SDOuXvNw3WO
+	cKVgEqNS2MKg+IJu2r9DntEDi75nSPgbrzSv69zse4Gp40BL8I9whUVdzs1mnxzVsuR0
+	7yzGZpJr+dnEXIZVm3WciJOAu7A8FaiCeH/SrSfdBZL90h7+wA0Hz+wmvs2HB54JYh/N
+	MwInvO5Z2/K+Wc4NqE/y5ty5AHmtnl2IQic09lm+wNCQrHb2nGVs7obJVbsaWgL1Qgsf
+	bWKQ==
+Received: by 10.216.240.8 with SMTP id d8mr6283849wer.157.1343671148465;
+	Mon, 30 Jul 2012 10:59:08 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id ck9sm25861040wib.2.2012.07.30.10.59.06
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 30 Jul 2012 10:42:08 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 6.0 \(1485\))
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1343660594-16583-1-git-send-email-Martin.Jansa@gmail.com>
-Date: Mon, 30 Jul 2012 19:42:28 +0200
-Message-Id: <49266E69-88A0-4DF7-AAC0-7D8B22EF169A@dominion.thruhere.net>
-References: <1343660594-16583-1-git-send-email-Martin.Jansa@gmail.com>
+	Mon, 30 Jul 2012 10:59:07 -0700 (PDT)
+Date: Mon, 30 Jul 2012 19:59:03 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1485)
-X-Gm-Message-State: ALoCoQmurbEsYrPB+ZLRAT4SgCkNKb0BvRR6YahRFqsYLAbULR1vvgJvRHyZc0oO6rQuJUGhVdKc
+Message-ID: <20120730175903.GN3261@jama.jama.net>
+References: <1343660594-16583-1-git-send-email-Martin.Jansa@gmail.com>
+	<49266E69-88A0-4DF7-AAC0-7D8B22EF169A@dominion.thruhere.net>
+MIME-Version: 1.0
+In-Reply-To: <49266E69-88A0-4DF7-AAC0-7D8B22EF169A@dominion.thruhere.net>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Subject: Re: [PATCH] udev-extraconf: merge with udev-extra-rules from meta-oe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -49,17 +47,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Jul 2012 17:53:45 -0000
+X-List-Received-Date: Mon, 30 Jul 2012 18:10:44 -0000
+X-Groupsio-MsgNum: 26502
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="yAzUYvkKIfeS0jQX"
+Content-Disposition: inline
+
+--yAzUYvkKIfeS0jQX
 Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
+On Mon, Jul 30, 2012 at 07:42:28PM +0200, Koen Kooi wrote:
+>=20
+> Op 30 jul. 2012, om 17:03 heeft Martin Jansa <martin.jansa@gmail.com> het=
+ volgende geschreven:
+>=20
+> > * license in meta-oe was MIT, in oe-core it was GPLv2, everyone fine wi=
+th this?
+>=20
+> Hmm, MIT to GPL is a big regression, anyway to keep MIT?
 
-Op 30 jul. 2012, om 17:03 heeft Martin Jansa <martin.jansa@gmail.com> =
-het volgende geschreven:
+If it's fine with oe-core people I'll send v2.
 
-> * license in meta-oe was MIT, in oe-core it was GPLv2, everyone fine =
-with this?
+I was thinking the same, but didn't want to introduce another change to
+original oe-core recipe.
 
-Hmm, MIT to GPL is a big regression, anyway to keep MIT?=
+Cheers,
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--yAzUYvkKIfeS0jQX
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
+
+iEYEARECAAYFAlAWy2cACgkQN1Ujt2V2gBwh6wCgjWibkdMMKHhAlg6jXoYYGX03
+KW4AoKc2meWqA92kfr2MT8flejfBGQ2e
+=XNaC
+-----END PGP SIGNATURE-----
+
+--yAzUYvkKIfeS0jQX--
