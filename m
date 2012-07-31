@@ -1,24 +1,24 @@
 Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <laurentiu.palcu@intel.com>) id 1Sw8KU-0003Iv-O1
+	(envelope-from <laurentiu.palcu@intel.com>) id 1Sw8KV-0003Iv-PY
 	for openembedded-core@lists.openembedded.org;
 	Tue, 31 Jul 2012 11:01:27 +0200
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 31 Jul 2012 01:49:49 -0700
+	by fmsmga102.fm.intel.com with ESMTP; 31 Jul 2012 01:49:52 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="190969699"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="190969713"
 Received: from lpalcu-linux (HELO localhost.localdomain) ([10.237.105.41])
-	by fmsmga001.fm.intel.com with ESMTP; 31 Jul 2012 01:49:48 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 31 Jul 2012 01:49:51 -0700
 From: Laurentiu Palcu <laurentiu.palcu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 31 Jul 2012 11:49:33 +0300
-Message-Id: <acf29e46f65edad2bf26c47356ec4f630fff9b56.1343723990.git.laurentiu.palcu@intel.com>
+Date: Tue, 31 Jul 2012 11:49:36 +0300
+Message-Id: <a15d1fb3320e6074934fd3dc97ae9449308dcd2e.1343723990.git.laurentiu.palcu@intel.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1343723990.git.laurentiu.palcu@intel.com>
 References: <cover.1343723990.git.laurentiu.palcu@intel.com>
 In-Reply-To: <cover.1343723990.git.laurentiu.palcu@intel.com>
 References: <cover.1343723990.git.laurentiu.palcu@intel.com>
-Subject: [PATCH v2 1/6] eglibc: relocatable SDK changes
+Subject: [PATCH v2 4/6] populate_sdk_base.bbclass: create self-extracting archive
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,276 +33,130 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 31 Jul 2012 09:01:27 -0000
+X-List-Received-Date: Tue, 31 Jul 2012 09:01:28 -0000
 
-Modifying the dynamic loader path in all binaries by the SDK installer
-would not be possible because we cannot know in advance the SDK target
-location. Hence, the PT_INTERP section size has been set to 4096 (which
-is the maximum path lengh in Linux).
-
-Also, for the dynamic loader SYSDIRS and ld.so.cache paths, special
-4096 bytes sections were allocated so that we can easily parse the ELF
-binary at install time and modify the paths.
+In order for the SDK to be relocatable, the user would need to call a
+setup script to change the binaries acordingly. Having an auto-extracting
+archive has the advantage of being more user friendly and the user does
+not have to call the setup script separately after extracting the SDK.
+It is called automatically.
 
 Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
 ---
- .../eglibc/eglibc-2.15/relocatable_sdk.patch       |   81 +++++++++++++++
- .../eglibc/eglibc-2.16/relocatable_sdk.patch       |  108 ++++++++++++++++++++
- meta/recipes-core/eglibc/eglibc_2.15.bb            |    6 +-
- meta/recipes-core/eglibc/eglibc_2.16.bb            |    6 +-
- 4 files changed, 197 insertions(+), 4 deletions(-)
- create mode 100644 meta/recipes-core/eglibc/eglibc-2.15/relocatable_sdk.patch
- create mode 100644 meta/recipes-core/eglibc/eglibc-2.16/relocatable_sdk.patch
+ meta/classes/populate_sdk_base.bbclass |   86 ++++++++++++++++++++++++++++++++
+ 1 file changed, 86 insertions(+)
 
-diff --git a/meta/recipes-core/eglibc/eglibc-2.15/relocatable_sdk.patch b/meta/recipes-core/eglibc/eglibc-2.15/relocatable_sdk.patch
-new file mode 100644
-index 0000000..0ee25d6
---- /dev/null
-+++ b/meta/recipes-core/eglibc/eglibc-2.15/relocatable_sdk.patch
-@@ -0,0 +1,81 @@
-+Upstream-Status: Inappropriate [SDK specific]
+diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
+index 55ec684..0d19741 100644
+--- a/meta/classes/populate_sdk_base.bbclass
++++ b/meta/classes/populate_sdk_base.bbclass
+@@ -55,6 +55,8 @@ fakeroot python do_populate_sdk() {
+         bb.build.exec_func("create_sdk_files", localdata)
+ 
+     bb.build.exec_func("tar_sdk", d)
 +
-+This patch puts the dynamic loader path in the binaries, SYSTEM_DIRS strings
-+and lengths as well as ld.so.cache path in the dynamic loader to specific
-+sections in memory. The sections that contain paths have been allocated a 4096
-+byte section, which is the maximum path length in linux. This will allow the
-+relocating script to parse the ELF binary, detect the section and easily replace
-+the strings in a certain path.
++    bb.build.exec_func("create_shar", d)
+ }
+ 
+ fakeroot populate_sdk_image() {
+@@ -94,6 +96,13 @@ fakeroot create_sdk_files() {
+ 
+ 	# Add version information
+ 	toolchain_create_sdk_version ${SDK_OUTPUT}/${SDKPATH}/version-${REAL_MULTIMACH_TARGET_SYS}
 +
-+Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
++	cp ${COREBASE}/scripts/relocate_sdk.py ${SDK_OUTPUT}/${SDKPATH}/
 +
-+Index: libc/elf/interp.c
-+===================================================================
-+--- libc.orig/elf/interp.c
-++++ libc/elf/interp.c
-+@@ -17,5 +17,5 @@
-+    Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-+    02111-1307 USA.  */
-+ 
-+-const char __invoke_dynamic_linker__[] __attribute__ ((section (".interp")))
-++const char __invoke_dynamic_linker__[4096] __attribute__ ((section (".interp")))
-+   = RUNTIME_LINKER;
-+Index: libc/elf/dl-load.c
-+===================================================================
-+--- libc.orig/elf/dl-load.c
-++++ libc/elf/dl-load.c
-+@@ -145,8 +145,8 @@ static size_t max_capstrlen attribute_re
-+ /* Get the generated information about the trusted directories.  */
-+ #include "trusted-dirs.h"
-+ 
-+-static const char system_dirs[] = SYSTEM_DIRS;
-+-static const size_t system_dirs_len[] =
-++static const char system_dirs[4096] __attribute__ ((section (".sysdirs"))) = SYSTEM_DIRS;
-++volatile static const size_t system_dirs_len[] __attribute__ ((section (".sysdirslen"))) =
-+ {
-+   SYSTEM_DIRS_LEN
-+ };
-+Index: libc/elf/dl-cache.c
-+===================================================================
-+--- libc.orig/elf/dl-cache.c
-++++ libc/elf/dl-cache.c
-+@@ -134,6 +134,10 @@ do									      \
-+ while (0)
-+ 
-+ 
-++const char LD_SO_CACHE[4096] __attribute__ ((section (".ldsocache"))) =
-++		SYSCONFDIR "/ld.so.cache";
-++
-++
-+ int
-+ internal_function
-+ _dl_cache_libcmp (const char *p1, const char *p2)
-+Index: libc/elf/ldconfig.c
-+===================================================================
-+--- libc.orig/elf/ldconfig.c
-++++ libc/elf/ldconfig.c
-+@@ -167,6 +167,9 @@ static struct argp argp =
-+   options, parse_opt, NULL, doc, NULL, more_help, NULL
-+ };
-+ 
-++
-++extern const char LD_SO_CACHE[4096] __attribute__ ((section (".ldsocache")));
-++
-+ /* Check if string corresponds to an important hardware capability or
-+    a platform.  */
-+ static int
-+Index: libc/sysdeps/generic/dl-cache.h
-+===================================================================
-+--- libc.orig/sysdeps/generic/dl-cache.h
-++++ libc/sysdeps/generic/dl-cache.h
-+@@ -28,10 +28,6 @@
-+   ((flags) == 1 || (flags) == _DL_CACHE_DEFAULT_ID)
-+ #endif
-+ 
-+-#ifndef LD_SO_CACHE
-+-# define LD_SO_CACHE SYSCONFDIR "/ld.so.cache"
-+-#endif
-+-
-+ #ifndef add_system_dir
-+ # define add_system_dir(dir) add_dir (dir)
-+ #endif
-diff --git a/meta/recipes-core/eglibc/eglibc-2.16/relocatable_sdk.patch b/meta/recipes-core/eglibc/eglibc-2.16/relocatable_sdk.patch
-new file mode 100644
-index 0000000..ca5f17b
---- /dev/null
-+++ b/meta/recipes-core/eglibc/eglibc-2.16/relocatable_sdk.patch
-@@ -0,0 +1,108 @@
-+Upstream-Status: Inappropriate [SDK specific]
++	# Replace the ##DEFAULT_INSTALL_DIR## with the correct pattern.
++	# Escape special characters like '+' and '.' in the SDKPATH
++	escaped_sdkpath=$(echo ${SDKPATH} |sed -e "s:[\+\.]:\\\\\\\\\0:g")
++	sed -i -e "s:##DEFAULT_INSTALL_DIR##:$escaped_sdkpath:" ${SDK_OUTPUT}/${SDKPATH}/relocate_sdk.py
+ }
+ 
+ fakeroot tar_sdk() {
+@@ -103,6 +112,83 @@ fakeroot tar_sdk() {
+ 	tar --owner=root --group=root -cj --file=${SDK_DEPLOY}/${TOOLCHAIN_OUTPUTNAME}.tar.bz2 .
+ }
+ 
++fakeroot create_shar() {
++	cat << "EOF" > ${SDK_DEPLOY}/${TOOLCHAIN_OUTPUTNAME}.sh
++#!/bin/bash
 +
-+This patch puts the dynamic loader path in the binaries, SYSTEM_DIRS strings
-+and lengths as well as ld.so.cache path in the dynamic loader to specific
-+sections in memory. The sections that contain paths have been allocated a 4096
-+byte section, which is the maximum path length in linux. This will allow the
-+relocating script to parse the ELF binary, detect the section and easily replace
-+the strings in a certain path.
++DEFAULT_INSTALL_DIR="${SDKPATH}"
 +
-+Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
++echo -n "Enter target directory for Poky SDK (default: $DEFAULT_INSTALL_DIR): "
++read target_sdk_dir
 +
-+Index: libc/elf/interp.c
-+===================================================================
-+--- libc.orig/elf/interp.c
-++++ libc/elf/interp.c
-+@@ -16,5 +16,5 @@
-+    License along with the GNU C Library; if not, see
-+    <http://www.gnu.org/licenses/>.  */
-+ 
-+-const char __invoke_dynamic_linker__[] __attribute__ ((section (".interp")))
-++const char __invoke_dynamic_linker__[4096] __attribute__ ((section (".interp")))
-+   = RUNTIME_LINKER;
-+Index: libc/elf/dl-load.c
-+===================================================================
-+--- libc.orig/elf/dl-load.c
-++++ libc/elf/dl-load.c
-+@@ -144,8 +144,8 @@ static size_t max_capstrlen attribute_re
-+ /* Get the generated information about the trusted directories.  */
-+ #include "trusted-dirs.h"
-+ 
-+-static const char system_dirs[] = SYSTEM_DIRS;
-+-static const size_t system_dirs_len[] =
-++static const char system_dirs[4096] __attribute__ ((section (".sysdirs"))) = SYSTEM_DIRS;
-++volatile static const size_t system_dirs_len[] __attribute__ ((section (".sysdirslen"))) =
-+ {
-+   SYSTEM_DIRS_LEN
-+ };
-+Index: libc/elf/dl-cache.c
-+===================================================================
-+--- libc.orig/elf/dl-cache.c
-++++ libc/elf/dl-cache.c
-+@@ -133,6 +133,10 @@ do									      \
-+ while (0)
-+ 
-+ 
-++const char LD_SO_CACHE[4096] __attribute__ ((section (".ldsocache"))) =
-++		SYSCONFDIR "/ld.so.cache";
-++
-++
-+ int
-+ internal_function
-+ _dl_cache_libcmp (const char *p1, const char *p2)
-+Index: libc/elf/ldconfig.c
-+===================================================================
-+--- libc.orig/elf/ldconfig.c
-++++ libc/elf/ldconfig.c
-+@@ -166,6 +166,9 @@ static struct argp argp =
-+   options, parse_opt, NULL, doc, NULL, more_help, NULL
-+ };
-+ 
-++
-++extern const char LD_SO_CACHE[4096] __attribute__ ((section (".ldsocache")));
-++
-+ /* Check if string corresponds to an important hardware capability or
-+    a platform.  */
-+ static int
-+Index: libc/sysdeps/generic/dl-cache.h
-+===================================================================
-+--- libc.orig/sysdeps/generic/dl-cache.h
-++++ libc/sysdeps/generic/dl-cache.h
-+@@ -27,10 +27,6 @@
-+   ((flags) == 1 || (flags) == _DL_CACHE_DEFAULT_ID)
-+ #endif
-+ 
-+-#ifndef LD_SO_CACHE
-+-# define LD_SO_CACHE SYSCONFDIR "/ld.so.cache"
-+-#endif
-+-
-+ #ifndef add_system_dir
-+ # define add_system_dir(dir) add_dir (dir)
-+ #endif
-+Index: libc/elf/rtld.c
-+===================================================================
-+--- libc.orig/elf/rtld.c
-++++ libc/elf/rtld.c
-+@@ -99,6 +99,7 @@ uintptr_t __pointer_chk_guard_local
-+ strong_alias (__pointer_chk_guard_local, __pointer_chk_guard)
-+ #endif
-+ 
-++extern const char LD_SO_CACHE[4096] __attribute__ ((section (".ldsocache")));
-+ 
-+ /* List of auditing DSOs.  */
-+ static struct audit_list
-+@@ -1031,12 +1032,12 @@ of this helper program; chances are you
-+   --list                list all dependencies and how they are resolved\n\
-+   --verify              verify that given object really is a dynamically linked\n\
-+ 			object we can handle\n\
-+-  --inhibit-cache       Do not use " LD_SO_CACHE "\n\
-++  --inhibit-cache       Do not use %s\n\
-+   --library-path PATH   use given PATH instead of content of the environment\n\
-+ 			variable LD_LIBRARY_PATH\n\
-+   --inhibit-rpath LIST  ignore RUNPATH and RPATH information in object names\n\
-+ 			in LIST\n\
-+-  --audit LIST          use objects named in LIST as auditors\n");
-++  --audit LIST          use objects named in LIST as auditors\n", LD_SO_CACHE);
-+ 
-+       ++_dl_skip_args;
-+       --_dl_argc;
-diff --git a/meta/recipes-core/eglibc/eglibc_2.15.bb b/meta/recipes-core/eglibc/eglibc_2.15.bb
-index d9cb048..69db5c9 100644
---- a/meta/recipes-core/eglibc/eglibc_2.15.bb
-+++ b/meta/recipes-core/eglibc/eglibc_2.15.bb
-@@ -3,7 +3,7 @@ require eglibc.inc
- SRCREV = "19294"
- 
- DEPENDS += "gperf-native"
--PR = "r12"
-+PR = "r13"
- PR_append = "+svnr${SRCPV}"
- 
- EGLIBC_BRANCH="eglibc-2_15"
-@@ -33,7 +33,9 @@ LIC_FILES_CHKSUM = "file://LICENSES;md5=98a1128c4b58120182cbea3b1752d8b9 \
-       file://posix/rxspencer/COPYRIGHT;md5=dc5485bb394a13b2332ec1c785f5d83a \
-       file://COPYING.LIB;md5=bbb461211a33b134d42ed5ee802b37ff "
- 
--SRC_URI_append_virtclass-nativesdk = " file://ld-search-order.patch"
-+SRC_URI_append_virtclass-nativesdk = " file://ld-search-order.patch \
-+            file://relocatable_sdk.patch \
-+            "
- S = "${WORKDIR}/${EGLIBC_BRANCH}/libc"
- B = "${WORKDIR}/build-${TARGET_SYS}"
- 
-diff --git a/meta/recipes-core/eglibc/eglibc_2.16.bb b/meta/recipes-core/eglibc/eglibc_2.16.bb
-index f9a8f6d..b053a5b 100644
---- a/meta/recipes-core/eglibc/eglibc_2.16.bb
-+++ b/meta/recipes-core/eglibc/eglibc_2.16.bb
-@@ -3,7 +3,7 @@ require eglibc.inc
- SRCREV = "19383"
- 
- DEPENDS += "gperf-native"
--PR = "r4"
-+PR = "r5"
- PR_append = "+svnr${SRCPV}"
- 
- EGLIBC_BRANCH="eglibc-2_16"
-@@ -31,7 +31,9 @@ LIC_FILES_CHKSUM = "file://LICENSES;md5=98a1128c4b58120182cbea3b1752d8b9 \
-       file://posix/rxspencer/COPYRIGHT;md5=dc5485bb394a13b2332ec1c785f5d83a \
-       file://COPYING.LIB;md5=bbb461211a33b134d42ed5ee802b37ff "
- 
--SRC_URI_append_virtclass-nativesdk = " file://ld-search-order.patch"
-+SRC_URI_append_virtclass-nativesdk = " file://ld-search-order.patch \
-+            file://relocatable_sdk.patch \
-+            "
- S = "${WORKDIR}/${EGLIBC_BRANCH}/libc"
- B = "${WORKDIR}/build-${TARGET_SYS}"
- 
++if [ "$target_sdk_dir" = "" ]; then
++	target_sdk_dir=$DEFAULT_INSTALL_DIR
++fi
++
++eval target_sdk_dir=$target_sdk_dir
++target_sdk_dir=$(readlink -m $target_sdk_dir)
++
++echo -n "You are about to install Poky SDK to \"$target_sdk_dir\". Proceed[Y/n]?"
++read answer
++
++if [ "$answer" = "" ]; then
++	answer="y"
++fi
++
++if [ "$answer" != "Y" -a "$answer" != "y" ]; then
++	echo "Installation aborted!"
++	exit 1
++fi
++
++mkdir -p $target_sdk_dir >/dev/null 2>&1
++if [ $? -ne 0 ]; then
++	echo "Error: Unable to create target directory. Do you have permissions?"
++	exit 1
++fi
++
++payload_offset=$(($(grep -na -m1 "^MARKER:$" $(basename $0)|cut -d':' -f1) + 1))
++
++echo -n "Extracting SDK..."
++tail -n +$payload_offset $(basename $0) | tar xj --strip-components=4 -C $target_sdk_dir
++echo "done"
++
++echo -n "Setting it up..."
++# fix environment paths
++env_setup_script=$(find $target_sdk_dir -name "environment-setup*")
++sed -e "s:$DEFAULT_INSTALL_DIR:$target_sdk_dir:g" -i $env_setup_script
++
++# fix dynamic loader paths in all ELF SDK binaries
++native_sysroot=$(cat $env_setup_script |grep OECORE_NATIVE_SYSROOT|cut -d'=' -f2|tr -d '"')
++dl_path=$(find $native_sysroot/lib -name "ld-linux*")
++executable_files=$(find $native_sysroot -type f -perm +111)
++${env_setup_script%/*}/relocate_sdk.py $target_sdk_dir $dl_path $executable_files
++if [ $? -ne 0 ]; then
++	echo "SDK could not be set up. Relocate script failed. Abort!"
++	exit 1
++fi
++
++# replace ${SDKPATH} with the new prefix in all text files: configs/scripts/etc
++find $native_sysroot -type f -exec file '{}' \;|grep text|cut -d':' -f1|xargs sed -i -e "s:$DEFAULT_INSTALL_DIR:$target_sdk_dir:g"
++
++echo done
++
++# delete the relocating script, so that user is forced to re-run the installer
++# if he/she wants another location for the sdk
++rm ${env_setup_script%/*}/relocate_sdk.py
++
++echo "SDK has been successfully set up and is ready to be used."
++
++exit 0
++
++MARKER:
++EOF
++	# append the SDK tarball
++	cat ${SDK_DEPLOY}/${TOOLCHAIN_OUTPUTNAME}.tar.bz2 >> ${SDK_DEPLOY}/${TOOLCHAIN_OUTPUTNAME}.sh
++
++	# delete the old tarball, we don't need it anymore
++	rm ${SDK_DEPLOY}/${TOOLCHAIN_OUTPUTNAME}.tar.bz2
++}
++
+ populate_sdk_log_check() {
+ 	for target in $*
+ 	do
 -- 
 1.7.9.5
 
