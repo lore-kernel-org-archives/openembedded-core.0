@@ -1,24 +1,31 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bogdan.a.marinescu@intel.com>) id 1SwCmj-0004Ka-Uy
+	(envelope-from <Liang.Li@windriver.com>) id 1SwCms-0004Kx-Gg
 	for openembedded-core@lists.openembedded.org;
-	Tue, 31 Jul 2012 15:46:54 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 31 Jul 2012 06:35:15 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="200444344"
-Received: from bogdanm (HELO localhost.localdomain) ([10.237.105.62])
-	by fmsmga002.fm.intel.com with ESMTP; 31 Jul 2012 06:35:14 -0700
-From: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 31 Jul 2012 16:37:28 +0300
-Message-Id: <1343741848-7753-1-git-send-email-bogdan.a.marinescu@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] libconvert-asn1-perl: updated to 0.26
+	Tue, 31 Jul 2012 15:47:02 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q6VDZK2Q016407
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 31 Jul 2012 06:35:21 -0700 (PDT)
+Received: from localhost (128.224.163.138) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.309.2;
+	Tue, 31 Jul 2012 06:35:21 -0700
+Date: Tue, 31 Jul 2012 21:35:20 +0800
+From: Liang Li <liang.li@windriver.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-ID: <20120731133520.GA15443@localhost>
+References: <1343697899-20776-1-git-send-email-liang.li@windriver.com>
+	<1343732920.9526.4.camel@ted>
+MIME-Version: 1.0
+In-Reply-To: <1343732920.9526.4.camel@ted>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] trace-cmd: Update for python-native changes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: Liang Li <liang.li@windriver.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -29,40 +36,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 31 Jul 2012 13:46:54 -0000
+X-List-Received-Date: Tue, 31 Jul 2012 13:47:02 -0000
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
 
-Signed-off-by: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
----
- ...1-perl_0.22.bb => libconvert-asn1-perl_0.26.bb} |    7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
- rename meta/recipes-extended/perl/{libconvert-asn1-perl_0.22.bb => libconvert-asn1-perl_0.26.bb} (60%)
+On 2012-07-31 19:08, Richard Purdie <richard.purdie@linuxfoundation.org> wrote:
+> On Tue, 2012-07-31 at 09:24 +0800, Liang Li wrote:
+> > Add pythonnative to the inherits list, otherwise we'll end up with
+> > compiling error like:
+> > 
+> > | swig -Wall -python -noproxy ctracecmd.i
+> > | trace-cmd.h:65: Error: Syntax error in input(1).
+> > | trace-cmd.h:221: Warning(322): Redundant redeclaration of
+> > | 'trace_util_ftrace_options',
+> > | trace-cmd.h:196: Warning(322): previous declaration of
+> > | 'trace_util_ftrace_options'.
+> > | parse-events.h:275: Warning(312): Nested union not currently
+> > | supported (ignored).
+> > | parse-events.h:707: Warning(312): Nested union not currently
+> > | supported (ignored).
+> > | parse-events.h:746: Warning(312): Nested union not currently
+> > | supported (ignored).
+> > | make: *** [ctracecmd.so] Segmentation fault
+> > 
+> > Signed-off-by: Liang Li <liang.li@windriver.com>
+> > Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+> > ---
+> > Hi all,
+> > 
+> > Due to recent change to python, we've done pythonnative related change to
+> > various recipes like perf, xcb etc. Now this one is for trace-cmd. :)
+> > 
+> > Thanks.
+> > 
+> >  meta/recipes-kernel/trace-cmd/trace-cmd_1.2.bb | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> I merged Morgan's patch for this.
+> 
 
-diff --git a/meta/recipes-extended/perl/libconvert-asn1-perl_0.22.bb b/meta/recipes-extended/perl/libconvert-asn1-perl_0.26.bb
-similarity index 60%
-rename from meta/recipes-extended/perl/libconvert-asn1-perl_0.22.bb
-rename to meta/recipes-extended/perl/libconvert-asn1-perl_0.26.bb
-index dc950f1..d3a1fd6 100644
---- a/meta/recipes-extended/perl/libconvert-asn1-perl_0.22.bb
-+++ b/meta/recipes-extended/perl/libconvert-asn1-perl_0.26.bb
-@@ -1,13 +1,12 @@
- DESCRIPTION = "Convert::ASN1 - ASN.1 Encode/Decode library"
- SECTION = "libs"
- LICENSE = "Artistic-1.0 | GPL-1.0+"
--LIC_FILES_CHKSUM = "file://README;beginline=10;endline=12;md5=a64b291b13ffddeef33b14f047ee8b26"
--PR = "r3"
-+LIC_FILES_CHKSUM = "file://README.md;beginline=93;endline=96;md5=223dc4bd67e994f3c371158686e19c19"
- 
- SRC_URI = "http://search.cpan.org/CPAN/authors/id/G/GB/GBARR/Convert-ASN1-${PV}.tar.gz"
- 
--SRC_URI[md5sum] = "64a555e44adc79d92072b9fc7a6779c4"
--SRC_URI[sha256sum] = "be63d5cc715d7306e54b41d3c68c3617ca306289cff619a2ca43505e35f2f6ee"
-+SRC_URI[md5sum] = "1c846c8c1125e6a075444abe65d99b63"
-+SRC_URI[sha256sum] = "5db8b62fa0d036bd0cabc869ffe17941ad587d9a2af1ff030d554872adbc1ca1"
- 
- S = "${WORKDIR}/Convert-ASN1-${PV}"
- 
--- 
-1.7.9.5
+Good to know this, thanks. :)
 
+Regards,
+		Liang Li
+
+> Thanks,
+> 
+> Richard
 
 
