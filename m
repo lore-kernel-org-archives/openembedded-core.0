@@ -1,33 +1,30 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1SwAUd-0001Dd-Du for openembedded-core@lists.openembedded.org;
-	Tue, 31 Jul 2012 13:20:04 +0200
+	id 1SwAVB-0001Hc-EQ for openembedded-core@lists.openembedded.org;
+	Tue, 31 Jul 2012 13:20:38 +0200
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6VB8PtM020162
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 Jul 2012 12:08:25 +0100
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6VB8pUR020172;
+	Tue, 31 Jul 2012 12:08:51 +0100
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 19675-04 for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 Jul 2012 12:08:21 +0100 (BST)
+	id 20153-01; Tue, 31 Jul 2012 12:08:47 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6VB8HQP020156
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 Jul 2012 12:08:18 +0100
-Message-ID: <1343732898.9526.3.camel@ted>
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6VB8enT020165
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Tue, 31 Jul 2012 12:08:42 +0100
+Message-ID: <1343732920.9526.4.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Tue, 31 Jul 2012 12:08:18 +0100
-In-Reply-To: <cover.1343691019.git.paul.eggleton@linux.intel.com>
-References: <cover.1343691019.git.paul.eggleton@linux.intel.com>
+To: Liang Li <liang.li@windriver.com>
+Date: Tue, 31 Jul 2012 12:08:40 +0100
+In-Reply-To: <1343697899-20776-1-git-send-email-liang.li@windriver.com>
+References: <1343697899-20776-1-git-send-email-liang.li@windriver.com>
 X-Mailer: Evolution 3.2.2- 
 Mime-Version: 1.0
 X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 0/2] Qt 4 fixes
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] trace-cmd: Update for python-native changes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,25 +39,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 31 Jul 2012 11:20:04 -0000
+X-List-Received-Date: Tue, 31 Jul 2012 11:20:38 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2012-07-31 at 00:30 +0100, Paul Eggleton wrote:
-> The following changes since commit ab0187c13b2b0a041bf3d98c3a53bd3f45a624de:
+On Tue, 2012-07-31 at 09:24 +0800, Liang Li wrote:
+> Add pythonnative to the inherits list, otherwise we'll end up with
+> compiling error like:
 > 
->   libxcb: Update for python-native changes (2012-07-30 16:53:49 +0100)
+> | swig -Wall -python -noproxy ctracecmd.i
+> | trace-cmd.h:65: Error: Syntax error in input(1).
+> | trace-cmd.h:221: Warning(322): Redundant redeclaration of
+> | 'trace_util_ftrace_options',
+> | trace-cmd.h:196: Warning(322): previous declaration of
+> | 'trace_util_ftrace_options'.
+> | parse-events.h:275: Warning(312): Nested union not currently
+> | supported (ignored).
+> | parse-events.h:707: Warning(312): Nested union not currently
+> | supported (ignored).
+> | parse-events.h:746: Warning(312): Nested union not currently
+> | supported (ignored).
+> | make: *** [ctracecmd.so] Segmentation fault
 > 
-> are available in the git repository at:
+> Signed-off-by: Liang Li <liang.li@windriver.com>
+> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+> ---
+> Hi all,
 > 
->   git://git.openembedded.org/openembedded-core-contrib paule/qt4-fixes-1
->   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/qt4-fixes-1
+> Due to recent change to python, we've done pythonnative related change to
+> various recipes like perf, xcb etc. Now this one is for trace-cmd. :)
 > 
-> Paul Eggleton (2):
->   qt4: allow recipes building commercial edition
->   qt4: make font packaging specific to embedded version
+> Thanks.
+> 
+>  meta/recipes-kernel/trace-cmd/trace-cmd_1.2.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-Merged to master, thanks.
+I merged Morgan's patch for this.
+
+Thanks,
 
 Richard
 
