@@ -1,24 +1,24 @@
 Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <laurentiu.palcu@intel.com>) id 1Sw8KV-0003Iv-PY
+	(envelope-from <laurentiu.palcu@intel.com>) id 1Sw8KV-0003Iw-My
 	for openembedded-core@lists.openembedded.org;
-	Tue, 31 Jul 2012 11:01:27 +0200
+	Tue, 31 Jul 2012 11:01:28 +0200
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 31 Jul 2012 01:49:52 -0700
+	by fmsmga102.fm.intel.com with ESMTP; 31 Jul 2012 01:49:51 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="190969713"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="190969710"
 Received: from lpalcu-linux (HELO localhost.localdomain) ([10.237.105.41])
-	by fmsmga001.fm.intel.com with ESMTP; 31 Jul 2012 01:49:51 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 31 Jul 2012 01:49:50 -0700
 From: Laurentiu Palcu <laurentiu.palcu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 31 Jul 2012 11:49:36 +0300
-Message-Id: <a15d1fb3320e6074934fd3dc97ae9449308dcd2e.1343723990.git.laurentiu.palcu@intel.com>
+Date: Tue, 31 Jul 2012 11:49:35 +0300
+Message-Id: <c496bf80e987ac0b1e1172591381edba056dd2e1.1343723990.git.laurentiu.palcu@intel.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1343723990.git.laurentiu.palcu@intel.com>
 References: <cover.1343723990.git.laurentiu.palcu@intel.com>
 In-Reply-To: <cover.1343723990.git.laurentiu.palcu@intel.com>
 References: <cover.1343723990.git.laurentiu.palcu@intel.com>
-Subject: [PATCH v2 4/6] populate_sdk_base.bbclass: create self-extracting archive
+Subject: [PATCH v2 3/6] scripts: add script for relocating the SDK
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,128 +35,222 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 31 Jul 2012 09:01:28 -0000
 
-In order for the SDK to be relocatable, the user would need to call a
-setup script to change the binaries acordingly. Having an auto-extracting
-archive has the advantage of being more user friendly and the user does
-not have to call the setup script separately after extracting the SDK.
-It is called automatically.
+This script will be embedded in the SDK tarball and will be called by
+the SDK installer. It replaces the interpreter path in all binaries and
+it also changes the ld.so.cache and SYSDIRS in dynamic loader.
 
 Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
 ---
- meta/classes/populate_sdk_base.bbclass |   86 ++++++++++++++++++++++++++++++++
- 1 file changed, 86 insertions(+)
+ scripts/relocate_sdk.py |  200 +++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 200 insertions(+)
+ create mode 100755 scripts/relocate_sdk.py
 
-diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
-index 55ec684..0d19741 100644
---- a/meta/classes/populate_sdk_base.bbclass
-+++ b/meta/classes/populate_sdk_base.bbclass
-@@ -55,6 +55,8 @@ fakeroot python do_populate_sdk() {
-         bb.build.exec_func("create_sdk_files", localdata)
- 
-     bb.build.exec_func("tar_sdk", d)
+diff --git a/scripts/relocate_sdk.py b/scripts/relocate_sdk.py
+new file mode 100755
+index 0000000..b247e65
+--- /dev/null
++++ b/scripts/relocate_sdk.py
+@@ -0,0 +1,200 @@
++#!/usr/bin/env python
++#
++# Copyright (c) 2012 Intel Corporation
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License version 2 as
++# published by the Free Software Foundation.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
++# See the GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program; if not, write to the Free Software
++# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
++#
++# DESCRIPTION
++# This script is called by the SDK installer script. It replaces the dynamic
++# loader path in all binaries and also fixes the SYSDIR paths/lengths and the
++# location of ld.so.cache in the dynamic loader binary
++#
++# AUTHORS
++# Laurentiu Palcu <laurentiu.palcu@intel.com>
++#
 +
-+    bb.build.exec_func("create_shar", d)
- }
- 
- fakeroot populate_sdk_image() {
-@@ -94,6 +96,13 @@ fakeroot create_sdk_files() {
- 
- 	# Add version information
- 	toolchain_create_sdk_version ${SDK_OUTPUT}/${SDKPATH}/version-${REAL_MULTIMACH_TARGET_SYS}
++import struct
++import sys
++import stat
++import os
++import re
 +
-+	cp ${COREBASE}/scripts/relocate_sdk.py ${SDK_OUTPUT}/${SDKPATH}/
++old_prefix = re.compile("##DEFAULT_INSTALL_DIR##")
 +
-+	# Replace the ##DEFAULT_INSTALL_DIR## with the correct pattern.
-+	# Escape special characters like '+' and '.' in the SDKPATH
-+	escaped_sdkpath=$(echo ${SDKPATH} |sed -e "s:[\+\.]:\\\\\\\\\0:g")
-+	sed -i -e "s:##DEFAULT_INSTALL_DIR##:$escaped_sdkpath:" ${SDK_OUTPUT}/${SDKPATH}/relocate_sdk.py
- }
- 
- fakeroot tar_sdk() {
-@@ -103,6 +112,83 @@ fakeroot tar_sdk() {
- 	tar --owner=root --group=root -cj --file=${SDK_DEPLOY}/${TOOLCHAIN_OUTPUTNAME}.tar.bz2 .
- }
- 
-+fakeroot create_shar() {
-+	cat << "EOF" > ${SDK_DEPLOY}/${TOOLCHAIN_OUTPUTNAME}.sh
-+#!/bin/bash
++def get_arch():
++    f.seek(0)
++    e_ident =f.read(16)
++    ei_mag0,ei_mag1_3,ei_class = struct.unpack("<B3sB11x", e_ident)
 +
-+DEFAULT_INSTALL_DIR="${SDKPATH}"
++    if (ei_mag0 != 0x7f and ei_mag1_3 != "ELF") or ei_class == 0:
++        return 0
 +
-+echo -n "Enter target directory for Poky SDK (default: $DEFAULT_INSTALL_DIR): "
-+read target_sdk_dir
++    if ei_class == 1:
++        return 32
++    elif ei_class == 2:
++        return 64
 +
-+if [ "$target_sdk_dir" = "" ]; then
-+	target_sdk_dir=$DEFAULT_INSTALL_DIR
-+fi
++def parse_elf_header():
++    global e_type, e_machine, e_version, e_entry, e_phoff, e_shoff, e_flags,\
++           e_ehsize, e_phentsize, e_phnum, e_shentsize, e_shnum, e_shstrndx
 +
-+eval target_sdk_dir=$target_sdk_dir
-+target_sdk_dir=$(readlink -m $target_sdk_dir)
++    f.seek(0)
++    elf_header = f.read(64)
 +
-+echo -n "You are about to install Poky SDK to \"$target_sdk_dir\". Proceed[Y/n]?"
-+read answer
++    if arch == 32:
++        # 32bit
++        hdr_struct = struct.Struct("<HHILLLIHHHHHH")
++        hdr_size = 52
++    else:
++        # 64bit
++        hdr_struct = struct.Struct("<HHIQQQIHHHHHH")
++        hdr_size = 64
 +
-+if [ "$answer" = "" ]; then
-+	answer="y"
-+fi
++    e_type, e_machine, e_version, e_entry, e_phoff, e_shoff, e_flags,\
++    e_ehsize, e_phentsize, e_phnum, e_shentsize, e_shnum, e_shstrndx =\
++        hdr_struct.unpack(elf_header[16:hdr_size])
 +
-+if [ "$answer" != "Y" -a "$answer" != "y" ]; then
-+	echo "Installation aborted!"
-+	exit 1
-+fi
++def change_interpreter():
++    if arch == 32:
++        ph_struct = struct.Struct("<IIIIIIII")
++    else:
++        ph_struct = struct.Struct("<IIQQQQQQ")
 +
-+mkdir -p $target_sdk_dir >/dev/null 2>&1
-+if [ $? -ne 0 ]; then
-+	echo "Error: Unable to create target directory. Do you have permissions?"
-+	exit 1
-+fi
++    """ look for PT_INTERP section """
++    for i in range(0,e_phnum):
++        f.seek(e_phoff + i * e_phentsize)
++        ph_hdr = f.read(e_phentsize)
++        if arch == 32:
++            # 32bit
++            p_type, p_offset, p_vaddr, p_paddr, p_filesz,\
++                p_memsz, p_flags, p_align = ph_struct.unpack(ph_hdr)
++        else:
++            # 64bit
++            p_type, p_flags, p_offset, p_vaddr, p_paddr, \
++            p_filesz, p_memsz, p_align = ph_struct.unpack(ph_hdr)
 +
-+payload_offset=$(($(grep -na -m1 "^MARKER:$" $(basename $0)|cut -d':' -f1) + 1))
++        """ change interpreter """
++        if p_type == 3:
++            # PT_INTERP section
++            f.seek(p_offset)
++            dl_path = new_dl_path + "\0" * (e_phentsize - len(new_dl_path))
++            f.write(new_dl_path)
++            break
 +
-+echo -n "Extracting SDK..."
-+tail -n +$payload_offset $(basename $0) | tar xj --strip-components=4 -C $target_sdk_dir
-+echo "done"
++def change_dl_sysdirs():
++    if arch == 32:
++        sh_struct = struct.Struct("<IIIIIIIIII")
++    else:
++        sh_struct = struct.Struct("<IIQQQQIIQQ")
 +
-+echo -n "Setting it up..."
-+# fix environment paths
-+env_setup_script=$(find $target_sdk_dir -name "environment-setup*")
-+sed -e "s:$DEFAULT_INSTALL_DIR:$target_sdk_dir:g" -i $env_setup_script
++    """ read section string table """
++    f.seek(e_shoff + e_shstrndx * e_shentsize)
++    sh_hdr = f.read(e_shentsize)
++    if arch == 32:
++        sh_offset, sh_size = struct.unpack("<16xII16x", sh_hdr)
++    else:
++        sh_offset, sh_size = struct.unpack("<24xQQ24x", sh_hdr)
 +
-+# fix dynamic loader paths in all ELF SDK binaries
-+native_sysroot=$(cat $env_setup_script |grep OECORE_NATIVE_SYSROOT|cut -d'=' -f2|tr -d '"')
-+dl_path=$(find $native_sysroot/lib -name "ld-linux*")
-+executable_files=$(find $native_sysroot -type f -perm +111)
-+${env_setup_script%/*}/relocate_sdk.py $target_sdk_dir $dl_path $executable_files
-+if [ $? -ne 0 ]; then
-+	echo "SDK could not be set up. Relocate script failed. Abort!"
-+	exit 1
-+fi
++    f.seek(sh_offset)
++    sh_strtab = f.read(sh_size)
 +
-+# replace ${SDKPATH} with the new prefix in all text files: configs/scripts/etc
-+find $native_sysroot -type f -exec file '{}' \;|grep text|cut -d':' -f1|xargs sed -i -e "s:$DEFAULT_INSTALL_DIR:$target_sdk_dir:g"
++    sysdirs = sysdirs_len = ""
 +
-+echo done
++    """ change ld.so.cache path and default libs path for dynamic loader """
++    for i in range(0,e_shnum):
++        f.seek(e_shoff + i * e_shentsize)
++        sh_hdr = f.read(e_shentsize)
 +
-+# delete the relocating script, so that user is forced to re-run the installer
-+# if he/she wants another location for the sdk
-+rm ${env_setup_script%/*}/relocate_sdk.py
++        sh_name, sh_type, sh_flags, sh_addr, sh_offset, sh_size, sh_link,\
++            sh_info, sh_addralign, sh_entsize = sh_struct.unpack(sh_hdr)
 +
-+echo "SDK has been successfully set up and is ready to be used."
++        name = sh_strtab[sh_name:sh_strtab.find("\0", sh_name)]
 +
-+exit 0
++        """ look only into SHT_PROGBITS sections """
++        if sh_type == 1:
++            f.seek(sh_offset)
++            """ default library paths cannot be changed on the fly because  """
++            """ the string lengths have to be changed too.                  """
++            if name == ".sysdirs":
++                sysdirs = f.read(sh_size)
++                sysdirs_off = sh_offset
++                sysdirs_sect_size = sh_size
++            elif name == ".sysdirslen":
++                sysdirslen = f.read(sh_size)
++                sysdirslen_off = sh_offset
++            elif name == ".ldsocache":
++                ldsocache_path = f.read(sh_size)
++                new_ldsocache_path = old_prefix.sub(new_prefix, ldsocache_path)
++                # pad with zeros
++                new_ldsocache_path += "\0" * (sh_size - len(new_ldsocache_path))
++                # write it back
++                f.seek(sh_offset)
++                f.write(new_ldsocache_path)
 +
-+MARKER:
-+EOF
-+	# append the SDK tarball
-+	cat ${SDK_DEPLOY}/${TOOLCHAIN_OUTPUTNAME}.tar.bz2 >> ${SDK_DEPLOY}/${TOOLCHAIN_OUTPUTNAME}.sh
++    if sysdirs != "" and sysdirslen != "":
++        paths = sysdirs.split("\0")
++        sysdirs = ""
++        sysdirslen = ""
++        for path in paths:
++            """ exit the loop when we encounter first empty string """
++            if path == "":
++                break
 +
-+	# delete the old tarball, we don't need it anymore
-+	rm ${SDK_DEPLOY}/${TOOLCHAIN_OUTPUTNAME}.tar.bz2
-+}
++            new_path = old_prefix.sub(new_prefix, path)
++            sysdirs += new_path + "\0"
 +
- populate_sdk_log_check() {
- 	for target in $*
- 	do
++            if arch == 32:
++                sysdirslen += struct.pack("<L", len(new_path))
++            else:
++                sysdirslen += struct.pack("<Q", len(new_path))
++
++        """ pad with zeros """
++        sysdirs += "\0" * (sysdirs_sect_size - len(sysdirs))
++
++        """ write the sections back """
++        f.seek(sysdirs_off)
++        f.write(sysdirs)
++        f.seek(sysdirslen_off)
++        f.write(sysdirslen)
++
++
++# MAIN
++if len(sys.argv) < 4:
++    exit(1)
++
++new_prefix = sys.argv[1]
++new_dl_path = sys.argv[2]
++executables_list = sys.argv[3:]
++
++for e in executables_list:
++    perms = os.stat(e)[stat.ST_MODE]
++    if os.access(e, os.W_OK|os.R_OK):
++        perms = None
++    else:
++        os.chmod(e, perms|stat.S_IRWXU)
++
++    f = open(e, "r+b")
++
++    arch = get_arch()
++    if arch:
++        parse_elf_header()
++        change_interpreter()
++        change_dl_sysdirs()
++
++    """ change permissions back """
++    if perms:
++        os.chmod(e, perms)
++
++    f.close()
++
 -- 
 1.7.9.5
 
