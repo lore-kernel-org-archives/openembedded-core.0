@@ -1,24 +1,32 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mail-we0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1Sw0A7-0004FQ-5m
+	(envelope-from <martin.jansa@gmail.com>) id 1Sw1PC-0006Nm-Cl
 	for openembedded-core@lists.openembedded.org;
-	Tue, 31 Jul 2012 02:18:11 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 30 Jul 2012 17:06:36 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="175049410"
-Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.121.49])
-	by azsmga001.ch.intel.com with ESMTP; 30 Jul 2012 17:06:35 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
+	Tue, 31 Jul 2012 03:37:50 +0200
+Received: by weyr6 with SMTP id r6so3652997wey.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 30 Jul 2012 18:26:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=Y4bzq2qTCKvqX/oLIG/XkgOYjGbB4JcvqYMCzozekDg=;
+	b=aRz2qlDxFGGm3H80pGq5H7coD5phxo8aMBG6Po0G9vE/7fdC1fe07I47wZKwznYhGB
+	+cAthwj+UPoIX+UuWNMT3aF+FqHFjqPlaajA1aCg877LK78zdmxMDbd5Zv2TZU5n+oo/
+	0tYTgc+3cysFcdyCLh43zLDf0tpg4TyGkk7MWladEgmKAeMrPxuxW6WyJ4L11+MMjtv6
+	463p2qlPNDiKZ72laItOtqoICwY3bKBKfG9Iqybu8qSzttT0MUEFj57fYvY54Ydrpl0A
+	Bpvj6RVLtAMpSrHmzHEoOQ42XBnaprVQ/guxEHFjm9baSpo+T50ieKhndaHiMmEYSvkL
+	0aLw==
+Received: by 10.216.244.202 with SMTP id m52mr5885106wer.28.1343697974014;
+	Mon, 30 Jul 2012 18:26:14 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id t8sm19488898wiy.3.2012.07.30.18.26.10
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 30 Jul 2012 18:26:12 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 31 Jul 2012 01:06:26 +0100
-Message-Id: <8063ea366deedabeca08a48c544c4fae39bee061.1343693147.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1343693147.git.paul.eggleton@linux.intel.com>
-References: <cover.1343693147.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1343693147.git.paul.eggleton@linux.intel.com>
-References: <cover.1343693147.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 7/7] combo-layer: allow splitting out local config
+Date: Tue, 31 Jul 2012 03:26:06 +0200
+Message-Id: <1343697966-29777-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.7.8.6
+Subject: [RFC] gdb-cross: add pythonnative
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,173 +41,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 31 Jul 2012 00:18:11 -0000
+X-List-Received-Date: Tue, 31 Jul 2012 01:37:50 -0000
 
-Allow splitting the local parts of the configuration (mostly
-local_repo_dir and last_revision, although there is no limitation) to
-a side-by-side -local.conf file, with component sections optionally
-tagged with the combo layer branch name. This effectively allows you to:
+* fails like this without:
+| gcc -isystem/OE/shr-core/tmp-eglibc/sysroots/x86_64-linux/usr/include -O2 -pipe   -L/OE/shr-core/tmp-eglibc/sysroots/x86_64-linux/usr/lib -L/OE/shr-core/tmp-eglibc/sysroo
+ts/x86_64-linux/lib -Wl,-rpath-link,/OE/shr-core/tmp-eglibc/sysroots/x86_64-linux/usr/lib -Wl,-rpath-link,/OE/shr-core/tmp-eglibc/sysroots/x86_64-linux/lib -Wl,-rpath,/OE/shr-core/tmp-eglibc/sysroots/x86_64-linux/usr/lib -Wl,-rpath,/OE/shr-core/tmp-eglibc/sysroots/x86_64-linux/lib -Wl,-O1   \
+|       -o gdb gdb.o libgdb.a \
+|          -lreadline ../opcodes/libopcodes.a ../bfd/libbfd.a  ../libiberty/libiberty.a ../libdecnumber/libdecnumber.a    -ldl -lncurses -lz -lm    -lpthread -ldl -lutil -lm -lpython2.7 -Xlinker -export-dynamic /OE/shr-core/tmp-eglibc/sysroots/x86_64-linux/usr/lib/libexpat.so -Wl,-rpath -Wl,/OE/shr-core/tmp-eglibc/sysroots/x86_64-linux/usr/lib ../libiberty/libiberty.a  gnulib/libgnu.a
+| libgdb.a(python.o): In function `gdbpy_target_wide_charset':
+| python.c:(.text+0x1e7): undefined reference to `PyUnicodeUCS4_Decode'
+| libgdb.a(python.o): In function `gdbpy_target_charset':
+| python.c:(.text+0x237): undefined reference to `PyUnicodeUCS4_Decode'
+| libgdb.a(py-cmd.o): In function `cmdpy_completer':
+| py-cmd.c:(.text+0x97): undefined reference to `PyUnicodeUCS4_Decode'
+| py-cmd.c:(.text+0xc3): undefined reference to `PyUnicodeUCS4_Decode'
+| libgdb.a(py-cmd.o): In function `cmdpy_function':
+| py-cmd.c:(.text+0x39d): undefined reference to `PyUnicodeUCS4_Decode'
+| libgdb.a(py-frame.o):py-frame.c:(.text+0xa21): more undefined references to `PyUnicodeUCS4_Decode' follow
+| libgdb.a(py-utils.o): In function `unicode_to_encoded_string':
+| py-utils.c:(.text+0x8): undefined reference to `PyUnicodeUCS4_AsEncodedString'
+| libgdb.a(py-utils.o): In function `python_string_to_unicode':
+| py-utils.c:(.text+0xc6): undefined reference to `PyUnicodeUCS4_FromEncodedObject'
+| libgdb.a(py-utils.o): In function `unicode_to_target_python_string':
+| py-utils.c:(.text+0x13a): undefined reference to `PyUnicodeUCS4_AsEncodedString'
+| libgdb.a(py-utils.o): In function `target_string_to_unicode':
+| py-utils.c:(.text+0x2a5): undefined reference to `PyUnicodeUCS4_Decode'
+| libgdb.a(py-value.o): In function `valpy_string':
+| py-value.c:(.text+0x4ac): undefined reference to `PyUnicodeUCS4_Decode'
+| libgdb.a(py-value.o): In function `valpy_str':
+| py-value.c:(.text+0xab4): undefined reference to `PyUnicodeUCS4_Decode'
+| collect2: error: ld returned 1 exit status
+| make[2]: *** [gdb] Error 1
+| make[2]: Leaving directory `/OE/shr-core/tmp-eglibc/work/armv4t-oe-linux-gnueabi/gdb-cross-7.4.1-r1.0/build-arm-oe-linux-gnueabi/gdb'
+| make[1]: *** [all-gdb] Error 2
 
- * avoid polluting the history by committing the updated last revision
-   to the combo repository for every update
- * avoid putting local repo paths into the combo repository
- * manage multiple branches of the combo repository whilst avoiding the
-   possibility of mixing the configuration for one branch with another.
-
-An example split configuration (note, values may be artificial):
-
-------------------- combo-layer.conf -------------------
-[bitbake]
-src_uri = git://git.openembedded.org/bitbake
-dest_dir = bitbake
-hook = scripts/combo-layer-hook-default.sh
-
-[oe-core]
-src_uri = git://git.openembedded.org/openembedded-core
-dest_dir = .
-hook = scripts/combo-layer-hook-default.sh
---------------------------------------------------------
-
----------------- combo-layer-local.conf ----------------
-[bitbake]
-local_repo_dir = ../repos/bitbake
-
-[oe-core]
-local_repo_dir = ../repos/oe-core
-
-[bitbake|master]
-branch = master
-last_revision = db689a99beffea1a285cdfc74a58fe73f1666987
-
-[oe-core|master]
-branch = master
-last_revision = 121a1499a81706366acc0081272a6bff634d4d62
-
-[bitbake|denzil]
-branch = 1.12
-last_revision = 24b631acdaa143a4de39c6e1328849660c66f219
-
-[oe-core|denzil]
-branch = denzil
-last_revision = 741146fa90f28f7ce8d82ee7f7e254872d519724
---------------------------------------------------------
-
-It is assumed that the local config file will be added to .gitignore.
-
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- scripts/combo-layer |   73 +++++++++++++++++++++++++++++++++++++++++++++------
- 1 file changed, 65 insertions(+), 8 deletions(-)
+ meta/recipes-devtools/gdb/gdb-cross_7.4.1.bb |    2 ++
+ 1 files changed, 2 insertions(+), 0 deletions(-)
 
-diff --git a/scripts/combo-layer b/scripts/combo-layer
-index 95653b0..516fffb 100755
---- a/scripts/combo-layer
-+++ b/scripts/combo-layer
-@@ -39,6 +39,15 @@ def logger_create():
+diff --git a/meta/recipes-devtools/gdb/gdb-cross_7.4.1.bb b/meta/recipes-devtools/gdb/gdb-cross_7.4.1.bb
+index a14d0ba..81afc38 100644
+--- a/meta/recipes-devtools/gdb/gdb-cross_7.4.1.bb
++++ b/meta/recipes-devtools/gdb/gdb-cross_7.4.1.bb
+@@ -1,5 +1,7 @@
+ require gdb-cross.inc
  
- logger = logger_create()
++inherit pythonnative
++
+ SRC_URI += "file://sim-install-6.6.patch"
  
-+def get_current_branch(repodir=None):
-+    try:
-+        branchname = runcmd("git symbolic-ref HEAD 2>/dev/null", repodir).strip()
-+        if branchname.startswith("refs/heads/"):
-+            branchname = branchname[11:]
-+        return branchname
-+    except subprocess.CalledProcessError:
-+        return ""
-+
- class Configuration(object):
-     """
-     Manages the configuration
-@@ -49,30 +58,78 @@ class Configuration(object):
-     def __init__(self, options):
-         for key, val in options.__dict__.items():
-             setattr(self, key, val)
--        self.parser = ConfigParser.ConfigParser()
--        self.parser.readfp(open(self.conffile))
--        self.repos = {}
--        for repo in self.parser.sections():
--            self.repos[repo] = {}
--            for (name, value) in self.parser.items(repo):
-+
-+        def readsection(parser, section, repo):
-+            for (name, value) in parser.items(section):
-                 if value.startswith("@"):
-                     self.repos[repo][name] = eval(value.strip("@"))
-                 else:
-                     self.repos[repo][name] = value
- 
-+        logger.debug("Loading config file %s" % self.conffile)
-+        self.parser = ConfigParser.ConfigParser()
-+        with open(self.conffile) as f:
-+            self.parser.readfp(f)
-+
-+        self.repos = {}
-+        for repo in self.parser.sections():
-+            self.repos[repo] = {}
-+            readsection(self.parser, repo, repo)
-+
-+        # Load local configuration, if available
-+        self.localconffile = None
-+        self.localparser = None
-+        self.combobranch = None
-+        if self.conffile.endswith('.conf'):
-+            lcfile = self.conffile.replace('.conf', '-local.conf')
-+            if os.path.exists(lcfile):
-+                # Read combo layer branch
-+                self.combobranch = get_current_branch()
-+                logger.debug("Combo layer branch is %s" % self.combobranch)
-+
-+                self.localconffile = lcfile
-+                logger.debug("Loading local config file %s" % self.localconffile)
-+                self.localparser = ConfigParser.ConfigParser()
-+                with open(self.localconffile) as f:
-+                    self.localparser.readfp(f)
-+
-+                for section in self.localparser.sections():
-+                    if '|' in section:
-+                        sectionvals = section.split('|')
-+                        repo = sectionvals[0]
-+                        if sectionvals[1] != self.combobranch:
-+                            continue
-+                    else:
-+                        repo = section
-+                    if repo in self.repos:
-+                        readsection(self.localparser, section, repo)
-+
-     def update(self, repo, option, value):
--        self.parser.set(repo, option, value)
--        self.parser.write(open(self.conffile, "w"))
-+        if self.localparser:
-+            parser = self.localparser
-+            section = "%s|%s" % (repo, self.combobranch)
-+            conffile = self.localconffile
-+        else:
-+            parser = self.parser
-+            section = repo
-+            conffile = self.conffile
-+        parser.set(section, option, value)
-+        with open(conffile, "w") as f:
-+            parser.write(f)
- 
-     def sanity_check(self):
-         required_options=["src_uri", "local_repo_dir", "dest_dir", "last_revision"]
-         msg = ""
-+        missing_options = []
-         for name in self.repos:
-             for option in required_options:
-                 if option not in self.repos[name]:
-                     msg = "%s\nOption %s is not defined for component %s" %(msg, option, name)
-+                    missing_options.append(option)
-         if msg != "":
-             logger.error("configuration file %s has the following error: %s" % (self.conffile,msg))
-+            if self.localconffile and 'last_revision' in missing_options:
-+                logger.error("local configuration file %s may be missing configuration for combo branch %s" % (self.localconffile, self.combobranch))
-             sys.exit(1)
- 
-         # filterdiff is required by action_splitpatch, so check its availability
+ PR = "${INC_PR}.0"
 -- 
-1.7.9.5
+1.7.8.6
 
 
 
