@@ -1,20 +1,27 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1SwAsT-0002SK-Ef
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1SwAu1-0002XC-FY
 	for openembedded-core@lists.openembedded.org;
-	Tue, 31 Jul 2012 13:44:41 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 31 Jul 2012 04:33:03 -0700
+	Tue, 31 Jul 2012 13:46:17 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 31 Jul 2012 04:34:39 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="175235423"
-Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.121.64])
-	by azsmga001.ch.intel.com with ESMTP; 31 Jul 2012 04:33:03 -0700
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="128792734"
+Received: from unknown (HELO helios.localnet) ([10.252.121.64])
+	by AZSMGA002.ch.intel.com with ESMTP; 31 Jul 2012 04:34:39 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 31 Jul 2012 12:33:01 +0100
-Message-Id: <1343734381-11130-1-git-send-email-paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] classes/package: don't make locale pkgs depend on PN pkg if not in PACKAGES
+To: Andreas =?ISO-8859-1?Q?M=FCller?= <schnitzeltony@googlemail.com>
+Date: Tue, 31 Jul 2012 12:34:38 +0100
+Message-ID: <6342897.AO57iOdh1z@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.8.4 (Linux/3.2.0-27-generic-pae; KDE/4.8.4; i686; ; )
+In-Reply-To: <13577594.8MC7hXZgZN@helios>
+References: <CALbNGRR4weykX9t_XwJ6ACVoXS2SbogcxXLPAj7vpAC2+AQpww@mail.gmail.com>
+	<CALbNGRQq9VjWZ1NqKYfE33U=fe9XxK5yeyF9JVNFZJzzgwvj0w@mail.gmail.com>
+	<13577594.8MC7hXZgZN@helios>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: do_rootfs fails
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,38 +36,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 31 Jul 2012 11:44:41 -0000
+X-List-Received-Date: Tue, 31 Jul 2012 11:46:17 -0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 
-If ${PN} is not in PACKAGES then don't add it as an RDEPENDS for each
-locale package. This fixes the installation of gcc-runtime locale
-packages, for example.
+On Tuesday 31 July 2012 12:21:21 Paul Eggleton wrote:
+> On Tuesday 31 July 2012 13:01:26 Andreas M=FCller wrote:
+> > Thanks that fixes first part but I still get
+> >=20
+> > |  * satisfy_dependencies_for: Cannot satisfy the following
+> >=20
+> > dependencies for gcc-runtime-locale-fr:
+> > |  * =09gcc-runtime *
+> > |  * opkg_install_cmd: Cannot install package gcc-runtime-locale-fr=
+.
+> > |  * satisfy_dependencies_for: Cannot satisfy the following
+> >=20
+> > dependencies for gcc-runtime-locale-de:
+> > |  * =09gcc-runtime *
+> > |  * opkg_install_cmd: Cannot install package gcc-runtime-locale-de=
+.
+> > |=20
+> > | ERROR: Function failed: do_rootfs (see
+> >=20
+> > /home/andreas/tmp/oe-core-eglibc/work/overo-angstrom-linux-gnueabi/=
+xfce-fu
+> > ll -image-1.0-r0/temp/log.do_rootfs.18542 for further informatio
+> >=20
+> > since I don't have gcc-runtime package
+>=20
+> Unfortunately we have exposed a weakness - package.bbclass does not
+> currently handle when ${PN} is removed from PACKAGES and locale packa=
+ges
+> are still split out - the (invalid) RDEPENDS on ${PN} still gets adde=
+d.
+>=20
+> I am testing a fix at the moment.
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- meta/classes/package.bbclass |    3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Fix worked for gcc-runtime and did not produce any changes with buildhi=
+story=20
+in other locale-producing packages, so I have just posted it.
 
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index 3aaf999..9c4e643 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -407,12 +407,13 @@ python package_do_split_locales() {
-     description = d.getVar('DESCRIPTION', True) or ""
-     locale_section = d.getVar('LOCALE_SECTION', True)
-     mlprefix = d.getVar('MLPREFIX', True) or ""
-+    pndep = base_contains('PACKAGES', pn, '%s ' % pn, '', d)
-     for l in sorted(locales):
-         ln = legitimize_package_name(l)
-         pkg = pn + '-locale-' + ln
-         packages.append(pkg)
-         d.setVar('FILES_' + pkg, os.path.join(datadir, 'locale', l))
--        d.setVar('RDEPENDS_' + pkg, '%s %svirtual-locale-%s' % (pn, mlprefix, ln))
-+        d.setVar('RDEPENDS_' + pkg, '%s%svirtual-locale-%s' % (pndep, mlprefix, ln))
-         d.setVar('RPROVIDES_' + pkg, '%s-locale %s%s-translation' % (pn, mlprefix, ln))
-         d.setVar('SUMMARY_' + pkg, '%s - %s translations' % (summary, l))
-         d.setVar('DESCRIPTION_' + pkg, '%s  This package contains language translation files for the %s locale.' % (description, l))
--- 
-1.7.9.5
+Cheers,
+Paul
 
+--=20
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
