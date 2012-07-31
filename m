@@ -1,20 +1,20 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <radu.moisan@intel.com>) id 1SwC4y-0004kI-Rx
+	(envelope-from <radu.moisan@intel.com>) id 1SwC60-0004mu-2K
 	for openembedded-core@lists.openembedded.org;
-	Tue, 31 Jul 2012 15:01:42 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 31 Jul 2012 05:48:58 -0700
+	Tue, 31 Jul 2012 15:02:44 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 31 Jul 2012 05:51:06 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="173583631"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="175259586"
 Received: from dell-desktop (HELO localhost.localdomain) ([10.237.105.32])
-	by orsmga001.jf.intel.com with ESMTP; 31 Jul 2012 05:48:57 -0700
+	by azsmga001.ch.intel.com with ESMTP; 31 Jul 2012 05:51:04 -0700
 From: Radu Moisan <radu.moisan@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 31 Jul 2012 15:50:39 +0300
-Message-Id: <1343739039-13728-1-git-send-email-radu.moisan@intel.com>
+Date: Tue, 31 Jul 2012 15:52:47 +0300
+Message-Id: <1343739167-13835-1-git-send-email-radu.moisan@intel.com>
 X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH v2] atk: package update 2.2 -> 2.5
+Subject: [PATCH v3] atk: package update 2.2 -> 2.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,7 +29,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 31 Jul 2012 13:01:42 -0000
+X-List-Received-Date: Tue, 31 Jul 2012 13:02:44 -0000
 
 Signed-off-by: Radu Moisan <radu.moisan@intel.com>
 ---
