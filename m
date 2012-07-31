@@ -1,24 +1,24 @@
 Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1Sw0A5-0004FO-5Q
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1Sw0A5-0004FQ-LJ
 	for openembedded-core@lists.openembedded.org;
 	Tue, 31 Jul 2012 02:18:09 +0200
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 30 Jul 2012 17:06:32 -0700
+	by azsmga101.ch.intel.com with ESMTP; 30 Jul 2012 17:06:33 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="175049391"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="175049397"
 Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.121.49])
-	by azsmga001.ch.intel.com with ESMTP; 30 Jul 2012 17:06:31 -0700
+	by azsmga001.ch.intel.com with ESMTP; 30 Jul 2012 17:06:32 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 31 Jul 2012 01:06:22 +0100
-Message-Id: <87925a43a3653c8f10ea4d0d8d8b051217488c11.1343693147.git.paul.eggleton@linux.intel.com>
+Date: Tue, 31 Jul 2012 01:06:23 +0100
+Message-Id: <dac29b4263ec6b023b40b9efecb27ea85800de39.1343693147.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1343693147.git.paul.eggleton@linux.intel.com>
 References: <cover.1343693147.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <cover.1343693147.git.paul.eggleton@linux.intel.com>
 References: <cover.1343693147.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 3/7] combo-layer: ignore patch-* temp directories in dirty check
+Subject: [PATCH 4/7] combo-layer: drop to a shell when apply fails during update
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,36 +35,80 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 31 Jul 2012 00:18:09 -0000
 
-Make the dirty repo check somewhat less strict by ignoring old
-patch directories created by this tool.
+If applying a patch fails during the update process, drop to a shell
+instead of exiting; at that point the user can manually apply the patch,
+do nothing and "exit" to skip it, or "exit 1" to abort the process.
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- scripts/combo-layer |    5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ scripts/combo-layer |   34 +++++++++++++++++++++++-----------
+ 1 file changed, 23 insertions(+), 11 deletions(-)
 
 diff --git a/scripts/combo-layer b/scripts/combo-layer
-index 554ac06..a93fb9b 100755
+index a93fb9b..4025b72 100755
 --- a/scripts/combo-layer
 +++ b/scripts/combo-layer
-@@ -25,6 +25,7 @@ import optparse
- import logging
- import subprocess
- import ConfigParser
-+import re
+@@ -184,6 +184,19 @@ def check_patch(patchfile):
+         of.close()
+         os.rename(patchfile + '.tmp', patchfile)
  
- __version__ = "0.2.1"
++def drop_to_shell(workdir=None):
++    shell = os.environ.get('SHELL', 'bash')
++    print('Dropping to shell "%s"\n' \
++          'When you are finished, run the following to continue:\n' \
++          '       exit    -- continue to apply the patches\n' \
++          '       exit 1  -- abort\n' % shell);
++    ret = subprocess.call([shell], cwd=workdir)
++    if ret != 0:
++        print "Aborting"
++        return False
++    else:
++        return True
++
+ def get_repos(conf, args):
+     repos = []
+     if len(args) > 1:
+@@ -295,14 +308,9 @@ def action_update(conf, args):
  
-@@ -140,7 +141,9 @@ def check_repo_clean(repodir):
-         exit if repo is dirty
-     """
-     output=runcmd("git status --porcelain", repodir)
--    if output:
-+    r = re.compile('\?\? patch-.*/')
-+    dirtyout = [item for item in output.splitlines() if not r.match(item)]
-+    if dirtyout:
-         logger.error("git repo %s is dirty, please fix it first", repodir)
-         sys.exit(1)
+     # Step 5: invoke bash for user to edit patch and patch list
+     if conf.interactive:
+-        print   'Edit the patch and patch list in %s\n' \
+-                'For example, remove the unwanted patch entry from patchlist-*, so that it will be not applied later\n' \
+-                'When you are finished, run the following to continue:\n' \
+-                '       exit 0  -- exit and continue to apply the patch\n' \
+-                '       exit 1  -- abort and do not apply the patch\n' % patch_dir
+-        ret = subprocess.call(["bash"], cwd=patch_dir)
+-        if ret != 0:
+-            print "Aborting without applying the patch"
++        print('You may now edit the patch and patch list in %s\n' \
++              'For example, you can remove unwanted patch entries from patchlist-*, so that they will be not applied later' % patch_dir);
++        if not drop_to_shell(patch_dir):
+             sys.exit(0)
+ 
+     # Step 6: apply the generated and revised patch
+@@ -328,6 +336,7 @@ def apply_patchlist(conf, repos):
+     for name in repos:
+         repo = conf.repos[name]
+         lastrev = repo["last_revision"]
++        prevrev = lastrev
+         for line in open(repo['patchlist']):
+             patchfile = line.split()[0]
+             lastrev = line.split()[1]
+@@ -343,9 +352,12 @@ def apply_patchlist(conf, repos):
+                     runcmd("git am --abort")
+                     logger.error('"%s" failed' % cmd)
+                     logger.info("please manually apply patch %s" % patchfile)
+-                    logger.info("After applying, run this tool again to apply the remaining patches")
+-                    conf.update(name, "last_revision", lastrev)
+-                    sys.exit(0)
++                    logger.info("Note: if you exit and continue applying without manually applying the patch, it will be skipped")
++                    if not drop_to_shell():
++                        if prevrev != repo['last_revision']:
++                            conf.update(name, "last_revision", prevrev)
++                        sys.exit(0)
++            prevrev = lastrev
+         if lastrev != repo['last_revision']:
+             conf.update(name, "last_revision", lastrev)
  
 -- 
 1.7.9.5
