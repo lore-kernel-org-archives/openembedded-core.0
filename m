@@ -1,20 +1,24 @@
 Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <laurentiu.palcu@intel.com>) id 1Sw8KU-0003Iv-2a
+	(envelope-from <laurentiu.palcu@intel.com>) id 1Sw8KU-0003Iw-VU
 	for openembedded-core@lists.openembedded.org;
-	Tue, 31 Jul 2012 11:01:26 +0200
+	Tue, 31 Jul 2012 11:01:27 +0200
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 31 Jul 2012 01:49:48 -0700
+	by fmsmga102.fm.intel.com with ESMTP; 31 Jul 2012 01:49:50 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="190969695"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="190969704"
 Received: from lpalcu-linux (HELO localhost.localdomain) ([10.237.105.41])
-	by fmsmga001.fm.intel.com with ESMTP; 31 Jul 2012 01:49:47 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 31 Jul 2012 01:49:49 -0700
 From: Laurentiu Palcu <laurentiu.palcu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 31 Jul 2012 11:49:32 +0300
-Message-Id: <cover.1343723990.git.laurentiu.palcu@intel.com>
+Date: Tue, 31 Jul 2012 11:49:34 +0300
+Message-Id: <bfaf8e93654c937c379377ddc89c68cc525860a9.1343723990.git.laurentiu.palcu@intel.com>
 X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH v2 0/6] relocatable SDK
+In-Reply-To: <cover.1343723990.git.laurentiu.palcu@intel.com>
+References: <cover.1343723990.git.laurentiu.palcu@intel.com>
+In-Reply-To: <cover.1343723990.git.laurentiu.palcu@intel.com>
+References: <cover.1343723990.git.laurentiu.palcu@intel.com>
+Subject: [PATCH v2 2/6] binutils: relocatable SDK: change PT_INTERP section size
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,69 +33,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 31 Jul 2012 09:01:26 -0000
+X-List-Received-Date: Tue, 31 Jul 2012 09:01:27 -0000
 
-Changes in v2:
-	- addressed Saul's comments: added Upstream-Status for patches, signed-off-by
-	  and patches description;
-	- addressed Philip's comment about default installation directory: now the
-	  default installation directory is the same as SDKPATH variable;
-	- added patch for eglibc-2.16;
+This patch is needed so that all SDK binaries have the PT_INTERP section
+size set to 4096 (max path size in Linux) in order to be able to parse
+the binaries later and change the interpreter to the path we want.
 
-
-Hi,
-
-This patchset adds relocatable SDK functionality. Instead of a tarball, the
-output of "bitbake meta-toolchain/meta-toolchain-sdk" will be a self extracting
-archive.
-
-The user will then execute the .sh script and give it the target
-directory for SDK installation (default is /opt/poky). The installer will then
-extract the embedded tarball to the user provided location and will set up the
-SDK: change the paths in the environment script, change the dynamic loader path
-in all binaries and, also, change the ls.so.cache path in the dynamic loader
-itself, together with the SYSDIR paths/lengths.
-
-With that, no more root privileges are needed in order to install the SDK.
-
-Thanks,
-Laurentiu
-
-The following changes since commit e12df2ca5c71ad672ebbfefbc47cabbac3333d61:
-
-  lib/oe/lsb.py: Map unknown distributions to 'Unknown' (2012-07-31 08:01:28 +0100)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib lpalcu/relocatable_sdk
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=lpalcu/relocatable_sdk
-
-Laurentiu Palcu (6):
-  eglibc: relocatable SDK changes
-  binutils: relocatable SDK: change PT_INTERP section size
-  scripts: add script for relocating the SDK
-  populate_sdk_base.bbclass: create self-extracting archive
-  relocatable.bbclass: split it up, to reuse code
-  package.bbclass: change RPATHs for nativesdk packages
-
- meta/classes/chrpath.bbclass                       |   89 +++++++++
- meta/classes/package.bbclass                       |    5 +
- meta/classes/populate_sdk_base.bbclass             |   86 +++++++++
- meta/classes/relocatable.bbclass                   |   91 +--------
- .../eglibc/eglibc-2.15/relocatable_sdk.patch       |   81 ++++++++
- .../eglibc/eglibc-2.16/relocatable_sdk.patch       |  108 +++++++++++
- meta/recipes-core/eglibc/eglibc_2.15.bb            |    6 +-
- meta/recipes-core/eglibc/eglibc_2.16.bb            |    6 +-
- .../binutils/binutils-crosssdk_2.22.bb             |    5 +
- .../binutils/binutils/relocatable_sdk.patch        |   22 +++
- scripts/relocate_sdk.py                            |  200 ++++++++++++++++++++
- 11 files changed, 606 insertions(+), 93 deletions(-)
- create mode 100644 meta/classes/chrpath.bbclass
- create mode 100644 meta/recipes-core/eglibc/eglibc-2.15/relocatable_sdk.patch
- create mode 100644 meta/recipes-core/eglibc/eglibc-2.16/relocatable_sdk.patch
+Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
+---
+ .../binutils/binutils-crosssdk_2.22.bb             |    5 +++++
+ .../binutils/binutils/relocatable_sdk.patch        |   22 ++++++++++++++++++++
+ 2 files changed, 27 insertions(+)
  create mode 100644 meta/recipes-devtools/binutils/binutils/relocatable_sdk.patch
- create mode 100755 scripts/relocate_sdk.py
 
+diff --git a/meta/recipes-devtools/binutils/binutils-crosssdk_2.22.bb b/meta/recipes-devtools/binutils/binutils-crosssdk_2.22.bb
+index 0eb5684..c936549 100644
+--- a/meta/recipes-devtools/binutils/binutils-crosssdk_2.22.bb
++++ b/meta/recipes-devtools/binutils/binutils-crosssdk_2.22.bb
+@@ -2,8 +2,13 @@ require binutils-cross_${PV}.bb
+ 
+ inherit crosssdk
+ 
++PR = "r1"
++
+ PROVIDES = "virtual/${TARGET_PREFIX}binutils-crosssdk"
+ 
++
++SRC_URI += "file://relocatable_sdk.patch"
++
+ do_configure_prepend () {
+ 	sed -i 's#/usr/local/lib /lib /usr/lib#${SDKPATHNATIVE}/lib ${SDKPATHNATIVE}/usr/lib /usr/local/lib /lib /usr/lib#' ${S}/ld/configure.tgt
+ }
+diff --git a/meta/recipes-devtools/binutils/binutils/relocatable_sdk.patch b/meta/recipes-devtools/binutils/binutils/relocatable_sdk.patch
+new file mode 100644
+index 0000000..33f9e68
+--- /dev/null
++++ b/meta/recipes-devtools/binutils/binutils/relocatable_sdk.patch
+@@ -0,0 +1,22 @@
++Upstream-Status: Inappropriate [SDK specific]
++
++This patch will modify the ELF linker scripts so that the crosssdk linker will
++generate binaries with a 4096 bytes PT_INTERP section. When the binaries will
++be relocated, at SDK install time, the interpreter path can be easily changed
++by the relocating script.
++
++Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
++
++Index: binutils-2.22/ld/scripttempl/elf.sc
++===================================================================
++--- binutils-2.22.orig/ld/scripttempl/elf.sc
+++++ binutils-2.22/ld/scripttempl/elf.sc
++@@ -116,7 +116,7 @@ if test -n "${COMMONPAGESIZE}"; then
++   DATA_SEGMENT_RELRO_END=". = DATA_SEGMENT_RELRO_END (${SEPARATE_GOTPLT-0}, .);"
++ fi
++ if test -z "${INITIAL_READONLY_SECTIONS}${CREATE_SHLIB}"; then
++-  INITIAL_READONLY_SECTIONS=".interp       ${RELOCATING-0} : { *(.interp) }"
+++  INITIAL_READONLY_SECTIONS=".interp       ${RELOCATING-0} : { *(.interp); . = 0x1000; }"
++ fi
++ if test -z "$PLT"; then
++   IPLT=".iplt         ${RELOCATING-0} : { *(.iplt) }"
 -- 
 1.7.9.5
 
