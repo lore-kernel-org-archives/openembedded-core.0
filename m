@@ -1,42 +1,20 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1SwC1W-0004Ax-SR
+	(envelope-from <radu.moisan@intel.com>) id 1SwC4y-0004kI-Rx
 	for openembedded-core@lists.openembedded.org;
-	Tue, 31 Jul 2012 14:58:06 +0200
-Received: by eaad12 with SMTP id d12so300800eaa.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 Jul 2012 05:46:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date
-	:content-transfer-encoding:message-id:references:to:x-mailer
-	:x-gm-message-state;
-	bh=99s7RP6eTmRGK52Qnlb0u4iSQBZbbdGiT6cjd03bj8g=;
-	b=o1iZf5QnYZcafYcT1msy1zXzmdVACqrkfxIpM4qpdhhiascxI/38vaahe/cgbCsf2V
-	jBSAPaSaH9RLEzv0L/A8DnsAXJhIHlveycOf/9423HJyy5a2yYv7j30IXIlNZt1ZBzWp
-	Bb6RSKrJ9XRkVp8vPTOnW443XWdTbvTF0y1rNG/MODdsjpclJapmpGOqYIbBCI5XYour
-	AgQC4i/XND264pKGKYKoI4B2RaM/gmuaCdISM7EgBZoNkB3QVCANykW+70XPol6LQdv9
-	4EO+zdGDu4bVk7EcJeYWkjFdbrw3BuKApvQh+9EUnUueUDJj6wA41JDKw4MaUgWukQ4w
-	NRjg==
-Received: by 10.14.181.137 with SMTP id l9mr16258426eem.28.1343738789926;
-	Tue, 31 Jul 2012 05:46:29 -0700 (PDT)
-Received: from [172.20.0.6] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
-	by mx.google.com with ESMTPS id w3sm37301eep.2.2012.07.31.05.46.28
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 31 Jul 2012 05:46:28 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 6.0 \(1485\))
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1343734010.9756.3.camel@ted>
-Date: Tue, 31 Jul 2012 14:46:40 +0200
-Message-Id: <5861D2CF-C4A7-47E2-A355-C77DF52A2D3B@dominion.thruhere.net>
-References: <20120730175903.GN3261@jama.jama.net>
-	<1343674860-1523-1-git-send-email-Martin.Jansa@gmail.com>
-	<1343734010.9756.3.camel@ted>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1485)
-X-Gm-Message-State: ALoCoQk989W8oVMZSB4clwNQOvGbDh/xhWtnpQegfG+OozX2X9h3OmvZ/ZTz94xRCPkg7TsMfCoq
-Subject: Re: [PATCH] udev-extraconf: change LICENSE to MIT
+	Tue, 31 Jul 2012 15:01:42 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 31 Jul 2012 05:48:58 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="173583631"
+Received: from dell-desktop (HELO localhost.localdomain) ([10.237.105.32])
+	by orsmga001.jf.intel.com with ESMTP; 31 Jul 2012 05:48:57 -0700
+From: Radu Moisan <radu.moisan@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 31 Jul 2012 15:50:39 +0300
+Message-Id: <1343739039-13728-1-git-send-email-radu.moisan@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH v2] atk: package update 2.2 -> 2.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -51,39 +29,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 31 Jul 2012 12:58:06 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 31 Jul 2012 13:01:42 -0000
 
+Signed-off-by: Radu Moisan <radu.moisan@intel.com>
+---
+ .../atk/{atk_2.2.0.bb => atk_2.4.0.bb}             |    8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-support/atk/{atk_2.2.0.bb => atk_2.4.0.bb} (72%)
 
-Op 31 jul. 2012, om 13:26 heeft Richard Purdie =
-<richard.purdie@linuxfoundation.org> het volgende geschreven:
+diff --git a/meta/recipes-support/atk/atk_2.2.0.bb b/meta/recipes-support/atk/atk_2.4.0.bb
+similarity index 72%
+rename from meta/recipes-support/atk/atk_2.2.0.bb
+rename to meta/recipes-support/atk/atk_2.4.0.bb
+index d8706ff..e2de5d6 100644
+--- a/meta/recipes-support/atk/atk_2.2.0.bb
++++ b/meta/recipes-support/atk/atk_2.4.0.bb
+@@ -7,15 +7,15 @@ LICENSE = "GPLv2+ & LGPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=3bf50002aefd002f49e7bb854063f7e7 \
+                     file://atk/atkutil.c;endline=20;md5=db21b0bdbef9da4dc6eb122debc9f9bc \
+                     file://atk/atk.h;endline=20;md5=c58238d688c24387376d6c69d06248a7"
+-PR = "r3"
++PR = "r0"
+ 
+ DEPENDS = "glib-2.0"
+ 
+ inherit autotools gtk-doc pkgconfig
+ 
+-SRC_URI = "http://download.gnome.org/sources/atk/2.2/${BPN}-${PV}.tar.bz2"
+-SRC_URI[md5sum] = "4894e9b04f0a9f1c37a624a1e8d6d73f"
+-SRC_URI[sha256sum] = "d201e3f5808aef0b1aec2277bfa61074f68863e405428adb57a73aab5c838450"
++SRC_URI = "http://download.gnome.org/sources/atk/2.4/${BPN}-${PV}.tar.xz"
++SRC_URI[md5sum] = "2184a140f71d50276669d6eda5cce5db"
++SRC_URI[sha256sum] = "091e9ce975a9fbbc7cd8fa64c9c389ffb7fa6cdde58b6d5c01b2c267093d888d"
+ 
+ BBCLASSEXTEND = "native"
+ 
+-- 
+1.7.9.5
 
-> On Mon, 2012-07-30 at 21:01 +0200, Martin Jansa wrote:
->> * original recipe added by RP in =
-fc128ab1e4fec27d44cebfa690a9bc233eda0caf was saying GPL
->> * later it was changed to GPLv2
->> * COPYING.GPL was added to reflect that
->> * meta-oe has similar recipe with MIT license and even more scripts, =
-so lets change LICENSE here too
->>=20
->> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
->> ---
->> meta/recipes-core/udev/udev-extraconf/COPYING.GPL |  339 =
----------------------
->> meta/recipes-core/udev/udev-extraconf_1.0.bb      |    8 +-
->> 2 files changed, 4 insertions(+), 343 deletions(-)
->> delete mode 100644 meta/recipes-core/udev/udev-extraconf/COPYING.GPL
->=20
-> Er, I think we need to be a little more careful than this. Just =
-because
-> you want something to be so, doesn't make it happen just like that...
->=20
-> Looking at the commit, I've just copied the license from the original
-> source which was a GPLv2 recipe (udev). Where did mount.blacklist come
-> from originally? Is there evidence its MIT licensed? How did meta-oe
-> conclude this was MIT licensed?
-
-It was written for oe-classic -> MIT licensed=
 
 
