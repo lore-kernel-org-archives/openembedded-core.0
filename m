@@ -1,35 +1,20 @@
-Received: from mail-wg0-f43.google.com ([74.125.82.43])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>)
-	id 1SwCau-00049A-17; Tue, 31 Jul 2012 15:34:40 +0200
-Received: by wgbdr1 with SMTP id dr1so5191408wgb.24
-	for <multiple recipients>; Tue, 31 Jul 2012 06:23:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=xsFocQJnUE0tzTrrlMFQvH+xpCVN0iH3XAMiCI/O6qY=;
-	b=VFB9rVY+4Wj5gIDywUoGSK1zxVxQMu7JCUswoCwyDNb+dHiq7cDcaMAuVGxcv5OHf0
-	D7GCxepVwidMLhvEKbalO+NHgjpFmUvCuQg3OdseL6Fx+Lp0t/TlGJ3dpZS6FafGWP6S
-	XkVfO8xOCcyFNaRfKIvCIBtnve0D6J2kYFJPEsrD18GKMMZ0F33uWjImgoGD8I6ORxEG
-	+WhtdIBMhAEfMTDINtfpUsmGOi/7S+YNaxhbAU4r/RlExghfrYAjnBBwfUr5mgPR9A9U
-	1GcffyHLOeXvc4k2VxL5uloCPmDOc86VGUEFrrthxj+/Q25Zw5O9PxEETVtnYejdSFUw
-	Wa7w==
-Received: by 10.180.103.4 with SMTP id fs4mr6832564wib.16.1343740982917;
-	Tue, 31 Jul 2012 06:23:02 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id t7sm218381wix.6.2012.07.31.06.23.00
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 31 Jul 2012 06:23:01 -0700 (PDT)
-Date: Tue, 31 Jul 2012 15:22:57 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
+	(envelope-from <radu.moisan@intel.com>) id 1SwCg0-0004E8-0D
+	for openembedded-core@lists.openembedded.org;
+	Tue, 31 Jul 2012 15:39:56 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 31 Jul 2012 06:28:18 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="191139831"
+Received: from dell-desktop (HELO localhost.localdomain) ([10.237.105.32])
+	by fmsmga001.fm.intel.com with ESMTP; 31 Jul 2012 06:28:17 -0700
+From: Radu Moisan <radu.moisan@intel.com>
 To: openembedded-core@lists.openembedded.org
-Message-ID: <20120731132257.GW3261@jama.jama.net>
-References: <20120731110242.D424910219@opal>
-MIME-Version: 1.0
-In-Reply-To: <20120731110242.D424910219@opal>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-commits@lists.openembedded.org
-Subject: Re: [oe-commits] Radu Moisan : dbus: include dbus-launch in the main dbus package
+Date: Tue, 31 Jul 2012 16:30:00 +0300
+Message-Id: <1343741400-17415-1-git-send-email-radu.moisan@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] babeltrace: Update to upstream stable versrion 0.12
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,119 +29,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 31 Jul 2012 13:34:40 -0000
-X-Groupsio-MsgNum: 26572
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="/Y6L//1es8ezVqBy"
-Content-Disposition: inline
+X-List-Received-Date: Tue, 31 Jul 2012 13:39:56 -0000
 
---/Y6L//1es8ezVqBy
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Latest version is 1.0.0 but in rc4 for now.
 
-On Tue, Jul 31, 2012 at 11:02:42AM +0000, git@git.openembedded.org wrote:
-> Module: openembedded-core.git
-> Branch: master
-> Commit: c02364f36e228835ea5d7fd4e1d347fd451f8544
-> URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcommit=
-;h=3Dc02364f36e228835ea5d7fd4e1d347fd451f8544
->=20
-> Author: Radu Moisan <radu.moisan@intel.com>
-> Date:   Tue Jul 31 09:23:23 2012 +0300
->=20
-> dbus: include dbus-launch in the main dbus package
->=20
-> Followed suggestions from Bugz 2261:
->=20
-> 2) make the virtual/libx11 DEPENDS conditional based on the x11 distro fe=
-ature.
-> This makes the build dependencies reflect the feature list.
->=20
-> 3) remove dbus-x11, meaning that dbus-launch with its potential X11 depen=
-dency
-> is now back in dbus where is belongs.
->=20
-> 4) make dbus provide dbus-x11, for compatibility.
+Signed-off-by: Radu Moisan <radu.moisan@intel.com>
+---
+ .../{babeltrace_0.8.bb => babeltrace_0.12.bb}      |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-kernel/lttng-2.0/{babeltrace_0.8.bb => babeltrace_0.12.bb} (91%)
 
-5) create new warning:
-NOTE: multiple providers are available for runtime dbus-x11 (dbus, dbus-nat=
-ivesdk)
-NOTE: consider defining a PREFERRED_PROVIDER entry to match dbus-x11
+diff --git a/meta/recipes-kernel/lttng-2.0/babeltrace_0.8.bb b/meta/recipes-kernel/lttng-2.0/babeltrace_0.12.bb
+similarity index 91%
+rename from meta/recipes-kernel/lttng-2.0/babeltrace_0.8.bb
+rename to meta/recipes-kernel/lttng-2.0/babeltrace_0.12.bb
+index 0b4a122..eaf7eeb 100644
+--- a/meta/recipes-kernel/lttng-2.0/babeltrace_0.8.bb
++++ b/meta/recipes-kernel/lttng-2.0/babeltrace_0.12.bb
+@@ -10,8 +10,8 @@ inherit autotools
+ 
+ DEPENDS = "gtk+ util-linux"
+ 
+-SRCREV = "efc5077568403009493d1d72e94f292838825e51"
+-PV = "0.8+git${SRCPV}"
++SRCREV = "0d8f8c2ea27df096269aa76b4baeab26b68b95d4"
++PV = "0.12+git${SRCPV}"
+ PR = "r0"
+ 
+ SRC_URI = "git://git.efficios.com/babeltrace.git;protocol=git"
+-- 
+1.7.9.5
 
-Cheers,
 
->=20
-> Fixes [Yocto #2261]
->=20
-> Signed-off-by: Radu Moisan <radu.moisan@intel.com>
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->=20
-> ---
->=20
->  meta/recipes-core/dbus/dbus.inc |   10 ++++++----
->  1 files changed, 6 insertions(+), 4 deletions(-)
->=20
-> diff --git a/meta/recipes-core/dbus/dbus.inc b/meta/recipes-core/dbus/dbu=
-s.inc
-> index a75583d..164c4d3 100644
-> --- a/meta/recipes-core/dbus/dbus.inc
-> +++ b/meta/recipes-core/dbus/dbus.inc
-> @@ -31,10 +31,11 @@ CONFFILES_${PN} =3D "${sysconfdir}/dbus-1/system.conf=
- ${sysconfdir}/dbus-1/session
-> =20
->  DEBIANNAME_${PN} =3D "dbus-1"
-> =20
-> -PACKAGES =3D+ "${PN}-lib ${PN}-systemd ${@base_contains('DISTRO_FEATURES=
-', 'x11', '${PN}-x11', '', d)}"
-> +PACKAGES =3D+ "${PN}-lib ${PN}-systemd"
-> =20
-> -FILES_${PN}-x11 =3D "${bindir}/dbus-launch"
-> -RDEPENDS_${PN}-x11 =3D "${PN}"
-> +# for compatibility
-> +RPROVIDES_${PN} =3D "dbus-x11"
-> +RREPLACES_${PN} +=3D "dbus-x11"
-> =20
->  FILES_${PN}-systemd =3D "${systemd_unitdir}/system/"
-> =20
-> @@ -43,6 +44,7 @@ FILES_${PN} =3D "${bindir}/dbus-daemon* \
->                 ${bindir}/dbus-cleanup-sockets \
->                 ${bindir}/dbus-send \
->                 ${bindir}/dbus-monitor \
-> +               ${bindir}/dbus-launch \
->                 ${libexecdir}/dbus* \
->                 ${sysconfdir} \
->                 ${localstatedir} \
-> @@ -59,7 +61,7 @@ pkg_postinst_dbus() {
->  }
-> =20
->  EXTRA_OECONF_X =3D "${@base_contains('DISTRO_FEATURES', 'x11', '--with-x=
-', '--without-x', d)}"
-> -EXTRA_OECONF_X_virtclass-native =3D "--without-x"
-> +EXTRA_OECONF_X_virtclass-native =3D "--disable-x11-autolaunch"
-> =20
->  EXTRA_OECONF =3D "--disable-tests \
->                  --disable-checks \
->=20
->=20
-> _______________________________________________
-> Openembedded-commits mailing list
-> Openembedded-commits@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-commits
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---/Y6L//1es8ezVqBy
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
-
-iEYEARECAAYFAlAX3DEACgkQN1Ujt2V2gBzO7QCdETmYMRNTMZUPWhwe5xOzx/on
-FDYAni2U03tZEaOs/a7JKKcTcwE7PFpO
-=ylPN
------END PGP SIGNATURE-----
-
---/Y6L//1es8ezVqBy--
