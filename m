@@ -1,33 +1,39 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1SwABR-0000hp-KL for openembedded-core@lists.openembedded.org;
-	Tue, 31 Jul 2012 13:00:14 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6VAmbN3020006
+Received: from mail.windriver.com ([147.11.1.11])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <Liang.Li@windriver.com>) id 1SwAMV-0000wE-4I
+	for openembedded-core@lists.openembedded.org;
+	Tue, 31 Jul 2012 13:11:39 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q6V8QUIR025563
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 Jul 2012 11:48:37 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 19675-02 for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 Jul 2012 11:48:33 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6VAmInu020000
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 Jul 2012 11:48:29 +0100
-Message-ID: <1343731697.3360.11.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Tue, 31 Jul 2012 11:48:17 +0100
-In-Reply-To: <cover.1343689827.git.paul.eggleton@linux.intel.com>
-References: <cover.1343689827.git.paul.eggleton@linux.intel.com>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 0/2] do_populate_sdk fixes
+	Tue, 31 Jul 2012 01:26:30 -0700 (PDT)
+Received: from localhost (128.224.163.138) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.309.2;
+	Tue, 31 Jul 2012 01:26:29 -0700
+Resent-From: Liang Li <Liang.Li@windriver.com>
+Resent-Date: Tue, 31 Jul 2012 16:26:25 +0800
+Resent-Message-ID: <20120731082625.GA670@localhost>
+Resent-To: <openembedded-core@lists.openembedded.org>
+Received: from mail1.windriver.com ([147.11.146.13])	by linuxtogo.org with
+	esmtp (Exim 4.72)	(envelope-from <Liang.Li@windriver.com>)	id
+	1Sw2rz-00042c-EJ	for openembedded-core@lists.openembedded.org;
+	Tue, 31 Jul 2012 05:11:39 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])	by
+	mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q6V1P2fQ004466
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 30 Jul 2012 18:25:02 -0700 (PDT)
+Received: from ll-wrs-990.corp.ad.wrs.com (128.224.163.138) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.309.2; Mon, 30 Jul 2012 18:25:01 -0700
+From: Liang Li <liang.li@windriver.com>
+To: <richard.purdie@linuxfoundation.org>
+Date: Tue, 31 Jul 2012 09:24:59 +0800
+Message-ID: <1343697899-20776-1-git-send-email-liang.li@windriver.com>
+X-Mailer: git-send-email 1.7.12.rc0.22.gcdd159b
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH] trace-cmd: Update for python-native changes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,28 +48,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 31 Jul 2012 11:00:15 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 31 Jul 2012 11:11:39 -0000
+Content-Type: text/plain
 
-On Tue, 2012-07-31 at 00:10 +0100, Paul Eggleton wrote:
-> The following changes since commit ab0187c13b2b0a041bf3d98c3a53bd3f45a624de:
-> 
->   libxcb: Update for python-native changes (2012-07-30 16:53:49 +0100)
-> 
-> are available in the git repository at:
-> 
->   git://git.openembedded.org/openembedded-core-contrib paule/sdk-rpmresolve
->   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/sdk-rpmresolve
-> 
-> Paul Eggleton (2):
->   classes/populate_sdk_base: don't break existing do_populate_sdk
->     depends
->   classes/populate_sdk_rpm: add depends on rpmresolve-native
+Add pythonnative to the inherits list, otherwise we'll end up with
+compiling error like:
 
-Merged to master, thanks.
+| swig -Wall -python -noproxy ctracecmd.i
+| trace-cmd.h:65: Error: Syntax error in input(1).
+| trace-cmd.h:221: Warning(322): Redundant redeclaration of
+| 'trace_util_ftrace_options',
+| trace-cmd.h:196: Warning(322): previous declaration of
+| 'trace_util_ftrace_options'.
+| parse-events.h:275: Warning(312): Nested union not currently
+| supported (ignored).
+| parse-events.h:707: Warning(312): Nested union not currently
+| supported (ignored).
+| parse-events.h:746: Warning(312): Nested union not currently
+| supported (ignored).
+| make: *** [ctracecmd.so] Segmentation fault
 
-Richard
+Signed-off-by: Liang Li <liang.li@windriver.com>
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+---
+Hi all,
+
+Due to recent change to python, we've done pythonnative related change to
+various recipes like perf, xcb etc. Now this one is for trace-cmd. :)
+
+Thanks.
+
+ meta/recipes-kernel/trace-cmd/trace-cmd_1.2.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/recipes-kernel/trace-cmd/trace-cmd_1.2.bb b/meta/recipes-kernel/trace-cmd/trace-cmd_1.2.bb
+index 7f6f6cf..65e0378 100644
+--- a/meta/recipes-kernel/trace-cmd/trace-cmd_1.2.bb
++++ b/meta/recipes-kernel/trace-cmd/trace-cmd_1.2.bb
+@@ -9,7 +9,7 @@ SRCREV = "7055ffd37beeb44714e86a4abc703f7e175a0db5"
+ PR = "r2"
+ PV = "1.2+git${SRCPV}"
+ 
+-inherit pkgconfig
++inherit pkgconfig pythonnative
+ 
+ SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/rostedt/trace-cmd.git;protocol=git \
+            file://addldflags.patch \
+-- 
+1.7.12.rc0.22.gcdd159b
+
 
 
 
