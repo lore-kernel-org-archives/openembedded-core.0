@@ -1,34 +1,54 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from ch1ehsobe005.messaging.microsoft.com ([216.32.181.185]
+	helo=ch1outboundpool.messaging.microsoft.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Rongqing.Li@windriver.com>) id 1Sw3Is-0004L6-OH
+	(envelope-from <B29882@freescale.com>) id 1Sw4fv-0007Xb-JQ
 	for openembedded-core@lists.openembedded.org;
-	Tue, 31 Jul 2012 05:39:27 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q6V3Rlsg022129
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 30 Jul 2012 20:27:48 -0700 (PDT)
-Received: from [128.224.162.163] (128.224.162.163) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.309.2;
-	Mon, 30 Jul 2012 20:27:47 -0700
-Message-ID: <501750B4.1020706@windriver.com>
-Date: Tue, 31 Jul 2012 11:27:48 +0800
-From: Rongqing Li <rongqing.li@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:13.0) Gecko/20120615 Thunderbird/13.0.1
-MIME-Version: 1.0
+	Tue, 31 Jul 2012 07:07:19 +0200
+Received: from mail210-ch1-R.bigfish.com (10.43.68.226) by
+	CH1EHSOBE004.bigfish.com (10.43.70.54) with Microsoft SMTP Server id
+	14.1.225.23; Tue, 31 Jul 2012 04:55:42 +0000
+Received: from mail210-ch1 (localhost [127.0.0.1])	by
+	mail210-ch1-R.bigfish.com (Postfix) with ESMTP id 77D3A60160	for
+	<openembedded-core@lists.openembedded.org>;
+	Tue, 31 Jul 2012 04:55:42 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-SpamScore: -3
+X-BigFish: VS-3(zz98dI9371I936eI1432Izz1202hzz8275bh8275dhz2dh2a8h668h839h8e2h8e3hf0ah107ah10d2hbe9i)
+Received: from mail210-ch1 (localhost.localdomain [127.0.0.1]) by mail210-ch1
+	(MessageSwitch) id 1343710541470035_16612;
+	Tue, 31 Jul 2012 04:55:41 +0000 (UTC)
+Received: from CH1EHSMHS025.bigfish.com (snatpool1.int.messaging.microsoft.com
+	[10.43.68.246])	by mail210-ch1.bigfish.com (Postfix) with ESMTP id
+	70FFD340047	for <openembedded-core@lists.openembedded.org>;
+	Tue, 31 Jul 2012 04:55:41 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by CH1EHSMHS025.bigfish.com
+	(10.43.70.25) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Tue, 31 Jul 2012 04:55:41 +0000
+Received: from 039-SN1MPN1-002.039d.mgd.msft.net ([169.254.2.109]) by
+	039-SN1MMR1-002.039d.mgd.msft.net ([10.84.1.15]) with mapi id
+	14.02.0298.005; Mon, 30 Jul 2012 23:55:40 -0500
+From: McClintock Matthew-B29882 <B29882@freescale.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <1343639326-29842-1-git-send-email-rongqing.li@windriver.com>
-	<CABcZANnA4U61b+3ZyWJMmHzLCBT6Q1q73-N8ChkEbhbz_cQttQ@mail.gmail.com>
-In-Reply-To: <CABcZANnA4U61b+3ZyWJMmHzLCBT6Q1q73-N8ChkEbhbz_cQttQ@mail.gmail.com>
-X-MIME-Autoconverted: from 8bit to quoted-printable by mail.windriver.com id
-	q6V3Rlsg022129
-Cc: Chris Larson <clarson@kergoth.com>
-Subject: Re: [PATCH] slang: change char type to signed char in macros
+Thread-Topic: [OE-core] [PATCH 0/7] combo-layer improvements
+Thread-Index: AQHNbti7WHLbKcBri0+SgXYmAHrtDQ==
+Date: Tue, 31 Jul 2012 04:55:39 +0000
+Message-ID: <CAEsOVNecqPuKZRGYCtDa9-L++rQb+JHNqtkgWvzpupUyC5jpPA@mail.gmail.com>
+References: <cover.1343693147.git.paul.eggleton@linux.intel.com>
+In-Reply-To: <cover.1343693147.git.paul.eggleton@linux.intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [70.112.201.132]
+MIME-Version: 1.0
+X-OriginatorOrg: freescale.com
+Subject: Re: [PATCH 0/7] combo-layer improvements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -39,31 +59,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 31 Jul 2012 03:39:27 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+X-List-Received-Date: Tue, 31 Jul 2012 05:07:19 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <234CF94553DD8A4F94C3D101DCB0F838@mgd.freescale.com>
 Content-Transfer-Encoding: quoted-printable
 
+Is there a wiki or README regarding the usage for this?
 
+-M
 
-On 2012=E5=B9=B407=E6=9C=8831=E6=97=A5 00:55, Chris Larson wrote:
-> On Mon, Jul 30, 2012 at 2:08 AM,  <rongqing.li@windriver.com> wrote:
->> -SRC_URI_append_arm =3D " file://change-char-type-to-signed-char-in-ma=
-cros.patch"
->> +SRC_URI_append =3D " file://change-char-type-to-signed-char-in-macros=
-.patch"
+On Mon, Jul 30, 2012 at 7:06 PM, Paul Eggleton
+<paul.eggleton@linux.intel.com> wrote:
+> The following changes since commit ab0187c13b2b0a041bf3d98c3a53bd3f45a624=
+de:
 >
-> Just move this into the main SRC_URI. There's no point retaining the
-> separate assignment.
+>   libxcb: Update for python-native changes (2012-07-30 16:53:49 +0100)
 >
-
-Ok, thanks
-
--Roy
-
---=20
-Best Reagrds,
-Roy | RongQing Li
-
+> are available in the git repository at:
+>
+>   git://git.openembedded.org/openembedded-core-contrib paule/combo-layer-=
+fixes7
+>   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=
+=3Dpaule/combo-layer-fixes7
+>
+> Paul Eggleton (7):
+>   combo-layer: remove &> bashism
+>   combo-layer: allow component pull to be done separately
+>   combo-layer: ignore patch-* temp directories in dirty check
+>   combo-layer: drop to a shell when apply fails during update
+>   combo-layer: improve patch list handling and output
+>   combo-layer: check that last_revision is valid
+>   combo-layer: allow splitting out local config
+>
+>  scripts/combo-layer |  241 ++++++++++++++++++++++++++++++++++++++++-----=
+------
+>  1 file changed, 192 insertions(+), 49 deletions(-)
+>
+> --
+> 1.7.9.5
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core=
 
 
 
