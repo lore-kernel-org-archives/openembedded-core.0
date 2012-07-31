@@ -1,35 +1,33 @@
-Received: from mail-yx0-f175.google.com ([209.85.213.175])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <schnitzeltony@googlemail.com>) id 1SwANs-0000zI-M0
-	for openembedded-core@lists.openembedded.org;
-	Tue, 31 Jul 2012 13:13:04 +0200
-Received: by yenl13 with SMTP id l13so5286372yen.6
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1SwASs-00016j-G0 for openembedded-core@lists.openembedded.org;
+	Tue, 31 Jul 2012 13:18:14 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6VB6c0i020129
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 Jul 2012 04:01:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type:content-transfer-encoding;
-	bh=/ccPgLI/Dq9hWRhffroM4ao7s9Fpk+2eQRtLXyI/lqQ=;
-	b=szSjnG4di9ntCab/h78I2VdHZUOpee4/2xcPcDBSV+G7/PY+ONNlidl7+OBYO6joRa
-	QkFTwqk5f/EVZAlZOi1dylIgrXCy1IS2L+onctvgUIL6MDbWsynQCYoVSm4S8O+0tFJM
-	hBUf//HlJCvmVap9E+QbTOI5fzEKrQZnvyuu8clggDA/FqgDlP60R0FQfECBXsFhtaj/
-	eisTPJ1hUQmKvE1pLk+e/BL0V4a1ZiO/MAJ8FkmYorKDfrBOfwk27N778xF24KxmktG5
-	eDj6bSsCN836sv0LaMOsB0SZgi4cRrFlMBxPnTBQJ/6QH8/iTHgXKf8aI/3Fx+x93OfU
-	yQAQ==
-MIME-Version: 1.0
-Received: by 10.50.219.226 with SMTP id pr2mr1551989igc.51.1343732486978; Tue,
-	31 Jul 2012 04:01:26 -0700 (PDT)
-Received: by 10.64.142.201 with HTTP; Tue, 31 Jul 2012 04:01:26 -0700 (PDT)
-In-Reply-To: <20120731104203.GQ3261@jama.jama.net>
-References: <CALbNGRR4weykX9t_XwJ6ACVoXS2SbogcxXLPAj7vpAC2+AQpww@mail.gmail.com>
-	<20120731104203.GQ3261@jama.jama.net>
-Date: Tue, 31 Jul 2012 13:01:26 +0200
-Message-ID: <CALbNGRQq9VjWZ1NqKYfE33U=fe9XxK5yeyF9JVNFZJzzgwvj0w@mail.gmail.com>
-From: =?ISO-8859-1?Q?Andreas_M=FCller?= <schnitzeltony@googlemail.com>
+	Tue, 31 Jul 2012 12:06:38 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 18223-09 for <openembedded-core@lists.openembedded.org>;
+	Tue, 31 Jul 2012 12:06:34 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q6VB6Vn2020123
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 31 Jul 2012 12:06:32 +0100
+Message-ID: <1343732792.9526.0.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: do_rootfs fails
+Date: Tue, 31 Jul 2012 12:06:32 +0100
+In-Reply-To: <1343700001-15097-1-git-send-email-Martin.Jansa@gmail.com>
+References: <1343700001-15097-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH] package.bbclass: fix TypeError in runstrip
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,59 +42,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 31 Jul 2012 11:13:04 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 31 Jul 2012 11:18:14 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jul 31, 2012 at 12:42 PM, Martin Jansa <martin.jansa@gmail.com> wro=
-te:
-> On Tue, Jul 31, 2012 at 12:37:52PM +0200, Andreas M=FCller wrote:
->> Hi,
->>
->> after long journey mending recipes I now get with latest updates:
->>
->> |  * opkg_install_cmd: Cannot install package gnome-icon-theme-locale-fr=
-.
->> |  * opkg_install_cmd: Cannot install package gnome-icon-theme-locale-en=
--gb.
->> |  * opkg_install_cmd: Cannot install package gnome-icon-theme-locale-de=
-.
->> |  * satisfy_dependencies_for: Cannot satisfy the following
->> dependencies for gcc-runtime-locale-fr:
->> |  *  gcc-runtime *
->> |  * opkg_install_cmd: Cannot install package gcc-runtime-locale-fr.
->> |  * satisfy_dependencies_for: Cannot satisfy the following
->> dependencies for gcc-runtime-locale-de:
->> |  *  gcc-runtime *
->> |  * opkg_install_cmd: Cannot install package gcc-runtime-locale-de.
->>
->> I checked:
->>
->> * gnome-icon-theme-locale-* are empty
->> * gcc-runtime is not there
->>
->> Any suggestion what causes this?
->
-> yup, test this:
-> http://patchwork.openembedded.org/patch/33273/
->
-Thanks that fixes first part but I still get
+On Tue, 2012-07-31 at 04:00 +0200, Martin Jansa wrote:
+> * some packages have .ko files which are not elf, without this change
+>   it fails with TypeError, with this change only runstip fails and
+>   reports where:
+>   ERROR: runstrip: ''arm-oe-linux-gnueabi-strip'  '/OE/shr-core/tmp-eglibc/work/armv4t-oe-linux-gnueabi/emacs-23.4-r0/package/usr/share/emacs/23.4/etc/tutorials/TUTORIAL.ko'' strip command failed
+> 
+> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> ---
+>  meta/classes/package.bbclass |   16 ++++++++++------
+>  1 files changed, 10 insertions(+), 6 deletions(-)
 
-|  * satisfy_dependencies_for: Cannot satisfy the following
-dependencies for gcc-runtime-locale-fr:
-|  * 	gcc-runtime *
-|  * opkg_install_cmd: Cannot install package gcc-runtime-locale-fr.
-|  * satisfy_dependencies_for: Cannot satisfy the following
-dependencies for gcc-runtime-locale-de:
-|  * 	gcc-runtime *
-|  * opkg_install_cmd: Cannot install package gcc-runtime-locale-de.
-| ERROR: Function failed: do_rootfs (see
-/home/andreas/tmp/oe-core-eglibc/work/overo-angstrom-linux-gnueabi/xfce-ful=
-l-image-1.0-r0/temp/log.do_rootfs.18542
-for further informatio
+Merged to master, thanks.
 
-since I don't have gcc-runtime package
+Richard
 
-Andreas
 
 
