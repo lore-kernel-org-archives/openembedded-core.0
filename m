@@ -1,31 +1,34 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail-we0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Liang.Li@windriver.com>) id 1SwCms-0004Kx-Gg
+	(envelope-from <schnitzeltony@googlemail.com>) id 1SwE8f-0001EB-Rf
 	for openembedded-core@lists.openembedded.org;
-	Tue, 31 Jul 2012 15:47:02 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q6VDZK2Q016407
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 31 Jul 2012 06:35:21 -0700 (PDT)
-Received: from localhost (128.224.163.138) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.309.2;
-	Tue, 31 Jul 2012 06:35:21 -0700
-Date: Tue, 31 Jul 2012 21:35:20 +0800
-From: Liang Li <liang.li@windriver.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20120731133520.GA15443@localhost>
-References: <1343697899-20776-1-git-send-email-liang.li@windriver.com>
-	<1343732920.9526.4.camel@ted>
+	Tue, 31 Jul 2012 17:13:37 +0200
+Received: by weyr6 with SMTP id r6so4037853wey.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 31 Jul 2012 08:02:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=mime-version:date:message-id:subject:from:to:content-type;
+	bh=ib05YdciDjfhoF2YLLnSKesTov541fxf3O7pwpChHVY=;
+	b=Uej234QO7JKPBmYf+1W/VvKM7oEuhIftbYYkpuAALmloMDQfsdI/mTtZQTcLGYYC8E
+	JPPB+AZ6zSI1654AzaPQ+1pKYhHg1sXldVuxg/Xa0YeGSs0I+QXaz95qafeklkAfRvSi
+	mJ3wtqeiirrzJjj13pdm+ZSTrTGD5+jqi+EMstcu3mF/+OtLX0VqHC06jie+dLHgIL4f
+	i5TX6KVszxxuQ2uqM6WiSH5vTHKkGb/O4tFX1aWeTUKbv/hLfDKbVbg5AVDpKd2li4Od
+	iMM7iJ4tb1X4aFUfwgpFcl0+BAcBXMz+GmNNucHXSuPwtxFNRUiMrO7Oxd+Qm4yeWO+A
+	zweQ==
 MIME-Version: 1.0
-In-Reply-To: <1343732920.9526.4.camel@ted>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] trace-cmd: Update for python-native changes
+Received: by 10.50.217.163 with SMTP id oz3mr2375276igc.5.1343746919742; Tue,
+	31 Jul 2012 08:01:59 -0700 (PDT)
+Received: by 10.64.142.201 with HTTP; Tue, 31 Jul 2012 08:01:59 -0700 (PDT)
+Date: Tue, 31 Jul 2012 17:01:59 +0200
+Message-ID: <CALbNGRSyCyCSX23dQXa1neOBior_vHbmKtk8SmSV8pKJdQt44w@mail.gmail.com>
+From: =?ISO-8859-1?Q?Andreas_M=FCller?= <schnitzeltony@googlemail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: pango modules postinst issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Liang Li <liang.li@windriver.com>,
-	Patches and discussions about the oe-core layer
+Reply-To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -36,52 +39,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 31 Jul 2012 13:47:02 -0000
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
+X-List-Received-Date: Tue, 31 Jul 2012 15:13:38 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On 2012-07-31 19:08, Richard Purdie <richard.purdie@linuxfoundation.org> wrote:
-> On Tue, 2012-07-31 at 09:24 +0800, Liang Li wrote:
-> > Add pythonnative to the inherits list, otherwise we'll end up with
-> > compiling error like:
-> > 
-> > | swig -Wall -python -noproxy ctracecmd.i
-> > | trace-cmd.h:65: Error: Syntax error in input(1).
-> > | trace-cmd.h:221: Warning(322): Redundant redeclaration of
-> > | 'trace_util_ftrace_options',
-> > | trace-cmd.h:196: Warning(322): previous declaration of
-> > | 'trace_util_ftrace_options'.
-> > | parse-events.h:275: Warning(312): Nested union not currently
-> > | supported (ignored).
-> > | parse-events.h:707: Warning(312): Nested union not currently
-> > | supported (ignored).
-> > | parse-events.h:746: Warning(312): Nested union not currently
-> > | supported (ignored).
-> > | make: *** [ctracecmd.so] Segmentation fault
-> > 
-> > Signed-off-by: Liang Li <liang.li@windriver.com>
-> > Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
-> > ---
-> > Hi all,
-> > 
-> > Due to recent change to python, we've done pythonnative related change to
-> > various recipes like perf, xcb etc. Now this one is for trace-cmd. :)
-> > 
-> > Thanks.
-> > 
-> >  meta/recipes-kernel/trace-cmd/trace-cmd_1.2.bb | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> I merged Morgan's patch for this.
-> 
+Hi,
 
-Good to know this, thanks. :)
+sorry fur disturbing again - but:
 
-Regards,
-		Liang Li
+When starting X on a maiden image I receive:
 
-> Thanks,
-> 
-> Richard
+No builtin or dynamically loaded modules were found.
+PangoFc will not work correctly.
+This probably means there was an error in the creation of:
+  '/etc/pango/pango.modules'
+You should create this file by running:
+  pango-querymodules > '/etc/pango/pango.modules'
+
+and have no fonts displayed. Followed the suggestion
+
+pango-querymodules > '/etc/pango/pango.modules'
+
+-> fonts are OK.
+
+I checked: Besides other pango modules my image contains
+pango-module-basic-x. In the postinst of this package I see
+
+#!/bin/sh
+if [ "x$D" != "x" ]; then
+  exit 1
+fi
+
+if ! [ -e $D/etc/pango ] ; then
+	mkdir -p $D/etc/pango
+fi
+/usr/bin/pango-querymodules > /etc/pango/pango.modules
+
+This looks OK so far ( besides that I would not have the $D in second part ).
+
+Additionally log.do_rootfs says:
+
+Configuring pango-module-basic-x.
+pango-module-basic-x.postinst returned 1, marking as unpacked only,
+configuration required on target.
+
+Any idea what is happening here?
+
+Andreas
 
 
