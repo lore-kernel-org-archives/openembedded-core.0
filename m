@@ -1,33 +1,45 @@
-Received: from mail-gg0-f175.google.com ([209.85.161.175])
+Received: from ch1ehsobe004.messaging.microsoft.com ([216.32.181.184]
+	helo=ch1outboundpool.messaging.microsoft.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@gmail.com>) id 1SwIu4-00009J-Ku
+	(envelope-from <B29882@freescale.com>) id 1SwJgP-0003CU-82
 	for openembedded-core@lists.openembedded.org;
-	Tue, 31 Jul 2012 22:18:52 +0200
-Received: by ggnp4 with SMTP id p4so5861423ggn.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 Jul 2012 13:07:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type; bh=lCL7IWO0IAr4PbB/06HZnrVEmHXwnhBEpYQZLPdaTaI=;
-	b=j7tB9B2X2oEcopmPLaE1mu8Wb/9afgQwx+tLKLy3hcvXB3YRqf9JbB6t8+DDHf5FMG
-	KJFaa+6TCZbv4tHIdKggD4MrFFIu6G7/Hl1+RVZQbtJVLstQpGTwwTFKrFeHcz5mkjDO
-	GrtFlnEQ6AGOqDGELdlMy/6aiVK0fu5C3zZwZibR/IQYoN0M5ex+UQxkru5errGNyClo
-	aP5GQ9E97YM60B9pHx7kd2DuWCsbag7CdNhI5DumLQGmPSSv2wmzBJgxieyy2Wf0iAoN
-	2L9H625aFA1kO3e7oUeO4Lbl8wPBsuD/U79n6dAzCftj3tTv2kkQdeHIdj2jJ3ou/Doc
-	Myiw==
+	Tue, 31 Jul 2012 23:08:49 +0200
+Received: from mail34-ch1-R.bigfish.com (10.43.68.235) by
+	CH1EHSOBE015.bigfish.com (10.43.70.65) with Microsoft SMTP Server id
+	14.1.225.23; Tue, 31 Jul 2012 20:42:07 +0000
+Received: from mail34-ch1 (localhost [127.0.0.1])	by mail34-ch1-R.bigfish.com
+	(Postfix) with ESMTP id DF21D3601B2	for
+	<openembedded-core@lists.openembedded.org>;
+	Tue, 31 Jul 2012 20:42:07 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-SpamScore: 3
+X-BigFish: VS3(zzzz1202h1082kzz8275bhz2dh2a8h668h839hd24he5bhf0ah107ah)
+Received: from mail34-ch1 (localhost.localdomain [127.0.0.1]) by mail34-ch1
+	(MessageSwitch) id 1343767326860418_31783;
+	Tue, 31 Jul 2012 20:42:06 +0000 (UTC)
+Received: from CH1EHSMHS016.bigfish.com (snatpool2.int.messaging.microsoft.com
+	[10.43.68.237])	by mail34-ch1.bigfish.com (Postfix) with ESMTP id
+	CDF752004A for <openembedded-core@lists.openembedded.org>;
+	Tue, 31 Jul 2012 20:42:06 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by CH1EHSMHS016.bigfish.com
+	(10.43.70.16) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Tue, 31 Jul 2012 20:42:06 +0000
+Received: from tx30smr01.am.freescale.net (10.81.153.31) by
+	039-SN1MMR1-002.039d.mgd.msft.net (10.84.1.15) with Microsoft SMTP
+	Server (TLS) id 14.2.298.5; Tue, 31 Jul 2012 15:42:05 -0500
+Received: from right.am.freescale.net (right.am.freescale.net [10.82.176.228])
+	by tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id
+	q6VKg48L020235 for <openembedded-core@lists.openembedded.org>;
+	Tue, 31 Jul 2012 13:42:05 -0700
+From: Matthew McClintock <msm@freescale.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 31 Jul 2012 15:42:04 -0500
+Message-ID: <1343767324-11395-1-git-send-email-msm@freescale.com>
+X-Mailer: git-send-email 1.7.9.7
 MIME-Version: 1.0
-Received: by 10.50.203.41 with SMTP id kn9mr3084937igc.72.1343765234523; Tue,
-	31 Jul 2012 13:07:14 -0700 (PDT)
-Received: by 10.231.239.131 with HTTP; Tue, 31 Jul 2012 13:07:14 -0700 (PDT)
-In-Reply-To: <50183924.8010309@windriver.com>
-References: <CALRxmdDhE8GQPYde27786kKU35p4dRrTmaGbmauVDxTrMQ6N6Q@mail.gmail.com>
-	<50183924.8010309@windriver.com>
-Date: Tue, 31 Jul 2012 16:07:14 -0400
-Message-ID: <CADkTA4N_mFVkWx7G=E8BoCDYktkNXxO-zLrw_r9e0sO-wE5FjQ@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: static busybox?
+X-OriginatorOrg: freescale.com
+Subject: [PATCH] foomatic-filters_4.0.16.bb: update recipe to work on Fedora 17
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,75 +54,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 31 Jul 2012 20:18:53 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Tue, 31 Jul 2012 21:08:49 -0000
+Content-Type: text/plain
 
-On Tue, Jul 31, 2012 at 3:59 PM, Mark Hatle <mark.hatle@windriver.com> wrote:
-> On 7/31/12 1:14 PM, Stuart Yoder wrote:
->>
->> We are doing some work with LXC (containers) and one of the templates
->> is for busybox.  For LXC, the busybox package needs to be built statically
->> and
->> there is a config option for this.
->>
->> A couple possible approaches:
->>
->>     -create a new 'busybox_static' recipe that the lxc package
->>      depends on that turns on the needed build options.   Pretty
->>      straightforward, but now there are 2 variants of the busybox
->>      package.
->>
->>     -somehow propagate some configuration options through to
->>      the standard busybox recipe so it turns on the config
->>      option to build things statically.   Not sure how to
->>      do this, and seems like it could get pretty messy.
->>
->> Any thoughts?
->
->
-> We've been talking about this as well..  I'm currently of the opinion that
-> the kernel's config fragement processing be added to busybox.  This way
-> someone can simply add a configuration fragment via a bbappend, or other
-> approach and it'll pick it up.   That same can be used to specify how to
-> enable other optional pieces of busybox.
+This fixes isses on distro that have perl in /bin/perl instead
+of /usr/bin/perl such as Fedora 17
 
-merge_config.pl can be yanked out of the kernel source tree (it's upstream) and
-packaged as something for use by busy box.
+Signed-off-by: Matthew McClintock <msm@freescale.com>
+---
+ .../foomatic/foomatic-filters_4.0.16.bb            |    9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-I wouldn't recommend all the scaffolding that the kernel has (it's
-overkill, since
-there are more configs, patches and git manipulations in play for the
-kernel), but a\
-simple scheme to collect the fragments from the SRC_URI and fire them through
-merge_config.pl would be a pretty simple python routine.
-
-Cheers,
-
-Bruce
-
->
-> --Mark
->
->
->> Thanks,
->> Stuart Yoder
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->>
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-
-
-
+diff --git a/meta/recipes-extended/foomatic/foomatic-filters_4.0.16.bb b/meta/recipes-extended/foomatic/foomatic-filters_4.0.16.bb
+index 5f145b0..d5ae4c7 100644
+--- a/meta/recipes-extended/foomatic/foomatic-filters_4.0.16.bb
++++ b/meta/recipes-extended/foomatic/foomatic-filters_4.0.16.bb
+@@ -10,7 +10,7 @@ format using a printer-specific, but spooler-independent PPD file. \
+ "
+ 
+ DEPENDS += "cups perl libxml2"
+-PR = "r0"
++PR = "r1"
+ 
+ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://${WORKDIR}/foomatic-filters-${PV}/COPYING;md5=393a5ca445f6965873eca0259a17f833"
+@@ -31,6 +31,13 @@ do_configure_prepend() {
+     export CUPS_PPDS=${datadir}/cups/model
+ }
+ 
++PERLPATH = "${bindir}/env perl"
++PERLPATH_virtclass-nativesdk = "/usr/bin/env perl"
++
++do_install_append() {
++    sed -i -e '1s,#!.*perl,#! ${PERLPATH},' ${D}${libdir}/cups/backend/beh
++}
++
+ do_install_append_linuxstdbase() {
+     install -d ${D}${exec_prefix}/lib/cups/filter
+     ln -sf ${bindir}/foomatic-rip ${D}${exec_prefix}/lib/cups/filter
 -- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+1.7.9.7
+
+
 
 
