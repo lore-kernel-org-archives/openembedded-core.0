@@ -1,41 +1,41 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1SwbAC-0001pv-K0
+	(envelope-from <ross.burton@intel.com>) id 1SwbAF-0001q3-7q
 	for openembedded-core@lists.openembedded.org;
-	Wed, 01 Aug 2012 17:48:44 +0200
-Received: from mail-wi0-f172.google.com ([209.85.212.172])
-	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 01 Aug 2012 08:37:06 -0700
-Received: by mail-wi0-f172.google.com with SMTP id hm11so3229024wib.13
+	Wed, 01 Aug 2012 17:48:47 +0200
+Received: from mail-we0-f180.google.com ([74.125.82.180])
+	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 01 Aug 2012 08:37:05 -0700
+Received: by weyt11 with SMTP id t11so4667579wey.25
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 01 Aug 2012 08:37:06 -0700 (PDT)
+	Wed, 01 Aug 2012 08:37:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
 	:in-reply-to:references:x-gm-message-state;
-	bh=1CmflVSl1Duxq25+2oBg/C6KiYcb3jhbBBuecU7ZwzE=;
-	b=IngWbqNOw85B8bunK5kQRc1WQ7K02W+9D5AmF4rLzGrbLfcbYbWP8S6890tHcFdKio
-	0+oTesefiCiDg/g9Jd6XDR1OPnqy1/HsGjac/mSJ/JRtqm0vLQHEitb2qbR4nlex4SQT
-	hsF2sIMAia+xIcAeABmK+ImDweUOylaEswxEYOZJhfkXbjDlJrPIr0kPNOAlrmx2GZfF
-	JIEvssqZDpBrOUGI+3pM8h/S8Ozq/r3ix/XcXwWJLP1BvH1ZfQMXR/Vk/SX5qKB5uEMf
-	hplTC3x44YU+NNu/V1652mAh6krXWil7M53PZvrERyiUDZLGP8a1aSzQ0JLSLSPfqII0
-	Zbug==
-Received: by 10.216.158.212 with SMTP id q62mr8531074wek.53.1343835426338;
-	Wed, 01 Aug 2012 08:37:06 -0700 (PDT)
+	bh=IB0dTAThzgbHLaj5TNpNOaxuRZPY+GG0/5AWRbc78K8=;
+	b=ENdq34nAB7COR/NOMzgRA5d+NFeSI8EWSU/Y5tWOCwTBEHQqaXQ2GJciG0mm63p/Lx
+	BP5OYFiXsDjBSQ96HKWR5QOHasm7NwZMbPirBFMFvzNIXL83BekbNYot43Rff+xzRfr6
+	Ps5Z8yDwTdSrRU9qJ83LQxNjM4gbNmLJEURxFSOu9PMvz2SheD49gFJ82OXEQMB0+jtn
+	9ufWc+2bSTBtpB8QtcP88DlBMpxTX9sPm9qHst5xUUH6ixLGYLv1W9ygRPiJ3Zb0QYbT
+	bVeXSMilp+WCkhWcdnwDzm9hpyqY7/HSLFmSmfqukCkmTfFQbU59h0kWUo/268seqal9
+	mKMQ==
+Received: by 10.180.105.163 with SMTP id gn3mr17524917wib.2.1343835423674;
+	Wed, 01 Aug 2012 08:37:03 -0700 (PDT)
 Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id z11sm9489001wiv.10.2012.08.01.08.37.05
+	by mx.google.com with ESMTPS id z11sm9489001wiv.10.2012.08.01.08.37.02
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 01 Aug 2012 08:37:05 -0700 (PDT)
+	Wed, 01 Aug 2012 08:37:03 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  1 Aug 2012 16:36:30 +0100
-Message-Id: <2e9e94ce0c1fab3d42d1ed3b0d4c1ee3832bdfee.1343835237.git.ross.burton@intel.com>
+Date: Wed,  1 Aug 2012 16:36:28 +0100
+Message-Id: <27f388953b2883eb4a2159af8494e51f2b90a2d9.1343835237.git.ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10
 In-Reply-To: <cover.1343835237.git.ross.burton@intel.com>
 References: <cover.1343835237.git.ross.burton@intel.com>
 In-Reply-To: <cover.1343835237.git.ross.burton@intel.com>
 References: <cover.1343835237.git.ross.burton@intel.com>
-X-Gm-Message-State: ALoCoQm8yR8gE+gh1iNipZHd78y3mgPoE5uQwycDELqtRejUHMppdOPcQYMMa+QuwtdCzcjX8Y6Z
-Subject: [PATCH 03/11] mesa: add --enable-shared-glapi, and package it in libglapi
+X-Gm-Message-State: ALoCoQm0RvY85boE3quakAdYaPTB33jwsBbZdwQ2QnA6HAoTILkzQGkueH7dNZI0ZtOIDf5qDHHT
+Subject: [PATCH 01/11] mesa: format the packages list nicely
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,58 +50,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Aug 2012 15:48:44 -0000
+X-List-Received-Date: Wed, 01 Aug 2012 15:48:47 -0000
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-graphics/mesa/mesa-common.inc |    9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ meta/recipes-graphics/mesa/mesa-common.inc |    7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
 diff --git a/meta/recipes-graphics/mesa/mesa-common.inc b/meta/recipes-graphics/mesa/mesa-common.inc
-index 4aa7f5f..509b021 100644
+index 120a256..2385f9d 100644
 --- a/meta/recipes-graphics/mesa/mesa-common.inc
 +++ b/meta/recipes-graphics/mesa/mesa-common.inc
-@@ -12,7 +12,7 @@ SECTION = "x11"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://docs/license.html;md5=7a3373c039b6b925c427755a4f779c1d"
+@@ -39,7 +39,12 @@ EXCLUDE_FROM_WORLD = "1"
+ # ie mesa-dri could be empty and mesa-dri-dev RDEPENDS on it
+ ALLOW_EMPTY_${PN} = "1"
  
--INC_PR = "r16"
-+INC_PR = "r17"
- PE = "2"
- 
- 
-@@ -31,7 +31,8 @@ inherit autotools pkgconfig pythonnative
- EXTRA_OECONF = "--enable-glu \
-                 --disable-glw \
-                 --disable-glut \
--                --enable-glx-tls"
-+                --enable-glx-tls \
-+                --enable-shared-glapi"
- 
- # Multiple virtual/gl providers being built breaks staging
- EXCLUDE_FROM_WORLD = "1"
-@@ -43,17 +44,21 @@ PACKAGES =+ "libegl libegl-dev libegl-dbg \
-              libglu libglu-dev \
-              libosmesa libosmesa-dev \
-              libgl libgl-dev \
-+             libglapi libglapi-dev libglapi-dbg\
-             "
- 
+-PACKAGES =+ "libegl libegl-dev libegl-dbg libglu libglu-dev libosmesa libosmesa-dev libgl libgl-dev"
++PACKAGES =+ "libegl libegl-dev libegl-dbg \
++             libglu libglu-dev \
++             libosmesa libosmesa-dev \
++             libgl libgl-dev \
++            "
++
  FILES_libegl = "${libdir}/libEGL.so.* ${libdir}/egl/*.so"
  FILES_libgl = "${libdir}/libGL.so.*"
-+FILES_libglapi = "${libdir}/libglapi.so.*"
  FILES_libglu = "${libdir}/libGLU.so.*"
- FILES_libosmesa = "${libdir}/libOSMesa.so.*"
- 
- FILES_libegl-dev = "${libdir}/libEGL.* ${includedir}/EGL"
- FILES_libgl-dev = "${libdir}/libGL.* ${includedir}/GL ${libdir}/pkgconfig/gl.pc"
-+FILES_libglapi-dev = "${libdir}/libglapi.*"
- FILES_libglu-dev = "${libdir}/libGLU.* ${includedir}/GL/glu*.h ${libdir}/pkgconfig/glu.pc"
- FILES_libosmesa-dev = "${libdir}/libOSMesa.* ${includedir}/osmesa.h"
- 
- FILES_${PN}-dbg += "${libdir}/dri/.debug/*"
- FILES_libegl-dbg += "${libdir}/egl/.debug/*"
-+FILES_libglapi-dbg += "${libdir}/.debug/libglapi*"
 -- 
 1.7.10
 
