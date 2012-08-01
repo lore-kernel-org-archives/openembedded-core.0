@@ -1,28 +1,42 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1SwarB-0001U8-7U
+	(envelope-from <ross.burton@intel.com>) id 1SwarD-0001U9-9X
 	for openembedded-core@lists.openembedded.org;
-	Wed, 01 Aug 2012 17:29:05 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q71FHQvR019958
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 01 Aug 2012 17:29:07 +0200
+Received: from mail-ob0-f180.google.com ([209.85.214.180])
+	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 01 Aug 2012 08:17:27 -0700
+Received: by obbuo19 with SMTP id uo19so10591494obb.25
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 1 Aug 2012 08:17:26 -0700 (PDT)
-Received: from Marks-MacBook-Pro.local (172.25.34.39) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.309.2; Wed, 1 Aug 2012 08:17:26 -0700
-Message-ID: <50194886.8010206@windriver.com>
-Date: Wed, 1 Aug 2012 10:17:26 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
-	rv:14.0) Gecko/20120713 Thunderbird/14.0
+	Wed, 01 Aug 2012 08:17:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type:x-gm-message-state;
+	bh=leipIzEZAI2CW1JaN5L15MpKCHG3NXVcJew+5MNsE6U=;
+	b=JWGmFM/viyO0TZYTSJln+GuTcMoDRx+Kh+5npkVdI1YQsH1NOI/m6Ibk0uiXliiJwr
+	WnmXCWaAcrksIibXG06DfDCHUqftXry59x0mwe5PWE7g3UrD8PhrfzUPodNpO8TDoGkE
+	qAgjSZXqngfo0WtJg/r5ZROQZPA3JAfMpabUVVhRVCOUTTuVWg5iXT2dFoYcKOWPFWhA
+	G7sazd1nfYGZT97AGK//vkZdpmJGg4d+AS9jFc8X5dt2iZUiCUnMKuWSMC7aUpdBx31x
+	zu4uw9HIAWkjizHgPTNXhQkCJyjqQKdAqUCsGH9S/Ixfco3U1n0Zdf4tVNDNoVzlEgsl
+	q6bA==
+Received: by 10.182.207.39 with SMTP id lt7mr29936161obc.67.1343834246877;
+	Wed, 01 Aug 2012 08:17:26 -0700 (PDT)
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1343830340-25351-1-git-send-email-morgan.little@windriver.com>
-	<1343830340-25351-13-git-send-email-morgan.little@windriver.com>
-In-Reply-To: <1343830340-25351-13-git-send-email-morgan.little@windriver.com>
-Subject: Re: [PATCH 12/19] which: use new update-alternatives
+Received: by 10.182.43.99 with HTTP; Wed, 1 Aug 2012 08:17:06 -0700 (PDT)
+In-Reply-To: <6D85FA88-63A9-4673-B10A-CCF4063407D0@dominion.thruhere.net>
+References: <cover.1343823907.git.ross.burton@intel.com>
+	<40FAF05B-A7A4-45DF-8BA7-872A97FDF157@dominion.thruhere.net>
+	<CAJTo0LbVvVqDSPpUs36JTROeq6fWendJwaVQDataN_nD6O=+Ew@mail.gmail.com>
+	<17FC0BB5-80B8-4AB8-A3E8-57261EB7D561@dominion.thruhere.net>
+	<CAJTo0LaJ9mM_yyU+ZYoDACig5E30qBaPU+Y5BDTrrA1bOdK78A@mail.gmail.com>
+	<6D85FA88-63A9-4673-B10A-CCF4063407D0@dominion.thruhere.net>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 1 Aug 2012 16:17:06 +0100
+Message-ID: <CAJTo0LbwhsTKL+A0SbQTn8K4kwNmZx5z+V2qdD_u8RS8ubhJaw@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Gm-Message-State: ALoCoQlvMjilniqWRV0UWkgdrC/la8u/NC8NU67YepjldzAffjaymD2KkHXmL7O60a72Krz/tIP/
+Subject: Re: [PATCH 00/12] Mesa upgrade/improvements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,71 +51,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Aug 2012 15:29:05 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 01 Aug 2012 15:29:07 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 8/1/12 9:12 AM, Morgan Little wrote:
->
-> Signed-off-by: Morgan Little <morgan.little@windriver.com>
-> ---
->   meta/recipes-extended/which/which_2.18.bb |    6 +++---
->   meta/recipes-extended/which/which_2.20.bb |    6 +++---
->   2 files changed, 6 insertions(+), 6 deletions(-)
->
-> diff --git a/meta/recipes-extended/which/which_2.18.bb b/meta/recipes-extended/which/which_2.18.bb
-> index d54e776..db2d7dc 100644
-> --- a/meta/recipes-extended/which/which_2.18.bb
-> +++ b/meta/recipes-extended/which/which_2.18.bb
-> @@ -9,7 +9,7 @@
->   BUGTRACKER = "n/a"
->   LICENSE = "GPLv2+"
->   LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
->
-> -PR = "r1"
-> +PR = "r2"
->
->   SRC_URI = "http://www.xs4all.nl/~carlo17/which/which-${PV}.tar.gz \
->              file://fix_name_conflict_group_member.patch"
-> @@ -30,7 +30,7 @@
->   do_install_append() {
->   	mv ${D}/${bindir}/which ${D}/${bindir}/which.${BPN}
->   }
->
-> -ALTERNATIVE_NAME = "which"
-> -ALTERNATIVE_PATH = "which.${BPN}"
-> +ALTERNATIVE_${PN} = "which"
-> +ALTERNATIVE_TARGET[which] = "${bindir}/which.${BPN}"
->   ALTERNATIVE_PRIORITY = "100"
->
-> diff --git a/meta/recipes-extended/which/which_2.20.bb b/meta/recipes-extended/which/which_2.20.bb
-> index 9b43943..21b4bec 100644
-> --- a/meta/recipes-extended/which/which_2.20.bb
-> +++ b/meta/recipes-extended/which/which_2.20.bb
-> @@ -8,7 +8,7 @@
->   DEPENDS     = "cwautomacros-native"
->
->   inherit autotools update-alternatives
->
-> -PR = "r2"
-> +PR = "r3"
->
->   EXTRA_OECONF = "--disable-iberty"
->
-> @@ -27,6 +27,6 @@
->   do_install() {
->   	mv ${D}${bindir}/which ${D}${bindir}/which.${BPN}
->   }
->
-> -ALTERNATIVE_NAME = "which"
-> -ALTERNATIVE_PATH = "which.${BPN}"
-> +ALTERNATIVE_${PN} = "which"
-> +ALTERNATIVE_TARGET[which] = "${bindir}/which.${BPN}"
->   ALTERNATIVE_PRIORITY = "100"
->
+On 1 August 2012 15:54, Koen Kooi <koen@dominion.thruhere.net> wrote:
+> That won't work with debian renaming and shlib will pick up both anyway. You can only have one libegl.so *ever* during the build.
 
-Remove the mv in do_install, and the ALTERNATIVE_TARGET[which] is no longer needed.
+In Debian the packages are renamed libgles2-mesa, and so on...
 
---Mark
+Ross
 
 
