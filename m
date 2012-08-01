@@ -1,38 +1,27 @@
 Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1SwZMi-0006km-WF
+	(envelope-from <radu.moisan@intel.com>) id 1SwZRM-0006u3-NE
 	for openembedded-core@lists.openembedded.org;
-	Wed, 01 Aug 2012 15:53:33 +0200
-Received: from mail-ob0-f180.google.com ([209.85.214.180])
-	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 01 Aug 2012 06:41:53 -0700
-Received: by obbuo19 with SMTP id uo19so10498168obb.25
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 01 Aug 2012 06:41:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type:content-transfer-encoding:x-gm-message-state;
-	bh=tcbAYUkx7tfwI58CYwBwZBcB4F05yel0xr+m7rI0MJo=;
-	b=b3R9Xa08ZC3hkTfmCe7fIQTrp2gTqfAuwbBBRlP+B48cqhZgF6ITvtogYZ/U7Dmfb+
-	hK6nH22vbO8Ck8JzOk+LaE2CWS8Nw9Asg10N9TxwZiuoueUUny+ATBju52tuJR3q2rfD
-	CyLIDq0oYkKz89X3hSmol5UGloAODjESvgXkKmwtmJ7BGfv1XOOCq2gV0z4Y7s4LBLo5
-	1q2QVOyydWh6zAs7Nv1hXsEVsvNq5o5g0GCHZg2USGMS/ybpuNbNVe7MmEToV6+ZsckH
-	3twBV8E/elm6ZqJoehKMD/bG44bWBJoC9zPbVrLpDv0peyE5Sb/Z3bsdw8PMTon2Hbau
-	0Ddg==
-Received: by 10.182.131.73 with SMTP id ok9mr28993117obb.19.1343828512675;
-	Wed, 01 Aug 2012 06:41:52 -0700 (PDT)
+	Wed, 01 Aug 2012 15:58:21 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 01 Aug 2012 06:46:40 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; 
+	d="scan'208,217";a="174085368"
+Received: from dell-desktop (HELO [10.237.105.32]) ([10.237.105.32])
+	by orsmga001.jf.intel.com with ESMTP; 01 Aug 2012 06:46:39 -0700
+Message-ID: <501933A9.108@intel.com>
+Date: Wed, 01 Aug 2012 16:48:25 +0300
+From: Radu Moisan <radu.moisan@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:14.0) Gecko/20120714 Thunderbird/14.0
 MIME-Version: 1.0
-Received: by 10.182.43.99 with HTTP; Wed, 1 Aug 2012 06:41:32 -0700 (PDT)
-In-Reply-To: <40FAF05B-A7A4-45DF-8BA7-872A97FDF157@dominion.thruhere.net>
-References: <cover.1343823907.git.ross.burton@intel.com>
-	<40FAF05B-A7A4-45DF-8BA7-872A97FDF157@dominion.thruhere.net>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 1 Aug 2012 14:41:32 +0100
-Message-ID: <CAJTo0LbVvVqDSPpUs36JTROeq6fWendJwaVQDataN_nD6O=+Ew@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Gm-Message-State: ALoCoQl5xgVlI9WS8i28B421OcRATG8EkXusGNoki0zzzpWvRIC/+TPh/AIw6Z3qiSBdH2BoqGFT
-Subject: Re: [PATCH 00/12] Mesa upgrade/improvements
+References: <1343821320-21727-1-git-send-email-radu.moisan@intel.com>
+	<20120801114409.GB16306@jama.jama.net>
+In-Reply-To: <20120801114409.GB16306@jama.jama.net>
+Subject: Re: [PATCH] liburcu: Upgrade to upstream 0.7.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,22 +36,148 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Aug 2012 13:53:33 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 01 Aug 2012 13:58:21 -0000
+Content-Type: multipart/alternative;
+	boundary="------------000706070704090608010208"
 
-On 1 August 2012 14:32, Koen Kooi <koen@dominion.thruhere.net> wrote:
-> That will sadly break all the powervr based evil binaries (e.g. all corte=
-x arm chips from TI) since there will be 2 providers of those libs. I looke=
-d at this a few years ago (when mesa gained libegl) and I couldn't come up =
-with a  solution other than "don't build it" :( That solution also breaks a=
- number of usecases but back then I had the liberty to not care about those=
-.
-> Does anyone have suggestions on how to handle this?
+--------------000706070704090608010208
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Rename the mesa ones to libegl-mesa (etc), and encourage TI to use libegl-t=
-i?
+just realised I had two patches in my tree, that's why I missed the 
+checksum.
+I'll fix that in a bit.
 
-Ross
+Radu
+
+On 08/01/2012 02:44 PM, Martin Jansa wrote:
+> On Wed, Aug 01, 2012 at 02:42:00PM +0300, Radu Moisan wrote:
+>> LICENSE file has data changed.
+> Without any change in package (tarball checksums)?
+>
+> This is follow up to:
+> http://lists.linuxtogo.org/pipermail/openembedded-core/2012-July/025034.html
+> right?
+>
+> Because this change alone doesn't make much sense.
+>
+> Cheers,
+>
+>> Signed-off-by: Radu Moisan <radu.moisan@intel.com>
+>> ---
+>>   meta/recipes-support/liburcu/liburcu_0.7.3.bb |    2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/meta/recipes-support/liburcu/liburcu_0.7.3.bb b/meta/recipes-support/liburcu/liburcu_0.7.3.bb
+>> index a28c3e6..86f29be 100644
+>> --- a/meta/recipes-support/liburcu/liburcu_0.7.3.bb
+>> +++ b/meta/recipes-support/liburcu/liburcu_0.7.3.bb
+>> @@ -3,7 +3,7 @@ HOMEPAGE = "http://lttng.org/urcu"
+>>   BUGTRACKER = "http://lttng.org/project/issues"
+>>   
+>>   LICENSE = "LGPLv2.1+ & MIT-style"
+>> -LIC_FILES_CHKSUM = "file://LICENSE;md5=b472dc110d38774921e1d5ccb0065fff \
+>> +LIC_FILES_CHKSUM = "file://LICENSE;md5=95dfea59eeaa41a4057faa07a58f5f89 \
+>>                       file://urcu.h;beginline=4;endline=32;md5=4de0d68d3a997643715036d2209ae1d9 \
+>>                       file://urcu/uatomic/x86.h;beginline=4;endline=21;md5=220552f72c55b102f2ee35929734ef42"
+>>   
+>> -- 
+>> 1.7.9.5
+>>
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
+--------------000706070704090608010208
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
+
+<html>
+  <head>
+    <meta content="text/html; charset=ISO-8859-1"
+      http-equiv="Content-Type">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    just realised I had two patches in my tree, that's why I missed the
+    checksum.<br>
+    I'll fix that in a bit.<br>
+    <br>
+    Radu<br>
+    <br>
+    <div class="moz-cite-prefix">On 08/01/2012 02:44 PM, Martin Jansa
+      wrote:<br>
+    </div>
+    <blockquote cite="mid:20120801114409.GB16306@jama.jama.net"
+      type="cite">
+      <pre wrap="">On Wed, Aug 01, 2012 at 02:42:00PM +0300, Radu Moisan wrote:
+</pre>
+      <blockquote type="cite">
+        <pre wrap="">LICENSE file has data changed.
+</pre>
+      </blockquote>
+      <pre wrap="">
+Without any change in package (tarball checksums)?
+
+This is follow up to:
+<a class="moz-txt-link-freetext" href="http://lists.linuxtogo.org/pipermail/openembedded-core/2012-July/025034.html">http://lists.linuxtogo.org/pipermail/openembedded-core/2012-July/025034.html</a>
+right?
+
+Because this change alone doesn't make much sense.
+
+Cheers,
+
+</pre>
+      <blockquote type="cite">
+        <pre wrap="">Signed-off-by: Radu Moisan <a class="moz-txt-link-rfc2396E" href="mailto:radu.moisan@intel.com">&lt;radu.moisan@intel.com&gt;</a>
+---
+ meta/recipes-support/liburcu/liburcu_0.7.3.bb |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/recipes-support/liburcu/liburcu_0.7.3.bb b/meta/recipes-support/liburcu/liburcu_0.7.3.bb
+index a28c3e6..86f29be 100644
+--- a/meta/recipes-support/liburcu/liburcu_0.7.3.bb
++++ b/meta/recipes-support/liburcu/liburcu_0.7.3.bb
+@@ -3,7 +3,7 @@ HOMEPAGE = <a class="moz-txt-link-rfc2396E" href="http://lttng.org/urcu">"http://lttng.org/urcu"</a>
+ BUGTRACKER = <a class="moz-txt-link-rfc2396E" href="http://lttng.org/project/issues">"http://lttng.org/project/issues"</a>
+ 
+ LICENSE = "LGPLv2.1+ &amp; MIT-style"
+-LIC_FILES_CHKSUM = <a class="moz-txt-link-rfc2396E" href="file://LICENSE;md5=b472dc110d38774921e1d5ccb0065fff\+LIC_FILES_CHKSUM=">"file://LICENSE;md5=b472dc110d38774921e1d5ccb0065fff \
++LIC_FILES_CHKSUM = "</a<a class="moz-txt-link-rfc2396E" href="file://LICENSE;md5=95dfea59eeaa41a4057faa07a58f5f89\file://urcu.h;beginline=4;endline=32;md5=4de0d68d3a997643715036d2209ae1d9\file://urcu/uatomic/x86.h;beginline=4;endline=21;md5=220552f72c55b102f2ee35929734ef42">"file://LICENSE;md5=95dfea59eeaa41a4057faa07a58f5f89 \
+                     file://urcu.h;beginline=4;endline=32;md5=4de0d68d3a997643715036d2209ae1d9 \
+                     file://urcu/uatomic/x86.h;beginline=4;endline=21;md5=220552f72c55b102f2ee35929734ef42"</a>
+ 
+-- 
+1.7.9.5
+
+
+_______________________________________________
+Openembedded-core mailing list
+<a class="moz-txt-link-abbreviated" href="mailto:Openembedded-core@lists.openembedded.org">Openembedded-core@lists.openembedded.org</a>
+<a class="moz-txt-link-freetext" href="http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core">http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core</a>
+</pre>
+      </blockquote>
+      <pre wrap="">
+</pre>
+      <br>
+      <fieldset class="mimeAttachmentHeader"></fieldset>
+      <br>
+      <pre wrap="">_______________________________________________
+Openembedded-core mailing list
+<a class="moz-txt-link-abbreviated" href="mailto:Openembedded-core@lists.openembedded.org">Openembedded-core@lists.openembedded.org</a>
+<a class="moz-txt-link-freetext" href="http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core">http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core</a>
+</pre>
+    </blockquote>
+    <br>
+  </body>
+</html>
+
+--------------000706070704090608010208--
