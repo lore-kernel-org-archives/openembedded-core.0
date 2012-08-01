@@ -1,34 +1,28 @@
-Received: from mail-vc0-f175.google.com ([209.85.220.175])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <b08248@gmail.com>) id 1Swbr9-0007tN-Fe
+	(envelope-from <dvhart@linux.intel.com>) id 1SwbvF-0007xr-KU
 	for openembedded-core@lists.openembedded.org;
-	Wed, 01 Aug 2012 18:33:07 +0200
-Received: by vcbfy27 with SMTP id fy27so6730801vcb.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 01 Aug 2012 09:21:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type; bh=2tPXd+foBfLbHItrVpdsYjV7oRWE3kx46fiYi7RKivU=;
-	b=adS4T398JwXp/Sh5CKc+65ejHbm0kVM6calu7D5H3BdYWazrWreFqgC2gM3DaparIx
-	ofYLvK6Dkq8aUygLHEh8NI9ANM5mDXd0fM6NLtWm6GRvCepWJ1ef9nAkiy8xLDJeWQyH
-	k5KMp2rQNxCeQN8ywKT22Pu5esCn+T8UZJvV1gtMcgKQnJMAQA2crG2N6IjZFCalRY3m
-	fkgeoC6P8ogTxk1roG0o/3WptFp83d18aMtoZPP3bnsThjpTcnwDJN2gpvQ8HJ7AdN03
-	Gm0F8OkDIh2ix0F61fka9LMBqMGKv9Gp2tOZXImDPGr4Oy1fNsJdxp59/Wj/2RCHF070
-	CFjQ==
+	Wed, 01 Aug 2012 18:37:22 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 01 Aug 2012 09:25:30 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="129281932"
+Received: from unknown (HELO envy.home) ([10.255.13.51])
+	by AZSMGA002.ch.intel.com with ESMTP; 01 Aug 2012 09:25:30 -0700
+Message-ID: <5019580E.4070906@linux.intel.com>
+Date: Wed, 01 Aug 2012 09:23:42 -0700
+From: Darren Hart <dvhart@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:14.0) Gecko/20120717 Thunderbird/14.0
 MIME-Version: 1.0
-Received: by 10.220.150.16 with SMTP id w16mr17278031vcv.65.1343838088619;
-	Wed, 01 Aug 2012 09:21:28 -0700 (PDT)
-Received: by 10.58.231.106 with HTTP; Wed, 1 Aug 2012 09:21:28 -0700 (PDT)
-In-Reply-To: <CADkTA4N_mFVkWx7G=E8BoCDYktkNXxO-zLrw_r9e0sO-wE5FjQ@mail.gmail.com>
-References: <CALRxmdDhE8GQPYde27786kKU35p4dRrTmaGbmauVDxTrMQ6N6Q@mail.gmail.com>
-	<50183924.8010309@windriver.com>
-	<CADkTA4N_mFVkWx7G=E8BoCDYktkNXxO-zLrw_r9e0sO-wE5FjQ@mail.gmail.com>
-Date: Wed, 1 Aug 2012 11:21:28 -0500
-Message-ID: <CALRxmdDzaizHQ8m1NFRp2-Ucn9Pm6vZJX=pTTdZ5aLx-61OUzw@mail.gmail.com>
-From: Stuart Yoder <b08248@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: static busybox?
+References: <1343697966-29777-1-git-send-email-Martin.Jansa@gmail.com>
+	<1343732826.9526.1.camel@ted> <20120731111002.GR3261@jama.jama.net>
+In-Reply-To: <20120731111002.GR3261@jama.jama.net>
+X-Enigmail-Version: 1.4.3
+Cc: Martin Jansa <martin.jansa@gmail.com>
+Subject: Re: [RFC] gdb-cross: add pythonnative
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,56 +37,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Aug 2012 16:33:07 -0000
+X-List-Received-Date: Wed, 01 Aug 2012 16:37:22 -0000
 Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jul 31, 2012 at 3:07 PM, Bruce Ashfield
-<bruce.ashfield@gmail.com> wrote:
-> On Tue, Jul 31, 2012 at 3:59 PM, Mark Hatle <mark.hatle@windriver.com> wrote:
->> On 7/31/12 1:14 PM, Stuart Yoder wrote:
+
+
+On 07/31/2012 04:10 AM, Martin Jansa wrote:
+> On Tue, Jul 31, 2012 at 12:07:06PM +0100, Richard Purdie wrote:
+>> On Tue, 2012-07-31 at 03:26 +0200, Martin Jansa wrote:
+>>> * fails like this without:
+>>> | gcc -isystem/OE/shr-core/tmp-eglibc/sysroots/x86_64-linux/usr/include -O2 -pipe   -L/OE/shr-core/tmp-eglibc/sysroots/x86_64-linux/usr/lib -L/OE/shr-core/tmp-eglibc/sysroo
+>>> ts/x86_64-linux/lib -Wl,-rpath-link,/OE/shr-core/tmp-eglibc/sysroots/x86_64-linux/usr/lib -Wl,-rpath-link,/OE/shr-core/tmp-eglibc/sysroots/x86_64-linux/lib -Wl,-rpath,/OE/shr-core/tmp-eglibc/sysroots/x86_64-linux/usr/lib -Wl,-rpath,/OE/shr-core/tmp-eglibc/sysroots/x86_64-linux/lib -Wl,-O1   \
+>>> |       -o gdb gdb.o libgdb.a \
+>>> |          -lreadline ../opcodes/libopcodes.a ../bfd/libbfd.a  ../libiberty/libiberty.a ../libdecnumber/libdecnumber.a    -ldl -lncurses -lz -lm    -lpthread -ldl -lutil -lm -lpython2.7 -Xlinker -export-dynamic /OE/shr-core/tmp-eglibc/sysroots/x86_64-linux/usr/lib/libexpat.so -Wl,-rpath -Wl,/OE/shr-core/tmp-eglibc/sysroots/x86_64-linux/usr/lib ../libiberty/libiberty.a  gnulib/libgnu.a
+>>> | libgdb.a(python.o): In function `gdbpy_target_wide_charset':
+>>> | python.c:(.text+0x1e7): undefined reference to `PyUnicodeUCS4_Decode'
+>>> | libgdb.a(python.o): In function `gdbpy_target_charset':
+>>> | python.c:(.text+0x237): undefined reference to `PyUnicodeUCS4_Decode'
+>>> | libgdb.a(py-cmd.o): In function `cmdpy_completer':
+>>> | py-cmd.c:(.text+0x97): undefined reference to `PyUnicodeUCS4_Decode'
+>>> | py-cmd.c:(.text+0xc3): undefined reference to `PyUnicodeUCS4_Decode'
+>>> | libgdb.a(py-cmd.o): In function `cmdpy_function':
+>>> | py-cmd.c:(.text+0x39d): undefined reference to `PyUnicodeUCS4_Decode'
+>>> | libgdb.a(py-frame.o):py-frame.c:(.text+0xa21): more undefined references to `PyUnicodeUCS4_Decode' follow
+>>> | libgdb.a(py-utils.o): In function `unicode_to_encoded_string':
+>>> | py-utils.c:(.text+0x8): undefined reference to `PyUnicodeUCS4_AsEncodedString'
+>>> | libgdb.a(py-utils.o): In function `python_string_to_unicode':
+>>> | py-utils.c:(.text+0xc6): undefined reference to `PyUnicodeUCS4_FromEncodedObject'
+>>> | libgdb.a(py-utils.o): In function `unicode_to_target_python_string':
+>>> | py-utils.c:(.text+0x13a): undefined reference to `PyUnicodeUCS4_AsEncodedString'
+>>> | libgdb.a(py-utils.o): In function `target_string_to_unicode':
+>>> | py-utils.c:(.text+0x2a5): undefined reference to `PyUnicodeUCS4_Decode'
+>>> | libgdb.a(py-value.o): In function `valpy_string':
+>>> | py-value.c:(.text+0x4ac): undefined reference to `PyUnicodeUCS4_Decode'
+>>> | libgdb.a(py-value.o): In function `valpy_str':
+>>> | py-value.c:(.text+0xab4): undefined reference to `PyUnicodeUCS4_Decode'
+>>> | collect2: error: ld returned 1 exit status
+>>> | make[2]: *** [gdb] Error 1
+>>> | make[2]: Leaving directory `/OE/shr-core/tmp-eglibc/work/armv4t-oe-linux-gnueabi/gdb-cross-7.4.1-r1.0/build-arm-oe-linux-gnueabi/gdb'
+>>> | make[1]: *** [all-gdb] Error 2
 >>>
->>> We are doing some work with LXC (containers) and one of the templates
->>> is for busybox.  For LXC, the busybox package needs to be built statically
->>> and
->>> there is a config option for this.
->>>
->>> A couple possible approaches:
->>>
->>>     -create a new 'busybox_static' recipe that the lxc package
->>>      depends on that turns on the needed build options.   Pretty
->>>      straightforward, but now there are 2 variants of the busybox
->>>      package.
->>>
->>>     -somehow propagate some configuration options through to
->>>      the standard busybox recipe so it turns on the config
->>>      option to build things statically.   Not sure how to
->>>      do this, and seems like it could get pretty messy.
->>>
->>> Any thoughts?
+>>> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+>>> ---
+>>>  meta/recipes-devtools/gdb/gdb-cross_7.4.1.bb |    2 ++
+>>>  1 files changed, 2 insertions(+), 0 deletions(-)
 >>
->>
->> We've been talking about this as well..  I'm currently of the opinion that
->> the kernel's config fragement processing be added to busybox.  This way
->> someone can simply add a configuration fragment via a bbappend, or other
->> approach and it'll pick it up.   That same can be used to specify how to
->> enable other optional pieces of busybox.
->
-> merge_config.pl can be yanked out of the kernel source tree (it's upstream) and
-> packaged as something for use by busy box.
->
-> I wouldn't recommend all the scaffolding that the kernel has (it's
-> overkill, since
-> there are more configs, patches and git manipulations in play for the
-> kernel), but a\
-> simple scheme to collect the fragments from the SRC_URI and fire them through
-> merge_config.pl would be a pretty simple python routine.
+>> Is python enabled for gdb-cross in OE-Core?
+> 
+> Explicitly only in gdb-cross-canadian, so I guess gdb-cross autodetected
+> it (sorry I don't have config.log anymore).
+> 
 
-So how would this work from the user's point of view?   I somehow
-need to get busybox's CONFIG_STATIC config option set.   Does the lxc
-recipe somehow
-specify this?   Or does the lxc recipe reference a busybox-static
-dependency that sets the option?
+This resolves my gdb-cross build issue on poky-tiny. Thanks Martin.
 
-Stuart
+-- 
+Darren Hart
+Intel Open Source Technology Center
+Yocto Project - Technical Lead - Linux Kernel
 
 
