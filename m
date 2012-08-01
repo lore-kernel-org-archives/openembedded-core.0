@@ -1,44 +1,34 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from mail-vc0-f175.google.com ([209.85.220.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1SwbQy-0004ZY-1r
+	(envelope-from <b08248@gmail.com>) id 1Swbr9-0007tN-Fe
 	for openembedded-core@lists.openembedded.org;
-	Wed, 01 Aug 2012 18:06:04 +0200
-Received: by eekb57 with SMTP id b57so1644540eek.6
+	Wed, 01 Aug 2012 18:33:07 +0200
+Received: by vcbfy27 with SMTP id fy27so6730801vcb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 01 Aug 2012 08:54:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date
-	:content-transfer-encoding:message-id:references:to:x-mailer
-	:x-gm-message-state;
-	bh=aY1vRr0GwnAqmHxVSYZBFOSmO9NP98Es/rpPQuMTZLg=;
-	b=i8tWSt5xPEEYBznPtV/ryF13TfFdk+mgmIJBdXRtjfpXbm2Y07ZfYWs5/N4NsbV8b6
-	SYiqdD6HeE7iDKYjlkKUpRAPPI092S35ln3/e69EgHi32+ERpyo+oen9Purrvm9EE7vf
-	M/p8u98XHrt0KwIllLSBz0SPPzLYJ8gcEaaNBWCUY/gj8jsxONLV/wWIVMZdhi6VEZcZ
-	Rd+n7AaqXeu7IdvZZszJwXrN/lCW2p/i89RCRnwfhKdk9Hu84RQlq7IWZkTEPnzgfpAQ
-	MTA6BhOx/DWqYtHfZzK2PT/WHWRTBsfmP8DQGXvtSqHi3CObfRuqLTUjyHqkqHdi7Z/p
-	0IKA==
-Received: by 10.14.218.134 with SMTP id k6mr9545952eep.14.1343836465691;
-	Wed, 01 Aug 2012 08:54:25 -0700 (PDT)
-Received: from [172.20.0.6] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
-	by mx.google.com with ESMTPS id t6sm9939363eeo.17.2012.08.01.08.54.24
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 01 Aug 2012 08:54:24 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 6.0 \(1485\))
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <CAJTo0LZORyxNKPidzwAWaD0-2Y9ffX75gc3aH6zGKPxyz_rqzg@mail.gmail.com>
-Date: Wed, 1 Aug 2012 17:54:48 +0200
-Message-Id: <B982943D-DE7E-4C46-B2AE-564BDDDF68AA@dominion.thruhere.net>
-References: <cover.1343823907.git.ross.burton@intel.com>
-	<40FAF05B-A7A4-45DF-8BA7-872A97FDF157@dominion.thruhere.net>
-	<CAGrt=7hVBjV+3de21AEHnC9ZuTBhAO6sdnt8krt=4kMxFuvFFA@mail.gmail.com>
-	<88550BB7-DF17-4971-B7F3-EEA06C0C7A42@dominion.thruhere.net>
-	<CAJTo0LZORyxNKPidzwAWaD0-2Y9ffX75gc3aH6zGKPxyz_rqzg@mail.gmail.com>
+	Wed, 01 Aug 2012 09:21:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type; bh=2tPXd+foBfLbHItrVpdsYjV7oRWE3kx46fiYi7RKivU=;
+	b=adS4T398JwXp/Sh5CKc+65ejHbm0kVM6calu7D5H3BdYWazrWreFqgC2gM3DaparIx
+	ofYLvK6Dkq8aUygLHEh8NI9ANM5mDXd0fM6NLtWm6GRvCepWJ1ef9nAkiy8xLDJeWQyH
+	k5KMp2rQNxCeQN8ywKT22Pu5esCn+T8UZJvV1gtMcgKQnJMAQA2crG2N6IjZFCalRY3m
+	fkgeoC6P8ogTxk1roG0o/3WptFp83d18aMtoZPP3bnsThjpTcnwDJN2gpvQ8HJ7AdN03
+	Gm0F8OkDIh2ix0F61fka9LMBqMGKv9Gp2tOZXImDPGr4Oy1fNsJdxp59/Wj/2RCHF070
+	CFjQ==
+MIME-Version: 1.0
+Received: by 10.220.150.16 with SMTP id w16mr17278031vcv.65.1343838088619;
+	Wed, 01 Aug 2012 09:21:28 -0700 (PDT)
+Received: by 10.58.231.106 with HTTP; Wed, 1 Aug 2012 09:21:28 -0700 (PDT)
+In-Reply-To: <CADkTA4N_mFVkWx7G=E8BoCDYktkNXxO-zLrw_r9e0sO-wE5FjQ@mail.gmail.com>
+References: <CALRxmdDhE8GQPYde27786kKU35p4dRrTmaGbmauVDxTrMQ6N6Q@mail.gmail.com>
+	<50183924.8010309@windriver.com>
+	<CADkTA4N_mFVkWx7G=E8BoCDYktkNXxO-zLrw_r9e0sO-wE5FjQ@mail.gmail.com>
+Date: Wed, 1 Aug 2012 11:21:28 -0500
+Message-ID: <CALRxmdDzaizHQ8m1NFRp2-Ucn9Pm6vZJX=pTTdZ5aLx-61OUzw@mail.gmail.com>
+From: Stuart Yoder <b08248@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1485)
-X-Gm-Message-State: ALoCoQkWdK3gqpK54O4gKgFitCdTAbGgZjiKYd9E7XD3hJWgWFxNJqqsQswc2fXYQTv2KyRhzjn8
-Subject: Re: [PATCH 00/12] Mesa upgrade/improvements
+Subject: Re: static busybox?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -53,21 +43,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Aug 2012 16:06:04 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 01 Aug 2012 16:33:07 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
+On Tue, Jul 31, 2012 at 3:07 PM, Bruce Ashfield
+<bruce.ashfield@gmail.com> wrote:
+> On Tue, Jul 31, 2012 at 3:59 PM, Mark Hatle <mark.hatle@windriver.com> wrote:
+>> On 7/31/12 1:14 PM, Stuart Yoder wrote:
+>>>
+>>> We are doing some work with LXC (containers) and one of the templates
+>>> is for busybox.  For LXC, the busybox package needs to be built statically
+>>> and
+>>> there is a config option for this.
+>>>
+>>> A couple possible approaches:
+>>>
+>>>     -create a new 'busybox_static' recipe that the lxc package
+>>>      depends on that turns on the needed build options.   Pretty
+>>>      straightforward, but now there are 2 variants of the busybox
+>>>      package.
+>>>
+>>>     -somehow propagate some configuration options through to
+>>>      the standard busybox recipe so it turns on the config
+>>>      option to build things statically.   Not sure how to
+>>>      do this, and seems like it could get pretty messy.
+>>>
+>>> Any thoughts?
+>>
+>>
+>> We've been talking about this as well..  I'm currently of the opinion that
+>> the kernel's config fragement processing be added to busybox.  This way
+>> someone can simply add a configuration fragment via a bbappend, or other
+>> approach and it'll pick it up.   That same can be used to specify how to
+>> enable other optional pieces of busybox.
+>
+> merge_config.pl can be yanked out of the kernel source tree (it's upstream) and
+> packaged as something for use by busy box.
+>
+> I wouldn't recommend all the scaffolding that the kernel has (it's
+> overkill, since
+> there are more configs, patches and git manipulations in play for the
+> kernel), but a\
+> simple scheme to collect the fragments from the SRC_URI and fire them through
+> merge_config.pl would be a pretty simple python routine.
 
-Op 1 aug. 2012, om 16:57 heeft "Burton, Ross" <ross.burton@intel.com> =
-het volgende geschreven:
+So how would this work from the user's point of view?   I somehow
+need to get busybox's CONFIG_STATIC config option set.   Does the lxc
+recipe somehow
+specify this?   Or does the lxc recipe reference a busybox-static
+dependency that sets the option?
 
-> On 1 August 2012 15:54, Koen Kooi <koen@dominion.thruhere.net> wrote:
->> Apart from the fact that both aren't machine specific. Making them =
-machine specific would be a regression.
->=20
-> Theoretically, yes.  Practically, only one of the libegl.so (libgl,
-> etc etc) actually works on a particular machine.
-
-Yes, but a libegl.so works on a range of machines, not a single one.=20=
+Stuart
 
 
