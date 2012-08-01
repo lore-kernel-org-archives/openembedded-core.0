@@ -1,32 +1,36 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail-lb0-f175.google.com ([209.85.217.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1SwePw-0003xu-OR
+	(envelope-from <kergoth@gmail.com>) id 1SweT1-00041k-T4
 	for openembedded-core@lists.openembedded.org;
-	Wed, 01 Aug 2012 21:17:13 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q71J5XoO013213
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 01 Aug 2012 21:20:23 +0200
+Received: by lbol5 with SMTP id l5so483685lbo.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 1 Aug 2012 12:05:33 -0700 (PDT)
-Received: from Marks-MacBook-Pro.local (172.25.34.39) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.309.2; Wed, 1 Aug 2012 12:05:32 -0700
-Message-ID: <50197DFA.5070003@windriver.com>
-Date: Wed, 1 Aug 2012 14:05:30 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
-	rv:14.0) Gecko/20120713 Thunderbird/14.0
+	Wed, 01 Aug 2012 12:08:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date
+	:x-google-sender-auth:message-id:subject:to:content-type
+	:content-transfer-encoding;
+	bh=UpNFB6uY3dcUgNFdmJpMJ6frN8TbovPuGKsgBxwlNlU=;
+	b=K8T9Vjjpzx8sdmv3b3gm1rg3WNJ0NpBwv9TDll7VBa84tPlnYAXk327FI6L56ZCbcO
+	cqS3VA1nmDWufWdVNvPv3p2zB+6fsxIv+OtSmpFUDyCv5V3gGF5g2G9NNVGQ10EZXDKZ
+	ZrPaAyQ4fRXdoHhT1SwS1ACPAKAqASnXrp4GO55fEVLbXhagKUxtre9a1H2SX6mRJH+4
+	SgbyGPROkRfwz9BvY9yyKQ0Hlr5UURsCUTQu4Z9uajKW/E7uVuo0Nv/MyiQshKuus3Eh
+	F/NH/liJv7vIatlpizWlbnLB1b6jRswPvb9FAuSGTDr0PSWfESoWm64ynugUxo2yU9ZK
+	EpKQ==
+Received: by 10.112.30.41 with SMTP id p9mr8765030lbh.26.1343848125256; Wed,
+	01 Aug 2012 12:08:45 -0700 (PDT)
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <CALRxmdDhE8GQPYde27786kKU35p4dRrTmaGbmauVDxTrMQ6N6Q@mail.gmail.com>
-	<50183924.8010309@windriver.com>
-	<CADkTA4N_mFVkWx7G=E8BoCDYktkNXxO-zLrw_r9e0sO-wE5FjQ@mail.gmail.com>
-	<CALRxmdDzaizHQ8m1NFRp2-Ucn9Pm6vZJX=pTTdZ5aLx-61OUzw@mail.gmail.com>
-	<50195AFF.1070507@windriver.com>
-	<CAEsOVNfbJAqrDf-+DQh3h0pWtf-qDuQqKfC+_oBRHgyY4B6Obg@mail.gmail.com>
-In-Reply-To: <CAEsOVNfbJAqrDf-+DQh3h0pWtf-qDuQqKfC+_oBRHgyY4B6Obg@mail.gmail.com>
-Subject: Re: static busybox?
+Sender: kergoth@gmail.com
+Received: by 10.114.64.180 with HTTP; Wed, 1 Aug 2012 12:08:25 -0700 (PDT)
+In-Reply-To: <CALbNGRTYa-2M-pi0d+oBvT+z81kTi8j9VM4gK=iiUDfBSQ7N9A@mail.gmail.com>
+References: <CALbNGRTYa-2M-pi0d+oBvT+z81kTi8j9VM4gK=iiUDfBSQ7N9A@mail.gmail.com>
+From: Chris Larson <clarson@kergoth.com>
+Date: Wed, 1 Aug 2012 12:08:25 -0700
+X-Google-Sender-Auth: gfCvdyWBn8uX6uGBsin_5jwOufA
+Message-ID: <CABcZANk2SzKKcXTdU0MLUeXwOWSxq4HqJceMPO6tOLP3M_GejA@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: number of tasks increased since last update
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,119 +45,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Aug 2012 19:17:13 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 01 Aug 2012 19:20:24 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On 8/1/12 1:59 PM, McClintock Matthew-B29882 wrote:
-> On Wed, Aug 1, 2012 at 11:36 AM, Mark Hatle <mark.hatle@windriver.com> wrote:
->> On 8/1/12 11:21 AM, Stuart Yoder wrote:
->>>
->>> On Tue, Jul 31, 2012 at 3:07 PM, Bruce Ashfield
->>> <bruce.ashfield@gmail.com> wrote:
->>>>
->>>> On Tue, Jul 31, 2012 at 3:59 PM, Mark Hatle <mark.hatle@windriver.com>
->>>> wrote:
->>>>>
->>>>> On 7/31/12 1:14 PM, Stuart Yoder wrote:
->>>>>>
->>>>>>
->>>>>> We are doing some work with LXC (containers) and one of the templates
->>>>>> is for busybox.  For LXC, the busybox package needs to be built
->>>>>> statically
->>>>>> and
->>>>>> there is a config option for this.
->>>>>>
->>>>>> A couple possible approaches:
->>>>>>
->>>>>>       -create a new 'busybox_static' recipe that the lxc package
->>>>>>        depends on that turns on the needed build options.   Pretty
->>>>>>        straightforward, but now there are 2 variants of the busybox
->>>>>>        package.
->>>>>>
->>>>>>       -somehow propagate some configuration options through to
->>>>>>        the standard busybox recipe so it turns on the config
->>>>>>        option to build things statically.   Not sure how to
->>>>>>        do this, and seems like it could get pretty messy.
->>>>>>
->>>>>> Any thoughts?
->>>>>
->>>>>
->>>>>
->>>>> We've been talking about this as well..  I'm currently of the opinion
->>>>> that
->>>>> the kernel's config fragement processing be added to busybox.  This way
->>>>> someone can simply add a configuration fragment via a bbappend, or other
->>>>> approach and it'll pick it up.   That same can be used to specify how to
->>>>> enable other optional pieces of busybox.
->>>>
->>>>
->>>> merge_config.pl can be yanked out of the kernel source tree (it's
->>>> upstream) and
->>>> packaged as something for use by busy box.
->>>>
->>>> I wouldn't recommend all the scaffolding that the kernel has (it's
->>>> overkill, since
->>>> there are more configs, patches and git manipulations in play for the
->>>> kernel), but a\
->>>> simple scheme to collect the fragments from the SRC_URI and fire them
->>>> through
->>>> merge_config.pl would be a pretty simple python routine.
->>>
->>>
->>> So how would this work from the user's point of view?   I somehow
->>> need to get busybox's CONFIG_STATIC config option set.   Does the lxc
->>> recipe somehow
->>> specify this?   Or does the lxc recipe reference a busybox-static
->>> dependency that sets the option?
->>
->>
->> You would be able to add a .bbappend that would have a configuration
->> fragment in it.  This fragment would be added to the busybox configuration
->> to override any built in items.
->>
->> So you'd need to simply have a file that says:
->>
->> CONFIG_STATIC = y
+On Wed, Aug 1, 2012 at 8:29 AM, Andreas M=C3=BCller
+<schnitzeltony@googlemail.com> wrote:
+> today I updated and found the the number of tasks has increased about
+> 400. Another strange behaviour: in my build dir there are two new
+> folders:
 >
-> This is one approach, to change busybox completely for a specific
-> added layer. But, what if we only want to make this change to busybox
-> if the lxc recipe is included in the image? What about other packages
-> also requesting changes?
-
-There is no method within OE to change a configuration of one item, if another 
-item is included or not.
-
-The way to do this is use the PACKAGECONFIG options, and then pass via a 
-per-recipe configuration if you want lxc support enabled or not.. (or possible 
-lxc becomes a distro flag?)
-
---Mark
-
-> -M
+> x86_64-nativesdk-angstromsdk-linux
+> x86_64-angstromsdk-linux
 >
->> --Mark
->>
->>
->>> Stuart
->>>
->>> _______________________________________________
->>> Openembedded-core mailing list
->>> Openembedded-core@lists.openembedded.org
->>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->>>
->>
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+> but up to now I was not interested in sdk stuff. Is that another bug
+> or a feature?
 
+I just went to build core-image-base and saw it building crosssdk
+stuff -- not sure if it's related, but thought I'd throw that
+datapoint out there.
+--=20
+Christopher Larson
 
 
