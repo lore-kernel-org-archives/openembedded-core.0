@@ -1,32 +1,33 @@
-Received: from mail-wg0-f41.google.com ([74.125.82.41])
+Received: from mail-vb0-f47.google.com ([209.85.212.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1SwaFC-0006ET-9q
+	(envelope-from <damien.lespiau@gmail.com>) id 1SwaFy-0007KF-ET
 	for openembedded-core@lists.openembedded.org;
-	Wed, 01 Aug 2012 16:49:52 +0200
-Received: by wgbds1 with SMTP id ds1so4153963wgb.0
+	Wed, 01 Aug 2012 16:50:41 +0200
+Received: by vbbfr13 with SMTP id fr13so6706252vbb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 01 Aug 2012 07:38:05 -0700 (PDT)
+	Wed, 01 Aug 2012 07:38:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=BtHBmbtZ1kfFY2qGsJE67R04kFU22fGmMh3ow4geKLw=;
-	b=RkJMPeg1pGo3m+XtpgkVo2uXC+8wZoVk7ClD1/ZQ8lMoTIGMhupXCPSTTp1K+iO7LM
-	/uKus5v0hXOwUQBdK+aYNLz4sPkN3WRKCtMW1C1+bf/YEdujIwrCD+hOV3N+UMbBe3WU
-	feVAChldLGzBx9tJPLk61GBKl9d+gcbTPXBd8Se6dr+EYy4IoucyVlgWzDY0LGu4kaRQ
-	312lI/82H5HnJoyp3QiHCmGdRjloERouHTmzZwRtP+CY07IITkH4x7MAPh/Guym6v6Y2
-	WjIj9yFihx4r4bVJsjmHmwfMfiTjstZv7m/y7lyjvpBDs9gENNS6dUC3IdAio63G1Qri
-	YRJw==
-Received: by 10.180.93.68 with SMTP id cs4mr12449145wib.14.1343831885025;
-	Wed, 01 Aug 2012 07:38:05 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id h9sm28189874wiz.1.2012.08.01.07.38.03
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 01 Aug 2012 07:38:04 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  1 Aug 2012 16:38:00 +0200
-Message-Id: <1343831880-20707-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.7.8.6
-Subject: [PATCH] sip.bbclass: fix sip-native dependency
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type; bh=LLzehD0RLDrZWDRhZCfaIJ0oCxNpG4Pl+pdcJlF0F8Y=;
+	b=RuNeVOoNenMYTXPXWSbezpzImxrSR3pwJrduJQ3rFSDAhj2t9ImS+mcJsxBi83gSeh
+	58iKYwe4IWGL922kOcgtwocippmDQqU7+gQVvZ3SmDTZwoPvnlcCgdf8xhXEmRbKMpk5
+	pzydHcfX8npuiAr8clL5A2DIcaaXe41wCaDKSNSQIHYUcWhnMbvt0lSGZ+eE0uMYFP40
+	M9EDqPO+IpDhrtEbhUidf+TuD2PaC361JBsUJF4XfbGYG3oPPB/D8lI6V5qc4BMBoLCS
+	ZxL4X0um220DIfRMWsGrMtCZzZLdJXwBej6FNUvU/PWoZUZzaRhMtoa6tG+v7H9E1C3n
+	bxeg==
+MIME-Version: 1.0
+Received: by 10.58.164.98 with SMTP id yp2mr5932052veb.50.1343831933928; Wed,
+	01 Aug 2012 07:38:53 -0700 (PDT)
+Received: by 10.58.240.73 with HTTP; Wed, 1 Aug 2012 07:38:53 -0700 (PDT)
+In-Reply-To: <40FAF05B-A7A4-45DF-8BA7-872A97FDF157@dominion.thruhere.net>
+References: <cover.1343823907.git.ross.burton@intel.com>
+	<40FAF05B-A7A4-45DF-8BA7-872A97FDF157@dominion.thruhere.net>
+Date: Wed, 1 Aug 2012 15:38:53 +0100
+Message-ID: <CAGrt=7hVBjV+3de21AEHnC9ZuTBhAO6sdnt8krt=4kMxFuvFFA@mail.gmail.com>
+From: Damien Lespiau <damien.lespiau@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 00/12] Mesa upgrade/improvements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,29 +42,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Aug 2012 14:50:00 -0000
+X-List-Received-Date: Wed, 01 Aug 2012 14:50:41 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/classes/sip.bbclass |    3 +++
- 1 files changed, 3 insertions(+), 0 deletions(-)
+On 1 August 2012 14:32, Koen Kooi <koen@dominion.thruhere.net> wrote:
+>
+> Op 1 aug. 2012, om 14:31 heeft Ross Burton <ross.burton@intel.com> het volgende geschreven:
+>
+>> This patch series upgrades mesa-dri to the latest upstream, enables GLES2 and
+>> EGL
+>
+> That will sadly break all the powervr based evil binaries (e.g. all cortex arm chips from TI) since there will be 2 providers of those libs.
 
-diff --git a/meta/classes/sip.bbclass b/meta/classes/sip.bbclass
-index 3a00e4d..074d4dd 100644
---- a/meta/classes/sip.bbclass
-+++ b/meta/classes/sip.bbclass
-@@ -9,6 +9,9 @@ RDEPENDS += "python-sip"
- # default stuff, do not uncomment
- # EXTRA_SIPTAGS = "-tWS_X11 -tQt_4_3_0"
- 
-+# do_generate is before do_configure so ensure that sip_native is populated in sysroot before executing it
-+do_generate[depends] += "sip-native:do_populate_sysroot"
-+
- sip_do_generate() {
- 	if [ -z "${SIP_MODULES}" ]; then 
- 		MODULES="`ls sip/*mod.sip`"
+Why could one prefer providers of virtual/libgles2 and virtual/ligegl
+on a per-machine basis. This maps quite well with the reality.
+
 -- 
-1.7.8.6
-
+Damien
 
 
