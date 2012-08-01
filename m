@@ -1,38 +1,37 @@
-Received: from mail-yw0-f47.google.com ([209.85.213.47])
+Received: from mail-gg0-f175.google.com ([209.85.161.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1Swi7C-0007Ky-LR
+	(envelope-from <raj.khem@gmail.com>) id 1SwiJ7-0007Sx-QM
 	for openembedded-core@lists.openembedded.org;
-	Thu, 02 Aug 2012 01:14:06 +0200
-Received: by yhjj56 with SMTP id j56so7203316yhj.6
+	Thu, 02 Aug 2012 01:26:25 +0200
+Received: by ggnp4 with SMTP id p4so7189612ggn.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 01 Aug 2012 16:02:27 -0700 (PDT)
+	Wed, 01 Aug 2012 16:14:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=content-type:mime-version:subject:from:in-reply-to:date
 	:content-transfer-encoding:message-id:references:to:x-mailer;
-	bh=MSeCjqwTdMHwhX1rCqcz4UoukoW3iYnBtJ+qn36Won0=;
-	b=CryPoIeTxUndvO1JG+SesO59F1hKAz4pjwkOnCVPYmYhWl+MqUdHU3sEmCWLUeWv0C
-	JU6CAU2+UzWHkppg5S5tQiQnW2gleYRL8kd4E6KZNnyIejOkFN3Kcp0r8xzjSh6o58f3
-	zWqu/BZIA+xYi87L8bCrJ8+Pjg36mxHELgsIKFFPNMJNMy1xm54KYJ5jCijpn5WGkJ3m
-	JmzX5ZHzTyjUbB6wDG4gluaQKwOlSR51EanCW/NwKEhfedTfGe11ww5Y4voziSYTgv0R
-	KCqQl4Xrp8O14R2skWWUTk8aXAMTm9lN+qJfUkAZUmzs6KKP26ox9v1BNrEtEfnoJBXq
-	Gy9g==
-Received: by 10.50.46.230 with SMTP id y6mr6840200igm.20.1343862146927;
-	Wed, 01 Aug 2012 16:02:26 -0700 (PDT)
+	bh=VkFLdKl1r9M/dvI+D35/8Bpn9YlYm83uE9p0r0ROlrw=;
+	b=iJfOHaXWaQRtbvnKgN3aBZGaqx22fZQQ199Zxfh4VtonRUBPSmoBvpphAjzpnwH4IG
+	+2mYkZhethWqSCXwBC9ezJTbYdvwigbjpE5GPe8vSm9EAYgnJlfoOujHsxdNopuzbm2I
+	XzgTKmeyYnCiiNlIZIlZuz/7Mi/hSjkNQp80bOh1FzsIET2mnRl+DUIuCYQ3ltL1Nl68
+	1KBRVmvHSgvTDKATw307g5cb9tYAtAB8UlhPxzgF4PWVANaFrpBiAAbWjXbwsQkalrlp
+	R//XtdOgrthDCMJhJObvhgdPK8g/YMVvWumFavLRdzLCJkqG8fh0ooiSxVRo9uiubTog
+	dkTg==
+Received: by 10.42.146.6 with SMTP id h6mr731080icv.53.1343862886281;
+	Wed, 01 Aug 2012 16:14:46 -0700 (PDT)
 Received: from [10.11.81.126] (corp.force10networks.com. [64.186.164.204])
-	by mx.google.com with ESMTPS id ud8sm8238166igb.4.2012.08.01.16.02.25
+	by mx.google.com with ESMTPS id fe7sm8274099igc.14.2012.08.01.16.14.44
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 01 Aug 2012 16:02:26 -0700 (PDT)
+	Wed, 01 Aug 2012 16:14:45 -0700 (PDT)
 Mime-Version: 1.0 (Mac OS X Mail 6.0 \(1485\))
 From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <20120801065401.GD15199@jama.jama.net>
-Date: Wed, 1 Aug 2012 16:02:24 -0700
-Message-Id: <8071B2D8-3431-4B9B-A810-0F01D4837779@gmail.com>
-References: <20120801065021.GC15199@jama.jama.net>
-	<20120801065401.GD15199@jama.jama.net>
+In-Reply-To: <cover.1343425855.git.peter.seebach@windriver.com>
+Date: Wed, 1 Aug 2012 16:14:43 -0700
+Message-Id: <9E87C506-7378-41D1-8568-31C67EACFC96@gmail.com>
+References: <cover.1343425855.git.peter.seebach@windriver.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 X-Mailer: Apple Mail (2.1485)
-Subject: Re: u-boot do_compile should be reentrant even with ld-is-gold
+Subject: Re: [PATCH 0/1] Update pseudo to 1.4 (target improvements)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,21 +46,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Aug 2012 23:14:06 -0000
+X-List-Received-Date: Wed, 01 Aug 2012 23:26:26 -0000
 Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 
 
-On Jul 31, 2012, at 11:54 PM, Martin Jansa <martin.jansa@gmail.com> wrote:
+On Jul 27, 2012, at 2:54 PM, Peter Seebach <peter.seebach@windriver.com> =
+wrote:
 
-> well not exactly like this one as this is causing
-> /bin/sh: 1: Syntax error: Bad fd number
-> probably from ">&" in dash
+> Someone managed to do something which caused pseudo to try to build
+> on ARM, where -m32 doesn't work, and I looked at the sort of =
+half-baked
+> --arch fix in tree, concluded I hated it, and redid it. So as of 1.4,
+> pseudo now has support for a --cflags configure option, so the build =
+system
+> can pass in its own cflags instead of relying on pseudo being able to
+> guess the correct way to change bit widths around.
 
-
-yes. I swear I have since fixed this patch this seems to be an older version
-did you look into meta-ti/master ?
-
-
+thats someone was me. Thanks for fixing it.=
 
 
