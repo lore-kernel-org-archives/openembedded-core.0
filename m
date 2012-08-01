@@ -1,37 +1,23 @@
-Received: from mail-wg0-f43.google.com ([74.125.82.43])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1SwZfi-0007dx-Ov
+	(envelope-from <Morgan.Little@windriver.com>) id 1SwZqD-0000Rz-IK
 	for openembedded-core@lists.openembedded.org;
-	Wed, 01 Aug 2012 16:13:10 +0200
-Received: by wgbdr1 with SMTP id dr1so6181775wgb.24
+	Wed, 01 Aug 2012 16:24:02 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q71ECLB3009996
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 01 Aug 2012 07:01:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=GDjP7tl92SxGr0uxKzel0qEEEJOQDkYRdD6277GYyiU=;
-	b=sXz6pPnA+rAlc2kc0cJveAjfUXAK4rMDGxwMXJxCjBYIAYVDK6k3FB6aKnm+6e/R6C
-	nLg/w1BBxFxdhgaCMEvPH1zxakOw/6TRv0gnOOfoIYzdGaWdSHFzczjjQDNRqWVAt/eb
-	TNX96S2Ljd0GCpdeTpX0GsNIPyqqWGYe0NTEuGhdapC2XoAPcNHicAEGxgACNLJYekzq
-	HahmLNRlHA0wegn3iODFuS8VLXbhslo8nMqSm9KVKKmg9kPu3mVXKKd/osmlqlVT/XSv
-	wlDxcnqs3A40MBlvWLUY6DLm/6PZc/pHw0hNw+X6dPw+BS3P7dzxAzXeQV6YQynyG4md
-	1Iyg==
-Received: by 10.180.14.8 with SMTP id l8mr16850315wic.6.1343829692201;
-	Wed, 01 Aug 2012 07:01:32 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id l6sm12459044wiz.4.2012.08.01.07.01.30
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 01 Aug 2012 07:01:31 -0700 (PDT)
-Date: Wed, 1 Aug 2012 16:01:28 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20120801140128.GI16306@jama.jama.net>
-References: <1343829298-29238-1-git-send-email-radu.moisan@intel.com>
+	Wed, 1 Aug 2012 07:12:22 -0700 (PDT)
+Received: from localhost.localdomain (128.224.147.201) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.309.2; Wed, 1 Aug 2012 07:12:21 -0700
+From: Morgan Little <morgan.little@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 1 Aug 2012 10:12:01 -0400
+Message-ID: <1343830340-25351-1-git-send-email-morgan.little@windriver.com>
+X-Mailer: git-send-email 1.7.0.4
 MIME-Version: 1.0
-In-Reply-To: <1343829298-29238-1-git-send-email-radu.moisan@intel.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: [PATCH v2] liburcu: Upgrade to upstream 0.7.3
+Subject: This is a series of patches to update recipes that display warnings about the
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,87 +32,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Aug 2012 14:13:10 -0000
-X-Groupsio-MsgNum: 26645
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="7IgncvKP0CVPV/ZZ"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 01 Aug 2012 14:24:02 -0000
+Content-Type: text/plain
 
---7IgncvKP0CVPV/ZZ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I compared the environment variables to make sure that they expanded out to
+the same variables so nothing should be changed during runtime. 
 
-On Wed, Aug 01, 2012 at 04:54:58PM +0300, Radu Moisan wrote:
-> LICENSE file has the date changed otherwise just a regular
-> package update.
+The following changes since commit 4029ce1a15e1dbd374444ee77ccf2a915e463b7b:
+  Khem Raj (1):
+        package_rpm.bbclass: Accomodate dash when using arrays
 
-And does this resolve Saul's review comments?
+are available in the git repository at:
 
->=20
-> Signed-off-by: Radu Moisan <radu.moisan@intel.com>
-> ---
->  .../liburcu/{liburcu_0.6.7.bb =3D> liburcu_0.7.3.bb} |    6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->  rename meta/recipes-support/liburcu/{liburcu_0.6.7.bb =3D> liburcu_0.7.3=
-=2Ebb} (77%)
->=20
-> diff --git a/meta/recipes-support/liburcu/liburcu_0.6.7.bb b/meta/recipes=
--support/liburcu/liburcu_0.7.3.bb
-> similarity index 77%
-> rename from meta/recipes-support/liburcu/liburcu_0.6.7.bb
-> rename to meta/recipes-support/liburcu/liburcu_0.7.3.bb
-> index be73856..86f29be 100644
-> --- a/meta/recipes-support/liburcu/liburcu_0.6.7.bb
-> +++ b/meta/recipes-support/liburcu/liburcu_0.7.3.bb
-> @@ -3,7 +3,7 @@ HOMEPAGE =3D "http://lttng.org/urcu"
->  BUGTRACKER =3D "http://lttng.org/project/issues"
-> =20
->  LICENSE =3D "LGPLv2.1+ & MIT-style"
-> -LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3Db472dc110d38774921e1d5ccb0065=
-fff \
-> +LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D95dfea59eeaa41a4057faa07a58f5=
-f89 \
->                      file://urcu.h;beginline=3D4;endline=3D32;md5=3D4de0d=
-68d3a997643715036d2209ae1d9 \
->                      file://urcu/uatomic/x86.h;beginline=3D4;endline=3D21=
-;md5=3D220552f72c55b102f2ee35929734ef42"
-> =20
-> @@ -11,8 +11,8 @@ PR =3D "r0"
-> =20
->  SRC_URI =3D "http://lttng.org/files/urcu/userspace-rcu-${PV}.tar.bz2"
-> =20
-> -SRC_URI[md5sum] =3D "2705dadd65beda8e8960472c082e44b3"
-> -SRC_URI[sha256sum] =3D "b0b09aead6fbcb4d5efb4270e12f84ffd115b99b55b2c745=
-e052b2d87a47e75f"
-> +SRC_URI[md5sum] =3D "c40b726f13bff80982c1ffa1bc2db31d"
-> +SRC_URI[sha256sum] =3D "63f540a5d3c947fa3739711099fb87a66036d3c9560f26da=
-763e500da296a1af"
-> =20
->  S =3D "${WORKDIR}/userspace-rcu-${PV}"
->  CFLAGS_append_libc-uclibc =3D " -D_GNU_SOURCE"
-> --=20
-> 1.7.9.5
->=20
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+  git@github.com:morganlittle/oe-core.git updatealternativesfixes
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+Morgan Little (19):
+      tinylogin: use new update-alternatives
+      patch: use new update-alternatives
+      ubootchart_svn: use new update-alternatives
+      gawk: use new update-alternatives
+      less: use new update-alternatives
+      mingetty: use new update-alternatives
+      mktemp: use new update-alternatives
+      msmtp: use new update-alternatives
+      sed: use new update-alternatives
+      time: use new update-alternatives
+      wget: use new update-alternatives
+      which: use new update-alternatives
+      metacity: use new update-alternatives
+      matchbox-session: use new update-alternatives
+      matchbox-wm-2: use new update-alternatives
+      mini-x-session: use new update-alternatives
+      mutter: use new update-alternatives
+      powertop: use new update-alternatives
+      rxvt-unicode: use new update-alternatives
 
---7IgncvKP0CVPV/ZZ
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+ meta/recipes-core/tinylogin/tinylogin_1.4.bb       |    8 ++++----
+ meta/recipes-devtools/patch/patch.inc              |    4 ++--
+ meta/recipes-devtools/ubootchart/ubootchart_svn.bb |    8 ++++----
+ meta/recipes-extended/gawk/gawk_3.1.5.bb           |    8 ++++----
+ meta/recipes-extended/gawk/gawk_4.0.1.bb           |    8 ++++----
+ meta/recipes-extended/less/less_444.bb             |    6 +++---
+ meta/recipes-extended/mingetty/mingetty_1.08.bb    |    8 ++++----
+ meta/recipes-extended/mktemp/mktemp_1.7.bb         |    8 ++++----
+ meta/recipes-extended/msmtp/msmtp_1.4.24.bb        |    8 ++++----
+ meta/recipes-extended/sed/sed_4.1.2.bb             |    8 ++++----
+ meta/recipes-extended/sed/sed_4.2.1.bb             |    8 ++++----
+ meta/recipes-extended/time/time.inc                |    6 +++---
+ meta/recipes-extended/wget/wget.inc                |    8 ++++----
+ meta/recipes-extended/which/which_2.18.bb          |    6 +++---
+ meta/recipes-extended/which/which_2.20.bb          |    6 +++---
+ meta/recipes-gnome/gnome/metacity_2.30.3.bb        |    8 ++++----
+ .../matchbox-session/matchbox-session_0.1.bb       |    8 ++++----
+ .../matchbox-wm-2/matchbox-wm-2_git.bb             |    8 ++++----
+ .../mini-x-session/mini-x-session_0.1.bb           |    8 ++++----
+ meta/recipes-graphics/mutter/mutter.inc            |    6 +++---
+ meta/recipes-kernel/powertop/powertop_1.13.bb      |    8 ++++----
+ .../recipes-sato/rxvt-unicode/rxvt-unicode_9.15.bb |    7 ++++---
+ 22 files changed, 81 insertions(+), 80 deletions(-)
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
 
-iEYEARECAAYFAlAZNrgACgkQN1Ujt2V2gByDzwCgi7krirZvjTlWieCqB3cBt6/7
-IBcAn2hiLoup3NpQxQ8iSGbmIwyDwkDm
-=4YLK
------END PGP SIGNATURE-----
-
---7IgncvKP0CVPV/ZZ--
