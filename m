@@ -1,40 +1,32 @@
-Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
+Received: from mail-wg0-f41.google.com ([74.125.82.41])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1SwaCJ-0001UL-N7
+	(envelope-from <martin.jansa@gmail.com>) id 1SwaFC-0006ET-9q
 	for openembedded-core@lists.openembedded.org;
-	Wed, 01 Aug 2012 16:46:51 +0200
-Received: from mail-ob0-f180.google.com ([209.85.214.180])
-	by mga03.intel.com with ESMTP/TLS/RC4-SHA; 01 Aug 2012 07:35:11 -0700
-Received: by obbuo19 with SMTP id uo19so10550546obb.25
+	Wed, 01 Aug 2012 16:49:52 +0200
+Received: by wgbds1 with SMTP id ds1so4153963wgb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 01 Aug 2012 07:35:11 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type:x-gm-message-state;
-	bh=L0lu7VlbHxUim0TCpvHL1RTD677Du9owp/83UwGbLSs=;
-	b=XDr3Rve182HZmR+OCu3SmUKtUgqUyoLvRhougb0IceDiln5DL5kmcJdIIGC5mL+OPq
-	N/HYLD/BW+gnqV9TJwHMchG1r+rLvEbv9c3XW8YVyRXq4xX0rGtx4e7vcIp0UlGP+1R2
-	3bjovaHvIrQVy1RDjXwKhTXSnudmwo2ZoHQgtzQzWEuEM493qyt3hkenR+Zg0llc+INp
-	kRP6p8xwD9G/g7XW30/iabZhbgLm1DPgfMfZQ13pw5EOIPsiU9H84D7SAqyAwlyWvLId
-	Z3BcD6piRCM5+lUFnOGFaaQenpeefSPqRySzJP0RA5zPih9ZTnv8Blm2Nj5v3x/AdUBb
-	VHNA==
-Received: by 10.182.131.73 with SMTP id ok9mr29354081obb.19.1343831711027;
-	Wed, 01 Aug 2012 07:35:11 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.182.43.99 with HTTP; Wed, 1 Aug 2012 07:34:50 -0700 (PDT)
-In-Reply-To: <17FC0BB5-80B8-4AB8-A3E8-57261EB7D561@dominion.thruhere.net>
-References: <cover.1343823907.git.ross.burton@intel.com>
-	<40FAF05B-A7A4-45DF-8BA7-872A97FDF157@dominion.thruhere.net>
-	<CAJTo0LbVvVqDSPpUs36JTROeq6fWendJwaVQDataN_nD6O=+Ew@mail.gmail.com>
-	<17FC0BB5-80B8-4AB8-A3E8-57261EB7D561@dominion.thruhere.net>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 1 Aug 2012 15:34:50 +0100
-Message-ID: <CAJTo0LaJ9mM_yyU+ZYoDACig5E30qBaPU+Y5BDTrrA1bOdK78A@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Gm-Message-State: ALoCoQkgSRDUxrODA4WBuiMEEGGYVpYa89iBxkr9YWETfFMJrzXjB3iZuqZENH+REw91x/Xks7gv
-Subject: Re: [PATCH 00/12] Mesa upgrade/improvements
+	Wed, 01 Aug 2012 07:38:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=BtHBmbtZ1kfFY2qGsJE67R04kFU22fGmMh3ow4geKLw=;
+	b=RkJMPeg1pGo3m+XtpgkVo2uXC+8wZoVk7ClD1/ZQ8lMoTIGMhupXCPSTTp1K+iO7LM
+	/uKus5v0hXOwUQBdK+aYNLz4sPkN3WRKCtMW1C1+bf/YEdujIwrCD+hOV3N+UMbBe3WU
+	feVAChldLGzBx9tJPLk61GBKl9d+gcbTPXBd8Se6dr+EYy4IoucyVlgWzDY0LGu4kaRQ
+	312lI/82H5HnJoyp3QiHCmGdRjloERouHTmzZwRtP+CY07IITkH4x7MAPh/Guym6v6Y2
+	WjIj9yFihx4r4bVJsjmHmwfMfiTjstZv7m/y7lyjvpBDs9gENNS6dUC3IdAio63G1Qri
+	YRJw==
+Received: by 10.180.93.68 with SMTP id cs4mr12449145wib.14.1343831885025;
+	Wed, 01 Aug 2012 07:38:05 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id h9sm28189874wiz.1.2012.08.01.07.38.03
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 01 Aug 2012 07:38:04 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  1 Aug 2012 16:38:00 +0200
+Message-Id: <1343831880-20707-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.7.8.6
+Subject: [PATCH] sip.bbclass: fix sip-native dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,17 +41,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Aug 2012 14:46:51 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 01 Aug 2012 14:50:00 -0000
 
-On 1 August 2012 15:33, Koen Kooi <koen@dominion.thruhere.net> wrote:
->> Rename the mesa ones to libegl-mesa (etc), and encourage TI to use libegl-ti?
->
-> Recipe names don't matter, the .so files in sysroots and shlibdeps do.
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/classes/sip.bbclass |    3 +++
+ 1 files changed, 3 insertions(+), 0 deletions(-)
 
-I meant the name of the generated package.  libegl-mesa and libegl-ti
-shipping the same libraries is expected and desired.
+diff --git a/meta/classes/sip.bbclass b/meta/classes/sip.bbclass
+index 3a00e4d..074d4dd 100644
+--- a/meta/classes/sip.bbclass
++++ b/meta/classes/sip.bbclass
+@@ -9,6 +9,9 @@ RDEPENDS += "python-sip"
+ # default stuff, do not uncomment
+ # EXTRA_SIPTAGS = "-tWS_X11 -tQt_4_3_0"
+ 
++# do_generate is before do_configure so ensure that sip_native is populated in sysroot before executing it
++do_generate[depends] += "sip-native:do_populate_sysroot"
++
+ sip_do_generate() {
+ 	if [ -z "${SIP_MODULES}" ]; then 
+ 		MODULES="`ls sip/*mod.sip`"
+-- 
+1.7.8.6
 
-Ross
 
 
