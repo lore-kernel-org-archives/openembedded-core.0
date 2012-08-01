@@ -1,37 +1,31 @@
-Received: from mail-wi0-f169.google.com ([209.85.212.169])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1SwhBz-00050K-QR
-	for openembedded-core@lists.openembedded.org;
-	Thu, 02 Aug 2012 00:15:00 +0200
-Received: by wibhm2 with SMTP id hm2so4480460wib.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 01 Aug 2012 15:03:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=BibFm6jLDyQfH5ebzss2VBWJCdDayDCJCB0fXOhRnJI=;
-	b=lrC9n3XxACY44AtGqMV1t7ceB3RIodypcmbc8ykCjKrw6c07/1oLFA6zqcLOpE8OOy
-	bZtjqqOYaWMrColaUeiCAVxph6z+ai8hmyP4eQUaYHS9u8t24FXVdqnQvqB4OWLNIpYf
-	zqeee1rPhTrBc/JSsSsXM5Egdko2Ta9gGf1m4Zr5z8T+Cw4WuT2RPlLMfMMoIqPckT1i
-	PcWowvxUiJKZ9GhNt/MkirZWgZq4vxJkLCl3GjE5mGcVJsW5HZAxxADMrvrMFsdVXaox
-	LBE7Eqs4v87pk+BR0qolci+qq1epa0RbdNIWugSVnxNWAALpn0UzYf0Hg4sanY+lTkUj
-	7Ixw==
-Received: by 10.180.93.68 with SMTP id cs4mr15194837wib.14.1343858601284;
-	Wed, 01 Aug 2012 15:03:21 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id fr4sm11937896wib.8.2012.08.01.15.03.19
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 01 Aug 2012 15:03:20 -0700 (PDT)
-Date: Thu, 2 Aug 2012 00:03:18 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1SwhCV-00053e-KH for openembedded-core@lists.openembedded.org;
+	Thu, 02 Aug 2012 00:15:31 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q71M3sx9001764;
+	Wed, 1 Aug 2012 23:03:54 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 01623-02; Wed,  1 Aug 2012 23:03:50 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q71M3ioN001757
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Wed, 1 Aug 2012 23:03:44 +0100
+Message-ID: <1343858624.9756.66.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Message-ID: <20120801220318.GL16306@jama.jama.net>
-References: <1343858083.9756.63.camel@ted>
-MIME-Version: 1.0
-In-Reply-To: <1343858083.9756.63.camel@ted>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: [PATCH] dbus: Ensure dbus-nativesdk doesn't RPROVIDE dbus-x11
+Date: Wed, 01 Aug 2012 23:03:44 +0100
+In-Reply-To: <cover.1343811985.git.liezhi.yang@windriver.com>
+References: <cover.1343811985.git.liezhi.yang@windriver.com>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: Zhenfeng.Zhao@windriver.com
+Subject: Re: [PATCH 0/2] createrepo 0.4.11: create wrapper for python script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,69 +40,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Aug 2012 22:15:00 -0000
-X-Groupsio-MsgNum: 26724
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="yaPAUYI/0vT2YKpA"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 01 Aug 2012 22:15:31 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---yaPAUYI/0vT2YKpA
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Wed, 2012-08-01 at 17:14 +0800, Robert Yang wrote:
+> This is used for fixing the rpm-createsolvedb.py error:
+> 
+> 'import site' failed; use -v for traceback
+> Traceback (most recent call last):
+> File "/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly/build/scripts/rpm-createsolvedb.py", line 14, in 
+> import sys, os
+> ImportError: No module named os
+> 
+> // Robert
+> 
+> The following changes since commit 4f31d21bcb1c8c744e9abb33248715afe4a40af0:
+> 
+>   lib/oe/lsb.py: Map unknown distributions to 'Unknown' (2012-07-31 08:02:11 +0100)
+> 
+> are available in the git repository at:
+>   git://git.pokylinux.org/poky-contrib robert/createrepo
+>   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=robert/createrepo
+> 
+> Robert Yang (2):
+>   createrepo 0.4.11: add rpm-createsolvedb.py
+>   createrepo 0.4.11: create wrapper for python script
 
-On Wed, Aug 01, 2012 at 10:54:43PM +0100, Richard Purdie wrote:
-> dbus-x11 should not RPROVIDE dbus-x11 as this is incorrect and confuses
-> builds. This fixes the nativesdk case.
->=20
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
-> diff --git a/meta/recipes-core/dbus/dbus.inc b/meta/recipes-core/dbus/dbu=
-s.inc
-> index 164c4d3..1984c74 100644
-> --- a/meta/recipes-core/dbus/dbus.inc
-> +++ b/meta/recipes-core/dbus/dbus.inc
-> @@ -33,9 +33,12 @@ DEBIANNAME_${PN} =3D "dbus-1"
-> =20
->  PACKAGES =3D+ "${PN}-lib ${PN}-systemd"
-> =20
-> +OLDPKGNAME =3D "dbus-x11"
-> +OLDPKGNAME_virtclass-nativesdk =3D ""
-> +
->  # for compatibility
-> -RPROVIDES_${PN} =3D "dbus-x11"
-> -RREPLACES_${PN} +=3D "dbus-x11"
-> +RPROVIDES_${PN} =3D "${OLDPKGNAME}"
-> +RREPLACES_${PN} +=3D "${OLDPKGNAME}"
+Merged to master, thanks.
 
-what about this?
-http://lists.linuxtogo.org/pipermail/openembedded-core/2012-August/026947.h=
-tml
+Richard
 
-> =20
->  FILES_${PN}-systemd =3D "${systemd_unitdir}/system/"
-> =20
->=20
->=20
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---yaPAUYI/0vT2YKpA
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
-
-iEYEARECAAYFAlAZp6YACgkQN1Ujt2V2gBzNtgCgi/e+XAI7nePA4cIJMDsi4iKb
-YJMAn00wuzQ4KDbzy6ger0By2cSjMwmO
-=nXa4
------END PGP SIGNATURE-----
-
---yaPAUYI/0vT2YKpA--
