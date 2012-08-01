@@ -1,28 +1,20 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1SwanP-00014h-B9
+	(envelope-from <bogdan.a.marinescu@intel.com>) id 1Swanm-00017v-KL
 	for openembedded-core@lists.openembedded.org;
-	Wed, 01 Aug 2012 17:25:11 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q71FDWXO019433
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 1 Aug 2012 08:13:32 -0700 (PDT)
-Received: from Marks-MacBook-Pro.local (172.25.34.39) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.309.2; Wed, 1 Aug 2012 08:13:32 -0700
-Message-ID: <5019479C.3020806@windriver.com>
-Date: Wed, 1 Aug 2012 10:13:32 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
-	rv:14.0) Gecko/20120713 Thunderbird/14.0
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1343830340-25351-1-git-send-email-morgan.little@windriver.com>
-	<1343830340-25351-3-git-send-email-morgan.little@windriver.com>
-In-Reply-To: <1343830340-25351-3-git-send-email-morgan.little@windriver.com>
-Subject: Re: [PATCH 02/19] patch: use new update-alternatives
+	Wed, 01 Aug 2012 17:25:34 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 01 Aug 2012 08:13:55 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="180294031"
+Received: from bogdanm (HELO localhost.localdomain) ([10.237.105.62])
+	by orsmga002.jf.intel.com with ESMTP; 01 Aug 2012 08:13:54 -0700
+From: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  1 Aug 2012 18:16:07 +0300
+Message-Id: <1343834167-2572-1-git-send-email-bogdan.a.marinescu@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] python-dbus: updated to 1.1.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,36 +29,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Aug 2012 15:25:11 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 01 Aug 2012 15:25:34 -0000
 
-On 8/1/12 9:12 AM, Morgan Little wrote:
->
-> Signed-off-by: Morgan Little <morgan.little@windriver.com>
-> ---
->   meta/recipes-devtools/patch/patch.inc |    4 ++--
->   1 files changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/recipes-devtools/patch/patch.inc b/meta/recipes-devtools/patch/patch.inc
-> index 21c06c6..80e00f6 100644
-> --- a/meta/recipes-devtools/patch/patch.inc
-> +++ b/meta/recipes-devtools/patch/patch.inc
-> @@ -13,6 +13,6 @@
->   do_install_append () {
->           mv ${D}${bindir}/patch ${D}${bindir}/patch.${BPN}
->   }
->
-> -ALTERNATIVE_NAME = "patch"
-> -ALTERNATIVE_PATH = "patch.${BPN}"
-> +ALTERNATIVE_${PN} = "patch"
-> +ALTERNATIVE_TARGET[patch] = "$[bindir}/patch.${BPN}"
->   ALTERNATIVE_PRIORITY = "100"
->
+Signed-off-by: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
+---
+ .../{python-dbus_1.1.0.bb => python-dbus_1.1.1.bb} |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/python/{python-dbus_1.1.0.bb => python-dbus_1.1.1.bb} (83%)
 
-See the previous.. the do_install_append should be removed, and once that is 
-done the alternative_target[patch] is no needed.
+diff --git a/meta/recipes-devtools/python/python-dbus_1.1.0.bb b/meta/recipes-devtools/python/python-dbus_1.1.1.bb
+similarity index 83%
+rename from meta/recipes-devtools/python/python-dbus_1.1.0.bb
+rename to meta/recipes-devtools/python/python-dbus_1.1.1.bb
+index a10fda3..51d5bc2 100644
+--- a/meta/recipes-devtools/python/python-dbus_1.1.0.bb
++++ b/meta/recipes-devtools/python/python-dbus_1.1.1.bb
+@@ -8,8 +8,8 @@ PR = "r0"
+ 
+ SRC_URI = "http://dbus.freedesktop.org/releases/dbus-python/dbus-python-${PV}.tar.gz"
+ 
+-SRC_URI[md5sum] = "41a459bbbb5fd92eeebd632623af0bd7"
+-SRC_URI[sha256sum] = "2dc30b53cdb2e20f8d0265af3be878e9da68745cf9ccc72f75de869094c4fc60"
++SRC_URI[md5sum] = "742c7432ad0f7c3f98291d58fa2e35dc"
++SRC_URI[sha256sum] = "8917ca4fb8f4d693aee18d200cbad166b2c938dfb88c03bb4ab3d90a7c915e88"
+ S = "${WORKDIR}/dbus-python-${PV}"
+ 
+ inherit distutils-base autotools pkgconfig
+-- 
+1.7.9.5
 
---Mark
 
 
