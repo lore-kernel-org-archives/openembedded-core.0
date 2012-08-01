@@ -1,39 +1,45 @@
-Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1SwaUN-0002Pp-GW
+	(envelope-from <koen@dominion.thruhere.net>) id 1SwaUV-0002ae-G4
 	for openembedded-core@lists.openembedded.org;
-	Wed, 01 Aug 2012 17:05:31 +0200
-Received: from mail-qa0-f45.google.com ([209.85.216.45])
-	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 01 Aug 2012 07:53:51 -0700
-Received: by qaeb19 with SMTP id b19so2302081qae.4
+	Wed, 01 Aug 2012 17:05:39 +0200
+Received: by eekb57 with SMTP id b57so1624144eek.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 01 Aug 2012 07:53:50 -0700 (PDT)
+	Wed, 01 Aug 2012 07:54:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type:x-gm-message-state;
-	bh=Ck5goYt/1dPWm43Bqb8L/Sm619C34idpnGzNY1T6r94=;
-	b=W6g9znDrUZr3os3xhMzsShBSDSRVR2vps3ozONoQnxOao4clI6wRDVEf54OUCa+KTo
-	0rcXm6U5znIZ2HaZ5p4KstClfUbeqa68vBevnsQ/3HeZHWajMjOMjZcE4pARu8INmCVt
-	XTE1fLt3WyWC5wdo4yFFvonqqkmJ55EOxZWsJ3p4MRIM/n3Qh4Hm0z/oeYYYP44KoKUH
-	i7eGSKVcrMz/4Kvo/2vbvBRaKoQGPqMce1hjhvSZvANgQkfK1KTXXCsO2N0TUOOFB8qA
-	0YXXhRv1Rpg3nfyxh49FYOf835fyVA+B3LuA3C3Ndtaok83+2lIMqcN0b6CDcYqHQZFd
-	zq9w==
-Received: by 10.182.51.37 with SMTP id h5mr29607306obo.35.1343832830199; Wed,
-	01 Aug 2012 07:53:50 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.182.43.99 with HTTP; Wed, 1 Aug 2012 07:53:30 -0700 (PDT)
-In-Reply-To: <20120801124455.GE16306@jama.jama.net>
+	h=content-type:mime-version:subject:from:in-reply-to:date
+	:content-transfer-encoding:message-id:references:to:x-mailer
+	:x-gm-message-state;
+	bh=v49mnKwq3f1/tcRw28F16ABpLmN71FCwiNtWruZfVXY=;
+	b=VTgrcRQQaTrsytWrOIdAMAogMGp56W6t1mMfvNfN5emmU0dqDUTuYMsScDABXdwDKz
+	TdOKCNn2LpgKFcBTWa6k22NlWyO0EMlNobOxxHh4yAFI3no0+gcbfKoVoSGnijDzbUTO
+	ymufkuxf0mt3KJ9aruT6XJnSyPKbwZGToIZUTRfVZkcbxDtLI4sKxyBi4Nt7iar5JATM
+	r+0LPchOAcH7gUsao0Du3y5Nf7GEkan8BmupCzx67sYXG6v9CfPta/VBwGwkdgJm5BS1
+	dO+hPn7T0OHJtXaBOg6UbqiYp+7+tesmdBNobPAHuawGx/+E7l3jS7VsYqtWbjj9ZQiA
+	XcSw==
+Received: by 10.14.178.134 with SMTP id f6mr23018121eem.2.1343832841230;
+	Wed, 01 Aug 2012 07:54:01 -0700 (PDT)
+Received: from ?IPv6:2001:610:612::a1b9:594:e8d9:e8db?
+	([2001:610:612:0:a1b9:594:e8d9:e8db])
+	by mx.google.com with ESMTPS id t6sm9509084eeo.17.2012.08.01.07.53.58
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 01 Aug 2012 07:53:59 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 6.0 \(1485\))
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <CAJTo0LaJ9mM_yyU+ZYoDACig5E30qBaPU+Y5BDTrrA1bOdK78A@mail.gmail.com>
+Date: Wed, 1 Aug 2012 16:54:20 +0200
+Message-Id: <6D85FA88-63A9-4673-B10A-CCF4063407D0@dominion.thruhere.net>
 References: <cover.1343823907.git.ross.burton@intel.com>
-	<6d27974b9045ca97ce135095a9d48715ac5bdc6c.1343823907.git.ross.burton@intel.com>
-	<20120801124455.GE16306@jama.jama.net>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 1 Aug 2012 15:53:30 +0100
-Message-ID: <CAJTo0LaTWibL0ep=H0UsLXrL9mrFroX6vVcQGW-1vySoDAX_sA@mail.gmail.com>
+	<40FAF05B-A7A4-45DF-8BA7-872A97FDF157@dominion.thruhere.net>
+	<CAJTo0LbVvVqDSPpUs36JTROeq6fWendJwaVQDataN_nD6O=+Ew@mail.gmail.com>
+	<17FC0BB5-80B8-4AB8-A3E8-57261EB7D561@dominion.thruhere.net>
+	<CAJTo0LaJ9mM_yyU+ZYoDACig5E30qBaPU+Y5BDTrrA1bOdK78A@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Gm-Message-State: ALoCoQmxYOMzJuBIvpGB3q0WR0sNIse7Bseogp3X1eeoMfthvMGNWNcsiW+qlTmAN1GRCLF7h2KW
-Subject: Re: [PATCH 07/12] mesa: enable GLESv2
+X-Mailer: Apple Mail (2.1485)
+X-Gm-Message-State: ALoCoQkaP6+IvbL4D3x7b7cobPDvOzjXnDk7XVsq8QEcd+QHGK98wldwikyy7PkldTkR65PLNYJH
+Subject: Re: [PATCH 00/12] Mesa upgrade/improvements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,17 +54,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Aug 2012 15:05:31 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 01 Aug 2012 15:05:39 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-On 1 August 2012 13:44, Martin Jansa <martin.jansa@gmail.com> wrote:
->> +PROVIDES = "virtual/libgl virtual/libgles2"
->
-> Shouldn't be this provided only for opengles2 in DISTRO_FEATURES?
 
-I've changed my mind on this -- gles2 is just another library so if it
-isn't used on the distro it won't be installed.
+Op 1 aug. 2012, om 16:34 heeft "Burton, Ross" <ross.burton@intel.com> =
+het volgende geschreven:
 
-Ross
+> On 1 August 2012 15:33, Koen Kooi <koen@dominion.thruhere.net> wrote:
+>>> Rename the mesa ones to libegl-mesa (etc), and encourage TI to use =
+libegl-ti?
+>>=20
+>> Recipe names don't matter, the .so files in sysroots and shlibdeps =
+do.
+>=20
+> I meant the name of the generated package.  libegl-mesa and libegl-ti
+> shipping the same libraries is expected and desired.
+
+That won't work with debian renaming and shlib will pick up both anyway. =
+You can only have one libegl.so *ever* during the build.=
 
 
