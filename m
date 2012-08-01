@@ -1,41 +1,38 @@
-Received: from mail-pb0-f47.google.com ([209.85.160.47])
+Received: from mail-yw0-f47.google.com ([209.85.213.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1SwfMJ-0005JI-7s
+	(envelope-from <kergoth@gmail.com>) id 1SwfNh-0005MJ-W0
 	for openembedded-core@lists.openembedded.org;
-	Wed, 01 Aug 2012 22:17:31 +0200
-Received: by pbbrq2 with SMTP id rq2so1423960pbb.6
+	Wed, 01 Aug 2012 22:18:58 +0200
+Received: by yhjj56 with SMTP id j56so7041725yhj.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 01 Aug 2012 13:05:51 -0700 (PDT)
+	Wed, 01 Aug 2012 13:07:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:content-type;
-	bh=8G73VaQiijT85vlS3SU6FxV1EoUqWMJvWn2M3XgcuRs=;
-	b=sVkiR0uxhvRqs3E+OrXdeoqy65ONrWSqF421NofDBDkI7kSTnY4hXhmDAwET6nEzoe
-	RzHtb+pHlif+vawvaUW6hCKMPcbQxhYc0mJyslfHIniBsXAUELuVoubq/wZMXTNwt01g
-	/n/f5hVqMF8+JxtR/LTLh9mHHo+BS8XvlLGf3QRLEHd8ZOcWGf2eJeX/QigQSoE1K9ve
-	S3vJRr1/r3uiGib3QhPv2vgJ1WOMldQB09pLroLtkSYn60opRosKlLX0y55lrtysA+DD
-	d+swOk12sJbrMJ15A1HM586y1GJ6IAP+h9ZxxKvv1sfVL1SVkOUw5SFzBJcMeLsi1Toq
-	7mmg==
+	h=mime-version:sender:in-reply-to:references:from:date
+	:x-google-sender-auth:message-id:subject:to:content-type
+	:content-transfer-encoding;
+	bh=Ci78UITd+cOBmlYhbY2KP/eDnJNdItRZTBcbsXo6g1c=;
+	b=R6ANZLWubmMGmOz8CxtHbOvJcyHyqJObIw5NaHpbLj3wimYCyh+Oldz8Y1dFrMLBZK
+	jX0ghEIZfresJl5EK08XzKkDMJ1J8HdLnRxPr7WVk+HS/UJ0XCqryBEBD/2/lGJRq6Yh
+	ilkSRcBRucQpS5AxqbAYIJYpIYc6Jeump8jLSHdAVInBHovY/8fCG+6RiMSZIg+2iryl
+	OdEz2kHvnrqO1ZGwXt1Zj3UX6mSvmqTsSU5fR+4phFWoWg6XUICmhdZ618Ffe59iyIK4
+	IZHrPW5RCog8yNDIoCCFKZhFcbKqez3Q3nZSDoYi1E1PPLwG8A8cMRF2riVeF6eJGzF+
+	kFYQ==
+Received: by 10.50.87.227 with SMTP id bb3mr6394856igb.57.1343851638725; Wed,
+	01 Aug 2012 13:07:18 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.68.197.168 with SMTP id iv8mr54451136pbc.61.1343851551635;
-	Wed, 01 Aug 2012 13:05:51 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.68.63.102 with HTTP; Wed, 1 Aug 2012 13:05:51 -0700 (PDT)
-In-Reply-To: <50197DFA.5070003@windriver.com>
-References: <CALRxmdDhE8GQPYde27786kKU35p4dRrTmaGbmauVDxTrMQ6N6Q@mail.gmail.com>
-	<50183924.8010309@windriver.com>
-	<CADkTA4N_mFVkWx7G=E8BoCDYktkNXxO-zLrw_r9e0sO-wE5FjQ@mail.gmail.com>
-	<CALRxmdDzaizHQ8m1NFRp2-Ucn9Pm6vZJX=pTTdZ5aLx-61OUzw@mail.gmail.com>
-	<50195AFF.1070507@windriver.com>
-	<CAEsOVNfbJAqrDf-+DQh3h0pWtf-qDuQqKfC+_oBRHgyY4B6Obg@mail.gmail.com>
-	<50197DFA.5070003@windriver.com>
-Date: Wed, 1 Aug 2012 17:05:51 -0300
-X-Google-Sender-Auth: bKT_2jpEkxGnXXmzWu9H0bwnXCM
-Message-ID: <CAP9ODKobAsEeouwR+dA2tLNHBxDaxYSunwbbLMs5rV-ES5XfDg@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
+Sender: kergoth@gmail.com
+Received: by 10.50.34.200 with HTTP; Wed, 1 Aug 2012 13:06:58 -0700 (PDT)
+In-Reply-To: <50198091.6050001@windriver.com>
+References: <CALbNGRTYa-2M-pi0d+oBvT+z81kTi8j9VM4gK=iiUDfBSQ7N9A@mail.gmail.com>
+	<CABcZANk2SzKKcXTdU0MLUeXwOWSxq4HqJceMPO6tOLP3M_GejA@mail.gmail.com>
+	<50198091.6050001@windriver.com>
+From: Chris Larson <clarson@kergoth.com>
+Date: Wed, 1 Aug 2012 13:06:58 -0700
+X-Google-Sender-Auth: Xus8GbviXW348wK5fCFrFz2vLqo
+Message-ID: <CABcZANm3J06scGP2Tkde0amm8QXfJGamGydUTDmXC1t3BGxKgg@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: static busybox?
+Subject: Re: number of tasks increased since last update
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,36 +47,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Aug 2012 20:17:31 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Wed, 01 Aug 2012 20:18:58 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Aug 1, 2012 at 4:05 PM, Mark Hatle <mark.hatle@windriver.com> wrote:
-> On 8/1/12 1:59 PM, McClintock Matthew-B29882 wrote:
->> This is one approach, to change busybox completely for a specific
->> added layer. But, what if we only want to make this change to busybox
->> if the lxc recipe is included in the image? What about other packages
->> also requesting changes?
+On Wed, Aug 1, 2012 at 12:16 PM, Mark Hatle <mark.hatle@windriver.com> wrot=
+e:
+> On 8/1/12 2:08 PM, Chris Larson wrote:
+>>
+>> On Wed, Aug 1, 2012 at 8:29 AM, Andreas M=C3=BCller
+>> <schnitzeltony@googlemail.com> wrote:
+>>>
+>>> today I updated and found the the number of tasks has increased about
+>>> 400. Another strange behaviour: in my build dir there are two new
+>>> folders:
+>>>
+>>> x86_64-nativesdk-angstromsdk-linux
+>>> x86_64-angstromsdk-linux
+>>>
+>>> but up to now I was not interested in sdk stuff. Is that another bug
+>>> or a feature?
+>>
+>>
+>> I just went to build core-image-base and saw it building crosssdk
+>> stuff -- not sure if it's related, but thought I'd throw that
+>> datapoint out there.
+>>
 >
-> There is no method within OE to change a configuration of one item, if
-> another item is included or not.
+> do you have the updated bitbake?  Prior to RP's changes about a month ago=
+,
+> the task / dependency resolver was unable to resolve things on a per-task
+> basis.  So any task within a recipe triggered the resolver to build
+> dependencies.
 >
-> The way to do this is use the PACKAGECONFIG options, and then pass via a
-> per-recipe configuration if you want lxc support enabled or not.. (or
-> possible lxc becomes a distro flag?)
+> The SDK stuff adds dependencies only do the sdk task.
+>
+> With the current head of tree bitbake, I have not seen a revert of
+> behavior... the SDK items only build when triggered.
 
-For lxc specific case I think we can just have a recipe that sets the
-busybox' static option. It seems to be the only difference we'd have
-for it.
-
-Having compile options changing by other packages is going to be a
-mess since we'll not know what to expect of build options of the
-application/library (in this case busybox).
-
-
-
--- 
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
+Bitbake commit e49a656a499355a5c6e7eb00bf5b8f1795e8dddb, which is
+current master.
+--=20
+Christopher Larson
 
 
