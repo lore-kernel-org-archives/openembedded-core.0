@@ -1,38 +1,41 @@
-Received: from mail-pb0-f47.google.com ([209.85.160.47])
+Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1SwYH8-0004do-Rm
+	(envelope-from <ross.burton@intel.com>) id 1SwYHD-0004dz-MG
 	for openembedded-core@lists.openembedded.org;
-	Wed, 01 Aug 2012 14:43:45 +0200
-Received: by pbbrq2 with SMTP id rq2so918826pbb.6
+	Wed, 01 Aug 2012 14:43:47 +0200
+Received: from mail-wi0-f172.google.com ([209.85.212.172])
+	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 01 Aug 2012 05:32:07 -0700
+Received: by wibhm11 with SMTP id hm11so3067694wib.13
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 01 Aug 2012 05:32:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=wvbbQMMnyvz0mo1slb5u9XQQnuYsm4/7t/q/5kBO9zQ=;
-	b=qcuEls2PkzA6NrZDZ0HSsnlqUaJzetTHhb3bjvNQw/Pi74eqM/dHRdUIhMnVMFzIT9
-	uzrCWTWytaFJghcaD6m1aoh+mgD+QGDfTpOxfM8XAa7BU/3b2fnQa96+cxALTCTD1wMy
-	IOAUUNtobnNStlgAbNCzl7jjg0vObnCwIc1JjkHMAwV2+DgU9JlZU6fL3gjulwjuKLEm
-	DpopxOfriPrQzGtr2xOvTUG5jgDYrz09c6Wq6Cna3qjUHHrXxoqkLi2hiQ7em+bsOntK
-	huJw2/EnwKh4qlV89wB1yBcZAaZ6ShwSEuKBsSU8tpeYBiJ8cKIU5kJNOaJk/TtL8B97
-	oGVA==
-MIME-Version: 1.0
-Received: by 10.68.130.73 with SMTP id oc9mr47721434pbb.34.1343824323896; Wed,
-	01 Aug 2012 05:32:03 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.68.63.102 with HTTP; Wed, 1 Aug 2012 05:32:03 -0700 (PDT)
-In-Reply-To: <20120801115943.GC16306@jama.jama.net>
-References: <20120801065021.GC15199@jama.jama.net>
-	<CAP9ODKoa2AWz=A8YOmcBDXjDt9jDXaUsgo1WOVrMsivwU--m_w@mail.gmail.com>
-	<20120801115943.GC16306@jama.jama.net>
-Date: Wed, 1 Aug 2012 09:32:03 -0300
-X-Google-Sender-Auth: lum7R1PAqd3z15lWA3etmr6RjeI
-Message-ID: <CAP9ODKo_XN=RaaSM2HfwuwujJROEtk50MHYZka=ZQRLUJQ3m7A@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: u-boot do_compile should be reentrant even with ld-is-gold
+	Wed, 01 Aug 2012 05:32:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
+	:in-reply-to:references:x-gm-message-state;
+	bh=iIx0I+HGx4uuD92Z01cHzTH7aHcbGPDM9JPA9s5MeXU=;
+	b=erX1yFOLf5utZ+/raC1cEpe5WKmx2pys1CtCSwEfqmiUyXwcZ8qCcvaMzC4wKBhIZ1
+	jz/0rUi5u+kgsVyqrFxfJ8qtFDqdW+rahYvSkTYDsTNr6XvBXWcl8cr5MwK/T5A1ALO5
+	IHX3VN6ZnyfE1rlZXkzfYUnEBa7QgYZvKK27oIWT7N9Epz6JtLMQxruwrHjmIRe7gdtE
+	TXMJDGP+hem8IZ0CHX2H2m1XafGVkovKmxQZPI4r+aRT6k1TAzc9eFsBQw66hKqHUp3R
+	XTIp9ZTIJa+vIPP/NAHHOxD0ox3N1e+a2JLtqIExpTd96c+ZXlFJVd60/5x67uxzs6Sr
+	dEaA==
+Received: by 10.180.97.35 with SMTP id dx3mr1167607wib.1.1343824325805;
+	Wed, 01 Aug 2012 05:32:05 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPS id fb20sm8444981wid.1.2012.08.01.05.32.04
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 01 Aug 2012 05:32:05 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  1 Aug 2012 13:31:17 +0100
+Message-Id: <e1a9f9ba3e0e95d33db4fdea1e5f57ad947cd013.1343823907.git.ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10
+In-Reply-To: <cover.1343823907.git.ross.burton@intel.com>
+References: <cover.1343823907.git.ross.burton@intel.com>
+In-Reply-To: <cover.1343823907.git.ross.burton@intel.com>
+References: <cover.1343823907.git.ross.burton@intel.com>
+X-Gm-Message-State: ALoCoQnsS//4hibpWJ/uXYxyopFyxeLpmCLhO3qu7dJZIwgOnQXJ6gAhxUFYqLG5fMnrILyfDPQl
+Subject: [PATCH 11/12] mesa: no need to depend on python-native, the class does that
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,27 +50,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Aug 2012 12:43:47 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Wed, 01 Aug 2012 12:43:48 -0000
 
-On Wed, Aug 1, 2012 at 8:59 AM, Martin Jansa <martin.jansa@gmail.com> wrote:
-> On Wed, Aug 01, 2012 at 08:48:08AM -0300, Otavio Salvador wrote:
->> On Wed, Aug 1, 2012 at 3:50 AM, Martin Jansa <martin.jansa@gmail.com> wrote:
->> > reexecuting do_compile in u-boot causes .bfd being appended multiple
->> > times and resulting in errors like:
->> > /bin/bash: arm-oe-linux-gnueabi-ld.bfd.bfd.bfd: command not found
->>
->> I am just wondering why it'd end re-executed? due changes on sstate hash?
->
-> e.g. when it fails due to compile error and someone reexecutes it then
-> he will see arm-oe-linux-gnueabi-ld.bfd.bfd.bfd instead of real compile
-> error.
 
-Wouldn't be better to grep for 'ld.bfd' and apply it *only* if not is not found?
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-graphics/mesa/mesa-common.inc |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
+diff --git a/meta/recipes-graphics/mesa/mesa-common.inc b/meta/recipes-graphics/mesa/mesa-common.inc
+index e5e91a3..698f4fe 100644
+--- a/meta/recipes-graphics/mesa/mesa-common.inc
++++ b/meta/recipes-graphics/mesa/mesa-common.inc
+@@ -12,7 +12,7 @@ SECTION = "x11"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://docs/license.html;md5=03ccdc4c379c4289aecfb8892c546f67"
+ 
+-INC_PR = "r3"
++INC_PR = "r4"
+ PE = "2"
+ 
+ 
+@@ -20,7 +20,7 @@ PROTO_DEPS = "xf86driproto glproto"
+ LIB_DEPS += "${@base_contains('DISTRO_FEATURES', 'x11', \
+              'virtual/libx11 libxext libxxf86vm libxdamage libxfixes', '', d)}"
+ 
+-DEPENDS = "libxml2-native makedepend-native python-native flex-native bison-native ${LIB_DEPS}"
++DEPENDS = "libxml2-native makedepend-native flex-native bison-native ${LIB_DEPS}"
+ DEPENDS += "${@base_contains('DISTRO_FEATURES', 'x11', '${PROTO_DEPS}', '', d)}"
+ 
+ PROVIDES = "virtual/libgl virtual/libgles2 virtual/egl"
 -- 
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
+1.7.10
+
 
 
