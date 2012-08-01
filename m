@@ -1,28 +1,30 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1SwbvF-0007xr-KU
+	(envelope-from <mark.hatle@windriver.com>) id 1Swc5U-00085q-9s
 	for openembedded-core@lists.openembedded.org;
-	Wed, 01 Aug 2012 18:37:22 +0200
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 01 Aug 2012 09:25:30 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="129281932"
-Received: from unknown (HELO envy.home) ([10.255.13.51])
-	by AZSMGA002.ch.intel.com with ESMTP; 01 Aug 2012 09:25:30 -0700
-Message-ID: <5019580E.4070906@linux.intel.com>
-Date: Wed, 01 Aug 2012 09:23:42 -0700
-From: Darren Hart <dvhart@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:14.0) Gecko/20120717 Thunderbird/14.0
+	Wed, 01 Aug 2012 18:48:29 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q71GaGqF001533
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 1 Aug 2012 09:36:16 -0700 (PDT)
+Received: from Marks-MacBook-Pro.local (172.25.34.39) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.309.2; Wed, 1 Aug 2012 09:36:16 -0700
+Message-ID: <50195AFF.1070507@windriver.com>
+Date: Wed, 1 Aug 2012 11:36:15 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
+	rv:14.0) Gecko/20120713 Thunderbird/14.0
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <1343697966-29777-1-git-send-email-Martin.Jansa@gmail.com>
-	<1343732826.9526.1.camel@ted> <20120731111002.GR3261@jama.jama.net>
-In-Reply-To: <20120731111002.GR3261@jama.jama.net>
-X-Enigmail-Version: 1.4.3
-Cc: Martin Jansa <martin.jansa@gmail.com>
-Subject: Re: [RFC] gdb-cross: add pythonnative
+To: <openembedded-core@lists.openembedded.org>
+References: <CALRxmdDhE8GQPYde27786kKU35p4dRrTmaGbmauVDxTrMQ6N6Q@mail.gmail.com>
+	<50183924.8010309@windriver.com>
+	<CADkTA4N_mFVkWx7G=E8BoCDYktkNXxO-zLrw_r9e0sO-wE5FjQ@mail.gmail.com>
+	<CALRxmdDzaizHQ8m1NFRp2-Ucn9Pm6vZJX=pTTdZ5aLx-61OUzw@mail.gmail.com>
+In-Reply-To: <CALRxmdDzaizHQ8m1NFRp2-Ucn9Pm6vZJX=pTTdZ5aLx-61OUzw@mail.gmail.com>
+Subject: Re: static busybox?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,63 +39,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Aug 2012 16:37:22 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Wed, 01 Aug 2012 16:48:29 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-
-
-On 07/31/2012 04:10 AM, Martin Jansa wrote:
-> On Tue, Jul 31, 2012 at 12:07:06PM +0100, Richard Purdie wrote:
->> On Tue, 2012-07-31 at 03:26 +0200, Martin Jansa wrote:
->>> * fails like this without:
->>> | gcc -isystem/OE/shr-core/tmp-eglibc/sysroots/x86_64-linux/usr/include -O2 -pipe   -L/OE/shr-core/tmp-eglibc/sysroots/x86_64-linux/usr/lib -L/OE/shr-core/tmp-eglibc/sysroo
->>> ts/x86_64-linux/lib -Wl,-rpath-link,/OE/shr-core/tmp-eglibc/sysroots/x86_64-linux/usr/lib -Wl,-rpath-link,/OE/shr-core/tmp-eglibc/sysroots/x86_64-linux/lib -Wl,-rpath,/OE/shr-core/tmp-eglibc/sysroots/x86_64-linux/usr/lib -Wl,-rpath,/OE/shr-core/tmp-eglibc/sysroots/x86_64-linux/lib -Wl,-O1   \
->>> |       -o gdb gdb.o libgdb.a \
->>> |          -lreadline ../opcodes/libopcodes.a ../bfd/libbfd.a  ../libiberty/libiberty.a ../libdecnumber/libdecnumber.a    -ldl -lncurses -lz -lm    -lpthread -ldl -lutil -lm -lpython2.7 -Xlinker -export-dynamic /OE/shr-core/tmp-eglibc/sysroots/x86_64-linux/usr/lib/libexpat.so -Wl,-rpath -Wl,/OE/shr-core/tmp-eglibc/sysroots/x86_64-linux/usr/lib ../libiberty/libiberty.a  gnulib/libgnu.a
->>> | libgdb.a(python.o): In function `gdbpy_target_wide_charset':
->>> | python.c:(.text+0x1e7): undefined reference to `PyUnicodeUCS4_Decode'
->>> | libgdb.a(python.o): In function `gdbpy_target_charset':
->>> | python.c:(.text+0x237): undefined reference to `PyUnicodeUCS4_Decode'
->>> | libgdb.a(py-cmd.o): In function `cmdpy_completer':
->>> | py-cmd.c:(.text+0x97): undefined reference to `PyUnicodeUCS4_Decode'
->>> | py-cmd.c:(.text+0xc3): undefined reference to `PyUnicodeUCS4_Decode'
->>> | libgdb.a(py-cmd.o): In function `cmdpy_function':
->>> | py-cmd.c:(.text+0x39d): undefined reference to `PyUnicodeUCS4_Decode'
->>> | libgdb.a(py-frame.o):py-frame.c:(.text+0xa21): more undefined references to `PyUnicodeUCS4_Decode' follow
->>> | libgdb.a(py-utils.o): In function `unicode_to_encoded_string':
->>> | py-utils.c:(.text+0x8): undefined reference to `PyUnicodeUCS4_AsEncodedString'
->>> | libgdb.a(py-utils.o): In function `python_string_to_unicode':
->>> | py-utils.c:(.text+0xc6): undefined reference to `PyUnicodeUCS4_FromEncodedObject'
->>> | libgdb.a(py-utils.o): In function `unicode_to_target_python_string':
->>> | py-utils.c:(.text+0x13a): undefined reference to `PyUnicodeUCS4_AsEncodedString'
->>> | libgdb.a(py-utils.o): In function `target_string_to_unicode':
->>> | py-utils.c:(.text+0x2a5): undefined reference to `PyUnicodeUCS4_Decode'
->>> | libgdb.a(py-value.o): In function `valpy_string':
->>> | py-value.c:(.text+0x4ac): undefined reference to `PyUnicodeUCS4_Decode'
->>> | libgdb.a(py-value.o): In function `valpy_str':
->>> | py-value.c:(.text+0xab4): undefined reference to `PyUnicodeUCS4_Decode'
->>> | collect2: error: ld returned 1 exit status
->>> | make[2]: *** [gdb] Error 1
->>> | make[2]: Leaving directory `/OE/shr-core/tmp-eglibc/work/armv4t-oe-linux-gnueabi/gdb-cross-7.4.1-r1.0/build-arm-oe-linux-gnueabi/gdb'
->>> | make[1]: *** [all-gdb] Error 2
+On 8/1/12 11:21 AM, Stuart Yoder wrote:
+> On Tue, Jul 31, 2012 at 3:07 PM, Bruce Ashfield
+> <bruce.ashfield@gmail.com> wrote:
+>> On Tue, Jul 31, 2012 at 3:59 PM, Mark Hatle <mark.hatle@windriver.com> wrote:
+>>> On 7/31/12 1:14 PM, Stuart Yoder wrote:
+>>>>
+>>>> We are doing some work with LXC (containers) and one of the templates
+>>>> is for busybox.  For LXC, the busybox package needs to be built statically
+>>>> and
+>>>> there is a config option for this.
+>>>>
+>>>> A couple possible approaches:
+>>>>
+>>>>      -create a new 'busybox_static' recipe that the lxc package
+>>>>       depends on that turns on the needed build options.   Pretty
+>>>>       straightforward, but now there are 2 variants of the busybox
+>>>>       package.
+>>>>
+>>>>      -somehow propagate some configuration options through to
+>>>>       the standard busybox recipe so it turns on the config
+>>>>       option to build things statically.   Not sure how to
+>>>>       do this, and seems like it could get pretty messy.
+>>>>
+>>>> Any thoughts?
 >>>
->>> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
->>> ---
->>>  meta/recipes-devtools/gdb/gdb-cross_7.4.1.bb |    2 ++
->>>  1 files changed, 2 insertions(+), 0 deletions(-)
+>>>
+>>> We've been talking about this as well..  I'm currently of the opinion that
+>>> the kernel's config fragement processing be added to busybox.  This way
+>>> someone can simply add a configuration fragment via a bbappend, or other
+>>> approach and it'll pick it up.   That same can be used to specify how to
+>>> enable other optional pieces of busybox.
 >>
->> Is python enabled for gdb-cross in OE-Core?
-> 
-> Explicitly only in gdb-cross-canadian, so I guess gdb-cross autodetected
-> it (sorry I don't have config.log anymore).
-> 
+>> merge_config.pl can be yanked out of the kernel source tree (it's upstream) and
+>> packaged as something for use by busy box.
+>>
+>> I wouldn't recommend all the scaffolding that the kernel has (it's
+>> overkill, since
+>> there are more configs, patches and git manipulations in play for the
+>> kernel), but a\
+>> simple scheme to collect the fragments from the SRC_URI and fire them through
+>> merge_config.pl would be a pretty simple python routine.
+>
+> So how would this work from the user's point of view?   I somehow
+> need to get busybox's CONFIG_STATIC config option set.   Does the lxc
+> recipe somehow
+> specify this?   Or does the lxc recipe reference a busybox-static
+> dependency that sets the option?
 
-This resolves my gdb-cross build issue on poky-tiny. Thanks Martin.
+You would be able to add a .bbappend that would have a configuration fragment in 
+it.  This fragment would be added to the busybox configuration to override any 
+built in items.
 
--- 
-Darren Hart
-Intel Open Source Technology Center
-Yocto Project - Technical Lead - Linux Kernel
+So you'd need to simply have a file that says:
+
+CONFIG_STATIC = y
+
+--Mark
+
+> Stuart
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+
 
 
