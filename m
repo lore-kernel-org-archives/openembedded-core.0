@@ -1,24 +1,22 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Liezhi.Yang@windriver.com>) id 1SwVE0-0001u0-76
-	for openembedded-core@lists.openembedded.org;
-	Wed, 01 Aug 2012 11:28:21 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q719GbWu002667
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 1 Aug 2012 02:16:37 -0700 (PDT)
-Received: from usp-ub10.corp.ad.wrs.com (128.224.163.69) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.309.2; Wed, 1 Aug 2012 02:16:36 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 1 Aug 2012 17:14:52 +0800
-Message-ID: <cover.1343811985.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.1
+	(envelope-from <paul.eggleton@linux.intel.com>)
+	id 1SwVFw-0003uI-IN; Wed, 01 Aug 2012 11:30:30 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 01 Aug 2012 02:18:37 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="180174483"
+Received: from unknown (HELO helios.localnet) ([10.252.121.41])
+	by orsmga002.jf.intel.com with ESMTP; 01 Aug 2012 02:18:36 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-devel@lists.openembedded.org,
+	openembedded-core@lists.openembedded.org
+Date: Wed, 01 Aug 2012 10:18:35 +0100
+Message-ID: <2185895.mVUSlrr6Gr@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.8.4 (Linux/3.2.0-27-generic-pae; KDE/4.8.4; i686; ; )
 MIME-Version: 1.0
-Cc: Zhenfeng.Zhao@windriver.com
-Subject: [PATCH 0/2] createrepo 0.4.11: create wrapper for python script
+Subject: meta-oe and meta-systemd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,36 +31,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Aug 2012 09:28:38 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 01 Aug 2012 09:31:10 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-This is used for fixing the rpm-createsolvedb.py error:
+Hi folks,
 
-'import site' failed; use -v for traceback
-Traceback (most recent call last):
-File "/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly/build/scripts/rpm-createsolvedb.py", line 14, in 
-import sys, os
-ImportError: No module named os
+As many of you already know, a couple of weeks ago systemd support was moved 
+out of the meta-oe layer and into a new meta-systemd layer:
 
-// Robert
+http://cgit.openembedded.org/meta-openembedded/tree/meta-systemd
 
-The following changes since commit 4f31d21bcb1c8c744e9abb33248715afe4a40af0:
+This means two things:
 
-  lib/oe/lsb.py: Map unknown distributions to 'Unknown' (2012-07-31 08:02:11 +0100)
+1) meta-oe no longer imposes systemd-related changes on those who haven't 
+selected it. There are still some unrelated appends, overlayed recipes and 
+classes that we need to look at tidying up (and this is happening already), 
+but people should now be able to feel more comfortable with using meta-oe as a 
+layer if they were previously hesitant about doing so.
 
-are available in the git repository at:
-  git://git.pokylinux.org/poky-contrib robert/createrepo
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=robert/createrepo
+2) Having the systemd pieces isolated in a single layer makes them easier to 
+examine in isolation and moves us closer to eventually merging systemd support 
+into OE-Core.
 
-Robert Yang (2):
-  createrepo 0.4.11: add rpm-createsolvedb.py
-  createrepo 0.4.11: create wrapper for python script
+As well as adding systemd itself, meta-systemd uses bbappends to add systemd 
+support to various recipes from different layers, and has a directory structure 
+internally that allows appends for layers that are not in use to be BBMASKed 
+out. See the meta-systemd README for details.
 
- meta/classes/rootfs_rpm.bbclass                    |    2 +-
- .../createrepo/createrepo}/rpm-createsolvedb.py    |    0
- .../createrepo/createrepo_0.4.11.bb                |   17 ++++++++++++++++-
- 3 files changed, 17 insertions(+), 2 deletions(-)
- rename {scripts => meta/recipes-support/createrepo/createrepo}/rpm-createsolvedb.py (100%)
+Further work to move systemd closer to merging into OE-Core is ongoing. Thanks 
+very much to all who have contributed so far!
 
+Cheers,
+Paul
+
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
