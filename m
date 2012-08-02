@@ -1,35 +1,34 @@
-Received: from mail-gh0-f175.google.com ([209.85.160.175])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <schnitzeltony@googlemail.com>) id 1SwyDj-0005BR-2p
-	for openembedded-core@lists.openembedded.org;
-	Thu, 02 Aug 2012 18:25:55 +0200
-Received: by ghbz2 with SMTP id z2so8025636ghb.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 02 Aug 2012 09:14:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type; bh=bu0JFcI+0PY9navwZYeNfCVxbvmYQvrFoyyp2xvQBM4=;
-	b=Qfzo1SAbE6lARB966PNTiiKcDSJiggcsKEKUGcJib44gnQsmOTj6g7lyRqcJ3b1OKf
-	w93VpZiWundubL7f9mcKJbwbz/au8rHGtVPcaeuqE0Oib1ojPSTRAzuh1cdQcJFtPBBx
-	IXNjni0Qx8G2KV568n69DsFWaL/dglqvywe9n2TwhHqCgnhrarabkj3bod1HeIU02hmi
-	mKGgIZXVq0Qu7z5kKFkXQH9hdd6Sw8n4OaYpIisi3sjKrmT63pf4308vwM6a3A53XT/T
-	3ammtpsIzbAg1Zzb846gIAY7Ab/meMXi8hJDaadbI7fQXeKAUDcwj7AGw8qeITCqlWza
-	tHzQ==
-MIME-Version: 1.0
-Received: by 10.50.191.227 with SMTP id hb3mr4671854igc.45.1343924054682; Thu,
-	02 Aug 2012 09:14:14 -0700 (PDT)
-Received: by 10.64.142.201 with HTTP; Thu, 2 Aug 2012 09:14:14 -0700 (PDT)
-In-Reply-To: <20120802125846.GP16306@jama.jama.net>
-References: <cover.1343899228.git.paul.eggleton@linux.intel.com>
-	<CAJTo0LY4e_Boi-RU4iyu+_2gRvuvLO40b2Pu8FsCRnXqSdACvQ@mail.gmail.com>
-	<20120802125846.GP16306@jama.jama.net>
-Date: Thu, 2 Aug 2012 18:14:14 +0200
-Message-ID: <CALbNGRSg-OGp-H+5gjvaAtHNbtujS4ZmeDjNcMFNLEYtH=kAaQ@mail.gmail.com>
-From: =?ISO-8859-1?Q?Andreas_M=FCller?= <schnitzeltony@googlemail.com>
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1SwyEz-0005Dx-BW; Thu, 02 Aug 2012 18:27:13 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q72GFXUM009497;
+	Thu, 2 Aug 2012 17:15:33 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 09311-03; Thu,  2 Aug 2012 17:15:29 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q72GFPkk009491
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Thu, 2 Aug 2012 17:15:25 +0100
+Message-ID: <1343924127.9756.88.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/9] buildhistory improvements
+Date: Thu, 02 Aug 2012 17:15:27 +0100
+In-Reply-To: <CABcZANmUVia_qXt7a3oG5ofJeJYVO29gOoLaLb7zT=64W00CxQ@mail.gmail.com>
+References: <1343250562.29991.0.camel@ted>
+	<20120802135335.GQ16306@jama.jama.net>
+	<20120802141450.GS16306@jama.jama.net> <1343922792.9756.81.camel@ted>
+	<CABcZANmUVia_qXt7a3oG5ofJeJYVO29gOoLaLb7zT=64W00CxQ@mail.gmail.com>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: openembedded-core <openembedded-core@openembedded.org>,
+	openembedded-devel@lists.openembedded.org
+Subject: Re: [oe] [PATCH] sstate: Add a two character subdirectory to the sstate directory layout
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,36 +43,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Aug 2012 16:25:55 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Thu, 02 Aug 2012 16:27:13 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Thu, Aug 2, 2012 at 2:58 PM, Martin Jansa <martin.jansa@gmail.com> wrote:
-> On Thu, Aug 02, 2012 at 12:27:05PM +0100, Burton, Ross wrote:
->> On 2 August 2012 10:23, Paul Eggleton <paul.eggleton@linux.intel.com> wrote:
->> > A bunch of improvements for buildhistory, implementing some feature
->> > requests and todo items of my own, as well as tidying up some of the
->> > code.
->>
->> I've been using this branch for an hour or so whilst reviewing
->> changes, the new features are useful and it didn't break.
->>
->> Acked-by: Ross Burton <ross.burton@intel.com>
->
-> My tests also look good, some interesting (expected) changes recorded
-> here
->
-> http://git.shr-project.org/git/?p=buildhistory.git;a=commitdiff;h=2fe33b15dcec9eb69f9075f138cea2405c061b00
->
-> Thanks!
->
-> Acked-by: Martin Jansa <Martin.Jansa@gmail.com>
->
-> Cheers,
->
-> --
-> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-Although I have no time for testing at the moment: thanks for doing this
+On Thu, 2012-08-02 at 08:59 -0700, Chris Larson wrote:
+> On Thu, Aug 2, 2012 at 8:53 AM, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> > On Thu, 2012-08-02 at 16:14 +0200, Martin Jansa wrote:
+> >> 2 more ideas:
+> >>
+> >> 1) would be great to also download file.sigdata if it exists, to be able
+> >>    to compare them when they change even on machine which downloaded
+> >>    older sstate file from remote url
+> >> 2) if the reason for this patch was number of files in shared
+> >>    sstate-cache directory, then fetcher creating .done files makes
+> >>    number double too (would be fine if fetcher stores all 3 files
+> >>    (.tgz, .tgz.sigdata, .tgz.done) in right prefix, or moves them to
+> >>    right prefix instead of symlinks.
+> >
+> > I'm aware of the problem. The main issue is that we probably need to
+> > start enforcing complete paths for all downloads in DL_DIR, including
+> > http:// urls. This would resolve conflicts like:
+> >
+> > SRC_URI = "http://server1.org/somefile.patch \
+> >            http://server2.org/somefile.patch"
+> >
+> > where the two files are different. The trouble is it will pretty much
+> > break all the source mirrors :(.
+> 
+> I think we need to stop the tendency to use DL_DIR as is as a mirror,
+> and instead create a task or something to populate a mirror directory
+> from the DL_DIR. This would avoid potential issues with licensing if
+> it uses license filtering to control what gets populated, as well.
 
-Andreas
+I agree, there are some issues in that area and we shoudl encourage
+people to think about this.
+
+Having said that, I'm worried we are going to hit conflicts over DL_DIR
+regardless of that.
+
+Perhaps making this change might be a way to remind people of that....
+
+Cheers,
+
+Richard
+
 
 
