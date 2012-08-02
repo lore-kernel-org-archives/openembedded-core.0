@@ -1,37 +1,26 @@
-Received: from mail-qa0-f47.google.com ([209.85.216.47])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@gmail.com>) id 1SwmBb-0003Y5-HU
+	(envelope-from <radu.moisan@intel.com>) id 1Swoga-0001qa-AP
 	for openembedded-core@lists.openembedded.org;
-	Thu, 02 Aug 2012 05:34:55 +0200
-Received: by qabg1 with SMTP id g1so3784925qab.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 01 Aug 2012 20:23:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type; bh=DuYHTmNap6Ell3czsFy0E8Wls6fnx9t/eQSPaitGXGc=;
-	b=JjNdmFfxTdR8Rq7g+I/02RLWfUZsx++2ref8Hj7W+5tW63pH92rxwOzw2JAiUhTSmZ
-	KwA4DMI9bmHht+NJvXm7bel4mjO6yHjuwZvcP5g9w4B1tz3AyhpnHA2w24OARu6B3i3S
-	Pe5X3AiR2fYURW2J34PZAAsGlg36HJjXeJD9xoCBz/fsKi6dv89fiKODjFQQpvGZalJj
-	q2nZgd36z9ekwIGaz9bZtLLftxpUtptwSswb88hx6QoUFbsGlZARe4QSj0SDfu5OJUBR
-	+cp6XOjmkx7IW+g+UdWusVY9nR8jCxucVMjgtLeOYm9I0ZvlFruewz0ERtZOyIWaPkHj
-	FQAA==
+	Thu, 02 Aug 2012 08:15:04 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 01 Aug 2012 23:03:22 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; 
+	d="scan'208,217";a="192329532"
+Received: from dell-desktop (HELO [10.237.105.32]) ([10.237.105.32])
+	by fmsmga001.fm.intel.com with ESMTP; 01 Aug 2012 23:03:21 -0700
+Message-ID: <501A1895.2020809@intel.com>
+Date: Thu, 02 Aug 2012 09:05:09 +0300
+From: Radu Moisan <radu.moisan@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:14.0) Gecko/20120714 Thunderbird/14.0
 MIME-Version: 1.0
-Received: by 10.229.105.100 with SMTP id s36mr10448950qco.88.1343877796191;
-	Wed, 01 Aug 2012 20:23:16 -0700 (PDT)
-Received: by 10.229.247.198 with HTTP; Wed, 1 Aug 2012 20:23:16 -0700 (PDT)
-In-Reply-To: <CAMKF1sqbDEdyAN+z4Y_EFVyt_ZF2SsHg-uEWtnjPgu6LGRx8GA@mail.gmail.com>
-References: <cover.1343325569.git.bruce.ashfield@windriver.com>
-	<15363b249e50ef40bad737d3a6c2a1c28d3a2dc9.1343325569.git.bruce.ashfield@windriver.com>
-	<50131892.6020708@linux.intel.com>
-	<648B08DC-9D46-4EEF-AAAA-C1DA84D9AB42@gmail.com>
-	<CADkTA4O-u+S=2H9iZ9FxoX6mUfifvRO+Y4_HY9bDfBSwfg7c=Q@mail.gmail.com>
-	<CAMKF1sqbDEdyAN+z4Y_EFVyt_ZF2SsHg-uEWtnjPgu6LGRx8GA@mail.gmail.com>
-Date: Wed, 1 Aug 2012 23:23:16 -0400
-Message-ID: <CADkTA4O2QdhErXmLW8Q27-3SZ2O2DHL8kaSR1EB9N6D6kZ9Dxg@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] kernel.bbclass: remove default module_autoload and module_conf values
+To: openembedded-core@lists.openembedded.org
+References: <1343829298-29238-1-git-send-email-radu.moisan@intel.com>
+	<20120801140128.GI16306@jama.jama.net>
+In-Reply-To: <20120801140128.GI16306@jama.jama.net>
+Subject: Re: [PATCH v2] liburcu: Upgrade to upstream 0.7.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,65 +35,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Aug 2012 03:34:55 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Thu, 02 Aug 2012 06:15:04 -0000
+Content-Type: multipart/alternative;
+	boundary="------------070108050301040901000402"
 
-On Wed, Aug 1, 2012 at 11:12 PM, Khem Raj <raj.khem@gmail.com> wrote:
-> On Wed, Aug 1, 2012 at 7:58 PM, Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
->> On Wed, Aug 1, 2012 at 7:15 PM, Khem Raj <raj.khem@gmail.com> wrote:
->>>
->>> On Jul 27, 2012, at 3:39 PM, Darren Hart <dvhart@linux.intel.com> wrote:
->>>
->>>>> kernel.bbclass is a common class for many different kernel versions,
->>>>> and as such the default module_autoload and module_conf values that
->>>>> it contains are not relevant, or out of date for most builds.
->>>>>
->>>>> Individual kernel recipes or distros can better specify these
->>>>> values to meet their needs.
->>>>>
->>>>> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
->>>>
->>>> This makes sense to me. None of the below are likely to prevent boot and
->>>> seem to be more along the lines of MACHINE policy.
->>>>
->>>
->>> This needs some soak time. For folks who are unknowingly depending on this.
->>
->> Is there a good place to stage this to get more eyes on it ? I'm willing to help
->> make sure no one is broken, but I'm @ 6 days and got a few comments, but
->> nothing much .. so if we can do more, I'm all ears!
->>
+--------------070108050301040901000402
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
+
+No it doesn't, just found Alex's patch.
+Since Alex's patch is older and ongoing review, just forget about this one.
+
+Radu
+
+On 08/01/2012 05:01 PM, Martin Jansa wrote:
+> On Wed, Aug 01, 2012 at 04:54:58PM +0300, Radu Moisan wrote:
+>> LICENSE file has the date changed otherwise just a regular
+>> package update.
+> And does this resolve Saul's review comments?
 >
-> Well I fixed my case :)
-
-Ha! You should have just said that (I'm dense at times) :P So it's
-working as designed, let it soak!
-
-Cheers,
-
-Bruce
-
->
->> Cheers,
+>> Signed-off-by: Radu Moisan <radu.moisan@intel.com>
+>> ---
+>>   .../liburcu/{liburcu_0.6.7.bb => liburcu_0.7.3.bb} |    6 +++---
+>>   1 file changed, 3 insertions(+), 3 deletions(-)
+>>   rename meta/recipes-support/liburcu/{liburcu_0.6.7.bb => liburcu_0.7.3.bb} (77%)
 >>
->> Bruce
+>> diff --git a/meta/recipes-support/liburcu/liburcu_0.6.7.bb b/meta/recipes-support/liburcu/liburcu_0.7.3.bb
+>> similarity index 77%
+>> rename from meta/recipes-support/liburcu/liburcu_0.6.7.bb
+>> rename to meta/recipes-support/liburcu/liburcu_0.7.3.bb
+>> index be73856..86f29be 100644
+>> --- a/meta/recipes-support/liburcu/liburcu_0.6.7.bb
+>> +++ b/meta/recipes-support/liburcu/liburcu_0.7.3.bb
+>> @@ -3,7 +3,7 @@ HOMEPAGE = "http://lttng.org/urcu"
+>>   BUGTRACKER = "http://lttng.org/project/issues"
+>>   
+>>   LICENSE = "LGPLv2.1+ & MIT-style"
+>> -LIC_FILES_CHKSUM = "file://LICENSE;md5=b472dc110d38774921e1d5ccb0065fff \
+>> +LIC_FILES_CHKSUM = "file://LICENSE;md5=95dfea59eeaa41a4057faa07a58f5f89 \
+>>                       file://urcu.h;beginline=4;endline=32;md5=4de0d68d3a997643715036d2209ae1d9 \
+>>                       file://urcu/uatomic/x86.h;beginline=4;endline=21;md5=220552f72c55b102f2ee35929734ef42"
+>>   
+>> @@ -11,8 +11,8 @@ PR = "r0"
+>>   
+>>   SRC_URI = "http://lttng.org/files/urcu/userspace-rcu-${PV}.tar.bz2"
+>>   
+>> -SRC_URI[md5sum] = "2705dadd65beda8e8960472c082e44b3"
+>> -SRC_URI[sha256sum] = "b0b09aead6fbcb4d5efb4270e12f84ffd115b99b55b2c745e052b2d87a47e75f"
+>> +SRC_URI[md5sum] = "c40b726f13bff80982c1ffa1bc2db31d"
+>> +SRC_URI[sha256sum] = "63f540a5d3c947fa3739711099fb87a66036d3c9560f26da763e500da296a1af"
+>>   
+>>   S = "${WORKDIR}/userspace-rcu-${PV}"
+>>   CFLAGS_append_libc-uclibc = " -D_GNU_SOURCE"
+>> -- 
+>> 1.7.9.5
 >>
->>>
->>> _______________________________________________
->>> Openembedded-core mailing list
->>> Openembedded-core@lists.openembedded.org
->>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->>
->>
->>
->> --
->> "Thou shalt not follow the NULL pointer, for chaos and madness await
->> thee at its end"
 >>
 >> _______________________________________________
 >> Openembedded-core mailing list
 >> Openembedded-core@lists.openembedded.org
 >> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 >
 > _______________________________________________
 > Openembedded-core mailing list
@@ -112,9 +103,96 @@ Bruce
 > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
+--------------070108050301040901000402
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
+<html>
+  <head>
+    <meta content="text/html; charset=ISO-8859-1"
+      http-equiv="Content-Type">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    No it doesn't, just found Alex's patch.<br>
+    Since Alex's patch is older and ongoing review, just forget about
+    this one.<br>
+    <br>
+    Radu<br>
+    <br>
+    <div class="moz-cite-prefix">On 08/01/2012 05:01 PM, Martin Jansa
+      wrote:<br>
+    </div>
+    <blockquote cite="mid:20120801140128.GI16306@jama.jama.net"
+      type="cite">
+      <pre wrap="">On Wed, Aug 01, 2012 at 04:54:58PM +0300, Radu Moisan wrote:
+</pre>
+      <blockquote type="cite">
+        <pre wrap="">LICENSE file has the date changed otherwise just a regular
+package update.
+</pre>
+      </blockquote>
+      <pre wrap="">
+And does this resolve Saul's review comments?
+
+</pre>
+      <blockquote type="cite">
+        <pre wrap="">
+Signed-off-by: Radu Moisan <a class="moz-txt-link-rfc2396E" href="mailto:radu.moisan@intel.com">&lt;radu.moisan@intel.com&gt;</a>
+---
+ .../liburcu/{liburcu_0.6.7.bb =&gt; liburcu_0.7.3.bb} |    6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-support/liburcu/{liburcu_0.6.7.bb =&gt; liburcu_0.7.3.bb} (77%)
+
+diff --git a/meta/recipes-support/liburcu/liburcu_0.6.7.bb b/meta/recipes-support/liburcu/liburcu_0.7.3.bb
+similarity index 77%
+rename from meta/recipes-support/liburcu/liburcu_0.6.7.bb
+rename to meta/recipes-support/liburcu/liburcu_0.7.3.bb
+index be73856..86f29be 100644
+--- a/meta/recipes-support/liburcu/liburcu_0.6.7.bb
++++ b/meta/recipes-support/liburcu/liburcu_0.7.3.bb
+@@ -3,7 +3,7 @@ HOMEPAGE = <a class="moz-txt-link-rfc2396E" href="http://lttng.org/urcu">"http://lttng.org/urcu"</a>
+ BUGTRACKER = <a class="moz-txt-link-rfc2396E" href="http://lttng.org/project/issues">"http://lttng.org/project/issues"</a>
+ 
+ LICENSE = "LGPLv2.1+ &amp; MIT-style"
+-LIC_FILES_CHKSUM = <a class="moz-txt-link-rfc2396E" href="file://LICENSE;md5=b472dc110d38774921e1d5ccb0065fff\+LIC_FILES_CHKSUM=">"file://LICENSE;md5=b472dc110d38774921e1d5ccb0065fff \
++LIC_FILES_CHKSUM = "</a<a class="moz-txt-link-rfc2396E" href="file://LICENSE;md5=95dfea59eeaa41a4057faa07a58f5f89\file://urcu.h;beginline=4;endline=32;md5=4de0d68d3a997643715036d2209ae1d9\file://urcu/uatomic/x86.h;beginline=4;endline=21;md5=220552f72c55b102f2ee35929734ef42">"file://LICENSE;md5=95dfea59eeaa41a4057faa07a58f5f89 \
+                     file://urcu.h;beginline=4;endline=32;md5=4de0d68d3a997643715036d2209ae1d9 \
+                     file://urcu/uatomic/x86.h;beginline=4;endline=21;md5=220552f72c55b102f2ee35929734ef42"</a>
+ 
+@@ -11,8 +11,8 @@ PR = "r0"
+ 
+ SRC_URI = <a class="moz-txt-link-rfc2396E" href="http://lttng.org/files/urcu/userspace-rcu-${PV}.tar.bz2">"http://lttng.org/files/urcu/userspace-rcu-${PV}.tar.bz2"</a>
+ 
+-SRC_URI[md5sum] = "2705dadd65beda8e8960472c082e44b3"
+-SRC_URI[sha256sum] = "b0b09aead6fbcb4d5efb4270e12f84ffd115b99b55b2c745e052b2d87a47e75f"
++SRC_URI[md5sum] = "c40b726f13bff80982c1ffa1bc2db31d"
++SRC_URI[sha256sum] = "63f540a5d3c947fa3739711099fb87a66036d3c9560f26da763e500da296a1af"
+ 
+ S = "${WORKDIR}/userspace-rcu-${PV}"
+ CFLAGS_append_libc-uclibc = " -D_GNU_SOURCE"
 -- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+1.7.9.5
 
 
+_______________________________________________
+Openembedded-core mailing list
+<a class="moz-txt-link-abbreviated" href="mailto:Openembedded-core@lists.openembedded.org">Openembedded-core@lists.openembedded.org</a>
+<a class="moz-txt-link-freetext" href="http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core">http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core</a>
+</pre>
+      </blockquote>
+      <pre wrap="">
+</pre>
+      <br>
+      <fieldset class="mimeAttachmentHeader"></fieldset>
+      <br>
+      <pre wrap="">_______________________________________________
+Openembedded-core mailing list
+<a class="moz-txt-link-abbreviated" href="mailto:Openembedded-core@lists.openembedded.org">Openembedded-core@lists.openembedded.org</a>
+<a class="moz-txt-link-freetext" href="http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core">http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core</a>
+</pre>
+    </blockquote>
+    <br>
+  </body>
+</html>
+
+--------------070108050301040901000402--
