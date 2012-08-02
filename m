@@ -1,40 +1,40 @@
-Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
+Received: from astoria.ccjclearline.com ([64.235.106.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1SwtVy-0005YS-Jo
+	(envelope-from <rpjday@crashcourse.ca>) id 1SwtY9-0005by-Vz
 	for openembedded-core@lists.openembedded.org;
-	Thu, 02 Aug 2012 13:24:26 +0200
-Received: from mail-gg0-f180.google.com ([209.85.161.180])
-	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 02 Aug 2012 04:12:45 -0700
-Received: by ggnf1 with SMTP id f1so7559058ggn.25
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 02 Aug 2012 04:12:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=O0G6TQs8EVRUr0pXd0xhm4gLgTFQYFUvTV4VM1rueoM=;
-	b=a7MurzkuuKfUBvDBuiOR7/1Tw6GDX48MAnPGe/Jx/mVqLUBIbFA8wPQpXwhq3d4gGY
-	p8YaSnmZa4FEsrYkrOzd+txvbTKfVAjTBnp7OEKAfWx6qr8LuTianCZ7psZM46skaTwb
-	iKVBB6AvR3u8vvaEIUtx7ZgboAsHpA/uxzobV02L+ZbWqPAhCCBkveblfp1/nEMddze2
-	EmNYQ8ScAaFSEi+mOy5WvFT6i0sHf3WoPv51tg/KL1kMOTyQ3ojogL7VRKHUOoV2BK03
-	VfAXQPjEjinWGo05B9TpLq5ZelUq4L0WZn+b4Ar3TbNUBQgNs8dfE0sUMizjts0y3Ui9
-	oNMQ==
-Received: by 10.50.195.195 with SMTP id ig3mr2855749igc.61.1343905964695; Thu,
-	02 Aug 2012 04:12:44 -0700 (PDT)
+	Thu, 02 Aug 2012 13:26:42 +0200
+Received: from rrcs-24-227-210-218.sw.biz.rr.com ([24.227.210.218]:36248
+	helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.77) (envelope-from <rpjday@crashcourse.ca>)
+	id 1SwtMu-0004jQ-CQ; Thu, 02 Aug 2012 07:15:04 -0400
+Date: Thu, 2 Aug 2012 06:15:00 -0500 (CDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@oneiric
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <alpine.DEB.2.02.1208020605550.2542@oneiric>
+Message-ID: <alpine.DEB.2.02.1208020613210.2627@oneiric>
+References: <alpine.DEB.2.02.1208011831540.5168@oneiric>
+	<CAEsOVNfHoY3gbwJoVCUfS61LeN_idZpNMtU3aOmZLVs7=BDQmA@mail.gmail.com>
+	<alpine.DEB.2.02.1208011855500.26345@oneiric>
+	<CABcZANkSy37E3DFWH6n53sbG-7nPzOzBBfPp2JOqRzhyPS=erQ@mail.gmail.com>
+	<alpine.DEB.2.02.1208012004070.4406@oneiric>
+	<CABcZANmZ=A+BJSTvnhHHaChzn=4t9yXKJmHhO4xistaOga5Gdw@mail.gmail.com>
+	<alpine.DEB.2.02.1208020605550.2542@oneiric>
+User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
 MIME-Version: 1.0
-Received: by 10.64.70.229 with HTTP; Thu, 2 Aug 2012 04:12:24 -0700 (PDT)
-In-Reply-To: <40727268.akUMmXJU4Z@helios>
-References: <cover.1343899228.git.paul.eggleton@linux.intel.com>
-	<db2dd38ac0b16d55f729f63010e38dda4dcfced5.1343899228.git.paul.eggleton@linux.intel.com>
-	<CAJTo0LZ7QJtfzmsg2a++ay8YoNOptRFohWwQrKNT0JrHYkYRbw@mail.gmail.com>
-	<40727268.akUMmXJU4Z@helios>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 2 Aug 2012 12:12:24 +0100
-Message-ID: <CAJTo0LY2+vW+Px2kh26RZXyorqOAqM1OBzCG3aAJQJ+rWeGU8Q@mail.gmail.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-X-Gm-Message-State: ALoCoQk9XC+ujkpz/3YLX6oX6XMY47L28tNdwbKVDLKbSL6jqLy+pf7Oe8LJhIX4YjXr/ZV8vq9r
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 6/9] scripts: add buildhistory-tag script
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Cc: McClintock Matthew-B29882 <B29882@freescale.com>
+Subject: Re: using an external (arm) toolchain - just checking i did this properly
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,16 +49,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Aug 2012 11:24:26 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 02 Aug 2012 11:26:42 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
-On 2 August 2012 11:49, Paul Eggleton <paul.eggleton@linux.intel.com> wrote:
-> Interesting - sounds like it would be useful, but I wonder how it would then
-> fit in with buildhistory-diff as a separate script (particularly with diff as a
-> valid option to "buildhistory")...
+On Thu, 2 Aug 2012, Robert P. J. Day wrote:
 
-Rename it to -compare?
+>
+>   here's a summary of the eglibc config error i'm having trying to
+> bake a core-image-minimal for qemuarm on a fully-updated 64-bit ubuntu
+> 12.04 system using code sourcery's arm toolchain..
+>
+>   here's what i've added to the top of my local.conf:
+>
+> TCMODE = "external-sourcery"
+> EXTERNAL_TOOLCHAIN = "/home/rpjday/CodeSourcery/Sourcery_G++_Lite"
+> NO32LIBS = "0"
+>
+> when i run "bitbake core-image-minimal", the configure of eglibc
+> fails, and i've attached the config.log file, of which this would
+> appear to be the salient bit:
+>
+> ... snip ...
+> In file included from
+> /home/rpjday/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-linux-gnueabi/4.3.3/include-fixed/syslimits.h:7,
+>                  from
+> /home/rpjday/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-linux-gnueabi/4.3.3/include-fixed/limits.h:11,
+>                  from conftest.c:10:
+> /home/rpjday/CodeSourcery/Sourcery_G++_Lite/bin/../lib/gcc/arm-none-linux-gnueabi/4.3.3/include-fixed/limits.h:122:61:
+> error: limits.h: No such file or directory
+> configure:3102: $? = 1
+> configure: failed program was:
+> | /* confdefs.h */
+> | #define PACKAGE_NAME "GNU C Library"
+> | #define PACKAGE_TARNAME "glibc"
+> | #define PACKAGE_VERSION "(see version.h)"
+> | #define PACKAGE_STRING "GNU C Library (see version.h)"
+> | #define PACKAGE_BUGREPORT "http://sourceware.org/bugzilla/"
+> | #define PACKAGE_URL "http://www.gnu.org/software/glibc/"
+> | /* end confdefs.h.  */
+> | #ifdef __STDC__
+> | # include <limits.h>
+> | #else
+> | # include <assert.h>
+> | #endif
+> |                    Syntax error
+>
+>   that same error, unsurprisingly, occurs more than once.  i'm using a
+> fully up-to-date (git pulled) oe-core and bitbake.  i'm going to
+> wander off and find some coffee before digging into this, so i'm open
+> to advice.
 
-Ross
+  oh, wait, this looks like it might be informative:
+
+http://www.mail-archive.com/meta-ti@yoctoproject.org/msg00391.html
+
+i will investigate further.
+
+rday
+
+-- 
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
