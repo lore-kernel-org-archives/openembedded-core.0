@@ -1,34 +1,38 @@
-Received: from mail-wi0-f177.google.com ([209.85.212.177])
+Received: from mail-wi0-f169.google.com ([209.85.212.169])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1SwuPF-0006yY-Dv
+	(envelope-from <martin.jansa@gmail.com>) id 1SwvAb-00010m-OK
 	for openembedded-core@lists.openembedded.org;
-	Thu, 02 Aug 2012 14:21:33 +0200
-Received: by wibhm11 with SMTP id hm11so4363250wib.6
+	Thu, 02 Aug 2012 15:10:29 +0200
+Received: by wibhm2 with SMTP id hm2so4932007wib.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 02 Aug 2012 05:09:54 -0700 (PDT)
+	Thu, 02 Aug 2012 05:58:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	bh=VTOgQieqXwzCOiP+MBixd5MUHepqE6Es0XweLNCZV9Y=;
-	b=yetu01R2Vo7c+iiIxri6YU/NDcb9jQPBQMFDfmAM8c9G5iXImtOdn9nMdKT78OVVO2
-	0mPD67UWXaFF25dhg7qn/vLCBlvtqvPdJmK8Dr7byzY+ZbHfpAh0oLHwCto7/1pyD/hr
-	VvTJ7VH018B3UWY22f5QZP+Wbwu6crUkWauoi3/qkTjRs3PvrOIdg6EbEXO3PX8XifOU
-	3+ni3zzXhOM/ZEyEyJDgCGRGB5gSZWFGYG9BbkJKstrpNeN3/d5EuTcTCsyN9TfdHPIj
-	UgO9jwQxvGv4allVcaa490+Ts2pVSb6sJTJi5lYmabHh6WpS9W7dIz0pdeplWOv2J67Z
-	DXdw==
-Received: by 10.180.80.134 with SMTP id r6mr4262663wix.1.1343909394159;
-	Thu, 02 Aug 2012 05:09:54 -0700 (PDT)
+	h=date:from:to:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=V2o3ewpmPGjCeCKHWIwYBOvBVT6KyRjkbZbbaXH2r9k=;
+	b=aOU18IJaEJ0gYq2HAUc4oqBBkwJKgrX8AfUI/36/F3dlyexfM1IhWKFqwBTIgI2VlX
+	MhxBFRz2fCAUBZo9U9BrmEMsCoccNCI/iBHMmDitZM1oUGJscFgRi24JQqdHP/s9SF9H
+	yx5arKAroaQKpViRu3XinAS4ZN0+CfnMdcVjES+ZrEhGrzeaGEaQ5t9QoNwjOYXf5D3M
+	7tIn2eZj93z+pfnM7M9KvB4zZuY6ukDaQBCTNxR/ltF/BSTAgu6PTMv1HW0ZvAN7Lqb5
+	jHMPNSOBJV+zsSzhO9tMmN5H2iDASAkwQt8A7UhSUdMw8qCVr84SXNsBOBX8/mO6bAZY
+	Xa2A==
+Received: by 10.216.132.76 with SMTP id n54mr10368409wei.135.1343912330247;
+	Thu, 02 Aug 2012 05:58:50 -0700 (PDT)
 Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id bc2sm16826626wib.0.2012.08.02.05.09.52
+	by mx.google.com with ESMTPS id w7sm33524380wiz.0.2012.08.02.05.58.47
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 02 Aug 2012 05:09:53 -0700 (PDT)
+	Thu, 02 Aug 2012 05:58:48 -0700 (PDT)
+Date: Thu, 2 Aug 2012 14:58:46 +0200
 From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  2 Aug 2012 14:09:50 +0200
-Message-Id: <1343909390-23651-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.7.8.6
-In-Reply-To: <20120802115012.GO16306@jama.jama.net>
-References: <20120802115012.GO16306@jama.jama.net>
-Subject: [PATCH] u-boot.inc: fix regexp used when ld-is-gold
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Message-ID: <20120802125846.GP16306@jama.jama.net>
+References: <cover.1343899228.git.paul.eggleton@linux.intel.com>
+	<CAJTo0LY4e_Boi-RU4iyu+_2gRvuvLO40b2Pu8FsCRnXqSdACvQ@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LY4e_Boi-RU4iyu+_2gRvuvLO40b2Pu8FsCRnXqSdACvQ@mail.gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Subject: Re: [PATCH 0/9] buildhistory improvements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,39 +47,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Aug 2012 12:21:33 -0000
+X-List-Received-Date: Thu, 02 Aug 2012 13:10:29 -0000
+X-Groupsio-MsgNum: 26777
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="fjEAjMKpll6GDq3U"
+Content-Disposition: inline
 
-* with old regexp it wasn't reentrant, causing stuff like this:
-  -LD     = $(CROSS_COMPILE)ld
-  +LD     = $(CROSS_COMPILE)ld.bfd.bfd
-  -LDR    = $(CROSS_COMPILE)ldr
-  +LDR    = $(CROSS_COMPILE)ld.bfd.bfdr
-  when do_compile was reexecuted, also breaking LDR variable and
-  http://git.yoctoproject.org/cgit/cgit.cgi/meta-ti/tree/recipes-bsp/u-boot/u-boot/0001-config-Always-use-GNU-ld.patch
-  when it was used together with u-boot.inc from oe-core (meta-ti is using own u-boot.inc)
+--fjEAjMKpll6GDq3U
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-* This patch is also better solution to ld-is-gold problem then regexp in metadata.
+On Thu, Aug 02, 2012 at 12:27:05PM +0100, Burton, Ross wrote:
+> On 2 August 2012 10:23, Paul Eggleton <paul.eggleton@linux.intel.com> wro=
+te:
+> > A bunch of improvements for buildhistory, implementing some feature
+> > requests and todo items of my own, as well as tidying up some of the
+> > code.
+>=20
+> I've been using this branch for an hour or so whilst reviewing
+> changes, the new features are useful and it didn't break.
+>=20
+> Acked-by: Ross Burton <ross.burton@intel.com>
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/recipes-bsp/u-boot/u-boot.inc |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+My tests also look good, some interesting (expected) changes recorded
+here
 
-diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
-index 42bdde9..a8642f0 100644
---- a/meta/recipes-bsp/u-boot/u-boot.inc
-+++ b/meta/recipes-bsp/u-boot/u-boot.inc
-@@ -34,7 +34,7 @@ SPL_SYMLINK ?= "${SPL_BINARY}-${MACHINE}"
- 
- do_compile () {
- 	if [ "${@base_contains('DISTRO_FEATURES', 'ld-is-gold', 'ld-is-gold', '', d)}" = "ld-is-gold" ] ; then
--		sed -i 's/$(CROSS_COMPILE)ld/$(CROSS_COMPILE)ld.bfd/g' config.mk
-+		sed -i 's/$(CROSS_COMPILE)ld$/$(CROSS_COMPILE)ld.bfd/g' config.mk
- 	fi
- 
- 	unset LDFLAGS
--- 
-1.7.8.6
+http://git.shr-project.org/git/?p=3Dbuildhistory.git;a=3Dcommitdiff;h=3D2fe=
+33b15dcec9eb69f9075f138cea2405c061b00
 
+Thanks!
 
+Acked-by: Martin Jansa <Martin.Jansa@gmail.com>
 
+Cheers,
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--fjEAjMKpll6GDq3U
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
+
+iEYEARECAAYFAlAaeYYACgkQN1Ujt2V2gBzcIACeKYLzAef1seJyD0t5PoFmxdDK
+eKYAnifK5yNUX/rA/PhHtQFF+ae+Ov0u
+=CPjp
+-----END PGP SIGNATURE-----
+
+--fjEAjMKpll6GDq3U--
