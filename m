@@ -1,37 +1,39 @@
-Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
+Received: from mail-wi0-f171.google.com ([209.85.212.171])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1SwtkB-0005wg-BX
+	(envelope-from <martin.jansa@gmail.com>) id 1Swu6G-0006ZI-TV
 	for openembedded-core@lists.openembedded.org;
-	Thu, 02 Aug 2012 13:39:07 +0200
-Received: from mail-gg0-f180.google.com ([209.85.161.180])
-	by mga03.intel.com with ESMTP/TLS/RC4-SHA; 02 Aug 2012 04:27:26 -0700
-Received: by ggnf1 with SMTP id f1so7573145ggn.25
+	Thu, 02 Aug 2012 14:01:56 +0200
+Received: by wibhq4 with SMTP id hq4so4345177wib.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 02 Aug 2012 04:27:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type:x-gm-message-state;
-	bh=bGjOJG5nXWiQdzaO+Hf5xG3fVCLlciwpD9gT59dsKSY=;
-	b=i7jTLix5A95ONap5Kdm4x/2CSBRTbk7szRaMTDzvGfpTdBpjge/eTELkYOvv5Tn2XT
-	AqtYtrYGHcqUQuhdvJrAj5Ouso4u8ipbkTyXEqJYTJZn44w6hDGxBLak7fnZBglAhcwJ
-	M82zas483XoWMBo0TIDThM9X6Mkd53Mg1IENSyWZCY9612DTyr5RvbfDyG0SVIC6pUe1
-	kcu1CoV8tYu3/1/5ZNkZkhohuNZOIDJNyjiwmeMqb1NS23PFkU/s95s3p7F0fAu08buK
-	p6QIFFcwh4bu5YnAL5ghMkhaOG2VEBt5PSC7HRRxBUd6hUBCbCu2Xhm9tAjQGtpUXm89
-	JBlA==
-Received: by 10.50.163.70 with SMTP id yg6mr3000301igb.30.1343906845205; Thu,
-	02 Aug 2012 04:27:25 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.64.70.229 with HTTP; Thu, 2 Aug 2012 04:27:05 -0700 (PDT)
-In-Reply-To: <cover.1343899228.git.paul.eggleton@linux.intel.com>
-References: <cover.1343899228.git.paul.eggleton@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 2 Aug 2012 12:27:05 +0100
-Message-ID: <CAJTo0LY4e_Boi-RU4iyu+_2gRvuvLO40b2Pu8FsCRnXqSdACvQ@mail.gmail.com>
+	Thu, 02 Aug 2012 04:50:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=2dvCi8rCQoglYBHvHLd7NpR6d4azc61yzH9u0yyU0qM=;
+	b=zx3DJY1ezuIhwGKocKDGbnYxU7+d992B/9jEb3x2FjwDxaCn0UE6bjMF/SZ8uWI5Ui
+	Cz/bUQCFBo5H4mcq60qmymDWsCE5a94x9iObKpnBfILQM8TmUhSHzTRGn+XeJWfyWJqM
+	vpv8/WrjpIsJ9GesPrfQlBiUPrN6TquminMBRarvpmwtdstxDsR7uxfj0afmrmzqzKc1
+	+TLIdJU7rcBgxvtdgyyxF5+HYGTZ/mOIAQEhRFF5fqQsFt81RWEjotAitRsi6m+kHgTh
+	xz2k85anD9XMsKV78IOzvtPq0sbLxZ6dZbG77/jFe5KOS8JUSkn1v9STTmf8WkmHOUx3
+	bPJQ==
+Received: by 10.216.182.195 with SMTP id o45mr10864774wem.185.1343908217471;
+	Thu, 02 Aug 2012 04:50:17 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id b7sm16700417wiz.9.2012.08.02.04.50.13
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 02 Aug 2012 04:50:14 -0700 (PDT)
+Date: Thu, 2 Aug 2012 13:50:12 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Gm-Message-State: ALoCoQm4Lm6IWrGQSMJyifsXObIcnwxFC9yZDPn6jhm+5niuw66gFRW4gD869xaynCp5YXOvedpT
-Subject: Re: [PATCH 0/9] buildhistory improvements
+Message-ID: <20120802115012.GO16306@jama.jama.net>
+References: <20120801065021.GC15199@jama.jama.net>
+	<20120801065401.GD15199@jama.jama.net>
+	<8071B2D8-3431-4B9B-A810-0F01D4837779@gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <8071B2D8-3431-4B9B-A810-0F01D4837779@gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Subject: Re: u-boot do_compile should be reentrant even with ld-is-gold
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,19 +48,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Aug 2012 11:39:07 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 02 Aug 2012 12:01:57 -0000
+X-Groupsio-MsgNum: 26772
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="B3NBd8mrXZtPJEYR"
+Content-Disposition: inline
 
-On 2 August 2012 10:23, Paul Eggleton <paul.eggleton@linux.intel.com> wrote:
-> A bunch of improvements for buildhistory, implementing some feature
-> requests and todo items of my own, as well as tidying up some of the
-> code.
+--B3NBd8mrXZtPJEYR
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I've been using this branch for an hour or so whilst reviewing
-changes, the new features are useful and it didn't break.
+On Wed, Aug 01, 2012 at 04:02:24PM -0700, Khem Raj wrote:
+>=20
+> On Jul 31, 2012, at 11:54 PM, Martin Jansa <martin.jansa@gmail.com> wrote:
+>=20
+> > well not exactly like this one as this is causing
+> > /bin/sh: 1: Syntax error: Bad fd number
+> > probably from ">&" in dash
+>=20
+>=20
+> yes. I swear I have since fixed this patch this seems to be an older vers=
+ion
+> did you look into meta-ti/master ?
 
-Acked-by: Ross Burton <ross.burton@intel.com>
+Yes, your patch is fixed in meta-ti, but cannot be used together with
+Otavio's patch to u-boot.inc.
 
-Ross
+meta-ti is fine because it provides own u-boot.inc, but with your patch
+and u-boot.inc from oe-core it ends like this
 
+config.mk:
++LD     =3D $(call exists_bfd_ld, "$(CROSS_COMPILE)ld.bfd.bfd","$(CROSS_COM=
+PILE)ld.bfd")
 
+On Wed, Aug 01, 2012 at 09:32:03AM -0300, Otavio Salvador wrote:
+> Wouldn't be better to grep for 'ld.bfd' and apply it *only* if not is not=
+ found?
+
+no need for grep, something like
+-               sed -i 's/$(CROSS_COMPILE)ld/$(CROSS_COMPILE)ld.bfd/g' conf=
+ig.mk
++               sed -i 's/$(CROSS_COMPILE)ld$/$(CROSS_COMPILE)ld.bfd/g' con=
+fig.mk
+should be enough, I will test and send patch..
+
+Cheers,
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--B3NBd8mrXZtPJEYR
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
+
+iEYEARECAAYFAlAaaXQACgkQN1Ujt2V2gBzlZwCfc+L6ZzhAz37mBy692dpLsWjy
+fAMAoK21ZsGE2zgaoPZm3gYf0o0qBKU9
+=5XD5
+-----END PGP SIGNATURE-----
+
+--B3NBd8mrXZtPJEYR--
