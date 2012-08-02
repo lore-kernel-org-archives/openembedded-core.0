@@ -1,39 +1,38 @@
-Received: from astoria.ccjclearline.com ([64.235.106.9])
+Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpjday@crashcourse.ca>) id 1Swse7-0004NH-OH
+	(envelope-from <ross.burton@intel.com>) id 1Swsfs-0004RR-Jd
 	for openembedded-core@lists.openembedded.org;
-	Thu, 02 Aug 2012 12:28:48 +0200
-Received: from rrcs-24-227-210-218.sw.biz.rr.com ([24.227.210.218]:35366
-	helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.77) (envelope-from <rpjday@crashcourse.ca>)
-	id 1SwsSr-0000dP-Co; Thu, 02 Aug 2012 06:17:09 -0400
-Date: Thu, 2 Aug 2012 05:17:04 -0500 (CDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@oneiric
+	Thu, 02 Aug 2012 12:30:36 +0200
+Received: from mail-yw0-f52.google.com ([209.85.213.52])
+	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 02 Aug 2012 03:18:41 -0700
+Received: by yhpp61 with SMTP id p61so7537973yhp.25
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 02 Aug 2012 03:18:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type:x-gm-message-state;
+	bh=XhsqKHlBBC5jA2xAZXsjfUuIoQP4adnGUJwwbUI/9wI=;
+	b=lPwxJ+jCuU9byDKwhbtEKK952zn/rW379zUypgO1ChC0JtNePi2b27WNCsWremnUue
+	5oOJrIyRXEsTlFv7vQDHfkRTxDjC43tKLguxdF6SIpUfzWdNBTjrGsEwY4DGoal7HrMW
+	wc/oh+fzbGjRNu5anKIE6CYhMMx5IK1ZthYkz/oAwUpAIXGGQ0nw0G8tao+yEYO2QMVD
+	TgN3VBdYTf5ddMcmyKFRJAJNJJUNBoZURobAwslKT+aBU0x0aXJ+Q+7FjJB4cUdzZnb8
+	pqW5ct7u6gmCpjyLOv3AO7QHLIN3s1frM1xN9FdrawmxDPa/G779NnkNW5KNNN65Pd8Z
+	ft6A==
+Received: by 10.43.92.71 with SMTP id bp7mr3212544icc.52.1343902720269; Thu,
+	02 Aug 2012 03:18:40 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.64.70.229 with HTTP; Thu, 2 Aug 2012 03:18:20 -0700 (PDT)
+In-Reply-To: <db2dd38ac0b16d55f729f63010e38dda4dcfced5.1343899228.git.paul.eggleton@linux.intel.com>
+References: <cover.1343899228.git.paul.eggleton@linux.intel.com>
+	<db2dd38ac0b16d55f729f63010e38dda4dcfced5.1343899228.git.paul.eggleton@linux.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 2 Aug 2012 11:18:20 +0100
+Message-ID: <CAJTo0LZ7QJtfzmsg2a++ay8YoNOptRFohWwQrKNT0JrHYkYRbw@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <CABcZANmZ=A+BJSTvnhHHaChzn=4t9yXKJmHhO4xistaOga5Gdw@mail.gmail.com>
-Message-ID: <alpine.DEB.2.02.1208020511570.23054@oneiric>
-References: <alpine.DEB.2.02.1208011831540.5168@oneiric>
-	<CAEsOVNfHoY3gbwJoVCUfS61LeN_idZpNMtU3aOmZLVs7=BDQmA@mail.gmail.com>
-	<alpine.DEB.2.02.1208011855500.26345@oneiric>
-	<CABcZANkSy37E3DFWH6n53sbG-7nPzOzBBfPp2JOqRzhyPS=erQ@mail.gmail.com>
-	<alpine.DEB.2.02.1208012004070.4406@oneiric>
-	<CABcZANmZ=A+BJSTvnhHHaChzn=4t9yXKJmHhO4xistaOga5Gdw@mail.gmail.com>
-User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
-MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Cc: McClintock Matthew-B29882 <B29882@freescale.com>
-Subject: Re: using an external (arm) toolchain - just checking i did this properly
+X-Gm-Message-State: ALoCoQkdpd7Ok6oKnimhKf65kg09w2+U77n49ZVsS2VTc0OhdznP9koxZL5FqlP6q4v0zTOf8cdc
+Subject: Re: [PATCH 6/9] scripts: add buildhistory-tag script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,107 +47,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Aug 2012 10:28:48 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Thu, 02 Aug 2012 10:30:36 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Wed, 1 Aug 2012, Chris Larson wrote:
-
-> On Wed, Aug 1, 2012 at 6:06 PM, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
-> > On Wed, 1 Aug 2012, Chris Larson wrote:
-> >
-> >> On Wed, Aug 1, 2012 at 4:57 PM, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
-> >> > | + cp -a ERROR: ld.so: object ''\''libpseudo.so'\''' from LD_PRELOAD
-> >> > cannot be preloaded: ignored.
-> >> > /home/rpjday/CodeSourcery/Sourcery_G++_Lite/bin/../arm-none-linux-gnueabi/libc/lib/.
-> >> > /home/rpjday/y/builds/oe/qemuarm_csl/tmp-eglibc/work/armv5te-oe-linux-gnueabi/external-sourcery-toolchain-2009q1-203-r7/image/lib
-> >> > | cp: target
-> >> > `/home/rpjday/y/builds/oe/qemuarm_csl/tmp-eglibc/work/armv5te-oe-linux-gnueabi/external-sourcery-toolchain-2009q1-203-r7/image/lib'
-> >> > is not a directory
-> >> > | ERROR: Function failed: do_install (see
-> >> > /home/rpjday/y/builds/oe/qemuarm_csl/tmp-eglibc/work/armv5te-oe-linux-gnueabi/external-sourcery-toolchain-2009q1-203-r7/temp/log.do_install.26331
-> >> > for further information)
-> >> > NOTE: package external-sourcery-toolchain-2009q1-203-r7: task
-> >> > do_install: Failed
-> >> > ERROR: Task 270
-> >> > (/home/rpjday/y/src/oe-core/meta/recipes-core/meta/external-sourcery-toolchain.bb,
-> >> > do_install) failed with exit code '1'
-> >> > NOTE: Tasks Summary: Attempted 83 tasks of which 78 didn't need to be
-> >> > rerun and 1 failed.
-> >> > ERROR: An uncaught exception occured in runqueue, please see the
-> >> > failure below:
-> >> >
-> >> >   but i'm *guessing* it's because i don't have the 32-bit libs
-> >> > installed on my 64-bit ubuntu system.  i'll worry about that after
-> >> > food.
-> >>
-> >> Could be, also make sure you have NO32LIBS set to 0. The toolchain
-> >> binaries are 32 bit, so need a 32 bit libpsuedo.
-> >
-> >   that would appear to be the issue.  however, since i already built
-> > all the native tools, do i have to start from scratch and rebuild it
-> > after changing the value of NO32LIBS?  since it would seem that the
-> > current build of pseudo won't do me any good.  does that make any
-> > sense?
+On 2 August 2012 10:23, Paul Eggleton <paul.eggleton@linux.intel.com> wrote:
+> This trivial script determines BUILDHISTORY_DIR using bitbake and then
+> passes the command line options to "git tag" on the buildhistory
+> repository. This is useful for setting a tag before making some changes;
+> even if the build takes a number of executions of bitbake (resulting in
+> multiple commits to the buildhistory repository) you can still do the
+> overall comparison easily.
 >
-> Yeah, I'd just run 'bitbake pseudo-native'.
+> Suggested by Ross Burton <ross.burton@intel.com>.
 
-  just to play it safe, i started the build fresh, this is what's at
-the top of my local.conf:
+I've since changed my local script to be "buildhistory" that just runs
+git "$@", so "buildhistory log" etc work nicely.
 
-TCMODE = "external-sourcery"
-EXTERNAL_TOOLCHAIN = "/home/rpjday/CodeSourcery/Sourcery_G++_Lite"
-NO32LIBS = "0"
-
-and here's how the build of core-image-minimal ended:
-
-=====
-
-... snip ...
-
-| checking for gcc... gcc
-| checking how to run the C preprocessor... arm-none-linux-gnueabi-gcc -E --sysroot=/home/rpjday/y/builds/oe/qemuarm_csl/tmp-eglibc/sysroots/qemuarm-tcbootstrap  -march=armv5te  -marm -mthumb-interwork  -mtune=arm926ej-s
-| configure: error: in `/home/rpjday/y/builds/oe/qemuarm_csl/tmp-eglibc/work/armv5te-oe-linux-gnueabi/eglibc-2.16-r4+svnr19383/build-arm-oe-linux-gnueabi':
-| configure: error: C preprocessor "arm-none-linux-gnueabi-gcc -E --sysroot=/home/rpjday/y/builds/oe/qemuarm_csl/tmp-eglibc/sysroots/qemuarm-tcbootstrap  -march=armv5te  -marm -mthumb-interwork  -mtune=arm926ej-s" fails sanity check
-| See `config.log' for more details
-| + '[' 1 '!=' 0 ']'
-| + echo 'Configure failed. The contents of all config.log files follows to aid debugging'
-| Configure failed. The contents of all config.log files follows to aid debugging
-| + find /home/rpjday/y/builds/oe/qemuarm_csl/tmp-eglibc/work/armv5te-oe-linux-gnueabi/egl+ bbfatal 'oe_runconf failed'
-| + echo 'ERROR: oe_runconf failed'
-| ERROR: oe_runconf failed
-| + exit 1
-|
-| ibc-2.16-r4+svnr19383/eglibc-2_16/libc -name config.log -print -exec cat '{}' ';'
-| + bbfatal 'oe_runconf failed'
-| + echo 'ERROR: oe_runconf failed'
-| ERROR: oe_runconf failed
-| + exit 1
-| ERROR: Function failed: do_configure (see /home/rpjday/y/builds/oe/qemuarm_csl/tmp-eglibc/work/armv5te-oe-linux-gnueabi/eglibc-2.16-r4+svnr19383/temp/log.do_configure.22222 for further information)
-NOTE: package eglibc-2.16-r4+svnr19383: task do_configure: Failed
-ERROR: Task 31 (/home/rpjday/y/src/oe-core/meta/recipes-core/eglibc/eglibc_2.16.bb, do_configure) failed with exit code '1'
-NOTE: Tasks Summary: Attempted 852 tasks of which 351 didn't need to be rerun and 1 failed.
-ERROR: An uncaught exception occured in runqueue, please see the failure below:
-
-Summary: 1 task failed:
-  /home/rpjday/y/src/oe-core/meta/recipes-core/eglibc/eglibc_2.16.bb, do_configure
-Summary: There were 59 WARNING messages shown.
-Summary: There were 5 ERROR messages shown, returning a non-zero exit code.
-
-===== end =====
-
-  that's the tail end of the log file.  i'm just about to start
-investigating.
-
-rday
-
--- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
+Ross
 
 
