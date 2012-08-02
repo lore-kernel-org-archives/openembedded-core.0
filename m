@@ -1,20 +1,40 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga10.intel.com ([192.55.52.92] helo=fmsmga102.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bogdan.a.marinescu@intel.com>) id 1SwqIj-0000yL-QK
+	(envelope-from <alexandru.damian@intel.com>) id 1SwrJ8-0002XN-SP
 	for openembedded-core@lists.openembedded.org;
-	Thu, 02 Aug 2012 09:58:35 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 02 Aug 2012 00:46:53 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="180622048"
-Received: from bogdanm (HELO localhost.localdomain) ([10.237.105.62])
-	by orsmga002.jf.intel.com with ESMTP; 02 Aug 2012 00:46:52 -0700
-From: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  2 Aug 2012 10:49:06 +0300
-Message-Id: <1343893746-4260-1-git-send-email-bogdan.a.marinescu@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] [Multilib] Complete recipe enablement
+	Thu, 02 Aug 2012 11:03:04 +0200
+Received: from mail-qa0-f52.google.com ([209.85.216.52])
+	by mga11.intel.com with ESMTP/TLS/RC4-SHA; 02 Aug 2012 01:51:21 -0700
+Received: by qabj34 with SMTP id j34so937387qab.4
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 02 Aug 2012 01:51:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type:x-gm-message-state;
+	bh=K6C5ODVWD4KeOJFscicmiA+HFgaNVKt/8lQrP1wPB4g=;
+	b=YSfKoJXrpBQN9D25gflyO4Hta4tqkwfsnLYCAgPF7ux1TiLkqmYt2FvGWyIVGuMF+N
+	6i0HWAng/PXAwdGlDRtO8mhx7VEWdbKsg3fGyDJpk1APxTLObcO7jYNkOGLo0fXhEP9a
+	7VtbTMRB8jfhHTsTBrwSFJteKc/hPbJftnM0mKVe+o+TLcTUNyp91GyKhHOmeizsKVs1
+	ansctn7Cm3l1iZJCEvkmb7T9d2WPbxxlBK/R20pqPeW/Lih2WqT5AlRxCWxxGzgFdDjX
+	OfHfx8FMkT+LHOup0fvaS5UZ33L8jlHIlCjPzHqlBnNgv01Rb4B56wXjwaZYGv7aWIOm
+	w8kw==
+MIME-Version: 1.0
+Received: by 10.224.184.208 with SMTP id cl16mr40909019qab.39.1343897480383;
+	Thu, 02 Aug 2012 01:51:20 -0700 (PDT)
+Received: by 10.229.78.130 with HTTP; Thu, 2 Aug 2012 01:51:20 -0700 (PDT)
+In-Reply-To: <5012F99B.6050809@linux.intel.com>
+References: <1343374256-22697-1-git-send-email-fahad.usman@gmail.com>
+	<CAJ2CSBsP1hcG=CJaWPxC2p19JM3YosJT9atyg7wtJTpeq6vvYQ@mail.gmail.com>
+	<5012F99B.6050809@linux.intel.com>
+Date: Thu, 2 Aug 2012 11:51:20 +0300
+Message-ID: <CAJ2CSBtfvSJj_=Mgx5bBSmv1Wbm58Zx=6HRyjFL3FKqv3yJaRA@mail.gmail.com>
+From: "Damian, Alexandru" <alexandru.damian@intel.com>
+To: Saul Wold <sgw@linux.intel.com>
+X-Gm-Message-State: ALoCoQlegbjIHGRVbZ+/Xn9QvjARjkLiRMgrMxsyz6k94SAOa2uvPX3vBk+4JVVLQ9Q1rgNhywk9
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] lttng-2.0: update to the latest version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,789 +49,1351 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Aug 2012 07:58:35 -0000
+X-List-Received-Date: Thu, 02 Aug 2012 09:03:05 -0000
+Content-Type: multipart/alternative; boundary=20cf303b410deece2404c6448300
 
-RP: The list of recipes in multilib.conf needs to go away and we need
-to just be able to extend all recipes with the multilib class.
-Tested by building and running lib32-core-image-sato-sdk.
+--20cf303b410deece2404c6448300
+Content-Type: text/plain; charset=ISO-8859-1
 
-[YOCTO #1563]
+This page includes a patch for upgrading liburcu, this is why I commented.
 
-Signed-off-by: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
----
- meta/classes/multilib.bbclass |    3 +
- meta/conf/multilib.conf       |  745 +----------------------------------------
- 2 files changed, 5 insertions(+), 743 deletions(-)
+Alex
 
-diff --git a/meta/classes/multilib.bbclass b/meta/classes/multilib.bbclass
-index b92a3ff..b1a593e 100644
---- a/meta/classes/multilib.bbclass
-+++ b/meta/classes/multilib.bbclass
-@@ -15,6 +15,9 @@ python multilib_virtclass_handler () {
-         e.data.setVar("PN", variant + "-" + e.data.getVar("PN", False))
-         return
- 
-+    if bb.data.inherits_class('native', e.data):
-+        raise bb.parse.SkipPackage("We can't extend native recipes")
-+
-     save_var_name=e.data.getVar("MULTILIB_SAVE_VARNAME", True) or ""
-     for name in save_var_name.split():
-         val=e.data.getVar(name, True)
-diff --git a/meta/conf/multilib.conf b/meta/conf/multilib.conf
-index a23a0ee..a64fd2f 100644
---- a/meta/conf/multilib.conf
-+++ b/meta/conf/multilib.conf
-@@ -12,746 +12,5 @@ STAGING_DIR_TARGET = "${STAGING_DIR}/${MLPREFIX}${MACHINE}"
- 
- INHERIT += "multilib_global"
- 
--BBCLASSEXTEND_append_pn-abiword-embedded = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-abiword = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-acl = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-acpid = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-adt-installer = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-alsa-lib = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-alsa-state = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-alsa-tools = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-alsa-utils = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-apmd = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-apr = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-apr-util = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-apt = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-aspell = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-atk = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-at = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-attr = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-augeas = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-autoconf = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-automake = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-avahi = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-avahi-ui = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-base-files = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-base-passwd = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-bash = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-bc = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-beagleboard-audio = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-beecrypt = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-bigreqsproto = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-bind = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-binutils-cross-canadian = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-binutils-cross = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-binutils = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-bison = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-blktool = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-blktrace = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-bluez4 = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-bluez-hcidump = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-boost = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-btrfs-tools = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-builder = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-busybox = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-byacc = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-bzip2 = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-cairo = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-calibrateproto = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-ccache = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-chkconfig = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-chrpath = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-claws-mail = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-claws-plugin-gtkhtml2-viewer = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-claws-plugin-maildir = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-claws-plugin-mailmbox = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-claws-plugin-rssyl = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-clipboard-manager = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-clutter-1.8 = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-clutter-box2d = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-clutter-gst-1.8 = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-clutter-gtk-1.8 = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-clutter = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-cmake = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-cogl = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-compositeproto = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-connman-gnome = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-connman = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-consolekit = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-console-tools = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-contacts = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-core-image-base = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-core-image-basic = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-core-image-clutter = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-core-image-core = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-core-image-gtk-directfb = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-core-image-lsb-dev = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-core-image-lsb = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-core-image-lsb-sdk = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-core-image-minimal-dev = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-core-image-minimal-initramfs = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-core-image-minimal-mtdutils = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-core-image-minimal = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-core-image-rt = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-core-image-rt-sdk = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-core-image-sato-dev = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-core-image-sato = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-core-image-sato-sdk = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-coreutils = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-cpio = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-cracklib = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-createrepo = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-cronie = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-cups = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-curl = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-cwautomacros = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-damageproto = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-dates = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-db = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-dbus-glib = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-dbus = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-dbus-wait = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-dhcp = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-diffstat = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-diffutils = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-directfb-examples = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-directfb = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-distcc = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-dmxproto = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-dosfstools = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-dpkg = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-dri2proto = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-dropbear = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-dtc = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-e2fsprogs = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-ed = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-evolution-data-server = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-eds-tools = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-eee-acpi-scripts = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-eglibc-initial = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-eglibc-locale = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-eglibc = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-elfutils = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-empathy = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-enchant = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-encodings = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-epdfview = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-ethtool = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-evieext = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-expat = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-external-csl-toolchain = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-external-poky-toolchain = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-external-python-tarball = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-farsight2 = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-file = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-findutils = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-fixesproto = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-flac = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-flex = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-font-alias = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-fontcacheproto = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-fontconfig = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-fontsproto = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-font-util = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-foomatic-filters = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-formfactor = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-fotowall = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-freetype = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-fstests = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-gail = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-gaku = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-galago-daemon = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-gamin = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-gawk = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-gcalctool = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-gcc-cross-canadian = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-gcc-cross-initial = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-gcc-cross-intermediate = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-gcc-cross = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-gcc-crosssdk-initial = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-gcc-crosssdk-intermediate = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-gccmakedep = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-gcc = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-gcc-runtime = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-gconf = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-gdb-cross-canadian = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-gdb-cross = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-gdbm = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-gdb = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-gdk-pixbuf = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-genext2fs = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-gettext = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-ghostscript = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-git = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-glew = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-glib-2.0 = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-glib-networking = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-glproto = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-gmp = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-gnome-common = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-gnome-desktop = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-gnome-doc-utils = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-gnome-icon-theme = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-gnome-keyring = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-gnome-mime-data = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-gnome-settings-daemon = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-gnome-terminal = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-gnu-config = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-gnupg = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-gnutls = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-gobject-introspection = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-gperf = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-gpgme = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-grep = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-groff = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-grub = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-gssdp = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-gst-ffmpeg = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-gst-fluendo-mp3 = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-gst-fluendo-mpegdemux = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-gst-meta-base = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-gst-openmax = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-gst-plugin-bluetooth = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-gst-plugins-bad = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-gst-plugins-base = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-gst-plugins-good = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-gst-plugins-ugly = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-gstreamer = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-gthumb = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-gtk-doc = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-gtk-engines = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-gtkhtml2 = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-gtk+ = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-gtk-sato-engine = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-gtk-theme-torturer = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-gupnp-av = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-gupnp = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-gupnp-tools = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-gypsy = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-gzip = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-hdparm = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-hello-mod = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-hicolor-icon-theme = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-hostap-conf = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-hostap-utils = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-icu = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-imake = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-initramfs-boot = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-initramfs-framework = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-initramfs-live-boot = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-initramfs-live-install = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-initscripts = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-inputproto = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-insserv = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-intltool = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-iproute2 = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-iptables = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-iputils = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-irda-utils = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-iso-codes = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-jpeg = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-js = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-json-glib = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-kbd = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-kbproto = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-kernelshark = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-kexec-tools = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-keymaps = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-kf = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-lame = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-latencytop = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-leafpad = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-less = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-liba52 = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libacpi = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libaio = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libarchive = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libart-lgpl = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libassuan = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libatomics-ops = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libcanberra = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libcap = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libcheck = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libconvert-asn1-perl = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libcroco = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libdaemon = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libdmx = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libdrm = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-liberation-fonts = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libetpan = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libevent = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libexif = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libfakekey = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libffi = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libfm = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libfontenc = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libfribidi = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libgalago = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libgcc = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libgcrypt = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libgdata = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libgdbus = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libglade = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libgnomecanvas = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libgnomekbd = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libgnome-keyring = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libgpg-error = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libgsf = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libgtkstylus = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libical = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libice = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libiconv = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libid3tag = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libidn = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libjson = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libksba = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-liblbxutil = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libmad = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libmatchbox = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libmpc = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libmusicbrainz = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libnewt = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libnfsidmap = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libnice = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libnl = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libnss-mdns = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libogg = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-liboil = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libomxil = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libopensync = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libopensync-plugin-evolution2 = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libopensync-plugin-file = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libopensync-plugin-google-calendar = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libopensync-plugin-irmc = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libopensync-plugin-syncml = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libopensync-plugin-vformat = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libowl-av = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libowl = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libpam = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libpcap = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libpciaccess = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libpcre = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libpng = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libproxy = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libpthread-stubs = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-librsvg = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libsamplerate0 = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libsdl = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libsm = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libsndfile1 = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libsoup-2.4 = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libsoup = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libsyncml = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libsync = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libtasn1 = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libtelepathy = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libtheora = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libtimedate-perl = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libtirpc = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libtool-cross = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libtool = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libunique = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-liburcu = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-liburi-perl = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libusb1 = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libusb-compat = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libuser = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libvorbis = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libx11-diet = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libx11 = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libx11-trim = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libxau = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libxaw = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libxcalibrate = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libxcb = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libxcomposite = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libxcursor = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libxdamage = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libxdmcp = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libxevie = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libxext = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libxfixes = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libxfontcache = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libxfont = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libxft = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libxi = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libxinerama = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libxkbfile = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libxkbui = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libxklavier = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libxml2 = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libxml-namespacesupport-perl = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libxml-parser-perl = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libxml-perl = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libxml-sax-perl = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libxml-simple-perl = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libxmu = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libxpm = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libxp = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libxprintapputil = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libxprintutil = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libxrandr = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libxrender = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libxres = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libxscrnsaver = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libxsettings-client = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libxslt = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libxt = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libxtrap = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libxtst = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libxvmc = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libxv = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libxxf86dga = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libxxf86misc = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libxxf86vm = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-libzypp = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-lighttpd = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-linux-dummy = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-linux-firmware = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-linux-libc-headers = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-linux-libc-headers-yocto = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-linux-yocto = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-linux-yocto-rt = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-linux-yocto-tiny = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-logrotate = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-loudmouth = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-lrzsz = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-lsb = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-lsbsetup = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-lsbtest = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-lsbinitscripts = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-lsof = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-ltp = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-lttng-control = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-lttng-ust = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-lttng-viewer = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-lzo = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-lzop = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-m4 = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-mailx = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-makedepend = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-makedevs = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-make = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-man = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-man-pages = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-matchbox-config-gtk = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-matchbox-desktop = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-matchbox-desktop-sato = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-matchbox-keyboard = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-matchbox-panel-2 = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-matchbox-session = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-matchbox-session-sato = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-matchbox-stroke = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-matchbox-terminal = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-matchbox-theme-sato-2 = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-matchbox-theme-sato = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-matchbox-themes-extra = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-matchbox-themes-gtk = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-matchbox-wm-2 = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-matchbox-wm = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-mc = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-mdadm = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-menu-cache = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-mesa-demos = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-mesa-dri = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-mesa-xlib = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-metacity = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-meta-environment = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-meta-ide-support = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-meta-toolchain-gmae = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-meta-toolchain = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-meta-toolchain-qte = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-mingetty = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-minicom = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-mini-x-session = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-mkfontdir = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-mkfontscale = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-mktemp = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-mobile-broadband-provider-info = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-module-init-tools-cross = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-module-init-tools = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-kmod = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-modutils-initscripts = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-mpeg2dec = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-mpfr = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-msmtp = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-msynctool = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-mtd-utils = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-mtools = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-mutter = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-mx = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-nasm = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-ncurses = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-neon = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-netbase = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-net-tools = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-nfs-utils = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-ocf-linux = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-ofono = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-oh-puzzles = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-openobex = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-opensp = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-openssh = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-openssl = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-openswan = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-opkg-collateral = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-opkg-config-base = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-opkg = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-opkg-nogpg = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-opkg-utils = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-oprofile = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-oprofileui = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-orinoco-conf = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-owl-video = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-package-index = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-pango = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-parted = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-patch = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-pax = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-pax-utils = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-pciutils = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-pcmanfm = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-pcmciautils = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-perf = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-perl = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-pixman = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-pkgconfig = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-pm-utils = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-pointercal = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-poky-feed-config-opkg = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-polkit-gnome = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-polkit = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-pong-clock = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-poppler-data = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-poppler = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-popt = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-portmap = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-powertop = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-ppp-dialin = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-ppp = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-prelink = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-printproto = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-procps = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-pseudo = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-psmisc = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-psplash = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-pth = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-pulseaudio = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-puzzles = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-python-argparse = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-python-dbus = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-python-gst = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-python-imaging = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-python = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-python-pycairo = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-python-pycurl = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-python-pygobject = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-python-pygtk = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-python-pyrex = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-python-scons = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-python-setuptools = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-qemu-config = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-qemugl = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-qemu = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-qmmp = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-qt4e-demo-image = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-qt4-embedded = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-qt4-graphics-system = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-qt4-x11-free = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-qt-demo-init = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-qt-mobility-embedded = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-qt-mobility-x11 = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-quicky = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-quilt = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-quota = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-randrproto = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-readline = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-recordproto = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-renderproto = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-resolvconf = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-resourceproto = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-rgb = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-rpcbind = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-rpm = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-rsync = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-rt-tests = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-run-postinsts = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-rxvt-unicode = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-sato-icon-theme = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-sato-screenshot = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-sat-solver = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-screen = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-scrnsaverproto = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-sed = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-build-appliance-image = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-service = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-setserial = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-settings-daemon = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-sgml-common = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-shadow = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-shadow-securetty = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-shadow-sysroot = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-shared-mime-info = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-slang = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-socat = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-speex = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-sqlite3 = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-squashfs-tools = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-startup-notification = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-stat = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-strace = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-subversion = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-sudo = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-sysfsutils = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-sysklogd = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-syslinux = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-sysprof = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-sysstat = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-systemtap = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-sysvinit-inittab = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-sysvinit = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-taglib = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-tar = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-task-base = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-task-core-apps-x11-pimlico = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-task-core-basic = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-task-core-boot = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-task-core-clutter = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-task-core-console = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-task-core-gtk-directfb = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-task-core-lsb = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-task-core-nfs = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-task-core-qt = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-task-core-sdk-gmae = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-task-core-sdk = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-task-core-ssh-dropbear = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-task-core-ssh-openssh = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-task-core-tools-debug = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-task-core-tools-profile = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-task-core-tools-testapps = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-task-core-standalone-gmae-sdk-target = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-task-core-standalone-sdk-target = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-task-core-tools = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-task-core-x11-mini = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-task-core-x11 = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-task-core-x11-sato = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-task-cross-canadian = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-task-qt4e = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-task-qte-toolchain-target = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-task-self-hosted = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-tasks = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-tcf-agent = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-tcl = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-tcp-wrappers = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-telepathy-farsight = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-telepathy-gabble = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-telepathy-glib = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-telepathy-idle = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-telepathy-mission-control = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-telepathy-python = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-texi2html = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-texinfo = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-tidy = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-tiff = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-time = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-tinylogin = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-trace-cmd = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-trapproto = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-tremor = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-tslib = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-ttf-bitstream-vera = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-tzdata = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-ubootchart = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-u-boot-mkimage = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-u-boot = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-uclibc-initial = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-uclibc = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-udev-extraconf = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-udev = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-unfs-server = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-unzip = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-update-modules = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-update-rc.d = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-usbinit = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-usbutils = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-useradd-example = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-util-linux = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-util-macros = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-v86d = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-valgrind = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-videoproto = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-vte = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-watchdog = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-wbxml2 = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-webkit-gtk = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-web = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-web-webkit = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-wget = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-which = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-wireless-tools = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-wpa-supplicant = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-wv = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-x11-common = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-x11perf = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-x11vnc = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-xauth = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-xbacklight = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-xcb-proto = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-xcb-util = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-xcmiscproto = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-xcursor-transparent-theme = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-xdg-utils = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-xdpyinfo = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-xev = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-xextproto = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-xeyes = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-xf86bigfontproto = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-xf86dgaproto = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-xf86driproto = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-xf86-input-evdev = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-xf86-input-keyboard = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-xf86-input-mouse = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-xf86-input-synaptics = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-xf86-input-vmmouse = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-xf86miscproto = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-xf86rushproto = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-xf86-video-fbdev = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-xf86-video-intel = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-xf86-video-omapfb = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-xf86-video-vesa = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-xf86-video-vmware = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-xf86vidmodeproto = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-xhost = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-xineramaproto = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-xinetd = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-xinit = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-xkbcomp = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-xkeyboard-config = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-x-load = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-xmodmap = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-xorg-cf-files = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-xorg-minimal-fonts = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-xournal = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-xprop = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-xproto = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-xproxymanagementprotocol = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-xrandr = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-xrdb = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-xrestop = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-xserver-kdrive = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-xserver-nodm-init = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-xserver-xf86-config = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-xserver-xorg-lite = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-xserver-xorg = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-xset = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-xtrans = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-xtscal = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-xvideo-tests = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-xvinfo = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-xwininfo = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-xz = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-zaurusd = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-zeroconf = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-zip = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-zlib = " ${MULTILIBS}"
--BBCLASSEXTEND_append_pn-zypper = " ${MULTILIBS}"
-+BBCLASSEXTEND_append = " ${MULTILIBS}"
-+
--- 
-1.7.9.5
+On Fri, Jul 27, 2012 at 11:27 PM, Saul Wold <sgw@linux.intel.com> wrote:
 
+> On 07/27/2012 01:39 AM, Damian, Alexandru wrote:
+>
+>> Hi,
+>>
+>> I recommend changing the liburcu licence as follows,  following a GPLv3
+>> file addition in the build macros:
+>>
+>>
+>> LICENSE = "LGPLv2.1+ & MIT-style & GPLv3"
+>> LICENSE_${PN} = "LGPLv2.1+ & MIT-style"
+>>
+>>  Alex,
+>
+> Please what what you are replying to, I am not sure this has anything to
+> do with the LTTNG update.
+>
+> Thanks
+>         Sau!
+>
+>>
+>> Cheers,
+>> Alex
+>>
+>> On Fri, Jul 27, 2012 at 10:30 AM, <fahad.usman@gmail.com
+>> <mailto:fahad.usman@gmail.com>**> wrote:
+>>
+>>     From: Fahad Usman <fahad_usman@mentor.com
+>>     <mailto:fahad_usman@mentor.com**>>
+>>
+>>
+>>     update lttng-modules-2.0, lttng-tools-2.0 lttng-ust-2.0 and liburcu
+>>     to the
+>>     latest stable released versions by lttng community
+>>
+>>     remove the
+>>     lttng-sycalls-protect-is_**compat_task-from-redefiniti.**patch
+>> because
+>>     the problem is handled in the latest version of lttng-modules
+>>
+>>     Signed-off-by: Fahad Usman <fahad_usman@mentor.com
+>>     <mailto:fahad_usman@mentor.com**>>
+>>
+>>     ---
+>>       ...ls-protect-is_compat_task-**from-redefiniti.patch |   41
+>>     --------------------
+>>       .../lttng-2.0/lttng-modules_2.**0.4.bb<http://lttng-modules_2.0.4.bb>
+>>     <http://lttng-modules_2.0.4.bb**>               |   26 ++++++++++++
+>>       .../lttng-2.0/lttng-modules_2.**0.pre11.bb<http://lttng-modules_2.0.pre11.bb>
+>>     <http://lttng-modules_2.0.**pre11.bb<http://lttng-modules_2.0.pre11.bb>>
+>>           |   30 --------------
+>>       meta/recipes-kernel/lttng-2.0/**lttng-tools_2.0.1.bb<http://lttng-tools_2.0.1.bb>
+>>     <http://lttng-tools_2.0.1.bb> |   32 ---------------
+>>       meta/recipes-kernel/lttng-2.0/**lttng-tools_2.0.3.bb<http://lttng-tools_2.0.3.bb>
+>>     <http://lttng-tools_2.0.3.bb> |   30 ++++++++++++++
+>>       meta/recipes-kernel/lttng-2.0/**lttng2-ust_2.0.2.bb<http://lttng2-ust_2.0.2.bb>
+>>     <http://lttng2-ust_2.0.2.bb>  |   30 --------------
+>>       meta/recipes-kernel/lttng-2.0/**lttng2-ust_2.0.4.bb<http://lttng2-ust_2.0.4.bb>
+>>     <http://lttng2-ust_2.0.4.bb>  |   30 ++++++++++++++
+>>       meta/recipes-support/liburcu/l**iburcu_0.6.7.bb<http://liburcu_0.6.7.bb>
+>>     <http://liburcu_0.6.7.bb>      |   24 -----------
+>>       meta/recipes-support/liburcu/l**iburcu_0.7.3.bb<http://liburcu_0.7.3.bb>
+>>     <http://liburcu_0.7.3.bb>      |   24 +++++++++++
+>>
+>>       9 files changed, 110 insertions(+), 157 deletions(-)
+>>       delete mode 100644
+>>     meta/recipes-kernel/lttng-2.0/**lttng-modules/lttng-sycalls-**
+>> protect-is_compat_task-from-**redefiniti.patch
+>>       create mode 100644
+>>     meta/recipes-kernel/lttng-2.0/**lttng-modules_2.0.4.bb<http://lttng-modules_2.0.4.bb>
+>>     <http://lttng-modules_2.0.4.bb**>
+>>       delete mode 100644
+>>     meta/recipes-kernel/lttng-2.0/**lttng-modules_2.0.pre11.bb<http://lttng-modules_2.0.pre11.bb>
+>>     <http://lttng-modules_2.0.**pre11.bb<http://lttng-modules_2.0.pre11.bb>
+>> >
+>>       delete mode 100644
+>>     meta/recipes-kernel/lttng-2.0/**lttng-tools_2.0.1.bb<http://lttng-tools_2.0.1.bb>
+>>     <http://lttng-tools_2.0.1.bb>
+>>       create mode 100644
+>>     meta/recipes-kernel/lttng-2.0/**lttng-tools_2.0.3.bb<http://lttng-tools_2.0.3.bb>
+>>     <http://lttng-tools_2.0.3.bb>
+>>       delete mode 100644
+>>     meta/recipes-kernel/lttng-2.0/**lttng2-ust_2.0.2.bb<http://lttng2-ust_2.0.2.bb>
+>>     <http://lttng2-ust_2.0.2.bb>
+>>       create mode 100644
+>>     meta/recipes-kernel/lttng-2.0/**lttng2-ust_2.0.4.bb<http://lttng2-ust_2.0.4.bb>
+>>     <http://lttng2-ust_2.0.4.bb>
+>>       delete mode 100644 meta/recipes-support/liburcu/l**iburcu_0.6.7.bb<http://liburcu_0.6.7.bb>
+>>     <http://liburcu_0.6.7.bb>
+>>       create mode 100644 meta/recipes-support/liburcu/l**iburcu_0.7.3.bb<http://liburcu_0.7.3.bb>
+>>     <http://liburcu_0.7.3.bb>
+>>
+>>
+>>     diff --git
+>>     a/meta/recipes-kernel/lttng-2.**0/lttng-modules/lttng-sycalls-**
+>> protect-is_compat_task-from-**redefiniti.patch
+>>     b/meta/recipes-kernel/lttng-2.**0/lttng-modules/lttng-sycalls-**
+>> protect-is_compat_task-from-**redefiniti.patch
+>>     deleted file mode 100644
+>>     index 0056633..0000000
+>>     ---
+>>     a/meta/recipes-kernel/lttng-2.**0/lttng-modules/lttng-sycalls-**
+>> protect-is_compat_task-from-**redefiniti.patch
+>>     +++ /dev/null
+>>     @@ -1,41 +0,0 @@
+>>     -From 415a1a678cb2fcf603f9777f2c7b71**c1e38f8101 Mon Sep 17 00:00:00
+>> 2001
+>>     -From: Bruce Ashfield <bruce.ashfield@windriver.com
+>>     <mailto:bruce.ashfield@**windriver.com <bruce.ashfield@windriver.com>
+>> >>
+>>
+>>     -Date: Mon, 19 Mar 2012 13:30:31 -0400
+>>     -Subject: [PATCH] lttng-sycalls: protect is_compat_task from
+>>     redefinition
+>>     -
+>>     -recent -stable kernels have their own fallback definition of
+>>     is_compat_task
+>>     -
+>>     -   #define is_compat_task() (0)
+>>     -
+>>     -To protect against this double definition of is_compat_task we can
+>>     check
+>>     -to see if it is already defined, and skip the lttng variant.
+>>     -
+>>     -Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com
+>>     <mailto:bruce.ashfield@**windriver.com <bruce.ashfield@windriver.com>
+>> >>
+>>
+>>     ----
+>>     - lttng-syscalls.c |    4 ++++
+>>     - 1 files changed, 4 insertions(+), 0 deletions(-)
+>>     -
+>>     -diff --git a/lttng-syscalls.c b/lttng-syscalls.c
+>>     -index 9de3c07..80d0f05 100644
+>>     ---- a/lttng-syscalls.c
+>>     -+++ b/lttng-syscalls.c
+>>     -@@ -17,12 +17,16 @@
+>>     - #include "ltt-events.h"
+>>     -
+>>     - #ifndef CONFIG_COMPAT
+>>     -+
+>>     -+#ifndef is_compat_task
+>>     - static inline int is_compat_task(void)
+>>     - {
+>>     -       return 0;
+>>     - }
+>>     - #endif
+>>     -
+>>     -+#endif
+>>     -+
+>>     - static
+>>     - void syscall_entry_probe(void *__data, struct pt_regs *regs, long
+>> id);
+>>     -
+>>     ---
+>>     -1.7.5.4
+>>     -
+>>     diff --git a/meta/recipes-kernel/lttng-2.**0/lttng-modules_2.0.4.bb
+>>     <http://lttng-modules_2.0.4.bb**>
+>>     b/meta/recipes-kernel/lttng-2.**0/lttng-modules_2.0.4.bb
+>>     <http://lttng-modules_2.0.4.bb**>
+>>
+>>     new file mode 100644
+>>     index 0000000..d40c99b
+>>     --- /dev/null
+>>     +++ b/meta/recipes-kernel/lttng-2.**0/lttng-modules_2.0.4.bb
+>>     <http://lttng-modules_2.0.4.bb**>
+>>
+>>     @@ -0,0 +1,26 @@
+>>     +SECTION = "devel"
+>>     +SUMMARY = "Linux Trace Toolkit KERNEL MODULE"
+>>     +DESCRIPTION = "The lttng-modules 2.0 package contains the kernel
+>>     tracer modules"
+>>     +LICENSE = "LGPLv2.1 & GPLv2"
+>>     +LIC_FILES_CHKSUM =
+>>     "file://LICENSE;md5=**1eb086682a7c65a45acd9bcdf6877b**3e \
+>>     +
+>>       file://gpl-2.0.txt;md5=**751419260aa954499f7abaabaa882b**be \
+>>     +
+>>       file://lgpl-2.1.txt;md5=**243b725d71bb5df4a1e5920b344b86**ad"
+>>     +
+>>     +DEPENDS = "virtual/kernel"
+>>     +
+>>     +inherit module
+>>     +
+>>     +PR = "r0"
+>>     +
+>>     +SRC_URI = "http://lttng.org/files/${PN}/**${PN}-${PV}.tar.bz2\<http://lttng.org/files/$%7BPN%7D/$%7BPN%7D-$%7BPV%7D.tar.bz2%5C>
+>>     <http://lttng.org/files/$%**7BPN%7D/$%7BPN%7D-$%7BPV%7D.**tar.bz2%5C<http://lttng.org/files/$%7BPN%7D/$%7BPN%7D-$%7BPV%7D.tar.bz2%5C>
+>> >
+>>
+>>     +
+>>     file://lttng-modules-replace-**KERNELDIR-with-KERNEL_SRC.**patch"
+>>     +SRC_URI[md5sum] = "**e2f07c0eb40a0d8027de17f4dd7ebe**12"
+>>     +SRC_URI[sha256sum] =
+>>     "**f00116c388289192774c774581a651**832be094aeb6da2f2c0f9c9e275fed**
+>> 2d14"
+>>     +
+>>     +export INSTALL_MOD_DIR="kernel/lttng-**modules"
+>>     +export KERNEL_SRC="${STAGING_KERNEL_**DIR}"
+>>     +
+>>     +# Due to liburcu not building for MIPS currently this recipe needs to
+>>     +# be limited also.
+>>     +# So here let us first suppport x86/arm/powerpc platforms now.
+>>     +COMPATIBLE_HOST = '(x86_64.*|i.86.*|arm.*|**powerpc.*)-linux'
+>>     diff --git
+>>     a/meta/recipes-kernel/lttng-2.**0/lttng-modules_2.0.pre11.bb
+>>     <http://lttng-modules_2.0.**pre11.bb<http://lttng-modules_2.0.pre11.bb>
+>> >
+>>     b/meta/recipes-kernel/lttng-2.**0/lttng-modules_2.0.pre11.bb
+>>     <http://lttng-modules_2.0.**pre11.bb<http://lttng-modules_2.0.pre11.bb>
+>> >
+>>
+>>     deleted file mode 100644
+>>     index 4c78f36..0000000
+>>     --- a/meta/recipes-kernel/lttng-2.**0/lttng-modules_2.0.pre11.bb
+>>     <http://lttng-modules_2.0.**pre11.bb<http://lttng-modules_2.0.pre11.bb>
+>> >
+>>
+>>     +++ /dev/null
+>>     @@ -1,30 +0,0 @@
+>>     -SECTION = "devel"
+>>     -SUMMARY = "Linux Trace Toolkit KERNEL MODULE"
+>>     -DESCRIPTION = "The lttng-modules 2.0 package contains the kernel
+>>     tracer modules"
+>>     -LICENSE = "LGPLv2.1 & GPLv2"
+>>     -LIC_FILES_CHKSUM =
+>>     "file://LICENSE;md5=**1eb086682a7c65a45acd9bcdf6877b**3e \
+>>     -
+>>       file://gpl-2.0.txt;md5=**751419260aa954499f7abaabaa882b**be \
+>>     -
+>>       file://lgpl-2.1.txt;md5=**243b725d71bb5df4a1e5920b344b86**ad"
+>>     -
+>>     -DEPENDS = "virtual/kernel"
+>>     -
+>>     -inherit module
+>>     -
+>>     -SRCREV = "**4d3e89e379fc66480d729abe8daa5c**86eb585400"
+>>     -PV = "2.0.pre11+git${SRCREV}"
+>>     -PR = "r0"
+>>     -
+>>     -SRC_URI = "git://git.lttng.org/lttng-**modules.git;protocol=git<http://git.lttng.org/lttng-modules.git;protocol=git>
+>>     <http://git.lttng.org/lttng-**modules.git;protocol=git<http://git.lttng.org/lttng-modules.git;protocol=git>>
+>> \
+>>
+>>     -
+>>     file://lttng-modules-replace-**KERNELDIR-with-KERNEL_SRC.**patch \
+>>     -
+>>     file://lttng-sycalls-protect-**is_compat_task-from-**
+>> redefiniti.patch"
+>>     -
+>>     -export INSTALL_MOD_DIR="kernel/lttng-**modules"
+>>     -export KERNEL_SRC="${STAGING_KERNEL_**DIR}"
+>>     -
+>>     -
+>>     -S = "${WORKDIR}/git"
+>>     -
+>>     -# Due to liburcu not building for MIPS currently this recipe needs to
+>>     -# be limited also.
+>>     -# So here let us first suppport x86/arm/powerpc platforms now.
+>>     -COMPATIBLE_HOST = '(x86_64.*|i.86.*|arm.*|**powerpc.*)-linux'
+>>     diff --git a/meta/recipes-kernel/lttng-2.**0/lttng-tools_2.0.1.bb
+>>     <http://lttng-tools_2.0.1.bb>
+>>     b/meta/recipes-kernel/lttng-2.**0/lttng-tools_2.0.1.bb
+>>     <http://lttng-tools_2.0.1.bb>
+>>
+>>     deleted file mode 100644
+>>     index e7f1016..0000000
+>>     --- a/meta/recipes-kernel/lttng-2.**0/lttng-tools_2.0.1.bb
+>>     <http://lttng-tools_2.0.1.bb>
+>>
+>>     +++ /dev/null
+>>     @@ -1,32 +0,0 @@
+>>     -SECTION = "devel"
+>>     -SUMMARY = "Linux Trace Toolkit Control"
+>>     -DESCRIPTION = "The Linux trace toolkit is a suite of tools designed \
+>>     -to extract program execution details from the Linux operating system
+>> \
+>>     -and interpret them."
+>>     -
+>>     -LICENSE = "GPLv2 & LGPLv2.1"
+>>     -LIC_FILES_CHKSUM =
+>>     "file://LICENSE;md5=**61273c2e3f60dd38a74b01beb5f51f**bd \
+>>     -
+>>       file://gpl-2.0.txt;md5=**b234ee4d69f5fce4486a80fdaf4a42**63 \
+>>     -
+>>       file://lgpl-2.1.txt;md5=**0f0d71500e6a57fd24d825f33242b9**ca"
+>>     -
+>>     -DEPENDS = "liburcu popt lttng2-ust"
+>>     -
+>>     -SRCREV = "**8c3919ea2dc77fdd47fb1c90e41490**a20bb4d478"
+>>     -PV = "v2.0.1+git${SRCREV}"
+>>     -PR = "r0"
+>>     -
+>>     -SRC_URI = "git://git.lttng.org/lttng-**tools.git;protocol=git<http://git.lttng.org/lttng-tools.git;protocol=git>
+>>     <http://git.lttng.org/lttng-**tools.git;protocol=git<http://git.lttng.org/lttng-tools.git;protocol=git>
+>> >"
+>>
+>>     -
+>>     -S = "${WORKDIR}/git"
+>>     -
+>>     -inherit autotools
+>>     -
+>>     -export KERNELDIR="${STAGING_KERNEL_**DIR}"
+>>     -
+>>     -FILES_${PN} += "${libdir}/lttng/libexec/*"
+>>     -FILES_${PN}-dbg += "${libdir}/lttng/libexec/.**debug"
+>>     -
+>>     -# Due to liburcu not building for MIPS currently this recipe needs to
+>>     -# be limited also.
+>>     -# So here let us first suppport x86/arm/powerpc platforms now.
+>>     -COMPATIBLE_HOST = '(x86_64.*|i.86.*|arm.*|**powerpc.*)-linux'
+>>     diff --git a/meta/recipes-kernel/lttng-2.**0/lttng-tools_2.0.3.bb
+>>     <http://lttng-tools_2.0.3.bb>
+>>     b/meta/recipes-kernel/lttng-2.**0/lttng-tools_2.0.3.bb
+>>     <http://lttng-tools_2.0.3.bb>
+>>
+>>     new file mode 100644
+>>     index 0000000..ef39b30
+>>     --- /dev/null
+>>     +++ b/meta/recipes-kernel/lttng-2.**0/lttng-tools_2.0.3.bb
+>>     <http://lttng-tools_2.0.3.bb>
+>>
+>>     @@ -0,0 +1,30 @@
+>>     +SECTION = "devel"
+>>     +SUMMARY = "Linux Trace Toolkit Control"
+>>     +DESCRIPTION = "The Linux trace toolkit is a suite of tools designed \
+>>     +to extract program execution details from the Linux operating system
+>> \
+>>     +and interpret them."
+>>     +
+>>     +LICENSE = "GPLv2 & LGPLv2.1"
+>>     +LIC_FILES_CHKSUM =
+>>     "file://LICENSE;md5=**61273c2e3f60dd38a74b01beb5f51f**bd \
+>>     +
+>>       file://gpl-2.0.txt;md5=**b234ee4d69f5fce4486a80fdaf4a42**63 \
+>>     +
+>>       file://lgpl-2.1.txt;md5=**0f0d71500e6a57fd24d825f33242b9**ca"
+>>     +
+>>     +DEPENDS = "liburcu popt lttng2-ust"
+>>     +
+>>     +PR = "r0"
+>>     +
+>>     +SRC_URI = "http://lttng.org/files/${PN}/**${PN}-${PV}.tar.bz2<http://lttng.org/files/$%7BPN%7D/$%7BPN%7D-$%7BPV%7D.tar.bz2>
+>>     <http://lttng.org/files/$%**7BPN%7D/$%7BPN%7D-$%7BPV%7D.**tar.bz2<http://lttng.org/files/$%7BPN%7D/$%7BPN%7D-$%7BPV%7D.tar.bz2>
+>> >"
+>>
+>>     +SRC_URI[md5sum] = "**360d0e0e70ed11eda5aa1570ebc9c1**55"
+>>     +SRC_URI[sha256sum] =
+>>     "**cc538f420bfe716220169e41b572d0**cb8a345afb552faef924bfb2c625d9**
+>> 2b0d"
+>>     +
+>>     +inherit autotools
+>>     +
+>>     +export KERNELDIR="${STAGING_KERNEL_**DIR}"
+>>     +
+>>     +FILES_${PN} += "${libdir}/lttng/libexec/*"
+>>     +FILES_${PN}-dbg += "${libdir}/lttng/libexec/.**debug"
+>>     +
+>>     +# Due to liburcu not building for MIPS currently this recipe needs to
+>>     +# be limited also.
+>>     +# So here let us first suppport x86/arm/powerpc platforms now.
+>>     +COMPATIBLE_HOST = '(x86_64.*|i.86.*|arm.*|**powerpc.*)-linux'
+>>     diff --git a/meta/recipes-kernel/lttng-2.**0/lttng2-ust_2.0.2.bb
+>>     <http://lttng2-ust_2.0.2.bb>
+>>     b/meta/recipes-kernel/lttng-2.**0/lttng2-ust_2.0.2.bb
+>>     <http://lttng2-ust_2.0.2.bb>
+>>
+>>     deleted file mode 100644
+>>     index 8f650a4..0000000
+>>     --- a/meta/recipes-kernel/lttng-2.**0/lttng2-ust_2.0.2.bb
+>>     <http://lttng2-ust_2.0.2.bb>
+>>
+>>     +++ /dev/null
+>>     @@ -1,30 +0,0 @@
+>>     -SUMMARY = "Linux Trace Toolkit Userspace Tracer 2.0"
+>>     -DESCRIPTION = "The LTTng UST 2.0 package contains the userspace
+>>     tracer library to trace userspace codes."
+>>     -HOMEPAGE = "http://lttng.org/lttng2.0"
+>>     -BUGTRACKER = "n/a"
+>>     -
+>>     -LICENSE = "LGPLv2.1+ & BSD & GPLv2"
+>>     -LIC_FILES_CHKSUM =
+>>     "file://COPYING;md5=**c963eb366b781252b0bf0fdf1624d9**e9 \
+>>     -
+>>       file://snprintf/snprintf.c;**endline=32;md5=**
+>> d3d544959d8a3782b2e07451be0a90**3c \
+>>     -
+>>       file://snprintf/various.h;**endline=31;md5=**
+>> 89f2509b6b4682c4fc95255eec4abe**44"
+>>     -
+>>     -inherit autotools
+>>     -
+>>     -DEPENDS = "liburcu util-linux"
+>>     -
+>>     -SRCREV = "**a367ee66aad3ffd21ef64d1b24efc6**f862e09562"
+>>     -PV = "2.0.2+git${SRCPV}"
+>>     -PR = "r0"
+>>     -
+>>     -SRC_URI = "git://git.lttng.org/lttng-**ust.git;protocol=git<http://git.lttng.org/lttng-ust.git;protocol=git>
+>>     <http://git.lttng.org/lttng-**ust.git;protocol=git<http://git.lttng.org/lttng-ust.git;protocol=git>
+>> >"
+>>
+>>     -
+>>     -S = "${WORKDIR}/git"
+>>     -
+>>     -do_configure_prepend () {
+>>     -       ${S}/bootstrap
+>>     -}
+>>     -
+>>     -# Due to liburcu not building for MIPS currently this recipe needs to
+>>     -# be limited also.
+>>     -# So here let us first suppport x86/arm/powerpc platforms now.
+>>     -COMPATIBLE_HOST = '(x86_64.*|i.86.*|arm.*|**powerpc.*)-linux'
+>>     diff --git a/meta/recipes-kernel/lttng-2.**0/lttng2-ust_2.0.4.bb
+>>     <http://lttng2-ust_2.0.4.bb>
+>>     b/meta/recipes-kernel/lttng-2.**0/lttng2-ust_2.0.4.bb
+>>     <http://lttng2-ust_2.0.4.bb>
+>>
+>>     new file mode 100644
+>>     index 0000000..a5f8cec
+>>     --- /dev/null
+>>     +++ b/meta/recipes-kernel/lttng-2.**0/lttng2-ust_2.0.4.bb
+>>     <http://lttng2-ust_2.0.4.bb>
+>>
+>>     @@ -0,0 +1,30 @@
+>>     +SUMMARY = "Linux Trace Toolkit Userspace Tracer 2.0"
+>>     +DESCRIPTION = "The LTTng UST 2.0 package contains the userspace
+>>     tracer library to trace userspace codes."
+>>     +HOMEPAGE = "http://lttng.org/lttng2.0"
+>>     +BUGTRACKER = "n/a"
+>>     +
+>>     +LICENSE = "LGPLv2.1+ & BSD & GPLv2"
+>>     +LIC_FILES_CHKSUM =
+>>     "file://COPYING;md5=**c963eb366b781252b0bf0fdf1624d9**e9 \
+>>     +
+>>       file://snprintf/snprintf.c;**endline=32;md5=**
+>> d3d544959d8a3782b2e07451be0a90**3c \
+>>     +
+>>       file://snprintf/various.h;**endline=31;md5=**
+>> 89f2509b6b4682c4fc95255eec4abe**44"
+>>     +
+>>     +inherit autotools
+>>     +
+>>     +DEPENDS = "liburcu util-linux"
+>>     +
+>>     +SRCREV = "**f8b934136d431621e3e85457ac2875**e8bd9c3387"
+>>     +PV = "2.0.4+git${SRCPV}"
+>>     +PR = "r0"
+>>     +
+>>     +SRC_URI = "git://git.lttng.org/lttng-**ust.git;protocol=git<http://git.lttng.org/lttng-ust.git;protocol=git>
+>>     <http://git.lttng.org/lttng-**ust.git;protocol=git<http://git.lttng.org/lttng-ust.git;protocol=git>
+>> >"
+>>
+>>     +
+>>     +S = "${WORKDIR}/git"
+>>     +
+>>     +do_configure_prepend () {
+>>     +       ${S}/bootstrap
+>>     +}
+>>     +
+>>     +# Due to liburcu not building for MIPS currently this recipe needs to
+>>     +# be limited also.
+>>     +# So here let us first suppport x86/arm/powerpc platforms now.
+>>     +COMPATIBLE_HOST = '(x86_64.*|i.86.*|arm.*|**powerpc.*)-linux'
+>>     diff --git a/meta/recipes-support/**liburcu/liburcu_0.6.7.bb
+>>     <http://liburcu_0.6.7.bb>
+>>     b/meta/recipes-support/**liburcu/liburcu_0.6.7.bb
+>>     <http://liburcu_0.6.7.bb>
+>>
+>>     deleted file mode 100644
+>>     index be73856..0000000
+>>     --- a/meta/recipes-support/**liburcu/liburcu_0.6.7.bb
+>>     <http://liburcu_0.6.7.bb>
+>>
+>>     +++ /dev/null
+>>     @@ -1,24 +0,0 @@
+>>     -DESCRIPTION = "The userspace read-copy update library by Mathieu
+>>     Desnoyers"
+>>     -HOMEPAGE = "http://lttng.org/urcu"
+>>     -BUGTRACKER = "http://lttng.org/project/**issues<http://lttng.org/project/issues>
+>> "
+>>     -
+>>     -LICENSE = "LGPLv2.1+ & MIT-style"
+>>     -LIC_FILES_CHKSUM =
+>>     "file://LICENSE;md5=**b472dc110d38774921e1d5ccb0065f**ff \
+>>     -
+>>       file://urcu.h;beginline=4;**endline=32;md5=**
+>> 4de0d68d3a997643715036d2209ae1**d9 \
+>>     -
+>>       file://urcu/uatomic/x86.h;**beginline=4;endline=21;md5=**
+>> 220552f72c55b102f2ee35929734ef**42"
+>>     -
+>>     -PR = "r0"
+>>     -
+>>     -SRC_URI = "http://lttng.org/files/urcu/**userspace-rcu-${PV}.tar.bz2<http://lttng.org/files/urcu/userspace-rcu-$%7BPV%7D.tar.bz2>
+>>     <http://lttng.org/files/urcu/**userspace-rcu-$%7BPV%7D.tar.**bz2<http://lttng.org/files/urcu/userspace-rcu-$%7BPV%7D.tar.bz2>
+>> >"
+>>
+>>     -
+>>     -SRC_URI[md5sum] = "**2705dadd65beda8e8960472c082e44**b3"
+>>     -SRC_URI[sha256sum] =
+>>     "**b0b09aead6fbcb4d5efb4270e12f84**ffd115b99b55b2c745e052b2d87a47**
+>> e75f"
+>>     -
+>>     -S = "${WORKDIR}/userspace-rcu-${**PV}"
+>>     -CFLAGS_append_libc-uclibc = " -D_GNU_SOURCE"
+>>     -inherit autotools
+>>     -
+>>     -# liburcu, which is only used by lttng-ust, may not build on other
+>>     -# platforms, like MIPS.
+>>     -COMPATIBLE_HOST = '(x86_64.*|i.86.*|arm.*|**powerpc.*)-linux'
+>>     -
+>>     diff --git a/meta/recipes-support/**liburcu/liburcu_0.7.3.bb
+>>     <http://liburcu_0.7.3.bb>
+>>     b/meta/recipes-support/**liburcu/liburcu_0.7.3.bb
+>>     <http://liburcu_0.7.3.bb>
+>>
+>>     new file mode 100644
+>>     index 0000000..86f29be
+>>     --- /dev/null
+>>     +++ b/meta/recipes-support/**liburcu/liburcu_0.7.3.bb
+>>     <http://liburcu_0.7.3.bb>
+>>
+>>     @@ -0,0 +1,24 @@
+>>     +DESCRIPTION = "The userspace read-copy update library by Mathieu
+>>     Desnoyers"
+>>     +HOMEPAGE = "http://lttng.org/urcu"
+>>     +BUGTRACKER = "http://lttng.org/project/**issues<http://lttng.org/project/issues>
+>> "
+>>     +
+>>     +LICENSE = "LGPLv2.1+ & MIT-style"
+>>     +LIC_FILES_CHKSUM =
+>>     "file://LICENSE;md5=**95dfea59eeaa41a4057faa07a58f5f**89 \
+>>     +
+>>       file://urcu.h;beginline=4;**endline=32;md5=**
+>> 4de0d68d3a997643715036d2209ae1**d9 \
+>>     +
+>>       file://urcu/uatomic/x86.h;**beginline=4;endline=21;md5=**
+>> 220552f72c55b102f2ee35929734ef**42"
+>>     +
+>>     +PR = "r0"
+>>     +
+>>     +SRC_URI = "http://lttng.org/files/urcu/**userspace-rcu-${PV}.tar.bz2<http://lttng.org/files/urcu/userspace-rcu-$%7BPV%7D.tar.bz2>
+>>     <http://lttng.org/files/urcu/**userspace-rcu-$%7BPV%7D.tar.**bz2<http://lttng.org/files/urcu/userspace-rcu-$%7BPV%7D.tar.bz2>
+>> >"
+>>
+>>     +
+>>     +SRC_URI[md5sum] = "**c40b726f13bff80982c1ffa1bc2db3**1d"
+>>     +SRC_URI[sha256sum] =
+>>     "**63f540a5d3c947fa3739711099fb87**a66036d3c9560f26da763e500da296**
+>> a1af"
+>>     +
+>>     +S = "${WORKDIR}/userspace-rcu-${**PV}"
+>>     +CFLAGS_append_libc-uclibc = " -D_GNU_SOURCE"
+>>     +inherit autotools
+>>     +
+>>     +# liburcu, which is only used by lttng-ust, may not build on other
+>>     +# platforms, like MIPS.
+>>     +COMPATIBLE_HOST = '(x86_64.*|i.86.*|arm.*|**powerpc.*)-linux'
+>>     +
+>>     --
+>>     1.7.1
+>>
+>>
+>>     ______________________________**_________________
+>>     Openembedded-core mailing list
+>>     Openembedded-core@lists.**openembedded.org<Openembedded-core@lists.openembedded.org>
+>>     <mailto:Openembedded-core@**lists.openembedded.org<Openembedded-core@lists.openembedded.org>
+>> >
+>>     http://lists.linuxtogo.org/**cgi-bin/mailman/listinfo/**
+>> openembedded-core<http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>
+>>
+>>
+>>
+>>
+>>
+>> ______________________________**_________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.**openembedded.org<Openembedded-core@lists.openembedded.org>
+>> http://lists.linuxtogo.org/**cgi-bin/mailman/listinfo/**openembedded-core<http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>
+>>
+>>
 
+--20cf303b410deece2404c6448300
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
+This page includes a patch for upgrading liburcu, this is why I commented.<=
+br><br>Alex<br><br><div class=3D"gmail_quote">On Fri, Jul 27, 2012 at 11:27=
+ PM, Saul Wold <span dir=3D"ltr">&lt;<a href=3D"mailto:sgw@linux.intel.com"=
+ target=3D"_blank">sgw@linux.intel.com</a>&gt;</span> wrote:<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex"><div class=3D"im">On 07/27/2012 01:39 AM, Da=
+mian, Alexandru wrote:<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex">
+Hi,<br>
+<br>
+I recommend changing the liburcu licence as follows, =A0following a GPLv3<b=
+r>
+file addition in the build macros:<br>
+<br>
+<br>
+LICENSE =3D &quot;LGPLv2.1+ &amp; MIT-style &amp; GPLv3&quot;<br>
+LICENSE_${PN} =3D &quot;LGPLv2.1+ &amp; MIT-style&quot;<br>
+<br>
+</blockquote></div>
+Alex,<br>
+<br>
+Please what what you are replying to, I am not sure this has anything to do=
+ with the LTTNG update.<br>
+<br>
+Thanks<br>
+=A0 =A0 =A0 =A0 Sau!<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex"><div class=3D"im">
+<br>
+Cheers,<br>
+Alex<br>
+<br>
+On Fri, Jul 27, 2012 at 10:30 AM, &lt;<a href=3D"mailto:fahad.usman@gmail.c=
+om" target=3D"_blank">fahad.usman@gmail.com</a><br></div><div class=3D"im">
+&lt;mailto:<a href=3D"mailto:fahad.usman@gmail.com" target=3D"_blank">fahad=
+.usman@gmail.com</a>&gt;<u></u>&gt; wrote:<br>
+<br>
+=A0 =A0 From: Fahad Usman &lt;<a href=3D"mailto:fahad_usman@mentor.com" tar=
+get=3D"_blank">fahad_usman@mentor.com</a><br></div>
+=A0 =A0 &lt;mailto:<a href=3D"mailto:fahad_usman@mentor.com" target=3D"_bla=
+nk">fahad_usman@mentor.com</a><u></u>&gt;&gt;<div class=3D"im"><br>
+<br>
+=A0 =A0 update lttng-modules-2.0, lttng-tools-2.0 lttng-ust-2.0 and liburcu=
+<br>
+=A0 =A0 to the<br>
+=A0 =A0 latest stable released versions by lttng community<br>
+<br>
+=A0 =A0 remove the<br>
+=A0 =A0 lttng-sycalls-protect-is_<u></u>compat_task-from-redefiniti.<u></u>=
+patch because<br>
+=A0 =A0 the problem is handled in the latest version of lttng-modules<br>
+<br>
+=A0 =A0 Signed-off-by: Fahad Usman &lt;<a href=3D"mailto:fahad_usman@mentor=
+.com" target=3D"_blank">fahad_usman@mentor.com</a><br></div>
+=A0 =A0 &lt;mailto:<a href=3D"mailto:fahad_usman@mentor.com" target=3D"_bla=
+nk">fahad_usman@mentor.com</a><u></u>&gt;&gt;<div class=3D"im"><br>
+=A0 =A0 ---<br>
+=A0 =A0 =A0 ...ls-protect-is_compat_task-<u></u>from-redefiniti.patch | =A0=
+ 41<br>
+=A0 =A0 --------------------<br>
+=A0 =A0 =A0 .../lttng-2.0/<a href=3D"http://lttng-modules_2.0.4.bb" target=
+=3D"_blank">lttng-modules_2.<u></u>0.4.bb</a><br></div>
+=A0 =A0 &lt;<a href=3D"http://lttng-modules_2.0.4.bb" target=3D"_blank">htt=
+p://lttng-modules_2.0.4.bb</a><u></u>&gt; =A0 =A0 =A0 =A0 =A0 =A0 =A0 | =A0=
+ 26 ++++++++++++<br>
+=A0 =A0 =A0 .../lttng-2.0/<a href=3D"http://lttng-modules_2.0.pre11.bb" tar=
+get=3D"_blank">lttng-modules_2.<u></u>0.pre11.bb</a><br>
+=A0 =A0 &lt;<a href=3D"http://lttng-modules_2.0.pre11.bb" target=3D"_blank"=
+>http://lttng-modules_2.0.<u></u>pre11.bb</a>&gt; =A0 =A0 =A0 =A0 =A0 | =A0=
+ 30 --------------<br>
+=A0 =A0 =A0 meta/recipes-kernel/lttng-2.0/<a href=3D"http://lttng-tools_2.0=
+.1.bb" target=3D"_blank"><u></u>lttng-tools_2.0.1.bb</a><br>
+=A0 =A0 &lt;<a href=3D"http://lttng-tools_2.0.1.bb" target=3D"_blank">http:=
+//lttng-tools_2.0.1.bb</a>&gt; | =A0 32 ---------------<br>
+=A0 =A0 =A0 meta/recipes-kernel/lttng-2.0/<a href=3D"http://lttng-tools_2.0=
+.3.bb" target=3D"_blank"><u></u>lttng-tools_2.0.3.bb</a><br>
+=A0 =A0 &lt;<a href=3D"http://lttng-tools_2.0.3.bb" target=3D"_blank">http:=
+//lttng-tools_2.0.3.bb</a>&gt; | =A0 30 ++++++++++++++<br>
+=A0 =A0 =A0 meta/recipes-kernel/lttng-2.0/<a href=3D"http://lttng2-ust_2.0.=
+2.bb" target=3D"_blank"><u></u>lttng2-ust_2.0.2.bb</a><br>
+=A0 =A0 &lt;<a href=3D"http://lttng2-ust_2.0.2.bb" target=3D"_blank">http:/=
+/lttng2-ust_2.0.2.bb</a>&gt; =A0| =A0 30 --------------<br>
+=A0 =A0 =A0 meta/recipes-kernel/lttng-2.0/<a href=3D"http://lttng2-ust_2.0.=
+4.bb" target=3D"_blank"><u></u>lttng2-ust_2.0.4.bb</a><br>
+=A0 =A0 &lt;<a href=3D"http://lttng2-ust_2.0.4.bb" target=3D"_blank">http:/=
+/lttng2-ust_2.0.4.bb</a>&gt; =A0| =A0 30 ++++++++++++++<br>
+=A0 =A0 =A0 meta/recipes-support/liburcu/<a href=3D"http://liburcu_0.6.7.bb=
+" target=3D"_blank">l<u></u>iburcu_0.6.7.bb</a><br>
+=A0 =A0 &lt;<a href=3D"http://liburcu_0.6.7.bb" target=3D"_blank">http://li=
+burcu_0.6.7.bb</a>&gt; =A0 =A0 =A0| =A0 24 -----------<br>
+=A0 =A0 =A0 meta/recipes-support/liburcu/<a href=3D"http://liburcu_0.7.3.bb=
+" target=3D"_blank">l<u></u>iburcu_0.7.3.bb</a><br>
+=A0 =A0 &lt;<a href=3D"http://liburcu_0.7.3.bb" target=3D"_blank">http://li=
+burcu_0.7.3.bb</a>&gt; =A0 =A0 =A0| =A0 24 +++++++++++<div class=3D"im"><br=
+>
+=A0 =A0 =A0 9 files changed, 110 insertions(+), 157 deletions(-)<br>
+=A0 =A0 =A0 delete mode 100644<br>
+=A0 =A0 meta/recipes-kernel/lttng-2.0/<u></u>lttng-modules/lttng-sycalls-<u=
+></u>protect-is_compat_task-from-<u></u>redefiniti.patch<br>
+=A0 =A0 =A0 create mode 100644<br>
+=A0 =A0 meta/recipes-kernel/lttng-2.0/<a href=3D"http://lttng-modules_2.0.4=
+.bb" target=3D"_blank"><u></u>lttng-modules_2.0.4.bb</a><br></div>
+=A0 =A0 &lt;<a href=3D"http://lttng-modules_2.0.4.bb" target=3D"_blank">htt=
+p://lttng-modules_2.0.4.bb</a><u></u>&gt;<br>
+=A0 =A0 =A0 delete mode 100644<br>
+=A0 =A0 meta/recipes-kernel/lttng-2.0/<a href=3D"http://lttng-modules_2.0.p=
+re11.bb" target=3D"_blank"><u></u>lttng-modules_2.0.pre11.bb</a><br>
+=A0 =A0 &lt;<a href=3D"http://lttng-modules_2.0.pre11.bb" target=3D"_blank"=
+>http://lttng-modules_2.0.<u></u>pre11.bb</a>&gt;<br>
+=A0 =A0 =A0 delete mode 100644<br>
+=A0 =A0 meta/recipes-kernel/lttng-2.0/<a href=3D"http://lttng-tools_2.0.1.b=
+b" target=3D"_blank"><u></u>lttng-tools_2.0.1.bb</a><br>
+=A0 =A0 &lt;<a href=3D"http://lttng-tools_2.0.1.bb" target=3D"_blank">http:=
+//lttng-tools_2.0.1.bb</a>&gt;<br>
+=A0 =A0 =A0 create mode 100644<br>
+=A0 =A0 meta/recipes-kernel/lttng-2.0/<a href=3D"http://lttng-tools_2.0.3.b=
+b" target=3D"_blank"><u></u>lttng-tools_2.0.3.bb</a><br>
+=A0 =A0 &lt;<a href=3D"http://lttng-tools_2.0.3.bb" target=3D"_blank">http:=
+//lttng-tools_2.0.3.bb</a>&gt;<br>
+=A0 =A0 =A0 delete mode 100644<br>
+=A0 =A0 meta/recipes-kernel/lttng-2.0/<a href=3D"http://lttng2-ust_2.0.2.bb=
+" target=3D"_blank"><u></u>lttng2-ust_2.0.2.bb</a><br>
+=A0 =A0 &lt;<a href=3D"http://lttng2-ust_2.0.2.bb" target=3D"_blank">http:/=
+/lttng2-ust_2.0.2.bb</a>&gt;<br>
+=A0 =A0 =A0 create mode 100644<br>
+=A0 =A0 meta/recipes-kernel/lttng-2.0/<a href=3D"http://lttng2-ust_2.0.4.bb=
+" target=3D"_blank"><u></u>lttng2-ust_2.0.4.bb</a><br>
+=A0 =A0 &lt;<a href=3D"http://lttng2-ust_2.0.4.bb" target=3D"_blank">http:/=
+/lttng2-ust_2.0.4.bb</a>&gt;<br>
+=A0 =A0 =A0 delete mode 100644 meta/recipes-support/liburcu/<a href=3D"http=
+://liburcu_0.6.7.bb" target=3D"_blank">l<u></u>iburcu_0.6.7.bb</a><br>
+=A0 =A0 &lt;<a href=3D"http://liburcu_0.6.7.bb" target=3D"_blank">http://li=
+burcu_0.6.7.bb</a>&gt;<br>
+=A0 =A0 =A0 create mode 100644 meta/recipes-support/liburcu/<a href=3D"http=
+://liburcu_0.7.3.bb" target=3D"_blank">l<u></u>iburcu_0.7.3.bb</a><br>
+=A0 =A0 &lt;<a href=3D"http://liburcu_0.7.3.bb" target=3D"_blank">http://li=
+burcu_0.7.3.bb</a>&gt;<div class=3D"im"><br>
+<br>
+=A0 =A0 diff --git<br>
+=A0 =A0 a/meta/recipes-kernel/lttng-2.<u></u>0/lttng-modules/lttng-sycalls-=
+<u></u>protect-is_compat_task-from-<u></u>redefiniti.patch<br>
+=A0 =A0 b/meta/recipes-kernel/lttng-2.<u></u>0/lttng-modules/lttng-sycalls-=
+<u></u>protect-is_compat_task-from-<u></u>redefiniti.patch<br>
+=A0 =A0 deleted file mode 100644<br>
+=A0 =A0 index 0056633..0000000<br>
+=A0 =A0 ---<br>
+=A0 =A0 a/meta/recipes-kernel/lttng-2.<u></u>0/lttng-modules/lttng-sycalls-=
+<u></u>protect-is_compat_task-from-<u></u>redefiniti.patch<br>
+=A0 =A0 +++ /dev/null<br>
+=A0 =A0 @@ -1,41 +0,0 @@<br>
+=A0 =A0 -From 415a1a678cb2fcf603f9777f2c7b71<u></u>c1e38f8101 Mon Sep 17 00=
+:00:00 2001<br>
+=A0 =A0 -From: Bruce Ashfield &lt;<a href=3D"mailto:bruce.ashfield@windrive=
+r.com" target=3D"_blank">bruce.ashfield@windriver.com</a><br></div>
+=A0 =A0 &lt;mailto:<a href=3D"mailto:bruce.ashfield@windriver.com" target=
+=3D"_blank">bruce.ashfield@<u></u>windriver.com</a>&gt;&gt;<div class=3D"im=
+"><br>
+=A0 =A0 -Date: Mon, 19 Mar 2012 13:30:31 -0400<br>
+=A0 =A0 -Subject: [PATCH] lttng-sycalls: protect is_compat_task from<br>
+=A0 =A0 redefinition<br>
+=A0 =A0 -<br>
+=A0 =A0 -recent -stable kernels have their own fallback definition of<br>
+=A0 =A0 is_compat_task<br>
+=A0 =A0 -<br>
+=A0 =A0 - =A0 #define is_compat_task() (0)<br>
+=A0 =A0 -<br>
+=A0 =A0 -To protect against this double definition of is_compat_task we can=
+<br>
+=A0 =A0 check<br>
+=A0 =A0 -to see if it is already defined, and skip the lttng variant.<br>
+=A0 =A0 -<br>
+=A0 =A0 -Signed-off-by: Bruce Ashfield &lt;<a href=3D"mailto:bruce.ashfield=
+@windriver.com" target=3D"_blank">bruce.ashfield@windriver.com</a><br></div=
+>
+=A0 =A0 &lt;mailto:<a href=3D"mailto:bruce.ashfield@windriver.com" target=
+=3D"_blank">bruce.ashfield@<u></u>windriver.com</a>&gt;&gt;<div><div class=
+=3D"h5"><br>
+=A0 =A0 ----<br>
+=A0 =A0 - lttng-syscalls.c | =A0 =A04 ++++<br>
+=A0 =A0 - 1 files changed, 4 insertions(+), 0 deletions(-)<br>
+=A0 =A0 -<br>
+=A0 =A0 -diff --git a/lttng-syscalls.c b/lttng-syscalls.c<br>
+=A0 =A0 -index 9de3c07..80d0f05 100644<br>
+=A0 =A0 ---- a/lttng-syscalls.c<br>
+=A0 =A0 -+++ b/lttng-syscalls.c<br>
+=A0 =A0 -@@ -17,12 +17,16 @@<br>
+=A0 =A0 - #include &quot;ltt-events.h&quot;<br>
+=A0 =A0 -<br>
+=A0 =A0 - #ifndef CONFIG_COMPAT<br>
+=A0 =A0 -+<br>
+=A0 =A0 -+#ifndef is_compat_task<br>
+=A0 =A0 - static inline int is_compat_task(void)<br>
+=A0 =A0 - {<br>
+=A0 =A0 - =A0 =A0 =A0 return 0;<br>
+=A0 =A0 - }<br>
+=A0 =A0 - #endif<br>
+=A0 =A0 -<br>
+=A0 =A0 -+#endif<br>
+=A0 =A0 -+<br>
+=A0 =A0 - static<br>
+=A0 =A0 - void syscall_entry_probe(void *__data, struct pt_regs *regs, long=
+ id);<br>
+=A0 =A0 -<br>
+=A0 =A0 ---<br>
+=A0 =A0 -1.7.5.4<br>
+=A0 =A0 -<br>
+=A0 =A0 diff --git a/meta/recipes-kernel/lttng-2.<u></u>0/<a href=3D"http:/=
+/lttng-modules_2.0.4.bb" target=3D"_blank">lttng-modules_2.0.4.bb</a><br></=
+div></div>
+=A0 =A0 &lt;<a href=3D"http://lttng-modules_2.0.4.bb" target=3D"_blank">htt=
+p://lttng-modules_2.0.4.bb</a><u></u>&gt;<br>
+=A0 =A0 b/meta/recipes-kernel/lttng-2.<u></u>0/<a href=3D"http://lttng-modu=
+les_2.0.4.bb" target=3D"_blank">lttng-modules_2.0.4.bb</a><br>
+=A0 =A0 &lt;<a href=3D"http://lttng-modules_2.0.4.bb" target=3D"_blank">htt=
+p://lttng-modules_2.0.4.bb</a><u></u>&gt;<div class=3D"im"><br>
+=A0 =A0 new file mode 100644<br>
+=A0 =A0 index 0000000..d40c99b<br>
+=A0 =A0 --- /dev/null<br>
+=A0 =A0 +++ b/meta/recipes-kernel/lttng-2.<u></u>0/<a href=3D"http://lttng-=
+modules_2.0.4.bb" target=3D"_blank">lttng-modules_2.0.4.bb</a><br></div>
+=A0 =A0 &lt;<a href=3D"http://lttng-modules_2.0.4.bb" target=3D"_blank">htt=
+p://lttng-modules_2.0.4.bb</a><u></u>&gt;<div class=3D"im"><br>
+=A0 =A0 @@ -0,0 +1,26 @@<br>
+=A0 =A0 +SECTION =3D &quot;devel&quot;<br>
+=A0 =A0 +SUMMARY =3D &quot;Linux Trace Toolkit KERNEL MODULE&quot;<br>
+=A0 =A0 +DESCRIPTION =3D &quot;The lttng-modules 2.0 package contains the k=
+ernel<br>
+=A0 =A0 tracer modules&quot;<br>
+=A0 =A0 +LICENSE =3D &quot;LGPLv2.1 &amp; GPLv2&quot;<br>
+=A0 =A0 +LIC_FILES_CHKSUM =3D<br>
+=A0 =A0 &quot;file://LICENSE;md5=3D<u></u>1eb086682a7c65a45acd9bcdf6877b<u>=
+</u>3e \<br>
+=A0 =A0 +<br>
+=A0 =A0 =A0 file://gpl-2.0.txt;md5=3D<u></u>751419260aa954499f7abaabaa882b<=
+u></u>be \<br>
+=A0 =A0 +<br>
+=A0 =A0 =A0 file://lgpl-2.1.txt;md5=3D<u></u>243b725d71bb5df4a1e5920b344b86=
+<u></u>ad&quot;<br>
+=A0 =A0 +<br>
+=A0 =A0 +DEPENDS =3D &quot;virtual/kernel&quot;<br>
+=A0 =A0 +<br>
+=A0 =A0 +inherit module<br>
+=A0 =A0 +<br>
+=A0 =A0 +PR =3D &quot;r0&quot;<br>
+=A0 =A0 +<br>
+=A0 =A0 +SRC_URI =3D &quot;<a href=3D"http://lttng.org/files/$%7BPN%7D/$%7B=
+PN%7D-$%7BPV%7D.tar.bz2%5C" target=3D"_blank">http://lttng.org/files/${PN}/=
+<u></u>${PN}-${PV}.tar.bz2\</a><br></div>
+=A0 =A0 &lt;<a href=3D"http://lttng.org/files/$%7BPN%7D/$%7BPN%7D-$%7BPV%7D=
+.tar.bz2%5C" target=3D"_blank">http://lttng.org/files/$%<u></u>7BPN%7D/$%7B=
+PN%7D-$%7BPV%7D.<u></u>tar.bz2%5C</a>&gt;<div class=3D"im"><br>
+=A0 =A0 +<br>
+=A0 =A0 file://lttng-modules-replace-<u></u>KERNELDIR-with-KERNEL_SRC.<u></=
+u>patch&quot;<br>
+=A0 =A0 +SRC_URI[md5sum] =3D &quot;<u></u>e2f07c0eb40a0d8027de17f4dd7ebe<u>=
+</u>12&quot;<br>
+=A0 =A0 +SRC_URI[sha256sum] =3D<br>
+=A0 =A0 &quot;<u></u>f00116c388289192774c774581a651<u></u>832be094aeb6da2f2=
+c0f9c9e275fed<u></u>2d14&quot;<br>
+=A0 =A0 +<br>
+=A0 =A0 +export INSTALL_MOD_DIR=3D&quot;kernel/lttng-<u></u>modules&quot;<b=
+r>
+=A0 =A0 +export KERNEL_SRC=3D&quot;${STAGING_KERNEL_<u></u>DIR}&quot;<br>
+=A0 =A0 +<br>
+=A0 =A0 +# Due to liburcu not building for MIPS currently this recipe needs=
+ to<br>
+=A0 =A0 +# be limited also.<br>
+=A0 =A0 +# So here let us first suppport x86/arm/powerpc platforms now.<br>
+=A0 =A0 +COMPATIBLE_HOST =3D &#39;(x86_64.*|i.86.*|arm.*|<u></u>powerpc.*)-=
+linux&#39;<br>
+=A0 =A0 diff --git<br>
+=A0 =A0 a/meta/recipes-kernel/lttng-2.<u></u>0/<a href=3D"http://lttng-modu=
+les_2.0.pre11.bb" target=3D"_blank">lttng-modules_2.0.pre11.bb</a><br></div=
+>
+=A0 =A0 &lt;<a href=3D"http://lttng-modules_2.0.pre11.bb" target=3D"_blank"=
+>http://lttng-modules_2.0.<u></u>pre11.bb</a>&gt;<br>
+=A0 =A0 b/meta/recipes-kernel/lttng-2.<u></u>0/<a href=3D"http://lttng-modu=
+les_2.0.pre11.bb" target=3D"_blank">lttng-modules_2.0.pre11.bb</a><br>
+=A0 =A0 &lt;<a href=3D"http://lttng-modules_2.0.pre11.bb" target=3D"_blank"=
+>http://lttng-modules_2.0.<u></u>pre11.bb</a>&gt;<div class=3D"im"><br>
+=A0 =A0 deleted file mode 100644<br>
+=A0 =A0 index 4c78f36..0000000<br>
+=A0 =A0 --- a/meta/recipes-kernel/lttng-2.<u></u>0/<a href=3D"http://lttng-=
+modules_2.0.pre11.bb" target=3D"_blank">lttng-modules_2.0.pre11.bb</a><br><=
+/div>
+=A0 =A0 &lt;<a href=3D"http://lttng-modules_2.0.pre11.bb" target=3D"_blank"=
+>http://lttng-modules_2.0.<u></u>pre11.bb</a>&gt;<div class=3D"im"><br>
+=A0 =A0 +++ /dev/null<br>
+=A0 =A0 @@ -1,30 +0,0 @@<br>
+=A0 =A0 -SECTION =3D &quot;devel&quot;<br>
+=A0 =A0 -SUMMARY =3D &quot;Linux Trace Toolkit KERNEL MODULE&quot;<br>
+=A0 =A0 -DESCRIPTION =3D &quot;The lttng-modules 2.0 package contains the k=
+ernel<br>
+=A0 =A0 tracer modules&quot;<br>
+=A0 =A0 -LICENSE =3D &quot;LGPLv2.1 &amp; GPLv2&quot;<br>
+=A0 =A0 -LIC_FILES_CHKSUM =3D<br>
+=A0 =A0 &quot;file://LICENSE;md5=3D<u></u>1eb086682a7c65a45acd9bcdf6877b<u>=
+</u>3e \<br>
+=A0 =A0 -<br>
+=A0 =A0 =A0 file://gpl-2.0.txt;md5=3D<u></u>751419260aa954499f7abaabaa882b<=
+u></u>be \<br>
+=A0 =A0 -<br>
+=A0 =A0 =A0 file://lgpl-2.1.txt;md5=3D<u></u>243b725d71bb5df4a1e5920b344b86=
+<u></u>ad&quot;<br>
+=A0 =A0 -<br>
+=A0 =A0 -DEPENDS =3D &quot;virtual/kernel&quot;<br>
+=A0 =A0 -<br>
+=A0 =A0 -inherit module<br>
+=A0 =A0 -<br>
+=A0 =A0 -SRCREV =3D &quot;<u></u>4d3e89e379fc66480d729abe8daa5c<u></u>86eb5=
+85400&quot;<br>
+=A0 =A0 -PV =3D &quot;2.0.pre11+git${SRCREV}&quot;<br>
+=A0 =A0 -PR =3D &quot;r0&quot;<br>
+=A0 =A0 -<br>
+=A0 =A0 -SRC_URI =3D &quot;git://<a href=3D"http://git.lttng.org/lttng-modu=
+les.git;protocol=3Dgit" target=3D"_blank">git.lttng.org/lttng-<u></u>module=
+s.git;protocol=3Dgit</a><br></div>
+=A0 =A0 &lt;<a href=3D"http://git.lttng.org/lttng-modules.git;protocol=3Dgi=
+t" target=3D"_blank">http://git.lttng.org/lttng-<u></u>modules.git;protocol=
+=3Dgit</a>&gt; \<div class=3D"im"><br>
+=A0 =A0 -<br>
+=A0 =A0 file://lttng-modules-replace-<u></u>KERNELDIR-with-KERNEL_SRC.<u></=
+u>patch \<br>
+=A0 =A0 -<br>
+=A0 =A0 file://lttng-sycalls-protect-<u></u>is_compat_task-from-<u></u>rede=
+finiti.patch&quot;<br>
+=A0 =A0 -<br>
+=A0 =A0 -export INSTALL_MOD_DIR=3D&quot;kernel/lttng-<u></u>modules&quot;<b=
+r>
+=A0 =A0 -export KERNEL_SRC=3D&quot;${STAGING_KERNEL_<u></u>DIR}&quot;<br>
+=A0 =A0 -<br>
+=A0 =A0 -<br>
+=A0 =A0 -S =3D &quot;${WORKDIR}/git&quot;<br>
+=A0 =A0 -<br>
+=A0 =A0 -# Due to liburcu not building for MIPS currently this recipe needs=
+ to<br>
+=A0 =A0 -# be limited also.<br>
+=A0 =A0 -# So here let us first suppport x86/arm/powerpc platforms now.<br>
+=A0 =A0 -COMPATIBLE_HOST =3D &#39;(x86_64.*|i.86.*|arm.*|<u></u>powerpc.*)-=
+linux&#39;<br>
+=A0 =A0 diff --git a/meta/recipes-kernel/lttng-2.<u></u>0/<a href=3D"http:/=
+/lttng-tools_2.0.1.bb" target=3D"_blank">lttng-tools_2.0.1.bb</a><br></div>
+=A0 =A0 &lt;<a href=3D"http://lttng-tools_2.0.1.bb" target=3D"_blank">http:=
+//lttng-tools_2.0.1.bb</a>&gt;<br>
+=A0 =A0 b/meta/recipes-kernel/lttng-2.<u></u>0/<a href=3D"http://lttng-tool=
+s_2.0.1.bb" target=3D"_blank">lttng-tools_2.0.1.bb</a><br>
+=A0 =A0 &lt;<a href=3D"http://lttng-tools_2.0.1.bb" target=3D"_blank">http:=
+//lttng-tools_2.0.1.bb</a>&gt;<div class=3D"im"><br>
+=A0 =A0 deleted file mode 100644<br>
+=A0 =A0 index e7f1016..0000000<br>
+=A0 =A0 --- a/meta/recipes-kernel/lttng-2.<u></u>0/<a href=3D"http://lttng-=
+tools_2.0.1.bb" target=3D"_blank">lttng-tools_2.0.1.bb</a><br></div>
+=A0 =A0 &lt;<a href=3D"http://lttng-tools_2.0.1.bb" target=3D"_blank">http:=
+//lttng-tools_2.0.1.bb</a>&gt;<div class=3D"im"><br>
+=A0 =A0 +++ /dev/null<br>
+=A0 =A0 @@ -1,32 +0,0 @@<br>
+=A0 =A0 -SECTION =3D &quot;devel&quot;<br>
+=A0 =A0 -SUMMARY =3D &quot;Linux Trace Toolkit Control&quot;<br>
+=A0 =A0 -DESCRIPTION =3D &quot;The Linux trace toolkit is a suite of tools =
+designed \<br>
+=A0 =A0 -to extract program execution details from the Linux operating syst=
+em \<br>
+=A0 =A0 -and interpret them.&quot;<br>
+=A0 =A0 -<br>
+=A0 =A0 -LICENSE =3D &quot;GPLv2 &amp; LGPLv2.1&quot;<br>
+=A0 =A0 -LIC_FILES_CHKSUM =3D<br>
+=A0 =A0 &quot;file://LICENSE;md5=3D<u></u>61273c2e3f60dd38a74b01beb5f51f<u>=
+</u>bd \<br>
+=A0 =A0 -<br>
+=A0 =A0 =A0 file://gpl-2.0.txt;md5=3D<u></u>b234ee4d69f5fce4486a80fdaf4a42<=
+u></u>63 \<br>
+=A0 =A0 -<br>
+=A0 =A0 =A0 file://lgpl-2.1.txt;md5=3D<u></u>0f0d71500e6a57fd24d825f33242b9=
+<u></u>ca&quot;<br>
+=A0 =A0 -<br>
+=A0 =A0 -DEPENDS =3D &quot;liburcu popt lttng2-ust&quot;<br>
+=A0 =A0 -<br>
+=A0 =A0 -SRCREV =3D &quot;<u></u>8c3919ea2dc77fdd47fb1c90e41490<u></u>a20bb=
+4d478&quot;<br>
+=A0 =A0 -PV =3D &quot;v2.0.1+git${SRCREV}&quot;<br>
+=A0 =A0 -PR =3D &quot;r0&quot;<br>
+=A0 =A0 -<br>
+=A0 =A0 -SRC_URI =3D &quot;git://<a href=3D"http://git.lttng.org/lttng-tool=
+s.git;protocol=3Dgit" target=3D"_blank">git.lttng.org/lttng-<u></u>tools.gi=
+t;protocol=3Dgit</a><br></div>
+=A0 =A0 &lt;<a href=3D"http://git.lttng.org/lttng-tools.git;protocol=3Dgit"=
+ target=3D"_blank">http://git.lttng.org/lttng-<u></u>tools.git;protocol=3Dg=
+it</a>&gt;&quot;<div class=3D"im"><br>
+=A0 =A0 -<br>
+=A0 =A0 -S =3D &quot;${WORKDIR}/git&quot;<br>
+=A0 =A0 -<br>
+=A0 =A0 -inherit autotools<br>
+=A0 =A0 -<br>
+=A0 =A0 -export KERNELDIR=3D&quot;${STAGING_KERNEL_<u></u>DIR}&quot;<br>
+=A0 =A0 -<br>
+=A0 =A0 -FILES_${PN} +=3D &quot;${libdir}/lttng/libexec/*&quot;<br>
+=A0 =A0 -FILES_${PN}-dbg +=3D &quot;${libdir}/lttng/libexec/.<u></u>debug&q=
+uot;<br>
+=A0 =A0 -<br>
+=A0 =A0 -# Due to liburcu not building for MIPS currently this recipe needs=
+ to<br>
+=A0 =A0 -# be limited also.<br>
+=A0 =A0 -# So here let us first suppport x86/arm/powerpc platforms now.<br>
+=A0 =A0 -COMPATIBLE_HOST =3D &#39;(x86_64.*|i.86.*|arm.*|<u></u>powerpc.*)-=
+linux&#39;<br>
+=A0 =A0 diff --git a/meta/recipes-kernel/lttng-2.<u></u>0/<a href=3D"http:/=
+/lttng-tools_2.0.3.bb" target=3D"_blank">lttng-tools_2.0.3.bb</a><br></div>
+=A0 =A0 &lt;<a href=3D"http://lttng-tools_2.0.3.bb" target=3D"_blank">http:=
+//lttng-tools_2.0.3.bb</a>&gt;<br>
+=A0 =A0 b/meta/recipes-kernel/lttng-2.<u></u>0/<a href=3D"http://lttng-tool=
+s_2.0.3.bb" target=3D"_blank">lttng-tools_2.0.3.bb</a><br>
+=A0 =A0 &lt;<a href=3D"http://lttng-tools_2.0.3.bb" target=3D"_blank">http:=
+//lttng-tools_2.0.3.bb</a>&gt;<div class=3D"im"><br>
+=A0 =A0 new file mode 100644<br>
+=A0 =A0 index 0000000..ef39b30<br>
+=A0 =A0 --- /dev/null<br>
+=A0 =A0 +++ b/meta/recipes-kernel/lttng-2.<u></u>0/<a href=3D"http://lttng-=
+tools_2.0.3.bb" target=3D"_blank">lttng-tools_2.0.3.bb</a><br></div>
+=A0 =A0 &lt;<a href=3D"http://lttng-tools_2.0.3.bb" target=3D"_blank">http:=
+//lttng-tools_2.0.3.bb</a>&gt;<div class=3D"im"><br>
+=A0 =A0 @@ -0,0 +1,30 @@<br>
+=A0 =A0 +SECTION =3D &quot;devel&quot;<br>
+=A0 =A0 +SUMMARY =3D &quot;Linux Trace Toolkit Control&quot;<br>
+=A0 =A0 +DESCRIPTION =3D &quot;The Linux trace toolkit is a suite of tools =
+designed \<br>
+=A0 =A0 +to extract program execution details from the Linux operating syst=
+em \<br>
+=A0 =A0 +and interpret them.&quot;<br>
+=A0 =A0 +<br>
+=A0 =A0 +LICENSE =3D &quot;GPLv2 &amp; LGPLv2.1&quot;<br>
+=A0 =A0 +LIC_FILES_CHKSUM =3D<br>
+=A0 =A0 &quot;file://LICENSE;md5=3D<u></u>61273c2e3f60dd38a74b01beb5f51f<u>=
+</u>bd \<br>
+=A0 =A0 +<br>
+=A0 =A0 =A0 file://gpl-2.0.txt;md5=3D<u></u>b234ee4d69f5fce4486a80fdaf4a42<=
+u></u>63 \<br>
+=A0 =A0 +<br>
+=A0 =A0 =A0 file://lgpl-2.1.txt;md5=3D<u></u>0f0d71500e6a57fd24d825f33242b9=
+<u></u>ca&quot;<br>
+=A0 =A0 +<br>
+=A0 =A0 +DEPENDS =3D &quot;liburcu popt lttng2-ust&quot;<br>
+=A0 =A0 +<br>
+=A0 =A0 +PR =3D &quot;r0&quot;<br>
+=A0 =A0 +<br>
+=A0 =A0 +SRC_URI =3D &quot;<a href=3D"http://lttng.org/files/$%7BPN%7D/$%7B=
+PN%7D-$%7BPV%7D.tar.bz2" target=3D"_blank">http://lttng.org/files/${PN}/<u>=
+</u>${PN}-${PV}.tar.bz2</a><br></div>
+=A0 =A0 &lt;<a href=3D"http://lttng.org/files/$%7BPN%7D/$%7BPN%7D-$%7BPV%7D=
+.tar.bz2" target=3D"_blank">http://lttng.org/files/$%<u></u>7BPN%7D/$%7BPN%=
+7D-$%7BPV%7D.<u></u>tar.bz2</a>&gt;&quot;<div class=3D"im"><br>
+=A0 =A0 +SRC_URI[md5sum] =3D &quot;<u></u>360d0e0e70ed11eda5aa1570ebc9c1<u>=
+</u>55&quot;<br>
+=A0 =A0 +SRC_URI[sha256sum] =3D<br>
+=A0 =A0 &quot;<u></u>cc538f420bfe716220169e41b572d0<u></u>cb8a345afb552faef=
+924bfb2c625d9<u></u>2b0d&quot;<br>
+=A0 =A0 +<br>
+=A0 =A0 +inherit autotools<br>
+=A0 =A0 +<br>
+=A0 =A0 +export KERNELDIR=3D&quot;${STAGING_KERNEL_<u></u>DIR}&quot;<br>
+=A0 =A0 +<br>
+=A0 =A0 +FILES_${PN} +=3D &quot;${libdir}/lttng/libexec/*&quot;<br>
+=A0 =A0 +FILES_${PN}-dbg +=3D &quot;${libdir}/lttng/libexec/.<u></u>debug&q=
+uot;<br>
+=A0 =A0 +<br>
+=A0 =A0 +# Due to liburcu not building for MIPS currently this recipe needs=
+ to<br>
+=A0 =A0 +# be limited also.<br>
+=A0 =A0 +# So here let us first suppport x86/arm/powerpc platforms now.<br>
+=A0 =A0 +COMPATIBLE_HOST =3D &#39;(x86_64.*|i.86.*|arm.*|<u></u>powerpc.*)-=
+linux&#39;<br>
+=A0 =A0 diff --git a/meta/recipes-kernel/lttng-2.<u></u>0/<a href=3D"http:/=
+/lttng2-ust_2.0.2.bb" target=3D"_blank">lttng2-ust_2.0.2.bb</a><br></div>
+=A0 =A0 &lt;<a href=3D"http://lttng2-ust_2.0.2.bb" target=3D"_blank">http:/=
+/lttng2-ust_2.0.2.bb</a>&gt;<br>
+=A0 =A0 b/meta/recipes-kernel/lttng-2.<u></u>0/<a href=3D"http://lttng2-ust=
+_2.0.2.bb" target=3D"_blank">lttng2-ust_2.0.2.bb</a><br>
+=A0 =A0 &lt;<a href=3D"http://lttng2-ust_2.0.2.bb" target=3D"_blank">http:/=
+/lttng2-ust_2.0.2.bb</a>&gt;<div class=3D"im"><br>
+=A0 =A0 deleted file mode 100644<br>
+=A0 =A0 index 8f650a4..0000000<br>
+=A0 =A0 --- a/meta/recipes-kernel/lttng-2.<u></u>0/<a href=3D"http://lttng2=
+-ust_2.0.2.bb" target=3D"_blank">lttng2-ust_2.0.2.bb</a><br></div>
+=A0 =A0 &lt;<a href=3D"http://lttng2-ust_2.0.2.bb" target=3D"_blank">http:/=
+/lttng2-ust_2.0.2.bb</a>&gt;<div><div class=3D"h5"><br>
+=A0 =A0 +++ /dev/null<br>
+=A0 =A0 @@ -1,30 +0,0 @@<br>
+=A0 =A0 -SUMMARY =3D &quot;Linux Trace Toolkit Userspace Tracer 2.0&quot;<b=
+r>
+=A0 =A0 -DESCRIPTION =3D &quot;The LTTng UST 2.0 package contains the users=
+pace<br>
+=A0 =A0 tracer library to trace userspace codes.&quot;<br>
+=A0 =A0 -HOMEPAGE =3D &quot;<a href=3D"http://lttng.org/lttng2.0" target=3D=
+"_blank">http://lttng.org/lttng2.0</a>&quot;<br>
+=A0 =A0 -BUGTRACKER =3D &quot;n/a&quot;<br>
+=A0 =A0 -<br>
+=A0 =A0 -LICENSE =3D &quot;LGPLv2.1+ &amp; BSD &amp; GPLv2&quot;<br>
+=A0 =A0 -LIC_FILES_CHKSUM =3D<br>
+=A0 =A0 &quot;file://COPYING;md5=3D<u></u>c963eb366b781252b0bf0fdf1624d9<u>=
+</u>e9 \<br>
+=A0 =A0 -<br>
+=A0 =A0 =A0 file://snprintf/snprintf.c;<u></u>endline=3D32;md5=3D<u></u>d3d=
+544959d8a3782b2e07451be0a90<u></u>3c \<br>
+=A0 =A0 -<br>
+=A0 =A0 =A0 file://snprintf/various.h;<u></u>endline=3D31;md5=3D<u></u>89f2=
+509b6b4682c4fc95255eec4abe<u></u>44&quot;<br>
+=A0 =A0 -<br>
+=A0 =A0 -inherit autotools<br>
+=A0 =A0 -<br>
+=A0 =A0 -DEPENDS =3D &quot;liburcu util-linux&quot;<br>
+=A0 =A0 -<br>
+=A0 =A0 -SRCREV =3D &quot;<u></u>a367ee66aad3ffd21ef64d1b24efc6<u></u>f862e=
+09562&quot;<br>
+=A0 =A0 -PV =3D &quot;2.0.2+git${SRCPV}&quot;<br>
+=A0 =A0 -PR =3D &quot;r0&quot;<br>
+=A0 =A0 -<br>
+=A0 =A0 -SRC_URI =3D &quot;git://<a href=3D"http://git.lttng.org/lttng-ust.=
+git;protocol=3Dgit" target=3D"_blank">git.lttng.org/lttng-<u></u>ust.git;pr=
+otocol=3Dgit</a><br></div></div>
+=A0 =A0 &lt;<a href=3D"http://git.lttng.org/lttng-ust.git;protocol=3Dgit" t=
+arget=3D"_blank">http://git.lttng.org/lttng-<u></u>ust.git;protocol=3Dgit</=
+a>&gt;&quot;<div class=3D"im"><br>
+=A0 =A0 -<br>
+=A0 =A0 -S =3D &quot;${WORKDIR}/git&quot;<br>
+=A0 =A0 -<br>
+=A0 =A0 -do_configure_prepend () {<br>
+=A0 =A0 - =A0 =A0 =A0 ${S}/bootstrap<br>
+=A0 =A0 -}<br>
+=A0 =A0 -<br>
+=A0 =A0 -# Due to liburcu not building for MIPS currently this recipe needs=
+ to<br>
+=A0 =A0 -# be limited also.<br>
+=A0 =A0 -# So here let us first suppport x86/arm/powerpc platforms now.<br>
+=A0 =A0 -COMPATIBLE_HOST =3D &#39;(x86_64.*|i.86.*|arm.*|<u></u>powerpc.*)-=
+linux&#39;<br>
+=A0 =A0 diff --git a/meta/recipes-kernel/lttng-2.<u></u>0/<a href=3D"http:/=
+/lttng2-ust_2.0.4.bb" target=3D"_blank">lttng2-ust_2.0.4.bb</a><br></div>
+=A0 =A0 &lt;<a href=3D"http://lttng2-ust_2.0.4.bb" target=3D"_blank">http:/=
+/lttng2-ust_2.0.4.bb</a>&gt;<br>
+=A0 =A0 b/meta/recipes-kernel/lttng-2.<u></u>0/<a href=3D"http://lttng2-ust=
+_2.0.4.bb" target=3D"_blank">lttng2-ust_2.0.4.bb</a><br>
+=A0 =A0 &lt;<a href=3D"http://lttng2-ust_2.0.4.bb" target=3D"_blank">http:/=
+/lttng2-ust_2.0.4.bb</a>&gt;<div class=3D"im"><br>
+=A0 =A0 new file mode 100644<br>
+=A0 =A0 index 0000000..a5f8cec<br>
+=A0 =A0 --- /dev/null<br>
+=A0 =A0 +++ b/meta/recipes-kernel/lttng-2.<u></u>0/<a href=3D"http://lttng2=
+-ust_2.0.4.bb" target=3D"_blank">lttng2-ust_2.0.4.bb</a><br></div>
+=A0 =A0 &lt;<a href=3D"http://lttng2-ust_2.0.4.bb" target=3D"_blank">http:/=
+/lttng2-ust_2.0.4.bb</a>&gt;<div class=3D"im"><br>
+=A0 =A0 @@ -0,0 +1,30 @@<br>
+=A0 =A0 +SUMMARY =3D &quot;Linux Trace Toolkit Userspace Tracer 2.0&quot;<b=
+r>
+=A0 =A0 +DESCRIPTION =3D &quot;The LTTng UST 2.0 package contains the users=
+pace<br>
+=A0 =A0 tracer library to trace userspace codes.&quot;<br>
+=A0 =A0 +HOMEPAGE =3D &quot;<a href=3D"http://lttng.org/lttng2.0" target=3D=
+"_blank">http://lttng.org/lttng2.0</a>&quot;<br>
+=A0 =A0 +BUGTRACKER =3D &quot;n/a&quot;<br>
+=A0 =A0 +<br>
+=A0 =A0 +LICENSE =3D &quot;LGPLv2.1+ &amp; BSD &amp; GPLv2&quot;<br>
+=A0 =A0 +LIC_FILES_CHKSUM =3D<br>
+=A0 =A0 &quot;file://COPYING;md5=3D<u></u>c963eb366b781252b0bf0fdf1624d9<u>=
+</u>e9 \<br>
+=A0 =A0 +<br>
+=A0 =A0 =A0 file://snprintf/snprintf.c;<u></u>endline=3D32;md5=3D<u></u>d3d=
+544959d8a3782b2e07451be0a90<u></u>3c \<br>
+=A0 =A0 +<br>
+=A0 =A0 =A0 file://snprintf/various.h;<u></u>endline=3D31;md5=3D<u></u>89f2=
+509b6b4682c4fc95255eec4abe<u></u>44&quot;<br>
+=A0 =A0 +<br>
+=A0 =A0 +inherit autotools<br>
+=A0 =A0 +<br>
+=A0 =A0 +DEPENDS =3D &quot;liburcu util-linux&quot;<br>
+=A0 =A0 +<br>
+=A0 =A0 +SRCREV =3D &quot;<u></u>f8b934136d431621e3e85457ac2875<u></u>e8bd9=
+c3387&quot;<br>
+=A0 =A0 +PV =3D &quot;2.0.4+git${SRCPV}&quot;<br>
+=A0 =A0 +PR =3D &quot;r0&quot;<br>
+=A0 =A0 +<br>
+=A0 =A0 +SRC_URI =3D &quot;git://<a href=3D"http://git.lttng.org/lttng-ust.=
+git;protocol=3Dgit" target=3D"_blank">git.lttng.org/lttng-<u></u>ust.git;pr=
+otocol=3Dgit</a><br></div>
+=A0 =A0 &lt;<a href=3D"http://git.lttng.org/lttng-ust.git;protocol=3Dgit" t=
+arget=3D"_blank">http://git.lttng.org/lttng-<u></u>ust.git;protocol=3Dgit</=
+a>&gt;&quot;<div class=3D"im"><br>
+=A0 =A0 +<br>
+=A0 =A0 +S =3D &quot;${WORKDIR}/git&quot;<br>
+=A0 =A0 +<br>
+=A0 =A0 +do_configure_prepend () {<br>
+=A0 =A0 + =A0 =A0 =A0 ${S}/bootstrap<br>
+=A0 =A0 +}<br>
+=A0 =A0 +<br>
+=A0 =A0 +# Due to liburcu not building for MIPS currently this recipe needs=
+ to<br>
+=A0 =A0 +# be limited also.<br>
+=A0 =A0 +# So here let us first suppport x86/arm/powerpc platforms now.<br>
+=A0 =A0 +COMPATIBLE_HOST =3D &#39;(x86_64.*|i.86.*|arm.*|<u></u>powerpc.*)-=
+linux&#39;<br>
+=A0 =A0 diff --git a/meta/recipes-support/<u></u>liburcu/<a href=3D"http://=
+liburcu_0.6.7.bb" target=3D"_blank">liburcu_0.6.7.bb</a><br></div>
+=A0 =A0 &lt;<a href=3D"http://liburcu_0.6.7.bb" target=3D"_blank">http://li=
+burcu_0.6.7.bb</a>&gt;<br>
+=A0 =A0 b/meta/recipes-support/<u></u>liburcu/<a href=3D"http://liburcu_0.6=
+.7.bb" target=3D"_blank">liburcu_0.6.7.bb</a><br>
+=A0 =A0 &lt;<a href=3D"http://liburcu_0.6.7.bb" target=3D"_blank">http://li=
+burcu_0.6.7.bb</a>&gt;<div class=3D"im"><br>
+=A0 =A0 deleted file mode 100644<br>
+=A0 =A0 index be73856..0000000<br>
+=A0 =A0 --- a/meta/recipes-support/<u></u>liburcu/<a href=3D"http://liburcu=
+_0.6.7.bb" target=3D"_blank">liburcu_0.6.7.bb</a><br></div>
+=A0 =A0 &lt;<a href=3D"http://liburcu_0.6.7.bb" target=3D"_blank">http://li=
+burcu_0.6.7.bb</a>&gt;<div class=3D"im"><br>
+=A0 =A0 +++ /dev/null<br>
+=A0 =A0 @@ -1,24 +0,0 @@<br>
+=A0 =A0 -DESCRIPTION =3D &quot;The userspace read-copy update library by Ma=
+thieu<br>
+=A0 =A0 Desnoyers&quot;<br>
+=A0 =A0 -HOMEPAGE =3D &quot;<a href=3D"http://lttng.org/urcu" target=3D"_bl=
+ank">http://lttng.org/urcu</a>&quot;<br>
+=A0 =A0 -BUGTRACKER =3D &quot;<a href=3D"http://lttng.org/project/issues" t=
+arget=3D"_blank">http://lttng.org/project/<u></u>issues</a>&quot;<br>
+=A0 =A0 -<br>
+=A0 =A0 -LICENSE =3D &quot;LGPLv2.1+ &amp; MIT-style&quot;<br>
+=A0 =A0 -LIC_FILES_CHKSUM =3D<br>
+=A0 =A0 &quot;file://LICENSE;md5=3D<u></u>b472dc110d38774921e1d5ccb0065f<u>=
+</u>ff \<br>
+=A0 =A0 -<br>
+=A0 =A0 =A0 file://urcu.h;beginline=3D4;<u></u>endline=3D32;md5=3D<u></u>4d=
+e0d68d3a997643715036d2209ae1<u></u>d9 \<br>
+=A0 =A0 -<br>
+=A0 =A0 =A0 file://urcu/uatomic/x86.h;<u></u>beginline=3D4;endline=3D21;md5=
+=3D<u></u>220552f72c55b102f2ee35929734ef<u></u>42&quot;<br>
+=A0 =A0 -<br>
+=A0 =A0 -PR =3D &quot;r0&quot;<br>
+=A0 =A0 -<br>
+=A0 =A0 -SRC_URI =3D &quot;<a href=3D"http://lttng.org/files/urcu/userspace=
+-rcu-$%7BPV%7D.tar.bz2" target=3D"_blank">http://lttng.org/files/urcu/<u></=
+u>userspace-rcu-${PV}.tar.bz2</a><br></div>
+=A0 =A0 &lt;<a href=3D"http://lttng.org/files/urcu/userspace-rcu-$%7BPV%7D.=
+tar.bz2" target=3D"_blank">http://lttng.org/files/urcu/<u></u>userspace-rcu=
+-$%7BPV%7D.tar.<u></u>bz2</a>&gt;&quot;<div class=3D"im"><br>
+=A0 =A0 -<br>
+=A0 =A0 -SRC_URI[md5sum] =3D &quot;<u></u>2705dadd65beda8e8960472c082e44<u>=
+</u>b3&quot;<br>
+=A0 =A0 -SRC_URI[sha256sum] =3D<br>
+=A0 =A0 &quot;<u></u>b0b09aead6fbcb4d5efb4270e12f84<u></u>ffd115b99b55b2c74=
+5e052b2d87a47<u></u>e75f&quot;<br>
+=A0 =A0 -<br>
+=A0 =A0 -S =3D &quot;${WORKDIR}/userspace-rcu-${<u></u>PV}&quot;<br>
+=A0 =A0 -CFLAGS_append_libc-uclibc =3D &quot; -D_GNU_SOURCE&quot;<br>
+=A0 =A0 -inherit autotools<br>
+=A0 =A0 -<br>
+=A0 =A0 -# liburcu, which is only used by lttng-ust, may not build on other=
+<br>
+=A0 =A0 -# platforms, like MIPS.<br>
+=A0 =A0 -COMPATIBLE_HOST =3D &#39;(x86_64.*|i.86.*|arm.*|<u></u>powerpc.*)-=
+linux&#39;<br>
+=A0 =A0 -<br>
+=A0 =A0 diff --git a/meta/recipes-support/<u></u>liburcu/<a href=3D"http://=
+liburcu_0.7.3.bb" target=3D"_blank">liburcu_0.7.3.bb</a><br></div>
+=A0 =A0 &lt;<a href=3D"http://liburcu_0.7.3.bb" target=3D"_blank">http://li=
+burcu_0.7.3.bb</a>&gt;<br>
+=A0 =A0 b/meta/recipes-support/<u></u>liburcu/<a href=3D"http://liburcu_0.7=
+.3.bb" target=3D"_blank">liburcu_0.7.3.bb</a><br>
+=A0 =A0 &lt;<a href=3D"http://liburcu_0.7.3.bb" target=3D"_blank">http://li=
+burcu_0.7.3.bb</a>&gt;<div class=3D"im"><br>
+=A0 =A0 new file mode 100644<br>
+=A0 =A0 index 0000000..86f29be<br>
+=A0 =A0 --- /dev/null<br>
+=A0 =A0 +++ b/meta/recipes-support/<u></u>liburcu/<a href=3D"http://liburcu=
+_0.7.3.bb" target=3D"_blank">liburcu_0.7.3.bb</a><br></div>
+=A0 =A0 &lt;<a href=3D"http://liburcu_0.7.3.bb" target=3D"_blank">http://li=
+burcu_0.7.3.bb</a>&gt;<div class=3D"im"><br>
+=A0 =A0 @@ -0,0 +1,24 @@<br>
+=A0 =A0 +DESCRIPTION =3D &quot;The userspace read-copy update library by Ma=
+thieu<br>
+=A0 =A0 Desnoyers&quot;<br>
+=A0 =A0 +HOMEPAGE =3D &quot;<a href=3D"http://lttng.org/urcu" target=3D"_bl=
+ank">http://lttng.org/urcu</a>&quot;<br>
+=A0 =A0 +BUGTRACKER =3D &quot;<a href=3D"http://lttng.org/project/issues" t=
+arget=3D"_blank">http://lttng.org/project/<u></u>issues</a>&quot;<br>
+=A0 =A0 +<br>
+=A0 =A0 +LICENSE =3D &quot;LGPLv2.1+ &amp; MIT-style&quot;<br>
+=A0 =A0 +LIC_FILES_CHKSUM =3D<br>
+=A0 =A0 &quot;file://LICENSE;md5=3D<u></u>95dfea59eeaa41a4057faa07a58f5f<u>=
+</u>89 \<br>
+=A0 =A0 +<br>
+=A0 =A0 =A0 file://urcu.h;beginline=3D4;<u></u>endline=3D32;md5=3D<u></u>4d=
+e0d68d3a997643715036d2209ae1<u></u>d9 \<br>
+=A0 =A0 +<br>
+=A0 =A0 =A0 file://urcu/uatomic/x86.h;<u></u>beginline=3D4;endline=3D21;md5=
+=3D<u></u>220552f72c55b102f2ee35929734ef<u></u>42&quot;<br>
+=A0 =A0 +<br>
+=A0 =A0 +PR =3D &quot;r0&quot;<br>
+=A0 =A0 +<br>
+=A0 =A0 +SRC_URI =3D &quot;<a href=3D"http://lttng.org/files/urcu/userspace=
+-rcu-$%7BPV%7D.tar.bz2" target=3D"_blank">http://lttng.org/files/urcu/<u></=
+u>userspace-rcu-${PV}.tar.bz2</a><br></div>
+=A0 =A0 &lt;<a href=3D"http://lttng.org/files/urcu/userspace-rcu-$%7BPV%7D.=
+tar.bz2" target=3D"_blank">http://lttng.org/files/urcu/<u></u>userspace-rcu=
+-$%7BPV%7D.tar.<u></u>bz2</a>&gt;&quot;<div class=3D"im"><br>
+=A0 =A0 +<br>
+=A0 =A0 +SRC_URI[md5sum] =3D &quot;<u></u>c40b726f13bff80982c1ffa1bc2db3<u>=
+</u>1d&quot;<br>
+=A0 =A0 +SRC_URI[sha256sum] =3D<br>
+=A0 =A0 &quot;<u></u>63f540a5d3c947fa3739711099fb87<u></u>a66036d3c9560f26d=
+a763e500da296<u></u>a1af&quot;<br>
+=A0 =A0 +<br>
+=A0 =A0 +S =3D &quot;${WORKDIR}/userspace-rcu-${<u></u>PV}&quot;<br>
+=A0 =A0 +CFLAGS_append_libc-uclibc =3D &quot; -D_GNU_SOURCE&quot;<br>
+=A0 =A0 +inherit autotools<br>
+=A0 =A0 +<br>
+=A0 =A0 +# liburcu, which is only used by lttng-ust, may not build on other=
+<br>
+=A0 =A0 +# platforms, like MIPS.<br>
+=A0 =A0 +COMPATIBLE_HOST =3D &#39;(x86_64.*|i.86.*|arm.*|<u></u>powerpc.*)-=
+linux&#39;<br>
+=A0 =A0 +<br>
+=A0 =A0 --<br>
+=A0 =A0 1.7.1<br>
+<br>
+<br>
+=A0 =A0 ______________________________<u></u>_________________<br>
+=A0 =A0 Openembedded-core mailing list<br>
+=A0 =A0 <a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=
+=3D"_blank">Openembedded-core@lists.<u></u>openembedded.org</a><br></div>
+=A0 =A0 &lt;mailto:<a href=3D"mailto:Openembedded-core@lists.openembedded.o=
+rg" target=3D"_blank">Openembedded-core@<u></u>lists.openembedded.org</a>&g=
+t;<br>
+=A0 =A0 <a href=3D"http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/open=
+embedded-core" target=3D"_blank">http://lists.linuxtogo.org/<u></u>cgi-bin/=
+mailman/listinfo/<u></u>openembedded-core</a><div class=3D"im"><br>
+<br>
+<br>
+<br>
+<br>
+______________________________<u></u>_________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">Openembedded-core@lists.<u></u>openembedded.org</a><br>
+<a href=3D"http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded=
+-core" target=3D"_blank">http://lists.linuxtogo.org/<u></u>cgi-bin/mailman/=
+listinfo/<u></u>openembedded-core</a><br>
+<br>
+</div></blockquote>
+</blockquote></div><br>
+
+--20cf303b410deece2404c6448300--
