@@ -1,29 +1,44 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from eumx.net ([91.82.101.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1SwyQi-0005WF-UI
+	(envelope-from <ml@communistcode.co.uk>) id 1SwyRy-0005Ze-I5
 	for openembedded-core@lists.openembedded.org;
-	Thu, 02 Aug 2012 18:39:21 +0200
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 02 Aug 2012 09:27:40 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="129672008"
-Received: from unknown (HELO helios.localnet) ([10.252.121.75])
-	by AZSMGA002.ch.intel.com with ESMTP; 02 Aug 2012 09:27:39 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Date: Thu, 02 Aug 2012 17:27:38 +0100
-Message-ID: <2026871.yolgERni9t@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.8.4 (Linux/3.2.0-27-generic-pae; KDE/4.8.4; i686; ; )
-In-Reply-To: <1343924683-21970-1-git-send-email-Martin.Jansa@gmail.com>
-References: <1343924683-21970-1-git-send-email-Martin.Jansa@gmail.com>
+	Thu, 02 Aug 2012 18:40:38 +0200
+Received: from localhost ([127.0.0.1]:54085 helo=eumx.net)
+	by eumx.net with esmtp (Exim 4.72)
+	(envelope-from <ml@communistcode.co.uk>)
+	id 1SwyGg-0001MC-QG; Thu, 02 Aug 2012 16:28:58 +0000
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=eumx.net; h=message-id
+	:date:from:reply-to:mime-version:to:cc:subject:references
+	:in-reply-to:content-type:content-transfer-encoding; s=default;
+	bh=S14nG4JHCgVk3VKMSDK8TMUyG9E=; b=DVxDXg+MrTOq6GVt2vowgm0Zv3sI
+	IoOD4Hused/g3hTKsq3m6wKL9AVm3HB64Fx0AeajPxW85QSue9JqMGzokho3LHo7
+	M572JE7oW/aMyyIoz3fUTlbEZNt2DtL6geyhkQcth6x7lmzqKaSSv8IWEY/t9xln
+	5R0b8GRzCMEYX2k=
+Received: from cpc2-cmbg15-2-0-cust171.5-4.cable.virginmedia.com
+	([86.26.12.172]:49329 helo=[192.168.1.113])
+	by eumx.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <ml@communistcode.co.uk>)
+	id 1SwyGg-0001M8-ME; Thu, 02 Aug 2012 16:28:58 +0000
+Message-ID: <501AAACA.2010903@communistcode.co.uk>
+Date: Thu, 02 Aug 2012 17:28:58 +0100
+From: Jack Mitchell <ml@communistcode.co.uk>
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
+	rv:14.0) Gecko/20120713 Thunderbird/14.0
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [RFC] bitbake.conf: store cooker logs in TMPDIR subdirectory
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <501A43F2.7020209@communistcode.co.uk>
+	<1343914820.9756.74.camel@ted>
+	<501A9CA6.6020704@communistcode.co.uk>
+	<1343922080.9756.79.camel@ted>
+In-Reply-To: <1343922080.9756.79.camel@ted>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Qemu refusing to build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: ml@communistcode.co.uk,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -34,44 +49,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Aug 2012 16:39:21 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Thu, 02 Aug 2012 16:40:38 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thursday 02 August 2012 18:24:43 Martin Jansa wrote:
-> * we should probably wait until
->  
-> http://git.openembedded.org/bitbake/commit/?id=1e06d8012868ba5a31503dc99cbf
-> 18570be629d9 is in next required bitbake version, but error message if the
-> directory doesn't exist is quite clear * people with new enough bitbake
-> could just change this in their local.conf
-> 
-> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> ---
->  meta/conf/bitbake.conf |    2 +-
->  1 files changed, 1 insertions(+), 1 deletions(-)
-> 
-> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> index d5a43e9..ff1cbd6 100644
-> --- a/meta/conf/bitbake.conf
-> +++ b/meta/conf/bitbake.conf
-> @@ -754,7 +754,7 @@ DISTRO[unexport] = "1"
->  TRANSLATED_TARGET_ARCH ??= "${@d.getVar('TARGET_ARCH', True).replace("_",
-> "-")}"
-> 
->  # Complete output from bitbake, if you're changing it, make sure to use
-> existing directory -BB_CONSOLELOG ?= "${TMPDIR}/cooker.log.${DATETIME}"
-> +BB_CONSOLELOG ?= "${TMPDIR}/cooker/${MACHINE}/${DATETIME}"
+On 02/08/2012 16:41, Richard Purdie wrote:
+> On Thu, 2012-08-02 at 16:28 +0100, Jack Mitchell wrote:
+>> How would I manually attempt to configure? There are no files what so
+>> ever in the
+>> /mnt/storage/yoctoBuilds/poky-vanilla.git/build/tmp/work/x86_64-linux/qemu-native-0.15.1-r10/qemu-0.15.1
+>> directory.
+>
+> Well, that is a big help to know. It sounds like something has wiped the
+> work directory and its then trying to rebuild it. Are you using rm_work
+> of some kind? It sounds like some kind of malfunction has occurred with
+> it...
+>
+> Cheers,
+>
+> Richard.
+>
 
-I was thinking about this the other day - shouldn't we be using LOG_DIR for 
-this?
+It could very well be related to the fact that I am building over NFS 
+and the other problems that have come with it. I'm building with the bog 
+standard vanilla poky with quemu arm uncommented. In this situation I 
+would normally -c cleansstate and try again, but that function is also 
+broken for me (again possibly NFS related).
+
+I changed my NFS mount settings to force sync which makes it act like a 
+more traditional hard drive but it doesn't seem to have done me any good.
+
+I'm not back in work till Monday so I'll see if I can do anything more 
+with it then. If anyone could confirm that they build on an NFS mount 
+then that would be a massive help.
 
 Cheers,
-Paul
 
--- 
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
 
