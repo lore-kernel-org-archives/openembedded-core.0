@@ -1,35 +1,41 @@
-Received: from mail-qa0-f54.google.com ([209.85.216.54])
+Received: from mail-wi0-f169.google.com ([209.85.212.169])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <otavio.salvador@gmail.com>) id 1SwwhA-0002gR-GX
+	(envelope-from <martin.jansa@gmail.com>) id 1Swwhj-0002ih-Sy
 	for openembedded-core@lists.openembedded.org;
-	Thu, 02 Aug 2012 16:48:12 +0200
-Received: by qaat11 with SMTP id t11so1591290qaa.6
+	Thu, 02 Aug 2012 16:48:47 +0200
+Received: by wibhm2 with SMTP id hm2so5035703wib.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 02 Aug 2012 07:36:32 -0700 (PDT)
+	Thu, 02 Aug 2012 07:37:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=qV8g5mZBj56TZOEEhwdCZH0YZYfZ8jvBya/dEZ3QHmg=;
-	b=XwraZM1iSX/OLldFCkzGj1LHiWGZXhmaUtohkHz7CRBZ/Md3Q7NEWdkeuT/Y4nT29a
-	fom+uub/Aq8alh1NLN2iv+vtWF0D3Xk1dhzYSkUvaf7fF8wfgW+K7YJFLMiLOGGEa/aU
-	PDbiY3JTZQJs2R7/Zpl+1Al5+NWC+kVq2nYBeei932uicWHhUrgIyAlNbTTQnYn6yxMx
-	JUAUCn/uG3EPzeiN7fiP1hqw2kssOGW9JlFTiulyK+7yq89nVVdn4zGoLeRsV1AXFICB
-	+vI/597hsX9xpU6+qs3NK5MiVEspz7izAYtfnw7MKxU4tzwfV7FsoI1jZxsi0av2CtyM
-	6F6w==
+	h=date:from:to:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=6szyeaY8cMZLJLK4/fhr/V3d7mkP/O8c6M+y+V8dqr4=;
+	b=Ncc5pByHOZtQiZBr2fDXmPJ3QJdXAraNHUxNS4GFMpFUVt3QzOdCLYq8w9ZqBK6x4n
+	BbJaDazf/qx2jluy1IuYHgJbTi/DyulYz3q+ofGk7HFWy0fRqH/xQlWUEakjsO2MxhTG
+	sU4CwiFG8nO6ZhuwRDjD5+3g1fWYrz9dCf7RUMJX7Rb9YC1em2up9MuXZCdC/qpJ7OxW
+	tpWPviz2uQzm6iju4q9nG3chg3hqKCc9+apxTvVTcGSPIIHbvvUyjS13lEFcnjBLmxup
+	hsMqCQKSyY4niOR55FrDACPUjR6NUPDGxFhW/NighE0a83OpPM8yREKTv3qawzFyW6CF
+	3uzw==
+Received: by 10.217.3.7 with SMTP id q7mr4787624wes.47.1343918228382;
+	Thu, 02 Aug 2012 07:37:08 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id b7sm17663883wiz.9.2012.08.02.07.37.06
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 02 Aug 2012 07:37:07 -0700 (PDT)
+Date: Thu, 2 Aug 2012 16:37:05 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Message-ID: <20120802143705.GT16306@jama.jama.net>
+References: <20120801065021.GC15199@jama.jama.net>
+	<20120801065401.GD15199@jama.jama.net>
+	<8071B2D8-3431-4B9B-A810-0F01D4837779@gmail.com>
+	<20120802115012.GO16306@jama.jama.net>
+	<C496D1D2-DB12-4B52-9D3A-5BB5E663FBC3@gmail.com>
 MIME-Version: 1.0
-Received: by 10.58.211.68 with SMTP id na4mr9431547vec.38.1343918192538; Thu,
-	02 Aug 2012 07:36:32 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.220.90.203 with HTTP; Thu, 2 Aug 2012 07:36:32 -0700 (PDT)
-In-Reply-To: <1343065037-13851-2-git-send-email-otavio@ossystems.com.br>
-References: <1343065037-13851-1-git-send-email-otavio@ossystems.com.br>
-	<1343065037-13851-2-git-send-email-otavio@ossystems.com.br>
-Date: Thu, 2 Aug 2012 11:36:32 -0300
-X-Google-Sender-Auth: qgz-vyd3VYGCXGdXtq5A6uDwY3c
-Message-ID: <CAP9ODKqJBnmDShNAhSiSfuGrPuPHZ-kY_GD9WtdU7JRyDqEPjw@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2 2/2] shadow: use 'users' group by default
+In-Reply-To: <C496D1D2-DB12-4B52-9D3A-5BB5E663FBC3@gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Subject: Re: u-boot do_compile should be reentrant even with ld-is-gold
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,22 +50,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Aug 2012 14:48:12 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Thu, 02 Aug 2012 14:48:48 -0000
+X-Groupsio-MsgNum: 26793
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="hOmQO3H5Qmmwdmk8"
+Content-Disposition: inline
 
-On Mon, Jul 23, 2012 at 2:37 PM, Otavio Salvador
-<otavio@ossystems.com.br> wrote:
-> The rootfs has 'users' group at number 100 and without this fix it
-> would assign to a non-existent group and if a group with gid as 1000
-> is created later it would own all files for users created.
->
-> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+--hOmQO3H5Qmmwdmk8
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Can it be included on 1.2.2?
+On Thu, Aug 02, 2012 at 07:30:38AM -0700, Khem Raj wrote:
+>=20
+> On Aug 2, 2012, at 4:50 AM, Martin Jansa <martin.jansa@gmail.com> wrote:
+>=20
+> > On Wed, Aug 01, 2012 at 04:02:24PM -0700, Khem Raj wrote:
+> >>=20
+> >> On Jul 31, 2012, at 11:54 PM, Martin Jansa <martin.jansa@gmail.com> wr=
+ote:
+> >>=20
+> >>> well not exactly like this one as this is causing
+> >>> /bin/sh: 1: Syntax error: Bad fd number
+> >>> probably from ">&" in dash
+> >>=20
+> >>=20
+> >> yes. I swear I have since fixed this patch this seems to be an older v=
+ersion
+> >> did you look into meta-ti/master ?
+> >=20
+> > Yes, your patch is fixed in meta-ti, but cannot be used together with
+> > Otavio's patch to u-boot.inc.
+> >=20
+> > meta-ti is fine because it provides own u-boot.inc, but with your patch
+> > and u-boot.inc from oe-core it ends like this
+>=20
+>=20
+> so why don't you migrate the patch from meta-ti into OE-Core ? and leave =
+this sed
+> thing out ?
 
--- 
-Otavio Salvador                             O.S. Systems
-E-mail: otavio@ossystems.com.br  http://www.ossystems.com.br
-Mobile: +55 53 9981-7854              http://projetos.ossystems.com.br
+Because all layers using u-boot.inc from oe-core probably already have
+this patch and adding it to oe-core too will cause do_patch to fail.
 
+Or those layers are not using SRC_URI from u-boot.inc and then they
+won't get this patch anyway.
 
+And I don't want to introduce another kind of automagic which would
+add that patch to SRC_URI only if it's not added by some .bbappend
+already..=20
+
+One character change in that regexp fixed all use-cases I can think of,
+so looks like best solution to me..
+
+Cheers,
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--hOmQO3H5Qmmwdmk8
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
+
+iEYEARECAAYFAlAakJEACgkQN1Ujt2V2gByBSQCfU9vU7Nk1uJpl5zqujmvhzsHu
+vQ4An2PSWYBZa0mZcbkVFZxWqx8m/7e1
+=oAft
+-----END PGP SIGNATURE-----
+
+--hOmQO3H5Qmmwdmk8--
