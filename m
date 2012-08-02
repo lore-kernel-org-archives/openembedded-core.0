@@ -1,42 +1,33 @@
-Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
+Received: from mail-yx0-f175.google.com ([209.85.213.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1Sx0rI-0000W2-P7
+	(envelope-from <schnitzeltony@googlemail.com>) id 1Sx1BF-0000uj-O4
 	for openembedded-core@lists.openembedded.org;
-	Thu, 02 Aug 2012 21:14:56 +0200
-Received: from mail-wg0-f44.google.com ([74.125.82.44])
-	by mga03.intel.com with ESMTP/TLS/RC4-SHA; 02 Aug 2012 12:03:14 -0700
-Received: by wgbdr13 with SMTP id dr13so5622821wgb.13
+	Thu, 02 Aug 2012 21:35:33 +0200
+Received: by yenl13 with SMTP id l13so8282325yen.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 02 Aug 2012 12:03:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=date:from:to:message-id:in-reply-to:references:subject:x-mailer
-	:mime-version:content-type:content-transfer-encoding
-	:content-disposition:x-gm-message-state;
-	bh=+WFLqGKv0ckjUEI9D6lH9VJCqDo7ti+QUA0wHNrTwdM=;
-	b=DRuNtg4xVu3ZEywu94U16O88+01xxPizJrVNpbll7/2mhi8iVHDxCfKwieBWfHjNS5
-	zA0FXb1kskW5aMTNNcPRyz+d0edPAzq9JOVm5PcJU73fzmHcQDSHB2YiEgcViROPO+5j
-	7SZTB5oSPUQAwFYMIb4+IFVAa1v6S2a5H5W25t4DD9oxb+AhxX4T+7aqEE4+6l44MtPH
-	soJLtMVSJ4B2aHZEPSjmipvsLGjuKd9k/gwel5AhmmLu8xpkt+UATM9KiPyJ+/7PHHZd
-	QRD0l0bXzjNPavIm00bqhN7SoslqB62tulRkVll5LzKfuL/exsE6CD+gY5q/Frl103jw
-	MRBg==
-Received: by 10.180.78.170 with SMTP id c10mr7022576wix.3.1343934192543;
-	Thu, 02 Aug 2012 12:03:12 -0700 (PDT)
-Received: from [192.168.1.12] (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id b7sm19328135wiz.9.2012.08.02.12.03.10
-	(version=SSLv3 cipher=OTHER); Thu, 02 Aug 2012 12:03:11 -0700 (PDT)
-Date: Thu, 2 Aug 2012 20:03:09 +0100
-From: Ross Burton <ross.burton@intel.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <8242048D6F2A4934B1D6E6CB30CF8C3A@intel.com>
-In-Reply-To: <94E6EEF2-BA2A-4B68-A9CB-98133061274E@dominion.thruhere.net>
-References: <cover.1343926021.git.ross.burton@intel.com>
-	<94E6EEF2-BA2A-4B68-A9CB-98133061274E@dominion.thruhere.net>
-X-Mailer: sparrow 1.6.2 (build 1143.6)
+	Thu, 02 Aug 2012 12:23:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type:content-transfer-encoding;
+	bh=LnfEUSBbujy35rbgz0T/e3hNRBmGtbUOoK//oV0YkaI=;
+	b=GSkTDqMB+pPFiAqZ2+TAI3BXXCX3FcvdU9+F8julU2XRAY8wOLxnrRoSifVL4pxlwd
+	h7vB20PW37Fs3N09kI0nhxOk++zxAMMWrxbA+5ckFMpwFs1GKZUrIP7dRMyWRZ6sAJyG
+	q84zoQLo+91TCmFtx8Y89lsHh1/QG3Fx37pzX3Rd6NwjJ3Q7Jk6h0d3Y/kVrgT0MTp3Y
+	jRzkS1pRW6cI8fIQ7dWgBoJrf6HYvTTtUW5j0oVWihKlp8HkK9tqArJgpEU1/ItgZWOg
+	fO3FMK9YMZ7Qi4H5qGbIhLM5Svsr7XJsn6YhtNtZogpgK2iboav5CLudYpcJipiHR5Ik
+	TMbw==
 MIME-Version: 1.0
-X-Gm-Message-State: ALoCoQljiIXdxyaaxQSE81Pyxhks6K9kIO1CA3U5YtOXkwqK5V7xOMYIXZHc0RAkDnCGRSou5LF5
-Subject: Re: [PATCH V3 00/11] Mesa upgrade/improvements
+Received: by 10.50.213.39 with SMTP id np7mr5614109igc.51.1343935433012; Thu,
+	02 Aug 2012 12:23:53 -0700 (PDT)
+Received: by 10.64.142.201 with HTTP; Thu, 2 Aug 2012 12:23:52 -0700 (PDT)
+In-Reply-To: <CALbNGRSyCyCSX23dQXa1neOBior_vHbmKtk8SmSV8pKJdQt44w@mail.gmail.com>
+References: <CALbNGRSyCyCSX23dQXa1neOBior_vHbmKtk8SmSV8pKJdQt44w@mail.gmail.com>
+Date: Thu, 2 Aug 2012 21:23:52 +0200
+Message-ID: <CALbNGRTJFg7yWMDEs9tF7VijLAgxGA178qasUYuh=Z_ky+CpXA@mail.gmail.com>
+From: =?ISO-8859-1?Q?Andreas_M=FCller?= <schnitzeltony@googlemail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: Re: pango modules postinst issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -51,20 +42,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Aug 2012 19:14:57 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+X-List-Received-Date: Thu, 02 Aug 2012 19:35:33 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-On Thursday, 2 August 2012 at 19:38, Koen Kooi wrote:
-> This will still break every platform with a binary libegl and libgles.
+On Tue, Jul 31, 2012 at 5:01 PM, Andreas M=FCller
+<schnitzeltony@googlemail.com> wrote:
+> Hi,
+>
+> sorry fur disturbing again - but:
+>
+> When starting X on a maiden image I receive:
+>
+> No builtin or dynamically loaded modules were found.
+> PangoFc will not work correctly.
+> This probably means there was an error in the creation of:
+>   '/etc/pango/pango.modules'
+> You should create this file by running:
+>   pango-querymodules > '/etc/pango/pango.modules'
+>
+> and have no fonts displayed. Followed the suggestion
+>
+> pango-querymodules > '/etc/pango/pango.modules'
+>
+> -> fonts are OK.
+>
+> I checked: Besides other pango modules my image contains
+> pango-module-basic-x. In the postinst of this package I see
+>
+> #!/bin/sh
+> if [ "x$D" !=3D "x" ]; then
+>   exit 1
+> fi
+>
+> if ! [ -e $D/etc/pango ] ; then
+>         mkdir -p $D/etc/pango
+> fi
+> /usr/bin/pango-querymodules > /etc/pango/pango.modules
+>
+> This looks OK so far ( besides that I would not have the $D in second par=
+t ).
+>
+> Additionally log.do_rootfs says:
+>
+> Configuring pango-module-basic-x.
+> pango-module-basic-x.postinst returned 1, marking as unpacked only,
+> configuration required on target.
+>
+> Any idea what is happening here?
+>
+> Andreas
 
-That is true and I'm all ears for suggestions. My best proposal so far is to let a package hint a prefix to the Debian renamer, so these packages get renamed to libmesa-gl, libmesa-egl, etc.
+Nobody else seeing this?
 
-That said I'm very curious how every platform with a binary libgl isn't already broken.  If that works for some reason then voila we have a solution, and if they are already broken then we're not breaking it any more than it was already broken.
-
-Ross
-
-
+Andreas
 
 
