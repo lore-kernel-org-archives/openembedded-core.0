@@ -1,41 +1,41 @@
-Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
+Received: from mga10.intel.com ([192.55.52.92] helo=fmsmga102.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1SwymM-0006J8-H3
+	(envelope-from <ross.burton@intel.com>) id 1SwymP-0006JJ-9H
 	for openembedded-core@lists.openembedded.org;
-	Thu, 02 Aug 2012 19:01:42 +0200
-Received: from mail-wg0-f44.google.com ([74.125.82.44])
-	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 02 Aug 2012 09:50:03 -0700
-Received: by mail-wg0-f44.google.com with SMTP id dr13so5542447wgb.13
+	Thu, 02 Aug 2012 19:01:46 +0200
+Received: from mail-we0-f180.google.com ([74.125.82.180])
+	by mga11.intel.com with ESMTP/TLS/RC4-SHA; 02 Aug 2012 09:50:07 -0700
+Received: by weyt11 with SMTP id t11so5421755wey.25
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 02 Aug 2012 09:50:03 -0700 (PDT)
+	Thu, 02 Aug 2012 09:50:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
 	:in-reply-to:references:x-gm-message-state;
-	bh=jxti2qLIPWo+Qz8nJTV3o7vgy9MFGW4aIDfkG8Z1prY=;
-	b=bkjEic283d/zps1kqa3ZqswXqUhMC/xi3WP8ue/qiNI/zE1BXqOErieFP8uChg9Qtw
-	Br4AqU5tjyppQPesI/d4tRrBe2kaxQx8lnd0vDNfz8dFIZyWz/qNZUp6jVNi166uO6Xx
-	SfhOwkxYLF1Kcg4lsYg1L72EYf9f4k37bPi2wTrXfz3dhwSM46KJ+yexr0zRgLCY6/fE
-	QP82gjHNfQwMpXRRE4ZDZltxo8Bzzh0etSM6tmRpkN/XlbcNDvvU0ipM+2pOpVuWkSEq
-	pdQ71bxT2cA0lng9+SrR6ckYn27XRCvFBQukIJAZOQ85DOwiMRyEmxt6pFXrLKq3Ks/r
-	A+OA==
-Received: by 10.180.105.130 with SMTP id gm2mr6200383wib.6.1343926203880;
-	Thu, 02 Aug 2012 09:50:03 -0700 (PDT)
+	bh=R9nag/F9xO5QYhtqJHynfvpjKq2JokVqALiurviGmp0=;
+	b=FPjbO4HWkmC2e6zW3uOE2+amd3osvO1vDR+JqxAreoKpt8ki5d6GjW2HhDaGzN45OG
+	kznRle0i9dY+WDu3526USnrFL50zV5/1DZltnZWMYBP830bU8OUGOYI7PTm+iTtmjfJJ
+	qeP5PBCMNfv1YUISy002RO6zDz1FsKa1h0IMP95yjm9TNkpjxobZQbUrfvESDZZM/Huc
+	P2ZUGCJDtXeSTyBuYD7eFg0U3Cm6M3wsavnZcD864JYyhHcqcOj4R/WVhMbJfvC3cp0A
+	R6+CErzEua/Fc9uEqxGxlldnyY0n9OLmcG5QfWu9yeBKCDjhz1TMghEz80GumOspn3V7
+	rOyQ==
+Received: by 10.216.238.30 with SMTP id z30mr11073923weq.223.1343926205297;
+	Thu, 02 Aug 2012 09:50:05 -0700 (PDT)
 Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id z11sm18460713wiv.10.2012.08.02.09.50.02
+	by mx.google.com with ESMTPS id z11sm18460713wiv.10.2012.08.02.09.50.03
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 02 Aug 2012 09:50:03 -0700 (PDT)
+	Thu, 02 Aug 2012 09:50:04 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  2 Aug 2012 17:49:03 +0100
-Message-Id: <15b93c424f133767ab36ee2cb77a45ffcf021090.1343926021.git.ross.burton@intel.com>
+Date: Thu,  2 Aug 2012 17:49:04 +0100
+Message-Id: <b8cdef43090deef8f8be4c3b90fb6b363547a8bd.1343926021.git.ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10
 In-Reply-To: <cover.1343926021.git.ross.burton@intel.com>
 References: <cover.1343926021.git.ross.burton@intel.com>
 In-Reply-To: <cover.1343926021.git.ross.burton@intel.com>
 References: <cover.1343926021.git.ross.burton@intel.com>
-X-Gm-Message-State: ALoCoQnBB2dN32gVvRcbl5yzaVd19K4AYLMGO1RqIB+sZI1yQyWNlfLUpyLutdlBoExjw8zPjXcx
-Subject: [PATCH V3 09/11] mesa-demos: fix GLES2 build
+X-Gm-Message-State: ALoCoQk/VrTLT8lSGhdUAU3Eamm4sEHXnN6+HqSsG3nKpQ58ENg95IqEDOuNZ4nXbfgTvsArMQlb
+Subject: [PATCH V3 10/11] mesa: respect x11 DISTRO_FEATURE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,54 +50,115 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Aug 2012 17:01:42 -0000
+X-List-Received-Date: Thu, 02 Aug 2012 17:01:47 -0000
+
+Patch originally by Damien Lespiau <damien.lespiau@intel.com>.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-graphics/mesa/mesa-demos/gles2-info.patch |   15 +++++++++++++++
- meta/recipes-graphics/mesa/mesa-demos_8.0.1.bb         |    5 +++--
- 2 files changed, 18 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-graphics/mesa/mesa-demos/gles2-info.patch
+ meta/recipes-graphics/mesa/mesa-8.0.4.inc          |    1 +
+ meta/recipes-graphics/mesa/mesa-common.inc         |   14 +++++-----
+ meta/recipes-graphics/mesa/mesa-git.inc            |    2 ++
+ ...-gross-hack-to-prevent-from-install-libgl.patch |   29 ++++++++++++++++++++
+ 4 files changed, 39 insertions(+), 7 deletions(-)
+ create mode 100644 meta/recipes-graphics/mesa/mesa/0004-gross-hack-to-prevent-from-install-libgl.patch
 
-diff --git a/meta/recipes-graphics/mesa/mesa-demos/gles2-info.patch b/meta/recipes-graphics/mesa/mesa-demos/gles2-info.patch
+diff --git a/meta/recipes-graphics/mesa/mesa-8.0.4.inc b/meta/recipes-graphics/mesa/mesa-8.0.4.inc
+index d9d17bb..9afb35d 100644
+--- a/meta/recipes-graphics/mesa/mesa-8.0.4.inc
++++ b/meta/recipes-graphics/mesa/mesa-8.0.4.inc
+@@ -5,6 +5,7 @@ SRC_URI = "ftp://ftp.freedesktop.org/pub/mesa/${PV}/MesaLib-${PV}.tar.bz2 \
+            file://0002-cross-compile.patch \
+            file://0003-fix-for-x32.patch \
+            "
++SRC_URI += "${@base_contains('DISTRO_FEATURES', 'x11', '', 'file://0004-gross-hack-to-prevent-from-install-libgl.patch', d)}"
+ 
+ S = "${WORKDIR}/Mesa-${PV}"
+ 
+diff --git a/meta/recipes-graphics/mesa/mesa-common.inc b/meta/recipes-graphics/mesa/mesa-common.inc
+index 38b4ab0..77107ab 100644
+--- a/meta/recipes-graphics/mesa/mesa-common.inc
++++ b/meta/recipes-graphics/mesa/mesa-common.inc
+@@ -12,14 +12,10 @@ SECTION = "x11"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://docs/license.html;md5=03ccdc4c379c4289aecfb8892c546f67"
+ 
+-INC_PR = "r1"
++INC_PR = "r2"
+ PE = "2"
+ 
+-
+-PROTO_DEPS = "xf86driproto glproto"
+-LIB_DEPS = "virtual/libx11 libxext libxxf86vm libxdamage libxfixes libxml2-native"
+-
+-DEPENDS = "makedepend-native flex-native bison-native ${PROTO_DEPS} ${LIB_DEPS}"
++DEPENDS = "libxml2-native makedepend-native flex-native bison-native"
+ 
+ PROVIDES = "virtual/libgl virtual/libgles1 virtual/libgles2"
+ 
+@@ -31,9 +27,13 @@ inherit autotools pkgconfig pythonnative
+ EXTRA_OECONF = "--enable-glu \
+                 --disable-glw \
+                 --disable-glut \
+-                --enable-glx-tls \
+                 --enable-shared-glapi"
+ 
++PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'x11', 'x11', '', d)}"
++
++X11_DEPS = "xf86driproto glproto virtual/libx11 libxext libxxf86vm libxdamage libxfixes"
++PACKAGECONFIG[x11] = "--enable-glx-tls,--disable-glx,${X11_DEPS}"
++
+ # Multiple virtual/gl providers being built breaks staging
+ EXCLUDE_FROM_WORLD = "1"
+ 
+diff --git a/meta/recipes-graphics/mesa/mesa-git.inc b/meta/recipes-graphics/mesa/mesa-git.inc
+index 32b1d96..7910eb6 100644
+--- a/meta/recipes-graphics/mesa/mesa-git.inc
++++ b/meta/recipes-graphics/mesa/mesa-git.inc
+@@ -11,6 +11,8 @@ SRC_URI = "git://anongit.freedesktop.org/git/mesa/mesa;protocol=git \
+            file://0002-cross-compile.patch \
+            file://0003-fix-for-x32.patch \
+            "
++SRC_URI += "${@base_contains('DISTRO_FEATURES', 'x11', '', 'file://0004-gross-hack-to-prevent-from-install-libgl.patch', d)}"
++
+ S = "${WORKDIR}/git"
+ 
+ do_configure_prepend() {
+diff --git a/meta/recipes-graphics/mesa/mesa/0004-gross-hack-to-prevent-from-install-libgl.patch b/meta/recipes-graphics/mesa/mesa/0004-gross-hack-to-prevent-from-install-libgl.patch
 new file mode 100644
-index 0000000..84a6fd6
+index 0000000..cf9dee2
 --- /dev/null
-+++ b/meta/recipes-graphics/mesa/mesa-demos/gles2-info.patch
-@@ -0,0 +1,15 @@
-+Index: mesa-demos-8.0.1/src/egl/opengles2/es2_info.c
-+===================================================================
-+--- mesa-demos-8.0.1.orig/src/egl/opengles2/es2_info.c	2010-07-07 18:57:15.000000000 +0100
-++++ mesa-demos-8.0.1/src/egl/opengles2/es2_info.c	2012-08-01 13:14:59.000104115 +0100
-+@@ -18,8 +18,8 @@
-+ #include <X11/Xlib.h>
-+ #include <X11/Xutil.h>
-+ #include <X11/keysym.h>
-+-#include <GLES/gl.h>
-+-#include <GLES/glext.h>
-++#include <GLES2/gl2.h>
-++#include <GLES2/gl2ext.h>
-+ #include <EGL/egl.h>
-+ 
-+ 
-diff --git a/meta/recipes-graphics/mesa/mesa-demos_8.0.1.bb b/meta/recipes-graphics/mesa/mesa-demos_8.0.1.bb
-index bfc62c5..1d16bfc 100644
---- a/meta/recipes-graphics/mesa/mesa-demos_8.0.1.bb
-+++ b/meta/recipes-graphics/mesa/mesa-demos_8.0.1.bb
-@@ -11,10 +11,11 @@ LIC_FILES_CHKSUM = "file://src/xdemos/glxgears.c;beginline=1;endline=20;md5=9142
- 
- DEPENDS = "virtual/libx11 virtual/libgl glew"
- 
--PR = "r2"
-+PR = "r3"
- 
- SRC_URI = "ftp://ftp.freedesktop.org/pub/mesa/demos/${PV}/${BPN}-${PV}.tar.bz2 \
--	file://dso_linking_change_build_fix.patch"
-+	file://dso_linking_change_build_fix.patch \
-+	file://gles2-info.patch"
- 
- inherit autotools pkgconfig
- 
++++ b/meta/recipes-graphics/mesa/mesa/0004-gross-hack-to-prevent-from-install-libgl.patch
+@@ -0,0 +1,29 @@
++gross hack to prevent from install libgl
++
++This patch is not suitable for upstream. This is only needed for the 8.0.x
++branch, master (8.1.x) has a largely different build system (using automake)
++and does not need it. It is fully expected to drop the patch with the next bump
++to a stable version based on 8.1.x.
++
++Upstream-Status: Inappropriate
++
++---
++ src/mesa/Makefile |    2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/src/mesa/Makefile b/src/mesa/Makefile
++index 0e15d61..a0a2cb5 100644
++--- a/src/mesa/Makefile
+++++ b/src/mesa/Makefile
++@@ -166,7 +166,7 @@ install: default $(DRICORE_INSTALL_TARGET)
++ 	            else \
++ 	              $(MAKE) install-osmesa || exit 1 ; \
++ 	            fi ;; \
++-	    dri)    $(MAKE) install-libgl install-dri || exit 1 ;; \
+++	    dri)    $(MAKE) install-dri || exit 1 ;; \
++ 	    *)      $(MAKE) install-libgl || exit 1 ;; \
++ 	  esac ; \
++ 	done
++-- 
++1.7.10.4
++
 -- 
 1.7.10
 
