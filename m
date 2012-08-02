@@ -1,34 +1,41 @@
-Received: from mail-wg0-f43.google.com ([74.125.82.43])
+Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1Swyhh-0005pI-5n
+	(envelope-from <ross.burton@intel.com>) id 1SwymE-0006Ix-S4
 	for openembedded-core@lists.openembedded.org;
-	Thu, 02 Aug 2012 18:56:53 +0200
-Received: by wgbdr1 with SMTP id dr1so7312695wgb.24
+	Thu, 02 Aug 2012 19:01:35 +0200
+Received: from mail-wi0-f178.google.com ([209.85.212.178])
+	by mga03.intel.com with ESMTP/TLS/RC4-SHA; 02 Aug 2012 09:49:53 -0700
+Received: by wibhr14 with SMTP id hr14so4182462wib.13
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 02 Aug 2012 09:45:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	bh=oZstj6OpoqSgafCybkck8PSY/NhvwI0V8A0zpbE2onM=;
-	b=LmCBUIyE39NCx+PP6IazoScP9KnJc5G+iFuky1TOX3yN/kPu2efcJ+dtr/o060IuGw
-	QWDyJ5NVXEVNlI8IjNuG56Li1GA2DVxipOkZ3LG8uxvJMQ5z/XMxPClr+lP0oHDVpzyu
-	GZo9vfec/GPYwGzhQvT56ISWWGbDPThJmx8Z+qCIvtwft0AKGOFqpqdRdgMcMtnmsa8G
-	axtnhbd3TB6OXg8uh5xDGYGBzOyOZ9Di/zQbbdPbHrMY2cA2Z0+q5+x/zcPpp66ayHMv
-	/RmW10PPRZy/nwMHvcYWu30UYmAFPJPfX/zDW3yIUlvmSS+Yc7sXtZml3LUdLDcgfpmf
-	7qbw==
-Received: by 10.180.81.193 with SMTP id c1mr6120447wiy.12.1343925913591;
-	Thu, 02 Aug 2012 09:45:13 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id fu8sm34447858wib.5.2012.08.02.09.45.11
+	Thu, 02 Aug 2012 09:49:51 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
+	:in-reply-to:references:x-gm-message-state;
+	bh=rMvl4gpyTpDdoFzoSSolbLwfT3/bBsOeNOXhKuq9NDE=;
+	b=VCBWN2o00jS1xMHA89o2MxZTAqgAPwgPskGUFu8enkKMbVlFW6pD7Q/ylsWTv16xph
+	8RpvctuS7C00h4pySAEsbyWxdM/vGlECytHcDR1SUj7CbqLlJ6FHyc8Py7NktnQ++gLx
+	hyii3pgsa4IEMMpHHvfN4uOUG1THiaF8q082sLRxpokV2aI6g/NTSaVncWi6ZetHAGhK
+	zWxh5zkh6Aitdazfo0E9XgyqKy5Z8YDfcNSGfDyvokjU5s0gybba2QoaB+DlVRT1USah
+	rCCUx1Kjw9462Y5PMhmJe01Qf2SojtEr/bc8zzqx+jBO0i3woCFClOgzNgBoDDFNzdBx
+	eiyg==
+Received: by 10.180.82.164 with SMTP id j4mr6137217wiy.18.1343926191366;
+	Thu, 02 Aug 2012 09:49:51 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPS id z11sm18460713wiv.10.2012.08.02.09.49.50
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 02 Aug 2012 09:45:12 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
+	Thu, 02 Aug 2012 09:49:50 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  2 Aug 2012 18:45:09 +0200
-Message-Id: <1343925909-7363-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.7.8.6
-In-Reply-To: <CABcZANmT9RqSX=sBfzoBtVFcU5B+5wxA=FOVDP_rOVgE39YEvw@mail.gmail.com>
-References: <CABcZANmT9RqSX=sBfzoBtVFcU5B+5wxA=FOVDP_rOVgE39YEvw@mail.gmail.com>
-Subject: [RFCv3] bitbake.conf: store cooker logs in subdirectory of LOG_DIR
+Date: Thu,  2 Aug 2012 17:48:55 +0100
+Message-Id: <afed6c564daac5a92525c369416fbc163d6952be.1343926021.git.ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10
+In-Reply-To: <cover.1343926021.git.ross.burton@intel.com>
+References: <cover.1343926021.git.ross.burton@intel.com>
+In-Reply-To: <cover.1343926021.git.ross.burton@intel.com>
+References: <cover.1343926021.git.ross.burton@intel.com>
+X-Gm-Message-State: ALoCoQkfmndJuOy1v6zlKk490h1N3JbRZNcTBHH5zC5zLcDu80EXkBWITWSsibNF15gCPdxI6yDn
+Subject: [PATCH V3 01/11] mesa: no need to depend on python-native, the class does that
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,35 +50,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Aug 2012 16:56:53 -0000
+X-List-Received-Date: Thu, 02 Aug 2012 17:01:35 -0000
 
-* we should probably wait until
-  http://git.openembedded.org/bitbake/commit/?id=1e06d8012868ba5a31503dc99cbf18570be629d9
-  is in next required bitbake version, but error message if the directory doesn't exist is quite clear
-* people with new enough bitbake could just change this in their local.conf
-
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/conf/bitbake.conf |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-graphics/mesa/mesa-common.inc |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index d5a43e9..8074684 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -753,8 +753,8 @@ DISTRO[unexport] = "1"
- # Used by canadian-cross to handle string conversions on TARGET_ARCH where needed
- TRANSLATED_TARGET_ARCH ??= "${@d.getVar('TARGET_ARCH', True).replace("_", "-")}"
+diff --git a/meta/recipes-graphics/mesa/mesa-common.inc b/meta/recipes-graphics/mesa/mesa-common.inc
+index 120a256..403a961 100644
+--- a/meta/recipes-graphics/mesa/mesa-common.inc
++++ b/meta/recipes-graphics/mesa/mesa-common.inc
+@@ -12,14 +12,14 @@ SECTION = "x11"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://docs/license.html;md5=7a3373c039b6b925c427755a4f779c1d"
  
--# Complete output from bitbake, if you're changing it, make sure to use existing directory
--BB_CONSOLELOG ?= "${TMPDIR}/cooker.log.${DATETIME}"
-+# Complete output from bitbake
-+BB_CONSOLELOG ?= "${LOG_DIR}/cooker/${MACHINE}/${DATETIME}.log"
+-INC_PR = "r15"
++INC_PR = "r16"
+ PE = "2"
  
- # Setup our default hash policy
- BB_SIGNATURE_HANDLER ?= "OEBasicHash"
+ 
+ PROTO_DEPS = "xf86driproto glproto"
+ LIB_DEPS = "virtual/libx11 libxext libxxf86vm libxdamage libxfixes libxml2-native"
+ 
+-DEPENDS = "makedepend-native python-native flex-native bison-native ${PROTO_DEPS} ${LIB_DEPS}"
++DEPENDS = "makedepend-native flex-native bison-native ${PROTO_DEPS} ${LIB_DEPS}"
+ 
+ PROVIDES = "virtual/libgl"
+ 
 -- 
-1.7.8.6
+1.7.10
 
 
 
