@@ -1,38 +1,35 @@
-Received: from mail-wg0-f43.google.com ([74.125.82.43])
+Received: from mail-yx0-f175.google.com ([209.85.213.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrei@gherzan.ro>) id 1SwxS1-0003f0-9j
+	(envelope-from <andrei@gherzan.ro>) id 1SwxSa-0003hh-Hp
 	for openembedded-core@lists.openembedded.org;
-	Thu, 02 Aug 2012 17:36:37 +0200
-Received: by wgbdr1 with SMTP id dr1so7221861wgb.24
+	Thu, 02 Aug 2012 17:37:12 +0200
+Received: by yenl13 with SMTP id l13so8011964yen.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 02 Aug 2012 08:24:57 -0700 (PDT)
+	Thu, 02 Aug 2012 08:25:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=mime-version:x-originating-ip:in-reply-to:references:from:date
 	:message-id:subject:to:content-type:x-gm-message-state;
-	bh=tGyz/dEb9mNfWLnuN4nhx9CCipH8J4b+luGg7VXO/HQ=;
-	b=UpjCtX8ei2yf+t+gKoW2TMwIZ7ryDwwFO7vgLtx2CpixrvAg7a3k9QlVANBWDlCTVX
-	jb9OgXgx/0Tvzr8lxpyOlWBO70g1im8EOdkOb1QM+1F68RRkZ0v5SOizm2uS1GRykNzh
-	lZ6cRjwNlMPd3Uq5nCDbiUI7N1n12F2/F2BNQ414p6Cgllsve2HMoEPUgTFdCURk29BR
-	HRaUs28FYV8m57SZTCCsBpAONZ0n9WDP/Iel/+44+WcHJEWXkgK656bB/CFIwLFN4I03
-	ihmEy6s4GLtZqA+q4FLljr+ioPIZAwGbR8zPH7dUEL18wdupLVypVLSnoi8NIYtHwl4x
-	toiQ==
-Received: by 10.50.195.234 with SMTP id ih10mr3311142igc.0.1343921097017; Thu,
-	02 Aug 2012 08:24:57 -0700 (PDT)
+	bh=5gFPfQGD/IiIzWI3ZkdwOYPDQxGQWKJ32iPFkRHafLE=;
+	b=GRcYzSjuz6mu2UZYyQqG6qwsupN9bcuKcognNERGaco/jSIE9VhEFJtWszSAY+wUxM
+	4lXTO3P+HJ8IayCc1obWJMXgd4Z39W2MFG36c4b/2dlXI1QitfI9tZDNDNzdR/HIoAXc
+	pyhPs5dFY+e7K6k4S4+Tv8LzSr3PWW72zqj0xF78M3vIE8PjWUMFcRGT/S0CuOz14HwA
+	entP5FCVixlotX7ilA+2UOrI4yBFUa3ha+v07hFSL1MTf/WSm64nS34yt6AY9FCLrRz5
+	jOTw3jUpRpF2qy/L3DKiXWkyW+nSAveMhwkKC+IHZqpVVV/P9GHOOhE7/h3Rm4EOgx5N
+	4Ivw==
+Received: by 10.50.40.193 with SMTP id z1mr4509396igk.0.1343921132011; Thu, 02
+	Aug 2012 08:25:32 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.64.139.164 with HTTP; Thu, 2 Aug 2012 08:24:36 -0700 (PDT)
+Received: by 10.64.139.164 with HTTP; Thu, 2 Aug 2012 08:25:11 -0700 (PDT)
 X-Originating-IP: [89.121.200.106]
-In-Reply-To: <0AF90D68-14FE-4555-9293-75450B061A51@dominion.thruhere.net>
+In-Reply-To: <1343909173-2161-1-git-send-email-radu.moisan@intel.com>
 References: <1343909173-2161-1-git-send-email-radu.moisan@intel.com>
-	<CD1E2BF4-09A1-4800-8191-553B40E4CF6B@dominion.thruhere.net>
-	<CAJTo0LakdrRqVVx+jAeUK7Upx570=jLo=PYONZ63=xDNiwD5jA@mail.gmail.com>
-	<0AF90D68-14FE-4555-9293-75450B061A51@dominion.thruhere.net>
 From: Andrei Gherzan <andrei@gherzan.ro>
-Date: Thu, 2 Aug 2012 18:24:36 +0300
-Message-ID: <CAK18fxEEkJaqtOhBh=H5NSf62i6S+rOM_XXQwanLUWowiRbRLQ@mail.gmail.com>
+Date: Thu, 2 Aug 2012 18:25:11 +0300
+Message-ID: <CAK18fxFW89ficqdXn-H2VOPApOUhaXH0yNOkK4xb3J1HtxfLnA@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Gm-Message-State: ALoCoQkGPYWEOL8CfBzmE3tQ/IS/rueQcF932L6ugPOzyMr6oralqbyz/X4p23QXbkQtL83zC+8M
+X-Gm-Message-State: ALoCoQkLwPlpQx40tQkrTNSYKn3fbwGKUc45BIh6ah/zhERjjQlPnvmTV9hZeZ64QRKmIVOl+LNZ
 Subject: Re: [PATCH v2] usbutils: Upgrade usbutils to upstream v006
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -48,64 +45,118 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Aug 2012 15:36:37 -0000
-Content-Type: multipart/alternative; boundary=14dae934125b98082504c64a03db
+X-List-Received-Date: Thu, 02 Aug 2012 15:37:12 -0000
+Content-Type: multipart/alternative; boundary=14dae9340c41ae007904c64a05b2
 
---14dae934125b98082504c64a03db
+--14dae9340c41ae007904c64a05b2
 Content-Type: text/plain; charset=ISO-8859-1
 
-On Thu, Aug 2, 2012 at 5:14 PM, Koen Kooi <koen@dominion.thruhere.net>wrote:
+On Thu, Aug 2, 2012 at 3:06 PM, Radu Moisan <radu.moisan@intel.com> wrote:
 
+> Signed-off-by: Radu Moisan <radu.moisan@intel.com>
+> ---
+>  .../usbutils/{usbutils_0.91.bb => usbutils_006.bb} |    7 +++----
+>  1 file changed, 3 insertions(+), 4 deletions(-)
+>  rename meta/recipes-bsp/usbutils/{usbutils_0.91.bb => usbutils_006.bb}
+> (80%)
 >
-> Op 2 aug. 2012, om 15:55 heeft "Burton, Ross" <ross.burton@intel.com> het
-> volgende geschreven:
+> diff --git a/meta/recipes-bsp/usbutils/usbutils_0.91.bbb/meta/recipes-bsp/usbutils/
+> usbutils_006.bb
+> similarity index 80%
+> rename from meta/recipes-bsp/usbutils/usbutils_0.91.bb
+> rename to meta/recipes-bsp/usbutils/usbutils_006.bb
+> index abe807c..c1c9fc0 100644
+> --- a/meta/recipes-bsp/usbutils/usbutils_0.91.bb
+> +++ b/meta/recipes-bsp/usbutils/usbutils_006.bb
+> @@ -7,19 +7,18 @@ LICENSE = "GPLv2+"
+>  LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
 >
-> > On 2 August 2012 14:50, Koen Kooi <koen@dominion.thruhere.net> wrote:
-> >> That's the default value, so you can drop this hunk
-> >
-> > Can we settle this once and for all?  Sure, it's the default, but it's
-> > also going to be added back in again the moment there's a change...
-> > I'm a fan of leaving a PR in there, even at r0, so its not constantly
-> > being added and removed.
+>  DEPENDS = "libusb zlib"
+> -PR = "r5"
+> +PR = "r0"
 >
-> The complete PR field is scheduled to get removed, so the more recipes
-> without it being said to that stupid default value, the better.
+>  SRC_URI =
+> "${KERNELORG_MIRROR}/linux/utils/usb/usbutils/usbutils-${PV}.tar.gz \
+>             file://usb-devices-avoid-dependency-on-bash.patch \
+>             file://Fix-NULL-pointer-crash.patch"
 >
+> -SRC_URI[md5sum] = "49de2403b40bf3a9863faaa8d3858deb"
+> -SRC_URI[sha256sum] =
+> "c122346b0225121bcf159abf804116f826a4a3462c94ce7b8871f7559e6b3a46"
+> +SRC_URI[md5sum] = "850790442f5eb487cdc7e35f8ee03e11"
+> +SRC_URI[sha256sum] =
+> "553270b4030f0844cb70aed57e61c7f10a7ed6641c3bed20249201cec9bcf122"
 >
-Agreed.
+>  inherit autotools
+>
+>  do_install_append() {
+> -       ln -s ../sbin/lsusb ${D}${bindir}/lsusb
+
+
+This is not needed anymore?
 
 ag
 
---14dae934125b98082504c64a03db
+--14dae9340c41ae007904c64a05b2
 Content-Type: text/html; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
-<div class=3D"gmail_quote">On Thu, Aug 2, 2012 at 5:14 PM, Koen Kooi <span =
-dir=3D"ltr">&lt;<a href=3D"mailto:koen@dominion.thruhere.net" target=3D"_bl=
-ank">koen@dominion.thruhere.net</a>&gt;</span> wrote:<br><blockquote class=
-=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
-ing-left:1ex">
+<div class=3D"gmail_quote">On Thu, Aug 2, 2012 at 3:06 PM, Radu Moisan <spa=
+n dir=3D"ltr">&lt;<a href=3D"mailto:radu.moisan@intel.com" target=3D"_blank=
+">radu.moisan@intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail=
+_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:=
+1ex">
 
+Signed-off-by: Radu Moisan &lt;<a href=3D"mailto:radu.moisan@intel.com">rad=
+u.moisan@intel.com</a>&gt;<br>
+---<br>
+=A0.../usbutils/{<a href=3D"http://usbutils_0.91.bb" target=3D"_blank">usbu=
+tils_0.91.bb</a> =3D&gt; <a href=3D"http://usbutils_006.bb" target=3D"_blan=
+k">usbutils_006.bb</a>} | =A0 =A07 +++----<br>
+=A01 file changed, 3 insertions(+), 4 deletions(-)<br>
+=A0rename meta/recipes-bsp/usbutils/{<a href=3D"http://usbutils_0.91.bb" ta=
+rget=3D"_blank">usbutils_0.91.bb</a> =3D&gt; <a href=3D"http://usbutils_006=
+.bb" target=3D"_blank">usbutils_006.bb</a>} (80%)<br>
 <br>
-Op 2 aug. 2012, om 15:55 heeft &quot;Burton, Ross&quot; &lt;<a href=3D"mail=
-to:ross.burton@intel.com">ross.burton@intel.com</a>&gt; het volgende geschr=
-even:<br>
-<div class=3D"im"><br>
-&gt; On 2 August 2012 14:50, Koen Kooi &lt;<a href=3D"mailto:koen@dominion.=
-thruhere.net">koen@dominion.thruhere.net</a>&gt; wrote:<br>
-&gt;&gt; That&#39;s the default value, so you can drop this hunk<br>
-&gt;<br>
-&gt; Can we settle this once and for all? =A0Sure, it&#39;s the default, bu=
-t it&#39;s<br>
-&gt; also going to be added back in again the moment there&#39;s a change..=
-.<br>
-&gt; I&#39;m a fan of leaving a PR in there, even at r0, so its not constan=
-tly<br>
-&gt; being added and removed.<br>
+diff --git a/meta/recipes-bsp/usbutils/<a href=3D"http://usbutils_0.91.bb" =
+target=3D"_blank">usbutils_0.91.bb</a> b/meta/recipes-bsp/usbutils/<a href=
+=3D"http://usbutils_006.bb" target=3D"_blank">usbutils_006.bb</a><br>
+similarity index 80%<br>
+rename from meta/recipes-bsp/usbutils/<a href=3D"http://usbutils_0.91.bb" t=
+arget=3D"_blank">usbutils_0.91.bb</a><br>
+rename to meta/recipes-bsp/usbutils/<a href=3D"http://usbutils_006.bb" targ=
+et=3D"_blank">usbutils_006.bb</a><br>
+index abe807c..c1c9fc0 100644<br>
+--- a/meta/recipes-bsp/usbutils/<a href=3D"http://usbutils_0.91.bb" target=
+=3D"_blank">usbutils_0.91.bb</a><br>
++++ b/meta/recipes-bsp/usbutils/<a href=3D"http://usbutils_006.bb" target=
+=3D"_blank">usbutils_006.bb</a><br>
+@@ -7,19 +7,18 @@ LICENSE =3D &quot;GPLv2+&quot;<br>
+=A0LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3D94d55d512a9ba36caa9b7df0=
+79bae19f&quot;<br>
 <br>
-</div>The complete PR field is scheduled to get removed, so the more recipe=
-s without it being said to that stupid default value, the better.<br>
-<div class=3D"HOEnZb"><div class=3D"h5"><br></div></div></blockquote><div>=
-=A0</div><div>Agreed.</div><div><br></div><div>ag</div></div>
+=A0DEPENDS =3D &quot;libusb zlib&quot;<br>
+-PR =3D &quot;r5&quot;<br>
++PR =3D &quot;r0&quot;<br>
+<br>
+=A0SRC_URI =3D &quot;${KERNELORG_MIRROR}/linux/utils/usb/usbutils/usbutils-=
+${PV}.tar.gz \<br>
+=A0 =A0 =A0 =A0 =A0 =A0 file://usb-devices-avoid-dependency-on-bash.patch \=
+<br>
+=A0 =A0 =A0 =A0 =A0 =A0 file://Fix-NULL-pointer-crash.patch&quot;<br>
+<br>
+-SRC_URI[md5sum] =3D &quot;49de2403b40bf3a9863faaa8d3858deb&quot;<br>
+-SRC_URI[sha256sum] =3D &quot;c122346b0225121bcf159abf804116f826a4a3462c94c=
+e7b8871f7559e6b3a46&quot;<br>
++SRC_URI[md5sum] =3D &quot;850790442f5eb487cdc7e35f8ee03e11&quot;<br>
++SRC_URI[sha256sum] =3D &quot;553270b4030f0844cb70aed57e61c7f10a7ed6641c3be=
+d20249201cec9bcf122&quot;<br>
+<br>
+=A0inherit autotools<br>
+<br>
+=A0do_install_append() {<br>
+- =A0 =A0 =A0 ln -s ../sbin/lsusb ${D}${bindir}/lsusb</blockquote><div><br>=
+</div><div>This is not needed anymore?=A0</div><div><br></div><div>ag</div>=
+</div>
 
---14dae934125b98082504c64a03db--
+--14dae9340c41ae007904c64a05b2--
