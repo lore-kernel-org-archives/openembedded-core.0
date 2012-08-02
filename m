@@ -1,37 +1,21 @@
-Received: from mail-we0-f175.google.com ([74.125.82.175])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1SwrbO-0002qa-Ra
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1Swrnw-0002yQ-Mj
 	for openembedded-core@lists.openembedded.org;
-	Thu, 02 Aug 2012 11:21:54 +0200
-Received: by weyr6 with SMTP id r6so5279136wey.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 02 Aug 2012 02:10:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=eWg5Zm1mTzMLUD6o4JSqFn218637yOkqCiJDMM+Aqvo=;
-	b=gT6i63Hv8wv+PanwTtbR3QvhQjCigiXsft8+tGDxyrDectYuhWUkd36KBW2pn5YWDQ
-	uz/TswbByAwuhQytSllsu3ACShsaosRRIbB/3AIoly3YnVHjSHjpcv1R3EWTjUKIxZut
-	/7uImVIiCeSn0LLYqwelllcx+lr5RSkq020TkP0Iiaf7XpSBOBN/yZF+QE64MeGGDEbt
-	p8GJ/3YQNCdYyby00aiZL+6lSL7ttLkU7Fb13tM3GdKkokVg14vo+j3GJq2mbvmeQQpT
-	BmEvzqfhQTA72iWcTaZ/5hvmkM37aYvSmnJz949HoaFn7wiXXKaVUd80iQLQEO1cJijF
-	OViw==
-Received: by 10.180.84.1 with SMTP id u1mr2998972wiy.15.1343898615699;
-	Thu, 02 Aug 2012 02:10:15 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id el6sm32669344wib.8.2012.08.02.02.10.12
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 02 Aug 2012 02:10:12 -0700 (PDT)
-Date: Thu, 2 Aug 2012 11:10:10 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20120802091010.GN16306@jama.jama.net>
-References: <1343898530-11885-1-git-send-email-radu.moisan@intel.com>
+	Thu, 02 Aug 2012 11:34:52 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 02 Aug 2012 02:23:12 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="129551528"
+Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.121.75])
+	by AZSMGA002.ch.intel.com with ESMTP; 02 Aug 2012 02:23:11 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  2 Aug 2012 10:23:00 +0100
+Message-Id: <cover.1343899228.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-In-Reply-To: <1343898530-11885-1-git-send-email-radu.moisan@intel.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: [PATCH] usbutils: Upgrade usbutils to upstream v002
+Subject: [PATCH 0/9] buildhistory improvements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,85 +30,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Aug 2012 09:21:54 -0000
-X-Groupsio-MsgNum: 26753
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="Zl+NncWK+U5aSfTo"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 02 Aug 2012 09:34:52 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
---Zl+NncWK+U5aSfTo
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+A bunch of improvements for buildhistory, implementing some feature
+requests and todo items of my own, as well as tidying up some of the
+code.
 
-On Thu, Aug 02, 2012 at 12:08:50PM +0300, Radu Moisan wrote:
-> Signed-off-by: Radu Moisan <radu.moisan@intel.com>
 
-Why not current 006? And lsusb link is not needed anymore?
+The following changes since commit 404d2d490fc347203e89d274530c17fb5f0aa20f:
 
-> ---
->  .../usbutils/{usbutils_0.91.bb =3D> usbutils_002.bb} |    7 +++----
->  1 file changed, 3 insertions(+), 4 deletions(-)
->  rename meta/recipes-bsp/usbutils/{usbutils_0.91.bb =3D> usbutils_002.bb}=
- (80%)
->=20
-> diff --git a/meta/recipes-bsp/usbutils/usbutils_0.91.bb b/meta/recipes-bs=
-p/usbutils/usbutils_002.bb
-> similarity index 80%
-> rename from meta/recipes-bsp/usbutils/usbutils_0.91.bb
-> rename to meta/recipes-bsp/usbutils/usbutils_002.bb
-> index abe807c..c546acd 100644
-> --- a/meta/recipes-bsp/usbutils/usbutils_0.91.bb
-> +++ b/meta/recipes-bsp/usbutils/usbutils_002.bb
-> @@ -7,19 +7,18 @@ LICENSE =3D "GPLv2+"
->  LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D94d55d512a9ba36caa9b7df079bae=
-19f"
-> =20
->  DEPENDS =3D "libusb zlib"
-> -PR =3D "r5"
-> +PR =3D "r0"
-> =20
->  SRC_URI =3D "${KERNELORG_MIRROR}/linux/utils/usb/usbutils/usbutils-${PV}=
-=2Etar.gz \
->             file://usb-devices-avoid-dependency-on-bash.patch \
->             file://Fix-NULL-pointer-crash.patch"
-> =20
-> -SRC_URI[md5sum] =3D "49de2403b40bf3a9863faaa8d3858deb"
-> -SRC_URI[sha256sum] =3D "c122346b0225121bcf159abf804116f826a4a3462c94ce7b=
-8871f7559e6b3a46"
-> +SRC_URI[md5sum] =3D "82decd82811458f0740cf2f715267d4d"
-> +SRC_URI[sha256sum] =3D "d75e4f26ee6fa2f94712edf124456cc409d00934c57771d4=
-1ccd5febf4538933"
-> =20
->  inherit autotools
-> =20
->  do_install_append() {
-> -	ln -s ../sbin/lsusb ${D}${bindir}/lsusb
->  	# We only need the compressed copy, remove the uncompressed version
->  	rm -f ${D}${datadir}/usb.ids
->  }
-> --=20
-> 1.7.9.5
->=20
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+  gcc-configure-target: Set native-system-header-dir for target gcc (2012-08-01 23:11:09 +0100)
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+are available in the git repository at:
 
---Zl+NncWK+U5aSfTo
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+  git://git.openembedded.org/openembedded-core-contrib paule/buildhistory-fixes7
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/buildhistory-fixes7
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
+Paul Eggleton (9):
+  classes/buildhistory: remove obsolete flat package history feature
+  classes/buildhistory: ensure old package info is removed
+  classes/buildhistory: remove unused functions
+  classes/buildhistory: save preinst/postinst/prerm/postrm
+  classes/buildhistory: record PKG/PKGE/PKGV/PKGR
+  scripts: add buildhistory-tag script
+  buildhistory_analysis: tidy up duplicate split_version function
+  buildhistory_analysis: ignore removal of self-dependencies
+  classes/buildhistory: save metadata revisions
 
-iEYEARECAAYFAlAaQ/IACgkQN1Ujt2V2gBwNMwCgo294qzl2Casw8+FhteNtPgkr
-zzcAn1prtYM3ra49JoeQwgNVK5fN8jq5
-=6spx
------END PGP SIGNATURE-----
+ meta/classes/buildhistory.bbclass    |  197 ++++++++++++++++++----------------
+ meta/lib/oe/buildhistory_analysis.py |   96 +++++++++++++----
+ scripts/buildhistory-tag             |   42 ++++++++
+ 3 files changed, 221 insertions(+), 114 deletions(-)
+ create mode 100755 scripts/buildhistory-tag
 
---Zl+NncWK+U5aSfTo--
+-- 
+1.7.9.5
+
+
+
