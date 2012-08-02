@@ -1,25 +1,39 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from astoria.ccjclearline.com ([64.235.106.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Wenzong.Fan@windriver.com>) id 1Swkd5-0001PG-8x
+	(envelope-from <rpjday@crashcourse.ca>) id 1SwkeH-0001UU-9h
 	for openembedded-core@lists.openembedded.org;
-	Thu, 02 Aug 2012 03:55:11 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q721hUSm018815
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 1 Aug 2012 18:43:30 -0700 (PDT)
-Received: from usp-ub1204-64.corp.ad.wrs.com (128.224.162.28) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.309.2; Wed, 1 Aug 2012 18:43:30 -0700
-From: <wenzong.fan@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 2 Aug 2012 09:43:02 +0800
-Message-ID: <c7a334ebda86790988cf6c189a37bc5d4a425e63.1343871487.git.wenzong.fan@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1343871487.git.wenzong.fan@windriver.com>
-References: <cover.1343871487.git.wenzong.fan@windriver.com>
+	Thu, 02 Aug 2012 03:56:25 +0200
+Received: from rrcs-24-227-210-218.sw.biz.rr.com ([24.227.210.218]:34948
+	helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.77) (envelope-from <rpjday@crashcourse.ca>)
+	id 1SwkT1-0005DO-NT; Wed, 01 Aug 2012 21:44:47 -0400
+Date: Wed, 1 Aug 2012 20:44:45 -0500 (CDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@oneiric
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <CABcZANmZ=A+BJSTvnhHHaChzn=4t9yXKJmHhO4xistaOga5Gdw@mail.gmail.com>
+Message-ID: <alpine.DEB.2.02.1208012044400.32439@oneiric>
+References: <alpine.DEB.2.02.1208011831540.5168@oneiric>
+	<CAEsOVNfHoY3gbwJoVCUfS61LeN_idZpNMtU3aOmZLVs7=BDQmA@mail.gmail.com>
+	<alpine.DEB.2.02.1208011855500.26345@oneiric>
+	<CABcZANkSy37E3DFWH6n53sbG-7nPzOzBBfPp2JOqRzhyPS=erQ@mail.gmail.com>
+	<alpine.DEB.2.02.1208012004070.4406@oneiric>
+	<CABcZANmZ=A+BJSTvnhHHaChzn=4t9yXKJmHhO4xistaOga5Gdw@mail.gmail.com>
+User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
 MIME-Version: 1.0
-Cc: wfan@windriver.com, Zhenfeng.Zhao@windriver.com
-Subject: [PATCH 1/1 v2] qt4: fix qt4-native build failure on SLED-11
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Cc: McClintock Matthew-B29882 <B29882@freescale.com>
+Subject: Re: using an external (arm) toolchain - just checking i did this properly
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,97 +48,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Aug 2012 01:55:11 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 02 Aug 2012 01:56:25 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
-From: Wenzong Fan <wenzong.fan@windriver.com>
+On Wed, 1 Aug 2012, Chris Larson wrote:
 
-This issue is that with C++ compiler process an old version of kernel
-header file, coincidently that file has a variable named 'new':
+> On Wed, Aug 1, 2012 at 6:06 PM, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
+> > On Wed, 1 Aug 2012, Chris Larson wrote:
+> >
+> >> On Wed, Aug 1, 2012 at 4:57 PM, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
+> >> > | + cp -a ERROR: ld.so: object ''\''libpseudo.so'\''' from LD_PRELOAD
+> >> > cannot be preloaded: ignored.
+> >> > /home/rpjday/CodeSourcery/Sourcery_G++_Lite/bin/../arm-none-linux-gnueabi/libc/lib/.
+> >> > /home/rpjday/y/builds/oe/qemuarm_csl/tmp-eglibc/work/armv5te-oe-linux-gnueabi/external-sourcery-toolchain-2009q1-203-r7/image/lib
+> >> > | cp: target
+> >> > `/home/rpjday/y/builds/oe/qemuarm_csl/tmp-eglibc/work/armv5te-oe-linux-gnueabi/external-sourcery-toolchain-2009q1-203-r7/image/lib'
+> >> > is not a directory
+> >> > | ERROR: Function failed: do_install (see
+> >> > /home/rpjday/y/builds/oe/qemuarm_csl/tmp-eglibc/work/armv5te-oe-linux-gnueabi/external-sourcery-toolchain-2009q1-203-r7/temp/log.do_install.26331
+> >> > for further information)
+> >> > NOTE: package external-sourcery-toolchain-2009q1-203-r7: task
+> >> > do_install: Failed
+> >> > ERROR: Task 270
+> >> > (/home/rpjday/y/src/oe-core/meta/recipes-core/meta/external-sourcery-toolchain.bb,
+> >> > do_install) failed with exit code '1'
+> >> > NOTE: Tasks Summary: Attempted 83 tasks of which 78 didn't need to be
+> >> > rerun and 1 failed.
+> >> > ERROR: An uncaught exception occured in runqueue, please see the
+> >> > failure below:
+> >> >
+> >> >   but i'm *guessing* it's because i don't have the 32-bit libs
+> >> > installed on my 64-bit ubuntu system.  i'll worry about that after
+> >> > food.
+> >>
+> >> Could be, also make sure you have NO32LIBS set to 0. The toolchain
+> >> binaries are 32 bit, so need a 32 bit libpsuedo.
+> >
+> >   that would appear to be the issue.  however, since i already built
+> > all the native tools, do i have to start from scratch and rebuild it
+> > after changing the value of NO32LIBS?  since it would seem that the
+> > current build of pseudo won't do me any good.  does that make any
+> > sense?
+>
+> Yeah, I'd just run 'bitbake pseudo-native'.
 
-* 'embedded/qkbdtty_qws.cpp' include 'linux/vt.h';
-* '/usr/include/linux/vt.h' has below code on SLED-11.x:
-    + unsigned int new;
+  ok, that seems to have dealt with the issue and the build is zipping
+right along, thanks.
 
-On mostly hosts it has been changed to: new -> newev.
+rday
 
-[YOCTO #2845]
-
-Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
----
- meta/recipes-qt/qt4/files/fix_qkbdtty_qws.patch |   37 +++++++++++++++++++++++
- meta/recipes-qt/qt4/qt4-native.inc              |    6 ++--
- 2 files changed, 41 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-qt/qt4/files/fix_qkbdtty_qws.patch
-
-diff --git a/meta/recipes-qt/qt4/files/fix_qkbdtty_qws.patch b/meta/recipes-qt/qt4/files/fix_qkbdtty_qws.patch
-new file mode 100644
-index 0000000..c2aed5c
---- /dev/null
-+++ b/meta/recipes-qt/qt4/files/fix_qkbdtty_qws.patch
-@@ -0,0 +1,37 @@
-+Upstream-Status: Pending
-+
-+This issue is that with C++ compiler process an old version of kernel
-+header file, coincidently that file has a variable named 'new':
-+
-+* 'embedded/qkbdtty_qws.cpp' include 'linux/vt.h';
-+* '/usr/include/linux/vt.h' has below code on SLED-11.x:
-+    + unsigned int new;
-+
-+On mostly hosts it has been changed to: new -> newev.
-+
-+Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
-+=======================================
-+diff --git a/src/gui/embedded/qkbdtty_qws.cpp b/src/gui/embedded/qkbdtty_qws.cpp
-+--- a/src/gui/embedded/qkbdtty_qws.cpp	2012-07-27 13:16:58.420198350 +0800
-++++ b/src/gui/embedded/qkbdtty_qws.cpp	2012-07-27 13:24:43.924191127 +0800
-+@@ -54,8 +54,20 @@
-+ 
-+ #if defined Q_OS_LINUX
-+ #  include <linux/kd.h>
-++
-++/* Workaround kernel headers using "new" as variable name. The problem
-++ is specific to SLED-11, other distros use "newev" rather than "new" */
-++#ifdef __cplusplus
-++#warning "workaround kernel headers using new as variable name on SLED 11"
-++#define new newev
-++#endif
-++
-+ #  include <linux/vt.h> //TODO: move vt handling somewhere else (QLinuxFbScreen?)
-+ 
-++#ifdef __cplusplus
-++#undef new
-++#endif
-++
-+ #  include "qscreen_qws.h"
-+ #  include "qwindowsystem_qws.h"
-+ #  include "qapplication.h"
-diff --git a/meta/recipes-qt/qt4/qt4-native.inc b/meta/recipes-qt/qt4/qt4-native.inc
-index 70adec4..90ea63c 100644
---- a/meta/recipes-qt/qt4/qt4-native.inc
-+++ b/meta/recipes-qt/qt4/qt4-native.inc
-@@ -9,14 +9,16 @@ LIC_FILES_CHKSUM = "file://LICENSE.LGPL;md5=fbc093901857fcd118f065f900982c24 \
-                     file://LICENSE.GPL3;md5=babc5b6b77441da277f5c06b2e547720 \
-                     file://LGPL_EXCEPTION.txt;md5=411080a56ff917a5a1aa08c98acae354"
- 
--INC_PR = "r14"
-+INC_PR = "r15"
- 
- inherit native
- 
- SRC_URI = "http://get.qt.nokia.com/qt/source/qt-everywhere-opensource-src-${PV}.tar.gz \
-            file://qt-config.patch \
-            file://g++.conf \
--           file://linux.conf"
-+           file://linux.conf \
-+           file://fix_qkbdtty_qws.patch \
-+	"
- S = "${WORKDIR}/qt-everywhere-opensource-src-${PV}"
- 
- EXTRA_OECONF = "-prefix ${prefix} \
 -- 
-1.7.9.5
 
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
