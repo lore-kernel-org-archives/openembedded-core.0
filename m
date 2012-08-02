@@ -1,39 +1,37 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1Swvyo-0001JK-Ks
+	(envelope-from <ross.burton@intel.com>) id 1Sww3c-0001X3-Et
 	for openembedded-core@lists.openembedded.org;
-	Thu, 02 Aug 2012 16:02:22 +0200
-Received: by eekb57 with SMTP id b57so1924212eek.6
+	Thu, 02 Aug 2012 16:07:20 +0200
+Received: from mail-ob0-f180.google.com ([209.85.214.180])
+	by mga03.intel.com with ESMTP/TLS/RC4-SHA; 02 Aug 2012 06:55:37 -0700
+Received: by obbuo19 with SMTP id uo19so12054925obb.25
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 02 Aug 2012 06:50:43 -0700 (PDT)
+	Thu, 02 Aug 2012 06:55:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date
-	:content-transfer-encoding:message-id:references:to:x-mailer
-	:x-gm-message-state;
-	bh=uj/Y6WDub0KOZcaEATI4P9kTRD4fOIGV1npj5KwhFl0=;
-	b=Wk34++0ovkUuBc4hNR9o21tZMuEEsXveU/Ai+Up6J8Yg0tuVsI/QNQcCNuBJRypnOu
-	5aStqmciw5Iqf7H+xUiJygg2oaz71LSLjqvyxlbCvQNR6CU9/eiGC00tqvFm+p9mGJWI
-	hqOI2H1uv2d4M4Bg8l5V0Ywb5QJ6ND5nE4/MfOJGMFZoiNXYZrTUjK75hnam0/qund9z
-	7c2rgruG6NJvvVaQgYogGK1eW4z0Wxl+yPHzUp+LkcEilq8JbTmHVcmAYdlPVDz+xMSz
-	pF+ZsJlem6TBTZSD78KNHs+nV1GTIW6Qc8MSSobrHoihhlf4Op3KeucGzhMJmmE4Bp5T
-	zLDg==
-Received: by 10.14.214.197 with SMTP id c45mr27002263eep.37.1343915443065;
-	Thu, 02 Aug 2012 06:50:43 -0700 (PDT)
-Received: from [172.20.0.10] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
-	by mx.google.com with ESMTPS id c7sm17642656eem.9.2012.08.02.06.50.40
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 02 Aug 2012 06:50:41 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 6.0 \(1485\))
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1343909173-2161-1-git-send-email-radu.moisan@intel.com>
-Date: Thu, 2 Aug 2012 15:50:39 +0200
-Message-Id: <CD1E2BF4-09A1-4800-8191-553B40E4CF6B@dominion.thruhere.net>
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type:x-gm-message-state;
+	bh=voWE8OlIk9QdRZswmWWMb12O3JcfOTcl7wN4L4LSkpI=;
+	b=frxMb9iFiZritb/u6AELkLGmOfKseEC50emAJaAR89/4VY1Pp12G2ZgPtXdhbK1+hQ
+	15sjJkQ0sUu1gTYjdOrIv+e8horGnrwVMvsR5M6Izw7SJ3+rIWQflYKv2dj9VTixdSYf
+	ot2DXrhQMq27IdePuCCKDERKfP968r04rOcz4VpIPlYjTc2OxfRqiyd46Z9UWg+fom9/
+	XULO3wIBrlFIDxIaOue3zgQn+NVJwOSLdNAWJgosaoQREd8bwQxVWKQvLUyOKeqWZHi3
+	BGGEkTvHg2NoXuCZNUkC6TZdKg8//KqI7/zWJjesIAUvg9uv7N2Tk6GZL2sT3FOT4zrD
+	Yhzg==
+Received: by 10.182.232.101 with SMTP id tn5mr37338636obc.49.1343915736720;
+	Thu, 02 Aug 2012 06:55:36 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.182.45.10 with HTTP; Thu, 2 Aug 2012 06:55:16 -0700 (PDT)
+In-Reply-To: <CD1E2BF4-09A1-4800-8191-553B40E4CF6B@dominion.thruhere.net>
 References: <1343909173-2161-1-git-send-email-radu.moisan@intel.com>
+	<CD1E2BF4-09A1-4800-8191-553B40E4CF6B@dominion.thruhere.net>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 2 Aug 2012 14:55:16 +0100
+Message-ID: <CAJTo0LakdrRqVVx+jAeUK7Upx570=jLo=PYONZ63=xDNiwD5jA@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1485)
-X-Gm-Message-State: ALoCoQlP63Z6HtootevDXqQTUaZuE9lzTVOvUEYVDva9hfNfjG8zC99frPoi8kDxNXAYC49E2z/z
+X-Gm-Message-State: ALoCoQn7EQpyECjNCyb9H7wojGApQgPVKkKq1IK6N1NCMJCADQ1oWGKajmpu64KvoO1VnFBlL3tx
 Subject: Re: [PATCH v2] usbutils: Upgrade usbutils to upstream v006
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -49,68 +47,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Aug 2012 14:02:22 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 02 Aug 2012 14:07:20 -0000
+Content-Type: text/plain; charset=UTF-8
 
+On 2 August 2012 14:50, Koen Kooi <koen@dominion.thruhere.net> wrote:
+> That's the default value, so you can drop this hunk
 
-Op 2 aug. 2012, om 14:06 heeft Radu Moisan <radu.moisan@intel.com> het =
-volgende geschreven:
+Can we settle this once and for all?  Sure, it's the default, but it's
+also going to be added back in again the moment there's a change...
+I'm a fan of leaving a PR in there, even at r0, so its not constantly
+being added and removed.
 
-> Signed-off-by: Radu Moisan <radu.moisan@intel.com>
-> ---
-> .../usbutils/{usbutils_0.91.bb =3D> usbutils_006.bb} |    7 +++----
-> 1 file changed, 3 insertions(+), 4 deletions(-)
-> rename meta/recipes-bsp/usbutils/{usbutils_0.91.bb =3D> =
-usbutils_006.bb} (80%)
->=20
-> diff --git a/meta/recipes-bsp/usbutils/usbutils_0.91.bb =
-b/meta/recipes-bsp/usbutils/usbutils_006.bb
-> similarity index 80%
-> rename from meta/recipes-bsp/usbutils/usbutils_0.91.bb
-> rename to meta/recipes-bsp/usbutils/usbutils_006.bb
-> index abe807c..c1c9fc0 100644
-> --- a/meta/recipes-bsp/usbutils/usbutils_0.91.bb
-> +++ b/meta/recipes-bsp/usbutils/usbutils_006.bb
-> @@ -7,19 +7,18 @@ LICENSE =3D "GPLv2+"
-> LIC_FILES_CHKSUM =3D =
-"file://COPYING;md5=3D94d55d512a9ba36caa9b7df079bae19f"
->=20
-> DEPENDS =3D "libusb zlib"
-> -PR =3D "r5"
-> +PR =3D "r0"
-
-That's the default value, so you can drop this hunk
-
->=20
-> SRC_URI =3D =
-"${KERNELORG_MIRROR}/linux/utils/usb/usbutils/usbutils-${PV}.tar.gz \
->            file://usb-devices-avoid-dependency-on-bash.patch \
->            file://Fix-NULL-pointer-crash.patch"
->=20
-> -SRC_URI[md5sum] =3D "49de2403b40bf3a9863faaa8d3858deb"
-> -SRC_URI[sha256sum] =3D =
-"c122346b0225121bcf159abf804116f826a4a3462c94ce7b8871f7559e6b3a46"
-> +SRC_URI[md5sum] =3D "850790442f5eb487cdc7e35f8ee03e11"
-> +SRC_URI[sha256sum] =3D =
-"553270b4030f0844cb70aed57e61c7f10a7ed6641c3bed20249201cec9bcf122"
->=20
-> inherit autotools
->=20
-> do_install_append() {
-> -	ln -s ../sbin/lsusb ${D}${bindir}/lsusb
-> 	# We only need the compressed copy, remove the uncompressed =
-version
-> 	rm -f ${D}${datadir}/usb.ids
-> }
-> --=20
-> 1.7.9.5
->=20
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-
+Ross
 
 
