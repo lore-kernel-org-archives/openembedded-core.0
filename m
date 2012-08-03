@@ -1,36 +1,23 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1SxK0l-0001LU-6A
+	(envelope-from <Liang.Li@windriver.com>) id 1SxKDM-0001Yd-6S
 	for openembedded-core@lists.openembedded.org;
-	Fri, 03 Aug 2012 17:41:59 +0200
+	Fri, 03 Aug 2012 17:55:00 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q73FUFTO008453
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q73FhGrH022887
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 3 Aug 2012 08:30:16 -0700 (PDT)
-Received: from msp-dhcp43.wrs.com (172.25.34.43) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.309.2;
-	Fri, 3 Aug 2012 08:30:15 -0700
-Message-ID: <501BEE87.8080104@windriver.com>
-Date: Fri, 3 Aug 2012 10:30:15 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
-	rv:14.0) Gecko/20120713 Thunderbird/14.0
+	Fri, 3 Aug 2012 08:43:16 -0700 (PDT)
+Received: from ll-wrs-990.corp.ad.wrs.com (128.224.163.138) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.309.2; Fri, 3 Aug 2012 08:43:15 -0700
+From: Liang Li <liang.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 3 Aug 2012 23:43:09 +0800
+Message-ID: <1344008589-3660-1-git-send-email-liang.li@windriver.com>
+X-Mailer: git-send-email 1.7.12.rc0.22.gcdd159b
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <CALRxmdDhE8GQPYde27786kKU35p4dRrTmaGbmauVDxTrMQ6N6Q@mail.gmail.com>
-	<50183924.8010309@windriver.com>
-	<CADkTA4N_mFVkWx7G=E8BoCDYktkNXxO-zLrw_r9e0sO-wE5FjQ@mail.gmail.com>
-	<CALRxmdDzaizHQ8m1NFRp2-Ucn9Pm6vZJX=pTTdZ5aLx-61OUzw@mail.gmail.com>
-	<50195AFF.1070507@windriver.com>
-	<CAEsOVNfbJAqrDf-+DQh3h0pWtf-qDuQqKfC+_oBRHgyY4B6Obg@mail.gmail.com>
-	<50197DFA.5070003@windriver.com>
-	<CAP9ODKobAsEeouwR+dA2tLNHBxDaxYSunwbbLMs5rV-ES5XfDg@mail.gmail.com>
-	<CALRxmdCf1vZF21Ruxw_Bi7=uvbQ6-s3_rHU=LtVS19_hR+vvtQ@mail.gmail.com>
-	<CAP9ODKpCdoe2G5q3Ly-qTYKvDsWNq6sypQq8QQ=dPO1=gRZSpA@mail.gmail.com>
-In-Reply-To: <CAP9ODKpCdoe2G5q3Ly-qTYKvDsWNq6sypQq8QQ=dPO1=gRZSpA@mail.gmail.com>
-Subject: Re: static busybox?
+Cc: darren.hart@intel.com
+Subject: [PATCH] perf: pass STAGING_INCDIR(sysroot) to perf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,45 +32,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Aug 2012 15:41:59 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 03 Aug 2012 15:55:00 -0000
+Content-Type: text/plain
 
-On 8/3/12 6:19 AM, Otavio Salvador wrote:
-> On Thu, Aug 2, 2012 at 7:50 PM, Stuart Yoder <b08248@gmail.com> wrote:
->> On Wed, Aug 1, 2012 at 3:05 PM, Otavio Salvador <otavio@ossystems.com.br> wrote:
->>> On Wed, Aug 1, 2012 at 4:05 PM, Mark Hatle <mark.hatle@windriver.com> wrote:
->>>> On 8/1/12 1:59 PM, McClintock Matthew-B29882 wrote:
->>>>> This is one approach, to change busybox completely for a specific
->>>>> added layer. But, what if we only want to make this change to busybox
->>>>> if the lxc recipe is included in the image? What about other packages
->>>>> also requesting changes?
->>>>
->>>> There is no method within OE to change a configuration of one item, if
->>>> another item is included or not.
->>>>
->>>> The way to do this is use the PACKAGECONFIG options, and then pass via a
->>>> per-recipe configuration if you want lxc support enabled or not.. (or
->>>> possible lxc becomes a distro flag?)
->>>
->>> For lxc specific case I think we can just have a recipe that sets the
->>> busybox' static option. It seems to be the only difference we'd have
->>> for it.
->>
->> Do you mean a distinct 'busybox-static' recipe that lxc would
->> depend on?
->
-> Yes; it might include the regular busybox recipe and do the need
-> appends, or something like that.
->
+Via EXTRA_CFLAGS, we can pass the sysroot include directory to perf to
+provide slang.h rather than hardcoded host dir in perf's Makefile.
 
-That would certainly be my recommendation.  Use the same base recipe, same 
-configuration mechanism, and then just add the addition chunk(s) to the SRC_URI 
-and it should be much easier to maintain long-term.
+Pass WERROR=0 to perf's Makefile to avoid warnings being treated
+as errors. Warnings are not fatal, and while they will be fixed in the
+future, there's no need for them to break the build.
 
-The only thing remaining, is anyone working on adding the configuration yet? 
-(I'd love to, but I'm swamped with work for about the next 2-3 weeks.)
+Signed-off-by: Liang Li <liang.li@windriver.com>
+---
+ meta/recipes-kernel/perf/perf_3.4.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
---Mark
+diff --git a/meta/recipes-kernel/perf/perf_3.4.bb b/meta/recipes-kernel/perf/perf_3.4.bb
+index 505c7b8..537e926 100644
+--- a/meta/recipes-kernel/perf/perf_3.4.bb
++++ b/meta/recipes-kernel/perf/perf_3.4.bb
+@@ -24,6 +24,7 @@ DEPENDS = "virtual/kernel \
+            ${MLPREFIX}binutils \
+            ${TUI_DEPENDS} \
+            ${SCRIPTING_DEPENDS} \
++           slang \
+           "
+ 
+ SCRIPTING_RDEPENDS = "${@perf_feature_enabled('perf-scripting', 'perl perl-modules python', '',d)}"
+@@ -63,6 +64,8 @@ EXTRA_OEMAKE = \
+ 		AR="${AR}" \
+ 		prefix=/usr \
+ 		NO_GTK2=1 ${TUI_DEFINES} NO_DWARF=1 ${SCRIPTING_DEFINES} \
++		WERROR=0 \
++		EXTRA_CFLAGS=-I${STAGING_INCDIR} \
+ 		'
+ 
+ do_compile() {
+-- 
+1.7.12.rc0.22.gcdd159b
+
 
 
