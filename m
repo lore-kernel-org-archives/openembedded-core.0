@@ -1,25 +1,36 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <radu.moisan@intel.com>) id 1SxJJD-0000QX-U6
+	(envelope-from <mark.hatle@windriver.com>) id 1SxK0l-0001LU-6A
 	for openembedded-core@lists.openembedded.org;
-	Fri, 03 Aug 2012 16:57:00 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 03 Aug 2012 07:45:18 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="176620588"
-Received: from unknown (HELO [10.252.121.43]) ([10.252.121.43])
-	by azsmga001.ch.intel.com with ESMTP; 03 Aug 2012 07:45:17 -0700
-Message-ID: <501BE3F9.9050809@intel.com>
-Date: Fri, 03 Aug 2012 17:45:13 +0300
-From: Radu Moisan <radu.moisan@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:14.0) Gecko/20120714 Thunderbird/14.0
+	Fri, 03 Aug 2012 17:41:59 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q73FUFTO008453
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 3 Aug 2012 08:30:16 -0700 (PDT)
+Received: from msp-dhcp43.wrs.com (172.25.34.43) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.309.2;
+	Fri, 3 Aug 2012 08:30:15 -0700
+Message-ID: <501BEE87.8080104@windriver.com>
+Date: Fri, 3 Aug 2012 10:30:15 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
+	rv:14.0) Gecko/20120713 Thunderbird/14.0
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <1343997523-4117-1-git-send-email-radu.moisan@intel.com>
-	<20120803124658.GC30148@jama.jama.net>
-In-Reply-To: <20120803124658.GC30148@jama.jama.net>
-Subject: Re: [PATCH][RFC] u-boot: Upgrade to upstream stable 2012.07
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <CALRxmdDhE8GQPYde27786kKU35p4dRrTmaGbmauVDxTrMQ6N6Q@mail.gmail.com>
+	<50183924.8010309@windriver.com>
+	<CADkTA4N_mFVkWx7G=E8BoCDYktkNXxO-zLrw_r9e0sO-wE5FjQ@mail.gmail.com>
+	<CALRxmdDzaizHQ8m1NFRp2-Ucn9Pm6vZJX=pTTdZ5aLx-61OUzw@mail.gmail.com>
+	<50195AFF.1070507@windriver.com>
+	<CAEsOVNfbJAqrDf-+DQh3h0pWtf-qDuQqKfC+_oBRHgyY4B6Obg@mail.gmail.com>
+	<50197DFA.5070003@windriver.com>
+	<CAP9ODKobAsEeouwR+dA2tLNHBxDaxYSunwbbLMs5rV-ES5XfDg@mail.gmail.com>
+	<CALRxmdCf1vZF21Ruxw_Bi7=uvbQ6-s3_rHU=LtVS19_hR+vvtQ@mail.gmail.com>
+	<CAP9ODKpCdoe2G5q3Ly-qTYKvDsWNq6sypQq8QQ=dPO1=gRZSpA@mail.gmail.com>
+In-Reply-To: <CAP9ODKpCdoe2G5q3Ly-qTYKvDsWNq6sypQq8QQ=dPO1=gRZSpA@mail.gmail.com>
+Subject: Re: static busybox?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,45 +45,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Aug 2012 14:57:00 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Fri, 03 Aug 2012 15:41:59 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 08/03/2012 03:46 PM, Martin Jansa wrote:
-> On Fri, Aug 03, 2012 at 03:38:42PM +0300, Radu Moisan wrote:
->> Building u-boot requires UBOOT_MACHINE. In the u-boot README file
->> building u-boot is achieved with "make NAME_config" and then
->> "make all". I assumend UBOOT_MACHINE to be the "NAME" part and thus,
->> the "_config" addition in u-boot.inc
->> NAME is the machine name, and choices area vailable in boards.conf,
->> I used for testing coreboot-x86.
->  From this description I don't see why _config is now appended when
-> probably all BSPs had it included in UBOOT_MACHINE variable before
+On 8/3/12 6:19 AM, Otavio Salvador wrote:
+> On Thu, Aug 2, 2012 at 7:50 PM, Stuart Yoder <b08248@gmail.com> wrote:
+>> On Wed, Aug 1, 2012 at 3:05 PM, Otavio Salvador <otavio@ossystems.com.br> wrote:
+>>> On Wed, Aug 1, 2012 at 4:05 PM, Mark Hatle <mark.hatle@windriver.com> wrote:
+>>>> On 8/1/12 1:59 PM, McClintock Matthew-B29882 wrote:
+>>>>> This is one approach, to change busybox completely for a specific
+>>>>> added layer. But, what if we only want to make this change to busybox
+>>>>> if the lxc recipe is included in the image? What about other packages
+>>>>> also requesting changes?
+>>>>
+>>>> There is no method within OE to change a configuration of one item, if
+>>>> another item is included or not.
+>>>>
+>>>> The way to do this is use the PACKAGECONFIG options, and then pass via a
+>>>> per-recipe configuration if you want lxc support enabled or not.. (or
+>>>> possible lxc becomes a distro flag?)
+>>>
+>>> For lxc specific case I think we can just have a recipe that sets the
+>>> busybox' static option. It seems to be the only difference we'd have
+>>> for it.
+>>
+>> Do you mean a distinct 'busybox-static' recipe that lxc would
+>> depend on?
 >
-> meta-nokia/recipes-bsp/u-boot/u-boot_git.bb:UBOOT_MACHINE_nokia900 = "nokia_rx51_config"
-> meta-openmoko/conf/machine/om-gta04.conf:UBOOT_MACHINE = "omap3_gta04_config"
-> meta-openmoko/recipes-bsp/u-boot/u-boot_git.bb:UBOOT_MACHINE_om-gta04 = "omap3_gta04_config"
-> conf/machine/am180x-evm.conf:UBOOT_MACHINE = "da850evm_config"
-> conf/machine/am335x-evm.conf:UBOOT_MACHINE = "am335x_evm_config"
-> conf/machine/am3517-evm.conf:UBOOT_MACHINE = "am3517_evm_config"
-> conf/machine/am37x-evm.conf:UBOOT_MACHINE = "omap3_evm_config"
-> conf/machine/beagleboard.conf:UBOOT_MACHINE = "omap3_beagle_config"
-> conf/machine/beaglebone.conf:UBOOT_MACHINE = "am335x_evm_config"
-> conf/machine/hawkboard.conf:UBOOT_MACHINE = "da850_omapl138_evm_config"
-> conf/machine/include/davinci.inc:UBOOT_MACHINE = "davinci_dvevm_config"
-> conf/machine/include/ti814x.inc:UBOOT_MACHINE = "ti8148_evm_config_nand"
-> conf/machine/include/ti816x.inc:UBOOT_MACHINE = "ti8168_evm_config"
-> conf/machine/omap3-touchbook.conf:UBOOT_MACHINE = "omap3_beagle_config"
-> conf/machine/omap3evm.conf:UBOOT_MACHINE = "omap3_evm_config"
-> conf/machine/pandaboard.conf:UBOOT_MACHINE = "omap4_panda_config"
+> Yes; it might include the regular busybox recipe and do the need
+> appends, or something like that.
 >
-> And any sensible is to append it to *MACHINE* variable as default:
-> recipes-bsp/u-boot/u-boot.inc:UBOOT_MACHINE ?= "${MACHINE}_config"
->
-> Cheers,
 
-Ok, missed that, I'll fix it.
+That would certainly be my recommendation.  Use the same base recipe, same 
+configuration mechanism, and then just add the addition chunk(s) to the SRC_URI 
+and it should be much easier to maintain long-term.
 
-radu
+The only thing remaining, is anyone working on adding the configuration yet? 
+(I'd love to, but I'm swamped with work for about the next 2-3 weeks.)
+
+--Mark
 
 
