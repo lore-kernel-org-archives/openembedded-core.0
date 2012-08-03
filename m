@@ -1,27 +1,36 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mail-wg0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <radu.moisan@intel.com>) id 1SxAg8-0000wR-NR
-	for openembedded-core@lists.openembedded.org;
-	Fri, 03 Aug 2012 07:44:05 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 02 Aug 2012 22:32:10 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; 
-	d="scan'208,217";a="201762147"
-Received: from dell-desktop (HELO [10.237.105.32]) ([10.237.105.32])
-	by fmsmga002.fm.intel.com with ESMTP; 02 Aug 2012 22:32:09 -0700
-Message-ID: <501B62C6.20205@intel.com>
-Date: Fri, 03 Aug 2012 08:33:58 +0300
-From: Radu Moisan <radu.moisan@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:14.0) Gecko/20120714 Thunderbird/14.0
+	(envelope-from <martin.jansa@gmail.com>)
+	id 1SxCJu-0007mY-Ru; Fri, 03 Aug 2012 09:29:14 +0200
+Received: by wgbdr1 with SMTP id dr1so255889wgb.24
+	for <multiple recipients>; Fri, 03 Aug 2012 00:17:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=cLBByZVV2agNPGqTxx1zGFz1jgqimbZ6p513LMGjV3g=;
+	b=DMfbCOLxoSVM4k1Fhj739jcZw9hdATdEnYy2U+7GFDUqFV3unBfuGUIS+yOBO6kmci
+	IO9uBnTRLjh68IKdZTA6nZ9lXCQtwibe1daundmPuIQbFwje3hoJn6RCsyAKiMRrL3xh
+	UI15mrCYrxUTfnaDqC7AH8tJ27W6fMpp1R2Rfyqmfyexee0mErIAlMjsq+5SIXp/nNrV
+	nMZfiM5rOUPUPckABxFo0lre5VlbS+Mwqgng3228Ky0B+OpnhCa3PoeYeoN+IiZ4OJjM
+	jE7GRGPDAEnc1YIwa2Qn3y6Q53PZEJ+hxMAq7ZnRnr+34hHV9KTBveVSBEzOvoah82cQ
+	LOyg==
+Received: by 10.180.98.138 with SMTP id ei10mr2004255wib.1.1343978254331;
+	Fri, 03 Aug 2012 00:17:34 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id el6sm38002403wib.8.2012.08.03.00.17.30
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 03 Aug 2012 00:17:31 -0700 (PDT)
+Date: Fri, 3 Aug 2012 09:17:30 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Message-ID: <20120803071730.GA30148@jama.jama.net>
+References: <20120731070518.61E5C10217@opal>
+	<20120802221526.GC16306@jama.jama.net>
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <1343909173-2161-1-git-send-email-radu.moisan@intel.com>
-	<CAK18fxFW89ficqdXn-H2VOPApOUhaXH0yNOkK4xb3J1HtxfLnA@mail.gmail.com>
-In-Reply-To: <CAK18fxFW89ficqdXn-H2VOPApOUhaXH0yNOkK4xb3J1HtxfLnA@mail.gmail.com>
-Subject: Re: [PATCH v2] usbutils: Upgrade usbutils to upstream v006
+In-Reply-To: <20120802221526.GC16306@jama.jama.net>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-commits@lists.openembedded.org
+Subject: Re: [oe-commits] Paul Eggleton : qt4: allow recipes building commercial edition
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,165 +45,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Aug 2012 05:44:05 -0000
-Content-Type: multipart/alternative;
-	boundary="------------070109030502040805050308"
+X-List-Received-Date: Fri, 03 Aug 2012 07:29:14 -0000
+X-Groupsio-MsgNum: 26855
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="FCuugMFkClbJLl1L"
+Content-Disposition: inline
 
---------------070109030502040805050308
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+--FCuugMFkClbJLl1L
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Fri, Aug 03, 2012 at 12:15:26AM +0200, Martin Jansa wrote:
+> On Tue, Jul 31, 2012 at 07:05:17AM +0000, git@git.openembedded.org wrote:
+> > Module: openembedded-core.git
+> > Branch: master
+> > Commit: 2be0058fc4acddab611637656183accd052b40eb
+> > URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcomm=
+it;h=3D2be0058fc4acddab611637656183accd052b40eb
+> >=20
+> > Author: Paul Eggleton <paul.eggleton@linux.intel.com>
+> > Date:   Tue Jul 31 00:31:00 2012 +0100
+> >=20
+> > qt4: allow recipes building commercial edition
+> >=20
+> > To enable building the commercial edition of Qt (through additional
+> > recipes that are *not* provided by OE-Core) we need to tweak a few
+> > things:
+> >=20
+> > * Don't make recipes that inherit qt4x11.bbclass depend on qt4-x11-free
+> >   - instead add qt4-x11 to DEPENDS and then have qt4-x11-free include
+> >   this in its PROVIDES. A commercial equivalent recipe should do the
+> >   same.
+> > * Add a QT_LICENSE_FILE variable that can be used to specify the license
+> >   file required by the commercial edition.
+> > * Add a QT_LICENSE_FLAGS variable which the recipe can set to select the
+> >   license option being used. The default of "-opensource" retains the
+> >   current behaviour; a commercial recipe should set it to "-commercial".
+> >=20
+> > Fixes [YOCTO #2505].
+> >=20
+> > Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>=20
+> After this patch I see, libdummy.prl created again
+> OE @ ~/projects/shr-chroot $ ll include/WebCore/libdummy.prl
+> -rw-r--r-- 1 bitbake bitbake 651 Aug  2 19:23 include/WebCore/libdummy.prl
+>=20
+> originally fixed by:
+> http://git.openembedded.org/openembedded-core/commit/?id=3D7d3fd68480d54a=
+8ef0d91a772df3506cd45ef2c2
+>=20
+> Do you have any idea why it's broken again? If you still have log.do_conf=
+igure logs, can you check for
+> WARNING: DESTDIR: Cannot access directory '/include/WebCore'
+> ?
+>=20
+> Cheers,
 
-On 08/02/2012 06:25 PM, Andrei Gherzan wrote:
-> On Thu, Aug 2, 2012 at 3:06 PM, Radu Moisan <radu.moisan@intel.com 
-> <mailto:radu.moisan@intel.com>> wrote:
->
->     Signed-off-by: Radu Moisan <radu.moisan@intel.com
->     <mailto:radu.moisan@intel.com>>
->     ---
->      .../usbutils/{usbutils_0.91.bb <http://usbutils_0.91.bb> =>
->     usbutils_006.bb <http://usbutils_006.bb>} |    7 +++----
->      1 file changed, 3 insertions(+), 4 deletions(-)
->      rename meta/recipes-bsp/usbutils/{usbutils_0.91.bb
->     <http://usbutils_0.91.bb> => usbutils_006.bb
->     <http://usbutils_006.bb>} (80%)
->
->     diff --git a/meta/recipes-bsp/usbutils/usbutils_0.91.bb
->     <http://usbutils_0.91.bb>
->     b/meta/recipes-bsp/usbutils/usbutils_006.bb <http://usbutils_006.bb>
->     similarity index 80%
->     rename from meta/recipes-bsp/usbutils/usbutils_0.91.bb
->     <http://usbutils_0.91.bb>
->     rename to meta/recipes-bsp/usbutils/usbutils_006.bb
->     <http://usbutils_006.bb>
->     index abe807c..c1c9fc0 100644
->     --- a/meta/recipes-bsp/usbutils/usbutils_0.91.bb
->     <http://usbutils_0.91.bb>
->     +++ b/meta/recipes-bsp/usbutils/usbutils_006.bb
->     <http://usbutils_006.bb>
->     @@ -7,19 +7,18 @@ LICENSE = "GPLv2+"
->      LIC_FILES_CHKSUM =
->     "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
->
->      DEPENDS = "libusb zlib"
->     -PR = "r5"
->     +PR = "r0"
->
->      SRC_URI =
->     "${KERNELORG_MIRROR}/linux/utils/usb/usbutils/usbutils-${PV}.tar.gz \
->                 file://usb-devices-avoid-dependency-on-bash.patch \
->                 file://Fix-NULL-pointer-crash.patch"
->
->     -SRC_URI[md5sum] = "49de2403b40bf3a9863faaa8d3858deb"
->     -SRC_URI[sha256sum] =
->     "c122346b0225121bcf159abf804116f826a4a3462c94ce7b8871f7559e6b3a46"
->     +SRC_URI[md5sum] = "850790442f5eb487cdc7e35f8ee03e11"
->     +SRC_URI[sha256sum] =
->     "553270b4030f0844cb70aed57e61c7f10a7ed6641c3bed20249201cec9bcf122"
->
->      inherit autotools
->
->      do_install_append() {
->     -       ln -s ../sbin/lsusb ${D}${bindir}/lsusb
->
->
-> This is not needed anymore?
->
-No, it's already in place.
+Hmm even more this time:
+ISIS_OUT/
+ISIS_OUT/include
+ISIS_OUT/include/webkit
+ISIS_OUT/include/webkit/npapi
+ISIS_OUT/include/webkit/npapi/nptypes.h
+ISIS_OUT/include/webkit/npapi/npapi.h
+ISIS_OUT/include/webkit/npapi/npupp.h
+ISIS_OUT/include/webkit/npapi/npruntime.h
 
-radu
+Created in dir one level above dir from where bitbake was started.
 
---------------070109030502040805050308
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-<html>
-  <head>
-    <meta content="text/html; charset=ISO-8859-1"
-      http-equiv="Content-Type">
-  </head>
-  <body bgcolor="#FFFFFF" text="#000000">
-    <br>
-    <div class="moz-cite-prefix">On 08/02/2012 06:25 PM, Andrei Gherzan
-      wrote:<br>
-    </div>
-    <blockquote
-cite="mid:CAK18fxFW89ficqdXn-H2VOPApOUhaXH0yNOkK4xb3J1HtxfLnA@mail.gmail.com"
-      type="cite">
-      <meta http-equiv="Content-Type" content="text/html;
-        charset=ISO-8859-1">
-      <div class="gmail_quote">On Thu, Aug 2, 2012 at 3:06 PM, Radu
-        Moisan <span dir="ltr">&lt;<a moz-do-not-send="true"
-            href="mailto:radu.moisan@intel.com" target="_blank">radu.moisan@intel.com</a>&gt;</span>
-        wrote:<br>
-        <blockquote class="gmail_quote" style="margin:0 0 0
-          .8ex;border-left:1px #ccc solid;padding-left:1ex">
-          Signed-off-by: Radu Moisan &lt;<a moz-do-not-send="true"
-            href="mailto:radu.moisan@intel.com">radu.moisan@intel.com</a>&gt;<br>
-          ---<br>
-          &nbsp;.../usbutils/{<a moz-do-not-send="true"
-            href="http://usbutils_0.91.bb" target="_blank">usbutils_0.91.bb</a>
-          =&gt; <a moz-do-not-send="true" href="http://usbutils_006.bb"
-            target="_blank">usbutils_006.bb</a>} | &nbsp; &nbsp;7 +++----<br>
-          &nbsp;1 file changed, 3 insertions(+), 4 deletions(-)<br>
-          &nbsp;rename meta/recipes-bsp/usbutils/{<a moz-do-not-send="true"
-            href="http://usbutils_0.91.bb" target="_blank">usbutils_0.91.bb</a>
-          =&gt; <a moz-do-not-send="true" href="http://usbutils_006.bb"
-            target="_blank">usbutils_006.bb</a>} (80%)<br>
-          <br>
-          diff --git a/meta/recipes-bsp/usbutils/<a
-            moz-do-not-send="true" href="http://usbutils_0.91.bb"
-            target="_blank">usbutils_0.91.bb</a>
-          b/meta/recipes-bsp/usbutils/<a moz-do-not-send="true"
-            href="http://usbutils_006.bb" target="_blank">usbutils_006.bb</a><br>
-          similarity index 80%<br>
-          rename from meta/recipes-bsp/usbutils/<a
-            moz-do-not-send="true" href="http://usbutils_0.91.bb"
-            target="_blank">usbutils_0.91.bb</a><br>
-          rename to meta/recipes-bsp/usbutils/<a moz-do-not-send="true"
-            href="http://usbutils_006.bb" target="_blank">usbutils_006.bb</a><br>
-          index abe807c..c1c9fc0 100644<br>
-          --- a/meta/recipes-bsp/usbutils/<a moz-do-not-send="true"
-            href="http://usbutils_0.91.bb" target="_blank">usbutils_0.91.bb</a><br>
-          +++ b/meta/recipes-bsp/usbutils/<a moz-do-not-send="true"
-            href="http://usbutils_006.bb" target="_blank">usbutils_006.bb</a><br>
-          @@ -7,19 +7,18 @@ LICENSE = "GPLv2+"<br>
-          &nbsp;LIC_FILES_CHKSUM =
-          <a class="moz-txt-link-rfc2396E" href="file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f">"file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"</a><br>
-          <br>
-          &nbsp;DEPENDS = "libusb zlib"<br>
-          -PR = "r5"<br>
-          +PR = "r0"<br>
-          <br>
-          &nbsp;SRC_URI =
-          "${KERNELORG_MIRROR}/linux/utils/usb/usbutils/usbutils-${PV}.tar.gz
-          \<br>
-          &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <a class="moz-txt-link-freetext" href="file://usb-devices-avoid-dependency-on-bash.patch">file://usb-devices-avoid-dependency-on-bash.patch</a>
-          \<br>
-          &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <a class="moz-txt-link-freetext" href="file://Fix-NULL-pointer-crash.patch">file://Fix-NULL-pointer-crash.patch</a>"<br>
-          <br>
-          -SRC_URI[md5sum] = "49de2403b40bf3a9863faaa8d3858deb"<br>
-          -SRC_URI[sha256sum] =
-          "c122346b0225121bcf159abf804116f826a4a3462c94ce7b8871f7559e6b3a46"<br>
-          +SRC_URI[md5sum] = "850790442f5eb487cdc7e35f8ee03e11"<br>
-          +SRC_URI[sha256sum] =
-          "553270b4030f0844cb70aed57e61c7f10a7ed6641c3bed20249201cec9bcf122"<br>
-          <br>
-          &nbsp;inherit autotools<br>
-          <br>
-          &nbsp;do_install_append() {<br>
-          - &nbsp; &nbsp; &nbsp; ln -s ../sbin/lsusb ${D}${bindir}/lsusb</blockquote>
-        <div><br>
-        </div>
-        <div>This is not needed anymore?&nbsp;</div>
-        <div><br>
-        </div>
-      </div>
-    </blockquote>
-    No, it's already in place.<br>
-    <br>
-    radu<br>
-  </body>
-</html>
+--FCuugMFkClbJLl1L
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
---------------070109030502040805050308--
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
+
+iEYEARECAAYFAlAbewoACgkQN1Ujt2V2gBwQ+ACeMbVGniL+7YGtqizdSQp356o9
+ajsAnjXzEIFMOnBsomvcDtjn9c83156v
+=l9J8
+-----END PGP SIGNATURE-----
+
+--FCuugMFkClbJLl1L--
