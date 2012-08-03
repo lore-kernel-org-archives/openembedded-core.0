@@ -1,24 +1,24 @@
 Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <laurentiu.palcu@intel.com>) id 1SxOWw-00071K-1l
+	(envelope-from <laurentiu.palcu@intel.com>) id 1SxOWw-00071K-OB
 	for openembedded-core@lists.openembedded.org;
 	Fri, 03 Aug 2012 22:31:30 +0200
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 03 Aug 2012 13:19:48 -0700
+	by fmsmga102.fm.intel.com with ESMTP; 03 Aug 2012 13:19:49 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="193014110"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="193014115"
 Received: from lpalcu-linux (HELO localhost.localdomain) ([10.237.105.41])
-	by fmsmga001.fm.intel.com with ESMTP; 03 Aug 2012 13:19:47 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 03 Aug 2012 13:19:48 -0700
 From: Laurentiu Palcu <laurentiu.palcu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  3 Aug 2012 23:19:36 +0300
-Message-Id: <54632fe18804ea88065c2506700b814aa3e91a28.1344022584.git.laurentiu.palcu@intel.com>
+Date: Fri,  3 Aug 2012 23:19:37 +0300
+Message-Id: <8db627a00e95e0f72a8c18eb31ddd5c06df99454.1344022584.git.laurentiu.palcu@intel.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1344022584.git.laurentiu.palcu@intel.com>
 References: <cover.1344022584.git.laurentiu.palcu@intel.com>
 In-Reply-To: <cover.1344022584.git.laurentiu.palcu@intel.com>
 References: <cover.1344022584.git.laurentiu.palcu@intel.com>
-Subject: [PATCH 1/5] gtk+: enable gtk+-native
+Subject: [PATCH 2/5] sato-icon-theme: make postinst scriplet run at do_rootfs time
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,39 +33,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Aug 2012 20:31:30 -0000
-
-This is needed in order to run postinst scriplets at do_rootfs time
-rather than first boot time.
+X-List-Received-Date: Fri, 03 Aug 2012 20:31:31 -0000
 
 Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
 ---
- meta/recipes-gnome/gtk+/gtk+_2.24.8.bb |    5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ .../sato-icon-theme/sato-icon-theme.inc            |   10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-gnome/gtk+/gtk+_2.24.8.bb b/meta/recipes-gnome/gtk+/gtk+_2.24.8.bb
-index 529f8e1..878eb87 100644
---- a/meta/recipes-gnome/gtk+/gtk+_2.24.8.bb
-+++ b/meta/recipes-gnome/gtk+/gtk+_2.24.8.bb
-@@ -27,7 +27,7 @@ SRC_URI = "http://download.gnome.org/sources/gtk+/2.24/gtk+-${PV}.tar.bz2 \
- #        file://combo-arrow-size.patch;striplevel=0
- #            file://configurefix.patch
+diff --git a/meta/recipes-sato/sato-icon-theme/sato-icon-theme.inc b/meta/recipes-sato/sato-icon-theme/sato-icon-theme.inc
+index 9fd1012..ba15514 100644
+--- a/meta/recipes-sato/sato-icon-theme/sato-icon-theme.inc
++++ b/meta/recipes-sato/sato-icon-theme/sato-icon-theme.inc
+@@ -6,7 +6,7 @@ LICENSE = "CC-BY-SA-3.0"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=56a830bbe6e4697fe6cbbae01bb7c2b2"
  
--PR = "r5"
-+PR = "r6"
+ SECTION = "x11"
+-DEPENDS = ""
++DEPENDS = "gtk+-native"
  
- SRC_URI[md5sum] = "0413187f7e596aef00ccd1b54776ff03"
- SRC_URI[sha256sum] = "ac2325a65312922a6722a7c02a389f3f4072d79e13131485cc7b7226e2537043"
-@@ -37,6 +37,9 @@ EXTRA_OECONF = "--without-libtiff --without-libjasper --enable-xkb --disable-gli
- LIBV = "2.10.0"
+ inherit autotools pkgconfig allarch
  
- PACKAGES_DYNAMIC += "gtk-immodule-* gtk-printbackend-*"
-+BBCLASSEXTEND = "native"
-+RRECOMMENDS_${PN}_virtclass-native = ""
-+DEPENDS_virtclass-native = "glib-2.0-native atk-native pango-native cairo-native gdk-pixbuf-native"
- 
- python populate_packages_prepend () {
-     prologue = d.getVar("postinst_prologue", True)
+@@ -17,9 +17,9 @@ EXTRA_OECONF += "--with-iconmap=${STAGING_LIBDIR_NATIVE}/../libexec/icon-name-ma
+ #explictly setting "Sato" as default icon theme to avoid icon missing due to
+ #tricky race condition
+ pkg_postinst_${PN} () {
+-        if [ "x$D" != "x" ]; then
+-                exit 1
++        gtk-update-icon-cache -q $D/usr/share/icons/Sato
++        if [ ! -d $D/etc/gtk-2.0 ]; then
++            mkdir -p $D/etc/gtk-2.0
+         fi
+-        gtk-update-icon-cache -q /usr/share/icons/Sato
+-        echo 'gtk-icon-theme-name = "Sato"' >> /etc/gtk-2.0/gtkrc
++        echo 'gtk-icon-theme-name = "Sato"' >> $D/etc/gtk-2.0/gtkrc
+ }
 -- 
 1.7.9.5
 
