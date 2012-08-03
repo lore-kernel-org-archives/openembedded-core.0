@@ -1,42 +1,48 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from mail-ey0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1SxF9H-0002tB-SG
+	(envelope-from <koen@dominion.thruhere.net>) id 1SxFAz-0002vq-3V
 	for openembedded-core@lists.openembedded.org;
-	Fri, 03 Aug 2012 12:30:27 +0200
-Received: by eekb57 with SMTP id b57so131192eek.6
+	Fri, 03 Aug 2012 12:32:13 +0200
+Received: by eaad12 with SMTP id d12so131662eaa.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 03 Aug 2012 03:18:47 -0700 (PDT)
+	Fri, 03 Aug 2012 03:20:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=content-type:mime-version:subject:from:in-reply-to:date
 	:content-transfer-encoding:message-id:references:to:x-mailer
 	:x-gm-message-state;
-	bh=VsPOV2JwhTCsRmN5AsuPg/RZ4KuZfZev0awY0cLUgWg=;
-	b=nG5DaVnMKBlRFO8c3Hm94JugELC3c15ecI/QfRkypmIAmZ68oqP9UEWamA03o41As1
-	mXN+sZw7nNYGLNFzNNHenwogqlxwVI5a+Z64wHWNe8r6VcEyqgz5Hfj6Js38zWNbnbeo
-	+0Oy+4iH+KGIbsMszygJv+Rv/mKWHl3lix1fpjELcB475iP92S9bUQPVva8WjnZdV+lC
-	eLhBH/t1lPYNU59NKV4kuMaP9Dl0xYWE7HXt8KLhDHXHt4mc5Wnbx27uJeapO9iz9Ia1
-	N0b1u3TJygVVnaru2cdClLUxICBP4VfFMeivmzl6IOcoBRxM7oLRCLCbPHtOrJ/evy2K
-	xB/g==
-Received: by 10.14.178.7 with SMTP id e7mr1485643eem.20.1343989127184;
-	Fri, 03 Aug 2012 03:18:47 -0700 (PDT)
+	bh=6JCchhEXIX5SxMqeICX6En6WrJDW2t+vYacP7r3fBAs=;
+	b=n5byQHG9ZZRMCvCUUwqhIqSwGwGGOtUg8UmXrLyPQlLRUQaIbPOSm5rPCwUJi0dEqg
+	Zl9Cb6oQWPKeJ4Ch0YVdzhZGNa++0UQFC93XTgOU5Aa7jDrUW+XEfAN9UcQNI0CuKr+P
+	lTDPGLmLgwecO9+Usiv4mO7kZMEHXk/ziAswZ0jcJaWmh/55jLF+rPdjzkNuVzH6pBi/
+	Rlm4kGaueZi7X05eJELdvn0IqYxA6OfSw7eveiz6VgPw256lQW1NSiuSQRWDpvBm0IYf
+	/sJDwfJWTzurlz8J0/67esD6HTqEYR9H5c9uuKnq9lxswfgWIHAvFCDs4SMVdHW4/Sq6
+	0HEg==
+Received: by 10.14.178.67 with SMTP id e43mr1444163eem.44.1343989232558;
+	Fri, 03 Aug 2012 03:20:32 -0700 (PDT)
 Received: from [172.20.0.10] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
-	by mx.google.com with ESMTPS id s8sm24474736eeo.8.2012.08.03.03.18.45
+	by mx.google.com with ESMTPS id 9sm24471092eei.12.2012.08.03.03.20.30
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 03 Aug 2012 03:18:46 -0700 (PDT)
+	Fri, 03 Aug 2012 03:20:31 -0700 (PDT)
 Mime-Version: 1.0 (Mac OS X Mail 6.0 \(1485\))
 From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <8242048D6F2A4934B1D6E6CB30CF8C3A@intel.com>
-Date: Fri, 3 Aug 2012 12:18:52 +0200
-Message-Id: <C94E9933-5642-406C-ACBC-2F0A13E6AB41@dominion.thruhere.net>
-References: <cover.1343926021.git.ross.burton@intel.com>
-	<94E6EEF2-BA2A-4B68-A9CB-98133061274E@dominion.thruhere.net>
-	<8242048D6F2A4934B1D6E6CB30CF8C3A@intel.com>
+In-Reply-To: <CALRxmdCf1vZF21Ruxw_Bi7=uvbQ6-s3_rHU=LtVS19_hR+vvtQ@mail.gmail.com>
+Date: Fri, 3 Aug 2012 12:20:37 +0200
+Message-Id: <8F468D35-13B9-4FCA-B39A-C030EB69302F@dominion.thruhere.net>
+References: <CALRxmdDhE8GQPYde27786kKU35p4dRrTmaGbmauVDxTrMQ6N6Q@mail.gmail.com>
+	<50183924.8010309@windriver.com>
+	<CADkTA4N_mFVkWx7G=E8BoCDYktkNXxO-zLrw_r9e0sO-wE5FjQ@mail.gmail.com>
+	<CALRxmdDzaizHQ8m1NFRp2-Ucn9Pm6vZJX=pTTdZ5aLx-61OUzw@mail.gmail.com>
+	<50195AFF.1070507@windriver.com>
+	<CAEsOVNfbJAqrDf-+DQh3h0pWtf-qDuQqKfC+_oBRHgyY4B6Obg@mail.gmail.com>
+	<50197DFA.5070003@windriver.com>
+	<CAP9ODKobAsEeouwR+dA2tLNHBxDaxYSunwbbLMs5rV-ES5XfDg@mail.gmail.com>
+	<CALRxmdCf1vZF21Ruxw_Bi7=uvbQ6-s3_rHU=LtVS19_hR+vvtQ@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 X-Mailer: Apple Mail (2.1485)
-X-Gm-Message-State: ALoCoQnb4tzcu48BYUJZPm2OlHOFr5Pv//d5oOj8ehMvwHO53SNzj9rg16Lz+W57bvPKFf6nqrWY
-Subject: Re: [PATCH V3 00/11] Mesa upgrade/improvements
+X-Gm-Message-State: ALoCoQnTn0iOfYN1G6KBzPKMOoX3EGdb10NrK0XtC0otTI38823GKYVK2e3VkrMA7YIev/ReC5bO
+Subject: Re: static busybox?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -51,41 +57,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Aug 2012 10:30:28 -0000
+X-List-Received-Date: Fri, 03 Aug 2012 10:32:13 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
 
-Op 2 aug. 2012, om 21:03 heeft Ross Burton <ross.burton@intel.com> het =
+Op 3 aug. 2012, om 00:50 heeft Stuart Yoder <b08248@gmail.com> het =
 volgende geschreven:
 
-> On Thursday, 2 August 2012 at 19:38, Koen Kooi wrote:
->> This will still break every platform with a binary libegl and =
-libgles.
+> On Wed, Aug 1, 2012 at 3:05 PM, Otavio Salvador =
+<otavio@ossystems.com.br> wrote:
+>> On Wed, Aug 1, 2012 at 4:05 PM, Mark Hatle <mark.hatle@windriver.com> =
+wrote:
+>>> On 8/1/12 1:59 PM, McClintock Matthew-B29882 wrote:
+>>>> This is one approach, to change busybox completely for a specific
+>>>> added layer. But, what if we only want to make this change to =
+busybox
+>>>> if the lxc recipe is included in the image? What about other =
+packages
+>>>> also requesting changes?
+>>>=20
+>>> There is no method within OE to change a configuration of one item, =
+if
+>>> another item is included or not.
+>>>=20
+>>> The way to do this is use the PACKAGECONFIG options, and then pass =
+via a
+>>> per-recipe configuration if you want lxc support enabled or not.. =
+(or
+>>> possible lxc becomes a distro flag?)
+>>=20
+>> For lxc specific case I think we can just have a recipe that sets the
+>> busybox' static option. It seems to be the only difference we'd have
+>> for it.
 >=20
-> That is true and I'm all ears for suggestions. My best proposal so far =
-is to let a package hint a prefix to the Debian renamer, so these =
-packages get renamed to libmesa-gl, libmesa-egl, etc.
->=20
-> That said I'm very curious how every platform with a binary libgl =
-isn't already broken.
+> Do you mean a distinct 'busybox-static' recipe that lxc would
+> depend on?
 
-libegl and libgles aren't built nowadays, so the problem is avoided. =
-Noone has dared to touch this subject the past 2.5 years: =
-http://cgit.openembedded.org/openembedded/commit/recipes/mesa?id=3D3d96f8c=
-b61225d515b5cb4fe863f0d50c3ced436
-
-The best solution[1] is to disable egl/gles in the mesa-recipes and add =
-a seperate recipe for them. That way you still get glu and other useful =
-mesa bits needed for gnome/efl/xfce/etc, but you can skip the =
-sysroot/shlib poisoning if needed.
-
-regards,
-
-Koen
-
-[1] The best solution if of course getting sgx support into mesa, but =
-nothing is happening on that front apart from some posturing on the fsf =
-side, no actual code.=
+Exactly, we already had exactly that in OE-classic=
 
 
