@@ -1,24 +1,28 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <laurentiu.palcu@intel.com>) id 1SxOWy-00071a-9B
+	(envelope-from <mark.hatle@windriver.com>) id 1SxOcz-0007Il-Go
 	for openembedded-core@lists.openembedded.org;
-	Fri, 03 Aug 2012 22:31:32 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 03 Aug 2012 13:19:52 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="193014133"
-Received: from lpalcu-linux (HELO localhost.localdomain) ([10.237.105.41])
-	by fmsmga001.fm.intel.com with ESMTP; 03 Aug 2012 13:19:51 -0700
-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  3 Aug 2012 23:19:40 +0300
-Message-Id: <8f7455f577f075409a2f2fb423669dfe6a50de73.1344022584.git.laurentiu.palcu@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1344022584.git.laurentiu.palcu@intel.com>
+	Fri, 03 Aug 2012 22:37:45 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q73KQ37t016430
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 3 Aug 2012 13:26:03 -0700 (PDT)
+Received: from msp-dhcp43.wrs.com (172.25.34.43) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.309.2;
+	Fri, 3 Aug 2012 13:26:03 -0700
+Message-ID: <501C33D4.6070409@windriver.com>
+Date: Fri, 3 Aug 2012 15:25:56 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
+	rv:14.0) Gecko/20120713 Thunderbird/14.0
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
 References: <cover.1344022584.git.laurentiu.palcu@intel.com>
-In-Reply-To: <cover.1344022584.git.laurentiu.palcu@intel.com>
-References: <cover.1344022584.git.laurentiu.palcu@intel.com>
-Subject: [PATCH 5/5] gdk-pixbuf: allow postinst scriplet to be called at do_rootfs time
+	<c8630bc519bcb2d6671e5bd30f9b11ccb9d768b2.1344022584.git.laurentiu.palcu@intel.com>
+In-Reply-To: <c8630bc519bcb2d6671e5bd30f9b11ccb9d768b2.1344022584.git.laurentiu.palcu@intel.com>
+Subject: Re: [PATCH 3/5] package_rpm: export the native directory to the postinst scriptlets
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,36 +37,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Aug 2012 20:31:32 -0000
+X-List-Received-Date: Fri, 03 Aug 2012 20:37:45 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
----
- meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.24.1.bb |    6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+On 8/3/12 3:19 PM, Laurentiu Palcu wrote:
+> Some postinst scriptlets test for the existence of certain files but
+> have the paths hardcoded to the target's rootfs. This patch will allow
+> us to run postinst scriptlets at do_rootfs time by calling native
+> binaries.
+>
+> Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
+> ---
+>   meta/classes/package_rpm.bbclass |    1 +
+>   1 file changed, 1 insertion(+)
+>
+> diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
+> index 50e9b31..113b19c 100644
+> --- a/meta/classes/package_rpm.bbclass
+> +++ b/meta/classes/package_rpm.bbclass
+> @@ -443,6 +443,7 @@ export D="${target_rootfs}"
+>   export OFFLINE_ROOT="\$D"
+>   export IPKG_OFFLINE_ROOT="\$D"
+>   export OPKG_OFFLINE_ROOT="\$D"
+> +export NATIVE_DIR="${STAGING_DIR_NATIVE}"
 
-diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.24.1.bb b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.24.1.bb
-index 8e13115..60d6161 100644
---- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.24.1.bb
-+++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.24.1.bb
-@@ -56,12 +56,14 @@ FILES_${PN}-dbg += " \
- 
- postinst_pixbufloader () {
- if [ "x$D" != "x" ]; then
--    exit 1
-+    gtk_update_icon_cache_path=$NATIVE_DIR/${bindir_native}
-+else
-+    gtk_update_icon_cache_path=${bindir}
- fi
- 
- GDK_PIXBUF_MODULEDIR=${libdir}/gdk-pixbuf-2.0/${LIBV}/loaders gdk-pixbuf-query-loaders --update-cache
- 
--test -x ${bindir}/gtk-update-icon-cache && gtk-update-icon-cache  -q ${datadir}/icons/hicolor
-+test -x $gtk_update_icon_cache_path/gtk-update-icon-cache && gtk-update-icon-cache  -q $D/${datadir}/icons/hicolor
- }
- 
- PACKAGES_DYNAMIC += "gdk-pixbuf-loader-*"
--- 
-1.7.9.5
+Why is this needed?  Normally the host items run from the path (and should know 
+how to access any related files they need), and ${D} points to the target rootfs 
+directory for things needing full paths.
+
+--Mark
+
+>
+>   \$2 \$1/\$3 \$4
+>   if [ \$? -ne 0 ]; then
+>
 
 
 
