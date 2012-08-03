@@ -1,26 +1,27 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Wenzong.Fan@windriver.com>) id 1Sx8mV-000325-BV
+	(envelope-from <radu.moisan@intel.com>) id 1SxAg8-0000wR-NR
 	for openembedded-core@lists.openembedded.org;
-	Fri, 03 Aug 2012 05:42:31 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q733Unq4011546
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 2 Aug 2012 20:30:49 -0700 (PDT)
-Received: from usp-ub1204-64.corp.ad.wrs.com (128.224.162.28) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.309.2; Thu, 2 Aug 2012 20:30:49 -0700
-From: <wenzong.fan@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 3 Aug 2012 11:30:21 +0800
-Message-ID: <9ed1d4d30aeac33273968b00c0b5afab059bbc0f.1343964466.git.wenzong.fan@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1343964466.git.wenzong.fan@windriver.com>
-References: <cover.1343964466.git.wenzong.fan@windriver.com>
+	Fri, 03 Aug 2012 07:44:05 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 02 Aug 2012 22:32:10 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; 
+	d="scan'208,217";a="201762147"
+Received: from dell-desktop (HELO [10.237.105.32]) ([10.237.105.32])
+	by fmsmga002.fm.intel.com with ESMTP; 02 Aug 2012 22:32:09 -0700
+Message-ID: <501B62C6.20205@intel.com>
+Date: Fri, 03 Aug 2012 08:33:58 +0300
+From: Radu Moisan <radu.moisan@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:14.0) Gecko/20120714 Thunderbird/14.0
 MIME-Version: 1.0
-Cc: Zhenfeng.Zhao@windriver.com
-Subject: [PATCH 1/1] gdk-pixbuf: fix parallel install issue
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <1343909173-2161-1-git-send-email-radu.moisan@intel.com>
+	<CAK18fxFW89ficqdXn-H2VOPApOUhaXH0yNOkK4xb3J1HtxfLnA@mail.gmail.com>
+In-Reply-To: <CAK18fxFW89ficqdXn-H2VOPApOUhaXH0yNOkK4xb3J1HtxfLnA@mail.gmail.com>
+Subject: Re: [PATCH v2] usbutils: Upgrade usbutils to upstream v006
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,101 +36,165 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Aug 2012 03:42:31 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 03 Aug 2012 05:44:05 -0000
+Content-Type: multipart/alternative;
+	boundary="------------070109030502040805050308"
 
-From: Wenzong Fan <wenzong.fan@windriver.com>
-
-This patch fixes parallel install issue that lib libpixbufloader-png.la
-depends on libgdk_pixbuf-2.0.la which will be regenerated during insta-
-llation, if libgdk_pixbuf-2.0.la is regenerating and at the same time
-libpixbufloader-png.la links it, the error will happen.
-
-Error message is:
-* usr/bin/ld: cannot find -lgdk_pixbuf-2.0
-* collect2: ld returned 1 exit status
-
-Make an explicit dependency to the libs install targets would fix this
-issue.
-
-[YOCTO #2883]
-
-Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
----
- .../extending-libinstall-dependencies.patch        |   42 ++++++++++++++++++++
- meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.24.1.bb |    3 +-
- 2 files changed, 44 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf-2.24.1/extending-libinstall-dependencies.patch
-
-diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf-2.24.1/extending-libinstall-dependencies.patch b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf-2.24.1/extending-libinstall-dependencies.patch
-new file mode 100644
-index 0000000..edbdced
---- /dev/null
-+++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf-2.24.1/extending-libinstall-dependencies.patch
-@@ -0,0 +1,42 @@
-+Upstream-Status: Pending
-+
-+This patch fixes parallel install issue that lib libpixbufloader-png.la
-+depends on libgdk_pixbuf-2.0.la which will be regenerated during insta-
-+llation, if libgdk_pixbuf-2.0.la is regenerating and at the same time
-+libpixbufloader-png.la links it, the error will happen.
-+
-+Error message is:
-+* usr/bin/ld: cannot find -lgdk_pixbuf-2.0
-+* collect2: ld returned 1 exit status
-+
-+Make an explicit dependency to the libs install targets would fix this
-+issue.
-+
-+Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
-+---
-+ gdk-pixbuf/Makefile.am |    1 +
-+ libdeps.mk             |    3 +++
-+ 2 files changed, 4 insertions(+), 0 deletions(-)
-+ create mode 100644 libdeps.mk
-+
-+diff --git a/gdk-pixbuf/Makefile.am b/gdk-pixbuf/Makefile.am
-+index 95a93a8..db44cae 100644
-+--- a/gdk-pixbuf/Makefile.am
-++++ b/gdk-pixbuf/Makefile.am
-+@@ -783,3 +783,4 @@ loaders.cache:
-+ endif
-+ 
-+ -include $(top_srcdir)/git.mk
-++-include $(top_srcdir)/libdeps.mk
-+diff --git a/libdeps.mk b/libdeps.mk
-+new file mode 100644
-+index 0000000..d7a10a8
-+--- /dev/null
-++++ b/libdeps.mk
-+@@ -0,0 +1,3 @@
-++# Extending dependencies of install-loaderLTLIBRARIES:
-++# The $(lib-LTLIBRARIES) is needed by relinking $(loader_LTLIBRARIES)
-++install-loaderLTLIBRARIES: install-libLTLIBRARIES
-+-- 
-+1.7.6.1
-+
-diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.24.1.bb b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.24.1.bb
-index 8e13115..484fb12 100644
---- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.24.1.bb
-+++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.24.1.bb
-@@ -15,12 +15,13 @@ SRC_URI = "http://ftp.acc.umu.se/pub/GNOME/sources/gdk-pixbuf/2.24/gdk-pixbuf-${
-            file://configure_nm.patch \
-            file://hardcoded_libtool.patch \
-            file://configure_fix.patch \
-+           file://extending-libinstall-dependencies.patch \
-            "
- 
- SRC_URI[md5sum] = "72f39b34b20f68148c1609bd27415412"
- SRC_URI[sha256sum] = "da7a3f00db360913716368e19e336402755cafa93769f3cfa28a969303e4bee1"
- 
--PR = "r3"
-+PR = "r4"
- 
- inherit autotools pkgconfig gettext
- 
--- 
-1.7.9.5
+--------------070109030502040805050308
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
+On 08/02/2012 06:25 PM, Andrei Gherzan wrote:
+> On Thu, Aug 2, 2012 at 3:06 PM, Radu Moisan <radu.moisan@intel.com 
+> <mailto:radu.moisan@intel.com>> wrote:
+>
+>     Signed-off-by: Radu Moisan <radu.moisan@intel.com
+>     <mailto:radu.moisan@intel.com>>
+>     ---
+>      .../usbutils/{usbutils_0.91.bb <http://usbutils_0.91.bb> =>
+>     usbutils_006.bb <http://usbutils_006.bb>} |    7 +++----
+>      1 file changed, 3 insertions(+), 4 deletions(-)
+>      rename meta/recipes-bsp/usbutils/{usbutils_0.91.bb
+>     <http://usbutils_0.91.bb> => usbutils_006.bb
+>     <http://usbutils_006.bb>} (80%)
+>
+>     diff --git a/meta/recipes-bsp/usbutils/usbutils_0.91.bb
+>     <http://usbutils_0.91.bb>
+>     b/meta/recipes-bsp/usbutils/usbutils_006.bb <http://usbutils_006.bb>
+>     similarity index 80%
+>     rename from meta/recipes-bsp/usbutils/usbutils_0.91.bb
+>     <http://usbutils_0.91.bb>
+>     rename to meta/recipes-bsp/usbutils/usbutils_006.bb
+>     <http://usbutils_006.bb>
+>     index abe807c..c1c9fc0 100644
+>     --- a/meta/recipes-bsp/usbutils/usbutils_0.91.bb
+>     <http://usbutils_0.91.bb>
+>     +++ b/meta/recipes-bsp/usbutils/usbutils_006.bb
+>     <http://usbutils_006.bb>
+>     @@ -7,19 +7,18 @@ LICENSE = "GPLv2+"
+>      LIC_FILES_CHKSUM =
+>     "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
+>
+>      DEPENDS = "libusb zlib"
+>     -PR = "r5"
+>     +PR = "r0"
+>
+>      SRC_URI =
+>     "${KERNELORG_MIRROR}/linux/utils/usb/usbutils/usbutils-${PV}.tar.gz \
+>                 file://usb-devices-avoid-dependency-on-bash.patch \
+>                 file://Fix-NULL-pointer-crash.patch"
+>
+>     -SRC_URI[md5sum] = "49de2403b40bf3a9863faaa8d3858deb"
+>     -SRC_URI[sha256sum] =
+>     "c122346b0225121bcf159abf804116f826a4a3462c94ce7b8871f7559e6b3a46"
+>     +SRC_URI[md5sum] = "850790442f5eb487cdc7e35f8ee03e11"
+>     +SRC_URI[sha256sum] =
+>     "553270b4030f0844cb70aed57e61c7f10a7ed6641c3bed20249201cec9bcf122"
+>
+>      inherit autotools
+>
+>      do_install_append() {
+>     -       ln -s ../sbin/lsusb ${D}${bindir}/lsusb
+>
+>
+> This is not needed anymore?
+>
+No, it's already in place.
 
+radu
+
+--------------070109030502040805050308
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
+
+<html>
+  <head>
+    <meta content="text/html; charset=ISO-8859-1"
+      http-equiv="Content-Type">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    <br>
+    <div class="moz-cite-prefix">On 08/02/2012 06:25 PM, Andrei Gherzan
+      wrote:<br>
+    </div>
+    <blockquote
+cite="mid:CAK18fxFW89ficqdXn-H2VOPApOUhaXH0yNOkK4xb3J1HtxfLnA@mail.gmail.com"
+      type="cite">
+      <meta http-equiv="Content-Type" content="text/html;
+        charset=ISO-8859-1">
+      <div class="gmail_quote">On Thu, Aug 2, 2012 at 3:06 PM, Radu
+        Moisan <span dir="ltr">&lt;<a moz-do-not-send="true"
+            href="mailto:radu.moisan@intel.com" target="_blank">radu.moisan@intel.com</a>&gt;</span>
+        wrote:<br>
+        <blockquote class="gmail_quote" style="margin:0 0 0
+          .8ex;border-left:1px #ccc solid;padding-left:1ex">
+          Signed-off-by: Radu Moisan &lt;<a moz-do-not-send="true"
+            href="mailto:radu.moisan@intel.com">radu.moisan@intel.com</a>&gt;<br>
+          ---<br>
+          &nbsp;.../usbutils/{<a moz-do-not-send="true"
+            href="http://usbutils_0.91.bb" target="_blank">usbutils_0.91.bb</a>
+          =&gt; <a moz-do-not-send="true" href="http://usbutils_006.bb"
+            target="_blank">usbutils_006.bb</a>} | &nbsp; &nbsp;7 +++----<br>
+          &nbsp;1 file changed, 3 insertions(+), 4 deletions(-)<br>
+          &nbsp;rename meta/recipes-bsp/usbutils/{<a moz-do-not-send="true"
+            href="http://usbutils_0.91.bb" target="_blank">usbutils_0.91.bb</a>
+          =&gt; <a moz-do-not-send="true" href="http://usbutils_006.bb"
+            target="_blank">usbutils_006.bb</a>} (80%)<br>
+          <br>
+          diff --git a/meta/recipes-bsp/usbutils/<a
+            moz-do-not-send="true" href="http://usbutils_0.91.bb"
+            target="_blank">usbutils_0.91.bb</a>
+          b/meta/recipes-bsp/usbutils/<a moz-do-not-send="true"
+            href="http://usbutils_006.bb" target="_blank">usbutils_006.bb</a><br>
+          similarity index 80%<br>
+          rename from meta/recipes-bsp/usbutils/<a
+            moz-do-not-send="true" href="http://usbutils_0.91.bb"
+            target="_blank">usbutils_0.91.bb</a><br>
+          rename to meta/recipes-bsp/usbutils/<a moz-do-not-send="true"
+            href="http://usbutils_006.bb" target="_blank">usbutils_006.bb</a><br>
+          index abe807c..c1c9fc0 100644<br>
+          --- a/meta/recipes-bsp/usbutils/<a moz-do-not-send="true"
+            href="http://usbutils_0.91.bb" target="_blank">usbutils_0.91.bb</a><br>
+          +++ b/meta/recipes-bsp/usbutils/<a moz-do-not-send="true"
+            href="http://usbutils_006.bb" target="_blank">usbutils_006.bb</a><br>
+          @@ -7,19 +7,18 @@ LICENSE = "GPLv2+"<br>
+          &nbsp;LIC_FILES_CHKSUM =
+          <a class="moz-txt-link-rfc2396E" href="file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f">"file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"</a><br>
+          <br>
+          &nbsp;DEPENDS = "libusb zlib"<br>
+          -PR = "r5"<br>
+          +PR = "r0"<br>
+          <br>
+          &nbsp;SRC_URI =
+          "${KERNELORG_MIRROR}/linux/utils/usb/usbutils/usbutils-${PV}.tar.gz
+          \<br>
+          &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <a class="moz-txt-link-freetext" href="file://usb-devices-avoid-dependency-on-bash.patch">file://usb-devices-avoid-dependency-on-bash.patch</a>
+          \<br>
+          &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <a class="moz-txt-link-freetext" href="file://Fix-NULL-pointer-crash.patch">file://Fix-NULL-pointer-crash.patch</a>"<br>
+          <br>
+          -SRC_URI[md5sum] = "49de2403b40bf3a9863faaa8d3858deb"<br>
+          -SRC_URI[sha256sum] =
+          "c122346b0225121bcf159abf804116f826a4a3462c94ce7b8871f7559e6b3a46"<br>
+          +SRC_URI[md5sum] = "850790442f5eb487cdc7e35f8ee03e11"<br>
+          +SRC_URI[sha256sum] =
+          "553270b4030f0844cb70aed57e61c7f10a7ed6641c3bed20249201cec9bcf122"<br>
+          <br>
+          &nbsp;inherit autotools<br>
+          <br>
+          &nbsp;do_install_append() {<br>
+          - &nbsp; &nbsp; &nbsp; ln -s ../sbin/lsusb ${D}${bindir}/lsusb</blockquote>
+        <div><br>
+        </div>
+        <div>This is not needed anymore?&nbsp;</div>
+        <div><br>
+        </div>
+      </div>
+    </blockquote>
+    No, it's already in place.<br>
+    <br>
+    radu<br>
+  </body>
+</html>
+
+--------------070109030502040805050308--
