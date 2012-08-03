@@ -1,43 +1,34 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from mail-ey0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1SxFCk-0002z3-Tl
+	(envelope-from <raj.khem@gmail.com>) id 1SxFxL-000097-CN
 	for openembedded-core@lists.openembedded.org;
-	Fri, 03 Aug 2012 12:34:02 +0200
-Received: by eekb57 with SMTP id b57so132374eek.6
+	Fri, 03 Aug 2012 13:22:11 +0200
+Received: by eaad12 with SMTP id d12so147472eaa.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 03 Aug 2012 03:22:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to:x-mailer
-	:x-gm-message-state;
-	bh=FB5YP2snBYA7E1kTCBVYAHjpmsczZrZgOth0SgyL44I=;
-	b=mj5Rlh4xc2lU+gYiInCCnYBwQwccOCYBrXqQSNwQfNwptBya6BEcCFo1/WUfjZNRLz
-	2KYMsqg+pGGzSpkqH4r8UndlkH4ntuYDHvy/v80ZK1mURIMEx8o8xeLikrW4myZOrD4V
-	+cXp3M2O0PPZ9G6QYa3C9AollOCnoS0I+GGOzheSzffDlR13eW/Qe5+QV/EnXv4yRiL4
-	zb56aerHFMLvp6M9o1qLDKEn/Dar7d53X/teIjn4v6nO/amt0aySgz0p0y1OANU43LUC
-	VKnp5EOl9ZtoeeWchKRMfETrigXjHn/ixiXj+gu0Twu0o1SjAYG06VF/ht76yPFnNAzY
-	cXDg==
-Received: by 10.14.198.200 with SMTP id v48mr1551041een.3.1343989342428;
-	Fri, 03 Aug 2012 03:22:22 -0700 (PDT)
-Received: from [172.20.0.10] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
-	by mx.google.com with ESMTPS id o47sm24550347eem.0.2012.08.03.03.22.20
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 03 Aug 2012 03:22:21 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 6.0 \(1485\))
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <5252580.R5epMZ2pSF@helios>
-Date: Fri, 3 Aug 2012 12:22:27 +0200
-Message-Id: <035B49BA-8F91-46A3-BB04-6BB22532E915@dominion.thruhere.net>
-References: <1343909173-2161-1-git-send-email-radu.moisan@intel.com>
-	<CAJTo0LakdrRqVVx+jAeUK7Upx570=jLo=PYONZ63=xDNiwD5jA@mail.gmail.com>
-	<0AF90D68-14FE-4555-9293-75450B061A51@dominion.thruhere.net>
-	<5252580.R5epMZ2pSF@helios>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-X-Mailer: Apple Mail (2.1485)
-X-Gm-Message-State: ALoCoQn2koJjfhk92uh/WJJwfmrgJtPXK4wLqwoGiW05Qo2E+fF76thapn3OfdN2NdxyRUldFVbM
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2] usbutils: Upgrade usbutils to upstream v006
+	Fri, 03 Aug 2012 04:10:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=78wpBkj5gdEea7X1FL1nPMVm/AkO3UI8OOfc7OeFHTY=;
+	b=gjqgRCffuLIBiVQwHev8P+CTK7EAcZvUjxkLJpXeDaTWZY4CN2WVlUVTLnCZJMuRCK
+	OmBPCUmNYing515Q3rtubCzjZsqMctOk62W2aSW++viGoVejFXRR+DnzDEBOlPdkWipI
+	rrZz8hZdF/518cuRyPCXLoRSyo/P6mWQQYdp1gsnXgxBZ0p9E3rhLnSH3LefvdMdYmLk
+	WFgsIy6zcalj4BfNEyR+FAK2nnuzGdLJi1uF8+Eia3vqvI+3q9mhtDGyHm4iAe+JnqAD
+	mFt5kucpMqkJoMy+yuCwOD8nmsxzgudz05+YK1s2jBZWu//rB4MyD0SiTUnmuVJJE32g
+	o9jg==
+Received: by 10.14.175.7 with SMTP id y7mr1632374eel.29.1343992230910; Fri, 03
+	Aug 2012 04:10:30 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.14.97.141 with HTTP; Fri, 3 Aug 2012 04:10:00 -0700 (PDT)
+In-Reply-To: <cover.1343811985.git.liezhi.yang@windriver.com>
+References: <cover.1343811985.git.liezhi.yang@windriver.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 3 Aug 2012 04:10:00 -0700
+Message-ID: <CAMKF1srwmN9_-p5ae6999wdZGfpfXLseCnwegnQxa7ckAVOcLw@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Cc: Zhenfeng.Zhao@windriver.com
+Subject: Re: [PATCH 0/2] createrepo 0.4.11: create wrapper for python script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -52,39 +43,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Aug 2012 10:34:03 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 03 Aug 2012 11:22:11 -0000
+Content-Type: text/plain; charset=UTF-8
+
+On Wed, Aug 1, 2012 at 2:14 AM, Robert Yang <liezhi.yang@windriver.com> wrote:
+> This is used for fixing the rpm-createsolvedb.py error:
+>
+> 'import site' failed; use -v for traceback
+> Traceback (most recent call last):
+> File "/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly/build/scripts/rpm-createsolvedb.py", line 14, in
+> import sys, os
+> ImportError: No module named os
+>
+
+this series has problem I think now bitbake meta-toolchain fails for me
+
+run.populate_sdk_image.6792: line 610: rpm-createsolvedb.py: command not found
+
+did you try bitbake meta-toolchain target from scratch with this change ?
 
 
-Op 2 aug. 2012, om 17:28 heeft Paul Eggleton =
-<paul.eggleton@linux.intel.com> het volgende geschreven:
 
-> On Thursday 02 August 2012 16:14:07 Koen Kooi wrote:
->> Op 2 aug. 2012, om 15:55 heeft "Burton, Ross" <ross.burton@intel.com> =
-het=20
-> volgende geschreven:
->>> On 2 August 2012 14:50, Koen Kooi <koen@dominion.thruhere.net> =
-wrote:
->>>> That's the default value, so you can drop this hunk
->>>=20
->>> Can we settle this once and for all?  Sure, it's the default, but =
-it's
->>> also going to be added back in again the moment there's a change...
->>> I'm a fan of leaving a PR in there, even at r0, so its not =
-constantly
->>> being added and removed.
->>=20
->> The complete PR field is scheduled to get removed, so the more =
-recipes
->> without it being said to that stupid default value, the better.
->=20
-> Since such a removal will just be a blanket search and replace, what =
-difference=20
-> does it make?
-
-It allows a more gradual change, which is good for upgrade paths. =
-Insisting on adding default values will just artificially bloat the =
-removal patch.=
+> // Robert
+>
+> The following changes since commit 4f31d21bcb1c8c744e9abb33248715afe4a40af0:
+>
+>   lib/oe/lsb.py: Map unknown distributions to 'Unknown' (2012-07-31 08:02:11 +0100)
+>
+> are available in the git repository at:
+>   git://git.pokylinux.org/poky-contrib robert/createrepo
+>   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=robert/createrepo
+>
+> Robert Yang (2):
+>   createrepo 0.4.11: add rpm-createsolvedb.py
+>   createrepo 0.4.11: create wrapper for python script
+>
+>  meta/classes/rootfs_rpm.bbclass                    |    2 +-
+>  .../createrepo/createrepo}/rpm-createsolvedb.py    |    0
+>  .../createrepo/createrepo_0.4.11.bb                |   17 ++++++++++++++++-
+>  3 files changed, 17 insertions(+), 2 deletions(-)
+>  rename {scripts => meta/recipes-support/createrepo/createrepo}/rpm-createsolvedb.py (100%)
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
