@@ -1,28 +1,34 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-yx0-f175.google.com ([209.85.213.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1SxOcz-0007Il-Go
+	(envelope-from <schnitzeltony@googlemail.com>) id 1SxRO9-0004BA-A1
 	for openembedded-core@lists.openembedded.org;
-	Fri, 03 Aug 2012 22:37:45 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q73KQ37t016430
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Sat, 04 Aug 2012 01:34:37 +0200
+Received: by yenl13 with SMTP id l13so1321681yen.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 3 Aug 2012 13:26:03 -0700 (PDT)
-Received: from msp-dhcp43.wrs.com (172.25.34.43) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.309.2;
-	Fri, 3 Aug 2012 13:26:03 -0700
-Message-ID: <501C33D4.6070409@windriver.com>
-Date: Fri, 3 Aug 2012 15:25:56 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
-	rv:14.0) Gecko/20120713 Thunderbird/14.0
+	Fri, 03 Aug 2012 16:22:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type; bh=nQNb9yb2hGJXJnrqz+8shoZeCqfZnaiGSIN2eb0AQW0=;
+	b=QdDHHKkd4pBOGG6NifqA50L8nwAug9iz/OTrkGZx5xAq6FeaWAau8vB+oDr8nYa24K
+	NU6nX0g1R6OuDQ6+7bdp5JcN5haLgDtZ8RP8dgkYfPD06ZTMxHXryDe5D47mO1vCdePS
+	E4aChBzMeKg1JLrc4i+ITS4do0YRIn2Lj2mN0qihma2hs2apmdWLjYgCVDyG6dgcF2KK
+	IOfe7F8YplBbvDl4qIJWWTwzIYaSnxQCqipA8ILXFNXcyBkvHesKjXyC1M11F6tZJZQ3
+	vxcjoZQ0UbvZ8i91mJDMZRCB6rfg1cwdnaI0EnT+w3IU2WIEEIfkfqQWLuRjWSfle7hf
+	HitQ==
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
+Received: by 10.50.207.36 with SMTP id lt4mr22244igc.5.1344036174887; Fri, 03
+	Aug 2012 16:22:54 -0700 (PDT)
+Received: by 10.64.142.201 with HTTP; Fri, 3 Aug 2012 16:22:54 -0700 (PDT)
+In-Reply-To: <b41b2c46c9de5d3f63bfa146e23e8974a7a6cebf.1344022584.git.laurentiu.palcu@intel.com>
 References: <cover.1344022584.git.laurentiu.palcu@intel.com>
-	<c8630bc519bcb2d6671e5bd30f9b11ccb9d768b2.1344022584.git.laurentiu.palcu@intel.com>
-In-Reply-To: <c8630bc519bcb2d6671e5bd30f9b11ccb9d768b2.1344022584.git.laurentiu.palcu@intel.com>
-Subject: Re: [PATCH 3/5] package_rpm: export the native directory to the postinst scriptlets
+	<b41b2c46c9de5d3f63bfa146e23e8974a7a6cebf.1344022584.git.laurentiu.palcu@intel.com>
+Date: Sat, 4 Aug 2012 01:22:54 +0200
+Message-ID: <CALbNGRQjUxm0h2+YA=Tog2_JhWPKGJmdy9QyhOjSQWLRQ1eKOQ@mail.gmail.com>
+From: =?ISO-8859-1?Q?Andreas_M=FCller?= <schnitzeltony@googlemail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 4/5] gtk-icon-cache: call postinst scriplet at do_rootfs time
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,41 +43,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Aug 2012 20:37:45 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 03 Aug 2012 23:34:37 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On 8/3/12 3:19 PM, Laurentiu Palcu wrote:
-> Some postinst scriptlets test for the existence of certain files but
-> have the paths hardcoded to the target's rootfs. This patch will allow
-> us to run postinst scriptlets at do_rootfs time by calling native
-> binaries.
+On Fri, Aug 3, 2012 at 10:19 PM, Laurentiu Palcu
+<laurentiu.palcu@intel.com> wrote:
+> This will improve first boot time because building the icon cache is
+> done on host, with more processing power than the target.
 >
 > Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
 > ---
->   meta/classes/package_rpm.bbclass |    1 +
->   1 file changed, 1 insertion(+)
+>  meta/classes/gtk-icon-cache.bbclass |   10 ++--------
+>  1 file changed, 2 insertions(+), 8 deletions(-)
 >
-> diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
-> index 50e9b31..113b19c 100644
-> --- a/meta/classes/package_rpm.bbclass
-> +++ b/meta/classes/package_rpm.bbclass
-> @@ -443,6 +443,7 @@ export D="${target_rootfs}"
->   export OFFLINE_ROOT="\$D"
->   export IPKG_OFFLINE_ROOT="\$D"
->   export OPKG_OFFLINE_ROOT="\$D"
-> +export NATIVE_DIR="${STAGING_DIR_NATIVE}"
-
-Why is this needed?  Normally the host items run from the path (and should know 
-how to access any related files they need), and ${D} points to the target rootfs 
-directory for things needing full paths.
-
---Mark
-
+> diff --git a/meta/classes/gtk-icon-cache.bbclass b/meta/classes/gtk-icon-cache.bbclass
+> index 01fb2f3..2d82c54 100644
+> --- a/meta/classes/gtk-icon-cache.bbclass
+> +++ b/meta/classes/gtk-icon-cache.bbclass
+> @@ -1,18 +1,12 @@
+>  FILES_${PN} += "${datadir}/icons/hicolor"
 >
->   \$2 \$1/\$3 \$4
->   if [ \$? -ne 0 ]; then
+> -DEPENDS += "${@['hicolor-icon-theme', '']['${BPN}' == 'hicolor-icon-theme']}"
+> +DEPENDS += "${@['hicolor-icon-theme', '']['${BPN}' == 'hicolor-icon-theme']} gtk+-native"
 >
+> -# This could run on the host as icon cache files are architecture independent,
+> -# but there is no gtk-update-icon-cache built natively.
+>  gtk_icon_cache_postinst() {
+> -if [ "x$D" != "x" ]; then
+> -        exit 1
+> -fi
+> -
+>  # Update the pixbuf loaders in case they haven't been registered yet
+>  GDK_PIXBUF_MODULEDIR=${libdir}/gdk-pixbuf-2.0/2.10.0/loaders gdk-pixbuf-query-loaders --update-cache
+>
+> -for icondir in /usr/share/icons/* ; do
+> +for icondir in $D/usr/share/icons/* ; do
+>      if [ -d $icondir ] ; then
+>          gtk-update-icon-cache -fqt  $icondir
+>      fi
+> --
+> 1.7.9.5
+>
+Long time ago there was a patch introducing gtk-icon-cache to be only
+run once on the machine [1] and I am still using that. At that time I
+was asked for a more generic approach. Now I ask:
 
+1. Wouldn't it be better to have gtk-icon-cache run once even on host
+2. Or better: How about a postinst 'runonce' framework for host/machine?
+
+Andreas
+
+[1] http://patches.openembedded.org/patch/24179/
 
 
