@@ -1,25 +1,37 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail-gh0-f175.google.com ([209.85.160.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <radu.moisan@intel.com>) id 1SxDrC-0001Rr-8Q
+	(envelope-from <andrei@gherzan.ro>) id 1SxDwK-0001WH-5m
 	for openembedded-core@lists.openembedded.org;
-	Fri, 03 Aug 2012 11:07:42 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 03 Aug 2012 01:56:00 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; 
-	d="scan'208,217";a="175129908"
-Received: from dell-desktop (HELO [10.237.105.32]) ([10.237.105.32])
-	by orsmga001.jf.intel.com with ESMTP; 03 Aug 2012 01:56:00 -0700
-Message-ID: <501B928D.7060003@intel.com>
-Date: Fri, 03 Aug 2012 11:57:49 +0300
-From: Radu Moisan <radu.moisan@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:14.0) Gecko/20120714 Thunderbird/14.0
+	Fri, 03 Aug 2012 11:13:00 +0200
+Received: by ghbz2 with SMTP id z2so513909ghb.6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 03 Aug 2012 02:01:19 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:x-originating-ip:in-reply-to:references:from:date
+	:message-id:subject:to:content-type:x-gm-message-state;
+	bh=x7PE9x8rdMpvzbxR7/uXfP+o61JVKqVAMOUD1RenHlc=;
+	b=Z+q92sfGqD8TNKTdMZir3yb6/2b0yJ+THKLd6MAgX6MEYRwaVrH7T9aYbqBOeX06XV
+	AfsAzH+fOl8MKLmsMGXeS9wZnKM36rAwHps8h97vZk6xu7egznRqQqWJ9jxOq9NHE5sJ
+	3vmjIXvzaLfeaOSruZihcds+RW2nICd+sF9Ii85MArghw6ta1Rt8UmgGiUMVxJXFe22B
+	pOevPfn1mjxZeWBtiK8ncB0OQ2FgUFQg9/pj5F+y+DghHkkpjy3vLtCiSAdgNFuIxc/z
+	gZ/5mdDIFEUOFZOmmxG2ZWBlIpiHXnTPjV0yVklndvaxlaNDdFwzsDCUF7u4ih0Dv6fc
+	jstg==
+Received: by 10.50.195.234 with SMTP id ih10mr2198355igc.0.1343984478842; Fri,
+	03 Aug 2012 02:01:18 -0700 (PDT)
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
+Received: by 10.64.139.164 with HTTP; Fri, 3 Aug 2012 02:00:58 -0700 (PDT)
+X-Originating-IP: [89.121.200.106]
+In-Reply-To: <501B928D.7060003@intel.com>
 References: <501B8F3A.8000309@intel.com>
 	<CAK18fxFeUezS1VEfN+z24_0NYn7nn+w3p=HyDQ_EigJ8qForgw@mail.gmail.com>
-In-Reply-To: <CAK18fxFeUezS1VEfN+z24_0NYn7nn+w3p=HyDQ_EigJ8qForgw@mail.gmail.com>
+	<501B928D.7060003@intel.com>
+From: Andrei Gherzan <andrei@gherzan.ro>
+Date: Fri, 3 Aug 2012 12:00:58 +0300
+Message-ID: <CAK18fxE+77-tQ75csXvRZi8w_Uu1a8p6cew-DUCKz8SzEfVXSg@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Gm-Message-State: ALoCoQn0ia/1Fhg23e6/n8ZZ02dCu5elYK0RqWy5DRlVCff7R/03noRY520/63KwYF7lSv6CdSSy
 Subject: Re: while trying to update u-boot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -35,139 +47,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Aug 2012 09:07:42 -0000
-Content-Type: multipart/alternative;
-	boundary="------------090107090609020202090208"
+X-List-Received-Date: Fri, 03 Aug 2012 09:13:00 -0000
+Content-Type: multipart/alternative; boundary=14dae934125b71f0d504c658c5f1
 
---------------090107090609020202090208
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+--14dae934125b71f0d504c658c5f1
+Content-Type: text/plain; charset=ISO-8859-1
 
-Sorry, my bad, I was trying to build u-boot-fw-utils and assumed wrongly 
-that the recipe requires u-boot.inc
+On Fri, Aug 3, 2012 at 11:57 AM, Radu Moisan <radu.moisan@intel.com> wrote:
 
-Radu
+>  Sorry, my bad, I was trying to build u-boot-fw-utils and assumed wrongly
+> that the recipe requires u-boot.inc
+>
+> It happens. No problem.
 
-On 08/03/2012 11:45 AM, Andrei Gherzan wrote:
-> On Fri, Aug 3, 2012 at 11:43 AM, Radu Moisan <radu.moisan@intel.com 
-> <mailto:radu.moisan@intel.com>> wrote:
->
->     I found the following code in u-boot.inc
->
->     if not d.getVar("UBOOT_MACHINE", True):
->         PN = d.getVar("PN", True)
->         FILE = os.path.basename(d.getVar("FILE", True))
->         bb.debug(1, "To build %s, see %s for instructions on \
->                         setting up your machine config" % (PN, FILE))
->         raise bb.parse.SkipPackage("because UBOOT_MACHINE is not set")
->
->     and while I don't have UBOOT_MACHINE set, u-boot still follows
->     with no problems through do_fetch, do_configure, do_compile and so
->     on, and finishes without any problem/error. I would have expected
->     to be skipped as the above code snipped would imply, but I cannot
->     find that log message anywhere (nor any error to indicate
->     failure). Can somebody point me in the right direction with this?
->
-> Are you sure that variable is not set somewhere? Gave it a try on a 
-> machine with no u-boot defined:
->
-> ERROR: Nothing PROVIDES 'u-boot'
-> ERROR: u-boot was skipped: because UBOOT_MACHINE is not set
-> ERROR: u-boot was skipped: because UBOOT_MACHINE is not set
-> ERROR: u-boot was skipped: because UBOOT_MACHINE is not set
->
-> ag
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+ag
 
-
---------------090107090609020202090208
+--14dae934125b71f0d504c658c5f1
 Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 
-<html>
-  <head>
-    <meta content="text/html; charset=ISO-8859-1"
-      http-equiv="Content-Type">
-  </head>
-  <body bgcolor="#FFFFFF" text="#000000">
+<div class=3D"gmail_quote">On Fri, Aug 3, 2012 at 11:57 AM, Radu Moisan <sp=
+an dir=3D"ltr">&lt;<a href=3D"mailto:radu.moisan@intel.com" target=3D"_blan=
+k">radu.moisan@intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmai=
+l_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left=
+:1ex">
+
+
+ =20
+   =20
+ =20
+  <div bgcolor=3D"#FFFFFF" text=3D"#000000">
     Sorry, my bad, I was trying to build u-boot-fw-utils and assumed
-    wrongly that the recipe requires u-boot.inc<br>
-    <br>
-    Radu<br>
-    <br>
-    <div class="moz-cite-prefix">On 08/03/2012 11:45 AM, Andrei Gherzan
-      wrote:<br>
-    </div>
-    <blockquote
-cite="mid:CAK18fxFeUezS1VEfN+z24_0NYn7nn+w3p=HyDQ_EigJ8qForgw@mail.gmail.com"
-      type="cite">
-      <meta http-equiv="Content-Type" content="text/html;
-        charset=ISO-8859-1">
-      <div class="gmail_quote">On Fri, Aug 3, 2012 at 11:43 AM, Radu
-        Moisan <span dir="ltr">&lt;<a moz-do-not-send="true"
-            href="mailto:radu.moisan@intel.com" target="_blank">radu.moisan@intel.com</a>&gt;</span>
-        wrote:<br>
-        <blockquote class="gmail_quote" style="margin:0 0 0
-          .8ex;border-left:1px #ccc solid;padding-left:1ex">
-          <div bgcolor="#FFFFFF" text="#000000"> I found the following
-            code in u-boot.inc<br>
-            <br>
-            <small><font face="Droid Sans Mono">if not
-                d.getVar("UBOOT_MACHINE", True):<br>
-                &nbsp;&nbsp;&nbsp; PN = d.getVar("PN", True)<br>
-                &nbsp;&nbsp;&nbsp; FILE = os.path.basename(d.getVar("FILE", True))<br>
-                &nbsp;&nbsp;&nbsp; bb.debug(1, "To build %s, see %s for instructions on
-                \<br>
-                &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; setting up your machine config" %
-                (PN, FILE))<br>
-                &nbsp;&nbsp;&nbsp; raise bb.parse.SkipPackage("because UBOOT_MACHINE is
-                not set")</font></small><br>
-            <br>
-            and while I don't have UBOOT_MACHINE set, u-boot still
-            follows with no problems through do_fetch, do_configure,
-            do_compile and so on, and finishes without any
-            problem/error. I would have expected to be skipped as the
-            above code snipped would imply, but I cannot find that log
-            message anywhere (nor any error to indicate failure). Can
-            somebody point me in the right direction with this?<span
-              class="HOEnZb"><font color="#888888"><br>
-              </font></span></div>
-          <div bgcolor="#FFFFFF" text="#000000"><br>
-          </div>
-        </blockquote>
-        <div>&nbsp;</div>
-        <div>Are you sure that variable is not set somewhere? Gave it a
-          try on a machine with no u-boot defined:</div>
-        <div><br>
-        </div>
-        <div>
-          <div>ERROR: Nothing PROVIDES 'u-boot'</div>
-          <div>ERROR: u-boot was skipped: because UBOOT_MACHINE is not
-            set</div>
-          <div>ERROR: u-boot was skipped: because UBOOT_MACHINE is not
-            set</div>
-          <div>ERROR: u-boot was skipped: because UBOOT_MACHINE is not
-            set</div>
-        </div>
-      </div>
-      <br>
-      <div>ag</div>
-      <br>
-      <fieldset class="mimeAttachmentHeader"></fieldset>
-      <br>
-      <pre wrap="">_______________________________________________
-Openembedded-core mailing list
-<a class="moz-txt-link-abbreviated" href="mailto:Openembedded-core@lists.openembedded.org">Openembedded-core@lists.openembedded.org</a>
-<a class="moz-txt-link-freetext" href="http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core">http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core</a>
-</pre>
-    </blockquote>
-    <br>
-  </body>
-</html>
+    wrongly that the recipe requires u-boot.inc<br><br></div></blockquote><=
+div>It happens. No problem.</div><div><br></div><div>ag=A0</div></div>
 
---------------090107090609020202090208--
+--14dae934125b71f0d504c658c5f1--
