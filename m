@@ -1,41 +1,23 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1SxbiZ-0003Dn-Bb
+	(envelope-from <Jackie.Huang@windriver.com>) id 1SxeMk-0002gT-Iw
 	for openembedded-core@lists.openembedded.org;
-	Sat, 04 Aug 2012 12:36:23 +0200
-Received: by eaad12 with SMTP id d12so406508eaa.6
+	Sat, 04 Aug 2012 15:26:02 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q74DEJXr010163
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 04 Aug 2012 03:24:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date
-	:content-transfer-encoding:message-id:references:to:x-mailer
-	:x-gm-message-state;
-	bh=15G1mk++e3BStPe/Rq9fdx4Fdba1hWSduOPm6kkZwIs=;
-	b=FOcYDJP6Ubf16FJdWB7NxFR8/uf6ILo0ouidi7WT2W3fJP61vnhvA1wZn+tp9dMipn
-	O2gubNcLhUmKROrs0VVL9CrW6M+vyMi4xXnplPAztvs4mSL1Htf2RdjAiBwXDLrAEg8i
-	bv8uL3S0fGdC1mfW2mYXnsAgKgBjXrC4c+gsW96i0c2aq2x1Oitg2ela0LjtibJv0f6n
-	YOfkEWdtvnFAJyfrZelALHL9tikl8onQHMKUHuSwCLMhY6nLjoHwug3KYA82pfs2dL2B
-	66HNigQisPoOd410cT2LYONjE6ByBXYRuzLY1AZlQxC3Tb/EzWQE0SZ7LUohSzzoo0g2
-	DXgQ==
-Received: by 10.14.210.194 with SMTP id u42mr5769548eeo.11.1344075881411;
-	Sat, 04 Aug 2012 03:24:41 -0700 (PDT)
-Received: from [172.20.0.2] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
-	by mx.google.com with ESMTPS id j4sm32131934eeo.11.2012.08.04.03.24.39
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sat, 04 Aug 2012 03:24:40 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 6.0 \(1485\))
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <b41b2c46c9de5d3f63bfa146e23e8974a7a6cebf.1344022584.git.laurentiu.palcu@intel.com>
-Date: Sat, 4 Aug 2012 12:24:38 +0200
-Message-Id: <12F75F74-476B-447F-830F-3F3C44F129C5@dominion.thruhere.net>
-References: <cover.1344022584.git.laurentiu.palcu@intel.com>
-	<b41b2c46c9de5d3f63bfa146e23e8974a7a6cebf.1344022584.git.laurentiu.palcu@intel.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1485)
-X-Gm-Message-State: ALoCoQn+HPVgWf9e4izmaG8Wo9ZYpIa6hhAAZ++eTGAVvC/Jtp6UPly7JB8aIIcjPMCvdvvMhxw1
-Subject: Re: [PATCH 4/5] gtk-icon-cache: call postinst scriplet at do_rootfs time
+	Sat, 4 Aug 2012 06:14:19 -0700 (PDT)
+Received: from pek-cc-pb05l.wrs.com (128.224.157.65) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.309.2; Sat, 4 Aug 2012 06:14:18 -0700
+From: <jackie.huang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Sat, 4 Aug 2012 21:14:07 +0800
+Message-ID: <cover.1344085668.git.jackie.huang@windriver.com>
+X-Mailer: git-send-email 1.7.4
+MIME-Version: 1.0
+Subject: [PATCH 0/1] python: Fix to support the python module _bsddb built with db 5.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,20 +32,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 04 Aug 2012 10:36:23 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Sat, 04 Aug 2012 13:26:03 -0000
+Content-Type: text/plain
 
+From: Jackie Huang <jackie.huang@windriver.com>
 
-Op 3 aug. 2012, om 22:19 heeft Laurentiu Palcu =
-<laurentiu.palcu@intel.com> het volgende geschreven:
+_bsddb module in python 2.7 could be built only with db version
+between 4.1 and 4.7. A patch was added to avoid build warning
+about this for [YOCTO #1937] but not actually fixed it.
 
-> This will improve first boot time because building the icon cache is
-> done on host, with more processing power than the target.
->=20
-> Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
+This patch enable _bsddb module be built with db 5.3, and remove
+--disable-statistics from the DB5_CONFIG to fix segmentation fault
+when using _bsddb module in python.
 
-Don't forget to send a patch with PR bumps for all recipes inheriting =
-this class.=
+[YOCTO #2749]
+
+Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+---
+The following changes since commit a9d0cbe1d84bb26fc1a1f48764fe514cf9f9c548:
+
+  gcc: Bump PR since there have been several gcc changes and various problems reported and this should flush anything stale out (2012-08-03 10:32:24 +0100)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib jhuang0/bug2749_bsddb_0804
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=jhuang0/bug2749_bsddb_0804
+
+Jackie Huang (1):
+  python: Fix to support the python module _bsddb built with db 5.3
+
+ .../python/python/avoid_warning_about_bsddb.patch  |   23 -
+ .../python/python-2.7.3-berkeley-db-5.3.patch      | 1570 ++++++++++++++++++++
+ .../python/python-2.7.3-remove-bsdb-rpath.patch    |   22 +
+ meta/recipes-devtools/python/python_2.7.3.bb       |    5 +-
+ meta/recipes-support/db/db_5.3.15.bb               |    4 +-
+ 5 files changed, 1597 insertions(+), 27 deletions(-)
+ delete mode 100644 meta/recipes-devtools/python/python/avoid_warning_about_bsddb.patch
+ create mode 100644 meta/recipes-devtools/python/python/python-2.7.3-berkeley-db-5.3.patch
+ create mode 100644 meta/recipes-devtools/python/python/python-2.7.3-remove-bsdb-rpath.patch
+
+-- 
+1.7.4
+
 
 
