@@ -1,26 +1,37 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail-ob0-f175.google.com ([209.85.214.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <laurentiu.palcu@intel.com>) id 1SxaOb-0001hD-Ai
+	(envelope-from <schnitzeltony@googlemail.com>) id 1SxarN-00020o-Vc
 	for openembedded-core@lists.openembedded.org;
-	Sat, 04 Aug 2012 11:11:41 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 04 Aug 2012 01:59:58 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="175615736"
-Received: from unknown (HELO [10.252.121.71]) ([10.252.121.71])
-	by orsmga001.jf.intel.com with ESMTP; 04 Aug 2012 01:59:57 -0700
-Message-ID: <501CE48C.9090202@intel.com>
-Date: Sat, 04 Aug 2012 11:59:56 +0300
-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:14.0) Gecko/20120714 Thunderbird/14.0
+	Sat, 04 Aug 2012 11:41:26 +0200
+Received: by obcva7 with SMTP id va7so2237988obc.6
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 04 Aug 2012 02:29:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type:content-transfer-encoding;
+	bh=GPf3SgbV3guY+t8JdeB571Y7USlDhNVoiMU2Fy9Qhlg=;
+	b=lG0TMSM+XkxBdF3SIvaZacBtyuZ5yiiDua/X3jOE4JgNJrChbzAXhnAtEjBlc5hI+r
+	lK9yHuCRDlUNEwEkjDX82S5Yf0q+wWEgQrTEmBtgKq7zjDloK0b1hwlnEfuPrI33ZwTV
+	1NjHKHF/zFI9PjXPWMsr/wWdsQWuRT5wfvm2ERcxLQcIqaSd+Pm/B5Cv+AQcSkPw5mOe
+	GLpepZSbol/lMcgR0f572fmfX+uugnP+sZBZ1skEkBOzTQ91o7qkHSP/ju4/wMexfEcU
+	SPqXvQp0FFAIuXYPA0D+FUWYdFOh3p52H+g0PCBVOUc9XYFf6gqmW9Nrixsai4YyLs+S
+	E03Q==
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
+Received: by 10.50.208.34 with SMTP id mb2mr829346igc.5.1344072583005; Sat, 04
+	Aug 2012 02:29:43 -0700 (PDT)
+Received: by 10.64.142.201 with HTTP; Sat, 4 Aug 2012 02:29:42 -0700 (PDT)
+In-Reply-To: <501CD3EE.3080100@intel.com>
 References: <cover.1344022584.git.laurentiu.palcu@intel.com>
-	<c8630bc519bcb2d6671e5bd30f9b11ccb9d768b2.1344022584.git.laurentiu.palcu@intel.com>
-	<501C33D4.6070409@windriver.com> <501CD352.7080908@intel.com>
-In-Reply-To: <501CD352.7080908@intel.com>
-Subject: Re: [PATCH 3/5] package_rpm: export the native directory to the postinst scriptlets
+	<b41b2c46c9de5d3f63bfa146e23e8974a7a6cebf.1344022584.git.laurentiu.palcu@intel.com>
+	<CALbNGRQjUxm0h2+YA=Tog2_JhWPKGJmdy9QyhOjSQWLRQ1eKOQ@mail.gmail.com>
+	<501CD3EE.3080100@intel.com>
+Date: Sat, 4 Aug 2012 11:29:42 +0200
+Message-ID: <CALbNGRTJM5=Xt4NqoEuEQa2U-eMtmQzy42HmwRK0zvkq-zK-3Q@mail.gmail.com>
+From: =?ISO-8859-1?Q?Andreas_M=FCller?= <schnitzeltony@googlemail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 4/5] gtk-icon-cache: call postinst scriplet at do_rootfs time
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,76 +46,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 04 Aug 2012 09:11:41 -0000
+X-List-Received-Date: Sat, 04 Aug 2012 09:41:26 -0000
 Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 
-
-
-On 08/04/2012 10:46 AM, Laurentiu Palcu wrote:
-> 
-> 
-> On 08/03/2012 11:25 PM, Mark Hatle wrote:
->> On 8/3/12 3:19 PM, Laurentiu Palcu wrote:
->>> Some postinst scriptlets test for the existence of certain files but
->>> have the paths hardcoded to the target's rootfs. This patch will allow
->>> us to run postinst scriptlets at do_rootfs time by calling native
->>> binaries.
+On Sat, Aug 4, 2012 at 9:49 AM, Laurentiu Palcu
+<laurentiu.palcu@intel.com> wrote:
+>
+>
+> On 08/04/2012 02:22 AM, Andreas M=FCller wrote:
+>> On Fri, Aug 3, 2012 at 10:19 PM, Laurentiu Palcu
+>> <laurentiu.palcu@intel.com> wrote:
+>>> This will improve first boot time because building the icon cache is
+>>> done on host, with more processing power than the target.
 >>>
 >>> Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
 >>> ---
->>>   meta/classes/package_rpm.bbclass |    1 +
->>>   1 file changed, 1 insertion(+)
+>>>  meta/classes/gtk-icon-cache.bbclass |   10 ++--------
+>>>  1 file changed, 2 insertions(+), 8 deletions(-)
 >>>
->>> diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
->>> index 50e9b31..113b19c 100644
->>> --- a/meta/classes/package_rpm.bbclass
->>> +++ b/meta/classes/package_rpm.bbclass
->>> @@ -443,6 +443,7 @@ export D="${target_rootfs}"
->>>   export OFFLINE_ROOT="\$D"
->>>   export IPKG_OFFLINE_ROOT="\$D"
->>>   export OPKG_OFFLINE_ROOT="\$D"
->>> +export NATIVE_DIR="${STAGING_DIR_NATIVE}"
+>>> diff --git a/meta/classes/gtk-icon-cache.bbclass b/meta/classes/gtk-ico=
+n-cache.bbclass
+>>> index 01fb2f3..2d82c54 100644
+>>> --- a/meta/classes/gtk-icon-cache.bbclass
+>>> +++ b/meta/classes/gtk-icon-cache.bbclass
+>>> @@ -1,18 +1,12 @@
+>>>  FILES_${PN} +=3D "${datadir}/icons/hicolor"
+>>>
+>>> -DEPENDS +=3D "${@['hicolor-icon-theme', '']['${BPN}' =3D=3D 'hicolor-i=
+con-theme']}"
+>>> +DEPENDS +=3D "${@['hicolor-icon-theme', '']['${BPN}' =3D=3D 'hicolor-i=
+con-theme']} gtk+-native"
+>>>
+>>> -# This could run on the host as icon cache files are architecture inde=
+pendent,
+>>> -# but there is no gtk-update-icon-cache built natively.
+>>>  gtk_icon_cache_postinst() {
+>>> -if [ "x$D" !=3D "x" ]; then
+>>> -        exit 1
+>>> -fi
+>>> -
+>>>  # Update the pixbuf loaders in case they haven't been registered yet
+>>>  GDK_PIXBUF_MODULEDIR=3D${libdir}/gdk-pixbuf-2.0/2.10.0/loaders gdk-pix=
+buf-query-loaders --update-cache
+>>>
+>>> -for icondir in /usr/share/icons/* ; do
+>>> +for icondir in $D/usr/share/icons/* ; do
+>>>      if [ -d $icondir ] ; then
+>>>          gtk-update-icon-cache -fqt  $icondir
+>>>      fi
+>>> --
+>>> 1.7.9.5
+>>>
+>> Long time ago there was a patch introducing gtk-icon-cache to be only
+>> run once on the machine [1] and I am still using that. At that time I
+>> was asked for a more generic approach. Now I ask:
 >>
->> Why is this needed?  Normally the host items run from the path (and should know 
->> how to access any related files they need), and ${D} points to the target rootfs 
->> directory for things needing full paths.
-> Hmm, I think you're perfectly right... I needed it because the
-> gdk-pixbuf postinst scriplet tested the existence of
-> gtk-update-icon-cache binary but, now that you mentioned it, I realized
-> it might work without it. Test the existence of the binary on target
-> rootfs but run the native one from PATH.
-However, I just remembered that the rpm packages are not installed in
-dependency order... So, there might be packages, that need
-gtk-update-icon-cache, installed before libgtk+ is installed. In this
-case, the postinst scriptlets that test the existence of the binary on
-the target rootfs will fail at do_roofts time... Unless a solution is
-found to install the rpm packages in dependency order. BTW, is this
-planned to be fixed?
+>> 1. Wouldn't it be better to have gtk-icon-cache run once even on host
+> But this is what these patches do. Make gtk-update-icon-cache run on
+> host, when the target rootfs is constructed, rather than running it on
+> target, at first boot.
+As far as I can see gtk-icon-cache is run for each package - how much
+extra build time at do_rootfs is to expect?
 
-Laurentiu
-> 
-> Thanks for the tip,
+Andreas
+>
+> Thanks,
 > Laurentiu
+>
+>> 2. Or better: How about a postinst 'runonce' framework for host/machine?
 >>
->> --Mark
+>> Andreas
 >>
->>>
->>>   \$2 \$1/\$3 \$4
->>>   if [ \$? -ne 0 ]; then
->>>
+>> [1] http://patches.openembedded.org/patch/24179/
 >>
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->>
-> 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-> 
 
 
