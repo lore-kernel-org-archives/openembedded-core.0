@@ -1,29 +1,26 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Liezhi.Yang@windriver.com>) id 1SxYed-0008FF-98
+	(envelope-from <laurentiu.palcu@intel.com>) id 1SxZFS-0000DF-G2
 	for openembedded-core@lists.openembedded.org;
-	Sat, 04 Aug 2012 09:20:07 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q7478NVY009922
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sat, 4 Aug 2012 00:08:23 -0700 (PDT)
-Received: from [128.224.163.142] (128.224.163.142) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.309.2;
-	Sat, 4 Aug 2012 00:08:22 -0700
-Message-ID: <501CCA64.5030404@windriver.com>
-Date: Sat, 4 Aug 2012 15:08:20 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:13.0) Gecko/20120615 Thunderbird/13.0.1
+	Sat, 04 Aug 2012 09:58:10 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 04 Aug 2012 00:46:28 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="202190710"
+Received: from unknown (HELO [10.252.121.74]) ([10.252.121.74])
+	by fmsmga002.fm.intel.com with ESMTP; 04 Aug 2012 00:46:27 -0700
+Message-ID: <501CD352.7080908@intel.com>
+Date: Sat, 04 Aug 2012 10:46:26 +0300
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:14.0) Gecko/20120714 Thunderbird/14.0
 MIME-Version: 1.0
-To: Khem Raj <raj.khem@gmail.com>
-References: <cover.1343811985.git.liezhi.yang@windriver.com>
-	<CAMKF1srwmN9_-p5ae6999wdZGfpfXLseCnwegnQxa7ckAVOcLw@mail.gmail.com>
-	<501CC975.2030009@windriver.com>
-In-Reply-To: <501CC975.2030009@windriver.com>
-Cc: Zhenfeng.Zhao@windriver.com, Patches,
-	oe-core layer <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/2] createrepo 0.4.11: create wrapper for python script
+To: openembedded-core@lists.openembedded.org
+References: <cover.1344022584.git.laurentiu.palcu@intel.com>
+	<c8630bc519bcb2d6671e5bd30f9b11ccb9d768b2.1344022584.git.laurentiu.palcu@intel.com>
+	<501C33D4.6070409@windriver.com>
+In-Reply-To: <501C33D4.6070409@windriver.com>
+Subject: Re: [PATCH 3/5] package_rpm: export the native directory to the postinst scriptlets
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,85 +35,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 04 Aug 2012 07:20:07 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Sat, 04 Aug 2012 07:58:10 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 
 
-Hi Khem,
 
-I just noticed that you had sent a pull request for it, thank you very much:-)
+On 08/03/2012 11:25 PM, Mark Hatle wrote:
+> On 8/3/12 3:19 PM, Laurentiu Palcu wrote:
+>> Some postinst scriptlets test for the existence of certain files but
+>> have the paths hardcoded to the target's rootfs. This patch will allow
+>> us to run postinst scriptlets at do_rootfs time by calling native
+>> binaries.
+>>
+>> Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
+>> ---
+>>   meta/classes/package_rpm.bbclass |    1 +
+>>   1 file changed, 1 insertion(+)
+>>
+>> diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
+>> index 50e9b31..113b19c 100644
+>> --- a/meta/classes/package_rpm.bbclass
+>> +++ b/meta/classes/package_rpm.bbclass
+>> @@ -443,6 +443,7 @@ export D="${target_rootfs}"
+>>   export OFFLINE_ROOT="\$D"
+>>   export IPKG_OFFLINE_ROOT="\$D"
+>>   export OPKG_OFFLINE_ROOT="\$D"
+>> +export NATIVE_DIR="${STAGING_DIR_NATIVE}"
+> 
+> Why is this needed?  Normally the host items run from the path (and should know 
+> how to access any related files they need), and ${D} points to the target rootfs 
+> directory for things needing full paths.
+Hmm, I think you're perfectly right... I needed it because the
+gdk-pixbuf postinst scriplet tested the existence of
+gtk-update-icon-cache binary but, now that you mentioned it, I realized
+it might work without it. Test the existence of the binary on target
+rootfs but run the native one from PATH.
 
-// Robert
-
-On 08/04/2012 03:04 PM, Robert Yang wrote:
->
->
-> On 08/03/2012 07:10 PM, Khem Raj wrote:
->> On Wed, Aug 1, 2012 at 2:14 AM, Robert Yang <liezhi.yang@windriver.com> wrote:
->>> This is used for fixing the rpm-createsolvedb.py error:
->>>
->>> 'import site' failed; use -v for traceback
->>> Traceback (most recent call last):
->>> File
->>> "/srv/home/pokybuild/yocto-autobuilder/yocto-slave/nightly/build/scripts/rpm-createsolvedb.py",
->>> line 14, in
->>> import sys, os
->>> ImportError: No module named os
->>>
+Thanks for the tip,
+Laurentiu
+> 
+> --Mark
+> 
 >>
->> this series has problem I think now bitbake meta-toolchain fails for me
+>>   \$2 \$1/\$3 \$4
+>>   if [ \$? -ne 0 ]; then
 >>
->> run.populate_sdk_image.6792: line 610: rpm-createsolvedb.py: command not found
->>
->> did you try bitbake meta-toolchain target from scratch with this change ?
->>
->
-> Hi Khem,
->
-> I'm sorry for this, this is because I hadn't fixed the depends of
-> populate_sdk_image, "bitbake createrepo-native" firstly can be a workaround,
-> I will send a official fix sooner.
->
-> // Robert
->
->>
->>
->>> // Robert
->>>
->>> The following changes since commit 4f31d21bcb1c8c744e9abb33248715afe4a40af0:
->>>
->>>    lib/oe/lsb.py: Map unknown distributions to 'Unknown' (2012-07-31 08:02:11
->>> +0100)
->>>
->>> are available in the git repository at:
->>>    git://git.pokylinux.org/poky-contrib robert/createrepo
->>>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=robert/createrepo
->>>
->>> Robert Yang (2):
->>>    createrepo 0.4.11: add rpm-createsolvedb.py
->>>    createrepo 0.4.11: create wrapper for python script
->>>
->>>   meta/classes/rootfs_rpm.bbclass                    |    2 +-
->>>   .../createrepo/createrepo}/rpm-createsolvedb.py    |    0
->>>   .../createrepo/createrepo_0.4.11.bb                |   17 ++++++++++++++++-
->>>   3 files changed, 17 insertions(+), 2 deletions(-)
->>>   rename {scripts =>
->>> meta/recipes-support/createrepo/createrepo}/rpm-createsolvedb.py (100%)
->>>
->>>
->>> _______________________________________________
->>> Openembedded-core mailing list
->>> Openembedded-core@lists.openembedded.org
->>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->>
->>
->
-
+> 
+> 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+> 
 
 
