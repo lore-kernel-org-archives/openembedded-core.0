@@ -1,26 +1,26 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <laurentiu.palcu@intel.com>) id 1SxZFS-0000DF-G2
+	(envelope-from <laurentiu.palcu@intel.com>) id 1SxZI1-0000fR-Cs
 	for openembedded-core@lists.openembedded.org;
-	Sat, 04 Aug 2012 09:58:10 +0200
+	Sat, 04 Aug 2012 10:00:49 +0200
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 04 Aug 2012 00:46:28 -0700
+	by fmsmga101.fm.intel.com with ESMTP; 04 Aug 2012 00:49:03 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="202190710"
+X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="202191802"
 Received: from unknown (HELO [10.252.121.74]) ([10.252.121.74])
-	by fmsmga002.fm.intel.com with ESMTP; 04 Aug 2012 00:46:27 -0700
-Message-ID: <501CD352.7080908@intel.com>
-Date: Sat, 04 Aug 2012 10:46:26 +0300
+	by fmsmga002.fm.intel.com with ESMTP; 04 Aug 2012 00:49:02 -0700
+Message-ID: <501CD3EE.3080100@intel.com>
+Date: Sat, 04 Aug 2012 10:49:02 +0300
 From: Laurentiu Palcu <laurentiu.palcu@intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:14.0) Gecko/20120714 Thunderbird/14.0
 MIME-Version: 1.0
 To: openembedded-core@lists.openembedded.org
 References: <cover.1344022584.git.laurentiu.palcu@intel.com>
-	<c8630bc519bcb2d6671e5bd30f9b11ccb9d768b2.1344022584.git.laurentiu.palcu@intel.com>
-	<501C33D4.6070409@windriver.com>
-In-Reply-To: <501C33D4.6070409@windriver.com>
-Subject: Re: [PATCH 3/5] package_rpm: export the native directory to the postinst scriptlets
+	<b41b2c46c9de5d3f63bfa146e23e8974a7a6cebf.1344022584.git.laurentiu.palcu@intel.com>
+	<CALbNGRQjUxm0h2+YA=Tog2_JhWPKGJmdy9QyhOjSQWLRQ1eKOQ@mail.gmail.com>
+In-Reply-To: <CALbNGRQjUxm0h2+YA=Tog2_JhWPKGJmdy9QyhOjSQWLRQ1eKOQ@mail.gmail.com>
+Subject: Re: [PATCH 4/5] gtk-icon-cache: call postinst scriplet at do_rootfs time
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,53 +35,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 04 Aug 2012 07:58:10 -0000
+X-List-Received-Date: Sat, 04 Aug 2012 08:00:49 -0000
 Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
 
 
-On 08/03/2012 11:25 PM, Mark Hatle wrote:
-> On 8/3/12 3:19 PM, Laurentiu Palcu wrote:
->> Some postinst scriptlets test for the existence of certain files but
->> have the paths hardcoded to the target's rootfs. This patch will allow
->> us to run postinst scriptlets at do_rootfs time by calling native
->> binaries.
+On 08/04/2012 02:22 AM, Andreas Müller wrote:
+> On Fri, Aug 3, 2012 at 10:19 PM, Laurentiu Palcu
+> <laurentiu.palcu@intel.com> wrote:
+>> This will improve first boot time because building the icon cache is
+>> done on host, with more processing power than the target.
 >>
 >> Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
 >> ---
->>   meta/classes/package_rpm.bbclass |    1 +
->>   1 file changed, 1 insertion(+)
+>>  meta/classes/gtk-icon-cache.bbclass |   10 ++--------
+>>  1 file changed, 2 insertions(+), 8 deletions(-)
 >>
->> diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
->> index 50e9b31..113b19c 100644
->> --- a/meta/classes/package_rpm.bbclass
->> +++ b/meta/classes/package_rpm.bbclass
->> @@ -443,6 +443,7 @@ export D="${target_rootfs}"
->>   export OFFLINE_ROOT="\$D"
->>   export IPKG_OFFLINE_ROOT="\$D"
->>   export OPKG_OFFLINE_ROOT="\$D"
->> +export NATIVE_DIR="${STAGING_DIR_NATIVE}"
+>> diff --git a/meta/classes/gtk-icon-cache.bbclass b/meta/classes/gtk-icon-cache.bbclass
+>> index 01fb2f3..2d82c54 100644
+>> --- a/meta/classes/gtk-icon-cache.bbclass
+>> +++ b/meta/classes/gtk-icon-cache.bbclass
+>> @@ -1,18 +1,12 @@
+>>  FILES_${PN} += "${datadir}/icons/hicolor"
+>>
+>> -DEPENDS += "${@['hicolor-icon-theme', '']['${BPN}' == 'hicolor-icon-theme']}"
+>> +DEPENDS += "${@['hicolor-icon-theme', '']['${BPN}' == 'hicolor-icon-theme']} gtk+-native"
+>>
+>> -# This could run on the host as icon cache files are architecture independent,
+>> -# but there is no gtk-update-icon-cache built natively.
+>>  gtk_icon_cache_postinst() {
+>> -if [ "x$D" != "x" ]; then
+>> -        exit 1
+>> -fi
+>> -
+>>  # Update the pixbuf loaders in case they haven't been registered yet
+>>  GDK_PIXBUF_MODULEDIR=${libdir}/gdk-pixbuf-2.0/2.10.0/loaders gdk-pixbuf-query-loaders --update-cache
+>>
+>> -for icondir in /usr/share/icons/* ; do
+>> +for icondir in $D/usr/share/icons/* ; do
+>>      if [ -d $icondir ] ; then
+>>          gtk-update-icon-cache -fqt  $icondir
+>>      fi
+>> --
+>> 1.7.9.5
+>>
+> Long time ago there was a patch introducing gtk-icon-cache to be only
+> run once on the machine [1] and I am still using that. At that time I
+> was asked for a more generic approach. Now I ask:
 > 
-> Why is this needed?  Normally the host items run from the path (and should know 
-> how to access any related files they need), and ${D} points to the target rootfs 
-> directory for things needing full paths.
-Hmm, I think you're perfectly right... I needed it because the
-gdk-pixbuf postinst scriplet tested the existence of
-gtk-update-icon-cache binary but, now that you mentioned it, I realized
-it might work without it. Test the existence of the binary on target
-rootfs but run the native one from PATH.
+> 1. Wouldn't it be better to have gtk-icon-cache run once even on host
+But this is what these patches do. Make gtk-update-icon-cache run on
+host, when the target rootfs is constructed, rather than running it on
+target, at first boot.
 
-Thanks for the tip,
+Thanks,
 Laurentiu
+
+> 2. Or better: How about a postinst 'runonce' framework for host/machine?
 > 
-> --Mark
+> Andreas
 > 
->>
->>   \$2 \$1/\$3 \$4
->>   if [ \$? -ne 0 ]; then
->>
-> 
+> [1] http://patches.openembedded.org/patch/24179/
 > 
 > _______________________________________________
 > Openembedded-core mailing list
