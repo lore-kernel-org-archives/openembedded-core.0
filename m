@@ -1,30 +1,35 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mail-gg0-f175.google.com ([209.85.161.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1SxRmW-0004oU-Qr
+	(envelope-from <bruce.ashfield@gmail.com>) id 1SxSOq-0005mm-F0
 	for openembedded-core@lists.openembedded.org;
-	Sat, 04 Aug 2012 01:59:49 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 03 Aug 2012 16:48:06 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.71,315,1320652800"; d="scan'208";a="202100125"
-Received: from unknown (HELO envy.home) ([10.255.12.180])
-	by fmsmga002.fm.intel.com with ESMTP; 03 Aug 2012 16:48:06 -0700
-Message-ID: <501C62C9.9090707@linux.intel.com>
-Date: Fri, 03 Aug 2012 16:46:17 -0700
-From: Darren Hart <dvhart@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:14.0) Gecko/20120717 Thunderbird/14.0
+	Sat, 04 Aug 2012 02:39:24 +0200
+Received: by ggmq1 with SMTP id q1so1344644ggm.6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 03 Aug 2012 17:27:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=hcXBn6UvPmFzG53iaQEYVHb39ac0GO8XGxiyDIa1qbg=;
+	b=dcrlHritPNCY7WQktGVR17SvB3K463dZmEx1cbO1Onx5y/OXwQ1jkEl1o/uIiFvAwV
+	JXFH7U6iPBdoX88NhdExpb2Oc24AKZaK/WmauGksCps0coQcJT1mTmVT8lQeWoG9UTKM
+	PJkCoZZabANufP4aTr+sxvhledsCsZRvrJo0/tLO2rUGCNVR8C7zuCxrE5gmQmKGCBTJ
+	HJn9RO3yXX3u1Qg8/7wD5eNkrjSi1aW7FiIrvTHw18m5P2Emch+xqZOov30tivEAXJNk
+	23iJzgYbMlDnLBHpOHFnfpPmy+tqPWuwReIIwe0NMQ/DJGvKTQES4/7OJy0PfmM5tfWn
+	hFJg==
 MIME-Version: 1.0
+Received: by 10.50.94.133 with SMTP id dc5mr103476igb.16.1344040062126; Fri,
+	03 Aug 2012 17:27:42 -0700 (PDT)
+Received: by 10.231.239.131 with HTTP; Fri, 3 Aug 2012 17:27:42 -0700 (PDT)
+In-Reply-To: <c3edc1c41a90ba3917f41d8c6489bf049e19abe7.1344024266.git.dvhart@linux.intel.com>
+References: <cover.1344024266.git.dvhart@linux.intel.com>
+	<c3edc1c41a90ba3917f41d8c6489bf049e19abe7.1344024266.git.dvhart@linux.intel.com>
+Date: Fri, 3 Aug 2012 20:27:42 -0400
+Message-ID: <CADkTA4OkBtUGOCazd1yboh2unhU-ADQD88VmYyvU7+wNfaH_gg@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1343199345.git.Xin.Ouyang@windriver.com>
-	<969F26A8BAB325438E7EB80D3C3134FB16174E03@IRSMSX102.ger.corp.intel.com>
-	<1343331612.7600.19.camel@ted>
-	<1343335483.4888.3.camel@joshua-dell-xps.jf.intel.com>
-	<7A8E501D-1792-4693-8EF4-C51E08B850FC@chargestorm.se>
-In-Reply-To: <7A8E501D-1792-4693-8EF4-C51E08B850FC@chargestorm.se>
-X-Enigmail-Version: 1.4.3
-Subject: Re: Package recipes change proposal (system-wide) -	name wise
+Cc: Darren Hart <dvhart@linux.intel.com>
+Subject: Re: [PATCH 1/1] linux-yocto-custom: Clarify usage and clear COMPATIBLE_MACHINE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,66 +44,142 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Aug 2012 23:59:49 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sat, 04 Aug 2012 00:39:24 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+
+On Fri, Aug 3, 2012 at 7:29 PM, Darren Hart <dvhart@linux.intel.com> wrote:
+> There has been some confusion over proper use of the linux-yocto-custom
+> recipe. It is not intended to build as is from meta-skeleton. It should
+> be modified via a bbappend file to provide a Linux kernel config at the
+> very least.
+>
+> Update the commentary to make this requirement more explicit. Add some
+> additional detail about how to create a bbappend file and how and when
+> to modify the various variables.
+>
+> Clear COMPATIBLE_MACHINE so bitbake will not attempt to build the recipe
+> unless the user explicitly adds there machine to the variable, which
+> should encourage them to read the recipe comments before attempting to
+> build it.
+>
+> Signed-off-by: Darren Hart <dvhart@linux.intel.com>
+> CC: Bruce Ashfield <bruce.ashfield@windriver.com>
+> CC: Tom Zanussi <tom.zanussi@intel.com>
+> ---
+>  .../recipes-kernel/linux/linux-yocto-custom.bb     | 52 +++++++++++++++-------
+>  1 file changed, 35 insertions(+), 17 deletions(-)
+>
+> diff --git a/meta-skeleton/recipes-kernel/linux/linux-yocto-custom.bb b/meta-skeleton/recipes-kernel/linux/linux-yocto-custom.bb
+> index 55f0c38..dd98228 100644
+> --- a/meta-skeleton/recipes-kernel/linux/linux-yocto-custom.bb
+> +++ b/meta-skeleton/recipes-kernel/linux/linux-yocto-custom.bb
+> @@ -1,17 +1,35 @@
+>  # linux-yocto-custom.bb:
+>  #
+> -#   Provides an example/minimal kernel recipe that uses the linux-yocto
+> -#   and oe-core kernel classes to apply a subset of yocto kernel
+> -#   management to git managed kernel repositories.
+> +#   An example kernel recipe that uses the linux-yocto and oe-core
+> +#   kernel classes to apply a subset of yocto kernel management to git
+> +#   managed kernel repositories.
+> +#
+> +#   To use linux-yocto-custom in your layer, create a
+> +#   linux-yocto-custom.bb file containing at least the following lines:
+
+s/linux-yocto-custom.bb/linux-yocto-custom.bbappend/
+
+> +#
+> +#     FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
+> +#     COMPATIBLE_MACHINE_yourmachine = "yourmachine"
+> +#
+> +#   You must also provide a Linux kernel configuration. The most direct
+> +#   method is to copy your .config to files/defconfig in your layer,
+> +#   parallel to the linux-yocto-custom.bbappend file.
+
+hmm. parallel ready odd to me, but I don't have a better suggestion.
+
+> +#
+> +#   To use the yocto kernel tooling to generate a BSP configuration
+> +#   using modular configuration fragments, see the yocto-bsp and
+> +#   yocto-kernel tools documentation.
+> +#
+> +# Warning:
+> +#
+> +#   Building this example without providing a defconfig or BSP
+> +#   configuration will result in build or boot errors. This is not a
+> +#   bug.
+> +#
+>  #
+>  # Notes:
+>  #
+> -#   kconfig(s): the kernel must be configured with a defconfig, or via
+> -#               configuration fragment(s). Either of these can be added
+> -#               via bbappend.
+
+Leaving the part about configuration fragments might be useful.
+
+.. but this looks good, lets see if it saves a few questions :)
+
+Cheers,
+
+Bruce
+
+> -#   patches: patches can be merged into to the source git tree itself, added
+> -#            using standard bbappend syntax or controlled via .scc feature
+> -#            descriptions (also via bbappends)
+> +#   patches: patches can be merged into to the source git tree itself,
+> +#            added via the SRC_URI, or controlled via a BSP
+> +#            configuration.
+>  #
+>  #   example configuration addition:
+>  #            SRC_URI += "file://smp.cfg"
+> @@ -20,25 +38,25 @@
+>  #   example feature addition (for kernel v3.4 only):
+>  #            SRC_URI += "file://feature.scc"
+>  #
+> -# Warning:
+> -#
+> -#   Building the sample kernel tree (kernel.org) without providing any
+> -#   configuration will result in build or boot errors. This is not a bug
+> -#   it is a required element for creating a valid kernel.
+> -#
+>
+>  inherit kernel
+>  require recipes-kernel/linux/linux-yocto.inc
+>
+> +# Override SRC_URI in a bbappend file to point at a different source
+> +# tree if you do not want to build from Linus' tree.
+>  SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git;protocol=git;nocheckout=1"
+>
+>  LINUX_VERSION ?= "3.4"
+>  LINUX_VERSION_EXTENSION ?= "-custom"
+>
+> +# Override SRCREV to point to a different commit in a bbappend file to
+> +# build a different release of the Linux kernel.
+>  # tag: v3.4 76e10d158efb6d4516018846f60c2ab5501900bc
+>  SRCREV="76e10d158efb6d4516018846f60c2ab5501900bc"
+>
+> -PR = "r0"
+> +PR = "r1"
+>  PV = "${LINUX_VERSION}+git${SRCPV}"
+>
+> -COMPATIBLE_MACHINE = "(qemuarm|qemux86|qemuppc|qemumips|qemux86-64)"
+> +# Override COMPATIBLE_MACHINE to include your machine in a bbappend
+> +# file. Leaving it empty here ensures an early explicit build failure.
+> +COMPATIBLE_MACHINE = "(^$)"
+> --
+> 1.7.11.2
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
-
-On 07/28/2012 02:22 AM, Anders Darander wrote:
-> 
-> On 26 jul 2012, at 22:43, "Joshua Lock" <josh@linux.intel.com>
-> wrote:
->> On Thu, 2012-07-26 at 20:40 +0100, Richard Purdie wrote:
->>> 
->>> Also, as others have mentioned, git can detect move operations if
->>> you tell it to.
->> 
->> FYI the create-pull-request script passes -M40 to git
->> format-patch, which tells git to:
->> 
->> "should consider a delete/add pair to be a rename if more than 40%
->> of the file hasn’t changed."
->> 
->> Though with the size of some recipes perhaps the -M value should
->> be increased, or not passed at all?
-> 
-> No, the -M option shouldn't be removed. Why would you like to
-> increase the percentage needed to handle a delete/add pair as a
-> rename? Rather, it could very well be lowered even more, though the
-> current 40% might be a good compromise.
-> 
-> Detecting a delete/add pair as a rename operation with some further
-> modifications of the recipe does make reviewing the upgrade patches a
-> lot easier...
-
-Right, Anders submitted the -M40 change deliberately:
-
-This was introduced as:
-
-commit c8294d1e6da20f82d444a9d866bf5444a002dc5c
-Author: Anders Darander <anders@chargestorm.se>
-Date:   Tue Aug 16 15:41:34 2011 +0200
-
-    create-pull-request: increase likelihood of detecting a rename
-
-    Decrease the similarity percentage needed to recognize a
-delete/add-pair follow
-    as a rename.
-    This make reviewing patches easier.
-
-    (From OE-Core rev: 3944f5e02d22b70b3bcd733a80f005dbd8e248a2)
-
-    Signed-off-by: Anders Darander <anders@chargestorm.se>
-    Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-
-This hasn't been an issue for me, but I could see that with some of the
-minimal recipes that this could trigger some false renames. Still, I
-don't see it as a problem.
 
 -- 
-Darren Hart
-Intel Open Source Technology Center
-Yocto Project - Technical Lead - Linux Kernel
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
 
