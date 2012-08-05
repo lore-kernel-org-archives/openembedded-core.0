@@ -1,39 +1,39 @@
-Received: from mail-we0-f175.google.com ([74.125.82.175])
+Received: from mail-wg0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <javier@dowhile0.org>) id 1Sy3Lu-0007eD-6w
+	(envelope-from <javier@dowhile0.org>) id 1Sy3Lw-0007cz-1P
 	for openembedded-core@lists.openembedded.org;
-	Sun, 05 Aug 2012 18:06:50 +0200
-Received: by mail-we0-f175.google.com with SMTP id r6so1373227wey.6
+	Sun, 05 Aug 2012 18:06:52 +0200
+Received: by mail-wg0-f43.google.com with SMTP id dr1so1751842wgb.24
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 05 Aug 2012 08:55:09 -0700 (PDT)
+	Sun, 05 Aug 2012 08:55:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references
 	:x-gm-message-state;
-	bh=YCbgqQPjmVBtZ8T3EUKonmmgktw5btbwN4xEO/7WzQY=;
-	b=kh6r1L0Q5/Z5ZKZUO9vVSMqdLdiax1i91uUxk+elG7ulFAP55f2SOjC2hyusRW6Rnz
-	hGv0Izs92GpARQxODxPhccU0sVIjBplFiV1emeNdxxGnmqit5vdAu+ixxwYEYwSmFi9x
-	UAPXlgALZ1ySkMlZgfTDafJ+kpfXOVmew2DNTl6P6DeMHoarrVd5xV4GpMH91jcAtGec
-	K9hBcmgkHcTFxhqCx1WXpY4Ps1heirSnuzMJqV0cxZoMqjoKI386jbf3/rUAHssZw0vo
-	rCuk2EABwrGyqPxQcdqLwbzuwLXo5Z0lk/xBmYwi2WP+aWVoTnsIqLCh6LibgTL6qB0V
-	2S/g==
-Received: by 10.216.139.15 with SMTP id b15mr4218989wej.169.1344182109037;
-	Sun, 05 Aug 2012 08:55:09 -0700 (PDT)
+	bh=kQYnFInfrnf3745af9nIXnQMHrAf9yI28l4xhC03qBk=;
+	b=n3K7i0joYVBHK/TStrg0nC95GtuXHAOy41Oyao+XPGACD61FvVyKjnXtaP6d5cUe/4
+	rx8lxZz78kN0GY78WzZBxYn+uYUf/NVmb8NRG9plXZA1yMBedrcEhh7hq2ZMQ6liT62w
+	mgzTUWyLmGwRB3k5295ZelC8f+rD5x5JJw8WJitVm5V9wVa6gmW6MsVspKSnuRNgu/oL
+	IQBOclTmuqMUCF9VXykjgJFTd9SfzZ3DeL5hSpfI+jCkn48j/eLqF7ZBBS/mkmlMONbA
+	wv7zEI4O4baczWG9K+guC/DMJPfcwqCk8xbkJwUjrGmmzr358EfQzLcFB8jRxEqNThbf
+	Q9MQ==
+Received: by 10.216.192.85 with SMTP id h63mr357388wen.7.1344182110790;
+	Sun, 05 Aug 2012 08:55:10 -0700 (PDT)
 Received: from localhost.localdomain (198.230.79.188.dynamic.jazztel.es.
 	[188.79.230.198])
-	by mx.google.com with ESMTPS id t7sm15214066wix.6.2012.08.05.08.55.07
+	by mx.google.com with ESMTPS id t7sm15214066wix.6.2012.08.05.08.55.09
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sun, 05 Aug 2012 08:55:08 -0700 (PDT)
+	Sun, 05 Aug 2012 08:55:10 -0700 (PDT)
 From: Javier Martinez Canillas <javier@dowhile0.org>
 To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date: Sun,  5 Aug 2012 17:54:01 +0200
-Message-Id: <1344182057-15981-15-git-send-email-javier@dowhile0.org>
+Date: Sun,  5 Aug 2012 17:54:02 +0200
+Message-Id: <1344182057-15981-16-git-send-email-javier@dowhile0.org>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <1344182057-15981-1-git-send-email-javier@dowhile0.org>
 References: <1344182057-15981-1-git-send-email-javier@dowhile0.org>
-X-Gm-Message-State: ALoCoQlL5xgIOhdwN2WtfihXFWjX4Bg+W8ybPlTz9M35WBWTa5sMzHdUlSc0n9+m60/YPADkSScn
+X-Gm-Message-State: ALoCoQmwNuIcIfwXmE7hhailbZkjqHZFnieAEMNM11aUq+p0AvYB6tNVYRJWRsMMRT4Zsz26Dbry
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 14/30] rpm: use ${localstatedir} and ${libdir} instead of /var and /usr/lib
+Subject: [PATCH 15/30] at: use ${base_sbindir} instead of /sbin for packaging
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,31 +48,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 05 Aug 2012 16:06:51 -0000
+X-List-Received-Date: Sun, 05 Aug 2012 16:06:56 -0000
 
 It is considered good practice to use the build system provided
 variables instead of directly specify hardcoded paths.
 
 Signed-off-by: Javier Martinez Canillas <javier@dowhile0.org>
 ---
- meta/recipes-devtools/rpm/rpm_5.4.9.bb |    4 ++--
+ meta/recipes-extended/at/at_3.1.13.bb |    4 ++--
  1 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/rpm/rpm_5.4.9.bb b/meta/recipes-devtools/rpm/rpm_5.4.9.bb
-index e276cc3..d93bd4d 100644
---- a/meta/recipes-devtools/rpm/rpm_5.4.9.bb
-+++ b/meta/recipes-devtools/rpm/rpm_5.4.9.bb
-@@ -421,8 +421,8 @@ do_install_append() {
- 	rm -f ${D}/${libdir}/rpm/bin/dbconvert
- 	rm -f ${D}/${libdir}/rpm/bin/pom2spec
+diff --git a/meta/recipes-extended/at/at_3.1.13.bb b/meta/recipes-extended/at/at_3.1.13.bb
+index 9af3569..1afcda2 100644
+--- a/meta/recipes-extended/at/at_3.1.13.bb
++++ b/meta/recipes-extended/at/at_3.1.13.bb
+@@ -51,8 +51,8 @@ do_install () {
+ 	install -d ${D}${sysconfdir}/rcS.d
+ 	install -m 0755    ${WORKDIR}/S99at		${D}${sysconfdir}/init.d/atd
+ 	ln -sf ../init.d/atd ${D}${sysconfdir}/rcS.d/S99at
+-	cp -r ${D}/usr/doc/at ${D}${docdir}/
+-	rm -rf ${D}/usr/doc
++	cp -r ${D}${prefix}/doc/at ${D}${docdir}/
++	rm -rf ${D}${prefix}/doc
  
--	rm -rf ${D}/var/lib/wdj ${D}/var/cache/wdj
--	rm -f ${D}/usr/lib/rpm/bin/api-sanity-checker.pl
-+	rm -rf ${D}${localstatedir}/lib/wdj ${D}${localstatedir}/cache/wdj
-+	rm -f ${D}${libdir}/rpm/bin/api-sanity-checker.pl
- }
- 
- do_install_append_virtclass-native() {
+ 	for feature in ${DISTRO_FEATURES}; do
+ 		if [ "$feature" = "pam" ]; then
 -- 
 1.7.7.6
 
