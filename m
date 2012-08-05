@@ -1,39 +1,39 @@
 Received: from mail-we0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <javier@dowhile0.org>) id 1Sy71R-0004kh-L4
+	(envelope-from <javier@dowhile0.org>) id 1Sy71U-0004kh-HT
 	for openembedded-core@lists.openembedded.org;
-	Sun, 05 Aug 2012 22:01:58 +0200
+	Sun, 05 Aug 2012 22:02:00 +0200
 Received: by mail-we0-f175.google.com with SMTP id r6so1441018wey.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 05 Aug 2012 12:50:16 -0700 (PDT)
+	Sun, 05 Aug 2012 12:50:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references
 	:x-gm-message-state;
-	bh=Rn6OQRKk2umICyGeKgHVUO6dqHkmTgLtMpxEq2C3qdI=;
-	b=cA1KnJq53+Ae5BOgNcmiZ0buk31wAmy+dymzO2aD4ALYirlaF7bKM34ZYwtonTRNn9
-	mjV5qMeFzSpUOl5VUiCvQesBzPIQMfaY/ygBwtId8zEerstIGnylQGRQnk5cs3vTSuVT
-	4TZiDObfIotpw0+27y/zgz2L5e22V4+M2+RT4NCz6zTm4/4VzgD0AfEZkaMp/g2OGvA/
-	7m23lzTsgA0KBZ8llr+/yNt4HW/t37KSjJPRFIuaBIXIJKLozbXMX1qzCQG1GHfQffK/
-	PU6Upt7brWUM0O+dCFCw/ir0VJj6Jdd+1mNfYw3udYC7p64mxeMhLdVxB2ja8H7+Zktr
-	gXdQ==
-Received: by 10.216.255.146 with SMTP id j18mr4161510wes.163.1344196216255;
-	Sun, 05 Aug 2012 12:50:16 -0700 (PDT)
+	bh=HZ0FZu6XPre8qarjp2c4bN4FWn0fhvLbEQ9g3TsfjwY=;
+	b=ZHXJomsmfR2yvAHA3MM4vlYiFyP9DdCt1hc1jYptibZhrbHgCKey2VZ442bGw8UpZn
+	G2UN2sh3gf/robp/8UrwriiBjmTH6nQYOBMwT9RmzF+LGgnpxdst5sT4RytckhAlD0HF
+	W0hG+U8dLn92VrkEQIGQYc835I8foYh8q3cLU02DKCmGp/mH+LxKtomnQJ/1vvgxeKMy
+	NqLKo6OIXxFh5rVnRiq+dCum4yUAqzl02Bw/zLS8oZBLKo04OLeZvX7GNRkGSHWBKQte
+	fJP5xw/AUtQrDkcp9oD88rCQNNxsxoJipZSDf9qaVSsxQYXhqQG5m/C+STyG84zMhuLt
+	fqPg==
+Received: by 10.180.106.97 with SMTP id gt1mr12427039wib.5.1344196219136;
+	Sun, 05 Aug 2012 12:50:19 -0700 (PDT)
 Received: from localhost.localdomain (198.230.79.188.dynamic.jazztel.es.
 	[188.79.230.198])
-	by mx.google.com with ESMTPS id w7sm11500981wiz.0.2012.08.05.12.50.12
+	by mx.google.com with ESMTPS id w7sm11500981wiz.0.2012.08.05.12.50.16
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sun, 05 Aug 2012 12:50:15 -0700 (PDT)
+	Sun, 05 Aug 2012 12:50:18 -0700 (PDT)
 From: Javier Martinez Canillas <javier@dowhile0.org>
 To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date: Sun,  5 Aug 2012 21:48:47 +0200
-Message-Id: <1344196136-7643-20-git-send-email-javier@dowhile0.org>
+Date: Sun,  5 Aug 2012 21:48:48 +0200
+Message-Id: <1344196136-7643-21-git-send-email-javier@dowhile0.org>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <1344196136-7643-1-git-send-email-javier@dowhile0.org>
 References: <1344196136-7643-1-git-send-email-javier@dowhile0.org>
-X-Gm-Message-State: ALoCoQkIt8gaCqMD2QrIMwb7D11v+ztlqOaFr+VsjpKKykBQ80AE+BFW6b833Epz2Uuex+a5kHpo
+X-Gm-Message-State: ALoCoQlIEceYVD8h/WYs3Z3A9/ZlCDs9DqfeJHAw9YmklJxPrVxQNSyeVlFFPllRoNZF1w2y7L+G
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2 19/28] libpam: use ${localstatedir} and ${sysconfdir} instead of /var and /etc
+Subject: [PATCH v2 20/28] x11-common: use ${sysconfdir} instead of /etc for packaging
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,41 +48,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 05 Aug 2012 20:01:58 -0000
+X-List-Received-Date: Sun, 05 Aug 2012 20:02:00 -0000
 
 It is considered good practice to use the build system provided
 variables instead of directly specify hardcoded paths.
 
 Signed-off-by: Javier Martinez Canillas <javier@dowhile0.org>
 ---
- meta/recipes-extended/pam/libpam_1.1.5.bb |    6 +++---
- 1 files changed, 3 insertions(+), 3 deletions(-)
+ meta/recipes-graphics/x11-common/x11-common_0.1.bb |   10 +++++-----
+ 1 files changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-extended/pam/libpam_1.1.5.bb b/meta/recipes-extended/pam/libpam_1.1.5.bb
-index dd75d42..c035aaf 100644
---- a/meta/recipes-extended/pam/libpam_1.1.5.bb
-+++ b/meta/recipes-extended/pam/libpam_1.1.5.bb
-@@ -9,7 +9,7 @@ SECTION = "base"
- LICENSE = "GPLv2+ | BSD"
- LIC_FILES_CHKSUM = "file://COPYING;md5=ca0395de9a86191a078b8b79302e3083"
+diff --git a/meta/recipes-graphics/x11-common/x11-common_0.1.bb b/meta/recipes-graphics/x11-common/x11-common_0.1.bb
+index ddb3a1d..2675145 100644
+--- a/meta/recipes-graphics/x11-common/x11-common_0.1.bb
++++ b/meta/recipes-graphics/x11-common/x11-common_0.1.bb
+@@ -2,7 +2,7 @@ DESCRIPTION = "Common X11 scripts and configuration files"
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
+ SECTION = "x11"
+-PR = "r44"
++PR = "r45"
  
--PR = "r4"
-+PR = "r5"
+ SRC_URI = "file://etc \
+            file://gplv2-license.patch"
+@@ -12,10 +12,10 @@ S = "${WORKDIR}"
+ inherit allarch
  
- SRC_URI = "https://fedorahosted.org/releases/l/i/linux-pam/Linux-PAM-${PV}.tar.bz2 \
-            file://99_pam \
-@@ -79,9 +79,9 @@ do_install() {
- 	autotools_do_install
+ do_install() {
+-	cp -R ${S}/etc ${D}/etc
+-	chmod -R 755 ${D}/etc
+-	find ${D}/etc -type d -name .svn -prune -exec rm -rf {} \;
+-	find ${D}/etc -type f -name \*~ -exec rm -rf {} \;
++	cp -R ${S}/etc ${D}${sysconfdir}
++	chmod -R 755 ${D}${sysconfdir}
++	find ${D}${sysconfdir} -type d -name .svn -prune -exec rm -rf {} \;
++	find ${D}${sysconfdir} -type f -name \*~ -exec rm -rf {} \;
+ }
  
- 	# don't install /var/run when populating rootfs. Do it through volatile
--	rm -rf ${D}/var
-+	rm -rf ${D}${localstatedir}
- 	install -d ${D}${sysconfdir}/default/volatiles
--	install -m 0644 ${WORKDIR}/99_pam ${D}/etc/default/volatiles
-+	install -m 0644 ${WORKDIR}/99_pam ${D}${sysconfdir}/default/volatiles
- 
- 	install -d ${D}${sysconfdir}/pam.d/     
- 	install -m 0644 ${WORKDIR}/pam.d/* ${D}${sysconfdir}/pam.d/
+ RDEPENDS_${PN} = "dbus-x11 xmodmap xdpyinfo xtscal xinit formfactor"
 -- 
 1.7.7.6
 
