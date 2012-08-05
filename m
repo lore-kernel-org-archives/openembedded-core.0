@@ -1,35 +1,37 @@
-Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
+Received: from mail-ob0-f175.google.com ([209.85.214.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1Sy8eR-0006y1-5Q
+	(envelope-from <javier@dowhile0.org>) id 1Sy8wv-0007bg-B2
 	for openembedded-core@lists.openembedded.org;
-	Sun, 05 Aug 2012 23:46:19 +0200
-Received: by lagv3 with SMTP id v3so771006lag.6
+	Mon, 06 Aug 2012 00:05:25 +0200
+Received: by obc16 with SMTP id 16so1297900obc.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 05 Aug 2012 14:34:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date
-	:x-google-sender-auth:message-id:subject:to:cc:content-type;
-	bh=OtnJ7JpfPhkNaSymDMIb5Y70w2hQf2dzqGkuy6+051s=;
-	b=t/b6u3OiKus735A+/mlZhnOYnsaIVqOcimpVpOk6ipq5OaYlUKLgfSvTX3ck5RZJhH
-	lnGNDAtKWhBVIh85mJWoqDHSu50VZkBoOP73Ui4Xl9U3ih+e0k+U80rtDyedAGbClbgN
-	5B0/QKrbwgpdA1CVAkHqMkHvZ8qlDEMkny26JlZ07XMrNlTpJbMBCa1ULlRZE0qR1gvz
-	qqlHufBUrs7SHyq1zuCfZAj91KooO1TswMDQErXAT/oMEMKDcoXNeu2VsxmkR2HXEa13
-	P6hiBdK5CKlVnlJ4bbpMwjhLBX3CQJpMBwXiDNhTPPDBPru+nIHgs4mOWfNvBkgWlrYV
-	7YFg==
-Received: by 10.112.85.225 with SMTP id k1mr3684919lbz.38.1344202475193; Sun,
-	05 Aug 2012 14:34:35 -0700 (PDT)
+	Sun, 05 Aug 2012 14:53:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:x-originating-ip:in-reply-to:references:date
+	:message-id:subject:from:to:content-type:x-gm-message-state;
+	bh=p5JZ7Ae2FNE3iekMQiC7kNefjeoPiy3u7FNydIGaLqg=;
+	b=ByQAhhHdoWFqSROReq5bFnFJd9frcenecDUtlNRsKSFE+tlY0kzEvF3V/K6umaqu60
+	Snvq48BL8fle3Mixoa5j23PIL+QEkTqODCB5dVk5v1uN3/xsSJhqAxbSU5pyRHZ5XfXn
+	+WVbdI+NiXh5kzEPxk5mWyWD1grAlp2D8AXyAlNKI0To0YH7Xrn8iIvkblyBRXr8ksBk
+	TbLrZjIUOBmuCBwwtO/ZiADbfzu1MHI0OmnbOrfw+4R+rBtV0pWyfOKVPBPNxjPtvXZP
+	Pu4YJdznnRm21CjfwMC/BSQYiJZGL5zz5gSj8tCM0GKgLwxCQcK6YsPhWTcpKSqBXKeM
+	8b4A==
 MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.114.64.209 with HTTP; Sun, 5 Aug 2012 14:34:14 -0700 (PDT)
-In-Reply-To: <1344196136-7643-14-git-send-email-javier@dowhile0.org>
+Received: by 10.182.16.3 with SMTP id b3mr16040153obd.72.1344203620862; Sun,
+	05 Aug 2012 14:53:40 -0700 (PDT)
+Received: by 10.60.33.129 with HTTP; Sun, 5 Aug 2012 14:53:40 -0700 (PDT)
+X-Originating-IP: [188.79.230.198]
+In-Reply-To: <CABcZANkq+Mjbogf8=P-G=gmh=Mrqj4M+f49E7Vk2H_tiK+ioFA@mail.gmail.com>
 References: <1344196136-7643-1-git-send-email-javier@dowhile0.org>
 	<1344196136-7643-14-git-send-email-javier@dowhile0.org>
-From: Chris Larson <clarson@kergoth.com>
-Date: Sun, 5 Aug 2012 14:34:14 -0700
-X-Google-Sender-Auth: OK0KDCdNApIUq9PaBagshZfCJ0w
-Message-ID: <CABcZANkq+Mjbogf8=P-G=gmh=Mrqj4M+f49E7Vk2H_tiK+ioFA@mail.gmail.com>
+	<CABcZANkq+Mjbogf8=P-G=gmh=Mrqj4M+f49E7Vk2H_tiK+ioFA@mail.gmail.com>
+Date: Sun, 5 Aug 2012 23:53:40 +0200
+Message-ID: <CABxcv=k2HyobTKctqQg6M-ORcvGLRqmZRg8ix8LYT-pauTJFXQ@mail.gmail.com>
+From: Javier Martinez Canillas <javier@dowhile0.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
+X-Gm-Message-State: ALoCoQlIUA90BdfBLfLihqF3N2BFNc4kaDVxffHnkJRULTLizAOU+CFHf2XvpoFcdYCBlAfIQ+IU
 Subject: Re: [PATCH v2 13/28] external-sourcery: use ${prefix} and ${libdir} instead of /usr and /usr/lib
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -45,58 +47,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 05 Aug 2012 21:46:19 -0000
+X-List-Received-Date: Sun, 05 Aug 2012 22:05:25 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Sun, Aug 5, 2012 at 12:48 PM, Javier Martinez Canillas
-<javier@dowhile0.org> wrote:
-> It is considered good practice to use the build system provided
-> variables instead of directly specify hardcoded paths.
+On Sun, Aug 5, 2012 at 11:34 PM, Chris Larson <clarson@kergoth.com> wrote:
+> On Sun, Aug 5, 2012 at 12:48 PM, Javier Martinez Canillas
+> <javier@dowhile0.org> wrote:
+>> It is considered good practice to use the build system provided
+>> variables instead of directly specify hardcoded paths.
+>>
+>> Signed-off-by: Javier Martinez Canillas <javier@dowhile0.org>
+>> ---
+>>  .../meta/external-sourcery-toolchain.bb            |    8 ++++----
+>>  1 files changed, 4 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/meta/recipes-core/meta/external-sourcery-toolchain.bb b/meta/recipes-core/meta/external-sourcery-toolchain.bb
+>> index 74c82ec..1def79e 100644
+>> --- a/meta/recipes-core/meta/external-sourcery-toolchain.bb
+>> +++ b/meta/recipes-core/meta/external-sourcery-toolchain.bb
+>> @@ -24,7 +24,7 @@ PROVIDES += "\
+>>         virtual/linux-libc-headers \
+>>  "
+>>  PV = "${CSL_VER_MAIN}"
+>> -PR = "r7"
+>> +PR = "r8"
+>>
+>>  #SRC_URI = "http://www.codesourcery.com/public/gnu_toolchain/${CSL_TARGET_SYS}/arm-${PV}-${TARGET_PREFIX}i686-pc-linux-gnu.tar.bz2"
+>>
+>> @@ -38,10 +38,10 @@ do_install() {
+>>         cp -a $sysroot/etc/. ${D}${sysconfdir}
+>>         cp -a $sysroot/sbin/. ${D}${base_sbindir}
+>>
+>> -       install -d ${D}/usr
+>> +       install -d ${D}${prefix}
+>>         for usr_element in bin libexec sbin share ${base_libdir}; do
+>>                 usr_path=$sysroot/usr/$usr_element
+>> -               cp -a $usr_path ${D}/usr/
+>> +               cp -a $usr_path ${D}${prefix}/
+>>         done
+>>         for datadir_element in man info; do
+>>                 datadir_path=$sysroot/usr/$datadir_element
+>> @@ -81,7 +81,7 @@ external_toolchain_sysroot_adjust() {
+>>
+>>         # If the usr/lib directory doesn't exist, the toolchain fails to even
+>>         # try to find crti.o in a completely different directory (usr/lib64)
+>> -       install -d ${SYSROOT_DESTDIR}/usr/lib
+>> +       install -d ${SYSROOT_DESTDIR}${libdir}
 >
-> Signed-off-by: Javier Martinez Canillas <javier@dowhile0.org>
-> ---
->  .../meta/external-sourcery-toolchain.bb            |    8 ++++----
->  1 files changed, 4 insertions(+), 4 deletions(-)
 >
-> diff --git a/meta/recipes-core/meta/external-sourcery-toolchain.bb b/meta/recipes-core/meta/external-sourcery-toolchain.bb
-> index 74c82ec..1def79e 100644
-> --- a/meta/recipes-core/meta/external-sourcery-toolchain.bb
-> +++ b/meta/recipes-core/meta/external-sourcery-toolchain.bb
-> @@ -24,7 +24,7 @@ PROVIDES += "\
->         virtual/linux-libc-headers \
->  "
->  PV = "${CSL_VER_MAIN}"
-> -PR = "r7"
-> +PR = "r8"
+> This is wrong. This line creates usr/lib *explicitly* to cover the
+> case where libdir is set to something else (e.g. usr/lib64). As the
+> comment says, the toolchain will fail to search the real libdir if the
+> usr/lib dir does not exist.
+> --
+> Christopher Larson
 >
->  #SRC_URI = "http://www.codesourcery.com/public/gnu_toolchain/${CSL_TARGET_SYS}/arm-${PV}-${TARGET_PREFIX}i686-pc-linux-gnu.tar.bz2"
->
-> @@ -38,10 +38,10 @@ do_install() {
->         cp -a $sysroot/etc/. ${D}${sysconfdir}
->         cp -a $sysroot/sbin/. ${D}${base_sbindir}
->
-> -       install -d ${D}/usr
-> +       install -d ${D}${prefix}
->         for usr_element in bin libexec sbin share ${base_libdir}; do
->                 usr_path=$sysroot/usr/$usr_element
-> -               cp -a $usr_path ${D}/usr/
-> +               cp -a $usr_path ${D}${prefix}/
->         done
->         for datadir_element in man info; do
->                 datadir_path=$sysroot/usr/$datadir_element
-> @@ -81,7 +81,7 @@ external_toolchain_sysroot_adjust() {
->
->         # If the usr/lib directory doesn't exist, the toolchain fails to even
->         # try to find crti.o in a completely different directory (usr/lib64)
-> -       install -d ${SYSROOT_DESTDIR}/usr/lib
-> +       install -d ${SYSROOT_DESTDIR}${libdir}
 
+Hi Christopher,
 
-This is wrong. This line creates usr/lib *explicitly* to cover the
-case where libdir is set to something else (e.g. usr/lib64). As the
-comment says, the toolchain will fail to search the real libdir if the
-usr/lib dir does not exist.
--- 
-Christopher Larson
+Thanks for explaining me this, I didn't know that libdir weren't use on purpose.
+
+This patch can be discarded from the patch-set then.
+
+Best regards,
+Javier
 
 
