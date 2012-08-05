@@ -1,39 +1,39 @@
-Received: from mail-wg0-f41.google.com ([74.125.82.41])
+Received: from mail-we0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <javier@dowhile0.org>) id 1Sy70o-0004l8-07
+	(envelope-from <javier@dowhile0.org>) id 1Sy70o-0004kh-B4
 	for openembedded-core@lists.openembedded.org;
 	Sun, 05 Aug 2012 22:01:18 +0200
-Received: by wgbds1 with SMTP id ds1so903173wgb.0
+Received: by mail-we0-f175.google.com with SMTP id r6so1441018wey.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 05 Aug 2012 12:49:34 -0700 (PDT)
+	Sun, 05 Aug 2012 12:49:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references
 	:x-gm-message-state;
-	bh=Ofa0RM5qyUsnPuYHpmWpSUqZezTika/Qx1hsRBncmnA=;
-	b=MjlU21yge/knaxzDiD2TgIwr3eM+ZVJGpgnNJJu0CwzZtsJ8zqj9Y4HZ/GSs47gkIV
-	iON6G9G10GlmIxQpA309WxnO05mstYLoxUTk0Lf3E8IGapKvS5VsRwhPufvwJGra1lxE
-	66yQy3MrrUGUMzvYPUGcPQDV/Cz1CAsMvISjfaVHwJRR91dBit2sB0Ec+Dp5XoRjpGu5
-	pfD+WQ2wnBjMMiHEwQ7DiJIoFnIhfngEd8w+f2zgVUeXfzIpXo+s1Vi5TvFrGLSuwBeR
-	tM9oA8xYXHDSpF+/6CpXk6nSWE5b60NB3Y0mS24QPPqInLt1mvdOwAwMUowssUrkrqR2
-	5U6Q==
-Received: by 10.180.83.106 with SMTP id p10mr12312507wiy.21.1344196174327;
-	Sun, 05 Aug 2012 12:49:34 -0700 (PDT)
+	bh=zE+2+Hdvt/8696+ax9lL4V0X+lgzVWF5geofRtOy1tI=;
+	b=NktAnl8hzzDWwhFRS4PK7ipqYDfGaiUYHB3vkDDUhNuuOqS5Q6ZiRCO4pj3m1bmuK4
+	v5aBOgsvCJCKgJ4TMI3HcXtJsivgwU6fRRMMSXaxPD+SsFX5LCttTqtEOt3rUb8fAFx9
+	qxxIdqB7aDKwOBU+VCAHQIufS+Uvkx4wLmEH4w2RlswFR88mr1jfbuDnf8Xfph69p7iT
+	pioFxx2JKtxdKr3Bk0/XUII8EgO46gYC0HVx87fVDZJvlHg4QavIKXuRyxGVcfhxEJZR
+	0Mx44ii5xyZF3VCgRTsk5fGyCEpO8L2n1gb25Nd3tCrtMgMLOuTCSTvKS3GLuNVfY6wM
+	P5WQ==
+Received: by 10.180.106.137 with SMTP id gu9mr12324977wib.20.1344196176912;
+	Sun, 05 Aug 2012 12:49:36 -0700 (PDT)
 Received: from localhost.localdomain (198.230.79.188.dynamic.jazztel.es.
 	[188.79.230.198])
-	by mx.google.com with ESMTPS id w7sm11500981wiz.0.2012.08.05.12.49.31
+	by mx.google.com with ESMTPS id w7sm11500981wiz.0.2012.08.05.12.49.34
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sun, 05 Aug 2012 12:49:33 -0700 (PDT)
+	Sun, 05 Aug 2012 12:49:36 -0700 (PDT)
 From: Javier Martinez Canillas <javier@dowhile0.org>
 To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date: Sun,  5 Aug 2012 21:48:30 +0200
-Message-Id: <1344196136-7643-3-git-send-email-javier@dowhile0.org>
+Date: Sun,  5 Aug 2012 21:48:31 +0200
+Message-Id: <1344196136-7643-4-git-send-email-javier@dowhile0.org>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <1344196136-7643-1-git-send-email-javier@dowhile0.org>
 References: <1344196136-7643-1-git-send-email-javier@dowhile0.org>
-X-Gm-Message-State: ALoCoQmANONaGCstCt5LKcPcA7EtAiv75pFHZAYo4hENWWPBmh4In7ShBYDH1P1K3yzZGX8SHN7J
+X-Gm-Message-State: ALoCoQlLZZPEpT1qdx5IDJGLlSgzmgEW9MjZFzPRGG2EW0h/j+pDaA4rSlwiVfD+zIEtz+SDA5Dt
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2 02/28] alsa-state: use ${sbindir} instead of /usr/sbin for packaging
+Subject: [PATCH v2 03/28] lsbsetup: use ${bindir} instead of /usr/bin for packaging
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -55,34 +55,34 @@ variables instead of directly specify hardcoded paths.
 
 Signed-off-by: Javier Martinez Canillas <javier@dowhile0.org>
 ---
- meta/recipes-bsp/alsa-state/alsa-state.bb |    6 +++---
+ meta/recipes-extended/lsb/lsbsetup_1.0.bb |    6 +++---
  1 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-bsp/alsa-state/alsa-state.bb b/meta/recipes-bsp/alsa-state/alsa-state.bb
-index 83c9faa..a9cc04c 100644
---- a/meta/recipes-bsp/alsa-state/alsa-state.bb
-+++ b/meta/recipes-bsp/alsa-state/alsa-state.bb
-@@ -10,7 +10,7 @@ sound state at system boot and save it at system shut down."
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
- PV = "0.2.0"
--PR = "r2"
-+PR = "r3"
+diff --git a/meta/recipes-extended/lsb/lsbsetup_1.0.bb b/meta/recipes-extended/lsb/lsbsetup_1.0.bb
+index 9172ee3..2792d51 100644
+--- a/meta/recipes-extended/lsb/lsbsetup_1.0.bb
++++ b/meta/recipes-extended/lsb/lsbsetup_1.0.bb
+@@ -1,7 +1,7 @@
+ DESCRIPTION = "auto-setup environment for lsb test"
+ SECTION = "console/utils"
+ LICENSE = "GPLv2"
+-PR = "r3"
++PR = "r4"
  
- SRC_URI = "\
-   file://asound.conf \
-@@ -46,9 +46,9 @@ FILES_alsa-states = "${localstatedir}/lib/alsa/*.state"
- pkg_postinst_${PN}() {
- 	if test -z "$D"
- 	then
--		if test -x /usr/sbin/alsactl
-+		if test -x ${sbindir}/alsactl
- 		then
--			/usr/sbin/alsactl -f ${localstatedir}/lib/alsa/asound.state restore
-+			${sbindir}/alsactl -f ${localstatedir}/lib/alsa/asound.state restore
- 		fi
- 		# INITSCRIPT_PARAMS changed, so remove the old and
- 		# install the new setting.
+ LIC_FILES_CHKSUM = "file://LSB_Setup.sh;beginline=3;endline=16;md5=97451c7c0786ce5bbe9ac58042945583"
+ 
+@@ -11,9 +11,9 @@ S = "${WORKDIR}"
+ 
+ do_install() {
+     # Only install file if it has a contents
+-    install -d ${D}/usr/bin
++    install -d ${D}${bindir}
+     install -d ${D}/${sysconfdir}
+-    install -m 0755 ${S}/LSB_Setup.sh ${D}/usr/bin
++    install -m 0755 ${S}/LSB_Setup.sh ${D}${bindir}
+     install -d  ${D}/${libdir}/lsb
+     ln -sf ${base_sbindir}/chkconfig ${D}/${libdir}/lsb/install_initd
+     ln -sf ${base_sbindir}/chkconfig ${D}/${libdir}/lsb/remove_initd
 -- 
 1.7.7.6
 
