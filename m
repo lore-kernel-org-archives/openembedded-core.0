@@ -1,33 +1,43 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail-ey0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <laurentiu.palcu@intel.com>) id 1Sy4LR-0001eN-Ov
+	(envelope-from <koen@dominion.thruhere.net>) id 1Sy4qf-00020O-QQ
 	for openembedded-core@lists.openembedded.org;
-	Sun, 05 Aug 2012 19:10:26 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 05 Aug 2012 09:58:41 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; 
-	d="log'?scan'208";a="181809989"
-Received: from unknown (HELO [10.252.121.31]) ([10.252.121.31])
-	by orsmga002.jf.intel.com with ESMTP; 05 Aug 2012 09:58:40 -0700
-Message-ID: <501EA63F.9090304@intel.com>
-Date: Sun, 05 Aug 2012 19:58:39 +0300
-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:14.0) Gecko/20120714 Thunderbird/14.0
-MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <cover.1344022584.git.laurentiu.palcu@intel.com>
-	<b41b2c46c9de5d3f63bfa146e23e8974a7a6cebf.1344022584.git.laurentiu.palcu@intel.com>
-	<CALbNGRQjUxm0h2+YA=Tog2_JhWPKGJmdy9QyhOjSQWLRQ1eKOQ@mail.gmail.com>
-	<501CD3EE.3080100@intel.com>
-	<CALbNGRTJM5=Xt4NqoEuEQa2U-eMtmQzy42HmwRK0zvkq-zK-3Q@mail.gmail.com>
-	<501D2B2B.6070806@intel.com>
-	<3103BB42-D7DD-456B-8733-9A019CA66E99@dominion.thruhere.net>
-	<CALbNGRRLGToMpW2tCzdtEcpZmAmgK3d2VKF0SVi-hgBanFOexQ@mail.gmail.com>
-	<CAMKF1spXi6PqV6ZLqLPMUE0oEF2Sou+Jst-QME-XhLoCANeaPQ@mail.gmail.com>
-In-Reply-To: <CAMKF1spXi6PqV6ZLqLPMUE0oEF2Sou+Jst-QME-XhLoCANeaPQ@mail.gmail.com>
-Subject: Re: [PATCH 4/5] gtk-icon-cache: call postinst scriplet at do_rootfs time
+	Sun, 05 Aug 2012 19:42:41 +0200
+Received: by eaad12 with SMTP id d12so626350eaa.6
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 05 Aug 2012 10:30:58 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=content-type:mime-version:subject:from:in-reply-to:date
+	:content-transfer-encoding:message-id:references:to:x-mailer
+	:x-gm-message-state;
+	bh=KauMc3mp3KaWORPM6i3OrGThgsooKFigYS6MZl+axHE=;
+	b=ev3IVAzmqIZ3/g9Z+lXm4osBuUA8lBZW9kQLDBjhcqStlgO2jWx0XrP/d7OG6qaCMp
+	DXfuoPUbRCc2U0XdYWgUtyW8hRv25wHLHvAk/1AE/c/NO3RpDz/k6LsqgAsBliGBeuzs
+	DgnMRG5xY5EJ8PnPY/sRAmSMWi9B4+150xCxL7LhgbdbtlMfh1b2YBIOos49xtfFxftp
+	GRYxVT+DhO53C4wQA/QPf3oY5xaeowjNu61BH/fUMMhhOjinwR/NgpUrvKtQOEMhO/nw
+	k8MbdYO7x+ndTXMafUcB6muF2DPZNygLzmIvDS3dwMg6IvSqVbn/FUVV88a7hKBSDnZc
+	cWGw==
+Received: by 10.14.202.69 with SMTP id c45mr9837194eeo.4.1344187858263;
+	Sun, 05 Aug 2012 10:30:58 -0700 (PDT)
+Received: from [172.20.0.2] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
+	by mx.google.com with ESMTPS id h42sm41023392eem.5.2012.08.05.10.30.56
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Sun, 05 Aug 2012 10:30:56 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 6.0 \(1485\))
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <501E9EF3.2020208@gmail.com>
+Date: Sun, 5 Aug 2012 19:31:00 +0200
+Message-Id: <A35353F6-FFAE-481C-9C36-F38CE110284F@dominion.thruhere.net>
+References: <1343942157-15997-1-git-send-email-yao.zhao@windriver.com>
+	<501D7090.2040500@gmail.com>
+	<EB05DE7F-A81E-4CF6-BD49-F93604EA1EDF@dominion.thruhere.net>
+	<501E9EF3.2020208@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1485)
+X-Gm-Message-State: ALoCoQlCuyxUPeN06vg3xCuSs1vgw4wIZo6kosEBTdv+1x5ZwUmqqofwaYsQdFszGo8HzMTyEUN9
+Subject: Re: [PATCH] gstreamer: gst-ffmpeg: fix build issues for libav
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,145 +52,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 05 Aug 2012 17:10:26 -0000
-X-Groupsio-MsgNum: 26953
-Content-Type: multipart/mixed; boundary="------------000404030702050609050708"
-
---------------000404030702050609050708
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sun, 05 Aug 2012 17:42:41 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
 
+Op 5 aug. 2012, om 18:27 heeft Derek Buitenhuis =
+<derek.buitenhuis@gmail.com> het volgende geschreven:
 
-On 08/04/2012 10:51 PM, Khem Raj wrote:
-> On Sat, Aug 4, 2012 at 12:37 PM, Andreas Müller
-> <schnitzeltony@googlemail.com> wrote:
->> And less than 3min on overo with the patches we sent (and my xfce
->> image is full of gtk-icon-update). Don't misunderstand me: I agree on
->> doing things like this on host if possible. But for me the main time
->> waiting on a new image is do_rootfs and I just suggest to think about
->> having these tasks run only once - but we can do this later or never.
->> A bit off topic: As far as I can remember there were times when it was
->> a no-go having gtk-native in oe-core. I hope they are over...
-> 
-> I certainly agree with you that it should be run once. However what if
-> you changed something in icons between towo do rootfs runs ?
-> but I would like to know how much build time is it adding to do_rootfs ?
-Short answer: *less than 2 secs*
+> On 05/08/2012 7:52 AM, Koen Kooi wrote:
+>> I find it a lot easier to build gst-ffmpeg against an external libav, =
+that way you don't have to jump through all these hoops to get a proper =
+libav. That's what the meta-oe bbappend does :)=20
+>=20
+> I've always wondered why Libav was not its own recipe.
 
-Long answer:
-In order to measure the time added to do_rootfs by the
-gtk-update-icon-cache calls, I modified gtk+ recipe to create a wrapper
-script, as seen in attachment [1].
+It's been in meta-oe for ages. I guess we should move gst-ffmpeg (which =
+is called gst-libav nowadays) into meta-multimedia together with libav.=
 
-I compiled core-image-sato using the following setup:
 
-CPU: Intel(R) Core(TM) i7-2600 CPU @ 3.40GHz, 4 cores with HT
-RAM: 8GB
-Storage: SSD
-
-The measurements are in attachment [2].
-
-Conclusion: I would say that a delay of less than 2 seconds added to
-do_rootfs is not that bad, in my opinion. Of course, we can optimize
-this as much as possible but, is it worth the effort?
-
-You could give it a test yourselves and let me know your results. I will
-send a version 2 of the patchset(as soon as we all agree on the
-solution), with some changes suggested by Mark and some PR bumps
-suggested by Koen.
-
-[1] - measure_time.patch
-[2] - do_rootfs.log
-
-Thanks,
-Laurentiu
-
-> sometimes over optimising is bad too.
-> 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-> 
-
---------------000404030702050609050708
-Content-Type: text/x-patch;
- name="measure_time.patch"
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
- filename="measure_time.patch"
-
-diff --git a/meta/recipes-gnome/gtk+/gtk+_2.24.8.bb b/meta/recipes-gnome/gtk+/gtk+_2.24.8.bb
-index 878eb87..e77ecce 100644
---- a/meta/recipes-gnome/gtk+/gtk+_2.24.8.bb
-+++ b/meta/recipes-gnome/gtk+/gtk+_2.24.8.bb
-@@ -41,6 +41,18 @@ BBCLASSEXTEND = "native"
- RRECOMMENDS_${PN}_virtclass-native = ""
- DEPENDS_virtclass-native = "glib-2.0-native atk-native pango-native cairo-native gdk-pixbuf-native"
- 
-+do_install_append_virtclass-native () {
-+    mv ${D}/${bindir}/gtk-update-icon-cache ${D}/${bindir}/gtk-update-icon-cache.real
-+
-+    cat << "EOF" > ${D}/${bindir}/gtk-update-icon-cache
-+#!/bin/bash
-+
-+echo "Executing: gtk-update-icon-cache $@" >> ${TMPDIR}/do_rootfs.log
-+/usr/bin/time --f "real:%e user:%U sys:%S" -o ${TMPDIR}/do_rootfs.log --append gtk-update-icon-cache.real $@
-+EOF
-+    chmod +x ${D}/${bindir}/gtk-update-icon-cache
-+}
-+
- python populate_packages_prepend () {
-     prologue = d.getVar("postinst_prologue", True)
- 
-
---------------000404030702050609050708
-Content-Type: text/x-log;
- name="do_rootfs.log"
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
- filename="do_rootfs.log"
-
-Executing: gtk-update-icon-cache -q /ssd/yocto/build/tmp/work/qemuarm-poky-linux-gnueabi/core-image-sato-1.0-r0/rootfs//usr/share/icons/hicolor
-real:0.05 user:0.00 sys:0.03
-Executing: gtk-update-icon-cache -q /ssd/yocto/build/tmp/work/qemuarm-poky-linux-gnueabi/core-image-sato-1.0-r0/rootfs//usr/share/icons/hicolor
-real:0.00 user:0.00 sys:0.00
-Executing: gtk-update-icon-cache -q /ssd/yocto/build/tmp/work/qemuarm-poky-linux-gnueabi/core-image-sato-1.0-r0/rootfs//usr/share/icons/hicolor
-real:0.00 user:0.00 sys:0.00
-Executing: gtk-update-icon-cache -q /ssd/yocto/build/tmp/work/qemuarm-poky-linux-gnueabi/core-image-sato-1.0-r0/rootfs//usr/share/icons/hicolor
-real:0.00 user:0.00 sys:0.00
-Executing: gtk-update-icon-cache -fqt /ssd/yocto/build/tmp/work/qemuarm-poky-linux-gnueabi/core-image-sato-1.0-r0/rootfs/usr/share/icons/Sato
-real:0.25 user:0.01 sys:0.15
-Executing: gtk-update-icon-cache -fqt /ssd/yocto/build/tmp/work/qemuarm-poky-linux-gnueabi/core-image-sato-1.0-r0/rootfs/usr/share/icons/hicolor
-real:0.05 user:0.01 sys:0.01
-Executing: gtk-update-icon-cache -fqt /ssd/yocto/build/tmp/work/qemuarm-poky-linux-gnueabi/core-image-sato-1.0-r0/rootfs/usr/share/icons/xcursor-transparent
-real:0.00 user:0.00 sys:0.00
-Executing: gtk-update-icon-cache -fqt /ssd/yocto/build/tmp/work/qemuarm-poky-linux-gnueabi/core-image-sato-1.0-r0/rootfs/usr/share/icons/Sato
-real:0.25 user:0.04 sys:0.12
-Executing: gtk-update-icon-cache -fqt /ssd/yocto/build/tmp/work/qemuarm-poky-linux-gnueabi/core-image-sato-1.0-r0/rootfs/usr/share/icons/hicolor
-real:0.04 user:0.00 sys:0.02
-Executing: gtk-update-icon-cache -fqt /ssd/yocto/build/tmp/work/qemuarm-poky-linux-gnueabi/core-image-sato-1.0-r0/rootfs/usr/share/icons/xcursor-transparent
-real:0.00 user:0.00 sys:0.00
-Executing: gtk-update-icon-cache -q /ssd/yocto/build/tmp/work/qemuarm-poky-linux-gnueabi/core-image-sato-1.0-r0/rootfs/usr/share/icons/Sato
-real:0.00 user:0.00 sys:0.00
-Executing: gtk-update-icon-cache -fqt /ssd/yocto/build/tmp/work/qemuarm-poky-linux-gnueabi/core-image-sato-1.0-r0/rootfs/usr/share/icons/Sato
-real:0.25 user:0.03 sys:0.13
-Executing: gtk-update-icon-cache -fqt /ssd/yocto/build/tmp/work/qemuarm-poky-linux-gnueabi/core-image-sato-1.0-r0/rootfs/usr/share/icons/hicolor
-real:0.05 user:0.00 sys:0.03
-Executing: gtk-update-icon-cache -fqt /ssd/yocto/build/tmp/work/qemuarm-poky-linux-gnueabi/core-image-sato-1.0-r0/rootfs/usr/share/icons/xcursor-transparent
-real:0.00 user:0.00 sys:0.00
-Executing: gtk-update-icon-cache -fqt /ssd/yocto/build/tmp/work/qemuarm-poky-linux-gnueabi/core-image-sato-1.0-r0/rootfs/usr/share/icons/Sato
-real:0.25 user:0.03 sys:0.13
-Executing: gtk-update-icon-cache -fqt /ssd/yocto/build/tmp/work/qemuarm-poky-linux-gnueabi/core-image-sato-1.0-r0/rootfs/usr/share/icons/hicolor
-real:0.05 user:0.00 sys:0.03
-Executing: gtk-update-icon-cache -fqt /ssd/yocto/build/tmp/work/qemuarm-poky-linux-gnueabi/core-image-sato-1.0-r0/rootfs/usr/share/icons/xcursor-transparent
-real:0.00 user:0.00 sys:0.00
-Executing: gtk-update-icon-cache -fqt /ssd/yocto/build/tmp/work/qemuarm-poky-linux-gnueabi/core-image-sato-1.0-r0/rootfs/usr/share/icons/Sato
-real:0.26 user:0.04 sys:0.13
-Executing: gtk-update-icon-cache -fqt /ssd/yocto/build/tmp/work/qemuarm-poky-linux-gnueabi/core-image-sato-1.0-r0/rootfs/usr/share/icons/hicolor
-real:0.04 user:0.00 sys:0.02
-Executing: gtk-update-icon-cache -fqt /ssd/yocto/build/tmp/work/qemuarm-poky-linux-gnueabi/core-image-sato-1.0-r0/rootfs/usr/share/icons/xcursor-transparent
-real:0.00 user:0.00 sys:0.00
-
---------------000404030702050609050708--
