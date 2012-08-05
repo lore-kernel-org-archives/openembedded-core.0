@@ -1,39 +1,39 @@
-Received: from mail-wi0-f177.google.com ([209.85.212.177])
+Received: from mail-wg0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <javier@dowhile0.org>) id 1Sy3M1-0007dQ-Ed
+	(envelope-from <javier@dowhile0.org>) id 1Sy3M1-00084u-Hb
 	for openembedded-core@lists.openembedded.org;
 	Sun, 05 Aug 2012 18:06:57 +0200
-Received: by mail-wi0-f177.google.com with SMTP id hm11so885152wib.6
+Received: by wgbdr1 with SMTP id dr1so1752007wgb.24
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 05 Aug 2012 08:55:16 -0700 (PDT)
+	Sun, 05 Aug 2012 08:55:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references
 	:x-gm-message-state;
-	bh=uZonvDiU7XwBowdY3C1QAHDUis2AAFOwnmwe9TJKxuo=;
-	b=Pr/lCVJFQ77GpM7d97Z8PAU0prYtwh9Nh+1mifDE6zfyrWee3Wt9GPa+7exrRKdbhY
-	LFZGatU6TM0XeYK/qlfgSNFE7XMTHoLLcOomzpAR5n+RJPzCMkk0XYG/9aN+XDGKDGIh
-	Mz4PxgJWc2rTxQTe9PB92mwm79J109qp7RW6k0o5KNYB7y8f+SvCMF6Zy1AL/KGgABNo
-	wQ37qCFRhhstF5ArSKG2Uz6Olo0gPuDhgYzxFglWZrWW+1YO76iy/D0i9MAJh9SCc9zx
-	oXqurvxsLekWrKhQzya/lK9yVuzslZIwx9axtRgxAXKXb6HIKg8xMZe60U81A3bIsLtl
-	yleQ==
-Received: by 10.180.82.39 with SMTP id f7mr11546893wiy.2.1344182116276;
-	Sun, 05 Aug 2012 08:55:16 -0700 (PDT)
+	bh=SLClRjm4N7ZMu4g9a45VWZiSyup6TlyxQhttfEmFQuQ=;
+	b=FtMIVLzf7IekQ0XPL+qS09vn+YgkKMmFKo7y+M4x5kg78JhEBZraBQyI3BgPq960YX
+	0k0kF5dYfFYdIZNBeU8Fyk28KRXZCh02b3IZ3P7OLVBDIYuAA2MOigvk9D7NtvWBQq3K
+	CYkmWPIsvFeXcc6MCVdQe2hlKjoA1+mxGs/o17CLzoB8tfseaeJxVhAxTEfiAm7C8fp/
+	+ufl3eFDx1vYHtBz4ornrqLLElCIGIpm/Yi+AI2m0EDi0FYrmLCTeHFyxQ0Ln7Zzjc5w
+	ZS961dilZkhzvUesJqTp/5FLR0QaFI5wyekbc5DS6AfXIs9TZzATFhyJ8u/Yz2XMHQM+
+	+WJQ==
+Received: by 10.180.100.37 with SMTP id ev5mr11531990wib.5.1344182114317;
+	Sun, 05 Aug 2012 08:55:14 -0700 (PDT)
 Received: from localhost.localdomain (198.230.79.188.dynamic.jazztel.es.
 	[188.79.230.198])
-	by mx.google.com with ESMTPS id t7sm15214066wix.6.2012.08.05.08.55.14
+	by mx.google.com with ESMTPS id t7sm15214066wix.6.2012.08.05.08.55.12
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sun, 05 Aug 2012 08:55:15 -0700 (PDT)
+	Sun, 05 Aug 2012 08:55:13 -0700 (PDT)
 From: Javier Martinez Canillas <javier@dowhile0.org>
 To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date: Sun,  5 Aug 2012 17:54:05 +0200
-Message-Id: <1344182057-15981-19-git-send-email-javier@dowhile0.org>
+Date: Sun,  5 Aug 2012 17:54:04 +0200
+Message-Id: <1344182057-15981-18-git-send-email-javier@dowhile0.org>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <1344182057-15981-1-git-send-email-javier@dowhile0.org>
 References: <1344182057-15981-1-git-send-email-javier@dowhile0.org>
-X-Gm-Message-State: ALoCoQnRLtvlarURosGNtU1sXqLw6NB1Wh12s7Wuy/03x+XvG/rRbrcq+Xu8UKBPpbCbL4rSrO3a
+X-Gm-Message-State: ALoCoQloyO1p+NBWgWVBAVwDe0HIxddlwXxPtzkpmD0EQ3NCLpX0zUnBr2k/JbfOkwa5Fw+AocnP
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 18/30] openssh: use ${localstatedir} instead of /var for packaging
+Subject: [PATCH 17/30] linux-firware: use ${base_libdir} instead of /lib for packaging
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -55,22 +55,81 @@ variables instead of directly specify hardcoded paths.
 
 Signed-off-by: Javier Martinez Canillas <javier@dowhile0.org>
 ---
- meta/recipes-connectivity/openssh/openssh_6.0p1.bb |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+ .../linux-firmware/linux-firmware_git.bb           |   34 ++++++++++----------
+ 1 files changed, 17 insertions(+), 17 deletions(-)
 
-diff --git a/meta/recipes-connectivity/openssh/openssh_6.0p1.bb b/meta/recipes-connectivity/openssh/openssh_6.0p1.bb
-index 376023c..f0e87be 100644
---- a/meta/recipes-connectivity/openssh/openssh_6.0p1.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_6.0p1.bb
-@@ -78,7 +78,7 @@ do_install_append () {
- 	install -d ${D}${sysconfdir}/init.d
- 	install -m 0755 ${WORKDIR}/init ${D}${sysconfdir}/init.d/sshd
- 	rm -f ${D}${bindir}/slogin ${D}${datadir}/Ssh.bin
--	rmdir ${D}/var/run/sshd ${D}/var/run ${D}/var
-+	rmdir ${D}${localstatedir}/run/sshd ${D}${localstatedir}/run ${D}${localstatedir}
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
+index a7e4ed6..c5ab173 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
+@@ -35,50 +35,50 @@ do_compile() {
  }
  
- ALLOW_EMPTY_${PN} = "1"
+ do_install() {
+-	install -d  ${D}/lib/firmware/
+-	cp -r * ${D}/lib/firmware/
++	install -d  ${D}${base_libdir}/firmware/
++	cp -r * ${D}${base_libdir}/firmware/
+ 
+ 	# Libertas sd8686
+-	ln -sf libertas/sd8686_v9.bin ${D}/lib/firmware/sd8686.bin
+-	ln -sf libertas/sd8686_v9_helper.bin ${D}/lib/firmware/sd8686_helper.bin
++	ln -sf libertas/sd8686_v9.bin ${D}${base_libdir}/firmware/sd8686.bin
++	ln -sf libertas/sd8686_v9_helper.bin ${D}${base_libdir}/firmware/sd8686_helper.bin
+ 
+ 	# Realtek rtl8192* 
+-	install -m 0644 LICENCE.rtlwifi_firmware.txt ${D}/lib/firmware/rtlwifi/LICENCE.rtlwifi_firmware.txt
++	install -m 0644 LICENCE.rtlwifi_firmware.txt ${D}${base_libdir}/firmware/rtlwifi/LICENCE.rtlwifi_firmware.txt
+ 
+ 	# fixup wl12xx location, after 2.6.37 the kernel searches a different location for it
+-	( cd ${D}/lib/firmware ; ln -sf ti-connectivity/* . )
++	( cd ${D}${base_libdir}/firmware ; ln -sf ti-connectivity/* . )
+ }
+ 
+ PACKAGES =+ "${PN}-sd8686 ${PN}-rtl8192cu linux-firmware-rtl8192ce linux-firmware-rtl8192su ${PN}-wl12xx"
+ 
+ LICENSE_${PN}-sd8686 = "Firmware:LICENSE.libertas"
+ FILES_${PN}-sd8686 = " \
+-  /lib/firmware/libertas/sd8686_v9* \
+-  /lib/firmware/sd8686* \
+-  /lib/firmware/LICENCE.libertas \
++  ${base_libdir}/firmware/libertas/sd8686_v9* \
++  ${base_libdir}/firmware/sd8686* \
++  ${base_libdir}/firmware/LICENCE.libertas \
+ "
+ 
+ LICENSE_${PN}-rtl8192cu = "Firmware:LICENCE.rtlwifi_firmware"
+ FILES_${PN}-rtl8192cu = " \
+-  /lib/firmware/rtlwifi/rtl8192cufw.bin \
+-  /lib/firmware/rtlwifi/LICENCE.rtlwifi_firmware.txt \
++  ${base_libdir}/firmware/rtlwifi/rtl8192cufw.bin \
++  ${base_libdir}/firmware/rtlwifi/LICENCE.rtlwifi_firmware.txt \
+ "
+ 
+ LICENSE_${PN}-rtl8192ce = "Firmware:LICENCE.rtlwifi_firmware"
+ FILES_${PN}-rtl8192ce = " \
+-  /lib/firmware/rtlwifi/rtl8192cfw.bin \
++  ${base_libdir}/firmware/rtlwifi/rtl8192cfw.bin \
+ "
+ 
+ LICENSE_${PN}-rtl8192su = "Firmware:LICENCE.rtlwifi_firmware"
+ FILES_${PN}-rtl8192su = " \
+-  /lib/firmware/rtlwifi/rtl8712u.bin \
++  ${base_libdir}/firmware/rtlwifi/rtl8712u.bin \
+ "
+ 
+ FILES_${PN}-wl12xx = " \
+-  /lib/firmware/wl12* \
+-  /lib/firmware/TI* \
+-  /lib/firmware/ti-connectivity \
++  ${base_libdir}/firmware/wl12* \
++  ${base_libdir}/firmware/TI* \
++  ${base_libdir}/firmware/ti-connectivity \
+ "
+ 
+-FILES_${PN} += "/lib/firmware/*"
++FILES_${PN} += "${base_libdir}/firmware/*"
+ 
 -- 
 1.7.7.6
 
