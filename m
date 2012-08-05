@@ -1,39 +1,39 @@
-Received: from mail-we0-f175.google.com ([74.125.82.175])
+Received: from mail-wg0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <javier@dowhile0.org>) id 1Sy3Lo-0007ds-PV
+	(envelope-from <javier@dowhile0.org>) id 1Sy3Lq-0007cz-Ls
 	for openembedded-core@lists.openembedded.org;
 	Sun, 05 Aug 2012 18:06:47 +0200
-Received: by mail-we0-f175.google.com with SMTP id r6so1373222wey.6
+Received: by mail-wg0-f43.google.com with SMTP id dr1so1751842wgb.24
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 05 Aug 2012 08:55:03 -0700 (PDT)
+	Sun, 05 Aug 2012 08:55:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references
 	:x-gm-message-state;
-	bh=exHWUqajbf/CjUrHWMJC4LL5kPgyFVYI4QK8CjIlJQk=;
-	b=W9q36OsyuhQj/5VBuhjcD/+KHEdYElKlXaFM/XJGnAdHSWPhGQshtjj4I6aKZUSjGU
-	IuABaM6PHLhSTOrNGWIR+muUopYhQjBecbIvJwrhSM5o9ZOd0tWM6KvAns527iGL8QFs
-	uRSHtkWB7KbhjZy8ewNfZgQeMPHC1c8mX4HCoY40RHPidpwPPhfhFzhpi4dH8zEZ4KRP
-	j+Gx621bpMbxDXc0kUkDimtgx7Bgt9Q7+WaCo7af4VisuLOK+CL5JIQBtXKL+gVOoWSG
-	yIQ2JVw6rG9qG9nf+rszlGncmZQh6FDukhZQSXXlzasFyPqGgi0v5/N3j2NtAJv9DMCL
-	bGXA==
-Received: by 10.180.81.66 with SMTP id y2mr11420797wix.22.1344182103606;
-	Sun, 05 Aug 2012 08:55:03 -0700 (PDT)
+	bh=5gVMBBaRFzdKfBB5b8x47ZfJYueWz2eUmdBL7owUEyA=;
+	b=EQjrOlvQA05FgxNI8v5p5fpePQpIkRV+QnUghSvtPYyFJziNXB4AGHCk1REIZaqz1X
+	QFuP9KCimO2LLhz4MwBdT+rrJYm067sq0Kws7x6mHecjaDRRYKgKOD6pTvSqDQfapzso
+	Vr+9sarCaoJ0wGxm+w8rBwLVSSCgPdz7UF8Kbbd0SbZ0oYy9wbxMWQcllaeVe2Ii+L11
+	W0MaATR3iQtPaJ2aqQCyY5LyLViroso+ZZnIF+SzVvzs50RyooArnLtZaGFi2uJy4rwR
+	A6dhFM0vrJSXV7RtztAz9/Jl8b5j9KCksCyAOLU+TKgTVbTZUFxkIbBKzwZXtlePLcE3
+	mFnw==
+Received: by 10.180.109.129 with SMTP id hs1mr11547097wib.0.1344182105505;
+	Sun, 05 Aug 2012 08:55:05 -0700 (PDT)
 Received: from localhost.localdomain (198.230.79.188.dynamic.jazztel.es.
 	[188.79.230.198])
-	by mx.google.com with ESMTPS id t7sm15214066wix.6.2012.08.05.08.55.01
+	by mx.google.com with ESMTPS id t7sm15214066wix.6.2012.08.05.08.55.03
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sun, 05 Aug 2012 08:55:02 -0700 (PDT)
+	Sun, 05 Aug 2012 08:55:04 -0700 (PDT)
 From: Javier Martinez Canillas <javier@dowhile0.org>
 To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date: Sun,  5 Aug 2012 17:53:58 +0200
-Message-Id: <1344182057-15981-12-git-send-email-javier@dowhile0.org>
+Date: Sun,  5 Aug 2012 17:53:59 +0200
+Message-Id: <1344182057-15981-13-git-send-email-javier@dowhile0.org>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <1344182057-15981-1-git-send-email-javier@dowhile0.org>
 References: <1344182057-15981-1-git-send-email-javier@dowhile0.org>
-X-Gm-Message-State: ALoCoQlOBKkHfftSJ0MCUdf1A1L66S6A2SxBM2PSfwFE2dmPexJM3OwSFmI4cCLF44EpZ/lNEJcK
+X-Gm-Message-State: ALoCoQlbX5P3GZ7JiwHW2jlnB05m3yZ+Wato33+z3MPbnn/v+p6aMHkC5oB42jq/FA3FcvRnqIqz
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 11/30] lsb: use ${base_bindir} instead of /bin for packaging
+Subject: [PATCH 12/30] mingetty: use ${base_sbindir} instead of /sbin for packaging
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -55,22 +55,22 @@ variables instead of directly specify hardcoded paths.
 
 Signed-off-by: Javier Martinez Canillas <javier@dowhile0.org>
 ---
- meta/recipes-extended/lsb/lsb_1.4.bb |    2 +-
+ meta/recipes-extended/mingetty/mingetty_1.08.bb |    2 +-
  1 files changed, 1 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-extended/lsb/lsb_1.4.bb b/meta/recipes-extended/lsb/lsb_1.4.bb
-index 15dbeaa..5734c5c 100644
---- a/meta/recipes-extended/lsb/lsb_1.4.bb
-+++ b/meta/recipes-extended/lsb/lsb_1.4.bb
-@@ -23,7 +23,7 @@ S = "${WORKDIR}/lsb-release-${PV}"
+diff --git a/meta/recipes-extended/mingetty/mingetty_1.08.bb b/meta/recipes-extended/mingetty/mingetty_1.08.bb
+index fed5dfd..cbc13c9 100644
+--- a/meta/recipes-extended/mingetty/mingetty_1.08.bb
++++ b/meta/recipes-extended/mingetty/mingetty_1.08.bb
+@@ -14,7 +14,7 @@ EXTRA_OEMAKE = "CC='${CC}'"
  
  do_install(){
- 	oe_runmake install prefix=${D}  mandir=${D}/${datadir}/man/ DESTDIR=${D} 
--	mkdir -p ${D}/bin
-+	mkdir -p ${D}${base_bindir}
- 	mkdir -p ${D}/${baselib}
- 	mkdir -p ${D}/etc/lsb-release.d
- 	echo -n "LSB_VERSION=\"core-4.1-noarch:" > ${D}/etc/lsb-release
+     mkdir -p ${D}${mandir}/man8
+-    mkdir -p ${D}/sbin
++    mkdir -p ${D}${base_sbindir}
+     oe_runmake install DESTDIR=${D}
+ }
+ 
 -- 
 1.7.7.6
 
