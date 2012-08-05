@@ -1,38 +1,36 @@
-Received: from mail-ob0-f175.google.com ([209.85.214.175])
+Received: from mail-wg0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <javier@dowhile0.org>) id 1Sy6XP-0003jR-9X
+	(envelope-from <javier@dowhile0.org>) id 1Sy70j-0004kU-0d
 	for openembedded-core@lists.openembedded.org;
-	Sun, 05 Aug 2012 21:30:55 +0200
-Received: by obc16 with SMTP id 16so1140684obc.6
+	Sun, 05 Aug 2012 22:01:13 +0200
+Received: by wgbdr1 with SMTP id dr1so1834570wgb.24
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 05 Aug 2012 12:19:11 -0700 (PDT)
+	Sun, 05 Aug 2012 12:49:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=mime-version:x-originating-ip:in-reply-to:references:date
-	:message-id:subject:from:to:content-type:x-gm-message-state;
-	bh=cpdHCYDHIwh5anUI6VMJgvr2Hn32PMBeD7KG7XmA/bA=;
-	b=c2etiGAOr6YSBoV1TaW0MJPSbwnPF8uxKZBOyKdhe1DuXNlhp7SKTDnapsY0qoX7bH
-	3oLZEan2LgIFuqhCu/m2qclXpsOcIuakGaeVKpxdKU/960J+CaLsTi4Ts7XMDFT9bckH
-	JRLBmSRYsmr6lYB56afLfRyA7mhqrYKb4AEwIUt82NDoq6EESRuccM1BHCORFgQX6BB0
-	Jw3w0DdsOpefib9U5mleUP+BFzPhznMBVnBtn8HYlbyMM16IqUUcIl8wCj9VmIa0erLf
-	Wu1ekzSq6EYBxMmIKF20zlYRBMo2ubFr4s1uHUHkDPDORrHjErlpJAtmJaeP8nmbVled
-	IwMw==
-MIME-Version: 1.0
-Received: by 10.182.146.46 with SMTP id sz14mr15486255obb.76.1344194351047;
-	Sun, 05 Aug 2012 12:19:11 -0700 (PDT)
-Received: by 10.60.33.129 with HTTP; Sun, 5 Aug 2012 12:19:11 -0700 (PDT)
-X-Originating-IP: [188.79.230.198]
-In-Reply-To: <CAMKF1sqcLBQo0JrDEGXfkRCFXRXQ+fr8C974_HBoMyOcZDR7hA@mail.gmail.com>
-References: <1344182057-15981-1-git-send-email-javier@dowhile0.org>
-	<CAP9ODKqyQ5HGMxWpzuDGE2XEdpm4pp0AuNM3Ld35u_N+3mPJLw@mail.gmail.com>
-	<CAMKF1sqcLBQo0JrDEGXfkRCFXRXQ+fr8C974_HBoMyOcZDR7hA@mail.gmail.com>
-Date: Sun, 5 Aug 2012 21:19:11 +0200
-Message-ID: <CABxcv==etW8qh0Qk3m2jd092bG-9VD-CHJTObeqXtK9ZnKMAVQ@mail.gmail.com>
+	h=from:to:cc:subject:date:message-id:x-mailer:x-gm-message-state;
+	bh=5RbM9KRozLVCjZvdXctqFMIP8ul3JwpWTaeZw547UYE=;
+	b=RXoy1hcszI/IudgNVTzOjE8rLDI3/Le7X6mImVQW5DY6awAsrUc4niMt0LFxdH/asw
+	u2owS/PNUge1YJodi9RFZwynST3Bs+UooFJBrb/8ZLRV6Yy/mpgJVq4oRK9R6cIs8sFA
+	+L/oFYkvghknCIswRA0/GGJ7Hy9+zV3HlVMYCdBXgxqVq+Dpc0U8EZZEX2wi182iUI1N
+	DeCFaNVyVz2vdAnQ9e4wX8+qvYWvqiFmzWH3XiYsmU0pm/vtSn+zDegwb5h14rDZV+iA
+	+vYPdeMg/rZGUNWl8xXsG1Ox1k8W9JoRB/cegq9DlTLkcs33ygRfEo/pFk01TiZ811aC
+	Vg8w==
+Received: by 10.216.132.76 with SMTP id n54mr4207700wei.135.1344196169266;
+	Sun, 05 Aug 2012 12:49:29 -0700 (PDT)
+Received: from localhost.localdomain (198.230.79.188.dynamic.jazztel.es.
+	[188.79.230.198])
+	by mx.google.com with ESMTPS id w7sm11500981wiz.0.2012.08.05.12.49.26
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Sun, 05 Aug 2012 12:49:28 -0700 (PDT)
 From: Javier Martinez Canillas <javier@dowhile0.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Gm-Message-State: ALoCoQn/siSKsxZJitp7Y+P7rIY4OK4Ql3+KX+9vRbpNnyX4sEbjm1dNgKD1/V2JvV+SXwiiD9W3
-Subject: Re: [PATCH 00/30] cleanup: use variables instead of hardcoded paths
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Date: Sun,  5 Aug 2012 21:48:28 +0200
+Message-Id: <1344196136-7643-1-git-send-email-javier@dowhile0.org>
+X-Mailer: git-send-email 1.7.7.6
+X-Gm-Message-State: ALoCoQkScwYfuISKVgfjnTEadDuqMY6U14KQAN9s0zC4Cf9O/GOseXU2sLgYqy5KmBQS52FDr5gX
+Cc: openembedded-core@lists.openembedded.org
+Subject: (No subject)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,37 +45,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 05 Aug 2012 19:30:55 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Sun, 05 Aug 2012 20:01:13 -0000
 
-On Sun, Aug 5, 2012 at 9:10 PM, Khem Raj <raj.khem@gmail.com> wrote:
-> Javier
->
-> On Sun, Aug 5, 2012 at 11:16 AM, Otavio Salvador
-> <otavio@ossystems.com.br> wrote:
->> On Sun, Aug 5, 2012 at 12:53 PM, Javier Martinez Canillas
->> <javier@dowhile0.org> wrote:
->>> Also, I didn't increment the PR on the recipes since the modifications
->>> don't introduce a semantic change on them.
->>
->
->
-> thanks for doing this work. highly appreciated. However some distros
-> use flattened tree meaning no usr/
-> so for them it will be a packaging change. So as Otavio said, it will
-> need pr bumps.
->
->> This is wrong; if the distro changes the variable value then it does
->> change semantic. Please change PR on them.
->>
->> --
+The OpenEmbedded User Manual list the variables that should be used to
+control the directories into which files are installed.
 
-Hi,
+It says that is a poor practice to specify hardcoded paths instead of
+using these variables, yet there are many recipes that don't use it.
 
-Thanks a lot for pointing me out this issue.
+This is second version of a big patch-set that does a cleanup and replace
+the hardcoded paths used on these recipes with the build system variables.
 
-I'll prepare a v2 then with the recipes PR version bump and also I'll
-squash changes for the same recipe as one patch.
+I tried to be as careful as possible to do the proper replacement but
+since I could introduce regressions I split the changes in 30 different
+patches so it could be git bisectable in case of messing a recipe.
+
+Also, the patches increment the recipes PR since the a distro config can
+set the variables to a different value.
+
+Changes since v1:
+
+- Bump recipes PR as suggested by Otavio Salvador and Khem Raj
+- Squash ${base_bindir} and ${sysconfdir} changes for xinetd and lsb
+  recipes so the PR number gets incremented only once. 
+
+The patch-set consist of the following patches:
+
+[PATCH v2 01/28] xinetd: use ${sbindir} and ${sysconfdir} instead of
+[PATCH v2 02/28] alsa-state: use ${sbindir} instead of /usr/sbin for
+[PATCH v2 03/28] lsbsetup: use ${bindir} instead of /usr/bin for
+[PATCH v2 04/28] sudo: use ${bindir} and ${sysconfdir} instead of
+[PATCH v2 05/28] lsbtest: use ${bindir} instead of /usr/bin for
+[PATCH v2 06/28] cronie: use variables instead of hardcoded paths
+[PATCH v2 07/28] useradd-example: use ${datadir} instead of
+[PATCH v2 08/28] ubootchart: use variables instead of hardcoded
+[PATCH v2 09/28] xkeyboard-config: use ${datadir} instead of
+[PATCH v2 10/28] systemtap: use ${datadir} instead of /usr/share for
+[PATCH v2 11/28] lsb: use ${base_bindir} and ${sysconfdir} instead
+[PATCH v2 12/28] mingetty: use ${base_sbindir} instead of /sbin for
+[PATCH v2 13/28] external-sourcery: use ${prefix} and ${libdir}
+[PATCH v2 14/28] rpm: use ${localstatedir} and ${libdir} instead of
+[PATCH v2 15/28] at: use ${base_sbindir} instead of /sbin for
+[PATCH v2 16/28] kernel.bbclass: use ${base_libdir} and
+[PATCH v2 17/28] linux-firware: use ${base_libdir} instead of /lib
+[PATCH v2 18/28] openssh: use ${localstatedir} instead of /var for
+[PATCH v2 19/28] libpam: use ${localstatedir} and ${sysconfdir}
+[PATCH v2 20/28] x11-common: use ${sysconfdir} instead of /etc for
+[PATCH v2 21/28] builder: use ${sysconfdir} instead of /etc for
+[PATCH v2 22/28] xserver-nodm-init: use ${sysconfdir} instead of
+[PATCH v2 23/28] lsbinitscripts: use ${sysconfdir} instead of /etc
+[PATCH v2 24/28] usbinit: use ${sysconfdir} instead of /etc for
+[PATCH v2 25/28] qemu-config: use ${sysconfdir} instead of /etc for
+[PATCH v2 26/28] rsync: use ${sysconfdir} instead of /etc for
+[PATCH v2 27/28] chkconfig: use ${sysconfdir} instead of /etc for
+[PATCH v2 28/28] man: use ${sysconfdir} instead of /etc for
 
 Best regards,
 Javier
