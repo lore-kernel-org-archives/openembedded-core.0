@@ -1,39 +1,39 @@
-Received: from mail-we0-f175.google.com ([74.125.82.175])
+Received: from mail-wi0-f169.google.com ([209.85.212.169])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <javier@dowhile0.org>) id 1Sy71U-0004kh-HT
+	(envelope-from <javier@dowhile0.org>) id 1Sy71a-0005UF-Oz
 	for openembedded-core@lists.openembedded.org;
-	Sun, 05 Aug 2012 22:02:00 +0200
-Received: by mail-we0-f175.google.com with SMTP id r6so1441018wey.6
+	Sun, 05 Aug 2012 22:02:06 +0200
+Received: by wibhm2 with SMTP id hm2so905630wib.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 05 Aug 2012 12:50:19 -0700 (PDT)
+	Sun, 05 Aug 2012 12:50:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references
 	:x-gm-message-state;
-	bh=HZ0FZu6XPre8qarjp2c4bN4FWn0fhvLbEQ9g3TsfjwY=;
-	b=ZHXJomsmfR2yvAHA3MM4vlYiFyP9DdCt1hc1jYptibZhrbHgCKey2VZ442bGw8UpZn
-	G2UN2sh3gf/robp/8UrwriiBjmTH6nQYOBMwT9RmzF+LGgnpxdst5sT4RytckhAlD0HF
-	W0hG+U8dLn92VrkEQIGQYc835I8foYh8q3cLU02DKCmGp/mH+LxKtomnQJ/1vvgxeKMy
-	NqLKo6OIXxFh5rVnRiq+dCum4yUAqzl02Bw/zLS8oZBLKo04OLeZvX7GNRkGSHWBKQte
-	fJP5xw/AUtQrDkcp9oD88rCQNNxsxoJipZSDf9qaVSsxQYXhqQG5m/C+STyG84zMhuLt
-	fqPg==
-Received: by 10.180.106.97 with SMTP id gt1mr12427039wib.5.1344196219136;
-	Sun, 05 Aug 2012 12:50:19 -0700 (PDT)
+	bh=TilHMNGec0u/7XgnAKK12Njew2ekbMmE2Ufe99FckJ8=;
+	b=k31qnQ1zRGE0PG3XDL/cYpw8t8s8+ZdP+8sCnS6KtJJZg++cviaKpcmeIbLa3aLjmc
+	+N0n1R8TFltPQLcnGbSA/LzrsKymPahFHn1E9tDPnVhSF1DgoiN7aPDoVzp31G+uU6sw
+	JNkr+ih50aoVuExBmdsuQ7SflkQKeUTGgxqxXImkShRJvJcfJeEMmQc8NU+pnUNWmNsq
+	zryzJ1k9F1ES3PZV3REmS3NJ57uZ6J5O+kk6UAxXcfMADNc3sc8Vk4813wT4Sq5GhWuO
+	IwJ1BKjBlPtbKpPQOBcm1XQvhYz8rCF/an940XWniJPMWhegQS791nNGTUTZj3TpZOiF
+	TfYA==
+Received: by 10.216.132.76 with SMTP id n54mr4208649wei.135.1344196222980;
+	Sun, 05 Aug 2012 12:50:22 -0700 (PDT)
 Received: from localhost.localdomain (198.230.79.188.dynamic.jazztel.es.
 	[188.79.230.198])
-	by mx.google.com with ESMTPS id w7sm11500981wiz.0.2012.08.05.12.50.16
+	by mx.google.com with ESMTPS id w7sm11500981wiz.0.2012.08.05.12.50.19
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sun, 05 Aug 2012 12:50:18 -0700 (PDT)
+	Sun, 05 Aug 2012 12:50:21 -0700 (PDT)
 From: Javier Martinez Canillas <javier@dowhile0.org>
 To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date: Sun,  5 Aug 2012 21:48:48 +0200
-Message-Id: <1344196136-7643-21-git-send-email-javier@dowhile0.org>
+Date: Sun,  5 Aug 2012 21:48:49 +0200
+Message-Id: <1344196136-7643-22-git-send-email-javier@dowhile0.org>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <1344196136-7643-1-git-send-email-javier@dowhile0.org>
 References: <1344196136-7643-1-git-send-email-javier@dowhile0.org>
-X-Gm-Message-State: ALoCoQlIEceYVD8h/WYs3Z3A9/ZlCDs9DqfeJHAw9YmklJxPrVxQNSyeVlFFPllRoNZF1w2y7L+G
+X-Gm-Message-State: ALoCoQnW9a6WvOAxtnn7a/wmYp3aZTX6THDqIoqwtQiZ9Yuljg//0abiBN1LQPcInNancs3qSP8l
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2 20/28] x11-common: use ${sysconfdir} instead of /etc for packaging
+Subject: [PATCH v2 21/28] builder: use ${sysconfdir} instead of /etc for packaging
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,44 +48,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 05 Aug 2012 20:02:00 -0000
+X-List-Received-Date: Sun, 05 Aug 2012 20:02:06 -0000
 
 It is considered good practice to use the build system provided
 variables instead of directly specify hardcoded paths.
 
 Signed-off-by: Javier Martinez Canillas <javier@dowhile0.org>
 ---
- meta/recipes-graphics/x11-common/x11-common_0.1.bb |   10 +++++-----
+ meta/recipes-graphics/builder/builder_0.1.bb |   10 +++++-----
  1 files changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-graphics/x11-common/x11-common_0.1.bb b/meta/recipes-graphics/x11-common/x11-common_0.1.bb
-index ddb3a1d..2675145 100644
---- a/meta/recipes-graphics/x11-common/x11-common_0.1.bb
-+++ b/meta/recipes-graphics/x11-common/x11-common_0.1.bb
-@@ -2,7 +2,7 @@ DESCRIPTION = "Common X11 scripts and configuration files"
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
+diff --git a/meta/recipes-graphics/builder/builder_0.1.bb b/meta/recipes-graphics/builder/builder_0.1.bb
+index cb5f440..5c12c14 100644
+--- a/meta/recipes-graphics/builder/builder_0.1.bb
++++ b/meta/recipes-graphics/builder/builder_0.1.bb
+@@ -1,7 +1,7 @@
+ SUMMARY = "New user to do specific job"
+ DESCRIPTION = "This recipe create a new user named ${PN}, who is used for specific jobs like building. The task can be auto started via mini X"
  SECTION = "x11"
--PR = "r44"
-+PR = "r45"
+-PR = "r3"
++PR = "r4"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://builder_hob_start.sh;endline=5;md5=84796c3c41785d86100fdabcbdade00e"
  
- SRC_URI = "file://etc \
-            file://gplv2-license.patch"
-@@ -12,10 +12,10 @@ S = "${WORKDIR}"
- inherit allarch
+@@ -21,10 +21,10 @@ USERADD_PARAM_${PN} = "--system --create-home \
+                        --user-group ${PN}"
  
- do_install() {
--	cp -R ${S}/etc ${D}/etc
--	chmod -R 755 ${D}/etc
--	find ${D}/etc -type d -name .svn -prune -exec rm -rf {} \;
--	find ${D}/etc -type f -name \*~ -exec rm -rf {} \;
-+	cp -R ${S}/etc ${D}${sysconfdir}
-+	chmod -R 755 ${D}${sysconfdir}
-+	find ${D}${sysconfdir} -type d -name .svn -prune -exec rm -rf {} \;
-+	find ${D}${sysconfdir} -type f -name \*~ -exec rm -rf {} \;
+ do_install () {
+-	install -d -m 755 ${D}/etc/mini_x/session.d
+-	install -p -m 755 builder_hob_start.sh ${D}/etc/mini_x/session.d/
++	install -d -m 755 ${D}${sysconfdir}/mini_x/session.d
++	install -p -m 755 builder_hob_start.sh ${D}${sysconfdir}/mini_x/session.d/
+ 
+-	chown  ${PN}.${PN} ${D}/etc/mini_x/session.d/builder_hob_start.sh
+-        install -p -m 755 please_wait_dialog.py ${D}/etc/mini_x
++	chown  ${PN}.${PN} ${D}${sysconfdir}/mini_x/session.d/builder_hob_start.sh
++        install -p -m 755 please_wait_dialog.py ${D}${sysconfdir}/mini_x
  }
  
- RDEPENDS_${PN} = "dbus-x11 xmodmap xdpyinfo xtscal xinit formfactor"
 -- 
 1.7.7.6
 
