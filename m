@@ -1,34 +1,36 @@
-Received: from mail-wg0-f43.google.com ([74.125.82.43])
+Received: from mail-wi0-f171.google.com ([209.85.212.171])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1Sy1Pj-0005jg-Is
+	(envelope-from <javier@dowhile0.org>) id 1Sy3LW-0007cu-Oh
 	for openembedded-core@lists.openembedded.org;
-	Sun, 05 Aug 2012 16:02:41 +0200
-Received: by wgbdr1 with SMTP id dr1so1706321wgb.24
+	Sun, 05 Aug 2012 18:06:26 +0200
+Received: by wibhq4 with SMTP id hq4so885338wib.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 05 Aug 2012 06:50:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	bh=s6sobcWhMon5AGk+IwQBydewQmpMG9VtnWOuX3LV7rI=;
-	b=pLMcbHp+Ag7PtrOv2vyYu0q+T5P0OBpFtbdM3grfqk3X5O/yCJzc4QJKiRlcAJ6GGV
-	kkSbFgeW2aew6XW+sTets3dNhysmIGNEcd/DEzBVvskKNLTTyb2lTW5kgBRQ2e8Gv6Kt
-	jSCrQeTftOKicEXSsLaEdf8VVYnxA384XGyKVdnmAABUhhogwA58bJI5RX7py2k2onyO
-	Uy3es6G+0+nnsTKyX+HcRDckzSnKWUiZ3IISp8wuhRNemENu4t+kahaqMkkRpGdIUIua
-	WWih6tR8xlZjIh+NIWX4T4UeE0j1dv2v8x5OS30YQHNy8y9sQueFRU+6NjOgK4oY7qtT
-	5ZTg==
-Received: by 10.217.5.130 with SMTP id w2mr4034195wes.45.1344174656359;
-	Sun, 05 Aug 2012 06:50:56 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id b7sm14355554wiz.9.2012.08.05.06.50.54
+	Sun, 05 Aug 2012 08:54:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer:x-gm-message-state;
+	bh=1N++BFVkHavxJqv9SwE1O4IpHlQLLWKZqveVmIDxnPc=;
+	b=NPvP47QtU9buj+gVOYaR4R1Bd5Z7DQ6gU22QK07X4iG2aenv9cRbzY3hVtibdQruLq
+	OH6hjLqoVvZiA9nXcagXgLAw4LTugqxOZyGxs+yvtdOpjBhfAkhc8Kvv1xyPnFB8YCiu
+	9ZCz9TwqyDX8HGuJJGpHcItf4oOGU3YaM3NYQvMjEG+8vHThDubOWME2Pp/B7X9KzB6D
+	Hp44q9vZXEXFk3ShlgMEIMAkUise16TuwcRYp4ppHCsbAPOg6G+LnHukparM8e8b3x2T
+	Ozqb+F7Tfod0FdFSfAY93dGv9m0EMETtPjctWkVcjTD9oCeZPZ0OaN2OBFZTjdhhMiL6
+	PLXQ==
+Received: by 10.180.76.135 with SMTP id k7mr11500425wiw.7.1344182083274;
+	Sun, 05 Aug 2012 08:54:43 -0700 (PDT)
+Received: from localhost.localdomain (198.230.79.188.dynamic.jazztel.es.
+	[188.79.230.198])
+	by mx.google.com with ESMTPS id t7sm15214066wix.6.2012.08.05.08.54.41
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sun, 05 Aug 2012 06:50:55 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun,  5 Aug 2012 15:50:46 +0200
-Message-Id: <1344174646-348-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.7.8.6
-In-Reply-To: <20120805131615.GC3267@jama.jama.net>
-References: <20120805131615.GC3267@jama.jama.net>
-Subject: [PATCH] qt4-native: fix creating /include directory in build host root
+	Sun, 05 Aug 2012 08:54:42 -0700 (PDT)
+From: Javier Martinez Canillas <javier@dowhile0.org>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Date: Sun,  5 Aug 2012 17:53:47 +0200
+Message-Id: <1344182057-15981-1-git-send-email-javier@dowhile0.org>
+X-Mailer: git-send-email 1.7.7.6
+X-Gm-Message-State: ALoCoQmbcobUO2F+3o0Kpn6LhM++5I4Rwxf/7ooTD4EcyvDsiVCrSR3xJhtywbgwfa7mvUsVeC+p
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 00/30] cleanup: use variables instead of hardcoded paths
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,40 +45,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 05 Aug 2012 14:02:41 -0000
+X-List-Received-Date: Sun, 05 Aug 2012 16:06:26 -0000
 
-* same fix as
-  http://git.openembedded.org/openembedded-core/commit/?id=7d3fd68480d54a8ef0d91a772df3506cd45ef2c2
-  is needed for native too
+The OpenEmbedded User Manual list the variables that should be used to
+control the directories into which files are installed.
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/recipes-qt/qt4/qt4-native.inc |    3 ++-
- 1 files changed, 2 insertions(+), 1 deletions(-)
+It says that is a poor practice to specify hardcoded paths instead of
+using these variables, yet there are many recipes that don't use it.
 
-diff --git a/meta/recipes-qt/qt4/qt4-native.inc b/meta/recipes-qt/qt4/qt4-native.inc
-index 90ea63c..e00a1f3 100644
---- a/meta/recipes-qt/qt4/qt4-native.inc
-+++ b/meta/recipes-qt/qt4/qt4-native.inc
-@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.LGPL;md5=fbc093901857fcd118f065f900982c24 \
-                     file://LICENSE.GPL3;md5=babc5b6b77441da277f5c06b2e547720 \
-                     file://LGPL_EXCEPTION.txt;md5=411080a56ff917a5a1aa08c98acae354"
- 
--INC_PR = "r15"
-+INC_PR = "r16"
- 
- inherit native
- 
-@@ -18,6 +18,7 @@ SRC_URI = "http://get.qt.nokia.com/qt/source/qt-everywhere-opensource-src-${PV}.
-            file://g++.conf \
-            file://linux.conf \
-            file://fix_qkbdtty_qws.patch \
-+           file://set-OUTPUT_DIR-if-empty.patch \
- 	"
- S = "${WORKDIR}/qt-everywhere-opensource-src-${PV}"
- 
--- 
-1.7.8.6
+This is a big patch-set that does a cleanup and replace the hardcoded
+paths used on these recipes with the build system installation variables.
 
+I tried to be as careful as possible to do the proper replacement but
+since I could introduce regressions I split the changes in 30 different
+patches so it could be git bisectable in case of messing a recipe.
+
+Also, I didn't increment the PR on the recipes since the modifications
+don't introduce a semantic change on them.
+
+The patch-set consist of the following patches:
+
+[PATCH 01/30] xinetd: use ${sbindir} instead of /usr/sbin for
+[PATCH 02/30] alsa-state: use ${sbindir} instead of /usr/sbin for
+[PATCH 03/30] lsbsetup: use ${bindir} instead of /usr/bin for
+[PATCH 04/30] sudo: use ${bindir} and ${sysconfdir} instead of
+[PATCH 05/30] lsbtest: use ${bindir} instead of /usr/bin for
+[PATCH 06/30] cronie: use variables instead of hardcoded paths
+[PATCH 07/30] useradd-example: use ${datadir} instead of /usr/share
+[PATCH 08/30] ubootchart: use variables instead of hardcoded paths
+[PATCH 09/30] xkeyboard-config: use ${datadir} instead of /usr/share
+[PATCH 10/30] systemtap: use ${datadir} instead of /usr/share for
+[PATCH 11/30] lsb: use ${base_bindir} instead of /bin for packaging
+[PATCH 12/30] mingetty: use ${base_sbindir} instead of /sbin for
+[PATCH 13/30] external-sourcery: use ${prefix} and ${libdir} instead
+[PATCH 14/30] rpm: use ${localstatedir} and ${libdir} instead of
+[PATCH 15/30] at: use ${base_sbindir} instead of /sbin for packaging
+[PATCH 16/30] kernel.bbclass: use ${base_libdir} and ${sysconfdir}
+[PATCH 17/30] linux-firware: use ${base_libdir} instead of /lib for
+[PATCH 18/30] openssh: use ${localstatedir} instead of /var for
+[PATCH 19/30] libpam: use ${localstatedir} and ${sysconfdir} instead
+[PATCH 20/30] x11-common: use ${sysconfdir} instead of /etc for
+[PATCH 21/30] lsb: use ${sysconfdir} instead of /etc for packaging
+[PATCH 22/30] builder: use ${sysconfdir} instead of /etc for
+[PATCH 23/30] xserver-nodm-init: use ${sysconfdir} instead of /etc
+[PATCH 24/30] lsbinitscripts: use ${sysconfdir} instead of /etc for
+[PATCH 25/30] xinetd: use ${sysconfdir} instead of /etc for
+[PATCH 26/30] usbinit: use ${sysconfdir} instead of /etc for
+[PATCH 27/30] qemu-config: use ${sysconfdir} instead of /etc for
+[PATCH 28/30] rsync: use ${sysconfdir} instead of /etc for packaging
+[PATCH 29/30] chkconfig: use ${sysconfdir} instead of /etc for
+[PATCH 30/30] man: use ${sysconfdir} instead of /etc for packaging
+
+Best regards,
+Javier
 
 
