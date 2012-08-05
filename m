@@ -1,39 +1,39 @@
-Received: from mail-wi0-f177.google.com ([209.85.212.177])
+Received: from mail-wg0-f41.google.com ([74.125.82.41])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <javier@dowhile0.org>) id 1Sy3MA-0007d8-Nt
+	(envelope-from <javier@dowhile0.org>) id 1Sy3MC-0007v6-9r
 	for openembedded-core@lists.openembedded.org;
-	Sun, 05 Aug 2012 18:07:07 +0200
-Received: by mail-wi0-f177.google.com with SMTP id hm11so885140wib.6
+	Sun, 05 Aug 2012 18:07:09 +0200
+Received: by mail-wg0-f41.google.com with SMTP id ds1so822968wgb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 05 Aug 2012 08:55:25 -0700 (PDT)
+	Sun, 05 Aug 2012 08:55:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references
 	:x-gm-message-state;
-	bh=GdpAbhvfwXko6tNQeOVZErzbM/eY4KP0zIZtG+9Pbvc=;
-	b=d6KEnoSHjW26K/+ZUkrCeLsWrSBIddjZvoDfNz0lBpw9nfn8Cp6Wkkxw10rkAljrv/
-	OOMnxnaNLIsXSy2gVmyQ2J2EK3C9TuY/5CU69lfUn9hA4KOkzkdbY+rG/ZYxrfVtfLt2
-	Y+9zM4hqOvUdr6Ra8GKuSyLuVHn8u/Kq1sTFaLEVeKENAlI4U5fIIkFRT2kT0ohDFoAn
-	6CulUAo4urRhVgYy90lCKmxNM/MzYbY8CMNKvyPHvMZmXVlOFsUzlXkAwId0CTa7qjyq
-	7M14tLw09vuuJLmS2MHLZcjXBIrrtXU7FgC8QaROuapEqqMr2/opBMsl8cuxFG9QXRS9
-	a8IA==
-Received: by 10.216.192.85 with SMTP id h63mr357599wen.7.1344182125377;
-	Sun, 05 Aug 2012 08:55:25 -0700 (PDT)
+	bh=NDzwmxad2MQD9+3Qk1TsoUVYD4GhVo7Bv5QooOW8Y74=;
+	b=Eb4ViA2f9NzGmfXqjqILxVMCTkCMHQPWbqKIy/qg2oHPB2FlKG8V2e6/8sqvIXcIQd
+	QV9JPv5j8eh1rxuVUGJBxMBOxLhq3d1EgSR4vDxazy7TsI+/IjA8HkQb7+uCvRYDbhBu
+	YtHj/MCdYdXXSbaYZo2C+PRda+AV/VA3Kfx236tI7ZcxOhCTbIp+ul7RXXlXjcrokPFO
+	GG3f+kDQtsUz4CRxXcRpjUXAP0tLbPuxHpT7/sdDgvAceT6289N3r+amqY1bbJMyhvEo
+	VS2XvC2wEcvMXEXFoijqbFZv6gOrRl36mEWzYRti8geh9vp1sPcDCl9hvty5wz3ekF9w
+	2qKg==
+Received: by 10.180.78.135 with SMTP id b7mr11477386wix.11.1344182127142;
+	Sun, 05 Aug 2012 08:55:27 -0700 (PDT)
 Received: from localhost.localdomain (198.230.79.188.dynamic.jazztel.es.
 	[188.79.230.198])
-	by mx.google.com with ESMTPS id t7sm15214066wix.6.2012.08.05.08.55.23
+	by mx.google.com with ESMTPS id t7sm15214066wix.6.2012.08.05.08.55.25
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sun, 05 Aug 2012 08:55:24 -0700 (PDT)
+	Sun, 05 Aug 2012 08:55:26 -0700 (PDT)
 From: Javier Martinez Canillas <javier@dowhile0.org>
 To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date: Sun,  5 Aug 2012 17:54:10 +0200
-Message-Id: <1344182057-15981-24-git-send-email-javier@dowhile0.org>
+Date: Sun,  5 Aug 2012 17:54:11 +0200
+Message-Id: <1344182057-15981-25-git-send-email-javier@dowhile0.org>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <1344182057-15981-1-git-send-email-javier@dowhile0.org>
 References: <1344182057-15981-1-git-send-email-javier@dowhile0.org>
-X-Gm-Message-State: ALoCoQkEChpyg5e2bd7fqsOQ3P/XErjqyG/4I7G8k5mkb0+RU/nTx6cjwwp6fL2TY28RUZKBT7LM
+X-Gm-Message-State: ALoCoQnJ6rTFti0pZLVNm/+qmx3gv0VKKJhKjYBdOlJ395jg6SGWpjrmoar0JZS0J3by4gCtLtA2
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 23/30] xserver-nodm-init: use ${sysconfdir} instead of /etc for packaging
+Subject: [PATCH 24/30] lsbinitscripts: use ${sysconfdir} instead of /etc for packaging
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,38 +48,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 05 Aug 2012 16:07:07 -0000
+X-List-Received-Date: Sun, 05 Aug 2012 16:07:12 -0000
 
 It is considered good practice to use the build system provided
 variables instead of directly specify hardcoded paths.
 
 Signed-off-by: Javier Martinez Canillas <javier@dowhile0.org>
 ---
- .../x11-common/xserver-nodm-init.bb                |   10 +++++-----
- 1 files changed, 5 insertions(+), 5 deletions(-)
+ meta/recipes-extended/lsb/lsbinitscripts_9.03.bb |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-graphics/x11-common/xserver-nodm-init.bb b/meta/recipes-graphics/x11-common/xserver-nodm-init.bb
-index 8fca056..0f7f46e 100644
---- a/meta/recipes-graphics/x11-common/xserver-nodm-init.bb
-+++ b/meta/recipes-graphics/x11-common/xserver-nodm-init.bb
-@@ -14,12 +14,12 @@ S = "${WORKDIR}"
- PACKAGE_ARCH = "${MACHINE_ARCH}"
+diff --git a/meta/recipes-extended/lsb/lsbinitscripts_9.03.bb b/meta/recipes-extended/lsb/lsbinitscripts_9.03.bb
+index 8071916..3fef5c3 100644
+--- a/meta/recipes-extended/lsb/lsbinitscripts_9.03.bb
++++ b/meta/recipes-extended/lsb/lsbinitscripts_9.03.bb
+@@ -22,6 +22,6 @@ ALTERNATIVE_LINK_NAME[functions] = "${sysconfdir}/init.d/functions"
+ do_configure[noexec] = "1" 
  
- do_install() {
--    install -d ${D}/etc
--    install -d ${D}/etc/init.d
--    install xserver-nodm ${D}/etc/init.d
-+    install -d ${D}${sysconfdir}
-+    install -d ${D}${sysconfdir}/init.d
-+    install xserver-nodm ${D}${sysconfdir}/init.d
-     if [ "${ROOTLESS_X}" = "1" ] ; then
--        install -d ${D}/etc/X11
--        install Xusername ${D}/etc/X11
-+        install -d ${D}${sysconfdir}/X11
-+        install Xusername ${D}${sysconfdir}/X11
-     fi
+ do_install(){
+-	install -d ${D}/etc/init.d/
+-	install -m 0755 ${S}/rc.d/init.d/functions ${D}/etc/init.d/functions
++	install -d ${D}${sysconfdir}/init.d/
++	install -m 0755 ${S}/rc.d/init.d/functions ${D}${sysconfdir}/init.d/functions
  }
- 
 -- 
 1.7.7.6
 
