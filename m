@@ -1,38 +1,45 @@
 Received: from mail-ob0-f175.google.com ([209.85.214.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <javier@dowhile0.org>) id 1Sy8wv-0007bg-B2
+	(envelope-from <derek.buitenhuis@gmail.com>) id 1Sy9J7-0007tV-7C
 	for openembedded-core@lists.openembedded.org;
-	Mon, 06 Aug 2012 00:05:25 +0200
-Received: by obc16 with SMTP id 16so1297900obc.6
+	Mon, 06 Aug 2012 00:28:21 +0200
+Received: by obc16 with SMTP id 16so1321237obc.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 05 Aug 2012 14:53:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:x-originating-ip:in-reply-to:references:date
-	:message-id:subject:from:to:content-type:x-gm-message-state;
-	bh=p5JZ7Ae2FNE3iekMQiC7kNefjeoPiy3u7FNydIGaLqg=;
-	b=ByQAhhHdoWFqSROReq5bFnFJd9frcenecDUtlNRsKSFE+tlY0kzEvF3V/K6umaqu60
-	Snvq48BL8fle3Mixoa5j23PIL+QEkTqODCB5dVk5v1uN3/xsSJhqAxbSU5pyRHZ5XfXn
-	+WVbdI+NiXh5kzEPxk5mWyWD1grAlp2D8AXyAlNKI0To0YH7Xrn8iIvkblyBRXr8ksBk
-	TbLrZjIUOBmuCBwwtO/ZiADbfzu1MHI0OmnbOrfw+4R+rBtV0pWyfOKVPBPNxjPtvXZP
-	Pu4YJdznnRm21CjfwMC/BSQYiJZGL5zz5gSj8tCM0GKgLwxCQcK6YsPhWTcpKSqBXKeM
-	8b4A==
+	Sun, 05 Aug 2012 15:16:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=message-id:date:from:user-agent:mime-version:to:subject:references
+	:in-reply-to:x-enigmail-version:content-type
+	:content-transfer-encoding;
+	bh=nSQ3SOHyQl9uMlXGaMCVLpPMulqrGVJyfC8Z54ZRc64=;
+	b=rCQ4/5fDe/NZvj6lflqR9emp9L1pK+Wos41WLW7FYU+SMLhBErxbsdvxIVGW80L1X6
+	I5LEQ5bFk/Cx3LhFPBUexpru4ynB7QGivIt5BYoUNHNmKWMvSum0MjfxUsh1uW5667Rh
+	8E4Xx4VVPvDkPnAj5oD1n5v2G2B6boZC53EM2+3I7REi7rREDOHYFOxsfCqxbQ+MF1jF
+	+pV455HQnBPDXN9Wjqd7dJUPXhUtY512VuY1KM6yY3ZQLhBprgW+B28QYPL/Cw6DTJfg
+	hwR5HRiT3qyR/snIFAjLsfitJO7UdJawL9BGzcfwpEV0Ev+5bRUhb2jA/MKMA6ht8ax0
+	CKlA==
+Received: by 10.50.169.4 with SMTP id aa4mr3725948igc.53.1344204996488;
+	Sun, 05 Aug 2012 15:16:36 -0700 (PDT)
+Received: from [192.168.1.111] (S0106586d8f4832af.tb.shawcable.net.
+	[24.109.142.27])
+	by mx.google.com with ESMTPS id g5sm4880974ign.4.2012.08.05.15.16.35
+	(version=SSLv3 cipher=OTHER); Sun, 05 Aug 2012 15:16:35 -0700 (PDT)
+Message-ID: <501EF0BC.2050000@gmail.com>
+Date: Sun, 05 Aug 2012 18:16:28 -0400
+From: Derek Buitenhuis <derek.buitenhuis@gmail.com>
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
+	rv:14.0) Gecko/20120713 Thunderbird/14.0
 MIME-Version: 1.0
-Received: by 10.182.16.3 with SMTP id b3mr16040153obd.72.1344203620862; Sun,
-	05 Aug 2012 14:53:40 -0700 (PDT)
-Received: by 10.60.33.129 with HTTP; Sun, 5 Aug 2012 14:53:40 -0700 (PDT)
-X-Originating-IP: [188.79.230.198]
-In-Reply-To: <CABcZANkq+Mjbogf8=P-G=gmh=Mrqj4M+f49E7Vk2H_tiK+ioFA@mail.gmail.com>
-References: <1344196136-7643-1-git-send-email-javier@dowhile0.org>
-	<1344196136-7643-14-git-send-email-javier@dowhile0.org>
-	<CABcZANkq+Mjbogf8=P-G=gmh=Mrqj4M+f49E7Vk2H_tiK+ioFA@mail.gmail.com>
-Date: Sun, 5 Aug 2012 23:53:40 +0200
-Message-ID: <CABxcv=k2HyobTKctqQg6M-ORcvGLRqmZRg8ix8LYT-pauTJFXQ@mail.gmail.com>
-From: Javier Martinez Canillas <javier@dowhile0.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Gm-Message-State: ALoCoQlIUA90BdfBLfLihqF3N2BFNc4kaDVxffHnkJRULTLizAOU+CFHf2XvpoFcdYCBlAfIQ+IU
-Subject: Re: [PATCH v2 13/28] external-sourcery: use ${prefix} and ${libdir} instead of /usr and /usr/lib
+References: <1343942157-15997-1-git-send-email-yao.zhao@windriver.com>
+	<501D7090.2040500@gmail.com>
+	<EB05DE7F-A81E-4CF6-BD49-F93604EA1EDF@dominion.thruhere.net>
+	<501E9EF3.2020208@gmail.com>
+	<A35353F6-FFAE-481C-9C36-F38CE110284F@dominion.thruhere.net>
+	<CAMKF1sq_mpVRj+EH5cEdXRhy6h=Dy32u5o_Q8h3qXTzEJ208fw@mail.gmail.com>
+In-Reply-To: <CAMKF1sq_mpVRj+EH5cEdXRhy6h=Dy32u5o_Q8h3qXTzEJ208fw@mail.gmail.com>
+X-Enigmail-Version: 1.4.3
+Subject: Re: [PATCH] gstreamer: gst-ffmpeg: fix build issues for libav
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,69 +54,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 05 Aug 2012 22:05:25 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Sun, 05 Aug 2012 22:28:21 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-On Sun, Aug 5, 2012 at 11:34 PM, Chris Larson <clarson@kergoth.com> wrote:
-> On Sun, Aug 5, 2012 at 12:48 PM, Javier Martinez Canillas
-> <javier@dowhile0.org> wrote:
->> It is considered good practice to use the build system provided
->> variables instead of directly specify hardcoded paths.
->>
->> Signed-off-by: Javier Martinez Canillas <javier@dowhile0.org>
->> ---
->>  .../meta/external-sourcery-toolchain.bb            |    8 ++++----
->>  1 files changed, 4 insertions(+), 4 deletions(-)
->>
->> diff --git a/meta/recipes-core/meta/external-sourcery-toolchain.bb b/meta/recipes-core/meta/external-sourcery-toolchain.bb
->> index 74c82ec..1def79e 100644
->> --- a/meta/recipes-core/meta/external-sourcery-toolchain.bb
->> +++ b/meta/recipes-core/meta/external-sourcery-toolchain.bb
->> @@ -24,7 +24,7 @@ PROVIDES += "\
->>         virtual/linux-libc-headers \
->>  "
->>  PV = "${CSL_VER_MAIN}"
->> -PR = "r7"
->> +PR = "r8"
->>
->>  #SRC_URI = "http://www.codesourcery.com/public/gnu_toolchain/${CSL_TARGET_SYS}/arm-${PV}-${TARGET_PREFIX}i686-pc-linux-gnu.tar.bz2"
->>
->> @@ -38,10 +38,10 @@ do_install() {
->>         cp -a $sysroot/etc/. ${D}${sysconfdir}
->>         cp -a $sysroot/sbin/. ${D}${base_sbindir}
->>
->> -       install -d ${D}/usr
->> +       install -d ${D}${prefix}
->>         for usr_element in bin libexec sbin share ${base_libdir}; do
->>                 usr_path=$sysroot/usr/$usr_element
->> -               cp -a $usr_path ${D}/usr/
->> +               cp -a $usr_path ${D}${prefix}/
->>         done
->>         for datadir_element in man info; do
->>                 datadir_path=$sysroot/usr/$datadir_element
->> @@ -81,7 +81,7 @@ external_toolchain_sysroot_adjust() {
->>
->>         # If the usr/lib directory doesn't exist, the toolchain fails to even
->>         # try to find crti.o in a completely different directory (usr/lib64)
->> -       install -d ${SYSROOT_DESTDIR}/usr/lib
->> +       install -d ${SYSROOT_DESTDIR}${libdir}
->
->
-> This is wrong. This line creates usr/lib *explicitly* to cover the
-> case where libdir is set to something else (e.g. usr/lib64). As the
-> comment says, the toolchain will fail to search the real libdir if the
-> usr/lib dir does not exist.
-> --
-> Christopher Larson
->
+On 05/08/2012 3:11 PM, Khem Raj wrote:
+> On Sun, Aug 5, 2012 at 10:31 AM, Koen Kooi <koen@dominion.thruhere.net> wrote:
+>> It's been in meta-oe for ages. I guess we should move gst-ffmpeg (which is called gst-libav nowadays) into meta-multimedia together with libav.
+> 
+> +1
 
-Hi Christopher,
+As an upstream developer, I volunteer to maintain the recipe if need be. :)
 
-Thanks for explaining me this, I didn't know that libdir weren't use on purpose.
+- Derek
 
-This patch can be discarded from the patch-set then.
-
-Best regards,
-Javier
 
 
