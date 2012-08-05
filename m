@@ -1,36 +1,39 @@
-Received: from mail-wg0-f43.google.com ([74.125.82.43])
+Received: from mail-we0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <javier@dowhile0.org>) id 1Sy70j-0004kU-0d
+	(envelope-from <javier@dowhile0.org>) id 1Sy70l-0004kh-F9
 	for openembedded-core@lists.openembedded.org;
-	Sun, 05 Aug 2012 22:01:13 +0200
-Received: by wgbdr1 with SMTP id dr1so1834570wgb.24
+	Sun, 05 Aug 2012 22:01:15 +0200
+Received: by weyr6 with SMTP id r6so1441018wey.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 05 Aug 2012 12:49:29 -0700 (PDT)
+	Sun, 05 Aug 2012 12:49:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer:x-gm-message-state;
-	bh=5RbM9KRozLVCjZvdXctqFMIP8ul3JwpWTaeZw547UYE=;
-	b=RXoy1hcszI/IudgNVTzOjE8rLDI3/Le7X6mImVQW5DY6awAsrUc4niMt0LFxdH/asw
-	u2owS/PNUge1YJodi9RFZwynST3Bs+UooFJBrb/8ZLRV6Yy/mpgJVq4oRK9R6cIs8sFA
-	+L/oFYkvghknCIswRA0/GGJ7Hy9+zV3HlVMYCdBXgxqVq+Dpc0U8EZZEX2wi182iUI1N
-	DeCFaNVyVz2vdAnQ9e4wX8+qvYWvqiFmzWH3XiYsmU0pm/vtSn+zDegwb5h14rDZV+iA
-	+vYPdeMg/rZGUNWl8xXsG1Ox1k8W9JoRB/cegq9DlTLkcs33ygRfEo/pFk01TiZ811aC
-	Vg8w==
-Received: by 10.216.132.76 with SMTP id n54mr4207700wei.135.1344196169266;
-	Sun, 05 Aug 2012 12:49:29 -0700 (PDT)
+	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references
+	:x-gm-message-state;
+	bh=J089jkPkhS8qW2VT70HnCz56Km9BbSzZBTynfXqwclM=;
+	b=RFDaK+BecRmqZTep0I3xG8g5azssOkgpTcxPUcLVcwgEe9jdjClUOdX0qmWBHQwjLg
+	Shh0QiTLAFRj/N3oCfOEE6sNRDnpiITngJH25qZM4S+uwpcMvVIvSfodaIhTg/OSoCD8
+	V2+Zims5pCULhEeuk4ls8vt4Y4yOvduu1LEV5gz9KhgubTuAEVk6LUccdYBDn6fFQ7Yn
+	eBGgRo3/MstUgZEffpDpZWsjsV76UausZGMzSoFNoFckl+eoaaile2pfibUMQ+LzdRyU
+	YNiMP8LxINnw9JzzM+etrfqim1c5T2foO34hRQct19NGqrexiRQSt9sFUMBDwei18HtZ
+	86sg==
+Received: by 10.180.74.33 with SMTP id q1mr12421231wiv.4.1344196171752;
+	Sun, 05 Aug 2012 12:49:31 -0700 (PDT)
 Received: from localhost.localdomain (198.230.79.188.dynamic.jazztel.es.
 	[188.79.230.198])
-	by mx.google.com with ESMTPS id w7sm11500981wiz.0.2012.08.05.12.49.26
+	by mx.google.com with ESMTPS id w7sm11500981wiz.0.2012.08.05.12.49.29
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sun, 05 Aug 2012 12:49:28 -0700 (PDT)
+	Sun, 05 Aug 2012 12:49:31 -0700 (PDT)
 From: Javier Martinez Canillas <javier@dowhile0.org>
 To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date: Sun,  5 Aug 2012 21:48:28 +0200
-Message-Id: <1344196136-7643-1-git-send-email-javier@dowhile0.org>
+Date: Sun,  5 Aug 2012 21:48:29 +0200
+Message-Id: <1344196136-7643-2-git-send-email-javier@dowhile0.org>
 X-Mailer: git-send-email 1.7.7.6
-X-Gm-Message-State: ALoCoQkScwYfuISKVgfjnTEadDuqMY6U14KQAN9s0zC4Cf9O/GOseXU2sLgYqy5KmBQS52FDr5gX
+In-Reply-To: <1344196136-7643-1-git-send-email-javier@dowhile0.org>
+References: <1344196136-7643-1-git-send-email-javier@dowhile0.org>
+X-Gm-Message-State: ALoCoQnYfjbm1NJvM+GqQdjaXFq/evteN7m89l+LZY/8Rsn9hTLhxHsTUGc4I6Cj+koojnf8DhK7
 Cc: openembedded-core@lists.openembedded.org
-Subject: (No subject)
+Subject: [PATCH v2 01/28] xinetd: use ${sbindir} and ${sysconfdir} instead of /usr/sbin and /etc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,62 +48,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 05 Aug 2012 20:01:13 -0000
+X-List-Received-Date: Sun, 05 Aug 2012 20:01:15 -0000
 
-The OpenEmbedded User Manual list the variables that should be used to
-control the directories into which files are installed.
+It is considered good practice to use the build system provided
+variables instead of directly specify hardcoded paths.
 
-It says that is a poor practice to specify hardcoded paths instead of
-using these variables, yet there are many recipes that don't use it.
+Signed-off-by: Javier Martinez Canillas <javier@dowhile0.org>
+---
+ meta/recipes-extended/xinetd/xinetd_2.3.15.bb |   20 ++++++++++----------
+ 1 files changed, 10 insertions(+), 10 deletions(-)
 
-This is second version of a big patch-set that does a cleanup and replace
-the hardcoded paths used on these recipes with the build system variables.
+diff --git a/meta/recipes-extended/xinetd/xinetd_2.3.15.bb b/meta/recipes-extended/xinetd/xinetd_2.3.15.bb
+index a142143..2139e74 100644
+--- a/meta/recipes-extended/xinetd/xinetd_2.3.15.bb
++++ b/meta/recipes-extended/xinetd/xinetd_2.3.15.bb
+@@ -7,7 +7,7 @@ LICENSE = "BSD"
+ LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=8ad8615198542444f84d28a6cf226dd8"
+ 
+ DEPENDS = ""
+-PR = "r0"
++PR = "r1"
+ 
+ SRC_URI = "http://www.xinetd.org/xinetd-${PV}.tar.gz \
+       file://xinetd.init \
+@@ -38,15 +38,15 @@ do_install() {
+ 	# Same here, the Makefile does some really stupid things,
+ 	# but since we only want two files why not override
+ 	# do_install from autotools and doing it ourselfs?
+-	install -d "${D}/usr/sbin"
+-	install -d "${D}/etc/init.d"
+-	install -d "${D}/etc/xinetd.d"
+-	install -d "${D}/etc/default"
+-	install -m 644 "${WORKDIR}/xinetd.conf" "${D}/etc"
+-	install -m 755 "${WORKDIR}/xinetd.init" "${D}/etc/init.d/xinetd"
+-	install -m 644 "${WORKDIR}/xinetd.default" "${D}/etc/default/xinetd"
+-	install -m 755 "${S}/xinetd/xinetd" "${D}/usr/sbin"
+-	install -m 755 "${S}/xinetd/itox" "${D}/usr/sbin"
++	install -d "${D}${sbindir}"
++	install -d "${D}${sysconfdir}/init.d"
++	install -d "${D}${sysconfdir}/xinetd.d"
++	install -d "${D}${sysconfdir}/default"
++	install -m 644 "${WORKDIR}/xinetd.conf" "${D}${sysconfdir}"
++	install -m 755 "${WORKDIR}/xinetd.init" "${D}${sysconfdir}/init.d/xinetd"
++	install -m 644 "${WORKDIR}/xinetd.default" "${D}${sysconfdir}/default/xinetd"
++	install -m 755 "${S}/xinetd/xinetd" "${D}${sbindir}"
++	install -m 755 "${S}/xinetd/itox" "${D}${sbindir}"
+ }
+ 
+ CONFFILES_${PN} = "${sysconfdir}/xinetd.conf"
+-- 
+1.7.7.6
 
-I tried to be as careful as possible to do the proper replacement but
-since I could introduce regressions I split the changes in 30 different
-patches so it could be git bisectable in case of messing a recipe.
-
-Also, the patches increment the recipes PR since the a distro config can
-set the variables to a different value.
-
-Changes since v1:
-
-- Bump recipes PR as suggested by Otavio Salvador and Khem Raj
-- Squash ${base_bindir} and ${sysconfdir} changes for xinetd and lsb
-  recipes so the PR number gets incremented only once. 
-
-The patch-set consist of the following patches:
-
-[PATCH v2 01/28] xinetd: use ${sbindir} and ${sysconfdir} instead of
-[PATCH v2 02/28] alsa-state: use ${sbindir} instead of /usr/sbin for
-[PATCH v2 03/28] lsbsetup: use ${bindir} instead of /usr/bin for
-[PATCH v2 04/28] sudo: use ${bindir} and ${sysconfdir} instead of
-[PATCH v2 05/28] lsbtest: use ${bindir} instead of /usr/bin for
-[PATCH v2 06/28] cronie: use variables instead of hardcoded paths
-[PATCH v2 07/28] useradd-example: use ${datadir} instead of
-[PATCH v2 08/28] ubootchart: use variables instead of hardcoded
-[PATCH v2 09/28] xkeyboard-config: use ${datadir} instead of
-[PATCH v2 10/28] systemtap: use ${datadir} instead of /usr/share for
-[PATCH v2 11/28] lsb: use ${base_bindir} and ${sysconfdir} instead
-[PATCH v2 12/28] mingetty: use ${base_sbindir} instead of /sbin for
-[PATCH v2 13/28] external-sourcery: use ${prefix} and ${libdir}
-[PATCH v2 14/28] rpm: use ${localstatedir} and ${libdir} instead of
-[PATCH v2 15/28] at: use ${base_sbindir} instead of /sbin for
-[PATCH v2 16/28] kernel.bbclass: use ${base_libdir} and
-[PATCH v2 17/28] linux-firware: use ${base_libdir} instead of /lib
-[PATCH v2 18/28] openssh: use ${localstatedir} instead of /var for
-[PATCH v2 19/28] libpam: use ${localstatedir} and ${sysconfdir}
-[PATCH v2 20/28] x11-common: use ${sysconfdir} instead of /etc for
-[PATCH v2 21/28] builder: use ${sysconfdir} instead of /etc for
-[PATCH v2 22/28] xserver-nodm-init: use ${sysconfdir} instead of
-[PATCH v2 23/28] lsbinitscripts: use ${sysconfdir} instead of /etc
-[PATCH v2 24/28] usbinit: use ${sysconfdir} instead of /etc for
-[PATCH v2 25/28] qemu-config: use ${sysconfdir} instead of /etc for
-[PATCH v2 26/28] rsync: use ${sysconfdir} instead of /etc for
-[PATCH v2 27/28] chkconfig: use ${sysconfdir} instead of /etc for
-[PATCH v2 28/28] man: use ${sysconfdir} instead of /etc for
-
-Best regards,
-Javier
 
 
