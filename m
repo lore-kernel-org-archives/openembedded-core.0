@@ -1,37 +1,40 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail-wi0-f171.google.com ([209.85.212.171])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <laurentiu.palcu@intel.com>) id 1SyJdn-0000D5-Qv
+	(envelope-from <martin.jansa@gmail.com>) id 1SyJnw-0000Jv-Pr
 	for openembedded-core@lists.openembedded.org;
-	Mon, 06 Aug 2012 11:30:24 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 06 Aug 2012 02:18:38 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="176449310"
-Received: from lpalcu-linux (HELO [10.237.105.41]) ([10.237.105.41])
-	by orsmga001.jf.intel.com with ESMTP; 06 Aug 2012 02:18:37 -0700
-Message-ID: <501F8BEC.4080204@intel.com>
-Date: Mon, 06 Aug 2012 12:18:36 +0300
-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:14.0) Gecko/20120714 Thunderbird/14.0
+	Mon, 06 Aug 2012 11:40:52 +0200
+Received: by wibhq4 with SMTP id hq4so1332209wib.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 06 Aug 2012 02:29:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=FfLOcX1s03goW9MoUULzSc5mh3yLmSepyHqTWqsIo4E=;
+	b=fbFWNywhwCNfYVWbBQN2+87Q3txH/c9LnhY+kQsd7+fAhLcpNsWKZcWk6u7tT8HV9G
+	HYpQbBpW4nZ0k79wqJ2KjhEeZLnR3OufSrIpbDgB3cf+giLiM+qh6QTbt6ItBsc1T1We
+	XWwREDMn/f1CUwFIPy1P8lmYwKBnfs5gC+2W1z3UjHvosgr/3SkqreVKE4l3BElSshtI
+	/L2rvRYVzU1qRn5y4yBmV6bqMKGvzfVjkMrT5/IrE5+1nZdIjIHRlIC3RKk7zl8F8uhN
+	1CviFqRwxPsNnxBZo3ni6QCU4ko4wjbbpxovplxxCIg15P0i1n07ViOtLcqD8AK+dvNH
+	rQsA==
+Received: by 10.180.98.138 with SMTP id ei10mr16841355wib.1.1344245348493;
+	Mon, 06 Aug 2012 02:29:08 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id ex20sm21605224wid.7.2012.08.06.02.29.06
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 06 Aug 2012 02:29:07 -0700 (PDT)
+Date: Mon, 6 Aug 2012 11:29:03 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Message-ID: <20120806092903.GG3267@jama.jama.net>
+References: <cover.1343124846.git.liezhi.yang@windriver.com>
+	<7affb352c173c353df0b69002f3ca0f5ee0502cf.1343124846.git.liezhi.yang@windriver.com>
+	<1343126992.22222.11.camel@ted>
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <cover.1344022584.git.laurentiu.palcu@intel.com>
-	<b41b2c46c9de5d3f63bfa146e23e8974a7a6cebf.1344022584.git.laurentiu.palcu@intel.com>
-	<CALbNGRQjUxm0h2+YA=Tog2_JhWPKGJmdy9QyhOjSQWLRQ1eKOQ@mail.gmail.com>
-	<501CD3EE.3080100@intel.com>
-	<CALbNGRTJM5=Xt4NqoEuEQa2U-eMtmQzy42HmwRK0zvkq-zK-3Q@mail.gmail.com>
-	<501D2B2B.6070806@intel.com>
-	<3103BB42-D7DD-456B-8733-9A019CA66E99@dominion.thruhere.net>
-	<CALbNGRRLGToMpW2tCzdtEcpZmAmgK3d2VKF0SVi-hgBanFOexQ@mail.gmail.com>
-	<CAMKF1spXi6PqV6ZLqLPMUE0oEF2Sou+Jst-QME-XhLoCANeaPQ@mail.gmail.com>
-	<501EA63F.9090304@intel.com>
-	<CALbNGRTmwH0yLJRQUrDUKBxLvC9bv7cE15_rnu50CCzDsUw0UQ@mail.gmail.com>
-	<CALbNGRTevoBvucXfRxYi33_y48V=Bo237s1Knjhy2eFJzjfmvQ@mail.gmail.com>
-	<501F76BF.9000605@intel.com>
-	<CALbNGRSOR2wxo7jetrEAYAZesSBiLPqVxJx0r22Xzmfxb3D=3g@mail.gmail.com>
-In-Reply-To: <CALbNGRSOR2wxo7jetrEAYAZesSBiLPqVxJx0r22Xzmfxb3D=3g@mail.gmail.com>
-Subject: Re: [PATCH 4/5] gtk-icon-cache: call postinst scriplet at do_rootfs time
+In-Reply-To: <1343126992.22222.11.camel@ted>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: Zhenfeng.Zhao@windriver.com
+Subject: Re: [PATCH 1/1] package-index: inherit pythonnative
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,83 +49,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Aug 2012 09:30:24 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 06 Aug 2012 09:40:52 -0000
+X-Groupsio-MsgNum: 27008
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="doKZ0ri6bHmN2Q5y"
+Content-Disposition: inline
 
+--doKZ0ri6bHmN2Q5y
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Tue, Jul 24, 2012 at 11:49:52AM +0100, Richard Purdie wrote:
+> On Tue, 2012-07-24 at 18:19 +0800, Robert Yang wrote:
+> > The native python binary has been moved from usr/bin/python to
+> > usr/bin/python-native/python, the recipe which needs python-native
+> > should "inherit pythonnative", otherwise there would be errors when the
+> > python script runs.
+> >=20
+> > [YOCTO #2822]
+> >=20
+> > Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> > ---
+> >  meta/recipes-core/meta/package-index.bb |    2 ++
+> >  1 files changed, 2 insertions(+), 0 deletions(-)
+>=20
+> Which part of this recipe needs python-native? Shouldn't scripts which
+> need pythonnative be using the path to the python interpreter
+> explicitly?
 
-On 08/06/2012 11:10 AM, Andreas Müller wrote:
-> On Mon, Aug 6, 2012 at 9:48 AM, Laurentiu Palcu
-> <laurentiu.palcu@intel.com> wrote:
->>
->>
->> On 08/06/2012 01:49 AM, Andreas Müller wrote:
->>> On Mon, Aug 6, 2012 at 12:30 AM, Andreas Müller
->>> <schnitzeltony@googlemail.com> wrote:
->>>> On Sun, Aug 5, 2012 at 6:58 PM, Laurentiu Palcu
->>>> <laurentiu.palcu@intel.com> wrote:
->>>>> You could give it a test yourselves and let me know your results. I will
->>>>> send a version 2 of the patchset(as soon as we all agree on the
->>>>> solution), with some changes suggested by Mark and some PR bumps
->>>>> suggested by Koen.
->>>> With the image I usually work with [1] and AMD Phenom II X6 1090 16GB
->>>> RAM I get a measurable delay - see attachment. I would not be happy
->>>> loosing latest do_rootfs enhancements (off topic - thanks for that).
->>>> Remeber we are only talking of gtk-update-icon-cache. OK I could buy
->>>> an intel host and work just with sato images but...
->> I suppose you could, but nobody asked you to do that, it's your choice
->> what's your build machine or what you'll be building for.
->>
->> Thanks for the measurements though. They do, indeed, show quite a
->> significant amount of time (around 6 minutes). A run-once solution is to
->> be considered in this case.
->>
->>>>
->>>> Andreas
->>>>
->>>> [1] https://gitorious.org/schnitzeltony-oe-meta/meta-misc/blobs/master/recipes-image/xfce-full-image.bb
->>> OK I know it is not that important: The image created with this patch
->>> series creates tons of messages like
->> Why do you think is not important. Please elaborate. Or is it irony?
-> Yes sorry - it was late night.
-It's OK, let's work together and find the best solution for all of us. I
-would also be pissed of if I had to wait an extra 6 minutes every
-do_rootfs run.
+This fixes my opkg-utils related issues too
+http://lists.linuxtogo.org/pipermail/openembedded-core/2012-July/026333.html
 
->> I don't think is in anybody's benefit if you take this approach. :) All
->> errors/warnings are important and they have to be taken care of.
->>
->>>
->>> xfdesktop:446): GdkPixbuf-WARNING **: Cannot open pixbuf loader module
->>> file '/usr/lib/gdk-pixbuf-2.0/2.10.0/loaders.cache': No such file or
->>> directory
->>>
->>> and don't have icons at all. Did you run test that (on a hardware
->>> plattform different to your host)?
->> I only tested on qemu. And it worked just fine, without any errors. With
->> all icons in place.
-> Which hardware did you emulate? My tests were done for overo (ARM
-> cortext A8). I wonder if the created database is machine specific.
-I used qemuarm. As far as I know, the database shouldn't be machine
-specific. And, looking at the log you sent, it looks like all commands
-succeeded. Otherwise, the 'time' application would also signal in the
-log file if the command failed. Could please have a look, on your host
-(xfce-full-image-1.0-r0/rootfs/usr/share/icons/hicolor or
-xfce-full-image-1.0-r0/rootfs/usr/share/icons/gnome), to see if it
-creates the icon-theme.cache files? It does for me and I don't
-understand why it doesn't in your case...
+The problem is that with pythonnative in opkg-utils it's still using=20
+#!/usr/bin/env python
+in tmp-eglibc/sysroots/x86_64-linux/usr/bin/opkg-make-index
 
-Thanks,
-Laurentiu
+And when python-index executes this:
+| + [ -e /var/lib/jenkins/jobs/shr-core/workspace/shr-core/tmp-eglibc/deplo=
+y/ipk/ ]
+| + touch /var/lib/jenkins/jobs/shr-core/workspace/shr-core/tmp-eglibc/depl=
+oy/ipk/Packages
+| + flock /var/lib/jenkins/jobs/shr-core/workspace/shr-core/tmp-eglibc/depl=
+oy/ipk/Packages.flock -c opkg-make-index -r /var/lib/jenkins/jobs/shr-core/=
+workspace/shr-core/tmp-eglibc/deploy/ipk/Packages -p /var/lib/jenkins/jobs/=
+shr-core/workspace/shr-core/tmp-eglibc/deploy/ipk/Packages -m /var/lib/jenk=
+ins/jobs/shr-core/workspace/shr-core/tmp-eglibc/deploy/ipk/
+| Traceback (most recent call last):
 
-> 
-> Andreas
-> 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-> 
+It depends on PATH of package-index not opkg-utils.
 
+Cheers,
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--doKZ0ri6bHmN2Q5y
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
+
+iEYEARECAAYFAlAfjl8ACgkQN1Ujt2V2gBxJ3gCeIzlTQe/mSkoE9xp/0ocx0JzH
+TAwAoIKBzhDlTCvtcz+nt1ugYRIH4Nlv
+=DH7P
+-----END PGP SIGNATURE-----
+
+--doKZ0ri6bHmN2Q5y--
