@@ -1,18 +1,33 @@
-Received: from li44-10.members.linode.com ([72.14.181.10] helo=plausible.org)
+Received: from arroyo.ext.ti.com ([192.94.94.40])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andy.ross@windriver.com>) id 1SyTUJ-0005Mc-0F
+	(envelope-from <fcooper@ti.com>) id 1SyVI7-0003FM-5k
 	for openembedded-core@lists.openembedded.org;
-	Mon, 06 Aug 2012 22:01:15 +0200
-Received: from cougar.plausible.org (c-67-171-188-207.hsd1.or.comcast.net
-	[67.171.188.207]) (Authenticated sender: andy-wrs)
-	by plausible.org (Postfix) with ESMTPSA id A58B521112;
-	Mon,  6 Aug 2012 12:41:08 -0700 (PDT)
-From: Andy Ross <andy.ross@windriver.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  6 Aug 2012 12:41:04 -0700
-Message-Id: <1344282064-15309-1-git-send-email-andy.ross@windriver.com>
-X-Mailer: git-send-email 1.7.11.2
-Subject: [PATCH] iputils: Break libsysfs dependency
+	Mon, 06 Aug 2012 23:56:47 +0200
+Received: from dlelxv30.itg.ti.com ([172.17.2.17])
+	by arroyo.ext.ti.com (8.13.7/8.13.7) with ESMTP id q76LhYmC017877
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 6 Aug 2012 16:43:34 -0500
+Received: from DLEE74.ent.ti.com (dlee74.ent.ti.com [157.170.170.8])
+	by dlelxv30.itg.ti.com (8.13.8/8.13.8) with ESMTP id q76LhYoC016445
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 6 Aug 2012 16:43:34 -0500
+Received: from DFLE30.ent.ti.com ([fe80::648b:2220:c6fb:4e6]) by
+	DLEE74.ent.ti.com ([fe80::a0f1:125b:e7e3:7ed8%18]) with mapi id
+	14.01.0323.003; Mon, 6 Aug 2012 16:43:34 -0500
+From: "Cooper Jr., Franklin" <fcooper@ti.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [oe-core] [denzil branch] Update to the latest version of psplash
+Thread-Index: Ac10HIXwOd/Mdsc1Tta1IEx6SUop5A==
+Date: Mon, 6 Aug 2012 21:43:33 +0000
+Message-ID: <8F29D6B095ED194EA1980491A5E029710C28379D@DFLE30.ent.ti.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [128.247.5.50]
+MIME-Version: 1.0
+Cc: "Cooper Jr., Franklin" <fcooper@ti.com>
+Subject: [denzil branch] Update to the latest version of psplash
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,347 +42,156 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Aug 2012 20:01:15 -0000
+X-List-Received-Date: Mon, 06 Aug 2012 21:56:47 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_8F29D6B095ED194EA1980491A5E029710C28379DDFLE30entticom_"
 
-iputils drops a /bin/arping with a runtime linkage against libsysfs in
-/usr.  Port Fedora 17 iputils-20071127-infiniband.patch, which inlines
-access previously done by libsysfs.
+--_000_8F29D6B095ED194EA1980491A5E029710C28379DDFLE30entticom_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Andy Ross <andy.ross@windriver.com>
----
- .../files/arping-break-libsysfs-dependency.patch   | 296 +++++++++++++++++++++
- meta/recipes-extended/iputils/iputils_s20101006.bb |   5 +-
- 2 files changed, 299 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-extended/iputils/files/arping-break-libsysfs-dependency.patch
+In the latest version of psplash (http://git.yoctoproject.org/cgit/cgit.cgi=
+/psplash/)  there are two patches that are not in the version of psplash us=
+ed in the oe-core denzil branch. The first patch called Make it easier to c=
+ustomise colours<http://git.yoctoproject.org/cgit/cgit.cgi/psplash/commit/?=
+id=3D84764337a584002a92940323d374b0e417c573a6> moves some color definitions=
+ from being hardcoded into psplash.c and puts it in a new header file calle=
+d psplash-colors.h.  The second patch Fix for psplash segmentation fault<ht=
+tp://git.yoctoproject.org/cgit/cgit.cgi/psplash/commit/?id=3Dde9979aefbc56a=
+f59b4d236a4b63dd19dcdcfb53> fixes a segment fault issue.
 
-diff --git a/meta/recipes-extended/iputils/files/arping-break-libsysfs-dependency.patch b/meta/recipes-extended/iputils/files/arping-break-libsysfs-dependency.patch
-new file mode 100644
-index 0000000..37325ee
---- /dev/null
-+++ b/meta/recipes-extended/iputils/files/arping-break-libsysfs-dependency.patch
-@@ -0,0 +1,296 @@
-+arping: Break libsysfs dependency
-+
-+Port Fedora 17's iputils-20071127-infiniband.patch, which inlines sysfs
-+access previously done by libsysfs (which is in /usr, and thus not
-+usable by /bin/arping).
-+
-+Upstream-Status: Inappropriate [not author] 
-+Signed-off-by: Andy Ross <andy.ross@windriver.com>
-+---
-+ Makefile |    2 +-
-+ arping.c |  152 ++++++++++++++++++++++++++++++++++++++++++++------------------
-+ 2 files changed, 109 insertions(+), 45 deletions(-)
-+
-+diff --git a/Makefile b/Makefile
-+index d9a5ca5..943f048 100644
-+--- a/Makefile
-++++ b/Makefile
-+@@ -27,7 +27,7 @@ all: $(TARGETS)
-+ 
-+ 
-+ tftpd: tftpd.o tftpsubs.o
-+-arping: arping.o -lsysfs
-++arping: arping.o
-+ ping: ping.o ping_common.o
-+ ping6: ping6.o ping_common.o -lresolv -lcrypto
-+ ping.o ping6.o ping_common.o: ping_common.h
-+diff --git a/arping.c b/arping.c
-+index 13484de..6379354 100644
-+--- a/arping.c
-++++ b/arping.c
-+@@ -32,8 +32,6 @@
-+ #include <netinet/in.h>
-+ #include <arpa/inet.h>
-+ 
-+-#include <sysfs/libsysfs.h>
-+-
-+ #include "SNAPSHOT.h"
-+ 
-+ static void usage(void) __attribute__((noreturn));
-+@@ -52,14 +50,22 @@ int unicasting;
-+ int s;
-+ int broadcast_only;
-+ 
-+-struct sockaddr_storage me;
-+-struct sockaddr_storage he;
-++struct sockaddr_ll *me=NULL;
-++struct sockaddr_ll *he=NULL;
-+ 
-+ struct timeval start, last;
-+ 
-+ int sent, brd_sent;
-+ int received, brd_recv, req_recv;
-+ 
-++#define SYSFS_MNT_PATH          "/sys"
-++#define SYSFS_CLASS             "class"
-++#define SYSFS_NET               "net"
-++#define SYSFS_BROADCAST         "broadcast"
-++#define SYSFS_PATH_ENV          "SYSFS_PATH"
-++#define SYSFS_PATH_LEN          256
-++#define SOCKADDR_LEN		(2 * sizeof(struct sockaddr_ll))
-++
-+ #define MS_TDIFF(tv1,tv2) ( ((tv1).tv_sec-(tv2).tv_sec)*1000 + \
-+ 			   ((tv1).tv_usec-(tv2).tv_usec)/1000 )
-+ 
-+@@ -166,6 +172,10 @@ void finish(void)
-+ 		printf("\n");
-+ 		fflush(stdout);
-+ 	}
-++
-++	free(me);
-++	free(he);
-++
-+ 	if (dad)
-+ 		exit(!!received);
-+ 	if (unsolicited)
-+@@ -189,8 +199,7 @@ void catcher(void)
-+ 		finish();
-+ 
-+ 	if ( count!=0  && (last.tv_sec==0 || MS_TDIFF(tv,last) > 500 ) ) {
-+-		send_pack(s, src, dst,
-+-			  (struct sockaddr_ll *)&me, (struct sockaddr_ll *)&he);
-++		send_pack(s, src, dst, me, he);
-+ 		if (count >= 0)
-+ 		    count--;
-+ 		if (count == 0 && unsolicited)
-+@@ -239,7 +248,7 @@ int recv_pack(unsigned char *buf, int len, struct sockaddr_ll *FROM)
-+ 		return 0;
-+ 	if (ah->ar_pln != 4)
-+ 		return 0;
-+-	if (ah->ar_hln != ((struct sockaddr_ll *)&me)->sll_halen)
-++	if (ah->ar_hln != me->sll_halen)
-+ 		return 0;
-+ 	if (len < sizeof(*ah) + 2*(4 + ah->ar_hln))
-+ 		return 0;
-+@@ -250,7 +259,7 @@ int recv_pack(unsigned char *buf, int len, struct sockaddr_ll *FROM)
-+ 			return 0;
-+ 		if (src.s_addr != dst_ip.s_addr)
-+ 			return 0;
-+-		if (memcmp(p+ah->ar_hln+4, ((struct sockaddr_ll *)&me)->sll_addr, ah->ar_hln))
-++		if (memcmp(p+ah->ar_hln+4, me->sll_addr, ah->ar_hln))
-+ 			return 0;
-+ 	} else {
-+ 		/* DAD packet was:
-+@@ -268,7 +277,7 @@ int recv_pack(unsigned char *buf, int len, struct sockaddr_ll *FROM)
-+ 		 */
-+ 		if (src_ip.s_addr != dst.s_addr)
-+ 			return 0;
-+-		if (memcmp(p, ((struct sockaddr_ll *)&me)->sll_addr, ((struct sockaddr_ll *)&me)->sll_halen) == 0)
-++		if (memcmp(p, me->sll_addr, me->sll_halen) == 0)
-+ 			return 0;
-+ 		if (src.s_addr && src.s_addr != dst_ip.s_addr)
-+ 			return 0;
-+@@ -284,7 +293,7 @@ int recv_pack(unsigned char *buf, int len, struct sockaddr_ll *FROM)
-+ 			printf("for %s ", inet_ntoa(dst_ip));
-+ 			s_printed = 1;
-+ 		}
-+-		if (memcmp(p+ah->ar_hln+4, ((struct sockaddr_ll *)&me)->sll_addr, ah->ar_hln)) {
-++		if (memcmp(p+ah->ar_hln+4, me->sll_addr, ah->ar_hln)) {
-+ 			if (!s_printed)
-+ 				printf("for ");
-+ 			printf("[");
-+@@ -310,40 +319,67 @@ int recv_pack(unsigned char *buf, int len, struct sockaddr_ll *FROM)
-+ 	if (quit_on_reply)
-+ 		finish();
-+ 	if(!broadcast_only) {
-+-		memcpy(((struct sockaddr_ll *)&he)->sll_addr, p, ((struct sockaddr_ll *)&me)->sll_halen);
-++		memcpy(he->sll_addr, p, me->sll_halen);
-+ 		unicasting=1;
-+ 	}
-+ 	return 1;
-+ }
-+ 
-+-void set_device_broadcast(char *device, unsigned char *ba, size_t balen)
-++int get_sysfs_mnt_path(char *mnt_path, size_t len)
-+ {
-+-	struct sysfs_class_device *dev;
-+-	struct sysfs_attribute *brdcast;
-+-	unsigned char *p;
-+-	int ch;
-++        const char *sysfs_path_env;
-++        int pth_len=0;
-+ 
-+-	dev = sysfs_open_class_device("net", device);
-+-	if (!dev) {
-+-		perror("sysfs_open_class_device(net)");
-+-		exit(2);
-+-	}
-++        if (len == 0 || mnt_path == NULL)
-++                return -1;
-+ 
-+-	brdcast = sysfs_get_classdev_attr(dev, "broadcast");
-+-	if (!brdcast) {
-+-		perror("sysfs_get_classdev_attr(broadcast)");
-+-		exit(2);
-+-	}
-++        /* possible overrride of real mount path */
-++        sysfs_path_env = getenv(SYSFS_PATH_ENV);
-++        memset(mnt_path, 0, len);
-++        strncpy(mnt_path,
-++                sysfs_path_env != NULL ? sysfs_path_env : SYSFS_MNT_PATH,
-++                len-1);
-+ 
-+-	if (sysfs_read_attribute(brdcast)) {
-+-		perror("sysfs_read_attribute");
-+-		exit(2);
-+-	}
-++        if ((pth_len = strlen(mnt_path)) > 0 && mnt_path[pth_len-1] == '/')
-++                mnt_path[pth_len-1] = '\0';
-++
-++        return 0;
-++}
-++
-++int make_sysfs_broadcast_path(char *broadcast_path, size_t len)
-++{
-++        char mnt_path[SYSFS_PATH_LEN];
-++
-++        if (get_sysfs_mnt_path(mnt_path, len) != 0)
-++                return -1;
-+ 
-+-	for (p = ba, ch = 0; p < ba + balen; p++, ch += 3)
-+-		*p = strtoul(brdcast->value + ch, NULL, 16);
-++        snprintf(broadcast_path, len,
-++                "%s/" SYSFS_CLASS "/" SYSFS_NET "/%s/" SYSFS_BROADCAST,
-++                mnt_path, device);
-+ 
-+-	return;
-++        return 0;
-++}
-++
-++char * read_sysfs_broadcast(char *brdcast_path)
-++{
-++        int fd;
-++        int len_to_read;
-++        char *brdcast = NULL;
-++
-++        if ((fd = open(brdcast_path, O_RDONLY)) > -1) {
-++                len_to_read = lseek(fd, 0L, SEEK_END);
-++                if ((brdcast = malloc(len_to_read+1)) != NULL) {
-++                        lseek(fd, 0L, SEEK_SET);
-++                        memset(brdcast, 0, len_to_read+1);
-++                        if (read(fd, brdcast, len_to_read) == -1) {
-++                                free(brdcast);
-++                                brdcast = NULL;
-++                        }
-++                }
-++                close(fd);
-++        }
-++
-++        return brdcast;
-+ }
-+ 
-+ int
-+@@ -361,6 +397,17 @@ main(int argc, char **argv)
-+ 		exit(-1);
-+ 	}
-+ 
-++	me = malloc(SOCKADDR_LEN);
-++	if (!me) {
-++		fprintf(stderr, "arping: could not allocate memory\n");
-++		exit(1);
-++	}
-++	he = malloc(SOCKADDR_LEN);
-++	if (!he) {
-++		fprintf(stderr, "arping: could not allocate memory\n");
-++		exit(1);
-++	}
-++
-+ 	while ((ch = getopt(argc, argv, "h?bfDUAqc:w:s:I:V")) != EOF) {
-+ 		switch(ch) {
-+ 		case 'b':
-+@@ -509,34 +556,51 @@ main(int argc, char **argv)
-+ 		close(probe_fd);
-+ 	};
-+ 
-+-	((struct sockaddr_ll *)&me)->sll_family = AF_PACKET;
-+-	((struct sockaddr_ll *)&me)->sll_ifindex = ifindex;
-+-	((struct sockaddr_ll *)&me)->sll_protocol = htons(ETH_P_ARP);
-+-	if (bind(s, (struct sockaddr*)&me, sizeof(me)) == -1) {
-++	me->sll_family = AF_PACKET;
-++	me->sll_ifindex = ifindex;
-++	me->sll_protocol = htons(ETH_P_ARP);
-++	if (bind(s, (struct sockaddr*)me, SOCKADDR_LEN) == -1) {
-+ 		perror("bind");
-+ 		exit(2);
-+ 	}
-+ 
-+ 	if (1) {
-+-		socklen_t alen = sizeof(me);
-+-		if (getsockname(s, (struct sockaddr*)&me, &alen) == -1) {
-++		socklen_t alen = SOCKADDR_LEN;
-++		if (getsockname(s, (struct sockaddr*)me, &alen) == -1) {
-+ 			perror("getsockname");
-+ 			exit(2);
-+ 		}
-+ 	}
-+-	if (((struct sockaddr_ll *)&me)->sll_halen == 0) {
-++	if (me->sll_halen == 0) {
-+ 		if (!quiet)
-+ 			printf("Interface \"%s\" is not ARPable (no ll address)\n", device);
-+ 		exit(dad?0:2);
-+ 	}
-+ 
-+-	he = me;
-++	memcpy(he, me, SOCKADDR_LEN);
-+ 
-+ #if 1
-+-	set_device_broadcast(device, ((struct sockaddr_ll *)&he)->sll_addr,
-+-			     ((struct sockaddr_ll *)&he)->sll_halen);
-++	char brdcast_path[SYSFS_PATH_LEN];
-++	char *brdcast_val=NULL;
-++	char *next_ch;
-++
-++	if (make_sysfs_broadcast_path(brdcast_path, sizeof brdcast_path) != 0) {
-++		perror("sysfs attribute broadcast");
-++		exit(2);
-++	}
-++
-++	if ((brdcast_val = read_sysfs_broadcast(brdcast_path)) == NULL) {
-++		perror("sysfs read broadcast value");
-++		exit(2);
-++	}
-++
-++	for (ch=0; ch<he->sll_halen; ch++) {
-++		he->sll_addr[ch] = strtol(brdcast_val + (ch*3), &next_ch, 16);
-++	}
-++
-++	free(brdcast_val);
-+ #else
-+-	memset(((struct sockaddr_ll *)&he)->sll_addr, -1, ((struct sockaddr_ll *)&he)->sll_halen);
-++	memset(he->sll_addr, -1, he->sll_halen);
-+ #endif
-+ 
-+ 	if (!quiet) {
-+-- 
-+1.7.10.4
-+
-diff --git a/meta/recipes-extended/iputils/iputils_s20101006.bb b/meta/recipes-extended/iputils/iputils_s20101006.bb
-index 394ab58..62e2b5e 100644
---- a/meta/recipes-extended/iputils/iputils_s20101006.bb
-+++ b/meta/recipes-extended/iputils/iputils_s20101006.bb
-@@ -11,9 +11,9 @@ LIC_FILES_CHKSUM = "file://ping.c;beginline=1;endline=35;md5=f9ceb201733e9a6cf8f
-                     file://arping.c;beginline=1;endline=10;md5=ada2a6d06acc90f943bddf40d15e0541 \
-                     file://tftpd.c;beginline=1;endline=32;md5=28834bf8a91a5b8a92755dbee709ef96 "
- 
--DEPENDS = "sysfsutils openssl docbook-utils-native sgmlspl-native"
-+DEPENDS = "openssl docbook-utils-native sgmlspl-native"
- 
--PR = "r4"
-+PR = "r5"
- 
- SRC_URI = "http://www.skbuff.net/iputils/${BPN}-${PV}.tar.bz2 \
-            file://debian/fix-dead-host-ping-stats.diff \
-@@ -22,6 +22,7 @@ SRC_URI = "http://www.skbuff.net/iputils/${BPN}-${PV}.tar.bz2 \
-            file://debian/targets.diff \
-            file://debian/fix-arping-timeouts.diff \
-            file://nsgmls-path-fix.patch \
-+           file://arping-break-libsysfs-dependency.patch \
-           "
- 
- SRC_URI[md5sum] = "a36c25e9ec17e48be514dc0485e7376c"
--- 
-1.7.11.2
+What I would like to do is update the psplash_git.bb recipe to use the late=
+st version of psplash that pulls in these two tweaks. The second patch has =
+zero impact on existing users of the pslash recipe. If a particular layer t=
+weaks the color definitions in psplash by patching the psplash.c file then =
+the second patch mentioned above could result in a minor tweak having to be=
+ made to those layers to address the changes. In oe-classic noticed that th=
+ere is a patch for psplash (http://cgit.openembedded.org/openembedded/tree/=
+recipes/psplash/psplash-ti/0001-configurability-for-rev-422.patch) that pat=
+ches psplash in almost the same exact way as the "Make it easier to customi=
+ze colours" patch.
+
+Are there any objections in bumping the version of psplash to incorporate t=
+he above mentioned patches? I haven't seen any layer adjust the psplash col=
+or definitions so I doubt there truly being any impact at all.
+
+Regards,
+Franklin Cooper Jr.
+Texas Instruments
+Application Engineer
+fcooper@ti.com<mailto:fcooper@ti.com>
 
 
+--_000_8F29D6B095ED194EA1980491A5E029710C28379DDFLE30entticom_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
+osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
+//www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
+<meta name=3D"Generator" content=3D"Microsoft Word 12 (filtered medium)">
+<style>
+<!--
+ /* Font Definitions */
+ @font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:blue;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-priority:99;
+	color:purple;
+	text-decoration:underline;}
+span.EmailStyle17
+	{mso-style-type:personal-compose;
+	font-family:"Calibri","sans-serif";
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+-->
+</style><!--[if gte mso 9]><xml>
+ <o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <o:shapelayout v:ext=3D"edit">
+  <o:idmap v:ext=3D"edit" data=3D"1" />
+ </o:shapelayout></xml><![endif]-->
+</head>
+<body lang=3D"EN-US" link=3D"blue" vlink=3D"purple">
+<div class=3D"WordSection1">
+<p class=3D"MsoNormal">In the latest version of psplash (<a href=3D"http://=
+git.yoctoproject.org/cgit/cgit.cgi/psplash/">http://git.yoctoproject.org/cg=
+it/cgit.cgi/psplash/</a>) &nbsp;there are two patches that are not in the v=
+ersion of psplash used in the oe-core denzil
+ branch. The first patch called <span style=3D"font-size:10.0pt;
+font-family:&quot;Arial&quot;,&quot;sans-serif&quot;;color:#1F497D">
+<a href=3D"http://git.yoctoproject.org/cgit/cgit.cgi/psplash/commit/?id=3D8=
+4764337a584002a92940323d374b0e417c573a6"><span style=3D"color:#1F497D">Make=
+ it easier to customise colours</span></a></span><span style=3D"font-size:1=
+0.0pt;font-family:&quot;Arial&quot;,&quot;sans-serif&quot;;color:white">
+</span><span style=3D"font-size:10.0pt;font-family:&quot;Arial&quot;,&quot;=
+sans-serif&quot;">moves some color definitions from being hardcoded into ps=
+plash.c and puts it in a new header file called psplash-colors.h. &nbsp;The=
+ second patch
+<span style=3D"color:#1F497D"><a href=3D"http://git.yoctoproject.org/cgit/c=
+git.cgi/psplash/commit/?id=3Dde9979aefbc56af59b4d236a4b63dd19dcdcfb53"><spa=
+n style=3D"color:#1F497D">Fix for psplash segmentation fault</span></a></sp=
+an><span style=3D"color:white">
+</span>fixes a segment fault issue. <o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ar=
+ial&quot;,&quot;sans-serif&quot;"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ar=
+ial&quot;,&quot;sans-serif&quot;">What I would like to do is update the psp=
+lash_git.bb recipe to use the latest version of psplash that pulls in these=
+ two tweaks. The second patch has zero impact on existing
+ users of the pslash recipe. If a particular layer tweaks the color definit=
+ions in psplash by patching the psplash.c file then the second patch mentio=
+ned above could result in a minor tweak having to be made to those layers t=
+o address the changes. In oe-classic
+ noticed that there is a patch for psplash (<a href=3D"http://cgit.openembe=
+dded.org/openembedded/tree/recipes/psplash/psplash-ti/0001-configurability-=
+for-rev-422.patch">http://cgit.openembedded.org/openembedded/tree/recipes/p=
+splash/psplash-ti/0001-configurability-for-rev-422.patch</a>)
+ that patches psplash in almost the same exact way as the &#8220;Make it ea=
+sier to customize colours&#8221; patch.
+<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ar=
+ial&quot;,&quot;sans-serif&quot;"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ar=
+ial&quot;,&quot;sans-serif&quot;">Are there any objections in bumping the v=
+ersion of psplash to incorporate the above mentioned patches? I haven&#8217=
+;t seen any layer adjust the psplash color definitions so I doubt
+ there truly being any impact at all.</span><b><o:p></o:p></b></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Regards,<o:p></o:p></p>
+<p class=3D"MsoNormal">Franklin Cooper Jr.<o:p></o:p></p>
+<p class=3D"MsoNormal">Texas Instruments<o:p></o:p></p>
+<p class=3D"MsoNormal">Application Engineer<o:p></o:p></p>
+<p class=3D"MsoNormal"><a href=3D"mailto:fcooper@ti.com">fcooper@ti.com</a>=
+<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+</div>
+</body>
+</html>
+
+--_000_8F29D6B095ED194EA1980491A5E029710C28379DDFLE30entticom_--
