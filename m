@@ -1,35 +1,28 @@
-Received: from astoria.ccjclearline.com ([64.235.106.9])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpjday@crashcourse.ca>) id 1SyR0N-0004vD-9k
+	(envelope-from <mark.hatle@windriver.com>) id 1SyREn-0007jr-JB
 	for openembedded-core@lists.openembedded.org;
-	Mon, 06 Aug 2012 19:22:11 +0200
-Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
-	([174.115.5.73]:51779 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.77) (envelope-from <rpjday@crashcourse.ca>)
-	id 1SyQp1-00076W-Fz for openembedded-core@lists.openembedded.org;
-	Mon, 06 Aug 2012 13:10:27 -0400
-Date: Mon, 6 Aug 2012 13:10:24 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@oneiric
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-In-Reply-To: <1344272557.9756.177.camel@ted>
-Message-ID: <alpine.DEB.2.02.1208061308330.11697@oneiric>
-References: <alpine.DEB.2.02.1208061158050.8873@oneiric>
-	<1344272557.9756.177.camel@ted>
-User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+	Mon, 06 Aug 2012 19:37:05 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q76HPJoC009956
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 6 Aug 2012 10:25:19 -0700 (PDT)
+Received: from msp-dhcp47.wrs.com (172.25.34.47) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.309.2;
+	Mon, 6 Aug 2012 10:25:19 -0700
+Message-ID: <501FFE06.7060709@windriver.com>
+Date: Mon, 6 Aug 2012 12:25:26 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
+	rv:14.0) Gecko/20120713 Thunderbird/14.0
 MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Subject: Re: proper(?) way to *require* an earlier, unsupported version of a recipe file?
+To: <openembedded-core@lists.openembedded.org>
+References: <1344182057-15981-1-git-send-email-javier@dowhile0.org>
+	<1344182057-15981-4-git-send-email-javier@dowhile0.org>
+In-Reply-To: <1344182057-15981-4-git-send-email-javier@dowhile0.org>
+Subject: Re: [PATCH 03/30] lsbsetup: use ${bindir} instead of /usr/bin for packaging
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,46 +37,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Aug 2012 17:22:11 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Mon, 06 Aug 2012 17:37:06 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, 6 Aug 2012, Richard Purdie wrote:
-
-> On Mon, 2012-08-06 at 12:02 -0400, Robert P. J. Day wrote:
-> > what is the OE philosophy for preferring an earlier version of a
-> > recipe file that doesn't even exist anymore?  for example, the
-> > "watchdog" recipe was recently upgraded from 5.11 to 5.12.  in the
-> > process, the recipe file for 5.11 was removed; therefore, i interpret
-> > that as that OE-core no longer supports that version, which is fine.
-> >
-> >   hypothetically, what if someone still *needed* that earlier version?
-> > would it be their responsibility to, say, create a new layer that
-> > re-introduced that older, now-unsupported version?  just curious.
+On 8/5/12 10:53 AM, Javier Martinez Canillas wrote:
+> It is considered good practice to use the build system provided
+> variables instead of directly specify hardcoded paths.
 >
-> Well, if there is some reason 5.11 is much better "we" as in OE-Core
-> would like to know about it to evaluate if we should be keeping it
-> around for some reason. If the reason you want that particular version
-> is specific to you then yes, your own layer would be the place to
-> maintain it (or a layer shared with other like minded users).
+> Signed-off-by: Javier Martinez Canillas <javier@dowhile0.org>
+> ---
+>   meta/recipes-extended/lsb/lsbsetup_1.0.bb |    4 ++--
+>   1 files changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta/recipes-extended/lsb/lsbsetup_1.0.bb b/meta/recipes-extended/lsb/lsbsetup_1.0.bb
+> index 9172ee3..bda4589 100644
+> --- a/meta/recipes-extended/lsb/lsbsetup_1.0.bb
+> +++ b/meta/recipes-extended/lsb/lsbsetup_1.0.bb
+> @@ -11,9 +11,9 @@ S = "${WORKDIR}"
+>
+>   do_install() {
+>       # Only install file if it has a contents
+> -    install -d ${D}/usr/bin
+> +    install -d ${D}${bindir}
 
-  there was nothing about 5.11 that i see as superior, it's just that
-that general question came up last week in class and my admittedly
-off-the-cuff answer was that OE-core provided a well-defined, stable
-set of recipes to build on and if you *chose* to deviate in any way
-from that, that was kind of your problem and you had to deal with it.
+the LSB required /usr/bin, I think.  So this might be one of the few cases were 
+specifying /usr/bin is acceptable.
 
-  which appears to be pretty much what you're saying.  thanks.
+(but I'm not against the change)
 
-rday
+--Mark
 
--- 
+>       install -d ${D}/${sysconfdir}
+> -    install -m 0755 ${S}/LSB_Setup.sh ${D}/usr/bin
+> +    install -m 0755 ${S}/LSB_Setup.sh ${D}${bindir}
+>       install -d  ${D}/${libdir}/lsb
+>       ln -sf ${base_sbindir}/chkconfig ${D}/${libdir}/lsb/install_initd
+>       ln -sf ${base_sbindir}/chkconfig ${D}/${libdir}/lsb/remove_initd
+>
 
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
 
 
