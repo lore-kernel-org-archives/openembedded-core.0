@@ -1,44 +1,23 @@
-Received: from mail-ob0-f175.google.com ([209.85.214.175])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <schnitzeltony@googlemail.com>) id 1Sy9oc-0000Dn-FB
+	(envelope-from <Rongqing.Li@windriver.com>) id 1SyDZc-0003uj-S2
 	for openembedded-core@lists.openembedded.org;
-	Mon, 06 Aug 2012 01:00:54 +0200
-Received: by obc16 with SMTP id 16so1354045obc.6
+	Mon, 06 Aug 2012 05:01:41 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q762nt20011015
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 05 Aug 2012 15:49:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type:content-transfer-encoding;
-	bh=4Rk0oTLnbrx6QaT3zwdOi8kXxup35nUoNdyMCBrHdlo=;
-	b=DDc8ro/+TEPNklZLBrWFQbm9QkpuoWZzpvVFW9t7Z8Sbm5fqFrbT1nK+COptXMNPOF
-	XEGneMgMWGf1YqSG1kkkkfqeVBklGrTU2V7QcGJne1ocr0oaPxSxLO8CdtacgZoQDZP4
-	wBFFnEHLyI0VytYAopRxzIxVvOKVHyp0BCst8fhD6IP6CUOhs1barsSbvgzELZ1Kd9gy
-	hk//h4xfdtMErb0+F1g84BIVUhkeX1fCMr4uiVM6CkV5ZsEjnX4RzXOBFOZhbFesS6uf
-	iFUqEmmOw7hRo0ciBZ+mSmtdFm4Htt+0K7Wa2SNPViAzSvWWfznI0mK5MeGZCAdqJcih
-	fR1Q==
+	Sun, 5 Aug 2012 19:49:55 -0700 (PDT)
+Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.163) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.309.2; Sun, 5 Aug 2012 19:49:55 -0700
+From: <rongqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 6 Aug 2012 10:50:01 +0800
+Message-ID: <1344221401-23578-1-git-send-email-rongqing.li@windriver.com>
+X-Mailer: git-send-email 1.7.4.1
 MIME-Version: 1.0
-Received: by 10.50.217.163 with SMTP id oz3mr3881754igc.5.1344206949490; Sun,
-	05 Aug 2012 15:49:09 -0700 (PDT)
-Received: by 10.64.142.201 with HTTP; Sun, 5 Aug 2012 15:49:09 -0700 (PDT)
-In-Reply-To: <CALbNGRTmwH0yLJRQUrDUKBxLvC9bv7cE15_rnu50CCzDsUw0UQ@mail.gmail.com>
-References: <cover.1344022584.git.laurentiu.palcu@intel.com>
-	<b41b2c46c9de5d3f63bfa146e23e8974a7a6cebf.1344022584.git.laurentiu.palcu@intel.com>
-	<CALbNGRQjUxm0h2+YA=Tog2_JhWPKGJmdy9QyhOjSQWLRQ1eKOQ@mail.gmail.com>
-	<501CD3EE.3080100@intel.com>
-	<CALbNGRTJM5=Xt4NqoEuEQa2U-eMtmQzy42HmwRK0zvkq-zK-3Q@mail.gmail.com>
-	<501D2B2B.6070806@intel.com>
-	<3103BB42-D7DD-456B-8733-9A019CA66E99@dominion.thruhere.net>
-	<CALbNGRRLGToMpW2tCzdtEcpZmAmgK3d2VKF0SVi-hgBanFOexQ@mail.gmail.com>
-	<CAMKF1spXi6PqV6ZLqLPMUE0oEF2Sou+Jst-QME-XhLoCANeaPQ@mail.gmail.com>
-	<501EA63F.9090304@intel.com>
-	<CALbNGRTmwH0yLJRQUrDUKBxLvC9bv7cE15_rnu50CCzDsUw0UQ@mail.gmail.com>
-Date: Mon, 6 Aug 2012 00:49:09 +0200
-Message-ID: <CALbNGRTevoBvucXfRxYi33_y48V=Bo237s1Knjhy2eFJzjfmvQ@mail.gmail.com>
-From: =?ISO-8859-1?Q?Andreas_M=FCller?= <schnitzeltony@googlemail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/5] gtk-icon-cache: call postinst scriplet at do_rootfs time
+Subject: [PATCH] busybox: fix du-k-works test case
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -53,38 +32,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 05 Aug 2012 23:00:54 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 06 Aug 2012 03:01:41 -0000
+Content-Type: text/plain
 
-On Mon, Aug 6, 2012 at 12:30 AM, Andreas M=FCller
-<schnitzeltony@googlemail.com> wrote:
-> On Sun, Aug 5, 2012 at 6:58 PM, Laurentiu Palcu
-> <laurentiu.palcu@intel.com> wrote:
->> You could give it a test yourselves and let me know your results. I will
->> send a version 2 of the patchset(as soon as we all agree on the
->> solution), with some changes suggested by Mark and some PR bumps
->> suggested by Koen.
-> With the image I usually work with [1] and AMD Phenom II X6 1090 16GB
-> RAM I get a measurable delay - see attachment. I would not be happy
-> loosing latest do_rootfs enhancements (off topic - thanks for that).
-> Remeber we are only talking of gtk-update-icon-cache. OK I could buy
-> an intel host and work just with sato images but...
->
-> Andreas
->
-> [1] https://gitorious.org/schnitzeltony-oe-meta/meta-misc/blobs/master/re=
-cipes-image/xfce-full-image.bb
-OK I know it is not that important: The image created with this patch
-series creates tons of messages like
+From: Roy.Li <rongqing.li@windriver.com>
 
-xfdesktop:446): GdkPixbuf-WARNING **: Cannot open pixbuf loader module
-file '/usr/lib/gdk-pixbuf-2.0/2.10.0/loaders.cache': No such file or
-directory
+[YOCTO #2896]
 
-and don't have icons at all. Did you run test that (on a hardware
-plattform different to your host)?
+The du-k-works test seems to assume that du -k on a directory with two files
+totaling 80 kilobytes should report either 80k or 88k. In ext4 filesystm however,
+both busybox' du -k and coreutils' du -k reports a size of 84k which causes the
+test to fail.
 
-Andreas
+Intergrate the patch from:
+http://git.busybox.net/busybox/commit/?id=a5ee090e8651692545514a81a16c6cde3a2dc577
+
+Signed-off-by: Roy.Li <rongqing.li@windriver.com>
+---
+ .../fix-for-spurious-testsuite-failure.patch       |   27 ++++++++++++++++++++
+ meta/recipes-core/busybox/busybox_1.19.4.bb        |    5 ++-
+ 2 files changed, 30 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-core/busybox/busybox-1.19.4/fix-for-spurious-testsuite-failure.patch
+
+diff --git a/meta/recipes-core/busybox/busybox-1.19.4/fix-for-spurious-testsuite-failure.patch b/meta/recipes-core/busybox/busybox-1.19.4/fix-for-spurious-testsuite-failure.patch
+new file mode 100644
+index 0000000..b75eaac
+--- /dev/null
++++ b/meta/recipes-core/busybox/busybox-1.19.4/fix-for-spurious-testsuite-failure.patch
+@@ -0,0 +1,27 @@
++Backport the patch from:
++http://git.busybox.net/busybox/commit/?id=a5ee090e8651692545514a81a16c6cde3a2dc577
++
++From a5ee090e8651692545514a81a16c6cde3a2dc577 Mon Sep 17 00:00:00 2001
++From: Denys Vlasenko <vda.linux@googlemail.com>
++Date: Thu, 10 May 2012 19:26:37 +0200
++Subject: [PATCH] fix for spurious testsuite failure
++
++Upstream-Status: Backport
++Signed-off-by: Denys Vlasenko <vda.linux@googlemail.com>
++---
++ testsuite/du/du-k-works |    1 +
++ 1 files changed, 1 insertions(+), 0 deletions(-)
++
++diff --git a/testsuite/du/du-k-works b/testsuite/du/du-k-works
++index 229a948..36dcaa8 100644
++--- a/testsuite/du/du-k-works
+++++ b/testsuite/du/du-k-works
++@@ -3,4 +3,5 @@ cd du.testdir
++ dd if=/dev/zero of=file1 bs=1k count=64 2>/dev/null
++ dd if=/dev/zero of=file2 bs=1k count=16 2>/dev/null
++ test x"`busybox du -k .`" = x"80	." \
+++  -o x"`busybox du -k .`" = x"84	." \
++   -o x"`busybox du -k .`" = x"88	."
++-- 
++1.7.4.1
++
+diff --git a/meta/recipes-core/busybox/busybox_1.19.4.bb b/meta/recipes-core/busybox/busybox_1.19.4.bb
+index ced50c5..2e262ca 100644
+--- a/meta/recipes-core/busybox/busybox_1.19.4.bb
++++ b/meta/recipes-core/busybox/busybox_1.19.4.bb
+@@ -1,5 +1,5 @@
+ require busybox.inc
+-PR = "r12"
++PR = "r13"
+ 
+ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
+            file://B921600.patch \
+@@ -24,7 +24,8 @@ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
+            file://mdev.conf \
+            file://umount.busybox \
+            file://defconfig \
+-           file://busybox-mkfs-minix-tests_bigendian.patch"
++           file://busybox-mkfs-minix-tests_bigendian.patch \
++           file://fix-for-spurious-testsuite-failure.patch"
+ 
+ SRC_URI[tarball.md5sum] = "9c0cae5a0379228e7b55e5b29528df8e"
+ SRC_URI[tarball.sha256sum] = "9b853406da61ffb59eb488495fe99cbb7fb3dd29a31307fcfa9cf070543710ee"
+-- 
+1.7.4.1
+
 
 
