@@ -1,48 +1,32 @@
-Received: from mail-yx0-f175.google.com ([209.85.213.175])
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <schnitzeltony@googlemail.com>) id 1SySZ6-00082n-E9
+	(envelope-from <philb@gnu.org>) id 1SyTTh-0005KM-A9
 	for openembedded-core@lists.openembedded.org;
-	Mon, 06 Aug 2012 21:02:08 +0200
-Received: by yenm12 with SMTP id m12so1040829yen.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 06 Aug 2012 11:50:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type:content-transfer-encoding;
-	bh=hbvur9yew6AS99TAaxu15gxSBPeF1KgjkSlT/h+MgyY=;
-	b=JHsx3eBm1z19XmXOTHvxwtEI7EEKATzuFxdFEzNklyKVLYmxykwQPh8+FWgf5TkwZ2
-	gbHELGRmhythiBA6oCBXgRhlxtgiBSpFoBg7eJJiAE+TSCJigsRQI8wqMh6xp3b3B3XQ
-	N5pUigLtcMi8yi794zk8vlDWpw7cwHWrwj2nf/9h4c8kS+o3ZlnZ+Qv2LTdYS+fgWu6C
-	UW8FZm2J0yKbLDKS0clsSMsvA3GnUgdaXCnFqoFs9lRQxQd8+Yvmf4h0vguSmdNUFt8A
-	DeVQWr/g3PeZcGfeoVCsQtrALsIqEg4YwgCYSvXjNkV+KsAitb1vlwTdGGuMUKsOe5w0
-	5D4Q==
-MIME-Version: 1.0
-Received: by 10.50.156.201 with SMTP id wg9mr6409319igb.45.1344279022720; Mon,
-	06 Aug 2012 11:50:22 -0700 (PDT)
-Received: by 10.64.142.201 with HTTP; Mon, 6 Aug 2012 11:50:22 -0700 (PDT)
-In-Reply-To: <501F8BEC.4080204@intel.com>
-References: <cover.1344022584.git.laurentiu.palcu@intel.com>
-	<b41b2c46c9de5d3f63bfa146e23e8974a7a6cebf.1344022584.git.laurentiu.palcu@intel.com>
-	<CALbNGRQjUxm0h2+YA=Tog2_JhWPKGJmdy9QyhOjSQWLRQ1eKOQ@mail.gmail.com>
-	<501CD3EE.3080100@intel.com>
-	<CALbNGRTJM5=Xt4NqoEuEQa2U-eMtmQzy42HmwRK0zvkq-zK-3Q@mail.gmail.com>
-	<501D2B2B.6070806@intel.com>
-	<3103BB42-D7DD-456B-8733-9A019CA66E99@dominion.thruhere.net>
-	<CALbNGRRLGToMpW2tCzdtEcpZmAmgK3d2VKF0SVi-hgBanFOexQ@mail.gmail.com>
-	<CAMKF1spXi6PqV6ZLqLPMUE0oEF2Sou+Jst-QME-XhLoCANeaPQ@mail.gmail.com>
-	<501EA63F.9090304@intel.com>
-	<CALbNGRTmwH0yLJRQUrDUKBxLvC9bv7cE15_rnu50CCzDsUw0UQ@mail.gmail.com>
-	<CALbNGRTevoBvucXfRxYi33_y48V=Bo237s1Knjhy2eFJzjfmvQ@mail.gmail.com>
-	<501F76BF.9000605@intel.com>
-	<CALbNGRSOR2wxo7jetrEAYAZesSBiLPqVxJx0r22Xzmfxb3D=3g@mail.gmail.com>
-	<501F8BEC.4080204@intel.com>
-Date: Mon, 6 Aug 2012 20:50:22 +0200
-Message-ID: <CALbNGRRghW3wy5n6SCAcavnF2h6F5552B6jPbDC8O9EQQZis1A@mail.gmail.com>
-From: =?ISO-8859-1?Q?Andreas_M=FCller?= <schnitzeltony@googlemail.com>
+	Mon, 06 Aug 2012 22:00:37 +0200
+Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
+	helo=[192.168.114.6])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1SyTIM-00042s-FX
+	for openembedded-core@lists.openembedded.org;
+	Mon, 06 Aug 2012 21:48:54 +0200
+Message-ID: <1344282424.4874.13.camel@x121e.pbcl.net>
+From: Phil Blundell <philb@gnu.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/5] gtk-icon-cache: call postinst scriplet at do_rootfs time
+Date: Mon, 06 Aug 2012 20:47:04 +0100
+In-Reply-To: <1344261864.9756.164.camel@ted>
+References: <cover.1343926021.git.ross.burton@intel.com>
+	<94E6EEF2-BA2A-4B68-A9CB-98133061274E@dominion.thruhere.net>
+	<8242048D6F2A4934B1D6E6CB30CF8C3A@intel.com>
+	<C94E9933-5642-406C-ACBC-2F0A13E6AB41@dominion.thruhere.net>
+	<EC2F754A1E854583B06C4E1BF18AB5F9@intel.com>
+	<132C9DB1-9203-4938-A080-7496B592D723@dominion.thruhere.net>
+	<1344257012.9756.143.camel@ted>
+	<1D87F6F5-E962-4348-A240-97BFA89CB913@dominion.thruhere.net>
+	<1344261864.9756.164.camel@ted>
+X-Mailer: Evolution 3.4.3-1 
+Mime-Version: 1.0
+Subject: Re: [PATCH V3 00/11] Mesa upgrade/improvements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -57,84 +41,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Aug 2012 19:02:08 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 06 Aug 2012 20:00:37 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Mon, Aug 6, 2012 at 11:18 AM, Laurentiu Palcu
-<laurentiu.palcu@intel.com> wrote:
->
->
-> On 08/06/2012 11:10 AM, Andreas M=FCller wrote:
->> On Mon, Aug 6, 2012 at 9:48 AM, Laurentiu Palcu
->> <laurentiu.palcu@intel.com> wrote:
->>>
->>>
->>> On 08/06/2012 01:49 AM, Andreas M=FCller wrote:
->>>> On Mon, Aug 6, 2012 at 12:30 AM, Andreas M=FCller
->>>> <schnitzeltony@googlemail.com> wrote:
->>>>> On Sun, Aug 5, 2012 at 6:58 PM, Laurentiu Palcu
->>>>> <laurentiu.palcu@intel.com> wrote:
->>>>>> You could give it a test yourselves and let me know your results. I =
-will
->>>>>> send a version 2 of the patchset(as soon as we all agree on the
->>>>>> solution), with some changes suggested by Mark and some PR bumps
->>>>>> suggested by Koen.
->>>>> With the image I usually work with [1] and AMD Phenom II X6 1090 16GB
->>>>> RAM I get a measurable delay - see attachment. I would not be happy
->>>>> loosing latest do_rootfs enhancements (off topic - thanks for that).
->>>>> Remeber we are only talking of gtk-update-icon-cache. OK I could buy
->>>>> an intel host and work just with sato images but...
->>> I suppose you could, but nobody asked you to do that, it's your choice
->>> what's your build machine or what you'll be building for.
->>>
->>> Thanks for the measurements though. They do, indeed, show quite a
->>> significant amount of time (around 6 minutes). A run-once solution is t=
-o
->>> be considered in this case.
->>>
->>>>>
->>>>> Andreas
->>>>>
->>>>> [1] https://gitorious.org/schnitzeltony-oe-meta/meta-misc/blobs/maste=
-r/recipes-image/xfce-full-image.bb
->>>> OK I know it is not that important: The image created with this patch
->>>> series creates tons of messages like
->>> Why do you think is not important. Please elaborate. Or is it irony?
->> Yes sorry - it was late night.
-> It's OK, let's work together and find the best solution for all of us. I
-> would also be pissed of if I had to wait an extra 6 minutes every
-> do_rootfs run.
->
->>> I don't think is in anybody's benefit if you take this approach. :) All
->>> errors/warnings are important and they have to be taken care of.
->>>
->>>>
->>>> xfdesktop:446): GdkPixbuf-WARNING **: Cannot open pixbuf loader module
->>>> file '/usr/lib/gdk-pixbuf-2.0/2.10.0/loaders.cache': No such file or
->>>> directory
->>>>
->>>> and don't have icons at all. Did you run test that (on a hardware
->>>> plattform different to your host)?
->>> I only tested on qemu. And it worked just fine, without any errors. Wit=
-h
->>> all icons in place.
->> Which hardware did you emulate? My tests were done for overo (ARM
->> cortext A8). I wonder if the created database is machine specific.
-> I used qemuarm. As far as I know, the database shouldn't be machine
-> specific. And, looking at the log you sent, it looks like all commands
-> succeeded. Otherwise, the 'time' application would also signal in the
-> log file if the command failed. Could please have a look, on your host
-> (xfce-full-image-1.0-r0/rootfs/usr/share/icons/hicolor or
-> xfce-full-image-1.0-r0/rootfs/usr/share/icons/gnome), to see if it
-> creates the icon-theme.cache files? It does for me and I don't
-> understand why it doesn't in your case...
->
-> Thanks,
-> Laurentiu
->
-I checked: In both I find the files icon-theme.cache.
+On Mon, 2012-08-06 at 15:04 +0100, Richard Purdie wrote:
+> Ok, we need to do something about this mess, period. Its not going to
+> get any better and we need to sort it out. I can't "force" changes in
+> but on the other hand I'm not going to tie the hands of everyone just
+> because the ARM world in particular is a total mess in this area.
+> 
+> As such, I'm likely going to allow architecture overrides in core mesa
+> so for example, IA can enable gles and egl for everyone and cleanup
+> their binary blobs to override them on platforms where it makes sense. I
+> suspect someone will start sending patches to enable a generic arm core
+> and I am going to have a *really* hard time refusing the patches due to
+> any one silicon provider's binary blob issues.
 
-Andreas
+It's not obvious to me that this is really an architecture-level problem
+or that having different Mesa feature sets enabled on different
+architectures is a positive thing. 
+
+I'm also not totally convinced that any insurmountable problem actually
+exists today with evil vendor blobs.  If they install themselves into
+some directory that isn't /usr/lib and arrange for the dynamic linker to
+find their libEGL.so (etc) ahead of the Mesa one then it seems like
+everything should "just work" with today's technology.  As you observed,
+sort of the whole point of the EGL/GL/GLES abstraction is that you have
+a common API/ABI to write to irrespective of the implementation.
+
+(Realistically, it seems fairly unlikely that there are very many
+situations where using Mesa libGL on top of a vendor libEGL is going to
+make much sense.  If you have vendor libEGL but not libGL then the
+chances are you have GLES instead and this is probably what you want to
+be using.)
+
+So, all in all, I tend to think that we should just apply these patches
+and then do whatever else is necessary for the evil-binary-vendor stuff
+to be correctly packageable.
+
+p.
+
+
 
 
