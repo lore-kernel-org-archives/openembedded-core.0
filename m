@@ -1,23 +1,31 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from astoria.ccjclearline.com ([64.235.106.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1SyPsK-0003da-S6
+	(envelope-from <rpjday@crashcourse.ca>) id 1SyPwK-0003kP-D7
 	for openembedded-core@lists.openembedded.org;
-	Mon, 06 Aug 2012 18:09:49 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 06 Aug 2012 08:58:04 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="182258653"
-Received: from unknown (HELO localhost) ([10.7.199.152])
-	by orsmga002.jf.intel.com with ESMTP; 06 Aug 2012 08:58:03 -0700
-From: Darren Hart <dvhart@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  6 Aug 2012 08:56:13 -0700
-Message-Id: <541bca3bf62c2747fcc16b3fb8bc9ad468f6d4cb.1344268492.git.dvhart@linux.intel.com>
-X-Mailer: git-send-email 1.7.11.2
-In-Reply-To: <cover.1344268492.git.dvhart@linux.intel.com>
-References: <cover.1344268492.git.dvhart@linux.intel.com>
-Cc: Darren Hart <dvhart@linux.intel.com>
-Subject: [PATCH 1/1] linux-yocto-custom: Clarify usage and clear COMPATIBLE_MACHINE
+	Mon, 06 Aug 2012 18:13:56 +0200
+Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
+	([174.115.5.73]:50621 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.77) (envelope-from <rpjday@crashcourse.ca>)
+	id 1SyPky-0003yx-OP for openembedded-core@lists.openembedded.org;
+	Mon, 06 Aug 2012 12:02:12 -0400
+Date: Mon, 6 Aug 2012 12:02:10 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@oneiric
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.DEB.2.02.1208061158050.8873@oneiric>
+User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+MIME-Version: 1.0
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Subject: proper(?) way to *require* an earlier, unsupported version of a recipe file?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,116 +40,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Aug 2012 16:09:49 -0000
+X-List-Received-Date: Mon, 06 Aug 2012 16:13:56 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
-There has been some confusion over proper use of the linux-yocto-custom
-recipe. It is not intended to build as is from meta-skeleton. It should
-be modified via a bbappend file to provide a Linux kernel config at the
-very least.
 
-Update the commentary to make this requirement more explicit. Add some
-additional detail about how to create a bbappend file and how and when
-to modify the various variables.
+  what is the OE philosophy for preferring an earlier version of a
+recipe file that doesn't even exist anymore?  for example, the
+"watchdog" recipe was recently upgraded from 5.11 to 5.12.  in the
+process, the recipe file for 5.11 was removed; therefore, i interpret
+that as that OE-core no longer supports that version, which is fine.
 
-Clear COMPATIBLE_MACHINE so bitbake will not attempt to build the recipe
-unless the user explicitly adds there machine to the variable, which
-should encourage them to read the recipe comments before attempting to
-build it.
+  hypothetically, what if someone still *needed* that earlier version?
+would it be their responsibility to, say, create a new layer that
+re-introduced that older, now-unsupported version?  just curious.
 
-Signed-off-by: Darren Hart <dvhart@linux.intel.com>
-CC: Bruce Ashfield <bruce.ashfield@windriver.com>
-CC: Tom Zanussi <tom.zanussi@intel.com>
-Signed-off-by: Darren Hart <dvhart@linux.intel.com>
----
- .../recipes-kernel/linux/linux-yocto-custom.bb     | 53 +++++++++++++++-------
- 1 file changed, 36 insertions(+), 17 deletions(-)
+rday
 
-diff --git a/meta-skeleton/recipes-kernel/linux/linux-yocto-custom.bb b/meta-skeleton/recipes-kernel/linux/linux-yocto-custom.bb
-index 55f0c38..1f0b3a2 100644
---- a/meta-skeleton/recipes-kernel/linux/linux-yocto-custom.bb
-+++ b/meta-skeleton/recipes-kernel/linux/linux-yocto-custom.bb
-@@ -1,17 +1,36 @@
- # linux-yocto-custom.bb:
- #
--#   Provides an example/minimal kernel recipe that uses the linux-yocto
--#   and oe-core kernel classes to apply a subset of yocto kernel 
--#   management to git managed kernel repositories.
-+#   An example kernel recipe that uses the linux-yocto and oe-core
-+#   kernel classes to apply a subset of yocto kernel management to git
-+#   managed kernel repositories.
-+#
-+#   To use linux-yocto-custom in your layer, create a
-+#   linux-yocto-custom.bbappend file containing at least the following
-+#   lines:
-+#
-+#     FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
-+#     COMPATIBLE_MACHINE_yourmachine = "yourmachine"
-+#
-+#   You must also provide a Linux kernel configuration. The most direct
-+#   method is to copy your .config to files/defconfig in your layer,
-+#   in the same directory as the bbappend.
-+#
-+#   To use the yocto kernel tooling to generate a BSP configuration
-+#   using modular configuration fragments, see the yocto-bsp and
-+#   yocto-kernel tools documentation.
-+#
-+# Warning:
-+#
-+#   Building this example without providing a defconfig or BSP
-+#   configuration will result in build or boot errors. This is not a
-+#   bug.
-+#
- #
- # Notes:
- #
--#   kconfig(s): the kernel must be configured with a defconfig, or via
--#               configuration fragment(s). Either of these can be added
--#               via bbappend.
--#   patches: patches can be merged into to the source git tree itself, added
--#            using standard bbappend syntax or controlled via .scc feature 
--#            descriptions (also via bbappends)
-+#   patches: patches can be merged into to the source git tree itself,
-+#            added via the SRC_URI, or controlled via a BSP
-+#            configuration.
- #   
- #   example configuration addition:
- #            SRC_URI += "file://smp.cfg"
-@@ -20,25 +39,25 @@
- #   example feature addition (for kernel v3.4 only):
- #            SRC_URI += "file://feature.scc"
- #
--# Warning:
--#
--#   Building the sample kernel tree (kernel.org) without providing any
--#   configuration will result in build or boot errors. This is not a bug
--#   it is a required element for creating a valid kernel.
--#    
- 
- inherit kernel
- require recipes-kernel/linux/linux-yocto.inc
- 
-+# Override SRC_URI in a bbappend file to point at a different source
-+# tree if you do not want to build from Linus' tree.
- SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git;protocol=git;nocheckout=1"
- 
- LINUX_VERSION ?= "3.4"
- LINUX_VERSION_EXTENSION ?= "-custom"
- 
-+# Override SRCREV to point to a different commit in a bbappend file to
-+# build a different release of the Linux kernel.
- # tag: v3.4 76e10d158efb6d4516018846f60c2ab5501900bc
- SRCREV="76e10d158efb6d4516018846f60c2ab5501900bc"
- 
--PR = "r0"
-+PR = "r1"
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
--COMPATIBLE_MACHINE = "(qemuarm|qemux86|qemuppc|qemumips|qemux86-64)"
-+# Override COMPATIBLE_MACHINE to include your machine in a bbappend
-+# file. Leaving it empty here ensures an early explicit build failure.
-+COMPATIBLE_MACHINE = "(^$)"
 -- 
-1.7.11.2
 
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
 
