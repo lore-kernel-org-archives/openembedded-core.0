@@ -1,40 +1,38 @@
-Received: from mail-wi0-f171.google.com ([209.85.212.171])
+Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1SyJnw-0000Jv-Pr
+	(envelope-from <ross.burton@intel.com>) id 1SyJoB-0000MF-0n
 	for openembedded-core@lists.openembedded.org;
-	Mon, 06 Aug 2012 11:40:52 +0200
-Received: by wibhq4 with SMTP id hq4so1332209wib.6
+	Mon, 06 Aug 2012 11:41:07 +0200
+Received: from mail-ob0-f180.google.com ([209.85.214.180])
+	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 06 Aug 2012 02:29:21 -0700
+Received: by obbuo19 with SMTP id uo19so4819873obb.25
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 06 Aug 2012 02:29:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=FfLOcX1s03goW9MoUULzSc5mh3yLmSepyHqTWqsIo4E=;
-	b=fbFWNywhwCNfYVWbBQN2+87Q3txH/c9LnhY+kQsd7+fAhLcpNsWKZcWk6u7tT8HV9G
-	HYpQbBpW4nZ0k79wqJ2KjhEeZLnR3OufSrIpbDgB3cf+giLiM+qh6QTbt6ItBsc1T1We
-	XWwREDMn/f1CUwFIPy1P8lmYwKBnfs5gC+2W1z3UjHvosgr/3SkqreVKE4l3BElSshtI
-	/L2rvRYVzU1qRn5y4yBmV6bqMKGvzfVjkMrT5/IrE5+1nZdIjIHRlIC3RKk7zl8F8uhN
-	1CviFqRwxPsNnxBZo3ni6QCU4ko4wjbbpxovplxxCIg15P0i1n07ViOtLcqD8AK+dvNH
-	rQsA==
-Received: by 10.180.98.138 with SMTP id ei10mr16841355wib.1.1344245348493;
-	Mon, 06 Aug 2012 02:29:08 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id ex20sm21605224wid.7.2012.08.06.02.29.06
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 06 Aug 2012 02:29:07 -0700 (PDT)
-Date: Mon, 6 Aug 2012 11:29:03 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
+	Mon, 06 Aug 2012 02:29:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type:x-gm-message-state;
+	bh=p5ef39NCiM1bQU1pPjvddvGNIWq9GT4eOrDZ++2dRAI=;
+	b=AeNiTVpLw3hZZAscPzh9mjq17yft+cj9njZVi6Fc1sjRs5mJZumhFVa/SY78Uehkug
+	h8bxrrgUoBBLMCM8J8JDoteC+wJm4TKL+HvP5+Z5FLUnCoYxv9F8LjpEgyppZtyXeeHy
+	IK7EY17eHoCF3nvlIjb0Gj/SZ+m3J4CMiGhzS14hQV1/xW3vYaDNO33futxvBlJigH3Q
+	wyMd3M63rBl1qMWODfNATTGU1q3fNVaF/5a+Au3g0UXkFne+/F9NVror2nki/VjsKPcS
+	qjkSACInMd5hKluUlXcaKyoL0FcqKMYHJe/1iuMdP5z3XLX+5HwaAG76U60+ZtpV2Gfq
+	hkmA==
+Received: by 10.182.45.41 with SMTP id j9mr503978obm.67.1344245360219; Mon, 06
+	Aug 2012 02:29:20 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.182.45.10 with HTTP; Mon, 6 Aug 2012 02:28:59 -0700 (PDT)
+In-Reply-To: <8db627a00e95e0f72a8c18eb31ddd5c06df99454.1344022584.git.laurentiu.palcu@intel.com>
+References: <cover.1344022584.git.laurentiu.palcu@intel.com>
+	<8db627a00e95e0f72a8c18eb31ddd5c06df99454.1344022584.git.laurentiu.palcu@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 6 Aug 2012 10:28:59 +0100
+Message-ID: <CAJTo0LY=M_j423OwyWjmNt2JTUEhyZ7xOE-HdYoSXqyJH6X0dg@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Message-ID: <20120806092903.GG3267@jama.jama.net>
-References: <cover.1343124846.git.liezhi.yang@windriver.com>
-	<7affb352c173c353df0b69002f3ca0f5ee0502cf.1343124846.git.liezhi.yang@windriver.com>
-	<1343126992.22222.11.camel@ted>
-MIME-Version: 1.0
-In-Reply-To: <1343126992.22222.11.camel@ted>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: Zhenfeng.Zhao@windriver.com
-Subject: Re: [PATCH 1/1] package-index: inherit pythonnative
+X-Gm-Message-State: ALoCoQmrqedXFrMozr9smlPyg6oAQg2H2nt+20qy7Ulnv7nHJ75MTW8S0b5AgMqbXxyjWawRN3ai
+Subject: Re: [PATCH 2/5] sato-icon-theme: make postinst scriplet run at do_rootfs time
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,71 +47,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Aug 2012 09:40:52 -0000
-X-Groupsio-MsgNum: 27008
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="doKZ0ri6bHmN2Q5y"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 06 Aug 2012 09:41:07 -0000
+Content-Type: text/plain; charset=UTF-8
 
---doKZ0ri6bHmN2Q5y
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 3 August 2012 21:19, Laurentiu Palcu <laurentiu.palcu@intel.com> wrote:
+>  pkg_postinst_${PN} () {
+> -        if [ "x$D" != "x" ]; then
+> -                exit 1
+> +        gtk-update-icon-cache -q $D/usr/share/icons/Sato
+> +        if [ ! -d $D/etc/gtk-2.0 ]; then
+> +            mkdir -p $D/etc/gtk-2.0
+>          fi
+> -        gtk-update-icon-cache -q /usr/share/icons/Sato
+> -        echo 'gtk-icon-theme-name = "Sato"' >> /etc/gtk-2.0/gtkrc
+> +        echo 'gtk-icon-theme-name = "Sato"' >> $D/etc/gtk-2.0/gtkrc
+>  }
 
-On Tue, Jul 24, 2012 at 11:49:52AM +0100, Richard Purdie wrote:
-> On Tue, 2012-07-24 at 18:19 +0800, Robert Yang wrote:
-> > The native python binary has been moved from usr/bin/python to
-> > usr/bin/python-native/python, the recipe which needs python-native
-> > should "inherit pythonnative", otherwise there would be errors when the
-> > python script runs.
-> >=20
-> > [YOCTO #2822]
-> >=20
-> > Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> > ---
-> >  meta/recipes-core/meta/package-index.bb |    2 ++
-> >  1 files changed, 2 insertions(+), 0 deletions(-)
->=20
-> Which part of this recipe needs python-native? Shouldn't scripts which
-> need pythonnative be using the path to the python interpreter
-> explicitly?
+Surely sato-icon-theme should be inheriting the gtk-icon-cache class
+to remove all of the duplicated logic?
 
-This fixes my opkg-utils related issues too
-http://lists.linuxtogo.org/pipermail/openembedded-core/2012-July/026333.html
+Ross
 
-The problem is that with pythonnative in opkg-utils it's still using=20
-#!/usr/bin/env python
-in tmp-eglibc/sysroots/x86_64-linux/usr/bin/opkg-make-index
 
-And when python-index executes this:
-| + [ -e /var/lib/jenkins/jobs/shr-core/workspace/shr-core/tmp-eglibc/deplo=
-y/ipk/ ]
-| + touch /var/lib/jenkins/jobs/shr-core/workspace/shr-core/tmp-eglibc/depl=
-oy/ipk/Packages
-| + flock /var/lib/jenkins/jobs/shr-core/workspace/shr-core/tmp-eglibc/depl=
-oy/ipk/Packages.flock -c opkg-make-index -r /var/lib/jenkins/jobs/shr-core/=
-workspace/shr-core/tmp-eglibc/deploy/ipk/Packages -p /var/lib/jenkins/jobs/=
-shr-core/workspace/shr-core/tmp-eglibc/deploy/ipk/Packages -m /var/lib/jenk=
-ins/jobs/shr-core/workspace/shr-core/tmp-eglibc/deploy/ipk/
-| Traceback (most recent call last):
-
-It depends on PATH of package-index not opkg-utils.
-
-Cheers,
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---doKZ0ri6bHmN2Q5y
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
-
-iEYEARECAAYFAlAfjl8ACgkQN1Ujt2V2gBxJ3gCeIzlTQe/mSkoE9xp/0ocx0JzH
-TAwAoIKBzhDlTCvtcz+nt1ugYRIH4Nlv
-=DH7P
------END PGP SIGNATURE-----
-
---doKZ0ri6bHmN2Q5y--
