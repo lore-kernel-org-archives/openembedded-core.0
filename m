@@ -1,29 +1,44 @@
-Received: from mga02.intel.com ([134.134.136.20])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <radu.moisan@intel.com>) id 1SyO9N-00009e-IT
-	for openembedded-core@lists.openembedded.org;
-	Mon, 06 Aug 2012 16:19:17 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 06 Aug 2012 07:07:31 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; 
-	d="scan'208,217";a="182213703"
-Received: from dell-desktop (HELO [10.237.105.32]) ([10.237.105.32])
-	by orsmga002.jf.intel.com with ESMTP; 06 Aug 2012 07:07:30 -0700
-Message-ID: <501FD013.5040000@intel.com>
-Date: Mon, 06 Aug 2012 17:09:23 +0300
-From: Radu Moisan <radu.moisan@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:14.0) Gecko/20120714 Thunderbird/14.0
+Received: from mail-out.m-online.net ([212.18.0.10])
+	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <wd@denx.de>)
+	id 1SyOFa-0000GF-NO for openembedded-core@lists.openembedded.org;
+	Mon, 06 Aug 2012 16:25:42 +0200
+Received: from frontend1.mail.m-online.net (frontend1.mail.intern.m-online.net
+	[192.168.8.180])
+	by mail-out.m-online.net (Postfix) with ESMTP id 3WrLSm2r3dz3hhXL;
+	Mon,  6 Aug 2012 16:14:00 +0200 (CEST)
+Received: from localhost (dynscan1.mnet-online.de [192.168.6.68])
+	by mail.m-online.net (Postfix) with ESMTP id 3WrLSm2dmFzbbgZ;
+	Mon,  6 Aug 2012 16:14:00 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at mnet-online.de
+Received: from smtp-auth.mnet-online.de ([192.168.8.180])
+	by localhost (dynscan1.mail.m-online.net [192.168.6.68]) (amavisd-new,
+	port 10024)
+	with ESMTP id 4x3zI+hbWuVv; Mon,  6 Aug 2012 16:13:52 +0200 (CEST)
+X-Auth-Info: 9Wvbji3pEIvK816O5IlmpHQecWGd/lH/YwiZ02ZlUL4=
+Received: from diddl.denx.de (host-80-81-18-216.customer.m-online.net
+	[80.81.18.216]) by smtp-auth.mnet-online.de (Postfix) with ESMTPA;
+	Mon,  6 Aug 2012 16:13:52 +0200 (CEST)
+Received: from gemini.denx.de (unknown [10.0.0.2])
+	by diddl.denx.de (Postfix) with ESMTP id 81C111A2115;
+	Mon,  6 Aug 2012 16:13:52 +0200 (CEST)
+Received: from gemini.denx.de (localhost [127.0.0.1])
+	by gemini.denx.de (Postfix) with ESMTP id 8D649203FD8;
+	Mon,  6 Aug 2012 16:13:51 +0200 (CEST)
+To: Radu Moisan <radu.moisan@intel.com>
+From: Wolfgang Denk <wd@denx.de>
 MIME-Version: 1.0
-To: Wolfgang Denk <wd@denx.de>
+In-reply-to: <501FD013.5040000@intel.com>
 References: <1343997523-4117-1-git-send-email-radu.moisan@intel.com>
 	<20120803161915.399D1203B3D@gemini.denx.de>
 	<501F63FF.1070401@intel.com>
 	<20120806074542.A63C0203FD8@gemini.denx.de>
 	<501FC96A.8000400@intel.com>
 	<20120806134641.E98B3203FD8@gemini.denx.de>
-In-Reply-To: <20120806134641.E98B3203FD8@gemini.denx.de>
+	<501FD013.5040000@intel.com>
+Comments: In-reply-to Radu Moisan <radu.moisan@intel.com>
+	message dated "Mon, 06 Aug 2012 17:09:23 +0300."
+Date: Mon, 06 Aug 2012 16:13:51 +0200
+Message-Id: <20120806141351.8D649203FD8@gemini.denx.de>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH][RFC] u-boot: Upgrade to upstream stable 2012.07
@@ -41,105 +56,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Aug 2012 14:19:17 -0000
-Content-Type: multipart/alternative;
-	boundary="------------030302060104000507080104"
+X-List-Received-Date: Mon, 06 Aug 2012 14:25:42 -0000
+Content-type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
---------------030302060104000507080104
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Dear Radu,
 
-CROSS_COMPILE is set in EXTRA_OEMAKE which is used in oe-runmake() 
-within do_compile()
-Running devshell is achieved in do_devshell() which is run after 
-do_patch() but before do_compile(), that's why in devshell CROSS_COMPILE 
-is not (yet) set.
-I think this is the intended way for things to work, devshell usage, as 
-I see it, is mainly for pre-compile debugging purposes.
-
-radu
-
-On 08/06/2012 04:46 PM, Wolfgang Denk wrote:
-> Dear Radu,
+In message <501FD013.5040000@intel.com> you wrote:
 >
-> In message <501FC96A.8000400@intel.com> you wrote:
->> in the new shell
->>
->>   >make coreboot-x86 (without _config)
->>
->> The output I got is as follows:
->>
->> Configuring for coreboot-x86 - Board: coreboot, Options:
->> SYS_TEXT_BASE=0xFC0000
->> make
->> /bin/bash: i386-linux-gcc: command not found
->> /bin/bash: i386-linux-gcc: command not found
-> It seems CROSS_COMPILE is set to "i386-linux-", but i386-linux-gcc is
-> not anywhere in your PATH.  Please check your PATH and fix it.
->
-> Best regards,
->
-> Wolfgang Denk
->
+> CROSS_COMPILE is set in EXTRA_OEMAKE which is used in oe-runmake()=20
+> within do_compile()
+> Running devshell is achieved in do_devshell() which is run after=20
+> do_patch() but before do_compile(), that's why in devshell CROSS_COMPIL=
+E=20
+> is not (yet) set.
 
+But CROSS_COMPILE _is_ set (and apparently has the value
+"i386-linux-".
 
---------------030302060104000507080104
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+The problem is that PATH is not set such that it contains any such
+file as i386-linux-gcc.
 
-<html>
-  <head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
-  </head>
-  <body bgcolor="#FFFFFF" text="#000000">
-    CROSS_COMPILE is set in EXTRA_OEMAKE which is used in <font
-      face="Droid Sans Mono">oe-runmake()</font> within <font
-      face="Droid Sans Mono">do_compile()</font><br>
-    Running devshell is achieved in <font face="Droid Sans Mono">do_devshell()</font>
-    which is run after <font face="Droid Sans Mono">do_patch()</font>
-    but before <font face="Droid Sans Mono">do_compile()</font>, that's
-    why in devshell CROSS_COMPILE is not (yet) set.<br>
-    I think this is the intended way for things to work, devshell usage,
-    as I see it, is mainly for pre-compile debugging purposes.<br>
-    <br>
-    radu<br>
-    <br>
-    <div class="moz-cite-prefix">On 08/06/2012 04:46 PM, Wolfgang Denk
-      wrote:<br>
-    </div>
-    <blockquote cite="mid:20120806134641.E98B3203FD8@gemini.denx.de"
-      type="cite">
-      <pre wrap="">Dear Radu,
-
-In message <a class="moz-txt-link-rfc2396E" href="mailto:501FC96A.8000400@intel.com">&lt;501FC96A.8000400@intel.com&gt;</a> you wrote:
-</pre>
-      <blockquote type="cite">
-        <pre wrap="">
-in the new shell
-
- &gt;make coreboot-x86 (without _config)
-
-The output I got is as follows:
-
-Configuring for coreboot-x86 - Board: coreboot, Options: 
-SYS_TEXT_BASE=0xFC0000
-make
-/bin/bash: i386-linux-gcc: command not found
-/bin/bash: i386-linux-gcc: command not found
-</pre>
-      </blockquote>
-      <pre wrap="">
-It seems CROSS_COMPILE is set to "i386-linux-", but i386-linux-gcc is
-not anywhere in your PATH.  Please check your PATH and fix it.
 
 Best regards,
 
 Wolfgang Denk
 
-</pre>
-    </blockquote>
-    <br>
-  </body>
-</html>
+--=20
+DENX Software Engineering GmbH,     MD: Wolfgang Denk & Detlev Zundel
+HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
+Phone: (+49)-8142-66989-10 Fax: (+49)-8142-66989-80 Email: wd@denx.de
+"Beware of bugs in the above code; I have only proved it correct, not
+tried it."                                             - Donald Knuth
 
---------------030302060104000507080104--
+
