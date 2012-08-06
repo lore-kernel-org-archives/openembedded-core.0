@@ -1,23 +1,27 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Rongqing.Li@windriver.com>) id 1SyDZc-0003uj-S2
+	(envelope-from <radu.moisan@intel.com>) id 1SyGx6-0005cL-E5
 	for openembedded-core@lists.openembedded.org;
-	Mon, 06 Aug 2012 05:01:41 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q762nt20011015
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 5 Aug 2012 19:49:55 -0700 (PDT)
-Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.163) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.309.2; Sun, 5 Aug 2012 19:49:55 -0700
-From: <rongqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 6 Aug 2012 10:50:01 +0800
-Message-ID: <1344221401-23578-1-git-send-email-rongqing.li@windriver.com>
-X-Mailer: git-send-email 1.7.4.1
+	Mon, 06 Aug 2012 08:38:08 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 05 Aug 2012 23:26:22 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="176401982"
+Received: from dell-desktop (HELO [10.237.105.32]) ([10.237.105.32])
+	by orsmga001.jf.intel.com with ESMTP; 05 Aug 2012 23:26:21 -0700
+Message-ID: <501F63FF.1070401@intel.com>
+Date: Mon, 06 Aug 2012 09:28:15 +0300
+From: Radu Moisan <radu.moisan@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:14.0) Gecko/20120714 Thunderbird/14.0
 MIME-Version: 1.0
-Subject: [PATCH] busybox: fix du-k-works test case
+To: Wolfgang Denk <wd@denx.de>
+References: <1343997523-4117-1-git-send-email-radu.moisan@intel.com>
+	<20120803161915.399D1203B3D@gemini.denx.de>
+In-Reply-To: <20120803161915.399D1203B3D@gemini.denx.de>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH][RFC] u-boot: Upgrade to upstream stable 2012.07
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,84 +36,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Aug 2012 03:01:41 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 06 Aug 2012 06:38:08 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Roy.Li <rongqing.li@windriver.com>
+On 08/03/2012 07:19 PM, Wolfgang Denk wrote:
+> Dear Radu Moisan,
+>
+> In message <1343997523-4117-1-git-send-email-radu.moisan@intel.com> you wrote:
+>> Building u-boot requires UBOOT_MACHINE. In the u-boot README file
+>> building u-boot is achieved with "make NAME_config" and then
+>> "make all". I assumend UBOOT_MACHINE to be the "NAME" part and thus,
+> Actually a plain
+>
+> 	make NAME
+>
+> does the same as "make NAME_config && make all".
+>
+> You might also consider running "./MAKEALL NAME" instead, which
+> aut-adjusts to te number of available cores on the build host, so you
+> get somewhat reduced build times.
 
-[YOCTO #2896]
+I've tried to build this way but got into some errors and did not 
+pursued further in debugging them. However, because UBOOT_MACHINE is 
+already used as NAME_config, would be difficult to change it to NAME and 
+ask everyone who use it, to switch. I will go with current configuration 
+"make NAME_config" & "make all"
 
-The du-k-works test seems to assume that du -k on a directory with two files
-totaling 80 kilobytes should report either 80k or 88k. In ext4 filesystm however,
-both busybox' du -k and coreutils' du -k reports a size of 84k which causes the
-test to fail.
-
-Intergrate the patch from:
-http://git.busybox.net/busybox/commit/?id=a5ee090e8651692545514a81a16c6cde3a2dc577
-
-Signed-off-by: Roy.Li <rongqing.li@windriver.com>
----
- .../fix-for-spurious-testsuite-failure.patch       |   27 ++++++++++++++++++++
- meta/recipes-core/busybox/busybox_1.19.4.bb        |    5 ++-
- 2 files changed, 30 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-core/busybox/busybox-1.19.4/fix-for-spurious-testsuite-failure.patch
-
-diff --git a/meta/recipes-core/busybox/busybox-1.19.4/fix-for-spurious-testsuite-failure.patch b/meta/recipes-core/busybox/busybox-1.19.4/fix-for-spurious-testsuite-failure.patch
-new file mode 100644
-index 0000000..b75eaac
---- /dev/null
-+++ b/meta/recipes-core/busybox/busybox-1.19.4/fix-for-spurious-testsuite-failure.patch
-@@ -0,0 +1,27 @@
-+Backport the patch from:
-+http://git.busybox.net/busybox/commit/?id=a5ee090e8651692545514a81a16c6cde3a2dc577
-+
-+From a5ee090e8651692545514a81a16c6cde3a2dc577 Mon Sep 17 00:00:00 2001
-+From: Denys Vlasenko <vda.linux@googlemail.com>
-+Date: Thu, 10 May 2012 19:26:37 +0200
-+Subject: [PATCH] fix for spurious testsuite failure
-+
-+Upstream-Status: Backport
-+Signed-off-by: Denys Vlasenko <vda.linux@googlemail.com>
-+---
-+ testsuite/du/du-k-works |    1 +
-+ 1 files changed, 1 insertions(+), 0 deletions(-)
-+
-+diff --git a/testsuite/du/du-k-works b/testsuite/du/du-k-works
-+index 229a948..36dcaa8 100644
-+--- a/testsuite/du/du-k-works
-++++ b/testsuite/du/du-k-works
-+@@ -3,4 +3,5 @@ cd du.testdir
-+ dd if=/dev/zero of=file1 bs=1k count=64 2>/dev/null
-+ dd if=/dev/zero of=file2 bs=1k count=16 2>/dev/null
-+ test x"`busybox du -k .`" = x"80	." \
-++  -o x"`busybox du -k .`" = x"84	." \
-+   -o x"`busybox du -k .`" = x"88	."
-+-- 
-+1.7.4.1
-+
-diff --git a/meta/recipes-core/busybox/busybox_1.19.4.bb b/meta/recipes-core/busybox/busybox_1.19.4.bb
-index ced50c5..2e262ca 100644
---- a/meta/recipes-core/busybox/busybox_1.19.4.bb
-+++ b/meta/recipes-core/busybox/busybox_1.19.4.bb
-@@ -1,5 +1,5 @@
- require busybox.inc
--PR = "r12"
-+PR = "r13"
- 
- SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
-            file://B921600.patch \
-@@ -24,7 +24,8 @@ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
-            file://mdev.conf \
-            file://umount.busybox \
-            file://defconfig \
--           file://busybox-mkfs-minix-tests_bigendian.patch"
-+           file://busybox-mkfs-minix-tests_bigendian.patch \
-+           file://fix-for-spurious-testsuite-failure.patch"
- 
- SRC_URI[tarball.md5sum] = "9c0cae5a0379228e7b55e5b29528df8e"
- SRC_URI[tarball.sha256sum] = "9b853406da61ffb59eb488495fe99cbb7fb3dd29a31307fcfa9cf070543710ee"
--- 
-1.7.4.1
-
+radu
 
 
