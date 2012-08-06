@@ -1,32 +1,38 @@
-Received: from mail-we0-f175.google.com ([74.125.82.175])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1SyM7C-0005Z3-Lg
-	for openembedded-core@lists.openembedded.org;
-	Mon, 06 Aug 2012 14:08:54 +0200
-Received: by weyr6 with SMTP id r6so1775984wey.6
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1SyMq7-00061c-Ue for openembedded-core@lists.openembedded.org;
+	Mon, 06 Aug 2012 14:55:20 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q76ChaKX027815
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 06 Aug 2012 04:57:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=8jaQbSJdB0exOCzPuOTf7ps8nrJegna7U+FkGzQfmsc=;
-	b=jKV7HpHzsQ23yK8FnM3WmhHzPb7GyPo+lv4Q3I6ejUpgo+MyU5cyx1PjgemJqBRiDK
-	9udwI69V0XDJ+3ya/kCF7KeXjRn/UV2X33ohDPaxAYCKn/2Dncq4o9OgplqV4+oi+33I
-	2mk7d0nTvOYkEsTK3CGo8v/JgxO5h2HOPS9qzEeGuhv9A3+6TGgYM0dCHswBqJYvnnEs
-	mGgKf02sRZ4tIRPZ7gkmowosieHdpqzj9YhfViQ4E/to7VBbpchhyfOQc5rBZmFZf2qs
-	76m5Kl1SAOudkZXSrGBkG4JyZbz7uXyAlPaP7nV3+uFX6MDDq9DeFs0wlQ08Ta5EQhm0
-	3PZw==
-Received: by 10.180.75.209 with SMTP id e17mr20678338wiw.0.1344254230092;
-	Mon, 06 Aug 2012 04:57:10 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id ex20sm22449364wid.7.2012.08.06.04.57.08
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 06 Aug 2012 04:57:09 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  6 Aug 2012 13:57:04 +0200
-Message-Id: <1344254224-29365-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.7.8.6
-Subject: [PATCH] curl: disable ldap/ldaps explicitly
+	Mon, 6 Aug 2012 13:43:36 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 23198-09 for <openembedded-core@lists.openembedded.org>;
+	Mon,  6 Aug 2012 13:43:32 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q76ChTFp027809
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 6 Aug 2012 13:43:30 +0100
+Message-ID: <1344257012.9756.143.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Mon, 06 Aug 2012 13:43:32 +0100
+In-Reply-To: <132C9DB1-9203-4938-A080-7496B592D723@dominion.thruhere.net>
+References: <cover.1343926021.git.ross.burton@intel.com>
+	<94E6EEF2-BA2A-4B68-A9CB-98133061274E@dominion.thruhere.net>
+	<8242048D6F2A4934B1D6E6CB30CF8C3A@intel.com>
+	<C94E9933-5642-406C-ACBC-2F0A13E6AB41@dominion.thruhere.net>
+	<EC2F754A1E854583B06C4E1BF18AB5F9@intel.com>
+	<132C9DB1-9203-4938-A080-7496B592D723@dominion.thruhere.net>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH V3 00/11] Mesa upgrade/improvements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,48 +47,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Aug 2012 12:08:54 -0000
+X-List-Received-Date: Mon, 06 Aug 2012 12:55:20 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-* openldap from meta-oe is autodetected and then libldap-2.4-2 runtime dependency added to curl and almost all meta-efl recipes
+On Fri, 2012-08-03 at 17:46 +0200, Koen Kooi wrote:
+> Op 3 aug. 2012, om 15:19 heeft Ross Burton <ross.burton@intel.com> het
+> volgende geschreven:
+> 
+> > On Friday, 3 August 2012 at 11:18, Koen Kooi wrote:
+> >> libegl and libgles aren't built nowadays, so the problem is
+> avoided. Noone has dared to touch this subject the past 2.5 years:
+> http://cgit.openembedded.org/openembedded/commit/recipes/mesa?id=3d96f8cb61225d515b5cb4fe863f0d50c3ced436
+> >> 
+> >> The best solution[1] is to disable egl/gles in the mesa-recipes and
+> add a seperate recipe for them. That way you still get glu and other
+> useful mesa bits needed for gnome/efl/xfce/etc, but you can skip the
+> sysroot/shlib poisoning if needed.
+> > After much digging I see that the Beagle PVR drivers only provide
+> gles and egl, which is why you say that the problem was avoided.  Of
+> course that's just one specific driver, for example the Cedar Trail
+> EMGD driver does build libgl, libgles and libegl.
+> > 
+> > If the solution is "put the egl/gles bits in another package"
+> 
+> Recipe, not package. Big difference :)
+> 
+> > then I'm totally confused as to what the actual problem is.
+> Considering there's numerous libegl libraries for the many variants of
+> PVR on ARM, I'm struggling to understand exactly what is new here.
+> > 
+> > Can you explain clearly what the problem is, I'm obviously missing
+> something.  Once I understand the problem I can help with a solution.
+> 
+> You need mesa for the !egl and !gles libs and evil vendor blob for egl
+> and gles libs. In the emgd case you can get gl from the evil vendor as
+> well. To build e.g. EFL I need mesa for the !egl and !gles bits, to
+> build EFL with gles support I need mesa (again !egl, !gles) in
+> addition to evil vendor blob for egl and gles. 
+> We could make this work with MACHINE_FEATURES or something similar,
+> but that would mean that a very large chunk of userspace now becomes
+> machine specific. This is how clutter worked in the past and just look
+> at the fit the canonical/linaro people threw when they started doing
+> 'embedded' and clutter.
+> 
+> To compress the above: you need to build both the mesa and the
+> evil-egl-binary *recipes* for things to work, so the egl bits should
+> be a different recipe, not a subpackage of the mesa recipe. This is
+> all assuming we care abou the binary blobs e.g. TI distributes for 3d
+> support. If you don't, fine, merge this patchset.
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/recipes-support/curl/curl_7.26.0.bb |   12 +++++++-----
- 1 files changed, 7 insertions(+), 5 deletions(-)
+Let me test this a little bit more. The binary blobs shipped by TI would
+be machine specific and would be marked as such in the package feeds?
+The mesa pieces would be marked as architecture specific and more
+generic. In feeds, machine specific has priority so on the machines
+where there is hardware support, the hardware optimised versions would
+get installed?
 
-diff --git a/meta/recipes-support/curl/curl_7.26.0.bb b/meta/recipes-support/curl/curl_7.26.0.bb
-index f04b400..418e29c 100644
---- a/meta/recipes-support/curl/curl_7.26.0.bb
-+++ b/meta/recipes-support/curl/curl_7.26.0.bb
-@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://COPYING;beginline=7;md5=3a34942f4ae3fbf1a303160714e66
- DEPENDS = "zlib gnutls"
- DEPENDS_virtclass-native = "zlib-native openssl-native"
- DEPENDS_virtclass-nativesdk = "zlib-nativesdk"
--PR = "r0"
-+PR = "r1"
- 
- SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
-            file://pkgconfig_fix.patch"
-@@ -20,11 +20,13 @@ inherit autotools pkgconfig binconfig
- 
- EXTRA_OECONF = "--with-zlib=${STAGING_LIBDIR}/../ \
-                 --without-libssh2 \
--		--with-random=/dev/urandom \
--		--without-libidn \
--		--enable-crypto-auth \
-+                --with-random=/dev/urandom \
-+                --without-libidn \
-+                --enable-crypto-auth \
-+                --disable-ldap \
-+                --disable-ldaps \
-                 ${CURLGNUTLS} \
--		"
-+                "
- 
- CURLGNUTLS = " --with-gnutls=${STAGING_LIBDIR}/../ --without-ssl"
- CURLGNUTLS_virtclass-native = "--without-gnutls --with-ssl"
--- 
-1.7.8.6
+If the above isn't the case, can we make it work like that?
+
+Cheers,
+
+Richard
+
+
+
 
 
 
