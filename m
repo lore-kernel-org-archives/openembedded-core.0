@@ -1,29 +1,23 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Wenzong.Fan@windriver.com>) id 1SyHQB-0006LD-01
+	(envelope-from <Jackie.Huang@windriver.com>) id 1SyHZP-0006R1-Uy
 	for openembedded-core@lists.openembedded.org;
-	Mon, 06 Aug 2012 09:08:11 +0200
+	Mon, 06 Aug 2012 09:17:44 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q766uNvU027592
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 5 Aug 2012 23:56:23 -0700 (PDT)
-Received: from [128.224.162.182] (128.224.162.182) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.309.2;
-	Sun, 5 Aug 2012 23:56:23 -0700
-Message-ID: <501F6A95.80309@windriver.com>
-Date: Mon, 6 Aug 2012 14:56:21 +0800
-From: wenzong fan <wenzong.fan@windriver.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.1.11) Gecko/20100713 Thunderbird/3.0.6
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q7675wsN007277
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 6 Aug 2012 00:05:58 -0700 (PDT)
+Received: from pek-cc-pb05l.wrs.com (128.224.157.65) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.309.2; Mon, 6 Aug 2012 00:05:58 -0700
+From: <jackie.huang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 6 Aug 2012 15:05:43 +0800
+Message-ID: <cover.1344236526.git.jackie.huang@windriver.com>
+X-Mailer: git-send-email 1.7.4
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>, Richard Purdie
-	<richard.purdie@linuxfoundation.org>
-References: <cover.1343964466.git.wenzong.fan@windriver.com>	<9ed1d4d30aeac33273968b00c0b5afab059bbc0f.1343964466.git.wenzong.fan@windriver.com>
-	<1344205948.3541.2.camel@lenny>
-In-Reply-To: <1344205948.3541.2.camel@lenny>
-Cc: Zhenfeng.Zhao@windriver.com
-Subject: Re: [PATCH 1/1] gdk-pixbuf: fix parallel install issue
+Subject: [PATCH 0/1] tcl: Add ${bindir_crossscripts}/tclConfig.sh to sysroot stage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,38 +32,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Aug 2012 07:08:11 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 06 Aug 2012 07:17:44 -0000
+Content-Type: text/plain
 
-On 08/06/2012 06:32 AM, Colin Walters wrote:
-> On Fri, 2012-08-03 at 11:30 +0800, wenzong.fan@windriver.com wrote:
->
->> Make an explicit dependency to the libs install targets would fix this
->> issue.
->
-> I don't think Yocto should be running the 'make install' target with
-> parallelism enabled; it's just going to be a source of major pain for
-> small gain.  Historically Automake's install targets have had a lot of
-> paralleism issues AIUI, even discarding modules which have custom
-> install hooks.
->
->
-Hi Richard,
+From: Jackie Huang <jackie.huang@windriver.com>
 
-What's your opinions?
+tclConfig.sh is changed in do_install for cross compile and
+is installed to STAGING_BINDIR_CROSS, but if SSTATE_DIR is set
+and tcl is from sstage, tclConfig.sh can't be found in
+STAGING_BINDIR_CROSS, add ${bindir_crossscripts}/tclConfig.sh
+to sysroot stage can fix it.
 
-Disable/Enable paralleism for 'make install', this more like a policy
-issue rather than tech.
+[YOCTO #2891]
 
-Thanks
-Wenzong
+Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+---
+The following changes since commit a9d0cbe1d84bb26fc1a1f48764fe514cf9f9c548:
 
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+  gcc: Bump PR since there have been several gcc changes and various problems reported and this should flush anything stale out (2012-08-03 10:32:24 +0100)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib jhuang0/bug2891_tcl_0806
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=jhuang0/bug2891_tcl_0806
+
+Jackie Huang (1):
+  tcl: Add ${bindir_crossscripts}/tclConfig.sh to sysroot stage
+
+ meta/recipes-devtools/tcltk/tcl_8.5.11.bb |    9 +++++++--
+ 1 files changed, 7 insertions(+), 2 deletions(-)
+
+-- 
+1.7.4
+
 
 
