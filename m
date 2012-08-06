@@ -1,38 +1,42 @@
-Received: from mail-wi0-f169.google.com ([209.85.212.169])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1SyHmz-0006mF-7r
-	for openembedded-core@lists.openembedded.org;
-	Mon, 06 Aug 2012 09:31:45 +0200
-Received: by wibhm2 with SMTP id hm2so1150331wib.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 06 Aug 2012 00:20:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=4avex0J9ze7unSsJt7+3uxDPN7CXxQIY2o1/2YNeqR4=;
-	b=ClcLVDqifYGfF77kp4A4NANxnyoLW7wy2ov7P6trvzlcOrYPYU9ov+j3WAi+MsCh1j
-	UPHhDTX1eoZ0qy0I2eo1sPgrz3kG6P8kFUTOd8SCTdUeAka6qM7/rnW/9S71xI5NFJ3I
-	v9yDLGAQ6FFshDcLGL21ZeiDBF5M8yNcl7qNT/TcofqgIbRrEYpe07LFiwtwgYOWw9U0
-	PkmObJug0yQFFs7h6sCk/dIH16pN66AQ5bE1Qdytj5AF08ovPIOmM2qwnT2+h0n268+w
-	yqrBqRy4U6BCsDQEqjpWyGAfOHdL21xClk/FwPkfYn2fz0ldVgYf15BzII5pCjPtbqlY
-	soiQ==
-Received: by 10.180.19.169 with SMTP id g9mr16007125wie.9.1344237601091;
-	Mon, 06 Aug 2012 00:20:01 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id l5sm20869885wix.5.2012.08.06.00.19.58
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 06 Aug 2012 00:19:59 -0700 (PDT)
-Date: Mon, 6 Aug 2012 09:19:55 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20120806071955.GF3267@jama.jama.net>
-References: <1344236047-28547-1-git-send-email-radu.moisan@intel.com>
-	<20120806065544.GD3267@jama.jama.net> <501F6E54.1010309@intel.com>
+Received: from mail-out.m-online.net ([212.18.0.9])
+	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <wd@denx.de>)
+	id 1SyIBx-0007A9-IR for openembedded-core@lists.openembedded.org;
+	Mon, 06 Aug 2012 09:57:33 +0200
+Received: from frontend1.mail.m-online.net (unknown [192.168.8.180])
+	by mail-out.m-online.net (Postfix) with ESMTP id 3Wr9rv3rTDz4KK6t;
+	Mon,  6 Aug 2012 09:45:51 +0200 (CEST)
+Received: from localhost (dynscan1.mnet-online.de [192.168.6.68])
+	by mail.m-online.net (Postfix) with ESMTP id 3Wr9rv2JRdzbblg;
+	Mon,  6 Aug 2012 09:45:51 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at mnet-online.de
+Received: from smtp-auth.mnet-online.de ([192.168.8.180])
+	by localhost (dynscan1.mail.m-online.net [192.168.6.68]) (amavisd-new,
+	port 10024)
+	with ESMTP id 4mrvy-ol+jlQ; Mon,  6 Aug 2012 09:45:44 +0200 (CEST)
+X-Auth-Info: 5w08DbAgCXufbKQ1sXRMxhsnB0Qz3l4yq70SjoT0nlM=
+Received: from diddl.denx.de (host-80-81-18-216.customer.m-online.net
+	[80.81.18.216]) by smtp-auth.mnet-online.de (Postfix) with ESMTPA;
+	Mon,  6 Aug 2012 09:45:44 +0200 (CEST)
+Received: from gemini.denx.de (gemini.denx.de [10.0.0.2])
+	by diddl.denx.de (Postfix) with ESMTP id D36011A2115;
+	Mon,  6 Aug 2012 09:45:43 +0200 (CEST)
+Received: from gemini.denx.de (localhost [127.0.0.1])
+	by gemini.denx.de (Postfix) with ESMTP id A63C0203FD8;
+	Mon,  6 Aug 2012 09:45:42 +0200 (CEST)
+To: Radu Moisan <radu.moisan@intel.com>
+From: Wolfgang Denk <wd@denx.de>
 MIME-Version: 1.0
-In-Reply-To: <501F6E54.1010309@intel.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: [PATCH] u-boot: Upgrade to upstream stable 2012.07
+In-reply-to: <501F63FF.1070401@intel.com>
+References: <1343997523-4117-1-git-send-email-radu.moisan@intel.com>
+	<20120803161915.399D1203B3D@gemini.denx.de>
+	<501F63FF.1070401@intel.com>
+Comments: In-reply-to Radu Moisan <radu.moisan@intel.com>
+	message dated "Mon, 06 Aug 2012 09:28:15 +0300."
+Date: Mon, 06 Aug 2012 09:45:42 +0200
+Message-Id: <20120806074542.A63C0203FD8@gemini.denx.de>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH][RFC] u-boot: Upgrade to upstream stable 2012.07
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,70 +51,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Aug 2012 07:31:45 -0000
-X-Groupsio-MsgNum: 27003
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="9ADF8FXzFeE7X4jE"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 06 Aug 2012 07:57:33 -0000
+Content-type: text/plain; charset=UTF-8
+Content-transfer-encoding: 8bit
 
---9ADF8FXzFeE7X4jE
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Dear Radu,
 
-On Mon, Aug 06, 2012 at 10:12:20AM +0300, Radu Moisan wrote:
->=20
-> On 08/06/2012 09:55 AM, Martin Jansa wrote:
-> > On Mon, Aug 06, 2012 at 09:54:07AM +0300, Radu Moisan wrote:
-> >> For u-boot-fw-utils, fw_enc.c was changed and it requires a header
-> >> file config.h which is autogenerated at config so it requires a
-> >> "make NAME_config".
-> >> I used for testing coreboot-x86.
-> > Is build with gold resolved in this new release already? By forcing bfd
-> > or to provide working binaries when built with gold?
+In message <501F63FF.1070401@intel.com> you wrote:
+>
+> > Actually a plain
 > >
-> > More info:
-> > http://lists.linuxtogo.org/pipermail/openembedded-core/2012-August/0269=
-43.html
+> > 	make NAME
+> >
+> > does the same as "make NAME_config && make all".
+> >
+> > You might also consider running "./MAKEALL NAME" instead, which
+> > aut-adjusts to te number of available cores on the build host, so you
+> > get somewhat reduced build times.
+> 
+> I've tried to build this way but got into some errors and did not 
+> pursued further in debugging them. However, because UBOOT_MACHINE is 
 
-> I don't know what linker is used, I guess the default one. If you can=20
-> point out to me how to check, I'll be glad to do it.
-> The patch in your link was not in my tree at the time I've tested, if=20
-> that is relevant in any way.
+Could you please tell me exactly what these errors were?  Log files
+etc. highly appreciated...
 
-Maybe you were looking to poky repo instead of oe-core?
+Best regards,
 
-Find poky equivalent of
-http://git.openembedded.org/openembedded-core/commit/?id=3D2e79fcd673dadeab=
-6358fe22d47c8534c14de03e
+Wolfgang Denk
 
-The issue reported in that email was fixed
-http://git.openembedded.org/openembedded-core/commit/?id=3Df78044f85ab1a0ac=
-ce852a7032fc0c81285cd4c1
+-- 
+DENX Software Engineering GmbH,     MD: Wolfgang Denk & Detlev Zundel
+HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
+Phone: (+49)-8142-66989-10 Fax: (+49)-8142-66989-80 Email: wd@denx.de
+If programming was easy, they wouldn't need something as  complicated
+as a human being to do it, now would they?
+                       - L. Wall & R. L. Schwartz, _Programming Perl_
 
-What I was intereseted is whether upstream added similar patch to
-http://git.shr-project.org/git/?p=3Dmeta-smartphone.git;a=3Dblob;f=3Dmeta-n=
-okia/recipes-bsp/u-boot/u-boot/0001-config-Always-use-GNU-ld.patch
-or added other fix to make gold usable for u-boot.
 
-And you can test build with gold if you enable gold by adding ld-is-gold
-to DISTRO_FEATURES.
-
-Cheers,
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---9ADF8FXzFeE7X4jE
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
-
-iEYEARECAAYFAlAfcBsACgkQN1Ujt2V2gBzpsgCfU7XLz7ZAB1KpzpW8zkH3puaT
-c84AnAurFKIlgSig44IWzROqRgx+z6u7
-=uzz0
------END PGP SIGNATURE-----
-
---9ADF8FXzFeE7X4jE--
