@@ -1,26 +1,33 @@
-Received: from mail.windriver.com ([147.11.1.11])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Rongqing.Li@windriver.com>) id 1SyMwU-0006Uo-P1
-	for openembedded-core@lists.openembedded.org;
-	Mon, 06 Aug 2012 15:01:55 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q76Co8tB021787
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 6 Aug 2012 05:50:09 -0700 (PDT)
-Received: from [128.224.162.163] (128.224.162.163) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.309.2;
-	Mon, 6 Aug 2012 05:50:08 -0700
-Message-ID: <501FBD86.3090705@windriver.com>
-Date: Mon, 6 Aug 2012 20:50:14 +0800
-From: Rongqing Li <rongqing.li@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:13.0) Gecko/20120615 Thunderbird/13.0.1
-MIME-Version: 1.0
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1SyN1f-0006az-JE for openembedded-core@lists.openembedded.org;
+	Mon, 06 Aug 2012 15:07:15 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q76CtWEi027931;
+	Mon, 6 Aug 2012 13:55:32 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 27818-01; Mon,  6 Aug 2012 13:55:28 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q76CtNer027925
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Mon, 6 Aug 2012 13:55:24 +0100
+Message-ID: <1344257725.9756.147.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>, "Yang, Liezhi"
-	<Liezhi.Yang@windriver.com>, "Hatle, Mark" <mark.hatle@windriver.com>
-Subject: Could we build tar-replacement firstly and not parallel if tar-replacement is needed to build
+	<openembedded-core@lists.openembedded.org>
+Date: Mon, 06 Aug 2012 13:55:25 +0100
+In-Reply-To: <1344205948.3541.2.camel@lenny>
+References: <cover.1343964466.git.wenzong.fan@windriver.com>
+	<9ed1d4d30aeac33273968b00c0b5afab059bbc0f.1343964466.git.wenzong.fan@windriver.com>
+	<1344205948.3541.2.camel@lenny>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: Zhenfeng.Zhao@windriver.com
+Subject: Re: [PATCH 1/1] gdk-pixbuf: fix parallel install issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,69 +42,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Aug 2012 13:01:55 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Mon, 06 Aug 2012 13:07:15 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-Hi:
+On Sun, 2012-08-05 at 18:32 -0400, Colin Walters wrote:
+> On Fri, 2012-08-03 at 11:30 +0800, wenzong.fan@windriver.com wrote:
+> 
+> > Make an explicit dependency to the libs install targets would fix this
+> > issue.
+> 
+> I don't think Yocto should be running the 'make install' target with
+> parallelism enabled; it's just going to be a source of major pain for
+> small gain.  Historically Automake's install targets have had a lot of
+> paralleism issues AIUI, even discarding modules which have custom
+> install hooks.
 
-Building failed several times when building tar-replacement-native is 
-needed,
-The error log shows 
-"bitbake_build/tmp/sysroots/x86_64-linux/usr/bin/tar: Text
-file busy". this log proves "an attempt was made to execute a 
-pure-procedure
-program that is currently open for writing."
+We did used to steer clear of this but more recently tested it out and
+with a few exceptions (which we disabled with PARALLEL_MAKEINST=""),
+parallel make install seems to work fine and did give a small but
+measurable speed-up (I'd have to look at the archives to remember what).
 
+It helps that we use the latest automake everywhere and regenerate all
+the makefiles ourselves.
 
-Before this error, tar-replacement do_populate_sysroot just starts,
-(tar-replacement-native-1.26-r2: task do_populate_sysroot: Started)
-After this error, we see tar-replacement do_populate_sysroot just
-finish.
+So whilst I agree with this from a historical perspective, times so seem
+to be changing and improving. If there are issues I do want to know
+about and deal with them though.
 
-So I think the root cause is that do_populate_sysroot sqlite is using
-a tar command which being opened to written. in fact, all packages
-need tar to do_popolate_sysroot()
+Cheers,
 
-I see building tar-replacement-native is started in bitbake file,
-could we build tar-replacement firstly, not parallel if needed.
-
-
-
-diff --git a/scripts/bitbake b/scripts/bitbake
-index 3772d82..1bb8fed 100755
---- a/scripts/bitbake
-+++ b/scripts/bitbake
-@@ -134,7 +134,10 @@ if [ $buildpseudo -gt 0 ]; then
-              fi
-          done
-      done
--    bitbake pseudo-native $TARTARGET $additionalopts -c populate_sysroot
-+
-+    if [ $needptar = "1" ]; then
-+       sed -i 's/BB_NUMBER_THREADS =/#BB_NUMBER_THREADS =/g' 
-conf/local.conf
-+       bitbake $TARTARGET
-+       sed -i 's/#BB_NUMBER_THREADS =/BB_NUMBER_THREADS =/g' 
-conf/local.conf
-+    fi
-+
-+    bitbake pseudo-native $additionalopts -c populate_sysroot
-      ret=$?
-      if [ "$ret" != "0" ]; then
-          exit 1
+Richard
 
 
-since building tar-replacement or not depends on host tar version, it is
-hard to add a tar dependence to any package, and I did not have a good way
-to fix this bug except the upper.
-
-Any advice and suggestion are welcome
 
 
--- 
-Best Reagrds,
-Roy | RongQing Li
 
 
 
