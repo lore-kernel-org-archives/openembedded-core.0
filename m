@@ -1,42 +1,35 @@
-Received: from mail-out.m-online.net ([212.18.0.9])
-	by linuxtogo.org with esmtp (Exim 4.72) (envelope-from <wd@denx.de>)
-	id 1SyIBx-0007A9-IR for openembedded-core@lists.openembedded.org;
-	Mon, 06 Aug 2012 09:57:33 +0200
-Received: from frontend1.mail.m-online.net (unknown [192.168.8.180])
-	by mail-out.m-online.net (Postfix) with ESMTP id 3Wr9rv3rTDz4KK6t;
-	Mon,  6 Aug 2012 09:45:51 +0200 (CEST)
-Received: from localhost (dynscan1.mnet-online.de [192.168.6.68])
-	by mail.m-online.net (Postfix) with ESMTP id 3Wr9rv2JRdzbblg;
-	Mon,  6 Aug 2012 09:45:51 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from smtp-auth.mnet-online.de ([192.168.8.180])
-	by localhost (dynscan1.mail.m-online.net [192.168.6.68]) (amavisd-new,
-	port 10024)
-	with ESMTP id 4mrvy-ol+jlQ; Mon,  6 Aug 2012 09:45:44 +0200 (CEST)
-X-Auth-Info: 5w08DbAgCXufbKQ1sXRMxhsnB0Qz3l4yq70SjoT0nlM=
-Received: from diddl.denx.de (host-80-81-18-216.customer.m-online.net
-	[80.81.18.216]) by smtp-auth.mnet-online.de (Postfix) with ESMTPA;
-	Mon,  6 Aug 2012 09:45:44 +0200 (CEST)
-Received: from gemini.denx.de (gemini.denx.de [10.0.0.2])
-	by diddl.denx.de (Postfix) with ESMTP id D36011A2115;
-	Mon,  6 Aug 2012 09:45:43 +0200 (CEST)
-Received: from gemini.denx.de (localhost [127.0.0.1])
-	by gemini.denx.de (Postfix) with ESMTP id A63C0203FD8;
-	Mon,  6 Aug 2012 09:45:42 +0200 (CEST)
-To: Radu Moisan <radu.moisan@intel.com>
-From: Wolfgang Denk <wd@denx.de>
+Received: from mga09.intel.com ([134.134.136.24])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <laurentiu.palcu@intel.com>) id 1SyIEL-0007D2-Tz
+	for openembedded-core@lists.openembedded.org;
+	Mon, 06 Aug 2012 10:00:02 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 06 Aug 2012 00:48:16 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.67,351,1309762800"; d="scan'208";a="182090342"
+Received: from lpalcu-linux (HELO [10.237.105.41]) ([10.237.105.41])
+	by orsmga002.jf.intel.com with ESMTP; 06 Aug 2012 00:48:16 -0700
+Message-ID: <501F76BF.9000605@intel.com>
+Date: Mon, 06 Aug 2012 10:48:15 +0300
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:14.0) Gecko/20120714 Thunderbird/14.0
 MIME-Version: 1.0
-In-reply-to: <501F63FF.1070401@intel.com>
-References: <1343997523-4117-1-git-send-email-radu.moisan@intel.com>
-	<20120803161915.399D1203B3D@gemini.denx.de>
-	<501F63FF.1070401@intel.com>
-Comments: In-reply-to Radu Moisan <radu.moisan@intel.com>
-	message dated "Mon, 06 Aug 2012 09:28:15 +0300."
-Date: Mon, 06 Aug 2012 09:45:42 +0200
-Message-Id: <20120806074542.A63C0203FD8@gemini.denx.de>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH][RFC] u-boot: Upgrade to upstream stable 2012.07
+To: openembedded-core@lists.openembedded.org
+References: <cover.1344022584.git.laurentiu.palcu@intel.com>
+	<b41b2c46c9de5d3f63bfa146e23e8974a7a6cebf.1344022584.git.laurentiu.palcu@intel.com>
+	<CALbNGRQjUxm0h2+YA=Tog2_JhWPKGJmdy9QyhOjSQWLRQ1eKOQ@mail.gmail.com>
+	<501CD3EE.3080100@intel.com>
+	<CALbNGRTJM5=Xt4NqoEuEQa2U-eMtmQzy42HmwRK0zvkq-zK-3Q@mail.gmail.com>
+	<501D2B2B.6070806@intel.com>
+	<3103BB42-D7DD-456B-8733-9A019CA66E99@dominion.thruhere.net>
+	<CALbNGRRLGToMpW2tCzdtEcpZmAmgK3d2VKF0SVi-hgBanFOexQ@mail.gmail.com>
+	<CAMKF1spXi6PqV6ZLqLPMUE0oEF2Sou+Jst-QME-XhLoCANeaPQ@mail.gmail.com>
+	<501EA63F.9090304@intel.com>
+	<CALbNGRTmwH0yLJRQUrDUKBxLvC9bv7cE15_rnu50CCzDsUw0UQ@mail.gmail.com>
+	<CALbNGRTevoBvucXfRxYi33_y48V=Bo237s1Knjhy2eFJzjfmvQ@mail.gmail.com>
+In-Reply-To: <CALbNGRTevoBvucXfRxYi33_y48V=Bo237s1Knjhy2eFJzjfmvQ@mail.gmail.com>
+Subject: Re: [PATCH 4/5] gtk-icon-cache: call postinst scriplet at do_rootfs time
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -51,40 +44,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Aug 2012 07:57:33 -0000
-Content-type: text/plain; charset=UTF-8
-Content-transfer-encoding: 8bit
+X-List-Received-Date: Mon, 06 Aug 2012 08:00:02 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
 
-Dear Radu,
 
-In message <501F63FF.1070401@intel.com> you wrote:
->
-> > Actually a plain
-> >
-> > 	make NAME
-> >
-> > does the same as "make NAME_config && make all".
-> >
-> > You might also consider running "./MAKEALL NAME" instead, which
-> > aut-adjusts to te number of available cores on the build host, so you
-> > get somewhat reduced build times.
+
+On 08/06/2012 01:49 AM, Andreas Müller wrote:
+> On Mon, Aug 6, 2012 at 12:30 AM, Andreas Müller
+> <schnitzeltony@googlemail.com> wrote:
+>> On Sun, Aug 5, 2012 at 6:58 PM, Laurentiu Palcu
+>> <laurentiu.palcu@intel.com> wrote:
+>>> You could give it a test yourselves and let me know your results. I will
+>>> send a version 2 of the patchset(as soon as we all agree on the
+>>> solution), with some changes suggested by Mark and some PR bumps
+>>> suggested by Koen.
+>> With the image I usually work with [1] and AMD Phenom II X6 1090 16GB
+>> RAM I get a measurable delay - see attachment. I would not be happy
+>> loosing latest do_rootfs enhancements (off topic - thanks for that).
+>> Remeber we are only talking of gtk-update-icon-cache. OK I could buy
+>> an intel host and work just with sato images but...
+I suppose you could, but nobody asked you to do that, it's your choice
+what's your build machine or what you'll be building for.
+
+Thanks for the measurements though. They do, indeed, show quite a
+significant amount of time (around 6 minutes). A run-once solution is to
+be considered in this case.
+
+>>
+>> Andreas
+>>
+>> [1] https://gitorious.org/schnitzeltony-oe-meta/meta-misc/blobs/master/recipes-image/xfce-full-image.bb
+> OK I know it is not that important: The image created with this patch
+> series creates tons of messages like
+Why do you think is not important. Please elaborate. Or is it irony? I
+don't think is in anybody's benefit if you take this approach. :) All
+errors/warnings are important and they have to be taken care of.
+
 > 
-> I've tried to build this way but got into some errors and did not 
-> pursued further in debugging them. However, because UBOOT_MACHINE is 
-
-Could you please tell me exactly what these errors were?  Log files
-etc. highly appreciated...
-
-Best regards,
-
-Wolfgang Denk
-
--- 
-DENX Software Engineering GmbH,     MD: Wolfgang Denk & Detlev Zundel
-HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
-Phone: (+49)-8142-66989-10 Fax: (+49)-8142-66989-80 Email: wd@denx.de
-If programming was easy, they wouldn't need something as  complicated
-as a human being to do it, now would they?
-                       - L. Wall & R. L. Schwartz, _Programming Perl_
+> xfdesktop:446): GdkPixbuf-WARNING **: Cannot open pixbuf loader module
+> file '/usr/lib/gdk-pixbuf-2.0/2.10.0/loaders.cache': No such file or
+> directory
+> 
+> and don't have icons at all. Did you run test that (on a hardware
+> plattform different to your host)?
+I only tested on qemu. And it worked just fine, without any errors. With
+all icons in place.
+> 
+> Andreas
+> 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+> 
 
 
