@@ -1,37 +1,51 @@
-Received: from mail-bk0-f47.google.com ([209.85.214.47])
+Received: from mga10.intel.com ([192.55.52.92] helo=fmsmga102.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1SyJpL-0000P2-Gn
+	(envelope-from <ross.burton@intel.com>) id 1SyJud-0000Ti-8Q
 	for openembedded-core@lists.openembedded.org;
-	Mon, 06 Aug 2012 11:42:19 +0200
-Received: by bkcik5 with SMTP id ik5so821672bkc.6
+	Mon, 06 Aug 2012 11:47:47 +0200
+Received: from mail-ob0-f180.google.com ([209.85.214.180])
+	by mga11.intel.com with ESMTP/TLS/RC4-SHA; 06 Aug 2012 02:36:01 -0700
+Received: by obbuo19 with SMTP id uo19so4826487obb.25
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 06 Aug 2012 02:30:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=nKkbAYGJSPlJ5x1l/V0K7t8oEeg+cf5mW4D8fyuASFU=;
-	b=JEu/b8KzkFj39/yTFuoD8TycfFTF0yjJ8tTbOMPcUcG09FuHZrgKLXp7+GXWzupB1g
-	Lq7Bv9FDp6jkgCkZ40bdDA0cg5yxzpi2Li1I5Ek9E1i80wc9SXIIo0qRf9rvl5aeLklA
-	YhLR7uhtPepg3VIQLDeK/EckP8vaXMTNJFXx/bNbxP2iAeze/incxidYYNm/PZQMdenW
-	6AC6r4RAU2IZ8XmptWoSEsdXLwejjTpvRZY+zuctDyQ4Ae9RGDVwCbxe3Iww41TEuGF6
-	mwyQCPXx4Z4EPpKSoGKOM6wdYYoTM3SwKZcypa72yeylffO+X80F9WosSjiFmW0vOZzl
-	iU7w==
-Received: by 10.205.130.17 with SMTP id hk17mr3948216bkc.76.1344245435043;
-	Mon, 06 Aug 2012 02:30:35 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id fu8sm7031025bkc.5.2012.08.06.02.30.33
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 06 Aug 2012 02:30:34 -0700 (PDT)
-Date: Mon, 6 Aug 2012 11:30:30 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20120806093030.GH3267@jama.jama.net>
-References: <20120723113712.GE3271@jama.jama.net>
-	<1344162252-22403-1-git-send-email-Martin.Jansa@gmail.com>
+	Mon, 06 Aug 2012 02:36:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type:x-gm-message-state;
+	bh=quZPngsofr17FJkSvJDFP9Ut2+xvCcfQXXtFcHCYjqM=;
+	b=PVSgMvzE8xTHCaAjKjUVnftJdJDvF4L+y8Yh+2M8byalPWyoalydgAFbEqvtUBbVa5
+	TzkNa6kyNAG8Auj3exOnzC+w+CBjD259+ATaf91HCRZTnwjtNwD9e2NKT7rY6oTn+U4K
+	fS63HeN+Df/m3v1AsbWAjn7txynNOtjqTenPqSDPyaacsuOwz77iRvmnmSkMZTUdKGRf
+	3XaeqMDcnIKA41FBQ7OYPNog6RV1mb0xHAj96vdm79cUYLnEHKp8cZ62k0vcOU4Z65B1
+	Trp+ZKsggHsSgoE1OCSEkzwoCSuoUdpAD16JTc5z/aV2xQn4rMBHz59fu6WDjQAY7F7T
+	szzw==
+Received: by 10.60.2.99 with SMTP id 3mr17991028oet.20.1344245760683; Mon, 06
+	Aug 2012 02:36:00 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1344162252-22403-1-git-send-email-Martin.Jansa@gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: [PATCH] opkg-utils: inherit pythonnative
+Received: by 10.182.45.10 with HTTP; Mon, 6 Aug 2012 02:35:40 -0700 (PDT)
+In-Reply-To: <501F8BEC.4080204@intel.com>
+References: <cover.1344022584.git.laurentiu.palcu@intel.com>
+	<b41b2c46c9de5d3f63bfa146e23e8974a7a6cebf.1344022584.git.laurentiu.palcu@intel.com>
+	<CALbNGRQjUxm0h2+YA=Tog2_JhWPKGJmdy9QyhOjSQWLRQ1eKOQ@mail.gmail.com>
+	<501CD3EE.3080100@intel.com>
+	<CALbNGRTJM5=Xt4NqoEuEQa2U-eMtmQzy42HmwRK0zvkq-zK-3Q@mail.gmail.com>
+	<501D2B2B.6070806@intel.com>
+	<3103BB42-D7DD-456B-8733-9A019CA66E99@dominion.thruhere.net>
+	<CALbNGRRLGToMpW2tCzdtEcpZmAmgK3d2VKF0SVi-hgBanFOexQ@mail.gmail.com>
+	<CAMKF1spXi6PqV6ZLqLPMUE0oEF2Sou+Jst-QME-XhLoCANeaPQ@mail.gmail.com>
+	<501EA63F.9090304@intel.com>
+	<CALbNGRTmwH0yLJRQUrDUKBxLvC9bv7cE15_rnu50CCzDsUw0UQ@mail.gmail.com>
+	<CALbNGRTevoBvucXfRxYi33_y48V=Bo237s1Knjhy2eFJzjfmvQ@mail.gmail.com>
+	<501F76BF.9000605@intel.com>
+	<CALbNGRSOR2wxo7jetrEAYAZesSBiLPqVxJx0r22Xzmfxb3D=3g@mail.gmail.com>
+	<501F8BEC.4080204@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 6 Aug 2012 10:35:40 +0100
+Message-ID: <CAJTo0LaKzKPT-_OsQEi+6xc47DVr=rELN2ZbBqDX7pP9rVg-Yw@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Gm-Message-State: ALoCoQkyq+MCgUFOs6sl6I9io5KcwMclxEToqPcwS6H0J/IpGib2tTxlSBnNRpsvQdwDpihH9ATJ
+Subject: Re: [PATCH 4/5] gtk-icon-cache: call postinst scriplet at do_rootfs time
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,57 +60,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Aug 2012 09:42:19 -0000
-X-Groupsio-MsgNum: 27010
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="/Gk0KcsbyUMelFU1"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 06 Aug 2012 09:47:47 -0000
+Content-Type: text/plain; charset=UTF-8
 
---/Gk0KcsbyUMelFU1
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 6 August 2012 10:18, Laurentiu Palcu <laurentiu.palcu@intel.com> wrote:
+>> Which hardware did you emulate? My tests were done for overo (ARM
+>> cortext A8). I wonder if the created database is machine specific.
 
-On Sun, Aug 05, 2012 at 12:24:12PM +0200, Martin Jansa wrote:
-> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> ---
->  meta/recipes-devtools/opkg-utils/opkg-utils_git.bb |    4 +++-
->  1 files changed, 3 insertions(+), 1 deletions(-)
->=20
-> diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb b/meta/re=
-cipes-devtools/opkg-utils/opkg-utils_git.bb
-> index 92e6624..caa66f7 100644
-> --- a/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
-> +++ b/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
-> @@ -8,7 +8,9 @@ RDEPENDS_${PN} =3D "python"
->  RDEPENDS_${PN}_virtclass-native =3D ""
->  SRCREV =3D "49cc783d8e0415059d126ae22c892988717ffda7"
->  PV =3D "0.1.8+git${SRCPV}"
-> -PR =3D "r0"
-> +PR =3D "r1"
-> +
-> +inherit pythonnative
-> =20
->  SRC_URI =3D "git://git.yoctoproject.org/opkg-utils;protocol=3Dgit \
->             "
+> I used qemuarm. As far as I know, the database shouldn't be machine
+> specific.
 
-Please ignore this patch, this needs to be in package-index recipe (and
-I had both patches when testing this :/)
+Looking at updateiconcache.c, all of the functions that write data to
+the cache file use write_card16, write_card32 and so on which convert
+to big-endian.  Unless there's a bug hidden away, the cache files are
+cross-platform.
 
-Cheers,
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+Ross
 
---/Gk0KcsbyUMelFU1
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
-
-iEYEARECAAYFAlAfjrYACgkQN1Ujt2V2gBwsyQCaAkrHTHvNN4We6dqE2D509y5i
-1eoAoJFm4DmbN/jWpxUYsBj+N8FIiM0O
-=0yw3
------END PGP SIGNATURE-----
-
---/Gk0KcsbyUMelFU1--
