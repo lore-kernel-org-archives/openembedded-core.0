@@ -1,33 +1,41 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1SynHO-0008V7-Ga for openembedded-core@lists.openembedded.org;
-	Tue, 07 Aug 2012 19:09:14 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q77GvT6J013790;
-	Tue, 7 Aug 2012 17:57:29 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 13088-07; Tue,  7 Aug 2012 17:57:25 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q77GvMx7013784
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Tue, 7 Aug 2012 17:57:23 +0100
-Message-ID: <1344358644.9756.293.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Received: from mail-gh0-f175.google.com ([209.85.160.175])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <derek.buitenhuis@gmail.com>) id 1SynKK-00008B-GF
+	for openembedded-core@lists.openembedded.org;
+	Tue, 07 Aug 2012 19:12:16 +0200
+Received: by ghbz2 with SMTP id z2so2188961ghb.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 07 Aug 2012 10:00:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=message-id:date:from:user-agent:mime-version:to:subject:references
+	:in-reply-to:x-enigmail-version:content-type
+	:content-transfer-encoding;
+	bh=keqzY+K64hgniKb+ihZqLsETFpYltEk1pUFGmTxN2X8=;
+	b=P672tb3NuMRb5FopJzEHTJt1wweBg3iqnqTcnJRzcl3nioHKbm0tc/NJx1F9G7buzT
+	XIwWKqgzVJPEoXMJLgzeKpobBRwnM2nhuXbOSnDjt2hAl/561Sr+O3xsdKO9qHymfS/J
+	1dGKkHFhqWWdlAmoLDYoNCiZO1WKhm0xxqs75aTAlISA9IN0YUfUHKM8IAMWccgDHzOh
+	FY+M7EYjnm7O+bpvb7GEnUaznMO74KzY0kGYEpLk9YUrvqvDdbY6GBBY/6ASqgu1VNCp
+	sfKxWeq8m9BAcw1p6AuhNIDwC8mJyQiiJQgvRqrqpW4YwqSXwLdiKJRHdPKWhWjUjw7g
+	SgoQ==
+Received: by 10.42.155.135 with SMTP id u7mr2440625icw.25.1344358829622;
+	Tue, 07 Aug 2012 10:00:29 -0700 (PDT)
+Received: from [192.168.1.111] (S0106586d8f4832af.tb.shawcable.net.
+	[24.109.142.27])
+	by mx.google.com with ESMTPS id gx1sm178970igb.16.2012.08.07.10.00.28
+	(version=SSLv3 cipher=OTHER); Tue, 07 Aug 2012 10:00:28 -0700 (PDT)
+Message-ID: <5021499A.60008@gmail.com>
+Date: Tue, 07 Aug 2012 13:00:10 -0400
+From: Derek Buitenhuis <derek.buitenhuis@gmail.com>
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
+	rv:14.0) Gecko/20120713 Thunderbird/14.0
+MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Tue, 07 Aug 2012 17:57:24 +0100
-In-Reply-To: <20120806092903.GG3267@jama.jama.net>
-References: <cover.1343124846.git.liezhi.yang@windriver.com>
-	<7affb352c173c353df0b69002f3ca0f5ee0502cf.1343124846.git.liezhi.yang@windriver.com>
-	<1343126992.22222.11.camel@ted> <20120806092903.GG3267@jama.jama.net>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: Zhenfeng.Zhao@windriver.com
-Subject: Re: [PATCH 1/1] package-index: inherit pythonnative
+References: <1343942157-15997-1-git-send-email-yao.zhao@windriver.com>
+	<501D7090.2040500@gmail.com> <50213316.8080503@windriver.com>
+In-Reply-To: <50213316.8080503@windriver.com>
+X-Enigmail-Version: 1.4.3
+Subject: Re: [PATCH] gstreamer: gst-ffmpeg: fix build issues for libav
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,52 +50,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Aug 2012 17:09:14 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 07 Aug 2012 17:12:16 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 
-On Mon, 2012-08-06 at 11:29 +0200, Martin Jansa wrote:
-> On Tue, Jul 24, 2012 at 11:49:52AM +0100, Richard Purdie wrote:
-> > On Tue, 2012-07-24 at 18:19 +0800, Robert Yang wrote:
-> > > The native python binary has been moved from usr/bin/python to
-> > > usr/bin/python-native/python, the recipe which needs python-native
-> > > should "inherit pythonnative", otherwise there would be errors when the
-> > > python script runs.
-> > > 
-> > > [YOCTO #2822]
-> > > 
-> > > Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> > > ---
-> > >  meta/recipes-core/meta/package-index.bb |    2 ++
-> > >  1 files changed, 2 insertions(+), 0 deletions(-)
-> > 
-> > Which part of this recipe needs python-native? Shouldn't scripts which
-> > need pythonnative be using the path to the python interpreter
-> > explicitly?
+On 07/08/2012 11:24 AM, Yao Zhao wrote:
+>>> 1.The included libav configure is not generated by autotools
+>>>    patch use-correct-toolchain.patch patched its configure to
+>>> use correct toolchain wrapper.
+>> Why are you patching the toolchain instead of passing the correct parameters
+>> to configure (--enable-cross-compile, --cross-prefix-..., etc)?
+> in the configure,
+> ar_default="${cross_prefix}${ar_default}"
+> cc_default="${cross_prefix}${cc_default}"
+> nm_default="${cross_prefix}${nm_default}"
+> pkg_config_default="${cross_prefix}${pkg_config_default}"
+> ranlib="${cross_prefix}${ranlib}"
 > 
-> This fixes my opkg-utils related issues too
-> http://lists.linuxtogo.org/pipermail/openembedded-core/2012-July/026333.html
+> cc_default is the gcc so cc_default will be for example: 
+> powerpc-xxx-gcc, it won't use the toolcain wrapper.
 > 
-> The problem is that with pythonnative in opkg-utils it's still using 
-> #!/usr/bin/env python
-> in tmp-eglibc/sysroots/x86_64-linux/usr/bin/opkg-make-index
+> I will try whether command line will solve these too.
+
+Perhaps you are looking for --cc=<something>?
+
+Same thing can be done with --ld, and pals if you desire.
+
+Remember to set --arch, maybe --cpu and --target-os too, as well as --enable-cross-compile.
+
+>>> 3.detect whether toolchain supports altivec, if not then add
+>>> disable-altivec to libav's configure line or configure will fail
+>> Wrong fix.
+>>
+>> http://git.libav.org/?p=libav.git;a=blob;f=configure;h=b139008d2b1aa5faea3f33c2a1922d0e1cb1fa5c;hb=HEAD#l2318
+>>
+>> It should be fixed by passing the proper CPU to libav's configure as an argument.
 > 
-> And when python-index executes this:
-> | + [ -e /var/lib/jenkins/jobs/shr-core/workspace/shr-core/tmp-eglibc/deploy/ipk/ ]
-> | + touch /var/lib/jenkins/jobs/shr-core/workspace/shr-core/tmp-eglibc/deploy/ipk/Packages
-> | + flock /var/lib/jenkins/jobs/shr-core/workspace/shr-core/tmp-eglibc/deploy/ipk/Packages.flock -c opkg-make-index -r /var/lib/jenkins/jobs/shr-core/workspace/shr-core/tmp-eglibc/deploy/ipk/Packages -p /var/lib/jenkins/jobs/shr-core/workspace/shr-core/tmp-eglibc/deploy/ipk/Packages -m /var/lib/jenkins/jobs/shr-core/workspace/shr-core/tmp-eglibc/deploy/ipk/
-> | Traceback (most recent call last):
+>          e500v2)
+>              cpuflags="-mcpu=8548 -mhard-float -mfloat-gprs=double"
+>              disable altivec
+>          ;;
+>          e500)
+>              cpuflags="-mcpu=8540 -mhard-float"
+>              disable altivec
+>          ;;
 > 
-> It depends on PATH of package-index not opkg-utils.
+> I am fixing for e500mc which is not a case here and I am not sure what 
+> exactly the cpuflags should be.
+> Any idea?
 
-I think the right fix here is to remove the PYTHONPATH line in
-package-index.bb. We should no longer need that and that should fix the
-problems but its going to be a while before I can test this on a system
-showing the problem.
+http://lists.libav.org/pipermail/libav-devel/2012-August/032990.html
 
-Cheers,
+Working on it.
 
-Richard
-
+- Derek
 
 
