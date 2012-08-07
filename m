@@ -1,35 +1,28 @@
-Received: from mail-we0-f175.google.com ([74.125.82.175])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>)
-	id 1SyhYZ-00019h-L6; Tue, 07 Aug 2012 13:02:35 +0200
-Received: by weyr6 with SMTP id r6so2498304wey.6
-	for <multiple recipients>; Tue, 07 Aug 2012 03:50:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=7JI1gJWSpEAoLa8Aq/Ror5fPTUPaDL7QBV/PWKfZ43Q=;
-	b=nzOTVuV08e2/gJ4zJcyYMywgJNB1EEeQe6b/EBlrgW22CSr4gOm6TswfAJmEjGdwNL
-	12AFIJGBpc4d68GADOdV0Vb0jCidUlqbfimKD6NYDE0F5bhccWCSUSo1E7nSoCB65d55
-	E04QWsAa8TYxfzoQGyzzaUIs3FOCT3E+bH2MPbwE3IcQfjKSbB2WkmrA4JEDcu82MP+g
-	0vFsD5uqqzFqC7mGHJMPL46gwoWKUVcFw/5gpavSFQLp2Kqn0B69U0R1X2DeKCa490IV
-	aEG9gKehykISrowjtl83Bnz9LiJm2LwdYXeHqvgbHovCCSdwlxeq0qjVgKDDflfh2p4I
-	JN+g==
-Received: by 10.180.14.8 with SMTP id l8mr26563160wic.6.1344336649958;
-	Tue, 07 Aug 2012 03:50:49 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id ex20sm30556689wid.7.2012.08.07.03.50.48
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 07 Aug 2012 03:50:49 -0700 (PDT)
-Date: Tue, 7 Aug 2012 12:50:45 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20120807105045.GR3267@jama.jama.net>
-References: <20120807102142.00BD510217@opal>
-MIME-Version: 1.0
-In-Reply-To: <20120807102142.00BD510217@opal>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-commits@lists.openembedded.org
-Subject: Re: [oe-commits] Richard Purdie : Revert "linux-firware: use ${base_libdir} instead of / lib for packaging"
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1SyhyG-0001kq-Ra for openembedded-core@lists.openembedded.org;
+	Tue, 07 Aug 2012 13:29:09 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q77BHOPE010088;
+	Tue, 7 Aug 2012 12:17:24 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 09651-02; Tue,  7 Aug 2012 12:17:19 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q77BHEn8010082
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Tue, 7 Aug 2012 12:17:16 +0100
+Message-ID: <1344338236.9756.218.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: "Ashfield, Bruce" <Bruce.Ashfield@windriver.com>, openembedded-core
+	<openembedded-core@lists.openembedded.org>
+Date: Tue, 07 Aug 2012 12:17:16 +0100
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: [PATCH] linux-yocto-3.4: Disable extra slang header search path
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,150 +37,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Aug 2012 11:02:35 -0000
-X-Groupsio-MsgNum: 27078
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="vEk28Nl/eckWL8CC"
-Content-Disposition: inline
+X-List-Received-Date: Tue, 07 Aug 2012 11:29:09 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---vEk28Nl/eckWL8CC
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Add in a workaround to avoid host infection detection build failures
+from the slang include directory in perf. I'll defer to Bruce to
+fix this properly but we need a workaround now as this is breaking
+builds.
 
-On Tue, Aug 07, 2012 at 10:21:41AM +0000, git@git.openembedded.org wrote:
-> Module: openembedded-core.git
-> Branch: master
-> Commit: 1da5966290954f4148cb39a0628b10f8f902ba18
-> URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcommit=
-;h=3D1da5966290954f4148cb39a0628b10f8f902ba18
->=20
-> Author: Richard Purdie <richard.purdie@linuxfoundation.org>
-> Date:   Tue Aug  7 11:16:54 2012 +0100
->=20
-> Revert "linux-firware: use ${base_libdir} instead of /lib for packaging"
->=20
-> This change breaks firmware loading on 64 bit platforms. This therefore
-> reverts commit ce2665b6ae77770d69ffbc4d45c96ce829d16738.
->=20
-> ---
->=20
->  .../linux-firmware/linux-firmware_git.bb           |   36 ++++++++++----=
-------
->  1 files changed, 18 insertions(+), 18 deletions(-)
->=20
-> diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb b/m=
-eta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-> index 5b93975..a7e4ed6 100644
-> --- a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-> +++ b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-> @@ -22,7 +22,7 @@ LIC_FILES_CHKSUM =3D "file://LICENSE.radeon;md5=3De56b4=
-05656593a0c97e478513051ea0e \
->  SRCREV =3D "e98750f0d68d0037ce5a186f7f863a9c13bf773a"
->  PE =3D "1"
->  PV =3D "0.0+git${SRCPV}"
-> -PR =3D "r3"
-> +PR =3D "r2"
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+diff --git a/meta/recipes-kernel/linux/linux-yocto/noslang.patch b/meta/recipes-kernel/linux/linux-yocto/noslang.patch
+new file mode 100644
+index 0000000..9cada34
+--- a/dev/null
++++ b/meta/recipes-kernel/linux/linux-yocto/noslang.patch
+@@ -0,0 +1,20 @@
++We (OE) install slang into /usr/include so we never need to look into 
++/usr/include/slang/. We never want to look into a hardcoded path like this
++since it triggers host infection issues. For now, simply remove this
++since it causes us problems.
++
++Upstream-Status: Pending (would need rework)
++
++Index: tools/perf/Makefile
++===================================================================
++--- linux.orig/tools/perf/Makefile	2012-08-07 10:29:43.020149620 +0000
+++++ linux/tools/perf/Makefile	2012-08-07 10:30:08.128148098 +0000
++@@ -504,7 +504,7 @@
++ 		BASIC_CFLAGS += -DNO_NEWT_SUPPORT
++ 	else
++ 		# Fedora has /usr/include/slang/slang.h, but ubuntu /usr/include/slang.h
++-		BASIC_CFLAGS += -I/usr/include/slang
+++		# BASIC_CFLAGS += -I/usr/include/slang
++ 		EXTLIBS += -lnewt -lslang
++ 		LIB_OBJS += $(OUTPUT)util/ui/setup.o
++ 		LIB_OBJS += $(OUTPUT)util/ui/browser.o
+diff --git a/meta/recipes-kernel/linux/linux-yocto_3.4.bb b/meta/recipes-kernel/linux/linux-yocto_3.4.bb
+index 48333b3..5ab46b7 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_3.4.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_3.4.bb
+@@ -20,6 +20,8 @@ SRCREV_meta ?= "7ff48aa47c50b6455d60ca93bc81260ce8fe1a1b"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.4.git;protocol=git;nocheckout=1;branch=${KBRANCH},meta;name=machine,meta"
+ 
++SRC_URI += "file://noslang.patch"
++
+ LINUX_VERSION ?= "3.4.6"
+ 
+ PR = "${INC_PR}.0"
 
-^ breaks binary feeds
 
-> =20
->  SRC_URI =3D "git://git.kernel.org/pub/scm/linux/kernel/git/firmware/linu=
-x-firmware.git;protocol=3Dgit"
-> =20
-> @@ -35,50 +35,50 @@ do_compile() {
->  }
-> =20
->  do_install() {
-> -	install -d  ${D}${base_libdir}/firmware/
-> -	cp -r * ${D}${base_libdir}/firmware/
-> +	install -d  ${D}/lib/firmware/
-> +	cp -r * ${D}/lib/firmware/
-> =20
->  	# Libertas sd8686
-> -	ln -sf libertas/sd8686_v9.bin ${D}${base_libdir}/firmware/sd8686.bin
-> -	ln -sf libertas/sd8686_v9_helper.bin ${D}${base_libdir}/firmware/sd8686=
-_helper.bin
-> +	ln -sf libertas/sd8686_v9.bin ${D}/lib/firmware/sd8686.bin
-> +	ln -sf libertas/sd8686_v9_helper.bin ${D}/lib/firmware/sd8686_helper.bin
-> =20
->  	# Realtek rtl8192*=20
-> -	install -m 0644 LICENCE.rtlwifi_firmware.txt ${D}${base_libdir}/firmwar=
-e/rtlwifi/LICENCE.rtlwifi_firmware.txt
-> +	install -m 0644 LICENCE.rtlwifi_firmware.txt ${D}/lib/firmware/rtlwifi/=
-LICENCE.rtlwifi_firmware.txt
-> =20
->  	# fixup wl12xx location, after 2.6.37 the kernel searches a different l=
-ocation for it
-> -	( cd ${D}${base_libdir}/firmware ; ln -sf ti-connectivity/* . )
-> +	( cd ${D}/lib/firmware ; ln -sf ti-connectivity/* . )
->  }
-> =20
->  PACKAGES =3D+ "${PN}-sd8686 ${PN}-rtl8192cu linux-firmware-rtl8192ce lin=
-ux-firmware-rtl8192su ${PN}-wl12xx"
-> =20
->  LICENSE_${PN}-sd8686 =3D "Firmware:LICENSE.libertas"
->  FILES_${PN}-sd8686 =3D " \
-> -  ${base_libdir}/firmware/libertas/sd8686_v9* \
-> -  ${base_libdir}/firmware/sd8686* \
-> -  ${base_libdir}/firmware/LICENCE.libertas \
-> +  /lib/firmware/libertas/sd8686_v9* \
-> +  /lib/firmware/sd8686* \
-> +  /lib/firmware/LICENCE.libertas \
->  "
-> =20
->  LICENSE_${PN}-rtl8192cu =3D "Firmware:LICENCE.rtlwifi_firmware"
->  FILES_${PN}-rtl8192cu =3D " \
-> -  ${base_libdir}/firmware/rtlwifi/rtl8192cufw.bin \
-> -  ${base_libdir}/firmware/rtlwifi/LICENCE.rtlwifi_firmware.txt \
-> +  /lib/firmware/rtlwifi/rtl8192cufw.bin \
-> +  /lib/firmware/rtlwifi/LICENCE.rtlwifi_firmware.txt \
->  "
-> =20
->  LICENSE_${PN}-rtl8192ce =3D "Firmware:LICENCE.rtlwifi_firmware"
->  FILES_${PN}-rtl8192ce =3D " \
-> -  ${base_libdir}/firmware/rtlwifi/rtl8192cfw.bin \
-> +  /lib/firmware/rtlwifi/rtl8192cfw.bin \
->  "
-> =20
->  LICENSE_${PN}-rtl8192su =3D "Firmware:LICENCE.rtlwifi_firmware"
->  FILES_${PN}-rtl8192su =3D " \
-> -  ${base_libdir}/firmware/rtlwifi/rtl8712u.bin \
-> +  /lib/firmware/rtlwifi/rtl8712u.bin \
->  "
-> =20
->  FILES_${PN}-wl12xx =3D " \
-> -  ${base_libdir}/firmware/wl12* \
-> -  ${base_libdir}/firmware/TI* \
-> -  ${base_libdir}/firmware/ti-connectivity \
-> +  /lib/firmware/wl12* \
-> +  /lib/firmware/TI* \
-> +  /lib/firmware/ti-connectivity \
->  "
-> =20
-> -FILES_${PN} +=3D "${base_libdir}/firmware/*"
-> +FILES_${PN} +=3D "/lib/firmware/*"
-> =20
->=20
->=20
-> _______________________________________________
-> Openembedded-commits mailing list
-> Openembedded-commits@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-commits
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---vEk28Nl/eckWL8CC
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
-
-iEYEARECAAYFAlAg8wUACgkQN1Ujt2V2gBxPxQCfS8N7UEgeXXgPBsGUgbiYRJLG
-GREAn0pu2fkiVNv16ZY7ZP9t8+MJIplQ
-=MjFm
------END PGP SIGNATURE-----
-
---vEk28Nl/eckWL8CC--
