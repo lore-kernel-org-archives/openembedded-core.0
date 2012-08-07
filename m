@@ -1,33 +1,37 @@
-Received: from mail-gh0-f175.google.com ([209.85.160.175])
+Received: from mail-qa0-f54.google.com ([209.85.216.54])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <schnitzeltony@googlemail.com>) id 1SykoY-0004qF-LG
+	(envelope-from <bruce.ashfield@gmail.com>) id 1Sykof-0004sS-W5
 	for openembedded-core@lists.openembedded.org;
-	Tue, 07 Aug 2012 16:31:18 +0200
-Received: by ghbz2 with SMTP id z2so2004614ghb.6
+	Tue, 07 Aug 2012 16:31:26 +0200
+Received: by qaat11 with SMTP id t11so2132323qaa.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 07 Aug 2012 07:19:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
+	Tue, 07 Aug 2012 07:19:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type; bh=cffshyYOtNJEBZKlGq7f0l24aY/AOdG6BGrMDs8bpHM=;
-	b=fVEIdV8e15Fbr5xBMmc4qQh7lPknNcVUvxMYj65n9kfvzQJJeXsmK6olBnBNCSqZpi
-	/Fuu+z6bDIlIjTEgf6bK6qOTWWsU/raZAL0mwGnnrK5mMGiw7JjyGwsaPGGp3lySKoP0
-	q7UqlrBT4ZLZS3ZGgGhm0TwZVeWa4phGF1CAmB/pVaaOyqCHm3UIPObWYK95AjzwDTY0
-	uEdq0f5lTxjJKSa0uTcrjV78lHdacEdADlnn3AlN1Mvhwa93iykEDtUxvv0cJAkOYKLZ
-	tSYmtI15EsQZhfaQcKBI1ffSIZiWfFpSmGpfBis0ZROhKDbgynfrtC40LQU/ZsCWubWX
-	/YmQ==
+	:cc:content-type;
+	bh=KWc7pT/oHaWeWnHizsMfhob3YtlBV+VxFGYHsVVZs70=;
+	b=UXRy2/gkpwCjgAsUHROuYOprfvD2HuT+KJr9qSf5DTwgRRZzsU9vQxu2Qc2J6MlgBi
+	/mvwOT2HiI4b+nHT8KCXCxj8EVnaKIqX84GKRP9pzpnKMLqG4M8fuJjLspiaAPoliU+8
+	Yo2+HpAen9G/ASmaYROzbl8tFN6Ce+DoUjxFE8hiK4lzicWTuJVboUNUq6KZEGPIHH7Z
+	bnpltTZVGCBFriA0twhsFnJtGVq341X+YIzjwwzthznPGzCqYbvXiLOpKSy4P0GR7eDy
+	zOY2GKqx+/FPYzmVXYmvhWdv03XgDFLH9bpj3YydebCbMxu0RbuNKYjtfTuOdGhjQecN
+	EfKA==
 MIME-Version: 1.0
-Received: by 10.50.213.39 with SMTP id np7mr8781185igc.51.1344349171886; Tue,
-	07 Aug 2012 07:19:31 -0700 (PDT)
-Received: by 10.64.142.201 with HTTP; Tue, 7 Aug 2012 07:19:31 -0700 (PDT)
-In-Reply-To: <1344258422-32173-1-git-send-email-radu.moisan@intel.com>
-References: <1344258422-32173-1-git-send-email-radu.moisan@intel.com>
-Date: Tue, 7 Aug 2012 16:19:31 +0200
-Message-ID: <CALbNGRTBW1E6N5F0t3qaT+2BzGO9xeaXLLAFkFz6PE5dFy9=dw@mail.gmail.com>
-From: =?ISO-8859-1?Q?Andreas_M=FCller?= <schnitzeltony@googlemail.com>
-To: Patches and discussions about the oe-core layer
+Received: by 10.229.136.82 with SMTP id q18mr7265591qct.108.1344349179796;
+	Tue, 07 Aug 2012 07:19:39 -0700 (PDT)
+Received: by 10.229.247.198 with HTTP; Tue, 7 Aug 2012 07:19:39 -0700 (PDT)
+In-Reply-To: <1344348754.9756.256.camel@ted>
+References: <1344008589-3660-1-git-send-email-liang.li@windriver.com>
+	<CADkTA4O8uTpJfjNL0bVw1+oJ2JrwWg++M4v5FK5pumN-npsNMw@mail.gmail.com>
+	<1344348754.9756.256.camel@ted>
+Date: Tue, 7 Aug 2012 10:19:39 -0400
+Message-ID: <CADkTA4OZ3zMZE+4e6SS0THgqqoKBa8pnyPqSkMOnb7W3kLe_mg@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Darren Hart <darren.hart@intel.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] pango: upgrade to upstream stable 1.30.0
+Subject: Re: [PATCH] perf: pass STAGING_INCDIR(sysroot) to perf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,27 +46,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Aug 2012 14:31:18 -0000
+X-List-Received-Date: Tue, 07 Aug 2012 14:31:26 -0000
 Content-Type: text/plain; charset=ISO-8859-1
 
-On Mon, Aug 6, 2012 at 3:07 PM, Radu Moisan <radu.moisan@intel.com> wrote:
-> Signed-off-by: Radu Moisan <radu.moisan@intel.com>
-> ---
->  .../pango/pango-1.28.4/noconst.patch               |  408 --------------------
->  .../multilib-fix-clean.patch                       |    0
->  .../{pango-1.28.4 => pango-1.30.0}/no-tests.patch  |   14 +-
->  .../pango/{pango_1.28.4.bb => pango_1.30.0.bb}     |    9 +-
->  4 files changed, 10 insertions(+), 421 deletions(-)
->  delete mode 100644 meta/recipes-graphics/pango/pango-1.28.4/noconst.patch
->  rename meta/recipes-graphics/pango/{pango-1.28.4 => pango-1.30.0}/multilib-fix-clean.patch (100%)
->  rename meta/recipes-graphics/pango/{pango-1.28.4 => pango-1.30.0}/no-tests.patch (33%)
->  rename meta/recipes-graphics/pango/{pango_1.28.4.bb => pango_1.30.0.bb} (49%)
+On Tue, Aug 7, 2012 at 10:12 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Tue, 2012-08-07 at 08:56 -0400, Bruce Ashfield wrote:
+>> Adding Richard.
+>>
+>> Richard: did this patch not fix the problem for you ? .. it fixes it here, and
+>> should replace the patch that you made earlier today .. this may have slipped
+>> through the cracks.
+>>
+>> I've never seen the perf slang failure, so I'm hesitant to take this
+>> patch, apply
+>> it and drop yours.
+>>
+>> Is there anyway that someone seeing this problem can test this patch ?
 >
-I don't know if it's supposed to, but it does not fix the pango module
-issue for me {1].
+> Reproducing the problem is easy "sudo mkdir /usr/include/slang", then
+> build perf.
 
-Andreas
+That's fine .. but if I take the existing patch, and drop the kernel
+temp one, would
+you take the change ? I'd rather not spend my time reproducing and fixing
+something to generate a patch that won't be taken :)
 
-[1] http://lists.linuxtogo.org/pipermail/openembedded-core/2012-July/026919.html
+Cheers,
+
+Bruce
+
+>
+> Cheers,
+>
+> Richard
+>
+>
+>
+
+
+
+-- 
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
 
