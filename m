@@ -1,33 +1,30 @@
-Received: from mail-yx0-f175.google.com ([209.85.213.175])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1SyrTo-0001EM-08
-	for openembedded-core@lists.openembedded.org;
-	Tue, 07 Aug 2012 23:38:20 +0200
-Received: by yenm1 with SMTP id m1so99646yen.6
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1Sys7F-0002vz-LC for openembedded-core@lists.openembedded.org;
+	Wed, 08 Aug 2012 00:19:05 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q77M7JYv016388
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 07 Aug 2012 14:26:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=KaRqJXxXOweV42sgFJu3V4o80r1I7pGRodzzc3VaM7Q=;
-	b=t/f98B7XqYn7bMjfJntZ+xyJib8xKc2aKGzeqmm3kcVa/YZgbwE860MRGHXPbqXZcO
-	KgYDAInqlDIyXfZ0rGEruyWPjUQPe5kuN2ODXYKXmeKEVg/e7zJt/FMRYlo1QmsBFnHf
-	YLu2VEJjH5Ig+hPU2l2Jo+kRLENsClbBxb7rZoak2TGGKtpAKqqyXdm2SCpuC4FidCfB
-	4TP7zGewG+39cyR2VVxz5bTKGBbLdZmuznwftzgqZIFqX8xSIL7phl27cKWzyesnoJ7o
-	MYMiqKKQgBqF0B77dLZY3LDi4/CT3IFbue+Z9QCNbfP1GEbKPRvm6MyZzJW3W+CPvZFR
-	0mcA==
-Received: by 10.66.86.166 with SMTP id q6mr1607430paz.5.1344374792841;
-	Tue, 07 Aug 2012 14:26:32 -0700 (PDT)
-Received: from agate.agate.openembedded.org (oldbuilder.nslu2-linux.org.
-	[140.211.169.168])
-	by mx.google.com with ESMTPS id rp9sm4016283pbc.52.2012.08.07.14.26.31
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 07 Aug 2012 14:26:31 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  7 Aug 2012 14:26:21 -0700
-Message-Id: <1344374781-21240-1-git-send-email-raj.khem@gmail.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] binutils: Enable threaded linking with gold
+	Tue, 7 Aug 2012 23:07:19 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 15897-02 for <openembedded-core@lists.openembedded.org>;
+	Tue,  7 Aug 2012 23:07:15 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q77M79Ww016381
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 7 Aug 2012 23:07:10 +0100
+Message-ID: <1344377233.9756.305.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Tue, 07 Aug 2012 23:07:13 +0100
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: gcc: Disable use of sdt.h header
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,43 +39,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Aug 2012 21:38:20 -0000
+X-List-Received-Date: Tue, 07 Aug 2012 22:19:05 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-This options will let gold spawn multiple
-threads for linking and speeding up linking
-on multicore build hosts.
+The target sysroot might contain sdt.h but we don't list this in DEPENDS
+and shouldn't be referencing it. Unfortunately there is no way to tell
+configure this since these tests are uncached and we can't force
+a particular value. The only option is therefore to patch this out.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-devtools/binutils/binutils-2.22.inc |    2 +-
- meta/recipes-devtools/binutils/binutils.inc      |    2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+diff --git a/meta/recipes-devtools/gcc/gcc-4.7.inc b/meta/recipes-devtools/gcc/gcc-4.7.inc
+index 4905155..4ad4819 100644
+--- a/meta/recipes-devtools/gcc/gcc-4.7.inc
++++ b/meta/recipes-devtools/gcc/gcc-4.7.inc
+@@ -74,6 +74,7 @@ SRC_URI = "git://github.com/mirrors/gcc.git;branch=${BRANCH};protocol=git \
+ 	   file://arm-hard-float-loader.patch \
+ 	   file://gcc-argument-list-too-long.patch \
+ 	   file://fix-g++-sysroot.patch \
++	   file://disablesdt.patch \
+ 	  "
+ 
+ S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/git"
+diff --git a/meta/recipes-devtools/gcc/gcc-4.7/disablesdt.patch b/meta/recipes-devtools/gcc/gcc-4.7/disablesdt.patch
+new file mode 100644
+index 0000000..8946afc
+--- /dev/null
++++ b/meta/recipes-devtools/gcc/gcc-4.7/disablesdt.patch
+@@ -0,0 +1,32 @@
++We don't list dtrace in DEPENDS so we shouldn't be depending on this header. 
++It may or may not exist from preivous builds though. To be determinstic, disable
++sdt.h usage always. This avoids build failures if the header is removed after configure
++but before libgcc is compiled for example.
++
++RP 2012/8/7
++
++Upstream-Status: Inappropriate [hack]
++
++Index: git/gcc/configure
++===================================================================
++--- git.orig/gcc/configure	2012-08-07 21:18:42.319247701 +0000
+++++ git/gcc/configure	2012-08-07 21:19:08.939247082 +0000
++@@ -26758,12 +26758,12 @@
++ { $as_echo "$as_me:${as_lineno-$LINENO}: checking sys/sdt.h in the target C library" >&5
++ $as_echo_n "checking sys/sdt.h in the target C library... " >&6; }
++ have_sys_sdt_h=no
++-if test -f $target_header_dir/sys/sdt.h; then
++-  have_sys_sdt_h=yes
++-
++-$as_echo "#define HAVE_SYS_SDT_H 1" >>confdefs.h
++-
++-fi
+++#if test -f $target_header_dir/sys/sdt.h; then
+++#  have_sys_sdt_h=yes
+++#
+++#$as_echo "#define HAVE_SYS_SDT_H 1" >>confdefs.h
+++#
+++#fi
++ { $as_echo "$as_me:${as_lineno-$LINENO}: result: $have_sys_sdt_h" >&5
++ $as_echo "$have_sys_sdt_h" >&6; }
++ 
 
-diff --git a/meta/recipes-devtools/binutils/binutils-2.22.inc b/meta/recipes-devtools/binutils/binutils-2.22.inc
-index e3e179d..17950a2 100644
---- a/meta/recipes-devtools/binutils/binutils-2.22.inc
-+++ b/meta/recipes-devtools/binutils/binutils-2.22.inc
-@@ -1,4 +1,4 @@
--PR = "r13"
-+PR = "r14"
- 
- LIC_FILES_CHKSUM="\
-     file://src-release;endline=17;md5=4830a9ef968f3b18dd5e9f2c00db2d35\
-diff --git a/meta/recipes-devtools/binutils/binutils.inc b/meta/recipes-devtools/binutils/binutils.inc
-index cd923bd..ee748a4 100644
---- a/meta/recipes-devtools/binutils/binutils.inc
-+++ b/meta/recipes-devtools/binutils/binutils.inc
-@@ -53,7 +53,7 @@ B = "${S}/build.${HOST_SYS}.${TARGET_SYS}"
- EXTRA_OECONF = "--program-prefix=${TARGET_PREFIX} \
-                 --disable-werror \
- 		--enable-plugins \
--		${@base_contains('DISTRO_FEATURES', 'ld-is-gold', '--enable-gold=default', '', d)} \
-+		${@base_contains('DISTRO_FEATURES', 'ld-is-gold', '--enable-gold=default --enable-threads', '', d)} \
-                 ${@base_contains('DISTRO_FEATURES', 'multiarch', '--enable-64-bit-bfd', '', d)}"
- 
- # This is necessary due to a bug in the binutils Makefiles
--- 
-1.7.9.5
 
 
 
