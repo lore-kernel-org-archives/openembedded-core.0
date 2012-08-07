@@ -1,43 +1,33 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1Syj0A-0007tx-TN
-	for openembedded-core@lists.openembedded.org;
-	Tue, 07 Aug 2012 14:35:10 +0200
-Received: by eaad12 with SMTP id d12so1210514eaa.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 07 Aug 2012 05:23:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to:x-mailer
-	:x-gm-message-state;
-	bh=ZiGJQ9TkzNEdCYGnfUf5CTS2LkvUgSVEolhpjfC6ClU=;
-	b=lFTcQqUkVUM5PR1B7ZWrJex50oSZTF9ORW4mI5nX8PHiN12JPimY3ivf4eg66uC57m
-	Fs6+VlOi2RsexB+5W4YvSzmOPcCqIQQArxTg/u/Zn87aVs1YjDVZc6vJCcIaYGFduaNj
-	a8xDLr9aWYnXsvC4C6cKZZuHH2XbYkeVbfbkFtjUdzG1dkWU5qUivOsk5+uKQt+dv3FT
-	1qLe5FI3owIhG/LE8cbxY9lAAvFZzhaJTIMdDZ2WLuLiCQ4VtyxBChLoMEAZ4QP0WZwI
-	HpA3Ve4E8Q/W8h03nHmCyfrMxt1P3ZAGQrR6iQdMzT3pH5os2X3EYBN6+w0/TQ2GaNaa
-	kENw==
-Received: by 10.14.175.130 with SMTP id z2mr17580373eel.0.1344342205072;
-	Tue, 07 Aug 2012 05:23:25 -0700 (PDT)
-Received: from ?IPv6:2001:610:612::cc97:7ad6:f5c2:543f?
-	([2001:610:612:0:cc97:7ad6:f5c2:543f])
-	by mx.google.com with ESMTPS id h42sm55763277eem.5.2012.08.07.05.23.23
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 07 Aug 2012 05:23:24 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 6.0 \(1485\))
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <38e3b88585fd93495837f9f071887989a080ccd6.1344341416.git.wenzong.fan@windriver.com>
-Date: Tue, 7 Aug 2012 14:23:42 +0200
-Message-Id: <4B47D650-7569-4396-825C-92CB04489F87@dominion.thruhere.net>
-References: <cover.1344341416.git.wenzong.fan@windriver.com>
-	<38e3b88585fd93495837f9f071887989a080ccd6.1344341416.git.wenzong.fan@windriver.com>
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1SyjF2-000840-7y for openembedded-core@lists.openembedded.org;
+	Tue, 07 Aug 2012 14:50:32 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q77CcjqA010744;
+	Tue, 7 Aug 2012 13:38:45 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 09711-08; Tue,  7 Aug 2012 13:38:40 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q77CcaNx010738
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Tue, 7 Aug 2012 13:38:39 +0100
+Message-ID: <1344343119.9756.248.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1485)
-X-Gm-Message-State: ALoCoQnANVgXalXijsqfP4lCg1RlDOMhyMTke/zhI8Zfw6eIgVLyKc/O3EAWxQWQrJ48SS/z6FFA
-Cc: Zhenfeng.Zhao@windriver.com
-Subject: Re: [PATCH 1/1] sysfsutils: install libs to base_libdir
+Date: Tue, 07 Aug 2012 13:38:39 +0100
+In-Reply-To: <5019580E.4070906@linux.intel.com>
+References: <1343697966-29777-1-git-send-email-Martin.Jansa@gmail.com>
+	<1343732826.9526.1.camel@ted> <20120731111002.GR3261@jama.jama.net>
+	<5019580E.4070906@linux.intel.com>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: Martin Jansa <martin.jansa@gmail.com>
+Subject: Re: [RFC] gdb-cross: add pythonnative
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -52,62 +42,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Aug 2012 12:35:11 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 07 Aug 2012 12:50:32 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+
+On Wed, 2012-08-01 at 09:23 -0700, Darren Hart wrote:
+> 
+> On 07/31/2012 04:10 AM, Martin Jansa wrote:
+> > On Tue, Jul 31, 2012 at 12:07:06PM +0100, Richard Purdie wrote:
+> >> On Tue, 2012-07-31 at 03:26 +0200, Martin Jansa wrote:
+> >>> * fails like this without:
+> >>> | gcc -isystem/OE/shr-core/tmp-eglibc/sysroots/x86_64-linux/usr/include -O2 -pipe   -L/OE/shr-core/tmp-eglibc/sysroots/x86_64-linux/usr/lib -L/OE/shr-core/tmp-eglibc/sysroo
+> >>> ts/x86_64-linux/lib -Wl,-rpath-link,/OE/shr-core/tmp-eglibc/sysroots/x86_64-linux/usr/lib -Wl,-rpath-link,/OE/shr-core/tmp-eglibc/sysroots/x86_64-linux/lib -Wl,-rpath,/OE/shr-core/tmp-eglibc/sysroots/x86_64-linux/usr/lib -Wl,-rpath,/OE/shr-core/tmp-eglibc/sysroots/x86_64-linux/lib -Wl,-O1   \
+> >>> |       -o gdb gdb.o libgdb.a \
+> >>> |          -lreadline ../opcodes/libopcodes.a ../bfd/libbfd.a  ../libiberty/libiberty.a ../libdecnumber/libdecnumber.a    -ldl -lncurses -lz -lm    -lpthread -ldl -lutil -lm -lpython2.7 -Xlinker -export-dynamic /OE/shr-core/tmp-eglibc/sysroots/x86_64-linux/usr/lib/libexpat.so -Wl,-rpath -Wl,/OE/shr-core/tmp-eglibc/sysroots/x86_64-linux/usr/lib ../libiberty/libiberty.a  gnulib/libgnu.a
+> >>> | libgdb.a(python.o): In function `gdbpy_target_wide_charset':
+> >>> | python.c:(.text+0x1e7): undefined reference to `PyUnicodeUCS4_Decode'
+> >>> | libgdb.a(python.o): In function `gdbpy_target_charset':
+> >>> | python.c:(.text+0x237): undefined reference to `PyUnicodeUCS4_Decode'
+> >>> | libgdb.a(py-cmd.o): In function `cmdpy_completer':
+> >>> | py-cmd.c:(.text+0x97): undefined reference to `PyUnicodeUCS4_Decode'
+> >>> | py-cmd.c:(.text+0xc3): undefined reference to `PyUnicodeUCS4_Decode'
+> >>> | libgdb.a(py-cmd.o): In function `cmdpy_function':
+> >>> | py-cmd.c:(.text+0x39d): undefined reference to `PyUnicodeUCS4_Decode'
+> >>> | libgdb.a(py-frame.o):py-frame.c:(.text+0xa21): more undefined references to `PyUnicodeUCS4_Decode' follow
+> >>> | libgdb.a(py-utils.o): In function `unicode_to_encoded_string':
+> >>> | py-utils.c:(.text+0x8): undefined reference to `PyUnicodeUCS4_AsEncodedString'
+> >>> | libgdb.a(py-utils.o): In function `python_string_to_unicode':
+> >>> | py-utils.c:(.text+0xc6): undefined reference to `PyUnicodeUCS4_FromEncodedObject'
+> >>> | libgdb.a(py-utils.o): In function `unicode_to_target_python_string':
+> >>> | py-utils.c:(.text+0x13a): undefined reference to `PyUnicodeUCS4_AsEncodedString'
+> >>> | libgdb.a(py-utils.o): In function `target_string_to_unicode':
+> >>> | py-utils.c:(.text+0x2a5): undefined reference to `PyUnicodeUCS4_Decode'
+> >>> | libgdb.a(py-value.o): In function `valpy_string':
+> >>> | py-value.c:(.text+0x4ac): undefined reference to `PyUnicodeUCS4_Decode'
+> >>> | libgdb.a(py-value.o): In function `valpy_str':
+> >>> | py-value.c:(.text+0xab4): undefined reference to `PyUnicodeUCS4_Decode'
+> >>> | collect2: error: ld returned 1 exit status
+> >>> | make[2]: *** [gdb] Error 1
+> >>> | make[2]: Leaving directory `/OE/shr-core/tmp-eglibc/work/armv4t-oe-linux-gnueabi/gdb-cross-7.4.1-r1.0/build-arm-oe-linux-gnueabi/gdb'
+> >>> | make[1]: *** [all-gdb] Error 2
+> >>>
+> >>> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> >>> ---
+> >>>  meta/recipes-devtools/gdb/gdb-cross_7.4.1.bb |    2 ++
+> >>>  1 files changed, 2 insertions(+), 0 deletions(-)
+> >>
+> >> Is python enabled for gdb-cross in OE-Core?
+> > 
+> > Explicitly only in gdb-cross-canadian, so I guess gdb-cross autodetected
+> > it (sorry I don't have config.log anymore).
+> > 
+> 
+> This resolves my gdb-cross build issue on poky-tiny. Thanks Martin.
+
+I fixed this properly by disabling python in gdb-cross.
+
+Cheers,
+
+Richard
 
 
-Op 7 aug. 2012, om 14:14 heeft wenzong.fan@windriver.com het volgende =
-geschreven:
-
-> From: Wenzong Fan <wenzong.fan@windriver.com>
->=20
-> Fix the warning form pcmciautils building:
->=20
-> "WARNING: QA Issue: pcmciautils: /sbin/pccardctl, installed in the
-> base_prefix, requires a shared library under exec_prefix (/usr):
-> libsysfs.so.2 =3D> /usr/lib/libsysfs.so.2"
->=20
-> Just refer to Debian/Ubuntu distributions, install sysfsutils libs
-> to "/lib*" instead of "/usr/lib*".
->=20
-> [YOCTO #2907]
->=20
-> Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
-> ---
-> meta/recipes-core/sysfsutils/sysfsutils_2.1.0.bb |    4 +++-
-> 1 file changed, 3 insertions(+), 1 deletion(-)
->=20
-> diff --git a/meta/recipes-core/sysfsutils/sysfsutils_2.1.0.bb =
-b/meta/recipes-core/sysfsutils/sysfsutils_2.1.0.bb
-> index 3e4fdda..f01d19b 100644
-> --- a/meta/recipes-core/sysfsutils/sysfsutils_2.1.0.bb
-> +++ b/meta/recipes-core/sysfsutils/sysfsutils_2.1.0.bb
-> @@ -8,7 +8,7 @@ LICENSE_libsysfs =3D "LGPLv2.1"
-> LIC_FILES_CHKSUM =3D =
-"file://COPYING;md5=3D3d06403ea54c7574a9e581c6478cc393 \
->                     =
-file://cmd/GPL;md5=3Dd41d4e2e1e108554e0388ea4aecd8d27 \
->                     =
-file://lib/LGPL;md5=3Db75d069791103ffe1c0d6435deeff72e"
-> -PR =3D "r3"
-> +PR =3D "r4"
->=20
-> SRC_URI =3D "${SOURCEFORGE_MIRROR}/linux-diag/sysfsutils-${PV}.tar.gz =
-\
-> 	  file://sysfsutils-2.0.0-class-dup.patch \
-> @@ -24,3 +24,5 @@ PACKAGES =3D+ "libsysfs libsysfs-dev =
-libsysfs-staticdev"
-> FILES_libsysfs =3D "${libdir}/lib*${SOLIBS}"
-> FILES_libsysfs-dev =3D "${libdir}/lib*${SOLIBSDEV} ${includedir}"
-> FILES_libsysfs-staticdev =3D "${libdir}/lib*.a"
-
-Ahem! ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-> +
-> +export libdir =3D "${base_libdir}"
-
-And can you post the buildhistory diff to see if anything else moved =
-when it shouldn't have e.g. package config files?=20=
 
 
