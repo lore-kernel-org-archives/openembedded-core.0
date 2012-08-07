@@ -1,28 +1,29 @@
 Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Rongqing.Li@windriver.com>) id 1SygED-0003xg-U7
+	(envelope-from <Rongqing.Li@windriver.com>) id 1SygFr-00040y-RF
 	for openembedded-core@lists.openembedded.org;
-	Tue, 07 Aug 2012 11:37:30 +0200
+	Tue, 07 Aug 2012 11:39:12 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q779PgAi024276
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 7 Aug 2012 02:25:42 -0700 (PDT)
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q779RP75024304
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 7 Aug 2012 02:27:25 -0700 (PDT)
 Received: from [128.224.162.163] (128.224.162.163) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.2.309.2;
-	Tue, 7 Aug 2012 02:25:41 -0700
-Message-ID: <5020DF14.9040205@windriver.com>
-Date: Tue, 7 Aug 2012 17:25:40 +0800
+	Tue, 7 Aug 2012 02:27:25 -0700
+Message-ID: <5020DF7C.5080802@windriver.com>
+Date: Tue, 7 Aug 2012 17:27:24 +0800
 From: Rongqing Li <rongqing.li@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:13.0) Gecko/20120615 Thunderbird/13.0.1
 MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Pascal Ouyang <xin.ouyang@windriver.com>
 References: <501FBD86.3090705@windriver.com> <5020AED3.1020406@windriver.com>
 	<1344325278.9756.196.camel@ted> <5020CB95.3010501@windriver.com>
-	<1344330186.9756.210.camel@ted>
-In-Reply-To: <1344330186.9756.210.camel@ted>
+	<5020D893.3030101@windriver.com>
+In-Reply-To: <5020D893.3030101@windriver.com>
 X-MIME-Autoconverted: from 8bit to quoted-printable by mail1.windriver.com id
-	q779PgAi024276
+	q779RP75024304
 Cc: "Yang, Liezhi" <Liezhi.Yang@windriver.com>,
 	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
@@ -41,21 +42,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Aug 2012 09:37:30 -0000
+X-List-Received-Date: Tue, 07 Aug 2012 09:39:12 -0000
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: quoted-printable
 
 
 
-On 2012=E5=B9=B408=E6=9C=8807=E6=97=A5 17:03, Richard Purdie wrote:
-> On Tue, 2012-08-07 at 16:02 +0800, Rongqing Li wrote:
+On 2012=E5=B9=B408=E6=9C=8807=E6=97=A5 16:57, Pascal Ouyang wrote:
+> =E4=BA=8E 2012=E5=B9=B408=E6=9C=8807=E6=97=A5 16:02, Rongqing Li =E5=86=
+=99=E9=81=93:
+>>
 >>
 >> On 2012=E5=B9=B408=E6=9C=8807=E6=97=A5 15:41, Richard Purdie wrote:
 >>> On Tue, 2012-08-07 at 13:59 +0800, Rongqing Li wrote:
 >>>> Paste a RFC PATCH
 >>>>
->>>> [RFC PATCH 1/1] bitbake: compile tar-replacement firstly, and not pa=
-rallel
+>>>> [RFC PATCH 1/1] bitbake: compile tar-replacement firstly, and not
+>>>> parallel
 >>>>
 >>>> Compiling tar-replacement or not is decided by version of host tar,
 >>>> if the host tar version is lower than 1.23, Compiling tar-replacemen=
@@ -74,32 +77,32 @@ t
 >>>>
 >>>> Signed-off-by: Roy.Li <rongqing.li@windriver.com>
 >>>> ---
->>>>     scripts/bitbake |   14 +++++++++++++-
->>>>     1 files changed, 13 insertions(+), 1 deletions(-)
+>>>>    scripts/bitbake |   14 +++++++++++++-
+>>>>    1 files changed, 13 insertions(+), 1 deletions(-)
 >>>>
 >>>> diff --git a/scripts/bitbake b/scripts/bitbake
 >>>> index 3772d82..eb6b144 100755
 >>>> --- a/scripts/bitbake
 >>>> +++ b/scripts/bitbake
 >>>> @@ -134,7 +134,19 @@ if [ $buildpseudo -gt 0 ]; then
->>>>                 fi
->>>>             done
->>>>         done
->>>> -    bitbake pseudo-native $TARTARGET $additionalopts -c populate_sy=
-sroot
+>>>>                fi
+>>>>            done
+>>>>        done
+>>>> -    bitbake pseudo-native $TARTARGET $additionalopts -c
+>>>> populate_sysroot
 >>>> +
 >>>> +    if [ $needtar =3D "1" ]; then
->>>> +       NUM_THREAD_LINE=3D`grep -n "^\s*BB_NUMBER_THREADS" conf/loca=
-l.conf
+>>>> +       NUM_THREAD_LINE=3D`grep -n "^\s*BB_NUMBER_THREADS"
+>>>> conf/local.conf
 >>>> |awk -F':' '{print $1}'`
->>>> +	test -n "$NUM_THREAD_LINE" &&
->>>> +	sed -i ''"$NUM_THREAD_LINE"'s/^\s*BB_NUMBER_THREADS/#\0/g' conf/lo=
-cal.conf
+>>>> +    test -n "$NUM_THREAD_LINE" &&
+>>>> +    sed -i ''"$NUM_THREAD_LINE"'s/^\s*BB_NUMBER_THREADS/#\0/g'
+>>>> conf/local.conf
 >>>> +
->>>> +	bitbake $TARTARGET -c populate_sysroot
+>>>> +    bitbake $TARTARGET -c populate_sysroot
 >>>> +
->>>> +	test -n "$NUM_THREAD_LINE" &&
->>>> +	sed -i
+>>>> +    test -n "$NUM_THREAD_LINE" &&
+>>>> +    sed -i
 >>>> ''"$NUM_THREAD_LINE"'s/^#\s*BB_NUMBER_THREADS/BB_NUMBER_THREADS/g'
 >>>> conf/local.conf
 >>>> +    fi
@@ -112,10 +115,9 @@ cal.conf
 >>
 >> After compile $TARTARGET, use the sed to enable NUM_THREAD_LINE
 >> in conf/local.conf
->
-> I understand what you did, I just don't want to do this. Its horrible
-> and buggy.
->
+>>
+>>
+>>
 >>> If you're just building tar-native, is there a parallel race possible=
 ?
 >>> I'm not sure that there is?
@@ -135,28 +137,45 @@ cal.conf
 >> quilt-native
 >> gnu-config-native
 >> automake-native
+>>
 >
-> but tar-replacement-native will not build until all the above have
-> executed their populate_sysroot tasks, correct?
+> To avoid to use the incomplete tar binary, I think we could rename the
+> binary name to "tar-native" before do_populate_sysroot, and then rename
+> back to "tar" after do_populate_sysroot().
 >
-> So I don't see a task that would run at the same time as
-> tar-replacement:do_populate_sysroot which will be the last task to run?
+> Thanks.
 >
-> Cheers,
->
-> Richard
->
+> - Pascal
 >
 
-
-You are right, seems I only need to build tar-replacement firstly, donot
-need to disable the BB_NUMBER_THREADS.
-
+I think your suggestion is valuable to fix the similar problem,
+we can adopt this method.
 
 -Roy
 
 
-
+>>
+>> Thanks for your reply.
+>> -Roy
+>>>
+>>> For the record I hate this script and what it has become, its horribl=
+e.
+>>> It started as a workaround for pseudo-native, its becoming a dumping
+>>> ground for a whole set of nasty workarounds :(.
+>>>
+>>> Cheers,
+>>>
+>>> Richard
+>>>
+>>>
+>>> _______________________________________________
+>>> Openembedded-core mailing list
+>>> Openembedded-core@lists.openembedded.org
+>>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>>>
+>>>
+>>
+>
 >
 
 --=20
