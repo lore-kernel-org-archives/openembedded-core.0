@@ -1,58 +1,39 @@
-Received: from ch1ehsobe002.messaging.microsoft.com ([216.32.181.182]
-	helo=ch1outboundpool.messaging.microsoft.com)
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1SyqQq-0000La-PV
-	for openembedded-core@lists.openembedded.org;
-	Tue, 07 Aug 2012 22:31:13 +0200
-Received: from mail216-ch1-R.bigfish.com (10.43.68.242) by
-	CH1EHSOBE008.bigfish.com (10.43.70.58) with Microsoft SMTP Server id
-	14.1.225.23; Tue, 7 Aug 2012 20:19:26 +0000
-Received: from mail216-ch1 (localhost [127.0.0.1])	by
-	mail216-ch1-R.bigfish.com (Postfix) with ESMTP id 0B97C2602B5	for
-	<openembedded-core@lists.openembedded.org>;
-	Tue,  7 Aug 2012 20:19:26 +0000 (UTC)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-X-SpamScore: -2
-X-BigFish: VS-2(zz98dI9371I1432Izz1202hzz8275bh8275dhz2dh2a8h668h839h8e2h8e3hf0ah107ah10d2hbe9i)
-Received: from mail216-ch1 (localhost.localdomain [127.0.0.1]) by mail216-ch1
-	(MessageSwitch) id 1344370764519066_7082;
-	Tue,  7 Aug 2012 20:19:24 +0000 (UTC)
-Received: from CH1EHSMHS017.bigfish.com (snatpool2.int.messaging.microsoft.com
-	[10.43.68.237])	by mail216-ch1.bigfish.com (Postfix) with ESMTP id
-	7B44FA0048 for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 Aug 2012 20:19:24 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by CH1EHSMHS017.bigfish.com
-	(10.43.70.17) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Tue, 7 Aug 2012 20:19:21 +0000
-Received: from 039-SN1MPN1-001.039d.mgd.msft.net ([169.254.1.41]) by
-	039-SN1MMR1-004.039d.mgd.msft.net ([::1]) with mapi id 14.02.0298.005;
-	Tue, 7 Aug 2012 15:19:20 -0500
-From: McClintock Matthew-B29882 <B29882@freescale.com>
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1SyqcC-0008Rm-9q for openembedded-core@lists.openembedded.org;
+	Tue, 07 Aug 2012 22:42:56 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q77KV8S6015614;
+	Tue, 7 Aug 2012 21:31:08 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 14392-05; Tue,  7 Aug 2012 21:31:04 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q77KUwL8015608
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Tue, 7 Aug 2012 21:30:59 +0100
+Message-ID: <1344371460.9756.297.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH v2 16/28] kernel.bbclass: use ${base_libdir}
-	and ${sysconfdir} instead of /lib and /etc
-Thread-Index: AQHNdNnsrwASrNKRYEa3yQvvIrYD2w==
-Date: Tue, 7 Aug 2012 20:19:19 +0000
-Message-ID: <CAEsOVNexRgFnTa5aNpRgz=qhw4jJa32csXpvCSEedT+TurbjSg@mail.gmail.com>
-References: <1344196136-7643-1-git-send-email-javier@dowhile0.org>
-	<1344196136-7643-17-git-send-email-javier@dowhile0.org>
-	<501FED7B.6050309@linux.intel.com>
-	<CAMKF1sq39z0Tq2u9AuEsTx5USfAgzHtXwXggJyeukynOZu4ubQ@mail.gmail.com>
-In-Reply-To: <CAMKF1sq39z0Tq2u9AuEsTx5USfAgzHtXwXggJyeukynOZu4ubQ@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [70.112.201.132]
-MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Subject: Re: [PATCH v2 16/28] kernel.bbclass: use ${base_libdir} and ${sysconfdir} instead of /lib and /etc
+Date: Tue, 07 Aug 2012 21:31:00 +0100
+In-Reply-To: <CAMKF1sosOY9Usa+MkWByQM51urYFUKLAqH-UE7y-J2tHfHSi=w@mail.gmail.com>
+References: <1343697966-29777-1-git-send-email-Martin.Jansa@gmail.com>
+	<1343732826.9526.1.camel@ted> <20120731111002.GR3261@jama.jama.net>
+	<5019580E.4070906@linux.intel.com> <1344343119.9756.248.camel@ted>
+	<50213F03.1000004@linux.intel.com>
+	<CAMKF1sosOY9Usa+MkWByQM51urYFUKLAqH-UE7y-J2tHfHSi=w@mail.gmail.com>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: Martin Jansa <martin.jansa@gmail.com>
+Subject: Re: [RFC] gdb-cross: add pythonnative
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
-	Patches and discussions about the oe-core layer
+Reply-To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -63,28 +44,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Aug 2012 20:31:13 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <5621C66BD05A3843862A2761ADF28D4F@mgd.freescale.com>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 07 Aug 2012 20:42:56 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Tue, Aug 7, 2012 at 3:04 PM, Khem Raj <raj.khem@gmail.com> wrote:
-> On Mon, Aug 6, 2012 at 9:14 AM, Darren Hart <dvhart@linux.intel.com> wrot=
-e:
->> if not, these will fail.
->
-> and it does.
+On Tue, 2012-08-07 at 13:15 -0700, Khem Raj wrote:
+> On Tue, Aug 7, 2012 at 9:14 AM, Darren Hart <dvhart@linux.intel.com> wrote:
+> >
+> >> I fixed this properly by disabling python in gdb-cross.
+> 
+> I think having python support would be desirable no ?
 
-This is already reverted.
+Perhaps, I didn't make a decision on that. Just inheriting pythonnative
+isn't the correct way to do that, we need to make an explicit decision
+and set the correct configure option so its clear what we're doing.
 
--M
+In the meantime I wasn't happy seeing build failures.
 
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core=
+Cheers,
+
+Richard
 
 
 
