@@ -1,31 +1,33 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+Received: from mail-yx0-f175.google.com ([209.85.213.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1SyrPF-00017E-5h
+	(envelope-from <raj.khem@gmail.com>) id 1SyrTo-0001EM-08
 	for openembedded-core@lists.openembedded.org;
-	Tue, 07 Aug 2012 23:33:37 +0200
-Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
-	helo=[192.168.114.6])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1SyrDt-0005nY-4V
-	for openembedded-core@lists.openembedded.org;
-	Tue, 07 Aug 2012 23:21:53 +0200
-Message-ID: <1344374402.4874.32.camel@x121e.pbcl.net>
-From: Phil Blundell <philb@gnu.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Tue, 07 Aug 2012 22:20:02 +0100
-In-Reply-To: <50216C8B.20802@windriver.com>
-References: <1344360704-23172-1-git-send-email-yao.zhao@windriver.com>
-	<502152B8.6070100@gmail.com> <50215ED9.3070505@windriver.com>
-	<1344364223.4874.16.camel@x121e.pbcl.net>
-	<50216009.6020601@windriver.com>
-	<1344364696.4874.19.camel@x121e.pbcl.net>
-	<502161DC.9020705@windriver.com>
-	<1344365134.4874.23.camel@x121e.pbcl.net>
-	<50216C8B.20802@windriver.com>
-X-Mailer: Evolution 3.4.3-1 
-Mime-Version: 1.0
-Subject: Re: [PATCH] cracklib, zlib: install to /lib instead of /usr/libxx
+	Tue, 07 Aug 2012 23:38:20 +0200
+Received: by yenm1 with SMTP id m1so99646yen.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 07 Aug 2012 14:26:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=KaRqJXxXOweV42sgFJu3V4o80r1I7pGRodzzc3VaM7Q=;
+	b=t/f98B7XqYn7bMjfJntZ+xyJib8xKc2aKGzeqmm3kcVa/YZgbwE860MRGHXPbqXZcO
+	KgYDAInqlDIyXfZ0rGEruyWPjUQPe5kuN2ODXYKXmeKEVg/e7zJt/FMRYlo1QmsBFnHf
+	YLu2VEJjH5Ig+hPU2l2Jo+kRLENsClbBxb7rZoak2TGGKtpAKqqyXdm2SCpuC4FidCfB
+	4TP7zGewG+39cyR2VVxz5bTKGBbLdZmuznwftzgqZIFqX8xSIL7phl27cKWzyesnoJ7o
+	MYMiqKKQgBqF0B77dLZY3LDi4/CT3IFbue+Z9QCNbfP1GEbKPRvm6MyZzJW3W+CPvZFR
+	0mcA==
+Received: by 10.66.86.166 with SMTP id q6mr1607430paz.5.1344374792841;
+	Tue, 07 Aug 2012 14:26:32 -0700 (PDT)
+Received: from agate.agate.openembedded.org (oldbuilder.nslu2-linux.org.
+	[140.211.169.168])
+	by mx.google.com with ESMTPS id rp9sm4016283pbc.52.2012.08.07.14.26.31
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 07 Aug 2012 14:26:31 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  7 Aug 2012 14:26:21 -0700
+Message-Id: <1344374781-21240-1-git-send-email-raj.khem@gmail.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] binutils: Enable threaded linking with gold
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,40 +42,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Aug 2012 21:33:37 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 07 Aug 2012 21:38:20 -0000
 
-On Tue, 2012-08-07 at 15:29 -0400, Yao Zhao wrote:
-> On 12-08-07 02:45 PM, Phil Blundell wrote:
-> > On Tue, 2012-08-07 at 14:43 -0400, Yao Zhao wrote:
-> >> On 12-08-07 02:38 PM, Phil Blundell wrote:
-> >>> On Tue, 2012-08-07 at 14:35 -0400, Yao Zhao wrote:
-> >>>> On 12-08-07 02:30 PM, Phil Blundell wrote:
-> >>>>> Where do libz.a and libz.so end up after your patch?
-> >>>> =E2=94=9C=E2=94=80=E2=94=80 zlib-dev
-> >>>> =E2=94=82 =E2=94=9C=E2=94=80=E2=94=80 lib
-> >>>> =E2=94=82 =E2=94=82 =E2=94=94=E2=94=80=E2=94=80 libz.so -> libz.so.1=
-.2.7
-> >>>> =E2=94=94=E2=94=80=E2=94=80 zlib-staticdev
-> >>>> =E2=94=94=E2=94=80=E2=94=80 lib
-> >>>> =E2=94=94=E2=94=80=E2=94=80 libz.a
-> >>> I found the output from "tree" a bit hard to read, but that doesn't l=
-ook
-> >>> right to me.
-> >> any reason? It shouldn't go to lib, but still /usr/libxx?
-> > Conventionally, yeah.  I think the linker does search both but the
-> > development files would traditionally go in /usr/lib.
-> If don't install libz.a to the same directory, will linker find libz.a=
-=20
-> not libz.so if -L /usr/lib -L /lib?
+This options will let gold spawn multiple
+threads for linking and speeding up linking
+on multicore build hosts.
 
-You want both libz.a and libz.so in /usr/lib so I think that ought to be
-a non-issue.  But in any case, I think (though I'm not 100% certain)
-that it will look for libz.so in all paths before searching for libz.a.
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-devtools/binutils/binutils-2.22.inc |    2 +-
+ meta/recipes-devtools/binutils/binutils.inc      |    2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-p.
-
+diff --git a/meta/recipes-devtools/binutils/binutils-2.22.inc b/meta/recipes-devtools/binutils/binutils-2.22.inc
+index e3e179d..17950a2 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.22.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.22.inc
+@@ -1,4 +1,4 @@
+-PR = "r13"
++PR = "r14"
+ 
+ LIC_FILES_CHKSUM="\
+     file://src-release;endline=17;md5=4830a9ef968f3b18dd5e9f2c00db2d35\
+diff --git a/meta/recipes-devtools/binutils/binutils.inc b/meta/recipes-devtools/binutils/binutils.inc
+index cd923bd..ee748a4 100644
+--- a/meta/recipes-devtools/binutils/binutils.inc
++++ b/meta/recipes-devtools/binutils/binutils.inc
+@@ -53,7 +53,7 @@ B = "${S}/build.${HOST_SYS}.${TARGET_SYS}"
+ EXTRA_OECONF = "--program-prefix=${TARGET_PREFIX} \
+                 --disable-werror \
+ 		--enable-plugins \
+-		${@base_contains('DISTRO_FEATURES', 'ld-is-gold', '--enable-gold=default', '', d)} \
++		${@base_contains('DISTRO_FEATURES', 'ld-is-gold', '--enable-gold=default --enable-threads', '', d)} \
+                 ${@base_contains('DISTRO_FEATURES', 'multiarch', '--enable-64-bit-bfd', '', d)}"
+ 
+ # This is necessary due to a bug in the binutils Makefiles
+-- 
+1.7.9.5
 
 
 
