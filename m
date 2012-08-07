@@ -1,35 +1,34 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-ey0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Yao.Zhao@windriver.com>) id 1SypeK-0002fR-GD
+	(envelope-from <raj.khem@gmail.com>) id 1SyqD9-0008Uu-1K
 	for openembedded-core@lists.openembedded.org;
-	Tue, 07 Aug 2012 21:41:04 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q77JTG2L017519
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 07 Aug 2012 22:17:03 +0200
+Received: by eaad12 with SMTP id d12so2370eaa.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 7 Aug 2012 12:29:17 -0700 (PDT)
-Received: from [128.224.147.210] (128.224.147.210) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.309.2;
-	Tue, 7 Aug 2012 12:29:16 -0700
-Message-ID: <50216C8B.20802@windriver.com>
-Date: Tue, 7 Aug 2012 15:29:15 -0400
-From: Yao Zhao <yao.zhao@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:13.0) Gecko/20120615 Thunderbird/13.0.1
+	Tue, 07 Aug 2012 13:05:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type; bh=ED4a3ZX2sP9CgqrYXR9FkDPDAm+SqdNbeoXsW8FqHPk=;
+	b=aNZ9QCBq3foXpw9XlUvFjZxeH60NK7/8TLPRHs5QDp7jdCMU+pH7lwZAtG41Dhs/fX
+	S7iQ/zVQvAY8jjMQGI6JVhMFszqH51mBIlpJnIMQA3p1CDP+g2OC3hAvTlh16GKwjTQO
+	uKvS1aQdgChvtsjSW25lMNfSy2Xv7lrxG4BfjqeCWAxvtd2KILKNjEC4ZVrnkmR2uPU4
+	ysDMlIwRYcZFUIUjj1k6YO6BzHgWgM8lmTfiDwiT6GqENi71t9LSVKWUZGpy8Gai7/xC
+	rxRzoYGMRrWJh5ScR2o8URybqvOX7fuXJ5/eoVxBtjZ1gNcUvnk1hA3dmyd2uPbY4eMr
+	8Myg==
+Received: by 10.14.207.9 with SMTP id m9mr19164151eeo.5.1344369916835; Tue, 07
+	Aug 2012 13:05:16 -0700 (PDT)
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1344360704-23172-1-git-send-email-yao.zhao@windriver.com>
-	<502152B8.6070100@gmail.com> <50215ED9.3070505@windriver.com>
-	<1344364223.4874.16.camel@x121e.pbcl.net>
-	<50216009.6020601@windriver.com>
-	<1344364696.4874.19.camel@x121e.pbcl.net>
-	<502161DC.9020705@windriver.com>
-	<1344365134.4874.23.camel@x121e.pbcl.net>
-In-Reply-To: <1344365134.4874.23.camel@x121e.pbcl.net>
-X-Originating-IP: [128.224.147.210]
-X-MIME-Autoconverted: from 8bit to quoted-printable by mail.windriver.com id
-	q77JTG2L017519
-Subject: Re: [PATCH] cracklib, zlib: install to /lib instead of /usr/libxx
+Received: by 10.14.97.141 with HTTP; Tue, 7 Aug 2012 13:04:46 -0700 (PDT)
+In-Reply-To: <501FED7B.6050309@linux.intel.com>
+References: <1344196136-7643-1-git-send-email-javier@dowhile0.org>
+	<1344196136-7643-17-git-send-email-javier@dowhile0.org>
+	<501FED7B.6050309@linux.intel.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 7 Aug 2012 13:04:46 -0700
+Message-ID: <CAMKF1sq39z0Tq2u9AuEsTx5USfAgzHtXwXggJyeukynOZu4ubQ@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2 16/28] kernel.bbclass: use ${base_libdir} and ${sysconfdir} instead of /lib and /etc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,42 +43,12 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Aug 2012 19:41:05 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 07 Aug 2012 20:17:03 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 12-08-07 02:45 PM, Phil Blundell wrote:
-> On Tue, 2012-08-07 at 14:43 -0400, Yao Zhao wrote:
->> On 12-08-07 02:38 PM, Phil Blundell wrote:
->>> On Tue, 2012-08-07 at 14:35 -0400, Yao Zhao wrote:
->>>> On 12-08-07 02:30 PM, Phil Blundell wrote:
->>>>> Where do libz.a and libz.so end up after your patch?
->>>> =E2=94=9C=E2=94=80=E2=94=80 zlib-dev
->>>> =E2=94=82 =E2=94=9C=E2=94=80=E2=94=80 lib
->>>> =E2=94=82 =E2=94=82 =E2=94=94=E2=94=80=E2=94=80 libz.so -> libz.so.1=
-.2.7
->>>> =E2=94=94=E2=94=80=E2=94=80 zlib-staticdev
->>>> =E2=94=94=E2=94=80=E2=94=80 lib
->>>> =E2=94=94=E2=94=80=E2=94=80 libz.a
->>> I found the output from "tree" a bit hard to read, but that doesn't l=
-ook
->>> right to me.
->> any reason? It shouldn't go to lib, but still /usr/libxx?
-> Conventionally, yeah.  I think the linker does search both but the
-> development files would traditionally go in /usr/lib.
-If don't install libz.a to the same directory, will linker find libz.a=20
-not libz.so if -L /usr/lib -L /lib?
+On Mon, Aug 6, 2012 at 9:14 AM, Darren Hart <dvhart@linux.intel.com> wrote:
+> if not, these will fail.
 
-yao
-> p.
->
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-
-
+and it does.
 
 
