@@ -1,33 +1,35 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail-we0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Rongqing.Li@windriver.com>) id 1SygFr-00040y-RF
-	for openembedded-core@lists.openembedded.org;
-	Tue, 07 Aug 2012 11:39:12 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q779RP75024304
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 7 Aug 2012 02:27:25 -0700 (PDT)
-Received: from [128.224.162.163] (128.224.162.163) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.309.2;
-	Tue, 7 Aug 2012 02:27:25 -0700
-Message-ID: <5020DF7C.5080802@windriver.com>
-Date: Tue, 7 Aug 2012 17:27:24 +0800
-From: Rongqing Li <rongqing.li@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:13.0) Gecko/20120615 Thunderbird/13.0.1
+	(envelope-from <martin.jansa@gmail.com>)
+	id 1SyhYZ-00019h-L6; Tue, 07 Aug 2012 13:02:35 +0200
+Received: by weyr6 with SMTP id r6so2498304wey.6
+	for <multiple recipients>; Tue, 07 Aug 2012 03:50:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=7JI1gJWSpEAoLa8Aq/Ror5fPTUPaDL7QBV/PWKfZ43Q=;
+	b=nzOTVuV08e2/gJ4zJcyYMywgJNB1EEeQe6b/EBlrgW22CSr4gOm6TswfAJmEjGdwNL
+	12AFIJGBpc4d68GADOdV0Vb0jCidUlqbfimKD6NYDE0F5bhccWCSUSo1E7nSoCB65d55
+	E04QWsAa8TYxfzoQGyzzaUIs3FOCT3E+bH2MPbwE3IcQfjKSbB2WkmrA4JEDcu82MP+g
+	0vFsD5uqqzFqC7mGHJMPL46gwoWKUVcFw/5gpavSFQLp2Kqn0B69U0R1X2DeKCa490IV
+	aEG9gKehykISrowjtl83Bnz9LiJm2LwdYXeHqvgbHovCCSdwlxeq0qjVgKDDflfh2p4I
+	JN+g==
+Received: by 10.180.14.8 with SMTP id l8mr26563160wic.6.1344336649958;
+	Tue, 07 Aug 2012 03:50:49 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id ex20sm30556689wid.7.2012.08.07.03.50.48
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Tue, 07 Aug 2012 03:50:49 -0700 (PDT)
+Date: Tue, 7 Aug 2012 12:50:45 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Message-ID: <20120807105045.GR3267@jama.jama.net>
+References: <20120807102142.00BD510217@opal>
 MIME-Version: 1.0
-To: Pascal Ouyang <xin.ouyang@windriver.com>
-References: <501FBD86.3090705@windriver.com> <5020AED3.1020406@windriver.com>
-	<1344325278.9756.196.camel@ted> <5020CB95.3010501@windriver.com>
-	<5020D893.3030101@windriver.com>
-In-Reply-To: <5020D893.3030101@windriver.com>
-X-MIME-Autoconverted: from 8bit to quoted-printable by mail1.windriver.com id
-	q779RP75024304
-Cc: "Yang, Liezhi" <Liezhi.Yang@windriver.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Could we build tar-replacement firstly and not parallel if tar-replacement is needed to build
+In-Reply-To: <20120807102142.00BD510217@opal>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-commits@lists.openembedded.org
+Subject: Re: [oe-commits] Richard Purdie : Revert "linux-firware: use ${base_libdir} instead of / lib for packaging"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,146 +44,150 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Aug 2012 09:39:12 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+X-List-Received-Date: Tue, 07 Aug 2012 11:02:35 -0000
+X-Groupsio-MsgNum: 27078
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="vEk28Nl/eckWL8CC"
+Content-Disposition: inline
+
+--vEk28Nl/eckWL8CC
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
+On Tue, Aug 07, 2012 at 10:21:41AM +0000, git@git.openembedded.org wrote:
+> Module: openembedded-core.git
+> Branch: master
+> Commit: 1da5966290954f4148cb39a0628b10f8f902ba18
+> URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcommit=
+;h=3D1da5966290954f4148cb39a0628b10f8f902ba18
+>=20
+> Author: Richard Purdie <richard.purdie@linuxfoundation.org>
+> Date:   Tue Aug  7 11:16:54 2012 +0100
+>=20
+> Revert "linux-firware: use ${base_libdir} instead of /lib for packaging"
+>=20
+> This change breaks firmware loading on 64 bit platforms. This therefore
+> reverts commit ce2665b6ae77770d69ffbc4d45c96ce829d16738.
+>=20
+> ---
+>=20
+>  .../linux-firmware/linux-firmware_git.bb           |   36 ++++++++++----=
+------
+>  1 files changed, 18 insertions(+), 18 deletions(-)
+>=20
+> diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb b/m=
+eta/recipes-kernel/linux-firmware/linux-firmware_git.bb
+> index 5b93975..a7e4ed6 100644
+> --- a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
+> +++ b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
+> @@ -22,7 +22,7 @@ LIC_FILES_CHKSUM =3D "file://LICENSE.radeon;md5=3De56b4=
+05656593a0c97e478513051ea0e \
+>  SRCREV =3D "e98750f0d68d0037ce5a186f7f863a9c13bf773a"
+>  PE =3D "1"
+>  PV =3D "0.0+git${SRCPV}"
+> -PR =3D "r3"
+> +PR =3D "r2"
 
+^ breaks binary feeds
 
-On 2012=E5=B9=B408=E6=9C=8807=E6=97=A5 16:57, Pascal Ouyang wrote:
-> =E4=BA=8E 2012=E5=B9=B408=E6=9C=8807=E6=97=A5 16:02, Rongqing Li =E5=86=
-=99=E9=81=93:
->>
->>
->> On 2012=E5=B9=B408=E6=9C=8807=E6=97=A5 15:41, Richard Purdie wrote:
->>> On Tue, 2012-08-07 at 13:59 +0800, Rongqing Li wrote:
->>>> Paste a RFC PATCH
->>>>
->>>> [RFC PATCH 1/1] bitbake: compile tar-replacement firstly, and not
->>>> parallel
->>>>
->>>> Compiling tar-replacement or not is decided by version of host tar,
->>>> if the host tar version is lower than 1.23, Compiling tar-replacemen=
-t
->>>> is needed.
->>>>
->>>> When doing popoluate tar-replacement sysroot to write the tar to
->>>> sysroot, but writing is not finished. other packages probably
->>>> use the being written tar to unzip file, which will lead to failure
->>>> and report the below error:
->>>> "bitbake_build/tmp/sysroots/x86_64-linux/usr/bin/tar: Text file busy=
-"
->>>>
->>>> Now we compile tar-replacement firstly and not parallel to ensure
->>>> that a being written tar command will not be used.
->>>>
->>>> Signed-off-by: Roy.Li <rongqing.li@windriver.com>
->>>> ---
->>>>    scripts/bitbake |   14 +++++++++++++-
->>>>    1 files changed, 13 insertions(+), 1 deletions(-)
->>>>
->>>> diff --git a/scripts/bitbake b/scripts/bitbake
->>>> index 3772d82..eb6b144 100755
->>>> --- a/scripts/bitbake
->>>> +++ b/scripts/bitbake
->>>> @@ -134,7 +134,19 @@ if [ $buildpseudo -gt 0 ]; then
->>>>                fi
->>>>            done
->>>>        done
->>>> -    bitbake pseudo-native $TARTARGET $additionalopts -c
->>>> populate_sysroot
->>>> +
->>>> +    if [ $needtar =3D "1" ]; then
->>>> +       NUM_THREAD_LINE=3D`grep -n "^\s*BB_NUMBER_THREADS"
->>>> conf/local.conf
->>>> |awk -F':' '{print $1}'`
->>>> +    test -n "$NUM_THREAD_LINE" &&
->>>> +    sed -i ''"$NUM_THREAD_LINE"'s/^\s*BB_NUMBER_THREADS/#\0/g'
->>>> conf/local.conf
->>>> +
->>>> +    bitbake $TARTARGET -c populate_sysroot
->>>> +
->>>> +    test -n "$NUM_THREAD_LINE" &&
->>>> +    sed -i
->>>> ''"$NUM_THREAD_LINE"'s/^#\s*BB_NUMBER_THREADS/BB_NUMBER_THREADS/g'
->>>> conf/local.conf
->>>> +    fi
->>>
->>> We are *NOT* running sed over local.conf. What is the user used a
->>> different configuration file for example?
->>
->> I use the sed to disable NUM_THREAD_LINE in conf/local.conf if
->> NUM_THREAD_LINE has been enabled.
->>
->> After compile $TARTARGET, use the sed to enable NUM_THREAD_LINE
->> in conf/local.conf
->>
->>
->>
->>> If you're just building tar-native, is there a parallel race possible=
-?
->>> I'm not sure that there is?
->>
->> Even if I just build tar-native, I still have several packages which
->> are needed to building.
->>
->>
->> $bitbake tar-replacement-native -g
->>
->> $ cat pn-buildlist
->> autoconf-native
->> libtool-native
->> m4-native
->> gettext-minimal-native
->> tar-replacement-native
->> quilt-native
->> gnu-config-native
->> automake-native
->>
->
-> To avoid to use the incomplete tar binary, I think we could rename the
-> binary name to "tar-native" before do_populate_sysroot, and then rename
-> back to "tar" after do_populate_sysroot().
->
-> Thanks.
->
-> - Pascal
->
-
-I think your suggestion is valuable to fix the similar problem,
-we can adopt this method.
-
--Roy
-
-
->>
->> Thanks for your reply.
->> -Roy
->>>
->>> For the record I hate this script and what it has become, its horribl=
-e.
->>> It started as a workaround for pseudo-native, its becoming a dumping
->>> ground for a whole set of nasty workarounds :(.
->>>
->>> Cheers,
->>>
->>> Richard
->>>
->>>
->>> _______________________________________________
->>> Openembedded-core mailing list
->>> Openembedded-core@lists.openembedded.org
->>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->>>
->>>
->>
->
->
+> =20
+>  SRC_URI =3D "git://git.kernel.org/pub/scm/linux/kernel/git/firmware/linu=
+x-firmware.git;protocol=3Dgit"
+> =20
+> @@ -35,50 +35,50 @@ do_compile() {
+>  }
+> =20
+>  do_install() {
+> -	install -d  ${D}${base_libdir}/firmware/
+> -	cp -r * ${D}${base_libdir}/firmware/
+> +	install -d  ${D}/lib/firmware/
+> +	cp -r * ${D}/lib/firmware/
+> =20
+>  	# Libertas sd8686
+> -	ln -sf libertas/sd8686_v9.bin ${D}${base_libdir}/firmware/sd8686.bin
+> -	ln -sf libertas/sd8686_v9_helper.bin ${D}${base_libdir}/firmware/sd8686=
+_helper.bin
+> +	ln -sf libertas/sd8686_v9.bin ${D}/lib/firmware/sd8686.bin
+> +	ln -sf libertas/sd8686_v9_helper.bin ${D}/lib/firmware/sd8686_helper.bin
+> =20
+>  	# Realtek rtl8192*=20
+> -	install -m 0644 LICENCE.rtlwifi_firmware.txt ${D}${base_libdir}/firmwar=
+e/rtlwifi/LICENCE.rtlwifi_firmware.txt
+> +	install -m 0644 LICENCE.rtlwifi_firmware.txt ${D}/lib/firmware/rtlwifi/=
+LICENCE.rtlwifi_firmware.txt
+> =20
+>  	# fixup wl12xx location, after 2.6.37 the kernel searches a different l=
+ocation for it
+> -	( cd ${D}${base_libdir}/firmware ; ln -sf ti-connectivity/* . )
+> +	( cd ${D}/lib/firmware ; ln -sf ti-connectivity/* . )
+>  }
+> =20
+>  PACKAGES =3D+ "${PN}-sd8686 ${PN}-rtl8192cu linux-firmware-rtl8192ce lin=
+ux-firmware-rtl8192su ${PN}-wl12xx"
+> =20
+>  LICENSE_${PN}-sd8686 =3D "Firmware:LICENSE.libertas"
+>  FILES_${PN}-sd8686 =3D " \
+> -  ${base_libdir}/firmware/libertas/sd8686_v9* \
+> -  ${base_libdir}/firmware/sd8686* \
+> -  ${base_libdir}/firmware/LICENCE.libertas \
+> +  /lib/firmware/libertas/sd8686_v9* \
+> +  /lib/firmware/sd8686* \
+> +  /lib/firmware/LICENCE.libertas \
+>  "
+> =20
+>  LICENSE_${PN}-rtl8192cu =3D "Firmware:LICENCE.rtlwifi_firmware"
+>  FILES_${PN}-rtl8192cu =3D " \
+> -  ${base_libdir}/firmware/rtlwifi/rtl8192cufw.bin \
+> -  ${base_libdir}/firmware/rtlwifi/LICENCE.rtlwifi_firmware.txt \
+> +  /lib/firmware/rtlwifi/rtl8192cufw.bin \
+> +  /lib/firmware/rtlwifi/LICENCE.rtlwifi_firmware.txt \
+>  "
+> =20
+>  LICENSE_${PN}-rtl8192ce =3D "Firmware:LICENCE.rtlwifi_firmware"
+>  FILES_${PN}-rtl8192ce =3D " \
+> -  ${base_libdir}/firmware/rtlwifi/rtl8192cfw.bin \
+> +  /lib/firmware/rtlwifi/rtl8192cfw.bin \
+>  "
+> =20
+>  LICENSE_${PN}-rtl8192su =3D "Firmware:LICENCE.rtlwifi_firmware"
+>  FILES_${PN}-rtl8192su =3D " \
+> -  ${base_libdir}/firmware/rtlwifi/rtl8712u.bin \
+> +  /lib/firmware/rtlwifi/rtl8712u.bin \
+>  "
+> =20
+>  FILES_${PN}-wl12xx =3D " \
+> -  ${base_libdir}/firmware/wl12* \
+> -  ${base_libdir}/firmware/TI* \
+> -  ${base_libdir}/firmware/ti-connectivity \
+> +  /lib/firmware/wl12* \
+> +  /lib/firmware/TI* \
+> +  /lib/firmware/ti-connectivity \
+>  "
+> =20
+> -FILES_${PN} +=3D "${base_libdir}/firmware/*"
+> +FILES_${PN} +=3D "/lib/firmware/*"
+> =20
+>=20
+>=20
+> _______________________________________________
+> Openembedded-commits mailing list
+> Openembedded-commits@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-commits
 
 --=20
-Best Reagrds,
-Roy | RongQing Li
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--vEk28Nl/eckWL8CC
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
 
+iEYEARECAAYFAlAg8wUACgkQN1Ujt2V2gBxPxQCfS8N7UEgeXXgPBsGUgbiYRJLG
+GREAn0pu2fkiVNv16ZY7ZP9t8+MJIplQ
+=MjFm
+-----END PGP SIGNATURE-----
 
+--vEk28Nl/eckWL8CC--
