@@ -1,40 +1,30 @@
-Received: from mail-yw0-f47.google.com ([209.85.213.47])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <derek.buitenhuis@gmail.com>) id 1SyooP-0002iT-Js
+	(envelope-from <Yao.Zhao@windriver.com>) id 1Syoog-0002kf-P4
 	for openembedded-core@lists.openembedded.org;
-	Tue, 07 Aug 2012 20:47:25 +0200
-Received: by yhjj56 with SMTP id j56so3664132yhj.6
+	Tue, 07 Aug 2012 20:47:43 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q77IZsuY005868
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 07 Aug 2012 11:35:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:subject:references
-	:in-reply-to:x-enigmail-version:content-type
-	:content-transfer-encoding;
-	bh=q/XWVybrzZqlE8k/wjS9YxD3XEQgjxAwsQ9QFfAOmK8=;
-	b=zP7J4zi5QugCn9Keyen/CHnG6POlylL4CutZuujCUzmPbapGisdr2YaOsUjGTtlMq2
-	5b6AuPAOW7ujwWmAmyJ6tEC1vC6NTOAtHMqVa8E9f9EVTSWjDUFDxDP8Kl0sI+Vu5Ewv
-	yAluQzv0YGNRRmWF+aFLQM9m5V1YKjdRTCinyvbgJlQr5dqMSRTGnRnOfKC1DYU7SwN5
-	JZ3FJAjThOpb54Ap/WHh3yDVwszKTgPtuqND3NQ40DOq1/xHYRkipXbM4svH8KDhmIEh
-	i4YQ9guywyVbXPIamVpiNfLrTpkwwbM1fndpg7cRAT3qunpESzdOgmi4KXv6lH3TNReT
-	Cghg==
-Received: by 10.50.158.195 with SMTP id ww3mr9487789igb.52.1344364535476;
-	Tue, 07 Aug 2012 11:35:35 -0700 (PDT)
-Received: from [192.168.1.111] (S0106586d8f4832af.tb.shawcable.net.
-	[24.109.142.27])
-	by mx.google.com with ESMTPS id pp4sm607817igb.5.2012.08.07.11.35.34
-	(version=SSLv3 cipher=OTHER); Tue, 07 Aug 2012 11:35:34 -0700 (PDT)
-Message-ID: <50215FE3.5060205@gmail.com>
-Date: Tue, 07 Aug 2012 14:35:15 -0400
-From: Derek Buitenhuis <derek.buitenhuis@gmail.com>
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
-	rv:14.0) Gecko/20120713 Thunderbird/14.0
+	Tue, 7 Aug 2012 11:35:54 -0700 (PDT)
+Received: from [128.224.147.210] (128.224.147.210) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.309.2;
+	Tue, 7 Aug 2012 11:35:55 -0700
+Message-ID: <50216009.6020601@windriver.com>
+Date: Tue, 7 Aug 2012 14:35:53 -0400
+From: Yao Zhao <yao.zhao@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:13.0) Gecko/20120615 Thunderbird/13.0.1
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
+To: <openembedded-core@lists.openembedded.org>
 References: <1344360704-23172-1-git-send-email-yao.zhao@windriver.com>
 	<502152B8.6070100@gmail.com> <50215ED9.3070505@windriver.com>
-In-Reply-To: <50215ED9.3070505@windriver.com>
-X-Enigmail-Version: 1.4.3
+	<1344364223.4874.16.camel@x121e.pbcl.net>
+In-Reply-To: <1344364223.4874.16.camel@x121e.pbcl.net>
+X-Originating-IP: [128.224.147.210]
+X-MIME-Autoconverted: from 8bit to base64 by mail1.windriver.com id
+	q77IZsuY005868
 Subject: Re: [PATCH] cracklib, zlib: install to /lib instead of /usr/libxx
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -50,17 +40,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Aug 2012 18:47:25 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 07 Aug 2012 18:47:43 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: base64
 
-On 07/08/2012 2:30 PM, Yao Zhao wrote:
-> zlib is not using autotools although it has configure.
-> when install, oe_runmake will be make -e so Makefile will always use 
-> env's libdir which is the usr/libxx, we have to overwrite it when install.
-
-Perhaps you don't need to specify during configure then? :shrug:
-
-- Derek
+T24gMTItMDgtMDcgMDI6MzAgUE0sIFBoaWwgQmx1bmRlbGwgd3JvdGU6DQo+IE9uIFR1ZSwg
+MjAxMi0wOC0wNyBhdCAxNDozMCAtMDQwMCwgWWFvIFpoYW8gd3JvdGU6DQo+PiBPbiAxMi0w
+OC0wNyAwMTozOSBQTSwgRGVyZWsgQnVpdGVuaHVpcyB3cm90ZToNCj4+PiBPbiAwNy8wOC8y
+MDEyIDE6MzEgUE0sIFlhbyBaaGFvIHdyb3RlOg0KPj4+PiBJbiBvcmRlciB0byBmaXggdGhl
+IFFBIElzc3VlIGZvciBsaWJwYW0gd2hpY2ggaW5zdGFsbGVkIHRvIC9saWIgYnV0DQo+Pj4+
+IHJlZmVyZW5jZSAvdXNyL2xpYnh4L2xpYnogYW5kIGxpYmNyYWNrLCBpbnN0YWxsIGxpYnog
+YW5kIGxpYmNyYWNrDQo+Pj4+IHRvIC9saWIuDQo+Pj4gT3BlbkJTRCBwdXRzIGxpYnBhbS5z
+byBpbiAvbGliLCBzbyBpdCBzZWVtcyBrb3NoZXIuLi4NCj4+Pg0KPj4+PiAgICBkb19pbnN0
+YWxsKCkgew0KPj4+PiAtCW9lX3J1bm1ha2UgREVTVERJUj0ke0R9IGluc3RhbGwNCj4+Pj4g
+KwkjbGliei5hIGluc3RhbGxzIHRvIGxpYmRpciwgb3ZlcndyaXRlIHRoZSBlbnYgbGliZGly
+DQo+Pj4+ICsJI2luc3RhbGwgcGtnY29uZmlnIHRvIGVudiBsaWJkaXIvcGtnY29uZmlnDQo+
+Pj4+ICsJb2VfcnVubWFrZSBERVNURElSPSR7RH0gcGtnY29uZmlnZGlyPSIke2xpYmRpcn0v
+cGtnY29uZmlnIiBcDQo+Pj4+ICsJCSAgIGxpYmRpcj0iJHtiYXNlX2xpYmRpcn0iIGluc3Rh
+bGwNCj4+Pj4gICAgfQ0KPj4+IElmIHlvdSdyZSBzcGVjaWZ5aW5nIC0tbGliZGlyIHdoZW4g
+Y29uZmlndXJpbmcsIHdoeSBkbyB5b3UgbmVlZA0KPj4+IGxpYmRpciBkdXJpbmcgbWFrZSwg
+YXMgd2VsbD8NCj4+IHpsaWIgaXMgbm90IHVzaW5nIGF1dG90b29scyBhbHRob3VnaCBpdCBo
+YXMgY29uZmlndXJlLg0KPj4gd2hlbiBpbnN0YWxsLCBvZV9ydW5tYWtlIHdpbGwgYmUgbWFr
+ZSAtZSBzbyBNYWtlZmlsZSB3aWxsIGFsd2F5cyB1c2UNCj4+IGVudidzIGxpYmRpciB3aGlj
+aCBpcyB0aGUgdXNyL2xpYnh4LCB3ZSBoYXZlIHRvIG92ZXJ3cml0ZSBpdCB3aGVuIGluc3Rh
+bGwuDQo+IFdoZXJlIGRvIGxpYnouYSBhbmQgbGliei5zbyBlbmQgdXAgYWZ0ZXIgeW91ciBw
+YXRjaD8NCnBhY2thZ2VzLXNwbGl0JCB0cmVlDQouDQrilJzilIDilIAgemxpYg0K4pSCIOKU
+lOKUgOKUgCBsaWINCuKUgiDilJzilIDilIAgbGliei5zby4xIC0+IGxpYnouc28uMS4yLjcN
+CuKUgiDilJTilIDilIAgbGliei5zby4xLjIuNw0K4pSc4pSA4pSAIHpsaWItZGJnDQrilIIg
+4pSc4pSA4pSAIGxpYg0K4pSCIOKUlOKUgOKUgCB1c3INCuKUgiDilJTilIDilIAgc3JjDQri
+lIIg4pSU4pSA4pSAIGRlYnVnDQrilIIg4pSU4pSA4pSAIHpsaWItMS4yLjctcjANCuKUgiDi
+lJTilIDilIAgemxpYi0xLjIuNw0K4pSCIOKUnOKUgOKUgCBhZGxlcjMyLmMNCuKUgiDilJzi
+lIDilIAgY29tcHJlc3MuYw0K4pSCIOKUnOKUgOKUgCBjcmMzMi5jDQrilIIg4pSc4pSA4pSA
+IGNyYzMyLmgNCuKUgiDilJzilIDilIAgZGVmbGF0ZS5jDQrilIIg4pSc4pSA4pSAIGRlZmxh
+dGUuaA0K4pSCIOKUnOKUgOKUgCBnemNsb3NlLmMNCuKUgiDilJzilIDilIAgZ3pndXRzLmgN
+CuKUgiDilJzilIDilIAgZ3psaWIuYw0K4pSCIOKUnOKUgOKUgCBnenJlYWQuYw0K4pSCIOKU
+nOKUgOKUgCBnendyaXRlLmMNCuKUgiDilJzilIDilIAgaW5mYmFjay5jDQrilIIg4pSc4pSA
+4pSAIGluZmZhc3QuYw0K4pSCIOKUnOKUgOKUgCBpbmZmYXN0LmgNCuKUgiDilJzilIDilIAg
+aW5mZml4ZWQuaA0K4pSCIOKUnOKUgOKUgCBpbmZsYXRlLmMNCuKUgiDilJzilIDilIAgaW5m
+bGF0ZS5oDQrilIIg4pSc4pSA4pSAIGluZnRyZWVzLmMNCuKUgiDilJzilIDilIAgaW5mdHJl
+ZXMuaA0K4pSCIOKUnOKUgOKUgCB0cmVlcy5jDQrilIIg4pSc4pSA4pSAIHRyZWVzLmgNCuKU
+giDilJzilIDilIAgdW5jb21wci5jDQrilIIg4pSc4pSA4pSAIHpjb25mLmgNCuKUgiDilJzi
+lIDilIAgemxpYi5oDQrilIIg4pSc4pSA4pSAIHp1dGlsLmMNCuKUgiDilJTilIDilIAgenV0
+aWwuaA0K4pSc4pSA4pSAIHpsaWItZGV2DQrilIIg4pSc4pSA4pSAIGxpYg0K4pSCIOKUgiDi
+lJTilIDilIAgbGliei5zbyAtPiBsaWJ6LnNvLjEuMi43DQrilIIg4pSU4pSA4pSAIHVzcg0K
+4pSCIOKUnOKUgOKUgCBpbmNsdWRlDQrilIIg4pSCIOKUnOKUgOKUgCB6Y29uZi5oDQrilIIg
+4pSCIOKUlOKUgOKUgCB6bGliLmgNCuKUgiDilJTilIDilIAgbGliDQrilIIg4pSU4pSA4pSA
+IHBrZ2NvbmZpZw0K4pSCIOKUlOKUgOKUgCB6bGliLnBjDQrilJzilIDilIAgemxpYi1kb2MN
+CuKUgiDilJTilIDilIAgdXNyDQrilIIg4pSU4pSA4pSAIHNoYXJlDQrilIIg4pSU4pSA4pSA
+IG1hbg0K4pSCIOKUlOKUgOKUgCBtYW4zDQrilIIg4pSU4pSA4pSAIHpsaWIuMw0K4pSc4pSA
+4pSAIHpsaWItbG9jYWxlDQrilJzilIDilIAgemxpYi5zaGxpYmRlcHMNCuKUlOKUgOKUgCB6
+bGliLXN0YXRpY2Rldg0K4pSU4pSA4pSAIGxpYg0K4pSU4pSA4pSAIGxpYnouYQ0KDQpjcmFj
+a2xpYg0K4pSc4pSA4pSAIGxpYg0K4pSCIOKUnOKUgOKUgCBsaWJjcmFjay5zby4yIC0+IGxp
+YmNyYWNrLnNvLjIuOC4xDQrilIIg4pSU4pSA4pSAIGxpYmNyYWNrLnNvLjIuOC4xDQrilJTi
+lIDilIAgdXNyDQrilJzilIDilIAgc2Jpbg0K4pSCIOKUnOKUgOKUgCBjcmFja2xpYi1jaGVj
+aw0K4pSCIOKUnOKUgOKUgCBjcmFja2xpYi1mb3JtYXQNCuKUgiDilJzilIDilIAgY3JhY2ts
+aWItcGFja2VyDQrilIIg4pSc4pSA4pSAIGNyYWNrbGliLXVucGFja2VyDQrilIIg4pSU4pSA
+4pSAIGNyZWF0ZS1jcmFja2xpYi1kaWN0DQrilJTilIDilIAgc2hhcmUNCuKUlOKUgOKUgCBj
+cmFja2xpYg0K4pSc4pSA4pSAIGNyYWNrbGliLm1hZ2ljDQrilJTilIDilIAgY3JhY2tsaWIt
+c21hbGwNCmNyYWNrbGliLXN0YXRpY2Rldi8NCuKUlOKUgOKUgCBsaWINCuKUlOKUgOKUgCBs
+aWJjcmFjay5hDQoNCnVzci9zYmluLyogcmVmZXJlbmNlIGxpYiBzaG91bGQgYmUgZmluZSwg
+c28gSSBkaWRuJ3QgY2hhbmdlIHRoYXQgcGFydC4NCg0KeWFvDQo+IHAuDQo+DQo+DQo+IF9f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fDQo+IE9wZW5l
+bWJlZGRlZC1jb3JlIG1haWxpbmcgbGlzdA0KPiBPcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5v
+cGVuZW1iZWRkZWQub3JnDQo+IGh0dHA6Ly9saXN0cy5saW51eHRvZ28ub3JnL2NnaS1iaW4v
+bWFpbG1hbi9saXN0aW5mby9vcGVuZW1iZWRkZWQtY29yZQ0KDQoNCg==
 
 
