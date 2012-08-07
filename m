@@ -1,34 +1,32 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1SyiYv-0002fj-Lh for openembedded-core@lists.openembedded.org;
-	Tue, 07 Aug 2012 14:07:02 +0200
+	id 1Syiag-0002kf-4L for openembedded-core@lists.openembedded.org;
+	Tue, 07 Aug 2012 14:08:50 +0200
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q77BtHGA010386
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 7 Aug 2012 12:55:17 +0100
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q77Bv3Ox010398;
+	Tue, 7 Aug 2012 12:57:03 +0100
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 09651-04 for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 Aug 2012 12:55:13 +0100 (BST)
+	id 09711-04; Tue,  7 Aug 2012 12:56:58 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q77BtAVO010380
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 7 Aug 2012 12:55:10 +0100
-Message-ID: <1344340512.9756.224.camel@ted>
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q77BuqK7010392
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Tue, 7 Aug 2012 12:56:53 +0100
+Message-ID: <1344340614.9756.225.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Tue, 07 Aug 2012 12:55:12 +0100
-In-Reply-To: <1344306717-6352-2-git-send-email-sen.zhang@windriver.com>
-References: <1344306717-6352-1-git-send-email-sen.zhang@windriver.com>
-	<1344306717-6352-2-git-send-email-sen.zhang@windriver.com>
+Date: Tue, 07 Aug 2012 12:56:54 +0100
+In-Reply-To: <541bca3bf62c2747fcc16b3fb8bc9ad468f6d4cb.1344268492.git.dvhart@linux.intel.com>
+References: <cover.1344268492.git.dvhart@linux.intel.com>
+	<541bca3bf62c2747fcc16b3fb8bc9ad468f6d4cb.1344268492.git.dvhart@linux.intel.com>
 X-Mailer: Evolution 3.2.2- 
 Mime-Version: 1.0
 X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH] image-mklibs: pass correct libdir to mklibs
+Cc: Darren Hart <dvhart@linux.intel.com>
+Subject: Re: [PATCH 1/1] linux-yocto-custom: Clarify usage and clear COMPATIBLE_MACHINE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,25 +41,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Aug 2012 12:07:02 -0000
+X-List-Received-Date: Tue, 07 Aug 2012 12:08:50 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2012-08-07 at 10:31 +0800, Jesse Zhang wrote:
-> libdir should be specified, or else mklibs won't work for 64bit targets.
-> It wouldn't be able to find the libs.
+On Mon, 2012-08-06 at 08:56 -0700, Darren Hart wrote:
+> There has been some confusion over proper use of the linux-yocto-custom
+> recipe. It is not intended to build as is from meta-skeleton. It should
+> be modified via a bbappend file to provide a Linux kernel config at the
+> very least.
 > 
->     Traceback (most recent call last):
->       File "<build>/bitbake_build/tmp/sysroots/i686-linux/usr/bin/x86_64-wrs-linux/mklibs", line 553, in <module>
->         header = elf_header(find_lib(libraries.copy().pop()))
->       File "<build>/bitbake_build/tmp/sysroots/i686-linux/usr/bin/x86_64-wrs-linux/mklibs", line 89, in elf_header
->         raise Exception("Cannot find lib: " + obj)
->     Exception: Cannot find lib:
+> Update the commentary to make this requirement more explicit. Add some
+> additional detail about how to create a bbappend file and how and when
+> to modify the various variables.
 > 
-> Signed-off-by: Jesse Zhang <sen.zhang@windriver.com>
-> ---
->  meta/classes/image-mklibs.bbclass |    1 +
->  1 files changed, 1 insertions(+), 0 deletions(-)
+> Clear COMPATIBLE_MACHINE so bitbake will not attempt to build the recipe
+> unless the user explicitly adds there machine to the variable, which
+> should encourage them to read the recipe comments before attempting to
+> build it.
+> 
+> Signed-off-by: Darren Hart <dvhart@linux.intel.com>
+> CC: Bruce Ashfield <bruce.ashfield@windriver.com>
+> CC: Tom Zanussi <tom.zanussi@intel.com>
+> Signed-off-by: Darren Hart <dvhart@linux.intel.com>
 
 Merged to master, thanks.
 
