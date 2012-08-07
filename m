@@ -1,29 +1,33 @@
-Received: from mga09.intel.com ([134.134.136.24])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1SymeH-0007ii-Vc
-	for openembedded-core@lists.openembedded.org;
-	Tue, 07 Aug 2012 18:28:50 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 07 Aug 2012 09:16:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.67,352,1309762800"; d="scan'208";a="177046563"
-Received: from unknown (HELO envy.home) ([10.255.12.197])
-	by orsmga001.jf.intel.com with ESMTP; 07 Aug 2012 09:16:47 -0700
-Message-ID: <50213F03.1000004@linux.intel.com>
-Date: Tue, 07 Aug 2012 09:14:59 -0700
-From: Darren Hart <dvhart@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:14.0) Gecko/20120717 Thunderbird/14.0
-MIME-Version: 1.0
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1SynHO-0008V7-Ga for openembedded-core@lists.openembedded.org;
+	Tue, 07 Aug 2012 19:09:14 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q77GvT6J013790;
+	Tue, 7 Aug 2012 17:57:29 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 13088-07; Tue,  7 Aug 2012 17:57:25 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q77GvMx7013784
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Tue, 7 Aug 2012 17:57:23 +0100
+Message-ID: <1344358644.9756.293.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <1343697966-29777-1-git-send-email-Martin.Jansa@gmail.com>
-	<1343732826.9526.1.camel@ted> <20120731111002.GR3261@jama.jama.net>
-	<5019580E.4070906@linux.intel.com> <1344343119.9756.248.camel@ted>
-In-Reply-To: <1344343119.9756.248.camel@ted>
-X-Enigmail-Version: 1.4.3
-Cc: Martin Jansa <martin.jansa@gmail.com>
-Subject: Re: [RFC] gdb-cross: add pythonnative
+Date: Tue, 07 Aug 2012 17:57:24 +0100
+In-Reply-To: <20120806092903.GG3267@jama.jama.net>
+References: <cover.1343124846.git.liezhi.yang@windriver.com>
+	<7affb352c173c353df0b69002f3ca0f5ee0502cf.1343124846.git.liezhi.yang@windriver.com>
+	<1343126992.22222.11.camel@ted> <20120806092903.GG3267@jama.jama.net>
+X-Mailer: Evolution 3.2.2- 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: Zhenfeng.Zhao@windriver.com
+Subject: Re: [PATCH 1/1] package-index: inherit pythonnative
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,33 +42,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Aug 2012 16:28:50 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Tue, 07 Aug 2012 17:09:14 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-
-
-On 08/07/2012 05:38 AM, Richard Purdie wrote:
-> On Wed, 2012-08-01 at 09:23 -0700, Darren Hart wrote:
->>
->> On 07/31/2012 04:10 AM, Martin Jansa wrote:
-
->>>> Is python enabled for gdb-cross in OE-Core?
->>>
->>> Explicitly only in gdb-cross-canadian, so I guess gdb-cross autodetected
->>> it (sorry I don't have config.log anymore).
->>>
->>
->> This resolves my gdb-cross build issue on poky-tiny. Thanks Martin.
+On Mon, 2012-08-06 at 11:29 +0200, Martin Jansa wrote:
+> On Tue, Jul 24, 2012 at 11:49:52AM +0100, Richard Purdie wrote:
+> > On Tue, 2012-07-24 at 18:19 +0800, Robert Yang wrote:
+> > > The native python binary has been moved from usr/bin/python to
+> > > usr/bin/python-native/python, the recipe which needs python-native
+> > > should "inherit pythonnative", otherwise there would be errors when the
+> > > python script runs.
+> > > 
+> > > [YOCTO #2822]
+> > > 
+> > > Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> > > ---
+> > >  meta/recipes-core/meta/package-index.bb |    2 ++
+> > >  1 files changed, 2 insertions(+), 0 deletions(-)
+> > 
+> > Which part of this recipe needs python-native? Shouldn't scripts which
+> > need pythonnative be using the path to the python interpreter
+> > explicitly?
 > 
-> I fixed this properly by disabling python in gdb-cross.
+> This fixes my opkg-utils related issues too
+> http://lists.linuxtogo.org/pipermail/openembedded-core/2012-July/026333.html
+> 
+> The problem is that with pythonnative in opkg-utils it's still using 
+> #!/usr/bin/env python
+> in tmp-eglibc/sysroots/x86_64-linux/usr/bin/opkg-make-index
+> 
+> And when python-index executes this:
+> | + [ -e /var/lib/jenkins/jobs/shr-core/workspace/shr-core/tmp-eglibc/deploy/ipk/ ]
+> | + touch /var/lib/jenkins/jobs/shr-core/workspace/shr-core/tmp-eglibc/deploy/ipk/Packages
+> | + flock /var/lib/jenkins/jobs/shr-core/workspace/shr-core/tmp-eglibc/deploy/ipk/Packages.flock -c opkg-make-index -r /var/lib/jenkins/jobs/shr-core/workspace/shr-core/tmp-eglibc/deploy/ipk/Packages -p /var/lib/jenkins/jobs/shr-core/workspace/shr-core/tmp-eglibc/deploy/ipk/Packages -m /var/lib/jenkins/jobs/shr-core/workspace/shr-core/tmp-eglibc/deploy/ipk/
+> | Traceback (most recent call last):
+> 
+> It depends on PATH of package-index not opkg-utils.
 
-Great, thanks RP!
+I think the right fix here is to remove the PYTHONPATH line in
+package-index.bb. We should no longer need that and that should fix the
+problems but its going to be a while before I can test this on a system
+showing the problem.
 
+Cheers,
 
--- 
-Darren Hart
-Intel Open Source Technology Center
-Yocto Project - Technical Lead - Linux Kernel
+Richard
+
 
 
