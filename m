@@ -1,33 +1,31 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1SyrKw-00010A-VC for openembedded-core@lists.openembedded.org;
-	Tue, 07 Aug 2012 23:29:11 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q77LHQoV016031
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 7 Aug 2012 22:17:26 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 14392-08 for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 Aug 2012 22:17:21 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q77LHJp7016024
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 7 Aug 2012 22:17:20 +0100
-Message-ID: <1344374241.9756.302.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <philb@gnu.org>) id 1SyrPF-00017E-5h
+	for openembedded-core@lists.openembedded.org;
+	Tue, 07 Aug 2012 23:33:37 +0200
+Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
+	helo=[192.168.114.6])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1SyrDt-0005nY-4V
+	for openembedded-core@lists.openembedded.org;
+	Tue, 07 Aug 2012 23:21:53 +0200
+Message-ID: <1344374402.4874.32.camel@x121e.pbcl.net>
+From: Phil Blundell <philb@gnu.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Tue, 07 Aug 2012 22:17:21 +0100
-In-Reply-To: <007BD92917A2324FA403BCF9A464CF841FFA4167@ALA-MBA.corp.ad.wrs.com>
-References: <007BD92917A2324FA403BCF9A464CF841FFA4167@ALA-MBA.corp.ad.wrs.com>
-X-Mailer: Evolution 3.2.2- 
+Date: Tue, 07 Aug 2012 22:20:02 +0100
+In-Reply-To: <50216C8B.20802@windriver.com>
+References: <1344360704-23172-1-git-send-email-yao.zhao@windriver.com>
+	<502152B8.6070100@gmail.com> <50215ED9.3070505@windriver.com>
+	<1344364223.4874.16.camel@x121e.pbcl.net>
+	<50216009.6020601@windriver.com>
+	<1344364696.4874.19.camel@x121e.pbcl.net>
+	<502161DC.9020705@windriver.com>
+	<1344365134.4874.23.camel@x121e.pbcl.net>
+	<50216C8B.20802@windriver.com>
+X-Mailer: Evolution 3.4.3-1 
 Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: "Best" way to determine is building for target?
+Subject: Re: [PATCH] cracklib, zlib: install to /lib instead of /usr/libxx
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,38 +40,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Aug 2012 21:29:11 -0000
+X-List-Received-Date: Tue, 07 Aug 2012 21:33:37 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 2012-08-07 at 21:12 +0000, Slater, Joseph wrote:
-> To change the installation for popt but not popt-native, I said
->  
-> do_install_append_pn-popt {
->   ...
-> }
->  
-> which seems to work, but is there a better way, like some
-> ${@building_for_host("yes text","no text",d)}
-> construct?
->  
+On Tue, 2012-08-07 at 15:29 -0400, Yao Zhao wrote:
+> On 12-08-07 02:45 PM, Phil Blundell wrote:
+> > On Tue, 2012-08-07 at 14:43 -0400, Yao Zhao wrote:
+> >> On 12-08-07 02:38 PM, Phil Blundell wrote:
+> >>> On Tue, 2012-08-07 at 14:35 -0400, Yao Zhao wrote:
+> >>>> On 12-08-07 02:30 PM, Phil Blundell wrote:
+> >>>>> Where do libz.a and libz.so end up after your patch?
+> >>>> =E2=94=9C=E2=94=80=E2=94=80 zlib-dev
+> >>>> =E2=94=82 =E2=94=9C=E2=94=80=E2=94=80 lib
+> >>>> =E2=94=82 =E2=94=82 =E2=94=94=E2=94=80=E2=94=80 libz.so -> libz.so.1=
+.2.7
+> >>>> =E2=94=94=E2=94=80=E2=94=80 zlib-staticdev
+> >>>> =E2=94=94=E2=94=80=E2=94=80 lib
+> >>>> =E2=94=94=E2=94=80=E2=94=80 libz.a
+> >>> I found the output from "tree" a bit hard to read, but that doesn't l=
+ook
+> >>> right to me.
+> >> any reason? It shouldn't go to lib, but still /usr/libxx?
+> > Conventionally, yeah.  I think the linker does search both but the
+> > development files would traditionally go in /usr/lib.
+> If don't install libz.a to the same directory, will linker find libz.a=
+=20
+> not libz.so if -L /usr/lib -L /lib?
 
-There is the new class-target override:
+You want both libz.a and libz.so in /usr/lib so I think that ought to be
+a non-issue.  But in any case, I think (though I'm not 100% certain)
+that it will look for libz.so in all paths before searching for libz.a.
 
-do_install_append_class-target {
- ...
-}
+p.
 
-
-(along with class-native, class-cross and class-nativesdk)
-
-These are due to replace the virtclass-xxxx variants but we've not
-gotten around to that yet. Its a relatively new addition to the system
-but should be a useful one and allow some cleanup.
-
-Cheers,
-
-Richard
 
 
 
