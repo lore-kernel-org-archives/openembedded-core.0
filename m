@@ -1,40 +1,43 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from mail-ey0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1SyoXJ-000265-2F
+	(envelope-from <koen@dominion.thruhere.net>) id 1SyoYb-0002EL-0e
 	for openembedded-core@lists.openembedded.org;
-	Tue, 07 Aug 2012 20:29:45 +0200
-Received: by eekb57 with SMTP id b57so1345728eek.6
+	Tue, 07 Aug 2012 20:31:05 +0200
+Received: by eaad12 with SMTP id d12so1334427eaa.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 07 Aug 2012 11:17:59 -0700 (PDT)
+	Tue, 07 Aug 2012 11:19:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=content-type:mime-version:subject:from:in-reply-to:date
 	:content-transfer-encoding:message-id:references:to:x-mailer
 	:x-gm-message-state;
-	bh=DOmmxqgBaXWnyEV5K/UNwk33R0QpTGLLfa1qC5pI5LU=;
-	b=AaXW0nWH4u4SPaPWcReLXa3J9IT7V3dHCtIzMuwmGBLnvjOji0WZkFCX/186ixAOOY
-	YuKpeISxzJUtRXAheqSsh5VMbtxw8rU0P42npKuaa9LvdekN3HzrAOpxwqjrDJX/BefT
-	lBElvKF862B4oyUSAYgr2NH1yX3lPsA4CDLL7G/4WyCvrIhG62KQvWDVVTc7dlWmmtlH
-	v2erNu7h91xP49CNRonPHkG4bSCLcMXfAc6gQZD7OdlcnHimD67q8kmh6row5lRjTVfm
-	QqvMR3MilcxFiipN6GMjI1PUSHetw2SN/v/9XIr4OmZAPADkYcrhDixtclnOkBv676+a
-	mIbA==
-Received: by 10.14.204.72 with SMTP id g48mr18902899eeo.45.1344363478911;
-	Tue, 07 Aug 2012 11:17:58 -0700 (PDT)
+	bh=AH0IUztBXOgBW+kzMWSMYduH9xbUirMjB2WUlX+2kd0=;
+	b=pPQLFVsCDItE7DvbY2GMAAPKL5UtD5IgMCNoOZsJ/qvBBFUyEA4NrHc8bigMPbKFeI
+	RfBXbW7goVkz2lXGxoQi/Yl3bHIcV3MTR3AtcM21signZGfbPQ4Qi0Mty9eoNZAyOGPU
+	v5Py0o+1CJSB8KBFK2eB12pq/ZxcfJb+A854pA8cr1NfHTlkPioU6/VlE/L9YcKEIQAA
+	X94oe6ovJY2fsQobIxi2SXjEkwwH4FMF7R32qnKqvjts2bFmxF/yGiBomYX95hq4JfSm
+	LmLOoLNgy5MQqbATtRoglJc+kxmTrFvjseb48oD92XkkIPUej9PBNXpyF6inF0Dc1pSz
+	P3XA==
+Received: by 10.14.210.132 with SMTP id u4mr4484540eeo.6.1344363559043;
+	Tue, 07 Aug 2012 11:19:19 -0700 (PDT)
 Received: from [172.20.0.2] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
-	by mx.google.com with ESMTPS id e7sm22100815eep.2.2012.08.07.11.17.55
+	by mx.google.com with ESMTPS id d48sm58211470eeo.10.2012.08.07.11.19.17
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 07 Aug 2012 11:17:57 -0700 (PDT)
+	Tue, 07 Aug 2012 11:19:18 -0700 (PDT)
 Mime-Version: 1.0 (Mac OS X Mail 6.0 \(1485\))
 From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1344360704-23172-1-git-send-email-yao.zhao@windriver.com>
-Date: Tue, 7 Aug 2012 20:17:58 +0200
-Message-Id: <FE4E23C8-61A3-4E09-B529-F99779CA2810@dominion.thruhere.net>
-References: <1344360704-23172-1-git-send-email-yao.zhao@windriver.com>
+In-Reply-To: <50213D45.2070802@intel.com>
+Date: Tue, 7 Aug 2012 20:19:19 +0200
+Message-Id: <1E5BDEED-DBC6-463A-AE9E-2CF45C4920B6@dominion.thruhere.net>
+References: <1344325488-20479-1-git-send-email-koen@dominion.thruhere.net>
+	<20120807081710.GQ3267@jama.jama.net>
+	<9A466F05-060B-442E-ADD5-A015FE979942@dominion.thruhere.net>
+	<50213D45.2070802@intel.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 X-Mailer: Apple Mail (2.1485)
-X-Gm-Message-State: ALoCoQkOaYcf8/N2FgvxoOeiZaUBoEd1D55y/qr+kR9KfZbv3KG/AJ5jg4ZsHs+64EOsBGb4jtll
-Subject: Re: [PATCH] cracklib, zlib: install to /lib instead of /usr/libxx
+X-Gm-Message-State: ALoCoQk3ldASJ3nA7YtogHLHRKJxV9FJS/TNnBg+DMh+27Bu/iXoltoOMyGpiCdCcafR5CnAEovZ
+Subject: Re: [PATCH][for-denzil 1/8] opkg-utils: bump SRCREV for Packages cache fix and other fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,68 +52,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Aug 2012 18:29:45 -0000
+X-List-Received-Date: Tue, 07 Aug 2012 18:31:05 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
 
-Op 7 aug. 2012, om 19:31 heeft Yao Zhao <yao.zhao@windriver.com> het =
-volgende geschreven:
+Op 7 aug. 2012, om 18:07 heeft Scott Garman <scott.a.garman@intel.com> =
+het volgende geschreven:
 
-> In order to fix the QA Issue for libpam which installed to /lib but
-> reference /usr/libxx/libz and libcrack, install libz and libcrack
-> to /lib.
+> On 08/07/2012 01:19 AM, Koen Kooi wrote:
+>>=20
+>> Op 7 aug. 2012, om 10:17 heeft Martin Jansa <martin.jansa@gmail.com> =
+het volgende geschreven:
+>>=20
+>>> On Tue, Aug 07, 2012 at 09:44:41AM +0200, Koen Kooi wrote:
+>>>> From: Martin Jansa <martin.jansa@gmail.com>
+>>>>=20
+>>>> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+>>>> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+>>>> ---
+>>>> .../opkg-utils/opkg-utils/add-license-field.patch  |   39 =
+-----------
+>>>> .../opkg-utils/arfile_header_split.patch           |   27 --------
+>>>> .../opkg-utils/index-ignore-filenotfound.patch     |   73 =
+--------------------
+>>>> .../opkg-utils/opkg-utils/mtime-int.patch          |   30 --------
+>>>> .../opkg-utils/opkg-utils/shebang.patch            |   46 =
+------------
+>>>> meta/recipes-devtools/opkg-utils/opkg-utils_git.bb |    7 +-
+>>>> 6 files changed, 1 insertion(+), 221 deletions(-)
+>>>> delete mode 100644 =
+meta/recipes-devtools/opkg-utils/opkg-utils/add-license-field.patch
+>>>> delete mode 100644 =
+meta/recipes-devtools/opkg-utils/opkg-utils/arfile_header_split.patch
+>>>> delete mode 100644 =
+meta/recipes-devtools/opkg-utils/opkg-utils/index-ignore-filenotfound.patc=
+h
+>>>> delete mode 100644 =
+meta/recipes-devtools/opkg-utils/opkg-utils/mtime-int.patch
+>>>> delete mode 100644 =
+meta/recipes-devtools/opkg-utils/opkg-utils/shebang.patch
+>>>> diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb =
+b/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
+>>>> index 4fe4038..1996c75 100644
+>>>> --- a/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
+>>>> +++ b/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
+>>>> @@ -6,16 +6,11 @@ LIC_FILES_CHKSUM =3D =
+"file://COPYING;md5=3D94d55d512a9ba36caa9b7df079bae19f \
+>>>>                     =
+file://opkg.py;beginline=3D1;endline=3D18;md5=3D15917491ad6bf7acc666ca5f7c=
+c1e083"
+>>>> RDEPENDS_${PN} =3D "python"
+>>>> RDEPENDS_${PN}_virtclass-native =3D ""
+>>>> -SRCREV =3D "16665959c330b5958c0f0f4624a9ca7f823f98de"
+>>>> +SRCREV =3D "44df9dd3dc411ca1255cb4b23bde7eb71aed4778"
+>>>=20
+>>> Better to use latest for this (only 3 commits, 2 of them fixing
+>>> python-2.6)
+>>=20
+>> Should I cherry-pick them from master to keep history or just make a =
+single, new update to latest SRCREV for the denzil branch?
 >=20
-> Signed-off-by: Yao Zhao <yao.zhao@windriver.com>
-> ---
-> meta/recipes-core/zlib/zlib_1.2.7.bb              |    8 ++++++--
-> meta/recipes-extended/cracklib/cracklib_2.8.19.bb |    2 ++
-> 2 files changed, 8 insertions(+), 2 deletions(-)
->=20
-> diff --git a/meta/recipes-core/zlib/zlib_1.2.7.bb =
-b/meta/recipes-core/zlib/zlib_1.2.7.bb
-> index 803fec3..d351437 100644
-> --- a/meta/recipes-core/zlib/zlib_1.2.7.bb
-> +++ b/meta/recipes-core/zlib/zlib_1.2.7.bb
-> @@ -13,7 +13,8 @@ SRC_URI[md5sum] =3D =
-"2ab442d169156f34c379c968f3f482dd"
-> SRC_URI[sha256sum] =3D =
-"49e2e9658dfb036900da6ea0267a737fa3c4eee6666776d378c79d52e9334934"
->=20
-> do_configure (){
-> -	./configure --prefix=3D${prefix} --shared --libdir=3D${libdir}
-> +	#sharedlibdir sets to {libdir} if not set
-> +	./configure --prefix=3D${prefix} --shared =
---libdir=3D"${base_libdir}"
-> }
->=20
-> do_compile (){
-> @@ -21,7 +22,10 @@ do_compile (){
-> }
->=20
-> do_install() {
-> -	oe_runmake DESTDIR=3D${D} install
-> +	#libz.a installs to libdir, overwrite the env libdir
-> +	#install pkgconfig to env libdir/pkgconfig
-> +	oe_runmake DESTDIR=3D${D} pkgconfigdir=3D"${libdir}/pkgconfig" \
-> +		   libdir=3D"${base_libdir}" install
-> }
->=20
-> BBCLASSEXTEND =3D "native nativesdk"
-> diff --git a/meta/recipes-extended/cracklib/cracklib_2.8.19.bb =
-b/meta/recipes-extended/cracklib/cracklib_2.8.19.bb
-> index 2951396..aca6211 100644
-> --- a/meta/recipes-extended/cracklib/cracklib_2.8.19.bb
-> +++ b/meta/recipes-extended/cracklib/cracklib_2.8.19.bb
-> @@ -15,3 +15,5 @@ SRC_URI[md5sum] =3D =
-"ca0ec168d9c6466612204e8dfb2df8a9"
-> SRC_URI[sha256sum] =3D =
-"7086b0ca23f875c9cd9ea2a993c262384b274dba9c4ea1da845ec8ac290748a9"
->=20
-> inherit autotools gettext
-> +
-> +libdir =3D "${base_libdir}"
+> I slightly favor cherry-picks from master when possible.
 
-Again, missing PR bump and missing buildhistory diffs.=
+Since the cherry-picks would be incremental, can these 8 be queued and =
+extra cherrypicks be added at a later point? I need to actually test =
+those before submitting :)=
 
 
