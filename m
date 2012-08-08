@@ -1,34 +1,20 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1Sz5Yi-0003C5-Rs for openembedded-core@lists.openembedded.org;
-	Wed, 08 Aug 2012 14:40:21 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q78CSZOK021996
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 8 Aug 2012 13:28:35 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 21433-03 for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Aug 2012 13:28:30 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q78CSOiQ021990
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 8 Aug 2012 13:28:25 +0100
-Message-ID: <1344428907.9756.338.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Wed, 08 Aug 2012 13:28:27 +0100
-In-Reply-To: <1344422390.23275.233.camel@phil-desktop>
-References: <CAJTo0LZn3md_x3a9-+LV67FYopkXaPgFv8-+U4JEj7UzwSYd9Q@mail.gmail.com>
-	<1344422390.23275.233.camel@phil-desktop>
-X-Mailer: Evolution 3.2.2- 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: Replacing Web in Sato with Midori
+Received: from mga01.intel.com ([192.55.52.88])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <radu.moisan@intel.com>) id 1Sz5ZE-0003Ei-OG
+	for openembedded-core@lists.openembedded.org;
+	Wed, 08 Aug 2012 14:40:53 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 08 Aug 2012 05:28:58 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.77,733,1336374000"; d="scan'208";a="204950331"
+Received: from dell-desktop (HELO localhost.localdomain) ([10.237.105.32])
+	by fmsmga002.fm.intel.com with ESMTP; 08 Aug 2012 05:28:56 -0700
+From: Radu Moisan <radu.moisan@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  8 Aug 2012 15:30:53 +0300
+Message-Id: <1344429053-2858-1-git-send-email-radu.moisan@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] curl: update to upstream version 7.27.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,67 +29,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Aug 2012 12:40:21 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 08 Aug 2012 12:40:53 -0000
 
-On Wed, 2012-08-08 at 11:39 +0100, Phil Blundell wrote:
-> On Wed, 2012-08-08 at 09:41 +0100, Burton, Ross wrote:
-> > As everyone who's used it can attest, Web (the optional browser in
-> > Sato) is pretty rough.  Part of my plans about replacing Sato with a
-> > leaner environment involves replacing it with Midori, and if there
-> > isn't any disagreements I'll work on a submission to merge Midori into
-> > Sato now for everyone who expects the Sato web browser to be useful.
-> 
-> Replacing Web with Midori in Sato probably is a fine idea from the point
-> of view of those folks who want to use Sato per se.  As far as oe-core
-> is concerned, the point of having Sato included is apparently for
-> testability and it's not entirely obvious that much extra test coverage
-> would be gained by merging Midori.
-> 
-> Indeed, it's not totally clear that having WebKit in meta-sato is really
-> justified by the test coverage it brings.  I think WebKit itself might
-> be a reasonable candidate for inclusion in oe-core proper, but the
-> current situation of having a slightly half-baked recipe in meta-sato is
-> not very satisfactory.
-> 
-> However...
-> 
-> >This will involve pulling a few projects from meta-oe to oe-core:
-> >ca-certificates, python-docutils and vala specifically (although its
-> >possible that we can drop the vala dependency).
-> 
-> ... all three of those seem like reasonable enough things to have in
-> oe-core.  Personally I would quite like to see Vala in there.  So, from
-> that point of view, I don't have any objection to your proposal.
-> 
-> But, that said, I do still think that there is going to be some
-> inevitable tension between the desire to make Sato useful in itself and
-> the desire to have a test environment for oe-core which doesn't add too
-> many extra dependencies.  So in the longer term I continue to feel that
-> Sato should probably go away into its own layer (or, at least, a layer
-> that isn't oe-core) and oe-core itself should gain a dedicated test
-> suite.  Anybody who wanted to go on using Sato to exercise oe-core would
-> obviously be free to do so even if it was in some other layer.
+Signed-off-by: Radu Moisan <radu.moisan@intel.com>
+---
+ meta/recipes-support/curl/curl/pkgconfig_fix.patch |   25 +++++++++-----------
+ .../curl/{curl_7.26.0.bb => curl_7.27.0.bb}        |    4 ++--
+ 2 files changed, 13 insertions(+), 16 deletions(-)
+ rename meta/recipes-support/curl/{curl_7.26.0.bb => curl_7.27.0.bb} (92%)
 
-I think the intent which perhaps isn't being put clearly is that we're
-intending to "morph" sato into a kind of test suite of OE-Core (whether
-anything is still "sato" in the end remains to be seen). We appreciate
-it needs to be minimal yet have good coverage of the various libs/apis.
-Some things will just get moved (eds/pimlico) out, some will go into the
-core (e.g. webkit) and so on.
-
-If the webkit recipe is half baked, lets fully bake it as I believe in
-doing things properly if you do them at all (which is why web-sato needs
-to go).
-
-The changes won't happen overnight but I think Ross' proposal for
-sorting the browser as a first step is a good one as part of the larger
-plan.
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-support/curl/curl/pkgconfig_fix.patch b/meta/recipes-support/curl/curl/pkgconfig_fix.patch
+index ad73c00..5eb8ce2 100644
+--- a/meta/recipes-support/curl/curl/pkgconfig_fix.patch
++++ b/meta/recipes-support/curl/curl/pkgconfig_fix.patch
+@@ -1,11 +1,8 @@
+-Upstream-Status: Inappropriate [packaging]
+-
+-
+-Index: curl-7.20.0/libcurl.pc.in
++Index: curl-7.27.0/libcurl.pc.in
+ ===================================================================
+---- curl-7.20.0.orig/libcurl.pc.in	2009-11-17 18:11:07.000000000 +0000
+-+++ curl-7.20.0/libcurl.pc.in	2010-03-25 12:13:26.814051066 +0000
+-@@ -35,6 +35,7 @@
++--- curl-7.27.0.orig/libcurl.pc.in	2012-05-26 00:56:17.000000000 +0300
+++++ curl-7.27.0/libcurl.pc.in	2012-08-08 11:30:41.000000000 +0300
++@@ -34,6 +34,7 @@
+  URL: http://curl.haxx.se/
+  Description: Library to transfer files with ftp, http, etc.
+  Version: @CURLVERSION@
+@@ -14,12 +11,12 @@ Index: curl-7.20.0/libcurl.pc.in
+ +Requires.private: @GNUTLS_REQUIRED@
+ +Libs: -L${libdir} -lcurl
+ +Libs.private: -ldl -lz
+- Cflags: -I${includedir}
+-Index: curl-7.20.0/configure.ac
++ Cflags: -I${includedir} @CPPFLAG_CURL_STATICLIB@
++Index: curl-7.27.0/configure.ac
+ ===================================================================
+---- curl-7.20.0.orig/configure.ac	2010-02-04 21:41:46.000000000 +0000
+-+++ curl-7.20.0/configure.ac	2010-03-25 12:12:18.673129001 +0000
+-@@ -1668,6 +1668,7 @@
++--- curl-7.27.0.orig/configure.ac	2012-07-27 21:25:09.000000000 +0300
+++++ curl-7.27.0/configure.ac	2012-08-08 11:45:06.000000000 +0300
++@@ -1863,6 +1863,7 @@
+         AC_SUBST(USE_GNUTLS, [1])
+         GNUTLS_ENABLED=1
+         USE_GNUTLS="yes"
+@@ -27,9 +24,9 @@ Index: curl-7.20.0/configure.ac
+         curl_ssl_msg="enabled (GnuTLS)"
+         ],
+         [
+-@@ -1696,6 +1697,8 @@
++@@ -2102,6 +2103,8 @@
+  
+- fi dnl OPENSSL != 1
++ fi
+  
+ +AC_SUBST(GNUTLS_REQUIRED)
+ +
+diff --git a/meta/recipes-support/curl/curl_7.26.0.bb b/meta/recipes-support/curl/curl_7.27.0.bb
+similarity index 92%
+rename from meta/recipes-support/curl/curl_7.26.0.bb
+rename to meta/recipes-support/curl/curl_7.27.0.bb
+index f04b400..fe423c7 100644
+--- a/meta/recipes-support/curl/curl_7.26.0.bb
++++ b/meta/recipes-support/curl/curl_7.27.0.bb
+@@ -13,8 +13,8 @@ PR = "r0"
+ SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
+            file://pkgconfig_fix.patch"
+ 
+-SRC_URI[md5sum] = "bfa80f01b3d300359cfb4d409b6136a3"
+-SRC_URI[sha256sum] = "fced262f16eb6bfcdcea15e04a7905ffcb5ff04b14a19ca35b9df86d6720d26a"
++SRC_URI[md5sum] = "11fcbfc0de9c12512e607e7d72d500a0"
++SRC_URI[sha256sum] = "aba5582135c28470b46084da9747470c1c680485fc91f9f0d3f7928df8169398"
+ 
+ inherit autotools pkgconfig binconfig
+ 
+-- 
+1.7.9.5
 
 
 
