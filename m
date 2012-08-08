@@ -1,42 +1,31 @@
-Received: from mail-qc0-f175.google.com ([209.85.216.175])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@gmail.com>) id 1SywEF-0001Ua-1w
+	(envelope-from <Liang.Li@windriver.com>) id 1SyxH3-0002U0-JT
 	for openembedded-core@lists.openembedded.org;
-	Wed, 08 Aug 2012 04:42:35 +0200
-Received: by qcad10 with SMTP id d10so157130qca.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 07 Aug 2012 19:30:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type; bh=ATVwrJKGYjWFmw9B/63C7nnDE6Wfj4OAa85sNj/it+g=;
-	b=qNa1vZTYVZVWsoeZki/oGySfOWSILvEN2/bfauqbXRwcK/H0VVNl2z4Yb47PaMXXe5
-	6eLsGqCpXHn8anFJfiJi4NJt0m+PEB8pxPEdzxsc9WUXQDJP9l/U3K5KZrMSCdMpfYVU
-	niGiyPQM/txBTVVIB6SJTLXpmYAyWR4asAwcLHst9R3d3Vk4HIDAM+Wiklq55Bz3b0qc
-	gNU3RNBaa9JNGmc6v9vN82uguv7H5sidrs/is3ZzCBQahWMiBh8CYdc/MAnf8O+f1fWs
-	8Ee1+Xz2o5b0HbDPKc9U9vvhjBj/jcNjUYWIEAUXqaQAhG7qXsGpSyLKDx7wrEescX2z
-	MOBg==
+	Wed, 08 Aug 2012 05:49:34 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q783bhv8013721
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 7 Aug 2012 20:37:43 -0700 (PDT)
+Received: from localhost (128.224.163.138) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.309.2;
+	Tue, 7 Aug 2012 20:37:43 -0700
+Date: Wed, 8 Aug 2012 11:37:42 +0800
+From: Liang Li <liang.li@windriver.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-ID: <20120808033742.GA19078@localhost>
+References: <1344008589-3660-1-git-send-email-liang.li@windriver.com>
+	<1344348160.9756.255.camel@ted>
 MIME-Version: 1.0
-Received: by 10.224.179.135 with SMTP id bq7mr27413615qab.55.1344393047956;
-	Tue, 07 Aug 2012 19:30:47 -0700 (PDT)
-Received: by 10.229.247.198 with HTTP; Tue, 7 Aug 2012 19:30:47 -0700 (PDT)
-In-Reply-To: <CAEsOVNdA6of4efDpVsMhakmYavJW1-SRg9t1_SXDZ0ivZA35jQ@mail.gmail.com>
-References: <1344338236.9756.218.camel@ted> <50211706.1050707@windriver.com>
-	<1344347435.9756.251.camel@ted> <50211F3B.6010601@windriver.com>
-	<CAEsOVNeQX9uwB_QNdhodJqjprU2ygoMN=_DbEzudcb9GiF+wzg@mail.gmail.com>
-	<5021CC85.20005@windriver.com>
-	<CADkTA4P1EsaaJOyjB7ke__QaOKOHGn3C_XVYwa=NbwioKN_CBQ@mail.gmail.com>
-	<CAEsOVNdA6of4efDpVsMhakmYavJW1-SRg9t1_SXDZ0ivZA35jQ@mail.gmail.com>
-Date: Tue, 7 Aug 2012 22:30:47 -0400
-Message-ID: <CADkTA4MFV3ga5=9FJe+tVGtvaPYK-FPFc8YfFvOXd=iWQHsXvw@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: McClintock Matthew-B29882 <B29882@freescale.com>, 
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] linux-yocto-3.4: Disable extra slang header search path
+In-Reply-To: <1344348160.9756.255.camel@ted>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org, darren.hart@intel.com
+Subject: Re: [PATCH] perf: pass STAGING_INCDIR(sysroot) to perf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: Liang Li <liang.li@windriver.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -47,135 +36,110 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Aug 2012 02:42:35 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Wed, 08 Aug 2012 03:49:34 -0000
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
 
-On Tue, Aug 7, 2012 at 10:25 PM, McClintock Matthew-B29882
-<B29882@freescale.com> wrote:
-> On Tue, Aug 7, 2012 at 9:22 PM, Bruce Ashfield
-> <bruce.ashfield@windriver.com> wrote:
->> On Tue, Aug 7, 2012 at 10:18 PM, Bruce Ashfield
->> <bruce.ashfield@windriver.com> wrote:
->>> On 12-08-07 10:16 PM, McClintock Matthew-B29882 wrote:
->>>>
->>>> On Tue, Aug 7, 2012 at 8:59 AM, Bruce Ashfield
->>>> <bruce.ashfield@windriver.com>  wrote:
->>>>>
->>>>> On 12-08-07 09:50 AM, Richard Purdie wrote:
->>>>>>
->>>>>>
->>>>>> On Tue, 2012-08-07 at 09:24 -0400, Bruce Ashfield wrote:
->>>>>>>
->>>>>>>
->>>>>>> On 12-08-07 07:17 AM, Richard Purdie wrote:
->>>>>>>>
->>>>>>>>
->>>>>>>> Add in a workaround to avoid host infection detection build failures
->>>>>>>> from the slang include directory in perf. I'll defer to Bruce to
->>>>>>>> fix this properly but we need a workaround now as this is breaking
->>>>>>>> builds.
->>>>>>>
->>>>>>>
->>>>>>>
->>>>>>> I just followed up on a patch from 3 days ago, but I'll follow up here
->>>>>>> as well .. just to make sure the message gets through.
->>>>>>>
->>>>>>> We had a pending patch to fix this issue from Liang Li here @
->>>>>>> windriver.
->>>>>>>
->>>>>>> Did that patch not fix the problem, or did it fall through the cracks ?
->>>>>>
->>>>>>
->>>>>>
->>>>>> It is not correct. It adds in another search path and just hides the
->>>>>> issue. We should *never* be putting -I/usr/include/slang on the compiler
->>>>>> commandline at all period.
->>>>>
->>>>>
->>>>>
->>>>> I'd argue that it's more correct than commenting out the upstream
->>>>> include path.
->>>>>
->>>>> It fixes the problem, doesn't require a patch to the kernel and give
->>>>> us time to work upstream and get a real fix.
->>>>>
->>>>> So I'd really prefer that we take that fix, versus the kernel patch
->>>>> if it actually fixes the problem.
->>>>>
->>>>>
->>>>>>
->>>>>> I'd assumed in all the email traffic that this was clear and that
->>>>>> another solution was being worked on that would be acceptable upstream
->>>>>> too.
->>>>>
->>>>>
->>>>>
->>>>> Exactly what I referred to above. But we don't want a temporary
->>>>> kernel path, we want the temporary recipe patch.
->>>>>
->>>>>
->>>>>>
->>>>>> Perhaps a better option might be: -I=/usr/include/slang ? That assumes
->>>>>> that all kernel gcc versions would accept the = notation, that should be
->>>>>> true by now?
->>>>>
->>>>>
->>>>>
->>>>> Not in my experience when dealing with the upstream kernel and tools,
->>>>> there are plenty of old compilers floating around.
->>>>
->>>>
->>>> Sorry, I'm not following this thread super close.. will all kernel
->>>> trees need to apply this patch? That does not seem ideal...
->>>
->>>
->>> They would, once we get the patch merged upstream. And you are right,
->>> linux-yocto is easy enough, but that's one set of kernel trees.
->>
->> I should add, that not all trees, and only builds that use a
->> particular set of perf
->> features out of master would see this problem (as far as I know), so I didn't
->> mean to make this sound bigger than it is ... it's just something that master
->> was hitting on the autobuilders (and who knows, maybe I'm mischaracterizing
->> the problem as well :)
->>
->> Cheers,
->>
->> Bruce
->>
->>>
->>> The patch that we proposed to the perf recipe would fix it for all
->>> users of that recipe, with a suitable set of kernels (say 3.0 to
->>> 3.6 (I haven't checked).
->>>
->>> Honestly, that's why we proposed a perf recipe fix, while working on the
->>> right fix for the upstream kernel.
->
-> It seems wrong to need a kernel patch to fix this issue, kernels are
-> built outside of oe-core and it seems better to fix things in one
-> place. By the way, I'm seeing this on our kernel recipe in
-> meta-fsl-ppc too.
+On 2012-08-07 22:02, Richard Purdie <richard.purdie@linuxfoundation.org> wrote:
+> On Fri, 2012-08-03 at 23:43 +0800, Liang Li wrote:
+> > Via EXTRA_CFLAGS, we can pass the sysroot include directory to perf to
+> > provide slang.h rather than hardcoded host dir in perf's Makefile.
+> > 
+> > Pass WERROR=0 to perf's Makefile to avoid warnings being treated
+> > as errors. Warnings are not fatal, and while they will be fixed in the
+> > future, there's no need for them to break the build.
+> 
+> No mention of the additional slang dependency is made here?
+> 
 
-Have you tried the patch from Liang Li @ Windriver ? Sent last Friday,
-it should solve your
-immediate problem .. it solved ours.
+Forgot mentioned it. Good catch, but the one line change that add
+slang to DEPENDS seems clear enough for everyone, isn't? :)
 
-Cheers,
+> > Signed-off-by: Liang Li <liang.li@windriver.com>
+> > ---
+> >  meta/recipes-kernel/perf/perf_3.4.bb | 3 +++
+> >  1 file changed, 3 insertions(+)
+> > 
+> > diff --git a/meta/recipes-kernel/perf/perf_3.4.bb b/meta/recipes-kernel/perf/perf_3.4.bb
+> > index 505c7b8..537e926 100644
+> > --- a/meta/recipes-kernel/perf/perf_3.4.bb
+> > +++ b/meta/recipes-kernel/perf/perf_3.4.bb
+> > @@ -24,6 +24,7 @@ DEPENDS = "virtual/kernel \
+> >             ${MLPREFIX}binutils \
+> >             ${TUI_DEPENDS} \
+> >             ${SCRIPTING_DEPENDS} \
+> > +           slang \
+> >            "
+> >  
+> >  SCRIPTING_RDEPENDS = "${@perf_feature_enabled('perf-scripting', 'perl perl-modules python', '',d)}"
+> > @@ -63,6 +64,8 @@ EXTRA_OEMAKE = \
+> >  		AR="${AR}" \
+> >  		prefix=/usr \
+> >  		NO_GTK2=1 ${TUI_DEFINES} NO_DWARF=1 ${SCRIPTING_DEFINES} \
+> > +		WERROR=0 \
+> > +		EXTRA_CFLAGS=-I${STAGING_INCDIR} \
+> >  		'
+> 
+> This is is not acceptable since the include directory /usr/include/slang
+> is still being looked at and this just "hides" the error. STAGING_INCDIR
+> is on the compilers default search path anyway.
 
-Bruce
+EXTRA_CFLAGS is processed early than the '-I/usr/include/slang', so
+its being used here, to specify a path for slang.h. That indeed
+'hides' -I/usr/include/slang. And I agree that specify
+-I/usr/include/slang blindly in Makefile should be fixed. And I've
+discussed the fix for kernel tree several days before. However, the
+fix for kernel tree will not conflict than this patch, I would think
+that this patch for perf.bb would fix the issue for us for now, and
+smooth the adoption of future fix for the Makefile.
 
->
-> -M
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+> 
+> So this patch is wrong in several different ways :(
+> 
 
+... I can't reproduce the 'warning -> error' on my host now, but as I
+explained above, this patch is just 'make use of existing mechanism of
+Makefile to specify correct location of slang.h before the warning is
+generated', even though the STAGING_INCDIR is in compilers default
+search path, seems no hurt in case we just make it float top a bit
+to get searched before wrong include directory is discovered, right?
+:)
 
+> I've merged a temporary fix until we get this resolved properly.
+> 
 
--- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+I saw that, but the fix that we've discussed several days before seems
+is what we want:
+
+diff --git a/tools/perf/Makefile b/tools/perf/Makefile
+index b7a7a87..3365ad2 100644
+--- a/tools/perf/Makefile
++++ b/tools/perf/Makefile
+@@ -496,8 +496,10 @@ else
+ 		msg := $(warning newt not found, disables TUI support. Please install newt-devel or libnewt-dev);
+ 		BASIC_CFLAGS += -DNO_NEWT_SUPPORT
+ 	else
+-		# Fedora has /usr/include/slang/slang.h, but ubuntu /usr/include/slang.h
+-		BASIC_CFLAGS += -I/usr/include/slang
++		# Some releases has /usr/include/slang/slang.h other than /usr/include/slang.h
++		SLANG_INC ?= -I/usr/include/slang
++		BASIC_CFLAGS += $(SLANG_INC)
++
+ 		EXTLIBS += -lnewt -lslang
+ 		LIB_OBJS += $(OUTPUT)ui/setup.o
+ 		LIB_OBJS += $(OUTPUT)ui/browser.o
+
+---
+
+Then we still need a patch to perf.bb to specify SLANG_INC. Moreover,
+this patch(EXTRA_CFLAGS for perf.bb) could co-exists with patch for
+kernel. :)
+
+Thanks,
+		Liang Li
+
+> Cheers,
+> 
+> Richard
 
 
