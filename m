@@ -1,33 +1,27 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1Sz7l2-0005Xp-9M
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1Sz7wi-0005j9-BE
 	for openembedded-core@lists.openembedded.org;
-	Wed, 08 Aug 2012 17:01:12 +0200
-Received: by eekb57 with SMTP id b57so217586eek.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 08 Aug 2012 07:49:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type; bh=gL1HwWM9EUwCP6J2XNOuiu80/oe873D4QyrPPQ+4XPI=;
-	b=jlHxA5aaKdHH5WFyAdsOILtPzphE95pNUOmkLUj9iwtanAFHa40SoraccU9b709jGf
-	sHyyh9cKSoXnH10ZnazyRUQIsk+oRsZz9HXY3s52bcKtTAw8q5IXtCWBLKwAU4em53Gk
-	s2OZAvJhrOBgm7hXNzCtqB3FYFaJ+Ftr6DCrw3mjkk1/NENkqq4Ih1TILCYSUgwwj1XU
-	Ex6tfo9YoIeIgSSIOhYWUj39HMd7BjXSeVawQcwNu3LjlronUqvEwf6+fwToQUX2d1/e
-	zxMR385xmG5DKOPTWsXP3jTHA0eZw5Ex/pYVfQgagWpEFBF9Os5ijW3syKW3OlYHqV3K
-	ShuQ==
-Received: by 10.14.213.137 with SMTP id a9mr163027eep.38.1344437365163; Wed,
-	08 Aug 2012 07:49:25 -0700 (PDT)
+	Wed, 08 Aug 2012 17:13:16 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 08 Aug 2012 08:00:55 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.77,733,1336374000"; d="scan'208";a="178359538"
+Received: from unknown (HELO helios.localnet) ([10.252.121.56])
+	by azsmga001.ch.intel.com with ESMTP; 08 Aug 2012 08:00:51 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Koen Kooi <koen@dominion.thruhere.net>
+Date: Wed, 08 Aug 2012 16:00:50 +0100
+Message-ID: <1503062.H9kskseNSt@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.9 (Linux/3.2.0-27-generic-pae; KDE/4.9.0; i686; ; )
+In-Reply-To: <FC8D60B3-17DE-4CEE-8A86-4BF201870280@dominion.thruhere.net>
+References: <CAJTo0LZn3md_x3a9-+LV67FYopkXaPgFv8-+U4JEj7UzwSYd9Q@mail.gmail.com>
+	<1434346.ITqeKT5PyT@helios>
+	<FC8D60B3-17DE-4CEE-8A86-4BF201870280@dominion.thruhere.net>
 MIME-Version: 1.0
-Received: by 10.14.97.141 with HTTP; Wed, 8 Aug 2012 07:48:54 -0700 (PDT)
-In-Reply-To: <CAJTo0LY9f-nAD7+eO=jDJqD0qYRa8FPUhB-VkWDum0Urq3q=7A@mail.gmail.com>
-References: <1344374781-21240-1-git-send-email-raj.khem@gmail.com>
-	<CAJTo0LY9f-nAD7+eO=jDJqD0qYRa8FPUhB-VkWDum0Urq3q=7A@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 8 Aug 2012 07:48:54 -0700
-Message-ID: <CAMKF1sos9p8Y8Q3mBMT9RZkbzwDGpuifUowKs9gyMkdYw61vGQ@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] binutils: Enable threaded linking with gold
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: Replacing Web in Sato with Midori
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,34 +36,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Aug 2012 15:01:12 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 08 Aug 2012 15:13:16 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Wed, Aug 8, 2012 at 6:17 AM, Burton, Ross <ross.burton@intel.com> wrote:
-> Hi Khem,
->
-> On 7 August 2012 22:26, Khem Raj <raj.khem@gmail.com> wrote:
->> This options will let gold spawn multiple
->> threads for linking and speeding up linking
->> on multicore build hosts.
->
-> I turned on the DISTRO_FEATURE ld-is-gold and rebuild my toolchain and
-> then webkit-gtk, but there was no improvement in build time (I'm
-> attributing a 20s difference in build time to noise considering the
-> build was 24 minutes).  Is there something else I need to change, as I
-> was expecting WebKit would be a good winner with this.
->
+On Wednesday 08 August 2012 16:47:05 Koen Kooi wrote:
+> Op 8 aug. 2012, om 16:03 heeft Paul Eggleton <paul.eggleton@linux.intel.com> 
+het volgende geschreven:
+> > On Wednesday 08 August 2012 15:56:33 Koen Kooi wrote:
+> >> There are a ton of recipes in oe-core that need extra layers to get
+> >> properly tested (QT comes to mind),
+> > 
+> > What are you referring to? Qt should be perfectly testable within OE-Core.
+> 
+> What kind of big qt apps does oe-core have to test it? I had to enable
+> meta-kde to find bugs in the qt recipes, so if the tests are in there, they
+> aren't get run properly.
 
-hmm, yes I would think so too. My experiments were on a i386 box with
-2G RAM I see considerable improvement on app linked with boost that I
-tried. Can you recheck if ld is pointing to gold in
-the cross toolchain install ?
+And? KDE is far more demanding upon Qt than most Qt-based applications. We had 
+to make specific changes to our Qt recipes just to accommodate it.
 
-> Ross
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+Cheers,
+Paul
+
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
