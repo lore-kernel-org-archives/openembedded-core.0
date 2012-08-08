@@ -1,37 +1,26 @@
-Received: from mail-gh0-f175.google.com ([209.85.160.175])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <s.stirtzel@googlemail.com>) id 1Sz7zQ-0005nm-Jb
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1Sz83n-0005so-Fr
 	for openembedded-core@lists.openembedded.org;
-	Wed, 08 Aug 2012 17:16:04 +0200
-Received: by ghbz2 with SMTP id z2so802282ghb.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 08 Aug 2012 08:04:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=CNWCCTls0JaV9r8OvgM6vQsGIrAP8L/GZvZLi1pUyEs=;
-	b=OHfdlth4sRthhscgrBV32XGtgCjjL3R/lZG9nMIqe8DCv8CWNd6tVS4L8lnVyLZ+E4
-	ihgJHBd3lQ+4BCnk6WG+YmkxoI152Q+/+u6KbNlSIEpr4LhQ3ascOXqCw39UGn1HJ8az
-	mw9yWuGh02o09d0tNsXjLH9mC7UN0kyjed7/wwF4fgf/FJ41SA/5kmLFWSDDCxIAXrDR
-	Wr1Kd1jdNUzyqSlpTxW4RQwZDH27emTUKTSKlkxBzwxEzT+TNOp9SIRMCl4qjLz6+AXS
-	xKaqlqbCjc0KjYx9yC+NulDX1urTtqudqSbO0RqrWWXNio+ptccJwolej27udTgnMio+
-	l9FQ==
-MIME-Version: 1.0
-Received: by 10.43.45.200 with SMTP id ul8mr14357561icb.36.1344438256703; Wed,
-	08 Aug 2012 08:04:16 -0700 (PDT)
-Received: by 10.64.49.45 with HTTP; Wed, 8 Aug 2012 08:04:16 -0700 (PDT)
-In-Reply-To: <1503062.H9kskseNSt@helios>
+	Wed, 08 Aug 2012 17:20:35 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 08 Aug 2012 08:07:49 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.77,733,1336374000"; d="scan'208";a="183186096"
+Received: from unknown (HELO helios.localnet) ([10.252.121.56])
+	by orsmga002.jf.intel.com with ESMTP; 08 Aug 2012 08:07:48 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Samuel Stirtzel <s.stirtzel@googlemail.com>
+Date: Wed, 08 Aug 2012 16:07:47 +0100
+Message-ID: <5490077.atXKzM8mhJ@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.9 (Linux/3.2.0-27-generic-pae; KDE/4.9.0; i686; ; )
+In-Reply-To: <CAGiJk9f3fL8gC4RpEweeyFrZU0oPsth_Rh_SEhtK+L66PgJinA@mail.gmail.com>
 References: <CAJTo0LZn3md_x3a9-+LV67FYopkXaPgFv8-+U4JEj7UzwSYd9Q@mail.gmail.com>
-	<1434346.ITqeKT5PyT@helios>
-	<FC8D60B3-17DE-4CEE-8A86-4BF201870280@dominion.thruhere.net>
 	<1503062.H9kskseNSt@helios>
-Date: Wed, 8 Aug 2012 17:04:16 +0200
-Message-ID: <CAGiJk9f3fL8gC4RpEweeyFrZU0oPsth_Rh_SEhtK+L66PgJinA@mail.gmail.com>
-From: Samuel Stirtzel <s.stirtzel@googlemail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Cc: Koen Kooi <koen@dominion.thruhere.net>
+	<CAGiJk9f3fL8gC4RpEweeyFrZU0oPsth_Rh_SEhtK+L66PgJinA@mail.gmail.com>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
 Subject: Re: Replacing Web in Sato with Midori
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
@@ -47,38 +36,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Aug 2012 15:16:04 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 08 Aug 2012 15:20:35 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-2012/8/8 Paul Eggleton <paul.eggleton@linux.intel.com>:
-> On Wednesday 08 August 2012 16:47:05 Koen Kooi wrote:
->> Op 8 aug. 2012, om 16:03 heeft Paul Eggleton <paul.eggleton@linux.intel.com>
-> het volgende geschreven:
->> > On Wednesday 08 August 2012 15:56:33 Koen Kooi wrote:
->> >> There are a ton of recipes in oe-core that need extra layers to get
->> >> properly tested (QT comes to mind),
->> >
->> > What are you referring to? Qt should be perfectly testable within OE-Core.
->>
->> What kind of big qt apps does oe-core have to test it? I had to enable
->> meta-kde to find bugs in the qt recipes, so if the tests are in there, they
->> aren't get run properly.
+On Wednesday 08 August 2012 17:04:16 Samuel Stirtzel wrote:
+> > On Wednesday 08 August 2012 16:47:05 Koen Kooi wrote:
+> >> Op 8 aug. 2012, om 16:03 heeft Paul Eggleton
+> >> <paul.eggleton@linux.intel.com>> 
+> > het volgende geschreven:
 >
-> And? KDE is far more demanding upon Qt than most Qt-based applications. We had
-> to make specific changes to our Qt recipes just to accommodate it.
-
-If you're talking about adding accessibility and session management to
-configure -> these are set by default by Qt.
-Don't know why they where unset in oe-core though.
-
+> > And? KDE is far more demanding upon Qt than most Qt-based applications. We
+> > had to make specific changes to our Qt recipes just to accommodate it.
 >
-> Cheers,
-> Paul
+> If you're talking about adding accessibility and session management to
+> configure -> these are set by default by Qt.
+> Don't know why they where unset in oe-core though.
 
+Not specifically, I was mainly referring to changes such as providing qt4-
+native; we did not need to do that before.
 
+Cheers,
+Paul
 
 -- 
-Regards
-Samuel
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
