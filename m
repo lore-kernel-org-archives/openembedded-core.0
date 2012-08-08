@@ -1,20 +1,34 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga10.intel.com ([192.55.52.92] helo=fmsmga102.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <radu.moisan@intel.com>) id 1Sz1RU-00016i-8p
+	(envelope-from <ross.burton@intel.com>) id 1Sz1a4-0001F0-JJ
 	for openembedded-core@lists.openembedded.org;
-	Wed, 08 Aug 2012 10:16:36 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 08 Aug 2012 01:04:33 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.77,730,1336374000"; d="scan'208";a="177334588"
-Received: from dell-desktop (HELO localhost.localdomain) ([10.237.105.32])
-	by orsmga001.jf.intel.com with ESMTP; 08 Aug 2012 01:04:32 -0700
-From: Radu Moisan <radu.moisan@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  8 Aug 2012 11:06:27 +0300
-Message-Id: <1344413188-24709-1-git-send-email-radu.moisan@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH v2] watchdog: Upgrade to upstream v5.12
+	Wed, 08 Aug 2012 10:25:28 +0200
+Received: from mail-ob0-f180.google.com ([209.85.214.180])
+	by mga11.intel.com with ESMTP/TLS/RC4-SHA; 08 Aug 2012 01:13:40 -0700
+Received: by obbuo19 with SMTP id uo19so685938obb.25
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 08 Aug 2012 01:13:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:from:date:message-id:subject:to:content-type
+	:x-gm-message-state;
+	bh=65nJJu04rPPAkxmrBvqIUjy6i1FJYigbK7wM6kdvWaA=;
+	b=jdRjJ1+7ehkBKiV5GETcsryZPCvmQ+7Cs/oL9lsVnMZ3xHQm79cpeZZksIUmQUg/S4
+	vhz9LdPyb7v6RAr86niQaZm8SNUscclq3BBb6Er70LvusTb0H9+tMBLVh0GYGV4dKkCQ
+	ISNLsUOqVSsGXg/3EhPbHL4TgIaRrvU2hLKCN1wdDudxz2mlJPsAxVoRVuYcggneO5TA
+	eb0z9PhfMBPXO4LwSr8NIJLLNHDGZ2dKopcMrb22ndoxfaX6hcB5tD+wQ0WzFt6sZl21
+	NgO+219LQTTJ89KTKg2w62/GMmmonxTOHbw1x8XSMazSD9dnWp1Lh5bu7W/wdlB3lnJm
+	UWCA==
+Received: by 10.182.226.104 with SMTP id rr8mr6277401obc.41.1344413619289;
+	Wed, 08 Aug 2012 01:13:39 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.182.45.10 with HTTP; Wed, 8 Aug 2012 01:13:19 -0700 (PDT)
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 8 Aug 2012 09:13:19 +0100
+Message-ID: <CAJTo0Lb2jyRgUxqKE_ggZDwGr9FQuHig8rnQsYZTghdMXUpKhw@mail.gmail.com>
+To: OE-core <openembedded-core@lists.openembedded.org>
+X-Gm-Message-State: ALoCoQkeVbp6cPvVprjAsRIrKYsBY/w4xLS8rgkoz9o+W1/sMOEDxV5W07rDqj0T2kc9LwWJNXaf
+Subject: Configurable host name
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -29,49 +43,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Aug 2012 08:16:36 -0000
+X-List-Received-Date: Wed, 08 Aug 2012 08:25:28 -0000
+Content-Type: text/plain; charset=UTF-8
 
-License changed to GPLv2+
+Hi,
 
-Signed-off-by: Radu Moisan <radu.moisan@intel.com>
----
- .../{watchdog_5.11.bb => watchdog_5.12.bb}         |   13 ++++++-------
- 1 file changed, 6 insertions(+), 7 deletions(-)
- rename meta/recipes-extended/watchdog/{watchdog_5.11.bb => watchdog_5.12.bb} (57%)
+I think that the current hostname setting of $MACHINE (unless you
+override base-files and change $hostname there) is too restrictive.
+Distributions should be able to override it easily (i.e. adding a
+distro-specific prefix) and individuals should also be able to change
+it in local.conf (i.e. assigning a real-world name, i.e. beagle or
+zbox).
 
-diff --git a/meta/recipes-extended/watchdog/watchdog_5.11.bb b/meta/recipes-extended/watchdog/watchdog_5.12.bb
-similarity index 57%
-rename from meta/recipes-extended/watchdog/watchdog_5.11.bb
-rename to meta/recipes-extended/watchdog/watchdog_5.12.bb
-index 6a611c9..2a6099f 100644
---- a/meta/recipes-extended/watchdog/watchdog_5.11.bb
-+++ b/meta/recipes-extended/watchdog/watchdog_5.12.bb
-@@ -5,17 +5,16 @@ it will reboot the system."
- HOMEPAGE = "http://watchdog.sourceforge.net/"
- BUGTRACKER = "http://sourceforge.net/tracker/?group_id=172030&atid=860194"
- 
--LICENSE = "GPL-1.0+"
--LIC_FILES_CHKSUM = "file://COPYING;md5=8a7258c60a71a2f04b67fb01f495889c"
-+LICENSE = "GPL-2.0+"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=ecc0551bf54ad97f6b541720f84d6569"
- 
--PR = "r1"
-+PR = "r0"
- 
--SRC_URI = "${SOURCEFORGE_MIRROR}/watchdog/watchdog_${PV}.tar.gz \
-+SRC_URI = "${SOURCEFORGE_MIRROR}/watchdog/watchdog-${PV}.tar.gz \
- 	   file://fix-ping-failure.patch"
- 
--
--SRC_URI[md5sum] = "02c764219b3bdb2373091cbd67109eb6"
--SRC_URI[sha256sum] = "723a7966e0c3d58e3f4df20943a5c9aa1553381f46aa0dbcf832016756e62792"
-+SRC_URI[md5sum] = "cea28bea70e54f3625062bc808aef9af"
-+SRC_URI[sha256sum] = "862d5da6ab34568bbd4ea695316f063fecabe107d0939ceea6c67c9ec0b1a08e"
- 
- inherit autotools
- 
--- 
-1.7.9.5
+My proposal would be to add something like HOSTNAME ?= "$MACHINE" to
+default-distrovars.inc, and changing base-files to write the hostname
+file in a new task using something like addtask hostname after
+do_rootfs.
 
+This is entirely untested but opinions (especially "you're wrong" or
+"there's a better way") welcome.
+
+Ross
 
 
