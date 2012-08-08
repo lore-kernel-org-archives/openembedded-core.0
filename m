@@ -1,28 +1,39 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Wenzong.Fan@windriver.com>) id 1SyzeJ-0006ys-5J
+	(envelope-from <ross.burton@intel.com>) id 1Sz0vr-00008G-Cp
 	for openembedded-core@lists.openembedded.org;
-	Wed, 08 Aug 2012 08:21:43 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q7869tRp014872
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 7 Aug 2012 23:09:55 -0700 (PDT)
-Received: from [128.224.162.182] (128.224.162.182) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.309.2;
-	Tue, 7 Aug 2012 23:09:54 -0700
-Message-ID: <502202B0.3060005@windriver.com>
-Date: Wed, 8 Aug 2012 14:09:52 +0800
-From: wenzong fan <wenzong.fan@windriver.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US;
-	rv:1.9.1.11) Gecko/20100713 Thunderbird/3.0.6
+	Wed, 08 Aug 2012 09:43:55 +0200
+Received: from mail-ob0-f180.google.com ([209.85.214.180])
+	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 08 Aug 2012 00:31:41 -0700
+Received: by obbuo19 with SMTP id uo19so646353obb.25
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 08 Aug 2012 00:31:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type:content-transfer-encoding:x-gm-message-state;
+	bh=Y0hK6jJr3N0slWlu7+hLkssPaiXNAVC/0mnwtQDCwZM=;
+	b=QvNLozQlRquTHQbZopU5OsA/6SMuCgqNMTtkC/gp1BWcQDnCBJHet2Mep86qxQxA3I
+	ocOlnwNZjpYlxRxnniR0/zgfH+PIPBnw6zWt05XtRARo3P3ayAZlRs5V3IJQ1rVDCZ/k
+	oc+PQp0gbHL0cD1IlMHA3hsDoh6bawOYdgz3w5Z0lpENaCim35Sr8pBSujF06BheE0lD
+	ttF1BccZgWnW/N6Lqy1BPz0lW549nShM9idejvb5g9Ke0i9R3lHaiOzPfNzs3X5LjTHD
+	ysKrbxuc59jgPZDTMgk4wMfln3AwNu4K+JjDO1sndgU17tvb2GNCxBO6airNhbGZmwFh
+	DFwA==
+Received: by 10.182.51.37 with SMTP id h5mr28878542obo.35.1344411100540; Wed,
+	08 Aug 2012 00:31:40 -0700 (PDT)
 MIME-Version: 1.0
+Received: by 10.182.45.10 with HTTP; Wed, 8 Aug 2012 00:31:20 -0700 (PDT)
+In-Reply-To: <CALbNGRSkEhgOeEE1EZ05riyxB+mLQLvwfGNuNNdCTWZhKZ0KCg@mail.gmail.com>
+References: <20120718133146.0C2B910217@opal>
+	<20120720231539.GB3576@jama.jama.net>
+	<CALbNGRSkEhgOeEE1EZ05riyxB+mLQLvwfGNuNNdCTWZhKZ0KCg@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 8 Aug 2012 08:31:20 +0100
+Message-ID: <CAJTo0LbK6UT9E_WUgxqeN7aB7UHC_wX_JuWeo2d9anyxcYhh-Q@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1344341416.git.wenzong.fan@windriver.com>	<38e3b88585fd93495837f9f071887989a080ccd6.1344341416.git.wenzong.fan@windriver.com>
-	<4B47D650-7569-4396-825C-92CB04489F87@dominion.thruhere.net>
-In-Reply-To: <4B47D650-7569-4396-825C-92CB04489F87@dominion.thruhere.net>
-Cc: Koen Kooi <koen@dominion.thruhere.net>, Zhenfeng.Zhao@windriver.com
-Subject: Re: [PATCH 1/1] sysfsutils: install libs to base_libdir
+X-Gm-Message-State: ALoCoQkFrriw5b5y6gyhRSn22XWDrvrB6DnkjiuPXb8dzW6UFMI6bHbX7DLQw4SMX4gg0P8SEn3q
+Subject: Re: [oe-commits] Ross Burton : webkit-gtk: remove no-parallel bodge
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,84 +48,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Aug 2012 06:21:43 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 08 Aug 2012 07:43:55 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On 08/07/2012 08:23 PM, Koen Kooi wrote:
+On 25 July 2012 13:06, Andreas M=C3=BCller <schnitzeltony@googlemail.com> w=
+rote:
+> | arm-angstrom-linux-gnueabi-libtool: link: cannot find the library
+> `libjavascriptcoregtk-1.0.la' or unhandled argument
+> `libjavascriptcoregtk-1.0.la'
+> | make[1]: *** [Programs/unittests/testdomdomwindow] Error 1
+> | make[1]: *** Waiting for unfinished jobs....
+> | arm-angstrom-linux-gnueabi-libtool: link: cannot find the library
+> `libjavascriptcoregtk-1.0.la' or unhandled argument
+> `libjavascriptcoregtk-1.0.la'
+> | make[1]: *** [Programs/unittests/testdomdocument] Error 1
 >
-> Op 7 aug. 2012, om 14:14 heeft wenzong.fan@windriver.com het volgende geschreven:
->
->> From: Wenzong Fan<wenzong.fan@windriver.com>
->>
->> Fix the warning form pcmciautils building:
->>
->> "WARNING: QA Issue: pcmciautils: /sbin/pccardctl, installed in the
->> base_prefix, requires a shared library under exec_prefix (/usr):
->> libsysfs.so.2 =>  /usr/lib/libsysfs.so.2"
->>
->> Just refer to Debian/Ubuntu distributions, install sysfsutils libs
->> to "/lib*" instead of "/usr/lib*".
->>
->> [YOCTO #2907]
->>
->> Signed-off-by: Wenzong Fan<wenzong.fan@windriver.com>
->> ---
->> meta/recipes-core/sysfsutils/sysfsutils_2.1.0.bb |    4 +++-
->> 1 file changed, 3 insertions(+), 1 deletion(-)
->>
->> diff --git a/meta/recipes-core/sysfsutils/sysfsutils_2.1.0.bb b/meta/recipes-core/sysfsutils/sysfsutils_2.1.0.bb
->> index 3e4fdda..f01d19b 100644
->> --- a/meta/recipes-core/sysfsutils/sysfsutils_2.1.0.bb
->> +++ b/meta/recipes-core/sysfsutils/sysfsutils_2.1.0.bb
->> @@ -8,7 +8,7 @@ LICENSE_libsysfs = "LGPLv2.1"
->> LIC_FILES_CHKSUM = "file://COPYING;md5=3d06403ea54c7574a9e581c6478cc393 \
->>                      file://cmd/GPL;md5=d41d4e2e1e108554e0388ea4aecd8d27 \
->>                      file://lib/LGPL;md5=b75d069791103ffe1c0d6435deeff72e"
->> -PR = "r3"
->> +PR = "r4"
->>
->> SRC_URI = "${SOURCEFORGE_MIRROR}/linux-diag/sysfsutils-${PV}.tar.gz \
->> 	  file://sysfsutils-2.0.0-class-dup.patch \
->> @@ -24,3 +24,5 @@ PACKAGES =+ "libsysfs libsysfs-dev libsysfs-staticdev"
->> FILES_libsysfs = "${libdir}/lib*${SOLIBS}"
->> FILES_libsysfs-dev = "${libdir}/lib*${SOLIBSDEV} ${includedir}"
->> FILES_libsysfs-staticdev = "${libdir}/lib*.a"
->
-> Ahem! ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
->
->> +
->> +export libdir = "${base_libdir}"
->
-> And can you post the buildhistory diff to see if anything else moved when it shouldn't have e.g. package config files?
+> I reverted this patch and build is fine.
 
-I make a diff to the build dir, only the location of 'lib/' was moved:
-------------------------
-Only in sysfsutils-2.1.0-r4.new/image: lib
-Only in sysfsutils-2.1.0-r4.old/image/usr: lib
-Only in sysfsutils-2.1.0-r4.new/package: lib
-Only in sysfsutils-2.1.0-r4.old/package/usr: lib
-Only in sysfsutils-2.1.0-r4.new/packages-split/libsysfs: lib
-Only in sysfsutils-2.1.0-r4.old/packages-split/libsysfs: usr
-Only in sysfsutils-2.1.0-r4.new/packages-split/libsysfs-dev: lib
-Only in sysfsutils-2.1.0-r4.old/packages-split/libsysfs-dev/usr: lib
-Only in sysfsutils-2.1.0-r4.new/packages-split/libsysfs-staticdev: lib
-Only in sysfsutils-2.1.0-r4.old/packages-split/libsysfs-staticdev: usr
-Only in sysfsutils-2.1.0-r4.new/packages-split/sysfsutils-dbg: lib
-Only in sysfsutils-2.1.0-r4.old/packages-split/sysfsutils-dbg/usr: lib
-Only in sysfsutils-2.1.0-r4.new/packages-split/sysfsutils-dev: lib
-Only in sysfsutils-2.1.0-r4.old/packages-split/sysfsutils-dev: usr
-Only in sysfsutils-2.1.0-r4.new/sysroot-destdir: lib
-Only in sysfsutils-2.1.0-r4.old/sysroot-destdir/usr: lib
-------------------------
+Bringing this thread back as it needs to get resolved.
 
-Thanks
-Wenzong
+Can you try adding the patch in
+https://bug-79498-attachments.webkit.org/attachment.cgi?id=3D131681 to
+webkit and seeing if it builds with -j then?  That patch claims to add
+duplicated rules to force the buggy make not to drop essential
+dependencies.
 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+If that doesn't help... I don't know what the best thing to do is.
+Add a make-replacement 3.81 recipe, and depend on it?  Detect the make
+version and disable parallel and warn if it's 3.82?
+
+Cheers,
+Ross
 
 
