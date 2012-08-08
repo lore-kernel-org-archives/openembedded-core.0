@@ -1,32 +1,34 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Liezhi.Yang@windriver.com>) id 1Sz1pB-0001SE-8e
+	(envelope-from <ross.burton@intel.com>) id 1Sz21F-0001cR-CA
 	for openembedded-core@lists.openembedded.org;
-	Wed, 08 Aug 2012 10:41:05 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q788THut016589
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 8 Aug 2012 01:29:17 -0700 (PDT)
-Received: from [128.224.163.142] (128.224.163.142) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.309.2;
-	Wed, 8 Aug 2012 01:29:16 -0700
-Message-ID: <5022235A.9060302@windriver.com>
-Date: Wed, 8 Aug 2012 16:29:14 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:13.0) Gecko/20120615 Thunderbird/13.0.1
+	Wed, 08 Aug 2012 10:53:33 +0200
+Received: from mail-ob0-f180.google.com ([209.85.214.180])
+	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 08 Aug 2012 01:41:45 -0700
+Received: by obbuo19 with SMTP id uo19so712270obb.25
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 08 Aug 2012 01:41:44 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:from:date:message-id:subject:to:content-type
+	:x-gm-message-state;
+	bh=FXam7KRqJkaqz+XB16aYXFD4YLJih/z7cUy0jrirj4w=;
+	b=g7KCIqAV/W7YKJUcB9IK7keh5M+aFgdVgb4QgmHm6qCxNEFtVDA8rG0dh9nD9h+LBi
+	i7jr9fCUhPoFe4snAdK3oRHdR0Hf1L3yJccnctCxb18VxJCNryRJ54ZWcOo0vBCSyS+2
+	ZqbXH5GMdyj+uIUxHkJPrmmSZDcUKGmB29fezefeubG1Tv6apWpLApH1p3xBgIq3G0Tv
+	xLNAMGSeqhTAwMaO5/o+YWwEfqWOKQmXRSyFyNEgFNH80LNUp6Upxp5ptc5nFjrdxOcN
+	fBnU61d3qjJg2B2LUIrZaQwHfTqIpiAU4CJl3z3NJFEHRu8tDvdKp85Nz5n+Fy9AzPn0
+	C1vg==
+Received: by 10.182.169.40 with SMTP id ab8mr29185610obc.34.1344415304568;
+	Wed, 08 Aug 2012 01:41:44 -0700 (PDT)
 MIME-Version: 1.0
-To: Robert Yang <liezhi.yang@windriver.com>
-References: <cover.1343124846.git.liezhi.yang@windriver.com>
-	<7affb352c173c353df0b69002f3ca0f5ee0502cf.1343124846.git.liezhi.yang@windriver.com>
-	<1343126992.22222.11.camel@ted>
-	<20120806092903.GG3267@jama.jama.net>
-	<1344358644.9756.293.camel@ted> <50221C2A.5010303@windriver.com>
-In-Reply-To: <50221C2A.5010303@windriver.com>
-Cc: Zhenfeng.Zhao@windriver.com,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] package-index: inherit pythonnative
+Received: by 10.182.45.10 with HTTP; Wed, 8 Aug 2012 01:41:24 -0700 (PDT)
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 8 Aug 2012 09:41:24 +0100
+Message-ID: <CAJTo0LZn3md_x3a9-+LV67FYopkXaPgFv8-+U4JEj7UzwSYd9Q@mail.gmail.com>
+To: OE-core <openembedded-core@lists.openembedded.org>
+X-Gm-Message-State: ALoCoQk8K9ntxSdBfLpZdYydgSXtfhmQ+pTC7j1pbmzsoz6+C4aSDReI+aQIol03BED14JLBKDqM
+Subject: Replacing Web in Sato with Midori
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,90 +43,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Aug 2012 08:41:05 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 08 Aug 2012 08:53:33 -0000
+Content-Type: text/plain; charset=UTF-8
 
+Hi,
 
+As everyone who's used it can attest, Web (the optional browser in
+Sato) is pretty rough.  Part of my plans about replacing Sato with a
+leaner environment involves replacing it with Midori, and if there
+isn't any disagreements I'll work on a submission to merge Midori into
+Sato now for everyone who expects the Sato web browser to be useful.
 
-On 08/08/2012 03:58 PM, Robert Yang wrote:
->
->
-> On 08/08/2012 12:57 AM, Richard Purdie wrote:
->> On Mon, 2012-08-06 at 11:29 +0200, Martin Jansa wrote:
->>> On Tue, Jul 24, 2012 at 11:49:52AM +0100, Richard Purdie wrote:
->>>> On Tue, 2012-07-24 at 18:19 +0800, Robert Yang wrote:
->>>>> The native python binary has been moved from usr/bin/python to
->>>>> usr/bin/python-native/python, the recipe which needs python-native
->>>>> should "inherit pythonnative", otherwise there would be errors when the
->>>>> python script runs.
->>>>>
->>>>> [YOCTO #2822]
->>>>>
->>>>> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
->>>>> ---
->>>>>   meta/recipes-core/meta/package-index.bb |    2 ++
->>>>>   1 files changed, 2 insertions(+), 0 deletions(-)
->>>>
->>>> Which part of this recipe needs python-native? Shouldn't scripts which
->>>> need pythonnative be using the path to the python interpreter
->>>> explicitly?
->>>
->>> This fixes my opkg-utils related issues too
->>> http://lists.linuxtogo.org/pipermail/openembedded-core/2012-July/026333.html
->>>
->>> The problem is that with pythonnative in opkg-utils it's still using
->>> #!/usr/bin/env python
->>> in tmp-eglibc/sysroots/x86_64-linux/usr/bin/opkg-make-index
->>>
->>> And when python-index executes this:
->>> | + [ -e
->>> /var/lib/jenkins/jobs/shr-core/workspace/shr-core/tmp-eglibc/deploy/ipk/ ]
->>> | + touch
->>> /var/lib/jenkins/jobs/shr-core/workspace/shr-core/tmp-eglibc/deploy/ipk/Packages
->>> | + flock
->>> /var/lib/jenkins/jobs/shr-core/workspace/shr-core/tmp-eglibc/deploy/ipk/Packages.flock
->>> -c opkg-make-index -r
->>> /var/lib/jenkins/jobs/shr-core/workspace/shr-core/tmp-eglibc/deploy/ipk/Packages
->>> -p
->>> /var/lib/jenkins/jobs/shr-core/workspace/shr-core/tmp-eglibc/deploy/ipk/Packages
->>> -m /var/lib/jenkins/jobs/shr-core/workspace/shr-core/tmp-eglibc/deploy/ipk/
->>> | Traceback (most recent call last):
->>>
->>> It depends on PATH of package-index not opkg-utils.
->>
->> I think the right fix here is to remove the PYTHONPATH line in
->> package-index.bb. We should no longer need that and that should fix the
->> problems but its going to be a while before I can test this on a system
->> showing the problem.
->>
->
-> Hi Richard
->
-> I'd like to remove the PYTHONPATH and started testing package_rpm, package_deb
-> pacakge_ipk now (meta-toolchain-sdk and core-image-sato), I will send the
-> the patch if the testing is ok (tomorrow).
->
+This will involve pulling a few projects from meta-oe to oe-core:
+ca-certificates, python-docutils and vala specifically (although its
+possible that we can drop the vala dependency).
 
-Just noticed that it has been removed after a 'git pull'
-
-// Robert
-
-
-> // Robert
->
->> Cheers,
->>
->> Richard
->>
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->>
->>
->
-
+Ross
 
 
