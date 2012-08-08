@@ -1,31 +1,20 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Liezhi.Yang@windriver.com>) id 1Sz1LV-00010V-B2
+	(envelope-from <radu.moisan@intel.com>) id 1Sz1RU-00016i-8p
 	for openembedded-core@lists.openembedded.org;
-	Wed, 08 Aug 2012 10:10:25 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q787wZxN016157
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 8 Aug 2012 00:58:36 -0700 (PDT)
-Received: from [128.224.163.142] (128.224.163.142) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.309.2;
-	Wed, 8 Aug 2012 00:58:36 -0700
-Message-ID: <50221C2A.5010303@windriver.com>
-Date: Wed, 8 Aug 2012 15:58:34 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:13.0) Gecko/20120615 Thunderbird/13.0.1
-MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1343124846.git.liezhi.yang@windriver.com>
-	<7affb352c173c353df0b69002f3ca0f5ee0502cf.1343124846.git.liezhi.yang@windriver.com>
-	<1343126992.22222.11.camel@ted>
-	<20120806092903.GG3267@jama.jama.net>
-	<1344358644.9756.293.camel@ted>
-In-Reply-To: <1344358644.9756.293.camel@ted>
-Cc: Zhenfeng.Zhao@windriver.com
-Subject: Re: [PATCH 1/1] package-index: inherit pythonnative
+	Wed, 08 Aug 2012 10:16:36 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 08 Aug 2012 01:04:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.77,730,1336374000"; d="scan'208";a="177334588"
+Received: from dell-desktop (HELO localhost.localdomain) ([10.237.105.32])
+	by orsmga001.jf.intel.com with ESMTP; 08 Aug 2012 01:04:32 -0700
+From: Radu Moisan <radu.moisan@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  8 Aug 2012 11:06:27 +0300
+Message-Id: <1344413188-24709-1-git-send-email-radu.moisan@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH v2] watchdog: Upgrade to upstream v5.12
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,72 +29,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Aug 2012 08:10:25 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 08 Aug 2012 08:16:36 -0000
 
+License changed to GPLv2+
 
+Signed-off-by: Radu Moisan <radu.moisan@intel.com>
+---
+ .../{watchdog_5.11.bb => watchdog_5.12.bb}         |   13 ++++++-------
+ 1 file changed, 6 insertions(+), 7 deletions(-)
+ rename meta/recipes-extended/watchdog/{watchdog_5.11.bb => watchdog_5.12.bb} (57%)
 
-On 08/08/2012 12:57 AM, Richard Purdie wrote:
-> On Mon, 2012-08-06 at 11:29 +0200, Martin Jansa wrote:
->> On Tue, Jul 24, 2012 at 11:49:52AM +0100, Richard Purdie wrote:
->>> On Tue, 2012-07-24 at 18:19 +0800, Robert Yang wrote:
->>>> The native python binary has been moved from usr/bin/python to
->>>> usr/bin/python-native/python, the recipe which needs python-native
->>>> should "inherit pythonnative", otherwise there would be errors when the
->>>> python script runs.
->>>>
->>>> [YOCTO #2822]
->>>>
->>>> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
->>>> ---
->>>>   meta/recipes-core/meta/package-index.bb |    2 ++
->>>>   1 files changed, 2 insertions(+), 0 deletions(-)
->>>
->>> Which part of this recipe needs python-native? Shouldn't scripts which
->>> need pythonnative be using the path to the python interpreter
->>> explicitly?
->>
->> This fixes my opkg-utils related issues too
->> http://lists.linuxtogo.org/pipermail/openembedded-core/2012-July/026333.html
->>
->> The problem is that with pythonnative in opkg-utils it's still using
->> #!/usr/bin/env python
->> in tmp-eglibc/sysroots/x86_64-linux/usr/bin/opkg-make-index
->>
->> And when python-index executes this:
->> | + [ -e /var/lib/jenkins/jobs/shr-core/workspace/shr-core/tmp-eglibc/deploy/ipk/ ]
->> | + touch /var/lib/jenkins/jobs/shr-core/workspace/shr-core/tmp-eglibc/deploy/ipk/Packages
->> | + flock /var/lib/jenkins/jobs/shr-core/workspace/shr-core/tmp-eglibc/deploy/ipk/Packages.flock -c opkg-make-index -r /var/lib/jenkins/jobs/shr-core/workspace/shr-core/tmp-eglibc/deploy/ipk/Packages -p /var/lib/jenkins/jobs/shr-core/workspace/shr-core/tmp-eglibc/deploy/ipk/Packages -m /var/lib/jenkins/jobs/shr-core/workspace/shr-core/tmp-eglibc/deploy/ipk/
->> | Traceback (most recent call last):
->>
->> It depends on PATH of package-index not opkg-utils.
->
-> I think the right fix here is to remove the PYTHONPATH line in
-> package-index.bb. We should no longer need that and that should fix the
-> problems but its going to be a while before I can test this on a system
-> showing the problem.
->
-
-Hi Richard
-
-I'd like to remove the PYTHONPATH and started testing package_rpm, package_deb
-pacakge_ipk now (meta-toolchain-sdk and core-image-sato), I will send the
-the patch if the testing is ok (tomorrow).
-
-// Robert
-
-> Cheers,
->
-> Richard
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
->
+diff --git a/meta/recipes-extended/watchdog/watchdog_5.11.bb b/meta/recipes-extended/watchdog/watchdog_5.12.bb
+similarity index 57%
+rename from meta/recipes-extended/watchdog/watchdog_5.11.bb
+rename to meta/recipes-extended/watchdog/watchdog_5.12.bb
+index 6a611c9..2a6099f 100644
+--- a/meta/recipes-extended/watchdog/watchdog_5.11.bb
++++ b/meta/recipes-extended/watchdog/watchdog_5.12.bb
+@@ -5,17 +5,16 @@ it will reboot the system."
+ HOMEPAGE = "http://watchdog.sourceforge.net/"
+ BUGTRACKER = "http://sourceforge.net/tracker/?group_id=172030&atid=860194"
+ 
+-LICENSE = "GPL-1.0+"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=8a7258c60a71a2f04b67fb01f495889c"
++LICENSE = "GPL-2.0+"
++LIC_FILES_CHKSUM = "file://COPYING;md5=ecc0551bf54ad97f6b541720f84d6569"
+ 
+-PR = "r1"
++PR = "r0"
+ 
+-SRC_URI = "${SOURCEFORGE_MIRROR}/watchdog/watchdog_${PV}.tar.gz \
++SRC_URI = "${SOURCEFORGE_MIRROR}/watchdog/watchdog-${PV}.tar.gz \
+ 	   file://fix-ping-failure.patch"
+ 
+-
+-SRC_URI[md5sum] = "02c764219b3bdb2373091cbd67109eb6"
+-SRC_URI[sha256sum] = "723a7966e0c3d58e3f4df20943a5c9aa1553381f46aa0dbcf832016756e62792"
++SRC_URI[md5sum] = "cea28bea70e54f3625062bc808aef9af"
++SRC_URI[sha256sum] = "862d5da6ab34568bbd4ea695316f063fecabe107d0939ceea6c67c9ec0b1a08e"
+ 
+ inherit autotools
+ 
+-- 
+1.7.9.5
 
 
 
