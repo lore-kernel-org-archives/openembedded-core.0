@@ -1,27 +1,54 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from tx2ehsobe001.messaging.microsoft.com ([65.55.88.11]
+	helo=tx2outboundpool.messaging.microsoft.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Rongqing.Li@windriver.com>) id 1SyvVP-0000Rk-UO
+	(envelope-from <B29882@freescale.com>) id 1Syw0D-0001Bk-63
 	for openembedded-core@lists.openembedded.org;
-	Wed, 08 Aug 2012 03:56:16 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q781iSVq012573
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 7 Aug 2012 18:44:28 -0700 (PDT)
-Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.163) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.309.2; Tue, 7 Aug 2012 18:44:27 -0700
-From: <rongqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 8 Aug 2012 09:44:26 +0800
-Message-ID: <1344390266-11878-1-git-send-email-rongqing.li@windriver.com>
-X-Mailer: git-send-email 1.7.4.1
+	Wed, 08 Aug 2012 04:28:05 +0200
+Received: from mail256-tx2-R.bigfish.com (10.9.14.242) by
+	TX2EHSOBE009.bigfish.com (10.9.40.29) with Microsoft SMTP Server id
+	14.1.225.23; Wed, 8 Aug 2012 02:16:17 +0000
+Received: from mail256-tx2 (localhost [127.0.0.1])	by
+	mail256-tx2-R.bigfish.com (Postfix) with ESMTP id 0B178280258;
+	Wed,  8 Aug 2012 02:16:17 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-SpamScore: -3
+X-BigFish: VS-3(zz98dI9371I936eI1432Izz1202hzz8275bhz2dh2a8h668h839h8e2h8e3hf0ah107ah10d2hbe9i)
+Received: from mail256-tx2 (localhost.localdomain [127.0.0.1]) by mail256-tx2
+	(MessageSwitch) id 1344392175122783_14517;
+	Wed,  8 Aug 2012 02:16:15 +0000 (UTC)
+Received: from TX2EHSMHS012.bigfish.com (unknown [10.9.14.242])	by
+	mail256-tx2.bigfish.com (Postfix) with ESMTP id 1240B1E4004E;
+	Wed,  8 Aug 2012 02:16:15 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by TX2EHSMHS012.bigfish.com
+	(10.9.99.112) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Wed, 8 Aug 2012 02:16:14 +0000
+Received: from 039-SN1MPN1-001.039d.mgd.msft.net ([169.254.1.41]) by
+	039-SN1MMR1-002.039d.mgd.msft.net ([10.84.1.15]) with mapi id
+	14.02.0298.005; Tue, 7 Aug 2012 21:16:14 -0500
+From: McClintock Matthew-B29882 <B29882@freescale.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH] linux-yocto-3.4: Disable extra slang header
+	search path
+Thread-Index: AQHNdQvJCdKsIeWQgEiXDWd+SVNF2g==
+Date: Wed, 8 Aug 2012 02:16:14 +0000
+Message-ID: <CAEsOVNeQX9uwB_QNdhodJqjprU2ygoMN=_DbEzudcb9GiF+wzg@mail.gmail.com>
+References: <1344338236.9756.218.camel@ted> <50211706.1050707@windriver.com>
+	<1344347435.9756.251.camel@ted> <50211F3B.6010601@windriver.com>
+In-Reply-To: <50211F3B.6010601@windriver.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [70.112.201.132]
 MIME-Version: 1.0
-Subject: [PATCH] bitbake: compile tar-replacement firstly
+X-OriginatorOrg: freescale.com
+Subject: Re: [PATCH] linux-yocto-3.4: Disable extra slang header search path
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -32,49 +59,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Aug 2012 01:56:16 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 08 Aug 2012 02:28:05 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <53975344E9DAA2439B3CAC90B32E2BC5@mgd.freescale.com>
+Content-Transfer-Encoding: quoted-printable
 
-From: Roy.Li <rongqing.li@windriver.com>
+On Tue, Aug 7, 2012 at 8:59 AM, Bruce Ashfield
+<bruce.ashfield@windriver.com> wrote:
+> On 12-08-07 09:50 AM, Richard Purdie wrote:
+>>
+>> On Tue, 2012-08-07 at 09:24 -0400, Bruce Ashfield wrote:
+>>>
+>>> On 12-08-07 07:17 AM, Richard Purdie wrote:
+>>>>
+>>>> Add in a workaround to avoid host infection detection build failures
+>>>> from the slang include directory in perf. I'll defer to Bruce to
+>>>> fix this properly but we need a workaround now as this is breaking
+>>>> builds.
+>>>
+>>>
+>>> I just followed up on a patch from 3 days ago, but I'll follow up here
+>>> as well .. just to make sure the message gets through.
+>>>
+>>> We had a pending patch to fix this issue from Liang Li here @ windriver=
+.
+>>>
+>>> Did that patch not fix the problem, or did it fall through the cracks ?
+>>
+>>
+>> It is not correct. It adds in another search path and just hides the
+>> issue. We should *never* be putting -I/usr/include/slang on the compiler
+>> commandline at all period.
+>
+>
+> I'd argue that it's more correct than commenting out the upstream
+> include path.
+>
+> It fixes the problem, doesn't require a patch to the kernel and give
+> us time to work upstream and get a real fix.
+>
+> So I'd really prefer that we take that fix, versus the kernel patch
+> if it actually fixes the problem.
+>
+>
+>>
+>> I'd assumed in all the email traffic that this was clear and that
+>> another solution was being worked on that would be acceptable upstream
+>> too.
+>
+>
+> Exactly what I referred to above. But we don't want a temporary
+> kernel path, we want the temporary recipe patch.
+>
+>
+>>
+>> Perhaps a better option might be: -I=3D/usr/include/slang ? That assumes
+>> that all kernel gcc versions would accept the =3D notation, that should =
+be
+>> true by now?
+>
+>
+> Not in my experience when dealing with the upstream kernel and tools,
+> there are plenty of old compilers floating around.
 
-Compiling tar-replacement or not is decided by version of host tar,
-if the host tar version is lower than 1.23, Compiling tar-replacement
-is needed.
+Sorry, I'm not following this thread super close.. will all kernel
+trees need to apply this patch? That does not seem ideal...
 
-When doing popoluate tar-replacement sysroot to write the tar to
-sysroot, but writing is not finished. other packages probably
-use the being written tar to unzip file, which will lead to failure
-and report the below error:
-"bitbake_build/tmp/sysroots/x86_64-linux/usr/bin/tar: Text file busy"
-
-Now we compile tar-replacement firstly to ensure that a being written
-tar command will not be used.
-
-Signed-off-by: Roy.Li <rongqing.li@windriver.com>
----
- scripts/bitbake |    7 ++++++-
- 1 files changed, 6 insertions(+), 1 deletions(-)
-
-diff --git a/scripts/bitbake b/scripts/bitbake
-index 09f8a86..79a81ea 100755
---- a/scripts/bitbake
-+++ b/scripts/bitbake
-@@ -152,7 +152,12 @@ if [ $buildpseudo -gt 0 ]; then
-             fi
-         done
-     done
--    bitbake pseudo-native $TARTARGET $GITTARGET $additionalopts -c populate_sysroot
-+
-+    if [ $needtar = "1" ]; then
-+	bitbake $TARTARGET -c populate_sysroot
-+    fi
-+
-+    bitbake pseudo-native $GITTARGET $additionalopts -c populate_sysroot
-     ret=$?
-     if [ "$ret" != "0" ]; then
-         exit 1
--- 
-1.7.4.1
+-M=
 
 
 
