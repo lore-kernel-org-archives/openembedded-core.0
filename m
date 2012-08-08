@@ -1,41 +1,38 @@
-Received: from familie-heinold.de
-	([85.214.48.103] helo=mail.familie-heinold.de ident=postfix)
+Received: from mail-wg0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <heinold@inf.fu-berlin.de>) id 1SzBtA-0004PQ-2n
+	(envelope-from <martin.jansa@gmail.com>) id 1SzE2R-0003TE-Ql
 	for openembedded-core@lists.openembedded.org;
-	Wed, 08 Aug 2012 21:25:52 +0200
-Received: from mail.familie-heinold.de (localhost [127.0.0.1])
-	by mail.familie-heinold.de (Postfix) with ESMTP id 7CDF12232546
+	Wed, 08 Aug 2012 23:43:36 +0200
+Received: by wgbdr1 with SMTP id dr1so997262wgb.24
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Aug 2012 21:14:06 +0200 (CEST)
-Received: from mail.familie-heinold.de (localhost [127.0.0.1])
-	by mail.familie-heinold.de (Postfix) with ESMTP id 6613F223202E
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Aug 2012 21:14:05 +0200 (CEST)
-X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
-	h873313.serverkompetenz.net
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.5 required=5.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=ham version=3.3.1
-Received: from rhein.familie-heinold.de (g230116152.adsl.alicedsl.de
-	[92.230.116.152]) by mail.familie-heinold.de (Postfix) with ESMTPA
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Aug 2012 21:14:05 +0200 (CEST)
-Received: by rhein.familie-heinold.de (Postfix, from userid 1000)
-	id 015A63C65B; Wed,  8 Aug 2012 21:14:03 +0200 (CEST)
-Date: Wed, 8 Aug 2012 21:14:03 +0200
-From: Henning Heinold <heinold@inf.fu-berlin.de>
+	Wed, 08 Aug 2012 14:31:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=q96W3DhAPP+CxKqSDq4qZVxZ2ueOEdhQkDb4No3vCRU=;
+	b=TlhFhh3IUekorqBR72VxAD8dhQ/4EOyPeLoutotgZ9fMRwvqL6WfyhT0ECeFdgpLJJ
+	pHkEHcHAKE5EFuD7e5ZCG4m/AswOums+64M4xvLQ8TxLeqKKHv+GbNg/SLDZzzAmG0fZ
+	z21WQAF3b1Cf5418t8jRxXNnsx8H/uPXWT+0smqX9jStG/fye0CO4zJEdwkcWqnIk5aV
+	Mfs1DVs+c/gFtARPvwNx4IvsFo6rYFrGP3HirEKuA7eLqzQg6Cjl0gGoBTSGhXtd5ynp
+	xaWuJ148n+YggUy39hW2cha/LSxmICMUHxqtksLE/R6vh7ALRtsQP9s5FptIqFiUJafn
+	v/7w==
+Received: by 10.180.75.209 with SMTP id e17mr1210339wiw.0.1344461508204;
+	Wed, 08 Aug 2012 14:31:48 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id l6sm7336604wiz.4.2012.08.08.14.31.44
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 08 Aug 2012 14:31:45 -0700 (PDT)
+Date: Wed, 8 Aug 2012 23:31:43 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Message-ID: <20120808191403.GA5174@mail.familie-heinold.de>
-References: <50212459.8080801@nedap.com>
-	<CAMKF1soH+456jfMtDtQWHtgV-05ZcGe9U4w7PEm0FRnhtkiAcw@mail.gmail.com>
-	<502260AE.5040902@nedap.com>
+Message-ID: <20120808213143.GC2854@jama.jama.net>
+References: <CAGiJk9d7sCukgAiM=vdEJm3RKOP=6yqTW6HAGGiBb4oqBj0LqA@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <502260AE.5040902@nedap.com>
+In-Reply-To: <CAGiJk9d7sCukgAiM=vdEJm3RKOP=6yqTW6HAGGiBb4oqBj0LqA@mail.gmail.com>
 User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Virus-Scanned: ClamAV using ClamSMTP
-Subject: Re: libtool
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
+Subject: Re: Qt test cases (was: Re: Replacing Web in Sato with Midori)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,27 +47,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Aug 2012 19:25:52 -0000
-Content-Type: text/plain; charset=us-ascii
+X-List-Received-Date: Wed, 08 Aug 2012 21:43:36 -0000
+X-Groupsio-MsgNum: 27208
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="vEao7xgI/oilGqZ+"
 Content-Disposition: inline
 
-On Wed, Aug 08, 2012 at 02:50:54PM +0200, Jaap de Jong wrote:
-> 
-> On 08/07/2012 05:15 PM, Khem Raj wrote:
-> >On Tue, Aug 7, 2012 at 7:21 AM, Jaap de Jong <jaap.dejong@nedap.com> wrote:
-> >>I've seen this one before, but can't remember where...
+--vEao7xgI/oilGqZ+
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, Aug 08, 2012 at 06:14:00PM +0200, Samuel Stirtzel wrote:
+> 2012/8/8 Paul Eggleton <paul.eggleton@linux.intel.com>:
+> > On Wednesday 08 August 2012 17:04:16 Samuel Stirtzel wrote:
+> >> > On Wednesday 08 August 2012 16:47:05 Koen Kooi wrote:
+> >> >> Op 8 aug. 2012, om 16:03 heeft Paul Eggleton
+> >> >> <paul.eggleton@linux.intel.com>>
+> >> > het volgende geschreven:
 > >>
-> >>     | libtool: link: warning: cannot determine absolute directory name of
-> >>`=/usr/lib'
+> >> > And? KDE is far more demanding upon Qt than most Qt-based applicatio=
+ns. We
+> >> > had to make specific changes to our Qt recipes just to accommodate i=
+t.
 > >>
-> >>Anyone knows how to fix?
-> >this package uses old libtool update the libtool scripts for it
+> >> If you're talking about adding accessibility and session management to
+> >> configure -> these are set by default by Qt.
+> >> Don't know why they where unset in oe-core though.
 > >
-> what would be the easiest way to do that?
+> > Not specifically, I was mainly referring to changes such as providing q=
+t4-
+> > native; we did not need to do that before.
+>=20
+> While this is true, meta-kde is also the only layer using qt-mobility (AF=
+AIK).
+> So you implicitly want to say that Koen is right because _there are no
+> other testcases_ for these recipes.
 
-Remove the libtool m4 macros and use autotools, serval recipes in oe-core
-and meta-oe does this.
+monav now in meta-oe is also using qt-mobility
 
-Bye Henning
+> Or do I get you wrong?
+>=20
+> >
+> > Cheers,
+> > Paul
+>=20
+>=20
+>=20
+> --=20
+> Regards
+> Samuel
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--vEao7xgI/oilGqZ+
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
+
+iEYEARECAAYFAlAi2r8ACgkQN1Ujt2V2gBwsWwCfXM+LNYZQIBiUf1RIHqDmFXdD
+7G0Ani9mj22JAmB08lGautxjtEuG+hhB
+=RYXG
+-----END PGP SIGNATURE-----
+
+--vEao7xgI/oilGqZ+--
