@@ -1,37 +1,37 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Yao.Zhao@windriver.com>) id 1Sz6cX-0003Iq-5O
+	(envelope-from <kergoth@gmail.com>) id 1Sz6dA-0003LF-Jz
 	for openembedded-core@lists.openembedded.org;
-	Wed, 08 Aug 2012 15:48:21 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q78DaXAc006119
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 08 Aug 2012 15:49:00 +0200
+Received: by lagv3 with SMTP id v3so343416lag.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 8 Aug 2012 06:36:33 -0700 (PDT)
-Received: from [128.224.147.210] (128.224.147.210) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.309.2;
-	Wed, 8 Aug 2012 06:36:33 -0700
-Message-ID: <50226B5E.9090605@windriver.com>
-Date: Wed, 8 Aug 2012 09:36:30 -0400
-From: Yao Zhao <yao.zhao@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:13.0) Gecko/20120615 Thunderbird/13.0.1
+	Wed, 08 Aug 2012 06:37:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date
+	:x-google-sender-auth:message-id:subject:to:content-type;
+	bh=BruCVhGhf5o1KmOxl1ScqqWenAl1oWI0JT6xiZhYRpw=;
+	b=tDrle8V774FwoPTiDAIKnmmbZMzgeYZifSIMiHGqgJDcjAagl8TwHuTtxqfY+WGOrR
+	/9O6Yq7BHHFplhyMo+oYiMxGrHZ1amZ31bQyeLGidMxN7BeoWEBW1tHvyJ6DytlJVq67
+	Fp+ScYoysy6yW4hAbO32PsV067WeboPgYV//+Z1uWHa3lqL/schR2e/UhqRoAK6TC61Q
+	a4JcKsw179Nz0CcjQylJRDxWdWLLOkTjDKRWIi7oKdpU/loDu6IADZKursBdwUVaMVye
+	quPUjg6rcoueedPAvdZJoYEAhKlLlUQig9XENbFief9lo8i/aTO//q8gO3FEeKywzKjD
+	lUvA==
+Received: by 10.112.102.136 with SMTP id fo8mr8018075lbb.106.1344433033324;
+	Wed, 08 Aug 2012 06:37:13 -0700 (PDT)
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1344360704-23172-1-git-send-email-yao.zhao@windriver.com>
-	<502152B8.6070100@gmail.com> <50215ED9.3070505@windriver.com>
-	<1344364223.4874.16.camel@x121e.pbcl.net>
-	<50216009.6020601@windriver.com>
-	<1344364696.4874.19.camel@x121e.pbcl.net>
-	<502161DC.9020705@windriver.com>
-	<1344365134.4874.23.camel@x121e.pbcl.net>
-	<50216C8B.20802@windriver.com>
-	<1344374402.4874.32.camel@x121e.pbcl.net>
-	<50226880.6050808@windriver.com>
-	<1344432356.23275.247.camel@phil-desktop>
-In-Reply-To: <1344432356.23275.247.camel@phil-desktop>
-X-Originating-IP: [128.224.147.210]
-Subject: Re: [PATCH] cracklib, zlib: install to /lib instead of /usr/libxx
+Sender: kergoth@gmail.com
+Received: by 10.114.64.209 with HTTP; Wed, 8 Aug 2012 06:36:53 -0700 (PDT)
+In-Reply-To: <CAJTo0La+0sDd00LS2n=3qJ7xgmaa0csFv-jaTz5jvevHrtceVA@mail.gmail.com>
+References: <CAJTo0Lb2jyRgUxqKE_ggZDwGr9FQuHig8rnQsYZTghdMXUpKhw@mail.gmail.com>
+	<1344418236.23275.219.camel@phil-desktop>
+	<CAJTo0La+0sDd00LS2n=3qJ7xgmaa0csFv-jaTz5jvevHrtceVA@mail.gmail.com>
+From: Chris Larson <clarson@kergoth.com>
+Date: Wed, 8 Aug 2012 06:36:53 -0700
+X-Google-Sender-Auth: x3Isi8FAu3hA64xKZoID-QN-wKI
+Message-ID: <CABcZANkzqU=nqddBsQtFM=Hw4Bkzi07iKQiWKwJAEiAvJYou5Q@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Configurable host name
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,54 +46,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Aug 2012 13:48:21 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 08 Aug 2012 13:49:00 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 12-08-08 09:25 AM, Phil Blundell wrote:
-> On Wed, 2012-08-08 at 09:24 -0400, Yao Zhao wrote:
->> I want both libz.a and libz.so* in /lib.
->>
->> I wrote a simple test case:
->> cat Makefile
->> all:
->>           gcc -c -fPIC -DPIC -o test.o test.c -g
->>           gcc -o libtest.so -shared test.o
->>           gcc -c -o test_main.o test_main.c -g
->>           ar rc libtest.a test.o
->>           mv libtest.a usr/lib
->>           mv libtest.so lib
->>           gcc -o test_main_static test_main.o -L./usr/lib -L./lib -ltest
->>           gcc -o test_main_shared test_main.o -L./lib -L./usr/lib -ltest
->>
->> If don't install to same directory then it will have problems.
-> That testcase isn't terribly representative since you have libtest.so
-> being the actual shared library.  In the zlib case, since it has a
-> proper SONAME, libz.so.1 and libz.so are distinct.
-Slightly modified:
-cat Makefile
-all:
-         gcc -c -fPIC -DPIC -o test.o test.c -g
-         gcc -o libtest.so.1.2 -Wl,-soname,libtest.so.1 -shared test.o
-         gcc -c -o test_main.o test_main.c -g
-         ar rc libtest.a test.o
-         ln -s libtest.so.1.2 libtest.so.1
-         ln -s libtest.so.1.2 libtest.so
-         mv libtest.a usr/lib
-         mv libtest.so* lib
-         gcc -o test_main_static test_main.o -L./usr/lib -L./lib -ltest
-         gcc -o test_main_shared test_main.o -Llib -L./usr/lib -ltest
-
-yao
-> p.
+On Wed, Aug 8, 2012 at 5:09 AM, Burton, Ross <ross.burton@intel.com> wrote:
+> On 8 August 2012 10:30, Phil Blundell <philb@gnu.org> wrote:
+>> hostname_pn-base-files = "my-distro-rocks"
 >
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+> Aha.  I was looking at the hostname variable in there and wondering if
+> it could be overridden.  That satisfies my itch for now, considering
+> the drawback of causing everything to rebuild if a global variable
+> were changed.
 
+To clarify, changing a global variable doesn't cause everything to
+rebuild. As was pointed out, it ends up in all the metadata for all
+the recipes, but that doesn't mean it ends up in the task checksums.
+The metadata checksumming tracks variable dependencies, and will only
+rebuild the tasks which use the variable, directly or indirectly. Now,
+*exported* variables are a rather different beast, but that's not what
+we're talking about here.
 
+Note that I'm not arguing in favor of adding another global variable,
+but I did want to make sure you understand the actual behavior of the
+system in this regard.
+-- 
+Christopher Larson
 
 
