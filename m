@@ -1,46 +1,23 @@
-Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1Syt5t-0005N8-08
+	(envelope-from <Rongqing.Li@windriver.com>) id 1SyvVP-0000Rk-UO
 	for openembedded-core@lists.openembedded.org;
-	Wed, 08 Aug 2012 01:21:45 +0200
-Received: from mail-yx0-f180.google.com ([209.85.213.180])
-	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 07 Aug 2012 16:09:57 -0700
-Received: by yenq6 with SMTP id q6so151436yen.25
+	Wed, 08 Aug 2012 03:56:16 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q781iSVq012573
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 07 Aug 2012 16:09:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:subject:references
-	:in-reply-to:content-type:content-transfer-encoding
-	:x-gm-message-state;
-	bh=WZyWQhS4+AwrjkAkGswu8veHFN/zAwmEu6dOp42Ibh0=;
-	b=Lvy7uTs6UfcvKICibOgcoiOniORiRtmzbMGqSBX+BHLUDmnjE0grVnkyvSNeBNjHbA
-	Xq7pj4DCXQLZJ71v0CxWioNT0rg4OasGXeoJGF6ia29HrIbWiwVjmgFxaxWIt8RMr5j4
-	nQyLkfonzya7nvNcTFiO67OZs57w3bzAtd8HMsWqy771aJdU+UN9U95Nqm78UWRo+o81
-	1Rk9/zxJn248ZRUJwvn53InPXT8TaTQRDRC56YlnTa+gU3UslzXuqTSZDeDFUs2KMumR
-	gCdDKPMnqLvSXtvWSXXV8ucZOg34Q8l4oJhLs3mFWv0/PTSGMUgmztt8cIVBbCtGLXqf
-	dbKw==
-Received: by 10.66.75.97 with SMTP id b1mr29445108paw.15.1344380996123;
-	Tue, 07 Aug 2012 16:09:56 -0700 (PDT)
-Received: from [192.168.1.12] (c-76-105-137-48.hsd1.or.comcast.net.
-	[76.105.137.48])
-	by mx.google.com with ESMTPS id pe2sm8594659pbc.59.2012.08.07.16.09.54
-	(version=SSLv3 cipher=OTHER); Tue, 07 Aug 2012 16:09:55 -0700 (PDT)
-Message-ID: <5021A04D.9040403@intel.com>
-Date: Tue, 07 Aug 2012 16:10:05 -0700
-From: Scott Garman <scott.a.garman@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:14.0) Gecko/20120714 Thunderbird/14.0
+	Tue, 7 Aug 2012 18:44:28 -0700 (PDT)
+Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.163) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.309.2; Tue, 7 Aug 2012 18:44:27 -0700
+From: <rongqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 8 Aug 2012 09:44:26 +0800
+Message-ID: <1344390266-11878-1-git-send-email-rongqing.li@windriver.com>
+X-Mailer: git-send-email 1.7.4.1
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <1344325488-20479-1-git-send-email-koen@dominion.thruhere.net>
-	<20120807081710.GQ3267@jama.jama.net>
-	<9A466F05-060B-442E-ADD5-A015FE979942@dominion.thruhere.net>
-	<50213D45.2070802@intel.com>
-	<1E5BDEED-DBC6-463A-AE9E-2CF45C4920B6@dominion.thruhere.net>
-In-Reply-To: <1E5BDEED-DBC6-463A-AE9E-2CF45C4920B6@dominion.thruhere.net>
-X-Gm-Message-State: ALoCoQknVmZfr/MYhxjAH43rR4qZ/sF0jWreI4zPw0UwZKVrL5s90Yo6HmIgTcqWJT2DP6OWkqZs
-Subject: Re: [PATCH][for-denzil 1/8] opkg-utils: bump SRCREV for Packages cache fix and other fixes
+Subject: [PATCH] bitbake: compile tar-replacement firstly
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -55,37 +32,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Aug 2012 23:21:45 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 08 Aug 2012 01:56:16 -0000
+Content-Type: text/plain
 
-On 08/07/2012 11:19 AM, Koen Kooi wrote:
->>>>>
-RDEPENDS_${PN} = "python"
->>>>> RDEPENDS_${PN}_virtclass-native = "" -SRCREV =
->>>>> "16665959c330b5958c0f0f4624a9ca7f823f98de" +SRCREV =
->>>>> "44df9dd3dc411ca1255cb4b23bde7eb71aed4778"
->>>>
->>>> Better to use latest for this (only 3 commits, 2 of them
->>>> fixing python-2.6)
->>>
->>> Should I cherry-pick them from master to keep history or just
->>> make a single, new update to latest SRCREV for the denzil
->>> branch?
->>
->> I slightly favor cherry-picks from master when possible.
->
-> Since the cherry-picks would be incremental, can these 8 be queued
-> and extra cherrypicks be added at a later point? I need to actually
-> test those before submitting :)
+From: Roy.Li <rongqing.li@windriver.com>
 
-Appreciate that - this works for me.
+Compiling tar-replacement or not is decided by version of host tar,
+if the host tar version is lower than 1.23, Compiling tar-replacement
+is needed.
 
-Scott
+When doing popoluate tar-replacement sysroot to write the tar to
+sysroot, but writing is not finished. other packages probably
+use the being written tar to unzip file, which will lead to failure
+and report the below error:
+"bitbake_build/tmp/sysroots/x86_64-linux/usr/bin/tar: Text file busy"
 
+Now we compile tar-replacement firstly to ensure that a being written
+tar command will not be used.
+
+Signed-off-by: Roy.Li <rongqing.li@windriver.com>
+---
+ scripts/bitbake |    7 ++++++-
+ 1 files changed, 6 insertions(+), 1 deletions(-)
+
+diff --git a/scripts/bitbake b/scripts/bitbake
+index 09f8a86..79a81ea 100755
+--- a/scripts/bitbake
++++ b/scripts/bitbake
+@@ -152,7 +152,12 @@ if [ $buildpseudo -gt 0 ]; then
+             fi
+         done
+     done
+-    bitbake pseudo-native $TARTARGET $GITTARGET $additionalopts -c populate_sysroot
++
++    if [ $needtar = "1" ]; then
++	bitbake $TARTARGET -c populate_sysroot
++    fi
++
++    bitbake pseudo-native $GITTARGET $additionalopts -c populate_sysroot
+     ret=$?
+     if [ "$ret" != "0" ]; then
+         exit 1
 -- 
-Scott Garman
-Embedded Linux Engineer - Yocto Project
-Intel Open Source Technology Center
+1.7.4.1
+
 
 
