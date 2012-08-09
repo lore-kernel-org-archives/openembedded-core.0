@@ -1,35 +1,38 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from mail-ey0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1SzW1Y-0004Ri-Rb
+	(envelope-from <koen@dominion.thruhere.net>) id 1SzW1c-0004Rr-2L
 	for openembedded-core@lists.linuxtogo.org;
-	Thu, 09 Aug 2012 18:55:52 +0200
-Received: by eekb57 with SMTP id b57so178091eek.6
+	Thu, 09 Aug 2012 18:55:56 +0200
+Received: by eaad12 with SMTP id d12so177316eaa.6
 	for <openembedded-core@lists.linuxtogo.org>;
-	Thu, 09 Aug 2012 09:44:04 -0700 (PDT)
+	Thu, 09 Aug 2012 09:44:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer:x-gm-message-state;
-	bh=T00/LB0CexTPhhMocEekh4Q4NyKOSi8UZyBhQMZbcZ8=;
-	b=VVvi0GGNZn1kNTxMMdpCgaXI/Hv4QTDxx2o0pzFBEKo+5sh3Han+Z7ZOaCvSSDF8+A
-	A2efU5X9zG4lvH7663U4llqSKv4guDbidwFt4kwxG/kg1YgD7boZq7/qjGhgQkV9oIF7
-	1GFTRPn8kaVckSLtUGal77tETyBqLych9pARmjmsjGxvx8TPSgx0XlGi30qpxDJi1nDf
-	9w1sKh28vmrUn96b1aboXnqCnQhFJzlkV1+AsZCTbVxCM6PsYXlIJhiFw7ufswUkanVi
-	xIIrNKiBJWrXjOCLnNIn93OVM91bP2KSnc71UI0XnfhxnvEypLSoYqsqsJAuuIaKdB0W
-	B/Xg==
-Received: by 10.14.175.7 with SMTP id y7mr28316123eel.29.1344530644315;
-	Thu, 09 Aug 2012 09:44:04 -0700 (PDT)
+	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references
+	:x-gm-message-state;
+	bh=1u+qAM+kw27CEDfEhL+msIgzSfcluyreSwa/XKJq72w=;
+	b=S82YIhn8tFbKZzRQBIQQie4mwEUzUn6rsSYX9Eldmucbbw52ifmTx+/thuNmDAcEqa
+	Jl13AE5P5JzGrizmCYIxLyaNwOzpd+Zmw7aeNHJp0uibCPYA1jXtCz2jGg20AdaS6Qnz
+	9NEOKVh8zT0psLnWvXL5auyadFcT9BOYmCchh+hhpzdIIRyGoPqyOSLwSpfgWqqONOyq
+	D8S205I2+tj7F5HDZcluQ0vSwkDT4yCEgzH3umBt6TRo5Ebhe/D/ZitL3XAo4yFVwyFC
+	vmoWl4KbdBPVkuopgeg1VmYMOMkSkkvuH5nQ9MZAk+w6wYUJhEJ+stjUtT7rMf7Gssum
+	5q1Q==
+Received: by 10.14.5.67 with SMTP id 43mr28454719eek.15.1344530647577;
+	Thu, 09 Aug 2012 09:44:07 -0700 (PDT)
 Received: from localhost (cl-267.ams-05.nl.sixxs.net. [2001:610:600:10a::2])
-	by mx.google.com with ESMTPS id c6sm4838308eep.7.2012.08.09.09.44.01
+	by mx.google.com with ESMTPS id 45sm4833137eeb.8.2012.08.09.09.44.05
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 09 Aug 2012 09:44:02 -0700 (PDT)
+	Thu, 09 Aug 2012 09:44:06 -0700 (PDT)
 From: Koen Kooi <koen@dominion.thruhere.net>
 To: openembedded-core@lists.linuxtogo.org
-Date: Thu,  9 Aug 2012 18:43:56 +0200
-Message-Id: <1344530637-29330-1-git-send-email-koen@dominion.thruhere.net>
+Date: Thu,  9 Aug 2012 18:43:57 +0200
+Message-Id: <1344530637-29330-2-git-send-email-koen@dominion.thruhere.net>
 X-Mailer: git-send-email 1.7.10
-X-Gm-Message-State: ALoCoQkGbKzD3O+qBPCLjQRgfzk8AsDxSkT6GFluj6VoVjJJt78LbcIy0EPyL/Jj/lqJEfE9MGhu
+In-Reply-To: <1344530637-29330-1-git-send-email-koen@dominion.thruhere.net>
+References: <1344530637-29330-1-git-send-email-koen@dominion.thruhere.net>
+X-Gm-Message-State: ALoCoQl+EmC6oeiA7RWnr+SJrsa8vbyeNjfQ7mNtDTbMORBSVuwTGym8e3sXxTJAhnt883dY+0XF
 Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: [PATCH 1/2] man: fix RDEPENDS and reformat recipe
+Subject: [PATCH 2/2] man: make man actually work by installing custom man.config
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,38 +47,235 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Aug 2012 16:55:52 -0000
+X-List-Received-Date: Thu, 09 Aug 2012 16:55:56 -0000
+
+The default man.conf is named wrong and doesn't work. It references gtbl, while groff installs tbl and other things. This man.conf is imported from OE classic and runtime tested on angstrom.
+
+Before:
+
+root@beaglebone:~# man man
+sh: /usr/bin/gtbl: No such file or directory
+sh: line 0: echo: write error: Broken pipe
+gunzip: write: Broken pipe
+gunzip: error inflating
+sh: line 0: echo: write error: Broken pipe
+sh: line 0: echo: write error: Broken pipe
+
+After:
+
+root@beaglebone:~# man man
+MAN(1)                        Manual pager utils                        MAN(1)
+
+NAME
+       man - an interface to the on-line reference manuals
+
+SYNOPSIS
+       man  [-C  file]  [-d]  [-D]  [--warnings[=warnings]]  [-R encoding] [-L
+       locale] [-m system[,...]] [-M path] [-S list]  [-e  extension]  [-i|-I]
+       [--regex|--wildcard]   [--names-only]  [-a]  [-u]  [--no-subpages]  [-P
+       pager] [-r prompt] [-7] [-E encoding] [--no-hyphenation] [--no-justifi-
+       cation]  [-p  string]  [-t]  [-T[device]]  [-H[browser]] [-X[dpi]] [-Z]
+       [[section] page ...] ...
+       man -k [apropos options] regexp ...
+       man -K [-w|-W] [-S list] [-i|-I] [--regex] [section] term ...
+       man -f [whatis options] page ...
+       man -l [-C file] [-d] [-D] [--warnings[=warnings]]  [-R  encoding]  [-L
+       locale]  [-P  pager]  [-r  prompt]  [-7] [-E encoding] [-p string] [-t]
+       [-T[device]] [-H[browser]] [-X[dpi]] [-Z] file ...
+       man -w|-W [-C file] [-d] [-D] page ...
+       man -c [-C file] [-d] [-D] page ...
+       man [-hV]
+
+Check for config name:
+
+root@beaglebone:~# rm /etc/man.config
+root@beaglebone:~# man man
+Warning: cannot open configuration file /etc/man.config
+No manual entry for man
+
+As a bonus a bunch of references to the buildhost get removed from the config file.
 
 Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
 ---
- meta/recipes-extended/man/man_1.6f.bb |    7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ meta/recipes-extended/man/man-1.6f/man.conf |  140 +++++++++++++++++++++++++++
+ meta/recipes-extended/man/man_1.6f.bb       |    6 +-
+ 2 files changed, 143 insertions(+), 3 deletions(-)
+ create mode 100644 meta/recipes-extended/man/man-1.6f/man.conf
 
+diff --git a/meta/recipes-extended/man/man-1.6f/man.conf b/meta/recipes-extended/man/man-1.6f/man.conf
+new file mode 100644
+index 0000000..bb3c697
+--- /dev/null
++++ b/meta/recipes-extended/man/man-1.6f/man.conf
+@@ -0,0 +1,140 @@
++#
++# Generated automatically from man.conf.in by the
++# configure script.
++#
++# man.conf from man-1.5p
++#
++# For more information about this file, see the man pages man(1)
++# and man.conf(5).
++#
++# This file is read by man to configure the default manpath (also used
++# when MANPATH contains an empty substring), to find out where the cat
++# pages corresponding to given man pages should be stored,
++# and to map each PATH element to a manpath element.
++# It may also record the pathname of the man binary. [This is unused.]
++# The format is:
++#
++# MANBIN		pathname
++# MANPATH		manpath_element	[corresponding_catdir]
++# MANPATH_MAP		path_element	manpath_element
++#
++# If no catdir is given, it is assumed to be equal to the mandir
++# (so that this dir has both man1 etc. and cat1 etc. subdirs).
++# This is the traditional Unix setup.
++# Certain versions of the FSSTND recommend putting formatted versions
++# of /usr/.../man/manx/page.x into /var/catman/.../catx/page.x.
++# The keyword FSSTND will cause this behaviour.
++# Certain versions of the FHS recommend putting formatted versions of
++# /usr/.../share/man/[locale/]manx/page.x into
++# /var/cache/man/.../[locale/]catx/page.x.
++# The keyword FHS will cause this behaviour (and overrides FSSTND).
++# Explicitly given catdirs override.
++#
++# FSSTND
++FHS
++#
++# This file is also read by man in order to find how to call nroff, less, etc.,
++# and to determine the correspondence between extensions and decompressors.
++#
++# MANBIN		/usr/local/bin/man
++#
++# Every automatically generated MANPATH includes these fields
++#
++MANPATH	/usr/man
++MANPATH	/usr/share/man
++MANPATH	/usr/local/man
++MANPATH	/usr/local/share/man
++MANPATH	/usr/X11R6/man
++#
++# Uncomment if you want to include one of these by default
++#
++# MANPATH	/opt/*/man
++# MANPATH	/usr/lib/*/man
++# MANPATH	/usr/share/*/man
++# MANPATH	/usr/kerberos/man
++#
++# Set up PATH to MANPATH mapping
++#
++# If people ask for "man foo" and have "/dir/bin/foo" in their PATH
++# and the docs are found in "/dir/man", then no mapping is required.
++#
++# The below mappings are superfluous when the right hand side is
++# in the mandatory manpath already, but will keep man from statting
++# lots of other nearby files and directories.
++#
++MANPATH_MAP	/bin			/usr/share/man
++MANPATH_MAP	/sbin			/usr/share/man
++MANPATH_MAP	/usr/bin		/usr/share/man
++MANPATH_MAP	/usr/sbin		/usr/share/man
++MANPATH_MAP	/usr/local/bin		/usr/local/share/man
++MANPATH_MAP	/usr/local/sbin		/usr/local/share/man
++MANPATH_MAP	/usr/X11R6/bin		/usr/X11R6/man
++MANPATH_MAP	/usr/bin/X11		/usr/X11R6/man
++MANPATH_MAP	/usr/bin/mh		/usr/share/man
++#
++# NOAUTOPATH keeps man from automatically adding directories that look like
++# manual page directories to the path.
++#
++#NOAUTOPATH
++#
++# NOCACHE keeps man from creating cache pages ("cat pages")
++# (generally one enables/disable cat page creation by creating/deleting
++# the directory they would live in - man never does mkdir)
++# 
++#NOCACHE
++#
++# Useful paths - note that COL should not be defined when
++# NROFF is defined as "groff -Tascii" or "groff -Tlatin1";
++# not only is it superfluous, but it actually damages the output.
++# For use with utf-8, NROFF should be "nroff -mandoc" without -T option.
++# (Maybe - but today I need -Tlatin1 to prevent double conversion to utf8.)
++#
++# If you have a new troff (version 1.18.1?) and its colored output
++# causes problems, add the -c option to TROFF, NROFF, JNROFF.
++#
++TROFF		/usr/bin/groff -Tps -mandoc
++NROFF		/usr/bin/nroff -Tlatin1 -mandoc
++JNROFF		/usr/bin/groff -Tnippon -mandocj
++EQN		/usr/bin/eqn -Tps
++NEQN		/usr/bin/eqn -Tlatin1
++JNEQN		/usr/bin/eqn -Tnippon
++TBL		/usr/bin/tbl
++# COL		/usr/bin/col
++REFER		/usr/bin/refer
++PIC		/usr/bin/pic
++VGRIND		
++GRAP		
++PAGER		/usr/bin/less -isR
++CAT		/bin/cat
++#
++# The command "man -a xyzzy" will show all man pages for xyzzy.
++# When CMP is defined man will try to avoid showing the same
++# text twice. (But compressed pages compare unequal.)
++#
++CMP		/usr/bin/cmp -s
++#
++# Compress cat pages
++#
++COMPRESS	/bin/bzip2
++COMPRESS_EXT	.bz2
++#
++# Default manual sections (and order) to search if -S is not specified
++# and the MANSECT environment variable is not set.
++#
++MANSECT		1:1p:8:2:3:3p:4:5:6:7:9:0p:tcl:n:l:p:o
++#
++# Default options to use when man is invoked without options
++# This is mainly for the benefit of those that think -a should be the default
++# Note that some systems have /usr/man/allman, causing pages to be shown twice.
++#
++#MANDEFOPTIONS	-a
++#
++# Decompress with given decompressor when input file has given extension
++# The command given must act as a filter.
++#
++.gz		/bin/gunzip -c
++.bz2		/bin/bzip2 -c -d
++.z		
++.Z		/bin/zcat
++.F		
++.Y		
 diff --git a/meta/recipes-extended/man/man_1.6f.bb b/meta/recipes-extended/man/man_1.6f.bb
-index ee3d648..b35621a 100644
+index b35621a..3a36a5b 100644
 --- a/meta/recipes-extended/man/man_1.6f.bb
 +++ b/meta/recipes-extended/man/man_1.6f.bb
-@@ -3,11 +3,11 @@ DESCRIPTION = "A set of documentation tools: man, apropos and whatis"
- SECTION = "console/utils"
- HOMEPAGE = "http://primates.ximian.com/~flucifredi/man"
+@@ -5,7 +5,7 @@ HOMEPAGE = "http://primates.ximian.com/~flucifredi/man"
  LICENSE = "GPLv2"
--PR = "r2"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=8ca43cbc842c2336e835926c2166c28b"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=8ca43cbc842c2336e835926c2166c28b"
  
--DEPENDS = "groff less"
-+PR = "r3"
+-PR = "r3"
++PR = "r4"
  
--LIC_FILES_CHKSUM = "file://COPYING;md5=8ca43cbc842c2336e835926c2166c28b"
-+DEPENDS = "groff less"
+ DEPENDS = "groff less"
  
- SRC_URI = "http://primates.ximian.com/~flucifredi/${BPN}/${BPN}-${PV}.tar.gz \
-            file://man-1.5k-confpath.patch;striplevel=0 \
-@@ -61,4 +61,5 @@ do_install_append(){
- }
+@@ -54,7 +54,7 @@ do_install_append(){
+ 	mkdir -p  ${D}/etc/
+         mkdir -p ${D}${datadir}/man/man5
+         mkdir -p ${D}${datadir}/man/man7
+-	cp ${S}/src/man.conf ${D}/etc/
++	cp ${WORKDIR}/man.conf ${D}/etc/man.config
+         cp ${WORKDIR}/man.1.gz ${D}${datadir}/man/man1/
+         cp ${WORKDIR}/man.7.gz ${D}${datadir}/man/man7/
+         cp ${WORKDIR}/manpath.5.gz ${D}${datadir}/man/man5/
+@@ -62,4 +62,4 @@ do_install_append(){
  
  
-+RDEPENDS_${PN} = "less groff"
- FILES_${PN} += "${datadir}/locale ${sysconfdir}/man.conf"
+ RDEPENDS_${PN} = "less groff"
+-FILES_${PN} += "${datadir}/locale ${sysconfdir}/man.conf"
++FILES_${PN} += "${datadir}/locale ${sysconfdir}/man.config"
 -- 
 1.7.10
 
