@@ -1,42 +1,62 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
+Received: from ch1ehsobe005.messaging.microsoft.com ([216.32.181.185]
+	helo=ch1outboundpool.messaging.microsoft.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1SzW1c-0004Rr-2L
-	for openembedded-core@lists.linuxtogo.org;
-	Thu, 09 Aug 2012 18:55:56 +0200
-Received: by eaad12 with SMTP id d12so177316eaa.6
-	for <openembedded-core@lists.linuxtogo.org>;
-	Thu, 09 Aug 2012 09:44:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references
-	:x-gm-message-state;
-	bh=1u+qAM+kw27CEDfEhL+msIgzSfcluyreSwa/XKJq72w=;
-	b=S82YIhn8tFbKZzRQBIQQie4mwEUzUn6rsSYX9Eldmucbbw52ifmTx+/thuNmDAcEqa
-	Jl13AE5P5JzGrizmCYIxLyaNwOzpd+Zmw7aeNHJp0uibCPYA1jXtCz2jGg20AdaS6Qnz
-	9NEOKVh8zT0psLnWvXL5auyadFcT9BOYmCchh+hhpzdIIRyGoPqyOSLwSpfgWqqONOyq
-	D8S205I2+tj7F5HDZcluQ0vSwkDT4yCEgzH3umBt6TRo5Ebhe/D/ZitL3XAo4yFVwyFC
-	vmoWl4KbdBPVkuopgeg1VmYMOMkSkkvuH5nQ9MZAk+w6wYUJhEJ+stjUtT7rMf7Gssum
-	5q1Q==
-Received: by 10.14.5.67 with SMTP id 43mr28454719eek.15.1344530647577;
-	Thu, 09 Aug 2012 09:44:07 -0700 (PDT)
-Received: from localhost (cl-267.ams-05.nl.sixxs.net. [2001:610:600:10a::2])
-	by mx.google.com with ESMTPS id 45sm4833137eeb.8.2012.08.09.09.44.05
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 09 Aug 2012 09:44:06 -0700 (PDT)
-From: Koen Kooi <koen@dominion.thruhere.net>
-To: openembedded-core@lists.linuxtogo.org
-Date: Thu,  9 Aug 2012 18:43:57 +0200
-Message-Id: <1344530637-29330-2-git-send-email-koen@dominion.thruhere.net>
-X-Mailer: git-send-email 1.7.10
-In-Reply-To: <1344530637-29330-1-git-send-email-koen@dominion.thruhere.net>
-References: <1344530637-29330-1-git-send-email-koen@dominion.thruhere.net>
-X-Gm-Message-State: ALoCoQl+EmC6oeiA7RWnr+SJrsa8vbyeNjfQ7mNtDTbMORBSVuwTGym8e3sXxTJAhnt883dY+0XF
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: [PATCH 2/2] man: make man actually work by installing custom man.config
+	(envelope-from <B29882@freescale.com>) id 1SzYQ0-00043U-Tv
+	for openembedded-core@lists.openembedded.org;
+	Thu, 09 Aug 2012 21:29:17 +0200
+Received: from mail9-ch1-R.bigfish.com (10.43.68.244) by
+	CH1EHSOBE003.bigfish.com (10.43.70.53) with Microsoft SMTP Server id
+	14.1.225.23; Thu, 9 Aug 2012 19:17:27 +0000
+Received: from mail9-ch1 (localhost [127.0.0.1])	by mail9-ch1-R.bigfish.com
+	(Postfix) with ESMTP id 78DCF400EC	for
+	<openembedded-core@lists.openembedded.org>;
+	Thu,  9 Aug 2012 19:17:27 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-SpamScore: -8
+X-BigFish: VS-8(zz98dI9371I936eI1432I1453Mzz1202hzz8275bh8275dhz2dh2a8h668h839h8e2h8e3hf0ah107ah10d2hbe9i)
+Received: from mail9-ch1 (localhost.localdomain [127.0.0.1]) by mail9-ch1
+	(MessageSwitch) id 1344539846114257_22234;
+	Thu,  9 Aug 2012 19:17:26 +0000 (UTC)
+Received: from CH1EHSMHS028.bigfish.com (snatpool1.int.messaging.microsoft.com
+	[10.43.68.246])	by mail9-ch1.bigfish.com (Postfix) with ESMTP id
+	109591A0082 for <openembedded-core@lists.openembedded.org>;
+	Thu,  9 Aug 2012 19:17:26 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by CH1EHSMHS028.bigfish.com
+	(10.43.70.28) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Thu, 9 Aug 2012 19:17:23 +0000
+Received: from 039-SN1MPN1-001.039d.mgd.msft.net ([169.254.1.41]) by
+	039-SN1MMR1-005.039d.mgd.msft.net ([::1]) with mapi id 14.02.0298.005;
+	Thu, 9 Aug 2012 14:17:22 -0500
+From: McClintock Matthew-B29882 <B29882@freescale.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH] linux-yocto-3.4: Disable extra slang header
+	search path
+Thread-Index: AQHNdQvJCdKsIeWQgEiXDWd+SVNF2pdPgf+AgAABHQCAAACRgIAAAa+AgAKrdoA=
+Date: Thu, 9 Aug 2012 19:17:22 +0000
+Message-ID: <CAEsOVNcg9uHoWNpNge9VSOuL=fhYoCOtkUNDF6LtVQ1oQA+28A@mail.gmail.com>
+References: <1344338236.9756.218.camel@ted> <50211706.1050707@windriver.com>
+	<1344347435.9756.251.camel@ted> <50211F3B.6010601@windriver.com>
+	<CAEsOVNeQX9uwB_QNdhodJqjprU2ygoMN=_DbEzudcb9GiF+wzg@mail.gmail.com>
+	<5021CC85.20005@windriver.com>
+	<CADkTA4P1EsaaJOyjB7ke__QaOKOHGn3C_XVYwa=NbwioKN_CBQ@mail.gmail.com>
+	<CAEsOVNdA6of4efDpVsMhakmYavJW1-SRg9t1_SXDZ0ivZA35jQ@mail.gmail.com>
+	<CADkTA4MFV3ga5=9FJe+tVGtvaPYK-FPFc8YfFvOXd=iWQHsXvw@mail.gmail.com>
+In-Reply-To: <CADkTA4MFV3ga5=9FJe+tVGtvaPYK-FPFc8YfFvOXd=iWQHsXvw@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [70.112.201.132]
+MIME-Version: 1.0
+X-OriginatorOrg: freescale.com
+Cc: McClintock Matthew-B29882 <B29882@freescale.com>
+Subject: Re: [PATCH] linux-yocto-3.4: Disable extra slang header search path
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -47,237 +67,167 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Aug 2012 16:55:56 -0000
+X-List-Received-Date: Thu, 09 Aug 2012 19:29:17 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <C67A6BB4D32E684A94594C409BC76F27@mgd.freescale.com>
+Content-Transfer-Encoding: quoted-printable
 
-The default man.conf is named wrong and doesn't work. It references gtbl, while groff installs tbl and other things. This man.conf is imported from OE classic and runtime tested on angstrom.
+On Tue, Aug 7, 2012 at 9:30 PM, Bruce Ashfield <bruce.ashfield@gmail.com> w=
+rote:
+> On Tue, Aug 7, 2012 at 10:25 PM, McClintock Matthew-B29882
+> <B29882@freescale.com> wrote:
+>> On Tue, Aug 7, 2012 at 9:22 PM, Bruce Ashfield
+>> <bruce.ashfield@windriver.com> wrote:
+>>> On Tue, Aug 7, 2012 at 10:18 PM, Bruce Ashfield
+>>> <bruce.ashfield@windriver.com> wrote:
+>>>> On 12-08-07 10:16 PM, McClintock Matthew-B29882 wrote:
+>>>>>
+>>>>> On Tue, Aug 7, 2012 at 8:59 AM, Bruce Ashfield
+>>>>> <bruce.ashfield@windriver.com>  wrote:
+>>>>>>
+>>>>>> On 12-08-07 09:50 AM, Richard Purdie wrote:
+>>>>>>>
+>>>>>>>
+>>>>>>> On Tue, 2012-08-07 at 09:24 -0400, Bruce Ashfield wrote:
+>>>>>>>>
+>>>>>>>>
+>>>>>>>> On 12-08-07 07:17 AM, Richard Purdie wrote:
+>>>>>>>>>
+>>>>>>>>>
+>>>>>>>>> Add in a workaround to avoid host infection detection build failu=
+res
+>>>>>>>>> from the slang include directory in perf. I'll defer to Bruce to
+>>>>>>>>> fix this properly but we need a workaround now as this is breakin=
+g
+>>>>>>>>> builds.
+>>>>>>>>
+>>>>>>>>
+>>>>>>>>
+>>>>>>>> I just followed up on a patch from 3 days ago, but I'll follow up =
+here
+>>>>>>>> as well .. just to make sure the message gets through.
+>>>>>>>>
+>>>>>>>> We had a pending patch to fix this issue from Liang Li here @
+>>>>>>>> windriver.
+>>>>>>>>
+>>>>>>>> Did that patch not fix the problem, or did it fall through the cra=
+cks ?
+>>>>>>>
+>>>>>>>
+>>>>>>>
+>>>>>>> It is not correct. It adds in another search path and just hides th=
+e
+>>>>>>> issue. We should *never* be putting -I/usr/include/slang on the com=
+piler
+>>>>>>> commandline at all period.
+>>>>>>
+>>>>>>
+>>>>>>
+>>>>>> I'd argue that it's more correct than commenting out the upstream
+>>>>>> include path.
+>>>>>>
+>>>>>> It fixes the problem, doesn't require a patch to the kernel and give
+>>>>>> us time to work upstream and get a real fix.
+>>>>>>
+>>>>>> So I'd really prefer that we take that fix, versus the kernel patch
+>>>>>> if it actually fixes the problem.
+>>>>>>
+>>>>>>
+>>>>>>>
+>>>>>>> I'd assumed in all the email traffic that this was clear and that
+>>>>>>> another solution was being worked on that would be acceptable upstr=
+eam
+>>>>>>> too.
+>>>>>>
+>>>>>>
+>>>>>>
+>>>>>> Exactly what I referred to above. But we don't want a temporary
+>>>>>> kernel path, we want the temporary recipe patch.
+>>>>>>
+>>>>>>
+>>>>>>>
+>>>>>>> Perhaps a better option might be: -I=3D/usr/include/slang ? That as=
+sumes
+>>>>>>> that all kernel gcc versions would accept the =3D notation, that sh=
+ould be
+>>>>>>> true by now?
+>>>>>>
+>>>>>>
+>>>>>>
+>>>>>> Not in my experience when dealing with the upstream kernel and tools=
+,
+>>>>>> there are plenty of old compilers floating around.
+>>>>>
+>>>>>
+>>>>> Sorry, I'm not following this thread super close.. will all kernel
+>>>>> trees need to apply this patch? That does not seem ideal...
+>>>>
+>>>>
+>>>> They would, once we get the patch merged upstream. And you are right,
+>>>> linux-yocto is easy enough, but that's one set of kernel trees.
+>>>
+>>> I should add, that not all trees, and only builds that use a
+>>> particular set of perf
+>>> features out of master would see this problem (as far as I know), so I =
+didn't
+>>> mean to make this sound bigger than it is ... it's just something that =
+master
+>>> was hitting on the autobuilders (and who knows, maybe I'm mischaracteri=
+zing
+>>> the problem as well :)
+>>>
+>>> Cheers,
+>>>
+>>> Bruce
+>>>
+>>>>
+>>>> The patch that we proposed to the perf recipe would fix it for all
+>>>> users of that recipe, with a suitable set of kernels (say 3.0 to
+>>>> 3.6 (I haven't checked).
+>>>>
+>>>> Honestly, that's why we proposed a perf recipe fix, while working on t=
+he
+>>>> right fix for the upstream kernel.
+>>
+>> It seems wrong to need a kernel patch to fix this issue, kernels are
+>> built outside of oe-core and it seems better to fix things in one
+>> place. By the way, I'm seeing this on our kernel recipe in
+>> meta-fsl-ppc too.
+>
+> Have you tried the patch from Liang Li @ Windriver ? Sent last Friday,
+> it should solve your
+> immediate problem .. it solved ours.
 
-Before:
+http://patches.openembedded.org/project/oe-core/list/?submitter=3D5585
 
-root@beaglebone:~# man man
-sh: /usr/bin/gtbl: No such file or directory
-sh: line 0: echo: write error: Broken pipe
-gunzip: write: Broken pipe
-gunzip: error inflating
-sh: line 0: echo: write error: Broken pipe
-sh: line 0: echo: write error: Broken pipe
+which version?
 
-After:
+-M
 
-root@beaglebone:~# man man
-MAN(1)                        Manual pager utils                        MAN(1)
-
-NAME
-       man - an interface to the on-line reference manuals
-
-SYNOPSIS
-       man  [-C  file]  [-d]  [-D]  [--warnings[=warnings]]  [-R encoding] [-L
-       locale] [-m system[,...]] [-M path] [-S list]  [-e  extension]  [-i|-I]
-       [--regex|--wildcard]   [--names-only]  [-a]  [-u]  [--no-subpages]  [-P
-       pager] [-r prompt] [-7] [-E encoding] [--no-hyphenation] [--no-justifi-
-       cation]  [-p  string]  [-t]  [-T[device]]  [-H[browser]] [-X[dpi]] [-Z]
-       [[section] page ...] ...
-       man -k [apropos options] regexp ...
-       man -K [-w|-W] [-S list] [-i|-I] [--regex] [section] term ...
-       man -f [whatis options] page ...
-       man -l [-C file] [-d] [-D] [--warnings[=warnings]]  [-R  encoding]  [-L
-       locale]  [-P  pager]  [-r  prompt]  [-7] [-E encoding] [-p string] [-t]
-       [-T[device]] [-H[browser]] [-X[dpi]] [-Z] file ...
-       man -w|-W [-C file] [-d] [-D] page ...
-       man -c [-C file] [-d] [-D] page ...
-       man [-hV]
-
-Check for config name:
-
-root@beaglebone:~# rm /etc/man.config
-root@beaglebone:~# man man
-Warning: cannot open configuration file /etc/man.config
-No manual entry for man
-
-As a bonus a bunch of references to the buildhost get removed from the config file.
-
-Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
----
- meta/recipes-extended/man/man-1.6f/man.conf |  140 +++++++++++++++++++++++++++
- meta/recipes-extended/man/man_1.6f.bb       |    6 +-
- 2 files changed, 143 insertions(+), 3 deletions(-)
- create mode 100644 meta/recipes-extended/man/man-1.6f/man.conf
-
-diff --git a/meta/recipes-extended/man/man-1.6f/man.conf b/meta/recipes-extended/man/man-1.6f/man.conf
-new file mode 100644
-index 0000000..bb3c697
---- /dev/null
-+++ b/meta/recipes-extended/man/man-1.6f/man.conf
-@@ -0,0 +1,140 @@
-+#
-+# Generated automatically from man.conf.in by the
-+# configure script.
-+#
-+# man.conf from man-1.5p
-+#
-+# For more information about this file, see the man pages man(1)
-+# and man.conf(5).
-+#
-+# This file is read by man to configure the default manpath (also used
-+# when MANPATH contains an empty substring), to find out where the cat
-+# pages corresponding to given man pages should be stored,
-+# and to map each PATH element to a manpath element.
-+# It may also record the pathname of the man binary. [This is unused.]
-+# The format is:
-+#
-+# MANBIN		pathname
-+# MANPATH		manpath_element	[corresponding_catdir]
-+# MANPATH_MAP		path_element	manpath_element
-+#
-+# If no catdir is given, it is assumed to be equal to the mandir
-+# (so that this dir has both man1 etc. and cat1 etc. subdirs).
-+# This is the traditional Unix setup.
-+# Certain versions of the FSSTND recommend putting formatted versions
-+# of /usr/.../man/manx/page.x into /var/catman/.../catx/page.x.
-+# The keyword FSSTND will cause this behaviour.
-+# Certain versions of the FHS recommend putting formatted versions of
-+# /usr/.../share/man/[locale/]manx/page.x into
-+# /var/cache/man/.../[locale/]catx/page.x.
-+# The keyword FHS will cause this behaviour (and overrides FSSTND).
-+# Explicitly given catdirs override.
-+#
-+# FSSTND
-+FHS
-+#
-+# This file is also read by man in order to find how to call nroff, less, etc.,
-+# and to determine the correspondence between extensions and decompressors.
-+#
-+# MANBIN		/usr/local/bin/man
-+#
-+# Every automatically generated MANPATH includes these fields
-+#
-+MANPATH	/usr/man
-+MANPATH	/usr/share/man
-+MANPATH	/usr/local/man
-+MANPATH	/usr/local/share/man
-+MANPATH	/usr/X11R6/man
-+#
-+# Uncomment if you want to include one of these by default
-+#
-+# MANPATH	/opt/*/man
-+# MANPATH	/usr/lib/*/man
-+# MANPATH	/usr/share/*/man
-+# MANPATH	/usr/kerberos/man
-+#
-+# Set up PATH to MANPATH mapping
-+#
-+# If people ask for "man foo" and have "/dir/bin/foo" in their PATH
-+# and the docs are found in "/dir/man", then no mapping is required.
-+#
-+# The below mappings are superfluous when the right hand side is
-+# in the mandatory manpath already, but will keep man from statting
-+# lots of other nearby files and directories.
-+#
-+MANPATH_MAP	/bin			/usr/share/man
-+MANPATH_MAP	/sbin			/usr/share/man
-+MANPATH_MAP	/usr/bin		/usr/share/man
-+MANPATH_MAP	/usr/sbin		/usr/share/man
-+MANPATH_MAP	/usr/local/bin		/usr/local/share/man
-+MANPATH_MAP	/usr/local/sbin		/usr/local/share/man
-+MANPATH_MAP	/usr/X11R6/bin		/usr/X11R6/man
-+MANPATH_MAP	/usr/bin/X11		/usr/X11R6/man
-+MANPATH_MAP	/usr/bin/mh		/usr/share/man
-+#
-+# NOAUTOPATH keeps man from automatically adding directories that look like
-+# manual page directories to the path.
-+#
-+#NOAUTOPATH
-+#
-+# NOCACHE keeps man from creating cache pages ("cat pages")
-+# (generally one enables/disable cat page creation by creating/deleting
-+# the directory they would live in - man never does mkdir)
-+# 
-+#NOCACHE
-+#
-+# Useful paths - note that COL should not be defined when
-+# NROFF is defined as "groff -Tascii" or "groff -Tlatin1";
-+# not only is it superfluous, but it actually damages the output.
-+# For use with utf-8, NROFF should be "nroff -mandoc" without -T option.
-+# (Maybe - but today I need -Tlatin1 to prevent double conversion to utf8.)
-+#
-+# If you have a new troff (version 1.18.1?) and its colored output
-+# causes problems, add the -c option to TROFF, NROFF, JNROFF.
-+#
-+TROFF		/usr/bin/groff -Tps -mandoc
-+NROFF		/usr/bin/nroff -Tlatin1 -mandoc
-+JNROFF		/usr/bin/groff -Tnippon -mandocj
-+EQN		/usr/bin/eqn -Tps
-+NEQN		/usr/bin/eqn -Tlatin1
-+JNEQN		/usr/bin/eqn -Tnippon
-+TBL		/usr/bin/tbl
-+# COL		/usr/bin/col
-+REFER		/usr/bin/refer
-+PIC		/usr/bin/pic
-+VGRIND		
-+GRAP		
-+PAGER		/usr/bin/less -isR
-+CAT		/bin/cat
-+#
-+# The command "man -a xyzzy" will show all man pages for xyzzy.
-+# When CMP is defined man will try to avoid showing the same
-+# text twice. (But compressed pages compare unequal.)
-+#
-+CMP		/usr/bin/cmp -s
-+#
-+# Compress cat pages
-+#
-+COMPRESS	/bin/bzip2
-+COMPRESS_EXT	.bz2
-+#
-+# Default manual sections (and order) to search if -S is not specified
-+# and the MANSECT environment variable is not set.
-+#
-+MANSECT		1:1p:8:2:3:3p:4:5:6:7:9:0p:tcl:n:l:p:o
-+#
-+# Default options to use when man is invoked without options
-+# This is mainly for the benefit of those that think -a should be the default
-+# Note that some systems have /usr/man/allman, causing pages to be shown twice.
-+#
-+#MANDEFOPTIONS	-a
-+#
-+# Decompress with given decompressor when input file has given extension
-+# The command given must act as a filter.
-+#
-+.gz		/bin/gunzip -c
-+.bz2		/bin/bzip2 -c -d
-+.z		
-+.Z		/bin/zcat
-+.F		
-+.Y		
-diff --git a/meta/recipes-extended/man/man_1.6f.bb b/meta/recipes-extended/man/man_1.6f.bb
-index b35621a..3a36a5b 100644
---- a/meta/recipes-extended/man/man_1.6f.bb
-+++ b/meta/recipes-extended/man/man_1.6f.bb
-@@ -5,7 +5,7 @@ HOMEPAGE = "http://primates.ximian.com/~flucifredi/man"
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=8ca43cbc842c2336e835926c2166c28b"
- 
--PR = "r3"
-+PR = "r4"
- 
- DEPENDS = "groff less"
- 
-@@ -54,7 +54,7 @@ do_install_append(){
- 	mkdir -p  ${D}/etc/
-         mkdir -p ${D}${datadir}/man/man5
-         mkdir -p ${D}${datadir}/man/man7
--	cp ${S}/src/man.conf ${D}/etc/
-+	cp ${WORKDIR}/man.conf ${D}/etc/man.config
-         cp ${WORKDIR}/man.1.gz ${D}${datadir}/man/man1/
-         cp ${WORKDIR}/man.7.gz ${D}${datadir}/man/man7/
-         cp ${WORKDIR}/manpath.5.gz ${D}${datadir}/man/man5/
-@@ -62,4 +62,4 @@ do_install_append(){
- 
- 
- RDEPENDS_${PN} = "less groff"
--FILES_${PN} += "${datadir}/locale ${sysconfdir}/man.conf"
-+FILES_${PN} += "${datadir}/locale ${sysconfdir}/man.config"
--- 
-1.7.10
+>
+> Cheers,
+>
+> Bruce
+>
+>>
+>> -M
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+>
+>
+> --
+> "Thou shalt not follow the NULL pointer, for chaos and madness await
+> thee at its end"
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core=
 
 
 
