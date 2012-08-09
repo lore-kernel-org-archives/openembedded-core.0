@@ -1,26 +1,46 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail-we0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1SzTF3-0008PH-Qm
+	(envelope-from <martin.jansa@gmail.com>) id 1SzTGA-0008Rx-1a
 	for openembedded-core@lists.linuxtogo.org;
-	Thu, 09 Aug 2012 15:57:38 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 09 Aug 2012 06:44:43 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.77,739,1336374000"; d="scan'208";a="177988520"
-Received: from unknown (HELO helios.localnet) ([10.252.121.69])
-	by orsmga001.jf.intel.com with ESMTP; 09 Aug 2012 06:44:42 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.linuxtogo.org
-Date: Thu, 09 Aug 2012 14:44:41 +0100
-Message-ID: <5445965.Z9E9QDAQJ1@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.9 (Linux/3.2.0-27-generic-pae; KDE/4.9.0; i686; ; )
-In-Reply-To: <ab9afe9c0eab7dc2d9832cd2afabe1eededc7cae.1344480978.git.wenzong.fan@windriver.com>
-References: <cover.1344480978.git.wenzong.fan@windriver.com>
-	<ab9afe9c0eab7dc2d9832cd2afabe1eededc7cae.1344480978.git.wenzong.fan@windriver.com>
+	Thu, 09 Aug 2012 15:58:46 +0200
+Received: by weyr6 with SMTP id r6so267776wey.6
+	for <openembedded-core@lists.linuxtogo.org>;
+	Thu, 09 Aug 2012 06:46:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=resent-from:resent-date:resent-message-id:resent-to:date:from:to
+	:subject:message-id:references:mime-version:content-type
+	:content-disposition:in-reply-to:user-agent;
+	bh=55F57LxKZtHz0PX4VvDsLmMA7Vp29zmofYt2xS0PwTg=;
+	b=nz5exGKw7BhBlfupVDaLB9yJkLAtRMxMhFUdV2+tJw3ntL7HILtnpkS8o40OOWAd8J
+	KmKc3jg+0D/rh9e/BA+ZoI8IOl3diPcgbm+0iMKlEZ4D0hKjK9QLJsYh//CeoFTnFBG6
+	A4RD7yFSOPO31Onu02e9B+0i53hsZJoXrCZ2RHPp7hsIB1NrrwcPXXF1jJnhTbBbHDag
+	cqZZfhpzT0tn9a5W6y82qCGJIpdWRkzbG4KxzDBi452GzJVFShhRmdfSi/SzzbKuk8Bs
+	bYQRjYV3Ym28enVXictfkEaC/gB5UkR/QNgt9/9s36MfDox5uV+68xoNCIxCtgM6bEOH
+	xolQ==
+Received: by 10.180.97.33 with SMTP id dx1mr3047400wib.18.1344520017642;
+	Thu, 09 Aug 2012 06:46:57 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id k20sm1745866wiv.11.2012.08.09.06.46.56
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 09 Aug 2012 06:46:56 -0700 (PDT)
+Resent-From: Martin Jansa <Martin.Jansa@gmail.com>
+Resent-Date: Thu, 9 Aug 2012 15:46:56 +0200
+Resent-Message-ID: <20120809134656.GC3273@jama.jama.net>
+Resent-To: openembedded-core@lists.linuxtogo.org
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id ex20sm2516043wid.7.2012.08.09.06.10.15
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 09 Aug 2012 06:10:16 -0700 (PDT)
+Date: Thu, 9 Aug 2012 15:10:16 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Message-ID: <20120809131016.GA3273@jama.jama.net>
+References: <CAMKF1sokpajrms4PACKOSt8CYFt+6JEQ2Fre=QpzJfQF-KLrKA@mail.gmail.com>
 MIME-Version: 1.0
-Cc: Zhenfeng.Zhao@windriver.com
-Subject: Re: [PATCH 1/1] at 3.1.13: get 'at' depends on 'flex-native' explicitly
+In-Reply-To: <CAMKF1sokpajrms4PACKOSt8CYFt+6JEQ2Fre=QpzJfQF-KLrKA@mail.gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Subject: Re: binutils 2.23 call for testing the recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,49 +55,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Aug 2012 13:57:38 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Thu, 09 Aug 2012 13:58:46 -0000
+X-Groupsio-MsgNum: 27231
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="ew6BAiZeqk4r7MaW"
+Content-Disposition: inline
 
-On Thursday 09 August 2012 10:59:15 wenzong.fan@windriver.com wrote:
-> From: Wenzong Fan <wenzong.fan@windriver.com>
-> 
-> 'at' needs flex to generate source file lex.yy.c, but it doesn't
-> depend on flex-native directly; This maybe cause a do_compile
-> failure if flex-native is not built or included in project.
-> 
-> Error message is:
->     error: lex.yy.c: No such file or directory
-> 
-> Get 'at' depends on flex-native to fix this potential issue.
-> 
-> [YOCTO #2919]
-> 
-> Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
-> ---
->  meta/recipes-extended/at/at_3.1.13.bb |    4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/meta/recipes-extended/at/at_3.1.13.bb
-> b/meta/recipes-extended/at/at_3.1.13.bb index ce9396a..a391d6e 100644
-> --- a/meta/recipes-extended/at/at_3.1.13.bb
-> +++ b/meta/recipes-extended/at/at_3.1.13.bb
-> @@ -4,14 +4,14 @@ the system load levels drop to a particular level."
->  SECTION = "base"
->  LICENSE="GPLv2+"
->  LIC_FILES_CHKSUM = "file://COPYING;md5=4325afd396febcb659c36b49533135d4"
-> -DEPENDS = "flex initscripts \
-> +DEPENDS = "flex flex-native initscripts \
+--ew6BAiZeqk4r7MaW
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Does it need flex for the target as well, or was it a case of "flex" being added 
-instead of "flex-native" by mistake?
+On Wed, Aug 08, 2012 at 10:45:19AM -0700, Khem Raj wrote:
+> Hi
+>=20
+> Binutils 2.23 branch has started upstream. Given that toolchain
+> components require a lot of soak time, I have created the recipes
+> for binutils 2.23 and pushed it here
+>=20
+> http://git.openembedded.org/openembedded-core-contrib/log/?h=3Dkraj/binut=
+ils-2.23
+>=20
+> If you are using angstrom set
+>=20
+> ANGSTROM_BINUTILS_VERSION =3D "2.23" in local.conf after pulling that bra=
+nch
+> for OE-Core it will work as it is
+>=20
+> Let me know if you see any errors.
+
+I was trying to build armv4t image with gold enabled again to see if
+those issues with gold are resolved and building linux-3.2 and linux-2.6.39=
+=20
+are failing with this:
+
+|   LD      arch/arm/boot/compressed/vmlinux
+| arm-oe-linux-gnueabi-ld: error: DIV usage mismatch between arch/arm/boot/=
+compressed/misc.o and output
+| arm-oe-linux-gnueabi-ld: error: DIV usage mismatch between arch/arm/boot/=
+compressed/lib1funcs.o and output
+| make[2]: *** [arch/arm/boot/compressed/vmlinux] Error 1
+
+Any hint for that?
 
 Cheers,
-Paul
 
--- 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-Paul Eggleton
-Intel Open Source Technology Centre
+--ew6BAiZeqk4r7MaW
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
 
+iEYEARECAAYFAlAjtrgACgkQN1Ujt2V2gBxLwgCfQQiR9e1+l/HAZGGW8g9p8XQI
+WIcAoKKvZNl9njj7CnKBJ2mNQPH5n8QY
+=vQVG
+-----END PGP SIGNATURE-----
+
+--ew6BAiZeqk4r7MaW--
