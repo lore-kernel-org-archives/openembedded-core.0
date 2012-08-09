@@ -1,26 +1,26 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Liezhi.Yang@windriver.com>) id 1SzOlA-0002wJ-Li
-	for openembedded-core@lists.openembedded.org;
-	Thu, 09 Aug 2012 11:10:29 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q798wec7006897
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 9 Aug 2012 01:58:40 -0700 (PDT)
-Received: from [128.224.163.142] (128.224.163.142) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.309.2;
-	Thu, 9 Aug 2012 01:58:39 -0700
-Message-ID: <50237BBE.7080009@windriver.com>
-Date: Thu, 9 Aug 2012 16:58:38 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:13.0) Gecko/20120615 Thunderbird/13.0.1
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1SzTF3-0008PH-Qm
+	for openembedded-core@lists.linuxtogo.org;
+	Thu, 09 Aug 2012 15:57:38 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 09 Aug 2012 06:44:43 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.77,739,1336374000"; d="scan'208";a="177988520"
+Received: from unknown (HELO helios.localnet) ([10.252.121.69])
+	by orsmga001.jf.intel.com with ESMTP; 09 Aug 2012 06:44:42 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.linuxtogo.org
+Date: Thu, 09 Aug 2012 14:44:41 +0100
+Message-ID: <5445965.Z9E9QDAQJ1@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.9 (Linux/3.2.0-27-generic-pae; KDE/4.9.0; i686; ; )
+In-Reply-To: <ab9afe9c0eab7dc2d9832cd2afabe1eededc7cae.1344480978.git.wenzong.fan@windriver.com>
+References: <cover.1344480978.git.wenzong.fan@windriver.com>
+	<ab9afe9c0eab7dc2d9832cd2afabe1eededc7cae.1344480978.git.wenzong.fan@windriver.com>
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1344482807.git.liezhi.yang@windriver.com>
-In-Reply-To: <cover.1344482807.git.liezhi.yang@windriver.com>
-Subject: Re: [PATCH 0/1] fetch2/__init__.py: add an "auto" policy for BB_SRCREV_POLICY
+Cc: Zhenfeng.Zhao@windriver.com
+Subject: Re: [PATCH 1/1] at 3.1.13: get 'at' depends on 'flex-native' explicitly
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,37 +35,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Aug 2012 09:10:29 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 09 Aug 2012 13:57:38 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Sorry, please ignore this one, it should go to bitbake-devel.
+On Thursday 09 August 2012 10:59:15 wenzong.fan@windriver.com wrote:
+> From: Wenzong Fan <wenzong.fan@windriver.com>
+> 
+> 'at' needs flex to generate source file lex.yy.c, but it doesn't
+> depend on flex-native directly; This maybe cause a do_compile
+> failure if flex-native is not built or included in project.
+> 
+> Error message is:
+>     error: lex.yy.c: No such file or directory
+> 
+> Get 'at' depends on flex-native to fix this potential issue.
+> 
+> [YOCTO #2919]
+> 
+> Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
+> ---
+>  meta/recipes-extended/at/at_3.1.13.bb |    4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/meta/recipes-extended/at/at_3.1.13.bb
+> b/meta/recipes-extended/at/at_3.1.13.bb index ce9396a..a391d6e 100644
+> --- a/meta/recipes-extended/at/at_3.1.13.bb
+> +++ b/meta/recipes-extended/at/at_3.1.13.bb
+> @@ -4,14 +4,14 @@ the system load levels drop to a particular level."
+>  SECTION = "base"
+>  LICENSE="GPLv2+"
+>  LIC_FILES_CHKSUM = "file://COPYING;md5=4325afd396febcb659c36b49533135d4"
+> -DEPENDS = "flex initscripts \
+> +DEPENDS = "flex flex-native initscripts \
 
-// Robert
+Does it need flex for the target as well, or was it a case of "flex" being added 
+instead of "flex-native" by mistake?
 
+Cheers,
+Paul
 
-On 08/09/2012 04:54 PM, Robert Yang wrote:
-> The following changes since commit 2dec760b79bb7e2e79c33c5127fa64685bd86a18:
->
->    foomatic: fix perl path for target (2012-08-08 10:06:00 +0100)
->
-> are available in the git repository at:
->    git://git.pokylinux.org/poky-contrib robert/autorev
->    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=robert/autorev
->
-> Robert Yang (1):
->    fetch2/__init__.py: add an "auto" policy for BB_SRCREV_POLICY
->
->   bitbake/lib/bb/fetch2/__init__.py |   12 +++++++++---
->   1 files changed, 9 insertions(+), 3 deletions(-)
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
->
+-- 
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
