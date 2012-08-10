@@ -1,26 +1,23 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1SzlN0-0004kh-0o
+	(envelope-from <mihaix.lindner@linux.intel.com>) id 1SzlOT-0004o0-OC
 	for openembedded-core@lists.openembedded.org;
-	Fri, 10 Aug 2012 11:19:02 +0200
-Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
-	helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1SzlBa-0007qI-Mq
-	for openembedded-core@lists.openembedded.org;
-	Fri, 10 Aug 2012 11:07:14 +0200
-From: Phil Blundell <philb@gnu.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Fri, 10 Aug 2012 10:07:13 +0100
-In-Reply-To: <1384904.B8yRp5DXBX@helios>
-References: <1344475516-27640-1-git-send-email-raj.khem@gmail.com>
-	<9145620D-0D9C-4269-9ED4-B0E2E81086E3@dominion.thruhere.net>
-	<1384904.B8yRp5DXBX@helios>
-X-Mailer: Evolution 3.0.2- 
-Message-ID: <1344589634.23275.284.camel@phil-desktop>
-Mime-Version: 1.0
-Subject: Re: [PATCH 01/12] gcc: Switch SRC_URI to use svn
+	Fri, 10 Aug 2012 11:20:33 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 10 Aug 2012 02:07:38 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.77,744,1336374000"; d="scan'208";a="184127623"
+Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.232.205])
+	by orsmga002.jf.intel.com with ESMTP; 10 Aug 2012 02:07:38 -0700
+Received: from moolinex.rb.intel.com (qa.rb.intel.com [10.237.100.11])
+	by linux.intel.com (Postfix) with ESMTP id AF5FE2C8001;
+	Fri, 10 Aug 2012 02:07:38 -0700 (PDT)
+From: Mihai Lindner <mihaix.lindner@linux.intel.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 10 Aug 2012 12:07:34 +0300
+Message-Id: <cover.1344589278.git.mihaix.lindner@linux.intel.com>
+X-Mailer: git-send-email 1.7.8.6
+Subject: [PATCH 0/1] sysklogd: removed tabs from syslog.conf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,45 +32,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Aug 2012 09:19:02 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 10 Aug 2012 09:20:34 -0000
 
-On Fri, 2012-08-10 at 09:47 +0100, Paul Eggleton wrote:
-> On Friday 10 August 2012 10:03:06 Koen Kooi wrote:
-> > Op 9 aug. 2012, om 03:25 heeft Khem Raj <raj.khem@gmail.com> het volgende 
-> geschreven:
-> > > svn tar balls are 96M as compared to 1.3G git tars
-> > > its unnessary to suck in that much of data.
-> > 
-> > That's indeed a big difference and also expected, with svn you only get
-> > revision N and N-1, with git you get everything. But even so, I can fetch
-> > that 1.3GB a *lot* faster than that 0.1GB svn. Maybe I'm on the wrong side
-> > of the ocean, but that gcc svn server is sloooooooooooooooooooooow.
-> 
-> FWIW the git option was much, much, much slower for us here in the UK.
+Yocto #2926: syslog.conf should not have tabs within the selector field.
+Removed tabs from the selector field of syslog rules. Tabs or spaces
+should be used, in syslog.conf, only when separating selectors from
+actions.
 
-Maybe we should just go back to using the released tarballs for gcc
-rather than any sort of SCM checkout.  That would be an 80MB download
-for the tar.bz2 and of course you can get it from your local mirror.
+Signed-off-by: Mihai Lindner <mihaix.lindner@linux.intel.com>
+---
+The following changes since commit 2dec760b79bb7e2e79c33c5127fa64685bd86a18:
 
-I think the original reason we switched to using the SCM checkout was
-that, at the time, we were carrying around a huge number of backported
-patches that hadn't quite made it into any released version yet.  It's
-not totally clear whether that situation is likely to arise again or
-not.
+  foomatic: fix perl path for target (2012-08-08 10:06:00 +0100)
 
-In an ideal world I suppose the SVN web UI would expose some sort of API
-that exported changesets in diff form, in which case you could write:
+are available in the git repository at:
+  git://git.yoctoproject.org/poky-contrib ml/syslog.conf
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ml/syslog.conf
 
-SRC_URI = "http://gcc.gnu.org/releases/gcc-4.7.1.tar.bz2 \
-	http://gcc.gnu.org/svn/fetch?rev=189810"
+Mihai Lindner (1):
+  sysklogd: removed tabs from syslog.conf
 
-or whatever for the patches that you wanted to backport.  But I don't
-know of any way of doing that with the current viewvc.
+ meta/recipes-extended/sysklogd/files/syslog.conf |   23 +++++++++++----------
+ meta/recipes-extended/sysklogd/sysklogd_1.5.bb   |    2 +-
+ 2 files changed, 13 insertions(+), 12 deletions(-)
 
-p.
-
+-- 
+1.7.8.6
 
 
 
