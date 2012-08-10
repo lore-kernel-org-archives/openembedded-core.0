@@ -1,36 +1,23 @@
-Received: from mail.cvg.de ([62.153.82.30])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <enrico.scholz@sigma-chemnitz.de>) id 1SzmgV-0006Bn-V7
+	(envelope-from <Xin.Ouyang@windriver.com>) id 1SznbB-0007T7-Us
 	for openembedded-core@lists.openembedded.org;
-	Fri, 10 Aug 2012 12:43:16 +0200
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id q7AAVOl7026565
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	Fri, 10 Aug 2012 13:41:50 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q7ABTxR9001795
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Aug 2012 12:31:25 +0200
-Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
-	4.76) (envelope-from <ensc@sigma-chemnitz.de>) id 1SzmV1-0002h7-E4
-	for openembedded-core@lists.openembedded.org;
-	Fri, 10 Aug 2012 12:31:24 +0200
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-To: openembedded-core@lists.openembedded.org
-References: <1344475516-27640-1-git-send-email-raj.khem@gmail.com>
-Date: Fri, 10 Aug 2012 12:31:23 +0200
-In-Reply-To: <1344475516-27640-1-git-send-email-raj.khem@gmail.com> (Khem
-	Raj's message of "Wed, 8 Aug 2012 18:25:15 -0700")
-Message-ID: <lya9y3ox6s.fsf@ensc-virt.intern.sigma-chemnitz.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.1 (gnu/linux)
+	Fri, 10 Aug 2012 04:29:59 -0700 (PDT)
+Received: from Xouyang-Ubuntu.corp.ad.wrs.com (128.224.162.231) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.309.2; Fri, 10 Aug 2012 04:29:59 -0700
+From: <xin.ouyang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 10 Aug 2012 19:29:57 +0800
+Message-ID: <1344598197-3592-1-git-send-email-xin.ouyang@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-X-DSPAM-Result: Innocent
-X-DSPAM-Probability: 0
-X-DSPAM-Confidence: 0.99
-X-Spam-Score: -5.2
-X-Spam-Level: -----
-X-Spam-Tests: AWL,BAYES_00,SPF_NEUTRAL,T_RP_MATCHES_RCVD,DSPAM_INNOCENT
-X-Scanned-By: MIMEDefang 2.73
-Subject: Re: [PATCH 01/12] gcc: Switch SRC_URI to use svn
+Subject: [PATCH] gettext-0.18: explicitly disable acl.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,17 +32,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Aug 2012 10:43:16 -0000
+X-List-Received-Date: Fri, 10 Aug 2012 11:41:50 -0000
 Content-Type: text/plain
 
-Khem Raj <raj.khem-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> writes:
+From: Xin Ouyang <Xin.Ouyang@windriver.com>
 
-> svn tar balls are 96M as compared to 1.3G git tars
+gettext-0.18 gets a new option for acl, but we do not place acl
+into DEPENDS.
+So, explicitly disable acl for deterministic builds.
 
-perhaps it's time to implement support for shallow git repositories to
-bitbake...
+Signed-off-by: Xin Ouyang <Xin.Ouyang@windriver.com>
+---
+ meta/recipes-core/gettext/gettext_0.18.1.1.bb |    3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
+diff --git a/meta/recipes-core/gettext/gettext_0.18.1.1.bb b/meta/recipes-core/gettext/gettext_0.18.1.1.bb
+index 09a9465..ae3e28b 100644
+--- a/meta/recipes-core/gettext/gettext_0.18.1.1.bb
++++ b/meta/recipes-core/gettext/gettext_0.18.1.1.bb
+@@ -5,7 +5,7 @@ SECTION = "libs"
+ LICENSE = "GPLv3+ & LGPL-2.1+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+ 
+-PR = "r15"
++PR = "r16"
+ DEPENDS = "libxml2-native gettext-native virtual/libiconv ncurses expat"
+ DEPENDS_virtclass-native = "libxml2-native gettext-minimal-native"
+ PROVIDES = "virtual/libintl virtual/gettext"
+@@ -32,6 +32,7 @@ EXTRA_OECONF += "--without-lispdir \
+                  --disable-java \
+                  --disable-native-java \
+                  --disable-openmp \
++                 --disable-acl \
+                  --with-included-glib \
+                  --with-libncurses-prefix=${STAGING_LIBDIR}/.. \
+                  --without-emacs \
+-- 
+1.7.9.5
 
-Enrico
 
 
