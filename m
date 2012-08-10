@@ -1,25 +1,18 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from li44-10.members.linode.com ([72.14.181.10] helo=plausible.org)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1SzrxS-0001V8-G6
+	(envelope-from <andy.ross@windriver.com>) id 1SzudO-00018j-MG
 	for openembedded-core@lists.openembedded.org;
-	Fri, 10 Aug 2012 18:21:06 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 10 Aug 2012 09:09:18 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.77,745,1336374000"; d="scan'208";a="184530498"
-Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.121.78])
-	by orsmga002.jf.intel.com with ESMTP; 10 Aug 2012 09:09:17 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org,
-	Scott Garman <scott.a.garman@intel.com>
-Date: Fri, 10 Aug 2012 17:09:07 +0100
-Message-Id: <708346a5928e2962dc3da11fceb02e062729fdd3.1344614803.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1344614803.git.paul.eggleton@linux.intel.com>
-References: <cover.1344614803.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1344614803.git.paul.eggleton@linux.intel.com>
-References: <cover.1344614803.git.paul.eggleton@linux.intel.com>
-Subject: [denzil][PATCH 4/4] classes/license: fix manifest to work with deb
+	Fri, 10 Aug 2012 21:12:34 +0200
+Received: from cougar.plausible.org (c-67-171-188-207.hsd1.or.comcast.net
+	[67.171.188.207]) (Authenticated sender: andy-wrs)
+	by plausible.org (Postfix) with ESMTPSA id 9F8F91E48B;
+	Fri, 10 Aug 2012 12:00:45 -0700 (PDT)
+From: Andy Ross <andy.ross@windriver.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 10 Aug 2012 12:00:41 -0700
+Message-Id: <1344625241-15300-1-git-send-email-andy.ross@windriver.com>
+X-Mailer: git-send-email 1.7.11.2
+Subject: [PATCH] dbus: Fix pid file in dbus init script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,38 +27,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Aug 2012 16:21:06 -0000
+X-List-Received-Date: Fri, 10 Aug 2012 19:12:35 -0000
 
-Prepend the license manifest creation call to ROOTFS_POSTPROCESS_COMMAND
-instead of appending to ROOTFS_POSTINSTALL_COMMAND. The latter is not
-implemented for the deb backend (and probably ought to just be removed
-completely), and by using _prepend we can still ensure it occurs before
-package info is removed (and before buildhistory in case it is needed
-there in future).
+The PIDFILE (/var/run/dbus/pid) referenced by /etc/init.d/dbus-1 did
+not match the path (/var/run/messagebus.pid) configured in
+/etc/dbus-1/system.conf, so the initscript could start the daemon, but
+not stop it.  Also remove needless directory ownership logic
+(dbus-daemon drops its pid file as root before calling setuid).
 
-(From OE-Core rev: 56fafe083fdb63f156a081344fb1d836e3182bf0)
-
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Andy Ross <andy.ross@windriver.com>
 ---
- meta/classes/license.bbclass |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-core/dbus/dbus-1.4.20/dbus-1.init | 11 +++--------
+ meta/recipes-core/dbus/dbus-1.5.12/dbus-1.init | 11 +++--------
+ 2 files changed, 6 insertions(+), 16 deletions(-)
 
-diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
-index 6c4a673..cd4512e 100644
---- a/meta/classes/license.bbclass
-+++ b/meta/classes/license.bbclass
-@@ -382,7 +382,7 @@ do_populate_lic[sstate-name] = "populate-lic"
- do_populate_lic[sstate-inputdirs] = "${LICSSTATEDIR}"
- do_populate_lic[sstate-outputdirs] = "${LICENSE_DIRECTORY}/"
+diff --git a/meta/recipes-core/dbus/dbus-1.4.20/dbus-1.init b/meta/recipes-core/dbus/dbus-1.4.20/dbus-1.init
+index 4abc4cb..17b58ed 100644
+--- a/meta/recipes-core/dbus/dbus-1.4.20/dbus-1.init
++++ b/meta/recipes-core/dbus/dbus-1.4.20/dbus-1.init
+@@ -18,9 +18,8 @@ set -e
  
--ROOTFS_POSTINSTALL_COMMAND += "license_create_manifest; "
-+ROOTFS_POSTPROCESS_COMMAND_prepend = "license_create_manifest; "
+ DAEMON=/usr/bin/dbus-daemon
+ NAME=dbus
+-DAEMONUSER=messagebus
+-PIDDIR=/var/run/dbus
+-PIDFILE=$PIDDIR/pid
++DAEMONUSER=messagebus           # must match /etc/dbus-1/system.conf
++PIDFILE=/var/run/messagebus.pid # must match /etc/dbus-1/system.conf
+ UUIDDIR=/var/lib/dbus
+ DESC="system message bus"
+ EVENTDIR=/etc/dbus-1/event.d
+@@ -38,11 +37,7 @@ test "$ENABLED" != "0" || exit 0
  
- python do_populate_lic_setscene () {
- 	sstate_setscene(d)
+ start_it_up()
+ {
+-  if [ ! -d $PIDDIR ]; then
+-    mkdir -p $PIDDIR
+-    chown $DAEMONUSER $PIDDIR
+-    chgrp $DAEMONUSER $PIDDIR
+-  fi
++  mkdir -p "`dirname $PIDFILE`"
+   if [ -e $PIDFILE ]; then
+     PIDDIR=/proc/$(cat $PIDFILE)
+     if [ -d ${PIDDIR} -a  "$(readlink -f ${PIDDIR}/exe)" = "${DAEMON}" ]; then 
+diff --git a/meta/recipes-core/dbus/dbus-1.5.12/dbus-1.init b/meta/recipes-core/dbus/dbus-1.5.12/dbus-1.init
+index 4abc4cb..17b58ed 100644
+--- a/meta/recipes-core/dbus/dbus-1.5.12/dbus-1.init
++++ b/meta/recipes-core/dbus/dbus-1.5.12/dbus-1.init
+@@ -18,9 +18,8 @@ set -e
+ 
+ DAEMON=/usr/bin/dbus-daemon
+ NAME=dbus
+-DAEMONUSER=messagebus
+-PIDDIR=/var/run/dbus
+-PIDFILE=$PIDDIR/pid
++DAEMONUSER=messagebus           # must match /etc/dbus-1/system.conf
++PIDFILE=/var/run/messagebus.pid # must match /etc/dbus-1/system.conf
+ UUIDDIR=/var/lib/dbus
+ DESC="system message bus"
+ EVENTDIR=/etc/dbus-1/event.d
+@@ -38,11 +37,7 @@ test "$ENABLED" != "0" || exit 0
+ 
+ start_it_up()
+ {
+-  if [ ! -d $PIDDIR ]; then
+-    mkdir -p $PIDDIR
+-    chown $DAEMONUSER $PIDDIR
+-    chgrp $DAEMONUSER $PIDDIR
+-  fi
++  mkdir -p "`dirname $PIDFILE`"
+   if [ -e $PIDFILE ]; then
+     PIDDIR=/proc/$(cat $PIDFILE)
+     if [ -d ${PIDDIR} -a  "$(readlink -f ${PIDDIR}/exe)" = "${DAEMON}" ]; then 
 -- 
-1.7.9.5
+1.7.11.2
 
 
 
