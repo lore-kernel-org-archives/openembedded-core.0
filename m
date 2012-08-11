@@ -1,33 +1,27 @@
-Received: from mail-pb0-f47.google.com ([209.85.160.47])
+Received: from masterfoo.zenlinux.com ([207.192.74.254])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1T02MR-000058-Uk
+	(envelope-from <scott.a.garman@intel.com>) id 1T02RJ-0000A6-4r
 	for openembedded-core@lists.openembedded.org;
-	Sat, 11 Aug 2012 05:27:36 +0200
-Received: by pbcwy7 with SMTP id wy7so3447309pbc.6
+	Sat, 11 Aug 2012 05:32:37 +0200
+Received: from localhost (c-76-105-137-48.hsd1.or.comcast.net [76.105.137.48])
+	(using TLSv1 with cipher DHE-RSA-AES128-SHA (128/128 bits))
+	(No client certificate requested)
+	by masterfoo.zenlinux.com (Postfix) with ESMTP id 7123530453
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Aug 2012 20:15:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=bMJuAcTsxaznJPdfG5WTVDvjWubbgC8h+R9oPwI1usQ=;
-	b=z3xTVYwR36sUjrwWf3egbK6lfFekzpP60czRmXSAnhcRqLSNIUAwYEvhnj3NhM9L4Y
-	m3X+f0LZQUqhYeV64WiJ7mwXDqh4kgIcb2MyKjTUCtaY1SDHwjGUbkwK5r9TLpPadYFY
-	XgKa/OPuwu3UezW8J08U/INK4Yba2i9wS7viAGag/QtnrwPddGzQY+M+lzZTwuIb1pf+
-	LFrlKQElGVlGcf2sdj4hre0jHG0Wr9YqKjYwNLV6lXkN5YnW/4HVtAI0E56tjMaOXPW7
-	ARA+ePl4x8DGIvcG08WZpleCpyFIrHBz2vOo5mijm8WlIglBRkjorC3dtc7bd9DNe+IN
-	d3vA==
-Received: by 10.66.88.39 with SMTP id bd7mr10504171pab.50.1344654944649;
-	Fri, 10 Aug 2012 20:15:44 -0700 (PDT)
-Received: from agate.agate.openembedded.org (oldbuilder.nslu2-linux.org.
-	[140.211.169.168])
-	by mx.google.com with ESMTPS id te10sm502689pbc.45.2012.08.10.20.15.43
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 10 Aug 2012 20:15:43 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
+	Fri, 10 Aug 2012 23:20:42 -0400 (EDT)
+From: Scott Garman <scott.a.garman@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 10 Aug 2012 20:15:24 -0700
-Message-Id: <1344654924-655-1-git-send-email-raj.khem@gmail.com>
+Date: Fri, 10 Aug 2012 20:20:37 -0700
+Message-Id: <cover.1344655148.git.scott.a.garman@intel.com>
 X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] chrpath.bbclass: Account for case when ORIGIN is in RPATH
+X-MasterFoo-MailScanner-Information: Please contact the ISP for more
+	information
+X-MailScanner-ID: 7123530453.B2AFF
+X-MasterFoo-MailScanner: Found to be clean
+X-MasterFoo-MailScanner-SpamCheck: not spam
+X-MasterFoo-MailScanner-From: scott.a.garman@intel.com
+X-Spam-Status: No
+Subject: [PATCH 0/1] runqemu: support booting poky-tiny image
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,39 +36,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 11 Aug 2012 03:27:36 -0000
+X-List-Received-Date: Sat, 11 Aug 2012 03:32:37 -0000
 
-This fixes a case when RPATH embedded in program have one of
-its path already relative to ORIGIN. We were losing that path
-if such a path existed. This patch appends it to the new edited
-rpath being created when we see it.
+As the subject implies, this adds support for booting poky-tiny
+images with the runqemu script.
 
-so RPATH like below
+Scott
 
-(RPATH)              Library rpath:
-[$ORIGIN/../lib/amd64/jli:$ORIGIN/../jre/lib/amd64/jli]
+The following changes since commit 5290e82ecef08b5e573d7442627276d7b42c6b93:
 
-would end up being empty
+  foomatic: fix perl path for target (2012-08-08 10:05:52 +0100)
 
-but after this patch its kept intact
+are available in the git repository at:
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/classes/chrpath.bbclass |    1 +
- 1 file changed, 1 insertion(+)
+  git://git.pokylinux.org/poky-contrib sgarman/runqemu-poky-tiny-oe
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=sgarman/runqemu-poky-tiny-oe
 
-diff --git a/meta/classes/chrpath.bbclass b/meta/classes/chrpath.bbclass
-index 10b5ca0..e903b65 100644
---- a/meta/classes/chrpath.bbclass
-+++ b/meta/classes/chrpath.bbclass
-@@ -49,6 +49,7 @@ def process_dir (directory, d):
-             new_rpaths = []
-             for rpath in rpaths:
-                 # If rpath is already dynamic continue
-+                new_rpaths.append("%s" % (rpath.strip()))
-                 if rpath.find("$ORIGIN") != -1:
-                     continue
-                 # If the rpath shares a root with base_prefix determine a new dynamic rpath from the
+Scott Garman (1):
+  runqemu: support booting poky-tiny images
+
+ scripts/runqemu          |    6 ++++++
+ scripts/runqemu-internal |    5 +++++
+ 2 files changed, 11 insertions(+)
+
 -- 
 1.7.9.5
 
