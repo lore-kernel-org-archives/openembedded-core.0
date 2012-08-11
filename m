@@ -1,37 +1,31 @@
-Received: from mail-wi0-f177.google.com ([209.85.212.177])
+Received: from astoria.ccjclearline.com ([64.235.106.9])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1T06yG-0008O4-3R
+	(envelope-from <rpjday@crashcourse.ca>) id 1T0B9Z-0003t3-2s
 	for openembedded-core@lists.openembedded.org;
-	Sat, 11 Aug 2012 10:22:56 +0200
-Received: by wibhn17 with SMTP id hn17so948664wib.6
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 11 Aug 2012 01:11:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=wJH5I4a60FSQ5OTRJTlhN+ssC5t+Ibk6VtkEAMjurPQ=;
-	b=cEovgswqdtRhOgImzTkoYoa8/0Dw0n6E/zRKvwE60/Z01oACWCsRrSYeiv/xompzKa
-	pOsDgxEdViqHGTcM3xlvDnV99YOLtYmeEO8+vUz6s9B9VOS98sPdyAlr0BoQ+5WFcsjj
-	UxdJpoft5kcxurrep4kPHgWcoBzKQNGY1kcjyyUkKvvEdzpH36iKSPqZrPWgUy/VHnpb
-	QblGc64h+CshebDIJe4yht5c43nzsRmL6K17d5phm53OYVb3WYuDxbQ4yM1Nf4S+i7U3
-	CFbhuHJJgEtIWTjpLGQlLZR3iOIVTQ69055F+kinAf4py6hA5mEjA/efdLyJ/im+NX7H
-	D2zg==
-Received: by 10.180.84.1 with SMTP id u1mr2347762wiy.15.1344672665570;
-	Sat, 11 Aug 2012 01:11:05 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id t7sm3675124wix.6.2012.08.11.01.11.04
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Sat, 11 Aug 2012 01:11:04 -0700 (PDT)
-Date: Sat, 11 Aug 2012 10:11:08 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20120811081108.GB3258@jama.jama.net>
-References: <1344672337-9025-1-git-send-email-xin.ouyang@windriver.com>
+	Sat, 11 Aug 2012 14:50:53 +0200
+Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
+	([174.115.5.73]:42352 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
+	(Exim 4.77) (envelope-from <rpjday@crashcourse.ca>)
+	id 1T0Ay6-0004Mf-1K for openembedded-core@lists.openembedded.org;
+	Sat, 11 Aug 2012 08:39:02 -0400
+Date: Sat, 11 Aug 2012 08:38:58 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@oneiric
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.DEB.2.02.1208110826510.17432@oneiric>
+User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
 MIME-Version: 1.0
-In-Reply-To: <1344672337-9025-1-git-send-email-xin.ouyang@windriver.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: [PATCH] libatomics-ops: update to the latest version 7.2
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Subject: wanting to clarify ASSUME_PROVIDED and SANITY_REQUIRED_UTILITIES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,58 +40,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 11 Aug 2012 08:22:56 -0000
-X-Groupsio-MsgNum: 27287
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="BwCQnh7xodEAoBMC"
-Content-Disposition: inline
+X-List-Received-Date: Sat, 11 Aug 2012 12:50:53 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
---BwCQnh7xodEAoBMC
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Sat, Aug 11, 2012 at 04:05:37PM +0800, xin.ouyang@windriver.com wrote:
-> From: Xin Ouyang <Xin.Ouyang@windriver.com>
->=20
-> All old patches are droped because:
->=20
-> Merged into 7.2 by upstream:
-> * fedora/libatomic_ops-1.2-ppclwzfix.patch
-> * gentoo/libatomic_ops-1.2-mips.patch
-> * gentoo/sh4-atomic-ops.patch
-> * libatomics-ops_fix_for_x32.patch
->=20
-> Obsolete:
-> * doublefix.patch
->=20
-> Signed-off-by: Xin Ouyang <Xin.Ouyang@windriver.com>
-> ---
->  .../pulseaudio/libatomics-ops/doublefix.patch      |   27 ----
->  .../fedora/libatomic_ops-1.2-ppclwzfix.patch       |   20 ---
->  .../gentoo/libatomic_ops-1.2-mips.patch            |  129 --------------=
-------
->  .../libatomics-ops/gentoo/sh4-atomic-ops.patch     |   70 -----------
->  .../libatomics-ops_fix_for_x32.patch               |   41 -------
->  .../pulseaudio/libatomics-ops_1.2.bb               |   34 ------
->  .../pulseaudio/libatomics-ops_7.2.bb               |   29 +++++
+  recently, i know that the entry "git-native" was added to the
+entries in ASSUME_PROVIDED in bitbake.conf:
 
-Can you resend with -M?
+ASSUME_PROVIDED = "\
+    bzip2-native \
+    git-native \
+    grep-native \
+    diffstat-native \
+    patch-native \
+    perl-native-runtime \
+    python-native-runtime \
+    tar-native \
+    virtual/libintl-native \
+    "
 
-Cheers,
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+ostensibly because it's now reasonable to assume that any sane distro
+should be able to provide an oe-compatible version of git.  so far, so
+good.  but there's this in sanity.bbclass:
 
---BwCQnh7xodEAoBMC
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+SANITY_REQUIRED_UTILITIES ?= "patch diffstat texi2html makeinfo git
+bzip2 tar gzip gawk chrpath wget cpio"
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
+how do those two relate to one another?
 
-iEYEARECAAYFAlAmE5wACgkQN1Ujt2V2gBwJkACghL4y9o2BRPLgGVZZj+1+O5tx
-bowAoKiFEeQ8Iv94Vj3W+V0LUgM6iNMO
-=tOGb
------END PGP SIGNATURE-----
+  sanity.bbclass appears to list the native tools that *must* exist on
+the dev host, but what if one doesn't?  is it then downloaded and
+built unless it's in "ASSUME_PROVIDED"?
 
---BwCQnh7xodEAoBMC--
+  as an example, consider "cpio".  sanity.bbclass suggests it *must*
+exist natively, but it's not part of ASSUME_PROVIDED so i had
+originally understood that to mean that it would necessarily have to
+be downloaded (as source), then built so it was available natively.
+
+  but i just ran "bitbake -c fetchall core-image-minimal" and there is
+no cpio source in my downloads directory.  yes, of course i have it
+installed natively, but based on the above, i had assumed it would be
+downloaded and built.  so what am i misunderstanding here?
+
+  also, is there any convenient way to examine my current dev host to
+see what native utilities are candidates for adding to my local
+ASSUME_PROVIDED?
+
+rday
+
+
+
+-- 
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
+
+
