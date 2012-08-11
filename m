@@ -1,44 +1,40 @@
-Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
+Received: from mail-we0-f178.google.com ([74.125.82.178])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1T05LV-0006jC-8m
-	for openembedded-core@lists.openembedded.org;
-	Sat, 11 Aug 2012 08:38:49 +0200
-Received: from mail-pb0-f52.google.com ([209.85.160.52])
-	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 10 Aug 2012 23:26:56 -0700
-Received: by pbcxa7 with SMTP id xa7so3989649pbc.25
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Aug 2012 23:26:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:subject:references
-	:in-reply-to:content-type:content-transfer-encoding
-	:x-gm-message-state;
-	bh=adtxiQN5E6oAoQIzZFsPYKVrgkLCLLQKT8aNfeH5LMw=;
-	b=belTGq0NjiCOsBuWwFIaXOeQZ0Lra+iyj2/Rian+FkSiZdpDgmNYSshoKXXn1vTobD
-	ccbNUiv5ox8F/w7eX/UVk6pe6VyJPtm2e5Kn9VHWzpkMt7GgKZBL8xtX5K4yGuXb98Y5
-	djOFXYTHMvzCsUhXWVoEarr8xsRDZ5kabfYdbbTwpKbx3rUZHKHanYnEZtd1Q76Y/BF5
-	q7sVgM/uREbkodJkS7a96A1/08cpJ6MEODQ/AqXDkF64DD+Rvs4LqACFVVQcxrtTwT6k
-	vI+lZq91lvTY/wrxj8PNZgrE0HPbkWUqkOTc3SlSgWrbeVtXBhlnUkKseuu7kZDiqzBL
-	7zwg==
-Received: by 10.66.77.168 with SMTP id t8mr3789485paw.28.1344666416196;
-	Fri, 10 Aug 2012 23:26:56 -0700 (PDT)
-Received: from [192.168.1.12] (c-76-105-137-48.hsd1.or.comcast.net.
-	[76.105.137.48])
-	by mx.google.com with ESMTPS id hx9sm802520pbc.68.2012.08.10.23.26.55
-	(version=SSLv3 cipher=OTHER); Fri, 10 Aug 2012 23:26:55 -0700 (PDT)
-Message-ID: <5025FB30.30307@intel.com>
-Date: Fri, 10 Aug 2012 23:26:56 -0700
-From: Scott Garman <scott.a.garman@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:14.0) Gecko/20120714 Thunderbird/14.0
+	(envelope-from <martin.jansa@gmail.com>) id 1T06rc-0008D8-HN
+	for openembedded-core@linuxtogo.org; Sat, 11 Aug 2012 10:16:04 +0200
+Received: by weyu7 with SMTP id u7so1769147wey.37
+	for <openembedded-core@linuxtogo.org>;
+	Sat, 11 Aug 2012 01:04:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=uvcHM1/VtVD24W9aCAhjA264zj7bhJIf9ptSkb7fR3o=;
+	b=iPPhNcSCc7YCfC2I8Y9I4sly3fWPBnsawC0AkjYN0Oo/WTbNjDdwI891Tm/MUMuOGd
+	ZO3kddPRvs+3/kOzHNk2E3YMoICJYNAfEI0ApYxG+SN2j3UVZtmBetLeIvYKYyT0CV8t
+	v148Qi4xs8FBPtg+VV6i92TAMUyI9ItMvL4Cd0I0sBL7oKYDO01/2sNZtBA+Fn/7jVqs
+	vSgVoHXvWy3n28OrLrRmnZOcJI3Eanilt5SMbQoKnmZYylXHShnhosOmgUHkQkmisx6p
+	FXAKn2PKC0ni3CC+r7IfR0bpaXVGNoqEU1ff6z7++eFMYVsdH/yJk+5eJRMHPIDj04m2
+	dfwA==
+Received: by 10.180.103.4 with SMTP id fs4mr2309014wib.16.1344672254011;
+	Sat, 11 Aug 2012 01:04:14 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id fr4sm3624466wib.8.2012.08.11.01.04.12
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Sat, 11 Aug 2012 01:04:12 -0700 (PDT)
+Date: Sat, 11 Aug 2012 10:04:16 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Message-ID: <20120811080416.GA3258@jama.jama.net>
+References: <CAMKF1sokpajrms4PACKOSt8CYFt+6JEQ2Fre=QpzJfQF-KLrKA@mail.gmail.com>
+	<20120809131016.GA3273@jama.jama.net>
+	<CAMKF1sqC-_YTdwsLvVoVyz04ndMxNt6W1z__f_9nUTfb6aF8GQ@mail.gmail.com>
+	<20120809145732.GD3273@jama.jama.net>
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <cover.1344655148.git.scott.a.garman@intel.com>
-	<081e2a4154575d494f0f56f1b5e4ff70b93ca8e2.1344655148.git.scott.a.garman@intel.com>
-	<CAMKF1so0GJfh7uotOMxMDH2dD4KBbTM1rnGpB6w5yrf9EOaYEw@mail.gmail.com>
-In-Reply-To: <CAMKF1so0GJfh7uotOMxMDH2dD4KBbTM1rnGpB6w5yrf9EOaYEw@mail.gmail.com>
-X-Gm-Message-State: ALoCoQmS1/mKAH7wcczECiemiaOtsBngb9k5GwCkHiLRnqPCuqBloPYZ5YFrr3xPODuoCYIlt1lM
-Subject: Re: [PATCH 1/1] runqemu: support booting poky-tiny images
+In-Reply-To: <20120809145732.GD3273@jama.jama.net>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@linuxtogo.org
+Subject: Re: binutils 2.23 call for testing the recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -53,54 +49,127 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 11 Aug 2012 06:38:49 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 11 Aug 2012 08:16:04 -0000
+X-Groupsio-MsgNum: 27285
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="LQksG6bCIzRHxTLp"
+Content-Disposition: inline
 
-On 08/10/2012 09:48 PM, Khem Raj wrote:
-> On Fri, Aug 10, 2012 at 8:20 PM, Scott Garman <scott.a.garman@intel.com> wrote:
->> Added support for booting poky-tiny images, which do not have block
->> device support. Note to shut down a running poky-tiny image, you
->> need to include the -f option to the poweroff command.
->>
->> This fixes [YOCTO #2612].
->>
->> Signed-off-by: Scott Garman <scott.a.garman@intel.com>
->> ---
->>   scripts/runqemu          |    6 ++++++
->>   scripts/runqemu-internal |    5 +++++
->>   2 files changed, 11 insertions(+)
->>
->> diff --git a/scripts/runqemu b/scripts/runqemu
->> index 7454dd4..6f2f861 100755
->> --- a/scripts/runqemu
->> +++ b/scripts/runqemu
->> @@ -26,6 +26,7 @@ usage() {
->>       echo "  KERNEL - the kernel image file to use"
->>       echo "  ROOTFS - the rootfs image file or nfsroot directory to use"
->>       echo "  MACHINE - the machine name (optional, autodetected from KERNEL filename if unspecified)"
->> +    echo "  TINY - specify 'tiny' if booting a poky-tiny image"
->
->
-> you seem to be mixing poky distro with OE-Core here. As a whole the
-> patch seems like adding support for ramfs based images. If you intend
-> to just have images specific to poky then this patch
-> belongs to [poky] but if you generalize it enough that non
-> tiny users can also leverage this then it certainly is good
-> for OE-Core.
+--LQksG6bCIzRHxTLp
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Hi Khem,
+On Thu, Aug 09, 2012 at 04:57:32PM +0200, Martin Jansa wrote:
+> On Thu, Aug 09, 2012 at 07:53:43AM -0700, Khem Raj wrote:
+> > On Thu, Aug 9, 2012 at 6:10 AM, Martin Jansa <martin.jansa@gmail.com> w=
+rote:
+> > > On Wed, Aug 08, 2012 at 10:45:19AM -0700, Khem Raj wrote:
+> > >> Hi
+> > >>
+> > >> Binutils 2.23 branch has started upstream. Given that toolchain
+> > >> components require a lot of soak time, I have created the recipes
+> > >> for binutils 2.23 and pushed it here
+> > >>
+> > >> http://git.openembedded.org/openembedded-core-contrib/log/?h=3Dkraj/=
+binutils-2.23
+> > >>
+> > >> If you are using angstrom set
+> > >>
+> > >> ANGSTROM_BINUTILS_VERSION =3D "2.23" in local.conf after pulling tha=
+t branch
+> > >> for OE-Core it will work as it is
+> > >>
+> > >> Let me know if you see any errors.
+> > >
+> > > I was trying to build armv4t image with gold enabled again to see if
+> > > those issues with gold are resolved and building linux-3.2 and linux-=
+2.6.39
+> > > are failing with this:
+> > >
+> > > |   LD      arch/arm/boot/compressed/vmlinux
+> > > | arm-oe-linux-gnueabi-ld: error: DIV usage mismatch between arch/arm=
+/boot/compressed/misc.o and output
+> > > | arm-oe-linux-gnueabi-ld: error: DIV usage mismatch between arch/arm=
+/boot/compressed/lib1funcs.o and output
+> > > | make[2]: *** [arch/arm/boot/compressed/vmlinux] Error 1
+> > >
+> > > Any hint for that?
+> >=20
+> > probably you need something like below
+> > https://lists.yoctoproject.org/pipermail/poky/2011-January/003131.html
+>=20
+> I've used something like
+> https://github.com/CyanogenMod/android_kernel_samsung_tuna/commit/ec1ac58=
+9d49081286164246fbaaba0012ae7ecac
+> and core-image-minimal-mtdutils looks better wrt gold issues we had, now
+> waiting for bigger image like shr-lite-image to test it more.
 
-I had a hunch I'd get called out for this. :)
+As I said on IRC, I spoke too soon, bash and other apps still suffer from I=
+llegal instrictions=20
+when gold is used on armv4t..
 
-I will respin by changing the "tiny" feature to "ramfs". I definitely 
-don't want to see the runqemu script diverge between oe-core and poky.
+Also firefox does not build anymore (this is from armv7a): will try to disa=
+ble-efl-hack later
 
-Scott
+| g++ -o elfhack -isystem/var/lib/jenkins/jobs/shr-core-branches/workspace/=
+shr-core/tmp-eglibc/sysroots/x86_64-linux/usr/include -O2 -pipe -fpermissiv=
+e -L/var/lib/jenkins/jobs/shr-core-branches/workspace/shr-core/tmp-eglibc/s=
+ysroots/x86_64-linux/usr/lib -L/var/lib/jenkins/jobs/shr-core-branches/work=
+space/shr-core/tmp-eglibc/sysroots/x86_64-linux/lib -Wl,-rpath-link,/var/li=
+b/jenkins/jobs/shr-core-branches/workspace/shr-core/tmp-eglibc/sysroots/x86=
+_64-linux/usr/lib -Wl,-rpath-link,/var/lib/jenkins/jobs/shr-core-branches/w=
+orkspace/shr-core/tmp-eglibc/sysroots/x86_64-linux/lib -Wl,-rpath,/var/lib/=
+jenkins/jobs/shr-core-branches/workspace/shr-core/tmp-eglibc/sysroots/x86_6=
+4-linux/usr/lib -Wl,-rpath,/var/lib/jenkins/jobs/shr-core-branches/workspac=
+e/shr-core/tmp-eglibc/sysroots/x86_64-linux/lib -Wl,-O1 host_elf.o host_elf=
+hack.o
+| arm-oe-linux-gnueabi-g++  -march=3Darmv7-a -fno-tree-vectorize     -mthum=
+b-interwork -mfloat-abi=3Dsoftfp -mfpu=3Dneon -mtune=3Dcortex-a8 --sysroot=
+=3D/var/lib/jenkins/jobs/shr-core-branches/workspace/shr-core/tmp-eglibc/sy=
+sroots/nokia900 -fno-rtti -Wall -Wpointer-arith -Woverloaded-virtual -Wsynt=
+h -Wno-ctor-dtor-privacy -Wno-non-virtual-dtor -Wno-invalid-offsetof -Wno-v=
+ariadic-macros -Werror=3Dreturn-type -Os -fsigned-char -fno-strict-aliasing=
+ -fpermissive -fvisibility-inlines-hidden -fno-strict-aliasing -std=3Dgnu++=
+0x -pthread -ffunction-sections -fdata-sections -pipe -fexceptions  -DNDEBU=
+G -DTRIMMED -g -Os -freorder-blocks  -fomit-frame-pointer -fPIC -shared -Wl=
+,-z,defs -Wl,--gc-sections -Wl,-h,test.so -o test.so -lpthread -Wl,-O1 -Wl,=
+--hash-style=3Dgnu -Wl,--as-needed -Wl,--icf=3Dsafe   -Wl,-rpath-link,/var/=
+lib/jenkins/jobs/shr-core-branches/workspace/shr-core/tmp-eglibc/work/armv7=
+a-vfp-neon-oe-linux-gnueabi/firefox-10.0.2-r2/mozilla-release/dist/bin -Wl,=
+-rpath-link,/usr/lib  test.o
+| =3D=3D=3D
+| =3D=3D=3D If you get failures below, please file a bug describing the err=
+or
+| =3D=3D=3D and your environment (compiler and linker versions), and use
+| =3D=3D=3D --disable-elf-hack until this is fixed.
+| =3D=3D=3D
+| /var/lib/jenkins/jobs/shr-core-branches/workspace/shr-core/tmp-eglibc/wor=
+k/armv7a-vfp-neon-oe-linux-gnueabi/firefox-10.0.2-r2/mozilla-release/build/=
+unix/elfhack/elfhack -b test.so
+| test.so: terminate called after throwing an instance of 'std::runtime_err=
+or'
+|   what():  Unsupported relocation type
+| make[7]: *** [test.so] Aborted (core dumped)
+| make[7]: Leaving directory `/var/lib/jenkins/jobs/shr-core-branches/works=
+pace/shr-core/tmp-eglibc/work/armv7a-vfp-neon-oe-linux-gnueabi/firefox-10.0=
+=2E2-r2/mozilla-release/build/unix/elfhack'
 
--- 
-Scott Garman
-Embedded Linux Engineer - Yocto Project
-Intel Open Source Technology Center
 
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--LQksG6bCIzRHxTLp
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
+
+iEYEARECAAYFAlAmEgAACgkQN1Ujt2V2gByFUQCfXdmCENYX23FeyIk/Lmb4gOpF
+lMoAnj6/VRDzLDQUizeZrAlFqlApV2ln
+=c/tD
+-----END PGP SIGNATURE-----
+
+--LQksG6bCIzRHxTLp--
