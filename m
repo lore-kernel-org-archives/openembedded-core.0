@@ -1,31 +1,37 @@
-Received: from astoria.ccjclearline.com ([64.235.106.9])
+Received: from mail-ey0-f178.google.com ([209.85.215.178])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <rpjday@crashcourse.ca>) id 1T0B9Z-0003t3-2s
-	for openembedded-core@lists.openembedded.org;
-	Sat, 11 Aug 2012 14:50:53 +0200
-Received: from cpec03f0ed08c7f-cm001ac318e826.cpe.net.cable.rogers.com
-	([174.115.5.73]:42352 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.77) (envelope-from <rpjday@crashcourse.ca>)
-	id 1T0Ay6-0004Mf-1K for openembedded-core@lists.openembedded.org;
-	Sat, 11 Aug 2012 08:39:02 -0400
-Date: Sat, 11 Aug 2012 08:38:58 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@oneiric
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.DEB.2.02.1208110826510.17432@oneiric>
-User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+	(envelope-from <raj.khem@gmail.com>) id 1T0Qwp-0002iW-RE
+	for openembedded-core@linuxtogo.org; Sun, 12 Aug 2012 07:42:47 +0200
+Received: by eaak14 with SMTP id k14so721274eaa.37
+	for <openembedded-core@linuxtogo.org>;
+	Sat, 11 Aug 2012 22:30:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=5f4GjVPSfTGohl3XLIDwtbn27WFBPgoRukHdmUFrQck=;
+	b=mHOVj607ekmIUZwI2+SSMWbwSc1g0hebX7SKIAGL7IYffVTDIivmPTh9SJDOwXwJoz
+	OPw4mNcafj2BiBzQTvXgXAwFP5KRi5SPXXKbvSCciW6bW1Bnq+eSIr3VTXnMI0fiFv/U
+	djrCONyPkr8DfOMIqa7/BBv9JfO2IsQbVNWWJRaJxzMJ0y2c4OgHqhS7w4ldEiizEXaU
+	V+qKL9BHU9BKcV4r1O8xKfXnV9yTmf4dRZdClBst+EEw96yoSTp54Clcvy9kDV0rM/Q8
+	J2uXDnE0RtuzdsY4XAxHZR+I/UGAdXGxgv2hkK1oeQy7naZpZsqwVA0uy3DONG+JVnhu
+	9fBw==
+Received: by 10.14.206.201 with SMTP id l49mr5807397eeo.3.1344749456076; Sat,
+	11 Aug 2012 22:30:56 -0700 (PDT)
 MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Subject: wanting to clarify ASSUME_PROVIDED and SANITY_REQUIRED_UTILITIES
+Received: by 10.14.225.6 with HTTP; Sat, 11 Aug 2012 22:30:25 -0700 (PDT)
+In-Reply-To: <20120811080416.GA3258@jama.jama.net>
+References: <CAMKF1sokpajrms4PACKOSt8CYFt+6JEQ2Fre=QpzJfQF-KLrKA@mail.gmail.com>
+	<20120809131016.GA3273@jama.jama.net>
+	<CAMKF1sqC-_YTdwsLvVoVyz04ndMxNt6W1z__f_9nUTfb6aF8GQ@mail.gmail.com>
+	<20120809145732.GD3273@jama.jama.net>
+	<20120811080416.GA3258@jama.jama.net>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sat, 11 Aug 2012 22:30:25 -0700
+Message-ID: <CAMKF1sqDmRKA=eaTbZesfDFd9axJXUbHDR-7b-0vpF1SMu9RSw@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Cc: openembedded-core@linuxtogo.org
+Subject: Re: binutils 2.23 call for testing the recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,64 +46,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 11 Aug 2012 12:50:53 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Sun, 12 Aug 2012 05:42:47 -0000
+Content-Type: text/plain; charset=UTF-8
 
+On Sat, Aug 11, 2012 at 1:04 AM, Martin Jansa <martin.jansa@gmail.com> wrote:
+>
+> | === If you get failures below, please file a bug describing the error
+> | === and your environment (compiler and linker versions), and use
+> | === --disable-elf-hack until this is fixed.
+> | ===
+> | /var/lib/jenkins/jobs/shr-core-branches/workspace/shr-core/tmp-eglibc/work/armv7a-vfp-neon-oe-linux-gnueabi/firefox-10.0.2-r2/mozilla-release/build/unix/elfhack/elfhack -b test.so
+> | test.so: terminate called after throwing an instance of 'std::runtime_error'
+> |   what():  Unsupported relocation type
+> | make[7]: *** [test.so] Aborted (core dumped)
+> | make[7]: Leaving directory `/var/lib/jenkins/jobs/shr-core-branches/workspace/shr-core/tmp-eglibc/work/armv7a-vfp-neon-oe-linux-gnueabi/firefox-10.0.2-r2/mozilla-release/build/unix/elfhack'
 
-  recently, i know that the entry "git-native" was added to the
-entries in ASSUME_PROVIDED in bitbake.conf:
+it might be you are seeing same bug in elfhack as described here
 
-ASSUME_PROVIDED = "\
-    bzip2-native \
-    git-native \
-    grep-native \
-    diffstat-native \
-    patch-native \
-    perl-native-runtime \
-    python-native-runtime \
-    tar-native \
-    virtual/libintl-native \
-    "
-
-ostensibly because it's now reasonable to assume that any sane distro
-should be able to provide an oe-compatible version of git.  so far, so
-good.  but there's this in sanity.bbclass:
-
-SANITY_REQUIRED_UTILITIES ?= "patch diffstat texi2html makeinfo git
-bzip2 tar gzip gawk chrpath wget cpio"
-
-how do those two relate to one another?
-
-  sanity.bbclass appears to list the native tools that *must* exist on
-the dev host, but what if one doesn't?  is it then downloaded and
-built unless it's in "ASSUME_PROVIDED"?
-
-  as an example, consider "cpio".  sanity.bbclass suggests it *must*
-exist natively, but it's not part of ASSUME_PROVIDED so i had
-originally understood that to mean that it would necessarily have to
-be downloaded (as source), then built so it was available natively.
-
-  but i just ran "bitbake -c fetchall core-image-minimal" and there is
-no cpio source in my downloads directory.  yes, of course i have it
-installed natively, but based on the above, i had assumed it would be
-downloaded and built.  so what am i misunderstanding here?
-
-  also, is there any convenient way to examine my current dev host to
-see what native utilities are candidates for adding to my local
-ASSUME_PROVIDED?
-
-rday
-
-
-
--- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
+https://bugzilla.mozilla.org/show_bug.cgi?id=632920
 
 
