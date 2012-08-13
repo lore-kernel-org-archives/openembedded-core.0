@@ -1,22 +1,21 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <constantinx.musca@intel.com>) id 1T0sBZ-0003tF-L3
+	(envelope-from <laurentiu.palcu@intel.com>) id 1T0vna-0001r4-CF
 	for openembedded-core@lists.linuxtogo.org;
-	Mon, 13 Aug 2012 12:47:49 +0200
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 13 Aug 2012 03:34:50 -0700
+	Mon, 13 Aug 2012 16:39:18 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 13 Aug 2012 07:27:23 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.77,759,1336374000"; d="scan'208";a="133579804"
-Received: from costin-desktop (HELO localhost.localdomain) ([10.237.105.33])
-	by AZSMGA002.ch.intel.com with ESMTP; 13 Aug 2012 03:34:49 -0700
-From: Constantin Musca <constantinx.musca@intel.com>
+X-IronPort-AV: E=Sophos;i="4.77,759,1336374000"; d="scan'208";a="180017165"
+Received: from lpalcu-linux (HELO localhost.localdomain) ([10.237.105.41])
+	by orsmga001.jf.intel.com with ESMTP; 13 Aug 2012 07:27:22 -0700
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 13 Aug 2012 12:39:29 +0300
-Message-Id: <1344850769-21131-1-git-send-email-constantinx.musca@intel.com>
+Date: Mon, 13 Aug 2012 17:27:19 +0300
+Message-Id: <1344868040-885-1-git-send-email-laurentiu.palcu@intel.com>
 X-Mailer: git-send-email 1.7.9.5
-Cc: openembedded-core@lists.linuxtogo.org,
-	Constantin Musca <constantinx.musca@intel.com>
-Subject: [PATCH] ethtool: package update 3.4.1 -> 3.5
+Cc: openembedded-core@lists.linuxtogo.org
+Subject: [RFC 0/1] adt-installer: add support for relocatable SDK
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,31 +30,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Aug 2012 10:47:49 -0000
+X-List-Received-Date: Mon, 13 Aug 2012 14:39:18 -0000
 
-Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
----
- .../ethtool/{ethtool_3.4.1.bb => ethtool_3.5.bb}   |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-extended/ethtool/{ethtool_3.4.1.bb => ethtool_3.5.bb} (79%)
+Hi all,
 
-diff --git a/meta/recipes-extended/ethtool/ethtool_3.4.1.bb b/meta/recipes-extended/ethtool/ethtool_3.5.bb
-similarity index 79%
-rename from meta/recipes-extended/ethtool/ethtool_3.4.1.bb
-rename to meta/recipes-extended/ethtool/ethtool_3.5.bb
-index 41ef330..b9caab6 100644
---- a/meta/recipes-extended/ethtool/ethtool_3.4.1.bb
-+++ b/meta/recipes-extended/ethtool/ethtool_3.5.bb
-@@ -9,7 +9,7 @@ PR = "r0"
- 
- SRC_URI = "${KERNELORG_MIRROR}/software/network/ethtool/ethtool-${PV}.tar.gz"
- 
--SRC_URI[md5sum] = "25ccc0d717c37265042df4f7869485cb"
--SRC_URI[sha256sum] = "3b67484b255996432854cb07de8f7e42ba555cf8efeb4a0134eb7575f9eef2a8"
-+SRC_URI[md5sum] = "f2dd81ecc515f25372503501f9b7ea1b"
-+SRC_URI[sha256sum] = "e87e232ba927aecca5be565e7bea20c533ade97758b17e65b8941df35b3c6f59"
- 
- inherit autotools
+This patch will add relocatable SDK support to adt installer. That is, the user
+can provide an install folder, different than the default one (usually
+/opt/${DISTRO}/${SDK_VERSION} and the binaries will be automatically relocated.
+
+Why RFC? Well, adt_installer uses opkg in order to populate the SDK rootfs. If
+the user wants to install, for example, x86_64 Poky SDK under, say,
+/home/user/some/directory, he/she will end up with this directory structure:
+/home/user/some/directory/opt/poky/1.2+snapshot/sysroots/x86_64-pokysdk-linux/...
+
+The idea is to strip opt/poky/1.2+snapshot from this structure and end up with:
+/home/user/some/directory/sysroots/x86_64-pokysdk-linux/...
+
+With the meta-toolchain stuff it was easy because tar has the feature to strip
+a number of components from file names on extraction and all was fine. But opkg,
+doesn't... Not that I know of.
+
+So, I had two options:
+	- hard way: patch opkg to be able to support this. Implementation could take
+	  some time and the feature will be rarely used in real-life;
+	- easy way: the solution I chose: after opkg finishes installation of the
+	  entire directory structure, move sysroots directory (together with the
+	  setup scripts) to the location we want and then get rid of the
+	  ./opt/poky/1.2+snapshot/ tree, which is empty anyway.
+
+Any comments?
+
+Thanks,
+Laurentiu
+
+Laurentiu Palcu (1):
+  adt-installer: add support for relocatable SDK
+
+ .../installer/adt-installer/adt_installer          |   11 ++
+ .../adt-installer/scripts/adt_installer_internal   |  109 ++++++++++++++++----
+ .../installer/adt-installer_1.0.bb                 |   37 +++----
+ 3 files changed, 121 insertions(+), 36 deletions(-)
+
 -- 
 1.7.9.5
 
