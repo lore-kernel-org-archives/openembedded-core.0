@@ -1,41 +1,36 @@
-Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
+Received: from mga10.intel.com ([192.55.52.92] helo=fmsmga102.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1T102s-0001X2-C5
+	(envelope-from <ross.burton@intel.com>) id 1T105I-0001rk-0H
 	for openembedded-core@lists.openembedded.org;
-	Mon, 13 Aug 2012 21:11:22 +0200
-Received: from mail-wi0-f178.google.com ([209.85.212.178])
-	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 13 Aug 2012 11:59:29 -0700
-Received: by mail-wi0-f178.google.com with SMTP id hr14so2974409wib.13
+	Mon, 13 Aug 2012 21:13:53 +0200
+Received: from mail-wg0-f44.google.com ([74.125.82.44])
+	by mga11.intel.com with ESMTP/TLS/RC4-SHA; 13 Aug 2012 12:01:56 -0700
+Received: by wgbdr13 with SMTP id dr13so2497211wgb.13
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Aug 2012 11:59:29 -0700 (PDT)
+	Mon, 13 Aug 2012 12:01:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
-	:in-reply-to:references:x-gm-message-state;
-	bh=EH1AbRAGUUWir7x5SUV6hO2W1lzYLeLckBbwq+elJQY=;
-	b=fQglUW2DeYCFvfQ2UswtxDum2lGnmWiI+MYnkgeiaunKoW5oSRJprB9hJEFaOnkyX0
-	gHgu7XLyqR7v9uuM8qfoc8jjBj87KhqRlhXd30uAsViHBKzPa5yJS+w1fZpkDJnjy89F
-	9O6D1Zf22mOutsL3Vk9725x0eAmoQKHLYFG+oSGtiaZH6PJzQ9jNcicXrkrNoUT6ZXGw
-	RAl7JSLK7QB3+bzZcY+6T6QfEf8SbN/m3jhOMVrpT3N8w/vTIZdeLyys0L5SHir2A+F9
-	WbIG1biZY/bLZP+i8dHcBQ1+hWIIpW/B/gokrw9c/9KKWtjzzZbMDEMXS8jyfjXJu+fN
-	6k5w==
-Received: by 10.180.100.131 with SMTP id ey3mr20717969wib.15.1344884369869;
-	Mon, 13 Aug 2012 11:59:29 -0700 (PDT)
+	h=from:to:subject:date:message-id:x-mailer:x-gm-message-state;
+	bh=ku9oAxYVeaXhxtgxq7JYoEBthmzWC91409EpzCAXZM4=;
+	b=VLbU9drRhcncom3Kjj7zxCj/GCWBTukXrnBq44tKIfabVHhXxTmMyuP0JpvnYm01lF
+	adGQAIUhSLJ5e8M7mbwaiRtpdJIrV4wKqU5d+MDKZkmYlVUR5qdOyDqDANMGNB/rk/wg
+	v+ghVQdLEhN7Aw5+Y1UBlYbiHzJo1X0j9sNnyP37K8qT9Jk3kyBzPUpYwQ2flXJjktyi
+	+flxIxWVun9X8MIovUCMzvYb6Wh3sA2P0Nz08yK6fLGzdI/gnPDqg63zfCHh1/GbmwzD
+	cf6H3P1MAuzLlIr0N4fZA1TTmXqzYTMwbny21mkD5yTMU8MvQsTxX6EWjiYdU0OgQvtb
+	x96g==
+Received: by 10.216.139.196 with SMTP id c46mr6787643wej.220.1344884515388;
+	Mon, 13 Aug 2012 12:01:55 -0700 (PDT)
 Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id h9sm17936447wiz.1.2012.08.13.11.59.28
+	by mx.google.com with ESMTPS id l5sm26044104wix.5.2012.08.13.12.01.54
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 13 Aug 2012 11:59:29 -0700 (PDT)
+	Mon, 13 Aug 2012 12:01:54 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 13 Aug 2012 19:58:47 +0100
-Message-Id: <938675e4208fd34908653e1a7565c58f53067d77.1344884283.git.ross.burton@intel.com>
+Date: Mon, 13 Aug 2012 20:01:21 +0100
+Message-Id: <cover.1344884443.git.ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10
-In-Reply-To: <cover.1344884283.git.ross.burton@intel.com>
-References: <cover.1344884283.git.ross.burton@intel.com>
-In-Reply-To: <cover.1344884283.git.ross.burton@intel.com>
-References: <cover.1344884283.git.ross.burton@intel.com>
-X-Gm-Message-State: ALoCoQm+M9zrRMjDPKQeO1cL47A7vMqb2+F5NYkX5SpYNlEGPw5QQ/B/2RGWtOgVKJtnoc/Dipn1
-Subject: [PATCH 8/8] mesa: enable EGL, with DRM and X11 platforms
+X-Gm-Message-State: ALoCoQlQz51QODgm3wT1r4Y0PmFyaQYGPQ9RZ85q3UoBbZrK13c8JTTT51JcPb6GNy9buvDOT5pL
+Subject: [PATCH 0/2] libowl updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,66 +45,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Aug 2012 19:11:23 -0000
+X-List-Received-Date: Mon, 13 Aug 2012 19:13:53 -0000
 
-Patch originally by Damien Lespiau <damien.lespiau@intel.com>.
+Patches were merged upstream, so drop them and bump srcrev.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-graphics/mesa/mesa-common.inc |    5 +++--
- meta/recipes-graphics/mesa/mesa-dri.inc    |    6 +++++-
- 2 files changed, 8 insertions(+), 3 deletions(-)
+The following changes since commit 2dec760b79bb7e2e79c33c5127fa64685bd86a18:
 
-diff --git a/meta/recipes-graphics/mesa/mesa-common.inc b/meta/recipes-graphics/mesa/mesa-common.inc
-index feb152b..de171f0 100644
---- a/meta/recipes-graphics/mesa/mesa-common.inc
-+++ b/meta/recipes-graphics/mesa/mesa-common.inc
-@@ -17,7 +17,7 @@ PE = "2"
- 
- DEPENDS = "libxml2-native makedepend-native flex-native bison-native"
- 
--PROVIDES = "virtual/libgl virtual/libgles1 virtual/libgles2"
-+PROVIDES = "virtual/libgl virtual/libgles1 virtual/libgles2 virtual/egl"
- 
- # for mesa-dri and mesa-xlib
- FILESEXTRAPATHS_append := "${THISDIR}/mesa:"
-@@ -30,6 +30,7 @@ EXTRA_OECONF = "--enable-glu \
-                 --enable-shared-glapi"
- 
- PACKAGECONFIG ??= "${@base_contains('MACHINE_FEATURES', 'x86', 'gles', '', d)} \
-+                   ${@base_contains('MACHINE_FEATURES', 'x86', 'egl', '', d)} \
-                    ${@base_contains('DISTRO_FEATURES', 'x11', 'x11', '', d)}"
- 
- X11_DEPS = "xf86driproto glproto virtual/libx11 libxext libxxf86vm libxdamage libxfixes"
-@@ -60,7 +61,7 @@ FILES_libglapi = "${libdir}/libglapi.so.*"
- FILES_libglu = "${libdir}/libGLU.so.*"
- FILES_libosmesa = "${libdir}/libOSMesa.so.*"
- 
--FILES_libegl-dev = "${libdir}/libEGL.* ${includedir}/EGL"
-+FILES_libegl-dev = "${libdir}/libEGL.* ${includedir}/EGL ${includedir}/KHR ${libdir}/pkgconfig/egl.pc"
- FILES_libgbm-dev = "${libdir}/libgbm* ${libdir}/pkgconfig/gbm.pc ${includedir}/gbm.h"
- FILES_libgl-dev = "${libdir}/libGL.* ${includedir}/GL ${libdir}/pkgconfig/gl.pc"
- FILES_libglapi-dev = "${libdir}/libglapi.*"
-diff --git a/meta/recipes-graphics/mesa/mesa-dri.inc b/meta/recipes-graphics/mesa/mesa-dri.inc
-index 32ca4b2..8b04e5b 100644
---- a/meta/recipes-graphics/mesa/mesa-dri.inc
-+++ b/meta/recipes-graphics/mesa/mesa-dri.inc
-@@ -10,10 +10,14 @@ DRIDRIVERS_append_x86-64 = ",i915,i965"
- 
- EXTRA_OECONF += "--disable-gallium --without-gallium-drivers"
- EXTRA_OECONF += "--enable-dri --with-dri-drivers=${DRIDRIVERS}"
--EXTRA_OECONF += "--disable-egl --enable-gbm"
-+EXTRA_OECONF += "--enable-gbm"
- 
- PACKAGECONFIG[gles] = "--enable-gles1 --enable-gles2, --disable-gles1 --disable-gles2"
- 
-+EGL_PLATFORMS  = "drm"
-+EGL_PLATFORMS .="${@base_contains('DISTRO_FEATURES', 'x11', ',x11', '', d)}"
-+PACKAGECONFIG[egl] = "--enable-egl --with-egl-platforms=${EGL_PLATFORMS}, --disable-egl"
-+
- python populate_packages_prepend() {
-     dri_drivers_root = os.path.join(d.getVar('libdir', True), "dri")
- 
+  foomatic: fix perl path for target (2012-08-08 10:06:00 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib ross/owl
+
+for you to fetch changes up to d3e664ba768f4485f8d7984a86c571cf43815497:
+
+  libowl-av: patches merged upstream, bump srcrev (2012-08-10 15:47:00 +0300)
+
+----------------------------------------------------------------
+Ross Burton (2):
+      owl-video: patches pushed upstream, so bump srcrev
+      libowl-av: patches merged upstream, bump srcrev
+
+ .../libowl-av/gst_change_state.patch               |   42 --------------------
+ .../owl-video-widget/libowl-av/make-382.patch      |   13 ------
+ .../recipes-sato/owl-video-widget/libowl-av_git.bb |    8 ++--
+ .../owl-video/gtk_multithread_safe.patch           |   40 -------------------
+ .../owl-video-widget/owl-video/make-382.patch      |   17 --------
+ .../recipes-sato/owl-video-widget/owl-video_git.bb |    8 ++--
+ 6 files changed, 6 insertions(+), 122 deletions(-)
+ delete mode 100644 meta/recipes-sato/owl-video-widget/libowl-av/gst_change_state.patch
+ delete mode 100644 meta/recipes-sato/owl-video-widget/libowl-av/make-382.patch
+ delete mode 100644 meta/recipes-sato/owl-video-widget/owl-video/gtk_multithread_safe.patch
+ delete mode 100644 meta/recipes-sato/owl-video-widget/owl-video/make-382.patch
+
+Ross Burton (2):
+  owl-video: patches pushed upstream, so bump srcrev
+  libowl-av: patches merged upstream, bump srcrev
+
+ .../libowl-av/gst_change_state.patch               |   42 --------------------
+ .../owl-video-widget/libowl-av/make-382.patch      |   13 ------
+ .../recipes-sato/owl-video-widget/libowl-av_git.bb |    8 ++--
+ .../owl-video/gtk_multithread_safe.patch           |   40 -------------------
+ .../owl-video-widget/owl-video/make-382.patch      |   17 --------
+ .../recipes-sato/owl-video-widget/owl-video_git.bb |    8 ++--
+ 6 files changed, 6 insertions(+), 122 deletions(-)
+ delete mode 100644 meta/recipes-sato/owl-video-widget/libowl-av/gst_change_state.patch
+ delete mode 100644 meta/recipes-sato/owl-video-widget/libowl-av/make-382.patch
+ delete mode 100644 meta/recipes-sato/owl-video-widget/owl-video/gtk_multithread_safe.patch
+ delete mode 100644 meta/recipes-sato/owl-video-widget/owl-video/make-382.patch
+
 -- 
 1.7.10
 
