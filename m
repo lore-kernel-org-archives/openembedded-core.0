@@ -1,24 +1,36 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mail-wg0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <constantinx.musca@intel.com>) id 1T0wgP-0003v6-DJ
-	for openembedded-core@lists.linuxtogo.org;
-	Mon, 13 Aug 2012 17:35:58 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 13 Aug 2012 08:23:03 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.77,761,1336374000"; d="scan'208";a="207670975"
-Received: from costin-desktop (HELO localhost.localdomain) ([10.237.105.33])
-	by fmsmga002.fm.intel.com with ESMTP; 13 Aug 2012 08:23:02 -0700
-From: Constantin Musca <constantinx.musca@intel.com>
+	(envelope-from <schnitzeltony@googlemail.com>) id 1T0yEN-0007nq-Ok
+	for openembedded-core@lists.openembedded.org;
+	Mon, 13 Aug 2012 19:15:07 +0200
+Received: by wgbdr1 with SMTP id dr1so3149452wgb.24
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 13 Aug 2012 10:03:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=from:to:subject:date:message-id:x-mailer:mime-version:content-type
+	:content-transfer-encoding;
+	bh=wXIM1I7zDyubDsQvEfHV64ehLLp6rgQmY5vHWbgA2Jw=;
+	b=fqApSh1d1msbTzGa+075NNuXVO1R10VD/2hs8laqoHXehc1MIfyEE5rIu3kZL+me/y
+	KtlB8e5H/BjrRXsL2kbSCS25spq/XpYGp/yki3u6d6L9on2tMMxk6jSf3xIW4U9PcCWr
+	ARkzNy4QHXHmpSgOI1XC0AjFae2xNN2mU298FMVY2/FTyM5+ymVyupNowi7NA1LuQxCT
+	nlWdft9k+Z48mmvHcu67fA5EsO2cklV0INm/A1xP4ZgcXl5pDboMzfyMA1Ujbnl+s3fJ
+	7k6qIyyqY7pBSfJWyDIQdEvbk4aoo1YVAlvVQVfwgXKaVhra+KUQ4arar/Jdtfp3zSbg
+	M7WA==
+Received: by 10.180.107.2 with SMTP id gy2mr20065800wib.2.1344877393982;
+	Mon, 13 Aug 2012 10:03:13 -0700 (PDT)
+Received: from localhost.localdomain (ip-95-222-160-112.unitymediagroup.de.
+	[95.222.160.112])
+	by mx.google.com with ESMTPS id z11sm25269035wiv.10.2012.08.13.10.03.12
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 13 Aug 2012 10:03:13 -0700 (PDT)
+From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 13 Aug 2012 17:27:32 +0300
-Message-Id: <1344868052-15607-4-git-send-email-constantinx.musca@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <1344868052-15607-1-git-send-email-constantinx.musca@intel.com>
-References: <1344868052-15607-1-git-send-email-constantinx.musca@intel.com>
-Cc: openembedded-core@lists.linuxtogo.org,
-	Constantin Musca <constantinx.musca@intel.com>
-Subject: [PATCH 3/3] dri2proto: upgrade to 2.8
+Date: Mon, 13 Aug 2012 19:02:39 +0200
+Message-Id: <1344877359-12997-1-git-send-email-schnitzeltony@googlemail.com>
+X-Mailer: git-send-email 1.7.6.5
+MIME-Version: 1.0
+Subject: [PATCH] wpa-supplicant: fix paths in dbus/systemd *.service files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,31 +45,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Aug 2012 15:36:01 -0000
+X-List-Received-Date: Mon, 13 Aug 2012 17:15:07 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
+
+Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
 ---
- .../{dri2proto_2.6.bb => dri2proto_2.8.bb}         |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/xorg-proto/{dri2proto_2.6.bb => dri2proto_2.8.bb} (76%)
+ .../wpa-supplicant/wpa-supplicant-1.0.inc          |    2 ++
+ .../wpa-supplicant/wpa-supplicant_1.0.bb           |    2 +-
+ 2 files changed, 3 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-graphics/xorg-proto/dri2proto_2.6.bb b/meta/recipes-graphics/xorg-proto/dri2proto_2.8.bb
-similarity index 76%
-rename from meta/recipes-graphics/xorg-proto/dri2proto_2.6.bb
-rename to meta/recipes-graphics/xorg-proto/dri2proto_2.8.bb
-index 99c089a..fd27ed5 100644
---- a/meta/recipes-graphics/xorg-proto/dri2proto_2.6.bb
-+++ b/meta/recipes-graphics/xorg-proto/dri2proto_2.8.bb
-@@ -12,5 +12,5 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=2e396fa91834f8786032cad2da5638f3 \
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-1.0.inc b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-1.0.inc
+index 0c18b30..873e923 100644
+--- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-1.0.inc
++++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-1.0.inc
+@@ -29,6 +29,8 @@ do_configure () {
+ }
  
- PR = "r0"
+ export EXTRA_CFLAGS = "${CFLAGS}"
++export BINDIR = "${sbindir}"
++
+ do_compile () {
+ 	unset CFLAGS CPPFLAGS CXXFLAGS
+ 	oe_runmake
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_1.0.bb b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_1.0.bb
+index 8ede3e5..a60cd86 100644
+--- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_1.0.bb
++++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_1.0.bb
+@@ -1,6 +1,6 @@
+ require wpa-supplicant-1.0.inc
  
--SRC_URI[md5sum] = "2eb74959684f47c862081099059a11ab"
--SRC_URI[sha256sum] = "ad82c0b28c19fcd3f91ea1f93956cb666526b41b91f239773b5854b9b1a3b909"
-+SRC_URI[md5sum] = "b2721d5d24c04d9980a0c6540cb5396a"
-+SRC_URI[sha256sum] = "f9b55476def44fc7c459b2537d17dbc731e36ed5d416af7ca0b1e2e676f8aa04"
+-PR = "r0"
++PR = "r1"
+ 
+ SRC_URI[md5sum] = "8650f6aa23646ef634402552d0669640"
+ SRC_URI[sha256sum] = "91d41d473a5aafa2e25dd6577ebda975c4d4a3188850a53e31feaf7c04482b9c"
 -- 
-1.7.9.5
+1.7.6.5
 
 
 
