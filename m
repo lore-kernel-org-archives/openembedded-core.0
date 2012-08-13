@@ -1,22 +1,35 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail-ey0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <constantinx.musca@intel.com>) id 1T0ozI-0004PJ-So
+	(envelope-from <koen@dominion.thruhere.net>) id 1T0pa9-0005Am-Eu
 	for openembedded-core@lists.linuxtogo.org;
-	Mon, 13 Aug 2012 09:22:57 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 13 Aug 2012 00:09:58 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.77,758,1336374000"; d="scan'208";a="179859354"
-Received: from costin-desktop (HELO localhost.localdomain) ([10.237.105.33])
-	by orsmga001.jf.intel.com with ESMTP; 13 Aug 2012 00:09:34 -0700
-From: Constantin Musca <constantinx.musca@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 13 Aug 2012 09:14:19 +0300
-Message-Id: <1344838459-26178-1-git-send-email-constantinx.musca@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-Cc: openembedded-core@lists.linuxtogo.org,
-	Constantin Musca <constantinx.musca@intel.com>
-Subject: [PATCH] libdrm: package update 2.4.35 -> 2.4.37
+	Mon, 13 Aug 2012 10:01:01 +0200
+Received: by eaad12 with SMTP id d12so695622eaa.6
+	for <openembedded-core@lists.linuxtogo.org>;
+	Mon, 13 Aug 2012 00:49:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer:x-gm-message-state;
+	bh=+1XvdKMK4IWWCt6jfI4yeyvK2481AZlogJlGjpcvXYo=;
+	b=Pl/k5AkzUwCp3iMbM6ST4p3nsbn77U4ExRZZ0pYmigl+NBYIRc339RwEpjradlW5YD
+	nK/PdI2aoS18c34TFYrXYRiSaewoHEMgxoq9pBcbyNt0y/ww//LYyU1TdM1ew1sZIdPH
+	kvl9/lcIMNaeLIdgiLQnXXazCUPjlTOnzWJ86TlI9Q3gLxVt7YxKIIe+MP6uEU4UUE1C
+	JtbT2dPfcSICJEbZ6oiAuxwfnrecJHSDZ9av6jrDPZ0OONbYOuH4yNWzzGndklZcAF5y
+	UHTwS3AA/RQkLTsUfV3lUZxjSuAk8cF3AbQAKjBJHij7Dc765vfEMCZ44sgYaW82y7n0
+	glJA==
+Received: by 10.14.177.193 with SMTP id d41mr6299802eem.19.1344844148409;
+	Mon, 13 Aug 2012 00:49:08 -0700 (PDT)
+Received: from localhost (cl-267.ams-05.nl.sixxs.net. [2001:610:600:10a::2])
+	by mx.google.com with ESMTPS id d48sm16571190eeo.10.2012.08.13.00.49.06
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 13 Aug 2012 00:49:06 -0700 (PDT)
+From: Koen Kooi <koen@dominion.thruhere.net>
+To: openembedded-core@lists.linuxtogo.org
+Date: Mon, 13 Aug 2012 09:48:59 +0200
+Message-Id: <1344844140-10565-1-git-send-email-koen@dominion.thruhere.net>
+X-Mailer: git-send-email 1.7.10
+X-Gm-Message-State: ALoCoQk2rHdqgUhtwwgo63QIx3YfJlzM3eARuJc+4pypAJOkoWsV9sri2Lgql8KrJ+vnxHH6O+tM
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: [PATCH 1/2] man: fix RDEPENDS and reformat recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,31 +44,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Aug 2012 07:22:57 -0000
+X-List-Received-Date: Mon, 13 Aug 2012 08:01:01 -0000
 
-Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
 ---
- .../drm/{libdrm_2.4.35.bb => libdrm_2.4.37.bb}     |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/drm/{libdrm_2.4.35.bb => libdrm_2.4.37.bb} (50%)
+ meta/recipes-extended/man/man_1.6f.bb |    7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-graphics/drm/libdrm_2.4.35.bb b/meta/recipes-graphics/drm/libdrm_2.4.37.bb
-similarity index 50%
-rename from meta/recipes-graphics/drm/libdrm_2.4.35.bb
-rename to meta/recipes-graphics/drm/libdrm_2.4.37.bb
-index 58ee449..d704b90 100644
---- a/meta/recipes-graphics/drm/libdrm_2.4.35.bb
-+++ b/meta/recipes-graphics/drm/libdrm_2.4.37.bb
-@@ -6,5 +6,5 @@ SRC_URI += "file://installtests.patch \
-             file://GNU_SOURCE_definition.patch \
-            "
+diff --git a/meta/recipes-extended/man/man_1.6f.bb b/meta/recipes-extended/man/man_1.6f.bb
+index 9f75307..3dce1ae 100644
+--- a/meta/recipes-extended/man/man_1.6f.bb
++++ b/meta/recipes-extended/man/man_1.6f.bb
+@@ -3,11 +3,11 @@ DESCRIPTION = "A set of documentation tools: man, apropos and whatis"
+ SECTION = "console/utils"
+ HOMEPAGE = "http://primates.ximian.com/~flucifredi/man"
+ LICENSE = "GPLv2"
+-PR = "r3"
++LIC_FILES_CHKSUM = "file://COPYING;md5=8ca43cbc842c2336e835926c2166c28b"
  
--SRC_URI[md5sum] = "a40f5293dc0a7b49d2a1e959d7d60194"
--SRC_URI[sha256sum] = "c390aee132f05910edb09398b70e108c6b53f9b69b21914a9ea3165eed6f1b21"
-+SRC_URI[md5sum] = "9765919c28d4a54887576db3680137cc"
-+SRC_URI[sha256sum] = "e4ea39a901d4a8e59064f10f413bb037dad7790f7c16a5986e7cc1453b36488f"
+-DEPENDS = "groff less"
++PR = "r4"
+ 
+-LIC_FILES_CHKSUM = "file://COPYING;md5=8ca43cbc842c2336e835926c2166c28b"
++DEPENDS = "groff less"
+ 
+ SRC_URI = "http://primates.ximian.com/~flucifredi/${BPN}/${BPN}-${PV}.tar.gz \
+            file://man-1.5k-confpath.patch;striplevel=0 \
+@@ -61,4 +61,5 @@ do_install_append(){
+ }
+ 
+ 
++RDEPENDS_${PN} = "less groff"
+ FILES_${PN} += "${datadir}/locale ${sysconfdir}/man.conf"
 -- 
-1.7.9.5
+1.7.10
 
 
 
