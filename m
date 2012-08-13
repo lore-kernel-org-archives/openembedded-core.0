@@ -1,37 +1,58 @@
-Received: from devils.ext.ti.com ([198.47.26.153])
+Received: from ch1ehsobe005.messaging.microsoft.com ([216.32.181.185]
+	helo=ch1outboundpool.messaging.microsoft.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <a0273011@sdit-build02.dal.design.ti.com>)
-	id 1T0z2D-0000HB-MK for openembedded-core@lists.openembedded.org;
-	Mon, 13 Aug 2012 20:06:38 +0200
-Received: from dlelxv30.itg.ti.com ([172.17.2.17])
-	by devils.ext.ti.com (8.13.7/8.13.7) with ESMTP id q7DHsgkr008577
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Aug 2012 12:54:42 -0500
-Received: from DFLE73.ent.ti.com (dfle73.ent.ti.com [128.247.5.110])
-	by dlelxv30.itg.ti.com (8.13.8/8.13.8) with ESMTP id q7DHsgXp011560
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Aug 2012 12:54:42 -0500
-Received: from dlelxv22.itg.ti.com (172.17.1.197) by dfle73.ent.ti.com
-	(128.247.5.110) with Microsoft SMTP Server id 14.1.323.3;
-	Mon, 13 Aug 2012 12:54:42 -0500
-Received: from sdit-build02.dal.design.ti.com (sdit-build02.dal.design.ti.com
-	[10.247.66.5])	by dlelxv22.itg.ti.com (8.13.8/8.13.8) with ESMTP id
-	q7DHsgZI031426;	Mon, 13 Aug 2012 12:54:42 -0500
-Received: from a0273011 by sdit-build02.dal.design.ti.com with local (Exim
-	4.71)	(envelope-from <a0273011@sdit-build02.dal.design.ti.com>)	id
-	1T0yzE-0005EN-7a; Mon, 13 Aug 2012 13:03:32 -0500
-From: Franklin S Cooper Jr <fcooper@ti.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 13 Aug 2012 13:03:23 -0500
-Message-ID: <1344881003-7547-1-git-send-email-fcooper@ti.com>
-X-Mailer: git-send-email 1.7.0.4
+	(envelope-from <B29882@freescale.com>) id 1T0zRu-0000bA-6o
+	for openembedded-core@lists.openembedded.org;
+	Mon, 13 Aug 2012 20:33:10 +0200
+Received: from mail168-ch1-R.bigfish.com (10.43.68.240) by
+	CH1EHSOBE005.bigfish.com (10.43.70.55) with Microsoft SMTP Server id
+	14.1.225.23; Mon, 13 Aug 2012 18:06:11 +0000
+Received: from mail168-ch1 (localhost [127.0.0.1])	by
+	mail168-ch1-R.bigfish.com (Postfix) with ESMTP id 72099320414	for
+	<openembedded-core@lists.openembedded.org>;
+	Mon, 13 Aug 2012 18:06:11 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-SpamScore: -3
+X-BigFish: VS-3(zz98dI9371I1521I1432Izz1202hzz8275bh8275dhz2dh2a8h668h839h8e2h8e3hf0ah107ah10d2hbe9i)
+Received: from mail168-ch1 (localhost.localdomain [127.0.0.1]) by mail168-ch1
+	(MessageSwitch) id 1344881169602129_3012;
+	Mon, 13 Aug 2012 18:06:09 +0000 (UTC)
+Received: from CH1EHSMHS002.bigfish.com (snatpool2.int.messaging.microsoft.com
+	[10.43.68.232])	by mail168-ch1.bigfish.com (Postfix) with ESMTP id
+	8F48F4400AB	for <openembedded-core@lists.openembedded.org>;
+	Mon, 13 Aug 2012 18:06:09 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by CH1EHSMHS002.bigfish.com
+	(10.43.70.2) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Mon, 13 Aug 2012 18:06:08 +0000
+Received: from 039-SN1MPN1-001.039d.mgd.msft.net ([169.254.1.41]) by
+	039-SN1MMR1-005.039d.mgd.msft.net ([::1]) with mapi id 14.02.0298.005;
+	Mon, 13 Aug 2012 13:06:08 -0500
+From: McClintock Matthew-B29882 <B29882@freescale.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH] owl-video_git.bb: fix compilation on Fedora
+	13 machine
+Thread-Index: AQHNdX/hm8306Ka8Iki8aVq7vcEToJdTV1oAgAUN/IA=
+Date: Mon, 13 Aug 2012 18:06:07 +0000
+Message-ID: <CAEsOVNfaNDfTMpPxn7F03QapmyD-TXzZzzL_MvgPaVdOcm7CHQ@mail.gmail.com>
+References: <1343335023-28938-1-git-send-email-msm@freescale.com>
+	<CAEsOVNe9eWTVy7k2u5yNRGRZz==jRTZ0=nZD+xtdOhS=hSn7rg@mail.gmail.com>
+	<CAJTo0LZE-vT5bbr971-Ot7puBp1aXC5yO_XVN5AKVZLrC0A=_A@mail.gmail.com>
+In-Reply-To: <CAJTo0LZE-vT5bbr971-Ot7puBp1aXC5yO_XVN5AKVZLrC0A=_A@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [70.112.201.132]
 MIME-Version: 1.0
-Cc: Franklin S Cooper Jr <fcooper@ti.com>
-Subject: [branch: denzil][PATCH] psplash: LIC_CHKSUM Tweak
+X-OriginatorOrg: freescale.com
+Cc: McClintock Matthew-B29882 <B29882@freescale.com>
+Subject: Re: [PATCH] owl-video_git.bb: fix compilation on Fedora 13 machine
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -42,37 +63,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Aug 2012 18:06:38 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 13 Aug 2012 18:33:10 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <3F4A5496CDBD2449BB107950EFE7A417@mgd.freescale.com>
+Content-Transfer-Encoding: quoted-printable
 
-* Change the license checksum to use the lines in the psplash.h that contains
-  license information instead of doing a checksum on the entire file.
+On Fri, Aug 10, 2012 at 7:54 AM, Burton, Ross <ross.burton@intel.com> wrote=
+:
+> On 8 August 2012 17:07, McClintock Matthew-B29882 <B29882@freescale.com> =
+wrote:
+>> Any comments on this?
+>
+> owl-video isn't pulling in Xrandr directly, so something is wrong with
+> the linker flags produced by GTK+.  I wonder if -Wl,--as-needed is
+> breaking this...  Can you replicate and provide the full build log?
 
-Signed-off-by: Franklin S Cooper Jr <fcooper@ti.com>
----
- meta/recipes-core/psplash/psplash_git.bb |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
+Err, I went back and now I can't even reproduce this issue... I guess
+we can ignore it for the time being.
 
-diff --git a/meta/recipes-core/psplash/psplash_git.bb b/meta/recipes-core/psplash/psplash_git.bb
-index bd405f9..f93afea 100644
---- a/meta/recipes-core/psplash/psplash_git.bb
-+++ b/meta/recipes-core/psplash/psplash_git.bb
-@@ -3,11 +3,11 @@ DESCRIPTION = "PSplash is a userspace graphical boot splash screen for mainly em
- HOMEPAGE = "http://git.yoctoproject.org/cgit/cgit.cgi/psplash"
- SECTION = "base"
- LICENSE = "GPLv2+"
--LIC_FILES_CHKSUM = "file://psplash.h;md5=a87c39812c1e37f3451567cc29a29c8f"
-+LIC_FILES_CHKSUM = "file://psplash.h;beginline=1;endline=16;md5=840fb2356b10a85bed78dd09dc7745c6"
- 
- SRCREV = "e05374aae945bcfc6d962ed0d7b2774b77987e1d"
- PV = "0.1+git${SRCPV}"
--PR = "r1"
-+PR = "r2"
- 
- SRC_URI = "git://git.yoctoproject.org/${BPN};protocol=git \
-            file://psplash-init \
--- 
-1.7.7
+-M
+
+> Ross
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core=
 
 
 
