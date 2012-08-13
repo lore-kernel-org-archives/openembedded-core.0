@@ -1,41 +1,36 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1T100I-0001Sd-P0
+	(envelope-from <ross.burton@intel.com>) id 1T102l-0001X1-Nu
 	for openembedded-core@lists.openembedded.org;
-	Mon, 13 Aug 2012 21:08:43 +0200
-Received: from mail-ob0-f180.google.com ([209.85.214.180])
-	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 13 Aug 2012 11:56:43 -0700
-Received: by obceq6 with SMTP id eq6so5046522obc.25
+	Mon, 13 Aug 2012 21:11:16 +0200
+Received: from mail-wi0-f170.google.com ([209.85.212.170])
+	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 13 Aug 2012 11:59:20 -0700
+Received: by wibhq12 with SMTP id hq12so3254257wib.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Aug 2012 11:56:42 -0700 (PDT)
+	Mon, 13 Aug 2012 11:59:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type:x-gm-message-state;
-	bh=eKhmlVutif/kdTE45v3vFNWA1G2+OhMcJoCuAshAZ/c=;
-	b=EWZ50m885XgBYeAlkd89CVy9jry1KY83pbcYSoXoy8//4GmHJomfFaGfap8T8UoQ/W
-	aPV18+vZuI8CR/aR1H0zSj5Wz/+hwHClPqmiTRqMFC2xacLco5XYmtbTDOSGwDs9dRTH
-	Pdn+A8b01jeHbJjP/UEjoBZ5y05JAWSgkhxpCFdFIqj+F1yJaBQ65oI3HvYp6y/IQXZg
-	5tOrSFDDIWokmWy6555mkUb2P4rQ11Dw1KMiX7MnjZx1PFCRcSR+Y8wNi3ZJYsuu1qoK
-	7Dz1p6uxI44agGivrrsd2Hx/gckcrtVX0ZL5q41eLFRVzkl9izbXS6pOyylWXcdrNEce
-	LW9g==
-Received: by 10.60.13.10 with SMTP id d10mr20430981oec.63.1344884201846; Mon,
-	13 Aug 2012 11:56:41 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.182.158.3 with HTTP; Mon, 13 Aug 2012 11:56:21 -0700 (PDT)
-In-Reply-To: <CAEsOVNfaNDfTMpPxn7F03QapmyD-TXzZzzL_MvgPaVdOcm7CHQ@mail.gmail.com>
-References: <1343335023-28938-1-git-send-email-msm@freescale.com>
-	<CAEsOVNe9eWTVy7k2u5yNRGRZz==jRTZ0=nZD+xtdOhS=hSn7rg@mail.gmail.com>
-	<CAJTo0LZE-vT5bbr971-Ot7puBp1aXC5yO_XVN5AKVZLrC0A=_A@mail.gmail.com>
-	<CAEsOVNfaNDfTMpPxn7F03QapmyD-TXzZzzL_MvgPaVdOcm7CHQ@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 13 Aug 2012 19:56:21 +0100
-Message-ID: <CAJTo0LY8aVvhmgxVQz7HV1OmNhzmmf3VA2ZVgewa0Et5p8Cf7g@mail.gmail.com>
-To: McClintock Matthew-B29882 <B29882@freescale.com>, 
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Gm-Message-State: ALoCoQky4cGHt9np1kLTWukbG4xLniJqYkhWFUpl9Ki/zBLVPS2vN6r+9KTO2mz1KqQRPiXt+EJQ
-Subject: Re: [PATCH] owl-video_git.bb: fix compilation on Fedora 13 machine
+	h=from:to:subject:date:message-id:x-mailer:x-gm-message-state;
+	bh=LgDU94yjECXaP2oeOE1aN/1YbscerTwzrxt3Iwg0tv8=;
+	b=o5um4353f8596CnEoWKgnqTQKtmKA5Cvp/wFeKWnMItkJ3oBQPXrYHO+M4ozq0fKgN
+	O57p+u6A1Kbuc0osMtLFbQBV/TGlXeoGm07KBbB9uWOYATUqv+KFNngv38EyTA/HYsvl
+	6PElHn9RzuRziUJV2PI4FPJBTTBoeUHSAtJ4dLNVrZ9kU3yF4xT6x2zJGTKf1pzJHEDA
+	7b1XE+gu5SNCGFhq6xek0TkcmLqpSwngAI/JMOvEL6zwysW51186TuXu/JUIFyglY1Xu
+	psr5IONVhNdknosy/SZFRBlp2YyzFeDuuNY28imgqhRCpC3IOosfIaALE0z+NoyZubKQ
+	T+Bw==
+Received: by 10.180.76.135 with SMTP id k7mr20756083wiw.7.1344884358245;
+	Mon, 13 Aug 2012 11:59:18 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPS id h9sm17936447wiz.1.2012.08.13.11.59.16
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 13 Aug 2012 11:59:17 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 13 Aug 2012 19:58:39 +0100
+Message-Id: <cover.1344884283.git.ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10
+X-Gm-Message-State: ALoCoQlSlG3yHnJJaO8JnmMgxs/jhzBm87cxz5uLM/SAnFx+a42m8CUEU2HAcu3rejLLp3UUz3V4
+Subject: [PATCH 0/8] Enable EGL and GLES in x86 Mesa
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,23 +45,105 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Aug 2012 19:08:43 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 13 Aug 2012 19:11:16 -0000
 
-On 13 August 2012 19:06, McClintock Matthew-B29882 <B29882@freescale.com> wrote:
-> On Fri, Aug 10, 2012 at 7:54 AM, Burton, Ross <ross.burton@intel.com> wrote:
->> On 8 August 2012 17:07, McClintock Matthew-B29882 <B29882@freescale.com> wrote:
->>> Any comments on this?
->>
->> owl-video isn't pulling in Xrandr directly, so something is wrong with
->> the linker flags produced by GTK+.  I wonder if -Wl,--as-needed is
->> breaking this...  Can you replicate and provide the full build log?
->
-> Err, I went back and now I can't even reproduce this issue... I guess
-> we can ignore it for the time being.
-
-Oh good. :)  Thanks for attempting to replicate.
+Hopefully the final Mesa patch set.  First pulls in an essential fix to
+PACKAGECONFIG, and then enables GLES and EGL using PACKAGECONFIG, based on
+whether the MACHINE_FEATURES contains x86.
 
 Ross
+
+The following changes since commit 2dec760b79bb7e2e79c33c5127fa64685bd86a18:
+
+  foomatic: fix perl path for target (2012-08-08 10:06:00 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib ross/mesa
+
+for you to fetch changes up to 938675e4208fd34908653e1a7565c58f53067d77:
+
+  mesa: enable EGL, with DRM and X11 platforms (2012-08-13 12:53:45 +0100)
+
+----------------------------------------------------------------
+Damien Lespiau (2):
+      mesa: Add a mesa-dri-glsl-native_git recipe
+      core: Prefer mesa-dri as virtual/libopengles1/2 provider
+
+Ross Burton (5):
+      clutter: DOLT isn't used anymore
+      mesa: enable GLES v1 and v2
+      mesa-demos: fix GLES2 build
+      mesa: respect x11 DISTRO_FEATURE
+      mesa: enable EGL, with DRM and X11 platforms
+
+Yao Zhao (1):
+      base.bbclass: fix PACKAGECONFIG handling code
+
+ meta/classes/base.bbclass                          |   25 ++++++++---------
+ meta/conf/distro/include/default-providers.inc     |    2 ++
+ meta/conf/machine/qemux86-64.conf                  |    2 ++
+ meta/conf/machine/qemux86.conf                     |    2 ++
+ meta/recipes-graphics/clutter/clutter-1.8_1.8.4.bb |    7 +----
+ meta/recipes-graphics/clutter/clutter-1.8_git.bb   |    7 +----
+ meta/recipes-graphics/clutter/cogl_git.bb          |    7 +----
+ meta/recipes-graphics/mesa/mesa-8.0.4.inc          |    1 +
+ meta/recipes-graphics/mesa/mesa-common.inc         |   26 ++++++++++++------
+ .../mesa/mesa-demos/gles2-info.patch               |   15 ++++++++++
+ meta/recipes-graphics/mesa/mesa-demos_8.0.1.bb     |    5 ++--
+ .../recipes-graphics/mesa/mesa-dri-glsl-native.inc |    7 +++++
+ .../mesa/mesa-dri-glsl-native_8.0.4.bb             |    9 ++----
+ .../mesa/mesa-dri-glsl-native_git.bb               |   23 ++++++++++++++++
+ meta/recipes-graphics/mesa/mesa-dri.inc            |    8 +++++-
+ meta/recipes-graphics/mesa/mesa-git.inc            |    2 ++
+ ...-gross-hack-to-prevent-from-install-libgl.patch |   29 ++++++++++++++++++++
+ .../arch/qemu/conf/machine/{{=machine}}.conf       |    2 ++
+ 18 files changed, 129 insertions(+), 50 deletions(-)
+ create mode 100644 meta/recipes-graphics/mesa/mesa-demos/gles2-info.patch
+ create mode 100644 meta/recipes-graphics/mesa/mesa-dri-glsl-native.inc
+ create mode 100644 meta/recipes-graphics/mesa/mesa-dri-glsl-native_git.bb
+ create mode 100644 meta/recipes-graphics/mesa/mesa/0004-gross-hack-to-prevent-from-install-libgl.patch
+
+Damien Lespiau (2):
+  mesa: Add a mesa-dri-glsl-native_git recipe
+  core: Prefer mesa-dri as virtual/libopengles1/2 provider
+
+Ross Burton (5):
+  clutter: DOLT isn't used anymore
+  mesa: enable GLES v1 and v2
+  mesa-demos: fix GLES2 build
+  mesa: respect x11 DISTRO_FEATURE
+  mesa: enable EGL, with DRM and X11 platforms
+
+Yao Zhao (1):
+  base.bbclass: fix PACKAGECONFIG handling code
+
+ meta/classes/base.bbclass                          |   25 ++++++++---------
+ meta/conf/distro/include/default-providers.inc     |    2 ++
+ meta/conf/machine/qemux86-64.conf                  |    2 ++
+ meta/conf/machine/qemux86.conf                     |    2 ++
+ meta/recipes-graphics/clutter/clutter-1.8_1.8.4.bb |    7 +----
+ meta/recipes-graphics/clutter/clutter-1.8_git.bb   |    7 +----
+ meta/recipes-graphics/clutter/cogl_git.bb          |    7 +----
+ meta/recipes-graphics/mesa/mesa-8.0.4.inc          |    1 +
+ meta/recipes-graphics/mesa/mesa-common.inc         |   26 ++++++++++++------
+ .../mesa/mesa-demos/gles2-info.patch               |   15 ++++++++++
+ meta/recipes-graphics/mesa/mesa-demos_8.0.1.bb     |    5 ++--
+ .../recipes-graphics/mesa/mesa-dri-glsl-native.inc |    7 +++++
+ .../mesa/mesa-dri-glsl-native_8.0.4.bb             |    9 ++----
+ .../mesa/mesa-dri-glsl-native_git.bb               |   23 ++++++++++++++++
+ meta/recipes-graphics/mesa/mesa-dri.inc            |    8 +++++-
+ meta/recipes-graphics/mesa/mesa-git.inc            |    2 ++
+ ...-gross-hack-to-prevent-from-install-libgl.patch |   29 ++++++++++++++++++++
+ .../arch/qemu/conf/machine/{{=machine}}.conf       |    2 ++
+ 18 files changed, 129 insertions(+), 50 deletions(-)
+ create mode 100644 meta/recipes-graphics/mesa/mesa-demos/gles2-info.patch
+ create mode 100644 meta/recipes-graphics/mesa/mesa-dri-glsl-native.inc
+ create mode 100644 meta/recipes-graphics/mesa/mesa-dri-glsl-native_git.bb
+ create mode 100644 meta/recipes-graphics/mesa/mesa/0004-gross-hack-to-prevent-from-install-libgl.patch
+
+-- 
+1.7.10
+
 
 
