@@ -1,23 +1,33 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from devils.ext.ti.com ([198.47.26.153])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@windriver.com>) id 1T0yMI-0007uu-QG
-	for openembedded-core@lists.openembedded.org;
-	Mon, 13 Aug 2012 19:23:19 +0200
-Received: from yow-bashfiel-l1.wrs.com (yow-bashfiel-d3.wrs.com
-	[128.224.147.67])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q7DHBMv9027646;
-	Mon, 13 Aug 2012 10:11:23 -0700 (PDT)
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: scott.a.garman@intel.com
-Date: Mon, 13 Aug 2012 13:10:53 -0400
-Message-Id: <155ddab2afb23aa01be71cc962d2532ad55cceb5.1344876697.git.bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <cover.1344876697.git.bruce.ashfield@windriver.com>
-References: <cover.1344876697.git.bruce.ashfield@windriver.com>
-In-Reply-To: <cover.1344876697.git.bruce.ashfield@windriver.com>
-References: <cover.1344876697.git.bruce.ashfield@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/1] linux-yocto: allow do_validate_branches to handle all branches
+	(envelope-from <a0273011@sdit-build02.dal.design.ti.com>)
+	id 1T0z2D-0000HB-MK for openembedded-core@lists.openembedded.org;
+	Mon, 13 Aug 2012 20:06:38 +0200
+Received: from dlelxv30.itg.ti.com ([172.17.2.17])
+	by devils.ext.ti.com (8.13.7/8.13.7) with ESMTP id q7DHsgkr008577
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 13 Aug 2012 12:54:42 -0500
+Received: from DFLE73.ent.ti.com (dfle73.ent.ti.com [128.247.5.110])
+	by dlelxv30.itg.ti.com (8.13.8/8.13.8) with ESMTP id q7DHsgXp011560
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 13 Aug 2012 12:54:42 -0500
+Received: from dlelxv22.itg.ti.com (172.17.1.197) by dfle73.ent.ti.com
+	(128.247.5.110) with Microsoft SMTP Server id 14.1.323.3;
+	Mon, 13 Aug 2012 12:54:42 -0500
+Received: from sdit-build02.dal.design.ti.com (sdit-build02.dal.design.ti.com
+	[10.247.66.5])	by dlelxv22.itg.ti.com (8.13.8/8.13.8) with ESMTP id
+	q7DHsgZI031426;	Mon, 13 Aug 2012 12:54:42 -0500
+Received: from a0273011 by sdit-build02.dal.design.ti.com with local (Exim
+	4.71)	(envelope-from <a0273011@sdit-build02.dal.design.ti.com>)	id
+	1T0yzE-0005EN-7a; Mon, 13 Aug 2012 13:03:32 -0500
+From: Franklin S Cooper Jr <fcooper@ti.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 13 Aug 2012 13:03:23 -0500
+Message-ID: <1344881003-7547-1-git-send-email-fcooper@ti.com>
+X-Mailer: git-send-email 1.7.0.4
+MIME-Version: 1.0
+Cc: Franklin S Cooper Jr <fcooper@ti.com>
+Subject: [branch: denzil][PATCH] psplash: LIC_CHKSUM Tweak
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,169 +42,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Aug 2012 17:23:19 -0000
+X-List-Received-Date: Mon, 13 Aug 2012 18:06:38 -0000
+Content-Type: text/plain
 
-Branch validation will not restrict a branch that doesn't exist
-in the tree at the time of validation (since you can't reset a
-SRCREV on a non-existent branch). This restriction can be removed
-by looking for all branches that contain the specified SRCREV
-and forcing them to that value.
+* Change the license checksum to use the lines in the psplash.h that contains
+  license information instead of doing a checksum on the entire file.
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+Signed-off-by: Franklin S Cooper Jr <fcooper@ti.com>
 ---
- meta/classes/kernel-yocto.bbclass |  119 +++++++++++++++++++++++++------------
- 1 files changed, 80 insertions(+), 39 deletions(-)
+ meta/recipes-core/psplash/psplash_git.bb |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
-index c995a2e..d859d76 100644
---- a/meta/classes/kernel-yocto.bbclass
-+++ b/meta/classes/kernel-yocto.bbclass
-@@ -214,63 +214,104 @@ python do_kernel_configcheck() {
-     bb.plain( "%s" % result )
- }
+diff --git a/meta/recipes-core/psplash/psplash_git.bb b/meta/recipes-core/psplash/psplash_git.bb
+index bd405f9..f93afea 100644
+--- a/meta/recipes-core/psplash/psplash_git.bb
++++ b/meta/recipes-core/psplash/psplash_git.bb
+@@ -3,11 +3,11 @@ DESCRIPTION = "PSplash is a userspace graphical boot splash screen for mainly em
+ HOMEPAGE = "http://git.yoctoproject.org/cgit/cgit.cgi/psplash"
+ SECTION = "base"
+ LICENSE = "GPLv2+"
+-LIC_FILES_CHKSUM = "file://psplash.h;md5=a87c39812c1e37f3451567cc29a29c8f"
++LIC_FILES_CHKSUM = "file://psplash.h;beginline=1;endline=16;md5=840fb2356b10a85bed78dd09dc7745c6"
  
--
--# Ensure that the branches (BSP and meta) are on the locatios specified by
-+# Ensure that the branches (BSP and meta) are on the locations specified by
- # their SRCREV values. If they are NOT on the right commits, the branches
--# are reset to the correct commit.
-+# are corrected to the proper commit.
- do_validate_branches() {
- 	cd ${S}
-+	export KMETA=${KMETA}
+ SRCREV = "e05374aae945bcfc6d962ed0d7b2774b77987e1d"
+ PV = "0.1+git${SRCPV}"
+-PR = "r1"
++PR = "r2"
  
--	# nothing to do if bootstrapping
-- 	if [ -n "${YOCTO_KERNEL_EXTERNAL_BRANCH}" ]; then
-- 	 	return
-- 	fi
--
--	# nothing to do if SRCREV is AUTOREV
-+	set +e
-+	# if SRCREV is AUTOREV it shows up as AUTOINC there's nothing to
-+	# check and we can exit early
- 	if [ "${SRCREV_machine}" = "AUTOINC" ]; then
--		# restore the branch for builds
--		git checkout -f ${KBRANCH}
- 		return
- 	fi
- 
-- 	branch_head=`git show-ref -s --heads ${KBRANCH}`
-+	# If something other than the default branch was requested, it must
-+	# exist in the tree, and it's a hard error if it wasn't
-+	git show-ref --quiet --verify -- "refs/heads/${KBRANCH}"
-+	if [ $? -eq 1 ]; then
-+		if [ -n "${KBRANCH_DEFAULT}" ] && 
-+                      [ "${KBRANCH}" != "${KBRANCH_DEFAULT}" ]; then
-+			echo "ERROR: branch ${KBRANCH} was set for kernel compilation, "
-+			echo "       but it does not exist in the kernel repository."
-+			echo "       Check the value of KBRANCH and ensure that it describes"
-+			echo "       a valid banch in the source kernel repository"
-+			exit 1
-+		fi
-+	fi
-+
-+	if [ -z "${SRCREV_machine}" ]; then
-+		target_branch_head="${SRCREV}"
-+	else
-+	 	target_branch_head="${SRCREV_machine}"
-+	fi
-+
-+	# $SRCREV could have also been AUTOINC, so check again
-+	if [ "${target_branch_head}" = "AUTOINC" ]; then
-+		return
-+	fi
-+
-+	containing_branches=`git branch --contains $target_branch_head | sed 's/^..//'`
-+	if [ -z "$containing_branches" ]; then
-+		echo "ERROR: SRCREV was set to \"$target_branch_head\", but no branches"
-+		echo "       contain this commit"
-+		exit 1
-+	fi
-+	ref=`git show ${target_branch_head} 2>&1 | head -n1 || true`
-+	if [ "$ref" = "fatal: bad object ${target_meta_head}" ]; then
-+	    echo "ERROR ${target_branch_head} is not a valid commit ID."
-+	    echo "The kernel source tree may be out of sync"
-+	    exit 1
-+	fi
-+
-+	# force the SRCREV in each branch that contains the specified
-+	# SRCREV (if it isn't the current HEAD of that branch)
-+	git checkout -q master
-+	for b in $containing_branches; do
-+		branch_head=`git show-ref -s --heads ${b}`
-+		if [ "$branch_head" != "$target_branch_head" ]; then
-+			echo "[INFO] Setting branch $b to ${target_branch_head}"	      
-+			git branch -D $b > /dev/null
-+			git branch $b $target_branch_head > /dev/null
-+		fi
-+	done
-+
-+	## KMETA branch validation
-  	meta_head=`git show-ref -s --heads ${KMETA}`
-- 	target_branch_head="${SRCREV_machine}"
-  	target_meta_head="${SRCREV_meta}"
-+	git show-ref --quiet --verify -- "refs/heads/${KMETA}"
-+	if [ $? -eq 1 ]; then
-+		return
-+	fi
- 
--	current=`git branch |grep \*|sed 's/^\* //'`
--	if [ -n "$target_branch_head" ] && [ "$branch_head" != "$target_branch_head" ]; then
--		if [ -n "${KERNEL_REVISION_CHECKING}" ]; then
--			ref=`git show ${target_meta_head} 2>&1 | head -n1 || true`
--			if [ "$ref" = "fatal: bad object ${target_meta_head}" ]; then
--				echo "ERROR ${target_branch_head} is not a valid commit ID."
--				echo "The kernel source tree may be out of sync"
--				exit 1
--			else
--				echo "Forcing branch $current to ${target_branch_head}"
--				git branch -m $current $current-orig
--				git checkout -b $current ${target_branch_head}
--			fi
--		fi
-+	if [ "${target_meta_head}" = "AUTOINC" ]; then
-+		return
- 	fi
- 
- 	if [ "$meta_head" != "$target_meta_head" ]; then
--		if [ -n "${KERNEL_REVISION_CHECKING}" ]; then
--			ref=`git show ${target_meta_head} 2>&1 | head -n1 || true`
--			if [ "$ref" = "fatal: bad object ${target_meta_head}" ]; then
--				echo "ERROR ${target_meta_head} is not a valid commit ID"
--				echo "The kernel source tree may be out of sync"
-+		ref=`git show ${target_meta_head} 2>&1 | head -n1 || true`
-+		if [ "$ref" = "fatal: bad object ${target_meta_head}" ]; then
-+			echo "ERROR ${target_meta_head} is not a valid commit ID"
-+			echo "The kernel source tree may be out of sync"
-+			exit 1
-+		else
-+			echo "[INFO] Setting branch ${KMETA} to ${target_meta_head}"
-+			git branch -m ${KMETA} ${KMETA}-orig
-+			git checkout -q -b ${KMETA} ${target_meta_head}
-+			if [ $? -ne 0 ];then
-+				echo "ERROR: could not checkout ${KMETA} branch from known hash ${target_meta_head}"
- 				exit 1
--			else
--				echo "Forcing branch meta to ${target_meta_head}"
--				git branch -m ${KMETA} ${KMETA}-orig
--				git checkout -b ${KMETA} ${target_meta_head}
--			fi	   
-+			fi
- 		fi
- 	fi
- 
--	# restore the branch for builds
--	git checkout -f ${KBRANCH}
-+	git show-ref --quiet --verify -- "refs/heads/${KBRANCH}"
-+	if [ $? -eq 0 ]; then
-+		# restore the branch for builds
-+		git checkout -q -f ${KBRANCH}
-+	fi
- }
- 
- # Many scripts want to look in arch/$arch/boot for the bootable
+ SRC_URI = "git://git.yoctoproject.org/${BPN};protocol=git \
+            file://psplash-init \
 -- 
-1.7.5.4
+1.7.7
 
 
 
