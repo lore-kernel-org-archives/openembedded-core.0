@@ -1,36 +1,41 @@
-Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
+Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1T102l-0001X1-Nu
+	(envelope-from <ross.burton@intel.com>) id 1T102m-0001X2-Nh
 	for openembedded-core@lists.openembedded.org;
 	Mon, 13 Aug 2012 21:11:16 +0200
-Received: from mail-wi0-f170.google.com ([209.85.212.170])
-	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 13 Aug 2012 11:59:20 -0700
-Received: by wibhq12 with SMTP id hq12so3254257wib.1
+Received: from mail-wi0-f178.google.com ([209.85.212.178])
+	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 13 Aug 2012 11:59:21 -0700
+Received: by wibhr14 with SMTP id hr14so2974409wib.13
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Aug 2012 11:59:18 -0700 (PDT)
+	Mon, 13 Aug 2012 11:59:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:x-gm-message-state;
-	bh=LgDU94yjECXaP2oeOE1aN/1YbscerTwzrxt3Iwg0tv8=;
-	b=o5um4353f8596CnEoWKgnqTQKtmKA5Cvp/wFeKWnMItkJ3oBQPXrYHO+M4ozq0fKgN
-	O57p+u6A1Kbuc0osMtLFbQBV/TGlXeoGm07KBbB9uWOYATUqv+KFNngv38EyTA/HYsvl
-	6PElHn9RzuRziUJV2PI4FPJBTTBoeUHSAtJ4dLNVrZ9kU3yF4xT6x2zJGTKf1pzJHEDA
-	7b1XE+gu5SNCGFhq6xek0TkcmLqpSwngAI/JMOvEL6zwysW51186TuXu/JUIFyglY1Xu
-	psr5IONVhNdknosy/SZFRBlp2YyzFeDuuNY28imgqhRCpC3IOosfIaALE0z+NoyZubKQ
-	T+Bw==
-Received: by 10.180.76.135 with SMTP id k7mr20756083wiw.7.1344884358245;
-	Mon, 13 Aug 2012 11:59:18 -0700 (PDT)
+	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
+	:in-reply-to:references:x-gm-message-state;
+	bh=/B13ZJylal+UeaE1rYSwv491ShOiIC2MPPp9YoK3JGY=;
+	b=ot6WV/x0FSSUzvCDZj4eS6IzVY1BYLrDnpCL2jcJhAcUJYOiCkN6aIhlGBszuq71aU
+	bxrNfgmQL4PK8yvCLVploaaMkibaS9dZsFK55IfyH8fakLEoZpaG0D5ZlXGalalZ0Ctg
+	kzAhmFgRqkdMVjsjzM0+7li+fk6FgM0dRUQgi3yx01uK66ABn9VM74oir1/b3xpFJTPO
+	kV9MaE46bXwEDBx/N67tfOkBZk53Su7jk89PpzXj+y1vNr2RPugFNbRV8psj9Eic211V
+	QDzazBsVX+mxUgjKKpKdXUKbmSJizw6tn3yxCWUjVITbb+dsqzqXr0JspLb+iV73oydG
+	sJZg==
+Received: by 10.180.91.228 with SMTP id ch4mr20749271wib.7.1344884359618;
+	Mon, 13 Aug 2012 11:59:19 -0700 (PDT)
 Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id h9sm17936447wiz.1.2012.08.13.11.59.16
+	by mx.google.com with ESMTPS id h9sm17936447wiz.1.2012.08.13.11.59.18
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 13 Aug 2012 11:59:17 -0700 (PDT)
+	Mon, 13 Aug 2012 11:59:18 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 13 Aug 2012 19:58:39 +0100
-Message-Id: <cover.1344884283.git.ross.burton@intel.com>
+Date: Mon, 13 Aug 2012 19:58:40 +0100
+Message-Id: <b594f8c989894f960fa9b084e74e963ded794627.1344884283.git.ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10
-X-Gm-Message-State: ALoCoQlSlG3yHnJJaO8JnmMgxs/jhzBm87cxz5uLM/SAnFx+a42m8CUEU2HAcu3rejLLp3UUz3V4
-Subject: [PATCH 0/8] Enable EGL and GLES in x86 Mesa
+In-Reply-To: <cover.1344884283.git.ross.burton@intel.com>
+References: <cover.1344884283.git.ross.burton@intel.com>
+In-Reply-To: <cover.1344884283.git.ross.burton@intel.com>
+References: <cover.1344884283.git.ross.burton@intel.com>
+X-Gm-Message-State: ALoCoQlXJ0Hhb5Kh32tLi9/Ndw5T77AN0YhagWtGkhtG+xT4psUiOAD+NDL2dfcYEqVAL/M7G8go
+Subject: [PATCH 1/8] base.bbclass: fix PACKAGECONFIG handling code
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,101 +52,54 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 13 Aug 2012 19:11:16 -0000
 
-Hopefully the final Mesa patch set.  First pulls in an essential fix to
-PACKAGECONFIG, and then enables GLES and EGL using PACKAGECONFIG, based on
-whether the MACHINE_FEATURES contains x86.
+From: Yao Zhao <yao.zhao@windriver.com>
 
-Ross
+PACKAGECONFIG flag code only handles that when it has 3 or 4 items in flag,
+it may have a stale data if some flags doesn't need DEPENDS and RDEPENDS.
 
-The following changes since commit 2dec760b79bb7e2e79c33c5127fa64685bd86a18:
+Signed-off-by: Yao Zhao <yao.zhao@windriver.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/classes/base.bbclass |   25 ++++++++++++-------------
+ 1 file changed, 12 insertions(+), 13 deletions(-)
 
-  foomatic: fix perl path for target (2012-08-08 10:06:00 +0100)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib ross/mesa
-
-for you to fetch changes up to 938675e4208fd34908653e1a7565c58f53067d77:
-
-  mesa: enable EGL, with DRM and X11 platforms (2012-08-13 12:53:45 +0100)
-
-----------------------------------------------------------------
-Damien Lespiau (2):
-      mesa: Add a mesa-dri-glsl-native_git recipe
-      core: Prefer mesa-dri as virtual/libopengles1/2 provider
-
-Ross Burton (5):
-      clutter: DOLT isn't used anymore
-      mesa: enable GLES v1 and v2
-      mesa-demos: fix GLES2 build
-      mesa: respect x11 DISTRO_FEATURE
-      mesa: enable EGL, with DRM and X11 platforms
-
-Yao Zhao (1):
-      base.bbclass: fix PACKAGECONFIG handling code
-
- meta/classes/base.bbclass                          |   25 ++++++++---------
- meta/conf/distro/include/default-providers.inc     |    2 ++
- meta/conf/machine/qemux86-64.conf                  |    2 ++
- meta/conf/machine/qemux86.conf                     |    2 ++
- meta/recipes-graphics/clutter/clutter-1.8_1.8.4.bb |    7 +----
- meta/recipes-graphics/clutter/clutter-1.8_git.bb   |    7 +----
- meta/recipes-graphics/clutter/cogl_git.bb          |    7 +----
- meta/recipes-graphics/mesa/mesa-8.0.4.inc          |    1 +
- meta/recipes-graphics/mesa/mesa-common.inc         |   26 ++++++++++++------
- .../mesa/mesa-demos/gles2-info.patch               |   15 ++++++++++
- meta/recipes-graphics/mesa/mesa-demos_8.0.1.bb     |    5 ++--
- .../recipes-graphics/mesa/mesa-dri-glsl-native.inc |    7 +++++
- .../mesa/mesa-dri-glsl-native_8.0.4.bb             |    9 ++----
- .../mesa/mesa-dri-glsl-native_git.bb               |   23 ++++++++++++++++
- meta/recipes-graphics/mesa/mesa-dri.inc            |    8 +++++-
- meta/recipes-graphics/mesa/mesa-git.inc            |    2 ++
- ...-gross-hack-to-prevent-from-install-libgl.patch |   29 ++++++++++++++++++++
- .../arch/qemu/conf/machine/{{=machine}}.conf       |    2 ++
- 18 files changed, 129 insertions(+), 50 deletions(-)
- create mode 100644 meta/recipes-graphics/mesa/mesa-demos/gles2-info.patch
- create mode 100644 meta/recipes-graphics/mesa/mesa-dri-glsl-native.inc
- create mode 100644 meta/recipes-graphics/mesa/mesa-dri-glsl-native_git.bb
- create mode 100644 meta/recipes-graphics/mesa/mesa/0004-gross-hack-to-prevent-from-install-libgl.patch
-
-Damien Lespiau (2):
-  mesa: Add a mesa-dri-glsl-native_git recipe
-  core: Prefer mesa-dri as virtual/libopengles1/2 provider
-
-Ross Burton (5):
-  clutter: DOLT isn't used anymore
-  mesa: enable GLES v1 and v2
-  mesa-demos: fix GLES2 build
-  mesa: respect x11 DISTRO_FEATURE
-  mesa: enable EGL, with DRM and X11 platforms
-
-Yao Zhao (1):
-  base.bbclass: fix PACKAGECONFIG handling code
-
- meta/classes/base.bbclass                          |   25 ++++++++---------
- meta/conf/distro/include/default-providers.inc     |    2 ++
- meta/conf/machine/qemux86-64.conf                  |    2 ++
- meta/conf/machine/qemux86.conf                     |    2 ++
- meta/recipes-graphics/clutter/clutter-1.8_1.8.4.bb |    7 +----
- meta/recipes-graphics/clutter/clutter-1.8_git.bb   |    7 +----
- meta/recipes-graphics/clutter/cogl_git.bb          |    7 +----
- meta/recipes-graphics/mesa/mesa-8.0.4.inc          |    1 +
- meta/recipes-graphics/mesa/mesa-common.inc         |   26 ++++++++++++------
- .../mesa/mesa-demos/gles2-info.patch               |   15 ++++++++++
- meta/recipes-graphics/mesa/mesa-demos_8.0.1.bb     |    5 ++--
- .../recipes-graphics/mesa/mesa-dri-glsl-native.inc |    7 +++++
- .../mesa/mesa-dri-glsl-native_8.0.4.bb             |    9 ++----
- .../mesa/mesa-dri-glsl-native_git.bb               |   23 ++++++++++++++++
- meta/recipes-graphics/mesa/mesa-dri.inc            |    8 +++++-
- meta/recipes-graphics/mesa/mesa-git.inc            |    2 ++
- ...-gross-hack-to-prevent-from-install-libgl.patch |   29 ++++++++++++++++++++
- .../arch/qemu/conf/machine/{{=machine}}.conf       |    2 ++
- 18 files changed, 129 insertions(+), 50 deletions(-)
- create mode 100644 meta/recipes-graphics/mesa/mesa-demos/gles2-info.patch
- create mode 100644 meta/recipes-graphics/mesa/mesa-dri-glsl-native.inc
- create mode 100644 meta/recipes-graphics/mesa/mesa-dri-glsl-native_git.bb
- create mode 100644 meta/recipes-graphics/mesa/mesa/0004-gross-hack-to-prevent-from-install-libgl.patch
-
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index e15fa26..3e6a7de 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -364,20 +364,19 @@ python () {
+             if flag == "defaultval":
+                 continue
+             items = flagval.split(",")
+-            if len(items) == 3:
+-                enable, disable, depend = items
+-                rdepend = ""
+-            elif len(items) == 4:
+-                enable, disable, depend, rdepend = items
++            num = len(items)
++            if num > 4:
++                bb.error("Only enable,disable,depend,rdepend can be specified!")
++
+             if flag in pkgconfig:
+-                if depend:
+-                    extradeps.append(depend)
+-                if rdepend:
+-                    extrardeps.append(rdepend)
+-                if enable:
+-                    extraconf.append(enable)
+-            elif disable:
+-                    extraconf.append(disable)
++                if num >= 3 and items[2]:
++                    extradeps.append(items[2])
++                if num >= 4 and items[3]:
++                    extrardeps.append(items[3])
++                if num >= 1 and items[0]:
++                    extraconf.append(items[0])
++            elif num >= 2 and items[1]:
++                    extraconf.append(items[1])
+         appendVar('DEPENDS', extradeps)
+         appendVar('RDEPENDS_${PN}', extrardeps)
+         appendVar('EXTRA_OECONF', extraconf)
 -- 
 1.7.10
 
