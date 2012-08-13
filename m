@@ -1,36 +1,19 @@
-Received: from mail-wg0-f43.google.com ([74.125.82.43])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <schnitzeltony@googlemail.com>) id 1T0yEN-0007nq-Ok
+	(envelope-from <bruce.ashfield@windriver.com>) id 1T0yMI-0007ut-Pr
 	for openembedded-core@lists.openembedded.org;
-	Mon, 13 Aug 2012 19:15:07 +0200
-Received: by wgbdr1 with SMTP id dr1so3149452wgb.24
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Aug 2012 10:03:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:mime-version:content-type
-	:content-transfer-encoding;
-	bh=wXIM1I7zDyubDsQvEfHV64ehLLp6rgQmY5vHWbgA2Jw=;
-	b=fqApSh1d1msbTzGa+075NNuXVO1R10VD/2hs8laqoHXehc1MIfyEE5rIu3kZL+me/y
-	KtlB8e5H/BjrRXsL2kbSCS25spq/XpYGp/yki3u6d6L9on2tMMxk6jSf3xIW4U9PcCWr
-	ARkzNy4QHXHmpSgOI1XC0AjFae2xNN2mU298FMVY2/FTyM5+ymVyupNowi7NA1LuQxCT
-	nlWdft9k+Z48mmvHcu67fA5EsO2cklV0INm/A1xP4ZgcXl5pDboMzfyMA1Ujbnl+s3fJ
-	7k6qIyyqY7pBSfJWyDIQdEvbk4aoo1YVAlvVQVfwgXKaVhra+KUQ4arar/Jdtfp3zSbg
-	M7WA==
-Received: by 10.180.107.2 with SMTP id gy2mr20065800wib.2.1344877393982;
-	Mon, 13 Aug 2012 10:03:13 -0700 (PDT)
-Received: from localhost.localdomain (ip-95-222-160-112.unitymediagroup.de.
-	[95.222.160.112])
-	by mx.google.com with ESMTPS id z11sm25269035wiv.10.2012.08.13.10.03.12
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 13 Aug 2012 10:03:13 -0700 (PDT)
-From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 13 Aug 2012 19:02:39 +0200
-Message-Id: <1344877359-12997-1-git-send-email-schnitzeltony@googlemail.com>
-X-Mailer: git-send-email 1.7.6.5
-MIME-Version: 1.0
-Subject: [PATCH] wpa-supplicant: fix paths in dbus/systemd *.service files
+	Mon, 13 Aug 2012 19:23:19 +0200
+Received: from yow-bashfiel-l1.wrs.com (yow-bashfiel-d3.wrs.com
+	[128.224.147.67])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q7DHBMv8027646;
+	Mon, 13 Aug 2012 10:11:22 -0700 (PDT)
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: scott.a.garman@intel.com
+Date: Mon, 13 Aug 2012 13:10:52 -0400
+Message-Id: <cover.1344876697.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 1.7.5.4
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 0/1] [denzil] linux-yocto: make validate_branches handle non BSP branches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,44 +28,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Aug 2012 17:15:07 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 13 Aug 2012 17:23:19 -0000
 
+Scott,
 
-Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
----
- .../wpa-supplicant/wpa-supplicant-1.0.inc          |    2 ++
- .../wpa-supplicant/wpa-supplicant_1.0.bb           |    2 +-
- 2 files changed, 3 insertions(+), 1 deletions(-)
+Here's a fix for validate_branches that comes from a pending master
+change that I've been running for 3 weeks, and one that TomZ has tested
+in his yocto BSP work on denzil.
 
-diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-1.0.inc b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-1.0.inc
-index 0c18b30..873e923 100644
---- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-1.0.inc
-+++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-1.0.inc
-@@ -29,6 +29,8 @@ do_configure () {
- }
- 
- export EXTRA_CFLAGS = "${CFLAGS}"
-+export BINDIR = "${sbindir}"
-+
- do_compile () {
- 	unset CFLAGS CPPFLAGS CXXFLAGS
- 	oe_runmake
-diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_1.0.bb b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_1.0.bb
-index 8ede3e5..a60cd86 100644
---- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_1.0.bb
-+++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_1.0.bb
-@@ -1,6 +1,6 @@
- require wpa-supplicant-1.0.inc
- 
--PR = "r0"
-+PR = "r1"
- 
- SRC_URI[md5sum] = "8650f6aa23646ef634402552d0669640"
- SRC_URI[sha256sum] = "91d41d473a5aafa2e25dd6577ebda975c4d4a3188850a53e31feaf7c04482b9c"
+It fixes some BSP use cases that involve setting a specific SRCREV
+on a base branch, so that a BSP branch that doesn't yet exist can 
+be created off of that known base. Previously only an existing BSP
+branch could have it's SRCREV restricted.
+
+cc: Tom Zanussi <tom.zanussi@intel.com>
+
+Cheers,
+
+Bruce
+
+The following changes since commit 73cdebf60df225ee10f2eb215935be3b61e1b831:
+
+  documentation/dev-manual/dev-manual-kernel-appendix.xml: Add note about conflict (2012-06-29 15:54:26 +0100)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib zedd/kernel-denzil
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel-denzil
+
+Bruce Ashfield (1):
+  linux-yocto: allow do_validate_branches to handle all branches
+
+ meta/classes/kernel-yocto.bbclass |  119 +++++++++++++++++++++++++------------
+ 1 files changed, 80 insertions(+), 39 deletions(-)
+
 -- 
-1.7.6.5
+1.7.5.4
 
 
 
