@@ -1,41 +1,23 @@
-Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1T105M-0001rn-3k
+	(envelope-from <bruce.ashfield@windriver.com>) id 1T108d-00020j-Ck
 	for openembedded-core@lists.openembedded.org;
-	Mon, 13 Aug 2012 21:13:56 +0200
-Received: from mail-wg0-f44.google.com ([74.125.82.44])
-	by mga03.intel.com with ESMTP/TLS/RC4-SHA; 13 Aug 2012 12:02:00 -0700
-Received: by wgbdr13 with SMTP id dr13so2497233wgb.13
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Aug 2012 12:01:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
-	:in-reply-to:references:x-gm-message-state;
-	bh=0VnTw512Itz0reqq3aCBkllX1PZQl3+63gxi+WPiUyM=;
-	b=KqdYYyId+UFTuShGsn7rGc5Fp9mgpoPO56bGorsL/yEi4z1jXj/1G2sHPoJ8F/YJGO
-	D73MspE1TODOXiODhVo19Xhqkgzdlh08auVXdZD/HAT8/ur1VCk81TYyfR971RC/HMz0
-	qRKciTy1PjpsbJYHAJJG8aef7VaDBi6XHkjSXKVwYByr/7oveHuxWF1ZJC7IzEKjT9Yj
-	8fDetLZT8bq/xRwi0nVdT7cmJF0lV9l2Fmr68ii6eenXBZTrxtPYhRvHDpLOvd3JSR2y
-	n/2kA9e3bpl2ixNZsR3nZ/MlykCC5waxXI5reXpYpb+aVw2f3KApv5oT/boK/mPwX+ry
-	5agQ==
-Received: by 10.216.242.204 with SMTP id i54mr6357951wer.94.1344884518376;
-	Mon, 13 Aug 2012 12:01:58 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id l5sm26044104wix.5.2012.08.13.12.01.57
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 13 Aug 2012 12:01:57 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 13 Aug 2012 20:01:23 +0100
-Message-Id: <d3e664ba768f4485f8d7984a86c571cf43815497.1344884443.git.ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10
-In-Reply-To: <cover.1344884443.git.ross.burton@intel.com>
-References: <cover.1344884443.git.ross.burton@intel.com>
-In-Reply-To: <cover.1344884443.git.ross.burton@intel.com>
-References: <cover.1344884443.git.ross.burton@intel.com>
-X-Gm-Message-State: ALoCoQnybizEg/goXW2WPtUvg4kOaSaPRj1vwH8H0M0/oGl+5NJdcg6fKnOdFiCGa5BPP41wt+aR
-Subject: [PATCH 2/2] libowl-av: patches merged upstream, bump srcrev
+	Mon, 13 Aug 2012 21:17:19 +0200
+Received: from yow-bashfiel-l1.wrs.com (yow-bashfiel-d3.wrs.com
+	[128.224.147.67])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q7DJ5LCw016933;
+	Mon, 13 Aug 2012 12:05:22 -0700 (PDT)
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: richard.purdie@linuxfoundation.org
+Date: Mon, 13 Aug 2012 15:04:52 -0400
+Message-Id: <3586d6fded3be13f29057600255bd86a160465aa.1344884450.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 1.7.5.4
+In-Reply-To: <cover.1344884450.git.bruce.ashfield@windriver.com>
+References: <cover.1344884450.git.bruce.ashfield@windriver.com>
+In-Reply-To: <cover.1344884450.git.bruce.ashfield@windriver.com>
+References: <cover.1344884450.git.bruce.ashfield@windriver.com>
+Cc: openembedded-core@lists.openembedded.org, saul.wold@intel.com
+Subject: [PATCH 1/2] linux-yocto: bump version to 3.4.7
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,109 +32,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Aug 2012 19:13:56 -0000
+X-List-Received-Date: Mon, 13 Aug 2012 19:17:19 -0000
 
+The v3.4.7 -stable update has been released, updating all in-tree
+BSPs to this new baseline.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 ---
- .../libowl-av/gst_change_state.patch               |   42 --------------------
- .../owl-video-widget/libowl-av/make-382.patch      |   13 ------
- .../recipes-sato/owl-video-widget/libowl-av_git.bb |    8 ++--
- 3 files changed, 3 insertions(+), 60 deletions(-)
- delete mode 100644 meta/recipes-sato/owl-video-widget/libowl-av/gst_change_state.patch
- delete mode 100644 meta/recipes-sato/owl-video-widget/libowl-av/make-382.patch
+ meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb |    8 ++++----
+ meta/recipes-kernel/linux/linux-yocto_3.4.bb    |   16 ++++++++--------
+ 2 files changed, 12 insertions(+), 12 deletions(-)
 
-diff --git a/meta/recipes-sato/owl-video-widget/libowl-av/gst_change_state.patch b/meta/recipes-sato/owl-video-widget/libowl-av/gst_change_state.patch
-deleted file mode 100644
-index 5bc279a..0000000
---- a/meta/recipes-sato/owl-video-widget/libowl-av/gst_change_state.patch
-+++ /dev/null
-@@ -1,42 +0,0 @@
--Fix music player crash if adding unknown type files.
--
--Using bus message to call function flush_head/feed_head in main thread
--to protect private data operation.
--
--A better fix may be to listen to bus message "CODEC_NOT_FOUND" and
--"MISSING_PLUGIN" directly to avoid hooking into "unknown-type" signal.
--We will revisit it in next period.
--
--Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
--
--Upstream-Status: Pending
--
--diff -ruN libowl-av-orig/libowl-av/owl-tag-reader.c libowl-av/libowl-av/owl-tag-reader.c
----- libowl-av-orig/libowl-av/owl-tag-reader.c	2010-10-12 14:30:26.000000000 +0800
--+++ libowl-av/libowl-av/owl-tag-reader.c	2010-10-12 14:32:39.000000000 +0800
--@@ -300,13 +300,23 @@
--                            GstCaps      *caps,
--                            OwlTagReader *tag_reader)
-- {
--+        GstMessage *message;
--+        GstBus *bus;
--+
--         tag_reader->priv->current_error =
--                 g_error_new (OWL_TAG_READER_ERROR,
--                              OWL_TAG_READER_ERROR_UNKNOWN_TYPE,
--                              "Unknown type");
-- 
---        flush_head (tag_reader);
---        feed_head (tag_reader);
--+        /**
--+         * Post a message to the bus, as we are in another thread here.
--+         **/
--+        message = gst_message_new_error(GST_OBJECT (decodebin),
--+                                        tag_reader->priv->current_error, NULL);
--+
--+        bus = gst_pipeline_get_bus (GST_PIPELINE (tag_reader->priv->pipeline));
--+        gst_bus_post (bus, message);
--+        gst_object_unref (GST_OBJECT (bus));
-- }
-- 
-- /**
-diff --git a/meta/recipes-sato/owl-video-widget/libowl-av/make-382.patch b/meta/recipes-sato/owl-video-widget/libowl-av/make-382.patch
-deleted file mode 100644
-index a8be781..0000000
---- a/meta/recipes-sato/owl-video-widget/libowl-av/make-382.patch
-+++ /dev/null
-@@ -1,13 +0,0 @@
--Upstream-Status: Inappropriate [configuration]
--
--Index: libowl-av/Makefile.am
--===================================================================
----- libowl-av.orig/Makefile.am
--+++ libowl-av/Makefile.am
--@@ -14,5 +14,5 @@ EXTRA_DIST = libowl-av.pc.in libowl-av.v
-- MAINTAINERCLEANFILES = aclocal.m4 compile config.guess config.sub configure depcomp intltool-extract intltool-merge intltool-update install-sh ltmain.sh Makefile.in missing
-- 
-- snapshot:
---        $(MAKE) dist distdir=$(PACKAGE)-snap`date +"%Y%m%d"`
--+	$(MAKE) dist distdir=$(PACKAGE)-snap`date +"%Y%m%d"`
-- 
-diff --git a/meta/recipes-sato/owl-video-widget/libowl-av_git.bb b/meta/recipes-sato/owl-video-widget/libowl-av_git.bb
-index 4413d38..62a4a7d 100644
---- a/meta/recipes-sato/owl-video-widget/libowl-av_git.bb
-+++ b/meta/recipes-sato/owl-video-widget/libowl-av_git.bb
-@@ -12,14 +12,12 @@ DEPENDS = "gtk+ gstreamer gst-plugins-base"
- RDEPENDS_${PN} = "gst-meta-base"
- RRECOMMENDS_${PN} = "gst-meta-audio gst-meta-video"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb b/meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb
+index ea2ce02..b995a42 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb
+@@ -3,14 +3,14 @@ require recipes-kernel/linux/linux-yocto.inc
+ KBRANCH = "standard/preempt-rt/base"
+ KBRANCH_qemuppc = "standard/preempt-rt/qemuppc"
  
--SRCREV = "1379fd230a32509e94971961183f1031f469737a"
-+SRCREV = "03030c41ea578cfa74a2ffceb875675b248318ae"
- PV = "0.1+git${SRCPV}"
--PR = "r2"
-+PR = "r3"
+-LINUX_VERSION ?= "3.4.6"
++LINUX_VERSION ?= "3.4.7"
+ LINUX_KERNEL_TYPE = "preempt-rt"
  
+ KMETA = "meta"
  
--SRC_URI = "git://git.yoctoproject.org/${BPN};protocol=git \
--           file://gst_change_state.patch \
--	   file://make-382.patch"
-+SRC_URI = "git://git.yoctoproject.org/${BPN};protocol=git"
+-SRCREV_machine ?= "2d008a6dcbf565878cee14c5f050eca53897316f"
+-SRCREV_machine_qemuppc ?= "94d25f958b6dfb1e8009a0feea7ab4c9a8f54a99"
+-SRCREV_meta ?= "7ff48aa47c50b6455d60ca93bc81260ce8fe1a1b"
++SRCREV_machine ?= "50cc910aeb0571921b7ad86091ec2dc621adf67f"
++SRCREV_machine_qemuppc ?= "713b13fa93d4d0b1780b31ed9bbb7a5527447886"
++SRCREV_meta ?= "8d2012649516f3c489295a31fb9ea7afd1b464e4"
  
- S = "${WORKDIR}/git"
+ PR = "${INC_PR}.0"
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+diff --git a/meta/recipes-kernel/linux/linux-yocto_3.4.bb b/meta/recipes-kernel/linux/linux-yocto_3.4.bb
+index 5ab46b7..9f1e550 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_3.4.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_3.4.bb
+@@ -10,19 +10,19 @@ KBRANCH_qemumips64 = "standard/mti-malta64"
+ KBRANCH_qemumips64el = "standard/mti-malta64"
+ KBRANCH_qemuarm  = "standard/arm-versatile-926ejs"
  
+-SRCREV_machine_qemuarm ?= "b57548a29e44655e27cfbdf3a0642d682401b835"
+-SRCREV_machine_qemumips  ?= "633d487b0f6e5d328400b47f0d69d9dac7354c84"
+-SRCREV_machine_qemuppc ?= "6229fc0f62283e0dc9f8b5d2be01b048a92867f3"
+-SRCREV_machine_qemux86 ?= "19f7e43b54aef08d58135ed2a897d77b624b320a"
+-SRCREV_machine_qemux86-64 ?= "19f7e43b54aef08d58135ed2a897d77b624b320a"
+-SRCREV_machine ?= "19f7e43b54aef08d58135ed2a897d77b624b320a"
+-SRCREV_meta ?= "7ff48aa47c50b6455d60ca93bc81260ce8fe1a1b"
++SRCREV_machine_qemuarm ?= "469cf6a66c720944adeaf8e43c044dfcb8d90599"
++SRCREV_machine_qemumips  ?= "0985f3076c1a5a2cc3a01054e8a0411ffe440395"
++SRCREV_machine_qemuppc ?= "e662bb66d9114c05919cd57ee4d620f4e67d2123"
++SRCREV_machine_qemux86 ?= "f01bddc9534f31b27b475b68d13b5897533a6fca"
++SRCREV_machine_qemux86-64 ?= "f01bddc9534f31b27b475b68d13b5897533a6fca"
++SRCREV_machine ?= "f01bddc9534f31b27b475b68d13b5897533a6fca"
++SRCREV_meta ?= "8d2012649516f3c489295a31fb9ea7afd1b464e4"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.4.git;protocol=git;nocheckout=1;branch=${KBRANCH},meta;name=machine,meta"
+ 
+ SRC_URI += "file://noslang.patch"
+ 
+-LINUX_VERSION ?= "3.4.6"
++LINUX_VERSION ?= "3.4.7"
+ 
+ PR = "${INC_PR}.0"
+ PV = "${LINUX_VERSION}+git${SRCPV}"
 -- 
-1.7.10
+1.7.5.4
 
 
 
