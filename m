@@ -1,26 +1,27 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from masterfoo.zenlinux.com ([207.192.74.254])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1T11FM-0003aZ-UN
+	(envelope-from <scott.a.garman@intel.com>) id 1T11Ja-0003iU-FQ
 	for openembedded-core@lists.openembedded.org;
-	Mon, 13 Aug 2012 22:28:25 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q7DKGPOG027754
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Mon, 13 Aug 2012 22:32:42 +0200
+Received: from localhost (c-76-105-137-48.hsd1.or.comcast.net [76.105.137.48])
+	(using TLSv1 with cipher DHE-RSA-AES128-SHA (128/128 bits))
+	(No client certificate requested)
+	by masterfoo.zenlinux.com (Postfix) with ESMTP id 45A6A30425
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Aug 2012 13:16:25 -0700 (PDT)
-Received: from localhost.localdomain (172.25.34.61) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.309.2;
-	Mon, 13 Aug 2012 13:16:24 -0700
-From: Mark Hatle <mark.hatle@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 13 Aug 2012 15:31:53 -0500
-Message-ID: <fa1dbae59ee00ad29a302529fa5476a64bf9ce81.1344889679.git.mark.hatle@windriver.com>
-X-Mailer: git-send-email 1.7.3.4
-In-Reply-To: <cover.1344889679.git.mark.hatle@windriver.com>
-References: <cover.1344889679.git.mark.hatle@windriver.com>
-MIME-Version: 1.0
-X-Originating-IP: [172.25.34.61]
-Subject: [PATCH 1/1] prelink: Update to latest upstream prelink
+	Mon, 13 Aug 2012 16:20:40 -0400 (EDT)
+From: Scott Garman <scott.a.garman@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 13 Aug 2012 13:20:37 -0700
+Message-Id: <cover.1344752146.git.scott.a.garman@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+X-MasterFoo-MailScanner-Information: Please contact the ISP for more
+	information
+X-MailScanner-ID: 45A6A30425.27D56
+X-MasterFoo-MailScanner: Found to be clean
+X-MasterFoo-MailScanner-SpamCheck: not spam
+X-MasterFoo-MailScanner-From: scott.a.garman@intel.com
+X-Spam-Status: No
+Subject: [PATCH 0/1] runqemu ramfs support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,35 +36,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Aug 2012 20:28:25 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 13 Aug 2012 20:32:42 -0000
 
-The latest fixes an obscure problem with prelinking on PowerPC, as well
-as general updated.
+Added support for booting ramfs-based images (e.g, poky-tiny) which
+do not have block device support.
+    
+This fixes [YOCTO #2612].
 
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
----
- meta/recipes-devtools/prelink/prelink_git.bb |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
+Scott
 
-diff --git a/meta/recipes-devtools/prelink/prelink_git.bb b/meta/recipes-devtools/prelink/prelink_git.bb
-index c94bdf5..610302e 100644
---- a/meta/recipes-devtools/prelink/prelink_git.bb
-+++ b/meta/recipes-devtools/prelink/prelink_git.bb
-@@ -8,9 +8,9 @@ and executables, so that far fewer relocations need to be resolved at \
- runtime and thus programs come up faster."
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=c93c0550bd3173f4504b2cbd8991e50b"
--SRCREV = "7b47f2f8a15ed13b7905bc120bb2586f3e164f7d"
-+SRCREV = "a2d8e30942bd4bc0a5c852b9d9d12f8684c4bb8d"
- PV = "1.0+git${SRCPV}"
--PR = "r9"
-+PR = "r10"
- 
- #
- # The cron script attempts to re-prelink the system daily -- on
+The following changes since commit 5290e82ecef08b5e573d7442627276d7b42c6b93:
+
+  foomatic: fix perl path for target (2012-08-08 10:05:52 +0100)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib sgarman/runqemu-ramfs-oe
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=sgarman/runqemu-ramfs-oe
+
+Scott Garman (1):
+  runqemu: support booting ramfs-based images
+
+ scripts/runqemu          |    6 ++++++
+ scripts/runqemu-internal |    5 +++++
+ 2 files changed, 11 insertions(+)
+
 -- 
-1.7.3.4
+1.7.9.5
 
 
 
