@@ -1,23 +1,24 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <laurentiu.palcu@intel.com>) id 1T0vnb-0001r4-2R
-	for openembedded-core@lists.linuxtogo.org;
-	Mon, 13 Aug 2012 16:39:19 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 13 Aug 2012 07:27:25 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.77,759,1336374000"; d="scan'208";a="180017180"
-Received: from lpalcu-linux (HELO localhost.localdomain) ([10.237.105.41])
-	by orsmga001.jf.intel.com with ESMTP; 13 Aug 2012 07:27:23 -0700
-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 13 Aug 2012 17:27:20 +0300
-Message-Id: <1344868040-885-2-git-send-email-laurentiu.palcu@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <1344868040-885-1-git-send-email-laurentiu.palcu@intel.com>
-References: <1344868040-885-1-git-send-email-laurentiu.palcu@intel.com>
-Cc: openembedded-core@lists.linuxtogo.org
-Subject: [RFC 1/1] adt-installer: add support for relocatable SDK
+	(envelope-from <Liezhi.Yang@windriver.com>) id 1T0wJi-0003Pu-O0
+	for openembedded-core@linuxtogo.org; Mon, 13 Aug 2012 17:12:31 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q7DD4U85016956
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 13 Aug 2012 06:04:30 -0700 (PDT)
+Received: from usp-ub10.corp.ad.wrs.com (128.224.163.69) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.309.2; Mon, 13 Aug 2012 06:04:29 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 13 Aug 2012 21:01:16 +0800
+Message-ID: <2e933ba56ce94ad118edf4c72f731d2c2df2c1a5.1344860952.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.1
+In-Reply-To: <cover.1344860952.git.liezhi.yang@windriver.com>
+References: <cover.1344860952.git.liezhi.yang@windriver.com>
+MIME-Version: 1.0
+Cc: openembedded-core@linuxtogo.org, Zhenfeng.Zhao@windriver.com
+Subject: [PATCH 1/1] qemu.inc: disable curl for qemu-nativesdk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,262 +33,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Aug 2012 14:39:19 -0000
+X-List-Received-Date: Mon, 13 Aug 2012 15:12:32 -0000
+Content-Type: text/plain
 
-Since we made the SDK relocatable, we have to add this functionality to
-adt-installer too.
+We had added the --disable-curl to EXTRA_OECONF, but there is an
+EXTRA_OECONF_virtclass-nativesdk += "foo", the
+"EXTRA_OECONF_virtclass-nativesdk +=" equals to
+"EXTRA_OECONF_virtclass-nativesdk =" (the "+" has no effect here), so we
+should add the "--disable-curl" to EXTRA_OECONF_virtclass-nativesdk.
 
-Other:
- - Changed tabs to spaces in the recipe file too.
+And change the "+=" to "=" to not confuse people.
 
-Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
+[YOCTO #2305]
+
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- .../installer/adt-installer/adt_installer          |   11 ++
- .../adt-installer/scripts/adt_installer_internal   |  109 ++++++++++++++++----
- .../installer/adt-installer_1.0.bb                 |   37 +++----
- 3 files changed, 121 insertions(+), 36 deletions(-)
+ meta/recipes-devtools/qemu/qemu.inc       |    4 +++-
+ meta/recipes-devtools/qemu/qemu_0.15.1.bb |    2 +-
+ meta/recipes-devtools/qemu/qemu_git.bb    |    2 +-
+ 3 files changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-devtools/installer/adt-installer/adt_installer b/meta/recipes-devtools/installer/adt-installer/adt_installer
-index 1a53eb9..1c70483 100755
---- a/meta/recipes-devtools/installer/adt-installer/adt_installer
-+++ b/meta/recipes-devtools/installer/adt-installer/adt_installer
-@@ -332,6 +332,17 @@ if [ -f "$YOCTOADT_INSTALL_LOG_FILE" ]; then
-   rm $YOCTOADT_INSTALL_LOG_FILE
- fi
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index f9368f3..bf41b3b 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -45,7 +45,9 @@ DEPENDS_virtclass-native = "zlib-native alsa-lib-native glib-2.0-native"
+ DEPENDS_virtclass-nativesdk = "zlib-nativesdk libsdl-nativesdk glib-2.0-nativesdk \
+                                ${@base_contains('DISTRO_FEATURES', 'x11', 'qemugl-nativesdk', '', d)}"
+ RDEPENDS_virtclass-nativesdk = "libsdl-nativesdk"
+-EXTRA_OECONF_virtclass-nativesdk += "--target-list=${@get_qemu_target_list(d)} --disable-werror --disable-vnc-tls"
++EXTRA_OECONF_virtclass-nativesdk = "--target-list=${@get_qemu_target_list(d)} --disable-werror --disable-vnc-tls \
++				--disable-curl \
++				"
  
-+echo -n "Please enter the install location (default: $DEFAULT_INSTALL_FOLDER): "
-+read INSTALL_FOLDER
-+
-+if [ "$INSTALL_FOLDER" = "" ]; then
-+    INSTALL_FOLDER = $DEFAULT_INSTALL_FOLDER
-+fi
-+
-+eval INSTALL_FOLDER=$INSTALL_FOLDER
-+export INSTALL_FOLDER=$(readlink -m $INSTALL_FOLDER)
-+
-+clear
+ BBCLASSEXTEND = "native nativesdk"
  
- usage
+diff --git a/meta/recipes-devtools/qemu/qemu_0.15.1.bb b/meta/recipes-devtools/qemu/qemu_0.15.1.bb
+index 983e831..7b862ed 100644
+--- a/meta/recipes-devtools/qemu/qemu_0.15.1.bb
++++ b/meta/recipes-devtools/qemu/qemu_0.15.1.bb
+@@ -3,7 +3,7 @@ require qemu.inc
+ LIC_FILES_CHKSUM = "file://COPYING;md5=441c28d2cf86e15a37fa47e15a72fbac \
+                     file://COPYING.LIB;endline=24;md5=c04def7ae38850e7d3ef548588159913"
  
-diff --git a/meta/recipes-devtools/installer/adt-installer/scripts/adt_installer_internal b/meta/recipes-devtools/installer/adt-installer/scripts/adt_installer_internal
-index 6201095..d524785 100755
---- a/meta/recipes-devtools/installer/adt-installer/scripts/adt_installer_internal
-+++ b/meta/recipes-devtools/installer/adt-installer/scripts/adt_installer_internal
-@@ -50,8 +50,8 @@ install_native_sdk()
+-PR = "r10"
++PR = "r11"
  
- echo_info "\nStart installing selected native ADT for archs: $YOCTOADT_TARGETS..."
+ FILESPATH = "${FILE_DIRNAME}/qemu-${PV}"
+ FILESDIR = "${WORKDIR}"
+diff --git a/meta/recipes-devtools/qemu/qemu_git.bb b/meta/recipes-devtools/qemu/qemu_git.bb
+index bcec9bb..6d5e250 100644
+--- a/meta/recipes-devtools/qemu/qemu_git.bb
++++ b/meta/recipes-devtools/qemu/qemu_git.bb
+@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=441c28d2cf86e15a37fa47e15a72fbac \
+                     file://COPYING.LIB;endline=24;md5=c04def7ae38850e7d3ef548588159913"
  
--# where the packages are installed. Currently only / is supported
--NATIVE_INSTALL_DIR="/"
-+# where the packages are installed.
-+NATIVE_INSTALL_DIR=$INSTALL_FOLDER
+ PV = "0.14.0"
+-PR = "r3"
++PR = "r4"
  
- if [ -d "$INSTALL_FOLDER" ]; then
-   echo_info "\nNative ADT installation directory \"$INSTALL_FOLDER\" already exists! Continue installation will override its contents!"
-@@ -59,28 +59,51 @@ if [ -d "$INSTALL_FOLDER" ]; then
- fi
- 
- #Now begin to install native sdk and extract qemu rootfs which needs privilege rights
--echo_info "#######################################################################"
--echo_info "Please note from this point on installation requires sudo password ..."
--echo_info "#######################################################################"
--username='id -nu'
-+#depending on the install location
-+username=$(id -nu)
-+
-+# find the owner of the parent
-+dir=$NATIVE_INSTALL_DIR
-+while [ 1 ]; do
-+    if [ -d $dir ]; then
-+        owner=$(stat -c %U $dir)
-+        break
-+   else
-+        dir=$(dirname $dir)
-+   fi
-+done
-+
-+if [ "$owner" = "$username" ]; then
-+    SUDO=""
-+else
-+    echo_info "#######################################################################"
-+    echo_info "Please note from this point on installation requires sudo password ..."
-+    echo_info "#######################################################################"
-+    SUDO=sudo
-+fi
-+
- #we need to make this directory firstly since opkg need to use it.
- OPKG_LOCK_DIR="$NATIVE_INSTALL_DIR/$OPKG_LIBDIR/opkg"
- if [ ! -d "$OPKG_LOCK_DIR" ]; then
--  sudo mkdir -p $OPKG_LOCK_DIR
-+  $SUDO mkdir -p $OPKG_LOCK_DIR
-   echo_info "Successfully create directory $OPKG_LOCK_DIR. "
- #if user delete /opt/xxx, while dangling folders there, report error
- elif [ ! -d "$INSTALL_FOLDER" ]; then
-   echo_info "\nDangling opkg cache folder $OPKG_LOCK_DIR detected. Continue installation will remove the folder!"
-   confirm_install $1
--  sudo rm -rf $OPKG_LOCK_DIR
--  sudo mkdir -p $OPKG_LOCK_DIR
-+  $SUDO rm -rf $OPKG_LOCK_DIR
-+  $SUDO mkdir -p $OPKG_LOCK_DIR
- #if user are updating installing, just let him/her go, give her/him prompt
- else
-   echo_info "ADT has already been installed. Will update its contents..."
- fi
- 
- #first update repository
--OPKG_CMD="sudo -E $LOCAL_OPKG_LOC/bin/opkg-cl"
-+if [ "x$SUDO" = "x" ]; then
-+    OPKG_CMD="$LOCAL_OPKG_LOC/bin/opkg-cl"
-+else
-+    OPKG_CMD="sudo -E $LOCAL_OPKG_LOC/bin/opkg-cl"
-+fi
- 
- echo_info "Updating opkg..."
- $OPKG_CMD -f $OPKG_CONFIG_FILE -o $NATIVE_INSTALL_DIR update &>> $YOCTOADT_INSTALL_LOG_FILE
-@@ -117,13 +140,6 @@ for native_target_type in $YOCTOADT_TARGETS; do
- 
- done
- 
--# Link the ld.so.cache file into the hosts filesystem
--if [ ! -f "$OECORE_NATIVE_SYSROOT/etc/ld.so.cache" ]; then 
--echo_info "Link the ld.so.cache file into the host filesystem"
--sudo ln -s /etc/ld.so.cache $OECORE_NATIVE_SYSROOT/etc/ld.so.cache
--check_result
--fi
--
- if [ "$YOCTOADT_QEMU" == "Y" ] || [ "$YOCTOADT_QEMU" = "y" ]; then
-   echo_info "\nInstalling qemu native ..."
-   $OPKG_INSTALL_NATIVE_CMD qemu-nativesdk &>> $YOCTOADT_INSTALL_LOG_FILE
-@@ -138,6 +154,63 @@ if [ "$YOCTOADT_NFS_UTIL" == "Y" ] || [ "$YOCTOADT_NFS_UTIL" == "y" ]; then
-   check_result
- fi
- 
-+# Lose the ./opt/${DISTRO}/${SDK_VERSION} part, we don't really need to keep
-+# the entire directory structure. We could patch opkg to do that but it's far
-+# simpler to do that here and achieve the same result.
-+# This is done in two steps:
-+# Step 1: move ./opt/${DISTRO}/${SDK_VERSION} contents to $NATIVE_INSTALL_DIR
-+env_dir=$(dirname $(find $NATIVE_INSTALL_DIR -name "environment-setup*"))
-+for f in $env_dir/*; do
-+    mv $f $NATIVE_INSTALL_DIR
-+done
-+
-+# Step 2: Delete the ./opt/${DISTRO}/${SDK_VERSION} directories, they should be empty
-+dir=$env_dir
-+while [ "$dir" != "$NATIVE_INSTALL_DIR" ]; do
-+    # if the user chose / as the install folder, then we should leave /opt in place
-+    if [ "$dir" = "/opt" ]; then
-+        break
-+    fi
-+
-+    # try to delete the directory, only if it's empty
-+    $SUDO rmdir $dir
-+    if [ $? -ne 0 ]; then
-+        break
-+    fi
-+
-+    # go to the next directory
-+    dir=$(dirname $dir)
-+done
-+
-+# Link the ld.so.cache file into the hosts filesystem
-+if [ ! -f "$OECORE_NATIVE_SYSROOT/etc/ld.so.cache" ]; then 
-+echo_info "Link the ld.so.cache file into the host filesystem"
-+$SUDO ln -s /etc/ld.so.cache $OECORE_NATIVE_SYSROOT/etc/ld.so.cache
-+check_result
-+fi
-+
-+# relocate binaries
-+echo_info "\nRelocating binaries ..."
-+escaped_sdkpath=$(echo $DEFAULT_INSTALL_FOLDER |sed -e "s:[\+\.]:\\\\\\\\\0:g")
-+
-+# We don't change the script in-place since we may want the user to re-run
-+# adt-installer script
-+sed -e "s:##DEFAULT_INSTALL_DIR##:$escaped_sdkpath:" scripts/relocate_sdk.py > scripts/relocate_sdk_tmp.py
-+chmod +x scripts/relocate_sdk_tmp.py
-+
-+dl_path=$(find $OECORE_NATIVE_SYSROOT/lib -name "ld-linux*")
-+executable_files=$(find $OECORE_NATIVE_SYSROOT -type f -perm +111)
-+
-+scripts/relocate_sdk_tmp.py $INSTALL_FOLDER $dl_path $executable_files
-+check_result
-+
-+# replace /opt/${DISTRO}/${SDK_VERSION} with the install folder in all configs
-+env_setup_script=$(find $NATIVE_INSTALL_DIR -name "environment-setup-*")
-+sed -i -e "s:$DEFAULT_INSTALL_FOLDER:$NATIVE_INSTALL_DIR:g" $env_setup_script
-+
-+find $OECORE_NATIVE_SYSROOT -type f -exec file '{}' \;|grep text|cut -d':' -f1|\
-+    xargs sed -i -e "s:$DEFAULT_INSTALL_FOLDER:$NATIVE_INSTALL_DIR:g"
-+
- echo_info "\nSuccessfully installed selected native ADT!"
- }
- 
-@@ -180,7 +253,7 @@ else
- fi
- 
- if [ ! -z "$env_filename" ]; then
--  sudo sed -i -e "s%##SDKTARGETSYSROOT##%$target_sysroot%g" $env_filename
-+  $SUDO sed -i -e "s%##SDKTARGETSYSROOT##%$target_sysroot%g" $env_filename
- else
-   echo_info "[ADT_INST] Error: Failed to find environment script for arch: $1"
-   return 1 
-diff --git a/meta/recipes-devtools/installer/adt-installer_1.0.bb b/meta/recipes-devtools/installer/adt-installer_1.0.bb
-index e1edf2f..d5d0da5 100644
---- a/meta/recipes-devtools/installer/adt-installer_1.0.bb
-+++ b/meta/recipes-devtools/installer/adt-installer_1.0.bb
-@@ -30,7 +30,7 @@ ALLOW_EMPTY = "1"
- 
- PACKAGES = ""
- 
--PR = "r9"
-+PR = "r10"
- 
- ADT_DEPLOY = "${TMPDIR}/deploy/sdk/"
- ADT_DIR = "${WORKDIR}/adt-installer/"
-@@ -56,23 +56,24 @@ ADTREPO = "http://adtrepo.yoctoproject.org/${SDK_VERSION}"
- do_populate_adt[umask] = "022"
- 
- fakeroot do_populate_adt () {
--	cd ${WORKDIR}
--	mkdir -p ${ADT_DEPLOY}
--	rm -f ${ADT_DEPLOY}/adt-installer.tar.bz2
--	rm -rf ${ADT_DIR}
--	mkdir -p ${ADT_DIR}/opkg/build
--	cp -r opkg ${ADT_DIR}/
--	sed -i -e 's#ADTREPO_URL#${ADTREPO}#' ${ADT_DIR}/opkg/conf/*.conf
--	cp -r trunk ${ADT_DIR}/opkg/build/
--	mv ${ADT_DIR}/opkg/build/trunk ${ADT_DIR}/opkg/build/opkg-svn
--	cp -r scripts ${ADT_DIR}/
--	cp adt_installer ${ADT_DIR}
--	cp adt_installer.conf ${ADT_DIR}
--	sed -i -e 's#YOCTOADT_VERSION#${SDK_VERSION}#' ${ADT_DIR}/adt_installer.conf
--        echo 'SDK_VENDOR=${SDK_VENDOR}' >> ${ADT_DIR}/scripts/data_define
--        echo 'INSTALL_FOLDER=${SDKPATH}' >> ${ADT_DIR}/scripts/data_define
--	tar cfj adt_installer.tar.bz2 adt-installer
--	cp ${WORKDIR}/adt_installer.tar.bz2 ${ADT_DEPLOY}
-+    cd ${WORKDIR}
-+    mkdir -p ${ADT_DEPLOY}
-+    rm -f ${ADT_DEPLOY}/adt-installer.tar.bz2
-+    rm -rf ${ADT_DIR}
-+    mkdir -p ${ADT_DIR}/opkg/build
-+    cp -r opkg ${ADT_DIR}/
-+    sed -i -e 's#ADTREPO_URL#${ADTREPO}#' ${ADT_DIR}/opkg/conf/*.conf
-+    cp -r trunk ${ADT_DIR}/opkg/build/
-+    mv ${ADT_DIR}/opkg/build/trunk ${ADT_DIR}/opkg/build/opkg-svn
-+    cp -r scripts ${ADT_DIR}/
-+    cp adt_installer ${ADT_DIR}
-+    cp adt_installer.conf ${ADT_DIR}
-+    sed -i -e 's#YOCTOADT_VERSION#${SDK_VERSION}#' ${ADT_DIR}/adt_installer.conf
-+    echo 'SDK_VENDOR=${SDK_VENDOR}' >> ${ADT_DIR}/scripts/data_define
-+    echo 'DEFAULT_INSTALL_FOLDER=${SDKPATH}' >> ${ADT_DIR}/scripts/data_define
-+    cp ${COREBASE}/scripts/relocate_sdk.py ${ADT_DIR}/scripts/
-+    tar cfj adt_installer.tar.bz2 adt-installer
-+    cp ${WORKDIR}/adt_installer.tar.bz2 ${ADT_DEPLOY}
- }
- 
- do_populate_adt[nostamp] = "1"
+ FILESPATH = "${FILE_DIRNAME}/qemu-${PV}/:${FILE_DIRNAME}/qemu-git/"
+ FILESDIR = "${WORKDIR}"
 -- 
-1.7.9.5
+1.7.1
 
 
 
