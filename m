@@ -1,19 +1,45 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from co1ehsobe001.messaging.microsoft.com ([216.32.180.184]
+	helo=co1outboundpool.messaging.microsoft.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@windriver.com>) id 1T108f-00020n-Tz
+	(envelope-from <B29882@freescale.com>) id 1T10kX-0002qp-VE
 	for openembedded-core@lists.openembedded.org;
-	Mon, 13 Aug 2012 21:17:22 +0200
-Received: from yow-bashfiel-l1.wrs.com (yow-bashfiel-d3.wrs.com
-	[128.224.147.67])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q7DJ5LCv016933;
-	Mon, 13 Aug 2012 12:05:21 -0700 (PDT)
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: richard.purdie@linuxfoundation.org
-Date: Mon, 13 Aug 2012 15:04:51 -0400
-Message-Id: <cover.1344884450.git.bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 1.7.5.4
-Cc: openembedded-core@lists.openembedded.org, saul.wold@intel.com
-Subject: [PATCH 0/2] linux-yocto: 3.4.7 & BSP updates
+	Mon, 13 Aug 2012 21:56:30 +0200
+Received: from mail147-co1-R.bigfish.com (10.243.78.239) by
+	CO1EHSOBE009.bigfish.com (10.243.66.72) with Microsoft SMTP Server id
+	14.1.225.23; Mon, 13 Aug 2012 19:44:35 +0000
+Received: from mail147-co1 (localhost [127.0.0.1])	by
+	mail147-co1-R.bigfish.com (Postfix) with ESMTP id 896EAB4036F	for
+	<openembedded-core@lists.openembedded.org>;
+	Mon, 13 Aug 2012 19:44:35 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-SpamScore: 3
+X-BigFish: VS3(zzzz1202h1082kzz8275bhz2dh2a8h668h839hd24he5bhf0ah107ah)
+Received: from mail147-co1 (localhost.localdomain [127.0.0.1]) by mail147-co1
+	(MessageSwitch) id 1344887073862275_9974;
+	Mon, 13 Aug 2012 19:44:33 +0000 (UTC)
+Received: from CO1EHSMHS025.bigfish.com (unknown [10.243.78.237])	by
+	mail147-co1.bigfish.com (Postfix) with ESMTP id D0AC23C0044	for
+	<openembedded-core@lists.openembedded.org>;
+	Mon, 13 Aug 2012 19:44:33 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by CO1EHSMHS025.bigfish.com
+	(10.243.66.35) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Mon, 13 Aug 2012 19:44:33 +0000
+Received: from tx30smr01.am.freescale.net (10.81.153.31) by
+	039-SN1MMR1-001.039d.mgd.msft.net (10.84.1.13) with Microsoft SMTP
+	Server (TLS) id 14.2.298.5; Mon, 13 Aug 2012 14:44:32 -0500
+Received: from right.am.freescale.net (right.am.freescale.net [10.82.176.228])
+	by tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id
+	q7DJiVCZ028341 for <openembedded-core@lists.openembedded.org>;
+	Mon, 13 Aug 2012 12:44:32 -0700
+From: Matthew McClintock <msm@freescale.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 13 Aug 2012 14:44:31 -0500
+Message-ID: <1344887071-10378-1-git-send-email-msm@freescale.com>
+X-Mailer: git-send-email 1.7.9.7
+MIME-Version: 1.0
+X-OriginatorOrg: freescale.com
+Subject: [PATCH] distutils.bbclass: fix libdir for 64-bit python modules built with distutils
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -28,38 +54,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Aug 2012 19:17:22 -0000
+X-List-Received-Date: Mon, 13 Aug 2012 19:56:30 -0000
+Content-Type: text/plain
 
-Richard/Saul,
+Without this some modules will be intalled in /usr/lib/python2.6/
+instead of /usr/${libdir}/python2.6
 
-Here's a set of updates for the 3.4 kernel that I've had under
-test for a week or so.
+Signed-off-by: Matthew McClintock <msm@freescale.com>
+---
+ meta/classes/distutils.bbclass |    1 +
+ 1 file changed, 1 insertion(+)
 
-We have a bump to 3.4.7 and some updates to prep for systemtap
-updates, update BSPs and cleanup configuration.
-
-Cheers,
-
-Bruce
-
-The following changes since commit 2dec760b79bb7e2e79c33c5127fa64685bd86a18:
-
-  foomatic: fix perl path for target (2012-08-08 10:06:00 +0100)
-
-are available in the git repository at:
-  git://git.pokylinux.org/poky-contrib zedd/kernel
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
-
-Bruce Ashfield (2):
-  linux-yocto: bump version to 3.4.7
-  linux-yocto/3.4: BSP, uprobes, config and cleanups
-
- meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb |    8 ++++----
- meta/recipes-kernel/linux/linux-yocto_3.4.bb    |   16 ++++++++--------
- 2 files changed, 12 insertions(+), 12 deletions(-)
-
+diff --git a/meta/classes/distutils.bbclass b/meta/classes/distutils.bbclass
+index 690df73..7588b81 100644
+--- a/meta/classes/distutils.bbclass
++++ b/meta/classes/distutils.bbclass
+@@ -39,6 +39,7 @@ distutils_do_install() {
+         PYTHONPATH=${D}/${PYTHON_SITEPACKAGES_DIR} \
+         BUILD_SYS=${BUILD_SYS} HOST_SYS=${HOST_SYS} \
+         ${STAGING_BINDIR_NATIVE}/python-native/python setup.py install ${DISTUTILS_INSTALL_ARGS} || \
++        ${STAGING_BINDIR_NATIVE}/python-native/python setup.py install ${DISTUTILS_INSTALL_ARGS} --install-lib=${D}${libdir}/${PYTHON_DIR} || \
+         bbfatal "python setup.py install execution failed."
+ 
+         for i in `find ${D} -name "*.py"` ; do \
 -- 
-1.7.5.4
+1.7.9.7
+
 
 
 
