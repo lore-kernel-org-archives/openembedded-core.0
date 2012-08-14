@@ -1,24 +1,24 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1T1GCI-0000Ym-7V
+	(envelope-from <sgw@linux.intel.com>) id 1T1GCJ-0000Ym-2f
 	for openembedded-core@lists.openembedded.org;
-	Tue, 14 Aug 2012 14:26:10 +0200
+	Tue, 14 Aug 2012 14:26:12 +0200
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
 	by orsmga101.jf.intel.com with ESMTP; 14 Aug 2012 05:14:16 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.77,766,1336374000"; d="scan'208";a="186181223"
+X-IronPort-AV: E=Sophos;i="4.77,766,1336374000"; d="scan'208";a="186181207"
 Received: from unknown (HELO swold-mobl.amr.corp.intel.com) ([10.255.12.219])
-	by orsmga002.jf.intel.com with ESMTP; 14 Aug 2012 05:14:13 -0700
+	by orsmga002.jf.intel.com with ESMTP; 14 Aug 2012 05:14:08 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 14 Aug 2012 15:13:04 +0300
-Message-Id: <e07919681b3d2a763341f5998f0f5e91c63db669.1344946189.git.sgw@linux.intel.com>
+Date: Tue, 14 Aug 2012 15:13:01 +0300
+Message-Id: <34b9bd0b1e19b741fff202913304fd4efaac72f0.1344946189.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <76ac3ef04e78b07441df7d2c93c4a002deac74d5.1344946189.git.sgw@linux.intel.com>
 References: <76ac3ef04e78b07441df7d2c93c4a002deac74d5.1344946189.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1344946189.git.sgw@linux.intel.com>
 References: <cover.1344946189.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED REQUEST 17/64] matchbox-wm-2: cleanup update-alternatives deprecated code
+Subject: [CONSOLIDATED REQUEST 14/64] findutils: cleanup update-alternatives deprecated code
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,38 +33,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Aug 2012 12:26:10 -0000
+X-List-Received-Date: Tue, 14 Aug 2012 12:26:13 -0000
 
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- .../matchbox-wm-2/matchbox-wm-2_git.bb             |    7 +++----
- 1 files changed, 3 insertions(+), 4 deletions(-)
+ meta/recipes-extended/findutils/findutils.inc      |    2 +-
+ .../recipes-extended/findutils/findutils_4.2.31.bb |    2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-graphics/matchbox-wm-2/matchbox-wm-2_git.bb b/meta/recipes-graphics/matchbox-wm-2/matchbox-wm-2_git.bb
-index 8b162be..7369339 100644
---- a/meta/recipes-graphics/matchbox-wm-2/matchbox-wm-2_git.bb
-+++ b/meta/recipes-graphics/matchbox-wm-2/matchbox-wm-2_git.bb
-@@ -7,7 +7,7 @@ DEPENDS = "virtual/libx11 libxext libxrender startup-notification expat gconf pa
+diff --git a/meta/recipes-extended/findutils/findutils.inc b/meta/recipes-extended/findutils/findutils.inc
+index 1fa9b97..9306786 100644
+--- a/meta/recipes-extended/findutils/findutils.inc
++++ b/meta/recipes-extended/findutils/findutils.inc
+@@ -11,7 +11,7 @@ SRC_URI = "${GNU_MIRROR}/findutils/findutils-${PV}.tar.gz"
  
- SRCREV = "01fa5465743c9ee43d040350f4405d35293e4869"
- PV = "0.1+git${SRCPV}"
--PR = "r1"
-+PR = "r2"
+ inherit autotools gettext update-alternatives
  
- SRC_URI = "git://git.yoctoproject.org/matchbox-window-manager-2;protocol=git \
- 	file://fix_makefile.patch \
-@@ -20,9 +20,8 @@ inherit autotools pkgconfig update-alternatives
- # Change this to x-session-manager->matchbox-session and put in
- # matchbox-session, then change this to x-window-manager to
- # matchbox-window-manager-2.
--ALTERNATIVE_NAME = "x-window-manager"
--ALTERNATIVE_LINK = "${bindir}/x-window-manager"
--ALTERNATIVE_PATH = "${bindir}/matchbox-window-manager"
-+ALTERNATIVE_${PN} = "x-window-manager"
-+ALTERNATIVE_TARGET[x-window-manager] = "${bindir}/matchbox-window-manager"
- ALTERNATIVE_PRIORITY = "10"
+-ALTERNATIVE_LINKS = "${bindir}/find ${bindir}/xargs"
++ALTERNATIVE_${PN} = "find xargs"
+ ALTERNATIVE_PRIORITY = "100"
  
- PACKAGES =+ "libmatchbox2"
+ # diffutils assumes non-glibc compilation with uclibc and
+diff --git a/meta/recipes-extended/findutils/findutils_4.2.31.bb b/meta/recipes-extended/findutils/findutils_4.2.31.bb
+index 38cdc21..00c3f77 100644
+--- a/meta/recipes-extended/findutils/findutils_4.2.31.bb
++++ b/meta/recipes-extended/findutils/findutils_4.2.31.bb
+@@ -1,6 +1,6 @@
+ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552"
+-PR = "r3"
++PR = "r4"
+ 
+ require findutils.inc
+ 
 -- 
 1.7.7.6
 
