@@ -1,25 +1,26 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail.mlbassoc.com ([65.100.170.105] helo=mail.chez-thomas.org)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <radu.moisan@intel.com>) id 1T1FhK-0007so-MF
+	(envelope-from <gary@mlbassoc.com>) id 1T1Fjc-0007xT-E5
 	for openembedded-core@lists.openembedded.org;
-	Tue, 14 Aug 2012 13:54:10 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 14 Aug 2012 04:42:15 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.77,766,1336374000"; d="scan'208";a="180473910"
-Received: from dell-desktop (HELO [10.237.105.32]) ([10.237.105.32])
-	by orsmga001.jf.intel.com with ESMTP; 14 Aug 2012 04:42:00 -0700
-Message-ID: <502A3A08.8020506@intel.com>
-Date: Tue, 14 Aug 2012 14:44:08 +0300
-From: Radu Moisan <radu.moisan@intel.com>
+	Tue, 14 Aug 2012 13:56:32 +0200
+Received: by mail.chez-thomas.org (Postfix, from userid 1998)
+	id 321E2F811DE; Tue, 14 Aug 2012 05:44:39 -0600 (MDT)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	hermes.chez-thomas.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=ham version=3.3.2
+Received: from [192.168.1.114] (zeus [192.168.1.114])
+	by mail.chez-thomas.org (Postfix) with ESMTP id AA7ABF811D7;
+	Tue, 14 Aug 2012 05:44:38 -0600 (MDT)
+Message-ID: <502A3A26.5090008@mlbassoc.com>
+Date: Tue, 14 Aug 2012 05:44:38 -0600
+From: Gary Thomas <gary@mlbassoc.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:14.0) Gecko/20120714 Thunderbird/14.0
 MIME-Version: 1.0
 To: openembedded-core@lists.openembedded.org
-References: <1344934956-28631-1-git-send-email-radu.moisan@intel.com>
-	<20120814112542.GA3444@ad.chargestorm.se>
-In-Reply-To: <20120814112542.GA3444@ad.chargestorm.se>
-Subject: Re: [PATCH] busybox: Upgrade to upstream 1.20.2
+Subject: wpa-supplicant & EAP-TLS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,27 +35,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Aug 2012 11:54:10 -0000
+X-List-Received-Date: Tue, 14 Aug 2012 11:56:32 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
+Does anyone know why the recipe for wpa_supplicant is using gnutls
+and not the default OpenSSH for TLS services?  It seems that gnutls
+is somehow broken and EAP-TLS does not work with this configuration.
+Changing wpa_supplicant to use the OpenSSH libraries makes EAP-TLS
+work fine.
 
-On 08/14/2012 02:25 PM, Anders Darander wrote:
-> * Radu Moisan <radu.moisan@intel.com> [120814 11:01]:
->
->> Signed-off-by: Radu Moisan <radu.moisan@intel.com>
->> ---
->>   .../B921600.patch                                  |    0
->>   .../busybox-appletlib-dependency.patch             |    0
->>   .../busybox-mkfs-minix-tests_bigendian.patch       |    0
->>   .../busybox-udhcpc-no_deconfig.patch               |   37 +++++++++-----------
->>   .../{busybox-1.19.4 => busybox-1.20.2}/defconfig   |    0
-> Are there no changes to the configuration file? I.e. new and removed
-> options?
-None that I know about, I've took a quick look over the changelog but 
-nothing cought my eye. I you find anything, just point it out and I'll 
-deep dive on it.
+Would a patch to make this change be entertained?  or should I just
+keep it in my own layer?
 
-radu
+Thanks
+
+-- 
+------------------------------------------------------------
+Gary Thomas                 |  Consulting for the
+MLB Associates              |    Embedded world
+------------------------------------------------------------
 
 
