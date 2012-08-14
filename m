@@ -1,35 +1,29 @@
-Received: from mail-we0-f175.google.com ([74.125.82.175])
+Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dasty82@gmail.com>) id 1T1Mym-0002nN-T2
+	(envelope-from <philb@gnu.org>) id 1T1Nyn-0003o6-HP
 	for openembedded-core@lists.openembedded.org;
-	Tue, 14 Aug 2012 21:40:40 +0200
-Received: by weyr6 with SMTP id r6so542925wey.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Aug 2012 12:28:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:from:to:cc:subject:date:message-id:x-mailer;
-	bh=pf8k7Ic65nPSSDn0+sYO3psb8GOR3q0Khml8gbBcn5Q=;
-	b=IJq8FNFj/W9t7Ld/Tj8ea5ulOck7z0Sm8b5kxxU7//3hVUBX35PF/MeMaoNl6ts5nL
-	ZIlj/k8LmvRHNcBtb+Ym2K05951Nw5D9D3GloE+FZ/HnvHe6jYpnBRBtotMnw9p6KxXm
-	pg7kW3fylppKx1G37RVNTRsQ2eWvNf9i/kuXfhU+i7VLQkL+RlPFu7qEtdcML/6lNW+8
-	f7o5t/fdSrwtyc4/BI+mDTtimG4usYw/48+8hC2tpDfjNAxk7WerjWTCTxmQqp1isJri
-	2FbcF3w+rUa9kxqUuYEY9Vds+2Wq+qAx0qK7fqIcLHqA2wlc2S/ORomyNuRig0JVPFUO
-	DpFw==
-Received: by 10.180.105.163 with SMTP id gn3mr30449837wib.2.1344972525754;
-	Tue, 14 Aug 2012 12:28:45 -0700 (PDT)
-Received: from localhost.localdomain
-	(83-64-248-68.inzersdorf.xdsl-line.inode.at. [83.64.248.68])
-	by mx.google.com with ESMTPS id fu8sm24048789wib.5.2012.08.14.12.28.44
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 14 Aug 2012 12:28:44 -0700 (PDT)
-Sender: Radek Dostal <dasty82@gmail.com>
-From: Radek Dostal <rd@radekdostal.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 14 Aug 2012 21:26:43 +0200
-Message-Id: <1344972403-26049-1-git-send-email-rd@radekdostal.com>
-X-Mailer: git-send-email 1.7.5.4
-Cc: Radek Dostal <rd@radekdostal.com>
-Subject: [PATCH] gst-plugins-base: remove avahi from DEPENDS
+	Tue, 14 Aug 2012 22:44:45 +0200
+Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
+	helo=[192.168.114.6])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1T1NnI-0003J8-Af
+	for openembedded-core@lists.openembedded.org;
+	Tue, 14 Aug 2012 22:32:52 +0200
+Message-ID: <1344976258.7750.33.camel@x121e.pbcl.net>
+From: Phil Blundell <philb@gnu.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Tue, 14 Aug 2012 21:30:58 +0100
+In-Reply-To: <502A6515.2050007@mlbassoc.com>
+References: <502A3A26.5090008@mlbassoc.com>
+	<1344944787.23275.384.camel@phil-desktop>
+	<502A3C00.6010609@mlbassoc.com>
+	<20120814135946.GA5597@mi.fu-berlin.de>
+	<3873D957-9816-4F94-B331-C3B7CB68FF37@dominion.thruhere.net>
+	<502A6515.2050007@mlbassoc.com>
+X-Mailer: Evolution 3.4.3-1 
+Mime-Version: 1.0
+Subject: Re: wpa-supplicant & EAP-TLS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,39 +38,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Aug 2012 19:40:40 -0000
+X-List-Received-Date: Tue, 14 Aug 2012 20:44:45 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-avahi is no longer required as gnome_vfs is disabled
+On Tue, 2012-08-14 at 08:47 -0600, Gary Thomas wrote:
+> I don't see anything explicit on this topic.  That said, the latest version
+> (1.0) is dual licensed GPL and BSD and the OpenSSL license is BSD compatible
+> from what I can tell.
 
-Signed-off-by: Radek Dostal <rd@radekdostal.com>
----
- .../gstreamer/gst-plugins-base_0.10.36.bb          |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
+Yes, wpa-supplicant itself has been OK in this respect for some time.
+(The dual-licensing option has actually been removed for the very latest
+versions of wpa-supplicant and it's now under the BSD license only, but
+this is fine for OpenSSL compatibility purposes.)  However, there are
+quite a lot of other SSL-using programs which are only licensed under
+GPL terms and linking these with OpenSSL is problematic for some people.
+In an ideal world the oe-core license machinery would be able to detect
+and warn about that conflict, but I don't think we are quite there yet.
 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.36.bb b/meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.36.bb
-index da4a726..99f28e9 100644
---- a/meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.36.bb
-+++ b/meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.36.bb
-@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3 \
-                     file://gst/ffmpegcolorspace/utils.c;beginline=1;endline=20;md5=9c83a200b8e597b26ca29df20fc6ecd0"
- 
- DEPENDS += "${@base_contains('DISTRO_FEATURES', 'x11', 'virtual/libx11 libxv', '', d)}"
--DEPENDS += "alsa-lib freetype liboil libogg libvorbis libtheora avahi util-linux tremor"
-+DEPENDS += "alsa-lib freetype liboil libogg libvorbis libtheora util-linux tremor"
- 
- SRC_URI += "file://gst-plugins-base-tremor.patch \
-             file://configure.ac-fix-subparse-plugin.patch"
-@@ -15,7 +15,7 @@ SRC_URI += "file://gst-plugins-base-tremor.patch \
- SRC_URI[md5sum] = "776c73883e567f67b9c4a2847d8d041a"
- SRC_URI[sha256sum] = "2cd3b0fa8e9b595db8f514ef7c2bdbcd639a0d63d154c00f8c9b609321f49976"
- 
--PR = "r3"
-+PR = "r4"
- 
- inherit gettext
- 
--- 
-1.7.5.4
+As a general rule, we don't want to build and ship multiple SSL
+implementations when one will suffice.  GnuTLS seems to be the most
+compatible (in license terms) which is why it is generally the default.
+However, DISTROs which don't need to worry about the OpenSSL-GPL
+conflict for whatever reason might legitimately want to use OpenSSL
+globally, and DISTROs which aren't too bothered about potentially
+shipping both might legitimately want to use OpenSSL for specific
+packages like wpa-supplicant even if they have GnuTLS elsewhere.
+
+p.
+
 
 
 
