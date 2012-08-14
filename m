@@ -1,25 +1,24 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1T1GCm-0000Ym-BQ
+	(envelope-from <sgw@linux.intel.com>) id 1T1GCy-0000ex-D2
 	for openembedded-core@lists.openembedded.org;
-	Tue, 14 Aug 2012 14:26:40 +0200
+	Tue, 14 Aug 2012 14:26:53 +0200
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 14 Aug 2012 05:14:42 -0700
+	by orsmga101.jf.intel.com with ESMTP; 14 Aug 2012 05:14:59 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.77,766,1336374000"; d="scan'208";a="186181400"
+X-IronPort-AV: E=Sophos;i="4.77,766,1336374000"; d="scan'208";a="186181467"
 Received: from unknown (HELO swold-mobl.amr.corp.intel.com) ([10.255.12.219])
-	by orsmga002.jf.intel.com with ESMTP; 14 Aug 2012 05:14:41 -0700
+	by orsmga002.jf.intel.com with ESMTP; 14 Aug 2012 05:14:58 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 14 Aug 2012 15:13:26 +0300
-Message-Id: <961d6ebe8881d3658dbc5d657a4f8fb4ff4c0de6.1344946189.git.sgw@linux.intel.com>
+Date: Tue, 14 Aug 2012 15:13:37 +0300
+Message-Id: <6022af64f75660cbd62c9bf53ac39ce00ac7d0d0.1344946189.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <76ac3ef04e78b07441df7d2c93c4a002deac74d5.1344946189.git.sgw@linux.intel.com>
 References: <76ac3ef04e78b07441df7d2c93c4a002deac74d5.1344946189.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1344946189.git.sgw@linux.intel.com>
 References: <cover.1344946189.git.sgw@linux.intel.com>
-Cc: Martin Jansa <martin.jansa@gmail.com>
-Subject: [CONSOLIDATED REQUEST 39/64] bitbake.conf: store cooker logs in subdirectory of LOG_DIR
+Subject: [CONSOLIDATED REQUEST 50/64] at 3.1.13: get 'at' depends on 'flex-native' explicitly
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,36 +33,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Aug 2012 12:30:14 -0000
+X-List-Received-Date: Tue, 14 Aug 2012 12:30:15 -0000
 
-From: Martin Jansa <martin.jansa@gmail.com>
+From: Wenzong Fan <wenzong.fan@windriver.com>
 
-* we should probably wait until
-  http://git.openembedded.org/bitbake/commit/?id=1e06d8012868ba5a31503dc99cbf18570be629d9
-  is in next required bitbake version, but error message if the directory doesn't exist is quite clear
-* people with new enough bitbake could just change this in their local.conf
+'at' needs flex to generate source file lex.yy.c, but it doesn't
+depend on flex-native directly; This maybe cause a do_compile
+failure if flex-native is not built or included in project.
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+Error message is:
+    error: lex.yy.c: No such file or directory
+
+Get 'at' depends on flex-native to fix this potential issue.
+
+[YOCTO #2919]
+
+Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/conf/bitbake.conf |    4 ++--
+ meta/recipes-extended/at/at_3.1.13.bb |    4 ++--
  1 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index d5a43e9..8074684 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -753,8 +753,8 @@ DISTRO[unexport] = "1"
- # Used by canadian-cross to handle string conversions on TARGET_ARCH where needed
- TRANSLATED_TARGET_ARCH ??= "${@d.getVar('TARGET_ARCH', True).replace("_", "-")}"
+diff --git a/meta/recipes-extended/at/at_3.1.13.bb b/meta/recipes-extended/at/at_3.1.13.bb
+index ce9396a..a391d6e 100644
+--- a/meta/recipes-extended/at/at_3.1.13.bb
++++ b/meta/recipes-extended/at/at_3.1.13.bb
+@@ -4,14 +4,14 @@ the system load levels drop to a particular level."
+ SECTION = "base"
+ LICENSE="GPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=4325afd396febcb659c36b49533135d4"
+-DEPENDS = "flex initscripts \
++DEPENDS = "flex flex-native initscripts \
+ 	${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
+ RDEPENDS_${PN} = "${@base_contains('DISTRO_FEATURES', 'pam', '${PAM_DEPS}', '', d)}"
+ PAM_DEPS = "libpam libpam-runtime pam-plugin-env pam-plugin-limits"
  
--# Complete output from bitbake, if you're changing it, make sure to use existing directory
--BB_CONSOLELOG ?= "${TMPDIR}/cooker.log.${DATETIME}"
-+# Complete output from bitbake
-+BB_CONSOLELOG ?= "${LOG_DIR}/cooker/${MACHINE}/${DATETIME}.log"
+ RCONFLICTS_${PN} = "atd"
+ RREPLACES_${PN} = "atd"
+-PR = "r2"
++PR = "r3"
  
- # Setup our default hash policy
- BB_SIGNATURE_HANDLER ?= "OEBasicHash"
+ SRC_URI = "${DEBIAN_MIRROR}/main/a/at/at_${PV}.orig.tar.gz \
+     file://configure.patch \
 -- 
 1.7.7.6
 
