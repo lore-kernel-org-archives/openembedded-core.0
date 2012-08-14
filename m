@@ -1,40 +1,32 @@
-Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
+Received: from mail.mlbassoc.com ([65.100.170.105] helo=mail.chez-thomas.org)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1T1IYe-0006dJ-Rn
+	(envelope-from <gary@mlbassoc.com>) id 1T1Iat-0006hU-VK
 	for openembedded-core@lists.openembedded.org;
-	Tue, 14 Aug 2012 16:57:25 +0200
-Received: from mail-ob0-f180.google.com ([209.85.214.180])
-	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 14 Aug 2012 07:45:28 -0700
-Received: by obceq6 with SMTP id eq6so557955obc.25
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Aug 2012 07:45:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=Z0MdIV6qMDQ6sXY4/d+P7A4MRCx0noM6iwAThGZMRT0=;
-	b=AsDSg+APNVUevM9oadxvGs+gOuVCKEGiBu11EgENykHhtxBI2MTkYC+hscAjuzv63Q
-	JE+KbOCL0BOSBEiZ0ozIter4UIgumXnFhTRMJd+RIHC1a8geP1t0jZBrZZSjqigoc9Ki
-	D4+n9hKqo2Njq1nXQByBiD3JZ25W5H9dQDdiGPNetWhvYeveHIo+N0RBecxW9toiZO2D
-	RRvrsP/VGfYuEa1U971qufudbhd5BDvm36Jg59pj/txj0XYq2vQp0GDIYjSFgRGxqesR
-	uYWz6Qz03K2ij4Sm0QDeKspwgmjh6M+VfF4a+8Q9/pJUyk2pgc0ESGaf79HXdDXTakdz
-	Acsg==
-Received: by 10.182.86.225 with SMTP id s1mr19218493obz.73.1344955527319; Tue,
-	14 Aug 2012 07:45:27 -0700 (PDT)
+	Tue, 14 Aug 2012 16:59:44 +0200
+Received: by mail.chez-thomas.org (Postfix, from userid 1998)
+	id 4664FF811E7; Tue, 14 Aug 2012 08:47:50 -0600 (MDT)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	hermes.chez-thomas.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=ham version=3.3.2
+Received: from [192.168.1.114] (zeus [192.168.1.114])
+	by mail.chez-thomas.org (Postfix) with ESMTP id 73490F811D7;
+	Tue, 14 Aug 2012 08:47:49 -0600 (MDT)
+Message-ID: <502A6515.2050007@mlbassoc.com>
+Date: Tue, 14 Aug 2012 08:47:49 -0600
+From: Gary Thomas <gary@mlbassoc.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:14.0) Gecko/20120714 Thunderbird/14.0
 MIME-Version: 1.0
-Received: by 10.182.158.3 with HTTP; Tue, 14 Aug 2012 07:45:06 -0700 (PDT)
-In-Reply-To: <CAJTo0LaoYDVi-mbB5h3YEobKodoNRgL89RA=nZHOMdAhgsiZcA@mail.gmail.com>
-References: <1344524789-17424-1-git-send-email-ross.burton@intel.com>
-	<5029DC55.4030906@linux.intel.com>
-	<CAJTo0LaoYDVi-mbB5h3YEobKodoNRgL89RA=nZHOMdAhgsiZcA@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 14 Aug 2012 15:45:06 +0100
-Message-ID: <CAJTo0LY_Sfn_jd2-_iMWpW85svp82ZAdk99WEzydrC3m1sJXVg@mail.gmail.com>
-To: Saul Wold <sgw@linux.intel.com>
-X-Gm-Message-State: ALoCoQlaZswnP/JBHsFOoBdbl33U3mTasLG4BLLlowrB9g5qKjXekX2QgnONFMRDLtMZ+S2mHYYg
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] pimlico: Remove
+To: openembedded-core@lists.openembedded.org
+References: <502A3A26.5090008@mlbassoc.com>
+	<1344944787.23275.384.camel@phil-desktop>
+	<502A3C00.6010609@mlbassoc.com>
+	<20120814135946.GA5597@mi.fu-berlin.de>
+	<3873D957-9816-4F94-B331-C3B7CB68FF37@dominion.thruhere.net>
+In-Reply-To: <3873D957-9816-4F94-B331-C3B7CB68FF37@dominion.thruhere.net>
+Subject: Re: wpa-supplicant & EAP-TLS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,25 +41,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Aug 2012 14:57:25 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 14 Aug 2012 14:59:44 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 14 August 2012 09:21, Burton, Ross <ross.burton@intel.com> wrote:
-> Two options.
+On 2012-08-14 08:13, Koen Kooi wrote:
 >
-> 1) Remove the Pimlico applications and image feature, but keep
-> evolution-data-server for the GMAE task.
-> 2) Remove the Pimlico applications and evolution-data-server, also
-> removing the GMAE SDK tasks.  Add e-d-s and the GMAE SDK tasks to
-> meta-gnome instead.
+> Op 14 aug. 2012, om 15:59 heeft Henning Heinold <heinold@inf.fu-berlin.de> het volgende geschreven:
+>
+>> On Tue, Aug 14, 2012 at 05:52:32AM -0600, Gary Thomas wrote:
+>>> On 2012-08-14 05:46, Phil Blundell wrote:
+>>>> On Tue, 2012-08-14 at 05:44 -0600, Gary Thomas wrote:
+>>>>> Does anyone know why the recipe for wpa_supplicant is using gnutls
+>>>>> and not the default OpenSSH for TLS services?  It seems that gnutls
+>>>>> is somehow broken and EAP-TLS does not work with this configuration.
+>>>>> Changing wpa_supplicant to use the OpenSSH libraries makes EAP-TLS
+>>>>> work fine.
+>>>>>
+>>>>> Would a patch to make this change be entertained?  or should I just
+>>>>> keep it in my own layer?
+>>>>
+>>>> I don't think a patch to just flip the default would be a good idea.  A
+>>>> patch to make it be a DISTRO_FEATURE, on the other hand, would be
+>>>> excellent.
+>>>
+>>> Thanks, I'll see about working one up.
+>>
+>> Btw. You mean openssl not openssh, which uses openssl too.
+>>
+>> And a problem with using openssl for wpa_supplicant was license incompatibilities.
+>
+> I think wpa_supplicant has the openssl exception in its license nowadays, but it's best to double check
 
-Three options:
+I don't see anything explicit on this topic.  That said, the latest version
+(1.0) is dual licensed GPL and BSD and the OpenSSL license is BSD compatible
+from what I can tell.
 
-3) remove the apps now, and decide e-d-s later.  Incremental change++.
-
-poky-contrib:ross/sato has been updated.  The apps are removed,
-leaving eds/libical for now.
-
-Ross
+-- 
+------------------------------------------------------------
+Gary Thomas                 |  Consulting for the
+MLB Associates              |    Embedded world
+------------------------------------------------------------
 
 
