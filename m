@@ -1,24 +1,24 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1T1GCx-000124-GY
+	(envelope-from <sgw@linux.intel.com>) id 1T1GCz-000124-TE
 	for openembedded-core@lists.openembedded.org;
-	Tue, 14 Aug 2012 14:26:51 +0200
+	Tue, 14 Aug 2012 14:26:54 +0200
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 14 Aug 2012 05:14:58 -0700
+	by orsmga101.jf.intel.com with ESMTP; 14 Aug 2012 05:15:01 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.77,766,1336374000"; d="scan'208";a="186181461"
+X-IronPort-AV: E=Sophos;i="4.77,766,1336374000"; d="scan'208";a="186181473"
 Received: from unknown (HELO swold-mobl.amr.corp.intel.com) ([10.255.12.219])
-	by orsmga002.jf.intel.com with ESMTP; 14 Aug 2012 05:14:56 -0700
+	by orsmga002.jf.intel.com with ESMTP; 14 Aug 2012 05:14:59 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 14 Aug 2012 15:13:36 +0300
-Message-Id: <e92957bb924a506215a52aa9c09462c21a145cfb.1344946189.git.sgw@linux.intel.com>
+Date: Tue, 14 Aug 2012 15:13:38 +0300
+Message-Id: <4f112eebda659de83609683459918c24a27ee1ae.1344946189.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <76ac3ef04e78b07441df7d2c93c4a002deac74d5.1344946189.git.sgw@linux.intel.com>
 References: <76ac3ef04e78b07441df7d2c93c4a002deac74d5.1344946189.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1344946189.git.sgw@linux.intel.com>
 References: <cover.1344946189.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED REQUEST 49/64] gdk-pixbuf: fix the postinstall script failure when no icon is installed
+Subject: [CONSOLIDATED REQUEST 51/64] sysfsutils: install libs to base_libdir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,56 +33,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Aug 2012 12:26:53 -0000
+X-List-Received-Date: Tue, 14 Aug 2012 12:26:55 -0000
 
-From: Jackie Huang <jackie.huang@windriver.com>
+From: Wenzong Fan <wenzong.fan@windriver.com>
 
-If gtk+ is added to core-image-minimal, postinstall script failed on boot:
+Fix the warning form pcmciautils building:
 
-Running postinst /etc/rpm-postinsts/104...
-gtk-update-icon-cache: No theme index file.
-ERROR: postinst /etc/rpm-postinsts/104 failed.
+"WARNING: QA Issue: pcmciautils: /sbin/pccardctl, installed in the
+base_prefix, requires a shared library under exec_prefix (/usr):
+libsysfs.so.2 => /usr/lib/libsysfs.so.2"
 
-This patch fixed the postinstall script to check for the icon
-file first and not run the gtk-update-icon-cache if no icon
-is installed.
+Just refer to Debian/Ubuntu distributions, install sysfsutils libs
+to "/lib*" instead of "/usr/lib*".
 
-[YOCTO #2905]
+[YOCTO #2907]
 
-Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.24.1.bb |   10 ++++++++--
- 1 files changed, 8 insertions(+), 2 deletions(-)
+ meta/recipes-core/sysfsutils/sysfsutils_2.1.0.bb |    4 +++-
+ 1 files changed, 3 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.24.1.bb b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.24.1.bb
-index 484fb12..159bdae 100644
---- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.24.1.bb
-+++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.24.1.bb
-@@ -21,7 +21,7 @@ SRC_URI = "http://ftp.acc.umu.se/pub/GNOME/sources/gdk-pixbuf/2.24/gdk-pixbuf-${
- SRC_URI[md5sum] = "72f39b34b20f68148c1609bd27415412"
- SRC_URI[sha256sum] = "da7a3f00db360913716368e19e336402755cafa93769f3cfa28a969303e4bee1"
+diff --git a/meta/recipes-core/sysfsutils/sysfsutils_2.1.0.bb b/meta/recipes-core/sysfsutils/sysfsutils_2.1.0.bb
+index 3e4fdda..f01d19b 100644
+--- a/meta/recipes-core/sysfsutils/sysfsutils_2.1.0.bb
++++ b/meta/recipes-core/sysfsutils/sysfsutils_2.1.0.bb
+@@ -8,7 +8,7 @@ LICENSE_libsysfs = "LGPLv2.1"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=3d06403ea54c7574a9e581c6478cc393 \
+                     file://cmd/GPL;md5=d41d4e2e1e108554e0388ea4aecd8d27 \
+                     file://lib/LGPL;md5=b75d069791103ffe1c0d6435deeff72e"
+-PR = "r3"
++PR = "r4"
  
--PR = "r4"
-+PR = "r5"
- 
- inherit autotools pkgconfig gettext
- 
-@@ -62,7 +62,13 @@ fi
- 
- GDK_PIXBUF_MODULEDIR=${libdir}/gdk-pixbuf-2.0/${LIBV}/loaders gdk-pixbuf-query-loaders --update-cache
- 
--test -x ${bindir}/gtk-update-icon-cache && gtk-update-icon-cache  -q ${datadir}/icons/hicolor
-+if [ -x ${bindir}/gtk-update-icon-cache ] && [ -d ${datadir}/icons ]; then
-+    for icondir in /usr/share/icons/*; do
-+        if [ -d ${icondir} ]; then
-+            gtk-update-icon-cache -q ${icondir}
-+        fi
-+    done
-+fi
- }
- 
- PACKAGES_DYNAMIC += "gdk-pixbuf-loader-*"
+ SRC_URI = "${SOURCEFORGE_MIRROR}/linux-diag/sysfsutils-${PV}.tar.gz \
+ 	  file://sysfsutils-2.0.0-class-dup.patch \
+@@ -24,3 +24,5 @@ PACKAGES =+ "libsysfs libsysfs-dev libsysfs-staticdev"
+ FILES_libsysfs = "${libdir}/lib*${SOLIBS}"
+ FILES_libsysfs-dev = "${libdir}/lib*${SOLIBSDEV} ${includedir}"
+ FILES_libsysfs-staticdev = "${libdir}/lib*.a"
++
++export libdir = "${base_libdir}"
 -- 
 1.7.7.6
 
