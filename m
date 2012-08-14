@@ -1,24 +1,24 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1T1GCT-0000Ym-Nr
+	(envelope-from <sgw@linux.intel.com>) id 1T1GCS-0000ex-QG
 	for openembedded-core@lists.openembedded.org;
-	Tue, 14 Aug 2012 14:26:23 +0200
+	Tue, 14 Aug 2012 14:26:22 +0200
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 14 Aug 2012 05:14:24 -0700
+	by orsmga101.jf.intel.com with ESMTP; 14 Aug 2012 05:14:23 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.77,766,1336374000"; d="scan'208";a="186181311"
+X-IronPort-AV: E=Sophos;i="4.77,766,1336374000"; d="scan'208";a="186181300"
 Received: from unknown (HELO swold-mobl.amr.corp.intel.com) ([10.255.12.219])
-	by orsmga002.jf.intel.com with ESMTP; 14 Aug 2012 05:14:23 -0700
+	by orsmga002.jf.intel.com with ESMTP; 14 Aug 2012 05:14:22 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 14 Aug 2012 15:13:12 +0300
-Message-Id: <0c3c4faf84437859bcadc054ec72dec99c0adf24.1344946189.git.sgw@linux.intel.com>
+Date: Tue, 14 Aug 2012 15:13:11 +0300
+Message-Id: <ac6a32ec600ed356ffde3e5d339d73263c94e4d1.1344946189.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <76ac3ef04e78b07441df7d2c93c4a002deac74d5.1344946189.git.sgw@linux.intel.com>
 References: <76ac3ef04e78b07441df7d2c93c4a002deac74d5.1344946189.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1344946189.git.sgw@linux.intel.com>
 References: <cover.1344946189.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED REQUEST 25/64] shadow: cleanup update-alternatives deprecated code
+Subject: [CONSOLIDATED REQUEST 24/64] less: cleanup update-alternatives deprecated code
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,45 +37,33 @@ X-List-Received-Date: Tue, 14 Aug 2012 12:26:24 -0000
 
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/recipes-extended/shadow/shadow_4.1.4.3.bb |   18 ++++++------------
- 1 files changed, 6 insertions(+), 12 deletions(-)
+ meta/recipes-extended/less/less_444.bb |    6 ++----
+ 1 files changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-extended/shadow/shadow_4.1.4.3.bb b/meta/recipes-extended/shadow/shadow_4.1.4.3.bb
-index de10f64..6794cc1 100644
---- a/meta/recipes-extended/shadow/shadow_4.1.4.3.bb
-+++ b/meta/recipes-extended/shadow/shadow_4.1.4.3.bb
-@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=08c553a87d4e51bbed50b20e0adcaede \
+diff --git a/meta/recipes-extended/less/less_444.bb b/meta/recipes-extended/less/less_444.bb
+index 146b4fd..1ce9d92 100644
+--- a/meta/recipes-extended/less/less_444.bb
++++ b/meta/recipes-extended/less/less_444.bb
+@@ -23,7 +23,7 @@ LICENSE = "GPLv3+ | BSD-2-Clause"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
+                     file://LICENSE;md5=1237c0f825bb36122b0b2b486ffbe6be"
+ DEPENDS = "ncurses"
+-PR = "r2"
++PR = "r3"
  
- DEPENDS = "${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
- RDEPENDS_${PN} = "shadow-securetty ${@base_contains('DISTRO_FEATURES', 'pam', '${PAM_PLUGINS}', '', d)}"
--PR = "r11"
-+PR = "r12"
+ SRC_URI = "http://www.greenwoodsoftware.com/${BPN}/${BPN}-${PV}.tar.gz"
  
- SRC_URI = "http://pkg-shadow.alioth.debian.org/releases/${BPN}-${PV}.tar.bz2 \
-            file://login_defs_pam.sed \
-@@ -105,17 +105,11 @@ inherit update-alternatives
+@@ -34,9 +34,7 @@ inherit autotools update-alternatives
  
- ALTERNATIVE_PRIORITY = "200"
+ do_install () {
+         oe_runmake 'bindir=${D}${bindir}' 'mandir=${D}${mandir}' install
+-        mv ${D}${bindir}/less ${D}${bindir}/less.${BPN}
+ }
  
--bindir_progs = "passwd chfn newgrp chsh groups"
--ALTERNATIVE_LINKS += "${bindir}/${@' ${bindir}/'.join((d.getVar('bindir_progs', True)).split())}"
--
--sbindir_progs = "chpasswd"
--ALTERNATIVE_LINKS += "${sbindir}/${@' ${sbindir}/'.join((d.getVar('sbindir_progs', True)).split())}"
--
--base_bindir_progs = "login"
--ALTERNATIVE_LINKS += "${base_bindir}/${@' ${base_bindir}/'.join((d.getVar('base_bindir_progs', True)).split())}"
--
--base_sbindir_progs = "vipw vigr"
--ALTERNATIVE_LINKS += "${base_sbindir}/${@' ${base_sbindir}/'.join((d.getVar('base_sbindir_progs', True)).split())}"
-+ALTERNATIVE_${PN} = "passwd chfn newgrp chsh groups chpasswd login vipw vigr"
-+ALTERNATIVE_LINK_NAME[chpasswd] = "${sbindir}/chpasswd"
-+ALTERNATIVE_LINK_NAME[login] = "${base_bindir}/login"
-+ALTERNATIVE_LINK_NAME[vipw] = "${base_sbindir}/vipw"
-+ALTERNATIVE_LINK_NAME[vigr] = "${base_sbindir}/vigr"
- 
- pkg_postinst_${PN} () {
- 	if [ "x$D" != "x" ]; then
+-ALTERNATIVE_NAME = "less"
+-ALTERNATIVE_PATH = "less.${BPN}"
++ALTERNATIVE_${PN} = "less"
+ ALTERNATIVE_PRIORITY = "100"
 -- 
 1.7.7.6
 
