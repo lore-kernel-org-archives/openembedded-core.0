@@ -1,29 +1,18 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+Received: from li44-10.members.linode.com ([72.14.181.10] helo=plausible.org)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1T1Nyn-0003o6-HP
+	(envelope-from <andy.ross@windriver.com>) id 1T1Q28-0005oW-De
 	for openembedded-core@lists.openembedded.org;
-	Tue, 14 Aug 2012 22:44:45 +0200
-Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
-	helo=[192.168.114.6])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1T1NnI-0003J8-Af
-	for openembedded-core@lists.openembedded.org;
-	Tue, 14 Aug 2012 22:32:52 +0200
-Message-ID: <1344976258.7750.33.camel@x121e.pbcl.net>
-From: Phil Blundell <philb@gnu.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Tue, 14 Aug 2012 21:30:58 +0100
-In-Reply-To: <502A6515.2050007@mlbassoc.com>
-References: <502A3A26.5090008@mlbassoc.com>
-	<1344944787.23275.384.camel@phil-desktop>
-	<502A3C00.6010609@mlbassoc.com>
-	<20120814135946.GA5597@mi.fu-berlin.de>
-	<3873D957-9816-4F94-B331-C3B7CB68FF37@dominion.thruhere.net>
-	<502A6515.2050007@mlbassoc.com>
-X-Mailer: Evolution 3.4.3-1 
-Mime-Version: 1.0
-Subject: Re: wpa-supplicant & EAP-TLS
+	Wed, 15 Aug 2012 00:56:20 +0200
+Received: from cougar.plausible.org (c-67-171-188-207.hsd1.or.comcast.net
+	[67.171.188.207]) (Authenticated sender: andy-wrs)
+	by plausible.org (Postfix) with ESMTPSA id C80031E966;
+	Tue, 14 Aug 2012 15:44:25 -0700 (PDT)
+From: Andy Ross <andy.ross@windriver.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 14 Aug 2012 15:44:22 -0700
+Message-Id: <1344984262-31589-1-git-send-email-andy.ross@windriver.com>
+X-Mailer: git-send-email 1.7.11.2
+Subject: [PATCH] task-core-lsb: Don't pull in eglibc-pic via RDEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,35 +27,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Aug 2012 20:44:45 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 14 Aug 2012 22:56:20 -0000
 
-On Tue, 2012-08-14 at 08:47 -0600, Gary Thomas wrote:
-> I don't see anything explicit on this topic.  That said, the latest version
-> (1.0) is dual licensed GPL and BSD and the OpenSSL license is BSD compatible
-> from what I can tell.
+The task-core-lsb-runtime-add subpackage includes eglibc-pic as an
+RDEPEND.  That's incorrect, eglibc-pic is nothing but 22MB of static
+libraries and should never appear as a runtime dependency.
 
-Yes, wpa-supplicant itself has been OK in this respect for some time.
-(The dual-licensing option has actually been removed for the very latest
-versions of wpa-supplicant and it's now under the BSD license only, but
-this is fine for OpenSSL compatibility purposes.)  However, there are
-quite a lot of other SSL-using programs which are only licensed under
-GPL terms and linking these with OpenSSL is problematic for some people.
-In an ideal world the oe-core license machinery would be able to detect
-and warn about that conflict, but I don't think we are quite there yet.
+Signed-off-by: Andy Ross <andy.ross@windriver.com>
+---
+ meta/recipes-extended/tasks/task-core-lsb.bb | 1 -
+ 1 file changed, 1 deletion(-)
 
-As a general rule, we don't want to build and ship multiple SSL
-implementations when one will suffice.  GnuTLS seems to be the most
-compatible (in license terms) which is why it is generally the default.
-However, DISTROs which don't need to worry about the OpenSSL-GPL
-conflict for whatever reason might legitimately want to use OpenSSL
-globally, and DISTROs which aren't too bothered about potentially
-shipping both might legitimately want to use OpenSSL for specific
-packages like wpa-supplicant even if they have GnuTLS elsewhere.
-
-p.
-
+diff --git a/meta/recipes-extended/tasks/task-core-lsb.bb b/meta/recipes-extended/tasks/task-core-lsb.bb
+index 553b89e..be9eac2 100644
+--- a/meta/recipes-extended/tasks/task-core-lsb.bb
++++ b/meta/recipes-extended/tasks/task-core-lsb.bb
+@@ -194,7 +194,6 @@ RDEPENDS_task-core-lsb-runtime-add = "\
+     eglibc-localedata-posix \
+     eglibc-extra-nss \
+     eglibc-pcprofile \
+-    eglibc-pic \
+     eglibc-utils \
+ "
+ 
+-- 
+1.7.11.2
 
 
 
