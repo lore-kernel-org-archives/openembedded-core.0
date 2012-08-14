@@ -1,24 +1,24 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1T1GCZ-0000ne-4R
+	(envelope-from <sgw@linux.intel.com>) id 1T1GCe-0000ex-8S
 	for openembedded-core@lists.openembedded.org;
 	Tue, 14 Aug 2012 14:26:33 +0200
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 14 Aug 2012 05:14:33 -0700
+	by orsmga101.jf.intel.com with ESMTP; 14 Aug 2012 05:14:35 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.77,766,1336374000"; d="scan'208";a="186181355"
+X-IronPort-AV: E=Sophos;i="4.77,766,1336374000"; d="scan'208";a="186181368"
 Received: from unknown (HELO swold-mobl.amr.corp.intel.com) ([10.255.12.219])
-	by orsmga002.jf.intel.com with ESMTP; 14 Aug 2012 05:14:31 -0700
+	by orsmga002.jf.intel.com with ESMTP; 14 Aug 2012 05:14:34 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 14 Aug 2012 15:13:19 +0300
-Message-Id: <bed129aee04252901fdb9f981f9478f2a47526ba.1344946189.git.sgw@linux.intel.com>
+Date: Tue, 14 Aug 2012 15:13:21 +0300
+Message-Id: <1667ef3181f6b7ac3df109da981507f5a9e0fec6.1344946189.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <76ac3ef04e78b07441df7d2c93c4a002deac74d5.1344946189.git.sgw@linux.intel.com>
 References: <76ac3ef04e78b07441df7d2c93c4a002deac74d5.1344946189.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1344946189.git.sgw@linux.intel.com>
 References: <cover.1344946189.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED REQUEST 32/64] sed: cleanup update-alternatives deprecated code
+Subject: [CONSOLIDATED REQUEST 34/64] net-tools: cleanup update-alternatives deprecated code
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,74 +33,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Aug 2012 12:26:36 -0000
+X-List-Received-Date: Tue, 14 Aug 2012 12:26:37 -0000
 
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/recipes-extended/sed/sed_4.1.2.bb |    9 ++++-----
- meta/recipes-extended/sed/sed_4.2.1.bb |    9 ++++-----
- 2 files changed, 8 insertions(+), 10 deletions(-)
+ .../net-tools/net-tools_1.60-23.bb                 |   19 ++++++++++++-------
+ 1 files changed, 12 insertions(+), 7 deletions(-)
 
-diff --git a/meta/recipes-extended/sed/sed_4.1.2.bb b/meta/recipes-extended/sed/sed_4.1.2.bb
-index 3455c20..821ff65 100644
---- a/meta/recipes-extended/sed/sed_4.1.2.bb
-+++ b/meta/recipes-extended/sed/sed_4.1.2.bb
-@@ -4,7 +4,7 @@ LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
-                     file://sed/sed.h;beginline=1;endline=17;md5=e00ffd1837f298439a214fd197f6a407"
- SECTION = "console/utils"
--PR = "r6"
-+PR = "r7"
+diff --git a/meta/recipes-extended/net-tools/net-tools_1.60-23.bb b/meta/recipes-extended/net-tools/net-tools_1.60-23.bb
+index 764955e..309363b 100644
+--- a/meta/recipes-extended/net-tools/net-tools_1.60-23.bb
++++ b/meta/recipes-extended/net-tools/net-tools_1.60-23.bb
+@@ -5,7 +5,7 @@ BUGTRACKER = "http://bugs.debian.org/net-tools"
+ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=8ca43cbc842c2336e835926c2166c28b \
+                     file://ifconfig.c;startline=11;endline=15;md5=da4c7bb79a5d0798faa99ef869721f4a"
+-PR = "r1"
++PR = "r2"
  
- SRC_URI = "${GNU_MIRROR}/sed/sed-${PV}.tar.gz \
-            file://fix_return_type.patch \
-@@ -18,13 +18,12 @@ inherit autotools update-alternatives gettext
- do_install () {
- 	autotools_do_install
- 	install -d ${D}${base_bindir}
--	mv ${D}${bindir}/sed ${D}${base_bindir}/sed.${BPN}
-+	mv ${D}${bindir}/sed ${D}${base_bindir}/sed
- 	rmdir ${D}${bindir}/
+ SRC_URI = "${DEBIAN_MIRROR}/main/n/net-tools/net-tools_1.60.orig.tar.gz;name=tarball \
+            ${DEBIAN_MIRROR}/main/n/net-tools/${BPN}_${PV}.diff.gz;apply=no;name=patch \
+@@ -67,16 +67,21 @@ do_compile() {
+ 	oe_runmake
  }
  
--ALTERNATIVE_NAME = "sed"
--ALTERNATIVE_PATH = "sed.${BPN}"
--ALTERNATIVE_LINK = "${base_bindir}/sed"
-+ALTERNATIVE_${PN} = "sed"
-+ALTERNATIVE_LINK_NAME[sed] = "${base_bindir}/sed"
++do_install() {
++	oe_runmake 'BASEDIR=${D}' install
++}
++
+ inherit update-alternatives
+ 
+ base_sbindir_progs = "arp ifconfig ipmaddr iptunnel mii-tool nameif plipconfig rarp route slattach"
+-ALTERNATIVE_LINKS += "${base_sbindir}/${@' ${base_sbindir}/'.join((d.getVar('base_sbindir_progs', True)).split())}"
+-
+ base_bindir_progs  = "dnsdomainname domainname hostname netstat nisdomainname ypdomainname"
+-ALTERNATIVE_LINKS += "${base_bindir}/${@' ${base_bindir}/'.join((d.getVar('base_bindir_progs', True)).split())}"
+ 
++ALTERNATIVE_${PN} = "${base_sbindir_progs} ${base_bindir_progs}"
++python __anonymous() {
++	for prog in d.getVar('base_sbindir_progs', True).split():
++		d.setVarFlag('ALTERNATIVE_LINK_NAME', prog, '%s/%s' % (d.getVar('base_sbindir', True), prog))
++	for prog in d.getVar('base_bindir_progs', True).split():
++		d.setVarFlag('ALTERNATIVE_LINK_NAME', prog, '%s/%s' % (d.getVar('base_bindir', True), prog))
++}
  ALTERNATIVE_PRIORITY = "100"
  
- BBCLASSEXTEND = "native"
-diff --git a/meta/recipes-extended/sed/sed_4.2.1.bb b/meta/recipes-extended/sed/sed_4.2.1.bb
-index b39eca0..96c509a 100644
---- a/meta/recipes-extended/sed/sed_4.2.1.bb
-+++ b/meta/recipes-extended/sed/sed_4.2.1.bb
-@@ -4,7 +4,7 @@ LICENSE = "GPLv3+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=f27defe1e96c2e1ecd4e0c9be8967949 \
-                     file://sed/sed.h;beginline=1;endline=17;md5=767ab3a06d7584f6fd0469abaec4412f"
- SECTION = "console/utils"
--PR = "r3"
-+PR = "r5"
- 
- SRC_URI = "${GNU_MIRROR}/sed/sed-${PV}.tar.gz"
- 
-@@ -18,13 +18,12 @@ EXTRA_OECONF = "--disable-acl"
- do_install () {
- 	autotools_do_install
- 	install -d ${D}${base_bindir}
--	mv ${D}${bindir}/sed ${D}${base_bindir}/sed.${BPN}
-+	mv ${D}${bindir}/sed ${D}${base_bindir}/sed
- 	rmdir ${D}${bindir}/
- }
- 
--ALTERNATIVE_NAME = "sed"
--ALTERNATIVE_PATH = "sed.${BPN}"
--ALTERNATIVE_LINK = "${base_bindir}/sed"
-+ALTERNATIVE_${PN} = "sed"
-+ALTERNATIVE_LINK_NAME[sed] = "${base_bindir}/sed"
- ALTERNATIVE_PRIORITY = "100"
- 
- BBCLASSEXTEND = "native"
+-do_install() {
+-	oe_runmake 'BASEDIR=${D}' install
+-}
 -- 
 1.7.7.6
 
