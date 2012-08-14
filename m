@@ -1,25 +1,29 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from stoexhub03.domain01.net ([83.145.59.144])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1T1FwJ-0000B5-AC
+	(envelope-from <anders@chargestorm.se>) id 1T1G0D-0000FA-E1
 	for openembedded-core@lists.openembedded.org;
-	Tue, 14 Aug 2012 14:09:39 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 14 Aug 2012 04:57:43 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.77,766,1336374000"; d="scan'208";a="208114390"
-Received: from unknown (HELO [10.255.12.219]) ([10.255.12.219])
-	by fmsmga002.fm.intel.com with ESMTP; 14 Aug 2012 04:57:42 -0700
-Message-ID: <502A3D34.6080208@linux.intel.com>
-Date: Tue, 14 Aug 2012 14:57:40 +0300
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:14.0) Gecko/20120717 Thunderbird/14.0
+	Tue, 14 Aug 2012 14:13:41 +0200
+Received: from localhost (193.41.119.134) by stoexhub03.domain01.net
+	(10.12.10.3) with Microsoft SMTP Server id 8.3.245.1; Tue, 14 Aug 2012
+	14:01:02 +0200
+Date: Tue, 14 Aug 2012 14:01:54 +0200
+From: Anders Darander <anders@chargestorm.se>
+To: <openembedded-core@lists.openembedded.org>
+Message-ID: <20120814120153.GB3444@ad.chargestorm.se>
+Mail-Followup-To: openembedded-core@lists.openembedded.org
+References: <1344934956-28631-1-git-send-email-radu.moisan@intel.com>
+	<20120814112542.GA3444@ad.chargestorm.se>
+	<502A3A08.8020506@intel.com>
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <CAK18fxFfWO0ZG2tisaROTuJ-FSgLoqMW4cUgTpNq3DNeqFpNqg@mail.gmail.com>
-In-Reply-To: <CAK18fxFfWO0ZG2tisaROTuJ-FSgLoqMW4cUgTpNq3DNeqFpNqg@mail.gmail.com>
-Subject: Re: dbus with tests
+In-Reply-To: <502A3A08.8020506@intel.com>
+X-Accept-Language: sv, en, de
+X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
+X-GPG-Key-Id: 0x920E938C
+X-GPG-Keyserver: hkp://keys.gnupg.net
+Organization: ChargeStorm AB
+User-Agent: Mutt/1.5.20 (2009-12-10)
+X-GFI-SMTP-Submission: 1
+Subject: Re: [PATCH] busybox: Upgrade to upstream 1.20.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,51 +38,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Aug 2012 12:09:39 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 14 Aug 2012 12:13:41 -0000
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
 
-On 08/14/2012 02:11 PM, Andrei Gherzan wrote:
-> In the process of updating dbus, tests (in my opinion) are mandatory.
->
-> While compiling dbus with tests, dbus and dbus-glib are needed. To
-> compile dbus-glib, dbus is needed (obviously). The only solution (to
-> compile dbus with tests) that i found is to create a new recipe named
-> dbus-tests where to compile dbus with --enable-tests
-> --enable-embedded-tests, skip write to sysroot (noexec) and just package
-> dbus-tests.
->
-> 1. Do you guys know a better solution for this?
-
-We have started to think/chat about this, there was another patch on the 
-list recently that Mark Hatle and I talked about tests.
-
-I think having the tests enabled with DISTRO_FEATURE would allow for the 
-flexibility of enabling then without always incurring the cost /overhead 
-of longer compile times.
-
-Can you incorporate the changes to the core recipe with out having to 
-add a new dbus-tests recipe if you use DISTRO_FEATURE?
+* Radu Moisan <radu.moisan@intel.com> [120814 13:42]:
 
 
-> 2. What would be a good path to use for installing tests?
-Same here, disucssion started.I would like to see tests go into 
-${datadir}/${BPN} (/usr/share/${BPN}.  /opt was discussed, but I think 
-we want to leave that clean and empty.
+> On 08/14/2012 02:25 PM, Anders Darander wrote:
+> > * Radu Moisan <radu.moisan@intel.com> [120814 11:01]:
+> >
+> >> Signed-off-by: Radu Moisan <radu.moisan@intel.com>
+> >> ---
+> >>   .../B921600.patch                                  |    0
+> >>   .../busybox-appletlib-dependency.patch             |    0
+> >>   .../busybox-mkfs-minix-tests_bigendian.patch       |    0
+> >>   .../busybox-udhcpc-no_deconfig.patch               |   37 +++++++++-----------
+> >>   .../{busybox-1.19.4 => busybox-1.20.2}/defconfig   |    0
+> > Are there no changes to the configuration file? I.e. new and removed
+> > options?
+> None that I know about, I've took a quick look over the changelog but 
+> nothing cought my eye. I you find anything, just point it out and I'll 
+> deep dive on it.
 
+Could you diff the generated .config between 1.19.4 and 1.20.2?
 
-Sau!
+This would allow us to see the differences.
 
+Cheers,
+Anders
 
->
->
-> ag
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+-- 
+Anders Darander
+ChargeStorm AB / eStorm AB
 
 
