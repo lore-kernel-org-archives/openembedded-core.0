@@ -1,25 +1,28 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1T1GDL-0001V8-Pe
+	(envelope-from <radu.moisan@intel.com>) id 1T1GDc-0001wW-0P
 	for openembedded-core@lists.openembedded.org;
-	Tue, 14 Aug 2012 14:27:16 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 14 Aug 2012 05:15:21 -0700
+	Tue, 14 Aug 2012 14:27:32 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 14 Aug 2012 05:15:15 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.77,766,1336374000"; d="scan'208";a="186181653"
-Received: from unknown (HELO swold-mobl.amr.corp.intel.com) ([10.255.12.219])
-	by orsmga002.jf.intel.com with ESMTP; 14 Aug 2012 05:15:19 -0700
-From: Saul Wold <sgw@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="4.77,766,1336374000"; 
+	d="scan'208,217";a="208120841"
+Received: from dell-desktop (HELO [10.237.105.32]) ([10.237.105.32])
+	by fmsmga002.fm.intel.com with ESMTP; 14 Aug 2012 05:15:03 -0700
+Message-ID: <502A41C7.4030009@intel.com>
+Date: Tue, 14 Aug 2012 15:17:11 +0300
+From: Radu Moisan <radu.moisan@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:14.0) Gecko/20120714 Thunderbird/14.0
+MIME-Version: 1.0
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 14 Aug 2012 15:13:51 +0300
-Message-Id: <93c9faa3e03aa436bb5c1b874d7f1e1560741477.1344946189.git.sgw@linux.intel.com>
-X-Mailer: git-send-email 1.7.7.6
-In-Reply-To: <76ac3ef04e78b07441df7d2c93c4a002deac74d5.1344946189.git.sgw@linux.intel.com>
-References: <76ac3ef04e78b07441df7d2c93c4a002deac74d5.1344946189.git.sgw@linux.intel.com>
-In-Reply-To: <cover.1344946189.git.sgw@linux.intel.com>
-References: <cover.1344946189.git.sgw@linux.intel.com>
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
-Subject: [CONSOLIDATED REQUEST 64/64] rpmresolve: improve debug output
+References: <1344934956-28631-1-git-send-email-radu.moisan@intel.com>
+	<20120814112542.GA3444@ad.chargestorm.se>
+	<502A3A08.8020506@intel.com>
+	<20120814120153.GB3444@ad.chargestorm.se>
+In-Reply-To: <20120814120153.GB3444@ad.chargestorm.se>
+Subject: Re: [PATCH] busybox: Upgrade to upstream 1.20.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,232 +37,371 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Aug 2012 12:27:17 -0000
+X-List-Received-Date: Tue, 14 Aug 2012 12:27:33 -0000
+Content-Type: multipart/alternative;
+	boundary="------------010103060605030603000308"
 
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
+--------------010103060605030603000308
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Rename rpmresolve's -d option to -t and make -d enable debug output;
-add a -o option to specify the output file (so rpm debug output doesn't
-go to the output file) and also add a little more detail to some of the
-error messages.
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
+On 08/14/2012 03:01 PM, Anders Darander wrote:
+> * Radu Moisan <radu.moisan@intel.com> [120814 13:42]:
+>
+>
+>> On 08/14/2012 02:25 PM, Anders Darander wrote:
+>>> * Radu Moisan <radu.moisan@intel.com> [120814 11:01]:
+>>>
+>>>> Signed-off-by: Radu Moisan <radu.moisan@intel.com>
+>>>> ---
+>>>>    .../B921600.patch                                  |    0
+>>>>    .../busybox-appletlib-dependency.patch             |    0
+>>>>    .../busybox-mkfs-minix-tests_bigendian.patch       |    0
+>>>>    .../busybox-udhcpc-no_deconfig.patch               |   37 +++++++++-----------
+>>>>    .../{busybox-1.19.4 => busybox-1.20.2}/defconfig   |    0
+>>> Are there no changes to the configuration file? I.e. new and removed
+>>> options?
+>> None that I know about, I've took a quick look over the changelog but
+>> nothing cought my eye. I you find anything, just point it out and I'll
+>> deep dive on it.
+> Could you diff the generated .config between 1.19.4 and 1.20.2?
+>
+> This would allow us to see the differences.
+diff --git a/../../busybox-1.19.4-r13/busybox-1.19.4/.config b/.config
+index 61321dd..9be989b 100644
+--- a/../../busybox-1.19.4-r13/busybox-1.19.4/.config
++++ b/.config
+@@ -1,7 +1,7 @@
+  #
+  # Automatically generated make config: don't edit
+-# Busybox version: 1.19.4
+-# Tue Aug 14 11:20:02 2012
++# Busybox version: 1.20.2
++# Tue Aug 14 12:31:54 2012
+  #
+  CONFIG_HAVE_DOT_CONFIG=y
+
+@@ -62,7 +62,10 @@ CONFIG_FEATURE_HAVE_RPC=y
+  # CONFIG_FEATURE_SHARED_BUSYBOX is not set
+  CONFIG_LFS=y
+  CONFIG_CROSS_COMPILER_PREFIX="i586-poky-linux-"
++CONFIG_SYSROOT=""
+  CONFIG_EXTRA_CFLAGS=" -O2 -pipe -g -feliminate-unused-debug-types"
++CONFIG_EXTRA_LDFLAGS=""
++CONFIG_EXTRA_LDLIBS=""
+
+  #
+  # Debugging Options
+@@ -92,7 +95,7 @@ CONFIG_PREFIX="./_install"
+  CONFIG_FEATURE_SYSTEMD=y
+  CONFIG_FEATURE_RTMINMAX=y
+  CONFIG_PASSWORD_MINLEN=6
+-CONFIG_MD5_SIZE_VS_SPEED=2
++CONFIG_MD5_SMALL=1
+  CONFIG_FEATURE_FAST_TOP=y
+  # CONFIG_FEATURE_ETC_NETWORKS is not set
+  CONFIG_FEATURE_USE_TERMIOS=y
+@@ -101,6 +104,7 @@ CONFIG_FEATURE_EDITING_MAX_LEN=1024
+  # CONFIG_FEATURE_EDITING_VI is not set
+  CONFIG_FEATURE_EDITING_HISTORY=15
+  CONFIG_FEATURE_EDITING_SAVEHISTORY=y
++# CONFIG_FEATURE_EDITING_SAVE_ON_EXIT is not set
+  # CONFIG_FEATURE_REVERSE_SEARCH is not set
+  CONFIG_FEATURE_TAB_COMPLETION=y
+  CONFIG_FEATURE_USERNAME_COMPLETION=y
+@@ -140,6 +144,7 @@ CONFIG_CPIO=y
+  CONFIG_GUNZIP=y
+  CONFIG_GZIP=y
+  # CONFIG_FEATURE_GZIP_LONG_OPTIONS is not set
++CONFIG_GZIP_FAST=0
+  # CONFIG_LZOP is not set
+  # CONFIG_LZOP_COMPR_HIGH is not set
+  # CONFIG_RPM2CPIO is not set
+@@ -173,11 +178,13 @@ CONFIG_DATE=y
+  # CONFIG_FEATURE_DATE_ISOFMT is not set
+  # CONFIG_FEATURE_DATE_NANO is not set
+  CONFIG_FEATURE_DATE_COMPAT=y
++# CONFIG_HOSTID is not set
+  CONFIG_ID=y
+  CONFIG_GROUPS=y
+  CONFIG_TEST=y
+  CONFIG_FEATURE_TEST_64=y
+  CONFIG_TOUCH=y
++CONFIG_FEATURE_TOUCH_SUSV3=y
+  CONFIG_TR=y
+  CONFIG_FEATURE_TR_CLASSES=y
+  # CONFIG_FEATURE_TR_EQUIV is not set
+@@ -220,7 +227,6 @@ CONFIG_FALSE=y
+  # CONFIG_FSYNC is not set
+  CONFIG_HEAD=y
+  # CONFIG_FEATURE_FANCY_HEAD is not set
+-# CONFIG_HOSTID is not set
+  # CONFIG_INSTALL is not set
+  # CONFIG_FEATURE_INSTALL_LONG_OPTIONS is not set
+  CONFIG_LN=y
+@@ -461,6 +467,7 @@ CONFIG_LAST_SYSTEM_ID=0
+  # CONFIG_FEATURE_DEL_USER_FROM_GROUP is not set
+  # CONFIG_GETTY is not set
+  # CONFIG_LOGIN is not set
++# CONFIG_LOGIN_SESSION_AS_CHILD is not set
+  # CONFIG_PAM is not set
+  # CONFIG_LOGIN_SCRIPTS is not set
+  # CONFIG_FEATURE_NOLOGIN is not set
+@@ -469,6 +476,7 @@ CONFIG_LAST_SYSTEM_ID=0
+  # CONFIG_FEATURE_PASSWD_WEAK_CHECK is not set
+  # CONFIG_CRYPTPW is not set
+  # CONFIG_CHPASSWD is not set
++CONFIG_FEATURE_DEFAULT_PASSWD_ALGO=""
+  # CONFIG_SU is not set
+  # CONFIG_FEATURE_SU_SYSLOG is not set
+  # CONFIG_FEATURE_SU_CHECKS_SHELLS is not set
+@@ -518,6 +526,12 @@ CONFIG_DEFAULT_DEPMOD_FILE="modules.dep"
+  # Linux System Utilities
+  #
+  # CONFIG_BLOCKDEV is not set
++# CONFIG_MDEV is not set
++# CONFIG_FEATURE_MDEV_CONF is not set
++# CONFIG_FEATURE_MDEV_RENAME is not set
++# CONFIG_FEATURE_MDEV_RENAME_REGEXP is not set
++# CONFIG_FEATURE_MDEV_EXEC is not set
++# CONFIG_FEATURE_MDEV_LOAD_FIRMWARE is not set
+  # CONFIG_REV is not set
+  # CONFIG_ACPID is not set
+  # CONFIG_FEATURE_ACPID_COMPAT is not set
+@@ -561,12 +575,6 @@ CONFIG_FEATURE_HWCLOCK_ADJTIME_FHS=y
+  CONFIG_LOSETUP=y
+  # CONFIG_LSPCI is not set
+  # CONFIG_LSUSB is not set
+-# CONFIG_MDEV is not set
+-# CONFIG_FEATURE_MDEV_CONF is not set
+-# CONFIG_FEATURE_MDEV_RENAME is not set
+-# CONFIG_FEATURE_MDEV_RENAME_REGEXP is not set
+-# CONFIG_FEATURE_MDEV_EXEC is not set
+-# CONFIG_FEATURE_MDEV_LOAD_FIRMWARE is not set
+  CONFIG_MKSWAP=y
+  # CONFIG_FEATURE_MKSWAP_UUID is not set
+  CONFIG_MORE=y
+@@ -831,6 +839,7 @@ CONFIG_TRACEROUTE=y
+  # CONFIG_FEATURE_TRACEROUTE_USE_ICMP is not set
+  # CONFIG_TUNCTL is not set
+  # CONFIG_FEATURE_TUNCTL_UG is not set
++# CONFIG_UDHCPC6 is not set
+  CONFIG_UDHCPD=y
+  # CONFIG_DHCPRELAY is not set
+  CONFIG_DUMPLEASES=y
+@@ -877,6 +886,7 @@ CONFIG_FEATURE_MIME_CHARSET=""
+  # Process Utilities
+  #
+  # CONFIG_IOSTAT is not set
++CONFIG_LSOF=y
+  # CONFIG_MPSTAT is not set
+  # CONFIG_NMETER is not set
+  # CONFIG_PMAP is not set
+@@ -898,6 +908,7 @@ CONFIG_PIDOF=y
+  # CONFIG_PKILL is not set
+  CONFIG_PS=y
+  CONFIG_FEATURE_PS_WIDE=y
++CONFIG_FEATURE_PS_LONG=y
+  # CONFIG_FEATURE_PS_TIME is not set
+  # CONFIG_FEATURE_PS_ADDITIONAL_COLUMNS is not set
+  # CONFIG_FEATURE_PS_UNUSUAL_SYSTEMS is not set
+
+
+--------------010103060605030603000308
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
+
+<html>
+  <head>
+    <meta content="text/html; charset=ISO-8859-1"
+      http-equiv="Content-Type">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    <br>
+    <div class="moz-cite-prefix">On 08/14/2012 03:01 PM, Anders Darander
+      wrote:<br>
+    </div>
+    <blockquote cite="mid:20120814120153.GB3444@ad.chargestorm.se"
+      type="cite">
+      <pre wrap="">* Radu Moisan <a class="moz-txt-link-rfc2396E" href="mailto:radu.moisan@intel.com">&lt;radu.moisan@intel.com&gt;</a> [120814 13:42]:
+
+
+</pre>
+      <blockquote type="cite">
+        <pre wrap="">On 08/14/2012 02:25 PM, Anders Darander wrote:
+</pre>
+        <blockquote type="cite">
+          <pre wrap="">* Radu Moisan <a class="moz-txt-link-rfc2396E" href="mailto:radu.moisan@intel.com">&lt;radu.moisan@intel.com&gt;</a> [120814 11:01]:
+
+</pre>
+          <blockquote type="cite">
+            <pre wrap="">Signed-off-by: Radu Moisan <a class="moz-txt-link-rfc2396E" href="mailto:radu.moisan@intel.com">&lt;radu.moisan@intel.com&gt;</a>
 ---
- meta/classes/package_rpm.bbclass                  |    4 +-
- meta/classes/rootfs_rpm.bbclass                   |    2 +-
- meta/recipes-devtools/rpm/rpmresolve/rpmresolve.c |   69 ++++++++++++++++----
- 3 files changed, 58 insertions(+), 17 deletions(-)
+  .../B921600.patch                                  |    0
+  .../busybox-appletlib-dependency.patch             |    0
+  .../busybox-mkfs-minix-tests_bigendian.patch       |    0
+  .../busybox-udhcpc-no_deconfig.patch               |   37 +++++++++-----------
+  .../{busybox-1.19.4 =&gt; busybox-1.20.2}/defconfig   |    0
+</pre>
+          </blockquote>
+          <pre wrap="">Are there no changes to the configuration file? I.e. new and removed
+options?
+</pre>
+        </blockquote>
+        <pre wrap="">None that I know about, I've took a quick look over the changelog but 
+nothing cought my eye. I you find anything, just point it out and I'll 
+deep dive on it.
+</pre>
+      </blockquote>
+      <pre wrap="">
+Could you diff the generated .config between 1.19.4 and 1.20.2?
 
-diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
-index 50e9b31..b58ae85 100644
---- a/meta/classes/package_rpm.bbclass
-+++ b/meta/classes/package_rpm.bbclass
-@@ -235,9 +235,9 @@ process_pkg_list_rpm() {
- 		extraopt="-i"
- 	fi
- 
--	rpmresolve $extraopt ${confbase}-base_archs.conf ${target_rootfs}/install/base_archs.pkglist >> ${target_rootfs}/install/${manifestpfx}.manifest
-+	rpmresolve $extraopt ${confbase}-base_archs.conf ${target_rootfs}/install/base_archs.pkglist -o ${target_rootfs}/install/${manifestpfx}.manifest
- 	if [ -s ${target_rootfs}/install/ml_archs.pkglist ] ; then
--		rpmresolve $extraopt ${confbase}-ml_archs.conf ${target_rootfs}/install/ml_archs.pkglist >> ${target_rootfs}/install/${manifestpfx}_multilib.manifest
-+		rpmresolve $extraopt ${confbase}-ml_archs.conf ${target_rootfs}/install/ml_archs.pkglist -o ${target_rootfs}/install/${manifestpfx}_multilib.manifest
- 	fi
- }
- 
-diff --git a/meta/classes/rootfs_rpm.bbclass b/meta/classes/rootfs_rpm.bbclass
-index a03e9f3..c0207d8 100644
---- a/meta/classes/rootfs_rpm.bbclass
-+++ b/meta/classes/rootfs_rpm.bbclass
-@@ -151,7 +151,7 @@ list_installed_packages() {
- }
- 
- rootfs_list_installed_depends() {
--	rpmresolve -d $INSTALL_ROOTFS_RPM/${rpmlibdir}
-+	rpmresolve -t $INSTALL_ROOTFS_RPM/${rpmlibdir}
- }
- 
- rootfs_install_packages() {
-diff --git a/meta/recipes-devtools/rpm/rpmresolve/rpmresolve.c b/meta/recipes-devtools/rpm/rpmresolve/rpmresolve.c
-index 2d9ed14..aedea05 100644
---- a/meta/recipes-devtools/rpm/rpmresolve/rpmresolve.c
-+++ b/meta/recipes-devtools/rpm/rpmresolve/rpmresolve.c
-@@ -36,6 +36,9 @@
- #include <argv.h>
- #include <mire.h>
- 
-+int debugmode;
-+FILE *outf;
-+
- int getPackageStr(rpmts ts, const char *NVRA, rpmTag tag, char **value)
- {
-     int rc = -1;
-@@ -69,6 +72,8 @@ int loadTs(rpmts **ts, int *tsct, const char *dblistfn)
-         listfile = 0;
- 
-     if(listfile) {
-+        if(debugmode)
-+            printf("DEBUG: reading database list file '%s'\n", dblistfn);
-         *ts = malloc(sz * sizeof(rpmts));
-         FILE *f = fopen(dblistfn, "r" );
-         if(f) {
-@@ -87,6 +92,8 @@ int loadTs(rpmts **ts, int *tsct, const char *dblistfn)
-                         *ts = (rpmts *)realloc(*ts, sz);
-                     }
- 
-+                    if(debugmode)
-+                        printf("DEBUG: opening database '%s'\n", line);
-                     char *dbpathm = malloc(strlen(line) + 10);
-                     sprintf(dbpathm, "_dbpath %s", line);
-                     rpmDefineMacro(NULL, dbpathm, RMIL_CMDLINE);
-@@ -113,6 +120,8 @@ int loadTs(rpmts **ts, int *tsct, const char *dblistfn)
-         }
-     }
-     else {
-+        if(debugmode)
-+            printf("DEBUG: opening database '%s'\n", dblistfn);
-         // Load from single database
-         *ts = malloc(sizeof(rpmts));
-         char *dbpathm = malloc(strlen(dblistfn) + 10);
-@@ -164,13 +173,22 @@ int processPackages(rpmts *ts, int tscount, const char *packagelistfn, int ignor
-                             char *value = NULL;
-                             rc = getPackageStr(ts[i], keys[0], RPMTAG_PACKAGEORIGIN, &value);
-                             if(rc == 0)
--                                printf("%s\n", value);
-+                                fprintf(outf, "%s\n", value);
-                             else
-                                 fprintf(stderr, "Failed to get package origin for %s\n", line);
-                             found = 1;
-                         }
-                         else if( nkeys > 1 ) {
--                            fprintf(stderr, "Multiple matches for %s!\n", line);
-+                            int keyindex = 0;
-+                            fprintf(stderr, "Multiple matches for %s:\n", line);
-+                            for( keyindex=0; keyindex<nkeys; keyindex++) {
-+                                char *value = NULL;
-+                                rc = getPackageStr(ts[i], keys[keyindex], RPMTAG_PACKAGEORIGIN, &value);
-+                                if(rc == 0)
-+                                    fprintf(outf, "  %s\n", value);
-+                                else
-+                                    fprintf(stderr, "  (%s)\n", keys[keyindex]);
-+                            }
-                         }
-                     }
-                     if(found)
-@@ -230,7 +248,7 @@ int printDepList(rpmts *ts, int tscount)
-     int rc = 0;
- 
-     if( tscount > 1 )
--        printf(">1 database specified with dependency list, using first only\n");
-+        fprintf(stderr, ">1 database specified with dependency list, using first only\n");
- 
-     /* Get list of names */
-     rpmdb db = rpmtsGetRdb(ts[0]);
-@@ -274,17 +292,17 @@ int printDepList(rpmts *ts, int tscount)
-                     }
-                     if(prov) {
-                         if((int)reqflags[j] & 0x80000)
--                            printf("%s|%s [REC]\n", name, prov);
-+                            fprintf(outf, "%s|%s [REC]\n", name, prov);
-                         else
--                            printf("%s|%s\n", name, prov);
-+                            fprintf(outf, "%s|%s\n", name, prov);
-                     }
-                     else {
-                         rc = lookupProvider(ts[0], reqs[j], &prov);
-                         if(rc==0 && prov) {
-                             if((int)reqflags[j] & 0x80000)
--                                printf("%s|%s [REC]\n", name, prov);
-+                                fprintf(outf, "%s|%s [REC]\n", name, prov);
-                             else
--                                printf("%s|%s\n", name, prov);
-+                                fprintf(outf, "%s|%s\n", name, prov);
-                             free(prov);
-                         }
-                     }
-@@ -301,7 +319,7 @@ int printDepList(rpmts *ts, int tscount)
- void usage()
- {
-     fprintf(stderr, "OpenEmbedded rpm resolver utility\n");
--    fprintf(stderr, "syntax: rpmresolve [-i] [-d] <dblistfile> <packagelistfile>\n");
-+    fprintf(stderr, "syntax: rpmresolve [-i] [-d] [-t] <dblistfile> <packagelistfile>\n");
- }
- 
- int main(int argc, char **argv)
-@@ -313,16 +331,26 @@ int main(int argc, char **argv)
-     int c;
-     int ignoremissing = 0;
-     int deplistmode = 0;
-+    char *outfile = NULL;
-+
-+    debugmode = 0;
-+    outf = stdout;
- 
-     opterr = 0;
--    while ((c = getopt (argc, argv, "id")) != -1) {
-+    while ((c = getopt (argc, argv, "itdo:")) != -1) {
-         switch (c) {
-             case 'i':
-                 ignoremissing = 1;
-                 break;
--            case 'd':
-+            case 't':
-                 deplistmode = 1;
-                 break;
-+            case 'd':
-+                debugmode = 1;
-+                break;
-+            case 'o':
-+                outfile = strdup(optarg);
-+                break;
-             case '?':
-                 if(isprint(optopt))
-                     fprintf(stderr, "Unknown option `-%c'.\n", optopt);
-@@ -341,9 +369,16 @@ int main(int argc, char **argv)
-         return 1;
-     }
- 
-+    if( outfile ) {
-+        if(debugmode)
-+            printf("DEBUG: Using output file %s\n", outfile);
-+        outf = fopen(outfile, "w");
-+    }
-+
-     const char *dblistfn = argv[optind];
- 
--    //rpmSetVerbosity(RPMLOG_DEBUG);
-+    if(debugmode)
-+        rpmSetVerbosity(RPMLOG_DEBUG);
- 
-     rpmReadConfigFiles( NULL, NULL );
-     rpmDefineMacro(NULL, "__dbi_txn create nofsync", RMIL_CMDLINE);
-@@ -362,15 +397,21 @@ int main(int argc, char **argv)
-     else {
-         if( argc - optind < 2 ) {
-             fprintf(stderr, "Please specify package list file\n");
--            return 1;
-         }
--        const char *pkglistfn = argv[optind+1];
--        rc = processPackages(ts, tscount, pkglistfn, ignoremissing);
-+        else {
-+            const char *pkglistfn = argv[optind+1];
-+            rc = processPackages(ts, tscount, pkglistfn, ignoremissing);
-+        }
-     }
- 
-     for(i=0; i<tscount; i++)
-         (void) rpmtsCloseDB(ts[i]);
-     free(ts);
- 
-+    if( outfile ) {
-+        fclose(outf);
-+        free(outfile);
-+    }
-+
-     return rc;
- }
--- 
-1.7.7.6
+This would allow us to see the differences.
+</pre>
+    </blockquote>
+    <small><font face="Droid Sans Mono">diff --git
+        a/../../busybox-1.19.4-r13/busybox-1.19.4/.config b/.config<br>
+        index 61321dd..9be989b 100644<br>
+        --- a/../../busybox-1.19.4-r13/busybox-1.19.4/.config<br>
+        +++ b/.config<br>
+        @@ -1,7 +1,7 @@<br>
+        &nbsp;#<br>
+        &nbsp;# Automatically generated make config: don't edit<br>
+        -# Busybox version: 1.19.4<br>
+        -# Tue Aug 14 11:20:02 2012<br>
+        +# Busybox version: 1.20.2<br>
+        +# Tue Aug 14 12:31:54 2012<br>
+        &nbsp;#<br>
+        &nbsp;CONFIG_HAVE_DOT_CONFIG=y<br>
+        &nbsp;<br>
+        @@ -62,7 +62,10 @@ CONFIG_FEATURE_HAVE_RPC=y<br>
+        &nbsp;# CONFIG_FEATURE_SHARED_BUSYBOX is not set<br>
+        &nbsp;CONFIG_LFS=y<br>
+        &nbsp;CONFIG_CROSS_COMPILER_PREFIX="i586-poky-linux-"<br>
+        +CONFIG_SYSROOT=""<br>
+        &nbsp;CONFIG_EXTRA_CFLAGS=" -O2 -pipe -g
+        -feliminate-unused-debug-types"<br>
+        +CONFIG_EXTRA_LDFLAGS=""<br>
+        +CONFIG_EXTRA_LDLIBS=""<br>
+        &nbsp;<br>
+        &nbsp;#<br>
+        &nbsp;# Debugging Options<br>
+        @@ -92,7 +95,7 @@ CONFIG_PREFIX="./_install"<br>
+        &nbsp;CONFIG_FEATURE_SYSTEMD=y<br>
+        &nbsp;CONFIG_FEATURE_RTMINMAX=y<br>
+        &nbsp;CONFIG_PASSWORD_MINLEN=6<br>
+        -CONFIG_MD5_SIZE_VS_SPEED=2<br>
+        +CONFIG_MD5_SMALL=1<br>
+        &nbsp;CONFIG_FEATURE_FAST_TOP=y<br>
+        &nbsp;# CONFIG_FEATURE_ETC_NETWORKS is not set<br>
+        &nbsp;CONFIG_FEATURE_USE_TERMIOS=y<br>
+        @@ -101,6 +104,7 @@ CONFIG_FEATURE_EDITING_MAX_LEN=1024<br>
+        &nbsp;# CONFIG_FEATURE_EDITING_VI is not set<br>
+        &nbsp;CONFIG_FEATURE_EDITING_HISTORY=15<br>
+        &nbsp;CONFIG_FEATURE_EDITING_SAVEHISTORY=y<br>
+        +# CONFIG_FEATURE_EDITING_SAVE_ON_EXIT is not set<br>
+        &nbsp;# CONFIG_FEATURE_REVERSE_SEARCH is not set<br>
+        &nbsp;CONFIG_FEATURE_TAB_COMPLETION=y<br>
+        &nbsp;CONFIG_FEATURE_USERNAME_COMPLETION=y<br>
+        @@ -140,6 +144,7 @@ CONFIG_CPIO=y<br>
+        &nbsp;CONFIG_GUNZIP=y<br>
+        &nbsp;CONFIG_GZIP=y<br>
+        &nbsp;# CONFIG_FEATURE_GZIP_LONG_OPTIONS is not set<br>
+        +CONFIG_GZIP_FAST=0<br>
+        &nbsp;# CONFIG_LZOP is not set<br>
+        &nbsp;# CONFIG_LZOP_COMPR_HIGH is not set<br>
+        &nbsp;# CONFIG_RPM2CPIO is not set<br>
+        @@ -173,11 +178,13 @@ CONFIG_DATE=y<br>
+        &nbsp;# CONFIG_FEATURE_DATE_ISOFMT is not set<br>
+        &nbsp;# CONFIG_FEATURE_DATE_NANO is not set<br>
+        &nbsp;CONFIG_FEATURE_DATE_COMPAT=y<br>
+        +# CONFIG_HOSTID is not set<br>
+        &nbsp;CONFIG_ID=y<br>
+        &nbsp;CONFIG_GROUPS=y<br>
+        &nbsp;CONFIG_TEST=y<br>
+        &nbsp;CONFIG_FEATURE_TEST_64=y<br>
+        &nbsp;CONFIG_TOUCH=y<br>
+        +CONFIG_FEATURE_TOUCH_SUSV3=y<br>
+        &nbsp;CONFIG_TR=y<br>
+        &nbsp;CONFIG_FEATURE_TR_CLASSES=y<br>
+        &nbsp;# CONFIG_FEATURE_TR_EQUIV is not set<br>
+        @@ -220,7 +227,6 @@ CONFIG_FALSE=y<br>
+        &nbsp;# CONFIG_FSYNC is not set<br>
+        &nbsp;CONFIG_HEAD=y<br>
+        &nbsp;# CONFIG_FEATURE_FANCY_HEAD is not set<br>
+        -# CONFIG_HOSTID is not set<br>
+        &nbsp;# CONFIG_INSTALL is not set<br>
+        &nbsp;# CONFIG_FEATURE_INSTALL_LONG_OPTIONS is not set<br>
+        &nbsp;CONFIG_LN=y<br>
+        @@ -461,6 +467,7 @@ CONFIG_LAST_SYSTEM_ID=0<br>
+        &nbsp;# CONFIG_FEATURE_DEL_USER_FROM_GROUP is not set<br>
+        &nbsp;# CONFIG_GETTY is not set<br>
+        &nbsp;# CONFIG_LOGIN is not set<br>
+        +# CONFIG_LOGIN_SESSION_AS_CHILD is not set<br>
+        &nbsp;# CONFIG_PAM is not set<br>
+        &nbsp;# CONFIG_LOGIN_SCRIPTS is not set<br>
+        &nbsp;# CONFIG_FEATURE_NOLOGIN is not set<br>
+        @@ -469,6 +476,7 @@ CONFIG_LAST_SYSTEM_ID=0<br>
+        &nbsp;# CONFIG_FEATURE_PASSWD_WEAK_CHECK is not set<br>
+        &nbsp;# CONFIG_CRYPTPW is not set<br>
+        &nbsp;# CONFIG_CHPASSWD is not set<br>
+        +CONFIG_FEATURE_DEFAULT_PASSWD_ALGO=""<br>
+        &nbsp;# CONFIG_SU is not set<br>
+        &nbsp;# CONFIG_FEATURE_SU_SYSLOG is not set<br>
+        &nbsp;# CONFIG_FEATURE_SU_CHECKS_SHELLS is not set<br>
+        @@ -518,6 +526,12 @@ CONFIG_DEFAULT_DEPMOD_FILE="modules.dep"<br>
+        &nbsp;# Linux System Utilities<br>
+        &nbsp;#<br>
+        &nbsp;# CONFIG_BLOCKDEV is not set<br>
+        +# CONFIG_MDEV is not set<br>
+        +# CONFIG_FEATURE_MDEV_CONF is not set<br>
+        +# CONFIG_FEATURE_MDEV_RENAME is not set<br>
+        +# CONFIG_FEATURE_MDEV_RENAME_REGEXP is not set<br>
+        +# CONFIG_FEATURE_MDEV_EXEC is not set<br>
+        +# CONFIG_FEATURE_MDEV_LOAD_FIRMWARE is not set<br>
+        &nbsp;# CONFIG_REV is not set<br>
+        &nbsp;# CONFIG_ACPID is not set<br>
+        &nbsp;# CONFIG_FEATURE_ACPID_COMPAT is not set<br>
+        @@ -561,12 +575,6 @@ CONFIG_FEATURE_HWCLOCK_ADJTIME_FHS=y<br>
+        &nbsp;CONFIG_LOSETUP=y<br>
+        &nbsp;# CONFIG_LSPCI is not set<br>
+        &nbsp;# CONFIG_LSUSB is not set<br>
+        -# CONFIG_MDEV is not set<br>
+        -# CONFIG_FEATURE_MDEV_CONF is not set<br>
+        -# CONFIG_FEATURE_MDEV_RENAME is not set<br>
+        -# CONFIG_FEATURE_MDEV_RENAME_REGEXP is not set<br>
+        -# CONFIG_FEATURE_MDEV_EXEC is not set<br>
+        -# CONFIG_FEATURE_MDEV_LOAD_FIRMWARE is not set<br>
+        &nbsp;CONFIG_MKSWAP=y<br>
+        &nbsp;# CONFIG_FEATURE_MKSWAP_UUID is not set<br>
+        &nbsp;CONFIG_MORE=y<br>
+        @@ -831,6 +839,7 @@ CONFIG_TRACEROUTE=y<br>
+        &nbsp;# CONFIG_FEATURE_TRACEROUTE_USE_ICMP is not set<br>
+        &nbsp;# CONFIG_TUNCTL is not set<br>
+        &nbsp;# CONFIG_FEATURE_TUNCTL_UG is not set<br>
+        +# CONFIG_UDHCPC6 is not set<br>
+        &nbsp;CONFIG_UDHCPD=y<br>
+        &nbsp;# CONFIG_DHCPRELAY is not set<br>
+        &nbsp;CONFIG_DUMPLEASES=y<br>
+        @@ -877,6 +886,7 @@ CONFIG_FEATURE_MIME_CHARSET=""<br>
+        &nbsp;# Process Utilities<br>
+        &nbsp;#<br>
+        &nbsp;# CONFIG_IOSTAT is not set<br>
+        +CONFIG_LSOF=y<br>
+        &nbsp;# CONFIG_MPSTAT is not set<br>
+        &nbsp;# CONFIG_NMETER is not set<br>
+        &nbsp;# CONFIG_PMAP is not set<br>
+        @@ -898,6 +908,7 @@ CONFIG_PIDOF=y<br>
+        &nbsp;# CONFIG_PKILL is not set<br>
+        &nbsp;CONFIG_PS=y<br>
+        &nbsp;CONFIG_FEATURE_PS_WIDE=y<br>
+        +CONFIG_FEATURE_PS_LONG=y<br>
+        &nbsp;# CONFIG_FEATURE_PS_TIME is not set<br>
+        &nbsp;# CONFIG_FEATURE_PS_ADDITIONAL_COLUMNS is not set<br>
+        &nbsp;# CONFIG_FEATURE_PS_UNUSUAL_SYSTEMS is not set<br>
+      </font></small><br>
+  </body>
+</html>
 
-
-
+--------------010103060605030603000308--
