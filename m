@@ -1,25 +1,33 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mail-gg0-f175.google.com ([209.85.161.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1T1ERZ-0006eo-5f
+	(envelope-from <andrei@gherzan.ro>) id 1T1FEB-0007WJ-Dv
 	for openembedded-core@lists.openembedded.org;
-	Tue, 14 Aug 2012 12:33:49 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 14 Aug 2012 03:21:53 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.77,765,1336374000"; d="scan'208";a="208082693"
-Received: from unknown (HELO helios.localnet) ([10.252.121.91])
-	by fmsmga002.fm.intel.com with ESMTP; 14 Aug 2012 03:21:52 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>
-Date: Tue, 14 Aug 2012 11:21:51 +0100
-Message-ID: <20076596.V7nLmKGeGJ@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.9 (Linux/3.2.0-29-generic-pae; KDE/4.9.0; i686; ; )
-In-Reply-To: <alpine.DEB.2.02.1208110826510.17432@oneiric>
-References: <alpine.DEB.2.02.1208110826510.17432@oneiric>
+	Tue, 14 Aug 2012 13:24:03 +0200
+Received: by ggmq1 with SMTP id q1so291830ggm.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 14 Aug 2012 04:12:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:x-originating-ip:from:date:message-id:subject:to
+	:content-type:x-gm-message-state;
+	bh=VU0OnR7a9Y3xie6ou3ZD7SfsR9r2JEMxhn0czhlaT3Y=;
+	b=A/WcGcuLBYO1siySyTU+EjgNrn5YMBP5H4tGzcpPUDbBeGCcocWW1UUTpJymsiRhVY
+	p4fDBB7uB1EAIyJKz9awlVjBDdDGugnaOKf3WHLLvTIg2h3R4a0wUrdWhLCiLQw15S0Q
+	wUs0sMTfyKrAVJPlbiZLJbORozGgkAZ6h/mkfKJM0ILNYJSX6QqVdjN275Qi6tgV3ZwL
+	eUnoYw6aun0vvdL3AGY/Jv8lZrAz1ND3GvvLtSmiyzAOlOighOkdNdg3tXNX44Fno4UR
+	jrkI6creEGGqYt0nrCK7MDzfiZw4N5GLPLl3b8moA9EUxUVzDVrst/UbTjxNTVOqfvks
+	IAqg==
+Received: by 10.42.18.8 with SMTP id v8mr12045070ica.34.1344942728226; Tue, 14
+	Aug 2012 04:12:08 -0700 (PDT)
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: wanting to clarify ASSUME_PROVIDED and SANITY_REQUIRED_UTILITIES
+Received: by 10.64.63.50 with HTTP; Tue, 14 Aug 2012 04:11:46 -0700 (PDT)
+X-Originating-IP: [89.121.200.106]
+From: Andrei Gherzan <andrei@gherzan.ro>
+Date: Tue, 14 Aug 2012 14:11:46 +0300
+Message-ID: <CAK18fxFfWO0ZG2tisaROTuJ-FSgLoqMW4cUgTpNq3DNeqFpNqg@mail.gmail.com>
+To: openembedded <openembedded-core@lists.openembedded.org>
+X-Gm-Message-State: ALoCoQnWeAuOUjz+rEOWm9EsygMzSOQ5NaLT3mLAw3bFpjLn034VRJHrFoJPtccf11S9ASQ8LjJ5
+Subject: dbus with tests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,60 +42,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Aug 2012 10:33:49 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 14 Aug 2012 11:24:03 -0000
+Content-Type: multipart/alternative; boundary=20cf304271b68f268a04c737e103
 
-On Saturday 11 August 2012 08:38:58 Robert P. J. Day wrote:
->   recently, i know that the entry "git-native" was added to the
-> entries in ASSUME_PROVIDED in bitbake.conf:
-> 
-> ASSUME_PROVIDED = "\
->     bzip2-native \
->     git-native \
->     grep-native \
->     diffstat-native \
->     patch-native \
->     perl-native-runtime \
->     python-native-runtime \
->     tar-native \
->     virtual/libintl-native \
->     "
-> 
-> ostensibly because it's now reasonable to assume that any sane distro
-> should be able to provide an oe-compatible version of git.  so far, so
-> good.  but there's this in sanity.bbclass:
-> 
-> SANITY_REQUIRED_UTILITIES ?= "patch diffstat texi2html makeinfo git
-> bzip2 tar gzip gawk chrpath wget cpio"
-> 
-> how do those two relate to one another?
+--20cf304271b68f268a04c737e103
+Content-Type: text/plain; charset=ISO-8859-1
 
-They don't directly. ASSUME_PROVIDED is just a way of satisfying build-time 
-dependencies of native recipes when we know they will always be installed on 
-the host; for most of these this is backed up by a check to see if they are 
-actually installed using SANITY_REQUIRED_UTILITIES.
- 
->   sanity.bbclass appears to list the native tools that *must* exist on
-> the dev host, but what if one doesn't?  is it then downloaded and
-> built unless it's in "ASSUME_PROVIDED"?
+In the process of updating dbus, tests (in my opinion) are mandatory.
 
-No. If you look at the code in sanity.bbclass you'll see if something in 
-SANITY_REQUIRED_UTILITIES is missing you'll get an immediate fatal error.
+While compiling dbus with tests, dbus and dbus-glib are needed. To
+compile dbus-glib, dbus is needed (obviously). The only solution (to
+compile dbus with tests) that i found is to create a new recipe named
+dbus-tests where to compile dbus with --enable-tests
+--enable-embedded-tests, skip write to sysroot (noexec) and just package
+dbus-tests.
 
->   also, is there any convenient way to examine my current dev host to
-> see what native utilities are candidates for adding to my local
-> ASSUME_PROVIDED?
-
-I think you're on your own there - we recommend you leave ASSUME_PROVIDED as-
-is.
-
-Cheers,
-Paul
-
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+1. Do you guys know a better solution for this?
+2. What would be a good path to use for installing tests?
 
 
+ag
+
+--20cf304271b68f268a04c737e103
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
+
+<div>In the process of updating dbus, tests (in my opinion) are mandatory.<=
+/div><div><br></div><div>While compiling dbus with tests, dbus and dbus-gli=
+b are needed. To compile=A0dbus-glib, dbus is needed (obviously). The only =
+solution (to compile dbus with tests) that i found is to create a new recip=
+e named dbus-tests where to compile dbus with --enable-tests --enable-embed=
+ded-tests, skip write to sysroot (noexec) and just package dbus-tests.</div=
+>
+
+<div><br></div><div>1. Do you guys know a better solution for this?</div><d=
+iv>2. What would be a good path to use for installing tests?</div><div><br>=
+</div><div style=3D"text-align:center"><div align=3D"left" style=3D"font-fa=
+mily:&#39;Times New Roman&#39;;font-size:medium">
+
+<font face=3D"Arial" color=3D"#333333" size=3D"-1"><br>ag</font></div></div=
+>
+
+--20cf304271b68f268a04c737e103--
