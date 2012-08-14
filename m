@@ -1,42 +1,57 @@
-Received: from mail-wg0-f43.google.com ([74.125.82.43])
+Received: from va3ehsobe003.messaging.microsoft.com ([216.32.180.13]
+	helo=va3outboundpool.messaging.microsoft.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrei@gherzan.ro>) id 1T1Ild-0007E2-7X
+	(envelope-from <B29882@freescale.com>) id 1T1IqF-0007KP-4T
 	for openembedded-core@lists.openembedded.org;
-	Tue, 14 Aug 2012 17:10:49 +0200
-Received: by wgbdr1 with SMTP id dr1so435378wgb.24
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Aug 2012 07:58:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:x-originating-ip:in-reply-to:references:from:date
-	:message-id:subject:to:content-type:x-gm-message-state;
-	bh=QhweasFjkTK2E6sJg5tjaIO8xvhnUrUAwVNiiBNQLGA=;
-	b=YCQXIzH/85qbLfMrTT8ES4ANzWKgri0YXdkSbItZdvrDZfFn6rDqnyZynvs/5IYtt8
-	zXs1VhGmjC4Aar6/ssvK3MjMogk/Iw0vvxaC43MtubYoXWJ8mNcXwTSbt0Nmj40Yg0dk
-	SDZRqH7BeUL1oyBnXNI1pz4bXqZ9UCPpT7tc73Yb1gj5BJLxb+LDmFPtd/BXlOfvHkVr
-	a69Q4CtugWj6myAaVGl2X6lpE7xYvH3PNVCOu2XhZUyOtfDt+yczVl/bMRqUxwrlzcoH
-	/yCSsZro2xZ6hMyf0pCf3UkZnQyhvvbeDzIHN8/+eDO/qj19Rmhh59cN/IJRNuFBmB4Q
-	/8xg==
-Received: by 10.50.87.227 with SMTP id bb3mr12090122igb.57.1344956333404; Tue,
-	14 Aug 2012 07:58:53 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.64.63.50 with HTTP; Tue, 14 Aug 2012 07:58:33 -0700 (PDT)
-X-Originating-IP: [89.121.200.106]
-In-Reply-To: <15973ABB-4725-4BA6-9C5A-59DFFC274EB8@dominion.thruhere.net>
-References: <CAK18fxFfWO0ZG2tisaROTuJ-FSgLoqMW4cUgTpNq3DNeqFpNqg@mail.gmail.com>
-	<502A3D34.6080208@linux.intel.com>
-	<15973ABB-4725-4BA6-9C5A-59DFFC274EB8@dominion.thruhere.net>
-From: Andrei Gherzan <andrei@gherzan.ro>
-Date: Tue, 14 Aug 2012 17:58:33 +0300
-Message-ID: <CAK18fxEVMwUHeG0coAc0p6vr=cef893rkDdxHr+nOUgpKTqZrQ@mail.gmail.com>
+	Tue, 14 Aug 2012 17:15:35 +0200
+Received: from mail165-va3-R.bigfish.com (10.7.14.252) by
+	VA3EHSOBE007.bigfish.com (10.7.40.11) with Microsoft SMTP Server id
+	14.1.225.23; Tue, 14 Aug 2012 14:48:33 +0000
+Received: from mail165-va3 (localhost [127.0.0.1])	by
+	mail165-va3-R.bigfish.com (Postfix) with ESMTP id DD61D4002FB	for
+	<openembedded-core@lists.openembedded.org>;
+	Tue, 14 Aug 2012 14:48:33 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-SpamScore: -2
+X-BigFish: VS-2(zz98dI9371I1432Izz1202hzz8275bh8275dhz2dh2a8h668h839h8e2h8e3hf0ah107ah10d2hbe9i)
+Received: from mail165-va3 (localhost.localdomain [127.0.0.1]) by mail165-va3
+	(MessageSwitch) id 1344955712650621_18396;
+	Tue, 14 Aug 2012 14:48:32 +0000 (UTC)
+Received: from VA3EHSMHS016.bigfish.com (unknown [10.7.14.245])	by
+	mail165-va3.bigfish.com (Postfix) with ESMTP id 9B42C20088	for
+	<openembedded-core@lists.openembedded.org>;
+	Tue, 14 Aug 2012 14:48:32 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by VA3EHSMHS016.bigfish.com
+	(10.7.99.26) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Tue, 14 Aug 2012 14:48:29 +0000
+Received: from 039-SN1MPN1-001.039d.mgd.msft.net ([169.254.1.41]) by
+	039-SN1MMR1-002.039d.mgd.msft.net ([10.84.1.15]) with mapi id
+	14.02.0298.005; Tue, 14 Aug 2012 09:48:28 -0500
+From: McClintock Matthew-B29882 <B29882@freescale.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Gm-Message-State: ALoCoQkivtDpITTQ9XOQJ6oKBcoNgSG3jcOUfioQrXKg/4nOpTMvbytvwlOtiUNn8+5NzRl9M86t
-Subject: Re: dbus with tests
+Thread-Topic: [OE-core] [CONSOLIDATED REQUEST 46/64] owl-video_git.bb: fix
+	compilation on Fedora 13 machine
+Thread-Index: AQHNehZsWtsMGLn4X0y+lBf0AuO1ZZdZt0SA
+Date: Tue, 14 Aug 2012 14:48:27 +0000
+Message-ID: <CAEsOVNcOGbaQghWhP5VBMMPc2TFSEoh37QaNyPbpOxH+TGDc7w@mail.gmail.com>
+References: <cover.1344946189.git.sgw@linux.intel.com>
+	<76ac3ef04e78b07441df7d2c93c4a002deac74d5.1344946189.git.sgw@linux.intel.com>
+	<ccea2d07d0f88da1d5df027147238a97f78a4d3a.1344946189.git.sgw@linux.intel.com>
+In-Reply-To: <ccea2d07d0f88da1d5df027147238a97f78a4d3a.1344946189.git.sgw@linux.intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [70.112.201.132]
+MIME-Version: 1.0
+X-OriginatorOrg: freescale.com
+Subject: Re: [CONSOLIDATED REQUEST 46/64] owl-video_git.bb: fix compilation on Fedora 13 machine
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -47,113 +62,128 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Aug 2012 15:10:50 -0000
-Content-Type: multipart/alternative; boundary=e89a8f3ba4d37db24a04c73b0c6f
-
---e89a8f3ba4d37db24a04c73b0c6f
-Content-Type: text/plain; charset=ISO-8859-1
-
-On Tue, Aug 14, 2012 at 3:50 PM, Koen Kooi <koen@dominion.thruhere.net>wrote:
-
->
-> Op 14 aug. 2012, om 13:57 heeft Saul Wold <sgw@linux.intel.com> het
-> volgende geschreven:
->
-> > On 08/14/2012 02:11 PM, Andrei Gherzan wrote:
-> >> In the process of updating dbus, tests (in my opinion) are mandatory.
-> >>
-> >> While compiling dbus with tests, dbus and dbus-glib are needed. To
-> >> compile dbus-glib, dbus is needed (obviously). The only solution (to
-> >> compile dbus with tests) that i found is to create a new recipe named
-> >> dbus-tests where to compile dbus with --enable-tests
-> >> --enable-embedded-tests, skip write to sysroot (noexec) and just package
-> >> dbus-tests.
-> >>
-> >> 1. Do you guys know a better solution for this?
-> >
-> > We have started to think/chat about this, there was another patch on the
-> list recently that Mark Hatle and I talked about tests.
-> >
-> > I think having the tests enabled with DISTRO_FEATURE would allow for the
-> flexibility of enabling then without always incurring the cost /overhead of
-> longer compile times.
-> >
-> > Can you incorporate the changes to the core recipe with out having to
-> add a new dbus-tests recipe if you use DISTRO_FEATURE?
-> >
->
-
-As Koen as said in another mail i don't think there is another option than
-creating another recipe and we could add RDEPENDS to dbus if DISTRO_FEATURE
-contains dbus-tests.
-
-
-> >
-> >> 2. What would be a good path to use for installing tests?
-> > Same here, disucssion started.I would like to see tests go into
-> ${datadir}/${BPN} (/usr/share/${BPN}
->
-> $datadir is not for executables, but for data
->
->
-Binaries and scripts?
-
-ag
-
---e89a8f3ba4d37db24a04c73b0c6f
-Content-Type: text/html; charset=ISO-8859-1
+X-List-Received-Date: Tue, 14 Aug 2012 15:15:35 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <D46193157DB82B4089309BE196571B11@mgd.freescale.com>
 Content-Transfer-Encoding: quoted-printable
 
-<br><div class=3D"gmail_quote">On Tue, Aug 14, 2012 at 3:50 PM, Koen Kooi <=
-span dir=3D"ltr">&lt;<a href=3D"mailto:koen@dominion.thruhere.net" target=
-=3D"_blank">koen@dominion.thruhere.net</a>&gt;</span> wrote:<br><blockquote=
- class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc soli=
-d;padding-left:1ex">
+Saul,
 
-<br>
-Op 14 aug. 2012, om 13:57 heeft Saul Wold &lt;<a href=3D"mailto:sgw@linux.i=
-ntel.com">sgw@linux.intel.com</a>&gt; het volgende geschreven:<br>
-<div class=3D"im"><br>
-&gt; On 08/14/2012 02:11 PM, Andrei Gherzan wrote:<br>
-&gt;&gt; In the process of updating dbus, tests (in my opinion) are mandato=
-ry.<br>
-&gt;&gt;<br>
-&gt;&gt; While compiling dbus with tests, dbus and dbus-glib are needed. To=
-<br>
-&gt;&gt; compile dbus-glib, dbus is needed (obviously). The only solution (=
-to<br>
-&gt;&gt; compile dbus with tests) that i found is to create a new recipe na=
-med<br>
-&gt;&gt; dbus-tests where to compile dbus with --enable-tests<br>
-&gt;&gt; --enable-embedded-tests, skip write to sysroot (noexec) and just p=
-ackage<br>
-&gt;&gt; dbus-tests.<br>
-&gt;&gt;<br>
-&gt;&gt; 1. Do you guys know a better solution for this?<br>
-&gt;<br>
-&gt; We have started to think/chat about this, there was another patch on t=
-he list recently that Mark Hatle and I talked about tests.<br>
-&gt;<br>
-&gt; I think having the tests enabled with DISTRO_FEATURE would allow for t=
-he flexibility of enabling then without always incurring the cost /overhead=
- of longer compile times.<br>
-&gt;<br>
-&gt; Can you incorporate the changes to the core recipe with out having to =
-add a new dbus-tests recipe if you use DISTRO_FEATURE?<br>
-&gt;<br></div></blockquote><div><br></div><div>As Koen as said in another m=
-ail i don&#39;t think there is another option than creating another recipe =
-and we could add RDEPENDS to dbus if DISTRO_FEATURE contains dbus-tests.</d=
-iv>
+I think we decided to wait / ignore this one.
 
-<div>=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;=
-border-left:1px #ccc solid;padding-left:1ex"><div class=3D"im">
-&gt;<br>
-&gt;&gt; 2. What would be a good path to use for installing tests?<br>
-&gt; Same here, disucssion started.I would like to see tests go into ${data=
-dir}/${BPN} (/usr/share/${BPN}<br>
-<br>
-</div>$datadir is not for executables, but for data<br>
-<div class=3D"im"><br></div></blockquote><div><br></div><div>Binaries and s=
-cripts?</div><div><br></div><div>ag</div></div>
+-M
 
---e89a8f3ba4d37db24a04c73b0c6f--
+On Tue, Aug 14, 2012 at 7:13 AM, Saul Wold <sgw@linux.intel.com> wrote:
+> From: Matthew McClintock <msm@freescale.com>
+>
+> This adds libXrandr to the link step and fixes this issue:
+>
+> | /opt/yocto/upstream/label/master/machine/atom-pc/poky/edison/tmp/sysroo=
+ts/atom-pc/usr/lib/libgdk-x11-2.0.so: undefined reference to `XRRGetOutputI=
+nfo'
+> | /opt/yocto/upstream/label/master/machine/atom-pc/poky/edison/tmp/sysroo=
+ts/atom-pc/usr/lib/libgdk-x11-2.0.so: undefined reference to `XRRGetScreenR=
+esourcesCurrent'
+> | /opt/yocto/upstream/label/master/machine/atom-pc/poky/edison/tmp/sysroo=
+ts/atom-pc/usr/lib/libgdk-x11-2.0.so: undefined reference to `XRRFreeOutput=
+Info'
+> | /opt/yocto/upstream/label/master/machine/atom-pc/poky/edison/tmp/sysroo=
+ts/atom-pc/usr/lib/libgdk-x11-2.0.so: undefined reference to `XRRFreeScreen=
+Resources'
+> | /opt/yocto/upstream/label/master/machine/atom-pc/poky/edison/tmp/sysroo=
+ts/atom-pc/usr/lib/libgdk-x11-2.0.so: undefined reference to `XRRGetOutputP=
+rimary'
+> | /opt/yocto/upstream/label/master/machine/atom-pc/poky/edison/tmp/sysroo=
+ts/atom-pc/usr/lib/libgdk-x11-2.0.so: undefined reference to `XRRFreeCrtcIn=
+fo'
+> | /opt/yocto/upstream/label/master/machine/atom-pc/poky/edison/tmp/sysroo=
+ts/atom-pc/usr/lib/libgdk-x11-2.0.so: undefined reference to `XRRGetCrtcInf=
+o'
+> | collect2: ld returned 1 exit status
+>
+> Signed-off-by: Matthew McClintock <msm@freescale.com>
+> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> ---
+>  .../owl-video/0001-add-dependency-for-xrandr.patch |   30 ++++++++++++++=
+++++++
+>  .../recipes-sato/owl-video-widget/owl-video_git.bb |    5 ++-
+>  2 files changed, 33 insertions(+), 2 deletions(-)
+>  create mode 100644 meta/recipes-sato/owl-video-widget/owl-video/0001-add=
+-dependency-for-xrandr.patch
+>
+> diff --git a/meta/recipes-sato/owl-video-widget/owl-video/0001-add-depend=
+ency-for-xrandr.patch b/meta/recipes-sato/owl-video-widget/owl-video/0001-a=
+dd-dependency-for-xrandr.patch
+> new file mode 100644
+> index 0000000..8c14578
+> --- /dev/null
+> +++ b/meta/recipes-sato/owl-video-widget/owl-video/0001-add-dependency-fo=
+r-xrandr.patch
+> @@ -0,0 +1,30 @@
+> +Upstream-Status: Pending
+> +
+> +This patch should probably go upstream
+> +
+> +From 18bdd57b36489439dc5c18b20abd9d59c6778662 Mon Sep 17 00:00:00 2001
+> +From: Matthew McClintock <msm@freescale.com>
+> +Date: Wed, 25 Jul 2012 15:05:40 -0500
+> +Subject: [PATCH] add dependency for xrandr
+> +
+> +Signed-off-by: Matthew McClintock <msm@freescale.com>
+> +---
+> + src/Makefile.am |    2 +-
+> + 1 files changed, 1 insertions(+), 1 deletions(-)
+> +
+> +diff --git a/src/Makefile.am b/src/Makefile.am
+> +index 60e845b..00e4b11 100644
+> +--- a/src/Makefile.am
+> ++++ b/src/Makefile.am
+> +@@ -12,7 +12,7 @@ video_SOURCES =3D video.c      \
+> +       owl-overlay-bin.c       \
+> +       owl-overlay-bin.h
+> +
+> +-video_LDADD =3D $(VIDEO_LIBS)
+> ++video_LDADD =3D $(VIDEO_LIBS) -lXrandr
+> +
+> + dist_pkgdata_DATA =3D gtk-fullscreen.png
+> +
+> +--
+> +1.7.5.4
+> +
+> diff --git a/meta/recipes-sato/owl-video-widget/owl-video_git.bb b/meta/r=
+ecipes-sato/owl-video-widget/owl-video_git.bb
+> index bc63273..321b71b 100644
+> --- a/meta/recipes-sato/owl-video-widget/owl-video_git.bb
+> +++ b/meta/recipes-sato/owl-video-widget/owl-video_git.bb
+> @@ -10,7 +10,7 @@ DEPENDS =3D "libowl-av"
+>
+>  SRCREV =3D "f133472318970796fae1ea3e98ac062156768baf"
+>  PV =3D "0.1+git${SRCPV}"
+> -PR =3D "r1"
+> +PR =3D "r2"
+>
+>  S =3D "${WORKDIR}/git"
+>
+> @@ -23,7 +23,8 @@ SRC_URI =3D "git://git.yoctoproject.org/${BPN};protocol=
+=3Dgit \
+>             file://stock_volume-med.png \
+>             file://stock_volume-max.png \
+>             file://owl-video-widget.desktop \
+> -          file://make-382.patch"
+> +          file://make-382.patch \
+> +          file://0001-add-dependency-for-xrandr.patch"
+>
+>  inherit autotools pkgconfig
+>
+> --
+> 1.7.7.6
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core=
+
+
+
