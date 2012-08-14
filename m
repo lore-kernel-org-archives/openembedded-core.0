@@ -1,24 +1,25 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Liezhi.Yang@windriver.com>) id 1T1DrI-0005HL-0F
-	for openembedded-core@linuxtogo.org; Tue, 14 Aug 2012 11:56:20 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q7E9iOxr027996
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 14 Aug 2012 02:44:24 -0700 (PDT)
-Received: from usp-ub10.corp.ad.wrs.com (128.224.163.69) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.309.2; Tue, 14 Aug 2012 02:44:24 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 14 Aug 2012 17:41:02 +0800
-Message-ID: <2f34f5001c3178381fae4ea3ca795a65136e08e9.1344929471.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.1
-In-Reply-To: <cover.1344929471.git.liezhi.yang@windriver.com>
-References: <cover.1344929471.git.liezhi.yang@windriver.com>
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1T1ERZ-0006eo-5f
+	for openembedded-core@lists.openembedded.org;
+	Tue, 14 Aug 2012 12:33:49 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 14 Aug 2012 03:21:53 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.77,765,1336374000"; d="scan'208";a="208082693"
+Received: from unknown (HELO helios.localnet) ([10.252.121.91])
+	by fmsmga002.fm.intel.com with ESMTP; 14 Aug 2012 03:21:52 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+Date: Tue, 14 Aug 2012 11:21:51 +0100
+Message-ID: <20076596.V7nLmKGeGJ@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.9 (Linux/3.2.0-29-generic-pae; KDE/4.9.0; i686; ; )
+In-Reply-To: <alpine.DEB.2.02.1208110826510.17432@oneiric>
+References: <alpine.DEB.2.02.1208110826510.17432@oneiric>
 MIME-Version: 1.0
-Cc: openembedded-core@linuxtogo.org, Zhenfeng.Zhao@windriver.com
-Subject: [PATCH 2/2] rootfs_deb: move the lock from WORKDIR to DEPLOY_DIR_DEB
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: wanting to clarify ASSUME_PROVIDED and SANITY_REQUIRED_UTILITIES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,67 +34,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Aug 2012 09:56:20 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 14 Aug 2012 10:33:49 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-* There would be race issue if we put the lock to the WORKDIR, for
-  example:
-  bitbake core-image-sato core-image-sato-sdk
+On Saturday 11 August 2012 08:38:58 Robert P. J. Day wrote:
+>   recently, i know that the entry "git-native" was added to the
+> entries in ASSUME_PROVIDED in bitbake.conf:
+> 
+> ASSUME_PROVIDED = "\
+>     bzip2-native \
+>     git-native \
+>     grep-native \
+>     diffstat-native \
+>     patch-native \
+>     perl-native-runtime \
+>     python-native-runtime \
+>     tar-native \
+>     virtual/libintl-native \
+>     "
+> 
+> ostensibly because it's now reasonable to assume that any sane distro
+> should be able to provide an oe-compatible version of git.  so far, so
+> good.  but there's this in sanity.bbclass:
+> 
+> SANITY_REQUIRED_UTILITIES ?= "patch diffstat texi2html makeinfo git
+> bzip2 tar gzip gawk chrpath wget cpio"
+> 
+> how do those two relate to one another?
 
-  If the lock is in their own WORKDIR, the apt-rootfs.conf and
-  Packages.gz maybe be written by two tasks at the same time, which
-  would cause unexpected errors.
+They don't directly. ASSUME_PROVIDED is just a way of satisfying build-time 
+dependencies of native recipes when we know they will always be installed on 
+the host; for most of these this is backed up by a check to see if they are 
+actually installed using SANITY_REQUIRED_UTILITIES.
+ 
+>   sanity.bbclass appears to list the native tools that *must* exist on
+> the dev host, but what if one doesn't?  is it then downloaded and
+> built unless it's in "ASSUME_PROVIDED"?
 
-* Create ${target_rootfs}/etc since the "tar -C" needs it.
+No. If you look at the code in sanity.bbclass you'll see if something in 
+SANITY_REQUIRED_UTILITIES is missing you'll get an immediate fatal error.
 
-Note:
-  * The rpm has put the lock to DEPLOY_DIR_RPM
-  * The ipk doesn't need it since it has locks for each deploy directory
-    and put the opkg.conf in his own WORKDIR, which doesn't like deb put
-    the apt-rootfs.conf in ${STAGING_ETCDIR_NATIVE}/apt/.
+>   also, is there any convenient way to examine my current dev host to
+> see what native utilities are candidates for adding to my local
+> ASSUME_PROVIDED?
 
-[YOCTO #2495]
+I think you're on your own there - we recommend you leave ASSUME_PROVIDED as-
+is.
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/classes/populate_sdk_deb.bbclass |    3 ++-
- meta/classes/rootfs_deb.bbclass       |    2 +-
- 2 files changed, 3 insertions(+), 2 deletions(-)
+Cheers,
+Paul
 
-diff --git a/meta/classes/populate_sdk_deb.bbclass b/meta/classes/populate_sdk_deb.bbclass
-index 6f89dcf..f2d0621 100644
---- a/meta/classes/populate_sdk_deb.bbclass
-+++ b/meta/classes/populate_sdk_deb.bbclass
-@@ -6,12 +6,13 @@ DEB_SDK_ARCH = "${@[d.getVar('SDK_ARCH', True), "i386"]\
-                 [d.getVar('SDK_ARCH', True) in \
-                 ["x86", "i486", "i586", "i686", "pentium"]]}"
- 
--do_populate_sdk[lockfiles] += "${WORKDIR}/deb.lock"
-+do_populate_sdk[lockfiles] += "${DEPLOY_DIR_DEB}/deb.lock"
- 
- populate_sdk_post_deb () {
- 
- 	local target_rootfs=$1
- 
-+	mkdir -p ${target_rootfs}/etc
- 	tar -cf - -C ${STAGING_ETCDIR_NATIVE} -ps apt | tar -xf - -C ${target_rootfs}/etc
- }
- 
-diff --git a/meta/classes/rootfs_deb.bbclass b/meta/classes/rootfs_deb.bbclass
-index 750a8ca..881fdbd 100644
---- a/meta/classes/rootfs_deb.bbclass
-+++ b/meta/classes/rootfs_deb.bbclass
-@@ -8,7 +8,7 @@ ROOTFS_PKGMANAGE_BOOTSTRAP  = "run-postinsts"
- do_rootfs[depends] += "dpkg-native:do_populate_sysroot apt-native:do_populate_sysroot"
- do_rootfs[recrdeptask] += "do_package_write_deb"
- 
--do_rootfs[lockfiles] += "${WORKDIR}/deb.lock"
-+do_rootfs[lockfiles] += "${DEPLOY_DIR_DEB}/deb.lock"
- 
- DEB_POSTPROCESS_COMMANDS = ""
- 
 -- 
-1.7.1
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
