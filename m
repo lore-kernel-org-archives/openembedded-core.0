@@ -1,29 +1,22 @@
-Received: from stoexhub03.domain01.net ([83.145.59.144])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <anders@chargestorm.se>) id 1T1Gpr-0004GT-1m
-	for openembedded-core@lists.openembedded.org;
-	Tue, 14 Aug 2012 15:07:03 +0200
-Received: from localhost (193.41.119.134) by stoexhub03.domain01.net
-	(10.12.10.3) with Microsoft SMTP Server id 8.3.245.1; Tue, 14 Aug 2012
-	14:54:24 +0200
-Date: Tue, 14 Aug 2012 14:55:16 +0200
-From: Anders Darander <anders@chargestorm.se>
-To: <openembedded-core@lists.openembedded.org>
-Message-ID: <20120814125514.GC3444@ad.chargestorm.se>
-Mail-Followup-To: openembedded-core@lists.openembedded.org
-References: <1344934956-28631-1-git-send-email-radu.moisan@intel.com>
-	<20120814120153.GB3444@ad.chargestorm.se>
-	<502A41C7.4030009@intel.com> <10849222.KjNZNLiumm@helios>
-MIME-Version: 1.0
-In-Reply-To: <10849222.KjNZNLiumm@helios>
-X-Accept-Language: sv, en, de
-X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
-X-GPG-Key-Id: 0x920E938C
-X-GPG-Keyserver: hkp://keys.gnupg.net
-Organization: ChargeStorm AB
-User-Agent: Mutt/1.5.20 (2009-12-10)
-X-GFI-SMTP-Submission: 1
-Subject: Re: [PATCH] busybox: Upgrade to upstream 1.20.2
+	(envelope-from <constantinx.musca@intel.com>) id 1T1Hcr-00050h-6M
+	for openembedded-core@lists.linuxtogo.org;
+	Tue, 14 Aug 2012 15:57:41 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 14 Aug 2012 06:45:45 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.77,766,1336374000"; d="scan'208";a="208191220"
+Received: from costin-desktop (HELO localhost.localdomain) ([10.237.105.33])
+	by fmsmga002.fm.intel.com with ESMTP; 14 Aug 2012 06:45:43 -0700
+From: Constantin Musca <constantinx.musca@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 14 Aug 2012 15:50:25 +0300
+Message-Id: <1344948628-15705-1-git-send-email-constantinx.musca@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Cc: openembedded-core@lists.linuxtogo.org,
+	Constantin Musca <constantinx.musca@intel.com>
+Subject: [PATCH 0/3] Package upgrades
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,32 +31,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Aug 2012 13:07:03 -0000
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
+X-List-Received-Date: Tue, 14 Aug 2012 13:57:41 -0000
 
-* Paul Eggleton <paul.eggleton@linux.intel.com> [120814 14:38]:
+This is another set of package upgrades compiled on all architectures
+and tested using core-image-sato-sdk. Beware that the libxrandr package upgrade
+must be applied after applying the randrproto package upgrade.
 
-> On Tuesday 14 August 2012 15:17:11 Radu Moisan wrote:
-> > +CONFIG_LSOF=y
+Constantin Musca (3):
+  pciutils: upgrade to 3.1.10
+  randrproto: upgrade to 1.4.0
+  libxrandr: upgrade to 1.4.0
 
-> This would be the only change that would concern me. If we didn't provide this 
-> with busybox before I think it should be disabled by default.
-
-I was about to reply with more or less the same comment.
-
-The other changes in the defconfig looks minor, at least without any
-deeper inspection. 
-
-However, we should think twice before we add more applets in the default
-config. And if we decide to do this, we're probably going to need to add
-update-alternatives handling for lsof.
-
-Cheers,
-Anders
+ .../configure.patch                                |    0
+ .../guess-fix.patch                                |    0
+ .../lib-build-fix.patch                            |    0
+ .../makefile.patch                                 |    0
+ .../pcimodules-pciutils.diff                       |    0
+ .../{pciutils_3.1.9.bb => pciutils_3.1.10.bb}      |    4 ++--
+ .../{libxrandr_1.3.2.bb => libxrandr_1.4.0.bb}     |    6 +++---
+ .../{randrproto_1.3.2.bb => randrproto_1.4.0.bb}   |    8 ++++----
+ 8 files changed, 9 insertions(+), 9 deletions(-)
+ rename meta/recipes-bsp/pciutils/{pciutils-3.1.9 => pciutils-3.1.10}/configure.patch (100%)
+ rename meta/recipes-bsp/pciutils/{pciutils-3.1.9 => pciutils-3.1.10}/guess-fix.patch (100%)
+ rename meta/recipes-bsp/pciutils/{pciutils-3.1.9 => pciutils-3.1.10}/lib-build-fix.patch (100%)
+ rename meta/recipes-bsp/pciutils/{pciutils-3.1.9 => pciutils-3.1.10}/makefile.patch (100%)
+ rename meta/recipes-bsp/pciutils/{pciutils-3.1.9 => pciutils-3.1.10}/pcimodules-pciutils.diff (100%)
+ rename meta/recipes-bsp/pciutils/{pciutils_3.1.9.bb => pciutils_3.1.10.bb} (92%)
+ rename meta/recipes-graphics/xorg-lib/{libxrandr_1.3.2.bb => libxrandr_1.4.0.bb} (72%)
+ rename meta/recipes-graphics/xorg-proto/{randrproto_1.3.2.bb => randrproto_1.4.0.bb} (68%)
 
 -- 
-Anders Darander
-ChargeStorm AB / eStorm AB
+1.7.9.5
+
 
 
