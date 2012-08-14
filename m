@@ -1,24 +1,24 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1T1GCP-0000ex-HT
+	(envelope-from <sgw@linux.intel.com>) id 1T1GCQ-0000Ym-1d
 	for openembedded-core@lists.openembedded.org;
 	Tue, 14 Aug 2012 14:26:19 +0200
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 14 Aug 2012 05:14:20 -0700
+	by orsmga101.jf.intel.com with ESMTP; 14 Aug 2012 05:14:21 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.77,766,1336374000"; d="scan'208";a="186181268"
+X-IronPort-AV: E=Sophos;i="4.77,766,1336374000"; d="scan'208";a="186181272"
 Received: from unknown (HELO swold-mobl.amr.corp.intel.com) ([10.255.12.219])
-	by orsmga002.jf.intel.com with ESMTP; 14 Aug 2012 05:14:19 -0700
+	by orsmga002.jf.intel.com with ESMTP; 14 Aug 2012 05:14:20 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 14 Aug 2012 15:13:08 +0300
-Message-Id: <35c20aefc40fa54099f1a163b02746030f0c9161.1344946189.git.sgw@linux.intel.com>
+Date: Tue, 14 Aug 2012 15:13:09 +0300
+Message-Id: <cf2ddbb2ac61fccdb33f57ca0d7c22ff6ee0342e.1344946189.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.7.7.6
 In-Reply-To: <76ac3ef04e78b07441df7d2c93c4a002deac74d5.1344946189.git.sgw@linux.intel.com>
 References: <76ac3ef04e78b07441df7d2c93c4a002deac74d5.1344946189.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1344946189.git.sgw@linux.intel.com>
 References: <cover.1344946189.git.sgw@linux.intel.com>
-Subject: [CONSOLIDATED REQUEST 21/64] msmtp: cleanup update-alternatives deprecated code
+Subject: [CONSOLIDATED REQUEST 22/64] mktemp: cleanup update-alternatives deprecated code
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,32 +37,38 @@ X-List-Received-Date: Tue, 14 Aug 2012 12:26:23 -0000
 
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/recipes-extended/msmtp/msmtp_1.4.24.bb |    8 ++++----
- 1 files changed, 4 insertions(+), 4 deletions(-)
+ meta/recipes-extended/mktemp/mktemp_1.7.bb |   11 +++++------
+ 1 files changed, 5 insertions(+), 6 deletions(-)
 
-diff --git a/meta/recipes-extended/msmtp/msmtp_1.4.24.bb b/meta/recipes-extended/msmtp/msmtp_1.4.24.bb
-index 2d2ee52..08566ca 100644
---- a/meta/recipes-extended/msmtp/msmtp_1.4.24.bb
-+++ b/meta/recipes-extended/msmtp/msmtp_1.4.24.bb
-@@ -5,7 +5,7 @@ SECTION = "console/network"
+diff --git a/meta/recipes-extended/mktemp/mktemp_1.7.bb b/meta/recipes-extended/mktemp/mktemp_1.7.bb
+index b3a3d51..170a183 100644
+--- a/meta/recipes-extended/mktemp/mktemp_1.7.bb
++++ b/meta/recipes-extended/mktemp/mktemp_1.7.bb
+@@ -5,7 +5,7 @@ SECTION = "console/utils"
+ LICENSE = "ISC"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=430680f6322a1eb87199b5e01a82c0d4"
  
- LICENSE = "GPLv3"
- DEPENDS = "zlib gnutls"
 -PR = "r2"
 +PR = "r3"
  
+ SRC_URI = "ftp://ftp.mktemp.org/pub/mktemp/${BPN}-${PV}.tar.gz \
+         file://disable-strip.patch \
+@@ -20,12 +20,11 @@ inherit autotools update-alternatives
+ EXTRA_OECONF = "--with-libc"
  
- #COPYING or Licence
-@@ -21,7 +21,7 @@ inherit gettext autotools update-alternatives
+ do_install_append () {
+-	mkdir ${D}${base_bindir}
+-	mv ${D}${bindir}/mktemp ${D}${base_bindir}/mktemp.${BPN}
++	install -d ${D}${base_bindir}
++	mv ${D}${bindir}/mktemp ${D}${base_bindir}/mktemp
+ 	rmdir ${D}${bindir}
+ }
  
- EXTRA_OECONF += "--without-gnome-keyring"
- 
--ALTERNATIVE_NAME = "sendmail"
--ALTERNATIVE_PATH = "${bindir}/msmtp"
--ALTERNATIVE_LINK = "${sbindir}/sendmail"
-+ALTERNATIVE_${PN} = "sendmail"
-+ALTERNATIVE_TARGET[sendmail] = "${bindir}/msmtp"
-+ALTERNATIVE_LINK_NAME[sendmail] = "${sbindir}/sendmail"
+-ALTERNATIVE_NAME = "mktemp"
+-ALTERNATIVE_LINK = "${base_bindir}/mktemp"
+-ALTERNATIVE_PATH = "${base_bindir}/mktemp.${BPN}"
++ALTERNATIVE_${PN} = "mktemp"
++ALTERNATIVE_LINK_NAME[mktemp] = "${base_bindir}/mktemp"
  ALTERNATIVE_PRIORITY = "100"
 -- 
 1.7.7.6
