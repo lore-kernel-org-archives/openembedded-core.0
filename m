@@ -1,57 +1,45 @@
-Received: from va3ehsobe003.messaging.microsoft.com ([216.32.180.13]
-	helo=va3outboundpool.messaging.microsoft.com)
+Received: from mga12.intel.com ([143.182.124.36] helo=azsmga102.ch.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1T1IqF-0007KP-4T
+	(envelope-from <ross.burton@intel.com>) id 1T1IuN-0007Oc-1g
 	for openembedded-core@lists.openembedded.org;
-	Tue, 14 Aug 2012 17:15:35 +0200
-Received: from mail165-va3-R.bigfish.com (10.7.14.252) by
-	VA3EHSOBE007.bigfish.com (10.7.40.11) with Microsoft SMTP Server id
-	14.1.225.23; Tue, 14 Aug 2012 14:48:33 +0000
-Received: from mail165-va3 (localhost [127.0.0.1])	by
-	mail165-va3-R.bigfish.com (Postfix) with ESMTP id DD61D4002FB	for
-	<openembedded-core@lists.openembedded.org>;
-	Tue, 14 Aug 2012 14:48:33 +0000 (UTC)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-X-SpamScore: -2
-X-BigFish: VS-2(zz98dI9371I1432Izz1202hzz8275bh8275dhz2dh2a8h668h839h8e2h8e3hf0ah107ah10d2hbe9i)
-Received: from mail165-va3 (localhost.localdomain [127.0.0.1]) by mail165-va3
-	(MessageSwitch) id 1344955712650621_18396;
-	Tue, 14 Aug 2012 14:48:32 +0000 (UTC)
-Received: from VA3EHSMHS016.bigfish.com (unknown [10.7.14.245])	by
-	mail165-va3.bigfish.com (Postfix) with ESMTP id 9B42C20088	for
-	<openembedded-core@lists.openembedded.org>;
-	Tue, 14 Aug 2012 14:48:32 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by VA3EHSMHS016.bigfish.com
-	(10.7.99.26) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Tue, 14 Aug 2012 14:48:29 +0000
-Received: from 039-SN1MPN1-001.039d.mgd.msft.net ([169.254.1.41]) by
-	039-SN1MMR1-002.039d.mgd.msft.net ([10.84.1.15]) with mapi id
-	14.02.0298.005; Tue, 14 Aug 2012 09:48:28 -0500
-From: McClintock Matthew-B29882 <B29882@freescale.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [CONSOLIDATED REQUEST 46/64] owl-video_git.bb: fix
-	compilation on Fedora 13 machine
-Thread-Index: AQHNehZsWtsMGLn4X0y+lBf0AuO1ZZdZt0SA
-Date: Tue, 14 Aug 2012 14:48:27 +0000
-Message-ID: <CAEsOVNcOGbaQghWhP5VBMMPc2TFSEoh37QaNyPbpOxH+TGDc7w@mail.gmail.com>
+	Tue, 14 Aug 2012 17:19:51 +0200
+Received: from mail-ob0-f180.google.com ([209.85.214.180])
+	by mga14.intel.com with ESMTP/TLS/RC4-SHA; 14 Aug 2012 08:07:55 -0700
+Received: by obceq6 with SMTP id eq6so580470obc.25
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 14 Aug 2012 08:07:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type:x-gm-message-state;
+	bh=agSQxAGCfRsr4SrVxQuDDNDgKc/A0FEQbXoOdoa4PX8=;
+	b=SUcKjIk4qfBEw4R/tL1F58imdq2fQIhe0AzAMD/bt/l2Mtwu+qEEvqXvq7F1BU0X3Y
+	Xz3VW+9yLpslv5nDFhGD4uilJhmLtckfASZG30vdybxcg0rG3m4TrqIGKg9+jCH24ft0
+	BXWMDdWlMzyQKtnaWV5fGIA+bfk94RVizsvI4FIWYqBDnKYMNxdSz7bZTs8Xa5bGEEaO
+	iNshLBzq0vmZBucf6u9w9xLF/PGr2bg8mdtNiyqG3Mu3/osYG7vWkJG8Kp7JOKffFjCP
+	M3guTD5UFeXDPGJKlSTcDInmvmrCAYIn5jmpCrmajsQ5ICjOBE+yRYgdKNbnpMUqhi0t
+	uIjA==
+Received: by 10.182.131.98 with SMTP id ol2mr19372396obb.69.1344956874094;
+	Tue, 14 Aug 2012 08:07:54 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.182.158.3 with HTTP; Tue, 14 Aug 2012 08:07:32 -0700 (PDT)
+In-Reply-To: <CAEsOVNcOGbaQghWhP5VBMMPc2TFSEoh37QaNyPbpOxH+TGDc7w@mail.gmail.com>
 References: <cover.1344946189.git.sgw@linux.intel.com>
 	<76ac3ef04e78b07441df7d2c93c4a002deac74d5.1344946189.git.sgw@linux.intel.com>
 	<ccea2d07d0f88da1d5df027147238a97f78a4d3a.1344946189.git.sgw@linux.intel.com>
-In-Reply-To: <ccea2d07d0f88da1d5df027147238a97f78a4d3a.1344946189.git.sgw@linux.intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [70.112.201.132]
-MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
+	<CAEsOVNcOGbaQghWhP5VBMMPc2TFSEoh37QaNyPbpOxH+TGDc7w@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 14 Aug 2012 16:07:32 +0100
+Message-ID: <CAJTo0LZdvTw7FWbMLgE8LC3ojtGyJ8kUzZ3coAFEh3JC7gUUpQ@mail.gmail.com>
+To: McClintock Matthew-B29882 <B29882@freescale.com>, 
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Gm-Message-State: ALoCoQkg0DqtXwE6EQBRUHZXvZZnDtWMQTKX0/wuFkpBbbJ2dMC6eptXDkjutm+Wmh2Nf/1OsxuT
 Subject: Re: [CONSOLIDATED REQUEST 46/64] owl-video_git.bb: fix compilation on Fedora 13 machine
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
-	Patches and discussions about the oe-core layer
+Reply-To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -62,128 +50,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Aug 2012 15:15:35 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <D46193157DB82B4089309BE196571B11@mgd.freescale.com>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 14 Aug 2012 15:19:51 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Saul,
+On 14 August 2012 15:48, McClintock Matthew-B29882 <B29882@freescale.com> wrote:
+> I think we decided to wait / ignore this one.
 
-I think we decided to wait / ignore this one.
+Yes, unless this crops up again this can be dropped.
 
--M
-
-On Tue, Aug 14, 2012 at 7:13 AM, Saul Wold <sgw@linux.intel.com> wrote:
-> From: Matthew McClintock <msm@freescale.com>
->
-> This adds libXrandr to the link step and fixes this issue:
->
-> | /opt/yocto/upstream/label/master/machine/atom-pc/poky/edison/tmp/sysroo=
-ts/atom-pc/usr/lib/libgdk-x11-2.0.so: undefined reference to `XRRGetOutputI=
-nfo'
-> | /opt/yocto/upstream/label/master/machine/atom-pc/poky/edison/tmp/sysroo=
-ts/atom-pc/usr/lib/libgdk-x11-2.0.so: undefined reference to `XRRGetScreenR=
-esourcesCurrent'
-> | /opt/yocto/upstream/label/master/machine/atom-pc/poky/edison/tmp/sysroo=
-ts/atom-pc/usr/lib/libgdk-x11-2.0.so: undefined reference to `XRRFreeOutput=
-Info'
-> | /opt/yocto/upstream/label/master/machine/atom-pc/poky/edison/tmp/sysroo=
-ts/atom-pc/usr/lib/libgdk-x11-2.0.so: undefined reference to `XRRFreeScreen=
-Resources'
-> | /opt/yocto/upstream/label/master/machine/atom-pc/poky/edison/tmp/sysroo=
-ts/atom-pc/usr/lib/libgdk-x11-2.0.so: undefined reference to `XRRGetOutputP=
-rimary'
-> | /opt/yocto/upstream/label/master/machine/atom-pc/poky/edison/tmp/sysroo=
-ts/atom-pc/usr/lib/libgdk-x11-2.0.so: undefined reference to `XRRFreeCrtcIn=
-fo'
-> | /opt/yocto/upstream/label/master/machine/atom-pc/poky/edison/tmp/sysroo=
-ts/atom-pc/usr/lib/libgdk-x11-2.0.so: undefined reference to `XRRGetCrtcInf=
-o'
-> | collect2: ld returned 1 exit status
->
-> Signed-off-by: Matthew McClintock <msm@freescale.com>
-> Signed-off-by: Saul Wold <sgw@linux.intel.com>
-> ---
->  .../owl-video/0001-add-dependency-for-xrandr.patch |   30 ++++++++++++++=
-++++++
->  .../recipes-sato/owl-video-widget/owl-video_git.bb |    5 ++-
->  2 files changed, 33 insertions(+), 2 deletions(-)
->  create mode 100644 meta/recipes-sato/owl-video-widget/owl-video/0001-add=
--dependency-for-xrandr.patch
->
-> diff --git a/meta/recipes-sato/owl-video-widget/owl-video/0001-add-depend=
-ency-for-xrandr.patch b/meta/recipes-sato/owl-video-widget/owl-video/0001-a=
-dd-dependency-for-xrandr.patch
-> new file mode 100644
-> index 0000000..8c14578
-> --- /dev/null
-> +++ b/meta/recipes-sato/owl-video-widget/owl-video/0001-add-dependency-fo=
-r-xrandr.patch
-> @@ -0,0 +1,30 @@
-> +Upstream-Status: Pending
-> +
-> +This patch should probably go upstream
-> +
-> +From 18bdd57b36489439dc5c18b20abd9d59c6778662 Mon Sep 17 00:00:00 2001
-> +From: Matthew McClintock <msm@freescale.com>
-> +Date: Wed, 25 Jul 2012 15:05:40 -0500
-> +Subject: [PATCH] add dependency for xrandr
-> +
-> +Signed-off-by: Matthew McClintock <msm@freescale.com>
-> +---
-> + src/Makefile.am |    2 +-
-> + 1 files changed, 1 insertions(+), 1 deletions(-)
-> +
-> +diff --git a/src/Makefile.am b/src/Makefile.am
-> +index 60e845b..00e4b11 100644
-> +--- a/src/Makefile.am
-> ++++ b/src/Makefile.am
-> +@@ -12,7 +12,7 @@ video_SOURCES =3D video.c      \
-> +       owl-overlay-bin.c       \
-> +       owl-overlay-bin.h
-> +
-> +-video_LDADD =3D $(VIDEO_LIBS)
-> ++video_LDADD =3D $(VIDEO_LIBS) -lXrandr
-> +
-> + dist_pkgdata_DATA =3D gtk-fullscreen.png
-> +
-> +--
-> +1.7.5.4
-> +
-> diff --git a/meta/recipes-sato/owl-video-widget/owl-video_git.bb b/meta/r=
-ecipes-sato/owl-video-widget/owl-video_git.bb
-> index bc63273..321b71b 100644
-> --- a/meta/recipes-sato/owl-video-widget/owl-video_git.bb
-> +++ b/meta/recipes-sato/owl-video-widget/owl-video_git.bb
-> @@ -10,7 +10,7 @@ DEPENDS =3D "libowl-av"
->
->  SRCREV =3D "f133472318970796fae1ea3e98ac062156768baf"
->  PV =3D "0.1+git${SRCPV}"
-> -PR =3D "r1"
-> +PR =3D "r2"
->
->  S =3D "${WORKDIR}/git"
->
-> @@ -23,7 +23,8 @@ SRC_URI =3D "git://git.yoctoproject.org/${BPN};protocol=
-=3Dgit \
->             file://stock_volume-med.png \
->             file://stock_volume-max.png \
->             file://owl-video-widget.desktop \
-> -          file://make-382.patch"
-> +          file://make-382.patch \
-> +          file://0001-add-dependency-for-xrandr.patch"
->
->  inherit autotools pkgconfig
->
-> --
-> 1.7.7.6
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core=
-
+Ross
 
 
