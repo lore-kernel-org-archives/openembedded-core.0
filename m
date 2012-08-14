@@ -1,29 +1,25 @@
-Received: from mail.mlbassoc.com ([65.100.170.105] helo=mail.chez-thomas.org)
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <gary@mlbassoc.com>) id 1T1FrG-00005Z-RO
+	(envelope-from <sgw@linux.intel.com>) id 1T1FwJ-0000B5-AC
 	for openembedded-core@lists.openembedded.org;
-	Tue, 14 Aug 2012 14:04:27 +0200
-Received: by mail.chez-thomas.org (Postfix, from userid 1998)
-	id B3F39F811F1; Tue, 14 Aug 2012 05:52:33 -0600 (MDT)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	hermes.chez-thomas.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=unavailable version=3.3.2
-Received: from [192.168.1.114] (zeus [192.168.1.114])
-	by mail.chez-thomas.org (Postfix) with ESMTP id 9D9E7F811D7;
-	Tue, 14 Aug 2012 05:52:32 -0600 (MDT)
-Message-ID: <502A3C00.6010609@mlbassoc.com>
-Date: Tue, 14 Aug 2012 05:52:32 -0600
-From: Gary Thomas <gary@mlbassoc.com>
+	Tue, 14 Aug 2012 14:09:39 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 14 Aug 2012 04:57:43 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.77,766,1336374000"; d="scan'208";a="208114390"
+Received: from unknown (HELO [10.255.12.219]) ([10.255.12.219])
+	by fmsmga002.fm.intel.com with ESMTP; 14 Aug 2012 04:57:42 -0700
+Message-ID: <502A3D34.6080208@linux.intel.com>
+Date: Tue, 14 Aug 2012 14:57:40 +0300
+From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:14.0) Gecko/20120714 Thunderbird/14.0
+	rv:14.0) Gecko/20120717 Thunderbird/14.0
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <502A3A26.5090008@mlbassoc.com>
-	<1344944787.23275.384.camel@phil-desktop>
-In-Reply-To: <1344944787.23275.384.camel@phil-desktop>
-Subject: Re: wpa-supplicant & EAP-TLS
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <CAK18fxFfWO0ZG2tisaROTuJ-FSgLoqMW4cUgTpNq3DNeqFpNqg@mail.gmail.com>
+In-Reply-To: <CAK18fxFfWO0ZG2tisaROTuJ-FSgLoqMW4cUgTpNq3DNeqFpNqg@mail.gmail.com>
+Subject: Re: dbus with tests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,31 +34,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Aug 2012 12:04:27 -0000
+X-List-Received-Date: Tue, 14 Aug 2012 12:09:39 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 2012-08-14 05:46, Phil Blundell wrote:
-> On Tue, 2012-08-14 at 05:44 -0600, Gary Thomas wrote:
->> Does anyone know why the recipe for wpa_supplicant is using gnutls
->> and not the default OpenSSH for TLS services?  It seems that gnutls
->> is somehow broken and EAP-TLS does not work with this configuration.
->> Changing wpa_supplicant to use the OpenSSH libraries makes EAP-TLS
->> work fine.
->>
->> Would a patch to make this change be entertained?  or should I just
->> keep it in my own layer?
+On 08/14/2012 02:11 PM, Andrei Gherzan wrote:
+> In the process of updating dbus, tests (in my opinion) are mandatory.
 >
-> I don't think a patch to just flip the default would be a good idea.  A
-> patch to make it be a DISTRO_FEATURE, on the other hand, would be
-> excellent.
+> While compiling dbus with tests, dbus and dbus-glib are needed. To
+> compile dbus-glib, dbus is needed (obviously). The only solution (to
+> compile dbus with tests) that i found is to create a new recipe named
+> dbus-tests where to compile dbus with --enable-tests
+> --enable-embedded-tests, skip write to sysroot (noexec) and just package
+> dbus-tests.
+>
+> 1. Do you guys know a better solution for this?
 
-Thanks, I'll see about working one up.
+We have started to think/chat about this, there was another patch on the 
+list recently that Mark Hatle and I talked about tests.
 
--- 
-------------------------------------------------------------
-Gary Thomas                 |  Consulting for the
-MLB Associates              |    Embedded world
-------------------------------------------------------------
+I think having the tests enabled with DISTRO_FEATURE would allow for the 
+flexibility of enabling then without always incurring the cost /overhead 
+of longer compile times.
+
+Can you incorporate the changes to the core recipe with out having to 
+add a new dbus-tests recipe if you use DISTRO_FEATURE?
+
+
+> 2. What would be a good path to use for installing tests?
+Same here, disucssion started.I would like to see tests go into 
+${datadir}/${BPN} (/usr/share/${BPN}.  /opt was discussed, but I think 
+we want to leave that clean and empty.
+
+
+Sau!
+
+
+>
+>
+> ag
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
 
