@@ -1,27 +1,38 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mail-wg0-f41.google.com ([74.125.82.41])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1T1kqU-0000bK-2c
+	(envelope-from <martin.jansa@gmail.com>) id 1T1l4s-0000op-KB
 	for openembedded-core@lists.openembedded.org;
-	Wed, 15 Aug 2012 23:09:42 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 15 Aug 2012 13:57:44 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.77,774,1336374000"; d="scan'208";a="208963818"
-Received: from unknown (HELO [10.255.12.253]) ([10.255.12.253])
-	by fmsmga002.fm.intel.com with ESMTP; 15 Aug 2012 13:57:42 -0700
-Message-ID: <502C0D40.5000809@linux.intel.com>
-Date: Wed, 15 Aug 2012 13:57:36 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:14.0) Gecko/20120717 Thunderbird/14.0
-MIME-Version: 1.0
+	Wed, 15 Aug 2012 23:24:34 +0200
+Received: by wgbds1 with SMTP id ds1so37633wgb.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 15 Aug 2012 14:12:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=xW9HqXw4zslBUbkJL9pBY05vxMpyKvQqiA9FUmQg0Vo=;
+	b=vOeNroRT9+vYGaHf7/5cTR4G8MpWudsUpkhGyYoc40DXseUp9f0IhdahYtLjEPW2NE
+	dJkaix0tAKdn5EcMhsEp9bOcU4mIsSB0sWZ4USw2lvsJ7+jt2kLJBs6IjWt9/XiSwq2c
+	tP8x6LmALMPRcyatL0YG7MZqfBp2sx9/qk94mH+mD4CTVyN6rY0fHKu0FKFE3K41Uwyl
+	zqoY9LR0+Kw0ZrIeNEJRS+9NL/82XhH3QaKbCjiJIZYJLFEiVdbB6+pdAha4LsRpbfED
+	4xUVj775zxzuJxOT53kv7RHOU7xkJrJ5MbNKO26bDc9lyMtq0KeUA4RPo1eVNUBv0k+R
+	Mjtg==
+Received: by 10.216.238.30 with SMTP id z30mr11007940weq.223.1345065158082;
+	Wed, 15 Aug 2012 14:12:38 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id l5sm7799985wix.5.2012.08.15.14.12.35
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 15 Aug 2012 14:12:36 -0700 (PDT)
+Date: Wed, 15 Aug 2012 23:12:32 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <76ac3ef04e78b07441df7d2c93c4a002deac74d5.1344946189.git.sgw@linux.intel.com>
-	<5623cc2a909aa332092db9ca0c79ef36c2987554.1344946189.git.sgw@linux.intel.com>
-	<1344970890.25109.2.camel@ted>
-In-Reply-To: <1344970890.25109.2.camel@ted>
-Subject: Re: [CONSOLIDATED REQUEST 05/64] console-tools: cleanup update-alternatives deprecated code
+Message-ID: <20120815211232.GC3108@jama.jama.net>
+References: <cover.1345047378.git.ross.burton@intel.com>
+	<10192d7fd47ea041f73511eaa8b5e56c13152951.1345047378.git.ross.burton@intel.com>
+MIME-Version: 1.0
+In-Reply-To: <10192d7fd47ea041f73511eaa8b5e56c13152951.1345047378.git.ross.burton@intel.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Subject: Re: [PATCH 1/2] make: add make-replacement-native 3.81
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,59 +47,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Aug 2012 21:09:42 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 15 Aug 2012 21:24:34 -0000
+X-Groupsio-MsgNum: 27543
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="zx4FCpZtqtKETZ7O"
+Content-Disposition: inline
 
-On 08/14/2012 12:01 PM, Richard Purdie wrote:
-> On Tue, 2012-08-14 at 15:12 +0300, Saul Wold wrote:
->> Signed-off-by: Saul Wold <sgw@linux.intel.com>
->> ---
->>   .../console-tools/console-tools_0.3.2.bb           |    8 ++++++--
->>   1 files changed, 6 insertions(+), 2 deletions(-)
->>
->> diff --git a/meta/recipes-core/console-tools/console-tools_0.3.2.bb b/meta/recipes-core/console-tools/console-tools_0.3.2.bb
->> index 6027d4a..1446368 100644
->> --- a/meta/recipes-core/console-tools/console-tools_0.3.2.bb
->> +++ b/meta/recipes-core/console-tools/console-tools_0.3.2.bb
->> @@ -3,7 +3,7 @@ LICENSE = "GPLv2"
->>   LIC_FILES_CHKSUM = "file://COPYING.kbd;md5=9b2d91511d3d80d4d20ac6e6b0137fe9"
->>   SUMMARY = "Allows you to set-up and manipulate the Linux console."
->>   DESCRIPTION = "Provides tools that enable the set-up and manipulation of the linux console and console-font files."
->> -PR = "r5"
->> +PR = "r6"
->>
->>   SRC_URI = "${SOURCEFORGE_MIRROR}/lct/console-tools-${PV}.tar.gz \
->>              file://codepage.patch \
->> @@ -35,6 +35,10 @@ inherit autotools gettext update-alternatives
->>   ALTERNATIVE_PRIORITY = "100"
->>
->>   bindir_progs = "chvt deallocvt fgconsole openvt"
->> -ALTERNATIVE_LINKS = "${bindir}/${@' ${bindir}/'.join((d.getVar('bindir_progs', True)).split())}"
->> +ALTERNATIVE_${PN} = "${bindir_progs}"
->> +#python __anonymous() {
->> +#	for prog in d.getVar('bindir_progs', True).split():
->> +#		d.setVarFlag('ALTERNATIVE_LINK_NAME', prog, '%s/%s' % (d.getVar('base_bindir', True), prog))
->> +#}
->
-Oops, that should not be there as I solved with the line above. Thanks 
-for taking care of that.
+--zx4FCpZtqtKETZ7O
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Sau!
+On Wed, Aug 15, 2012 at 05:18:49PM +0100, Ross Burton wrote:
+> GNU Make 3.82 has some regressions regarding parallel processing that cau=
+ses
+> some packages to fail, specifically WebKitGTK+.  Add make-replacement-nat=
+ive
+> 3.81 so that those packages can depend on a Make which is known to work.
+>=20
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> ---
+>  meta/recipes-devtools/make/make-replacement-native_3.81.bb |    6 ++++++
+>  1 file changed, 6 insertions(+)
+>  create mode 100644 meta/recipes-devtools/make/make-replacement-native_3.=
+81.bb
+>=20
+> diff --git a/meta/recipes-devtools/make/make-replacement-native_3.81.bb b=
+/meta/recipes-devtools/make/make-replacement-native_3.81.bb
+> new file mode 100644
+> index 0000000..716a8b5
+> --- /dev/null
+> +++ b/meta/recipes-devtools/make/make-replacement-native_3.81.bb
+> @@ -0,0 +1,6 @@
+> +require make_${PV}.bb
+> +
+> +inherit native
+> +
+> +BPN =3D "make"
+> +EXTRAINSTALL =3D ""
 
-> Any particular reason we're adding in this anonymous python function
-> which is commented out?
->
-> Cheers,
->
-> Richard
->
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
+eglibc was failing to build with make-3.81
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D2314
 
+so I guess once this is built (as webkit-gtk dependency), eglibc will maybe=
+ sometimes fail again..
 
+Cheers,
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--zx4FCpZtqtKETZ7O
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
+
+iEYEARECAAYFAlAsEMAACgkQN1Ujt2V2gBx0VwCggWbiE2QgkpMcBHLkioOXp7Z6
+odkAn1Y6wx16XtPNepvbLG6dYf/xVZkL
+=4XmX
+-----END PGP SIGNATURE-----
+
+--zx4FCpZtqtKETZ7O--
