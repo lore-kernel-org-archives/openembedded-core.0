@@ -1,22 +1,41 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>)
-	id 1T1aOR-00062f-9R; Wed, 15 Aug 2012 12:00:03 +0200
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 15 Aug 2012 02:46:52 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.77,772,1336374000"; d="scan'208";a="134500998"
-Received: from unknown (HELO helios.localnet) ([10.252.121.76])
-	by AZSMGA002.ch.intel.com with ESMTP; 15 Aug 2012 02:46:50 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.linuxtogo.org,
-	openembedded-devel@lists.linuxtogo.org, yocto@yoctoproject.org
-Date: Wed, 15 Aug 2012 10:46:49 +0100
-Message-ID: <2404459.dJBf5OQotX@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.9 (Linux/3.2.0-29-generic-pae; KDE/4.9.0; i686; ; )
+	(envelope-from <ross.burton@intel.com>) id 1T1aT7-0006cu-JG
+	for openembedded-core@lists.openembedded.org;
+	Wed, 15 Aug 2012 12:04:53 +0200
+Received: from mail-iy0-f180.google.com ([209.85.210.180])
+	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 15 Aug 2012 02:52:56 -0700
+Received: by iadj38 with SMTP id j38so120076iad.25
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 15 Aug 2012 02:52:55 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=zKn82zWxx6T4X1gQS7b46NdDsBz0CSJbBgJe+datMfo=;
+	b=T5lw9l5WsrDiv4uGpGJ7MLOgV8WiDwdGbYyCzhXjSBU4MZaiiRxXdzEjCitLCX84Z+
+	dYHw11ZgWuPDnmBrn6YmtyHj2RMh42djQyoL2t1g5KywgX4QrfaZDhFbh53K2tfNBg/z
+	U+wlIKU7BtyRa2y21vxF6QduF54Zrn0LLYmQFPd969cwVLXf8tWRlbuMUgeNoYb5YIGD
+	veDdTKeKQASlxYFKMfV4nckf4Ii4NQ0V9otjzHTxO9pXTUw4mwU16SH9AwxESYcDqboX
+	aNrb7/O+65FXCG1D8cndWxoPNQauNNxMX7IASgx8CcuEQy8rK1t01GzMQFwB/hhFGoHw
+	yCAw==
+Received: by 10.42.64.9 with SMTP id e9mr14029229ici.20.1345024375898; Wed, 15
+	Aug 2012 02:52:55 -0700 (PDT)
 MIME-Version: 1.0
-Subject: RFC: OE-Core task rework
+Received: by 10.64.146.103 with HTTP; Wed, 15 Aug 2012 02:52:34 -0700 (PDT)
+In-Reply-To: <CAJTo0Lbzc5vG64aPKiZ5H_iVpwaQ7bn5uT8eemKo294CczXA7w@mail.gmail.com>
+References: <cover.1344884283.git.ross.burton@intel.com>
+	<502AF9CD.9020508@linux.intel.com>
+	<CAJTo0LYPEOfgDhiKgh9G3Jsyi39hcU99qd0P_0UNL7NEwcY0PA@mail.gmail.com>
+	<CAJTo0Lbzc5vG64aPKiZ5H_iVpwaQ7bn5uT8eemKo294CczXA7w@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 15 Aug 2012 10:52:34 +0100
+Message-ID: <CAJTo0La-Z=nh5RLnD9idbr95=6cEcLZrPtEW+MuP3kdmMo9-bQ@mail.gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
+X-Gm-Message-State: ALoCoQkS6va0B0CsKLqAGM7ZpQ96tDCt54+N53o+tG1aqc95pztEGHTeAY7d4UE8hXDyPOpXu35w
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/8] Enable EGL and GLES in x86 Mesa
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,83 +50,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Aug 2012 10:00:03 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Wed, 15 Aug 2012 10:04:53 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Hi all,
+I just tested my mesa branch against stage/master_under_test too, builds fine.
 
-There have been a few requests to review the task recipes (i.e. package 
-groups) provided by OE-Core, and indeed these have not really been looked at 
-seriously since OE-Core was created. Ideally I think we want them to be useful 
-to a wide audience and provide useful units of functionality that can be added 
-to an image without the person doing the selection having to manually select 
-too many individual packages. Imagine presenting the list of tasks to someone 
-in a UI for assembling images (such as Hob or Narcissus) and you can start to 
-see that we have some work to do in this area.
+The complication is that you need to ensure that the mesa-glsl-native
+package is correct, even small patches to mesa make it produce bad
+code, but then you get an entirely different error.
 
-I know various distros and users of OE-Core have created their own tasks or 
-resurrected tasks from OE-Classic, and this is an opportunity to perhaps look 
-at bringing some of these (or at least, parts of them) into the core. It is 
-true that tasks will often be an expression of distro policy, and we also 
-can't have any tasks in OE-Core that refer to packages that don't exist in OE-
-Core; thus distros will always be extending the base tasks or adding their own 
-- and that's fine. However, with some thought I believe we can come up with a 
-set of tasks that are generally useful to most people using OE-Core.
-
-For reference, I've compiled a list on the wiki of the current tasks in OE-
-Core with links to the recipes and some notes:
-
-  http://www.openembedded.org/wiki/OE-Core_Task_Rework
-
-Some of the things I think we ought to consider/address as part of this 
-exercise:
-
-1) Do we rename "task" to something a little more understandable to the 
-uninitiated, such as "package group"? The word "task" is already used in a 
-much more natural sense within bitbake as a unit of work. Historically I 
-believe we picked up this term from Debian but I'm not aware of significant use 
-by other mainstream distributions.
-
-2) Look at the existing tasks and:
- * evaluate their usefulness
- * remove any that are obsolete
- * adjust existing contents if needed
- * look for useful groups of packages that might be added
-
- We need to pay particular attention to task-core-boot and task-base as these 
-are pulled in by default in any image that inherits from core-image.bbclass - 
-if these are not generally working for people that are creating their own 
-images, we need to change them such that they are.
-
-3) Ensure all task recipes follow reasonable patterns:
- *  Fix recipe DESCRIPTIONs to make sense (and not contain Poky references)
- *  Ensure all individual packages have a decent SUMMARY/DESCRIPTION
- *  Try to make each task have a reasonable name - there are some current uses 
-of "core" and "base" that don't actually convey any meaning; LSB specific tasks 
-should be named as such, etc.
- *  Make all tasks inherit task.bbclass so that they get proper dbg/dev 
-packages and any other common task functionality
-
-4) Consider the usefulness of the existing PACKAGE_GROUP_ structure which 
-converts some IMAGE_FEATURES into the addition of tasks to be installed (see 
-classes/core-image.bbclass). At the very least we should probably rename this 
-if we rename tasks to package groups, and there's a question as to how 
-IMAGE_FEATURES scales - should every task be represented in there or only a 
-select list? Would we be better off not trying to bring any tasks in via 
-IMAGE_FEATURES at all and mostly leave that to control post-processing (e.g. 
-package-management, debug-tweaks, etc.)?
-
-Please reply with your thoughts. Once we've come to a consensus on the things 
-we want to do (allowing plenty of time for discussion), I'll look at putting 
-together a set of patches that makes the appropriate changes.
-
-Thanks,
-Paul
-
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+Ross
 
 
