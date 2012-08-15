@@ -1,41 +1,61 @@
-Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
+Received: from co1ehsobe005.messaging.microsoft.com ([216.32.180.188]
+	helo=co1outboundpool.messaging.microsoft.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <kergoth@gmail.com>) id 1T1jD6-0006h0-0D
+	(envelope-from <B29882@freescale.com>) id 1T1jQv-0006uJ-Nn
 	for openembedded-core@lists.openembedded.org;
-	Wed, 15 Aug 2012 21:24:56 +0200
-Received: by lagv3 with SMTP id v3so957453lag.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Aug 2012 12:12:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date
-	:x-google-sender-auth:message-id:subject:to:content-type;
-	bh=7s6H+6H13FC2e1ZSOU2BIrc8Pb6TkLvJTSJFrbwUdPY=;
-	b=FiIxZpxJkBnt7wi7J2CsZHjnW++1OZYCJJCptpTolfohpvUoGtnJ+IjR0eOV73hOba
-	Su4ed/sfv5OOGvMreqWv09O4dE71BrXSgrcyIFseGsENQEbk57GCAq7CZIA1kG5vEb+Q
-	uQHQB2SBD22eQLQV8HRf8qVVtAXmZTDYAn7giet3rszDiKj8B1pbWJ3PKPMs0sYbn/7+
-	OBWM+ApGDi0siht64g2EdcjGygLwTUqiEL9xEVOJXZLFdnM2XxlivbqRbfrAjdnti85Q
-	aDTAHUXJ7/QIJuaR8yHNt+W7D8SO1QpBkr/79bwFC+jrk7eMyuF15NjmJPAX9mYQdK2c
-	hOng==
-Received: by 10.112.43.67 with SMTP id u3mr9961536lbl.16.1345057979693; Wed,
-	15 Aug 2012 12:12:59 -0700 (PDT)
-MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.114.5.104 with HTTP; Wed, 15 Aug 2012 12:12:39 -0700 (PDT)
-In-Reply-To: <502BE4F2.9080305@windriver.com>
-References: <2404459.dJBf5OQotX@helios>
-	<1345029924.23275.444.camel@phil-desktop>
-	<4456392.mCXMPqtakO@helios> <502BE4F2.9080305@windriver.com>
-From: Chris Larson <clarson@kergoth.com>
-Date: Wed, 15 Aug 2012 12:12:39 -0700
-X-Google-Sender-Auth: VtMEq5p9vTsiVhUGEHxzEbWfKP4
-Message-ID: <CABcZANnh2HzOrmeRr49BT7GXh47oUqTRHYfi1W-pk=OoO5mD+A@mail.gmail.com>
+	Wed, 15 Aug 2012 21:39:14 +0200
+Received: from mail169-co1-R.bigfish.com (10.243.78.245) by
+	CO1EHSOBE012.bigfish.com (10.243.66.75) with Microsoft SMTP Server id
+	14.1.225.23; Wed, 15 Aug 2012 19:27:16 +0000
+Received: from mail169-co1 (localhost [127.0.0.1])	by
+	mail169-co1-R.bigfish.com (Postfix) with ESMTP id 6AB1A8003C1	for
+	<openembedded-core@lists.openembedded.org>;
+	Wed, 15 Aug 2012 19:27:16 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-SpamScore: -2
+X-BigFish: VS-2(zz98dI9371I1432Izz1202hzz8275bhz2dh2a8h668h839h8e2h8e3hf0ah107ah10d2hbe9i)
+Received: from mail169-co1 (localhost.localdomain [127.0.0.1]) by mail169-co1
+	(MessageSwitch) id 1345058834833809_1922;
+	Wed, 15 Aug 2012 19:27:14 +0000 (UTC)
+Received: from CO1EHSMHS015.bigfish.com (unknown [10.243.78.227])	by
+	mail169-co1.bigfish.com (Postfix) with ESMTP id C040560004E	for
+	<openembedded-core@lists.openembedded.org>;
+	Wed, 15 Aug 2012 19:27:14 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by CO1EHSMHS015.bigfish.com
+	(10.243.66.25) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Wed, 15 Aug 2012 19:27:14 +0000
+Received: from 039-SN1MPN1-001.039d.mgd.msft.net ([169.254.1.41]) by
+	039-SN1MMR1-004.039d.mgd.msft.net ([::1]) with mapi id 14.02.0298.005;
+	Wed, 15 Aug 2012 14:27:13 -0500
+From: McClintock Matthew-B29882 <B29882@freescale.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: RFC: OE-Core task rework
+Thread-Topic: [OE-core] [PATCH v2] kmod: Handle undefined O_CLOEXEC
+Thread-Index: AQHNexUI88Rs34hczU2LmLXRR16nOpdbkQaAgAAEdQA=
+Date: Wed, 15 Aug 2012 19:27:13 +0000
+Message-ID: <CAEsOVNd1DB0M5pNndxMLt4bdMwRCADPBLv9pw9pC_TELPwXAVA@mail.gmail.com>
+References: <1343052252-4154-1-git-send-email-radu.moisan@intel.com>
+	<lywr1uzguj.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	<500E50C5.8000403@intel.com>
+	<CABcZANkJhW+yER52vnbXSywxd-mhpNTPrFixL6R27thmMRmhMg@mail.gmail.com>
+	<CAJTo0LYT5Jup6SXnmA62+Wy8sua94BdB_VwuHJ8erK1gshaYFw@mail.gmail.com>
+	<CAEsOVNcVB5zp7rhN4LP7ANx3hDq51kFQt_0L=O5=YLU6Qp_D-Q@mail.gmail.com>
+	<CABcZANkfFMgTxeQWzpKe2d2NqhMYaz27q-dnfW5m7-BJO2yygQ@mail.gmail.com>
+In-Reply-To: <CABcZANkfFMgTxeQWzpKe2d2NqhMYaz27q-dnfW5m7-BJO2yygQ@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [70.112.201.132]
+MIME-Version: 1.0
+X-OriginatorOrg: freescale.com
+Cc: McClintock Matthew-B29882 <B29882@freescale.com>
+Subject: Re: [PATCH v2] kmod: Handle undefined O_CLOEXEC
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -46,36 +66,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Aug 2012 19:24:56 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 15 Aug 2012 19:39:14 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <E5F9F3739C83E64A9FC180CED082909E@mgd.freescale.com>
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Aug 15, 2012 at 11:05 AM, Mark Hatle <mark.hatle@windriver.com> wrote:
->>   * The tasks can be used and referred to on the target if desired, not
->> just
->> when you compose the image (i.e. task packages are produced and thus the
->> package manager knows about them).
+On Wed, Aug 15, 2012 at 2:10 PM, Chris Larson <clarson@kergoth.com> wrote:
+> On Wed, Aug 15, 2012 at 11:37 AM, McClintock Matthew-B29882
+> <B29882@freescale.com> wrote:
+>> On Tue, Jul 24, 2012 at 8:40 AM, Burton, Ross <ross.burton@intel.com> wr=
+ote:
+>>> On 24 July 2012 14:27, Chris Larson <clarson@kergoth.com> wrote:
+>>>> On Tue, Jul 24, 2012 at 12:37 AM, Radu Moisan <radu.moisan@intel.com> =
+wrote:
+>>>>> I have not tested on CentOS 5.8 if the applications are not broken in=
+ some
+>>>>> way, but that's not in the scope of this patch. If something does ind=
+eed
+>>>>> break, then a totally different patch is required, targeting a backpo=
+rt of
+>>>>> kmod for kernel older than 2.6.23.
+>>>>
+>>>> Personally, I'd rather see the build fail than have the tools behave
+>>>> incorrectly in some inexplicable way. If you haven't tested it, the
+>>>> patch shouldn't go in.
+>>>
+>>> I was curious...
+>>>
+>>> There are two commits in kmod where the cloexec changes were made:
+>>>
+>>> http://git.profusion.mobi/cgit.cgi/kmod.git/log/?qt=3Dgrep&q=3Dcloexec
+>>>
+>>> The changes were a simple addition of the O_CLOEXEC flag, so this
+>>> patch is simply the union of those two commits.  A release of kmod
+>>> that doesn't require O_CLOEXEC has the same behaviour as this patch.
+>>> The problem O_CLOEXEC is solving isn't possible to solve cleanly
+>>> without it.  Using an older version of kmod instead of patching kmod
+>>> to work on older systems would result in more bugs and less features
+>>> for no win.
+>>
+>> Was there any conclusion on this? I'm seeing the same problems. This
+>> would only effect kmod-native (unless the target was using the older
+>> stuff as well which is uncommon at this point).
 >
->
-> I think this is a key advantage.  Again, if we think of these tasks as
-> logical groups of functionality, it gives an image developer (or installer)
-> the ability to say "I need booting, discrete commands, python, perl, and LSB
-> compliance." and get a system in the end that -should- work.
->
-> The image/installer should always be able to specify individual recipes as
-> well, but often inexperienced users won't know that they need two or three
-> recipes (that don't have actual dependencies on each other) to get a
-> functionally complete answer.
+> For what it's worth, we applied this in our layer and things do seem
+> to work fine with this applied. It was either this or what we did
+> before (reverted the switch to kmod-native and retained
+> module-init-tools-cross), as we require CentOS5/RHEL5 support still.
 
-It seems like you're arguing in favor of the ability to add groups of
-packages to an image, which no one disagrees with, and isn't really
-relevant to the bit you're quoting. The bit that tasks add that
-package groups / image features don't is the ability to add them after
-the fact at runtime, not image creation time.
--- 
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
+I've been doing something similar and it's been working OK. -  I think
+we should apply Ross's patch.
+
+-M
+
+diff --git a/meta/recipes-kernel/kmod/kmod-native_git.bb
+b/meta/recipes-kernel/kmod/kmod-native_git.bb
+index 96de8b8..054a842 100644
+--- a/meta/recipes-kernel/kmod/kmod-native_git.bb
++++ b/meta/recipes-kernel/kmod/kmod-native_git.bb
+@@ -4,7 +4,9 @@
+ require kmod.inc
+ inherit native
+
+-PR =3D "${INC_PR}.0"
++PR =3D "${INC_PR}.1"
++
++CFLAGS +=3D "-D O_CLOEXEC=3D0"
+
+ do_install_append (){
+        for tool in depmod insmod lsmod modinfo modprobe rmmod
+
+-M=
+
 
 
