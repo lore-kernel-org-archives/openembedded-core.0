@@ -1,36 +1,39 @@
 Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1T1gW4-0002vj-5s
+	(envelope-from <ross.burton@intel.com>) id 1T1gWE-0002xv-Mm
 	for openembedded-core@lists.openembedded.org;
-	Wed, 15 Aug 2012 18:32:20 +0200
-Received: from mail-wi0-f178.google.com ([209.85.212.178])
-	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 15 Aug 2012 09:19:20 -0700
-Received: by wibhr14 with SMTP id hr14so1294246wib.13
+	Wed, 15 Aug 2012 18:32:30 +0200
+Received: from mail-we0-f180.google.com ([74.125.82.180])
+	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 15 Aug 2012 09:19:27 -0700
+Received: by weyt11 with SMTP id t11so1031661wey.25
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Aug 2012 09:19:19 -0700 (PDT)
+	Wed, 15 Aug 2012 09:19:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer:x-gm-message-state;
-	bh=7UEUzEh/VJV0hLAfQqiY9OfbBY5pHm+Ul6W8kdtFnCY=;
-	b=afKJUhUzc2nIRuMcm2Ol1fIKDzu/eKaiBGwQUg+YMe1Qm+Enn1HDq8yW/ZLJyfo4f8
-	lHBQ+ZR6MXnlgcA84u6AQ90Nc298QVLbzalpwM1NGg5GgeOT6rXCc+/eoBZcu1wxwZTi
-	QX6+nVcNUw6gX0eCk/sg6sN1gkvcPRhWIiMB2bpmVz/rv40yUQ41aE9bbPYafLq8+/cF
-	DTUEkmTLF/xjM7eK03pmsz+5SDi29ZeambkA+yg49kwZlVB3vLFQecJ359BKWiUE2oz+
-	1c5fQeG5l1H63nmMwPQzcfuwGtESJixYkEXTgLbMUGWNME+EeBgvAoGo6f5DQ5AobDTb
-	kTkQ==
-Received: by 10.216.23.202 with SMTP id v52mr8420567wev.32.1345047558791;
-	Wed, 15 Aug 2012 09:19:18 -0700 (PDT)
+	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
+	:x-gm-message-state;
+	bh=uZs09rDCr9IWaawA4la9TBv71mW3p1GAsIlMREp1h/E=;
+	b=RWLjDUYv7TmwEfACcbOfzHhuMdT6v7qRlqtI/xJqEiKdpV4wKJ487XZZ05f3sUh82I
+	KGhgYnjW+PNvtkmAer0b0cUL7bA56tKJtWooMjYlxJwWQCeHQ7VnElu50KC8Qjpk236I
+	6ntwAlvLbt/rBrIEMtiYEP7eno/Owcye08HpabcBMB3zcp7HYvFlzi3SnoLftZTcuGZ1
+	V1q6JdCp2wJPddQxoL65CX029VaklgMhr678a3/lZXrCniv5gPTTMAhRTItJvdLAqNIx
+	T7u/y8CLwLSkirCc9QC6fD0/8u5xRLDyw/Tib14zZ24H3ldCgyESgekk1n9sKKI1HpTt
+	h2pg==
+Received: by 10.180.92.194 with SMTP id co2mr35039776wib.16.1345047565608;
+	Wed, 15 Aug 2012 09:19:25 -0700 (PDT)
 Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPS id eu4sm29482830wib.2.2012.08.15.09.19.16
+	by mx.google.com with ESMTPS id cu1sm29480723wib.6.2012.08.15.09.19.24
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 15 Aug 2012 09:19:17 -0700 (PDT)
+	Wed, 15 Aug 2012 09:19:24 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 15 Aug 2012 17:18:45 +0100
-Message-Id: <cover.1345047378.git.ross.burton@intel.com>
+Date: Wed, 15 Aug 2012 17:18:49 +0100
+Message-Id: <10192d7fd47ea041f73511eaa8b5e56c13152951.1345047378.git.ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10
-X-Gm-Message-State: ALoCoQlAyOoOP0HqNTvTI0XPhEVfP5xiRnz4aAv+pE5ppc2yPE6J/TqTkecBOTskmYcBSiozYtyo
-Subject: [PATCH 0/2] Make webkit-gtk depend on make-replacement-native 3.81
+In-Reply-To: <cover.1345047378.git.ross.burton@intel.com>
+References: <cover.1345047378.git.ross.burton@intel.com>
+X-Gm-Message-State: ALoCoQmYvk/vH4Yebg+PwkpGv0B0br7JgiexVTlweN22FNzoo/OAwaVa+J3+6z/KhRLSxYOKEE4L
+Subject: [PATCH 1/2] make: add make-replacement-native 3.81
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,48 +48,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Aug 2012 16:32:20 -0000
+X-List-Received-Date: Wed, 15 Aug 2012 16:32:30 -0000
 
-This isn't my finest moment but I welcome suggestions...
+GNU Make 3.82 has some regressions regarding parallel processing that causes
+some packages to fail, specifically WebKitGTK+.  Add make-replacement-native
+3.81 so that those packages can depend on a Make which is known to work.
 
-webkit-gtk fails with -j when the host has GNU Make 3.82.  This appears to be a
-GNU Make regression where it prunes rules it actually needs.
-
-So add make-replacement-native 3.81, and depend on that in webkit-gtk.
-
-I'm now off to scrub myself clean.
-
-The following changes since commit 0c6ac62a9fb81146ace64ae7493dcc56b4bed197:
-
-  documentation: remove references to Pimlico (2012-08-15 15:26:27 +0100)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib ross/make
-
-for you to fetch changes up to 127bffbf550f6357ad14c1b5b03c1c908e4e51e2:
-
-  webkit-gtk: add depends on make-replacement-native (2012-08-15 17:15:55 +0100)
-
-----------------------------------------------------------------
-Ross Burton (2):
-      make: add make-replacement-native 3.81
-      webkit-gtk: add depends on make-replacement-native
-
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
  meta/recipes-devtools/make/make-replacement-native_3.81.bb |    6 ++++++
- meta/recipes-sato/webkit/webkit-gtk_1.8.1.bb               |    8 +++++---
- 2 files changed, 11 insertions(+), 3 deletions(-)
+ 1 file changed, 6 insertions(+)
  create mode 100644 meta/recipes-devtools/make/make-replacement-native_3.81.bb
 
-Ross Burton (2):
-  make: add make-replacement-native 3.81
-  webkit-gtk: add depends on make-replacement-native
-
- meta/recipes-devtools/make/make-replacement-native_3.81.bb |    6 ++++++
- meta/recipes-sato/webkit/webkit-gtk_1.8.1.bb               |    8 +++++---
- 2 files changed, 11 insertions(+), 3 deletions(-)
- create mode 100644 meta/recipes-devtools/make/make-replacement-native_3.81.bb
-
+diff --git a/meta/recipes-devtools/make/make-replacement-native_3.81.bb b/meta/recipes-devtools/make/make-replacement-native_3.81.bb
+new file mode 100644
+index 0000000..716a8b5
+--- /dev/null
++++ b/meta/recipes-devtools/make/make-replacement-native_3.81.bb
+@@ -0,0 +1,6 @@
++require make_${PV}.bb
++
++inherit native
++
++BPN = "make"
++EXTRAINSTALL = ""
 -- 
 1.7.10
 
