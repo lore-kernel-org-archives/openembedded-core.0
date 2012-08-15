@@ -1,45 +1,19 @@
-Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1T1jWY-000731-Si
+	(envelope-from <bruce.ashfield@windriver.com>) id 1T1k3K-0007po-Im
 	for openembedded-core@lists.openembedded.org;
-	Wed, 15 Aug 2012 21:45:03 +0200
-Received: from mail-ob0-f180.google.com ([209.85.214.180])
-	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 15 Aug 2012 12:33:05 -0700
-Received: by obceq6 with SMTP id eq6so2187523obc.25
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Aug 2012 12:33:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type:x-gm-message-state;
-	bh=5dlnhcg3mo7jSbrbrC06KBYDf7wvoa+8pCqlcimSY0k=;
-	b=fIBBtFy5lM1/osBFhYRhAxlPvTu1BwNuWtXe7j2Axixy2E0oN7pKe0fVE0rll4os20
-	4fFzH/lF5+gNnJrxn2Pd0mghoCZRhPM3kosgWFztEofGJyQhiwiSv5I68favj+WnnZV2
-	C0/vlXJNtuXI26pF3Lgg4ey3yWME9Dw9kS0Fi1pSZjpp7hEpKek5+/W42VvUD1aWlled
-	aJFN7AR/WnqqXja9SwGigSLRiUo4Vrb6ZuowVu3Hp6Z58vbnuxyYYi/GZpxzsoAr3p54
-	6QIVnTF9YE3Cr0IrUYinfHId+BK/fBj+pyHChrku6AbJZgr2lgjZ1FlvSWmJQR4MZmRG
-	NJ1Q==
-Received: by 10.50.57.168 with SMTP id j8mr19796535igq.16.1345059184243; Wed,
-	15 Aug 2012 12:33:04 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.64.146.103 with HTTP; Wed, 15 Aug 2012 12:32:43 -0700 (PDT)
-In-Reply-To: <CAEsOVNd1DB0M5pNndxMLt4bdMwRCADPBLv9pw9pC_TELPwXAVA@mail.gmail.com>
-References: <1343052252-4154-1-git-send-email-radu.moisan@intel.com>
-	<lywr1uzguj.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<500E50C5.8000403@intel.com>
-	<CABcZANkJhW+yER52vnbXSywxd-mhpNTPrFixL6R27thmMRmhMg@mail.gmail.com>
-	<CAJTo0LYT5Jup6SXnmA62+Wy8sua94BdB_VwuHJ8erK1gshaYFw@mail.gmail.com>
-	<CAEsOVNcVB5zp7rhN4LP7ANx3hDq51kFQt_0L=O5=YLU6Qp_D-Q@mail.gmail.com>
-	<CABcZANkfFMgTxeQWzpKe2d2NqhMYaz27q-dnfW5m7-BJO2yygQ@mail.gmail.com>
-	<CAEsOVNd1DB0M5pNndxMLt4bdMwRCADPBLv9pw9pC_TELPwXAVA@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 15 Aug 2012 20:32:43 +0100
-Message-ID: <CAJTo0LYU_DpA9oywH9wCu9DHwJR-B7iJk6_nPiT=SAGGNSGVwA@mail.gmail.com>
-To: McClintock Matthew-B29882 <B29882@freescale.com>, 
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Gm-Message-State: ALoCoQnumP9JfWwFbYlKCtM5GH/waGDJPwOtQ5eyOo+EtuySuQMOc4v4AvIqFhnxqBihjRmpA9AG
-Subject: Re: [PATCH v2] kmod: Handle undefined O_CLOEXEC
+	Wed, 15 Aug 2012 22:18:54 +0200
+Received: from yow-bashfiel-l1.wrs.com (yow-bashfiel-d3.wrs.com
+	[128.224.147.67])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q7FK6sWb011691;
+	Wed, 15 Aug 2012 13:06:55 -0700 (PDT)
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: richard.purdie@linuxfoundation.org
+Date: Wed, 15 Aug 2012 16:06:19 -0400
+Message-Id: <cover.1345059176.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 1.7.5.4
+Cc: openembedded-core@lists.openembedded.org, saul.wold@intel.com
+Subject: [PATCH 0/4] linux-yocto: consolidated update
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -54,15 +28,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Aug 2012 19:45:03 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 15 Aug 2012 20:18:55 -0000
 
-On 15 August 2012 20:27, McClintock Matthew-B29882 <B29882@freescale.com> wrote:
-> I've been doing something similar and it's been working OK. -  I think
-> we should apply Ross's patch.
+Richard/Saul,
 
-Radu's, not mine.
+Here's a consolidated update that I've had under test in one
+way or another for 3 weeks now. Tom Z and others have also been
+using parts of this for their work, so it has seen a reasonably
+wide set of testers.
 
-Ross
+This series further streamlines working with linux-yocto* based
+recipes/repositories by breaking the last branch based triggers
+in the tooling. Branches were the most important piece of 
+information when working with the tools and a linux-yocto repository,
+but this has now been generalized, and BSP descriptions (among
+other things) are now found by MACHINE and kernel type only. 
+
+With this, KBRANCH now becomes what it was supposed to be, an 
+human readible indication of the branch that is supposed to be
+built, and one that the kern-tools will validate. If that branch
+is not validated, an error is thrown. If the default branch is
+left as-is, then the in-tree description leaves you on the 
+proper branch and all is well.
+
+I also have a collection of bug fixes to the tools, including
+support for having a meta branch not called 'meta'.
+
+I'd recommend that this go through some AB tests, and I'll be
+around if there's a corner case that I managed to miss.
+
+Cheers,
+
+Bruce
+
+The following changes since commit ee11e7ac55fa41cb69e9519f3e879a1746c4cf33:
+
+  linux-yocto/meta-yocto/3.4: BSP, uprobes, config and cleanups (2012-08-15 13:52:00 -0400)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib zedd/kernel-dev
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel-dev
+
+Bruce Ashfield (4):
+  linux-yocto: make KBRANCH the exception and not the rule
+  linux-yocto/3.4: remove explicit KBRANCH designations
+  linux-yocto: explicitly export KMETA to scripts
+  kern-tools: fixes (branching,buildall) + cleanups (checkpoint,cleaner)
+
+ meta/classes/kernel-yocto.bbclass                  |   93 ++++++++++++++------
+ .../kern-tools/kern-tools-native_git.bb            |    2 +-
+ meta/recipes-kernel/linux/linux-yocto_3.4.bb       |   11 +--
+ 3 files changed, 69 insertions(+), 37 deletions(-)
+
+-- 
+1.7.5.4
+
 
 
