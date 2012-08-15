@@ -1,41 +1,22 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <koen@dominion.thruhere.net>) id 1T1YPZ-0003gO-Ry
-	for openembedded-core@lists.openembedded.org;
-	Wed, 15 Aug 2012 09:53:05 +0200
-Received: by eaad12 with SMTP id d12so309852eaa.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Aug 2012 00:41:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date
-	:content-transfer-encoding:message-id:references:to:x-mailer
-	:x-gm-message-state;
-	bh=zVDf4qU+y7iQxlZ2dVtvvtDAskc0FFUW8HRYwvtXqWo=;
-	b=G4ubHf97cavTN2JLsHl1f0yGQNSe/kvO9QWF0o3O4ScBAu2YA6dP8OuCcEvCX7rdzb
-	lmXGH34l7aarAR3GPO/0mFzXfDyXDlgOzoO1SYM0q2G6S+nUzoo1srXEhveGBAG56x0Y
-	78AUxGHOh9gduO1orc9KNgbOohgUzT1jbSYarfBeb2FcJ0n+/i1e8JTlOhrO1UFwE3si
-	vBC7BTMEwsL9/8iqnX9veDYTwCjQazmRlBguEpwM7HYHicsF1wu9R/VvEcoVRTWQEBqd
-	QRMZDuxicBy999sQCgE+CtgO++xKRg6cMsjVKHW5w/N/vIb25+9ESBPH2+IU1RsEMm2a
-	71/g==
-Received: by 10.14.206.201 with SMTP id l49mr19868595eeo.3.1345016470264;
-	Wed, 15 Aug 2012 00:41:10 -0700 (PDT)
-Received: from [172.20.0.10] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
-	by mx.google.com with ESMTPS id h2sm1872961eeo.3.2012.08.15.00.41.08
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Wed, 15 Aug 2012 00:41:09 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 6.0 \(1485\))
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <CAMKF1so5imbcuFU1Ad2FXD8zQmAyLSTbfSS0kNtvQSE_Wj9JbQ@mail.gmail.com>
-Date: Wed, 15 Aug 2012 09:41:12 +0200
-Message-Id: <8C7A9127-A67A-40DF-AB9E-FB9E4B80F9C4@dominion.thruhere.net>
-References: <1345000125-3865-1-git-send-email-b19537@freescale.com>
-	<CAMKF1so5imbcuFU1Ad2FXD8zQmAyLSTbfSS0kNtvQSE_Wj9JbQ@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Mailer: Apple Mail (2.1485)
-X-Gm-Message-State: ALoCoQl4fEjELNHHoQkCuTy6GGSdLpY64YYBwSsN0QuUenBeGqn6tNZbu5pv04IQtsKbN0XuoiJC
-Subject: Re: udev: update rcS to auto-detect hostname
+	(envelope-from <paul.eggleton@linux.intel.com>)
+	id 1T1aOR-00062f-9R; Wed, 15 Aug 2012 12:00:03 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 15 Aug 2012 02:46:52 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.77,772,1336374000"; d="scan'208";a="134500998"
+Received: from unknown (HELO helios.localnet) ([10.252.121.76])
+	by AZSMGA002.ch.intel.com with ESMTP; 15 Aug 2012 02:46:50 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.linuxtogo.org,
+	openembedded-devel@lists.linuxtogo.org, yocto@yoctoproject.org
+Date: Wed, 15 Aug 2012 10:46:49 +0100
+Message-ID: <2404459.dJBf5OQotX@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.9 (Linux/3.2.0-29-generic-pae; KDE/4.9.0; i686; ; )
+MIME-Version: 1.0
+Subject: RFC: OE-Core task rework
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,32 +31,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Aug 2012 07:53:06 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 15 Aug 2012 10:00:03 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
+Hi all,
 
-Op 15 aug. 2012, om 05:01 heeft Khem Raj <raj.khem@gmail.com> het =
-volgende geschreven:
+There have been a few requests to review the task recipes (i.e. package 
+groups) provided by OE-Core, and indeed these have not really been looked at 
+seriously since OE-Core was created. Ideally I think we want them to be useful 
+to a wide audience and provide useful units of functionality that can be added 
+to an image without the person doing the selection having to manually select 
+too many individual packages. Imagine presenting the list of tasks to someone 
+in a UI for assembling images (such as Hob or Narcissus) and you can start to 
+see that we have some work to do in this area.
 
-> On Tue, Aug 14, 2012 at 8:08 PM,  <b19537@freescale.com> wrote:
->> echo `cat /proc/cpuinfo | grep model | cut -d "," -f 2 | tr "[A-Z]" =
-"[a-z]"`
->=20
-> $ echo `cat /proc/cpuinfo | grep model | cut -d "," -f 2 | tr "[A-Z]" =
-"[a-z]"`
-> model : 23 model name : intel(r) core(tm)2 quad cpu q9300 @ 2.50ghz
-> model : 23 model name : intel(r) core(tm)2 quad cpu q9300 @ 2.50ghz
-> model : 23 model name : intel(r) core(tm)2 quad cpu q9300 @ 2.50ghz
-> model : 23 model name : intel(r) core(tm)2 quad cpu q9300 @ 2.50ghz
->=20
-> is that what we want ?
+I know various distros and users of OE-Core have created their own tasks or 
+resurrected tasks from OE-Classic, and this is an opportunity to perhaps look 
+at bringing some of these (or at least, parts of them) into the core. It is 
+true that tasks will often be an expression of distro policy, and we also 
+can't have any tasks in OE-Core that refer to packages that don't exist in OE-
+Core; thus distros will always be extending the base tasks or adding their own 
+- and that's fine. However, with some thought I believe we can come up with a 
+set of tasks that are generally useful to most people using OE-Core.
 
-On ARM it will be empty:
+For reference, I've compiled a list on the wiki of the current tasks in OE-
+Core with links to the recipes and some notes:
 
-root@beaglebone:~# echo `cat /proc/cpuinfo | grep model | cut -d "," -f =
-2 | tr "[A-Z]" "[a-z]"`
+  http://www.openembedded.org/wiki/OE-Core_Task_Rework
 
-root@beaglebone:~#=
+Some of the things I think we ought to consider/address as part of this 
+exercise:
+
+1) Do we rename "task" to something a little more understandable to the 
+uninitiated, such as "package group"? The word "task" is already used in a 
+much more natural sense within bitbake as a unit of work. Historically I 
+believe we picked up this term from Debian but I'm not aware of significant use 
+by other mainstream distributions.
+
+2) Look at the existing tasks and:
+ * evaluate their usefulness
+ * remove any that are obsolete
+ * adjust existing contents if needed
+ * look for useful groups of packages that might be added
+
+ We need to pay particular attention to task-core-boot and task-base as these 
+are pulled in by default in any image that inherits from core-image.bbclass - 
+if these are not generally working for people that are creating their own 
+images, we need to change them such that they are.
+
+3) Ensure all task recipes follow reasonable patterns:
+ *  Fix recipe DESCRIPTIONs to make sense (and not contain Poky references)
+ *  Ensure all individual packages have a decent SUMMARY/DESCRIPTION
+ *  Try to make each task have a reasonable name - there are some current uses 
+of "core" and "base" that don't actually convey any meaning; LSB specific tasks 
+should be named as such, etc.
+ *  Make all tasks inherit task.bbclass so that they get proper dbg/dev 
+packages and any other common task functionality
+
+4) Consider the usefulness of the existing PACKAGE_GROUP_ structure which 
+converts some IMAGE_FEATURES into the addition of tasks to be installed (see 
+classes/core-image.bbclass). At the very least we should probably rename this 
+if we rename tasks to package groups, and there's a question as to how 
+IMAGE_FEATURES scales - should every task be represented in there or only a 
+select list? Would we be better off not trying to bring any tasks in via 
+IMAGE_FEATURES at all and mostly leave that to control post-processing (e.g. 
+package-management, debug-tweaks, etc.)?
+
+Please reply with your thoughts. Once we've come to a consensus on the things 
+we want to do (allowing plenty of time for discussion), I'll look at putting 
+together a set of patches that makes the appropriate changes.
+
+Thanks,
+Paul
+
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
