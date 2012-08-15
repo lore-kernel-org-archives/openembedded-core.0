@@ -1,31 +1,42 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+Received: from mail-ey0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1T1bOU-0007kW-IL
-	for openembedded-core@lists.openembedded.org;
-	Wed, 15 Aug 2012 13:04:10 +0200
-Received: from elite.brightsigndigital.co.uk ([81.142.160.137]
-	helo=[172.30.1.145])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>) id 1T1bCy-0003hw-Ew
-	for openembedded-core@lists.openembedded.org;
-	Wed, 15 Aug 2012 12:52:16 +0200
-From: Phil Blundell <philb@gnu.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Wed, 15 Aug 2012 11:52:15 +0100
-In-Reply-To: <502B7E58.5010002@mlbassoc.com>
-References: <502A3A26.5090008@mlbassoc.com>
-	<1344944787.23275.384.camel@phil-desktop>
-	<502A3C00.6010609@mlbassoc.com>
-	<20120814135946.GA5597@mi.fu-berlin.de>
-	<3873D957-9816-4F94-B331-C3B7CB68FF37@dominion.thruhere.net>
-	<502A6515.2050007@mlbassoc.com>
-	<1344976258.7750.33.camel@x121e.pbcl.net>
-	<502B7E58.5010002@mlbassoc.com>
-X-Mailer: Evolution 3.0.2- 
-Message-ID: <1345027936.23275.438.camel@phil-desktop>
-Mime-Version: 1.0
-Subject: Re: wpa-supplicant & EAP-TLS
+	(envelope-from <koen@dominion.thruhere.net>) id 1T1bQW-0007oC-Og
+	for openembedded-core@lists.linuxtogo.org;
+	Wed, 15 Aug 2012 13:06:16 +0200
+Received: by eaad12 with SMTP id d12so351857eaa.6
+	for <openembedded-core@lists.linuxtogo.org>;
+	Wed, 15 Aug 2012 03:54:21 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=content-type:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to:x-mailer
+	:x-gm-message-state;
+	bh=O1JGZx9zIWPme/PaaFLMLvwB8NHEQg0CgrZX3CA22sU=;
+	b=iyxOwlTQaRsKvE5WaP7YxAWFDvMXwnFxWfzB7Dfx0eG1oW1HUQMoi8eNHazssJjlZ4
+	mFwv/giYWkwJn4dALwVchz2XFopTbVQOY/6SGuY3Hrq77zR5oQgT0XgFhfY3G6C05GwV
+	lKmtGgDFK4vRAz07TYDIV6n9Dge9ZJFMfFG/KzlOo4vURsQgnkgcw/TAs3wBOSPu2+E9
+	3nmd3yehy/V9Q4a7MLtROp8fm+R3cVuzzDAxBx7zx0A9Gsb0Nsdck9xS5bV7FNSPpvo3
+	39SS5t95AgtPdi02G9s7mrQYEPAuRejjaWa+ZfLcg+MzdQej+JXGdRboc/WA44qSthVI
+	IPbg==
+Received: by 10.14.223.196 with SMTP id v44mr20186412eep.4.1345028060860;
+	Wed, 15 Aug 2012 03:54:20 -0700 (PDT)
+Received: from ?IPv6:2001:610:612::fdf3:e292:2da4:ca2e?
+	([2001:610:612:0:fdf3:e292:2da4:ca2e])
+	by mx.google.com with ESMTPS id 45sm3028535eed.17.2012.08.15.03.54.18
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Wed, 15 Aug 2012 03:54:19 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 6.0 \(1485\))
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <2404459.dJBf5OQotX@helios>
+Date: Wed, 15 Aug 2012 12:54:17 +0200
+Message-Id: <515C1337-A61A-49A6-837A-9305749FF1DA@dominion.thruhere.net>
+References: <2404459.dJBf5OQotX@helios>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+X-Mailer: Apple Mail (2.1485)
+X-Gm-Message-State: ALoCoQmTPcmZriDgtW17o9VmhYVhkr0MUJwrTmvCt0nykJ6leuOeSYlyKsMrDCSrNNnvQQL/JFWK
+Cc: openembedded-core@lists.linuxtogo.org, yocto@yoctoproject.org,
+	openembedded-devel@lists.linuxtogo.org
+Subject: Re: [yocto] RFC: OE-Core task rework
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,54 +51,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Aug 2012 11:04:10 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-
-On Wed, 2012-08-15 at 04:47 -0600, Gary Thomas wrote:
-> I looked a bit into this and found that OE-core is already rather
-> schizo on this topic, so I'm not quite sure what needs to be done
-> here (i.e. should there be a DISTRO_FEATURES switch that chooses only
-> one?)  It would seem that all systems (at least those with wpa-supplicant
-> included) will already have both SSL libraries installed.
-
-"All systems" is probably a bit strong.  I certainly have multiple
-configurations which don't install anything from the openssl list below.
-
-Anyway, it looks like the best way forward in the short term is to make
-the choice of SSL library be a PACKAGECONFIG option for wpa-supplicant
-and any other recipes that you feel like changing.  I think it would
-also make sense to have some sort of DISTRO_FEATURE to set a global
-preference for this although perhaps the exact form of that setting
-needs a bit of further thought.
-
-> opsnssl is used in these packages:
->    midori
->    socat
->    curl-native
->    openvpn
->    bind
->    telepathy-idle
->    dhcp
->    xserver-kdrive
->    tcf-agent
->    python
->    rpm
->    git
->    task-core-basic
->    mailx
->    libzypp (=> sat-solver, zypper)
->    wget
-> 
-> gnutls is used by these packages:
->    cups
->    wpa-supplicant
->    neon
->    curl
-
-p.
+X-List-Received-Date: Wed, 15 Aug 2012 11:06:16 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
 
+Op 15 aug. 2012, om 11:46 heeft Paul Eggleton =
+<paul.eggleton@linux.intel.com> het volgende geschreven:
+>=20
+> 2) Look at the existing tasks and:
+> * evaluate their usefulness
+> * remove any that are obsolete
+> * adjust existing contents if needed
+> * look for useful groups of packages that might be added
+>=20
+> We need to pay particular attention to task-core-boot and task-base as =
+these=20
+> are pulled in by default in any image that inherits from =
+core-image.bbclass -=20
+> if these are not generally working for people that are creating their =
+own=20
+> images, we need to change them such that they are.
 
+Have a look at task-boot and task-basic in meta-oe: =
+https://github.com/openembedded/meta-oe/tree/master/meta-oe/recipes-core/t=
+asks
+
+My pet peeve is the bloat oe-core forces onto qemu* builds in the name =
+of "our testing team needs it!!!". Why am I forced to build an nfs =
+server and distcc when setting MACHINE=3Dqemusomething?
+
+Keep things like that in mind when overhauling the tasks.
+
+regards,
+
+Koen=
 
 
