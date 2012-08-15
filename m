@@ -1,29 +1,36 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-ey0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1T1i9l-00058V-7F
+	(envelope-from <raj.khem@gmail.com>) id 1T1iSW-0005Np-G1
 	for openembedded-core@lists.openembedded.org;
-	Wed, 15 Aug 2012 20:17:25 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q7FI5Rl9023636
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 15 Aug 2012 20:36:48 +0200
+Received: by eaad12 with SMTP id d12so462585eaa.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Aug 2012 11:05:27 -0700 (PDT)
-Received: from msp-dhcp58.wrs.com (172.25.34.58) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.309.2;
-	Wed, 15 Aug 2012 11:05:27 -0700
-Message-ID: <502BE4F2.9080305@windriver.com>
-Date: Wed, 15 Aug 2012 13:05:38 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
-	rv:14.0) Gecko/20120713 Thunderbird/14.0
+	Wed, 15 Aug 2012 11:24:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=yfohrTWTqgrz86Ru7vYdXwhNpR/IS2nSjA3FpT9Tens=;
+	b=ZmaBRVv84qPmWxRU2toerCdTcSnUN36sbTxV+6rNXInCxcltFbvj/Kvyjcz7+fGyXo
+	aVVe1HY/vwMNM5XMzw5upPnBYidTHAkJB1Rplku5wFakzJXkSVJTP733mQ02x68QYv4s
+	G+lHYNxfKS+DWjTjakksy5iYceK3wpPPnEfyYU8tHa3c7fbluiC8BLhG0Ie1QqzvK84L
+	Nbu2J2WOvrd2VdPYHDsnHdowhrmanSIf11tEEKA06sBzzD9vCqiKsPEDnZXhDNZHFJ35
+	bohDS5F4aYr66EulKTX1ZXFH6dKigBlAzgefPC0XP3ooa2Kvf1Y9dm4v0+u0DeyW4s5V
+	B3AA==
+Received: by 10.14.204.200 with SMTP id h48mr21468313eeo.7.1345055092113; Wed,
+	15 Aug 2012 11:24:52 -0700 (PDT)
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <2404459.dJBf5OQotX@helios>
-	<1345029924.23275.444.camel@phil-desktop>
-	<4456392.mCXMPqtakO@helios>
-In-Reply-To: <4456392.mCXMPqtakO@helios>
-Subject: Re: RFC: OE-Core task rework
+Received: by 10.14.225.6 with HTTP; Wed, 15 Aug 2012 11:24:21 -0700 (PDT)
+In-Reply-To: <1345036362.538.3.camel@ted>
+References: <76ac3ef04e78b07441df7d2c93c4a002deac74d5.1344946189.git.sgw@linux.intel.com>
+	<5824e7f06b2263fc89efa12f2aeee13f6cf76c54.1344946189.git.sgw@linux.intel.com>
+	<1345036362.538.3.camel@ted>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 15 Aug 2012 11:24:21 -0700
+Message-ID: <CAMKF1so63kpz5x3b1_x4pKnZexbgLrKiySJ=y6gTKMQjVzi3BA@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [CONSOLIDATED REQUEST 55/64] chrpath.bbclass: Account for case when ORIGIN is in RPATH
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,63 +45,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Aug 2012 18:17:25 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 15 Aug 2012 18:36:48 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 8/15/12 8:08 AM, Paul Eggleton wrote:
-> On Wednesday 15 August 2012 12:25:23 Phil Blundell wrote:
->> On Wed, 2012-08-15 at 10:46 +0100, Paul Eggleton wrote:
->>> 1) Do we rename "task" to something a little more understandable to the
->>> uninitiated, such as "package group"? The word "task" is already used in a
->>> much more natural sense within bitbake as a unit of work. Historically I
->>> believe we picked up this term from Debian but I'm not aware of
->>> significant use by other mainstream distributions.
->>
->> Yeah, I think OE inherited it from Familiar, which in turn got it from
->> Debian.  But the meaning of the term has drifted slightly through the
->> generations and, as you say, it is no longer a very accurate reflection
->> of what the packages in question are doing.
->>
->> It's never been totally obvious to me that there is much need for
->> tasks/package group recipes as such in oe-core itself; they're rather
->> more of a DISTRO policy thing and their presence in the metadata does
->> obviously have a cost in terms of parse time and memory usage.  It might
->> perhaps be worth exploring what they're actually being used for in
->> oe-core and whether those things could be better done in a different way
->> that doesn't involve having a .bb file for them.
+On Wed, Aug 15, 2012 at 6:12 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> Shouldn't this read:
 >
-> I would say without checking that these days that cost is negligible. Off the
-> top of my head, the benefits we get from using recipes for tasks as opposed to
-> variables or some similar construct:
+>                 if rpath.find("$ORIGIN") != -1:
+>                       new_rpaths.append("%s" % (rpath.strip()))
+>                       continue
 >
->   * The tasks can be used and referred to on the target if desired, not just
-> when you compose the image (i.e. task packages are produced and thus the
-> package manager knows about them).
+> as the code above would add *all* the old rpaths to the binary as well
+> as any relocations?
 
-I think this is a key advantage.  Again, if we think of these tasks as logical 
-groups of functionality, it gives an image developer (or installer) the ability 
-to say "I need booting, discrete commands, python, perl, and LSB compliance." 
-and get a system in the end that -should- work.
-
-The image/installer should always be able to specify individual recipes as well, 
-but often inexperienced users won't know that they need two or three recipes 
-(that don't have actual dependencies on each other) to get a functionally 
-complete answer.
-
->   * It should be slightly easier to find where tasks are defined within the
-> metadata. In practice that's not always the case with the way we have named
-> some of the tasks, hopefully that can be improved.
->
->   * Related to the above, they can be customised in a visible manner using
-> bbappends in your own layer.
->
->   * If you inherit from task.bbclass you automatically get -dev and -dbg
-> complements for the tasks defined by the recipe, which can sometimes be useful.
->
-> Cheers,
-> Paul
->
-
+sorry I sent a wrong patch to ML and was testing a different one. I
+will send out the correct one.
 
 
