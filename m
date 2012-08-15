@@ -1,26 +1,31 @@
-Received: from mga09.intel.com ([134.134.136.24])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1T1dWQ-00060g-QQ
-	for openembedded-core@lists.openembedded.org;
-	Wed, 15 Aug 2012 15:20:31 +0200
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 15 Aug 2012 06:08:34 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.77,773,1336374000"; d="scan'208";a="186715692"
-Received: from unknown (HELO helios.localnet) ([10.252.121.76])
-	by orsmga002.jf.intel.com with ESMTP; 15 Aug 2012 06:08:33 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Phil Blundell <philb@gnu.org>
-Date: Wed, 15 Aug 2012 14:08:32 +0100
-Message-ID: <4456392.mCXMPqtakO@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.9 (Linux/3.2.0-29-generic-pae; KDE/4.9.0; i686; ; )
-In-Reply-To: <1345029924.23275.444.camel@phil-desktop>
-References: <2404459.dJBf5OQotX@helios>
-	<1345029924.23275.444.camel@phil-desktop>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: RFC: OE-Core task rework
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1T1dac-00065o-TO for openembedded-core@lists.openembedded.org;
+	Wed, 15 Aug 2012 15:24:51 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q7FDCqAY001379;
+	Wed, 15 Aug 2012 14:12:52 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 00424-02; Wed, 15 Aug 2012 14:12:47 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q7FDChTe001373
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Wed, 15 Aug 2012 14:12:44 +0100
+Message-ID: <1345036362.538.3.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Wed, 15 Aug 2012 14:12:42 +0100
+In-Reply-To: <5824e7f06b2263fc89efa12f2aeee13f6cf76c54.1344946189.git.sgw@linux.intel.com>
+References: <76ac3ef04e78b07441df7d2c93c4a002deac74d5.1344946189.git.sgw@linux.intel.com>
+	<5824e7f06b2263fc89efa12f2aeee13f6cf76c54.1344946189.git.sgw@linux.intel.com>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [CONSOLIDATED REQUEST 55/64] chrpath.bbclass: Account for case when ORIGIN is in RPATH
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,55 +40,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Aug 2012 13:20:31 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Wed, 15 Aug 2012 13:24:51 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Wednesday 15 August 2012 12:25:23 Phil Blundell wrote:
-> On Wed, 2012-08-15 at 10:46 +0100, Paul Eggleton wrote:
-> > 1) Do we rename "task" to something a little more understandable to the
-> > uninitiated, such as "package group"? The word "task" is already used in a
-> > much more natural sense within bitbake as a unit of work. Historically I
-> > believe we picked up this term from Debian but I'm not aware of
-> > significant use by other mainstream distributions.
+On Tue, 2012-08-14 at 15:13 +0300, Saul Wold wrote:
+> From: Khem Raj <raj.khem@gmail.com>
 > 
-> Yeah, I think OE inherited it from Familiar, which in turn got it from
-> Debian.  But the meaning of the term has drifted slightly through the
-> generations and, as you say, it is no longer a very accurate reflection
-> of what the packages in question are doing.
+> This fixes a case when RPATH embedded in program have one of
+> its path already relative to ORIGIN. We were losing that path
+> if such a path existed. This patch appends it to the new edited
+> rpath being created when we see it.
 > 
-> It's never been totally obvious to me that there is much need for
-> tasks/package group recipes as such in oe-core itself; they're rather
-> more of a DISTRO policy thing and their presence in the metadata does
-> obviously have a cost in terms of parse time and memory usage.  It might
-> perhaps be worth exploring what they're actually being used for in
-> oe-core and whether those things could be better done in a different way
-> that doesn't involve having a .bb file for them.
+> so RPATH like below
+> 
+> (RPATH)              Library rpath:
+> [$ORIGIN/../lib/amd64/jli:$ORIGIN/../jre/lib/amd64/jli]
+> 
+> would end up being empty
+> 
+> but after this patch its kept intact
+> 
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> ---
+>  meta/classes/chrpath.bbclass |    1 +
+>  1 files changed, 1 insertions(+), 0 deletions(-)
+> 
+> diff --git a/meta/classes/chrpath.bbclass b/meta/classes/chrpath.bbclass
+> index 10b5ca0..e903b65 100644
+> --- a/meta/classes/chrpath.bbclass
+> +++ b/meta/classes/chrpath.bbclass
+> @@ -49,6 +49,7 @@ def process_dir (directory, d):
+>              new_rpaths = []
+>              for rpath in rpaths:
+>                  # If rpath is already dynamic continue
+> +                new_rpaths.append("%s" % (rpath.strip()))
+>                  if rpath.find("$ORIGIN") != -1:
+>                      continue
+>                  # If the rpath shares a root with base_prefix determine a new dynamic rpath from the
 
-I would say without checking that these days that cost is negligible. Off the 
-top of my head, the benefits we get from using recipes for tasks as opposed to 
-variables or some similar construct:
+Shouldn't this read:
 
- * The tasks can be used and referred to on the target if desired, not just 
-when you compose the image (i.e. task packages are produced and thus the 
-package manager knows about them).
+                if rpath.find("$ORIGIN") != -1:
+                      new_rpaths.append("%s" % (rpath.strip()))
+                      continue
 
- * It should be slightly easier to find where tasks are defined within the 
-metadata. In practice that's not always the case with the way we have named 
-some of the tasks, hopefully that can be improved.
-
- * Related to the above, they can be customised in a visible manner using 
-bbappends in your own layer.
-
- * If you inherit from task.bbclass you automatically get -dev and -dbg 
-complements for the tasks defined by the recipe, which can sometimes be useful.
+as the code above would add *all* the old rpaths to the binary as well
+as any relocations?
 
 Cheers,
-Paul
 
--- 
+Richard
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
 
