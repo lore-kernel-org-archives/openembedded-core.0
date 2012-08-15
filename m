@@ -1,23 +1,23 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from smtp-relay2.palm.com ([64.28.152.243])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bruce.ashfield@windriver.com>) id 1T1k3M-0007ps-MZ
-	for openembedded-core@lists.openembedded.org;
-	Wed, 15 Aug 2012 22:18:57 +0200
-Received: from yow-bashfiel-l1.wrs.com (yow-bashfiel-d3.wrs.com
-	[128.224.147.67])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q7FK6sWf011691;
-	Wed, 15 Aug 2012 13:06:58 -0700 (PDT)
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: richard.purdie@linuxfoundation.org
-Date: Wed, 15 Aug 2012 16:06:23 -0400
-Message-Id: <6058f32dc177025e6acaacf4835bff797d5ca0db.1345059176.git.bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <cover.1345059176.git.bruce.ashfield@windriver.com>
-References: <cover.1345059176.git.bruce.ashfield@windriver.com>
-In-Reply-To: <cover.1345059176.git.bruce.ashfield@windriver.com>
-References: <cover.1345059176.git.bruce.ashfield@windriver.com>
-Cc: openembedded-core@lists.openembedded.org, saul.wold@intel.com
-Subject: [PATCH 4/4] kern-tools: fixes (branching, buildall) + cleanups (checkpoint, cleaner)
+	(envelope-from <prvs=567b62d7c=rich.pixley@palm.com>)
+	id 1T1kaF-0008Qe-1V for openembedded-core@lists.openembedded.org;
+	Wed, 15 Aug 2012 22:52:55 +0200
+X-IronPort-AV: E=Sophos;i="4.77,774,1336374000"; d="scan'208,217";a="15336333"
+Received: from unknown (HELO ushqusdns3.palm.com) ([148.92.223.90])
+	by smtp-relay2.palm.com with ESMTP; 15 Aug 2012 13:39:52 -0700
+Received: from flamingo.palm.com ([148.92.244.134])
+	by ushqusdns3.palm.com (8.14.4/8.14.4) with ESMTP id q7FKdqqj019713;
+	Wed, 15 Aug 2012 13:39:52 -0700
+Message-ID: <502C0918.5010106@palm.com>
+Date: Wed, 15 Aug 2012 13:39:52 -0700
+From: Rich Pixley <rich.pixley@palm.com>
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
+	rv:15.0) Gecko/20120808 Thunderbird/15.0
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: PREMIRROR question...
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,38 +32,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Aug 2012 20:18:57 -0000
+X-List-Received-Date: Wed, 15 Aug 2012 20:52:55 -0000
+Content-Type: multipart/alternative;
+	boundary="------------070505000103070007000301"
 
-Updating the kern-tools SRCREV to pickup a collection of bug fixes
-and cleanups:
+--------------070505000103070007000301
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-  75e71c3 kgit-config-cleaner: add -k <keep option>
-  02be3b5 buildall: switch back to scc driven processing
-  c7101db kern-tools: support flexible branching
-  e2d06bd kern-tools: Remove superfluous references to "defconfig" from the "createme" script.
-  e693754 kgit-checkpoint: fix verify_branch variable name typo
-  ee67a7b kgit-config-cleaner: fix redefintion processing
+If I build core-image-minimal with BB_GENERATE_MIRROR_TARBALLS := "1"... 
+in my local.conf....
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
----
- .../kern-tools/kern-tools-native_git.bb            |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+And then I start a second build, with:
 
-diff --git a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
-index c176aed..974b86e 100644
---- a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
-+++ b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
-@@ -4,7 +4,7 @@ LIC_FILES_CHKSUM = "file://git/tools/kgit;beginline=5;endline=9;md5=d8d1d729a70c
- 
- DEPENDS = "git-native guilt-native"
- 
--SRCREV = "579b1ba2169d053c1330854f54f605bb6929d6d8"
-+SRCREV = "33068f21169b327c64ac7e957fe9d89c391897a3"
- PR = "r12"
- PV = "0.1+git${SRCPV}"
- 
--- 
-1.7.5.4
+SOURCE_MIRROR_URL := "file://.../firstbuild/.../downloads"
+INHERIT += "own-mirrors"
+BB_FETCH_PREMIRRORONLY := "1"
+BB_NO_NETWORK := "1"
+
+It fails almost immediately for failure to fetch quilt source, (which 
+/does/ exist in the previous build's .../downloads). Apparently the 
+"build first" build of pseudo doesn't pick up these settings?
+
+Is this intentional?
+
+--rich
 
 
 
+--------------070505000103070007000301
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
+
+<html>
+  <head>
+
+    <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    If I build core-image-minimal with BB_GENERATE_MIRROR_TARBALLS :=
+    "1"... in my local.conf....<br>
+    <br>
+    And then I start a second build, with:<br>
+    <br>
+    SOURCE_MIRROR_URL := <a class="moz-txt-link-rfc2396E" href="file://.../firstbuild/.../downloads">"file://.../firstbuild/.../downloads"</a><br>
+    INHERIT += "own-mirrors"<br>
+    BB_FETCH_PREMIRRORONLY := "1"<br>
+    BB_NO_NETWORK := "1"<br>
+    <br>
+    It fails almost immediately for failure to fetch quilt source,
+    (which <i>does</i> exist in the previous build's .../downloads).&nbsp;
+    Apparently the "build first" build of pseudo doesn't pick up these
+    settings?<br>
+    <br>
+    Is this intentional?<br>
+    <br>
+    --rich<br>
+    <br>
+    <br>
+  </body>
+</html>
+
+--------------070505000103070007000301--
