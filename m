@@ -1,30 +1,45 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1T1jU5-0006z3-21
+	(envelope-from <ross.burton@intel.com>) id 1T1jWY-000731-Si
 	for openembedded-core@lists.openembedded.org;
-	Wed, 15 Aug 2012 21:42:29 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q7FJUVT6006264
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 15 Aug 2012 21:45:03 +0200
+Received: from mail-ob0-f180.google.com ([209.85.214.180])
+	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 15 Aug 2012 12:33:05 -0700
+Received: by obceq6 with SMTP id eq6so2187523obc.25
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Aug 2012 12:30:31 -0700 (PDT)
-Received: from msp-dhcp58.wrs.com (172.25.34.58) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.309.2;
-	Wed, 15 Aug 2012 12:30:31 -0700
-Message-ID: <502BF8DF.7060803@windriver.com>
-Date: Wed, 15 Aug 2012 14:30:39 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
-	rv:14.0) Gecko/20120713 Thunderbird/14.0
+	Wed, 15 Aug 2012 12:33:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type:x-gm-message-state;
+	bh=5dlnhcg3mo7jSbrbrC06KBYDf7wvoa+8pCqlcimSY0k=;
+	b=fIBBtFy5lM1/osBFhYRhAxlPvTu1BwNuWtXe7j2Axixy2E0oN7pKe0fVE0rll4os20
+	4fFzH/lF5+gNnJrxn2Pd0mghoCZRhPM3kosgWFztEofGJyQhiwiSv5I68favj+WnnZV2
+	C0/vlXJNtuXI26pF3Lgg4ey3yWME9Dw9kS0Fi1pSZjpp7hEpKek5+/W42VvUD1aWlled
+	aJFN7AR/WnqqXja9SwGigSLRiUo4Vrb6ZuowVu3Hp6Z58vbnuxyYYi/GZpxzsoAr3p54
+	6QIVnTF9YE3Cr0IrUYinfHId+BK/fBj+pyHChrku6AbJZgr2lgjZ1FlvSWmJQR4MZmRG
+	NJ1Q==
+Received: by 10.50.57.168 with SMTP id j8mr19796535igq.16.1345059184243; Wed,
+	15 Aug 2012 12:33:04 -0700 (PDT)
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <2404459.dJBf5OQotX@helios>
-	<1345029924.23275.444.camel@phil-desktop>
-	<4456392.mCXMPqtakO@helios> <502BE4F2.9080305@windriver.com>
-	<CABcZANnh2HzOrmeRr49BT7GXh47oUqTRHYfi1W-pk=OoO5mD+A@mail.gmail.com>
-In-Reply-To: <CABcZANnh2HzOrmeRr49BT7GXh47oUqTRHYfi1W-pk=OoO5mD+A@mail.gmail.com>
-Subject: Re: RFC: OE-Core task rework
+Received: by 10.64.146.103 with HTTP; Wed, 15 Aug 2012 12:32:43 -0700 (PDT)
+In-Reply-To: <CAEsOVNd1DB0M5pNndxMLt4bdMwRCADPBLv9pw9pC_TELPwXAVA@mail.gmail.com>
+References: <1343052252-4154-1-git-send-email-radu.moisan@intel.com>
+	<lywr1uzguj.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	<500E50C5.8000403@intel.com>
+	<CABcZANkJhW+yER52vnbXSywxd-mhpNTPrFixL6R27thmMRmhMg@mail.gmail.com>
+	<CAJTo0LYT5Jup6SXnmA62+Wy8sua94BdB_VwuHJ8erK1gshaYFw@mail.gmail.com>
+	<CAEsOVNcVB5zp7rhN4LP7ANx3hDq51kFQt_0L=O5=YLU6Qp_D-Q@mail.gmail.com>
+	<CABcZANkfFMgTxeQWzpKe2d2NqhMYaz27q-dnfW5m7-BJO2yygQ@mail.gmail.com>
+	<CAEsOVNd1DB0M5pNndxMLt4bdMwRCADPBLv9pw9pC_TELPwXAVA@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 15 Aug 2012 20:32:43 +0100
+Message-ID: <CAJTo0LYU_DpA9oywH9wCu9DHwJR-B7iJk6_nPiT=SAGGNSGVwA@mail.gmail.com>
+To: McClintock Matthew-B29882 <B29882@freescale.com>, 
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Gm-Message-State: ALoCoQnumP9JfWwFbYlKCtM5GH/waGDJPwOtQ5eyOo+EtuySuQMOc4v4AvIqFhnxqBihjRmpA9AG
+Subject: Re: [PATCH v2] kmod: Handle undefined O_CLOEXEC
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,44 +54,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Aug 2012 19:42:29 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 15 Aug 2012 19:45:03 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 8/15/12 2:12 PM, Chris Larson wrote:
-> On Wed, Aug 15, 2012 at 11:05 AM, Mark Hatle <mark.hatle@windriver.com> wrote:
->>>    * The tasks can be used and referred to on the target if desired, not
->>> just
->>> when you compose the image (i.e. task packages are produced and thus the
->>> package manager knows about them).
->>
->>
->> I think this is a key advantage.  Again, if we think of these tasks as
->> logical groups of functionality, it gives an image developer (or installer)
->> the ability to say "I need booting, discrete commands, python, perl, and LSB
->> compliance." and get a system in the end that -should- work.
->>
->> The image/installer should always be able to specify individual recipes as
->> well, but often inexperienced users won't know that they need two or three
->> recipes (that don't have actual dependencies on each other) to get a
->> functionally complete answer.
->
-> It seems like you're arguing in favor of the ability to add groups of
-> packages to an image, which no one disagrees with, and isn't really
-> relevant to the bit you're quoting. The bit that tasks add that
-> package groups / image features don't is the ability to add them after
-> the fact at runtime, not image creation time.
->
+On 15 August 2012 20:27, McClintock Matthew-B29882 <B29882@freescale.com> wrote:
+> I've been doing something similar and it's been working OK. -  I think
+> we should apply Ross's patch.
 
-It's both.. cross image creation, and on-target image creation (and updates). 
-During runtime, some folks will want to add "features" to the system...  these 
-are not what I would consider "image" features, but what we call task recipes today.
+Radu's, not mine.
 
-I.e. I have a base system, and a vendor says I need LSB compatibility -- 
-assuming I have the right distro features set, I should be able to select one or 
-more LSB "tasks" and suddenly I'm LSB compliant, without having to know all of 
-the individual packages required.
-
---Mark
+Ross
 
 
