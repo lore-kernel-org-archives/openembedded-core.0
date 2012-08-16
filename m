@@ -1,34 +1,27 @@
-Received: from outpost1.zedat.fu-berlin.de ([130.133.4.66])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <heinold@mi.fu-berlin.de>) id 1T1u0H-0006rC-KL
+	(envelope-from <Liezhi.Yang@windriver.com>) id 1T1u4N-0007UQ-Io
 	for openembedded-core@lists.openembedded.org;
-	Thu, 16 Aug 2012 08:56:25 +0200
-Received: from relay1.zedat.fu-berlin.de ([130.133.4.67])
-	by outpost1.zedat.fu-berlin.de (Exim 4.69)
-	for openembedded-core@lists.openembedded.org with esmtp
-	(envelope-from <heinold@mi.fu-berlin.de>)
-	id <1T1tok-0003No-J9>; Thu, 16 Aug 2012 08:44:30 +0200
-Received: from andorra.imp.fu-berlin.de ([160.45.42.84])
-	by relay1.zedat.fu-berlin.de (Exim 4.69)
-	for openembedded-core@lists.openembedded.org with esmtp
-	(envelope-from <heinold@mi.fu-berlin.de>)
-	id <1T1tok-0004AN-Cw>; Thu, 16 Aug 2012 08:44:30 +0200
-Received: from heinold by internal andorra.imp.fu-berlin.de with local (Exim
-	4.72) id 1T1toj-0001N2-AP
+	Thu, 16 Aug 2012 09:00:39 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q7G6mei1025612
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Aug 2012 08:44:29 +0200
-Date: Thu, 16 Aug 2012 08:44:29 +0200
-From: Henning Heinold <heinold@inf.fu-berlin.de>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20120816064429.GA5122@mi.fu-berlin.de>
-References: <1345086946-3715-1-git-send-email-raj.khem@gmail.com>
+	Wed, 15 Aug 2012 23:48:41 -0700 (PDT)
+Received: from [128.224.163.142] (128.224.163.142) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.309.2;
+	Wed, 15 Aug 2012 23:48:40 -0700
+Message-ID: <502C97C7.70706@windriver.com>
+Date: Thu, 16 Aug 2012 14:48:39 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:14.0) Gecko/20120714 Thunderbird/14.0
 MIME-Version: 1.0
-In-Reply-To: <1345086946-3715-1-git-send-email-raj.khem@gmail.com>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Sender: Henning Heinold <heinold@mi.fu-berlin.de>
-X-Originating-IP: 160.45.42.84
-Subject: Re: [PATCH V2] chrpath.bbclass: Account for case when ORIGIN is in RPATH
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1345044352.git.liezhi.yang@windriver.com>
+	<e6e85bbbbde402b1e55def41837ccbcc20667c1f.1345044352.git.liezhi.yang@windriver.com>
+In-Reply-To: <e6e85bbbbde402b1e55def41837ccbcc20667c1f.1345044352.git.liezhi.yang@windriver.com>
+Subject: Re: [PATCH 1/3] rpm: install external binary packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,54 +36,137 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Aug 2012 06:56:25 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Thu, 16 Aug 2012 07:00:40 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Aug 15, 2012 at 08:15:46PM -0700, Khem Raj wrote:
-> This fixes a case when RPATH embedded in program have one of
-> its path already relative to ORIGIN. We were losing that path
-> if such a path existed. This patch appends it to the new edited
-> rpath being created when we see it.
-> 
-> so RPATH like below
-> 
-> (RPATH)              Library rpath:
-> [$ORIGIN/../lib/amd64/jli:$ORIGIN/../jre/lib/amd64/jli]
-> 
-> would end up being empty
-> 
-> but after this patch its kept intact
-> 
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
->  meta/classes/chrpath.bbclass |    3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/meta/classes/chrpath.bbclass b/meta/classes/chrpath.bbclass
-> index 10b5ca0..861d369 100644
-> --- a/meta/classes/chrpath.bbclass
-> +++ b/meta/classes/chrpath.bbclass
-> @@ -48,8 +48,9 @@ def process_dir (directory, d):
->              rpaths = curr_rpath.split(":")
->              new_rpaths = []
->              for rpath in rpaths:
-> -                # If rpath is already dynamic continue
-> +                # If rpath is already dynamic copy it to new_rpath and continue
->                  if rpath.find("$ORIGIN") != -1:
-> +                    new_rpaths.append("%s" % (rpath.strip()))
->                      continue
->                  # If the rpath shares a root with base_prefix determine a new dynamic rpath from the
->                  # base_prefix shared root
-> -- 
-> 1.7.9.5
 
-Hi Khem,
+On 08/15/2012 11:32 PM, Robert Yang wrote:
+>
+> diff --git a/meta/classes/external_package.bbclass b/meta/classes/external_package.bbclass
+> new file mode 100644
+> index 0000000..c6d87bb
+> --- /dev/null
+> +++ b/meta/classes/external_package.bbclass
+> @@ -0,0 +1,41 @@
+> +#
+> +# ex:ts=4:sw=4:sts=4:et
+> +# -*- tab-width: 4; c-basic-offset: 4; indent-tabs-mode: nil -*-
+> +#
+> +# Add external binary pkg to the repo and install them:
+> +#
+> +# Specify where are the external binary pkg dir
+> +#EXTERNAL_PACKAGE_DIR = "<path1> <path2> ..."
+> +# Specify which pkg will be installed
+> +#EXTERNAL_INSTALL_PACKAGE = "<pkg1> <pkg2> ..."
+> +
+> +#
+> +# Add the external binary rpm into the repo, copy the binary rpm files
+> +# from EXTERNAL_PACKAGE_DIR to ${DEPLOY_DIR_RPM}/external, and put them
+> +# to the relevant arch dir.
+> +#
+> +add_external_rpm () {
+> +    local supported_archs="$@"
+> +
 
-just notice my solution some months ago
+I updated this patch and the "PATCH 2/3" a little since the "dash" doesn't
+support the local var="$@", so changed it to:
 
-http://patches.openembedded.org/patch/24461/
+local supported_archs
+supported_archs="$@"
 
-Bye Henning
+and pushed to the repo:
+
+   git://git.pokylinux.org/poky-contrib robert/external_install
+   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=robert/external_install
+
+// Robert
+
+> +    # Clean the EXTERNAL_DIR_RPM dir and re-copy
+> +    [ ! -d "${EXTERNAL_DIR_RPM}" ] || rm -fr ${EXTERNAL_DIR_RPM}
+> +
+> +    if [ -n "${EXTERNAL_PACKAGE_DIR}" -a -n "${EXTERNAL_INSTALL_PACKAGE}" ]; then
+> +        echo "Adding external binary rpms to the repo ..."
+> +        for f in `find ${EXTERNAL_PACKAGE_DIR} -type f  -name '*.rpm'`; do
+> +            arch="`echo $f | awk -F\. '{print $(NF-1)}'`"
+> +            found=""
+> +            for archvar in $supported_archs; do
+> +                # Only pick up the supported arch's rpm
+> +                if [ "$arch" == "$archvar" ]; then
+> +                    [ -d "${EXTERNAL_DIR_RPM}/$arch" ] || mkdir -p ${EXTERNAL_DIR_RPM}/$arch
+> +                    cp -f $f ${EXTERNAL_DIR_RPM}/$arch/
+> +                    found="1"
+> +                    break
+> +                fi
+> +            done
+> +            [ -n "$found" ] || echo "Uknown arch $arch"
+> +        done
+> +    fi
+> +}
+> +
+> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+> index 72720f1..283688a 100644
+> --- a/meta/classes/image.bbclass
+> +++ b/meta/classes/image.bbclass
+> @@ -5,6 +5,8 @@ inherit imagetest-${IMAGETEST}
+>
+>   inherit populate_sdk_base
+>
+> +inherit external_package
+> +
+>   TOOLCHAIN_TARGET_TASK += "${PACKAGE_INSTALL}"
+>   TOOLCHAIN_TARGET_TASK_ATTEMPTONLY += "${PACKAGE_INSTALL_ATTEMPTONLY}"
+>   POPULATE_SDK_POST_TARGET_COMMAND += "rootfs_install_complementary populate_sdk; "
+> diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
+> index b58ae85..bd2c9a2 100644
+> --- a/meta/classes/package_rpm.bbclass
+> +++ b/meta/classes/package_rpm.bbclass
+> @@ -7,6 +7,7 @@ RPMBUILD="rpmbuild"
+>
+>   PKGWRITEDIRRPM = "${WORKDIR}/deploy-rpms"
+>   PKGWRITEDIRSRPM = "${DEPLOY_DIR}/sources/deploy-srpm"
+> +EXTERNAL_DIR_RPM = "${DEPLOY_DIR_RPM}/external"
+>
+>   python package_rpm_fn () {
+>       d.setVar('PKGFN', d.getVar('PKG'))
+> @@ -26,6 +27,9 @@ package_update_index_rpm () {
+>   		return
+>   	fi
+>
+> +	# Add external binary pkgs
+> +	add_external_rpm ${PACKAGE_ARCHS} ${MULTILIB_PACKAGE_ARCHS} ${SDK_PACKAGE_ARCHS}
+> +
+>   	# Update target packages
+>   	base_archs="${PACKAGE_ARCHS}"
+>   	ml_archs="${MULTILIB_PACKAGE_ARCHS}"
+> @@ -44,9 +48,11 @@ package_update_index_rpm_common () {
+>   	for archvar in "$@"; do
+>   		eval archs=\${${archvar}}
+>   		packagedirs=""
+> -		for arch in $archs; do
+> -			packagedirs="${DEPLOY_DIR_RPM}/$arch $packagedirs"
+> -			rm -rf ${DEPLOY_DIR_RPM}/$arch/solvedb.done
+> +		for d in ${DEPLOY_DIR_RPM} ${EXTERNAL_DIR_RPM}; do
+> +			for arch in $archs; do
+> +				packagedirs="$d/$arch $packagedirs"
+> +				rm -rf $d/$arch/solvedb.done
+> +			done
+>   		done
+>
+>   		cat /dev/null > ${rpmconf_base}-${archvar}.conf
+> diff --git a/meta/classes/rootfs_rpm.bbclass b/meta/classes/rootfs_rpm.bbclass
+> index c0207d8..7ce694c 100644
+> --- a/meta/classes/rootfs_rpm.bbclass
+> +++ b/meta/classes/rootfs_rpm.bbclass
+> @@ -51,7 +51,7 @@ fakeroot rootfs_rpm_do_rootfs () {
+>   	export INSTALL_ROOTFS_RPM="${IMAGE_ROOTFS}"
+>   	export INSTALL_PLATFORM_RPM="${TARGET_ARCH}"
+>   	export INSTALL_CONFBASE_RPM="${RPMCONF_TARGET_BASE}"
+> -	export INSTALL_PACKAGES_RPM="${PACKAGE_INSTALL}"
+> +	export INSTALL_PACKAGES_RPM="${PACKAGE_INSTALL} ${EXTERNAL_INSTALL_PACKAGE}"
+>   	export INSTALL_PACKAGES_ATTEMPTONLY_RPM="${PACKAGE_INSTALL_ATTEMPTONLY}"
+>   	export INSTALL_PACKAGES_LINGUAS_RPM="${LINGUAS_INSTALL}"
+>   	export INSTALL_PROVIDENAME_RPM=""
+>
 
 
