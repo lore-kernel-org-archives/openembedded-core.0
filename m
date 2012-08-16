@@ -1,37 +1,39 @@
 Received: from mail-wg0-f43.google.com ([74.125.82.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrei@gherzan.ro>) id 1T27s8-0003YL-Bl
+	(envelope-from <andrei@gherzan.ro>) id 1T27s9-0003YM-Ji
 	for openembedded-core@lists.openembedded.org;
-	Thu, 16 Aug 2012 23:44:56 +0200
-Received: by wgbdr1 with SMTP id dr1so2503809wgb.24
+	Thu, 16 Aug 2012 23:44:57 +0200
+Received: by wgbdr1 with SMTP id dr1so2503820wgb.24
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Aug 2012 14:32:58 -0700 (PDT)
+	Thu, 16 Aug 2012 14:33:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references
-	:x-gm-message-state;
-	bh=w7gktX14iFdaTGWiHCZOsyLfLlApcQYl1gzrIhqU3Bw=;
-	b=Xjt2fW4ZaBcADoJX2pGahXO6KbSaxvohy1xwnd9sBYGeMCcNbduPQjcYNYGekQfeP/
-	UVzsAvtEoSSUFCJ8LdkGyZce+EKCVLNsmcFqcKUNqSpLKbteosc8zUIEVtKDuljUGoGb
-	+7mgp22ThkNBAXAWeEhB8Fzf9kL4b4dLfhHQE81kph7kRzAcvUy1vrBcFlFL2+ps4tQq
-	C9qh0EwhvEXgCBLmVW0KXOhyRi0ydX0eWoCnopqpvUKiLDo34ljOSEscH4UiQJ1K5GIe
-	oSE5g/s7Kl1m19eociXHMNrQh13yyhWrR6UfPYacB4e706xWSYNeXdq0eGYPXGfD7jbk
-	gRTA==
-Received: by 10.216.198.145 with SMTP id v17mr1425915wen.1.1345152778566;
-	Thu, 16 Aug 2012 14:32:58 -0700 (PDT)
+	:in-reply-to:references:x-gm-message-state;
+	bh=LheWacoer7W5s9U/rqfi9VHki+HvTmRh+3icqdm5Icw=;
+	b=aYFLwH1BidfdiwbDQwvdZugxd9+RfnFxmRCjUGovGmIfuEsztymeZm+NEYbtnm9NyJ
+	I6B+NzwVUtW5vioHRdnEsPrtER7cX+M/foomUmcjPvayU5+TVLmVzcHgplg7Dlgl9qNn
+	0lDkdwTfVqYl2Jd3sXqNTKyW63sooq4T5wMp5r/3nkpVdTmIYqrHflKoe2QtJNrQlx7v
+	XQzLSqvl/C7Qh4jG8gi75a/trjmNY/qjhbw3G8P5DEANzIhN8ZyVWnJIJ6pOA0Z8ttCd
+	gZ3osUY684Gbm/JD7ckxk1gMXj59ZJiI8ka18WrJFbhkPsBevBPAAK+ajhZfERNHc/dq
+	rUtA==
+Received: by 10.216.232.204 with SMTP id n54mr1384938weq.182.1345152780038;
+	Thu, 16 Aug 2012 14:33:00 -0700 (PDT)
 Received: from localhost.localdomain ([79.115.110.29])
-	by mx.google.com with ESMTPS id bc2sm8949894wib.0.2012.08.16.14.32.56
+	by mx.google.com with ESMTPS id bc2sm8949894wib.0.2012.08.16.14.32.58
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 16 Aug 2012 14:32:57 -0700 (PDT)
+	Thu, 16 Aug 2012 14:32:59 -0700 (PDT)
 From: Andrei Gherzan <andrei@gherzan.ro>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 17 Aug 2012 00:32:44 +0300
-Message-Id: <754a26c722091d5922d1ef095def13f1cf57f27f.1345152235.git.andrei@gherzan.ro>
+Date: Fri, 17 Aug 2012 00:32:45 +0300
+Message-Id: <bcaf5ff7d70d8ba5df9a517096c247e1b8a1ca55.1345152235.git.andrei@gherzan.ro>
 X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <754a26c722091d5922d1ef095def13f1cf57f27f.1345152235.git.andrei@gherzan.ro>
+References: <754a26c722091d5922d1ef095def13f1cf57f27f.1345152235.git.andrei@gherzan.ro>
 In-Reply-To: <cover.1345152235.git.andrei@gherzan.ro>
 References: <cover.1345152235.git.andrei@gherzan.ro>
-X-Gm-Message-State: ALoCoQkvgJ3vskzBF+3mnyIOaMx1KG1yxQcbMKVpPx3XaAjkkTrhfjVewl8+52pCIfcSe/HIbQ/k
-Subject: [PATCH 1/7] utils.py: Modify and rename distro_features_backfill python function
+X-Gm-Message-State: ALoCoQnG6aPbr9zUGhCjMiCZKo/2gznuRfSTyJNUewN819KGGFmU+19w2i4C9C4hTXy40CWDzsPi
+Subject: [PATCH 2/7] bitbake.conf: Use the new form of features_backfill function
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,42 +48,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Aug 2012 21:44:56 -0000
+X-List-Received-Date: Thu, 16 Aug 2012 21:44:57 -0000
 
-This function was written to be used with DISTRO_FEATURES. This behavior
-is usefull with MACHINE_FEATURES as well.
+This function was modified in order to be used with other
+variables then DISTRO_FEATURES. Use this new function name and
+add the parameter needed.
 
 Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
 ---
- meta/lib/oe/utils.py |    9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ meta/conf/bitbake.conf |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/lib/oe/utils.py b/meta/lib/oe/utils.py
-index e14743f..8d3efe4 100644
---- a/meta/lib/oe/utils.py
-+++ b/meta/lib/oe/utils.py
-@@ -87,15 +87,18 @@ def inherits(d, *classes):
-     """Return True if the metadata inherits any of the specified classes"""
-     return any(bb.data.inherits_class(cls, d) for cls in classes)
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 8074684..296ebc1 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -722,7 +722,7 @@ MACHINE_ESSENTIAL_EXTRA_RRECOMMENDS ?= ""
+ IMAGE_FEATURES += "${EXTRA_IMAGE_FEATURES}"
  
--def distro_features_backfill(d):
-+def features_backfill(var,d):
-+    # This construct allows the addition of new features to variable specified
-+    # as var
-+    # Example for var = "DISTRO_FEATURES"
-     # This construct allows the addition of new features to DISTRO_FEATURES
-     # that if not present would disable existing functionality, without
-     # disturbing distributions that have already set DISTRO_FEATURES.
-     # Distributions wanting to elide a value in DISTRO_FEATURES_BACKFILL should
-     # add the feature to DISTRO_FEATURES_BACKFILL_CONSIDERED
+ DISTRO_FEATURES_BACKFILL = "pulseaudio"
+-DISTRO_FEATURES_append = "${@oe.utils.distro_features_backfill(d)}"
++DISTRO_FEATURES_append = "${@oe.utils.features_backfill("DISTRO_FEATURES",d)}"
  
--    backfill = (d.getVar("DISTRO_FEATURES_BACKFILL", True) or "").split()
--    considered = (d.getVar("DISTRO_FEATURES_BACKFILL_CONSIDERED", True) or "").split()
-+    backfill = (d.getVar(var+"_BACKFILL", True) or "").split()
-+    considered = (d.getVar(var+"_BACKFILL_CONSIDERED", True) or "").split()
- 
-     addfeatures = []
-     for feature in backfill:
+ COMBINED_FEATURES = "\
+     ${@base_both_contain("DISTRO_FEATURES", "MACHINE_FEATURES", "alsa", d)} \
 -- 
 1.7.9.5
 
