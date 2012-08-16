@@ -1,25 +1,56 @@
-Received: from li44-10.members.linode.com ([72.14.181.10] helo=plausible.org)
+Received: from am1ehsobe006.messaging.microsoft.com ([213.199.154.209]
+	helo=am1outboundpool.messaging.microsoft.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andy.ross@windriver.com>) id 1T22qW-0005UZ-Fs
-	for openembedded-core@openembedded.org; Thu, 16 Aug 2012 18:22:56 +0200
-Received: from cougar.plausible.org (c-67-171-188-207.hsd1.or.comcast.net
-	[67.171.188.207]) (Authenticated sender: andy-wrs)
-	by plausible.org (Postfix) with ESMTPSA id 2FA3E1EBC1;
-	Thu, 16 Aug 2012 09:11:00 -0700 (PDT)
-From: Andy Ross <andy.ross@windriver.com>
-To: openembedded-core@openembedded.org,
-	Chris Larson <clarson@kergoth.com>
-Date: Thu, 16 Aug 2012 09:10:47 -0700
-Message-Id: <1345133447-12833-2-git-send-email-andy.ross@windriver.com>
-X-Mailer: git-send-email 1.7.11.2
-In-Reply-To: <1345133447-12833-1-git-send-email-andy.ross@windriver.com>
-References: <CABcZANnFML0a-qAZA33skkJK+=9sTN_bG=KWsGbLYfXZgqDbnQ@mail.gmail.com>
-	<1345133447-12833-1-git-send-email-andy.ross@windriver.com>
-Subject: [PATCH] insane.bbclass: Fix RPATH warning in the face of funny path strings
+	(envelope-from <B29882@freescale.com>) id 1T23L8-000613-2e
+	for openembedded-core@lists.openembedded.org;
+	Thu, 16 Aug 2012 18:54:34 +0200
+Received: from mail107-am1-R.bigfish.com (10.3.201.250) by
+	AM1EHSOBE004.bigfish.com (10.3.204.24) with Microsoft SMTP Server id
+	14.1.225.23; Thu, 16 Aug 2012 16:12:28 +0000
+Received: from mail107-am1 (localhost [127.0.0.1])	by
+	mail107-am1-R.bigfish.com (Postfix) with ESMTP id A28E226012E;
+	Thu, 16 Aug 2012 16:12:28 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-SpamScore: -8
+X-BigFish: VS-8(zz98dI9371I936eIdf9M1432Izz1202hzz8275dhz2dh2a8h668h839h8e2h8e3hf0ah107ah10d2hbe9i1155h)
+Received: from mail107-am1 (localhost.localdomain [127.0.0.1]) by mail107-am1
+	(MessageSwitch) id 134513354734749_24180;
+	Thu, 16 Aug 2012 16:12:27 +0000 (UTC)
+Received: from AM1EHSMHS009.bigfish.com (unknown [10.3.201.226])	by
+	mail107-am1.bigfish.com (Postfix) with ESMTP id 06288460046;
+	Thu, 16 Aug 2012 16:12:27 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by AM1EHSMHS009.bigfish.com
+	(10.3.207.109) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Thu, 16 Aug 2012 16:12:25 +0000
+Received: from 039-SN1MPN1-001.039d.mgd.msft.net ([169.254.1.41]) by
+	039-SN1MMR1-004.039d.mgd.msft.net ([::1]) with mapi id 14.02.0298.005;
+	Thu, 16 Aug 2012 11:12:23 -0500
+From: McClintock Matthew-B29882 <B29882@freescale.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [discussion] perf: specify SLANG_INC dir for perf
+Thread-Index: AQHNe8nrE56cohk/pE60uL+NWeiu6A==
+Date: Thu, 16 Aug 2012 16:12:22 +0000
+Message-ID: <CAEsOVNcjZfE4ofUeY-PPaxb6uJgZWNaEf8QGkbUOme0o_xf8dA@mail.gmail.com>
+References: <1344008589-3660-1-git-send-email-liang.li@windriver.com>
+	<1344348160.9756.255.camel@ted> <20120808033742.GA19078@localhost>
+	<20120814021712.GB25748@localhost> <502D12E2.4000808@windriver.com>
+	<1345132684.14667.70.camel@ted>
+In-Reply-To: <1345132684.14667.70.camel@ted>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [70.112.201.132]
+MIME-Version: 1.0
+X-OriginatorOrg: freescale.com
+Cc: "darren.hart@intel.com" <darren.hart@intel.com>
+Subject: Re: [discussion] perf: specify SLANG_INC dir for perf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -30,53 +61,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Aug 2012 16:22:56 -0000
+X-List-Received-Date: Thu, 16 Aug 2012 16:54:34 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <7692F57776DBB74A919D950097EB51A9@mgd.freescale.com>
+Content-Transfer-Encoding: quoted-printable
 
-In toolchain edge cases it's possible for the RPATH of a library to be
-set to something like "/usr/lib/../lib".  This should be detected as
-"/usr/lib" and generate a warning.  Also clarify the warning text to
-indicate potential link-time pollution from the host libraries.
+On Thu, Aug 16, 2012 at 10:58 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Thu, 2012-08-16 at 11:33 -0400, Bruce Ashfield wrote:
+>> On 12-08-13 10:17 PM, Liang Li wrote:
+>> > Hi Richard,
+>> >
+>> > Ping ...
+>> >
+>> > Hopefully you could recall sufficient context from this thread about
+>> > the 'include path for slang.h' cause compile error issue that we are
+>> > trying to fix here.
+>>
+>> Bump.
+>>
+>> I'm holding off on merging a kernel patch for this while this is still
+>> outstanding.
+>>
+>> Can I distill this into the following (in the hope of resolving it).
+>>
+>>    - do we want to fix this problem for all kernels, or just the linux-y=
+octo
+>>      ones ? And by 'fix', I mean without the requirement of porting
+>>      a kernel patch to older recipes.
+>
+> I propose we add a sed expression to the general kernel do_install which
+> changes the -I/usr/include/slang -> -I=3D/usr/include/slang. That should
+> be generic, acceptable to upstream and fixes all kernel versions.
+>
+> Comments?
 
-Signed-off-by: Andy Ross <andy.ross@windriver.com>
----
- meta/classes/insane.bbclass | 15 +++++++++++----
- 1 file changed, 11 insertions(+), 4 deletions(-)
+That would work for me as well ;)
 
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index 556a176..dfaa9dc 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -161,6 +161,10 @@ def package_qa_check_rpath(file,name, d, elf, messages):
-             if dir in line:
-                 messages.append("package %s contains bad RPATH %s in file %s" % (name, line, file))
- 
-+def rpath_eq(a, b):
-+    import os.path
-+    return os.path.normpath(a) == os.path.normpath(b)
-+
- QAPATHTEST[useless-rpaths] = "package_qa_check_useless_rpaths"
- def package_qa_check_useless_rpaths(file, name, d, elf, messages):
-     """
-@@ -181,10 +185,13 @@ def package_qa_check_useless_rpaths(file, name, d, elf, messages):
-     	m = rpath_re.match(line)
- 	if m:
- 	   rpath = m.group(1)
--	   if rpath == libdir or rpath == base_libdir:
--	      # The dynamic linker searches both these places anyway.  There is no point in
--	      # looking there again.
--	      messages.append("%s: %s contains probably-redundant RPATH %s" % (name, package_qa_clean_path(file, d), rpath))
-+	   if rpath_eq(rpath, libdir) or rpath_eq(rpath, base_libdir):
-+	      # The dynamic linker searches both these places anyway.
-+	      # There is no point in looking there again.  And it may
-+	      # be harmful: the RPATH may point to host directories
-+	      # (e.g. /usr/lib) which will be searched at link time,
-+	      # creating build issues.
-+	      messages.append("%s: %s contains probably-redundant, possibly host-polluted RPATH %s" % (name, package_qa_clean_path(file, d), rpath))
- 
- QAPATHTEST[dev-so] = "package_qa_check_dev"
- def package_qa_check_dev(path, name, d, elf, messages):
--- 
-1.7.11.2
+-M=
 
 
 
