@@ -1,31 +1,36 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-we0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Jackie.Huang@windriver.com>) id 1T21Hf-0001K3-8n
-	for openembedded-core@lists.openembedded.org;
-	Thu, 16 Aug 2012 16:42:51 +0200
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb [147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q7GEUpGu023510
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 16 Aug 2012 07:30:51 -0700 (PDT)
-Received: from ALA-MBA.corp.ad.wrs.com ([169.254.1.187]) by
-	ALA-HCB.corp.ad.wrs.com ([147.11.189.41]) with mapi id 14.02.0309.002;
-	Thu, 16 Aug 2012 07:30:51 -0700
-From: "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Thread-Topic: [oe-commits] Jackie Huang : gdk-pixbuf: fix the postinstall
-	script failure when no icon is installed
-Thread-Index: AQHNe6ymj1CVAbBWMkuLm2iu1FzLGpdcfhGC
-Date: Thu, 16 Aug 2012 14:30:51 +0000
-Message-ID: <1B858668EC6A94408DCA5225FDFA85AA576F7B28@ALA-MBA.corp.ad.wrs.com>
+	(envelope-from <martin.jansa@gmail.com>)
+	id 1T21Me-0001QA-Pm; Thu, 16 Aug 2012 16:48:00 +0200
+Received: by weyr6 with SMTP id r6so1860645wey.6
+	for <multiple recipients>; Thu, 16 Aug 2012 07:36:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=j0xZ9XbB8AmM2crn629dk1wD8fA+HLa7I4tf1DDnrAc=;
+	b=lEJXwGyqyqIr98qLQBvqbwP22bLXD/EH+uAMJYcziz2B4Hk2Xk+hId+ZIri8udds5F
+	dBXuefk048Nky58yrayAD4xivET36CWwL+8lOW6zMuRfMxAtz2tQhWbSbCH+sbX5XCqd
+	eHTzNU5N3q5bhkvaTQr6yzsp/0L/H8/KzEHq5X5ngh+1m3bjggj5Nt7Vin3T0WWcMA32
+	jxfGC88SLhpMCfLrCYOhSscK4dkLGF08WA/wmwvyXEfjs07pWZbv5GUutzDQhV02kh6e
+	VcYaF8O94w9DzsJFIWrmWf2GdPGUNCMw2Ul0YhFYKN+oXsh4jK3lM6Dj8JOA3R/v7+Gi
+	7E+g==
+Received: by 10.180.81.38 with SMTP id w6mr3663425wix.10.1345127763421;
+	Thu, 16 Aug 2012 07:36:03 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id fb20sm6234107wid.1.2012.08.16.07.36.01
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 16 Aug 2012 07:36:02 -0700 (PDT)
+Date: Thu, 16 Aug 2012 16:35:59 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>
+Message-ID: <20120816143559.GD32088@jama.jama.net>
 References: <20120815133202.50B6D10218@opal>
-	<20120816103308.GA32088@jama.jama.net>,
+	<20120816103308.GA32088@jama.jama.net>
 	<20120816124239.GC32088@jama.jama.net>
-In-Reply-To: <20120816124239.GC32088@jama.jama.net>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [128.224.17.88]
+	<1B858668EC6A94408DCA5225FDFA85AA576F7B28@ALA-MBA.corp.ad.wrs.com>
 MIME-Version: 1.0
+In-Reply-To: <1B858668EC6A94408DCA5225FDFA85AA576F7B28@ALA-MBA.corp.ad.wrs.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>,
 	"openembedded-commits@lists.openembedded.org"
@@ -45,116 +50,143 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Aug 2012 14:42:51 -0000
-Content-Language: zh-CN
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Thu, 16 Aug 2012 14:48:01 -0000
+X-Groupsio-MsgNum: 27583
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="jCrbxBqMcLqd4mOl"
+Content-Disposition: inline
+
+--jCrbxBqMcLqd4mOl
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
->=0A=
->On Thu, Aug 16, 2012 at 12:33:08PM +0200, Martin Jansa wrote:=0A=
->> On Wed, Aug 15, 2012 at 01:32:02PM +0000, git@git.openembedded.org wrote=
-:=0A=
->> > Module: openembedded-core.git=0A=
->> > Branch: master=0A=
->> > Commit: 1d4fbe4761d3d97e3c4b6e894719ee41b21559b2=0A=
->> > URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcom=
-mit;h=3D1d4fbe4761d3d97e3c4b6e894719ee41b21559b2=0A=
->> >=0A=
->> > Author: Jackie Huang <jackie.huang@windriver.com>=0A=
->> > Date:   Thu Aug  9 10:30:30 2012 +0800=0A=
->> >=0A=
->> > gdk-pixbuf: fix the postinstall script failure when no icon is install=
-ed=0A=
->> >=0A=
->> > If gtk+ is added to core-image-minimal, postinstall script failed on b=
-oot:=0A=
->> >=0A=
->> > Running postinst /etc/rpm-postinsts/104...=0A=
->> > gtk-update-icon-cache: No theme index file.=0A=
->> > ERROR: postinst /etc/rpm-postinsts/104 failed.=0A=
->> >=0A=
->> > This patch fixed the postinstall script to check for the icon=0A=
->> > file first and not run the gtk-update-icon-cache if no icon=0A=
->> > is installed.=0A=
->> >=0A=
->> > [YOCTO #2905]=0A=
->> >=0A=
->> > Signed-off-by: Jackie Huang <jackie.huang@windriver.com>=0A=
->> > Signed-off-by: Saul Wold <sgw@linux.intel.com>=0A=
->>=0A=
->>=0A=
->> Even with this patch I get:=0A=
->> Configuring gdk-pixbuf-loader-png.=0A=
->> gtk-update-icon-cache: No theme index file.=0A=
->> Configuring gdk-pixbuf-loader-jpeg.=0A=
->> gtk-update-icon-cache: No theme index file.=0A=
->> Configuring gdk-pixbuf-loader-xpm.=0A=
->> gtk-update-icon-cache: No theme index file.=0A=
->> Configuring gdk-pixbuf-loader-gif.=0A=
->> gtk-update-icon-cache: No theme index file.=0A=
->> Collected errors:=0A=
->>  * pkg_run_script: package "gdk-pixbuf-loader-png" postinst script=0A=
->>  * returned status 1.=0A=
->>  * opkg_configure: gdk-pixbuf-loader-png.postinst returned 1.=0A=
->>  * pkg_run_script: package "gdk-pixbuf-loader-jpeg" postinst script=0A=
->>  * returned status 1.=0A=
->>  * opkg_configure: gdk-pixbuf-loader-jpeg.postinst returned 1.=0A=
->>  * pkg_run_script: package "gdk-pixbuf-loader-xpm" postinst script=0A=
->>  * returned status 1.=0A=
->>  * opkg_configure: gdk-pixbuf-loader-xpm.postinst returned 1.=0A=
->>  * pkg_run_script: package "gdk-pixbuf-loader-gif" postinst script=0A=
->>  * returned status 1.=0A=
->>  * opkg_configure: gdk-pixbuf-loader-gif.postinst returned 1.=0A=
->=0A=
->This problem is caused by=0A=
->openembedded-core/meta/recipes-graphics/xcursor-transparent-theme/xcursor-=
-transparent-theme_0.1.1.bb=0A=
->which does not provide index.theme file=0A=
->=0A=
-=0A=
-Well, in my case, there is no icon installed so there is on ${datadir}/icon=
-s at all.=0A=
-=0A=
-Thanks,=0A=
-Jackie=0A=
-=0A=
->and commit message of this change should be something like=0A=
->gdk-pixbuf: call gtk-update-icon-cache for each subdir of ${datadir}/icons=
-=0A=
->not=0A=
->gdk-pixbuf: fix the postinstall script failure when no icon is installed=
-=0A=
->=0A=
->Cheers,=0A=
->=0A=
->> > -test -x ${bindir}/gtk-update-icon-cache && gtk-update-icon-cache  -q =
-${datadir}/icons/hicolor=0A=
->> > +if [ -x ${bindir}/gtk-update-icon-cache ] && [ -d ${datadir}/icons ];=
- then=0A=
->> > +    for icondir in /usr/share/icons/*; do=0A=
->> > +        if [ -d ${icondir} ]; then=0A=
->> > +            gtk-update-icon-cache -q ${icondir}=0A=
->> > +        fi=0A=
->> > +    done=0A=
->> > +fi=0A=
->> >  }=0A=
->> >=0A=
->> >  PACKAGES_DYNAMIC +=3D "gdk-pixbuf-loader-*"=0A=
->> >=0A=
->> >=0A=
->> > _______________________________________________=0A=
->> > Openembedded-commits mailing list=0A=
->> > Openembedded-commits@lists.openembedded.org=0A=
->> > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-commi=
-ts=0A=
->>=0A=
->> --=0A=
->> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com=0A=
->=0A=
->=0A=
->=0A=
->--=0A=
->Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com=0A=
->=0A=
+On Thu, Aug 16, 2012 at 02:30:51PM +0000, Huang, Jie (Jackie) wrote:
+> >
+> >On Thu, Aug 16, 2012 at 12:33:08PM +0200, Martin Jansa wrote:
+> >> On Wed, Aug 15, 2012 at 01:32:02PM +0000, git@git.openembedded.org wro=
+te:
+> >> > Module: openembedded-core.git
+> >> > Branch: master
+> >> > Commit: 1d4fbe4761d3d97e3c4b6e894719ee41b21559b2
+> >> > URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dc=
+ommit;h=3D1d4fbe4761d3d97e3c4b6e894719ee41b21559b2
+> >> >
+> >> > Author: Jackie Huang <jackie.huang@windriver.com>
+> >> > Date:   Thu Aug  9 10:30:30 2012 +0800
+> >> >
+> >> > gdk-pixbuf: fix the postinstall script failure when no icon is insta=
+lled
+> >> >
+> >> > If gtk+ is added to core-image-minimal, postinstall script failed on=
+ boot:
+> >> >
+> >> > Running postinst /etc/rpm-postinsts/104...
+> >> > gtk-update-icon-cache: No theme index file.
+> >> > ERROR: postinst /etc/rpm-postinsts/104 failed.
+> >> >
+> >> > This patch fixed the postinstall script to check for the icon
+> >> > file first and not run the gtk-update-icon-cache if no icon
+> >> > is installed.
+> >> >
+> >> > [YOCTO #2905]
+> >> >
+> >> > Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+> >> > Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> >>
+> >>
+> >> Even with this patch I get:
+> >> Configuring gdk-pixbuf-loader-png.
+> >> gtk-update-icon-cache: No theme index file.
+> >> Configuring gdk-pixbuf-loader-jpeg.
+> >> gtk-update-icon-cache: No theme index file.
+> >> Configuring gdk-pixbuf-loader-xpm.
+> >> gtk-update-icon-cache: No theme index file.
+> >> Configuring gdk-pixbuf-loader-gif.
+> >> gtk-update-icon-cache: No theme index file.
+> >> Collected errors:
+> >>  * pkg_run_script: package "gdk-pixbuf-loader-png" postinst script
+> >>  * returned status 1.
+> >>  * opkg_configure: gdk-pixbuf-loader-png.postinst returned 1.
+> >>  * pkg_run_script: package "gdk-pixbuf-loader-jpeg" postinst script
+> >>  * returned status 1.
+> >>  * opkg_configure: gdk-pixbuf-loader-jpeg.postinst returned 1.
+> >>  * pkg_run_script: package "gdk-pixbuf-loader-xpm" postinst script
+> >>  * returned status 1.
+> >>  * opkg_configure: gdk-pixbuf-loader-xpm.postinst returned 1.
+> >>  * pkg_run_script: package "gdk-pixbuf-loader-gif" postinst script
+> >>  * returned status 1.
+> >>  * opkg_configure: gdk-pixbuf-loader-gif.postinst returned 1.
+> >
+> >This problem is caused by
+> >openembedded-core/meta/recipes-graphics/xcursor-transparent-theme/xcurso=
+r-transparent-theme_0.1.1.bb
+> >which does not provide index.theme file
+> >
+>=20
+> Well, in my case, there is no icon installed so there is on ${datadir}/ic=
+ons at all.
 
+So it's fine to break postinst for everyone else who has
+xcursor-transparent-theme or are you going to fix that?
 
+Thanks,
+
+>=20
+> Thanks,
+> Jackie
+>=20
+> >and commit message of this change should be something like
+> >gdk-pixbuf: call gtk-update-icon-cache for each subdir of ${datadir}/ico=
+ns
+> >not
+> >gdk-pixbuf: fix the postinstall script failure when no icon is installed
+> >
+> >Cheers,
+> >
+> >> > -test -x ${bindir}/gtk-update-icon-cache && gtk-update-icon-cache  -=
+q ${datadir}/icons/hicolor
+> >> > +if [ -x ${bindir}/gtk-update-icon-cache ] && [ -d ${datadir}/icons =
+]; then
+> >> > +    for icondir in /usr/share/icons/*; do
+> >> > +        if [ -d ${icondir} ]; then
+> >> > +            gtk-update-icon-cache -q ${icondir}
+> >> > +        fi
+> >> > +    done
+> >> > +fi
+> >> >  }
+> >> >
+> >> >  PACKAGES_DYNAMIC +=3D "gdk-pixbuf-loader-*"
+> >> >
+> >> >
+> >> > _______________________________________________
+> >> > Openembedded-commits mailing list
+> >> > Openembedded-commits@lists.openembedded.org
+> >> > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-com=
+mits
+> >>
+> >> --
+> >> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+> >
+> >
+> >
+> >--
+> >Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+> >
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--jCrbxBqMcLqd4mOl
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
+
+iEYEARECAAYFAlAtBU8ACgkQN1Ujt2V2gBz8BwCfRD7vLNnE1YnJm1ptLyaIS8ZR
+h9oAn2f/cWtoEgUqpmECW8rvf0kqYeFH
+=db/k
+-----END PGP SIGNATURE-----
+
+--jCrbxBqMcLqd4mOl--
