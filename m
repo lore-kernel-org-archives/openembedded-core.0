@@ -1,26 +1,42 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Liezhi.Yang@windriver.com>) id 1T1u5W-0007Xe-T2
+	(envelope-from <koen@dominion.thruhere.net>) id 1T1vEd-0000LG-QS
 	for openembedded-core@lists.openembedded.org;
-	Thu, 16 Aug 2012 09:01:51 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q7G6nqhU016936
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 16 Aug 2012 10:15:19 +0200
+Received: by eekb57 with SMTP id b57so572702eek.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Aug 2012 23:49:52 -0700 (PDT)
-Received: from usp-ub10.corp.ad.wrs.com (128.224.163.69) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.309.2; Wed, 15 Aug 2012 23:49:52 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 16 Aug 2012 14:46:18 +0800
-Message-ID: <de31176ecb35332a25f614a638ad54cc3e2c721d.1345084532.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.1
-In-Reply-To: <cover.1345084532.git.liezhi.yang@windriver.com>
-References: <cover.1345084532.git.liezhi.yang@windriver.com>
-MIME-Version: 1.0
+	Thu, 16 Aug 2012 01:03:22 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=content-type:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to:x-mailer
+	:x-gm-message-state;
+	bh=YWaJVP+LEr2dtCF4rN84RHc8nTLd0l0YAP38SKPP4zg=;
+	b=oqkWTaUKTxM8R5a0b7Theh2YIYJvxxoXVS8RkFC41asbS3dc88iQCzvprLaKJK6Ubm
+	bIPPeUSjqWdzl1wKqNbeqDGnBR47bYk1su8EQgxzmvsX8WMohHXWDFYwHWwf1AyIhHmR
+	IDSlCCWQQ1wsI6K7cqqLWNptXw8AB0OEEElyw3k/7lgMS49bbQxiBtA2xvzyRgIvZiPe
+	THd/Tl1jlmL+K43BKsCEyoG0I0cRrSusuFvcTZe0ycSz3XZehWCaWyFYsm687XIB/fa0
+	QPIaklHAFf/9IHUMUfJx0zjgYbLVFgJOjZcld0zntNrEsJzNgpjzq3h7p5W+3vdfd6Sq
+	89qA==
+Received: by 10.14.199.67 with SMTP id w43mr383109een.33.1345104202632;
+	Thu, 16 Aug 2012 01:03:22 -0700 (PDT)
+Received: from [172.20.0.10] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
+	by mx.google.com with ESMTPS id d48sm9825107eeo.10.2012.08.16.01.03.17
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 16 Aug 2012 01:03:20 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 6.0 \(1485\))
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <520fd5fd5b910a65ddc91a9e747b092050fd0dbf.1345044352.git.liezhi.yang@windriver.com>
+Date: Thu, 16 Aug 2012 10:03:20 +0200
+Message-Id: <32C1BA52-8980-47D2-908D-B94EBED60C1E@dominion.thruhere.net>
+References: <cover.1345044352.git.liezhi.yang@windriver.com>
+	<520fd5fd5b910a65ddc91a9e747b092050fd0dbf.1345044352.git.liezhi.yang@windriver.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+X-Mailer: Apple Mail (2.1485)
+X-Gm-Message-State: ALoCoQmzivROAyhOE5mEx6H27sNxZ/Yd5HLLohS6fxvhl9fqSAfa+mfwfpZ5ulsvtNO+G/mAATrA
 Cc: Zhenfeng.Zhao@windriver.com
-Subject: [PATCH 1/2 V3] bitbake.conf: add STAMPS_DIR for constructing STAMP
+Subject: Re: [PATCH 2/3] ipk: install external binary packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,61 +51,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Aug 2012 07:01:52 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 16 Aug 2012 08:15:19 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-Add STAMPS_DIR for constructing STAMP, the defination of STAMP is:
 
-STAMP = "${TMPDIR}/stamps/${MULTIMACH_TARGET_SYS}/${PF}
+Op 15 aug. 2012, om 17:32 heeft Robert Yang <liezhi.yang@windriver.com> =
+het volgende geschreven:
 
-We can only change the TMPDIR if we want to change the STAMP's location,
-but the cache would be regenerated if TMPDIR changed, so add
-STAMPS_DIR for constructing it, and add it to the BB_ENV_EXTRAWHITE,
-this is very usefull for the "bitbake -S", since then it can be run by:
+> Please see the commit message for the rpm one,=20
 
-STAMPS_DIR=<path> bitbake -S <recipe>
-
-which will avoid putting the stamps to ${TMPDIR}/stamps.
-
-BTW, break the too long BB_ENV_EXTRAWHITE into several lines.
-
-[YOCTO #1659]
-
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/conf/bitbake.conf       |    3 ++-
- scripts/oe-buildenv-internal |    5 ++++-
- 2 files changed, 6 insertions(+), 2 deletions(-)
-
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 8074684..653ba98 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -332,7 +332,8 @@ GITDIR = "${CO_DIR}/git2"
- BZRDIR = "${CO_DIR}/bzr"
- HGDIR = "${CO_DIR}/hg"
- 
--STAMP = "${TMPDIR}/stamps/${MULTIMACH_TARGET_SYS}/${PF}"
-+STAMPS_DIR ?= "${TMPDIR}/stamps"
-+STAMP = "${STAMPS_DIR}/${MULTIMACH_TARGET_SYS}/${PF}"
- WORKDIR = "${TMPDIR}/work/${MULTIMACH_TARGET_SYS}/${PF}"
- T = "${WORKDIR}/temp"
- D = "${WORKDIR}/image"
-diff --git a/scripts/oe-buildenv-internal b/scripts/oe-buildenv-internal
-index 32c0ba0..098d474 100755
---- a/scripts/oe-buildenv-internal
-+++ b/scripts/oe-buildenv-internal
-@@ -75,4 +75,7 @@ unset BITBAKEDIR
- # Used by the runqemu script
- export BUILDDIR
- export PATH
--export BB_ENV_EXTRAWHITE="MACHINE DISTRO TCMODE TCLIBC http_proxy ftp_proxy https_proxy all_proxy ALL_PROXY no_proxy SSH_AGENT_PID SSH_AUTH_SOCK BB_SRCREV_POLICY SDKMACHINE BB_NUMBER_THREADS PARALLEL_MAKE GIT_PROXY_COMMAND GIT_PROXY_IGNORE SOCKS5_PASSWD SOCKS5_USER SCREENDIR"
-+export BB_ENV_EXTRAWHITE="MACHINE DISTRO TCMODE TCLIBC http_proxy ftp_proxy
-+    https_proxy all_proxy ALL_PROXY no_proxy SSH_AGENT_PID SSH_AUTH_SOCK BB_SRCREV_POLICY
-+    SDKMACHINE BB_NUMBER_THREADS PARALLEL_MAKE GIT_PROXY_COMMAND GIT_PROXY_IGNORE
-+    SOCKS5_PASSWD SOCKS5_USER SCREENDIR STAMPS_DIR"
--- 
-1.7.1
-
+No, you copy-paste that message into this commit message.=
 
 
