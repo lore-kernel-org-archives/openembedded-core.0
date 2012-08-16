@@ -1,44 +1,29 @@
-Received: from mail-we0-f175.google.com ([74.125.82.175])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1T1xd7-0002o3-Rh
+	(envelope-from <Liezhi.Yang@windriver.com>) id 1T1yHW-0003Zl-U6
 	for openembedded-core@lists.openembedded.org;
-	Thu, 16 Aug 2012 12:48:45 +0200
-Received: by weyr6 with SMTP id r6so1704879wey.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Aug 2012 03:36:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=WDoipcic2Sr/dZoFODGTtkqwPdIH+dhQRc+CgOeXhRM=;
-	b=jBsqCFWCPHbXZojTh7mqoWEQ9EhaBTAVcXG3T1BTBtc1WhV8GklIQ1UzQYy7IAhQ+x
-	ZeM1x4sYOpqqB7N/wwB5oAb1HYxvQAJX8Ol5cjv2U7Yxsd1Jqe9eYQalB0YQkpiBi8gd
-	AtKTRsItg1eXfFIKCHMku1gyUCtck3UppPrOhogXLxGw+wbM5hQAcJDnz9cwxTbmj5Gj
-	Wyhc6t6XG7LNSqbk/0yyAbkSBELlAAe5P6JgM3R49f+afVxoumOwLLG39651AU34Avfz
-	D7MlcKTBXa0pQ2GLQBl3HRROX3yDot3n0W2k/xxFoTaRFLUVtQCnVPlrbVpNqzZ7im8T
-	3/7Q==
-Received: by 10.180.105.6 with SMTP id gi6mr2077685wib.4.1345113408807;
-	Thu, 16 Aug 2012 03:36:48 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id eu4sm3165704wib.2.2012.08.16.03.36.46
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 16 Aug 2012 03:36:47 -0700 (PDT)
-Date: Thu, 16 Aug 2012 12:36:44 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
+	Thu, 16 Aug 2012 13:30:31 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q7GBIV5L000799
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 16 Aug 2012 04:18:31 -0700 (PDT)
+Received: from [128.224.163.142] (128.224.163.142) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.309.2;
+	Thu, 16 Aug 2012 04:18:31 -0700
+Message-ID: <502CD706.8050703@windriver.com>
+Date: Thu, 16 Aug 2012 19:18:30 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:14.0) Gecko/20120714 Thunderbird/14.0
+MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Message-ID: <20120816103644.GB32088@jama.jama.net>
-References: <CAMKF1sokpajrms4PACKOSt8CYFt+6JEQ2Fre=QpzJfQF-KLrKA@mail.gmail.com>
-	<20120809131016.GA3273@jama.jama.net>
-	<CAMKF1sqC-_YTdwsLvVoVyz04ndMxNt6W1z__f_9nUTfb6aF8GQ@mail.gmail.com>
-	<20120809145732.GD3273@jama.jama.net>
-	<20120811080416.GA3258@jama.jama.net>
-	<CAMKF1sqDmRKA=eaTbZesfDFd9axJXUbHDR-7b-0vpF1SMu9RSw@mail.gmail.com>
-	<20120812061425.GA3290@jama.jama.net>
-MIME-Version: 1.0
-In-Reply-To: <20120812061425.GA3290@jama.jama.net>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@linuxtogo.org
-Subject: Re: binutils 2.23 call for testing the recipes
+References: <cover.1345105475.git.liezhi.yang@windriver.com>
+	<27dcb81ca366e3bab299395b8ce150e02fdd3a4f.1345105475.git.liezhi.yang@windriver.com>
+	<C2485FB5-A9C5-4CC5-8115-6ED44ED65468@dominion.thruhere.net>
+In-Reply-To: <C2485FB5-A9C5-4CC5-8115-6ED44ED65468@dominion.thruhere.net>
+Cc: Koen Kooi <koen@dominion.thruhere.net>, Zhenfeng.Zhao@windriver.com
+Subject: Re: [PATCH 2/3] ipk: install external binary packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -53,73 +38,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Aug 2012 10:48:45 -0000
-X-Groupsio-MsgNum: 27567
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="MfFXiAuoTsnnDAfZ"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 16 Aug 2012 11:30:31 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
---MfFXiAuoTsnnDAfZ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Sun, Aug 12, 2012 at 08:14:25AM +0200, Martin Jansa wrote:
-> On Sat, Aug 11, 2012 at 10:30:25PM -0700, Khem Raj wrote:
-> > On Sat, Aug 11, 2012 at 1:04 AM, Martin Jansa <martin.jansa@gmail.com> =
-wrote:
-> > >
-> > > | =3D=3D=3D If you get failures below, please file a bug describing t=
-he error
-> > > | =3D=3D=3D and your environment (compiler and linker versions), and =
-use
-> > > | =3D=3D=3D --disable-elf-hack until this is fixed.
-> > > | =3D=3D=3D
-> > > | /var/lib/jenkins/jobs/shr-core-branches/workspace/shr-core/tmp-egli=
-bc/work/armv7a-vfp-neon-oe-linux-gnueabi/firefox-10.0.2-r2/mozilla-release/=
-build/unix/elfhack/elfhack -b test.so
-> > > | test.so: terminate called after throwing an instance of 'std::runti=
-me_error'
-> > > |   what():  Unsupported relocation type
-> > > | make[7]: *** [test.so] Aborted (core dumped)
-> > > | make[7]: Leaving directory `/var/lib/jenkins/jobs/shr-core-branches=
-/workspace/shr-core/tmp-eglibc/work/armv7a-vfp-neon-oe-linux-gnueabi/firefo=
-x-10.0.2-r2/mozilla-release/build/unix/elfhack'
-> >=20
-> > it might be you are seeing same bug in elfhack as described here
-> >=20
-> > https://bugzilla.mozilla.org/show_bug.cgi?id=3D632920
->=20
-> I've disabled elf hack yesterday
-> https://github.com/OSSystems/meta-browser/commit/5d176cb405497e5c5823fa14=
-dbae353a2e1e3730
-> and it did build fine with 2.22 as well as 23, but GNUtoo then reported t=
-hat=20
-> it still produces Illegal instructions.
 
-Another issue I've noticed today is gtk-update-icon-cache failing on
-armv4t with
-Illegal instruction (even without gold enabled). Not 100% sure it's
-because of switch from binutils-2.22 to 2.23, but it still works in my
-other builddirs (without binutils-2.23). Will debug this a bit more when
-I find some time.
+On 08/16/2012 05:40 PM, Koen Kooi wrote:
+>
+> Op 16 aug. 2012, om 10:27 heeft Robert Yang <liezhi.yang@windriver.com> het volgende geschreven:
+>
+>> It's been suggested that it would be a useful feature to be able to
+>> easily take a binary from a 3rd party software vendor and integrate
+>> it into an image created by the build system.
+>
+> So why not write a recipe for such packages? That way you can fix a lot more of packaging screwups (it's a vendor binary, screwups are a given) and don't need to patch a ton of classes.
+>
 
-SHR root@gjama ~ $ gtk-update-icon-cache -q /usr/share/icons/shr/
-Illegal instruction
+I think that this is easier than use recipe for such packages, here are my
+rough thoughts:
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+If we do it in a recipe, we should tell the recipe:
 
---MfFXiAuoTsnnDAfZ
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+1) Where are the binary pkgs
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
+2) Which recipe will be installed
 
-iEYEARECAAYFAlAszTwACgkQN1Ujt2V2gByeOQCcCZSX/n9zVbuNuDnjbLztjTFi
-zDEAnjm9pMjKWuhxSy7Ggk8OWhipXCvn
-=C9F7
------END PGP SIGNATURE-----
+These 2 are similar to EXTERNAL_PACKAGE_DIR and EXTERNAL_INSTALL_PACKAGE which
+I have used.
 
---MfFXiAuoTsnnDAfZ--
+3) Write the do_fetch to copy the pkgs to $WORKDIR
+
+4) Write the do_install to uncompress the binary pkgs if we want to fix the
+    screwups (I don't know the exactly meaning of screwups, I think it is
+    similar to "trouble"), and I don't know what can we fix for a binary pkg,
+    the common errors that we meet are the dependencies and conflicts, but it
+    seems that we can do nothing on them. If we can't fix the pkg, it seems not
+    very different from patch the class.
+
+And from the user side, he needs to add the recipe to the image, then
+specify where are the binary pkgs and which needs to be installed. It is not
+as easy as the current implementation.
+
+// Robert
+
+
+
+
+_______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+>
+
+
