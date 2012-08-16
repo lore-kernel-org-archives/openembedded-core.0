@@ -1,25 +1,26 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Peter.Seebach@windriver.com>) id 1T23T3-0006Uu-4Z
+	(envelope-from <sgw@linux.intel.com>) id 1T23gS-0006gs-FD
 	for openembedded-core@lists.openembedded.org;
-	Thu, 16 Aug 2012 19:02:45 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q7GGolJm018629
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Aug 2012 09:50:47 -0700 (PDT)
-Received: from localhost.localdomain (172.25.34.64) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.309.2;
-	Thu, 16 Aug 2012 09:50:46 -0700
-From: Peter Seebach <peter.seebach@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 16 Aug 2012 11:50:45 -0500
-Message-ID: <71f45133289f617d85d0c9072ea3b4d584f5de67.1345135594.git.peter.seebach@windriver.com>
-X-Mailer: git-send-email 1.7.0.4
-In-Reply-To: <cover.1345135594.git.peter.seebach@windriver.com>
-References: <cover.1345135594.git.peter.seebach@windriver.com>
+	Thu, 16 Aug 2012 19:16:36 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 16 Aug 2012 10:03:44 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.77,778,1336374000"; d="scan'208";a="181865688"
+Received: from unknown (HELO [10.255.12.253]) ([10.255.12.253])
+	by azsmga001.ch.intel.com with ESMTP; 16 Aug 2012 10:03:44 -0700
+Message-ID: <502D27EF.8020901@linux.intel.com>
+Date: Thu, 16 Aug 2012 10:03:43 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:14.0) Gecko/20120717 Thunderbird/14.0
 MIME-Version: 1.0
-Subject: [PATCH 1/1] base.bbclass: Work even when there's no PNBLACKLIST entries
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <1344972403-26049-1-git-send-email-rd@radekdostal.com>
+In-Reply-To: <1344972403-26049-1-git-send-email-rd@radekdostal.com>
+Cc: Radek Dostal <rd@radekdostal.com>
+Subject: Re: [PATCH] gst-plugins-base: remove avahi from DEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,35 +35,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Aug 2012 17:02:45 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 16 Aug 2012 17:16:36 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-It turns out that the result of getVarFlags is not a list, it's
-a dict. So "getVarFlags(...) or []" does not reliably produce
-something with a .items. This escaped detection because our
-local build environment never ends up running builds without
-PNBLACKLIST entries.
+On 08/14/2012 12:26 PM, Radek Dostal wrote:
+> avahi is no longer required as gnome_vfs is disabled
+>
+> Signed-off-by: Radek Dostal <rd@radekdostal.com>
+> ---
+>   .../gstreamer/gst-plugins-base_0.10.36.bb          |    4 ++--
+>   1 files changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.36.bb b/meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.36.bb
+> index da4a726..99f28e9 100644
+> --- a/meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.36.bb
+> +++ b/meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.36.bb
+> @@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3 \
+>                       file://gst/ffmpegcolorspace/utils.c;beginline=1;endline=20;md5=9c83a200b8e597b26ca29df20fc6ecd0"
+>
+>   DEPENDS += "${@base_contains('DISTRO_FEATURES', 'x11', 'virtual/libx11 libxv', '', d)}"
+> -DEPENDS += "alsa-lib freetype liboil libogg libvorbis libtheora avahi util-linux tremor"
+> +DEPENDS += "alsa-lib freetype liboil libogg libvorbis libtheora util-linux tremor"
+>
+>   SRC_URI += "file://gst-plugins-base-tremor.patch \
+>               file://configure.ac-fix-subparse-plugin.patch"
+> @@ -15,7 +15,7 @@ SRC_URI += "file://gst-plugins-base-tremor.patch \
+>   SRC_URI[md5sum] = "776c73883e567f67b9c4a2847d8d041a"
+>   SRC_URI[sha256sum] = "2cd3b0fa8e9b595db8f514ef7c2bdbcd639a0d63d154c00f8c9b609321f49976"
+>
+> -PR = "r3"On 08/14/2012 12:26 PM, Radek Dostal wrote:> avahi is no longer required as gnome_vfs is disabled
+>
+> Signed-off-by: Radek Dostal <rd@radekdostal.com>
+> ---
+>   .../gstreamer/gst-plugins-base_0.10.36.bb          |    4 ++--
+>   1 files changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.36.bb b/meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.36.bb
+> index da4a726..99f28e9 100644
+> --- a/meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.36.bb
+> +++ b/meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.36.bb
+> @@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3 \
+>                       file://gst/ffmpegcolorspace/utils.c;beginline=1;endline=20;md5=9c83a200b8e597b26ca29df20fc6ecd0"
+>
+>   DEPENDS += "${@base_contains('DISTRO_FEATURES', 'x11', 'virtual/libx11 libxv', '', d)}"
+> -DEPENDS += "alsa-lib freetype liboil libogg libvorbis libtheora avahi util-linux tremor"
+> +DEPENDS += "alsa-lib freetype liboil libogg libvorbis libtheora util-linux tremor"
+>
+>   SRC_URI += "file://gst-plugins-base-tremor.patch \
+>               file://configure.ac-fix-subparse-plugin.patch"
+> @@ -15,7 +15,7 @@ SRC_URI += "file://gst-plugins-base-tremor.patch \
+>   SRC_URI[md5sum] = "776c73883e567f67b9c4a2847d8d041a"
+>   SRC_URI[sha256sum] = "2cd3b0fa8e9b595db8f514ef7c2bdbcd639a0d63d154c00f8c9b609321f49976"
+>
+> -PR = "r3"
+> +PR = "r4"
+>
+>   inherit gettext
+>
+>
+> +PR = "r4"
+>
+>   inherit gettext
+>
+>
 
-Signed-off-by: Peter Seebach <peter.seebach@windriver.com>
----
- meta/classes/base.bbclass |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+Merged into OE-Core
 
-diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-index 840ddbc..acc3217 100644
---- a/meta/classes/base.bbclass
-+++ b/meta/classes/base.bbclass
-@@ -175,7 +175,7 @@ def preferred_ml_updates(d):
- 
-     versions = []
-     providers = []
--    blacklists = d.getVarFlags('PNBLACKLIST') or []
-+    blacklists = d.getVarFlags('PNBLACKLIST') or {}
-     for v in d.keys():
-         if v.startswith("PREFERRED_VERSION_"):
-             versions.append(v)
--- 
-1.7.0.4
+Thanks
+	Sau!
 
 
 
