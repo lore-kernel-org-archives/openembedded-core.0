@@ -1,35 +1,44 @@
 Received: from mail-we0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>)
-	id 1T1xZe-0002k9-QP; Thu, 16 Aug 2012 12:45:10 +0200
-Received: by weyr6 with SMTP id r6so1703037wey.6
-	for <multiple recipients>; Thu, 16 Aug 2012 03:33:13 -0700 (PDT)
+	(envelope-from <martin.jansa@gmail.com>) id 1T1xd7-0002o3-Rh
+	for openembedded-core@lists.openembedded.org;
+	Thu, 16 Aug 2012 12:48:45 +0200
+Received: by weyr6 with SMTP id r6so1704879wey.6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 16 Aug 2012 03:36:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=date:from:to:cc:subject:message-id:references:mime-version
 	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=WxnZm3r85b4RkjAlMkhIo3jp2A5RCu46fHcGk1SZqR0=;
-	b=D1vWvFH91qmvpMqR7cEbU9I9ncaRXr8oOF2eKuz7fUplUFIiZpT48C5+Zp8bYA/mRt
-	MAdiFtbtPq0/zNaRsaEGFHJyEeduU3mD49oE/PatsVqkbt10EApli58D6BcfINICIDYZ
-	U4Uhb5AiFhacmepfTpGCW7wvP88UvA3QO9oD7ODQ4Cc2MX3M0fsZjtUSmhM+PWXL319R
-	j80kgkjNvQV08w3w60l8GloZhKrvYhR4GlCqX/FjhpvPjnOXTQq644k/LYCAYC+a0DCM
-	7SwAbSiNsA3zkNCsEiqKQBiXTZRWfG2RnIQuZ8rQwXf5lcdve5Uu2Iqzmt7g7EX5ezz4
-	pVdA==
-Received: by 10.216.192.85 with SMTP id h63mr407033wen.7.1345113193452;
-	Thu, 16 Aug 2012 03:33:13 -0700 (PDT)
+	bh=WDoipcic2Sr/dZoFODGTtkqwPdIH+dhQRc+CgOeXhRM=;
+	b=jBsqCFWCPHbXZojTh7mqoWEQ9EhaBTAVcXG3T1BTBtc1WhV8GklIQ1UzQYy7IAhQ+x
+	ZeM1x4sYOpqqB7N/wwB5oAb1HYxvQAJX8Ol5cjv2U7Yxsd1Jqe9eYQalB0YQkpiBi8gd
+	AtKTRsItg1eXfFIKCHMku1gyUCtck3UppPrOhogXLxGw+wbM5hQAcJDnz9cwxTbmj5Gj
+	Wyhc6t6XG7LNSqbk/0yyAbkSBELlAAe5P6JgM3R49f+afVxoumOwLLG39651AU34Avfz
+	D7MlcKTBXa0pQ2GLQBl3HRROX3yDot3n0W2k/xxFoTaRFLUVtQCnVPlrbVpNqzZ7im8T
+	3/7Q==
+Received: by 10.180.105.6 with SMTP id gi6mr2077685wib.4.1345113408807;
+	Thu, 16 Aug 2012 03:36:48 -0700 (PDT)
 Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id t7sm4776486wix.6.2012.08.16.03.33.11
+	by mx.google.com with ESMTPS id eu4sm3165704wib.2.2012.08.16.03.36.46
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 16 Aug 2012 03:33:12 -0700 (PDT)
-Date: Thu, 16 Aug 2012 12:33:08 +0200
+	Thu, 16 Aug 2012 03:36:47 -0700 (PDT)
+Date: Thu, 16 Aug 2012 12:36:44 +0200
 From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20120816103308.GA32088@jama.jama.net>
-References: <20120815133202.50B6D10218@opal>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Message-ID: <20120816103644.GB32088@jama.jama.net>
+References: <CAMKF1sokpajrms4PACKOSt8CYFt+6JEQ2Fre=QpzJfQF-KLrKA@mail.gmail.com>
+	<20120809131016.GA3273@jama.jama.net>
+	<CAMKF1sqC-_YTdwsLvVoVyz04ndMxNt6W1z__f_9nUTfb6aF8GQ@mail.gmail.com>
+	<20120809145732.GD3273@jama.jama.net>
+	<20120811080416.GA3258@jama.jama.net>
+	<CAMKF1sqDmRKA=eaTbZesfDFd9axJXUbHDR-7b-0vpF1SMu9RSw@mail.gmail.com>
+	<20120812061425.GA3290@jama.jama.net>
 MIME-Version: 1.0
-In-Reply-To: <20120815133202.50B6D10218@opal>
+In-Reply-To: <20120812061425.GA3290@jama.jama.net>
 User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-commits@lists.openembedded.org
-Subject: Re: [oe-commits] Jackie Huang : gdk-pixbuf: fix the postinstall script failure when no icon is installed
+Cc: openembedded-core@linuxtogo.org
+Subject: Re: binutils 2.23 call for testing the recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -44,183 +53,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Aug 2012 10:45:10 -0000
-X-Groupsio-MsgNum: 27566
+X-List-Received-Date: Thu, 16 Aug 2012 10:48:45 -0000
+X-Groupsio-MsgNum: 27567
 Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="W/nzBZO5zC0uMSeA"
+	protocol="application/pgp-signature"; boundary="MfFXiAuoTsnnDAfZ"
 Content-Disposition: inline
 
---W/nzBZO5zC0uMSeA
+--MfFXiAuoTsnnDAfZ
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Aug 15, 2012 at 01:32:02PM +0000, git@git.openembedded.org wrote:
-> Module: openembedded-core.git
-> Branch: master
-> Commit: 1d4fbe4761d3d97e3c4b6e894719ee41b21559b2
-> URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcommit=
-;h=3D1d4fbe4761d3d97e3c4b6e894719ee41b21559b2
+On Sun, Aug 12, 2012 at 08:14:25AM +0200, Martin Jansa wrote:
+> On Sat, Aug 11, 2012 at 10:30:25PM -0700, Khem Raj wrote:
+> > On Sat, Aug 11, 2012 at 1:04 AM, Martin Jansa <martin.jansa@gmail.com> =
+wrote:
+> > >
+> > > | =3D=3D=3D If you get failures below, please file a bug describing t=
+he error
+> > > | =3D=3D=3D and your environment (compiler and linker versions), and =
+use
+> > > | =3D=3D=3D --disable-elf-hack until this is fixed.
+> > > | =3D=3D=3D
+> > > | /var/lib/jenkins/jobs/shr-core-branches/workspace/shr-core/tmp-egli=
+bc/work/armv7a-vfp-neon-oe-linux-gnueabi/firefox-10.0.2-r2/mozilla-release/=
+build/unix/elfhack/elfhack -b test.so
+> > > | test.so: terminate called after throwing an instance of 'std::runti=
+me_error'
+> > > |   what():  Unsupported relocation type
+> > > | make[7]: *** [test.so] Aborted (core dumped)
+> > > | make[7]: Leaving directory `/var/lib/jenkins/jobs/shr-core-branches=
+/workspace/shr-core/tmp-eglibc/work/armv7a-vfp-neon-oe-linux-gnueabi/firefo=
+x-10.0.2-r2/mozilla-release/build/unix/elfhack'
+> >=20
+> > it might be you are seeing same bug in elfhack as described here
+> >=20
+> > https://bugzilla.mozilla.org/show_bug.cgi?id=3D632920
 >=20
-> Author: Jackie Huang <jackie.huang@windriver.com>
-> Date:   Thu Aug  9 10:30:30 2012 +0800
->=20
-> gdk-pixbuf: fix the postinstall script failure when no icon is installed
->=20
-> If gtk+ is added to core-image-minimal, postinstall script failed on boot:
->=20
-> Running postinst /etc/rpm-postinsts/104...
-> gtk-update-icon-cache: No theme index file.
-> ERROR: postinst /etc/rpm-postinsts/104 failed.
->=20
-> This patch fixed the postinstall script to check for the icon
-> file first and not run the gtk-update-icon-cache if no icon
-> is installed.
->=20
-> [YOCTO #2905]
->=20
-> Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
-> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> I've disabled elf hack yesterday
+> https://github.com/OSSystems/meta-browser/commit/5d176cb405497e5c5823fa14=
+dbae353a2e1e3730
+> and it did build fine with 2.22 as well as 23, but GNUtoo then reported t=
+hat=20
+> it still produces Illegal instructions.
 
-
-Even with this patch I get:
-Configuring gdk-pixbuf-loader-png.
-gtk-update-icon-cache: No theme index file.
-Configuring gdk-pixbuf-loader-jpeg.
-gtk-update-icon-cache: No theme index file.
-Configuring gdk-pixbuf-loader-xpm.
-gtk-update-icon-cache: No theme index file.
-Configuring gdk-pixbuf-loader-gif.
-gtk-update-icon-cache: No theme index file.
-Collected errors:
- * pkg_run_script: package "gdk-pixbuf-loader-png" postinst script
- * returned status 1.
- * opkg_configure: gdk-pixbuf-loader-png.postinst returned 1.
- * pkg_run_script: package "gdk-pixbuf-loader-jpeg" postinst script
- * returned status 1.
- * opkg_configure: gdk-pixbuf-loader-jpeg.postinst returned 1.
- * pkg_run_script: package "gdk-pixbuf-loader-xpm" postinst script
- * returned status 1.
- * opkg_configure: gdk-pixbuf-loader-xpm.postinst returned 1.
- * pkg_run_script: package "gdk-pixbuf-loader-gif" postinst script
- * returned status 1.
- * opkg_configure: gdk-pixbuf-loader-gif.postinst returned 1.
-
-And even worse on other device, where gtk-update-icon-cache failed with=20
-Illegal instruction when postinst was executed for first time.. (probably=
-=20
-because of binutils-2.23)
+Another issue I've noticed today is gtk-update-icon-cache failing on
+armv4t with
+Illegal instruction (even without gold enabled). Not 100% sure it's
+because of switch from binutils-2.22 to 2.23, but it still works in my
+other builddirs (without binutils-2.23). Will debug this a bit more when
+I find some time.
 
 SHR root@gjama ~ $ gtk-update-icon-cache -q /usr/share/icons/shr/
 Illegal instruction
 
-Configuring gdk-pixbuf-loader-png.
-gtk-update-icon-cache: Failed to open file /usr/share/icons/gnome/.icon-the=
-me.cache : File exists
-gtk-update-icon-cache: Failed to open file /usr/share/icons/hicolor/.icon-t=
-heme.cache : File exists
-gtk-update-icon-cache: Failed to open file /usr/share/icons/shr/.icon-theme=
-=2Ecache : File exists
-gtk-update-icon-cache: No theme index file.
-Configuring gdk-pixbuf-loader-jpeg.
-gtk-update-icon-cache: Failed to open file /usr/share/icons/gnome/.icon-the=
-me.cache : File exists
-gtk-update-icon-cache: Failed to open file /usr/share/icons/hicolor/.icon-t=
-heme.cache : File exists
-gtk-update-icon-cache: Failed to open file /usr/share/icons/shr/.icon-theme=
-=2Ecache : File exists
-gtk-update-icon-cache: No theme index file.
-Configuring gdk-pixbuf-loader-xpm.
-gtk-update-icon-cache: Failed to open file /usr/share/icons/gnome/.icon-the=
-me.cache : File exists
-gtk-update-icon-cache: Failed to open file /usr/share/icons/hicolor/.icon-t=
-heme.cache : File exists
-gtk-update-icon-cache: Failed to open file /usr/share/icons/shr/.icon-theme=
-=2Ecache : File exists
-gtk-update-icon-cache: No theme index file.
-Configuring gdk-pixbuf-loader-gif.
-gtk-update-icon-cache: Failed to open file /usr/share/icons/gnome/.icon-the=
-me.cache : File exists
-gtk-update-icon-cache: Failed to open file /usr/share/icons/hicolor/.icon-t=
-heme.cache : File exists
-gtk-update-icon-cache: Failed to open file /usr/share/icons/shr/.icon-theme=
-=2Ecache : File exists
-gtk-update-icon-cache: No theme index file.
-Collected errors:
- * pkg_run_script: package "gdk-pixbuf-loader-png" postinst script returned=
- status 1.
- * opkg_configure: gdk-pixbuf-loader-png.postinst returned 1.
- * pkg_run_script: package "gdk-pixbuf-loader-jpeg" postinst script returne=
-d status 1.
- * opkg_configure: gdk-pixbuf-loader-jpeg.postinst returned 1.
- * pkg_run_script: package "gdk-pixbuf-loader-xpm" postinst script returned=
- status 1.
- * opkg_configure: gdk-pixbuf-loader-xpm.postinst returned 1.
- * pkg_run_script: package "gdk-pixbuf-loader-gif" postinst script returned=
- status 1.
- * opkg_configure: gdk-pixbuf-loader-gif.postinst returned 1.
-
-
->=20
-> ---
->=20
->  meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.24.1.bb |   10 ++++++++--
->  1 files changed, 8 insertions(+), 2 deletions(-)
->=20
-> diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.24.1.bb b/meta/re=
-cipes-gnome/gdk-pixbuf/gdk-pixbuf_2.24.1.bb
-> index 484fb12..159bdae 100644
-> --- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.24.1.bb
-> +++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.24.1.bb
-> @@ -21,7 +21,7 @@ SRC_URI =3D "http://ftp.acc.umu.se/pub/GNOME/sources/gd=
-k-pixbuf/2.24/gdk-pixbuf-${
->  SRC_URI[md5sum] =3D "72f39b34b20f68148c1609bd27415412"
->  SRC_URI[sha256sum] =3D "da7a3f00db360913716368e19e336402755cafa93769f3cf=
-a28a969303e4bee1"
-> =20
-> -PR =3D "r4"
-> +PR =3D "r5"
-> =20
->  inherit autotools pkgconfig gettext
-> =20
-> @@ -62,7 +62,13 @@ fi
-> =20
->  GDK_PIXBUF_MODULEDIR=3D${libdir}/gdk-pixbuf-2.0/${LIBV}/loaders gdk-pixb=
-uf-query-loaders --update-cache
-> =20
-> -test -x ${bindir}/gtk-update-icon-cache && gtk-update-icon-cache  -q ${d=
-atadir}/icons/hicolor
-> +if [ -x ${bindir}/gtk-update-icon-cache ] && [ -d ${datadir}/icons ]; th=
-en
-> +    for icondir in /usr/share/icons/*; do
-> +        if [ -d ${icondir} ]; then
-> +            gtk-update-icon-cache -q ${icondir}
-> +        fi
-> +    done
-> +fi
->  }
-> =20
->  PACKAGES_DYNAMIC +=3D "gdk-pixbuf-loader-*"
->=20
->=20
-> _______________________________________________
-> Openembedded-commits mailing list
-> Openembedded-commits@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-commits
-
 --=20
 Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---W/nzBZO5zC0uMSeA
+--MfFXiAuoTsnnDAfZ
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: Digital signature
 
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v2.0.19 (GNU/Linux)
 
-iEYEARECAAYFAlAszGQACgkQN1Ujt2V2gBwjvwCgl25qMKaK76gKwnul0OBv5oBi
-tGEAoJBmF0tFPsKmvzmzGtCTf/H96qXq
-=Y//l
+iEYEARECAAYFAlAszTwACgkQN1Ujt2V2gByeOQCcCZSX/n9zVbuNuDnjbLztjTFi
+zDEAnjm9pMjKWuhxSy7Ggk8OWhipXCvn
+=C9F7
 -----END PGP SIGNATURE-----
 
---W/nzBZO5zC0uMSeA--
+--MfFXiAuoTsnnDAfZ--
