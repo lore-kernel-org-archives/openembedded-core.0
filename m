@@ -1,38 +1,44 @@
-Received: from mail-yw0-f47.google.com ([209.85.213.47])
+Received: from mail-we0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrei@gherzan.ro>) id 1T28Jn-0004iE-Fv
-	for openembedded-core@lists.openembedded.org;
-	Fri, 17 Aug 2012 00:13:31 +0200
-Received: by yhjj56 with SMTP id j56so3784492yhj.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Aug 2012 15:01:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:x-originating-ip:in-reply-to:references:from:date
-	:message-id:subject:to:content-type:x-gm-message-state;
-	bh=CaZVlXdEDjJ/ogDCmOUswm31tmk5uqn/6i3Vmpz99JQ=;
-	b=EnT0xZdZah3790cMsZsr9YMPqG1Ghy+YnPmoUrzgVXo5/nYXzLtEmZSeFQHPEop7qi
-	EqiNdxlMpOHYAGf9sisnIp4x6TcKEdNvItiBIv9fss7nEsSa0EUSRyPh7DSXzE2tyW+y
-	S39Bekc5JXPf9o0PsUOVAJaZxChB+YyjeCij6MYfmulr4xfY6migi596jSikNmh6TYjd
-	EilsxMkgAI63FncFGPtMSsaRAZIPumCb0cWBHiWeh6o+/fbab6BHUrX3kFgixk4bT25t
-	id0auBH/2JBRr20jmsebkyymW1JCCSy7xo8F9JkjO2B0xA8ESwEJBK7di4NO6fMt9sRS
-	TkzQ==
-Received: by 10.50.41.195 with SMTP id h3mr3348567igl.34.1345154492808; Thu,
-	16 Aug 2012 15:01:32 -0700 (PDT)
+	(envelope-from <martin.jansa@gmail.com>)
+	id 1T28L7-0004lX-OH; Fri, 17 Aug 2012 00:14:53 +0200
+Received: by weyr6 with SMTP id r6so2147518wey.6
+	for <multiple recipients>; Thu, 16 Aug 2012 15:02:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=kU00X04ew81uoyzMSA6KgXLtANKlY5+U4tWJQ5kWceo=;
+	b=AU0iDQrvrs3ImjoMhMBHKkzBpc8c4qCgYGDkgHOBhVMd5MgnUkQ0LeJbCSZTXPCSlN
+	ZtuWoqmEd4CHzdUTt3sYj/56htW91SU6Mq4E3rYdrCCEFp5eHG6O3TtZadmiDVdZIYa1
+	vH3MtNn+JTYKVYxP9BhPn+VEIuD1Lgl5CyIBYCeI94W/IOvSFRDVWxQ0gjtr6LmrBOyQ
+	b8YmBu4LEocvqMsCj9/QDSo/reIL75l/exPcJdgkEnAzVJzu4pqg+bz08nMHfefeUhjG
+	JwLK2z3bp3TYRfOYmDs5kQl8HzGOC91lsdHNtAvEl/A7deDC0z2KKphp0TTBEFtPUTzS
+	eY8A==
+Received: by 10.180.79.69 with SMTP id h5mr6487081wix.6.1345154576007;
+	Thu, 16 Aug 2012 15:02:56 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id k2sm9138447wiz.7.2012.08.16.15.02.54
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 16 Aug 2012 15:02:55 -0700 (PDT)
+Date: Fri, 17 Aug 2012 00:02:51 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>
+Message-ID: <20120816220251.GC3625@jama.jama.net>
+References: <20120815133202.50B6D10218@opal>
+	<20120816103308.GA32088@jama.jama.net>
+	<20120816124239.GC32088@jama.jama.net>
+	<1B858668EC6A94408DCA5225FDFA85AA576F7B28@ALA-MBA.corp.ad.wrs.com>
+	<20120816143559.GD32088@jama.jama.net>
+	<1B858668EC6A94408DCA5225FDFA85AA576F7B6D@ALA-MBA.corp.ad.wrs.com>
 MIME-Version: 1.0
-Received: by 10.64.63.50 with HTTP; Thu, 16 Aug 2012 15:01:12 -0700 (PDT)
-X-Originating-IP: [79.115.110.29]
-In-Reply-To: <20120816215744.GB3625@jama.jama.net>
-References: <cover.1345152235.git.andrei@gherzan.ro>
-	<3f88694096116da408832aad9afd90df386e0a36.1345152235.git.andrei@gherzan.ro>
-	<20120816215744.GB3625@jama.jama.net>
-From: Andrei Gherzan <andrei@gherzan.ro>
-Date: Fri, 17 Aug 2012 01:01:12 +0300
-Message-ID: <CAK18fxE-rn5r2Be2J2Px1eb9B2cG3eADbRO4Bf_N1estuAXf5A@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Gm-Message-State: ALoCoQkCr0kwjsL5cEutMhUn3xSb+qMu62TztvCT+zDgNdk4zL5VNjmQwP7G1stRKgyApvHCP2gX
-Subject: Re: [PATCH 5/7] subversion: Add gettext to DEPENDS as msgfmt is needed at compile time
+In-Reply-To: <1B858668EC6A94408DCA5225FDFA85AA576F7B6D@ALA-MBA.corp.ad.wrs.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, "Zhao,
+	Zhenfeng" <Zhenfeng.Zhao@windriver.com>,
+	"openembedded-commits@lists.openembedded.org"
+	<openembedded-commits@lists.openembedded.org>
+Subject: Re: [oe-commits] Jackie Huang : gdk-pixbuf: fix the postinstall script failure when no icon is installed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,155 +53,172 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Aug 2012 22:13:31 -0000
-Content-Type: multipart/alternative; boundary=14dae934051db63d8a04c7692f99
+X-List-Received-Date: Thu, 16 Aug 2012 22:14:54 -0000
+X-Groupsio-MsgNum: 27645
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="qtZFehHsKgwS5rPz"
+Content-Disposition: inline
 
---14dae934051db63d8a04c7692f99
-Content-Type: text/plain; charset=ISO-8859-1
-
-On Fri, Aug 17, 2012 at 12:57 AM, Martin Jansa <martin.jansa@gmail.com>wrote:
-
-> On Fri, Aug 17, 2012 at 12:32:48AM +0300, Andrei Gherzan wrote:
-> > Avoid error:
-> > | /bin/bash: <path>/tmp/sysroots/i686-linux/usr/bin/msgfmt: No such file
-> or
-> > directory
->
-> shouldn't this be gettext-native or inherit gettext then?
->
-> Bad patch - not a lame excuse i just realized this now. This is what
-happens if i mix stuff together... sorry.
-
-
-> > | make: *** [subversion/po/de.mo] Error 127
-> > | make: *** Waiting for unfinished jobs....
-> > | ERROR: oe_runmake failed
-> >
-> > Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
-> > ---
-> >  .../subversion/subversion_1.7.2.bb                 |    4 +++-
-> >  1 file changed, 3 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/meta/recipes-devtools/subversion/subversion_1.7.2.bbb/meta/recipes-devtools/subversion/
-> subversion_1.7.2.bb
-> > index 4f71de5..6b72e73 100644
-> > --- a/meta/recipes-devtools/subversion/subversion_1.7.2.bb
-> > +++ b/meta/recipes-devtools/subversion/subversion_1.7.2.bb
-> > @@ -5,9 +5,11 @@ RDEPENDS_${PN} = "neon"
-> >  LICENSE = "Apache-2"
-> >  HOMEPAGE = "http://subversion.tigris.org"
-> >
-> > +DEPENDS = "gettext"
-> > +
-> >  BBCLASSEXTEND = "native"
-> >
-> > -PR = "r3"
-> > +PR = "r4"
-> >
-> >  SRC_URI = "${APACHE_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
-> >             file://libtool2.patch \
-> > --
-> > 1.7.9.5
-> >
-> >
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
-> --
-> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
->
-
---14dae934051db63d8a04c7692f99
-Content-Type: text/html; charset=ISO-8859-1
+--qtZFehHsKgwS5rPz
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-<div class=3D"gmail_quote">On Fri, Aug 17, 2012 at 12:57 AM, Martin Jansa <=
-span dir=3D"ltr">&lt;<a href=3D"mailto:martin.jansa@gmail.com" target=3D"_b=
-lank">martin.jansa@gmail.com</a>&gt;</span> wrote:<br><blockquote class=3D"=
-gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-=
-left:1ex">
+On Thu, Aug 16, 2012 at 03:06:35PM +0000, Huang, Jie (Jackie) wrote:
+> >
+> >On Thu, Aug 16, 2012 at 02:30:51PM +0000, Huang, Jie (Jackie) wrote:
+> >> >
+> >> >On Thu, Aug 16, 2012 at 12:33:08PM +0200, Martin Jansa wrote:
+> >> >> On Wed, Aug 15, 2012 at 01:32:02PM +0000, git@git.openembedded.org =
+wrote:
+> >> >> > Module: openembedded-core.git
+> >> >> > Branch: master
+> >> >> > Commit: 1d4fbe4761d3d97e3c4b6e894719ee41b21559b2
+> >> >> > URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=
+=3Dcommit;h=3D1d4fbe4761d3d97e3c4b6e894719ee41b21559b2
+> >> >> >
+> >> >> > Author: Jackie Huang <jackie.huang@windriver.com>
+> >> >> > Date:   Thu Aug  9 10:30:30 2012 +0800
+> >> >> >
+> >> >> > gdk-pixbuf: fix the postinstall script failure when no icon is in=
+stalled
+> >> >> >
+> >> >> > If gtk+ is added to core-image-minimal, postinstall script failed=
+ on boot:
+> >> >> >
+> >> >> > Running postinst /etc/rpm-postinsts/104...
+> >> >> > gtk-update-icon-cache: No theme index file.
+> >> >> > ERROR: postinst /etc/rpm-postinsts/104 failed.
+> >> >> >
+> >> >> > This patch fixed the postinstall script to check for the icon
+> >> >> > file first and not run the gtk-update-icon-cache if no icon
+> >> >> > is installed.
+> >> >> >
+> >> >> > [YOCTO #2905]
+> >> >> >
+> >> >> > Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+> >> >> > Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> >> >>
+> >> >>
+> >> >> Even with this patch I get:
+> >> >> Configuring gdk-pixbuf-loader-png.
+> >> >> gtk-update-icon-cache: No theme index file.
+> >> >> Configuring gdk-pixbuf-loader-jpeg.
+> >> >> gtk-update-icon-cache: No theme index file.
+> >> >> Configuring gdk-pixbuf-loader-xpm.
+> >> >> gtk-update-icon-cache: No theme index file.
+> >> >> Configuring gdk-pixbuf-loader-gif.
+> >> >> gtk-update-icon-cache: No theme index file.
+> >> >> Collected errors:
+> >> >>  * pkg_run_script: package "gdk-pixbuf-loader-png" postinst script
+> >> >>  * returned status 1.
+> >> >>  * opkg_configure: gdk-pixbuf-loader-png.postinst returned 1.
+> >> >>  * pkg_run_script: package "gdk-pixbuf-loader-jpeg" postinst script
+> >> >>  * returned status 1.
+> >> >>  * opkg_configure: gdk-pixbuf-loader-jpeg.postinst returned 1.
+> >> >>  * pkg_run_script: package "gdk-pixbuf-loader-xpm" postinst script
+> >> >>  * returned status 1.
+> >> >>  * opkg_configure: gdk-pixbuf-loader-xpm.postinst returned 1.
+> >> >>  * pkg_run_script: package "gdk-pixbuf-loader-gif" postinst script
+> >> >>  * returned status 1.
+> >> >>  * opkg_configure: gdk-pixbuf-loader-gif.postinst returned 1.
+> >> >
+> >> >This problem is caused by
+> >> >openembedded-core/meta/recipes-graphics/xcursor-transparent-theme/xcu=
+rsor-transparent-theme_0.1.1.bb
+> >> >which does not provide index.theme file
+> >> >
+> >>
+> >> Well, in my case, there is no icon installed so there is on ${datadir}=
+/icons at all.
+> >
+> >So it's fine to break postinst for everyone else who has
+>=20
+> This fix is for the case when there is no icon/theme installed. When we f=
+ound the bug,
+> the postinst was calling the gtk-update-icon-cache for the hicolor theme =
+which is not installed.
 
-On Fri, Aug 17, 2012 at 12:32:48AM +0300, Andrei Gherzan wrote:<br>
-&gt; Avoid error:<br>
-&gt; | /bin/bash: &lt;path&gt;/tmp/sysroots/i686-linux/usr/bin/msgfmt: No s=
-uch file or<br>
-&gt; directory<br>
-<br>
-shouldn&#39;t this be gettext-native or inherit gettext then?<br>
-<br></blockquote><div>Bad patch - not a lame excuse i just realized this no=
-w. This is what happens if i mix stuff together... sorry.=A0</div><div>=A0<=
-/div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-le=
-ft:1px #ccc solid;padding-left:1ex">
+Yes, but you could also execute it only if hicolor exists or add
+hicolor-icon-theme to RDEPENDS, executing gtk-update-icon-cache for each
+subdirectory is not what I would expect from that commit message.
 
+> >xcursor-transparent-theme or are you going to fix that?
+>=20
+> For xcursor-transparent-theme not providing the index.theme file, yeah it=
+'s really a problem,
+> I can fix that, but maybe we should open another bug for it?
 
-&gt; | make: *** [subversion/po/de.mo] Error 127<br>
-&gt; | make: *** Waiting for unfinished jobs....<br>
-&gt; | ERROR: oe_runmake failed<br>
-&gt;<br>
-&gt; Signed-off-by: Andrei Gherzan &lt;<a href=3D"mailto:andrei@gherzan.ro"=
->andrei@gherzan.ro</a>&gt;<br>
-&gt; ---<br>
-&gt; =A0.../subversion/<a href=3D"http://subversion_1.7.2.bb" target=3D"_bl=
-ank">subversion_1.7.2.bb</a> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 | =A0 =A04 +++=
--<br>
-&gt; =A01 file changed, 3 insertions(+), 1 deletion(-)<br>
-&gt;<br>
-&gt; diff --git a/meta/recipes-devtools/subversion/<a href=3D"http://subver=
-sion_1.7.2.bb" target=3D"_blank">subversion_1.7.2.bb</a> b/meta/recipes-dev=
-tools/subversion/<a href=3D"http://subversion_1.7.2.bb" target=3D"_blank">s=
-ubversion_1.7.2.bb</a><br>
+And do we need to call gtk-update-icon-cache in
+xcursor-transparent-theme or in any other directory which happens to be
+in ${datadir}/icons? Why not call it only for subdirs with index.theme?
 
+> Thanks,
+> Jackie
+>=20
+> >
+> >Thanks,
+> >
+> >>
+> >> Thanks,
+> >> Jackie
+> >>
+> >> >and commit message of this change should be something like
+> >> >gdk-pixbuf: call gtk-update-icon-cache for each subdir of ${datadir}/=
+icons
+> >> >not
+> >> >gdk-pixbuf: fix the postinstall script failure when no icon is instal=
+led
+> >> >
+> >> >Cheers,
+> >> >
+> >> >> > -test -x ${bindir}/gtk-update-icon-cache && gtk-update-icon-cache=
+  -q ${datadir}/icons/hicolor
+> >> >> > +if [ -x ${bindir}/gtk-update-icon-cache ] && [ -d ${datadir}/ico=
+ns ]; then
+> >> >> > +    for icondir in /usr/share/icons/*; do
+> >> >> > +        if [ -d ${icondir} ]; then
+> >> >> > +            gtk-update-icon-cache -q ${icondir}
+> >> >> > +        fi
+> >> >> > +    done
+> >> >> > +fi
+> >> >> >  }
+> >> >> >
+> >> >> >  PACKAGES_DYNAMIC +=3D "gdk-pixbuf-loader-*"
+> >> >> >
+> >> >> >
+> >> >> > _______________________________________________
+> >> >> > Openembedded-commits mailing list
+> >> >> > Openembedded-commits@lists.openembedded.org
+> >> >> > http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-=
+commits
+> >> >>
+> >> >> --
+> >> >> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+> >> >
+> >> >
+> >> >
+> >> >--
+> >> >Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+> >> >
+> >
+> >--
+> >Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+> >
 
-&gt; index 4f71de5..6b72e73 100644<br>
-&gt; --- a/meta/recipes-devtools/subversion/<a href=3D"http://subversion_1.=
-7.2.bb" target=3D"_blank">subversion_1.7.2.bb</a><br>
-&gt; +++ b/meta/recipes-devtools/subversion/<a href=3D"http://subversion_1.=
-7.2.bb" target=3D"_blank">subversion_1.7.2.bb</a><br>
-&gt; @@ -5,9 +5,11 @@ RDEPENDS_${PN} =3D &quot;neon&quot;<br>
-&gt; =A0LICENSE =3D &quot;Apache-2&quot;<br>
-&gt; =A0HOMEPAGE =3D &quot;<a href=3D"http://subversion.tigris.org" target=
-=3D"_blank">http://subversion.tigris.org</a>&quot;<br>
-&gt;<br>
-&gt; +DEPENDS =3D &quot;gettext&quot;<br>
-&gt; +<br>
-&gt; =A0BBCLASSEXTEND =3D &quot;native&quot;<br>
-&gt;<br>
-&gt; -PR =3D &quot;r3&quot;<br>
-&gt; +PR =3D &quot;r4&quot;<br>
-&gt;<br>
-&gt; =A0SRC_URI =3D &quot;${APACHE_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \<br=
->
-&gt; =A0 =A0 =A0 =A0 =A0 =A0 file://libtool2.patch \<br>
-<span class=3D"HOEnZb"><font color=3D"#888888">&gt; --<br>
-&gt; 1.7.9.5<br>
-&gt;<br>
-&gt;<br>
-&gt; _______________________________________________<br>
-&gt; Openembedded-core mailing list<br>
-&gt; <a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedd=
-ed-core@lists.openembedded.org</a><br>
-&gt; <a href=3D"http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openemb=
-edded-core" target=3D"_blank">http://lists.linuxtogo.org/cgi-bin/mailman/li=
-stinfo/openembedded-core</a><br>
-<br>
---<br>
-Martin &#39;JaMa&#39; Jansa =A0 =A0 jabber: <a href=3D"mailto:Martin.Jansa@=
-gmail.com">Martin.Jansa@gmail.com</a><br>
-</font></span><br>_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.openembedded.org</a><br>
-<a href=3D"http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded=
--core" target=3D"_blank">http://lists.linuxtogo.org/cgi-bin/mailman/listinf=
-o/openembedded-core</a><br>
-<br></blockquote></div><br>
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---14dae934051db63d8a04c7692f99--
+--qtZFehHsKgwS5rPz
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
+
+iEYEARECAAYFAlAtbgsACgkQN1Ujt2V2gByYDACgtpA5pwNuhvVHb9i7XWtgOqdD
+3OkAoIFx6bA1f20JImGwKZ7w4WW+Zza6
+=IRvR
+-----END PGP SIGNATURE-----
+
+--qtZFehHsKgwS5rPz--
