@@ -1,37 +1,34 @@
-Received: from mail-gh0-f175.google.com ([209.85.160.175])
+Received: from mail-wg0-f41.google.com ([74.125.82.41])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <schnitzeltony@googlemail.com>) id 1T26to-0002Pn-9v
+	(envelope-from <andrei@gherzan.ro>) id 1T27rs-0003Vy-Bq
 	for openembedded-core@lists.openembedded.org;
-	Thu, 16 Aug 2012 22:42:36 +0200
-Received: by ghbz2 with SMTP id z2so3697009ghb.6
+	Thu, 16 Aug 2012 23:44:40 +0200
+Received: by wgbds1 with SMTP id ds1so907938wgb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Aug 2012 13:30:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type; bh=fkxQ3/dfeTAND8Qih5cuaPVsM3wH5XcmYDroK0xJvjU=;
-	b=ODe5YTReYBEtplty+MN4w07f6Qxj7sdpOumL8ijhEoG7InpCo3EPn/t25GcsIOK0i2
-	lAE9vlbZ7gCpPWDaqotxMHxpjGF5EQ4hTxGcI9bLFNZVgQ2lF8UiR56Fc/RrckXBCzFS
-	paPzkAolN0MksMZi3Nlsvi2dOBO55nFfZ3GsppfDqkQ/gA86eGiEwL44Y0TWiRRyrBbx
-	sGVcd/5XAFrfh/Qt3UyTum8YR/IzUo5Y1VNnNNdbGUBHz3vO+DQEe2Sndc5VHDBNhTzT
-	NEtjHgLHFaa9UTlmL0simgiiWhO4gPPEVOMi+ZwtSUpUG/vLxlLBjfxkUcgppFf58VFw
-	qZBQ==
-MIME-Version: 1.0
-Received: by 10.50.191.165 with SMTP id gz5mr3083699igc.50.1345149037766; Thu,
-	16 Aug 2012 13:30:37 -0700 (PDT)
-Received: by 10.64.18.13 with HTTP; Thu, 16 Aug 2012 13:30:37 -0700 (PDT)
-In-Reply-To: <1345066801.7750.68.camel@x121e.pbcl.net>
-References: <cover.1345047378.git.ross.burton@intel.com>
-	<10192d7fd47ea041f73511eaa8b5e56c13152951.1345047378.git.ross.burton@intel.com>
-	<20120815211232.GC3108@jama.jama.net>
-	<CAJTo0LaKHbXJVAE3Y9jO1wDJYO5iyFAEMYM+U5cgGDhQ6xy+aQ@mail.gmail.com>
-	<1345066801.7750.68.camel@x121e.pbcl.net>
-Date: Thu, 16 Aug 2012 22:30:37 +0200
-Message-ID: <CALbNGRQSzVnbgMZXeS2eWONCWbpdDRL3K7kGAJqj2Jq5dERDJw@mail.gmail.com>
-From: =?ISO-8859-1?Q?Andreas_M=FCller?= <schnitzeltony@googlemail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] make: add make-replacement-native 3.81
+	Thu, 16 Aug 2012 14:32:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer:x-gm-message-state;
+	bh=zVFHG57rHKQVeXQ6s3OqJn1BEc0btqTeBNIYQIigZuY=;
+	b=S7DyUU32s9g+ZH8/WQ/SbS7CbUplkZzxm33XK70X75bnAa6mTTT6ce5Yrn/44jHioO
+	3sDah/lp2J1iConODC7zGKXfcToRVdGLGPGrZCaEjGD+BWdcSFoagcmD++LoF8dXMrUQ
+	NTsJsBqHHNgghOfmDNqOtM9hNbRnrY8vibNz5SzjT+r9FObBOqI+U4ptXuRi437h0Z2q
+	WauGfiRYxb1RjHtJT+wUEbNjP71JGrp5SKjwyDSL6f3rc0k2T090JjMlxxHbpz549RZi
+	jexNPRQ9xr4U6fx65XHehBQZe9ubu5mOjJdU0LMHh7+VgI7AkGmkv8zErN7wtYo82ppC
+	MT9Q==
+Received: by 10.180.105.163 with SMTP id gn3mr6333589wib.2.1345152762649;
+	Thu, 16 Aug 2012 14:32:42 -0700 (PDT)
+Received: from localhost.localdomain ([79.115.110.29])
+	by mx.google.com with ESMTPS id ck9sm8947122wib.2.2012.08.16.14.32.41
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 16 Aug 2012 14:32:41 -0700 (PDT)
+From: Andrei Gherzan <andrei@gherzan.ro>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 17 Aug 2012 00:32:33 +0300
+Message-Id: <cover.1345152235.git.andrei@gherzan.ro>
+X-Mailer: git-send-email 1.7.9.5
+X-Gm-Message-State: ALoCoQmD6HAuKikL5lxeBYyI2gfTsQ/b1B9Ftea1x3RvshL23UwIzecxV5WujsSN79nzqOywX9AS
+Subject: [PATCH 0/7] hwclock and a fix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,52 +43,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Aug 2012 20:42:36 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Thu, 16 Aug 2012 21:44:40 -0000
 
-On Wed, Aug 15, 2012 at 11:40 PM, Phil Blundell <philb@gnu.org> wrote:
-> On Wed, 2012-08-15 at 22:17 +0100, Burton, Ross wrote:
->> On 15 August 2012 22:12, Martin Jansa <martin.jansa@gmail.com> wrote:
->> > eglibc was failing to build with make-3.81
->> > https://bugzilla.yoctoproject.org/show_bug.cgi?id=2314
->> >
->> > so I guess once this is built (as webkit-gtk dependency), eglibc will maybe sometimes fail again..
->>
->> Interesting, this is the first time I've encountered 3.81 having
->> problems.  So we can't use 3.81 and we can't use 3.82 either. :)
->
-> You can use 3.81, you just need to install it either under a different
-> name (e.g. call it "make-3.81" and set $MAKE) or in a different
-> directory (e.g. ${bindir}/make-3.81/make and set $PATH) so that other
-> recipes don't pick it up unexpectedly.
->
-> p.
->
-The following is really dirty but at least to me it succeeds and to me
-it seems to have less influences than the 'make 3.81 dance':
+I dropped the idea of maching Busybox HW dependent. A bad idea indeed.
+Now, hwclock init script is packaged separately and pulled into image
+only if MACHINE_FEATURES contains rtc value. The inclusion of rtc is 
+done in a BACKFILL way.
 
-# dirty hack for gnu make 3.82 race condition
-do_compile() {
-    if [ x"$MAKE" = x ]; then MAKE=make; fi
-    bbnote make ${PARALLEL_MAKE} "$@"
-    for error_count in 1 2 3; do
-        bbnote "Number of trials: $error_count"
-        exit_code=0
-        make ${PARALLEL_MAKE} "$@" || exit_code=1
-        if [ $exit_code = 0 ]; then
-            break
-        fi
-    done
-    if [ ! $exit_code = 0 ]; then
-        die "oe_runmake failed"
-    fi
-}
+This pull req. adds a fix which i got into it while working on this - 
+add gettext to subversion's DEPENDS.
 
-I have make 3.82 and before this I had 100% error at first do_compile.
-For rerun (without cleanup) I had 100% success. Now I get 100% success
-with make called twice. Would something like have a chance to be
-accepted?
+The following changes since commit af847d36375aa53f0c1ee2a00c97ba9f38837d1b:
 
-Andreas
+  bitbake: bitbake: build.py: Add stampdir argument to cached_mtime_noerror (2012-08-16 12:27:41 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib ag/backfill-busybox
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ag/backfill-busybox
+
+Andrei Gherzan (7):
+  utils.py: Modify and rename distro_features_backfill python function
+  bitbake.conf: Use the new form of features_backfill function
+  bitbake.conf: Add MACHINE_FEATURES_BACKFILL and append to
+    MACHINE_FEATURES
+  bitbake.conf: Add rtc to MACHINE_FEATURES_BACKFILL
+  subversion: Add gettext to DEPENDS as msgfmt is needed at compile
+    time
+  task-core-boot: Add busybox-hwclock if MACHINE_FEATURES contains rtc
+  busybox: Package hwclock.sh initscript separately
+
+ meta/conf/bitbake.conf                             |    5 ++++-
+ meta/lib/oe/utils.py                               |    9 ++++++---
+ meta/recipes-core/busybox/busybox.inc              |    5 +++--
+ meta/recipes-core/tasks/task-core-boot.bb          |    1 +
+ .../subversion/subversion_1.7.2.bb                 |    4 +++-
+ 5 files changed, 17 insertions(+), 7 deletions(-)
+
+-- 
+1.7.9.5
+
 
 
