@@ -1,25 +1,31 @@
-Received: from mail1.windriver.com ([147.11.146.13])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Andrei.Gherzan@windriver.com>) id 1T1yKm-0003e9-LE
-	for openembedded-core@lists.openembedded.org;
-	Thu, 16 Aug 2012 13:33:53 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q7GBLsoD000819
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Aug 2012 04:21:54 -0700 (PDT)
-Received: from localhost.localdomain (128.224.171.81) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.2.309.2; Thu, 16 Aug 2012 04:21:54 -0700
-From: Andrei Gherzan <andrei.gherzan@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 16 Aug 2012 14:21:33 +0300
-Message-ID: <1345116093-5872-1-git-send-email-andrei.gherzan@windriver.com>
-X-Mailer: git-send-email 1.7.5.4
-MIME-Version: 1.0
-X-Originating-IP: [128.224.171.81]
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1T1yRE-0003kQ-Vr for openembedded-core@lists.openembedded.org;
+	Thu, 16 Aug 2012 13:40:33 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q7GBSZXi030056;
+	Thu, 16 Aug 2012 12:28:35 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 29642-03; Thu, 16 Aug 2012 12:28:31 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q7GBSSC9030031
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Thu, 16 Aug 2012 12:28:29 +0100
+Message-ID: <1345116507.14667.51.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Thu, 16 Aug 2012 12:28:27 +0100
+In-Reply-To: <1345116093-5872-1-git-send-email-andrei.gherzan@windriver.com>
+References: <1345116093-5872-1-git-send-email-andrei.gherzan@windriver.com>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
 Cc: Andrei Gherzan <andrei.gherzan@windriver.com>
-Subject: [PATCH] bitbake: build.py: Add stampdir argument to cached_mtime_noerror
+Subject: Re: [PATCH] bitbake: build.py: Add stampdir argument to cached_mtime_noerror
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,34 +40,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Aug 2012 11:33:53 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 16 Aug 2012 11:40:33 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-After commit 2718537b4b04eb3d80ab4d74171b58e7b8dd68b8 (bitbake:
-build.py: Only execute mkdirhier if stampdir doesn't exist) build
-failes as cached_mtime_noerror needs an argument - stamp dir. This
-argument was forgotten.
+On Thu, 2012-08-16 at 14:21 +0300, Andrei Gherzan wrote:
+> After commit 2718537b4b04eb3d80ab4d74171b58e7b8dd68b8 (bitbake:
+> build.py: Only execute mkdirhier if stampdir doesn't exist) build
+> failes as cached_mtime_noerror needs an argument - stamp dir. This
+> argument was forgotten.
+> 
+> Signed-off-by: Andrei Gherzan <andrei.gherzan@windriver.com>
+> ---
+>  bitbake/lib/bb/build.py |    2 +-
+>  1 files changed, 1 insertions(+), 1 deletions(-)
+> 
+> diff --git a/bitbake/lib/bb/build.py b/bitbake/lib/bb/build.py
+> index d64077e..b484d19 100644
+> --- a/bitbake/lib/bb/build.py
+> +++ b/bitbake/lib/bb/build.py
+> @@ -465,7 +465,7 @@ def stamp_internal(taskname, d, file_name):
+>      stamp = bb.parse.siggen.stampfile(stamp, file_name, taskname, extrainfo)
+>  
+>      stampdir = os.path.dirname(stamp)
+> -    if bb.parse.cached_mtime_noerror == 0:
+> +    if bb.parse.cached_mtime_noerror(stampdir) == 0:
+>          bb.utils.mkdirhier(stampdir)
+>  
+>      return stamp
 
-Signed-off-by: Andrei Gherzan <andrei.gherzan@windriver.com>
----
- bitbake/lib/bb/build.py |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+I suspect I'd fixed this locally but pushed an old version. I've merged
+this, thanks.
 
-diff --git a/bitbake/lib/bb/build.py b/bitbake/lib/bb/build.py
-index d64077e..b484d19 100644
---- a/bitbake/lib/bb/build.py
-+++ b/bitbake/lib/bb/build.py
-@@ -465,7 +465,7 @@ def stamp_internal(taskname, d, file_name):
-     stamp = bb.parse.siggen.stampfile(stamp, file_name, taskname, extrainfo)
- 
-     stampdir = os.path.dirname(stamp)
--    if bb.parse.cached_mtime_noerror == 0:
-+    if bb.parse.cached_mtime_noerror(stampdir) == 0:
-         bb.utils.mkdirhier(stampdir)
- 
-     return stamp
--- 
-1.7.5.4
+Richard
 
 
 
