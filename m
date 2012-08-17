@@ -1,41 +1,26 @@
-Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ross.burton@intel.com>) id 1T2JmP-0000my-9Q
+	(envelope-from <laurentiu.palcu@intel.com>) id 1T2JnH-0000pt-4K
 	for openembedded-core@lists.openembedded.org;
-	Fri, 17 Aug 2012 12:27:49 +0200
-Received: from mail-ob0-f180.google.com ([209.85.214.180])
-	by mga03.intel.com with ESMTP/TLS/RC4-SHA; 17 Aug 2012 03:15:49 -0700
-Received: by obceq6 with SMTP id eq6so4419993obc.25
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Aug 2012 03:15:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type:x-gm-message-state;
-	bh=W+RlcPMSzqdoFK+rh6NAd7W7Uffwd6OLUx6en/5SpGM=;
-	b=psLt8CMwTfEGopqpHjgeC7duimfN4nU2Vj0R2cwbxBH4qOqbnJ5icsy35R/hCXkqyt
-	ebeN2q9J9VdcA66dBesZIYuqaUNqxwWg7d0+5sjfiJC6/7SPYSdyeMggvyHvO0N3BAlO
-	H+JatOJR2Lho6GeGtAwK+YJ8leQnBDqIohZlxhULeZz7CjHqS9EF2jQIRQcW97AQmjJJ
-	gsRl1/FW4guMIi2PkTXH7JiWALi+I6XTGwHLvDEqjmCmL5zKK42kpY4IJX0g+gKeRu/S
-	29FXytxHc9G7udtTTb2GZxPwHKELaB2YuaQtVwYZ7kVYLKbBamlWjvBLu3wyXs9CqmED
-	ratQ==
-Received: by 10.182.50.68 with SMTP id a4mr3478730obo.59.1345198548537; Fri,
-	17 Aug 2012 03:15:48 -0700 (PDT)
+	Fri, 17 Aug 2012 12:28:43 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 17 Aug 2012 03:16:43 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.77,784,1336374000"; d="scan'208";a="209783321"
+Received: from lpalcu-linux (HELO [10.237.105.41]) ([10.237.105.41])
+	by fmsmga002.fm.intel.com with ESMTP; 17 Aug 2012 03:16:43 -0700
+Message-ID: <502E1A0A.7050506@intel.com>
+Date: Fri, 17 Aug 2012 13:16:42 +0300
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:14.0) Gecko/20120714 Thunderbird/14.0
 MIME-Version: 1.0
-Received: by 10.182.158.3 with HTTP; Fri, 17 Aug 2012 03:15:28 -0700 (PDT)
-In-Reply-To: <CAJTo0LY1MHvGKfVpH_Y5LcAJyEbKW+VvtAoiE2GKQG-dpXKnWQ@mail.gmail.com>
-References: <1345193717-23225-1-git-send-email-schnitzeltony@googlemail.com>
-	<1345193717-23225-2-git-send-email-schnitzeltony@googlemail.com>
-	<CAJTo0LYBdGj1ANujgM0f0mU8OE5XXovegKzQqVhXROT=qa=6ZQ@mail.gmail.com>
-	<CALbNGRSsFXRR4eqY_EDJmtdOzxnPU7i+vVqbbbL4zRg6YhVGLA@mail.gmail.com>
-	<CAJTo0LY1MHvGKfVpH_Y5LcAJyEbKW+VvtAoiE2GKQG-dpXKnWQ@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 17 Aug 2012 11:15:28 +0100
-Message-ID: <CAJTo0LbxQVkszc+thqFaYpDkEOv-20_ZWnZ-PWXH=XpXA=YEBw@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-Gm-Message-State: ALoCoQm+O4n0ZYWxiEI+BisNqxnNQspbwGYsqGpGViUGlXQOpjnW6FozwdXTxMXA/nsRwtJBM5kg
-Subject: Re: [PATCH 2/2] webkit-gtk: update to 1.8.2
+To: openembedded-core@lists.openembedded.org
+References: <cover.1345174354.git.laurentiu.palcu@intel.com>
+	<92d6de11744098c3431309c5abc2f3217e166dac.1345174354.git.laurentiu.palcu@intel.com>
+	<1345196331.14667.86.camel@ted>
+In-Reply-To: <1345196331.14667.86.camel@ted>
+Subject: Re: [PATCH 3/3] adt-installer: add support for relocatable SDK
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -50,16 +35,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Aug 2012 10:27:49 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 17 Aug 2012 10:28:43 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-http://lists.webkit.org/pipermail/webkit-gtk/2012-August/001192.html
-for anyone who really cares.
 
-As I have an identical patch to this locally:
 
-Acked-By: Ross Burton <ross.burton@intel.com>
+On 08/17/2012 12:38 PM, Richard Purdie wrote:
+> On Fri, 2012-08-17 at 06:44 +0300, Laurentiu Palcu wrote:
+>> Since we made the SDK relocatable, we have to add this functionality to
+>> adt-installer too.
+>>
+>> Other:
+>>  - Changed tabs to spaces in the recipe file too.
+> 
+> Shell functions use tabs, python uses spaces. The OE TSC has thought
+> long and hard about this and that is the decision. Its not perfect but
+> the alternatives will cause more problems than any benefit is worth.
+I saw so many warnings lately with "variable do_xxx contains tabs,
+please remove these" I got carried by the wave! :| I'll resend the
+patches and restore the tabs!
 
-Ross
+Thanks,
+Laurentiu
+> 
+> Cheers,
+> 
+> Richard
+> 
+> 
+> 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+> 
 
 
