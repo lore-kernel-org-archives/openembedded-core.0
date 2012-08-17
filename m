@@ -1,30 +1,47 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1T2ElC-000292-Jm
+	(envelope-from <ross.burton@intel.com>) id 1T2H4L-0004Wk-3T
 	for openembedded-core@lists.openembedded.org;
-	Fri, 17 Aug 2012 07:06:14 +0200
-Received: by eekb57 with SMTP id b57so826287eek.6
+	Fri, 17 Aug 2012 09:34:09 +0200
+Received: from mail-ob0-f180.google.com ([209.85.214.180])
+	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 17 Aug 2012 00:22:09 -0700
+Received: by obceq6 with SMTP id eq6so4254613obc.25
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Aug 2012 21:54:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:from:date:message-id:subject:to:content-type;
-	bh=y1UVv2oqiHwBaDnqA5bcCtUf8Zb4lm3z0/3Hujq/cZM=;
-	b=FOrkYw/ue8qwkuZ399z4nA/pK2/q982Og/OTry8uv/6PO8aMR2FcpW+QgWQCT98XRS
-	/qH1vTLP9fx4pAMCMxcje7EugbZO0Um3ibPZbyMUay3lnf+xpEzat+RRXtae3FesbBOm
-	Lw5EEa6MROub4KifJhxlxapOAGYjTHY0gu91SuY54E2EwwJbMCi0WpkfbZs16F2JHRJY
-	SvBwNAtA5HSfaJseSA72JMzuvpMA3JUayixz6lllpfPWKmO9prRJIb8LTQjGTQtgEn1U
-	ly47vAX8x0PYpqtNdsP1SIHB/ffVtB+GEQIaIK06nEHXgdPw8suiGWCuuWiD2Srla/xv
-	/clA==
-Received: by 10.14.218.134 with SMTP id k6mr4759289eep.14.1345179256617; Thu,
-	16 Aug 2012 21:54:16 -0700 (PDT)
+	Fri, 17 Aug 2012 00:22:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=bw5TTBq2DINWwLM5PwOsB+YeXY6VuFFzj/0JEWDZwBs=;
+	b=WAg11eiQmqgeSrrOdqjpOWAYfHvfPwcKOXkH8Ueip5uKYXjOk0XMdjwMPU/m95Watj
+	MWbEMZpSR2g1bVjs30KLbDQ2emSnaxBvmfa2z5SAXOAUhp3Gm6EeKK7buuAWYtpTA6Y3
+	AUV24RuxCZnD8ckW7dbhsIzsLzaocZWw09Vl5yoUq6oodLRV33Du42Drgtp18bSlF3Ue
+	DPWVi/qDd1wglmXZDqqFs2OwlzkaT64QiS975vLocCtpU37Rhajhs/vTuC82vKTbIyNe
+	3eWQHlBiHhuDjOgd0+JXDDJKh/7ISjg+3Z5K2I6eFd3ZO2YwdZUZUuzfSZ86mV5M9+EB
+	CzSA==
+Received: by 10.182.145.8 with SMTP id sq8mr3221772obb.50.1345188128857; Fri,
+	17 Aug 2012 00:22:08 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.14.2.5 with HTTP; Thu, 16 Aug 2012 21:53:46 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 16 Aug 2012 21:53:46 -0700
-Message-ID: <CAMKF1soXfayHtE=L0hDKBJq9-D0M0uYvKibaJo-N0nzqjWmtfw@mail.gmail.com>
+Received: by 10.182.158.3 with HTTP; Fri, 17 Aug 2012 00:21:48 -0700 (PDT)
+In-Reply-To: <502DA2D4.7030302@windriver.com>
+References: <20120815133202.50B6D10218@opal>
+	<20120816103308.GA32088@jama.jama.net>
+	<20120816124239.GC32088@jama.jama.net>
+	<1B858668EC6A94408DCA5225FDFA85AA576F7B28@ALA-MBA.corp.ad.wrs.com>
+	<20120816143559.GD32088@jama.jama.net>
+	<1B858668EC6A94408DCA5225FDFA85AA576F7B6D@ALA-MBA.corp.ad.wrs.com>
+	<20120816220251.GC3625@jama.jama.net> <502DA2D4.7030302@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 17 Aug 2012 08:21:48 +0100
+Message-ID: <CAJTo0LYrwzMNkdZ6RsS-ku5Q001jCUNB5rie8=+g5-rNh9ARbQ@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: contrib branches cleanup call
+X-Gm-Message-State: ALoCoQldO0OBYpVtZBYauGkFqz+xY83EncmxS6EihtWwFI1/AxAOX3K3ibu+1dMXw5Cg4TprGiwC
+Cc: "openembedded-commits@lists.openembedded.org"
+	<openembedded-commits@lists.openembedded.org>,
+	Martin Jansa <martin.jansa@gmail.com>, "Zhao,
+	Zhenfeng" <Zhenfeng.Zhao@windriver.com>
+Subject: Re: [oe-commits] Jackie Huang : gdk-pixbuf: fix the postinstall script failure when no icon is installed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,17 +56,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Aug 2012 05:06:14 -0000
+X-List-Received-Date: Fri, 17 Aug 2012 07:34:09 -0000
 Content-Type: text/plain; charset=UTF-8
 
-Hi All,
+On 17 August 2012 02:48, jhuang0 <jackie.huang@windriver.com> wrote:
+> Yeah, it would be better for the postinstall script, but for
+> xcursor-transparent-theme without index.theme file, is it still a problem?
 
-There are many branches in openembedded-core-contrib tree which have
-been merged upstream. So please go through your list
-and delete the one's which are already merged or otherwise not needed.
+Running gtk-update-icon-cache doesn't make sense on themes without an
+index.theme, because without an index.theme there are not any icons to
+cache (xcursor themes are different).  From the man page:
 
-Thank you
+"It expects to be given the path to a icon theme directory containing
+an index.theme, e.g.  /usr/share/icons/hicolor, and writes a
+icon-theme.cache containing cached information about the icons in the
+directory tree below the given directory."
 
--Khem
+Use -t to gtk-update-icon-cache, or filter the list of directories to
+only include ones with index.theme files.  Either is appropriate.
+
+Ross
 
 
