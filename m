@@ -1,26 +1,32 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from outpost1.zedat.fu-berlin.de ([130.133.4.66])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <laurentiu.palcu@intel.com>) id 1T2JnH-0000pt-4K
+	(envelope-from <heinold@mi.fu-berlin.de>) id 1T2Jwr-00011e-Lw
 	for openembedded-core@lists.openembedded.org;
-	Fri, 17 Aug 2012 12:28:43 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 17 Aug 2012 03:16:43 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.77,784,1336374000"; d="scan'208";a="209783321"
-Received: from lpalcu-linux (HELO [10.237.105.41]) ([10.237.105.41])
-	by fmsmga002.fm.intel.com with ESMTP; 17 Aug 2012 03:16:43 -0700
-Message-ID: <502E1A0A.7050506@intel.com>
-Date: Fri, 17 Aug 2012 13:16:42 +0300
-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:14.0) Gecko/20120714 Thunderbird/14.0
+	Fri, 17 Aug 2012 12:38:37 +0200
+Received: from relay1.zedat.fu-berlin.de ([130.133.4.67])
+	by outpost1.zedat.fu-berlin.de (Exim 4.69) with esmtp
+	(envelope-from <heinold@mi.fu-berlin.de>)
+	id <1T2JlJ-0007oo-Ea>; Fri, 17 Aug 2012 12:26:41 +0200
+Received: from andorra.imp.fu-berlin.de ([160.45.42.84])
+	by relay1.zedat.fu-berlin.de (Exim 4.69) with esmtp
+	(envelope-from <heinold@mi.fu-berlin.de>)
+	id <1T2JlJ-0005Q6-2m>; Fri, 17 Aug 2012 12:26:41 +0200
+Received: from heinold by internal andorra.imp.fu-berlin.de with local (Exim
+	4.72) id 1T2JlH-0005et-04; Fri, 17 Aug 2012 12:26:39 +0200
+Date: Fri, 17 Aug 2012 12:26:38 +0200
+From: Henning Heinold <heinold@inf.fu-berlin.de>
+To: ml@communistcode.co.uk, Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Message-ID: <20120817102638.GD17007@mi.fu-berlin.de>
+References: <1345049073-27898-1-git-send-email-paul.eggleton@linux.intel.com>
+	<1566766.76zJMGCy1b@helios> <1345197209.26132.2.camel@ted>
+	<502E1777.6020006@communistcode.co.uk>
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <cover.1345174354.git.laurentiu.palcu@intel.com>
-	<92d6de11744098c3431309c5abc2f3217e166dac.1345174354.git.laurentiu.palcu@intel.com>
-	<1345196331.14667.86.camel@ted>
-In-Reply-To: <1345196331.14667.86.camel@ted>
-Subject: Re: [PATCH 3/3] adt-installer: add support for relocatable SDK
+In-Reply-To: <502E1777.6020006@communistcode.co.uk>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Sender: Henning Heinold <heinold@mi.fu-berlin.de>
+X-Originating-IP: 160.45.42.84
+Subject: Re: [PATCH] classes/chrpath: trigger an error if chrpath fails
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,40 +41,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Aug 2012 10:28:43 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 17 Aug 2012 10:38:37 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+On Fri, Aug 17, 2012 at 11:05:43AM +0100, Jack Mitchell wrote:
+> any provider
+> WARNING: Failed to fetch URL http://kernel.org/pub/linux/kernel/people/jsipek/guilt/guilt-0.33.tar.gz,
+> attempting MIRRORS if available
+> *ERROR: chrpath command failed with exit code 7
+> ERROR: chrpath command failed with exit code 7*
 
+Hi,
 
-On 08/17/2012 12:38 PM, Richard Purdie wrote:
-> On Fri, 2012-08-17 at 06:44 +0300, Laurentiu Palcu wrote:
->> Since we made the SDK relocatable, we have to add this functionality to
->> adt-installer too.
->>
->> Other:
->>  - Changed tabs to spaces in the recipe file too.
-> 
-> Shell functions use tabs, python uses spaces. The OE TSC has thought
-> long and hard about this and that is the decision. Its not perfect but
-> the alternatives will cause more problems than any benefit is worth.
-I saw so many warnings lately with "variable do_xxx contains tabs,
-please remove these" I got carried by the wave! :| I'll resend the
-patches and restore the tabs!
+you can grep the logfiles in the work-dir for chrpath call and you will find the package. I saw it on some perl modules, but not now.
 
-Thanks,
-Laurentiu
-> 
-> Cheers,
-> 
-> Richard
-> 
-> 
-> 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
-> 
+Bye Henning
 
 
