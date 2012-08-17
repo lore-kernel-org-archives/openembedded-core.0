@@ -1,30 +1,21 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1T2PnS-0002Ri-UM for openembedded-core@lists.openembedded.org;
-	Fri, 17 Aug 2012 18:53:19 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q7HGfKGT010990
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Aug 2012 17:41:20 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 10094-07 for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Aug 2012 17:41:16 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q7HGfDu8010984
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Aug 2012 17:41:14 +0100
-Message-ID: <1345221673.27428.16.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Fri, 17 Aug 2012 17:41:13 +0100
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: [PATCH] chrpath.bbclass: Ensure we only process tmpdir in paths which actually contain that path
+Received: from mga09.intel.com ([134.134.136.24])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <constantinx.musca@intel.com>) id 1T2Pon-0002UW-HM
+	for openembedded-core@lists.openembedded.org;
+	Fri, 17 Aug 2012 18:54:41 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 17 Aug 2012 09:41:27 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.77,785,1336374000"; d="scan'208";a="182053200"
+Received: from costin-desktop (HELO localhost.localdomain) ([10.237.105.33])
+	by orsmga001.jf.intel.com with ESMTP; 17 Aug 2012 09:41:21 -0700
+From: Constantin Musca <constantinx.musca@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 17 Aug 2012 18:46:09 +0300
+Message-Id: <1345218371-15230-1-git-send-email-constantinx.musca@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Cc: Constantin Musca <constantinx.musca@intel.com>
+Subject: [PATCH 0/2] Package upgrades
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,35 +30,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Aug 2012 16:53:19 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 17 Aug 2012 16:54:41 -0000
 
-Without this change, a path to "/lib/xxx" or "/usr/lib/xxx" would also
-attempt to be remapped to be relative to $ORIGIN which makes no sense.
+This is another set of package upgrades compiled on all architectures
+and tested using core-image-sato-sdk. Nothing significant changed
+in the gst-fluendo-mp3 license file.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-diff --git a/meta/classes/chrpath.bbclass b/meta/classes/chrpath.bbclass
-index 8922248..659db31 100644
---- a/meta/classes/chrpath.bbclass
-+++ b/meta/classes/chrpath.bbclass
-@@ -60,10 +60,12 @@ def process_dir (directory, d):
-                 # NOTE: This will not work reliably for cross packages, particularly in the case
-                 # where your TMPDIR is a short path (i.e. /usr/poky) as chrpath cannot insert an
-                 # rpath longer than that which is already set.
--                else:
-+                elif rpath.find(tmpdir) != -1:
-                     depth = fpath.rpartition(tmpdir)[2].count('/')
-                     libpath = rpath.partition(tmpdir)[2].strip()
--
-+                else:
-+                    new_rpaths.append(rpath.strip())
-+                    continue
-                 base = "$ORIGIN"
-                 while depth > 1:
-                     base += "/.."
+Constantin Musca (2):
+  gst-fluendo-mp3: upgrade to 0.10.19
+  gst-fluendo-mpegdemux: upgrade to 0.10.71
 
+ ...o-mp3_0.10.16.bb => gst-fluendo-mp3_0.10.19.bb} |    6 +++---
+ ...0.10.70.bb => gst-fluendo-mpegdemux_0.10.71.bb} |    4 ++--
+ 2 files changed, 5 insertions(+), 5 deletions(-)
+ rename meta/recipes-multimedia/gstreamer/{gst-fluendo-mp3_0.10.16.bb => gst-fluendo-mp3_0.10.19.bb} (46%)
+ rename meta/recipes-multimedia/gstreamer/{gst-fluendo-mpegdemux_0.10.70.bb => gst-fluendo-mpegdemux_0.10.71.bb} (71%)
+
+-- 
+1.7.9.5
 
 
 
