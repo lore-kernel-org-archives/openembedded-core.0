@@ -1,42 +1,30 @@
-Received: from eumx.net ([91.82.101.43])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ml@communistcode.co.uk>) id 1T2OgL-0000Xu-SD
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1T2OkU-0000cl-FU
 	for openembedded-core@lists.openembedded.org;
-	Fri, 17 Aug 2012 17:41:53 +0200
-Received: from localhost ([127.0.0.1]:45351 helo=eumx.net)
-	by eumx.net with esmtp (Exim 4.72)
-	(envelope-from <ml@communistcode.co.uk>) id 1T2OUl-0005Mn-8x
-	for openembedded-core@lists.openembedded.org;
-	Fri, 17 Aug 2012 15:29:55 +0000
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=eumx.net; h=message-id
-	:date:from:reply-to:mime-version:to:subject:references
-	:in-reply-to:content-type:content-transfer-encoding; s=default;
-	bh=StuAzXBGk85QQvrZzPjCSGjkvLo=; b=mVZ+goIGWPp7gcHY3PR6QfUYjwUs
-	x4+zBg/QAfGNx8r/0Jyvy6znpHWquAE5fj8dTyBEEWaH0Uzg+R3Lg6nZb1hWs4ic
-	ThwiZEQKOoGuX6xXD4ITLEvDaio/akz8YZWPpg5JhM7yvb/13zrxCjnGDmMVbkYp
-	xphueo5DBvsdOLc=
-Received: from [195.171.99.130] (port=35506 helo=[192.168.0.47])
-	by eumx.net with esmtpa (Exim 4.72)
-	(envelope-from <ml@communistcode.co.uk>) id 1T2OUl-0005Mk-6h
-	for openembedded-core@lists.openembedded.org;
-	Fri, 17 Aug 2012 15:29:55 +0000
-Message-ID: <502E63C5.3010205@communistcode.co.uk>
-Date: Fri, 17 Aug 2012 16:31:17 +0100
-From: Jack Mitchell <ml@communistcode.co.uk>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:14.0) Gecko/20120717 Thunderbird/14.0
-MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <502E5B0E.8040809@communistcode.co.uk> <1364366.gWn3960rnI@helios>
+	Fri, 17 Aug 2012 17:46:10 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 17 Aug 2012 08:34:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.77,785,1336374000"; d="scan'208";a="209941081"
+Received: from unknown (HELO helios.localnet) ([10.252.121.90])
+	by fmsmga002.fm.intel.com with ESMTP; 17 Aug 2012 08:34:10 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: ml@communistcode.co.uk, openembedded-core@lists.openembedded.org
+Date: Fri, 17 Aug 2012 16:34:09 +0100
+Message-ID: <6117437.nEeZ99LCxr@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.9 (Linux/3.2.0-29-generic-pae; KDE/4.9.0; i686; ; )
+In-Reply-To: <502E63C5.3010205@communistcode.co.uk>
+References: <502E5B0E.8040809@communistcode.co.uk>
 	<1345216456.27428.13.camel@ted>
-In-Reply-To: <1345216456.27428.13.camel@ted>
+	<502E63C5.3010205@communistcode.co.uk>
+MIME-Version: 1.0
 Subject: Re: qemu opengl issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: ml@communistcode.co.uk,
-	Patches and discussions about the oe-core layer
+Reply-To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -47,48 +35,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Aug 2012 15:41:54 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 17 Aug 2012 15:46:10 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
+On Friday 17 August 2012 16:31:17 Jack Mitchell wrote:
+> Richard Purdie wrote:
+> > On Fri, 2012-08-17 at 16:00 +0100, Paul Eggleton wrote:
+> >> Right, this is a known limitation - see Yocto Project bug 2407. By pure
+> >> coincidence I was thinking about fixing it today as I am testing some
+> >> other
+> >> related changes; for now the only options are install the required
+> >> recipes or hack out the gl-requiring parts of the qemu recipe.
+> > 
+> > I think we're about at the point where we're going to remove GL pass
+> > through support and drop our qemu GL patches. Patches will likely appear
+> > next week.
+> 
+> Sounds good, I'm on holiday from the 22nd till 29th so will hopefully
+> see them when I get back!
+> 
+> Apologies for not checking the bug tracker first.
 
->>
->> Right, this is a known limitation - see Yocto Project bug 2407. By pure
->> coincidence I was thinking about fixing it today as I am testing some other
->> related changes; for now the only options are install the required recipes or
->> hack out the gl-requiring parts of the qemu recipe.
->
-> I think we're about at the point where we're going to remove GL pass
-> through support and drop our qemu GL patches. Patches will likely appear
-> next week.
->
-> Cheers,
->
-> Richard
->
+No worries - it's nice when people do check first but I wouldn't personally 
+consider it mandatory.
 
-Sounds good, I'm on holiday from the 22nd till 29th so will hopefully 
-see them when I get back!
+> *side note: with so many categories it can be a massive farse trying to
+> navigate the bugzilla to find bugs, even more so on top of an already
+> cluttered/complicated web application.
+> 
+> edit: I have just looked to see if I could find the bug without looking
+> at it first (using the id) and I failed miserably.. maybe the force is
+> not with my today but I couldn't even decipher where qemu issues would be.
 
-Apologies for not checking the bug tracker first.
+I usually just do a keyword search using the box at the top - seems effective 
+to me most of the time.
 
-*side note: with so many categories it can be a massive farse trying to 
-navigate the bugzilla to find bugs, even more so on top of an already 
-cluttered/complicated web application.
-
-edit: I have just looked to see if I could find the bug without looking 
-at it first (using the id) and I failed miserably.. maybe the force is 
-not with my today but I couldn't even decipher where qemu issues would be.
-
-Regards,
+Cheers,
+Paul
 
 -- 
 
-   Jack Mitchell (jack@embed.me.uk)
-   Embedded Systems Engineer
-   http://www.embed.me.uk
-
---
-
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
