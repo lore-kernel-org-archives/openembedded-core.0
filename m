@@ -1,34 +1,38 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from eumx.net ([91.82.101.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <darren.hart@intel.com>) id 1T2NsT-0007gz-Ok
+	(envelope-from <ml@communistcode.co.uk>) id 1T2O6O-0008Ka-Cn
 	for openembedded-core@lists.openembedded.org;
-	Fri, 17 Aug 2012 16:50:22 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 17 Aug 2012 07:37:16 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.77,785,1336374000"; d="scan'208";a="203562620"
-Received: from unknown (HELO envy.home) ([10.255.13.26])
-	by fmsmga001.fm.intel.com with ESMTP; 17 Aug 2012 07:37:15 -0700
-Message-ID: <502E56A8.3080109@intel.com>
-Date: Fri, 17 Aug 2012 07:35:20 -0700
-From: Darren Hart <darren.hart@intel.com>
+	Fri, 17 Aug 2012 17:04:44 +0200
+Received: from localhost ([127.0.0.1]:45473 helo=eumx.net)
+	by eumx.net with esmtp (Exim 4.72)
+	(envelope-from <ml@communistcode.co.uk>) id 1T2Nun-0004Ne-6S
+	for openembedded-core@lists.openembedded.org;
+	Fri, 17 Aug 2012 14:52:45 +0000
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=eumx.net; h=message-id
+	:date:from:reply-to:mime-version:to:subject:content-type
+	:content-transfer-encoding; s=default; bh=LBTLKdc/0luiofBmzJfVVA
+	Cr8Xg=; b=gLDwyxbLjJrWMSXKNgff+k15xLNDhYY6wr4Vt9NbVtH0mLTihVe7jc
+	SDQqzYbNAgcrAp1szDYSlrCNxDtpB0bsatbpHrnpj8wr78bnOhgzFhlpTvLxb8Yk
+	rxzh5vx322LVYUfTvH5gNVWqmQmHoK7Z+aqFInrQVt/Bq0GMvay2w=
+Received: from [195.171.99.130] (port=2255 helo=[192.168.0.47])
+	by eumx.net with esmtpa (Exim 4.72)
+	(envelope-from <ml@communistcode.co.uk>) id 1T2Nun-0004Na-1X
+	for openembedded-core@lists.openembedded.org;
+	Fri, 17 Aug 2012 14:52:45 +0000
+Message-ID: <502E5B0E.8040809@communistcode.co.uk>
+Date: Fri, 17 Aug 2012 15:54:06 +0100
+From: Jack Mitchell <ml@communistcode.co.uk>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:14.0) Gecko/20120717 Thunderbird/14.0
 MIME-Version: 1.0
-To: Liang Li <liang.li@windriver.com>
-References: <1344008589-3660-1-git-send-email-liang.li@windriver.com>
-	<1344348160.9756.255.camel@ted> <20120808033742.GA19078@localhost>
-	<20120814021712.GB25748@localhost> <502D12E2.4000808@windriver.com>
-	<1345132684.14667.70.camel@ted> <20120817033209.GB19625@localhost>
-	<1345196146.14667.84.camel@ted> <20120817100001.GA16621@localhost>
-	<1345200782.26132.18.camel@ted> <20120817130151.GA1416@localhost>
-In-Reply-To: <20120817130151.GA1416@localhost>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [discussion] perf: specify SLANG_INC dir for perf
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: qemu opengl issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: ml@communistcode.co.uk,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -39,56 +43,107 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Aug 2012 14:50:22 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Fri, 17 Aug 2012 15:04:44 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 08/17/2012 06:01 AM, Liang Li wrote:
-> On 2012-08-17 18:53, Richard Purdie <richard.purdie@linuxfoundation.org> wrote:
->> On Fri, 2012-08-17 at 18:00 +0800, Liang Li wrote:
->>> I am totally confused, you mentioned 'general kernel do_install', I
->>> assume it's oe-core kernel.bbclass concept. Then you mentioned 'get
->>> the fix upstream in the mainline kernel', how could that happen?
->>>
->>> We are discussing about the solution to 'fix the compile warning to
->>> error' stuff that triggered by the '-I/usr/include/slang', right?
->>
->> Yes.
->>
->>>  We do not necessarily have to change recipe to fix it since the issue
->>> is not introduced by the recipe, the hard coded '-I/usr/include/slang'
->>> in the Makefile cause the issue, we can fix the root cause by kernel
->>> patch(other than just comment the line out). I see your previous patch
->>> to kernel, by comment out the '-I/usr/include/slang' line in the
->>> Makefile, is the same behavior, but we won't have the change(comment
->>> out -I.. in Makefile) upstream to mainline, right?
->>
->> I am suggesting that firstly, someone send a patch to the mainline
->> kernel which changes -I/usr/include/slang to -I=/usr/include/slang in
->> that Makefile.
->>
->> Secondly, I'm suggesting that we add a line to kernel_do_install() in
->> kernel.bbclass which does a sed on the Makefile as installed into
->> $kerneldir which changes -I/usr/include/slang to -I=/usr/include/slang.
->>
->> We can then drop the patch I added to the linux-yocto kernels.
->>
->> This is all that should be needed, it should fix all the issues people
->> have reported in a way that is acceptable to everyone.
->>
-> 
-> Ah, I see what you mean now. But we have push acceptable kernel patch
-> to linux-yocto kernel first, and propose it to mainline kernel in the
-> meantime. With proper kernel patch in linux-yocto kernel(s), we does
-> not have to do the second above, right? :)
+So I am trying to build qemuarm with latest master and I ran into this 
+issue:
 
-No, the kernel.bbclass supports more than the linux-yocto kernels. It
-needs to be generally useful with 2.6+kernels. The sed patch for the
-kernel.bbclass is still necessary.
+    NOTE: Resolving any missing task queue dependencies
+    NOTE: Preparing runqueue
+    NOTE: Executing SetScene Tasks
+    NOTE: Executing RunQueue Tasks
+    ERROR: Function failed: do_configure (see
+    /mnt/storage/yoctoBuilds/poky-vanilla.git/build/tmp/work/x86_64-linux/qemu-native-0.15.1-r11/temp/log.do_configure.2967
+    for further information)
+    ERROR: Logfile of failure stored in:
+    /mnt/storage/yoctoBuilds/poky-vanilla.git/build/tmp/work/x86_64-linux/qemu-native-0.15.1-r11/temp/log.do_configure.2967
+    Log data follows:
+    | DEBUG: Executing python function sysroot_cleansstate
+    | DEBUG: Python function sysroot_cleansstate finished
+    | DEBUG: Executing shell function do_configure
+    | libSDL and header no found to build opengl acceleration for
+    qemu-native.
+    |     Ubuntu package names are: libsdl1.2-dev.
+    |     Fedora package names are: SDL-devel.
+    | ERROR: Function failed: do_configure (see
+    /mnt/storage/yoctoBuilds/poky-vanilla.git/build/tmp/work/x86_64-linux/qemu-native-0.15.1-r11/temp/log.do_configure.2967
+    for further information)
+    ERROR: Task 67
+    (virtual:native:/mnt/storage/yoctoBuilds/poky-vanilla.git/meta/recipes-devtools/qemu/qemu_0.15.1.bb,
+    do_configure) failed with exit code '1'
+    NOTE: Tasks Summary: Attempted 1099 tasks of which 1074 didn't need
+    to be rerun and 1 failed.
+
+
+Summary: 1 task failed:
+virtual:native:/mnt/storage/yoctoBuilds/poky-vanilla.git/meta/recipes-devtools/qemu/qemu_0.15.1.bb, 
+do_configure
+Summary: There was 1 WARNING message shown.
+Summary: There was 1 ERROR message shown, returning a non-zero exit code.
+
+Ok, I thought, lets install the sdl libraries. Which has now given me 
+this error:
+
+    Build Configuration:
+    BB_VERSION        = "1.15.3"
+    TARGET_ARCH       = "arm"
+    TARGET_OS         = "linux-gnueabi"
+    MACHINE           = "qemuarm"
+    DISTRO            = "poky"
+    DISTRO_VERSION    = "1.2+snapshot-20120817"
+    TUNE_FEATURES     = "armv5 dsp thumb arm926ejs"
+    TARGET_FPU        = "soft"
+    meta
+    meta-yocto        = "master:bddd8300325267253941e7ce656ce2cf86a8a4a4"
+
+    NOTE: Resolving any missing task queue dependencies
+    NOTE: Preparing runqueue
+    NOTE: Executing SetScene Tasks
+    NOTE: Executing RunQueue Tasks
+    ERROR: Function failed: do_configure (see
+    /mnt/storage/yoctoBuilds/poky-vanilla.git/build/tmp/work/x86_64-linux/qemu-native-0.15.1-r11/temp/log.do_configure.6313
+    for further information)
+    ERROR: Logfile of failure stored in:
+    /mnt/storage/yoctoBuilds/poky-vanilla.git/build/tmp/work/x86_64-linux/qemu-native-0.15.1-r11/temp/log.do_configure.6313
+    Log data follows:
+    | DEBUG: Executing python function sysroot_cleansstate
+    | DEBUG: Python function sysroot_cleansstate finished
+    | DEBUG: Executing shell function do_configure
+    | ERROR
+    | ERROR: User requested feature gl_accel
+    | ERROR: configure was not able to find it
+    | ERROR
+    | ERROR: Function failed: do_configure (see
+    /mnt/storage/yoctoBuilds/poky-vanilla.git/build/tmp/work/x86_64-linux/qemu-native-0.15.1-r11/temp/log.do_configure.6313
+    for further information)
+    ERROR: Task 67
+    (virtual:native:/mnt/storage/yoctoBuilds/poky-vanilla.git/meta/recipes-devtools/qemu/qemu_0.15.1.bb,
+    do_configure) failed with exit code '1'
+    NOTE: Tasks Summary: Attempted 1152 tasks of which 1108 didn't need
+    to be rerun and 1 failed.
+
+    Summary: 1 task failed:
+    virtual:native:/mnt/storage/yoctoBuilds/poky-vanilla.git/meta/recipes-devtools/qemu/qemu_0.15.1.bb,
+    do_configure
+    Summary: There was 1 WARNING message shown.
+    Summary: There was 1 ERROR message shown, returning a non-zero exit
+    code.
+
+
+I am building on a headless machine with no X if that makes any 
+difference in the matter...
+
+Regards,
 
 -- 
-Darren Hart
-Intel Open Source Technology Center
-Yocto Project - Linux Kernel
+
+   Jack Mitchell (jack@embed.me.uk)
+   Embedded Systems Engineer
+   http://www.embed.me.uk
+
+--
+
 
 
