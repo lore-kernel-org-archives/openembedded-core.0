@@ -1,39 +1,30 @@
-Received: from mail-wg0-f43.google.com ([74.125.82.43])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1T2MUt-00060r-2p
-	for openembedded-core@lists.openembedded.org;
-	Fri, 17 Aug 2012 15:21:55 +0200
-Received: by wgbdr1 with SMTP id dr1so2986365wgb.24
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1T2Me7-0006AS-IA for openembedded-core@lists.openembedded.org;
+	Fri, 17 Aug 2012 15:31:27 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q7HDJTdI008937
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Aug 2012 06:09:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=d5YbXrjyPzetVuhKuWGEw3udY7gcZelJdW5ZESCDLKE=;
-	b=ElyHCcrBQ9KDy4H9aFodjWS3cMjdzGRRtd6E82PzwNo6Hw8Dfu/3bBZbuT4ySikABF
-	EpS7JPL9kNYa86JWWgtxUFu6HT+/geC4rYGHr2Tvuy5KvM7u1kWZF0Pp+JQFIJ/CO863
-	oB0EYbthQTAy1bKFL4LP34qQsV1Ja0IFyU2nZHCNR61adk43Wvf6DvABer6HbvVtdaIv
-	1LJfVZBFyNZItcKXFP3xX3/yDo0Epp5/Szrzp5DV1EmiIrgnXibAbMfpkC89T9fcO1me
-	lQj03I6f/AZFG2+tcvkMMtKVc5L/wxXt6tQKgULbsFXGL07gQl8OdTsdqSNR5BtORoGS
-	hr/Q==
-Received: by 10.180.95.193 with SMTP id dm1mr4885619wib.10.1345208996580;
-	Fri, 17 Aug 2012 06:09:56 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id j6sm14487410wiy.4.2012.08.17.06.09.54
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 17 Aug 2012 06:09:55 -0700 (PDT)
-Date: Fri, 17 Aug 2012 15:09:53 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20120817130953.GN3625@jama.jama.net>
-References: <cover.1345208249.git.andrei.gherzan@windriver.com>
-	<f3b626bf0865fc3fbccb898723f162f900aa244f.1345208249.git.andrei.gherzan@windriver.com>
-MIME-Version: 1.0
-In-Reply-To: <f3b626bf0865fc3fbccb898723f162f900aa244f.1345208249.git.andrei.gherzan@windriver.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: Andrei Gherzan <andrei.gherzan@windriver.com>
-Subject: Re: [PATCH 1/2] python-dbus: Native dbus python module needed for dbus tests
+	Fri, 17 Aug 2012 14:19:29 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 08541-01 for <openembedded-core@lists.openembedded.org>;
+	Fri, 17 Aug 2012 14:19:25 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q7HDJM4L008931
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 17 Aug 2012 14:19:23 +0100
+Message-ID: <1345209562.27428.5.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Fri, 17 Aug 2012 14:19:22 +0100
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: utility-tasks: Set T to alternate location during do_clean
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,76 +39,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Aug 2012 13:21:55 -0000
-X-Groupsio-MsgNum: 27726
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="GOzekVbrLdOLv44p"
-Content-Disposition: inline
+X-List-Received-Date: Fri, 17 Aug 2012 13:31:27 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---GOzekVbrLdOLv44p
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+There is a race where do_clean tries to clean WORKDIR but there are logfiles
+written into ${T} by bitbake and this can lead to exceptions due to open files.
 
-On Fri, Aug 17, 2012 at 04:05:00PM +0300, Andrei Gherzan wrote:
-> Signed-off-by: Andrei Gherzan <andrei.gherzan@windriver.com>
-> ---
->  meta/recipes-devtools/python/python-dbus_1.1.1.bb |    5 ++++-
->  1 files changed, 4 insertions(+), 1 deletions(-)
->=20
-> diff --git a/meta/recipes-devtools/python/python-dbus_1.1.1.bb b/meta/rec=
-ipes-devtools/python/python-dbus_1.1.1.bb
-> index 51d5bc2..35149a0 100644
-> --- a/meta/recipes-devtools/python/python-dbus_1.1.1.bb
-> +++ b/meta/recipes-devtools/python/python-dbus_1.1.1.bb
-> @@ -4,7 +4,7 @@ HOMEPAGE =3D "http://www.freedesktop.org/Software/dbus"
->  LICENSE =3D "MIT"
->  LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Df5612614133e9a2f2dad527d97554=
-670"
->  DEPENDS =3D "expat dbus dbus-glib virtual/libintl python-pyrex-native"
-> -PR =3D "r0"
-> +PR =3D "r1"
-> =20
->  SRC_URI =3D "http://dbus.freedesktop.org/releases/dbus-python/dbus-pytho=
-n-${PV}.tar.gz"
-> =20
-> @@ -23,3 +23,6 @@ export STAGING_INCDIR
->  RDEPENDS_${PN} =3D "python-io python-logging python-stringold python-thr=
-eading python-xml"
-> =20
->  FILES_${PN}-dev +=3D "${libdir}/pkgconfig"
-> +
-> +RDEPENDS_${PN}_virtclass-native =3D "python"
+The easiest solution is to redirect T to a different location for the do_clean
+task, hence avoiding the errors and also allowing the logfiles to be visible
+somewhere. ${LOG_DIR} seems an appropriate place for this.
 
-Does RDEPENDS_${PN} work for native recipes? I thought that R* vars are
-for runtime packages and native builds doesn't provide them imho.
+[YOCTO #2846]
 
-And if they do, why not explicitly ask for python-native, because target py=
-thon wont help I guess.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+diff --git a/meta/classes/utility-tasks.bbclass b/meta/classes/utility-tasks.bbclass
+index d150ec5..bb26eb7 100644
+--- a/meta/classes/utility-tasks.bbclass
++++ b/meta/classes/utility-tasks.bbclass
+@@ -12,6 +12,7 @@ python do_listtasks() {
+ 
+ CLEANFUNCS ?= ""
+ 
++T_task-clean = "${LOG_DIR}/cleanlogs/${PN}"
+ addtask clean
+ do_clean[nostamp] = "1"
+ python do_clean() {
 
-> +BBCLASSEXTEND =3D "native"
-> --=20
-> 1.7.5.4
->=20
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---GOzekVbrLdOLv44p
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.19 (GNU/Linux)
-
-iEYEARECAAYFAlAuQqEACgkQN1Ujt2V2gBzx6QCfSn0UkqciMdC1du2ZybZcKA3d
-t3oAn2tARjbh/w+bP0Dlml28eYPvFIP9
-=vubt
------END PGP SIGNATURE-----
-
---GOzekVbrLdOLv44p--
