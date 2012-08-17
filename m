@@ -1,25 +1,39 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mga09.intel.com ([134.134.136.24])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1T2Vmd-0003Fk-J9
+	(envelope-from <kishore.k.bodke@intel.com>) id 1T2VqZ-0003KZ-Ql
 	for openembedded-core@lists.openembedded.org;
-	Sat, 18 Aug 2012 01:16:51 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 17 Aug 2012 16:04:51 -0700
+	Sat, 18 Aug 2012 01:20:56 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 17 Aug 2012 16:07:51 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.77,788,1336374000"; d="scan'208";a="210084815"
-Received: from unknown (HELO [10.255.12.253]) ([10.255.12.253])
-	by fmsmga002.fm.intel.com with ESMTP; 17 Aug 2012 16:04:51 -0700
-Message-ID: <502ECE13.1080805@linux.intel.com>
-Date: Fri, 17 Aug 2012 16:04:51 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:14.0) Gecko/20120717 Thunderbird/14.0
+X-IronPort-AV: E=Sophos;i="4.77,788,1336374000"; d="scan'208";a="187939386"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.226.49])
+	by orsmga002.jf.intel.com with ESMTP; 17 Aug 2012 16:07:51 -0700
+Received: from orsmsx153.amr.corp.intel.com (10.22.226.247) by
+	orsmsx603.amr.corp.intel.com (10.22.226.49) with Microsoft SMTP Server
+	(TLS) id 8.2.255.0; Fri, 17 Aug 2012 16:07:51 -0700
+Received: from orsmsx105.amr.corp.intel.com ([169.254.4.178]) by
+	ORSMSX153.amr.corp.intel.com ([169.254.13.86]) with mapi id
+	14.01.0355.002; Fri, 17 Aug 2012 16:07:51 -0700
+From: "Bodke, Kishore K" <kishore.k.bodke@intel.com>
+To: Darren Hart <dvhart@linux.intel.com>
+Thread-Topic: Build Kernel module on target
+Thread-Index: Ac18Bzz1ZKq6S76WQ466O/ayG41IUQAPq38AABb0lDAAFGpHAAAKOCCw
+Date: Fri, 17 Aug 2012 23:07:50 +0000
+Message-ID: <D956029D25CF204F948EA0FB515E1EE20AD5EF9B@ORSMSX105.amr.corp.intel.com>
+References: <D956029D25CF204F948EA0FB515E1EE20AD5D9F3@ORSMSX105.amr.corp.intel.com>
+	<502D8980.7030107@linux.intel.com>
+	<D956029D25CF204F948EA0FB515E1EE20AD5EE74@ORSMSX105.amr.corp.intel.com>
+	<502EAC8E.1090707@linux.intel.com>
+In-Reply-To: <502EAC8E.1090707@linux.intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.22.254.138]
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
+Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-References: <1344448856-20706-1-git-send-email-yao.zhao@windriver.com>
-In-Reply-To: <1344448856-20706-1-git-send-email-yao.zhao@windriver.com>
-Subject: Re: [PATCH V2] cracklib, zlib, perl: install libz, libcrack to /lib instead of /usr/libxx
+Subject: Re: Build Kernel module on target
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,105 +46,122 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Aug 2012 23:16:51 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
-
-On 08/08/2012 11:00 AM, Yao Zhao wrote:
-> In order to fix the QA Issue for libpam which installed to /lib but
-> reference /usr/libxx/libz and libcrack, install libz and libcrack
-> to /lib.
->
-> Modify perl recipe to add STAGING_BASELIBDIR to library search path, original
-> recipe only has STAGING_LIBDIR, /lib, /usr/lib, which can't find the libz.
->
-
-I think this patch needs more extensive testing, did you test this with 
-shared state at all?  I think there might be some additional PR bumps 
-needed for recipes that depend on some of these libraries to recognize 
-that they have moved.
-
-Sau!
+X-List-Received-Date: Fri, 17 Aug 2012 23:20:57 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
 
-> Signed-off-by: Yao Zhao <yao.zhao@windriver.com>
-> ---
->   meta/recipes-core/zlib/zlib_1.2.7.bb              |   11 +++++++++--
->   meta/recipes-devtools/perl/perl_5.14.2.bb         |    4 ++--
->   meta/recipes-extended/cracklib/cracklib_2.8.19.bb |    4 +++-
->   3 files changed, 14 insertions(+), 5 deletions(-)
+
+>-----Original Message-----
+>From: Darren Hart [mailto:dvhart@linux.intel.com]
+>Sent: Friday, August 17, 2012 1:42 PM
+>To: Bodke, Kishore K
+>Cc: linux-yocto@yoctoproject.org
+>Subject: Re: Build Kernel module on target
 >
-> diff --git a/meta/recipes-core/zlib/zlib_1.2.7.bb b/meta/recipes-core/zlib/zlib_1.2.7.bb
-> index 803fec3..0d8b6bd 100644
-> --- a/meta/recipes-core/zlib/zlib_1.2.7.bb
-> +++ b/meta/recipes-core/zlib/zlib_1.2.7.bb
-> @@ -12,8 +12,11 @@ SRC_URI = "http://www.zlib.net/${BPN}-${PV}.tar.bz2 \
->   SRC_URI[md5sum] = "2ab442d169156f34c379c968f3f482dd"
->   SRC_URI[sha256sum] = "49e2e9658dfb036900da6ea0267a737fa3c4eee6666776d378c79d52e9334934"
 >
-> +PR = "r1"
-> +
->   do_configure (){
-> -	./configure --prefix=${prefix} --shared --libdir=${libdir}
-> +	#sharedlibdir sets to {libdir} if not set
-> +	./configure --prefix=${prefix} --shared --libdir="${base_libdir}"
->   }
 >
->   do_compile (){
-> @@ -21,7 +24,11 @@ do_compile (){
->   }
+>On 08/17/2012 11:11 AM, Bodke, Kishore K wrote:
+>>
+>>
+>>> -----Original Message-----
+>>> From: Darren Hart [mailto:dvhart@linux.intel.com]
+>>> Sent: Thursday, August 16, 2012 5:00 PM
+>>> To: Bodke, Kishore K
+>>> Cc: linux-yocto@yoctoproject.org
+>>> Subject: Re: Build Kernel module on target
+>>>
+>>>
+>>>
+>>> On 08/16/2012 04:31 PM, Bodke, Kishore K wrote:
+>>>> Hi Darren,
+>>>
+>>> Hi Kishore,
+>>>
+>>>> I am trying to build the Kernel Module on the target with sdk image.
+>>>> I get the below error for all the kernel modules I am building.
+>>>>
+>>>> =3D=3D Build lib/librte_eal/linuxapp/igb_uio
+>>>>
+>>>> make: *** /lib/modules/3.4.6-yocto-standard/build: No such file or
+>>>> directory.  Stop.
+>>>>
+>>>> make[7]: *** [igb_uio.ko] Error 2
+>>>>
+>>>> Makefile has the kernel source directory  set like below.
+>>>>
+>>>> RTE_KERNELDIR =3D /lib/modules/$(shell uname -r)/build
+>>>>
+>>>> And I see there is no build directory there in
+>>>> /lib/modules/3.4.6-yocto-standard .
+>>>>
+>>>> I changed the RTE_KERNELDIR to
+>>>>
+>>>> RTE_KERNELDIR =3D/usr/src/kernel
+>>>
+>>> Correct.
+>>
+>> Why Yocto does not have /lib/modules/$(shell uname -r)/build?
+>> Generally /lib/modules/$(shell uname -r)/build is where EVERY kernel
+>module goes to look for kernel headers to build against.
 >
->   do_install() {
-> -	oe_runmake DESTDIR=${D} install
-> +	#install libz.so.1.2.7 libz.a to /lib
-> +	#libz.a installs to libdir, overwrite the env libdir
-> +	#install pkgconfig to env libdir/pkgconfig
-> +	oe_runmake DESTDIR=${D} pkgconfigdir="${libdir}/pkgconfig" \
-> +		   libdir="${base_libdir}" install
->   }
+>No reason. That would be a good addition. Please send a patch or open a
+>bug with
+>the request.
 >
->   BBCLASSEXTEND = "native nativesdk"
-> diff --git a/meta/recipes-devtools/perl/perl_5.14.2.bb b/meta/recipes-devtools/perl/perl_5.14.2.bb
-> index 561b30e..40dbc80 100644
-> --- a/meta/recipes-devtools/perl/perl_5.14.2.bb
-> +++ b/meta/recipes-devtools/perl/perl_5.14.2.bb
-> @@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://Copying;md5=2b4c6ffbcfcbdee469f02565f253d81a \
->   # We need gnugrep (for -I)
->   DEPENDS = "virtual/db grep-native"
->   DEPENDS += "gdbm zlib"
-> -PR = "r8"
-> +PR = "r9"
+>>
+>>>
+>>>> This time it went further to build the kernel module but failed for th=
+e
+>>>>
+>>>> /usr/src/kernel/scripts/recordmcount: No such file or directory
+>>>>
+>>>> I saw the ${STAGING_KERNEL_DIR} for the recordmcount.  There is no
+>such
+>>> file
+>>>> I think we need  scripts/recordmcount to be a part of the final image?
+>>>
+>>> This is an unfortunate result of the kernel building those "scripts" fo=
+r
+>>> the host, which we can't deploy to the target. We intentionally remove
+>>> them. To build on the target, you must first build the "scripts":
+>>>
+>>> $ cd /usr/src/kernel
+>>> $ make scripts
+>>>
+>>> Then try to build your modules.
+>>
+>> If I had to build the same module using recipe via bitbake, I get the sa=
+me
+>> error.
 >
->   # 5.10.1 has Module::Build built-in
->   PROVIDES += "libmodule-build-perl"
-> @@ -180,7 +180,7 @@ do_compile() {
->           sed -i -e "s|\([ \"\']\+\)/usr/include|\1${STAGING_INCDIR}|g" ext/Errno/Errno_pm.PL
->           sed -i -e "s|\([ \"\']\+\)/usr/include|\1${STAGING_INCDIR}|g" cpan/Compress-Raw-Zlib/config.in
->           sed -i -e 's|/usr/lib|""|g' cpan/Compress-Raw-Zlib/config.in
-> -        sed -i -e 's|SYSROOTLIB|${STAGING_LIBDIR}|g' cpan/ExtUtils-MakeMaker/lib/ExtUtils/Liblist/Kid.pm
-> +        sed -i -e 's|"SYSROOTLIB"|("${STAGING_BASELIBDIR}", "${STAGING_LIBDIR}")|g' cpan/ExtUtils-MakeMaker/lib/ExtUtils/Liblist/Kid.pm
+>You shouldn't. If you do, it's a bug either in the module building
+>mechanism of oe-core or with your module recipe.
 >
->           cd Cross
->           oe_runmake perl LD="${CCLD}"
-> diff --git a/meta/recipes-extended/cracklib/cracklib_2.8.19.bb b/meta/recipes-extended/cracklib/cracklib_2.8.19.bb
-> index 2951396..e36703e 100644
-> --- a/meta/recipes-extended/cracklib/cracklib_2.8.19.bb
-> +++ b/meta/recipes-extended/cracklib/cracklib_2.8.19.bb
-> @@ -5,7 +5,7 @@ LICENSE = "LGPLv2.1+"
->   LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=e3eda01d9815f8d24aae2dbd89b68b06"
+>> Unfortunately I cannot inherit module in my recipe.
 >
->   DEPENDS = "zlib"
-> -PR ="r0"
-> +PR ="r1"
->
->   EXTRA_OECONF = "--without-python"
->
-> @@ -15,3 +15,5 @@ SRC_URI[md5sum] = "ca0ec168d9c6466612204e8dfb2df8a9"
->   SRC_URI[sha256sum] = "7086b0ca23f875c9cd9ea2a993c262384b274dba9c4ea1da845ec8ac290748a9"
->
->   inherit autotools gettext
-> +
-> +libdir = "${base_libdir}"
->
+>You really need to.
+
+Moving the discussion to [open embedded core list]
+
+Either I do inherit module or I don't, I need to have the kernel source dir=
+ectory to
+point  to  ${STAGING_KERNEL_DIR} in my recipe, since the Makefile has /lib/=
+modules/$(shell uname -r)/build=20
+for the kernel source, which If I don't override, it will build kernel modu=
+le for the local host.
+
+Also the Makefile does not have rule for module install, can we have the in=
+stall rule inside a recipe to make the module=20
+in to the final image?
+Something like=20
+FILES_${PN}+=3D  ${base_libdir}/modules/${KERNEL_VERSION}/kernel/drivers"
+install -m 640 ${B}/kmod/igb_uio.ko     ${MODULE_DIR} (This being defined i=
+n a recipe)
+
+Thanks
+Kishore.
+
 
 
