@@ -1,43 +1,38 @@
-Received: from eumx.net ([91.82.101.43])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <ml@communistcode.co.uk>) id 1T2KLq-00022D-Oi
-	for openembedded-core@lists.openembedded.org;
-	Fri, 17 Aug 2012 13:04:26 +0200
-Received: from localhost ([127.0.0.1]:53312 helo=eumx.net)
-	by eumx.net with esmtp (Exim 4.72)
-	(envelope-from <ml@communistcode.co.uk>)
-	id 1T2KAG-00061f-D0; Fri, 17 Aug 2012 10:52:28 +0000
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=eumx.net; h=message-id
-	:date:from:reply-to:mime-version:to:cc:subject:references
-	:in-reply-to:content-type:content-transfer-encoding; s=default;
-	bh=iFTJDkmNQPDD4s51RqpNjH2v2YM=; b=sP/b4z8HzDPEtYDiQA1BcFFjT/kK
-	0d9TS9+3I0kCNUqsnrZwwa21I53Y5FBXayTZE02LhKmNHXXhdMy3o2pP93kNoYiH
-	n0RMA52kJQQKq/axQKedAZX6RrCxRMHXLtHkkm1b9Q4X7gpH20T6WphRoqEfxl0Z
-	XVbok65B1J2Uiu4=
-Received: from [195.171.99.130] (port=35654 helo=[192.168.0.47])
-	by eumx.net with esmtpa (Exim 4.72)
-	(envelope-from <ml@communistcode.co.uk>)
-	id 1T2KAG-00061c-An; Fri, 17 Aug 2012 10:52:28 +0000
-Message-ID: <502E22BF.4050809@communistcode.co.uk>
-Date: Fri, 17 Aug 2012 11:53:51 +0100
-From: Jack Mitchell <ml@communistcode.co.uk>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:14.0) Gecko/20120717 Thunderbird/14.0
-MIME-Version: 1.0
-To: Henning Heinold <heinold@inf.fu-berlin.de>
-References: <1345049073-27898-1-git-send-email-paul.eggleton@linux.intel.com>
-	<1566766.76zJMGCy1b@helios> <1345197209.26132.2.camel@ted>
-	<502E1777.6020006@communistcode.co.uk>
-	<20120817102638.GD17007@mi.fu-berlin.de>
-In-Reply-To: <20120817102638.GD17007@mi.fu-berlin.de>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] classes/chrpath: trigger an error if chrpath fails
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1T2KMb-000254-JV for openembedded-core@lists.openembedded.org;
+	Fri, 17 Aug 2012 13:05:13 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q7HArC9N008036;
+	Fri, 17 Aug 2012 11:53:12 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 07637-04; Fri, 17 Aug 2012 11:53:08 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q7HAr2qQ008030
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Fri, 17 Aug 2012 11:53:03 +0100
+Message-ID: <1345200782.26132.18.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Liang Li <liang.li@windriver.com>
+Date: Fri, 17 Aug 2012 11:53:02 +0100
+In-Reply-To: <20120817100001.GA16621@localhost>
+References: <1344008589-3660-1-git-send-email-liang.li@windriver.com>
+	<1344348160.9756.255.camel@ted> <20120808033742.GA19078@localhost>
+	<20120814021712.GB25748@localhost> <502D12E2.4000808@windriver.com>
+	<1345132684.14667.70.camel@ted> <20120817033209.GB19625@localhost>
+	<1345196146.14667.84.camel@ted> <20120817100001.GA16621@localhost>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: darren.hart@intel.com, openembedded-core@lists.openembedded.org
+Subject: Re: [discussion] perf: specify SLANG_INC dir for perf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: ml@communistcode.co.uk,
-	Patches and discussions about the oe-core layer
+Reply-To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -48,42 +43,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Aug 2012 11:04:26 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Fri, 17 Aug 2012 11:05:13 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 17/08/12 11:26, Henning Heinold wrote:
-> On Fri, Aug 17, 2012 at 11:05:43AM +0100, Jack Mitchell wrote:
->> any provider
->> WARNING: Failed to fetch URL http://kernel.org/pub/linux/kernel/people/jsipek/guilt/guilt-0.33.tar.gz,
->> attempting MIRRORS if available
->> *ERROR: chrpath command failed with exit code 7
->> ERROR: chrpath command failed with exit code 7*
->
-> Hi,
->
-> you can grep the logfiles in the work-dir for chrpath call and you will find the package. I saw it on some perl modules, but not now.
->
-> Bye Henning
+On Fri, 2012-08-17 at 18:00 +0800, Liang Li wrote:
+> I am totally confused, you mentioned 'general kernel do_install', I
+> assume it's oe-core kernel.bbclass concept. Then you mentioned 'get
+> the fix upstream in the mainline kernel', how could that happen?
+> 
+> We are discussing about the solution to 'fix the compile warning to
+> error' stuff that triggered by the '-I/usr/include/slang', right?
 
-Ok, here we go:
+Yes.
 
-    x86_64-linux/perl-native-5.14.2-r1/temp/log.do_populate_sysroot.30355:ERROR:
-    chrpath command failed with exit code 7
-    x86_64-linux/perl-native-5.14.2-r1/temp/log.do_populate_sysroot.30355:ERROR:
-    chrpath command failed with exit code 7
+>  We do not necessarily have to change recipe to fix it since the issue
+> is not introduced by the recipe, the hard coded '-I/usr/include/slang'
+> in the Makefile cause the issue, we can fix the root cause by kernel
+> patch(other than just comment the line out). I see your previous patch
+> to kernel, by comment out the '-I/usr/include/slang' line in the
+> Makefile, is the same behavior, but we won't have the change(comment
+> out -I.. in Makefile) upstream to mainline, right?
 
-This is on kraj/toolchain-rework, I don't know how synced with master it 
-is so apologies if it has already been fixed.
+I am suggesting that firstly, someone send a patch to the mainline
+kernel which changes -I/usr/include/slang to -I=/usr/include/slang in
+that Makefile.
 
+Secondly, I'm suggesting that we add a line to kernel_do_install() in
+kernel.bbclass which does a sed on the Makefile as installed into
+$kerneldir which changes -I/usr/include/slang to -I=/usr/include/slang.
 
--- 
+We can then drop the patch I added to the linux-yocto kernels.
 
-   Jack Mitchell (jack@embed.me.uk)
-   Embedded Systems Engineer
-   http://www.embed.me.uk
+This is all that should be needed, it should fix all the issues people
+have reported in a way that is acceptable to everyone.
 
---
+Cheers,
+
+Richard
+
 
 
 
