@@ -1,26 +1,27 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1T2PIq-0001bG-Mm
+	(envelope-from <sgw@linux.intel.com>) id 1T2PSz-0001nu-GM
 	for openembedded-core@lists.openembedded.org;
-	Fri, 17 Aug 2012 18:21:41 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q7HG9fmU025908
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Aug 2012 09:09:41 -0700 (PDT)
-Received: from localhost.localdomain (172.25.34.61) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.309.2;
-	Fri, 17 Aug 2012 09:09:40 -0700
-From: Mark Hatle <mark.hatle@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 17 Aug 2012 11:25:40 -0500
-Message-ID: <8ec9fdfcc490a8777c7f1a88a262ba52f5efea4e.1345220525.git.mark.hatle@windriver.com>
-X-Mailer: git-send-email 1.7.3.4
-In-Reply-To: <cover.1345220525.git.mark.hatle@windriver.com>
-References: <cover.1345220525.git.mark.hatle@windriver.com>
+	Fri, 17 Aug 2012 18:32:09 +0200
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 17 Aug 2012 09:20:09 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.77,785,1336374000"; d="scan'208";a="135453931"
+Received: from unknown (HELO [10.255.12.253]) ([10.255.12.253])
+	by AZSMGA002.ch.intel.com with ESMTP; 17 Aug 2012 09:19:42 -0700
+Message-ID: <502E6F19.4000402@linux.intel.com>
+Date: Fri, 17 Aug 2012 09:19:37 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:14.0) Gecko/20120717 Thunderbird/14.0
 MIME-Version: 1.0
-X-Originating-IP: [172.25.34.61]
-Subject: [PATCH 1/1] package_rpm.bbclass: Fix attemptonly install failures
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <1345121720-25925-1-git-send-email-constantinx.musca@intel.com>
+	<1345121720-25925-7-git-send-email-constantinx.musca@intel.com>
+In-Reply-To: <1345121720-25925-7-git-send-email-constantinx.musca@intel.com>
+Cc: Constantin Musca <constantinx.musca@intel.com>
+Subject: Re: [PATCH 6/6] connman: upgrade to 1.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,41 +36,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Aug 2012 16:21:41 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 17 Aug 2012 16:32:09 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-During an attemptonly install, if you try to install two packages that
-conflict with each other, a message is generated:
+On 08/16/2012 05:55 AM, Constantin Musca wrote:
+> Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
+> ---
+>   ...ck-that-the-string-isn-t-empty-before-spl.patch |   37 --------------------
+Why was the patch removed, need to have that in the commit message also.
 
- error: Failed dependencies:
-     dropbear conflicts with openssh-6.0p1-r4.ppc603e
-     dropbear conflicts with openssh-sshd-6.0p1-r4.ppc603e
+Sau!
 
-This is placed onto stderr (vs stdout), which was not being redirected.
-This allowed the log-check code to find the magic key of "Failed" causing
-the package installation process to fail.  Instead the proper behavior is to
-simply ignore the error and proceed with the install.
-
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
----
- meta/classes/package_rpm.bbclass |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
-
-diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
-index b58ae85..4b18cc6 100644
---- a/meta/classes/package_rpm.bbclass
-+++ b/meta/classes/package_rpm.bbclass
-@@ -340,7 +340,7 @@ package_install_internal_rpm () {
- 				-D "_dbpath ${target_rootfs}/install" -D "`cat ${confbase}.macro`" \
- 				-D "__dbi_txn create nofsync private" \
- 				-U --justdb --replacepkgs --noscripts --notriggers --noparentdirs --nolinktos --ignoresize \
--			$pkg_name >> "`dirname ${BB_LOGFILE}`/log.do_${task}_attemptonly.${PID}" || true
-+			$pkg_name >> "`dirname ${BB_LOGFILE}`/log.do_${task}_attemptonly.${PID}" 2>&1 || true
- 		done
- 	fi
- 
--- 
-1.7.3.4
-
+>   .../connman/{connman_1.3.bb => connman_1.4.bb}     |    9 +++--
+>   2 files changed, 4 insertions(+), 42 deletions(-)
+>   delete mode 100644 meta/recipes-connectivity/connman/connman/0001-storage-check-that-the-string-isn-t-empty-before-spl.patch
+>   rename meta/recipes-connectivity/connman/{connman_1.3.bb => connman_1.4.bb} (69%)
+>
+> diff --git a/meta/recipes-connectivity/connman/connman/0001-storage-check-that-the-string-isn-t-empty-before-spl.patch b/meta/recipes-connectivity/connman/connman/0001-storage-check-that-the-string-isn-t-empty-before-spl.patch
+> deleted file mode 100644
+> index c92b586..0000000
+> --- a/meta/recipes-connectivity/connman/connman/0001-storage-check-that-the-string-isn-t-empty-before-spl.patch
+> +++ /dev/null
+> @@ -1,37 +0,0 @@
+> -From ea8c7b3efce4c1762411e073893e948de5d552d6 Mon Sep 17 00:00:00 2001
+> -From: Ross Burton <ross.burton@intel.com>
+> -Date: Tue, 17 Jul 2012 16:04:12 +0100
+> -Subject: [PATCH] storage: check that the string isn't empty before splitting
+> -
+> -If the string was non-NULL but empty (str="\0"), the following \0 assignment
+> -would write to str[-1] and thus cause memory corruption.
+> -
+> -On PPC and MIPS, this was causing crashes in glibc.
+> -
+> -Signed-off-by: Ross Burton <ross.burton@intel.com>
+> -Upstream-Status: Submitted
+> -
+> ----
+> - src/storage.c |    6 +++++-
+> - 1 file changed, 5 insertions(+), 1 deletion(-)
+> -
+> -diff --git a/src/storage.c b/src/storage.c
+> -index 47bd0cb..20766a3 100644
+> ---- a/src/storage.c
+> -+++ b/src/storage.c
+> -@@ -212,7 +212,11 @@ gchar **connman_storage_get_services()
+> - 	closedir(dir);
+> -
+> - 	str = g_string_free(result, FALSE);
+> --	if (str) {
+> -+	if (str && str[0] != '\0') {
+> -+		/*
+> -+		 * Remove the trailing separator so that services doesn't end up
+> -+		 * with an empty element.
+> -+		 */
+> - 		str[strlen(str) - 1] = '\0';
+> - 		services = g_strsplit(str, "/", -1);
+> - 	}
+> ---
+> -1.7.10.4
+> -
+> diff --git a/meta/recipes-connectivity/connman/connman_1.3.bb b/meta/recipes-connectivity/connman/connman_1.4.bb
+> similarity index 69%
+> rename from meta/recipes-connectivity/connman/connman_1.3.bb
+> rename to meta/recipes-connectivity/connman/connman_1.4.bb
+> index 4d82794..bd8ba65 100644
+> --- a/meta/recipes-connectivity/connman/connman_1.3.bb
+> +++ b/meta/recipes-connectivity/connman/connman_1.4.bb
+> @@ -1,13 +1,12 @@
+>   require connman.inc
+>
+> -# 1.3 tag
+> -SRCREV = "3c0fa84091524c7cd6237744f2088ffee2f1d5ad"
+> +# 1.4 tag
+> +SRCREV = "f701bbca259f1f35e68d338f31f5373f75f3da5f"
+>   SRC_URI  = "git://git.kernel.org/pub/scm/network/connman/connman.git \
+>               file://0001-plugin.h-Change-visibility-to-default-for-debug-symb.patch \
+>               file://add_xuser_dbus_permission.patch \
+>               file://connman \
+>               file://0002-storage.c-If-there-is-no-d_type-support-use-fstatat.patch \
+> -            file://0001-timezone.c-If-there-is-no-d_type-support-use-fstatat.patch \
+> -            file://0001-storage-check-that-the-string-isn-t-empty-before-spl.patch"
+> +            file://0001-timezone.c-If-there-is-no-d_type-support-use-fstatat.patch"
+>   S = "${WORKDIR}/git"
+> -PR = "${INC_PR}.2"
+> +PR = "${INC_PR}.0"
+>
 
 
