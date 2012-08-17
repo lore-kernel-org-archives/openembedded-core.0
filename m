@@ -1,31 +1,38 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1T2La0-0003uk-37 for openembedded-core@lists.openembedded.org;
-	Fri, 17 Aug 2012 14:23:08 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q7HCB6Kl008538;
-	Fri, 17 Aug 2012 13:11:06 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 07451-09; Fri, 17 Aug 2012 13:11:01 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q7HCAsF6008532
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Fri, 17 Aug 2012 13:10:55 +0100
-Message-ID: <1345205454.27428.3.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Received: from mail-wg0-f43.google.com ([74.125.82.43])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <martin.jansa@gmail.com>) id 1T2Lbx-00040I-7t
+	for openembedded-core@lists.openembedded.org;
+	Fri, 17 Aug 2012 14:25:09 +0200
+Received: by wgbdr1 with SMTP id dr1so2945740wgb.24
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 17 Aug 2012 05:13:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=QeypHLnQ4Ko4CxpNm6vwuB8ZKGHFoG53SQ0D/3Co8j8=;
+	b=bnORunldIhxo49k4GQVOSeUFAp/DXk4FUSoT1JwJB1AhmZ6Xu0XshAFRVL0UDbgWoK
+	VRIq5oF4OYQR19LEJnUXVsXUqCT+n5Sgq9yi7AgkZJDhkdbX5O2eh/Qe2UYTYac9cI9e
+	TwRl6eafQPnLTyUG6nWBnDg+WN5bF3Z3qh3zj/aAWf0b5u6BP6reXuccpMAY9kTzeDvr
+	++iBJrWlU3xl6izRSA7AwM9kZakrGj9LENaxhWZQCInDkC6PLJPStwrUBJLCs+UpqDKF
+	qiQPgFa2Rs79/7IDRWVBm5LIVW7qCMdpxDCaQHvrojqIIqye8Ifd8/L1IbkfQfZ7k/zo
+	0Kzw==
+Received: by 10.216.232.204 with SMTP id n54mr2588199weq.182.1345205590884;
+	Fri, 17 Aug 2012 05:13:10 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id bc2sm14131712wib.0.2012.08.17.05.13.09
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 17 Aug 2012 05:13:09 -0700 (PDT)
+Date: Fri, 17 Aug 2012 14:13:07 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Fri, 17 Aug 2012 13:10:54 +0100
-In-Reply-To: <1345158769-15782-1-git-send-email-msm@freescale.com>
-References: <1345158769-15782-1-git-send-email-msm@freescale.com>
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: Matthew McClintock <msm@freescale.com>, openembedded-core@openembedded.org
-Subject: Re: [PATCH] cross-localedef-native_2.16.bb: fix for CentOS 5.X
+Message-ID: <20120817121307.GG3625@jama.jama.net>
+References: <cover.1345172940.git.jackie.huang@windriver.com>
+	<c15f63ce203208dbb2cb58d8916fd4eee1db632f.1345172940.git.jackie.huang@windriver.com>
+MIME-Version: 1.0
+In-Reply-To: <c15f63ce203208dbb2cb58d8916fd4eee1db632f.1345172940.git.jackie.huang@windriver.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Subject: Re: [PATCH 1/1] apr-util: fix the rules.mk with path to sysroot instead of the workdir of apr
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,76 +47,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Aug 2012 12:23:08 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 17 Aug 2012 12:25:09 -0000
+X-Groupsio-MsgNum: 27705
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="8bBEDOJVaa9YlTAt"
+Content-Disposition: inline
 
-On Thu, 2012-08-16 at 18:12 -0500, Matthew McClintock wrote:
-> | gcc -isystem/home/mattsm/git/poky/build-master/tmp/sysroots/x86_64-linux/usr/include -isystem/home/mattsm/git/poky/build-master/tmp/sysroots/x86_64-linux/usr/include -O2 -pipe -DNOT_IN_libc=1 -DNO_SYSCONF -DNO_UNCOMPRESS -DLOCALE_PATH='"/usr/local/lib/locale:/usr/local/share/i18n"' -DLOCALEDIR='"/usr/local/lib/locale"' -DLOCALE_ALIAS_PATH='"/usr/local/share/locale"' -DCHARMAP_PATH='"/usr/local/share/i18n/charmaps"' -DREPERTOIREMAP_PATH='"/usr/local/share/i18n/repertoiremaps"' -DLOCSRCDIR='"/usr/local/share/i18n/locales"' -DNOT_IN_libc -DIN_GLIBC_LOCALEDEF -Iglibc/locale/programs -I./include -Iglibc/locale -I. -I. -include ./include/always.h -Wall -Wno-format -c -o ld-address.o glibc/locale/programs/ld-address.c
-> | In file included from glibc/locale/programs/localedef.h:24,
-> |                  from glibc/locale/programs/ld-address.c:30:
-> | ./include/locale.h:6: error: conflicting types for 'locale_t'
-> | glibc/locale/xlocale.h:42: error: previous declaration of 'locale_t' was here
-> | make: *** [ld-address.o] Error 1
-> | ERROR: oe_runmake failed
-> 
-> Signed-off-by: Matthew McClintock <msm@freescale.com>
+--8bBEDOJVaa9YlTAt
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, Aug 17, 2012 at 11:11:43AM +0800, jackie.huang@windriver.com wrote:
+> From: Jackie Huang <jackie.huang@windriver.com>
+>=20
+> The copying for rules.mk was happened in do_configure_prepend, but it wil=
+l be
+> replaced by the one generated by configure, in which APR_MKEXPORT points =
+to
+> the workdir of apr and cause compile filure when the workdir of apr is re=
+moved.
+> So change the copying in _prepend to _append.
+>=20
+> [YOCTO #2947]
+>=20
+> Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
 > ---
->  meta/recipes-core/eglibc/cross-localedef-native_2.16.bb     |  9 +++++++--
->  .../eglibc/eglibc-2.16/fix_for_centos_5.8.patch             | 13 +++++++++++++
->  2 files changed, 20 insertions(+), 2 deletions(-)
->  create mode 100644 meta/recipes-core/eglibc/eglibc-2.16/fix_for_centos_5.8.patch
-> 
-> diff --git a/meta/recipes-core/eglibc/cross-localedef-native_2.16.bb b/meta/recipes-core/eglibc/cross-localedef-native_2.16.bb
-> index 47f0834..a79a276 100644
-> --- a/meta/recipes-core/eglibc/cross-localedef-native_2.16.bb
-> +++ b/meta/recipes-core/eglibc/cross-localedef-native_2.16.bb
-> @@ -13,10 +13,15 @@ LIC_FILES_CHKSUM = "file://${LIC_DIR}/LICENSES;md5=98a1128c4b58120182cbea3b1752d
->  inherit native
->  inherit autotools
->  
-> -PR = "r0"
-> +# pick up an eglibc-2.16 patch
-> +FILESPATH = "${FILE_DIRNAME}/eglibc-${PV}"
-> +
-> +PR = "r1"
->  SRCREV="19383"
->  EGLIBC_BRANCH="eglibc-2_16"
-> -SRC_URI = "svn://www.eglibc.org/svn/branches/;module=${EGLIBC_BRANCH};protocol=http "
-> +SRC_URI = "svn://www.eglibc.org/svn/branches/;module=${EGLIBC_BRANCH};protocol=http \
-> +	   file://fix_for_centos_5.8.patch;patchdir=.. \
-> +	  "
->  S = "${WORKDIR}/${EGLIBC_BRANCH}/localedef"
->  
->  do_unpack_append() {
-> diff --git a/meta/recipes-core/eglibc/eglibc-2.16/fix_for_centos_5.8.patch b/meta/recipes-core/eglibc/eglibc-2.16/fix_for_centos_5.8.patch
-> new file mode 100644
-> index 0000000..32ee16d
-> --- /dev/null
-> +++ b/meta/recipes-core/eglibc/eglibc-2.16/fix_for_centos_5.8.patch
-> @@ -0,0 +1,13 @@
-> +Index: eglibc-2_16/libc/locale/programs/config.h
+>  meta/recipes-support/apr/apr-util_1.4.1.bb |    6 ++++--
+>  1 files changed, 4 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/meta/recipes-support/apr/apr-util_1.4.1.bb b/meta/recipes-su=
+pport/apr/apr-util_1.4.1.bb
+> index deb608f..0516bc4 100644
+> --- a/meta/recipes-support/apr/apr-util_1.4.1.bb
+> +++ b/meta/recipes-support/apr/apr-util_1.4.1.bb
+> @@ -32,8 +32,10 @@ inherit autotools lib_package binconfig
+> =20
+>  OE_BINCONFIG_EXTRA_MANGLE =3D " -e 's:location=3Dsource:location=3Dinsta=
+lled:'"
+> =20
+> -do_configure_prepend() {
+> -	cp ${STAGING_DATADIR}/apr/apr_rules.mk ${S}/build/rules.mk
+> +do_configure_append() {
+> +	if [ "${PN}" =3D=3D "${BPN}" ]; then
+> +		cp ${STAGING_DATADIR}/apr/apr_rules.mk ${S}/build/rules.mk
+> +	fi
+>  }
+>  do_configure_prepend_virtclass-native() {
+>  	cp ${STAGING_DATADIR_NATIVE}/apr/apr_rules.mk ${S}/build/rules.mk
 
-No patch header here...
+Why is it different then native case above?
+
+Shouldn't be the same fix prepend/append applied for native case too and
+then "${PN}" =3D=3D "${BPN}" won't be needed?
 
 Cheers,
 
-Richard
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--8bBEDOJVaa9YlTAt
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
-> +===================================================================
-> +--- eglibc-2_16.orig/libc/locale/programs/config.h
-> ++++ eglibc-2_16/libc/locale/programs/config.h
-> +@@ -19,6 +19,8 @@
-> + #ifndef _LD_CONFIG_H
-> + #define _LD_CONFIG_H	1
-> + 
-> ++#define DUMMY_LOCALE_T
-> ++
-> + /* Use the internal textdomain used for libc messages.  */
-> + #define PACKAGE _libc_intl_domainname
-> + #ifndef VERSION
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
 
+iEYEARECAAYFAlAuNVMACgkQN1Ujt2V2gBxf+QCgj78X9DKdn+EOI8kcRPfM+juR
+Y7QAn0MAZKMYL0l02hOM8C9H50VheGZl
+=4ba2
+-----END PGP SIGNATURE-----
 
-
-
+--8bBEDOJVaa9YlTAt--
