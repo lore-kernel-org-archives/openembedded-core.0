@@ -1,31 +1,28 @@
-Received: from masterfoo.zenlinux.com ([207.192.74.254])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1T2Qww-00056p-6F
+	(envelope-from <Paul.Gortmaker@windriver.com>) id 1T2R96-0005Mx-PU
 	for openembedded-core@lists.openembedded.org;
-	Fri, 17 Aug 2012 20:07:10 +0200
-Received: from localhost (c-50-137-42-92.hsd1.or.comcast.net [50.137.42.92])
-	(using TLSv1 with cipher DHE-RSA-AES128-SHA (128/128 bits))
-	(No client certificate requested)
-	by masterfoo.zenlinux.com (Postfix) with ESMTP id 966403047E
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Aug 2012 13:55:07 -0400 (EDT)
-From: Scott Garman <scott.a.garman@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 17 Aug 2012 10:54:40 -0700
-Message-Id: <65322d27a0aacb4ae25b9cac6fef0e173a900f09.1345225925.git.scott.a.garman@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1345225925.git.scott.a.garman@intel.com>
-References: <cover.1345225925.git.scott.a.garman@intel.com>
-In-Reply-To: <cover.1345225925.git.scott.a.garman@intel.com>
-References: <cover.1345225925.git.scott.a.garman@intel.com>
-X-MasterFoo-MailScanner-Information: Please contact the ISP for more
-	information
-X-MailScanner-ID: 966403047E.5E08E
-X-MasterFoo-MailScanner: Found to be clean
-X-MasterFoo-MailScanner-SpamCheck: not spam
-X-MasterFoo-MailScanner-From: scott.a.garman@intel.com
-X-Spam-Status: No
-Subject: [PATCH 1/1] runqemu: work with yocto-bsp created kernel filenames
+	Fri, 17 Aug 2012 20:19:45 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q7HI7gqb028211
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 17 Aug 2012 11:07:42 -0700 (PDT)
+Received: from [128.224.146.65] (128.224.146.65) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.309.2;
+	Fri, 17 Aug 2012 11:07:43 -0700
+Message-ID: <502E886E.30002@windriver.com>
+Date: Fri, 17 Aug 2012 14:07:42 -0400
+From: Paul Gortmaker <paul.gortmaker@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:14.0) Gecko/20120714 Thunderbird/14.0
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <1344897787-27726-1-git-send-email-paul.gortmaker@windriver.com>
+	<1345222636.27428.20.camel@ted>
+In-Reply-To: <1345222636.27428.20.camel@ted>
+X-Originating-IP: [128.224.146.65]
+Subject: Re: [PATCH] libproxy: add dependency on glib-2.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,34 +37,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Aug 2012 18:07:10 -0000
+X-List-Received-Date: Fri, 17 Aug 2012 18:19:45 -0000
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: 7bit
 
-The yocto-bsp tool generates kernels with additional strings within
-the filename, e.g. zImage-myqemuarm.bin. Loosen the MACHINE detection
-regex to work with these filenames.
+On 12-08-17 12:57 PM, Richard Purdie wrote:
+> On Mon, 2012-08-13 at 18:43 -0400, Paul Gortmaker wrote:
+>> Without this, you will get occasional build failures if libproxy
+>> tries to build before the glib headers are placed in the sysroot.
+>>
+>> Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
+>>
+>> diff --git a/meta/recipes-support/libproxy/libproxy_0.4.7.bb b/meta/recipes-support/libproxy/libproxy_0.4.7.bb
+>> index 7e3cf27..a39e3a8 100644
+>> --- a/meta/recipes-support/libproxy/libproxy_0.4.7.bb
+>> +++ b/meta/recipes-support/libproxy/libproxy_0.4.7.bb
+>> @@ -6,7 +6,7 @@ LICENSE = "LGPLv2.1+"
+>>  LIC_FILES_CHKSUM = "file://COPYING;md5=7d7044444a7b1b116e8783edcdb44ff4 \
+>>                      file://utils/proxy.c;beginline=1;endline=18;md5=55152a1006d7dafbef32baf9c30a99c0"
+>>  
+>> -DEPENDS = "gconf"
+>> +DEPENDS = "gconf glib-2.0"
+>>  
+> 
+> We've gone around in circles on this and had issues over circular
+> dependencies. The bottom line is that we don't need glib-2.0 here, we
+> want to disable the glib-2.0 using components of libproxy. I don't know
 
-Fixes [YOCTO #2890].
+Fair enough.
 
-Signed-off-by: Scott Garman <scott.a.garman@intel.com>
----
- scripts/runqemu |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Can we _finally_ fix the mailing lists to not override the To/Cc lines
+with crap Reply-To: lines?  Once again I almost missed seeing this reply,
+since I was no longer on the To/Cc.
 
-diff --git a/scripts/runqemu b/scripts/runqemu
-index 7e4bcc4..90998ae 100755
---- a/scripts/runqemu
-+++ b/scripts/runqemu
-@@ -229,7 +229,7 @@ if [ "$FSTYPE" = "nfs" -a -z "$ROOTFS" ]; then
- fi
- 
- if [ -z "$MACHINE" ]; then
--    MACHINE=`basename $KERNEL | sed 's/.*-\(qemux86-64\|qemux86\|qemuarm\|qemumips64\|qemumips\|qemuppc\|qemush4\).*/\1/'`
-+    MACHINE=`basename $KERNEL | sed 's/.*\(qemux86-64\|qemux86\|qemuarm\|qemumips64\|qemumips\|qemuppc\|qemush4\).*/\1/'`
-     if [ -z "$MACHINE" ]; then
-         error "Unable to set MACHINE from kernel filename [$KERNEL]"
-     fi
--- 
-1.7.9.5
+AFAICT, all were in agreement that it was broken, but it never got fixed.
 
+Thanks,
+Paul.
+--
+
+> cmake well enough to know how to configure it to do this though (instead
+> of autodetecting)
+> 
+> Cheers,
+> 
+> Richard
+> 
+> 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+> 
+> 
 
 
