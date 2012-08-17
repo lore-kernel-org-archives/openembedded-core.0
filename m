@@ -1,39 +1,25 @@
-Received: from mail-ob0-f175.google.com ([209.85.214.175])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrei@gherzan.ro>) id 1T2PYd-00022E-Km
+	(envelope-from <sgw@linux.intel.com>) id 1T2PYy-00024z-1H
 	for openembedded-core@lists.openembedded.org;
-	Fri, 17 Aug 2012 18:37:59 +0200
-Received: by obc16 with SMTP id 16so5399789obc.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Aug 2012 09:26:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:x-originating-ip:in-reply-to:references:date
-	:message-id:subject:from:to:content-type:x-gm-message-state;
-	bh=IXmjESwjQZBH7o0a/tE9lxtSGHrdFmCrXjGLY+Acjnc=;
-	b=B6VrL6BV1lUMagSoDi/LGAT8GMHYvXJ1OD7GNrbdJRAEjgt7qBH2tSkkioPvBRRoC9
-	RAm73Uftp9+tHo25CDN+VDyTSvZrPe2vN8YVKDnKQ2TngQ1wQC9GIMNYx2p69b+vdc2f
-	UgTMUbw/YSp8H72PsevDvwiCjsRhxQmoCq/UCBodeu8lx4C01YREiCDzEPseo9Jm4bGI
-	BgPCSO4l/FVZJlQJ6TudRVF0npRaETvWAl0cpot34rNCJLxpsKb7Wy3IM0YNvnVxRbG1
-	3kQymB9O/vOHcSoz4g8v0NRfHf9lOKwBDCzF8YqVTzPonlYl+EvqXJVzfeKUHvIcfXmM
-	KoWQ==
+	Fri, 17 Aug 2012 18:38:21 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 17 Aug 2012 09:26:20 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.77,785,1336374000"; d="scan'208";a="182285877"
+Received: from unknown (HELO [10.255.12.253]) ([10.255.12.253])
+	by azsmga001.ch.intel.com with ESMTP; 17 Aug 2012 09:26:18 -0700
+Message-ID: <502E70A9.5070506@linux.intel.com>
+Date: Fri, 17 Aug 2012 09:26:17 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:14.0) Gecko/20120717 Thunderbird/14.0
 MIME-Version: 1.0
-Received: by 10.182.131.98 with SMTP id ol2mr4225386obb.69.1345220760362; Fri,
-	17 Aug 2012 09:26:00 -0700 (PDT)
-Received: by 10.76.93.35 with HTTP; Fri, 17 Aug 2012 09:26:00 -0700 (PDT)
-X-Originating-IP: [109.166.134.228]
-Received: by 10.76.93.35 with HTTP; Fri, 17 Aug 2012 09:26:00 -0700 (PDT)
-In-Reply-To: <502E6F19.4000402@linux.intel.com>
-References: <1345121720-25925-1-git-send-email-constantinx.musca@intel.com>
-	<1345121720-25925-7-git-send-email-constantinx.musca@intel.com>
-	<502E6F19.4000402@linux.intel.com>
-Date: Fri, 17 Aug 2012 19:26:00 +0300
-Message-ID: <CAK18fxGrrvm2hq-tYwmZH_UgA+sUZ-y_p4tT11aZLNLvvp6=WQ@mail.gmail.com>
-From: Andrei Gherzan <andrei@gherzan.ro>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Gm-Message-State: ALoCoQlUo4Ee61rcoofy2WrrDWhMfFpCZcumKRdzuWIotTzFwBcaYDZDyTeoSKZcYBJbyW6unw9N
-Subject: Re: [PATCH 6/6] connman: upgrade to 1.4
+References: <1344498612-23079-1-git-send-email-radu.moisan@intel.com>
+In-Reply-To: <1344498612-23079-1-git-send-email-radu.moisan@intel.com>
+Subject: Re: [PATCH] grub: Update to upstream stable 2.00
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,267 +34,593 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Aug 2012 16:38:00 -0000
-Content-Type: multipart/alternative; boundary=e89a8f5028be90e04204c7789de2
+X-List-Received-Date: Fri, 17 Aug 2012 16:38:21 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
---e89a8f5028be90e04204c7789de2
-Content-Type: text/plain; charset=ISO-8859-1
+On 08/09/2012 12:50 AM, Radu Moisan wrote:
 
-That patch was included in 1.4 version.
-On Aug 17, 2012 7:20 PM, "Saul Wold" <sgw@linux.intel.com> wrote:
+You need to add details about why you are removing the patches, where 
+they added to the upstream? Obsoleted?
 
-> On 08/16/2012 05:55 AM, Constantin Musca wrote:
+When removing patch files, please explain why.
+
+Thanks
+	Sau!
+
+> Signed-off-by: Radu Moisan <radu.moisan@intel.com>
+> ---
+>   ...rub-1.99-gcc-4.7.0-strict-aliasing-errors.patch |  147 ----------------
+>   ...b-1.99-gcc-4.7.0-uninitialized-var-errors.patch |   41 -----
+>   .../grub/files/grub-1.99-gcc-4.7.0.patch           |   34 ----
+>   .../files/grub-1.99_fix_for_automake_1.11.2.patch  |  179 --------------------
+>   .../grub/grub-1.99/grub-1.99-lazy_stat.patch       |   64 -------
+>   .../grub/{grub-1.99 => grub-2.00}/40_custom        |    0
+>   .../{grub-1.99 => grub-2.00}/grub-install.in.patch |    0
+>   .../{grub-1.99 => grub-2.00}/remove-gets.patch     |    0
+>   .../grub/{grub_1.99.bb => grub_2.00.bb}            |   16 +-
+>   9 files changed, 7 insertions(+), 474 deletions(-)
+>   delete mode 100644 meta/recipes-bsp/grub/files/grub-1.99-gcc-4.7.0-strict-aliasing-errors.patch
+>   delete mode 100644 meta/recipes-bsp/grub/files/grub-1.99-gcc-4.7.0-uninitialized-var-errors.patch
+>   delete mode 100644 meta/recipes-bsp/grub/files/grub-1.99-gcc-4.7.0.patch
+>   delete mode 100644 meta/recipes-bsp/grub/files/grub-1.99_fix_for_automake_1.11.2.patch
+>   delete mode 100644 meta/recipes-bsp/grub/grub-1.99/grub-1.99-lazy_stat.patch
+>   rename meta/recipes-bsp/grub/{grub-1.99 => grub-2.00}/40_custom (100%)
+>   rename meta/recipes-bsp/grub/{grub-1.99 => grub-2.00}/grub-install.in.patch (100%)
+>   rename meta/recipes-bsp/grub/{grub-1.99 => grub-2.00}/remove-gets.patch (100%)
+>   rename meta/recipes-bsp/grub/{grub_1.99.bb => grub_2.00.bb} (69%)
 >
->> Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
->> ---
->>   ...ck-that-the-string-isn-t-**empty-before-spl.patch |   37
->> --------------------
->>
-> Why was the patch removed, need to have that in the commit message also.
+> diff --git a/meta/recipes-bsp/grub/files/grub-1.99-gcc-4.7.0-strict-aliasing-errors.patch b/meta/recipes-bsp/grub/files/grub-1.99-gcc-4.7.0-strict-aliasing-errors.patch
+> deleted file mode 100644
+> index 9d81050..0000000
+> --- a/meta/recipes-bsp/grub/files/grub-1.99-gcc-4.7.0-strict-aliasing-errors.patch
+> +++ /dev/null
+> @@ -1,147 +0,0 @@
+> -Upstream-Status: Pending
+> -
+> -This patch fixes these strick-aliasing errors with gcc 4.7
+> -
+> -
+> -| gcc -DHAVE_CONFIG_H -I. -I..  -Wall -W -I../include -I../include  -DGRUB_MACHINE_EFI=1 -DGRUB_MACHINE=I386_EFI -nostdinc -isystem /usr/lib/gcc/x86_64-redhat-linux/4.7.0/include -DGRUB_FILE=\"fs/zfs/zfs.c\" -I. -I. -I.. -I.. -I../include -I../include    -isystem/home/nitin/builds/build0/tmp/sysroots/x86_64-linux/usr/include -O2 -pipe -g -feliminate-unused-debug-types -Wall -W -Wshadow -Wpointer-arith -Wmissing-prototypes -Wundef -Wstrict-prototypes -g -falign-jumps=1 -falign-loops=1 -falign-functions=1 -mno-mmx -mno-sse -mno-sse2 -mno-3dnow -fno-dwarf2-cfi-asm -m32 -fno-stack-protector -mno-stack-arg-probe -Werror -Wno-trampolines          -ffreestanding  -isystem/home/nitin/builds/build0/tmp/sysroots/x86_64-linux/usr/include -O2 -pipe -c -o fs/zfs/zfs_module-zfs.o `test -f 'fs/zfs/zfs.c' || echo './'`fs/zfs/zfs.c
+> -| fs/zfs/zfs.c: In function 'get_filesystem_dnode':
+> -| fs/zfs/zfs.c:1449:7: error: dereferencing type-punned pointer will break strict-aliasing rules [-Werror=strict-aliasing]
+> -| fs/zfs/zfs.c:1449:7: error: dereferencing type-punned pointer will break strict-aliasing rules [-Werror=strict-aliasing]
+> -| fs/zfs/zfs.c: In function 'make_mdn':
+> -| fs/zfs/zfs.c:1478:3: error: dereferencing type-punned pointer will break strict-alERROR: Function failed: do_compile (see /home/nitin/builds/build0/tmp/work/x86_64-linux/grub-efi-i586-native-1.99-r7/temp/log.do_compile.9293 for further information)
+> -| iasing rules [-Werror=strict-aliasing]
+> -| fs/zfs/zfs.c: In function 'dnode_get_fullpath':
+> -| fs/zfs/zfs.c:1554:3: error: dereferencing type-punned pointer will break strict-aliasing rules [-Werror=strict-aliasing]
+> -| fs/zfs/zfs.c:1554:3: error: dereferencing type-punned pointer will break strict-aliasing rules [-Werror=strict-aliasing]
+> -| fs/zfs/zfs.c:1571:7: error: dereferencing type-punned pointer will break strict-aliasing rules [-Werror=strict-aliasing]
+> -| fs/zfs/zfs.c:1571:7: error: dereferencing type-punned pointer will break strict-aliasing rules [-Werror=strict-aliasing]
+> -| fs/zfs/zfs.c: In function 'grub_zfs_open':
+> -| fs/zfs/zfs.c:2234:7: error: dereferencing type-punned pointer will break strict-aliasing rules [-Werror=strict-aliasing]
+> -| fs/zfs/zfs.c:2234:7: error: dereferencing type-punned pointer will break strict-aliasing rules [-Werror=strict-aliasing]
+> -| fs/zfs/zfs.c: In function 'fill_fs_info':
+> -| fs/zfs/zfs.c:2362:7: error: dereferencing type-punned pointer will break strict-aliasing rules [-Werror=strict-aliasing]
+> -| fs/zfs/zfs.c:2362:7: error: dereferencing type-punned pointer will break strict-aliasing rules [-Werror=strict-aliasing]
+> -| fs/zfs/zfs.c:2395:3: error: dereferencing type-punned pointer will break strict-aliasing rules [-Werror=strict-aliasing]
+> -| fs/zfs/zfs.c:2395:3: error: dereferencing type-punned pointer will break strict-aliasing rules [-Werror=strict-aliasing]
+> -| fs/zfs/zfs.c: In function 'iterate_zap':
+> -| fs/zfs/zfs.c:2420:5: error: dereferencing type-punned pointer will break strict-aliasing rules [-Werror=strict-aliasing]
+> -| fs/zfs/zfs.c:2420:5: error: dereferencing type-punned pointer will break strict-aliasing rules [-Werror=strict-aliasing]
+> -| fs/zfs/zfs.c: In function 'grub_zfs_dir':
+> -| fs/zfs/zfs.c:2483:7: error: dereferencing type-punned pointer will break strict-aliasing rules [-Werror=strict-aliasing]
+> -| fs/zfs/zfs.c:2483:7: error: dereferencing type-punned pointer will break strict-aliasing rules [-Werror=strict-aliasing]
+> -| fs/zfs/zfs.c:2484:7: error: dereferencing type-punned pointer will break strict-aliasing rules [-Werror=strict-aliasing]
+> -| fs/zfs/zfs.c:2484:7: error: dereferencing type-punned pointer will break strict-aliasing rules [-Werror=strict-aliasing]
+> -| fs/zfs/zfs.c:2502:7: error: dereferencing type-punned pointer will break strict-aliasing rules [-Werror=strict-aliasing]
+> -| fs/zfs/zfs.c:2502:7: error: dereferencing type-punned pointer will break strict-aliasing rules [-Werror=strict-aliasing]
+> -| cc1: all warnings being treated as errors
+> -| make[3]: *** [fs/zfs/zfs_module-zfs.o] Error 1
+> -
+> -Signed-Off-By: Nitin A Kamble <nitin.a.kamble@intel.com>
+> -2012/04/13
+> -
+> -Index: grub-1.99/grub-core/fs/zfs/zfs.c
+> -===================================================================
+> ---- grub-1.99.orig/grub-core/fs/zfs/zfs.c
+> -+++ grub-1.99/grub-core/fs/zfs/zfs.c
+> -@@ -1446,7 +1446,8 @@ get_filesystem_dnode (dnode_end_t * mosm
+> -       ch = *fsname;
+> -       *fsname = 0;
+> -
+> --      childobj = grub_zfs_to_cpu64 ((((dsl_dir_phys_t *) DN_BONUS (&mdn->dn)))->dd_child_dir_zapobj, mdn->endian);
+> -+      dsl_dir_phys_t * tmp =  DN_BONUS (&mdn->dn);
+> -+      childobj = grub_zfs_to_cpu64 (tmp->dd_child_dir_zapobj, mdn->endian);
+> -       err = dnode_get (mosmdn, childobj,
+> - 		       DMU_OT_DSL_DIR_CHILD_MAP, mdn, data);
+> -       if (err)
+> -@@ -1475,7 +1476,8 @@ make_mdn (dnode_end_t * mdn, struct grub
+> -
+> -   grub_dprintf ("zfs", "endian = %d\n", mdn->endian);
+> -
+> --  bp = &(((dsl_dataset_phys_t *) DN_BONUS (&mdn->dn))->ds_bp);
+> -+  dsl_dataset_phys_t * tmp = DN_BONUS(&mdn->dn);
+> -+  bp = &(tmp->ds_bp);
+> -   err = zio_read (bp, mdn->endian, &osp, &ospsize, data);
+> -   if (err)
+> -     return err;
+> -@@ -1551,7 +1553,8 @@ dnode_get_fullpath (const char *fullpath
+> -
+> -   grub_dprintf ("zfs", "alive\n");
+> -
+> --  headobj = grub_zfs_to_cpu64 (((dsl_dir_phys_t *) DN_BONUS (&dn->dn))->dd_head_dataset_obj, dn->endian);
+> -+  dsl_dir_phys_t * tmp1 = DN_BONUS (&dn->dn);
+> -+  headobj = grub_zfs_to_cpu64 (tmp1->dd_head_dataset_obj, dn->endian);
+> -
+> -   grub_dprintf ("zfs", "endian = %d\n", mdn->endian);
+> -
+> -@@ -1568,7 +1571,8 @@ dnode_get_fullpath (const char *fullpath
+> -     {
+> -       grub_uint64_t snapobj;
+> -
+> --      snapobj = grub_zfs_to_cpu64 (((dsl_dataset_phys_t *) DN_BONUS (&mdn->dn))->ds_snapnames_zapobj, mdn->endian);
+> -+      dsl_dataset_phys_t * tmp2 = DN_BONUS (&mdn->dn);
+> -+      snapobj = grub_zfs_to_cpu64 (tmp2->ds_snapnames_zapobj, mdn->endian);
+> -
+> -       err = dnode_get (&(data->mos), snapobj,
+> - 		       DMU_OT_DSL_DS_SNAP_MAP, mdn, data);
+> -@@ -2231,7 +2235,8 @@ grub_zfs_open (struct grub_file *file, c
+> -     }
+> -   else
+> -     {
+> --      file->size = grub_zfs_to_cpu64 (((znode_phys_t *) DN_BONUS (&data->dnode.dn))->zp_size, data->dnode.endian);
+> -+      znode_phys_t * tmp =  DN_BONUS (&data->dnode.dn);
+> -+      file->size = grub_zfs_to_cpu64 (tmp->zp_size, data->dnode.endian);
+> -     }
+> -
+> -   file->data = data;
+> -@@ -2359,7 +2364,8 @@ fill_fs_info (struct grub_dirhook_info *
+> -
+> -   if (mdn.dn.dn_type == DMU_OT_DSL_DIR)
+> -     {
+> --      headobj = grub_zfs_to_cpu64 (((dsl_dir_phys_t *) DN_BONUS (&mdn.dn))->dd_head_dataset_obj, mdn.endian);
+> -+      dsl_dir_phys_t * tmp1 = DN_BONUS (&mdn.dn);
+> -+      headobj = grub_zfs_to_cpu64 (tmp1->dd_head_dataset_obj, mdn.endian);
+> -
+> -       err = dnode_get (&(data->mos), headobj, DMU_OT_DSL_DATASET, &mdn, data);
+> -       if (err)
+> -@@ -2392,7 +2398,8 @@ fill_fs_info (struct grub_dirhook_info *
+> -     }
+> -
+> -   info->mtimeset = 1;
+> --  info->mtime = grub_zfs_to_cpu64 (((znode_phys_t *) DN_BONUS (&dn.dn))->zp_mtime[0], dn.endian);
+> -+  znode_phys_t * tmp2 = DN_BONUS (&dn.dn);
+> -+  info->mtime = grub_zfs_to_cpu64 (tmp2->zp_mtime[0], dn.endian);
+> -   return;
+> - }
+> -
+> -@@ -2417,7 +2424,8 @@ grub_zfs_dir (grub_device_t device, cons
+> -
+> -     dnode_get (&(data->mdn), val, 0, &dn, data);
+> -     info.mtimeset = 1;
+> --    info.mtime = grub_zfs_to_cpu64 (((znode_phys_t *) DN_BONUS (&dn.dn))->zp_mtime[0], dn.endian);
+> -+    znode_phys_t * tmp1 = DN_BONUS (&dn.dn);
+> -+    info.mtime = grub_zfs_to_cpu64 (tmp1->zp_mtime[0], dn.endian);
+> -     info.dir = (dn.dn.dn_type == DMU_OT_DIRECTORY_CONTENTS);
+> -     grub_dprintf ("zfs", "type=%d, name=%s\n",
+> - 		  (int)dn.dn.dn_type, (char *)name);
+> -@@ -2480,8 +2488,9 @@ grub_zfs_dir (grub_device_t device, cons
+> -       fill_fs_info (&info, data->dnode, data);
+> -       hook ("@", &info);
+> -
+> --      childobj = grub_zfs_to_cpu64 (((dsl_dir_phys_t *) DN_BONUS (&data->dnode.dn))->dd_child_dir_zapobj, data->dnode.endian);
+> --      headobj = grub_zfs_to_cpu64 (((dsl_dir_phys_t *) DN_BONUS (&data->dnode.dn))->dd_head_dataset_obj, data->dnode.endian);
+> -+      dsl_dir_phys_t * tmp2 = DN_BONUS (&data->dnode.dn);
+> -+      childobj = grub_zfs_to_cpu64 (tmp2->dd_child_dir_zapobj, data->dnode.endian);
+> -+      headobj = grub_zfs_to_cpu64 (tmp2->dd_head_dataset_obj, data->dnode.endian);
+> -       err = dnode_get (&(data->mos), childobj,
+> - 		       DMU_OT_DSL_DIR_CHILD_MAP, &dn, data);
+> -       if (err)
+> -@@ -2499,7 +2508,8 @@ grub_zfs_dir (grub_device_t device, cons
+> - 	  return err;
+> - 	}
+> -
+> --      snapobj = grub_zfs_to_cpu64 (((dsl_dataset_phys_t *) DN_BONUS (&dn.dn))->ds_snapnames_zapobj, dn.endian);
+> -+      dsl_dataset_phys_t * tmp3 = DN_BONUS (&dn.dn);
+> -+      snapobj = grub_zfs_to_cpu64 (tmp3->ds_snapnames_zapobj, dn.endian);
+> -
+> -       err = dnode_get (&(data->mos), snapobj,
+> - 		       DMU_OT_DSL_DS_SNAP_MAP, &dn, data);
+> diff --git a/meta/recipes-bsp/grub/files/grub-1.99-gcc-4.7.0-uninitialized-var-errors.patch b/meta/recipes-bsp/grub/files/grub-1.99-gcc-4.7.0-uninitialized-var-errors.patch
+> deleted file mode 100644
+> index f812147..0000000
+> --- a/meta/recipes-bsp/grub/files/grub-1.99-gcc-4.7.0-uninitialized-var-errors.patch
+> +++ /dev/null
+> @@ -1,41 +0,0 @@
+> -Upstream-Status: Pending
+> -
+> -This patch quitens this error:
+> -
+> -| make[3]: Entering directory
+> -`/home/nitin/builds/build0/tmp/work/x86_64-linux/grub-efi-i586-native-1.99-r7/grub-1.99/grub-core'
+> -| gcc -DHAVE_CONFIG_H -I. -I..  -Wall -W -I../include -I../include
+> --DGRUB_MACHINE_EFI=1 -DGRUB_MACHINE=I386_EFI -nostdinc -isystem
+> -/usr/lib/gcc/x86_64-redhat-linux/4.7.0/include -DGRUB_FILE=\"fs/btrfs.c\" -I.
+> --I. -I.. -I.. -I../include -I../include
+> --isystem/home/nitin/builds/build0/tmp/sysroots/x86_64-linux/usr/include -O2
+> --pipe -g -feliminate-unused-debug-types -Wall -W -Wshadow -Wpointer-arith
+> --Wmissing-prototypes -Wundef -Wstrict-prototypes -g -falign-jumps=1
+> --falign-loops=1 -falign-functions=1 -mno-mmx -mno-sse -mno-sse2 -mno-3dnow
+> --fno-dwarf2-cfi-asm -m32 -fno-stack-protector -mno-stack-arg-probe -Werror
+> --Wno-trampolines          -ffreestanding
+> --isystem/home/nitin/builds/build0/tmp/sysroots/x86_64-linux/usr/include -O2
+> --pipe -c -o fs/btrfs_module-btrfs.o `test -f 'fs/btrfs.c' || echo
+> -'./'`fs/btrfs.c
+> -| fs/btrfs.c: In function 'grub_btrfs_read_logical':
+> -| fs/btrfs.c:791:5: error: 'err' may be used uninitialized in this function
+> -[-Werror=maybe-uninitialized]
+> -| fs/btrfs.c:592:18: note: 'err' was declared here
+> -| cc1: all warnings being treated as errors
+> -| make[3]: *** [fs/btrfs_module-btrfs.o] Error 1
+> -
+> -Signed-Off-By: Nitin A Kamble <nitin.a.kamble@intel.com>
+> -2012/04/13
+> -Index: grub-1.99/grub-core/fs/btrfs.c
+> -===================================================================
+> ---- grub-1.99.orig/grub-core/fs/btrfs.c
+> -+++ grub-1.99/grub-core/fs/btrfs.c
+> -@@ -589,7 +589,7 @@ grub_btrfs_read_logical (struct grub_btr
+> -       struct grub_btrfs_key *key;
+> -       struct grub_btrfs_chunk_item *chunk;
+> -       grub_uint64_t csize;
+> --      grub_err_t err;
+> -+      grub_err_t err = 0;
+> -       struct grub_btrfs_key key_out;
+> -       int challoc = 0;
+> -       grub_device_t dev;
+> diff --git a/meta/recipes-bsp/grub/files/grub-1.99-gcc-4.7.0.patch b/meta/recipes-bsp/grub/files/grub-1.99-gcc-4.7.0.patch
+> deleted file mode 100644
+> index 545954a..0000000
+> --- a/meta/recipes-bsp/grub/files/grub-1.99-gcc-4.7.0.patch
+> +++ /dev/null
+> @@ -1,34 +0,0 @@
+> -Upstream-Status: backport from fedora
+> -
+> -2012/04/13
+> -Signed-Off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
+> -
+> -From b0f4ef523b69a497d69820c09bbb07484a6b09cc Mon Sep 17 00:00:00 2001
+> -From: Peter Jones <pjones@redhat.com>
+> -Date: Wed, 7 Mar 2012 09:53:50 -0500
+> -Subject: [PATCH] Fix gcc error that kills build.
+> -
+> ----
+> - conf/Makefile.common         |    4 ++--
+> - 1 files changed, 2 insertions(+), 2 deletions(-)
+> -
+> -diff --git a/conf/Makefile.common b/conf/Makefile.common
+> -index 2040a2e..b3ba765 100644
+> ---- a/conf/Makefile.common
+> -+++ b/conf/Makefile.common
+> -@@ -11,10 +11,10 @@ if COND_i386_pc
+> -   CFLAGS_PLATFORM += -mrtd -mregparm=3
+> - endif
+> - if COND_i386_efi
+> --  LDFLAGS_PLATFORM = -melf_i386
+> -+  LDFLAGS_PLATFORM = -m32
+> - endif
+> - if COND_x86_64_efi
+> --  LDFLAGS_PLATFORM = -melf_x86_64
+> -+  LDFLAGS_PLATFORM = -m64
+> - endif
+> - if COND_i386_qemu
+> -   CFLAGS_PLATFORM += -mrtd -mregparm=3
+> ---
+> -1.7.7.6
+> -
+> diff --git a/meta/recipes-bsp/grub/files/grub-1.99_fix_for_automake_1.11.2.patch b/meta/recipes-bsp/grub/files/grub-1.99_fix_for_automake_1.11.2.patch
+> deleted file mode 100644
+> index 459b4fc..0000000
+> --- a/meta/recipes-bsp/grub/files/grub-1.99_fix_for_automake_1.11.2.patch
+> +++ /dev/null
+> @@ -1,179 +0,0 @@
+> -Upstream-Status: Backport
+> -
+> -http://bzr.savannah.gnu.org/lh/grub/trunk/grub/revision/3766
+> -    Handle newer autotools. Add some missing quotes while on it.
+> -
+> -http://bzr.savannah.gnu.org/lh/grub/trunk/grub/revision/3983
+> -    gentpl.py: Remove obsolete pkglib_DATA handling.
+> -
+> -Signed-off-by: Jesse Zhang <sen.zhang@windriver.com>
+> -
+> -diff --git a/Makefile.am b/Makefile.am
+> -index 9301c91..d706968 100644
+> ---- a/Makefile.am
+> -+++ b/Makefile.am
+> -@@ -101,8 +101,8 @@ CLEANFILES += widthspec.h
+> - # Install config.h into platformdir
+> - platform_HEADERS = config.h
+> -
+> --pkglib_DATA += grub-mkconfig_lib
+> --pkglib_DATA += update-grub_lib
+> -+pkgdata_DATA += grub-mkconfig_lib
+> -+pkgdata_DATA += update-grub_lib
+> -
+> -
+> - if COND_i386_coreboot
+> -diff --git a/conf/Makefile.common b/conf/Makefile.common
+> -index 5aa13cd..2040a2e 100644
+> ---- a/conf/Makefile.common
+> -+++ b/conf/Makefile.common
+> -@@ -137,7 +137,7 @@ KERNEL_HEADER_FILES =
+> -
+> - man_MANS =
+> - noinst_DATA =
+> --pkglib_DATA =
+> -+pkgdata_DATA =
+> - bin_SCRIPTS =
+> - sbin_SCRIPTS =
+> - bin_PROGRAMS =
+> -@@ -147,7 +147,6 @@ check_SCRIPTS =
+> - grubconf_DATA =
+> - check_PROGRAMS =
+> - noinst_SCRIPTS =
+> --pkglib_SCRIPTS =
+> - noinst_PROGRAMS =
+> - grubconf_SCRIPTS =
+> - noinst_LIBRARIES =
+> -diff --git a/gentpl.py b/gentpl.py
+> -index a42a606..7992376 100644
+> ---- a/gentpl.py
+> -+++ b/gentpl.py
+> -@@ -440,7 +440,7 @@ def script(platform):
+> -     r += "[+ ENDIF +]"
+> -
+> -     r += rule("[+ name +]", platform_sources(platform) + " $(top_builddir)/config.status", """
+> --$(top_builddir)/config.status --file=-:$< | sed -e 's,@pkglib_DATA@,$(pkglib_DATA),g' > $@
+> -+$(top_builddir)/config.status --file=$@:$<
+> - chmod a+x [+ name +]
+> - """)
+> -
+> -diff --git a/util/grub-mkconfig.in b/util/grub-mkconfig.in
+> -index afc66f8..0c81084 100644
+> ---- a/util/grub-mkconfig.in
+> -+++ b/util/grub-mkconfig.in
+> -@@ -95,7 +95,7 @@ do
+> -     esac
+> - done
+> -
+> --. ${libdir}/grub/grub-mkconfig_lib
+> -+. ${datadir}/grub/grub-mkconfig_lib
+> -
+> - if [ "x$EUID" = "x" ] ; then
+> -   EUID=`id -u`
+> -diff --git a/util/grub.d/00_header.in b/util/grub.d/00_header.in
+> -index 9da1511..30d61f1 100644
+> ---- a/util/grub.d/00_header.in
+> -+++ b/util/grub.d/00_header.in
+> -@@ -25,7 +25,7 @@ libdir=@libdir@
+> - locale_dir=`echo ${GRUB_PREFIX}/locale | sed ${transform}`
+> - grub_lang=`echo $LANG | cut -d . -f 1`
+> -
+> --. ${libdir}/grub/grub-mkconfig_lib
+> -+. @datadir@/grub/grub-mkconfig_lib
+> -
+> - # Do this as early as possible, since other commands might depend on it.
+> - # (e.g. the `loadfont' command might need lvm or raid modules)
+> -diff --git a/util/grub.d/10_hurd.in b/util/grub.d/10_hurd.in
+> -index 8c54eab..d823ba3 100644
+> ---- a/util/grub.d/10_hurd.in
+> -+++ b/util/grub.d/10_hurd.in
+> -@@ -20,7 +20,7 @@ set -e
+> - prefix=@prefix@
+> - exec_prefix=@exec_prefix@
+> - libdir=@libdir@
+> --. ${libdir}/grub/grub-mkconfig_lib
+> -+. @datadir@/grub/grub-mkconfig_lib
+> -
+> - CLASS="--class gnu --class os"
+> -
+> -diff --git a/util/grub.d/10_kfreebsd.in b/util/grub.d/10_kfreebsd.in
+> -index 3600c74..fd8399b 100644
+> ---- a/util/grub.d/10_kfreebsd.in
+> -+++ b/util/grub.d/10_kfreebsd.in
+> -@@ -21,7 +21,7 @@ prefix=@prefix@
+> - exec_prefix=@exec_prefix@
+> - bindir=@bindir@
+> - libdir=@libdir@
+> --. ${libdir}/grub/grub-mkconfig_lib
+> -+. @datadir@/grub/grub-mkconfig_lib
+> -
+> - export TEXTDOMAIN=@PACKAGE@
+> - export TEXTDOMAINDIR=@localedir@
+> -diff --git a/util/grub.d/10_linux.in b/util/grub.d/10_linux.in
+> -index 1d1eb40..0977700 100644
+> ---- a/util/grub.d/10_linux.in
+> -+++ b/util/grub.d/10_linux.in
+> -@@ -21,7 +21,7 @@ prefix=@prefix@
+> - exec_prefix=@exec_prefix@
+> - bindir=@bindir@
+> - libdir=@libdir@
+> --. ${libdir}/grub/grub-mkconfig_lib
+> -+. @datadir@/grub/grub-mkconfig_lib
+> -
+> - export TEXTDOMAIN=@PACKAGE@
+> - export TEXTDOMAINDIR=@localedir@
+> -diff --git a/util/grub.d/10_netbsd.in b/util/grub.d/10_netbsd.in
+> -index ffd31ad..ce77096 100644
+> ---- a/util/grub.d/10_netbsd.in
+> -+++ b/util/grub.d/10_netbsd.in
+> -@@ -21,7 +21,7 @@ prefix=@prefix@
+> - exec_prefix=@exec_prefix@
+> - bindir=@bindir@
+> - libdir=@libdir@
+> --. ${libdir}/grub/grub-mkconfig_lib
+> -+. @datadir@/grub/grub-mkconfig_lib
+> -
+> - export TEXTDOMAIN=@PACKAGE@
+> - export TEXTDOMAINDIR=@localedir@
+> -diff --git a/util/grub.d/10_windows.in b/util/grub.d/10_windows.in
+> -index fd068dd..9b73dc6 100644
+> ---- a/util/grub.d/10_windows.in
+> -+++ b/util/grub.d/10_windows.in
+> -@@ -20,7 +20,7 @@ set -e
+> - prefix=@prefix@
+> - exec_prefix=@exec_prefix@
+> - libdir=@libdir@
+> --. ${libdir}/grub/grub-mkconfig_lib
+> -+. @datadir@/grub/grub-mkconfig_lib
+> -
+> - case "`uname 2>/dev/null`" in
+> -   CYGWIN*)  ;;
+> -diff --git a/util/grub.d/20_linux_xen.in b/util/grub.d/20_linux_xen.in
+> -index a900760..aef5bea 100644
+> ---- a/util/grub.d/20_linux_xen.in
+> -+++ b/util/grub.d/20_linux_xen.in
+> -@@ -21,7 +21,7 @@ prefix=@prefix@
+> - exec_prefix=@exec_prefix@
+> - bindir=@bindir@
+> - libdir=@libdir@
+> --. ${libdir}/grub/grub-mkconfig_lib
+> -+. @datadir@/grub/grub-mkconfig_lib
+> -
+> - export TEXTDOMAIN=@PACKAGE@
+> - export TEXTDOMAINDIR=@localedir@
+> -diff --git a/util/grub.d/30_os-prober.in b/util/grub.d/30_os-prober.in
+> -index d9d4b0a..485b224 100644
+> ---- a/util/grub.d/30_os-prober.in
+> -+++ b/util/grub.d/30_os-prober.in
+> -@@ -21,7 +21,7 @@ prefix=@prefix@
+> - exec_prefix=@exec_prefix@
+> - libdir=@libdir@
+> -
+> --. ${libdir}/grub/grub-mkconfig_lib
+> -+. @datadir@/grub/grub-mkconfig_lib
+> -
+> - if [ "x${GRUB_DISABLE_OS_PROBER}" = "xtrue" ]; then
+> -   exit 0
+> ---
+> -1.7.7
+> -
+> diff --git a/meta/recipes-bsp/grub/grub-1.99/grub-1.99-lazy_stat.patch b/meta/recipes-bsp/grub/grub-1.99/grub-1.99-lazy_stat.patch
+> deleted file mode 100644
+> index cde8b87..0000000
+> --- a/meta/recipes-bsp/grub/grub-1.99/grub-1.99-lazy_stat.patch
+> +++ /dev/null
+> @@ -1,64 +0,0 @@
+> -Upstream-Status: Backport
+> -
+> -Patch is a slightly edited version from debian. Upstream link is:
+> -http://bzr.savannah.gnu.org/lh/grub/trunk/grub/revision/3318
+> -
+> -Description: Don't stat devices unless we have to
+> -Author: Vladimir Serbinenko <phcoder@gmail.com>
+> -Author: Colin Watson <cjwatson@ubuntu.com>
+> -Bug-Debian: http://bugs.debian.org/627587
+> -Forwarded: yes
+> -Applied-Upstream: http://bazaar.launchpad.net/~vcs-imports/grub/grub2-bzr/revision/3318
+> -Last-Update: 2011-05-31
+> -
+> -Index: b/grub-core/kern/emu/getroot.c
+> -===================================================================
+> ---- a/grub-core/kern/emu/getroot.c
+> -+++ b/grub-core/kern/emu/getroot.c
+> -@@ -358,7 +358,7 @@
+> -
+> -       if (S_ISLNK (st.st_mode)) {
+> - #ifdef __linux__
+> --	if (strcmp (dir, "mapper") == 0) {
+> -+	if (strcmp (dir, "mapper") == 0 || strcmp (dir, "/dev/mapper") == 0) {
+> - 	  /* Follow symbolic links under /dev/mapper/; the canonical name
+> - 	     may be something like /dev/dm-0, but the names under
+> - 	     /dev/mapper/ are more human-readable and so we prefer them if
+> -@@ -609,20 +609,27 @@
+> -
+> -   if (os_dev)
+> -     {
+> --      if (stat (os_dev, &st) >= 0)
+> --	dev = st.st_rdev;
+> --      else
+> --	grub_util_error ("cannot stat `%s'", os_dev);
+> --      free (os_dev);
+> -+      char *tmp = os_dev;
+> -+      os_dev = canonicalize_file_name (os_dev);
+> -+      free (tmp);
+> -     }
+> --  else
+> -+
+> -+  if (os_dev)
+> -     {
+> --      if (stat (dir, &st) >= 0)
+> --	dev = st.st_dev;
+> --      else
+> --	grub_util_error ("cannot stat `%s'", dir);
+> -+      if (strncmp (os_dev, "/dev/dm-", sizeof ("/dev/dm-") - 1) != 0)
+> -+	return os_dev;
+> -+      if (stat (os_dev, &st) < 0)
+> -+	grub_util_error ("cannot stat `%s'", os_dev);
+> -+      free (os_dev);
+> -+      dev = st.st_rdev;
+> -+      return grub_find_device ("/dev/mapper", dev);
+> -     }
+> -
+> -+  if (stat (dir, &st) < 0)
+> -+    grub_util_error ("cannot stat `%s'", dir);
+> -+
+> -+  dev = st.st_dev;
+> -+
+> - #ifdef __CYGWIN__
+> -   /* Cygwin specific function.  */
+> -   os_dev = grub_find_device (dir, dev);
+> diff --git a/meta/recipes-bsp/grub/grub-1.99/40_custom b/meta/recipes-bsp/grub/grub-2.00/40_custom
+> similarity index 100%
+> rename from meta/recipes-bsp/grub/grub-1.99/40_custom
+> rename to meta/recipes-bsp/grub/grub-2.00/40_custom
+> diff --git a/meta/recipes-bsp/grub/grub-1.99/grub-install.in.patch b/meta/recipes-bsp/grub/grub-2.00/grub-install.in.patch
+> similarity index 100%
+> rename from meta/recipes-bsp/grub/grub-1.99/grub-install.in.patch
+> rename to meta/recipes-bsp/grub/grub-2.00/grub-install.in.patch
+> diff --git a/meta/recipes-bsp/grub/grub-1.99/remove-gets.patch b/meta/recipes-bsp/grub/grub-2.00/remove-gets.patch
+> similarity index 100%
+> rename from meta/recipes-bsp/grub/grub-1.99/remove-gets.patch
+> rename to meta/recipes-bsp/grub/grub-2.00/remove-gets.patch
+> diff --git a/meta/recipes-bsp/grub/grub_1.99.bb b/meta/recipes-bsp/grub/grub_2.00.bb
+> similarity index 69%
+> rename from meta/recipes-bsp/grub/grub_1.99.bb
+> rename to meta/recipes-bsp/grub/grub_2.00.bb
+> index 9879651..73004d2 100644
+> --- a/meta/recipes-bsp/grub/grub_1.99.bb
+> +++ b/meta/recipes-bsp/grub/grub_2.00.bb
+> @@ -13,25 +13,22 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
 >
-> Sau!
+>   DEPENDS = "autogen-native"
+>   RDEPENDS_${PN} = "diffutils freetype"
+> -PR = "r11"
+> +PR = "r0"
 >
->    .../connman/{connman_1.3.bb => connman_1.4.bb}     |    9 +++--
->>   2 files changed, 4 insertions(+), 42 deletions(-)
->>   delete mode 100644 meta/recipes-connectivity/**
->> connman/connman/0001-storage-**check-that-the-string-isn-t-**
->> empty-before-spl.patch
->>   rename meta/recipes-connectivity/**connman/{connman_1.3.bb =>
->> connman_1.4.bb} (69%)
->>
->> diff --git a/meta/recipes-connectivity/**connman/connman/0001-storage-**
->> check-that-the-string-isn-t-**empty-before-spl.patch
->> b/meta/recipes-connectivity/**connman/connman/0001-storage-**
->> check-that-the-string-isn-t-**empty-before-spl.patch
->> deleted file mode 100644
->> index c92b586..0000000
->> --- a/meta/recipes-connectivity/**connman/connman/0001-storage-**
->> check-that-the-string-isn-t-**empty-before-spl.patch
->> +++ /dev/null
->> @@ -1,37 +0,0 @@
->> -From ea8c7b3efce4c1762411e073893e94**8de5d552d6 Mon Sep 17 00:00:00 2001
->> -From: Ross Burton <ross.burton@intel.com>
->> -Date: Tue, 17 Jul 2012 16:04:12 +0100
->> -Subject: [PATCH] storage: check that the string isn't empty before
->> splitting
->> -
->> -If the string was non-NULL but empty (str="\0"), the following \0
->> assignment
->> -would write to str[-1] and thus cause memory corruption.
->> -
->> -On PPC and MIPS, this was causing crashes in glibc.
->> -
->> -Signed-off-by: Ross Burton <ross.burton@intel.com>
->> -Upstream-Status: Submitted
->> -
->> ----
->> - src/storage.c |    6 +++++-
->> - 1 file changed, 5 insertions(+), 1 deletion(-)
->> -
->> -diff --git a/src/storage.c b/src/storage.c
->> -index 47bd0cb..20766a3 100644
->> ---- a/src/storage.c
->> -+++ b/src/storage.c
->> -@@ -212,7 +212,11 @@ gchar **connman_storage_get_**services()
->> -       closedir(dir);
->> -
->> -       str = g_string_free(result, FALSE);
->> --      if (str) {
->> -+      if (str && str[0] != '\0') {
->> -+              /*
->> -+               * Remove the trailing separator so that services doesn't
->> end up
->> -+               * with an empty element.
->> -+               */
->> -               str[strlen(str) - 1] = '\0';
->> -               services = g_strsplit(str, "/", -1);
->> -       }
->> ---
->> -1.7.10.4
->> -
->> diff --git a/meta/recipes-connectivity/**connman/connman_1.3.bbb/meta/recipes-connectivity/
->> **connman/connman_1.4.bb
->> similarity index 69%
->> rename from meta/recipes-connectivity/**connman/connman_1.3.bb
->> rename to meta/recipes-connectivity/**connman/connman_1.4.bb
->> index 4d82794..bd8ba65 100644
->> --- a/meta/recipes-connectivity/**connman/connman_1.3.bb
->> +++ b/meta/recipes-connectivity/**connman/connman_1.4.bb
->> @@ -1,13 +1,12 @@
->>   require connman.inc
->>
->> -# 1.3 tag
->> -SRCREV = "**3c0fa84091524c7cd6237744f2088f**fee2f1d5ad"
->> +# 1.4 tag
->> +SRCREV = "**f701bbca259f1f35e68d338f31f537**3f75f3da5f"
->>   SRC_URI  = "git://git.kernel.org/pub/scm/**network/connman/connman.git<http://git.kernel.org/pub/scm/network/connman/connman.git>\
->>               file://0001-plugin.h-Change-**visibility-to-default-for-**debug-symb.patch
->> \
->>               file://add_xuser_dbus_**permission.patch \
->>               file://connman \
->>               file://0002-storage.c-If-**there-is-no-d_type-support-**use-fstatat.patch
->> \
->> -            file://0001-timezone.c-If-**there-is-no-d_type-support-**use-fstatat.patch
->> \
->> -            file://0001-storage-check-**that-the-string-isn-t-empty-**
->> before-spl.patch"
->> +            file://0001-timezone.c-If-**there-is-no-d_type-support-**
->> use-fstatat.patch"
->>   S = "${WORKDIR}/git"
->> -PR = "${INC_PR}.2"
->> +PR = "${INC_PR}.0"
->>
->>
-> ______________________________**_________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.**openembedded.org<Openembedded-core@lists.openembedded.org>
-> http://lists.linuxtogo.org/**cgi-bin/mailman/listinfo/**openembedded-core<http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>
+>   SRC_URI = "ftp://ftp.gnu.org/gnu/grub/grub-${PV}.tar.gz \
+>             file://grub-install.in.patch \
+> -          file://grub-1.99_fix_for_automake_1.11.2.patch \
+>             file://grub-1.99-fpmath-sse-387-fix.patch \
+> -          file://grub-1.99-gcc-4.7.0.patch \
+> -          file://grub-1.99-gcc-4.7.0-uninitialized-var-errors.patch \
+> -          file://grub-1.99-gcc-4.7.0-strict-aliasing-errors.patch \
+> -          file://grub-1.99-fix-enable_execute_stack-check.patch \
+>             file://remove-gets.patch \
+> -          file://grub-1.99-lazy_stat.patch \
+>             file://40_custom"
+>
+> -SRC_URI[md5sum] = "ca9f2a2d571b57fc5c53212d1d22e2b5"
+> -SRC_URI[sha256sum] = "b91f420f2c51f6155e088e34ff99bea09cc1fb89585cf7c0179644e57abd28ff"
+> +SRC_URI[md5sum] = "e927540b6eda8b024fb0391eeaa4091c"
+> +SRC_URI[sha256sum] = "65b39a0558f8c802209c574f4d02ca263a804e8a564bc6caf1cd0fd3b3cc11e3"
+>
+>   COMPATIBLE_HOST = '(x86_64.*|i.86.*)-(linux|freebsd.*)'
+>
+> +FILES_${PN}-dbg += "${libdir}/${BPN}/i386-pc/.debug"
+> +
+> +
+>   inherit autotools
+>   inherit gettext
+>
+> @@ -43,3 +40,4 @@ do_install_append () {
+>   }
+>
+>   INSANE_SKIP_${PN} = "arch"
+> +INSANE_SKIP_${PN}-dbg = "arch"
 >
 
---e89a8f5028be90e04204c7789de2
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
 
-<p>That patch was included in 1.4 version.</p>
-<div class=3D"gmail_quote">On Aug 17, 2012 7:20 PM, &quot;Saul Wold&quot; &=
-lt;<a href=3D"mailto:sgw@linux.intel.com">sgw@linux.intel.com</a>&gt; wrote=
-:<br type=3D"attribution"><blockquote class=3D"gmail_quote" style=3D"margin=
-:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
-On 08/16/2012 05:55 AM, Constantin Musca wrote:<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">
-Signed-off-by: Constantin Musca &lt;<a href=3D"mailto:constantinx.musca@int=
-el.com" target=3D"_blank">constantinx.musca@intel.com</a>&gt;<br>
----<br>
-=A0 ...ck-that-the-string-isn-t-<u></u>empty-before-spl.patch | =A0 37 ----=
-----------------<br>
-</blockquote>
-Why was the patch removed, need to have that in the commit message also.<br=
->
-<br>
-Sau!<br>
-<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">
-=A0 .../connman/{<a href=3D"http://connman_1.3.bb" target=3D"_blank">connma=
-n_1.3.bb</a> =3D&gt; <a href=3D"http://connman_1.4.bb" target=3D"_blank">co=
-nnman_1.4.bb</a>} =A0 =A0 | =A0 =A09 +++--<br>
-=A0 2 files changed, 4 insertions(+), 42 deletions(-)<br>
-=A0 delete mode 100644 meta/recipes-connectivity/<u></u>connman/connman/000=
-1-storage-<u></u>check-that-the-string-isn-t-<u></u>empty-before-spl.patch<=
-br>
-=A0 rename meta/recipes-connectivity/<u></u>connman/{<a href=3D"http://conn=
-man_1.3.bb" target=3D"_blank">connman_1.3.bb</a> =3D&gt; <a href=3D"http://=
-connman_1.4.bb" target=3D"_blank">connman_1.4.bb</a>} (69%)<br>
-<br>
-diff --git a/meta/recipes-connectivity/<u></u>connman/connman/0001-storage-=
-<u></u>check-that-the-string-isn-t-<u></u>empty-before-spl.patch b/meta/rec=
-ipes-connectivity/<u></u>connman/connman/0001-storage-<u></u>check-that-the=
--string-isn-t-<u></u>empty-before-spl.patch<br>
-
-deleted file mode 100644<br>
-index c92b586..0000000<br>
---- a/meta/recipes-connectivity/<u></u>connman/connman/0001-storage-<u></u>=
-check-that-the-string-isn-t-<u></u>empty-before-spl.patch<br>
-+++ /dev/null<br>
-@@ -1,37 +0,0 @@<br>
--From ea8c7b3efce4c1762411e073893e94<u></u>8de5d552d6 Mon Sep 17 00:00:00 2=
-001<br>
--From: Ross Burton &lt;<a href=3D"mailto:ross.burton@intel.com" target=3D"_=
-blank">ross.burton@intel.com</a>&gt;<br>
--Date: Tue, 17 Jul 2012 16:04:12 +0100<br>
--Subject: [PATCH] storage: check that the string isn&#39;t empty before spl=
-itting<br>
--<br>
--If the string was non-NULL but empty (str=3D&quot;\0&quot;), the following=
- \0 assignment<br>
--would write to str[-1] and thus cause memory corruption.<br>
--<br>
--On PPC and MIPS, this was causing crashes in glibc.<br>
--<br>
--Signed-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@intel.com" ta=
-rget=3D"_blank">ross.burton@intel.com</a>&gt;<br>
--Upstream-Status: Submitted<br>
--<br>
-----<br>
-- src/storage.c | =A0 =A06 +++++-<br>
-- 1 file changed, 5 insertions(+), 1 deletion(-)<br>
--<br>
--diff --git a/src/storage.c b/src/storage.c<br>
--index 47bd0cb..20766a3 100644<br>
----- a/src/storage.c<br>
--+++ b/src/storage.c<br>
--@@ -212,7 +212,11 @@ gchar **connman_storage_get_<u></u>services()<br>
-- =A0 =A0 =A0 closedir(dir);<br>
--<br>
-- =A0 =A0 =A0 str =3D g_string_free(result, FALSE);<br>
--- =A0 =A0 =A0if (str) {<br>
--+ =A0 =A0 =A0if (str &amp;&amp; str[0] !=3D &#39;\0&#39;) {<br>
--+ =A0 =A0 =A0 =A0 =A0 =A0 =A0/*<br>
--+ =A0 =A0 =A0 =A0 =A0 =A0 =A0 * Remove the trailing separator so that serv=
-ices doesn&#39;t end up<br>
--+ =A0 =A0 =A0 =A0 =A0 =A0 =A0 * with an empty element.<br>
--+ =A0 =A0 =A0 =A0 =A0 =A0 =A0 */<br>
-- =A0 =A0 =A0 =A0 =A0 =A0 =A0 str[strlen(str) - 1] =3D &#39;\0&#39;;<br>
-- =A0 =A0 =A0 =A0 =A0 =A0 =A0 services =3D g_strsplit(str, &quot;/&quot;, -=
-1);<br>
-- =A0 =A0 =A0 }<br>
----<br>
--1.7.10.4<br>
--<br>
-diff --git a/meta/recipes-connectivity/<u></u>connman/<a href=3D"http://con=
-nman_1.3.bb" target=3D"_blank">connman_1.3.bb</a> b/meta/recipes-connectivi=
-ty/<u></u>connman/<a href=3D"http://connman_1.4.bb" target=3D"_blank">connm=
-an_1.4.bb</a><br>
-
-similarity index 69%<br>
-rename from meta/recipes-connectivity/<u></u>connman/<a href=3D"http://conn=
-man_1.3.bb" target=3D"_blank">connman_1.3.bb</a><br>
-rename to meta/recipes-connectivity/<u></u>connman/<a href=3D"http://connma=
-n_1.4.bb" target=3D"_blank">connman_1.4.bb</a><br>
-index 4d82794..bd8ba65 100644<br>
---- a/meta/recipes-connectivity/<u></u>connman/<a href=3D"http://connman_1.=
-3.bb" target=3D"_blank">connman_1.3.bb</a><br>
-+++ b/meta/recipes-connectivity/<u></u>connman/<a href=3D"http://connman_1.=
-4.bb" target=3D"_blank">connman_1.4.bb</a><br>
-@@ -1,13 +1,12 @@<br>
-=A0 require connman.inc<br>
-<br>
--# 1.3 tag<br>
--SRCREV =3D &quot;<u></u>3c0fa84091524c7cd6237744f2088f<u></u>fee2f1d5ad&qu=
-ot;<br>
-+# 1.4 tag<br>
-+SRCREV =3D &quot;<u></u>f701bbca259f1f35e68d338f31f537<u></u>3f75f3da5f&qu=
-ot;<br>
-=A0 SRC_URI =A0=3D &quot;git://<a href=3D"http://git.kernel.org/pub/scm/net=
-work/connman/connman.git" target=3D"_blank">git.kernel.org/pub/scm/<u></u>n=
-etwork/connman/connman.git</a> \<br>
-=A0 =A0 =A0 =A0 =A0 =A0 =A0 file://0001-plugin.h-Change-<u></u>visibility-t=
-o-default-for-<u></u>debug-symb.patch \<br>
-=A0 =A0 =A0 =A0 =A0 =A0 =A0 file://add_xuser_dbus_<u></u>permission.patch \=
-<br>
-=A0 =A0 =A0 =A0 =A0 =A0 =A0 file://connman \<br>
-=A0 =A0 =A0 =A0 =A0 =A0 =A0 file://0002-storage.c-If-<u></u>there-is-no-d_t=
-ype-support-<u></u>use-fstatat.patch \<br>
-- =A0 =A0 =A0 =A0 =A0 =A0file://0001-timezone.c-If-<u></u>there-is-no-d_typ=
-e-support-<u></u>use-fstatat.patch \<br>
-- =A0 =A0 =A0 =A0 =A0 =A0file://0001-storage-check-<u></u>that-the-string-i=
-sn-t-empty-<u></u>before-spl.patch&quot;<br>
-+ =A0 =A0 =A0 =A0 =A0 =A0file://0001-timezone.c-If-<u></u>there-is-no-d_typ=
-e-support-<u></u>use-fstatat.patch&quot;<br>
-=A0 S =3D &quot;${WORKDIR}/git&quot;<br>
--PR =3D &quot;${INC_PR}.2&quot;<br>
-+PR =3D &quot;${INC_PR}.0&quot;<br>
-<br>
-</blockquote>
-<br>
-______________________________<u></u>_________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
-k">Openembedded-core@lists.<u></u>openembedded.org</a><br>
-<a href=3D"http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded=
--core" target=3D"_blank">http://lists.linuxtogo.org/<u></u>cgi-bin/mailman/=
-listinfo/<u></u>openembedded-core</a><br>
-</blockquote></div>
-
---e89a8f5028be90e04204c7789de2--
