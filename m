@@ -1,39 +1,43 @@
-Received: from mail-gh0-f175.google.com ([209.85.160.175])
+Received: from eumx.net ([91.82.101.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <schnitzeltony@googlemail.com>) id 1T2KCa-0001Vj-9B
+	(envelope-from <ml@communistcode.co.uk>) id 1T2KLq-00022D-Oi
 	for openembedded-core@lists.openembedded.org;
-	Fri, 17 Aug 2012 12:54:52 +0200
-Received: by ghbz2 with SMTP id z2so4181412ghb.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Aug 2012 03:42:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type; bh=+l8ooYl0m6z+pyJjwPXf7CLB3SnQYdxSpmYfzAXquhk=;
-	b=oUPUo0LhQb5x9K63iITTDIxkg7HPn/GPWJl4Sy6E5LzZQuzcw37NGfv/Y3cM7MZ0G+
-	9Mbmhlzu0mKm83qjZz3lItQ2pSgHKM9l3PSKPl/hib+CQcHf7z2dmBnv8o7Un0spoxrH
-	MT4kLjrTkUvG75rTNaPviWKTtrTLxw+E5bQfZlOjJ4dXmc3Tf5XSLDK80gQ1BJEGjTmu
-	dCBjsj9i3pYC9iP1vimDf/39dDaGBu34U3w/15CC1IbucJ/QMk03gVwNXk2ihI60v0FH
-	WQAfN4oEKdrwZLtkoVMSCmx7J+JCx6rXj12aAZoFDwY5FqPEGCuSfhYgcX1VnxzoXRYI
-	IuLA==
+	Fri, 17 Aug 2012 13:04:26 +0200
+Received: from localhost ([127.0.0.1]:53312 helo=eumx.net)
+	by eumx.net with esmtp (Exim 4.72)
+	(envelope-from <ml@communistcode.co.uk>)
+	id 1T2KAG-00061f-D0; Fri, 17 Aug 2012 10:52:28 +0000
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=eumx.net; h=message-id
+	:date:from:reply-to:mime-version:to:cc:subject:references
+	:in-reply-to:content-type:content-transfer-encoding; s=default;
+	bh=iFTJDkmNQPDD4s51RqpNjH2v2YM=; b=sP/b4z8HzDPEtYDiQA1BcFFjT/kK
+	0d9TS9+3I0kCNUqsnrZwwa21I53Y5FBXayTZE02LhKmNHXXhdMy3o2pP93kNoYiH
+	n0RMA52kJQQKq/axQKedAZX6RrCxRMHXLtHkkm1b9Q4X7gpH20T6WphRoqEfxl0Z
+	XVbok65B1J2Uiu4=
+Received: from [195.171.99.130] (port=35654 helo=[192.168.0.47])
+	by eumx.net with esmtpa (Exim 4.72)
+	(envelope-from <ml@communistcode.co.uk>)
+	id 1T2KAG-00061c-An; Fri, 17 Aug 2012 10:52:28 +0000
+Message-ID: <502E22BF.4050809@communistcode.co.uk>
+Date: Fri, 17 Aug 2012 11:53:51 +0100
+From: Jack Mitchell <ml@communistcode.co.uk>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:14.0) Gecko/20120717 Thunderbird/14.0
 MIME-Version: 1.0
-Received: by 10.50.181.136 with SMTP id dw8mr1377056igc.31.1345200173099; Fri,
-	17 Aug 2012 03:42:53 -0700 (PDT)
-Received: by 10.64.18.13 with HTTP; Fri, 17 Aug 2012 03:42:53 -0700 (PDT)
-In-Reply-To: <1345196331.14667.86.camel@ted>
-References: <cover.1345174354.git.laurentiu.palcu@intel.com>
-	<92d6de11744098c3431309c5abc2f3217e166dac.1345174354.git.laurentiu.palcu@intel.com>
-	<1345196331.14667.86.camel@ted>
-Date: Fri, 17 Aug 2012 12:42:53 +0200
-Message-ID: <CALbNGRR3A35Jx2ia2S4s_RVQ5O2v1g1EUQALyLBtwj4=KDnXxA@mail.gmail.com>
-From: =?ISO-8859-1?Q?Andreas_M=FCller?= <schnitzeltony@googlemail.com>
-To: Patches and discussions about the oe-core layer
+To: Henning Heinold <heinold@inf.fu-berlin.de>
+References: <1345049073-27898-1-git-send-email-paul.eggleton@linux.intel.com>
+	<1566766.76zJMGCy1b@helios> <1345197209.26132.2.camel@ted>
+	<502E1777.6020006@communistcode.co.uk>
+	<20120817102638.GD17007@mi.fu-berlin.de>
+In-Reply-To: <20120817102638.GD17007@mi.fu-berlin.de>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/3] adt-installer: add support for relocatable SDK
+Subject: Re: [PATCH] classes/chrpath: trigger an error if chrpath fails
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: ml@communistcode.co.uk,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -44,28 +48,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Aug 2012 10:54:52 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Fri, 17 Aug 2012 11:04:26 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, Aug 17, 2012 at 11:38 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Fri, 2012-08-17 at 06:44 +0300, Laurentiu Palcu wrote:
->> Since we made the SDK relocatable, we have to add this functionality to
->> adt-installer too.
->>
->> Other:
->>  - Changed tabs to spaces in the recipe file too.
+On 17/08/12 11:26, Henning Heinold wrote:
+> On Fri, Aug 17, 2012 at 11:05:43AM +0100, Jack Mitchell wrote:
+>> any provider
+>> WARNING: Failed to fetch URL http://kernel.org/pub/linux/kernel/people/jsipek/guilt/guilt-0.33.tar.gz,
+>> attempting MIRRORS if available
+>> *ERROR: chrpath command failed with exit code 7
+>> ERROR: chrpath command failed with exit code 7*
 >
-> Shell functions use tabs, python uses spaces. The OE TSC has thought
-> long and hard about this and that is the decision. Its not perfect but
-> the alternatives will cause more problems than any benefit is worth.
-Is there some report/log/styleguide helping me to understand why we
-use two tab/space strategies instead of having spaces for all?
+> Hi,
+>
+> you can grep the logfiles in the work-dir for chrpath call and you will find the package. I saw it on some perl modules, but not now.
+>
+> Bye Henning
 
-Andreas
->
-> Cheers,
->
-> Richard
+Ok, here we go:
+
+    x86_64-linux/perl-native-5.14.2-r1/temp/log.do_populate_sysroot.30355:ERROR:
+    chrpath command failed with exit code 7
+    x86_64-linux/perl-native-5.14.2-r1/temp/log.do_populate_sysroot.30355:ERROR:
+    chrpath command failed with exit code 7
+
+This is on kraj/toolchain-rework, I don't know how synced with master it 
+is so apologies if it has already been fixed.
+
+
+-- 
+
+   Jack Mitchell (jack@embed.me.uk)
+   Embedded Systems Engineer
+   http://www.embed.me.uk
+
+--
+
 
 
