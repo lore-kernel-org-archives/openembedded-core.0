@@ -1,31 +1,40 @@
-Received: from mga03.intel.com ([143.182.124.21])
+Received: from eumx.net ([91.82.101.43])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1T2Mpe-0006NO-Fu
+	(envelope-from <ml@communistcode.co.uk>) id 1T2Mqc-0006Pt-IR
 	for openembedded-core@lists.openembedded.org;
-	Fri, 17 Aug 2012 15:43:22 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 17 Aug 2012 06:31:23 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.77,784,1336374000"; d="scan'208";a="182217838"
-Received: from unknown (HELO helios.localnet) ([10.252.121.90])
-	by azsmga001.ch.intel.com with ESMTP; 17 Aug 2012 06:31:21 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: ml@communistcode.co.uk
-Date: Fri, 17 Aug 2012 14:31:21 +0100
-Message-ID: <4413337.0EdOH8CKvX@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.9 (Linux/3.2.0-29-generic-pae; KDE/4.9.0; i686; ; )
-In-Reply-To: <502E22BF.4050809@communistcode.co.uk>
-References: <1345049073-27898-1-git-send-email-paul.eggleton@linux.intel.com>
-	<20120817102638.GD17007@mi.fu-berlin.de>
-	<502E22BF.4050809@communistcode.co.uk>
+	Fri, 17 Aug 2012 15:44:22 +0200
+Received: from localhost ([127.0.0.1]:49648 helo=eumx.net)
+	by eumx.net with esmtp (Exim 4.72)
+	(envelope-from <ml@communistcode.co.uk>) id 1T2Mf1-0002Eh-US
+	for openembedded-core@lists.openembedded.org;
+	Fri, 17 Aug 2012 13:32:24 +0000
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=eumx.net; h=message-id
+	:date:from:reply-to:mime-version:to:subject:references
+	:in-reply-to:content-type:content-transfer-encoding; s=default;
+	bh=iHEqfAZH8GYEaIYIJqTwiW1TsOI=; b=l6pgwQdM+zrlVB+qqEutWktQAI73
+	NqslVdyRAWkv0MriYARwh6AAUOb+BuGpRKmcuBLEhFftxw0ftn581kZqHxr/uYND
+	Zrx0p036jCI+3Kv+o2i01NZWSENAbXx+iaR49L0rnjqSEWnKzBfgts4bSN44zTU6
+	cS9CNtGEs2gt4BY=
+Received: from [195.171.99.130] (port=31180 helo=[192.168.0.47])
+	by eumx.net with esmtpa (Exim 4.72)
+	(envelope-from <ml@communistcode.co.uk>) id 1T2Mf1-0002Ee-QM
+	for openembedded-core@lists.openembedded.org;
+	Fri, 17 Aug 2012 13:32:23 +0000
+Message-ID: <502E4839.6070100@communistcode.co.uk>
+Date: Fri, 17 Aug 2012 14:33:45 +0100
+From: Jack Mitchell <ml@communistcode.co.uk>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:14.0) Gecko/20120717 Thunderbird/14.0
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] classes/chrpath: trigger an error if chrpath fails
+To: openembedded-core@lists.openembedded.org
+References: <1345209562.27428.5.camel@ted>
+In-Reply-To: <1345209562.27428.5.camel@ted>
+Subject: Re: utility-tasks: Set T to alternate location during do_clean
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Patches and discussions about the oe-core layer
+Reply-To: ml@communistcode.co.uk,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -36,61 +45,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Aug 2012 13:43:22 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Fri, 17 Aug 2012 13:44:22 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Friday 17 August 2012 11:53:51 Jack Mitchell wrote:
-> On 17/08/12 11:26, Henning Heinold wrote:
-> > On Fri, Aug 17, 2012 at 11:05:43AM +0100, Jack Mitchell wrote:
-> >> any provider
-> >> WARNING: Failed to fetch URL
-> >> http://kernel.org/pub/linux/kernel/people/jsipek/guilt/guilt-0.33.tar.gz
-> >> , attempting MIRRORS if available
-> >> *ERROR: chrpath command failed with exit code 7
-> >> ERROR: chrpath command failed with exit code 7*
-> > 
-> > Hi,
-> > 
-> > you can grep the logfiles in the work-dir for chrpath call and you will
-> > find the package. I saw it on some perl modules, but not now.
-> > 
-> > Bye Henning
-> 
-> Ok, here we go:
-> 
->    
-> x86_64-linux/perl-native-5.14.2-r1/temp/log.do_populate_sysroot.30355:ERROR
-> : chrpath command failed with exit code 7
->    
-> x86_64-linux/perl-native-5.14.2-r1/temp/log.do_populate_sysroot.30355:ERROR
-> : chrpath command failed with exit code 7
-> 
-> This is on kraj/toolchain-rework, I don't know how synced with master it
-> is so apologies if it has already been fixed.
+On 17/08/12 14:19, Richard Purdie wrote:
+> +T_task-clean = "${LOG_DIR}/cleanlogs/${PN}"
 
-I can confirm this; with the patch I have just sent to improve the error
-handling, on top of master I now get:
+Cheers Richard, this does the trick!
 
----------- snip -----------
-ERROR: perl-native: chrpath command failed with exit code 7:
-/home/paul/poky/poky/build/tmp/work/i686-linux/perl-native-5.14.2-r1/sysroot-destdir/home/paul/poky/poky/build/tmp/sysroots/i686-linux/usr/lib/perl-native/perl/5.14.2/auto/Time/HiRes/HiRes.so: RPATH=/lib/i386-linux-gnu
-new rpath '$ORIGIN/../../../../../../../../../..' too large; maximum length 19
-
-ERROR: Function failed
-ERROR: Logfile of failure stored in: /home/paul/poky/poky/build/tmp/work/i686-linux/perl-native-5.14.2-r1/temp/log.do_populate_sysroot.17120
-ERROR: Task 3 (/home/paul/poky/poky/meta/recipes-devtools/perl/perl-native_5.14.2.bb, do_populate_sysroot) failed with exit code '1'
----------- snip -----------
-
-This is with a from-scratch build of perl-native; TMPDIR in my case is
-"/home/paul/poky/poky/build/tmp" as you can probably tell from the above.
-
-Cheers,
-Paul
+Regards,
 
 -- 
 
-Paul Eggleton
-Intel Open Source Technology Centre
+   Jack Mitchell (jack@embed.me.uk)
+   Embedded Systems Engineer
+   http://www.embed.me.uk
+
+--
+
 
 
