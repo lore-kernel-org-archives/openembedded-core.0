@@ -1,38 +1,33 @@
-Received: from mail.windriver.com ([147.11.1.11])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Jackie.Huang@windriver.com>)
-	id 1T2J3q-0007rD-0L; Fri, 17 Aug 2012 11:41:46 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q7H9TjLS014663
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 17 Aug 2012 02:29:45 -0700 (PDT)
-Received: from [128.224.162.200] (128.224.162.200) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.309.2;
-	Fri, 17 Aug 2012 02:29:44 -0700
-Message-ID: <502E0F07.3010301@windriver.com>
-Date: Fri, 17 Aug 2012 17:29:43 +0800
-From: jhuang0 <jackie.huang@windriver.com>
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
-	rv:14.0) Gecko/20120713 Thunderbird/14.0
-MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>, "Burton, Ross"
-	<ross.burton@intel.com>
-References: <20120815133202.50B6D10218@opal>
-	<20120816103308.GA32088@jama.jama.net>
-	<20120816124239.GC32088@jama.jama.net>
-	<1B858668EC6A94408DCA5225FDFA85AA576F7B28@ALA-MBA.corp.ad.wrs.com>
-	<20120816143559.GD32088@jama.jama.net>
-	<1B858668EC6A94408DCA5225FDFA85AA576F7B6D@ALA-MBA.corp.ad.wrs.com>
-	<20120816220251.GC3625@jama.jama.net>
-	<502DA2D4.7030302@windriver.com>
-	<CAJTo0LYrwzMNkdZ6RsS-ku5Q001jCUNB5rie8=+g5-rNh9ARbQ@mail.gmail.com>
-In-Reply-To: <CAJTo0LYrwzMNkdZ6RsS-ku5Q001jCUNB5rie8=+g5-rNh9ARbQ@mail.gmail.com>
-Cc: "Zhao, Zhenfeng" <Zhenfeng.Zhao@windriver.com>,
-	Martin Jansa <martin.jansa@gmail.com>,
-	"openembedded-commits@lists.openembedded.org"
-	<openembedded-commits@lists.openembedded.org>
-Subject: Re: [oe-commits] Jackie Huang : gdk-pixbuf: fix the postinstall script failure when no icon is installed
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1T2J9o-00080D-Ux for openembedded-core@lists.openembedded.org;
+	Fri, 17 Aug 2012 11:47:57 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q7H9Zu3m007281;
+	Fri, 17 Aug 2012 10:35:56 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 06130-08; Fri, 17 Aug 2012 10:35:52 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q7H9ZlC0007275
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Fri, 17 Aug 2012 10:35:48 +0100
+Message-ID: <1345196146.14667.84.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Liang Li <liang.li@windriver.com>
+Date: Fri, 17 Aug 2012 10:35:46 +0100
+In-Reply-To: <20120817033209.GB19625@localhost>
+References: <1344008589-3660-1-git-send-email-liang.li@windriver.com>
+	<1344348160.9756.255.camel@ted> <20120808033742.GA19078@localhost>
+	<20120814021712.GB25748@localhost> <502D12E2.4000808@windriver.com>
+	<1345132684.14667.70.camel@ted> <20120817033209.GB19625@localhost>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: darren.hart@intel.com, openembedded-core@lists.openembedded.org
+Subject: Re: [discussion] perf: specify SLANG_INC dir for perf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,52 +42,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Aug 2012 09:41:46 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Fri, 17 Aug 2012 09:47:57 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
+On Fri, 2012-08-17 at 11:32 +0800, Liang Li wrote:
+> On 2012-08-16 23:58, Richard Purdie <richard.purdie@linuxfoundation.org> wrote:
+> > On Thu, 2012-08-16 at 11:33 -0400, Bruce Ashfield wrote:
+> > > On 12-08-13 10:17 PM, Liang Li wrote:
+> > > > Hi Richard,
+> > > >
+> > > > Ping ...
+> > > >
+> > > > Hopefully you could recall sufficient context from this thread about
+> > > > the 'include path for slang.h' cause compile error issue that we are
+> > > > trying to fix here.
+> > > 
+> > > Bump.
+> > > 
+> > > I'm holding off on merging a kernel patch for this while this is still
+> > > outstanding.
+> > > 
+> > > Can I distill this into the following (in the hope of resolving it).
+> > > 
+> > >    - do we want to fix this problem for all kernels, or just the linux-yocto
+> > >      ones ? And by 'fix', I mean without the requirement of porting
+> > >      a kernel patch to older recipes.
+> > 
+> > I propose we add a sed expression to the general kernel do_install which
+> > changes the -I/usr/include/slang -> -I=/usr/include/slang. That should
+> > be generic, acceptable to upstream and fixes all kernel versions.
+> > 
+> > Comments?
+> > 
+> 
+> Good advise, so the kernel patch can be revised to:
+> 
+> diff --git a/tools/perf/Makefile b/tools/perf/Makefile
+> index 067f2df..071986c 100644
+> --- a/tools/perf/Makefile
+> +++ b/tools/perf/Makefile
+> @@ -497,7 +497,7 @@ else
+>  		BASIC_CFLAGS += -DNO_NEWT_SUPPORT
+>  	else
+>  		# Some releases like Fedora has /usr/include/slang/slang.h other than /usr/include/slang.h
+> -		SLANG_INC ?= -I/usr/include/slang
+> +		SLANG_INC ?= -idirafter /usr/include/slang
+>  		BASIC_CFLAGS += $(SLANG_INC)
+>  
+>  		EXTLIBS += -lnewt -lslang
 
+Why do you need a kernel patch at all with the solution I mentioned
+above?
 
-On 8/17/2012 3:21 PM, Burton, Ross wrote:
-> On 17 August 2012 02:48, jhuang0 <jackie.huang@windriver.com> wrote:
->> Yeah, it would be better for the postinstall script, but for
->> xcursor-transparent-theme without index.theme file, is it still a problem?
->
-> Running gtk-update-icon-cache doesn't make sense on themes without an
-> index.theme, because without an index.theme there are not any icons to
+> With this, we might not have to touch perf.bb. So seems like we'll use
+> this solution? :)
 
-I see, so themes without an index.theme is not an issue, postinstall 
-script should handle this case, I will change to call 
-gtk-update-icon-cache only for themes with index.theme just as Martin's 
-suggestion.
+You should need to add the sed to the general kernel do_install. We
+should also get this fixed upstream in the mainline kernel. We shouldn't
+need a kernel patch or any recipe change to perf.
 
-Thanks,
-Jackie
+Cheers,
 
-> cache (xcursor themes are different).  From the man page:
->
-> "It expects to be given the path to a icon theme directory containing
-> an index.theme, e.g.  /usr/share/icons/hicolor, and writes a
-> icon-theme.cache containing cached information about the icons in the
-> directory tree below the given directory."
->
-> Use -t to gtk-update-icon-cache, or filter the list of directories to
-> only include ones with index.theme files.  Either is appropriate.
->
-> Ross
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
->
+Richard
 
--- 
-Jackie Huang
-WIND RIVER | China Development Center
-MSN:jackielily@hotmail.com
-Tel: +86 8477 8594
-Mobile: +86 138 1027 4745
 
 
