@@ -1,31 +1,39 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail-we0-f175.google.com ([74.125.82.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Bruce.Ashfield@windriver.com>) id 1T2MGx-0005S8-Ja
+	(envelope-from <martin.jansa@gmail.com>) id 1T2MIJ-0005VH-1z
 	for openembedded-core@lists.openembedded.org;
-	Fri, 17 Aug 2012 15:07:31 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q7HCtU8p012917
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 17 Aug 2012 05:55:30 -0700 (PDT)
-Received: from [128.224.146.67] (128.224.146.67) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.309.2;
-	Fri, 17 Aug 2012 05:55:30 -0700
-Message-ID: <502E3F3D.3090507@windriver.com>
-Date: Fri, 17 Aug 2012 08:55:25 -0400
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:12.0) Gecko/20120430 Thunderbird/12.0.1
+	Fri, 17 Aug 2012 15:08:55 +0200
+Received: by weyr6 with SMTP id r6so2530895wey.6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 17 Aug 2012 05:56:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=TmLTLskmLv1YVTzPb9XdEz7yWSUeZXab2LF9F4Y9w54=;
+	b=n9yfbN6nIMUwtI42UCGOa9ztST7Qs9FmXlGA5jTAkAaBzfMAagYfKuUI1I8fYefrop
+	nVuXqUq+86m/DbnlrpuM01BN4PLPm8YFLmkv0gkB73Y+GFIkV6NgP5sHeEyLLtMlGt5e
+	j6i2v/6RGHjYLPPsyUEG0UDYhQBx4eCM8vzxp9rIv3HqW68fFxu4cWZuBxSgIdsJ45BZ
+	fLy1Cv1n/SK8XGf83/qBWJrW6Om2WJ6brEsqdRh5Pjazl48KnJSKvicV0Z5xfh4rSHk4
+	40tjbCFei4gwrR87Sph1j/KnRQQoCEHh/QovA8+Wfqh2dEjW8Tx16skRfJ/ZppOjrA1y
+	wVyw==
+Received: by 10.216.93.6 with SMTP id k6mr2690522wef.86.1345208216552;
+	Fri, 17 Aug 2012 05:56:56 -0700 (PDT)
+Received: from localhost ([94.230.152.246])
+	by mx.google.com with ESMTPS id w7sm9646086wiz.0.2012.08.17.05.56.55
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 17 Aug 2012 05:56:55 -0700 (PDT)
+Date: Fri, 17 Aug 2012 14:56:53 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Message-ID: <20120817125653.GL3625@jama.jama.net>
+References: <cover.1345203203.git.ross.burton@intel.com>
+	<3890692.qcbBpDRmfO@helios> <20120817123916.GJ3625@jama.jama.net>
+	<5851541.vDHObiJJ2D@helios> <20120817125427.GK3625@jama.jama.net>
 MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <1344008589-3660-1-git-send-email-liang.li@windriver.com>
-	<1344348160.9756.255.camel@ted> <20120808033742.GA19078@localhost>
-	<20120814021712.GB25748@localhost> <502D12E2.4000808@windriver.com>
-	<1345132684.14667.70.camel@ted> <20120817033209.GB19625@localhost>
-	<1345196146.14667.84.camel@ted> <20120817100001.GA16621@localhost>
-	<1345200782.26132.18.camel@ted>
-In-Reply-To: <1345200782.26132.18.camel@ted>
-Cc: darren.hart@intel.com, openembedded-core@lists.openembedded.org
-Subject: Re: [discussion] perf: specify SLANG_INC dir for perf
+In-Reply-To: <20120817125427.GK3625@jama.jama.net>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/2] Remove older GTK+ versions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,60 +48,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Aug 2012 13:07:32 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 17 Aug 2012 13:08:55 -0000
+X-Groupsio-MsgNum: 27717
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="fDERRRNgB4on1jOB"
+Content-Disposition: inline
 
-On 12-08-17 06:53 AM, Richard Purdie wrote:
-> On Fri, 2012-08-17 at 18:00 +0800, Liang Li wrote:
->> I am totally confused, you mentioned 'general kernel do_install', I
->> assume it's oe-core kernel.bbclass concept. Then you mentioned 'get
->> the fix upstream in the mainline kernel', how could that happen?
->>
->> We are discussing about the solution to 'fix the compile warning to
->> error' stuff that triggered by the '-I/usr/include/slang', right?
->
-> Yes.
->
->>   We do not necessarily have to change recipe to fix it since the issue
->> is not introduced by the recipe, the hard coded '-I/usr/include/slang'
->> in the Makefile cause the issue, we can fix the root cause by kernel
->> patch(other than just comment the line out). I see your previous patch
->> to kernel, by comment out the '-I/usr/include/slang' line in the
->> Makefile, is the same behavior, but we won't have the change(comment
->> out -I.. in Makefile) upstream to mainline, right?
->
-> I am suggesting that firstly, someone send a patch to the mainline
-> kernel which changes -I/usr/include/slang to -I=/usr/include/slang in
-> that Makefile.
->
-> Secondly, I'm suggesting that we add a line to kernel_do_install() in
-> kernel.bbclass which does a sed on the Makefile as installed into
-> $kerneldir which changes -I/usr/include/slang to -I=/usr/include/slang.
->
-> We can then drop the patch I added to the linux-yocto kernels.
->
-> This is all that should be needed, it should fix all the issues people
-> have reported in a way that is acceptable to everyone.
+--fDERRRNgB4on1jOB
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-This is what I was shooting for as well, the oe-core fix is separate
-from the upstream kernel fix. We'll fix our builds first, and then
-work for a solution in perf upstream.
+On Fri, Aug 17, 2012 at 02:54:27PM +0200, Martin Jansa wrote:
+> On Fri, Aug 17, 2012 at 01:48:45PM +0100, Paul Eggleton wrote:
+> > On Friday 17 August 2012 14:39:16 Martin Jansa wrote:
+> > > Should I file a but to fix DEFAULT_PREFERENCE between layers?
+> >=20
+> > We've discussed this problem before - the trouble is we would have to c=
+hange=20
+> > the way the version preference calculation works, and I'm not sure we w=
+ill be=20
+> > able to do that without breaking assumptions that people currently rely=
+ upon=20
+> > in the process. By all means file a bug, but I think coming up with a p=
+ractical=20
+> > solution is going to be tricky.
+> > =20
+> > > Because there is also use case when newer development version is added
+> > > to e.g. meta-oe with negative D_P and only users who decide to test/u=
+se
+> > > that version should get it, if they define P_V for this new version.
+> >=20
+> > This is also undesirable for meta-oe IMHO - as a general principle, met=
+a-oe=20
+> > shouldn't be trying to both add additional recipes *and* provide newer/=
+older=20
+> > versions of recipes that are in OE-Core. Please, let's get the new vers=
+ions=20
+> > into OE-Core or if they're too risky/broken for some use cases for that=
+, then=20
+> > they belong in people's distro layers. (Practically I don't think there=
+ are=20
+> > that many instances of new versions of OE-Core recipes that people want=
+ to use=20
+> > that would be actually rejected by OE-Core).
+>=20
+> What if newer version is needed for recipe which exists only in meta-oe?
+>=20
+> I had this in meta-efl where webkit-efl was sometimes segfaulting when
+> older stable version of libsoup2.4 was used, upstream solved that by
+> recommending development version of libsoup2.4, but as soon as I've
+> added it to meta-efl everybody (including users which don't use
+> webkit-efl from meta-efl - don't need this libsoup2.4) got it as
+> default.
+>=20
+> Yes I could have added this libsoup2.4 only to meta-shr (where I had
+> P_V for that) and keep webkit-efl broken for everyone else, or try to
+> add developement version of libsoup2.4 to oe-core..
 
-My only requirement was that our sed fix still work when kernels start
-appearing with it fixed upstream .. something that shouldn't be hard
-to do.
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D2964
 
-Cheers,
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-Bruce
+--fDERRRNgB4on1jOB
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
->
-> Cheers,
->
-> Richard
->
->
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
 
+iEYEARECAAYFAlAuP5UACgkQN1Ujt2V2gBza8ACglr6B3ARPM0/3MYGCNCenCC0/
+4SYAoKSpRmjwvyGct1CYY3Y40quYibQD
+=W4AK
+-----END PGP SIGNATURE-----
 
-
+--fDERRRNgB4on1jOB--
