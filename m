@@ -1,26 +1,25 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1T2Tm1-0008WT-6S
+	(envelope-from <sgw@linux.intel.com>) id 1T2TmZ-00007K-1O
 	for openembedded-core@lists.openembedded.org;
-	Fri, 17 Aug 2012 23:08:05 +0200
+	Fri, 17 Aug 2012 23:08:39 +0200
 Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 17 Aug 2012 13:56:05 -0700
+	by azsmga101.ch.intel.com with ESMTP; 17 Aug 2012 13:56:39 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.77,785,1336374000"; d="scan'208";a="135534245"
+X-IronPort-AV: E=Sophos;i="4.77,785,1336374000"; d="scan'208";a="135534360"
 Received: from unknown (HELO [10.255.12.253]) ([10.255.12.253])
-	by AZSMGA002.ch.intel.com with ESMTP; 17 Aug 2012 13:56:04 -0700
-Message-ID: <502EAFE4.4040209@linux.intel.com>
-Date: Fri, 17 Aug 2012 13:56:04 -0700
+	by AZSMGA002.ch.intel.com with ESMTP; 17 Aug 2012 13:56:38 -0700
+Message-ID: <502EB006.9060308@linux.intel.com>
+Date: Fri, 17 Aug 2012 13:56:38 -0700
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:14.0) Gecko/20120717 Thunderbird/14.0
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <1344868052-15607-1-git-send-email-constantinx.musca@intel.com>
-In-Reply-To: <1344868052-15607-1-git-send-email-constantinx.musca@intel.com>
-Cc: Constantin Musca <constantinx.musca@intel.com>
-Subject: Re: [PATCH 0/3] Package upgrades
+References: <1344877359-12997-1-git-send-email-schnitzeltony@googlemail.com>
+In-Reply-To: <1344877359-12997-1-git-send-email-schnitzeltony@googlemail.com>
+Subject: Re: [PATCH] wpa-supplicant: fix paths in dbus/systemd *.service files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,32 +34,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Aug 2012 21:08:05 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 17 Aug 2012 21:08:39 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 08/13/2012 07:27 AM, Constantin Musca wrote:
-> The set contains package upgrades compiled successfully on all architectures
-> and tested using the xorg-server.
+On 08/13/2012 10:02 AM, Andreas Müller wrote:
 >
-> Constantin Musca (3):
->    pixman: upgrade to 0.27.2
->    glproto: upgrade to 1.4.16
->    dri2proto: upgrade to 2.8
+> Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
+> ---
+>   .../wpa-supplicant/wpa-supplicant-1.0.inc          |    2 ++
+>   .../wpa-supplicant/wpa-supplicant_1.0.bb           |    2 +-
+>   2 files changed, 3 insertions(+), 1 deletions(-)
 >
->   .../{pixman_0.26.2.bb => pixman_0.27.2.bb}         |    4 ++--
->   .../{dri2proto_2.6.bb => dri2proto_2.8.bb}         |    4 ++--
->   .../{glproto_1.4.15.bb => glproto_1.4.16.bb}       |    4 ++--
->   3 files changed, 6 insertions(+), 6 deletions(-)
->   rename meta/recipes-graphics/xorg-lib/{pixman_0.26.2.bb => pixman_0.27.2.bb} (86%)
->   rename meta/recipes-graphics/xorg-proto/{dri2proto_2.6.bb => dri2proto_2.8.bb} (76%)
->   rename meta/recipes-graphics/xorg-proto/{glproto_1.4.15.bb => glproto_1.4.16.bb} (77%)
+> diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-1.0.inc b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-1.0.inc
+> index 0c18b30..873e923 100644
+> --- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-1.0.inc
+> +++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-1.0.inc
+> @@ -29,6 +29,8 @@ do_configure () {
+>   }
 >
-Merged these into OE-Core
+>   export EXTRA_CFLAGS = "${CFLAGS}"
+> +export BINDIR = "${sbindir}"
+> +
+>   do_compile () {
+>   	unset CFLAGS CPPFLAGS CXXFLAGS
+>   	oe_runmake
+> diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_1.0.bb b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_1.0.bb
+> index 8ede3e5..a60cd86 100644
+> --- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_1.0.bb
+> +++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_1.0.bb
+> @@ -1,6 +1,6 @@
+>   require wpa-supplicant-1.0.inc
+>
+> -PR = "r0"
+> +PR = "r1"
+>
+>   SRC_URI[md5sum] = "8650f6aa23646ef634402552d0669640"
+>   SRC_URI[sha256sum] = "91d41d473a5aafa2e25dd6577ebda975c4d4a3188850a53e31feaf7c04482b9c"
+>
 
-In the future when making multiple updates if you can use the 
-create-pull-request script and use a branch in poky-contrib that would 
-be very useful to me as then I can pull all your changes in on branch.
+Merged into OE-Core
 
 Thanks
 	Sau!
