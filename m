@@ -1,23 +1,25 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Jackie.Huang@windriver.com>) id 1T2DA2-0004Oj-Eo
+	(envelope-from <Jackie.Huang@windriver.com>) id 1T2DA5-0004On-L2
 	for openembedded-core@lists.openembedded.org;
-	Fri, 17 Aug 2012 05:23:46 +0200
+	Fri, 17 Aug 2012 05:23:49 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q7H3Bl3i003131
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q7H3BmcM015247
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Aug 2012 20:11:47 -0700 (PDT)
+	Thu, 16 Aug 2012 20:11:50 -0700 (PDT)
 Received: from pek-cc-pb05l.wrs.com (128.224.157.65) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.309.2; Thu, 16 Aug 2012 20:11:46 -0700
+	14.2.309.2; Thu, 16 Aug 2012 20:11:47 -0700
 From: <jackie.huang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 17 Aug 2012 11:11:42 +0800
-Message-ID: <cover.1345172940.git.jackie.huang@windriver.com>
+Date: Fri, 17 Aug 2012 11:11:43 +0800
+Message-ID: <c15f63ce203208dbb2cb58d8916fd4eee1db632f.1345172940.git.jackie.huang@windriver.com>
 X-Mailer: git-send-email 1.7.4
+In-Reply-To: <cover.1345172940.git.jackie.huang@windriver.com>
+References: <cover.1345172940.git.jackie.huang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/1] apr-util: fix the rules.mk with path to sysroot instead of the workdir of apr
+Subject: [PATCH 1/1] apr-util: fix the rules.mk with path to sysroot instead of the workdir of apr
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,7 +34,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Aug 2012 03:23:46 -0000
+X-List-Received-Date: Fri, 17 Aug 2012 03:23:50 -0000
 Content-Type: text/plain
 
 From: Jackie Huang <jackie.huang@windriver.com>
@@ -46,21 +48,26 @@ So change the copying in _prepend to _append.
 
 Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
 ---
-The following changes since commit 24babf9316da50c8a4d2f328c4336cb8cd6cf667:
-
-  classes/chrpath: trigger an error if chrpath fails (2012-08-15 17:51:04 +0100)
-
-are available in the git repository at:
-  git://git.pokylinux.org/poky-contrib jhuang0/bug2947_apr_0817
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=jhuang0/bug2947_apr_0817
-
-Jackie Huang (1):
-  apr-util: fix the rules.mk with path to sysroot instead of the
-    workdir of apr
-
  meta/recipes-support/apr/apr-util_1.4.1.bb |    6 ++++--
  1 files changed, 4 insertions(+), 2 deletions(-)
 
+diff --git a/meta/recipes-support/apr/apr-util_1.4.1.bb b/meta/recipes-support/apr/apr-util_1.4.1.bb
+index deb608f..0516bc4 100644
+--- a/meta/recipes-support/apr/apr-util_1.4.1.bb
++++ b/meta/recipes-support/apr/apr-util_1.4.1.bb
+@@ -32,8 +32,10 @@ inherit autotools lib_package binconfig
+ 
+ OE_BINCONFIG_EXTRA_MANGLE = " -e 's:location=source:location=installed:'"
+ 
+-do_configure_prepend() {
+-	cp ${STAGING_DATADIR}/apr/apr_rules.mk ${S}/build/rules.mk
++do_configure_append() {
++	if [ "${PN}" == "${BPN}" ]; then
++		cp ${STAGING_DATADIR}/apr/apr_rules.mk ${S}/build/rules.mk
++	fi
+ }
+ do_configure_prepend_virtclass-native() {
+ 	cp ${STAGING_DATADIR_NATIVE}/apr/apr_rules.mk ${S}/build/rules.mk
 -- 
 1.7.4
 
