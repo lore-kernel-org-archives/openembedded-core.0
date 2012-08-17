@@ -1,24 +1,24 @@
 Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <laurentiu.palcu@intel.com>) id 1T2Dff-0004uE-Mt
+	(envelope-from <laurentiu.palcu@intel.com>) id 1T2Dfg-0004uE-FI
 	for openembedded-core@lists.openembedded.org;
-	Fri, 17 Aug 2012 05:56:27 +0200
+	Fri, 17 Aug 2012 05:56:28 +0200
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 16 Aug 2012 20:44:29 -0700
+	by fmsmga101.fm.intel.com with ESMTP; 16 Aug 2012 20:44:30 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.77,782,1336374000"; d="scan'208";a="203251915"
+X-IronPort-AV: E=Sophos;i="4.77,782,1336374000"; d="scan'208";a="203251920"
 Received: from lpalcu-linux (HELO localhost.localdomain) ([10.237.105.41])
-	by fmsmga001.fm.intel.com with ESMTP; 16 Aug 2012 20:44:28 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 16 Aug 2012 20:44:29 -0700
 From: Laurentiu Palcu <laurentiu.palcu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 17 Aug 2012 06:44:20 +0300
-Message-Id: <0a4a0de423aba0978d632281144ab130be70a7e6.1345174354.git.laurentiu.palcu@intel.com>
+Date: Fri, 17 Aug 2012 06:44:21 +0300
+Message-Id: <f816e741fd76acb79b4f807a47bba6f159d13189.1345174354.git.laurentiu.palcu@intel.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1345174354.git.laurentiu.palcu@intel.com>
 References: <cover.1345174354.git.laurentiu.palcu@intel.com>
 In-Reply-To: <cover.1345174354.git.laurentiu.palcu@intel.com>
 References: <cover.1345174354.git.laurentiu.palcu@intel.com>
-Subject: [PATCH 1/3] populate_sdk_base.bbclass: fix SDK relocation issues
+Subject: [PATCH 2/3] package.bbclass: change RPATHs for cross-canadian binaries
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,40 +35,31 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 17 Aug 2012 03:56:28 -0000
 
-The problem appears if multiple setup environment scripts are found. In
-order to find only the script we're interested in, I removed globbing in
-matching pattern with ${REAL_MULTIMACH_TARGET_SYS} that will be expanded
-to the correct string.
+When building the meta-toolchain, the binaries didn't get relocatable
+RPATHs. They were hardcoded to the default path. Hence, if one had
+already installed one SDK in the default path and one in another
+location, the later toolchain's binaries would search and load libraries
+from the first location, ending in a "Segmentation Fault".
 
-Also, fix a problem when changing the scripts/configs. The grep pattern
-matched also files that contained "text" in their name.
+[YOCTO #2927]
 
 Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
 ---
- meta/classes/populate_sdk_base.bbclass |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/classes/package.bbclass |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
-index 0d19741..a1cb12a 100644
---- a/meta/classes/populate_sdk_base.bbclass
-+++ b/meta/classes/populate_sdk_base.bbclass
-@@ -154,7 +154,7 @@ echo "done"
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index d122cd9..278f0f0 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -448,7 +448,7 @@ python perform_packagecopy () {
+     subprocess.call('tar -cf - -C %s -ps . | tar -xf - -C %s' % (dest, dvar), shell=True)
  
- echo -n "Setting it up..."
- # fix environment paths
--env_setup_script=$(find $target_sdk_dir -name "environment-setup*")
-+env_setup_script=$(find $target_sdk_dir -name "environment-setup-${REAL_MULTIMACH_TARGET_SYS}")
- sed -e "s:$DEFAULT_INSTALL_DIR:$target_sdk_dir:g" -i $env_setup_script
- 
- # fix dynamic loader paths in all ELF SDK binaries
-@@ -168,7 +168,7 @@ if [ $? -ne 0 ]; then
- fi
- 
- # replace ${SDKPATH} with the new prefix in all text files: configs/scripts/etc
--find $native_sysroot -type f -exec file '{}' \;|grep text|cut -d':' -f1|xargs sed -i -e "s:$DEFAULT_INSTALL_DIR:$target_sdk_dir:g"
-+find $native_sysroot -type f -exec file '{}' \;|grep ":.*ASCII.*text"|cut -d':' -f1|xargs sed -i -e "s:$DEFAULT_INSTALL_DIR:$target_sdk_dir:g"
- 
- echo done
+     # replace RPATHs for the nativesdk binaries, to make them relocatable
+-    if bb.data.inherits_class('nativesdk', d):
++    if bb.data.inherits_class('nativesdk', d) or bb.data.inherits_class('cross-canadian', d):
+         rpath_replace (dvar, d)
+ }
  
 -- 
 1.7.9.5
