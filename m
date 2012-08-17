@@ -1,26 +1,29 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mail-lb0-f175.google.com ([209.85.217.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1T2MAQ-0005EU-7H
-	for openembedded-core@lists.openembedded.org;
-	Fri, 17 Aug 2012 15:00:46 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 17 Aug 2012 05:48:46 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.77,784,1336374000"; d="scan'208";a="181944426"
-Received: from unknown (HELO helios.localnet) ([10.252.121.90])
-	by orsmga001.jf.intel.com with ESMTP; 17 Aug 2012 05:48:46 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Date: Fri, 17 Aug 2012 13:48:45 +0100
-Message-ID: <5851541.vDHObiJJ2D@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.9 (Linux/3.2.0-29-generic-pae; KDE/4.9.0; i686; ; )
-In-Reply-To: <20120817123916.GJ3625@jama.jama.net>
-References: <cover.1345203203.git.ross.burton@intel.com>
-	<3890692.qcbBpDRmfO@helios> <20120817123916.GJ3625@jama.jama.net>
+	(envelope-from <cliff.brake@gmail.com>) id 1T2MDQ-0005JM-0A
+	for openembedded-core@lists.linuxtogo.org;
+	Fri, 17 Aug 2012 15:03:52 +0200
+Received: by lban1 with SMTP id n1so1967918lba.6
+	for <openembedded-core@lists.linuxtogo.org>;
+	Fri, 17 Aug 2012 05:51:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:date:message-id:subject:from:to:content-type;
+	bh=BuQtcB9zclxUt92JWrZz7fWQpmmfYs3XdG1/ocjHDMQ=;
+	b=Gj4IKhbfjBPooql/eOVmzvQH1EKc+nzaFbbUocevljD5RDSNVtPDXwgT+TU+QX7YSR
+	yO+dygLL7GrBRR1tSirr1G/EnhqBKw9b2OTcyuzMpDOqvEzN+4z8jWIZoAnBNh7Cpy4c
+	+5QYTY9uUg+9YWuDXJ4iCN+JjsuLI2R5pg9cBL/eboCf0I9Y3XYD1lkKHYiij1USePkf
+	7pU3FF8/w8oP7HHZQrXgyDSBYfthxtZw4jk5mJHbBMuMBM7FDwQpvgbpY9U4ws49SoN4
+	vWQR36JFupJdQWMwneBr6Hi1a+ABhCuzPnWBV+Rz1ju+Mae3CLYqhFQV89w1UZFknXSJ
+	DPUQ==
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/2] Remove older GTK+ versions
+Received: by 10.152.102.137 with SMTP id fo9mr4807193lab.35.1345207913284;
+	Fri, 17 Aug 2012 05:51:53 -0700 (PDT)
+Received: by 10.112.85.196 with HTTP; Fri, 17 Aug 2012 05:51:53 -0700 (PDT)
+Date: Fri, 17 Aug 2012 08:51:53 -0400
+Message-ID: <CAOd_LFz6abBqUcMvOVBudGF_ec_ezs_=y5e3qKyC5c0Js0J=7A@mail.gmail.com>
+From: Cliff Brake <cliff.brake@gmail.com>
+To: openembedded-core@lists.linuxtogo.org
+Subject: DEPEND on an image recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,37 +38,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Aug 2012 13:00:46 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Fri, 17 Aug 2012 13:03:52 -0000
+Content-Type: multipart/alternative; boundary=f46d0407160bd202b604c7759f77
 
-On Friday 17 August 2012 14:39:16 Martin Jansa wrote:
-> Should I file a but to fix DEFAULT_PREFERENCE between layers?
+--f46d0407160bd202b604c7759f77
+Content-Type: text/plain; charset=ISO-8859-1
 
-We've discussed this problem before - the trouble is we would have to change 
-the way the version preference calculation works, and I'm not sure we will be 
-able to do that without breaking assumptions that people currently rely upon 
-in the process. By all means file a bug, but I think coming up with a practical 
-solution is going to be tricky.
- 
-> Because there is also use case when newer development version is added
-> to e.g. meta-oe with negative D_P and only users who decide to test/use
-> that version should get it, if they define P_V for this new version.
+I would like to add a DEPEND to a kernel recipe that causes an initramfs
+image to be built every time before the kernel is built.  It seems that a
+DEPEND on the rootfs recipe triggers the rootfs build, however it appears
+that the kernel recipe does not wait for the image recipe to finish before
+it builds.  What is the best way to accomplish this?
 
-This is also undesirable for meta-oe IMHO - as a general principle, meta-oe 
-shouldn't be trying to both add additional recipes *and* provide newer/older 
-versions of recipes that are in OE-Core. Please, let's get the new versions 
-into OE-Core or if they're too risky/broken for some use cases for that, then 
-they belong in people's distro layers. (Practically I don't think there are 
-that many instances of new versions of OE-Core recipes that people want to use 
-that would be actually rejected by OE-Core).
- 
-Cheers,
-Paul
+Thanks,
+Cliff
 
 -- 
+=================
+http://bec-systems.com
 
-Paul Eggleton
-Intel Open Source Technology Centre
+--f46d0407160bd202b604c7759f77
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
+I would like to add a DEPEND to a kernel recipe that causes an initramfs im=
+age to be built every time before the kernel is built. =A0It seems that a D=
+EPEND on the rootfs recipe triggers the rootfs build, however it appears th=
+at the kernel recipe does not wait for the image recipe to finish before it=
+ builds. =A0What is the best way to accomplish this?<div>
+<br></div><div>Thanks,</div><div>Cliff<br clear=3D"all"><div><br></div>-- <=
+br>=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br><a href=3D"http:/=
+/bec-systems.com" target=3D"_blank">http://bec-systems.com</a><br>
+</div>
 
+--f46d0407160bd202b604c7759f77--
