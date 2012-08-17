@@ -1,23 +1,34 @@
-Received: from mga09.intel.com ([134.134.136.24])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <constantinx.musca@intel.com>) id 1T2Poo-0002UW-Vl
-	for openembedded-core@lists.openembedded.org;
-	Fri, 17 Aug 2012 18:54:43 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 17 Aug 2012 09:41:28 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.77,785,1336374000"; d="scan'208";a="182053207"
-Received: from costin-desktop (HELO localhost.localdomain) ([10.237.105.33])
-	by orsmga001.jf.intel.com with ESMTP; 17 Aug 2012 09:41:25 -0700
-From: Constantin Musca <constantinx.musca@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 17 Aug 2012 18:46:11 +0300
-Message-Id: <1345218371-15230-3-git-send-email-constantinx.musca@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <1345218371-15230-1-git-send-email-constantinx.musca@intel.com>
-References: <1345218371-15230-1-git-send-email-constantinx.musca@intel.com>
-Cc: Constantin Musca <constantinx.musca@intel.com>
-Subject: [PATCH 2/2] gst-fluendo-mpegdemux: upgrade to 0.10.71
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1T2Ps2-0002fh-6U for openembedded-core@lists.openembedded.org;
+	Fri, 17 Aug 2012 18:58:02 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q7HGk3E0011040
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 17 Aug 2012 17:46:03 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 10094-08 for <openembedded-core@lists.openembedded.org>;
+	Fri, 17 Aug 2012 17:45:57 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q7HGjtGD011034
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 17 Aug 2012 17:45:56 +0100
+Message-ID: <1345221955.27428.17.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Fri, 17 Aug 2012 17:45:55 +0100
+In-Reply-To: <20120816064429.GA5122@mi.fu-berlin.de>
+References: <1345086946-3715-1-git-send-email-raj.khem@gmail.com>
+	<20120816064429.GA5122@mi.fu-berlin.de>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH V2] chrpath.bbclass: Account for case when ORIGIN is in RPATH
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -32,31 +43,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Aug 2012 16:54:43 -0000
+X-List-Received-Date: Fri, 17 Aug 2012 16:58:02 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
----
- ...0.10.70.bb => gst-fluendo-mpegdemux_0.10.71.bb} |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-multimedia/gstreamer/{gst-fluendo-mpegdemux_0.10.70.bb => gst-fluendo-mpegdemux_0.10.71.bb} (71%)
+On Thu, 2012-08-16 at 08:44 +0200, Henning Heinold wrote:
+> On Wed, Aug 15, 2012 at 08:15:46PM -0700, Khem Raj wrote:
+> > This fixes a case when RPATH embedded in program have one of
+> > its path already relative to ORIGIN. We were losing that path
+> > if such a path existed. This patch appends it to the new edited
+> > rpath being created when we see it.
+> > 
+> > so RPATH like below
+> > 
+> > (RPATH)              Library rpath:
+> > [$ORIGIN/../lib/amd64/jli:$ORIGIN/../jre/lib/amd64/jli]
+> > 
+> > would end up being empty
+> > 
+> > but after this patch its kept intact
+> > 
+> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > ---
+> >  meta/classes/chrpath.bbclass |    3 ++-
+> >  1 file changed, 2 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/meta/classes/chrpath.bbclass b/meta/classes/chrpath.bbclass
+> > index 10b5ca0..861d369 100644
+> > --- a/meta/classes/chrpath.bbclass
+> > +++ b/meta/classes/chrpath.bbclass
+> > @@ -48,8 +48,9 @@ def process_dir (directory, d):
+> >              rpaths = curr_rpath.split(":")
+> >              new_rpaths = []
+> >              for rpath in rpaths:
+> > -                # If rpath is already dynamic continue
+> > +                # If rpath is already dynamic copy it to new_rpath and continue
+> >                  if rpath.find("$ORIGIN") != -1:
+> > +                    new_rpaths.append("%s" % (rpath.strip()))
+> >                      continue
+> >                  # If the rpath shares a root with base_prefix determine a new dynamic rpath from the
+> >                  # base_prefix shared root
+> > -- 
+> > 1.7.9.5
+> 
+> Hi Khem,
+> 
+> just notice my solution some months ago
+> 
+> http://patches.openembedded.org/patch/24461/
 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-fluendo-mpegdemux_0.10.70.bb b/meta/recipes-multimedia/gstreamer/gst-fluendo-mpegdemux_0.10.71.bb
-similarity index 71%
-rename from meta/recipes-multimedia/gstreamer/gst-fluendo-mpegdemux_0.10.70.bb
-rename to meta/recipes-multimedia/gstreamer/gst-fluendo-mpegdemux_0.10.71.bb
-index e6a6255..b939eff 100644
---- a/meta/recipes-multimedia/gstreamer/gst-fluendo-mpegdemux_0.10.70.bb
-+++ b/meta/recipes-multimedia/gstreamer/gst-fluendo-mpegdemux_0.10.71.bb
-@@ -9,5 +9,5 @@ acpaths = "-I ${S}/common/m4 -I ${S}/m4"
- 
- PR = "r0"
- 
--SRC_URI[md5sum] = "ceb9001be71e8cbc3e97f9b46c9b611e"
--SRC_URI[sha256sum] = "b46f4a05f621e9742d22ac5c835c2f5d9aa495845b5c783475c03d1c46f47727"
-+SRC_URI[md5sum] = "a7b5152cd73fd0f9fa653fca93c82bd7"
-+SRC_URI[sha256sum] = "3be3907e860bce4cc8bee0c70e4b28e91d97f4037e611473b8c9bb954b4de4f9"
--- 
-1.7.9.5
+I merged a version of this which simply does:
+
+new_rpaths.append(rpath.strip())
+
+since that is neater than using regexps.
+
+Cheers,
+
+Richard
 
 
 
