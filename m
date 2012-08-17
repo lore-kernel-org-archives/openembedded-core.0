@@ -1,34 +1,36 @@
-Received: from mail-pb0-f47.google.com ([209.85.160.47])
+Received: from mail-yx0-f175.google.com ([209.85.213.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <tom.rini@gmail.com>) id 1T2Put-0003DQ-Kw
+	(envelope-from <tom.rini@gmail.com>) id 1T2Puu-0003DR-Im
 	for openembedded-core@lists.openembedded.org;
-	Fri, 17 Aug 2012 19:00:59 +0200
-Received: by pbcwy7 with SMTP id wy7so4180511pbc.6
+	Fri, 17 Aug 2012 19:01:00 +0200
+Received: by yenm1 with SMTP id m1so4571652yen.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Aug 2012 09:49:00 -0700 (PDT)
+	Fri, 17 Aug 2012 09:49:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:from:to:subject:date:message-id:x-mailer;
-	bh=ZoKJ3jbk71Z2cnNqgmIP0z3H9d3r5VOmJ1+ABoeh3Zk=;
-	b=SjJ5tyfy/pwCBN0Ot8SMUXdkVKqw/5HhSC06P3g8naD/rs5UDT29JfGG6mSJFjSNus
-	ZP4bcYZvxmuPtHWQqE6ZqGwEUincCEwKG10451rkIfTDq8ljHiOxdJ9slJmIXhkzGCge
-	+HqHGbPctE0Pulbt0GQa8ERZXLPXpYl+Mm6waXRNxnic8rZMyNKP6uPRVxwfedYv+84W
-	+OsmmHHVOLE8fatB5rWKKbP9HmPRPkTOhvNg+AeG9j82FBXPDa4SWGitZYIX8iWpnsJj
-	Es7Dy5faRB2dnDo5+HTOpR46ZV5gpahCpwsZtMZdu8a1dc9HMMoplUvHu/cnQ+u/KiSQ
-	vojg==
-Received: by 10.66.85.4 with SMTP id d4mr1499439paz.11.1345222140010;
-	Fri, 17 Aug 2012 09:49:00 -0700 (PDT)
+	h=sender:from:to:subject:date:message-id:x-mailer:in-reply-to
+	:references; bh=O/MQP/WF10KMTv9awOyk9gqJKaNi2k3ujJwfqkqf6nA=;
+	b=gTR1hca+IdZh576SyIHNPzYKw7rQBYkDfPIoZvQzqXIcl4SQ4+zKPGUthYDgVX1xYC
+	q2euXQQc3YqkGD6h2oXDbt8oIxpzI/e9hJ+sAPUvT4k4cpMXTsDpEG2ZQTSyySggWYNg
+	EFCJ3iRcUaMl/JwObdxGmbR0c8N6kHJ+19edb3qNOFYO9LV/pvHR7Fpsd5XkDAg+lKwU
+	NxlH2H7MET9TtVzyb18wX9OAkE4YBMTwLmTC02vMGfdcwbgQ9DXdpMIJvAA5jMSTBDGv
+	iFXSfL2+F+EpJX1E9MeaesZh/rgTezVlhTtKKNg6MYyCmD4L/L3XGfvJCThOdGkS7SfM
+	X8Tw==
+Received: by 10.66.75.74 with SMTP id a10mr10776320paw.46.1345222141087;
+	Fri, 17 Aug 2012 09:49:01 -0700 (PDT)
 Received: from localhost.localdomain (ip68-230-54-74.ph.ph.cox.net.
 	[68.230.54.74])
-	by mx.google.com with ESMTPS id vh7sm5248664pbc.22.2012.08.17.09.48.59
+	by mx.google.com with ESMTPS id vh7sm5248664pbc.22.2012.08.17.09.49.00
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 17 Aug 2012 09:48:59 -0700 (PDT)
+	Fri, 17 Aug 2012 09:49:00 -0700 (PDT)
 Sender: Tom Rini <tom.rini@gmail.com>
 From: Tom Rini <trini@ti.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 17 Aug 2012 09:48:52 -0700
-Message-Id: <1345222136-24839-1-git-send-email-trini@ti.com>
+Date: Fri, 17 Aug 2012 09:48:53 -0700
+Message-Id: <1345222136-24839-2-git-send-email-trini@ti.com>
 X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH 1/5] u-boot-mkimage: Correct EXTRA_OEMAKE
+In-Reply-To: <1345222136-24839-1-git-send-email-trini@ti.com>
+References: <1345222136-24839-1-git-send-email-trini@ti.com>
+Subject: [PATCH 2/5] u-boot-fw-utils: Correct EXTRA_OEMAKE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,85 +45,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Aug 2012 17:00:59 -0000
+X-List-Received-Date: Fri, 17 Aug 2012 17:01:00 -0000
 
-- HOSTLD has never been used in U-Boot, drop.
-- HOSTSTRIP has been valid for a long time for tools
-- Same for HOSTCFLAGS / HOSTLDFLAGS
+- HOSTCFLAGS / HOSTLDFLAGS have been valid for a long time for tools/env
+- HOSTSTRIP will be needed in the future, does no harm to be correct
+  now.
 
 Signed-off-by: Tom Rini <trini@ti.com>
 ---
- meta/recipes-bsp/u-boot/u-boot-mkimage_2011.03.bb  |    4 ++--
- meta/recipes-bsp/u-boot/u-boot-mkimage_2011.06.bb  |    4 ++--
- .../u-boot/u-boot-mkimage_2012.04.01.bb            |    4 +++-
- 3 files changed, 7 insertions(+), 5 deletions(-)
+ meta/recipes-bsp/u-boot/u-boot-fw-utils_2011.06.bb |    4 ++--
+ .../u-boot/u-boot-fw-utils_2012.04.01.bb           |    4 +++-
+ 2 files changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-bsp/u-boot/u-boot-mkimage_2011.03.bb b/meta/recipes-bsp/u-boot/u-boot-mkimage_2011.03.bb
-index 34bae8e..9161f6c 100644
---- a/meta/recipes-bsp/u-boot/u-boot-mkimage_2011.03.bb
-+++ b/meta/recipes-bsp/u-boot/u-boot-mkimage_2011.03.bb
-@@ -4,7 +4,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=1707d6db1d42237583f50183a5651ecb \
-                     file://README;beginline=1;endline=22;md5=3a00ef51d3fc96e9d6c1bc4708ccd3b5"
- SECTION = "bootloader"
+diff --git a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2011.06.bb b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2011.06.bb
+index 7c4df1a..99eef15 100644
+--- a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2011.06.bb
++++ b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2011.06.bb
+@@ -6,7 +6,7 @@ SECTION = "bootloader"
+ 
+ DEPENDS = "mtd-utils"
  
 -PR = "r1"
 +PR = "r2"
  
- SRC_URI = "ftp://ftp.denx.de/pub/u-boot/u-boot-${PV}.tar.bz2 \
-            file://0001-Drop-config.h-include-in-tools-imximage.h.patch \
-@@ -17,7 +17,7 @@ S = "${WORKDIR}/u-boot-${PV}"
- 
- BBCLASSEXTEND = "native nativesdk"
- 
--EXTRA_OEMAKE = 'HOSTCC="${CC}" HOSTLD="${LD}" HOSTSTRIP=true'
-+EXTRA_OEMAKE = 'HOSTCC="${CC}" HOSTCFLAGS="${CFLAGS} HOSTLDFLAGS="${LDFLAGS}" HOSTSTRIP=true'
- 
- do_compile () {
-   oe_runmake tools
-diff --git a/meta/recipes-bsp/u-boot/u-boot-mkimage_2011.06.bb b/meta/recipes-bsp/u-boot/u-boot-mkimage_2011.06.bb
-index 3ca0c2c..2a83323 100644
---- a/meta/recipes-bsp/u-boot/u-boot-mkimage_2011.06.bb
-+++ b/meta/recipes-bsp/u-boot/u-boot-mkimage_2011.06.bb
-@@ -4,7 +4,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=1707d6db1d42237583f50183a5651ecb \
-                     file://README;beginline=1;endline=22;md5=5ba4218ac89af7846802d0348df3fb90"
- SECTION = "bootloader"
- 
--PR = "r0"
-+PR = "r1"
- 
  SRC_URI = "ftp://ftp.denx.de/pub/u-boot/u-boot-${PV}.tar.bz2"
  
-@@ -15,7 +15,7 @@ S = "${WORKDIR}/u-boot-${PV}"
+@@ -15,7 +15,7 @@ SRC_URI[sha256sum] = "362ddb935885da98cf461eba08f31e3e59d0c4ada6cb2fa15596f43af3
  
- BBCLASSEXTEND = "native nativesdk"
+ S = "${WORKDIR}/u-boot-${PV}"
  
--EXTRA_OEMAKE = 'HOSTCC="${CC}" HOSTLD="${LD}" HOSTLDFLAGS="${LDFLAGS}" HOSTSTRIP=true'
+-EXTRA_OEMAKE = 'HOSTCC="${CC}"'
 +EXTRA_OEMAKE = 'HOSTCC="${CC}" HOSTCFLAGS="${CFLAGS} HOSTLDFLAGS="${LDFLAGS}" HOSTSTRIP=true'
  
  do_compile () {
-   oe_runmake tools
-diff --git a/meta/recipes-bsp/u-boot/u-boot-mkimage_2012.04.01.bb b/meta/recipes-bsp/u-boot/u-boot-mkimage_2012.04.01.bb
-index aa107fe..4d05202 100644
---- a/meta/recipes-bsp/u-boot/u-boot-mkimage_2012.04.01.bb
-+++ b/meta/recipes-bsp/u-boot/u-boot-mkimage_2012.04.01.bb
-@@ -3,6 +3,8 @@ LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=1707d6db1d42237583f50183a5651ecb"
- SECTION = "bootloader"
+   oe_runmake env
+diff --git a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2012.04.01.bb b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2012.04.01.bb
+index fe3422a..364f8a5 100644
+--- a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2012.04.01.bb
++++ b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2012.04.01.bb
+@@ -5,6 +5,8 @@ SECTION = "bootloader"
+ 
+ DEPENDS = "mtd-utils"
  
 +PR = "r1"
 +
  # This is needs to be validated among supported BSP's before we can
  # make it default
  DEFAULT_PREFERENCE = "-1"
-@@ -18,7 +20,7 @@ SRC_URI = "git://git.denx.de/u-boot.git;branch=master;protocol=git"
+@@ -20,7 +22,7 @@ SRC_URI = "git://git.denx.de/u-boot.git;branch=master;protocol=git"
  
  S = "${WORKDIR}/git"
  
--EXTRA_OEMAKE = 'HOSTCC="${CC}" HOSTLD="${LD}" HOSTLDFLAGS="${LDFLAGS}" HOSTSTRIP=true'
+-EXTRA_OEMAKE = 'HOSTCC="${CC}"'
 +EXTRA_OEMAKE = 'HOSTCC="${CC}" HOSTCFLAGS="${CFLAGS} HOSTLDFLAGS="${LDFLAGS}" HOSTSTRIP=true'
  
  do_compile () {
-   oe_runmake tools
+   oe_runmake env
 -- 
 1.7.9.5
 
