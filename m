@@ -1,36 +1,28 @@
-Received: from mail-pb0-f47.google.com ([209.85.160.47])
+Received: from mga03.intel.com ([143.182.124.21])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <tom.rini@gmail.com>) id 1T2Puw-0003DZ-Pn
+	(envelope-from <sgw@linux.intel.com>) id 1T2Pwm-0003PH-Pm
 	for openembedded-core@lists.openembedded.org;
-	Fri, 17 Aug 2012 19:01:02 +0200
-Received: by pbcwy7 with SMTP id wy7so4180590pbc.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Aug 2012 09:49:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:from:to:subject:date:message-id:x-mailer:in-reply-to
-	:references; bh=Cy0XCngji2CpZYUKzDeYmNDKuerZ/t8eOAwslUHLtBU=;
-	b=ujpz0WVd30UrEXLfmHs8DLDxJpqt8ZRKl1JWT9etjdKlTqoagBS9v3mZobbjUZB4cX
-	TKw/VsiWx17naOfppMC6qTNhe6HyG9WI9KtvC0l0INxlAtn/Ueay/WYeyDwWKUGHSTrF
-	xgYgHKw63NG+54Ch3SRM12fNk5fMa5jo5J+BOBt41kDHcR74/DtY/g5FllxXkkjOcSPv
-	v1ozh9U3UIYoKJybgbx6A+HEZ4/3teltLIM+3GhJbcHC6BNnGG/1NUhhyVSsDqzZdJh9
-	Cq2vW1b81eGoXHSfFNiIZKu1xnMbxwqpKmjqjYh3/oAjPfYVTgw7585tFKUaebcINdKt
-	Zt/Q==
-Received: by 10.68.203.230 with SMTP id kt6mr6866995pbc.163.1345222143321;
-	Fri, 17 Aug 2012 09:49:03 -0700 (PDT)
-Received: from localhost.localdomain (ip68-230-54-74.ph.ph.cox.net.
-	[68.230.54.74])
-	by mx.google.com with ESMTPS id vh7sm5248664pbc.22.2012.08.17.09.49.02
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Fri, 17 Aug 2012 09:49:02 -0700 (PDT)
-Sender: Tom Rini <tom.rini@gmail.com>
-From: Tom Rini <trini@ti.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 17 Aug 2012 09:48:55 -0700
-Message-Id: <1345222136-24839-4-git-send-email-trini@ti.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <1345222136-24839-1-git-send-email-trini@ti.com>
-References: <1345222136-24839-1-git-send-email-trini@ti.com>
-Subject: [PATCH 4/5] u-boot-mkimage: Update to v2012.07
+	Fri, 17 Aug 2012 19:02:57 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 17 Aug 2012 09:50:57 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.77,785,1336374000"; d="scan'208";a="182293035"
+Received: from unknown (HELO [10.255.12.253]) ([10.255.12.253])
+	by azsmga001.ch.intel.com with ESMTP; 17 Aug 2012 09:50:56 -0700
+Message-ID: <502E7670.1020200@linux.intel.com>
+Date: Fri, 17 Aug 2012 09:50:56 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:14.0) Gecko/20120717 Thunderbird/14.0
+MIME-Version: 1.0
+To: Constantin Musca <constantinx.musca@intel.com>
+References: <1345121720-25925-1-git-send-email-constantinx.musca@intel.com>
+	<1345121720-25925-7-git-send-email-constantinx.musca@intel.com>
+	<502E6F19.4000402@linux.intel.com> <502E6875.5050009@intel.com>
+In-Reply-To: <502E6875.5050009@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 6/6] connman: upgrade to 1.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,98 +37,121 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Aug 2012 17:01:03 -0000
+X-List-Received-Date: Fri, 17 Aug 2012 17:02:57 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Tom Rini <trini@ti.com>
----
- .../u-boot/u-boot-mkimage_2012.04.01.bb            |   35 --------------------
- meta/recipes-bsp/u-boot/u-boot-mkimage_2012.07.bb  |   33 ++++++++++++++++++
- 2 files changed, 33 insertions(+), 35 deletions(-)
- delete mode 100644 meta/recipes-bsp/u-boot/u-boot-mkimage_2012.04.01.bb
- create mode 100644 meta/recipes-bsp/u-boot/u-boot-mkimage_2012.07.bb
+On 08/17/2012 08:51 AM, Constantin Musca wrote:
+> The patch is included in connman 1.4.
+>
+Yes, I understand that, but it should be in the commit message, that's 
+all I am asking for.
 
-diff --git a/meta/recipes-bsp/u-boot/u-boot-mkimage_2012.04.01.bb b/meta/recipes-bsp/u-boot/u-boot-mkimage_2012.04.01.bb
-deleted file mode 100644
-index 4d05202..0000000
---- a/meta/recipes-bsp/u-boot/u-boot-mkimage_2012.04.01.bb
-+++ /dev/null
-@@ -1,35 +0,0 @@
--DESCRIPTION = "U-boot bootloader mkimage tool"
--LICENSE = "GPLv2+"
--LIC_FILES_CHKSUM = "file://COPYING;md5=1707d6db1d42237583f50183a5651ecb"
--SECTION = "bootloader"
--
--PR = "r1"
--
--# This is needs to be validated among supported BSP's before we can
--# make it default
--DEFAULT_PREFERENCE = "-1"
--
--# This revision corresponds to the tag "v2012.04.01"
--# We use the revision in order to avoid having to fetch it from the
--# repo during parse
--SRCREV = "415d386877df49eb051b85ef74fa59a16dc17c7d"
--
--PV = "v2012.04.01+git${SRCPV}"
--
--SRC_URI = "git://git.denx.de/u-boot.git;branch=master;protocol=git"
--
--S = "${WORKDIR}/git"
--
--EXTRA_OEMAKE = 'HOSTCC="${CC}" HOSTCFLAGS="${CFLAGS} HOSTLDFLAGS="${LDFLAGS}" HOSTSTRIP=true'
--
--do_compile () {
--  oe_runmake tools
--}
--
--do_install () {
--  install -d ${D}${bindir}
--  install -m 0755 tools/mkimage ${D}${bindir}/uboot-mkimage
--  ln -sf uboot-mkimage ${D}${bindir}/mkimage
--}
--
--BBCLASSEXTEND = "native nativesdk"
-diff --git a/meta/recipes-bsp/u-boot/u-boot-mkimage_2012.07.bb b/meta/recipes-bsp/u-boot/u-boot-mkimage_2012.07.bb
-new file mode 100644
-index 0000000..d30a648
---- /dev/null
-+++ b/meta/recipes-bsp/u-boot/u-boot-mkimage_2012.07.bb
-@@ -0,0 +1,33 @@
-+DESCRIPTION = "U-boot bootloader mkimage tool"
-+LICENSE = "GPLv2+"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=1707d6db1d42237583f50183a5651ecb"
-+SECTION = "bootloader"
-+
-+# This is needs to be validated among supported BSP's before we can
-+# make it default
-+DEFAULT_PREFERENCE = "-1"
-+
-+# This revision corresponds to the tag "v2012.07"
-+# We use the revision in order to avoid having to fetch it from the
-+# repo during parse
-+SRCREV = "190649fb4309d1bc0fe7732fd0f951cb6440f935"
-+
-+PV = "v2012.07+git${SRCPV}"
-+
-+SRC_URI = "git://git.denx.de/u-boot.git;branch=master;protocol=git"
-+
-+S = "${WORKDIR}/git"
-+
-+EXTRA_OEMAKE = 'HOSTCC="${CC}" HOSTCFLAGS="${CFLAGS} HOSTLDFLAGS="${LDFLAGS}" HOSTSTRIP=true'
-+
-+do_compile () {
-+  oe_runmake tools
-+}
-+
-+do_install () {
-+  install -d ${D}${bindir}
-+  install -m 0755 tools/mkimage ${D}${bindir}/uboot-mkimage
-+  ln -sf uboot-mkimage ${D}${bindir}/mkimage
-+}
-+
-+BBCLASSEXTEND = "native nativesdk"
--- 
-1.7.9.5
+Sau!
 
+> Constantin Musca
+>
+> On 08/17/2012 07:19 PM, Saul Wold wrote:
+>> On 08/16/2012 05:55 AM, Constantin Musca wrote:
+>>> Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
+>>> ---
+>>>   ...ck-that-the-string-isn-t-empty-before-spl.patch |   37
+>>> --------------------
+>> Why was the patch removed, need to have that in the commit message also.
+>>
+>> Sau!
+>>
+>>>   .../connman/{connman_1.3.bb => connman_1.4.bb}     |    9 +++--
+>>>   2 files changed, 4 insertions(+), 42 deletions(-)
+>>>   delete mode 100644
+>>> meta/recipes-connectivity/connman/connman/0001-storage-check-that-the-string-isn-t-empty-before-spl.patch
+>>>
+>>>   rename meta/recipes-connectivity/connman/{connman_1.3.bb =>
+>>> connman_1.4.bb} (69%)
+>>>
+>>> diff --git
+>>> a/meta/recipes-connectivity/connman/connman/0001-storage-check-that-the-string-isn-t-empty-before-spl.patch
+>>> b/meta/recipes-connectivity/connman/connman/0001-storage-check-that-the-string-isn-t-empty-before-spl.patch
+>>>
+>>> deleted file mode 100644
+>>> index c92b586..0000000
+>>> ---
+>>> a/meta/recipes-connectivity/connman/connman/0001-storage-check-that-the-string-isn-t-empty-before-spl.patch
+>>>
+>>> +++ /dev/null
+>>> @@ -1,37 +0,0 @@
+>>> -From ea8c7b3efce4c1762411e073893e948de5d552d6 Mon Sep 17 00:00:00 2001
+>>> -From: Ross Burton <ross.burton@intel.com>
+>>> -Date: Tue, 17 Jul 2012 16:04:12 +0100
+>>> -Subject: [PATCH] storage: check that the string isn't empty before
+>>> splitting
+>>> -
+>>> -If the string was non-NULL but empty (str="\0"), the following \0
+>>> assignment
+>>> -would write to str[-1] and thus cause memory corruption.
+>>> -
+>>> -On PPC and MIPS, this was causing crashes in glibc.
+>>> -
+>>> -Signed-off-by: Ross Burton <ross.burton@intel.com>
+>>> -Upstream-Status: Submitted
+>>> -
+>>> ----
+>>> - src/storage.c |    6 +++++-
+>>> - 1 file changed, 5 insertions(+), 1 deletion(-)
+>>> -
+>>> -diff --git a/src/storage.c b/src/storage.c
+>>> -index 47bd0cb..20766a3 100644
+>>> ---- a/src/storage.c
+>>> -+++ b/src/storage.c
+>>> -@@ -212,7 +212,11 @@ gchar **connman_storage_get_services()
+>>> -     closedir(dir);
+>>> -
+>>> -     str = g_string_free(result, FALSE);
+>>> --    if (str) {
+>>> -+    if (str && str[0] != '\0') {
+>>> -+        /*
+>>> -+         * Remove the trailing separator so that services doesn't
+>>> end up
+>>> -+         * with an empty element.
+>>> -+         */
+>>> -         str[strlen(str) - 1] = '\0';
+>>> -         services = g_strsplit(str, "/", -1);
+>>> -     }
+>>> ---
+>>> -1.7.10.4
+>>> -
+>>> diff --git a/meta/recipes-connectivity/connman/connman_1.3.bb
+>>> b/meta/recipes-connectivity/connman/connman_1.4.bb
+>>> similarity index 69%
+>>> rename from meta/recipes-connectivity/connman/connman_1.3.bb
+>>> rename to meta/recipes-connectivity/connman/connman_1.4.bb
+>>> index 4d82794..bd8ba65 100644
+>>> --- a/meta/recipes-connectivity/connman/connman_1.3.bb
+>>> +++ b/meta/recipes-connectivity/connman/connman_1.4.bb
+>>> @@ -1,13 +1,12 @@
+>>>   require connman.inc
+>>>
+>>> -# 1.3 tag
+>>> -SRCREV = "3c0fa84091524c7cd6237744f2088ffee2f1d5ad"
+>>> +# 1.4 tag
+>>> +SRCREV = "f701bbca259f1f35e68d338f31f5373f75f3da5f"
+>>>   SRC_URI  = "git://git.kernel.org/pub/scm/network/connman/connman.git \
+>>> file://0001-plugin.h-Change-visibility-to-default-for-debug-symb.patch \
+>>>               file://add_xuser_dbus_permission.patch \
+>>>               file://connman \
+>>> file://0002-storage.c-If-there-is-no-d_type-support-use-fstatat.patch \
+>>> -
+>>> file://0001-timezone.c-If-there-is-no-d_type-support-use-fstatat.patch \
+>>> -
+>>> file://0001-storage-check-that-the-string-isn-t-empty-before-spl.patch"
+>>> +
+>>> file://0001-timezone.c-If-there-is-no-d_type-support-use-fstatat.patch"
+>>>   S = "${WORKDIR}/git"
+>>> -PR = "${INC_PR}.2"
+>>> +PR = "${INC_PR}.0"
+>>>
+>
+>
+>
 
 
