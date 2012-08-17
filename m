@@ -1,38 +1,36 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1T2KQ7-00029P-2K for openembedded-core@lists.openembedded.org;
-	Fri, 17 Aug 2012 13:08:51 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q7HAurpw008068
+Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <ross.burton@intel.com>) id 1T2L1l-0002b8-LW
+	for openembedded-core@lists.openembedded.org;
+	Fri, 17 Aug 2012 13:47:46 +0200
+Received: from mail-wi0-f178.google.com ([209.85.212.178])
+	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 17 Aug 2012 04:35:45 -0700
+Received: by wibhr14 with SMTP id hr14so1244109wib.13
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Aug 2012 11:56:53 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 07451-06 for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Aug 2012 11:56:49 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q7HAukEg008062
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Aug 2012 11:56:47 +0100
-Message-ID: <1345201006.26132.21.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Fri, 17 Aug 2012 11:56:46 +0100
-In-Reply-To: <CALbNGRR3A35Jx2ia2S4s_RVQ5O2v1g1EUQALyLBtwj4=KDnXxA@mail.gmail.com>
-References: <cover.1345174354.git.laurentiu.palcu@intel.com>
-	<92d6de11744098c3431309c5abc2f3217e166dac.1345174354.git.laurentiu.palcu@intel.com>
-	<1345196331.14667.86.camel@ted>
-	<CALbNGRR3A35Jx2ia2S4s_RVQ5O2v1g1EUQALyLBtwj4=KDnXxA@mail.gmail.com>
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-X-MIME-Autoconverted: from 8bit to quoted-printable by tim.rpsys.net id
-	q7HAurpw008068
-Subject: Re: [PATCH 3/3] adt-installer: add support for relocatable SDK
+	Fri, 17 Aug 2012 04:35:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer:x-gm-message-state;
+	bh=W1+k5f6qX2ZqJNh2CvQ1/id5rVGiLhDuqGUVasdJ2sw=;
+	b=An0K74L0WmW1IT0wny/qKrG40TM+NlBAcNi9nKf3+xg4ssh+9HFGj0IytIXXGziy62
+	6hoZ9SEB3d96BhaKoPHdB1bYVe9Jcv+y1LVmaky8LFWli0SXysDNNFbHYQhRvAuO3Vf5
+	FNkxZZSQxdaBdnIertgKnEDdi2Wwl/Jxsl+CRXUBsOh/1rTKyWgViJJPrENPZT36DVyM
+	bX7epIWBU9/B9DHfSIn1i6eRfcpRFnmxaz4GpOOv2oG6ipDpviABvEWQB1FEUfIngruv
+	/ecBv+2evvPddddZ0zFsTYDGz0g0bwOhRAWkuGKGbV3j4KXCud6+8399O5U2LNw7Yyqr
+	U85A==
+Received: by 10.180.84.164 with SMTP id a4mr4256552wiz.12.1345203343650;
+	Fri, 17 Aug 2012 04:35:43 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPS id w7sm9288608wiz.0.2012.08.17.04.35.42
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 17 Aug 2012 04:35:42 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 17 Aug 2012 12:35:07 +0100
+Message-Id: <cover.1345203203.git.ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10
+X-Gm-Message-State: ALoCoQmNmZ4ECXd1RMTXJXuDyJeZytNfj4ujh5GH9h8f7HhlN4YGwI0ctrhqicApl45K/nFfvxmA
+Subject: [PATCH 0/2] Remove older GTK+ versions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -47,38 +45,160 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Aug 2012 11:08:51 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 17 Aug 2012 11:47:46 -0000
 
-On Fri, 2012-08-17 at 12:42 +0200, Andreas M=C3=BCller wrote:
-> On Fri, Aug 17, 2012 at 11:38 AM, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> > On Fri, 2012-08-17 at 06:44 +0300, Laurentiu Palcu wrote:
-> >> Since we made the SDK relocatable, we have to add this functionality=
- to
-> >> adt-installer too.
-> >>
-> >> Other:
-> >>  - Changed tabs to spaces in the recipe file too.
-> >
-> > Shell functions use tabs, python uses spaces. The OE TSC has thought
-> > long and hard about this and that is the decision. Its not perfect bu=
-t
-> > the alternatives will cause more problems than any benefit is worth.
-> Is there some report/log/styleguide helping me to understand why we
-> use two tab/space strategies instead of having spaces for all?
+Remove the very old versions of GTK+ 2.x that we don't build.  They were
+kept for their patches, but the patches don't apply anymore because the
+relevant code has changed dramatically.
 
-This is the style the bulk of the metadata uses. We really don't want
-patches changing a significant portion of the metadata for cosmetic
-reasons. It would create a world of pain for people handling/merging
-patches, a lot of needless code churn and significant problems for
-people trying to backport changes to older versions of the code base
-amongst other reasons.
+If someone still wants to use them, meta-oe is a better place for them to
+live.
 
-Cheers,
+Ross
 
-Richard
+The following changes since commit af847d36375aa53f0c1ee2a00c97ba9f38837d1b:
+
+  bitbake: bitbake: build.py: Add stampdir argument to cached_mtime_noerror (2012-08-16 12:27:41 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib ross/gtk2
+
+for you to fetch changes up to f6cf7bda28c1ae5f9033863f70657e1970b6bdc9:
+
+  gtk+ remove 2.16.6 (2012-08-17 12:29:59 +0100)
+
+----------------------------------------------------------------
+Ross Burton (2):
+      gtk+: remove 2.12.7
+      gtk+ remove 2.16.6
+
+ .../gtk+/gtk+-2.12.7/cellrenderer-cairo.patch      |   34 -
+ .../gtk+/gtk+-2.12.7/combo-arrow-size.patch        |   69 -
+ .../gtk+/gtk+-2.12.7/disable-print.patch           |   28 -
+ .../gtk+/gtk+-2.12.7/entry-cairo.patch             |  105 -
+ .../gtk+/gtk+-2.12.7/filechooser-default.patch     | 9523 --------------------
+ .../gtk+/gtk+-2.12.7/filechooser-props.patch       |   59 -
+ .../gtk+/gtk+-2.12.7/filechooser-sizefix.patch     |   37 -
+ .../gtk+/gtk+-2.12.7/filesystem-volumes.patch      |  200 -
+ .../gtk+/gtk+-2.12.7/gtklabel-resize-patch         |   12 -
+ .../gtk+/gtk+-2.12.7/hardcoded_libtool.patch       |   31 -
+ .../gtk+/gtk+-2.12.7/menu-deactivate.patch         |   53 -
+ meta/recipes-gnome/gtk+/gtk+-2.12.7/no-demos.patch |   12 -
+ .../gtk+/gtk+-2.12.7/pangoxft2.10.6.diff           | 2458 -----
+ .../gtk+/gtk+-2.12.7/range-no-redraw.patch         |  130 -
+ .../gtk+/gtk+-2.12.7/run-iconcache.patch           |   21 -
+ .../gtk+/gtk+-2.12.7/scrolled-placement.patch      |   24 -
+ .../gtk+/gtk+-2.12.7/toggle-font.diff              |  102 -
+ .../recipes-gnome/gtk+/gtk+-2.12.7/xsettings.patch |   18 -
+ ...Duplicate-the-exec-string-returned-by-gtk.patch |   33 -
+ .../gtk+/gtk+-2.16.6/cellrenderer-cairo.patch      |   34 -
+ .../gtk+-2.16.6/disable-gio-png-sniff-test.diff    |   99 -
+ .../gtk+/gtk+-2.16.6/entry-cairo.patch             |  105 -
+ .../gtk+/gtk+-2.16.6/hardcoded_libtool.patch       |   33 -
+ meta/recipes-gnome/gtk+/gtk+-2.16.6/no-demos.patch |   12 -
+ .../gtk+/gtk+-2.16.6/run-iconcache.patch           |   21 -
+ .../gtk+/gtk+-2.16.6/toggle-font.diff              |  102 -
+ .../recipes-gnome/gtk+/gtk+-2.16.6/xsettings.patch |   18 -
+ meta/recipes-gnome/gtk+/gtk+_2.12.7.bb             |   49 -
+ meta/recipes-gnome/gtk+/gtk+_2.16.6.bb             |   49 -
+ 29 files changed, 13471 deletions(-)
+ delete mode 100644 meta/recipes-gnome/gtk+/gtk+-2.12.7/cellrenderer-cairo.patch
+ delete mode 100644 meta/recipes-gnome/gtk+/gtk+-2.12.7/combo-arrow-size.patch
+ delete mode 100644 meta/recipes-gnome/gtk+/gtk+-2.12.7/disable-print.patch
+ delete mode 100644 meta/recipes-gnome/gtk+/gtk+-2.12.7/entry-cairo.patch
+ delete mode 100644 meta/recipes-gnome/gtk+/gtk+-2.12.7/filechooser-default.patch
+ delete mode 100644 meta/recipes-gnome/gtk+/gtk+-2.12.7/filechooser-props.patch
+ delete mode 100644 meta/recipes-gnome/gtk+/gtk+-2.12.7/filechooser-sizefix.patch
+ delete mode 100644 meta/recipes-gnome/gtk+/gtk+-2.12.7/filesystem-volumes.patch
+ delete mode 100644 meta/recipes-gnome/gtk+/gtk+-2.12.7/gtklabel-resize-patch
+ delete mode 100644 meta/recipes-gnome/gtk+/gtk+-2.12.7/hardcoded_libtool.patch
+ delete mode 100644 meta/recipes-gnome/gtk+/gtk+-2.12.7/menu-deactivate.patch
+ delete mode 100644 meta/recipes-gnome/gtk+/gtk+-2.12.7/no-demos.patch
+ delete mode 100644 meta/recipes-gnome/gtk+/gtk+-2.12.7/pangoxft2.10.6.diff
+ delete mode 100644 meta/recipes-gnome/gtk+/gtk+-2.12.7/range-no-redraw.patch
+ delete mode 100644 meta/recipes-gnome/gtk+/gtk+-2.12.7/run-iconcache.patch
+ delete mode 100644 meta/recipes-gnome/gtk+/gtk+-2.12.7/scrolled-placement.patch
+ delete mode 100644 meta/recipes-gnome/gtk+/gtk+-2.12.7/toggle-font.diff
+ delete mode 100644 meta/recipes-gnome/gtk+/gtk+-2.12.7/xsettings.patch
+ delete mode 100644 meta/recipes-gnome/gtk+/gtk+-2.16.6/0001-bgo-584832-Duplicate-the-exec-string-returned-by-gtk.patch
+ delete mode 100644 meta/recipes-gnome/gtk+/gtk+-2.16.6/cellrenderer-cairo.patch
+ delete mode 100644 meta/recipes-gnome/gtk+/gtk+-2.16.6/disable-gio-png-sniff-test.diff
+ delete mode 100644 meta/recipes-gnome/gtk+/gtk+-2.16.6/entry-cairo.patch
+ delete mode 100644 meta/recipes-gnome/gtk+/gtk+-2.16.6/hardcoded_libtool.patch
+ delete mode 100644 meta/recipes-gnome/gtk+/gtk+-2.16.6/no-demos.patch
+ delete mode 100644 meta/recipes-gnome/gtk+/gtk+-2.16.6/run-iconcache.patch
+ delete mode 100644 meta/recipes-gnome/gtk+/gtk+-2.16.6/toggle-font.diff
+ delete mode 100644 meta/recipes-gnome/gtk+/gtk+-2.16.6/xsettings.patch
+ delete mode 100644 meta/recipes-gnome/gtk+/gtk+_2.12.7.bb
+ delete mode 100644 meta/recipes-gnome/gtk+/gtk+_2.16.6.bb
+
+Ross Burton (2):
+  gtk+: remove 2.12.7
+  gtk+ remove 2.16.6
+
+ .../gtk+/gtk+-2.12.7/cellrenderer-cairo.patch      |   34 -
+ .../gtk+/gtk+-2.12.7/combo-arrow-size.patch        |   69 -
+ .../gtk+/gtk+-2.12.7/disable-print.patch           |   28 -
+ .../gtk+/gtk+-2.12.7/entry-cairo.patch             |  105 -
+ .../gtk+/gtk+-2.12.7/filechooser-default.patch     | 9523 --------------------
+ .../gtk+/gtk+-2.12.7/filechooser-props.patch       |   59 -
+ .../gtk+/gtk+-2.12.7/filechooser-sizefix.patch     |   37 -
+ .../gtk+/gtk+-2.12.7/filesystem-volumes.patch      |  200 -
+ .../gtk+/gtk+-2.12.7/gtklabel-resize-patch         |   12 -
+ .../gtk+/gtk+-2.12.7/hardcoded_libtool.patch       |   31 -
+ .../gtk+/gtk+-2.12.7/menu-deactivate.patch         |   53 -
+ meta/recipes-gnome/gtk+/gtk+-2.12.7/no-demos.patch |   12 -
+ .../gtk+/gtk+-2.12.7/pangoxft2.10.6.diff           | 2458 -----
+ .../gtk+/gtk+-2.12.7/range-no-redraw.patch         |  130 -
+ .../gtk+/gtk+-2.12.7/run-iconcache.patch           |   21 -
+ .../gtk+/gtk+-2.12.7/scrolled-placement.patch      |   24 -
+ .../gtk+/gtk+-2.12.7/toggle-font.diff              |  102 -
+ .../recipes-gnome/gtk+/gtk+-2.12.7/xsettings.patch |   18 -
+ ...Duplicate-the-exec-string-returned-by-gtk.patch |   33 -
+ .../gtk+/gtk+-2.16.6/cellrenderer-cairo.patch      |   34 -
+ .../gtk+-2.16.6/disable-gio-png-sniff-test.diff    |   99 -
+ .../gtk+/gtk+-2.16.6/entry-cairo.patch             |  105 -
+ .../gtk+/gtk+-2.16.6/hardcoded_libtool.patch       |   33 -
+ meta/recipes-gnome/gtk+/gtk+-2.16.6/no-demos.patch |   12 -
+ .../gtk+/gtk+-2.16.6/run-iconcache.patch           |   21 -
+ .../gtk+/gtk+-2.16.6/toggle-font.diff              |  102 -
+ .../recipes-gnome/gtk+/gtk+-2.16.6/xsettings.patch |   18 -
+ meta/recipes-gnome/gtk+/gtk+_2.12.7.bb             |   49 -
+ meta/recipes-gnome/gtk+/gtk+_2.16.6.bb             |   49 -
+ 29 files changed, 13471 deletions(-)
+ delete mode 100644 meta/recipes-gnome/gtk+/gtk+-2.12.7/cellrenderer-cairo.patch
+ delete mode 100644 meta/recipes-gnome/gtk+/gtk+-2.12.7/combo-arrow-size.patch
+ delete mode 100644 meta/recipes-gnome/gtk+/gtk+-2.12.7/disable-print.patch
+ delete mode 100644 meta/recipes-gnome/gtk+/gtk+-2.12.7/entry-cairo.patch
+ delete mode 100644 meta/recipes-gnome/gtk+/gtk+-2.12.7/filechooser-default.patch
+ delete mode 100644 meta/recipes-gnome/gtk+/gtk+-2.12.7/filechooser-props.patch
+ delete mode 100644 meta/recipes-gnome/gtk+/gtk+-2.12.7/filechooser-sizefix.patch
+ delete mode 100644 meta/recipes-gnome/gtk+/gtk+-2.12.7/filesystem-volumes.patch
+ delete mode 100644 meta/recipes-gnome/gtk+/gtk+-2.12.7/gtklabel-resize-patch
+ delete mode 100644 meta/recipes-gnome/gtk+/gtk+-2.12.7/hardcoded_libtool.patch
+ delete mode 100644 meta/recipes-gnome/gtk+/gtk+-2.12.7/menu-deactivate.patch
+ delete mode 100644 meta/recipes-gnome/gtk+/gtk+-2.12.7/no-demos.patch
+ delete mode 100644 meta/recipes-gnome/gtk+/gtk+-2.12.7/pangoxft2.10.6.diff
+ delete mode 100644 meta/recipes-gnome/gtk+/gtk+-2.12.7/range-no-redraw.patch
+ delete mode 100644 meta/recipes-gnome/gtk+/gtk+-2.12.7/run-iconcache.patch
+ delete mode 100644 meta/recipes-gnome/gtk+/gtk+-2.12.7/scrolled-placement.patch
+ delete mode 100644 meta/recipes-gnome/gtk+/gtk+-2.12.7/toggle-font.diff
+ delete mode 100644 meta/recipes-gnome/gtk+/gtk+-2.12.7/xsettings.patch
+ delete mode 100644 meta/recipes-gnome/gtk+/gtk+-2.16.6/0001-bgo-584832-Duplicate-the-exec-string-returned-by-gtk.patch
+ delete mode 100644 meta/recipes-gnome/gtk+/gtk+-2.16.6/cellrenderer-cairo.patch
+ delete mode 100644 meta/recipes-gnome/gtk+/gtk+-2.16.6/disable-gio-png-sniff-test.diff
+ delete mode 100644 meta/recipes-gnome/gtk+/gtk+-2.16.6/entry-cairo.patch
+ delete mode 100644 meta/recipes-gnome/gtk+/gtk+-2.16.6/hardcoded_libtool.patch
+ delete mode 100644 meta/recipes-gnome/gtk+/gtk+-2.16.6/no-demos.patch
+ delete mode 100644 meta/recipes-gnome/gtk+/gtk+-2.16.6/run-iconcache.patch
+ delete mode 100644 meta/recipes-gnome/gtk+/gtk+-2.16.6/toggle-font.diff
+ delete mode 100644 meta/recipes-gnome/gtk+/gtk+-2.16.6/xsettings.patch
+ delete mode 100644 meta/recipes-gnome/gtk+/gtk+_2.12.7.bb
+ delete mode 100644 meta/recipes-gnome/gtk+/gtk+_2.16.6.bb
+
+-- 
+1.7.10
 
 
 
