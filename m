@@ -1,34 +1,38 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1T2KMb-000254-JV for openembedded-core@lists.openembedded.org;
-	Fri, 17 Aug 2012 13:05:13 +0200
+	id 1T2KQ7-00029P-2K for openembedded-core@lists.openembedded.org;
+	Fri, 17 Aug 2012 13:08:51 +0200
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q7HArC9N008036;
-	Fri, 17 Aug 2012 11:53:12 +0100
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q7HAurpw008068
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 17 Aug 2012 11:56:53 +0100
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 07637-04; Fri, 17 Aug 2012 11:53:08 +0100 (BST)
+	id 07451-06 for <openembedded-core@lists.openembedded.org>;
+	Fri, 17 Aug 2012 11:56:49 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q7HAr2qQ008030
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Fri, 17 Aug 2012 11:53:03 +0100
-Message-ID: <1345200782.26132.18.camel@ted>
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q7HAukEg008062
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 17 Aug 2012 11:56:47 +0100
+Message-ID: <1345201006.26132.21.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Liang Li <liang.li@windriver.com>
-Date: Fri, 17 Aug 2012 11:53:02 +0100
-In-Reply-To: <20120817100001.GA16621@localhost>
-References: <1344008589-3660-1-git-send-email-liang.li@windriver.com>
-	<1344348160.9756.255.camel@ted> <20120808033742.GA19078@localhost>
-	<20120814021712.GB25748@localhost> <502D12E2.4000808@windriver.com>
-	<1345132684.14667.70.camel@ted> <20120817033209.GB19625@localhost>
-	<1345196146.14667.84.camel@ted> <20120817100001.GA16621@localhost>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Fri, 17 Aug 2012 11:56:46 +0100
+In-Reply-To: <CALbNGRR3A35Jx2ia2S4s_RVQ5O2v1g1EUQALyLBtwj4=KDnXxA@mail.gmail.com>
+References: <cover.1345174354.git.laurentiu.palcu@intel.com>
+	<92d6de11744098c3431309c5abc2f3217e166dac.1345174354.git.laurentiu.palcu@intel.com>
+	<1345196331.14667.86.camel@ted>
+	<CALbNGRR3A35Jx2ia2S4s_RVQ5O2v1g1EUQALyLBtwj4=KDnXxA@mail.gmail.com>
 X-Mailer: Evolution 3.2.3-0ubuntu6 
 Mime-Version: 1.0
 X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: darren.hart@intel.com, openembedded-core@lists.openembedded.org
-Subject: Re: [discussion] perf: specify SLANG_INC dir for perf
+X-MIME-Autoconverted: from 8bit to quoted-printable by tim.rpsys.net id
+	q7HAurpw008068
+Subject: Re: [PATCH 3/3] adt-installer: add support for relocatable SDK
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,45 +47,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Aug 2012 11:05:13 -0000
+X-List-Received-Date: Fri, 17 Aug 2012 11:08:51 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 2012-08-17 at 18:00 +0800, Liang Li wrote:
-> I am totally confused, you mentioned 'general kernel do_install', I
-> assume it's oe-core kernel.bbclass concept. Then you mentioned 'get
-> the fix upstream in the mainline kernel', how could that happen?
-> 
-> We are discussing about the solution to 'fix the compile warning to
-> error' stuff that triggered by the '-I/usr/include/slang', right?
+On Fri, 2012-08-17 at 12:42 +0200, Andreas M=C3=BCller wrote:
+> On Fri, Aug 17, 2012 at 11:38 AM, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> > On Fri, 2012-08-17 at 06:44 +0300, Laurentiu Palcu wrote:
+> >> Since we made the SDK relocatable, we have to add this functionality=
+ to
+> >> adt-installer too.
+> >>
+> >> Other:
+> >>  - Changed tabs to spaces in the recipe file too.
+> >
+> > Shell functions use tabs, python uses spaces. The OE TSC has thought
+> > long and hard about this and that is the decision. Its not perfect bu=
+t
+> > the alternatives will cause more problems than any benefit is worth.
+> Is there some report/log/styleguide helping me to understand why we
+> use two tab/space strategies instead of having spaces for all?
 
-Yes.
-
->  We do not necessarily have to change recipe to fix it since the issue
-> is not introduced by the recipe, the hard coded '-I/usr/include/slang'
-> in the Makefile cause the issue, we can fix the root cause by kernel
-> patch(other than just comment the line out). I see your previous patch
-> to kernel, by comment out the '-I/usr/include/slang' line in the
-> Makefile, is the same behavior, but we won't have the change(comment
-> out -I.. in Makefile) upstream to mainline, right?
-
-I am suggesting that firstly, someone send a patch to the mainline
-kernel which changes -I/usr/include/slang to -I=/usr/include/slang in
-that Makefile.
-
-Secondly, I'm suggesting that we add a line to kernel_do_install() in
-kernel.bbclass which does a sed on the Makefile as installed into
-$kerneldir which changes -I/usr/include/slang to -I=/usr/include/slang.
-
-We can then drop the patch I added to the linux-yocto kernels.
-
-This is all that should be needed, it should fix all the issues people
-have reported in a way that is acceptable to everyone.
+This is the style the bulk of the metadata uses. We really don't want
+patches changing a significant portion of the metadata for cosmetic
+reasons. It would create a world of pain for people handling/merging
+patches, a lot of needless code churn and significant problems for
+people trying to backport changes to older versions of the code base
+amongst other reasons.
 
 Cheers,
 
 Richard
-
 
 
 
