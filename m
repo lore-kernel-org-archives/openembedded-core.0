@@ -1,19 +1,17 @@
 Received: from li44-10.members.linode.com ([72.14.181.10] helo=plausible.org)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andy.ross@windriver.com>) id 1T2P2z-0001Kh-BB
+	(envelope-from <andy.ross@windriver.com>) id 1T2P2z-0001Kg-F3
 	for openembedded-core@openembedded.org; Fri, 17 Aug 2012 18:05:17 +0200
 Received: from cougar.plausible.org (c-67-171-188-207.hsd1.or.comcast.net
 	[67.171.188.207]) (Authenticated sender: andy-wrs)
-	by plausible.org (Postfix) with ESMTPSA id E6D4D1ED0F;
+	by plausible.org (Postfix) with ESMTPSA id 8719B1EC71;
 	Fri, 17 Aug 2012 08:53:19 -0700 (PDT)
 From: Andy Ross <andy.ross@windriver.com>
 To: openembedded-core@openembedded.org
-Date: Fri, 17 Aug 2012 08:53:10 -0700
-Message-Id: <1345218791-28891-2-git-send-email-andy.ross@windriver.com>
+Date: Fri, 17 Aug 2012 08:53:09 -0700
+Message-Id: <1345218791-28891-1-git-send-email-andy.ross@windriver.com>
 X-Mailer: git-send-email 1.7.11.2
-In-Reply-To: <1345218791-28891-1-git-send-email-andy.ross@windriver.com>
-References: <1345218791-28891-1-git-send-email-andy.ross@windriver.com>
-Subject: [PATCH 1/2] insane.bbclass: Fix RPATH warning in the face of funny path strings
+Subject: [PATCH 0/2] RPATH host pollution fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -30,41 +28,30 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 17 Aug 2012 16:05:17 -0000
 
-In toolchain edge cases it's possible for the RPATH of a library to be
-set to something like "/usr/lib/../lib".  This should be detected as
-"/usr/lib" and generate a warning.
+Results from chasing the RPATH pollution I was seeing:
 
-Signed-off-by: Andy Ross <andy.ross@windriver.com>
----
- meta/classes/insane.bbclass | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+I don't have a fix for the underlying linker issue, but that is
+captured here:
 
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index 556a176..b84a89f 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -161,6 +161,10 @@ def package_qa_check_rpath(file,name, d, elf, messages):
-             if dir in line:
-                 messages.append("package %s contains bad RPATH %s in file %s" % (name, line, file))
- 
-+def rpath_eq(a, b):
-+    import os.path
-+    return os.path.normpath(a) == os.path.normpath(b)
-+
- QAPATHTEST[useless-rpaths] = "package_qa_check_useless_rpaths"
- def package_qa_check_useless_rpaths(file, name, d, elf, messages):
-     """
-@@ -181,7 +185,7 @@ def package_qa_check_useless_rpaths(file, name, d, elf, messages):
-     	m = rpath_re.match(line)
- 	if m:
- 	   rpath = m.group(1)
--	   if rpath == libdir or rpath == base_libdir:
-+	   if rpath_eq(rpath, libdir) or rpath_eq(rpath, base_libdir):
- 	      # The dynamic linker searches both these places anyway.  There is no point in
- 	      # looking there again.
- 	      messages.append("%s: %s contains probably-redundant RPATH %s" % (name, package_qa_clean_path(file, d), rpath))
--- 
-1.7.11.2
+  https://bugzilla.yoctoproject.org/show_bug.cgi?id=2965
+
+Patch 1 is the warning fix from earlier, which is still a fix to the
+existing logic and should be applied.  I've removed the
+"host-polluted" text though, as AFAICT the actual RPATH is not a
+problem, only the use of -rpath with the linker that produced it.
+
+Patch 2 is a fix to libtool on top of the existing fix-rpath.patch to
+normalize the strings.  With this applied, all the link failures we
+have reproduced (including the one reported vs. owl_video last week)
+work correctly.  No libraries in the resulting sysroot have a RPATH
+set to a default link directory.
+
+A few runnable binaries still trigger the warning though (but
+otherwise build successfully), I'm looking at that now -- I suspect
+these simply aren't using libtool, or else we've missed a spot where
+normalization and/or default directory pruning needs to happen.
+
+Andy
 
 
 
