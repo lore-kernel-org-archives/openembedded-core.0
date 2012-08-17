@@ -1,27 +1,32 @@
-Received: from mga03.intel.com ([143.182.124.21])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1T2PTV-0001qD-3C
-	for openembedded-core@lists.openembedded.org;
-	Fri, 17 Aug 2012 18:32:41 +0200
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 17 Aug 2012 09:20:41 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.77,785,1336374000"; d="scan'208";a="135454292"
-Received: from unknown (HELO [10.255.12.253]) ([10.255.12.253])
-	by AZSMGA002.ch.intel.com with ESMTP; 17 Aug 2012 09:20:39 -0700
-Message-ID: <502E6F57.8030004@linux.intel.com>
-Date: Fri, 17 Aug 2012 09:20:39 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:14.0) Gecko/20120717 Thunderbird/14.0
-MIME-Version: 1.0
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1T2PTX-0001qF-Ae for openembedded-core@lists.openembedded.org;
+	Fri, 17 Aug 2012 18:32:43 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q7HGKiWD010839;
+	Fri, 17 Aug 2012 17:20:44 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 10094-06; Fri, 17 Aug 2012 17:20:40 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q7HGKYgL010832
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Fri, 17 Aug 2012 17:20:35 +0100
+Message-ID: <1345220434.27428.15.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <1344948628-15705-1-git-send-email-constantinx.musca@intel.com>
-	<1344948628-15705-4-git-send-email-constantinx.musca@intel.com>
-In-Reply-To: <1344948628-15705-4-git-send-email-constantinx.musca@intel.com>
-Cc: Constantin Musca <constantinx.musca@intel.com>
-Subject: Re: [PATCH 3/3] libxrandr: upgrade to 1.4.0
+Date: Fri, 17 Aug 2012 17:20:34 +0100
+In-Reply-To: <1345218791-28891-2-git-send-email-andy.ross@windriver.com>
+References: <1345218791-28891-1-git-send-email-andy.ross@windriver.com>
+	<1345218791-28891-2-git-send-email-andy.ross@windriver.com>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: openembedded-core@openembedded.org
+Subject: Re: [PATCH 1/2] insane.bbclass: Fix RPATH warning in the face of funny path strings
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,49 +41,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Aug 2012 16:32:41 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Fri, 17 Aug 2012 16:32:45 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 08/14/2012 05:50 AM, Constantin Musca wrote:
-> Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
+On Fri, 2012-08-17 at 08:53 -0700, Andy Ross wrote:
+> In toolchain edge cases it's possible for the RPATH of a library to be
+> set to something like "/usr/lib/../lib".  This should be detected as
+> "/usr/lib" and generate a warning.
+> 
+> Signed-off-by: Andy Ross <andy.ross@windriver.com>
 > ---
->   .../{libxrandr_1.3.2.bb => libxrandr_1.4.0.bb}     |    6 +++---
->   1 file changed, 3 insertions(+), 3 deletions(-)
->   rename meta/recipes-graphics/xorg-lib/{libxrandr_1.3.2.bb => libxrandr_1.4.0.bb} (72%)
->
-> diff --git a/meta/recipes-graphics/xorg-lib/libxrandr_1.3.2.bb b/meta/recipes-graphics/xorg-lib/libxrandr_1.4.0.bb
-> similarity index 72%
-> rename from meta/recipes-graphics/xorg-lib/libxrandr_1.3.2.bb
-> rename to meta/recipes-graphics/xorg-lib/libxrandr_1.4.0.bb
-> index 6fc3cf5..323c098 100644
-> --- a/meta/recipes-graphics/xorg-lib/libxrandr_1.3.2.bb
-> +++ b/meta/recipes-graphics/xorg-lib/libxrandr_1.4.0.bb
-> @@ -9,7 +9,7 @@ specified in the Proceedings of the 2001 Usenix Technical Conference \
->   require xorg-lib-common.inc
->
->   LICENSE = "MIT-style"
-> -LIC_FILES_CHKSUM = "file://COPYING;md5=4c5c132d3690478179d78ec3bf064584"
-> +LIC_FILES_CHKSUM = "file://COPYING;md5=aa33e583cc3e96238a8467b485e62992"
+>  meta/classes/insane.bbclass | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
+> 
+> diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+> index 556a176..b84a89f 100644
+> --- a/meta/classes/insane.bbclass
+> +++ b/meta/classes/insane.bbclass
+> @@ -161,6 +161,10 @@ def package_qa_check_rpath(file,name, d, elf, messages):
+>              if dir in line:
+>                  messages.append("package %s contains bad RPATH %s in file %s" % (name, line, file))
+>  
+> +def rpath_eq(a, b):
+> +    import os.path
 
-What changed in the license file?  It could be as simple as the 
-Copyright year or more complex, but you need to include that information 
-in the commit message.
+You don't need that import, os is always assumed to be present for our
+code since it gets used so often. I'd suggest defining this within the 
+package_qa_check_useless_rpaths() function too since its slightly less
+effort for the parser.
 
-Thanks
-	Sau!
+Cheers,
 
->
->   DEPENDS += "virtual/libx11 randrproto libxrender libxext"
->
-> @@ -20,5 +20,5 @@ XORG_PN = "libXrandr"
->
->   BBCLASSEXTEND = "native nativesdk"
->
-> -SRC_URI[md5sum] = "92473da2fccf5fac665be4fa4f2037fa"
-> -SRC_URI[sha256sum] = "7eaca216ab5233d7396119eb87c1989d350a3efead104d54b55f22cdd1d99b81"
-> +SRC_URI[md5sum] = "0c843636124cc1494e3d87df16957672"
-> +SRC_URI[sha256sum] = "033ad0ac2f012afb05268660f6d78705c85f84689f92fa7b47ce12959b15f5c3"
->
+Richard
+
+> +    return os.path.normpath(a) == os.path.normpath(b)
+> +
+>  QAPATHTEST[useless-rpaths] = "package_qa_check_useless_rpaths"
+>  def package_qa_check_useless_rpaths(file, name, d, elf, messages):
+>      """
+> @@ -181,7 +185,7 @@ def package_qa_check_useless_rpaths(file, name, d, elf, messages):
+>      	m = rpath_re.match(line)
+>  	if m:
+>  	   rpath = m.group(1)
+> -	   if rpath == libdir or rpath == base_libdir:
+> +	   if rpath_eq(rpath, libdir) or rpath_eq(rpath, base_libdir):
+>  	      # The dynamic linker searches both these places anyway.  There is no point in
+>  	      # looking there again.
+>  	      messages.append("%s: %s contains probably-redundant RPATH %s" % (name, package_qa_clean_path(file, d), rpath))
+
+
 
 
