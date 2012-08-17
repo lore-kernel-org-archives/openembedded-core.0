@@ -1,33 +1,24 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Liang.Li@windriver.com>) id 1T2DTn-0004k5-F6
+	(envelope-from <laurentiu.palcu@intel.com>) id 1T2Dfe-0004uE-VJ
 	for openembedded-core@lists.openembedded.org;
-	Fri, 17 Aug 2012 05:44:11 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q7H3WBRA015412
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 16 Aug 2012 20:32:11 -0700 (PDT)
-Received: from localhost (128.224.163.138) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.309.2;
-	Thu, 16 Aug 2012 20:32:10 -0700
-Date: Fri, 17 Aug 2012 11:32:09 +0800
-From: Liang Li <liang.li@windriver.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20120817033209.GB19625@localhost>
-References: <1344008589-3660-1-git-send-email-liang.li@windriver.com>
-	<1344348160.9756.255.camel@ted> <20120808033742.GA19078@localhost>
-	<20120814021712.GB25748@localhost> <502D12E2.4000808@windriver.com>
-	<1345132684.14667.70.camel@ted>
-MIME-Version: 1.0
-In-Reply-To: <1345132684.14667.70.camel@ted>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: darren.hart@intel.com, openembedded-core@lists.openembedded.org
-Subject: Re: [discussion] perf: specify SLANG_INC dir for perf
+	Fri, 17 Aug 2012 05:56:27 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 16 Aug 2012 20:44:28 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.77,782,1336374000"; d="scan'208";a="203251908"
+Received: from lpalcu-linux (HELO localhost.localdomain) ([10.237.105.41])
+	by fmsmga001.fm.intel.com with ESMTP; 16 Aug 2012 20:44:27 -0700
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 17 Aug 2012 06:44:19 +0300
+Message-Id: <cover.1345174354.git.laurentiu.palcu@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH 0/3] Add support for relocatable SDK to ADT installer and some fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Liang Li <liang.li@windriver.com>,
-	Patches and discussions about the oe-core layer
+Reply-To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
@@ -38,65 +29,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Aug 2012 03:44:11 -0000
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
+X-List-Received-Date: Fri, 17 Aug 2012 03:56:27 -0000
 
-On 2012-08-16 23:58, Richard Purdie <richard.purdie@linuxfoundation.org> wrote:
-> On Thu, 2012-08-16 at 11:33 -0400, Bruce Ashfield wrote:
-> > On 12-08-13 10:17 PM, Liang Li wrote:
-> > > Hi Richard,
-> > >
-> > > Ping ...
-> > >
-> > > Hopefully you could recall sufficient context from this thread about
-> > > the 'include path for slang.h' cause compile error issue that we are
-> > > trying to fix here.
-> > 
-> > Bump.
-> > 
-> > I'm holding off on merging a kernel patch for this while this is still
-> > outstanding.
-> > 
-> > Can I distill this into the following (in the hope of resolving it).
-> > 
-> >    - do we want to fix this problem for all kernels, or just the linux-yocto
-> >      ones ? And by 'fix', I mean without the requirement of porting
-> >      a kernel patch to older recipes.
-> 
-> I propose we add a sed expression to the general kernel do_install which
-> changes the -I/usr/include/slang -> -I=/usr/include/slang. That should
-> be generic, acceptable to upstream and fixes all kernel versions.
-> 
-> Comments?
-> 
+Hi,
 
-Good advise, so the kernel patch can be revised to:
-
-diff --git a/tools/perf/Makefile b/tools/perf/Makefile
-index 067f2df..071986c 100644
---- a/tools/perf/Makefile
-+++ b/tools/perf/Makefile
-@@ -497,7 +497,7 @@ else
- 		BASIC_CFLAGS += -DNO_NEWT_SUPPORT
- 	else
- 		# Some releases like Fedora has /usr/include/slang/slang.h other than /usr/include/slang.h
--		SLANG_INC ?= -I/usr/include/slang
-+		SLANG_INC ?= -idirafter /usr/include/slang
- 		BASIC_CFLAGS += $(SLANG_INC)
- 
- 		EXTLIBS += -lnewt -lslang
-
----
-
-With this, we might not have to touch perf.bb. So seems like we'll use
-this solution? :)
+This patchset adds support for relocating SDK to ADT installer and a couple of
+fixes.
 
 Thanks,
-		Liang Li
+Laurentiu
 
-> Cheers,
-> 
-> Richard
+The following changes since commit af847d36375aa53f0c1ee2a00c97ba9f38837d1b:
+
+  bitbake: bitbake: build.py: Add stampdir argument to cached_mtime_noerror (2012-08-16 12:27:41 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib lpalcu/relocatable_adt
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=lpalcu/relocatable_adt
+
+Laurentiu Palcu (3):
+  populate_sdk_base.bbclass: fix SDK relocation issues
+  package.bbclass: change RPATHs for cross-canadian binaries
+  adt-installer: add support for relocatable SDK
+
+ meta/classes/package.bbclass                       |    2 +-
+ meta/classes/populate_sdk_base.bbclass             |    4 +-
+ .../installer/adt-installer/adt_installer          |   11 ++
+ .../adt-installer/scripts/adt_installer_internal   |  111 ++++++++++++++++----
+ .../installer/adt-installer_1.0.bb                 |   37 +++----
+ 5 files changed, 126 insertions(+), 39 deletions(-)
+
+-- 
+1.7.9.5
+
 
 
