@@ -1,39 +1,34 @@
-Received: from mail-wg0-f43.google.com ([74.125.82.43])
+Received: from mail-pb0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <andrei@gherzan.ro>) id 1T28kU-0005E4-J5
+	(envelope-from <marc.reilly@gmail.com>) id 1T2ATD-0007DD-DF
 	for openembedded-core@lists.openembedded.org;
-	Fri, 17 Aug 2012 00:41:07 +0200
-Received: by wgbdr1 with SMTP id dr1so2533029wgb.24
+	Fri, 17 Aug 2012 02:31:23 +0200
+Received: by pbcwy7 with SMTP id wy7so2795534pbc.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Aug 2012 15:29:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references
-	:in-reply-to:references:x-gm-message-state;
-	bh=Yzh3flTj1GT7YH1n+0mPEkSE3ifZ7/npBhvN8sjrCqY=;
-	b=RfO6dqmL4Ay9T95t1oRYmUO4P4ba1SoDtkAP6gGmK920n4LrmmYo8OYYoPgL4Try+l
-	6fSiKRT1bzHbTQtVK2llaczf7I9aqPkMJozHk2Q+sNe32dzE2vFi4x0L/XbjIa9yMj9A
-	/Ryd4sxUoCft2QiATVoePjPv2g4+ClTeYpndlRCXfnHNsBoO7tuCm90jMOtvveqmVv+u
-	bc03tpTn19XHWdqrF3yo3uVLRCx2RYXexLxkHlneYwyZmO6LGTFH/n2FmppA++YVROtc
-	rvnc1WDocLRd77WPS/8QbO1k4+nOoCIicau+F3z4O8975Tq1oqkcR7Am5VK9ObNLBL7z
-	mEBQ==
-Received: by 10.180.79.69 with SMTP id h5mr6641396wix.6.1345156148994;
-	Thu, 16 Aug 2012 15:29:08 -0700 (PDT)
-Received: from localhost.localdomain ([79.115.110.29])
-	by mx.google.com with ESMTPS id cu1sm6321240wib.6.2012.08.16.15.29.07
+	Thu, 16 Aug 2012 17:19:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=sender:from:to:cc:subject:date:message-id:x-mailer;
+	bh=KtJKaedI2aCqSrouW6HybIROcRNrw/2ov3FYOMWIfNQ=;
+	b=W4ISB/Ma/IdRtBqqXbviyCc97mSmWHRnSQBzp6HoNcKWoTx1UT4SIdGsA6vLPDC+Ko
+	hAhWZgIrfwYaxVl3fzTtXpnhsjxYa4Cn7OBSnBRLdv3t+1EJxwTeV9coIln4iueLzL+W
+	mZAxcwhx6QO6QQ13Z3DhBcx6A85iNtsojOoo1DB4zHk/o9BC6upWTDcGnwYaprFxZ8WV
+	dajqAsM8KmyuzSM0WjuOFzCEpZ4gyh0UtHrgv3tbj+9o4UKm0ec3AuK9hwd9Kurbscix
+	H8CAb8dJjIiPT+7THLH+PsiEm2/wqn0rmUCxYNzfxcFeoCJegWDRMnnYQrEburTHK16j
+	DJiA==
+Received: by 10.68.220.193 with SMTP id py1mr7339211pbc.4.1345162764473;
+	Thu, 16 Aug 2012 17:19:24 -0700 (PDT)
+Received: from localhost.localdomain (220-244-174-13.static.tpgi.com.au.
+	[220.244.174.13])
+	by mx.google.com with ESMTPS id b4sm2840203pbw.28.2012.08.16.17.19.21
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 16 Aug 2012 15:29:08 -0700 (PDT)
-From: Andrei Gherzan <andrei@gherzan.ro>
+	Thu, 16 Aug 2012 17:19:23 -0700 (PDT)
+Sender: Marc Reilly <marc.reilly@gmail.com>
+From: Marc Reilly <marc@cpdesign.com.au>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 17 Aug 2012 01:28:52 +0300
-Message-Id: <31b13351bd60c8d0c6a813747bd19df09b52e0e8.1345155936.git.andrei@gherzan.ro>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <754a26c722091d5922d1ef095def13f1cf57f27f.1345155936.git.andrei@gherzan.ro>
-References: <754a26c722091d5922d1ef095def13f1cf57f27f.1345155936.git.andrei@gherzan.ro>
-In-Reply-To: <cover.1345155936.git.andrei@gherzan.ro>
-References: <cover.1345155936.git.andrei@gherzan.ro>
-X-Gm-Message-State: ALoCoQm85MrkhI6cyZHau9P/UZa9lsaYK9SuN7CdLQXRRoUopEHk6MBlB32xq+x57VBR/R+XtNW1
-Subject: [V2 PATCH 6/6] busybox: Package hwclock.sh initscript separately
+Date: Fri, 17 Aug 2012 10:10:35 +1000
+Message-Id: <1345162235-23835-1-git-send-email-marc@cpdesign.com.au>
+X-Mailer: git-send-email 1.7.7
+Subject: [PATCH] avahi: fix packaging of avahi-autoipd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -48,41 +43,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Aug 2012 22:41:07 -0000
+X-List-Received-Date: Fri, 17 Aug 2012 00:31:23 -0000
 
-We package this separately to be able to pull this in only if this makes
-sense for the MACHINE.
+- Avahi's "avahi-autoipd" file is in the dhcp/ folder, not dhcp3/
+- udhcpc files were being installed but not being shipped in avahi-autoipd
+- do_install override for avahi-autoipd was not being called and is not
+  required, so join it into regular do_install.
+- While at it, fixup string quoting in description.
 
-Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
+This makes avahi-autoipd work with simple ifup/down scripts.
+
+Signed-off-by: Marc Reilly <marc@cpdesign.com.au>
 ---
- meta/recipes-core/busybox/busybox.inc |    5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ meta/recipes-connectivity/avahi/avahi.inc |   11 +++++------
+ 1 files changed, 5 insertions(+), 6 deletions(-)
 
-diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
-index 78239a2..5a5b383 100644
---- a/meta/recipes-core/busybox/busybox.inc
-+++ b/meta/recipes-core/busybox/busybox.inc
-@@ -14,15 +14,16 @@ SECTION = "base"
- export EXTRA_CFLAGS = "${CFLAGS}"
- export EXTRA_LDFLAGS = "${LDFLAGS}"
+diff --git a/meta/recipes-connectivity/avahi/avahi.inc b/meta/recipes-connectivity/avahi/avahi.inc
+index 37ff70d..f0c043b 100644
+--- a/meta/recipes-connectivity/avahi/avahi.inc
++++ b/meta/recipes-connectivity/avahi/avahi.inc
+@@ -1,10 +1,10 @@
+ SUMMARY = "Avahi IPv4LL network address configuration daemon"
+-DESCRIPTION = "Avahi is a fully LGPL framework for Multicast DNS Service Discovery. It \
++DESCRIPTION = 'Avahi is a fully LGPL framework for Multicast DNS Service Discovery. It \
+ allows programs to publish and discover services and hosts running on a local network \
+ with no specific configuration. This tool implements IPv4LL, "Dynamic Configuration of \
+ IPv4 Link-Local Addresses" (IETF RFC3927), a protocol for automatic IP address \
+ configuration from the link-local 169.254.0.0/16 range without the need for a central \
+-server."
++server."'
+ AUTHOR = "Lennart Poettering <lennart@poettering.net>"
+ HOMEPAGE = "http://avahi.org"
+ BUGTRACKER = "http://avahi.org/report"
+@@ -63,7 +63,9 @@ PACKAGES =+ "avahi-systemd avahi-daemon libavahi-common libavahi-core libavahi-c
+ FILES_avahi-systemd = "${systemd_unitdir}"
+ FILES_avahi-autoipd = "${sbindir}/avahi-autoipd \
+                        ${sysconfdir}/avahi/avahi-autoipd.action \
+-                       ${sysconfdir}/dhcp3/*/avahi-autoipd"
++                       ${sysconfdir}/dhcp/*/avahi-autoipd \
++                       ${sysconfdir}/udhcpc.d/00avahi-autoipd \
++                       ${sysconfdir}/udhcpc.d/99avahi-autoipd"
+ FILES_libavahi-common = "${libdir}/libavahi-common.so.*"
+ FILES_libavahi-core = "${libdir}/libavahi-core.so.*"
+ FILES_avahi-daemon = "${sbindir}/avahi-daemon \
+@@ -116,10 +118,7 @@ do_install() {
+ 	rm -rf ${D}/var/run
+ 	rm -rf ${D}${datadir}/dbus-1/interfaces
+ 	rm -rf ${D}${libdir}/avahi
+-}
  
--PACKAGES =+ "${PN}-httpd ${PN}-udhcpd ${PN}-udhcpc ${PN}-syslog ${PN}-mdev"
-+PACKAGES =+ "${PN}-httpd ${PN}-udhcpd ${PN}-udhcpc ${PN}-syslog ${PN}-mdev ${PN}-hwclock"
- 
- FILES_${PN}-httpd = "${sysconfdir}/init.d/busybox-httpd /srv/www"
- FILES_${PN}-syslog = "${sysconfdir}/init.d/syslog* ${sysconfdir}/syslog-startup.conf*"
- FILES_${PN}-mdev = "${sysconfdir}/init.d/mdev ${sysconfdir}/mdev.conf"
- FILES_${PN}-udhcpd = "${sysconfdir}/init.d/busybox-udhcpd"
- FILES_${PN}-udhcpc = "${sysconfdir}/udhcpc.d ${datadir}/udhcpc"
-+FILES_${PN}-hwclock = "${sysconfdir}/init.d/hwclock.sh"
- 
--INITSCRIPT_PACKAGES = "${PN}-httpd ${PN}-syslog ${PN}-udhcpd ${PN}-mdev"
-+INITSCRIPT_PACKAGES = "${PN}-httpd ${PN}-syslog ${PN}-udhcpd ${PN}-mdev ${PN}-hwclock""
- 
- INITSCRIPT_NAME_${PN}-httpd = "busybox-httpd"
- INITSCRIPT_NAME_${PN}-syslog = "syslog"
+-do_install_avahi-autoipd() {
+-	autotools_do_install
+ 	install -d ${D}${sysconfdir}/udhcpc.d
+ 	install ${WORKDIR}/00avahi-autoipd ${D}${sysconfdir}/udhcpc.d
+ 	install ${WORKDIR}/99avahi-autoipd ${D}${sysconfdir}/udhcpc.d
 -- 
-1.7.9.5
+1.7.7
 
 
 
