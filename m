@@ -1,21 +1,21 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <constantinx.musca@intel.com>) id 1T2Q4z-0003bN-9V
+	(envelope-from <constantinx.musca@intel.com>) id 1T2QBM-0004B6-Eu
 	for openembedded-core@lists.openembedded.org;
-	Fri, 17 Aug 2012 19:11:25 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 17 Aug 2012 09:58:21 -0700
+	Fri, 17 Aug 2012 19:18:00 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 17 Aug 2012 10:06:01 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.77,785,1336374000"; d="scan'208";a="182060236"
+X-IronPort-AV: E=Sophos;i="4.77,785,1336374000"; d="scan'208";a="187822500"
 Received: from costin-desktop (HELO localhost.localdomain) ([10.237.105.33])
-	by orsmga001.jf.intel.com with ESMTP; 17 Aug 2012 09:58:20 -0700
+	by orsmga002.jf.intel.com with ESMTP; 17 Aug 2012 10:05:55 -0700
 From: Constantin Musca <constantinx.musca@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 17 Aug 2012 19:03:11 +0300
-Message-Id: <1345219391-15817-1-git-send-email-constantinx.musca@intel.com>
+Date: Fri, 17 Aug 2012 19:10:46 +0300
+Message-Id: <1345219846-16247-1-git-send-email-constantinx.musca@intel.com>
 X-Mailer: git-send-email 1.7.9.5
 Cc: Constantin Musca <constantinx.musca@intel.com>
-Subject: [PATCH] gst-fluendo-mp3: upgrade to 0.10.19
+Subject: [PATCH v2] connman: upgrade to 1.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -30,40 +30,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Aug 2012 17:11:25 -0000
+X-List-Received-Date: Fri, 17 Aug 2012 17:18:00 -0000
 
-Only the copyright year has changed in the license file.
+The removed patch is included in connman 1.4.
 
 Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
 ---
- ...o-mp3_0.10.16.bb => gst-fluendo-mp3_0.10.19.bb} |    6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-multimedia/gstreamer/{gst-fluendo-mp3_0.10.16.bb => gst-fluendo-mp3_0.10.19.bb} (46%)
+ ...ck-that-the-string-isn-t-empty-before-spl.patch |   37 --------------------
+ .../connman/{connman_1.3.bb => connman_1.4.bb}     |    9 +++--
+ 2 files changed, 4 insertions(+), 42 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/connman/connman/0001-storage-check-that-the-string-isn-t-empty-before-spl.patch
+ rename meta/recipes-connectivity/connman/{connman_1.3.bb => connman_1.4.bb} (69%)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-fluendo-mp3_0.10.16.bb b/meta/recipes-multimedia/gstreamer/gst-fluendo-mp3_0.10.19.bb
-similarity index 46%
-rename from meta/recipes-multimedia/gstreamer/gst-fluendo-mp3_0.10.16.bb
-rename to meta/recipes-multimedia/gstreamer/gst-fluendo-mp3_0.10.19.bb
-index 3f8c67e..a485994 100644
---- a/meta/recipes-multimedia/gstreamer/gst-fluendo-mp3_0.10.16.bb
-+++ b/meta/recipes-multimedia/gstreamer/gst-fluendo-mp3_0.10.19.bb
-@@ -1,7 +1,7 @@
- require gst-fluendo.inc
+diff --git a/meta/recipes-connectivity/connman/connman/0001-storage-check-that-the-string-isn-t-empty-before-spl.patch b/meta/recipes-connectivity/connman/connman/0001-storage-check-that-the-string-isn-t-empty-before-spl.patch
+deleted file mode 100644
+index c92b586..0000000
+--- a/meta/recipes-connectivity/connman/connman/0001-storage-check-that-the-string-isn-t-empty-before-spl.patch
++++ /dev/null
+@@ -1,37 +0,0 @@
+-From ea8c7b3efce4c1762411e073893e948de5d552d6 Mon Sep 17 00:00:00 2001
+-From: Ross Burton <ross.burton@intel.com>
+-Date: Tue, 17 Jul 2012 16:04:12 +0100
+-Subject: [PATCH] storage: check that the string isn't empty before splitting
+-
+-If the string was non-NULL but empty (str="\0"), the following \0 assignment
+-would write to str[-1] and thus cause memory corruption.
+-
+-On PPC and MIPS, this was causing crashes in glibc.
+-
+-Signed-off-by: Ross Burton <ross.burton@intel.com>
+-Upstream-Status: Submitted
+- 
+----
+- src/storage.c |    6 +++++-
+- 1 file changed, 5 insertions(+), 1 deletion(-)
+-
+-diff --git a/src/storage.c b/src/storage.c
+-index 47bd0cb..20766a3 100644
+---- a/src/storage.c
+-+++ b/src/storage.c
+-@@ -212,7 +212,11 @@ gchar **connman_storage_get_services()
+- 	closedir(dir);
+- 
+- 	str = g_string_free(result, FALSE);
+--	if (str) {
+-+	if (str && str[0] != '\0') {
+-+		/*
+-+		 * Remove the trailing separator so that services doesn't end up
+-+		 * with an empty element.
+-+		 */
+- 		str[strlen(str) - 1] = '\0';
+- 		services = g_strsplit(str, "/", -1);
+- 	}
+--- 
+-1.7.10.4
+-
+diff --git a/meta/recipes-connectivity/connman/connman_1.3.bb b/meta/recipes-connectivity/connman/connman_1.4.bb
+similarity index 69%
+rename from meta/recipes-connectivity/connman/connman_1.3.bb
+rename to meta/recipes-connectivity/connman/connman_1.4.bb
+index 4d82794..bd8ba65 100644
+--- a/meta/recipes-connectivity/connman/connman_1.3.bb
++++ b/meta/recipes-connectivity/connman/connman_1.4.bb
+@@ -1,13 +1,12 @@
+ require connman.inc
  
- LICENSE = "MIT"
--LIC_FILES_CHKSUM = "file://COPYING;md5=98326cbb1723a5a97e9b1db62e9faa05"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=259a43dd1c9854b71fc396f74699f4d2"
- LICENSE_FLAGS = "commercial"
- 
- acpaths = "-I ${S}/common/m4 -I ${S}/m4"
-@@ -10,5 +10,5 @@ PR = "r0"
- 
- DESCRIPTION = "Fluendo closed-format mp3 GStreamer plug-in"
- 
--SRC_URI[md5sum] = "33df57590e3f21f945fe7bace6146fa0"
--SRC_URI[sha256sum] = "12dbd307b25fed502a52666a9c956230da09ee140a18d987452492393340f442"
-+SRC_URI[md5sum] = "5d95a9a216dd15bc5c00c9414061115c"
-+SRC_URI[sha256sum] = "30c79d24d8926f75dd4ef0f572942ce155ad541734b36a95591b9c0524dcc0f3"
+-# 1.3 tag
+-SRCREV = "3c0fa84091524c7cd6237744f2088ffee2f1d5ad"
++# 1.4 tag
++SRCREV = "f701bbca259f1f35e68d338f31f5373f75f3da5f"
+ SRC_URI  = "git://git.kernel.org/pub/scm/network/connman/connman.git \
+             file://0001-plugin.h-Change-visibility-to-default-for-debug-symb.patch \
+             file://add_xuser_dbus_permission.patch \
+             file://connman \
+             file://0002-storage.c-If-there-is-no-d_type-support-use-fstatat.patch \
+-            file://0001-timezone.c-If-there-is-no-d_type-support-use-fstatat.patch \
+-            file://0001-storage-check-that-the-string-isn-t-empty-before-spl.patch"
++            file://0001-timezone.c-If-there-is-no-d_type-support-use-fstatat.patch"
+ S = "${WORKDIR}/git"
+-PR = "${INC_PR}.2"
++PR = "${INC_PR}.0"
 -- 
 1.7.9.5
 
