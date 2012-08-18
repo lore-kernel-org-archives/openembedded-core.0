@@ -1,31 +1,34 @@
-Received: from mga14.intel.com ([143.182.124.37])
+Received: from mail-pb0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <dvhart@linux.intel.com>) id 1T2VyU-0003SU-Cr
+	(envelope-from <marc.reilly@gmail.com>) id 1T2Wog-0004UR-14
 	for openembedded-core@lists.openembedded.org;
-	Sat, 18 Aug 2012 01:29:06 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 17 Aug 2012 16:17:06 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.77,789,1336374000"; d="scan'208";a="182404874"
-Received: from unknown (HELO envy.home) ([10.255.13.26])
-	by azsmga001.ch.intel.com with ESMTP; 17 Aug 2012 16:17:05 -0700
-Message-ID: <502ED07A.8000208@linux.intel.com>
-Date: Fri, 17 Aug 2012 16:15:06 -0700
-From: Darren Hart <dvhart@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:14.0) Gecko/20120717 Thunderbird/14.0
-MIME-Version: 1.0
-To: "Bodke, Kishore K" <kishore.k.bodke@intel.com>
-References: <D956029D25CF204F948EA0FB515E1EE20AD5D9F3@ORSMSX105.amr.corp.intel.com>
-	<502D8980.7030107@linux.intel.com>
-	<D956029D25CF204F948EA0FB515E1EE20AD5EE74@ORSMSX105.amr.corp.intel.com>
-	<502EAC8E.1090707@linux.intel.com>
-	<D956029D25CF204F948EA0FB515E1EE20AD5EF9B@ORSMSX105.amr.corp.intel.com>
-In-Reply-To: <D956029D25CF204F948EA0FB515E1EE20AD5EF9B@ORSMSX105.amr.corp.intel.com>
-X-Enigmail-Version: 1.4.3
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Build Kernel module on target
+	Sat, 18 Aug 2012 02:23:02 +0200
+Received: by pbcwy7 with SMTP id wy7so4735849pbc.6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 17 Aug 2012 17:11:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=sender:from:to:cc:subject:date:message-id:x-mailer;
+	bh=Zjexwps8duIObva/cSg+VVs8qO9nFsjTehAs/Rynwk0=;
+	b=AE0qcuFPpTp9mZO3F3M8T+DvZSbNOAglXE0ADC9e8pdcuV0qpyBTN60MdJoEwmngDY
+	QB1B9VztINJplNn8nKFUlOsjbjuF+SFLRdq+DoQhGCrd6KhSRB+Jf/J0x6nCR1msZeKn
+	GRBEn06c5ztWbIM1Li0UOuxS+hTKW9pF7EIhYpeQ5RKk0uq8l/KQLGpyLd5BvtSdDknG
+	lVggxE7VxIMPoppzqqWvatkpUaxTSKmPWd3LDGBnpPnv47K7BS7tDEAZFfc9Z0cS3ea5
+	T1BuDun49XXFBk/+02V5ODb++y/0is6Dnf0oIeAs7Lly+lUnMty41cfslnUEQck0t3jv
+	B6Nw==
+Received: by 10.68.200.8 with SMTP id jo8mr15365323pbc.148.1345248661908;
+	Fri, 17 Aug 2012 17:11:01 -0700 (PDT)
+Received: from localhost.localdomain (220-244-174-13.static.tpgi.com.au.
+	[220.244.174.13])
+	by mx.google.com with ESMTPS id qo8sm5874944pbb.19.2012.08.17.17.10.58
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Fri, 17 Aug 2012 17:11:00 -0700 (PDT)
+Sender: Marc Reilly <marc.reilly@gmail.com>
+From: Marc Reilly <marc@cpdesign.com.au>
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 18 Aug 2012 10:04:30 +1000
+Message-Id: <1345248270-21796-1-git-send-email-marc@cpdesign.com.au>
+X-Mailer: git-send-email 1.7.7
+Subject: [Patch V2] avahi: fix packaging of avahi-autoipd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -38,130 +41,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Aug 2012 23:29:06 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 18 Aug 2012 00:23:02 -0000
 
+- Avahi's "avahi-autoipd" file is in the dhcp/ folder, not dhcp3/
+- udhcpc files were being installed but not being shipped in avahi-autoipd
+- do_install override for avahi-autoipd was not being called and is not
+  required, so join it into regular do_install.
+- While at it, fixup string quoting in description.
 
+This makes avahi-autoipd work with simple ifup/down scripts.
 
-On 08/17/2012 04:07 PM, Bodke, Kishore K wrote:
-> 
-> 
->> -----Original Message-----
->> From: Darren Hart [mailto:dvhart@linux.intel.com]
->> Sent: Friday, August 17, 2012 1:42 PM
->> To: Bodke, Kishore K
->> Cc: linux-yocto@yoctoproject.org
->> Subject: Re: Build Kernel module on target
->>
->>
->>
->> On 08/17/2012 11:11 AM, Bodke, Kishore K wrote:
->>>
->>>
->>>> -----Original Message-----
->>>> From: Darren Hart [mailto:dvhart@linux.intel.com]
->>>> Sent: Thursday, August 16, 2012 5:00 PM
->>>> To: Bodke, Kishore K
->>>> Cc: linux-yocto@yoctoproject.org
->>>> Subject: Re: Build Kernel module on target
->>>>
->>>>
->>>>
->>>> On 08/16/2012 04:31 PM, Bodke, Kishore K wrote:
->>>>> Hi Darren,
->>>>
->>>> Hi Kishore,
->>>>
->>>>> I am trying to build the Kernel Module on the target with sdk image.
->>>>> I get the below error for all the kernel modules I am building.
->>>>>
->>>>> == Build lib/librte_eal/linuxapp/igb_uio
->>>>>
->>>>> make: *** /lib/modules/3.4.6-yocto-standard/build: No such file or
->>>>> directory.  Stop.
->>>>>
->>>>> make[7]: *** [igb_uio.ko] Error 2
->>>>>
->>>>> Makefile has the kernel source directory  set like below.
->>>>>
->>>>> RTE_KERNELDIR = /lib/modules/$(shell uname -r)/build
->>>>>
->>>>> And I see there is no build directory there in
->>>>> /lib/modules/3.4.6-yocto-standard .
->>>>>
->>>>> I changed the RTE_KERNELDIR to
->>>>>
->>>>> RTE_KERNELDIR =/usr/src/kernel
->>>>
->>>> Correct.
->>>
->>> Why Yocto does not have /lib/modules/$(shell uname -r)/build?
->>> Generally /lib/modules/$(shell uname -r)/build is where EVERY kernel
->> module goes to look for kernel headers to build against.
->>
->> No reason. That would be a good addition. Please send a patch or open a
->> bug with
->> the request.
->>
->>>
->>>>
->>>>> This time it went further to build the kernel module but failed for the
->>>>>
->>>>> /usr/src/kernel/scripts/recordmcount: No such file or directory
->>>>>
->>>>> I saw the ${STAGING_KERNEL_DIR} for the recordmcount.  There is no
->> such
->>>> file
->>>>> I think we need  scripts/recordmcount to be a part of the final image?
->>>>
->>>> This is an unfortunate result of the kernel building those "scripts" for
->>>> the host, which we can't deploy to the target. We intentionally remove
->>>> them. To build on the target, you must first build the "scripts":
->>>>
->>>> $ cd /usr/src/kernel
->>>> $ make scripts
->>>>
->>>> Then try to build your modules.
->>>
->>> If I had to build the same module using recipe via bitbake, I get the same
->>> error.
->>
->> You shouldn't. If you do, it's a bug either in the module building
->> mechanism of oe-core or with your module recipe.
->>
->>> Unfortunately I cannot inherit module in my recipe.
->>
->> You really need to.
-> 
-> Moving the discussion to [open embedded core list]
-> 
-> Either I do inherit module or I don't, I need to have the kernel source directory to
-> point  to  ${STAGING_KERNEL_DIR} in my recipe, since the Makefile has /lib/modules/$(shell uname -r)/build 
-> for the kernel source, which If I don't override, it will build kernel module for the local host.
+Signed-off-by: Marc Reilly <marc@cpdesign.com.au>
+---
+ meta/recipes-connectivity/avahi/avahi.inc |   11 +++++------
+ 1 files changed, 5 insertions(+), 6 deletions(-)
 
-I would suggest updating the Makefile (possibly with a patch in the
-SRC_URI of the recipe) to use KERNEL_SRC instead of a hard-coded path.
-The module.bbclass with make that variable available at build time (see
-module_do_compile() in module.bbclass).
-
-> 
-> Also the Makefile does not have rule for module install, can we have the install rule inside a recipe to make the module 
-> in to the final image?
-
-Your Makefile should have a modules_install target. If it does not, see
-the meta-skeleton/hello-mod/files/Makefile for an example of how to add one.
-
-> Something like 
-> FILES_${PN}+=  ${base_libdir}/modules/${KERNEL_VERSION}/kernel/drivers"
-> install -m 640 ${B}/kmod/igb_uio.ko     ${MODULE_DIR} (This being defined in a recipe)
-
-You would be better off updating your Makefile to use standard Linux
-kernel installation mechanisms.
-
+diff --git a/meta/recipes-connectivity/avahi/avahi.inc b/meta/recipes-connectivity/avahi/avahi.inc
+index 37ff70d..c08acb5 100644
+--- a/meta/recipes-connectivity/avahi/avahi.inc
++++ b/meta/recipes-connectivity/avahi/avahi.inc
+@@ -1,10 +1,10 @@
+ SUMMARY = "Avahi IPv4LL network address configuration daemon"
+-DESCRIPTION = "Avahi is a fully LGPL framework for Multicast DNS Service Discovery. It \
++DESCRIPTION = 'Avahi is a fully LGPL framework for Multicast DNS Service Discovery. It \
+ allows programs to publish and discover services and hosts running on a local network \
+ with no specific configuration. This tool implements IPv4LL, "Dynamic Configuration of \
+ IPv4 Link-Local Addresses" (IETF RFC3927), a protocol for automatic IP address \
+ configuration from the link-local 169.254.0.0/16 range without the need for a central \
+-server."
++server.'
+ AUTHOR = "Lennart Poettering <lennart@poettering.net>"
+ HOMEPAGE = "http://avahi.org"
+ BUGTRACKER = "http://avahi.org/report"
+@@ -63,7 +63,9 @@ PACKAGES =+ "avahi-systemd avahi-daemon libavahi-common libavahi-core libavahi-c
+ FILES_avahi-systemd = "${systemd_unitdir}"
+ FILES_avahi-autoipd = "${sbindir}/avahi-autoipd \
+                        ${sysconfdir}/avahi/avahi-autoipd.action \
+-                       ${sysconfdir}/dhcp3/*/avahi-autoipd"
++                       ${sysconfdir}/dhcp/*/avahi-autoipd \
++                       ${sysconfdir}/udhcpc.d/00avahi-autoipd \
++                       ${sysconfdir}/udhcpc.d/99avahi-autoipd"
+ FILES_libavahi-common = "${libdir}/libavahi-common.so.*"
+ FILES_libavahi-core = "${libdir}/libavahi-core.so.*"
+ FILES_avahi-daemon = "${sbindir}/avahi-daemon \
+@@ -116,10 +118,7 @@ do_install() {
+ 	rm -rf ${D}/var/run
+ 	rm -rf ${D}${datadir}/dbus-1/interfaces
+ 	rm -rf ${D}${libdir}/avahi
+-}
+ 
+-do_install_avahi-autoipd() {
+-	autotools_do_install
+ 	install -d ${D}${sysconfdir}/udhcpc.d
+ 	install ${WORKDIR}/00avahi-autoipd ${D}${sysconfdir}/udhcpc.d
+ 	install ${WORKDIR}/99avahi-autoipd ${D}${sysconfdir}/udhcpc.d
 -- 
-Darren Hart
-Intel Open Source Technology Center
-Yocto Project - Technical Lead - Linux Kernel
+1.7.7
+
 
 
