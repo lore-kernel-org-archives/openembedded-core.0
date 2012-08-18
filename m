@@ -1,35 +1,34 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
+Received: from mail-qa0-f54.google.com ([209.85.216.54])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1T2moJ-0004O9-CY
+	(envelope-from <bruce.ashfield@gmail.com>) id 1T2moO-0004OS-JE
 	for openembedded-core@lists.openembedded.org;
-	Sat, 18 Aug 2012 19:27:43 +0200
-Received: by eaad12 with SMTP id d12so1233161eaa.6
+	Sat, 18 Aug 2012 19:27:48 +0200
+Received: by qatn12 with SMTP id n12so2789768qat.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 18 Aug 2012 10:15:43 -0700 (PDT)
+	Sat, 18 Aug 2012 10:15:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
 	:cc:content-type;
-	bh=/sGXg/BJjjMx+G1TwIXtpZWd1/aOzoiwuCMnt2jyLQc=;
-	b=B7W7GWDLQjnG2G8rRxeAd8r1gaHrn/wdL3fzVJow8mGtwqbxgj+joVIw+NIObCZLlH
-	DMz8Aaa0utik+TCfYo17eXgm6TH0tjUKIxNfRhzDY4v8av09dgkbxfzgo5r49GZbGUdL
-	dSmMYrc/YI5UH7Jj9wmFAyX3UU6U7nqAvzIci+TNyk6J1V/rYXgd1VcosqMtkyOWBiI4
-	gjnawp+5kP/wv5WYJX87UHHPGQgHgR3cpNqiydSAUH9CfZmXXH/gepiVOJuqgbNVmnuu
-	4WmhCbmeg4JyauQ2PgwxbZKnmJC4io1e+KpDh+gUXxc30+uPorAd6aXGecmXaJCiuWqw
-	NZag==
-Received: by 10.14.5.67 with SMTP id 43mr2002378eek.15.1345310143510; Sat, 18
-	Aug 2012 10:15:43 -0700 (PDT)
+	bh=qJgJayBpGYbhrzTAEBhjfj0xoFbSZTqx9TRQEs1lrso=;
+	b=D7273BFrp8qaCTiklnms5tNr/+ZoThj1vMUOKkP/UNEgnI9ioF+Uh64YDmb/LdIFcz
+	UD+ihcOoeqyiA/0M7Ngbo0VvvtyijNHwymRKDTPVgA2V7CWLjb15NyTj49NFoibdovq1
+	v8ZjT+htmaXNuDPoZek1uzi87Hao84NCZHs+eDY9K6oyIbHLQ84nx48YlEJm2KjzG7+X
+	gso8aJg1uxLk11ibQ0qPfiUsXa4r/TFIgAc75ycS51fgy5m57BHZqc703/sCzjLFr0/s
+	2BPtOOT9cN8aOIYfMh9oTu++ZXhpajcTJkKgHjgNbd48aYzmWthTKAfUfXnT9u+hVnoB
+	n5gw==
 MIME-Version: 1.0
-Received: by 10.14.2.5 with HTTP; Sat, 18 Aug 2012 10:15:13 -0700 (PDT)
-In-Reply-To: <1345285875.27428.27.camel@ted>
-References: <CAMKF1srvBZzMTbN-iOqEjitgSjFOK_Cpd0B94HjWm1z7s-0-iQ@mail.gmail.com>
-	<1345285875.27428.27.camel@ted>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sat, 18 Aug 2012 10:15:13 -0700
-Message-ID: <CAMKF1srJ1w94g2rgu8FvZdmHLK-4t=GSj9OtSAncuquK6oNhjw@mail.gmail.com>
+Received: by 10.229.137.140 with SMTP id w12mr7275412qct.8.1345310147932; Sat,
+	18 Aug 2012 10:15:47 -0700 (PDT)
+Received: by 10.229.247.198 with HTTP; Sat, 18 Aug 2012 10:15:47 -0700 (PDT)
+In-Reply-To: <1345309072.27428.65.camel@ted>
+References: <cover.1345059176.git.bruce.ashfield@windriver.com>
+	<1345309072.27428.65.camel@ted>
+Date: Sat, 18 Aug 2012 13:15:47 -0400
+Message-ID: <CADkTA4MeEdF-LK0rFshnZgLNwFuHgQOc7F6q7Sbi1ufzzKab+g@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC] Replacing chrpath with patchelf
+Cc: saul.wold@intel.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/4] linux-yocto: consolidated update
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,54 +41,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 18 Aug 2012 17:27:43 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Sat, 18 Aug 2012 17:27:48 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On Sat, Aug 18, 2012 at 3:31 AM, Richard Purdie
+On Sat, Aug 18, 2012 at 12:57 PM, Richard Purdie
 <richard.purdie@linuxfoundation.org> wrote:
-> On Sat, 2012-08-18 at 00:17 -0700, Khem Raj wrote:
->> Hi,
+> On Wed, 2012-08-15 at 16:06 -0400, Bruce Ashfield wrote:
+>> Here's a consolidated update that I've had under test in one
+>> way or another for 3 weeks now. Tom Z and others have also been
+>> using parts of this for their work, so it has seen a reasonably
+>> wide set of testers.
 >>
->> I have a patchset that replaces use of chrpath with patchelf. Patchelf can
->> resize the ELF headers to accomodate larger RPATHs
+>> This series further streamlines working with linux-yocto* based
+>> recipes/repositories by breaking the last branch based triggers
+>> in the tooling. Branches were the most important piece of
+>> information when working with the tools and a linux-yocto repository,
+>> but this has now been generalized, and BSP descriptions (among
+>> other things) are now found by MACHINE and kernel type only.
 >>
->> The branch is posted here
+>> With this, KBRANCH now becomes what it was supposed to be, an
+>> human readible indication of the branch that is supposed to be
+>> built, and one that the kern-tools will validate. If that branch
+>> is not validated, an error is thrown. If the default branch is
+>> left as-is, then the in-tree description leaves you on the
+>> proper branch and all is well.
 >>
->> http://git.openembedded.org/openembedded-core-contrib/log/?h=kraj/patchelf
+>> I also have a collection of bug fixes to the tools, including
+>> support for having a meta branch not called 'meta'.
 >>
->> Please test it out and let me know if you see any issues
+>> I'd recommend that this go through some AB tests, and I'll be
+>> around if there's a corner case that I managed to miss.
 >
-> chrpath is something we require users to install on the system they're
-> building on. The reason is that we need to relocate the native recipes
-> and you can't do that without chrpath. You can't build chrpath without
-> building a native recipe you need to stage to change its own RPATH.
+> I think
 >
+> http://autobuilder.yoctoproject.org:8010/builders/nightly-tiny/builds/199/steps/shell_34/logs/stdio
 
-so I figured. which now means you need to have patchelf on build host
-preinstalled instead of chrpath.
+Judging by the timestamps on your two email, is this not addressed by
+the workaround
+for git's behaviour ? On the surface, it looks to be the same thing,
+since a branch that
+should exist in the repository isn't there.
 
-> Now there are a variety of ways we can deal with this but we need to
-> think it through.
->
-> At the very least such a change would need to adjust all the
-> documentation about the prerequisites.
+I'll fire of a poky-tiny build for qemu here, to see if I can
+reproduce this one.
 
-Yes. I tried to document it through an elaborate message
-from sanity.bbclass about prerequisites and needs documentation
-adjustments yes.
+Cheers,
+
+Bruce
 
 >
-> I'm not actually sure we need to deal with larger RPATHs in the real
-> world either. There are some bugs we're finding now the call is failing
-> but they're not turning out to be due to that.
-
-you never know. It just lifts this limitation. We ship
-chrpath-nativesdk as well and people can use it in different ways
-
+> is due to something in this series...
 >
 > Cheers,
 >
 > Richard
 >
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+
+
+
+-- 
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
 
