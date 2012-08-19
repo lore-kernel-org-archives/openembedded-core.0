@@ -1,34 +1,33 @@
 Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
 	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
 	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1T32Lu-0000RX-KU for openembedded-core@lists.openembedded.org;
-	Sun, 19 Aug 2012 12:03:27 +0200
+	id 1T32aw-0000jE-LR for openembedded-core@lists.openembedded.org;
+	Sun, 19 Aug 2012 12:18:58 +0200
 Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q7J9pQsf024002
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 19 Aug 2012 10:51:26 +0100
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q7JA6vPM024098;
+	Sun, 19 Aug 2012 11:06:57 +0100
 Received: from tim.rpsys.net ([127.0.0.1])
 	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
 	port 10024) with LMTP
-	id 19346-09 for <openembedded-core@lists.openembedded.org>;
-	Sun, 19 Aug 2012 10:51:19 +0100 (BST)
+	id 23973-01; Sun, 19 Aug 2012 11:06:52 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q7J9pHw2023995
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 19 Aug 2012 10:51:19 +0100
-Message-ID: <1345369877.27428.84.camel@ted>
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q7JA6ovr024091
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Sun, 19 Aug 2012 11:06:51 +0100
+Message-ID: <1345370811.27428.86.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Date: Sun, 19 Aug 2012 10:51:17 +0100
-In-Reply-To: <b34f64c55847fdc3bae12b7954e4ad9f90a6f2b9.1344884283.git.ross.burton@intel.com>
-References: <cover.1344884283.git.ross.burton@intel.com>
-	<b34f64c55847fdc3bae12b7954e4ad9f90a6f2b9.1344884283.git.ross.burton@intel.com>
+Date: Sun, 19 Aug 2012 11:06:51 +0100
+In-Reply-To: <1345218791-28891-3-git-send-email-andy.ross@windriver.com>
+References: <1345218791-28891-1-git-send-email-andy.ross@windriver.com>
+	<1345218791-28891-2-git-send-email-andy.ross@windriver.com>
+	<1345218791-28891-3-git-send-email-andy.ross@windriver.com>
 X-Mailer: Evolution 3.2.3-0ubuntu6 
 Mime-Version: 1.0
 X-Virus-Scanned: amavisd-new at rpsys.net
-Subject: Re: [PATCH 4/8] mesa: enable GLES v1 and v2
+Cc: openembedded-core@openembedded.org
+Subject: Re: [PATCH 2/2] libtool: normalize link paths before considering for RPATH
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,61 +40,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 19 Aug 2012 10:03:27 -0000
+X-List-Received-Date: Sun, 19 Aug 2012 10:18:58 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Mon, 2012-08-13 at 19:58 +0100, Ross Burton wrote:
-> Patch originally by Damien Lespiau <damien.lespiau@intel.com>.
+On Fri, 2012-08-17 at 08:53 -0700, Andy Ross wrote:
+> Libtool may be passed link paths of the form "/usr/lib/../lib", which fool
+> its detection code into thinking it should be included as an RPATH in
+> the generated binary.  Normalize before comparision.
 > 
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> Signed-off-by: Andy Ross <andy.ross@windriver.com>
 > ---
->  meta/recipes-graphics/mesa/mesa-common.inc |   12 ++++++++++--
->  meta/recipes-graphics/mesa/mesa-dri.inc    |    2 ++
->  2 files changed, 12 insertions(+), 2 deletions(-)
+>  meta/recipes-devtools/libtool/libtool-2.4.2.inc    |  1 +
+>  .../libtool/libtool/norm-rpath.patch               | 42 ++++++++++++++++++++++
+>  2 files changed, 43 insertions(+)
+>  create mode 100644 meta/recipes-devtools/libtool/libtool/norm-rpath.patch
 > 
-> diff --git a/meta/recipes-graphics/mesa/mesa-common.inc b/meta/recipes-graphics/mesa/mesa-common.inc
-> index aac3bbe..24cc3d0 100644
-> --- a/meta/recipes-graphics/mesa/mesa-common.inc
-> +++ b/meta/recipes-graphics/mesa/mesa-common.inc
-> @@ -12,7 +12,7 @@ SECTION = "x11"
->  LICENSE = "MIT"
->  LIC_FILES_CHKSUM = "file://docs/license.html;md5=03ccdc4c379c4289aecfb8892c546f67"
+> diff --git a/meta/recipes-devtools/libtool/libtool-2.4.2.inc b/meta/recipes-devtools/libtool/libtool-2.4.2.inc
+> index 5b9557e..691427e 100644
+> --- a/meta/recipes-devtools/libtool/libtool-2.4.2.inc
+> +++ b/meta/recipes-devtools/libtool/libtool-2.4.2.inc
+> @@ -19,6 +19,7 @@ SRC_URI = "${GNU_MIRROR}/libtool/libtool-${PV}.tar.gz \
+>             file://avoid_absolute_paths_for_general_utils.patch \
+>             file://fix-rpath.patch \
+>  	   file://respect-fstack-protector.patch \
+> +           file://norm-rpath.patch \
+>            "
 >  
-> -INC_PR = "r0"
-> +INC_PR = "r1"
->  PE = "2"
->  
-> 
-> @@ -21,7 +21,7 @@ LIB_DEPS = "virtual/libx11 libxext libxxf86vm libxdamage libxfixes libxml2-nativ
->  
->  DEPENDS = "makedepend-native flex-native bison-native ${PROTO_DEPS} ${LIB_DEPS}"
->  
-> -PROVIDES = "virtual/libgl"
-> +PROVIDES = "virtual/libgl virtual/libgles1 virtual/libgles2"
->  
->  # for mesa-dri and mesa-xlib
->  FILESEXTRAPATHS_append := "${THISDIR}/mesa:"
-> @@ -34,6 +34,8 @@ EXTRA_OECONF = "--enable-glu \
->                  --enable-glx-tls \
->                  --enable-shared-glapi"
->  
-> +PACKAGECONFIG ??= "${@base_contains('MACHINE_FEATURES', 'x86', 'gles', '', d)}"
+>  SRC_URI[md5sum] = "d2f3b7d4627e69e13514a40e72a24d50"
+> diff --git a/meta/recipes-devtools/libtool/libtool/norm-rpath.patch b/meta/recipes-devtools/libtool/libtool/norm-rpath.patch
+> new file mode 100644
+> index 0000000..03a7667
+> --- /dev/null
+> +++ b/meta/recipes-devtools/libtool/libtool/norm-rpath.patch
+> @@ -0,0 +1,42 @@
+> +libtool: normalize link paths before considering for RPATH
+> +
+> +Libtool may be passed link paths of the form "/usr/lib/../lib", which
+> +fool its detection code into thinking it should be included as an
+> +RPATH in the generated binary.  Normalize before comparision.
+> +
+> +Signed-off-by: Andy Ross <andy.ross@windriver.com>
+> +Upstream-Status: Pending
+> +
+> +diff -ru a/libltdl/config/ltmain.m4sh b/libltdl/config/ltmain.m4sh
+> +--- a/libltdl/config/ltmain.m4sh	2012-08-16 13:58:55.058900363 -0700
+> ++++ b/libltdl/config/ltmain.m4sh	2012-08-16 16:34:54.616627821 -0700
+> +@@ -7288,8 +7288,13 @@
+> + 	      else
+> +                 # We only want to hardcode in an rpath if it isn't in the
+> +                 # default dlsearch path.
+> ++                libdir_norm=`echo $libdir \
+> ++                  | sed 's/\/\+\.\(\/\+\|$\)/\//g' \
+> ++                  | sed 's/[^\/]\+\/\+\.\.\(\/\+\|$\)//g' \
+> ++                  | sed 's/\/\+/\//g' \
+> ++                  | sed 's/\(.\)\/$/\1/g'`
+> + 	        case " $sys_lib_dlsearch_path " in
+> +-	        *" $libdir "*) ;;
+> ++	        *" $libdir_norm "*) ;;
+> + 	        *) eval flag=\"$hardcode_libdir_flag_spec\"
+> +                    func_append dep_rpath " $flag"
+> +                    ;;
 
-
-I've taken this but could we change this to:
-
-PACKAGECONFIG ??= ""
-PACKAGECONFIG_x86 ?= "gles"
-
-since I'd prefer to rely on the architecture override than the
-MACHINE_FEATURES. This recipe shouldn't be machine specific if we can
-help it.
+Can't we use func_norm_abspath here?
 
 Cheers,
 
 Richard
-
 
 
 
