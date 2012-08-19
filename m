@@ -1,32 +1,33 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1T2rXl-0007WI-QC for openembedded-core@lists.openembedded.org;
-	Sun, 19 Aug 2012 00:30:58 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q7IMIs6V020906;
-	Sat, 18 Aug 2012 23:18:54 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 19346-05; Sat, 18 Aug 2012 23:18:50 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q7IMIlEs020900
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Sat, 18 Aug 2012 23:18:48 +0100
-Message-ID: <1345328327.27428.79.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Sat, 18 Aug 2012 23:18:47 +0100
-In-Reply-To: <CADkTA4MeEdF-LK0rFshnZgLNwFuHgQOc7F6q7Sbi1ufzzKab+g@mail.gmail.com>
-References: <cover.1345059176.git.bruce.ashfield@windriver.com>
-	<1345309072.27428.65.camel@ted>
-	<CADkTA4MeEdF-LK0rFshnZgLNwFuHgQOc7F6q7Sbi1ufzzKab+g@mail.gmail.com>
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: saul.wold@intel.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/4] linux-yocto: consolidated update
+Received: from mail-pb0-f47.google.com ([209.85.160.47])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <raj.khem@gmail.com>) id 1T2tsj-0004Um-8M
+	for openembedded-core@lists.openembedded.org;
+	Sun, 19 Aug 2012 03:00:47 +0200
+Received: by pbcwy7 with SMTP id wy7so6094833pbc.6
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 18 Aug 2012 17:48:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=1nRXwjHM3FLcE5ahgqMRyd30Gp1WQahTcEiMtoJU1g4=;
+	b=Ql3glTPz9lZssXagyy9F1UIQ9jo/z8Pe+hVaZIvcT3W5Fowob56o5wbZe/+7NbBiEm
+	iocuE42ApvIAyZ1odpoPD3Bpf0XTm9Vdw905pz6vtGlqT31LM9n4zeuqbMnfdKW6aT9b
+	GKrGEVh/cv/nlRMyOrGDsUt21VJg/yR5HPm1Vf6WxRLKuvbYFUfa3VWwOiw554QVtsY+
+	zMDD9abe8ux+8V1Sf1xduY+z3Cde0InbbgyczaWVBEhvmrh29zZDGGWqEL40oRn2EFAC
+	KVj0Pu77IB8sMYyKPyGKPtAUhnCVrKFGEMRb3vZEArUvTnKLWnc1gd0eALxAU1oc8nU4
+	lO/g==
+Received: by 10.68.196.193 with SMTP id io1mr23454177pbc.17.1345337322645;
+	Sat, 18 Aug 2012 17:48:42 -0700 (PDT)
+Received: from agate.agate.openembedded.org (oldbuilder.nslu2-linux.org.
+	[140.211.169.168])
+	by mx.google.com with ESMTPS id sz3sm7964618pbc.21.2012.08.18.17.48.41
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Sat, 18 Aug 2012 17:48:41 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 18 Aug 2012 17:48:15 -0700
+Message-Id: <1345337295-11206-1-git-send-email-raj.khem@gmail.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH V3] unifdef-native: Correct LICENSE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,65 +40,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 18 Aug 2012 22:30:58 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 19 Aug 2012 01:00:48 -0000
 
-On Sat, 2012-08-18 at 13:15 -0400, Bruce Ashfield wrote:
-> On Sat, Aug 18, 2012 at 12:57 PM, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> > On Wed, 2012-08-15 at 16:06 -0400, Bruce Ashfield wrote:
-> >> Here's a consolidated update that I've had under test in one
-> >> way or another for 3 weeks now. Tom Z and others have also been
-> >> using parts of this for their work, so it has seen a reasonably
-> >> wide set of testers.
-> >>
-> >> This series further streamlines working with linux-yocto* based
-> >> recipes/repositories by breaking the last branch based triggers
-> >> in the tooling. Branches were the most important piece of
-> >> information when working with the tools and a linux-yocto repository,
-> >> but this has now been generalized, and BSP descriptions (among
-> >> other things) are now found by MACHINE and kernel type only.
-> >>
-> >> With this, KBRANCH now becomes what it was supposed to be, an
-> >> human readible indication of the branch that is supposed to be
-> >> built, and one that the kern-tools will validate. If that branch
-> >> is not validated, an error is thrown. If the default branch is
-> >> left as-is, then the in-tree description leaves you on the
-> >> proper branch and all is well.
-> >>
-> >> I also have a collection of bug fixes to the tools, including
-> >> support for having a meta branch not called 'meta'.
-> >>
-> >> I'd recommend that this go through some AB tests, and I'll be
-> >> around if there's a corner case that I managed to miss.
-> >
-> > I think
-> >
-> > http://autobuilder.yoctoproject.org:8010/builders/nightly-tiny/builds/199/steps/shell_34/logs/stdio
-> 
-> Judging by the timestamps on your two email, is this not addressed by
-> the workaround
-> for git's behaviour ?
+The header in sourcefile says its BSD licensed
+not GPL therefore make the correction
 
-Correct, it fails with the fix applied so I think its something
-different.
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ .../unifdef/unifdef-native_2.6.18+git.bb           |    4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
->  On the surface, it looks to be the same thing,
-> since a branch that
-> should exist in the repository isn't there.
-> 
-> I'll fire of a poky-tiny build for qemu here, to see if I can
-> reproduce this one.
-
-We also have an atom-pc failure which may or may not be related:
-
-http://autobuilder.yoctoproject.org:8010/builders/nightly-x86/builds/648/steps/shell_50/logs/stdio
-
-Cheers,
-
-Richard
-
+diff --git a/meta/recipes-devtools/unifdef/unifdef-native_2.6.18+git.bb b/meta/recipes-devtools/unifdef/unifdef-native_2.6.18+git.bb
+index 1b93816..b1869fd 100644
+--- a/meta/recipes-devtools/unifdef/unifdef-native_2.6.18+git.bb
++++ b/meta/recipes-devtools/unifdef/unifdef-native_2.6.18+git.bb
+@@ -1,6 +1,8 @@
+ DESCRIPTION = "Kernel header preprocessor"
+ SECTION = "devel"
+-LICENSE = "GPL"
++LICENSE = "BSD-2-Clause"
++
++PR = "r1"
+ 
+ LIC_FILES_CHKSUM = "file://${WORKDIR}/unifdef.c;endline=32;md5=1a33f5c39aa718a89058721df61979bd"
+ 
+-- 
+1.7.9.5
 
 
 
