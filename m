@@ -1,20 +1,25 @@
 Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1T3S6I-0007Om-3C
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1T3SG8-0007Zi-HG
 	for openembedded-core@lists.openembedded.org;
-	Mon, 20 Aug 2012 15:33:02 +0200
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 20 Aug 2012 06:20:58 -0700
+	Mon, 20 Aug 2012 15:43:12 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 20 Aug 2012 06:31:09 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.77,797,1336374000"; d="scan'208";a="136210482"
-Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.121.92])
-	by AZSMGA002.ch.intel.com with ESMTP; 20 Aug 2012 06:20:57 -0700
+X-IronPort-AV: E=Sophos;i="4.77,797,1336374000"; d="scan'208";a="183142262"
+Received: from unknown (HELO helios.localnet) ([10.252.121.92])
+	by azsmga001.ch.intel.com with ESMTP; 20 Aug 2012 06:31:08 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 20 Aug 2012 14:20:41 +0100
-Message-Id: <1345468841-12320-1-git-send-email-paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] libiconv: skip recipe if using eglibc
+To: Marc Reilly <marc@cpdesign.com.au>
+Date: Mon, 20 Aug 2012 14:31:07 +0100
+Message-ID: <1657652.otRuZizLvo@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.9 (Linux/3.2.0-29-generic-pae; KDE/4.9.0; i686; ; )
+In-Reply-To: <1345422099-26198-1-git-send-email-marc@cpdesign.com.au>
+References: <1345422099-26198-1-git-send-email-marc@cpdesign.com.au>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: Add recipe for hplip 3.12.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,52 +32,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Aug 2012 13:33:02 -0000
+X-List-Received-Date: Mon, 20 Aug 2012 13:43:12 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-libiconv is provided for use with uClibc - if you build it together with
-eglibc (which already PROVIDES virtual/libiconv) you can end up with
-dependency problems during do_rootfs.
+On Monday 20 August 2012 10:21:38 Marc Reilly wrote:
+> This adds a recipe for hplip 3.12.6 with a configuration targeted for USB
+> printers. I'm not much of a linux printing expert, so just went with a
+> setup that let me print all the different doc types required.
+> 
+> This is based on a recipe for an earlier version which didn't seem to make
+> it into oe-core. I'm guessing that oe-core is the correct place for it:
+> next to cups, ghostscript and foomatic.
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- meta/recipes-support/libiconv/libiconv_1.11.1.bb |    5 +++++
- meta/recipes-support/libiconv/libiconv_1.14.bb   |    5 +++++
- 2 files changed, 10 insertions(+)
+Since this is something that not everyone needs I think the best place for it 
+is probably meta-oe. I believe the justification for having cups etc. available 
+in OE-Core is that these are required when you want LSB compliance.
 
-diff --git a/meta/recipes-support/libiconv/libiconv_1.11.1.bb b/meta/recipes-support/libiconv/libiconv_1.11.1.bb
-index 186a5a1..055e20d 100644
---- a/meta/recipes-support/libiconv/libiconv_1.11.1.bb
-+++ b/meta/recipes-support/libiconv/libiconv_1.11.1.bb
-@@ -20,6 +20,11 @@ S = "${WORKDIR}/libiconv-${PV}"
- 
- inherit autotools pkgconfig gettext
- 
-+python __anonymous() {
-+    if d.getVar("TCLIBC", True) == "eglibc":
-+        raise bb.parse.SkipPackage("libiconv is provided for use with uClibc only - eglibc already provides iconv")
-+}
-+
- EXTRA_OECONF += "--enable-shared --enable-static --enable-relocatable"
- 
- LEAD_SONAME = "libiconv.so"
-diff --git a/meta/recipes-support/libiconv/libiconv_1.14.bb b/meta/recipes-support/libiconv/libiconv_1.14.bb
-index af33d6b..6666866 100644
---- a/meta/recipes-support/libiconv/libiconv_1.14.bb
-+++ b/meta/recipes-support/libiconv/libiconv_1.14.bb
-@@ -21,6 +21,11 @@ S = "${WORKDIR}/libiconv-${PV}"
- 
- inherit autotools pkgconfig gettext
- 
-+python __anonymous() {
-+    if d.getVar("TCLIBC", True) == "eglibc":
-+        raise bb.parse.SkipPackage("libiconv is provided for use with uClibc only - eglibc already provides iconv")
-+}
-+
- EXTRA_OECONF += "--enable-shared --enable-static --enable-relocatable"
- 
- LEAD_SONAME = "libiconv.so"
+Cheers,
+Paul
+
 -- 
-1.7.9.5
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
