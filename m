@@ -1,26 +1,31 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from stoexhubfe01.domain01.net ([83.145.59.140])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1T3R8b-0003OI-6k
+	(envelope-from <anders@chargestorm.se>) id 1T3Ro8-0007Fo-JD
 	for openembedded-core@lists.openembedded.org;
-	Mon, 20 Aug 2012 14:31:21 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 20 Aug 2012 05:19:17 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.77,796,1336374000"; d="scan'208";a="206380363"
-Received: from unknown (HELO helios.localnet) ([10.252.121.92])
-	by fmsmga001.fm.intel.com with ESMTP; 20 Aug 2012 05:19:16 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Jaap de Jong <jaap.dejong@nedap.com>
-Date: Mon, 20 Aug 2012 13:19:15 +0100
-Message-ID: <2859322.LbdxQNuYuz@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.9 (Linux/3.2.0-29-generic-pae; KDE/4.9.0; i686; ; )
-In-Reply-To: <5032290C.1090403@nedap.com>
-References: <50320C3E.8030009@nedap.com> <1450996.gKDeWNK0nL@helios>
-	<5032290C.1090403@nedap.com>
+	Mon, 20 Aug 2012 15:14:16 +0200
+Received: from localhost (193.41.119.134) by stoexhubfe01.domain01.net
+	(10.12.10.6) with Microsoft SMTP Server id 8.3.245.1; Mon, 20 Aug 2012
+	15:01:20 +0200
+Date: Mon, 20 Aug 2012 15:02:18 +0200
+From: Anders Darander <anders@chargestorm.se>
+To: <openembedded-core@lists.openembedded.org>
+Message-ID: <20120820130217.GA9188@ad.chargestorm.se>
+Mail-Followup-To: openembedded-core@lists.openembedded.org
+References: <1345448771-4656-1-git-send-email-radu.moisan@intel.com>
+	<8627395.gapg0V4nHB@helios>
+	<1345451321.24626.77.camel@x121e.pbcl.net>
+	<1754598.kxQRJyreg5@helios> <50320338.8090203@intel.com>
+	<1345455067.24626.85.camel@x121e.pbcl.net>
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: can't login??
+In-Reply-To: <1345455067.24626.85.camel@x121e.pbcl.net>
+X-Accept-Language: sv, en, de
+X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
+X-GPG-Key-Id: 0x920E938C
+X-GPG-Keyserver: hkp://keys.gnupg.net
+Organization: ChargeStorm AB
+User-Agent: Mutt/1.5.20 (2009-12-10)
+X-GFI-SMTP-Submission: 1
+Subject: Re: [PATCH v2] busybox: Upgrade to upstream 1.20.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,39 +38,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Aug 2012 12:31:21 -0000
-Content-Transfer-Encoding: 7Bit
+X-List-Received-Date: Mon, 20 Aug 2012 13:14:16 -0000
 Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
 
-On Monday 20 August 2012 14:09:48 Jaap de Jong wrote:
-> What I'm trying to do is get an image that looks as much the same as the
-> one I made under oe-classic.
-> Perhaps my approach is not the way to go?
-> I was using base-image.bb under oe-classic as the basis and added some
-> packages to get to our needed set of applications.
+* Phil Blundell <philb@gnu.org> [120820 11:33]:
 
-There's nothing wrong with that - you can construct the image in whatever 
-manner you wish. You may wish to take advantage of the new functionality 
-provided by core-image.bbclass, but that is entirely optional.
+> On Mon, 2012-08-20 at 12:28 +0300, Radu Moisan wrote:
+> > Any suggestions on how to do that?
 
-> On 08/20/2012 12:34 PM, Paul Eggleton wrote:
-> > Is "debug-tweaks" in IMAGE_FEATURES?
-> 
-> (To answer your question. No, it is not. More of that in my previous mail)
+> "vi defconfig", then add 
 
-The way things work now, zap_root_password is automatically run when post-
-processing the image, unless debug-tweaks is in IMAGE_FEATURES (typically, one 
-would add this via EXTRA_IMAGE_FEATURES in local.conf). This is a replacement 
-for DISTRO_TYPE = "debug" / "release" in OE-Classic. The assumption is that if 
-you're actually producing a production image, you really don't want people to 
-be able to log into it as root with no password.
+> # CONFIG_LSOF is not set
+
+> at some appropriate place.
+
+> Alternatively, bitbake -c menuconfig busybox, make sure lsof is
+> disabled, then copy the resulting .config file back into defconfig.
+
+And as a last step (regardless of which way you're modifying the
+defconfig) use git diff to check that you're changing things correclty,
+i.e. not enabling more functionality than before (unless there's a good
+reason for this).
+
+Apart from that, I prefer that we copy the defconfig from a build, as
+busybox sometimes likes to re-order the configuration options between
+releases. I just happen to prefer to easily be able to compare my built
+config with the supplied defconfig, with the minimum of changes.
 
 Cheers,
-Paul
+Anders
+
 
 -- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+Anders Darander
+ChargeStorm AB / eStorm AB
 
 
