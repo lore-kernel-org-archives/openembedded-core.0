@@ -1,26 +1,33 @@
-Received: from mga11.intel.com ([192.55.52.93])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1T3ZWs-0007nj-KG
-	for openembedded-core@lists.openembedded.org;
-	Mon, 20 Aug 2012 23:28:58 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 20 Aug 2012 14:16:55 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.77,799,1336374000"; d="scan'208";a="211297796"
-Received: from unknown (HELO [10.255.13.49]) ([10.255.13.49])
-	by fmsmga002.fm.intel.com with ESMTP; 20 Aug 2012 14:16:54 -0700
-Message-ID: <5032A946.1000301@linux.intel.com>
-Date: Mon, 20 Aug 2012 14:16:54 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:14.0) Gecko/20120717 Thunderbird/14.0
-MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <1343959047-24613-1-git-send-email-sen.zhang@windriver.com>
-	<1343959047-24613-2-git-send-email-sen.zhang@windriver.com>
-In-Reply-To: <1343959047-24613-2-git-send-email-sen.zhang@windriver.com>
-Subject: Re: [PATCH] libxpm-native: add dependency on gettext-native
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1T3a8X-0000fJ-QJ
+	for openembedded-core@openembedded.org; Tue, 21 Aug 2012 00:07:53 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q7KLtpZ3010717;
+	Mon, 20 Aug 2012 22:55:51 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 06930-06; Mon, 20 Aug 2012 22:55:47 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q7KLth2r010711
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
+	Mon, 20 Aug 2012 22:55:44 +0100
+Message-ID: <1345499743.3907.39.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Andy Ross <andy.ross@windriver.com>
+Date: Mon, 20 Aug 2012 22:55:43 +0100
+In-Reply-To: <50326CE8.6090206@windriver.com>
+References: <1345218791-28891-1-git-send-email-andy.ross@windriver.com>
+	<1345218791-28891-2-git-send-email-andy.ross@windriver.com>
+	<1345218791-28891-3-git-send-email-andy.ross@windriver.com>
+	<1345370811.27428.86.camel@ted> <50326CE8.6090206@windriver.com>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Cc: openembedded-core@openembedded.org
+Subject: Re: [PATCH 2/2] libtool: normalize link paths before considering for RPATH
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,40 +40,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Aug 2012 21:28:58 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Mon, 20 Aug 2012 22:07:54 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 08/02/2012 06:57 PM, Jesse Zhang wrote:
-> libxpm needs xgettext to build po files. Add explicit dependency on
-> gettext-native.
->
-> Signed-off-by: Jesse Zhang <sen.zhang@windriver.com>
-> ---
->   meta/recipes-graphics/xorg-lib/libxpm_3.5.10.bb |    3 ++-
->   1 files changed, 2 insertions(+), 1 deletions(-)
->
-> diff --git a/meta/recipes-graphics/xorg-lib/libxpm_3.5.10.bb b/meta/recipes-graphics/xorg-lib/libxpm_3.5.10.bb
-> index 9eaa212..6830216 100644
-> --- a/meta/recipes-graphics/xorg-lib/libxpm_3.5.10.bb
-> +++ b/meta/recipes-graphics/xorg-lib/libxpm_3.5.10.bb
-> @@ -10,7 +10,8 @@ protocol."
->   LICENSE = "BSD"
->   LIC_FILES_CHKSUM = "file://COPYING;md5=3e07763d16963c3af12db271a31abaa5"
->   DEPENDS += "libxext libsm libxt"
-> -PR = "r0"
-> +DEPENDS_virtclass-native = "gettext-native"
+On Mon, 2012-08-20 at 09:59 -0700, Andy Ross wrote:
+> On 08/19/2012 03:06 AM, Richard Purdie wrote:
+> > On Fri, 2012-08-17 at 08:53 -0700, Andy Ross wrote:
+> >> ++                libdir_norm=`echo $libdir \
+> >> ++                  | sed 's/\/\+\.\(\/\+\|$\)/\//g' \
+> >> ++                  | sed 's/[^\/]\+\/\+\.\.\(\/\+\|$\)//g' \
+> >> ++                  | sed 's/\/\+/\//g' \
+> >> ++                  | sed 's/\(.\)\/$/\1/g'`
+> >
+> > Can't we use func_norm_abspath here?
+> 
+> I have to admit I got a little confused reading that code (not that my
+> sed mess is significantly better, but at least I trust it because I
+> wrote it); but it looks to me like it's an abspath implementation on
+> the host filesystem (not the use of `pwd` in a few places).  That will
+> work for pruning in this case, since the problem case is already an
+> absolute path to a host directory.  But I don't see how it won't in
+> principle break things by expanding host paths.
 
-Is there a reason you don't do an inherit gettext here to ensure other 
-bits are set?  Also for the native, you maybe able to use the 
-gettext-minimal-native if there is reason you can't use the inherit.
+As I read it, it will only use pwd if the path is relative or empty. I
+can't think of a case where you'd encode something like that into an
+rpath...
 
-Sau!
+Libtool can't expect the directory to exist on the filesystem when it
+makes these calls so we should be safe from that perspective.
 
-> +PR = "r1"
->   PE = "1"
->
->   XORG_PN = "libXpm"
->
+Cheers,
+
+Richard
+
 
 
