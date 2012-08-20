@@ -1,24 +1,37 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mail-iy0-f175.google.com ([209.85.210.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1T3PTa-0000NW-Cu
+	(envelope-from <andrei@gherzan.ro>) id 1T3PUg-0000cd-42
 	for openembedded-core@lists.openembedded.org;
-	Mon, 20 Aug 2012 12:44:54 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 20 Aug 2012 03:32:51 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.77,796,1336374000"; d="scan'208";a="206305496"
-Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.121.92])
-	by fmsmga001.fm.intel.com with ESMTP; 20 Aug 2012 03:32:49 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 20 Aug 2012 11:32:34 +0100
-Message-Id: <daf70360948a15ca2be324a166a84cab97dde46c.1345458715.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1345458715.git.paul.eggleton@linux.intel.com>
-References: <cover.1345458715.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1345458715.git.paul.eggleton@linux.intel.com>
-References: <cover.1345458715.git.paul.eggleton@linux.intel.com>
-Subject: [RFC PATCH 7/7] qemu-config: turn into distcc-config and a task
+	Mon, 20 Aug 2012 12:46:02 +0200
+Received: by iaky10 with SMTP id y10so2648323iak.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 20 Aug 2012 03:33:59 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:x-originating-ip:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type:x-gm-message-state;
+	bh=tz4T8I61lGzO9JzPjDH9ByFrxCRUR2vgqUEuEabYIEk=;
+	b=NEC2TFtecQ4nbquuuP8sb/K5/YMuJNJmztOlW+tWoZ8Dml7oTXOhVlgk5rWR2BTKi7
+	A36E0prPbZSYSLd/mZuR9IDQL4VwshjgTvUWbRq0vwaqjufgRSXLXMCl+wvQo9WC2dBH
+	0/DUV2FiIhzmAkSka9uCPRBWlM5daoc21mBZjJcvjVme7jFHUZ6/NA0CKUwECwoR6h+z
+	oDuvBAVQJTgXGdf/SNMX3tSRqYcgOF88PgG6nHLqX1idRo7GcEsfPCLxmJirT55K2Dhv
+	OIyGlebbak56tfsa8k/r0SUyd3jCDFI9FfTt+G1W1jzePSj2e/0/Vnrq/d0FfwV2z2fn
+	sXZg==
+Received: by 10.50.41.195 with SMTP id h3mr9216553igl.34.1345458839310; Mon,
+	20 Aug 2012 03:33:59 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.64.63.50 with HTTP; Mon, 20 Aug 2012 03:33:39 -0700 (PDT)
+X-Originating-IP: [79.115.110.29]
+In-Reply-To: <50320C3E.8030009@nedap.com>
+References: <50320C3E.8030009@nedap.com>
+From: Andrei Gherzan <andrei@gherzan.ro>
+Date: Mon, 20 Aug 2012 13:33:39 +0300
+Message-ID: <CAK18fxGe5GDn+dZZ+mh-nLcH8w8dz9GxbdHaKfVFgccgrqGjUQ@mail.gmail.com>
+To: Jaap de Jong <jaap.dejong@nedap.com>
+X-Gm-Message-State: ALoCoQlCcGvt60XeNz+WE3rf7y0AuzzBS3/Vcs3tm5hiV0CyVKd+JPbkn01F7vbxaBjPrhlQBKw2
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: can't login??
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -31,106 +44,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Aug 2012 10:44:55 -0000
+X-List-Received-Date: Mon, 20 Aug 2012 10:46:02 -0000
+Content-Type: multipart/alternative; boundary=14dae934051d2d52c704c7b00cc7
 
-* Create a new task-core-device-devel which pulls in everything that
-  qemu-config used to
-* Move the remainder of qemu-config to distcc-config and allow
-  DISTCC_HOSTS to be configured via a variable of the same name
-* Use SUMMARY instead of DESCRIPTION for single-line description since
-  DESCRIPTION is defaulted from SUMMARY if not set
+--14dae934051d2d52c704c7b00cc7
+Content-Type: text/plain; charset=ISO-8859-1
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- .../devel-config/distcc-config.bb}                 |   20 +++++++++++---------
- .../devel-config/distcc-config}/distcc.sh          |    2 +-
- .../tasks/task-core-device-devel.bb                |   18 ++++++++++++++++++
- 3 files changed, 30 insertions(+), 10 deletions(-)
- rename meta/{recipes-bsp/qemu-config/qemu-config.bb => recipes-devtools/devel-config/distcc-config.bb} (44%)
- rename meta/{recipes-bsp/qemu-config/qemu-config => recipes-devtools/devel-config/distcc-config}/distcc.sh (57%)
- create mode 100644 meta/recipes-devtools/tasks/task-core-device-devel.bb
+On Mon, Aug 20, 2012 at 1:06 PM, Jaap de Jong <jaap.dejong@nedap.com> wrote:
 
-diff --git a/meta/recipes-bsp/qemu-config/qemu-config.bb b/meta/recipes-devtools/devel-config/distcc-config.bb
-similarity index 44%
-rename from meta/recipes-bsp/qemu-config/qemu-config.bb
-rename to meta/recipes-devtools/devel-config/distcc-config.bb
-index 3ed07df..8deaa66 100644
---- a/meta/recipes-bsp/qemu-config/qemu-config.bb
-+++ b/meta/recipes-devtools/devel-config/distcc-config.bb
-@@ -1,23 +1,25 @@
--DESCRIPTION = "Adds scripts to use distcc on the host system under qemu"
-+SUMMARY = "Sets up distcc for compilation on the target device"
- 
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58 \
-                     file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
- 
--
--COMPATIBLE_MACHINE = "(qemuarm|qemux86|qemumips|qemuppc)"
--
--PR = "r25"
--
- SRC_URI = "file://distcc.sh"
- 
- S = "${WORKDIR}"
- 
-+# Default to the host machine for a running qemu session
-+DISTCC_HOSTS ?= "192.168.7.1"
-+
-+do_configure() {
-+	sed -i "s%@DISTCC_HOSTS@%${DISTCC_HOSTS}%" distcc.sh
-+}
-+
- do_install() {
--    install -d ${D}${sysconfdir}/profile.d
--    install -m 0755 distcc.sh ${D}${sysconfdir}/profile.d/
-+	install -d ${D}${sysconfdir}/profile.d
-+	install -m 0755 distcc.sh ${D}${sysconfdir}/profile.d/
- }
- 
--RDEPENDS_${PN} = "distcc oprofileui-server bash"
-+RDEPENDS_${PN} = "distcc"
- 
- inherit allarch
-diff --git a/meta/recipes-bsp/qemu-config/qemu-config/distcc.sh b/meta/recipes-devtools/devel-config/distcc-config/distcc.sh
-similarity index 57%
-rename from meta/recipes-bsp/qemu-config/qemu-config/distcc.sh
-rename to meta/recipes-devtools/devel-config/distcc-config/distcc.sh
-index a2b543d..b420593 100644
---- a/meta/recipes-bsp/qemu-config/qemu-config/distcc.sh
-+++ b/meta/recipes-devtools/devel-config/distcc-config/distcc.sh
-@@ -1,4 +1,4 @@
--DISTCC_HOSTS="192.168.7.1"
-+DISTCC_HOSTS="@DISTCC_HOSTS@"
- #DISTCC_VERBOSE="1"
- 
- export DISTCC_HOSTS
-diff --git a/meta/recipes-devtools/tasks/task-core-device-devel.bb b/meta/recipes-devtools/tasks/task-core-device-devel.bb
-new file mode 100644
-index 0000000..f4b608b
---- /dev/null
-+++ b/meta/recipes-devtools/tasks/task-core-device-devel.bb
-@@ -0,0 +1,18 @@
-+SUMMARY = "Provides a small set of tools for development on the device"
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58 \
-+                    file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
-+
-+inherit task
-+
-+RPROVIDES_${PN} = "qemu-config"
-+RREPLACES_${PN} = "qemu-config"
-+
-+RDEPENDS_${PN} = "\
-+    distcc-config \
-+    oprofileui-server \
-+    nfs-export-root \
-+    anjuta-remote-run \
-+    bash \
-+    "
-+
--- 
-1.7.9.5
+>  Totaly stupid...
+> Can't login as root.
+> Have build an image with this:
+>
+> require recipes-core/images/core-image-minimal.bb
+>
+> # Use busybox as login manager
+> IMAGE_LOGIN_MANAGER = "busybox"
+>
+> # Include minimum init and init scripts
+> IMAGE_DEV_MANAGER = "udev"
+> IMAGE_INIT_MANAGER = "sysvinit sysvinit-pidof"
+> IMAGE_INITSCRIPTS = ""
+>
+>
+> Any hint is appreciated...
+>
+
+What IMAGE_FEATURES do you have?
+
+cat /etc/passwd | grep root ?
+
+ag
+
+--14dae934051d2d52c704c7b00cc7
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
+
+<div class=3D"gmail_quote">On Mon, Aug 20, 2012 at 1:06 PM, Jaap de Jong <s=
+pan dir=3D"ltr">&lt;<a href=3D"mailto:jaap.dejong@nedap.com" target=3D"_bla=
+nk">jaap.dejong@nedap.com</a>&gt;</span> wrote:<br><blockquote class=3D"gma=
+il_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-lef=
+t:1ex">
 
 
+ =20
 
+   =20
+ =20
+  <div text=3D"#000000" bgcolor=3D"#FFFFFF">
+    Totaly stupid...<br>
+    Can&#39;t login as root.<br>
+    Have build an image with this:<br>
+    <br>
+    <blockquote>require recipes-core/images/<a href=3D"http://core-image-mi=
+nimal.bb" target=3D"_blank">core-image-minimal.bb</a><br>
+      <br>
+      # Use busybox as login manager<br>
+      IMAGE_LOGIN_MANAGER =3D &quot;busybox&quot;<br>
+      <br>
+      # Include minimum init and init scripts<br>
+      IMAGE_DEV_MANAGER =3D &quot;udev&quot;<br>
+      IMAGE_INIT_MANAGER =3D &quot;sysvinit sysvinit-pidof&quot;<br>
+      IMAGE_INITSCRIPTS =3D &quot;&quot;<br>
+    </blockquote>
+    <br>
+    Any hint is appreciated...<br>
+  </div>
+
+</blockquote></div><br><div>What=A0IMAGE_FEATURES do you have?=A0</div><div=
+><br></div><div>cat /etc/passwd | grep root ?</div><div><br></div><div>ag</=
+div>
+
+--14dae934051d2d52c704c7b00cc7--
