@@ -1,26 +1,38 @@
-Received: from mga01.intel.com ([192.55.52.88])
+Received: from mga06.intel.com ([134.134.136.21] helo=orsmga101.jf.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1T3Ooi-0003NA-KJ
+	(envelope-from <ross.burton@intel.com>) id 1T3Ozm-0003hg-0M
 	for openembedded-core@lists.openembedded.org;
-	Mon, 20 Aug 2012 12:02:40 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 20 Aug 2012 02:50:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.77,796,1336374000"; d="scan'208";a="210930734"
-Received: from unknown (HELO helios.localnet) ([10.252.121.92])
-	by fmsmga002.fm.intel.com with ESMTP; 20 Aug 2012 02:50:27 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Phil Blundell <philb@gnu.org>
-Date: Mon, 20 Aug 2012 10:50:26 +0100
-Message-ID: <5299780.5uPXUKxR1v@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.9 (Linux/3.2.0-29-generic-pae; KDE/4.9.0; i686; ; )
-In-Reply-To: <1345452500.24626.83.camel@x121e.pbcl.net>
-References: <1345452476-5231-1-git-send-email-paul.eggleton@linux.intel.com>
-	<1345452500.24626.83.camel@x121e.pbcl.net>
+	Mon, 20 Aug 2012 12:14:06 +0200
+Received: from mail-ob0-f180.google.com ([209.85.214.180])
+	by mga02.intel.com with ESMTP/TLS/RC4-SHA; 20 Aug 2012 03:02:02 -0700
+Received: by obceq6 with SMTP id eq6so8028791obc.25
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 20 Aug 2012 03:02:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=fBZof7uNgHtEfe+1mw+M+B2I2qPlxPDf2bdhikPP5Io=;
+	b=h82z5tKlfMAXcMUHVdbi+8RpYCzfSUPZzDnfcKEcdromH3O0RHdxQghoNDmnj80wKk
+	FjleYRbqR0ACT11iFYlBbOXrRN5EhLI1Ult8W808D83vO6gTrhresXMEtsywjcD44HI/
+	nRdRS+e3caLmMvni935LgLe3X5vFul2Ocn5CUwGD+QuV9gioVt/eqi4W1/loZx3Epb3M
+	9n6s6Azgb9jW+uB0NBJ2HLYe6K8laEPHLdMCkNvhn7Z4vYhyj+SJ/ZsH4lzoiNNc4LtW
+	qTyhWBwi8E3GwzJ9+xlmV+V0czZGh8DInuj3LUuCbny87iRsSPGFnmtbCYf4tjnphQey
+	v1GA==
+Received: by 10.182.108.71 with SMTP id hi7mr10319774obb.21.1345456921446;
+	Mon, 20 Aug 2012 03:02:01 -0700 (PDT)
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] classes/sanity: remove texi2html from required host utilities
+Received: by 10.182.158.3 with HTTP; Mon, 20 Aug 2012 03:01:41 -0700 (PDT)
+In-Reply-To: <20120817121618.GH3625@jama.jama.net>
+References: <CAJTo0LZpSd6LB+9W2kUcxfeU4GOVO5VOnLHMbHYT+1W6iVzcBQ@mail.gmail.com>
+	<20120817121618.GH3625@jama.jama.net>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 20 Aug 2012 11:01:41 +0100
+Message-ID: <CAJTo0LY717hPyoHqvW1nYuD2bgcRAG3JPVuYHUZy1gK1k+DZ1g@mail.gmail.com>
+To: openembedded-devel@lists.openembedded.org
+X-Gm-Message-State: ALoCoQkx3Khzhao+cV2Zzt1AY1+TPRHFt2iJkMhqVXIwQaTjlN9irAYiZdx0mAyQS2kIskvHbj7c
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [oe] RFC: One X Server To Rule Them All
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,41 +45,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Aug 2012 10:02:40 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Mon, 20 Aug 2012 10:14:06 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Monday 20 August 2012 09:48:20 Phil Blundell wrote:
-> On Mon, 2012-08-20 at 09:47 +0100, Paul Eggleton wrote:
-> > texi2html is not actually required to build world of OE-Core anymore,
-> > so we don't need to mandate it. The only difference without it (verified
-> > with buildhistory) is that groff doesn't produce HTML documentation; the
-> > rest of its docs are still produced and packaged and no other packages
-> > are affected.
-> 
-> Can we fix groff to make it not even try to use texi2html even if it's
-> installed?  It seems a bit undesirable for the amount of documentation
-> you get to vary depending on the host environment.
+On 17 August 2012 13:16, Martin Jansa <martin.jansa@gmail.com> wrote:
+> Is it? where? I've merged it to oe-core about year ago..
 
-Actually, upon closer inspection, texi2html has nothing to do with this. The 
-host needs to have pnmcut, pnmcrop, pnmtopng, psselect, pnmtops and gs 
-installed or neither the HTML nor PDF backends for groff will be enabled.
+You're right, I saw xserver-common and somehow ignored the "common" bit.
 
-This leaves us with two alternatives:
-
-1) Make groff depend on ghostscript, and that would at least enable the PDF 
-backend, but for HTML it still leaves netpbm (for pnm*) and psutils (for 
-psselect), neither of which we have in OE-Core.
-
-2) Alternatively I can add --without-gs to the groff configure options which 
-will always disable both backends.
-
-Cheers,
-Paul
-
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+Ross
 
 
