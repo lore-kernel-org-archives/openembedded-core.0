@@ -1,34 +1,27 @@
-Received: from mail-wg0-f43.google.com ([74.125.82.43])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1T3Ure-0003JL-Sx
+	(envelope-from <sgw@linux.intel.com>) id 1T3VIn-0008Tq-2a
 	for openembedded-core@lists.openembedded.org;
-	Mon, 20 Aug 2012 18:30:06 +0200
-Received: by wgbdr1 with SMTP id dr1so4850733wgb.24
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Aug 2012 09:18:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	bh=O5hRW+hsLb1yZvBn4RM1Oavhb+5OHVKNW5nl/ApJx2s=;
-	b=XFIBKWaKDaHwaXq8OyeKAKWIief9Tw9j608qQtroK4j3Q7AsWQ9/CO2IwGypCp3P6F
-	FhdAXh+axjRDAZKaCXQxPPxQ7cLwpAo4Y+H9hthW5wr5Wu3AYPtWQKbNhSSnYdIrLomL
-	CdL97KotvSagD8ooj4CqvLcH6ZllytN9CqBSqRDib8nCfQfLXc2yJTUZO6IRtI0HMdHw
-	xew/QQESdsWPyOKyQ6VSVsJ4QAVouOXbAb8ffka0G4HB6UVc1lPhlXnKa78wxaOMKnhP
-	FfU87mrRZAK7ooWyUofd68L0YMYU6uA+EfkAEGU12qFiYOWUd5EUcyDkYjxmea3WHQZG
-	HSWg==
-Received: by 10.180.97.106 with SMTP id dz10mr30278901wib.21.1345479484463;
-	Mon, 20 Aug 2012 09:18:04 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id k20sm28742446wiv.11.2012.08.20.09.18.02
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 20 Aug 2012 09:18:03 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 20 Aug 2012 18:18:05 +0200
-Message-Id: <1345479485-20351-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.7.8.6
-In-Reply-To: <1345479395-16197-1-git-send-email-Martin.Jansa@gmail.com>
-References: <1345479395-16197-1-git-send-email-Martin.Jansa@gmail.com>
-Subject: [PATCHv2] qemu-0.15: fix location of qemu-vmware-vga-depth.patch file
+	Mon, 20 Aug 2012 18:58:09 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 20 Aug 2012 09:45:48 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.77,797,1336374000"; d="scan'208";a="211172372"
+Received: from unknown (HELO [10.255.13.49]) ([10.255.13.49])
+	by fmsmga002.fm.intel.com with ESMTP; 20 Aug 2012 09:45:48 -0700
+Message-ID: <503269BC.1000106@linux.intel.com>
+Date: Mon, 20 Aug 2012 09:45:48 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:14.0) Gecko/20120717 Thunderbird/14.0
+MIME-Version: 1.0
+To: Radu Moisan <radu.moisan@intel.com>
+References: <1345208727-3029-1-git-send-email-radu.moisan@intel.com>
+	<502E696C.8050304@linux.intel.com> <5031D36D.7040107@intel.com>
+In-Reply-To: <5031D36D.7040107@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH][RFC] coreutils: Upgrade to upstream version 8.17
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,20 +34,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Aug 2012 16:30:06 -0000
+X-List-Received-Date: Mon, 20 Aug 2012 16:58:09 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- .../qemu/qemu-0.15.1/qemu-vmware-vga-depth.patch   |    0
- 1 files changed, 0 insertions(+), 0 deletions(-)
- rename meta/{meta => }/recipes-devtools/qemu/qemu-0.15.1/qemu-vmware-vga-depth.patch (100%)
+On 08/19/2012 11:04 PM, Radu Moisan wrote:
+>
+> On 08/17/2012 06:55 PM, Saul Wold wrote:
+>> On 08/17/2012 06:05 AM, Radu Moisan wrote:
+>>> Signed-off-by: Radu Moisan <radu.moisan@intel.com>
+>>> ---
+>>>   .../coreutils-8.17/realpath-works-yes.patch        |   13
+>>> +++++++++++++
+>>>   .../remove-gets.patch                              |   20
+>>> +++++++++++---------
+>>>   .../remove-usr-local-lib-from-m4.patch             |    0
+>>>   .../{coreutils_8.14.bb => coreutils_8.17.bb}       |    9 +++++----
+>>>   4 files changed, 29 insertions(+), 13 deletions(-)
+>>>   create mode 100644
+>>> meta/recipes-core/coreutils/coreutils-8.17/realpath-works-yes.patch
+>>>   rename meta/recipes-core/coreutils/{coreutils-8.14 =>
+>>> coreutils-8.17}/remove-gets.patch (47%)
+>>>   rename meta/recipes-core/coreutils/{coreutils-8.14 =>
+>>> coreutils-8.17}/remove-usr-local-lib-from-m4.patch (100%)
+>>>   rename meta/recipes-core/coreutils/{coreutils_8.14.bb =>
+>>> coreutils_8.17.bb} (91%)
+>>>
+>>> diff --git
+>>> a/meta/recipes-core/coreutils/coreutils-8.17/realpath-works-yes.patch
+>>> b/meta/recipes-core/coreutils/coreutils-8.17/realpath-works-yes.patch
+>>> new file mode 100644
+>>> index 0000000..6bbe7ee
+>>> --- /dev/null
+>>> +++
+>>> b/meta/recipes-core/coreutils/coreutils-8.17/realpath-works-yes.patch
+>>
+>> Your new patch needs a header, explaining why, and adding
+>> Upstream-Status and Signed-off-by tags.
+>>
+> I meant this only as an RFC, to get feedback for my patch, from a
+> functional point of view, it is not intended to be the final patch.
+> I have a Signed-off-by tag, are you referring to something else?
+> Can you give me more details about Upstream-Status? I've google'd this
+> problem for a bit but could not find an existing patch for it, nor a bug
+> filled for this matter. Since I don't know yet if what I'm fixing it's
+> really a bug (or a misconfiguration on my side) I send this RFC to get a
+> hold of whether I'm on the good track here or not. If this patch turns
+> out to be valid, I'll get in touch with the guys from coreutils' mailing
+> lists, and try to push it upstream.
 
-diff --git a/meta/meta/recipes-devtools/qemu/qemu-0.15.1/qemu-vmware-vga-depth.patch b/meta/recipes-devtools/qemu/qemu-0.15.1/qemu-vmware-vga-depth.patch
-similarity index 100%
-rename from meta/meta/recipes-devtools/qemu/qemu-0.15.1/qemu-vmware-vga-depth.patch
-rename to meta/recipes-devtools/qemu/qemu-0.15.1/qemu-vmware-vga-depth.patch
--- 
-1.7.8.6
+Radu,
 
+For patches included in a given recipe we also have Signed-off-by as 
+well as the Upstream-Status tag as defined by:
+
+http://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+
+Please review this again.
+
+Thanks
+	Sau!
+
+>
+> radu
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
+>
 
 
