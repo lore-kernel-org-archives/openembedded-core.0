@@ -1,42 +1,28 @@
-Received: from tx2ehsobe001.messaging.microsoft.com ([65.55.88.11]
-	helo=tx2outboundpool.messaging.microsoft.com)
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1T3XEA-0006Sm-2d
+	(envelope-from <mark.hatle@windriver.com>) id 1T3XXy-0001yd-Ka
 	for openembedded-core@lists.openembedded.org;
-	Mon, 20 Aug 2012 21:01:33 +0200
-Received: from mail161-tx2-R.bigfish.com (10.9.14.239) by
-	TX2EHSOBE010.bigfish.com (10.9.40.30) with Microsoft SMTP Server id
-	14.1.225.23; Mon, 20 Aug 2012 18:49:26 +0000
-Received: from mail161-tx2 (localhost [127.0.0.1])	by
-	mail161-tx2-R.bigfish.com (Postfix) with ESMTP id DAD7840449;
-	Mon, 20 Aug 2012 18:49:26 +0000 (UTC)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-X-SpamScore: 3
-X-BigFish: VS3(zzzz1202h1082kzz8275bhz2dh2a8h668h839hd24he5bhf0ah107ah)
-Received: from mail161-tx2 (localhost.localdomain [127.0.0.1]) by mail161-tx2
-	(MessageSwitch) id 1345488564576477_15965;
-	Mon, 20 Aug 2012 18:49:24 +0000 (UTC)
-Received: from TX2EHSMHS034.bigfish.com (unknown [10.9.14.250])	by
-	mail161-tx2.bigfish.com (Postfix) with ESMTP id 897F220244;
-	Mon, 20 Aug 2012 18:49:24 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by TX2EHSMHS034.bigfish.com
-	(10.9.99.134) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Mon, 20 Aug 2012 18:49:24 +0000
-Received: from tx30smr01.am.freescale.net (10.81.153.31) by
-	039-SN1MMR1-005.039d.mgd.msft.net (10.84.1.17) with Microsoft SMTP
-	Server (TLS) id 14.2.309.3; Mon, 20 Aug 2012 13:49:23 -0500
-Received: from right.am.freescale.net (right.am.freescale.net [10.82.176.228])
-	by tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id
-	q7KInNEZ026041; Mon, 20 Aug 2012 11:49:23 -0700
-From: Matthew McClintock <msm@freescale.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 20 Aug 2012 13:49:23 -0500
-Message-ID: <1345488563-30901-1-git-send-email-msm@freescale.com>
-X-Mailer: git-send-email 1.7.9.7
+	Mon, 20 Aug 2012 21:21:58 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q7KJ9sfl009803
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 20 Aug 2012 12:09:54 -0700 (PDT)
+Received: from msp-dhcp10.wrs.com (172.25.34.10) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.309.2;
+	Mon, 20 Aug 2012 12:09:54 -0700
+Message-ID: <50328B7D.70001@windriver.com>
+Date: Mon, 20 Aug 2012 14:09:49 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
+	rv:14.0) Gecko/20120713 Thunderbird/14.0
 MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Subject: [PATCH] kmod-native_git.bb: fix builds for hosts with older libc
+To: <openembedded-core@lists.openembedded.org>
+References: <1343959047-24613-1-git-send-email-sen.zhang@windriver.com>
+	<502D3306.2050100@linux.intel.com>
+In-Reply-To: <502D3306.2050100@linux.intel.com>
+Subject: Re: [PATCH] libxpm-native: add dependency on gettext-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -49,62 +35,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Aug 2012 19:01:33 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 20 Aug 2012 19:21:59 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-kmod will fail to build with the following error because O_CLOEXEC is
-not defined:
+On 8/16/12 12:51 PM, Saul Wold wrote:
+> On 08/02/2012 06:57 PM, Jesse Zhang wrote:
+>> libxpm needs xgettext. There can be failures if gettext doesn't get built first
+>> and it's not available from the host.
+>>
+>> The target version doesn't have issues since it will get the dependency
+>> indirectly.
+>>
+>> Jesse Zhang (1):
+>>     libxpm-native: add dependency on gettext-native
+>>
+>>    meta/recipes-graphics/xorg-lib/libxpm_3.5.10.bb |    3 ++-
+>>    1 files changed, 2 insertions(+), 1 deletions(-)
+>>
+> Merged into OE-Core
 
-| libkmod/libkmod-module.c: In function 'kmod_module_get_initstate':
-| libkmod/libkmod-module.c:1640: error: 'O_CLOEXEC' undeclared (first use in this function)
-| libkmod/libkmod-module.c:1640: error: (Each undeclared identifier is reported only once
-| libkmod/libkmod-module.c:1640: error: for each function it appears in.)
-| libkmod/libkmod-module.c: In function 'kmod_module_get_refcnt':
-| libkmod/libkmod-module.c:1754: error: 'O_CLOEXEC' undeclared (first use in this function)
-| libkmod/libkmod-module.c: In function 'kmod_module_get_sections':
-| libkmod/libkmod-module.c:1913: error: 'O_CLOEXEC' undeclared (first use in this function)
-| libkmod/libkmod-file.c: In function 'kmod_file_open':
-| libkmod/libkmod-file.c:282: error: 'O_CLOEXEC' undeclared (first use in this function)
-| libkmod/libkmod-file.c:282: error: (Each undeclared identifier is reported only once
-| libkmod/libkmod-file.c:282: error: for each function it appears in.)
+I'm not finding this patch in the git repository.  I don't think it was actually 
+merged.
 
-Since we are only using kmod-native for depmod, and it's a non-threaded
-user of this libary being built this should be safe to override O_CLOEXEC.
+--Mark
 
-Keep in mind this is ONLY effecting the native builds and not what is
-being shipped in the root file system.
-
-Signed-off-by: Matthew McClintock <msm@freescale.com>
----
- meta/recipes-kernel/kmod/kmod-native_git.bb |    8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
-
-diff --git a/meta/recipes-kernel/kmod/kmod-native_git.bb b/meta/recipes-kernel/kmod/kmod-native_git.bb
-index 96de8b8..3c5e3c3 100644
---- a/meta/recipes-kernel/kmod/kmod-native_git.bb
-+++ b/meta/recipes-kernel/kmod/kmod-native_git.bb
-@@ -4,7 +4,7 @@
- require kmod.inc
- inherit native
- 
--PR = "${INC_PR}.0"
-+PR = "${INC_PR}.1"
- 
- do_install_append (){
- 	for tool in depmod insmod lsmod modinfo modprobe rmmod
-@@ -12,3 +12,9 @@ do_install_append (){
- 		ln -s kmod ${D}${bindir}/$tool
- 	done
- }
-+
-+do_compile_append (){
-+	if ! grep O_CLOEXEC -r ${includedir_native}/bits/fcntl.h; then
-+		export CFLAGS="$CFLAGS -D O_CLOEXEC=0"
-+	fi
-+}
--- 
-1.7.9.7
-
+> Thanks
+> 	Sau!
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>
 
 
 
