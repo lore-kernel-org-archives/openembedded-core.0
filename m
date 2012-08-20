@@ -1,26 +1,26 @@
-Received: from mga07.intel.com ([143.182.124.22] helo=azsmga101.ch.intel.com)
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1T3VPP-0000Zd-Cp
+	(envelope-from <sgw@linux.intel.com>) id 1T3VSK-0000dc-Dw
 	for openembedded-core@lists.openembedded.org;
-	Mon, 20 Aug 2012 19:04:59 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 20 Aug 2012 09:52:56 -0700
+	Mon, 20 Aug 2012 19:08:00 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 20 Aug 2012 09:55:54 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.77,797,1336374000"; d="scan'208";a="183213873"
+X-IronPort-AV: E=Sophos;i="4.77,797,1336374000"; d="scan'208";a="182995092"
 Received: from unknown (HELO [10.255.13.49]) ([10.255.13.49])
-	by azsmga001.ch.intel.com with ESMTP; 20 Aug 2012 09:52:53 -0700
-Message-ID: <50326B65.4090600@linux.intel.com>
-Date: Mon, 20 Aug 2012 09:52:53 -0700
+	by orsmga001.jf.intel.com with ESMTP; 20 Aug 2012 09:55:54 -0700
+Message-ID: <50326C1A.9070306@linux.intel.com>
+Date: Mon, 20 Aug 2012 09:55:54 -0700
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:14.0) Gecko/20120717 Thunderbird/14.0
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <1345226047-25896-1-git-send-email-msm@freescale.com>
-In-Reply-To: <1345226047-25896-1-git-send-email-msm@freescale.com>
-Cc: Matthew McClintock <msm@freescale.com>
-Subject: Re: [PATCH v2] cross-localedef-native_2.16.bb: fix for CentOS 5.X
+References: <1345220471-16791-1-git-send-email-constantinx.musca@intel.com>
+In-Reply-To: <1345220471-16791-1-git-send-email-constantinx.musca@intel.com>
+Cc: Constantin Musca <constantinx.musca@intel.com>
+Subject: Re: [PATCH v2] libxrandr: upgrade to 1.4.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,75 +33,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Aug 2012 17:04:59 -0000
+X-List-Received-Date: Mon, 20 Aug 2012 17:08:00 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 08/17/2012 10:54 AM, Matthew McClintock wrote:
-> | gcc -isystem/home/mattsm/git/poky/build-master/tmp/sysroots/x86_64-linux/usr/include -isystem/home/mattsm/git/poky/build-master/tmp/sysroots/x86_64-linux/usr/include -O2 -pipe -DNOT_IN_libc=1 -DNO_SYSCONF -DNO_UNCOMPRESS -DLOCALE_PATH='"/usr/local/lib/locale:/usr/local/share/i18n"' -DLOCALEDIR='"/usr/local/lib/locale"' -DLOCALE_ALIAS_PATH='"/usr/local/share/locale"' -DCHARMAP_PATH='"/usr/local/share/i18n/charmaps"' -DREPERTOIREMAP_PATH='"/usr/local/share/i18n/repertoiremaps"' -DLOCSRCDIR='"/usr/local/share/i18n/locales"' -DNOT_IN_libc -DIN_GLIBC_LOCALEDEF -Iglibc/locale/programs -I./include -Iglibc/locale -I. -I. -include ./include/always.h -Wall -Wno-format -c -o ld-address.o glibc/locale/programs/ld-address.c
-> | In file included from glibc/locale/programs/localedef.h:24,
-> |                  from glibc/locale/programs/ld-address.c:30:
-> | ./include/locale.h:6: error: conflicting types for 'locale_t'
-> | glibc/locale/xlocale.h:42: error: previous declaration of 'locale_t' was here
-> | make: *** [ld-address.o] Error 1
-> | ERROR: oe_runmake failed
+On 08/17/2012 09:21 AM, Constantin Musca wrote:
+> Only some spaces changed in the license file.
 >
-> Signed-off-by: Matthew McClintock <msm@freescale.com>
+> Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
 > ---
->   .../eglibc/cross-localedef-native_2.16.bb          |    9 +++++++--
->   .../eglibc/eglibc-2.16/fix_for_centos_5.8.patch    |   18 ++++++++++++++++++
->   2 files changed, 25 insertions(+), 2 deletions(-)
->   create mode 100644 meta/recipes-core/eglibc/eglibc-2.16/fix_for_centos_5.8.patch
+>   .../{libxrandr_1.3.2.bb => libxrandr_1.4.0.bb}     |    6 +++---
+>   1 file changed, 3 insertions(+), 3 deletions(-)
+>   rename meta/recipes-graphics/xorg-lib/{libxrandr_1.3.2.bb => libxrandr_1.4.0.bb} (72%)
 >
-> diff --git a/meta/recipes-core/eglibc/cross-localedef-native_2.16.bb b/meta/recipes-core/eglibc/cross-localedef-native_2.16.bb
-> index 47f0834..a79a276 100644
-> --- a/meta/recipes-core/eglibc/cross-localedef-native_2.16.bb
-> +++ b/meta/recipes-core/eglibc/cross-localedef-native_2.16.bb
-> @@ -13,10 +13,15 @@ LIC_FILES_CHKSUM = "file://${LIC_DIR}/LICENSES;md5=98a1128c4b58120182cbea3b1752d
->   inherit native
->   inherit autotools
+> diff --git a/meta/recipes-graphics/xorg-lib/libxrandr_1.3.2.bb b/meta/recipes-graphics/xorg-lib/libxrandr_1.4.0.bb
+> similarity index 72%
+> rename from meta/recipes-graphics/xorg-lib/libxrandr_1.3.2.bb
+> rename to meta/recipes-graphics/xorg-lib/libxrandr_1.4.0.bb
+> index 6fc3cf5..323c098 100644
+> --- a/meta/recipes-graphics/xorg-lib/libxrandr_1.3.2.bb
+> +++ b/meta/recipes-graphics/xorg-lib/libxrandr_1.4.0.bb
+> @@ -9,7 +9,7 @@ specified in the Proceedings of the 2001 Usenix Technical Conference \
+>   require xorg-lib-common.inc
 >
-> -PR = "r0"
-> +# pick up an eglibc-2.16 patch
-> +FILESPATH = "${FILE_DIRNAME}/eglibc-${PV}"
-> +
-> +PR = "r1"
->   SRCREV="19383"
->   EGLIBC_BRANCH="eglibc-2_16"
-> -SRC_URI = "svn://www.eglibc.org/svn/branches/;module=${EGLIBC_BRANCH};protocol=http "
-> +SRC_URI = "svn://www.eglibc.org/svn/branches/;module=${EGLIBC_BRANCH};protocol=http \
-> +	   file://fix_for_centos_5.8.patch;patchdir=.. \
-> +	  "
->   S = "${WORKDIR}/${EGLIBC_BRANCH}/localedef"
+>   LICENSE = "MIT-style"
+> -LIC_FILES_CHKSUM = "file://COPYING;md5=4c5c132d3690478179d78ec3bf064584"
+> +LIC_FILES_CHKSUM = "file://COPYING;md5=aa33e583cc3e96238a8467b485e62992"
 >
->   do_unpack_append() {
-> diff --git a/meta/recipes-core/eglibc/eglibc-2.16/fix_for_centos_5.8.patch b/meta/recipes-core/eglibc/eglibc-2.16/fix_for_centos_5.8.patch
-> new file mode 100644
-> index 0000000..7618c99
-> --- /dev/null
-> +++ b/meta/recipes-core/eglibc/eglibc-2.16/fix_for_centos_5.8.patch
-> @@ -0,0 +1,18 @@
-> +Upstream-Status: Inappropriate [other]
-> +
-> +This is a hack to fix building the locale bits on an older
-> +CentOs 5.X machine
-> +
-> +Index: eglibc-2_16/libc/locale/programs/config.h
-> +===================================================================
-> +--- eglibc-2_16.orig/libc/locale/programs/config.h
-> ++++ eglibc-2_16/libc/locale/programs/config.h
-> +@@ -19,6 +19,8 @@
-> + #ifndef _LD_CONFIG_H
-> + #define _LD_CONFIG_H	1
-> +
-> ++#define DUMMY_LOCALE_T
-> ++
-> + /* Use the internal textdomain used for libc messages.  */
-> + #define PACKAGE _libc_intl_domainname
-> + #ifndef VERSION
+>   DEPENDS += "virtual/libx11 randrproto libxrender libxext"
+>
+> @@ -20,5 +20,5 @@ XORG_PN = "libXrandr"
+>
+>   BBCLASSEXTEND = "native nativesdk"
+>
+> -SRC_URI[md5sum] = "92473da2fccf5fac665be4fa4f2037fa"
+> -SRC_URI[sha256sum] = "7eaca216ab5233d7396119eb87c1989d350a3efead104d54b55f22cdd1d99b81"
+> +SRC_URI[md5sum] = "0c843636124cc1494e3d87df16957672"
+> +SRC_URI[sha256sum] = "033ad0ac2f012afb05268660f6d78705c85f84689f92fa7b47ce12959b15f5c3"
 >
 
-Merged into OE-Core
+Merged this along with the Connman, gst-fluendo* and randproto patches 
+into OE-Core
 
 Thanks
 	Sau!
