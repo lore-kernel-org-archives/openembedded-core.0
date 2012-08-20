@@ -1,24 +1,26 @@
-Received: from mail.windriver.com ([147.11.1.11])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <mark.hatle@windriver.com>) id 1T3Xi2-0002BC-S9
+	(envelope-from <mark.hatle@windriver.com>) id 1T3Xi3-0002BD-1q
 	for openembedded-core@lists.openembedded.org;
 	Mon, 20 Aug 2012 21:32:23 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q7KJKIR7004119
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q7KJKJrS009969
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 20 Aug 2012 12:20:19 -0700 (PDT)
 Received: from localhost.localdomain (172.25.34.61) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.309.2;
-	Mon, 20 Aug 2012 12:20:18 -0700
+	Mon, 20 Aug 2012 12:20:19 -0700
 From: Mark Hatle <mark.hatle@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 20 Aug 2012 14:36:45 -0500
-Message-ID: <cover.1345491292.git.mark.hatle@windriver.com>
+Date: Mon, 20 Aug 2012 14:36:46 -0500
+Message-ID: <25e31faf0bfb1b281184238c2c51d184a941840c.1345491292.git.mark.hatle@windriver.com>
 X-Mailer: git-send-email 1.7.3.4
+In-Reply-To: <cover.1345491292.git.mark.hatle@windriver.com>
+References: <cover.1345491292.git.mark.hatle@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [172.25.34.61]
-Subject: [PATCH 0/1 v2] grub-1.99: Add flex-native to DEPENDS
+Subject: [PATCH 1/1 v2] grub-1.99: Add flex-native to DEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,22 +36,39 @@ List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde
 X-List-Received-Date: Mon, 20 Aug 2012 19:32:23 -0000
 Content-Type: text/plain
 
-The following changes since commit 04568d1f18250d531aad5d286157d2d559083520:
+From: Xin Ouyang <Xin.Ouyang@windriver.com>
 
-Revise the commit message from the original pull request.
+[YOCTO #2916]
 
-  qemu: Fix broken accidental path move (2012-08-20 17:25:21 +0100)
+On some systems the host version of flex may be too old to work properly,
+instead we depend on flex-native to ensure that we have the proper version
+available to us.  (Flex version 2.5.35 or newer is requried.)
 
-are available in the git repository at:
-  git://git.yoctoproject.org/poky-contrib mhatle/grub
-  http://git.yoctoproject.org/cgit.cgi//log/?h=mhatle/grub
+Signed-off-by: Xin Ouyang <Xin.Ouyang@windriver.com>
 
-Xin Ouyang (1):
-  grub-1.99: Add flex-native to DEPENDS
+Clarified commit message
 
+Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+---
  meta/recipes-bsp/grub/grub_1.99.bb |    4 ++--
  1 files changed, 2 insertions(+), 2 deletions(-)
 
+diff --git a/meta/recipes-bsp/grub/grub_1.99.bb b/meta/recipes-bsp/grub/grub_1.99.bb
+index 9879651..64cefe0 100644
+--- a/meta/recipes-bsp/grub/grub_1.99.bb
++++ b/meta/recipes-bsp/grub/grub_1.99.bb
+@@ -11,9 +11,9 @@ SECTION = "bootloaders"
+ LICENSE = "GPLv3"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+ 
+-DEPENDS = "autogen-native"
++DEPENDS = "autogen-native flex-native"
+ RDEPENDS_${PN} = "diffutils freetype"
+-PR = "r11"
++PR = "r12"
+ 
+ SRC_URI = "ftp://ftp.gnu.org/gnu/grub/grub-${PV}.tar.gz \
+           file://grub-install.in.patch \
 -- 
 1.7.3.4
 
