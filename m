@@ -1,28 +1,54 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from co1ehsobe006.messaging.microsoft.com ([216.32.180.189]
+	helo=co1outboundpool.messaging.microsoft.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1T3Uh0-00036a-VS
+	(envelope-from <B29882@freescale.com>) id 1T3UpK-0003Db-US
 	for openembedded-core@lists.openembedded.org;
-	Mon, 20 Aug 2012 18:19:07 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 20 Aug 2012 09:07:03 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.77,797,1336374000"; d="scan'208";a="182972568"
-Received: from unknown (HELO [10.255.13.49]) ([10.255.13.49])
-	by orsmga001.jf.intel.com with ESMTP; 20 Aug 2012 09:06:46 -0700
-Message-ID: <50326095.7020209@linux.intel.com>
-Date: Mon, 20 Aug 2012 09:06:45 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:14.0) Gecko/20120717 Thunderbird/14.0
+	Mon, 20 Aug 2012 18:27:43 +0200
+Received: from mail111-co1-R.bigfish.com (10.243.78.244) by
+	CO1EHSOBE015.bigfish.com (10.243.66.78) with Microsoft SMTP Server id
+	14.1.225.23; Mon, 20 Aug 2012 16:15:39 +0000
+Received: from mail111-co1 (localhost [127.0.0.1])	by
+	mail111-co1-R.bigfish.com (Postfix) with ESMTP id 717991400E1;
+	Mon, 20 Aug 2012 16:15:39 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-SpamScore: -3
+X-BigFish: VS-3(zz98dI9371I936eI1432Izz1202hzz8275bhz2dh2a8h668h839h8e2h8e3hf0ah107ah10d2hbe9i)
+Received: from mail111-co1 (localhost.localdomain [127.0.0.1]) by mail111-co1
+	(MessageSwitch) id 1345479337477192_30744;
+	Mon, 20 Aug 2012 16:15:37 +0000 (UTC)
+Received: from CO1EHSMHS031.bigfish.com (unknown [10.243.78.232])	by
+	mail111-co1.bigfish.com (Postfix) with ESMTP id 68AF9CC004C;
+	Mon, 20 Aug 2012 16:15:37 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by CO1EHSMHS031.bigfish.com
+	(10.243.66.41) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Mon, 20 Aug 2012 16:15:36 +0000
+Received: from 039-SN1MPN1-001.039d.mgd.msft.net ([169.254.1.41]) by
+	039-SN1MMR1-002.039d.mgd.msft.net ([10.84.1.15]) with mapi id
+	14.02.0309.003; Mon, 20 Aug 2012 11:15:35 -0500
+From: McClintock Matthew-B29882 <B29882@freescale.com>
+To: Paul Gortmaker <paul.gortmaker@windriver.com>
+Thread-Topic: [OE-core] [PATCH] libproxy: add dependency on glib-2.0
+Thread-Index: AQHNfu8Hn6snkLYvK0uWxkSMHffH3Q==
+Date: Mon, 20 Aug 2012 16:15:34 +0000
+Message-ID: <CAEsOVNfCuBV_Wii1nRdo4kk2HMXVd9afv=KEbD-0+C45ra+chg@mail.gmail.com>
+References: <1344897787-27726-1-git-send-email-paul.gortmaker@windriver.com>
+	<1345222636.27428.20.camel@ted> <502E886E.30002@windriver.com>
+	<1345239717.27428.22.camel@ted> <503240C3.1060508@windriver.com>
+In-Reply-To: <503240C3.1060508@windriver.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [70.112.201.132]
 MIME-Version: 1.0
-To: Marc Reilly <marc@cpdesign.com.au>
-References: <1345248270-21796-1-git-send-email-marc@cpdesign.com.au>
-In-Reply-To: <1345248270-21796-1-git-send-email-marc@cpdesign.com.au>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [Patch V2] avahi: fix packaging of avahi-autoipd
+X-OriginatorOrg: freescale.com
+Cc: Patches, discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] libproxy: add dependency on glib-2.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
+Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/options/openembedded-core>,
@@ -32,69 +58,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Aug 2012 16:19:07 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 20 Aug 2012 16:27:43 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <56D71F5FD4D53840A2000053DB9B141D@mgd.freescale.com>
+Content-Transfer-Encoding: quoted-printable
 
-On 08/17/2012 05:04 PM, Marc Reilly wrote:
-> - Avahi's "avahi-autoipd" file is in the dhcp/ folder, not dhcp3/
-> - udhcpc files were being installed but not being shipped in avahi-autoipd
-> - do_install override for avahi-autoipd was not being called and is not
->    required, so join it into regular do_install.
-> - While at it, fixup string quoting in description.
+On Mon, Aug 20, 2012 at 8:50 AM, Paul Gortmaker
+<paul.gortmaker@windriver.com> wrote:
+> On 12-08-17 05:41 PM, Richard Purdie wrote:
+>> On Fri, 2012-08-17 at 14:07 -0400, Paul Gortmaker wrote:
+>>> On 12-08-17 12:57 PM, Richard Purdie wrote:
+>>>> On Mon, 2012-08-13 at 18:43 -0400, Paul Gortmaker wrote:
+>>>>> Without this, you will get occasional build failures if libproxy
+>>>>> tries to build before the glib headers are placed in the sysroot.
+>>>>>
+>>>>> Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
+>>>>>
+>>>>> diff --git a/meta/recipes-support/libproxy/libproxy_0.4.7.bb b/meta/r=
+ecipes-support/libproxy/libproxy_0.4.7.bb
+>>>>> index 7e3cf27..a39e3a8 100644
+>>>>> --- a/meta/recipes-support/libproxy/libproxy_0.4.7.bb
+>>>>> +++ b/meta/recipes-support/libproxy/libproxy_0.4.7.bb
+>>>>> @@ -6,7 +6,7 @@ LICENSE =3D "LGPLv2.1+"
+>>>>>  LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D7d7044444a7b1b116e8783edc=
+db44ff4 \
+>>>>>                      file://utils/proxy.c;beginline=3D1;endline=3D18;=
+md5=3D55152a1006d7dafbef32baf9c30a99c0"
+>>>>>
+>>>>> -DEPENDS =3D "gconf"
+>>>>> +DEPENDS =3D "gconf glib-2.0"
+>>>>>
+>>>>
+>>>> We've gone around in circles on this and had issues over circular
+>>>> dependencies. The bottom line is that we don't need glib-2.0 here, we
+>>>> want to disable the glib-2.0 using components of libproxy. I don't kno=
+w
+>>>
+>>> Fair enough.
+>>>
+>>> Can we _finally_ fix the mailing lists to not override the To/Cc lines
+>>> with crap Reply-To: lines?  Once again I almost missed seeing this repl=
+y,
+>>> since I was no longer on the To/Cc.
+>>>
+>>> AFAICT, all were in agreement that it was broken, but it never got fixe=
+d.
+>>
+>> There were a few things causing problems here such as lost admin access.
+>> Those have been resolved and I just changed the setting that I think was
+>> causing the problems. Let me know if there are still issues...
 >
-> This makes avahi-autoipd work with simple ifup/down scripts.
->
-> Signed-off-by: Marc Reilly <marc@cpdesign.com.au>
-> ---
->   meta/recipes-connectivity/avahi/avahi.inc |   11 +++++------
->   1 files changed, 5 insertions(+), 6 deletions(-)
->
-> diff --git a/meta/recipes-connectivity/avahi/avahi.inc b/meta/recipes-connectivity/avahi/avahi.inc
-> index 37ff70d..c08acb5 100644
-> --- a/meta/recipes-connectivity/avahi/avahi.inc
-> +++ b/meta/recipes-connectivity/avahi/avahi.inc
-> @@ -1,10 +1,10 @@
->   SUMMARY = "Avahi IPv4LL network address configuration daemon"
-> -DESCRIPTION = "Avahi is a fully LGPL framework for Multicast DNS Service Discovery. It \
-> +DESCRIPTION = 'Avahi is a fully LGPL framework for Multicast DNS Service Discovery. It \
->   allows programs to publish and discover services and hosts running on a local network \
->   with no specific configuration. This tool implements IPv4LL, "Dynamic Configuration of \
->   IPv4 Link-Local Addresses" (IETF RFC3927), a protocol for automatic IP address \
->   configuration from the link-local 169.254.0.0/16 range without the need for a central \
-> -server."
-> +server.'
->   AUTHOR = "Lennart Poettering <lennart@poettering.net>"
->   HOMEPAGE = "http://avahi.org"
->   BUGTRACKER = "http://avahi.org/report"
-> @@ -63,7 +63,9 @@ PACKAGES =+ "avahi-systemd avahi-daemon libavahi-common libavahi-core libavahi-c
->   FILES_avahi-systemd = "${systemd_unitdir}"
->   FILES_avahi-autoipd = "${sbindir}/avahi-autoipd \
->                          ${sysconfdir}/avahi/avahi-autoipd.action \
-> -                       ${sysconfdir}/dhcp3/*/avahi-autoipd"
-> +                       ${sysconfdir}/dhcp/*/avahi-autoipd \
-> +                       ${sysconfdir}/udhcpc.d/00avahi-autoipd \
-> +                       ${sysconfdir}/udhcpc.d/99avahi-autoipd"
->   FILES_libavahi-common = "${libdir}/libavahi-common.so.*"
->   FILES_libavahi-core = "${libdir}/libavahi-core.so.*"
->   FILES_avahi-daemon = "${sbindir}/avahi-daemon \
-> @@ -116,10 +118,7 @@ do_install() {
->   	rm -rf ${D}/var/run
->   	rm -rf ${D}${datadir}/dbus-1/interfaces
->   	rm -rf ${D}${libdir}/avahi
-> -}
->
-> -do_install_avahi-autoipd() {
-> -	autotools_do_install
->   	install -d ${D}${sysconfdir}/udhcpc.d
->   	install ${WORKDIR}/00avahi-autoipd ${D}${sysconfdir}/udhcpc.d
->   	install ${WORKDIR}/99avahi-autoipd ${D}${sysconfdir}/udhcpc.d
->
+> Looks good now, thanks a lot. Much appreciated by many, I'm sure.
 
-Merged into OE-Core
+Awesome, looks to be working for me too. Did you do oe-devel as well?
 
-Thanks
-	Sau!
+-M=
 
 
 
