@@ -1,33 +1,34 @@
 Received: from mail-ey0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1T3XkY-0002Iv-1Q
+	(envelope-from <raj.khem@gmail.com>) id 1T3YwR-0005zN-H4
 	for openembedded-core@lists.openembedded.org;
-	Mon, 20 Aug 2012 21:34:58 +0200
-Received: by eaad12 with SMTP id d12so1642161eaa.6
+	Mon, 20 Aug 2012 22:51:19 +0200
+Received: by eaad12 with SMTP id d12so1659649eaa.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Aug 2012 12:22:55 -0700 (PDT)
+	Mon, 20 Aug 2012 13:39:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
 	:cc:content-type;
-	bh=Nca8EnHxldDdXuwgRy8xp4cF37ch9vJBxv2O0VEwMb4=;
-	b=IkS0FyLurRZ//4Fo7lPyZZXl16kyOst7NHaX9O0t2Orlz39imxvZsXJN+JsJa7y0c3
-	VyMIvl1Q1Clgt207RY65EZABhEw+bEKZ6tOpqOwGD0KjBWviC+7xWXX3xIJRJeyFN1MR
-	7TQwg+P2LNglHwLG+D5lEctAenZYlCsK/A63tSDWmxOdH5iNjOCRAi+e3ZhiuYnIxfuW
-	VaVY5aFaOP1+cbUur44QT9J6bF04/7A8WYL3RQNhdaR2jdJS1ePIVLVEvJZp/2xTlOqN
-	PiRaA7E+1eitnRL776uQ5pjRS0Mrm/qdGfZ9E16e/wKfFmf3d3gkasa1MXVE6eDLZNml
-	NY9g==
-Received: by 10.14.204.72 with SMTP id g48mr10079053eeo.45.1345490575219; Mon,
-	20 Aug 2012 12:22:55 -0700 (PDT)
+	bh=KG40Ug3SfjCVzXduVcIiGRU/xrvZ9QQQGz17MRWc7hs=;
+	b=pKtOaZHZfWKaaIIaVdqiLh0vgueWEVSoFANDXIuBCQzscoz5q5KLfd+ZMMS86NK6pi
+	y4fhHw8ZxL9j38Wdz22iTWPpyPqslhe2MP4oChYCBBX1oOWYI+OM0hkjuejDdLgcp4v/
+	601kU3vw4gx9tGGi7GLgrRRQ/0q8KrWiSsHdPIszQ7qMU6BFUc6GmB7X09oFClv55ovT
+	eCpvrxxjjrOb2ywXYnJqd7npLj51NIV0r9vXq/JKvthtJzZ50gC6Dqw7hsEEuESeAcXD
+	DPqWu9T5V+wwIoUkXjG9vf2FXt7ynhFJ1JA4/nEuFzca8qftaWPC1OscAKUSlUtGWFzk
+	S9zQ==
 MIME-Version: 1.0
-Received: by 10.14.2.5 with HTTP; Mon, 20 Aug 2012 12:22:25 -0700 (PDT)
-In-Reply-To: <1345468841-12320-1-git-send-email-paul.eggleton@linux.intel.com>
-References: <1345468841-12320-1-git-send-email-paul.eggleton@linux.intel.com>
+Received: by 10.14.204.72 with SMTP id g48mr10334617eeo.45.1345495156723; Mon,
+	20 Aug 2012 13:39:16 -0700 (PDT)
+Received: by 10.14.2.5 with HTTP; Mon, 20 Aug 2012 13:39:16 -0700 (PDT)
+In-Reply-To: <5031FF3C.8020106@nedap.com>
+References: <5031FF3C.8020106@nedap.com>
+Date: Mon, 20 Aug 2012 13:39:16 -0700
+Message-ID: <CAMKF1soivnA-XUREAQfEuaGcPWtbRp5eawEp2jgH9a86swQJWw@mail.gmail.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 20 Aug 2012 12:22:25 -0700
-Message-ID: <CAMKF1srVc4C7RfxR_tjZ61ZZ2MCWP49Xsp23bZc2Bm72D0t3UA@mail.gmail.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] libiconv: skip recipe if using eglibc
+To: Jaap de Jong <jaap.dejong@nedap.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: icedtea compile error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,62 +41,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Aug 2012 19:34:58 -0000
+X-List-Received-Date: Mon, 20 Aug 2012 20:51:19 -0000
+Content-Type: multipart/alternative; boundary=047d7b343cccdd0e4004c7b880ec
+
+--047d7b343cccdd0e4004c7b880ec
 Content-Type: text/plain; charset=UTF-8
 
-On Mon, Aug 20, 2012 at 6:20 AM, Paul Eggleton
-<paul.eggleton@linux.intel.com> wrote:
-> libiconv is provided for use with uClibc - if you build it together with
-> eglibc (which already PROVIDES virtual/libiconv) you can end up with
-> dependency problems during do_rootfs.
+On Monday, August 20, 2012, Jaap de Jong <jaap.dejong@nedap.com> wrote:
+> while compiling openjdk-6 for qemux86.
+> Anyone seen this before? (and fixed...)
 >
 
-hmmm ideally we should not need this. since iconv from eglibc should
-be drop in replacement packagwise.
-but extra net of security does not hurt.
-
-Acked-by: Khem Raj <raj.khem@gmail.com>
-
-> Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
-> ---
->  meta/recipes-support/libiconv/libiconv_1.11.1.bb |    5 +++++
->  meta/recipes-support/libiconv/libiconv_1.14.bb   |    5 +++++
->  2 files changed, 10 insertions(+)
+Firstly its a meta-java question so ask it on oe-devel would be more
+suitable secondly yes I have patches for this problem that I will send
+sometime soon
+> | precompiled.incl.gch
+> | In file included from ../generated/incls/_precompiled.incl:230:0:
+> |
+/media/OpenEmbedded/oe-core/develop/build/tmp-angstrom_v2012_05-eglibc/work/i686-linux/icedtea6-native-1.8.11-r5.1/icedtea6-1.8.11/openjdk-ecj/hotspot/src/share/vm/runtime/interfaceSupport.hpp:394:0:
+error: "__LEAF" redefined [-Werror]
+> | /usr/include/i386-linux-gnu/sys/cdefs.h:44:0: note: this is the
+location of the previous definition
+> | cc1plus: all warnings being treated as errors
+> | make[7]: *** [incls/_precompiled.incl.gch] Error 1
 >
-> diff --git a/meta/recipes-support/libiconv/libiconv_1.11.1.bb b/meta/recipes-support/libiconv/libiconv_1.11.1.bb
-> index 186a5a1..055e20d 100644
-> --- a/meta/recipes-support/libiconv/libiconv_1.11.1.bb
-> +++ b/meta/recipes-support/libiconv/libiconv_1.11.1.bb
-> @@ -20,6 +20,11 @@ S = "${WORKDIR}/libiconv-${PV}"
 >
->  inherit autotools pkgconfig gettext
->
-> +python __anonymous() {
-> +    if d.getVar("TCLIBC", True) == "eglibc":
-> +        raise bb.parse.SkipPackage("libiconv is provided for use with uClibc only - eglibc already provides iconv")
-> +}
-> +
->  EXTRA_OECONF += "--enable-shared --enable-static --enable-relocatable"
->
->  LEAD_SONAME = "libiconv.so"
-> diff --git a/meta/recipes-support/libiconv/libiconv_1.14.bb b/meta/recipes-support/libiconv/libiconv_1.14.bb
-> index af33d6b..6666866 100644
-> --- a/meta/recipes-support/libiconv/libiconv_1.14.bb
-> +++ b/meta/recipes-support/libiconv/libiconv_1.14.bb
-> @@ -21,6 +21,11 @@ S = "${WORKDIR}/libiconv-${PV}"
->
->  inherit autotools pkgconfig gettext
->
-> +python __anonymous() {
-> +    if d.getVar("TCLIBC", True) == "eglibc":
-> +        raise bb.parse.SkipPackage("libiconv is provided for use with uClibc only - eglibc already provides iconv")
-> +}
-> +
->  EXTRA_OECONF += "--enable-shared --enable-static --enable-relocatable"
->
->  LEAD_SONAME = "libiconv.so"
-> --
-> 1.7.9.5
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 >
 
+--047d7b343cccdd0e4004c7b880ec
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<br><br>On Monday, August 20, 2012, Jaap de Jong &lt;<a href=3D"mailto:jaap=
+.dejong@nedap.com">jaap.dejong@nedap.com</a>&gt; wrote:<br>&gt; while compi=
+ling openjdk-6 for qemux86.<br>&gt; Anyone seen this before? (and fixed...)=
+<br>
+&gt;<br><br>Firstly its a meta-java question so ask it on oe-devel would be=
+ more suitable secondly yes I have patches for this problem that I will sen=
+d sometime soon<br>&gt; | precompiled.incl.gch<br>&gt; | In file included f=
+rom ../generated/incls/_precompiled.incl:230:0:<br>
+&gt; | /media/OpenEmbedded/oe-core/develop/build/tmp-angstrom_v2012_05-egli=
+bc/work/i686-linux/icedtea6-native-1.8.11-r5.1/icedtea6-1.8.11/openjdk-ecj/=
+hotspot/src/share/vm/runtime/interfaceSupport.hpp:394:0: error: &quot;__LEA=
+F&quot; redefined [-Werror]<br>
+&gt; | /usr/include/i386-linux-gnu/sys/cdefs.h:44:0: note: this is the loca=
+tion of the previous definition<br>&gt; | cc1plus: all warnings being treat=
+ed as errors<br>&gt; | make[7]: *** [incls/_precompiled.incl.gch] Error 1<b=
+r>
+&gt;<br>&gt;<br>&gt; _______________________________________________<br>&gt=
+; Openembedded-core mailing list<br>&gt; <a href=3D"mailto:Openembedded-cor=
+e@lists.openembedded.org">Openembedded-core@lists.openembedded.org</a><br>
+&gt; <a href=3D"http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openemb=
+edded-core">http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedde=
+d-core</a><br>&gt;
+
+--047d7b343cccdd0e4004c7b880ec--
