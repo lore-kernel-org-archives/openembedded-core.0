@@ -1,23 +1,24 @@
-Received: from mail.pbcl.net ([88.198.119.4] helo=hetzner.pbcl.net)
+Received: from smtp4.nedap.com ([213.160.213.85] helo=smtp.nedap.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philb@gnu.org>) id 1T3NsG-0001xw-IV
+	(envelope-from <jaap.dejong@nedap.com>) id 1T3OCm-0002DY-Bx
 	for openembedded-core@lists.openembedded.org;
-	Mon, 20 Aug 2012 11:02:16 +0200
-Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
-	helo=[192.168.114.6])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <philb@gnu.org>)
-	id 1T3Nge-0002Ui-Kj; Mon, 20 Aug 2012 10:50:16 +0200
-Message-ID: <1345452500.24626.83.camel@x121e.pbcl.net>
-From: Phil Blundell <philb@gnu.org>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Date: Mon, 20 Aug 2012 09:48:20 +0100
-In-Reply-To: <1345452476-5231-1-git-send-email-paul.eggleton@linux.intel.com>
-References: <1345452476-5231-1-git-send-email-paul.eggleton@linux.intel.com>
-X-Mailer: Evolution 3.4.3-1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] classes/sanity: remove texi2html from required host utilities
+	Mon, 20 Aug 2012 11:23:28 +0200
+Received: from nvs0066.nedap.local (10.91.8.1) by relaysmtp1.nedap.local
+	(10.1.8.139) with Microsoft SMTP Server id 8.3.83.0; Mon, 20 Aug 2012
+	11:11:25 +0200
+X-TM-IMSS-Message-ID: <2c4ba44e000e47a1@nedap.com>
+Received: from [10.2.40.10] ([10.2.40.10]) by nedap.com ([10.91.8.1]) with
+	ESMTP (TREND IMSS SMTP Service 7.1) id 2c4ba44e000e47a1 ;
+	Mon, 20 Aug 2012 11:11:30 +0200
+Message-ID: <5031FF3C.8020106@nedap.com>
+Date: Mon, 20 Aug 2012 11:11:24 +0200
+From: Jaap de Jong <jaap.dejong@nedap.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:14.0) Gecko/20120714 Thunderbird/14.0
+MIME-Version: 1.0
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: icedtea compile error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -30,23 +31,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Aug 2012 09:02:16 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 20 Aug 2012 09:23:28 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Mon, 2012-08-20 at 09:47 +0100, Paul Eggleton wrote:
-> texi2html is not actually required to build world of OE-Core anymore,
-> so we don't need to mandate it. The only difference without it (verified
-> with buildhistory) is that groff doesn't produce HTML documentation; the
-> rest of its docs are still produced and packaged and no other packages
-> are affected.
+while compiling openjdk-6 for qemux86.
+Anyone seen this before? (and fixed...)
 
-Can we fix groff to make it not even try to use texi2html even if it's
-installed?  It seems a bit undesirable for the amount of documentation
-you get to vary depending on the host environment.
-
-p.
-
+| precompiled.incl.gch
+| In file included from ../generated/incls/_precompiled.incl:230:0:
+| 
+/media/OpenEmbedded/oe-core/develop/build/tmp-angstrom_v2012_05-eglibc/work/i686-linux/icedtea6-native-1.8.11-r5.1/icedtea6-1.8.11/openjdk-ecj/hotspot/src/share/vm/runtime/interfaceSupport.hpp:394:0: 
+error: "__LEAF" redefined [-Werror]
+| /usr/include/i386-linux-gnu/sys/cdefs.h:44:0: note: this is the 
+location of the previous definition
+| cc1plus: all warnings being treated as errors
+| make[7]: *** [incls/_precompiled.incl.gch] Error 1
 
 
 
