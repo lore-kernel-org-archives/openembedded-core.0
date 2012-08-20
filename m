@@ -1,26 +1,26 @@
 Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1T3VSK-0000dc-Dw
+	(envelope-from <sgw@linux.intel.com>) id 1T3VTi-0000ge-Uy
 	for openembedded-core@lists.openembedded.org;
-	Mon, 20 Aug 2012 19:08:00 +0200
+	Mon, 20 Aug 2012 19:09:27 +0200
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 20 Aug 2012 09:55:54 -0700
+	by orsmga101.jf.intel.com with ESMTP; 20 Aug 2012 09:57:08 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.77,797,1336374000"; d="scan'208";a="182995092"
+X-IronPort-AV: E=Sophos;i="4.77,797,1336374000"; d="scan'208";a="182995780"
 Received: from unknown (HELO [10.255.13.49]) ([10.255.13.49])
-	by orsmga001.jf.intel.com with ESMTP; 20 Aug 2012 09:55:54 -0700
-Message-ID: <50326C1A.9070306@linux.intel.com>
-Date: Mon, 20 Aug 2012 09:55:54 -0700
+	by orsmga001.jf.intel.com with ESMTP; 20 Aug 2012 09:57:07 -0700
+Message-ID: <50326C63.1070101@linux.intel.com>
+Date: Mon, 20 Aug 2012 09:57:07 -0700
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:14.0) Gecko/20120717 Thunderbird/14.0
 MIME-Version: 1.0
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-References: <1345220471-16791-1-git-send-email-constantinx.musca@intel.com>
-In-Reply-To: <1345220471-16791-1-git-send-email-constantinx.musca@intel.com>
-Cc: Constantin Musca <constantinx.musca@intel.com>
-Subject: Re: [PATCH v2] libxrandr: upgrade to 1.4.0
+References: <1345172096-10260-1-git-send-email-msm@freescale.com>
+In-Reply-To: <1345172096-10260-1-git-send-email-msm@freescale.com>
+Cc: Matthew McClintock <msm@freescale.com>
+Subject: Re: [PATCH] perf_3.4.bb: update to build against older kernels
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,47 +33,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Aug 2012 17:08:00 -0000
+X-List-Received-Date: Mon, 20 Aug 2012 17:09:27 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 08/17/2012 09:21 AM, Constantin Musca wrote:
-> Only some spaces changed in the license file.
+On 08/16/2012 07:54 PM, Matthew McClintock wrote:
+> Removes a make install-python_ext when not present since
+> older versions of perf lack this install rule
 >
-> Signed-off-by: Constantin Musca <constantinx.musca@intel.com>
+> This also fixes a library issue on older kernels building with
+> a newer toolchain where libaries that would previously be pulled
+> in are no longer. So we add them manually.
+>
+> Signed-off-by: Matthew McClintock <msm@freescale.com>
 > ---
->   .../{libxrandr_1.3.2.bb => libxrandr_1.4.0.bb}     |    6 +++---
->   1 file changed, 3 insertions(+), 3 deletions(-)
->   rename meta/recipes-graphics/xorg-lib/{libxrandr_1.3.2.bb => libxrandr_1.4.0.bb} (72%)
+>   meta/recipes-kernel/perf/perf_3.4.bb |    4 +++-
+>   1 file changed, 3 insertions(+), 1 deletion(-)
 >
-> diff --git a/meta/recipes-graphics/xorg-lib/libxrandr_1.3.2.bb b/meta/recipes-graphics/xorg-lib/libxrandr_1.4.0.bb
-> similarity index 72%
-> rename from meta/recipes-graphics/xorg-lib/libxrandr_1.3.2.bb
-> rename to meta/recipes-graphics/xorg-lib/libxrandr_1.4.0.bb
-> index 6fc3cf5..323c098 100644
-> --- a/meta/recipes-graphics/xorg-lib/libxrandr_1.3.2.bb
-> +++ b/meta/recipes-graphics/xorg-lib/libxrandr_1.4.0.bb
-> @@ -9,7 +9,7 @@ specified in the Proceedings of the 2001 Usenix Technical Conference \
->   require xorg-lib-common.inc
+> diff --git a/meta/recipes-kernel/perf/perf_3.4.bb b/meta/recipes-kernel/perf/perf_3.4.bb
+> index 505c7b8..5fb38e6 100644
+> --- a/meta/recipes-kernel/perf/perf_3.4.bb
+> +++ b/meta/recipes-kernel/perf/perf_3.4.bb
+> @@ -54,6 +54,7 @@ B = "${WORKDIR}/${BPN}-${PV}"
+>   SCRIPTING_DEFINES = "${@perf_feature_enabled('perf-scripting', '', 'NO_LIBPERL=1 NO_LIBPYTHON=1',d)}"
+>   TUI_DEFINES = "${@perf_feature_enabled('perf-tui', '', 'NO_NEWT=1',d)}"
 >
->   LICENSE = "MIT-style"
-> -LIC_FILES_CHKSUM = "file://COPYING;md5=4c5c132d3690478179d78ec3bf064584"
-> +LIC_FILES_CHKSUM = "file://COPYING;md5=aa33e583cc3e96238a8467b485e62992"
+> +export LDFLAGS = "-ldl -lutil"
+>   EXTRA_OEMAKE = \
+>   		'-C ${S}/tools/perf \
+>   		O=${B} \
+> @@ -71,7 +72,8 @@ do_compile() {
 >
->   DEPENDS += "virtual/libx11 randrproto libxrender libxext"
->
-> @@ -20,5 +20,5 @@ XORG_PN = "libXrandr"
->
->   BBCLASSEXTEND = "native nativesdk"
->
-> -SRC_URI[md5sum] = "92473da2fccf5fac665be4fa4f2037fa"
-> -SRC_URI[sha256sum] = "7eaca216ab5233d7396119eb87c1989d350a3efead104d54b55f22cdd1d99b81"
-> +SRC_URI[md5sum] = "0c843636124cc1494e3d87df16957672"
-> +SRC_URI[sha256sum] = "033ad0ac2f012afb05268660f6d78705c85f84689f92fa7b47ce12959b15f5c3"
+>   do_install() {
+>   	oe_runmake DESTDIR=${D} install
+> -	if [ "${@perf_feature_enabled('perf-scripting', 1, 0, d)}" = "1" ]; then
+> +	# we are checking for this make target to be compatible with older perf versions
+> +	if [ "${@perf_feature_enabled('perf-scripting', 1, 0, d)}" = "1" -a $(grep install-python_ext ${S}/tools/perf/Makefile) = "0"]; then
+>   		oe_runmake DESTDIR=${D} install-python_ext
+>   	fi
+>   }
 >
 
-Merged this along with the Connman, gst-fluendo* and randproto patches 
-into OE-Core
+Merged into OE-Core
 
 Thanks
 	Sau!
