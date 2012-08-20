@@ -1,26 +1,26 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mga14.intel.com ([143.182.124.37])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Wenzong.Fan@windriver.com>) id 1T3ILA-0008Rz-P0
+	(envelope-from <radu.moisan@intel.com>) id 1T3LFe-0006cK-Ll
 	for openembedded-core@lists.openembedded.org;
-	Mon, 20 Aug 2012 05:07:45 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q7K2tgwj025145
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 19 Aug 2012 19:55:42 -0700 (PDT)
-Received: from usp-ub1204-64.corp.ad.wrs.com (128.224.162.28) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.309.2; Sun, 19 Aug 2012 19:55:41 -0700
-From: <wenzong.fan@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 20 Aug 2012 10:55:36 +0800
-Message-ID: <5a92968e29ead46bff1edf963d1f9cef3732e8b1.1345431102.git.wenzong.fan@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1345431102.git.wenzong.fan@windriver.com>
-References: <cover.1345431102.git.wenzong.fan@windriver.com>
+	Mon, 20 Aug 2012 08:14:14 +0200
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 19 Aug 2012 23:02:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.77,796,1336374000"; d="scan'208";a="182967251"
+Received: from dell-desktop (HELO [10.237.105.32]) ([10.237.105.32])
+	by azsmga001.ch.intel.com with ESMTP; 19 Aug 2012 23:02:10 -0700
+Message-ID: <5031D36D.7040107@intel.com>
+Date: Mon, 20 Aug 2012 09:04:29 +0300
+From: Radu Moisan <radu.moisan@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:14.0) Gecko/20120714 Thunderbird/14.0
 MIME-Version: 1.0
-Cc: Zhenfeng.Zhao@windriver.com
-Subject: [PATCH 1/1] coreutils: fix do_configure error with long TMPDIR
+CC: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <1345208727-3029-1-git-send-email-radu.moisan@intel.com>
+	<502E696C.8050304@linux.intel.com>
+In-Reply-To: <502E696C.8050304@linux.intel.com>
+Subject: Re: [PATCH][RFC] coreutils: Upgrade to upstream version 8.17
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,51 +33,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Aug 2012 03:07:45 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 20 Aug 2012 06:14:14 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Wenzong Fan <wenzong.fan@windriver.com>
 
-By default the 'm4/*' files will be extended with absolute path while
-autoreconf running, if the length of TMPDIR is too long such as 410
-which is the maximum value allowed by 'sanity.bbclass', autoreconf
-will fail with error:
+On 08/17/2012 06:55 PM, Saul Wold wrote:
+> On 08/17/2012 06:05 AM, Radu Moisan wrote:
+>> Signed-off-by: Radu Moisan <radu.moisan@intel.com>
+>> ---
+>>   .../coreutils-8.17/realpath-works-yes.patch        |   13 
+>> +++++++++++++
+>>   .../remove-gets.patch                              |   20 
+>> +++++++++++---------
+>>   .../remove-usr-local-lib-from-m4.patch             |    0
+>>   .../{coreutils_8.14.bb => coreutils_8.17.bb}       |    9 +++++----
+>>   4 files changed, 29 insertions(+), 13 deletions(-)
+>>   create mode 100644 
+>> meta/recipes-core/coreutils/coreutils-8.17/realpath-works-yes.patch
+>>   rename meta/recipes-core/coreutils/{coreutils-8.14 => 
+>> coreutils-8.17}/remove-gets.patch (47%)
+>>   rename meta/recipes-core/coreutils/{coreutils-8.14 => 
+>> coreutils-8.17}/remove-usr-local-lib-from-m4.patch (100%)
+>>   rename meta/recipes-core/coreutils/{coreutils_8.14.bb => 
+>> coreutils_8.17.bb} (91%)
+>>
+>> diff --git 
+>> a/meta/recipes-core/coreutils/coreutils-8.17/realpath-works-yes.patch 
+>> b/meta/recipes-core/coreutils/coreutils-8.17/realpath-works-yes.patch
+>> new file mode 100644
+>> index 0000000..6bbe7ee
+>> --- /dev/null
+>> +++ 
+>> b/meta/recipes-core/coreutils/coreutils-8.17/realpath-works-yes.patch
+>
+> Your new patch needs a header, explaining why, and adding 
+> Upstream-Status and Signed-off-by tags.
+>
+I meant this only as an RFC, to get feedback for my patch, from a 
+functional point of view, it is not intended to be the final patch.
+I have a Signed-off-by tag, are you referring to something else?
+Can you give me more details about Upstream-Status? I've google'd this 
+problem for a bit but could not find an existing patch for it, nor a bug 
+filled for this matter. Since I don't know yet if what I'm fixing it's 
+really a bug (or a misconfiguration on my side) I send this RFC to get a 
+hold of whether I'm on the good track here or not. If this patch turns 
+out to be valid, I'll get in touch with the guys from coreutils' mailing 
+lists, and try to push it upstream.
 
-    Can't exec "/bin/sh": Argument list too long ...
-
-Fix this issue by specific the 'acpaths' to '-I ./m4'.
-
-[YOCTO #2766]
-
-Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
----
- meta/recipes-core/coreutils/coreutils_8.14.bb |    4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/meta/recipes-core/coreutils/coreutils_8.14.bb b/meta/recipes-core/coreutils/coreutils_8.14.bb
-index 9a714a9..c7c8e13 100644
---- a/meta/recipes-core/coreutils/coreutils_8.14.bb
-+++ b/meta/recipes-core/coreutils/coreutils_8.14.bb
-@@ -7,7 +7,7 @@ BUGTRACKER = "http://debbugs.gnu.org/coreutils"
- LICENSE = "GPLv3+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504\
-                     file://src/ls.c;startline=5;endline=16;md5=e1a509558876db58fb6667ba140137ad"
--PR = "r5"
-+PR = "r6"
- DEPENDS = "gmp libcap"
- DEPENDS_virtclass-native = ""
- 
-@@ -36,6 +36,8 @@ base_bindir_progs = "cat chgrp chmod chown cp date dd echo false kill ln ls mkdi
- 
- sbindir_progs= "chroot"
- 
-+acpaths = "-I ./m4"
-+
- do_install_append() {
- 	for i in df mktemp base64; do mv ${D}${bindir}/$i ${D}${bindir}/$i.${BPN}; done
- 
--- 
-1.7.9.5
-
+radu
 
 
