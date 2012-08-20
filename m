@@ -1,28 +1,24 @@
 Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Liezhi.Yang@windriver.com>) id 1T3HZv-0007Tm-Vk
+	(envelope-from <Wenzong.Fan@windriver.com>) id 1T3IL9-0008Rx-AP
 	for openembedded-core@lists.openembedded.org;
-	Mon, 20 Aug 2012 04:18:56 +0200
+	Mon, 20 Aug 2012 05:07:43 +0200
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q7K26q3G021283
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q7K2te3w025892
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 19 Aug 2012 19:06:53 -0700 (PDT)
-Received: from [128.224.163.142] (128.224.163.142) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.309.2;
-	Sun, 19 Aug 2012 19:06:52 -0700
-Message-ID: <50319BBB.8090907@windriver.com>
-Date: Mon, 20 Aug 2012 10:06:51 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:14.0) Gecko/20120714 Thunderbird/14.0
-MIME-Version: 1.0
+	Sun, 19 Aug 2012 19:55:40 -0700 (PDT)
+Received: from usp-ub1204-64.corp.ad.wrs.com (128.224.162.28) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.309.2; Sun, 19 Aug 2012 19:55:40 -0700
+From: <wenzong.fan@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-References: <cover.1345105475.git.liezhi.yang@windriver.com>
-	<e6641325f6a4fca0214556749ca1e2c126eaa582.1345105475.git.liezhi.yang@windriver.com>
-	<1345308918.27428.63.camel@ted>
-In-Reply-To: <1345308918.27428.63.camel@ted>
-Subject: Re: [PATCH 1/3] rpm: install external binary packages
+Date: Mon, 20 Aug 2012 10:55:35 +0800
+Message-ID: <cover.1345431102.git.wenzong.fan@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
+MIME-Version: 1.0
+Cc: Zhenfeng.Zhao@windriver.com
+Subject: [PATCH 0/1] coreutils: fix do_configure error with long TMPDIR
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,196 +31,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Aug 2012 02:18:56 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 20 Aug 2012 03:07:43 -0000
+Content-Type: text/plain
 
+From: Wenzong Fan <wenzong.fan@windriver.com>
 
+By default the 'm4/*' files will be extended with absolute path while
+autoreconf running, if the length of TMPDIR is too long such as 410
+which is the maximum value allowed by 'sanity.bbclass', autoreconf
+will fail with error:
+    
+    Can't exec "/bin/sh": Argument list too long ...
+    
+Fix this issue by specific the 'acpaths' to '-I ./m4'.
 
-On 08/19/2012 12:55 AM, Richard Purdie wrote:
-> On Thu, 2012-08-16 at 16:27 +0800, Robert Yang wrote:
->> It's been suggested that it would be a useful feature to be able to
->> easily take a binary from a 3rd party software vendor and integrate
->> it into an image created by the build system.
->>
->> * The user can easily use this by:
->>    # Specify where is the external binary pkg dir
->>    #EXTERNAL_PACKAGE_DIR = "<path1> <path2> ..."
->>    # Specify which pkg will be installed
->>    #EXTERNAL_INSTALL_PACKAGE = "<pkg1> <pkg2> ..."
->>
->>    Then the pkg1, pkg2 ... would be installed.
->>
->>    Add an "EXTERNAL_INSTALL_PACKAGE"here since we can't use the existence
->>    variable (for example, IMAGE_INSTALL), if we add the pkg to the IMAGE_INSTALL,
->>    it would check whether the pkg is in the PROVIDES, and this is an external
->>    pkg, it is not in the PROVIDES.
->>
->> * Main changes:
->>    - Add external_package.bbclass:
->>      Add the external package to the repo, the package would be copied
->>      to deploy/rpm/external/<arch>.
->>
->>      Use an "external" directory since we don't want the "internal" pkgs
->>      to be mixed, and it would be easy to remove them.
->>
->>    - package_rpm.bbclass:
->>      Create repo for deploy/rpm/external
->>
->>    - rootfs_rpm.bbclass
->>      Add the package that would be installed to INSTALL_PACKAGES_RPM, so
->>      that it would be installed.
->>
->> [YOCTO #1592]
->>
->> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
->> ---
->>   meta/classes/external_package.bbclass | 42 +++++++++++++++++++++++++++++++++++
->>   meta/classes/image.bbclass            |  2 ++
->>   meta/classes/package_rpm.bbclass      | 12 +++++++---
->>   meta/classes/rootfs_rpm.bbclass       |  2 +-
->>   4 files changed, 54 insertions(+), 4 deletions(-)
->>   create mode 100644 meta/classes/external_package.bbclass
->
-> This breaks on the autobuilder:
->
-> http://autobuilder.yoctoproject.org:8010/builders/nightly/builds/634/steps/shell_42/logs/stdio
->
+The following changes since commit 91ece5d5668ee1adb5c5e3d757426a0d5187bd84:
 
-I'm sorry, this is because I just added the "inherit external_package"
-to the image.bbclass and populate_sdk_base.bbclass, so the
-"bitbake package-index" failed, I will send a V3 to add the "inherit
-external_package" to each package_rpm/deb/ipk.bbclass rather than the
-image.class and populate_sdk_base.bbclass.
+  libpam: Fix missing DESTDIR for a mkdir causing build failures (2012-08-19 13:32:06 +0100)
 
-// Robert
+are available in the git repository at:
 
+  git://git.pokylinux.org/poky-contrib wenzong/2766
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=wenzong/2766
 
+Wenzong Fan (1):
+  coreutils: fix do_configure error with long TMPDIR
 
-> Cheers,
->
-> Richard
->
->
->> diff --git a/meta/classes/external_package.bbclass b/meta/classes/external_package.bbclass
->> new file mode 100644
->> index 0000000..e032bec
->> --- /dev/null
->> +++ b/meta/classes/external_package.bbclass
->> @@ -0,0 +1,42 @@
->> +#
->> +# ex:ts=4:sw=4:sts=4:et
->> +# -*- tab-width: 4; c-basic-offset: 4; indent-tabs-mode: nil -*-
->> +#
->> +# Add external binary pkg to the repo and install them:
->> +#
->> +# Specify where are the external binary pkg dir
->> +#EXTERNAL_PACKAGE_DIR = "<path1> <path2> ..."
->> +# Specify which pkg will be installed
->> +#EXTERNAL_INSTALL_PACKAGE = "<pkg1> <pkg2> ..."
->> +
->> +#
->> +# Add the external binary rpm into the repo, copy the binary rpm files
->> +# from EXTERNAL_PACKAGE_DIR to ${DEPLOY_DIR_RPM}/external, and put them
->> +# to the relevant arch dir.
->> +#
->> +add_external_rpm () {
->> +    local supported_archs
->> +    supported_archs="$@"
->> +
->> +    # Clean the EXTERNAL_DIR_RPM dir and re-copy
->> +    [ ! -d "${EXTERNAL_DIR_RPM}" ] || rm -fr ${EXTERNAL_DIR_RPM}
->> +
->> +    if [ -n "${EXTERNAL_PACKAGE_DIR}" -a -n "${EXTERNAL_INSTALL_PACKAGE}" ]; then
->> +        echo "Adding external binary rpms to the repo ..."
->> +        for f in `find ${EXTERNAL_PACKAGE_DIR} -type f  -name '*.rpm'`; do
->> +            arch="`echo $f | awk -F\. '{print $(NF-1)}'`"
->> +            found=""
->> +            for archvar in $supported_archs; do
->> +                # Only pick up the supported arch's rpm
->> +                if [ "$arch" == "$archvar" ]; then
->> +                    [ -d "${EXTERNAL_DIR_RPM}/$arch" ] || mkdir -p ${EXTERNAL_DIR_RPM}/$arch
->> +                    cp -f $f ${EXTERNAL_DIR_RPM}/$arch/
->> +                    found="1"
->> +                    break
->> +                fi
->> +            done
->> +            [ -n "$found" ] || echo "Uknown arch $arch"
->> +        done
->> +    fi
->> +}
->> +
->> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
->> index 72720f1..283688a 100644
->> --- a/meta/classes/image.bbclass
->> +++ b/meta/classes/image.bbclass
->> @@ -5,6 +5,8 @@ inherit imagetest-${IMAGETEST}
->>
->>   inherit populate_sdk_base
->>
->> +inherit external_package
->> +
->>   TOOLCHAIN_TARGET_TASK += "${PACKAGE_INSTALL}"
->>   TOOLCHAIN_TARGET_TASK_ATTEMPTONLY += "${PACKAGE_INSTALL_ATTEMPTONLY}"
->>   POPULATE_SDK_POST_TARGET_COMMAND += "rootfs_install_complementary populate_sdk; "
->> diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
->> index b58ae85..bd2c9a2 100644
->> --- a/meta/classes/package_rpm.bbclass
->> +++ b/meta/classes/package_rpm.bbclass
->> @@ -7,6 +7,7 @@ RPMBUILD="rpmbuild"
->>
->>   PKGWRITEDIRRPM = "${WORKDIR}/deploy-rpms"
->>   PKGWRITEDIRSRPM = "${DEPLOY_DIR}/sources/deploy-srpm"
->> +EXTERNAL_DIR_RPM = "${DEPLOY_DIR_RPM}/external"
->>
->>   python package_rpm_fn () {
->>       d.setVar('PKGFN', d.getVar('PKG'))
->> @@ -26,6 +27,9 @@ package_update_index_rpm () {
->>   		return
->>   	fi
->>
->> +	# Add external binary pkgs
->> +	add_external_rpm ${PACKAGE_ARCHS} ${MULTILIB_PACKAGE_ARCHS} ${SDK_PACKAGE_ARCHS}
->> +
->>   	# Update target packages
->>   	base_archs="${PACKAGE_ARCHS}"
->>   	ml_archs="${MULTILIB_PACKAGE_ARCHS}"
->> @@ -44,9 +48,11 @@ package_update_index_rpm_common () {
->>   	for archvar in "$@"; do
->>   		eval archs=\${${archvar}}
->>   		packagedirs=""
->> -		for arch in $archs; do
->> -			packagedirs="${DEPLOY_DIR_RPM}/$arch $packagedirs"
->> -			rm -rf ${DEPLOY_DIR_RPM}/$arch/solvedb.done
->> +		for d in ${DEPLOY_DIR_RPM} ${EXTERNAL_DIR_RPM}; do
->> +			for arch in $archs; do
->> +				packagedirs="$d/$arch $packagedirs"
->> +				rm -rf $d/$arch/solvedb.done
->> +			done
->>   		done
->>
->>   		cat /dev/null > ${rpmconf_base}-${archvar}.conf
->> diff --git a/meta/classes/rootfs_rpm.bbclass b/meta/classes/rootfs_rpm.bbclass
->> index c0207d8..7ce694c 100644
->> --- a/meta/classes/rootfs_rpm.bbclass
->> +++ b/meta/classes/rootfs_rpm.bbclass
->> @@ -51,7 +51,7 @@ fakeroot rootfs_rpm_do_rootfs () {
->>   	export INSTALL_ROOTFS_RPM="${IMAGE_ROOTFS}"
->>   	export INSTALL_PLATFORM_RPM="${TARGET_ARCH}"
->>   	export INSTALL_CONFBASE_RPM="${RPMCONF_TARGET_BASE}"
->> -	export INSTALL_PACKAGES_RPM="${PACKAGE_INSTALL}"
->> +	export INSTALL_PACKAGES_RPM="${PACKAGE_INSTALL} ${EXTERNAL_INSTALL_PACKAGE}"
->>   	export INSTALL_PACKAGES_ATTEMPTONLY_RPM="${PACKAGE_INSTALL_ATTEMPTONLY}"
->>   	export INSTALL_PACKAGES_LINGUAS_RPM="${LINGUAS_INSTALL}"
->>   	export INSTALL_PROVIDENAME_RPM=""
->
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
->
+ meta/recipes-core/coreutils/coreutils_8.14.bb |    4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+-- 
+1.7.9.5
+
 
 
