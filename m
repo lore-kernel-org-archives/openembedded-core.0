@@ -1,47 +1,33 @@
-Received: from mail-pb0-f47.google.com ([209.85.160.47])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <marc.reilly@gmail.com>) id 1T3SX1-00086l-KR
+	(envelope-from <Paul.Gortmaker@windriver.com>) id 1T3SZO-00089Z-5z
 	for openembedded-core@lists.openembedded.org;
-	Mon, 20 Aug 2012 16:00:39 +0200
-Received: by pbcwy7 with SMTP id wy7so8009490pbc.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Aug 2012 06:48:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:reply-to:from:to:cc:references:in-reply-to:subject:date
-	:organization:message-id:mime-version:content-type
-	:content-transfer-encoding:x-mailer:thread-index:content-language;
-	bh=RA100LwsFa+oiG8gYpkdnh/AAGqbf7Sh1ZLkdtvlmWM=;
-	b=D8dnYIvyanhxkO0Z5tUVDv6SqmT/O7mcwt15t8hSJxyhUSI7nNRjjUwP3xDytjx/Fr
-	i2Kdzh5wLGo6G4OGDMvcr4FEqoxjQRN37P9wdTxpMcqkUuGWTrDL/Fw6E77fVR0vE2PT
-	xFudUoEcORkUYZnNsgB+O7zjGfd9QwANCKrzHEyRqc2fv3cDxNMlcwKHwrLwXsdfKrzy
-	F4evMIR6IkL3daJZ6iDp2QUQFhCxRjEE9b+3ZDvE6x+kE13jQTYA4GlDDkXQw3lqTj5i
-	lKL2F42FIZqZlcSO5gXUyPIWMpa8CRRYavw8M7qD23qrjdL67I51iSP6nigCneXkIA25
-	OjcA==
-Received: by 10.68.236.67 with SMTP id us3mr34534058pbc.80.1345470516229;
-	Mon, 20 Aug 2012 06:48:36 -0700 (PDT)
-Received: from MARCVAIO (220-244-174-13.static.tpgi.com.au. [220.244.174.13])
-	by mx.google.com with ESMTPS id
-	jz4sm11147318pbc.17.2012.08.20.06.48.33
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 20 Aug 2012 06:48:35 -0700 (PDT)
-Sender: Marc Reilly <marc.reilly@gmail.com>
-From: "Marc Reilly" <marc@cpdesign.com.au>
-To: "'Paul Eggleton'" <paul.eggleton@linux.intel.com>
-References: <1345422099-26198-1-git-send-email-marc@cpdesign.com.au>
-	<1657652.otRuZizLvo@helios>
-In-Reply-To: <1657652.otRuZizLvo@helios>
-Date: Mon, 20 Aug 2012 23:48:30 +1000
-Organization: Creative Products Design
-Message-ID: <00a401cd7eda$7e0d65f0$7a2831d0$@cpdesign.com.au>
+	Mon, 20 Aug 2012 16:03:06 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q7KDp1eK004260
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 20 Aug 2012 06:51:01 -0700 (PDT)
+Received: from [128.224.146.65] (128.224.146.65) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.309.2;
+	Mon, 20 Aug 2012 06:51:00 -0700
+Message-ID: <503240C3.1060508@windriver.com>
+Date: Mon, 20 Aug 2012 09:50:59 -0400
+From: Paul Gortmaker <paul.gortmaker@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:14.0) Gecko/20120714 Thunderbird/14.0
 MIME-Version: 1.0
-X-Mailer: Microsoft Outlook 14.0
-Thread-index: AQHqBGwD4abyn7kHvY9Atl8/HQpuCwHoS6T0lxppfQA=
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: Add recipe for hplip 3.12.6
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <1344897787-27726-1-git-send-email-paul.gortmaker@windriver.com>
+	<1345222636.27428.20.camel@ted> <502E886E.30002@windriver.com>
+	<1345239717.27428.22.camel@ted>
+In-Reply-To: <1345239717.27428.22.camel@ted>
+X-Originating-IP: [128.224.146.65]
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] libproxy: add dependency on glib-2.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: marc@cpdesign.com.au
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/options/openembedded-core>,
@@ -51,29 +37,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Aug 2012 14:00:40 -0000
-Content-Type: text/plain;
-	charset="US-ASCII"
+X-List-Received-Date: Mon, 20 Aug 2012 14:03:06 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
-Content-language: en-au
 
-Hi,
-
-> > This is based on a recipe for an earlier version which didn't seem to
-> > make it into oe-core. I'm guessing that oe-core is the correct place for
-it:
-> > next to cups, ghostscript and foomatic.
+On 12-08-17 05:41 PM, Richard Purdie wrote:
+> On Fri, 2012-08-17 at 14:07 -0400, Paul Gortmaker wrote:
+>> On 12-08-17 12:57 PM, Richard Purdie wrote:
+>>> On Mon, 2012-08-13 at 18:43 -0400, Paul Gortmaker wrote:
+>>>> Without this, you will get occasional build failures if libproxy
+>>>> tries to build before the glib headers are placed in the sysroot.
+>>>>
+>>>> Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
+>>>>
+>>>> diff --git a/meta/recipes-support/libproxy/libproxy_0.4.7.bb b/meta/recipes-support/libproxy/libproxy_0.4.7.bb
+>>>> index 7e3cf27..a39e3a8 100644
+>>>> --- a/meta/recipes-support/libproxy/libproxy_0.4.7.bb
+>>>> +++ b/meta/recipes-support/libproxy/libproxy_0.4.7.bb
+>>>> @@ -6,7 +6,7 @@ LICENSE = "LGPLv2.1+"
+>>>>  LIC_FILES_CHKSUM = "file://COPYING;md5=7d7044444a7b1b116e8783edcdb44ff4 \
+>>>>                      file://utils/proxy.c;beginline=1;endline=18;md5=55152a1006d7dafbef32baf9c30a99c0"
+>>>>  
+>>>> -DEPENDS = "gconf"
+>>>> +DEPENDS = "gconf glib-2.0"
+>>>>  
+>>>
+>>> We've gone around in circles on this and had issues over circular
+>>> dependencies. The bottom line is that we don't need glib-2.0 here, we
+>>> want to disable the glib-2.0 using components of libproxy. I don't know
+>>
+>> Fair enough.
+>>
+>> Can we _finally_ fix the mailing lists to not override the To/Cc lines
+>> with crap Reply-To: lines?  Once again I almost missed seeing this reply,
+>> since I was no longer on the To/Cc.
+>>
+>> AFAICT, all were in agreement that it was broken, but it never got fixed.
 > 
-> Since this is something that not everyone needs I think the best place for
-it is
-> probably meta-oe. I believe the justification for having cups etc.
-available in
-> OE-Core is that these are required when you want LSB compliance.
+> There were a few things causing problems here such as lost admin access.
+> Those have been resolved and I just changed the setting that I think was
+> causing the problems. Let me know if there are still issues...
 
-Fair enough, I'll respin it for meta-oe.
+Looks good now, thanks a lot. Much appreciated by many, I'm sure.
 
-Cheers,
-Mare
+Paul.
+--
 
+> 
+> Cheers,
+> 
+> Richard
+> 
 
 
