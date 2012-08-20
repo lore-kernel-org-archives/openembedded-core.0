@@ -1,27 +1,24 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <paul.eggleton@linux.intel.com>) id 1T3Nad-00018X-TL
+	(envelope-from <Liezhi.Yang@windriver.com>) id 1T3NcO-0001Bw-3z
 	for openembedded-core@lists.openembedded.org;
-	Mon, 20 Aug 2012 10:44:04 +0200
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 20 Aug 2012 01:32:00 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.77,796,1336374000"; d="scan'208";a="182769116"
-Received: from unknown (HELO helios.localnet) ([10.252.121.92])
-	by orsmga001.jf.intel.com with ESMTP; 20 Aug 2012 01:32:00 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 20 Aug 2012 09:31:59 +0100
-Message-ID: <1754598.kxQRJyreg5@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.9 (Linux/3.2.0-29-generic-pae; KDE/4.9.0; i686; ; )
-In-Reply-To: <1345451321.24626.77.camel@x121e.pbcl.net>
-References: <1345448771-4656-1-git-send-email-radu.moisan@intel.com>
-	<8627395.gapg0V4nHB@helios>
-	<1345451321.24626.77.camel@x121e.pbcl.net>
+	Mon, 20 Aug 2012 10:45:52 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q7K8XmHN002597
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 20 Aug 2012 01:33:48 -0700 (PDT)
+Received: from usp-ub10.corp.ad.wrs.com (128.224.163.69) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.309.2; Mon, 20 Aug 2012 01:33:48 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 20 Aug 2012 16:29:45 +0800
+Message-ID: <cover.1345448324.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.1
 MIME-Version: 1.0
-Cc: Phil Blundell <philb@gnu.org>
-Subject: Re: [PATCH v2] busybox: Upgrade to upstream 1.20.2
+Cc: Zhenfeng.Zhao@windriver.com
+Subject: [PATCH 0/1] sstate-cache-management.sh: update for the SSTATE_MIRRORS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -34,51 +31,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Aug 2012 08:44:04 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Mon, 20 Aug 2012 08:45:52 -0000
+Content-Type: text/plain
 
-On Monday 20 August 2012 09:28:41 Phil Blundell wrote:
-> On Mon, 2012-08-20 at 09:25 +0100, Paul Eggleton wrote:
-> > On Monday 20 August 2012 09:18:17 Phil Blundell wrote:
-> > > On Mon, 2012-08-20 at 10:46 +0300, Radu Moisan wrote:
-> > > > @@ -97,6 +97,8 @@ do_prepare_config () {
-> > > > 
-> > > >  		< ${WORKDIR}/defconfig > ${S}/.config
-> > > >  	
-> > > >  	sed -i -e '/CONFIG_STATIC/d' .config
-> > > >  	echo "# CONFIG_STATIC is not set" >> .config
-> > > > 
-> > > > +	sed -i -e '/CONFIG_LSOF/d' .config
-> > > > +	echo "# CONFIG_LSOF is not set" >> .config
-> > > > 
-> > > >  	for i in 'CROSS' 'DISTRO FEATURES'; do echo "### $i"; done >> \
-> > > >  	
-> > > >  		${S}/.config
-> > > >  	
-> > > >  	sed -i -e '${configmangle}' ${S}/.config
-> > > 
-> > > Why is this desirable?
-> > 
-> > Well, the more appropriate question would be: could we not just update the
-> > defconfig and then make that change to it directly?
-> > 
-> > (In case it isn't clear - lsof is being disabled because it was not
-> > enabled in the previous 1.19.4 version.)
-> 
-> Ah, I see.  In that case, yes, just updating the defconfig is the right
-> thing to do.  The patch above will, if I am understanding it correctly,
-> make it impossible (or at least quite hard) for any other layer to turn
-> CONFIG_LSOF back on.
+The following changes since commit 91ece5d5668ee1adb5c5e3d757426a0d5187bd84:
 
-Good point, that would be undesirable.
+  libpam: Fix missing DESTDIR for a mkdir causing build failures (2012-08-19 13:32:06 +0100)
 
-Cheers,
-Paul
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib robert/sstate-manage
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=robert/sstate-manage
 
--- 
+Robert Yang (1):
+  sstate-cache-management.sh: update for the SSTATE_MIRRORS
 
-Paul Eggleton
-Intel Open Source Technology Centre
+ scripts/sstate-cache-management.sh |   82 +++++++++++++++++++++++++++++------
+ 1 files changed, 68 insertions(+), 14 deletions(-)
+
 
 
