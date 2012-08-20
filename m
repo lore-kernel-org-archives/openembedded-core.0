@@ -1,33 +1,33 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1T3a8X-0000fJ-QJ
-	for openembedded-core@openembedded.org; Tue, 21 Aug 2012 00:07:53 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q7KLtpZ3010717;
-	Mon, 20 Aug 2012 22:55:51 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 06930-06; Mon, 20 Aug 2012 22:55:47 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q7KLth2r010711
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Mon, 20 Aug 2012 22:55:44 +0100
-Message-ID: <1345499743.3907.39.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Andy Ross <andy.ross@windriver.com>
-Date: Mon, 20 Aug 2012 22:55:43 +0100
-In-Reply-To: <50326CE8.6090206@windriver.com>
-References: <1345218791-28891-1-git-send-email-andy.ross@windriver.com>
-	<1345218791-28891-2-git-send-email-andy.ross@windriver.com>
-	<1345218791-28891-3-git-send-email-andy.ross@windriver.com>
-	<1345370811.27428.86.camel@ted> <50326CE8.6090206@windriver.com>
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
-Cc: openembedded-core@openembedded.org
-Subject: Re: [PATCH 2/2] libtool: normalize link paths before considering for RPATH
+Received: from mail1.windriver.com ([147.11.146.13])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <joe.slater@windriver.com>) id 1T3bzV-0002T6-LQ
+	for openembedded-core@lists.openembedded.org;
+	Tue, 21 Aug 2012 02:06:42 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q7KNsZTA014601
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 20 Aug 2012 16:54:35 -0700 (PDT)
+Received: from ALA-MBB.corp.ad.wrs.com ([169.254.2.189]) by
+	ALA-HCA.corp.ad.wrs.com ([147.11.189.40]) with mapi id 14.02.0309.002;
+	Mon, 20 Aug 2012 16:54:35 -0700
+From: "Slater, Joseph" <joe.slater@windriver.com>
+To: Elvis Dowson <elvis.dowson@gmail.com>, Paul Eggleton
+	<paul.eggleton@linux.intel.com>
+Thread-Topic: [OE-core] can't login??
+Thread-Index: AQHNfruZviWpq+K4k0mgczQNuixMKJdi9pEAgABWNYCAABOxYA==
+Date: Mon, 20 Aug 2012 23:54:35 +0000
+Message-ID: <007BD92917A2324FA403BCF9A464CF842006ED39@ALA-MBB.corp.ad.wrs.com>
+References: <50320C3E.8030009@nedap.com> <1450996.gKDeWNK0nL@helios>
+	<E8F2C9F0-E7CE-44CC-9FBE-1B058F1CE6B7@gmail.com>
+In-Reply-To: <E8F2C9F0-E7CE-44CC-9FBE-1B058F1CE6B7@gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: yes
+X-MS-TNEF-Correlator: 
+x-originating-ip: [147.11.152.80]
+MIME-Version: 1.0
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: can't login??
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -40,39 +40,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Aug 2012 22:07:54 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 21 Aug 2012 00:06:42 -0000
+X-Groupsio-MsgNum: 27933
+Content-Language: en-US
+Content-Type: multipart/mixed;
+	boundary="_002_007BD92917A2324FA403BCF9A464CF842006ED39ALAMBBcorpadwrs_"
 
-On Mon, 2012-08-20 at 09:59 -0700, Andy Ross wrote:
-> On 08/19/2012 03:06 AM, Richard Purdie wrote:
-> > On Fri, 2012-08-17 at 08:53 -0700, Andy Ross wrote:
-> >> ++                libdir_norm=`echo $libdir \
-> >> ++                  | sed 's/\/\+\.\(\/\+\|$\)/\//g' \
-> >> ++                  | sed 's/[^\/]\+\/\+\.\.\(\/\+\|$\)//g' \
-> >> ++                  | sed 's/\/\+/\//g' \
-> >> ++                  | sed 's/\(.\)\/$/\1/g'`
-> >
-> > Can't we use func_norm_abspath here?
-> 
-> I have to admit I got a little confused reading that code (not that my
-> sed mess is significantly better, but at least I trust it because I
-> wrote it); but it looks to me like it's an abspath implementation on
-> the host filesystem (not the use of `pwd` in a few places).  That will
-> work for pruning in this case, since the problem case is already an
-> absolute path to a host directory.  But I don't see how it won't in
-> principle break things by expanding host paths.
+--_002_007BD92917A2324FA403BCF9A464CF842006ED39ALAMBBcorpadwrs_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-As I read it, it will only use pwd if the path is relative or empty. I
-can't think of a case where you'd encode something like that into an
-rpath...
+I don't know your issue, but the attached recipe should work.  You could
+try it and then starting ripping things out.
 
-Libtool can't expect the directory to exist on the filesystem when it
-makes these calls so we should be safe from that perspective.
-
-Cheers,
-
-Richard
+Joe
 
 
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedd=
+ed-core-
+> bounces@lists.openembedded.org] On Behalf Of Elvis Dowson
+> Sent: Monday, August 20, 2012 8:43 AM
+> To: Paul Eggleton
+> Cc: openembedded-core@lists.openembedded.org
+> Subject: Re: [OE-core] can't login??
+>=20
+> Hi,
+>=20
+> On Aug 20, 2012, at 2:34 PM, Paul Eggleton wrote:
+>=20
+>=20
+> 	Is "debug-tweaks" in IMAGE_FEATURES?
+>=20
+>=20
+>=20
+>=20
+> I too have the same problem, I've got debug-tweaks in IMAGE_FEATURES, but=
+ it doesn't allow
+> me to login.  If I type root as the username, it does nothing and brings =
+up the login
+> prompt again.
+>=20
+> Starting syslogd/klogd:
+> Yocto (Built by Poky 7.0) 1.2+snapshot-20120820 (none) ttyS0
+>=20
+>=20
+> (none) login: root
+>=20
+>=20
+> Yocto (Built by Poky 7.0) 1.2+snapshot-20120820 (none) ttyS0
+>=20
+>=20
+> (none) login:
+> Yocto (Built by Poky 7.0) 1.2+snapshot-20120820 (none) ttyS0
+>=20
+>=20
+> (none) login:
+> Yocto (Built by Poky 7.0) 1.2+snapshot-20120820 (none) ttyS0
+>=20
+>=20
+> (none) login:
+>=20
+>=20
+> Elvis Dowson
 
+--_002_007BD92917A2324FA403BCF9A464CF842006ED39ALAMBBcorpadwrs_
+Content-Type: application/octet-stream; name="small.bb"
+Content-Description: small.bb
+Content-Disposition: attachment; filename="small.bb"; size=227;
+	creation-date="Mon, 20 Aug 2012 23:54:08 GMT";
+	modification-date="Mon, 20 Aug 2012 23:06:04 GMT"
+Content-Transfer-Encoding: base64
+
+ClBSID0gInIwIgoKaW5oZXJpdCBjb3JlLWltYWdlCgojIGFsbG93cyByb290IGxvZ2luIHdpdGhv
+dXQgYSBwYXNzd29yZAojCklNQUdFX0ZFQVRVUkVTICs9ICJkZWJ1Zy10d2Vha3MiCgojIFdlIG92
+ZXJyaWRlIHdoYXQgZ2V0cyBzZXQgaW4gY29yZS1pbWFnZS5iYmNsYXNzCiMKSU1BR0VfSU5TVEFM
+TCA9ICJcCiAgICB0YXNrLWNvcmUtYm9vdCBcCiAgICBrZXJuZWwtbW9kdWxlcyBcCiAgICAiCgo=
+
+--_002_007BD92917A2324FA403BCF9A464CF842006ED39ALAMBBcorpadwrs_--
