@@ -1,30 +1,33 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mail-pb0-f47.google.com ([209.85.160.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Sen.Zhang@windriver.com>) id 1T3daQ-0003wQ-6K
+	(envelope-from <raj.khem@gmail.com>) id 1T3f0w-0005r3-E7
 	for openembedded-core@lists.openembedded.org;
-	Tue, 21 Aug 2012 03:48:54 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q7L1an1k015858
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 20 Aug 2012 18:36:49 -0700 (PDT)
-Received: from [128.224.162.230] (128.224.162.230) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.309.2;
-	Mon, 20 Aug 2012 18:36:49 -0700
-Message-ID: <5032E5E7.8010208@windriver.com>
-Date: Tue, 21 Aug 2012 09:35:35 +0800
-From: Jesse Zhang <sen.zhang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:14.0) Gecko/20120717 Thunderbird/14.0
-MIME-Version: 1.0
-To: Saul Wold <sgw@linux.intel.com>
-References: <1343959047-24613-1-git-send-email-sen.zhang@windriver.com>
-	<1343959047-24613-2-git-send-email-sen.zhang@windriver.com>
-	<5032A946.1000301@linux.intel.com>
-In-Reply-To: <5032A946.1000301@linux.intel.com>
-X-Originating-IP: [128.224.162.230]
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] libxpm-native: add dependency on gettext-native
+	Tue, 21 Aug 2012 05:20:22 +0200
+Received: by pbcwy7 with SMTP id wy7so8863245pbc.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 20 Aug 2012 20:08:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=gQ7kU11y1OgLYh67HiRoCzGpdyf7x/lQLC+M0Q34MrU=;
+	b=WTO8p2R5j5swmVRaYgn450/1L7P6MmXzswq/TsXpSbh2ksi9iqFEOwv68qpfbkefhm
+	W2Id+bggRmh1kJ7TOEc+suG3oZSqJ6lAyOqy75kS8r78324WFFqxZqIq6CH+In3Hev/k
+	6Fk36qZmjw+jq7Jh+9eNpP4Dxf2q2J5PhIkad6v7KcFIMZtJJJZMBKpdT9KY3POmqOAt
+	RmMAKP1jhqH0VGSiFGs1J6/MTN7Jx2ZbHslJKI9rU8vv8AaRXsnNZw/Q3vGx5mOvcsbL
+	6c7iNwxNvataAdf71hfhXYq8wKeiY6LAG1uJO+XX+ADcTHZayyEiCZYQKHwKlwAgGta8
+	e7Gw==
+Received: by 10.68.197.70 with SMTP id is6mr39800995pbc.64.1345518498280;
+	Mon, 20 Aug 2012 20:08:18 -0700 (PDT)
+Received: from agate.agate.openembedded.org (oldbuilder.nslu2-linux.org.
+	[140.211.169.168])
+	by mx.google.com with ESMTPS id hr1sm441192pbc.23.2012.08.20.20.08.15
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Mon, 20 Aug 2012 20:08:17 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 20 Aug 2012 20:07:43 -0700
+Message-Id: <cover.1345518098.git.raj.khem@gmail.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH 0/9] Rework cross toolchain bootstrap
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,53 +40,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Aug 2012 01:48:54 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 21 Aug 2012 03:20:22 -0000
 
-Hi Saul,
+This patchset drops one gcc bootstrap phase. It has been possible because of
+some work upstream glibc to drop build time dependency on libgcc_s and libgcc_eh
 
-On 08/21/2012 05:16 AM, Saul Wold wrote:
-> On 08/02/2012 06:57 PM, Jesse Zhang wrote:
->> libxpm needs xgettext to build po files. Add explicit dependency on
->> gettext-native.
->>
->> Signed-off-by: Jesse Zhang <sen.zhang@windriver.com>
->> ---
->>   meta/recipes-graphics/xorg-lib/libxpm_3.5.10.bb |    3 ++-
->>   1 files changed, 2 insertions(+), 1 deletions(-)
->>
->> diff --git a/meta/recipes-graphics/xorg-lib/libxpm_3.5.10.bb b/meta/recipes-graphics/xorg-lib/libxpm_3.5.10.bb
->> index 9eaa212..6830216 100644
->> --- a/meta/recipes-graphics/xorg-lib/libxpm_3.5.10.bb
->> +++ b/meta/recipes-graphics/xorg-lib/libxpm_3.5.10.bb
->> @@ -10,7 +10,8 @@ protocol."
->>   LICENSE = "BSD"
->>   LIC_FILES_CHKSUM = "file://COPYING;md5=3e07763d16963c3af12db271a31abaa5"
->>   DEPENDS += "libxext libsm libxt"
->> -PR = "r0"
->> +DEPENDS_virtclass-native = "gettext-native"
-> 
-> Is there a reason you don't do an inherit gettext here to ensure other bits are set?
+I have built all possible images in OE-Core for all qemu machines
+all of them built fine except *-rt and *-initramfs which failed due to unrelated
+issues. I have built from scratch as well as built from sstate. Seems to go
+ok. 
 
-Actually I don't know what's the preferred way to do this. What is
-required by libxpm is the xgettext command; using DEPENDS will be enough
-to make it available, but I didn't know the other solution.
 
-> Also for the native, you maybe able to use the gettext-minimal-native if there is reason you can't use the inherit.
+The following changes since commit 04568d1f18250d531aad5d286157d2d559083520:
 
-gettext-minimal-native is already pulled in through the implicit
-dependency chain. But clearly it doesn't provide xgettext?
+  qemu: Fix broken accidental path move (2012-08-20 17:25:21 +0100)
 
-jesse
+are available in the git repository at:
 
-> 
->> +PR = "r1"
->>   PE = "1"
->>
->>   XORG_PN = "libXpm"
->>
-> 
-> 
+  git://git.openembedded.org/openembedded-core-contrib kraj/toolchain-rework
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=kraj/toolchain-rework
+
+Khem Raj (9):
+  eglibc-2.16: Remove build dependency on libgcc_s and libgcc_eh
+  eglibc-2.16: Update to top of 2.16 branch
+  gcc-cross: Make gcc-cross-initial as the only intermediate gcc stage
+  eglibc: Fix eglibc-initial and let eglibc depend on it
+  uclibc.inc,uclibc-config.inc: Untabify python snippets
+  uclibc: Use gcc-cross-initial as staging compiler
+  gcc-crosssdk-initial_4.7.bb: Add --with-native-system-header-dir to
+    EXTRA_OECONF
+  gcc-cross-intermediate, gcc-crosssdk-intermediate: Remove
+  gcc: Switch SRC_URI to use svn
+
+ .../0001-Add-ARM-specific-static-stubs.c.patch     |   27 ++
+ ...f-libgcc_s-and-libgcc_eh-when-building-gl.patch |  343 ++++++++++++++++++++
+ meta/recipes-core/eglibc/eglibc-initial.inc        |   16 +-
+ meta/recipes-core/eglibc/eglibc-testing.inc        |    2 +-
+ meta/recipes-core/eglibc/eglibc.inc                |   11 +-
+ meta/recipes-core/eglibc/eglibc_2.16.bb            |    6 +-
+ meta/recipes-core/uclibc/uclibc-config.inc         |  128 ++++----
+ meta/recipes-core/uclibc/uclibc-initial_0.9.33.bb  |   10 +-
+ meta/recipes-core/uclibc/uclibc-initial_git.bb     |   10 +-
+ meta/recipes-core/uclibc/uclibc.inc                |   28 +-
+ meta/recipes-core/uclibc/uclibc_0.9.33.bb          |    7 +-
+ meta/recipes-core/uclibc/uclibc_git.bb             |    7 +-
+ meta/recipes-devtools/gcc/gcc-4.7.inc              |   11 +-
+ .../gcc/gcc-4.7/arm-nolibfloat.patch               |   40 ---
+ meta/recipes-devtools/gcc/gcc-cross-initial.inc    |   50 ++-
+ .../gcc/gcc-cross-intermediate.inc                 |   68 ----
+ .../gcc/gcc-cross-intermediate_4.7.bb              |    3 -
+ .../gcc/gcc-crosssdk-initial_4.7.bb                |    2 +
+ .../gcc/gcc-crosssdk-intermediate.inc              |    9 -
+ .../gcc/gcc-crosssdk-intermediate_4.7.bb           |    3 -
+ 20 files changed, 534 insertions(+), 247 deletions(-)
+ create mode 100644 meta/recipes-core/eglibc/eglibc-2.16/0001-Add-ARM-specific-static-stubs.c.patch
+ create mode 100644 meta/recipes-core/eglibc/eglibc-2.16/0001-Avoid-use-of-libgcc_s-and-libgcc_eh-when-building-gl.patch
+ delete mode 100644 meta/recipes-devtools/gcc/gcc-4.7/arm-nolibfloat.patch
+ delete mode 100644 meta/recipes-devtools/gcc/gcc-cross-intermediate.inc
+ delete mode 100644 meta/recipes-devtools/gcc/gcc-cross-intermediate_4.7.bb
+ delete mode 100644 meta/recipes-devtools/gcc/gcc-crosssdk-intermediate.inc
+ delete mode 100644 meta/recipes-devtools/gcc/gcc-crosssdk-intermediate_4.7.bb
+
+-- 
+1.7.9.5
+
 
 
