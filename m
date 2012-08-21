@@ -1,38 +1,38 @@
 Received: from mail-pz0-f51.google.com ([209.85.210.51])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1T3f1E-00060B-0u
+	(envelope-from <raj.khem@gmail.com>) id 1T3f1F-00060B-NW
 	for openembedded-core@lists.openembedded.org;
-	Tue, 21 Aug 2012 05:20:40 +0200
-Received: by dajt11 with SMTP id t11so2214665daj.10
+	Tue, 21 Aug 2012 05:20:42 +0200
+Received: by mail-pz0-f51.google.com with SMTP id t11so2214665daj.10
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Aug 2012 20:08:36 -0700 (PDT)
+	Mon, 20 Aug 2012 20:08:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references
 	:in-reply-to:references;
-	bh=SbdVyZrvVF3nbF2GVqd7FS23zTAaw6BveVcRHEjea5k=;
-	b=cynWmTABynY70Vlqir9O+ZFqHahfUim8x9wP9puILY67RBG0Z7muMSyj8s+loulBCR
-	uaSGXS03qbSoWQR2Tvq+dbnM8gXALNBgIIY/l24Z2+CQGYHVvIE+W3IM7EwaHtKp13f8
-	6zQRzY4z6RFJigJCjJXIJfX713a1TGJHr+cl9/xCFA5Y6whtW0lVidCpJ/XYPDQtsS4i
-	/oWXVpNDBSBZ/+u3dL2hXJK94Pwy+PFotqZu/dJdhUfzVUi8ZNm8rqdZpBm+CiNl5Hqj
-	+QuGImYvyOemBDrBwB5PGjDlQj4rBpWDPnaBdH/Tk8H4Tlu125bVpkespVMW7PmvdoG3
-	4wAA==
-Received: by 10.66.76.130 with SMTP id k2mr34488839paw.19.1345518515808;
-	Mon, 20 Aug 2012 20:08:35 -0700 (PDT)
+	bh=gmK7Z0v1VpY+nqrD4kP5M6zWWUvg+Vh8kyLlKWNzqHI=;
+	b=Q3V722IFG3mfOf2AdR7KtUCYZVeYvdMIyK2yoJJzq03CG1XRL7elYuGC75a/JAGh1z
+	o0TB2YzuzpimrxK9zZGoQ3s9j+c+P+Qo3S2weCYC4WnuB6WsHxNsxywV3mm8Dtkr6Hw8
+	i7t1uzVBJtUsx/GXkckKxi94isjWolZdyvmqeRi2UqDKp2gPF2gCwots69BsyJm83BnP
+	dOErrh46jsDhK2RXAb3YAQ1h6Zowutn+Ji7ZF15DpOOB8Dl5j85EQGHu4q8Qmxx17vBr
+	pbjT31nWvvkGH9cKj1E8bJT5FMDMcZiLArIOy2UQCs4B/WzLxVmTeHi7msy2brnD8e7k
+	lpqg==
+Received: by 10.66.72.197 with SMTP id f5mr34543253pav.20.1345518520401;
+	Mon, 20 Aug 2012 20:08:40 -0700 (PDT)
 Received: from agate.agate.openembedded.org (oldbuilder.nslu2-linux.org.
 	[140.211.169.168])
-	by mx.google.com with ESMTPS id nv6sm429804pbc.42.2012.08.20.20.08.34
+	by mx.google.com with ESMTPS id nv6sm429804pbc.42.2012.08.20.20.08.38
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 20 Aug 2012 20:08:35 -0700 (PDT)
+	Mon, 20 Aug 2012 20:08:39 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 20 Aug 2012 20:07:56 -0700
-Message-Id: <24d1377f59190fadc94f8c9478a1ad78c2130bc3.1345518098.git.raj.khem@gmail.com>
+Date: Mon, 20 Aug 2012 20:07:59 -0700
+Message-Id: <488cf1c375044a3f5991d9f8b02048c31418c137.1345518098.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <7dacdb4ffd32fe781e4cd0c54b428cf86b96b693.1345518098.git.raj.khem@gmail.com>
 References: <7dacdb4ffd32fe781e4cd0c54b428cf86b96b693.1345518098.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1345518098.git.raj.khem@gmail.com>
 References: <cover.1345518098.git.raj.khem@gmail.com>
-Subject: [PATCH 6/9] uclibc: Use gcc-cross-initial as staging compiler
+Subject: [PATCH 9/9] gcc: Switch SRC_URI to use svn
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,120 +45,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Aug 2012 03:20:40 -0000
+X-List-Received-Date: Tue, 21 Aug 2012 03:20:42 -0000
 
-Do not build fake shared libraries during uclibc-initial phase
+svn tar balls are 96M as compared to 1.3G git tars
+its unnessary to suck in that much of data.
 
-Let uclibc depend on gcc-cross-initial instead of gcc-cross-intermediate
-thereby set stage to remove gcc-cross-intermediate
-
-Let uclibc depend on uclibc-initial so that boostrap sysroot
-gets populated properly
+Fixes [YOCTO #2908]
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-core/uclibc/uclibc-initial_0.9.33.bb |   10 +++-------
- meta/recipes-core/uclibc/uclibc-initial_git.bb    |   10 +++-------
- meta/recipes-core/uclibc/uclibc_0.9.33.bb         |    7 ++++---
- meta/recipes-core/uclibc/uclibc_git.bb            |    7 ++++---
- 4 files changed, 14 insertions(+), 20 deletions(-)
+ meta/recipes-devtools/gcc/gcc-4.7.inc |   10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-core/uclibc/uclibc-initial_0.9.33.bb b/meta/recipes-core/uclibc/uclibc-initial_0.9.33.bb
-index 51afab2..211d530 100644
---- a/meta/recipes-core/uclibc/uclibc-initial_0.9.33.bb
-+++ b/meta/recipes-core/uclibc/uclibc-initial_0.9.33.bb
-@@ -15,19 +15,15 @@ do_install() {
- 	# Install initial headers into the cross dir
- 	make PREFIX=${D} DEVEL_PREFIX=${prefix}/ RUNTIME_PREFIX=/ \
- 		install_headers install_startfiles
--	${CC} -nostdlib -nostartfiles -shared -x c /dev/null \
--		-o lib/libc.so
--	${CC} -nostdlib -nostartfiles -shared -x c /dev/null \
--		-o lib/libm.so
--	install -d ${D}${libdir}
--	install -m 755 lib/lib[cm].so ${D}${libdir}
--	# add links to linux-libc-headers: gcc-{cross,crossdk}-intermediate need this.
-+
-+        # add links to linux-libc-headers: final uclibc build need this.
-         for t in linux asm asm-generic; do
-                 if [ -d ${D}${includedir}/$t ]; then
-                     rm -rf ${D}${includedir}/$t
-                 fi
-                 ln -sf ${STAGING_DIR_TARGET}${includedir}/$t ${D}${includedir}/
-         done
-+
- }
- do_compile() {
- 	:
-diff --git a/meta/recipes-core/uclibc/uclibc-initial_git.bb b/meta/recipes-core/uclibc/uclibc-initial_git.bb
-index 2226d25..6fd7529 100644
---- a/meta/recipes-core/uclibc/uclibc-initial_git.bb
-+++ b/meta/recipes-core/uclibc/uclibc-initial_git.bb
-@@ -15,19 +15,15 @@ do_install() {
- 	# Install initial headers into the cross dir
- 	make PREFIX=${D} DEVEL_PREFIX=${prefix}/ RUNTIME_PREFIX=/ \
- 		install_headers install_startfiles
--	${CC} -nostdlib -nostartfiles -shared -x c /dev/null \
--		-o lib/libc.so
--	${CC} -nostdlib -nostartfiles -shared -x c /dev/null \
--		-o lib/libm.so
--	install -d ${D}${libdir}
--	install -m 755 lib/lib[cm].so ${D}${libdir}
--	# add links to linux-libc-headers: gcc-{cross,crossdk}-intermediate need this.
-+
-+        # add links to linux-libc-headers: final uclibc build need this.
-         for t in linux asm asm-generic; do
-                 if [ -d ${D}${includedir}/$t ]; then
-                     rm -rf ${D}${includedir}/$t
-                 fi
-                 ln -sf ${STAGING_DIR_TARGET}${includedir}/$t ${D}${includedir}/
-         done
-+
- }
- do_compile() {
- 	:
-diff --git a/meta/recipes-core/uclibc/uclibc_0.9.33.bb b/meta/recipes-core/uclibc/uclibc_0.9.33.bb
-index c863896..8deedd3 100644
---- a/meta/recipes-core/uclibc/uclibc_0.9.33.bb
-+++ b/meta/recipes-core/uclibc/uclibc_0.9.33.bb
-@@ -4,11 +4,12 @@ require uclibc.inc
- require uclibc-package.inc
- require uclibc-${PV}.inc
+diff --git a/meta/recipes-devtools/gcc/gcc-4.7.inc b/meta/recipes-devtools/gcc/gcc-4.7.inc
+index 3f13385..89e22cb 100644
+--- a/meta/recipes-devtools/gcc/gcc-4.7.inc
++++ b/meta/recipes-devtools/gcc/gcc-4.7.inc
+@@ -1,6 +1,6 @@
+ require gcc-common.inc
  
--STAGINGCC = "gcc-cross-intermediate"
--STAGINGCC_virtclass-nativesdk = "gcc-crosssdk-intermediate"
-+STAGINGCC = "gcc-cross-initial"
-+STAGINGCC_virtclass-nativesdk = "gcc-crosssdk-initial"
+-PR = "r9"
++PR = "r10"
  
- DEPENDS = "virtual/${TARGET_PREFIX}binutils \
--           virtual/${TARGET_PREFIX}gcc-intermediate \
-+           virtual/${TARGET_PREFIX}gcc-initial \
-+           virtual/${TARGET_PREFIX}libc-initial \
-            linux-libc-headers ncurses-native"
+ # Third digit in PV should be incremented after a minor release
+ # happens from this branch on gcc e.g. currently its 4.7.1
+@@ -11,7 +11,7 @@ PR = "r9"
+ # using 4.7.1.0 for upgrade path when we move past 4.7.2 release
+ # then we should drop the last 0 as well.
  
- PROVIDES += "virtual/libc virtual/${TARGET_PREFIX}libc-for-gcc"
-diff --git a/meta/recipes-core/uclibc/uclibc_git.bb b/meta/recipes-core/uclibc/uclibc_git.bb
-index 4e5b830..2a60947 100644
---- a/meta/recipes-core/uclibc/uclibc_git.bb
-+++ b/meta/recipes-core/uclibc/uclibc_git.bb
-@@ -4,13 +4,14 @@ require uclibc.inc
- require uclibc-package.inc
- require uclibc-git.inc
+-PV = "4.7.1.0+git${SRCPV}"
++PV = "4.7.1.0+svn${SRCPV}"
  
--STAGINGCC = "gcc-cross-intermediate"
--STAGINGCC_virtclass-nativesdk = "gcc-crosssdk-intermediate"
-+STAGINGCC = "gcc-cross-initial"
-+STAGINGCC_virtclass-nativesdk = "gcc-crosssdk-initial"
+ # BINV should be incremented after updating to a revision
+ # after a minor gcc release (e.g. 4.7.1 or 4.7.2) has been made
+@@ -21,7 +21,7 @@ PV = "4.7.1.0+git${SRCPV}"
  
- PROVIDES += "virtual/libc virtual/${TARGET_PREFIX}libc-for-gcc"
+ BINV = "4.7.2"
  
- DEPENDS = "virtual/${TARGET_PREFIX}binutils \
--           virtual/${TARGET_PREFIX}gcc-intermediate \
-+           virtual/${TARGET_PREFIX}gcc-initial \
-+           virtual/${TARGET_PREFIX}libc-initial \
-            linux-libc-headers ncurses-native"
+-SRCREV = "d07e24f4ab59f264d68d21838795349faab5dede"
++SRCREV = "190218"
+ BRANCH = "gcc-4_7-branch"
+ FILESPATH = "${@base_set_filespath([ '${FILE_DIRNAME}/gcc-4.7' ], d)}"
  
- RDEPENDS_${PN}-dev = "linux-libc-headers-dev"
+@@ -36,7 +36,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
+                    file://COPYING.LIB;md5=2d5025d4aa3495befef8f17206a5b0a1 \
+ 		   file://COPYING.RUNTIME;md5=fe60d87048567d4fe8c8a0ed2448bcc8"
+ 
+-SRC_URI = "git://github.com/mirrors/gcc.git;branch=${BRANCH};protocol=git \
++SRC_URI = "svn://gcc.gnu.org/svn/gcc/branches;module=${BRANCH};protocol=http \
+ 	   file://gcc-4.3.1-ARCH_FLAGS_FOR_TARGET.patch \
+ 	   file://100-uclibc-conf.patch \
+            file://gcc-uclibc-locale-ctype_touplow_t.patch \
+@@ -76,7 +76,7 @@ SRC_URI = "git://github.com/mirrors/gcc.git;branch=${BRANCH};protocol=git \
+ 	   file://disablesdt.patch \
+ 	  "
+ 
+-S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/git"
++S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/${BRANCH}"
+ B = "${WORKDIR}/${BRANCH}/build.${HOST_SYS}.${TARGET_SYS}"
+ 
+ # Language Overrides
 -- 
 1.7.9.5
 
