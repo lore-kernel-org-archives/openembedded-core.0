@@ -1,37 +1,57 @@
-Received: from mail-ee0-f47.google.com ([74.125.83.47])
+Received: from am1ehsobe002.messaging.microsoft.com ([213.199.154.205]
+	helo=am1outboundpool.messaging.microsoft.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1T3tWU-0004Gn-KO
+	(envelope-from <B29882@freescale.com>) id 1T3tYn-0004Lb-Hz
 	for openembedded-core@lists.openembedded.org;
-	Tue, 21 Aug 2012 20:49:54 +0200
-Received: by eekb57 with SMTP id b57so37260eek.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Aug 2012 11:37:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=Vd6wdUlWkChxYTa5dGhVzpdv8l3931JUiB2NhxBFvt8=;
-	b=crdOPnHv6rYEhv77yjYawP5YMRHZsLqqboJtHp44vYpCWggZ6gpKVC8lpmP2D9IFT2
-	2C7MlRyVp1s78Q0GaFUAmhCbAFpIIg7sy0mNehZ8MK6S0r6ZputlE+okSoZj1vYBF0to
-	/4QqTNE17y9Ir8et6n489x6w7ayx9XJfzruwq90lttBIBZgAWujLUyURe8e25/zcHmJu
-	Or9HNUcVXG9y5g/P/dmL2rHvspHkr2Iwd8Joemy9bKnX4F5c/haMHEFk2nOW/LpuI2iY
-	kMIa86nl6rECxrvJENNL4hrN1P9DsUNc0Ogj5iCULh/hoxUNbehEwM1COTkl/YzJqNPj
-	hAig==
-Received: by 10.14.4.201 with SMTP id 49mr14866588eej.0.1345574270709; Tue, 21
-	Aug 2012 11:37:50 -0700 (PDT)
+	Tue, 21 Aug 2012 20:52:17 +0200
+Received: from mail100-am1-R.bigfish.com (10.3.201.249) by
+	AM1EHSOBE008.bigfish.com (10.3.204.28) with Microsoft SMTP Server id
+	14.1.225.23; Tue, 21 Aug 2012 18:10:05 +0000
+Received: from mail100-am1 (localhost [127.0.0.1])	by
+	mail100-am1-R.bigfish.com (Postfix) with ESMTP id 6236E3600E0;
+	Tue, 21 Aug 2012 18:10:05 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-SpamScore: -2
+X-BigFish: VS-2(zz98dI9371I1432Izz1202hzz8275bhz2dh2a8h668h839h8e2h8e3hf0ah107ah10d2hbe9i1155h)
+Received: from mail100-am1 (localhost.localdomain [127.0.0.1]) by mail100-am1
+	(MessageSwitch) id 1345572604213912_29538;
+	Tue, 21 Aug 2012 18:10:04 +0000 (UTC)
+Received: from AM1EHSMHS012.bigfish.com (unknown [10.3.201.234])	by
+	mail100-am1.bigfish.com (Postfix) with ESMTP id 30957340046;
+	Tue, 21 Aug 2012 18:10:04 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by AM1EHSMHS012.bigfish.com
+	(10.3.207.112) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Tue, 21 Aug 2012 18:10:03 +0000
+Received: from 039-SN1MPN1-001.039d.mgd.msft.net ([169.254.1.41]) by
+	039-SN1MMR1-003.039d.mgd.msft.net ([10.84.1.16]) with mapi id
+	14.02.0309.003; Tue, 21 Aug 2012 13:10:02 -0500
+From: McClintock Matthew-B29882 <B29882@freescale.com>
+To: Khem Raj <raj.khem@gmail.com>
+Thread-Topic: [OE-core] [PATCH v2] kmod-native_git.bb: fix builds for hosts
+	with older libc
+Thread-Index: AQHNf8YH40JdCKhtsEicym6VlWG4D5dk4bEAgAAB8wCAAADlAA==
+Date: Tue, 21 Aug 2012 18:10:02 +0000
+Message-ID: <CAEsOVNeFeP9DTnsZhOBT1Ntr3P7Maw_UJmnVAL6c0D1Cu17W1w@mail.gmail.com>
+References: <1345566017-15508-1-git-send-email-msm@freescale.com>
+	<CAMKF1sp2eYPuaU0yF-BBX9DNjPHwFjfOknLen10gog1n3spDfA@mail.gmail.com>
+	<CAEsOVNcX=DeAbNpcMPP_sZPzgqN+uKksgodhS6-fTGAaZkLx9Q@mail.gmail.com>
+	<CAMKF1sphgACT00prBya6svo_dbcV2hOGdj1ACk1hVUyEvqtNEQ@mail.gmail.com>
+In-Reply-To: <CAMKF1sphgACT00prBya6svo_dbcV2hOGdj1ACk1hVUyEvqtNEQ@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [70.112.201.132]
 MIME-Version: 1.0
-Received: by 10.14.2.5 with HTTP; Tue, 21 Aug 2012 11:37:20 -0700 (PDT)
-In-Reply-To: <50337719.7040801@linaro.org>
-References: <CAMKF1srjqDsesRcWP7oGzouPj9aOt_Ln0aOWE9cEQwpUQ7Unuw@mail.gmail.com>
-	<50337719.7040801@linaro.org>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 21 Aug 2012 11:37:20 -0700
-Message-ID: <CAMKF1soXoZ4hHkAA0xJCkwP0dh4g7EVW3E-rsc=-gEeMMsBZuA@mail.gmail.com>
-To: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: Toolchain rework, call for testing
+X-OriginatorOrg: freescale.com
+Cc: McClintock Matthew-B29882 <B29882@freescale.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] kmod-native_git.bb: fix builds for hosts with older libc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
+Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/options/openembedded-core>,
@@ -41,32 +61,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Aug 2012 18:49:54 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 21 Aug 2012 18:52:17 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <937ECF695BA4EF49AA3541FB29AC9FDD@mgd.freescale.com>
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Aug 21, 2012 at 4:55 AM, Marcin Juszkiewicz
-<marcin.juszkiewicz@linaro.org> wrote:
-> W dniu 17.08.2012 06:47, Khem Raj pisze:
->> Hi All
+On Tue, Aug 21, 2012 at 1:06 PM, Khem Raj <raj.khem@gmail.com> wrote:
+> On Tue, Aug 21, 2012 at 10:59 AM, McClintock Matthew-B29882
+> <B29882@freescale.com> wrote:
+>> On Tue, Aug 21, 2012 at 12:54 PM, Khem Raj <raj.khem@gmail.com> wrote:
+>>> On Tue, Aug 21, 2012 at 9:20 AM, Matthew McClintock <msm@freescale.com>=
+ wrote:
+>>>> +
+>>>> +do_configure_prepend (){
+>>>> +       if ! grep O_CLOEXEC -r ${includedir_native}/bits/fcntl.h; then
+>>>> +               export CFLAGS=3D"$CFLAGS -D O_CLOEXEC=3D0"
+>>>> +       fi
+>>>> +}
+>>>
+>>>
+>>> IMO It would be safer to create a patch for kmod itself where you
+>>> define O_CLOEXEC if it
+>>> was not defined before. The above seems a bit risky
 >>
->> Recently glibc build has been simplified upstream. It has dropped the
->> dependency on libgcc_s and libgcc_eh for building glibc itself.
->> This means that we can simplify our toolchain bootstrap a bit by
->> dropping 1 of the 3 cross gcc build stages. We do not need
->> gcc-cross-intermediate anymore.
+>> Why is it risky? I only wanted to do this for affected systems. There
+>> is not an easy way to do this with a patch, unless of course I apply
+>> the patch manually.
 >
-> Please adapt also toolchain-layer in meta-oe for those stuck with gcc 4.6.
+> manually gripping at the host installation and then if O_CLOEXEC might
+> be in comments
 
-Patch for toolchain-layer is sent for meta-linaro The patch is here
+How about grep define.*O_CLOEXEC -r ${includedir_native}/bits/fcntl.h
 
-https://github.com/kraj/meta-linaro/commits/master
+> and furthermore it if it comes from fcntl.h which is not where you are
+> looking for
 
-please merge into the meta-linaro layer.
+I am grepping this file though?
 
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+> there are few variables like that where its impacting more than
+> affected systems.
+
+I don't follow...
+
+-M=
+
 
 
