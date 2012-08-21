@@ -1,36 +1,29 @@
-Received: from mga09.intel.com ([134.134.136.24])
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <bogdan.a.marinescu@intel.com>) id 1T3kCw-0008Q2-NP
+	(envelope-from <radu.moisan@intel.com>) id 1T3kGL-0008VC-B0
 	for openembedded-core@lists.openembedded.org;
-	Tue, 21 Aug 2012 10:53:07 +0200
-Received: from mail-qc0-f180.google.com ([209.85.216.180])
-	by mga09.intel.com with ESMTP/TLS/RC4-SHA; 21 Aug 2012 01:41:00 -0700
-Received: by qcmv28 with SMTP id v28so4611218qcm.25
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Aug 2012 01:40:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:content-type:x-gm-message-state;
-	bh=tp6omHhzoFSStKEXz/YvvjAv8WpQyZvcRg9dO5o5qIw=;
-	b=Ujyaf1X81+DB8fQ4mCK+nuU0+09yBjcdUNUv27uvaUpDDIBSU4tglp/nMAxG81vlR2
-	iFHSbHYWUbrIri7jv9m6XKO2BfFweBfW1q1dqhzUJ+Aw8Y7fATS2WYFv52fEZBF/i4Sk
-	VVPJaNnQcs73u0vVJ7GHhhL2POe82iGd8VL4nxJXdADaoS+7FmSUoX6Uo1sPO2yGMAPo
-	Ta4LORwqcPTESVP0ibenrsoNgny83JMo2gEYVCK25XK8tOQ8txC70ie4po9gs6ZYrPeT
-	e9fbhK7cRIO9hAtrGfmHoZqUd59pZSQzRs1e0nDiEZ5fVP0f/GJAuPIAMEfYDlJmVNix
-	o1AQ==
-Received: by 10.224.203.70 with SMTP id fh6mr2837058qab.52.1345538456242; Tue,
-	21 Aug 2012 01:40:56 -0700 (PDT)
+	Tue, 21 Aug 2012 10:56:37 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 21 Aug 2012 01:44:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.77,801,1336374000"; 
+	d="scan'208,217";a="207279301"
+Received: from dell-desktop (HELO [10.237.105.32]) ([10.237.105.32])
+	by fmsmga001.fm.intel.com with ESMTP; 21 Aug 2012 01:44:31 -0700
+Message-ID: <50334AFC.8080502@intel.com>
+Date: Tue, 21 Aug 2012 11:46:52 +0300
+From: Radu Moisan <radu.moisan@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:14.0) Gecko/20120714 Thunderbird/14.0
 MIME-Version: 1.0
-Received: by 10.49.74.74 with HTTP; Tue, 21 Aug 2012 01:40:35 -0700 (PDT)
-In-Reply-To: <1343834167-2572-1-git-send-email-bogdan.a.marinescu@intel.com>
-References: <1343834167-2572-1-git-send-email-bogdan.a.marinescu@intel.com>
-From: "Marinescu, Bogdan A" <bogdan.a.marinescu@intel.com>
-Date: Tue, 21 Aug 2012 11:40:35 +0300
-Message-ID: <CAMZjud2SANYM29NkPB+JO45tO2Bm402SEKGo9410tK7FfnXDNA@mail.gmail.com>
-To: openembedded-core@lists.openembedded.org
-X-Gm-Message-State: ALoCoQmW8M9KGlAi+B0Mzi1L/KrXUonZ4c3kuyMqqJqRsYAvFGJqjOKOSn6o79fOI0BDbLZ+FYEe
-Subject: Re: [PATCH] python-dbus: updated to 1.1.1
+To: Saul Wold <sgw@linux.intel.com>
+References: <1345208727-3029-1-git-send-email-radu.moisan@intel.com>
+	<502E696C.8050304@linux.intel.com> <5031D36D.7040107@intel.com>
+	<503269BC.1000106@linux.intel.com>
+In-Reply-To: <503269BC.1000106@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH][RFC] coreutils: Upgrade to upstream version 8.17
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -43,109 +36,132 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Aug 2012 08:53:07 -0000
-Content-Type: multipart/alternative; boundary=20cf300fabfbb749ee04c7c29587
+X-List-Received-Date: Tue, 21 Aug 2012 08:56:37 -0000
+Content-Type: multipart/alternative;
+	boundary="------------000408040601080205070107"
 
---20cf300fabfbb749ee04c7c29587
-Content-Type: text/plain; charset=ISO-8859-1
+--------------000408040601080205070107
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Resending.
 
-On Wed, Aug 1, 2012 at 6:16 PM, Bogdan Marinescu <
-bogdan.a.marinescu@intel.com> wrote:
+>>> Your new patch needs a header, explaining why, and adding
+>>> Upstream-Status and Signed-off-by tags.
+>>>
+>> I meant this only as an RFC, to get feedback for my patch, from a
+>> functional point of view, it is not intended to be the final patch.
+>> I have a Signed-off-by tag, are you referring to something else?
+>> Can you give me more details about Upstream-Status? I've google'd this
+>> problem for a bit but could not find an existing patch for it, nor a bug
+>> filled for this matter. Since I don't know yet if what I'm fixing it's
+>> really a bug (or a misconfiguration on my side) I send this RFC to get a
+>> hold of whether I'm on the good track here or not. If this patch turns
+>> out to be valid, I'll get in touch with the guys from coreutils' mailing
+>> lists, and try to push it upstream.
+>
+> Radu,
+>
+> For patches included in a given recipe we also have Signed-off-by as 
+> well as the Upstream-Status tag as defined by:
+>
+> http://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+>
+> Please review this again.
+Soul,
+I understood your point, and in the *actual* patch I will update the 
+Sign-off-by and a short description, and an Upstream Status. However, I 
+reviewed again  Commit_Patch_Message_Guidelines and there is nothing in 
+there mentioned about RFCs. This is an RFC, and it was intended to get a 
+quick feedback from people more familiar/experienced with 
+coreutils/autotools. I need feedback about the functional change of this 
+patch. In my first reply I described as extensively as I could my 
+problem and my question.
 
-> Signed-off-by: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
-> ---
->  .../{python-dbus_1.1.0.bb => python-dbus_1.1.1.bb} |    4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->  rename meta/recipes-devtools/python/{python-dbus_1.1.0.bb =>
-> python-dbus_1.1.1.bb} (83%)
->
-> diff --git a/meta/recipes-devtools/python/python-dbus_1.1.0.bbb/meta/recipes-devtools/python/
-> python-dbus_1.1.1.bb
-> similarity index 83%
-> rename from meta/recipes-devtools/python/python-dbus_1.1.0.bb
-> rename to meta/recipes-devtools/python/python-dbus_1.1.1.bb
-> index a10fda3..51d5bc2 100644
-> --- a/meta/recipes-devtools/python/python-dbus_1.1.0.bb
-> +++ b/meta/recipes-devtools/python/python-dbus_1.1.1.bb
-> @@ -8,8 +8,8 @@ PR = "r0"
->
->  SRC_URI = "
-> http://dbus.freedesktop.org/releases/dbus-python/dbus-python-${PV}.tar.gz"
->
-> -SRC_URI[md5sum] = "41a459bbbb5fd92eeebd632623af0bd7"
-> -SRC_URI[sha256sum] =
-> "2dc30b53cdb2e20f8d0265af3be878e9da68745cf9ccc72f75de869094c4fc60"
-> +SRC_URI[md5sum] = "742c7432ad0f7c3f98291d58fa2e35dc"
-> +SRC_URI[sha256sum] =
-> "8917ca4fb8f4d693aee18d200cbad166b2c938dfb88c03bb4ab3d90a7c915e88"
->  S = "${WORKDIR}/dbus-python-${PV}"
->
->  inherit distutils-base autotools pkgconfig
-> --
-> 1.7.9.5
->
->
+As far as the RFCs go, how long should I wait on an RFC? It's been more 
+then a few days and nobody commented. Would it be appropriate to assume 
+that if nobody had any comments, the patch is valid?
 
---20cf300fabfbb749ee04c7c29587
+Radu
+
+--------------000408040601080205070107
 Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 
-Resending.<br><br><div class=3D"gmail_quote">On Wed, Aug 1, 2012 at 6:16 PM=
-, Bogdan Marinescu <span dir=3D"ltr">&lt;<a href=3D"mailto:bogdan.a.marines=
-cu@intel.com" target=3D"_blank">bogdan.a.marinescu@intel.com</a>&gt;</span>=
- wrote:<br>
+<html>
+  <head>
+    <meta content="text/html; charset=ISO-8859-1"
+      http-equiv="Content-Type">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    <br>
+    <blockquote cite="mid:503269BC.1000106@linux.intel.com" type="cite">
+      <blockquote type="cite">
+        <blockquote type="cite">Your new patch needs a header,
+          explaining why, and adding
+          <br>
+          Upstream-Status and Signed-off-by tags.
+          <br>
+          <br>
+        </blockquote>
+        I meant this only as an RFC, to get feedback for my patch, from
+        a
+        <br>
+        functional point of view, it is not intended to be the final
+        patch.
+        <br>
+        I have a Signed-off-by tag, are you referring to something else?
+        <br>
+        Can you give me more details about Upstream-Status? I've
+        google'd this
+        <br>
+        problem for a bit but could not find an existing patch for it,
+        nor a bug
+        <br>
+        filled for this matter. Since I don't know yet if what I'm
+        fixing it's
+        <br>
+        really a bug (or a misconfiguration on my side) I send this RFC
+        to get a
+        <br>
+        hold of whether I'm on the good track here or not. If this patch
+        turns
+        <br>
+        out to be valid, I'll get in touch with the guys from coreutils'
+        mailing
+        <br>
+        lists, and try to push it upstream.
+        <br>
+      </blockquote>
+      <br>
+      Radu,
+      <br>
+      <br>
+      For patches included in a given recipe we also have Signed-off-by
+      as well as the Upstream-Status tag as defined by:
+      <br>
+      <br>
+      <a class="moz-txt-link-freetext" href="http://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines">http://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines</a>
+      <br>
+      <br>
+      Please review this again.
+      <br>
+    </blockquote>
+    Soul,<br>
+    I understood your point, and in the <b>actual</b> patch I will
+    update the Sign-off-by and a short description, and an Upstream
+    Status. However, I reviewed again&nbsp; Commit_Patch_Message_Guidelines
+    and there is nothing in there mentioned about RFCs. This is an RFC,
+    and it was intended to get a quick feedback from people more
+    familiar/experienced with coreutils/autotools. I need feedback about
+    the functional change of this patch. In my first reply I described
+    as extensively as I could my problem and my question. <br>
+    <br>
+    As far as the RFCs go, how long should I wait on an RFC? It's been
+    more then a few days and nobody commented. Would it be appropriate
+    to assume that if nobody had any comments, the patch is valid?<br>
+    <br>
+    Radu<br>
+  </body>
+</html>
 
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">Signed-off-by: Bogdan Marinescu &lt;<a href=
-=3D"mailto:bogdan.a.marinescu@intel.com">bogdan.a.marinescu@intel.com</a>&g=
-t;<br>
-
-
----<br>
-=A0.../{<a href=3D"http://python-dbus_1.1.0.bb" target=3D"_blank">python-db=
-us_1.1.0.bb</a> =3D&gt; <a href=3D"http://python-dbus_1.1.1.bb" target=3D"_=
-blank">python-dbus_1.1.1.bb</a>} | =A0 =A04 ++--<br>
-=A01 file changed, 2 insertions(+), 2 deletions(-)<br>
-=A0rename meta/recipes-devtools/python/{<a href=3D"http://python-dbus_1.1.0=
-.bb" target=3D"_blank">python-dbus_1.1.0.bb</a> =3D&gt; <a href=3D"http://p=
-ython-dbus_1.1.1.bb" target=3D"_blank">python-dbus_1.1.1.bb</a>} (83%)<br>
-<br>
-diff --git a/meta/recipes-devtools/python/<a href=3D"http://python-dbus_1.1=
-.0.bb" target=3D"_blank">python-dbus_1.1.0.bb</a> b/meta/recipes-devtools/p=
-ython/<a href=3D"http://python-dbus_1.1.1.bb" target=3D"_blank">python-dbus=
-_1.1.1.bb</a><br>
-
-
-similarity index 83%<br>
-rename from meta/recipes-devtools/python/<a href=3D"http://python-dbus_1.1.=
-0.bb" target=3D"_blank">python-dbus_1.1.0.bb</a><br>
-rename to meta/recipes-devtools/python/<a href=3D"http://python-dbus_1.1.1.=
-bb" target=3D"_blank">python-dbus_1.1.1.bb</a><br>
-index a10fda3..51d5bc2 100644<br>
---- a/meta/recipes-devtools/python/<a href=3D"http://python-dbus_1.1.0.bb" =
-target=3D"_blank">python-dbus_1.1.0.bb</a><br>
-+++ b/meta/recipes-devtools/python/<a href=3D"http://python-dbus_1.1.1.bb" =
-target=3D"_blank">python-dbus_1.1.1.bb</a><br>
-@@ -8,8 +8,8 @@ PR =3D &quot;r0&quot;<br>
-<br>
-=A0SRC_URI =3D &quot;<a href=3D"http://dbus.freedesktop.org/releases/dbus-p=
-ython/dbus-python-${PV}.tar.gz" target=3D"_blank">http://dbus.freedesktop.o=
-rg/releases/dbus-python/dbus-python-${PV}.tar.gz</a>&quot;<br>
-<br>
--SRC_URI[md5sum] =3D &quot;41a459bbbb5fd92eeebd632623af0bd7&quot;<br>
--SRC_URI[sha256sum] =3D &quot;2dc30b53cdb2e20f8d0265af3be878e9da68745cf9ccc=
-72f75de869094c4fc60&quot;<br>
-+SRC_URI[md5sum] =3D &quot;742c7432ad0f7c3f98291d58fa2e35dc&quot;<br>
-+SRC_URI[sha256sum] =3D &quot;8917ca4fb8f4d693aee18d200cbad166b2c938dfb88c0=
-3bb4ab3d90a7c915e88&quot;<br>
-=A0S =3D &quot;${WORKDIR}/dbus-python-${PV}&quot;<br>
-<br>
-=A0inherit distutils-base autotools pkgconfig<br>
-<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
-1.7.9.5<br>
-<br>
-</font></span></blockquote></div><br>
-
---20cf300fabfbb749ee04c7c29587--
+--------------000408040601080205070107--
