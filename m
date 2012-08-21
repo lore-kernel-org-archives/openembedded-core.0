@@ -1,32 +1,34 @@
-Received: from mail-wi0-f177.google.com ([209.85.212.177])
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <martin.jansa@gmail.com>) id 1T3tSL-00049Q-Nb
+	(envelope-from <raj.khem@gmail.com>) id 1T3tWU-0004Gn-KO
 	for openembedded-core@lists.openembedded.org;
-	Tue, 21 Aug 2012 20:45:37 +0200
-Received: by wibhn17 with SMTP id hn17so88699wib.6
+	Tue, 21 Aug 2012 20:49:54 +0200
+Received: by eekb57 with SMTP id b57so37260eek.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Aug 2012 11:33:34 -0700 (PDT)
+	Tue, 21 Aug 2012 11:37:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=qBYlgx/fN+wCLgO6KAHxmuhMN/GcHb27fJ8ELd5Y06I=;
-	b=APDHnbcgTG+hhRb7U2u5g3oY0IF3chbrzbQ5103XOP3btUKa6LHpvrRx/auc7F0Kft
-	nr7660LAUx8NeCaGoVifWImEgT7z1QYKPpCM964/i7py5NsrENJqEVejTAaaBUfzWP/4
-	h0xh9GNv/hlYEVlJ1Od6XXKsdlroC9Dt62XfBGDAtYjmXcy1LtmEJ8p/6OSiQUaABuit
-	rbsAGsmRBvRecDorntKZeCPn/NxL+0+ES9JZ6RynYSMF8pjBrmJazs5aAlz1NfQtEERe
-	J4Rw6mi8Al+/YlEaoy8MvZaPBqtuUdBqPsSFl32sXUiFs7SFUFHdLvgo4ORcvBumDBmw
-	eRDQ==
-Received: by 10.180.91.228 with SMTP id ch4mr40064724wib.7.1345574013981;
-	Tue, 21 Aug 2012 11:33:33 -0700 (PDT)
-Received: from localhost ([94.230.152.246])
-	by mx.google.com with ESMTPS id ep14sm35618123wid.0.2012.08.21.11.33.31
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 21 Aug 2012 11:33:32 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 21 Aug 2012 20:33:35 +0200
-Message-Id: <1345574015-9390-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.7.8.6
-Subject: [PATCH] gcc: bump PR
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=Vd6wdUlWkChxYTa5dGhVzpdv8l3931JUiB2NhxBFvt8=;
+	b=crdOPnHv6rYEhv77yjYawP5YMRHZsLqqboJtHp44vYpCWggZ6gpKVC8lpmP2D9IFT2
+	2C7MlRyVp1s78Q0GaFUAmhCbAFpIIg7sy0mNehZ8MK6S0r6ZputlE+okSoZj1vYBF0to
+	/4QqTNE17y9Ir8et6n489x6w7ayx9XJfzruwq90lttBIBZgAWujLUyURe8e25/zcHmJu
+	Or9HNUcVXG9y5g/P/dmL2rHvspHkr2Iwd8Joemy9bKnX4F5c/haMHEFk2nOW/LpuI2iY
+	kMIa86nl6rECxrvJENNL4hrN1P9DsUNc0Ogj5iCULh/hoxUNbehEwM1COTkl/YzJqNPj
+	hAig==
+Received: by 10.14.4.201 with SMTP id 49mr14866588eej.0.1345574270709; Tue, 21
+	Aug 2012 11:37:50 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.14.2.5 with HTTP; Tue, 21 Aug 2012 11:37:20 -0700 (PDT)
+In-Reply-To: <50337719.7040801@linaro.org>
+References: <CAMKF1srjqDsesRcWP7oGzouPj9aOt_Ln0aOWE9cEQwpUQ7Unuw@mail.gmail.com>
+	<50337719.7040801@linaro.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 21 Aug 2012 11:37:20 -0700
+Message-ID: <CAMKF1soXoZ4hHkAA0xJCkwP0dh4g7EVW3E-rsc=-gEeMMsBZuA@mail.gmail.com>
+To: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: Toolchain rework, call for testing
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,29 +41,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Aug 2012 18:45:37 -0000
+X-List-Received-Date: Tue, 21 Aug 2012 18:49:54 -0000
+Content-Type: text/plain; charset=UTF-8
 
-* missing in 30617bde61a3b0a0944b49a0c9fb7159dacbb19f, eglibc-initial fails to compile in incremental build with OEBasic
+On Tue, Aug 21, 2012 at 4:55 AM, Marcin Juszkiewicz
+<marcin.juszkiewicz@linaro.org> wrote:
+> W dniu 17.08.2012 06:47, Khem Raj pisze:
+>> Hi All
+>>
+>> Recently glibc build has been simplified upstream. It has dropped the
+>> dependency on libgcc_s and libgcc_eh for building glibc itself.
+>> This means that we can simplify our toolchain bootstrap a bit by
+>> dropping 1 of the 3 cross gcc build stages. We do not need
+>> gcc-cross-intermediate anymore.
+>
+> Please adapt also toolchain-layer in meta-oe for those stuck with gcc 4.6.
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/recipes-devtools/gcc/gcc-4.7.inc |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+Patch for toolchain-layer is sent for meta-linaro The patch is here
 
-diff --git a/meta/recipes-devtools/gcc/gcc-4.7.inc b/meta/recipes-devtools/gcc/gcc-4.7.inc
-index 3f13385..36ce1be 100644
---- a/meta/recipes-devtools/gcc/gcc-4.7.inc
-+++ b/meta/recipes-devtools/gcc/gcc-4.7.inc
-@@ -1,6 +1,6 @@
- require gcc-common.inc
- 
--PR = "r9"
-+PR = "r10"
- 
- # Third digit in PV should be incremented after a minor release
- # happens from this branch on gcc e.g. currently its 4.7.1
--- 
-1.7.8.6
+https://github.com/kraj/meta-linaro/commits/master
 
+please merge into the meta-linaro layer.
+
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
