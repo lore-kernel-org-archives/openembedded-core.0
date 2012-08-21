@@ -1,29 +1,26 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <radu.moisan@intel.com>) id 1T3kGL-0008VC-B0
-	for openembedded-core@lists.openembedded.org;
-	Tue, 21 Aug 2012 10:56:37 +0200
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 21 Aug 2012 01:44:33 -0700
+	(envelope-from <paul.eggleton@linux.intel.com>)
+	id 1T3kLH-0000bW-TD; Tue, 21 Aug 2012 11:01:44 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 21 Aug 2012 01:49:39 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.77,801,1336374000"; 
-	d="scan'208,217";a="207279301"
-Received: from dell-desktop (HELO [10.237.105.32]) ([10.237.105.32])
-	by fmsmga001.fm.intel.com with ESMTP; 21 Aug 2012 01:44:31 -0700
-Message-ID: <50334AFC.8080502@intel.com>
-Date: Tue, 21 Aug 2012 11:46:52 +0300
-From: Radu Moisan <radu.moisan@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:14.0) Gecko/20120714 Thunderbird/14.0
+X-IronPort-AV: E=Sophos;i="4.77,801,1336374000"; d="scan'208";a="189159378"
+Received: from unknown (HELO helios.localnet) ([10.252.121.105])
+	by orsmga002.jf.intel.com with ESMTP; 21 Aug 2012 01:49:38 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: yocto@yoctoproject.org
+Date: Tue, 21 Aug 2012 09:49:37 +0100
+Message-ID: <1570865.4gpYqKP9pu@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.9 (Linux/3.2.0-29-generic-pae; KDE/4.9.0; i686; ; )
+In-Reply-To: <5032A1D3.8090600@windriver.com>
+References: <2404459.dJBf5OQotX@helios> <5032A1D3.8090600@windriver.com>
 MIME-Version: 1.0
-To: Saul Wold <sgw@linux.intel.com>
-References: <1345208727-3029-1-git-send-email-radu.moisan@intel.com>
-	<502E696C.8050304@linux.intel.com> <5031D36D.7040107@intel.com>
-	<503269BC.1000106@linux.intel.com>
-In-Reply-To: <503269BC.1000106@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
+Cc: openembedded-devel@lists.openembedded.org,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH][RFC] coreutils: Upgrade to upstream version 8.17
+Subject: Re: [yocto] RFC: OE-Core task rework
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,132 +33,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Aug 2012 08:56:37 -0000
-Content-Type: multipart/alternative;
-	boundary="------------000408040601080205070107"
+X-List-Received-Date: Tue, 21 Aug 2012 09:01:44 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
---------------000408040601080205070107
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+On Monday 20 August 2012 15:45:07 Mark Hatle wrote:
+> > 1) Do we rename "task" to something a little more understandable to the
+> > uninitiated, such as "package group"? The word "task" is already used in a
+> > much more natural sense within bitbake as a unit of work. Historically I
+> > believe we picked up this term from Debian but I'm not aware of
+> > significant use by other mainstream distributions.
+> 
+> "group" or "packagegroup" or "package-group" is my suggestion for the
+> existing 'task' recipes.  From what I've seen, it should be a rename
+> opportunity -- we can even provide/rprovide the old names....
+
+Indeed, and I think we would for compatibility purposes.
+ 
+> > 2) Look at the existing tasks and:
+> >   * evaluate their usefulness
+> >   * remove any that are obsolete
+> >   * adjust existing contents if needed
+> >   * look for useful groups of packages that might be added
+> >   
+> >   We need to pay particular attention to task-core-boot and task-base as
+> >   these> 
+> > are pulled in by default in any image that inherits from
+> > core-image.bbclass - if these are not generally working for people that
+> > are creating their own images, we need to change them such that they are.
+> 
+> During the pre-oe-core Yocto Project development, a design was generated to
+> roughly group the packages into functional areas.  For the most part, this
+> design (as well as legacy elements) still exist.
+> 
+> I think the boot, base and others need to be evaluated for usefulness... but
+> my feeling is most of them are close to being correct.
+
+I think so as well. We may be pulling in one or two packages unconditionally 
+where they should be optional (e.g. modutils-initscripts?) but most of it is 
+pretty sensible.
+ 
+> >   *  Try to make each task have a reasonable name - there are some current
+> >   uses of "core" and "base" that don't actually convey any meaning; LSB
+> >   specific tasks should be named as such, etc.
+> 
+> Yup, there is a logical grouping for the lsb specific tasks, as for others. 
+> The naming needs to be made clear as to why it's there, and what it
+> represents. Same with the summary and descriptions -- they should list the
+> functionality provided by this group of components.
+
+The main concern with LSB is that we have something called task-basic, which 
+seems to be intended for LSB but does not state as much, and I know at least 
+one person has tried to use it and then been a little puzzled as to why rpm 
+has been pulled in when ipk packaging has been selected. Just naming some of 
+these tasks more appropriately would help avoid such situations. In the 
+specific case of task-basic there may be a case for creating a similar but not 
+LSB-focused task that pulls in real shell utilities in preference to the light 
+versions provided by busybox.
+
+> > 4) Consider the usefulness of the existing PACKAGE_GROUP_ structure which
+> > converts some IMAGE_FEATURES into the addition of tasks to be installed
+> > (see classes/core-image.bbclass). At the very least we should probably
+> > rename this if we rename tasks to package groups, and there's a question
+> > as to how IMAGE_FEATURES scales - should every task be represented in
+> > there or only a select list? Would we be better off not trying to bring
+> > any tasks in via IMAGE_FEATURES at all and mostly leave that to control
+> > post-processing (e.g. package-management, debug-tweaks, etc.)?
+> 
+> I'd certainly prefer that images were limited to selecting software from
+> task (group) recipes only, and not providing their own.  An image should be
+> able to change the selection based on an "image feature" or similar
+> configuration, but the underlying tasks/groups, recipes, etc should all be
+> 'generic' to a given distribution configuration.
+
+The first part seems reasonable to me; but I'm still short of an answer as to 
+what to do with the existing IMAGE_FEATURES code as mentioned above. At the 
+moment aside from the special features such as debug-tweaks, these are just a 
+thin layer on top of task recipes which doesn't add very much at all other 
+than extra maintenance.
+
+> I think if you go through the images today, a lot of that stuff is either
+> old, or could be simplified by creating appropriate tasks/groups.
+
+OK, that's a good point. I have another task on my list to clean up our image 
+recipes and that would be a good segue into that.
+
+Cheers,
+Paul
+
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
->>> Your new patch needs a header, explaining why, and adding
->>> Upstream-Status and Signed-off-by tags.
->>>
->> I meant this only as an RFC, to get feedback for my patch, from a
->> functional point of view, it is not intended to be the final patch.
->> I have a Signed-off-by tag, are you referring to something else?
->> Can you give me more details about Upstream-Status? I've google'd this
->> problem for a bit but could not find an existing patch for it, nor a bug
->> filled for this matter. Since I don't know yet if what I'm fixing it's
->> really a bug (or a misconfiguration on my side) I send this RFC to get a
->> hold of whether I'm on the good track here or not. If this patch turns
->> out to be valid, I'll get in touch with the guys from coreutils' mailing
->> lists, and try to push it upstream.
->
-> Radu,
->
-> For patches included in a given recipe we also have Signed-off-by as 
-> well as the Upstream-Status tag as defined by:
->
-> http://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
->
-> Please review this again.
-Soul,
-I understood your point, and in the *actual* patch I will update the 
-Sign-off-by and a short description, and an Upstream Status. However, I 
-reviewed again  Commit_Patch_Message_Guidelines and there is nothing in 
-there mentioned about RFCs. This is an RFC, and it was intended to get a 
-quick feedback from people more familiar/experienced with 
-coreutils/autotools. I need feedback about the functional change of this 
-patch. In my first reply I described as extensively as I could my 
-problem and my question.
-
-As far as the RFCs go, how long should I wait on an RFC? It's been more 
-then a few days and nobody commented. Would it be appropriate to assume 
-that if nobody had any comments, the patch is valid?
-
-Radu
-
---------------000408040601080205070107
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
-
-<html>
-  <head>
-    <meta content="text/html; charset=ISO-8859-1"
-      http-equiv="Content-Type">
-  </head>
-  <body bgcolor="#FFFFFF" text="#000000">
-    <br>
-    <blockquote cite="mid:503269BC.1000106@linux.intel.com" type="cite">
-      <blockquote type="cite">
-        <blockquote type="cite">Your new patch needs a header,
-          explaining why, and adding
-          <br>
-          Upstream-Status and Signed-off-by tags.
-          <br>
-          <br>
-        </blockquote>
-        I meant this only as an RFC, to get feedback for my patch, from
-        a
-        <br>
-        functional point of view, it is not intended to be the final
-        patch.
-        <br>
-        I have a Signed-off-by tag, are you referring to something else?
-        <br>
-        Can you give me more details about Upstream-Status? I've
-        google'd this
-        <br>
-        problem for a bit but could not find an existing patch for it,
-        nor a bug
-        <br>
-        filled for this matter. Since I don't know yet if what I'm
-        fixing it's
-        <br>
-        really a bug (or a misconfiguration on my side) I send this RFC
-        to get a
-        <br>
-        hold of whether I'm on the good track here or not. If this patch
-        turns
-        <br>
-        out to be valid, I'll get in touch with the guys from coreutils'
-        mailing
-        <br>
-        lists, and try to push it upstream.
-        <br>
-      </blockquote>
-      <br>
-      Radu,
-      <br>
-      <br>
-      For patches included in a given recipe we also have Signed-off-by
-      as well as the Upstream-Status tag as defined by:
-      <br>
-      <br>
-      <a class="moz-txt-link-freetext" href="http://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines">http://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines</a>
-      <br>
-      <br>
-      Please review this again.
-      <br>
-    </blockquote>
-    Soul,<br>
-    I understood your point, and in the <b>actual</b> patch I will
-    update the Sign-off-by and a short description, and an Upstream
-    Status. However, I reviewed again&nbsp; Commit_Patch_Message_Guidelines
-    and there is nothing in there mentioned about RFCs. This is an RFC,
-    and it was intended to get a quick feedback from people more
-    familiar/experienced with coreutils/autotools. I need feedback about
-    the functional change of this patch. In my first reply I described
-    as extensively as I could my problem and my question. <br>
-    <br>
-    As far as the RFCs go, how long should I wait on an RFC? It's been
-    more then a few days and nobody commented. Would it be appropriate
-    to assume that if nobody had any comments, the patch is valid?<br>
-    <br>
-    Radu<br>
-  </body>
-</html>
-
---------------000408040601080205070107--
