@@ -1,20 +1,20 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <radu.moisan@intel.com>) id 1T3mxS-0003Iu-HG
+	(envelope-from <radu.moisan@intel.com>) id 1T3n6H-0003P1-Ae
 	for openembedded-core@lists.openembedded.org;
-	Tue, 21 Aug 2012 13:49:19 +0200
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by fmsmga102.fm.intel.com with ESMTP; 21 Aug 2012 04:37:14 -0700
+	Tue, 21 Aug 2012 13:58:25 +0200
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 21 Aug 2012 04:46:21 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.77,802,1336374000"; d="scan'208";a="183459747"
+X-IronPort-AV: E=Sophos;i="4.77,802,1336374000"; d="scan'208";a="183395608"
 Received: from dell-desktop (HELO localhost.localdomain) ([10.237.105.32])
-	by azsmga001.ch.intel.com with ESMTP; 21 Aug 2012 04:37:12 -0700
+	by orsmga001.jf.intel.com with ESMTP; 21 Aug 2012 04:46:19 -0700
 From: Radu Moisan <radu.moisan@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 21 Aug 2012 14:39:28 +0300
-Message-Id: <1345549168-17747-1-git-send-email-radu.moisan@intel.com>
+Date: Tue, 21 Aug 2012 14:48:38 +0300
+Message-Id: <1345549718-18242-1-git-send-email-radu.moisan@intel.com>
 X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH v2] grub-efi-native: Update to version 2.00
+Subject: [PATCH v3] grub-efi-native: Update to version 2.00
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -27,7 +27,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Aug 2012 11:49:19 -0000
+X-List-Received-Date: Tue, 21 Aug 2012 11:58:25 -0000
 
 Added -Wno-unused-result because of a read() with no result, and causing
 error due to -Werror
@@ -39,10 +39,10 @@ Signed-off-by: Radu Moisan <radu.moisan@intel.com>
  ...2man.patch => grub-2.00-disable-help2man.patch} |  117 +++-----------------
  ...grub-2.00-fix-enable_execute_stack-check.patch} |    8 +-
  ...ix.patch => grub-2.00-fpmath-sse-387-fix.patch} |    0
- .../grub/files/grub-no-unused-result.patch         |   13 +++
+ .../grub/files/grub-no-unused-result.patch         |   18 +++
  ...-efi-native_1.99.bb => grub-efi-native_2.00.bb} |   18 ++-
  meta/recipes-bsp/grub/grub_2.00.bb                 |    2 +-
- 6 files changed, 42 insertions(+), 116 deletions(-)
+ 6 files changed, 47 insertions(+), 116 deletions(-)
  rename meta/recipes-bsp/grub/files/{grub-1.99-disable-help2man.patch => grub-2.00-disable-help2man.patch} (54%)
  rename meta/recipes-bsp/grub/files/{grub-1.99-fix-enable_execute_stack-check.patch => grub-2.00-fix-enable_execute_stack-check.patch} (92%)
  rename meta/recipes-bsp/grub/files/{grub-1.99-fpmath-sse-387-fix.patch => grub-2.00-fpmath-sse-387-fix.patch} (100%)
@@ -264,10 +264,15 @@ rename from meta/recipes-bsp/grub/files/grub-1.99-fpmath-sse-387-fix.patch
 rename to meta/recipes-bsp/grub/files/grub-2.00-fpmath-sse-387-fix.patch
 diff --git a/meta/recipes-bsp/grub/files/grub-no-unused-result.patch b/meta/recipes-bsp/grub/files/grub-no-unused-result.patch
 new file mode 100644
-index 0000000..16f99ed
+index 0000000..ecd7f36
 --- /dev/null
 +++ b/meta/recipes-bsp/grub/files/grub-no-unused-result.patch
-@@ -0,0 +1,13 @@
+@@ -0,0 +1,18 @@
++Signed-off-by: Radu Moisan <radu.moisan@intel.com>
++
++I had an error because of an unused return value for read().
++I added -Wno-unused-result.
++
 +Index: grub-2.00/configure.ac
 +===================================================================
 +--- grub-2.00.orig/configure.ac	2012-08-13 16:32:33.000000000 +0300
