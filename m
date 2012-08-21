@@ -1,28 +1,24 @@
-Received: from stoexhubfe01.domain01.net ([83.145.59.140])
+Received: from mail.windriver.com ([147.11.1.11])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <anders@chargestorm.se>) id 1T3hKH-0004Pe-0x
+	(envelope-from <Liezhi.Yang@windriver.com>) id 1T3iWR-0006T1-Tw
 	for openembedded-core@lists.openembedded.org;
-	Tue, 21 Aug 2012 07:48:29 +0200
-Received: from localhost (193.41.119.134) by stoexhubfe01.domain01.net
-	(10.12.10.6) with Microsoft SMTP Server id 8.3.245.1; Tue, 21 Aug 2012
-	07:35:38 +0200
-Date: Tue, 21 Aug 2012 07:36:42 +0200
-From: Anders Darander <anders@chargestorm.se>
+	Tue, 21 Aug 2012 09:05:08 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id q7L6r3rF013188
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 20 Aug 2012 23:53:03 -0700 (PDT)
+Received: from usp-ub10.corp.ad.wrs.com (128.224.163.69) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.309.2; Mon, 20 Aug 2012 23:53:01 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Message-ID: <20120821053641.GB9188@ad.chargestorm.se>
-Mail-Followup-To: openembedded-core@lists.openembedded.org
-References: <1345471653-4604-1-git-send-email-radu.moisan@intel.com>
-	<2290927.ckQsIm3pt4@helios>
+Date: Tue, 21 Aug 2012 14:48:47 +0800
+Message-ID: <cover.1345519167.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.1
 MIME-Version: 1.0
-In-Reply-To: <2290927.ckQsIm3pt4@helios>
-X-Accept-Language: sv, en, de
-X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
-X-GPG-Key-Id: 0x920E938C
-X-GPG-Keyserver: hkp://keys.gnupg.net
-Organization: ChargeStorm AB
-User-Agent: Mutt/1.5.20 (2009-12-10)
-X-GFI-SMTP-Submission: 1
-Subject: Re: [PATCH v3] busybox: Upgrade to upstream 1.20.2
+Cc: Zhenfeng.Zhao@windriver.com
+Subject: [PATCH 0/1] package_rpm.bbclass: fix and enhance the incremental rpm generation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -35,40 +31,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Aug 2012 05:48:29 -0000
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
+X-List-Received-Date: Tue, 21 Aug 2012 07:05:08 -0000
+Content-Type: text/plain
 
-* Paul Eggleton <paul.eggleton@linux.intel.com> [120820 16:18]:
+* Test info:
+$ bitbake core-image-sato core-image-sato-sdk meta-toolchain meta-toolchain-sdk
+$ bitbake package-index
 
-> On Monday 20 August 2012 17:07:33 Radu Moisan wrote:
-> > +CONFIG_CROSS_COMPILER_PREFIX="i586-poky-linux-"
+Tested the incremental rpm generation based on core-image-minimal and
+core-image-sato
 
-> I think we probably want to clear this value as it was before - just for 
-> stylistic reasons, it won't make any actual difference to the output.
+* Note: it doesn't have any conflict with the "Install external binary packages"
+  patches which are in Patch Review.
 
-Yes, we want to do that. Just as we want to also clear
-CONFIG_EXTRA_CFLAGS using the same reasoning.
+// Robert
 
-See the extracted part of the patch below.
+The following changes since commit 7c40daab587306da25c8d8f566392ee1f57bbef4:
 
-Cheers
-/Anders
+  qemu: Fix broken accidental path move (2012-08-20 17:25:28 +0100)
 
--CONFIG_CROSS_COMPILER_PREFIX=""
--CONFIG_EXTRA_CFLAGS=""
-+CONFIG_CROSS_COMPILER_PREFIX="i586-poky-linux-"
-+CONFIG_SYSROOT=""
-+CONFIG_EXTRA_CFLAGS=" -O2 -pipe -g -feliminate-unused-debug-types"
-+CONFIG_EXTRA_LDFLAGS=""
-+CONFIG_EXTRA_LDLIBS=""
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib robert/inc_rpm
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=robert/inc_rpm
 
+Robert Yang (1):
+  package_rpm.bbclass: fix and enhance the incremental rpm generation
 
+ meta/classes/package_rpm.bbclass |   68 ++++++++++++++++++++++++--------------
+ 1 files changed, 43 insertions(+), 25 deletions(-)
 
-> Cheers,
-> Paul
--- 
-Anders Darander
-ChargeStorm AB / eStorm AB
 
 
