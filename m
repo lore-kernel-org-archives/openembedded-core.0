@@ -1,38 +1,23 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>) id 1T3tPz-0003xs-0o
+	(envelope-from <Peter.Seebach@windriver.com>) id 1T3tQk-00040S-SF
 	for openembedded-core@lists.openembedded.org;
-	Tue, 21 Aug 2012 20:43:11 +0200
-Received: by eaad12 with SMTP id d12so35859eaa.6
+	Tue, 21 Aug 2012 20:43:59 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q7LIVrQi001693
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Aug 2012 11:31:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=w5hH7+TCjk2q+Pq7AWavL2ISRDqh8I1kN5hxFNWoomc=;
-	b=k3ynILJCSkUW5OroTuljogBygsAR64ITn3izRRiFrj2rnOjAvHAIx9NqtzOmnP+CI+
-	tIaCxSItXbqz1tINhPg/npZNbSEYpny9t1+zuSpbYp4TZOcexkKODnVt3GL+Ywc9jjHV
-	0VvSh9ec6e20YZ3Z0HOIUsXUTyrdnJdo+HFdyVq9VcIYHTVIkLZiVGRR4YVaRABNAC4T
-	Zj9dyseBuZ0NkO9/Yxh/Ci2MnookJ+/FZpgeV7qttpVS0sW5mdmtuXX2eXZxM+OFkGce
-	7iRX+Wb+eTAOLMQ+MP4T1Jjom/nPXNHyK+rK5HCUGZyRq72xl2vchEy0ltBbeWXPJBAB
-	x4Zg==
-Received: by 10.14.4.201 with SMTP id 49mr14840595eej.0.1345573867088; Tue, 21
-	Aug 2012 11:31:07 -0700 (PDT)
+	Tue, 21 Aug 2012 11:31:53 -0700 (PDT)
+Received: from localhost.localdomain (172.25.34.64) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.309.2;
+	Tue, 21 Aug 2012 11:31:53 -0700
+From: Peter Seebach <peter.seebach@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 21 Aug 2012 13:31:51 -0500
+Message-ID: <cover.1345573717.git.peter.seebach@windriver.com>
+X-Mailer: git-send-email 1.7.0.4
 MIME-Version: 1.0
-Received: by 10.14.2.5 with HTTP; Tue, 21 Aug 2012 11:30:36 -0700 (PDT)
-In-Reply-To: <CAEsOVNeFeP9DTnsZhOBT1Ntr3P7Maw_UJmnVAL6c0D1Cu17W1w@mail.gmail.com>
-References: <1345566017-15508-1-git-send-email-msm@freescale.com>
-	<CAMKF1sp2eYPuaU0yF-BBX9DNjPHwFjfOknLen10gog1n3spDfA@mail.gmail.com>
-	<CAEsOVNcX=DeAbNpcMPP_sZPzgqN+uKksgodhS6-fTGAaZkLx9Q@mail.gmail.com>
-	<CAMKF1sphgACT00prBya6svo_dbcV2hOGdj1ACk1hVUyEvqtNEQ@mail.gmail.com>
-	<CAEsOVNeFeP9DTnsZhOBT1Ntr3P7Maw_UJmnVAL6c0D1Cu17W1w@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 21 Aug 2012 11:30:36 -0700
-Message-ID: <CAMKF1sqAvkE=TM3KeAdW3DjaPWpDi6=8ZAGpOgBDHR7hXDwsug@mail.gmail.com>
-To: McClintock Matthew-B29882 <B29882@freescale.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] kmod-native_git.bb: fix builds for hosts with older libc
+Subject: [PATCH 0/1] Move PSEUDO_LOCALSTATEDIR outside rootfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -45,58 +30,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Aug 2012 18:43:11 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 21 Aug 2012 18:43:59 -0000
+Content-Type: text/plain
 
-On Tue, Aug 21, 2012 at 11:10 AM, McClintock Matthew-B29882
-<B29882@freescale.com> wrote:
-> On Tue, Aug 21, 2012 at 1:06 PM, Khem Raj <raj.khem@gmail.com> wrote:
->> On Tue, Aug 21, 2012 at 10:59 AM, McClintock Matthew-B29882
->> <B29882@freescale.com> wrote:
->>> On Tue, Aug 21, 2012 at 12:54 PM, Khem Raj <raj.khem@gmail.com> wrote:
->>>> On Tue, Aug 21, 2012 at 9:20 AM, Matthew McClintock <msm@freescale.com> wrote:
->>>>> +
->>>>> +do_configure_prepend (){
->>>>> +       if ! grep O_CLOEXEC -r ${includedir_native}/bits/fcntl.h; then
->>>>> +               export CFLAGS="$CFLAGS -D O_CLOEXEC=0"
->>>>> +       fi
->>>>> +}
->>>>
->>>>
->>>> IMO It would be safer to create a patch for kmod itself where you
->>>> define O_CLOEXEC if it
->>>> was not defined before. The above seems a bit risky
->>>
->>> Why is it risky? I only wanted to do this for affected systems. There
->>> is not an easy way to do this with a patch, unless of course I apply
->>> the patch manually.
->>
->> manually gripping at the host installation and then if O_CLOEXEC might
->> be in comments
->
-> How about grep define.*O_CLOEXEC -r ${includedir_native}/bits/fcntl.h
->
->> and furthermore it if it comes from fcntl.h which is not where you are
->> looking for
->
-> I am grepping this file though?
+There's a race condition in one of our (non-poky) builds which involves
+a rootfs getting deleted while a pseudo process has a db in it open.
+This caused me to realize that there existed a pseudo database in a
+target filesystem, which made me panic. And we have a few really strange
+reports I've never been able to reproduce where target filesystems
+under qemu went pear-shaped in ways that look like pseudo suddenly
+got really, really, confused.
 
-I would go into the specific file where its asking for O_CLOEXEC
+Like say what would happen if a target could wipe out its own filesystem
+permissions, because they were in its rootfs. :P
 
-and add
+I haven't tested this super thoroughly, but I can still complete builds
+and SDK builds with it, and it makes sense.
 
-#ifndef O_CLOEXEC
-# define O_CLOEXEC 0
-#endif
+The following changes since commit 4ef8960c8d2876914bb78cbdce5fae3c5297e942:
+  Khem Raj (1):
+        gcc-cross-intermediate, gcc-crosssdk-intermediate: Remove
 
-and be done with it
+are available in the git repository at:
 
->
->> there are few variables like that where its impacting more than
->> affected systems.
->
-> I don't follow...
->
-> -M
+  git://git.yoctoproject.org/poky-contrib seebs/varpseudo
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=seebs/varpseudo
+
+Peter Seebach (1):
+  runqemu-export-rootfs and friends: don't put pseudo db in target fs
+
+ .../installer/adt-installer/scripts/extract_rootfs |    7 +++----
+ scripts/runqemu-export-rootfs                      |    2 +-
+ scripts/runqemu-extract-sdk                        |   13 +++++++------
+ 3 files changed, 11 insertions(+), 11 deletions(-)
+
 
 
