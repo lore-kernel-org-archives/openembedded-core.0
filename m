@@ -1,38 +1,26 @@
-Received: from va3ehsobe002.messaging.microsoft.com ([216.32.180.12]
-	helo=va3outboundpool.messaging.microsoft.com)
+Received: from mail-ee0-f47.google.com ([74.125.83.47])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1T3tel-0004XF-79
+	(envelope-from <raj.khem@gmail.com>) id 1T3tgq-0004yw-5x
 	for openembedded-core@lists.openembedded.org;
-	Tue, 21 Aug 2012 20:58:27 +0200
-Received: from mail141-va3-R.bigfish.com (10.7.14.236) by
-	VA3EHSOBE009.bigfish.com (10.7.40.29) with Microsoft SMTP Server id
-	14.1.225.23; Tue, 21 Aug 2012 18:46:22 +0000
-Received: from mail141-va3 (localhost [127.0.0.1])	by
-	mail141-va3-R.bigfish.com (Postfix) with ESMTP id D678C2C0142;
-	Tue, 21 Aug 2012 18:46:22 +0000 (UTC)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-X-SpamScore: -3
-X-BigFish: VS-3(zzbb2dI98dI9371I1432Izz1202hzz8275bh8275dhz2dh2a8h668h839h8e2h8e3hf0ah107ah10d2hbe9i)
-Received: from mail141-va3 (localhost.localdomain [127.0.0.1]) by mail141-va3
-	(MessageSwitch) id 1345574781183782_29703;
-	Tue, 21 Aug 2012 18:46:21 +0000 (UTC)
-Received: from VA3EHSMHS001.bigfish.com (unknown [10.7.14.241])	by
-	mail141-va3.bigfish.com (Postfix) with ESMTP id 28601800C4;
-	Tue, 21 Aug 2012 18:46:21 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by VA3EHSMHS001.bigfish.com
-	(10.7.99.11) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Tue, 21 Aug 2012 18:46:20 +0000
-Received: from 039-SN1MPN1-001.039d.mgd.msft.net ([169.254.1.41]) by
-	039-SN1MMR1-004.039d.mgd.msft.net ([::1]) with mapi id 14.02.0309.003;
-	Tue, 21 Aug 2012 13:46:19 -0500
-From: McClintock Matthew-B29882 <B29882@freescale.com>
-To: Saul Wold <sgw@linux.intel.com>
-Thread-Topic: [OE-core] [PATCH v2] kmod-native_git.bb: fix builds for hosts
-	with older libc
-Thread-Index: AQHNf8YH40JdCKhtsEicym6VlWG4D5dk4bEAgAAB8wCAAADlAIAABdkAgAADHACAAAEugA==
-Date: Tue, 21 Aug 2012 18:46:19 +0000
-Message-ID: <CAEsOVNct-W7wCB9TrVL2FkPg73i0xCnZ-bKyMjdM0vdjqZtq_w@mail.gmail.com>
+	Tue, 21 Aug 2012 21:00:36 +0200
+Received: by eekb57 with SMTP id b57so40050eek.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 21 Aug 2012 11:48:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=ijTnz2/myMIdGTOcf18ubmZkxC4iPrDs8x9gyE1p2iM=;
+	b=rndg1GNzw6+q50xtKnGkI+A2ZRa/b3HkK2VRq6uc19YiW4sokcmSnsqojqFni+eAq9
+	R/tU5oU/4r3kaVWSnjNWsE1Rk/UH1xs/ChT3T4oVDZR0c1cmnWiFjngVZZIw3TT7Qgm0
+	IBVDUidUI/SlaTuHiW2PbaLI8RbJIBsSjLT5Pc4uh6QxYl1rq1pHTrIS+vuVtfIlsXAD
+	p8LYv/r03nizwxwIgL/k14fUvu25lgFWnxvuXNjOdzBIQWXSjqDFAt8aS5ZPpkaUgG7m
+	mnz/EFXf+bRxwgvLwpDNC5+X8M6B6TAnsr+pWsJt+q1lVeb7CF64s6UuwzvEMU1ml6kl
+	sVGg==
+Received: by 10.14.211.3 with SMTP id v3mr14678864eeo.43.1345574912428; Tue,
+	21 Aug 2012 11:48:32 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.14.2.5 with HTTP; Tue, 21 Aug 2012 11:48:02 -0700 (PDT)
+In-Reply-To: <5033D668.3070909@linux.intel.com>
 References: <1345566017-15508-1-git-send-email-msm@freescale.com>
 	<CAMKF1sp2eYPuaU0yF-BBX9DNjPHwFjfOknLen10gog1n3spDfA@mail.gmail.com>
 	<CAEsOVNcX=DeAbNpcMPP_sZPzgqN+uKksgodhS6-fTGAaZkLx9Q@mail.gmail.com>
@@ -40,13 +28,10 @@ References: <1345566017-15508-1-git-send-email-msm@freescale.com>
 	<CAEsOVNeFeP9DTnsZhOBT1Ntr3P7Maw_UJmnVAL6c0D1Cu17W1w@mail.gmail.com>
 	<CAMKF1sqAvkE=TM3KeAdW3DjaPWpDi6=8ZAGpOgBDHR7hXDwsug@mail.gmail.com>
 	<5033D668.3070909@linux.intel.com>
-In-Reply-To: <5033D668.3070909@linux.intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [70.112.201.132]
-MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 21 Aug 2012 11:48:02 -0700
+Message-ID: <CAMKF1spHrm52LmxO=b7G4i_DmSY+eNVR_2=LUX2bqKUGTyxgaQ@mail.gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
 Cc: McClintock Matthew-B29882 <B29882@freescale.com>,
 	"openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
@@ -54,7 +39,6 @@ Subject: Re: [PATCH v2] kmod-native_git.bb: fix builds for hosts with older libc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/options/openembedded-core>,
@@ -64,13 +48,10 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Aug 2012 18:58:27 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <805CDE6159ADCD48BD02661B346EA882@mgd.freescale.com>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 21 Aug 2012 19:00:36 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Tue, Aug 21, 2012 at 1:41 PM, Saul Wold <sgw@linux.intel.com> wrote:
+On Tue, Aug 21, 2012 at 11:41 AM, Saul Wold <sgw@linux.intel.com> wrote:
 > On 08/21/2012 11:30 AM, Khem Raj wrote:
 >>
 >> On Tue, Aug 21, 2012 at 11:10 AM, McClintock Matthew-B29882
@@ -81,8 +62,7 @@ On Tue, Aug 21, 2012 at 1:41 PM, Saul Wold <sgw@linux.intel.com> wrote:
 >>>> On Tue, Aug 21, 2012 at 10:59 AM, McClintock Matthew-B29882
 >>>> <B29882@freescale.com> wrote:
 >>>>>
->>>>> On Tue, Aug 21, 2012 at 12:54 PM, Khem Raj <raj.khem@gmail.com> wrote=
-:
+>>>>> On Tue, Aug 21, 2012 at 12:54 PM, Khem Raj <raj.khem@gmail.com> wrote:
 >>>>>>
 >>>>>> On Tue, Aug 21, 2012 at 9:20 AM, Matthew McClintock
 >>>>>> <msm@freescale.com> wrote:
@@ -91,7 +71,7 @@ On Tue, Aug 21, 2012 at 1:41 PM, Saul Wold <sgw@linux.intel.com> wrote:
 >>>>>>> +do_configure_prepend (){
 >>>>>>> +       if ! grep O_CLOEXEC -r ${includedir_native}/bits/fcntl.h;
 >>>>>>> then
->>>>>>> +               export CFLAGS=3D"$CFLAGS -D O_CLOEXEC=3D0"
+>>>>>>> +               export CFLAGS="$CFLAGS -D O_CLOEXEC=0"
 >>>>>>> +       fi
 >>>>>>> +}
 >>>>>>
@@ -132,20 +112,17 @@ On Tue, Aug 21, 2012 at 1:41 PM, Saul Wold <sgw@linux.intel.com> wrote:
 >>
 > Wasn't this proposed back a month ago:
 >
-> http://lists.linuxtogo.org/pipermail/openembedded-core/2012-July/026343.h=
-tml
+> http://lists.linuxtogo.org/pipermail/openembedded-core/2012-July/026343.html
 >
-> And there was discussion about that approach then? I think it was rejecte=
-d
+> And there was discussion about that approach then? I think it was rejected
 > due to lack of testing.
 
-Then we had a bit more analysis and discussion on the issue and others
-chimed in they had implemented similar work arounds... it's all in
-that thread.
-
--M
+I think if it worked fine on a system like cents 5.8 then that would
+cover the case
+as well try it on newer systems where O_CLOEXEC is available that should do it.
 
 >
+> Sau!
 >
 >>>
 >>>> there are few variables like that where its impacting more than
@@ -164,10 +141,5 @@ that thread.
 >>
 >>
 >
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core=
-
 
 
