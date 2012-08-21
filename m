@@ -1,32 +1,45 @@
-Received: from mga02.intel.com ([134.134.136.20])
+Received: from ch1ehsobe005.messaging.microsoft.com ([216.32.181.185]
+	helo=ch1outboundpool.messaging.microsoft.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1T3taK-0004Pc-3l
+	(envelope-from <B29882@freescale.com>) id 1T3tcu-0004Tx-3d
 	for openembedded-core@lists.openembedded.org;
-	Tue, 21 Aug 2012 20:53:52 +0200
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by orsmga101.jf.intel.com with ESMTP; 21 Aug 2012 11:41:45 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.77,803,1336374000"; d="scan'208";a="136584075"
-Received: from unknown (HELO [10.255.13.49]) ([10.255.13.49])
-	by AZSMGA002.ch.intel.com with ESMTP; 21 Aug 2012 11:41:44 -0700
-Message-ID: <5033D668.3070909@linux.intel.com>
-Date: Tue, 21 Aug 2012 11:41:44 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:14.0) Gecko/20120717 Thunderbird/14.0
+	Tue, 21 Aug 2012 20:56:32 +0200
+Received: from mail132-ch1-R.bigfish.com (10.43.68.239) by
+	CH1EHSOBE011.bigfish.com (10.43.70.61) with Microsoft SMTP Server id
+	14.1.225.23; Tue, 21 Aug 2012 18:44:27 +0000
+Received: from mail132-ch1 (localhost [127.0.0.1])	by
+	mail132-ch1-R.bigfish.com (Postfix) with ESMTP id C27C22C0434	for
+	<openembedded-core@lists.openembedded.org>;
+	Tue, 21 Aug 2012 18:44:27 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-SpamScore: -2
+X-BigFish: VS-2(zzc1dMzz1202h1082kzz8275bhz2dh2a8h668h839hd24he5bhf0ah107ah)
+Received: from mail132-ch1 (localhost.localdomain [127.0.0.1]) by mail132-ch1
+	(MessageSwitch) id 1345574665692823_32216;
+	Tue, 21 Aug 2012 18:44:25 +0000 (UTC)
+Received: from CH1EHSMHS002.bigfish.com (snatpool2.int.messaging.microsoft.com
+	[10.43.68.232])	by mail132-ch1.bigfish.com (Postfix) with ESMTP id
+	A5522100052	for <openembedded-core@lists.openembedded.org>;
+	Tue, 21 Aug 2012 18:44:25 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by CH1EHSMHS002.bigfish.com
+	(10.43.70.2) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Tue, 21 Aug 2012 18:44:23 +0000
+Received: from tx30smr01.am.freescale.net (10.81.153.31) by
+	039-SN1MMR1-003.039d.mgd.msft.net (10.84.1.16) with Microsoft SMTP
+	Server (TLS) id 14.2.309.3; Tue, 21 Aug 2012 13:44:22 -0500
+Received: from right.am.freescale.net (right.am.freescale.net [10.82.176.228])
+	by tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id
+	q7LIiM7a025840 for <openembedded-core@lists.openembedded.org>;
+	Tue, 21 Aug 2012 11:44:22 -0700
+From: Matthew McClintock <msm@freescale.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 21 Aug 2012 13:44:21 -0500
+Message-ID: <1345574661-23816-1-git-send-email-msm@freescale.com>
+X-Mailer: git-send-email 1.7.9.7
 MIME-Version: 1.0
-To: Khem Raj <raj.khem@gmail.com>
-References: <1345566017-15508-1-git-send-email-msm@freescale.com>
-	<CAMKF1sp2eYPuaU0yF-BBX9DNjPHwFjfOknLen10gog1n3spDfA@mail.gmail.com>
-	<CAEsOVNcX=DeAbNpcMPP_sZPzgqN+uKksgodhS6-fTGAaZkLx9Q@mail.gmail.com>
-	<CAMKF1sphgACT00prBya6svo_dbcV2hOGdj1ACk1hVUyEvqtNEQ@mail.gmail.com>
-	<CAEsOVNeFeP9DTnsZhOBT1Ntr3P7Maw_UJmnVAL6c0D1Cu17W1w@mail.gmail.com>
-	<CAMKF1sqAvkE=TM3KeAdW3DjaPWpDi6=8ZAGpOgBDHR7hXDwsug@mail.gmail.com>
-In-Reply-To: <CAMKF1sqAvkE=TM3KeAdW3DjaPWpDi6=8ZAGpOgBDHR7hXDwsug@mail.gmail.com>
-Cc: McClintock Matthew-B29882 <B29882@freescale.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] kmod-native_git.bb: fix builds for hosts with older libc
+X-OriginatorOrg: freescale.com
+Subject: [PATCH] distutils.bblass: change order of args to install step
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -39,76 +52,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Aug 2012 18:53:52 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 21 Aug 2012 18:56:32 -0000
+Content-Type: text/plain
 
-On 08/21/2012 11:30 AM, Khem Raj wrote:
-> On Tue, Aug 21, 2012 at 11:10 AM, McClintock Matthew-B29882
-> <B29882@freescale.com> wrote:
->> On Tue, Aug 21, 2012 at 1:06 PM, Khem Raj <raj.khem@gmail.com> wrote:
->>> On Tue, Aug 21, 2012 at 10:59 AM, McClintock Matthew-B29882
->>> <B29882@freescale.com> wrote:
->>>> On Tue, Aug 21, 2012 at 12:54 PM, Khem Raj <raj.khem@gmail.com> wrote:
->>>>> On Tue, Aug 21, 2012 at 9:20 AM, Matthew McClintock <msm@freescale.com> wrote:
->>>>>> +
->>>>>> +do_configure_prepend (){
->>>>>> +       if ! grep O_CLOEXEC -r ${includedir_native}/bits/fcntl.h; then
->>>>>> +               export CFLAGS="$CFLAGS -D O_CLOEXEC=0"
->>>>>> +       fi
->>>>>> +}
->>>>>
->>>>>
->>>>> IMO It would be safer to create a patch for kmod itself where you
->>>>> define O_CLOEXEC if it
->>>>> was not defined before. The above seems a bit risky
->>>>
->>>> Why is it risky? I only wanted to do this for affected systems. There
->>>> is not an easy way to do this with a patch, unless of course I apply
->>>> the patch manually.
->>>
->>> manually gripping at the host installation and then if O_CLOEXEC might
->>> be in comments
->>
->> How about grep define.*O_CLOEXEC -r ${includedir_native}/bits/fcntl.h
->>
->>> and furthermore it if it comes from fcntl.h which is not where you are
->>> looking for
->>
->> I am grepping this file though?
->
-> I would go into the specific file where its asking for O_CLOEXEC
->
-> and add
->
-> #ifndef O_CLOEXEC
-> # define O_CLOEXEC 0
-> #endif
->
-> and be done with it
->
-Wasn't this proposed back a month ago:
+This let's the user override install-lib argument again if it needs
+to be something else, otherwise things like python-setuptools
+won't be able to modify the install-lib dir
 
-http://lists.linuxtogo.org/pipermail/openembedded-core/2012-July/026343.html
+This fixes a new issue exposed by my previous distutils patch
+that fixed the python modules default install location. Also,
+it removes running the install step twice which was inadvertant
 
-And there was discussion about that approach then? I think it was 
-rejected due to lack of testing.
+Signed-off-by: Matthew McClintock <msm@freescale.com>
+---
+ meta/classes/distutils.bbclass |    3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-Sau!
+diff --git a/meta/classes/distutils.bbclass b/meta/classes/distutils.bbclass
+index 7588b81..52a1aa8 100644
+--- a/meta/classes/distutils.bbclass
++++ b/meta/classes/distutils.bbclass
+@@ -38,8 +38,7 @@ distutils_do_install() {
+         STAGING_LIBDIR=${STAGING_LIBDIR} \
+         PYTHONPATH=${D}/${PYTHON_SITEPACKAGES_DIR} \
+         BUILD_SYS=${BUILD_SYS} HOST_SYS=${HOST_SYS} \
+-        ${STAGING_BINDIR_NATIVE}/python-native/python setup.py install ${DISTUTILS_INSTALL_ARGS} || \
+-        ${STAGING_BINDIR_NATIVE}/python-native/python setup.py install ${DISTUTILS_INSTALL_ARGS} --install-lib=${D}${libdir}/${PYTHON_DIR} || \
++        ${STAGING_BINDIR_NATIVE}/python-native/python setup.py install --install-lib=${D}${libdir}/${PYTHON_DIR} ${DISTUTILS_INSTALL_ARGS} || \
+         bbfatal "python setup.py install execution failed."
+ 
+         for i in `find ${D} -name "*.py"` ; do \
+-- 
+1.7.9.7
 
->>
->>> there are few variables like that where its impacting more than
->>> affected systems.
->>
->> I don't follow...
->>
->> -M
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
->
->
+
 
 
