@@ -1,61 +1,32 @@
-Received: from ch1ehsobe005.messaging.microsoft.com ([216.32.181.185]
-	helo=ch1outboundpool.messaging.microsoft.com)
+Received: from mga11.intel.com ([192.55.52.93])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <B29882@freescale.com>) id 1T3u6V-0007gT-Vp
+	(envelope-from <sgw@linux.intel.com>) id 1T3uJR-0000n0-Nc
 	for openembedded-core@lists.openembedded.org;
-	Tue, 21 Aug 2012 21:27:08 +0200
-Received: from mail44-ch1-R.bigfish.com (10.43.68.237) by
-	CH1EHSOBE014.bigfish.com (10.43.70.64) with Microsoft SMTP Server id
-	14.1.225.23; Tue, 21 Aug 2012 19:15:03 +0000
-Received: from mail44-ch1 (localhost [127.0.0.1])	by mail44-ch1-R.bigfish.com
-	(Postfix) with ESMTP id 7BD5A3403C4;
-	Tue, 21 Aug 2012 19:15:03 +0000 (UTC)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-X-SpamScore: -2
-X-BigFish: VS-2(zz98dI9371I1432Izz1202hzz8275bhz2dh2a8h668h839h8e2h8e3hf0ah107ah10d2hbe9i)
-Received: from mail44-ch1 (localhost.localdomain [127.0.0.1]) by mail44-ch1
-	(MessageSwitch) id 1345576501552401_30146;
-	Tue, 21 Aug 2012 19:15:01 +0000 (UTC)
-Received: from CH1EHSMHS013.bigfish.com (snatpool1.int.messaging.microsoft.com
-	[10.43.68.252])	by mail44-ch1.bigfish.com (Postfix) with ESMTP id
-	84DFD240080;	Tue, 21 Aug 2012 19:15:01 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by CH1EHSMHS013.bigfish.com
-	(10.43.70.13) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Tue, 21 Aug 2012 19:15:01 +0000
-Received: from 039-SN1MPN1-001.039d.mgd.msft.net ([169.254.1.41]) by
-	039-SN1MMR1-003.039d.mgd.msft.net ([10.84.1.16]) with mapi id
-	14.02.0309.003; Tue, 21 Aug 2012 14:15:00 -0500
-From: McClintock Matthew-B29882 <B29882@freescale.com>
-To: Chris Larson <clarson@kergoth.com>
-Thread-Topic: [OE-core] [PATCH v2] kmod-native_git.bb: fix builds for hosts
-	with older libc
-Thread-Index: AQHNf8YH40JdCKhtsEicym6VlWG4D5dk4bEAgAAB8wCAAADlAIAABdkAgAAEm4CAAAdIgIAAAGoA
-Date: Tue, 21 Aug 2012 19:15:00 +0000
-Message-ID: <CAEsOVNcD=fDKo1Oc6u-qkshhfUcB0yA=8kS6xbzrRR59Fn8xPA@mail.gmail.com>
-References: <1345566017-15508-1-git-send-email-msm@freescale.com>
-	<CAMKF1sp2eYPuaU0yF-BBX9DNjPHwFjfOknLen10gog1n3spDfA@mail.gmail.com>
-	<CAEsOVNcX=DeAbNpcMPP_sZPzgqN+uKksgodhS6-fTGAaZkLx9Q@mail.gmail.com>
-	<CAMKF1sphgACT00prBya6svo_dbcV2hOGdj1ACk1hVUyEvqtNEQ@mail.gmail.com>
-	<CAEsOVNeFeP9DTnsZhOBT1Ntr3P7Maw_UJmnVAL6c0D1Cu17W1w@mail.gmail.com>
-	<CAMKF1sqAvkE=TM3KeAdW3DjaPWpDi6=8ZAGpOgBDHR7hXDwsug@mail.gmail.com>
-	<CAEsOVNdFLhWft6kK-vY47DC7YHRxc1CUdgNgo-9LkdR2fEcvHw@mail.gmail.com>
-	<CABcZANkRkduAEgBmG-nooaw=XEsuw_-eLbJVfgFKyiusxjwT0A@mail.gmail.com>
-In-Reply-To: <CABcZANkRkduAEgBmG-nooaw=XEsuw_-eLbJVfgFKyiusxjwT0A@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [70.112.201.132]
+	Tue, 21 Aug 2012 21:40:30 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 21 Aug 2012 12:28:24 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.77,803,1336374000"; d="scan'208";a="211842932"
+Received: from unknown (HELO [10.255.13.49]) ([10.255.13.49])
+	by fmsmga002.fm.intel.com with ESMTP; 21 Aug 2012 12:28:11 -0700
+Message-ID: <5033E14B.4020003@linux.intel.com>
+Date: Tue, 21 Aug 2012 12:28:11 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:14.0) Gecko/20120717 Thunderbird/14.0
 MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Cc: McClintock Matthew-B29882 <B29882@freescale.com>,
-	"openembedded-core@lists.openembedded.org"
+To: Tom Rini <tom.rini@gmail.com>
+References: <1345222136-24839-1-git-send-email-trini@ti.com>
+	<1345222136-24839-2-git-send-email-trini@ti.com>
+	<502F01FB.1020303@linux.intel.com>
+	<20120820175702.GA9706@bill-the-cat>
+In-Reply-To: <20120820175702.GA9706@bill-the-cat>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] kmod-native_git.bb: fix builds for hosts with older libc
+Subject: Re: [PATCH 2/5] u-boot-fw-utils: Correct EXTRA_OEMAKE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/options/openembedded-core>,
@@ -65,33 +36,108 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Aug 2012 19:27:11 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <D43F067E6A96094E9FC01F07B5898E15@mgd.freescale.com>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 21 Aug 2012 19:40:30 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Aug 21, 2012 at 2:13 PM, Chris Larson <clarson@kergoth.com> wrote:
-> On Tue, Aug 21, 2012 at 11:47 AM, McClintock Matthew-B29882
-> <B29882@freescale.com> wrote:
->>> #ifndef O_CLOEXEC
->>> # define O_CLOEXEC 0
->>> #endif
+On 08/20/2012 10:57 AM, Tom Rini wrote:
+> On Fri, Aug 17, 2012 at 07:46:19PM -0700, Saul Wold wrote:
+>> On 08/17/2012 09:48 AM, Tom Rini wrote:
+>>> - HOSTCFLAGS / HOSTLDFLAGS have been valid for a long time for tools/env
+>>> - HOSTSTRIP will be needed in the future, does no harm to be correct
+>>>    now.
 >>>
->>> and be done with it
+>>> Signed-off-by: Tom Rini <trini@ti.com>
+>>> ---
+>>>   meta/recipes-bsp/u-boot/u-boot-fw-utils_2011.06.bb |    4 ++--
+>>>   .../u-boot/u-boot-fw-utils_2012.04.01.bb           |    4 +++-
+>>>   2 files changed, 5 insertions(+), 3 deletions(-)
+>>>
+>>> diff --git a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2011.06.bb b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2011.06.bb
+>>> index 7c4df1a..99eef15 100644
+>>> --- a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2011.06.bb
+>>> +++ b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2011.06.bb
+>>> @@ -6,7 +6,7 @@ SECTION = "bootloader"
+>>>
+>>>   DEPENDS = "mtd-utils"
+>>>
+>>> -PR = "r1"
+>>> +PR = "r2"
+>>>
+>>>   SRC_URI = "ftp://ftp.denx.de/pub/u-boot/u-boot-${PV}.tar.bz2"
+>>>
+>>> @@ -15,7 +15,7 @@ SRC_URI[sha256sum] = "362ddb935885da98cf461eba08f31e3e59d0c4ada6cb2fa15596f43af3
+>>>
+>>>   S = "${WORKDIR}/u-boot-${PV}"
+>>>
+>>> -EXTRA_OEMAKE = 'HOSTCC="${CC}"'
+>>> +EXTRA_OEMAKE = 'HOSTCC="${CC}" HOSTCFLAGS="${CFLAGS} HOSTLDFLAGS="${LDFLAGS}" HOSTSTRIP=true'
+
+Ah, finally here it is ----------------------------------^
+
+Missing a "!
+
+Sau!
+
+>>>
+>>>   do_compile () {
+>>>     oe_runmake env
+>>> diff --git a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2012.04.01.bb b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2012.04.01.bb
+>>> index fe3422a..364f8a5 100644
+>>> --- a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2012.04.01.bb
+>>> +++ b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2012.04.01.bb
+>>> @@ -5,6 +5,8 @@ SECTION = "bootloader"
+>>>
+>>>   DEPENDS = "mtd-utils"
+>>>
+>>> +PR = "r1"
+>>> +
+>>>   # This is needs to be validated among supported BSP's before we can
+>>>   # make it default
+>>>   DEFAULT_PREFERENCE = "-1"
+>>> @@ -20,7 +22,7 @@ SRC_URI = "git://git.denx.de/u-boot.git;branch=master;protocol=git"
+>>>
+>>>   S = "${WORKDIR}/git"
+>>>
+>>> -EXTRA_OEMAKE = 'HOSTCC="${CC}"'
+>>> +EXTRA_OEMAKE = 'HOSTCC="${CC}" HOSTCFLAGS="${CFLAGS} HOSTLDFLAGS="${LDFLAGS}" HOSTSTRIP=true'
+>>>
+>>>   do_compile () {
+>>>     oe_runmake env
+>>>
 >>
->> Well this is seemingly the same way of doing it, just looks like you
->> always want it applied? I don't think it should always be applied.
 >>
->> If this was it takes to get the build fix in, then I will do it...
->> please confirm what will be accepted.
+>> This had a failure also:
+>>
+>>> ERROR: Function failed: do_install (see /srv/ssd/sgw_ab/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/work/i586-poky-linux/u-boot-fw-utils-2011.06-r2/temp/log.do_install.69452 for further information)
+>>> ERROR: Logfile of failure stored in: /srv/ssd/sgw_ab/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/work/i586-poky-linux/u-boot-fw-utils-2011.06-r2/temp/log.do_install.69452
+>>> Log data follows:
+>>> | DEBUG: Executing shell function do_install
+>>> | install: cannot stat `/srv/ssd/sgw_ab/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/work/i586-poky-linux/u-boot-fw-utils-2011.06-r2/u-boot-2011.06/tools/env/fw_printenv': No such file or directory
+>>> | ERROR: Function failed: do_install (see /srv/ssd/sgw_ab/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/work/i586-poky-linux/u-boot-fw-utils-2011.06-r2/temp/log.do_install.69452 for further information)
+>>> NOTE: package u-boot-fw-utils-2011.06-r2: task do_install: Failed
+>>> ERROR: Task 2755 (/srv/ssd/sgw_ab/yocto-autobuilder/yocto-slave/nightly-world/build/meta/recipes-bsp/u-boot/u-boot-fw-utils_2011.06.bb, do_install) failed with exit code '1'
 >
-> No, on newer systems O_CLOEXEC will be defined, so that #ifndef block
-> will never be entered, and there'll be no change.
+> I have to admit that since these were trivial changes I didn't try and
+> build them.  But oe-core doesn't build anymore.  Doing:
+> git pull
+> git reset --hard origin/master
+> rm -rf build/conf build/tmp*
+> . oe-init-build-env
+> bitbake core-image-sato
+>
+> Fails and can't give me a log.  Can you pastebin the compile logs?
 
-Right, I was not thinking...
+Finally the compile log, sorry had other fires I was fighting, seems the 
+make is doing nothing!
 
--M=
+> DEBUG: Executing shell function do_compile
+> NOTE: make -j 6 HOSTCC=arm-poky-linux-gnueabi-gcc  -march=armv7-a -fno-tree-vectorize     -mthumb-interwork -mfloat-abi=softfp -mfpu=neon -mtune=cortex-a8 --sysroot=/intel/poky/builds/world/tmp/sysroots/beagleboard HOSTCFLAGS= -O2 -pipe -g -feliminate-unused-debug-types HOSTLDFLAGS=-Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed HOSTSTRIP=true tools
+> 	make -j 6 HOSTCC=arm-poky-linux-gnueabi-gcc -march=armv7-a -fno-tree-vectorize -mthumb-interwork -mfloat-abi=softfp -mfpu=neon -mtune=cortex-a8 --sysroot=/intel/poky/builds/world/tmp/sysroots/beagleboard HOSTCFLAGS= -O2 -pipe -g -feliminate-unused-debug-types HOSTLDFLAGS=-Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed HOSTSTRIP=true tools
+> DEBUG: Shell function do_compile finished
 
+
+> Thanks!
+>
 
 
