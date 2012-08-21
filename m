@@ -1,26 +1,42 @@
-Received: from sanddollar.geekisp.com ([216.168.135.167])
+Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <philip@balister.org>) id 1T3sdX-0002Xe-7H
+	(envelope-from <scott.a.garman@intel.com>) id 1T3sp4-0003C0-QL
 	for openembedded-core@lists.openembedded.org;
-	Tue, 21 Aug 2012 19:53:07 +0200
-Received: (qmail 24597 invoked by uid 1003); 21 Aug 2012 17:34:21 -0000
-Received: from unknown (HELO ?10.16.24.71?) (philip@opensdr.com@157.22.28.10)
-	by mail.geekisp.com with (DHE-RSA-AES256-SHA encrypted) SMTP;
-	21 Aug 2012 17:34:21 -0000
-Message-ID: <5033C69A.9030206@balister.org>
-Date: Tue, 21 Aug 2012 10:34:18 -0700
-From: Philip Balister <philip@balister.org>
+	Tue, 21 Aug 2012 20:05:02 +0200
+Received: from mail-pb0-f52.google.com ([209.85.160.52])
+	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 21 Aug 2012 10:45:39 -0700
+Received: by mail-pb0-f52.google.com with SMTP id xa7so224497pbc.25
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 21 Aug 2012 10:45:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=message-id:date:from:user-agent:mime-version:to:subject:references
+	:in-reply-to:content-type:content-transfer-encoding
+	:x-gm-message-state;
+	bh=i7f/Z5sEFf5PrlMHrcsXFsT3Qt2u8yji0RXpxR6YTEI=;
+	b=J+5dx7g0CmWx3mEst90f2D7JtUPxqaPVtQgY69svqG5hcFQpEe6EN0+hkSlS+KtfxQ
+	TDgBJ/tz5GGo3Bn7/vsQPlP86CUshkTg97B0yOE8AnjkRIoH2wXNNBMcSHsOwPHBn3Qk
+	aHy+Fdn0xGkn1CfCQTOnaaFvu5M8QdL/MEW+puwoRzdbQSu9z6bNw6eifbH5GiSmdHU3
+	l8BrdKpK5Psu6sGeJl8TbFkL+4B/bLOfPTdI20DnzE4rMCKRK8jxQ06dmep0e6MMJlLu
+	4ehFJ1DyRfH+LHEyhQOQ30ijaI/hOLZz5C4RQH1efSQ0k+nsKnyHvDN7JcgLb/J3E2z9
+	vj+Q==
+Received: by 10.68.219.226 with SMTP id pr2mr45838763pbc.1.1345571139209;
+	Tue, 21 Aug 2012 10:45:39 -0700 (PDT)
+Received: from [192.168.1.12] (c-76-105-137-48.hsd1.or.comcast.net.
+	[76.105.137.48])
+	by mx.google.com with ESMTPS id oa5sm1877392pbb.14.2012.08.21.10.45.37
+	(version=SSLv3 cipher=OTHER); Tue, 21 Aug 2012 10:45:38 -0700 (PDT)
+Message-ID: <5033C94D.4080902@intel.com>
+Date: Tue, 21 Aug 2012 10:45:49 -0700
+From: Scott Garman <scott.a.garman@intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:14.0) Gecko/20120717 Thunderbird/14.0
+	rv:14.0) Gecko/20120714 Thunderbird/14.0
 MIME-Version: 1.0
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-References: <2404459.dJBf5OQotX@helios> <5032A1D3.8090600@windriver.com>
-	<1570865.4gpYqKP9pu@helios>
-In-Reply-To: <1570865.4gpYqKP9pu@helios>
-Cc: yocto@yoctoproject.org, openembedded-devel@lists.openembedded.org,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [yocto] RFC: OE-Core task rework
+To: openembedded-core@lists.openembedded.org
+References: <5033B589.8080502@intel.com>
+In-Reply-To: <5033B589.8080502@intel.com>
+X-Gm-Message-State: ALoCoQmfcVMpzZC0YvAs3HWVFMwOkzU8Vo/EmxYvpz6i2Jsa+DeEHLV+xy6MK8i61eAHMj8NEmbF
+Subject: Re: qemu gl changes are broken.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -33,66 +49,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Aug 2012 17:53:07 -0000
+X-List-Received-Date: Tue, 21 Aug 2012 18:05:03 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 08/21/2012 01:49 AM, Paul Eggleton wrote:
-> On Monday 20 August 2012 15:45:07 Mark Hatle wrote:
-...
+On 08/21/2012 09:21 AM, Scott Garman wrote:
+> Hello,
+>
+> I tried building some images overnight with the latest master, and could
+> not get them to run this morning with qemu - I got an odd error that a
+> VNC server was started instead?
+>
+> Just on a hunch, I reverted the following commits:
+>
+> qemu: Fix broken accidental path move
+> qemu-git: Drop GL passthrough support
+> qemu-0.15: Drop GL passthrough support
+>
+> rebuilt qemu-native, and now qemu works correctly.
+>
+> I have no idea why qemu is trying to fallback on a VNC server, as I did
+> not have one running on my machine. I know we use VNC for our
+> autobuilder sanity tests, but those haven't been integrated into the
+> runqemu scripts as far as I can tell.
 
->>
->> Yup, there is a logical grouping for the lsb specific tasks, as for others.
->> The naming needs to be made clear as to why it's there, and what it
->> represents. Same with the summary and descriptions -- they should list the
->> functionality provided by this group of components.
->
-> The main concern with LSB is that we have something called task-basic, which
-> seems to be intended for LSB but does not state as much, and I know at least
-> one person has tried to use it and then been a little puzzled as to why rpm
-> has been pulled in when ipk packaging has been selected. Just naming some of
-> these tasks more appropriately would help avoid such situations. In the
-> specific case of task-basic there may be a case for creating a similar but not
-> LSB-focused task that pulls in real shell utilities in preference to the light
-> versions provided by busybox.
+This may need further research, I seem to have it working on another 
+machine. I'll report back once I've learned more.
 
-I was seriously stumped by the presence of rpm in what I felt should 
-have been a very basic image. If a task/group is targeted at lsb, it 
-needs to have lsb plastered all over the name so the rest of us can 
-avoid it :)
+Scott
 
-Philip
-
->
->>> 4) Consider the usefulness of the existing PACKAGE_GROUP_ structure which
->>> converts some IMAGE_FEATURES into the addition of tasks to be installed
->>> (see classes/core-image.bbclass). At the very least we should probably
->>> rename this if we rename tasks to package groups, and there's a question
->>> as to how IMAGE_FEATURES scales - should every task be represented in
->>> there or only a select list? Would we be better off not trying to bring
->>> any tasks in via IMAGE_FEATURES at all and mostly leave that to control
->>> post-processing (e.g. package-management, debug-tweaks, etc.)?
->>
->> I'd certainly prefer that images were limited to selecting software from
->> task (group) recipes only, and not providing their own.  An image should be
->> able to change the selection based on an "image feature" or similar
->> configuration, but the underlying tasks/groups, recipes, etc should all be
->> 'generic' to a given distribution configuration.
->
-> The first part seems reasonable to me; but I'm still short of an answer as to
-> what to do with the existing IMAGE_FEATURES code as mentioned above. At the
-> moment aside from the special features such as debug-tweaks, these are just a
-> thin layer on top of task recipes which doesn't add very much at all other
-> than extra maintenance.
->
->> I think if you go through the images today, a lot of that stuff is either
->> old, or could be simplified by creating appropriate tasks/groups.
->
-> OK, that's a good point. I have another task on my list to clean up our image
-> recipes and that would be a good segue into that.
->
-> Cheers,
-> Paul
->
+-- 
+Scott Garman
+Embedded Linux Engineer - Yocto Project
+Intel Open Source Technology Center
 
 
