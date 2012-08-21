@@ -1,39 +1,34 @@
-Received: from mga05.intel.com ([192.55.52.89] helo=fmsmga101.fm.intel.com)
+Received: from mail-ey0-f175.google.com ([209.85.215.175])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <scott.a.garman@intel.com>) id 1T3rbg-0000rW-W7
+	(envelope-from <raj.khem@gmail.com>) id 1T3sDB-0001p1-Im
 	for openembedded-core@lists.openembedded.org;
-	Tue, 21 Aug 2012 18:47:09 +0200
-Received: from mail-pz0-f52.google.com ([209.85.210.52])
-	by mga01.intel.com with ESMTP/TLS/RC4-SHA; 21 Aug 2012 09:21:31 -0700
-Received: by dakf10 with SMTP id f10so2938911dak.25
+	Tue, 21 Aug 2012 19:25:53 +0200
+Received: by eaad12 with SMTP id d12so14085eaa.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Aug 2012 09:21:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:subject
-	:content-type:content-transfer-encoding:x-gm-message-state;
-	bh=thRQh8x6XLcfaXwor4Q2/vjGDX+Dajs7/yX7prxan2k=;
-	b=cXjH1/IAsRyGT6OmF/lVCDCNojc8+ckK3IEWJh1zzbMHQsY5j8t9ArLcRrjPZUKprQ
-	nnOW/3IalKrcqqAPzdYLqYag5LukyTHu4e0n/GmYQ965yGi1s/C2apNrWRI/gH5R7lAJ
-	4kF/X8fBEQuFgbRnSsQmid9LcwnuaJ3f3aImpnomt+N47RVddF2B/xHFgtjpDGE0hY5a
-	/98XmNN/HFp1QmP7EPYkDyPNNkoIN4N13jIPrMzdAFQUUQ279kydI9cktMXOENx7OhQo
-	4syAgkRdR5NL+2521rrmQPf0abRtyP2IFelV1I2F/oujAp2JQ1kYKWH48/LzG7glBU56
-	CIRQ==
-Received: by 10.68.218.196 with SMTP id pi4mr45455982pbc.128.1345566090971;
-	Tue, 21 Aug 2012 09:21:30 -0700 (PDT)
-Received: from [10.1.10.35] (c-50-137-42-92.hsd1.or.comcast.net.
-	[50.137.42.92])
-	by mx.google.com with ESMTPS id xd9sm1564843pbc.35.2012.08.21.09.21.29
-	(version=SSLv3 cipher=OTHER); Tue, 21 Aug 2012 09:21:30 -0700 (PDT)
-Message-ID: <5033B589.8080502@intel.com>
-Date: Tue, 21 Aug 2012 09:21:29 -0700
-From: Scott Garman <scott.a.garman@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:14.0) Gecko/20120714 Thunderbird/14.0
+	Tue, 21 Aug 2012 10:13:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=uGUNBHsrLwtl+zWAbMVorjccP1LoEsSJJcJQxTtCRcM=;
+	b=JWo0cE2vQJwXTr2jyOzw5ZSbSH2zppm5Qo+8LDJj36o7Hal86/7y9RYehUoICAJJBd
+	7AAjiaU6aWSulbuBjTCjY+KfcPjFi+t8qvzDD2K1ZG4DqCXQ/cwztOSjolK4NGEsmNe8
+	aOyCEOhFbLk4LMZ2VY849egWXDOI9rqQ3i4kRMEKY0y4mrZ0tAxqxHXxPPkD2p0+T7hG
+	jWS75AQLMRbgWBDUcNMo+EMNGhqpL/dr/WW9KzCsr5Aw8tjzAk+UHJawuOvvcwD502C/
+	/Rt7hWP96DgP1wR5T52sWotPsSB9UusEWMwPWn1QsIcTWb86ZsjyzD9yCw+ueWhVO4+U
+	Y++g==
+Received: by 10.14.211.3 with SMTP id v3mr14333742eeo.43.1345569229688; Tue,
+	21 Aug 2012 10:13:49 -0700 (PDT)
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-X-Gm-Message-State: ALoCoQmGtREHZFKzYk5quxARyX1NkHqp9roWsZbliNbS4z+njroC0FmJD9E0gtt8q0OUX63SCNd0
-Subject: qemu gl changes are broken.
+Received: by 10.14.2.5 with HTTP; Tue, 21 Aug 2012 10:13:19 -0700 (PDT)
+In-Reply-To: <50337719.7040801@linaro.org>
+References: <CAMKF1srjqDsesRcWP7oGzouPj9aOt_Ln0aOWE9cEQwpUQ7Unuw@mail.gmail.com>
+	<50337719.7040801@linaro.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 21 Aug 2012 10:13:19 -0700
+Message-ID: <CAMKF1srun9x5wb7CsLTzp7aet1RW-SRyAsgucaSPAtcUzKYvKA@mail.gmail.com>
+To: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: Toolchain rework, call for testing
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -46,34 +41,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Aug 2012 16:47:09 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 21 Aug 2012 17:25:53 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Hello,
+On Tue, Aug 21, 2012 at 4:55 AM, Marcin Juszkiewicz
+<marcin.juszkiewicz@linaro.org> wrote:
+> W dniu 17.08.2012 06:47, Khem Raj pisze:
+>> Hi All
+>>
+>> Recently glibc build has been simplified upstream. It has dropped the
+>> dependency on libgcc_s and libgcc_eh for building glibc itself.
+>> This means that we can simplify our toolchain bootstrap a bit by
+>> dropping 1 of the 3 cross gcc build stages. We do not need
+>> gcc-cross-intermediate anymore.
+>
+> Please adapt also toolchain-layer in meta-oe for those stuck with gcc 4.6.
+>
 
-I tried building some images overnight with the latest master, and could 
-not get them to run this morning with qemu - I got an odd error that a 
-VNC server was started instead?
+Yes. I am testing a patch for it. For tries just delete the *intermediate* files
+and see if it helps, I believe you will need it for meta-linaro as well.
 
-Just on a hunch, I reverted the following commits:
-
-qemu: Fix broken accidental path move
-qemu-git: Drop GL passthrough support
-qemu-0.15: Drop GL passthrough support
-
-rebuilt qemu-native, and now qemu works correctly.
-
-I have no idea why qemu is trying to fallback on a VNC server, as I did 
-not have one running on my machine. I know we use VNC for our 
-autobuilder sanity tests, but those haven't been integrated into the 
-runqemu scripts as far as I can tell.
-
-Scott
-
--- 
-Scott Garman
-Embedded Linux Engineer - Yocto Project
-Intel Open Source Technology Center
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 
