@@ -1,34 +1,36 @@
-Received: from mail1.windriver.com ([147.11.146.13])
-	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Liang.Li@windriver.com>) id 1T3koa-0001Ez-Jl
-	for openembedded-core@lists.openembedded.org;
-	Tue, 21 Aug 2012 11:32:01 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q7L9Jrxt020672
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 21 Aug 2012 02:19:53 -0700 (PDT)
-Received: from localhost (128.224.163.138) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.309.2;
-	Tue, 21 Aug 2012 02:19:52 -0700
-Date: Tue, 21 Aug 2012 17:19:51 +0800
-From: Liang Li <liang.li@windriver.com>
-To: Henning Heinold <heinold@inf.fu-berlin.de>
-Message-ID: <20120821091951.GA17715@localhost>
-References: <1345132684.14667.70.camel@ted> <20120817033209.GB19625@localhost>
-	<1345196146.14667.84.camel@ted> <20120817100001.GA16621@localhost>
-	<1345200782.26132.18.camel@ted> <20120817130151.GA1416@localhost>
-	<20120817130517.GB1416@localhost> <50324E29.5060005@windriver.com>
-	<20120821050825.GB27917@localhost>
-	<20120821085138.GA29885@mi.fu-berlin.de>
-MIME-Version: 1.0
-In-Reply-To: <20120821085138.GA29885@mi.fu-berlin.de>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: darren.hart@intel.com, openembedded-core@lists.openembedded.org
-Subject: Re: [discussion] perf: specify SLANG_INC dir for perf
+Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
+	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <richard.purdie@linuxfoundation.org>)
+	id 1T3m33-0001Ou-SB for openembedded-core@lists.openembedded.org;
+	Tue, 21 Aug 2012 12:51:02 +0200
+Received: from localhost (localhost [127.0.0.1])
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q7LAcvMi012349
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 21 Aug 2012 11:38:57 +0100
+Received: from tim.rpsys.net ([127.0.0.1])
+	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP
+	id 32616-06 for <openembedded-core@lists.openembedded.org>;
+	Tue, 21 Aug 2012 11:38:52 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q7LAckhg012343
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 21 Aug 2012 11:38:48 +0100
+Message-ID: <1345545528.3907.60.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Tue, 21 Aug 2012 11:38:48 +0100
+In-Reply-To: <cover.1344892361.git.scott.a.garman@intel.com>
+References: <cover.1344892361.git.scott.a.garman@intel.com>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+X-Virus-Scanned: amavisd-new at rpsys.net
+Subject: Re: [PATCH 00/32] denzil pull request1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Liang Li <liang.li@windriver.com>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/options/openembedded-core>,
@@ -38,35 +40,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Aug 2012 09:32:01 -0000
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
+X-List-Received-Date: Tue, 21 Aug 2012 10:51:02 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 2012-08-21 16:51, Henning Heinold <heinold@inf.fu-berlin.de> wrote:
-> On Tue, Aug 21, 2012 at 01:08:25PM +0800, Liang Li wrote:
-> > --- a/meta/classes/kernel.bbclass
-> > +++ b/meta/classes/kernel.bbclass
-> > @@ -190,6 +190,9 @@ kernel_do_install() {
-> >  	for entry in $bin_files; do
-> >  	        rm -f $kerneldir/$entry
-> >  	done
-> > +
-> > +	# Fix SLNAG_INC for slang.h
-> > +	sed -i 's#-I/usr/include/slang#-I=/usr/include/slang#g' $kerneldir/tools/perf/Makefile
-> Hm,
+On Mon, 2012-08-13 at 14:14 -0700, Scott Garman wrote:
+> Hello,
 > 
-> is this "-I=" a new special feature of gcc?
+> This is my first pull request for denzil since the 1.2.1 release was made.
 > 
-> -I/usr/include/slang
-> -I=/usr/include/slang
+> It has been run through the autobuilder, which is having some issues with
+> running sanity tests and buildhistory, so if the build succeeded for
+> everything except for those steps, I note it as "Green with known AB
+> issues" below.
 > 
+> Note that these tests were run with a poky-based branch.
+> 
+[...]
+> 
+> The following changes since commit 741146fa90f28f7ce8d82ee7f7e254872d519724:
+> 
+>   gconf.bbclass: don't register schemas in the install stage (2012-06-29 15:03:01 +0100)
+> 
+> are available in the git repository at:
+> 
+>   git://git.openembedded.org/openembedded-core-contrib sgarman/denzil-next-pull1
+>   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgarman/denzil-next-pull1
 
-Not something new/special feature of gcc, should be as old as
---sysroot, maybe more than 10 years elder I guess.
+Merged to denzil. Thanks for putting this together.
 
 Cheers,
-		Liang Li
 
-> Bye Henning
+Richard
+
+
 
 
