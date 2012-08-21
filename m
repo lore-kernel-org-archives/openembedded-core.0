@@ -1,34 +1,27 @@
-Received: from outpost1.zedat.fu-berlin.de ([130.133.4.66])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <heinold@mi.fu-berlin.de>) id 1T3kNI-0000jZ-Cj
-	for openembedded-core@lists.openembedded.org;
-	Tue, 21 Aug 2012 11:03:48 +0200
-Received: from relay1.zedat.fu-berlin.de ([130.133.4.67])
-	by outpost1.zedat.fu-berlin.de (Exim 4.69) with esmtp
-	(envelope-from <heinold@mi.fu-berlin.de>)
-	id <1T3kBd-0003Ce-4Q>; Tue, 21 Aug 2012 10:51:45 +0200
-Received: from andorra.imp.fu-berlin.de ([160.45.42.84])
-	by relay1.zedat.fu-berlin.de (Exim 4.69) with esmtp
-	(envelope-from <heinold@mi.fu-berlin.de>)
-	id <1T3kBb-0008Ic-3R>; Tue, 21 Aug 2012 10:51:43 +0200
-Received: from heinold by internal andorra.imp.fu-berlin.de with local (Exim
-	4.72) id 1T3kBX-0000TT-0u; Tue, 21 Aug 2012 10:51:39 +0200
-Date: Tue, 21 Aug 2012 10:51:39 +0200
-From: Henning Heinold <heinold@inf.fu-berlin.de>
-To: Liang Li <liang.li@windriver.com>
-Message-ID: <20120821085138.GA29885@mi.fu-berlin.de>
-References: <502D12E2.4000808@windriver.com> <1345132684.14667.70.camel@ted>
-	<20120817033209.GB19625@localhost> <1345196146.14667.84.camel@ted>
-	<20120817100001.GA16621@localhost> <1345200782.26132.18.camel@ted>
-	<20120817130151.GA1416@localhost> <20120817130517.GB1416@localhost>
-	<50324E29.5060005@windriver.com> <20120821050825.GB27917@localhost>
+	(envelope-from <paul.eggleton@linux.intel.com>)
+	id 1T3kPK-0000nS-Tt; Tue, 21 Aug 2012 11:05:55 +0200
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 21 Aug 2012 01:53:50 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.77,801,1336374000"; d="scan'208";a="211524601"
+Received: from unknown (HELO helios.localnet) ([10.252.121.105])
+	by fmsmga002.fm.intel.com with ESMTP; 21 Aug 2012 01:53:49 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Mark Hatle <mark.hatle@windriver.com>
+Date: Tue, 21 Aug 2012 09:53:48 +0100
+Message-ID: <1761512.HqMMdYPPnO@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.9 (Linux/3.2.0-29-generic-pae; KDE/4.9.0; i686; ; )
+In-Reply-To: <1570865.4gpYqKP9pu@helios>
+References: <2404459.dJBf5OQotX@helios> <5032A1D3.8090600@windriver.com>
+	<1570865.4gpYqKP9pu@helios>
 MIME-Version: 1.0
-In-Reply-To: <20120821050825.GB27917@localhost>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Sender: Henning Heinold <heinold@mi.fu-berlin.de>
-X-Originating-IP: 160.45.42.84
-Cc: darren.hart@intel.com, openembedded-core@lists.openembedded.org
-Subject: Re: [discussion] perf: specify SLANG_INC dir for perf
+Cc: yocto@yoctoproject.org, openembedded-devel@lists.openembedded.org,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [yocto] RFC: OE-Core task rework
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -41,27 +34,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Aug 2012 09:03:48 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Tue, 21 Aug 2012 09:05:55 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Tue, Aug 21, 2012 at 01:08:25PM +0800, Liang Li wrote:
-> --- a/meta/classes/kernel.bbclass
-> +++ b/meta/classes/kernel.bbclass
-> @@ -190,6 +190,9 @@ kernel_do_install() {
->  	for entry in $bin_files; do
->  	        rm -f $kerneldir/$entry
->  	done
-> +
-> +	# Fix SLNAG_INC for slang.h
-> +	sed -i 's#-I/usr/include/slang#-I=/usr/include/slang#g' $kerneldir/tools/perf/Makefile
-Hm,
+On Tuesday 21 August 2012 09:49:37 Paul Eggleton wrote:
+> The main concern with LSB is that we have something called task-basic,
+> which  seems to be intended for LSB but does not state as much, and I know
+> at least one person has tried to use it and then been a little puzzled as
+> to why rpm has been pulled in when ipk packaging has been selected. Just
+> naming some of these tasks more appropriately would help avoid such
+> situations. In the specific case of task-basic there may be a case for
+> creating a similar but not LSB-focused task that pulls in real shell
+> utilities in preference to the light versions provided by busybox.
 
-is this "-I=" a new special feature of gcc?
+Ugh, sorry. I meant task-core-basic here - not to be confused with task-basic 
+in meta-oe [1].
 
--I/usr/include/slang
--I=/usr/include/slang
+Cheers,
+Paul
 
-Bye Henning
+[1] http://www.openembedded.org/wiki/Meta-oe_tasks
+
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
 
