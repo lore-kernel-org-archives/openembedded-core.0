@@ -1,35 +1,20 @@
-Received: from mail-ey0-f175.google.com ([209.85.215.175])
+Received: from mga01.intel.com ([192.55.52.88])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <raj.khem@gmail.com>)
-	id 1T3sFZ-0001tB-Hd; Tue, 21 Aug 2012 19:28:21 +0200
-Received: by eaad12 with SMTP id d12so14792eaa.6
-	for <multiple recipients>; Tue, 21 Aug 2012 10:16:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=w6m27nsCkJosSpk7LDidn3IjjFcYK3dPQxshN7ptDy8=;
-	b=tI0DJVP2mFirCTOYP6SKCoCFiMDA5EmCOfOxPc8J53cTR4ZBpCvNtXdhjojh50OIE/
-	ggLCcXTQReLvK+LYzLmtjEBineI6jQjRce46LNbnNKkTFykCDcTO+aLbmvoCQa5RGbpp
-	hPfv7goRD4MVubGZONqgLGbv0z9x2ATnNPEgEY78wRd7PyaEc/DJQb6WKxPFdlrCuTVY
-	CYGHoe1MiqZwa3tX1LM7KMU+G0JxV21YLSsc4pOnWW6ZBTbOPmL5vV+CZRPbDjbrI1lJ
-	YhSanBaGDvuICYhnM2C7nZc5LW4DcbCd4CyW0S040bdNs4aowcvssTTOaLhumPFIuAU1
-	IgVg==
-Received: by 10.14.202.131 with SMTP id d3mr14648842eeo.32.1345569377849; Tue,
-	21 Aug 2012 10:16:17 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.14.2.5 with HTTP; Tue, 21 Aug 2012 10:15:47 -0700 (PDT)
-In-Reply-To: <20120821121850.GD3029@jama.jama.net>
-References: <CAMKF1srjqDsesRcWP7oGzouPj9aOt_Ln0aOWE9cEQwpUQ7Unuw@mail.gmail.com>
-	<20120821121850.GD3029@jama.jama.net>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 21 Aug 2012 10:15:47 -0700
-Message-ID: <CAMKF1spWTYExCcvQ9Uqo-470Qxb2NTwB_xYHhU7RzFOuiYP_VA@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: yocto@yoctoproject.org,
-	openembeded-devel <Openembedded-devel@lists.openembedded.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [yocto] Toolchain rework, call for testing
+	(envelope-from <paul.eggleton@linux.intel.com>) id 1T3sJj-00025u-KF
+	for openembedded-core@lists.openembedded.org;
+	Tue, 21 Aug 2012 19:32:39 +0200
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 21 Aug 2012 10:08:36 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.77,803,1336374000"; d="scan'208";a="207655513"
+Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.121.105])
+	by fmsmga001.fm.intel.com with ESMTP; 21 Aug 2012 10:08:34 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 21 Aug 2012 18:08:29 +0100
+Message-Id: <1345568909-10802-1-git-send-email-paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] conf/bitbake.conf: allow cache reuse between bitbake, bitbake-layers and hob
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -42,17 +27,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Aug 2012 17:28:21 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 21 Aug 2012 17:32:39 -0000
 
-On Tue, Aug 21, 2012 at 5:18 AM, Martin Jansa <martin.jansa@gmail.com> wrote:
->
-> Maybe it's because
-> http://git.openembedded.org/openembedded-core/commit/?id=30617bde61a3b0a0944b49a0c9fb7159dacbb19f
-> is missing PR bump and gcc wasn't rebuilt before eglibc upgrade (OEBasic not OEBasicHash here).
+BB_ENV_EXTRAWHITE is set by the bitbake wrapper script but not by
+bitbake-layers, and thus it was affecting the data hash and thus
+invalidating the cache. Any variables passed through from the
+environment by being added to this variable should themselves
+influence the hash already if they are not already excluded from,
+the data hash, so BB_ENV_EXTRAWHITE can be excluded.
 
-yes seems so. I have stopped using OEBasic long ago, you should stop
-using it too.
-But feel free to send a PR bump patchlet.
+Similarly, DISABLE_SANITY_CHECKS is set by the hob script in order to
+have sanity checks run later, but not set by the bitbake wrapper script.
+It doesn't actually affect the build itself and so its value can also
+be excluded from the data hash.
+
+These changes prevent unnecessary reparsing between executions of
+bitbake, bitbake-layers, and the initial pseudo build within the hob
+script.
+
+Fixes [YOCTO #2680].
+
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+---
+ meta/conf/bitbake.conf |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index bc2d47d..ad98756 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -762,7 +762,7 @@ BB_CONSOLELOG ?= "${LOG_DIR}/cooker/${MACHINE}/${DATETIME}.log"
+ # Setup our default hash policy
+ BB_SIGNATURE_HANDLER ?= "OEBasicHash"
+ BB_HASHBASE_WHITELIST ?= "TMPDIR FILE PATH PWD BB_TASKHASH BBPATH DL_DIR SSTATE_DIR THISDIR FILESEXTRAPATHS FILE_DIRNAME HOME LOGNAME SHELL TERM USER FILESPATH STAGING_DIR_HOST STAGING_DIR_TARGET COREBASE PRSERV_HOST PRSERV_PORT PRSERV_DUMPDIR PRSERV_DUMPFILE PRSERV_LOCKDOWN PARALLEL_MAKE CCACHE_DIR EXTERNAL_TOOLCHAIN CCACHE"
+-BB_HASHCONFIG_WHITELIST ?= "${BB_HASHBASE_WHITELIST} DATE TIME SESSION_MANAGER DBUS_SESSION_BUS_ADDRESS SSH_AGENT_PID XDG_SESSION_COOKIE SSH_AUTH_SOCK XAUTHORITY PSEUDO_BUILD"
++BB_HASHCONFIG_WHITELIST ?= "${BB_HASHBASE_WHITELIST} DATE TIME SESSION_MANAGER DBUS_SESSION_BUS_ADDRESS SSH_AGENT_PID XDG_SESSION_COOKIE SSH_AUTH_SOCK XAUTHORITY PSEUDO_BUILD BB_ENV_EXTRAWHITE DISABLE_SANITY_CHECKS"
+ BB_SIGNATURE_EXCLUDE_FLAGS ?= "doc defaultval _append _prepend deps depends lockfiles type vardepsexclude \
+                                vardeps vardepvalue file-checksums python func task export unexport noexec \
+                                nostamp dirs cleandirs sstate-lockfile-shared prefuncs postfuncs export_func \
+-- 
+1.7.9.5
+
 
 
