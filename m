@@ -1,29 +1,24 @@
-Received: from mga11.intel.com ([192.55.52.93])
+Received: from mail1.windriver.com ([147.11.146.13])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <sgw@linux.intel.com>) id 1T3uJR-0000n0-Nc
+	(envelope-from <Peter.Seebach@windriver.com>) id 1T3uJa-0000o0-W2
 	for openembedded-core@lists.openembedded.org;
-	Tue, 21 Aug 2012 21:40:30 +0200
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 21 Aug 2012 12:28:24 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.77,803,1336374000"; d="scan'208";a="211842932"
-Received: from unknown (HELO [10.255.13.49]) ([10.255.13.49])
-	by fmsmga002.fm.intel.com with ESMTP; 21 Aug 2012 12:28:11 -0700
-Message-ID: <5033E14B.4020003@linux.intel.com>
-Date: Tue, 21 Aug 2012 12:28:11 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:14.0) Gecko/20120717 Thunderbird/14.0
+	Tue, 21 Aug 2012 21:40:39 +0200
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q7LJSYGv002684
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 21 Aug 2012 12:28:34 -0700 (PDT)
+Received: from e6410-2 (172.25.40.226) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.309.2;
+	Tue, 21 Aug 2012 12:28:34 -0700
+Date: Tue, 21 Aug 2012 14:28:20 -0500
+From: Peter Seebach <peter.seebach@windriver.com>
+To: "openembedded-core@"
+	<lists.openembedded.org.openembedded-core@lists.openembedded.org>
+Message-ID: <20120821142820.59b3d124@e6410-2>
+X-Mailer: Claws Mail 3.8.0 (GTK+ 2.24.10; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-To: Tom Rini <tom.rini@gmail.com>
-References: <1345222136-24839-1-git-send-email-trini@ti.com>
-	<1345222136-24839-2-git-send-email-trini@ti.com>
-	<502F01FB.1020303@linux.intel.com>
-	<20120820175702.GA9706@bill-the-cat>
-In-Reply-To: <20120820175702.GA9706@bill-the-cat>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/5] u-boot-fw-utils: Correct EXTRA_OEMAKE
+Subject: pseudo diagnostics: please do not ignore these completely!
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -36,108 +31,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Aug 2012 19:40:30 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Tue, 21 Aug 2012 19:40:39 -0000
+Content-Type: text/plain; charset="US-ASCII"
 Content-Transfer-Encoding: 7bit
 
-On 08/20/2012 10:57 AM, Tom Rini wrote:
-> On Fri, Aug 17, 2012 at 07:46:19PM -0700, Saul Wold wrote:
->> On 08/17/2012 09:48 AM, Tom Rini wrote:
->>> - HOSTCFLAGS / HOSTLDFLAGS have been valid for a long time for tools/env
->>> - HOSTSTRIP will be needed in the future, does no harm to be correct
->>>    now.
->>>
->>> Signed-off-by: Tom Rini <trini@ti.com>
->>> ---
->>>   meta/recipes-bsp/u-boot/u-boot-fw-utils_2011.06.bb |    4 ++--
->>>   .../u-boot/u-boot-fw-utils_2012.04.01.bb           |    4 +++-
->>>   2 files changed, 5 insertions(+), 3 deletions(-)
->>>
->>> diff --git a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2011.06.bb b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2011.06.bb
->>> index 7c4df1a..99eef15 100644
->>> --- a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2011.06.bb
->>> +++ b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2011.06.bb
->>> @@ -6,7 +6,7 @@ SECTION = "bootloader"
->>>
->>>   DEPENDS = "mtd-utils"
->>>
->>> -PR = "r1"
->>> +PR = "r2"
->>>
->>>   SRC_URI = "ftp://ftp.denx.de/pub/u-boot/u-boot-${PV}.tar.bz2"
->>>
->>> @@ -15,7 +15,7 @@ SRC_URI[sha256sum] = "362ddb935885da98cf461eba08f31e3e59d0c4ada6cb2fa15596f43af3
->>>
->>>   S = "${WORKDIR}/u-boot-${PV}"
->>>
->>> -EXTRA_OEMAKE = 'HOSTCC="${CC}"'
->>> +EXTRA_OEMAKE = 'HOSTCC="${CC}" HOSTCFLAGS="${CFLAGS} HOSTLDFLAGS="${LDFLAGS}" HOSTSTRIP=true'
+If you have really weird build problems:
 
-Ah, finally here it is ----------------------------------^
+Check the pseudo.log file for a given package. A lot of packages are
+generating a fair number of diagnostics and warnings some of which
+indicate that stuff is non-trivially busted for some packages. A quick
+scan of a small build turned up 16 packages with no diagnostics, and 21
+which had diagnostics of some sort. Of those 21, 18 had at least one
+case in which the database showed an inode as being a directory, and a
+request showed that it wasn't anymore, or vice versa.
 
-Missing a "!
+Pseudo is fairly paranoid about trying to catch stuff like this, but it
+tends to do its best to fail quietly and just log the errors -- these
+logs don't do much if we don't follow up on them, though.
 
-Sau!
+The basic rule is:
 
->>>
->>>   do_compile () {
->>>     oe_runmake env
->>> diff --git a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2012.04.01.bb b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2012.04.01.bb
->>> index fe3422a..364f8a5 100644
->>> --- a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2012.04.01.bb
->>> +++ b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2012.04.01.bb
->>> @@ -5,6 +5,8 @@ SECTION = "bootloader"
->>>
->>>   DEPENDS = "mtd-utils"
->>>
->>> +PR = "r1"
->>> +
->>>   # This is needs to be validated among supported BSP's before we can
->>>   # make it default
->>>   DEFAULT_PREFERENCE = "-1"
->>> @@ -20,7 +22,7 @@ SRC_URI = "git://git.denx.de/u-boot.git;branch=master;protocol=git"
->>>
->>>   S = "${WORKDIR}/git"
->>>
->>> -EXTRA_OEMAKE = 'HOSTCC="${CC}"'
->>> +EXTRA_OEMAKE = 'HOSTCC="${CC}" HOSTCFLAGS="${CFLAGS} HOSTLDFLAGS="${LDFLAGS}" HOSTSTRIP=true'
->>>
->>>   do_compile () {
->>>     oe_runmake env
->>>
->>
->>
->> This had a failure also:
->>
->>> ERROR: Function failed: do_install (see /srv/ssd/sgw_ab/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/work/i586-poky-linux/u-boot-fw-utils-2011.06-r2/temp/log.do_install.69452 for further information)
->>> ERROR: Logfile of failure stored in: /srv/ssd/sgw_ab/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/work/i586-poky-linux/u-boot-fw-utils-2011.06-r2/temp/log.do_install.69452
->>> Log data follows:
->>> | DEBUG: Executing shell function do_install
->>> | install: cannot stat `/srv/ssd/sgw_ab/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/work/i586-poky-linux/u-boot-fw-utils-2011.06-r2/u-boot-2011.06/tools/env/fw_printenv': No such file or directory
->>> | ERROR: Function failed: do_install (see /srv/ssd/sgw_ab/yocto-autobuilder/yocto-slave/nightly-world/build/build/tmp/work/i586-poky-linux/u-boot-fw-utils-2011.06-r2/temp/log.do_install.69452 for further information)
->>> NOTE: package u-boot-fw-utils-2011.06-r2: task do_install: Failed
->>> ERROR: Task 2755 (/srv/ssd/sgw_ab/yocto-autobuilder/yocto-slave/nightly-world/build/meta/recipes-bsp/u-boot/u-boot-fw-utils_2011.06.bb, do_install) failed with exit code '1'
->
-> I have to admit that since these were trivial changes I didn't try and
-> build them.  But oe-core doesn't build anymore.  Doing:
-> git pull
-> git reset --hard origin/master
-> rm -rf build/conf build/tmp*
-> . oe-init-build-env
-> bitbake core-image-sato
->
-> Fails and can't give me a log.  Can you pastebin the compile logs?
+If pseudo is aware of or using a file or directory, that file or
+directory should not be moved/renamed, or replaced, except under
+pseudo.
 
-Finally the compile log, sorry had other fires I was fighting, seems the 
-make is doing nothing!
+In many cases, things will recover. If a file is created under pseudo,
+then renamed outside pseudo, then statted under pseudo again, the
+database entry for the inode will be found and pseudo will probably do
+the right thing. If there's a mismatch where an inode's basic type
+(file/directory/link) mismatches between the database and an incoming
+request, pseudo will nuke the bogus database entry.
 
-> DEBUG: Executing shell function do_compile
-> NOTE: make -j 6 HOSTCC=arm-poky-linux-gnueabi-gcc  -march=armv7-a -fno-tree-vectorize     -mthumb-interwork -mfloat-abi=softfp -mfpu=neon -mtune=cortex-a8 --sysroot=/intel/poky/builds/world/tmp/sysroots/beagleboard HOSTCFLAGS= -O2 -pipe -g -feliminate-unused-debug-types HOSTLDFLAGS=-Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed HOSTSTRIP=true tools
-> 	make -j 6 HOSTCC=arm-poky-linux-gnueabi-gcc -march=armv7-a -fno-tree-vectorize -mthumb-interwork -mfloat-abi=softfp -mfpu=neon -mtune=cortex-a8 --sysroot=/intel/poky/builds/world/tmp/sysroots/beagleboard HOSTCFLAGS= -O2 -pipe -g -feliminate-unused-debug-types HOSTLDFLAGS=-Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed HOSTSTRIP=true tools
-> DEBUG: Shell function do_compile finished
+But this won't catch everything.
 
+So if you have a strange problem that you can't reproduce, check the
+pseudo.log file. It may not mean much to you, but if it says anything
+about "dir err" or "ino mismatch", something has gone pretty badly
+wrong. If you can reproduce "this file is full of weird messages" with
+a given package, that's probably a bug in the package, and I will try
+to look into some of these when I have a minute or three and see
+whether I can find any patterns.
 
-> Thanks!
->
+And yes, I'm aware that running things under pseudo is slow. I have
+plans to work on that too. Maybe I should do a kickstarter. :)
+
+-s
+-- 
+Listen, get this.  Nobody with a good compiler needs to be justified.
 
 
