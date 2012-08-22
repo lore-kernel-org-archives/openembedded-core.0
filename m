@@ -1,30 +1,35 @@
-Received: from 93-97-173-237.zone5.bethere.co.uk ([93.97.173.237]
-	helo=tim.rpsys.net) by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <richard.purdie@linuxfoundation.org>)
-	id 1T4BQm-0000dR-Vj for openembedded-core@lists.openembedded.org;
-	Wed, 22 Aug 2012 15:57:13 +0200
-Received: from localhost (localhost [127.0.0.1])
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q7MDj8k7003620;
-	Wed, 22 Aug 2012 14:45:08 +0100
-Received: from tim.rpsys.net ([127.0.0.1])
-	by localhost (tim.rpsys.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP
-	id 03272-04; Wed, 22 Aug 2012 14:45:03 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by tim.rpsys.net (8.13.6/8.13.8) with ESMTP id q7MDj1Fu003596
-	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=NO);
-	Wed, 22 Aug 2012 14:45:02 +0100
-Message-ID: <1345643102.3907.121.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Date: Wed, 22 Aug 2012 14:45:02 +0100
-In-Reply-To: <lyfw7foy9v.fsf@ensc-virt.intern.sigma-chemnitz.de>
-References: <lyfw7foy9v.fsf@ensc-virt.intern.sigma-chemnitz.de>
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
-X-Virus-Scanned: amavisd-new at rpsys.net
+Received: from mail-lpp01m010-f47.google.com ([209.85.215.47])
+	by linuxtogo.org with esmtp (Exim 4.72)
+	(envelope-from <kergoth@gmail.com>) id 1T4Bnf-0005Vp-On
+	for openembedded-core@lists.openembedded.org;
+	Wed, 22 Aug 2012 16:20:53 +0200
+Received: by lagv3 with SMTP id v3so519353lag.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 22 Aug 2012 07:08:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date
+	:x-google-sender-auth:message-id:subject:to:cc:content-type;
+	bh=7xjkHD1LZOkA4OSkUYWaebcafN0AQvwXPNXuMvlmnC8=;
+	b=oJqj7aDsfT6Lla8RuZ5bl52WAg5fkNHBLeRSz+V9NlGgT4y0ZhsQ2aycFNFEycAZTD
+	VNogcyBes+n9JixjnXvuyRM048ZLBiAsmF5uTZzL5Tvp1IpNAjRrqudj9uB0LCDubwM+
+	Pbi/UOeNxxSMLhtq0Z1cLCuphAcSGTlObQMA56lBIDDKMyood/Xo6XASarrBy6vwsPLJ
+	8rr4OmaDOBCMloNxB0rF6XDh8RkZpDP3BZsmqn73wH3fC77pjfkVq2+lTUtTikVwUtkJ
+	PaI7lNnuB9nAcEq3jlnO1U2hwNK7C31vNqaPbr9nON9IdM3sNBt92Se4lYHZrT1cV5vV
+	WQOw==
+Received: by 10.152.144.234 with SMTP id sp10mr21286877lab.51.1345644526547;
+	Wed, 22 Aug 2012 07:08:46 -0700 (PDT)
+MIME-Version: 1.0
+Sender: kergoth@gmail.com
+Received: by 10.114.19.2 with HTTP; Wed, 22 Aug 2012 07:08:26 -0700 (PDT)
+In-Reply-To: <1345632209-4188-1-git-send-email-radu.moisan@intel.com>
+References: <1345632209-4188-1-git-send-email-radu.moisan@intel.com>
+From: Chris Larson <clarson@kergoth.com>
+Date: Wed, 22 Aug 2012 07:08:26 -0700
+X-Google-Sender-Auth: sHqkO3h53FMKi_nqAxwRWQvmnUs
+Message-ID: <CABcZANn8tSTrfwbOCi6WoiURVRcG3w_dF5-nnwMC+7Pz=aK01w@mail.gmail.com>
+To: Radu Moisan <radu.moisan@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: eglibc build fails with 'cannot find -lgcc_eh'
+Subject: Re: [PATCH] coreutils: Upgrade to upstream version 8.17
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
@@ -37,35 +42,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Aug 2012 13:57:13 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 22 Aug 2012 14:20:53 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Wed, 2012-08-22 at 15:24 +0200, Enrico Scholz wrote:
-> Hi,
-> 
-> with recent oe-core + oe-meta, a build from scratch fails in eglibc
-> with:
-> 
-> | .../tmp/sysroots/x86_64-oe-linux/usr/bin/armv5te-linux-gnueabi/arm-linux-gnueabi-ld.bfd: cannot find -lgcc_eh
-> | collect2: error: ld returned 1 exit status
-> | make[2]: *** [.../tmp/work/armv5te-linux-gnueabi/eglibc-2.15-r13+svnr19294/build-arm-linux-gnueabi/iconv/iconv_prog] Error 1
-> | make[2]: *** Waiting for unfinished jobs....
-> | make[2]: Leaving directory `.../tmp/work/armv5te-linux-gnueabi/eglibc-2.15-r13+svnr19294/eglibc-2_15/libc/iconv'
-> | make[1]: *** [iconv/others] Error 2
-> 
-> -lgcc_eh seems to be required because a check for -Wl,-as-needed failed.
-> But this test result is bogus, because check failed due to missing -lgcc_s
-> and not because of the linker flag.
-> 
-> Any idea how to solve this?
+On Wed, Aug 22, 2012 at 3:43 AM, Radu Moisan <radu.moisan@intel.com> wrote:
+> diff --git a/meta/recipes-core/coreutils/coreutils-8.17/realpath-works-yes.patch b/meta/recipes-core/coreutils/coreutils-8.17/realpath-works-yes.patch
+> new file mode 100644
+> index 0000000..e32f612
+> --- /dev/null
+> +++ b/meta/recipes-core/coreutils/coreutils-8.17/realpath-works-yes.patch
+> @@ -0,0 +1,21 @@
+> +Signed-off-by: Radu Moisan <radu.moisan@intel.com>
+> +Upstream status: pending
+> +
+> +The new version of coreutils, adds use of canonicalize_file_name() function defined in canonicalize.h
+> +The problem: the function is redefined to rpl_canonicalize_file_name by means of a macro,which gives
+> +an undefined reference error at compile time. Macro definition depends in the end on
+> +gl_cv_func_realpath_works but assumed true only when set to "yes"
+> +
+> +Index: coreutils-8.17/m4/canonicalize.m4
+> +===================================================================
+> +--- coreutils-8.17.orig/m4/canonicalize.m4     2012-05-08 12:05:23.000000000 +0300
+> ++++ coreutils-8.17/m4/canonicalize.m4  2012-08-17 14:20:22.000000000 +0300
+> +@@ -95,7 +95,7 @@
+> +      [gl_cv_func_realpath_works=no],
+> +      [case "$host_os" in
+> +                 # Guess yes on glibc systems.
+> +-        *-gnu*) gl_cv_func_realpath_works="guessing yes" ;;
+> ++        *-gnu*) gl_cv_func_realpath_works="yes" ;;
+> +                 # If we don't know, assume the worst.
+> +         *)      gl_cv_func_realpath_works="guessing no" ;;
+> +       esac
 
-This is highly likely to be from the toolchain bootstrap changes in
-oe-core master. I'll defer to Khem on how to fix it.
-
-Cheers,
-
-Richard
-
+Wouldn't it be better to provide a cached test result in the site
+files for this test, rather than relying on a host_os based guess?
+-- 
+Christopher Larson
 
 
