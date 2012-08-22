@@ -1,33 +1,23 @@
-Received: from mail1.windriver.com ([147.11.146.13])
+Received: from mga02.intel.com ([134.134.136.20])
 	by linuxtogo.org with esmtp (Exim 4.72)
-	(envelope-from <Liang.Li@windriver.com>) id 1T46K5-0005dX-MB
+	(envelope-from <radu.moisan@intel.com>) id 1T47IG-0004Jx-Rf
 	for openembedded-core@lists.openembedded.org;
-	Wed, 22 Aug 2012 10:29:58 +0200
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca [147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id q7M8Hniq012597
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 22 Aug 2012 01:17:49 -0700 (PDT)
-Received: from localhost (128.224.163.138) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.309.2;
-	Wed, 22 Aug 2012 01:17:48 -0700
-Date: Wed, 22 Aug 2012 16:17:47 +0800
-From: Liang Li <liang.li@windriver.com>
-To: Bruce Ashfield <bruce.ashfield@windriver.com>
-Message-ID: <20120822081747.GB1496@localhost>
-References: <1345196146.14667.84.camel@ted> <20120817100001.GA16621@localhost>
-	<1345200782.26132.18.camel@ted> <20120817130151.GA1416@localhost>
-	<20120817130517.GB1416@localhost> <50324E29.5060005@windriver.com>
-	<20120821050825.GB27917@localhost> <50338809.8050209@windriver.com>
-	<20120822030118.GA384@localhost> <50347114.1060501@windriver.com>
-MIME-Version: 1.0
-In-Reply-To: <50347114.1060501@windriver.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: darren.hart@intel.com, openembedded-core@lists.openembedded.org
-Subject: Re: [discussion] perf: specify SLANG_INC dir for perf
+	Wed, 22 Aug 2012 11:32:09 +0200
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 22 Aug 2012 02:20:03 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.77,808,1336374000"; d="scan'208";a="189753539"
+Received: from dell-desktop (HELO localhost.localdomain) ([10.237.105.32])
+	by orsmga002.jf.intel.com with ESMTP; 22 Aug 2012 02:20:01 -0700
+From: Radu Moisan <radu.moisan@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 22 Aug 2012 12:22:22 +0300
+Message-Id: <1345627342-3426-1-git-send-email-radu.moisan@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH v5] busybox: Upgrade to upstream 1.20.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.11
 Precedence: list
-Reply-To: Liang Li <liang.li@windriver.com>
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/options/openembedded-core>,
@@ -37,217 +27,421 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Aug 2012 08:29:58 -0000
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 22 Aug 2012 09:32:09 -0000
 
-On 2012-08-22 13:41, Bruce Ashfield <bruce.ashfield@windriver.com> wrote:
-> On 12-08-21 11:01 PM, Liang Li wrote:
-> > On 2012-08-21 21:07, Bruce Ashfield<bruce.ashfield@windriver.com>  wrote:
-> >> On 12-08-21 01:08 AM, Liang Li wrote:
-> >>> On 2012-08-20 22:48, Bruce Ashfield<bruce.ashfield@windriver.com>   wrote:
-> >>>> On 12-08-17 09:05 AM, Liang Li wrote:
-> >>>>> On 2012-08-17 21:01, Liang Li<liang.li@windriver.com>    wrote:
-> >>>>>> On 2012-08-17 18:53, Richard Purdie<richard.purdie@linuxfoundation.org>    wrote:
-> >>>>>>> On Fri, 2012-08-17 at 18:00 +0800, Liang Li wrote:
-> >>>>>>>> I am totally confused, you mentioned 'general kernel do_install', I
-> >>>>>>>> assume it's oe-core kernel.bbclass concept. Then you mentioned 'get
-> >>>>>>>> the fix upstream in the mainline kernel', how could that happen?
-> >>>>>>>>
-> >>>>>>>> We are discussing about the solution to 'fix the compile warning to
-> >>>>>>>> error' stuff that triggered by the '-I/usr/include/slang', right?
-> >>>>>>>
-> >>>>>>> Yes.
-> >>>>>>>
-> >>>>>>>>     We do not necessarily have to change recipe to fix it since the issue
-> >>>>>>>> is not introduced by the recipe, the hard coded '-I/usr/include/slang'
-> >>>>>>>> in the Makefile cause the issue, we can fix the root cause by kernel
-> >>>>>>>> patch(other than just comment the line out). I see your previous patch
-> >>>>>>>> to kernel, by comment out the '-I/usr/include/slang' line in the
-> >>>>>>>> Makefile, is the same behavior, but we won't have the change(comment
-> >>>>>>>> out -I.. in Makefile) upstream to mainline, right?
-> >>>>>>>
-> >>>>>>> I am suggesting that firstly, someone send a patch to the mainline
-> >>>>>>> kernel which changes -I/usr/include/slang to -I=/usr/include/slang in
-> >>>>>>> that Makefile.
-> >>>>>>>
-> >>>>>>> Secondly, I'm suggesting that we add a line to kernel_do_install() in
-> >>>>>>> kernel.bbclass which does a sed on the Makefile as installed into
-> >>>>>>> $kerneldir which changes -I/usr/include/slang to -I=/usr/include/slang.
-> >>>>>>>
-> >>>>>>> We can then drop the patch I added to the linux-yocto kernels.
-> >>>>>>>
-> >>>>>>> This is all that should be needed, it should fix all the issues people
-> >>>>>>> have reported in a way that is acceptable to everyone.
-> >>>>>>>
-> >>>>>>
-> >>>>>> Ah, I see what you mean now. But we have push acceptable kernel patch
-> >>>>>
-> >>>>
-> >>>> One final (I hope) follow up on this.
-> >>>>
-> >>>> Liang: were you going to put together (and test) the 'sed fix' for
-> >>>> kernel.bbclass ?
-> >>>>
-> >>>
-> >>> No problem, the patch for kernel.bbclass:
-> >>>
-> >>> commit 60a0b06
-> >>> Author: Liang Li<liang.li@windriver.com>
-> >>> Date:   Tue Aug 21 11:06:01 2012 +0800
-> >>>
-> >>>       kernel.bbclass: fix INC directory for SLANG
-> >>>
-> >>>       The change is intend to fix the hardcoded '-I/usr/include/slang' in
-> >>>       the Makefile to be able to aware of SYSROOT if its specified.
-> >>>
-> >>>       A planned kernel patch almost did the same change, but the change here
-> >>>       won't conflict with it so this change could work for all kernels.
-> >>>
-> >>>       Signed-off-by: Liang Li<liang.li@windriver.com>
-> >>>
-> >>> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> >>> index 1afb9ab..282194d 100644
-> >>> --- a/meta/classes/kernel.bbclass
-> >>> +++ b/meta/classes/kernel.bbclass
-> >>> @@ -190,6 +190,9 @@ kernel_do_install() {
-> >>>    	for entry in $bin_files; do
-> >>>    	        rm -f $kerneldir/$entry
-> >>>    	done
-> >>> +
-> >>> +	# Fix SLNAG_INC for slang.h
-> >>
-> >> s/SLNAG_INC/SLANG_INC/
-> >>
-> >>> +	sed -i 's#-I/usr/include/slang#-I=/usr/include/slang#g' $kerneldir/tools/perf/Makefile
-> >>
-> >> It looks like your baseline for this patch is the denzil branch. We'd
-> >> want a version for master, which we could backport as required.
-> >>
-> >
-> > Yes, the change for the master branch is almost the same, except line
-> > number context:
-> >
-> > diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> > index f34e632..fdef1be 100644
-> > --- a/meta/classes/kernel.bbclass
-> > +++ b/meta/classes/kernel.bbclass
-> > @@ -204,6 +204,9 @@ kernel_do_install() {
-> >   	for entry in $bin_files; do
-> >   		rm -f $kerneldir/$entry
-> >   	done
-> > +
-> > +	# Fix SLANG_INC for slang.h
-> > +	sed -i 's#-I/usr/include/slang#-I=/usr/include/slang#g' $kerneldir/tools/perf/Makefile
-> >   }
-> >
-> >   sysroot_stage_all_append() {
-> >
-> > ---
-> >
-> >>>    }
-> >>>
-> >>>    PACKAGE_PREPROCESS_FUNCS += "kernel_package_preprocess"
-> >>>
-> >>> ---
-> >>>
-> >>> The patch for kernel tree:
-> >>>
-> >>> commit 6b72896
-> >>> Author: Liang Li<liang.li@windriver.com>
-> >>> Date:   Wed Aug 1 14:31:24 2012 +0800
-> >>>
-> >>>       perf: add SLANG_INC for slang.h
-> >>>
-> >>>       Previously we hard code '-I/usr/include/slang' to CFLAGS to works with
-> >>>       some hosts that has /usr/include/slang/slang.h other than
-> >>>       /usr/include/slang.h like Fedora. This will cause compiling warnings
-> >>>       in some cases.
-> >>
-> >> I'd rephrase this slightly as:
-> >>
-> >> CFLAGS was previously hard coded to contain "-I/usr/include/slang" to
-> >> work with hosts that have "/usr/include/slang/slang.h" as well as hosts
-> >> that have "/usr/include/slang.h". This path can cause compile warnings
-> >> in some cases:
-> >>
-> >>    <put the warnings here>
-> >>
-> >> .. and indicate that these warnings can actually cause build errors if
-> >> WERROR is enabled.
-> >>
-> >>>
-> >>>       We could downgrade the priority of the default hard coded path, and
-> >>>       provide user a chance to specify correct location of slang.h then user
-> >>>       could specify SLANG_INC to avoid compile warnings like the
-> >>>       '/usr/include/slang' is not exists etc.
-> >>
-> >> Another minor rephrase:
-> >>
-> >> To fix this issue, we can use -idirafter to downgrade the priority of the
-> >> default hard coded path. We can also make the slang include directory
-> >> a variable, to allow the user to specify SLANG_INC and set their own
-> >> include location.
-> >>
-> >
-> > No problem, rephrased commit message:
-> >
-> > Subject: [PATCH] perf: add SLANG_INC for slang.h
-> >
-> > CFLAGS was previously hard coded to contain "-I/usr/include/slang" to
-> > work with hosts that have "/usr/include/slang/slang.h" as well as hosts
-> > that have "/usr/include/slang.h". This path can cause compile warnings
-> > like:
-> >
-> > cc1: warning: '/usr/include/slang' doesn't exists.
-> >
-> > or
-> >
-> > cc1: warning: include location "/usr/include/slang" is unsafe for
-> > cross-compilation [-Wpoison-system-directories]
-> >
-> > Then in some cases warnings become errors if WERROR is enabled hence
-> > build errors.
-> >
-> > To fix this issue, we can use -idirafter to downgrade the priority of the
-> > default hard coded path. We can also make the slang include directory
-> > a variable, to allow the user to specify SLANG_INC and set their own
-> > include location. And add a '=' prefix to indicate better
-> > compatibility with sysroot/cross compile cases.
-> >
-> > Signed-off-by: Liang Li<liang.li@windriver.com>
-> >
-> >>>
-> >>>       Signed-off-by: Liang Li<liang.li@windriver.com>
-> >>>
-> >>> diff --git a/tools/perf/Makefile b/tools/perf/Makefile
-> >>> index b7a7a87..e403c36 100644
-> >>> --- a/tools/perf/Makefile
-> >>> +++ b/tools/perf/Makefile
-> >>> @@ -496,8 +496,10 @@ else
-> >>>    		msg := $(warning newt not found, disables TUI support. Please install newt-devel or libnewt-dev);
-> >>>    		BASIC_CFLAGS += -DNO_NEWT_SUPPORT
-> >>>    	else
-> >>> -		# Fedora has /usr/include/slang/slang.h, but ubuntu /usr/include/slang.h
-> >>> -		BASIC_CFLAGS += -I/usr/include/slang
-> >>> +		# Some releases like Fedora has /usr/include/slang/slang.h other than /usr/include/slang.h
-> >>> +		SLANG_INC ?= -idirafter =/usr/include/slang
-> >>
-> >> One more question, have you confirmed that gcc is fine with this being
-> >> in sysroot notation ? (I assume it is .. but I need to ask.
-> >>
-> >
-> > Confirmed.
-> 
-> Both look fine to me, if you send me a pull request for the kernel.bbclass
-> part, and a separate one for the kernel patch, I'll take care
-> of dropping the old slang patch, and getting all the changes
-> to Richard in a single pull request.
-> 
+Updated defconfig file from generated .config
+Disabled CONFIG_LSOF,CONFIG_CROSS_COMPILER_PREFIX, and CONFIG_EXTRA_CFLAGS
+for backwards compatibility.
+Added busybox-1.20.2-kernel_ver.patch from upstream.
 
-Done. Thanks.
+Signed-off-by: Radu Moisan <radu.moisan@intel.com>
+---
+ .../B921600.patch                                  |    0
+ .../busybox-1.20.2/busybox-1.20.2-kernel_ver.patch |   25 +++++++++++++
+ .../busybox-appletlib-dependency.patch             |    0
+ .../busybox-mkfs-minix-tests_bigendian.patch       |    0
+ .../busybox-udhcpc-no_deconfig.patch               |   37 +++++++++----------
+ .../{busybox-1.19.4 => busybox-1.20.2}/defconfig   |   39 +++++++++++++-------
+ .../fix-for-spurious-testsuite-failure.patch       |    0
+ .../get_header_tar.patch                           |    0
+ .../run-parts.in.usr-bin.patch                     |    0
+ .../sys_resource.patch                             |    0
+ .../watch.in.usr-bin.patch                         |    0
+ .../wget_dl_dir_fix.patch                          |    0
+ .../{busybox_1.19.4.bb => busybox_1.20.2.bb}       |    9 +++--
+ 13 files changed, 72 insertions(+), 38 deletions(-)
+ rename meta/recipes-core/busybox/{busybox-1.19.4 => busybox-1.20.2}/B921600.patch (100%)
+ create mode 100644 meta/recipes-core/busybox/busybox-1.20.2/busybox-1.20.2-kernel_ver.patch
+ rename meta/recipes-core/busybox/{busybox-1.19.4 => busybox-1.20.2}/busybox-appletlib-dependency.patch (100%)
+ rename meta/recipes-core/busybox/{busybox-1.19.4 => busybox-1.20.2}/busybox-mkfs-minix-tests_bigendian.patch (100%)
+ rename meta/recipes-core/busybox/{busybox-1.19.4 => busybox-1.20.2}/busybox-udhcpc-no_deconfig.patch (78%)
+ rename meta/recipes-core/busybox/{busybox-1.19.4 => busybox-1.20.2}/defconfig (98%)
+ rename meta/recipes-core/busybox/{busybox-1.19.4 => busybox-1.20.2}/fix-for-spurious-testsuite-failure.patch (100%)
+ rename meta/recipes-core/busybox/{busybox-1.19.4 => busybox-1.20.2}/get_header_tar.patch (100%)
+ rename meta/recipes-core/busybox/{busybox-1.19.4 => busybox-1.20.2}/run-parts.in.usr-bin.patch (100%)
+ rename meta/recipes-core/busybox/{busybox-1.19.4 => busybox-1.20.2}/sys_resource.patch (100%)
+ rename meta/recipes-core/busybox/{busybox-1.19.4 => busybox-1.20.2}/watch.in.usr-bin.patch (100%)
+ rename meta/recipes-core/busybox/{busybox-1.19.4 => busybox-1.20.2}/wget_dl_dir_fix.patch (100%)
+ rename meta/recipes-core/busybox/{busybox_1.19.4.bb => busybox_1.20.2.bb} (79%)
 
-Regards,
-		Liang Li
+diff --git a/meta/recipes-core/busybox/busybox-1.19.4/B921600.patch b/meta/recipes-core/busybox/busybox-1.20.2/B921600.patch
+similarity index 100%
+rename from meta/recipes-core/busybox/busybox-1.19.4/B921600.patch
+rename to meta/recipes-core/busybox/busybox-1.20.2/B921600.patch
+diff --git a/meta/recipes-core/busybox/busybox-1.20.2/busybox-1.20.2-kernel_ver.patch b/meta/recipes-core/busybox/busybox-1.20.2/busybox-1.20.2-kernel_ver.patch
+new file mode 100644
+index 0000000..456fb08
+--- /dev/null
++++ b/meta/recipes-core/busybox/busybox-1.20.2/busybox-1.20.2-kernel_ver.patch
+@@ -0,0 +1,25 @@
++--- busybox-1.20.2/libbb/kernel_version.c
+++++ busybox-1.20.2-kernel_ver/libbb/kernel_version.c
++@@ -20,18 +20,15 @@
++ int FAST_FUNC get_linux_version_code(void)
++ {
++ 	struct utsname name;
++-	char *s;
+++	char *s, *t;
++ 	int i, r;
++ 
++-	if (uname(&name) == -1) {
++-		bb_perror_msg("can't get system information");
++-		return 0;
++-	}
++-
+++	uname(&name); /* never fails */
++ 	s = name.release;
++ 	r = 0;
++ 	for (i = 0; i < 3; i++) {
++-		r = r * 256 + atoi(strtok(s, "."));
+++		t = strtok(s, ".");
+++		r = r * 256 + (t ? atoi(t) : 0);
++ 		s = NULL;
++ 	}
++ 	return r;
+diff --git a/meta/recipes-core/busybox/busybox-1.19.4/busybox-appletlib-dependency.patch b/meta/recipes-core/busybox/busybox-1.20.2/busybox-appletlib-dependency.patch
+similarity index 100%
+rename from meta/recipes-core/busybox/busybox-1.19.4/busybox-appletlib-dependency.patch
+rename to meta/recipes-core/busybox/busybox-1.20.2/busybox-appletlib-dependency.patch
+diff --git a/meta/recipes-core/busybox/busybox-1.19.4/busybox-mkfs-minix-tests_bigendian.patch b/meta/recipes-core/busybox/busybox-1.20.2/busybox-mkfs-minix-tests_bigendian.patch
+similarity index 100%
+rename from meta/recipes-core/busybox/busybox-1.19.4/busybox-mkfs-minix-tests_bigendian.patch
+rename to meta/recipes-core/busybox/busybox-1.20.2/busybox-mkfs-minix-tests_bigendian.patch
+diff --git a/meta/recipes-core/busybox/busybox-1.19.4/busybox-udhcpc-no_deconfig.patch b/meta/recipes-core/busybox/busybox-1.20.2/busybox-udhcpc-no_deconfig.patch
+similarity index 78%
+rename from meta/recipes-core/busybox/busybox-1.19.4/busybox-udhcpc-no_deconfig.patch
+rename to meta/recipes-core/busybox/busybox-1.20.2/busybox-udhcpc-no_deconfig.patch
+index 13004f7..4c9ce3b 100644
+--- a/meta/recipes-core/busybox/busybox-1.19.4/busybox-udhcpc-no_deconfig.patch
++++ b/meta/recipes-core/busybox/busybox-1.20.2/busybox-udhcpc-no_deconfig.patch
+@@ -31,10 +31,10 @@ Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
+  networking/udhcp/dhcpc.c |   29 +++++++++++++++++++++--------
+  1 files changed, 21 insertions(+), 8 deletions(-)
+ 
+-diff --git a/networking/udhcp/dhcpc.c b/networking/udhcp/dhcpc.c
+-index 4d755e6..a21e2c6 100644
+---- a/networking/udhcp/dhcpc.c
+-+++ b/networking/udhcp/dhcpc.c
++Index: busybox-1.20.2/networking/udhcp/dhcpc.c
++===================================================================
++--- busybox-1.20.2.orig/networking/udhcp/dhcpc.c
+++++ busybox-1.20.2/networking/udhcp/dhcpc.c
+ @@ -29,6 +29,9 @@
+  #include <netpacket/packet.h>
+  #include <linux/filter.h>
+@@ -42,10 +42,10 @@ index 4d755e6..a21e2c6 100644
+ +/* option whether to down the interface when reconfiguring */
+ +static int allow_deconfig = 1;
+ +
+- /* struct client_config_t client_config is in bb_common_bufsiz1 */
++ /* "struct client_config_t client_config" is in bb_common_bufsiz1 */
+  
+  
+-@@ -82,8 +85,9 @@ enum {
++@@ -81,8 +84,9 @@ enum {
+  	OPT_x = 1 << 18,
+  	OPT_f = 1 << 19,
+  	OPT_B = 1 << 20,
+@@ -56,7 +56,7 @@ index 4d755e6..a21e2c6 100644
+  	USE_FOR_MMU(             OPTBIT_b,)
+  	IF_FEATURE_UDHCPC_ARPING(OPTBIT_a,)
+  	IF_FEATURE_UDHCP_PORT(   OPTBIT_P,)
+-@@ -899,7 +903,8 @@ static void perform_renew(void)
++@@ -1040,7 +1044,8 @@ static void perform_renew(void)
+  		state = RENEW_REQUESTED;
+  		break;
+  	case RENEW_REQUESTED: /* impatient are we? fine, square 1 */
+@@ -66,7 +66,7 @@ index 4d755e6..a21e2c6 100644
+  	case REQUESTING:
+  	case RELEASED:
+  		change_listen_mode(LISTEN_RAW);
+-@@ -923,7 +928,8 @@ static void perform_release(uint32_t requested_ip, uint32_t server_addr)
++@@ -1064,7 +1069,8 @@ static void perform_release(uint32_t ser
+  		bb_info_msg("Unicasting a release of %s to %s",
+  				inet_ntoa(temp_addr), buffer);
+  		send_release(server_addr, requested_ip); /* unicast */
+@@ -76,16 +76,16 @@ index 4d755e6..a21e2c6 100644
+  	}
+  	bb_info_msg("Entering released state");
+  
+-@@ -1083,7 +1089,7 @@ int udhcpc_main(int argc UNUSED_PARAM, char **argv)
+- #endif
+- 		;
++@@ -1215,7 +1221,7 @@ int udhcpc_main(int argc UNUSED_PARAM, c
++ 	/* O,x: list; -T,-t,-A take numeric param */
++ 	opt_complementary = "O::x::T+:t+:A+" IF_UDHCP_VERBOSE(":vv") ;
+  	IF_LONG_OPTS(applet_long_options = udhcpc_longopts;)
+ -	opt = getopt32(argv, "CV:H:h:F:i:np:qRr:s:T:t:SA:O:ox:fB"
+ +	opt = getopt32(argv, "CV:H:h:F:i:np:qRr:s:T:t:SA:O:ox:fBD"
+  		USE_FOR_MMU("b")
+  		IF_FEATURE_UDHCPC_ARPING("a")
+  		IF_FEATURE_UDHCP_PORT("P:")
+-@@ -1175,6 +1181,9 @@ int udhcpc_main(int argc UNUSED_PARAM, char **argv)
++@@ -1316,6 +1322,9 @@ int udhcpc_main(int argc UNUSED_PARAM, c
+  		logmode |= LOGMODE_SYSLOG;
+  	}
+  
+@@ -95,7 +95,7 @@ index 4d755e6..a21e2c6 100644
+  	/* Make sure fd 0,1,2 are open */
+  	bb_sanitize_stdio();
+  	/* Equivalent of doing a fflush after every \n */
+-@@ -1189,7 +1198,8 @@ int udhcpc_main(int argc UNUSED_PARAM, char **argv)
++@@ -1330,7 +1339,8 @@ int udhcpc_main(int argc UNUSED_PARAM, c
+  	srand(monotonic_us());
+  
+  	state = INIT_SELECTING;
+@@ -105,7 +105,7 @@ index 4d755e6..a21e2c6 100644
+  	change_listen_mode(LISTEN_RAW);
+  	packet_num = 0;
+  	timeout = 0;
+-@@ -1341,7 +1351,8 @@ int udhcpc_main(int argc UNUSED_PARAM, char **argv)
++@@ -1484,7 +1494,8 @@ int udhcpc_main(int argc UNUSED_PARAM, c
+  				}
+  				/* Timed out, enter init state */
+  				bb_info_msg("Lease lost, entering init state");
+@@ -115,8 +115,8 @@ index 4d755e6..a21e2c6 100644
+  				state = INIT_SELECTING;
+  				client_config.first_secs = 0; /* make secs field count from 0 */
+  				/*timeout = 0; - already is */
+-@@ -1489,7 +1500,8 @@ int udhcpc_main(int argc UNUSED_PARAM, char **argv)
+- 						send_decline(xid, server_addr, packet.yiaddr);
++@@ -1667,7 +1678,8 @@ int udhcpc_main(int argc UNUSED_PARAM, c
++ 						send_decline(/*xid,*/ server_addr, packet.yiaddr);
+  
+  						if (state != REQUESTING)
+ -							udhcp_run_script(NULL, "deconfig");
+@@ -125,7 +125,7 @@ index 4d755e6..a21e2c6 100644
+  						change_listen_mode(LISTEN_RAW);
+  						state = INIT_SELECTING;
+  						client_config.first_secs = 0; /* make secs field count from 0 */
+-@@ -1536,7 +1548,8 @@ int udhcpc_main(int argc UNUSED_PARAM, char **argv)
++@@ -1711,7 +1723,8 @@ int udhcpc_main(int argc UNUSED_PARAM, c
+  				bb_info_msg("Received DHCP NAK");
+  				udhcp_run_script(&packet, "nak");
+  				if (state != REQUESTING)
+@@ -135,6 +135,3 @@ index 4d755e6..a21e2c6 100644
+  				change_listen_mode(LISTEN_RAW);
+  				sleep(3); /* avoid excessive network traffic */
+  				state = INIT_SELECTING;
+--- 
+-1.7.7.1
+-
+diff --git a/meta/recipes-core/busybox/busybox-1.19.4/defconfig b/meta/recipes-core/busybox/busybox-1.20.2/defconfig
+similarity index 98%
+rename from meta/recipes-core/busybox/busybox-1.19.4/defconfig
+rename to meta/recipes-core/busybox/busybox-1.20.2/defconfig
+index 372d7b5..dff07f1 100644
+--- a/meta/recipes-core/busybox/busybox-1.19.4/defconfig
++++ b/meta/recipes-core/busybox/busybox-1.20.2/defconfig
+@@ -1,7 +1,7 @@
+ #
+ # Automatically generated make config: don't edit
+-# Busybox version: 1.19.3
+-# Wed Nov 30 09:33:16 2011
++# Busybox version: 1.20.2
++# Mon Aug 20 17:01:45 2012
+ #
+ CONFIG_HAVE_DOT_CONFIG=y
+ 
+@@ -25,7 +25,7 @@ CONFIG_SHOW_USAGE=y
+ CONFIG_FEATURE_COMPRESS_USAGE=y
+ # CONFIG_FEATURE_INSTALLER is not set
+ # CONFIG_INSTALL_NO_USR is not set
+-CONFIG_LOCALE_SUPPORT=y
++# CONFIG_LOCALE_SUPPORT is not set
+ # CONFIG_UNICODE_SUPPORT is not set
+ # CONFIG_UNICODE_USING_LOCALE is not set
+ # CONFIG_FEATURE_CHECK_UNICODE_IN_ENV is not set
+@@ -61,8 +61,11 @@ CONFIG_FEATURE_HAVE_RPC=y
+ # CONFIG_FEATURE_INDIVIDUAL is not set
+ # CONFIG_FEATURE_SHARED_BUSYBOX is not set
+ CONFIG_LFS=y
+-CONFIG_CROSS_COMPILER_PREFIX=""
+-CONFIG_EXTRA_CFLAGS=""
++# CONFIG_CROSS_COMPILER_PREFIX is not set
++CONFIG_SYSROOT=""
++# CONFIG_EXTRA_CFLAGS is not set
++CONFIG_EXTRA_LDFLAGS=""
++CONFIG_EXTRA_LDLIBS=""
+ 
+ #
+ # Debugging Options
+@@ -92,7 +95,7 @@ CONFIG_PREFIX="./_install"
+ CONFIG_FEATURE_SYSTEMD=y
+ CONFIG_FEATURE_RTMINMAX=y
+ CONFIG_PASSWORD_MINLEN=6
+-CONFIG_MD5_SIZE_VS_SPEED=2
++CONFIG_MD5_SMALL=1
+ CONFIG_FEATURE_FAST_TOP=y
+ # CONFIG_FEATURE_ETC_NETWORKS is not set
+ CONFIG_FEATURE_USE_TERMIOS=y
+@@ -101,6 +104,7 @@ CONFIG_FEATURE_EDITING_MAX_LEN=1024
+ # CONFIG_FEATURE_EDITING_VI is not set
+ CONFIG_FEATURE_EDITING_HISTORY=15
+ CONFIG_FEATURE_EDITING_SAVEHISTORY=y
++# CONFIG_FEATURE_EDITING_SAVE_ON_EXIT is not set
+ # CONFIG_FEATURE_REVERSE_SEARCH is not set
+ CONFIG_FEATURE_TAB_COMPLETION=y
+ CONFIG_FEATURE_USERNAME_COMPLETION=y
+@@ -140,6 +144,7 @@ CONFIG_CPIO=y
+ CONFIG_GUNZIP=y
+ CONFIG_GZIP=y
+ # CONFIG_FEATURE_GZIP_LONG_OPTIONS is not set
++CONFIG_GZIP_FAST=0
+ # CONFIG_LZOP is not set
+ # CONFIG_LZOP_COMPR_HIGH is not set
+ # CONFIG_RPM2CPIO is not set
+@@ -173,11 +178,13 @@ CONFIG_DATE=y
+ # CONFIG_FEATURE_DATE_ISOFMT is not set
+ # CONFIG_FEATURE_DATE_NANO is not set
+ CONFIG_FEATURE_DATE_COMPAT=y
++# CONFIG_HOSTID is not set
+ CONFIG_ID=y
+ CONFIG_GROUPS=y
+ CONFIG_TEST=y
+ CONFIG_FEATURE_TEST_64=y
+ CONFIG_TOUCH=y
++CONFIG_FEATURE_TOUCH_SUSV3=y
+ CONFIG_TR=y
+ CONFIG_FEATURE_TR_CLASSES=y
+ # CONFIG_FEATURE_TR_EQUIV is not set
+@@ -220,7 +227,6 @@ CONFIG_FALSE=y
+ # CONFIG_FSYNC is not set
+ CONFIG_HEAD=y
+ # CONFIG_FEATURE_FANCY_HEAD is not set
+-# CONFIG_HOSTID is not set
+ # CONFIG_INSTALL is not set
+ # CONFIG_FEATURE_INSTALL_LONG_OPTIONS is not set
+ CONFIG_LN=y
+@@ -461,6 +467,7 @@ CONFIG_LAST_SYSTEM_ID=0
+ # CONFIG_FEATURE_DEL_USER_FROM_GROUP is not set
+ # CONFIG_GETTY is not set
+ # CONFIG_LOGIN is not set
++# CONFIG_LOGIN_SESSION_AS_CHILD is not set
+ # CONFIG_PAM is not set
+ # CONFIG_LOGIN_SCRIPTS is not set
+ # CONFIG_FEATURE_NOLOGIN is not set
+@@ -469,6 +476,7 @@ CONFIG_LAST_SYSTEM_ID=0
+ # CONFIG_FEATURE_PASSWD_WEAK_CHECK is not set
+ # CONFIG_CRYPTPW is not set
+ # CONFIG_CHPASSWD is not set
++CONFIG_FEATURE_DEFAULT_PASSWD_ALGO=""
+ # CONFIG_SU is not set
+ # CONFIG_FEATURE_SU_SYSLOG is not set
+ # CONFIG_FEATURE_SU_CHECKS_SHELLS is not set
+@@ -518,6 +526,12 @@ CONFIG_DEFAULT_DEPMOD_FILE="modules.dep"
+ # Linux System Utilities
+ #
+ # CONFIG_BLOCKDEV is not set
++# CONFIG_MDEV is not set
++# CONFIG_FEATURE_MDEV_CONF is not set
++# CONFIG_FEATURE_MDEV_RENAME is not set
++# CONFIG_FEATURE_MDEV_RENAME_REGEXP is not set
++# CONFIG_FEATURE_MDEV_EXEC is not set
++# CONFIG_FEATURE_MDEV_LOAD_FIRMWARE is not set
+ # CONFIG_REV is not set
+ # CONFIG_ACPID is not set
+ # CONFIG_FEATURE_ACPID_COMPAT is not set
+@@ -561,12 +575,6 @@ CONFIG_FEATURE_HWCLOCK_ADJTIME_FHS=y
+ CONFIG_LOSETUP=y
+ # CONFIG_LSPCI is not set
+ # CONFIG_LSUSB is not set
+-# CONFIG_MDEV is not set
+-# CONFIG_FEATURE_MDEV_CONF is not set
+-# CONFIG_FEATURE_MDEV_RENAME is not set
+-# CONFIG_FEATURE_MDEV_RENAME_REGEXP is not set
+-# CONFIG_FEATURE_MDEV_EXEC is not set
+-# CONFIG_FEATURE_MDEV_LOAD_FIRMWARE is not set
+ CONFIG_MKSWAP=y
+ # CONFIG_FEATURE_MKSWAP_UUID is not set
+ CONFIG_MORE=y
+@@ -697,7 +705,7 @@ CONFIG_MICROCOM=y
+ # CONFIG_MT is not set
+ # CONFIG_RAIDAUTORUN is not set
+ # CONFIG_READAHEAD is not set
+-# CONFIG_RFKILL is not set
++CONFIG_RFKILL=y
+ # CONFIG_RUNLEVEL is not set
+ # CONFIG_RX is not set
+ # CONFIG_SETSID is not set
+@@ -831,6 +839,7 @@ CONFIG_TRACEROUTE=y
+ # CONFIG_FEATURE_TRACEROUTE_USE_ICMP is not set
+ # CONFIG_TUNCTL is not set
+ # CONFIG_FEATURE_TUNCTL_UG is not set
++# CONFIG_UDHCPC6 is not set
+ CONFIG_UDHCPD=y
+ # CONFIG_DHCPRELAY is not set
+ CONFIG_DUMPLEASES=y
+@@ -877,6 +886,7 @@ CONFIG_FEATURE_MIME_CHARSET=""
+ # Process Utilities
+ #
+ # CONFIG_IOSTAT is not set
++# CONFIG_LSOF is not set
+ # CONFIG_MPSTAT is not set
+ # CONFIG_NMETER is not set
+ # CONFIG_PMAP is not set
+@@ -898,6 +908,7 @@ CONFIG_PIDOF=y
+ # CONFIG_PKILL is not set
+ CONFIG_PS=y
+ CONFIG_FEATURE_PS_WIDE=y
++CONFIG_FEATURE_PS_LONG=y
+ # CONFIG_FEATURE_PS_TIME is not set
+ # CONFIG_FEATURE_PS_ADDITIONAL_COLUMNS is not set
+ # CONFIG_FEATURE_PS_UNUSUAL_SYSTEMS is not set
+diff --git a/meta/recipes-core/busybox/busybox-1.19.4/fix-for-spurious-testsuite-failure.patch b/meta/recipes-core/busybox/busybox-1.20.2/fix-for-spurious-testsuite-failure.patch
+similarity index 100%
+rename from meta/recipes-core/busybox/busybox-1.19.4/fix-for-spurious-testsuite-failure.patch
+rename to meta/recipes-core/busybox/busybox-1.20.2/fix-for-spurious-testsuite-failure.patch
+diff --git a/meta/recipes-core/busybox/busybox-1.19.4/get_header_tar.patch b/meta/recipes-core/busybox/busybox-1.20.2/get_header_tar.patch
+similarity index 100%
+rename from meta/recipes-core/busybox/busybox-1.19.4/get_header_tar.patch
+rename to meta/recipes-core/busybox/busybox-1.20.2/get_header_tar.patch
+diff --git a/meta/recipes-core/busybox/busybox-1.19.4/run-parts.in.usr-bin.patch b/meta/recipes-core/busybox/busybox-1.20.2/run-parts.in.usr-bin.patch
+similarity index 100%
+rename from meta/recipes-core/busybox/busybox-1.19.4/run-parts.in.usr-bin.patch
+rename to meta/recipes-core/busybox/busybox-1.20.2/run-parts.in.usr-bin.patch
+diff --git a/meta/recipes-core/busybox/busybox-1.19.4/sys_resource.patch b/meta/recipes-core/busybox/busybox-1.20.2/sys_resource.patch
+similarity index 100%
+rename from meta/recipes-core/busybox/busybox-1.19.4/sys_resource.patch
+rename to meta/recipes-core/busybox/busybox-1.20.2/sys_resource.patch
+diff --git a/meta/recipes-core/busybox/busybox-1.19.4/watch.in.usr-bin.patch b/meta/recipes-core/busybox/busybox-1.20.2/watch.in.usr-bin.patch
+similarity index 100%
+rename from meta/recipes-core/busybox/busybox-1.19.4/watch.in.usr-bin.patch
+rename to meta/recipes-core/busybox/busybox-1.20.2/watch.in.usr-bin.patch
+diff --git a/meta/recipes-core/busybox/busybox-1.19.4/wget_dl_dir_fix.patch b/meta/recipes-core/busybox/busybox-1.20.2/wget_dl_dir_fix.patch
+similarity index 100%
+rename from meta/recipes-core/busybox/busybox-1.19.4/wget_dl_dir_fix.patch
+rename to meta/recipes-core/busybox/busybox-1.20.2/wget_dl_dir_fix.patch
+diff --git a/meta/recipes-core/busybox/busybox_1.19.4.bb b/meta/recipes-core/busybox/busybox_1.20.2.bb
+similarity index 79%
+rename from meta/recipes-core/busybox/busybox_1.19.4.bb
+rename to meta/recipes-core/busybox/busybox_1.20.2.bb
+index 2e262ca..ced04d2 100644
+--- a/meta/recipes-core/busybox/busybox_1.19.4.bb
++++ b/meta/recipes-core/busybox/busybox_1.20.2.bb
+@@ -1,5 +1,5 @@
+ require busybox.inc
+-PR = "r13"
++PR = "r0"
+ 
+ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
+            file://B921600.patch \
+@@ -25,9 +25,10 @@ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
+            file://umount.busybox \
+            file://defconfig \
+            file://busybox-mkfs-minix-tests_bigendian.patch \
+-           file://fix-for-spurious-testsuite-failure.patch"
++           file://fix-for-spurious-testsuite-failure.patch \
++           file://busybox-1.20.2-kernel_ver.patch"
+ 
+-SRC_URI[tarball.md5sum] = "9c0cae5a0379228e7b55e5b29528df8e"
+-SRC_URI[tarball.sha256sum] = "9b853406da61ffb59eb488495fe99cbb7fb3dd29a31307fcfa9cf070543710ee"
++SRC_URI[tarball.md5sum] = "e025414bc6cd79579cc7a32a45d3ae1c"
++SRC_URI[tarball.sha256sum] = "eb13ff01dae5618ead2ef6f92ba879e9e0390f9583bd545d8789d27cf39b6882"
+ 
+ EXTRA_OEMAKE += "V=1 ARCH=${TARGET_ARCH} CROSS_COMPILE=${TARGET_PREFIX} SKIP_STRIP=y"
+-- 
+1.7.9.5
+
 
 
